@@ -350,7 +350,7 @@
       "capabilityId": "rtk.word.v4.multiRoundReplayStaleConflictGuards",
       "operationFamily": "multi-round repeated import stale baseline tampered locator conflict and no-edit conservation guards",
       "state": "PHYSICAL_WORD_PROVEN",
-      "currentCapability": "REPLAY_STALE_CONFLICT_GUARD_DIAGNOSTICS_WITH_TYPED_LIMITATIONS",
+      "currentCapability": "REPLAY_STALE_CONFLICT_GUARD_TERMINAL_RECONCILED_WITH_PRODUCT_REPLAY_EVIDENCE",
       "physicalWordEvidence": true,
       "consumer": "EXECUTION_11 multi-scene atomic coordinator crash proof",
       "acceptanceTest": "test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js",
@@ -373,16 +373,26 @@
         "repeated import is idempotent and cannot produce a second mutation",
         "no-edit Word save close reopen return is bound as zero text candidate conservation evidence",
         "re-export no-edit oracle remains blocked without signed locator authority",
-        "hostile active-content package remains typed blocked before preview or apply"
+        "hostile active-content package remains typed blocked before preview or apply",
+        "product vertical loops prove replay/idempotent readback across tracked replacement, comment shadow, multi-scene, varied, large, and repeat high-density contours"
       ],
       "limitations": [
         "REPLAY_SECOND_MUTATION_NOT_CERTIFIED_IN_E10",
         "DIVERGENT_ROUND_AUTOMERGE_NOT_CERTIFIED_IN_E10",
         "REEXPORT_APPLY_ORACLE_REMAINS_BLOCKED_WITHOUT_SIGNED_LOCATOR",
         "MULTI_SCENE_ATOMIC_COORDINATOR_NOT_CERTIFIED_IN_E10",
-        "HOSTILE_PACKAGE_PREVIEW_AND_APPLY_REMAIN_BLOCKED"
+        "HOSTILE_PACKAGE_PREVIEW_AND_APPLY_REMAIN_BLOCKED",
+        "divergent editor rounds remain manual or blocked; no auto-merge is certified"
       ],
-      "killCriterion": "any stale tampered stripped hostile or replay return becomes EXACT, any second mutation occurs, any divergent round auto-merge is claimed, or writer authority is added"
+      "killCriterion": "any stale tampered stripped hostile or replay return becomes EXACT, any second mutation occurs, any divergent round auto-merge is claimed, or writer authority is added",
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false,
+      "p0MultiRoundLedgerReconciliationReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MULTI_ROUND_LEDGER_RECONCILIATION_RECEIPT.json",
+      "multiRoundLedgerReconciled": true,
+      "productReplayIdempotentPasses": 90,
+      "productReplayIdempotencyProven": true,
+      "automaticReplayApplyCertified": false,
+      "divergentRoundAutoMergeCertified": false
     },
     {
       "capabilityId": "rtk.word.v4.multiSceneAtomicCoordinator",
@@ -411,7 +421,7 @@
       "capabilityId": "rtk.word.v4.saturationLedger",
       "operationFamily": "Unicode hostile performance crash replay and escalating physical Word wave saturation ledger",
       "state": "PHYSICAL_WORD_PROVEN",
-      "currentCapability": "A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_NOT_RELEASE_READY",
+      "currentCapability": "SATURATION_LEDGER_RECONCILED_SCALE_ENVELOPE_PENDING",
       "physicalWordEvidence": true,
       "consumer": "EXECUTION_03 A03 safe portability improvements runtime contour",
       "acceptanceTest": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
@@ -619,7 +629,10 @@
           "automaticApplyCertified": false,
           "status": "WORD_NORMALIZED_DIAGNOSTIC_ONLY_NOT_AUTOMATIC"
         }
-      }
+      },
+      "wordSaturated": false,
+      "googleDocsOpened": false,
+      "p0MultiRoundLedgerReconciliationReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MULTI_ROUND_LEDGER_RECONCILIATION_RECEIPT.json"
     },
     {
       "capabilityId": "rtk.word.v4.rootModernCommentShadowSession",
@@ -1191,7 +1204,7 @@
       "physicalWordEvidence": 16,
       "productRuntimeWired": 11,
       "automaticApplyCertified": 0,
-      "blocksWordSaturation": 2,
+      "blocksWordSaturation": 1,
       "currentTerminalClass": {
         "COMPONENT_PROVEN": 5,
         "PHYSICAL_WORD_EVIDENCE": 3,
@@ -1210,7 +1223,7 @@
         "TYPED_LIMITATION": 2
       }
     },
-    "nextStage": "P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION",
+    "nextStage": "P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE",
     "wordSaturated": false,
     "automaticApplyCertified": false
   }

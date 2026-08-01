@@ -1,0 +1,345 @@
+{
+  "schemaVersion": "yalken.rtk.word.p0-multi-round-ledger-reconciliation-receipt.v1",
+  "taskId": "WORD_RTK_P0_MULTI_ROUND_LEDGER_RECONCILIATION",
+  "status": "WORD_P0_MULTI_ROUND_LEDGER_RECONCILED_NOT_SATURATED",
+  "result": "PASS",
+  "createdAtUtc": "2026-08-01T14:10:00.000Z",
+  "headBinding": {
+    "headSha": "ea3a154d2bfee3a03b237d8dec4188e8f8bca0a0",
+    "originMainSha": "ea3a154d2bfee3a03b237d8dec4188e8f8bca0a0",
+    "mergedRemoteShaRequired": true
+  },
+  "sourceEvidence": {
+    "e10": {
+      "sourceReceipt": {
+        "id": "E10_MULTI_ROUND_REPLAY_CONFLICT_GUARDS",
+        "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS_RECEIPT.json",
+        "sha256": "a651cea9bdbdc5150e6a37e92160cbbdb73ef30491f3ada4cc499dd56b1f39dd",
+        "status": "BOUND"
+      },
+      "status": "MULTI_ROUND_REPLAY_STALE_CONFLICTS_CERTIFIED_WITH_TYPED_LIMITATIONS",
+      "physicalGuardCases": 5,
+      "staleTamperedStrippedCases": 1,
+      "replayIdempotenceCases": 1,
+      "noEditConservationCases": 1,
+      "reExportNoEditOracleCases": 1,
+      "hostilePackageBlockedCases": 1,
+      "automaticReplayApplyCertified": 0,
+      "divergentRoundAutoMergeCertified": 0,
+      "destructiveConflictWriteAdded": 0,
+      "typedLimitations": [
+        "REPLAY_SECOND_MUTATION_NOT_CERTIFIED_IN_E10",
+        "DIVERGENT_ROUND_AUTOMERGE_NOT_CERTIFIED_IN_E10",
+        "REEXPORT_APPLY_ORACLE_REMAINS_BLOCKED_WITHOUT_SIGNED_LOCATOR",
+        "MULTI_SCENE_ATOMIC_COORDINATOR_NOT_CERTIFIED_IN_E10",
+        "HOSTILE_PACKAGE_PREVIEW_AND_APPLY_REMAIN_BLOCKED"
+      ],
+      "runtimeClaims": {
+        "multiRoundReplayConflictGuardsCertified": true,
+        "automaticReplayApplyAdded": false,
+        "divergentRoundAutoMergeAdded": false,
+        "destructiveConflictWriteAdded": false,
+        "writerAuthorityAdded": false,
+        "reviewSessionMutationAuthorityAdded": false,
+        "productRuntimeChanged": false,
+        "uiChanged": false,
+        "dependencyAdded": false,
+        "networkAdded": false,
+        "fixtureOnlyPassClaimed": false
+      },
+      "vetoMetrics": {
+        "falseExact": 0,
+        "wrongSceneRouting": 0,
+        "silentApply": 0,
+        "replayFailure": 0,
+        "silentConflictWrite": 0,
+        "productNetworkRequests": 0
+      },
+      "guardsBound": true
+    },
+    "productReplay": {
+      "sources": [
+        {
+          "id": "P0_PRODUCT_VERTICAL_TRACKED_EDIT",
+          "sourceReceipt": {
+            "id": "P0_PRODUCT_VERTICAL_TRACKED_EDIT",
+            "path": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_VERTICAL_TRACKED_EDIT_RECEIPT.json",
+            "sha256": "01524307f07a0c45528eb5a5d1df31392fce6899dd6f2a914b931206010dbcc7",
+            "status": "BOUND"
+          },
+          "status": "WORD_RELEASE_AUDIT_P0_PRODUCT_VERTICAL_TRACKED_EDIT_COMPLETE_NOT_SATURATED",
+          "result": "PASS",
+          "cases": 1,
+          "pass": 1,
+          "fail": 0,
+          "replayIdempotentPass": 1,
+          "projectReopenReadbackPass": 1,
+          "visiblePreviewPass": 1,
+          "physicalWordPass": 1,
+          "explicitConfirmedApplyPass": 1,
+          "vetoMetrics": {
+            "falseExact": 0,
+            "wrongSceneRouting": 0,
+            "silentApply": 0,
+            "replayFailure": 0,
+            "silentCommentLoss": 0,
+            "noOpPass": 0,
+            "productExportFailure": 0,
+            "physicalWordFailure": 0,
+            "parserUnexpectedFailure": 0,
+            "previewFailure": 0,
+            "applyFailure": 0,
+            "projectReopenReadbackFailure": 0,
+            "userDocumentTouch": 0,
+            "networkRequest": 0,
+            "googleDocsOpened": 0,
+            "falseReleaseClaim": 0
+          },
+          "ok": true
+        },
+        {
+          "id": "P0_PRODUCT_COMMENTS_MIXED_MULTI_SCENE",
+          "sourceReceipt": {
+            "id": "P0_PRODUCT_COMMENTS_MIXED_MULTI_SCENE",
+            "path": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_COMMENTS_MIXED_MULTI_SCENE_RECEIPT.json",
+            "sha256": "70c08e63f3449eb7630a20183939652588f0b43ff29f50fb27d26c58b2a99338",
+            "status": "BOUND"
+          },
+          "status": "WORD_RELEASE_AUDIT_P0_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE_COMPLETE_NOT_SATURATED",
+          "result": "PASS",
+          "cases": 4,
+          "pass": 4,
+          "fail": 0,
+          "replayIdempotentPass": 4,
+          "projectReopenReadbackPass": 4,
+          "visiblePreviewPass": 4,
+          "physicalWordPass": 4,
+          "explicitConfirmedApplyPass": 1,
+          "vetoMetrics": {
+            "falseExact": 0,
+            "wrongSceneRouting": 0,
+            "silentApply": 0,
+            "replayFailure": 0,
+            "silentCommentLoss": 0,
+            "noOpPass": 0,
+            "falseSupport": 0,
+            "productExportFailure": 0,
+            "physicalWordFailure": 0,
+            "parserUnexpectedFailure": 0,
+            "previewFailure": 0,
+            "applyFailure": 0,
+            "negativeCaseFailure": 0,
+            "liveElectronUiClickFailure": 0,
+            "userDocumentTouch": 0,
+            "networkRequest": 0,
+            "googleDocsOpened": 0,
+            "falseReleaseClaim": 0
+          },
+          "ok": true,
+          "negativePass": 5
+        },
+        {
+          "id": "P0_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE",
+          "sourceReceipt": {
+            "id": "P0_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE",
+            "path": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE_RECEIPT.json",
+            "sha256": "d17668e3e77ecc0ac42342ca04a96e903879eb6b764765fd74cd8542099614f1",
+            "status": "BOUND"
+          },
+          "status": "WORD_RELEASE_AUDIT_P0_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE_COMPLETE_NOT_SATURATED",
+          "result": "",
+          "cases": 3,
+          "pass": 3,
+          "fail": 0,
+          "replayIdempotentPass": 2,
+          "projectReopenReadbackPass": 0,
+          "visiblePreviewPass": 0,
+          "physicalWordPass": 0,
+          "explicitConfirmedApplyPass": 0,
+          "vetoMetrics": {
+            "falseExact": 0,
+            "wrongSceneRouting": 0,
+            "silentApply": 0,
+            "replayFailure": 0,
+            "silentCommentLoss": 0,
+            "userDocumentTouch": 0,
+            "networkRequest": 0,
+            "noOpPass": 0
+          },
+          "ok": true,
+          "negativePass": 4,
+          "multiSceneAtomicApplyCertified": true
+        },
+        {
+          "id": "P0_VARIED_WAVE64_PRODUCT_LOOP",
+          "sourceReceipt": {
+            "id": "P0_VARIED_WAVE64_PRODUCT_LOOP",
+            "path": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_VARIED_WAVE64_PRODUCT_LOOP_RECEIPT.json",
+            "sha256": "ed5f9c3230f8b78921884a4f706fe4b1294203c017b65e6d3e04a9b5ae039c57",
+            "status": "BOUND"
+          },
+          "status": "WORD_RELEASE_AUDIT_P0_VARIED_WAVE64_PRODUCT_LOOP_COMPLETE_NOT_SATURATED",
+          "result": "PASS",
+          "cases": 64,
+          "pass": 64,
+          "fail": 0,
+          "replayIdempotentPass": 64,
+          "projectReopenReadbackPass": 64,
+          "visiblePreviewPass": 64,
+          "physicalWordPass": 64,
+          "explicitConfirmedApplyPass": 32,
+          "vetoMetrics": {
+            "falseExact": 0,
+            "wrongSceneRouting": 0,
+            "silentApply": 0,
+            "replayFailure": 0,
+            "silentCommentLoss": 0,
+            "userDocumentTouch": 0,
+            "networkRequest": 0,
+            "noOpPass": 0,
+            "prematureGoogleDocsOpen": 0
+          },
+          "ok": true
+        },
+        {
+          "id": "P0_LARGE_MANUSCRIPT_STRESS",
+          "sourceReceipt": {
+            "id": "P0_LARGE_MANUSCRIPT_STRESS",
+            "path": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_LARGE_MANUSCRIPT_STRESS_RECEIPT.json",
+            "sha256": "badbe7eadb10fd473153748eaa04434b3d2ee83c9fd5d77cb681107ce21a81cf",
+            "status": "BOUND"
+          },
+          "status": "WORD_RELEASE_AUDIT_P0_LARGE_MANUSCRIPT_STRESS_COMPLETE_NOT_SATURATED",
+          "result": "PASS",
+          "cases": 7,
+          "pass": 7,
+          "fail": 0,
+          "replayIdempotentPass": 7,
+          "projectReopenReadbackPass": 7,
+          "visiblePreviewPass": 7,
+          "physicalWordPass": 7,
+          "explicitConfirmedApplyPass": 3,
+          "vetoMetrics": {
+            "falseExact": 0,
+            "wrongSceneRouting": 0,
+            "silentApply": 0,
+            "replayFailure": 0,
+            "silentCommentLoss": 0,
+            "formattingApplyOverclaim": 0,
+            "structuralApplyOverclaim": 0,
+            "noOpPass": 0,
+            "userDocumentTouch": 0,
+            "networkRequest": 0,
+            "prematureGoogleDocsOpen": 0
+          },
+          "ok": true,
+          "largestWords": 100000
+        },
+        {
+          "id": "P0_REPEAT_HIGH_DENSITY_STRESS",
+          "sourceReceipt": {
+            "id": "P0_REPEAT_HIGH_DENSITY_STRESS",
+            "path": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_REPEAT_HIGH_DENSITY_STRESS_RECEIPT.json",
+            "sha256": "7b4089dac3bd07fce0d3e38d511904bcc9291cd80fba7da8fdda082c55124082",
+            "status": "BOUND"
+          },
+          "status": "WORD_RELEASE_AUDIT_P0_REPEAT_HIGH_DENSITY_STRESS_COMPLETE_NOT_SATURATED",
+          "result": "PASS",
+          "cases": 12,
+          "pass": 12,
+          "fail": 0,
+          "replayIdempotentPass": 12,
+          "projectReopenReadbackPass": 12,
+          "visiblePreviewPass": 12,
+          "physicalWordPass": 12,
+          "explicitConfirmedApplyPass": 0,
+          "vetoMetrics": {
+            "falseExact": 0,
+            "wrongSceneRouting": 0,
+            "silentApply": 0,
+            "replayFailure": 0,
+            "silentCommentLoss": 0,
+            "noOpPass": 0,
+            "userDocumentTouch": 0,
+            "networkRequest": 0,
+            "prematureGoogleDocsOpen": 0
+          },
+          "ok": true,
+          "stableRepeatGroups": 5,
+          "largestWords": 100000,
+          "largestCommentCount": 120
+        }
+      ],
+      "terminal500kBoundary": {
+        "sourceReceipt": {
+          "id": "P0_500K_TERMINAL_AUDIT",
+          "path": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_500K_TERMINAL_AUDIT_RECEIPT.json",
+          "sha256": "1ae66b21b300c50241f81b420e9330d2516b1fc5f52fb92b3b17702d08ecc341",
+          "status": "BOUND"
+        },
+        "status": "WORD_RELEASE_AUDIT_P0_500K_TERMINAL_AUDIT_COMPLETE_NOT_SATURATED",
+        "typed500kBoundaryProven": true,
+        "boundaryClass": "WORD_APPLEEVENT_TIMEOUT_OR_LONG_RUNNING_MONOLITHIC_500K_APPLY",
+        "maxCertifiedTrackedReplacementWordsBeforeBoundary": 100000,
+        "vetoMetrics": {
+          "falseExact": 0,
+          "wrongSceneRouting": 0,
+          "silentApply": 0,
+          "replayFailure": 0,
+          "silentCommentLoss": 0,
+          "noOpPass": 0,
+          "packageInvalidMisclaim": 0,
+          "userDocumentTouch": 0,
+          "networkRequest": 0,
+          "prematureGoogleDocsOpen": 0
+        }
+      },
+      "productLoops": 6,
+      "productReplayIdempotentPasses": 90,
+      "productProjectReopenPasses": 88,
+      "productVisiblePreviewPasses": 88,
+      "productExplicitApplyPasses": 37,
+      "productLoopsBound": true
+    }
+  },
+  "implementedCapability": {
+    "capability": "multiRoundReplayStaleConflictLedgerReconciliation",
+    "physicalWordProven": true,
+    "componentProven": true,
+    "productReplayIdempotencyProven": true,
+    "productReplayIdempotentPasses": 90,
+    "productRuntimeWired": false,
+    "automaticApplyCertified": false,
+    "automaticReplayApplyCertified": false,
+    "divergentRoundAutoMergeCertified": false,
+    "destructiveConflictWriteAdded": false,
+    "multiRoundLedgerReconciled": true,
+    "userFacingAuthority": "REPLAY_STALE_CONFLICT_GUARD_EVIDENCE_AND_PRODUCT_REPLAY_IDEMPOTENCY",
+    "terminalClass": "PHYSICAL_WORD_EVIDENCE_RECONCILED"
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0,
+    "divergentRoundAutoMerge": 0,
+    "destructiveConflictWrite": 0,
+    "productNetwork": 0,
+    "googleDocsOpened": 0
+  },
+  "typedLimitations": [
+    "DIVERGENT_EDITOR_ROUND_AUTOMERGE_NOT_CERTIFIED",
+    "REPLAY_SECOND_MUTATION_REMAINS_BLOCKED_BY_LEDGER",
+    "REEXPORT_APPLY_ORACLE_REMAINS_BLOCKED_WITHOUT_SIGNED_LOCATOR",
+    "MONOLITHIC_500K_TRACKED_REPLACEMENT_REMAINS_SCALE_ENVELOPE_BOUNDARY"
+  ],
+  "nonClaims": [
+    "NO_AUTOMATIC_REPLAY_APPLY_ADDED",
+    "NO_DIVERGENT_ROUND_AUTOMERGE_ADDED",
+    "NO_NEW_WRITER_AUTHORITY_ADDED",
+    "WORD_SATURATED_FALSE",
+    "GOOGLE_DOCS_NOT_OPENED"
+  ],
+  "nextStage": "P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE"
+}

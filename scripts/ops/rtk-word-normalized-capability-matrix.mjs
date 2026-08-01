@@ -16,7 +16,7 @@ const STATUS = 'WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED';
 const MATRIX_SCHEMA = 'yalken.rtk.word.safe-semantic-roundtrip-v4.normalized-capability-matrix.v1';
 const RECEIPT_SCHEMA = 'yalken.rtk.word.safe-semantic-roundtrip-v4.normalized-capability-matrix-receipt.v1';
 const CREATED_AT_UTC = '2026-08-01T10:20:00.000Z';
-const NEXT_STAGE = 'P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION';
+const NEXT_STAGE = 'P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE';
 
 const V4_SPEC_REF = 'docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md';
 const PROFILE_REF = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json';
@@ -124,9 +124,9 @@ const NORMALIZED_OVERLAY = {
     intendedTerminalClass: CLASS.PHYSICAL,
     currentTerminalClass: CLASS.PHYSICAL,
     userFacingAuthority: 'REPLAY_STALE_CONFLICT_GUARD_EVIDENCE',
-    reasonCode: 'RTK_NORM_MULTI_ROUND_LEDGER_RECONCILIATION_PENDING',
-    requiredNextContour: 'P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION',
-    blocksWordSaturation: true,
+    reasonCode: 'RTK_NORM_MULTI_ROUND_REPLAY_GUARDS_RECONCILED',
+    requiredNextContour: 'NONE_MULTI_ROUND_LEDGER_RECONCILED',
+    blocksWordSaturation: false,
   },
   'rtk.word.v4.multiSceneAtomicCoordinator': {
     intendedTerminalClass: CLASS.COMPONENT,
@@ -357,13 +357,8 @@ function buildMatrix() {
     nextEngineeringOrder: [
       {
         order: 1,
-        contour: 'P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION',
-        blockingCells: ['rtk.word.v4.multiRoundReplayStaleConflictGuards', 'rtk.word.v4.saturationLedger'],
-      },
-      {
-        order: 2,
         contour: 'P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE',
-        blockingCells: [],
+        blockingCells: ['rtk.word.v4.saturationLedger'],
         boundaryEvidence: 'WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_500K_TERMINAL_AUDIT_RECEIPT',
       },
     ],
@@ -409,7 +404,6 @@ function evaluateNormalizedCapabilityMatrix(input = {}) {
     add('RTK_NORM_INFRA_ESCALATED_TO_RUNTIME', 'rows.productRuntimeWired', 'Only intended product runtime rows can set productRuntimeWired.');
   }
   const requiredBlockers = new Set([
-    'rtk.word.v4.multiRoundReplayStaleConflictGuards',
     'rtk.word.v4.saturationLedger',
   ]);
   for (const id of requiredBlockers) {

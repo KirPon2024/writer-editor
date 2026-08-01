@@ -39,6 +39,7 @@ const simulateUnboundCanon = process.argv.includes('--simulate-unbound-canon');
 const simulateSnapshotDrift = process.argv.includes('--simulate-snapshot-drift');
 const checksPass = process.argv.includes('--checks-pass');
 const fullRunnerSummary = argValue('--full-runner-summary', 'PENDING_LOCAL_EXECUTION');
+const fullRunnerCommand = argValue('--full-runner-command', 'node scripts/run-tests.js');
 
 function repoPath(relativePath) {
   return path.join(REPO_ROOT, relativePath);
@@ -105,7 +106,7 @@ function buildChecks() {
     },
     fullRunner: {
       status: checksPass ? 'PASS' : 'PENDING',
-      command: 'node scripts/run-tests.js',
+      command: fullRunnerCommand,
       summary: checksPass ? fullRunnerSummary : 'PENDING_LOCAL_EXECUTION',
     },
   };
@@ -155,11 +156,12 @@ function main() {
     bindingSnapshotHashMatches: binding?.masterPlanSnapshot?.path === SNAPSHOT_PATH
       && binding?.masterPlanSnapshot?.sha256 === snapshotSha256,
     stateRevisionBound: binding?.masterPlanSnapshot?.stateRevision === extractedState.stateRevision
-      && extractedState.stateRevision === '146',
+      && /^[1-9][0-9]*$/u.test(extractedState.stateRevision),
     currentContourBound: binding?.masterPlanSnapshot?.currentContour === extractedState.currentContour
       && extractedState.currentContour === CONTOUR_ID,
     remoteHeadBound: binding?.sourceBinding?.reconciledOriginMainSha === extractedState.reconciledOriginMainSha
-      && extractedState.reconciledOriginMainSha === '8824a8dc923aa8bf13a426f8bcc278280da7cc67',
+      && extractedState.reconciledOriginMainSha === sourceBinding.originMainSha
+      && binding?.sourceBinding?.reconciledOriginMainSha === sourceBinding.originMainSha,
     canonStatusBindsExtension: Boolean(canonEntry)
       && canonEntry.canonicalDocPath === SNAPSHOT_PATH
       && canonEntry.sha256 === snapshotSha256

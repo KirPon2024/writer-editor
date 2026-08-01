@@ -2,27 +2,27 @@
   "schemaVersion": "yalken.atlas.v5.finalAudit.p1.planContractDigest.report.v1",
   "taskId": "YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
   "contourId": "P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST",
-  "generatedAtUtc": "2026-08-01T08:49:28.637Z",
+  "generatedAtUtc": "2026-08-01T09:10:28.570Z",
   "pass": true,
   "status": "PASS_P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST",
   "failures": [],
   "sourceBinding": {
-    "headSha": "8824a8dc923aa8bf13a426f8bcc278280da7cc67",
-    "originMainSha": "8824a8dc923aa8bf13a426f8bcc278280da7cc67",
+    "headSha": "f998da624080443f3c8ce964a0cd34f377ff9f4a",
+    "originMainSha": "315b16d0ccac6761a9c04b1dcad8c57ed027142d",
     "branch": "codex/yalken-atlas-v5-final-audit-p1-plan-digest",
     "exactSourceHashes": {
-      "docs/OPS/STATUS/YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5_REPO_SNAPSHOT.md": "ae450d22706b468f02e8db9ae1b113acb20f98085fce285174934e8ea03c909e",
-      "docs/OPS/STATUS/YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5_BINDING.json": "fb54f2a42cb95150a42c25a52548404de364927893ae65244bb7f8e104558dc7",
-      "docs/OPS/STATUS/CANON_STATUS.json": "f944d67502e14b437bba7726f81ed30174771767a6fb174ea41edc6dfe3a7be1",
-      "scripts/ops/yalken-atlas-v5-final-audit-p1-plan-contract-digest.mjs": "301b2cfc2b3927135b342c2e1b84af521f70ee71cfd28a22e98739f46c09539d"
+      "docs/OPS/STATUS/YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5_REPO_SNAPSHOT.md": "2bf4000f45fe13ad99c3da75c0c197ae19603473539482b642cbf6ec695d36fe",
+      "docs/OPS/STATUS/YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5_BINDING.json": "57f97fc901a7d5cf5ba9195f6cf0d69f0abbc3af4774d0cfa843c4111de7981d",
+      "docs/OPS/STATUS/CANON_STATUS.json": "0c73f3d0ed99adab897b841a8471733572e6c78970371eba751e4fe2418192be",
+      "scripts/ops/yalken-atlas-v5-final-audit-p1-plan-contract-digest.mjs": "8c91558c02fae3a810ffaa6317f6f9cb4347924c21a1cc52c9e6e1f10703df44"
     }
   },
   "extractedState": {
-    "stateRevision": "146",
+    "stateRevision": "147",
     "executionStatus": "IN_PROGRESS",
     "currentContour": "P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST",
     "nextContour": "EFINAL_EXACT_ORIGIN_MAIN_SELF_CHECK_PENDING_INDEPENDENT_AUDIT",
-    "reconciledOriginMainSha": "8824a8dc923aa8bf13a426f8bcc278280da7cc67",
+    "reconciledOriginMainSha": "315b16d0ccac6761a9c04b1dcad8c57ed027142d",
     "lastMergedSha": "8824a8dc923aa8bf13a426f8bcc278280da7cc67"
   },
   "canonStatusEntry": {
@@ -30,32 +30,32 @@
     "status": "ACTIVE_ATLAS_V5_REPO_DIGEST_BINDING",
     "scope": "Atlas and Mind Maps V5 master-plan contract digest binding only; repository snapshot is read-only evidence, not a second executable plan.",
     "canonicalDocPath": "docs/OPS/STATUS/YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5_REPO_SNAPSHOT.md",
-    "sha256": "ae450d22706b468f02e8db9ae1b113acb20f98085fce285174934e8ea03c909e",
+    "sha256": "2bf4000f45fe13ad99c3da75c0c197ae19603473539482b642cbf6ec695d36fe",
     "bindingStatusPath": "docs/OPS/STATUS/YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5_BINDING.json",
     "activatedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST",
-    "activatedAtUtc": "2026-08-01T08:58:00.000Z",
+    "activatedAtUtc": "2026-08-01T10:10:00.000Z",
     "globalCanonReplaced": false
   },
   "binding": {
     "schemaVersion": "yalken.atlas.v5.masterPlanContractBinding.v1",
     "extensionId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
     "status": "ACTIVE_REPO_DIGEST_BINDING",
-    "capturedAtUtc": "2026-08-01T08:58:00.000Z",
+    "capturedAtUtc": "2026-08-01T10:10:00.000Z",
     "capturedFrom": "owner-desktop-yalken-atlas-mindmap-autonomous-master-plan-v5",
     "masterPlanSnapshot": {
       "path": "docs/OPS/STATUS/YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5_REPO_SNAPSHOT.md",
-      "sha256": "ae450d22706b468f02e8db9ae1b113acb20f98085fce285174934e8ea03c909e",
-      "bytes": 123983,
-      "stateRevision": "146",
+      "sha256": "2bf4000f45fe13ad99c3da75c0c197ae19603473539482b642cbf6ec695d36fe",
+      "bytes": 124038,
+      "stateRevision": "147",
       "executionStatus": "IN_PROGRESS",
       "currentContour": "P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST",
       "nextContour": "EFINAL_EXACT_ORIGIN_MAIN_SELF_CHECK_PENDING_INDEPENDENT_AUDIT",
-      "reconciledOriginMainSha": "8824a8dc923aa8bf13a426f8bcc278280da7cc67",
+      "reconciledOriginMainSha": "315b16d0ccac6761a9c04b1dcad8c57ed027142d",
       "lastMergedSha": "8824a8dc923aa8bf13a426f8bcc278280da7cc67"
     },
     "sourceBinding": {
-      "repoHeadShaAtCapture": "8824a8dc923aa8bf13a426f8bcc278280da7cc67",
-      "reconciledOriginMainSha": "8824a8dc923aa8bf13a426f8bcc278280da7cc67",
+      "repoHeadShaAtCapture": "f998da624080443f3c8ce964a0cd34f377ff9f4a",
+      "reconciledOriginMainSha": "315b16d0ccac6761a9c04b1dcad8c57ed027142d",
       "activeBranchAtCapture": "codex/yalken-atlas-v5-final-audit-p1-plan-digest",
       "currentOperation": "P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST"
     },
@@ -87,34 +87,34 @@
   },
   "checks": {
     "focused": {
-      "status": "PENDING",
+      "status": "PASS",
       "command": "node --test test/contracts/yalken-atlas-v5-final-audit-p1-plan-contract-digest.contract.test.js",
-      "summary": "PENDING_LOCAL_EXECUTION"
+      "summary": "3_total_3_pass_0_fail"
     },
     "testOps": {
-      "status": "PENDING",
+      "status": "PASS",
       "command": "npm run -s test:ops",
-      "summary": "PENDING_LOCAL_EXECUTION"
+      "summary": "PASS"
     },
     "doctrine": {
-      "status": "PENDING",
+      "status": "PASS",
       "command": "npm run -s design-os:doctrine",
-      "summary": "PENDING_LOCAL_EXECUTION"
+      "summary": "PASS"
     },
     "ossPolicy": {
-      "status": "PENDING",
+      "status": "PASS",
       "command": "npm run -s oss:policy",
-      "summary": "PENDING_LOCAL_EXECUTION"
+      "summary": "PASS"
     },
     "buildRenderer": {
-      "status": "PENDING",
+      "status": "PASS",
       "command": "npm run -s build:renderer",
-      "summary": "PENDING_LOCAL_EXECUTION"
+      "summary": "PASS"
     },
     "fullRunner": {
-      "status": "PENDING",
-      "command": "node scripts/run-tests.js",
-      "summary": "PENDING_LOCAL_EXECUTION"
+      "status": "PASS",
+      "command": "HEAD_STRICT_MODE=repo_execution node scripts/run-tests.js",
+      "summary": "PR_HEAD_REPO_EXECUTION_MODE_799_total_735_pass_0_fail_64_skipped_perf_PASS"
     }
   }
 }

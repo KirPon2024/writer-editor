@@ -66,8 +66,9 @@ test('P1 digest: V5 plan snapshot, binding, and CANON_STATUS resolve to one dete
   assert.equal(report.acceptance.repoSnapshotIsNonExecutable, true);
   assert.equal(report.acceptance.noSecondTracker, true);
   assert.equal(report.acceptance.noProgramDoneClaim, true);
-  assert.equal(report.extractedState.stateRevision, '146');
+  assert.match(report.extractedState.stateRevision, /^[1-9][0-9]*$/u);
   assert.equal(report.extractedState.currentContour, 'P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST');
+  assert.equal(report.extractedState.reconciledOriginMainSha, report.sourceBinding.originMainSha);
   assert.equal(report.canonStatusEntry.extensionId, EXTENSION_ID);
   assert.equal(report.canonStatusEntry.canonicalDocPath, SNAPSHOT_PATH);
   assert.equal(report.canonStatusEntry.bindingStatusPath, BINDING_PATH);

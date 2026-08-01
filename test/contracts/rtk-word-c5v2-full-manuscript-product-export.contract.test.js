@@ -231,6 +231,8 @@ test('C5V2 full-manuscript product export is reachable through command kernel, r
   assert.match(mainSource, /handleFullManuscriptReviewDocxExportPacketCommandSurface\(payload\)/u);
   assert.match(mainSource, /'cmd\.project\.review\.exportFullManuscriptDocxReviewPacket':\s*async\s*\(payload\s*=\s*\{\}\)\s*=>\s*\{/u);
   assert.match(mainSource, /dispatchCommandSurfaceKernel\(\s*COMMAND_SURFACE_KERNEL_COMMAND_IDS\.PROJECT_REVIEW_EXPORT_FULL_MANUSCRIPT_DOCX_PACKET,/u);
+  assert.match(mainSource, /DOCX_REVIEW_RETURN_INTAKE_FULL_MANUSCRIPT_PRODUCT_BUDGETS\s*=\s*Object\.freeze\(\{\s*maxBlocks:\s*50_000,/u);
+  assert.match(mainSource, /budgets:\s*docxReviewReturnIntakeProductBudgets\(options\)/u);
   assert.equal(mainSource.includes('buildFullManuscriptDocxReviewPacketSource'), true);
   assert.equal(mainSource.includes('readFullManuscriptDocxReviewPacketExportSource'), true);
   assert.equal(mainSource.includes('collectFullManuscriptDocxReviewExportCandidates'), true);

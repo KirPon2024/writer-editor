@@ -4944,6 +4944,18 @@ function docxReviewReturnIntakeMaxWorkerOutputBytes(input = {}) {
   return Number.isSafeInteger(value) && value > 0 ? value : 16 * 1024 * 1024;
 }
 
+const DOCX_REVIEW_RETURN_INTAKE_FULL_MANUSCRIPT_PRODUCT_BUDGETS = Object.freeze({
+  maxBlocks: 50_000,
+  maxWorkerOutputBytes: 64 * 1024 * 1024,
+});
+
+function docxReviewReturnIntakeProductBudgets(input = {}) {
+  return {
+    ...(isPlainObjectValue(input?.budgets) ? input.budgets : {}),
+    ...DOCX_REVIEW_RETURN_INTAKE_FULL_MANUSCRIPT_PRODUCT_BUDGETS,
+  };
+}
+
 function docxReviewReturnIntakeWorkerResultWithinBudget(result, input = {}) {
   const limit = docxReviewReturnIntakeMaxWorkerOutputBytes(input);
   const actual = Buffer.byteLength(stableRtkReviewTransportJson(result), 'utf8');
@@ -5209,6 +5221,7 @@ async function inspectDocxReviewReturnIntakeV2({
   const probe = await runDocxReviewReturnIntakeParserV2InUtilityProcess({
     bytes: docxBytes,
     returnedArtifactSha256,
+    budgets: docxReviewReturnIntakeProductBudgets(options),
   }, revisionBridge, options);
   if (!probe.ok) return probe;
   const probeResult = isPlainObjectValue(probe.parserResult) ? probe.parserResult : {};
@@ -5252,6 +5265,7 @@ async function inspectDocxReviewReturnIntakeV2({
     hmacSecret,
     expectedAuthority,
     returnedArtifactSha256,
+    budgets: docxReviewReturnIntakeProductBudgets(options),
     baselineFinalText: typeof localAuthority.baselineFinalText === 'string'
       ? localAuthority.baselineFinalText
       : (typeof context?.sceneText === 'string' ? context.sceneText : ''),

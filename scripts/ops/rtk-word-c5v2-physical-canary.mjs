@@ -18,26 +18,26 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
 const RESULT_PREFIX = 'YALKEN_C5V2_CANARY_RESULT ';
-const ARTIFACT_ROOT = '/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c5v2-physical-canary';
+const DEFAULT_ARTIFACT_ROOT = '/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c5v2-physical-canary';
 const CORPUS_SCENE_ROOT = '/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c5-fullbook-certification/corpus/scenes';
 
-function sha256Bytes(bytes) {
+export function sha256Bytes(bytes) {
   return crypto.createHash('sha256').update(bytes).digest('hex');
 }
 
-function sha256Text(value) {
+export function sha256Text(value) {
   return `sha256:${crypto.createHash('sha256').update(String(value || ''), 'utf8').digest('hex')}`;
 }
 
-function sha256File(filePath) {
+export function sha256File(filePath) {
   return `sha256:${sha256Bytes(fs.readFileSync(filePath))}`;
 }
 
-function nowStamp() {
+export function nowStamp() {
   return new Date().toISOString().replace(/[-:]/gu, '').replace(/\.\d{3}Z$/u, 'Z');
 }
 
-function shellValue(command, args, options = {}) {
+export function shellValue(command, args, options = {}) {
   try {
     return execFileSync(command, args, {
       cwd: options.cwd || REPO_ROOT,
@@ -92,7 +92,7 @@ function docxDocumentWordText(docxPath) {
   return `${paragraphs.join('\r')}\r`;
 }
 
-function bindLedgerToSourceDocxOffsets({ ledger, sourceDocxPath }) {
+export function bindLedgerToSourceDocxOffsets({ ledger, sourceDocxPath }) {
   const docxText = docxDocumentWordText(sourceDocxPath);
   const seenStarts = new Set();
   const boundOperations = ledger.operations.map((operation) => {
@@ -125,11 +125,27 @@ function bindLedgerToSourceDocxOffsets({ ledger, sourceDocxPath }) {
   };
 }
 
-function loadCanaryScenes() {
-  const chosen = [
-    { sceneId: 'dorian-01-chapter-i', file: 'dorian-01-chapter-i.txt', title: 'Chapter I' },
-    { sceneId: 'dorian-02-chapter-ii', file: 'dorian-02-chapter-ii.txt', title: 'Chapter II' },
-  ];
+function titleFromDorianFile(file, index) {
+  if (index === 0 || /preface/iu.test(file)) return 'Preface';
+  const roman = String(file.match(/chapter-([ivxlcdm]+)/iu)?.[1] || '').toUpperCase();
+  return roman ? `Chapter ${roman}` : `Chapter ${index}`;
+}
+
+export function loadCanaryScenes(options = {}) {
+  const sceneCount = Number.isInteger(options.sceneCount) && options.sceneCount > 0 ? options.sceneCount : 2;
+  const sceneStart = Number.isInteger(options.sceneStart) && options.sceneStart >= 0 ? options.sceneStart : (sceneCount === 2 ? 1 : 0);
+  const files = fs.readdirSync(CORPUS_SCENE_ROOT)
+    .filter((name) => /^dorian-\d{2}-.+\.txt$/iu.test(name))
+    .sort()
+    .slice(sceneStart, sceneStart + sceneCount);
+  if (files.length !== sceneCount) {
+    throw new Error(`C5V2_CANARY_CORPUS_SCENE_COUNT_MISMATCH:${files.length}:${sceneCount}`);
+  }
+  const chosen = files.map((file, index) => ({
+    sceneId: file.replace(/\.txt$/iu, ''),
+    file,
+    title: titleFromDorianFile(file, sceneStart + index),
+  }));
   const baseScenes = chosen.map((scene) => {
     const sourcePath = path.join(CORPUS_SCENE_ROOT, scene.file);
     const text = fs.readFileSync(sourcePath, 'utf8')
@@ -193,7 +209,22 @@ function uniquePhrases(text, maxCount) {
   return out;
 }
 
-function buildCanaryLedger(scenes) {
+function countExactOccurrences(haystack, needle) {
+  const source = String(haystack || '');
+  const target = String(needle || '');
+  if (!target) return 0;
+  let count = 0;
+  let offset = 0;
+  while (offset < source.length) {
+    const found = source.indexOf(target, offset);
+    if (found < 0) break;
+    count += 1;
+    offset = found + Math.max(1, target.length);
+  }
+  return count;
+}
+
+export function buildCanaryLedger(scenes, options = {}) {
   const counts = {
     tracked_replace: 80,
     tracked_insert: 20,
@@ -203,6 +234,7 @@ function buildCanaryLedger(scenes) {
     state_attempt: 7,
     formatting: 25,
     structural: 10,
+    ...(options.counts || {}),
   };
   const familyOrder = [
     ...Array(counts.tracked_replace).fill('tracked_replace'),
@@ -215,30 +247,48 @@ function buildCanaryLedger(scenes) {
     ...Array(counts.structural).fill('structural'),
   ];
   const phrasesByScene = new Map(scenes.map((scene) => [scene.sceneId, uniquePhrases(scene.text, 260)]));
-  const cursorByScene = new Map(scenes.map((scene) => [scene.sceneId, 0]));
+  const globalBookText = scenes.map((scene) => String(scene.text || '').replace(/\s+/gu, ' ')).join(' ');
+  const cursorBySceneBand = new Map();
+  const ordinalByScene = new Map(scenes.map((scene) => [scene.sceneId, 0]));
   const usedQuotesByScene = new Map(scenes.map((scene) => [scene.sceneId, new Set()]));
   const operations = [];
+  const bandNames = ['beginning', 'middle', 'end'];
   for (let index = 0; index < familyOrder.length; index += 1) {
     const family = familyOrder[index];
     const scene = scenes[index % scenes.length];
     const phrases = phrasesByScene.get(scene.sceneId) || [];
     const usedQuotes = usedQuotesByScene.get(scene.sceneId);
-    let cursor = cursorByScene.get(scene.sceneId) || 0;
+    const localOrdinal = ordinalByScene.get(scene.sceneId) || 0;
+    ordinalByScene.set(scene.sceneId, localOrdinal + 1);
+    const targetBandIndex = localOrdinal % bandNames.length;
+    const band = bandNames[targetBandIndex];
+    const segmentStart = Math.floor((phrases.length * targetBandIndex) / bandNames.length);
+    const segmentEnd = Math.max(segmentStart + 1, Math.floor((phrases.length * (targetBandIndex + 1)) / bandNames.length));
+    const bandCursorKey = `${scene.sceneId}:${band}`;
+    let cursor = cursorBySceneBand.get(bandCursorKey) || segmentStart;
     let quote = '';
-    while (cursor < phrases.length) {
+    while (cursor < Math.min(segmentEnd, phrases.length)) {
       const candidate = phrases[cursor];
       cursor += 1;
-      if (!usedQuotes.has(candidate)) {
+      if (!usedQuotes.has(candidate) && countExactOccurrences(globalBookText, candidate) === 1) {
         quote = candidate;
         usedQuotes.add(candidate);
         break;
       }
     }
-    cursorByScene.set(scene.sceneId, cursor);
+    cursorBySceneBand.set(bandCursorKey, cursor);
+    if (!quote) {
+      for (const candidate of phrases) {
+        if (!usedQuotes.has(candidate) && countExactOccurrences(globalBookText, candidate) === 1) {
+          quote = candidate;
+          usedQuotes.add(candidate);
+          break;
+        }
+      }
+    }
     if (!quote) {
       throw new Error(`C5V2_CANARY_UNIQUE_ANCHORS_EXHAUSTED:${scene.sceneId}:${family}:${index + 1}`);
     }
-    const band = cursor < phrases.length / 3 ? 'beginning' : cursor < (phrases.length * 2) / 3 ? 'middle' : 'end';
     operations.push({
       id: `canary-${String(index + 1).padStart(3, '0')}-${family}`,
       family,
@@ -1042,7 +1092,7 @@ function wordOperationLines(ledger) {
   return lines.join('\n');
 }
 
-function buildWordScript({ sourcePath, returnedPath, ledger }) {
+export function buildWordScript({ sourcePath, returnedPath, ledger }) {
   const expectedName = path.basename(returnedPath);
   return [
     'on yOpenExpectedDoc(yPosixPath, yExpectedFullName, yExpectedName)',
@@ -1121,7 +1171,7 @@ function buildWordScript({ sourcePath, returnedPath, ledger }) {
   ].join('\n');
 }
 
-function runAppleScript(scriptText, scriptPath) {
+export function runAppleScript(scriptText, scriptPath) {
   fs.writeFileSync(scriptPath, scriptText, 'utf8');
   return execFileSync('/usr/bin/osascript', [scriptPath], {
     cwd: REPO_ROOT,
@@ -1131,7 +1181,7 @@ function runAppleScript(scriptText, scriptPath) {
   });
 }
 
-function parseWordOutput(output) {
+export function parseWordOutput(output) {
   const lines = String(output || '').split(/\r?\n/u).map((line) => line.trim()).filter(Boolean);
   const ops = [];
   const scalars = {};
@@ -1161,7 +1211,7 @@ function parseWordOutput(output) {
   return { scalars, ops, limitations };
 }
 
-function packageSummary(docxPath) {
+export function packageSummary(docxPath) {
   const entries = shellValue('/usr/bin/unzip', ['-Z1', docxPath], { timeout: 30_000 }).split(/\r?\n/u).filter(Boolean);
   const commentsXml = shellValue('/usr/bin/unzip', ['-p', docxPath, 'word/comments.xml'], { timeout: 30_000 });
   const documentXml = shellValue('/usr/bin/unzip', ['-p', docxPath, 'word/document.xml'], { timeout: 30_000 });
@@ -1176,7 +1226,7 @@ function packageSummary(docxPath) {
   };
 }
 
-function buildOracleProbe({ ledger, wordParsed }) {
+export function buildOracleProbe({ ledger, wordParsed }) {
   const opStatus = new Map(wordParsed.ops.map((op) => [op.id, op.status]));
   const sampled = ledger.operations
     .filter((operation) => ['tracked_replace', 'root_comment', 'formatting'].includes(operation.family))
@@ -1221,15 +1271,49 @@ function buildOracleProbe({ ledger, wordParsed }) {
   });
 }
 
+function parseArgs(argv) {
+  const options = {
+    sceneCount: 2,
+    sceneStart: null,
+    counts: null,
+    artifactRoot: DEFAULT_ARTIFACT_ROOT,
+    runPrefix: 'c5v2-physical-canary',
+  };
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = argv[index];
+    if (arg === '--scene-count') {
+      options.sceneCount = Number.parseInt(argv[index + 1], 10);
+      index += 1;
+    } else if (arg === '--scene-start') {
+      options.sceneStart = Number.parseInt(argv[index + 1], 10);
+      index += 1;
+    } else if (arg === '--family-counts-json') {
+      options.counts = JSON.parse(argv[index + 1]);
+      index += 1;
+    } else if (arg === '--artifact-root') {
+      options.artifactRoot = argv[index + 1];
+      index += 1;
+    } else if (arg === '--run-prefix') {
+      options.runPrefix = argv[index + 1];
+      index += 1;
+    }
+  }
+  return options;
+}
+
 async function main() {
-  const runId = `c5v2-physical-canary-${nowStamp()}`;
-  const runDir = path.join(ARTIFACT_ROOT, runId);
+  const options = parseArgs(process.argv.slice(2));
+  const runId = `${options.runPrefix}-${nowStamp()}`;
+  const runDir = path.join(options.artifactRoot, runId);
   fs.mkdirSync(runDir, { recursive: true });
   const sourceDocxPath = path.join(runDir, 'c5v2-canary-source-fullmanuscript.docx');
   const returnedDocxPath = path.join(runDir, 'c5v2-canary-returned-word-native.docx');
   const returnedReadyPath = path.join(runDir, 'c5v2-canary-returned-ready.json');
-  const scenes = loadCanaryScenes();
-  let ledger = buildCanaryLedger(scenes);
+  const scenes = loadCanaryScenes({
+    sceneCount: options.sceneCount,
+    sceneStart: options.sceneStart,
+  });
+  let ledger = buildCanaryLedger(scenes, { counts: options.counts });
   fs.writeFileSync(path.join(runDir, 'canary-ledger.pre-export.json'), `${JSON.stringify(ledger, null, 2)}\n`);
   const wordVersion = shellValue('/usr/bin/osascript', ['-e', 'tell application "Microsoft Word" to return version as text'], { timeout: 30_000 });
   let wordOutput = '';
@@ -1300,7 +1384,9 @@ async function main() {
         'full-manuscript authenticated intake preview explicit apply did not complete green in this canary script',
         'comments replies state formatting structural operations are physical Word attempts with typed outcomes, not Yalken apply certification',
       ],
-    certificationClaim: 'NO_PHYSICAL_PROVEN_C5_CERTIFICATION_CLAIM',
+    certificationClaim: options.sceneCount >= 21
+      ? 'NO_PHYSICAL_PROVEN_C5_CERTIFICATION_CLAIM_WHOLE_BOOK_LIGHT_ONLY'
+      : 'NO_PHYSICAL_PROVEN_C5_CERTIFICATION_CLAIM',
   };
   fs.mkdirSync(runDir, { recursive: true });
   fs.writeFileSync(path.join(runDir, 'canary-result.json'), `${JSON.stringify(summary, null, 2)}\n`);
@@ -1314,7 +1400,9 @@ async function main() {
   );
 }
 
-main().catch((error) => {
-  console.error(error && error.stack ? error.stack : String(error));
-  process.exit(1);
-});
+if (process.argv[1] === __filename) {
+  main().catch((error) => {
+    console.error(error && error.stack ? error.stack : String(error));
+    process.exit(1);
+  });
+}

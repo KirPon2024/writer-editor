@@ -480,6 +480,24 @@
       "releaseReady": false,
       "wordSaturated": false,
       "googleDocsOpened": false
+    },
+    "releaseAuditNight01P0MultiSceneAtomicCommentStateClosure": {
+      "status": "BOUND_PRODUCT_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE_COMPLETE",
+      "sourceEvidence": "RELEASE_AUDIT_NIGHT_01_P0_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE",
+      "physicalWordEvidence": true,
+      "observedCases": 3,
+      "passCases": 3,
+      "negativeCases": 4,
+      "negativePass": 4,
+      "liveElectronUiExportSurfaceClicked": true,
+      "multiSceneAtomicApplyCertified": true,
+      "commentDeleteProductRuntimeWired": true,
+      "modernReplyProductRuntimeWired": false,
+      "modernResolveReopenProductRuntimeWired": false,
+      "automaticApplyCertified": false,
+      "releaseReady": false,
+      "wordSaturated": false,
+      "googleDocsOpened": false
     }
   },
   "aggregateTotals": {

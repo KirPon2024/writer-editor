@@ -1021,6 +1021,41 @@
         "MULTI_SCENE_PRODUCT_APPLY_REQUIRES_AUTHENTICATED_MULTI_SCENE_COORDINATOR_CONTOUR"
       ],
       "killCriterion": "Any nonzero veto, silent comment loss, preview mutation, automatic apply claim, multi-scene apply claim, reply/resolve runtime claim, or Google Docs execution invalidates this contour."
+    },
+    {
+      "capabilityId": "rtk.word.releaseAudit.p0.multiSceneAtomicCommentStateClosure",
+      "operationFamily": "Product multi-scene atomic tracked replacement and comment delete state closure",
+      "state": "PRODUCT_MULTI_SCENE_ATOMIC_COMMENT_DELETE_STATE_WIRED_NOT_SATURATED",
+      "currentCapability": "MULTI_SCENE_ATOMIC_EXPLICIT_APPLY_AND_COMMENT_DELETE_TOMBSTONE_PRODUCT_PATH",
+      "physicalWordEvidence": true,
+      "componentProven": true,
+      "productCompositionRegistered": true,
+      "productRuntimeWired": true,
+      "liveElectronUiExportSurfaceClicked": true,
+      "multiSceneAtomicApplyCertified": true,
+      "commentDeleteProductRuntimeWired": true,
+      "modernReplyProductRuntimeWired": false,
+      "modernResolveReopenProductRuntimeWired": false,
+      "explicitUserConfirmationRequired": true,
+      "automaticApplyCertified": false,
+      "userAutomaticApplyCertified": false,
+      "releaseReady": false,
+      "wordSaturated": false,
+      "consumer": "cmd.project.review.exportDocxReviewPacket plus cmd.project.review.activateDocxReviewPreviewSession plus cmd.rtk.review.applyMultiSceneNonOverlapTrackedReplacements plus cmd.rtk.reviewSession.importComments",
+      "evidenceReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE_RECEIPT.json",
+      "acceptanceTest": "test/contracts/rtk-word-release-audit-p0-multiscene-atomic-comment-state-closure.contract.test.js",
+      "supportedNow": [
+        "two physical Word returned scene commands coordinate through one explicit multi-scene command",
+        "multi-scene writer prevalidates every scene before any write and replays deterministically",
+        "Word comment delete is product-wired as a comment shadow tombstone without manuscript authority",
+        "stale wrong-scene and tampered multi-scene attempts block before writer authority"
+      ],
+      "limitations": [
+        "MODERN_COMMENT_REPLY_NOT_PRODUCT_CERTIFIED",
+        "MODERN_COMMENT_RESOLVE_REOPEN_NOT_PRODUCT_CERTIFIED",
+        "Word SATURATED remains false until bounded varied wave 64 and later stress are complete"
+      ],
+      "killCriterion": "Any partial scene write, wrong scene route, silent comment loss, nonzero veto, reply resolve runtime claim, automatic apply claim, or Google Docs execution invalidates this capability."
     }
   ],
   "latestProductVerticalTrackedEdit": {

@@ -456,6 +456,8 @@ const COMMAND_SURFACE_KERNEL_COMMAND_IDS = Object.freeze({
   PROJECT_RELEASE_CLAIM_EXECUTE: 'cmd.project.releaseClaim.execute',
   RTK_REVIEW_SESSION_IMPORT_COMMENTS: 'cmd.rtk.reviewSession.importComments',
   RTK_REVIEW_APPLY_NON_OVERLAP_TRACKED_REPLACEMENTS: 'cmd.rtk.review.applyNonOverlapTrackedReplacements',
+  RTK_REVIEW_APPLY_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENTS:
+    'cmd.rtk.review.applyMultiSceneNonOverlapTrackedReplacements',
 });
 let internalCommandSurfaceKernel = null;
 
@@ -8380,6 +8382,9 @@ function getInternalCommandSurfaceKernel() {
     [COMMAND_SURFACE_KERNEL_COMMAND_IDS.RTK_REVIEW_APPLY_NON_OVERLAP_TRACKED_REPLACEMENTS]: async (payload = {}) => {
       return handleRtkNonOverlapTrackedReplacementCommandSurface(payload);
     },
+    [COMMAND_SURFACE_KERNEL_COMMAND_IDS.RTK_REVIEW_APPLY_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENTS]: async (payload = {}) => {
+      return handleRtkMultiSceneNonOverlapTrackedReplacementCommandSurface(payload);
+    },
   });
   return internalCommandSurfaceKernel;
 }
@@ -15557,6 +15562,55 @@ async function handleRtkNonOverlapTrackedReplacementCommandSurface(payload = {})
     };
   }
   return module.createRtkNonOverlapTrackedReplacementCommandHandler({
+    cryptoPort: createRtkReviewTransportCryptoPort(),
+  })(payload);
+}
+
+let rtkMultiSceneNonOverlapTrackedReplacementModulePromise = null;
+function loadRtkMultiSceneNonOverlapTrackedReplacementModule() {
+  if (!rtkMultiSceneNonOverlapTrackedReplacementModulePromise) {
+    const modulePath = pathToFileURL(path.join(
+      __dirname,
+      'io',
+      'revisionBridge',
+      'reviewTransportMultiSceneNonOverlapTrackedReplacementRuntime.mjs',
+    )).href;
+    rtkMultiSceneNonOverlapTrackedReplacementModulePromise = import(modulePath).catch((error) => {
+      rtkMultiSceneNonOverlapTrackedReplacementModulePromise = null;
+      throw error;
+    });
+  }
+  return rtkMultiSceneNonOverlapTrackedReplacementModulePromise;
+}
+
+async function handleRtkMultiSceneNonOverlapTrackedReplacementCommandSurface(payload = {}) {
+  let module = null;
+  try {
+    module = await loadRtkMultiSceneNonOverlapTrackedReplacementModule();
+  } catch (error) {
+    return {
+      ok: false,
+      error: {
+        code: 'E_RTK_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENT_UNAVAILABLE',
+        op: 'cmd.rtk.review.applyMultiSceneNonOverlapTrackedReplacements',
+        reason: 'RTK_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENT_UNAVAILABLE',
+        details: {
+          message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN',
+        },
+      },
+    };
+  }
+  if (!module || typeof module.createRtkMultiSceneNonOverlapTrackedReplacementCommandHandler !== 'function') {
+    return {
+      ok: false,
+      error: {
+        code: 'E_RTK_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENT_UNAVAILABLE',
+        op: 'cmd.rtk.review.applyMultiSceneNonOverlapTrackedReplacements',
+        reason: 'RTK_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENT_HANDLER_UNAVAILABLE',
+      },
+    };
+  }
+  return module.createRtkMultiSceneNonOverlapTrackedReplacementCommandHandler({
     cryptoPort: createRtkReviewTransportCryptoPort(),
   })(payload);
 }

@@ -85,6 +85,14 @@ export {
 } from './reviewTransportNonOverlapTrackedReplacementRuntime.mjs';
 
 export {
+  RTK_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENT_COMMAND_ID,
+  RTK_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_SCHEMA,
+  applyMultiSceneNonOverlapTrackedReplacementRuntime,
+  buildMultiSceneNonOverlapTrackedReplacementRuntimePreview,
+  createRtkMultiSceneNonOverlapTrackedReplacementCommandHandler,
+} from './reviewTransportMultiSceneNonOverlapTrackedReplacementRuntime.mjs';
+
+export {
   RTK_WORD_V4_CORE_MANIFEST_SCHEMA,
   RTK_WORD_V4_EXPORT_MAP_SCHEMA,
   RTK_WORD_V4_YRTK2_MAC_DOMAIN,

@@ -1,0 +1,453 @@
+{
+  "schemaVersion": "yalken.rtk.word-roundtrip-release-audit-night-01.p0-multiscene-atomic-comment-state-closure-receipt.v1",
+  "taskId": "WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
+  "contourId": "P0-MULTI-SCENE-ATOMIC-COMMENT-STATE-CLOSURE",
+  "status": "WORD_RELEASE_AUDIT_P0_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE_COMPLETE_NOT_SATURATED",
+  "nextStage": "P0_PRODUCT_VERTICAL_BOUNDED_VARIED_WAVE_64_AFTER_MULTI_SCENE_AND_COMMENT_STATE_CLOSURE",
+  "repo": {
+    "headBefore": "8912c41144304b3ba74bc5868a3ebfff3ea7f2ab",
+    "originMainAtStart": "804455eaa5e05e9a0a7448c700897fab406a3b8a",
+    "branch": "codex/rtk-word-p0-multiscene-comment-state",
+    "worktree": "/Volumes/T7-Secure/worktrees/yalken/post-d1-portability"
+  },
+  "environment": {
+    "secureVolume": {
+      "mount": "/Volumes/T7-Secure",
+      "uuid": "D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2",
+      "fileVault": "Yes",
+      "writable": true
+    },
+    "wordSandbox": {
+      "source": "p0-multiscene-comment-state-closure",
+      "root": "/Users/kirillponomarev/Library/Containers/com.microsoft.Word/Data/tmp/YalkenWordLab/p0-multiscene-atomic-comment-state-closure",
+      "containerId": "com.microsoft.Word",
+      "insideWordContainer": true,
+      "t7ArtifactFallback": false,
+      "plainTmpForbidden": true,
+      "userDocumentsTouched": false,
+      "networkRequired": false,
+      "canonicalRealpathSkippedForSmokeHangAvoidance": true,
+      "fallbackReason": ""
+    },
+    "wordProfile": {
+      "appPath": "/Applications/Microsoft Word.app",
+      "requestedVersionFromOwnerBrief": "16.111.2",
+      "versionByBundle": "16.111.2",
+      "buildByBundle": "16.111.26072617",
+      "versionByAppleScript": "",
+      "appleScriptProbeStatus": "DEFERRED_TO_PER_CASE_WORD_SCRIPT",
+      "openDocumentsBeforeLab": -1,
+      "observedVersionClass": "WORD_16_111_FAMILY",
+      "macosVersion": "26.5.2",
+      "macosBuild": "25F84",
+      "locale": "ru_FI"
+    },
+    "userDocumentsTouched": false,
+    "networkRequests": [],
+    "googleDocsOpened": false
+  },
+  "physicalCorpus": {
+    "runId": "p0-multiscene-comment-state-20260801T064202",
+    "artifactRoot": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-multiscene-atomic-comment-state-closure",
+    "liveElectronUiExportSurfaceClick": {
+      "ok": true,
+      "timedOut": false,
+      "exitCode": 0,
+      "signal": null,
+      "result": {
+        "ok": 1,
+        "clicked": true,
+        "menuItemId": "review-export-docx-review-packet",
+        "menuItemLabel": "Export Review DOCX Packet...",
+        "dialogCalls": [
+          {
+            "method": "showSaveDialog",
+            "title": "Экспорт Review DOCX"
+          }
+        ],
+        "exportedExists": true,
+        "exportedSha256": "2e837cf0d87a921f25781ea4f7fc5823e97e67ce9c166b4b8db84404aa1ed5e3",
+        "exportedBytes": 12967,
+        "sceneDiskText": "Yalken UI export surface proof COMMENT_TARGET OLD_WORD.",
+        "networkRequests": []
+      },
+      "stderrTail": "[craftsman][restoreAutosaveIfExists] Error: ENOENT: no such file or directory, open '/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-product-comments-ui-VW5WCc/documents/craftsman/.autosave/autosave.txt'\n    at async open (node:internal/fs/promises:640:25)\n    at async Object.readFile (node:internal/fs/promises:1283:14)\n    at async restoreAutosaveIfExists (/Volumes/T7-Secure/worktrees/yalken/post-d1-portability/src/main.js:20998:21)\n    at async /Volumes/T7-Secure/worktrees/yalken/post-d1-portability/src/main.js:22665:22 {\n  errno: -2,\n  code: 'ENOENT',\n  syscall: 'open',\n  path: '/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-product-comments-ui-VW5WCc/documents/craftsman/.autosave/autosave.txt'\n}\n",
+      "exportedDocxPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-multiscene-atomic-comment-state-closure/p0-multiscene-comment-state-20260801T064202/evidence/electron-ui-review-docx-export.docx",
+      "exportedDocxSha256": "sha256:2e837cf0d87a921f25781ea4f7fc5823e97e67ce9c166b4b8db84404aa1ed5e3",
+      "exportedDocxZipOk": true,
+      "userDocumentsTouched": false,
+      "networkRequests": []
+    },
+    "productCases": [
+      {
+        "caseId": "P0MS-001",
+        "title": "two-scene physical Word returns apply through one explicit multi-scene command",
+        "result": "PASS",
+        "sceneCount": 2,
+        "commandKernelCommandIds": [
+          "cmd.rtk.reviewSession.importComments",
+          "cmd.rtk.reviewSession.importComments",
+          "cmd.rtk.review.applyMultiSceneNonOverlapTrackedReplacements",
+          "cmd.rtk.review.applyMultiSceneNonOverlapTrackedReplacements"
+        ],
+        "multiSceneCommandDispatched": true,
+        "explicitUserConfirmedCommandApply": true,
+        "applyStatus": "applied",
+        "replayStatus": "replay",
+        "multiSceneAtomicApplyCertified": true,
+        "automaticApplyCertified": false,
+        "writerCalled": true,
+        "applyVetoMetrics": {
+          "falseExact": 0,
+          "wrongSceneRouting": 0,
+          "silentApply": 0,
+          "replayFailure": 0,
+          "silentLoss": 0
+        },
+        "scenes": [
+          {
+            "caseId": "P0MS-001A",
+            "sceneId": "manuscript/product-comments-mixed/P0MS-001A.txt",
+            "export": {
+              "productCommandHandlerOriginated": true,
+              "sourceDocxSha256": "sha256:bdf56adbd3aeb0d60033405d36b16aab23ee17f35d21dee9739671ca81f743c8",
+              "returnedDocxSha256": "sha256:03debf330b3eabd9fe18ea8ab4ee7be7b9d804952b50e1cd35bbbbb0016e44a3",
+              "sourceDocxZipOk": true,
+              "returnedDocxZipOk": true
+            },
+            "physicalWord": {
+              "openEditSaveCloseReopenPass": true,
+              "wordVisibleResult": {
+                "WORD_STATUS": "PASS",
+                "REVISION_COUNT": "2",
+                "COMMENT_COUNT": "1",
+                "COMMENT_COUNT_AFTER_CREATE": "1",
+                "ROOT_CREATED": "1",
+                "DELETE_ATTEMPTED": "0",
+                "REPLY_ATTEMPTED": "0",
+                "RESOLVE_ATTEMPTED": "0",
+                "REOPEN_ATTEMPTED": "0",
+                "READBACK_CHARS": "87",
+                "LIMITATIONS": ""
+              }
+            },
+            "productLoop": {
+              "authenticatedV2Intake": true,
+              "parserOk": true,
+              "visiblePreviewReady": true,
+              "commentThreadParsed": true,
+              "manuscriptMutationDuringAnalysisOrPreview": false,
+              "correctSceneRouted": true,
+              "projectReopenReadbackMatchesExpected": true,
+              "replayIdempotent": true
+            }
+          },
+          {
+            "caseId": "P0MS-001B",
+            "sceneId": "manuscript/product-comments-mixed/P0MS-001B.txt",
+            "export": {
+              "productCommandHandlerOriginated": true,
+              "sourceDocxSha256": "sha256:5d61a6e4eceac15e64e9a01dc30e06f8d967b3a0df363276363540a7e56f7bdd",
+              "returnedDocxSha256": "sha256:972c232eb83e96e4b9dd45d74ccbc1551099af399b2be6e9730ea3cd89d72790",
+              "sourceDocxZipOk": true,
+              "returnedDocxZipOk": true
+            },
+            "physicalWord": {
+              "openEditSaveCloseReopenPass": true,
+              "wordVisibleResult": {
+                "WORD_STATUS": "PASS",
+                "REVISION_COUNT": "2",
+                "COMMENT_COUNT": "1",
+                "COMMENT_COUNT_AFTER_CREATE": "1",
+                "ROOT_CREATED": "1",
+                "DELETE_ATTEMPTED": "0",
+                "REPLY_ATTEMPTED": "0",
+                "RESOLVE_ATTEMPTED": "0",
+                "REOPEN_ATTEMPTED": "0",
+                "READBACK_CHARS": "87",
+                "LIMITATIONS": ""
+              }
+            },
+            "productLoop": {
+              "authenticatedV2Intake": true,
+              "parserOk": true,
+              "visiblePreviewReady": true,
+              "commentThreadParsed": true,
+              "manuscriptMutationDuringAnalysisOrPreview": false,
+              "correctSceneRouted": true,
+              "projectReopenReadbackMatchesExpected": true,
+              "replayIdempotent": true
+            }
+          }
+        ],
+        "readback": [
+          {
+            "sceneId": "manuscript/product-comments-mixed/P0MS-001A.txt",
+            "matchesAfter": true,
+            "currentSha256": "sha256:77da9cbcc7ac0f6bafc0c3f425a34a8d95b0d75237c4821c64620f40c2dd09a6",
+            "expectedAfterSha256": "sha256:77da9cbcc7ac0f6bafc0c3f425a34a8d95b0d75237c4821c64620f40c2dd09a6"
+          },
+          {
+            "sceneId": "manuscript/product-comments-mixed/P0MS-001B.txt",
+            "matchesAfter": true,
+            "currentSha256": "sha256:3741c8683efa96ddd391e541ff4518ca9a9080f5ac10d3ea239f94915e76061e",
+            "expectedAfterSha256": "sha256:3741c8683efa96ddd391e541ff4518ca9a9080f5ac10d3ea239f94915e76061e"
+          }
+        ],
+        "replayReadback": [
+          {
+            "sceneId": "manuscript/product-comments-mixed/P0MS-001A.txt",
+            "matchesAfter": true,
+            "currentSha256": "sha256:77da9cbcc7ac0f6bafc0c3f425a34a8d95b0d75237c4821c64620f40c2dd09a6",
+            "expectedAfterSha256": "sha256:77da9cbcc7ac0f6bafc0c3f425a34a8d95b0d75237c4821c64620f40c2dd09a6"
+          },
+          {
+            "sceneId": "manuscript/product-comments-mixed/P0MS-001B.txt",
+            "matchesAfter": true,
+            "currentSha256": "sha256:3741c8683efa96ddd391e541ff4518ca9a9080f5ac10d3ea239f94915e76061e",
+            "expectedAfterSha256": "sha256:3741c8683efa96ddd391e541ff4518ca9a9080f5ac10d3ea239f94915e76061e"
+          }
+        ]
+      },
+      {
+        "caseId": "P0CS-001",
+        "title": "comment delete state enters product comment shadow session as tombstone",
+        "result": "PASS",
+        "export": {
+          "productCommandHandlerOriginated": true,
+          "sourceDocxSha256": "sha256:40f16e4a2c781a63526a8d8e040b00fccf51e9d9963992024236dd2d649086f5",
+          "returnedDocxSha256": "sha256:5e457fdb5a04b99cdd75a3d46068e075955fc1a758762ecb5d50abdb3741f3c5",
+          "returnedDocxZipOk": true
+        },
+        "physicalWord": {
+          "physicalDeleteCertified": true,
+          "packageCommentCountAfterDelete": 0,
+          "wordVisibleResult": {
+            "WORD_STATUS": "PASS",
+            "REVISION_COUNT": "0",
+            "COMMENT_COUNT": "0",
+            "COMMENT_COUNT_AFTER_CREATE": "1",
+            "ROOT_CREATED": "1",
+            "DELETE_ATTEMPTED": "1",
+            "REPLY_ATTEMPTED": "0",
+            "RESOLVE_ATTEMPTED": "0",
+            "REOPEN_ATTEMPTED": "0",
+            "READBACK_CHARS": "76",
+            "LIMITATIONS": ""
+          }
+        },
+        "productLoop": {
+          "commandId": "cmd.rtk.reviewSession.importComments",
+          "commandKernelCalls": 2,
+          "commentDeleteProductRuntimeWired": true,
+          "commentShadowReplay": true,
+          "manuscriptMutation": false,
+          "status": "committed",
+          "reason": "",
+          "replayStatus": "replay",
+          "replayReason": "",
+          "reasons": [],
+          "storageEffects": {
+            "sessionRecordCreated": true,
+            "sessionRecordExisting": false,
+            "receiptCreated": true,
+            "receiptExisting": false,
+            "receiptRecovered": false,
+            "bytesWritten": 7090,
+            "manuscriptBytesWritten": 0
+          },
+          "outcomeCounts": {
+            "anchored": 0,
+            "orphan": 0,
+            "resolved": 0,
+            "deleted": 1
+          }
+        }
+      },
+      {
+        "caseId": "P0CS-002",
+        "title": "reply resolve reopen remains typed limitation unless stable Word semantics are observed",
+        "result": "PASS",
+        "physicalWord": {
+          "openEditSaveCloseReopenPass": true,
+          "wordVisibleResult": {
+            "WORD_STATUS": "PASS",
+            "REVISION_COUNT": "0",
+            "COMMENT_COUNT": "2",
+            "COMMENT_COUNT_AFTER_CREATE": "1",
+            "ROOT_CREATED": "1",
+            "DELETE_ATTEMPTED": "0",
+            "REPLY_ATTEMPTED": "1",
+            "RESOLVE_ATTEMPTED": "1",
+            "REOPEN_ATTEMPTED": "1",
+            "READBACK_CHARS": "76",
+            "LIMITATIONS": ""
+          },
+          "packageReadback": {
+            "packagePartCount": 17,
+            "commentRelatedParts": [
+              "word/comments.xml",
+              "word/commentsExtended.xml",
+              "word/commentsExtensible.xml",
+              "word/commentsIds.xml",
+              "word/people.xml"
+            ],
+            "commentCount": 2,
+            "parentLinkCount": 0,
+            "doneTrueCount": 0,
+            "doneFalseCount": 2,
+            "expectedTokensFound": [
+              "P0CS-002"
+            ],
+            "expectedTokensMissing": [],
+            "hasCommentsXml": true,
+            "hasCommentsExtendedXml": true,
+            "hasCommentsIdsXml": true,
+            "hasPeopleXml": true
+          }
+        },
+        "typedLimitations": [
+          "MODERN_COMMENT_REPLY_NOT_CERTIFIED_IN_PRODUCT_PATH",
+          "MODERN_COMMENT_RESOLVE_REOPEN_NOT_CERTIFIED_IN_PRODUCT_PATH"
+        ]
+      }
+    ],
+    "negativeCases": [
+      {
+        "caseId": "P0MS-N01",
+        "title": "stale scene blocks before any coordinated write",
+        "result": "PASS",
+        "reason": "RTK_MULTI_SCENE_STALE_SCENE",
+        "allScenesUnchanged": true,
+        "writerCalls": 0
+      },
+      {
+        "caseId": "P0MS-N02",
+        "title": "wrong scene envelope blocks before apply",
+        "result": "PASS",
+        "reason": "RTK_MULTI_SCENE_WRONG_SCENE_ROUTE",
+        "writerCalls": 0
+      },
+      {
+        "caseId": "P0MS-N03",
+        "title": "tampered authority blocks in scene preview",
+        "result": "PASS",
+        "reason": "RTK_MANUAL_DEGRADED_LOCATOR",
+        "writerCalls": 0
+      },
+      {
+        "caseId": "P0MS-N04",
+        "title": "mid-apply scene failure rolls every scene back to baseline",
+        "result": "PASS",
+        "reason": "RTK_MULTI_SCENE_SIMULATED_SCENE_FAILURE_ROLLED_BACK",
+        "rollbackOk": true,
+        "allScenesRestored": true,
+        "writerCalls": 0
+      }
+    ]
+  },
+  "implementedCapability": {
+    "capability": "multiSceneAtomicAndCommentStateClosure",
+    "productReviewDocxExporterWired": true,
+    "liveElectronUiExportSurfaceClicked": true,
+    "multiSceneAtomicApplyCertified": true,
+    "commentDeleteProductRuntimeWired": true,
+    "modernReplyProductRuntimeWired": false,
+    "modernResolveReopenProductRuntimeWired": false,
+    "productRuntimeWired": true,
+    "automaticApplyCertified": false,
+    "userAutomaticApplyCertified": false,
+    "releaseReady": false,
+    "wordSaturated": false,
+    "googleDocsOpened": false
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0,
+    "userDocumentTouch": 0,
+    "networkRequest": 0,
+    "noOpPass": 0
+  },
+  "evidenceBindings": [
+    {
+      "id": "POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "path": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "f2e836d1474135eefa186aa9bba90065e1f6395bf00cd45acb8f45f9a8aaf436",
+      "status": "BOUND"
+    },
+    {
+      "id": "WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "0fed667f14515d06a951dd96330dd2e1c9f89bdc37cc3e893a282dc6f7f3cace",
+      "status": "BOUND"
+    },
+    {
+      "id": "WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "d7058226d08380026817cbecf50f986a77272a775be0f770a1cb406ac41dc3d8",
+      "status": "BOUND"
+    },
+    {
+      "id": "rtk-word-release-audit-p0-multiscene-atomic-comment-state-closure.mjs",
+      "path": "scripts/ops/rtk-word-release-audit-p0-multiscene-atomic-comment-state-closure.mjs",
+      "sha256": "02c5ba8d3d6f79bdc5f3c557fec497b4860765c29818b1c20afa5dcfd2e5fb4f",
+      "status": "BOUND"
+    },
+    {
+      "id": "rtk-word-release-audit-p0-multiscene-atomic-comment-state-closure.contract.test.js",
+      "path": "test/contracts/rtk-word-release-audit-p0-multiscene-atomic-comment-state-closure.contract.test.js",
+      "sha256": "028e0d335bbfb5d652678be124bd5a4bf34b9c98e981e7847402550689c30f1f",
+      "status": "BOUND"
+    },
+    {
+      "id": "main.js",
+      "path": "src/main.js",
+      "sha256": "ed62e0f181687ec161b0fc35bd1ffe54f28bb6de702c65ff6090684f2e1c561a",
+      "status": "BOUND"
+    },
+    {
+      "id": "index.mjs",
+      "path": "src/io/revisionBridge/index.mjs",
+      "sha256": "20f1832b15b2d697f24278688fb2f542fc64ea1964917af8301d7665508ecf40",
+      "status": "BOUND"
+    },
+    {
+      "id": "reviewTransportCommentShadowSession.mjs",
+      "path": "src/io/revisionBridge/reviewTransportCommentShadowSession.mjs",
+      "sha256": "3b0e9d959d616f01d003804ea3d2767f6494a4500aea8ebd89ea3cbe8fe8a6b0",
+      "status": "BOUND"
+    },
+    {
+      "id": "reviewTransportMultiSceneNonOverlapTrackedReplacementRuntime.mjs",
+      "path": "src/io/revisionBridge/reviewTransportMultiSceneNonOverlapTrackedReplacementRuntime.mjs",
+      "sha256": "bef27e2add216813062871d761a7bfca0113b3f80967ee98f8deb7f2a031fd41",
+      "status": "BOUND"
+    },
+    {
+      "id": "rtk-word-release-audit-p0-product-comments-mixed-multiscene.mjs",
+      "path": "scripts/ops/rtk-word-release-audit-p0-product-comments-mixed-multiscene.mjs",
+      "sha256": "db7338f4b52811936cff8e3a232dd331bcb34683e6eb7963a3f4b935eb33c091",
+      "status": "BOUND"
+    },
+    {
+      "id": "rtk-word-release-audit-p0-product-vertical-tracked-edit.mjs",
+      "path": "scripts/ops/rtk-word-release-audit-p0-product-vertical-tracked-edit.mjs",
+      "sha256": "e2fb25059ae731a9188d7e1a649b9f8f60b6178ab66326f43fede837c9dbd9f9",
+      "status": "BOUND"
+    }
+  ],
+  "totals": {
+    "cases": 3,
+    "pass": 3,
+    "fail": 0,
+    "negativeCases": 4,
+    "negativePass": 4,
+    "liveElectronUiClickPass": 1,
+    "multiSceneProductLoopPass": 1,
+    "commentDeleteProductRuntimePass": 1,
+    "replyResolveTypedLimitations": 1
+  }
+}

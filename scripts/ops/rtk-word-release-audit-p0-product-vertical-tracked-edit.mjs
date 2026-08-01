@@ -427,10 +427,12 @@ module.exports = {
   handleDocxReviewPreviewSessionActivationCommandSurface,
   handleReviewSurfaceApplyExactTextChangeCommandSurface,
   handleReviewSurfaceApplyExactTextChangesBatchCommandSurface,
+  dispatchCommandSurfaceKernel,
   getState() {
     return {
       activeReviewSessionStore,
       activeReviewSessionLifecycle,
+      activeRtkNonOverlapTrackedReplacementApplyStore,
       currentReviewSurfacePayload,
       currentReviewSurfacePayloadSource,
       currentReviewSurfacePayloadContentHash,

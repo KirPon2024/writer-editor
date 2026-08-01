@@ -158,10 +158,12 @@ function buildAuthorityEnvelope(payload, secret) {
 }
 
 function caseSceneText(caseSpec) {
+  const prefix = typeof caseSpec.leadingText === 'string' ? `${caseSpec.leadingText}\n` : '';
+  const suffix = typeof caseSpec.trailingText === 'string' ? `\n${caseSpec.trailingText}` : '';
   if (caseSpec.duplicateInAuthorityBlock) {
-    return `Yalken product comments mixed ${caseSpec.id} Alpha COMMENT_TARGET OLD_WORD middle OLD_WORD gamma.`;
+    return `${prefix}Yalken product comments mixed ${caseSpec.id} Alpha COMMENT_TARGET OLD_WORD middle OLD_WORD gamma.${suffix}`;
   }
-  return `Yalken product comments mixed ${caseSpec.id} Alpha COMMENT_TARGET OLD_WORD gamma.`;
+  return `${prefix}Yalken product comments mixed ${caseSpec.id} Alpha COMMENT_TARGET OLD_WORD gamma.${suffix}`;
 }
 
 function buildProductCommentsMixedSource(caseSpec) {
@@ -1753,6 +1755,7 @@ export {
   commentPackageReadback,
   instantiateProductPort,
   runElectronUiExportClickProof,
+  runProductCase,
 };
 
 async function main() {

@@ -7961,39 +7961,11 @@
       "rationale": "Owner-approved bounded P0 Word contour for multi-scene atomic command apply and comment delete state closure; Word replies and resolve reopen remain typed limitations; automatic apply false; Word saturated false; Google Docs closed."
     },
     {
-      "filePath": "scripts/ops/rtk-word-release-audit-p0-product-comments-mixed-multiscene.mjs",
-      "sha256": "db7338f4b52811936cff8e3a232dd331bcb34683e6eb7963a3f4b935eb33c091",
-      "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "Owner-approved bounded P0 Word contour for multi-scene atomic command apply and comment delete state closure; Word replies and resolve reopen remain typed limitations; automatic apply false; Word saturated false; Google Docs closed."
-    },
-    {
       "filePath": "scripts/ops/rtk-word-release-audit-p0-product-vertical-tracked-edit.mjs",
       "sha256": "e2fb25059ae731a9188d7e1a649b9f8f60b6178ab66326f43fede837c9dbd9f9",
       "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
       "approvedAtUtc": "2026-08-01T00:00:00.000Z",
       "rationale": "Owner-approved bounded P0 Word contour for multi-scene atomic command apply and comment delete state closure; Word replies and resolve reopen remain typed limitations; automatic apply false; Word saturated false; Google Docs closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "a3c685d82050d23e5bbb4e0e691d90522f5a11b3e8de962436c98481a1be774c",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T06:55:00.000Z",
-      "rationale": "Approve bounded P0 postmerge truth rebind after multi-scene atomic comment-state closure: aggregate Word program/profile/ledger now point at the merged closure receipt, preserve Word SATURATED false, automatic apply false, Google Docs closed, and prepare bounded varied wave64 as the next Word-only contour."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "853fbd362b44c500b9c30013767286b6a2d1e97975ee4e36e348d2e53bb71534",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T06:55:00.000Z",
-      "rationale": "Approve bounded P0 postmerge truth rebind after multi-scene atomic comment-state closure: aggregate Word program/profile/ledger now point at the merged closure receipt, preserve Word SATURATED false, automatic apply false, Google Docs closed, and prepare bounded varied wave64 as the next Word-only contour."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "f0b3b6f2126ed589c82028bcdfde1ece37aa9450bba899b442054cb5559d1b22",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T06:55:00.000Z",
-      "rationale": "Approve bounded P0 postmerge truth rebind after multi-scene atomic comment-state closure: aggregate Word program/profile/ledger now point at the merged closure receipt, preserve Word SATURATED false, automatic apply false, Google Docs closed, and prepare bounded varied wave64 as the next Word-only contour."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_POSTMERGE_TRUTH_REBIND_RECEIPT.json",
@@ -8003,11 +7975,60 @@
       "rationale": "Approve bounded P0 postmerge truth rebind after multi-scene atomic comment-state closure: aggregate Word program/profile/ledger now point at the merged closure receipt, preserve Word SATURATED false, automatic apply false, Google Docs closed, and prepare bounded varied wave64 as the next Word-only contour."
     },
     {
-      "filePath": "test/contracts/rtk-word-release-audit-p0-postmerge-truth-rebind.contract.test.js",
-      "sha256": "03afc96ac289e91ce20060fe2c9cb4cabcee76aa6650d229d7541713ebcc9b0e",
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "7c52816780c2e465ba23bf45a269a36f8b5650222d16c2a00ef654fbea31ca90",
       "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T06:55:00.000Z",
-      "rationale": "Approve bounded P0 postmerge truth rebind after multi-scene atomic comment-state closure: aggregate Word program/profile/ledger now point at the merged closure receipt, preserve Word SATURATED false, automatic apply false, Google Docs closed, and prepare bounded varied wave64 as the next Word-only contour."
+      "approvedAtUtc": "2026-08-01T07:00:00.000Z",
+      "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "7262e5f9e73d8064c22175e59148a75f4e3a71b485cced6ec18abb7ec964af01",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T07:00:00.000Z",
+      "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "7bb0fe016caef91ee752b5dc68f5ad96ae0d4be11e6c3d06a07adae7c4458476",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T07:00:00.000Z",
+      "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_VARIED_WAVE64_PRODUCT_LOOP_RECEIPT.json",
+      "sha256": "ed5f9c3230f8b78921884a4f706fe4b1294203c017b65e6d3e04a9b5ae039c57",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T07:00:00.000Z",
+      "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-varied-wave64-product-loop.mjs",
+      "sha256": "fc353e16a453c0a1945cd6c8cab596656e21996df52eeaa9750bb5e5dbec26d9",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T07:00:00.000Z",
+      "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-product-comments-mixed-multiscene.mjs",
+      "sha256": "f5647edbdb5828dde2c00eea3a9f834c9f7708ae695c759ad8fee089921bb2e8",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T07:00:00.000Z",
+      "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-varied-wave64-product-loop.contract.test.js",
+      "sha256": "bda86ace770e74b0b07d66b8dc57f7440038ce971c04328f73e5c1a6783344c2",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T07:00:00.000Z",
+      "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-postmerge-truth-rebind.contract.test.js",
+      "sha256": "271a614328253f978925339e79f3ec9ca5c1507ad58e98cb7b0a7867979bbd86",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T07:00:00.000Z",
+      "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
     }
   ]
 }

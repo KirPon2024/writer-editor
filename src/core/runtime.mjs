@@ -1,4 +1,5 @@
 import { hashCanonicalValue } from './browser-safe-hash.mjs';
+import { emitCoreDomainEventsForCommandResult } from './domainEvents.mjs';
 
 export const CORE_COMMAND_IDS = Object.freeze({
   PROJECT_CREATE: 'project.create',
@@ -303,6 +304,7 @@ function ok(state) {
     ok: true,
     state,
     stateHash: hashCoreState(state),
+    events: [],
   };
 }
 
@@ -312,6 +314,25 @@ function fail(state, code, op, reason, details) {
     state,
     stateHash: hashCoreState(state),
     error: typedError(code, op, reason, details),
+    events: [],
+  };
+}
+
+function attachDomainEventsToCoreResult(previousState, command, result) {
+  if (!result || typeof result !== 'object' || Array.isArray(result)) return result;
+  if (!result.ok) {
+    return {
+      ...result,
+      events: [],
+    };
+  }
+  return {
+    ...result,
+    events: emitCoreDomainEventsForCommandResult({
+      previousState,
+      command,
+      result,
+    }),
   };
 }
 
@@ -3513,6 +3534,12 @@ export function reduceCoreState(stateInput, commandInput) {
     : { type: '' };
   const type = typeof command.type === 'string' ? command.type : '';
 
+  const result = reduceCoreStateWithoutDomainEvents(state, command, type);
+  return attachDomainEventsToCoreResult(state, command, result);
+}
+
+function reduceCoreStateWithoutDomainEvents(state, command, type) {
+
   if (type === CORE_COMMAND_IDS.PROJECT_CREATE) {
     return applyCreateProject(state, command.payload || {});
   }
@@ -3635,10 +3662,15 @@ export function reduceCoreStateUnsafe(stateInput, commandInput) {
 
 export function applyCoreSequence(initialState, commands) {
   let current = normalizeState(initialState);
+  const events = [];
   for (const command of Array.isArray(commands) ? commands : []) {
     const result = reduceCoreState(current, command);
     if (!result.ok) return result;
+    if (Array.isArray(result.events)) events.push(...result.events);
     current = result.state;
   }
-  return ok(current);
+  return {
+    ...ok(current),
+    events,
+  };
 }

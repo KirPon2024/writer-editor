@@ -4741,13 +4741,6 @@
       "rationale": "RECOVERY_READABILITY_CENTRAL_BINDING_001 approves the existing-token declaration rebind for RECOVERY_HUMAN_READABLE_OK after the detector path was merged and proven green."
     },
     {
-      "filePath": "scripts/doctor.mjs",
-      "sha256": "d493c86d744b2085352de815faa435ec306651ddec9fdddeb21f6ac54bc28ac4",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST",
-      "approvedAtUtc": "2026-08-01T10:25:00.000Z",
-      "rationale": "Approve final P1 deterministic Atlas V5 plan digest delivery bytes after focused PASS, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, renderer build PASS, and PR-head repo-execution full runner PASS 799 total 735 pass 0 fail 64 skipped perf PASS; repo snapshot is read-only evidence, no second tracker, no Program DONE claim."
-    },
-    {
       "filePath": "scripts/ops/attestation-trust-lock-state.mjs",
       "sha256": "2b3600a3320b55b05078a82c585c177801a10230ba596e833b4806da363eefbd",
       "approvedBy": "ticket:TZ-P0-04-ATTESTATION-TRUST-LOCK-HARDENING-003",
@@ -5784,13 +5777,6 @@
       "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
-      "filePath": "src/core/runtime.mjs",
-      "sha256": "bf8e2c74f5ad0c24f2a1f105936e96e23f3dff8eccb4dd48ec2a986925da3b9f",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
-      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
-      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
-    },
-    {
       "filePath": "src/derived/atlas/atlasGraphLayoutWorker.mjs",
       "sha256": "4d08126c47977dad707418e16e86af22e30762b3774e96066035f052f28f1a61",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C05_REAL_WORKER_AND_MEASURED_10K_BUDGET",
@@ -6118,13 +6104,6 @@
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_04",
       "approvedAtUtc": "2026-08-01T06:03:00.000Z",
       "rationale": "Approve bounded P0_04 runtime Design OS binding files: Atlas and Manual Map surfaces are bound by FEATURE_INTEGRATION_MANIFEST_V1 and YALKEN_ATLAS_FEATURE_SLOT_RESOLVER_V1, renderer provider metadata flows through resolved slot binding, direct provider writes are removed, generated bundle rebuilt, no visual redesign, no network, no storage authority, no second command bus, and Program DoD remains IN_PROGRESS."
-    },
-    {
-      "filePath": "src/renderer/editor.bundle.js",
-      "sha256": "c492302f049d2ce67196124393fbe2fd874fefa7a590915e0d87e2598b108cc7",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
-      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
-      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
     },
     {
       "filePath": "src/renderer/editor.js",
@@ -8681,6 +8660,60 @@
       "approvedBy": "owner:FINAL_CONTROLLER_ACCEPTANCE_AND_NEXT_STAGE_GO",
       "approvedAtUtc": "2026-08-01T16:05:00.000Z",
       "rationale": "Approve G00 Google Docs discovery binding: Word for Mac stage is formally closed on accepted declared support envelope, Google Docs stage opens with evidence-claim-only current truth, no support/import/roundtrip/API/apply claim, and next physical work gated on already-authorized synthetic session."
+    },
+    {
+      "filePath": "scripts/doctor.mjs",
+      "sha256": "0fa28e562d6df6c65e3b3bcce9bd44fd6fdd75d22347b7eaab5708b0977114b2",
+      "approvedBy": "owner:OWNER_CONTROLLER_CORRECTION:REOPEN_ONE_BOUNDED_P1_ONLY",
+      "approvedAtUtc": "2026-08-01T15:40:00.000Z",
+      "rationale": "Approve bounded Atlas V5 P1 domain event contract repair bytes after focused positive and negative event contract PASS; events are versioned observed facts, no dynamic event registry, no parallel event store, no UI redesign, no network, no Program DONE claim.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_P1_REOPEN"
+    },
+    {
+      "filePath": "src/core/runtime.mjs",
+      "sha256": "b6267a3d3f695274c83202569b8d9968bfdafb860234a25662eb02996c4452fd",
+      "approvedBy": "owner:OWNER_CONTROLLER_CORRECTION:REOPEN_ONE_BOUNDED_P1_ONLY",
+      "approvedAtUtc": "2026-08-01T15:42:00.000Z",
+      "rationale": "Rebind runtime core reducer bytes for bounded Atlas V5 P1 domain event emission repair; reducer returns observed facts in CoreReduceResult only, preserves command operation log as sole journal, adds no event store, no UI redesign, no network, no Program DONE claim.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_P1_REOPEN"
+    },
+    {
+      "filePath": "src/renderer/editor.bundle.js",
+      "sha256": "dc81a63f483af9b24e6802185a6ce321e8e66b589ba75658ccba1a397f15bbc7",
+      "approvedBy": "owner:OWNER_CONTROLLER_CORRECTION:REOPEN_ONE_BOUNDED_P1_ONLY",
+      "approvedAtUtc": "2026-08-01T15:46:00.000Z",
+      "rationale": "Rebind generated renderer bundle after bounded Atlas V5 P1 domain event contract repair renderer build; source change is core event contract emission only, no UI redesign, no network, no new dependency, no Program DONE claim.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_P1_REOPEN"
+    },
+    {
+      "filePath": "docs/OPS/DOMAIN_EVENTS_BASELINE.json",
+      "sha256": "8b4598ab0205c7dbb4ef71d71bdafbab7b48670d99149305b60cb3503a93a755",
+      "approvedBy": "owner:OWNER_CONTROLLER_CORRECTION:REOPEN_ONE_BOUNDED_P1_ONLY",
+      "approvedAtUtc": "2026-08-01T15:40:00.000Z",
+      "rationale": "Approve bounded Atlas V5 P1 domain event contract repair bytes after focused positive and negative event contract PASS; events are versioned observed facts, no dynamic event registry, no parallel event store, no UI redesign, no network, no Program DONE claim.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_P1_REOPEN"
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-p1-domain-event-contract-repair.contract.test.js",
+      "sha256": "44aba96582114a03457006255a848e52ba0989ceb8339a044cbfa71fa81e1ca1",
+      "approvedBy": "owner:OWNER_CONTROLLER_CORRECTION:REOPEN_ONE_BOUNDED_P1_ONLY",
+      "approvedAtUtc": "2026-08-01T15:40:00.000Z",
+      "rationale": "Approve bounded Atlas V5 P1 domain event contract repair bytes after focused positive and negative event contract PASS; events are versioned observed facts, no dynamic event registry, no parallel event store, no UI redesign, no network, no Program DONE claim.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_P1_REOPEN"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_P1_DOMAIN_EVENT_CONTRACT_REPAIR_RECEIPT.json",
+      "sha256": "4f3c3c8f953873b5646ad3c4a96fa5e8fe2a03b4f6c89c0fd9066ef1547f1560",
+      "approvedBy": "owner:OWNER_CONTROLLER_CORRECTION:REOPEN_ONE_BOUNDED_P1_ONLY",
+      "approvedAtUtc": "2026-08-01T14:22:19.000Z",
+      "rationale": "Approve bounded Atlas V5 P1 domain event contract repair receipt after safe rebind to current origin main; delivery pending until commit push PR CI merge exact remote verification and fresh independent audit, with no Program DONE claim.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_P1_REOPEN"
     }
   ]
 }

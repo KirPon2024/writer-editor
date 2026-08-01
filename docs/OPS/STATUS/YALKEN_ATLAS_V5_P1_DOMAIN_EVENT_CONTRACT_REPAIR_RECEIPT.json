@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "yalken.atlas.v5.p1.domainEventContractRepair.receipt.v1",
+  "taskId": "OWNER_CONTROLLER_CORRECTION_REOPEN_ONE_BOUNDED_P1_ONLY",
+  "contourId": "P1_DOMAIN_EVENT_CONTRACT_REPAIR",
+  "priority": "P1",
+  "status": "PASS_PENDING_DELIVERY_CHAIN",
+  "pass": true,
+  "programDoneClaim": false,
+  "sourceBinding": {
+    "headShaBeforeCommit": "2f0f345aa3ff92ad957f47639dc2ed40572b9a51",
+    "originMainShaAtInitialReopen": "e17f732b4ab38cb70a5c8cb6a7f3fd81d1c712fb",
+    "originMainShaAfterSafeRebind": "2f0f345aa3ff92ad957f47639dc2ed40572b9a51",
+    "branch": "codex/yalken-atlas-v5-p1-domain-events",
+    "exactSourceHashes": {
+      "src/core/domainEvents.mjs": "a9e5bdae6cb7072b076f804f77e34bb7f64c33936b77a3e779543ffea95746a2",
+      "src/core/runtime.mjs": "b6267a3d3f695274c83202569b8d9968bfdafb860234a25662eb02996c4452fd",
+      "src/core/registry.ts": "020c24cd311c0be9b00dc6f3dd3d2dd7075f6989b7a3f357c1ffe7c6bc89d19f",
+      "src/core/contracts.ts": "21ecd0dfba4bc29633825be245c2bed901b857752a16dc66b879a4307e120f46",
+      "src/contracts/core-event.contract.ts": "1b483ec3ae45e34fa5404ca0e8a80e35018406e519dfe1636dee17dd2f9c31b2",
+      "scripts/doctor.mjs": "0fa28e562d6df6c65e3b3bcce9bd44fd6fdd75d22347b7eaab5708b0977114b2",
+      "docs/OPS/DOMAIN_EVENTS_BASELINE.json": "8b4598ab0205c7dbb4ef71d71bdafbab7b48670d99149305b60cb3503a93a755",
+      "test/contracts/yalken-atlas-v5-p1-domain-event-contract-repair.contract.test.js": "44aba96582114a03457006255a848e52ba0989ceb8339a044cbfa71fa81e1ca1",
+      "src/renderer/editor.bundle.js": "dc81a63f483af9b24e6802185a6ce321e8e66b589ba75658ccba1a397f15bbc7"
+    }
+  },
+  "controllerCorrection": {
+    "rejectedStatusSplitP0": true,
+    "acceptedBoundedFinding": "V5 section 9A.2 domain event contract gap",
+    "reopenedOnlyFor": "P1_DOMAIN_EVENT_CONTRACT_REPAIR",
+    "preservesAcceptedProductContours": true,
+    "repoSnapshotExecutable": false,
+    "externalDesktopV5StateExecutable": true
+  },
+  "acceptance": {
+    "normativeV5EventIdsImplemented": true,
+    "publicEventContractIsVersionedDiscriminatedUnion": true,
+    "wildcardPublicEventTypeRejected": true,
+    "coreEventsPopulatedFromCanonicalIds": true,
+    "domainEventBaselineSharesCanonicalIds": true,
+    "eventsAreObservedFactsNotCommandsOrRpc": true,
+    "runtimeEmitsTypedFactsFromCoreReducerResultPath": true,
+    "operationLogRemainsSoleJournal": true,
+    "noParallelEventStore": true,
+    "unknownInvalidPayloadRejected": true,
+    "deterministicSerializationReplay": true,
+    "appendOnlyBackwardCompatibilityProven": true,
+    "noUiStorageBypass": true,
+    "noNetworkIntroduced": true,
+    "noNewDependency": true,
+    "noUiRedesign": true
+  },
+  "checks": {
+    "focusedDomainEventContract": {
+      "status": "PASS",
+      "command": "node --test test/contracts/yalken-atlas-v5-p1-domain-event-contract-repair.contract.test.js",
+      "summary": "4_total_4_pass_0_fail"
+    },
+    "focusedPublicContracts": {
+      "status": "PASS",
+      "command": "node --test test/contracts/yalken-atlas-v5-p1-domain-event-contract-repair.contract.test.js test/contracts/public-contracts-minimal.contract.test.js",
+      "summary": "7_total_7_pass_0_fail"
+    },
+    "testOps": {
+      "status": "PASS",
+      "command": "npm run -s test:ops",
+      "summary": "PASS_STRICT_DOCTOR_AND_GOVERNANCE"
+    },
+    "doctrine": {
+      "status": "PASS",
+      "command": "npm run -s design-os:doctrine",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1"
+    },
+    "ossPolicy": {
+      "status": "PASS",
+      "command": "npm run -s oss:policy",
+      "summary": "PASS"
+    },
+    "buildRenderer": {
+      "status": "PASS",
+      "command": "npm run -s build:renderer",
+      "summary": "PASS"
+    },
+    "fullRunner": {
+      "status": "PASS",
+      "command": "node scripts/run-tests.js",
+      "summary": "799_total_735_pass_0_fail_64_skipped_perf_PASS"
+    }
+  },
+  "delivery": {
+    "commit": "PENDING_DELIVERY_CHAIN",
+    "push": "PENDING_DELIVERY_CHAIN",
+    "pr": "PENDING_DELIVERY_CHAIN",
+    "ci": "PENDING_DELIVERY_CHAIN",
+    "merge": "PENDING_DELIVERY_CHAIN",
+    "remoteShaVerification": "PENDING_DELIVERY_CHAIN",
+    "postMergeChecks": "PENDING_DELIVERY_CHAIN"
+  },
+  "externalMutableState": {
+    "path": "/Users/kirillponomarev/Desktop/YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5.md",
+    "stateRevisionAfterReopen": 152,
+    "executionStatusAfterReopen": "IN_PROGRESS_BOUNDED_P1_DOMAIN_EVENT_CONTRACT_REPAIR",
+    "nextAfterDelivery": "READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT"
+  },
+  "observedAtUtc": "2026-08-01T14:22:19.000Z",
+  "nextContour": "FRESH_INDEPENDENT_EXACT_HEAD_AUDIT_AFTER_DELIVERY"
+}

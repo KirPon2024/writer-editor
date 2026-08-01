@@ -1,10 +1,101 @@
 {
   "schemaVersion": 1,
+  "sourcePlanSection": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5.section.9A.2",
   "events": [
     {
-      "eventId": "CORE_EVENT_UNSPECIFIED",
-      "stability": "Experimental",
-      "introducedIn": "baseline"
+      "eventId": "SceneChanged",
+      "stability": "Stable",
+      "introducedIn": "YALKEN_ATLAS_V5_P1_DOMAIN_EVENT_CONTRACT_REPAIR"
+    },
+    {
+      "eventId": "SceneOrderChanged",
+      "stability": "Stable",
+      "introducedIn": "YALKEN_ATLAS_V5_P1_DOMAIN_EVENT_CONTRACT_REPAIR"
+    },
+    {
+      "eventId": "EntityCreated",
+      "stability": "Stable",
+      "introducedIn": "YALKEN_ATLAS_V5_P1_DOMAIN_EVENT_CONTRACT_REPAIR"
+    },
+    {
+      "eventId": "EntityMerged",
+      "stability": "Stable",
+      "introducedIn": "YALKEN_ATLAS_V5_P1_DOMAIN_EVENT_CONTRACT_REPAIR"
+    },
+    {
+      "eventId": "EntitySplit",
+      "stability": "Stable",
+      "introducedIn": "YALKEN_ATLAS_V5_P1_DOMAIN_EVENT_CONTRACT_REPAIR"
+    },
+    {
+      "eventId": "AliasChanged",
+      "stability": "Stable",
+      "introducedIn": "YALKEN_ATLAS_V5_P1_DOMAIN_EVENT_CONTRACT_REPAIR"
+    },
+    {
+      "eventId": "MapChanged",
+      "stability": "Stable",
+      "introducedIn": "YALKEN_ATLAS_V5_P1_DOMAIN_EVENT_CONTRACT_REPAIR"
+    },
+    {
+      "eventId": "MapNodePromoted",
+      "stability": "Stable",
+      "introducedIn": "YALKEN_ATLAS_V5_P1_DOMAIN_EVENT_CONTRACT_REPAIR"
+    },
+    {
+      "eventId": "DecisionCommitted",
+      "stability": "Stable",
+      "introducedIn": "YALKEN_ATLAS_V5_P1_DOMAIN_EVENT_CONTRACT_REPAIR"
+    },
+    {
+      "eventId": "CalendarChanged",
+      "stability": "Stable",
+      "introducedIn": "YALKEN_ATLAS_V5_P1_DOMAIN_EVENT_CONTRACT_REPAIR"
+    },
+    {
+      "eventId": "TimeRangeChanged",
+      "stability": "Stable",
+      "introducedIn": "YALKEN_ATLAS_V5_P1_DOMAIN_EVENT_CONTRACT_REPAIR"
+    },
+    {
+      "eventId": "ContinuityDecisionCommitted",
+      "stability": "Stable",
+      "introducedIn": "YALKEN_ATLAS_V5_P1_DOMAIN_EVENT_CONTRACT_REPAIR"
+    },
+    {
+      "eventId": "ProjectionInvalidated",
+      "stability": "Stable",
+      "introducedIn": "YALKEN_ATLAS_V5_P1_DOMAIN_EVENT_CONTRACT_REPAIR"
+    },
+    {
+      "eventId": "DerivedGenerationPublished",
+      "stability": "Stable",
+      "introducedIn": "YALKEN_ATLAS_V5_P1_DOMAIN_EVENT_CONTRACT_REPAIR"
+    },
+    {
+      "eventId": "DerivedGenerationRejectedAsStale",
+      "stability": "Stable",
+      "introducedIn": "YALKEN_ATLAS_V5_P1_DOMAIN_EVENT_CONTRACT_REPAIR"
+    },
+    {
+      "eventId": "LanguageCapabilityChanged",
+      "stability": "Stable",
+      "introducedIn": "YALKEN_ATLAS_V5_P1_DOMAIN_EVENT_CONTRACT_REPAIR"
+    },
+    {
+      "eventId": "MigrationPrepared",
+      "stability": "Stable",
+      "introducedIn": "YALKEN_ATLAS_V5_P1_DOMAIN_EVENT_CONTRACT_REPAIR"
+    },
+    {
+      "eventId": "MigrationCommitted",
+      "stability": "Stable",
+      "introducedIn": "YALKEN_ATLAS_V5_P1_DOMAIN_EVENT_CONTRACT_REPAIR"
+    },
+    {
+      "eventId": "MigrationRolledBack",
+      "stability": "Stable",
+      "introducedIn": "YALKEN_ATLAS_V5_P1_DOMAIN_EVENT_CONTRACT_REPAIR"
     }
   ]
 }

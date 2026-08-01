@@ -12,6 +12,7 @@ const ALLOWED_COMMAND_IDS = Object.freeze([
   'cmd.project.importFullArchiveV1',
   'cmd.project.importMarkdownV1',
   'cmd.project.exportMarkdownV1',
+  'cmd.project.review.exportFullManuscriptDocxReviewPacket',
   'cmd.project.releaseClaim.admit',
   'cmd.project.releaseClaim.execute',
   'cmd.rtk.reviewSession.importComments',

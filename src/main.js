@@ -3764,7 +3764,7 @@ async function readFullManuscriptDocxReviewPacketExportSource() {
   if (isDirty || autoSaveInProgress) {
     throw new Error('REVIEW_FULL_MANUSCRIPT_DOCX_EXPORT_DIRTY_EDITOR_BLOCKED');
   }
-  const scope = await buildSelectedScenesTxtExportScope();
+  const scope = await buildFullManuscriptDocxReviewExportScope();
   const sceneCandidates = Array.isArray(scope?.sceneCandidates) ? scope.sceneCandidates : [];
   if (sceneCandidates.length < 2) {
     throw new Error('REVIEW_FULL_MANUSCRIPT_DOCX_EXPORT_MULTI_SCENE_PROJECT_REQUIRED');
@@ -3778,7 +3778,7 @@ async function readFullManuscriptDocxReviewPacketExportSource() {
   const scenes = [];
   for (let index = 0; index < sceneCandidates.length; index += 1) {
     const candidate = sceneCandidates[index];
-    const text = await readSelectedScenesTxtExportSceneContent(candidate);
+    const text = await readFullManuscriptDocxReviewExportDocumentContent(candidate);
     scenes.push({
       sceneId: typeof candidate.sceneId === 'string' ? candidate.sceneId.replace(/\\/g, '/') : '',
       scenePath: typeof candidate.path === 'string' ? candidate.path : '',
@@ -17643,6 +17643,38 @@ async function collectSelectedScenesTxtExportCandidates(folderPath, binding, out
   }
 }
 
+async function collectFullManuscriptDocxReviewExportCandidates(folderPath, binding, out) {
+  const entries = await readDirectoryEntries(folderPath);
+  for (const entry of entries) {
+    if (entry.isDirectory) {
+      await collectFullManuscriptDocxReviewExportCandidates(entry.path, binding, out);
+      continue;
+    }
+    if (!entry.isFile || !entry.name.toLowerCase().endsWith('.txt')) {
+      continue;
+    }
+
+    const documentContext = getDocumentContextFromPath(entry.path);
+    if (!documentContext || !ROMAN_CONTEXT_KINDS.has(documentContext.kind)) {
+      continue;
+    }
+
+    const sceneId = getProjectRelativeFilePath(entry.path, binding.manifestPath);
+    if (!sceneId) {
+      continue;
+    }
+
+    out.push({
+      sceneId,
+      nodeId: binding.nodeIdsByBindingKey.get(`file:${sceneId.split(path.sep).join('/')}`) || '',
+      label: buildSelectedScenesTxtExportCandidateLabel(sceneId),
+      path: entry.path,
+      title: typeof documentContext.title === 'string' ? documentContext.title : getDisplayNameForEntry(entry.name),
+      documentKind: documentContext.kind,
+    });
+  }
+}
+
 async function buildSelectedScenesTxtExportScope() {
   const manifestPath = getProjectManifestPath(DEFAULT_PROJECT_NAME);
   const manifestRecord = await readProjectManifest(DEFAULT_PROJECT_NAME);
@@ -17685,6 +17717,44 @@ async function buildSelectedScenesTxtExportScope() {
     projectRoot,
     sceneCandidates,
     defaultSceneIds: defaultSceneId ? [defaultSceneId] : [],
+  };
+}
+
+async function buildFullManuscriptDocxReviewExportScope() {
+  const manifestPath = getProjectManifestPath(DEFAULT_PROJECT_NAME);
+  const manifestRecord = await readProjectManifest(DEFAULT_PROJECT_NAME);
+  const manifest = manifestRecord ? manifestRecord.manifest : null;
+  const projectRoot = path.dirname(manifestPath);
+  const romanPath = getProjectSectionPath('roman', DEFAULT_PROJECT_NAME);
+  const nodeIdsByBindingKey = new Map();
+  const identityNodes = manifest?.treeIdentity?.nodes;
+  if (identityNodes && typeof identityNodes === 'object' && !Array.isArray(identityNodes)) {
+    for (const [nodeId, record] of Object.entries(identityNodes)) {
+      if (
+        /^tree-node-[a-f0-9]{32}$/u.test(nodeId)
+        && record
+        && record.present !== false
+        && typeof record.bindingKey === 'string'
+        && record.bindingKey.startsWith('file:')
+      ) {
+        nodeIdsByBindingKey.set(record.bindingKey, nodeId);
+      }
+    }
+  }
+  const sceneCandidates = [];
+  if (await fileExists(romanPath)) {
+    await collectFullManuscriptDocxReviewExportCandidates(
+      romanPath,
+      { manifestPath, nodeIdsByBindingKey },
+      sceneCandidates,
+    );
+  }
+
+  return {
+    projectId: manifest && typeof manifest.projectId === 'string' ? manifest.projectId : '',
+    projectRoot,
+    sceneCandidates,
+    defaultSceneIds: [],
   };
 }
 
@@ -17895,6 +17965,50 @@ async function readSelectedScenesTxtExportSceneContent(sceneCandidate) {
       typeof parsed.issue.userMessage === 'string' && parsed.issue.userMessage
         ? parsed.issue.userMessage
         : 'Selected scene envelope is invalid',
+    );
+  }
+  return parsed.text;
+}
+
+async function readFullManuscriptDocxReviewExportDocumentContent(sceneCandidate) {
+  if (!sceneCandidate || typeof sceneCandidate !== 'object') {
+    throw new Error('Full manuscript export candidate is invalid');
+  }
+  if (typeof sceneCandidate.path !== 'string' || !sceneCandidate.path.trim()) {
+    throw new Error('Full manuscript export path is missing');
+  }
+  if (!isAllowedFilePath(sceneCandidate.path)) {
+    throw new Error('Full manuscript export path is not allowed');
+  }
+
+  const documentContext = getDocumentContextFromPath(sceneCandidate.path);
+  if (!documentContext || !ROMAN_CONTEXT_KINDS.has(documentContext.kind)) {
+    throw new Error('Full manuscript export file is not a roman document');
+  }
+
+  let observableContent = '';
+  if (sceneCandidate.path === currentFilePath) {
+    if (isDirty || autoSaveInProgress) {
+      throw new Error('Unsaved current roman document state cannot be used as full manuscript DOCX source');
+    }
+    const editorSnapshot = await readCanonicalExportSnapshot({});
+    observableContent = editorSnapshot && typeof editorSnapshot.content === 'string'
+      ? editorSnapshot.content
+      : '';
+  } else {
+    observableContent = await fs.readFile(sceneCandidate.path, 'utf8');
+  }
+
+  const envelopeModule = await loadDocumentContentEnvelopeModule();
+  const parsed = envelopeModule.parseObservablePayload(observableContent || '');
+  if (!parsed || typeof parsed.text !== 'string') {
+    throw new Error('Full manuscript envelope could not be parsed');
+  }
+  if (parsed.issue && typeof parsed.issue === 'object') {
+    throw new Error(
+      typeof parsed.issue.userMessage === 'string' && parsed.issue.userMessage
+        ? parsed.issue.userMessage
+        : 'Full manuscript envelope is invalid',
     );
   }
   return parsed.text;
@@ -23633,7 +23747,6 @@ const MAIN_FREE_PRO_COMPLEXITY_COMMAND_IDS = new Set([
   'cmd.project.review.switchMode',
   'cmd.project.review.importLocalPacket',
   'cmd.project.review.exportLocalPacket',
-  'cmd.project.review.exportFullManuscriptDocxReviewPacket',
   'cmd.project.review.openDocxReviewPreviewSession',
   'cmd.project.review.clearSession',
   'cmd.project.review.applyExactTextChange',

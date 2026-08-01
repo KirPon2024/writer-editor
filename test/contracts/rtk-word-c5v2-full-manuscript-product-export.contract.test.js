@@ -45,6 +45,7 @@ test('C5V2 full-manuscript source builds one ordered multi-scene product review 
     buildFullManuscriptDocxReviewPacketSource,
     validateFullManuscriptAuthorityReturn,
   } = require(path.join(REPO_ROOT, 'src', 'export', 'docx', 'fullManuscriptDocxReviewPacketSource.js'));
+  const sourceText = readText('src/export/docx/fullManuscriptDocxReviewPacketSource.js');
   const source = buildFullManuscriptDocxReviewPacketSource({
     projectId: 'project-c5v2',
     projectRoot: '/project',
@@ -78,6 +79,8 @@ test('C5V2 full-manuscript source builds one ordered multi-scene product review 
   assert.equal(source.sceneText.includes('The artist is the creator of beautiful things.'), true);
   assert.equal(source.sceneText.includes('The studio was filled with the rich odour of roses.'), true);
   assert.equal(source.sceneText.includes('Dorian read until the afternoon shadows lengthened.'), true);
+  assert.equal(sourceText.includes("kind: 'signed-scene-block-baseline-v1'"), true);
+  assert.equal(sourceText.includes("kind: 'signed-full-manuscript-scene-block-baseline-v1'"), false);
   assert.equal(JSON.stringify(source.exportCapsule).includes('local-secret-for-test-only'), false);
   assert.equal(JSON.stringify(source.advisoryManifest).includes('local-secret-for-test-only'), false);
   assert.equal(source.localAuthorityCapsule.hmacSecret, 'local-secret-for-test-only');
@@ -215,10 +218,12 @@ test('C5V2 full-manuscript export handler writes one DOCX and sanitizes full-boo
 
 test('C5V2 full-manuscript product export is reachable through command kernel, renderer, capability and menu layers', () => {
   const mainSource = readText('src/main.js');
+  const commandSurfaceKernel = readText('src/command/commandSurfaceKernel.js');
   const projectCommands = readText('src/renderer/commands/projectCommands.mjs');
   const capabilityPolicy = readText('src/renderer/commands/capabilityPolicy.mjs');
   const localCapabilityProvider = readText('src/renderer/commands/localCapabilityProvider.mjs');
   const menuConfig = JSON.parse(readText('src/menu/menu-config.v2.json'));
+  const normalizedMenuArtifact = JSON.parse(readText('docs/OPS/ARTIFACTS/menu/menu.normalized.json'));
   const locale = JSON.parse(readText('src/menu/menu-locale.catalog.v1.json'));
   const c5v1Harness = readText('scripts/ops/rtk-word-c5-fullbook-certification.mjs');
 
@@ -228,6 +233,19 @@ test('C5V2 full-manuscript product export is reachable through command kernel, r
   assert.match(mainSource, /dispatchCommandSurfaceKernel\(\s*COMMAND_SURFACE_KERNEL_COMMAND_IDS\.PROJECT_REVIEW_EXPORT_FULL_MANUSCRIPT_DOCX_PACKET,/u);
   assert.equal(mainSource.includes('buildFullManuscriptDocxReviewPacketSource'), true);
   assert.equal(mainSource.includes('readFullManuscriptDocxReviewPacketExportSource'), true);
+  assert.equal(mainSource.includes('collectFullManuscriptDocxReviewExportCandidates'), true);
+  assert.equal(mainSource.includes('readFullManuscriptDocxReviewExportDocumentContent'), true);
+  const readFullExportSourceStart = mainSource.indexOf('async function readFullManuscriptDocxReviewPacketExportSource()');
+  const readFullExportSourceEnd = mainSource.indexOf('async function buildDocxReviewPacketBuffer', readFullExportSourceStart);
+  const readFullExportSourceBody = mainSource.slice(readFullExportSourceStart, readFullExportSourceEnd);
+  assert.match(readFullExportSourceBody, /const scope = await buildFullManuscriptDocxReviewExportScope\(\);/u);
+  assert.match(readFullExportSourceBody, /readFullManuscriptDocxReviewExportDocumentContent\(candidate\)/u);
+  assert.equal(readFullExportSourceBody.includes('buildSelectedScenesTxtExportScope'), false);
+  assert.equal(readFullExportSourceBody.includes('readSelectedScenesTxtExportSceneContent'), false);
+  assert.equal(commandSurfaceKernel.includes(`'${COMMAND_ID}'`), true);
+  const disabledComplexitySet = mainSource.match(/const MAIN_FREE_PRO_COMPLEXITY_COMMAND_IDS = new Set\(\[\n(?<body>[\s\S]*?)\n\]\);/u);
+  assert.notEqual(disabledComplexitySet, null);
+  assert.equal(disabledComplexitySet.groups.body.includes(COMMAND_ID), false);
   assert.equal(projectCommands.includes(`REVIEW_EXPORT_FULL_MANUSCRIPT_DOCX_REVIEW_PACKET: '${COMMAND_ID}'`), true);
   assert.equal(projectCommands.includes('runReviewExportFullManuscriptDocxReviewPacketBridge'), true);
   assert.equal(capabilityPolicy.includes(`'${COMMAND_ID}': '${CAPABILITY_ID}'`), true);
@@ -240,6 +258,12 @@ test('C5V2 full-manuscript product export is reachable through command kernel, r
     labelKey: 'menu.review.exportFullManuscriptDocxReviewPacket',
     command: COMMAND_ID,
   });
+  const normalizedReviewMenu = normalizedMenuArtifact.menus.find((menu) => menu.id === 'review');
+  const normalizedReviewItem = normalizedReviewMenu.items.find((item) => item.id === 'review-export-full-manuscript-docx-review-packet');
+  assert.equal(normalizedReviewItem.canonicalCmdId, COMMAND_ID);
+  assert.equal(normalizedReviewItem.visibilityPolicy, 'visible_enabled');
+  assert.equal(normalizedReviewItem.disabledReasonCode, null);
+  assert.equal(normalizedReviewItem.labelKey, 'menu.review.exportFullManuscriptDocxReviewPacket');
   assert.equal(locale.entries['menu.review.exportFullManuscriptDocxReviewPacket'].base, 'Export Full Manuscript Review DOCX Packet...');
   assert.equal(c5v1Harness.includes('YALKEN_C5_CERTIFICATION_ANCHORS'), true);
   assert.equal(mainSource.includes('YALKEN_C5_CERTIFICATION_ANCHORS'), false);

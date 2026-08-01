@@ -1,6 +1,7 @@
 'use strict';
 
 const crypto = require('crypto');
+const { buildDocxReviewPacketBuffer } = require('./docxReviewPacketBuilder');
 
 const FULL_MANUSCRIPT_REVIEW_DOCX_COMMAND_ID = 'cmd.project.review.exportFullManuscriptDocxReviewPacket';
 const FULL_MANUSCRIPT_REVIEW_DOCX_CAPABILITY_ID = 'cap.project.review.exportFullManuscriptDocxReviewPacket';
@@ -182,9 +183,10 @@ function buildFullManuscriptBlocks(scenes, cryptoPort = createDefaultCryptoPort(
         locatorSignals: [
           {
             signalId: `${blockId}:signed-full-manuscript-scene-block-baseline`,
-            kind: 'signed-full-manuscript-scene-block-baseline-v1',
+            kind: 'signed-scene-block-baseline-v1',
             authority: 'required-apply-authority',
             value: {
+              scope: 'full-manuscript',
               sceneId: scene.sceneId,
               sceneOrdinal: scene.sceneOrdinal,
               blockId,
@@ -330,7 +332,7 @@ function buildFallbackCoreManifest({
   cryptoPort,
 }) {
   const manifest = {
-    schemaVersion: 'yalken.rtk.word-v4-core-manifest.v1',
+    schemaVersion: 'yalken.rtk.word-v4.core-manifest.v1',
     profileId,
     projectId,
     roundId,
@@ -439,6 +441,21 @@ function buildFullManuscriptDocxReviewPacketSource(input = {}, deps = {}) {
     orderedSceneIds,
   });
   const capabilityManifestDigest = cryptoPort.sha256Json(capabilityManifest);
+  const provisionalBuffer = buildDocxReviewPacketBuffer({
+    sceneText: scenes.map((scene) => scene.text).join('\n\n'),
+    blocks,
+    customProperties: [
+      { name: REVIEW_DOCX_PACKET_AUTH_PROPERTY_NAME, value: 'YRTK1.provisional' },
+      { name: REVIEW_DOCX_PACKET_YRTK2_PROPERTY_NAME, value: 'YRTK2.provisional' },
+    ],
+    advisoryManifest: {
+      roundId,
+      exportId,
+      scope: 'full-manuscript',
+      provisional: true,
+    },
+  });
+  const provisionalDocxSha256 = `sha256:${crypto.createHash('sha256').update(provisionalBuffer).digest('hex')}`;
   const revisionBridge = isPlainObjectValue(deps.revisionBridge) ? deps.revisionBridge : {};
   const transportManifestResult = typeof revisionBridge.createReviewTransportManifestV2 === 'function'
     ? revisionBridge.createReviewTransportManifestV2({
@@ -477,7 +494,7 @@ function buildFullManuscriptDocxReviewPacketSource(input = {}, deps = {}) {
     parserProfileDigest: cryptoPort.sha256Json({ parser: 'parseReviewTransportPackageV2', profile: FULL_MANUSCRIPT_REVIEW_DOCX_PROFILE_ID }),
     capabilityProfileDigest: capabilityManifestDigest,
     artifactIdentities: {
-      provisionalDocxSha256: '',
+      provisionalDocxSha256,
       returnArtifactId: '',
       applyId: '',
       effectIds: [],

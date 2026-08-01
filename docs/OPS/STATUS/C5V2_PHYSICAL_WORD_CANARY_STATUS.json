@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "yalken.rtk.word.c5v2.physicalWordCanary.status.v1",
+  "status": "CANARY_WORD_SIDE_GREEN_NOT_C5_CERTIFIED",
+  "runId": "c5v2-physical-canary-20260801T215839Z",
+  "headShaAtRun": "4027bfc4f6de7e00534383d426e2d8c2744f6448",
+  "originMainShaAtRun": "7b5c2c34cc1b869b25ae12c3cbfd8e62c7bdf20d",
+  "wordVersion": "16.111.2",
+  "sourceDocxSha256": "sha256:cb0bbafe69c429acc64cf5258f42687b6ff68e70762eb9a549014179f107d99c",
+  "returnedDocxSha256": "sha256:2bee9ec69988935028877e9dffa1891f88d14869869b05943485ae8559e94e62",
+  "documentXmlSha256": "sha256:63f05e71774150b8674c4ddbffc40438ae1ec96fa5fc50b66104b101ff2db0ed",
+  "commentsXmlSha256": "sha256:57c9d4b46f0b46b8972062f279c787454b0ba0f420e221b747356d9e17403f4c",
+  "routeCompleted": [
+    "real-yalken-full-manuscript-export-menu-command",
+    "physical-word-open-edit-native-save",
+    "physical-word-close-reopen-object-model-readback",
+    "raw-ooxml-package-summary",
+    "bounded-semantic-oracle-probe"
+  ],
+  "canaryLedger": {
+    "sceneCount": 2,
+    "operationCount": 200,
+    "operationResult": {
+      "safeApply": 200,
+      "manualOrBlocked": 0,
+      "limitations": 0
+    },
+    "wordReadback": {
+      "revisionCount": 240,
+      "commentCount": 38,
+      "readbackChars": 52699
+    }
+  },
+  "artifactPolicy": "large-docx-and-run-artifacts-retained-on-verified-t7-only",
+  "certificationClaim": "NO_PHYSICAL_PROVEN_C5_CERTIFICATION_CLAIM",
+  "remainingProductRouteGaps": [
+    "authenticated-intake-quarantine-preview-explicit-apply-not-yet-physically-executed",
+    "comments-replies-state-formatting-structural-word-attempts-not-yet-yalken-apply-certification"
+  ]
+}

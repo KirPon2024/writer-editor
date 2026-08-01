@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "yalken.atlas.v5.r3.c05.remoteMergeVerificationReceipt.v1",
+  "taskId": "YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_REMOTE_VERIFY",
+  "status": "PASS_R3_C05_REMOTE_MERGE_VERIFIED",
+  "pass": true,
+  "generatedAtUtc": "2026-08-01T01:38:00.000Z",
+  "contour": "R3_C05_RELEASE_SATURATION_REVALIDATION_AND_INDEPENDENT_AUDIT",
+  "sourceReceipt": {
+    "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_RECEIPT.json",
+    "sha256": "b63ec34125723c29b5758b11e739df59268f185c3c29d2e74c3dc965a25b21cc",
+    "status": "PASS_R3_C05_RELEASE_SATURATION_REVALIDATED",
+    "note": "Source receipt is the pre-delivery physical evidence receipt and is intentionally not rewritten after merge."
+  },
+  "delivery": {
+    "branch": "codex/yalken-atlas-v5-r3-c05-release-saturation",
+    "followupReceiptBranch": "codex/yalken-atlas-v5-r3-c05-remote-receipt",
+    "pullRequest": 1341,
+    "prHeadSha": "87c5b4f817477d4efac691f49ee4c7b398e3f920",
+    "mergeCommitSha": "08e0f9085c20c9c5ecb7db506f2a4236677b015e",
+    "verifiedOriginMainSha": "08e0f9085c20c9c5ecb7db506f2a4236677b015e",
+    "remoteBranchDeleted": true,
+    "localHeadEqualsOriginMainAtVerification": true
+  },
+  "ci": {
+    "preMergeRequiredChecks": [
+      {
+        "name": "oss-policy",
+        "conclusion": "SUCCESS"
+      },
+      {
+        "name": "x1-runtime-parity (ubuntu-latest)",
+        "conclusion": "SUCCESS"
+      },
+      {
+        "name": "x1-runtime-parity (windows-latest)",
+        "conclusion": "SUCCESS"
+      }
+    ],
+    "postMergeChecks": [
+      {
+        "name": "ops_vector_close",
+        "conclusion": "SUCCESS"
+      }
+    ]
+  },
+  "localPostMergeVerification": [
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-r3-c05-release-saturation-revalidation.contract.test.js",
+      "result": "PASS",
+      "tests": 3,
+      "pass": 3,
+      "fail": 0
+    },
+    {
+      "command": "npm run -s test:ops",
+      "result": "PASS"
+    },
+    {
+      "command": "npm run -s design-os:doctrine",
+      "result": "PASS"
+    },
+    {
+      "command": "npm run -s oss:policy",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs --json",
+      "result": "PASS",
+      "changedGovernanceFiles": 0,
+      "missingApprovals": 0
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "tests": 798,
+      "pass": 734,
+      "fail": 0,
+      "skipped": 64
+    }
+  ],
+  "releaseTruth": {
+    "r3C05OpenP0": [],
+    "programDoneClaim": false,
+    "nextRequiredGate": "REPLAY_INDEPENDENT_AUDIT_NIGHT_01_FINDINGS_AGAINST_REMOTE_MAIN_08e0f9085c20c9c5ecb7db506f2a4236677b015e"
+  }
+}

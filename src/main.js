@@ -10060,6 +10060,14 @@ function getAtlasAuthorDataForProjection(manifest = {}) {
   return JSON.parse(JSON.stringify(atlas));
 }
 
+function getAtlasAuthorDataForCommandBinding(manifest = {}) {
+  const atlas = isPlainObjectValue(manifest.atlas) ? manifest.atlas : null;
+  if (!atlas) {
+    return getAtlasAuthorDataForProjection({});
+  }
+  return JSON.parse(JSON.stringify(atlas));
+}
+
 function getManualMapAuthorDataForProjection(manifest = {}) {
   const manualMaps = isPlainObjectValue(manifest.manualMaps) ? manifest.manualMaps : {};
   if (manualMaps.schemaVersion !== 'manualMap.author.v1' || !isPlainObjectValue(manualMaps.maps)) {
@@ -10215,7 +10223,7 @@ async function buildProductCoreStateForCurrentProject() {
           [projectId]: {
             id: projectId,
             title: manifest?.projectName || currentProjectName || DEFAULT_PROJECT_NAME,
-            atlas: getAtlasAuthorDataForProjection(manifest),
+            atlas: getAtlasAuthorDataForCommandBinding(manifest),
             manualMaps: getManualMapAuthorDataForProjection(manifest),
             ideas: getIdeaAuthorDataForProjection(manifest),
             meanings: getMeaningAuthorDataForProjection(manifest),

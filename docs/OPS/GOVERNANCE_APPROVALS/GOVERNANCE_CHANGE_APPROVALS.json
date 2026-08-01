@@ -8052,27 +8052,6 @@
       "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
     },
     {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "7c52816780c2e465ba23bf45a269a36f8b5650222d16c2a00ef654fbea31ca90",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T07:00:00.000Z",
-      "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "7262e5f9e73d8064c22175e59148a75f4e3a71b485cced6ec18abb7ec964af01",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T07:00:00.000Z",
-      "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "7bb0fe016caef91ee752b5dc68f5ad96ae0d4be11e6c3d06a07adae7c4458476",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T07:00:00.000Z",
-      "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
-    },
-    {
       "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_VARIED_WAVE64_PRODUCT_LOOP_RECEIPT.json",
       "sha256": "ed5f9c3230f8b78921884a4f706fe4b1294203c017b65e6d3e04a9b5ae039c57",
       "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
@@ -8082,13 +8061,6 @@
     {
       "filePath": "scripts/ops/rtk-word-release-audit-p0-varied-wave64-product-loop.mjs",
       "sha256": "fc353e16a453c0a1945cd6c8cab596656e21996df52eeaa9750bb5e5dbec26d9",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T07:00:00.000Z",
-      "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-release-audit-p0-product-comments-mixed-multiscene.mjs",
-      "sha256": "f5647edbdb5828dde2c00eea3a9f834c9f7708ae695c759ad8fee089921bb2e8",
       "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
       "approvedAtUtc": "2026-08-01T07:00:00.000Z",
       "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
@@ -8106,6 +8078,55 @@
       "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
       "approvedAtUtc": "2026-08-01T07:00:00.000Z",
       "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "598cd31bf00a6c0a4e5d14c195998539e7d135543c2f894db1c67a8fcc9a910e",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T07:30:00.000Z",
+      "rationale": "Approve bounded Word P0 format Unicode structure stress product loop: synthetic physical Word cases exercise Unicode tracked replacement apply, formatting diagnostics, structural diagnostics, authenticated intake, visible preview, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "464cdad052d11cd830d2f70734204028dc4af0ba42e982ed5ae960acc2d5f598",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T07:30:00.000Z",
+      "rationale": "Approve bounded Word P0 format Unicode structure stress product loop: synthetic physical Word cases exercise Unicode tracked replacement apply, formatting diagnostics, structural diagnostics, authenticated intake, visible preview, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "173684aa484606b5c961bbbcf913602015ecd6ec36848fe68467f8cf1f762cb8",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T07:30:00.000Z",
+      "rationale": "Approve bounded Word P0 format Unicode structure stress product loop: synthetic physical Word cases exercise Unicode tracked replacement apply, formatting diagnostics, structural diagnostics, authenticated intake, visible preview, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_FORMAT_UNICODE_STRUCTURE_STRESS_RECEIPT.json",
+      "sha256": "ffc5b4c126382fd6ee7dac77d48d27e192e85ed258cc47f7785e65c498c118a8",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T07:30:00.000Z",
+      "rationale": "Approve bounded Word P0 format Unicode structure stress product loop: synthetic physical Word cases exercise Unicode tracked replacement apply, formatting diagnostics, structural diagnostics, authenticated intake, visible preview, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-format-unicode-structure-stress.mjs",
+      "sha256": "79d7889edeae706cfb1c077609d9302dc60818a450c2cbf7fafb008fd13df7cc",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T07:30:00.000Z",
+      "rationale": "Approve bounded Word P0 format Unicode structure stress product loop: synthetic physical Word cases exercise Unicode tracked replacement apply, formatting diagnostics, structural diagnostics, authenticated intake, visible preview, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-product-comments-mixed-multiscene.mjs",
+      "sha256": "ff1a0c7683b5d29db21c31086a4f911cd03bf089e64cd0741dc3739f2ae82b34",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T07:30:00.000Z",
+      "rationale": "Approve bounded Word P0 format Unicode structure stress product loop: synthetic physical Word cases exercise Unicode tracked replacement apply, formatting diagnostics, structural diagnostics, authenticated intake, visible preview, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-format-unicode-structure-stress.contract.test.js",
+      "sha256": "a861d225691e6b7b106e098c31e3f169be2759e935f9059023eb4e3edbbc86c9",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T07:30:00.000Z",
+      "rationale": "Approve bounded Word P0 format Unicode structure stress product loop: synthetic physical Word cases exercise Unicode tracked replacement apply, formatting diagnostics, structural diagnostics, authenticated intake, visible preview, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
     }
   ]
 }

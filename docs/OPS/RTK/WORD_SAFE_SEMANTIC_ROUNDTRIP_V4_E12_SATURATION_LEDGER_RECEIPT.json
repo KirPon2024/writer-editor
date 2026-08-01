@@ -696,6 +696,15 @@
       "wordSaturationScope": "DECLARED_SUPPORT_ENVELOPE_ONLY",
       "readyForFreshIndependentExactHeadAudit": true,
       "googleDocsOpened": false
+    },
+    "googleDocsG00DiscoveryBinding": {
+      "status": "BOUND_DISCOVERY_ONLY_READY_FOR_G01",
+      "sourceEvidence": "GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT",
+      "physicalGoogleEvidence": 0,
+      "productRuntimeWired": 0,
+      "automaticApplyCertified": false,
+      "blockers": 12,
+      "nextStage": "GOOGLE_DOCS_G01_OFFICE_MODE_PHYSICAL_DISCOVERY_OR_EXTERNAL_ACTIVATION_BOUNDARY"
     }
   },
   "aggregateTotals": {
@@ -924,5 +933,25 @@
     "MONOLITHIC_150K_TRACKED_REPLACEMENT_MANUAL_RESOURCE_LIMIT",
     "MONOLITHIC_300K_TRACKED_REPLACEMENT_MANUAL_RESOURCE_LIMIT",
     "MONOLITHIC_500K_TRACKED_REPLACEMENT_MANUAL_RESOURCE_LIMIT"
-  ]
+  ],
+  "formalWordStageClosure": {
+    "status": "WORD_STAGE_FORMALLY_CLOSED_ACCEPTED_DECLARED_SUPPORT_ENVELOPE",
+    "receiptPath": "docs/OPS/RTK/WORD_FOR_MAC_STAGE_FORMAL_CLOSURE_RECEIPT.json",
+    "independentAuditThread": "019fbd7d-f375-7a72-836f-81301bd6eda9",
+    "auditedSha": "e17f732b4ab38cb70a5c8cb6a7f3fd81d1c712fb",
+    "acceptedDeclaredSupportEnvelopeOnly": true,
+    "automaticApplyCertified": false
+  },
+  "googleDocsStage": {
+    "status": "GOOGLE_DOCS_G00_DISCOVERY_BOUND_READY_FOR_G01",
+    "receiptPath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json",
+    "matrixPath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
+    "existingEvidenceClaimGateOnly": true,
+    "physicalGoogleEvidence": 0,
+    "productRuntimeWired": 0,
+    "automaticApplyCertified": false,
+    "blockers": 12,
+    "googleStageDone": false,
+    "nextStage": "GOOGLE_DOCS_G01_OFFICE_MODE_PHYSICAL_DISCOVERY_OR_EXTERNAL_ACTIVATION_BOUNDARY"
+  }
 }

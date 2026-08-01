@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "yalken.rtk.word-for-mac.formal-stage-closure-receipt.v1",
+  "taskId": "YALKEN_WORD_STAGE_FORMAL_CLOSURE",
+  "status": "WORD_STAGE_FORMALLY_CLOSED_ACCEPTED_DECLARED_SUPPORT_ENVELOPE",
+  "result": "PASS",
+  "createdAtUtc": "2026-08-01T16:05:00.000Z",
+  "controllerAcceptance": {
+    "independentAuditThread": "019fbd7d-f375-7a72-836f-81301bd6eda9",
+    "auditedSha": "e17f732b4ab38cb70a5c8cb6a7f3fd81d1c712fb",
+    "auditVerdict": "PASS",
+    "zeroOpenP0": true,
+    "zeroOpenP1": true,
+    "zeroOpenP2": true,
+    "wordStageAccepted": true,
+    "wordSaturationAccepted": "TRUE_DECLARED_SUPPORT_ENVELOPE_ONLY",
+    "googleDocsStageEligibility": "CONFIRMED"
+  },
+  "sourceBindings": [
+    {
+      "id": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT",
+      "path": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_SCALE_ENVELOPE_TERMINAL_RECEIPT.json",
+      "sha256": "701553e21d222596f5da3cdff9de30a5602cbce488d9d834a201796bee09373e",
+      "status": "BOUND"
+    },
+    {
+      "id": "WORD_NORMALIZED_CAPABILITY_MATRIX",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_V1.json",
+      "sha256": "e2052fd92944517c06f4a4f50182814f951e955c1c78df751307d4ee3448d805",
+      "status": "BOUND"
+    },
+    {
+      "id": "POST_D1_PORTABILITY_PROGRAM",
+      "path": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "29f446b4fac4144a3d25cded20f0daa5ea574c0370dae7a09f82b6c271aa5e66",
+      "status": "BOUND"
+    },
+    {
+      "id": "WORD_CAPABILITY_PROFILE",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "ecd9b47d488a41f05d9b96703d6da546ec3f5416b775f4598ad5e509acadd580",
+      "status": "BOUND"
+    },
+    {
+      "id": "WORD_SATURATION_LEDGER",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "10cd3dc04bba1c46a2ae0ddf8f755001f62dd5e6087c21e6e52cca8ee325cdb8",
+      "status": "BOUND"
+    }
+  ],
+  "acceptedEnvelope": {
+    "profile": "Microsoft Word for Mac 16.111.2",
+    "scope": "DECLARED_SUPPORT_ENVELOPE_ONLY",
+    "supportedExplicitUserTrackedReplacementWordsMax": 100000,
+    "aboveEnvelopeBoundaryWords": [
+      150000,
+      300000,
+      500000
+    ],
+    "aboveEnvelopeDisposition": "MANUAL_RESOURCE_LIMIT",
+    "automaticApplyCertified": false,
+    "broadAutomaticApplyCertified": false,
+    "googleDocsOpenedDuringWordStage": false,
+    "programDone": false
+  },
+  "preservedTypedLimitations": {
+    "modernReplies": "TYPED_WORD_OOXML_LIMITATION",
+    "resolveReopen": "TYPED_WORD_OOXML_LIMITATION",
+    "formattingApply": "DIAGNOSTIC_ONLY_TYPED_LIMITATION",
+    "structuralApply": "MANUAL_OR_BLOCKED_TYPED_LIMITATION",
+    "scale150k300k500k": "MANUAL_RESOURCE_LIMIT"
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0,
+    "productNetwork": 0
+  },
+  "matrixBinding": {
+    "totalCells": 25,
+    "blocksWordSaturation": 0,
+    "productRuntimeWired": 11,
+    "physicalWordEvidence": 16,
+    "automaticApplyCertified": 0
+  },
+  "nextStage": "GOOGLE_DOCS_G00_DISCOVERY_BINDING",
+  "nonClaims": [
+    "Word corpus growth is closed unless new source-bound evidence reopens it.",
+    "Word typed limitations remain typed limitations.",
+    "Program DONE is not claimed.",
+    "Google Docs support is not claimed by Word closure."
+  ]
+}

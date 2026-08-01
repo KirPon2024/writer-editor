@@ -1283,5 +1283,22 @@
     "readyForFreshIndependentExactHeadAudit": true,
     "automaticApplyCertified": false,
     "googleDocsOpened": false
+  },
+  "formalWordStageClosure": {
+    "status": "WORD_STAGE_FORMALLY_CLOSED_ACCEPTED_DECLARED_SUPPORT_ENVELOPE",
+    "receiptPath": "docs/OPS/RTK/WORD_FOR_MAC_STAGE_FORMAL_CLOSURE_RECEIPT.json",
+    "acceptedDeclaredSupportEnvelopeOnly": true,
+    "supportedExplicitUserTrackedReplacementWordsMax": 100000,
+    "aboveEnvelopeDisposition": "MANUAL_RESOURCE_LIMIT",
+    "automaticApplyCertified": false
+  },
+  "nextEditorStage": {
+    "stage": "GOOGLE_DOCS_G00_DISCOVERY_BINDING",
+    "status": "GOOGLE_DOCS_G00_DISCOVERY_BOUND_READY_FOR_G01",
+    "matrixPath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
+    "supportClaimed": false,
+    "physicalEvidence": 0,
+    "productRuntimeWired": 0,
+    "automaticApplyCertified": false
   }
 }

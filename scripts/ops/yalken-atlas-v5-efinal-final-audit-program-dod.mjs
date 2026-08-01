@@ -5,10 +5,19 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const REPORT_SCHEMA = 'yalken.atlas.v5.efinal.finalAuditProgramDod.v1';
+const REPORT_SCHEMA = 'yalken.atlas.v5.efinal.finalAuditProgramDod.v2';
 const DEFAULT_OUT_DIR = path.resolve('docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD');
 
-const REQUIRED_RECEIPTS = Object.freeze({
+const PRODUCT_RUNTIME_PREFIXES = Object.freeze([
+  'src/',
+  'package.json',
+  'package-lock.json',
+  'electron-builder',
+  'build/',
+  'assets/',
+]);
+
+const LEGACY_RECEIPT_DIAGNOSTIC_PATHS = Object.freeze({
   stage00: 'docs/OPS/STATUS/YALKEN_ATLAS_V5_STAGE_00_BINDING_AND_CALIBRATION_RECEIPT.json',
   stage01: 'docs/OPS/STATUS/YALKEN_ATLAS_V5_E01_C04_ATLAS_CONFIRMATION_REBUILD_RECOVERY_RECEIPT.json',
   stage02: 'docs/OPS/STATUS/YALKEN_ATLAS_V5_E02B_C04_LAYOUT_RESOURCE_BUDGET_PROOF_RECEIPT.json',
@@ -26,68 +35,173 @@ const REQUIRED_RECEIPTS = Object.freeze({
   stage11c03: 'docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION_RECEIPT.json',
   stage11c04: 'docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF_RECEIPT.json',
   e11Aggregate: 'docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_ACTIVE_PLATFORM_CERTIFICATION_REVALIDATION_RECEIPT.json',
-  erC00: 'docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C00_ACCEPTANCE_TRUTH_STATE_RECONCILIATION_RECEIPT.json',
-  erC01: 'docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C01_UNICODE_ANCHOR_SCHEMA_INTEGRITY_RECEIPT.json',
-  erC02: 'docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY_RECEIPT.json',
-  erC03: 'docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_COMMAND_KERNEL_AUTHORITY_RECEIPT.json',
-  erC05: 'docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C05_REAL_WORKER_MEASURED_10K_BUDGET_RECEIPT.json',
-  r2C03: 'docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY_RECEIPT.json',
-  r2C04: 'docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C04_AUTHORITY_RUNTIME_HYGIENE_RECEIPT.json',
   r2C05: 'docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C05_HONEST_BLACK_BOX_ACCEPTANCE_RECEIPT.json',
   r2C06: 'docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C06_FINAL_REVALIDATION_RECEIPT.json',
+  r3C05: 'docs/OPS/STATUS/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_RECEIPT.json',
+  night01C01: 'docs/OPS/STATUS/YALKEN_ATLAS_V5_NIGHT01_C01_REMOTE_MERGE_VERIFICATION_RECEIPT.json',
 });
-
-const DOD_MAP = Object.freeze([
-  ['DOD_01_FOUR_CANONICAL_PROJECTIONS_AND_MANUAL_MAPS', ['stage03', 'r2C05', 'r2C06']],
-  ['DOD_02_SHARED_GRAPH_WORKBENCH_DISTINCT_AUTHORITY', ['stage02', 'r2C05', 'r2C04']],
-  ['DOD_03_PRODUCT_CORE_SINGLE_DOMAIN_TRUTH', ['erC00', 'r2C04', 'stage10c06']],
-  ['DOD_04_COMMAND_KERNEL_SINGLE_WRITE_PATH', ['r2C04', 'stage01', 'r2C05']],
-  ['DOD_05_DESIGN_OS_MANIFEST_TYPED_SLOTS', ['r2C05', 'r2C03']],
-  ['DOD_06_ATLAS_EVIDENTIAL_REVERSIBLE_NO_MANUSCRIPT_REWRITE', ['stage01', 'stage04', 'erC01']],
-  ['DOD_07_TIME_CALENDAR_CONTINUITY_WORKS', ['stage06', 'r2C06']],
-  ['DOD_08_GLOBAL_LANGUAGE_BASELINE_UNICODE', ['stage07', 'erC01']],
-  ['DOD_09_BASIC_DEEP_LANGUAGES_CERTIFIED', ['stage07']],
-  ['DOD_10_MIXED_CJK_RTL_IME_UNICODE_EDGES', ['stage07', 'erC01']],
-  ['DOD_11_MANUAL_MAPS_ATLAS_DECISIONS_AUTHOR_DATA_RECOVERY', ['stage01', 'stage02', 'stage09', 'r2C05']],
-  ['DOD_12_DERIVED_CACHE_REBUILDABLE', ['stage08', 'stage11c02']],
-  ['DOD_13_HISTORY_COMMENTS_COLLAB_NO_SECOND_TRUTH', ['stage10c01', 'stage10c02', 'stage10c06']],
-  ['DOD_14_IMPORT_EXPORT_ROUNDTRIP_FULL_ARCHIVE', ['stage09', 'stage11c02']],
-  ['DOD_15_PERFORMANCE_BUDGETS_APPROVED_CORPORA_HARDWARE', ['stage08', 'erC05', 'stage11c04']],
-  ['DOD_16_GRAPH_ACCESSIBILITY_FALLBACK_PARITY', ['stage02', 'r2C03', 'stage11c03']],
-  ['DOD_17_ACTIVE_PLATFORMS_PACKAGED_VERIFICATION', ['stage11c01', 'stage11c02', 'stage11c03', 'stage11c04', 'e11Aggregate']],
-  ['DOD_18_FACTUAL_DOCS_MATCH_RUNTIME', ['erC00', 'r2C06', 'stage11c04']],
-  ['DOD_19_NO_CAPABILITY_SILENTLY_LOST', ['stage09', 'r2C06']],
-  ['DOD_20_PROGRAM_ORDER_AND_DELIVERY_COMPLETE', ['stage00', 'r2C06', 'e11Aggregate']],
-]);
-
-const INVARIANT_MAP = Object.freeze([
-  ['INV_01_ANALYSIS_MAP_NO_MANUSCRIPT_MUTATION_WITHOUT_COMMAND', ['stage01', 'erC03']],
-  ['INV_02_PRODUCT_MUTATION_THROUGH_COMMAND_KERNEL', ['erC03']],
-  ['INV_03_UI_WORKER_NO_DIRECT_CORE_STORAGE_AUTHORITY', ['erC03', 'erC05']],
-  ['INV_04_AUTO_ATLAS_NO_ENTITY_MERGE', ['stage04']],
-  ['INV_05_AUTO_ATLAS_NO_SEMANTIC_RELATION_CREATION', ['stage04']],
-  ['INV_06_AUTO_OUTPUT_HAS_NARRATIVE_EVIDENCE', ['stage01', 'stage04']],
-  ['INV_07_UNSUPPORTED_LANGUAGE_EXACT_ONLY', ['stage07']],
-  ['INV_08_UNICODE_TEXT_PRESERVED', ['erC01']],
-  ['INV_09_DERIVED_CACHE_DELETABLE_REBUILDABLE', ['stage08', 'stage11c02']],
-  ['INV_10_STALE_ASYNC_RESULT_NOT_PUBLISHED', ['stage04', 'stage08', 'erC05']],
-  ['INV_11_STATE_PLANES_SEPARATED', ['erC00', 'stage10c06']],
-  ['INV_12_UI_RESET_NO_AUTHORING_LOSS', ['stage11c02']],
-  ['INV_13_MAP_NO_SECOND_HIDDEN_TRUTH', ['stage02', 'stage10c06']],
-  ['INV_14_VIEWSTATE_NOT_AUTHOR_CONTENT_TRUTH', ['stage02']],
-  ['INV_15_DESIGN_OS_FORM_NOT_DOMAIN_SEMANTICS', ['r2C05', 'r2C03']],
-  ['INV_16_CAPABILITY_REVALIDATED_AT_DISPATCH', ['r2C04', 'stage09']],
-  ['INV_17_EXTERNAL_INPUT_VALIDATED_BY_ADAPTER', ['stage09', 'stage11c02']],
-  ['INV_18_HEAVY_WORK_OFF_TYPING_HOT_PATH', ['erC05', 'stage08']],
-  ['INV_19_GRAPH_ACTIONS_HAVE_NONVISUAL_EQUIVALENTS', ['stage02', 'r2C03']],
-  ['INV_20_RECOVERY_EXPORT_NOT_BLOCKED_BY_TIER', ['stage09', 'stage11c02']],
-]);
 
 const FORBIDDEN_READINESS_RECEIPT_PATHS = new Set([
   'docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C04_PRODUCT_VERTICAL_JOURNEYS_GRAPH_WORKBENCH_RECEIPT.json',
   'docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY_RECEIPT.json',
   'docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_HANDOFF_RECEIPT.json',
   'docs/OPS/STATUS/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_RECEIPT.json',
+]);
+
+const DEFAULT_MACHINE_SOURCE_PATHS = Object.freeze({
+  r3C05PhysicalRerunReport: 'docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/r3-c05-release-saturation-revalidation-report.json',
+  p0_01Receipt: 'docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_01_FUTURE_SCHEMA_LOSS_RECEIPT.json',
+});
+
+const FINAL_REPAIR_QUEUE = Object.freeze([
+  {
+    id: 'P0_01_FUTURE_SCHEMA_LOSS',
+    receiptPath: 'docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_01_FUTURE_SCHEMA_LOSS_RECEIPT.json',
+    requiredAcceptance: [
+      'futureSchemaLossFixed',
+      'commandBridgePathTested',
+      'migrationNegativeTested',
+      'reopenTested',
+      'recoverySnapshotTested',
+      'receiptAloneIsNotReadinessProof',
+      'fullRunnerPassed',
+    ],
+  },
+  {
+    id: 'P0_02_EFINAL_FALSE_GREEN',
+    receiptPath: 'docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_02_EFINAL_FALSE_GREEN_RECEIPT.json',
+    requiredAcceptance: [
+      'legacyReceiptStatusRejected',
+      'machineCapabilityGateInstalled',
+      'exactSourceBindingRequired',
+      'negativeControlsRequired',
+      'programDoneClaimFalseUntilAllP0Closed',
+    ],
+  },
+  {
+    id: 'P0_03_PACKAGED_JOURNEY_STALE',
+    receiptPath: 'docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE_RECEIPT.json',
+    requiredAcceptance: ['packagedJourneyFreshOnCurrentRuntimeSha', 'visibleControlsOnly', 'persistReopenRecoveryImportExportProof'],
+  },
+  {
+    id: 'P0_04_DESIGN_OS_BINDING',
+    receiptPath: 'docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_04_DESIGN_OS_BINDING_RECEIPT.json',
+    requiredAcceptance: ['featureIntegrationManifestBound', 'slotResolverBound', 'negativeBypassTested'],
+  },
+  {
+    id: 'P0_05_MANUAL_MAP_PORTABILITY',
+    receiptPath: 'docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY_RECEIPT.json',
+    requiredAcceptance: ['runtimeUiPathConnected', 'repeatImportTested', 'pdfProofOrTypedLoss'],
+  },
+  {
+    id: 'P0_06_MULTILINGUAL_MATCHER',
+    receiptPath: 'docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_06_MULTILINGUAL_MATCHER_RECEIPT.json',
+    requiredAcceptance: ['languagePolicyBeforeMatching', 'graphemeAwareMatching', 'unicodeMatrixProductEvidence'],
+  },
+  {
+    id: 'P0_07_STRESS_PRODUCT_PROOF',
+    receiptPath: 'docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_07_STRESS_PRODUCT_PROOF_RECEIPT.json',
+    requiredAcceptance: ['persistedLargeProjects', 'rendered10k50kGraphs', 'measuredLimitsNoSilentCap'],
+  },
+  {
+    id: 'P0_08_STAGE10_PRODUCT_WIRING',
+    receiptPath: 'docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_08_STAGE10_PRODUCT_WIRING_RECEIPT.json',
+    requiredAcceptance: ['localProductPathsConnected', 'persistenceReopenRecoveryUndoConflicts', 'shadowDeclaredShadow'],
+  },
+]);
+
+const CAPABILITY_REQUIREMENTS = Object.freeze({
+  atlasEntityRelationUi: {
+    journeyKey: 'c01',
+    requiredAccepted: [
+      'visibleInputRuntime',
+      'pointerAndKeyboardUsed',
+      'commandKernelButtonsOnly',
+      'sceneTextSaved',
+      'persistedEntityAliasMentionEvidence',
+      'persistedRelationOperations',
+      'reopenProjectionVisible',
+    ],
+    requiredNegativeFalse: [
+      'directIpcAcceptedJourney',
+      'hiddenFirstEntityFallbackAccepted',
+      'generatedArtifactOnlyAccepted',
+      'networkActivated',
+    ],
+  },
+  atlasTemporalContinuityUi: {
+    journeyKey: 'c02',
+    requiredAccepted: [
+      'visibleInputRuntime',
+      'pointerAndKeyboardUsed',
+      'temporalCommandsVisible',
+      'continuityCommandVisibleAndExplicit',
+      'savedQueryCommandVisible',
+      'persistedTemporalContinuityQueryTruth',
+      'reopenContinuityVisible',
+      'reopenSavedQueryVisible',
+      'noStatusOnlyContinuityRoute',
+      'noSilentSceneSlice',
+    ],
+    requiredNegativeFalse: [
+      'statusOnlyCorrectionAccepted',
+      'silentSceneSliceAccepted',
+      'directIpcAcceptedJourney',
+      'generatedArtifactOnlyAccepted',
+      'networkActivated',
+    ],
+  },
+  manualMapPortabilityUi: {
+    journeyKey: 'c03',
+    requiredAccepted: [
+      'visibleInputRuntime',
+      'pointerAndKeyboardUsed',
+      'attachmentPortalTemplateCommandsVisible',
+      'visibleReadbackRuntime',
+      'persistedPortabilityTruth',
+      'reopenProjectionVisible',
+      'exportRepeatImport',
+      'imagePdfEvidenceIncludesPortability',
+      'noDirectIpcOrStorageBypass',
+    ],
+    requiredNegativeFalse: [
+      'directIpcAcceptedJourney',
+      'generatedArtifactOnlyAccepted',
+      'hiddenPortabilityControlsAccepted',
+      'missingPortabilityTruthAccepted',
+      'exportWithoutRepeatImportAccepted',
+      'networkActivated',
+      'viewStatePersisted',
+    ],
+  },
+  multilingualWorkerStress: {
+    journeyKey: 'c04',
+    requiredAccepted: [],
+    requiredNegativeFalse: [],
+  },
+});
+
+const DOD_MACHINE_MAP = Object.freeze([
+  ['DOD_01_FOUR_CANONICAL_PROJECTIONS_AND_MANUAL_MAPS', ['atlasEntityRelationUi', 'manualMapPortabilityUi']],
+  ['DOD_02_SHARED_GRAPH_WORKBENCH_DISTINCT_AUTHORITY', ['manualMapPortabilityUi']],
+  ['DOD_03_PRODUCT_CORE_SINGLE_DOMAIN_TRUTH', ['atlasEntityRelationUi', 'manualMapPortabilityUi']],
+  ['DOD_04_COMMAND_KERNEL_SINGLE_WRITE_PATH', ['atlasEntityRelationUi', 'manualMapPortabilityUi']],
+  ['DOD_05_DESIGN_OS_MANIFEST_TYPED_SLOTS', ['manualMapPortabilityUi']],
+  ['DOD_06_ATLAS_EVIDENTIAL_REVERSIBLE_NO_MANUSCRIPT_REWRITE', ['atlasEntityRelationUi']],
+  ['DOD_07_TIME_CALENDAR_CONTINUITY_WORKS', ['atlasTemporalContinuityUi']],
+  ['DOD_08_GLOBAL_LANGUAGE_BASELINE_UNICODE', ['multilingualWorkerStress']],
+  ['DOD_09_BASIC_DEEP_LANGUAGES_CERTIFIED', ['multilingualWorkerStress']],
+  ['DOD_10_MIXED_CJK_RTL_IME_UNICODE_EDGES', ['multilingualWorkerStress']],
+  ['DOD_11_MANUAL_MAPS_ATLAS_DECISIONS_AUTHOR_DATA_RECOVERY', ['atlasEntityRelationUi', 'manualMapPortabilityUi']],
+  ['DOD_12_DERIVED_CACHE_REBUILDABLE', ['multilingualWorkerStress']],
+  ['DOD_13_HISTORY_COMMENTS_COLLAB_NO_SECOND_TRUTH', ['atlasEntityRelationUi']],
+  ['DOD_14_IMPORT_EXPORT_ROUNDTRIP_FULL_ARCHIVE', ['manualMapPortabilityUi']],
+  ['DOD_15_PERFORMANCE_BUDGETS_APPROVED_CORPORA_HARDWARE', ['multilingualWorkerStress']],
+  ['DOD_16_GRAPH_ACCESSIBILITY_FALLBACK_PARITY', ['manualMapPortabilityUi']],
+  ['DOD_17_ACTIVE_PLATFORMS_PACKAGED_VERIFICATION', ['atlasEntityRelationUi', 'atlasTemporalContinuityUi', 'manualMapPortabilityUi']],
+  ['DOD_18_FACTUAL_DOCS_MATCH_RUNTIME', ['atlasEntityRelationUi', 'atlasTemporalContinuityUi', 'manualMapPortabilityUi', 'multilingualWorkerStress']],
+  ['DOD_19_NO_CAPABILITY_SILENTLY_LOST', ['atlasEntityRelationUi', 'manualMapPortabilityUi']],
+  ['DOD_20_PROGRAM_ORDER_AND_DELIVERY_COMPLETE', ['atlasEntityRelationUi', 'atlasTemporalContinuityUi', 'manualMapPortabilityUi', 'multilingualWorkerStress']],
 ]);
 
 function parseArgs(argv) {
@@ -133,68 +247,30 @@ function readJson(repoRoot, relativePath) {
   return JSON.parse(fs.readFileSync(path.resolve(repoRoot, relativePath), 'utf8'));
 }
 
-function receiptPass(receipt) {
-  if (receipt && receipt.pass === true) return true;
-  if (receipt && receipt.ok === true) return true;
-  const status = String(receipt?.status || receipt?.deliveryStatus || receipt?.result || '').toUpperCase();
-  return status.includes('PASS')
-    || status.includes('DELIVERED')
-    || status.includes('DONE')
-    || status.includes('READY_FOR_DELIVERY')
-    || status.includes('READY_FOR_E11_COMPILATION')
-    || status.includes('VALIDATED');
+function readJsonIfExists(repoRoot, relativePath) {
+  const fullPath = path.resolve(repoRoot, relativePath);
+  if (!fs.existsSync(fullPath)) return null;
+  return JSON.parse(fs.readFileSync(fullPath, 'utf8'));
 }
 
-function buildReceiptState(repoRoot, requiredReceipts = REQUIRED_RECEIPTS) {
-  const receipts = {};
-  const failures = [];
-  for (const [key, relativePath] of Object.entries(requiredReceipts)) {
-    const proof = fileProof(repoRoot, relativePath);
-    let parsed = null;
-    let parseOk = false;
-    if (proof.exists) {
-      try {
-        parsed = readJson(repoRoot, relativePath);
-        parseOk = true;
-      } catch {
-        failures.push({ code: 'RECEIPT_PARSE_FAILED', key, path: relativePath });
-      }
-    } else {
-      failures.push({ code: 'RECEIPT_MISSING', key, path: relativePath });
-    }
-    const pass = parseOk && receiptPass(parsed);
-    if (parseOk && !pass) failures.push({ code: 'RECEIPT_NOT_PASSING', key, path: relativePath });
-    if (FORBIDDEN_READINESS_RECEIPT_PATHS.has(relativePath)) {
-      failures.push({ code: 'FORBIDDEN_STALE_READINESS_RECEIPT', key, path: relativePath });
-    }
-    receipts[key] = {
-      key,
-      path: relativePath,
-      proof,
-      parseOk,
-      pass,
-      status: parsed?.status || parsed?.deliveryStatus || parsed?.result || '',
-      contourId: parsed?.contourId || '',
-    };
-  }
-  return { receipts, failures };
+function resolveEvidencePath(repoRoot, evidencePath) {
+  if (!evidencePath) return '';
+  return path.isAbsolute(evidencePath) ? evidencePath : path.resolve(repoRoot, evidencePath);
 }
 
-function evidenceRows(map, receipts) {
-  return map.map(([id, keys]) => {
-    const missing = keys.filter((key) => receipts[key]?.pass !== true);
-    return {
-      id,
-      requiredEvidence: keys.map((key) => ({
-        key,
-        path: receipts[key]?.path || '',
-        sha256: receipts[key]?.proof?.sha256 || '',
-        pass: receipts[key]?.pass === true,
-      })),
-      pass: missing.length === 0,
-      missing,
-    };
-  });
+function relativeEvidencePath(repoRoot, evidencePath) {
+  if (!evidencePath) return '';
+  return path.relative(repoRoot, resolveEvidencePath(repoRoot, evidencePath));
+}
+
+function isProductRuntimePath(filePath) {
+  return PRODUCT_RUNTIME_PREFIXES.some((prefix) => filePath === prefix || filePath.startsWith(prefix));
+}
+
+function diffNames(repoRoot, fromSha, toSha) {
+  if (!fromSha || !toSha || fromSha === toSha) return [];
+  const result = runGit(['diff', '--name-only', `${fromSha}..${toSha}`], repoRoot);
+  return result.ok && result.stdout ? result.stdout.split(/\r?\n/u).filter(Boolean) : [];
 }
 
 function buildGitIdentity(repoRoot) {
@@ -202,7 +278,7 @@ function buildGitIdentity(repoRoot) {
   const origin = runGit(['rev-parse', 'origin/main'], repoRoot);
   const branch = runGit(['branch', '--show-current'], repoRoot);
   const dirty = runGit(['status', '--short'], repoRoot);
-  const remoteBranch = runGit(['ls-remote', '--heads', 'origin', branch.stdout], repoRoot);
+  const remoteBranch = branch.stdout ? runGit(['ls-remote', '--heads', 'origin', branch.stdout], repoRoot) : { stdout: '' };
   return {
     headSha: head.stdout,
     originMainSha: origin.stdout,
@@ -213,62 +289,233 @@ function buildGitIdentity(repoRoot) {
   };
 }
 
-export function evaluateFinalAudit(input = {}) {
-  const repoRoot = path.resolve(input.repoRoot || process.cwd());
-  const receiptState = buildReceiptState(repoRoot, input.requiredReceipts || REQUIRED_RECEIPTS);
-  const programDodEvidenceMap = evidenceRows(input.dodMap || DOD_MAP, receiptState.receipts);
-  const criticalInvariants = evidenceRows(input.invariantMap || INVARIANT_MAP, receiptState.receipts);
-  const gitIdentity = buildGitIdentity(repoRoot);
-  const inactivePlatforms = {
-    windows: 'NOT_ACTIVATED_NO_PASS_NO_HOLD',
-    linux: 'NOT_ACTIVATED_NO_PASS_NO_HOLD',
-    web: 'NOT_ACTIVATED_NO_PASS_NO_HOLD',
-    ios: 'NOT_ACTIVATED_NO_PASS_NO_HOLD',
-    android: 'NOT_ACTIVATED_NO_PASS_NO_HOLD',
+function legacyReceiptDiagnostic(repoRoot, receiptPaths = LEGACY_RECEIPT_DIAGNOSTIC_PATHS) {
+  return Object.fromEntries(Object.entries(receiptPaths).map(([key, relativePath]) => {
+    const proof = fileProof(repoRoot, relativePath);
+    let parsed = null;
+    let parseOk = false;
+    if (proof.exists) {
+      try {
+        parsed = readJson(repoRoot, relativePath);
+        parseOk = true;
+      } catch {
+        parseOk = false;
+      }
+    }
+    return [key, {
+      key,
+      path: relativePath,
+      proof,
+      parseOk,
+      status: parsed?.status || parsed?.deliveryStatus || parsed?.result || '',
+      passFlag: parsed?.pass === true || parsed?.ok === true,
+      readinessEligible: false,
+      reason: FORBIDDEN_READINESS_RECEIPT_PATHS.has(relativePath)
+        ? 'FORBIDDEN_STALE_READINESS_RECEIPT'
+        : 'LEGACY_RECEIPT_STATUS_IS_DIAGNOSTIC_ONLY',
+    }];
+  }));
+}
+
+function objectBooleansEqual(source, keys, expected) {
+  return keys.map((key) => ({
+    key,
+    expected,
+    actual: source?.[key],
+    pass: source?.[key] === expected,
+  }));
+}
+
+function proofPass(details) {
+  return details.every((item) => item.pass === true);
+}
+
+function readJourneyReport(repoRoot, r3Report, spec) {
+  const summary = r3Report?.journeys?.[spec.journeyKey] || {};
+  const evidencePath = relativeEvidencePath(repoRoot, summary.reportPath || '');
+  const fullPath = resolveEvidencePath(repoRoot, summary.reportPath || '');
+  if (!summary.reportPath || !fs.existsSync(fullPath)) {
+    return { summary, report: null, path: evidencePath, shaMatches: false };
+  }
+  const report = JSON.parse(fs.readFileSync(fullPath, 'utf8'));
+  const actualSha = sha256File(fullPath);
+  return {
+    summary,
+    report,
+    path: evidencePath,
+    sha256: actualSha,
+    shaMatches: summary.reportSha256 === actualSha,
   };
-  const failures = [
-    ...receiptState.failures,
-    ...programDodEvidenceMap.filter((row) => !row.pass).map((row) => ({ code: 'PROGRAM_DOD_EVIDENCE_MISSING', id: row.id, missing: row.missing })),
-    ...criticalInvariants.filter((row) => !row.pass).map((row) => ({ code: 'CRITICAL_INVARIANT_EVIDENCE_MISSING', id: row.id, missing: row.missing })),
+}
+
+function validateJourneyCapability(repoRoot, capabilityId, spec, r3Report) {
+  const evidence = readJourneyReport(repoRoot, r3Report, spec);
+  const acceptedChecks = objectBooleansEqual(evidence.report?.accepted || {}, spec.requiredAccepted, true);
+  const negativeChecks = objectBooleansEqual(evidence.report?.negativeAssertions || {}, spec.requiredNegativeFalse, false);
+  const baseChecks = [
+    { key: 'summaryPass', expected: true, actual: evidence.summary?.pass, pass: evidence.summary?.pass === true },
+    { key: 'reportPass', expected: true, actual: evidence.report?.pass, pass: evidence.report?.pass === true },
+    { key: 'reportPathExists', expected: true, actual: Boolean(evidence.report), pass: Boolean(evidence.report) },
+    { key: 'reportHashMatchesSummary', expected: true, actual: evidence.shaMatches, pass: evidence.shaMatches === true },
   ];
 
+  if (capabilityId === 'multilingualWorkerStress') {
+    baseChecks.push(
+      { key: 'futureSchemaQuarantine', expected: true, actual: evidence.report?.futureSchemaQuarantine?.quarantined, pass: evidence.report?.futureSchemaQuarantine?.quarantined === true },
+      { key: 'futureSchemaNoDestructiveReplacement', expected: false, actual: evidence.report?.futureSchemaQuarantine?.destructiveReplacement, pass: evidence.report?.futureSchemaQuarantine?.destructiveReplacement === false },
+      { key: 'allExpectedLanguages', expected: true, actual: evidence.report?.multilingualRouting?.allExpectedLanguages, pass: evidence.report?.multilingualRouting?.allExpectedLanguages === true },
+      { key: 'exactOnlyNoFallback', expected: true, actual: evidence.report?.multilingualRouting?.exactOnlyNoFallback, pass: evidence.report?.multilingualRouting?.exactOnlyNoFallback === true },
+      { key: 'splitLanguageTagRejected', expected: true, actual: evidence.report?.splitGraphemeRejections?.languageTagRejected, pass: evidence.report?.splitGraphemeRejections?.languageTagRejected === true },
+      { key: 'splitEvidenceRejected', expected: true, actual: evidence.report?.splitGraphemeRejections?.evidenceRejected, pass: evidence.report?.splitGraphemeRejections?.evidenceRejected === true },
+      { key: 'staleIdentityRejected', expected: true, actual: evidence.report?.workerStress?.staleIdentityRejected, pass: evidence.report?.workerStress?.staleIdentityRejected === true },
+      { key: 'staleRevisionRejected', expected: true, actual: evidence.report?.workerStress?.staleRevisionRejected, pass: evidence.report?.workerStress?.staleRevisionRejected === true },
+      { key: 'storageMutationByWorker', expected: false, actual: evidence.report?.authority?.storageMutationByWorker, pass: evidence.report?.authority?.storageMutationByWorker === false },
+      { key: 'networkRuntime', expected: false, actual: evidence.report?.authority?.networkRuntime, pass: evidence.report?.authority?.networkRuntime === false },
+    );
+  }
+
+  const details = [...baseChecks, ...acceptedChecks, ...negativeChecks];
+  return {
+    id: capabilityId,
+    pass: proofPass(details),
+    evidencePath: evidence.path,
+    evidenceSha256: evidence.sha256 || '',
+    checks: details,
+  };
+}
+
+function validateRepairQueue(repoRoot, repairQueue = FINAL_REPAIR_QUEUE) {
+  return repairQueue.map((item) => {
+    const receipt = readJsonIfExists(repoRoot, item.receiptPath);
+    const proof = fileProof(repoRoot, item.receiptPath);
+    const acceptanceChecks = item.requiredAcceptance.map((key) => ({
+      key,
+      expected: true,
+      actual: receipt?.acceptance?.[key],
+      pass: receipt?.acceptance?.[key] === true,
+    }));
+    const reportPath = receipt?.report?.path || '';
+    const reportProof = reportPath ? fileProof(repoRoot, reportPath) : { path: reportPath, exists: false, bytes: 0, sha256: '' };
+    const baseChecks = [
+      { key: 'receiptExists', expected: true, actual: proof.exists, pass: proof.exists === true },
+      { key: 'receiptParseOk', expected: true, actual: Boolean(receipt), pass: Boolean(receipt) },
+      { key: 'receiptPassFlag', expected: true, actual: receipt?.pass, pass: receipt?.pass === true },
+      { key: 'reportExists', expected: true, actual: reportProof.exists, pass: reportProof.exists === true },
+      { key: 'reportShaMatchesReceipt', expected: true, actual: reportProof.sha256 === receipt?.report?.sha256, pass: reportProof.exists === true && reportProof.sha256 === receipt?.report?.sha256 },
+    ];
+    const checks = [...baseChecks, ...acceptanceChecks];
+    return {
+      id: item.id,
+      pass: proofPass(checks),
+      receiptPath: item.receiptPath,
+      receiptSha256: proof.sha256,
+      checks,
+    };
+  });
+}
+
+export function buildMachineCapabilityGate(input = {}) {
+  const repoRoot = path.resolve(input.repoRoot || process.cwd());
+  const identity = input.identity || buildGitIdentity(repoRoot);
+  const r3Report = input.r3Report || readJsonIfExists(repoRoot, input.r3C05PhysicalRerunReportPath || DEFAULT_MACHINE_SOURCE_PATHS.r3C05PhysicalRerunReport);
+  const r3ReportPath = input.r3C05PhysicalRerunReportPath || DEFAULT_MACHINE_SOURCE_PATHS.r3C05PhysicalRerunReport;
+  const r3SourceHead = r3Report?.git?.headSha || r3Report?.identity?.headSha || '';
+  const sourceDeltaFiles = input.sourceDeltaFiles || diffNames(repoRoot, r3SourceHead, identity.headSha);
+  const productRuntimeDeltaFiles = sourceDeltaFiles.filter(isProductRuntimePath);
+  const sourceBindingChecks = [
+    { key: 'r3PhysicalReportExists', expected: true, actual: Boolean(r3Report), pass: Boolean(r3Report) },
+    { key: 'r3PhysicalReportPass', expected: true, actual: r3Report?.pass, pass: r3Report?.pass === true },
+    { key: 'exactHeadBinding', expected: identity.headSha, actual: r3SourceHead, pass: Boolean(r3SourceHead) && r3SourceHead === identity.headSha },
+    { key: 'currentHeadEqualsOriginMain', expected: true, actual: identity.headEqualsOriginMain, pass: identity.headEqualsOriginMain === true },
+    { key: 'noProductRuntimeDeltaSincePhysicalProof', expected: 0, actual: productRuntimeDeltaFiles.length, pass: productRuntimeDeltaFiles.length === 0 },
+  ];
+  const sourceBindingPass = proofPass(sourceBindingChecks);
+  const capabilities = Object.fromEntries(Object.entries(CAPABILITY_REQUIREMENTS).map(([capabilityId, spec]) => [
+    capabilityId,
+    r3Report
+      ? validateJourneyCapability(repoRoot, capabilityId, spec, r3Report)
+      : { id: capabilityId, pass: false, evidencePath: '', evidenceSha256: '', checks: [{ key: 'missingR3Report', expected: false, actual: true, pass: false }] },
+  ]));
+  const capabilityRows = DOD_MACHINE_MAP.map(([id, requiredCapabilityIds]) => {
+    const missing = requiredCapabilityIds.filter((capabilityId) => capabilities[capabilityId]?.pass !== true);
+    return {
+      id,
+      requiredCapabilities: requiredCapabilityIds,
+      pass: sourceBindingPass && missing.length === 0,
+      missing,
+      sourceBindingRequired: true,
+    };
+  });
+  const repairQueue = validateRepairQueue(repoRoot, input.repairQueue || FINAL_REPAIR_QUEUE);
+  const failures = [
+    ...sourceBindingChecks.filter((check) => check.pass !== true).map((check) => ({ code: 'MACHINE_SOURCE_BINDING_FAILED', id: check.key, actual: check.actual, expected: check.expected })),
+    ...Object.values(capabilities).filter((capability) => capability.pass !== true).map((capability) => ({ code: 'MACHINE_CAPABILITY_PROOF_FAILED', id: capability.id })),
+    ...capabilityRows.filter((row) => row.pass !== true).map((row) => ({ code: 'PROGRAM_DOD_MACHINE_CAPABILITY_MISSING', id: row.id, missing: row.missing })),
+    ...repairQueue.filter((row) => row.pass !== true).map((row) => ({ code: 'FINAL_AUDIT_REPAIR_QUEUE_OPEN', id: row.id })),
+  ];
   const pass = failures.length === 0;
+  return {
+    pass,
+    status: pass ? 'PASS_EFINAL_MACHINE_CAPABILITY_GATE_READY_FOR_INDEPENDENT_AUDIT' : 'NOT_READY_EFINAL_MACHINE_CAPABILITY_GAPS',
+    sourceBinding: {
+      r3C05PhysicalRerunReport: r3ReportPath,
+      r3SourceHeadSha: r3SourceHead,
+      currentHeadSha: identity.headSha,
+      currentOriginMainSha: identity.originMainSha,
+      sourceDeltaFiles,
+      productRuntimeDeltaFiles,
+      checks: sourceBindingChecks,
+      pass: sourceBindingPass,
+    },
+    capabilities,
+    programDodEvidenceMap: capabilityRows,
+    repairQueue,
+    failures,
+  };
+}
+
+export function evaluateFinalAudit(input = {}) {
+  const repoRoot = path.resolve(input.repoRoot || process.cwd());
+  const gitIdentity = input.identity || buildGitIdentity(repoRoot);
+  const machineGate = buildMachineCapabilityGate({ ...input, repoRoot, identity: gitIdentity });
+  const legacyReceiptDiagnostics = legacyReceiptDiagnostic(repoRoot, input.legacyReceiptPaths || LEGACY_RECEIPT_DIAGNOSTIC_PATHS);
+  const pass = machineGate.pass === true;
   return {
     schemaVersion: REPORT_SCHEMA,
     generatedAtUtc: new Date().toISOString(),
     contourId: 'EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD',
-    status: pass ? 'PASS_EFINAL_READY_FOR_DELIVERY' : 'NOT_READY_EFINAL_EVIDENCE_GAPS',
+    status: pass ? 'PASS_EFINAL_READY_FOR_INDEPENDENT_AUDIT' : 'NOT_READY_EFINAL_MACHINE_CAPABILITY_GAPS',
     pass,
     finalProgramDoDClaim: pass,
-    finalProgramDoDClaimScope: 'READY_FOR_DELIVERY_PENDING_PR_MERGE_REMOTE_SHA_VERIFICATION_AND_CLEAN_WORKTREE',
+    finalProgramDoDClaimScope: pass
+      ? 'READY_FOR_INDEPENDENT_AUDIT_PENDING_EXTERNAL_NO_OPEN_P0_VERDICT'
+      : 'NOT_READY_RECEIPTS_ARE_DIAGNOSTIC_ONLY_MACHINE_CAPABILITY_GATE_REQUIRED',
     gitIdentity,
-    receiptCount: Object.keys(receiptState.receipts).length,
-    receiptFailures: receiptState.failures,
-    programDodEvidenceMap,
-    criticalInvariants,
+    machineCapabilityGate: machineGate,
+    programDodEvidenceMap: machineGate.programDodEvidenceMap,
+    criticalInvariants: machineGate.programDodEvidenceMap,
+    legacyReceiptDiagnostics,
+    legacyReceiptStatusCanCertifyProgramDoD: false,
     activePlatformScope: {
-      macosPackagedElectron: 'CERTIFIED_BY_E11_C01_C02_C03_C04_AND_REVALIDATED_BY_EFINAL_SUITES',
-      ...inactivePlatforms,
+      macosPackagedElectron: pass ? 'MACHINE_GATE_READY_FOR_INDEPENDENT_AUDIT' : 'NOT_READY_MACHINE_CAPABILITY_GAPS',
+      windows: 'NOT_ACTIVATED_NO_PASS_NO_HOLD',
+      linux: 'NOT_ACTIVATED_NO_PASS_NO_HOLD',
+      web: 'NOT_ACTIVATED_NO_PASS_NO_HOLD',
+      ios: 'NOT_ACTIVATED_NO_PASS_NO_HOLD',
+      android: 'NOT_ACTIVATED_NO_PASS_NO_HOLD',
     },
     falseReadinessGuards: {
-      forbiddenReadinessReceipts: Array.from(FORBIDDEN_READINESS_RECEIPT_PATHS),
-      invalidatedErC04CanCertifyProgramDoD: false,
-      invalidatedErC06CanCertifyProgramDoD: false,
-      invalidatedErC07CanCertifyProgramDoD: false,
-      staleSelfFinalReceiptCanCertifyProgramDoD: false,
+      receiptPassDoneDeliveredStatusAcceptedAsProof: false,
+      finalReceiptSelfCertificationAccepted: false,
+      generatedScreenshotsAcceptedAlone: false,
+      exactSourceBindingRequired: true,
+      runtimeCommandUiPathRequired: true,
+      persistedOutputRequired: true,
+      reopenReadbackRequired: true,
+      negativeControlsRequired: true,
+      allP0RepairsRequiredBeforeProgramDone: true,
     },
-    finalAuditChecklist: {
-      frozenMergedRemoteIdentity: gitIdentity.headEqualsOriginMain,
-      programDodEvidenceMapPass: programDodEvidenceMap.every((row) => row.pass),
-      criticalInvariantsPass: criticalInvariants.every((row) => row.pass),
-      finalSuitesRequiredInReceipt: true,
-      packagedJourneyRevalidationRequiredInReceipt: true,
-      recoveryCacheExportImportRequiredInReceipt: true,
-      noPlanOwnedWipRequiredAfterMerge: true,
-      factualDocsAgainstRuntimeRequiredInReceipt: true,
-      independentReadOnlyAuditRequiredIfAvailable: true,
-    },
-    failures,
+    failures: machineGate.failures,
   };
 }
 

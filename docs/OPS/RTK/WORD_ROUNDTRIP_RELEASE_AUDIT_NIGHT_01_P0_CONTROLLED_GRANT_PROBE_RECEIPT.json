@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "yalken.rtk.word-roundtrip-release-audit-night-01.p0-controlled-grant-probe-receipt.v1",
+  "taskId": "YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+  "contourId": "P0-CONTROLLED-GRANT-PROBE",
+  "status": "MACOS_WORD_SANDBOX_GRANT_REQUIRED_NOT_PACKAGE_INVALID",
+  "createdAtUtc": "2026-08-01T02:34:01Z",
+  "headBinding": {
+    "headSha": "2aca522778cc63f51023b134bc663a87890249e2",
+    "originMainSha": "2aca522778cc63f51023b134bc663a87890249e2",
+    "basePr": 1347,
+    "exactRemoteHeadAuditPassedBeforeProbe": true
+  },
+  "wordProfile": {
+    "app": "Microsoft Word for Mac",
+    "version": "16.111.2",
+    "targetedUiScripting": "PASS",
+    "observedWindowBeforeProbe": "P0S-001-returned.docx"
+  },
+  "probe": {
+    "syntheticOnly": true,
+    "userDocumentsTouched": false,
+    "networkRequest": false,
+    "googleDocsOpened": false,
+    "targetCaseId": "P0S-001",
+    "targetOperation": "WORD_OWNED_SAVE_AS_COPY_FROM_ALREADY_OPEN_SYNTHETIC_DOC",
+    "targetPrompt": "Grant access to files",
+    "promptLocalizedTitle": "Предоставить доступ к файлам",
+    "promptRequestedFolder": "grant-probe-20260801T0228",
+    "routesTried": [
+      {
+        "route": "AX button inventory",
+        "result": "PASS",
+        "observedButtons": [
+          "Выбрать...",
+          "Отмена"
+        ]
+      },
+      {
+        "route": "AX click Choose button",
+        "result": "PRESSED_NO_PICKER"
+      },
+      {
+        "route": "AXPress Choose button",
+        "result": "PRESSED_NO_PICKER"
+      },
+      {
+        "route": "Cancel prompt",
+        "result": "PASS"
+      }
+    ],
+    "terminalReason": "HOST_DIALOG_DID_NOT_OPEN_PICKER_OR_DID_NOT_BIND_SELECTED_ITEM",
+    "wordOwnedSaveAsCopy": {
+      "status": "NOT_CREATED",
+      "exists": false
+    }
+  },
+  "packageComparison": {
+    "rawProductReviewDocxBeforeGrant": {
+      "caseId": "P0S-001",
+      "sha256": "sha256:c425d15972f77e7f6b6bc117eb8d47bf48df1c6a9672a694f71bece32e30ad2c",
+      "packageZipOk": true
+    },
+    "sameUnchangedShaAfterProbe": {
+      "sha256": "sha256:c425d15972f77e7f6b6bc117eb8d47bf48df1c6a9672a694f71bece32e30ad2c",
+      "status": "UNCHANGED"
+    },
+    "wordOwnedSaveAsCopy": {
+      "sha256": "",
+      "status": "NOT_AVAILABLE_PERMISSION_BLOCKED"
+    },
+    "packageInvalidProven": false,
+    "exporterOrOoxmlChangedForPrompt": false
+  },
+  "capabilityClaims": {
+    "physicalWordOpenEditSaveCloseReopenProven": false,
+    "automaticApplyCertified": false,
+    "wordSaturated": false,
+    "releaseReady": false,
+    "environmentPermissionBoundary": "MACOS_WORD_SANDBOX_GRANT_REQUIRED",
+    "nextStage": "P0_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE_12_RETRY_WITH_PREGRANTED_TEST_FOLDER"
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0,
+    "noOpPass": 0,
+    "userDocumentTouch": 0,
+    "networkRequest": 0,
+    "falsePackageInvalidClaim": 0,
+    "googleDocsOpened": 0
+  }
+}

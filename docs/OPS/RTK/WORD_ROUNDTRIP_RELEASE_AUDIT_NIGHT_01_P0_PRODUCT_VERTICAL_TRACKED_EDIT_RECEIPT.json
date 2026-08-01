@@ -1,0 +1,334 @@
+{
+  "schemaVersion": "yalken.rtk.word-roundtrip-release-audit-night-01.p0-product-vertical-tracked-edit-receipt.v1",
+  "taskId": "WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
+  "contourId": "P0-PRODUCT-VERTICAL-TRACKED-EDIT",
+  "status": "WORD_RELEASE_AUDIT_P0_PRODUCT_VERTICAL_TRACKED_EDIT_COMPLETE_NOT_SATURATED",
+  "result": "PASS",
+  "createdAtUtc": "2026-08-01T04:12:19.084Z",
+  "headBinding": {
+    "baselineMerge": "610592fc846aa81d7c9c28c68a57ded5927e825c",
+    "headSha": "62c5657fec127a4a8e844387c0a40dcc625e7140",
+    "originMainSha": "62c5657fec127a4a8e844387c0a40dcc625e7140",
+    "mergedRemoteShaRequired": true
+  },
+  "sourceEvidence": {
+    "main": {
+      "id": "MAIN_PRODUCT_COMMAND_SURFACE",
+      "path": "src/main.js",
+      "sha256": "e2d84624061972b0950db9ff064c561732a343b1ca6f2f6ed125d31e332fe18b",
+      "status": "BOUND"
+    },
+    "revisionBridge": {
+      "id": "REVISION_BRIDGE_INDEX",
+      "path": "src/io/revisionBridge/index.mjs",
+      "sha256": "da7fb6b9ab7045397b79d25409d6f88ca0ff4b073b280d85c8d5e0cbb3ed3172",
+      "status": "BOUND"
+    },
+    "packageParser": {
+      "id": "REVIEW_TRANSPORT_PACKAGE_PARSER_V2",
+      "path": "src/io/revisionBridge/reviewTransportPackageParserV2.mjs",
+      "sha256": "12a922b4d69d5a7b394c9616fb23a97a93a6a5e8fe944f9a6a51b49cc5a454bb",
+      "status": "BOUND"
+    },
+    "classifier": {
+      "id": "REVIEW_TRANSPORT_CLASSIFIER_V2",
+      "path": "src/io/revisionBridge/reviewTransportClassifierV2.mjs",
+      "sha256": "46496be08b65283680b27a4e50d3c368f70105d865e3282dfde4baa6ff627429",
+      "status": "BOUND"
+    },
+    "blockAuthority": {
+      "id": "REVIEW_TRANSPORT_BLOCK_EXACT_AUTHORITY_V2",
+      "path": "src/io/revisionBridge/reviewTransportBlockExactAuthorityV2.mjs",
+      "sha256": "fbfb852683f77d9a72deb2ca9d99cf13670ec06a758fbaa68cae4eb13e79ca9a",
+      "status": "BOUND"
+    },
+    "exactApplyAdapter": {
+      "id": "REVIEW_TRANSPORT_EXACT_APPLY_ADAPTER_V2",
+      "path": "src/io/revisionBridge/reviewTransportExactApplyAdapterV2.mjs",
+      "sha256": "6cb7fe3a0a7ee099438a5051286d2648733168cfa13c65a86943cf45a3a245c1",
+      "status": "BOUND"
+    },
+    "nonOverlapRuntime": {
+      "id": "REVIEW_TRANSPORT_NON_OVERLAP_RUNTIME",
+      "path": "src/io/revisionBridge/reviewTransportNonOverlapTrackedReplacementRuntime.mjs",
+      "sha256": "1f1b1563ca9128d746cc250e2a2c3799c0d9a4f66a396dde77b4f30473ff462d",
+      "status": "BOUND"
+    },
+    "smokeRunnerHelpers": {
+      "id": "P0_PRODUCT_SMOKE_PHYSICAL_WORD_HELPERS",
+      "path": "scripts/ops/rtk-word-release-audit-p0-product-originated-smoke-wave12.mjs",
+      "sha256": "8953470a8441bd98d0d1610b8a2c6b13d05b6be692c78199343827153451fdc2",
+      "status": "BOUND"
+    },
+    "verticalRunner": {
+      "id": "P0_PRODUCT_VERTICAL_TRACKED_EDIT_RUNNER",
+      "path": "scripts/ops/rtk-word-release-audit-p0-product-vertical-tracked-edit.mjs",
+      "sha256": "8cab751e51be21bc904e85927789b418b6a63051d224986e1509cd567d308a4e",
+      "status": "BOUND"
+    }
+  },
+  "physicalCorpus": {
+    "targetCases": 1,
+    "observedCases": 1,
+    "syntheticOnly": true,
+    "productCommandHandlerOriginated": true,
+    "physicalWordOpenEditSaveCloseReopen": true,
+    "authenticatedV2ReturnIntake": true,
+    "visiblePreview": true,
+    "explicitUserConfirmedCommandApply": true,
+    "atomicRecoveryCheckpoint": true,
+    "projectReopenReadback": true,
+    "replayIdempotency": true,
+    "liveElectronUiClicked": false,
+    "noNetwork": true,
+    "userDocumentsOpened": false,
+    "cases": [
+      {
+        "caseId": "P0V-001",
+        "title": "one supported tracked replacement closes product vertical loop",
+        "secureVolume": {
+          "mount": "/Volumes/T7-Secure",
+          "uuid": "D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2",
+          "fileVault": "Yes",
+          "writable": true
+        },
+        "wordSandboxWorkRoot": {
+          "source": "default",
+          "root": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/_vertical-word-work",
+          "containerId": "com.microsoft.Word",
+          "insideWordContainer": false,
+          "t7ArtifactFallback": true,
+          "plainTmpForbidden": true,
+          "userDocumentsTouched": false,
+          "networkRequired": false,
+          "canonicalRealpathSkippedForSmokeHangAvoidance": true,
+          "fallbackReason": "WORD_CONTAINER_DATA_WRITE_HUNG_DURING_PREFLIGHT_USE_T7_ARTIFACT_ROOT_FOR_BOUNDED_SMOKE"
+        },
+        "wordProfile": {
+          "appPath": "/Applications/Microsoft Word.app",
+          "requestedVersionFromOwnerBrief": "16.111.2",
+          "versionByBundle": "16.111.2",
+          "buildByBundle": "16.111.26072617",
+          "versionByAppleScript": "",
+          "appleScriptProbeStatus": "DEFERRED_TO_PER_CASE_WORD_SCRIPT",
+          "openDocumentsBeforeLab": -1,
+          "observedVersionClass": "WORD_16_111_FAMILY",
+          "macosVersion": "26.5.2",
+          "macosBuild": "25F84",
+          "locale": "ru_FI"
+        },
+        "artifactRoot": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-vertical-tracked-edit",
+        "runDir": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-vertical-tracked-edit/p0-product-vertical-20260801T041211",
+        "wordSandboxRunDir": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/_vertical-word-work/p0-product-vertical-20260801T041211",
+        "project": {
+          "projectId": "yalken-product-vertical-synthetic-project",
+          "sceneId": "manuscript/product-vertical/P0V-001.txt",
+          "sceneTextSha256Before": "sha256:652e266abbd1dd963c272a9d898ac7d17f883dcf951055ab5d5e48fe923f9d9d",
+          "sceneTextSha256After": "sha256:43590dc2e85c4891708f90263335e3e0da5135f0a36d378642f2ae63347d17d0",
+          "expectedFinalTextSha256": "sha256:43590dc2e85c4891708f90263335e3e0da5135f0a36d378642f2ae63347d17d0"
+        },
+        "export": {
+          "commandId": "cmd.project.review.exportDocxReviewPacket",
+          "productCommandHandlerOriginated": true,
+          "bytesWritten": 6939,
+          "sourceDocxSha256": "sha256:8af6665e60ac5e6a152019e0a1fbedcf6e3c985a78fcd6983edc790d4fff4b72",
+          "exportCapsule": {
+            "schemaVersion": "yalken.rtk.word.product-review-docx-export.v1",
+            "projectId": "yalken-product-vertical-synthetic-project",
+            "sceneId": "manuscript/product-vertical/P0V-001.txt",
+            "sceneRevision": "sha256:652e266abbd1dd963c272a9d898ac7d17f883dcf951055ab5d5e48fe923f9d9d",
+            "rawSha256": "sha256:652e266abbd1dd963c272a9d898ac7d17f883dcf951055ab5d5e48fe923f9d9d",
+            "roundId": "round-product-vertical-1266920458597526d8b8456b8ecae448",
+            "exportId": "export-product-vertical-1266920458597526d8b8456b8ecae448",
+            "exportArtifactId": "export-artifact-product-vertical-1266920458597526d8b8456b8ecae448",
+            "semanticReturnId": "semantic-return-product-vertical-1266920458597526d8b8456b8ecae448",
+            "coreManifestDigest": "sha256:9a855c99c383f772a0fd6e03c89a087abf61a14b1afa1b11bbff5fff14225bb5",
+            "transportManifestDigest": "sha256:bd6198b8f2424cb81d158d23decdb710abc4fce0ede98dd315b3217b07ad2853",
+            "yrtk2TokenLength": 250,
+            "blockCount": 1,
+            "authorityCarrier": "customDocumentProperty",
+            "authorityPropertyName": "YRTK_C01_AUTH",
+            "secretEmbeddedInDocx": false,
+            "automaticApplyCertified": false,
+            "productRuntimeWired": true,
+            "returnIntakeWired": true
+          },
+          "canAutoApply": false,
+          "canWriteManuscript": false,
+          "canImportMutate": false
+        },
+        "physicalWord": {
+          "openEditSaveCloseReopen": true,
+          "revisionCount": 2,
+          "commentCount": 0,
+          "readbackChars": 59,
+          "limitations": [],
+          "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-vertical-tracked-edit/p0-product-vertical-20260801T041211/applescripts/P0V-001-word.applescript",
+          "returnedDocxSha256": "sha256:cad97d6663d85926b379c38df5da957074ff07649e19144266ec0aa356f7d583",
+          "returnedBytes": 15086,
+          "packageZipOk": true
+        },
+        "parser": {
+          "parserOk": true,
+          "parserStatus": "PASS",
+          "sourceMode": "TRACKED",
+          "validSignedLocator": true,
+          "authorityCarrierStatus": "verified-baseline-bound",
+          "reviewIrSummary": {
+            "textRevisions": 2,
+            "moveRevisions": 0,
+            "propertyRevisions": 0,
+            "structureChanges": 0,
+            "commentThreads": 0,
+            "formattingDeltas": 0,
+            "opaqueUnsupported": 8
+          },
+          "exactAutomaticCandidateCount": 0,
+          "analysisDigest": "sha256:290ac70408765e69d93ffacbab65f33ee202d6ff3b58908da273c8b5a7512c73",
+          "parserProfileDigest": "sha256:b8a36e23c2651609b44ff55c109b874663895895e6c7903be010945412804123",
+          "classificationDigest": "sha256:ca1bb91e5ea6f20331dca8bfa774d934f91d4970fdeda088782722d044fa7114",
+          "reasons": [
+            "RTK_NO_WRITE_ANALYSIS_READY",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED"
+          ]
+        },
+        "productLoop": {
+          "returnIntakeAuthenticated": true,
+          "returnIntakeStatus": "authenticated-return-ir-ready",
+          "visiblePreviewReady": true,
+          "previewSummary": {
+            "exactPreviewStatus": "ready",
+            "exactPreviewReady": true,
+            "exactApplyOps": 1,
+            "textChanges": 1,
+            "commentThreads": 0,
+            "structuralChanges": 0,
+            "diagnosticItems": 0,
+            "productPathReady": true,
+            "automaticApplyCertified": false,
+            "writerCalledBeforeApply": false,
+            "rendererAuthority": false
+          },
+          "nonOverlapTrackedReplacementProductPath": {
+            "prepared": true,
+            "status": "preview-ready",
+            "reason": "RTK_A03_C05_PRODUCT_PATH_READY",
+            "writerCalled": false,
+            "rendererAuthority": false,
+            "runtimePreviewCode": "",
+            "runtimePreviewReasons": []
+          },
+          "textChangeCount": 1,
+          "changeId": "a852dc8709bdce70df4f6139ca8bc9b1673630015ebc0b6bc438a0afd71ed6c1",
+          "manuscriptMutationDuringAnalysisOrPreview": false,
+          "explicitUserConfirmedCommandApply": true,
+          "commandKernelCalls": 2,
+          "commandKernelCommandIds": [
+            "cmd.rtk.review.applyNonOverlapTrackedReplacements",
+            "cmd.rtk.review.applyNonOverlapTrackedReplacements"
+          ],
+          "commandPayloadPreviewConfirmed": true,
+          "writerCalled": true,
+          "applyStatus": "applied",
+          "applyRuntimeSummary": {
+            "replacementPairCount": 1,
+            "trustedBlockRangeDigestCount": 1,
+            "writerBindingDigest": "sha256:2699e6ecdc5558de2f9ee760a0a1160a20f77a7e583e089003c9226ca1c9ddb3",
+            "admissionDigest": "sha256:9690746b177ceb1184a6de887949e55ae559f72bb870b5e32b93fb519ad95825",
+            "envelopeDigest": "sha256:6ef020cfd2f862112695cb24bcfa5129da5b57b7eb66691f7ef25829579b969c",
+            "outcomeDigest": "sha256:a6cb561a417430df515bab2c095032f0d50aa869d3a602ab2cd14855cf2f5408"
+          },
+          "applyVetoMetrics": {
+            "falseExact": 0,
+            "wrongSceneRouting": 0,
+            "silentApply": 0,
+            "replayFailure": 0,
+            "silentLoss": 0
+          },
+          "sceneMatchesExpectedAfterApply": true,
+          "projectReopenReadbackMatchesExpected": true,
+          "replayIdempotent": true,
+          "afterApplyTextSha256": "sha256:43590dc2e85c4891708f90263335e3e0da5135f0a36d378642f2ae63347d17d0",
+          "afterReplayTextSha256": "sha256:43590dc2e85c4891708f90263335e3e0da5135f0a36d378642f2ae63347d17d0",
+          "liveElectronUiClicked": false
+        },
+        "paths": {
+          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-vertical-tracked-edit/p0-product-vertical-20260801T041211/source-docx/P0V-001-product-export.docx",
+          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-vertical-tracked-edit/p0-product-vertical-20260801T041211/returned-docx/P0V-001-returned.docx",
+          "syntheticProjectRoot": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-vertical-tracked-edit/p0-product-vertical-20260801T041211/synthetic-project",
+          "syntheticScenePath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-vertical-tracked-edit/p0-product-vertical-20260801T041211/synthetic-project/manuscript/product-vertical/P0V-001.txt"
+        }
+      }
+    ]
+  },
+  "totals": {
+    "cases": 1,
+    "pass": 1,
+    "fail": 0,
+    "productCommandHandlerOriginated": 1,
+    "physicalOpenEditSaveCloseReopenPass": 1,
+    "authenticatedV2IntakePass": 1,
+    "visiblePreviewPass": 1,
+    "explicitConfirmedApplyPass": 1,
+    "projectReopenReadbackPass": 1,
+    "replayIdempotentPass": 1,
+    "parserPass": 1,
+    "exactAutomaticCandidateCount": 0,
+    "productExactPreviewCandidateCount": 1
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0,
+    "noOpPass": 0,
+    "productExportFailure": 0,
+    "physicalWordFailure": 0,
+    "parserUnexpectedFailure": 0,
+    "previewFailure": 0,
+    "applyFailure": 0,
+    "projectReopenReadbackFailure": 0,
+    "userDocumentTouch": 0,
+    "networkRequest": 0,
+    "googleDocsOpened": 0,
+    "falseReleaseClaim": 0
+  },
+  "implementedCapability": {
+    "capability": "productVerticalTrackedReplacementOneCase",
+    "productReviewDocxExporterWired": true,
+    "productCommandExportPhysicalDocx": true,
+    "physicalWordEditSaveReopenProven": true,
+    "authenticatedReturnIntakeWired": true,
+    "parsedWordIrConsumerWired": true,
+    "visibleExactPreviewWired": true,
+    "explicitUserConfirmedCommandApplyWired": true,
+    "commandKernelApplyWired": true,
+    "atomicWriterAndReplayWired": true,
+    "projectReopenReadbackProven": true,
+    "productRuntimeWired": true,
+    "productOneCaseVerticalLoopProven": true,
+    "liveElectronUiPhysicalClickProven": false,
+    "automaticApplyCertified": false,
+    "userAutomaticApplyCertified": false,
+    "releaseReady": false,
+    "wordSaturated": false,
+    "googleDocsOpened": false
+  },
+  "nonClaims": [
+    "This contour proves one supported tracked replacement through product command surfaces and physical Word, not Word saturation.",
+    "Automatic apply remains false because an explicit user confirmation command is required.",
+    "Live Electron UI click remains pending and is not claimed by this receipt.",
+    "Comments, mixed, multi-scene, wave-64 and later editor stages remain unopened follow-up stages.",
+    "No user documents, cloud, network, or private data were used."
+  ],
+  "nextStage": "P0_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE",
+  "receiptDigest": "sha256:d7f40686639d1615e38079a6d56865d015c738c25c38730db5d5c34ee83205bb"
+}

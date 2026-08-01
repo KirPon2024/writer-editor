@@ -32,6 +32,10 @@ function list(value) {
   return Array.isArray(value) ? value.filter(isPlainObject) : [];
 }
 
+function writerBlockingItems(value) {
+  return list(value).filter((item) => rawString(item.writerAuthorityImpact) !== 'inventory-only');
+}
+
 function reviewIrFrom(input) {
   if (isPlainObject(input.reviewIr)) return input.reviewIr;
   if (isPlainObject(input.analysis?.reviewIr)) return input.analysis.reviewIr;
@@ -82,8 +86,8 @@ function exactAuthorityReasons(authority, path) {
 function canBeExactText(textRevision, authority, reviewIr) {
   const supportedOperation = ['insert', 'delete'].includes(rawString(textRevision.operation));
   if (!supportedOperation) return false;
-  if (list(reviewIr.moveRevisions).length > 0 || list(reviewIr.structureChanges).length > 0) return false;
-  if (list(reviewIr.opaqueUnsupported).length > 0) return false;
+  if (list(reviewIr.moveRevisions).length > 0 || writerBlockingItems(reviewIr.structureChanges).length > 0) return false;
+  if (writerBlockingItems(reviewIr.opaqueUnsupported).length > 0) return false;
   return exactAuthorityReasons(authority, 'textRevisions').length === 0;
 }
 
@@ -105,8 +109,8 @@ function classifyTextRevisions(reviewIr, authority, cryptoPort) {
       const blockedReasons = exactAuthorityReasons(authority, `replacementPairs.${groupId}`);
       const exact = blockedReasons.length === 0
         && list(reviewIr.moveRevisions).length === 0
-        && list(reviewIr.structureChanges).length === 0
-        && list(reviewIr.opaqueUnsupported).length === 0;
+        && writerBlockingItems(reviewIr.structureChanges).length === 0
+        && writerBlockingItems(reviewIr.opaqueUnsupported).length === 0;
       reasons.push(...blockedReasons);
       items.push({
         lane: 'text',
@@ -162,6 +166,20 @@ function classifyManualLane(items, lane, reasonCode) {
     reasonCode,
     canApply: false,
   }));
+}
+
+function classifyOpaqueUnsupported(items) {
+  return list(items).map((item, index) => {
+    const inventoryOnly = rawString(item.writerAuthorityImpact) === 'inventory-only';
+    return {
+      lane: 'opaque-unsupported',
+      kind: rawString(item.kind || item.elementName || 'unknown'),
+      candidateId: rawString(item.nativeRevisionId || item.changeId || item.partName || `opaque-unsupported-${index}`),
+      disposition: inventoryOnly ? 'DIAGNOSTIC_ONLY' : 'BLOCKED',
+      reasonCode: inventoryOnly ? 'RTK_DIAGNOSTIC_ONLY' : 'RTK_COMMENT_UNSUPPORTED',
+      canApply: false,
+    };
+  });
 }
 
 function classifyComments(reviewIr) {
@@ -221,7 +239,7 @@ export function classifyReviewTransportIrV2(input = {}, ports = {}) {
     structure: classifyBlockedLane(reviewIr.structureChanges, 'structure', 'RTK_BLOCKED_STRUCTURAL'),
     formatting: classifyManualLane(reviewIr.formattingDeltas, 'formatting', 'RTK_MANUAL_DEGRADED_LOCATOR'),
     comments: classifyComments(reviewIr),
-    opaqueUnsupported: classifyBlockedLane(reviewIr.opaqueUnsupported, 'opaque-unsupported', 'RTK_COMMENT_UNSUPPORTED'),
+    opaqueUnsupported: classifyOpaqueUnsupported(reviewIr.opaqueUnsupported),
   };
   const reasons = [
     reason('RTK_NO_WRITE_ANALYSIS_READY', 'classification', 'ReviewIRV2 classification is immutable analysis without writer authority.'),
@@ -230,10 +248,10 @@ export function classifyReviewTransportIrV2(input = {}, ports = {}) {
   if (classifications.moves.length > 0) {
     reasons.push(reason('RTK_BLOCKED_MOVE_REVISION', 'moveRevisions', 'Move revisions are never EXACT in B04.'));
   }
-  if (classifications.structure.length > 0) {
+  if (classifications.structure.some((item) => item.disposition === 'BLOCKED')) {
     reasons.push(reason('RTK_BLOCKED_STRUCTURAL', 'structureChanges', 'Structure changes are blocked from automatic apply.'));
   }
-  if (classifications.opaqueUnsupported.length > 0) {
+  if (classifications.opaqueUnsupported.some((item) => item.disposition === 'BLOCKED')) {
     reasons.push(reason('RTK_COMMENT_UNSUPPORTED', 'opaqueUnsupported', 'Unknown or unsupported OOXML semantics prevent broad support claims.'));
   }
   const summary = summarize(classifications);

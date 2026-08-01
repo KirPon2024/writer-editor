@@ -155,6 +155,42 @@ test('B02 parser keeps revision property structure and formatting lanes separate
   assert.equal(result.canApply, false);
 });
 
+test('B02 parser treats Word-normalized insert-delete replacements as tracked-only with advisory inventory', async () => {
+  const parser = await loadParser();
+  const result = parser.parseReviewTransportPackageV2({
+    parts: {
+      ...baseParts(documentXml(`
+        <w:p>
+          <w:r><w:t>Alpha </w:t></w:r>
+          <w:ins w:id="i1" w:author="Word"><w:r><w:t>new</w:t></w:r></w:ins>
+          <w:del w:id="d1" w:author="Word"><w:r><w:delText>old</w:delText></w:r></w:del>
+          <w:r><w:t> omega</w:t></w:r>
+        </w:p>
+        <w:sectPr/>`)),
+      'word/styles.xml': '<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"/>',
+    },
+    baselineFinalText: 'Alpha old omega',
+  }, { cryptoPort });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.sourceMode, 'TRACKED');
+  assert.equal(result.reviewIr.textRevisions.length, 2);
+  assert.equal(result.reviewIr.textRevisions[0].operation, 'insert');
+  assert.equal(result.reviewIr.textRevisions[1].operation, 'delete');
+  assert.match(result.reviewIr.textRevisions[0].replacementGroupId, /^[a-f0-9]{64}$/u);
+  assert.equal(result.reviewIr.textRevisions[0].replacementGroupId, result.reviewIr.textRevisions[1].replacementGroupId);
+  assert.equal(result.reviewIr.structureChanges.some((item) => item.structureKind === 'sectPr'), false);
+  assert.equal(result.reviewIr.opaqueUnsupported.some((item) => (
+    item.typedDiagnostic === 'RTK_WORD_BODY_SECTION_PROPERTIES_INVENTORY'
+    && item.writerAuthorityImpact === 'inventory-only'
+  )), true);
+  assert.equal(result.reviewIr.opaqueUnsupported.some((item) => (
+    item.partName === 'word/styles.xml'
+    && item.writerAuthorityImpact === 'inventory-only'
+  )), true);
+  assert.equal(result.reasons.some((reason) => reason.code === 'RTK_MANUAL_MIXED_RETURN'), false);
+});
+
 test('B02 parser blocks hostile package inventory external rel active content CRC mismatch and fake EOCD', async () => {
   const parser = await loadParser();
   const document = documentXml('<w:p><w:r><w:t>Safe text</w:t></w:r></w:p>');

@@ -5272,6 +5272,17 @@ async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = 
         reason: docxReviewPreviewSessionDetailString(nonOverlapTrackedReplacementProductPath.reason),
         writerCalled: nonOverlapTrackedReplacementProductPath.writerCalled === true,
         rendererAuthority: nonOverlapTrackedReplacementProductPath.rendererAuthority === true,
+        runtimePreviewCode: docxReviewPreviewSessionDetailString(nonOverlapTrackedReplacementProductPath.runtimePreview?.code),
+        runtimePreviewReasons: Array.isArray(nonOverlapTrackedReplacementProductPath.runtimePreview?.reasons)
+          ? nonOverlapTrackedReplacementProductPath.runtimePreview.reasons
+            .filter(isPlainObjectValue)
+            .map((item) => ({
+              code: docxReviewPreviewSessionDetailString(item.code),
+              field: docxReviewPreviewSessionDetailString(item.field),
+            }))
+            .filter((item) => item.code)
+            .slice(0, 12)
+          : [],
       }
       : null,
     candidateSummary: summarizeDocxReviewPreviewSessionCandidate(candidate),

@@ -28,6 +28,10 @@ function list(value) {
   return Array.isArray(value) ? value.filter(isPlainObject) : [];
 }
 
+function writerBlockingItems(value) {
+  return list(value).filter((item) => normalizeString(item.writerAuthorityImpact) !== 'inventory-only');
+}
+
 function reason(code, field, message, details = {}) {
   return { code, field, message, ...details };
 }
@@ -109,10 +113,10 @@ function validatePhysicalScope(input = {}) {
   if (!['TRACKED', 'MIXED'].includes(normalizeString(reviewIr.sourceMode))) {
     reasons.push(reason('RTK_WRITE_PRECONDITION_FAILED', 'reviewIr.sourceMode', 'A03-C02 admits tracked or mixed returned Word revisions only.'));
   }
-  if (list(reviewIr.moveRevisions).length > 0 || list(reviewIr.structureChanges).length > 0) {
+  if (list(reviewIr.moveRevisions).length > 0 || writerBlockingItems(reviewIr.structureChanges).length > 0) {
     reasons.push(reason('RTK_BLOCKED_STRUCTURAL', 'reviewIr.structure', 'Move and structural changes are not A03-C02 automatic apply candidates.'));
   }
-  if (list(reviewIr.opaqueUnsupported).length > 0) {
+  if (writerBlockingItems(reviewIr.opaqueUnsupported).length > 0) {
     reasons.push(reason('RTK_HOSTILE_PACKAGE_BLOCKED', 'reviewIr.opaqueUnsupported', 'Unknown returned DOCX semantics block automatic apply.'));
   }
   const pairs = groupedReplacementPairs(reviewIr);

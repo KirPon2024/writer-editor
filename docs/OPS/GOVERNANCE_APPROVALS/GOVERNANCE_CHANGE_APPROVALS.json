@@ -1703,6 +1703,97 @@
       "rationale": "Approve bounded P0_02 EFINAL false-green repair: Program DoD gate now rejects PASS/DONE/DELIVERED receipt aggregation, requires exact source-bound machine capability proof, persisted/reopen/readback evidence, negative controls, and open P0 repair queue closure before any final done claim."
     },
     {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE/p0-03-packaged-visible-first-launch.png",
+      "sha256": "8b34e05aac371b2cd9ca4744ffa8c2e6da394405490f47b40cdbf130d5901de1",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
+      "approvedAtUtc": "2026-08-01T05:20:00.000Z",
+      "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE/p0-03-packaged-visible-journey-report.json",
+      "sha256": "a6d99d4c6ee019acd9495df262fd6170b8e817a1c5b4f86cff7418b2ae262e20",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
+      "approvedAtUtc": "2026-08-01T05:20:00.000Z",
+      "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE/p0-03-packaged-visible-reopen.png",
+      "sha256": "15512a38641327c616a4889495732660011568a8230ed44631e634479a4a931e",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
+      "approvedAtUtc": "2026-08-01T05:20:00.000Z",
+      "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE/package-build/build-mac-output.txt",
+      "sha256": "6101e196e81746b111bf15c0eae843db680ff9c879f8975c869905411919391d",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
+      "approvedAtUtc": "2026-08-01T05:20:00.000Z",
+      "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE/package-build/macos-package-artifact-security-report.json",
+      "sha256": "d9fc5d36db4ba244000c9a513162135f93d6d2d34154f019dea723768389043c",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
+      "approvedAtUtc": "2026-08-01T05:20:00.000Z",
+      "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_04_DESIGN_OS_BINDING/p0-04-design-os-binding-report.json",
+      "sha256": "68d3f67b2ed2e97e9b42c74053d4ee1012e20d7eadca33b4ae6f5d64e4aa694c",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_04",
+      "approvedAtUtc": "2026-08-01T06:13:43.000Z",
+      "rationale": "Approve bounded P0_04 Design OS binding evidence and receipt after full runner PASS: FEATURE_INTEGRATION_MANIFEST_V1 and YALKEN_ATLAS_FEATURE_SLOT_RESOLVER_V1 bind Atlas and Manual Map surfaces through query registry, Command Kernel command ids, typed Design OS slots, renderer resolved contribution metadata, and fail-closed negative bypass checks; no visual redesign, no network, no storage authority, no runtime dependency, and Program DoD remains IN_PROGRESS."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/r3-c03-manual-map-attachments-portals-templates-report.json",
+      "sha256": "b83aaf18fc8d7ad8a47aee3ebe3f311c60ed58ee18d88ab01f264ee7ac4712ee",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
+      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
+      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/r3-c03-manual-map-portability-journey.png",
+      "sha256": "f8278905b19e6a1a6df7d7bb992bb539061cf5d77e2adbd34f4b7fb44d3b53dd",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
+      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
+      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/r3-c03-manual-map-portability-reopen.png",
+      "sha256": "8f8617ea630074826866ac35eb36c7f57d56a68545cb04ba4c3e7e38bb92e467",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
+      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
+      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/seed-r2-c05/r2-c05-black-box-journey.png",
+      "sha256": "e6482742bbe2ae1c4a2b15367df974087a250bedde0e4e76b1939995e37d68ba",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
+      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
+      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/seed-r2-c05/r2-c05-black-box-reopen.png",
+      "sha256": "84c24574245b6e66294adbf865b4dddb210f1f49110cc9a8f6b6d5dd3e3ffc1d",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
+      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
+      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/seed-r2-c05/r2-c05-honest-black-box-acceptance-report.json",
+      "sha256": "998b5332235e73e9a734c781b7fb8d52a8c03bd254e4ac57ccaaf67d05c18099",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
+      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
+      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_06_MULTILINGUAL_MATCHER/p0-06-multilingual-matcher-report.json",
+      "sha256": "3dc7a4e7ab263450bd6089cc294d56fcdba196d2eea503a970d3794a0e4c0a72",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P0_06_MULTILINGUAL_MATCHER_FINAL_REBIND",
+      "approvedAtUtc": "2026-08-01T07:55:00.000Z",
+      "rationale": "Approve final P0_06 multilingual matcher delivery bytes: language policy routes before production matching, canonical casefold and grapheme-aware boundary matcher replaces raw case-sensitive UTF16 search, product mention index and Core admission evidence PASS, focused pack PASS 28, full runner PASS 799 total 735 pass 0 fail 64 skipped, no network, no dependency, no Program DONE claim."
+    },
+    {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND/night01-c00-audit-rebind-report.json",
       "sha256": "a8828964efd79b9816091021ced6e03320477178a96444f55b511f4c9655bf44",
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND",
@@ -2235,6 +2326,13 @@
       "rationale": "Approve bounded post-D1 A00 reconciliation receipt: records fresh origin main, isolated T7 worktree, preserved dirty owner main and Atlas worktree, immutable D1 Word 16.42 F00 status, supplemental latest Word evidence as not certified, missing physical editor profiles, no runtime widening, no UI change, no dependency change, no build install download, and handoff to the A01 lab harness."
     },
     {
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "598cd31bf00a6c0a4e5d14c195998539e7d135543c2f894db1c67a8fcc9a910e",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T07:30:00.000Z",
+      "rationale": "Approve bounded Word P0 format Unicode structure stress product loop: synthetic physical Word cases exercise Unicode tracked replacement apply, formatting diagnostics, structural diagnostics, authenticated intake, visible preview, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
+    },
+    {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
       "sha256": "fee1545e7c163fc4c5db6677a118b836052a9836d23b394a226b40b9f36f5fa8",
       "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W5_RELEASE_HARDENING_AND_CERTIFICATION",
@@ -2347,6 +2445,20 @@
       "rationale": "Approve bounded controlled Word grant probe receipt and contract: confirms macOS Word sandbox grant prompt as ENVIRONMENT_PERMISSION, same raw Product Review DOCX SHA unchanged, Word-owned Save As copy not created, no package invalidity claim, no automatic apply, no saturation, and Google Docs remains closed."
     },
     {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_FORMAT_UNICODE_STRUCTURE_STRESS_RECEIPT.json",
+      "sha256": "ffc5b4c126382fd6ee7dac77d48d27e192e85ed258cc47f7785e65c498c118a8",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T07:30:00.000Z",
+      "rationale": "Approve bounded Word P0 format Unicode structure stress product loop: synthetic physical Word cases exercise Unicode tracked replacement apply, formatting diagnostics, structural diagnostics, authenticated intake, visible preview, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE_RECEIPT.json",
+      "sha256": "d17668e3e77ecc0ac42342ca04a96e903879eb6b764765fd74cd8542099614f1",
+      "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Owner-approved bounded P0 Word contour for multi-scene atomic command apply and comment delete state closure; Word replies and resolve reopen remain typed limitations; automatic apply false; Word saturated false; Google Docs closed."
+    },
+    {
       "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PARSED_IR_PREVIEW_APPLY_REPLAY_RECEIPT.json",
       "sha256": "2a670667ca28daca1ee9389a668370a17c4125e9573663c9dcfcec816f173abc",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
@@ -2354,11 +2466,32 @@
       "rationale": "Approve bounded release-audit Night 01 P0 parsed-IR preview apply replay loop: authenticated ReviewIRV2 is the sole writer-operation source for visible exact preview and explicit user-confirmed C05 command-kernel apply/replay; preserves automaticApplyCertified false at release level, Word SATURATED false, Google Docs closed, no UI redesign, no dependency, no product network, and no broad physical wave claim."
     },
     {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_POSTMERGE_TRUTH_REBIND_RECEIPT.json",
+      "sha256": "daaad4df7d1d9fb08bd18ded249f0dba3912facd6b0ae9989cf61ae4cd51715b",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T06:55:00.000Z",
+      "rationale": "Approve bounded P0 postmerge truth rebind after multi-scene atomic comment-state closure: aggregate Word program/profile/ledger now point at the merged closure receipt, preserve Word SATURATED false, automatic apply false, Google Docs closed, and prepare bounded varied wave64 as the next Word-only contour."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_COMMENTS_MIXED_MULTI_SCENE_RECEIPT.json",
+      "sha256": "70c08e63f3449eb7630a20183939652588f0b43ff29f50fb27d26c58b2a99338",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE",
+      "approvedAtUtc": "2026-08-01T04:35:00.000Z",
+      "rationale": "Approve bounded P0 product comments mixed multi-scene contour and entitlement repair: Electron Review DOCX export menu proof, physical Word root comment/mixed comment plus tracked replacement/delete/state probe, authenticated V2 intake, visible preview, explicit command apply, comment shadow replay, multi-scene safe block, veto metrics zero, automatic apply false, Word saturated false, Google Docs closed."
+    },
+    {
       "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE12_RECEIPT.json",
       "sha256": "331aa00db7c71faf7d688468f56401c6eadc3280816ff48453e3366c3593bdcb",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
       "approvedAtUtc": "2026-08-01T02:59:28.553Z",
       "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_VERTICAL_TRACKED_EDIT_RECEIPT.json",
+      "sha256": "01524307f07a0c45528eb5a5d1df31392fce6899dd6f2a914b931206010dbcc7",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
+      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
+      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_RETURN_INTAKE_V2_RECEIPT.json",
@@ -2373,6 +2506,13 @@
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
       "approvedAtUtc": "2026-07-31T23:53:30.000Z",
       "rationale": "Bind P0 Review DOCX exporter receipt proving product command, carrier, advisory customXml, main-only HMAC boundary, no DOCX Minimal mutation, and no return/apply/saturation claim."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_VARIED_WAVE64_PRODUCT_LOOP_RECEIPT.json",
+      "sha256": "ed5f9c3230f8b78921884a4f706fe4b1294203c017b65e6d3e04a9b5ae039c57",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T07:00:00.000Z",
+      "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A02_TERMINAL_AUDIT_RECEIPT.json",
@@ -2436,6 +2576,13 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
       "approvedAtUtc": "2026-07-31T04:30:00.000Z",
       "rationale": "Approve V4 canonical integration receipt: records EXECUTION_01 intent, exact spec digest, C05 PR 1275 merge binding, feature manifest, capability profile, no V6 or D1 rewrite, no HMAC/YRTK2, no locator carrier selection, no physical Word saturation, no UI, no runtime registry, no product network, next stage EXECUTION_02 locator survival lab, and local V4/governance/sector/json/OSS/ops/full-runner PASS evidence."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "464cdad052d11cd830d2f70734204028dc4af0ba42e982ed5ae960acc2d5f598",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T07:30:00.000Z",
+      "rationale": "Approve bounded Word P0 format Unicode structure stress product loop: synthetic physical Word cases exercise Unicode tracked replacement apply, formatting diagnostics, structural diagnostics, authenticated intake, visible preview, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
@@ -2571,6 +2718,13 @@
       "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
     },
     {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "173684aa484606b5c961bbbcf913602015ecd6ec36848fe68467f8cf1f762cb8",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T07:30:00.000Z",
+      "rationale": "Approve bounded Word P0 format Unicode structure stress product loop: synthetic physical Word cases exercise Unicode tracked replacement apply, formatting diagnostics, structural diagnostics, authenticated intake, visible preview, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
+    },
+    {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
       "sha256": "2d914a5e62785d12b5191b796d4c5d26badf9a885fa6b42e881103382ac0ced6",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
@@ -2660,6 +2814,13 @@
       "approvedBy": "ticket:YALKEN_DESIGN_OS_PHASE08_RELEASE_CANDIDATE_AND_COLLAB_STATUS_REGEN_001",
       "approvedAtUtc": "2026-03-28T16:53:54.412Z",
       "rationale": "PHASE08_NARROW_RELEASE_CANDIDATE_AND_COLLAB_STATUS_REGEN_REBIND"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json",
+      "sha256": "2b291976df9d5cf42ee68a14f94a58cd3a9c61fe5f85e483a72117cf5ad384d0",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
+      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
+      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
     },
     {
       "filePath": "docs/OPS/STATUS/COMMAND_ID_COMPAT_MAP_V1.json",
@@ -4230,6 +4391,34 @@
       "rationale": "Approve bounded P0_02 EFINAL false-green repair: Program DoD gate now rejects PASS/DONE/DELIVERED receipt aggregation, requires exact source-bound machine capability proof, persisted/reopen/readback evidence, negative controls, and open P0 repair queue closure before any final done claim."
     },
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE_RECEIPT.json",
+      "sha256": "6397e8b0bdb89d89ac0cee1a3a8b56603c56c8ecbe186d287f62e23cafd8f226",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
+      "approvedAtUtc": "2026-08-01T05:20:00.000Z",
+      "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_04_DESIGN_OS_BINDING_RECEIPT.json",
+      "sha256": "2a190a45adac16990624995c30a0b6c564956db995e50605ff90aa5ecc819b31",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_04",
+      "approvedAtUtc": "2026-08-01T06:13:43.000Z",
+      "rationale": "Approve bounded P0_04 Design OS binding evidence and receipt after full runner PASS: FEATURE_INTEGRATION_MANIFEST_V1 and YALKEN_ATLAS_FEATURE_SLOT_RESOLVER_V1 bind Atlas and Manual Map surfaces through query registry, Command Kernel command ids, typed Design OS slots, renderer resolved contribution metadata, and fail-closed negative bypass checks; no visual redesign, no network, no storage authority, no runtime dependency, and Program DoD remains IN_PROGRESS."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY_RECEIPT.json",
+      "sha256": "bf564d291b9dd717592fd0c3173f6e895a62ac9cf30585603fff6fe3de8b8dfc",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
+      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
+      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_06_MULTILINGUAL_MATCHER_RECEIPT.json",
+      "sha256": "51e27407db118950f6e978ecc0e46580ebeface0cefdb421e35c024f758971d0",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P0_06_MULTILINGUAL_MATCHER_FINAL_REBIND",
+      "approvedAtUtc": "2026-08-01T07:55:00.000Z",
+      "rationale": "Approve final P0_06 multilingual matcher delivery bytes: language policy routes before production matching, canonical casefold and grapheme-aware boundary matcher replaces raw case-sensitive UTF16 search, product mention index and Core admission evidence PASS, focused pack PASS 28, full runner PASS 799 total 735 pass 0 fail 64 skipped, no network, no dependency, no Program DONE claim."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND_RECEIPT.json",
       "sha256": "36a4aede8c9db58be06bdcc4161819cbdecfd37704418c26f088ea5cdcde323d",
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND",
@@ -4557,6 +4746,13 @@
       "approvedBy": "ticket:GOVERNANCE_APPROVAL_HARNESS_REPAIR_001",
       "approvedAtUtc": "2026-04-28T00:00:00.000Z",
       "rationale": "GOVERNANCE_APPROVAL_HARNESS_REPAIR_001 approves the bounded stdout flush repair so governance approval state emits complete JSON without truncation while preserving the existing approval semantics."
+    },
+    {
+      "filePath": "scripts/ops/governance-state-valid-state.mjs",
+      "sha256": "81fa2710dd0e64069effd3e157664c1927b0796971f505132474b8b62c7b8d83",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
+      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
+      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
     },
     {
       "filePath": "scripts/ops/hotpath-acceptance-guard-state.mjs",
@@ -4902,11 +5098,46 @@
       "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
     },
     {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-format-unicode-structure-stress.mjs",
+      "sha256": "79d7889edeae706cfb1c077609d9302dc60818a450c2cbf7fafb008fd13df7cc",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T07:30:00.000Z",
+      "rationale": "Approve bounded Word P0 format Unicode structure stress product loop: synthetic physical Word cases exercise Unicode tracked replacement apply, formatting diagnostics, structural diagnostics, authenticated intake, visible preview, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-multiscene-atomic-comment-state-closure.mjs",
+      "sha256": "02c5ba8d3d6f79bdc5f3c557fec497b4860765c29818b1c20afa5dcfd2e5fb4f",
+      "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Owner-approved bounded P0 Word contour for multi-scene atomic command apply and comment delete state closure; Word replies and resolve reopen remain typed limitations; automatic apply false; Word saturated false; Google Docs closed."
+    },
+    {
       "filePath": "scripts/ops/rtk-word-release-audit-p0-parsed-ir-preview-apply-replay.mjs",
       "sha256": "c240ab83aff4ec2b13d7ffdfac4a483d16a8f45ced005f3e66653dde07882993",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
       "approvedAtUtc": "2026-08-01T01:06:00.129Z",
       "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-product-comments-mixed-multiscene.mjs",
+      "sha256": "ff1a0c7683b5d29db21c31086a4f911cd03bf089e64cd0741dc3739f2ae82b34",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T07:30:00.000Z",
+      "rationale": "Approve bounded Word P0 format Unicode structure stress product loop: synthetic physical Word cases exercise Unicode tracked replacement apply, formatting diagnostics, structural diagnostics, authenticated intake, visible preview, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-product-originated-smoke-wave12.mjs",
+      "sha256": "8953470a8441bd98d0d1610b8a2c6b13d05b6be692c78199343827153451fdc2",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
+      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
+      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-product-vertical-tracked-edit.mjs",
+      "sha256": "e2fb25059ae731a9188d7e1a649b9f8f60b6178ab66326f43fede837c9dbd9f9",
+      "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Owner-approved bounded P0 Word contour for multi-scene atomic command apply and comment delete state closure; Word replies and resolve reopen remain typed limitations; automatic apply false; Word saturated false; Google Docs closed."
     },
     {
       "filePath": "scripts/ops/rtk-word-release-audit-p0-return-intake-v2.mjs",
@@ -4921,6 +5152,13 @@
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
       "approvedAtUtc": "2026-08-01T00:31:32.031Z",
       "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 scope: product Review DOCX returned package is parsed through the Review Transport parser gate with local authority binding before session import or storage authority; preserves Word SATURATED false, automatic apply false, Google Docs closed, no product network dependency, no user document use, and no broad corpus or release-ready claim."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-varied-wave64-product-loop.mjs",
+      "sha256": "fc353e16a453c0a1945cd6c8cab596656e21996df52eeaa9750bb5e5dbec26d9",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T07:00:00.000Z",
+      "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
     },
     {
       "filePath": "scripts/ops/rtk-word-sandbox-work-root.mjs",
@@ -5105,6 +5343,13 @@
       "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
+      "filePath": "scripts/ops/sector-m-scope-map.json",
+      "sha256": "9ffc743b1e718b45a75062a9984af9c561c6917eb051c1e5683542e835284b75",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
+      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
+      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
+    },
+    {
       "filePath": "scripts/ops/shared-drift-engine-runtime-state.mjs",
       "sha256": "2a5b4d10eea5e13b42adb6426f19fb06e1f10b472bca1b43fed3ce5e6220d689",
       "approvedBy": "DOCS_OPERATOR",
@@ -5117,6 +5362,13 @@
       "approvedBy": "DOCS_OPERATOR",
       "approvedAtUtc": "2026-02-26T20:50:00.000Z",
       "rationale": "TZ-P1-02-SHARED-REMOTE-PROBE-ENGINE-WITH-TTL-003 approvals."
+    },
+    {
+      "filePath": "scripts/ops/strategy-progress-valid-state.mjs",
+      "sha256": "229ae07cec20a447d37670ad0ddf4fb3ee987f6a253fb627900438cd500cdaa1",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
+      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
+      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
     },
     {
       "filePath": "scripts/ops/token-declaration-state.mjs",
@@ -5231,6 +5483,20 @@
       "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
     },
     {
+      "filePath": "scripts/ops/yalken-atlas-v5-final-audit-p0-03-packaged-visible-journey.mjs",
+      "sha256": "f23fe22e20d3750283b73d548ad0e6880791088eeb4b58554191bd49d016d47e",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
+      "approvedAtUtc": "2026-08-01T04:45:00.000Z",
+      "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-final-audit-p0-06-multilingual-matcher.mjs",
+      "sha256": "9a3dd39f622699217f8139b8f83fd98adf48bedd297bc5507f3521d53a44aef6",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P0_06_MULTILINGUAL_MATCHER_FINAL_REBIND",
+      "approvedAtUtc": "2026-08-01T07:55:00.000Z",
+      "rationale": "Approve final P0_06 multilingual matcher delivery bytes: language policy routes before production matching, canonical casefold and grapheme-aware boundary matcher replaces raw case-sensitive UTF16 search, product mention index and Core admission evidence PASS, focused pack PASS 28, full runner PASS 799 total 735 pass 0 fail 64 skipped, no network, no dependency, no Program DONE claim."
+    },
+    {
       "filePath": "scripts/ops/yalken-atlas-v5-night01-c00-audit-rebind.mjs",
       "sha256": "2cb0f460767636936c39a10b0792044259d9e2cdf4a8417c11135b04015dd9ad",
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND",
@@ -5294,6 +5560,13 @@
       "rationale": "Approve bounded R3_C02 Atlas temporal, continuity, saved query physical Electron journey evidence after origin/main reconcile; certifies only visible UI command path, persistence, reopen, and no silent source-scene slice; Program DoD remains NOT_DONE."
     },
     {
+      "filePath": "scripts/ops/yalken-atlas-v5-r3-c03-manual-map-attachments-portals-templates.mjs",
+      "sha256": "a11e0487cbf27d0ef0b517aacc53cc0d13cdac9b11d58505b112314b70832085",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
+      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
+      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
+    },
+    {
       "filePath": "scripts/ops/yalken-atlas-v5-r3-c04-multilingual-worker-stress.mjs",
       "sha256": "58477889f132cdc22907a38d5121e49acc4aeb41a16193a999280f64cb5331d2",
       "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P0_06_MULTILINGUAL_MATCHER_FINAL_REBIND",
@@ -5327,6 +5600,13 @@
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T18:23:22.233Z",
       "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+    },
+    {
+      "filePath": "src/core/runtime.mjs",
+      "sha256": "bf8e2c74f5ad0c24f2a1f105936e96e23f3dff8eccb4dd48ec2a986925da3b9f",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
+      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
+      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
     },
     {
       "filePath": "src/derived/atlas/atlasGraphLayoutWorker.mjs",
@@ -5469,6 +5749,13 @@
       "rationale": "Approve bounded C05 exact writer guard extension: admits block-local writes only when a locally bound C04-generated range digest is passed through trusted options, rejects caller-forged or tampered ranges, validates schema, provenance, scene, block, offsets, expected text, digests, current text, duplicate block, and duplicate quote, preserves no-blockRange legacy scene-unique behavior, canonical journal, checkpoint, atomic write, readback, receipt, and replay path, and adds no UI, network, dependency, HMAC/YRTK2, fuzzy apply, or full Word saturation claim."
     },
     {
+      "filePath": "src/io/revisionBridge/index.mjs",
+      "sha256": "20f1832b15b2d697f24278688fb2f542fc64ea1964917af8301d7665508ecf40",
+      "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Owner-approved bounded P0 Word contour for multi-scene atomic command apply and comment delete state closure; Word replies and resolve reopen remain typed limitations; automatic apply false; Word saturated false; Google Docs closed."
+    },
+    {
       "filePath": "src/io/revisionBridge/reviewTransportApplyCore.mjs",
       "sha256": "3cc6794dd7acf034b33c0c2bf9ef3706d48b6105f4baef40c09eaa684d1b0e33",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_C05_BLOCK_RANGE_WRITER",
@@ -5483,6 +5770,13 @@
       "rationale": "Approve bounded W3 V6 exact apply replay recovery: main-owned command envelope, source revision and raw-byte guards, existing exact batch writer adapter only, write-once outcome store, recovery-resolution evidence, same-round replay safety, no UI, parser, AI writer edge, dependency, network, fuzzy, structural, multi-scene, DOCX Minimal, or Design OS scope."
     },
     {
+      "filePath": "src/io/revisionBridge/reviewTransportBlockExactAuthorityV2.mjs",
+      "sha256": "fbfb852683f77d9a72deb2ca9d99cf13670ec06a758fbaa68cae4eb13e79ca9a",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
+      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
+      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
+    },
+    {
       "filePath": "src/io/revisionBridge/reviewTransportBlockExactWriterBindingV2.mjs",
       "sha256": "bd67f1ade56f63f6e1166c2cc3b39f318fe597f17e76a50529f6b3623b60c2e5",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_C05_BLOCK_RANGE_WRITER",
@@ -5495,6 +5789,20 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_C05_BLOCK_RANGE_WRITER",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Approve new bounded C05 platform-neutral block-range authority helper: builds locally bound block text and range integrity digests from local baseline and current project snapshot, requires unique block text in scene and exact block-local quote, models SHA-256 as integrity checks rather than signatures, imports no Node, Electron, renderer, network, parser, writer, or UI authority, and makes no HMAC/YRTK2 or Word carrier claim."
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportClassifierV2.mjs",
+      "sha256": "46496be08b65283680b27a4e50d3c368f70105d865e3282dfde4baa6ff627429",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
+      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
+      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportCommentShadowSession.mjs",
+      "sha256": "3b0e9d959d616f01d003804ea3d2767f6494a4500aea8ebd89ea3cbe8fe8a6b0",
+      "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Owner-approved bounded P0 Word contour for multi-scene atomic command apply and comment delete state closure; Word replies and resolve reopen remain typed limitations; automatic apply false; Word saturated false; Google Docs closed."
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportContracts.mjs",
@@ -5518,6 +5826,13 @@
       "rationale": "Approve bounded W3 V6 exact apply replay recovery: main-owned command envelope, source revision and raw-byte guards, existing exact batch writer adapter only, write-once outcome store, recovery-resolution evidence, same-round replay safety, no UI, parser, AI writer edge, dependency, network, fuzzy, structural, multi-scene, DOCX Minimal, or Design OS scope."
     },
     {
+      "filePath": "src/io/revisionBridge/reviewTransportExactApplyAdapterV2.mjs",
+      "sha256": "6cb7fe3a0a7ee099438a5051286d2648733168cfa13c65a86943cf45a3a245c1",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
+      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
+      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
+    },
+    {
       "filePath": "src/io/revisionBridge/reviewTransportIr.mjs",
       "sha256": "75168437ca40e2b08e4d6d6a3272ca343b0dd0072f6d24a231f894591bea5dd7",
       "approvedBy": "ticket:YALKEN_RTK_W1_W2_CANON_REPAIR",
@@ -5539,11 +5854,32 @@
       "rationale": "Approve E11 platform-neutral multi-scene atomic coordinator component: validates same-root prepare records, unique scene request and effect identities, staged receipt matching, root-pointer commit preconditions and recovery states through injected crypto only, with no Node filesystem, Electron, renderer, network or writer authority."
     },
     {
+      "filePath": "src/io/revisionBridge/reviewTransportMultiSceneNonOverlapTrackedReplacementRuntime.mjs",
+      "sha256": "bef27e2add216813062871d761a7bfca0113b3f80967ee98f8deb7f2a031fd41",
+      "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Owner-approved bounded P0 Word contour for multi-scene atomic command apply and comment delete state closure; Word replies and resolve reopen remain typed limitations; automatic apply false; Word saturated false; Google Docs closed."
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportNonOverlapTrackedReplacementRuntime.mjs",
+      "sha256": "1f1b1563ca9128d746cc250e2a2c3799c0d9a4f66a396dde77b4f30473ff462d",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
+      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
+      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
+    },
+    {
       "filePath": "src/io/revisionBridge/reviewTransportOracle.mjs",
       "sha256": "84a6b7fc882b323e2b6d4125a34b794f0d57bc281b5b80e882e1a87f883e9232",
       "approvedBy": "ticket:YALKEN_RTK_W1_W2_CANON_REPAIR",
       "approvedAtUtc": "2026-07-29T16:30:29.812Z",
       "rationale": "Approve bounded W1/W2 V6 canon repair: stable RTK contracts, platform-neutral Review IR core, no regex normative XML parser, canonical durable review storage, comment-lane/source-mode fixes, no UI, writer, DOCX Minimal, network, dependency, apply, or W3 scope."
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportPackageParserV2.mjs",
+      "sha256": "12a922b4d69d5a7b394c9616fb23a97a93a6a5e8fe944f9a6a51b49cc5a454bb",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
+      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
+      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportRoundStore.mjs",
@@ -5574,11 +5910,53 @@
       "rationale": "Approve V4 E03 platform-neutral CoreManifest/YRTK2 core: creates CoreManifest, ExportMap, hash tree binding, fixed 101-byte/135-character YRTK2 round locator token, HMAC verification through CryptoPort, hash-cycle rejection, double self-parse gate, no Buffer, Node, Electron, filesystem, renderer, network, parser authority, writer authority, UI, dependency, or automatic apply expansion."
     },
     {
+      "filePath": "src/main.js",
+      "sha256": "9cb2a3320af611fcbbbd1159acf2d6ba84fc78bcb9b65817cf74e9d640fe1e59",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P0_06_MULTILINGUAL_MATCHER_REBIND",
+      "approvedAtUtc": "2026-08-01T07:42:00.000Z",
+      "rationale": "Rebind governance approval after P0_06 multilingual matcher repair: production matcher applies language route before matching, canonical casefold and grapheme boundaries replace raw UTF16 case-sensitive search, focused evidence passes, no network, no dependency, no Program DONE claim."
+    },
+    {
       "filePath": "src/preload.js",
       "sha256": "f56ee01ce624d1e25232b5a502deb55746b14c6e50b34730e481497b4a031f2c",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
       "approvedAtUtc": "2026-07-31T11:45:00.000Z",
       "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
+    },
+    {
+      "filePath": "src/renderer/commands/localCapabilityProvider.mjs",
+      "sha256": "1c2a42ad6a50bb187d91bf7ff11aa8060a77fe4c512799ccf1e8620b8e024dc6",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE",
+      "approvedAtUtc": "2026-08-01T04:35:00.000Z",
+      "rationale": "Approve bounded P0 product comments mixed multi-scene contour and entitlement repair: Electron Review DOCX export menu proof, physical Word root comment/mixed comment plus tracked replacement/delete/state probe, authenticated V2 intake, visible preview, explicit command apply, comment shadow replay, multi-scene safe block, veto metrics zero, automatic apply false, Word saturated false, Google Docs closed."
+    },
+    {
+      "filePath": "src/renderer/design-os/atlasFeatureIntegrationManifest.mjs",
+      "sha256": "4666609f8f4b6919a77d834a98b4c5853a208afc371da474813a9b755f05f093",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
+      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
+      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
+    },
+    {
+      "filePath": "src/renderer/design-os/index.mjs",
+      "sha256": "cb9c90b5a942ba2d170ad89334ef9c872f02086078f726a1d7efc3c0909c51b7",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_04",
+      "approvedAtUtc": "2026-08-01T06:03:00.000Z",
+      "rationale": "Approve bounded P0_04 runtime Design OS binding files: Atlas and Manual Map surfaces are bound by FEATURE_INTEGRATION_MANIFEST_V1 and YALKEN_ATLAS_FEATURE_SLOT_RESOLVER_V1, renderer provider metadata flows through resolved slot binding, direct provider writes are removed, generated bundle rebuilt, no visual redesign, no network, no storage authority, no second command bus, and Program DoD remains IN_PROGRESS."
+    },
+    {
+      "filePath": "src/renderer/editor.bundle.js",
+      "sha256": "c492302f049d2ce67196124393fbe2fd874fefa7a590915e0d87e2598b108cc7",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
+      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
+      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
+    },
+    {
+      "filePath": "src/renderer/editor.js",
+      "sha256": "3f91aa11067da9da0c8053bff13c1619d48511e10bd0631b66868f6f8c9d0f5f",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
+      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
+      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
     },
     {
       "filePath": "src/renderer/index.html",
@@ -6589,11 +6967,25 @@
       "rationale": "Approve bounded B01 sandbox contracts: verify default Word work root is inside com.microsoft.Word container tmp, T7 artifact root is preserved, plain tmp override is rejected, and survival-only certification boundaries remain enforced without UI, dependency, or network expansion."
     },
     {
+      "filePath": "test/contracts/rtk-word-latest-semantic-b02-package-parser.contract.test.js",
+      "sha256": "6d2a670e3f138caeb9796f190947281971be277b705be2d0d93085cce4ece43c",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
+      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
+      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
+    },
+    {
       "filePath": "test/contracts/rtk-word-latest-semantic-b03-modern-comments.contract.test.js",
       "sha256": "e499f8893f2a26265b73e964b6857908ed9e61ada061013e95769f4b803664ee",
       "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
       "approvedAtUtc": "2026-07-30T15:33:00.000Z",
       "rationale": "Approve focused B03 modern comments contract coverage: proves reopened state, durable identity, recursive replies, comment-on-deleted-text related revision, orphan body preservation, missing expected comment deleted-or-missing diagnostics, duplicate ID non-pass, no-op empty comment non-pass, and receipt non-certification without runtime, UI, dependency, network, apply, or Word certification expansion."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-latest-semantic-b04-classifier.contract.test.js",
+      "sha256": "010db197453ef99462c3609c14b332debc6ec9f16d0151654ae5ff23a38c1310",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
+      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
+      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
     },
     {
       "filePath": "test/contracts/rtk-word-latest-semantic-b05-exact-apply-adapter.contract.test.js",
@@ -6631,6 +7023,20 @@
       "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
     },
     {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-format-unicode-structure-stress.contract.test.js",
+      "sha256": "a861d225691e6b7b106e098c31e3f169be2759e935f9059023eb4e3edbbc86c9",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T07:30:00.000Z",
+      "rationale": "Approve bounded Word P0 format Unicode structure stress product loop: synthetic physical Word cases exercise Unicode tracked replacement apply, formatting diagnostics, structural diagnostics, authenticated intake, visible preview, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-multiscene-atomic-comment-state-closure.contract.test.js",
+      "sha256": "028e0d335bbfb5d652678be124bd5a4bf34b9c98e981e7847402550689c30f1f",
+      "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Owner-approved bounded P0 Word contour for multi-scene atomic command apply and comment delete state closure; Word replies and resolve reopen remain typed limitations; automatic apply false; Word saturated false; Google Docs closed."
+    },
+    {
       "filePath": "test/contracts/rtk-word-release-audit-p0-parsed-ir-preview-apply-replay.contract.test.js",
       "sha256": "5ad674a2f9cd85127d244635d3d31e3df44e4cc3afce18aaeff7d0f2c9e0d060",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
@@ -6638,11 +7044,32 @@
       "rationale": "Approve bounded release-audit Night 01 P0 parsed-IR preview apply replay loop: authenticated ReviewIRV2 is the sole writer-operation source for visible exact preview and explicit user-confirmed C05 command-kernel apply/replay; preserves automaticApplyCertified false at release level, Word SATURATED false, Google Docs closed, no UI redesign, no dependency, no product network, and no broad physical wave claim."
     },
     {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-postmerge-truth-rebind.contract.test.js",
+      "sha256": "271a614328253f978925339e79f3ec9ca5c1507ad58e98cb7b0a7867979bbd86",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T07:00:00.000Z",
+      "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-product-comments-mixed-multiscene.contract.test.js",
+      "sha256": "006683946f6e98e1d2d8d63d44a06828068e7334ab7334f7df4273d5b7757359",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE",
+      "approvedAtUtc": "2026-08-01T04:35:00.000Z",
+      "rationale": "Approve bounded P0 product comments mixed multi-scene contour and entitlement repair: Electron Review DOCX export menu proof, physical Word root comment/mixed comment plus tracked replacement/delete/state probe, authenticated V2 intake, visible preview, explicit command apply, comment shadow replay, multi-scene safe block, veto metrics zero, automatic apply false, Word saturated false, Google Docs closed."
+    },
+    {
       "filePath": "test/contracts/rtk-word-release-audit-p0-product-originated-smoke-wave12.contract.test.js",
       "sha256": "503d2d54ac5cf34d9854e082cc8b202f8ebe107f6567a1d626f194355b9145a0",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
       "approvedAtUtc": "2026-08-01T02:59:28.553Z",
       "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-product-vertical-tracked-edit.contract.test.js",
+      "sha256": "f38095c07482888413e4804089352fbe2c9d610b3a5c15eabd6ad40a351cf472",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
+      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
+      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-return-intake-v2.contract.test.js",
@@ -6657,6 +7084,13 @@
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
       "approvedAtUtc": "2026-07-31T23:53:30.000Z",
       "rationale": "Approve release-audit P0 verifier contract with negative checks for automatic-apply overclaim and missing carrier proof."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-varied-wave64-product-loop.contract.test.js",
+      "sha256": "bda86ace770e74b0b07d66b8dc57f7440038ce971c04328f73e5c1a6783344c2",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T07:00:00.000Z",
+      "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
     },
     {
       "filePath": "test/contracts/rtk-word-saturation-c01-locator-carrier.contract.test.js",
@@ -7506,6 +7940,34 @@
       "rationale": "Approve P0_01 future Atlas schema loss contract test: Electron-stub UI command bridge journey proves migration negative, quarantine persistence, reopen, and recovery preimage preservation."
     },
     {
+      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-03-packaged-visible-journey.contract.test.js",
+      "sha256": "298014d6226416af051bcfe96d6b3348f6965706d619260a244ade38fa1166d8",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
+      "approvedAtUtc": "2026-08-01T04:45:00.000Z",
+      "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-04-design-os-binding.contract.test.js",
+      "sha256": "447f40757b32e7d27a4a646d53e85a22b359dd300cf937355eca93bb55edf912",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_04",
+      "approvedAtUtc": "2026-08-01T05:58:00.000Z",
+      "rationale": "Approve bounded P0_04 Design OS binding contract: requires FEATURE_INTEGRATION_MANIFEST_V1, actual Design OS slot resolver, query registry binding, Command Kernel command IDs, renderer host binding through resolver metadata, fail-closed negative bypass checks, no visual redesign, no network, no storage authority, and Program DoD remains IN_PROGRESS."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-05-manual-map-portability.contract.test.js",
+      "sha256": "5569601f63cb6fcb47c52394c58f6431771c6e2f7549f59d6b1880c21e0237f5",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
+      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
+      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-06-multilingual-matcher.contract.test.js",
+      "sha256": "1b3a18fcad789aac3b5d3210f17dcb91619f12354e00393b9dc2e3295460ae69",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P0_06_MULTILINGUAL_MATCHER_FINAL_REBIND",
+      "approvedAtUtc": "2026-08-01T07:55:00.000Z",
+      "rationale": "Approve final P0_06 multilingual matcher delivery bytes: language policy routes before production matching, canonical casefold and grapheme-aware boundary matcher replaces raw case-sensitive UTF16 search, product mention index and Core admission evidence PASS, focused pack PASS 28, full runner PASS 799 total 735 pass 0 fail 64 skipped, no network, no dependency, no Program DONE claim."
+    },
+    {
       "filePath": "test/contracts/yalken-atlas-v5-night01-c00-audit-rebind.contract.test.js",
       "sha256": "45834766a468efdec66826ef4cb3f733b775bfe9d26d5793b8acd03e36749f91",
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND",
@@ -7667,109 +8129,18 @@
       "rationale": "EDITORIAL_STRESS_ARTIFACT_REBIND_001 approves bounded governance approval registry SHA rebind to current repo file bytes discovered while closing the editorial sheet 10000 stress artifact tail; no runtime UI storage export dependency production cross-platform above-10000 readiness or release claim is introduced."
     },
     {
+      "filePath": "test/unit/ops-global-delivery-standard.test.js",
+      "sha256": "370f0b451121929f916d83911669f5ed107697438d80cbfe67fec26f6c68715b",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
+      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
+      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
+    },
+    {
       "filePath": "test/unit/sector-m-no-scope-leak.test.js",
       "sha256": "83cb915be3d3847e09edeac24ae5bf967f59cfe8170eb3a26a7c28ada9f660d7",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T18:23:22.246Z",
       "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
-    },
-    {
-      "filePath": "test/unit/yalken-design-os-sidebar-control-truth.test.js",
-      "sha256": "70e4fc18f3739ebb7490852fc33eece1445aee2fb77fd29cf67e98e9b8599d33",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_VERTICAL_TRACKED_EDIT_RECEIPT.json",
-      "sha256": "01524307f07a0c45528eb5a5d1df31392fce6899dd6f2a914b931206010dbcc7",
-      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
-      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
-      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-release-audit-p0-product-originated-smoke-wave12.mjs",
-      "sha256": "8953470a8441bd98d0d1610b8a2c6b13d05b6be692c78199343827153451fdc2",
-      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
-      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
-      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
-    },
-    {
-      "filePath": "src/io/revisionBridge/reviewTransportBlockExactAuthorityV2.mjs",
-      "sha256": "fbfb852683f77d9a72deb2ca9d99cf13670ec06a758fbaa68cae4eb13e79ca9a",
-      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
-      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
-      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
-    },
-    {
-      "filePath": "src/io/revisionBridge/reviewTransportClassifierV2.mjs",
-      "sha256": "46496be08b65283680b27a4e50d3c368f70105d865e3282dfde4baa6ff627429",
-      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
-      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
-      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
-    },
-    {
-      "filePath": "src/io/revisionBridge/reviewTransportExactApplyAdapterV2.mjs",
-      "sha256": "6cb7fe3a0a7ee099438a5051286d2648733168cfa13c65a86943cf45a3a245c1",
-      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
-      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
-      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
-    },
-    {
-      "filePath": "src/io/revisionBridge/reviewTransportNonOverlapTrackedReplacementRuntime.mjs",
-      "sha256": "1f1b1563ca9128d746cc250e2a2c3799c0d9a4f66a396dde77b4f30473ff462d",
-      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
-      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
-      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
-    },
-    {
-      "filePath": "src/io/revisionBridge/reviewTransportPackageParserV2.mjs",
-      "sha256": "12a922b4d69d5a7b394c9616fb23a97a93a6a5e8fe944f9a6a51b49cc5a454bb",
-      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
-      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
-      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-latest-semantic-b02-package-parser.contract.test.js",
-      "sha256": "6d2a670e3f138caeb9796f190947281971be277b705be2d0d93085cce4ece43c",
-      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
-      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
-      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-latest-semantic-b04-classifier.contract.test.js",
-      "sha256": "010db197453ef99462c3609c14b332debc6ec9f16d0151654ae5ff23a38c1310",
-      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
-      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
-      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-release-audit-p0-product-vertical-tracked-edit.contract.test.js",
-      "sha256": "f38095c07482888413e4804089352fbe2c9d610b3a5c15eabd6ad40a351cf472",
-      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
-      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
-      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_COMMENTS_MIXED_MULTI_SCENE_RECEIPT.json",
-      "sha256": "70c08e63f3449eb7630a20183939652588f0b43ff29f50fb27d26c58b2a99338",
-      "approvedBy": "owner:TASK_ID:WORD_RTK_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE",
-      "approvedAtUtc": "2026-08-01T04:35:00.000Z",
-      "rationale": "Approve bounded P0 product comments mixed multi-scene contour and entitlement repair: Electron Review DOCX export menu proof, physical Word root comment/mixed comment plus tracked replacement/delete/state probe, authenticated V2 intake, visible preview, explicit command apply, comment shadow replay, multi-scene safe block, veto metrics zero, automatic apply false, Word saturated false, Google Docs closed."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-release-audit-p0-product-comments-mixed-multiscene.contract.test.js",
-      "sha256": "006683946f6e98e1d2d8d63d44a06828068e7334ab7334f7df4273d5b7757359",
-      "approvedBy": "owner:TASK_ID:WORD_RTK_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE",
-      "approvedAtUtc": "2026-08-01T04:35:00.000Z",
-      "rationale": "Approve bounded P0 product comments mixed multi-scene contour and entitlement repair: Electron Review DOCX export menu proof, physical Word root comment/mixed comment plus tracked replacement/delete/state probe, authenticated V2 intake, visible preview, explicit command apply, comment shadow replay, multi-scene safe block, veto metrics zero, automatic apply false, Word saturated false, Google Docs closed."
-    },
-    {
-      "filePath": "src/renderer/commands/localCapabilityProvider.mjs",
-      "sha256": "1c2a42ad6a50bb187d91bf7ff11aa8060a77fe4c512799ccf1e8620b8e024dc6",
-      "approvedBy": "owner:TASK_ID:WORD_RTK_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE",
-      "approvedAtUtc": "2026-08-01T04:35:00.000Z",
-      "rationale": "Approve bounded P0 product comments mixed multi-scene contour and entitlement repair: Electron Review DOCX export menu proof, physical Word root comment/mixed comment plus tracked replacement/delete/state probe, authenticated V2 intake, visible preview, explicit command apply, comment shadow replay, multi-scene safe block, veto metrics zero, automatic apply false, Word saturated false, Google Docs closed."
     },
     {
       "filePath": "test/unit/sector-m-s37-capability-provider-free-pro.test.js",
@@ -7779,361 +8150,11 @@
       "rationale": "Approve bounded P0 product comments mixed multi-scene contour and entitlement repair: Electron Review DOCX export menu proof, physical Word root comment/mixed comment plus tracked replacement/delete/state probe, authenticated V2 intake, visible preview, explicit command apply, comment shadow replay, multi-scene safe block, veto metrics zero, automatic apply false, Word saturated false, Google Docs closed."
     },
     {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE/p0-03-packaged-visible-first-launch.png",
-      "sha256": "8b34e05aac371b2cd9ca4744ffa8c2e6da394405490f47b40cdbf130d5901de1",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
-      "approvedAtUtc": "2026-08-01T05:20:00.000Z",
-      "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE/p0-03-packaged-visible-journey-report.json",
-      "sha256": "a6d99d4c6ee019acd9495df262fd6170b8e817a1c5b4f86cff7418b2ae262e20",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
-      "approvedAtUtc": "2026-08-01T05:20:00.000Z",
-      "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE/p0-03-packaged-visible-reopen.png",
-      "sha256": "15512a38641327c616a4889495732660011568a8230ed44631e634479a4a931e",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
-      "approvedAtUtc": "2026-08-01T05:20:00.000Z",
-      "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE/package-build/build-mac-output.txt",
-      "sha256": "6101e196e81746b111bf15c0eae843db680ff9c879f8975c869905411919391d",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
-      "approvedAtUtc": "2026-08-01T05:20:00.000Z",
-      "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE/package-build/macos-package-artifact-security-report.json",
-      "sha256": "d9fc5d36db4ba244000c9a513162135f93d6d2d34154f019dea723768389043c",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
-      "approvedAtUtc": "2026-08-01T05:20:00.000Z",
-      "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE_RECEIPT.json",
-      "sha256": "6397e8b0bdb89d89ac0cee1a3a8b56603c56c8ecbe186d287f62e23cafd8f226",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
-      "approvedAtUtc": "2026-08-01T05:20:00.000Z",
-      "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
-    },
-    {
-      "filePath": "scripts/ops/yalken-atlas-v5-final-audit-p0-03-packaged-visible-journey.mjs",
-      "sha256": "f23fe22e20d3750283b73d548ad0e6880791088eeb4b58554191bd49d016d47e",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
-      "approvedAtUtc": "2026-08-01T04:45:00.000Z",
-      "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-03-packaged-visible-journey.contract.test.js",
-      "sha256": "298014d6226416af051bcfe96d6b3348f6965706d619260a244ade38fa1166d8",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
-      "approvedAtUtc": "2026-08-01T04:45:00.000Z",
-      "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_04_DESIGN_OS_BINDING/p0-04-design-os-binding-report.json",
-      "sha256": "68d3f67b2ed2e97e9b42c74053d4ee1012e20d7eadca33b4ae6f5d64e4aa694c",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_04",
-      "approvedAtUtc": "2026-08-01T06:13:43.000Z",
-      "rationale": "Approve bounded P0_04 Design OS binding evidence and receipt after full runner PASS: FEATURE_INTEGRATION_MANIFEST_V1 and YALKEN_ATLAS_FEATURE_SLOT_RESOLVER_V1 bind Atlas and Manual Map surfaces through query registry, Command Kernel command ids, typed Design OS slots, renderer resolved contribution metadata, and fail-closed negative bypass checks; no visual redesign, no network, no storage authority, no runtime dependency, and Program DoD remains IN_PROGRESS."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_04_DESIGN_OS_BINDING_RECEIPT.json",
-      "sha256": "2a190a45adac16990624995c30a0b6c564956db995e50605ff90aa5ecc819b31",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_04",
-      "approvedAtUtc": "2026-08-01T06:13:43.000Z",
-      "rationale": "Approve bounded P0_04 Design OS binding evidence and receipt after full runner PASS: FEATURE_INTEGRATION_MANIFEST_V1 and YALKEN_ATLAS_FEATURE_SLOT_RESOLVER_V1 bind Atlas and Manual Map surfaces through query registry, Command Kernel command ids, typed Design OS slots, renderer resolved contribution metadata, and fail-closed negative bypass checks; no visual redesign, no network, no storage authority, no runtime dependency, and Program DoD remains IN_PROGRESS."
-    },
-    {
-      "filePath": "src/renderer/design-os/index.mjs",
-      "sha256": "cb9c90b5a942ba2d170ad89334ef9c872f02086078f726a1d7efc3c0909c51b7",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_04",
-      "approvedAtUtc": "2026-08-01T06:03:00.000Z",
-      "rationale": "Approve bounded P0_04 runtime Design OS binding files: Atlas and Manual Map surfaces are bound by FEATURE_INTEGRATION_MANIFEST_V1 and YALKEN_ATLAS_FEATURE_SLOT_RESOLVER_V1, renderer provider metadata flows through resolved slot binding, direct provider writes are removed, generated bundle rebuilt, no visual redesign, no network, no storage authority, no second command bus, and Program DoD remains IN_PROGRESS."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-04-design-os-binding.contract.test.js",
-      "sha256": "447f40757b32e7d27a4a646d53e85a22b359dd300cf937355eca93bb55edf912",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_04",
-      "approvedAtUtc": "2026-08-01T05:58:00.000Z",
-      "rationale": "Approve bounded P0_04 Design OS binding contract: requires FEATURE_INTEGRATION_MANIFEST_V1, actual Design OS slot resolver, query registry binding, Command Kernel command IDs, renderer host binding through resolver metadata, fail-closed negative bypass checks, no visual redesign, no network, no storage authority, and Program DoD remains IN_PROGRESS."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE_RECEIPT.json",
-      "sha256": "d17668e3e77ecc0ac42342ca04a96e903879eb6b764765fd74cd8542099614f1",
-      "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "Owner-approved bounded P0 Word contour for multi-scene atomic command apply and comment delete state closure; Word replies and resolve reopen remain typed limitations; automatic apply false; Word saturated false; Google Docs closed."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-release-audit-p0-multiscene-atomic-comment-state-closure.mjs",
-      "sha256": "02c5ba8d3d6f79bdc5f3c557fec497b4860765c29818b1c20afa5dcfd2e5fb4f",
-      "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "Owner-approved bounded P0 Word contour for multi-scene atomic command apply and comment delete state closure; Word replies and resolve reopen remain typed limitations; automatic apply false; Word saturated false; Google Docs closed."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-release-audit-p0-multiscene-atomic-comment-state-closure.contract.test.js",
-      "sha256": "028e0d335bbfb5d652678be124bd5a4bf34b9c98e981e7847402550689c30f1f",
-      "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "Owner-approved bounded P0 Word contour for multi-scene atomic command apply and comment delete state closure; Word replies and resolve reopen remain typed limitations; automatic apply false; Word saturated false; Google Docs closed."
-    },
-    {
-      "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "20f1832b15b2d697f24278688fb2f542fc64ea1964917af8301d7665508ecf40",
-      "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "Owner-approved bounded P0 Word contour for multi-scene atomic command apply and comment delete state closure; Word replies and resolve reopen remain typed limitations; automatic apply false; Word saturated false; Google Docs closed."
-    },
-    {
-      "filePath": "src/io/revisionBridge/reviewTransportCommentShadowSession.mjs",
-      "sha256": "3b0e9d959d616f01d003804ea3d2767f6494a4500aea8ebd89ea3cbe8fe8a6b0",
-      "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "Owner-approved bounded P0 Word contour for multi-scene atomic command apply and comment delete state closure; Word replies and resolve reopen remain typed limitations; automatic apply false; Word saturated false; Google Docs closed."
-    },
-    {
-      "filePath": "src/io/revisionBridge/reviewTransportMultiSceneNonOverlapTrackedReplacementRuntime.mjs",
-      "sha256": "bef27e2add216813062871d761a7bfca0113b3f80967ee98f8deb7f2a031fd41",
-      "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "Owner-approved bounded P0 Word contour for multi-scene atomic command apply and comment delete state closure; Word replies and resolve reopen remain typed limitations; automatic apply false; Word saturated false; Google Docs closed."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-release-audit-p0-product-vertical-tracked-edit.mjs",
-      "sha256": "e2fb25059ae731a9188d7e1a649b9f8f60b6178ab66326f43fede837c9dbd9f9",
-      "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "Owner-approved bounded P0 Word contour for multi-scene atomic command apply and comment delete state closure; Word replies and resolve reopen remain typed limitations; automatic apply false; Word saturated false; Google Docs closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_POSTMERGE_TRUTH_REBIND_RECEIPT.json",
-      "sha256": "daaad4df7d1d9fb08bd18ded249f0dba3912facd6b0ae9989cf61ae4cd51715b",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T06:55:00.000Z",
-      "rationale": "Approve bounded P0 postmerge truth rebind after multi-scene atomic comment-state closure: aggregate Word program/profile/ledger now point at the merged closure receipt, preserve Word SATURATED false, automatic apply false, Google Docs closed, and prepare bounded varied wave64 as the next Word-only contour."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/r3-c03-manual-map-attachments-portals-templates-report.json",
-      "sha256": "b83aaf18fc8d7ad8a47aee3ebe3f311c60ed58ee18d88ab01f264ee7ac4712ee",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
-      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
-      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/r3-c03-manual-map-portability-journey.png",
-      "sha256": "f8278905b19e6a1a6df7d7bb992bb539061cf5d77e2adbd34f4b7fb44d3b53dd",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
-      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
-      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/r3-c03-manual-map-portability-reopen.png",
-      "sha256": "8f8617ea630074826866ac35eb36c7f57d56a68545cb04ba4c3e7e38bb92e467",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
-      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
-      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/seed-r2-c05/r2-c05-black-box-journey.png",
-      "sha256": "e6482742bbe2ae1c4a2b15367df974087a250bedde0e4e76b1939995e37d68ba",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
-      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
-      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/seed-r2-c05/r2-c05-black-box-reopen.png",
-      "sha256": "84c24574245b6e66294adbf865b4dddb210f1f49110cc9a8f6b6d5dd3e3ffc1d",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
-      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
-      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/seed-r2-c05/r2-c05-honest-black-box-acceptance-report.json",
-      "sha256": "998b5332235e73e9a734c781b7fb8d52a8c03bd254e4ac57ccaaf67d05c18099",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
-      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
-      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json",
-      "sha256": "2b291976df9d5cf42ee68a14f94a58cd3a9c61fe5f85e483a72117cf5ad384d0",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
-      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
-      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY_RECEIPT.json",
-      "sha256": "bf564d291b9dd717592fd0c3173f6e895a62ac9cf30585603fff6fe3de8b8dfc",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
-      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
-      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
-    },
-    {
-      "filePath": "scripts/ops/governance-state-valid-state.mjs",
-      "sha256": "81fa2710dd0e64069effd3e157664c1927b0796971f505132474b8b62c7b8d83",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
-      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
-      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
-    },
-    {
-      "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "9ffc743b1e718b45a75062a9984af9c561c6917eb051c1e5683542e835284b75",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
-      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
-      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
-    },
-    {
-      "filePath": "scripts/ops/strategy-progress-valid-state.mjs",
-      "sha256": "229ae07cec20a447d37670ad0ddf4fb3ee987f6a253fb627900438cd500cdaa1",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
-      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
-      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
-    },
-    {
-      "filePath": "scripts/ops/yalken-atlas-v5-r3-c03-manual-map-attachments-portals-templates.mjs",
-      "sha256": "a11e0487cbf27d0ef0b517aacc53cc0d13cdac9b11d58505b112314b70832085",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
-      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
-      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
-    },
-    {
-      "filePath": "src/core/runtime.mjs",
-      "sha256": "bf8e2c74f5ad0c24f2a1f105936e96e23f3dff8eccb4dd48ec2a986925da3b9f",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
-      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
-      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
-    },
-    {
-      "filePath": "src/main.js",
-      "sha256": "9cb2a3320af611fcbbbd1159acf2d6ba84fc78bcb9b65817cf74e9d640fe1e59",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P0_06_MULTILINGUAL_MATCHER_REBIND",
-      "approvedAtUtc": "2026-08-01T07:42:00.000Z",
-      "rationale": "Rebind governance approval after P0_06 multilingual matcher repair: production matcher applies language route before matching, canonical casefold and grapheme boundaries replace raw UTF16 case-sensitive search, focused evidence passes, no network, no dependency, no Program DONE claim."
-    },
-    {
-      "filePath": "src/renderer/design-os/atlasFeatureIntegrationManifest.mjs",
-      "sha256": "4666609f8f4b6919a77d834a98b4c5853a208afc371da474813a9b755f05f093",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
-      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
-      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
-    },
-    {
-      "filePath": "src/renderer/editor.bundle.js",
-      "sha256": "c492302f049d2ce67196124393fbe2fd874fefa7a590915e0d87e2598b108cc7",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
-      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
-      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
-    },
-    {
-      "filePath": "src/renderer/editor.js",
-      "sha256": "3f91aa11067da9da0c8053bff13c1619d48511e10bd0631b66868f6f8c9d0f5f",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
-      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
-      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-05-manual-map-portability.contract.test.js",
-      "sha256": "5569601f63cb6fcb47c52394c58f6431771c6e2f7549f59d6b1880c21e0237f5",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
-      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
-      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
-    },
-    {
-      "filePath": "test/unit/ops-global-delivery-standard.test.js",
-      "sha256": "370f0b451121929f916d83911669f5ed107697438d80cbfe67fec26f6c68715b",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
-      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
-      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
-    },
-    {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "7c52816780c2e465ba23bf45a269a36f8b5650222d16c2a00ef654fbea31ca90",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T07:00:00.000Z",
-      "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "7262e5f9e73d8064c22175e59148a75f4e3a71b485cced6ec18abb7ec964af01",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T07:00:00.000Z",
-      "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "7bb0fe016caef91ee752b5dc68f5ad96ae0d4be11e6c3d06a07adae7c4458476",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T07:00:00.000Z",
-      "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_VARIED_WAVE64_PRODUCT_LOOP_RECEIPT.json",
-      "sha256": "ed5f9c3230f8b78921884a4f706fe4b1294203c017b65e6d3e04a9b5ae039c57",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T07:00:00.000Z",
-      "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-release-audit-p0-varied-wave64-product-loop.mjs",
-      "sha256": "fc353e16a453c0a1945cd6c8cab596656e21996df52eeaa9750bb5e5dbec26d9",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T07:00:00.000Z",
-      "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-release-audit-p0-product-comments-mixed-multiscene.mjs",
-      "sha256": "f5647edbdb5828dde2c00eea3a9f834c9f7708ae695c759ad8fee089921bb2e8",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T07:00:00.000Z",
-      "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-release-audit-p0-varied-wave64-product-loop.contract.test.js",
-      "sha256": "bda86ace770e74b0b07d66b8dc57f7440038ce971c04328f73e5c1a6783344c2",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T07:00:00.000Z",
-      "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-release-audit-p0-postmerge-truth-rebind.contract.test.js",
-      "sha256": "271a614328253f978925339e79f3ec9ca5c1507ad58e98cb7b0a7867979bbd86",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T07:00:00.000Z",
-      "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_06_MULTILINGUAL_MATCHER/p0-06-multilingual-matcher-report.json",
-      "sha256": "3dc7a4e7ab263450bd6089cc294d56fcdba196d2eea503a970d3794a0e4c0a72",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P0_06_MULTILINGUAL_MATCHER_FINAL_REBIND",
-      "approvedAtUtc": "2026-08-01T07:55:00.000Z",
-      "rationale": "Approve final P0_06 multilingual matcher delivery bytes: language policy routes before production matching, canonical casefold and grapheme-aware boundary matcher replaces raw case-sensitive UTF16 search, product mention index and Core admission evidence PASS, focused pack PASS 28, full runner PASS 799 total 735 pass 0 fail 64 skipped, no network, no dependency, no Program DONE claim."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_06_MULTILINGUAL_MATCHER_RECEIPT.json",
-      "sha256": "51e27407db118950f6e978ecc0e46580ebeface0cefdb421e35c024f758971d0",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P0_06_MULTILINGUAL_MATCHER_FINAL_REBIND",
-      "approvedAtUtc": "2026-08-01T07:55:00.000Z",
-      "rationale": "Approve final P0_06 multilingual matcher delivery bytes: language policy routes before production matching, canonical casefold and grapheme-aware boundary matcher replaces raw case-sensitive UTF16 search, product mention index and Core admission evidence PASS, focused pack PASS 28, full runner PASS 799 total 735 pass 0 fail 64 skipped, no network, no dependency, no Program DONE claim."
-    },
-    {
-      "filePath": "scripts/ops/yalken-atlas-v5-final-audit-p0-06-multilingual-matcher.mjs",
-      "sha256": "9a3dd39f622699217f8139b8f83fd98adf48bedd297bc5507f3521d53a44aef6",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P0_06_MULTILINGUAL_MATCHER_FINAL_REBIND",
-      "approvedAtUtc": "2026-08-01T07:55:00.000Z",
-      "rationale": "Approve final P0_06 multilingual matcher delivery bytes: language policy routes before production matching, canonical casefold and grapheme-aware boundary matcher replaces raw case-sensitive UTF16 search, product mention index and Core admission evidence PASS, focused pack PASS 28, full runner PASS 799 total 735 pass 0 fail 64 skipped, no network, no dependency, no Program DONE claim."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-06-multilingual-matcher.contract.test.js",
-      "sha256": "1b3a18fcad789aac3b5d3210f17dcb91619f12354e00393b9dc2e3295460ae69",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P0_06_MULTILINGUAL_MATCHER_FINAL_REBIND",
-      "approvedAtUtc": "2026-08-01T07:55:00.000Z",
-      "rationale": "Approve final P0_06 multilingual matcher delivery bytes: language policy routes before production matching, canonical casefold and grapheme-aware boundary matcher replaces raw case-sensitive UTF16 search, product mention index and Core admission evidence PASS, focused pack PASS 28, full runner PASS 799 total 735 pass 0 fail 64 skipped, no network, no dependency, no Program DONE claim."
+      "filePath": "test/unit/yalken-design-os-sidebar-control-truth.test.js",
+      "sha256": "70e4fc18f3739ebb7490852fc33eece1445aee2fb77fd29cf67e98e9b8599d33",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
     }
   ]
 }

@@ -325,7 +325,7 @@ function actionLinesForCase(caseSpec, sceneText) {
   const oldEnd = oldStart + 'OLD_WORD'.length;
   const commentStart = positionFor(sceneText, 'COMMENT_TARGET', false);
   const commentEnd = commentStart + 'COMMENT_TARGET'.length;
-  const replacement = `${caseSpec.id}_NEW_WORD`;
+  const replacement = String(caseSpec.replacementText || `${caseSpec.id}_NEW_WORD`);
   const rootCommentBody = `${caseSpec.id} root comment ё NBSP\u00a0emoji ${String.fromCodePoint(0x1f4da)}${String.fromCodePoint(0xfe0f)}`;
   const lines = [
     'set yRootCreated to "0"',
@@ -348,6 +348,24 @@ function actionLinesForCase(caseSpec, sceneText) {
     lines.push('set yCommentCountAfterCreate to count of Word comments of yDoc');
     lines.push('set track revisions of yDoc to true');
     lines.push(`set content of (create range yDoc start ${oldStart} end ${oldEnd}) to ${appleLiteral(replacement)}`);
+  } else if (caseSpec.action === 'format-inline-diagnostic') {
+    lines.push('set track revisions of yDoc to false');
+    lines.push(`set yFormatRange to ${commentRange}`);
+    lines.push('set bold of font object of yFormatRange to true');
+    lines.push('set italic of font object of yFormatRange to true');
+    lines.push('set underline of font object of yFormatRange to true');
+    lines.push('set color index of font object of yFormatRange to blue');
+  } else if (caseSpec.action === 'format-comment-diagnostic') {
+    lines.push('set track revisions of yDoc to false');
+    lines.push(`set c1 to make new Word comment at (${commentRange}) with properties {comment text:${appleLiteral(`${rootCommentBody} formatting-adjacent`)}}`);
+    lines.push('set yRootCreated to "1"');
+    lines.push('set yCommentCountAfterCreate to count of Word comments of yDoc');
+    lines.push(`set yFormatRange to create range yDoc start ${oldStart} end ${oldEnd}`);
+    lines.push('set bold of font object of yFormatRange to true');
+    lines.push('set italic of font object of yFormatRange to true');
+  } else if (caseSpec.action === 'paragraph-split-diagnostic') {
+    lines.push('set track revisions of yDoc to true');
+    lines.push(`set content of (create range yDoc start ${oldStart} end ${oldStart}) to ${appleLiteral(`${caseSpec.id} STRUCTURE_SPLIT\n`)}`);
   } else if (caseSpec.action === 'comment-delete') {
     lines.push('set track revisions of yDoc to false');
     lines.push(`set c1 to make new Word comment at (${commentRange}) with properties {comment text:${appleLiteral(`${rootCommentBody} delete probe`)}}`);
@@ -640,7 +658,8 @@ async function runProductCase({ caseSpec, dirs }) {
   const sourceBytes = fs.readFileSync(evidenceSourcePath);
   const returnedBytes = fs.readFileSync(evidenceReturnedPath);
   const analysis = await analyzeReturnedDocx(caseSpec, source, evidenceReturnedPath);
-  const packageReadback = commentPackageReadback(evidenceReturnedPath, caseSpec.action === 'comment-delete' ? [] : [caseSpec.id]);
+  const expectedCommentTokens = Number(caseSpec.expectedCommentMinimum || 0) > 0 ? [caseSpec.id] : [];
+  const packageReadback = commentPackageReadback(evidenceReturnedPath, expectedCommentTokens);
   const commandCalls = [];
   const port = await instantiateProductPort({ source, projectRoot, scenePath, sceneId, commandCalls });
   const beforeActivationText = fs.readFileSync(scenePath, 'utf8');
@@ -669,7 +688,7 @@ async function runProductCase({ caseSpec, dirs }) {
   const changeId = textChanges[0]?.changeId || '';
   let apply = null;
   let replay = null;
-  const replacementToken = `${caseSpec.id}_NEW_WORD`;
+  const replacementToken = String(caseSpec.expectedReplacementToken || caseSpec.replacementText || `${caseSpec.id}_NEW_WORD`);
   let expectedFinalText = source.sceneText;
   const beforeApplyText = fs.readFileSync(scenePath, 'utf8');
   if (caseSpec.shouldApplyText) {
@@ -695,8 +714,21 @@ async function runProductCase({ caseSpec, dirs }) {
       && afterApplyText.includes(replacementToken)
       && !afterApplyText.includes('OLD_WORD')
     : false;
+  const expectedFormattingMinimum = Number(caseSpec.expectedFormattingMinimum || 0);
+  const expectedStructureMinimum = Number(caseSpec.expectedStructureMinimum || 0);
+  const formattingDiagnosticsVerified = expectedFormattingMinimum > 0
+    ? Number(analysis.reviewIrSummary?.formattingDeltas || 0) >= expectedFormattingMinimum
+    : true;
+  const structuralDiagnosticsVerified = expectedStructureMinimum > 0
+    ? (
+      Number(analysis.reviewIrSummary?.structureChanges || 0) >= expectedStructureMinimum
+        || Number(previewSummary.structuralChanges || 0) >= expectedStructureMinimum
+    )
+      && previewSummary.exactPreviewReady !== true
+    : true;
   if (caseSpec.shouldApplyText && replacementSemanticsVerified) expectedFinalText = afterApplyText;
-  const replayRequirementMet = caseSpec.action === 'comment-delete'
+  const diagnosticOnlyNoComment = caseSpec.shouldApplyText !== true && Number(caseSpec.expectedCommentMinimum || 0) === 0;
+  const replayRequirementMet = caseSpec.action === 'comment-delete' || diagnosticOnlyNoComment
     ? true
     : (caseSpec.shouldApplyText
       ? replay?.ok === true && replay?.replay === true && fs.readFileSync(scenePath, 'utf8') === expectedFinalText
@@ -712,7 +744,9 @@ async function runProductCase({ caseSpec, dirs }) {
     secondActivationOk: secondActivation.ok === true,
     visiblePreviewReady: caseSpec.shouldApplyText
       ? previewSummary.exactPreviewReady === true && previewSummary.productPathReady === true
-      : (activation.reviewSurface?.revisionSession?.reviewGraph?.commentThreads || []).length >= caseSpec.expectedCommentMinimum,
+      : (expectedFormattingMinimum > 0 || expectedStructureMinimum > 0
+        ? formattingDiagnosticsVerified && structuralDiagnosticsVerified
+        : (activation.reviewSurface?.revisionSession?.reviewGraph?.commentThreads || []).length >= caseSpec.expectedCommentMinimum),
     previewSummary,
     textChangeCount: textChanges.length,
     commentThreadCount: (activation.reviewSurface?.revisionSession?.reviewGraph?.commentThreads || []).length,
@@ -734,6 +768,13 @@ async function runProductCase({ caseSpec, dirs }) {
     applyVetoMetrics,
     applyVetoZero,
     replacementSemanticsVerified,
+    formattingDiagnosticsVerified,
+    structuralDiagnosticsVerified,
+    formattingDiagnosticCount: Number(analysis.reviewIrSummary?.formattingDeltas || 0),
+    structuralDiagnosticCount: Math.max(
+      Number(analysis.reviewIrSummary?.structureChanges || 0),
+      Number(previewSummary.structuralChanges || 0),
+    ),
     sceneMatchesExpectedAfterApply: afterApplyText === expectedFinalText,
     projectReopenReadbackMatchesExpected: fs.readFileSync(scenePath, 'utf8') === expectedFinalText,
     replayIdempotent: replayRequirementMet,
@@ -751,6 +792,8 @@ async function runProductCase({ caseSpec, dirs }) {
       && productLoop.sceneMatchesExpectedAfterApply
       && (caseSpec.action === 'comment-delete' || productLoop.replayIdempotent)
       && (!caseSpec.shouldApplyText || productLoop.replacementSemanticsVerified)
+      && productLoop.formattingDiagnosticsVerified
+      && productLoop.structuralDiagnosticsVerified
       && (caseSpec.expectedCommentMinimum === 0 || packageReadback.expectedTokensMissing.length === 0)
       ? 'PASS'
       : 'FAIL',

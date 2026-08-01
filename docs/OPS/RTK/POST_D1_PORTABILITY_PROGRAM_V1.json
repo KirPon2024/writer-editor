@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.post-d1.portability-program.v1",
   "taskId": "YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
-  "status": "GOOGLE_DOCS_G00_DISCOVERY_BOUND_READY_FOR_G01",
+  "status": "WORD_SAFETY_REMEDIATION_V1_C1_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
   "createdAtUtc": "2026-07-30T13:19:11Z",
   "binding": {
     "selectedBaseSha": "835d0a9d84438f6243a789f06a81f35547440998",
@@ -380,7 +380,7 @@
     "mergeRequired": true,
     "status": "pending_delivery"
   },
-  "nextStep": "GOOGLE_DOCS_G01_OFFICE_MODE_PHYSICAL_DISCOVERY_OR_EXTERNAL_ACTIVATION_BOUNDARY",
+  "nextStep": "WORD_SAFETY_REMEDIATION_V1_C2_CANONICAL_MULTI_SCENE_COMMAND_PATH",
   "v4CanonicalIntegration": {
     "status": "ACTIVE_AFTER_C05_MERGE",
     "canonicalSpecPath": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
@@ -394,10 +394,10 @@
     "currentExecutionFocus": "WORD_SATURATION_BEFORE_GOOGLE_DOCS"
   },
   "v4ExecutionState": {
-    "status": "GOOGLE_DOCS_G00_DISCOVERY_BOUND_READY_FOR_G01",
-    "currentStage": "GOOGLE_DOCS_G00_DISCOVERY_BINDING",
-    "nextStage": "GOOGLE_DOCS_G01_OFFICE_MODE_PHYSICAL_DISCOVERY_OR_EXTERNAL_ACTIVATION_BOUNDARY",
-    "latestReceiptPath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json",
+    "status": "WORD_SAFETY_REMEDIATION_V1_C1_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
+    "currentStage": "WORD_SAFETY_REMEDIATION_V1_C1_EFFECT_RESERVATION",
+    "nextStage": "WORD_SAFETY_REMEDIATION_V1_C2_CANONICAL_MULTI_SCENE_COMMAND_PATH",
+    "latestReceiptPath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C1_EFFECT_RESERVATION_RECEIPT.json",
     "semanticKernelComponentProven": true,
     "sourceMapUniqueDiffComponentProven": true,
     "physicalTextCertificationProven": true,
@@ -416,7 +416,7 @@
     "silentCommentLoss": 0,
     "runtimeApplyAuthorityGranted": false,
     "wordSaturationCurrentFocus": true,
-    "googleDocsOpened": true,
+    "googleDocsOpened": false,
     "otherEditorsRemainFutureMasterPlan": true,
     "v6HistoryRewritten": false,
     "d1EvidenceRewritten": false,
@@ -774,11 +774,11 @@
     "nextStage": "P0_PRODUCT_VERTICAL_BOUNDED_VARIED_WAVE_64_AFTER_COMMENTS_MIXED_MULTI_SCENE"
   },
   "wordStageClosure": {
-    "status": "WORD_STAGE_FORMALLY_CLOSED_ACCEPTED_DECLARED_SUPPORT_ENVELOPE",
+    "status": "WORD_ACCEPTANCE_REVOKED_BY_SOURCE_BOUND_EVIDENCE",
     "receiptPath": "docs/OPS/RTK/WORD_FOR_MAC_STAGE_FORMAL_CLOSURE_RECEIPT.json",
     "independentAuditThread": "019fbd7d-f375-7a72-836f-81301bd6eda9",
     "auditedSha": "e17f732b4ab38cb70a5c8cb6a7f3fd81d1c712fb",
-    "acceptedDeclaredSupportEnvelopeOnly": true,
+    "acceptedDeclaredSupportEnvelopeOnly": false,
     "supportedExplicitUserTrackedReplacementWordsMax": 100000,
     "aboveEnvelopeDisposition": "MANUAL_RESOURCE_LIMIT",
     "automaticApplyCertified": false,
@@ -789,14 +789,16 @@
       "replayFailure": 0,
       "silentCommentLoss": 0,
       "productNetwork": 0
-    }
+    },
+    "revokedBy": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C1_EFFECT_RESERVATION_RECEIPT.json",
+    "previousReceiptPath": "docs/OPS/RTK/WORD_FOR_MAC_STAGE_FORMAL_CLOSURE_RECEIPT.json"
   },
   "googleDocsStage": {
-    "status": "GOOGLE_DOCS_G00_DISCOVERY_BOUND_READY_FOR_G01",
-    "currentStage": "GOOGLE_DOCS_G00_DISCOVERY_BINDING",
-    "nextStage": "GOOGLE_DOCS_G01_OFFICE_MODE_PHYSICAL_DISCOVERY_OR_EXTERNAL_ACTIVATION_BOUNDARY",
+    "status": "REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION",
+    "currentStage": "GOOGLE_DOCS_REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION",
+    "nextStage": "WORD_SAFETY_REMEDIATION_V1_C2_CANONICAL_MULTI_SCENE_COMMAND_PATH",
     "matrixPath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
-    "receiptPath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json",
+    "receiptPath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C1_EFFECT_RESERVATION_RECEIPT.json",
     "supportClaimed": false,
     "importClaimed": false,
     "roundtripClaimed": false,
@@ -805,6 +807,16 @@
     "automaticApplyCertified": false,
     "googleStageDone": false,
     "blockers": 12,
-    "externalActivationBoundary": "ALREADY_AUTHORIZED_SESSION_REQUIRED_FOR_PHYSICAL_G01"
+    "externalActivationBoundary": "WORD_SAFETY_REMEDIATION_C1_C5_REQUIRED_BEFORE_GOOGLE_RESUME"
+  },
+  "wordSafetyRemediation": {
+    "status": "WORD_SAFETY_REMEDIATION_V1_C1_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
+    "receiptPath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C1_EFFECT_RESERVATION_RECEIPT.json",
+    "currentContour": "C1_ATOMIC_EFFECT_RESERVATION_REPLAY_AND_RECOVERY",
+    "nextStage": "WORD_SAFETY_REMEDIATION_V1_C2_CANONICAL_MULTI_SCENE_COMMAND_PATH",
+    "wordAcceptanceRevoked": true,
+    "googleStage": "REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION",
+    "sourceBoundP0OpenBeforeC1": 4,
+    "sourceBoundP1OpenBeforeC1": 3
   }
 }

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.capability-profile.v1",
   "profileId": "word-mac-latest-safe-semantic-roundtrip-v4",
-  "status": "WORD_NORMALIZED_CAPABILITY_MATRIX_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+  "status": "WORD_SAFETY_REMEDIATION_V1_C1_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
   "boundSpec": {
     "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
     "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
@@ -1235,7 +1235,7 @@
     "nextStage": "P0_WORD_SCALE_ENGINEERING_AND_REMAINING_LIMITATION_CLOSURE_AFTER_500K_AUDIT"
   },
   "normalizedCapabilityMatrix": {
-    "status": "WORD_NORMALIZED_CAPABILITY_MATRIX_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+    "status": "WORD_NORMALIZED_CAPABILITY_MATRIX_REOPENED_BY_SAFETY_REMEDIATION",
     "matrixPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_V1.json",
     "receiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_RECEIPT.json",
     "counts": {
@@ -1262,10 +1262,10 @@
         "TYPED_LIMITATION": 2
       }
     },
-    "nextStage": "READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT",
-    "wordSaturated": true,
+    "nextStage": "WORD_SAFETY_REMEDIATION_V1_C2_CANONICAL_MULTI_SCENE_COMMAND_PATH",
+    "wordSaturated": false,
     "wordSaturationScope": "DECLARED_SUPPORT_ENVELOPE_ONLY",
-    "readyForFreshIndependentExactHeadAudit": true,
+    "readyForFreshIndependentExactHeadAudit": false,
     "automaticApplyCertified": false
   },
   "latestP0ScaleEnvelopeTerminalAudit": {
@@ -1278,27 +1278,38 @@
       500000
     ],
     "aboveEnvelopeDisposition": "MANUAL_RESOURCE_LIMIT",
-    "wordSaturated": true,
+    "wordSaturated": false,
     "wordSaturationScope": "DECLARED_SUPPORT_ENVELOPE_ONLY",
-    "readyForFreshIndependentExactHeadAudit": true,
+    "readyForFreshIndependentExactHeadAudit": false,
     "automaticApplyCertified": false,
     "googleDocsOpened": false
   },
   "formalWordStageClosure": {
-    "status": "WORD_STAGE_FORMALLY_CLOSED_ACCEPTED_DECLARED_SUPPORT_ENVELOPE",
+    "status": "WORD_ACCEPTANCE_REVOKED_BY_SOURCE_BOUND_EVIDENCE",
     "receiptPath": "docs/OPS/RTK/WORD_FOR_MAC_STAGE_FORMAL_CLOSURE_RECEIPT.json",
-    "acceptedDeclaredSupportEnvelopeOnly": true,
+    "acceptedDeclaredSupportEnvelopeOnly": false,
     "supportedExplicitUserTrackedReplacementWordsMax": 100000,
     "aboveEnvelopeDisposition": "MANUAL_RESOURCE_LIMIT",
-    "automaticApplyCertified": false
+    "automaticApplyCertified": false,
+    "revokedBy": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C1_EFFECT_RESERVATION_RECEIPT.json",
+    "previousReceiptPath": "docs/OPS/RTK/WORD_FOR_MAC_STAGE_FORMAL_CLOSURE_RECEIPT.json"
   },
   "nextEditorStage": {
-    "stage": "GOOGLE_DOCS_G00_DISCOVERY_BINDING",
-    "status": "GOOGLE_DOCS_G00_DISCOVERY_BOUND_READY_FOR_G01",
+    "stage": "GOOGLE_DOCS_REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION",
+    "status": "REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION",
     "matrixPath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
     "supportClaimed": false,
     "physicalEvidence": 0,
     "productRuntimeWired": 0,
-    "automaticApplyCertified": false
+    "automaticApplyCertified": false,
+    "receiptPath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C1_EFFECT_RESERVATION_RECEIPT.json"
+  },
+  "wordSafetyRemediation": {
+    "status": "WORD_SAFETY_REMEDIATION_V1_C1_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
+    "receiptPath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C1_EFFECT_RESERVATION_RECEIPT.json",
+    "currentContour": "C1_ATOMIC_EFFECT_RESERVATION_REPLAY_AND_RECOVERY",
+    "nextStage": "WORD_SAFETY_REMEDIATION_V1_C2_CANONICAL_MULTI_SCENE_COMMAND_PATH",
+    "wordAcceptanceRevoked": true,
+    "googleStage": "REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION"
   }
 }

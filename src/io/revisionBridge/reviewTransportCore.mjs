@@ -18,6 +18,12 @@ export const RTK_EXACT_APPLY_OUTCOME_V2_SCHEMA =
   'yalken.rtk.exact-apply-outcome.v2';
 export const RTK_EXACT_APPLY_RECOVERY_RESOLUTION_V2_SCHEMA =
   'yalken.rtk.exact-apply-recovery-resolution.v2';
+export const RTK_EXACT_APPLY_RESERVATION_V1_SCHEMA =
+  'yalken.rtk.exact-apply-reservation.v1';
+export const RTK_EXACT_APPLY_RESERVATION_STATE_V1_SCHEMA =
+  'yalken.rtk.exact-apply-reservation-state.v1';
+export const RTK_EXACT_APPLY_OUTCOME_EFFECT_INDEX_V1_SCHEMA =
+  'yalken.rtk.exact-apply-outcome-effect-index.v1';
 export const RTK_FEATURE_FLAG = 'reviewTransportKernel.returnedReviewAnalysisV2';
 
 export const RTK_LIFECYCLE_STATES = Object.freeze([
@@ -69,6 +75,9 @@ export const RTK_REASON_CODES = Object.freeze([
   'RTK_PARSER_CONSERVATION_FAILED',
   'RTK_WRITE_PRECONDITION_FAILED',
   'RTK_WRITE_RECOVERED',
+  'RTK_WRITE_RESERVATION_CONFLICT',
+  'RTK_WRITE_RESERVATION_RECOVERY_REQUIRED',
+  'RTK_APPLY_STORE_SCAN_LIMIT_EXCEEDED',
   'RTK_COMMAND_ENVELOPE_BOUND',
   'RTK_COMMAND_ENVELOPE_TAMPERED',
   'RTK_COMMAND_AUTHORITY_BLOCKED',

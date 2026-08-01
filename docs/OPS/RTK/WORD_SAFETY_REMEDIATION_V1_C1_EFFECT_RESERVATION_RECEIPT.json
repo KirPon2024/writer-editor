@@ -1,0 +1,360 @@
+{
+  "schemaVersion": "yalken.rtk.word-safety-remediation-v1.c1-effect-reservation-receipt.v1",
+  "taskId": "YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+  "contour": "C1_ATOMIC_EFFECT_RESERVATION_REPLAY_AND_RECOVERY",
+  "status": "WORD_SAFETY_REMEDIATION_V1_C1_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
+  "baseSha": "91a4dc9cc0d0b0d710811981eca2ecbbab2879da",
+  "generatedAtUtc": "2026-08-01T00:00:00.000Z",
+  "ownerCorrection": {
+    "wordAcceptanceRevoked": true,
+    "googleStage": "REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION",
+    "preservedGoogleStash": "stash@{0}: park google g01 boundary wip after word acceptance revocation"
+  },
+  "r0Baseline": {
+    "command": "rg --files test/contracts | rg '^test/contracts/rtk-' | sort | xargs node --test",
+    "actualContractFiles": 65,
+    "auditReferencedContractFiles": 64,
+    "explanation": "Current origin/main contains the already-merged Google G00 report-only contract in addition to the audited RTK family.",
+    "total": 327,
+    "pass": 271,
+    "fail": 56,
+    "failureClassifications": {
+      "STALE_BINDING_GUARD": 56,
+      "PRODUCT_DEFECT_SOURCE_BOUND_AUDIT": 4,
+      "P1_SOURCE_BOUND_AUDIT": 3,
+      "ENVIRONMENTAL": 0,
+      "OBSOLETE_REPLACED_GATE": 0
+    },
+    "visibleFailures": [
+      {
+        "title": "post-D1 program binds A00/A01 without rewriting D1 or certifying latest Word",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "post-D1 external editor matrix declares all required profiles and forbids fixture-only PASS",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "post-D1 harness command verifies status without requiring CI machines to mount T7",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "P0 modern comment replies receipt binds typed limitation without reply authority",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "P0 modern comment resolve reopen receipt binds typed limitation without apply authority",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "P0 multi-round ledger reconciliation binds E10 and product replay evidence without authority expansion",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "P0 safe formatting lane receipt binds diagnostic typed limitation without apply authority",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "P0 safe structural lane receipt binds diagnostic typed limitation without apply authority",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "P0 scale envelope declares terminal Word support envelope without universal overclaim",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "P0 scale envelope binds profile program ledger and normalized matrix terminal state",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "P0 500K terminal audit verifies a physical boundary without saturation",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "P0 500K terminal audit refuses overclaim and invalid boundary evidence",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "P0 500K terminal audit state bindings remain non-terminal",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "release audit P0 comment shadow verifier binds authenticated session identity and storage effects",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "release audit P0 comment shadow verifier fails on unbound storage or authority overclaim drift",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "program binds the latest permission probe without replacing smoke-wave receipt truth",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "P0 format Unicode structure stress receipt verifies bounded physical product loop",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "P0 format Unicode structure evaluator rejects saturation auto-apply and count drift",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "P0 format Unicode structure state bindings are exact and non-terminal",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "P0 large manuscript stress receipt verifies bounded physical product loop",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "P0 large manuscript evaluator rejects overclaim count drift and stale scale",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "P0 large manuscript state bindings remain non-terminal",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "P0 multi-scene atomic comment-state receipt verifies terminal product truth",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "P0 negatives block before writer and overclaims fail evaluator",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "release audit P0 parsed IR loop verifier binds preview apply replay without release overclaim",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "release audit P0 parsed IR loop verifier fails on writer-source or authority overclaim drift",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "P0 postmerge truth rebind promotes closure as latest aggregate Word state without saturation",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "P0 comments mixed multi-scene receipt verifies bounded product vertical truth",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "P0 comments mixed multi-scene evaluator rejects overclaim and no-op drift",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "release audit P0 product-originated smoke wave records truthful terminal state",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "release audit P0 verifier accepts only fully observed physical PASS promotion",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "P0 product vertical tracked edit receipt proves one physical product loop without saturation claim",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "P0 repeat high-density stress receipt verifies bounded physical product loop",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "P0 repeat high-density evaluator rejects overclaim count drift and unstable repeats",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "P0 repeat high-density state bindings remain non-terminal",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "release audit P0 return intake verifier binds parser V2 gate without apply overclaim",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "release audit P0 verifier binds product Review DOCX exporter without return or apply overclaim",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "P0 varied wave64 receipt proves bounded physical product loop without saturation",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "A03 C03 binds adjacent range negative oracle without product apply promotion",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "A03 C04 binds modern comment state readback without reply or resolve-reopen promotion",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "A03 C05 verifier binds product path without release-level automatic apply overclaim",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "V4 E02 updates capability truth but does not claim YRTK2 runtime authority or Word saturation",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "V4 E06 updates capability profile and program state without starting Google or runtime writes",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "V4 E07 updates capability profile and program state without runtime mutation authority",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "V4 E08 updates capability profile and program state without runtime changes",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "V4 E09 updates capability profile and program state without runtime changes",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "V4 E10 updates capability profile and program state without runtime changes",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "V4 E11 receipt profile and program state stay shadow-only without runtime apply authority",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "E12 saturation ledger binds customXml reroute and removes the old blocker without saturation claim",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "E12 saturation ledger binds modern comment follow-up without declaring Word saturated",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "E12 saturation ledger binds native UI physical limitation and keeps Word current",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "E12 saturation ledger binds multi-scene typed limitation without saturation claim",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "V4 E12 binds saturation ledger through terminal support envelope without universal overclaim",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "V4 E12 updates capability profile and program state while keeping Word as current focus",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "V4 A03 C01 receipt proves comment shadow runtime wiring without apply promotion",
+        "classification": "STALE_BINDING_GUARD"
+      },
+      {
+        "title": "V4 E12 stability limitation audit binds Word-only next wave without saturation or Google",
+        "classification": "STALE_BINDING_GUARD"
+      }
+    ],
+    "sourceBoundP0": [
+      "complete RTK graph invisible to default npm/required CI",
+      "exact apply lacks atomic request/effect reservation and serialized mutation boundary",
+      "multi-scene command absent from canonical command surface allowlist",
+      "outcome replay depends on entries.slice(0, 512) scan truncation"
+    ],
+    "sourceBoundP1": [
+      "recovery resolution overwrite instead of immutable byte-equivalent write-once",
+      "PackageParserV2 tag scan and entity decoding gaps",
+      "resource budgets not mechanically enforced before accumulation/output"
+    ]
+  },
+  "c1ActionEnvelope": {
+    "frozen": true,
+    "allowedRuntimeFiles": [
+      "reviewTransportCore.mjs",
+      "reviewTransportApplyCore.mjs",
+      "reviewTransportApplyStore.mjs",
+      "reviewTransportExactApply.mjs"
+    ],
+    "allowedContracts": [
+      "rtk-word-safety-c1-effect-reservation.contract.test.js",
+      "rtk-w3-exact-apply-replay.contract.test.js",
+      "rtk-word-saturation-c05-block-range-writer.contract.test.js"
+    ],
+    "allowedStateFiles": [
+      "WORD_SAFETY_REMEDIATION_V1_C1_EFFECT_RESERVATION_RECEIPT.json",
+      "POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
+      "GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json"
+    ],
+    "forbidden": [
+      "Google product implementation",
+      "Word corpus growth",
+      "historical V6 hash rewrite",
+      "new dependency",
+      "renderer writer authority",
+      "direct parser write authority"
+    ]
+  },
+  "c1Guarantees": {
+    "requestKeyDirectIndex": true,
+    "sameRoundEffectKeyDirectIndex": true,
+    "exclusiveReservationBeforeWriter": true,
+    "serializedProjectMutationBoundary": true,
+    "reservationStateMachine": [
+      "RESERVED",
+      "WRITER_STARTED",
+      "WRITER_APPLIED",
+      "OUTCOME_COMMITTED",
+      "RECOVERY_REQUIRED"
+    ],
+    "replayNeverCallsWriter": true,
+    "noSilentScanTruncation": true,
+    "immutableOutcome": true,
+    "immutableRecoveryResolution": true,
+    "crashReconciliationDoesNotRepeatWriter": true
+  },
+  "tests": {
+    "focused": {
+      "command": "node --test rtk-w3-exact-apply-replay.contract.test.js rtk-word-safety-c1-effect-reservation.contract.test.js rtk-word-saturation-c05-block-range-writer.contract.test.js",
+      "total": 27,
+      "pass": 27,
+      "fail": 0
+    },
+    "c1": {
+      "command": "node --test rtk-word-safety-c1-effect-reservation.contract.test.js",
+      "total": 9,
+      "pass": 9,
+      "fail": 0
+    },
+    "fullSuite": {
+      "command": "node scripts/run-tests.js",
+      "total": 799,
+      "pass": 735,
+      "skip": 64,
+      "fail": 0
+    },
+    "opsPolicy": {
+      "testOpsStrict": "PASS",
+      "governanceChangeDetection": "PASS",
+      "ossPolicy": "PASS",
+      "designOsDoctrine": "PASS",
+      "npmAuditModerate": "PASS",
+      "diffCheck": "PASS",
+      "syntaxCheck": "PASS"
+    }
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0,
+    "productNetwork": 0
+  },
+  "delivery": {
+    "commitRequired": true,
+    "pushRequired": true,
+    "pullRequestRequired": true,
+    "mergeRequired": true,
+    "status": "pending_delivery"
+  },
+  "nextStage": "WORD_SAFETY_REMEDIATION_V1_C2_CANONICAL_MULTI_SCENE_COMMAND_PATH"
+}

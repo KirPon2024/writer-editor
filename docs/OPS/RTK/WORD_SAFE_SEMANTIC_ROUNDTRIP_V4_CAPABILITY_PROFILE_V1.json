@@ -800,6 +800,39 @@
         "Word SATURATED remains false"
       ],
       "killCriterion": "Any renderer bufferSource, returned DOCX, parser packet, or customXml advisory part can manufacture writer authority; any secret appears in the DOCX; or release-ready/automatic-apply is claimed before return intake and physical product loop."
+    },
+    {
+      "capabilityId": "rtk.word.releaseAudit.p0.returnIntakeV2",
+      "operationFamily": "Authenticated Review DOCX return intake through parser V2 before storage authority",
+      "state": "PRODUCT_RUNTIME_WIRED_NOT_APPLY_CERTIFIED",
+      "currentCapability": "PRODUCT_REVIEW_DOCX_RETURN_INTAKE_V2_WIRED_APPLY_PENDING",
+      "physicalWordEvidence": false,
+      "componentProven": true,
+      "productCompositionRegistered": true,
+      "productRuntimeWired": true,
+      "productReviewDocxExporterDistinctFromDocxMinimal": true,
+      "returnIntakeWired": true,
+      "parsedWordIrConsumerWired": true,
+      "automaticApplyCertified": false,
+      "userAutomaticApplyCertified": false,
+      "wordSaturated": false,
+      "consumer": "Open DOCX Review preview activation before session import and comment shadow import",
+      "acceptanceTest": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
+      "evidenceReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_RETURN_INTAKE_V2_RECEIPT.json",
+      "supportedNow": [
+        "product-originated returned DOCX with YRTK_C01_AUTH is parsed through ReviewIRV2 before review session import",
+        "local HMAC secret and expected scene baseline are required for authenticated return identity",
+        "foreign stale and tampered product carriers block before session storage or comment shadow mutation",
+        "comment shadow session keys bind to authenticated round return and semantic identities when available",
+        "docProps custom properties are admitted only as known custom-properties authority carrier parts"
+      ],
+      "limitations": [
+        "automatic manuscript apply remains closed",
+        "product-originated physical Word edit return reopen wave is still pending",
+        "legacy unbound DOCX preview is diagnostic/manual and cannot provide authority",
+        "Word SATURATED remains false"
+      ],
+      "killCriterion": "Any returned DOCX parser packet or custom property can reach product storage authority without local HMAC baseline binding, or automatic apply/release-ready is claimed before explicit preview/apply/recovery physical loop."
     }
   ]
 }

@@ -1,0 +1,130 @@
+{
+  "schemaVersion": "yalken.rtk.word-roundtrip-release-audit-night-01.p0-return-intake-v2-receipt.v1",
+  "taskId": "YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+  "contourId": "P0-RETURN-INTAKE-V2",
+  "status": "WORD_RELEASE_AUDIT_P0_RETURN_INTAKE_V2_WIRED_NOT_SATURATED",
+  "result": "PASS",
+  "headBinding": {
+    "baseHeadSha": "6e1868472ac40d4acc985b7feb432bbf9e42b129",
+    "originMainSha": "cc9867fd54e3e4d07ab4457e6c04660c9a53490a",
+    "mergedRemoteShaRequired": true
+  },
+  "sourceEvidence": {
+    "main": {
+      "id": "MAIN_PRODUCT_RETURN_INTAKE_GATE",
+      "path": "src/main.js",
+      "sha256": "c9c98200ba3db7f4ce9968e540d0ba4dc73b0e7a59706c7d056d12143dd360e3",
+      "status": "BOUND"
+    },
+    "bridge": {
+      "id": "REVISION_BRIDGE_ZIP_PART_GATE",
+      "path": "src/io/revisionBridge/index.mjs",
+      "sha256": "a026532a5a61740e990cb1605fd6a3ab9d939cbf797114d14d14018ae353d855",
+      "status": "BOUND"
+    },
+    "parser": {
+      "id": "PARSER_V2_AUTHORITY_CARRIER",
+      "path": "src/io/revisionBridge/reviewTransportPackageParserV2.mjs",
+      "sha256": "31b194da169db5406e71a30c40183bb907f9492180a3f7d5bb2d43f6292d37cf",
+      "status": "BOUND"
+    },
+    "worker": {
+      "id": "UTILITY_PROCESS_RETURN_INTAKE_WORKER",
+      "path": "src/main/rtkDocxReturnIntakeWorker.cjs",
+      "sha256": "b400a9e3e241b4e5b70087090b5e5391b1f8cf52c707d27718412c7df4378a77",
+      "status": "BOUND"
+    },
+    "previewContract": {
+      "id": "PRODUCT_RETURN_INTAKE_CONTRACT",
+      "path": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
+      "sha256": "a8ea100fb775093d48e5bc1899f69b0276b2d233efcb886ef141bc7df76c30b0",
+      "status": "BOUND"
+    },
+    "intakeContract": {
+      "id": "CUSTOM_PROPERTIES_GATE_CONTRACT",
+      "path": "test/contracts/revision-bridge-docx-intake-preflight-report.contract.test.js",
+      "sha256": "6b57af4bea60d0c6d040946db684e60972fd57a1c04c6065edaeb353664197a0",
+      "status": "BOUND"
+    },
+    "exporterReceipt": {
+      "id": "PREVIOUS_P0_EXPORTER_RECEIPT",
+      "path": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_REVIEW_DOCX_EXPORTER_RECEIPT.json",
+      "sha256": "3711763b462e69f5b5a23e881c961eac82aff1d4715a9c8831fcacad30290437",
+      "status": "BOUND"
+    }
+  },
+  "sourceProof": {
+    "markers": {
+      "mainHasReturnIntakeGate": true,
+      "mainGatesBeforeImport": true,
+      "mainUsesParserV2UtilityBoundary": true,
+      "mainBlocksForeignTamperedStale": true,
+      "mainBindsCommentShadowToReturnIdentity": true,
+      "workerRunsParserV2": true,
+      "bridgeAllowsCustomPropertiesPart": true,
+      "parserReadsCustomAuthorityCarrier": true,
+      "contractsCoverPositiveNegativeProductReturn": true,
+      "contractsKeepUnknownPartBlocked": true
+    },
+    "allPresent": true,
+    "mainSha256": "c9c98200ba3db7f4ce9968e540d0ba4dc73b0e7a59706c7d056d12143dd360e3",
+    "bridgeSha256": "a026532a5a61740e990cb1605fd6a3ab9d939cbf797114d14d14018ae353d855",
+    "workerSha256": "b400a9e3e241b4e5b70087090b5e5391b1f8cf52c707d27718412c7df4378a77",
+    "previewContractSha256": "a8ea100fb775093d48e5bc1899f69b0276b2d233efcb886ef141bc7df76c30b0",
+    "intakeContractSha256": "6b57af4bea60d0c6d040946db684e60972fd57a1c04c6065edaeb353664197a0"
+  },
+  "runtimeProof": {
+    "docxSha256": "d54397f6cf4f146faa1f725b25948726ede311785b80c0b49ab6d0af493e8c98",
+    "customPropertiesGatePass": true,
+    "customPropertiesKnownSupport": true,
+    "parserV2Ok": true,
+    "authorityCarrierVerified": true,
+    "validSignedLocator": true,
+    "reviewIrDerivedOnly": true,
+    "commentThreadParsed": true,
+    "textRevisionCount": 0,
+    "wrongSecretRejected": true,
+    "canAutoApply": false
+  },
+  "implementedCapability": {
+    "capability": "productReviewDocxReturnIntakeV2",
+    "productReviewDocxExporterWired": true,
+    "returnIntakeWired": true,
+    "parserV2UtilityBoundaryWired": true,
+    "rejectBeforeProjectStorageOrAuthority": true,
+    "foreignReturnBlocked": true,
+    "staleReturnBlocked": true,
+    "tamperedReturnBlocked": true,
+    "customDocumentPropertyAuthorityCarrierAdmitted": true,
+    "parsedWordIrConsumerWired": true,
+    "commentShadowBoundToAuthenticatedRoundIdentity": true,
+    "automaticApplyCertified": false,
+    "userAutomaticApplyCertified": false,
+    "productOriginatedPhysicalLoopCertified": false,
+    "wordSaturated": false,
+    "releaseReady": false
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0,
+    "foreignReturnAccepted": 0,
+    "staleReturnAccepted": 0,
+    "tamperedReturnAccepted": 0,
+    "projectStorageWriteBeforeGate": 0,
+    "userDocumentTouch": 0,
+    "networkRequest": 0,
+    "googleDocsOpened": 0,
+    "falseReleaseClaim": 0
+  },
+  "nonClaims": [
+    "P0 return intake does not certify automatic manuscript apply.",
+    "P0 return intake does not certify product-originated physical Word loop.",
+    "P0 return intake does not certify Word SATURATED.",
+    "P0 return intake does not open Google Docs.",
+    "Legacy unbound DOCX preview remains diagnostic/manual and cannot provide authenticated authority."
+  ],
+  "nextStage": "P0_PARSED_WORD_IR_PREVIEW_COMMAND_APPLY_RECOVERY_REPLAY"
+}

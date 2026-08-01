@@ -1990,13 +1990,6 @@
       "rationale": "Approve bounded post-D1 A00 reconciliation receipt: records fresh origin main, isolated T7 worktree, preserved dirty owner main and Atlas worktree, immutable D1 Word 16.42 F00 status, supplemental latest Word evidence as not certified, missing physical editor profiles, no runtime widening, no UI change, no dependency change, no build install download, and handoff to the A01 lab harness."
     },
     {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "810191f66fb35603d2db70b0e6a3190c34d47d2380d8f522ec7c699761061d52",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
-      "rationale": "Approve release-audit Night 01 P0 state binding for product Review DOCX exporter only; C05 history preserved, return intake and automatic apply remain closed, Google Docs remains closed."
-    },
-    {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
       "sha256": "fee1545e7c163fc4c5db6677a118b836052a9836d23b394a226b40b9f36f5fa8",
       "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W5_RELEASE_HARDENING_AND_CERTIFICATION",
@@ -2165,13 +2158,6 @@
       "rationale": "Approve V4 canonical integration receipt: records EXECUTION_01 intent, exact spec digest, C05 PR 1275 merge binding, feature manifest, capability profile, no V6 or D1 rewrite, no HMAC/YRTK2, no locator carrier selection, no physical Word saturation, no UI, no runtime registry, no product network, next stage EXECUTION_02 locator survival lab, and local V4/governance/sector/json/OSS/ops/full-runner PASS evidence."
     },
     {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "eb654564667914c5c88621e2268ccb141df670b2b6776c25877ebd3fa47d085c",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
-      "rationale": "Approve capability profile row for product Review DOCX exporter: runtime exporter wired, physical return loop pending, automatic apply false, releaseReady false."
-    },
-    {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
       "sha256": "0fd3878b4f0dcbed888fa548db14e0e4b92debf722e7db0046bf9e7b3da5556d",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_LAB",
@@ -2303,13 +2289,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
       "approvedAtUtc": "2026-07-31T08:00:17.774Z",
       "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "38bb34c4c9144059d7ac96e687ddfb574d7cb7068fc8f0d61970fae663531099",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
-      "rationale": "Approve saturation ledger binding for release-audit P0 Review DOCX exporter while preserving Word SATURATED false, Google Docs closed, and automatic apply not expanded."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
@@ -4580,13 +4559,6 @@
       "rationale": "Approve bounded B01 Word sandbox repair: routes physical Word working DOCX through the shared com.microsoft.Word container tmp resolver, forbids plain tmp fallback, preserves diagnostic override validation, keeps T7 evidence destination, and adds no product runtime, UI, dependency, or network scope."
     },
     {
-      "filePath": "scripts/ops/rtk-word-release-audit-p0-review-docx-exporter.mjs",
-      "sha256": "f4b2f091b148cd75a80362652ae796a42eedd1722fce401cefca0bb4c05ad372",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
-      "rationale": "Approve bounded verifier for P0 Review DOCX exporter receipt and truth binding with negative authority overclaim checks."
-    },
-    {
       "filePath": "scripts/ops/rtk-word-sandbox-work-root.mjs",
       "sha256": "d4942252fa70307deb2eece720e318bc446a56bf0688572b3ad061f1469edf58",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
@@ -5105,13 +5077,6 @@
       "rationale": "Approve bounded C05 exact writer guard extension: admits block-local writes only when a locally bound C04-generated range digest is passed through trusted options, rejects caller-forged or tampered ranges, validates schema, provenance, scene, block, offsets, expected text, digests, current text, duplicate block, and duplicate quote, preserves no-blockRange legacy scene-unique behavior, canonical journal, checkpoint, atomic write, readback, receipt, and replay path, and adds no UI, network, dependency, HMAC/YRTK2, fuzzy apply, or full Word saturation claim."
     },
     {
-      "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "e8f913d401427a37388117c55a9b9791e2916139c6937c9c4cdc8c035161ef58",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
-    },
-    {
       "filePath": "src/io/revisionBridge/reviewTransportApplyCore.mjs",
       "sha256": "3cc6794dd7acf034b33c0c2bf9ef3706d48b6105f4baef40c09eaa684d1b0e33",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_C05_BLOCK_RANGE_WRITER",
@@ -5257,13 +5222,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E03_COREMANIFEST_YRTK2",
       "approvedAtUtc": "2026-07-31T05:05:00.000Z",
       "rationale": "Approve V4 E03 platform-neutral CoreManifest/YRTK2 core: creates CoreManifest, ExportMap, hash tree binding, fixed 101-byte/135-character YRTK2 round locator token, HMAC verification through CryptoPort, hash-cycle rejection, double self-parse gate, no Buffer, Node, Electron, filesystem, renderer, network, parser authority, writer authority, UI, dependency, or automatic apply expansion."
-    },
-    {
-      "filePath": "src/main.js",
-      "sha256": "2e0c9871d9c1ffd311cfcd558cfec1384013994f6d530c43b8f54953d7a42262",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
-      "rationale": "Approve bounded src/main.js update after Atlas R3_C02 origin/main rebind: preserves Atlas command path and adds P0 Review DOCX exporter command surface with main-owned HMAC authority construction, no DOCX Minimal mutation, no network, no return intake, no automatic apply, and Word SATURATED false."
     },
     {
       "filePath": "src/preload.js",
@@ -5966,13 +5924,6 @@
       "rationale": "DOCX_INTAKE_PREFLIGHT_CLASSIFICATION_002 approves the bounded DOCX intake preflight command-surface contract update for hostile gate plus package and part-policy classification; no UI, storage write, import mutation, semantic parser execution, export rewrite, network, dependency, or release claim is introduced."
     },
     {
-      "filePath": "test/contracts/revision-bridge-docx-intake-preflight-report.contract.test.js",
-      "sha256": "fa4261c9e050a0cfc202e6579035972c99ce511516cc18b6fd16eb69f18a4782",
-      "approvedBy": "ticket:REVIEW_BRIDGE_BOUNDED_FIDELITY_GOLDEN_ACCEPTANCE_001",
-      "approvedAtUtc": "2026-07-12T23:00:00.000Z",
-      "rationale": "Approve intake preflight coverage for parser-candidate known degraded parts, blocked external relationships, unknown parts, missing main documents, and zero write authority."
-    },
-    {
       "filePath": "test/contracts/revision-bridge-docx-package-boundary.contract.test.js",
       "sha256": "bc0e7be09ab2d34bdc7c4727563fc0469d658e3807193c26de4977e0396f2cf5",
       "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W5_RELEASE_HARDENING_AND_CERTIFICATION",
@@ -5987,13 +5938,6 @@
       "rationale": "Approve part-policy coverage for diagnostics-only relationship, story, directory, and media categories as text parser candidates while retaining zero mutation authority and unknown-part rejection."
     },
     {
-      "filePath": "test/contracts/revision-bridge-docx-review-local-file-entry-command-surface.contract.test.js",
-      "sha256": "3c0e4bb9ca7382361b6a6ffc48bbd637cd6c73038e8937ed074f5b8b1f3ad1e2",
-      "approvedBy": "ticket:REVIEW_BRIDGE_DOCX_REVIEW_V1_GATE_C_001",
-      "approvedAtUtc": "2026-07-12T23:44:36.000Z",
-      "rationale": "Approve local-file DOCX Review coverage for manual structural fallback and zero write authority."
-    },
-    {
       "filePath": "test/contracts/revision-bridge-docx-review-preflight-command-surface.contract.test.js",
       "sha256": "161fd059ce57d03bc7f001b386028705c9f255aca86622c4df29ef096ce93b34",
       "approvedBy": "ticket:REVIEW_BRIDGE_DOCX_PREFLIGHT_001",
@@ -6006,13 +5950,6 @@
       "approvedBy": "ticket:REVIEW_BRIDGE_DOCX_PREFLIGHT_001",
       "approvedAtUtc": "2026-07-01T20:35:39.000Z",
       "rationale": "Approve bounded contract proof for DOCX review preflight diagnostic-only report preserving no review session, apply, receipt, recovery, project truth write, importDocxV1 routing, dependency, network, UI, release, Word parity, or full DOCX review import claim."
-    },
-    {
-      "filePath": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
-      "sha256": "80e733cb822c5b3fb007643f7d4880f585d65e7779c2bf5aa372a5752dc7dd31",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-review-preview-session.contract.test.js",
@@ -7315,6 +7252,90 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+    },
+    {
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "62ceaa7320d1600e58ef3560231646b3595b8b99471cebd6c47bc2495211e9ec",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:31:32.031Z",
+      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 scope: product Review DOCX returned package is parsed through the Review Transport parser gate with local authority binding before session import or storage authority; preserves Word SATURATED false, automatic apply false, Google Docs closed, no product network dependency, no user document use, and no broad corpus or release-ready claim."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_RETURN_INTAKE_V2_RECEIPT.json",
+      "sha256": "c4b94b3cf989ef6e684a0a68004d17bd5a72eec34dad49829ee166d257baa04b",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:31:32.031Z",
+      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 scope: product Review DOCX returned package is parsed through the Review Transport parser gate with local authority binding before session import or storage authority; preserves Word SATURATED false, automatic apply false, Google Docs closed, no product network dependency, no user document use, and no broad corpus or release-ready claim."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "1f2cc73712ff8efe089a9d68beb6cf233f4ca17d4c58c95bafa6e6fcd7c422c8",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:31:32.031Z",
+      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 scope: product Review DOCX returned package is parsed through the Review Transport parser gate with local authority binding before session import or storage authority; preserves Word SATURATED false, automatic apply false, Google Docs closed, no product network dependency, no user document use, and no broad corpus or release-ready claim."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "cc03255b09aaaa8d50abad0b42b919e877b3adf5c572be5756dad934b034602d",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:31:32.031Z",
+      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 scope: product Review DOCX returned package is parsed through the Review Transport parser gate with local authority binding before session import or storage authority; preserves Word SATURATED false, automatic apply false, Google Docs closed, no product network dependency, no user document use, and no broad corpus or release-ready claim."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-return-intake-v2.mjs",
+      "sha256": "ac44863a8ab0f10487e9ca2dbc4c5d943ff434d0f38c77b46914d4902d969ad9",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:31:32.031Z",
+      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 scope: product Review DOCX returned package is parsed through the Review Transport parser gate with local authority binding before session import or storage authority; preserves Word SATURATED false, automatic apply false, Google Docs closed, no product network dependency, no user document use, and no broad corpus or release-ready claim."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-review-docx-exporter.mjs",
+      "sha256": "d9feba164bd55401f05e20933ba211981129ae71309c35a9e1762f792ad9b6d1",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:31:32.031Z",
+      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 scope: product Review DOCX returned package is parsed through the Review Transport parser gate with local authority binding before session import or storage authority; preserves Word SATURATED false, automatic apply false, Google Docs closed, no product network dependency, no user document use, and no broad corpus or release-ready claim."
+    },
+    {
+      "filePath": "test/contracts/revision-bridge-docx-intake-preflight-report.contract.test.js",
+      "sha256": "6b57af4bea60d0c6d040946db684e60972fd57a1c04c6065edaeb353664197a0",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:31:32.031Z",
+      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 scope: product Review DOCX returned package is parsed through the Review Transport parser gate with local authority binding before session import or storage authority; preserves Word SATURATED false, automatic apply false, Google Docs closed, no product network dependency, no user document use, and no broad corpus or release-ready claim."
+    },
+    {
+      "filePath": "test/contracts/revision-bridge-docx-review-local-file-entry-command-surface.contract.test.js",
+      "sha256": "e317ccd227f61f5e6a92f3640a4a4e67ab33f144863df40242f48f4a73bc1a0a",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:31:32.031Z",
+      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 scope: product Review DOCX returned package is parsed through the Review Transport parser gate with local authority binding before session import or storage authority; preserves Word SATURATED false, automatic apply false, Google Docs closed, no product network dependency, no user document use, and no broad corpus or release-ready claim."
+    },
+    {
+      "filePath": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
+      "sha256": "a8ea100fb775093d48e5bc1899f69b0276b2d233efcb886ef141bc7df76c30b0",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:31:32.031Z",
+      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 scope: product Review DOCX returned package is parsed through the Review Transport parser gate with local authority binding before session import or storage authority; preserves Word SATURATED false, automatic apply false, Google Docs closed, no product network dependency, no user document use, and no broad corpus or release-ready claim."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-return-intake-v2.contract.test.js",
+      "sha256": "3dd78178e5fff3ab8efa67bc342ab9fb291df2331448fb070a9e3a985c746013",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:31:32.031Z",
+      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 scope: product Review DOCX returned package is parsed through the Review Transport parser gate with local authority binding before session import or storage authority; preserves Word SATURATED false, automatic apply false, Google Docs closed, no product network dependency, no user document use, and no broad corpus or release-ready claim."
+    },
+    {
+      "filePath": "src/io/revisionBridge/index.mjs",
+      "sha256": "a026532a5a61740e990cb1605fd6a3ab9d939cbf797114d14d14018ae353d855",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:32:27.743Z",
+      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 product runtime source rebind: returned Review DOCX authority is gated through parser V2 before session import, custom properties are recognized as supported review packet metadata, no automatic apply, no writer authority expansion beyond existing command-owned paths, no UI redesign, no dependency, no network, and no release-ready or Word saturation claim."
+    },
+    {
+      "filePath": "src/main.js",
+      "sha256": "c9c98200ba3db7f4ce9968e540d0ba4dc73b0e7a59706c7d056d12143dd360e3",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:32:27.743Z",
+      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 product runtime source rebind: returned Review DOCX authority is gated through parser V2 before session import, custom properties are recognized as supported review packet metadata, no automatic apply, no writer authority expansion beyond existing command-owned paths, no UI redesign, no dependency, no network, and no release-ready or Word saturation claim."
     }
   ]
 }

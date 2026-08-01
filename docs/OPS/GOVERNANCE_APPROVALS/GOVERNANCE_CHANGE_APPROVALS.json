@@ -7150,24 +7150,24 @@
     },
     {
       "filePath": "src/renderer/editor.js",
-      "sha256": "1c32abeca490a6098cc235a535da524af04412c3610c1511eb4dfb8a35967e53",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C02",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "Approve bounded R3_C02 runtime source and bundle after origin/main reconcile; adds Atlas temporal, continuity, and saved-query visible command controls plus removes silent source-scene slicing; preserves Command Kernel path, Design OS visual canon, local-only runtime, and no release-ready overclaim."
+      "sha256": "db6411de5f07c4a6fd7c14efc4f51cef6340e2f9d1c15f54938d705298a37226",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C03",
+      "approvedAtUtc": "2026-08-01T00:05:00.000Z",
+      "rationale": "Approve bounded R3_C03 Manual Map portability visible UI journey repair; preserves Command Kernel path, Design OS visual canon, local-only runtime, projection readback, persistence, reopen, and no release-ready overclaim."
     },
     {
       "filePath": "src/renderer/editor.bundle.js",
-      "sha256": "6ff86ee1eb5bf6199541727e9a544c6e18078f7d273671e8b7905b608abcf128",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C02",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "Approve bounded R3_C02 runtime source and bundle after origin/main reconcile; adds Atlas temporal, continuity, and saved-query visible command controls plus removes silent source-scene slicing; preserves Command Kernel path, Design OS visual canon, local-only runtime, and no release-ready overclaim."
+      "sha256": "befa992622b7f22cfd5990cda1da31b0065cba9625701753078324723372a273",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C03",
+      "approvedAtUtc": "2026-08-01T00:05:00.000Z",
+      "rationale": "Approve bounded R3_C03 Manual Map portability visible UI journey repair; preserves Command Kernel path, Design OS visual canon, local-only runtime, projection readback, persistence, reopen, and no release-ready overclaim."
     },
     {
       "filePath": "src/renderer/styles.css",
-      "sha256": "955737c298aeedb02038525d0d11bc2da79e0d596789bf39adf306807482067a",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C01",
-      "approvedAtUtc": "2026-07-31T23:07:08.963Z",
-      "rationale": "Approve bounded R3_C01 Atlas visible UI journey repair after physical Electron PASS; preserves command kernel, local storage, Design OS visual canon, and adds no runtime dependency."
+      "sha256": "6617b6460b187af848f569521e626e6b9699a973d4fc964b092b9d9d4a209213",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C03",
+      "approvedAtUtc": "2026-08-01T00:05:00.000Z",
+      "rationale": "Approve bounded R3_C03 Manual Map portability visible UI journey repair; preserves Command Kernel path, Design OS visual canon, local-only runtime, projection readback, persistence, reopen, and no release-ready overclaim."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R3_C01_ATLAS_ENTITY_RELATION_UI_JOURNEYS_RECEIPT.json",
@@ -7224,6 +7224,69 @@
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C02",
       "approvedAtUtc": "2026-08-01T00:00:00.000Z",
       "rationale": "Approve bounded R3_C02 Atlas temporal, continuity, saved query physical Electron journey evidence after origin/main reconcile; certifies only visible UI command path, persistence, reopen, and no silent source-scene slice; Program DoD remains NOT_DONE."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C03_MANUAL_MAP_ATTACHMENTS_PORTALS_TEMPLATES/r3-c03-manual-map-attachments-portals-templates-report.json",
+      "sha256": "fe589c7dc6c8c6bd71018a99ddfdee8204502c6d0065200eadda2c14c1612d0c",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C03",
+      "approvedAtUtc": "2026-08-01T00:05:00.000Z",
+      "rationale": "Approve bounded R3_C03 Manual Map attachment, portal, and template physical Electron journey evidence; certifies only visible UI command path, persistence, reopen, repeat import, image/PDF evidence, and no direct IPC/storage bypass; Program DoD remains NOT_DONE."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C03_MANUAL_MAP_ATTACHMENTS_PORTALS_TEMPLATES/r3-c03-manual-map-portability-journey.png",
+      "sha256": "1e592efa3e1c262178466671c1dcf8d6e9ce6f36541fb25ff74db38e89affd60",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C03",
+      "approvedAtUtc": "2026-08-01T00:05:00.000Z",
+      "rationale": "Approve bounded R3_C03 Manual Map attachment, portal, and template physical Electron journey evidence; certifies only visible UI command path, persistence, reopen, repeat import, image/PDF evidence, and no direct IPC/storage bypass; Program DoD remains NOT_DONE."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C03_MANUAL_MAP_ATTACHMENTS_PORTALS_TEMPLATES/r3-c03-manual-map-portability-reopen.png",
+      "sha256": "c4e5a6037e8d9ed31bb78cfdfeaf05b3dd5a3bed298b8392b3868775cc618d45",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C03",
+      "approvedAtUtc": "2026-08-01T00:05:00.000Z",
+      "rationale": "Approve bounded R3_C03 Manual Map attachment, portal, and template physical Electron journey evidence; certifies only visible UI command path, persistence, reopen, repeat import, image/PDF evidence, and no direct IPC/storage bypass; Program DoD remains NOT_DONE."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C03_MANUAL_MAP_ATTACHMENTS_PORTALS_TEMPLATES/seed-r2-c05/r2-c05-black-box-journey.png",
+      "sha256": "0f3ce82a111b7c5f1080f4bdcc775060d8a413f1f57a4f862df3e78481772f90",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C03",
+      "approvedAtUtc": "2026-08-01T00:05:00.000Z",
+      "rationale": "Approve bounded R3_C03 seed project evidence reused to create the Manual Map portability journey baseline; seed proves setup only and is not counted as R3_C03 completion without the visible portability journey."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C03_MANUAL_MAP_ATTACHMENTS_PORTALS_TEMPLATES/seed-r2-c05/r2-c05-black-box-reopen.png",
+      "sha256": "45fd694f9926c1bd7f8fe98b1973061dfe39ab46ced086f35e4037decd7e2b9f",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C03",
+      "approvedAtUtc": "2026-08-01T00:05:00.000Z",
+      "rationale": "Approve bounded R3_C03 seed project evidence reused to create the Manual Map portability journey baseline; seed proves setup only and is not counted as R3_C03 completion without the visible portability journey."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C03_MANUAL_MAP_ATTACHMENTS_PORTALS_TEMPLATES/seed-r2-c05/r2-c05-honest-black-box-acceptance-report.json",
+      "sha256": "24f0737496b2d9ba9a1769d4de30ada78d9e3194c44ece972a910576edd978c8",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C03",
+      "approvedAtUtc": "2026-08-01T00:05:00.000Z",
+      "rationale": "Approve bounded R3_C03 seed project evidence reused to create the Manual Map portability journey baseline; seed proves setup only and is not counted as R3_C03 completion without the visible portability journey."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R3_C03_MANUAL_MAP_ATTACHMENTS_PORTALS_TEMPLATES_RECEIPT.json",
+      "sha256": "5a6ad6c6889bd82000d7349408c54a78655d19a6abbf8e0946bc709c111412ce",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C03",
+      "approvedAtUtc": "2026-08-01T00:08:30.000Z",
+      "rationale": "Bind R3_C03 receipt after actual physical Electron Manual Map portability journey, focused contracts, doctrine, OSS, governance, test:ops, and full runner PASS; Program DoD remains NOT_DONE and Night_01/R3 queue continues."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-r3-c03-manual-map-attachments-portals-templates.mjs",
+      "sha256": "2dd1b2cfda26c82cbf3eceffabf5e94a160db66ad035d3a5d89458c0bbe096e8",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C03",
+      "approvedAtUtc": "2026-08-01T00:05:00.000Z",
+      "rationale": "Approve bounded R3_C03 Manual Map attachment, portal, and template physical Electron journey evidence; certifies only visible UI command path, persistence, reopen, repeat import, image/PDF evidence, and no direct IPC/storage bypass; Program DoD remains NOT_DONE."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-r3-c03-manual-map-attachments-portals-templates.contract.test.js",
+      "sha256": "59f9c0dea828aebf1df3662983705a48dafb8796de7dffddd5afcaf23659ae62",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C03",
+      "approvedAtUtc": "2026-08-01T00:05:00.000Z",
+      "rationale": "Approve bounded R3_C03 Manual Map attachment, portal, and template physical Electron journey evidence; certifies only visible UI command path, persistence, reopen, repeat import, image/PDF evidence, and no direct IPC/storage bypass; Program DoD remains NOT_DONE."
     }
   ]
 }

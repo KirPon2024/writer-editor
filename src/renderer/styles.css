@@ -7814,6 +7814,27 @@ body.dark-theme .project-search-workspace__mass-replace {
   white-space: nowrap;
 }
 
+.manual-map-workspace__portability {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  border-top: 1px solid var(--toolbar-control-border);
+  padding: 10px;
+  min-height: 0;
+  overflow: auto;
+}
+
+.manual-map-workspace__portability-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  min-height: 34px;
+  border-radius: 6px;
+  padding: 7px 9px;
+  background: rgba(255, 255, 255, 0.22);
+}
+
 .manual-map-workspace__inspector {
   display: grid;
   gap: 6px;

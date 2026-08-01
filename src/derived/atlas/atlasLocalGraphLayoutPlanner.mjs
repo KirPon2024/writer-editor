@@ -6,6 +6,11 @@ import {
   ATLAS_LOCAL_GRAPH_RESOURCE_BUDGET_PROOF_SCHEMA_VERSION,
   ATLAS_LOCAL_GRAPH_SCHEMA_VERSION,
 } from './atlasLocalGraphTypes.mjs';
+import {
+  buildDerivedGenerationPublishedEvent,
+  buildDerivedGenerationRejectedAsStaleEvent,
+  hashCoreDomainEvents,
+} from '../../core/domainEvents.mjs';
 
 const LAYOUT_OP = 'derived.atlas.localGraphLayoutPlanner';
 const LAYOUT_ADAPTER_KIND = 'local-pure-derived-planner';
@@ -378,15 +383,47 @@ export function acceptAtlasLocalGraphLayoutResult(input = {}) {
     mismatches.push('generation');
   }
   if (mismatches.length > 0) {
-    return plannerError('E_ATLAS_LOCAL_GRAPH_STALE_LAYOUT_RESULT', 'STALE_LAYOUT_RESULT_IDENTITY_MISMATCH', { mismatches });
+    const events = [
+      buildDerivedGenerationRejectedAsStaleEvent({
+        projectId: normalizeText(activeJob.projectId),
+        generationId: normalizeText(result.requestId) || normalizeText(activeJob.requestId),
+        projectionKind: 'atlas.localGraphLayout',
+        sourceRevision: normalizePositiveInteger(activeJob.generation, 0, 1_000_000_000),
+        currentRevision: normalizePositiveInteger(result.generation, normalizePositiveInteger(activeJob.generation, 0, 1_000_000_000), 1_000_000_000),
+        commandSeq: normalizePositiveInteger(activeJob.generation, 0, 1_000_000_000),
+        previousStateHash: normalizeText(activeJob.sourceRevision),
+        nextStateHash: normalizeText(result.sourceRevision),
+      }),
+    ];
+    return {
+      ...plannerError('E_ATLAS_LOCAL_GRAPH_STALE_LAYOUT_RESULT', 'STALE_LAYOUT_RESULT_IDENTITY_MISMATCH', { mismatches }),
+      events,
+      domainEventDigest: hashCoreDomainEvents(events),
+    };
   }
   const currentGraph = isPlainObject(input.currentGraph) ? input.currentGraph : {};
   const currentSourceRevision = graphSourceRevision(currentGraph);
   if (currentSourceRevision !== normalizeText(activeJob.sourceRevision)) {
-    return plannerError('E_ATLAS_LOCAL_GRAPH_STALE_LAYOUT_RESULT', 'STALE_LAYOUT_RESULT_SOURCE_REVISION', {
-      expected: activeJob.sourceRevision,
-      actual: currentSourceRevision,
-    });
+    const events = [
+      buildDerivedGenerationRejectedAsStaleEvent({
+        projectId: normalizeText(activeJob.projectId),
+        generationId: normalizeText(result.requestId) || normalizeText(activeJob.requestId),
+        projectionKind: 'atlas.localGraphLayout',
+        sourceRevision: normalizePositiveInteger(activeJob.generation, 0, 1_000_000_000),
+        currentRevision: normalizePositiveInteger(activeJob.generation, 0, 1_000_000_000) + 1,
+        commandSeq: normalizePositiveInteger(activeJob.generation, 0, 1_000_000_000),
+        previousStateHash: normalizeText(activeJob.sourceRevision),
+        nextStateHash: currentSourceRevision,
+      }),
+    ];
+    return {
+      ...plannerError('E_ATLAS_LOCAL_GRAPH_STALE_LAYOUT_RESULT', 'STALE_LAYOUT_RESULT_SOURCE_REVISION', {
+        expected: activeJob.sourceRevision,
+        actual: currentSourceRevision,
+      }),
+      events,
+      domainEventDigest: hashCoreDomainEvents(events),
+    };
   }
   if (
     !isPlainObject(result.resourceBudgetProof)
@@ -401,6 +438,17 @@ export function acceptAtlasLocalGraphLayoutResult(input = {}) {
   ) {
     return plannerError('E_ATLAS_LOCAL_GRAPH_RESOURCE_BUDGET_EXCEEDED', 'RESOURCE_BUDGET_EXCEEDED');
   }
+  const events = [
+    buildDerivedGenerationPublishedEvent({
+      projectId: result.projectId,
+      generationId: result.requestId,
+      projectionKind: 'atlas.localGraphLayout',
+      sourceRevision: result.generation,
+      commandSeq: result.generation,
+      previousStateHash: activeJob.sourceRevision,
+      nextStateHash: result.sourceRevision,
+    }),
+  ];
   return {
     ok: true,
     value: {
@@ -416,5 +464,7 @@ export function acceptAtlasLocalGraphLayoutResult(input = {}) {
         persistentDerivedTruth: false,
       },
     },
+    events,
+    domainEventDigest: hashCoreDomainEvents(events),
   };
 }

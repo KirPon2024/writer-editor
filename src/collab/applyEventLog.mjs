@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto';
+import { hashCoreDomainEvents, validateCoreDomainEvent } from '../core/domainEvents.mjs';
 
 function isPlainObject(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
@@ -28,6 +29,18 @@ function hashCanonical(value) {
 
 function normalizeString(value) {
   return typeof value === 'string' ? value.trim() : '';
+}
+
+function normalizeDomainEvents(events) {
+  return Array.isArray(events) ? events.map((event) => cloneJson(event)) : [];
+}
+
+function domainEventsValid(events) {
+  try {
+    return normalizeDomainEvents(events).every((event) => validateCoreDomainEvent(event).ok);
+  } catch {
+    return false;
+  }
 }
 
 function normalizeEvent(input = {}) {
@@ -87,6 +100,7 @@ export function applyEventLog(input = {}) {
   let nextState = coreState;
   let stateHash = normalizeString(input.initialStateHash) || hashState(nextState);
   let appliedCount = 0;
+  const domainEvents = [];
 
   for (let index = 0; index < events.length; index += 1) {
     const event = events[index];
@@ -155,8 +169,19 @@ export function applyEventLog(input = {}) {
       continue;
     }
 
+    const resultEvents = normalizeDomainEvents(applyResult.events);
+    if (!domainEventsValid(resultEvents)) {
+      rejected.push(buildRejectionEnvelope(
+        event,
+        'E_COLLAB_APPLY_DOMAIN_EVENTS_INVALID',
+        'DOMAIN_EVENTS_INVALID',
+        { index },
+      ));
+      continue;
+    }
     nextState = cloneJson(applyResult.state);
     stateHash = normalizeString(applyResult.stateHash) || hashState(nextState);
+    domainEvents.push(...resultEvents);
     appliedCount += 1;
   }
 
@@ -165,5 +190,7 @@ export function applyEventLog(input = {}) {
     appliedCount,
     rejected,
     stateHash,
+    domainEvents,
+    domainEventDigest: hashCoreDomainEvents(domainEvents),
   };
 }

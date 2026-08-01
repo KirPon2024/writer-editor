@@ -74,17 +74,22 @@ function eventPayloadFixture(eventId) {
 }
 
 function eventFixture(domainEvents, eventId) {
+  const rule = domainEvents.CORE_EVENT_SOURCE_RULES[eventId];
+  const sourceBinding = {
+    boundary: rule.boundary,
+    commandType: rule.commandTypes[0],
+    commandSeq: rule.minCommandSeq,
+    previousStateHash: '0'.repeat(64),
+    nextStateHash: '1'.repeat(64),
+  };
+  if (rule.causedByCommandTypes.length > 0) {
+    sourceBinding.causedByCommandType = rule.causedByCommandTypes[0];
+  }
   return {
     schemaVersion: domainEvents.CORE_EVENT_SCHEMA_VERSION,
     type: eventId,
     factKind: domainEvents.CORE_EVENT_FACT_KIND,
-    sourceBinding: {
-      boundary: domainEvents.CORE_EVENT_EMISSION_BOUNDARIES[eventId],
-      commandType: 'contract.fixture',
-      commandSeq: 1,
-      previousStateHash: 'previous-state-hash',
-      nextStateHash: 'next-state-hash',
-    },
+    sourceBinding,
     payload: eventPayloadFixture(eventId),
   };
 }
@@ -152,7 +157,12 @@ test('Atlas V5 P1 domain events: reducer outcomes emit facts without creating an
     for (const event of result.events) {
       assert.equal(domainEvents.validateCoreDomainEvent(event).ok, true, `${event.type} should validate`);
       assert.equal(event.factKind, domainEvents.CORE_EVENT_FACT_KIND);
-      assert.equal(event.sourceBinding.commandType, command.type);
+      if (event.type === domainEvents.CORE_EVENT_IDS.PROJECTION_INVALIDATED || event.type === domainEvents.CORE_EVENT_IDS.MAP_NODE_PROMOTED) {
+        assert.equal(event.sourceBinding.causedByCommandType, command.type);
+        assert.notEqual(event.sourceBinding.commandType, command.type);
+      } else {
+        assert.equal(event.sourceBinding.commandType, command.type);
+      }
       assert.equal(event.sourceBinding.commandSeq, result.state.data.lastCommandId);
       assert.equal(Object.prototype.hasOwnProperty.call(event.payload, 'command'), false);
       assert.equal(Object.prototype.hasOwnProperty.call(event.payload, 'rpc'), false);
@@ -225,6 +235,26 @@ test('Atlas V5 P1 domain events: validation rejects wildcard, unknown ids and in
   assert.equal(domainEvents.validateCoreDomainEvent({ ...event, type: 'CommandRpcRequested' }).ok, false);
   assert.equal(domainEvents.validateCoreDomainEvent({ ...event, type: 'EntityCreated', payload: { projectId: 'p' } }).ok, false);
   assert.equal(domainEvents.validateCoreDomainEvent({ ...event, schemaVersion: 'core.event.future' }).ok, false);
+  assert.equal(domainEvents.validateCoreDomainEvent({
+    ...event,
+    sourceBinding: { ...event.sourceBinding, boundary: 'derivedProjectionWorker' },
+  }).ok, false, 'mismatched boundary must fail closed');
+  assert.equal(domainEvents.validateCoreDomainEvent({
+    ...event,
+    sourceBinding: { ...event.sourceBinding, commandType: 'project.applyTextEdit' },
+  }).ok, false, 'unrelated command source must fail closed');
+  assert.equal(domainEvents.validateCoreDomainEvent({
+    ...event,
+    sourceBinding: { ...event.sourceBinding, commandSeq: -1 },
+  }).ok, false, 'negative safe integer sequence must fail closed');
+  assert.equal(domainEvents.validateCoreDomainEvent({
+    ...event,
+    payload: { ...event.payload, extra: 'not allowed' },
+  }).ok, false, 'extra payload key must fail closed');
+  assert.equal(domainEvents.validateCoreDomainEvent({
+    ...event,
+    payload: { ...event.payload, extra: { handler: 'write' } },
+  }).ok, false, 'nested authority payload key must fail closed');
 
   for (const eventId of domainEvents.CORE_EVENT_ID_LIST) {
     const candidate = eventFixture(domainEvents, eventId);
@@ -238,6 +268,101 @@ test('Atlas V5 P1 domain events: validation rejects wildcard, unknown ids and in
   const roundTrip = domainEvents.deserializeCoreDomainEvent(serializedA);
   assert.equal(roundTrip.ok, true, roundTrip.reason);
   assert.deepEqual(roundTrip.event, event);
+  assert.equal(Object.isFrozen(roundTrip.event), true);
+  assert.equal(Object.isFrozen(roundTrip.event.payload), true);
+});
+
+test('Atlas V5 P1 domain events: missing product emitters are wired to their actual projection and migration boundaries', async () => {
+  const runtime = await importRepoModule('src/core/runtime.mjs');
+  const planner = await importRepoModule('src/derived/atlas/atlasLocalGraphLayoutPlanner.mjs');
+  const layoutTypes = await importRepoModule('src/derived/atlas/atlasLocalGraphTypes.mjs');
+  const portability = await importRepoModule('src/derived/atlas/deriveAtlasSeriesPortabilityPreview.mjs');
+  const domainEvents = await importRepoModule('src/core/domainEvents.mjs');
+
+  const graph = {
+    schemaVersion: layoutTypes.ATLAS_LOCAL_GRAPH_SCHEMA_VERSION,
+    projectId: 'p-events',
+    nodes: [{ nodeId: 'node-a', entityId: 'entity-a', appearanceCount: 1 }],
+    edges: [],
+    clusters: [],
+    summary: { graphHash: '2'.repeat(64) },
+  };
+  const job = planner.createAtlasLocalGraphLayoutJob({ graph, sequence: 3 });
+  assert.equal(job.ok, true, job.error?.reason || '');
+  const run = planner.runAtlasLocalGraphLayoutJob(job.value);
+  assert.equal(run.ok, true, run.error?.reason || '');
+  const accepted = planner.acceptAtlasLocalGraphLayoutResult({
+    activeJob: job.value,
+    result: run.value,
+    currentGraph: graph,
+  });
+  assert.equal(accepted.ok, true, accepted.error?.reason || '');
+  assert.equal(accepted.events[0].type, 'DerivedGenerationPublished');
+  assert.equal(domainEvents.validateCoreDomainEvent(accepted.events[0]).ok, true);
+
+  const stale = planner.acceptAtlasLocalGraphLayoutResult({
+    activeJob: job.value,
+    result: run.value,
+    currentGraph: { ...graph, summary: { graphHash: '3'.repeat(64) } },
+  });
+  assert.equal(stale.ok, false);
+  assert.equal(stale.events[0].type, 'DerivedGenerationRejectedAsStale');
+  assert.equal(domainEvents.validateCoreDomainEvent(stale.events[0]).ok, true);
+
+  const created = runtime.reduceCoreState(runtime.createInitialCoreState(), {
+    type: runtime.CORE_COMMAND_IDS.PROJECT_CREATE,
+    payload: { projectId: 'p-events', sceneId: 'scene-1', title: 'Events' },
+  });
+  assert.equal(created.ok, true, created.error?.reason || '');
+  const preview = portability.deriveAtlasSeriesPortabilityPreview({
+    coreState: created.state,
+    params: { projectId: 'p-events' },
+  });
+  assert.equal(preview.ok, true, preview.error?.reason || '');
+  assert.equal(preview.value.domainEvents[0].type, 'MigrationPrepared');
+  assert.equal(domainEvents.validateCoreDomainEvent(preview.value.domainEvents[0]).ok, true);
+
+  const orderEvent = runtime.buildSceneOrderChangedEvent({
+    projectId: 'p-events',
+    sceneIds: ['scene-1', 'scene-2'],
+    commandSeq: 0,
+    previousStateHash: '4'.repeat(64),
+    nextStateHash: '5'.repeat(64),
+  });
+  assert.equal(orderEvent.type, 'SceneOrderChanged');
+  assert.equal(domainEvents.validateCoreDomainEvent(orderEvent).ok, true);
+});
+
+test('Atlas V5 P1 domain events: Stage10 operation log and command receipt retain immutable fact digest', async () => {
+  const runtime = await importRepoModule('src/product/stage10ProductWiring.mjs');
+  const domainEvents = await importRepoModule('src/core/domainEvents.mjs');
+  const store = new Map();
+  const product = await runtime.createStage10ProductRuntime({
+    projectId: 'stage10-domain-events',
+    now: () => '2026-08-01T00:00:00.000Z',
+    storagePort: {
+      writeSession: async (session) => {
+        store.set(session.projectId, JSON.parse(JSON.stringify(session)));
+      },
+      readSession: async (projectId) => store.get(projectId),
+    },
+  });
+
+  const result = await product.dispatchVisibleCommand(
+    'project.create',
+    { projectId: 'stage10-domain-events', sceneId: 'scene-1', title: 'Events' },
+    { mode: runtime.STAGE10_ACTIVATION_MODES.PHYSICAL_POINTER_OR_KEYBOARD, controlId: 'stage10-core-project-create' },
+  );
+  assert.equal(result.ok, true, result.error?.reason || '');
+  assert.ok(Array.isArray(result.receipt.domainEvents));
+  assert.equal(result.receipt.domainEvents.length, 2);
+  assert.equal(result.receipt.domainEventDigest, domainEvents.hashCoreDomainEvents(result.receipt.domainEvents));
+  const session = product.getSession();
+  assert.equal(session.eventLog.events[0].domainEventDigest, result.receipt.domainEventDigest);
+  assert.deepEqual(session.eventLog.events[0].domainEvents, result.receipt.domainEvents);
+  const readModels = product.getReadModels();
+  assert.equal(readModels.replay.ok, true);
+  assert.equal(readModels.replay.steps[0].commandReceiptRef.domainEventDigest, result.receipt.domainEventDigest);
 });
 
 test('Atlas V5 P1 domain events: doctor fails closed on wildcard public event contracts and helper has no UI or storage side channel', () => {
@@ -246,8 +371,12 @@ test('Atlas V5 P1 domain events: doctor fails closed on wildcard public event co
   const runtimeSource = readRepoText('src/core/runtime.mjs');
 
   assert.match(doctorSource, /PUBLIC_CORE_EVENT_WILDCARD_TYPE/u);
+  assert.match(doctorSource, /DOMAIN_EVENTS_IMMUTABLE_AUTHORITY_COMMIT/u);
+  assert.match(doctorSource, /DOMAIN_EVENTS_BASELINE_REMOVED/u);
+  assert.match(doctorSource, /DOMAIN_EVENTS_CONTRACT_REMOVED/u);
   assert.doesNotMatch(doctorSource, /if\s*\(!hasWildcardType\)\s*\{\s*for\s*\(const eventId of baselineEventIds\)/u);
   assert.doesNotMatch(domainSource, /from\s+['"]node:(fs|path|child_process|electron)['"]/u);
-  assert.doesNotMatch(domainSource, /\b(eventStore|appendEvent|writeEvent|localStorage|indexedDB|ipcRenderer)\b/u);
+  assert.doesNotMatch(domainSource, /\b(localStorage|indexedDB|ipcRenderer)\s*[.(]/u);
+  assert.doesNotMatch(domainSource, /\b(eventStore|appendEvent|writeEvent|appendFile|writeFile)\s*\(/u);
   assert.match(runtimeSource, /emitCoreDomainEventsForCommandResult/u);
 });

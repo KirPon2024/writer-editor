@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto';
+import { hashCoreDomainEvents, validateCoreDomainEvent } from '../core/domainEvents.mjs';
 
 const EVENTLOG_SCHEMA_VERSION = 'collab-eventlog.v1';
 const OPERATION_REPLAY_REPORT_SCHEMA_VERSION = 'collab-operation-replay.report.v1';
@@ -41,9 +42,26 @@ function normalizeString(value) {
   return typeof value === 'string' ? value.trim() : '';
 }
 
+function normalizeDomainEvents(events) {
+  return Array.isArray(events) ? events.map((event) => cloneJson(event)) : [];
+}
+
+function domainEventsValid(events, expectedDigest = '') {
+  try {
+    const normalized = normalizeDomainEvents(events);
+    for (const event of normalized) {
+      const validation = validateCoreDomainEvent(event);
+      if (!validation.ok) return false;
+    }
+    return !expectedDigest || hashCoreDomainEvents(normalized) === expectedDigest;
+  } catch {
+    return false;
+  }
+}
+
 function normalizeEventEntry(input = {}) {
   const entry = isPlainObject(input) ? input : {};
-  return {
+  const normalized = {
     opId: normalizeString(entry.opId),
     ts: normalizeString(entry.ts),
     actorId: normalizeString(entry.actorId),
@@ -52,10 +70,19 @@ function normalizeEventEntry(input = {}) {
     preStateHash: normalizeString(entry.preStateHash),
     postStateHash: normalizeString(entry.postStateHash),
   };
+  if (
+    Array.isArray(entry.domainEvents)
+    || typeof entry.domainEventDigest === 'string'
+  ) {
+    const domainEvents = normalizeDomainEvents(entry.domainEvents);
+    normalized.domainEvents = domainEvents;
+    normalized.domainEventDigest = normalizeString(entry.domainEventDigest) || hashCoreDomainEvents(domainEvents);
+  }
+  return normalized;
 }
 
 function eventEntryValid(entry) {
-  return Boolean(
+  const requiredFieldsValid = Boolean(
     entry.opId
     && entry.ts
     && entry.actorId
@@ -64,6 +91,11 @@ function eventEntryValid(entry) {
     && entry.preStateHash
     && entry.postStateHash,
   );
+  if (!requiredFieldsValid) return false;
+  if (Array.isArray(entry.domainEvents) || entry.domainEventDigest) {
+    return domainEventsValid(entry.domainEvents, entry.domainEventDigest);
+  }
+  return true;
 }
 
 function normalizeEventLog(input = {}) {
@@ -84,7 +116,8 @@ function collectKnownOpIds(events) {
 function normalizeCommandReceipt(input = {}) {
   const receipt = isPlainObject(input) ? input : {};
   const command = isPlainObject(receipt.command) ? receipt.command : {};
-  return {
+  const details = isPlainObject(receipt.details) ? receipt.details : {};
+  const normalized = {
     receiptId: normalizeString(receipt.receiptId || receipt.id || receipt.kernelReceiptId),
     operationId: normalizeString(receipt.operationId || receipt.opId),
     commandId: normalizeString(receipt.commandId || command.type || receipt.type),
@@ -95,6 +128,20 @@ function normalizeCommandReceipt(input = {}) {
     capabilityRevalidated: receipt.capabilityRevalidated === true
       || receipt.commandKernelCapabilityRevalidation === true,
   };
+  if (
+    Array.isArray(receipt.domainEvents)
+    || Array.isArray(receipt.events)
+    || Array.isArray(details.domainEvents)
+    || typeof receipt.domainEventDigest === 'string'
+    || typeof receipt.eventDigest === 'string'
+    || typeof details.domainEventDigest === 'string'
+  ) {
+    const domainEvents = normalizeDomainEvents(receipt.domainEvents || receipt.events || details.domainEvents);
+    normalized.domainEvents = domainEvents;
+    normalized.domainEventDigest = normalizeString(receipt.domainEventDigest || receipt.eventDigest || details.domainEventDigest)
+      || hashCoreDomainEvents(domainEvents);
+  }
+  return normalized;
 }
 
 function normalizeCommandReceipts(receipts) {
@@ -104,6 +151,7 @@ function normalizeCommandReceipts(receipts) {
 
 function receiptMatchesEvent(receipt, event) {
   if (receipt.commandId && receipt.commandId !== event.commandId) return false;
+  if (receipt.domainEventDigest && event.domainEventDigest && receipt.domainEventDigest !== event.domainEventDigest) return false;
   if (receipt.operationId && receipt.operationId === event.opId) return true;
   if (receipt.receiptId && receipt.receiptId === event.opId) return true;
   if (receipt.preStateHash && receipt.postStateHash) {
@@ -127,6 +175,10 @@ function commandReceiptRef(receipt) {
     postStateHash: receipt.postStateHash,
     capabilityRevalidated: receipt.capabilityRevalidated,
   };
+  if (receipt.domainEventDigest) {
+    ref.domainEventDigest = receipt.domainEventDigest;
+    ref.domainEventCount = Array.isArray(receipt.domainEvents) ? receipt.domainEvents.length : 0;
+  }
   return {
     ...ref,
     receiptRefHash: hashCanonical(ref),
@@ -152,6 +204,8 @@ function buildReplayStep(event, index, currentHash, receipt) {
     payloadHash: event.payloadHash,
     preStateHash: event.preStateHash,
     postStateHash: event.postStateHash,
+    domainEventDigest: event.domainEventDigest || '',
+    domainEventCount: Array.isArray(event.domainEvents) ? event.domainEvents.length : 0,
     replayedFromStateHash: currentHash,
     commandReceiptRef: receipt ? commandReceiptRef(receipt) : null,
     stateHashProof: {
@@ -272,6 +326,22 @@ export function applyCommandWithEventLog(input = {}) {
 
   const nextState = cloneJson(applyResult.state);
   const postStateHash = normalizeString(applyResult.stateHash) || hashCanonical(nextState);
+  const domainEvents = normalizeDomainEvents(applyResult.events);
+  if (!domainEventsValid(domainEvents)) {
+    return {
+      ok: false,
+      eventLog: normalizeEventLog(input.eventLog),
+      error: typedError(
+        'E_COLLAB_EVENTLOG_DOMAIN_EVENTS_INVALID',
+        'collab.eventlog.applyCommand',
+        'DOMAIN_EVENTS_INVALID',
+        { commandId },
+      ),
+      state: nextState,
+      stateHash: postStateHash,
+    };
+  }
+  const domainEventDigest = hashCoreDomainEvents(domainEvents);
   const entry = {
     opId: normalizeString(input.opId),
     ts: normalizeString(input.ts),
@@ -280,6 +350,8 @@ export function applyCommandWithEventLog(input = {}) {
     payloadHash: hashCanonical(payload),
     preStateHash: currentStateHash,
     postStateHash,
+    domainEvents,
+    domainEventDigest,
   };
   const append = appendEventLogEntry({
     eventLog: input.eventLog,
@@ -300,6 +372,8 @@ export function applyCommandWithEventLog(input = {}) {
     eventLog: append.eventLog,
     eventLogHash: append.eventLogHash,
     entry: append.entry,
+    domainEvents,
+    domainEventDigest,
     state: nextState,
     stateHash: postStateHash,
   };

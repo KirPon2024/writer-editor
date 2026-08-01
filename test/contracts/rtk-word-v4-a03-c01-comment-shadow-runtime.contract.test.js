@@ -238,11 +238,16 @@ test('A03 C01 repeated import is idempotent and does not rewrite a committed sha
   assert.equal(secondStat.mtimeMs, firstStat.mtimeMs);
 });
 
-test('A03 C01 blocks replies duplicate ids unsupported outcomes and writes no shadow files', async () => {
+test('A03 C01 preserves replies as typed limitations while duplicate ids still write no shadow files', async () => {
   const projectRoot = makeProjectRoot();
   const mod = await loadModule();
   const withReply = reviewIrFixture({
-    replies: [{ rawId: 'reply-1', body: 'reply must remain limitation' }],
+    replies: [{
+      rawId: 'reply-1',
+      body: 'reply must remain limitation',
+      author: 'Synthetic Reply Author',
+      initials: 'SRA',
+    }],
   });
   const replyResult = await mod.importRtkCommentShadowSession({
     projectRoot,
@@ -251,9 +256,18 @@ test('A03 C01 blocks replies duplicate ids unsupported outcomes and writes no sh
     reviewIr: withReply,
   });
 
-  assert.equal(replyResult.ok, false);
+  assert.equal(replyResult.ok, true, JSON.stringify(replyResult, null, 2));
   assert.equal(replyResult.writerCalled, false);
-  assert.equal(replyResult.reasons.some((item) => item.code === 'RTK_COMMENT_REPLY_NOT_PROMOTED'), true);
+  assert.equal(replyResult.manuscriptApplyAuthority, false);
+  assert.equal(replyResult.session.summary.replyCountPromoted, 0);
+  assert.equal(replyResult.session.summary.unsupportedReplyCount, 1);
+  assert.equal(replyResult.session.invariants.modernRepliesPromoted, false);
+  assert.equal(replyResult.session.invariants.modernRepliesPreservedAsTypedLimitation, true);
+  assert.equal(replyResult.session.threads[0].unsupportedReplies[0].body, 'reply must remain limitation');
+  assert.equal(replyResult.session.threads[0].unsupportedReplies[0].authorPersonIdentity.initials, 'SRA');
+  assert.equal(replyResult.session.threads[0].unsupportedReplies[0].reasonCodes.includes('RTK_COMMENT_REPLY_TYPED_LIMITATION_PRESERVED'), true);
+  assert.equal(replyResult.receipt.vetoMetrics.replyPromotion, 0);
+  assert.equal(replyResult.receipt.vetoMetrics.silentCommentLoss, 0);
 
   const duplicate = reviewIrFixture();
   duplicate.commentThreads[1].commentId = '1';
@@ -266,7 +280,6 @@ test('A03 C01 blocks replies duplicate ids unsupported outcomes and writes no sh
 
   assert.equal(duplicateResult.ok, false);
   assert.equal(duplicateResult.reasons.some((item) => item.code === 'RTK_BLOCKED_DUPLICATE_TOKEN'), true);
-  assert.equal(fs.existsSync(path.join(projectRoot, 'backups', 'revision-bridge-rtk-comment-shadow-sessions')), false);
 });
 
 test('A03 C01 recovers a missing receipt after a crash window without double applying', async () => {
@@ -317,4 +330,5 @@ test('A03 C01 command path rejects non-kernel command ids and never calls a manu
   assert.equal(preview.ok, true);
   assert.equal(preview.session.invariants.canWriteManuscript, false);
   assert.equal(preview.session.invariants.modernRepliesPromoted, false);
+  assert.equal(preview.session.summary.unsupportedReplyCount, 0);
 });

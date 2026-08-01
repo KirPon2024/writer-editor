@@ -1,0 +1,112 @@
+{
+  "schemaVersion": "yalken.rtk.word.p0-modern-comment-replies-typed-limitation-receipt.v1",
+  "taskId": "WORD_RTK_P0_MODERN_COMMENT_REPLIES_TYPED_LIMITATION",
+  "status": "WORD_P0_MODERN_COMMENT_REPLIES_TYPED_LIMITATION_BOUND_NOT_SATURATED",
+  "result": "PASS",
+  "createdAtUtc": "2026-08-01T11:40:00.000Z",
+  "headBinding": {
+    "headSha": "6b02d0ff5acac7aa85d0f33a2d5f67be445e8b28",
+    "originMainSha": "c819b467f9f19ca20cdae27373d78d00f69219e6",
+    "mergedRemoteShaRequired": true
+  },
+  "sourceEvidence": {
+    "priorPhysicalReplyEvidence": {
+      "sourceReceipt": {
+        "id": "E12_MODERN_COMMENT_NATIVE_UI_FOLLOWUP",
+        "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_FOLLOWUP_RECEIPT.json",
+        "sha256": "dcfa54f504a5f33edff357025a230f988f33f181ccb169ae8bf994df200bea2b",
+        "status": "BOUND"
+      },
+      "caseId": "NCUI-C08",
+      "result": "TYPED_LIMITATION",
+      "commentCount": 2,
+      "parentLinkCount": 0,
+      "expectedTokensMissing": [],
+      "certifiedAsTypedLimitation": true
+    },
+    "commentShadowSessionRuntime": {
+      "id": "COMMENT_SHADOW_SESSION_RUNTIME",
+      "path": "src/io/revisionBridge/reviewTransportCommentShadowSession.mjs",
+      "sha256": "fa25b21d86514fe302a3eb44a072a7eb3eecba34741f0b2bf4a514634f2eefcd",
+      "status": "BOUND"
+    },
+    "mainCommandSurface": {
+      "id": "MAIN_COMMAND_SURFACE",
+      "path": "src/main.js",
+      "sha256": "f51069abf0b70fe7d7b1cb6c6c9109972577965d1c93671434a4691e14212af6",
+      "status": "BOUND"
+    }
+  },
+  "physicalWordProbe": {
+    "caseId": "P0-MCR-001",
+    "result": "NOT_RUN_IN_THIS_INVOCATION",
+    "packageReadback": null
+  },
+  "productCommandProof": {
+    "commandId": "cmd.rtk.reviewSession.importComments",
+    "commandKernelDispatched": true,
+    "ok": true,
+    "firstStatus": "committed",
+    "replayStatus": "replay",
+    "writerCalled": false,
+    "manuscriptApplyAuthority": false,
+    "threadCount": 1,
+    "unsupportedReplyCount": 1,
+    "replyCountPromoted": 0,
+    "preservedReplyBodyDigest": "sha256:e6d62eac2490ded020d42b666d0611db981a79a8f978a8755b7f728481af086a",
+    "preservedReplyReasonCodes": [
+      "RTK_COMMENT_REPLY_TYPED_LIMITATION_PRESERVED"
+    ],
+    "idempotentReplay": true,
+    "storageEffects": {
+      "manuscriptBytesWritten": 0,
+      "firstSessionRecordCreated": true,
+      "replaySessionRecordExisting": true
+    },
+    "vetoMetrics": {
+      "falseExact": 0,
+      "wrongSceneRouting": 0,
+      "silentApply": 0,
+      "replayFailure": 0,
+      "silentCommentLoss": 0,
+      "manuscriptMutation": 0,
+      "replyPromotion": 0,
+      "resolveReopenPromotion": 0
+    }
+  },
+  "implementedCapability": {
+    "capability": "modernCommentRepliesTypedLimitationShadowPreservation",
+    "physicalWordProven": false,
+    "componentProven": true,
+    "productRuntimeWired": true,
+    "automaticApplyCertified": false,
+    "replyGraphAuthorityCertified": false,
+    "replyBodyShadowPreservationCertified": true,
+    "replyTypedLimitationBound": true,
+    "manuscriptApplyAuthority": false,
+    "userFacingAuthority": "COMMENTS_SHADOW_PREVIEW_ONLY",
+    "terminalClass": "DIAGNOSTIC_ONLY_TYPED_LIMITATION_BOUND"
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0,
+    "falseSupport": 0,
+    "noOpPass": 0,
+    "userDocumentTouch": 0,
+    "networkRequest": 0,
+    "googleDocsOpened": 0,
+    "replyPromotion": 0
+  },
+  "nonClaims": [
+    "MODERN_REPLY_GRAPH_NOT_CERTIFIED",
+    "NO_REPLY_PARENT_LINK_AUTHORITY",
+    "NO_MANUSCRIPT_APPLY_AUTHORITY_ADDED",
+    "NO_AUTOMATIC_APPLY_CERTIFIED",
+    "GOOGLE_DOCS_NOT_OPENED",
+    "NO_GENERIC_WAVE_REPEATED"
+  ],
+  "nextStage": "P0_MODERN_COMMENT_RESOLVE_REOPEN_PRODUCT_PATH_OR_TYPED_LIMITATION"
+}

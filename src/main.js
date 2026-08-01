@@ -9023,7 +9023,7 @@ async function buildProjectSearchDocumentSources(roots, options, projectContext)
     });
   });
 
-  for (const node of candidateNodes.slice(0, 500)) {
+  for (const node of candidateNodes) {
     let documentTarget;
     try {
       documentTarget = getResolvedTreeDocumentTarget({

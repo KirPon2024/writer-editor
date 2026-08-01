@@ -1,5 +1,6 @@
 import { createDerivedError, deriveView, hashCanonicalValue } from '../deriveView.mjs';
 import { canonicalizeAtlasMentionIndex } from './atlasMentionTypes.mjs';
+import { normalizeAtlasObservationLanguagePolicy } from './atlasObservationTypes.mjs';
 import { buildAtlasTextAnchorPacket } from './atlasTextAnchorNormalization.mjs';
 
 const VIEW_ID = 'derived.atlas.mentionIndex.v1';
@@ -10,6 +11,11 @@ function isPlainObject(value) {
 
 function normalizeString(value) {
   return typeof value === 'string' ? value.trim() : '';
+}
+
+function normalizeLanguageCode(value) {
+  const normalized = normalizeString(value).toLowerCase().replace(/_/gu, '-');
+  return normalized || 'und';
 }
 
 function isAtlasMentionCapabilityEnabled(snapshot) {
@@ -76,6 +82,74 @@ function collectEntityTerms(atlas) {
   return terms;
 }
 
+function normalizeLanguageTag(input) {
+  if (!isPlainObject(input)) return null;
+  const scopeKind = normalizeString(input.scopeKind);
+  const languageCode = normalizeLanguageCode(input.languageCode);
+  if (!scopeKind || !languageCode) return null;
+  return {
+    id: normalizeString(input.id),
+    scopeKind,
+    sceneId: normalizeString(input.sceneId),
+    startOffset: Number.isSafeInteger(Number(input.startOffset)) ? Number(input.startOffset) : 0,
+    endOffset: Number.isSafeInteger(Number(input.endOffset)) ? Number(input.endOffset) : 0,
+    languageCode,
+  };
+}
+
+function collectLanguageTags(atlas) {
+  const source = isPlainObject(atlas?.languageTags) ? atlas.languageTags : {};
+  const tags = [];
+  const projectTag = normalizeLanguageTag(source.project);
+  if (projectTag) tags.push(projectTag);
+  for (const bucketName of ['scenes', 'ranges']) {
+    const bucket = isPlainObject(source[bucketName]) ? source[bucketName] : {};
+    for (const tag of Object.values(bucket)) {
+      const normalized = normalizeLanguageTag(tag);
+      if (normalized) tags.push(normalized);
+    }
+  }
+  return tags.sort((left, right) => {
+    if (left.scopeKind !== right.scopeKind) return left.scopeKind.localeCompare(right.scopeKind, 'en', { sensitivity: 'variant' });
+    if (left.sceneId !== right.sceneId) return left.sceneId.localeCompare(right.sceneId, 'en', { sensitivity: 'variant' });
+    if (left.startOffset !== right.startOffset) return left.startOffset - right.startOffset;
+    if (left.endOffset !== right.endOffset) return left.endOffset - right.endOffset;
+    return left.id.localeCompare(right.id, 'en', { sensitivity: 'variant' });
+  });
+}
+
+function resolveLanguageRouteForMention({ project, tags, sceneId, startOffset, endOffset }) {
+  const defaultLanguageCode = normalizeLanguageCode(project?.languageCode);
+  const projectTag = tags.find((tag) => tag.scopeKind === 'project');
+  const sceneTag = tags.find((tag) => tag.scopeKind === 'scene' && tag.sceneId === sceneId);
+  const rangeTag = [...tags]
+    .filter((tag) => (
+      tag.scopeKind === 'range'
+      && tag.sceneId === sceneId
+      && tag.startOffset <= startOffset
+      && tag.endOffset >= endOffset
+    ))
+    .sort((left, right) => {
+      const leftSize = left.endOffset - left.startOffset;
+      const rightSize = right.endOffset - right.startOffset;
+      if (leftSize !== rightSize) return leftSize - rightSize;
+      return left.id.localeCompare(right.id, 'en', { sensitivity: 'variant' });
+    })[0] || null;
+  const sourceTag = rangeTag || sceneTag || projectTag || null;
+  const policy = normalizeAtlasObservationLanguagePolicy(sourceTag?.languageCode || defaultLanguageCode);
+  return {
+    schemaVersion: 'derived.atlas.mentionLanguageRoute.v1',
+    languageCode: policy.languageCode,
+    sourceKind: sourceTag ? `author-${sourceTag.scopeKind}` : 'project-default',
+    sourceTagId: sourceTag?.id || '',
+    analyzerId: policy.analyzerId,
+    languagePolicy: policy.policy,
+    exactOnly: true,
+    fuzzyMatching: false,
+    englishFallback: false,
+  };
+}
+
 function buildEvidenceAnchor({ projectId, sceneId, entityId, termId, startOffset, endOffset, sceneText }) {
   const packet = buildAtlasTextAnchorPacket({
     projectId,
@@ -89,7 +163,7 @@ function buildEvidenceAnchor({ projectId, sceneId, entityId, termId, startOffset
   return packet.evidenceAnchor;
 }
 
-function collectTermMentions({ projectId, sceneId, sceneText, term }) {
+function collectTermMentions({ project, projectId, sceneId, sceneText, term, languageTags }) {
   const out = [];
   if (term.scope === 'scene' && term.sceneId !== sceneId) return out;
   let cursor = 0;
@@ -106,6 +180,13 @@ function collectTermMentions({ projectId, sceneId, sceneText, term }) {
         startOffset: found,
         endOffset,
         sceneText,
+      });
+      const languageRoute = resolveLanguageRouteForMention({
+        project,
+        tags: languageTags,
+        sceneId,
+        startOffset: found,
+        endOffset,
       });
       out.push({
         mentionId: `atlas-mention:${hashCanonicalValue({
@@ -124,6 +205,8 @@ function collectTermMentions({ projectId, sceneId, sceneText, term }) {
         termKind: term.termKind,
         aliasId: term.aliasId || '',
         matchedText: term.value,
+        languageCode: languageRoute.languageCode,
+        languageRoute,
         startOffset: found,
         endOffset,
         evidenceAnchor: anchor,
@@ -134,15 +217,17 @@ function collectTermMentions({ projectId, sceneId, sceneText, term }) {
   return out;
 }
 
-function deriveSceneShard(projectId, sceneId, scene, terms) {
+function deriveSceneShard(project, projectId, sceneId, scene, terms, languageTags) {
   const sceneText = typeof scene.text === 'string' ? scene.text : '';
   const mentions = [];
   for (const term of terms) {
     mentions.push(...collectTermMentions({
+      project,
       projectId,
       sceneId,
       sceneText,
       term,
+      languageTags,
     }));
   }
   const sortedMentions = mentions.sort((a, b) => {
@@ -173,12 +258,13 @@ function buildAtlasMentionIndex(coreState, projectId) {
   }
   const atlas = isPlainObject(project.atlas) ? project.atlas : {};
   const terms = collectEntityTerms(atlas);
+  const languageTags = collectLanguageTags(atlas);
   const scenes = isPlainObject(project.scenes) ? project.scenes : {};
   const sceneShards = [];
   const mentions = [];
   for (const sceneId of Object.keys(scenes).sort()) {
     const scene = isPlainObject(scenes[sceneId]) ? scenes[sceneId] : {};
-    const shard = deriveSceneShard(projectId, sceneId, scene, terms);
+    const shard = deriveSceneShard(project, projectId, sceneId, scene, terms, languageTags);
     mentions.push(...shard.mentions);
     sceneShards.push({
       sceneId: shard.sceneId,

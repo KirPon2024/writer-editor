@@ -113,6 +113,49 @@ test('C5V2 portfolio generator builds five deterministic 21-scene full-manuscrip
     'formatting',
     'structural',
   ]));
+  const normalizedTextByScene = new Map(nestedProductScenes.map((scene) => [
+    scene.sceneId,
+    scene.text.replace(/\s+/gu, ' '),
+  ]));
+  const isWordLike = (value) => typeof value === 'string' && /[\p{L}\p{M}\p{N}]/u.test(value);
+  for (const operation of nestedLedger.operations.filter((item) => item.expectedOutcome === 'EXACT')) {
+    const source = normalizedTextByScene.get(operation.sceneId);
+    const start = source.indexOf(operation.quote);
+    const end = start + operation.quote.length;
+    const previous = start > 0 ? Array.from(source.slice(0, start)).at(-1) : '';
+    const first = Array.from(operation.quote)[0] || '';
+    const last = Array.from(operation.quote).at(-1) || '';
+    const next = end < source.length ? Array.from(source.slice(end))[0] : '';
+    assert.equal(isWordLike(previous) && isWordLike(first), false, operation.id);
+    assert.equal(isWordLike(last) && isWordLike(next), false, operation.id);
+  }
+  const denseProductScenes = dense.scenes.map((scene, index) => {
+    const authority = canary.readProductSceneAuthority(scene.rawContent);
+    return {
+      sceneId: `dense-${String(index + 1).padStart(2, '0')}`,
+      title: scene.title,
+      text: authority.text,
+      paragraphs: authority.paragraphs,
+      sourceSha256: authority.textSha256,
+    };
+  });
+  const denseLedger = canary.buildCanaryLedger(denseProductScenes, {
+    weightedSceneAllocation: true,
+    typedLifecycleLimits: true,
+    disjointMutationLaneScenes: true,
+  });
+  const denseTextByScene = new Map(denseProductScenes.map((scene) => [scene.sceneId, scene.text.replace(/\s+/gu, ' ')]));
+  for (const operation of denseLedger.operations.filter((item) => item.expectedOutcome === 'EXACT')) {
+    const source = denseTextByScene.get(operation.sceneId);
+    const start = source.indexOf(operation.quote);
+    const end = start + operation.quote.length;
+    const previous = start > 0 ? Array.from(source.slice(0, start)).at(-1) : '';
+    const first = Array.from(operation.quote)[0] || '';
+    const last = Array.from(operation.quote).at(-1) || '';
+    const next = end < source.length ? Array.from(source.slice(end))[0] : '';
+    assert.equal(isWordLike(previous) && isWordLike(first), false, operation.id);
+    assert.equal(isWordLike(last) && isWordLike(next), false, operation.id);
+  }
 
   const nearLimit = corpora.get('near-supported-limit');
   assert.equal(nearLimit.expectedWordCount, 100_000);

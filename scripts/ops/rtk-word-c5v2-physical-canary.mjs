@@ -677,6 +677,7 @@ function uniquePhrases(text, maxCount) {
     if (seen.has(cleaned)) return false;
     const start = normalizedText.indexOf(cleaned);
     const end = start + cleaned.length;
+    if (!isWordIsolatedRange(normalizedText, start, end)) return false;
     if (start < 0 || usedRanges.some((range) => start < range.end && end > range.start)) return false;
     seen.add(cleaned);
     usedRanges.push({ start, end });
@@ -760,6 +761,20 @@ function countExactOccurrences(haystack, needle) {
     offset = found + Math.max(1, target.length);
   }
   return count;
+}
+
+function isWordIsolatedRange(text, start, end) {
+  const source = String(text || '');
+  if (!Number.isSafeInteger(start) || !Number.isSafeInteger(end) || start < 0 || end <= start || end > source.length) {
+    return false;
+  }
+  const isWordLike = (value) => typeof value === 'string' && /[\p{L}\p{M}\p{N}]/u.test(value);
+  const previous = start > 0 ? Array.from(source.slice(0, start)).at(-1) : '';
+  const first = Array.from(source.slice(start, end))[0] || '';
+  const last = Array.from(source.slice(start, end)).at(-1) || '';
+  const next = end < source.length ? Array.from(source.slice(end))[0] : '';
+  return !(isWordLike(previous) && isWordLike(first))
+    && !(isWordLike(last) && isWordLike(next));
 }
 
 export function buildCanaryLedger(scenes, options = {}) {

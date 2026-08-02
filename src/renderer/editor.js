@@ -1146,20 +1146,6 @@ const ATLAS_SURFACE_IDS = Object.freeze([
   'continuity',
 ]);
 const ATLAS_DEFERRED_SURFACE_IDS = Object.freeze(['heatmap', 'temporal', 'continuity']);
-const ATLAS_DESIGN_OS_SLOT_RESOLUTION = resolveAtlasFeatureDesignOsSlots({
-  manifest: YALKEN_ATLAS_FEATURE_INTEGRATION_MANIFEST_V1,
-  commandCatalog: listCommandCatalog(),
-  providerCatalog: WORKSPACE_QUERY_RECORDS,
-  slotCatalog: ATLAS_DESIGN_OS_SLOT_CATALOG_V1,
-});
-if (!ATLAS_DESIGN_OS_SLOT_RESOLUTION.ok) {
-  throw new Error(`ATLAS_DESIGN_OS_BINDING_FAILED:${ATLAS_DESIGN_OS_SLOT_RESOLUTION.reason || 'UNKNOWN'}`);
-}
-const ATLAS_SURFACE_PROVIDER_BY_ID = Object.freeze(Object.fromEntries(ATLAS_SURFACE_IDS.map((surfaceId) => {
-  const binding = getAtlasFeatureSurfaceBinding(ATLAS_DESIGN_OS_SLOT_RESOLUTION, surfaceId);
-  if (!binding?.providerId) throw new Error(`ATLAS_DESIGN_OS_PROVIDER_UNRESOLVED:${surfaceId}`);
-  return [surfaceId, binding.providerId];
-})));
 const METADATA_UPDATE_COMMAND_ID = 'cmd.project.metadata.update';
 const REVIEW_SURFACE_IMPORT_LOCAL_PACKET_COMMAND_ID = 'cmd.project.review.importLocalPacket';
 const REVIEW_SURFACE_CLEAR_SESSION_COMMAND_ID = 'cmd.project.review.clearSession';
@@ -2866,6 +2852,21 @@ function renderReviewSurfaceMarkup(viewModel) {
   `;
 }
 // REVIEW_SURFACE_PRESENTATION_END
+
+const ATLAS_DESIGN_OS_SLOT_RESOLUTION = resolveAtlasFeatureDesignOsSlots({
+  manifest: YALKEN_ATLAS_FEATURE_INTEGRATION_MANIFEST_V1,
+  commandCatalog: listCommandCatalog(),
+  providerCatalog: WORKSPACE_QUERY_RECORDS,
+  slotCatalog: ATLAS_DESIGN_OS_SLOT_CATALOG_V1,
+});
+if (!ATLAS_DESIGN_OS_SLOT_RESOLUTION.ok) {
+  throw new Error(`ATLAS_DESIGN_OS_BINDING_FAILED:${ATLAS_DESIGN_OS_SLOT_RESOLUTION.reason || 'UNKNOWN'}`);
+}
+const ATLAS_SURFACE_PROVIDER_BY_ID = Object.freeze(Object.fromEntries(ATLAS_SURFACE_IDS.map((surfaceId) => {
+  const binding = getAtlasFeatureSurfaceBinding(ATLAS_DESIGN_OS_SLOT_RESOLUTION, surfaceId);
+  if (!binding?.providerId) throw new Error(`ATLAS_DESIGN_OS_PROVIDER_UNRESOLVED:${surfaceId}`);
+  return [surfaceId, binding.providerId];
+})));
 
 function buildY4RendererLiveWiringProductTruth() {
   return {
@@ -16891,10 +16892,8 @@ async function loadStage10ProductStateFromQuery() {
 }
 
 async function loadReviewSurfaceFromQuery() {
-  const [result] = await Promise.all([
-    invokeWorkspaceQueryBridge(REVIEW_SURFACE_QUERY_ID),
-    loadStage10ProductStateFromQuery(),
-  ]);
+  const result = await invokeWorkspaceQueryBridge(REVIEW_SURFACE_QUERY_ID);
+  await loadStage10ProductStateFromQuery();
   if (!result || result.ok === false) {
     return setReviewSurfaceState({});
   }

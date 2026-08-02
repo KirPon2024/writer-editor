@@ -5921,10 +5921,12 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "8ff8f2af4d5e260c207b981a7a271170369aedf6cfe9b6934f741a9df5697980",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R0",
-      "approvedAtUtc": "2026-08-02T00:00:00.000Z",
-      "rationale": "Approve exact, non-wildcard Sector-M DONE scope entries for the bounded R0 future-author-domain admission and executable current-head packaged EFINAL repair; no UI redesign, network, dependency, receipt-only release proof, or Program DONE claim."
+      "sha256": "9c864eb00d4e0ee8fd7de0aa5e19bee177c8090f1cca9062f54cfec3912b4f3b",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_AUDIT_HOLD_REPAIR",
+      "approvedAtUtc": "2026-08-02T16:38:07.000Z",
+      "rationale": "Approve ten exact, non-wildcard Sector-M DONE scope entries for the bounded Atlas V6 audited HOLD repair paths; no prefix expansion, UI redesign, network, dependency, release acceptance, or Program DONE claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_V6_AUDIT_HOLD_REPAIR"
     },
     {
       "filePath": "scripts/ops/shared-drift-engine-runtime-state.mjs",
@@ -9223,19 +9225,19 @@
     },
     {
       "filePath": "src/renderer/editor.js",
-      "sha256": "9d7f2ee9a4fc17fa2c9d14c63dbd568648b7f76f6def4841ddbb57c61b7891f4",
+      "sha256": "18059b0aa8ae360ea58ea2c260ef2abd50f368cb26628dacad2f8ce5a18d3954",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_AUDIT_HOLD_REPAIR",
-      "approvedAtUtc": "2026-08-02T16:13:13.000Z",
-      "rationale": "Approve exact renderer source bytes that bind existing Stage-10 controls to selected project, comment, conflict and exchange projections and remove fixed fixture payloads without changing the visual design contract or owning author truth.",
+      "approvedAtUtc": "2026-08-02T16:38:07.000Z",
+      "rationale": "Approve exact renderer source bytes that bind existing Stage-10 controls to selected project, comment, conflict and exchange projections, preserve live fail-closed Design OS catalog resolution outside the isolated review presentation seam, and remove fixed fixture payloads without changing the visual design contract or owning author truth.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_V6_AUDIT_HOLD_REPAIR"
     },
     {
       "filePath": "src/renderer/editor.bundle.js",
-      "sha256": "673630fce7e14ddec1f2002c723449a15f3377bef6b96601421feebc11cbaeda",
+      "sha256": "c0a897ce00dc5c76c77147c95117c7c633095e8796a909d5c0c9bbf43a7bd332",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_AUDIT_HOLD_REPAIR",
-      "approvedAtUtc": "2026-08-02T16:13:13.000Z",
-      "rationale": "Approve exact generated renderer bundle bytes rebuilt from the Atlas V6 selected-state and real Manual Map command wiring source; generated artifact only and no release acceptance claim.",
+      "approvedAtUtc": "2026-08-02T16:38:07.000Z",
+      "rationale": "Approve exact generated renderer bundle bytes rebuilt after the Atlas V6 selected-state, real Manual Map command wiring, and review-seam catalog initialization compatibility repair; generated artifact only and no release acceptance claim.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_V6_AUDIT_HOLD_REPAIR"
     },

@@ -127,6 +127,47 @@ test('C3 parser enforces maxBlocks maxRevisions maxComments and maxCandidates fa
   }
 });
 
+test('C3 parser admits exactly one opening block revision and comment at one-item limits', async () => {
+  const parser = await loadParser();
+  const result = parse(parser, {
+    ...baseParts(documentXml(
+      '<w:p><w:ins><w:r><w:t>one</w:t></w:r></w:ins><w:commentReference w:id="1"/></w:p>',
+    )),
+    'word/comments.xml': `<w:comments xmlns:w="${W_NS}"><w:comment w:id="1"><w:p><w:r><w:t>one</w:t></w:r></w:p></w:comment></w:comments>`,
+  }, {
+    maxBlocks: 1,
+    maxRevisions: 1,
+    maxComments: 1,
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(hasReason(result, 'RTK_BUDGET_EXCEEDED'), false);
+  assert.equal(hasReason(result, 'RTK_XML_MALFORMED_BLOCKED'), false);
+});
+
+test('C3 formatting scanner indexes a 2,501-paragraph product manuscript within a bounded contract run', { timeout: 10_000 }, async () => {
+  const parser = await loadParser();
+  const paragraphCount = 2_501;
+  const body = Array.from({ length: paragraphCount }, (_, index) => (
+    `<w:p><w:r><w:rPr><w:b/></w:rPr><w:t>paragraph ${index + 1}</w:t></w:r></w:p>`
+  )).join('');
+  const result = parser.extractReviewTransportFormattingRunsV2(documentXml(body), {
+    cryptoPort,
+    budgets: {
+      maxBlocks: 50_000,
+      maxRevisions: 50_000,
+      maxComments: 50_000,
+      maxCandidates: 50_000,
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.paragraphs.length, paragraphCount);
+  assert.equal(result.paragraphs[0].paragraphText, 'paragraph 1');
+  assert.equal(result.paragraphs.at(-1).paragraphText, `paragraph ${paragraphCount}`);
+  assert.equal(result.paragraphs.every((paragraph) => paragraph.formattedRuns.length === 1), true);
+});
+
 test('C3 parser and utility worker enforce maxWorkerOutputBytes mechanically', async () => {
   const parser = await loadParser();
   const outputOverflow = parse(parser, baseParts(documentXml(

@@ -87,6 +87,21 @@ function normalizeText(value) {
   return String(value || '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
 }
 
+function countExactOccurrences(haystack, needle) {
+  const source = String(haystack || '');
+  const query = String(needle || '');
+  if (!query) return 0;
+  let count = 0;
+  let cursor = 0;
+  while (cursor <= source.length - query.length) {
+    const index = source.indexOf(query, cursor);
+    if (index < 0) break;
+    count += 1;
+    cursor = index + query.length;
+  }
+  return count;
+}
+
 function graphemes(text) {
   if (typeof Intl !== 'undefined' && typeof Intl.Segmenter === 'function') {
     const segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
@@ -300,6 +315,7 @@ function makeAnchor(sceneProfile, paragraph, span, globalOffset = 0) {
     contextBefore: span.contextBefore,
     contextAfter: span.contextAfter,
     selectedText: span.selectedText,
+    sceneSelectedTextOccurrenceCount: countExactOccurrences(sceneProfile.text, span.selectedText),
     baselineHash: span.baselineHash,
   };
 }
@@ -329,9 +345,10 @@ function selectUniqueAnchor({
   globalOffset,
   spanType,
   state,
+  requireSceneUniqueSelectedText = false,
 }) {
   const paragraphs = orderedParagraphs(sceneProfile, family, familySceneOrdinal, globalOrdinal, state);
-  const rejectCounts = { short: 0, rootUsed: 0, mixedFamily: 0, reserved: 0, empty: 0, boundaryReserved: 0, overlap: 0, duplicate: 0, duplicateStart: 0, hotspot: 0 };
+  const rejectCounts = { short: 0, rootUsed: 0, mixedFamily: 0, reserved: 0, empty: 0, ambiguousSelection: 0, boundaryReserved: 0, overlap: 0, duplicate: 0, duplicateStart: 0, hotspot: 0 };
   for (const paragraph of paragraphs) {
     if (paragraph.graphemeCount < 4) { rejectCounts.short += 1; continue; }
     if (family === 'root_comment' && (state.commentParagraphCounts.get(paragraph.paragraphId) || 0) > 0) { rejectCounts.rootUsed += 1; continue; }
@@ -341,6 +358,10 @@ function selectUniqueAnchor({
     if (MUTATING_CONTENT_FAMILIES.has(family) && reservation && reservation !== family) { rejectCounts.reserved += 1; continue; }
     const trySpan = (span) => {
       if (!span.selectedText) { rejectCounts.empty += 1; return null; }
+      if (requireSceneUniqueSelectedText && countExactOccurrences(sceneProfile.text, span.selectedText) !== 1) {
+        rejectCounts.ambiguousSelection += 1;
+        return null;
+      }
       const boundaryLength = Math.min(32, Math.min(
         paragraph.graphemeCount,
         Math.max(2, Math.floor(paragraph.graphemeCount / 18)),
@@ -456,6 +477,9 @@ function buildPositiveFamilyOperations({
   for (let sceneIndex = 0; sceneIndex < sceneProfiles.length; sceneIndex += 1) {
     const sceneProfile = sceneProfiles[sceneIndex];
     for (let localOrdinal = 0; localOrdinal < allocations[sceneIndex]; localOrdinal += 1) {
+      const trackedKind = family === 'tracked_text_edit'
+        ? TRACKED_INTENTS[familyOrdinal % TRACKED_INTENTS.length]
+        : '';
       const spanType = family === 'root_comment'
         ? COMMENT_SPAN_TYPES[familyOrdinal % COMMENT_SPAN_TYPES.length]
         : family === 'tracked_text_edit'
@@ -470,6 +494,7 @@ function buildPositiveFamilyOperations({
         globalOffset: globalOffsets[sceneIndex] || 0,
         spanType,
         state,
+        requireSceneUniqueSelectedText: family === 'root_comment',
       });
       const id = `c5v2-${family}-${String(familyOrdinal + 1).padStart(4, '0')}`;
       const round = (familyOrdinal % roundCount) + 1;
@@ -493,7 +518,7 @@ function buildPositiveFamilyOperations({
       }
       const intent = family === 'tracked_text_edit'
         ? {
-            kind: TRACKED_INTENTS[familyOrdinal % TRACKED_INTENTS.length],
+            kind: trackedKind,
             spanType,
             replacementText: `${UNICODE_REPLACEMENTS[familyOrdinal % UNICODE_REPLACEMENTS.length].text} c5v2 edit ${familyOrdinal + 1}`,
             unicodeProfile: UNICODE_REPLACEMENTS[familyOrdinal % UNICODE_REPLACEMENTS.length].profile,
@@ -523,6 +548,13 @@ function buildPositiveFamilyOperations({
         sceneId: sceneProfile.sceneId,
         anchor,
         semanticIntent: intent,
+        ...(family === 'tracked_text_edit'
+          ? {
+              expectedOutcome: trackedKind === 'insert' || anchor.sceneSelectedTextOccurrenceCount !== 1
+                ? 'MANUAL'
+                : 'EXACT',
+            }
+          : {}),
       });
       familyOrdinal += 1;
     }
@@ -733,6 +765,7 @@ export function validateC5V2LedgerDistribution({ operations, sceneProfiles, coun
   const paragraphMutationFamilies = new Map();
   const sceneRoundMutationFamilies = new Map();
   const totalGraphemes = sceneProfiles.reduce((sum, scene) => sum + scene.graphemeCount, 0);
+  const sceneProfileById = new Map(sceneProfiles.map((scene) => [scene.sceneId, scene]));
   const coverage = computeCoverage(operations, sceneProfiles, counts);
 
   for (const [family, expected] of Object.entries(counts)) {
@@ -767,6 +800,22 @@ export function validateC5V2LedgerDistribution({ operations, sceneProfiles, coun
       continue;
     }
     if (operation.anchor) {
+      const sceneProfile = sceneProfileById.get(operation.sceneId);
+      const occurrenceCount = Number.isInteger(operation.anchor.sceneSelectedTextOccurrenceCount)
+        ? operation.anchor.sceneSelectedTextOccurrenceCount
+        : typeof sceneProfile?.text === 'string'
+          ? countExactOccurrences(sceneProfile.text, operation.anchor.selectedText)
+          : null;
+      if (
+        operation.family === 'tracked_text_edit'
+        && operation.expectedOutcome === 'EXACT'
+        && occurrenceCount !== 1
+      ) {
+        failures.push({ code: 'C5V2_EXACT_TRACKED_SELECTION_NOT_SCENE_UNIQUE', operationId: operation.id, occurrenceCount });
+      }
+      if (operation.family === 'root_comment' && occurrenceCount !== 1) {
+        failures.push({ code: 'C5V2_ROOT_COMMENT_SELECTION_NOT_SCENE_UNIQUE', operationId: operation.id, occurrenceCount });
+      }
       const key = operationAnchorKey(operation);
       if (!THREAD_TARGET_FAMILIES.has(operation.family) && anchorKeys.has(key)) {
         failures.push({ code: 'C5V2_DUPLICATE_POSITIVE_ANCHOR', operationId: operation.id });

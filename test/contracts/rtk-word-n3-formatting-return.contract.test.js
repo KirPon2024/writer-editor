@@ -931,6 +931,7 @@ test('N3 product route exposes a working Review control without renderer-owned a
   ));
 
   assert.match(mainSource, /prepareAuthenticatedDocxFormattingReturnProductPath\s*\(/u);
+  assert.match(mainSource, /buildDocxReviewFormattingReturnCandidatesFromZipBytes\(docxBytes,\s*\{[\s\S]*?budgets,/u);
   assert.match(mainSource, /dispatchCommandSurfaceKernel\(\s*COMMAND_SURFACE_KERNEL_COMMAND_IDS\.RTK_REVIEW_APPLY_MULTI_SCENE_FORMATTING_RETURN/u);
   assert.match(mainSource, /handleReviewSurfaceApplyFormattingReturnCommandSurface[\s\S]*?queueDiskOperation\(async \(\) =>[\s\S]*?'rtk-formatting-return'\)/u);
   assert.match(mainSource, /E_RTK_FORMATTING_RETURN_DIRTY_EDITOR_BLOCKED/u);
@@ -1135,6 +1136,8 @@ test('N3 physical canary invokes shipped formatting apply and persisted replay i
   ]);
   assert.match(source, /progress\('formatting-apply-start'/u);
   assert.match(source, /progress\('formatting-replay-inspection-complete'/u);
+  assert.match(source, /content of yReadbackRange as text/u);
+  assert.doesNotMatch(source, /content of text object of yReadbackRange/u);
 });
 
 test('N3 physical canary retains AX preflight only for native reply and state UI lanes', async () => {

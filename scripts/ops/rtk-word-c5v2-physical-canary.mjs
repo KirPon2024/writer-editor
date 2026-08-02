@@ -2404,7 +2404,7 @@ function wordSemanticReadbackLines(ledger) {
       lines.push(`  if yReadbackLocatorRange is missing value then error "NATIVE_READBACK_LOCATOR_MISSING:${id}" number 9742`);
       lines.push(`  set yReadbackStart to (start of content of yReadbackLocatorRange) + ${selectionOffset}`);
       lines.push(`  set yReadbackRange to create range yDoc start yReadbackStart end (yReadbackStart + ${String(operation.quote || '').length})`);
-      lines.push(`  if (content of text object of yReadbackRange as text) is not ${appleText(operation.quote)} then error "NATIVE_READBACK_RANGE_MISMATCH:${id}" number 9743`);
+      lines.push(`  if (content of yReadbackRange as text) is not ${appleText(operation.quote)} then error "NATIVE_READBACK_RANGE_MISMATCH:${id}" number 9743`);
       if (operation.family === 'formatting') {
         if (operation.formattingKind === 'italic') {
           lines.push(`  if (italic of font object of yReadbackRange) is not true then error "NATIVE_ITALIC_READBACK_MISMATCH:${id}" number 9744`);
@@ -2959,8 +2959,9 @@ export function buildWordScript({
     '  end tell',
     '  set yOffset to offset of yQuote in yText',
     '  if yOffset is 0 then return missing value',
+    '  set yQuoteLength to count of characters of yQuote',
     '  tell application "Microsoft Word"',
-    '    return create range yDoc start (yOffset - 1) end ((yOffset - 1) + (count of characters of yQuote))',
+    '    return create range yDoc start (yOffset - 1) end ((yOffset - 1) + yQuoteLength)',
     '  end tell',
     'end yFindRange',
     'tell application "Microsoft Word"',

@@ -5239,6 +5239,7 @@ function prepareAuthenticatedDocxFormattingReturnProductPath({
   docxBytes,
   revisionBridge,
   fullManuscriptExportMap,
+  budgets,
 } = {}) {
   const capsule = isPlainObjectValue(context?.reviewTransportAuthorityCapsule)
     ? context.reviewTransportAuthorityCapsule
@@ -5255,6 +5256,7 @@ function prepareAuthenticatedDocxFormattingReturnProductPath({
   const extracted = revisionBridge.buildDocxReviewFormattingReturnCandidatesFromZipBytes(docxBytes, {
     fullManuscriptExportMap,
     cryptoPort: createRtkReviewTransportCryptoPort(),
+    budgets,
   });
   if (!isPlainObjectValue(extracted) || !Array.isArray(extracted.candidates)) {
     return {
@@ -5391,6 +5393,7 @@ function prepareAuthenticatedDocxStructuralReturnProductPath({
   docxBytes,
   revisionBridge,
   fullManuscriptExportMap,
+  budgets,
 } = {}) {
   const capsule = isPlainObjectValue(context?.reviewTransportAuthorityCapsule)
     ? context.reviewTransportAuthorityCapsule
@@ -5407,6 +5410,7 @@ function prepareAuthenticatedDocxStructuralReturnProductPath({
   const extracted = revisionBridge.buildDocxReviewStructuralReturnCandidatesFromZipBytes(docxBytes, {
     fullManuscriptExportMap,
     cryptoPort: createRtkReviewTransportCryptoPort(),
+    budgets,
   });
   if (!isPlainObjectValue(extracted) || !Array.isArray(extracted.candidates)) {
     return {
@@ -6369,6 +6373,7 @@ async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = 
     docxBytes: decoded.bytes,
     revisionBridge,
     fullManuscriptExportMap: authenticatedFullManuscriptExportMap,
+    budgets: docxReviewReturnIntakeProductBudgets(options),
   });
   const structuralProductPath = prepareAuthenticatedDocxStructuralReturnProductPath({
     context: activeContext,
@@ -6376,6 +6381,7 @@ async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = 
     docxBytes: decoded.bytes,
     revisionBridge,
     fullManuscriptExportMap: authenticatedFullManuscriptExportMap,
+    budgets: docxReviewReturnIntakeProductBudgets(options),
   });
   const reviewSurface = isPlainObjectValue(formattingProductPath?.reviewSurface)
     && Object.keys(formattingProductPath.reviewSurface).length > 0

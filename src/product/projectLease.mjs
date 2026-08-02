@@ -48,7 +48,10 @@ function processInstanceGuardEndpoint(ownerTokenDigest) {
     .update(Buffer.from(`yalken.projectLease.guard:${ownerTokenDigest}`, 'utf8'))
     .digest('hex');
   if (process.platform === 'win32') return `\\\\.\\pipe\\yalken-project-lease-${endpointKey}`;
-  return path.join(os.tmpdir(), `yalken-project-lease-${endpointKey}.sock`);
+  // Darwin limits AF_UNIX paths to roughly one hundred bytes and its TMPDIR is
+  // already long. A 128-bit, domain-separated name keeps collision resistance
+  // while leaving enough room for the platform-owned temporary directory.
+  return path.join(os.tmpdir(), `ypl-${endpointKey.slice(0, 32)}.sock`);
 }
 
 function probeProcessInstanceGuard(endpoint, timeoutMs = 500) {

@@ -462,6 +462,30 @@ test('Atlas V6 A4: interrupted artifact reservation restores prior bytes and sta
 
 test('Atlas V6 A4: process-instance heartbeat defeats PID reuse, wall-clock jumps, blocked-loop expiry and crash staleness', { timeout: 25_000 }, async () => {
   const leaseModule = await importModule('src/product/projectLease.mjs');
+  const originalTemporaryRoot = process.env.TMPDIR;
+  const longTemporaryRoot = path.join(
+    fs.mkdtempSync(path.join('/tmp', 'yalken-a4-socket-root-')),
+    'darwin-temporary-root-length-parity',
+  );
+  fs.mkdirSync(longTemporaryRoot, { recursive: true });
+  process.env.TMPDIR = longTemporaryRoot;
+  try {
+    const boundedSocketRoot = fs.mkdtempSync(path.join('/tmp', 'yalken-atlas-v6-a4-bounded-socket-'));
+    const boundedSocketManager = leaseModule.createProjectLeaseManager({
+      leaseRoot: boundedSocketRoot,
+      ttlMs: 1_000,
+    });
+    const boundedSocketLease = await boundedSocketManager.acquire('bounded-socket-project');
+    await boundedSocketManager.release(boundedSocketLease);
+    assert.equal(
+      fs.readdirSync(longTemporaryRoot).some((entry) => entry.startsWith('ypl-')),
+      false,
+    );
+  } finally {
+    if (originalTemporaryRoot === undefined) delete process.env.TMPDIR;
+    else process.env.TMPDIR = originalTemporaryRoot;
+  }
+
   let wall = 10_000;
   let monotonic = 20_000;
   const pidReuseRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-atlas-v6-a4-pid-reuse-'));

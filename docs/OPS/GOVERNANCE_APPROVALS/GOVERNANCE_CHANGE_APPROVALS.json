@@ -57,10 +57,10 @@
     },
     {
       "filePath": ".github/workflows/rtk-required.yml",
-      "sha256": "bb330c5c81efc389c012ec7e22803231d22e05e97ae6383907114ce50906803e",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_AUDIT_HOLD_REPAIR",
-      "approvedAtUtc": "2026-08-01T17:58:15.000Z",
-      "rationale": "Approve bounded Atlas V5 audit-hold repair CI truth rebind adding the maintained Atlas event-contract graph to required workflow visibility while preserving Word C4 RTK checks, offline local behavior, no network, no dependency, no UI redesign, and no Program DONE claim.",
+    "sha256": "e2ee17e5231c24b9f1d76dc0b301f09343555d2cce1cd128bd0b74cf3fef3793",
+    "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R0",
+    "approvedAtUtc": "2026-08-02T00:00:00.000Z",
+    "rationale": "Approve required CI execution of the bounded Atlas R0 future-schema and fresh executable EFINAL contract graph while preserving the maintained RTK and Atlas event graphs.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_AUDIT_HOLD_REPAIR"
     },
@@ -5927,10 +5927,10 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "c5fdfb4651b1669957bc62c72bb7b7a1af907fb1284759343d70eedd8a56b0a3",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_STAGE10_PR1391_AUDIT_REPAIR",
-      "approvedAtUtc": "2026-08-01T22:12:34.000Z",
-      "rationale": "Approve exact, non-wildcard Sector-M DONE scope entries for the five Stage-10 authority, bootstrap, command-route, integrity-anchor, and main-persistence modules required by the source-proven R1-R7 repair; no broader scope expansion."
+      "sha256": "8ff8f2af4d5e260c207b981a7a271170369aedf6cfe9b6934f741a9df5697980",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R0",
+      "approvedAtUtc": "2026-08-02T00:00:00.000Z",
+      "rationale": "Approve exact, non-wildcard Sector-M DONE scope entries for the bounded R0 future-author-domain admission and executable current-head packaged EFINAL repair; no UI redesign, network, dependency, receipt-only release proof, or Program DONE claim."
     },
     {
       "filePath": "scripts/ops/shared-drift-engine-runtime-state.mjs",
@@ -6039,10 +6039,10 @@
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v5-efinal-final-audit-program-dod.mjs",
-      "sha256": "728c5268fe543c4f96662947089dafa81772887d7b953c85164a594ad37814fd",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
-      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
-      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
+      "sha256": "08f7c9cd1ab8737ac4ef2fa0a79e764eca1b337524c9d52e6a5fcd62b211b69a",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R0",
+      "approvedAtUtc": "2026-08-02T00:00:00.000Z",
+      "rationale": "Approve replacing receipt aggregation with a fresh current-head packaged executable EFINAL gate that never self-claims Program DONE."
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v5-er-c05-10k-worker-budget.mjs",
@@ -6067,10 +6067,10 @@
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v5-final-audit-p0-03-packaged-visible-journey.mjs",
-      "sha256": "c5a4cdd161177ee6773fed9c28f3e66fa04e9da97b102b738d8254406fa99af3",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
-      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
-      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
+      "sha256": "6b38856e88bdd4ba23d66d948f0157a433854c381ad7ea33b48eb487ac1b9885",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R0",
+      "approvedAtUtc": "2026-08-02T00:00:00.000Z",
+      "rationale": "Approve exact-head binding and truthful packaged journey labels for actual Atlas, Manual Map, scene save, local import/export and fresh-process reopen evidence."
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v5-final-audit-p0-06-multilingual-matcher.mjs",
@@ -6531,10 +6531,10 @@
     },
     {
       "filePath": "src/main.js",
-      "sha256": "d579ab85258357db03b9694dfbd291253abd198bd8e8a526b923ad43c3baf817",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_STAGE10_PR1391_AUDIT_REPAIR",
-      "approvedAtUtc": "2026-08-01T22:12:34.000Z",
-      "rationale": "Approve the bounded main-process Stage-10 preactivation gate, independent integrity-anchor filesystem adapter, canonical application command route, and fail-closed product lifecycle ordering while preserving Word descendants and existing Atlas behavior.",
+    "sha256": "204b6727416c0e614d278cb4e83aa6f91b4e4bba36605faf7cb7a5fd1c99abf7",
+    "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R0",
+    "approvedAtUtc": "2026-08-02T00:00:00.000Z",
+    "rationale": "Approve bounded per-domain future author-schema admission and preservation at the real product command boundary; target future schemas fail before recovery or storage and non-target opaque author domains survive supported mutations.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_SOURCE_PROVEN_R1_R7_REPAIR"
     },
@@ -8715,10 +8715,10 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-efinal-final-audit-program-dod.contract.test.js",
-      "sha256": "7fc8ff45c04a992c9c9ab6e1fc161d8ee435a9ce40ff709155fc71527adbe18d",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
-      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
-      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
+      "sha256": "b8b2a2cc308d24dd06b15204ed492c53b7cc645c62ba68ccd0e3118bd2eceb47",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R0",
+      "approvedAtUtc": "2026-08-02T00:00:00.000Z",
+      "rationale": "Approve decisive EFINAL negatives for stored receipts, stale package source, missing reopen and the fresh packaged runner invocation."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-er-c00-acceptance-truth-state-reconciliation.contract.test.js",
@@ -8771,17 +8771,17 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-01-future-schema-loss.contract.test.js",
-      "sha256": "3f8d1504d2c0acaa65211229efa92d10d0127fe306ae9d494a35427ab6559f4f",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
-      "approvedAtUtc": "2026-08-01T03:38:00.000Z",
-      "rationale": "Approve P0_01 future Atlas schema loss contract test: Electron-stub UI command bridge journey proves migration negative, quarantine persistence, reopen, and recovery preimage preservation."
+      "sha256": "c6c5f712cafc09aaddf1d733ef0046f37e0f0a48c8545a3e57d63f06917f0ff6",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R0",
+      "approvedAtUtc": "2026-08-02T00:00:00.000Z",
+      "rationale": "Approve product-boundary negatives proving future Atlas, Manual Map, Idea and Meaning target schemas fail before write while non-target opaque future domains survive a supported Atlas mutation."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-03-packaged-visible-journey.contract.test.js",
-      "sha256": "298014d6226416af051bcfe96d6b3348f6965706d619260a244ade38fa1166d8",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
-      "approvedAtUtc": "2026-08-01T04:45:00.000Z",
-      "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
+      "sha256": "f3f1fe825bea1cf5e2c0bfd72d1ad8b1531e0977446b60cf8fe531ee0dd611ad",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R0",
+      "approvedAtUtc": "2026-08-02T00:00:00.000Z",
+      "rationale": "Approve the corrected packaged journey contract with exact origin-main source binding and without unsupported map recovery or undo claims."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-04-design-os-binding.contract.test.js",

@@ -1317,6 +1317,9 @@ export function evaluateP0_03PackagedVisibleJourney(input = {}) {
       && packageReport.artifacts?.appAsar?.sha256 === appAsarProof.sha256,
     exactSourceBindingPresent: typeof identity.headSha === 'string'
       && identity.headSha
+      && identity.headSha === identity.originMainSha
+      && Array.isArray(identity.dirtyFiles)
+      && identity.dirtyFiles.length === 0
       && packageReport.pass === true
       && appAsarProof.exists === true
       && packageReport.artifacts?.appAsar?.sha256 === appAsarProof.sha256,
@@ -1326,7 +1329,7 @@ export function evaluateP0_03PackagedVisibleJourney(input = {}) {
       && reopen.ok === true
       && first.snapshot?.atlas?.hasAlpha === true
       && first.snapshot?.manualMap?.hasEdge === true,
-    atlasCreateEditRelationContinuity: firstSummary.entityNames?.includes('AlphaP003') === true
+    atlasEntityRelationContinuityCommandsPersisted: firstSummary.entityNames?.includes('AlphaP003') === true
       && firstSummary.entityNames?.includes('BetaP003') === true
       && firstSummary.aliasValues?.includes('AlphaAliasP003') === true
       && firstSummary.decisionCount >= 1
@@ -1339,15 +1342,15 @@ export function evaluateP0_03PackagedVisibleJourney(input = {}) {
       && firstSummary.sceneTemporalAnchorCount >= 1
       && firstSummary.continuityFactCount >= 1
       && firstSummary.savedQueryCount >= 1,
-    manualMapLifecyclePersisted: firstSummary.manualMap?.mapCount >= 1
+    manualMapCreateNodeEdgePersisted: firstSummary.manualMap?.mapCount >= 1
       && firstSummary.manualMap?.nodeLabels?.includes('P003 Node A') === true
       && firstSummary.manualMap?.nodeLabels?.includes('P003 Node B') === true
       && firstSummary.manualMap?.edgeLabels?.includes('P003 Edge') === true,
-    undoExportImportPersisted: first.persistence?.sceneTextProofs?.some((proof) => proof.containsSceneText) === true
+    sceneSaveMarkdownImportTxtExportPersisted: first.persistence?.sceneTextProofs?.some((proof) => proof.containsSceneText) === true
       && first.persistence?.sceneTextProofs?.some((proof) => proof.containsImportedMarkdown) === true
       && first.persistence?.exports?.allScenesTxt?.exists === true
       && first.persistence?.exports?.allScenesTxt?.bytes > 0,
-    freshReopenReadback: reopen.ok === true
+    freshProcessReopenReadback: reopen.ok === true
       && reopenSummary.entityNames?.includes('AlphaP003') === true
       && reopenSummary.manualMap?.edgeLabels?.includes('P003 Edge') === true
       && reopen.persistence?.sceneTextProofs?.some((proof) => proof.containsImportedMarkdown) === true,
@@ -1369,10 +1372,10 @@ export function evaluateP0_03PackagedVisibleJourney(input = {}) {
       && accepted.noDirectBridgeAcceptance === true
       && accepted.noGeneratedArtifactOnlyAcceptance === true
       && activationEvidence.forbiddenDirectBridgeAccepted === false,
-    persistReopenRecoveryImportExportProof: accepted.atlasCreateEditRelationContinuity === true
-      && accepted.manualMapLifecyclePersisted === true
-      && accepted.undoExportImportPersisted === true
-      && accepted.freshReopenReadback === true,
+    persistedCommandAndFreshReopenProof: accepted.atlasEntityRelationContinuityCommandsPersisted === true
+      && accepted.manualMapCreateNodeEdgePersisted === true
+      && accepted.sceneSaveMarkdownImportTxtExportPersisted === true
+      && accepted.freshProcessReopenReadback === true,
     physicalPointerOrKeyboardClaimScoped: accepted.physicalUserProofScoped === true,
     domFallbackNotCountedAsPhysicalProof: activationEvidence.domFallbackSteps.every((step) => typeof step === 'string')
       && activationEvidence.steps
@@ -1397,7 +1400,7 @@ export function evaluateP0_03PackagedVisibleJourney(input = {}) {
       oldE11C02BridgeHarnessAccepted: false,
       screenshotOnlyAccepted: false,
       stalePackageAccepted: accepted.currentSourcePackageBuilt !== true,
-      missingFreshReopenAccepted: accepted.freshReopenReadback !== true,
+      missingFreshReopenAccepted: accepted.freshProcessReopenReadback !== true,
       finalProgramDoDClaim: false,
     },
   };

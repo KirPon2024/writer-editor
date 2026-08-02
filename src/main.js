@@ -10760,11 +10760,26 @@ function getAtlasAuthorDataForProjection(manifest = {}) {
 }
 
 function getAtlasAuthorDataForCommandBinding(manifest = {}) {
-  const atlas = isPlainObjectValue(manifest.atlas) ? manifest.atlas : null;
-  if (!atlas) {
-    return getAtlasAuthorDataForProjection({});
+  return getAuthorDomainDataForCommandBinding(manifest, 'atlas', () => getAtlasAuthorDataForProjection({}));
+}
+
+function getAuthorDomainDataForCommandBinding(manifest, manifestKey, createEmpty) {
+  if (isPlainObjectValue(manifest) && Object.prototype.hasOwnProperty.call(manifest, manifestKey)) {
+    return cloneJsonSafe(manifest[manifestKey]);
   }
-  return JSON.parse(JSON.stringify(atlas));
+  return createEmpty();
+}
+
+function getManualMapAuthorDataForCommandBinding(manifest = {}) {
+  return getAuthorDomainDataForCommandBinding(manifest, 'manualMaps', () => getManualMapAuthorDataForProjection({}));
+}
+
+function getIdeaAuthorDataForCommandBinding(manifest = {}) {
+  return getAuthorDomainDataForCommandBinding(manifest, 'ideas', () => getIdeaAuthorDataForProjection({}));
+}
+
+function getMeaningAuthorDataForCommandBinding(manifest = {}) {
+  return getAuthorDomainDataForCommandBinding(manifest, 'meanings', () => getMeaningAuthorDataForProjection({}));
 }
 
 function getManualMapAuthorDataForProjection(manifest = {}) {
@@ -10923,9 +10938,9 @@ async function buildProductCoreStateForCurrentProject() {
             id: projectId,
             title: manifest?.projectName || currentProjectName || DEFAULT_PROJECT_NAME,
             atlas: getAtlasAuthorDataForCommandBinding(manifest),
-            manualMaps: getManualMapAuthorDataForProjection(manifest),
-            ideas: getIdeaAuthorDataForProjection(manifest),
-            meanings: getMeaningAuthorDataForProjection(manifest),
+            manualMaps: getManualMapAuthorDataForCommandBinding(manifest),
+            ideas: getIdeaAuthorDataForCommandBinding(manifest),
+            meanings: getMeaningAuthorDataForCommandBinding(manifest),
             scenes,
           },
         },
@@ -25259,6 +25274,54 @@ function readAuthorityCapabilityMatrixDoc() {
 
 const productCommandTransactionQueues = new Map();
 
+const PRODUCT_AUTHOR_DOMAIN_SCHEMAS = Object.freeze({
+  atlas: Object.freeze({ manifestKey: 'atlas', schemaVersion: 'atlas.author.v1', collectionKey: 'entities' }),
+  manualMap: Object.freeze({ manifestKey: 'manualMaps', schemaVersion: 'manualMap.author.v1', collectionKey: 'maps' }),
+  idea: Object.freeze({ manifestKey: 'ideas', schemaVersion: 'idea.author.v1', collectionKey: 'ideas' }),
+  meaning: Object.freeze({ manifestKey: 'meanings', schemaVersion: 'meaning.author.v1', collectionKey: 'meanings' }),
+});
+
+function validateProductCommandAuthorDomain(binding, commandId, record) {
+  const spec = PRODUCT_AUTHOR_DOMAIN_SCHEMAS[record.domain];
+  if (!spec) return null;
+  const manifest = binding.manifest;
+  if (!Object.prototype.hasOwnProperty.call(manifest, spec.manifestKey)) return null;
+  const value = manifest[spec.manifestKey];
+  if (
+    isPlainObjectValue(value)
+    && value.schemaVersion === spec.schemaVersion
+    && isPlainObjectValue(value[spec.collectionKey])
+  ) {
+    return null;
+  }
+  return makeProductCommandBridgeError(
+    commandId,
+    'E_PRODUCT_COMMAND_AUTHOR_SCHEMA_UNSUPPORTED',
+    'PRODUCT_COMMAND_AUTHOR_SCHEMA_UNSUPPORTED',
+    {
+      commandAuthority: record.commandAuthority,
+      capabilityId: record.capabilityId,
+      domain: record.domain,
+      projectId: binding.projectId,
+      manifestKey: spec.manifestKey,
+      expectedSchemaVersion: spec.schemaVersion,
+      actualSchemaVersion: isPlainObjectValue(value) && typeof value.schemaVersion === 'string'
+        ? value.schemaVersion
+        : null,
+      mutationApplied: false,
+      storageWritten: false,
+      recoveryWritten: false,
+    },
+  );
+}
+
+function getProjectAuthorDomainForPersistence(project, manifestKey, createEmpty) {
+  if (isPlainObjectValue(project) && Object.prototype.hasOwnProperty.call(project, manifestKey)) {
+    return cloneJsonSafe(project[manifestKey]);
+  }
+  return createEmpty();
+}
+
 async function enqueueProductCommandTransaction(projectKey, operation) {
   const key = typeof projectKey === 'string' && projectKey.trim()
     ? projectKey.trim()
@@ -25570,10 +25633,10 @@ async function handleManualMapImportJsonRepeatProductCommand(binding, payload, r
   const nextProject = imported.value.state.data.projects[binding.projectId];
   const nextManifest = {
     ...binding.manifest,
-    atlas: cloneJsonSafe(nextProject.atlas || getAtlasAuthorDataForProjection({})),
-    manualMaps: cloneJsonSafe(nextProject.manualMaps || getManualMapAuthorDataForProjection({})),
-    ideas: cloneJsonSafe(nextProject.ideas || getIdeaAuthorDataForProjection({})),
-    meanings: cloneJsonSafe(nextProject.meanings || getMeaningAuthorDataForProjection({})),
+    atlas: getProjectAuthorDomainForPersistence(nextProject, 'atlas', () => getAtlasAuthorDataForProjection({})),
+    manualMaps: getProjectAuthorDomainForPersistence(nextProject, 'manualMaps', () => getManualMapAuthorDataForProjection({})),
+    ideas: getProjectAuthorDomainForPersistence(nextProject, 'ideas', () => getIdeaAuthorDataForProjection({})),
+    meanings: getProjectAuthorDomainForPersistence(nextProject, 'meanings', () => getMeaningAuthorDataForProjection({})),
     lastCommandId: Number.isInteger(imported.value.state?.data?.lastCommandId)
       ? imported.value.state.data.lastCommandId
       : Number(binding.manifest?.lastCommandId || 0),
@@ -25653,6 +25716,8 @@ async function dispatchManualMapPortabilityProductCommand(commandId, payload, re
       },
     );
   }
+  const schemaFailure = validateProductCommandAuthorDomain(binding, commandId, record);
+  if (schemaFailure) return schemaFailure;
   if (commandId === 'manualMap.export.json') {
     return handleManualMapExportJsonProductCommand(binding, payload, record, manifestHashBefore);
   }
@@ -25768,6 +25833,9 @@ async function dispatchProductCommandBridgeTransaction(commandId, payload, recor
     );
   }
 
+  const schemaFailure = validateProductCommandAuthorDomain(binding, commandId, record);
+  if (schemaFailure) return schemaFailure;
+
   const runtime = await loadCoreRuntimeModule();
   const commandPayload = {
     ...cloneJsonSafe(payload),
@@ -25850,10 +25918,10 @@ async function dispatchProductCommandBridgeTransaction(commandId, payload, recor
   );
   const nextManifest = {
     ...binding.manifest,
-    atlas: cloneJsonSafe(nextProject.atlas || getAtlasAuthorDataForProjection({})),
-    manualMaps: cloneJsonSafe(nextProject.manualMaps || getManualMapAuthorDataForProjection({})),
-    ideas: cloneJsonSafe(nextProject.ideas || getIdeaAuthorDataForProjection({})),
-    meanings: cloneJsonSafe(nextProject.meanings || getMeaningAuthorDataForProjection({})),
+    atlas: getProjectAuthorDomainForPersistence(nextProject, 'atlas', () => getAtlasAuthorDataForProjection({})),
+    manualMaps: getProjectAuthorDomainForPersistence(nextProject, 'manualMaps', () => getManualMapAuthorDataForProjection({})),
+    ideas: getProjectAuthorDomainForPersistence(nextProject, 'ideas', () => getIdeaAuthorDataForProjection({})),
+    meanings: getProjectAuthorDomainForPersistence(nextProject, 'meanings', () => getMeaningAuthorDataForProjection({})),
     lastCommandId: Number.isInteger(reduced.state?.data?.lastCommandId)
       ? reduced.state.data.lastCommandId
       : Number(binding.manifest?.lastCommandId || 0),

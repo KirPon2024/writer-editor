@@ -1315,7 +1315,7 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
   await waitUntil(() => fs.existsSync(expectedLedgerPath), 'EXPECTED_CANARY_LEDGER_NOT_DURABLY_VISIBLE', 30000);
   const expectedLedger = JSON.parse(fs.readFileSync(expectedLedgerPath, 'utf8'));
   const expectedOperations = Array.isArray(expectedLedger?.operations) ? expectedLedger.operations : [];
-  if (expectedOperations.length === 0) throw new Error('EXPECTED_CANARY_LEDGER_OPERATIONS_REQUIRED');
+  const noOpBaselineRequested = expectedOperations.length === 0;
   const expectedFamilyCount = (family) => expectedOperations.filter((operation) => operation.family === family).length;
   const expectedExactTextCount = expectedOperations.filter((operation) => (
     ['tracked_replace', 'tracked_insert', 'tracked_delete'].includes(operation.family)
@@ -1645,6 +1645,26 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
     && structuralReplayInspection?.replayVerified === true
     && structuralReplayInspection?.writerCalled !== true
   );
+  const noOpMutationCountKeys = [
+    'textRevisions',
+    'moveRevisions',
+    'propertyRevisions',
+    'structureChanges',
+    'commentThreads',
+    'formattingDeltas',
+  ];
+  const noOpZeroMutationGreen = !noOpBaselineRequested || Boolean(
+    noOpMutationCountKeys.every((key) => Number(activationSummary.returnIntake?.counts?.[key] || 0) === 0)
+    && lanePlan.exactTextCandidateCount === 0
+    && lanePlan.commentCandidateCount === 0
+    && lanePlan.formattingCandidateCount === 0
+    && lanePlan.structuralCandidateCount === 0
+    && applyResults.length === 0
+    && replayResults.length === 0
+    && staleRetryResults.length === 0
+    && formattingApplyResult === null
+    && structuralApplyResult === null
+  );
   const intakeGreen = activationSummary.ok === true
     && activationSummary.returnIntake
     && activationSummary.returnIntake.authenticated === true
@@ -1652,7 +1672,18 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
     && activationSummary.returnIntake?.fullManuscriptExportMapTransport?.authority === 'main-owned-active-export-authority-store-after-return-authentication'
     && activationSummary.returnIntake?.fullManuscriptExportMapTransport?.returnedArtifactExportMapAccepted === false;
   return {
-    ok: intakeGreen && exactTextGreen && commentsGreen && formattingGreen && structureGreen,
+    ok: intakeGreen && exactTextGreen && commentsGreen && formattingGreen && structureGreen && noOpZeroMutationGreen,
+    noOpBaselineRequested,
+    noOpBaseline: noOpBaselineRequested ? {
+      status: noOpZeroMutationGreen
+        ? 'AUTHENTICATED_CLEAN_ZERO_MUTATION_DECISION'
+        : 'UNEXPECTED_MUTATION_CANDIDATE_BLOCKED',
+      sourceMode: activationSummary.returnIntake?.sourceMode || '',
+      zeroMutationGreen: noOpZeroMutationGreen,
+      diagnosticOnly: activationSummary.diagnosticOnly === true,
+      candidateStatus: activationSummary.candidateSummary?.status || '',
+      candidateCode: activationSummary.candidateSummary?.code || '',
+    } : null,
     activation: activationSummary,
     lanePlan,
     applyResults,
@@ -3435,6 +3466,186 @@ export function packageSummary(docxPath) {
   };
 }
 
+export function buildC5V2NoOpBaselineOracle(input = {}) {
+  const ledger = input.ledger && typeof input.ledger === 'object' ? input.ledger : {};
+  const operations = Array.isArray(ledger.operations) ? ledger.operations : [];
+  const familyCounts = ledger.familyCounts && typeof ledger.familyCounts === 'object'
+    ? ledger.familyCounts
+    : {};
+  const scenes = Array.isArray(input.scenes) ? input.scenes : [];
+  const wordParsed = input.wordParsed && typeof input.wordParsed === 'object' ? input.wordParsed : {};
+  const wordScalars = wordParsed.scalars && typeof wordParsed.scalars === 'object' ? wordParsed.scalars : {};
+  const wordOperations = Array.isArray(wordParsed.ops) ? wordParsed.ops : [];
+  const sourcePackage = input.sourcePackageSummary && typeof input.sourcePackageSummary === 'object'
+    ? input.sourcePackageSummary
+    : {};
+  const returnedPackage = input.returnedPackageSummary && typeof input.returnedPackageSummary === 'object'
+    ? input.returnedPackageSummary
+    : {};
+  const returnApply = input.returnApply && typeof input.returnApply === 'object' ? input.returnApply : {};
+  const activation = returnApply.activation && typeof returnApply.activation === 'object' ? returnApply.activation : {};
+  const intake = activation.returnIntake && typeof activation.returnIntake === 'object'
+    ? activation.returnIntake
+    : {};
+  const intakeCounts = intake.counts && typeof intake.counts === 'object' ? intake.counts : {};
+  const candidate = activation.candidateSummary && typeof activation.candidateSummary === 'object'
+    ? activation.candidateSummary
+    : {};
+  const lanes = returnApply.lanePlan && typeof returnApply.lanePlan === 'object' ? returnApply.lanePlan : {};
+  const typedLanes = returnApply.typedPendingLanes && typeof returnApply.typedPendingLanes === 'object'
+    ? returnApply.typedPendingLanes
+    : {};
+  const reopenedTruth = input.reopenedTruth && typeof input.reopenedTruth === 'object'
+    ? input.reopenedTruth
+    : {};
+  const reopenedScenes = Array.isArray(reopenedTruth.sceneReadback) ? reopenedTruth.sceneReadback : [];
+  const reopenedPasses = Array.isArray(reopenedTruth.passes) ? reopenedTruth.passes : [];
+  const mutationCountKeys = [
+    'textRevisions',
+    'moveRevisions',
+    'propertyRevisions',
+    'structureChanges',
+    'commentThreads',
+    'formattingDeltas',
+  ];
+  const candidateCountKeys = [
+    'commentThreadCount',
+    'commentPlacementCount',
+    'textChangeCount',
+    'structuralChangeCount',
+    'trackedTextCandidateCount',
+  ];
+  const laneCountKeys = [
+    'exactTextCandidateCount',
+    'commentCandidateCount',
+    'formattingCandidateCount',
+    'structuralCandidateCount',
+  ];
+  const expectedSceneResults = scenes.map((scene, index) => {
+    const actual = reopenedScenes[index] && typeof reopenedScenes[index] === 'object'
+      ? reopenedScenes[index]
+      : {};
+    const expectedSha256 = sha256Text(scene?.text || '');
+    const actualSha256 = sha256Text(actual.rawContent || '');
+    return {
+      ordinal: index + 1,
+      sourceFile: typeof scene?.file === 'string' ? scene.file : '',
+      reopenedSceneId: typeof actual.sceneId === 'string' ? actual.sceneId : '',
+      expectedSha256,
+      actualSha256,
+      recordedSha256: typeof actual.rawContentSha256 === 'string' ? actual.rawContentSha256 : '',
+      exact: actualSha256 === expectedSha256 && actual.rawContentSha256 === actualSha256,
+    };
+  });
+  const expectedTypedLanes = {
+    exactText: 'NO_EXACT_TEXT_CANDIDATE',
+    rootCommentsState: 'NO_COMMENT_CANDIDATE',
+    repliesState: 'NO_COMMENT_CANDIDATE',
+    commentState: 'NO_COMMENT_CANDIDATE',
+    commentsRepliesState: 'NO_COMMENT_CANDIDATE',
+    formatting: 'NO_FORMATTING_CANDIDATE',
+    structural: 'NO_STRUCTURAL_CANDIDATE',
+  };
+  const sourceDocxSha256 = typeof input.sourceDocxSha256 === 'string' ? input.sourceDocxSha256 : '';
+  const returnedDocxSha256 = typeof input.returnedDocxSha256 === 'string' ? input.returnedDocxSha256 : '';
+  const checks = {
+    explicitEmptyLedger: operations.length === 0
+      && Number(ledger.operationCount || 0) === 0
+      && Object.values(familyCounts).every((count) => Number(count) === 0),
+    byteIdenticalNativeSave: Boolean(sourceDocxSha256)
+      && sourceDocxSha256 === returnedDocxSha256,
+    packageIdentity: sourcePackage.zipOk === true
+      && returnedPackage.zipOk === true
+      && sourcePackage.documentXmlSha256 === returnedPackage.documentXmlSha256
+      && sourcePackage.commentsXmlSha256 === returnedPackage.commentsXmlSha256,
+    modernMode15Preserved: sourcePackage.modernMode15Ready === true
+      && returnedPackage.modernMode15Ready === true,
+    packageZeroMutation: Number(sourcePackage.revisionTagCount || 0) === 0
+      && Number(returnedPackage.revisionTagCount || 0) === 0
+      && Number(sourcePackage.commentTagCount || 0) === 0
+      && Number(returnedPackage.commentTagCount || 0) === 0,
+    nativeWordZeroMutation: wordScalars.WORD_STATUS === 'PASS'
+      && Number(wordScalars.REVISION_COUNT || 0) === 0
+      && Number(wordScalars.COMMENT_COUNT || 0) === 0
+      && wordOperations.length === 0
+      && (Array.isArray(wordParsed.limitations) ? wordParsed.limitations.length === 0 : false)
+      && (Array.isArray(wordParsed.uiDiagnostics) ? wordParsed.uiDiagnostics.length === 0 : false),
+    authenticatedCleanIntake: returnApply.ok === true
+      && returnApply.noOpBaselineRequested === true
+      && returnApply.noOpBaseline?.status === 'AUTHENTICATED_CLEAN_ZERO_MUTATION_DECISION'
+      && activation.ok === true
+      && activation.activated === true
+      && activation.diagnosticOnly === true
+      && intake.authenticated === true
+      && intake.status === 'authenticated-return-ir-ready'
+      && intake.authorityCarrierStatus === 'verified-baseline-bound'
+      && intake.sourceMode === 'CLEAN'
+      && intake.returnedArtifactSha256 === returnedDocxSha256,
+    authenticatedFullManuscriptMap: intake.fullManuscriptExportMapTransport?.present === true
+      && intake.fullManuscriptExportMapTransport?.authority === 'main-owned-active-export-authority-store-after-return-authentication'
+      && intake.fullManuscriptExportMapTransport?.returnedArtifactExportMapAccepted === false
+      && Number(intake.fullManuscriptExportMapTransport?.sceneCount || 0) === scenes.length,
+    explicitDiagnosticDecision: candidate.status === 'diagnostics'
+      && candidate.code === 'DOCX_REVIEW_PREVIEW_SESSION_CANDIDATE_NO_REVIEW_COMMENTS'
+      && candidate.canOpenReviewSession === false
+      && candidate.canAutoApply === false
+      && candidate.canImportMutate === false
+      && candidate.canWriteStorage === false,
+    zeroIntakeMutationCounts: mutationCountKeys.every((key) => Number(intakeCounts[key] || 0) === 0),
+    zeroReviewCandidates: candidateCountKeys.every((key) => Number(candidate[key] || 0) === 0)
+      && laneCountKeys.every((key) => Number(lanes[key] || 0) === 0),
+    deterministicTypedNoCandidateLanes: Object.entries(expectedTypedLanes)
+      .every(([key, value]) => typedLanes[key] === value),
+    noProductMutationDispatch: Array.isArray(returnApply.applyResults)
+      && returnApply.applyResults.length === 0
+      && Array.isArray(returnApply.replayResults)
+      && returnApply.replayResults.length === 0
+      && Array.isArray(returnApply.staleRetryResults)
+      && returnApply.staleRetryResults.length === 0
+      && returnApply.formattingApplyResult === null
+      && returnApply.structuralApplyResult === null
+      && activation.commentShadowResult === null
+      && activation.commentProductPath === null
+      && activation.formattingProductPath?.writerCalled === false
+      && activation.structuralProductPath?.writerCalled === false,
+    reopenedYalkenTruth: reopenedTruth.sourceKind === 'reopened-yalken-project'
+      && reopenedScenes.length === scenes.length
+      && reopenedPasses.length === 2
+      && reopenedPasses.every((pass) => (
+        Array.isArray(pass?.scenes)
+        && pass.scenes.length === scenes.length
+        && pass.scenes.every((scene) => scene?.ok === true)
+      )),
+    exactSceneReadback: expectedSceneResults.length === scenes.length
+      && expectedSceneResults.every((scene) => scene.exact === true),
+    offlineRoute: Array.isArray(input.networkRequests) && input.networkRequests.length === 0,
+  };
+  const failures = Object.entries(checks)
+    .filter(([, value]) => value !== true)
+    .map(([key]) => key);
+  const result = {
+    schemaVersion: 'yalken.rtk.word.c5v2.noop-baseline-oracle.v1',
+    ok: failures.length === 0,
+    decision: failures.length === 0
+      ? 'AUTHENTICATED_CLEAN_NO_OP_EXACT'
+      : 'NO_OP_BASELINE_BLOCKED',
+    checks,
+    failures,
+    sourceKinds: [
+      'empty-ledger-intent',
+      'byte-identical-native-word-save',
+      'raw-ooxml',
+      'authenticated-product-intake',
+      'reopened-yalken-project',
+    ],
+    sceneResults: expectedSceneResults,
+  };
+  return {
+    ...result,
+    oracleDigest: sha256Text(stableCanonicalJson(result)),
+  };
+}
+
 function readDocxPart(docxPath, partName, optional = false) {
   try {
     return execFileSync('/usr/bin/unzip', ['-p', docxPath, partName], {
@@ -4343,6 +4554,35 @@ async function main() {
     ? readNativeLifecycleSnapshots({ ledger, returnedPath: returnedDocxPath })
     : { ok: false, results: [], verifiedCount: 0, blockedCount: 0 };
   const wordParsed = applyNativeLifecycleVerification(parseWordOutput(wordOutput), nativeLifecycleVerification);
+  const sourceDocxSha256 = fs.existsSync(sourceDocxPath) ? sha256File(sourceDocxPath) : '';
+  const returnedDocxSha256 = fs.existsSync(returnedDocxPath) ? sha256File(returnedDocxPath) : '';
+  const sourcePackageSummary = fs.existsSync(sourceDocxPath) ? packageSummary(sourceDocxPath) : null;
+  const returnedPackageSummary = fs.existsSync(returnedDocxPath) ? packageSummary(returnedDocxPath) : null;
+  const productReturnApply = exportResult.returnApplyResult?.returnApply || null;
+  const reopenedTruthPath = path.join(runDir, 'yalken-reopened-truth.json');
+  const reopenedTruth = fs.existsSync(reopenedTruthPath)
+    ? JSON.parse(fs.readFileSync(reopenedTruthPath, 'utf8'))
+    : null;
+  const networkRequests = [
+    ...(Array.isArray(exportResult.result?.networkRequests) ? exportResult.result.networkRequests : []),
+    ...(Array.isArray(exportResult.returnApplyResult?.networkRequests) ? exportResult.returnApplyResult.networkRequests : []),
+  ];
+  const oracleProbe = wordParsed.ops.length > 0
+    ? buildOracleProbe({ ledger, wordParsed })
+    : ledger.operations.length === 0
+      ? buildC5V2NoOpBaselineOracle({
+          ledger,
+          scenes,
+          wordParsed,
+          sourceDocxSha256,
+          returnedDocxSha256,
+          sourcePackageSummary,
+          returnedPackageSummary,
+          returnApply: productReturnApply,
+          reopenedTruth,
+          networkRequests,
+        })
+      : null;
   const summary = {
     schemaVersion: 'yalken.rtk.word.c5v2.physical-canary.result.v1',
     runId,
@@ -4370,8 +4610,8 @@ async function main() {
     ],
     sourceDocxPath,
     returnedDocxPath,
-    sourceDocxSha256: fs.existsSync(sourceDocxPath) ? sha256File(sourceDocxPath) : '',
-    returnedDocxSha256: fs.existsSync(returnedDocxPath) ? sha256File(returnedDocxPath) : '',
+    sourceDocxSha256,
+    returnedDocxSha256,
     wordPhaseCheckpoint: readWordPhaseCheckpoint(returnedDocxPath),
     exportResult,
     wordStatus: wordParsed.scalars.WORD_STATUS || (wordError ? 'FAIL' : 'UNKNOWN'),
@@ -4389,11 +4629,11 @@ async function main() {
     },
     limitations: wordParsed.limitations,
     uiDiagnostics: wordParsed.uiDiagnostics,
-    sourcePackageSummary: fs.existsSync(sourceDocxPath) ? packageSummary(sourceDocxPath) : null,
-    returnedPackageSummary: fs.existsSync(returnedDocxPath) ? packageSummary(returnedDocxPath) : null,
-    packageSummary: fs.existsSync(returnedDocxPath) ? packageSummary(returnedDocxPath) : null,
-    oracleProbe: wordParsed.ops.length > 0 ? buildOracleProbe({ ledger, wordParsed }) : null,
-    productReturnApply: exportResult.returnApplyResult?.returnApply || null,
+    sourcePackageSummary,
+    returnedPackageSummary,
+    packageSummary: returnedPackageSummary,
+    oracleProbe,
+    productReturnApply,
     productRouteGaps: deriveC5V2ProductRouteGaps(
       exportResult.returnApplyResult?.returnApply || null,
       {

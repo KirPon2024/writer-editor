@@ -408,6 +408,7 @@ function buildExportBoundCanaryLedger({
   idPrefix = '',
   weightedSceneAllocation = false,
   typedLifecycleLimits = false,
+  disjointMutationLaneScenes = false,
 }) {
   const sourceDocxText = docxDocumentWordText(sourceDocxPath);
   const failures = [];
@@ -419,6 +420,7 @@ function buildExportBoundCanaryLedger({
       exportedDocxText: sourceDocxText,
       weightedSceneAllocation,
       typedLifecycleLimits,
+      disjointMutationLaneScenes,
     });
     try {
       return {
@@ -839,6 +841,25 @@ export function buildCanaryLedger(scenes, options = {}) {
     return schedule.length === familyOrder.length ? schedule : null;
   };
   const weightedSceneSchedule = buildWeightedSceneSchedule();
+  const disjointMutationPools = (() => {
+    if (options.disjointMutationLaneScenes !== true) return null;
+    if (scenes.length < 3) throw new Error('C5V2_CANARY_DISJOINT_MUTATION_LANES_REQUIRE_THREE_SCENES');
+    const exactTextCount = Math.max(1, Math.min(scenes.length - 2, Math.ceil(scenes.length * 0.52)));
+    const remaining = scenes.length - exactTextCount;
+    const formattingCount = Math.max(1, Math.min(remaining - 1, Math.ceil(remaining / 2)));
+    return {
+      exactText: scenes.slice(0, exactTextCount),
+      formatting: scenes.slice(exactTextCount, exactTextCount + formattingCount),
+      structural: scenes.slice(exactTextCount + formattingCount),
+    };
+  })();
+  const mutationLaneCursors = { exactText: 0, formatting: 0, structural: 0 };
+  const mutationLaneForFamily = (family) => {
+    if (['tracked_replace', 'tracked_insert', 'tracked_delete'].includes(family)) return 'exactText';
+    if (family === 'formatting') return 'formatting';
+    if (family === 'structural') return 'structural';
+    return '';
+  };
   const anchorOffset = Number.isSafeInteger(Number(options.anchorOffset)) && Number(options.anchorOffset) >= 0
     ? Number(options.anchorOffset)
     : 0;
@@ -850,7 +871,13 @@ export function buildCanaryLedger(scenes, options = {}) {
   const bandNames = ['beginning', 'middle', 'end'];
   for (let index = 0; index < familyOrder.length; index += 1) {
     const family = familyOrder[index];
-    const scene = weightedSceneSchedule ? weightedSceneSchedule[index] : scenes[index % scenes.length];
+    const mutationLane = mutationLaneForFamily(family);
+    const mutationPool = mutationLane && disjointMutationPools ? disjointMutationPools[mutationLane] : null;
+    const scene = mutationPool
+      ? mutationPool[(mutationLaneCursors[mutationLane]++ + anchorOffset) % mutationPool.length]
+      : weightedSceneSchedule
+        ? weightedSceneSchedule[index]
+        : scenes[index % scenes.length];
     const phrases = family === 'structural'
       ? structuralPhrasesByScene.get(scene.sceneId) || []
       : phrasesByScene.get(scene.sceneId) || [];
@@ -901,9 +928,9 @@ export function buildCanaryLedger(scenes, options = {}) {
         ? options.typedLifecycleLimits === true
           ? 'MANUAL'
           : 'MANUAL_OR_BLOCKED'
-        : family === 'tracked_insert'
+        : ['tracked_insert', 'tracked_delete'].includes(family)
           ? 'MANUAL'
-          : ['tracked_replace', 'tracked_delete'].includes(family)
+          : family === 'tracked_replace'
             ? 'EXACT'
             : 'SAFE_APPLY',
       replacementText: `C5V2_${family}_${String(index + 1).padStart(3, '0')}`,
@@ -4919,6 +4946,8 @@ async function mainCumulative(options) {
             idPrefix: `r${String(roundIndex + 1).padStart(2, '0')}-`,
             weightedSceneAllocation: true,
             typedLifecycleLimits: typeof options.corpusManifestPath === 'string'
+              && options.corpusManifestPath.trim().length > 0,
+            disjointMutationLaneScenes: typeof options.corpusManifestPath === 'string'
               && options.corpusManifestPath.trim().length > 0,
           });
       round.ledger = ledger;

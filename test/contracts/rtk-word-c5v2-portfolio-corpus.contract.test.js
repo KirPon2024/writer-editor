@@ -82,6 +82,7 @@ test('C5V2 portfolio generator builds five deterministic 21-scene full-manuscrip
   const nestedLedger = canary.buildCanaryLedger(nestedProductScenes, {
     weightedSceneAllocation: true,
     typedLifecycleLimits: true,
+    disjointMutationLaneScenes: true,
   });
   assert.equal(nestedLedger.operationCount, 200);
   assert.equal(nestedLedger.operations.filter((operation) => operation.family === 'structural').length, 10);
@@ -89,6 +90,29 @@ test('C5V2 portfolio generator builds five deterministic 21-scene full-manuscrip
   assert.equal(typedLifecycle.length, 15);
   assert.equal(typedLifecycle.every((operation) => operation.physicalAction === 'typed-limit'), true);
   assert.equal(typedLifecycle.every((operation) => operation.expectedOutcome === 'MANUAL'), true);
+  const trackedDeletes = nestedLedger.operations.filter((operation) => operation.family === 'tracked_delete');
+  assert.equal(trackedDeletes.length, 20);
+  assert.equal(trackedDeletes.every((operation) => operation.expectedOutcome === 'MANUAL'), true);
+  const mutationLanesByScene = new Map();
+  for (const operation of nestedLedger.operations) {
+    const lane = ['tracked_replace', 'tracked_insert', 'tracked_delete'].includes(operation.family)
+      ? 'exactText'
+      : operation.family === 'formatting'
+        ? 'formatting'
+        : operation.family === 'structural'
+          ? 'structural'
+          : '';
+    if (!lane) continue;
+    const lanes = mutationLanesByScene.get(operation.sceneId) || new Set();
+    lanes.add(lane);
+    mutationLanesByScene.set(operation.sceneId, lanes);
+  }
+  assert.equal([...mutationLanesByScene.values()].every((lanes) => lanes.size === 1), true);
+  assert.deepEqual(new Set([...mutationLanesByScene.values()].flatMap((lanes) => [...lanes])), new Set([
+    'exactText',
+    'formatting',
+    'structural',
+  ]));
 
   const nearLimit = corpora.get('near-supported-limit');
   assert.equal(nearLimit.expectedWordCount, 100_000);

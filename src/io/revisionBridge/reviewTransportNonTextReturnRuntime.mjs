@@ -410,9 +410,11 @@ export function buildAuthenticatedCommentReturnCommands(input = {}) {
   const authority = isPlainObject(input.localAuthorityCapsule) ? input.localAuthorityCapsule : {};
   const projectId = normalizeString(input.projectId || authority.projectId);
   const projectRoot = normalizeString(authority.projectRoot || input.projectRoot);
+  const returnArtifactId = normalizeString(input.returnArtifactId);
   const scenePathBySceneId = isPlainObject(authority.scenePathBySceneId) ? authority.scenePathBySceneId : {};
   const sceneTextBySceneId = isPlainObject(authority.baselineFinalTextBySceneId) ? authority.baselineFinalTextBySceneId : {};
   if (!projectId || !projectRoot) return blocked('RTK_COMMENT_PRODUCT_RETURN_PROJECT_AUTHORITY_REQUIRED', 'localAuthorityCapsule');
+  if (!returnArtifactId) return blocked('RTK_COMMENT_PRODUCT_RETURN_ARTIFACT_ID_REQUIRED', 'returnArtifactId');
   const placements = new Map((Array.isArray(reviewIr.commentPlacements) ? reviewIr.commentPlacements : [])
     .filter(isPlainObject)
     .map((placement) => [normalizeString(placement.threadId), placement]));
@@ -452,17 +454,26 @@ export function buildAuthenticatedCommentReturnCommands(input = {}) {
       });
       continue;
     }
-    const rootOperationId = `physical-root:${sha256(stableJson({
-      returnArtifactId: normalizeString(input.returnArtifactId), threadId, sceneId, selectedText, rootBody,
+    const rootIdentityDigest = sha256(stableJson({
+      returnArtifactId, threadId, sceneId, selectedText, rootBody,
+    }));
+    const rootOperationId = `physical-root:${rootIdentityDigest}`;
+    const canonicalThreadId = `physical-thread:${rootIdentityDigest}`;
+    const sourceRootCommentId = normalizeString(rootMessage.messageId || thread.commentId) || `${threadId}:root`;
+    const canonicalRootCommentId = `physical-comment:${sha256(stableJson({
+      returnArtifactId, threadId, sourceCommentId: sourceRootCommentId, kind: 'root',
     }))}`;
     commands.push({
       family: 'root_comment',
       payload: {
         projectId, projectRoot, operationId: rootOperationId, sceneId, scenePath, sceneText, selectedText,
-        threadId,
-        commentId: normalizeString(rootMessage.messageId || thread.commentId) || `${threadId}:root`,
+        threadId: canonicalThreadId,
+        commentId: canonicalRootCommentId,
         body: rootBody,
         anchor: { sceneId },
+        returnArtifactId,
+        sourceThreadId: threadId,
+        sourceCommentId: sourceRootCommentId,
       },
     });
     const replies = [
@@ -471,13 +482,21 @@ export function buildAuthenticatedCommentReturnCommands(input = {}) {
     ];
     replies.forEach((reply, replyIndex) => {
       const replyBody = typeof reply.body === 'string' ? reply.body : '';
-      const replyId = normalizeString(reply.messageId || reply.commentId || reply.itemId) || `${threadId}:reply:${replyIndex + 1}`;
+      const sourceReplyId = normalizeString(reply.messageId || reply.commentId || reply.itemId)
+        || `${threadId}:reply:${replyIndex + 1}`;
+      const canonicalReplyId = `physical-comment:${sha256(stableJson({
+        returnArtifactId, threadId, sourceCommentId: sourceReplyId, kind: 'reply',
+      }))}`;
       commands.push({
         family: 'reply',
         payload: {
-          projectId, projectRoot, sceneId, threadId, action: 'reply', replyId, replyBody,
+          projectId, projectRoot, sceneId, threadId: canonicalThreadId, action: 'reply',
+          replyId: canonicalReplyId, replyBody,
+          returnArtifactId,
+          sourceThreadId: threadId,
+          sourceReplyId,
           operationId: `physical-reply:${sha256(stableJson({
-            returnArtifactId: normalizeString(input.returnArtifactId), threadId, replyId, replyBody,
+            returnArtifactId, threadId, replyId: sourceReplyId, replyBody,
           }))}`,
         },
       });
@@ -495,9 +514,11 @@ export function buildAuthenticatedCommentReturnCommands(input = {}) {
       commands.push({
         family: 'comment_state',
         payload: {
-          projectId, projectRoot, sceneId, threadId, action,
+          projectId, projectRoot, sceneId, threadId: canonicalThreadId, action,
+          returnArtifactId,
+          sourceThreadId: threadId,
           operationId: `physical-state:${sha256(stableJson({
-            returnArtifactId: normalizeString(input.returnArtifactId), threadId, action,
+            returnArtifactId, threadId, action,
           }))}`,
         },
       });

@@ -185,15 +185,88 @@ test('N2 authenticated Word return lowers root, reply and resolved state into sh
 test('N2 authenticated return refuses incomplete scene authority and unauthenticated input', async () => {
   const module = await import(MODULE_PATH);
   assert.equal(module.buildAuthenticatedCommentReturnCommands({ authenticated: false }).code, 'RTK_COMMENT_PRODUCT_RETURN_NOT_AUTHENTICATED');
+  assert.equal(module.buildAuthenticatedCommentReturnCommands({
+    authenticated: true,
+    projectId: 'project-c5v2-n2',
+    projectRoot: '/tmp/project-c5v2-n2',
+    localAuthorityCapsule: { projectRoot: '/tmp/project-c5v2-n2' },
+  }).code, 'RTK_COMMENT_PRODUCT_RETURN_ARTIFACT_ID_REQUIRED');
   const blocked = module.buildAuthenticatedCommentReturnCommands({
     authenticated: true,
     projectId: 'project-c5v2-n2',
     projectRoot: '/tmp/project-c5v2-n2',
+    returnArtifactId: 'sha256:incomplete-authority-return',
     localAuthorityCapsule: { projectRoot: '/tmp/project-c5v2-n2' },
     reviewIr: { commentThreads: [{ threadId: 'thread', messages: [{ body: 'body' }] }], commentPlacements: [] },
   });
   assert.equal(blocked.ok, false);
   assert.equal(blocked.typedBlocked[0].code, 'RTK_COMMENT_PRODUCT_RETURN_THREAD_AUTHORITY_INCOMPLETE');
+});
+
+test('N2 cumulative returns namespace reused native Word comment identities by authenticated artifact', async () => {
+  const module = await import(MODULE_PATH);
+  const projectRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-c5v2-n2-cumulative-identity-'));
+  const scenePath = path.join(projectRoot, 'scene-01.txt');
+  const sceneText = 'First unique anchor and second unique anchor live in one scene.';
+  fs.writeFileSync(scenePath, sceneText);
+  const authority = {
+    projectId: 'project-c5v2-n2-cumulative',
+    projectRoot,
+    scenePathBySceneId: { 'scene-01': scenePath },
+    baselineFinalTextBySceneId: { 'scene-01': sceneText },
+  };
+  const buildPlan = ({ returnArtifactId, quote, body }) => module.buildAuthenticatedCommentReturnCommands({
+    authenticated: true,
+    projectId: authority.projectId,
+    projectRoot,
+    returnArtifactId,
+    localAuthorityCapsule: authority,
+    reviewIr: {
+      commentThreads: [{
+        threadId: 'rtk-comment-2034',
+        commentId: '2034',
+        status: 'open',
+        messages: [{ messageId: '2034', body }],
+      }],
+      commentPlacements: [{
+        threadId: 'rtk-comment-2034',
+        targetScope: { type: 'scene', id: 'scene-01' },
+        quote,
+      }],
+    },
+  });
+  const firstPlan = buildPlan({
+    returnArtifactId: `sha256:${'a'.repeat(64)}`,
+    quote: 'First unique anchor',
+    body: 'Round one physical root.',
+  });
+  const secondPlan = buildPlan({
+    returnArtifactId: `sha256:${'b'.repeat(64)}`,
+    quote: 'second unique anchor',
+    body: 'Round two physical root.',
+  });
+  assert.equal(firstPlan.ok, true);
+  assert.equal(secondPlan.ok, true);
+  assert.notEqual(firstPlan.commands[0].payload.threadId, secondPlan.commands[0].payload.threadId);
+  assert.notEqual(firstPlan.commands[0].payload.commentId, secondPlan.commands[0].payload.commentId);
+  assert.equal(firstPlan.commands[0].payload.sourceThreadId, 'rtk-comment-2034');
+  assert.equal(secondPlan.commands[0].payload.sourceThreadId, 'rtk-comment-2034');
+
+  const handler = module.createRtkRootCommentReturnCommandHandler();
+  for (const plan of [firstPlan, secondPlan]) {
+    assert.equal((await handler(plan.commands[0].payload)).status, 'applied');
+    assert.equal((await handler(plan.commands[0].payload)).status, 'replay');
+  }
+  const canonical = JSON.parse(fs.readFileSync(
+    path.join(projectRoot, '.yalken', 'word-review', 'non-text-return-state.v1.json'),
+    'utf8',
+  ));
+  assert.equal(canonical.threads.length, 2);
+  assert.equal(canonical.events.length, 2);
+  assert.deepEqual(canonical.threads.map((thread) => thread.messages[0].body), [
+    'Round one physical root.',
+    'Round two physical root.',
+  ]);
 });
 
 test('N2 activation coupling and physical assertion require Command Kernel receipts and reject pending lane', () => {

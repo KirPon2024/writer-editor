@@ -42,6 +42,10 @@ export function nowStamp() {
   return new Date().toISOString().replace(/[-:]/gu, '').replace(/\.\d{3}Z$/u, 'Z');
 }
 
+export function hasC5V2CompletedRoundEvidence(value) {
+  return value !== null && typeof value === 'object' && !Array.isArray(value);
+}
+
 export function writeJsonAtomicDurable(filePath, value) {
   const dir = path.dirname(filePath);
   fs.mkdirSync(dir, { recursive: true });
@@ -4773,7 +4777,7 @@ async function mainCumulative(options) {
     }
   }
   const roundSummaries = rounds.map((round, index) => {
-    const hasCompletedRoundEvidence = isPlainObject(round.completedRoundEvidence);
+    const hasCompletedRoundEvidence = hasC5V2CompletedRoundEvidence(round.completedRoundEvidence);
     const wordOutput = electronResult.wordOutputs[index] || '';
     const nativeLifecycleVerification = hasCompletedRoundEvidence
       ? round.completedRoundEvidence.nativeLifecycleVerification

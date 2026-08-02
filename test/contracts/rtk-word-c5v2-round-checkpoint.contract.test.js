@@ -176,6 +176,9 @@ test('C5V2 physical Word chunks preserve root-first and descending-range authori
 
 test('C5V2 cumulative controller blocks the next export until the complete round oracle gate is green', async () => {
   const canary = await import(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs'));
+  assert.equal(canary.hasC5V2CompletedRoundEvidence({ oracleCapture: { ok: false } }), true);
+  assert.equal(canary.hasC5V2CompletedRoundEvidence(null), false);
+  assert.equal(canary.hasC5V2CompletedRoundEvidence([]), false);
   const green = canary.buildC5V2CompleteRoundOracleGate({
     roundId: 'round-01',
     wordParsed: { scalars: { WORD_STATUS: 'PASS' } },

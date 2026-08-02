@@ -518,8 +518,18 @@ test('Atlas V6 production negative: main-owned lease is interprocess, expiry-bou
 
   let nowMs = 1_000;
   const expiryRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-atlas-v6-lease-expiry-'));
-  const first = leaseModule.createProjectLeaseManager({ leaseRoot: expiryRoot, ttlMs: 1_000, nowMs: () => nowMs });
-  const second = leaseModule.createProjectLeaseManager({ leaseRoot: expiryRoot, ttlMs: 1_000, nowMs: () => nowMs });
+  const first = leaseModule.createProjectLeaseManager({
+    leaseRoot: expiryRoot,
+    ttlMs: 1_000,
+    nowMs: () => nowMs,
+    isProcessAlive: () => false,
+  });
+  const second = leaseModule.createProjectLeaseManager({
+    leaseRoot: expiryRoot,
+    ttlMs: 1_000,
+    nowMs: () => nowMs,
+    isProcessAlive: () => false,
+  });
   const expiring = await first.acquire('expiry-project');
   nowMs = 2_001;
   const recovered = await second.acquire('expiry-project');

@@ -5921,12 +5921,12 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "9c864eb00d4e0ee8fd7de0aa5e19bee177c8090f1cca9062f54cfec3912b4f3b",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_AUDIT_HOLD_REPAIR",
-      "approvedAtUtc": "2026-08-02T16:38:07.000Z",
-      "rationale": "Approve ten exact, non-wildcard Sector-M DONE scope entries for the bounded Atlas V6 audited HOLD repair paths; no prefix expansion, UI redesign, network, dependency, release acceptance, or Program DONE claim.",
+      "sha256": "8147bd3363bf22ce448ac254cab847e1a7e47eb4c868e5a56ec4b0c854d14518",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_A3_BOUNDED_REPAIR",
+      "approvedAtUtc": "2026-08-02T19:04:50.000Z",
+      "rationale": "Approve exact non-wildcard Sector-M DONE scope entries for the bounded Atlas V6 A3 lease-fencing and injective-project-identity repair paths; no prefix expansion, UI change, network, dependency, release acceptance, or Program DONE claim.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_V6_AUDIT_HOLD_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_V6_A3_BOUNDED_REPAIR"
     },
     {
       "filePath": "scripts/ops/shared-drift-engine-runtime-state.mjs",
@@ -9125,12 +9125,12 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-stage10-pr1391-audit-repair.contract.test.js",
-      "sha256": "04228b7d27020234618c594adf1711112614be12d11bee24dfb9838b0cf43666",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_AUDIT_HOLD_REPAIR",
-      "approvedAtUtc": "2026-08-02T16:13:13.000Z",
-      "rationale": "Approve exact Stage-10 compatibility contract bytes re-bound to integrity-protected recovery provenance and append-only compensation while retaining durable command, event, reopen and executable replay coverage.",
+      "sha256": "5ad2eb4edc45a8400c53febcf5a5cecfdcd7a0915a360d92aaec1b8f28f95edd",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_A3_BOUNDED_REPAIR",
+      "approvedAtUtc": "2026-08-02T19:04:50.000Z",
+      "rationale": "Approve exact Stage-10 compatibility contract bytes recognizing the new fail-closed project-key identity conflict before the existing anchor validator while retaining rollback, forgery, recovery, reopen, and replay coverage.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_V6_AUDIT_HOLD_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_V6_A3_BOUNDED_REPAIR"
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-p1-domain-event-contract-repair.contract.test.js",
@@ -9306,12 +9306,12 @@
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v6-production-lifecycle.mjs",
-      "sha256": "6162c69165bb2c3afcf758246e2c5cf95518adc3f6bb026653ded0688a4b5d77",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_AUDIT_HOLD_REPAIR",
-      "approvedAtUtc": "2026-08-02T16:13:13.000Z",
-      "rationale": "Approve exact Atlas V6 production lifecycle runner bytes mapping every independently confirmed HOLD category to executable negatives and a packaged control-to-command-to-persistence-to-reopen-to-replay journey.",
+      "sha256": "66931fe005545e6d42787083b7f252014d23454f1648388160b50ea9be5af38d",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_A3_BOUNDED_REPAIR",
+      "approvedAtUtc": "2026-08-02T19:04:50.000Z",
+      "rationale": "Approve exact Atlas V6 production lifecycle runner bytes adding executable A3 slow-holder fencing, stale-holder rejection, injective project identity, and collision-aware migration negatives to the existing matrix.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_V6_AUDIT_HOLD_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_V6_A3_BOUNDED_REPAIR"
     },
     {
       "filePath": "test/contracts/yalken-atlas-v6-audit-hold-repair.contract.test.js",
@@ -9324,12 +9324,21 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v6-production-negative.contract.test.js",
-      "sha256": "37b3ef3cbc0805da0f6b65d905d77ec1f36ce872cc3381a265ff699f9e4045b6",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_AUDIT_HOLD_REPAIR",
-      "approvedAtUtc": "2026-08-02T16:13:13.000Z",
-      "rationale": "Approve exact production-negative contract bytes proving recovery admission and ancestry, durable collaborator replay, real artifacts and interrupted recovery, append-only compensation, interprocess lease plus CAS and integrity-bound provenance.",
+      "sha256": "59bc957de88292e7959b08e2bdcfdd208f81909599758fbf8b918803c7d56346",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_A3_BOUNDED_REPAIR",
+      "approvedAtUtc": "2026-08-02T19:04:50.000Z",
+      "rationale": "Approve exact production-negative contract bytes distinguishing expired dead-owner recovery from a live holder while preserving interprocess exclusion, revision and authority CAS, recovery, replay, and provenance coverage.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_V6_AUDIT_HOLD_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_V6_A3_BOUNDED_REPAIR"
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v6-a3-bounded-repair.contract.test.js",
+      "sha256": "6435518f5ba0e58835271b1af8732827c7fb056b1eb3e05056e67c4b112f4825",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_A3_BOUNDED_REPAIR",
+      "approvedAtUtc": "2026-08-02T19:04:50.000Z",
+      "rationale": "Approve exact A3 production contract bytes proving reversible case-fold-safe project keys, the reproduced alias pair, pre-mutation invalid-ID rejection, atomic legacy migration, two-process slow-write exclusion beyond TTL, monotonic stale-holder fencing, and crash recovery convergence.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_V6_A3_BOUNDED_REPAIR"
     }
   ]
 }

@@ -1121,6 +1121,7 @@ async function runElectronCumulativeFullManuscriptRoundtrip({
     exitState = { code, signal };
   });
   let timedOut = false;
+  let wrapperError = null;
   const wordOutputs = [];
   const wordErrors = [];
   const killTimer = setTimeout(() => {
@@ -1164,6 +1165,11 @@ async function runElectronCumulativeFullManuscriptRoundtrip({
       }, `ELECTRON_CUMULATIVE_RETURN_APPLY_NOT_EMITTED:${round.roundId}`, 300_000);
     }
     await waitForCondition(() => (exited ? exitState : null), 'ELECTRON_CUMULATIVE_EXIT_NOT_OBSERVED', 120_000);
+  } catch (error) {
+    wrapperError = error && error.message ? error.message : String(error);
+    if (!exited) {
+      await waitForCondition(() => (exited ? exitState : null), 'ELECTRON_CUMULATIVE_EXIT_AFTER_ERROR_NOT_OBSERVED', 30_000).catch(() => null);
+    }
   } finally {
     clearTimeout(killTimer);
     if (!exited) child.kill('SIGKILL');
@@ -1177,6 +1183,7 @@ async function runElectronCumulativeFullManuscriptRoundtrip({
   const returnApplyResults = parsedLines.filter((line) => line.phase === 'return-apply');
   return {
     ok: timedOut === false
+      && wrapperError === null
       && exitState?.code === 0
       && exportResults.filter((line) => line.ok === 1).length === rounds.length
       && returnApplyResults.filter((line) => line.ok === 1).length === rounds.length,
@@ -1186,6 +1193,7 @@ async function runElectronCumulativeFullManuscriptRoundtrip({
     exportResults,
     returnApplyResults,
     stderrTail: stderr.slice(-2000),
+    wrapperError,
     wordOutputs,
     wordErrors,
     parsedLines,
@@ -1500,11 +1508,6 @@ async function mainCumulative(options) {
     const roundLabel = `round-${String(index + 1).padStart(2, '0')}`;
     const roundDir = path.join(runDir, roundLabel);
     fs.mkdirSync(roundDir, { recursive: true });
-    const ledger = buildCanaryLedger(scenes, {
-      counts: options.counts,
-      anchorOffset: index * 11,
-      idPrefix: `r${String(index + 1).padStart(2, '0')}-`,
-    });
     rounds.push({
       roundIndex: index,
       roundId: roundLabel,
@@ -1512,17 +1515,45 @@ async function mainCumulative(options) {
       sourcePath: path.join(roundDir, 'c5v2-cumulative-source-fullmanuscript.docx'),
       returnedPath: path.join(roundDir, 'c5v2-cumulative-returned-word-native.docx'),
       returnedReadyPath: path.join(roundDir, 'c5v2-cumulative-returned-ready.json'),
-      ledger,
+      ledger: null,
     });
-    fs.writeFileSync(path.join(roundDir, 'canary-ledger.pre-export.json'), `${JSON.stringify(ledger, null, 2)}\n`);
+    fs.writeFileSync(path.join(roundDir, 'round-plan.pre-export.json'), `${JSON.stringify({
+      schemaVersion: 'yalken.rtk.word.c5v2.cumulative-round-plan.v1',
+      roundId: roundLabel,
+      counts: options.counts,
+      ledgerAuthority: 'DERIVE_FROM_CURRENT_PRODUCT_SCENE_FILES_AFTER_ROUND_EXPORT',
+    }, null, 2)}\n`);
   }
   const wordVersion = shellValue('/usr/bin/osascript', ['-e', 'tell application "Microsoft Word" to return version as text'], { timeout: 30_000 });
   const electronResult = await runElectronCumulativeFullManuscriptRoundtrip({
     runDir,
     scenes,
     rounds,
-    runWordForRound: async (roundIndex, round) => {
-      let ledger = round.ledger;
+    runWordForRound: async (roundIndex, round, exportPayload) => {
+      const sceneFiles = Array.isArray(exportPayload?.sceneFiles) ? exportPayload.sceneFiles : [];
+      const projectRoot = typeof exportPayload?.projectRoot === 'string' ? exportPayload.projectRoot : '';
+      if (sceneFiles.length !== scenes.length) {
+        throw new Error(`C5V2_CUMULATIVE_CURRENT_SCENE_FILE_COUNT_MISMATCH:${round.roundId}:${sceneFiles.length}:${scenes.length}`);
+      }
+      const currentScenes = sceneFiles.map((scenePath, sceneIndex) => {
+        const text = fs.readFileSync(scenePath, 'utf8');
+        const sceneId = projectRoot
+          ? path.relative(projectRoot, scenePath).replace(/\\/gu, '/')
+          : (scenes[sceneIndex]?.sceneId || path.basename(scenePath));
+        return {
+          ...(scenes[sceneIndex] || {}),
+          file: path.basename(scenePath),
+          sceneId,
+          title: scenes[sceneIndex]?.title || path.basename(scenePath, '.txt'),
+          text,
+          sourceSha256: sha256Text(text),
+        };
+      });
+      let ledger = buildCanaryLedger(currentScenes, {
+        counts: options.counts,
+        anchorOffset: roundIndex * 11,
+        idPrefix: `r${String(roundIndex + 1).padStart(2, '0')}-`,
+      });
       ledger = bindLedgerToSourceDocxOffsets({ ledger, sourceDocxPath: round.sourcePath });
       round.ledger = ledger;
       fs.writeFileSync(path.join(round.roundDir, 'canary-ledger.json'), `${JSON.stringify(ledger, null, 2)}\n`);
@@ -1555,7 +1586,7 @@ async function mainCumulative(options) {
       returnedDocxSha256: fs.existsSync(round.returnedPath) ? sha256File(round.returnedPath) : '',
       wordStatus: wordParsed.scalars.WORD_STATUS || (electronResult.wordErrors[index] ? 'FAIL' : 'UNKNOWN'),
       wordOperationSummary: {
-        attempted: round.ledger.operations.length,
+        attempted: Array.isArray(round.ledger?.operations) ? round.ledger.operations.length : 0,
         reported: wordParsed.ops.length,
         safeApply: wordParsed.ops.filter((op) => op.status === 'SAFE_APPLY').length,
         manualOrBlocked: wordParsed.ops.filter((op) => op.status === 'MANUAL_OR_BLOCKED' || op.status === 'BLOCKED').length,
@@ -1566,7 +1597,7 @@ async function mainCumulative(options) {
       },
       limitations: wordParsed.limitations,
       packageSummary: fs.existsSync(round.returnedPath) ? packageSummary(round.returnedPath) : null,
-      oracleProbe: wordParsed.ops.length > 0 ? buildOracleProbe({ ledger: round.ledger, wordParsed }) : null,
+      oracleProbe: wordParsed.ops.length > 0 && round.ledger ? buildOracleProbe({ ledger: round.ledger, wordParsed }) : null,
       productReturnApply: returnApply,
       productApplyOk: returnApply?.ok === true,
       exactScenes: Object.keys(exact).length,
@@ -1606,6 +1637,7 @@ async function mainCumulative(options) {
       exitCode: electronResult.exitCode,
       signal: electronResult.signal,
       stderrTail: electronResult.stderrTail,
+      wrapperError: electronResult.wrapperError,
     },
     totals,
     rounds: roundSummaries,

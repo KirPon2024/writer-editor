@@ -466,6 +466,7 @@ const COMMAND_SURFACE_KERNEL_COMMAND_IDS = Object.freeze({
   RTK_REVIEW_APPLY_NON_OVERLAP_TRACKED_REPLACEMENTS: 'cmd.rtk.review.applyNonOverlapTrackedReplacements',
   RTK_REVIEW_APPLY_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENTS:
     'cmd.rtk.review.applyMultiSceneNonOverlapTrackedReplacements',
+  RTK_REVIEW_APPLY_ROOT_COMMENT_RETURN: 'cmd.rtk.review.applyRootCommentReturn',
 });
 let internalCommandSurfaceKernel = null;
 
@@ -8562,6 +8563,9 @@ function getInternalCommandSurfaceKernel() {
     [COMMAND_SURFACE_KERNEL_COMMAND_IDS.RTK_REVIEW_APPLY_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENTS]: async (payload = {}) => {
       return handleRtkMultiSceneNonOverlapTrackedReplacementCommandSurface(payload);
     },
+    [COMMAND_SURFACE_KERNEL_COMMAND_IDS.RTK_REVIEW_APPLY_ROOT_COMMENT_RETURN]: async (payload = {}) => {
+      return handleRtkRootCommentReturnCommandSurface(payload);
+    },
   });
   return internalCommandSurfaceKernel;
 }
@@ -15903,6 +15907,45 @@ async function handleRtkMultiSceneNonOverlapTrackedReplacementCommandSurface(pay
   return module.createRtkMultiSceneNonOverlapTrackedReplacementCommandHandler({
     cryptoPort: createRtkReviewTransportCryptoPort(),
   })(payload);
+}
+
+let rtkNonTextReturnModulePromise = null;
+function loadRtkNonTextReturnModule() {
+  if (!rtkNonTextReturnModulePromise) {
+    const modulePath = pathToFileURL(path.join(
+      __dirname,
+      'io',
+      'revisionBridge',
+      'reviewTransportNonTextReturnRuntime.mjs',
+    )).href;
+    rtkNonTextReturnModulePromise = import(modulePath).catch((error) => {
+      rtkNonTextReturnModulePromise = null;
+      throw error;
+    });
+  }
+  return rtkNonTextReturnModulePromise;
+}
+
+async function handleRtkRootCommentReturnCommandSurface(payload = {}) {
+  let module = null;
+  try {
+    module = await loadRtkNonTextReturnModule();
+  } catch (error) {
+    return makeReviewMutateTypedError(
+      'cmd.rtk.review.applyRootCommentReturn',
+      'E_RTK_ROOT_COMMENT_RETURN_UNAVAILABLE',
+      'RTK_ROOT_COMMENT_RETURN_UNAVAILABLE',
+      { message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN' },
+    );
+  }
+  if (!module || typeof module.createRtkRootCommentReturnCommandHandler !== 'function') {
+    return makeReviewMutateTypedError(
+      'cmd.rtk.review.applyRootCommentReturn',
+      'E_RTK_ROOT_COMMENT_RETURN_UNAVAILABLE',
+      'RTK_ROOT_COMMENT_RETURN_HANDLER_UNAVAILABLE',
+    );
+  }
+  return module.createRtkRootCommentReturnCommandHandler()(payload);
 }
 
 let exactTextMinSafeWriteModulePromise = null;

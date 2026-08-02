@@ -93,6 +93,15 @@ export {
 } from './reviewTransportMultiSceneNonOverlapTrackedReplacementRuntime.mjs';
 
 export {
+  RTK_NON_TEXT_RETURN_EVENT_SCHEMA,
+  RTK_NON_TEXT_RETURN_STATE_SCHEMA,
+  RTK_ROOT_COMMENT_RETURN_COMMAND_ID,
+  applyRootCommentReturnRuntime,
+  createRtkNonTextReturnFilePort,
+  createRtkRootCommentReturnCommandHandler,
+} from './reviewTransportNonTextReturnRuntime.mjs';
+
+export {
   RTK_WORD_V4_CORE_MANIFEST_SCHEMA,
   RTK_WORD_V4_EXPORT_MAP_SCHEMA,
   RTK_WORD_V4_YRTK2_MAC_DOMAIN,

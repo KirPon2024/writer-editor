@@ -8,6 +8,7 @@ const FULL_MANUSCRIPT_TRACKED_REPLACEMENT_APPLY_COMMAND_ID =
   'cmd.rtk.review.applyMultiSceneNonOverlapTrackedReplacements';
 const SINGLE_SCENE_TRACKED_REPLACEMENT_COMMAND_ID =
   'cmd.rtk.review.applyNonOverlapTrackedReplacements';
+const ROOT_COMMENT_RETURN_COMMAND_ID = 'cmd.rtk.review.applyRootCommentReturn';
 
 function isPlainObjectValue(value) {
   return Boolean(value && typeof value === 'object' && !Array.isArray(value));
@@ -31,6 +32,9 @@ function makeBlocked(code, details = {}) {
 
 function classifyFullManuscriptOperation(operation) {
   const family = normalizeString(operation?.family);
+  if (family === 'root_comment') {
+    return { supported: true, typedOutcome: 'SAFE_ROOT_COMMENT_APPLY' };
+  }
   if (family !== 'tracked_text_edit') {
     return {
       supported: false,
@@ -49,6 +53,29 @@ function classifyFullManuscriptOperation(operation) {
     };
   }
   return { supported: true, typedOutcome: 'SAFE_APPLY' };
+}
+
+function buildRootCommentCommand({ projectId, projectRoot, operation, sceneId, scenePath, baselineText }) {
+  return {
+    commandId: ROOT_COMMENT_RETURN_COMMAND_ID,
+    callerRole: 'main',
+    commandAuthority: {
+      issuer: 'main',
+      intent: 'rtk.nonTextReturn',
+      commandId: ROOT_COMMENT_RETURN_COMMAND_ID,
+    },
+    projectId,
+    projectRoot,
+    operationId: normalizeString(operation.id),
+    sceneId,
+    scenePath,
+    sceneText: baselineText,
+    threadId: normalizeString(operation.semanticIntent?.threadId),
+    commentId: normalizeString(operation.semanticIntent?.commentId),
+    body: typeof operation.semanticIntent?.commentText === 'string' ? operation.semanticIntent.commentText : '',
+    selectedText: typeof operation.anchor?.selectedText === 'string' ? operation.anchor.selectedText : '',
+    anchor: { sceneId },
+  };
 }
 
 function buildSceneCommand({ projectId, roundId, exportId, sceneId, scenePath, baselineText, operations, projectRoot }) {
@@ -137,6 +164,7 @@ function buildFullManuscriptReviewReturnApplyPlan(input = {}) {
   }
   const operations = list(input.operations);
   const supportedBySceneId = new Map();
+  const rootCommentCommands = [];
   const typedOperations = [];
   for (const operation of operations) {
     const classification = classifyFullManuscriptOperation(operation);
@@ -156,7 +184,18 @@ function buildFullManuscriptReviewReturnApplyPlan(input = {}) {
       });
     }
     if (!supportedBySceneId.has(sceneId)) supportedBySceneId.set(sceneId, []);
-    supportedBySceneId.get(sceneId).push(operation);
+    if (normalizeString(operation.family) === 'root_comment') {
+      rootCommentCommands.push(buildRootCommentCommand({
+        projectId: normalizeString(input.projectId || returnedAuthority.projectId || localAuthorityCapsule.projectId),
+        projectRoot: normalizeString(localAuthorityCapsule.projectRoot),
+        operation,
+        sceneId,
+        scenePath: scenePathBySceneId[sceneId],
+        baselineText: baselineFinalTextBySceneId[sceneId],
+      }));
+    } else {
+      supportedBySceneId.get(sceneId).push(operation);
+    }
   }
   const sceneCommands = [];
   for (const sceneId of orderedSceneIds) {
@@ -182,6 +221,7 @@ function buildFullManuscriptReviewReturnApplyPlan(input = {}) {
     requestId: normalizeString(input.requestId) || `request:${returnedAuthority.roundId}:full-manuscript`,
     previewConfirmed: true,
     sceneCommands,
+    rootCommentCommands,
     typedOperations,
     atomicity: {
       route: 'existing-multi-scene-command-kernel-rollback',

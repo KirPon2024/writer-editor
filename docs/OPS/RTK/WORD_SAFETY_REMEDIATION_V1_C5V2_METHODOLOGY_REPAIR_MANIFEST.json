@@ -2,7 +2,7 @@
   "schemaVersion": "yalken.rtk.word-safety-remediation-v1.c5v2-methodology-repair-manifest.v1",
   "taskId": "YALKEN_RTK_WORD_CONTINUATION_V2",
   "contourId": "WORD_SAFETY_REMEDIATION_V1_C5V2_FULLBOOK_METHODOLOGY_REPAIR",
-  "status": "DRY_GATES_IMPLEMENTED_PHYSICAL_CAMPAIGN_NOT_STARTED",
+  "status": "N1_ROOT_COMMENT_PRODUCT_APPLY_IMPLEMENTED_FOCUSED_GREEN_PHYSICAL_PENDING",
   "headSha": "ea00dd9d7fe2de94c3129fa7ca32f4221f8fe3a0",
   "createdAtUtc": "2026-08-01T21:13:41Z",
   "googleProductWork": "REPORT_ONLY_BLOCKED_STASH_UNTOUCHED",
@@ -34,6 +34,24 @@
       ],
       "status": "IMPLEMENTED_DRY_CONTRACT_GREEN",
       "nonClaim": "COMMENT_FORMAT_STRUCTURE_APPLY_NOT_CERTIFIED"
+    },
+    "rootCommentReturnApply": {
+      "commandId": "cmd.rtk.review.applyRootCommentReturn",
+      "port": "createRtkNonTextReturnFilePort",
+      "route": [
+        "full-manuscript-return-manifest",
+        "typed-root-comment-command",
+        "command-surface-kernel",
+        "non-text-return-product-port",
+        "canonical-local-project-truth",
+        "atomic-recovery-snapshot",
+        "reopen-readback",
+        "deterministic-replay"
+      ],
+      "status": "IMPLEMENTED_FOCUSED_CONTRACT_GREEN",
+      "physicalWordStatus": "PENDING_TWO_CHAPTER_AND_21_SCENE_RUNS",
+      "networkAuthority": false,
+      "harnessAuthority": false
     }
   },
   "methodologyInfrastructure": {

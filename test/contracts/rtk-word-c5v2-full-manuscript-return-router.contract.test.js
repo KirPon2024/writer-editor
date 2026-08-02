@@ -145,6 +145,9 @@ test('C5V2 return router lowers eligible full-manuscript tracked replacements to
         },
         semanticIntent: {
           kind: 'root-comment',
+          threadId: 'thread-preface-01',
+          commentId: 'comment-preface-01',
+          commentText: 'Please clarify the critical distinction.',
         },
       },
     ],
@@ -162,13 +165,12 @@ test('C5V2 return router lowers eligible full-manuscript tracked replacements to
   assert.equal(plan.sceneCommands[0].input.writerInput.reviewItems[0].targetScope.id, 'roman/preface.md');
   assert.equal(plan.sceneCommands[0].input.writerInput.reviewItems[0].match.quote, 'beautiful things');
   assert.equal(Object.prototype.hasOwnProperty.call(plan.sceneCommands[0].input.writerInput.reviewItems[0].match, 'blockRange'), false);
-  assert.deepEqual(plan.typedOperations, [
-    {
-      operationId: 'op-comment-root',
-      family: 'root_comment',
-      typedOutcome: 'MANUAL_COMMENT_LIFECYCLE_PENDING_PRODUCT_APPLY_LANE',
-    },
-  ]);
+  assert.deepEqual(plan.typedOperations, []);
+  assert.equal(plan.rootCommentCommands.length, 1);
+  assert.equal(plan.rootCommentCommands[0].commandId, 'cmd.rtk.review.applyRootCommentReturn');
+  assert.equal(plan.rootCommentCommands[0].commandAuthority.intent, 'rtk.nonTextReturn');
+  assert.equal(plan.rootCommentCommands[0].threadId, 'thread-preface-01');
+  assert.equal(plan.rootCommentCommands[0].body, 'Please clarify the critical distinction.');
 });
 
 test('C5V2 return router rejects wrong scene, missing scene, stale baseline and order tamper before apply planning', () => {

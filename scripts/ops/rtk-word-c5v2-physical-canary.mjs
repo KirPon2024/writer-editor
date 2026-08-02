@@ -691,9 +691,12 @@ function uniquePhrases(text, maxCount) {
   return out;
 }
 
-function uniqueStructuralParagraphPhrases(text, maxCount) {
+function uniqueStructuralParagraphPhrases(text, maxCount, logicalParagraphs = null) {
   const normalizedText = String(text || '').replace(/\s+/gu, ' ');
-  const paragraphs = String(text || '').split(/\n{2,}/u)
+  const paragraphSource = Array.isArray(logicalParagraphs) && logicalParagraphs.length > 0
+    ? logicalParagraphs
+    : String(text || '').split(/\n{2,}/u);
+  const paragraphs = paragraphSource
     .map((paragraph) => paragraph.replace(/\s+/gu, ' ').trim())
     .filter((paragraph) => paragraph.length >= 40);
   const seen = new Set();
@@ -773,7 +776,7 @@ export function buildCanaryLedger(scenes, options = {}) {
   const phrasesByScene = new Map(scenes.map((scene) => [scene.sceneId, uniquePhrases(scene.text, 260)]));
   const structuralPhrasesByScene = new Map(scenes.map((scene) => [
     scene.sceneId,
-    uniqueStructuralParagraphPhrases(scene.text, 260),
+    uniqueStructuralParagraphPhrases(scene.text, 260, scene.paragraphs),
   ]));
   const globalBookText = scenes.map((scene) => String(scene.text || '').replace(/\s+/gu, ' ')).join(' ');
   const exportedDocxText = typeof options.exportedDocxText === 'string' ? options.exportedDocxText : '';

@@ -24,6 +24,7 @@ function writeDorianFixture(root) {
 test('C5V2 portfolio generator builds five deterministic 21-scene full-manuscript corpora', async () => {
   const portfolio = await import(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-portfolio-corpus.mjs'));
   const envelope = await import(path.join(REPO_ROOT, 'src', 'renderer', 'documentContentEnvelope.mjs'));
+  const canary = await import(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs'));
   const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-c5v2-portfolio-build-'));
   const dorianRoot = path.join(tempRoot, 'dorian');
   writeDorianFixture(dorianRoot);
@@ -68,6 +69,19 @@ test('C5V2 portfolio generator builds five deterministic 21-scene full-manuscrip
     assert.equal(parsed.hasMetaBlock, true);
     assert.equal(parsed.cards.length, 1);
   }
+  const nestedProductScenes = nested.scenes.map((scene, index) => {
+    const authority = canary.readProductSceneAuthority(scene.rawContent);
+    return {
+      sceneId: `nested-${String(index + 1).padStart(2, '0')}`,
+      title: scene.title,
+      text: authority.text,
+      paragraphs: authority.paragraphs,
+      sourceSha256: authority.textSha256,
+    };
+  });
+  const nestedLedger = canary.buildCanaryLedger(nestedProductScenes, { weightedSceneAllocation: true });
+  assert.equal(nestedLedger.operationCount, 200);
+  assert.equal(nestedLedger.operations.filter((operation) => operation.family === 'structural').length, 10);
 
   const nearLimit = corpora.get('near-supported-limit');
   assert.equal(nearLimit.expectedWordCount, 100_000);

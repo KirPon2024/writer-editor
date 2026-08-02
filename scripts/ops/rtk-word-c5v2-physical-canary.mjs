@@ -125,6 +125,39 @@ export function bindLedgerToSourceDocxOffsets({ ledger, sourceDocxPath }) {
   };
 }
 
+function buildExportBoundCanaryLedger({ scenes, counts, sourceDocxPath, anchorOffset = 0, idPrefix = '' }) {
+  const failures = [];
+  for (let attempt = 0; attempt < 80; attempt += 1) {
+    const ledger = buildCanaryLedger(scenes, {
+      counts,
+      anchorOffset: anchorOffset + (attempt * 7),
+      idPrefix,
+    });
+    try {
+      return {
+        ...bindLedgerToSourceDocxOffsets({ ledger, sourceDocxPath }),
+        exportBinding: {
+          status: 'bound-to-exported-docx',
+          attempt: attempt + 1,
+          anchorOffset: anchorOffset + (attempt * 7),
+          failures,
+        },
+      };
+    } catch (error) {
+      const message = error && error.message ? error.message : String(error);
+      if (
+        !message.startsWith('C5V2_CANARY_SOURCE_ANCHOR_NOT_IN_EXPORTED_DOCX:')
+        && !message.startsWith('C5V2_CANARY_SOURCE_ANCHOR_NOT_UNIQUE_IN_EXPORTED_DOCX:')
+        && !message.startsWith('C5V2_CANARY_DUPLICATE_SOURCE_RANGE:')
+      ) {
+        throw error;
+      }
+      failures.push(message);
+    }
+  }
+  throw new Error(`C5V2_CANARY_EXPORT_BOUND_LEDGER_EXHAUSTED:${idPrefix}:${failures.slice(-5).join('|')}`);
+}
+
 function titleFromDorianFile(file, index) {
   if (index === 0 || /preface/iu.test(file)) return 'Preface';
   const roman = String(file.match(/chapter-([ivxlcdm]+)/iu)?.[1] || '').toUpperCase();
@@ -1158,6 +1191,7 @@ async function runElectronCumulativeFullManuscriptRoundtrip({
           error: wordError,
           createdAtUtc: new Date().toISOString(),
         }, null, 2));
+        throw new Error(`C5V2_CUMULATIVE_WORD_ROUND_FAILED:${round.roundId}:${wordError}`);
       }
       await waitForCondition(() => {
         const found = resultLines.find((line) => line.phase === 'return-apply' && line.roundIndex === roundIndex);
@@ -1549,12 +1583,13 @@ async function mainCumulative(options) {
           sourceSha256: sha256Text(text),
         };
       });
-      let ledger = buildCanaryLedger(currentScenes, {
+      const ledger = buildExportBoundCanaryLedger({
+        scenes: currentScenes,
         counts: options.counts,
+        sourceDocxPath: round.sourcePath,
         anchorOffset: roundIndex * 11,
         idPrefix: `r${String(roundIndex + 1).padStart(2, '0')}-`,
       });
-      ledger = bindLedgerToSourceDocxOffsets({ ledger, sourceDocxPath: round.sourcePath });
       round.ledger = ledger;
       fs.writeFileSync(path.join(round.roundDir, 'canary-ledger.json'), `${JSON.stringify(ledger, null, 2)}\n`);
       const wordOutput = await runAppleScript(
@@ -1711,7 +1746,11 @@ async function main() {
     returnedReadyPath,
     scenes,
     runWord: async () => {
-      ledger = bindLedgerToSourceDocxOffsets({ ledger, sourceDocxPath });
+      ledger = buildExportBoundCanaryLedger({
+        scenes,
+        counts: options.counts,
+        sourceDocxPath,
+      });
       fs.writeFileSync(path.join(runDir, 'canary-ledger.json'), `${JSON.stringify(ledger, null, 2)}\n`);
       return runAppleScript(
         buildWordScript({ sourcePath: sourceDocxPath, returnedPath: returnedDocxPath, ledger }),

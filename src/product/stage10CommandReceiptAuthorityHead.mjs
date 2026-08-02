@@ -431,8 +431,6 @@ export function appendCommandReceiptAuthorityHeadBatch({ store, projectId, event
     receipts.push(receipt);
     receiptRoot = appendReceiptRootDigest(receiptRoot, receipt, nextIndex);
   }
-  const duplicateError = duplicateReceiptIdentityError(receipts);
-  if (duplicateError) throw duplicateError;
   const nextHead = createHead({
     projectId: verifiedStore.projectId,
     generation: Number(verifiedStore.currentHead.authorityGeneration) + 1,
@@ -442,11 +440,14 @@ export function appendCommandReceiptAuthorityHeadBatch({ store, projectId, event
     previousAuthorityHeadDigest: verifiedStore.currentHead.authorityHeadDigest,
   });
   const nextStore = deepFreeze({
-    ...cloneJson(verifiedStore),
+    // The verified store is already recursively frozen. Structural sharing
+    // preserves schema extensions without serializing the complete retained
+    // receipt history again for every append.
+    ...verifiedStore,
     receipts,
     currentHead: nextHead,
     compaction: deepFreeze({
-      ...cloneJson(verifiedStore.compaction),
+      ...verifiedStore.compaction,
       retainedReceiptCount: receipts.length,
     }),
   });

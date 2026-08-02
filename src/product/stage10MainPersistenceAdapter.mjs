@@ -1,20 +1,22 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { createHash } from 'node:crypto';
+import { createHash, randomUUID } from 'node:crypto';
 
 import { hashCanonicalValue } from '../core/browser-safe-hash.mjs';
 import { validateStage10IntegrityAnchor } from './stage10IntegrityAnchor.mjs';
-import { createProjectLeaseManager } from './projectLease.mjs';
+import { createMainProjectManifestAuthority } from './mainProjectManifestAuthority.mjs';
 import { stage10ProjectPathIdentity } from './stage10ProjectIdentityKey.mjs';
 import { validateStage10RecoverySnapshot } from './stage10RecoverySnapshot.mjs';
 
 export const STAGE10_MAIN_PERSISTENCE_PORT_SCHEMA = 'yalken.stage10.mainPersistencePort.v1';
-export const STAGE10_MAIN_TRANSACTION_SCHEMA = 'yalken.stage10.mainPersistenceTransaction.v4';
+export const STAGE10_MAIN_TRANSACTION_SCHEMA = 'yalken.stage10.mainPersistenceTransaction.v5';
 export const STAGE10_PROJECT_TRUTH_MUTATION_SCHEMA = 'yalken.stage10.projectTruthMutation.v1';
 export const STAGE10_EXTERNAL_ARTIFACT_MUTATION_SCHEMA = 'yalken.stage10.externalArtifactMutation.v1';
+export const STAGE10_EXTERNAL_ARTIFACT_RESERVATION_SCHEMA = 'yalken.stage10.externalArtifactReservation.v1';
 const STAGE10_LEGACY_MAIN_TRANSACTION_SCHEMA = 'yalken.stage10.mainPersistenceTransaction.v1';
 const STAGE10_LEGACY_MAIN_TRANSACTION_SCHEMA_V2 = 'yalken.stage10.mainPersistenceTransaction.v2';
 const STAGE10_LEGACY_MAIN_TRANSACTION_SCHEMA_V3 = 'yalken.stage10.mainPersistenceTransaction.v3';
+const STAGE10_LEGACY_MAIN_TRANSACTION_SCHEMA_V4 = 'yalken.stage10.mainPersistenceTransaction.v4';
 
 const SESSION_FILENAME = 'product-session.v2.json';
 const AUTHORITY_FILENAME = 'command-receipt-authority-store.v2.json';
@@ -105,7 +107,7 @@ function bundleAuthorityHeadDigest(bundle) {
 }
 
 function transactionFencingBindingDigest(transaction) {
-  return hashCanonicalValue({
+  const binding = {
     schemaVersion: transaction?.schemaVersion,
     projectId: transaction?.projectId,
     fencingGeneration: transaction?.fencingGeneration,
@@ -115,7 +117,11 @@ function transactionFencingBindingDigest(transaction) {
     projectTruthMutationDigest: transaction?.projectTruthMutationDigest,
     expectedPreviousRevision: transaction?.expectedPreviousRevision,
     expectedPreviousAuthorityHeadDigest: transaction?.expectedPreviousAuthorityHeadDigest,
-  });
+  };
+  if (transaction?.schemaVersion === STAGE10_MAIN_TRANSACTION_SCHEMA) {
+    binding.externalArtifactReservationDigest = transaction?.externalArtifactReservationDigest;
+  }
+  return hashCanonicalValue(binding);
 }
 
 function sameValue(left, right) {
@@ -124,16 +130,6 @@ function sameValue(left, right) {
 
 function hashText(value) {
   return createHash('sha256').update(Buffer.from(typeof value === 'string' ? value : '', 'utf8')).digest('hex');
-}
-
-function defaultProcessAlive(ownerPid) {
-  if (!Number.isSafeInteger(ownerPid) || ownerPid <= 0) return false;
-  try {
-    process.kill(ownerPid, 0);
-    return true;
-  } catch (error) {
-    return error?.code === 'EPERM';
-  }
 }
 
 function normalizeExternalArtifactMutation(input) {
@@ -166,6 +162,69 @@ function normalizeExternalArtifactMutation(input) {
     throw typedError('E_STAGE10_EXTERNAL_ARTIFACT_MUTATION_INVALID', 'EXTERNAL_ARTIFACT_MUTATION_INVALID');
   }
   return mutation;
+}
+
+function createExternalArtifactReservation(projectId, mutation, lease) {
+  if (!mutation) return null;
+  const reservationId = randomUUID();
+  const prefix = `${mutation.targetPath}.stage10-cas.${reservationId}`;
+  return {
+    schemaVersion: STAGE10_EXTERNAL_ARTIFACT_RESERVATION_SCHEMA,
+    projectId: normalizeString(projectId),
+    reservationId,
+    targetPath: mutation.targetPath,
+    candidatePath: `${prefix}.next`,
+    backupPath: `${prefix}.previous`,
+    conflictPath: `${mutation.targetPath}.stage10-aborted.${mutation.nextHash.slice(0, 12)}.${reservationId}`,
+    previousExists: mutation.previousExists,
+    previousHash: mutation.previousHash,
+    nextHash: mutation.nextHash,
+    fencingGeneration: Number(lease?.fencingGeneration),
+    leaseOwnerTokenDigest: normalizeString(lease?.ownerTokenDigest),
+  };
+}
+
+function normalizeExternalArtifactReservation(projectId, mutation, input) {
+  if (!mutation && input === null) return null;
+  if (!mutation || !isPlainObject(input)) {
+    throw typedError('E_STAGE10_EXTERNAL_ARTIFACT_RESERVATION_INVALID', 'EXTERNAL_ARTIFACT_RESERVATION_INVALID');
+  }
+  const reservation = {
+    schemaVersion: input.schemaVersion,
+    projectId: normalizeString(input.projectId),
+    reservationId: normalizeString(input.reservationId),
+    targetPath: normalizeString(input.targetPath),
+    candidatePath: normalizeString(input.candidatePath),
+    backupPath: normalizeString(input.backupPath),
+    conflictPath: normalizeString(input.conflictPath),
+    previousExists: input.previousExists === true,
+    previousHash: normalizeString(input.previousHash),
+    nextHash: normalizeString(input.nextHash),
+    fencingGeneration: Number(input.fencingGeneration),
+    leaseOwnerTokenDigest: normalizeString(input.leaseOwnerTokenDigest),
+  };
+  const parent = path.dirname(mutation.targetPath);
+  const prefix = `${mutation.targetPath}.stage10-cas.${reservation.reservationId}`;
+  if (
+    reservation.schemaVersion !== STAGE10_EXTERNAL_ARTIFACT_RESERVATION_SCHEMA
+    || reservation.projectId !== normalizeString(projectId)
+    || !/^[a-f0-9]{8}-[a-f0-9]{4}-[1-5][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/u.test(reservation.reservationId)
+    || reservation.targetPath !== mutation.targetPath
+    || reservation.candidatePath !== `${prefix}.next`
+    || reservation.backupPath !== `${prefix}.previous`
+    || reservation.conflictPath !== `${mutation.targetPath}.stage10-aborted.${mutation.nextHash.slice(0, 12)}.${reservation.reservationId}`
+    || [reservation.candidatePath, reservation.backupPath, reservation.conflictPath]
+      .some((candidate) => path.dirname(candidate) !== parent)
+    || reservation.previousExists !== mutation.previousExists
+    || reservation.previousHash !== mutation.previousHash
+    || reservation.nextHash !== mutation.nextHash
+    || !Number.isSafeInteger(reservation.fencingGeneration)
+    || reservation.fencingGeneration <= 0
+    || !/^[a-f0-9]{64}$/u.test(reservation.leaseOwnerTokenDigest)
+  ) {
+    throw typedError('E_STAGE10_EXTERNAL_ARTIFACT_RESERVATION_INVALID', 'EXTERNAL_ARTIFACT_RESERVATION_INVALID');
+  }
+  return reservation;
 }
 
 function normalizeProjectTruthMutation(projectId, input) {
@@ -254,15 +313,24 @@ export function createStage10MainPersistenceAdapter(input = {}) {
   const onKillpoint = typeof input.onKillpoint === 'function' ? input.onKillpoint : null;
   const recoveryConsumedProjects = new Set();
   const leaseClock = typeof input.leaseNowMs === 'function' ? input.leaseNowMs : () => Date.now();
-  const leaseProcessAlive = typeof input.leaseProcessAlive === 'function'
-    ? input.leaseProcessAlive
-    : defaultProcessAlive;
-  const leaseManager = createProjectLeaseManager({
-    leaseRoot: anchorRoot,
-    ttlMs: input.leaseTtlMs,
-    nowMs: leaseClock,
-    isProcessAlive: leaseProcessAlive,
-  });
+  const leaseMonotonicClock = typeof input.leaseNowMonotonicMs === 'function'
+    ? input.leaseNowMonotonicMs
+    : (typeof input.leaseNowMs === 'function'
+      ? input.leaseNowMs
+      : () => Number(process.hrtime.bigint() / 1_000_000n));
+  const transactionAuthority = isPlainObject(input.transactionAuthority)
+    && typeof input.transactionAuthority.withProjectLease === 'function'
+    && typeof input.transactionAuthority.commitManifestText === 'function'
+    ? input.transactionAuthority
+    : createMainProjectManifestAuthority({
+      anchorRoot,
+      writeFileAtomic,
+      leaseTtlMs: input.leaseTtlMs,
+      leaseNowMs: leaseClock,
+      leaseNowMonotonicMs: leaseMonotonicClock,
+      useLeaseHeartbeatWorker: input.useLeaseHeartbeatWorker,
+    });
+  const leaseManager = transactionAuthority.leaseManager;
 
   async function readMigrationRecord(targetPath, label) {
     let raw;
@@ -300,6 +368,7 @@ export function createStage10MainPersistenceAdapter(input = {}) {
       ['anchor', path.join(root, 'integrity-anchor.v1.json')],
       ['anchorRecovery', path.join(root, 'integrity-anchor.recovery.v1.json')],
       ['transaction', path.join(root, 'pending-transaction.v1.json')],
+      ['leaseV3', path.join(root, 'project-transaction.lease', 'owner.v3.json')],
       ['leaseV2', path.join(root, 'project-transaction.lease', 'owner.v2.json')],
       ['leaseV1', path.join(root, 'project-transaction.lease', 'owner.v1.json')],
       ['fence', path.join(root, 'fencing-generation.v1.json')],
@@ -316,7 +385,7 @@ export function createStage10MainPersistenceAdapter(input = {}) {
         });
       }
       evidence.push({ label, projectId: evidenceProjectId });
-      if (label === 'leaseV2' || label === 'leaseV1') leaseMetadata = record;
+      if (label === 'leaseV3' || label === 'leaseV2' || label === 'leaseV1') leaseMetadata = record;
     }
     const projectIds = [...new Set(evidence.map((item) => item.projectId))];
     if (projectIds.length > 1) {
@@ -341,17 +410,57 @@ export function createStage10MainPersistenceAdapter(input = {}) {
       if (error?.code === 'ENOENT') return false;
       throw error;
     }
-    const ownerPid = Number(evidence.leaseMetadata?.ownerPid);
-    if (Number.isSafeInteger(ownerPid) && ownerPid > 0) {
-      try {
-        if (await leaseProcessAlive(ownerPid) === true) return true;
-      } catch {
-        return true;
+    const ownerTokenDigest = normalizeString(evidence.leaseMetadata?.ownerTokenDigest);
+    const maxTtlMs = Number(leaseManager.ttlMs) || 60_000;
+    if (evidence.leaseMetadata?.schemaVersion === 'yalken.mainProjectLease.v3' && /^[a-f0-9]{64}$/u.test(ownerTokenDigest)) {
+      const heartbeatPath = path.join(root, `lease-heartbeat.${ownerTokenDigest}.v2.json`);
+      const heartbeat = await readMigrationRecord(heartbeatPath, 'leaseHeartbeatV2');
+      const monotonicRenewedAtMs = Number(heartbeat?.monotonicRenewedAtMs);
+      const monotonicExpiresAtMs = Number(heartbeat?.monotonicExpiresAtMs);
+      const monotonicNowMs = leaseMonotonicClock();
+      if (
+        heartbeat?.projectId === evidence.projectId
+        && heartbeat?.processInstanceId === evidence.leaseMetadata?.processInstanceId
+        && heartbeat?.ownerTokenDigest === ownerTokenDigest
+        && Number(heartbeat?.fencingGeneration) === Number(evidence.leaseMetadata?.fencingGeneration)
+        && Number.isFinite(monotonicRenewedAtMs)
+        && Number.isFinite(monotonicExpiresAtMs)
+        && monotonicExpiresAtMs > monotonicRenewedAtMs
+        && monotonicExpiresAtMs - monotonicRenewedAtMs <= maxTtlMs
+        && monotonicRenewedAtMs <= monotonicNowMs + Number(leaseManager.heartbeatIntervalMs || 5_000)
+      ) {
+        return monotonicNowMs < monotonicExpiresAtMs;
+      }
+      return false;
+    }
+    if (/^[a-f0-9]{64}$/u.test(ownerTokenDigest)) {
+      const heartbeatPath = path.join(root, `lease-heartbeat.${ownerTokenDigest}.v1.json`);
+      const heartbeat = await readMigrationRecord(heartbeatPath, 'leaseHeartbeatV1');
+      if (
+        heartbeat?.projectId === evidence.projectId
+        && heartbeat?.ownerTokenDigest === ownerTokenDigest
+        && Number(heartbeat?.fencingGeneration) === Number(evidence.leaseMetadata?.fencingGeneration)
+      ) {
+        let heartbeatMtimeMs = 0;
+        try {
+          heartbeatMtimeMs = (await fs.stat(heartbeatPath)).mtimeMs;
+        } catch (error) {
+          if (error?.code !== 'ENOENT') throw error;
+        }
+        const expiresAtMs = Number(heartbeat.expiresAtMs);
+        const boundedExpiryMs = heartbeatMtimeMs + maxTtlMs;
+        if (heartbeatMtimeMs > 0) {
+          return leaseClock() < (Number.isFinite(expiresAtMs)
+            ? Math.min(expiresAtMs, boundedExpiryMs)
+            : boundedExpiryMs);
+        }
       }
     }
     const expiresAtMs = Number(evidence.leaseMetadata?.expiresAtMs);
-    if (Number.isFinite(expiresAtMs)) return leaseClock() < expiresAtMs;
-    return leaseClock() < stat.mtimeMs + 60_000;
+    const boundedExpiryMs = stat.mtimeMs + maxTtlMs;
+    return leaseClock() < (Number.isFinite(expiresAtMs)
+      ? Math.min(expiresAtMs, boundedExpiryMs)
+      : boundedExpiryMs);
   }
 
   async function ensureProjectAnchorRootBinding(projectId) {
@@ -376,6 +485,12 @@ export function createStage10MainPersistenceAdapter(input = {}) {
         if (legacy.exists && legacy.projectId === identity.projectId) {
           throw typedError('E_STAGE10_PROJECT_KEY_DUPLICATE_ROOT', 'PROJECT_KEY_DUPLICATE_ROOT');
         }
+        if (legacy.exists && legacy.projectId && legacy.projectId !== identity.projectId) {
+          throw typedError('E_STAGE10_PROJECT_KEY_LEGACY_COLLISION', 'PROJECT_KEY_LEGACY_COLLISION', {
+            projectId: identity.projectId,
+            boundProjectId: legacy.projectId,
+          });
+        }
         return { identity, migrated: false };
       }
       if (!legacy.exists) return { identity, migrated: false };
@@ -383,7 +498,12 @@ export function createStage10MainPersistenceAdapter(input = {}) {
         if (legacy.entries.length === 0) return { identity, migrated: false };
         throw typedError('E_STAGE10_PROJECT_KEY_LEGACY_AMBIGUOUS', 'PROJECT_KEY_LEGACY_AMBIGUOUS');
       }
-      if (legacy.projectId !== identity.projectId) return { identity, migrated: false };
+      if (legacy.projectId !== identity.projectId) {
+        throw typedError('E_STAGE10_PROJECT_KEY_LEGACY_COLLISION', 'PROJECT_KEY_LEGACY_COLLISION', {
+          projectId: identity.projectId,
+          boundProjectId: legacy.projectId,
+        });
+      }
       if (await legacyLeaseIsActive(legacyRoot, legacy)) {
         throw typedError('E_STAGE10_PROJECT_KEY_MIGRATION_LEASE_HELD', 'PROJECT_KEY_MIGRATION_LEASE_HELD', {
           projectId: identity.projectId,
@@ -474,15 +594,40 @@ export function createStage10MainPersistenceAdapter(input = {}) {
     const next = target === 'next'
       ? { text: mutation.nextText, hash: mutation.nextHash }
       : { text: mutation.previousText, hash: mutation.previousHash };
-    const publication = async () => {
-      const targetPath = path.join(projectRoot, mutation.relativePath);
-      const result = await writeFileAtomic(targetPath, next.text);
-      if (result?.success === false || result?.ok === false) {
+    const current = await readProjectTruthText(mutation);
+    if (current === next.text && hashText(current) === next.hash) {
+      if (lease) await lease.assertOwned();
+      return { ok: true, unchanged: true };
+    }
+    const expectedText = target === 'next' ? mutation.previousText : mutation.nextText;
+    const expectedHash = target === 'next' ? mutation.previousHash : mutation.nextHash;
+    if (current !== expectedText || hashText(current) !== expectedHash) {
+      throw typedError('E_STAGE10_PROJECT_TRUTH_STALE', 'PROJECT_TRUTH_REVISION_CONFLICT', {
+        expectedHash,
+        actualHash: hashText(current),
+      });
+    }
+    try {
+      return await transactionAuthority.commitManifestText({
+        projectId: mutation.projectId,
+        targetPath: path.join(projectRoot, mutation.relativePath),
+        expectedText,
+        nextText: next.text,
+        lease,
+        label: `stage10ProjectTruth:${target}`,
+      });
+    } catch (error) {
+      if (error?.code === 'E_MAIN_PROJECT_MANIFEST_WRITE_REJECTED') {
         throw typedError('E_STAGE10_PROJECT_TRUTH_WRITE_REJECTED', 'PROJECT_TRUTH_WRITE_REJECTED', { target });
       }
-      await assertProjectTruthText(mutation, next.text, next.hash, 'PROJECT_TRUTH_READBACK_MISMATCH');
-    };
-    return lease ? lease.publish(publication) : publication();
+      if (error?.code === 'E_MAIN_PROJECT_MANIFEST_CAS_FAILED') {
+        throw typedError('E_STAGE10_PROJECT_TRUTH_STALE', 'PROJECT_TRUTH_REVISION_CONFLICT');
+      }
+      if (error?.code === 'E_MAIN_PROJECT_MANIFEST_READBACK_MISMATCH') {
+        throw typedError('E_STAGE10_PROJECT_TRUTH_STALE', 'PROJECT_TRUTH_READBACK_MISMATCH');
+      }
+      throw error;
+    }
   }
 
   async function readExternalArtifactText(mutation) {
@@ -507,25 +652,176 @@ export function createStage10MainPersistenceAdapter(input = {}) {
     }
   }
 
-  async function writeExternalArtifact(mutation, target, lease = null) {
-    if (!mutation) return;
-    const publication = async () => {
-      if (target === 'next') {
-        const result = await writeFileAtomic(mutation.targetPath, mutation.nextText);
-        if (result?.success === false || result?.ok === false) {
-          throw typedError('E_STAGE10_EXTERNAL_ARTIFACT_WRITE_REJECTED', 'EXTERNAL_ARTIFACT_WRITE_REJECTED');
+  async function syncParentDirectory(targetPath) {
+    let directoryHandle;
+    try {
+      directoryHandle = await fs.open(path.dirname(targetPath), 'r');
+      await directoryHandle.sync();
+    } catch (error) {
+      if (!['EINVAL', 'EPERM', 'EISDIR'].includes(error?.code)) throw error;
+    } finally {
+      await directoryHandle?.close().catch(() => undefined);
+    }
+  }
+
+  async function syncFileAndParent(targetPath) {
+    const fileHandle = await fs.open(targetPath, 'r');
+    try {
+      await fileHandle.sync();
+    } finally {
+      await fileHandle.close();
+    }
+    await syncParentDirectory(targetPath);
+  }
+
+  async function readArtifactPath(targetPath) {
+    try {
+      const text = await fs.readFile(targetPath, 'utf8');
+      return { exists: true, text, hash: hashText(text) };
+    } catch (error) {
+      if (error?.code === 'ENOENT') return { exists: false, text: '', hash: '' };
+      throw typedError('E_STAGE10_EXTERNAL_ARTIFACT_READ_FAILED', 'EXTERNAL_ARTIFACT_READ_FAILED', {
+        code: error?.code || '',
+      });
+    }
+  }
+
+  async function writeArtifactCandidate(reservation, mutation) {
+    const current = await readArtifactPath(reservation.candidatePath);
+    if (current.exists) {
+      if (current.text !== mutation.nextText || current.hash !== mutation.nextHash) {
+        throw typedError('E_STAGE10_EXTERNAL_ARTIFACT_RESERVATION_FORKED', 'EXTERNAL_ARTIFACT_CANDIDATE_FORKED');
+      }
+      return;
+    }
+    await fs.mkdir(path.dirname(reservation.candidatePath), { recursive: true });
+    let handle;
+    try {
+      handle = await fs.open(reservation.candidatePath, 'wx', 0o600);
+      await handle.writeFile(mutation.nextText, 'utf8');
+      await handle.sync();
+    } catch (error) {
+      if (error?.code === 'EEXIST') {
+        const raced = await readArtifactPath(reservation.candidatePath);
+        if (raced.text === mutation.nextText && raced.hash === mutation.nextHash) return;
+      }
+      throw error;
+    } finally {
+      await handle?.close().catch(() => undefined);
+    }
+  }
+
+  async function linkArtifactExclusive(sourcePath, targetPath, conflictReason) {
+    try {
+      await fs.link(sourcePath, targetPath);
+      await syncFileAndParent(targetPath);
+      return true;
+    } catch (error) {
+      if (error?.code === 'EEXIST') {
+        throw typedError('E_STAGE10_EXTERNAL_ARTIFACT_CAS_FAILED', conflictReason);
+      }
+      throw error;
+    }
+  }
+
+  async function preserveTargetAtConflictPath(reservation) {
+    const target = await readArtifactPath(reservation.targetPath);
+    if (!target.exists) return;
+    const conflict = await readArtifactPath(reservation.conflictPath);
+    if (conflict.exists) {
+      if (conflict.hash === target.hash && conflict.text === target.text) {
+        await fs.unlink(reservation.targetPath);
+        await syncParentDirectory(reservation.targetPath);
+        return;
+      }
+      throw typedError('E_STAGE10_EXTERNAL_ARTIFACT_RECOVERY_FORKED', 'EXTERNAL_ARTIFACT_CONFLICT_PATH_OCCUPIED');
+    }
+    await fs.rename(reservation.targetPath, reservation.conflictPath);
+    await syncFileAndParent(reservation.conflictPath);
+  }
+
+  async function restoreReservedPrevious(mutation, reservation) {
+    if (!mutation.previousExists) return;
+    const target = await readArtifactPath(reservation.targetPath);
+    if (target.exists) return;
+    const backup = await readArtifactPath(reservation.backupPath);
+    if (!backup.exists) {
+      throw typedError('E_STAGE10_EXTERNAL_ARTIFACT_RECOVERY_FORKED', 'EXTERNAL_ARTIFACT_PREVIOUS_BYTES_MISSING');
+    }
+    await linkArtifactExclusive(
+      reservation.backupPath,
+      reservation.targetPath,
+      'EXTERNAL_ARTIFACT_RECOVERY_TARGET_OCCUPIED',
+    );
+  }
+
+  async function publishExternalArtifactReserved(mutation, reservation, lease) {
+    return lease.publish(async (proof) => {
+      await writeArtifactCandidate(reservation, mutation);
+      await killpoint('after-external-artifact-candidate');
+      await proof.assertOwned();
+      if (mutation.previousExists) {
+        let backup = await readArtifactPath(reservation.backupPath);
+        if (!backup.exists) {
+          const before = await readArtifactPath(reservation.targetPath);
+          if (!before.exists) {
+            throw typedError('E_STAGE10_EXTERNAL_ARTIFACT_CAS_FAILED', 'EXTERNAL_ARTIFACT_UNEXPECTEDLY_MISSING');
+          }
+          await proof.assertOwned();
+          await fs.rename(reservation.targetPath, reservation.backupPath);
+          await syncFileAndParent(reservation.backupPath);
+          await killpoint('after-external-artifact-reserve');
+          backup = await readArtifactPath(reservation.backupPath);
         }
-        const readback = await readExternalArtifactText(mutation);
-        if (readback !== mutation.nextText || hashText(readback) !== mutation.nextHash) {
-          throw typedError('E_STAGE10_EXTERNAL_ARTIFACT_READBACK_MISMATCH', 'EXTERNAL_ARTIFACT_READBACK_MISMATCH');
+        if (backup.text !== mutation.previousText || backup.hash !== mutation.previousHash) {
+          await restoreReservedPrevious(mutation, reservation);
+          throw typedError('E_STAGE10_EXTERNAL_ARTIFACT_CAS_FAILED', 'EXTERNAL_ARTIFACT_REVISION_CONFLICT');
+        }
+      }
+      const target = await readArtifactPath(reservation.targetPath);
+      if (!target.exists) {
+        await proof.assertOwned();
+        await linkArtifactExclusive(
+          reservation.candidatePath,
+          reservation.targetPath,
+          mutation.previousExists
+            ? 'EXTERNAL_ARTIFACT_CONCURRENT_CREATE'
+            : 'EXTERNAL_ARTIFACT_UNEXPECTEDLY_EXISTS',
+        );
+      } else if (target.text !== mutation.nextText || target.hash !== mutation.nextHash) {
+        throw typedError('E_STAGE10_EXTERNAL_ARTIFACT_CAS_FAILED', 'EXTERNAL_ARTIFACT_CONCURRENT_CREATE');
+      }
+      const readback = await readArtifactPath(reservation.targetPath);
+      if (readback.text !== mutation.nextText || readback.hash !== mutation.nextHash) {
+        throw typedError('E_STAGE10_EXTERNAL_ARTIFACT_READBACK_MISMATCH', 'EXTERNAL_ARTIFACT_READBACK_MISMATCH');
+      }
+      if (mutation.previousExists) {
+        const stableBackup = await readArtifactPath(reservation.backupPath);
+        if (stableBackup.text !== mutation.previousText || stableBackup.hash !== mutation.previousHash) {
+          await preserveTargetAtConflictPath(reservation);
+          await restoreReservedPrevious(mutation, reservation);
+          throw typedError('E_STAGE10_EXTERNAL_ARTIFACT_CAS_FAILED', 'EXTERNAL_ARTIFACT_IN_PLACE_REVISION_CONFLICT');
+        }
+      }
+      await proof.assertOwned();
+    });
+  }
+
+  async function reconcileExternalArtifact(mutation, reservation, target, lease) {
+    if (!mutation) return;
+    if (!reservation) {
+      const current = await readExternalArtifactText(mutation);
+      if (target === 'next') {
+        if (current !== mutation.nextText || hashText(current) !== mutation.nextHash) {
+          throw typedError('E_STAGE10_EXTERNAL_ARTIFACT_RECOVERY_FORKED', 'EXTERNAL_ARTIFACT_LEGACY_RECOVERY_FORKED');
         }
         return;
       }
-      const current = await readExternalArtifactText(mutation);
-      if (current !== null && hashText(current) !== mutation.nextHash && (!mutation.previousExists || hashText(current) !== mutation.previousHash)) {
-        throw typedError('E_STAGE10_EXTERNAL_ARTIFACT_RECOVERY_FORKED', 'EXTERNAL_ARTIFACT_RECOVERY_FORKED');
-      }
       if (mutation.previousExists) {
+        if (current === mutation.previousText && hashText(current) === mutation.previousHash) return;
+        if (current !== mutation.nextText || hashText(current) !== mutation.nextHash) {
+          throw typedError('E_STAGE10_EXTERNAL_ARTIFACT_RECOVERY_FORKED', 'EXTERNAL_ARTIFACT_LEGACY_RECOVERY_FORKED');
+        }
         const result = await writeFileAtomic(mutation.targetPath, mutation.previousText);
         if (result?.success === false || result?.ok === false) {
           throw typedError('E_STAGE10_EXTERNAL_ARTIFACT_RECOVERY_WRITE_REJECTED', 'EXTERNAL_ARTIFACT_RECOVERY_WRITE_REJECTED');
@@ -536,8 +832,53 @@ export function createStage10MainPersistenceAdapter(input = {}) {
         const preservedPath = `${mutation.targetPath}.stage10-aborted.${mutation.nextHash.slice(0, 12)}`;
         await fs.rename(mutation.targetPath, preservedPath);
       }
-    };
-    return lease ? lease.publish(publication) : publication();
+      return;
+    }
+    await lease.assertOwned();
+    const current = await readArtifactPath(reservation.targetPath);
+    if (target === 'next') {
+      if (current.exists && current.text === mutation.nextText && current.hash === mutation.nextHash) return;
+      if (current.exists && (current.text !== mutation.previousText || current.hash !== mutation.previousHash)) {
+        throw typedError('E_STAGE10_EXTERNAL_ARTIFACT_RECOVERY_FORKED', 'EXTERNAL_ARTIFACT_RECOVERY_FORKED');
+      }
+      await publishExternalArtifactReserved(mutation, reservation, lease);
+      return;
+    }
+    if (current.exists && current.text === mutation.previousText && current.hash === mutation.previousHash) return;
+    if (current.exists && current.text === mutation.nextText && current.hash === mutation.nextHash) {
+      await lease.publish(async (proof) => {
+        await proof.assertOwned();
+        await preserveTargetAtConflictPath(reservation);
+        await restoreReservedPrevious(mutation, reservation);
+      });
+      return;
+    }
+    if (!current.exists) {
+      if (mutation.previousExists) {
+        await lease.publish(() => restoreReservedPrevious(mutation, reservation));
+      }
+      return;
+    }
+    // Foreign bytes are the concurrent writer's accepted outcome. They are never overwritten.
+    // The canonical Stage-10 bundle rolls back while the external target remains untouched.
+  }
+
+  async function cleanupExternalArtifactReservation(mutation, reservation, lease) {
+    if (!mutation || !reservation) return;
+    await lease.publish(async (proof) => {
+      await proof.assertOwned();
+      const candidate = await readArtifactPath(reservation.candidatePath);
+      if (candidate.exists && (candidate.text !== mutation.nextText || candidate.hash !== mutation.nextHash)) {
+        throw typedError('E_STAGE10_EXTERNAL_ARTIFACT_RESERVATION_FORKED', 'EXTERNAL_ARTIFACT_CANDIDATE_FORKED');
+      }
+      await fs.unlink(reservation.candidatePath).catch((error) => {
+        if (error?.code !== 'ENOENT') throw error;
+      });
+      await fs.unlink(reservation.backupPath).catch((error) => {
+        if (error?.code !== 'ENOENT') throw error;
+      });
+      await syncParentDirectory(reservation.targetPath);
+    });
   }
 
   async function writeProjectTruthRecovery(mutation, reason, previousIntegrityAnchorDigest, lease = null) {
@@ -614,7 +955,8 @@ export function createStage10MainPersistenceAdapter(input = {}) {
     const legacyV1 = transaction.schemaVersion === STAGE10_LEGACY_MAIN_TRANSACTION_SCHEMA;
     const legacyV2 = transaction.schemaVersion === STAGE10_LEGACY_MAIN_TRANSACTION_SCHEMA_V2;
     const legacyV3 = transaction.schemaVersion === STAGE10_LEGACY_MAIN_TRANSACTION_SCHEMA_V3;
-    const legacyTransaction = legacyV1 || legacyV2 || legacyV3;
+    const legacyV4 = transaction.schemaVersion === STAGE10_LEGACY_MAIN_TRANSACTION_SCHEMA_V4;
+    const legacyTransaction = legacyV1 || legacyV2 || legacyV3 || legacyV4;
     if (
       (!legacyTransaction && transaction.schemaVersion !== STAGE10_MAIN_TRANSACTION_SCHEMA)
       || normalizeString(transaction.projectId) !== normalizeString(projectId)
@@ -631,6 +973,15 @@ export function createStage10MainPersistenceAdapter(input = {}) {
     const nextBundle = transaction.nextBundle;
     const projectTruthMutation = normalizeProjectTruthMutation(projectId, transaction.projectTruthMutation);
     const projectTruthMutationDigest = normalizeString(transaction.projectTruthMutationDigest);
+    const externalArtifactMutation = projectTruthMutation?.externalArtifactMutation || null;
+    const externalArtifactReservation = legacyTransaction
+      ? null
+      : normalizeExternalArtifactReservation(
+        projectId,
+        externalArtifactMutation,
+        transaction.externalArtifactReservation,
+      );
+    const externalArtifactReservationDigest = normalizeString(transaction.externalArtifactReservationDigest);
     const projectTruthDigestValid = legacyV1
       ? projectTruthMutation === null
       : projectTruthMutation
@@ -640,6 +991,10 @@ export function createStage10MainPersistenceAdapter(input = {}) {
       normalizeString(transaction.nextBundleDigest) !== bundleDigest(nextBundle)
       || normalizeString(transaction.previousBundleDigest) !== bundleDigest(previousBundle)
       || !projectTruthDigestValid
+      || (!legacyTransaction && (
+        externalArtifactReservationDigest !== hashCanonicalValue(externalArtifactReservation)
+        || Boolean(externalArtifactMutation) !== Boolean(externalArtifactReservation)
+      ))
     ) {
       throw typedError('E_STAGE10_PERSISTENCE_RECOVERY_DIGEST_INVALID', 'PERSISTENCE_RECOVERY_TRANSACTION_DIGEST_INVALID');
     }
@@ -653,7 +1008,7 @@ export function createStage10MainPersistenceAdapter(input = {}) {
         throw typedError('E_STAGE10_PERSISTENCE_RECOVERY_CAS_INVALID', 'PERSISTENCE_RECOVERY_CAS_BINDING_INVALID');
       }
     }
-    if (!legacyTransaction) {
+    if (!legacyV1 && !legacyV2 && !legacyV3) {
       const transactionGeneration = Number(transaction.fencingGeneration);
       const transactionOwnerTokenDigest = normalizeString(transaction.leaseOwnerTokenDigest);
       if (
@@ -663,6 +1018,10 @@ export function createStage10MainPersistenceAdapter(input = {}) {
         || transactionGeneration > Number(lease.fencingGeneration)
         || !/^[a-f0-9]{64}$/u.test(transactionOwnerTokenDigest)
         || normalizeString(transaction.fencingBindingDigest) !== transactionFencingBindingDigest(transaction)
+        || (externalArtifactReservation && (
+          externalArtifactReservation.fencingGeneration !== transactionGeneration
+          || externalArtifactReservation.leaseOwnerTokenDigest !== transactionOwnerTokenDigest
+        ))
         || (
           transactionGeneration === Number(lease.fencingGeneration)
           && transactionOwnerTokenDigest !== normalizeString(lease.ownerTokenDigest)
@@ -701,8 +1060,9 @@ export function createStage10MainPersistenceAdapter(input = {}) {
       await writeProjectTruthText(projectTruthMutation, target === nextBundle ? 'next' : 'previous', lease);
       if (projectTruthMutation.externalArtifactMutation) {
         if (lease) await lease.renew();
-        await writeExternalArtifact(
+        await reconcileExternalArtifact(
           projectTruthMutation.externalArtifactMutation,
+          externalArtifactReservation,
           target === nextBundle ? 'next' : 'previous',
           lease,
         );
@@ -717,6 +1077,13 @@ export function createStage10MainPersistenceAdapter(input = {}) {
       await writeAnchor(projectId, target.integrityAnchor, previousBundle?.integrityAnchor || null, lease);
     }
     await verifyBundleReadback(projectId, target, lease);
+    if (projectTruthMutation?.externalArtifactMutation && externalArtifactReservation) {
+      await cleanupExternalArtifactReservation(
+        projectTruthMutation.externalArtifactMutation,
+        externalArtifactReservation,
+        lease,
+      );
+    }
     if (lease) await lease.renew();
     const removeTransaction = () => fs.unlink(paths.transaction).catch((error) => {
       if (error?.code !== 'ENOENT') throw error;
@@ -775,6 +1142,7 @@ export function createStage10MainPersistenceAdapter(input = {}) {
         });
         validateBundleIntegrity(projectId, nextBundle, previousBundle?.integrityAnchor || null);
         const projectTruthMutation = normalizeProjectTruthMutation(projectId, options.projectTruthMutation);
+        let externalArtifactReservation = null;
         if (projectTruthMutation) {
           await assertProjectTruthText(
             projectTruthMutation,
@@ -790,6 +1158,11 @@ export function createStage10MainPersistenceAdapter(input = {}) {
           );
           if (projectTruthMutation.externalArtifactMutation) {
             await assertExternalArtifactBefore(projectTruthMutation.externalArtifactMutation);
+            externalArtifactReservation = createExternalArtifactReservation(
+              projectId,
+              projectTruthMutation.externalArtifactMutation,
+              lease,
+            );
           }
         }
         const transaction = {
@@ -802,6 +1175,8 @@ export function createStage10MainPersistenceAdapter(input = {}) {
           nextBundleDigest: bundleDigest(nextBundle),
           projectTruthMutation,
           projectTruthMutationDigest: hashCanonicalValue(projectTruthMutation),
+          externalArtifactReservation,
+          externalArtifactReservationDigest: hashCanonicalValue(externalArtifactReservation),
           expectedPreviousRevision,
           expectedPreviousAuthorityHeadDigest,
           fencingGeneration: lease.fencingGeneration,
@@ -818,7 +1193,11 @@ export function createStage10MainPersistenceAdapter(input = {}) {
           await killpoint('after-project-truth-write');
           await lease.renew();
           if (projectTruthMutation.externalArtifactMutation) {
-            await writeExternalArtifact(projectTruthMutation.externalArtifactMutation, 'next', lease);
+            await publishExternalArtifactReserved(
+              projectTruthMutation.externalArtifactMutation,
+              externalArtifactReservation,
+              lease,
+            );
             await killpoint('after-external-artifact-write');
             await lease.renew();
           }
@@ -855,6 +1234,13 @@ export function createStage10MainPersistenceAdapter(input = {}) {
             }
           }
           await lease.assertOwned();
+        }
+        if (projectTruthMutation?.externalArtifactMutation) {
+          await cleanupExternalArtifactReservation(
+            projectTruthMutation.externalArtifactMutation,
+            externalArtifactReservation,
+            lease,
+          );
         }
         await lease.renew();
         await lease.publish(() => fs.unlink(paths.transaction));

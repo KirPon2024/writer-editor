@@ -89,6 +89,7 @@ const {
 const {
   createAtlasAnalyticsScheduler,
 } = require('./derived/atlas/atlasAnalyticsScheduler.cjs');
+const { normalizeProjectId } = require('./product/projectIdDomain.cjs');
 
 const launchT0 = performance.now();
 const atlasAnalyticsScheduler = createAtlasAnalyticsScheduler({ maxRetainedResults: 32 });
@@ -9743,10 +9744,12 @@ async function bootstrapStage10ApplicationForProject(projectRoot, manifest, mode
     error.reason = 'STAGE10_LEGACY_INTEGRITY_STATE_REJECTED';
     throw error;
   }
+  const transactionAuthority = await getMainProjectManifestAuthority();
   const persistencePort = createStage10MainPersistenceAdapter({
     projectRoot,
     anchorRoot: path.join(app.getPath('userData'), 'stage10-integrity-anchors'),
     writeFileAtomic: (targetPath, content) => fileManager.writeFileAtomic(targetPath, content),
+    transactionAuthority,
   });
   const bootstrap = createStage10ApplicationBootstrap({
     persistencePort,
@@ -9903,23 +9906,10 @@ function isPlainObjectValue(value) {
 }
 
 function normalizeStableProjectId(projectId) {
-  if (typeof projectId !== 'string') {
-    return '';
-  }
-
-  const normalized = projectId.trim();
-  if (!normalized) {
-    return '';
-  }
-
-  if (normalized.length > 128) {
-    return '';
-  }
-
-  if (/[\\/\u0000-\u001F]/.test(normalized)) {
-    return '';
-  }
-
+  const normalized = normalizeProjectId(projectId);
+  if (!normalized) return '';
+  if (normalized.length > 128) return '';
+  if (/[\\/\u0000-\u001F]/.test(normalized)) return '';
   return normalized;
 }
 
@@ -10176,6 +10166,8 @@ function loadCoreRuntimeModule() {
 let stage10ApplicationBootstrapModulePromise = null;
 let stage10MainPersistenceAdapterModulePromise = null;
 let stage10ApplicationCommandRouteModulePromise = null;
+let mainProjectManifestAuthorityModulePromise = null;
+let mainProjectManifestAuthority = null;
 function loadStage10ApplicationBootstrapModule() {
   if (!stage10ApplicationBootstrapModulePromise) {
     const modulePath = pathToFileURL(path.join(__dirname, 'product', 'stage10ApplicationBootstrap.mjs')).href;
@@ -10207,6 +10199,27 @@ function loadStage10ApplicationCommandRouteModule() {
     });
   }
   return stage10ApplicationCommandRouteModulePromise;
+}
+
+function loadMainProjectManifestAuthorityModule() {
+  if (!mainProjectManifestAuthorityModulePromise) {
+    const modulePath = pathToFileURL(path.join(__dirname, 'product', 'mainProjectManifestAuthority.mjs')).href;
+    mainProjectManifestAuthorityModulePromise = import(modulePath).catch((error) => {
+      mainProjectManifestAuthorityModulePromise = null;
+      throw error;
+    });
+  }
+  return mainProjectManifestAuthorityModulePromise;
+}
+
+async function getMainProjectManifestAuthority() {
+  if (mainProjectManifestAuthority) return mainProjectManifestAuthority;
+  const { createMainProjectManifestAuthority } = await loadMainProjectManifestAuthorityModule();
+  mainProjectManifestAuthority = createMainProjectManifestAuthority({
+    anchorRoot: path.join(app.getPath('userData'), 'stage10-integrity-anchors'),
+    writeFileAtomic: (targetPath, content) => fileManager.writeFileAtomic(targetPath, content),
+  });
+  return mainProjectManifestAuthority;
 }
 
 let manualMapGraphModulePromise = null;
@@ -10329,6 +10342,7 @@ async function readProjectManifest(projectName = DEFAULT_PROJECT_NAME) {
     const parsed = JSON.parse(raw);
     const sourceManifest = isPlainObjectValue(parsed) ? parsed : null;
     return {
+      raw,
       manifest: await normalizeProjectManifest(sourceManifest || {}, projectName),
       sourceManifestComparable: getProjectManifestComparable(sourceManifest)
     };
@@ -10339,27 +10353,40 @@ async function readProjectManifest(projectName = DEFAULT_PROJECT_NAME) {
 
 async function ensureProjectManifest(projectName = DEFAULT_PROJECT_NAME) {
   const manifestPath = getProjectManifestPath(projectName);
-  const existingManifestRecord = await readProjectManifest(projectName);
-  const existingManifest = existingManifestRecord ? existingManifestRecord.manifest : null;
-  const sourceManifestComparable = existingManifestRecord ? existingManifestRecord.sourceManifestComparable : null;
-  const nextManifest = await normalizeProjectManifest(existingManifest || {}, projectName);
-  const shouldWrite = !sourceManifestComparable
-    || JSON.stringify(sourceManifestComparable) !== JSON.stringify(getProjectManifestComparable(nextManifest));
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    const existingManifestRecord = await readProjectManifest(projectName);
+    const existingManifest = existingManifestRecord ? existingManifestRecord.manifest : null;
+    const sourceManifestComparable = existingManifestRecord ? existingManifestRecord.sourceManifestComparable : null;
+    const nextManifest = await normalizeProjectManifest(existingManifest || {}, projectName);
+    const shouldWrite = !sourceManifestComparable
+      || JSON.stringify(sourceManifestComparable) !== JSON.stringify(getProjectManifestComparable(nextManifest));
+    const nextText = shouldWrite
+      ? JSON.stringify(nextManifest, null, 2)
+      : existingManifestRecord.raw;
 
-  if (shouldWrite) {
-    const writeResult = await queueDiskOperation(
-      () => fileManager.writeFileAtomic(manifestPath, JSON.stringify(nextManifest, null, 2)),
-      'save project manifest'
-    );
-    if (!writeResult.success) {
-      throw new Error(writeResult.error || 'Failed to save project manifest');
+    if (shouldWrite) {
+      const authority = await getMainProjectManifestAuthority();
+      try {
+        await authority.commitManifestText({
+          projectId: nextManifest.projectId,
+          targetPath: manifestPath,
+          expectedText: existingManifestRecord?.raw ?? null,
+          nextText,
+          label: 'ensureProjectManifest',
+        });
+      } catch (error) {
+        if (error?.code === 'E_MAIN_PROJECT_MANIFEST_CAS_FAILED' && attempt < 2) continue;
+        throw error;
+      }
     }
-  }
 
-  return {
-    manifestPath,
-    manifest: nextManifest
-  };
+    return {
+      manifestPath,
+      manifest: nextManifest,
+      manifestRaw: nextText,
+    };
+  }
+  throw new Error('PROJECT_MANIFEST_RETRY_EXHAUSTED');
 }
 
 async function migrateProjectNotesStorage(options = {}) {
@@ -14380,12 +14407,13 @@ async function resolveProjectBindingForFile(filePath) {
     return null;
   }
 
-  const { manifestPath, manifest } = await ensureProjectManifest(currentProjectName || DEFAULT_PROJECT_NAME);
+  const { manifestPath, manifest, manifestRaw } = await ensureProjectManifest(currentProjectName || DEFAULT_PROJECT_NAME);
   return {
     manifestPath,
     projectRoot,
     projectId: manifest.projectId,
     manifest,
+    manifestRaw,
   };
 }
 
@@ -14429,6 +14457,7 @@ async function findProjectBindingByProjectId(projectId) {
             manifestPath,
             projectRoot: path.dirname(manifestPath),
             manifest,
+            manifestRaw: raw,
             sourceSchemaVersion,
           };
         }
@@ -14808,36 +14837,46 @@ async function recoverProjectLifecycleJournal() {
   const journal = await readProjectLifecycleJournal();
   if (!journal) return { ok: true, recovered: false };
   const commandId = typeof journal.commandId === 'string' ? journal.commandId : '';
+  const projectId = normalizeStableProjectId(journal.projectId);
   const phase = typeof journal.phase === 'string' ? journal.phase : '';
   const sourceRoot = normalizeProjectRootWithinDocuments(journal.sourceRoot);
   const targetRoot = normalizeProjectRootWithinDocuments(journal.targetRoot);
   const tempRoot = normalizeProjectRootWithinDocuments(journal.tempRoot);
-  if (!commandId || !phase || (!sourceRoot && !targetRoot && !tempRoot)) {
+  if (!commandId || !projectId || !phase || (!sourceRoot && !targetRoot && !tempRoot)) {
     await clearProjectLifecycleJournal();
     return { ok: true, recovered: true, action: 'cleared-invalid-journal' };
   }
 
   try {
-    if (commandId === PROJECT_LIFECYCLE_DUPLICATE_COMMAND_ID) {
-      if (tempRoot) await fs.rm(tempRoot, { recursive: true, force: true });
-      await clearProjectLifecycleJournal();
-      return { ok: true, recovered: true, action: 'duplicate-temp-removed' };
-    }
+    const authority = await getMainProjectManifestAuthority();
+    return await authority.withProjectLease(projectId, async (lease) => {
+      await lease.assertOwned();
+      if (
+        commandId === PROJECT_LIFECYCLE_DUPLICATE_COMMAND_ID
+        || (commandId === IMPORT_PROJECT_ARCHIVE_COMMAND_ID && phase === 'importing-to-temp')
+      ) {
+        if (tempRoot) {
+          await lease.publish(() => fs.rm(tempRoot, { recursive: true, force: true }));
+        }
+        await clearProjectLifecycleJournal();
+        return { ok: true, recovered: true, action: 'incomplete-temp-removed' };
+      }
 
-    if (phase === 'source-moved-to-temp' && tempRoot && sourceRoot && !(await fileExists(sourceRoot))) {
-      await fs.rename(tempRoot, sourceRoot);
-      await clearProjectLifecycleJournal();
-      return { ok: true, recovered: true, action: 'source-restored' };
-    }
+      if (phase === 'source-moved-to-temp' && tempRoot && sourceRoot && !(await fileExists(sourceRoot))) {
+        await lease.publish(() => fs.rename(tempRoot, sourceRoot));
+        await clearProjectLifecycleJournal();
+        return { ok: true, recovered: true, action: 'source-restored' };
+      }
 
-    if (phase === 'final-moved' && targetRoot && await fileExists(targetRoot)) {
-      if (tempRoot) await fs.rm(tempRoot, { recursive: true, force: true });
-      await clearProjectLifecycleJournal();
-      return { ok: true, recovered: true, action: 'finalized' };
-    }
+      if (phase === 'final-moved' && targetRoot && await fileExists(targetRoot)) {
+        if (tempRoot) await fs.rm(tempRoot, { recursive: true, force: true });
+        await clearProjectLifecycleJournal();
+        return { ok: true, recovered: true, action: 'finalized' };
+      }
 
-    await clearProjectLifecycleJournal();
-    return { ok: true, recovered: true, action: 'cleared-stale-journal' };
+      await clearProjectLifecycleJournal();
+      return { ok: true, recovered: true, action: 'cleared-stale-journal' };
+    });
   } catch (error) {
     logDevError('project lifecycle journal recovery', error);
     return makeProjectLifecycleError('E_PROJECT_LIFECYCLE_RECOVERY_FAILED', 'PROJECT_LIFECYCLE_RECOVERY_FAILED');
@@ -14926,14 +14965,23 @@ async function replaceProjectLibraryIndexBinding(previousRoot, projectBinding, o
   }
 }
 
-async function writeProjectManifestRawAtomic(manifestPath, manifest) {
-  const writeResult = await queueDiskOperation(
-    () => fileManager.writeFileAtomic(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`),
-    'save project lifecycle manifest',
-  );
-  if (!writeResult || writeResult.success !== true) {
-    throw new Error(writeResult?.error || 'PROJECT_MANIFEST_WRITE_FAILED');
+async function writeProjectManifestRawAtomic(manifestPath, manifest, options = {}) {
+  const projectId = normalizeStableProjectId(manifest?.projectId);
+  if (!projectId || (!Object.prototype.hasOwnProperty.call(options, 'expectedText'))) {
+    const error = new Error('PROJECT_MANIFEST_EXPECTED_BYTES_REQUIRED');
+    error.code = 'E_MAIN_PROJECT_MANIFEST_EXPECTED_BYTES_REQUIRED';
+    throw error;
   }
+  const authority = await getMainProjectManifestAuthority();
+  return authority.commitManifestText({
+    projectId,
+    targetPath: manifestPath,
+    expectedText: options.expectedText,
+    expectedProjectId: options.expectedProjectId,
+    nextText: `${JSON.stringify(manifest, null, 2)}\n`,
+    label: options.operationLabel || 'save project lifecycle manifest',
+    ...(options.lease ? { lease: options.lease } : {}),
+  });
 }
 
 async function resolveMutableProjectBinding(projectId) {
@@ -14945,7 +14993,27 @@ async function resolveMutableProjectBinding(projectId) {
   return { ok: true, binding };
 }
 
-async function moveProjectDirectoryWithManifestMutation({
+async function moveProjectDirectoryWithManifestMutation(input) {
+  const projectId = normalizeStableProjectId(input?.projectBinding?.projectId);
+  if (!projectId) return makeProjectLifecycleError('E_PROJECT_ID_REQUIRED', 'PROJECT_ID_REQUIRED');
+  const authority = await getMainProjectManifestAuthority();
+  try {
+    return await authority.withProjectLease(projectId, (lease) => (
+      moveProjectDirectoryWithManifestMutationUnderLease({
+        ...input,
+        options: { ...(input.options || {}), lease },
+      })
+    ));
+  } catch (error) {
+    return makeProjectLifecycleError(
+      error?.code || 'E_PROJECT_DIRECTORY_TRANSACTION_FAILED',
+      error?.reason || 'PROJECT_DIRECTORY_TRANSACTION_FAILED',
+      error?.details || {},
+    );
+  }
+}
+
+async function moveProjectDirectoryWithManifestMutationUnderLease({
   commandId,
   projectBinding,
   targetRoot,
@@ -14953,6 +15021,7 @@ async function moveProjectDirectoryWithManifestMutation({
   statusText,
   options = {},
 }) {
+  await options.lease?.assertOwned();
   const sourceRoot = projectBinding.projectRoot;
   if (path.resolve(sourceRoot) === path.resolve(targetRoot)) {
     return {
@@ -14980,7 +15049,8 @@ async function moveProjectDirectoryWithManifestMutation({
   });
   try {
     if (typeof options.beforeSourceMove === 'function') await options.beforeSourceMove({ sourceRoot, tempRoot, targetRoot });
-    await fs.rename(sourceRoot, tempRoot);
+    if (options.lease) await options.lease.publish(() => fs.rename(sourceRoot, tempRoot));
+    else await fs.rename(sourceRoot, tempRoot);
     await writeProjectLifecycleJournal({
       commandId,
       projectId: projectBinding.projectId,
@@ -14993,11 +15063,15 @@ async function moveProjectDirectoryWithManifestMutation({
       resolveSymlinks: false,
     });
     const nextManifest = mutateManifest({ ...rawRecord.manifest });
-    await writeProjectManifestRawAtomic(tempManifestPath, nextManifest);
+    await writeProjectManifestRawAtomic(tempManifestPath, nextManifest, {
+      expectedText: rawRecord.raw,
+      ...(options.lease ? { lease: options.lease } : {}),
+    });
     if (typeof options.afterManifestBeforeFinalMove === 'function') {
       await options.afterManifestBeforeFinalMove({ sourceRoot, tempRoot, targetRoot });
     }
-    await fs.rename(tempRoot, targetRoot);
+    if (options.lease) await options.lease.publish(() => fs.rename(tempRoot, targetRoot));
+    else await fs.rename(tempRoot, targetRoot);
     await writeProjectLifecycleJournal({
       commandId,
       projectId: projectBinding.projectId,
@@ -15044,8 +15118,10 @@ async function moveProjectDirectoryWithManifestMutation({
     };
   } catch (error) {
     try {
+      if (options.lease) await options.lease.assertOwned();
       if (await fileExists(tempRoot) && !(await fileExists(sourceRoot))) {
-        await fs.rename(tempRoot, sourceRoot);
+        if (options.lease) await options.lease.publish(() => fs.rename(tempRoot, sourceRoot));
+        else await fs.rename(tempRoot, sourceRoot);
       }
     } catch (rollbackError) {
       logDevError('project lifecycle directory rollback', rollbackError);
@@ -15112,70 +15188,109 @@ async function handleProjectLifecycleDuplicateCommand(payload = {}, options = {}
   const resolved = await resolveMutableProjectBinding(normalized.projectId);
   if (!resolved.ok) return resolved;
   const binding = resolved.binding;
-  const targetRoot = joinPathSegmentsWithinRoot(fileManager.getDocumentsPath(), [duplicateName], {
-    resolveSymlinks: false,
-  });
-  if (await fileExists(targetRoot)) return makeProjectLifecycleError('E_PROJECT_TARGET_EXISTS', 'PROJECT_TARGET_EXISTS');
-  const tempRoot = makeProjectLifecycleTempPath(targetRoot, 'project-lifecycle-duplicate');
-  const rawRecord = await readProjectManifestRawAtPath(binding.manifestPath);
-  const recovery = await createProjectLifecycleRecovery(binding, PROJECT_LIFECYCLE_DUPLICATE_COMMAND_ID, rawRecord.raw, options);
-  const newProjectId = createStableProjectId();
-  await writeProjectLifecycleJournal({
-    commandId: PROJECT_LIFECYCLE_DUPLICATE_COMMAND_ID,
-    projectId: binding.projectId,
-    phase: 'copying-to-temp',
-    sourceRoot: binding.projectRoot,
-    targetRoot,
-    tempRoot,
-  });
+  const authority = await getMainProjectManifestAuthority();
   try {
-    if (typeof options.beforeCopy === 'function') await options.beforeCopy({ sourceRoot: binding.projectRoot, tempRoot, targetRoot });
-    await copyDirectoryContents(binding.projectRoot, tempRoot, { overwriteExisting: true });
-    const tempManifestPath = joinPathSegmentsWithinRoot(tempRoot, [PROJECT_MANIFEST_FILENAME], {
-      resolveSymlinks: false,
+    return await authority.withProjectLease(binding.projectId, async (sourceLease) => {
+      await sourceLease.assertOwned();
+      const targetRoot = joinPathSegmentsWithinRoot(fileManager.getDocumentsPath(), [duplicateName], {
+        resolveSymlinks: false,
+      });
+      if (await fileExists(targetRoot)) {
+        return makeProjectLifecycleError('E_PROJECT_TARGET_EXISTS', 'PROJECT_TARGET_EXISTS');
+      }
+      const tempRoot = makeProjectLifecycleTempPath(targetRoot, 'project-lifecycle-duplicate');
+      const rawRecord = await readProjectManifestRawAtPath(binding.manifestPath);
+      const recovery = await createProjectLifecycleRecovery(
+        binding,
+        PROJECT_LIFECYCLE_DUPLICATE_COMMAND_ID,
+        rawRecord.raw,
+        options,
+      );
+      const newProjectId = createStableProjectId();
+      await writeProjectLifecycleJournal({
+        commandId: PROJECT_LIFECYCLE_DUPLICATE_COMMAND_ID,
+        projectId: binding.projectId,
+        targetProjectId: newProjectId,
+        phase: 'copying-to-temp',
+        sourceRoot: binding.projectRoot,
+        targetRoot,
+        tempRoot,
+      });
+      try {
+        if (typeof options.beforeCopy === 'function') {
+          await options.beforeCopy({ sourceRoot: binding.projectRoot, tempRoot, targetRoot });
+        }
+        await copyDirectoryContents(binding.projectRoot, tempRoot, { overwriteExisting: true });
+        const tempManifestPath = joinPathSegmentsWithinRoot(tempRoot, [PROJECT_MANIFEST_FILENAME], {
+          resolveSymlinks: false,
+        });
+        const nextManifest = {
+          ...rawRecord.manifest,
+          schemaVersion: PROJECT_MANIFEST_SCHEMA_VERSION,
+          projectId: newProjectId,
+          projectName: duplicateName,
+          createdAtUtc: new Date().toISOString(),
+          duplicatedFromProjectId: binding.projectId,
+        };
+        delete nextManifest.treeIdentity;
+        return await authority.withProjectLease(newProjectId, async (targetLease) => {
+          await targetLease.assertOwned();
+          await writeProjectManifestRawAtomic(tempManifestPath, nextManifest, {
+            expectedText: rawRecord.raw,
+            expectedProjectId: binding.projectId,
+            lease: targetLease,
+          });
+          if (typeof options.afterManifestBeforeFinalMove === 'function') {
+            await options.afterManifestBeforeFinalMove({ sourceRoot: binding.projectRoot, tempRoot, targetRoot });
+          }
+          await sourceLease.assertOwned();
+          await targetLease.publish(() => fs.rename(tempRoot, targetRoot));
+          await sourceLease.assertOwned();
+          const targetManifestPath = joinPathSegmentsWithinRoot(targetRoot, [PROJECT_MANIFEST_FILENAME], {
+            resolveSymlinks: false,
+          });
+          const targetManifestRecord = await readProjectManifestRawAtPath(targetManifestPath);
+          if (normalizeStableProjectId(targetManifestRecord.manifest?.projectId) !== newProjectId) {
+            throw new Error('PROJECT_DUPLICATE_MANIFEST_READBACK_MISMATCH');
+          }
+          await targetLease.assertOwned();
+          await clearProjectLifecycleJournal();
+          const nextBinding = {
+            projectId: newProjectId,
+            projectRoot: targetRoot,
+            manifestPath: targetManifestPath,
+            manifest: await normalizeProjectManifest(nextManifest, duplicateName),
+          };
+          await replaceProjectLibraryIndexBinding('', nextBinding, { status: 'available', markOpened: false });
+          return {
+            ok: true,
+            duplicated: true,
+            projectId: newProjectId,
+            sourceProjectId: binding.projectId,
+            projectName: duplicateName,
+            receipt: makeProjectLifecycleReceipt(PROJECT_LIFECYCLE_DUPLICATE_COMMAND_ID, newProjectId, {
+              duplicated: true,
+              sourceProjectId: binding.projectId,
+              recovery,
+            }),
+          };
+        });
+      } catch (error) {
+        await fs.rm(tempRoot, { recursive: true, force: true }).catch(() => {});
+        await clearProjectLifecycleJournal();
+        logDevError('project lifecycle duplicate', error);
+        return makeProjectLifecycleError('E_PROJECT_DUPLICATE_FAILED', 'PROJECT_DUPLICATE_FAILED', {
+          message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN',
+          recovery,
+        });
+      }
     });
-    const nextManifest = {
-      ...rawRecord.manifest,
-      schemaVersion: PROJECT_MANIFEST_SCHEMA_VERSION,
-      projectId: newProjectId,
-      projectName: duplicateName,
-      createdAtUtc: new Date().toISOString(),
-      duplicatedFromProjectId: binding.projectId,
-    };
-    delete nextManifest.treeIdentity;
-    await writeProjectManifestRawAtomic(tempManifestPath, nextManifest);
-    if (typeof options.afterManifestBeforeFinalMove === 'function') {
-      await options.afterManifestBeforeFinalMove({ sourceRoot: binding.projectRoot, tempRoot, targetRoot });
-    }
-    await fs.rename(tempRoot, targetRoot);
-    await clearProjectLifecycleJournal();
-    const nextBinding = {
-      projectId: newProjectId,
-      projectRoot: targetRoot,
-      manifestPath: tempManifestPath.replace(tempRoot, targetRoot),
-      manifest: await normalizeProjectManifest(nextManifest, duplicateName),
-    };
-    await replaceProjectLibraryIndexBinding('', nextBinding, { status: 'available', markOpened: false });
-    return {
-      ok: true,
-      duplicated: true,
-      projectId: newProjectId,
-      sourceProjectId: binding.projectId,
-      projectName: duplicateName,
-      receipt: makeProjectLifecycleReceipt(PROJECT_LIFECYCLE_DUPLICATE_COMMAND_ID, newProjectId, {
-        duplicated: true,
-        sourceProjectId: binding.projectId,
-        recovery,
-      }),
-    };
   } catch (error) {
-    await fs.rm(tempRoot, { recursive: true, force: true }).catch(() => {});
-    await clearProjectLifecycleJournal();
-    logDevError('project lifecycle duplicate', error);
-    return makeProjectLifecycleError('E_PROJECT_DUPLICATE_FAILED', 'PROJECT_DUPLICATE_FAILED', {
-      message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN',
-      recovery,
-    });
+    return makeProjectLifecycleError(
+      error?.code || 'E_PROJECT_DUPLICATE_TRANSACTION_FAILED',
+      error?.reason || 'PROJECT_DUPLICATE_TRANSACTION_FAILED',
+      error?.details || {},
+    );
   }
 }
 
@@ -15272,6 +15387,7 @@ async function resolveProjectLibraryBindingFromEntry(entry) {
         projectRoot: entry.projectRoot,
         manifestPath: entry.manifestPath,
         manifest,
+        manifestRaw: rawRecord.raw,
         sourceSchemaVersion: rawRecord.sourceSchemaVersion,
       },
       rawRecord,
@@ -15531,7 +15647,13 @@ async function handleProjectLifecycleCreateBackupCommand(payload = {}, options =
     const receiptPath = joinPathSegmentsWithinRoot(tempRoot, ['project-backup-receipt.v1.json'], {
       resolveSymlinks: false,
     });
-    await writeProjectManifestRawAtomic(receiptPath, receipt);
+    const receiptWrite = await queueDiskOperation(
+      () => fileManager.writeFileAtomic(receiptPath, `${JSON.stringify(receipt, null, 2)}\n`),
+      'save project lifecycle backup receipt',
+    );
+    if (!receiptWrite || receiptWrite.success !== true) {
+      throw new Error(receiptWrite?.error || 'PROJECT_LIFECYCLE_BACKUP_RECEIPT_WRITE_FAILED');
+    }
     if (typeof options.afterCopyBeforeFinalMove === 'function') {
       await options.afterCopyBeforeFinalMove({ tempRoot, targetRoot });
     }
@@ -16231,14 +16353,29 @@ async function readCanonicalExportSnapshot(payload = {}) {
   });
 }
 
-async function persistProjectManifestAtPath(manifestPath, manifest, operationLabel = 'save project manifest') {
-  const writeResult = await queueDiskOperation(
-    () => fileManager.writeFileAtomic(manifestPath, JSON.stringify(manifest, null, 2)),
-    operationLabel,
-  );
-  if (!writeResult.success) {
-    throw new Error(writeResult.error || 'Failed to save project manifest');
+async function persistProjectManifestAtPath(
+  manifestPath,
+  manifest,
+  operationLabel = 'save project manifest',
+  options = {},
+) {
+  const projectId = normalizeStableProjectId(manifest?.projectId);
+  const expectedText = typeof options.expectedText === 'string' ? options.expectedText : null;
+  if (!projectId || expectedText === null) {
+    const error = new Error('PROJECT_MANIFEST_EXPECTED_BYTES_REQUIRED');
+    error.code = 'E_MAIN_PROJECT_MANIFEST_EXPECTED_BYTES_REQUIRED';
+    error.reason = 'PROJECT_MANIFEST_EXPECTED_BYTES_REQUIRED';
+    throw error;
   }
+  const authority = await getMainProjectManifestAuthority();
+  return authority.commitManifestText({
+    projectId,
+    targetPath: manifestPath,
+    expectedText,
+    nextText: JSON.stringify(manifest, null, 2),
+    label: operationLabel,
+    ...(options.lease ? { lease: options.lease } : {}),
+  });
 }
 
 async function persistFreeEditProDataInvalidationForSceneIds(sceneIds = [], options = {}) {
@@ -16260,12 +16397,14 @@ async function persistFreeEditProDataInvalidationForSceneIds(sceneIds = [], opti
     ? options.manifestPath
     : '';
   let manifest = isPlainObjectValue(options.manifest) ? options.manifest : null;
+  let manifestRaw = typeof options.manifestRaw === 'string' ? options.manifestRaw : '';
   if (!manifestPath || !manifest) {
     const record = await ensureProjectManifest(currentProjectName || DEFAULT_PROJECT_NAME);
     manifestPath = record.manifestPath;
     manifest = record.manifest;
+    manifestRaw = record.manifestRaw;
   }
-  if (!manifestPath || !isPlainObjectValue(manifest)) {
+  if (!manifestPath || !isPlainObjectValue(manifest) || !manifestRaw) {
     return { persisted: false, reason: 'PROJECT_BINDING_UNAVAILABLE' };
   }
 
@@ -16291,6 +16430,7 @@ async function persistFreeEditProDataInvalidationForSceneIds(sceneIds = [], opti
     typeof options.operationLabel === 'string' && options.operationLabel
       ? options.operationLabel
       : 'save pro data invalidation',
+    { expectedText: manifestRaw },
   );
   return { persisted: true, receipt: result.receipt };
 }
@@ -16316,6 +16456,7 @@ async function persistFreeEditProDataInvalidationForFile(filePath, options = {})
     changedSceneIds: [sceneId],
     manifestPath: binding.manifestPath,
     manifest: binding.manifest,
+    manifestRaw: binding.manifestRaw,
   });
 }
 
@@ -16387,7 +16528,9 @@ async function persistBookProfileForFile(filePath, bookProfile, operationLabel =
     };
   }
 
-  await persistProjectManifestAtPath(projectBinding.manifestPath, nextManifest, operationLabel);
+  await persistProjectManifestAtPath(projectBinding.manifestPath, nextManifest, operationLabel, {
+    expectedText: projectBinding.manifestRaw,
+  });
   return {
     persisted: true,
     manifest: nextManifest,
@@ -20780,107 +20923,140 @@ async function handleImportProjectArchive(payloadRaw = {}, options = {}) {
   const targetRoot = await getUniqueProjectLifecycleRoot(fileManager.getDocumentsPath(), preferredName);
   const tempRoot = makeProjectLifecycleTempPath(targetRoot, 'project-archive-import');
   const newProjectId = mode === 'copy' ? createStableProjectId() : archiveProjectId;
+  const authority = await getMainProjectManifestAuthority();
 
   try {
-    await writeProjectLifecycleJournal({
-      commandId: IMPORT_PROJECT_ARCHIVE_COMMAND_ID,
-      projectId: archiveProjectId,
-      phase: 'importing-to-temp',
-      targetRoot,
-      tempRoot,
-    });
-    if (typeof options.beforeExtract === 'function') await options.beforeExtract({ tempRoot, targetRoot });
-    await queueDiskOperation(
-      () => writeProjectArchivePayloadToTempRoot(archivePayload, tempRoot),
-      'import project archive entries',
-    );
-    const tempManifestPath = joinPathSegmentsWithinRoot(tempRoot, [PROJECT_MANIFEST_FILENAME], {
-      resolveSymlinks: false,
-    });
-    const rawRecord = await readProjectManifestRawAtPath(tempManifestPath);
-    const sourceManifest = isPlainObjectValue(rawRecord.manifest) ? rawRecord.manifest : {};
-    if (normalizeStableProjectId(sourceManifest.projectId) !== archiveProjectId) {
-      throw new Error('PROJECT_ARCHIVE_IMPORT_PROJECT_ID_MISMATCH');
-    }
-    let nextManifest = sourceManifest;
-    if (mode === 'copy') {
-      nextManifest = {
-        ...sourceManifest,
-        schemaVersion: PROJECT_MANIFEST_SCHEMA_VERSION,
+    return await authority.withProjectLease(newProjectId, async (lease) => {
+      await lease.assertOwned();
+      const racedBinding = await findProjectBindingByProjectId(newProjectId);
+      if (racedBinding?.projectRoot) {
+        const error = new Error('PROJECT_ARCHIVE_IMPORT_PROJECT_ID_COLLISION');
+        error.code = 'E_PROJECT_ARCHIVE_IMPORT_PROJECT_ID_COLLISION';
+        error.reason = 'project_archive_import_project_id_collision';
+        throw error;
+      }
+      await writeProjectLifecycleJournal({
+        commandId: IMPORT_PROJECT_ARCHIVE_COMMAND_ID,
         projectId: newProjectId,
-        projectName: preferredName,
-        createdAtUtc: new Date().toISOString(),
-        copiedFromProjectId: archiveProjectId,
-      };
-      delete nextManifest.treeIdentity;
-      await writeProjectManifestRawAtomic(tempManifestPath, nextManifest);
-    }
-    if (typeof options.afterExtractBeforeFinalMove === 'function') {
-      await options.afterExtractBeforeFinalMove({ tempRoot, targetRoot });
-    }
-    if (await fileExists(targetRoot)) {
-      throw new Error('PROJECT_ARCHIVE_IMPORT_TARGET_EXISTS');
-    }
-    await fs.rename(tempRoot, targetRoot);
-    await clearProjectLifecycleJournal();
-
-    const manifestPath = joinPathSegmentsWithinRoot(targetRoot, [PROJECT_MANIFEST_FILENAME], { resolveSymlinks: false });
-    const normalizedManifest = await normalizeProjectManifest(nextManifest, preferredName);
-    const projectBinding = {
-      projectId: newProjectId,
-      projectRoot: targetRoot,
-      manifestPath,
-      manifest: normalizedManifest,
-      sourceSchemaVersion: Number(nextManifest?.schemaVersion),
-    };
-    await replaceProjectLibraryIndexBinding('', projectBinding, {
-      status: 'available',
-      markOpened: payload.openAfterImport === true,
-      dropSameProjectId: mode === 'restore',
-    });
-    if (payload.openAfterImport === true) {
-      setActiveProjectNameFromRoot(targetRoot);
-      const target = await resolveProjectContinueTarget(projectBinding, {});
-      if (target.filePath) {
-        await openProjectDocumentFile(target.filePath, {
-          statusText: 'Архив проекта импортирован',
+        sourceProjectId: archiveProjectId,
+        phase: 'importing-to-temp',
+        targetRoot,
+        tempRoot,
+      });
+      if (typeof options.beforeExtract === 'function') await options.beforeExtract({ tempRoot, targetRoot });
+      await queueDiskOperation(
+        () => writeProjectArchivePayloadToTempRoot(archivePayload, tempRoot),
+        'import project archive entries',
+      );
+      const tempManifestPath = joinPathSegmentsWithinRoot(tempRoot, [PROJECT_MANIFEST_FILENAME], {
+        resolveSymlinks: false,
+      });
+      const rawRecord = await readProjectManifestRawAtPath(tempManifestPath);
+      const sourceManifest = isPlainObjectValue(rawRecord.manifest) ? rawRecord.manifest : {};
+      if (normalizeStableProjectId(sourceManifest.projectId) !== archiveProjectId) {
+        throw new Error('PROJECT_ARCHIVE_IMPORT_PROJECT_ID_MISMATCH');
+      }
+      let nextManifest = sourceManifest;
+      if (mode === 'copy') {
+        nextManifest = {
+          ...sourceManifest,
+          schemaVersion: PROJECT_MANIFEST_SCHEMA_VERSION,
           projectId: newProjectId,
-          projectBinding,
+          projectName: preferredName,
+          createdAtUtc: new Date().toISOString(),
+          copiedFromProjectId: archiveProjectId,
+        };
+        delete nextManifest.treeIdentity;
+        await writeProjectManifestRawAtomic(tempManifestPath, nextManifest, {
+          expectedText: rawRecord.raw,
+          expectedProjectId: archiveProjectId,
+          lease,
         });
       }
-    }
-    updateStatus('Архив проекта импортирован');
-    pendingProjectArchiveImportPreview = null;
-    return {
-      ok: true,
-      imported: true,
-      mode,
-      projectId: newProjectId,
-      sourceProjectId: archiveProjectId,
-      projectName: normalizedManifest.projectName || preferredName,
-      archiveManifest: archiveSummary,
-      receipt: makeProjectArchiveImportReceipt(IMPORT_PROJECT_ARCHIVE_COMMAND_ID, newProjectId, {
-        mode,
-        restored: mode === 'restore',
-        copied: mode === 'copy',
+      if (typeof options.afterExtractBeforeFinalMove === 'function') {
+        await options.afterExtractBeforeFinalMove({ tempRoot, targetRoot });
+      }
+      if (await fileExists(targetRoot)) {
+        throw new Error('PROJECT_ARCHIVE_IMPORT_TARGET_EXISTS');
+      }
+      await lease.publish(() => fs.rename(tempRoot, targetRoot));
+      await writeProjectLifecycleJournal({
+        commandId: IMPORT_PROJECT_ARCHIVE_COMMAND_ID,
+        projectId: newProjectId,
         sourceProjectId: archiveProjectId,
-        archiveSha256: archiveSummary.archiveSha256,
-        fileCount: archiveSummary.fileCount,
-        byteCount: archiveSummary.byteCount,
-      }),
-      authority: {
-        pathsExposed: false,
-        networkRequired: false,
-      },
-    };
+        phase: 'final-moved',
+        targetRoot,
+        tempRoot,
+      });
+
+      const manifestPath = joinPathSegmentsWithinRoot(targetRoot, [PROJECT_MANIFEST_FILENAME], {
+        resolveSymlinks: false,
+      });
+      const publishedManifestRecord = await readProjectManifestRawAtPath(manifestPath);
+      if (normalizeStableProjectId(publishedManifestRecord.manifest?.projectId) !== newProjectId) {
+        throw new Error('PROJECT_ARCHIVE_IMPORT_MANIFEST_READBACK_MISMATCH');
+      }
+      await lease.assertOwned();
+      await clearProjectLifecycleJournal();
+      const normalizedManifest = await normalizeProjectManifest(nextManifest, preferredName);
+      const projectBinding = {
+        projectId: newProjectId,
+        projectRoot: targetRoot,
+        manifestPath,
+        manifest: normalizedManifest,
+        sourceSchemaVersion: Number(nextManifest?.schemaVersion),
+      };
+      await replaceProjectLibraryIndexBinding('', projectBinding, {
+        status: 'available',
+        markOpened: payload.openAfterImport === true,
+        dropSameProjectId: mode === 'restore',
+      });
+      if (payload.openAfterImport === true) {
+        setActiveProjectNameFromRoot(targetRoot);
+        const target = await resolveProjectContinueTarget(projectBinding, {});
+        if (target.filePath) {
+          await openProjectDocumentFile(target.filePath, {
+            statusText: 'Архив проекта импортирован',
+            projectId: newProjectId,
+            projectBinding,
+          });
+        }
+      }
+      updateStatus('Архив проекта импортирован');
+      pendingProjectArchiveImportPreview = null;
+      return {
+        ok: true,
+        imported: true,
+        mode,
+        projectId: newProjectId,
+        sourceProjectId: archiveProjectId,
+        projectName: normalizedManifest.projectName || preferredName,
+        archiveManifest: archiveSummary,
+        receipt: makeProjectArchiveImportReceipt(IMPORT_PROJECT_ARCHIVE_COMMAND_ID, newProjectId, {
+          mode,
+          restored: mode === 'restore',
+          copied: mode === 'copy',
+          sourceProjectId: archiveProjectId,
+          archiveSha256: archiveSummary.archiveSha256,
+          fileCount: archiveSummary.fileCount,
+          byteCount: archiveSummary.byteCount,
+        }),
+        authority: {
+          pathsExposed: false,
+          networkRequired: false,
+        },
+      };
+    });
   } catch (error) {
     await fs.rm(tempRoot, { recursive: true, force: true }).catch(() => {});
     await clearProjectLifecycleJournal();
     pendingProjectArchiveImportPreview = null;
     logDevError('project archive import', error);
     return makeTypedProjectArchiveImportError(
-      'E_PROJECT_ARCHIVE_IMPORT_FAILED',
-      error && typeof error.message === 'string' ? error.message : 'project_archive_import_failed',
+      typeof error?.code === 'string' ? error.code : 'E_PROJECT_ARCHIVE_IMPORT_FAILED',
+      typeof error?.reason === 'string'
+        ? error.reason
+        : (error && typeof error.message === 'string' ? error.message : 'project_archive_import_failed'),
     );
   }
 }
@@ -22191,7 +22367,9 @@ async function persistProjectTreeIdentityMigration(manifestPath, projectRoot, so
   if (!backupResult || backupResult.success !== true) {
     throw new Error(backupResult?.error || 'PROJECT_TREE_IDENTITY_BACKUP_FAILED');
   }
-  await persistProjectManifestAtPath(manifestPath, manifest, 'save project tree identity registry');
+  await persistProjectManifestAtPath(manifestPath, manifest, 'save project tree identity registry', {
+    expectedText: sourceText,
+  });
 }
 
 async function createProjectTreeMoveRecovery(manifestPath, projectRoot, sourceText, options = {}) {

@@ -288,7 +288,12 @@ test('S38 Pro roundtrip: Free save and full archive reopen preserve unknown Pro 
     deletedSceneIds: ['roman/Imported/99 Deleted.txt'],
     nowIso: '2026-07-19T09:20:00.000Z',
   });
-  await freeHarness.main.persistProjectManifestAtPath(manifestPath, invalidation.manifest, 's38 free save manifest');
+  await freeHarness.main.persistProjectManifestAtPath(
+    manifestPath,
+    invalidation.manifest,
+    's38 free save manifest',
+    { expectedText: await fsPromises.readFile(manifestPath, 'utf8') },
+  );
 
   const archive = await buildProjectArchiveBuffer(projectRoot, {
     createdAtUtc: '2026-07-19T09:21:00.000Z',

@@ -19,6 +19,10 @@ const HOLD_MATRIX = Object.freeze([
   'interprocess-lease-and-lock-held-cas',
   'live-holder-slow-write-fencing-and-stale-holder-rejection',
   'injective-project-id-binding-and-collision-aware-migration',
+  'shared-main-manifest-lease-and-exact-byte-cas',
+  'reserved-external-artifact-cas-and-crash-reconciliation',
+  'unicode-project-id-domain-parity-and-foreign-alias-fail-closed',
+  'process-instance-heartbeat-pid-reuse-and-clock-edge-recovery',
   'selected-stage10-control-state-binding',
   'retained-analytics-scheduler',
   'live-command-provider-and-exact-slot-catalogs',
@@ -50,6 +54,7 @@ export function runAtlasV6NegativeMatrix() {
   const files = [
     'test/contracts/yalken-atlas-v6-audit-hold-repair.contract.test.js',
     'test/contracts/yalken-atlas-v6-a3-bounded-repair.contract.test.js',
+    'test/contracts/yalken-atlas-v6-a4-bounded-repair.contract.test.js',
     'test/contracts/yalken-atlas-v6-production-negative.contract.test.js',
   ];
   const execution = runNodeTests(files);

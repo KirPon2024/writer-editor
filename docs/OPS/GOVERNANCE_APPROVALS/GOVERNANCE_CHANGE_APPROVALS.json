@@ -5921,12 +5921,12 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "8147bd3363bf22ce448ac254cab847e1a7e47eb4c868e5a56ec4b0c854d14518",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_A3_BOUNDED_REPAIR",
-      "approvedAtUtc": "2026-08-02T19:04:50.000Z",
-      "rationale": "Approve exact non-wildcard Sector-M DONE scope entries for the bounded Atlas V6 A3 lease-fencing and injective-project-identity repair paths; no prefix expansion, UI change, network, dependency, release acceptance, or Program DONE claim.",
+      "sha256": "5af206cbf355c59e2074373f52caae5525ff18ef8f4ad35d253ba77f6c41f709",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_A4_BOUNDED_REPAIR",
+      "approvedAtUtc": "2026-08-02T21:22:35.000Z",
+      "rationale": "Approve exact scope-map bytes admitting only the A4 task artifact, shared manifest authority, Unicode identity domain, process-instance lease worker, focused A4 product contract, and maintained S38 compatibility test.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_V6_A3_BOUNDED_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_V6_A4_REPAIR"
     },
     {
       "filePath": "scripts/ops/shared-drift-engine-runtime-state.mjs",
@@ -9216,12 +9216,12 @@
     },
     {
       "filePath": "src/main.js",
-      "sha256": "03135add1971a81cf558614252aac32eff044c520286636f86dea3af00ee36b8",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_AUDIT_HOLD_REPAIR",
-      "approvedAtUtc": "2026-08-02T16:47:41.000Z",
-      "rationale": "Approve exact main-process bytes binding selected Stage-10 state before packaged visible controls become available, retained Atlas analytics scheduling, real Manual Map file authority and bounded recovery reads while preserving offline-only operation and the existing Word N4 descendant behavior.",
+      "sha256": "673df900d8ea8be7726d47fe3c8b202fe5c1db636ff4ab6d91b9f711b16bd9d8",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_A4_BOUNDED_REPAIR",
+      "approvedAtUtc": "2026-08-02T21:22:35.000Z",
+      "rationale": "Approve exact main-process bytes routing every project-manifest writer through the shared lease and byte CAS authority, retaining new-project authority through duplicate and archive publication, and preserving existing offline Stage-10 and Word behavior.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_V6_AUDIT_HOLD_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_V6_A4_REPAIR"
     },
     {
       "filePath": "src/renderer/editor.js",
@@ -9306,12 +9306,12 @@
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v6-production-lifecycle.mjs",
-      "sha256": "66931fe005545e6d42787083b7f252014d23454f1648388160b50ea9be5af38d",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_A3_BOUNDED_REPAIR",
-      "approvedAtUtc": "2026-08-02T19:04:50.000Z",
-      "rationale": "Approve exact Atlas V6 production lifecycle runner bytes adding executable A3 slow-holder fencing, stale-holder rejection, injective project identity, and collision-aware migration negatives to the existing matrix.",
+      "sha256": "7b8846ad41e3916ca72933026047c116c444876290d44b02f214c21351ab8e1d",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_A4_BOUNDED_REPAIR",
+      "approvedAtUtc": "2026-08-02T21:22:35.000Z",
+      "rationale": "Approve exact production lifecycle runner bytes adding the executable A4 manifest CAS, external target reservation, Unicode and legacy collision, and process-instance liveness negative matrix.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_V6_A3_BOUNDED_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_V6_A4_REPAIR"
     },
     {
       "filePath": "test/contracts/yalken-atlas-v6-audit-hold-repair.contract.test.js",
@@ -9333,12 +9333,21 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v6-a3-bounded-repair.contract.test.js",
-      "sha256": "6435518f5ba0e58835271b1af8732827c7fb056b1eb3e05056e67c4b112f4825",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_A3_BOUNDED_REPAIR",
-      "approvedAtUtc": "2026-08-02T19:04:50.000Z",
-      "rationale": "Approve exact A3 production contract bytes proving reversible case-fold-safe project keys, the reproduced alias pair, pre-mutation invalid-ID rejection, atomic legacy migration, two-process slow-write exclusion beyond TTL, monotonic stale-holder fencing, and crash recovery convergence.",
+      "sha256": "aa0c604d6b69760ab6386cc897ab40d27aa4e0134d6243f6d6a1a992f7ca8023",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_A4_BOUNDED_REPAIR",
+      "approvedAtUtc": "2026-08-02T21:22:35.000Z",
+      "rationale": "Approve exact maintained A3 contract bytes updated for the live 128-code-unit Unicode domain, fail-closed foreign legacy aliases, process-instance heartbeat diagnostics, and transaction schema v5 recovery binding.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_V6_A3_BOUNDED_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_V6_A4_REPAIR"
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v6-a4-bounded-repair.contract.test.js",
+      "sha256": "67cacc50cc1add7187be1596143960dbd7c563c4a8959013b409e306c56d7b39",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_A4_BOUNDED_REPAIR",
+      "approvedAtUtc": "2026-08-02T21:48:46.000Z",
+      "rationale": "Approve exact A4 product contract bytes proving child-process manifest and artifact races, Unicode identity parity, foreign legacy collision rejection, reservation recovery, PID reuse recovery, blocked-loop process-instance protection, bounded cross-platform socket-path startup under a hostile TMPDIR, and crash convergence.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_V6_A4_REPAIR"
     }
   ]
 }

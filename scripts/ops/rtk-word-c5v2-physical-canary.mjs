@@ -227,6 +227,15 @@ export function c5v2PhysicalReplacementText(operation = {}) {
       : '';
 }
 
+export function c5v2PhysicalSemanticIntent(operation = {}) {
+  return {
+    ...(operation?.semanticIntent && typeof operation.semanticIntent === 'object'
+      ? operation.semanticIntent
+      : {}),
+    replacementText: c5v2PhysicalReplacementText(operation),
+  };
+}
+
 function productParagraphs(value) {
   return String(value || '')
     .replace(/\r\n/gu, '\n')
@@ -266,15 +275,21 @@ export function readProductSceneAuthority(rawContent) {
   if (parsed?.issue) {
     throw new Error(`C5V2_PRODUCT_SCENE_OBSERVABLE_PAYLOAD_INVALID:${parsed.issue.reason || parsed.issue.code || 'UNKNOWN'}`);
   }
-  const blocks = parsed?.doc ? documentTextBlocks(parsed.doc) : productParagraphs(parsed?.text || '');
-  const paragraphs = blocks.map((block) => (typeof block === 'string' ? block : block.text));
+  const allBlocks = parsed?.doc ? documentTextBlocks(parsed.doc) : [];
+  const blocks = parsed?.doc
+    ? allBlocks.filter((block) => String(block?.text || '').trim().length > 0)
+    : [];
+  const paragraphs = parsed?.doc
+    ? blocks.map((block) => block.text.trim())
+    : productParagraphs(parsed?.text || '');
   return {
     rawContent: String(rawContent || ''),
     rawContentSha256: sha256Text(rawContent),
     text: parsed?.text || '',
     textSha256: sha256Text(parsed?.text || ''),
     doc: parsed?.doc || null,
-    blocks: parsed?.doc ? blocks : [],
+    blocks,
+    allBlocks,
     paragraphs,
   };
 }
@@ -329,6 +344,7 @@ export function adaptC5V2MasterRoundToPhysicalLedger({ masterLedger, currentScen
     const family = operation.family === 'tracked_text_edit'
       ? `tracked_${operation.semanticIntent.kind}`
       : operation.family;
+    const replacementText = c5v2PhysicalReplacementText(operation);
     const physical = {
       id: operation.id,
       formalFamily: operation.family,
@@ -336,8 +352,8 @@ export function adaptC5V2MasterRoundToPhysicalLedger({ masterLedger, currentScen
       sceneId: operation.sceneId,
       band: operation.anchor.positionalThird,
       expectedOutcome: operation.expectedOutcome,
-      semanticIntent: operation.semanticIntent,
-      replacementText: c5v2PhysicalReplacementText(operation),
+      semanticIntent: c5v2PhysicalSemanticIntent(operation),
+      replacementText,
       formattingKind: operation.semanticIntent?.kind || '',
       headingLevel: operation.semanticIntent?.headingLevel || 2,
       masterAnchor: operation.anchor,
@@ -1072,6 +1088,7 @@ function createFullManuscriptExportChildSource({ tempRoot, outPath, returnedPath
       outPath,
       returnedPath: returnedPath || '',
       returnedReadyPath: returnedReadyPath || '',
+      oracleGatePath: '',
     }];
   return `\
 const crypto = require('crypto');
@@ -1233,6 +1250,43 @@ async function captureReopenedYalkenTruth(win, roundId, returnedPath) {
       rawContentSha256: sha256ChildText(rawContent),
     };
   });
+  const expectedLedgerPath = path.join(path.dirname(returnedPath), 'canary-ledger.json');
+  const expectedLedger = fs.existsSync(expectedLedgerPath)
+    ? JSON.parse(fs.readFileSync(expectedLedgerPath, 'utf8'))
+    : { operations: [] };
+  const expectedRootCommentCount = (Array.isArray(expectedLedger.operations) ? expectedLedger.operations : [])
+    .filter((operation) => operation && operation.family === 'root_comment').length;
+  const canonicalStatePath = path.join(
+    global.productProjectRoot || '',
+    '.yalken',
+    'word-review',
+    'non-text-return-state.v1.json',
+  );
+  const recoveryStatePath = path.join(
+    global.productProjectRoot || '',
+    '.yalken',
+    'recovery',
+    'non-text-return-state.v1.json',
+  );
+  const readCapturedState = (statePath) => {
+    if (!statePath || !fs.existsSync(statePath)) return { present: false, path: statePath || '' };
+    const rawContent = fs.readFileSync(statePath, 'utf8');
+    return {
+      present: true,
+      path: statePath,
+      rawContent,
+      rawContentSha256: sha256ChildText(rawContent),
+      state: JSON.parse(rawContent),
+    };
+  };
+  const canonicalNonTextState = readCapturedState(canonicalStatePath);
+  const recoveryNonTextState = readCapturedState(recoveryStatePath);
+  if (expectedRootCommentCount > 0 && !canonicalNonTextState.present) {
+    throw new Error('C5V2_REOPENED_YALKEN_CANONICAL_COMMENT_STATE_MISSING:' + roundId);
+  }
+  if (expectedRootCommentCount > 0 && !recoveryNonTextState.present) {
+    throw new Error('C5V2_REOPENED_YALKEN_COMMENT_RECOVERY_MISSING:' + roundId);
+  }
   const artifactPath = path.join(path.dirname(returnedPath), 'yalken-reopened-truth.json');
   const artifact = {
     schemaVersion: 'yalken.rtk.word.c5v2.reopened-yalken-truth.v1',
@@ -1241,6 +1295,9 @@ async function captureReopenedYalkenTruth(win, roundId, returnedPath) {
     reopenPassCount: 2,
     passes,
     sceneReadback,
+    expectedRootCommentCount,
+    canonicalNonTextState,
+    recoveryNonTextState,
     projectRoot: global.productProjectRoot || '',
     createdAtUtc: new Date().toISOString(),
   };
@@ -1251,6 +1308,9 @@ async function captureReopenedYalkenTruth(win, roundId, returnedPath) {
     sceneCount: sceneReadback.length,
     reopenPassCount: artifact.reopenPassCount,
     allOpenGreen: passes.every((pass) => pass.scenes.every((scene) => scene.ok === true)),
+    expectedRootCommentCount,
+    canonicalNonTextStatePresent: canonicalNonTextState.present === true,
+    recoveryNonTextStatePresent: recoveryNonTextState.present === true,
   };
 }
 function summarizeActivation(result) {
@@ -1966,8 +2026,9 @@ app.whenReady().then(async () => {
       const outPath = activeRound && typeof activeRound.outPath === 'string' ? activeRound.outPath : '';
       const returnedPath = activeRound && typeof activeRound.returnedPath === 'string' ? activeRound.returnedPath : '';
       const returnedReadyPath = activeRound && typeof activeRound.returnedReadyPath === 'string' ? activeRound.returnedReadyPath : '';
+      const oracleGatePath = activeRound && typeof activeRound.oracleGatePath === 'string' ? activeRound.oracleGatePath : '';
       if (!outPath) throw new Error('C5V2_CUMULATIVE_ROUND_OUT_PATH_REQUIRED:' + roundId);
-      progress('round-start', { roundIndex, roundId, outPath, returnedPath, returnedReadyPath });
+      progress('round-start', { roundIndex, roundId, outPath, returnedPath, returnedReadyPath, oracleGatePath });
       const scopeProbe = await win.webContents.executeJavaScript(
         "window.electronAPI.invokeWorkspaceQueryBridge({queryId:'query.selectedScenesTxtExportScope',payload:{}})",
         true,
@@ -2070,6 +2131,17 @@ app.whenReady().then(async () => {
       if (!returnApply.ok) {
         app.exit(2);
         return;
+      }
+      if (oracleGatePath) {
+        const roundOracleGate = await waitUntil(() => {
+          if (!fs.existsSync(oracleGatePath)) return null;
+          try { return JSON.parse(fs.readFileSync(oracleGatePath, 'utf8')); } catch { return null; }
+        }, 'COMPLETE_ROUND_ORACLE_GATE_NOT_DURABLY_VISIBLE:' + roundId, 1_800_000);
+        emit({ phase: 'round-oracle-gate', ok: roundOracleGate.ok === true ? 1 : 0, roundIndex, roundId, roundOracleGate });
+        if (roundOracleGate.ok !== true) {
+          app.exit(3);
+          return;
+        }
       }
     }
     app.exit(0);
@@ -2217,6 +2289,7 @@ async function runElectronCumulativeFullManuscriptRoundtrip({
   scenes,
   rounds,
   runWordForRound,
+  validateRound,
 }) {
   const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-c5v2-cumulative-ui-'));
   const childPath = path.join(tempRoot, 'fullbook-cumulative-child.cjs');
@@ -2232,6 +2305,7 @@ async function runElectronCumulativeFullManuscriptRoundtrip({
       outPath: round.sourcePath,
       returnedPath: round.returnedPath,
       returnedReadyPath: round.returnedReadyPath,
+      oracleGatePath: round.oracleGatePath || '',
     })),
   }), 'utf8');
   const stdoutChunks = [];
@@ -2323,6 +2397,34 @@ async function runElectronCumulativeFullManuscriptRoundtrip({
       if (returnApplyPayload.ok !== 1 || returnApplyPayload.returnApply?.ok !== true) {
         throw new Error(`C5V2_CUMULATIVE_RETURN_APPLY_FAILED:${round.roundId}:${returnApplyPayload.returnApply?.code || returnApplyPayload.returnApply?.reason || 'NON_GREEN'}`);
       }
+      if (round.oracleGatePath) {
+        let roundOracleGate;
+        try {
+          roundOracleGate = typeof validateRound === 'function'
+            ? await validateRound(roundIndex, round, {
+                exportPayload,
+                wordOutput: wordOutputs[roundIndex] || '',
+                returnApplyPayload,
+              })
+            : {
+                schemaVersion: 'yalken.rtk.word.c5v2.complete-round-oracle-gate.v1',
+                roundId: round.roundId,
+                ok: false,
+                failures: ['ROUND_ORACLE_VALIDATOR_REQUIRED'],
+              };
+        } catch (error) {
+          roundOracleGate = {
+            schemaVersion: 'yalken.rtk.word.c5v2.complete-round-oracle-gate.v1',
+            roundId: round.roundId,
+            ok: false,
+            failures: [`ROUND_ORACLE_VALIDATION_ERROR:${error && error.message ? error.message : String(error)}`],
+          };
+        }
+        writeJsonAtomicDurable(round.oracleGatePath, roundOracleGate);
+        if (roundOracleGate?.ok !== true) {
+          throw new Error(`C5V2_CUMULATIVE_COMPLETE_ROUND_ORACLE_FAILED:${round.roundId}:${JSON.stringify(roundOracleGate?.failures || [])}`);
+        }
+      }
     }
     await waitForCondition(() => (exited ? exitState : null), 'ELECTRON_CUMULATIVE_EXIT_NOT_OBSERVED', 120_000);
   } catch (error) {
@@ -2341,17 +2443,20 @@ async function runElectronCumulativeFullManuscriptRoundtrip({
   const parsedLines = parseCanaryChildResultLines(stdout);
   const exportResults = parsedLines.filter((line) => line.phase === 'export');
   const returnApplyResults = parsedLines.filter((line) => line.phase === 'return-apply');
+  const roundOracleGateResults = parsedLines.filter((line) => line.phase === 'round-oracle-gate');
   return {
     ok: timedOut === false
       && wrapperError === null
       && exitState?.code === 0
       && exportResults.filter((line) => line.ok === 1).length === rounds.length
-      && returnApplyResults.filter((line) => line.ok === 1).length === rounds.length,
+      && returnApplyResults.filter((line) => line.ok === 1).length === rounds.length
+      && roundOracleGateResults.filter((line) => line.ok === 1).length === rounds.filter((round) => round.oracleGatePath).length,
     timedOut,
     exitCode: exitState?.code ?? null,
     signal: exitState?.signal ?? null,
     exportResults,
     returnApplyResults,
+    roundOracleGateResults,
     stderrTail: stderr.slice(-2000),
     wrapperError,
     wordOutputs,
@@ -2551,11 +2656,8 @@ function wordSemanticReadbackLines(ledger) {
       lines.push('  if yTrackedOperationCount is less than 1 then error "NATIVE_TRACKED_CHUNK_READBACK_MISSING" number 9740');
     } else if (operation.family === 'formatting' || operation.family === 'structural') {
       const locator = operation.locatorQuote || operation.quote;
-      const selectionOffset = Number.isSafeInteger(operation.locatorSelectionStart) ? operation.locatorSelectionStart : 0;
-      lines.push(`  set yReadbackLocatorRange to my yFindRange(yDoc, ${appleText(locator)})`);
-      lines.push(`  if yReadbackLocatorRange is missing value then error "NATIVE_READBACK_LOCATOR_MISSING:${id}" number 9742`);
-      lines.push(`  set yReadbackStart to (start of content of yReadbackLocatorRange) + ${selectionOffset}`);
-      lines.push(`  set yReadbackRange to create range yDoc start yReadbackStart end (yReadbackStart + ${String(operation.quote || '').length})`);
+      lines.push(`  set yReadbackRange to my yFindRangeWithin(yDoc, ${appleText(locator)}, ${appleText(operation.quote)})`);
+      lines.push(`  if yReadbackRange is missing value then error "NATIVE_READBACK_LOCATOR_MISSING:${id}" number 9742`);
       lines.push(`  if (content of yReadbackRange as text) is not ${appleText(operation.quote)} then error "NATIVE_READBACK_RANGE_MISMATCH:${id}" number 9743`);
       if (operation.family === 'formatting') {
         if (operation.formattingKind === 'italic') {
@@ -3107,15 +3209,32 @@ export function buildWordScript({
     'end yOpenExpectedDoc',
     'on yFindRange(yDoc, yQuote)',
     '  tell application "Microsoft Word"',
-    '    set yText to content of text object of yDoc',
-    '  end tell',
-    '  set yOffset to offset of yQuote in yText',
-    '  if yOffset is 0 then return missing value',
-    '  set yQuoteLength to count of characters of yQuote',
-    '  tell application "Microsoft Word"',
-    '    return create range yDoc start (yOffset - 1) end ((yOffset - 1) + yQuoteLength)',
+    '    set yDocumentRange to create range yDoc start 0 end (end of content of text object of yDoc)',
+    '    select yDocumentRange',
+    '    set yFind to find object of selection',
+    '    clear formatting yFind',
+    '    set yFound to execute find yFind find text yQuote match case true match whole word false match wildcards false match sounds like false match all word forms false match forward true wrap find find stop',
+    '    if yFound is not true then return missing value',
+    '    set yFoundStart to start of content of text object of selection',
+    '    set yFoundEnd to end of content of text object of selection',
+    '    return create range yDoc start yFoundStart end yFoundEnd',
     '  end tell',
     'end yFindRange',
+    'on yFindRangeWithin(yDoc, yLocator, yQuote)',
+    '  set yLocatorRange to my yFindRange(yDoc, yLocator)',
+    '  if yLocatorRange is missing value then return missing value',
+    '  tell application "Microsoft Word"',
+    '    select yLocatorRange',
+    '    set yFind to find object of selection',
+    '    clear formatting yFind',
+    '    set yFound to execute find yFind find text yQuote match case true match whole word false match wildcards false match sounds like false match all word forms false match forward true wrap find find stop',
+    '    if yFound is not true then return missing value',
+    '    set yFoundStart to start of content of text object of selection',
+    '    set yFoundEnd to end of content of text object of selection',
+    '    if yFoundStart is less than (start of content of yLocatorRange) or yFoundEnd is greater than (end of content of yLocatorRange) then return missing value',
+    '    return create range yDoc start yFoundStart end yFoundEnd',
+    '  end tell',
+    'end yFindRangeWithin',
     'tell application "Microsoft Word"',
     'activate',
     'set yDocWasOpened to false',
@@ -3899,7 +4018,7 @@ function richBlockMarkGreen(block, start, end, markType) {
   return overlapCount > 0 && allMarked;
 }
 
-function buildExpectedSceneParagraphs(baselineScene, operations) {
+export function buildExpectedSceneParagraphs(baselineScene, operations) {
   const paragraphs = (Array.isArray(baselineScene?.paragraphs) ? baselineScene.paragraphs : []).slice();
   const byParagraph = new Map();
   for (const operation of operations.filter((item) => (
@@ -3930,7 +4049,7 @@ function buildExpectedSceneParagraphs(baselineScene, operations) {
           : operation.replacementText;
       parts.splice(start, end - start, ...graphemeParts(replacement));
     }
-    paragraphs[ordinal] = parts.join('');
+    paragraphs[ordinal] = parts.join('').trim();
   }
   return { ok: true, reason: 'EXPECTED_SCENE_PARAGRAPHS_COMPUTED', paragraphs };
 }
@@ -3987,6 +4106,152 @@ function buildLegacyBoundedOracleProbe({ ledger, wordParsed }) {
   };
 }
 
+export function validateC5V2CapturedCommentState(truthArtifact = {}) {
+  const expectedRootCommentCount = Number(truthArtifact?.expectedRootCommentCount || 0);
+  const canonicalCapture = truthArtifact?.canonicalNonTextState || {};
+  const recoveryCapture = truthArtifact?.recoveryNonTextState || {};
+  const failures = [];
+  const parseCapture = (capture, label, required) => {
+    if (capture?.present !== true) {
+      if (required) failures.push(`${label}_MISSING`);
+      return null;
+    }
+    if (typeof capture.rawContent !== 'string') {
+      failures.push(`${label}_RAW_CONTENT_MISSING`);
+      return null;
+    }
+    if (capture.rawContentSha256 !== sha256Text(capture.rawContent)) {
+      failures.push(`${label}_RAW_HASH_MISMATCH`);
+    }
+    let parsed = null;
+    try {
+      parsed = JSON.parse(capture.rawContent);
+    } catch {
+      failures.push(`${label}_RAW_JSON_INVALID`);
+      return null;
+    }
+    if (stableCanonicalJson(parsed) !== stableCanonicalJson(capture.state)) {
+      failures.push(`${label}_PARSED_STATE_MISMATCH`);
+    }
+    if (parsed?.schemaVersion !== 'yalken.rtk.word.non-text-return-state.v1') {
+      failures.push(`${label}_SCHEMA_INVALID`);
+    }
+    if (!Number.isSafeInteger(parsed?.revision) || parsed.revision < 0) {
+      failures.push(`${label}_REVISION_INVALID`);
+    }
+    if (!Array.isArray(parsed?.threads) || !Array.isArray(parsed?.events)) {
+      failures.push(`${label}_COLLECTION_INVALID`);
+    }
+    return parsed;
+  };
+  const canonicalState = parseCapture(canonicalCapture, 'CANONICAL_COMMENT_STATE', expectedRootCommentCount > 0);
+  const recoveryState = parseCapture(recoveryCapture, 'COMMENT_RECOVERY_STATE', expectedRootCommentCount > 0);
+  if (canonicalState && Array.isArray(canonicalState.events)) {
+    if (canonicalState.revision !== canonicalState.events.length) failures.push('CANONICAL_COMMENT_STATE_REVISION_EVENT_MISMATCH');
+    if (new Set(canonicalState.events.map((event) => event?.operationId)).size !== canonicalState.events.length) {
+      failures.push('CANONICAL_COMMENT_STATE_OPERATION_ID_DUPLICATE');
+    }
+    if (canonicalState.events.some((event, index) => event?.sequence !== index + 1)) {
+      failures.push('CANONICAL_COMMENT_STATE_EVENT_SEQUENCE_INVALID');
+    }
+  }
+  if (canonicalState && recoveryState) {
+    if (canonicalState.projectId !== recoveryState.projectId) failures.push('COMMENT_RECOVERY_PROJECT_MISMATCH');
+    if (expectedRootCommentCount > 0 && recoveryState.revision !== canonicalState.revision - 1) {
+      failures.push('COMMENT_RECOVERY_REVISION_NOT_PREVIOUS_CANONICAL');
+    }
+  }
+  return {
+    ok: failures.length === 0,
+    expectedRootCommentCount,
+    canonicalState,
+    recoveryState,
+    canonicalRevision: Number(canonicalState?.revision || 0),
+    recoveryRevision: Number(recoveryState?.revision || 0),
+    failures,
+  };
+}
+
+export function bindC5V2CanonicalRootCommentEvidence({
+  operation = {},
+  marker = '',
+  canonicalState = null,
+  threadDiagnostics = [],
+  placementDiagnostics = [],
+  applyReceipts = [],
+  replayReceipts = [],
+} = {}) {
+  const diagnosticThreadMatches = (Array.isArray(threadDiagnostics) ? threadDiagnostics : []).filter((thread) => (
+    (Array.isArray(thread?.messages) ? thread.messages : []).some((message) => message?.body === marker)
+  ));
+  const diagnosticThread = diagnosticThreadMatches[0] || null;
+  const diagnosticPlacementMatches = (Array.isArray(placementDiagnostics) ? placementDiagnostics : []).filter((placement) => (
+    diagnosticThread && placement?.threadId === diagnosticThread.threadId
+  ));
+  const diagnosticPlacement = diagnosticPlacementMatches[0] || null;
+  const canonicalThreadMatches = (Array.isArray(canonicalState?.threads) ? canonicalState.threads : []).filter((thread) => (
+    (Array.isArray(thread?.messages) ? thread.messages : []).some((message) => (
+      message?.kind === 'root' && message?.body === marker
+    ))
+  ));
+  const canonicalThread = canonicalThreadMatches[0] || null;
+  const canonicalEventMatches = (Array.isArray(canonicalState?.events) ? canonicalState.events : []).filter((event) => (
+    canonicalThread
+    && event?.kind === 'root_comment_added'
+    && event?.threadId === canonicalThread.threadId
+    && event?.sceneId === canonicalThread.sceneId
+  ));
+  const canonicalEvent = canonicalEventMatches[0] || null;
+  const expectedReceiptId = typeof canonicalEvent?.operationId === 'string' ? canonicalEvent.operationId : '';
+  const applyMatches = (Array.isArray(applyReceipts) ? applyReceipts : []).filter((receipt) => (
+    receipt?.operationId === expectedReceiptId
+  ));
+  const replayMatches = (Array.isArray(replayReceipts) ? replayReceipts : []).filter((receipt) => (
+    receipt?.operationId === expectedReceiptId
+  ));
+  const applyReceipt = applyMatches[0] || null;
+  const replayReceipt = replayMatches[0] || null;
+  const selectedText = diagnosticPlacement?.quote || '';
+  const diagnosticSceneId = diagnosticPlacement?.targetScope?.id
+    || diagnosticThread?.targetScope?.id
+    || diagnosticThread?.sceneId
+    || '';
+  const green = diagnosticThreadMatches.length === 1
+    && diagnosticPlacementMatches.length === 1
+    && canonicalThreadMatches.length === 1
+    && canonicalEventMatches.length === 1
+    && canonicalThread?.sceneId === operation.sceneId
+    && canonicalThread?.anchor?.selectedText === operation.quote
+    && diagnosticSceneId === operation.sceneId
+    && selectedText === operation.quote
+    && applyMatches.length === 1
+    && replayMatches.length === 1
+    && applyReceipt?.ok === true
+    && applyReceipt?.status === 'applied'
+    && applyReceipt?.recoveryWritten === true
+    && replayReceipt?.ok === true
+    && replayReceipt?.status === 'replay'
+    && Boolean(applyReceipt?.canonicalDigest)
+    && replayReceipt?.canonicalDigest === applyReceipt.canonicalDigest;
+  return {
+    green,
+    diagnosticThreadMatchCount: diagnosticThreadMatches.length,
+    diagnosticPlacementMatchCount: diagnosticPlacementMatches.length,
+    canonicalThreadMatchCount: canonicalThreadMatches.length,
+    canonicalEventMatchCount: canonicalEventMatches.length,
+    canonicalThreadId: canonicalThread?.threadId || '',
+    diagnosticThreadId: diagnosticThread?.threadId || '',
+    diagnosticSceneId,
+    selectedText,
+    expectedReceiptId,
+    applyReceiptMatchCount: applyMatches.length,
+    replayReceiptMatchCount: replayMatches.length,
+    applyReceiptGreen: applyReceipt?.ok === true && applyReceipt?.status === 'applied',
+    replayReceiptGreen: replayReceipt?.ok === true && replayReceipt?.status === 'replay',
+    canonicalDigest: applyReceipt?.canonicalDigest || '',
+  };
+}
+
 export function buildOracleProbe({
   ledger,
   wordParsed,
@@ -4019,6 +4284,7 @@ export function buildOracleProbe({
   const truthArtifact = yalkenTruthPath && fs.existsSync(yalkenTruthPath)
     ? JSON.parse(fs.readFileSync(yalkenTruthPath, 'utf8'))
     : null;
+  const canonicalCommentStateEvidence = validateC5V2CapturedCommentState(truthArtifact || {});
   const baselineByScene = new Map((baselineArtifact?.scenes || []).map((scene) => [scene.sceneId, scene]));
   const truthByScene = new Map((truthArtifact?.sceneReadback || []).map((scene) => {
     const authority = readProductSceneAuthority(scene.rawContent || '');
@@ -4044,7 +4310,6 @@ export function buildOracleProbe({
   const threadDiagnostics = Array.isArray(activation.commentThreadDiagnostics) ? activation.commentThreadDiagnostics : [];
   const placementDiagnostics = Array.isArray(activation.commentPlacementDiagnostics) ? activation.commentPlacementDiagnostics : [];
   const commentPath = activation.commentProductPath || {};
-  const returnedArtifactId = activation.returnIntake?.returnedArtifactSha256 || '';
   const applyReceipts = Array.isArray(commentPath.applyReceipts) ? commentPath.applyReceipts : [];
   const replayReceipts = Array.isArray(commentPath.replayReceipts) ? commentPath.replayReceipts : [];
   const formalOperations = [];
@@ -4093,47 +4358,24 @@ export function buildOracleProbe({
         ? (documentXml.match(new RegExp(`<w:commentRangeEnd\\b[^>]*w:id="${nativeComment.commentId}"`, 'gu')) || []).length
         : 0;
       wordRawGreen = nativeComments.length === 1 && rangeStartCount === 1 && rangeEndCount === 1;
-      const threadMatches = threadDiagnostics.filter((thread) => (
-        (thread.messages || []).some((message) => message.body === marker)
-      ));
-      const thread = threadMatches[0] || null;
-      commentThreadId = thread?.threadId || '';
-      const placementMatches = placementDiagnostics.filter((placement) => placement.threadId === commentThreadId);
-      const placement = placementMatches[0] || null;
-      const sceneId = placement?.targetScope?.id || thread?.targetScope?.id || thread?.sceneId || '';
-      const selectedText = placement?.quote || '';
-      const expectedReceiptId = commentThreadId && sceneId && selectedText
-        ? `physical-root:${sha256Bytes(Buffer.from(stableCanonicalJson({
-            returnArtifactId: returnedArtifactId,
-            threadId: commentThreadId,
-            sceneId,
-            selectedText,
-            rootBody: marker,
-          }), 'utf8'))}`
-        : '';
-      const applyReceipt = applyReceipts.find((receipt) => receipt.operationId === expectedReceiptId);
-      const replayReceipt = replayReceipts.find((receipt) => receipt.operationId === expectedReceiptId);
+      const canonicalBinding = bindC5V2CanonicalRootCommentEvidence({
+        operation,
+        marker,
+        canonicalState: canonicalCommentStateEvidence.canonicalState,
+        threadDiagnostics,
+        placementDiagnostics,
+        applyReceipts,
+        replayReceipts,
+      });
+      commentThreadId = canonicalBinding.canonicalThreadId;
       yalkenGreen = yalkenGreen
-        && threadMatches.length === 1
-        && placementMatches.length === 1
-        && sceneId === operation.sceneId
-        && selectedText === operation.quote
-        && applyReceipt?.ok === true
-        && applyReceipt?.status === 'applied'
-        && applyReceipt?.recoveryWritten === true
-        && replayReceipt?.ok === true
-        && replayReceipt?.status === 'replay'
-        && applyReceipt?.canonicalDigest
-        && replayReceipt?.canonicalDigest === applyReceipt.canonicalDigest;
+        && canonicalCommentStateEvidence.ok
+        && canonicalBinding.green;
       wordEvidence = { marker, nativeCommentCount: nativeComments.length, rangeStartCount, rangeEndCount };
       yalkenEvidence = {
         ...yalkenEvidence,
-        threadMatchCount: threadMatches.length,
-        placementMatchCount: placementMatches.length,
-        expectedReceiptId,
-        applyReceiptGreen: applyReceipt?.ok === true && applyReceipt?.status === 'applied',
-        replayReceiptGreen: replayReceipt?.ok === true && replayReceipt?.status === 'replay',
-        canonicalDigest: applyReceipt?.canonicalDigest || '',
+        canonicalCommentStateGreen: canonicalCommentStateEvidence.ok,
+        ...canonicalBinding,
       };
     } else if (['reply', 'comment_state'].includes(operation.formalFamily)) {
       const replyMarker = `C5V2 reply ${operation.id}`;
@@ -4216,8 +4458,41 @@ export function buildOracleProbe({
     duplicateNativeReadbacks,
     sourceKinds: ['ledger-intent', 'raw-ooxml', 'word-object-model-reopened', 'reopened-yalken-project'],
     semanticOracle,
+    canonicalCommentStateEvidence: {
+      ok: canonicalCommentStateEvidence.ok,
+      expectedRootCommentCount: canonicalCommentStateEvidence.expectedRootCommentCount,
+      canonicalRevision: canonicalCommentStateEvidence.canonicalRevision,
+      recoveryRevision: canonicalCommentStateEvidence.recoveryRevision,
+      failures: canonicalCommentStateEvidence.failures,
+    },
     operationResults,
     oracleDigest: sha256Text(stableCanonicalJson(operationResults)),
+  };
+}
+
+export function buildC5V2CompleteRoundOracleGate({
+  roundId = '',
+  wordParsed = {},
+  nativeLifecycleVerification = {},
+  oracleProbe = null,
+  returnApply = null,
+} = {}) {
+  const failures = [];
+  if (wordParsed?.scalars?.WORD_STATUS !== 'PASS') failures.push('WORD_STATUS_NOT_PASS');
+  if (returnApply?.ok !== true) failures.push('PRODUCT_RETURN_APPLY_NOT_GREEN');
+  if (nativeLifecycleVerification?.ok !== true) failures.push('NATIVE_LIFECYCLE_VERIFICATION_NOT_GREEN');
+  if (oracleProbe?.ok !== true) failures.push('COMPLETE_ROUND_ORACLE_NOT_GREEN');
+  return {
+    schemaVersion: 'yalken.rtk.word.c5v2.complete-round-oracle-gate.v1',
+    roundId,
+    ok: failures.length === 0,
+    wordStatus: wordParsed?.scalars?.WORD_STATUS || 'UNKNOWN',
+    productReturnApplyGreen: returnApply?.ok === true,
+    nativeLifecycleVerificationGreen: nativeLifecycleVerification?.ok === true,
+    completeRoundOracleGreen: oracleProbe?.ok === true,
+    oracleDigest: oracleProbe?.oracleDigest || '',
+    semanticOracleDigest: oracleProbe?.semanticOracle?.digest || oracleProbe?.semanticOracle?.oracleDigest || '',
+    failures,
   };
 }
 
@@ -4292,6 +4567,7 @@ async function mainCumulative(options) {
       returnedPath: path.join(roundDir, 'c5v2-cumulative-returned-word-native.docx'),
       wordReturnedPath: path.join(wordWorkRoot.root, roundLabel, 'c5v2-cumulative-returned-word-native.docx'),
       returnedReadyPath: path.join(roundDir, 'c5v2-cumulative-returned-ready.json'),
+      oracleGatePath: path.join(roundDir, 'complete-round-oracle-gate.json'),
       ledger: null,
     });
     writeJsonAtomicDurable(path.join(roundDir, 'round-plan.pre-export.json'), {
@@ -4413,6 +4689,46 @@ async function mainCumulative(options) {
       fs.writeFileSync(path.join(round.roundDir, 'word-output.txt'), wordOutput, 'utf8');
       return wordOutput;
     },
+    validateRound: async (roundIndex, round, payload) => {
+      const nativeLifecycleVerification = round.ledger && fs.existsSync(round.returnedPath)
+        ? readNativeLifecycleSnapshots({ ledger: round.ledger, returnedPath: round.returnedPath })
+        : { ok: false, results: [], verifiedCount: 0, blockedCount: 0 };
+      const wordParsed = applyNativeLifecycleVerification(
+        parseWordOutput(payload.wordOutput || ''),
+        nativeLifecycleVerification,
+      );
+      const returnApply = payload.returnApplyPayload?.returnApply || null;
+      const oracleProbe = wordParsed.ops.length > 0 && round.ledger && fs.existsSync(round.returnedPath)
+        ? buildOracleProbe({
+            ledger: round.ledger,
+            wordParsed,
+            returnedDocxPath: round.returnedPath,
+            wordVisibleReadbackPath: `${round.returnedPath}.word-visible-readback.txt`,
+            baselineArtifactPath: round.productBaselineArtifact?.path || path.join(round.roundDir, 'product-baseline-scenes.json'),
+            yalkenTruthPath: returnApply?.yalkenTruthArtifact?.path || path.join(round.roundDir, 'yalken-reopened-truth.json'),
+            returnApply,
+          })
+        : null;
+      const oracleArtifact = oracleProbe
+        ? writeJsonAtomicDurable(path.join(round.roundDir, 'complete-round-oracle.json'), oracleProbe)
+        : null;
+      const gate = buildC5V2CompleteRoundOracleGate({
+        roundId: round.roundId,
+        wordParsed,
+        nativeLifecycleVerification,
+        oracleProbe,
+        returnApply,
+      });
+      round.completedRoundEvidence = {
+        wordParsed,
+        nativeLifecycleVerification,
+        returnApply,
+        oracleProbe,
+        oracleArtifact,
+        gate,
+      };
+      return gate;
+    },
   });
   for (let index = 0; index < rounds.length; index += 1) {
     const round = rounds[index];
@@ -4422,15 +4738,17 @@ async function mainCumulative(options) {
   }
   const roundSummaries = rounds.map((round, index) => {
     const wordOutput = electronResult.wordOutputs[index] || '';
-    const nativeLifecycleVerification = round.ledger && fs.existsSync(round.returnedPath)
+    const nativeLifecycleVerification = round.completedRoundEvidence?.nativeLifecycleVerification || (round.ledger && fs.existsSync(round.returnedPath)
       ? readNativeLifecycleSnapshots({ ledger: round.ledger, returnedPath: round.returnedPath })
-      : { ok: false, results: [], verifiedCount: 0, blockedCount: 0 };
-    const wordParsed = applyNativeLifecycleVerification(parseWordOutput(wordOutput), nativeLifecycleVerification);
+      : { ok: false, results: [], verifiedCount: 0, blockedCount: 0 });
+    const wordParsed = round.completedRoundEvidence?.wordParsed
+      || applyNativeLifecycleVerification(parseWordOutput(wordOutput), nativeLifecycleVerification);
     const returnApplyEnvelope = electronResult.returnApplyResults.find((line) => line.roundIndex === index) || null;
-    const returnApply = returnApplyEnvelope && returnApplyEnvelope.returnApply ? returnApplyEnvelope.returnApply : null;
+    const returnApply = round.completedRoundEvidence?.returnApply
+      || (returnApplyEnvelope && returnApplyEnvelope.returnApply ? returnApplyEnvelope.returnApply : null);
     const exact = returnApply?.activation?.exactApplyTextChangeIdsByScene || {};
     const exactTotal = Object.values(exact).reduce((total, ids) => total + (Array.isArray(ids) ? ids.length : 0), 0);
-    const oracleProbe = wordParsed.ops.length > 0 && round.ledger && fs.existsSync(round.returnedPath)
+    const oracleProbe = round.completedRoundEvidence?.oracleProbe || (wordParsed.ops.length > 0 && round.ledger && fs.existsSync(round.returnedPath)
       ? buildOracleProbe({
           ledger: round.ledger,
           wordParsed,
@@ -4440,10 +4758,10 @@ async function mainCumulative(options) {
           yalkenTruthPath: returnApply?.yalkenTruthArtifact?.path || path.join(round.roundDir, 'yalken-reopened-truth.json'),
           returnApply,
         })
-      : null;
-    const oracleArtifact = oracleProbe
+      : null);
+    const oracleArtifact = round.completedRoundEvidence?.oracleArtifact || (oracleProbe
       ? writeJsonAtomicDurable(path.join(round.roundDir, 'complete-round-oracle.json'), oracleProbe)
-      : null;
+      : null);
     return {
       roundId: round.roundId,
       sourceDocxPath: round.sourcePath,
@@ -4473,6 +4791,9 @@ async function mainCumulative(options) {
       packageSummary: fs.existsSync(round.returnedPath) ? packageSummary(round.returnedPath) : null,
       oracleProbe,
       oracleArtifact,
+      roundOracleGate: round.completedRoundEvidence?.gate
+        || electronResult.roundOracleGateResults.find((line) => line.roundIndex === index)?.roundOracleGate
+        || null,
       productReturnApply: returnApply,
       productApplyOk: returnApply?.ok === true,
       exactScenes: Object.keys(exact).length,

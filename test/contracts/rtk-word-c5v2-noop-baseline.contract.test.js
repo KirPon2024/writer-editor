@@ -2,6 +2,8 @@
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const os = require('node:os');
 const path = require('node:path');
 
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
@@ -222,4 +224,95 @@ test('C5V2 product apply binds only ledger-authorized EXACT candidates and delet
   assert.equal(canary.c5v2PhysicalReplacementText({
     semanticIntent: { kind: 'replace', replacementText: 'replacement' },
   }), 'replacement');
+  assert.deepEqual(canary.c5v2PhysicalSemanticIntent({
+    semanticIntent: { kind: 'delete', replacementText: 'synthetic-master-only', preserve: 'intent' },
+  }), {
+    kind: 'delete',
+    replacementText: '',
+    preserve: 'intent',
+  });
+});
+
+test('C5V2 rich reopened scenes retain complete topology while exposing stable nonempty logical paragraph ordinals', async () => {
+  const canary = await import(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs'));
+  const envelope = await import(path.join(REPO_ROOT, 'src', 'renderer', 'documentContentEnvelope.mjs'));
+  const rawContent = envelope.composeObservablePayload({
+    doc: {
+      type: 'doc',
+      content: [
+        { type: 'paragraph', content: [{ type: 'text', text: 'First logical paragraph' }] },
+        { type: 'paragraph' },
+        {
+          type: 'heading',
+          attrs: { level: 2 },
+          content: [{ type: 'text', text: 'Target phrase unique', marks: [{ type: 'bold' }] }],
+        },
+        { type: 'paragraph' },
+      ],
+    },
+  });
+  const authority = canary.readProductSceneAuthority(rawContent);
+  assert.equal(authority.allBlocks.length, 4);
+  assert.equal(authority.blocks.length, 2);
+  assert.deepEqual(authority.paragraphs, ['First logical paragraph', 'Target phrase unique']);
+  assert.equal(authority.blocks[1].type, 'heading');
+  assert.equal(authority.blocks[1].attrs.level, 2);
+
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'c5v2-rich-round-two-'));
+  const sourceDocxPath = path.join(tempRoot, 'round-two.docx');
+  const { buildStoredZip } = require(path.join(REPO_ROOT, 'src', 'export', 'docx', 'docxMinBuilder.js'));
+  fs.writeFileSync(sourceDocxPath, buildStoredZip([{
+    name: 'word/document.xml',
+    data: '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>'
+      + '<w:p><w:r><w:t>First logical paragraph</w:t></w:r></w:p>'
+      + '<w:p><w:r><w:t>Target phrase unique</w:t></w:r></w:p>'
+      + '</w:body></w:document>',
+  }]));
+  const sceneId = 'roman/scene-rich.txt';
+  const physicalLedger = canary.adaptC5V2MasterRoundToPhysicalLedger({
+    masterLedger: {
+      gates: { ok: true },
+      roundCount: 5,
+      ledgerDigest: 'sha256:master',
+      sceneProfiles: [{ sceneId }],
+      operations: [{
+        id: 'round-two-delete',
+        family: 'tracked_text_edit',
+        round: 2,
+        sceneId,
+        expectedOutcome: 'EXACT',
+        semanticIntent: { kind: 'delete', replacementText: 'synthetic-master-only' },
+        anchor: {
+          paragraphOrdinal: 1,
+          graphemeStart: 0,
+          graphemeEnd: 6,
+          selectedText: 'Target',
+          positionalThird: 'beginning',
+        },
+      }],
+    },
+    currentScenes: [{ sceneId, text: authority.text, paragraphs: authority.paragraphs }],
+    roundNumber: 2,
+    sourceDocxPath,
+  });
+  assert.equal(physicalLedger.operations[0].quote, 'Target');
+  assert.equal(physicalLedger.operations[0].replacementText, '');
+  assert.equal(physicalLedger.operations[0].semanticIntent.replacementText, '');
+});
+
+test('C5V2 expected reopened text follows canonical boundary trimming after an exact delete', async () => {
+  const canary = await import(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs'));
+  const result = canary.buildExpectedSceneParagraphs(
+    { paragraphs: ['Delete this boundary while internal  spacing remains.'] },
+    [{
+      id: 'boundary-delete',
+      family: 'tracked_delete',
+      expectedOutcome: 'EXACT',
+      quote: 'Delete',
+      replacementText: '',
+      masterAnchor: { paragraphOrdinal: 0, graphemeStart: 0, graphemeEnd: 6 },
+    }],
+  );
+  assert.equal(result.ok, true);
+  assert.equal(result.paragraphs[0], 'this boundary while internal  spacing remains.');
 });

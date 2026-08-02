@@ -168,4 +168,41 @@ test('C5V2 physical Word chunks preserve root-first and descending-range authori
   assert.doesNotMatch(continuation, /my yResetCheckpoint\(yCheckpointPath\)/u);
   assert.match(continuation, /CHUNK_START:word-chunk-002/u);
   assert.match(continuation, /FINAL_NATIVE_REVISION_COUNT_MISMATCH:" & yRevisionCount & ":5/u);
+  assert.match(continuation, /set yFind to find object of selection/u);
+  assert.match(continuation, /execute find yFind find text yQuote[\s\S]*wrap find find stop/u);
+  assert.match(continuation, /on yFindRangeWithin\(yDoc, yLocator, yQuote\)/u);
+  assert.doesNotMatch(continuation, /offset of yQuote/u);
+});
+
+test('C5V2 cumulative controller blocks the next export until the complete round oracle gate is green', async () => {
+  const canary = await import(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs'));
+  const green = canary.buildC5V2CompleteRoundOracleGate({
+    roundId: 'round-01',
+    wordParsed: { scalars: { WORD_STATUS: 'PASS' } },
+    nativeLifecycleVerification: { ok: true },
+    oracleProbe: { ok: true, oracleDigest: 'sha256:oracle' },
+    returnApply: { ok: true },
+  });
+  assert.equal(green.ok, true);
+  assert.deepEqual(green.failures, []);
+
+  const blocked = canary.buildC5V2CompleteRoundOracleGate({
+    roundId: 'round-01',
+    wordParsed: { scalars: { WORD_STATUS: 'PASS' } },
+    nativeLifecycleVerification: { ok: true },
+    oracleProbe: { ok: false },
+    returnApply: { ok: true },
+  });
+  assert.equal(blocked.ok, false);
+  assert.deepEqual(blocked.failures, ['COMPLETE_ROUND_ORACLE_NOT_GREEN']);
+
+  const source = fs.readFileSync(
+    path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs'),
+    'utf8',
+  );
+  assert.match(source, /COMPLETE_ROUND_ORACLE_GATE_NOT_DURABLY_VISIBLE/u);
+  assert.match(source, /phase: 'round-oracle-gate'/u);
+  assert.match(source, /await validateRound\(roundIndex, round/u);
+  assert.match(source, /writeJsonAtomicDurable\(round\.oracleGatePath, roundOracleGate\)/u);
+  assert.match(source, /C5V2_CUMULATIVE_COMPLETE_ROUND_ORACLE_FAILED/u);
 });

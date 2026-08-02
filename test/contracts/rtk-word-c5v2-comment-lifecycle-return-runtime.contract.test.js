@@ -509,6 +509,107 @@ test('N2 root-only physical success cannot certify the combined comments replies
   assert.notEqual(partial.commentsRepliesState, 'CANONICAL_PRODUCT_APPLY_AND_REPLAY_PROVEN');
 });
 
+test('N2 C5V2 oracle binds root receipts through reopened canonical state instead of parser thread identifiers', async () => {
+  const canary = await import(CANARY_PATH);
+  const marker = 'C5V2 root c5v2-root_comment-0001';
+  const sceneId = 'roman/01_dorian.txt';
+  const selectedText = 'unique anchor';
+  const operationId = `physical-root:${'a'.repeat(64)}`;
+  const canonicalState = {
+    schemaVersion: 'yalken.rtk.word.non-text-return-state.v1',
+    projectId: 'project-c5v2-oracle',
+    revision: 1,
+    threads: [{
+      threadId: 'rtk-comment-3',
+      sceneId,
+      status: 'open',
+      anchor: { selectedText },
+      rootCommentId: '3',
+      messages: [{ commentId: '3', kind: 'root', body: marker }],
+    }],
+    events: [{
+      schemaVersion: 'yalken.rtk.word.non-text-return-event.v1',
+      sequence: 1,
+      operationId,
+      operationDigest: 'digest',
+      kind: 'root_comment_added',
+      sceneId,
+      threadId: 'rtk-comment-3',
+    }],
+  };
+  const receipt = {
+    operationId,
+    ok: true,
+    recoveryWritten: true,
+    canonicalDigest: 'canonical-after-root',
+  };
+  const binding = canary.bindC5V2CanonicalRootCommentEvidence({
+    operation: { sceneId, quote: selectedText },
+    marker,
+    canonicalState,
+    threadDiagnostics: [{
+      threadId: 'docx-comment-3',
+      messages: [{ body: marker }],
+    }],
+    placementDiagnostics: [{
+      threadId: 'docx-comment-3',
+      targetScope: { type: 'scene', id: sceneId },
+      quote: selectedText,
+    }],
+    applyReceipts: [{ ...receipt, status: 'applied' }],
+    replayReceipts: [{ ...receipt, status: 'replay' }],
+  });
+  assert.equal(binding.green, true);
+  assert.equal(binding.diagnosticThreadId, 'docx-comment-3');
+  assert.equal(binding.canonicalThreadId, 'rtk-comment-3');
+  assert.equal(binding.expectedReceiptId, operationId);
+
+  const recoveryState = {
+    schemaVersion: canonicalState.schemaVersion,
+    projectId: canonicalState.projectId,
+    revision: 0,
+    threads: [],
+    events: [],
+  };
+  const canonicalRaw = `${JSON.stringify(canonicalState, null, 2)}\n`;
+  const recoveryRaw = `${JSON.stringify(recoveryState, null, 2)}\n`;
+  const captured = canary.validateC5V2CapturedCommentState({
+    expectedRootCommentCount: 1,
+    canonicalNonTextState: {
+      present: true,
+      rawContent: canonicalRaw,
+      rawContentSha256: canary.sha256Text(canonicalRaw),
+      state: canonicalState,
+    },
+    recoveryNonTextState: {
+      present: true,
+      rawContent: recoveryRaw,
+      rawContentSha256: canary.sha256Text(recoveryRaw),
+      state: recoveryState,
+    },
+  });
+  assert.equal(captured.ok, true);
+
+  const tampered = canary.validateC5V2CapturedCommentState({
+    expectedRootCommentCount: 1,
+    canonicalNonTextState: {
+      present: true,
+      rawContent: canonicalRaw.replace(marker, `${marker} tampered`),
+      rawContentSha256: canary.sha256Text(canonicalRaw),
+      state: canonicalState,
+    },
+    recoveryNonTextState: {
+      present: true,
+      rawContent: recoveryRaw,
+      rawContentSha256: canary.sha256Text(recoveryRaw),
+      state: recoveryState,
+    },
+  });
+  assert.equal(tampered.ok, false);
+  assert.equal(tampered.failures.includes('CANONICAL_COMMENT_STATE_RAW_HASH_MISMATCH'), true);
+  assert.equal(tampered.failures.includes('CANONICAL_COMMENT_STATE_PARSED_STATE_MISMATCH'), true);
+});
+
 test('N2 lifecycle verification is explicitly not applicable when the ledger has no lifecycle operations', async () => {
   const canary = await import(CANARY_PATH);
   assert.deepEqual(

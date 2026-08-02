@@ -200,8 +200,10 @@ test('ER C04: query and command registries expose workbench/inspector through sh
 
   const mainSource = fs.readFileSync(path.join(process.cwd(), 'src', 'main.js'), 'utf8');
   assert.match(mainSource, /async function dispatchProductCommandBridge/u);
-  assert.match(mainSource, /reduceCoreState\(binding\.coreState/u);
-  assert.match(mainSource, /persistProjectManifestAtPath\(binding\.manifestPath/u);
+  assert.match(mainSource, /activeStage10ApplicationCommandRoute\.dispatch\(commandId, payload\)/u);
+  assert.match(mainSource, /canonicalProjectTruthPort:\s*\{/u);
+  assert.match(mainSource, /E_PRODUCT_COMMAND_CANONICAL_KERNEL_ROUTE_REQUIRED/u);
+  assert.doesNotMatch(mainSource, /async function dispatchProductCommandBridgeTransaction/u);
   assert.doesNotMatch(mainSource, /PRODUCT_COMMAND_REQUIRES_PROJECT_KERNEL_ADAPTER/u);
 });
 

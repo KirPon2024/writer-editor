@@ -49,8 +49,15 @@ test('P0 05: Manual Map portability commands are registry, Core and Design OS bo
 test('P0 05: main bridge handles portability through Command Kernel without storage bypass', () => {
   const mainSource = readText('src/main.js');
   const bridgeStart = mainSource.indexOf('async function dispatchProductCommandBridge');
-  const bridgeEnd = mainSource.indexOf('async function dispatchProductCommandBridgeTransaction', bridgeStart);
+  const bridgeEnd = mainSource.indexOf('function buildFontSubmenu', bridgeStart);
+  const importStart = mainSource.indexOf('async function handleManualMapImportJsonRepeatProductCommand');
+  const importEnd = mainSource.indexOf('async function dispatchManualMapPortabilityProductCommand', importStart);
+  assert.notEqual(bridgeStart, -1);
+  assert.notEqual(bridgeEnd, -1);
+  assert.notEqual(importStart, -1);
+  assert.notEqual(importEnd, -1);
   const bridgeSource = mainSource.slice(bridgeStart, bridgeEnd);
+  const importSource = mainSource.slice(importStart, importEnd);
 
   assert.match(mainSource, /function loadManualMapExportModule/u);
   assert.match(mainSource, /function loadManualMapImportModule/u);
@@ -65,8 +72,10 @@ test('P0 05: main bridge handles portability through Command Kernel without stor
   assert.match(mainSource, /persistProjectManifestAtPath\(binding\.manifestPath, nextManifest, `product command \$\{commandId\}`\)/u);
   assert.match(bridgeSource, /evaluateCommandCapabilityAuthority/u);
   assert.match(bridgeSource, /dispatchManualMapPortabilityProductCommand/u);
+  assert.doesNotMatch(bridgeSource, /async function dispatchProductCommandBridgeTransaction/u);
   assert.match(mainSource, /manualMap\.export\.json[\s\S]{0,1400}mutationApplied:\s*false[\s\S]{0,800}storageWritten:\s*false/u);
-  assert.match(mainSource, /manualMap\.import\.jsonRepeat[\s\S]{0,4200}mutationApplied:\s*true[\s\S]{0,1000}storageWritten:\s*true/u);
+  assert.match(importSource, /mutationApplied:\s*true/u);
+  assert.match(importSource, /storageWritten:\s*true/u);
   assert.doesNotMatch(mainSource, /ipcMain\.handle\(['"]manualMap\./u);
 });
 

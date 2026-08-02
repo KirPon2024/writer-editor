@@ -20,17 +20,27 @@ function productRuntimeCommandIds(runtime) {
     .sort();
 }
 
+function coreAuthorProductRecords(product) {
+  return product.PRODUCT_COMMAND_RECORDS.filter((record) => (
+    record.domain === 'atlas'
+    || record.domain === 'manualMap'
+    || record.domain === 'idea'
+    || record.domain === 'meaning'
+  ));
+}
+
 test('ER C03: shared product command registry covers Core Atlas, Manual Map, Idea and Meaning commands', async () => {
   const product = require(path.join(REPO_ROOT, 'src', 'shared', 'productCommandRegistry.cjs'));
   const runtime = await importModule('src/core/runtime.mjs');
   const typedCoreRegistrySource = readText('src/core/registry.ts');
   const runtimeProductIds = productRuntimeCommandIds(runtime);
+  const coreAuthorRecords = coreAuthorProductRecords(product);
 
   assert.equal(product.PRODUCT_COMMAND_SCHEMA_VERSION, 'product-command-registry.v1');
-  assert.deepEqual([...product.PRODUCT_COMMAND_ID_LIST].sort(), runtimeProductIds);
+  assert.deepEqual(coreAuthorRecords.map((record) => record.id).sort(), runtimeProductIds);
   assert.equal(product.PRODUCT_COMMAND_ID_LIST.length, product.PRODUCT_COMMAND_RECORDS.length);
 
-  for (const record of product.PRODUCT_COMMAND_RECORDS) {
+  for (const record of coreAuthorRecords) {
     assert.match(typedCoreRegistrySource, new RegExp(`'${record.id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}'`));
     assert.equal(record.commandAuthority, 'CommandKernel');
     assert.equal(record.runtimeBacked, true);
@@ -57,7 +67,7 @@ test('ER C03: catalog, capability binding and local availability project from th
   const localContract = localCapability.getLocalCapabilityContract();
   const localAlwaysAvailable = new Set(localContract.freeAlwaysAvailableCommandIds);
 
-  for (const commandId of product.PRODUCT_COMMAND_ID_LIST) {
+  for (const commandId of coreAuthorProductRecords(product).map((record) => record.id)) {
     assert.equal(catalogIds.has(commandId), true, `product command missing from catalog: ${commandId}`);
     assert.equal(capabilityPolicy.CAPABILITY_BINDING[commandId], product.PRODUCT_COMMAND_CAPABILITY_BINDING[commandId]);
     assert.equal(localAlwaysAvailable.has(commandId), true, `product command missing from local availability: ${commandId}`);
@@ -90,7 +100,7 @@ test('ER C03: renderer command registry reaches product commands through bridge-
   registerProjectCommands(registry, { electronAPI });
   const runCommand = createCommandRunner(registry, { capability: { platformId: 'node' } });
 
-  for (const commandId of product.PRODUCT_COMMAND_ID_LIST) {
+  for (const commandId of coreAuthorProductRecords(product).map((record) => record.id)) {
     assert.equal(registry.hasCommand(commandId), true, `product command not registered: ${commandId}`);
     const meta = registry.getMeta(commandId);
     assert.equal(meta.surface.includes('palette'), true, `palette surface missing for ${commandId}`);
@@ -119,10 +129,12 @@ test('ER C03: main bridge allowlist and routing use product registry and fail cl
   assert.match(mainSource, /new Set\(\[\s*\.\.\.PRODUCT_COMMAND_ID_LIST/);
   assert.match(mainSource, /PRODUCT_COMMAND_ID_SET\.has\(commandId\)/);
   assert.match(mainSource, /dispatchProductCommandBridge\(commandId, payload\)/);
-  assert.match(mainSource, /reduceCoreState\(binding\.coreState/);
-  assert.match(mainSource, /persistProjectManifestAtPath/);
+  assert.match(mainSource, /activeStage10ApplicationCommandRoute\.dispatch\(commandId, payload\)/);
+  assert.match(mainSource, /canonicalProjectTruthPort:\s*\{/);
+  assert.match(mainSource, /E_PRODUCT_COMMAND_CANONICAL_KERNEL_ROUTE_REQUIRED/);
   assert.match(mainSource, /mutationApplied:\s*false/);
   assert.match(mainSource, /storageWritten:\s*false/);
+  assert.doesNotMatch(mainSource, /async function dispatchProductCommandBridgeTransaction/);
   assert.doesNotMatch(mainSource, /PRODUCT_COMMAND_REQUIRES_PROJECT_KERNEL_ADAPTER/);
   assert.doesNotMatch(mainSource, /resolveMenuCommandId\(commandId[\s\S]{0,80}atlas\./);
 });

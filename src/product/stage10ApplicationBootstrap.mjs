@@ -105,10 +105,23 @@ export function createStage10ApplicationBootstrap(input = {}) {
     );
   }
 
+  async function dispatchCanonicalProjectCommand(commandId, payload = {}, canonicalProjectTruth = {}) {
+    if (!runtime) {
+      throw typedError('E_STAGE10_BOOTSTRAP_RUNTIME_MISSING', 'stage10.applicationBootstrap.dispatchCanonical', 'APPLICATION_BOOTSTRAP_RUNTIME_MISSING');
+    }
+    return runtime.dispatchVisibleCommand(
+      commandId,
+      payload,
+      activation(`stage10-app-bootstrap-${commandId}`),
+      { canonicalProjectTruth },
+    );
+  }
+
   return {
     createProjectRuntime,
     reopenProjectRuntime,
     dispatchProjectCommand,
+    dispatchCanonicalProjectCommand,
     getRuntime: () => runtime,
     getProjectId: () => projectId,
   };

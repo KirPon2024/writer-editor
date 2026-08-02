@@ -1,9 +1,11 @@
+import projectIdDomain from './projectIdDomain.cjs';
+
 export const STAGE10_PROJECT_PATH_KEY_SCHEMA = 'yalken.stage10.projectPathKey.v2';
 export const STAGE10_PROJECT_PATH_KEY_PREFIX = 'p2~';
 
-const PROJECT_ID_PATTERN = /^[a-zA-Z0-9._:-]{1,180}$/u;
 const HEX_SEGMENT_LENGTH = 96;
 const PATH_LEAF = 'project';
+const { normalizeProjectId } = projectIdDomain;
 
 function normalizeString(value) {
   return typeof value === 'string' ? value.trim() : '';
@@ -19,8 +21,8 @@ function encodeProjectId(projectId) {
 }
 
 export function stage10ProjectPathIdentity(value) {
-  const projectId = typeof value === 'string' ? value : '';
-  if (projectId !== normalizeString(projectId) || !PROJECT_ID_PATTERN.test(projectId)) {
+  const projectId = normalizeProjectId(value);
+  if (!projectId) {
     return Object.freeze({
       ok: false,
       schemaVersion: STAGE10_PROJECT_PATH_KEY_SCHEMA,
@@ -40,6 +42,10 @@ export function stage10ProjectPathIdentity(value) {
     legacyKey,
     requiresLegacyMigration: canonicalKey !== legacyKey,
   });
+}
+
+export function normalizeStage10ProjectId(value) {
+  return normalizeProjectId(value);
 }
 
 export function decodeStage10ProjectPathKey(value) {

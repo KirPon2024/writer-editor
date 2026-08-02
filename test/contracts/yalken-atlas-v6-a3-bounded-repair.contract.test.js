@@ -137,11 +137,12 @@ test('Atlas V6 A3: accepted project IDs have reversible injective domain-separat
   const prefixVariants = ['a'.repeat(48), `${'a'.repeat(48)}b`].map(identityModule.stage10ProjectPathIdentity);
   assert.notEqual(prefixVariants[0].canonicalKey, prefixVariants[1].canonicalKey);
   assert.equal(prefixVariants.every((identity) => identity.canonicalKey.endsWith('/project')), true);
-  const longest = identityModule.stage10ProjectPathIdentity('A'.repeat(180));
+  const longest = identityModule.stage10ProjectPathIdentity('A'.repeat(128));
   assert.equal(longest.ok, true);
-  assert.equal(identityModule.decodeStage10ProjectPathKey(longest.canonicalKey), 'A'.repeat(180));
+  assert.equal(identityModule.decodeStage10ProjectPathKey(longest.canonicalKey), 'A'.repeat(128));
   assert.equal(longest.canonicalKey.split('/').every((segment) => segment.length <= 96), true);
-  assert.equal(identityModule.stage10ProjectPathIdentity(' alpha:beta').ok, false);
+  assert.equal(identityModule.stage10ProjectPathIdentity('A'.repeat(129)).ok, false);
+  assert.equal(identityModule.stage10ProjectPathIdentity(' alpha:beta').projectId, 'alpha:beta');
   assert.equal(identityModule.stage10ProjectPathIdentity('alpha/beta').ok, false);
   assert.equal(identityModule.stage10ProjectPathIdentity('../alpha').ok, false);
 
@@ -170,17 +171,24 @@ test('Atlas V6 A3: legacy key migration is atomic, identity-bound and collision-
   assert.equal(fs.existsSync(colonPaths.anchorRoot), false);
   assert.equal(fs.existsSync(colonLegacyRoot), true);
 
-  const underscoreProject = await makeProjectHarness('underscore', 'alpha_beta', anchorRoot);
-  const underscorePaths = underscoreProject.adapter.paths('alpha_beta');
-  assert.notEqual(colonPaths.anchorRoot, underscorePaths.anchorRoot);
-  assert.equal(fs.existsSync(underscorePaths.anchor), true);
-  assert.equal(JSON.parse(fs.readFileSync(underscorePaths.anchor, 'utf8')).projectId, 'alpha_beta');
+  const identityModule = await importModule('src/product/stage10ProjectIdentityKey.mjs');
+  const underscoreIdentity = identityModule.stage10ProjectPathIdentity('alpha_beta');
+  const underscoreAnchorRoot = path.join(anchorRoot, underscoreIdentity.canonicalKey);
+  await assert.rejects(
+    () => makeProjectHarness('underscore-collision', 'alpha_beta', anchorRoot),
+    (error) => error?.code === 'E_STAGE10_PROJECT_KEY_LEGACY_COLLISION',
+  );
+  assert.equal(fs.existsSync(underscoreAnchorRoot), false);
   assert.equal(JSON.parse(fs.readFileSync(path.join(colonLegacyRoot, 'integrity-anchor.v1.json'), 'utf8')).projectId, 'alpha:beta');
 
   const migratedColon = await colonProject.makeAdapter().readStage10State('alpha:beta');
   assert.equal(migratedColon.session.projectId, 'alpha:beta');
   assert.equal(fs.existsSync(colonPaths.anchorRoot), true);
   assert.equal(fs.existsSync(colonLegacyRoot), false);
+  const underscoreProject = await makeProjectHarness('underscore', 'alpha_beta', anchorRoot);
+  const underscorePaths = underscoreProject.adapter.paths('alpha_beta');
+  assert.notEqual(colonPaths.anchorRoot, underscorePaths.anchorRoot);
+  assert.equal(fs.existsSync(underscorePaths.anchor), true);
   const reopenedUnderscore = await underscoreProject.makeAdapter().readStage10State('alpha_beta');
   assert.equal(reopenedUnderscore.session.projectId, 'alpha_beta');
   assert.notEqual(
@@ -281,7 +289,8 @@ test('Atlas V6 A3: a two-process slow truth publication exceeds TTL without recl
         && error?.details?.ownerAlive === true;
     },
   );
-  assert.ok(Number(heldError.details.expiresAtMs) <= Date.now());
+  assert.ok(Number(heldError.details.expiresAtMs) > Date.now());
+  assert.ok(Number(heldError.details.monotonicExpiresAtMs) > 0);
   await holder.waitForOutput('SLOW_RENAME_COMPLETE');
   await assert.rejects(
     () => contender.readStage10State(projectId),
@@ -334,7 +343,7 @@ test('Atlas V6 A3: a two-process slow truth publication exceeds TTL without recl
   );
   const transactionPath = crashingAdapter.paths(projectId).transaction;
   const pending = JSON.parse(fs.readFileSync(transactionPath, 'utf8'));
-  assert.equal(pending.schemaVersion, 'yalken.stage10.mainPersistenceTransaction.v4');
+  assert.equal(pending.schemaVersion, 'yalken.stage10.mainPersistenceTransaction.v5');
   assert.ok(Number.isSafeInteger(pending.fencingGeneration));
   assert.match(pending.leaseOwnerTokenDigest, /^[a-f0-9]{64}$/u);
   assert.match(pending.fencingBindingDigest, /^[a-f0-9]{64}$/u);

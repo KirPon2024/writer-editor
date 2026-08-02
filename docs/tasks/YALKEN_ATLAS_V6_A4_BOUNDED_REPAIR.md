@@ -20,6 +20,7 @@ Close only the independently confirmed Atlas A4 HOLD findings: make every main-o
 - scripts/ops/yalken-atlas-v6-production-lifecycle.mjs
 - src/main.js
 - src/product/mainProjectManifestAuthority.mjs
+- src/product/projectIdDomain.cjs
 - src/product/projectLease.mjs
 - src/product/projectLeaseHeartbeatWorker.mjs
 - src/product/stage10MainPersistenceAdapter.mjs
@@ -27,6 +28,7 @@ Close only the independently confirmed Atlas A4 HOLD findings: make every main-o
 - test/contracts/yalken-atlas-v6-a4-bounded-repair.contract.test.js
 - test/contracts/yalken-atlas-v6-a3-bounded-repair.contract.test.js
 - test/contracts/yalken-atlas-v6-production-negative.contract.test.js
+- test/unit/sector-m-s38-pro-free-pro-roundtrip.test.js
 
 ## ALLOWLIST
 - docs/tasks/YALKEN_ATLAS_V6_A4_BOUNDED_REPAIR.md
@@ -36,6 +38,7 @@ Close only the independently confirmed Atlas A4 HOLD findings: make every main-o
 - scripts/ops/yalken-atlas-v6-production-lifecycle.mjs
 - src/main.js
 - src/product/mainProjectManifestAuthority.mjs
+- src/product/projectIdDomain.cjs
 - src/product/projectLease.mjs
 - src/product/projectLeaseHeartbeatWorker.mjs
 - src/product/stage10MainPersistenceAdapter.mjs
@@ -43,6 +46,7 @@ Close only the independently confirmed Atlas A4 HOLD findings: make every main-o
 - test/contracts/yalken-atlas-v6-a4-bounded-repair.contract.test.js
 - test/contracts/yalken-atlas-v6-a3-bounded-repair.contract.test.js
 - test/contracts/yalken-atlas-v6-production-negative.contract.test.js
+- test/unit/sector-m-s38-pro-free-pro-roundtrip.test.js
 
 ## DENYLIST
 - CANON.md, active canon, COREX, BIBLE, CONTEXT, PROCESS, HANDOFF, and canon replacement
@@ -96,6 +100,7 @@ Close only the independently confirmed Atlas A4 HOLD findings: make every main-o
 - CHECK_01_PRE_EXACT_BASE_AND_CLEAN_ISOLATION: PASS at 671015c1e00ff852f76731c2b5f881a085041455 with empty task worktree
 - CHECK_02_PRE_CANON_RESOLUTION: PASS for v3.13a-final and active Atlas plus Word extensions
 - CHECK_03_PRE_FOCUSED_BASELINE: PASS with Atlas event contract 70 of 70 and Atlas release truth 24 of 24
+- CONTROLLER_RUNTIME_AUTHORITY: exact 671015c1 disposable harness exited 0; evidence archive SHA256 750d17750e58702434578595ddddb2032955a9f7427bdf6f456a3655594b1bb8 and independently reproduced all five bounded findings
 - T7_STORAGE: PASS for writable APFS FileVault volume UUID D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2
 - PRESERVATION_RECEIPTS: frozen R1-C HEAD and diff hash captured; active Word C5V2 HEAD and clean status captured; owner checkout status and tracked diff hashes captured
 

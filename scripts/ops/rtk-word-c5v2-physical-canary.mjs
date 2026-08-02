@@ -400,7 +400,15 @@ export function adaptC5V2MasterRoundToPhysicalLedger({ masterLedger, currentScen
   return bindLedgerToSourceDocxOffsets({ ledger: unbound, sourceDocxPath, sourceDocxText });
 }
 
-function buildExportBoundCanaryLedger({ scenes, counts, sourceDocxPath, anchorOffset = 0, idPrefix = '', weightedSceneAllocation = false }) {
+function buildExportBoundCanaryLedger({
+  scenes,
+  counts,
+  sourceDocxPath,
+  anchorOffset = 0,
+  idPrefix = '',
+  weightedSceneAllocation = false,
+  typedLifecycleLimits = false,
+}) {
   const sourceDocxText = docxDocumentWordText(sourceDocxPath);
   const failures = [];
   for (let attempt = 0; attempt < 80; attempt += 1) {
@@ -410,6 +418,7 @@ function buildExportBoundCanaryLedger({ scenes, counts, sourceDocxPath, anchorOf
       idPrefix,
       exportedDocxText: sourceDocxText,
       weightedSceneAllocation,
+      typedLifecycleLimits,
     });
     try {
       return {
@@ -889,13 +898,18 @@ export function buildCanaryLedger(scenes, options = {}) {
       band,
       quote,
       expectedOutcome: family.includes('attempt')
-        ? 'MANUAL_OR_BLOCKED'
+        ? options.typedLifecycleLimits === true
+          ? 'MANUAL'
+          : 'MANUAL_OR_BLOCKED'
         : family === 'tracked_insert'
           ? 'MANUAL'
           : ['tracked_replace', 'tracked_delete'].includes(family)
             ? 'EXACT'
             : 'SAFE_APPLY',
       replacementText: `C5V2_${family}_${String(index + 1).padStart(3, '0')}`,
+      ...(family.includes('attempt') && options.typedLifecycleLimits === true
+        ? { physicalAction: 'typed-limit' }
+        : {}),
     });
   }
   const rootOperations = operations.filter((operation) => operation.family === 'root_comment');
@@ -4904,10 +4918,12 @@ async function mainCumulative(options) {
             anchorOffset: roundIndex * 11,
             idPrefix: `r${String(roundIndex + 1).padStart(2, '0')}-`,
             weightedSceneAllocation: true,
+            typedLifecycleLimits: typeof options.corpusManifestPath === 'string'
+              && options.corpusManifestPath.trim().length > 0,
           });
       round.ledger = ledger;
       writeJsonAtomicDurable(path.join(round.roundDir, 'canary-ledger.json'), ledger);
-      const wordOutput = options.masterLedgerCampaign
+      const wordOutput = shouldUseC5V2ChunkedWordExecution(options)
         ? runWordLedgerInChunks({
             sourcePath: round.sourcePath,
             returnedPath: round.wordReturnedPath,
@@ -5165,6 +5181,11 @@ async function mainCumulative(options) {
 export function shouldRunC5V2CumulativeController(options = {}) {
   const roundCount = Number(options.roundCount);
   return (Number.isSafeInteger(roundCount) && roundCount > 1)
+    || (typeof options.corpusManifestPath === 'string' && options.corpusManifestPath.trim().length > 0);
+}
+
+export function shouldUseC5V2ChunkedWordExecution(options = {}) {
+  return options.masterLedgerCampaign === true
     || (typeof options.corpusManifestPath === 'string' && options.corpusManifestPath.trim().length > 0);
 }
 

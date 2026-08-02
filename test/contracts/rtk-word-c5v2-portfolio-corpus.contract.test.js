@@ -79,9 +79,16 @@ test('C5V2 portfolio generator builds five deterministic 21-scene full-manuscrip
       sourceSha256: authority.textSha256,
     };
   });
-  const nestedLedger = canary.buildCanaryLedger(nestedProductScenes, { weightedSceneAllocation: true });
+  const nestedLedger = canary.buildCanaryLedger(nestedProductScenes, {
+    weightedSceneAllocation: true,
+    typedLifecycleLimits: true,
+  });
   assert.equal(nestedLedger.operationCount, 200);
   assert.equal(nestedLedger.operations.filter((operation) => operation.family === 'structural').length, 10);
+  const typedLifecycle = nestedLedger.operations.filter((operation) => ['reply_attempt', 'state_attempt'].includes(operation.family));
+  assert.equal(typedLifecycle.length, 15);
+  assert.equal(typedLifecycle.every((operation) => operation.physicalAction === 'typed-limit'), true);
+  assert.equal(typedLifecycle.every((operation) => operation.expectedOutcome === 'MANUAL'), true);
 
   const nearLimit = corpora.get('near-supported-limit');
   assert.equal(nearLimit.expectedWordCount, 100_000);
@@ -114,8 +121,13 @@ test('C5V2 portfolio writer and canary loader preserve raw rich scenes and valid
 
   assert.equal(canary.shouldRunC5V2CumulativeController({ roundCount: 1 }), false);
   assert.equal(canary.shouldRunC5V2CumulativeController({ roundCount: 2 }), true);
+  assert.equal(canary.shouldUseC5V2ChunkedWordExecution({ roundCount: 2 }), false);
+  assert.equal(canary.shouldUseC5V2ChunkedWordExecution({ masterLedgerCampaign: true }), true);
   assert.equal(canary.shouldRunC5V2CumulativeController({
     roundCount: 1,
+    corpusManifestPath: path.join(outputRoot, 'corpus-manifest.json'),
+  }), true);
+  assert.equal(canary.shouldUseC5V2ChunkedWordExecution({
     corpusManifestPath: path.join(outputRoot, 'corpus-manifest.json'),
   }), true);
 

@@ -30,6 +30,7 @@
     "rtk-word-latest-semantic-b05-exact-apply-adapter.contract.test.js",
     "rtk-word-latest-semantic-b06-physical-certification.contract.test.js",
     "rtk-word-c5-fullbook-certification.contract.test.js",
+    "rtk-word-n3-formatting-return.contract.test.js",
     "rtk-word-c5v2-comment-lifecycle-return-runtime.contract.test.js",
     "rtk-word-c5v2-full-manuscript-product-export.contract.test.js",
     "rtk-word-c5v2-full-manuscript-return-router.contract.test.js",

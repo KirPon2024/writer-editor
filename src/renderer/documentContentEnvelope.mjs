@@ -341,8 +341,12 @@ export function deriveVisibleTextFromDocument(doc) {
   const blocks = [];
   const visitBlock = (node) => {
     if (!node || typeof node !== 'object') return;
-    if (node.type === 'paragraph') {
+    if (node.type === 'paragraph' || node.type === 'heading' || node.type === 'codeBlock') {
       blocks.push(deriveInlineText(node));
+      return;
+    }
+    if (node.type === 'horizontalRule') {
+      blocks.push('');
       return;
     }
     if (node.type === 'text') {

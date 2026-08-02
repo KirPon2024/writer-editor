@@ -9,6 +9,10 @@ const FULL_MANUSCRIPT_REVIEW_DOCX_PROFILE_ID = 'word-mac-latest-observed-16.111.
 const REVIEW_DOCX_PACKET_AUTH_PROPERTY_NAME = 'YRTK_C01_AUTH';
 const REVIEW_DOCX_PACKET_YRTK2_PROPERTY_NAME = 'YRTK2_TOKEN';
 const REVIEW_DOCX_PACKET_CORE_DIGEST_PROPERTY_NAME = 'YRTK_CORE_DIGEST';
+const FULL_MANUSCRIPT_FORMAT_IR_SCHEMA = 'yalken.rtk.format-ir.v1';
+const FORMAT_IR_BOOLEAN_MARKS = new Set(['bold', 'italic', 'underline', 'strike']);
+const FORMAT_IR_TEXT_STYLE_KEYS = new Set(['color', 'fontFamily', 'fontSize']);
+const FORMAT_IR_TEXT_ALIGNMENTS = new Set(['left', 'center', 'right', 'justify']);
 
 function isPlainObjectValue(value) {
   return Boolean(value && typeof value === 'object' && !Array.isArray(value));
@@ -22,6 +26,296 @@ function normalizeSceneText(value) {
   return typeof value === 'string'
     ? value.replace(/\r\n/g, '\n').replace(/\r/g, '\n').replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '')
     : '';
+}
+
+function normalizeVisibleDocumentText(value) {
+  return normalizeSceneText(value)
+    .replace(/\n{3,}/gu, '\n\n')
+    .replace(/^\n+/u, '')
+    .replace(/\n+$/u, '');
+}
+
+function cloneJson(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
+function normalizeFormatColor(value, code) {
+  const color = normalizeString(value).toLowerCase();
+  if (!/^#[a-f0-9]{6}$/u.test(color)) throw makeError(code, { value });
+  return color;
+}
+
+function normalizeFormatFontSize(value) {
+  const source = normalizeString(value).toLowerCase();
+  const pointsMatch = /^(\d{1,4}(?:\.5)?)pt$/u.exec(source);
+  if (pointsMatch) return `${Number(pointsMatch[1])}pt`;
+  const pixelsMatch = /^(\d{1,4}(?:\.\d{1,4})?)px$/u.exec(source);
+  if (!pixelsMatch) throw makeError('FULL_MANUSCRIPT_FORMAT_IR_FONT_SIZE_UNSUPPORTED', { value });
+  const points = Number(pixelsMatch[1]) * 0.75;
+  if (!Number.isFinite(points) || points < 1 || points > 1638) {
+    throw makeError('FULL_MANUSCRIPT_FORMAT_IR_FONT_SIZE_UNSUPPORTED', { value });
+  }
+  return `${Math.round(points * 2) / 2}pt`;
+}
+
+function normalizeFormatIrInlineMarks(marks, sceneId, paragraphOrdinal) {
+  const inline = {};
+  const preservedMarks = [];
+  for (const mark of Array.isArray(marks) ? marks : []) {
+    if (!isPlainObjectValue(mark)) {
+      throw makeError('FULL_MANUSCRIPT_FORMAT_IR_MARK_INVALID', { sceneId, paragraphOrdinal });
+    }
+    const type = normalizeString(mark.type);
+    const attrs = isPlainObjectValue(mark.attrs) ? mark.attrs : {};
+    if (FORMAT_IR_BOOLEAN_MARKS.has(type)) {
+      if (Object.keys(attrs).some((key) => attrs[key] !== null && attrs[key] !== undefined)) {
+        throw makeError('FULL_MANUSCRIPT_FORMAT_IR_MARK_ATTR_UNSUPPORTED', { sceneId, paragraphOrdinal, type });
+      }
+      inline[type] = true;
+      continue;
+    }
+    if (type === 'textStyle') {
+      const unknownKeys = Object.keys(attrs).filter((key) => !FORMAT_IR_TEXT_STYLE_KEYS.has(key) && attrs[key] !== null && attrs[key] !== undefined);
+      if (unknownKeys.length > 0) {
+        throw makeError('FULL_MANUSCRIPT_FORMAT_IR_TEXT_STYLE_UNSUPPORTED', { sceneId, paragraphOrdinal, unknownKeys });
+      }
+      if (attrs.color !== null && attrs.color !== undefined && attrs.color !== '') {
+        inline.color = normalizeFormatColor(attrs.color, 'FULL_MANUSCRIPT_FORMAT_IR_COLOR_UNSUPPORTED');
+      }
+      if (attrs.fontFamily !== null && attrs.fontFamily !== undefined && attrs.fontFamily !== '') {
+        const fontFamily = normalizeString(attrs.fontFamily);
+        if (!fontFamily || fontFamily.length > 128 || /[\u0000-\u001f\u007f]/u.test(fontFamily)) {
+          throw makeError('FULL_MANUSCRIPT_FORMAT_IR_FONT_FAMILY_UNSUPPORTED', { sceneId, paragraphOrdinal });
+        }
+        inline.fontFamily = fontFamily;
+      }
+      if (attrs.fontSize !== null && attrs.fontSize !== undefined && attrs.fontSize !== '') {
+        inline.fontSize = normalizeFormatFontSize(attrs.fontSize);
+      }
+      continue;
+    }
+    if (type === 'highlight') {
+      const unknownKeys = Object.keys(attrs).filter((key) => key !== 'color' && attrs[key] !== null && attrs[key] !== undefined);
+      if (unknownKeys.length > 0) {
+        throw makeError('FULL_MANUSCRIPT_FORMAT_IR_HIGHLIGHT_UNSUPPORTED', { sceneId, paragraphOrdinal, unknownKeys });
+      }
+      inline.highlight = normalizeFormatColor(
+        attrs.color || '#ffff00',
+        'FULL_MANUSCRIPT_FORMAT_IR_HIGHLIGHT_UNSUPPORTED',
+      );
+      continue;
+    }
+    if (type === 'link') {
+      const unknownKeys = Object.keys(attrs).filter((key) => (
+        !['href', 'target', 'rel', 'class'].includes(key)
+        && attrs[key] !== null
+        && attrs[key] !== undefined
+      ));
+      const href = normalizeString(attrs.href);
+      if (
+        unknownKeys.length > 0
+        || !href
+        || href.length > 2048
+        || /[\u0000-\u001f\u007f]/u.test(href)
+        || /^(?:javascript|data|vbscript):/iu.test(href)
+      ) {
+        throw makeError('FULL_MANUSCRIPT_FORMAT_IR_LINK_UNSUPPORTED', {
+          sceneId,
+          paragraphOrdinal,
+          unknownKeys,
+        });
+      }
+      preservedMarks.push({
+        type: 'link',
+        attrs: {
+          href,
+          target: normalizeString(attrs.target),
+          rel: normalizeString(attrs.rel),
+        },
+      });
+      continue;
+    }
+    if (type === 'code') {
+      preservedMarks.push({ type: 'code' });
+      continue;
+    }
+    throw makeError('FULL_MANUSCRIPT_FORMAT_IR_MARK_UNSUPPORTED', { sceneId, paragraphOrdinal, type });
+  }
+  return { inline, preservedMarks };
+}
+
+function buildFormatIrParagraphs(scene) {
+  const sourceDoc = isPlainObjectValue(scene.doc) ? cloneJson(scene.doc) : null;
+  const topLevelNodes = sourceDoc
+    ? (sourceDoc.type === 'doc' && Array.isArray(sourceDoc.content) ? sourceDoc.content : null)
+    : scene.text.split('\n').map((line) => ({
+        type: 'paragraph',
+        content: line ? [{ type: 'text', text: line }] : [],
+      }));
+  if (!topLevelNodes) {
+    throw makeError('FULL_MANUSCRIPT_FORMAT_IR_DOCUMENT_STRUCTURE_UNSUPPORTED', { sceneId: scene.sceneId });
+  }
+  const result = [];
+  let nextListNumId = 1;
+  const appendTextBlock = (node, context) => {
+    const paragraphOrdinal = result.length;
+    const attrs = isPlainObjectValue(node.attrs) ? node.attrs : {};
+    const allowedAttrs = node.type === 'heading'
+      ? new Set(['textAlign', 'level'])
+      : node.type === 'codeBlock'
+        ? new Set(['language'])
+        : new Set(['textAlign']);
+    const unknownAttrs = Object.keys(attrs).filter((key) => (
+      !allowedAttrs.has(key) && attrs[key] !== null && attrs[key] !== undefined
+    ));
+    if (unknownAttrs.length > 0) {
+      throw makeError('FULL_MANUSCRIPT_FORMAT_IR_PARAGRAPH_ATTR_UNSUPPORTED', {
+        sceneId: scene.sceneId,
+        paragraphOrdinal,
+        unknownAttrs,
+      });
+    }
+    const paragraphFormat = { nodeType: node.type };
+    if (node.type === 'heading') {
+      const headingLevel = Number(attrs.level);
+      if (!Number.isSafeInteger(headingLevel) || headingLevel < 1 || headingLevel > 6) {
+        throw makeError('FULL_MANUSCRIPT_FORMAT_IR_HEADING_LEVEL_UNSUPPORTED', {
+          sceneId: scene.sceneId,
+          paragraphOrdinal,
+        });
+      }
+      paragraphFormat.headingLevel = headingLevel;
+    }
+    if (node.type === 'codeBlock') {
+      const language = normalizeString(attrs.language);
+      if (language.length > 64 || /[\u0000-\u001f\u007f]/u.test(language)) {
+        throw makeError('FULL_MANUSCRIPT_FORMAT_IR_CODE_LANGUAGE_UNSUPPORTED', {
+          sceneId: scene.sceneId,
+          paragraphOrdinal,
+        });
+      }
+      paragraphFormat.codeLanguage = language;
+    }
+    if (context.blockquoteDepth > 0) paragraphFormat.blockquoteDepth = context.blockquoteDepth;
+    const activeList = context.listStack.at(-1);
+    if (activeList) {
+      paragraphFormat.list = {
+        kind: activeList.kind,
+        level: context.listStack.length - 1,
+        itemOrdinal: activeList.itemOrdinal,
+        start: activeList.start,
+        numId: activeList.numId,
+      };
+    }
+    if (attrs.textAlign !== null && attrs.textAlign !== undefined && attrs.textAlign !== '') {
+      const textAlign = normalizeString(attrs.textAlign).toLowerCase();
+      if (!FORMAT_IR_TEXT_ALIGNMENTS.has(textAlign)) {
+        throw makeError('FULL_MANUSCRIPT_FORMAT_IR_TEXT_ALIGN_UNSUPPORTED', { sceneId: scene.sceneId, paragraphOrdinal });
+      }
+      paragraphFormat.textAlign = textAlign;
+    }
+    let cursor = 0;
+    const runs = [];
+    for (const inlineNode of Array.isArray(node.content) ? node.content : []) {
+      if (!isPlainObjectValue(inlineNode) || !['text', 'hardBreak'].includes(inlineNode.type)) {
+        throw makeError('FULL_MANUSCRIPT_FORMAT_IR_INLINE_NODE_UNSUPPORTED', {
+          sceneId: scene.sceneId,
+          paragraphOrdinal,
+          nodeType: normalizeString(inlineNode?.type),
+        });
+      }
+      const text = inlineNode.type === 'hardBreak' ? '\n' : normalizeSceneText(inlineNode.text);
+      if (inlineNode.type === 'text' && !text) continue;
+      const normalizedMarks = inlineNode.type === 'text'
+        ? normalizeFormatIrInlineMarks(inlineNode.marks, scene.sceneId, paragraphOrdinal)
+        : { inline: {}, preservedMarks: [] };
+      runs.push({
+        from: cursor,
+        to: cursor + text.length,
+        text,
+        inline: normalizedMarks.inline,
+        preservedMarks: normalizedMarks.preservedMarks,
+      });
+      cursor += text.length;
+    }
+    const text = runs.map((run) => run.text).join('');
+    result.push({
+      text,
+      formatIr: {
+        schemaVersion: FULL_MANUSCRIPT_FORMAT_IR_SCHEMA,
+        paragraph: paragraphFormat,
+        runs,
+      },
+    });
+  };
+  const visit = (node, context = { blockquoteDepth: 0, listStack: [] }) => {
+    if (!isPlainObjectValue(node)) {
+      throw makeError('FULL_MANUSCRIPT_FORMAT_IR_DOCUMENT_STRUCTURE_UNSUPPORTED', { sceneId: scene.sceneId });
+    }
+    if (['paragraph', 'heading', 'codeBlock'].includes(node.type)) {
+      appendTextBlock(node, context);
+      return;
+    }
+    if (node.type === 'horizontalRule') {
+      if ((Array.isArray(node.content) && node.content.length > 0) || Object.keys(node.attrs || {}).length > 0) {
+        throw makeError('FULL_MANUSCRIPT_FORMAT_IR_HORIZONTAL_RULE_UNSUPPORTED', { sceneId: scene.sceneId });
+      }
+      result.push({
+        text: '',
+        formatIr: {
+          schemaVersion: FULL_MANUSCRIPT_FORMAT_IR_SCHEMA,
+          paragraph: { nodeType: 'horizontalRule' },
+          runs: [],
+        },
+      });
+      return;
+    }
+    if (node.type === 'blockquote') {
+      if (Object.keys(node.attrs || {}).some((key) => node.attrs[key] !== null && node.attrs[key] !== undefined)) {
+        throw makeError('FULL_MANUSCRIPT_FORMAT_IR_BLOCKQUOTE_ATTR_UNSUPPORTED', { sceneId: scene.sceneId });
+      }
+      for (const child of Array.isArray(node.content) ? node.content : []) {
+        visit(child, { ...context, blockquoteDepth: context.blockquoteDepth + 1 });
+      }
+      return;
+    }
+    if (node.type === 'bulletList' || node.type === 'orderedList') {
+      const attrs = isPlainObjectValue(node.attrs) ? node.attrs : {};
+      const unknownAttrs = Object.keys(attrs).filter((key) => key !== 'start' && attrs[key] !== null && attrs[key] !== undefined);
+      const start = node.type === 'orderedList' ? Number(attrs.start ?? 1) : 1;
+      if (unknownAttrs.length > 0 || !Number.isSafeInteger(start) || start < 1 || start > 32767) {
+        throw makeError('FULL_MANUSCRIPT_FORMAT_IR_LIST_ATTR_UNSUPPORTED', { sceneId: scene.sceneId, unknownAttrs });
+      }
+      const items = Array.isArray(node.content) ? node.content : [];
+      const numId = nextListNumId;
+      nextListNumId += 1;
+      for (const [itemOrdinal, item] of items.entries()) {
+        if (!isPlainObjectValue(item) || item.type !== 'listItem') {
+          throw makeError('FULL_MANUSCRIPT_FORMAT_IR_LIST_ITEM_UNSUPPORTED', { sceneId: scene.sceneId });
+        }
+        const listStack = [...context.listStack, {
+          kind: node.type === 'orderedList' ? 'ordered' : 'bullet',
+          start,
+          itemOrdinal,
+          numId,
+        }];
+        for (const child of Array.isArray(item.content) ? item.content : []) {
+          visit(child, { ...context, listStack });
+        }
+      }
+      return;
+    }
+    throw makeError('FULL_MANUSCRIPT_FORMAT_IR_DOCUMENT_STRUCTURE_UNSUPPORTED', {
+      sceneId: scene.sceneId,
+      nodeType: normalizeString(node.type),
+    });
+  };
+  for (const node of topLevelNodes) visit(node);
+  const derivedText = normalizeVisibleDocumentText(result.map((paragraph) => paragraph.text).join('\n'));
+  if (derivedText !== scene.text) {
+    throw makeError('FULL_MANUSCRIPT_FORMAT_IR_VISIBLE_TEXT_MISMATCH', { sceneId: scene.sceneId });
+  }
+  return result;
 }
 
 function sha256Text(value) {
@@ -81,8 +375,8 @@ function normalizeFullManuscriptScenes(input = {}) {
   if (!projectId) {
     throw makeError('FULL_MANUSCRIPT_PROJECT_ID_REQUIRED');
   }
-  if (sourceScenes.length < 2) {
-    throw makeError('FULL_MANUSCRIPT_MULTI_SCENE_PROJECT_REQUIRED', { sceneCount: sourceScenes.length });
+  if (sourceScenes.length < 1) {
+    throw makeError('FULL_MANUSCRIPT_SCENE_REQUIRED', { sceneCount: sourceScenes.length });
   }
 
   const expectedOrderedSceneIds = Array.isArray(input.expectedOrderedSceneIds)
@@ -102,8 +396,9 @@ function normalizeFullManuscriptScenes(input = {}) {
     }
     seen.add(sceneId);
     const text = normalizeSceneText(scene.text);
-    const rawSha256 = normalizeString(scene.rawSha256) || sha256Text(text);
-    if (rawSha256 !== sha256Text(text)) {
+    const observableContent = typeof scene.observableContent === 'string' ? scene.observableContent : text;
+    const rawSha256 = normalizeString(scene.rawSha256) || sha256Text(observableContent);
+    if (rawSha256 !== sha256Text(observableContent)) {
       throw makeError('FULL_MANUSCRIPT_SCENE_BASELINE_HASH_STALE', { sceneId });
     }
     return {
@@ -114,6 +409,8 @@ function normalizeFullManuscriptScenes(input = {}) {
       label: normalizeString(scene.label),
       scenePath: normalizeString(scene.scenePath || scene.path),
       text,
+      doc: isPlainObjectValue(scene.doc) ? cloneJson(scene.doc) : null,
+      observableContent,
       rawSha256,
       sceneRevision: normalizeString(scene.sceneRevision) || rawSha256,
     };
@@ -148,15 +445,16 @@ function normalizeFullManuscriptScenes(input = {}) {
 function buildFullManuscriptBlocks(scenes, cryptoPort = createDefaultCryptoPort()) {
   const blocks = [];
   for (const scene of scenes) {
-    const lines = scene.text.split('\n');
-    for (let index = 0; index < lines.length; index += 1) {
-      const text = lines[index];
+    const paragraphs = buildFormatIrParagraphs(scene);
+    for (let index = 0; index < paragraphs.length; index += 1) {
+      const { text, formatIr } = paragraphs[index];
       const seed = `${scene.sceneId}\n${scene.sceneOrdinal}\n${index}\n${text}`;
       const seedHash = crypto.createHash('sha256').update(seed, 'utf8').digest('hex');
       const blockId = `scene-${String(scene.sceneOrdinal + 1).padStart(2, '0')}-block-${String(index + 1).padStart(4, '0')}-${seedHash.slice(0, 16)}`;
       const paragraphId = `yrtk-${String(scene.sceneOrdinal + 1).padStart(2, '0')}-p-${seedHash.slice(0, 16)}`;
       const paraId = seedHash.slice(0, 8);
       const textId = crypto.createHash('sha256').update(`${seed}:textId`, 'utf8').digest('hex').slice(0, 8);
+      const documentParagraphIndex = blocks.length;
       blocks.push({
         blockId,
         paragraphId,
@@ -165,9 +463,11 @@ function buildFullManuscriptBlocks(scenes, cryptoPort = createDefaultCryptoPort(
         text,
         sceneId: scene.sceneId,
         sceneOrdinal: scene.sceneOrdinal,
+        documentParagraphIndex,
         sceneTitle: scene.title,
         canonicalTextSha256: sha256Text(text),
-        canonicalMarksSha256: cryptoPort.sha256Json({ marks: [] }),
+        canonicalMarksSha256: cryptoPort.sha256Json(formatIr),
+        formatIr,
         wordSignals: [
           {
             kind: 'w14ParaIdTextId',
@@ -189,6 +489,7 @@ function buildFullManuscriptBlocks(scenes, cryptoPort = createDefaultCryptoPort(
               scope: 'full-manuscript',
               sceneId: scene.sceneId,
               sceneOrdinal: scene.sceneOrdinal,
+              documentParagraphIndex,
               blockId,
               paragraphId,
             },
@@ -215,10 +516,12 @@ function buildFullManuscriptHashTree({ projectId, scenes, blocks }, cryptoPort =
   const blockDigests = blocks.map((block) => ({
     sceneId: block.sceneId,
     sceneOrdinal: block.sceneOrdinal,
+    documentParagraphIndex: block.documentParagraphIndex,
     blockId: block.blockId,
     digest: cryptoPort.sha256Json({
       sceneId: block.sceneId,
       sceneOrdinal: block.sceneOrdinal,
+      documentParagraphIndex: block.documentParagraphIndex,
       blockId: block.blockId,
       paragraphId: block.paragraphId,
       canonicalTextSha256: block.canonicalTextSha256,
@@ -404,8 +707,10 @@ function buildFullManuscriptDocxReviewPacketSource(input = {}, deps = {}) {
       .map((block) => ({
         blockId: block.blockId,
         paragraphId: block.paragraphId,
+        documentParagraphIndex: block.documentParagraphIndex,
         canonicalTextSha256: block.canonicalTextSha256,
         canonicalMarksSha256: block.canonicalMarksSha256,
+        formatIr: block.formatIr,
         locatorSignals: block.locatorSignals,
       })),
   }));
@@ -424,8 +729,10 @@ function buildFullManuscriptDocxReviewPacketSource(input = {}, deps = {}) {
         .map((block) => ({
           blockId: block.blockId,
           paragraphId: block.paragraphId,
+          documentParagraphIndex: block.documentParagraphIndex,
           canonicalTextSha256: block.canonicalTextSha256,
           canonicalMarksSha256: block.canonicalMarksSha256,
+          formatIr: block.formatIr,
           wordSignals: block.wordSignals,
         })),
     })),
@@ -676,6 +983,7 @@ module.exports = {
   FULL_MANUSCRIPT_REVIEW_DOCX_COMMAND_ID,
   FULL_MANUSCRIPT_REVIEW_DOCX_CAPABILITY_ID,
   FULL_MANUSCRIPT_REVIEW_DOCX_PROFILE_ID,
+  FULL_MANUSCRIPT_FORMAT_IR_SCHEMA,
   REVIEW_DOCX_PACKET_AUTH_PROPERTY_NAME,
   REVIEW_DOCX_PACKET_YRTK2_PROPERTY_NAME,
   REVIEW_DOCX_PACKET_CORE_DIGEST_PROPERTY_NAME,

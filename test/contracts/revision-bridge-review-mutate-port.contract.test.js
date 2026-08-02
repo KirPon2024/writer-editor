@@ -63,6 +63,7 @@ const MENU_HANDLER_COMPUTED_KEY_GLOBALS = Object.freeze({
   EXPORT_PDF_COMMAND_ID: 'cmd.project.exportPdfV1',
   EXPORT_PROJECT_ARCHIVE_COMMAND_ID: 'cmd.project.exportFullArchiveV1',
   IMPORT_PROJECT_ARCHIVE_COMMAND_ID: 'cmd.project.importFullArchiveV1',
+  FULL_MANUSCRIPT_REVIEW_DOCX_COMMAND_ID: 'cmd.project.review.exportFullManuscriptDocxReviewPacket',
   TXT_IMPORT_LOCAL_FILE_PREVIEW_COMMAND_ID: 'cmd.project.txt.previewLocalFile',
   TXT_IMPORT_SAFE_CREATE_COMMAND_ID: 'cmd.project.txt.importSafeCreate',
   TREE_MOVE_COMMAND_ID: 'cmd.project.tree.moveNode',
@@ -455,6 +456,11 @@ function instantiateReviewMutatePort(options = {}) {
         : path.join(os.tmpdir(), 'rb-review-mutate-project-root')
     ),
     hasReviewSurfacePayload,
+    handleReviewSurfaceApplyFormattingReturnCommandSurface: async () => ({
+      ok: false,
+      status: 'blocked',
+      reason: 'RTK_FORMATTING_RETURN_NOT_EXERCISED_BY_LEGACY_HARNESS',
+    }),
     isPlainObjectValue,
     loadRevisionBridgeModule: typeof options.loadRevisionBridgeModule === 'function'
       ? options.loadRevisionBridgeModule
@@ -1487,7 +1493,7 @@ test('review mutate port contract: local packet e2e exact apply writes only afte
 
   assert.equal(applyRequest.payload.changeId, 'text-change-1');
   assert.equal(applyRequest.activeSession.sessionId, 'session-local-e2e-1');
-  assert.equal(value.ok, true);
+  assert.equal(value.ok, true, JSON.stringify(value, null, 2));
   assert.equal(value.applied, true);
   assert.equal(readText(scenePath), 'Alpha delta gamma.');
   assert.equal(value.receipt.projectId, 'project-1');
@@ -1597,7 +1603,7 @@ test('review mutate port contract: local packet e2e batch exact apply stays same
   const appliedSurface = normalizeVmValue(port.readActiveReviewSessionReviewSurface());
 
   assert.equal(safeWriterLoaded, true);
-  assert.equal(value.ok, true);
+  assert.equal(value.ok, true, JSON.stringify(value, null, 2));
   assert.equal(value.batch, true);
   assert.equal(value.applied, true);
   assert.equal(readText(scenePath), 'Alpha delta gamma sigma.');
@@ -1671,7 +1677,7 @@ test('review mutate port contract: import builds Stage01 preview surface from re
   const state = port.getState();
   const reviewSurface = normalizeVmValue(result.reviewSurface);
 
-  assert.equal(result.ok, true);
+  assert.equal(result.ok, true, JSON.stringify(result, null, 2));
   assert.deepEqual(payload, before);
   assert.equal(reviewSurface.revisionSession.projectId, 'project-1');
   assert.equal(reviewSurface.revisionSession.sessionId, 'session-1');
@@ -1717,7 +1723,7 @@ test('review mutate port contract: import maps parsedSurface unsupported items i
 
   const reviewSurface = normalizeVmValue(result.reviewSurface);
 
-  assert.equal(result.ok, true);
+  assert.equal(result.ok, true, JSON.stringify(result, null, 2));
   assert.deepEqual(reviewSurface.structuralManualReviewPreview.unsupportedObservations, [
     {
       itemId: 'unsupported-1',

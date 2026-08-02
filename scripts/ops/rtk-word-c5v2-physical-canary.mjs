@@ -11,6 +11,7 @@ import {
   buildC5V2MultilingualQaLayer,
   validateC5V2SemanticOracle,
 } from './rtk-word-c5v2-semantic-oracle.mjs';
+import { resolveWordHostLocalQaWorkRoot } from './rtk-word-sandbox-work-root.mjs';
 
 const require = createRequire(import.meta.url);
 const electronBinary = require('electron');
@@ -457,6 +458,86 @@ export function deriveC5V2CommentLaneMaturity(commentProductPath = {}) {
   };
 }
 
+export function deriveC5V2ReturnLanePlan(activationSummary = {}) {
+  const graphCounts = activationSummary && typeof activationSummary.reviewGraphCounts === 'object'
+    ? activationSummary.reviewGraphCounts
+    : {};
+  const exactByScene = activationSummary && typeof activationSummary.exactApplyTextChangeIdsByScene === 'object'
+    ? activationSummary.exactApplyTextChangeIdsByScene
+    : {};
+  const exactTextCandidateCount = Object.values(exactByScene)
+    .reduce((total, ids) => total + (Array.isArray(ids) ? ids.length : 0), 0);
+  const commentCandidateCount = Math.max(
+    Number(graphCounts.commentThreads || 0),
+    Number(graphCounts.commentPlacements || 0),
+  );
+  const formattingCandidateCount = Number(activationSummary?.formattingProductPath?.candidateCount || 0);
+  const structuralCandidateCount = Number(graphCounts.structuralChanges || 0);
+  const hasExactText = exactTextCandidateCount > 0;
+  const hasComments = commentCandidateCount > 0;
+  const hasFormatting = formattingCandidateCount > 0;
+  const hasStructure = structuralCandidateCount > 0;
+  return {
+    exactTextCandidateCount,
+    commentCandidateCount,
+    formattingCandidateCount,
+    structuralCandidateCount,
+    hasExactText,
+    hasComments,
+    hasFormatting,
+    hasStructure,
+    formattingMixedWithOtherMutationLane: hasFormatting && (hasExactText || hasComments || hasStructure),
+  };
+}
+
+export function deriveC5V2ProductRouteGaps(returnApply = {}, options = {}) {
+  const normalizedReturnApply = returnApply && typeof returnApply === 'object'
+    ? returnApply
+    : {};
+  const lanes = normalizedReturnApply.typedPendingLanes && typeof normalizedReturnApply.typedPendingLanes === 'object'
+    ? normalizedReturnApply.typedPendingLanes
+    : {};
+  const expectedFamilies = new Set(
+    Array.isArray(options.expectedFamilies)
+      ? options.expectedFamilies.filter((family) => typeof family === 'string' && family)
+      : [],
+  );
+  const gaps = [];
+  if (normalizedReturnApply.ok !== true) {
+    gaps.push('full-manuscript authenticated intake preview explicit apply did not complete green in this canary script');
+  }
+  if (lanes.exactText === 'PENDING_PRODUCT_APPLY_LANE') gaps.push('exact text operations remain typed pending product outcomes');
+  if (lanes.commentsRepliesState === 'PENDING_PRODUCT_APPLY_LANE') gaps.push('comment operations remain typed pending product outcomes');
+  if (lanes.formatting === 'PENDING_PRODUCT_APPLY_LANE') gaps.push('formatting operations remain typed pending product outcomes');
+  if (lanes.formatting === 'BLOCKED_MIXED_LANE_ATOMICITY_REQUIRED') gaps.push('formatting is blocked until mixed return lanes share one atomic product transaction');
+  if (lanes.structural === 'PENDING_PRODUCT_APPLY_LANE') gaps.push('structural operations remain typed pending product outcomes');
+  if (
+    expectedFamilies.has('formatting')
+    && (!lanes.formatting || lanes.formatting === 'NO_FORMATTING_CANDIDATE')
+  ) {
+    gaps.push('formatting was required by the physical ledger but produced no product candidate');
+  }
+  if (
+    [...expectedFamilies].some((family) => ['tracked_replace', 'tracked_insert', 'tracked_delete'].includes(family))
+    && (!lanes.exactText || lanes.exactText === 'NO_EXACT_TEXT_CANDIDATE')
+  ) {
+    gaps.push('tracked text was required by the physical ledger but produced no product candidate');
+  }
+  if (
+    [...expectedFamilies].some((family) => ['root_comment', 'reply_attempt', 'state_attempt'].includes(family))
+    && (!lanes.commentsRepliesState || lanes.commentsRepliesState === 'NO_COMMENT_CANDIDATE')
+  ) {
+    gaps.push('comments or lifecycle work was required by the physical ledger but produced no product candidate');
+  }
+  if (
+    expectedFamilies.has('structural')
+    && (!lanes.structural || lanes.structural === 'NO_STRUCTURAL_CANDIDATE')
+  ) {
+    gaps.push('structure was required by the physical ledger but produced no product candidate');
+  }
+  return gaps;
+}
+
 export function evaluateMacosAccessibilityPreflight(input = {}) {
   const diagnostics = {
     legacyUiElementsEnabled: input.legacyUiElementsEnabled === true || input.uiElementsEnabled === true,
@@ -570,6 +651,7 @@ const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 const deriveC5V2CommentLaneMaturity = ${deriveC5V2CommentLaneMaturity.toString()};
+const deriveC5V2ReturnLanePlan = ${deriveC5V2ReturnLanePlan.toString()};
 const { app, BrowserWindow, dialog, Menu, session } = require('electron');
 const rootDir = ${JSON.stringify(REPO_ROOT)};
 const tempRoot = ${JSON.stringify(tempRoot)};
@@ -725,6 +807,24 @@ function summarizeActivation(result) {
       ? result.commentShadowSession.summary
       : null,
     commentProductPath: result && result.commentProductPath ? result.commentProductPath : null,
+    formattingProductPath: result && result.formattingProductPath
+      ? {
+        prepared: result.formattingProductPath.prepared === true,
+        status: result.formattingProductPath.status || '',
+        code: result.formattingProductPath.code || '',
+        candidateCount: Number.isSafeInteger(result.formattingProductPath.candidateCount)
+          ? result.formattingProductPath.candidateCount
+          : 0,
+        sceneCount: Number.isSafeInteger(result.formattingProductPath.sceneCount)
+          ? result.formattingProductPath.sceneCount
+          : 0,
+        diagnosticCount: Number.isSafeInteger(result.formattingProductPath.diagnosticCount)
+          ? result.formattingProductPath.diagnosticCount
+          : 0,
+        writerCalled: result.formattingProductPath.writerCalled === true,
+        rendererAuthority: result.formattingProductPath.rendererAuthority === true,
+      }
+      : null,
     reviewGraphCounts: {
       textChanges: textChanges.length,
       commentThreads: commentThreads.length,
@@ -782,15 +882,54 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
   await waitUntil(() => returnedReadyPath && fs.existsSync(returnedReadyPath), 'RETURNED_DOCX_READY_FOR_PRODUCT_INTAKE', 240000);
   await waitUntil(() => returnedPath && fs.existsSync(returnedPath), 'RETURNED_DOCX_FILE_FOR_PRODUCT_INTAKE', 30000);
   const returnedBytes = fs.readFileSync(returnedPath);
+  progress('return-activation-start', { requestPrefix, returnedBytes: returnedBytes.length });
   const activation = await invokeUiCommand(win, 'cmd.project.review.activateDocxReviewPreviewSession', {
     requestId: 'c5v2-physical-canary-authenticated-return-activation-' + requestPrefix,
     bufferSource: returnedBytes.toString('base64'),
   });
   const activationSummary = summarizeActivation(activation);
+  const lanePlan = deriveC5V2ReturnLanePlan(activationSummary);
+  progress('return-activation-complete', {
+    ok: activationSummary.ok === true,
+    formattingCandidateCount: lanePlan.formattingCandidateCount,
+    exactTextCandidateCount: lanePlan.exactTextCandidateCount,
+    commentCandidateCount: lanePlan.commentCandidateCount,
+    structuralCandidateCount: lanePlan.structuralCandidateCount,
+  });
   const textChangeIdsByScene = activationSummary.exactApplyTextChangeIdsByScene || {};
   const applyResults = [];
   const replayResults = [];
   const staleRetryResults = [];
+  let formattingApplyResult = null;
+  let formattingReplayInspection = null;
+  if (lanePlan.formattingMixedWithOtherMutationLane) {
+    return {
+      ok: false,
+      code: 'BLOCKED_MIXED_LANE_ATOMICITY_REQUIRED',
+      reason: 'BLOCKED_MIXED_LANE_ATOMICITY_REQUIRED',
+      activation: activationSummary,
+      lanePlan,
+      applyResults,
+      replayResults,
+      staleRetryResults,
+      formattingApplyResult,
+      formattingReplayInspection,
+      productOpenContext: global.productOpenContext || null,
+      typedPendingLanes: {
+        exactText: lanePlan.hasExactText ? 'BLOCKED_MIXED_LANE_ATOMICITY_REQUIRED' : 'NO_EXACT_TEXT_CANDIDATE',
+        ...(lanePlan.hasComments
+          ? deriveC5V2CommentLaneMaturity(activationSummary.commentProductPath || {})
+          : {
+            rootCommentsState: 'NO_COMMENT_CANDIDATE',
+            repliesState: 'NO_COMMENT_CANDIDATE',
+            commentState: 'NO_COMMENT_CANDIDATE',
+            commentsRepliesState: 'NO_COMMENT_CANDIDATE',
+          }),
+        formatting: 'BLOCKED_MIXED_LANE_ATOMICITY_REQUIRED',
+        structural: lanePlan.hasStructure ? 'BLOCKED_MIXED_LANE_ATOMICITY_REQUIRED' : 'NO_STRUCTURAL_CANDIDATE',
+      },
+    };
+  }
   async function resolveCurrentSceneContext(sceneContext, normalizedSceneId) {
     const fallback = sceneContext && typeof sceneContext === 'object' ? sceneContext : {};
     try {
@@ -924,46 +1063,98 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
       });
     }
   }
+  if (lanePlan.hasFormatting) {
+    progress('formatting-apply-start', { candidateCount: lanePlan.formattingCandidateCount });
+    formattingApplyResult = await invokeUiCommand(win, 'cmd.project.review.applyFormattingReturn', {
+      requestId: 'c5v2-physical-canary-formatting-apply-' + requestPrefix,
+    });
+    progress('formatting-apply-complete', {
+      ok: formattingApplyResult?.ok === true,
+      applied: formattingApplyResult?.applied === true,
+      replayVerified: formattingApplyResult?.replayVerified === true,
+      code: formattingApplyResult?.code || '',
+    });
+    progress('formatting-replay-inspection-start', {});
+    formattingReplayInspection = await invokeUiCommand(win, 'cmd.project.review.inspectFormattingReturnReplay', {
+      requestId: 'c5v2-physical-canary-formatting-replay-inspect-' + requestPrefix,
+    });
+    progress('formatting-replay-inspection-complete', {
+      ok: formattingReplayInspection?.ok === true,
+      replayVerified: formattingReplayInspection?.replayVerified === true,
+      code: formattingReplayInspection?.code || '',
+    });
+  }
+  const exactTextGreen = !lanePlan.hasExactText || (
+    applyResults.length > 0
+    && applyResults.every((result) => result.ok === true && result.applied === true)
+    && replayResults.every((result) => result.ok === true && result.replay === true)
+    && staleRetryResults.every((result) => (
+      result.status === 'blocked'
+      && result.applied !== true
+      && ACCEPTABLE_STALE_RETRY_BLOCK_REASONS.has(result.reason)
+    ))
+  );
+  const commentsGreen = !lanePlan.hasComments || Boolean(
+    activationSummary.commentProductPath
+    && activationSummary.commentProductPath.ok === true
+    && activationSummary.commentProductPath.pendingProductApplyLane === false
+    && activationSummary.commentProductPath.commandBusDispatchOnly === true
+    && activationSummary.commentProductPath.directPortDispatch === false
+    && activationSummary.commentProductPath.semanticOracle?.triangleGreen === true
+    && activationSummary.commentProductPath.semanticOracle?.rootApplied > 0
+    && activationSummary.commentProductPath.semanticOracle?.lifecycleApplied > 0
+    && activationSummary.commentProductPath.sceneAuthorityIdentityJoin?.identityJoinCount > 0
+    && activationSummary.commentProductPath.sceneAuthorityIdentityJoin?.unjoinedPlacementCount === 0
+    && activationSummary.commentProductPath.sceneAuthorityIdentityJoin?.nativeCommentIdentityJoin === true
+    && activationSummary.commentProductPath.sceneAuthorityIdentityJoin?.quoteHeuristicUsed === false
+    && activationSummary.commentProductPath.sceneAuthorityIdentityJoin?.arbitraryThreadIdSuffixParsingUsed === false
+    && activationSummary.candidateSummary?.pendingFallbackCommentPlacementCount === 0
+    && Array.isArray(activationSummary.candidateSummary?.commentSceneAuthoritySources)
+    && activationSummary.candidateSummary.commentSceneAuthoritySources.includes('authenticated-full-manuscript-export-map-paragraph-signal')
+  );
+  const formattingGreen = !lanePlan.hasFormatting || Boolean(
+    activationSummary.formattingProductPath?.prepared === true
+    && activationSummary.formattingProductPath?.writerCalled === false
+    && formattingApplyResult?.ok === true
+    && formattingApplyResult?.applied === true
+    && formattingApplyResult?.replayVerified === true
+    && formattingReplayInspection?.ok === true
+    && formattingReplayInspection?.replayVerified === true
+    && formattingReplayInspection?.writerCalled !== true
+  );
+  const structureGreen = !lanePlan.hasStructure;
+  const intakeGreen = activationSummary.ok === true
+    && activationSummary.returnIntake
+    && activationSummary.returnIntake.authenticated === true
+    && activationSummary.returnIntake?.fullManuscriptExportMapTransport?.present === true
+    && activationSummary.returnIntake?.fullManuscriptExportMapTransport?.authority === 'main-owned-active-export-authority-store-after-return-authentication'
+    && activationSummary.returnIntake?.fullManuscriptExportMapTransport?.returnedArtifactExportMapAccepted === false;
   return {
-    ok: activationSummary.ok === true
-      && activationSummary.returnIntake
-      && activationSummary.returnIntake.authenticated === true
-      && applyResults.length > 0
-      && applyResults.every((result) => result.ok === true && result.applied === true)
-      && replayResults.every((result) => result.ok === true && result.replay === true)
-      && staleRetryResults.every((result) => (
-        result.status === 'blocked'
-        && result.applied !== true
-        && ACCEPTABLE_STALE_RETRY_BLOCK_REASONS.has(result.reason)
-      ))
-      && activationSummary.commentProductPath
-      && activationSummary.commentProductPath.ok === true
-      && activationSummary.commentProductPath.pendingProductApplyLane === false
-      && activationSummary.commentProductPath.commandBusDispatchOnly === true
-      && activationSummary.commentProductPath.directPortDispatch === false
-      && activationSummary.commentProductPath.semanticOracle?.triangleGreen === true
-      && activationSummary.commentProductPath.semanticOracle?.rootApplied > 0
-      && activationSummary.commentProductPath.semanticOracle?.lifecycleApplied > 0
-      && activationSummary.commentProductPath.sceneAuthorityIdentityJoin?.identityJoinCount === 7
-      && activationSummary.commentProductPath.sceneAuthorityIdentityJoin?.unjoinedPlacementCount === 0
-      && activationSummary.commentProductPath.sceneAuthorityIdentityJoin?.nativeCommentIdentityJoin === true
-      && activationSummary.commentProductPath.sceneAuthorityIdentityJoin?.quoteHeuristicUsed === false
-      && activationSummary.commentProductPath.sceneAuthorityIdentityJoin?.arbitraryThreadIdSuffixParsingUsed === false
-      && activationSummary.returnIntake?.fullManuscriptExportMapTransport?.present === true
-      && activationSummary.returnIntake?.fullManuscriptExportMapTransport?.authority === 'main-owned-active-export-authority-store-after-return-authentication'
-      && activationSummary.returnIntake?.fullManuscriptExportMapTransport?.returnedArtifactExportMapAccepted === false
-      && activationSummary.candidateSummary?.pendingFallbackCommentPlacementCount === 0
-      && Array.isArray(activationSummary.candidateSummary?.commentSceneAuthoritySources)
-      && activationSummary.candidateSummary.commentSceneAuthoritySources.includes('authenticated-full-manuscript-export-map-paragraph-signal'),
+    ok: intakeGreen && exactTextGreen && commentsGreen && formattingGreen && structureGreen,
     activation: activationSummary,
+    lanePlan,
     applyResults,
     replayResults,
     staleRetryResults,
+    formattingApplyResult,
+    formattingReplayInspection,
     productOpenContext: global.productOpenContext || null,
     typedPendingLanes: {
-      ...deriveC5V2CommentLaneMaturity(activationSummary.commentProductPath || {}),
-      formatting: 'PENDING_PRODUCT_APPLY_LANE',
-      structural: 'PENDING_PRODUCT_APPLY_LANE',
+      exactText: lanePlan.hasExactText
+        ? (exactTextGreen ? 'CANONICAL_PRODUCT_APPLY_AND_REPLAY_PROVEN' : 'PENDING_PRODUCT_APPLY_LANE')
+        : 'NO_EXACT_TEXT_CANDIDATE',
+      ...(lanePlan.hasComments
+        ? deriveC5V2CommentLaneMaturity(activationSummary.commentProductPath || {})
+        : {
+          rootCommentsState: 'NO_COMMENT_CANDIDATE',
+          repliesState: 'NO_COMMENT_CANDIDATE',
+          commentState: 'NO_COMMENT_CANDIDATE',
+          commentsRepliesState: 'NO_COMMENT_CANDIDATE',
+        }),
+      formatting: lanePlan.hasFormatting
+        ? (formattingGreen ? 'PRODUCT_APPLY_AND_REPLAY_VERIFIED' : 'PENDING_PRODUCT_APPLY_LANE')
+        : 'NO_FORMATTING_CANDIDATE',
+      structural: lanePlan.hasStructure ? 'PENDING_PRODUCT_APPLY_LANE' : 'NO_STRUCTURAL_CANDIDATE',
     },
   };
 }
@@ -1624,8 +1815,11 @@ function wordOperationLines(ledger, returnedPath) {
   return lines.join('\n');
 }
 
-export function buildWordScript({ sourcePath, returnedPath, ledger }) {
+export function buildWordScript({ sourcePath, returnedPath, artifactReturnedPath = returnedPath, ledger }) {
   const expectedName = path.basename(returnedPath);
+  const requiresAccessibilityUi = ledger.operations.some((operation) => (
+    ['reply_attempt', 'state_attempt'].includes(operation.family)
+  ));
   return [
     'use scripting additions',
     'property yAxVisitedNodes : 0',
@@ -1639,39 +1833,63 @@ export function buildWordScript({ sourcePath, returnedPath, ledger }) {
     '      if (count of documents) > 0 then set yFrontDocument to full name of active document as text',
     '    end try',
     '  end tell',
-    '  delay 0.3',
+    '  set yUiEnabled to false',
+    '  set yProcessExists to false',
+    '  set yWordFrontmost to false',
+    '  set yWindowCount to 0',
+    '  set yAxQuerySucceeded to false',
+    '  set yAxMenuCount to 0',
+    '  set yAxWindowSubtreeCount to 0',
+    '  set yAxErrorNumber to 0',
+    '  set yAxErrorMessage to ""',
+    '  repeat with yAttempt from 1 to 40',
+    '    delay 0.25',
+    '    tell application "System Events"',
+    '      set yUiEnabled to UI elements enabled',
+    '      set yProcessExists to exists process "Microsoft Word"',
+    '      if yProcessExists then',
+    '        tell process "Microsoft Word"',
+    '          try',
+    '            set frontmost to true',
+    '            set yWordFrontmost to frontmost',
+    '            set yWindowCount to count of windows',
+    '            set yAxMenuCount to count of menu bar items of menu bar 1',
+    '            if yWindowCount > 0 then set yAxWindowSubtreeCount to count of UI elements of window 1',
+    '            set yAxQuerySucceeded to yAxMenuCount > 0',
+    '          on error yErrMsg number yErrNo',
+    '            set yAxErrorNumber to yErrNo',
+    '            set yAxErrorMessage to yErrMsg',
+    '          end try',
+    '        end tell',
+    '      end if',
+    '    end tell',
+    '    if yAxQuerySucceeded and yWordFrontmost and yWindowCount > 0 and yAxWindowSubtreeCount > 0 then exit repeat',
+    '  end repeat',
     '  tell application "System Events"',
-    '    set yUiEnabled to UI elements enabled',
-    '    set yProcessExists to exists process "Microsoft Word"',
-    '    set yWordFrontmost to false',
-    '    set yWindowCount to 0',
-    '    set yAxQuerySucceeded to false',
-    '    set yAxMenuCount to 0',
-    '    set yAxWindowSubtreeCount to 0',
-    '    set yAxErrorNumber to 0',
-    '    set yAxErrorMessage to ""',
-    '    if yProcessExists then',
-    '      tell process "Microsoft Word"',
-    '        try',
-    '          set yWordFrontmost to frontmost',
-    '          set yWindowCount to count of windows',
-    '          set yAxMenuCount to count of menu bar items of menu bar 1',
-    '          if yWindowCount > 0 then set yAxWindowSubtreeCount to count of UI elements of window 1',
-    '          set yAxQuerySucceeded to yAxMenuCount > 0',
-    '        on error yErrMsg number yErrNo',
-    '          set yAxErrorNumber to yErrNo',
-    '          set yAxErrorMessage to yErrMsg',
-    '        end try',
-    '      end tell',
-    '    end if',
     '    set yDiagnostics to "LEGACY_UI_ELEMENTS_ENABLED:" & yUiEnabled & ":PROCESS_EXISTS:" & yProcessExists & ":WORD_FRONTMOST:" & yWordFrontmost & ":WINDOW_COUNT:" & yWindowCount & ":AX_MENU_COUNT:" & yAxMenuCount & ":AX_WINDOW_SUBTREE_COUNT:" & yAxWindowSubtreeCount & ":AX_ERROR_NUMBER:" & yAxErrorNumber & ":AX_ERROR_MESSAGE:" & yAxErrorMessage & ":FRONT_DOCUMENT:" & yFrontDocument',
     '    if yProcessExists is false then return "MACOS_ACCESSIBILITY_WORD_PROCESS_MISSING|" & yDiagnostics',
+    '    if yWindowCount < 1 then return "MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE|" & yDiagnostics',
     '    if yAxQuerySucceeded is false then return "MACOS_ACCESSIBILITY_PERMISSION_REQUIRED|" & yDiagnostics',
     '    if yFrontDocument is not yExpectedFullName then return "MACOS_ACCESSIBILITY_FRONT_DOCUMENT_MISMATCH|" & yDiagnostics',
     '    if yWordFrontmost is false or yWindowCount < 1 or yAxWindowSubtreeCount < 1 then return "MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE|" & yDiagnostics',
     '    return "MACOS_ACCESSIBILITY_PREFLIGHT_READY|" & yDiagnostics',
     '  end tell',
     'end yMacosAccessibilityPreflight',
+    'on yWordObjectModelPreflight(yExpectedFullName)',
+    '  tell application "Microsoft Word"',
+    '    set yDocumentCount to count of documents',
+    '    set yWindowCount to count of windows',
+    '    set yFrontDocument to ""',
+    '    try',
+    '      if yDocumentCount > 0 then set yFrontDocument to full name of active document as text',
+    '    end try',
+    '  end tell',
+    '  set yDiagnostics to "DOCUMENT_COUNT:" & yDocumentCount & ":WINDOW_COUNT:" & yWindowCount & ":FRONT_DOCUMENT:" & yFrontDocument',
+    '  if yDocumentCount < 1 then return "WORD_OBJECT_MODEL_DOCUMENT_MISSING|" & yDiagnostics',
+    '  if yWindowCount < 1 then return "WORD_OBJECT_MODEL_WINDOW_UNAVAILABLE|" & yDiagnostics',
+    '  if yFrontDocument is not yExpectedFullName then return "WORD_OBJECT_MODEL_FRONT_DOCUMENT_MISMATCH|" & yDiagnostics',
+    '  return "WORD_OBJECT_MODEL_PREFLIGHT_READY|" & yDiagnostics',
+    'end yWordObjectModelPreflight',
     'on yCloseStaleExpectedDocuments(yExpectedPosixPath)',
     '  tell application "Microsoft Word"',
     '    repeat with yIndex from (count of documents) to 1 by -1',
@@ -2101,7 +2319,8 @@ export function buildWordScript({ sourcePath, returnedPath, ledger }) {
     `  set user initials to ${appleText('C5V2')}`,
     `  set ySourceFile to POSIX file ${appleText(sourcePath)} as alias`,
     `  set yReturnedPath to ${appleText(returnedPath)}`,
-    `  set yCheckpointPath to ${appleText(`${returnedPath}.phase.log`)}`,
+    `  set yArtifactReturnedPath to ${appleText(artifactReturnedPath)}`,
+    `  set yCheckpointPath to ${appleText(`${artifactReturnedPath}.phase.log`)}`,
     '  set my yOverallDeadline to (current date) + 180',
     '  my yResetCheckpoint(yCheckpointPath)',
     '  my yCheckpoint(yCheckpointPath, "CANARY_START", yReturnedPath)',
@@ -2115,13 +2334,19 @@ export function buildWordScript({ sourcePath, returnedPath, ledger }) {
     '  set yDoc to active document',
     '  set yDocWasOpened to true',
     '  my yCheckpoint(yCheckpointPath, "PREFLIGHT_BEFORE", yExpectedFullName)',
-    '  set yAccessibilityPreflight to my yMacosAccessibilityPreflight(yExpectedFullName)',
-    '  if yAccessibilityPreflight does not start with "MACOS_ACCESSIBILITY_PREFLIGHT_READY|" then error yAccessibilityPreflight number 9720',
+    `  set yAccessibilityUiRequired to ${requiresAccessibilityUi ? 'true' : 'false'}`,
+    '  if yAccessibilityUiRequired then',
+    '    set yAccessibilityPreflight to my yMacosAccessibilityPreflight(yExpectedFullName)',
+    '    if yAccessibilityPreflight does not start with "MACOS_ACCESSIBILITY_PREFLIGHT_READY|" then error yAccessibilityPreflight number 9720',
+    '  else',
+    '    set yAccessibilityPreflight to my yWordObjectModelPreflight(yExpectedFullName)',
+    '    if yAccessibilityPreflight does not start with "WORD_OBJECT_MODEL_PREFLIGHT_READY|" then error yAccessibilityPreflight number 9720',
+    '  end if',
     '  my yCheckpoint(yCheckpointPath, "PREFLIGHT_AFTER", yAccessibilityPreflight)',
     '  set remove personal information of yDoc to false',
     '  set remove date and time of yDoc to false',
     '  set show revisions of yDoc to true',
-    wordOperationLines(ledger, returnedPath),
+    wordOperationLines(ledger, artifactReturnedPath),
     '  save yDoc',
     '  my yCheckpoint(yCheckpointPath, "FINAL_SAVE_AFTER", "")',
     '  close yDoc saving yes',
@@ -2145,6 +2370,12 @@ export function buildWordScript({ sourcePath, returnedPath, ledger }) {
     '  my yCheckpoint(yCheckpointPath, "FINAL_SEMANTIC_READBACK", "REVISION_COUNT:" & yRevisionCount & ":COMMENT_COUNT:" & yCommentCount)',
     '  close yDoc saving no',
     '  set yDocWasOpened to false',
+    '  do shell script "/bin/cp " & quoted form of yReturnedPath & " " & quoted form of yArtifactReturnedPath',
+    '  do shell script "/bin/sync"',
+    '  set yWordWorkHash to word 1 of (do shell script "/usr/bin/shasum -a 256 " & quoted form of yReturnedPath)',
+    '  set yEvidenceHash to word 1 of (do shell script "/usr/bin/shasum -a 256 " & quoted form of yArtifactReturnedPath)',
+    '  if yWordWorkHash is not yEvidenceHash then error "C5V2_EVIDENCE_MIRROR_HASH_MISMATCH" number 9731',
+    '  my yCheckpoint(yCheckpointPath, "EVIDENCE_MIRROR_VERIFIED", yEvidenceHash)',
     '  set user name to oldUserName',
     '  set user initials to oldUserInitials',
     '  set display alerts to oldAlerts',
@@ -2260,8 +2491,18 @@ export function inspectNativeCommentLifecycleXml({ commentsXml = '', commentsExt
 
 export function verifyNativeCommentLifecycleSemantics({ ledger, snapshotXmlByOperationId = {} } = {}) {
   const operations = Array.isArray(ledger?.operations) ? ledger.operations : [];
+  const lifecycleOperations = operations.filter((item) => ['reply_attempt', 'state_attempt'].includes(item.family));
+  if (lifecycleOperations.length === 0) {
+    return {
+      ok: true,
+      notApplicable: true,
+      results: [],
+      verifiedCount: 0,
+      blockedCount: 0,
+    };
+  }
   const results = [];
-  for (const operation of operations.filter((item) => ['reply_attempt', 'state_attempt'].includes(item.family))) {
+  for (const operation of lifecycleOperations) {
     const snapshot = snapshotXmlByOperationId[operation.id] || {};
     const graph = inspectNativeCommentLifecycleXml(snapshot);
     const rootBody = `C5V2 root ${operation.targetRootOperationId || ''}`;
@@ -2447,6 +2688,9 @@ async function mainCumulative(options) {
   const runId = `${options.runPrefix}-${nowStamp()}`;
   const runDir = path.join(options.artifactRoot, runId);
   fs.mkdirSync(runDir, { recursive: true });
+  const wordWorkRoot = resolveWordHostLocalQaWorkRoot({
+    defaultSegments: ['c5v2-physical-canary', runId],
+  });
   const scenes = loadCanaryScenes({
     sceneCount: options.sceneCount,
     sceneStart: options.sceneStart,
@@ -2462,6 +2706,7 @@ async function mainCumulative(options) {
       roundDir,
       sourcePath: path.join(roundDir, 'c5v2-cumulative-source-fullmanuscript.docx'),
       returnedPath: path.join(roundDir, 'c5v2-cumulative-returned-word-native.docx'),
+      wordReturnedPath: path.join(wordWorkRoot.root, roundLabel, 'c5v2-cumulative-returned-word-native.docx'),
       returnedReadyPath: path.join(roundDir, 'c5v2-cumulative-returned-ready.json'),
       ledger: null,
     });
@@ -2471,6 +2716,7 @@ async function mainCumulative(options) {
       counts: options.counts,
       ledgerAuthority: 'DERIVE_FROM_CURRENT_PRODUCT_SCENE_FILES_AFTER_ROUND_EXPORT',
     }, null, 2)}\n`);
+    fs.mkdirSync(path.dirname(rounds.at(-1).wordReturnedPath), { recursive: true });
   }
   const wordVersion = shellValue('/usr/bin/osascript', ['-e', 'tell application "Microsoft Word" to return version as text'], { timeout: 30_000 });
   const electronResult = await runElectronCumulativeFullManuscriptRoundtrip({
@@ -2508,7 +2754,12 @@ async function mainCumulative(options) {
       round.ledger = ledger;
       fs.writeFileSync(path.join(round.roundDir, 'canary-ledger.json'), `${JSON.stringify(ledger, null, 2)}\n`);
       const wordOutput = await runAppleScript(
-        buildWordScript({ sourcePath: round.sourcePath, returnedPath: round.returnedPath, ledger }),
+        buildWordScript({
+          sourcePath: round.sourcePath,
+          returnedPath: round.wordReturnedPath,
+          artifactReturnedPath: round.returnedPath,
+          ledger,
+        }),
         path.join(round.roundDir, 'word-canary.applescript'),
       );
       fs.writeFileSync(path.join(round.roundDir, 'word-output.txt'), wordOutput, 'utf8');
@@ -2578,6 +2829,7 @@ async function mainCumulative(options) {
     headSha: shellValue('git', ['rev-parse', 'HEAD']),
     originMainSha: shellValue('git', ['rev-parse', 'origin/main']),
     wordVersion,
+    wordWorkRoot,
     sceneCount: scenes.length,
     roundCount,
     route: [
@@ -2585,8 +2837,15 @@ async function mainCumulative(options) {
       'round-loop-full-manuscript-export-menu-command',
       'physical-word-open-edit-native-save-per-round',
       'authenticated-intake-quarantine-preview-per-round',
-      'explicit-selected-exact-text-apply-per-round',
-      'atomic-recovery-replay-stale-retry-per-round',
+      ...(rounds.some((round) => (round.ledger?.operations || []).some((operation) => (
+        ['tracked_replace', 'tracked_insert', 'tracked_delete'].includes(operation.family)
+      ))) ? [
+        'explicit-selected-exact-text-apply-per-round',
+        'atomic-recovery-replay-stale-retry-per-round',
+      ] : []),
+      ...(rounds.some((round) => (round.ledger?.operations || []).some((operation) => operation.family === 'formatting'))
+        ? ['shipped-formatting-command-apply-and-persisted-replay-inspection-per-round']
+        : []),
       'next-round-export-from-mutated-product-project',
     ],
     electronResult: {
@@ -2683,6 +2942,10 @@ async function main() {
   const sourceDocxPath = path.join(runDir, 'c5v2-canary-source-fullmanuscript.docx');
   const returnedDocxPath = path.join(runDir, 'c5v2-canary-returned-word-native.docx');
   const returnedReadyPath = path.join(runDir, 'c5v2-canary-returned-ready.json');
+  const wordWorkRoot = resolveWordHostLocalQaWorkRoot({
+    defaultSegments: ['c5v2-physical-canary', runId],
+  });
+  const wordReturnedDocxPath = path.join(wordWorkRoot.root, 'c5v2-canary-returned-word-native.docx');
   const scenes = loadCanaryScenes({
     sceneCount: options.sceneCount,
     sceneStart: options.sceneStart,
@@ -2706,7 +2969,12 @@ async function main() {
       });
       fs.writeFileSync(path.join(runDir, 'canary-ledger.json'), `${JSON.stringify(ledger, null, 2)}\n`);
       return runAppleScript(
-        buildWordScript({ sourcePath: sourceDocxPath, returnedPath: returnedDocxPath, ledger }),
+        buildWordScript({
+          sourcePath: sourceDocxPath,
+          returnedPath: wordReturnedDocxPath,
+          artifactReturnedPath: returnedDocxPath,
+          ledger,
+        }),
         path.join(runDir, 'word-canary.applescript'),
       );
     },
@@ -2729,14 +2997,23 @@ async function main() {
     headSha: shellValue('git', ['rev-parse', 'HEAD']),
     originMainSha: shellValue('git', ['rev-parse', 'origin/main']),
     wordVersion,
+    wordWorkRoot,
+    wordReturnedDocxPath,
     route: [
       'real-yalken-full-manuscript-export-menu-command',
       'physical-word-open-edit-native-save',
       'physical-word-close-reopen-object-model-readback',
       'raw-ooxml-package-summary',
       'authenticated-intake-quarantine-preview',
-      'explicit-selected-exact-text-apply',
-      'atomic-recovery-replay-stale-retry',
+      ...(ledger.operations.some((operation) => (
+        ['tracked_replace', 'tracked_insert', 'tracked_delete'].includes(operation.family)
+      )) ? [
+        'explicit-selected-exact-text-apply',
+        'atomic-recovery-replay-stale-retry',
+      ] : []),
+      ...(ledger.operations.some((operation) => operation.family === 'formatting')
+        ? ['shipped-formatting-command-apply-and-persisted-replay-inspection']
+        : []),
       'bounded-semantic-oracle-probe',
     ],
     sourceDocxPath,
@@ -2765,14 +3042,10 @@ async function main() {
     packageSummary: fs.existsSync(returnedDocxPath) ? packageSummary(returnedDocxPath) : null,
     oracleProbe: wordParsed.ops.length > 0 ? buildOracleProbe({ ledger, wordParsed }) : null,
     productReturnApply: exportResult.returnApplyResult?.returnApply || null,
-    productRouteGaps: exportResult.returnApplyResult?.returnApply?.ok === true
-      ? [
-        'formatting and structural operations remain typed pending product outcomes',
-      ]
-      : [
-        'full-manuscript authenticated intake preview explicit apply did not complete green in this canary script',
-        'comment lifecycle, formatting, or structural operations remain typed pending product outcomes',
-      ],
+    productRouteGaps: deriveC5V2ProductRouteGaps(
+      exportResult.returnApplyResult?.returnApply || null,
+      { expectedFamilies: ledger.operations.map((operation) => operation.family) },
+    ),
     certificationClaim: options.sceneCount >= 21
       ? 'NO_PHYSICAL_PROVEN_C5_CERTIFICATION_CLAIM_WHOLE_BOOK_LIGHT_ONLY'
       : 'NO_PHYSICAL_PROVEN_C5_CERTIFICATION_CLAIM',
@@ -2786,6 +3059,7 @@ async function main() {
       && summary.wordStatus === 'PASS'
       && summary.nativeLifecycleVerification?.ok === true
       && summary.productReturnApply?.ok === true
+      && summary.productRouteGaps.length === 0
       ? 0
       : 1,
   );

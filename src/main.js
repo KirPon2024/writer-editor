@@ -72,6 +72,13 @@ const {
   getProductCommandRecord,
 } = require('./shared/productCommandRegistry.cjs');
 const {
+  makeCommandBridgeEditorSyncSummary,
+  makeCommandBridgeException,
+  makeCommandBridgeFailure,
+  makeFormattingReturnBridgeReviewSurface,
+  makeCommandBridgeSuccess,
+} = require('./shared/commandBridgeResponse.cjs');
+const {
   DEFAULT_AUTHORITY_PLATFORM_ID,
   evaluateCommandCapabilityAuthority,
 } = require('./shared/commandCapabilityAuthority.cjs');
@@ -471,12 +478,14 @@ const COMMAND_SURFACE_KERNEL_COMMAND_IDS = Object.freeze({
     'cmd.rtk.review.applyMultiSceneNonOverlapTrackedReplacements',
   RTK_REVIEW_APPLY_ROOT_COMMENT_RETURN: 'cmd.rtk.review.applyRootCommentReturn',
   RTK_REVIEW_APPLY_COMMENT_LIFECYCLE_RETURN: 'cmd.rtk.review.applyCommentLifecycleReturn',
+  RTK_REVIEW_APPLY_MULTI_SCENE_FORMATTING_RETURN: 'cmd.rtk.review.applyMultiSceneFormattingReturn',
 });
 let internalCommandSurfaceKernel = null;
 
 // CONTOUR_01A_REVIEW_MUTATE_PORT_START
 let activeReviewSessionDirtyImportBlocked = false;
 let activeRtkNonOverlapTrackedReplacementApplyStore = null;
+let activeRtkFormattingReturnApplyStore = null;
 let activeReviewDocxExportAuthorityStore = null;
 
 function isReviewSessionEditorContextDirty() {
@@ -539,6 +548,7 @@ function resetActiveReviewSessionStore(nextLifecycle = 'passive') {
   activeReviewSessionLifecycle = nextLifecycle === 'cleared' ? 'cleared' : 'passive';
   activeReviewSessionDirtyImportBlocked = false;
   activeRtkNonOverlapTrackedReplacementApplyStore = null;
+  activeRtkFormattingReturnApplyStore = null;
   activeReviewDocxExportAuthorityStore = null;
   currentReviewSurfacePayload = {};
   currentReviewSurfacePayloadSource = 'none';
@@ -832,6 +842,7 @@ function handleReviewSurfaceImportPacketCommandSurface(payload = {}) {
     activeReviewSessionLifecycle = 'active';
     activeReviewSessionDirtyImportBlocked = dirtyAtImportStart;
     activeRtkNonOverlapTrackedReplacementApplyStore = null;
+    activeRtkFormattingReturnApplyStore = null;
     currentReviewSurfacePayload = cloneJsonSafe(normalized.value.reviewSurface) || {};
     currentReviewSurfacePayloadSource = 'session';
     currentReviewSurfacePayloadContentHash = '';
@@ -1007,8 +1018,8 @@ function normalizeReviewExactTextApplyBatchPayload(payload = {}) {
 }
 
 function deriveReviewExactTextApplyOperationId(requestIdRaw, fallbackSeedRaw = '') {
-  const requestId = normalizeReviewExactTextApplyString(requestIdRaw);
-  const fallbackSeed = normalizeReviewExactTextApplyString(fallbackSeedRaw);
+  const requestId = typeof requestIdRaw === 'string' ? requestIdRaw.trim() : '';
+  const fallbackSeed = typeof fallbackSeedRaw === 'string' ? fallbackSeedRaw.trim() : '';
   const seed = requestId || fallbackSeed;
   if (!seed) return '';
   return `op_review_batch_${computeHash(seed).slice(0, 32)}`;
@@ -3783,8 +3794,8 @@ async function readFullManuscriptDocxReviewPacketExportSource() {
   }
   const scope = await buildFullManuscriptDocxReviewExportScope();
   const sceneCandidates = Array.isArray(scope?.sceneCandidates) ? scope.sceneCandidates : [];
-  if (sceneCandidates.length < 2) {
-    throw new Error('REVIEW_FULL_MANUSCRIPT_DOCX_EXPORT_MULTI_SCENE_PROJECT_REQUIRED');
+  if (sceneCandidates.length < 1) {
+    throw new Error('REVIEW_FULL_MANUSCRIPT_DOCX_EXPORT_SCENE_REQUIRED');
   }
   const projectId = docxReviewPreviewSessionDetailString(scope.projectId);
   if (!projectId) {
@@ -3795,13 +3806,16 @@ async function readFullManuscriptDocxReviewPacketExportSource() {
   const scenes = [];
   for (let index = 0; index < sceneCandidates.length; index += 1) {
     const candidate = sceneCandidates[index];
-    const text = await readFullManuscriptDocxReviewExportDocumentContent(candidate);
+    const content = await readFullManuscriptDocxReviewExportDocumentContent(candidate);
     scenes.push({
       sceneId: typeof candidate.sceneId === 'string' ? candidate.sceneId.replace(/\\/g, '/') : '',
       scenePath: typeof candidate.path === 'string' ? candidate.path : '',
       title: typeof candidate.title === 'string' ? candidate.title : '',
       label: typeof candidate.label === 'string' ? candidate.label : '',
-      text,
+      text: content.text,
+      doc: content.doc,
+      observableContent: content.observableContent,
+      rawSha256: `sha256:${createRtkReviewTransportCryptoPort().sha256Text(content.observableContent)}`,
       order: index,
     });
   }
@@ -5134,6 +5148,285 @@ async function prepareDocxReviewPreviewSessionNonOverlapTrackedReplacementProduc
   };
 }
 
+function sanitizeRtkFormattingReturnDiagnostics(diagnostics) {
+  return (Array.isArray(diagnostics) ? diagnostics : [])
+    .filter(isPlainObjectValue)
+    .slice(0, 64)
+    .map((diagnostic) => ({
+      code: docxReviewPreviewSessionDetailString(diagnostic.code),
+      sceneId: docxReviewPreviewSessionDetailString(diagnostic.sceneId),
+      blockId: docxReviewPreviewSessionDetailString(diagnostic.blockId),
+      paragraphIndex: Number.isSafeInteger(diagnostic.paragraphIndex) ? diagnostic.paragraphIndex : -1,
+      from: Number.isSafeInteger(diagnostic.from) ? diagnostic.from : -1,
+      to: Number.isSafeInteger(diagnostic.to) ? diagnostic.to : -1,
+      keys: Array.isArray(diagnostic.keys)
+        ? diagnostic.keys.map(docxReviewPreviewSessionDetailString).filter(Boolean).slice(0, 16)
+        : [],
+    }))
+    .filter((diagnostic) => diagnostic.code);
+}
+
+function attachRtkFormattingReturnProductPreview({ input, candidates, diagnostics } = {}) {
+  if (
+    activeReviewSessionLifecycle !== 'active'
+    || !isPlainObjectValue(activeReviewSessionStore)
+    || !isPlainObjectValue(input)
+    || !Array.isArray(candidates)
+  ) return {};
+  const sessionToken = readRtkNonOverlapTrackedReplacementSessionToken(activeReviewSessionStore);
+  if (!sessionToken.sessionId || !sessionToken.sourcePacketHash) return {};
+  activeRtkFormattingReturnApplyStore = candidates.length > 0
+    ? {
+        schemaVersion: 'yalken.rtk.word.n3.main-owned-formatting-apply-store.v1',
+        sessionToken,
+        input: cloneJsonSafe(input),
+        writerAuthorityExposedToRenderer: false,
+      }
+    : null;
+  const publicOperations = candidates.map((candidate) => ({
+    operationId: docxReviewPreviewSessionDetailString(candidate.operationId),
+    sceneId: docxReviewPreviewSessionDetailString(candidate.sceneId),
+    blockId: docxReviewPreviewSessionDetailString(candidate.blockId),
+    paragraphOrdinal: Number.isSafeInteger(candidate.paragraphOrdinal) ? candidate.paragraphOrdinal : -1,
+    from: Number.isSafeInteger(candidate.from) ? candidate.from : -1,
+    to: Number.isSafeInteger(candidate.to) ? candidate.to : -1,
+    selectedText: typeof candidate.selectedText === 'string' ? candidate.selectedText : '',
+    inline: isPlainObjectValue(candidate.inline) ? cloneJsonSafe(candidate.inline) : {},
+    paragraph: isPlainObjectValue(candidate.paragraph) ? cloneJsonSafe(candidate.paragraph) : {},
+    expectedOutcome: 'SAFE_APPLY',
+  }));
+  const nextSessionStore = cloneJsonSafe(activeReviewSessionStore) || {};
+  const nextReviewSurface = isPlainObjectValue(nextSessionStore.reviewSurface)
+    ? cloneJsonSafe(nextSessionStore.reviewSurface) || {}
+    : {};
+  const publicDiagnostics = sanitizeRtkFormattingReturnDiagnostics(diagnostics);
+  const previewStatus = publicOperations.length === 0
+    ? 'manual'
+    : (publicDiagnostics.length > 0 ? 'partial' : 'ready');
+  nextReviewSurface.formattingReturnPreview = {
+    schemaVersion: 'yalken.rtk.word.n3.formatting-return-preview.v1',
+    status: previewStatus,
+    code: previewStatus === 'partial'
+      ? 'RTK_FORMATTING_RETURN_SAFE_SUBSET_USER_DECISION_READY'
+      : previewStatus === 'ready'
+        ? 'RTK_FORMATTING_RETURN_USER_DECISION_READY'
+        : 'RTK_FORMATTING_RETURN_MANUAL_REVIEW_REQUIRED',
+    operationCount: publicOperations.length,
+    sceneCount: new Set(publicOperations.map((operation) => operation.sceneId)).size,
+    diagnosticCount: publicDiagnostics.length,
+    diagnostics: publicDiagnostics,
+    operations: publicOperations,
+    applyCommandId: 'cmd.project.review.applyFormattingReturn',
+    writerCalled: false,
+    rendererAuthority: false,
+  };
+  nextSessionStore.reviewSurface = nextReviewSurface;
+  activeReviewSessionStore = nextSessionStore;
+  currentReviewSurfacePayload = cloneJsonSafe(nextReviewSurface) || {};
+  currentReviewSurfacePayloadSource = 'session';
+  currentReviewSurfacePayloadContentHash = '';
+  return readActiveReviewSessionReviewSurface();
+}
+
+function prepareAuthenticatedDocxFormattingReturnProductPath({
+  context,
+  requestId,
+  docxBytes,
+  revisionBridge,
+  fullManuscriptExportMap,
+} = {}) {
+  const capsule = isPlainObjectValue(context?.reviewTransportAuthorityCapsule)
+    ? context.reviewTransportAuthorityCapsule
+    : {};
+  const intake = isPlainObjectValue(context?.reviewTransportReturnIntake)
+    ? context.reviewTransportReturnIntake
+    : {};
+  if (
+    intake.authenticated !== true
+    || capsule.scope !== 'full-manuscript'
+    || !isPlainObjectValue(fullManuscriptExportMap)
+    || typeof revisionBridge?.buildDocxReviewFormattingReturnCandidatesFromZipBytes !== 'function'
+  ) return null;
+  const extracted = revisionBridge.buildDocxReviewFormattingReturnCandidatesFromZipBytes(docxBytes, {
+    fullManuscriptExportMap,
+    cryptoPort: createRtkReviewTransportCryptoPort(),
+  });
+  if (!isPlainObjectValue(extracted) || !Array.isArray(extracted.candidates)) {
+    return {
+      prepared: false,
+      status: 'diagnostics',
+      code: docxReviewPreviewSessionDetailString(extracted?.code) || 'RTK_FORMATTING_RETURN_NO_SAFE_CANDIDATES',
+      candidateCount: 0,
+      diagnosticCount: Array.isArray(extracted?.diagnostics) ? extracted.diagnostics.length : 0,
+      writerCalled: false,
+    };
+  }
+  const input = {
+    projectId: docxReviewPreviewSessionDetailString(context.projectId),
+    projectRoot: docxReviewPreviewSessionDetailString(capsule.projectRoot || context.projectRoot),
+    requestId: `${requestId}:formatting-return`,
+    returnArtifactSha256: docxReviewPreviewSessionDetailString(intake.returnedArtifactSha256),
+    scenePathBySceneId: isPlainObjectValue(capsule.scenePathBySceneId)
+      ? cloneJsonSafe(capsule.scenePathBySceneId)
+      : {},
+    operations: cloneJsonSafe(extracted.candidates),
+    previewConfirmed: true,
+  };
+  const diagnostics = Array.isArray(extracted.diagnostics) ? extracted.diagnostics : [];
+  const reviewSurface = attachRtkFormattingReturnProductPreview({
+    input,
+    candidates: extracted.candidates,
+    diagnostics,
+  });
+  return {
+    prepared: extracted.candidates.length > 0,
+    status: extracted.candidates.length > 0
+      ? (diagnostics.length > 0 ? 'partial-preview-ready' : 'preview-ready')
+      : 'diagnostics',
+    code: extracted.candidates.length > 0
+      ? (diagnostics.length > 0
+          ? 'RTK_FORMATTING_RETURN_SAFE_SUBSET_PRODUCT_PATH_READY'
+          : 'RTK_FORMATTING_RETURN_PRODUCT_PATH_READY')
+      : 'RTK_FORMATTING_RETURN_NO_SAFE_CANDIDATES',
+    candidateCount: extracted.candidates.length,
+    sceneCount: new Set(extracted.candidates.map((candidate) => candidate.sceneId)).size,
+    diagnosticCount: diagnostics.length,
+    writerCalled: false,
+    rendererAuthority: false,
+    reviewSurface,
+  };
+}
+
+function rtkFormattingReturnStoreMatchesActiveSession() {
+  if (!isPlainObjectValue(activeRtkFormattingReturnApplyStore)) return false;
+  const expected = activeRtkFormattingReturnApplyStore.sessionToken;
+  const observed = readRtkNonOverlapTrackedReplacementSessionToken(activeReviewSessionStore);
+  return Boolean(
+    isPlainObjectValue(expected)
+    && expected.sessionId
+    && expected.sourcePacketHash
+    && expected.sessionId === observed.sessionId
+    && expected.sourcePacketHash === observed.sourcePacketHash
+  );
+}
+
+function deferRtkFormattingReturnEditorSyncAfterBridgeReply({ currentScenePath = '', bridgeReviewSurface = {} } = {}) {
+  if (!currentScenePath || isDirty || autoSaveInProgress) {
+    return {
+      ok: false,
+      skipped: true,
+      deferred: false,
+      reason: isDirty || autoSaveInProgress
+        ? 'RTK_FORMATTING_RETURN_EDITOR_BECAME_DIRTY'
+        : 'RTK_FORMATTING_RETURN_EDITOR_SYNC_NOT_CURRENT_FILE',
+    };
+  }
+  setImmediate(() => {
+    syncReviewExactTextApplyEditorFromMainState({
+      applyInput: { scenePath: currentScenePath },
+      reviewSurface: bridgeReviewSurface,
+    }).catch((error) => {
+      logDevError('rtk-formatting-return-deferred-editor-sync', error);
+    });
+  });
+  return {
+    ok: false,
+    skipped: true,
+    deferred: true,
+    reason: 'RTK_FORMATTING_RETURN_EDITOR_SYNC_DEFERRED_AFTER_BRIDGE_REPLY',
+  };
+}
+
+function attachRtkFormattingReturnProductResult(result, replay) {
+  if (activeReviewSessionLifecycle !== 'active' || !isPlainObjectValue(activeReviewSessionStore)) return {};
+  const nextSessionStore = cloneJsonSafe(activeReviewSessionStore) || {};
+  const nextReviewSurface = isPlainObjectValue(nextSessionStore.reviewSurface)
+    ? cloneJsonSafe(nextSessionStore.reviewSurface) || {}
+    : {};
+  const preview = isPlainObjectValue(nextReviewSurface.formattingReturnPreview)
+    ? cloneJsonSafe(nextReviewSurface.formattingReturnPreview) || {}
+    : {};
+  nextReviewSurface.formattingReturnPreview = {
+    ...preview,
+    status: result?.ok === true ? 'applied' : 'blocked',
+    writerCalled: result?.writerCalled === true,
+  };
+  nextReviewSurface.formattingReturnResult = {
+    ok: result?.ok === true,
+    status: docxReviewPreviewSessionDetailString(result?.status),
+    code: docxReviewPreviewSessionDetailString(result?.code || result?.error?.code),
+    writerCalled: result?.writerCalled === true,
+    applied: result?.status === 'applied',
+    replayVerified: replay?.ok === true && replay?.status === 'replay' && replay?.writerCalled !== true,
+    sceneReadback: Array.isArray(result?.readback)
+      ? result.readback.map((item) => ({
+        sceneId: docxReviewPreviewSessionDetailString(item?.sceneId),
+        matchesAfter: item?.matchesAfter === true,
+      }))
+      : [],
+  };
+  nextSessionStore.reviewSurface = nextReviewSurface;
+  activeReviewSessionStore = nextSessionStore;
+  currentReviewSurfacePayload = cloneJsonSafe(nextReviewSurface) || {};
+  currentReviewSurfacePayloadSource = 'session';
+  currentReviewSurfacePayloadContentHash = '';
+  return readActiveReviewSessionReviewSurface();
+}
+
+function attachRtkFormattingReturnReplayInspection(inspected) {
+  const replaySnapshot = isPlainObjectValue(inspected?.replaySnapshot)
+    ? inspected.replaySnapshot
+    : {};
+  const latestReceipt = isPlainObjectValue(replaySnapshot.latestReceipt)
+    ? replaySnapshot.latestReceipt
+    : null;
+  const existingSurface = activeReviewSessionLifecycle === 'active'
+    && isPlainObjectValue(activeReviewSessionStore?.reviewSurface)
+    ? cloneJsonSafe(activeReviewSessionStore.reviewSurface) || {}
+    : cloneJsonSafe(currentReviewSurfacePayload) || {};
+  existingSurface.formattingReturnPreview = {
+    ...(isPlainObjectValue(existingSurface.formattingReturnPreview)
+      ? existingSurface.formattingReturnPreview
+      : {}),
+    schemaVersion: 'yalken.rtk.word.n3.formatting-return-preview.v1',
+    status: replaySnapshot.status === 'empty' ? 'empty' : 'replayed',
+    code: docxReviewPreviewSessionDetailString(inspected?.code),
+    operationCount: Array.isArray(latestReceipt?.operationIds) ? latestReceipt.operationIds.length : 0,
+    sceneCount: Array.isArray(latestReceipt?.scenes) ? latestReceipt.scenes.length : 0,
+    operations: [],
+    writerCalled: false,
+    rendererAuthority: false,
+  };
+  existingSurface.formattingReturnResult = {
+    ok: inspected?.ok === true && replaySnapshot.replayVerified === true,
+    status: docxReviewPreviewSessionDetailString(replaySnapshot.status),
+    code: docxReviewPreviewSessionDetailString(inspected?.code),
+    writerCalled: false,
+    applied: Boolean(latestReceipt),
+    replayVerified: replaySnapshot.replayVerified === true,
+    stateGeneration: Number.isSafeInteger(replaySnapshot.stateGeneration)
+      ? replaySnapshot.stateGeneration
+      : 0,
+    stateDigest: docxReviewPreviewSessionDetailString(replaySnapshot.stateDigest),
+    sceneReadback: Array.isArray(replaySnapshot.sceneReadback)
+      ? replaySnapshot.sceneReadback.map((item) => ({
+          sceneId: docxReviewPreviewSessionDetailString(item?.sceneId),
+          matchesAfter: item?.matchesAfter === true,
+        }))
+      : [],
+  };
+  currentReviewSurfacePayload = existingSurface;
+  currentReviewSurfacePayloadSource = 'formatting-replay-inspection';
+  currentReviewSurfacePayloadContentHash = '';
+  if (activeReviewSessionLifecycle === 'active' && isPlainObjectValue(activeReviewSessionStore)) {
+    activeReviewSessionStore = {
+      ...activeReviewSessionStore,
+      reviewSurface: cloneJsonSafe(existingSurface),
+    };
+  }
+  return cloneJsonSafe(existingSurface) || {};
+}
+
 function summarizeDocxReviewPreviewSessionCandidate(candidate = {}) {
   const summary = isPlainObjectValue(candidate.summary) ? candidate.summary : {};
   const commentPlacements = Array.isArray(candidate?.reviewPacket?.commentPlacements)
@@ -5783,7 +6076,17 @@ async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = 
       revisionBridge,
       options,
     });
-  const reviewSurface = isPlainObjectValue(nonOverlapTrackedReplacementProductPath?.reviewSurface)
+  const formattingProductPath = prepareAuthenticatedDocxFormattingReturnProductPath({
+    context: activeContext,
+    requestId,
+    docxBytes: decoded.bytes,
+    revisionBridge,
+    fullManuscriptExportMap: authenticatedFullManuscriptExportMap,
+  });
+  const reviewSurface = isPlainObjectValue(formattingProductPath?.reviewSurface)
+    && Object.keys(formattingProductPath.reviewSurface).length > 0
+    ? formattingProductPath.reviewSurface
+    : isPlainObjectValue(nonOverlapTrackedReplacementProductPath?.reviewSurface)
     ? nonOverlapTrackedReplacementProductPath.reviewSurface
     : importResult.reviewSurface;
 
@@ -5841,6 +6144,24 @@ async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = 
           : [],
       }
       : null,
+    formattingProductPath: isPlainObjectValue(formattingProductPath)
+      ? {
+        prepared: formattingProductPath.prepared === true,
+        status: docxReviewPreviewSessionDetailString(formattingProductPath.status),
+        code: docxReviewPreviewSessionDetailString(formattingProductPath.code),
+        candidateCount: Number.isSafeInteger(formattingProductPath.candidateCount)
+          ? formattingProductPath.candidateCount
+          : 0,
+        sceneCount: Number.isSafeInteger(formattingProductPath.sceneCount)
+          ? formattingProductPath.sceneCount
+          : 0,
+        diagnosticCount: Number.isSafeInteger(formattingProductPath.diagnosticCount)
+          ? formattingProductPath.diagnosticCount
+          : 0,
+        writerCalled: formattingProductPath.writerCalled === true,
+        rendererAuthority: formattingProductPath.rendererAuthority === true,
+      }
+      : null,
     candidateSummary: summarizeDocxReviewPreviewSessionCandidate(candidate),
     returnIntake: sanitizeDocxReviewReturnIntakeForResult(returnIntake),
     sourcePacketHash: importPayload.sourcePacketHash,
@@ -5852,6 +6173,99 @@ async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = 
   });
 }
 // DOCX_REVIEW_PREVIEW_SESSION_COMMAND_SURFACE_END
+
+async function handleReviewSurfaceApplyFormattingReturnCommandSurface(payload = {}) {
+  const unsupportedKeys = Object.keys(isPlainObjectValue(payload) ? payload : {})
+    .filter((key) => !['requestId'].includes(key));
+  if (!isPlainObjectValue(payload) || unsupportedKeys.length > 0) {
+    return makeReviewMutateTypedError(
+      'cmd.project.review.applyFormattingReturn',
+      'E_RTK_FORMATTING_RETURN_UI_PAYLOAD_INVALID',
+      'RTK_FORMATTING_RETURN_UI_PAYLOAD_INVALID',
+      { unsupportedKeys },
+    );
+  }
+  const actionRequestId = docxReviewPreviewSessionDetailString(payload.requestId);
+  if (!actionRequestId) {
+    return makeReviewMutateTypedError(
+      'cmd.project.review.applyFormattingReturn',
+      'E_RTK_FORMATTING_RETURN_ACTION_REQUEST_REQUIRED',
+      'RTK_FORMATTING_RETURN_ACTION_REQUEST_REQUIRED',
+    );
+  }
+  return queueDiskOperation(async () => {
+    if (activeReviewSessionDirtyImportBlocked || isDirty || autoSaveInProgress) {
+      return makeReviewMutateTypedError(
+        'cmd.project.review.applyFormattingReturn',
+        'E_RTK_FORMATTING_RETURN_DIRTY_EDITOR_BLOCKED',
+        'RTK_FORMATTING_RETURN_DIRTY_EDITOR_BLOCKED',
+        {
+          dirtyAtImportStart: Boolean(activeReviewSessionDirtyImportBlocked),
+          isDirty: Boolean(isDirty),
+          autoSaveInProgress: Boolean(autoSaveInProgress),
+        },
+      );
+    }
+    if (!rtkFormattingReturnStoreMatchesActiveSession()) {
+      return makeReviewMutateTypedError(
+        'cmd.project.review.applyFormattingReturn',
+        'E_RTK_FORMATTING_RETURN_MAIN_STORE_UNAVAILABLE',
+        'RTK_FORMATTING_RETURN_MAIN_STORE_UNAVAILABLE',
+      );
+    }
+    const input = cloneJsonSafe(activeRtkFormattingReturnApplyStore.input) || {};
+    const applied = await dispatchCommandSurfaceKernel(
+      COMMAND_SURFACE_KERNEL_COMMAND_IDS.RTK_REVIEW_APPLY_MULTI_SCENE_FORMATTING_RETURN,
+      input,
+    );
+    if (!isPlainObjectValue(applied) || !['applied', 'replay'].includes(applied.status)) {
+      const reviewSurface = attachRtkFormattingReturnProductResult(applied, null);
+      const bridgeReviewSurface = makeFormattingReturnBridgeReviewSurface(reviewSurface);
+      return {
+        ok: false,
+        type: 'yalken.rtk.formattingReturnUiApply',
+        status: 'blocked',
+        code: docxReviewPreviewSessionDetailString(applied?.code || applied?.error?.code)
+          || 'RTK_FORMATTING_RETURN_APPLY_BLOCKED',
+        reason: docxReviewPreviewSessionDetailString(applied?.reason || applied?.error?.reason)
+          || 'RTK_FORMATTING_RETURN_APPLY_BLOCKED',
+        reviewSurface: bridgeReviewSurface,
+      };
+    }
+    const replay = applied.status === 'replay'
+      ? applied
+      : await dispatchCommandSurfaceKernel(
+        COMMAND_SURFACE_KERNEL_COMMAND_IDS.RTK_REVIEW_APPLY_MULTI_SCENE_FORMATTING_RETURN,
+        input,
+      );
+    const replayVerified = replay?.ok === true && replay?.status === 'replay' && replay?.writerCalled !== true;
+    const reviewSurface = attachRtkFormattingReturnProductResult(applied, replay);
+    const bridgeReviewSurface = makeFormattingReturnBridgeReviewSurface(reviewSurface);
+    const currentScenePath = isPlainObjectValue(input.scenePathBySceneId)
+      ? Object.values(input.scenePathBySceneId).find((scenePath) => scenePath === currentFilePath)
+      : '';
+    const editorSync = deferRtkFormattingReturnEditorSyncAfterBridgeReply({
+      currentScenePath,
+      bridgeReviewSurface,
+    });
+    return {
+      ok: replayVerified,
+      type: 'yalken.rtk.formattingReturnUiApply',
+      status: replayVerified ? 'applied-and-replayed' : 'blocked',
+      code: replayVerified
+        ? 'RTK_FORMATTING_RETURN_APPLIED_AND_REPLAYED'
+        : 'RTK_FORMATTING_RETURN_REPLAY_NOT_VERIFIED',
+      reason: replayVerified
+        ? 'RTK_FORMATTING_RETURN_APPLIED_AND_REPLAYED'
+        : 'RTK_FORMATTING_RETURN_REPLAY_NOT_VERIFIED',
+      applied: applied.status === 'applied' || applied.status === 'replay',
+      replayVerified,
+      actionRequestId,
+      reviewSurface: bridgeReviewSurface,
+      editorSync: makeCommandBridgeEditorSyncSummary(editorSync),
+    };
+  }, 'rtk-formatting-return');
+}
 
 // DOCX_REVIEW_PREVIEW_SESSION_LOCAL_FILE_COMMAND_SURFACE_START
 const DOCX_REVIEW_PREVIEW_SESSION_LOCAL_FILE_COMMAND_ID = 'cmd.project.review.openDocxReviewPreviewSession';
@@ -8913,6 +9327,9 @@ function getInternalCommandSurfaceKernel() {
     },
     [COMMAND_SURFACE_KERNEL_COMMAND_IDS.RTK_REVIEW_APPLY_COMMENT_LIFECYCLE_RETURN]: async (payload = {}) => {
       return handleRtkCommentLifecycleReturnCommandSurface(payload);
+    },
+    [COMMAND_SURFACE_KERNEL_COMMAND_IDS.RTK_REVIEW_APPLY_MULTI_SCENE_FORMATTING_RETURN]: async (payload = {}) => {
+      return handleRtkFormattingReturnCommandSurface(payload);
     },
   });
   return internalCommandSurfaceKernel;
@@ -16276,6 +16693,126 @@ async function handleRtkMultiSceneNonOverlapTrackedReplacementCommandSurface(pay
   })(payload);
 }
 
+let rtkFormattingReturnModulePromise = null;
+function loadRtkFormattingReturnModule() {
+  if (!rtkFormattingReturnModulePromise) {
+    const modulePath = pathToFileURL(path.join(
+      __dirname,
+      'io',
+      'revisionBridge',
+      'reviewTransportFormattingReturnRuntime.mjs',
+    )).href;
+    rtkFormattingReturnModulePromise = import(modulePath).catch((error) => {
+      rtkFormattingReturnModulePromise = null;
+      throw error;
+    });
+  }
+  return rtkFormattingReturnModulePromise;
+}
+
+async function handleRtkFormattingReturnCommandSurface(payload = {}) {
+  let module = null;
+  try {
+    module = await loadRtkFormattingReturnModule();
+  } catch (error) {
+    return makeReviewMutateTypedError(
+      'cmd.rtk.review.applyMultiSceneFormattingReturn',
+      'E_RTK_FORMATTING_RETURN_UNAVAILABLE',
+      'RTK_FORMATTING_RETURN_UNAVAILABLE',
+      { message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN' },
+    );
+  }
+  if (!module || typeof module.createRtkFormattingReturnCommandHandler !== 'function') {
+    return makeReviewMutateTypedError(
+      'cmd.rtk.review.applyMultiSceneFormattingReturn',
+      'E_RTK_FORMATTING_RETURN_UNAVAILABLE',
+      'RTK_FORMATTING_RETURN_HANDLER_UNAVAILABLE',
+    );
+  }
+  return module.createRtkFormattingReturnCommandHandler({
+    cryptoPort: createRtkReviewTransportCryptoPort(),
+  })(payload);
+}
+
+async function buildRtkFormattingReturnRuntimeProjectScope() {
+  const scope = await buildFullManuscriptDocxReviewExportScope();
+  return {
+    projectId: docxReviewPreviewSessionDetailString(scope?.projectId),
+    projectRoot: docxReviewPreviewSessionDetailString(scope?.projectRoot) || getProjectRootPath(),
+    scenePathBySceneId: Object.fromEntries(
+      (Array.isArray(scope?.sceneCandidates) ? scope.sceneCandidates : [])
+        .filter((candidate) => (
+          candidate
+          && typeof candidate.sceneId === 'string'
+          && candidate.sceneId.trim()
+          && typeof candidate.path === 'string'
+          && candidate.path.trim()
+        ))
+        .map((candidate) => [candidate.sceneId.replace(/\\/g, '/'), candidate.path]),
+    ),
+    startupSingleInstanceAuthority: true,
+  };
+}
+
+async function handleReviewSurfaceInspectFormattingReturnReplayCommandSurface(payload = {}) {
+  const unsupportedKeys = Object.keys(isPlainObjectValue(payload) ? payload : {})
+    .filter((key) => !['requestId'].includes(key));
+  if (!isPlainObjectValue(payload) || unsupportedKeys.length > 0) {
+    return makeReviewMutateTypedError(
+      'cmd.project.review.inspectFormattingReturnReplay',
+      'E_RTK_FORMATTING_REPLAY_UI_PAYLOAD_INVALID',
+      'RTK_FORMATTING_REPLAY_UI_PAYLOAD_INVALID',
+      { unsupportedKeys },
+    );
+  }
+  const module = await loadRtkFormattingReturnModule();
+  if (!module || typeof module.inspectFormattingReturnRuntimeState !== 'function') {
+    return makeReviewMutateTypedError(
+      'cmd.project.review.inspectFormattingReturnReplay',
+      'E_RTK_FORMATTING_REPLAY_INSPECTOR_UNAVAILABLE',
+      'RTK_FORMATTING_REPLAY_INSPECTOR_UNAVAILABLE',
+    );
+  }
+  const inspected = await module.inspectFormattingReturnRuntimeState(
+    await buildRtkFormattingReturnRuntimeProjectScope(),
+    { cryptoPort: createRtkReviewTransportCryptoPort() },
+  );
+  const reviewSurface = attachRtkFormattingReturnReplayInspection(inspected);
+  return {
+    ok: inspected?.ok === true,
+    type: 'yalken.rtk.formattingReturnReplayInspection',
+    status: docxReviewPreviewSessionDetailString(inspected?.status),
+    code: docxReviewPreviewSessionDetailString(inspected?.code),
+    replayVerified: inspected?.replaySnapshot?.replayVerified === true,
+    writerCalled: false,
+    reviewSurface: makeFormattingReturnBridgeReviewSurface(reviewSurface),
+  };
+}
+
+async function reconcileReviewFormattingReturnAtStartup() {
+  const module = await loadRtkFormattingReturnModule();
+  if (!module || typeof module.reconcileFormattingReturnRuntimeAtStartup !== 'function') {
+    throw new Error('RTK_FORMATTING_STARTUP_RECOVERY_HANDLER_UNAVAILABLE');
+  }
+  const result = await module.reconcileFormattingReturnRuntimeAtStartup(
+    await buildRtkFormattingReturnRuntimeProjectScope(),
+    {
+    cryptoPort: createRtkReviewTransportCryptoPort(),
+    },
+  );
+  if (!result || result.ok !== true) {
+    const error = new Error(
+      docxReviewPreviewSessionDetailString(result?.code || result?.reason)
+        || 'RTK_FORMATTING_STARTUP_RECOVERY_FAILED',
+    );
+    error.code = docxReviewPreviewSessionDetailString(result?.code)
+      || 'RTK_FORMATTING_STARTUP_RECOVERY_FAILED';
+    throw error;
+  }
+  attachRtkFormattingReturnReplayInspection(result);
+  return result;
+}
+
 let rtkNonTextReturnModulePromise = null;
 function loadRtkNonTextReturnModule() {
   if (!rtkNonTextReturnModulePromise) {
@@ -18454,7 +18991,11 @@ async function readFullManuscriptDocxReviewExportDocumentContent(sceneCandidate)
         : 'Full manuscript envelope is invalid',
     );
   }
-  return parsed.text;
+  return {
+    text: parsed.text,
+    doc: parsed.doc,
+    observableContent,
+  };
 }
 
 async function readPdfExportBookProfile() {
@@ -22268,27 +22809,11 @@ ipcMain.handle('ui:command-bridge', async (_, request) => {
     const result = PRODUCT_COMMAND_ID_SET.has(commandId)
       ? await dispatchProductCommandBridge(commandId, payload)
       : await dispatchMenuCommand(commandId, payload, { route: COMMAND_BUS_ROUTE });
-    if (result && result.ok === true) {
-      return { ok: true, value: result };
-    }
+    if (result && result.ok === true) return makeCommandBridgeSuccess(result);
     const reason = findCommandBridgeFailureReason(result) || 'COMMAND_EXECUTION_FAILED';
-    return {
-      ok: false,
-      reason,
-      value: result && typeof result === 'object' ? result : null,
-    };
+    return makeCommandBridgeFailure(reason, result);
   } catch (error) {
-    return {
-      ok: false,
-      reason: 'COMMAND_EXECUTION_THROW',
-      message: error && typeof error.message === 'string'
-        ? error.message
-        : error && typeof error.reason === 'string'
-          ? error.reason
-          : error && typeof error.code === 'string'
-            ? error.code
-            : 'UNKNOWN',
-    };
+    return makeCommandBridgeException(error);
   }
 });
 
@@ -24228,6 +24753,8 @@ const UI_COMMAND_BRIDGE_ALLOWED_COMMAND_IDS = new Set([
   'cmd.project.review.clearSession',
   'cmd.project.review.applyExactTextChange',
   'cmd.project.review.applyExactTextChangesBatch',
+  'cmd.project.review.applyFormattingReturn',
+  'cmd.project.review.inspectFormattingReturnReplay',
   'cmd.project.review.reloadReconciledScene',
   'cmd.project.review.cancelOperation',
   'cmd.project.review.inspectDocxIntakeGate',
@@ -24611,6 +25138,12 @@ const MENU_COMMAND_HANDLERS = Object.freeze({
   },
   'cmd.project.review.applyExactTextChangesBatch': async (payload = {}) => {
     return handleReviewSurfaceApplyExactTextChangesBatchCommandSurface(payload);
+  },
+  'cmd.project.review.applyFormattingReturn': async (payload = {}) => {
+    return handleReviewSurfaceApplyFormattingReturnCommandSurface(payload);
+  },
+  'cmd.project.review.inspectFormattingReturnReplay': async (payload = {}) => {
+    return handleReviewSurfaceInspectFormattingReturnReplayCommandSurface(payload);
   },
   'cmd.project.review.reloadReconciledScene': async (payload = {}) => {
     return handleReviewExactTextReloadReconciledSceneCommandSurface(payload);
@@ -26459,6 +26992,7 @@ async function initializeApp() {
   await fileManager.ensureDocumentsFolder();
   await ensureAutosaveDirectory();
   await ensureProjectStructure();
+  await reconcileReviewFormattingReturnAtStartup();
   await reconcileReviewExactTextApplyJournalsAtStartup();
 }
 
@@ -26474,11 +27008,13 @@ app.whenReady().then(async () => {
   const menuPresentationModePromise = loadMenuPresentationModeFromSettings();
   const menuLocalePromise = loadMenuLocaleFromSettings();
   const menuCustomizationPromise = loadMenuCustomizationFromSettings();
+  let appInitializationError = null;
   appInitializationPromise = initializeApp()
     .then(() => {
       logPerfStage('init-complete');
     })
     .catch((error) => {
+      appInitializationError = error;
       logDevError('initializeApp', error);
     });
 
@@ -26487,6 +27023,14 @@ app.whenReady().then(async () => {
   await menuLocalePromise;
   await menuCustomizationPromise;
   await appInitializationPromise;
+  if (appInitializationError) {
+    dialog.showErrorBox(
+      'Yalken recovery required',
+      `Project recovery failed safely: ${appInitializationError.code || appInitializationError.message || 'UNKNOWN'}`,
+    );
+    app.quit();
+    return;
+  }
   logPerfStage('window-state-loaded');
   createWindow();
   try {

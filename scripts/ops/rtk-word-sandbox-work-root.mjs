@@ -11,6 +11,11 @@ export const WORD_SANDBOX_TMP_SEGMENTS = Object.freeze([
   'tmp',
   'YalkenWordLab',
 ]);
+export const WORD_HOST_LOCAL_QA_SEGMENTS = Object.freeze([
+  'Library',
+  'Caches',
+  'YalkenWordLab',
+]);
 
 function normalizeSegment(segment) {
   const text = typeof segment === 'string' ? segment.trim() : String(segment || '').trim();
@@ -36,6 +41,32 @@ export function resolveWordSandboxWorkRoot({ defaultSegments, overridePath } = {
     ? overridePath.trim()
     : defaultWordSandboxWorkRoot(...(defaultSegments || []));
   return assertWordSandboxWorkRoot(selected, { source });
+}
+
+export function resolveWordHostLocalQaWorkRoot({ defaultSegments } = {}) {
+  const root = path.resolve(userHome(), ...WORD_HOST_LOCAL_QA_SEGMENTS, ...(defaultSegments || []).map(normalizeSegment));
+  const allowedRoot = path.resolve(userHome(), ...WORD_HOST_LOCAL_QA_SEGMENTS);
+  if (!(root === allowedRoot || root.startsWith(`${allowedRoot}${path.sep}`))) {
+    throw new Error(`WORD_HOST_LOCAL_QA_ROOT_OUTSIDE_CACHE:${root}`);
+  }
+  fs.mkdirSync(root, { recursive: true });
+  fs.accessSync(root, fs.constants.W_OK);
+  const canonicalAllowedRoot = fs.realpathSync.native(allowedRoot);
+  const canonical = fs.realpathSync.native(root);
+  if (!(canonical === canonicalAllowedRoot || canonical.startsWith(`${canonicalAllowedRoot}${path.sep}`))) {
+    throw new Error(`WORD_HOST_LOCAL_QA_ROOT_CANONICAL_OUTSIDE_CACHE:${canonical}`);
+  }
+  return {
+    source: 'host-local-generated-qa-cache',
+    root: canonical,
+    containerId: '',
+    insideWordContainer: false,
+    hostLocalGeneratedQaCache: true,
+    plainTmpForbidden: true,
+    userDocumentsTouched: false,
+    evidenceMirrorRequired: true,
+    networkRequired: false,
+  };
 }
 
 export function assertWordSandboxWorkRoot(workRoot, { source = 'default' } = {}) {

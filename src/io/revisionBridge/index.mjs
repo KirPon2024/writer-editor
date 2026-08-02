@@ -1,5 +1,8 @@
-import { hashCanonicalValue } from '../../core/browser-safe-hash.mjs';
-import { parseReviewTransportPackageV2 } from './reviewTransportPackageParserV2.mjs';
+import { hashCanonicalValue, sha256Hex } from '../../core/browser-safe-hash.mjs';
+import {
+  extractReviewTransportFormattingRunsV2,
+  parseReviewTransportPackageV2,
+} from './reviewTransportPackageParserV2.mjs';
 
 const PACKET_VALID_CODE = 'REVISION_BRIDGE_PACKET_VALID';
 const PACKET_INVALID_CODE = 'E_REVISION_BRIDGE_PACKET_INVALID';
@@ -3088,6 +3091,464 @@ function docxReviewPreviewSessionBuildFullManuscriptBlockScopeResolver(exportMap
       if (byBookmarkName.has(bookmarkName)) return byBookmarkName.get(bookmarkName);
     }
     return null;
+  };
+}
+
+function docxReviewFormattingBuildFullManuscriptBlockResolver(exportMap = {}) {
+  const byParaId = new Map();
+  const byTextId = new Map();
+  const byBookmarkName = new Map();
+  const byDocumentParagraphIndex = new Map();
+  const addLocator = (index, key, authority) => {
+    if (key === '' || key === null || key === undefined) return;
+    const existing = index.get(key) || [];
+    existing.push(authority);
+    index.set(key, existing);
+  };
+  const scenes = Array.isArray(exportMap?.scenes) ? exportMap.scenes : [];
+  let globalBlockIndex = 0;
+  for (const [sceneIndex, scene] of scenes.entries()) {
+    const sceneId = normalizeString(scene?.sceneId);
+    if (!sceneId) continue;
+    const blocks = Array.isArray(scene?.blocks) ? scene.blocks : [];
+    for (const [blockOrdinal, block] of blocks.entries()) {
+      const blockId = normalizeString(block?.blockId);
+      const authority = {
+        sceneId,
+        sceneOrdinal: Number.isSafeInteger(scene?.sceneOrdinal) ? scene.sceneOrdinal : sceneIndex,
+        sceneRevision: normalizeString(scene?.sceneRevision),
+        rawSha256: normalizeString(scene?.rawSha256).toLowerCase(),
+        blockId,
+        paragraphId: normalizeString(block?.paragraphId),
+        paragraphOrdinal: blockOrdinal,
+        documentParagraphIndex: Number.isSafeInteger(block?.documentParagraphIndex)
+          ? block.documentParagraphIndex
+          : globalBlockIndex,
+        canonicalTextSha256: normalizeString(block?.canonicalTextSha256).toLowerCase(),
+        canonicalMarksSha256: normalizeString(block?.canonicalMarksSha256).toLowerCase(),
+        formatIr: isPlainObject(block?.formatIr) ? cloneJsonSafe(block.formatIr) : null,
+        targetScope: { type: 'scene', id: sceneId },
+      };
+      addLocator(byDocumentParagraphIndex, authority.documentParagraphIndex, authority);
+      if (blockId) {
+        const rawBookmark = blockId.replace(/[^A-Za-z0-9_]/gu, '_');
+        const builderBookmarkName = `YRTK_${String(globalBlockIndex + 1).padStart(4, '0')}_${rawBookmark}`.slice(0, 40);
+        addLocator(byBookmarkName, builderBookmarkName.toLowerCase(), authority);
+      }
+      const signals = Array.isArray(block?.wordSignals) ? block.wordSignals : [];
+      for (const signal of signals) {
+        if (!isPlainObject(signal)) continue;
+        if (signal.kind === 'w14ParaIdTextId') {
+          const paraId = normalizeString(signal.value?.paraId).toLowerCase();
+          const textId = normalizeString(signal.value?.textId).toLowerCase();
+          addLocator(byParaId, paraId, authority);
+          addLocator(byTextId, textId, authority);
+        } else if (signal.kind === 'bookmarkName') {
+          const name = normalizeString(signal.value?.name).toLowerCase();
+          addLocator(byBookmarkName, name, authority);
+        }
+      }
+      globalBlockIndex += 1;
+    }
+  }
+  return (signal = {}) => {
+    const paraId = normalizeString(signal.paraId).toLowerCase();
+    const textId = normalizeString(signal.textId).toLowerCase();
+    const bookmarkNames = Array.isArray(signal.bookmarkNames)
+      ? signal.bookmarkNames.map((name) => normalizeString(name).toLowerCase()).filter(Boolean)
+      : [];
+    const claims = [];
+    const admit = (kind, key, index) => {
+      if (key === '' || key === null || key === undefined) return null;
+      const matches = index.get(key) || [];
+      if (matches.length !== 1) {
+        return {
+          ok: false,
+          code: matches.length > 1
+            ? 'RTK_FORMATTING_RETURN_BLOCK_LOCATOR_AMBIGUOUS'
+            : 'RTK_FORMATTING_RETURN_BLOCK_LOCATOR_UNRESOLVED',
+          locatorKind: kind,
+          locatorValue: key,
+          matchCount: matches.length,
+        };
+      }
+      claims.push(matches[0]);
+      return null;
+    };
+    const admitRegenerableNativeLocator = (kind, key, index) => {
+      if (key === '' || key === null || key === undefined) return null;
+      const matches = index.get(key) || [];
+      // Word may regenerate paraId/textId during a native save. A regenerated
+      // value is non-authoritative; a value that still names known authority
+      // must remain unique and agree with the stable index/bookmark claims.
+      if (matches.length === 0) return null;
+      if (matches.length > 1) {
+        return {
+          ok: false,
+          code: 'RTK_FORMATTING_RETURN_BLOCK_LOCATOR_AMBIGUOUS',
+          locatorKind: kind,
+          locatorValue: key,
+          matchCount: matches.length,
+        };
+      }
+      claims.push(matches[0]);
+      return null;
+    };
+    const paragraphIndex = Number.isSafeInteger(signal.paragraphIndex) ? signal.paragraphIndex : -1;
+    const indexFailure = admit(
+      'documentParagraphIndex',
+      paragraphIndex >= 0 ? paragraphIndex : null,
+      byDocumentParagraphIndex,
+    );
+    if (indexFailure) return indexFailure;
+    const paraFailure = admitRegenerableNativeLocator('paraId', paraId, byParaId);
+    if (paraFailure) return paraFailure;
+    const textFailure = admitRegenerableNativeLocator('textId', textId, byTextId);
+    if (textFailure) return textFailure;
+    const relevantBookmarks = bookmarkNames.filter((name) => name.startsWith('yrtk_') || byBookmarkName.has(name));
+    for (const name of relevantBookmarks) {
+      const bookmarkFailure = admit('bookmarkName', name, byBookmarkName);
+      if (bookmarkFailure) return bookmarkFailure;
+    }
+    if (claims.length === 0 || paragraphIndex < 0) {
+      return { ok: false, code: 'RTK_FORMATTING_RETURN_BLOCK_AUTHORITY_UNRESOLVED' };
+    }
+    const identity = (authority) => (
+      `${authority.sceneId}\u0000${authority.blockId}\u0000${authority.paragraphOrdinal}\u0000${authority.documentParagraphIndex}`
+    );
+    if (new Set(claims.map(identity)).size !== 1) {
+      return {
+        ok: false,
+        code: 'RTK_FORMATTING_RETURN_BLOCK_LOCATOR_CONFLICT',
+        claimCount: claims.length,
+      };
+    }
+    return { ok: true, authority: cloneJsonSafe(claims[0]) };
+  };
+}
+
+function docxReviewFormattingLegacyFormatIr(paragraphText) {
+  return {
+    schemaVersion: 'yalken.rtk.format-ir.v1',
+    paragraph: {},
+    runs: paragraphText ? [{ from: 0, to: paragraphText.length, text: paragraphText, inline: {} }] : [],
+  };
+}
+
+function docxReviewFormattingStateAt(runs, from, to) {
+  const run = runs.find((entry) => (
+    Number.isSafeInteger(entry?.from)
+    && Number.isSafeInteger(entry?.to)
+    && entry.from <= from
+    && entry.to >= to
+  ));
+  return run && isPlainObject(run.inline) ? run.inline : null;
+}
+
+function docxReviewFormattingDiffActions(baseline = {}, returned = {}) {
+  const actions = {};
+  const keys = new Set([...Object.keys(baseline), ...Object.keys(returned)]);
+  for (const key of [...keys].sort()) {
+    if (!Object.hasOwn(returned, key)) {
+      actions[key] = { action: 'remove' };
+    } else if (!Object.hasOwn(baseline, key) || hashCanonicalValue(baseline[key]) !== hashCanonicalValue(returned[key])) {
+      actions[key] = { action: 'set', value: returned[key] };
+    }
+  }
+  return actions;
+}
+
+function docxReviewFormattingAmbiguousRemovalKeys(baseline = {}, returned = {}, directActions = {}) {
+  return Object.keys(baseline)
+    .filter((key) => (
+      !Object.hasOwn(returned, key)
+      && directActions?.[key]?.action !== 'remove'
+    ))
+    .sort();
+}
+
+function docxReviewFormattingBuildOperation({ authority, paragraph, from, to, inline = {}, paragraphActions = {} }) {
+  const unsigned = {
+    sceneId: authority.sceneId,
+    blockId: authority.blockId,
+    paragraphOrdinal: authority.paragraphOrdinal,
+    from,
+    to,
+    selectedText: paragraph.paragraphText.slice(from, to),
+    inline,
+    paragraph: paragraphActions,
+    sourceSceneRevision: authority.sceneRevision,
+    sourceRawSha256: authority.rawSha256,
+  };
+  return {
+    operationId: `rtk-format-${hashCanonicalValue(unsigned).slice(0, 24)}`,
+    ...unsigned,
+    targetScope: authority.targetScope,
+    sceneOrdinal: authority.sceneOrdinal,
+    paragraphId: authority.paragraphId,
+    sourceAuthority: 'authenticated-full-manuscript-export-map-format-ir-v1',
+    expectedOutcome: 'SAFE_APPLY',
+  };
+}
+
+export function buildDocxReviewFormattingReturnCandidatesFromZipBytes(input, options = {}) {
+  const bytes = docxZipInventoryInputToBytes(input);
+  if (bytes === null || !isPlainObject(options.fullManuscriptExportMap)) {
+    return {
+      ok: false,
+      status: 'blocked',
+      code: 'RTK_FORMATTING_RETURN_AUTHORITY_REQUIRED',
+      reason: 'RTK_FORMATTING_RETURN_AUTHORITY_REQUIRED',
+      candidates: [],
+      diagnostics: [],
+    };
+  }
+  const targets = docxReviewPreviewSessionExtractTargets(bytes);
+  if (!targets.ok) {
+    return {
+      ok: false,
+      status: 'blocked',
+      code: 'RTK_FORMATTING_RETURN_DOCUMENT_UNAVAILABLE',
+      reason: targets.reason,
+      candidates: [],
+      diagnostics: targets.diagnostics,
+    };
+  }
+  const documentXml = targets.extractedTargets.get('word/document.xml') || '';
+  const scanned = extractReviewTransportFormattingRunsV2(documentXml, {
+    cryptoPort: options.cryptoPort,
+    budgets: options.budgets,
+  });
+  if (!scanned.ok) {
+    return {
+      ok: false,
+      status: 'blocked',
+      code: scanned.code || 'RTK_FORMATTING_RETURN_SCANNER_BLOCKED',
+      reason: scanned.code || 'RTK_FORMATTING_RETURN_SCANNER_BLOCKED',
+      candidates: [],
+      diagnostics: Array.isArray(scanned.reasons) ? scanned.reasons : [],
+    };
+  }
+  const resolveBlock = docxReviewFormattingBuildFullManuscriptBlockResolver(options.fullManuscriptExportMap);
+  const candidates = [];
+  const diagnostics = Array.isArray(scanned.reasons) ? [...scanned.reasons] : [];
+  const seenOperationIds = new Set();
+  for (const paragraph of scanned.paragraphs) {
+    const paragraphIndex = Number.isSafeInteger(paragraph.paragraphIndex) ? paragraph.paragraphIndex : -1;
+    const resolution = resolveBlock({
+      paraId: paragraph.paraId,
+      textId: paragraph.textId,
+      bookmarkNames: paragraph.bookmarkNames,
+      paragraphIndex,
+    });
+    const authority = resolution?.ok === true ? resolution.authority : null;
+    const returnedRuns = Array.isArray(paragraph.formattedRuns) ? paragraph.formattedRuns : [];
+    if (returnedRuns.length > 0 && !authority) {
+      diagnostics.push({
+        code: normalizeString(resolution?.code) || 'RTK_FORMATTING_RETURN_BLOCK_AUTHORITY_UNRESOLVED',
+        paragraphIndex,
+        styledRunCount: returnedRuns.length,
+        locatorKind: normalizeString(resolution?.locatorKind),
+        locatorValue: normalizeString(resolution?.locatorValue),
+        matchCount: Number.isSafeInteger(resolution?.matchCount) ? resolution.matchCount : undefined,
+      });
+      continue;
+    }
+    if (!authority) continue;
+    const formatIr = isPlainObject(authority.formatIr)
+      ? authority.formatIr
+      : docxReviewFormattingLegacyFormatIr(paragraph.paragraphText);
+    const baselineRuns = Array.isArray(formatIr.runs) ? formatIr.runs : [];
+    const baselineParagraphRecord = isPlainObject(formatIr.paragraph) ? formatIr.paragraph : {};
+    const baselineParagraph = Object.hasOwn(baselineParagraphRecord, 'textAlign')
+      ? { textAlign: baselineParagraphRecord.textAlign }
+      : {};
+    const baselineStructure = baselineParagraphRecord.nodeType === 'heading'
+      ? { nodeType: 'heading', headingLevel: Number(baselineParagraphRecord.headingLevel) }
+      : { nodeType: 'paragraph' };
+    const returnedStructure = isPlainObject(paragraph.paragraphStructure)
+      ? paragraph.paragraphStructure
+      : {};
+    const returnedParagraphState = isPlainObject(paragraph.paragraphState) ? paragraph.paragraphState : {};
+    const returnedParagraphActions = isPlainObject(paragraph.paragraphActions) ? paragraph.paragraphActions : {};
+    const paragraphAmbiguousRemovals = docxReviewFormattingAmbiguousRemovalKeys(
+      baselineParagraph,
+      returnedParagraphState,
+      returnedParagraphActions,
+    );
+    const paragraphActions = paragraphAmbiguousRemovals.length === 0
+      ? docxReviewFormattingDiffActions(baselineParagraph, returnedParagraphState)
+      : {};
+    const hasUnsupportedRunFormatting = returnedRuns.some((run) => (
+      run.unsupportedNames.length > 0 || run.invalidSupportedValue === true
+    ));
+    const hasUnsupportedParagraphFormatting = (
+      (Array.isArray(paragraph.unsupportedParagraphNames) && paragraph.unsupportedParagraphNames.length > 0)
+      || paragraph.paragraphFormattingInvalid === true
+    );
+    const hasUnsupportedFormatting = hasUnsupportedRunFormatting || hasUnsupportedParagraphFormatting;
+    if (hasUnsupportedFormatting) {
+      diagnostics.push({
+        code: hasUnsupportedParagraphFormatting
+          ? 'RTK_FORMATTING_RETURN_UNSUPPORTED_WORD_FORMATTING'
+          : 'RTK_FORMATTING_RETURN_UNSUPPORTED_RUN_FORMATTING',
+        sceneId: authority.sceneId,
+        blockId: authority.blockId,
+        paragraphIndex,
+        unsupportedParagraphNames: paragraph.unsupportedParagraphNames || [],
+        unsupportedRunNames: returnedRuns.flatMap((run) => run.unsupportedNames || []),
+      });
+      continue;
+    }
+    if (hashCanonicalValue(baselineStructure) !== hashCanonicalValue(returnedStructure)) {
+      diagnostics.push({
+        code: 'RTK_FORMATTING_RETURN_PARAGRAPH_STRUCTURE_CHANGED',
+        sceneId: authority.sceneId,
+        blockId: authority.blockId,
+        paragraphIndex,
+        baselineStructure,
+        returnedStructure,
+      });
+      continue;
+    }
+    if (paragraphAmbiguousRemovals.length > 0) {
+      diagnostics.push({
+        code: 'RTK_FORMATTING_RETURN_EFFECTIVE_PARAGRAPH_STYLE_UNRESOLVED',
+        sceneId: authority.sceneId,
+        blockId: authority.blockId,
+        paragraphIndex,
+        keys: paragraphAmbiguousRemovals,
+      });
+    }
+    const returnedText = returnedRuns.map((run) => run.text).join('');
+    const baselineText = baselineRuns.map((run) => (typeof run?.text === 'string' ? run.text : '')).join('');
+    const expectedMarksDigest = isPlainObject(authority.formatIr)
+      ? `sha256:${hashCanonicalValue(formatIr)}`
+      : `sha256:${hashCanonicalValue({ marks: [] })}`;
+    if (
+      formatIr.schemaVersion !== 'yalken.rtk.format-ir.v1'
+      || returnedText !== paragraph.paragraphText
+      || baselineText !== paragraph.paragraphText
+      || authority.canonicalTextSha256 !== `sha256:${sha256Hex(paragraph.paragraphText)}`
+      || authority.canonicalMarksSha256 !== expectedMarksDigest
+    ) {
+      diagnostics.push({
+        code: 'RTK_FORMATTING_RETURN_BASELINE_NOT_EXACT',
+        sceneId: authority.sceneId,
+        blockId: authority.blockId,
+        paragraphIndex,
+      });
+      continue;
+    }
+    const boundaries = new Set([0, paragraph.paragraphText.length]);
+    for (const run of [...baselineRuns, ...returnedRuns]) {
+      if (Number.isSafeInteger(run?.from)) boundaries.add(run.from);
+      if (Number.isSafeInteger(run?.to)) boundaries.add(run.to);
+    }
+    const orderedBoundaries = [...boundaries].sort((left, right) => left - right);
+    const intervalOperations = [];
+    for (let boundaryIndex = 0; boundaryIndex < orderedBoundaries.length - 1; boundaryIndex += 1) {
+      const from = orderedBoundaries[boundaryIndex];
+      const to = orderedBoundaries[boundaryIndex + 1];
+      if (from === to) continue;
+      const baselineState = docxReviewFormattingStateAt(baselineRuns, from, to);
+      const returnedRun = returnedRuns.find((run) => run.from <= from && run.to >= to);
+      const returnedState = returnedRun && isPlainObject(returnedRun.inlineState) ? returnedRun.inlineState : null;
+      if (!baselineState || !returnedState) {
+        diagnostics.push({
+          code: 'RTK_FORMATTING_RETURN_RANGE_COVERAGE_INVALID',
+          sceneId: authority.sceneId,
+          blockId: authority.blockId,
+          from,
+          to,
+        });
+        continue;
+      }
+      const ambiguousRemovalKeys = docxReviewFormattingAmbiguousRemovalKeys(
+        baselineState,
+        returnedState,
+        isPlainObject(returnedRun?.inline) ? returnedRun.inline : {},
+      );
+      if (ambiguousRemovalKeys.length > 0) {
+        diagnostics.push({
+          code: 'RTK_FORMATTING_RETURN_EFFECTIVE_RUN_STYLE_UNRESOLVED',
+          sceneId: authority.sceneId,
+          blockId: authority.blockId,
+          paragraphIndex,
+          from,
+          to,
+          keys: ambiguousRemovalKeys,
+        });
+        continue;
+      }
+      const inline = docxReviewFormattingDiffActions(baselineState, returnedState);
+      if (Object.keys(inline).length === 0) continue;
+      const selectedText = paragraph.paragraphText.slice(from, to);
+      if (!selectedText || selectedText === '\n') {
+        diagnostics.push({
+          code: 'RTK_FORMATTING_RETURN_BREAK_ONLY_RANGE_BLOCKED',
+          sceneId: authority.sceneId,
+          blockId: authority.blockId,
+          from,
+          to,
+        });
+        continue;
+      }
+      intervalOperations.push(docxReviewFormattingBuildOperation({ authority, paragraph, from, to, inline }));
+    }
+    if (Object.keys(paragraphActions).length > 0) {
+      if (!paragraph.paragraphText) {
+        diagnostics.push({
+          code: 'RTK_FORMATTING_RETURN_EMPTY_PARAGRAPH_FORMATTING_BLOCKED',
+          sceneId: authority.sceneId,
+          blockId: authority.blockId,
+        });
+      } else {
+        intervalOperations.push(docxReviewFormattingBuildOperation({
+          authority,
+          paragraph,
+          from: 0,
+          to: paragraph.paragraphText.length,
+          paragraphActions,
+        }));
+      }
+    }
+    if (intervalOperations.length > 0 && paragraph.trackedRevision === true) {
+      diagnostics.push({
+        code: 'RTK_FORMATTING_RETURN_TRACKED_PARAGRAPH_BLOCKED',
+        sceneId: authority?.sceneId || '',
+        blockId: authority?.blockId || '',
+        paragraphIndex,
+      });
+      continue;
+    }
+    for (const operation of intervalOperations) {
+      const { operationId } = operation;
+      if (seenOperationIds.has(operationId)) {
+        diagnostics.push({ code: 'RTK_FORMATTING_RETURN_DUPLICATE_OPERATION_ID', operationId });
+        continue;
+      }
+      seenOperationIds.add(operationId);
+      candidates.push(operation);
+    }
+  }
+  const status = candidates.length > 0 ? 'ready' : 'diagnostics';
+  const code = candidates.length > 0
+    ? 'RTK_FORMATTING_RETURN_CANDIDATES_READY'
+    : 'RTK_FORMATTING_RETURN_NO_SAFE_CANDIDATES';
+  return {
+    ok: true,
+    status,
+    code,
+    reason: code,
+    candidates,
+    diagnostics,
+    summary: {
+      candidateCount: candidates.length,
+      diagnosticCount: diagnostics.length,
+      commentReferenceOnlyRunsIgnored: true,
+      normalizationApplied: false,
+    },
   };
 }
 

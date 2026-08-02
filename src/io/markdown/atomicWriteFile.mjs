@@ -19,6 +19,23 @@ function normalizeSafetyMode(input) {
   return input === 'compat' ? 'compat' : 'strict';
 }
 
+async function syncParentDirectory(directory, options = {}) {
+  let directoryHandle = null;
+  try {
+    directoryHandle = await fs.open(directory, 'r');
+    await directoryHandle.sync();
+    if (typeof options.afterDirectorySync === 'function') {
+      await options.afterDirectorySync({ directory });
+    }
+  } catch (error) {
+    const unsupportedOnWindows = process.platform === 'win32'
+      && ['EPERM', 'EISDIR', 'EINVAL', 'ENOTSUP'].includes(error?.code);
+    if (!unsupportedOnWindows) throw error;
+  } finally {
+    if (directoryHandle) await directoryHandle.close().catch(() => {});
+  }
+}
+
 export async function atomicWriteFile(targetPathRaw, contentRaw, options = {}) {
   const targetPath = normalizeTargetPath(targetPathRaw);
   const content = normalizeContent(contentRaw);
@@ -47,6 +64,9 @@ export async function atomicWriteFile(targetPathRaw, contentRaw, options = {}) {
     }
 
     await fs.rename(tempPath, targetPath);
+    if (safetyMode === 'strict') {
+      await syncParentDirectory(directory, options);
+    }
     if (typeof options.afterRename === 'function') {
       await options.afterRename({ targetPath, tempPath, bytesWritten: content.byteLength });
     }

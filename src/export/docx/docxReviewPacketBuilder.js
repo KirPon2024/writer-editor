@@ -5,12 +5,36 @@ const { buildStoredZip, escapeXml } = require('./docxMinBuilder');
 const WORD_MAIN_NS = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main';
 const WORD_REL_NS = 'http://schemas.openxmlformats.org/package/2006/relationships';
 const W14_NS = 'http://schemas.microsoft.com/office/word/2010/wordml';
+const OFFICE_DOCUMENT_REL_NS = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships';
 const CUSTOM_PROPS_NS = 'http://schemas.openxmlformats.org/officeDocument/2006/custom-properties';
 const CUSTOM_PROPS_VT_NS = 'http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes';
 const CUSTOM_XML_PROPS_NS = 'http://schemas.openxmlformats.org/officeDocument/2006/customXml';
 const WORD_SETTINGS_CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml';
 const WORD_SETTINGS_REL_TYPE = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/settings';
+const WORD_NUMBERING_CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml';
+const WORD_NUMBERING_REL_TYPE = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/numbering';
+const WORD_STYLES_CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml';
+const WORD_STYLES_REL_TYPE = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles';
 const WORD_COMPATIBILITY_URI = 'http://schemas.microsoft.com/office/word';
+const FORMAT_IR_SCHEMA = 'yalken.rtk.format-ir.v1';
+const WORD_HIGHLIGHT_NAME_BY_COLOR = Object.freeze({
+  '#000000': 'black',
+  '#0000ff': 'blue',
+  '#00ffff': 'cyan',
+  '#00008b': 'darkBlue',
+  '#008b8b': 'darkCyan',
+  '#a9a9a9': 'darkGray',
+  '#006400': 'darkGreen',
+  '#8b008b': 'darkMagenta',
+  '#8b0000': 'darkRed',
+  '#808000': 'darkYellow',
+  '#008000': 'green',
+  '#d3d3d3': 'lightGray',
+  '#ff00ff': 'magenta',
+  '#ff0000': 'red',
+  '#ffffff': 'white',
+  '#ffff00': 'yellow',
+});
 
 function isPlainObjectValue(value) {
   return Boolean(value && typeof value === 'object' && !Array.isArray(value));
@@ -47,6 +71,9 @@ function normalizeReviewPacketBlocks(input = {}) {
       paraId: normalizeString(block.paraId).replace(/[^a-fA-F0-9]/g, '').slice(0, 8).padStart(8, '0'),
       textId: normalizeString(block.textId).replace(/[^a-fA-F0-9]/g, '').slice(0, 8).padStart(8, '0'),
       text: normalizeDocxXmlText(block.text),
+      formatIr: isPlainObjectValue(block.formatIr) && block.formatIr.schemaVersion === FORMAT_IR_SCHEMA
+        ? JSON.parse(JSON.stringify(block.formatIr))
+        : null,
     }));
 }
 
@@ -55,15 +82,112 @@ function buildBookmarkName(block, index) {
   return `YRTK_${String(index + 1).padStart(4, '0')}_${raw}`.slice(0, 40);
 }
 
-function buildParagraphXml(block, index) {
+function buildRunPropertiesXml(inline = {}, preservedMarks = []) {
+  const properties = [];
+  if (preservedMarks.some((mark) => mark?.type === 'code')) {
+    properties.push('<w:rStyle w:val="YalkenInlineCode"/>');
+  }
+  if (inline.bold === true) properties.push('<w:b/>');
+  if (inline.italic === true) properties.push('<w:i/>');
+  if (inline.underline === true) properties.push('<w:u w:val="single"/>');
+  if (inline.strike === true) properties.push('<w:strike/>');
+  if (typeof inline.color === 'string' && /^#[a-f0-9]{6}$/iu.test(inline.color)) {
+    properties.push(`<w:color w:val="${inline.color.slice(1).toUpperCase()}"/>`);
+  }
+  if (typeof inline.highlight === 'string') {
+    const highlightName = WORD_HIGHLIGHT_NAME_BY_COLOR[inline.highlight.toLowerCase()];
+    if (highlightName) properties.push(`<w:highlight w:val="${highlightName}"/>`);
+    else if (/^#[a-f0-9]{6}$/iu.test(inline.highlight)) {
+      properties.push(`<w:shd w:val="clear" w:color="auto" w:fill="${inline.highlight.slice(1).toUpperCase()}"/>`);
+    } else {
+      throw new Error('DOCX_REVIEW_PACKET_FORMAT_IR_HIGHLIGHT_UNSUPPORTED');
+    }
+  }
+  if (typeof inline.fontFamily === 'string' && inline.fontFamily) {
+    const family = escapeXml(inline.fontFamily);
+    properties.push(`<w:rFonts w:ascii="${family}" w:hAnsi="${family}" w:eastAsia="${family}" w:cs="${family}"/>`);
+  }
+  if (typeof inline.fontSize === 'string' && /^(\d{1,4}(?:\.5)?)pt$/u.test(inline.fontSize)) {
+    const halfPoints = String(Math.round(Number.parseFloat(inline.fontSize) * 2));
+    properties.push(`<w:sz w:val="${halfPoints}"/><w:szCs w:val="${halfPoints}"/>`);
+  }
+  return properties.length > 0 ? `<w:rPr>${properties.join('')}</w:rPr>` : '';
+}
+
+function buildRunContentXml(text) {
+  const pieces = normalizeDocxXmlText(text).split('\n');
+  return pieces.map((piece, index) => {
+    const content = piece ? `<w:t xml:space="preserve">${escapeXml(piece)}</w:t>` : '';
+    return index < pieces.length - 1 ? `${content}<w:br/>` : content;
+  }).join('');
+}
+
+function buildFormatIrRunsXml(block, hyperlinkByHref) {
+  const runs = Array.isArray(block.formatIr?.runs) ? block.formatIr.runs : [];
+  if (runs.length === 0) {
+    return block.text ? `<w:r><w:t xml:space="preserve">${escapeXml(block.text)}</w:t></w:r>` : '';
+  }
+  const text = runs.map((run) => normalizeString(run?.text)).join('');
+  if (text !== block.text) throw new Error('DOCX_REVIEW_PACKET_FORMAT_IR_TEXT_MISMATCH');
+  return runs.map((run) => {
+    const content = buildRunContentXml(run.text);
+    if (!content) return '';
+    const preservedMarks = Array.isArray(run.preservedMarks) ? run.preservedMarks : [];
+    const unsupported = preservedMarks.filter((mark) => !['link', 'code'].includes(mark?.type));
+    if (unsupported.length > 0) throw new Error('DOCX_REVIEW_PACKET_FORMAT_IR_PRESERVED_MARK_UNSUPPORTED');
+    const runXml = `<w:r>${buildRunPropertiesXml(run.inline, preservedMarks)}${content}</w:r>`;
+    const link = preservedMarks.find((mark) => mark?.type === 'link');
+    if (!link) return runXml;
+    const href = normalizeString(link.attrs?.href);
+    const relationshipId = hyperlinkByHref.get(href);
+    if (!relationshipId) throw new Error('DOCX_REVIEW_PACKET_FORMAT_IR_LINK_RELATIONSHIP_MISSING');
+    return `<w:hyperlink r:id="${escapeXml(relationshipId)}">${runXml}</w:hyperlink>`;
+  }).join('');
+}
+
+function buildParagraphXml(block, index, hyperlinkByHref) {
   const bookmarkId = String(index + 1);
   const bookmarkName = buildBookmarkName(block, index);
-  const text = block.text;
-  const textRun = text
-    ? `<w:r><w:t xml:space="preserve">${escapeXml(text)}</w:t></w:r>`
+  const textRun = buildFormatIrRunsXml(block, hyperlinkByHref);
+  const textAlign = normalizeString(block.formatIr?.paragraph?.textAlign);
+  const headingLevel = Number(block.formatIr?.paragraph?.headingLevel);
+  const paragraphPropertyParts = [];
+  if (textAlign && ['left', 'center', 'right', 'justify'].includes(textAlign)) {
+    paragraphPropertyParts.push(`<w:jc w:val="${textAlign}"/>`);
+  }
+  if (block.formatIr?.paragraph?.nodeType === 'heading') {
+    if (!Number.isSafeInteger(headingLevel) || headingLevel < 1 || headingLevel > 6) {
+      throw new Error('DOCX_REVIEW_PACKET_FORMAT_IR_HEADING_LEVEL_UNSUPPORTED');
+    }
+    paragraphPropertyParts.push(`<w:outlineLvl w:val="${headingLevel - 1}"/>`);
+  }
+  const blockquoteDepth = Number(block.formatIr?.paragraph?.blockquoteDepth || 0);
+  if (Number.isSafeInteger(blockquoteDepth) && blockquoteDepth > 0 && blockquoteDepth <= 8) {
+    paragraphPropertyParts.push(`<w:ind w:left="${blockquoteDepth * 720}"/>`);
+  }
+  const list = block.formatIr?.paragraph?.list;
+  if (isPlainObjectValue(list)) {
+    const level = Number(list.level);
+    const numId = Number(list.numId);
+    if (!['bullet', 'ordered'].includes(list.kind)
+      || !Number.isSafeInteger(level) || level < 0 || level > 8
+      || !Number.isSafeInteger(numId) || numId < 1) {
+      throw new Error('DOCX_REVIEW_PACKET_FORMAT_IR_LIST_UNSUPPORTED');
+    }
+    paragraphPropertyParts.push(`<w:numPr><w:ilvl w:val="${level}"/><w:numId w:val="${numId}"/></w:numPr>`);
+  }
+  if (block.formatIr?.paragraph?.nodeType === 'codeBlock') {
+    paragraphPropertyParts.push('<w:pStyle w:val="YalkenCodeBlock"/>');
+  }
+  if (block.formatIr?.paragraph?.nodeType === 'horizontalRule') {
+    paragraphPropertyParts.push('<w:pBdr><w:bottom w:val="single" w:sz="6" w:space="1" w:color="auto"/></w:pBdr>');
+  }
+  const paragraphProperties = paragraphPropertyParts.length > 0
+    ? `<w:pPr>${paragraphPropertyParts.join('')}</w:pPr>`
     : '';
   return [
     `<w:p w14:paraId="${escapeXml(block.paraId)}" w14:textId="${escapeXml(block.textId)}">`,
+    paragraphProperties,
     `<w:bookmarkStart w:id="${bookmarkId}" w:name="${escapeXml(bookmarkName)}"/>`,
     textRun,
     `<w:bookmarkEnd w:id="${bookmarkId}"/>`,
@@ -71,10 +195,10 @@ function buildParagraphXml(block, index) {
   ].join('');
 }
 
-function buildDocumentXml(blocks) {
-  const paragraphs = blocks.map((block, index) => buildParagraphXml(block, index)).join('');
+function buildDocumentXml(blocks, hyperlinkByHref) {
+  const paragraphs = blocks.map((block, index) => buildParagraphXml(block, index, hyperlinkByHref)).join('');
   return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<w:document xmlns:w="${WORD_MAIN_NS}" xmlns:w14="${W14_NS}">
+<w:document xmlns:w="${WORD_MAIN_NS}" xmlns:w14="${W14_NS}" xmlns:r="${OFFICE_DOCUMENT_REL_NS}">
   <w:body>
     ${paragraphs || '<w:p/>'}
     <w:sectPr/>
@@ -127,6 +251,8 @@ function buildContentTypesXml() {
   <Default Extension="xml" ContentType="application/xml"/>
   <Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>
   <Override PartName="/word/settings.xml" ContentType="${WORD_SETTINGS_CONTENT_TYPE}"/>
+  <Override PartName="/word/numbering.xml" ContentType="${WORD_NUMBERING_CONTENT_TYPE}"/>
+  <Override PartName="/word/styles.xml" ContentType="${WORD_STYLES_CONTENT_TYPE}"/>
   <Override PartName="/docProps/custom.xml" ContentType="application/vnd.openxmlformats-officedocument.custom-properties+xml"/>
 </Types>`;
 }
@@ -140,11 +266,76 @@ function buildRootRelsXml() {
 </Relationships>`;
 }
 
-function buildDocumentRelsXml() {
+function buildDocumentRelsXml(hyperlinks = []) {
+  const hyperlinkRelationships = hyperlinks.map((entry) => (
+    `  <Relationship Id="${escapeXml(entry.relationshipId)}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink" Target="${escapeXml(entry.href)}" TargetMode="External"/>`
+  )).join('\n');
   return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Relationships xmlns="${WORD_REL_NS}">
   <Relationship Id="rIdYrtkSettings" Type="${WORD_SETTINGS_REL_TYPE}" Target="settings.xml"/>
+  <Relationship Id="rIdYrtkNumbering" Type="${WORD_NUMBERING_REL_TYPE}" Target="numbering.xml"/>
+  <Relationship Id="rIdYrtkStyles" Type="${WORD_STYLES_REL_TYPE}" Target="styles.xml"/>
+${hyperlinkRelationships}
 </Relationships>`;
+}
+
+function collectNumberingDefinitions(blocks) {
+  const byNumId = new Map();
+  for (const block of blocks) {
+    const list = block.formatIr?.paragraph?.list;
+    if (!isPlainObjectValue(list)) continue;
+    const numId = Number(list.numId);
+    const start = Number(list.start);
+    const definition = {
+      numId,
+      kind: normalizeString(list.kind),
+      start: Number.isSafeInteger(start) ? start : 1,
+    };
+    const existing = byNumId.get(numId);
+    if (existing && JSON.stringify(existing) !== JSON.stringify(definition)) {
+      throw new Error('DOCX_REVIEW_PACKET_FORMAT_IR_LIST_ID_CONFLICT');
+    }
+    byNumId.set(numId, definition);
+  }
+  return [...byNumId.values()].sort((left, right) => left.numId - right.numId);
+}
+
+function buildNumberingXml(definitions) {
+  const abstract = definitions.map((definition) => {
+    const levels = Array.from({ length: 9 }, (_, level) => {
+      const ordered = definition.kind === 'ordered';
+      const levelText = ordered ? `%${level + 1}.` : ['•', '◦', '▪'][level % 3];
+      return `<w:lvl w:ilvl="${level}"><w:start w:val="${definition.start}"/><w:numFmt w:val="${ordered ? 'decimal' : 'bullet'}"/><w:lvlText w:val="${escapeXml(levelText)}"/><w:lvlJc w:val="left"/><w:pPr><w:tabs><w:tab w:val="num" w:pos="${720 + level * 360}"/></w:tabs><w:ind w:left="${720 + level * 360}" w:hanging="360"/></w:pPr></w:lvl>`;
+    }).join('');
+    return `<w:abstractNum w:abstractNumId="${definition.numId}"><w:multiLevelType w:val="hybridMultilevel"/>${levels}</w:abstractNum>`;
+  }).join('');
+  const instances = definitions.map((definition) => (
+    `<w:num w:numId="${definition.numId}"><w:abstractNumId w:val="${definition.numId}"/></w:num>`
+  )).join('');
+  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:numbering xmlns:w="${WORD_MAIN_NS}">${abstract}${instances}</w:numbering>`;
+}
+
+function buildStylesXml() {
+  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:styles xmlns:w="${WORD_MAIN_NS}">
+  <w:style w:type="paragraph" w:styleId="YalkenCodeBlock"><w:name w:val="Yalken Code Block"/><w:qFormat/><w:pPr><w:spacing w:before="80" w:after="80"/><w:shd w:val="clear" w:color="auto" w:fill="F3F4F6"/></w:pPr><w:rPr><w:rFonts w:ascii="Menlo" w:hAnsi="Menlo"/><w:sz w:val="20"/></w:rPr></w:style>
+  <w:style w:type="character" w:styleId="YalkenInlineCode"><w:name w:val="Yalken Inline Code"/><w:rPr><w:rFonts w:ascii="Menlo" w:hAnsi="Menlo"/><w:shd w:val="clear" w:color="auto" w:fill="F3F4F6"/></w:rPr></w:style>
+</w:styles>`;
+}
+
+function collectDocumentHyperlinks(blocks) {
+  const hrefs = [];
+  for (const block of blocks) {
+    for (const run of Array.isArray(block.formatIr?.runs) ? block.formatIr.runs : []) {
+      for (const mark of Array.isArray(run?.preservedMarks) ? run.preservedMarks : []) {
+        if (mark?.type !== 'link') continue;
+        const href = normalizeString(mark.attrs?.href);
+        if (href && !hrefs.includes(href)) hrefs.push(href);
+      }
+    }
+  }
+  return hrefs.map((href, index) => ({ href, relationshipId: `rIdYrtkLink${index + 1}` }));
 }
 
 function buildSettingsXml() {
@@ -233,6 +424,9 @@ function assertNoEmbeddedSecret(buffer, forbiddenSecret) {
 
 function buildDocxReviewPacketBuffer(input = {}) {
   const blocks = normalizeReviewPacketBlocks(input);
+  const numberingDefinitions = collectNumberingDefinitions(blocks);
+  const hyperlinks = collectDocumentHyperlinks(blocks);
+  const hyperlinkByHref = new Map(hyperlinks.map((entry) => [entry.href, entry.relationshipId]));
   const customProperties = normalizeCustomProperties(input.customProperties);
   if (customProperties.length === 0) {
     throw new Error('DOCX_REVIEW_PACKET_CUSTOM_PROPERTY_REQUIRED');
@@ -247,9 +441,11 @@ function buildDocxReviewPacketBuffer(input = {}) {
   const buffer = buildStoredZip([
     { name: '[Content_Types].xml', data: buildContentTypesXml() },
     { name: '_rels/.rels', data: buildRootRelsXml() },
-    { name: 'word/_rels/document.xml.rels', data: buildDocumentRelsXml() },
-    { name: 'word/document.xml', data: buildDocumentXml(blocks) },
+    { name: 'word/_rels/document.xml.rels', data: buildDocumentRelsXml(hyperlinks) },
+    { name: 'word/document.xml', data: buildDocumentXml(blocks, hyperlinkByHref) },
     { name: 'word/settings.xml', data: buildSettingsXml() },
+    { name: 'word/numbering.xml', data: buildNumberingXml(numberingDefinitions) },
+    { name: 'word/styles.xml', data: buildStylesXml() },
     { name: 'docProps/custom.xml', data: buildCustomPropertiesXml(customProperties) },
     { name: 'customXml/_rels/item1.xml.rels', data: buildCustomXmlRelsXml() },
     { name: 'customXml/item1.xml', data: buildCustomXmlPayloadXml(input) },

@@ -184,6 +184,61 @@ function makeFormattingReturnBridgeReviewSurface(reviewSurface) {
   return surface;
 }
 
+function makeStructuralPreviewBridgeSurface(preview) {
+  const source = commandBridgeRecord(preview);
+  if (Object.keys(source).length === 0) return null;
+  return {
+    schemaVersion: commandBridgeString(source.schemaVersion)
+      || 'yalken.rtk.word.n4.structural-return-preview.v1',
+    status: commandBridgeString(source.status),
+    code: commandBridgeString(source.code),
+    operationCount: commandBridgeSafeInteger(source.operationCount),
+    sceneCount: commandBridgeSafeInteger(source.sceneCount),
+    diagnosticCount: commandBridgeSafeInteger(source.diagnosticCount),
+    diagnostics: Array.isArray(source.diagnostics)
+      ? source.diagnostics.map((item) => toCommandBridgeSerializableValue(item)).filter(Boolean)
+      : [],
+    operations: [],
+    applyCommandId: commandBridgeString(source.applyCommandId),
+    writerCalled: source.writerCalled === true,
+    rendererAuthority: source.rendererAuthority === true,
+  };
+}
+
+function makeStructuralResultBridgeSurface(result) {
+  const source = commandBridgeRecord(result);
+  if (Object.keys(source).length === 0) return null;
+  return {
+    ok: source.ok === true,
+    status: commandBridgeString(source.status),
+    code: commandBridgeString(source.code),
+    writerCalled: source.writerCalled === true,
+    applied: source.applied === true,
+    replayVerified: source.replayVerified === true,
+    stateGeneration: commandBridgeSafeInteger(source.stateGeneration),
+    stateDigest: commandBridgeString(source.stateDigest),
+    sceneReadback: Array.isArray(source.sceneReadback)
+      ? source.sceneReadback.map((item) => {
+        const record = commandBridgeRecord(item);
+        return {
+          sceneId: commandBridgeString(record.sceneId),
+          matchesAfter: record.matchesAfter === true,
+        };
+      })
+      : [],
+  };
+}
+
+function makeStructuralReturnBridgeReviewSurface(reviewSurface) {
+  const source = commandBridgeRecord(reviewSurface);
+  const preview = makeStructuralPreviewBridgeSurface(source.structuralReturnPreview);
+  const result = makeStructuralResultBridgeSurface(source.structuralReturnResult);
+  const surface = {};
+  if (preview) surface.structuralReturnPreview = preview;
+  if (result) surface.structuralReturnResult = result;
+  return surface;
+}
+
 function makeCommandBridgeEditorSyncSummary(editorSync) {
   const source = commandBridgeRecord(editorSync);
   if (Object.keys(source).length === 0) return { ok: false, skipped: true, reason: 'EDITOR_SYNC_UNAVAILABLE' };
@@ -201,6 +256,7 @@ module.exports = {
   makeCommandBridgeEditorSyncSummary,
   makeCommandBridgeFailure,
   makeFormattingReturnBridgeReviewSurface,
+  makeStructuralReturnBridgeReviewSurface,
   makeCommandBridgeSuccess,
   toCommandBridgeSerializableValue,
 };

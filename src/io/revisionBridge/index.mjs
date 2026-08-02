@@ -3552,6 +3552,199 @@ export function buildDocxReviewFormattingReturnCandidatesFromZipBytes(input, opt
   };
 }
 
+function docxReviewStructuralBuildOperation({ authority, paragraph, returnedStructure }) {
+  const nodeType = returnedStructure.nodeType === 'heading' ? 'heading' : 'paragraph';
+  const structural = nodeType === 'heading'
+    ? {
+        action: 'setNodeType',
+        nodeType,
+        headingLevel: Number(returnedStructure.headingLevel),
+      }
+    : {
+        action: 'setNodeType',
+        nodeType,
+      };
+  const unsigned = {
+    sceneId: authority.sceneId,
+    blockId: authority.blockId,
+    paragraphOrdinal: authority.paragraphOrdinal,
+    from: 0,
+    to: paragraph.paragraphText.length,
+    selectedText: paragraph.paragraphText,
+    structural,
+    sourceSceneRevision: authority.sceneRevision,
+    sourceRawSha256: authority.rawSha256,
+  };
+  return {
+    operationId: `rtk-structure-${hashCanonicalValue(unsigned).slice(0, 24)}`,
+    ...unsigned,
+    targetScope: authority.targetScope,
+    sceneOrdinal: authority.sceneOrdinal,
+    paragraphId: authority.paragraphId,
+    sourceAuthority: 'authenticated-full-manuscript-export-map-structural-ir-v1',
+    expectedOutcome: 'SAFE_APPLY',
+  };
+}
+
+export function buildDocxReviewStructuralReturnCandidatesFromZipBytes(input, options = {}) {
+  const bytes = docxZipInventoryInputToBytes(input);
+  if (bytes === null || !isPlainObject(options.fullManuscriptExportMap)) {
+    return {
+      ok: false,
+      status: 'blocked',
+      code: 'RTK_STRUCTURAL_RETURN_AUTHORITY_REQUIRED',
+      reason: 'RTK_STRUCTURAL_RETURN_AUTHORITY_REQUIRED',
+      candidates: [],
+      diagnostics: [],
+    };
+  }
+  const targets = docxReviewPreviewSessionExtractTargets(bytes);
+  if (!targets.ok) {
+    return {
+      ok: false,
+      status: 'blocked',
+      code: 'RTK_STRUCTURAL_RETURN_DOCUMENT_UNAVAILABLE',
+      reason: targets.reason,
+      candidates: [],
+      diagnostics: targets.diagnostics,
+    };
+  }
+  const documentXml = targets.extractedTargets.get('word/document.xml') || '';
+  const scanned = extractReviewTransportFormattingRunsV2(documentXml, {
+    cryptoPort: options.cryptoPort,
+    budgets: options.budgets,
+  });
+  if (!scanned.ok) {
+    return {
+      ok: false,
+      status: 'blocked',
+      code: scanned.code || 'RTK_STRUCTURAL_RETURN_SCANNER_BLOCKED',
+      reason: scanned.code || 'RTK_STRUCTURAL_RETURN_SCANNER_BLOCKED',
+      candidates: [],
+      diagnostics: Array.isArray(scanned.reasons) ? scanned.reasons : [],
+    };
+  }
+  const resolveBlock = docxReviewFormattingBuildFullManuscriptBlockResolver(options.fullManuscriptExportMap);
+  const candidates = [];
+  const diagnostics = Array.isArray(scanned.reasons) ? [...scanned.reasons] : [];
+  const seenOperationIds = new Set();
+  for (const paragraph of scanned.paragraphs) {
+    const paragraphIndex = Number.isSafeInteger(paragraph.paragraphIndex) ? paragraph.paragraphIndex : -1;
+    const resolution = resolveBlock({
+      paraId: paragraph.paraId,
+      textId: paragraph.textId,
+      bookmarkNames: paragraph.bookmarkNames,
+      paragraphIndex,
+    });
+    const authority = resolution?.ok === true ? resolution.authority : null;
+    const returnedStructure = isPlainObject(paragraph.paragraphStructure)
+      ? paragraph.paragraphStructure
+      : { nodeType: 'paragraph' };
+    if (!authority) {
+      if (returnedStructure.nodeType === 'heading') {
+        diagnostics.push({
+          code: normalizeString(resolution?.code) || 'RTK_STRUCTURAL_RETURN_BLOCK_AUTHORITY_UNRESOLVED',
+          paragraphIndex,
+          returnedStructure,
+        });
+      }
+      continue;
+    }
+    const formatIr = isPlainObject(authority.formatIr)
+      ? authority.formatIr
+      : docxReviewFormattingLegacyFormatIr(paragraph.paragraphText);
+    const baselineRuns = Array.isArray(formatIr.runs) ? formatIr.runs : [];
+    const baselineParagraphRecord = isPlainObject(formatIr.paragraph) ? formatIr.paragraph : {};
+    const baselineStructure = baselineParagraphRecord.nodeType === 'heading'
+      ? { nodeType: 'heading', headingLevel: Number(baselineParagraphRecord.headingLevel) }
+      : { nodeType: 'paragraph' };
+    if (
+      paragraph.trackedRevision === true
+      || paragraph.paragraphFormattingInvalid === true
+      || (Array.isArray(paragraph.unsupportedParagraphNames) && paragraph.unsupportedParagraphNames.length > 0)
+    ) {
+      diagnostics.push({
+        code: 'RTK_STRUCTURAL_RETURN_UNSUPPORTED_WORD_STRUCTURE',
+        sceneId: authority.sceneId,
+        blockId: authority.blockId,
+        paragraphIndex,
+        unsupportedParagraphNames: paragraph.unsupportedParagraphNames || [],
+        trackedRevision: paragraph.trackedRevision === true,
+      });
+      continue;
+    }
+    if (!['paragraph', 'heading'].includes(returnedStructure.nodeType)) {
+      diagnostics.push({
+        code: 'RTK_STRUCTURAL_RETURN_UNSUPPORTED_NODE_TYPE',
+        sceneId: authority.sceneId,
+        blockId: authority.blockId,
+        paragraphIndex,
+        returnedStructure,
+      });
+      continue;
+    }
+    if (
+      returnedStructure.nodeType === 'heading'
+      && (!Number.isSafeInteger(returnedStructure.headingLevel) || returnedStructure.headingLevel < 1 || returnedStructure.headingLevel > 6)
+    ) {
+      diagnostics.push({
+        code: 'RTK_STRUCTURAL_RETURN_HEADING_LEVEL_UNSUPPORTED',
+        sceneId: authority.sceneId,
+        blockId: authority.blockId,
+        paragraphIndex,
+        returnedStructure,
+      });
+      continue;
+    }
+    const baselineText = baselineRuns.map((run) => (typeof run?.text === 'string' ? run.text : '')).join('');
+    const expectedMarksDigest = isPlainObject(authority.formatIr)
+      ? `sha256:${hashCanonicalValue(formatIr)}`
+      : `sha256:${hashCanonicalValue({ marks: [] })}`;
+    if (
+      formatIr.schemaVersion !== 'yalken.rtk.format-ir.v1'
+      || baselineText !== paragraph.paragraphText
+      || authority.canonicalTextSha256 !== `sha256:${sha256Hex(paragraph.paragraphText)}`
+      || authority.canonicalMarksSha256 !== expectedMarksDigest
+      || !paragraph.paragraphText
+    ) {
+      diagnostics.push({
+        code: 'RTK_STRUCTURAL_RETURN_BASELINE_NOT_EXACT',
+        sceneId: authority.sceneId,
+        blockId: authority.blockId,
+        paragraphIndex,
+      });
+      continue;
+    }
+    if (hashCanonicalValue(baselineStructure) === hashCanonicalValue(returnedStructure)) continue;
+    const operation = docxReviewStructuralBuildOperation({ authority, paragraph, returnedStructure });
+    if (seenOperationIds.has(operation.operationId)) {
+      diagnostics.push({ code: 'RTK_STRUCTURAL_RETURN_DUPLICATE_OPERATION_ID', operationId: operation.operationId });
+      continue;
+    }
+    seenOperationIds.add(operation.operationId);
+    candidates.push(operation);
+  }
+  const status = candidates.length > 0 ? 'ready' : 'diagnostics';
+  const code = candidates.length > 0
+    ? 'RTK_STRUCTURAL_RETURN_CANDIDATES_READY'
+    : 'RTK_STRUCTURAL_RETURN_NO_SAFE_CANDIDATES';
+  return {
+    ok: true,
+    status,
+    code,
+    reason: code,
+    candidates,
+    diagnostics,
+    summary: {
+      candidateCount: candidates.length,
+      diagnosticCount: diagnostics.length,
+      supportedStructuralKinds: ['headingLevel'],
+      typedPendingStructuralKinds: ['split', 'merge', 'list', 'pageBreak', 'reorder'],
+      normalizationApplied: false,
+    },
+  };
+}
+
 function docxReviewPreviewSessionEmptyReviewPacket() {
   return {
     commentThreads: [],

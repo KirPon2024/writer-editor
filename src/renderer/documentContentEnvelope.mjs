@@ -5,7 +5,7 @@ const DEFAULT_META = Object.freeze({
 });
 
 const DOC_V2_HEADER_PATTERN = /^\[doc-v2 length=(\d+)\]/i;
-const DOC_V2_ALLOWED_BLOCK_TYPES = new Set(['doc', 'paragraph', 'text', 'hardBreak']);
+const DOC_V2_ALLOWED_BLOCK_TYPES = new Set(['doc', 'paragraph', 'heading', 'text', 'hardBreak']);
 
 function isPlainObject(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
@@ -374,6 +374,7 @@ export function analyzeDocumentPlainTextRoundTrip(doc) {
   const unsupportedNodeTypes = new Set();
   let markedTextPresent = false;
   let attributedNodePresent = false;
+  let invalidHeadingAttrsPresent = false;
 
   const visit = (node) => {
     if (!node || typeof node !== 'object') return;
@@ -385,7 +386,17 @@ export function analyzeDocumentPlainTextRoundTrip(doc) {
       markedTextPresent = true;
     }
     if (isPlainObject(node.attrs) && Object.keys(node.attrs).length > 0) {
-      attributedNodePresent = true;
+      if (nodeType === 'heading') {
+        const attrKeys = Object.keys(node.attrs);
+        const level = Number(node.attrs.level);
+        const validHeadingLevel = Number.isSafeInteger(level) && level >= 1 && level <= 6;
+        const unknownHeadingAttrs = attrKeys.filter((key) => key !== 'level');
+        if (!validHeadingLevel || unknownHeadingAttrs.length > 0) {
+          invalidHeadingAttrsPresent = true;
+        }
+      } else {
+        attributedNodePresent = true;
+      }
     }
     if (Array.isArray(node.content)) {
       node.content.forEach((child) => visit(child));
@@ -395,10 +406,14 @@ export function analyzeDocumentPlainTextRoundTrip(doc) {
   visit(doc);
 
   return {
-    safe: unsupportedNodeTypes.size === 0 && markedTextPresent === false && attributedNodePresent === false,
+    safe: unsupportedNodeTypes.size === 0
+      && markedTextPresent === false
+      && attributedNodePresent === false
+      && invalidHeadingAttrsPresent === false,
     unsupportedNodeTypes: [...unsupportedNodeTypes].sort(),
     markedTextPresent,
     attributedNodePresent,
+    invalidHeadingAttrsPresent,
   };
 }
 

@@ -76,6 +76,7 @@ const {
   makeCommandBridgeException,
   makeCommandBridgeFailure,
   makeFormattingReturnBridgeReviewSurface,
+  makeStructuralReturnBridgeReviewSurface,
   makeCommandBridgeSuccess,
 } = require('./shared/commandBridgeResponse.cjs');
 const {
@@ -479,6 +480,7 @@ const COMMAND_SURFACE_KERNEL_COMMAND_IDS = Object.freeze({
   RTK_REVIEW_APPLY_ROOT_COMMENT_RETURN: 'cmd.rtk.review.applyRootCommentReturn',
   RTK_REVIEW_APPLY_COMMENT_LIFECYCLE_RETURN: 'cmd.rtk.review.applyCommentLifecycleReturn',
   RTK_REVIEW_APPLY_MULTI_SCENE_FORMATTING_RETURN: 'cmd.rtk.review.applyMultiSceneFormattingReturn',
+  RTK_REVIEW_APPLY_MULTI_SCENE_STRUCTURAL_RETURN: 'cmd.rtk.review.applyMultiSceneStructuralReturn',
 });
 let internalCommandSurfaceKernel = null;
 
@@ -486,6 +488,7 @@ let internalCommandSurfaceKernel = null;
 let activeReviewSessionDirtyImportBlocked = false;
 let activeRtkNonOverlapTrackedReplacementApplyStore = null;
 let activeRtkFormattingReturnApplyStore = null;
+let activeRtkStructuralReturnApplyStore = null;
 let activeReviewDocxExportAuthorityStore = null;
 
 function isReviewSessionEditorContextDirty() {
@@ -549,6 +552,7 @@ function resetActiveReviewSessionStore(nextLifecycle = 'passive') {
   activeReviewSessionDirtyImportBlocked = false;
   activeRtkNonOverlapTrackedReplacementApplyStore = null;
   activeRtkFormattingReturnApplyStore = null;
+  activeRtkStructuralReturnApplyStore = null;
   activeReviewDocxExportAuthorityStore = null;
   currentReviewSurfacePayload = {};
   currentReviewSurfacePayloadSource = 'none';
@@ -843,6 +847,7 @@ function handleReviewSurfaceImportPacketCommandSurface(payload = {}) {
     activeReviewSessionDirtyImportBlocked = dirtyAtImportStart;
     activeRtkNonOverlapTrackedReplacementApplyStore = null;
     activeRtkFormattingReturnApplyStore = null;
+    activeRtkStructuralReturnApplyStore = null;
     currentReviewSurfacePayload = cloneJsonSafe(normalized.value.reviewSurface) || {};
     currentReviewSurfacePayloadSource = 'session';
     currentReviewSurfacePayloadContentHash = '';
@@ -5297,9 +5302,174 @@ function prepareAuthenticatedDocxFormattingReturnProductPath({
   };
 }
 
+function sanitizeRtkStructuralReturnDiagnostics(diagnostics) {
+  return (Array.isArray(diagnostics) ? diagnostics : [])
+    .filter(isPlainObjectValue)
+    .slice(0, 64)
+    .map((diagnostic) => ({
+      code: docxReviewPreviewSessionDetailString(diagnostic.code),
+      sceneId: docxReviewPreviewSessionDetailString(diagnostic.sceneId),
+      blockId: docxReviewPreviewSessionDetailString(diagnostic.blockId),
+      paragraphIndex: Number.isSafeInteger(diagnostic.paragraphIndex) ? diagnostic.paragraphIndex : -1,
+      returnedStructure: isPlainObjectValue(diagnostic.returnedStructure)
+        ? cloneJsonSafe(diagnostic.returnedStructure)
+        : null,
+      baselineStructure: isPlainObjectValue(diagnostic.baselineStructure)
+        ? cloneJsonSafe(diagnostic.baselineStructure)
+        : null,
+      unsupportedParagraphNames: Array.isArray(diagnostic.unsupportedParagraphNames)
+        ? diagnostic.unsupportedParagraphNames.map(docxReviewPreviewSessionDetailString).filter(Boolean).slice(0, 16)
+        : [],
+    }))
+    .filter((diagnostic) => diagnostic.code);
+}
+
+function attachRtkStructuralReturnProductPreview({ input, candidates, diagnostics } = {}) {
+  if (
+    activeReviewSessionLifecycle !== 'active'
+    || !isPlainObjectValue(activeReviewSessionStore)
+    || !isPlainObjectValue(input)
+    || !Array.isArray(candidates)
+  ) return {};
+  const sessionToken = readRtkNonOverlapTrackedReplacementSessionToken(activeReviewSessionStore);
+  if (!sessionToken.sessionId || !sessionToken.sourcePacketHash) return {};
+  activeRtkStructuralReturnApplyStore = candidates.length > 0
+    ? {
+        schemaVersion: 'yalken.rtk.word.n4.main-owned-structural-apply-store.v1',
+        sessionToken,
+        input: cloneJsonSafe(input),
+        writerAuthorityExposedToRenderer: false,
+      }
+    : null;
+  const publicOperations = candidates.map((candidate) => ({
+    operationId: docxReviewPreviewSessionDetailString(candidate.operationId),
+    sceneId: docxReviewPreviewSessionDetailString(candidate.sceneId),
+    blockId: docxReviewPreviewSessionDetailString(candidate.blockId),
+    paragraphOrdinal: Number.isSafeInteger(candidate.paragraphOrdinal) ? candidate.paragraphOrdinal : -1,
+    selectedText: typeof candidate.selectedText === 'string' ? candidate.selectedText : '',
+    structural: isPlainObjectValue(candidate.structural) ? cloneJsonSafe(candidate.structural) : {},
+    expectedOutcome: 'SAFE_APPLY',
+  }));
+  const nextSessionStore = cloneJsonSafe(activeReviewSessionStore) || {};
+  const nextReviewSurface = isPlainObjectValue(nextSessionStore.reviewSurface)
+    ? cloneJsonSafe(nextSessionStore.reviewSurface) || {}
+    : {};
+  const publicDiagnostics = sanitizeRtkStructuralReturnDiagnostics(diagnostics);
+  const previewStatus = publicOperations.length === 0
+    ? 'manual'
+    : (publicDiagnostics.length > 0 ? 'partial' : 'ready');
+  nextReviewSurface.structuralReturnPreview = {
+    schemaVersion: 'yalken.rtk.word.n4.structural-return-preview.v1',
+    status: previewStatus,
+    code: previewStatus === 'partial'
+      ? 'RTK_STRUCTURAL_RETURN_SAFE_SUBSET_USER_DECISION_READY'
+      : previewStatus === 'ready'
+        ? 'RTK_STRUCTURAL_RETURN_USER_DECISION_READY'
+        : 'RTK_STRUCTURAL_RETURN_MANUAL_REVIEW_REQUIRED',
+    operationCount: publicOperations.length,
+    sceneCount: new Set(publicOperations.map((operation) => operation.sceneId)).size,
+    diagnosticCount: publicDiagnostics.length,
+    diagnostics: publicDiagnostics,
+    operations: publicOperations,
+    applyCommandId: 'cmd.project.review.applyStructuralReturn',
+    writerCalled: false,
+    rendererAuthority: false,
+    supportedStructuralKinds: ['headingLevel'],
+    typedPendingStructuralKinds: ['split', 'merge', 'list', 'pageBreak', 'reorder'],
+  };
+  nextSessionStore.reviewSurface = nextReviewSurface;
+  activeReviewSessionStore = nextSessionStore;
+  currentReviewSurfacePayload = cloneJsonSafe(nextReviewSurface) || {};
+  currentReviewSurfacePayloadSource = 'session';
+  currentReviewSurfacePayloadContentHash = '';
+  return readActiveReviewSessionReviewSurface();
+}
+
+function prepareAuthenticatedDocxStructuralReturnProductPath({
+  context,
+  requestId,
+  docxBytes,
+  revisionBridge,
+  fullManuscriptExportMap,
+} = {}) {
+  const capsule = isPlainObjectValue(context?.reviewTransportAuthorityCapsule)
+    ? context.reviewTransportAuthorityCapsule
+    : {};
+  const intake = isPlainObjectValue(context?.reviewTransportReturnIntake)
+    ? context.reviewTransportReturnIntake
+    : {};
+  if (
+    intake.authenticated !== true
+    || capsule.scope !== 'full-manuscript'
+    || !isPlainObjectValue(fullManuscriptExportMap)
+    || typeof revisionBridge?.buildDocxReviewStructuralReturnCandidatesFromZipBytes !== 'function'
+  ) return null;
+  const extracted = revisionBridge.buildDocxReviewStructuralReturnCandidatesFromZipBytes(docxBytes, {
+    fullManuscriptExportMap,
+    cryptoPort: createRtkReviewTransportCryptoPort(),
+  });
+  if (!isPlainObjectValue(extracted) || !Array.isArray(extracted.candidates)) {
+    return {
+      prepared: false,
+      status: 'diagnostics',
+      code: docxReviewPreviewSessionDetailString(extracted?.code) || 'RTK_STRUCTURAL_RETURN_NO_SAFE_CANDIDATES',
+      candidateCount: 0,
+      diagnosticCount: Array.isArray(extracted?.diagnostics) ? extracted.diagnostics.length : 0,
+      writerCalled: false,
+    };
+  }
+  const input = {
+    projectId: docxReviewPreviewSessionDetailString(context.projectId),
+    projectRoot: docxReviewPreviewSessionDetailString(capsule.projectRoot || context.projectRoot),
+    requestId: `${requestId}:structural-return`,
+    returnArtifactSha256: docxReviewPreviewSessionDetailString(intake.returnedArtifactSha256),
+    scenePathBySceneId: isPlainObjectValue(capsule.scenePathBySceneId)
+      ? cloneJsonSafe(capsule.scenePathBySceneId)
+      : {},
+    operations: cloneJsonSafe(extracted.candidates),
+    previewConfirmed: true,
+  };
+  const diagnostics = Array.isArray(extracted.diagnostics) ? extracted.diagnostics : [];
+  const reviewSurface = attachRtkStructuralReturnProductPreview({
+    input,
+    candidates: extracted.candidates,
+    diagnostics,
+  });
+  return {
+    prepared: extracted.candidates.length > 0,
+    status: extracted.candidates.length > 0
+      ? (diagnostics.length > 0 ? 'partial-preview-ready' : 'preview-ready')
+      : 'diagnostics',
+    code: extracted.candidates.length > 0
+      ? (diagnostics.length > 0
+          ? 'RTK_STRUCTURAL_RETURN_SAFE_SUBSET_PRODUCT_PATH_READY'
+          : 'RTK_STRUCTURAL_RETURN_PRODUCT_PATH_READY')
+      : 'RTK_STRUCTURAL_RETURN_NO_SAFE_CANDIDATES',
+    candidateCount: extracted.candidates.length,
+    sceneCount: new Set(extracted.candidates.map((candidate) => candidate.sceneId)).size,
+    diagnosticCount: diagnostics.length,
+    writerCalled: false,
+    rendererAuthority: false,
+    reviewSurface,
+  };
+}
+
 function rtkFormattingReturnStoreMatchesActiveSession() {
   if (!isPlainObjectValue(activeRtkFormattingReturnApplyStore)) return false;
   const expected = activeRtkFormattingReturnApplyStore.sessionToken;
+  const observed = readRtkNonOverlapTrackedReplacementSessionToken(activeReviewSessionStore);
+  return Boolean(
+    isPlainObjectValue(expected)
+    && expected.sessionId
+    && expected.sourcePacketHash
+    && expected.sessionId === observed.sessionId
+    && expected.sourcePacketHash === observed.sourcePacketHash
+  );
+}
+
+function rtkStructuralReturnStoreMatchesActiveSession() {
+  if (!isPlainObjectValue(activeRtkStructuralReturnApplyStore)) return false;
+  const expected = activeRtkStructuralReturnApplyStore.sessionToken;
   const observed = readRtkNonOverlapTrackedReplacementSessionToken(activeReviewSessionStore);
   return Boolean(
     isPlainObjectValue(expected)
@@ -5337,6 +5507,33 @@ function deferRtkFormattingReturnEditorSyncAfterBridgeReply({ currentScenePath =
   };
 }
 
+function deferRtkStructuralReturnEditorSyncAfterBridgeReply({ currentScenePath = '', bridgeReviewSurface = {} } = {}) {
+  if (!currentScenePath || isDirty || autoSaveInProgress) {
+    return {
+      ok: false,
+      skipped: true,
+      deferred: false,
+      reason: isDirty || autoSaveInProgress
+        ? 'RTK_STRUCTURAL_RETURN_EDITOR_BECAME_DIRTY'
+        : 'RTK_STRUCTURAL_RETURN_EDITOR_SYNC_NOT_CURRENT_FILE',
+    };
+  }
+  setImmediate(() => {
+    syncReviewExactTextApplyEditorFromMainState({
+      applyInput: { scenePath: currentScenePath },
+      reviewSurface: bridgeReviewSurface,
+    }).catch((error) => {
+      logDevError('rtk-structural-return-deferred-editor-sync', error);
+    });
+  });
+  return {
+    ok: false,
+    skipped: true,
+    deferred: true,
+    reason: 'RTK_STRUCTURAL_RETURN_EDITOR_SYNC_DEFERRED_AFTER_BRIDGE_REPLY',
+  };
+}
+
 function attachRtkFormattingReturnProductResult(result, replay) {
   if (activeReviewSessionLifecycle !== 'active' || !isPlainObjectValue(activeReviewSessionStore)) return {};
   const nextSessionStore = cloneJsonSafe(activeReviewSessionStore) || {};
@@ -5352,6 +5549,42 @@ function attachRtkFormattingReturnProductResult(result, replay) {
     writerCalled: result?.writerCalled === true,
   };
   nextReviewSurface.formattingReturnResult = {
+    ok: result?.ok === true,
+    status: docxReviewPreviewSessionDetailString(result?.status),
+    code: docxReviewPreviewSessionDetailString(result?.code || result?.error?.code),
+    writerCalled: result?.writerCalled === true,
+    applied: result?.status === 'applied',
+    replayVerified: replay?.ok === true && replay?.status === 'replay' && replay?.writerCalled !== true,
+    sceneReadback: Array.isArray(result?.readback)
+      ? result.readback.map((item) => ({
+        sceneId: docxReviewPreviewSessionDetailString(item?.sceneId),
+        matchesAfter: item?.matchesAfter === true,
+      }))
+      : [],
+  };
+  nextSessionStore.reviewSurface = nextReviewSurface;
+  activeReviewSessionStore = nextSessionStore;
+  currentReviewSurfacePayload = cloneJsonSafe(nextReviewSurface) || {};
+  currentReviewSurfacePayloadSource = 'session';
+  currentReviewSurfacePayloadContentHash = '';
+  return readActiveReviewSessionReviewSurface();
+}
+
+function attachRtkStructuralReturnProductResult(result, replay) {
+  if (activeReviewSessionLifecycle !== 'active' || !isPlainObjectValue(activeReviewSessionStore)) return {};
+  const nextSessionStore = cloneJsonSafe(activeReviewSessionStore) || {};
+  const nextReviewSurface = isPlainObjectValue(nextSessionStore.reviewSurface)
+    ? cloneJsonSafe(nextSessionStore.reviewSurface) || {}
+    : {};
+  const preview = isPlainObjectValue(nextReviewSurface.structuralReturnPreview)
+    ? cloneJsonSafe(nextReviewSurface.structuralReturnPreview) || {}
+    : {};
+  nextReviewSurface.structuralReturnPreview = {
+    ...preview,
+    status: result?.ok === true ? 'applied' : 'blocked',
+    writerCalled: result?.writerCalled === true,
+  };
+  nextReviewSurface.structuralReturnResult = {
     ok: result?.ok === true,
     status: docxReviewPreviewSessionDetailString(result?.status),
     code: docxReviewPreviewSessionDetailString(result?.code || result?.error?.code),
@@ -5417,6 +5650,60 @@ function attachRtkFormattingReturnReplayInspection(inspected) {
   };
   currentReviewSurfacePayload = existingSurface;
   currentReviewSurfacePayloadSource = 'formatting-replay-inspection';
+  currentReviewSurfacePayloadContentHash = '';
+  if (activeReviewSessionLifecycle === 'active' && isPlainObjectValue(activeReviewSessionStore)) {
+    activeReviewSessionStore = {
+      ...activeReviewSessionStore,
+      reviewSurface: cloneJsonSafe(existingSurface),
+    };
+  }
+  return cloneJsonSafe(existingSurface) || {};
+}
+
+function attachRtkStructuralReturnReplayInspection(inspected) {
+  const replaySnapshot = isPlainObjectValue(inspected?.replaySnapshot)
+    ? inspected.replaySnapshot
+    : {};
+  const latestReceipt = isPlainObjectValue(replaySnapshot.latestReceipt)
+    ? replaySnapshot.latestReceipt
+    : null;
+  const existingSurface = activeReviewSessionLifecycle === 'active'
+    && isPlainObjectValue(activeReviewSessionStore?.reviewSurface)
+    ? cloneJsonSafe(activeReviewSessionStore.reviewSurface) || {}
+    : cloneJsonSafe(currentReviewSurfacePayload) || {};
+  existingSurface.structuralReturnPreview = {
+    ...(isPlainObjectValue(existingSurface.structuralReturnPreview)
+      ? existingSurface.structuralReturnPreview
+      : {}),
+    schemaVersion: 'yalken.rtk.word.n4.structural-return-preview.v1',
+    status: replaySnapshot.status === 'empty' ? 'empty' : 'replayed',
+    code: docxReviewPreviewSessionDetailString(inspected?.code),
+    operationCount: Array.isArray(latestReceipt?.operationIds) ? latestReceipt.operationIds.length : 0,
+    sceneCount: Array.isArray(latestReceipt?.scenes) ? latestReceipt.scenes.length : 0,
+    operations: [],
+    writerCalled: false,
+    rendererAuthority: false,
+  };
+  existingSurface.structuralReturnResult = {
+    ok: inspected?.ok === true && replaySnapshot.replayVerified === true,
+    status: docxReviewPreviewSessionDetailString(replaySnapshot.status),
+    code: docxReviewPreviewSessionDetailString(inspected?.code),
+    writerCalled: false,
+    applied: Boolean(latestReceipt),
+    replayVerified: replaySnapshot.replayVerified === true,
+    stateGeneration: Number.isSafeInteger(replaySnapshot.stateGeneration)
+      ? replaySnapshot.stateGeneration
+      : 0,
+    stateDigest: docxReviewPreviewSessionDetailString(replaySnapshot.stateDigest),
+    sceneReadback: Array.isArray(replaySnapshot.sceneReadback)
+      ? replaySnapshot.sceneReadback.map((item) => ({
+          sceneId: docxReviewPreviewSessionDetailString(item?.sceneId),
+          matchesAfter: item?.matchesAfter === true,
+        }))
+      : [],
+  };
+  currentReviewSurfacePayload = existingSurface;
+  currentReviewSurfacePayloadSource = 'structural-replay-inspection';
   currentReviewSurfacePayloadContentHash = '';
   if (activeReviewSessionLifecycle === 'active' && isPlainObjectValue(activeReviewSessionStore)) {
     activeReviewSessionStore = {
@@ -6083,9 +6370,19 @@ async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = 
     revisionBridge,
     fullManuscriptExportMap: authenticatedFullManuscriptExportMap,
   });
+  const structuralProductPath = prepareAuthenticatedDocxStructuralReturnProductPath({
+    context: activeContext,
+    requestId,
+    docxBytes: decoded.bytes,
+    revisionBridge,
+    fullManuscriptExportMap: authenticatedFullManuscriptExportMap,
+  });
   const reviewSurface = isPlainObjectValue(formattingProductPath?.reviewSurface)
     && Object.keys(formattingProductPath.reviewSurface).length > 0
     ? formattingProductPath.reviewSurface
+    : isPlainObjectValue(structuralProductPath?.reviewSurface)
+      && Object.keys(structuralProductPath.reviewSurface).length > 0
+    ? structuralProductPath.reviewSurface
     : isPlainObjectValue(nonOverlapTrackedReplacementProductPath?.reviewSurface)
     ? nonOverlapTrackedReplacementProductPath.reviewSurface
     : importResult.reviewSurface;
@@ -6160,6 +6457,24 @@ async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = 
           : 0,
         writerCalled: formattingProductPath.writerCalled === true,
         rendererAuthority: formattingProductPath.rendererAuthority === true,
+      }
+      : null,
+    structuralProductPath: isPlainObjectValue(structuralProductPath)
+      ? {
+        prepared: structuralProductPath.prepared === true,
+        status: docxReviewPreviewSessionDetailString(structuralProductPath.status),
+        code: docxReviewPreviewSessionDetailString(structuralProductPath.code),
+        candidateCount: Number.isSafeInteger(structuralProductPath.candidateCount)
+          ? structuralProductPath.candidateCount
+          : 0,
+        sceneCount: Number.isSafeInteger(structuralProductPath.sceneCount)
+          ? structuralProductPath.sceneCount
+          : 0,
+        diagnosticCount: Number.isSafeInteger(structuralProductPath.diagnosticCount)
+          ? structuralProductPath.diagnosticCount
+          : 0,
+        writerCalled: structuralProductPath.writerCalled === true,
+        rendererAuthority: structuralProductPath.rendererAuthority === true,
       }
       : null,
     candidateSummary: summarizeDocxReviewPreviewSessionCandidate(candidate),
@@ -9330,6 +9645,9 @@ function getInternalCommandSurfaceKernel() {
     },
     [COMMAND_SURFACE_KERNEL_COMMAND_IDS.RTK_REVIEW_APPLY_MULTI_SCENE_FORMATTING_RETURN]: async (payload = {}) => {
       return handleRtkFormattingReturnCommandSurface(payload);
+    },
+    [COMMAND_SURFACE_KERNEL_COMMAND_IDS.RTK_REVIEW_APPLY_MULTI_SCENE_STRUCTURAL_RETURN]: async (payload = {}) => {
+      return handleRtkStructuralReturnCommandSurface(payload);
     },
   });
   return internalCommandSurfaceKernel;
@@ -16758,6 +17076,23 @@ function loadRtkFormattingReturnModule() {
   return rtkFormattingReturnModulePromise;
 }
 
+let rtkStructuralReturnModulePromise = null;
+function loadRtkStructuralReturnModule() {
+  if (!rtkStructuralReturnModulePromise) {
+    const modulePath = pathToFileURL(path.join(
+      __dirname,
+      'io',
+      'revisionBridge',
+      'reviewTransportStructuralReturnRuntime.mjs',
+    )).href;
+    rtkStructuralReturnModulePromise = import(modulePath).catch((error) => {
+      rtkStructuralReturnModulePromise = null;
+      throw error;
+    });
+  }
+  return rtkStructuralReturnModulePromise;
+}
+
 async function handleRtkFormattingReturnCommandSurface(payload = {}) {
   let module = null;
   try {
@@ -16782,6 +17117,30 @@ async function handleRtkFormattingReturnCommandSurface(payload = {}) {
   })(payload);
 }
 
+async function handleRtkStructuralReturnCommandSurface(payload = {}) {
+  let module = null;
+  try {
+    module = await loadRtkStructuralReturnModule();
+  } catch (error) {
+    return makeReviewMutateTypedError(
+      'cmd.rtk.review.applyMultiSceneStructuralReturn',
+      'E_RTK_STRUCTURAL_RETURN_UNAVAILABLE',
+      'RTK_STRUCTURAL_RETURN_UNAVAILABLE',
+      { message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN' },
+    );
+  }
+  if (!module || typeof module.createRtkStructuralReturnCommandHandler !== 'function') {
+    return makeReviewMutateTypedError(
+      'cmd.rtk.review.applyMultiSceneStructuralReturn',
+      'E_RTK_STRUCTURAL_RETURN_UNAVAILABLE',
+      'RTK_STRUCTURAL_RETURN_HANDLER_UNAVAILABLE',
+    );
+  }
+  return module.createRtkStructuralReturnCommandHandler({
+    cryptoPort: createRtkReviewTransportCryptoPort(),
+  })(payload);
+}
+
 async function buildRtkFormattingReturnRuntimeProjectScope() {
   const scope = await buildFullManuscriptDocxReviewExportScope();
   return {
@@ -16800,6 +17159,10 @@ async function buildRtkFormattingReturnRuntimeProjectScope() {
     ),
     startupSingleInstanceAuthority: true,
   };
+}
+
+async function buildRtkStructuralReturnRuntimeProjectScope() {
+  return buildRtkFormattingReturnRuntimeProjectScope();
 }
 
 async function handleReviewSurfaceInspectFormattingReturnReplayCommandSurface(payload = {}) {
@@ -16837,6 +17200,134 @@ async function handleReviewSurfaceInspectFormattingReturnReplayCommandSurface(pa
   };
 }
 
+async function handleReviewSurfaceApplyStructuralReturnCommandSurface(payload = {}) {
+  const unsupportedKeys = Object.keys(isPlainObjectValue(payload) ? payload : {})
+    .filter((key) => !['requestId'].includes(key));
+  if (!isPlainObjectValue(payload) || unsupportedKeys.length > 0) {
+    return makeReviewMutateTypedError(
+      'cmd.project.review.applyStructuralReturn',
+      'E_RTK_STRUCTURAL_RETURN_UI_PAYLOAD_INVALID',
+      'RTK_STRUCTURAL_RETURN_UI_PAYLOAD_INVALID',
+      { unsupportedKeys },
+    );
+  }
+  const actionRequestId = docxReviewPreviewSessionDetailString(payload.requestId);
+  if (!actionRequestId) {
+    return makeReviewMutateTypedError(
+      'cmd.project.review.applyStructuralReturn',
+      'E_RTK_STRUCTURAL_RETURN_ACTION_REQUEST_REQUIRED',
+      'RTK_STRUCTURAL_RETURN_ACTION_REQUEST_REQUIRED',
+    );
+  }
+  return queueDiskOperation(async () => {
+    if (activeReviewSessionDirtyImportBlocked || isDirty || autoSaveInProgress) {
+      return makeReviewMutateTypedError(
+        'cmd.project.review.applyStructuralReturn',
+        'E_RTK_STRUCTURAL_RETURN_DIRTY_EDITOR_BLOCKED',
+        'RTK_STRUCTURAL_RETURN_DIRTY_EDITOR_BLOCKED',
+        {
+          dirtyAtImportStart: Boolean(activeReviewSessionDirtyImportBlocked),
+          isDirty: Boolean(isDirty),
+          autoSaveInProgress: Boolean(autoSaveInProgress),
+        },
+      );
+    }
+    if (!rtkStructuralReturnStoreMatchesActiveSession()) {
+      return makeReviewMutateTypedError(
+        'cmd.project.review.applyStructuralReturn',
+        'E_RTK_STRUCTURAL_RETURN_MAIN_STORE_UNAVAILABLE',
+        'RTK_STRUCTURAL_RETURN_MAIN_STORE_UNAVAILABLE',
+      );
+    }
+    const input = cloneJsonSafe(activeRtkStructuralReturnApplyStore.input) || {};
+    const applied = await dispatchCommandSurfaceKernel(
+      COMMAND_SURFACE_KERNEL_COMMAND_IDS.RTK_REVIEW_APPLY_MULTI_SCENE_STRUCTURAL_RETURN,
+      input,
+    );
+    if (!isPlainObjectValue(applied) || !['applied', 'replay'].includes(applied.status)) {
+      const reviewSurface = attachRtkStructuralReturnProductResult(applied, null);
+      const bridgeReviewSurface = makeStructuralReturnBridgeReviewSurface(reviewSurface);
+      return {
+        ok: false,
+        type: 'yalken.rtk.structuralReturnUiApply',
+        status: 'blocked',
+        code: docxReviewPreviewSessionDetailString(applied?.code || applied?.error?.code)
+          || 'RTK_STRUCTURAL_RETURN_APPLY_BLOCKED',
+        reason: docxReviewPreviewSessionDetailString(applied?.reason || applied?.error?.reason)
+          || 'RTK_STRUCTURAL_RETURN_APPLY_BLOCKED',
+        reviewSurface: bridgeReviewSurface,
+      };
+    }
+    const replay = applied.status === 'replay'
+      ? applied
+      : await dispatchCommandSurfaceKernel(
+        COMMAND_SURFACE_KERNEL_COMMAND_IDS.RTK_REVIEW_APPLY_MULTI_SCENE_STRUCTURAL_RETURN,
+        input,
+      );
+    const replayVerified = replay?.ok === true && replay?.status === 'replay' && replay?.writerCalled !== true;
+    const reviewSurface = attachRtkStructuralReturnProductResult(applied, replay);
+    const bridgeReviewSurface = makeStructuralReturnBridgeReviewSurface(reviewSurface);
+    const currentScenePath = isPlainObjectValue(input.scenePathBySceneId)
+      ? Object.values(input.scenePathBySceneId).find((scenePath) => scenePath === currentFilePath)
+      : '';
+    const editorSync = deferRtkStructuralReturnEditorSyncAfterBridgeReply({
+      currentScenePath,
+      bridgeReviewSurface,
+    });
+    return {
+      ok: replayVerified,
+      type: 'yalken.rtk.structuralReturnUiApply',
+      status: replayVerified ? 'applied-and-replayed' : 'blocked',
+      code: replayVerified
+        ? 'RTK_STRUCTURAL_RETURN_APPLIED_AND_REPLAYED'
+        : 'RTK_STRUCTURAL_RETURN_REPLAY_NOT_VERIFIED',
+      reason: replayVerified
+        ? 'RTK_STRUCTURAL_RETURN_APPLIED_AND_REPLAYED'
+        : 'RTK_STRUCTURAL_RETURN_REPLAY_NOT_VERIFIED',
+      applied: applied.status === 'applied' || applied.status === 'replay',
+      replayVerified,
+      actionRequestId,
+      reviewSurface: bridgeReviewSurface,
+      editorSync: makeCommandBridgeEditorSyncSummary(editorSync),
+    };
+  }, 'rtk-structural-return');
+}
+
+async function handleReviewSurfaceInspectStructuralReturnReplayCommandSurface(payload = {}) {
+  const unsupportedKeys = Object.keys(isPlainObjectValue(payload) ? payload : {})
+    .filter((key) => !['requestId'].includes(key));
+  if (!isPlainObjectValue(payload) || unsupportedKeys.length > 0) {
+    return makeReviewMutateTypedError(
+      'cmd.project.review.inspectStructuralReturnReplay',
+      'E_RTK_STRUCTURAL_REPLAY_UI_PAYLOAD_INVALID',
+      'RTK_STRUCTURAL_REPLAY_UI_PAYLOAD_INVALID',
+      { unsupportedKeys },
+    );
+  }
+  const module = await loadRtkStructuralReturnModule();
+  if (!module || typeof module.inspectStructuralReturnRuntimeState !== 'function') {
+    return makeReviewMutateTypedError(
+      'cmd.project.review.inspectStructuralReturnReplay',
+      'E_RTK_STRUCTURAL_REPLAY_INSPECTOR_UNAVAILABLE',
+      'RTK_STRUCTURAL_REPLAY_INSPECTOR_UNAVAILABLE',
+    );
+  }
+  const inspected = await module.inspectStructuralReturnRuntimeState(
+    await buildRtkStructuralReturnRuntimeProjectScope(),
+    { cryptoPort: createRtkReviewTransportCryptoPort() },
+  );
+  const reviewSurface = attachRtkStructuralReturnReplayInspection(inspected);
+  return {
+    ok: inspected?.ok === true,
+    type: 'yalken.rtk.structuralReturnReplayInspection',
+    status: docxReviewPreviewSessionDetailString(inspected?.status),
+    code: docxReviewPreviewSessionDetailString(inspected?.code),
+    replayVerified: inspected?.replaySnapshot?.replayVerified === true,
+    writerCalled: false,
+    reviewSurface: makeStructuralReturnBridgeReviewSurface(reviewSurface),
+  };
+}
+
 async function reconcileReviewFormattingReturnAtStartup() {
   const module = await loadRtkFormattingReturnModule();
   if (!module || typeof module.reconcileFormattingReturnRuntimeAtStartup !== 'function') {
@@ -16858,6 +17349,30 @@ async function reconcileReviewFormattingReturnAtStartup() {
     throw error;
   }
   attachRtkFormattingReturnReplayInspection(result);
+  return result;
+}
+
+async function reconcileReviewStructuralReturnAtStartup() {
+  const module = await loadRtkStructuralReturnModule();
+  if (!module || typeof module.reconcileStructuralReturnRuntimeAtStartup !== 'function') {
+    throw new Error('RTK_STRUCTURAL_STARTUP_RECOVERY_HANDLER_UNAVAILABLE');
+  }
+  const result = await module.reconcileStructuralReturnRuntimeAtStartup(
+    await buildRtkStructuralReturnRuntimeProjectScope(),
+    {
+      cryptoPort: createRtkReviewTransportCryptoPort(),
+    },
+  );
+  if (!result || result.ok !== true) {
+    const error = new Error(
+      docxReviewPreviewSessionDetailString(result?.code || result?.reason)
+        || 'RTK_STRUCTURAL_STARTUP_RECOVERY_FAILED',
+    );
+    error.code = docxReviewPreviewSessionDetailString(result?.code)
+      || 'RTK_STRUCTURAL_STARTUP_RECOVERY_FAILED';
+    throw error;
+  }
+  attachRtkStructuralReturnReplayInspection(result);
   return result;
 }
 
@@ -24803,6 +25318,8 @@ const UI_COMMAND_BRIDGE_ALLOWED_COMMAND_IDS = new Set([
   'cmd.project.review.applyExactTextChangesBatch',
   'cmd.project.review.applyFormattingReturn',
   'cmd.project.review.inspectFormattingReturnReplay',
+  'cmd.project.review.applyStructuralReturn',
+  'cmd.project.review.inspectStructuralReturnReplay',
   'cmd.project.review.reloadReconciledScene',
   'cmd.project.review.cancelOperation',
   'cmd.project.review.inspectDocxIntakeGate',
@@ -25192,6 +25709,12 @@ const MENU_COMMAND_HANDLERS = Object.freeze({
   },
   'cmd.project.review.inspectFormattingReturnReplay': async (payload = {}) => {
     return handleReviewSurfaceInspectFormattingReturnReplayCommandSurface(payload);
+  },
+  'cmd.project.review.applyStructuralReturn': async (payload = {}) => {
+    return handleReviewSurfaceApplyStructuralReturnCommandSurface(payload);
+  },
+  'cmd.project.review.inspectStructuralReturnReplay': async (payload = {}) => {
+    return handleReviewSurfaceInspectStructuralReturnReplayCommandSurface(payload);
   },
   'cmd.project.review.reloadReconciledScene': async (payload = {}) => {
     return handleReviewExactTextReloadReconciledSceneCommandSurface(payload);
@@ -27041,6 +27564,7 @@ async function initializeApp() {
   await ensureAutosaveDirectory();
   await ensureProjectStructure();
   await reconcileReviewFormattingReturnAtStartup();
+  await reconcileReviewStructuralReturnAtStartup();
   await reconcileReviewExactTextApplyJournalsAtStartup();
 }
 

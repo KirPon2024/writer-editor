@@ -85,6 +85,17 @@ const C4_ALLOWLIST = [
   'test/contracts/rtk-word-v4-e12-multi-scene-apply-followup.contract.test.js',
   'test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js',
 ];
+const N4_STRUCTURAL_RETURN_ALLOWLIST = [
+  'scripts/ops/rtk-word-c5v2-physical-canary.mjs',
+  'src/command/commandSurfaceKernel.js',
+  'src/io/revisionBridge/index.mjs',
+  'src/io/revisionBridge/reviewTransportStructuralReturnRuntime.mjs',
+  'src/main.js',
+  'src/renderer/documentContentEnvelope.mjs',
+  'src/shared/commandBridgeResponse.cjs',
+  'test/contracts/rtk-word-n3-formatting-return.contract.test.js',
+  'test/contracts/rtk-word-n4-structural-return.contract.test.js',
+];
 const ALLOWLIST = [
   CONTRACTS_PATH,
   CORE_PATH,
@@ -105,6 +116,7 @@ const ALLOWLIST = [
   GOVERNANCE_APPROVALS_PATH,
   SCOPE_MAP_PATH,
   ...C4_ALLOWLIST,
+  ...N4_STRUCTURAL_RETURN_ALLOWLIST,
 ];
 
 async function loadContracts() {

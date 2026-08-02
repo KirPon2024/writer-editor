@@ -100,6 +100,7 @@ function docxDocumentWordText(docxPath) {
 export function bindLedgerToSourceDocxOffsets({ ledger, sourceDocxPath, sourceDocxText = null }) {
   const docxText = typeof sourceDocxText === 'string' ? sourceDocxText : docxDocumentWordText(sourceDocxPath);
   const seenStarts = new Set();
+  const seenStructuralParagraphScopes = new Set();
   const boundOperations = ledger.operations.map((operation) => {
     const start = docxText.indexOf(operation.quote);
     if (start < 0) {
@@ -113,6 +114,17 @@ export function bindLedgerToSourceDocxOffsets({ ledger, sourceDocxPath, sourceDo
       throw new Error(`C5V2_CANARY_DUPLICATE_SOURCE_RANGE:${operation.id}`);
     }
     seenStarts.add(start);
+    const paragraphStart = docxText.lastIndexOf('\r', Math.max(0, start - 1)) + 1;
+    const nextParagraphBreak = docxText.indexOf('\r', start + operation.quote.length);
+    const paragraphEnd = nextParagraphBreak >= 0 ? nextParagraphBreak : docxText.length;
+    const paragraphText = docxText.slice(paragraphStart, paragraphEnd);
+    if (operation.family === 'structural') {
+      const structuralScopeKey = `${paragraphStart}:${paragraphEnd}`;
+      if (seenStructuralParagraphScopes.has(structuralScopeKey)) {
+        throw new Error(`C5V2_CANARY_DUPLICATE_STRUCTURAL_PARAGRAPH_SCOPE:${operation.id}`);
+      }
+      seenStructuralParagraphScopes.add(structuralScopeKey);
+    }
     return {
       ...operation,
       wordRange: {
@@ -121,6 +133,15 @@ export function bindLedgerToSourceDocxOffsets({ ledger, sourceDocxPath, sourceDo
         end: start + operation.quote.length,
         selectedTextSha256: sha256Text(operation.quote),
       },
+      structuralParagraphScope: operation.family === 'structural'
+        ? {
+            sourceKind: 'raw-exported-docx-document-xml-paragraph',
+            start: paragraphStart,
+            end: paragraphEnd,
+            selectedText: paragraphText,
+            selectedTextSha256: sha256Text(paragraphText),
+          }
+        : undefined,
     };
   });
   return {
@@ -157,6 +178,7 @@ function buildExportBoundCanaryLedger({ scenes, counts, sourceDocxPath, anchorOf
         !message.startsWith('C5V2_CANARY_SOURCE_ANCHOR_NOT_IN_EXPORTED_DOCX:')
         && !message.startsWith('C5V2_CANARY_SOURCE_ANCHOR_NOT_UNIQUE_IN_EXPORTED_DOCX:')
         && !message.startsWith('C5V2_CANARY_DUPLICATE_SOURCE_RANGE:')
+        && !message.startsWith('C5V2_CANARY_DUPLICATE_STRUCTURAL_PARAGRAPH_SCOPE:')
       ) {
         throw error;
       }
@@ -250,6 +272,48 @@ function uniquePhrases(text, maxCount) {
   return out;
 }
 
+function uniqueStructuralParagraphPhrases(text, maxCount) {
+  const normalizedText = String(text || '').replace(/\s+/gu, ' ');
+  const paragraphs = String(text || '').split(/\n{2,}/u)
+    .map((paragraph) => paragraph.replace(/\s+/gu, ' ').trim())
+    .filter((paragraph) => paragraph.length >= 40);
+  const seen = new Set();
+  const out = [];
+  function candidatesForParagraph(paragraph) {
+    const sentences = paragraph.match(/[^.!?;:]{28,90}[.!?;:]?/gu) || [];
+    const words = paragraph.match(/[\p{L}\p{N}][\p{L}\p{N}’'-]*|[^\s]/gu) || [];
+    const wordCandidates = [];
+    for (let start = 0; start < words.length; start += 6) {
+      const phrase = words.slice(start, start + 12).join(' ')
+        .replace(/\s+([,.;:!?])/gu, '$1')
+        .replace(/([“‘])\s+/gu, '$1')
+        .replace(/\s+([”’])/gu, '$1');
+      wordCandidates.push(phrase);
+    }
+    return [...sentences, ...wordCandidates]
+      .map((phrase) => String(phrase || '').trim().replace(/"/gu, "'"))
+      .filter((phrase) => phrase.length >= 24 && phrase.length <= 96);
+  }
+  for (const paragraph of paragraphs) {
+    const paragraphStart = normalizedText.indexOf(paragraph);
+    if (paragraphStart < 0) continue;
+    const paragraphEnd = paragraphStart + paragraph.length;
+    const paragraphOccurrences = countExactOccurrences(normalizedText, paragraph);
+    if (paragraphOccurrences !== 1) continue;
+    const candidate = candidatesForParagraph(paragraph).find((phrase) => (
+      !seen.has(phrase)
+      && normalizedText.indexOf(phrase) >= paragraphStart
+      && normalizedText.indexOf(phrase) < paragraphEnd
+      && countExactOccurrences(normalizedText, phrase) === 1
+    ));
+    if (!candidate) continue;
+    seen.add(candidate);
+    out.push(candidate);
+    if (out.length >= maxCount) break;
+  }
+  return out;
+}
+
 function countExactOccurrences(haystack, needle) {
   const source = String(haystack || '');
   const target = String(needle || '');
@@ -288,6 +352,10 @@ export function buildCanaryLedger(scenes, options = {}) {
     ...Array(counts.structural).fill('structural'),
   ];
   const phrasesByScene = new Map(scenes.map((scene) => [scene.sceneId, uniquePhrases(scene.text, 260)]));
+  const structuralPhrasesByScene = new Map(scenes.map((scene) => [
+    scene.sceneId,
+    uniqueStructuralParagraphPhrases(scene.text, 260),
+  ]));
   const globalBookText = scenes.map((scene) => String(scene.text || '').replace(/\s+/gu, ' ')).join(' ');
   const exportedDocxText = typeof options.exportedDocxText === 'string' ? options.exportedDocxText : '';
   const candidateIsAvailable = (candidate) => countExactOccurrences(globalBookText, candidate) === 1
@@ -352,7 +420,9 @@ export function buildCanaryLedger(scenes, options = {}) {
   for (let index = 0; index < familyOrder.length; index += 1) {
     const family = familyOrder[index];
     const scene = weightedSceneSchedule ? weightedSceneSchedule[index] : scenes[index % scenes.length];
-    const phrases = phrasesByScene.get(scene.sceneId) || [];
+    const phrases = family === 'structural'
+      ? structuralPhrasesByScene.get(scene.sceneId) || []
+      : phrasesByScene.get(scene.sceneId) || [];
     const usedQuotes = usedQuotesByScene.get(scene.sceneId);
     const localOrdinal = ordinalByScene.get(scene.sceneId) || 0;
     ordinalByScene.set(scene.sceneId, localOrdinal + 1);
@@ -472,7 +542,10 @@ export function deriveC5V2ReturnLanePlan(activationSummary = {}) {
     Number(graphCounts.commentPlacements || 0),
   );
   const formattingCandidateCount = Number(activationSummary?.formattingProductPath?.candidateCount || 0);
-  const structuralCandidateCount = Number(graphCounts.structuralChanges || 0);
+  const structuralCandidateCount = Math.max(
+    Number(graphCounts.structuralChanges || 0),
+    Number(activationSummary?.structuralProductPath?.candidateCount || 0),
+  );
   const hasExactText = exactTextCandidateCount > 0;
   const hasComments = commentCandidateCount > 0;
   const hasFormatting = formattingCandidateCount > 0;
@@ -487,6 +560,7 @@ export function deriveC5V2ReturnLanePlan(activationSummary = {}) {
     hasFormatting,
     hasStructure,
     formattingMixedWithOtherMutationLane: hasFormatting && (hasExactText || hasComments || hasStructure),
+    structuralMixedWithOtherMutationLane: hasStructure && (hasExactText || hasComments || hasFormatting),
   };
 }
 
@@ -502,6 +576,9 @@ export function deriveC5V2ProductRouteGaps(returnApply = {}, options = {}) {
       ? options.expectedFamilies.filter((family) => typeof family === 'string' && family)
       : [],
   );
+  const expectedFamilyCounts = options.expectedFamilyCounts && typeof options.expectedFamilyCounts === 'object'
+    ? options.expectedFamilyCounts
+    : {};
   const gaps = [];
   if (normalizedReturnApply.ok !== true) {
     gaps.push('full-manuscript authenticated intake preview explicit apply did not complete green in this canary script');
@@ -534,6 +611,16 @@ export function deriveC5V2ProductRouteGaps(returnApply = {}, options = {}) {
     && (!lanes.structural || lanes.structural === 'NO_STRUCTURAL_CANDIDATE')
   ) {
     gaps.push('structure was required by the physical ledger but produced no product candidate');
+  }
+  const expectedStructuralCount = Number(expectedFamilyCounts.structural || 0);
+  if (expectedStructuralCount > 0 && lanes.structural === 'PRODUCT_APPLY_AND_REPLAY_VERIFIED') {
+    const appliedStructuralCount = Number(
+      normalizedReturnApply.structuralApplyResult?.reviewSurface?.structuralReturnPreview?.operationCount || 0,
+    );
+    const candidateStructuralCount = Number(normalizedReturnApply.lanePlan?.structuralCandidateCount || 0);
+    if (appliedStructuralCount !== expectedStructuralCount || candidateStructuralCount !== expectedStructuralCount) {
+      gaps.push(`structural ledger expected ${expectedStructuralCount} operations but product applied ${appliedStructuralCount} from ${candidateStructuralCount} candidates`);
+    }
   }
   return gaps;
 }
@@ -825,6 +912,24 @@ function summarizeActivation(result) {
         rendererAuthority: result.formattingProductPath.rendererAuthority === true,
       }
       : null,
+    structuralProductPath: result && result.structuralProductPath
+      ? {
+        prepared: result.structuralProductPath.prepared === true,
+        status: result.structuralProductPath.status || '',
+        code: result.structuralProductPath.code || '',
+        candidateCount: Number.isSafeInteger(result.structuralProductPath.candidateCount)
+          ? result.structuralProductPath.candidateCount
+          : 0,
+        sceneCount: Number.isSafeInteger(result.structuralProductPath.sceneCount)
+          ? result.structuralProductPath.sceneCount
+          : 0,
+        diagnosticCount: Number.isSafeInteger(result.structuralProductPath.diagnosticCount)
+          ? result.structuralProductPath.diagnosticCount
+          : 0,
+        writerCalled: result.structuralProductPath.writerCalled === true,
+        rendererAuthority: result.structuralProductPath.rendererAuthority === true,
+      }
+      : null,
     reviewGraphCounts: {
       textChanges: textChanges.length,
       commentThreads: commentThreads.length,
@@ -902,7 +1007,9 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
   const staleRetryResults = [];
   let formattingApplyResult = null;
   let formattingReplayInspection = null;
-  if (lanePlan.formattingMixedWithOtherMutationLane) {
+  let structuralApplyResult = null;
+  let structuralReplayInspection = null;
+  if (lanePlan.formattingMixedWithOtherMutationLane || lanePlan.structuralMixedWithOtherMutationLane) {
     return {
       ok: false,
       code: 'BLOCKED_MIXED_LANE_ATOMICITY_REQUIRED',
@@ -914,6 +1021,8 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
       staleRetryResults,
       formattingApplyResult,
       formattingReplayInspection,
+      structuralApplyResult,
+      structuralReplayInspection,
       productOpenContext: global.productOpenContext || null,
       typedPendingLanes: {
         exactText: lanePlan.hasExactText ? 'BLOCKED_MIXED_LANE_ATOMICITY_REQUIRED' : 'NO_EXACT_TEXT_CANDIDATE',
@@ -925,7 +1034,7 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
             commentState: 'NO_COMMENT_CANDIDATE',
             commentsRepliesState: 'NO_COMMENT_CANDIDATE',
           }),
-        formatting: 'BLOCKED_MIXED_LANE_ATOMICITY_REQUIRED',
+        formatting: lanePlan.hasFormatting ? 'BLOCKED_MIXED_LANE_ATOMICITY_REQUIRED' : 'NO_FORMATTING_CANDIDATE',
         structural: lanePlan.hasStructure ? 'BLOCKED_MIXED_LANE_ATOMICITY_REQUIRED' : 'NO_STRUCTURAL_CANDIDATE',
       },
     };
@@ -1084,6 +1193,27 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
       code: formattingReplayInspection?.code || '',
     });
   }
+  if (lanePlan.hasStructure) {
+    progress('structural-apply-start', { candidateCount: lanePlan.structuralCandidateCount });
+    structuralApplyResult = await invokeUiCommand(win, 'cmd.project.review.applyStructuralReturn', {
+      requestId: 'c5v2-physical-canary-structural-apply-' + requestPrefix,
+    });
+    progress('structural-apply-complete', {
+      ok: structuralApplyResult?.ok === true,
+      applied: structuralApplyResult?.applied === true,
+      replayVerified: structuralApplyResult?.replayVerified === true,
+      code: structuralApplyResult?.code || '',
+    });
+    progress('structural-replay-inspection-start', {});
+    structuralReplayInspection = await invokeUiCommand(win, 'cmd.project.review.inspectStructuralReturnReplay', {
+      requestId: 'c5v2-physical-canary-structural-replay-inspect-' + requestPrefix,
+    });
+    progress('structural-replay-inspection-complete', {
+      ok: structuralReplayInspection?.ok === true,
+      replayVerified: structuralReplayInspection?.replayVerified === true,
+      code: structuralReplayInspection?.code || '',
+    });
+  }
   const exactTextGreen = !lanePlan.hasExactText || (
     applyResults.length > 0
     && applyResults.every((result) => result.ok === true && result.applied === true)
@@ -1122,7 +1252,16 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
     && formattingReplayInspection?.replayVerified === true
     && formattingReplayInspection?.writerCalled !== true
   );
-  const structureGreen = !lanePlan.hasStructure;
+  const structureGreen = !lanePlan.hasStructure || Boolean(
+    activationSummary.structuralProductPath?.prepared === true
+    && activationSummary.structuralProductPath?.writerCalled === false
+    && structuralApplyResult?.ok === true
+    && structuralApplyResult?.applied === true
+    && structuralApplyResult?.replayVerified === true
+    && structuralReplayInspection?.ok === true
+    && structuralReplayInspection?.replayVerified === true
+    && structuralReplayInspection?.writerCalled !== true
+  );
   const intakeGreen = activationSummary.ok === true
     && activationSummary.returnIntake
     && activationSummary.returnIntake.authenticated === true
@@ -1138,6 +1277,8 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
     staleRetryResults,
     formattingApplyResult,
     formattingReplayInspection,
+    structuralApplyResult,
+    structuralReplayInspection,
     productOpenContext: global.productOpenContext || null,
     typedPendingLanes: {
       exactText: lanePlan.hasExactText
@@ -1154,7 +1295,9 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
       formatting: lanePlan.hasFormatting
         ? (formattingGreen ? 'PRODUCT_APPLY_AND_REPLAY_VERIFIED' : 'PENDING_PRODUCT_APPLY_LANE')
         : 'NO_FORMATTING_CANDIDATE',
-      structural: lanePlan.hasStructure ? 'PENDING_PRODUCT_APPLY_LANE' : 'NO_STRUCTURAL_CANDIDATE',
+      structural: lanePlan.hasStructure
+        ? (structureGreen ? 'PRODUCT_APPLY_AND_REPLAY_VERIFIED' : 'PENDING_PRODUCT_APPLY_LANE')
+        : 'NO_STRUCTURAL_CANDIDATE',
     },
   };
 }
@@ -1803,8 +1946,8 @@ function wordOperationLines(ledger, returnedPath) {
       lines.push('  set italic of font object of yRange to true');
       lines.push(markLine(id, 'SAFE_APPLY'));
     } else if (operation.family === 'structural') {
-      lines.push('  set track revisions of yDoc to true');
-      lines.push(`  set content of yRange to ${appleText(`${quote}\nC5V2 structural split/page lane.`)}`);
+      lines.push('  set track revisions of yDoc to false');
+      lines.push('  set outline level of paragraph format of yRange to outline level2');
       lines.push(markLine(id, 'SAFE_APPLY'));
     }
     lines.push('on error errMsg number errNo');
@@ -2284,13 +2427,33 @@ export function buildWordScript({ sourcePath, returnedPath, artifactReturnedPath
     '  end tell',
     'end yTypeNativeCommentText',
     'on yOpenExpectedDoc(yPosixPath, yExpectedFullName, yExpectedName)',
+    '  tell application "Microsoft Word"',
+    '    activate',
+    '    repeat with yIndex from (count of documents) to 1 by -1',
+    '      try',
+    '        set yCandidate to document yIndex',
+    '        set yCandidatePosixPath to ""',
+    '        try',
+    '          set yCandidatePosixPath to POSIX path of ((full name of yCandidate as text) as alias)',
+    '        end try',
+    '        if (name of yCandidate as text) is yExpectedName and ((full name of yCandidate as text) is yExpectedFullName or yCandidatePosixPath is yPosixPath) then return true',
+    '      end try',
+    '    end repeat',
+    '  end tell',
     '  do shell script "/usr/bin/open -a " & quoted form of "Microsoft Word" & " " & quoted form of yPosixPath',
-    '  set yDeadline to (current date) + 35',
+    '  set yDeadline to (current date) + 90',
     '  tell application "Microsoft Word"',
     '    activate',
     '    repeat while (current date) is less than yDeadline',
     '      try',
-    '        if (name of active document as text) is yExpectedName and (full name of active document as text) is yExpectedFullName then return true',
+    '        repeat with yIndex from (count of documents) to 1 by -1',
+    '          set yCandidate to document yIndex',
+    '          set yCandidatePosixPath to ""',
+    '          try',
+    '            set yCandidatePosixPath to POSIX path of ((full name of yCandidate as text) as alias)',
+    '          end try',
+    '          if (name of yCandidate as text) is yExpectedName and ((full name of yCandidate as text) is yExpectedFullName or yCandidatePosixPath is yPosixPath) then return true',
+    '        end repeat',
     '      end try',
     '      delay 0.25',
     '    end repeat',
@@ -2602,7 +2765,7 @@ export function packageSummary(docxPath) {
 export function buildOracleProbe({ ledger, wordParsed }) {
   const opStatus = new Map(wordParsed.ops.map((op) => [op.id, op.status]));
   const sampled = ledger.operations
-    .filter((operation) => ['tracked_replace', 'root_comment', 'formatting'].includes(operation.family))
+    .filter((operation) => ['tracked_replace', 'root_comment', 'formatting', 'structural'].includes(operation.family))
     .slice(0, 12)
     .map((operation) => ({
       id: operation.id,
@@ -2610,19 +2773,33 @@ export function buildOracleProbe({ ledger, wordParsed }) {
       expectedOutcome: opStatus.get(operation.id) === 'SAFE_APPLY' ? 'SAFE_APPLY' : 'BLOCKED',
       anchor: {
         sceneId: operation.sceneId,
-        paragraphId: `canary-${operation.band}`,
+        paragraphId: operation.family === 'structural'
+          ? `structural-paragraph-${operation.structuralParagraphScope?.start}-${operation.structuralParagraphScope?.end}`
+          : `canary-${operation.band}`,
         graphemeStart: 0,
-        graphemeEnd: operation.quote.length,
-        selectedText: operation.quote,
-        contextBefore: operation.quote.slice(0, 16),
-        contextAfter: operation.quote.slice(-16),
-        baselineHash: sha256Text(operation.quote),
+        graphemeEnd: operation.family === 'structural'
+          ? String(operation.structuralParagraphScope?.selectedText || '').length
+          : operation.quote.length,
+        selectedText: operation.family === 'structural'
+          ? operation.structuralParagraphScope?.selectedText || operation.quote
+          : operation.quote,
+        contextBefore: (operation.family === 'structural'
+          ? operation.structuralParagraphScope?.selectedText || operation.quote
+          : operation.quote).slice(0, 16),
+        contextAfter: (operation.family === 'structural'
+          ? operation.structuralParagraphScope?.selectedText || operation.quote
+          : operation.quote).slice(-16),
+        baselineHash: sha256Text(operation.family === 'structural'
+          ? operation.structuralParagraphScope?.selectedText || operation.quote
+          : operation.quote),
       },
       semanticIntent: operation.family === 'tracked_replace'
         ? { kind: 'replace', replacementText: operation.replacementText }
         : operation.family === 'root_comment'
           ? { kind: 'root-comment' }
-          : { kind: 'bold' },
+          : operation.family === 'structural'
+            ? { kind: 'setNodeType', nodeType: 'heading', headingLevel: 2 }
+            : { kind: 'bold' },
     }));
   const operationsById = {};
   for (const operation of sampled) {
@@ -2630,7 +2807,9 @@ export function buildOracleProbe({ ledger, wordParsed }) {
       ? { textSemantics: { kind: operation.semanticIntent.kind, replacementText: operation.semanticIntent.replacementText } }
       : operation.family === 'root_comment'
         ? { commentSemantics: { threadId: `thread-${operation.id}`, state: 'open' } }
-        : { formattingSemantics: { kind: operation.semanticIntent.kind, effective: true } };
+        : operation.family === 'structural'
+          ? { structuralSemantics: { kind: operation.semanticIntent.kind, nodeType: operation.semanticIntent.nodeType, headingLevel: operation.semanticIntent.headingLevel } }
+          : { formattingSemantics: { kind: operation.semanticIntent.kind, effective: true } };
     operationsById[operation.id] = {
       outcome: operation.expectedOutcome,
       anchor: operation.anchor,
@@ -3044,7 +3223,10 @@ async function main() {
     productReturnApply: exportResult.returnApplyResult?.returnApply || null,
     productRouteGaps: deriveC5V2ProductRouteGaps(
       exportResult.returnApplyResult?.returnApply || null,
-      { expectedFamilies: ledger.operations.map((operation) => operation.family) },
+      {
+        expectedFamilies: ledger.operations.map((operation) => operation.family),
+        expectedFamilyCounts: ledger.familyCounts,
+      },
     ),
     certificationClaim: options.sceneCount >= 21
       ? 'NO_PHYSICAL_PROVEN_C5_CERTIFICATION_CLAIM_WHOLE_BOOK_LIGHT_ONLY'
@@ -3058,6 +3240,7 @@ async function main() {
       && summary.sourcePackageSummary?.modernMode15Ready === true
       && summary.wordStatus === 'PASS'
       && summary.nativeLifecycleVerification?.ok === true
+      && summary.oracleProbe?.ok === true
       && summary.productReturnApply?.ok === true
       && summary.productRouteGaps.length === 0
       ? 0

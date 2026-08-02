@@ -169,6 +169,30 @@ test('N3 extractor fails closed on unresolved block authority and routes duplica
   assert.equal(duplicate.candidates[0].to, 5);
 });
 
+test('N3 extractor accepts Word-regenerated native ids only when stable index and bookmark authority agree', async () => {
+  const bridge = await import(pathToFileURL(BRIDGE_PATH).href);
+  const regenerated = bridge.buildDocxReviewFormattingReturnCandidatesFromZipBytes(docx([
+    '<w:p w14:paraId="FFFFFFFF" w14:textId="77777777">',
+    '<w:bookmarkStart w:name="YRTK_01_0001_alpha"/>',
+    '<w:r><w:rPr><w:b/></w:rPr><w:t>Alpha</w:t></w:r>',
+    '<w:r><w:t> beta</w:t></w:r>',
+    '</w:p>',
+  ].join('')), { fullManuscriptExportMap: exportMap(), cryptoPort });
+  assert.equal(regenerated.status, 'ready', JSON.stringify(regenerated, null, 2));
+  assert.equal(regenerated.candidates.length, 1);
+  assert.equal(regenerated.candidates[0].selectedText, 'Alpha');
+
+  const wrongBookmark = bridge.buildDocxReviewFormattingReturnCandidatesFromZipBytes(docx([
+    '<w:p w14:paraId="FFFFFFFF" w14:textId="77777777">',
+    '<w:bookmarkStart w:name="YRTK_WRONG_AUTHORITY"/>',
+    '<w:r><w:rPr><w:b/></w:rPr><w:t>Alpha</w:t></w:r>',
+    '<w:r><w:t> beta</w:t></w:r>',
+    '</w:p>',
+  ].join('')), { fullManuscriptExportMap: exportMap(), cryptoPort });
+  assert.equal(wrongBookmark.candidates.length, 0);
+  assert.equal(wrongBookmark.diagnostics[0].code, 'RTK_FORMATTING_RETURN_BLOCK_LOCATOR_UNRESOLVED');
+});
+
 test('N3 extractor rejects colliding or conflicting native paragraph locators', async () => {
   const bridge = await import(pathToFileURL(BRIDGE_PATH).href);
   const collidingMap = exportMap('Alpha beta');
@@ -980,6 +1004,18 @@ test('N3 physical canary invokes shipped formatting apply and persisted replay i
       structural: 'NO_STRUCTURAL_CANDIDATE',
     },
   }), []);
+  assert.deepEqual(canary.deriveC5V2ProductRouteGaps({
+    ok: true,
+    typedPendingLanes: {
+      exactText: 'NO_EXACT_TEXT_CANDIDATE',
+      commentsRepliesState: 'NO_COMMENT_CANDIDATE',
+      formatting: 'NO_FORMATTING_CANDIDATE',
+      structural: 'NO_STRUCTURAL_CANDIDATE',
+    },
+  }, { expectedFamilies: ['formatting'] }), [
+    'formatting was required by the physical ledger but produced no product candidate',
+  ]);
+  assert.match(source, /summary\.productRouteGaps\.length === 0/u);
 });
 
 test('N3 physical canary retains AX preflight only for native reply and state UI lanes', async () => {

@@ -5754,10 +5754,10 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "94d141dc7a586db36206bf7b5682131c8a120852419bbc0e7ddd28324ea7691d",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1:HOST_LOCAL_QA_MIRROR_AND_LANE_PREFLIGHT",
-      "approvedAtUtc": "2026-08-02T12:28:54.000Z",
-      "rationale": "Approve the exact C5V2 physical runner route: formatting and other Word Object Model lanes use document-identity preflight without an unrelated Accessibility gate, reply and state lanes still require verified Accessibility UI, Word edits only a generated host-local QA cache copy, and the final native artifact must be byte-for-byte mirrored and hash-verified on T7 before evidence can pass. This does not widen native comment lifecycle or terminal certification claims.",
+      "sha256": "5927b262440c39fa25e42f6875c673b3efc2dabbba057f6ca2e5c6789b8d4cd3",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1:PHYSICAL_FORMATTING_FALSE_GREEN_CLOSURE",
+      "approvedAtUtc": "2026-08-02T12:39:38.000Z",
+      "rationale": "Approve the exact C5V2 physical runner route plus expected-lane closure: Word edits only generated host-local QA files with verified T7 mirroring, lane-specific preflight remains intact, and a formatting, tracked-text, comment, or structural family required by the physical ledger now fails the run if the returned product path produces no corresponding candidate. A green process exit additionally requires zero product route gaps; terminal certification remains pending.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
     },
@@ -6512,10 +6512,10 @@
     },
     {
       "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "4a4c9f35c5a9786a12fe3e6be6e68dc824541b1b3b5a293fd39d74926595ebdd",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
-      "approvedAtUtc": "2026-08-02T10:57:50.000Z",
-      "rationale": "Approve the exact revision-bridge bytes deriving authenticated FormatIR deltas with locator, scene revision, observable hash, unsupported-style rejection, and typed safe-apply classification; no automatic mutation or false EXACT claim.",
+      "sha256": "b9b46ad96a553156c014afb1b167225450ba4fc19b1b3168df2c8ce519610dd0",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1:WORD_NATIVE_LOCATOR_REGENERATION",
+      "approvedAtUtc": "2026-08-02T12:39:38.000Z",
+      "rationale": "Approve the exact revision-bridge bytes deriving authenticated FormatIR deltas while handling source-proven native Word saves that regenerate paraId and textId. Unknown regenerated native identifiers are non-authoritative; stable paragraph-index and bookmark claims remain authoritative, known identifier collisions and cross-authority conflicts still fail closed, and scene revision, observable hash, unsupported-style and typed safe-apply guards remain mandatory. No automatic mutation or false EXACT claim.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
     },
@@ -7906,10 +7906,10 @@
     },
     {
       "filePath": "test/contracts/rtk-word-n3-formatting-return.contract.test.js",
-      "sha256": "3804f24391d6d2b2d4f433dc03890a9b46fa1faa38e875e60f1ec9756a322a2f",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1:HOST_LOCAL_QA_MIRROR_AND_LANE_PREFLIGHT",
-      "approvedAtUtc": "2026-08-02T12:28:54.000Z",
-      "rationale": "Approve the exact strengthened N3 contract family and physical runner coupling: it proves host-local QA containment outside user Documents, mandatory T7 evidence mirroring and hash mismatch rejection, Object Model preflight for formatting, Accessibility preflight only for reply or state lanes, shipped formatting apply plus persisted replay inspection, and deterministic real-process lease survival. Physical Word proof and terminal certification remain pending.",
+      "sha256": "fbe44f5452a4bfc4946cb5391b00234d731c753890b49dee4e67e4ddf3383e83",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1:WORD_NATIVE_LOCATOR_AND_FALSE_GREEN_NEGATIVES",
+      "approvedAtUtc": "2026-08-02T12:39:38.000Z",
+      "rationale": "Approve the exact strengthened N3 contract family: it proves a physical-shaped Word native save may regenerate paraId and textId only while stable index and YRTK bookmark authority agree, rejects a forged bookmark, and proves a ledger-required formatting lane with no product candidate is an explicit route gap that prevents process success. Prior host-local mirror, preflight, apply, replay, recovery and lease tests remain covered; terminal certification remains pending.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
     },

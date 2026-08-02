@@ -3175,6 +3175,25 @@ function docxReviewFormattingBuildFullManuscriptBlockResolver(exportMap = {}) {
       claims.push(matches[0]);
       return null;
     };
+    const admitRegenerableNativeLocator = (kind, key, index) => {
+      if (key === '' || key === null || key === undefined) return null;
+      const matches = index.get(key) || [];
+      // Word may regenerate paraId/textId during a native save. A regenerated
+      // value is non-authoritative; a value that still names known authority
+      // must remain unique and agree with the stable index/bookmark claims.
+      if (matches.length === 0) return null;
+      if (matches.length > 1) {
+        return {
+          ok: false,
+          code: 'RTK_FORMATTING_RETURN_BLOCK_LOCATOR_AMBIGUOUS',
+          locatorKind: kind,
+          locatorValue: key,
+          matchCount: matches.length,
+        };
+      }
+      claims.push(matches[0]);
+      return null;
+    };
     const paragraphIndex = Number.isSafeInteger(signal.paragraphIndex) ? signal.paragraphIndex : -1;
     const indexFailure = admit(
       'documentParagraphIndex',
@@ -3182,9 +3201,9 @@ function docxReviewFormattingBuildFullManuscriptBlockResolver(exportMap = {}) {
       byDocumentParagraphIndex,
     );
     if (indexFailure) return indexFailure;
-    const paraFailure = admit('paraId', paraId, byParaId);
+    const paraFailure = admitRegenerableNativeLocator('paraId', paraId, byParaId);
     if (paraFailure) return paraFailure;
-    const textFailure = admit('textId', textId, byTextId);
+    const textFailure = admitRegenerableNativeLocator('textId', textId, byTextId);
     if (textFailure) return textFailure;
     const relevantBookmarks = bookmarkNames.filter((name) => name.startsWith('yrtk_') || byBookmarkName.has(name));
     for (const name of relevantBookmarks) {

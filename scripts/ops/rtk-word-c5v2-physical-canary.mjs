@@ -490,10 +490,15 @@ export function deriveC5V2ReturnLanePlan(activationSummary = {}) {
   };
 }
 
-export function deriveC5V2ProductRouteGaps(returnApply = {}) {
+export function deriveC5V2ProductRouteGaps(returnApply = {}, options = {}) {
   const lanes = returnApply.typedPendingLanes && typeof returnApply.typedPendingLanes === 'object'
     ? returnApply.typedPendingLanes
     : {};
+  const expectedFamilies = new Set(
+    Array.isArray(options.expectedFamilies)
+      ? options.expectedFamilies.filter((family) => typeof family === 'string' && family)
+      : [],
+  );
   const gaps = [];
   if (!returnApply || returnApply.ok !== true) {
     gaps.push('full-manuscript authenticated intake preview explicit apply did not complete green in this canary script');
@@ -503,6 +508,24 @@ export function deriveC5V2ProductRouteGaps(returnApply = {}) {
   if (lanes.formatting === 'PENDING_PRODUCT_APPLY_LANE') gaps.push('formatting operations remain typed pending product outcomes');
   if (lanes.formatting === 'BLOCKED_MIXED_LANE_ATOMICITY_REQUIRED') gaps.push('formatting is blocked until mixed return lanes share one atomic product transaction');
   if (lanes.structural === 'PENDING_PRODUCT_APPLY_LANE') gaps.push('structural operations remain typed pending product outcomes');
+  if (expectedFamilies.has('formatting') && lanes.formatting === 'NO_FORMATTING_CANDIDATE') {
+    gaps.push('formatting was required by the physical ledger but produced no product candidate');
+  }
+  if (
+    [...expectedFamilies].some((family) => ['tracked_replace', 'tracked_insert', 'tracked_delete'].includes(family))
+    && lanes.exactText === 'NO_EXACT_TEXT_CANDIDATE'
+  ) {
+    gaps.push('tracked text was required by the physical ledger but produced no product candidate');
+  }
+  if (
+    [...expectedFamilies].some((family) => ['root_comment', 'reply_attempt', 'state_attempt'].includes(family))
+    && lanes.commentsRepliesState === 'NO_COMMENT_CANDIDATE'
+  ) {
+    gaps.push('comments or lifecycle work was required by the physical ledger but produced no product candidate');
+  }
+  if (expectedFamilies.has('structural') && lanes.structural === 'NO_STRUCTURAL_CANDIDATE') {
+    gaps.push('structure was required by the physical ledger but produced no product candidate');
+  }
   return gaps;
 }
 
@@ -2989,7 +3012,10 @@ async function main() {
     packageSummary: fs.existsSync(returnedDocxPath) ? packageSummary(returnedDocxPath) : null,
     oracleProbe: wordParsed.ops.length > 0 ? buildOracleProbe({ ledger, wordParsed }) : null,
     productReturnApply: exportResult.returnApplyResult?.returnApply || null,
-    productRouteGaps: deriveC5V2ProductRouteGaps(exportResult.returnApplyResult?.returnApply || null),
+    productRouteGaps: deriveC5V2ProductRouteGaps(
+      exportResult.returnApplyResult?.returnApply || null,
+      { expectedFamilies: ledger.operations.map((operation) => operation.family) },
+    ),
     certificationClaim: options.sceneCount >= 21
       ? 'NO_PHYSICAL_PROVEN_C5_CERTIFICATION_CLAIM_WHOLE_BOOK_LIGHT_ONLY'
       : 'NO_PHYSICAL_PROVEN_C5_CERTIFICATION_CLAIM',
@@ -3003,6 +3029,7 @@ async function main() {
       && summary.wordStatus === 'PASS'
       && summary.nativeLifecycleVerification?.ok === true
       && summary.productReturnApply?.ok === true
+      && summary.productRouteGaps.length === 0
       ? 0
       : 1,
   );

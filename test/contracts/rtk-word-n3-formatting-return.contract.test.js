@@ -150,6 +150,30 @@ test('N3 extractor binds safe inline formatting and ignores comment-reference-on
   });
 });
 
+test('N3 extractor coalesces adjacent Word run fragments with identical effective formatting', async () => {
+  const bridge = await import(pathToFileURL(BRIDGE_PATH).href);
+  const input = docx([
+    '<w:p w14:paraId="A1B2C3D4" w14:textId="D4C3B2A1">',
+    '<w:bookmarkStart w:name="YRTK_01_0001_alpha"/>',
+    '<w:r><w:rPr><w:b/></w:rPr><w:t>Alpha</w:t></w:r>',
+    '<w:r><w:rPr><w:b/></w:rPr><w:t xml:space="preserve"> beta</w:t></w:r>',
+    '</w:p>',
+  ].join(''));
+  const extracted = bridge.buildDocxReviewFormattingReturnCandidatesFromZipBytes(input, {
+    fullManuscriptExportMap: exportMap(),
+    cryptoPort,
+  });
+
+  assert.equal(extracted.status, 'ready', JSON.stringify(extracted, null, 2));
+  assert.equal(extracted.candidates.length, 1, JSON.stringify(extracted, null, 2));
+  assert.equal(extracted.candidates[0].from, 0);
+  assert.equal(extracted.candidates[0].to, 10);
+  assert.equal(extracted.candidates[0].selectedText, 'Alpha beta');
+  assert.deepEqual(extracted.candidates[0].inline, {
+    bold: { action: 'set', value: true },
+  });
+});
+
 test('N3 extractor fails closed on unresolved block authority and routes duplicate text by parser offsets', async () => {
   const bridge = await import(pathToFileURL(BRIDGE_PATH).href);
   const unresolved = bridge.buildDocxReviewFormattingReturnCandidatesFromZipBytes(docx(

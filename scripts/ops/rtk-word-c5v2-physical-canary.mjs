@@ -11,7 +11,9 @@ import {
   buildC5V2MultilingualQaLayer,
   validateC5V2SemanticOracle,
 } from './rtk-word-c5v2-semantic-oracle.mjs';
+import { buildC5V2Ledger } from './rtk-word-c5v2-ledger-engine.mjs';
 import { resolveWordHostLocalQaWorkRoot } from './rtk-word-sandbox-work-root.mjs';
+import { parseObservablePayload } from '../../src/renderer/documentContentEnvelope.mjs';
 
 const require = createRequire(import.meta.url);
 const electronBinary = require('electron');
@@ -21,6 +23,8 @@ const REPO_ROOT = path.resolve(__dirname, '..', '..');
 const RESULT_PREFIX = 'YALKEN_C5V2_CANARY_RESULT ';
 const DEFAULT_ARTIFACT_ROOT = '/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c5v2-physical-canary';
 const CORPUS_SCENE_ROOT = '/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c5-fullbook-certification/corpus/scenes';
+const CORPUS_RAW_PATH = '/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c5-fullbook-certification/corpus/pg174-raw.txt';
+const CORPUS_CLEANED_PATH = '/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c5-fullbook-certification/corpus/dorian-gray-cleaned-scenes.txt';
 
 export function sha256Bytes(bytes) {
   return crypto.createHash('sha256').update(bytes).digest('hex');
@@ -38,12 +42,56 @@ export function nowStamp() {
   return new Date().toISOString().replace(/[-:]/gu, '').replace(/\.\d{3}Z$/u, 'Z');
 }
 
+export function writeJsonAtomicDurable(filePath, value) {
+  const dir = path.dirname(filePath);
+  fs.mkdirSync(dir, { recursive: true });
+  const tempPath = path.join(dir, `.${path.basename(filePath)}.${process.pid}.${crypto.randomBytes(8).toString('hex')}.tmp`);
+  const fd = fs.openSync(tempPath, 'wx', 0o600);
+  try {
+    fs.writeFileSync(fd, `${JSON.stringify(value, null, 2)}\n`, 'utf8');
+    fs.fsyncSync(fd);
+  } finally {
+    fs.closeSync(fd);
+  }
+  fs.renameSync(tempPath, filePath);
+  const dirFd = fs.openSync(dir, 'r');
+  try {
+    fs.fsyncSync(dirFd);
+  } finally {
+    fs.closeSync(dirFd);
+  }
+  return { path: filePath, sha256: sha256File(filePath) };
+}
+
+export function copyFileAtomicDurable(sourcePath, filePath) {
+  const bytes = fs.readFileSync(sourcePath);
+  const dir = path.dirname(filePath);
+  fs.mkdirSync(dir, { recursive: true });
+  const tempPath = path.join(dir, `.${path.basename(filePath)}.${process.pid}.${crypto.randomBytes(8).toString('hex')}.tmp`);
+  const fd = fs.openSync(tempPath, 'wx', 0o600);
+  try {
+    fs.writeFileSync(fd, bytes);
+    fs.fsyncSync(fd);
+  } finally {
+    fs.closeSync(fd);
+  }
+  fs.renameSync(tempPath, filePath);
+  const dirFd = fs.openSync(dir, 'r');
+  try {
+    fs.fsyncSync(dirFd);
+  } finally {
+    fs.closeSync(dirFd);
+  }
+  return { path: filePath, sha256: `sha256:${sha256Bytes(bytes)}`, bytes: bytes.length };
+}
+
 export function shellValue(command, args, options = {}) {
   try {
     return execFileSync(command, args, {
       cwd: options.cwd || REPO_ROOT,
       encoding: 'utf8',
       timeout: options.timeout || 30_000,
+      maxBuffer: options.maxBuffer || (256 * 1024 * 1024),
       stdio: ['ignore', 'pipe', 'pipe'],
     }).trim();
   } catch (error) {
@@ -102,13 +150,23 @@ export function bindLedgerToSourceDocxOffsets({ ledger, sourceDocxPath, sourceDo
   const seenStarts = new Set();
   const seenStructuralParagraphScopes = new Set();
   const boundOperations = ledger.operations.map((operation) => {
-    const start = docxText.indexOf(operation.quote);
-    if (start < 0) {
+    if (operation.physicalAction === 'typed-limit') return operation;
+    const locatorQuote = operation.locatorQuote || operation.quote;
+    const locatorStart = docxText.indexOf(locatorQuote);
+    if (locatorStart < 0) {
       throw new Error(`C5V2_CANARY_SOURCE_ANCHOR_NOT_IN_EXPORTED_DOCX:${operation.id}`);
     }
-    const second = docxText.indexOf(operation.quote, start + 1);
+    const second = docxText.indexOf(locatorQuote, locatorStart + 1);
     if (second >= 0) {
       throw new Error(`C5V2_CANARY_SOURCE_ANCHOR_NOT_UNIQUE_IN_EXPORTED_DOCX:${operation.id}`);
+    }
+    const selectionOffset = Number.isSafeInteger(operation.locatorSelectionStart)
+      ? operation.locatorSelectionStart
+      : 0;
+    const start = locatorStart + selectionOffset;
+    const end = start + operation.quote.length;
+    if (docxText.slice(start, end) !== operation.quote) {
+      throw new Error(`C5V2_CANARY_LOCATOR_SELECTION_MISMATCH:${operation.id}`);
     }
     if (seenStarts.has(start)) {
       throw new Error(`C5V2_CANARY_DUPLICATE_SOURCE_RANGE:${operation.id}`);
@@ -130,8 +188,10 @@ export function bindLedgerToSourceDocxOffsets({ ledger, sourceDocxPath, sourceDo
       wordRange: {
         sourceKind: 'raw-exported-docx-document-xml',
         start,
-        end: start + operation.quote.length,
+        end,
         selectedTextSha256: sha256Text(operation.quote),
+        locatorTextSha256: sha256Text(locatorQuote),
+        locatorSelectionStart: selectionOffset,
       },
       structuralParagraphScope: operation.family === 'structural'
         ? {
@@ -149,6 +209,167 @@ export function bindLedgerToSourceDocxOffsets({ ledger, sourceDocxPath, sourceDo
     sourceDocxTextSha256: sha256Text(docxText),
     operations: boundOperations,
   };
+}
+
+function graphemeParts(value) {
+  if (typeof Intl !== 'undefined' && typeof Intl.Segmenter === 'function') {
+    const segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
+    return Array.from(segmenter.segment(String(value || '')), (part) => part.segment);
+  }
+  return Array.from(String(value || ''));
+}
+
+function productParagraphs(value) {
+  return String(value || '')
+    .replace(/\r\n/gu, '\n')
+    .replace(/\r/gu, '\n')
+    .split(/\n{2,}/u)
+    .map((paragraph) => paragraph.trim())
+    .filter((paragraph) => paragraph.length > 0);
+}
+
+function documentTextBlocks(doc) {
+  const blocks = [];
+  const inlineText = (node) => {
+    if (!node || typeof node !== 'object') return '';
+    if (node.type === 'text') return typeof node.text === 'string' ? node.text : '';
+    if (node.type === 'hardBreak') return '\n';
+    return (Array.isArray(node.content) ? node.content : []).map((child) => inlineText(child)).join('');
+  };
+  const visit = (node) => {
+    if (!node || typeof node !== 'object') return;
+    if (['paragraph', 'heading', 'codeBlock'].includes(node.type)) {
+      blocks.push({
+        type: node.type,
+        attrs: node.attrs && typeof node.attrs === 'object' ? structuredClone(node.attrs) : {},
+        text: inlineText(node),
+        node,
+      });
+      return;
+    }
+    for (const child of (Array.isArray(node.content) ? node.content : [])) visit(child);
+  };
+  visit(doc);
+  return blocks;
+}
+
+export function readProductSceneAuthority(rawContent) {
+  const parsed = parseObservablePayload(String(rawContent || ''));
+  if (parsed?.issue) {
+    throw new Error(`C5V2_PRODUCT_SCENE_OBSERVABLE_PAYLOAD_INVALID:${parsed.issue.reason || parsed.issue.code || 'UNKNOWN'}`);
+  }
+  const blocks = parsed?.doc ? documentTextBlocks(parsed.doc) : productParagraphs(parsed?.text || '');
+  const paragraphs = blocks.map((block) => (typeof block === 'string' ? block : block.text));
+  return {
+    rawContent: String(rawContent || ''),
+    rawContentSha256: sha256Text(rawContent),
+    text: parsed?.text || '',
+    textSha256: sha256Text(parsed?.text || ''),
+    doc: parsed?.doc || null,
+    blocks: parsed?.doc ? blocks : [],
+    paragraphs,
+  };
+}
+
+function buildUniquePhysicalLocator({ paragraphText, graphemeStart, graphemeEnd, sourceDocxText, operationId }) {
+  const parts = graphemeParts(paragraphText);
+  const selectedText = parts.slice(graphemeStart, graphemeEnd).join('');
+  if (!selectedText) throw new Error(`C5V2_PHYSICAL_SELECTED_TEXT_REQUIRED:${operationId}`);
+  for (const radius of [8, 16, 24, 32, 48, 64, 96, 128, 192, 256, parts.length]) {
+    const start = Math.max(0, graphemeStart - radius);
+    const end = Math.min(parts.length, graphemeEnd + radius);
+    const locatorQuote = parts.slice(start, end).join('');
+    if (locatorQuote.length < selectedText.length) continue;
+    if (countExactOccurrences(sourceDocxText, locatorQuote) !== 1) continue;
+    return {
+      quote: selectedText,
+      locatorQuote,
+      locatorSelectionStart: parts.slice(start, graphemeStart).join('').length,
+    };
+  }
+  throw new Error(`C5V2_PHYSICAL_UNIQUE_LOCATOR_EXHAUSTED:${operationId}`);
+}
+
+export function adaptC5V2MasterRoundToPhysicalLedger({ masterLedger, currentScenes, roundNumber, sourceDocxPath }) {
+  if (!masterLedger || masterLedger.gates?.ok !== true) throw new Error('C5V2_MASTER_LEDGER_GREEN_REQUIRED');
+  if (!Number.isInteger(roundNumber) || roundNumber < 1 || roundNumber > masterLedger.roundCount) {
+    throw new Error('C5V2_MASTER_LEDGER_ROUND_INVALID');
+  }
+  const sourceDocxText = docxDocumentWordText(sourceDocxPath);
+  const sceneById = new Map((Array.isArray(currentScenes) ? currentScenes : []).map((scene) => [scene.sceneId, scene]));
+  const masterOperations = masterLedger.operations.filter((operation) => operation.round === roundNumber);
+  const rootPhysicalById = new Map();
+  const operations = [];
+  for (const operation of masterOperations.filter((item) => !['reply', 'comment_state'].includes(item.family))) {
+    const scene = sceneById.get(operation.sceneId);
+    if (!scene) throw new Error(`C5V2_PHYSICAL_SCENE_AUTHORITY_MISSING:${operation.id}:${operation.sceneId}`);
+    const paragraphs = Array.isArray(scene.paragraphs) && scene.paragraphs.length > 0
+      ? scene.paragraphs
+      : productParagraphs(scene.text);
+    const paragraph = paragraphs[operation.anchor?.paragraphOrdinal];
+    if (typeof paragraph !== 'string') throw new Error(`C5V2_PHYSICAL_PARAGRAPH_AUTHORITY_MISSING:${operation.id}`);
+    const locator = buildUniquePhysicalLocator({
+      paragraphText: paragraph,
+      graphemeStart: operation.anchor.graphemeStart,
+      graphemeEnd: operation.anchor.graphemeEnd,
+      sourceDocxText,
+      operationId: operation.id,
+    });
+    if (locator.quote !== operation.anchor.selectedText) {
+      throw new Error(`C5V2_PHYSICAL_MASTER_ANCHOR_STALE:${operation.id}`);
+    }
+    const family = operation.family === 'tracked_text_edit'
+      ? `tracked_${operation.semanticIntent.kind}`
+      : operation.family;
+    const physical = {
+      id: operation.id,
+      formalFamily: operation.family,
+      family,
+      sceneId: operation.sceneId,
+      band: operation.anchor.positionalThird,
+      expectedOutcome: operation.expectedOutcome,
+      semanticIntent: operation.semanticIntent,
+      replacementText: operation.semanticIntent?.replacementText || '',
+      formattingKind: operation.semanticIntent?.kind || '',
+      headingLevel: operation.semanticIntent?.headingLevel || 2,
+      masterAnchor: operation.anchor,
+      ...locator,
+    };
+    operations.push(physical);
+    if (operation.family === 'root_comment') rootPhysicalById.set(operation.id, physical);
+  }
+  for (const operation of masterOperations.filter((item) => ['reply', 'comment_state'].includes(item.family))) {
+    const root = rootPhysicalById.get(operation.targetRootOperationId);
+    if (!root) throw new Error(`C5V2_PHYSICAL_LIFECYCLE_ROOT_MISSING:${operation.id}`);
+    operations.push({
+      id: operation.id,
+      formalFamily: operation.family,
+      family: operation.family === 'reply' ? 'reply_attempt' : 'state_attempt',
+      sceneId: operation.sceneId,
+      band: operation.anchor?.positionalThird || root.band,
+      expectedOutcome: operation.expectedOutcome,
+      semanticIntent: operation.semanticIntent,
+      masterAnchor: operation.anchor,
+      targetRootOperationId: operation.targetRootOperationId,
+      requestedState: operation.semanticIntent?.kind || '',
+      physicalAction: 'typed-limit',
+    });
+  }
+  const familyCounts = operations.reduce((acc, operation) => {
+    acc[operation.family] = (acc[operation.family] || 0) + 1;
+    return acc;
+  }, {});
+  const unbound = {
+    schemaVersion: 'yalken.rtk.word.c5v2.physical-master-round-ledger.v1',
+    topology: 'one-full-manuscript-project-cumulative-rounds',
+    roundNumber,
+    masterLedgerDigest: masterLedger.ledgerDigest,
+    operationCount: operations.length,
+    familyCounts,
+    scenes: masterLedger.sceneProfiles,
+    operations,
+  };
+  return bindLedgerToSourceDocxOffsets({ ledger: unbound, sourceDocxPath, sourceDocxText });
 }
 
 function buildExportBoundCanaryLedger({ scenes, counts, sourceDocxPath, anchorOffset = 0, idPrefix = '', weightedSceneAllocation = false }) {
@@ -211,7 +432,8 @@ export function loadCanaryScenes(options = {}) {
   }));
   const baseScenes = chosen.map((scene) => {
     const sourcePath = path.join(CORPUS_SCENE_ROOT, scene.file);
-    const text = fs.readFileSync(sourcePath, 'utf8')
+    const rawText = fs.readFileSync(sourcePath, 'utf8');
+    const text = rawText
       .split(/\n{2,}/u)
       .map((paragraph) => paragraph.replace(/\s+/gu, ' ').trim())
       .filter((paragraph) => paragraph.trim().length > 40)
@@ -221,9 +443,12 @@ export function loadCanaryScenes(options = {}) {
       ...scene,
       sourcePath,
       text,
+      rawSourceSha256: sha256Text(rawText),
+      cleanedSourceSha256: sha256Text(text),
       sourceSha256: sha256Text(text),
     };
   });
+  if (options.includeMultilingualQa !== true) return baseScenes;
   const qa = buildC5V2MultilingualQaLayer({ scenes: baseScenes });
   return baseScenes.map((scene) => ({
     ...scene,
@@ -466,7 +691,13 @@ export function buildCanaryLedger(scenes, options = {}) {
       sceneId: scene.sceneId,
       band,
       quote,
-      expectedOutcome: family.includes('attempt') ? 'MANUAL_OR_BLOCKED' : 'SAFE_APPLY',
+      expectedOutcome: family.includes('attempt')
+        ? 'MANUAL_OR_BLOCKED'
+        : family === 'tracked_insert'
+          ? 'MANUAL'
+          : ['tracked_replace', 'tracked_delete'].includes(family)
+            ? 'EXACT'
+            : 'SAFE_APPLY',
       replacementText: `C5V2_${family}_${String(index + 1).padStart(3, '0')}`,
     });
   }
@@ -584,7 +815,11 @@ export function deriveC5V2ProductRouteGaps(returnApply = {}, options = {}) {
     gaps.push('full-manuscript authenticated intake preview explicit apply did not complete green in this canary script');
   }
   if (lanes.exactText === 'PENDING_PRODUCT_APPLY_LANE') gaps.push('exact text operations remain typed pending product outcomes');
-  if (lanes.commentsRepliesState === 'PENDING_PRODUCT_APPLY_LANE') gaps.push('comment operations remain typed pending product outcomes');
+  const rootCommentsExpected = Number(expectedFamilyCounts.root_comment || 0) > 0;
+  const exactTextExpected = Number(normalizedReturnApply.lanePlan?.expectedCounts?.exactText || 0) > 0;
+  if (rootCommentsExpected && lanes.rootCommentsState === 'PENDING_ROOT_COMMENT_PRODUCT_APPLY_LANE') {
+    gaps.push('root comment operations remain typed pending product outcomes');
+  }
   if (lanes.formatting === 'PENDING_PRODUCT_APPLY_LANE') gaps.push('formatting operations remain typed pending product outcomes');
   if (lanes.formatting === 'BLOCKED_MIXED_LANE_ATOMICITY_REQUIRED') gaps.push('formatting is blocked until mixed return lanes share one atomic product transaction');
   if (lanes.structural === 'PENDING_PRODUCT_APPLY_LANE') gaps.push('structural operations remain typed pending product outcomes');
@@ -595,7 +830,7 @@ export function deriveC5V2ProductRouteGaps(returnApply = {}, options = {}) {
     gaps.push('formatting was required by the physical ledger but produced no product candidate');
   }
   if (
-    [...expectedFamilies].some((family) => ['tracked_replace', 'tracked_insert', 'tracked_delete'].includes(family))
+    exactTextExpected
     && (!lanes.exactText || lanes.exactText === 'NO_EXACT_TEXT_CANDIDATE')
   ) {
     gaps.push('tracked text was required by the physical ledger but produced no product candidate');
@@ -753,6 +988,22 @@ function emit(payload) { process.stdout.write(RESULT_PREFIX + JSON.stringify(pay
 function progress(step, detail = {}) { emit({ phase: 'child-progress', step, detail }); }
 function sleep(ms) { return new Promise((resolve) => setTimeout(resolve, ms)); }
 function sha256ChildText(value) { return 'sha256:' + crypto.createHash('sha256').update(String(value || ''), 'utf8').digest('hex'); }
+function writeChildJsonAtomicDurable(filePath, value) {
+  const dir = path.dirname(filePath);
+  fs.mkdirSync(dir, { recursive: true });
+  const tempPath = path.join(dir, '.' + path.basename(filePath) + '.' + process.pid + '.' + crypto.randomBytes(8).toString('hex') + '.tmp');
+  const fd = fs.openSync(tempPath, 'wx', 0o600);
+  try {
+    fs.writeFileSync(fd, JSON.stringify(value, null, 2) + '\\n', 'utf8');
+    fs.fsyncSync(fd);
+  } finally {
+    fs.closeSync(fd);
+  }
+  fs.renameSync(tempPath, filePath);
+  const dirFd = fs.openSync(dir, 'r');
+  try { fs.fsyncSync(dirFd); } finally { fs.closeSync(dirFd); }
+  return { path: filePath, sha256: sha256ChildText(fs.readFileSync(filePath, 'utf8')) };
+}
 async function waitUntil(predicate, label, timeoutMs = 15000) {
   const startedAt = Date.now();
   while (Date.now() - startedAt < timeoutMs) {
@@ -841,6 +1092,60 @@ async function invokeUiCommand(win, commandId, payload) {
     return result.value;
   }
   return result;
+}
+async function captureReopenedYalkenTruth(win, roundId, returnedPath) {
+  const passes = [];
+  for (let pass = 1; pass <= 2; pass += 1) {
+    const passResults = [];
+    for (const context of global.productSceneContexts || []) {
+      const treeProbe = await win.webContents.executeJavaScript(
+        "window.electronAPI.invokeWorkspaceQueryBridge({queryId:'query.projectTree',payload:{tab:'roman'}})",
+        true,
+      );
+      const resolved = findTreeNodeByPathSuffix(treeProbe && treeProbe.root, context.relativePath) || context;
+      const openResult = await invokeUiCommand(win, 'cmd.project.document.open', {
+        nodeId: typeof resolved.nodeId === 'string' ? resolved.nodeId : context.nodeId,
+        sceneId: context.relativePath,
+      });
+      passResults.push({
+        sceneId: context.relativePath,
+        ok: openResult && openResult.ok === true,
+        nodeId: typeof resolved.nodeId === 'string' ? resolved.nodeId : context.nodeId,
+      });
+      if (!openResult || openResult.ok !== true) {
+        throw new Error('C5V2_REOPENED_YALKEN_SCENE_OPEN_FAILED:' + roundId + ':' + context.relativePath);
+      }
+    }
+    passes.push({ pass, scenes: passResults });
+  }
+  const sceneReadback = (global.productSceneContexts || []).map((context) => {
+    const rawContent = fs.readFileSync(context.nodePath, 'utf8');
+    return {
+      sceneId: context.relativePath,
+      nodePath: context.nodePath,
+      rawContent,
+      rawContentSha256: sha256ChildText(rawContent),
+    };
+  });
+  const artifactPath = path.join(path.dirname(returnedPath), 'yalken-reopened-truth.json');
+  const artifact = {
+    schemaVersion: 'yalken.rtk.word.c5v2.reopened-yalken-truth.v1',
+    roundId,
+    sourceKind: 'reopened-yalken-project',
+    reopenPassCount: 2,
+    passes,
+    sceneReadback,
+    projectRoot: global.productProjectRoot || '',
+    createdAtUtc: new Date().toISOString(),
+  };
+  const written = writeChildJsonAtomicDurable(artifactPath, artifact);
+  return {
+    path: written.path,
+    sha256: written.sha256,
+    sceneCount: sceneReadback.length,
+    reopenPassCount: artifact.reopenPassCount,
+    allOpenGreen: passes.every((pass) => pass.scenes.every((scene) => scene.ok === true)),
+  };
 }
 function summarizeActivation(result) {
   const graph = result && result.reviewSurface && result.reviewSurface.revisionSession
@@ -936,6 +1241,26 @@ function summarizeActivation(result) {
       commentPlacements: commentPlacements.length,
       structuralChanges: structuralChanges.length,
     },
+    commentThreadDiagnostics: commentThreads.map((thread) => ({
+      threadId: thread && typeof thread.threadId === 'string' ? thread.threadId : '',
+      commentId: thread && typeof thread.commentId === 'string' ? thread.commentId : '',
+      sceneId: thread && typeof thread.sceneId === 'string' ? thread.sceneId : '',
+      targetScope: thread && thread.targetScope ? thread.targetScope : null,
+      status: thread && typeof thread.status === 'string' ? thread.status : '',
+      doneResolvedReopenedState: thread && typeof thread.doneResolvedReopenedState === 'string'
+        ? thread.doneResolvedReopenedState
+        : '',
+      messages: Array.isArray(thread?.messages) ? thread.messages.map((message) => ({
+        messageId: message && typeof message.messageId === 'string' ? message.messageId : '',
+        body: message && typeof message.body === 'string' ? message.body : '',
+      })) : [],
+    })),
+    commentPlacementDiagnostics: commentPlacements.map((placement) => ({
+      threadId: placement && typeof placement.threadId === 'string' ? placement.threadId : '',
+      quote: placement && typeof placement.quote === 'string' ? placement.quote : '',
+      targetScope: placement && placement.targetScope ? placement.targetScope : null,
+      nativeCommentId: placement && typeof placement.nativeCommentId === 'string' ? placement.nativeCommentId : '',
+    })),
     textChangeIdsByScene: textChanges.reduce((acc, change) => {
       const sceneId = change && change.targetScope && typeof change.targetScope.id === 'string'
         ? change.targetScope.id
@@ -984,8 +1309,29 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
   const requestPrefix = typeof round.roundId === 'string' && round.roundId
     ? round.roundId.replace(/[^a-z0-9_-]/giu, '-')
     : 'round';
-  await waitUntil(() => returnedReadyPath && fs.existsSync(returnedReadyPath), 'RETURNED_DOCX_READY_FOR_PRODUCT_INTAKE', 240000);
+  await waitUntil(() => returnedReadyPath && fs.existsSync(returnedReadyPath), 'RETURNED_DOCX_READY_FOR_PRODUCT_INTAKE', 3_600_000);
   await waitUntil(() => returnedPath && fs.existsSync(returnedPath), 'RETURNED_DOCX_FILE_FOR_PRODUCT_INTAKE', 30000);
+  const expectedLedgerPath = path.join(path.dirname(returnedPath), 'canary-ledger.json');
+  await waitUntil(() => fs.existsSync(expectedLedgerPath), 'EXPECTED_CANARY_LEDGER_NOT_DURABLY_VISIBLE', 30000);
+  const expectedLedger = JSON.parse(fs.readFileSync(expectedLedgerPath, 'utf8'));
+  const expectedOperations = Array.isArray(expectedLedger?.operations) ? expectedLedger.operations : [];
+  if (expectedOperations.length === 0) throw new Error('EXPECTED_CANARY_LEDGER_OPERATIONS_REQUIRED');
+  const expectedFamilyCount = (family) => expectedOperations.filter((operation) => operation.family === family).length;
+  const expectedExactTextCount = expectedOperations.filter((operation) => (
+    ['tracked_replace', 'tracked_insert', 'tracked_delete'].includes(operation.family)
+    && operation.expectedOutcome === 'EXACT'
+  )).length;
+  const expectedRootCommentCount = expectedFamilyCount('root_comment');
+  const expectedReplyCount = expectedFamilyCount('reply_attempt');
+  const expectedCommentStateCount = expectedFamilyCount('state_attempt');
+  const expectedFormattingCount = expectedFamilyCount('formatting');
+  const expectedStructuralCount = expectedFamilyCount('structural');
+  const expectedTypedLifecycleCount = expectedOperations.filter((operation) => (
+    ['reply_attempt', 'state_attempt'].includes(operation.family) && operation.physicalAction === 'typed-limit'
+  )).length;
+  const expectedLifecycleCount = expectedOperations.filter((operation) => (
+    ['reply_attempt', 'state_attempt'].includes(operation.family)
+  )).length;
   const returnedBytes = fs.readFileSync(returnedPath);
   progress('return-activation-start', { requestPrefix, returnedBytes: returnedBytes.length });
   const activation = await invokeUiCommand(win, 'cmd.project.review.activateDocxReviewPreviewSession', {
@@ -994,6 +1340,31 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
   });
   const activationSummary = summarizeActivation(activation);
   const lanePlan = deriveC5V2ReturnLanePlan(activationSummary);
+  const mutationFamiliesByScene = new Map();
+  for (const operation of expectedOperations) {
+    const mutationFamily = ['tracked_replace', 'tracked_insert', 'tracked_delete'].includes(operation.family)
+      ? 'exactText'
+      : operation.family === 'formatting'
+        ? 'formatting'
+        : operation.family === 'structural'
+          ? 'structural'
+          : '';
+    if (!mutationFamily || !operation.sceneId) continue;
+    const families = mutationFamiliesByScene.get(operation.sceneId) || new Set();
+    families.add(mutationFamily);
+    mutationFamiliesByScene.set(operation.sceneId, families);
+  }
+  const mixedSceneConflicts = [...mutationFamiliesByScene.entries()]
+    .filter(([, families]) => families.size > 1)
+    .map(([sceneId, families]) => ({ sceneId, families: [...families].sort() }));
+  lanePlan.expectedCounts = {
+    exactText: expectedExactTextCount,
+    rootComments: expectedRootCommentCount,
+    formatting: expectedFormattingCount,
+    structural: expectedStructuralCount,
+    typedLifecycle: expectedTypedLifecycleCount,
+  };
+  lanePlan.mixedSceneConflicts = mixedSceneConflicts;
   progress('return-activation-complete', {
     ok: activationSummary.ok === true,
     formattingCandidateCount: lanePlan.formattingCandidateCount,
@@ -1009,7 +1380,7 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
   let formattingReplayInspection = null;
   let structuralApplyResult = null;
   let structuralReplayInspection = null;
-  if (lanePlan.formattingMixedWithOtherMutationLane || lanePlan.structuralMixedWithOtherMutationLane) {
+  if ((lanePlan.formattingMixedWithOtherMutationLane || lanePlan.structuralMixedWithOtherMutationLane) && mixedSceneConflicts.length > 0) {
     return {
       ok: false,
       code: 'BLOCKED_MIXED_LANE_ATOMICITY_REQUIRED',
@@ -1215,7 +1586,9 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
     });
   }
   const exactTextGreen = !lanePlan.hasExactText || (
-    applyResults.length > 0
+    lanePlan.exactTextCandidateCount === expectedExactTextCount
+    && applyResults.length > 0
+    && applyResults.reduce((total, result) => total + result.changeIds.length, 0) === expectedExactTextCount
     && applyResults.every((result) => result.ok === true && result.applied === true)
     && replayResults.every((result) => result.ok === true && result.replay === true)
     && staleRetryResults.every((result) => (
@@ -1224,6 +1597,14 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
       && ACCEPTABLE_STALE_RETRY_BLOCK_REASONS.has(result.reason)
     ))
   );
+  const lifecycleAppliedGreen = expectedLifecycleCount === 0
+    ? true
+    : expectedTypedLifecycleCount === expectedLifecycleCount
+      ? activationSummary.commentProductPath?.semanticOracle?.lifecycleApplied === 0
+      : Boolean(
+          activationSummary.commentProductPath
+          && activationSummary.commentProductPath.semanticOracle?.lifecycleApplied > 0
+        );
   const commentsGreen = !lanePlan.hasComments || Boolean(
     activationSummary.commentProductPath
     && activationSummary.commentProductPath.ok === true
@@ -1231,8 +1612,8 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
     && activationSummary.commentProductPath.commandBusDispatchOnly === true
     && activationSummary.commentProductPath.directPortDispatch === false
     && activationSummary.commentProductPath.semanticOracle?.triangleGreen === true
-    && activationSummary.commentProductPath.semanticOracle?.rootApplied > 0
-    && activationSummary.commentProductPath.semanticOracle?.lifecycleApplied > 0
+    && activationSummary.commentProductPath.semanticOracle?.rootApplied === expectedRootCommentCount
+    && lifecycleAppliedGreen
     && activationSummary.commentProductPath.sceneAuthorityIdentityJoin?.identityJoinCount > 0
     && activationSummary.commentProductPath.sceneAuthorityIdentityJoin?.unjoinedPlacementCount === 0
     && activationSummary.commentProductPath.sceneAuthorityIdentityJoin?.nativeCommentIdentityJoin === true
@@ -1243,7 +1624,8 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
     && activationSummary.candidateSummary.commentSceneAuthoritySources.includes('authenticated-full-manuscript-export-map-paragraph-signal')
   );
   const formattingGreen = !lanePlan.hasFormatting || Boolean(
-    activationSummary.formattingProductPath?.prepared === true
+    lanePlan.formattingCandidateCount === expectedFormattingCount
+    && activationSummary.formattingProductPath?.prepared === true
     && activationSummary.formattingProductPath?.writerCalled === false
     && formattingApplyResult?.ok === true
     && formattingApplyResult?.applied === true
@@ -1253,7 +1635,8 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
     && formattingReplayInspection?.writerCalled !== true
   );
   const structureGreen = !lanePlan.hasStructure || Boolean(
-    activationSummary.structuralProductPath?.prepared === true
+    lanePlan.structuralCandidateCount === expectedStructuralCount
+    && activationSummary.structuralProductPath?.prepared === true
     && activationSummary.structuralProductPath?.writerCalled === false
     && structuralApplyResult?.ok === true
     && structuralApplyResult?.applied === true
@@ -1285,7 +1668,20 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
         ? (exactTextGreen ? 'CANONICAL_PRODUCT_APPLY_AND_REPLAY_PROVEN' : 'PENDING_PRODUCT_APPLY_LANE')
         : 'NO_EXACT_TEXT_CANDIDATE',
       ...(lanePlan.hasComments
-        ? deriveC5V2CommentLaneMaturity(activationSummary.commentProductPath || {})
+        ? expectedTypedLifecycleCount > 0
+          ? {
+              ...deriveC5V2CommentLaneMaturity(activationSummary.commentProductPath || {}),
+              repliesState: expectedReplyCount > 0
+                ? 'TYPED_MANUAL_NO_PRODUCT_MUTATION_VERIFIED'
+                : 'NO_REPLY_OPERATION',
+              commentState: expectedCommentStateCount > 0
+                ? 'TYPED_MANUAL_OR_BLOCKED_NO_PRODUCT_MUTATION_VERIFIED'
+                : 'NO_COMMENT_STATE_OPERATION',
+              commentsRepliesState: commentsGreen
+                ? 'ROOT_APPLY_PLUS_TYPED_LIFECYCLE_VERIFIED'
+                : 'PENDING_PRODUCT_APPLY_LANE',
+            }
+          : deriveC5V2CommentLaneMaturity(activationSummary.commentProductPath || {})
         : {
           rootCommentsState: 'NO_COMMENT_CANDIDATE',
           repliesState: 'NO_COMMENT_CANDIDATE',
@@ -1512,6 +1908,7 @@ app.whenReady().then(async () => {
         continue;
       }
       const returnApply = await activateApplyAndReplayReturnedDocx(win, activeRound);
+      returnApply.yalkenTruthArtifact = await captureReopenedYalkenTruth(win, roundId, returnedPath);
       emit({
         phase: 'return-apply',
         ok: returnApply.ok ? 1 : 0,
@@ -1617,7 +2014,7 @@ async function runElectronFullManuscriptRoundtrip({ runDir, sourcePath, returned
           }, null, 2));
         } else {
         try {
-          wordOutput = await runWord();
+          wordOutput = await runWord(exportPayload);
           fs.writeFileSync(returnedReadyPath, JSON.stringify({
             ready: true,
             returnedPath,
@@ -1725,7 +2122,7 @@ async function runElectronCumulativeFullManuscriptRoundtrip({
       timedOut = true;
       child.kill('SIGKILL');
     }
-  }, 1_800_000);
+  }, 10_800_000);
   try {
     for (let roundIndex = 0; roundIndex < rounds.length; roundIndex += 1) {
       const round = rounds[roundIndex];
@@ -1773,7 +2170,7 @@ async function runElectronCumulativeFullManuscriptRoundtrip({
       await waitForCondition(() => {
         const found = resultLines.find((line) => line.phase === 'return-apply' && line.roundIndex === roundIndex);
         return found || null;
-      }, `ELECTRON_CUMULATIVE_RETURN_APPLY_NOT_EMITTED:${round.roundId}`, 300_000);
+      }, `ELECTRON_CUMULATIVE_RETURN_APPLY_NOT_EMITTED:${round.roundId}`, 1_800_000);
     }
     await waitForCondition(() => (exited ? exitState : null), 'ELECTRON_CUMULATIVE_EXIT_NOT_OBSERVED', 120_000);
   } catch (error) {
@@ -1811,6 +2208,22 @@ async function runElectronCumulativeFullManuscriptRoundtrip({
   };
 }
 
+function orderWordOperations(operations) {
+  const source = Array.isArray(operations) ? operations : [];
+  const rootOperations = source.filter((operation) => operation.family === 'root_comment' && operation.wordRange);
+  const lifecycleOperations = source.filter((operation) => (
+    ['reply_attempt', 'state_attempt'].includes(operation.family) && operation.physicalAction !== 'typed-limit'
+  ));
+  const nonLifecycleOperations = source.filter((operation) => (
+    !rootOperations.includes(operation) && !lifecycleOperations.includes(operation)
+  ));
+  return [
+    ...rootOperations,
+    ...nonLifecycleOperations.slice().sort((left, right) => (right.wordRange?.start || 0) - (left.wordRange?.start || 0)),
+    ...lifecycleOperations,
+  ];
+}
+
 function wordOperationLines(ledger, returnedPath) {
   const lines = [];
   lines.push('set yOpsDone to ""');
@@ -1819,17 +2232,9 @@ function wordOperationLines(ledger, returnedPath) {
   lines.push('set yRootComments to {}');
   const markLine = (id, status, indent = '  ') => `${indent}set yOpsDone to yOpsDone & "OP|" & ${appleText(id)} & "|${status}" & linefeed`;
   const rootOperations = ledger.operations.filter((operation) => operation.family === 'root_comment' && operation.wordRange);
-  const lifecycleOperations = ledger.operations.filter((operation) => ['reply_attempt', 'state_attempt'].includes(operation.family));
-  const nonLifecycleOperations = ledger.operations.filter((operation) => (
-    !rootOperations.includes(operation) && !lifecycleOperations.includes(operation)
-  ));
-  const orderedOperations = [
-    ...rootOperations,
-    ...nonLifecycleOperations.slice().sort((left, right) => (right.wordRange?.start || 0) - (left.wordRange?.start || 0)),
-    ...lifecycleOperations,
-  ];
+  const orderedOperations = orderWordOperations(ledger.operations);
   const expectedNativeRevisionCount = ledger.operations.reduce((count, operation) => (
-    count + (operation.family === 'tracked_replace' ? 2 : ['tracked_insert', 'tracked_delete'].includes(operation.family) ? 1 : 0)
+    count + (['tracked_replace', 'tracked_insert'].includes(operation.family) ? 2 : operation.family === 'tracked_delete' ? 1 : 0)
   ), 0);
   const expectedRootMarkers = rootOperations.map((operation) => `C5V2 root ${operation.id}`);
   let materializationBoundaryWritten = false;
@@ -1854,7 +2259,7 @@ function wordOperationLines(ledger, returnedPath) {
     return checkpoint;
   };
   for (const operation of orderedOperations) {
-    if (['reply_attempt', 'state_attempt'].includes(operation.family) && !materializationBoundaryWritten) {
+    if (['reply_attempt', 'state_attempt'].includes(operation.family) && operation.physicalAction !== 'typed-limit' && !materializationBoundaryWritten) {
       lines.push(`set yMaterializationHash to my yMaterializeNativeCommentBoundary(yCheckpointPath, yReturnedPath, yExpectedFullName, yExpectedName, ${expectedNativeRevisionCount}, ${rootOperations.length}, ${appleList(expectedRootMarkers)})`);
       lines.push('set yDoc to active document');
       lines.push('set yDocWasOpened to true');
@@ -1867,6 +2272,15 @@ function wordOperationLines(ledger, returnedPath) {
     lines.push('try');
     lines.push(`  my yRequireBudget(yCheckpointPath, ${appleText(`${id}:START`)})`);
     lines.push(`  my yCheckpoint(yCheckpointPath, ${appleText(`${id}:START`)}, ${appleText(operation.family)})`);
+    if (operation.physicalAction === 'typed-limit') {
+      lines.push(`  set yLimitations to yLimitations & ${appleText(`${operation.family}|${id}|${operation.expectedOutcome}|PHYSICALLY_UNSUPPORTED_TYPED_OUTCOME`)} & linefeed`);
+      lines.push(markLine(id, operation.expectedOutcome));
+      lines.push('on error errMsg number errNo');
+      lines.push('  set yLimitations to yLimitations & "TYPED_LIMIT_ERROR|' + id.replaceAll('"', '') + '|" & errNo & "|" & errMsg & linefeed');
+      lines.push(markLine(id, 'BLOCKED'));
+      lines.push('end try');
+      continue;
+    }
     if (!Number.isInteger(rangeStart) || !Number.isInteger(rangeEnd) || rangeEnd <= rangeStart) {
       lines.push('  error "SOURCE_RANGE_NOT_BOUND" number 9104');
     } else {
@@ -1875,22 +2289,22 @@ function wordOperationLines(ledger, returnedPath) {
     if (operation.family === 'tracked_replace') {
       lines.push('  set track revisions of yDoc to true');
       lines.push(`  set content of yRange to ${appleText(operation.replacementText)}`);
-      lines.push(markLine(id, 'SAFE_APPLY'));
+      lines.push(markLine(id, operation.expectedOutcome || 'EXACT'));
     } else if (operation.family === 'tracked_insert') {
       lines.push('  set track revisions of yDoc to true');
       lines.push(`  set content of yRange to ${appleText(`${operation.replacementText} ${quote}`)}`);
-      lines.push(markLine(id, 'SAFE_APPLY'));
+      lines.push(markLine(id, operation.expectedOutcome || 'EXACT'));
     } else if (operation.family === 'tracked_delete') {
       lines.push('  set track revisions of yDoc to true');
       lines.push('  set content of yRange to ""');
-      lines.push(markLine(id, 'SAFE_APPLY'));
+      lines.push(markLine(id, operation.expectedOutcome || 'EXACT'));
     } else if (operation.family === 'root_comment') {
       lines.push('  set track revisions of yDoc to false');
       lines.push(`  my yCheckpoint(yCheckpointPath, ${appleText(`${id}:ROOT_CREATE_BEFORE`)}, "")`);
       lines.push(`  set yComment to make new Word comment at yRange with properties {comment text:${appleText(`C5V2 root ${id}`)}}`);
       lines.push('  set end of yRootComments to yComment');
       lines.push(`  my yCheckpoint(yCheckpointPath, ${appleText(`${id}:ROOT_CREATE_AFTER`)}, "")`);
-      lines.push(markLine(id, 'SAFE_APPLY'));
+      lines.push(markLine(id, operation.expectedOutcome || 'SAFE_APPLY'));
     } else if (operation.family === 'reply_attempt') {
       lines.push('  set track revisions of yDoc to false');
       const root = rootOperations.find((candidate) => candidate.id === operation.targetRootOperationId);
@@ -1942,13 +2356,18 @@ function wordOperationLines(ledger, returnedPath) {
       lines.push('  end try');
     } else if (operation.family === 'formatting') {
       lines.push('  set track revisions of yDoc to false');
-      lines.push('  set bold of font object of yRange to true');
-      lines.push('  set italic of font object of yRange to true');
-      lines.push(markLine(id, 'SAFE_APPLY'));
+      if (operation.formattingKind === 'italic') lines.push('  set italic of font object of yRange to true');
+      else lines.push('  set bold of font object of yRange to true');
+      lines.push(markLine(id, operation.expectedOutcome || 'SAFE_APPLY'));
     } else if (operation.family === 'structural') {
       lines.push('  set track revisions of yDoc to false');
-      lines.push('  set outline level of paragraph format of yRange to outline level2');
-      lines.push(markLine(id, 'SAFE_APPLY'));
+      const headingLevel = Number.isSafeInteger(Number(operation.headingLevel))
+        ? Math.min(3, Math.max(1, Number(operation.headingLevel)))
+        : 2;
+      if (headingLevel === 1) lines.push('  set outline level of paragraph format of yRange to outline level1');
+      else if (headingLevel === 3) lines.push('  set outline level of paragraph format of yRange to outline level3');
+      else lines.push('  set outline level of paragraph format of yRange to outline level2');
+      lines.push(markLine(id, operation.expectedOutcome || 'SAFE_APPLY'));
     }
     lines.push('on error errMsg number errNo');
     lines.push('  set yLimitations to yLimitations & "OP_ERROR|' + id.replaceAll('"', '') + '|" & errNo & "|" & errMsg & linefeed');
@@ -1958,10 +2377,84 @@ function wordOperationLines(ledger, returnedPath) {
   return lines.join('\n');
 }
 
-export function buildWordScript({ sourcePath, returnedPath, artifactReturnedPath = returnedPath, ledger }) {
+function wordSemanticReadbackLines(ledger) {
+  const lines = [];
+  const operations = Array.isArray(ledger?.operations) ? ledger.operations : [];
+  const tracked = operations.filter((operation) => (
+    ['tracked_replace', 'tracked_insert', 'tracked_delete'].includes(operation.family)
+  ));
+  lines.push('set yNativeReadback to ""');
+  if (tracked.length > 0) lines.push('set yTrackedOperationCount to ' + tracked.length);
+  for (const operation of operations) {
+    const id = String(operation.id || '').replaceAll('"', '');
+    const expected = operation.expectedOutcome || (
+      ['tracked_replace', 'tracked_insert', 'tracked_delete'].includes(operation.family) ? 'EXACT' : 'SAFE_APPLY'
+    );
+    if (operation.physicalAction === 'typed-limit') {
+      lines.push(`set yNativeReadback to yNativeReadback & ${appleText(`READBACK|${id}|${expected}|TYPED_LIMIT_NO_NATIVE_MUTATION`)} & linefeed`);
+      continue;
+    }
+    lines.push('try');
+    if (['tracked_replace', 'tracked_insert', 'tracked_delete'].includes(operation.family)) {
+      lines.push('  if yTrackedOperationCount is less than 1 then error "NATIVE_TRACKED_CHUNK_READBACK_MISSING" number 9740');
+    } else if (operation.family === 'formatting' || operation.family === 'structural') {
+      const locator = operation.locatorQuote || operation.quote;
+      const selectionOffset = Number.isSafeInteger(operation.locatorSelectionStart) ? operation.locatorSelectionStart : 0;
+      lines.push(`  set yReadbackLocatorRange to my yFindRange(yDoc, ${appleText(locator)})`);
+      lines.push(`  if yReadbackLocatorRange is missing value then error "NATIVE_READBACK_LOCATOR_MISSING:${id}" number 9742`);
+      lines.push(`  set yReadbackStart to (start of content of yReadbackLocatorRange) + ${selectionOffset}`);
+      lines.push(`  set yReadbackRange to create range yDoc start yReadbackStart end (yReadbackStart + ${String(operation.quote || '').length})`);
+      lines.push(`  if (content of text object of yReadbackRange as text) is not ${appleText(operation.quote)} then error "NATIVE_READBACK_RANGE_MISMATCH:${id}" number 9743`);
+      if (operation.family === 'formatting') {
+        if (operation.formattingKind === 'italic') {
+          lines.push(`  if (italic of font object of yReadbackRange) is not true then error "NATIVE_ITALIC_READBACK_MISMATCH:${id}" number 9744`);
+        } else {
+          lines.push(`  if (bold of font object of yReadbackRange) is not true then error "NATIVE_BOLD_READBACK_MISMATCH:${id}" number 9745`);
+        }
+      } else {
+        const headingLevel = Number.isSafeInteger(Number(operation.headingLevel))
+          ? Math.min(3, Math.max(1, Number(operation.headingLevel)))
+          : 2;
+        lines.push(`  if (outline level of paragraph format of yReadbackRange) is not outline level${headingLevel} then error "NATIVE_OUTLINE_READBACK_MISMATCH:${id}" number 9746`);
+      }
+    }
+    lines.push(`  set yNativeReadback to yNativeReadback & ${appleText(`READBACK|${id}|${expected}|WORD_OBJECT_MODEL_REOPENED`)} & linefeed`);
+    lines.push('on error errMsg number errNo');
+    lines.push(`  set yNativeReadback to yNativeReadback & ${appleText(`READBACK|${id}|BLOCKED|`)} & (errNo as text) & ":" & errMsg & linefeed`);
+    lines.push('end try');
+  }
+  return lines.join('\n');
+}
+
+export function buildWordScript({
+  sourcePath,
+  returnedPath,
+  artifactReturnedPath = returnedPath,
+  ledger,
+  initializeFromSource = true,
+  resetCheckpoint = true,
+  expectedNativeRevisionCount: expectedNativeRevisionCountInput = null,
+  minimumNativeRevisionCount: minimumNativeRevisionCountInput = null,
+  expectedRootMarkers: expectedRootMarkersInput = null,
+  chunkId = '',
+  visibleReadbackPath = '',
+}) {
   const expectedName = path.basename(returnedPath);
+  const expectedNativeRevisionCount = Number.isSafeInteger(expectedNativeRevisionCountInput)
+    ? expectedNativeRevisionCountInput
+    : ledger.operations.reduce((count, operation) => (
+        count + (['tracked_replace', 'tracked_insert'].includes(operation.family) ? 2 : operation.family === 'tracked_delete' ? 1 : 0)
+      ), 0);
+  const expectedRootMarkers = Array.isArray(expectedRootMarkersInput)
+    ? expectedRootMarkersInput
+    : ledger.operations
+      .filter((operation) => operation.family === 'root_comment')
+      .map((operation) => `C5V2 root ${operation.id}`);
+  const minimumNativeRevisionCount = Number.isSafeInteger(minimumNativeRevisionCountInput)
+    ? minimumNativeRevisionCountInput
+    : expectedNativeRevisionCount;
   const requiresAccessibilityUi = ledger.operations.some((operation) => (
-    ['reply_attempt', 'state_attempt'].includes(operation.family)
+    ['reply_attempt', 'state_attempt'].includes(operation.family) && operation.physicalAction !== 'typed-limit'
   ));
   return [
     'use scripting additions',
@@ -2485,11 +2978,13 @@ export function buildWordScript({ sourcePath, returnedPath, artifactReturnedPath
     `  set yArtifactReturnedPath to ${appleText(artifactReturnedPath)}`,
     `  set yCheckpointPath to ${appleText(`${artifactReturnedPath}.phase.log`)}`,
     '  set my yOverallDeadline to (current date) + 180',
-    '  my yResetCheckpoint(yCheckpointPath)',
-    '  my yCheckpoint(yCheckpointPath, "CANARY_START", yReturnedPath)',
+    ...(resetCheckpoint ? ['  my yResetCheckpoint(yCheckpointPath)'] : []),
+    `  my yCheckpoint(yCheckpointPath, ${appleText(chunkId ? `CHUNK_START:${chunkId}` : 'CANARY_START')}, yReturnedPath)`,
     '  my yCloseStaleExpectedDocuments(yReturnedPath)',
     '  my yCheckpoint(yCheckpointPath, "STALE_EXPECTED_DOCUMENTS_CLEANED", yReturnedPath)',
-    `  do shell script "/bin/cp " & quoted form of ${appleText(sourcePath)} & " " & quoted form of yReturnedPath`,
+    ...(initializeFromSource
+      ? [`  do shell script "/bin/cp " & quoted form of ${appleText(sourcePath)} & " " & quoted form of yReturnedPath`]
+      : []),
     `  set yFile to POSIX file ${appleText(returnedPath)} as alias`,
     '  set yExpectedFullName to yFile as text',
     `  set yExpectedName to ${appleText(expectedName)}`,
@@ -2520,6 +3015,21 @@ export function buildWordScript({ sourcePath, returnedPath, artifactReturnedPath
     '  set yDocWasOpened to true',
     '  my yCheckpoint(yCheckpointPath, "FINAL_REOPEN_AFTER", "")',
     '  set yReadback to content of text object of yDoc',
+    ...(visibleReadbackPath ? [
+      `  set yVisibleReadbackFile to open for access POSIX file ${appleText(visibleReadbackPath)} with write permission`,
+      '  try',
+      '    set eof yVisibleReadbackFile to 0',
+      '    write yReadback to yVisibleReadbackFile as «class utf8»',
+      '  on error yVisibleErrMsg number yVisibleErrNo',
+      '    try',
+      '      close access yVisibleReadbackFile',
+      '    end try',
+      '    error yVisibleErrMsg number yVisibleErrNo',
+      '  end try',
+      '  close access yVisibleReadbackFile',
+      '  do shell script "/bin/sync"',
+      '  my yCheckpoint(yCheckpointPath, "NATIVE_VISIBLE_READBACK_WRITTEN", ' + appleText(visibleReadbackPath) + ')',
+    ] : []),
     '  set yRevisionCount to count of revisions of yDoc',
     '  set yCommentCount to 0',
     '  repeat with yCommentIndex from 1 to 1000',
@@ -2530,6 +3040,12 @@ export function buildWordScript({ sourcePath, returnedPath, artifactReturnedPath
     '      exit repeat',
     '    end try',
     '  end repeat',
+    minimumNativeRevisionCount === expectedNativeRevisionCount
+      ? `  if yRevisionCount is not ${expectedNativeRevisionCount} then error "FINAL_NATIVE_REVISION_COUNT_MISMATCH:" & yRevisionCount & ":${expectedNativeRevisionCount}" number 9747`
+      : `  if yRevisionCount is less than ${minimumNativeRevisionCount} or yRevisionCount is greater than ${expectedNativeRevisionCount} then error "FINAL_NATIVE_REVISION_COUNT_OUTSIDE_COALESCING_RANGE:" & yRevisionCount & ":${minimumNativeRevisionCount}:${expectedNativeRevisionCount}" number 9747`,
+    `  if yCommentCount is not ${expectedRootMarkers.length} then error "FINAL_NATIVE_ROOT_COUNT_MISMATCH:" & yCommentCount & ":${expectedRootMarkers.length}" number 9748`,
+    `  my yVerifyNativeRootMarkers(yDoc, ${appleList(expectedRootMarkers)})`,
+    wordSemanticReadbackLines(ledger),
     '  my yCheckpoint(yCheckpointPath, "FINAL_SEMANTIC_READBACK", "REVISION_COUNT:" & yRevisionCount & ":COMMENT_COUNT:" & yCommentCount)',
     '  close yDoc saving no',
     '  set yDocWasOpened to false',
@@ -2542,7 +3058,7 @@ export function buildWordScript({ sourcePath, returnedPath, artifactReturnedPath
     '  set user name to oldUserName',
     '  set user initials to oldUserInitials',
     '  set display alerts to oldAlerts',
-    '  return "WORD_STATUS=PASS" & linefeed & "REVISION_COUNT=" & yRevisionCount & linefeed & "COMMENT_COUNT=" & yCommentCount & linefeed & "READBACK_CHARS=" & (count of yReadback) & linefeed & yOpsDone & "UI_DIAGNOSTICS_BEGIN" & linefeed & yUiDiagnostics & "UI_DIAGNOSTICS_END" & linefeed & "LIMITATIONS_BEGIN" & linefeed & yLimitations & "LIMITATIONS_END"',
+    '  return "WORD_STATUS=PASS" & linefeed & "REVISION_COUNT=" & yRevisionCount & linefeed & "COMMENT_COUNT=" & yCommentCount & linefeed & "READBACK_CHARS=" & (count of yReadback) & linefeed & yOpsDone & yNativeReadback & "UI_DIAGNOSTICS_BEGIN" & linefeed & yUiDiagnostics & "UI_DIAGNOSTICS_END" & linefeed & "LIMITATIONS_BEGIN" & linefeed & yLimitations & "LIMITATIONS_END"',
     'on error errMsg number errNo',
     '  try',
     '    my yCheckpoint(yCheckpointPath, "CANARY_ERROR", (errNo as text) & "|" & errMsg)',
@@ -2571,6 +3087,137 @@ export function runAppleScript(scriptText, scriptPath) {
   });
 }
 
+function nativeRevisionCountForOperations(operations) {
+  return (Array.isArray(operations) ? operations : []).reduce((count, operation) => (
+    count + (['tracked_replace', 'tracked_insert'].includes(operation.family) ? 2 : operation.family === 'tracked_delete' ? 1 : 0)
+  ), 0);
+}
+
+export function buildWordLedgerChunkPlan(ledger, chunkSize = 48) {
+  const ordered = orderWordOperations(ledger?.operations || []);
+  const size = Number.isSafeInteger(chunkSize) && chunkSize > 0 ? chunkSize : 48;
+  const chunks = [];
+  for (let start = 0; start < ordered.length; start += size) {
+    const operations = ordered.slice(start, start + size);
+    const completed = ordered.slice(0, start + operations.length);
+    const completedTracked = completed.filter((operation) => (
+      ['tracked_replace', 'tracked_insert', 'tracked_delete'].includes(operation.family)
+    ));
+    const minimumNativeRevisionCount = new Set(completedTracked.map((operation) => {
+      const anchor = operation.masterAnchor || {};
+      if (anchor.paragraphId) return `${operation.sceneId}|${anchor.paragraphId}`;
+      return `${operation.sceneId || ''}|${operation.wordRange?.start || operation.id}`;
+    })).size;
+    chunks.push({
+      chunkIndex: chunks.length,
+      chunkId: `word-chunk-${String(chunks.length + 1).padStart(3, '0')}`,
+      operations,
+      completedOperationIds: completed.map((operation) => operation.id),
+      expectedNativeRevisionCount: nativeRevisionCountForOperations(completed),
+      minimumNativeRevisionCount,
+      expectedRootMarkers: completed
+        .filter((operation) => operation.family === 'root_comment')
+        .map((operation) => `C5V2 root ${operation.id}`),
+    });
+  }
+  return chunks;
+}
+
+export function runWordLedgerInChunks({
+  sourcePath,
+  returnedPath,
+  artifactReturnedPath,
+  ledger,
+  evidenceDir,
+  chunkSize = 48,
+}) {
+  const chunks = buildWordLedgerChunkPlan(ledger, chunkSize);
+  const outputs = [];
+  const ledgerDigest = ledger.masterLedgerDigest
+    || ledger.ledgerDigest
+    || sha256Text(stableCanonicalJson(ledger.operations || []));
+  let firstPendingChunkIndex = 0;
+  let resumeSnapshot = null;
+  for (const chunk of chunks) {
+    const checkpointPath = path.join(evidenceDir, `${chunk.chunkId}.checkpoint.json`);
+    if (!fs.existsSync(checkpointPath)) break;
+    const checkpoint = JSON.parse(fs.readFileSync(checkpointPath, 'utf8'));
+    const expectedCompletedIds = chunk.completedOperationIds;
+    const snapshot = checkpoint?.returnedArtifactSnapshot;
+    const valid = checkpoint?.schemaVersion === 'yalken.rtk.word.c5v2.word-chunk-checkpoint.v1'
+      && checkpoint?.ledgerDigest === ledgerDigest
+      && JSON.stringify(checkpoint?.completedOperationIds || []) === JSON.stringify(expectedCompletedIds)
+      && typeof checkpoint?.wordOutput === 'string'
+      && snapshot
+      && typeof snapshot.path === 'string'
+      && fs.existsSync(snapshot.path)
+      && sha256File(snapshot.path) === snapshot.sha256;
+    if (!valid) throw new Error(`C5V2_WORD_CHUNK_RESUME_CHECKPOINT_INVALID:${chunk.chunkId}`);
+    outputs.push(checkpoint.wordOutput);
+    firstPendingChunkIndex = chunk.chunkIndex + 1;
+    resumeSnapshot = snapshot;
+  }
+  if (firstPendingChunkIndex < chunks.length) {
+    const laterCheckpoint = chunks.slice(firstPendingChunkIndex + 1)
+      .find((chunk) => fs.existsSync(path.join(evidenceDir, `${chunk.chunkId}.checkpoint.json`)));
+    if (laterCheckpoint) throw new Error(`C5V2_WORD_CHUNK_RESUME_GAP:${laterCheckpoint.chunkId}`);
+  }
+  if (resumeSnapshot) {
+    copyFileAtomicDurable(resumeSnapshot.path, artifactReturnedPath);
+    copyFileAtomicDurable(resumeSnapshot.path, returnedPath);
+  }
+  for (const chunk of chunks.slice(firstPendingChunkIndex)) {
+    const chunkLedger = { ...ledger, operations: chunk.operations, operationCount: chunk.operations.length };
+    const scriptPath = path.join(evidenceDir, `${chunk.chunkId}.applescript`);
+    const output = runAppleScript(buildWordScript({
+      sourcePath,
+      returnedPath,
+      artifactReturnedPath,
+      ledger: chunkLedger,
+      initializeFromSource: chunk.chunkIndex === 0 && firstPendingChunkIndex === 0,
+      resetCheckpoint: chunk.chunkIndex === 0 && firstPendingChunkIndex === 0,
+      expectedNativeRevisionCount: chunk.expectedNativeRevisionCount,
+      minimumNativeRevisionCount: chunk.minimumNativeRevisionCount,
+      expectedRootMarkers: chunk.expectedRootMarkers,
+      chunkId: chunk.chunkId,
+      visibleReadbackPath: chunk.chunkIndex === chunks.length - 1
+        ? `${artifactReturnedPath}.word-visible-readback.txt`
+        : '',
+    }), scriptPath);
+    const parsed = parseWordOutput(output);
+    if (parsed.scalars.WORD_STATUS !== 'PASS') {
+      throw new Error(`C5V2_WORD_CHUNK_FAILED:${chunk.chunkId}:${output}`);
+    }
+    outputs.push(output);
+    const returnedArtifactSnapshot = copyFileAtomicDurable(
+      artifactReturnedPath,
+      path.join(evidenceDir, `${chunk.chunkId}.returned.docx`),
+    );
+    writeJsonAtomicDurable(path.join(evidenceDir, `${chunk.chunkId}.checkpoint.json`), {
+      schemaVersion: 'yalken.rtk.word.c5v2.word-chunk-checkpoint.v1',
+      chunkId: chunk.chunkId,
+      chunkIndex: chunk.chunkIndex,
+      headSha: shellValue('git', ['rev-parse', 'HEAD']),
+      ledgerDigest,
+      chunkOperationIds: chunk.operations.map((operation) => operation.id),
+      completedOperationIds: chunk.completedOperationIds,
+      expectedNativeRevisionCount: chunk.expectedNativeRevisionCount,
+      minimumNativeRevisionCount: chunk.minimumNativeRevisionCount,
+      expectedRootCommentCount: chunk.expectedRootMarkers.length,
+      returnedArtifactSha256: fs.existsSync(artifactReturnedPath) ? sha256File(artifactReturnedPath) : '',
+      returnedArtifactSnapshot,
+      outputSha256: sha256Text(output),
+      wordOutput: output,
+      requestEffectKeys: chunk.operations.map((operation) => ({
+        operationId: operation.id,
+        requestKey: `${chunk.chunkId}:${operation.id}`,
+        effectKey: `${ledgerDigest}:${operation.id}`,
+      })),
+    });
+  }
+  return outputs.join('\n');
+}
+
 export function readWordPhaseCheckpoint(returnedPath) {
   const checkpointPath = `${returnedPath}.phase.log`;
   if (!fs.existsSync(checkpointPath)) return { present: false, entries: [], lastPhase: '' };
@@ -2582,6 +3229,7 @@ export function readWordPhaseCheckpoint(returnedPath) {
 export function parseWordOutput(output) {
   const lines = String(output || '').split(/\r?\n/u).map((line) => line.trim()).filter(Boolean);
   const ops = [];
+  const readbacks = [];
   const scalars = {};
   const limitations = [];
   const uiDiagnostics = [];
@@ -2617,10 +3265,15 @@ export function parseWordOutput(output) {
       ops.push({ id, status });
       continue;
     }
+    if (line.startsWith('READBACK|')) {
+      const [, id = '', status = '', ...detailParts] = line.split('|');
+      readbacks.push({ id, status, detail: detailParts.join('|') });
+      continue;
+    }
     const eq = line.indexOf('=');
     if (eq > 0) scalars[line.slice(0, eq)] = line.slice(eq + 1);
   }
-  return { scalars, ops, limitations, uiDiagnostics };
+  return { scalars, ops, readbacks, limitations, uiDiagnostics };
 }
 
 function xmlAttribute(attributes, localName) {
@@ -2654,7 +3307,24 @@ export function inspectNativeCommentLifecycleXml({ commentsXml = '', commentsExt
 
 export function verifyNativeCommentLifecycleSemantics({ ledger, snapshotXmlByOperationId = {} } = {}) {
   const operations = Array.isArray(ledger?.operations) ? ledger.operations : [];
-  const lifecycleOperations = operations.filter((item) => ['reply_attempt', 'state_attempt'].includes(item.family));
+  const allLifecycleOperations = operations.filter((item) => ['reply_attempt', 'state_attempt'].includes(item.family));
+  const typedLimitOperations = allLifecycleOperations.filter((item) => item.physicalAction === 'typed-limit');
+  const lifecycleOperations = allLifecycleOperations.filter((item) => item.physicalAction !== 'typed-limit');
+  const typedResults = typedLimitOperations.map((operation) => ({
+    operationId: operation.id,
+    status: operation.expectedOutcome === 'BLOCKED' ? 'BLOCKED' : 'MANUAL',
+    reason: 'PHYSICALLY_UNSUPPORTED_TYPED_OUTCOME',
+  }));
+  if (allLifecycleOperations.length > 0 && lifecycleOperations.length === 0) {
+    return {
+      ok: true,
+      notApplicable: false,
+      typedLimitOnly: true,
+      results: typedResults,
+      verifiedCount: 0,
+      blockedCount: typedResults.length,
+    };
+  }
   if (lifecycleOperations.length === 0) {
     return {
       ok: true,
@@ -2664,7 +3334,7 @@ export function verifyNativeCommentLifecycleSemantics({ ledger, snapshotXmlByOpe
       blockedCount: 0,
     };
   }
-  const results = [];
+  const results = [...typedResults];
   for (const operation of lifecycleOperations) {
     const snapshot = snapshotXmlByOperationId[operation.id] || {};
     const graph = inspectNativeCommentLifecycleXml(snapshot);
@@ -2707,7 +3377,9 @@ export function verifyNativeCommentLifecycleSemantics({ ledger, snapshotXmlByOpe
     });
   }
   return {
-    ok: results.length > 0 && results.every((result) => result.status === 'SAFE_APPLY'),
+    ok: lifecycleOperations.length > 0 && results
+      .filter((result) => !typedResults.includes(result))
+      .every((result) => result.status === 'SAFE_APPLY'),
     results,
     verifiedCount: results.filter((result) => result.status === 'SAFE_APPLY').length,
     blockedCount: results.filter((result) => result.status !== 'SAFE_APPLY').length,
@@ -2762,65 +3434,458 @@ export function packageSummary(docxPath) {
   };
 }
 
-export function buildOracleProbe({ ledger, wordParsed }) {
-  const opStatus = new Map(wordParsed.ops.map((op) => [op.id, op.status]));
-  const sampled = ledger.operations
-    .filter((operation) => ['tracked_replace', 'root_comment', 'formatting', 'structural'].includes(operation.family))
-    .slice(0, 12)
-    .map((operation) => ({
-      id: operation.id,
-      family: operation.family === 'tracked_replace' ? 'tracked_text_edit' : operation.family,
-      expectedOutcome: opStatus.get(operation.id) === 'SAFE_APPLY' ? 'SAFE_APPLY' : 'BLOCKED',
-      anchor: {
-        sceneId: operation.sceneId,
-        paragraphId: operation.family === 'structural'
-          ? `structural-paragraph-${operation.structuralParagraphScope?.start}-${operation.structuralParagraphScope?.end}`
-          : `canary-${operation.band}`,
-        graphemeStart: 0,
-        graphemeEnd: operation.family === 'structural'
-          ? String(operation.structuralParagraphScope?.selectedText || '').length
-          : operation.quote.length,
-        selectedText: operation.family === 'structural'
-          ? operation.structuralParagraphScope?.selectedText || operation.quote
-          : operation.quote,
-        contextBefore: (operation.family === 'structural'
-          ? operation.structuralParagraphScope?.selectedText || operation.quote
-          : operation.quote).slice(0, 16),
-        contextAfter: (operation.family === 'structural'
-          ? operation.structuralParagraphScope?.selectedText || operation.quote
-          : operation.quote).slice(-16),
-        baselineHash: sha256Text(operation.family === 'structural'
-          ? operation.structuralParagraphScope?.selectedText || operation.quote
-          : operation.quote),
+function readDocxPart(docxPath, partName, optional = false) {
+  try {
+    return execFileSync('/usr/bin/unzip', ['-p', docxPath, partName], {
+      cwd: REPO_ROOT,
+      encoding: 'utf8',
+      timeout: 60_000,
+      maxBuffer: 256 * 1024 * 1024,
+      stdio: ['ignore', 'pipe', 'pipe'],
+    });
+  } catch (error) {
+    if (optional) return '';
+    throw new Error(`C5V2_ORACLE_DOCX_PART_UNAVAILABLE:${partName}:${error.status || error.signal || 'ERR'}`);
+  }
+}
+
+function xmlRunText(value, includeDeleted = false) {
+  const tag = includeDeleted ? '(?:t|delText)' : 't';
+  return [...String(value || '').matchAll(new RegExp(`<w:${tag}(?:\\s[^>]*)?>([\\s\\S]*?)<\\/w:${tag}>`, 'gu'))]
+    .map((match) => decodeXmlText(match[1]))
+    .join('');
+}
+
+function docxParagraphRecords(documentXml) {
+  return [...String(documentXml || '').matchAll(/<w:p\b[\s\S]*?<\/w:p>/gu)].map((match, paragraphOrdinal) => {
+    const paragraphXml = match[0];
+    let cursor = 0;
+    const runs = [...paragraphXml.matchAll(/<w:r\b[\s\S]*?<\/w:r>/gu)].map((runMatch) => {
+      const runXml = runMatch[0];
+      const text = xmlRunText(runXml);
+      const start = cursor;
+      cursor += text.length;
+      return {
+        text,
+        start,
+        end: cursor,
+        bold: /<w:b(?:\s[^>]*)?\/?\s*>/u.test(runXml) && !/<w:b\b[^>]*w:val="(?:0|false|off)"/u.test(runXml),
+        italic: /<w:i(?:\s[^>]*)?\/?\s*>/u.test(runXml) && !/<w:i\b[^>]*w:val="(?:0|false|off)"/u.test(runXml),
+      };
+    });
+    const text = runs.map((run) => run.text).join('');
+    const outlineMatch = paragraphXml.match(/<w:outlineLvl\b[^>]*w:val="(\d+)"/u);
+    const styleMatch = paragraphXml.match(/<w:pStyle\b[^>]*w:val="([^"]+)"/u);
+    return {
+      paragraphOrdinal,
+      xml: paragraphXml,
+      text,
+      runs,
+      outlineLevel: outlineMatch ? Number.parseInt(outlineMatch[1], 10) + 1 : 0,
+      style: styleMatch ? styleMatch[1] : '',
+    };
+  });
+}
+
+function docxCommentRecords(commentsXml) {
+  return [...String(commentsXml || '').matchAll(/<w:comment\b([^>]*)>([\s\S]*?)<\/w:comment>/gu)].map((match) => ({
+    commentId: xmlAttribute(match[1], 'id'),
+    body: xmlRunText(match[2]),
+  }));
+}
+
+function stableCanonicalJson(value) {
+  if (Array.isArray(value)) return `[${value.map(stableCanonicalJson).join(',')}]`;
+  if (value && typeof value === 'object') {
+    return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${stableCanonicalJson(value[key])}`).join(',')}}`;
+  }
+  return JSON.stringify(value);
+}
+
+function verifyDocxFormattingEvidence(paragraphs, operation) {
+  const locator = operation.locatorQuote || operation.quote;
+  const matches = paragraphs.filter((paragraph) => paragraph.text.includes(locator));
+  if (matches.length !== 1) return { ok: false, reason: `LOCATOR_PARAGRAPH_COUNT:${matches.length}` };
+  const paragraph = matches[0];
+  const locatorStart = paragraph.text.indexOf(locator);
+  const start = locatorStart + (Number.isSafeInteger(operation.locatorSelectionStart) ? operation.locatorSelectionStart : 0);
+  const end = start + String(operation.quote || '').length;
+  if (paragraph.text.slice(start, end) !== operation.quote) return { ok: false, reason: 'SELECTED_TEXT_MISMATCH' };
+  const overlappingRuns = paragraph.runs.filter((run) => run.text && start < run.end && end > run.start);
+  const mark = operation.formattingKind === 'italic' ? 'italic' : 'bold';
+  return {
+    ok: overlappingRuns.length > 0 && overlappingRuns.every((run) => run[mark] === true),
+    reason: overlappingRuns.length > 0 ? `${mark.toUpperCase()}_RUN_READBACK` : 'NO_OVERLAPPING_RUN',
+    paragraphOrdinal: paragraph.paragraphOrdinal,
+  };
+}
+
+function verifyDocxStructuralEvidence(paragraphs, operation) {
+  const locator = operation.locatorQuote || operation.quote;
+  const matches = paragraphs.filter((paragraph) => paragraph.text.includes(locator));
+  if (matches.length !== 1) return { ok: false, reason: `LOCATOR_PARAGRAPH_COUNT:${matches.length}` };
+  const paragraph = matches[0];
+  const expectedLevel = Number(operation.headingLevel || 2);
+  const styleLevelMatch = String(paragraph.style || '').match(/(?:Heading|heading)([1-6])/u);
+  const styleLevel = styleLevelMatch ? Number.parseInt(styleLevelMatch[1], 10) : 0;
+  return {
+    ok: paragraph.outlineLevel === expectedLevel || styleLevel === expectedLevel,
+    reason: 'OOXML_HEADING_LEVEL_READBACK',
+    paragraphOrdinal: paragraph.paragraphOrdinal,
+    outlineLevel: paragraph.outlineLevel,
+    style: paragraph.style,
+  };
+}
+
+function richBlockMarkGreen(block, start, end, markType) {
+  if (!block?.node || !Number.isInteger(start) || !Number.isInteger(end) || end <= start) return false;
+  let cursor = 0;
+  let overlapCount = 0;
+  let allMarked = true;
+  const visit = (node) => {
+    if (!node || typeof node !== 'object') return;
+    if (node.type === 'text') {
+      const parts = graphemeParts(node.text || '');
+      const nodeStart = cursor;
+      const nodeEnd = cursor + parts.length;
+      if (start < nodeEnd && end > nodeStart) {
+        overlapCount += 1;
+        const marks = Array.isArray(node.marks) ? node.marks : [];
+        if (!marks.some((mark) => mark?.type === markType)) allMarked = false;
+      }
+      cursor = nodeEnd;
+      return;
+    }
+    if (node.type === 'hardBreak') {
+      cursor += 1;
+      return;
+    }
+    for (const child of (Array.isArray(node.content) ? node.content : [])) visit(child);
+  };
+  visit(block.node);
+  return overlapCount > 0 && allMarked;
+}
+
+function buildExpectedSceneParagraphs(baselineScene, operations) {
+  const paragraphs = (Array.isArray(baselineScene?.paragraphs) ? baselineScene.paragraphs : []).slice();
+  const byParagraph = new Map();
+  for (const operation of operations.filter((item) => (
+    ['tracked_replace', 'tracked_insert', 'tracked_delete'].includes(item.family)
+    && item.expectedOutcome === 'EXACT'
+  ))) {
+    const ordinal = operation.masterAnchor?.paragraphOrdinal;
+    if (!Number.isInteger(ordinal) || typeof paragraphs[ordinal] !== 'string') {
+      return { ok: false, reason: `BASELINE_PARAGRAPH_MISSING:${operation.id}`, paragraphs };
+    }
+    if (!byParagraph.has(ordinal)) byParagraph.set(ordinal, []);
+    byParagraph.get(ordinal).push(operation);
+  }
+  for (const [ordinal, paragraphOperations] of byParagraph.entries()) {
+    let parts = graphemeParts(paragraphs[ordinal]);
+    for (const operation of paragraphOperations.slice().sort((left, right) => (
+      right.masterAnchor.graphemeStart - left.masterAnchor.graphemeStart
+    ))) {
+      const start = operation.masterAnchor.graphemeStart;
+      const end = operation.masterAnchor.graphemeEnd;
+      if (parts.slice(start, end).join('') !== operation.quote) {
+        return { ok: false, reason: `BASELINE_ANCHOR_STALE:${operation.id}`, paragraphs };
+      }
+      const replacement = operation.family === 'tracked_delete'
+        ? ''
+        : operation.family === 'tracked_insert'
+          ? `${operation.replacementText} ${operation.quote}`
+          : operation.replacementText;
+      parts.splice(start, end - start, ...graphemeParts(replacement));
+    }
+    paragraphs[ordinal] = parts.join('');
+  }
+  return { ok: true, reason: 'EXPECTED_SCENE_PARAGRAPHS_COMPUTED', paragraphs };
+}
+
+function oracleSemantics(operation, commentThreadId = '') {
+  if (operation.formalFamily === 'tracked_text_edit') {
+    return { textSemantics: { kind: operation.semanticIntent?.kind || '', replacementText: operation.replacementText || '' } };
+  }
+  if (['root_comment', 'reply', 'comment_state'].includes(operation.formalFamily)) {
+    return {
+      commentSemantics: {
+        threadId: commentThreadId || operation.targetRootOperationId || '',
+        state: operation.formalFamily === 'root_comment' ? 'open' : 'typed-limit-no-native-mutation',
       },
-      semanticIntent: operation.family === 'tracked_replace'
-        ? { kind: 'replace', replacementText: operation.replacementText }
-        : operation.family === 'root_comment'
-          ? { kind: 'root-comment' }
-          : operation.family === 'structural'
-            ? { kind: 'setNodeType', nodeType: 'heading', headingLevel: 2 }
-            : { kind: 'bold' },
-    }));
-  const operationsById = {};
-  for (const operation of sampled) {
-    const extra = operation.family === 'tracked_text_edit'
-      ? { textSemantics: { kind: operation.semanticIntent.kind, replacementText: operation.semanticIntent.replacementText } }
-      : operation.family === 'root_comment'
-        ? { commentSemantics: { threadId: `thread-${operation.id}`, state: 'open' } }
-        : operation.family === 'structural'
-          ? { structuralSemantics: { kind: operation.semanticIntent.kind, nodeType: operation.semanticIntent.nodeType, headingLevel: operation.semanticIntent.headingLevel } }
-          : { formattingSemantics: { kind: operation.semanticIntent.kind, effective: true } };
-    operationsById[operation.id] = {
-      outcome: operation.expectedOutcome,
-      anchor: operation.anchor,
-      ...extra,
     };
   }
-  return validateC5V2SemanticOracle({
-    operations: sampled,
-    wordReadback: { sourceKind: 'word-object-model', operationsById },
-    yalkenTruth: { sourceKind: 'reopened-yalken-project', operationsById },
+  if (operation.formalFamily === 'formatting') {
+    return { formattingSemantics: { kind: operation.formattingKind || operation.semanticIntent?.kind || '', effective: true } };
+  }
+  if (operation.formalFamily === 'structural') {
+    return {
+      structuralSemantics: { kind: operation.semanticIntent.kind,
+        nodeType: 'heading',
+        headingLevel: Number(operation.headingLevel || 2),
+      },
+    };
+  }
+  return {};
+}
+
+function buildLegacyBoundedOracleProbe({ ledger, wordParsed }) {
+  const eligible = (ledger?.operations || []).filter((operation) => (
+    ['tracked_replace', 'tracked_insert', 'tracked_delete', 'root_comment', 'formatting', 'structural'].includes(operation.family)
+  ));
+  const statusById = new Map((wordParsed?.ops || []).map((row) => [row.id, row.status]));
+  const results = eligible.map((operation) => {
+    const expected = operation.expectedOutcome || (
+      ['tracked_replace', 'tracked_delete'].includes(operation.family) ? 'EXACT' : 'SAFE_APPLY'
+    );
+    return {
+      operationId: operation.id,
+      expectedOutcome: expected,
+      reportedStatus: statusById.get(operation.id) || '',
+      green: statusById.get(operation.id) === expected,
+    };
   });
+  return {
+    schemaVersion: 'yalken.rtk.word.c5v2.legacy-bounded-oracle.v1',
+    ok: results.length > 0 && results.every((result) => result.green),
+    nonCertificationBoundedLegacyRoute: true,
+    operationCount: results.length,
+    operationResults: results,
+    oracleDigest: sha256Text(stableCanonicalJson(results)),
+  };
+}
+
+export function buildOracleProbe({
+  ledger,
+  wordParsed,
+  returnedDocxPath,
+  wordVisibleReadbackPath,
+  baselineArtifactPath,
+  yalkenTruthPath,
+  returnApply = {},
+}) {
+  if (ledger?.schemaVersion !== 'yalken.rtk.word.c5v2.physical-master-round-ledger.v1') {
+    return buildLegacyBoundedOracleProbe({ ledger, wordParsed });
+  }
+  const operations = Array.isArray(ledger?.operations) ? ledger.operations : [];
+  const documentXml = returnedDocxPath ? readDocxPart(returnedDocxPath, 'word/document.xml') : '';
+  const commentsXml = returnedDocxPath ? readDocxPart(returnedDocxPath, 'word/comments.xml', true) : '';
+  const paragraphs = docxParagraphRecords(documentXml);
+  const comments = docxCommentRecords(commentsXml);
+  const insertedText = [...documentXml.matchAll(/<w:ins\b[\s\S]*?<\/w:ins>/gu)].map((match) => xmlRunText(match[0])).join('');
+  const deletedText = [...documentXml.matchAll(/<w:del\b[\s\S]*?<\/w:del>/gu)].map((match) => xmlRunText(match[0], true)).join('');
+  const nativeVisibleReadback = wordVisibleReadbackPath && fs.existsSync(wordVisibleReadbackPath)
+    ? fs.readFileSync(wordVisibleReadbackPath, 'utf8')
+    : '';
+  const wordStatusRows = Array.isArray(wordParsed?.ops) ? wordParsed.ops : [];
+  const wordReadbackRows = Array.isArray(wordParsed?.readbacks) ? wordParsed.readbacks : [];
+  const statusById = new Map(wordStatusRows.map((row) => [row.id, row.status]));
+  const readbackById = new Map(wordReadbackRows.map((row) => [row.id, row]));
+  const baselineArtifact = baselineArtifactPath && fs.existsSync(baselineArtifactPath)
+    ? JSON.parse(fs.readFileSync(baselineArtifactPath, 'utf8'))
+    : null;
+  const truthArtifact = yalkenTruthPath && fs.existsSync(yalkenTruthPath)
+    ? JSON.parse(fs.readFileSync(yalkenTruthPath, 'utf8'))
+    : null;
+  const baselineByScene = new Map((baselineArtifact?.scenes || []).map((scene) => [scene.sceneId, scene]));
+  const truthByScene = new Map((truthArtifact?.sceneReadback || []).map((scene) => {
+    const authority = readProductSceneAuthority(scene.rawContent || '');
+    return [scene.sceneId, { ...scene, authority }];
+  }));
+  const expectedSceneById = new Map();
+  for (const [sceneId, baselineScene] of baselineByScene.entries()) {
+    expectedSceneById.set(sceneId, buildExpectedSceneParagraphs(
+      baselineScene,
+      operations.filter((operation) => operation.sceneId === sceneId),
+    ));
+  }
+  const productSceneGreenById = new Map();
+  for (const [sceneId, expected] of expectedSceneById.entries()) {
+    const truth = truthByScene.get(sceneId);
+    productSceneGreenById.set(sceneId, Boolean(
+      expected?.ok === true
+      && truth
+      && JSON.stringify(truth.authority.paragraphs) === JSON.stringify(expected.paragraphs)
+    ));
+  }
+  const activation = returnApply?.activation || {};
+  const threadDiagnostics = Array.isArray(activation.commentThreadDiagnostics) ? activation.commentThreadDiagnostics : [];
+  const placementDiagnostics = Array.isArray(activation.commentPlacementDiagnostics) ? activation.commentPlacementDiagnostics : [];
+  const commentPath = activation.commentProductPath || {};
+  const returnedArtifactId = activation.returnIntake?.returnedArtifactSha256 || '';
+  const applyReceipts = Array.isArray(commentPath.applyReceipts) ? commentPath.applyReceipts : [];
+  const replayReceipts = Array.isArray(commentPath.replayReceipts) ? commentPath.replayReceipts : [];
+  const formalOperations = [];
+  const wordOperationsById = {};
+  const yalkenOperationsById = {};
+  const operationResults = [];
+  for (const operation of operations) {
+    const expectedOutcome = operation.expectedOutcome || 'SAFE_APPLY';
+    const anchor = operation.masterAnchor || {};
+    const formalOperation = {
+      id: operation.id,
+      family: operation.formalFamily || operation.family,
+      expectedOutcome,
+      anchor,
+      semanticIntent: operation.semanticIntent || {},
+    };
+    formalOperations.push(formalOperation);
+    const reportedStatus = statusById.get(operation.id) || '';
+    const nativeReadback = readbackById.get(operation.id) || null;
+    const expectedReported = reportedStatus === expectedOutcome && nativeReadback?.status === expectedOutcome;
+    let wordRawGreen = false;
+    let wordEvidence = {};
+    let yalkenGreen = productSceneGreenById.get(operation.sceneId) === true;
+    let yalkenEvidence = { sceneParagraphsExact: yalkenGreen };
+    let commentThreadId = '';
+    if (operation.formalFamily === 'tracked_text_edit') {
+      const replacementPresent = operation.family === 'tracked_delete' || insertedText.includes(operation.replacementText || '');
+      const sourcePresent = operation.family === 'tracked_insert' || deletedText.includes(operation.quote || '');
+      const nativeVisibleReplacementPresent = operation.family === 'tracked_delete'
+        || nativeVisibleReadback.includes(operation.replacementText || '');
+      wordRawGreen = replacementPresent && sourcePresent && nativeVisibleReplacementPresent;
+      wordEvidence = {
+        replacementPresent,
+        sourcePresent,
+        nativeVisibleReplacementPresent,
+        sourceKind: 'raw-ooxml-revisions-plus-word-object-model-visible-snapshot',
+      };
+    } else if (operation.formalFamily === 'root_comment') {
+      const marker = `C5V2 root ${operation.id}`;
+      const nativeComments = comments.filter((comment) => comment.body.includes(marker));
+      const nativeComment = nativeComments[0] || null;
+      const rangeStartCount = nativeComment
+        ? (documentXml.match(new RegExp(`<w:commentRangeStart\\b[^>]*w:id="${nativeComment.commentId}"`, 'gu')) || []).length
+        : 0;
+      const rangeEndCount = nativeComment
+        ? (documentXml.match(new RegExp(`<w:commentRangeEnd\\b[^>]*w:id="${nativeComment.commentId}"`, 'gu')) || []).length
+        : 0;
+      wordRawGreen = nativeComments.length === 1 && rangeStartCount === 1 && rangeEndCount === 1;
+      const threadMatches = threadDiagnostics.filter((thread) => (
+        (thread.messages || []).some((message) => message.body === marker)
+      ));
+      const thread = threadMatches[0] || null;
+      commentThreadId = thread?.threadId || '';
+      const placementMatches = placementDiagnostics.filter((placement) => placement.threadId === commentThreadId);
+      const placement = placementMatches[0] || null;
+      const sceneId = placement?.targetScope?.id || thread?.targetScope?.id || thread?.sceneId || '';
+      const selectedText = placement?.quote || '';
+      const expectedReceiptId = commentThreadId && sceneId && selectedText
+        ? `physical-root:${sha256Bytes(Buffer.from(stableCanonicalJson({
+            returnArtifactId: returnedArtifactId,
+            threadId: commentThreadId,
+            sceneId,
+            selectedText,
+            rootBody: marker,
+          }), 'utf8'))}`
+        : '';
+      const applyReceipt = applyReceipts.find((receipt) => receipt.operationId === expectedReceiptId);
+      const replayReceipt = replayReceipts.find((receipt) => receipt.operationId === expectedReceiptId);
+      yalkenGreen = yalkenGreen
+        && threadMatches.length === 1
+        && placementMatches.length === 1
+        && sceneId === operation.sceneId
+        && selectedText === operation.quote
+        && applyReceipt?.ok === true
+        && applyReceipt?.status === 'applied'
+        && applyReceipt?.recoveryWritten === true
+        && replayReceipt?.ok === true
+        && replayReceipt?.status === 'replay'
+        && applyReceipt?.canonicalDigest
+        && replayReceipt?.canonicalDigest === applyReceipt.canonicalDigest;
+      wordEvidence = { marker, nativeCommentCount: nativeComments.length, rangeStartCount, rangeEndCount };
+      yalkenEvidence = {
+        ...yalkenEvidence,
+        threadMatchCount: threadMatches.length,
+        placementMatchCount: placementMatches.length,
+        expectedReceiptId,
+        applyReceiptGreen: applyReceipt?.ok === true && applyReceipt?.status === 'applied',
+        replayReceiptGreen: replayReceipt?.ok === true && replayReceipt?.status === 'replay',
+        canonicalDigest: applyReceipt?.canonicalDigest || '',
+      };
+    } else if (['reply', 'comment_state'].includes(operation.formalFamily)) {
+      const replyMarker = `C5V2 reply ${operation.id}`;
+      const nativeMutationAbsent = !comments.some((comment) => comment.body.includes(replyMarker));
+      wordRawGreen = nativeMutationAbsent;
+      yalkenGreen = yalkenGreen
+        && nativeMutationAbsent
+        && Number(commentPath.semanticOracle?.lifecycleApplied || 0) === 0;
+      wordEvidence = { nativeMutationAbsent, typedLimit: true };
+      yalkenEvidence = { ...yalkenEvidence, lifecycleApplied: Number(commentPath.semanticOracle?.lifecycleApplied || 0), typedLimit: true };
+    } else if (operation.formalFamily === 'formatting') {
+      const formatting = verifyDocxFormattingEvidence(paragraphs, operation);
+      wordRawGreen = formatting.ok === true;
+      const truth = truthByScene.get(operation.sceneId);
+      const block = truth?.authority?.blocks?.[operation.masterAnchor?.paragraphOrdinal];
+      const richMarkGreen = richBlockMarkGreen(
+        block,
+        operation.masterAnchor?.graphemeStart,
+        operation.masterAnchor?.graphemeEnd,
+        operation.formattingKind === 'italic' ? 'italic' : 'bold',
+      );
+      yalkenGreen = yalkenGreen && richMarkGreen;
+      wordEvidence = formatting;
+      yalkenEvidence = { ...yalkenEvidence, richMarkGreen };
+    } else if (operation.formalFamily === 'structural') {
+      const structural = verifyDocxStructuralEvidence(paragraphs, operation);
+      wordRawGreen = structural.ok === true;
+      const truth = truthByScene.get(operation.sceneId);
+      const block = truth?.authority?.blocks?.[operation.masterAnchor?.paragraphOrdinal];
+      const structureGreen = block?.type === 'heading' && Number(block?.attrs?.level) === Number(operation.headingLevel || 2);
+      yalkenGreen = yalkenGreen && structureGreen;
+      wordEvidence = structural;
+      yalkenEvidence = { ...yalkenEvidence, structureGreen, observedType: block?.type || '', observedLevel: Number(block?.attrs?.level || 0) };
+    }
+    const wordGreen = expectedReported && wordRawGreen;
+    const semantics = oracleSemantics(operation, commentThreadId);
+    wordOperationsById[operation.id] = {
+      outcome: wordGreen ? expectedOutcome : 'BLOCKED',
+      anchor,
+      ...semantics,
+    };
+    yalkenOperationsById[operation.id] = {
+      outcome: yalkenGreen ? expectedOutcome : 'BLOCKED',
+      anchor,
+      ...semantics,
+    };
+    operationResults.push({
+      operationId: operation.id,
+      family: formalOperation.family,
+      expectedOutcome,
+      reportedStatus,
+      nativeReadbackStatus: nativeReadback?.status || '',
+      wordGreen,
+      yalkenGreen,
+      wordEvidence,
+      yalkenEvidence,
+    });
+  }
+  const semanticOracle = validateC5V2SemanticOracle({
+    operations: formalOperations,
+    wordReadback: { sourceKind: 'raw-ooxml', countsOnly: false, operationsById: wordOperationsById },
+    yalkenTruth: { sourceKind: 'reopened-yalken-project', countsOnly: false, operationsById: yalkenOperationsById },
+  });
+  const duplicateWordStatuses = wordStatusRows.length !== new Set(wordStatusRows.map((row) => row.id)).size;
+  const duplicateNativeReadbacks = wordReadbackRows.length !== new Set(wordReadbackRows.map((row) => row.id)).size;
+  const complete = wordStatusRows.length === operations.length
+    && wordReadbackRows.length === operations.length
+    && duplicateWordStatuses === false
+    && duplicateNativeReadbacks === false
+    && operationResults.every((result) => result.wordGreen && result.yalkenGreen);
+  return {
+    schemaVersion: 'yalken.rtk.word.c5v2.complete-round-oracle.v1',
+    ok: complete && semanticOracle.ok === true,
+    operationCount: operations.length,
+    wordStatusCount: wordStatusRows.length,
+    nativeWordReadbackCount: wordReadbackRows.length,
+    reopenedYalkenSceneCount: truthByScene.size,
+    nativeWordVisibleReadbackPresent: nativeVisibleReadback.length > 0,
+    duplicateWordStatuses,
+    duplicateNativeReadbacks,
+    sourceKinds: ['ledger-intent', 'raw-ooxml', 'word-object-model-reopened', 'reopened-yalken-project'],
+    semanticOracle,
+    operationResults,
+    oracleDigest: sha256Text(stableCanonicalJson(operationResults)),
+  };
 }
 
 function parseArgs(argv) {
@@ -2832,6 +3897,7 @@ function parseArgs(argv) {
     runPrefix: 'c5v2-physical-canary',
     roundCount: 1,
     accessibilityPreflightOnly: false,
+    masterLedgerCampaign: false,
   };
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
@@ -2855,6 +3921,8 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === '--accessibility-preflight-only') {
       options.accessibilityPreflightOnly = true;
+    } else if (arg === '--master-ledger-campaign') {
+      options.masterLedgerCampaign = true;
     }
   }
   return options;
@@ -2874,6 +3942,10 @@ async function mainCumulative(options) {
     sceneCount: options.sceneCount,
     sceneStart: options.sceneStart,
   });
+  if (options.masterLedgerCampaign && (scenes.length !== 21 || roundCount !== 5)) {
+    throw new Error(`C5V2_MASTER_LEDGER_CAMPAIGN_REQUIRES_21_SCENES_5_ROUNDS:${scenes.length}:${roundCount}`);
+  }
+  let masterLedger = null;
   const rounds = [];
   for (let index = 0; index < roundCount; index += 1) {
     const roundLabel = `round-${String(index + 1).padStart(2, '0')}`;
@@ -2889,12 +3961,14 @@ async function mainCumulative(options) {
       returnedReadyPath: path.join(roundDir, 'c5v2-cumulative-returned-ready.json'),
       ledger: null,
     });
-    fs.writeFileSync(path.join(roundDir, 'round-plan.pre-export.json'), `${JSON.stringify({
+    writeJsonAtomicDurable(path.join(roundDir, 'round-plan.pre-export.json'), {
       schemaVersion: 'yalken.rtk.word.c5v2.cumulative-round-plan.v1',
       roundId: roundLabel,
       counts: options.counts,
-      ledgerAuthority: 'DERIVE_FROM_CURRENT_PRODUCT_SCENE_FILES_AFTER_ROUND_EXPORT',
-    }, null, 2)}\n`);
+      ledgerAuthority: options.masterLedgerCampaign
+        ? 'MASTER_2000_OPERATION_LEDGER_BOUND_TO_FIRST_PRODUCT_EXPORT'
+        : 'DERIVE_FROM_CURRENT_PRODUCT_SCENE_FILES_AFTER_ROUND_EXPORT',
+    });
     fs.mkdirSync(path.dirname(rounds.at(-1).wordReturnedPath), { recursive: true });
   }
   const wordVersion = shellValue('/usr/bin/osascript', ['-e', 'tell application "Microsoft Word" to return version as text'], { timeout: 30_000 });
@@ -2909,7 +3983,8 @@ async function mainCumulative(options) {
         throw new Error(`C5V2_CUMULATIVE_CURRENT_SCENE_FILE_COUNT_MISMATCH:${round.roundId}:${sceneFiles.length}:${scenes.length}`);
       }
       const currentScenes = sceneFiles.map((scenePath, sceneIndex) => {
-        const text = fs.readFileSync(scenePath, 'utf8');
+        const rawContent = fs.readFileSync(scenePath, 'utf8');
+        const observable = readProductSceneAuthority(rawContent);
         const sceneId = projectRoot
           ? path.relative(projectRoot, scenePath).replace(/\\/gu, '/')
           : (scenes[sceneIndex]?.sceneId || path.basename(scenePath));
@@ -2918,29 +3993,90 @@ async function mainCumulative(options) {
           file: path.basename(scenePath),
           sceneId,
           title: scenes[sceneIndex]?.title || path.basename(scenePath, '.txt'),
-          text,
-          sourceSha256: sha256Text(text),
+          rawContent,
+          rawContentSha256: observable.rawContentSha256,
+          text: observable.text,
+          sourceSha256: observable.textSha256,
+          paragraphs: observable.paragraphs,
         };
       });
-      const ledger = buildExportBoundCanaryLedger({
-        scenes: currentScenes,
-        counts: options.counts,
-        sourceDocxPath: round.sourcePath,
-        anchorOffset: roundIndex * 11,
-        idPrefix: `r${String(roundIndex + 1).padStart(2, '0')}-`,
-        weightedSceneAllocation: true,
-      });
-      round.ledger = ledger;
-      fs.writeFileSync(path.join(round.roundDir, 'canary-ledger.json'), `${JSON.stringify(ledger, null, 2)}\n`);
-      const wordOutput = await runAppleScript(
-        buildWordScript({
-          sourcePath: round.sourcePath,
-          returnedPath: round.wordReturnedPath,
-          artifactReturnedPath: round.returnedPath,
-          ledger,
-        }),
-        path.join(round.roundDir, 'word-canary.applescript'),
+      round.productBaselineArtifact = writeJsonAtomicDurable(
+        path.join(round.roundDir, 'product-baseline-scenes.json'),
+        {
+          schemaVersion: 'yalken.rtk.word.c5v2.product-baseline-scenes.v1',
+          roundId: round.roundId,
+          projectRoot,
+          scenes: currentScenes.map((scene) => ({
+            sceneId: scene.sceneId,
+            rawContent: scene.rawContent,
+            rawContentSha256: scene.rawContentSha256,
+            text: scene.text,
+            textSha256: scene.sourceSha256,
+            paragraphs: scene.paragraphs,
+          })),
+        },
       );
+      if (options.masterLedgerCampaign && !masterLedger) {
+        masterLedger = buildC5V2Ledger({ scenes: currentScenes, roundCount });
+        if (masterLedger.gates?.ok !== true || masterLedger.operations.length !== 2000) {
+          throw new Error(`C5V2_MASTER_LEDGER_GATES_FAILED:${JSON.stringify(masterLedger.gates || {})}`);
+        }
+        writeJsonAtomicDurable(path.join(runDir, 'c5v2-master-ledger.json'), masterLedger);
+        writeJsonAtomicDurable(path.join(runDir, 'c5v2-corpus-provenance.json'), {
+          schemaVersion: 'yalken.rtk.word.c5v2.corpus-provenance.v1',
+          corpus: 'Project Gutenberg 174 cleaned internal QA Dorian Gray corpus',
+          topology: 'one-genuine-21-scene-product-project',
+          rawCorpusPath: CORPUS_RAW_PATH,
+          rawCorpusSha256: sha256File(CORPUS_RAW_PATH),
+          cleanedCorpusPath: CORPUS_CLEANED_PATH,
+          cleanedCorpusSha256: sha256File(CORPUS_CLEANED_PATH),
+          syntheticTailAuthority: false,
+          sourceScenes: scenes.map((scene) => ({
+            file: scene.file,
+            rawSourceSha256: scene.rawSourceSha256,
+            cleanedSourceSha256: scene.cleanedSourceSha256,
+          })),
+          productScenes: currentScenes.map((scene) => ({
+            sceneId: scene.sceneId,
+            sourceSha256: scene.sourceSha256,
+          })),
+          masterLedgerDigest: masterLedger.ledgerDigest,
+        });
+      }
+      const ledger = options.masterLedgerCampaign
+        ? adaptC5V2MasterRoundToPhysicalLedger({
+            masterLedger,
+            currentScenes,
+            roundNumber: roundIndex + 1,
+            sourceDocxPath: round.sourcePath,
+          })
+        : buildExportBoundCanaryLedger({
+            scenes: currentScenes,
+            counts: options.counts,
+            sourceDocxPath: round.sourcePath,
+            anchorOffset: roundIndex * 11,
+            idPrefix: `r${String(roundIndex + 1).padStart(2, '0')}-`,
+            weightedSceneAllocation: true,
+          });
+      round.ledger = ledger;
+      writeJsonAtomicDurable(path.join(round.roundDir, 'canary-ledger.json'), ledger);
+      const wordOutput = options.masterLedgerCampaign
+        ? runWordLedgerInChunks({
+            sourcePath: round.sourcePath,
+            returnedPath: round.wordReturnedPath,
+            artifactReturnedPath: round.returnedPath,
+            ledger,
+            evidenceDir: round.roundDir,
+          })
+        : await runAppleScript(
+            buildWordScript({
+              sourcePath: round.sourcePath,
+              returnedPath: round.wordReturnedPath,
+              artifactReturnedPath: round.returnedPath,
+              ledger,
+            }),
+            path.join(round.roundDir, 'word-canary.applescript'),
+          );
       fs.writeFileSync(path.join(round.roundDir, 'word-output.txt'), wordOutput, 'utf8');
       return wordOutput;
     },
@@ -2961,6 +4097,20 @@ async function mainCumulative(options) {
     const returnApply = returnApplyEnvelope && returnApplyEnvelope.returnApply ? returnApplyEnvelope.returnApply : null;
     const exact = returnApply?.activation?.exactApplyTextChangeIdsByScene || {};
     const exactTotal = Object.values(exact).reduce((total, ids) => total + (Array.isArray(ids) ? ids.length : 0), 0);
+    const oracleProbe = wordParsed.ops.length > 0 && round.ledger && fs.existsSync(round.returnedPath)
+      ? buildOracleProbe({
+          ledger: round.ledger,
+          wordParsed,
+          returnedDocxPath: round.returnedPath,
+          wordVisibleReadbackPath: `${round.returnedPath}.word-visible-readback.txt`,
+          baselineArtifactPath: round.productBaselineArtifact?.path || path.join(round.roundDir, 'product-baseline-scenes.json'),
+          yalkenTruthPath: returnApply?.yalkenTruthArtifact?.path || path.join(round.roundDir, 'yalken-reopened-truth.json'),
+          returnApply,
+        })
+      : null;
+    const oracleArtifact = oracleProbe
+      ? writeJsonAtomicDurable(path.join(round.roundDir, 'complete-round-oracle.json'), oracleProbe)
+      : null;
     return {
       roundId: round.roundId,
       sourceDocxPath: round.sourcePath,
@@ -2974,8 +4124,11 @@ async function mainCumulative(options) {
       wordOperationSummary: {
         attempted: Array.isArray(round.ledger?.operations) ? round.ledger.operations.length : 0,
         reported: wordParsed.ops.length,
+        exact: wordParsed.ops.filter((op) => op.status === 'EXACT').length,
         safeApply: wordParsed.ops.filter((op) => op.status === 'SAFE_APPLY').length,
-        manualOrBlocked: wordParsed.ops.filter((op) => op.status === 'MANUAL_OR_BLOCKED' || op.status === 'BLOCKED').length,
+        manual: wordParsed.ops.filter((op) => op.status === 'MANUAL').length,
+        blocked: wordParsed.ops.filter((op) => op.status === 'BLOCKED').length,
+        manualOrBlocked: wordParsed.ops.filter((op) => ['MANUAL', 'MANUAL_OR_BLOCKED', 'BLOCKED'].includes(op.status)).length,
         byStatus: wordParsed.ops.reduce((acc, op) => {
           acc[op.status] = (acc[op.status] || 0) + 1;
           return acc;
@@ -2985,7 +4138,8 @@ async function mainCumulative(options) {
       uiDiagnostics: wordParsed.uiDiagnostics,
       nativeLifecycleVerification,
       packageSummary: fs.existsSync(round.returnedPath) ? packageSummary(round.returnedPath) : null,
-      oracleProbe: wordParsed.ops.length > 0 && round.ledger ? buildOracleProbe({ ledger: round.ledger, wordParsed }) : null,
+      oracleProbe,
+      oracleArtifact,
       productReturnApply: returnApply,
       productApplyOk: returnApply?.ok === true,
       exactScenes: Object.keys(exact).length,
@@ -2997,11 +4151,14 @@ async function mainCumulative(options) {
   const totals = roundSummaries.reduce((acc, round) => {
     acc.attempted += round.wordOperationSummary.attempted;
     acc.reported += round.wordOperationSummary.reported;
+    acc.exact += round.wordOperationSummary.exact;
     acc.safeApply += round.wordOperationSummary.safeApply;
+    acc.manual += round.wordOperationSummary.manual;
+    acc.blocked += round.wordOperationSummary.blocked;
     acc.exactTotal += round.exactTotal;
     acc.productApplyGreen += round.productApplyOk ? 1 : 0;
     return acc;
-  }, { attempted: 0, reported: 0, safeApply: 0, exactTotal: 0, productApplyGreen: 0 });
+  }, { attempted: 0, reported: 0, exact: 0, safeApply: 0, manual: 0, blocked: 0, exactTotal: 0, productApplyGreen: 0 });
   const summary = {
     schemaVersion: 'yalken.rtk.word.c5v2.physical-cumulative.result.v1',
     runId,
@@ -3011,6 +4168,14 @@ async function mainCumulative(options) {
     wordWorkRoot,
     sceneCount: scenes.length,
     roundCount,
+    masterLedger: masterLedger ? {
+      schemaVersion: masterLedger.schemaVersion,
+      operationCount: masterLedger.operations.length,
+      counts: masterLedger.counts,
+      ledgerDigest: masterLedger.ledgerDigest,
+      gates: masterLedger.gates,
+      negativeProbeCount: masterLedger.operations.filter((operation) => operation.family === 'negative_probe').length,
+    } : null,
     route: [
       'single-live-electron-product-process',
       'round-loop-full-manuscript-export-menu-command',
@@ -3024,6 +4189,12 @@ async function mainCumulative(options) {
       ] : []),
       ...(rounds.some((round) => (round.ledger?.operations || []).some((operation) => operation.family === 'formatting'))
         ? ['shipped-formatting-command-apply-and-persisted-replay-inspection-per-round']
+        : []),
+      ...(rounds.some((round) => (round.ledger?.operations || []).some((operation) => operation.family === 'structural'))
+        ? ['shipped-structural-command-apply-and-persisted-replay-inspection-per-round']
+        : []),
+      ...(rounds.some((round) => (round.ledger?.operations || []).some((operation) => operation.physicalAction === 'typed-limit'))
+        ? ['unsupported-lifecycle-operations-remain-deterministic-typed-outcomes']
         : []),
       'next-round-export-from-mutated-product-project',
     ],
@@ -3051,7 +4222,7 @@ async function mainCumulative(options) {
     },
     certificationClaim: 'NO_PHYSICAL_PROVEN_C5_CERTIFICATION_CLAIM_CUMULATIVE_CAMPAIGN_IN_PROGRESS',
   };
-  fs.writeFileSync(path.join(runDir, 'cumulative-result.json'), `${JSON.stringify(summary, null, 2)}\n`);
+  writeJsonAtomicDurable(path.join(runDir, 'cumulative-result.json'), summary);
   process.stdout.write(`${JSON.stringify({
     runId: summary.runId,
     headSha: summary.headSha,
@@ -3078,6 +4249,7 @@ async function mainCumulative(options) {
         && round.wordStatus === 'PASS'
         && round.productApplyOk === true
         && round.nativeLifecycleVerification?.ok === true
+        && round.oracleProbe?.ok === true
       ))
       ? 0
       : 1,

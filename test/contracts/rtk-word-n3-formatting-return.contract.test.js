@@ -1101,6 +1101,22 @@ test('N3 physical canary invokes shipped formatting apply and persisted replay i
   }), []);
   assert.deepEqual(canary.deriveC5V2ProductRouteGaps({
     ok: true,
+    lanePlan: { expectedCounts: { exactText: 0 } },
+    typedPendingLanes: {
+      exactText: 'NO_EXACT_TEXT_CANDIDATE',
+      rootCommentsState: 'CANONICAL_ROOT_COMMENT_APPLY_AND_REPLAY_PROVEN',
+      repliesState: 'PENDING_REPLY_PRODUCT_APPLY_LANE',
+      commentState: 'PENDING_COMMENT_STATE_PRODUCT_APPLY_LANE',
+      commentsRepliesState: 'PENDING_PRODUCT_APPLY_LANE',
+      formatting: 'NO_FORMATTING_CANDIDATE',
+      structural: 'NO_STRUCTURAL_CANDIDATE',
+    },
+  }, {
+    expectedFamilies: ['root_comment'],
+    expectedFamilyCounts: { root_comment: 4 },
+  }), []);
+  assert.deepEqual(canary.deriveC5V2ProductRouteGaps({
+    ok: true,
     typedPendingLanes: {
       exactText: 'NO_EXACT_TEXT_CANDIDATE',
       commentsRepliesState: 'NO_COMMENT_CANDIDATE',

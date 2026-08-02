@@ -97,7 +97,8 @@ test('P0 03: evaluator passes only current package-bound visible UI journey with
   const result = evaluateP0_03PackagedVisibleJourney({
     identity: {
       headSha: 'source-sha',
-      originMainSha: 'different-before-pr-merge-sha',
+      originMainSha: 'source-sha',
+      dirtyFiles: [],
     },
     packageReport: {
       pass: true,
@@ -136,6 +137,7 @@ test('P0 03: evaluator rejects stale package, bridge proof, screenshot-only and 
     identity: {
       headSha: 'source-sha',
       originMainSha: 'different-sha',
+      dirtyFiles: [],
     },
     packageReport: {
       pass: true,
@@ -163,7 +165,7 @@ test('P0 03: evaluator rejects stale package, bridge proof, screenshot-only and 
   assert.equal(result.accepted.exactSourceBindingPresent, false);
   assert.equal(result.accepted.noDirectBridgeAcceptance, false);
   assert.equal(result.accepted.noGeneratedArtifactOnlyAcceptance, false);
-  assert.equal(result.accepted.freshReopenReadback, false);
+  assert.equal(result.accepted.freshProcessReopenReadback, false);
 });
 
 test('P0 03: implementation uses packaged executable and visible CDP input, not E11 bridge harness acceptance', () => {

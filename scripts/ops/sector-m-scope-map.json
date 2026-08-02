@@ -249,6 +249,13 @@
       "test/unit/sector-m-m9-next.test.js"
     ],
     "DONE": [
+      "package.json",
+      "scripts/ops/yalken-atlas-v5-efinal-final-audit-program-dod.mjs",
+      "scripts/ops/yalken-atlas-v5-final-audit-p0-03-packaged-visible-journey.mjs",
+      "src/main.js",
+      "test/contracts/yalken-atlas-v5-efinal-final-audit-program-dod.contract.test.js",
+      "test/contracts/yalken-atlas-v5-final-audit-p0-01-future-schema-loss.contract.test.js",
+      "test/contracts/yalken-atlas-v5-final-audit-p0-03-packaged-visible-journey.contract.test.js",
       "docs/CONTEXT.md",
       "docs/HANDOFF.md",
       "docs/WORKLOG.md",

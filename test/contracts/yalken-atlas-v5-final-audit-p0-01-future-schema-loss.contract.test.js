@@ -111,7 +111,7 @@ async function injectFutureAtlasPayload(manifestPath) {
   return manifest;
 }
 
-test('P0 01: product command bridge quarantines unsupported future Atlas author schema without replacement', async (t) => {
+test('P0 01: product command bridge fails closed on unsupported future Atlas author schema before replacement', async (t) => {
   const harness = await createHarness(t);
   const created = await harness.main.handleProjectLifecycleCreateCommand({ projectName: 'Роман' });
   assert.equal(created.ok, true);
@@ -138,48 +138,118 @@ test('P0 01: product command bridge quarantines unsupported future Atlas author 
       entityKind: 'character',
     },
   });
-  assert.equal(dispatched.ok, true, JSON.stringify(dispatched));
-  assert.equal(dispatched.value.mutationApplied, true);
-  assert.equal(dispatched.value.storageWritten, true);
-  assert.equal(dispatched.value.recovery.snapshotHashMatchesInput, true);
-
-  const persisted = JSON.parse(await fsPromises.readFile(sourceManifestPath, 'utf8'));
-  assert.equal(persisted.atlas.schemaVersion, 'atlas.author.v1');
-  assert.equal(persisted.atlas.entities['entity-after-future-quarantine'].name, 'After Future Quarantine');
-  assert.equal(
-    persisted.atlas.unsupportedAuthorDataQuarantine.schemaVersion,
-    'atlas.authorUnsupportedQuarantine.v1',
-  );
-  assert.equal(
-    persisted.atlas.unsupportedAuthorDataQuarantine.originalAuthorData.futureEntities['future-entity'].nested.keep[2],
-    'shape',
-  );
-  assert.deepEqual(
-    persisted.atlas.unsupportedAuthorDataQuarantine.originalAuthorData,
-    sourceManifest.atlas,
-  );
-  assert.equal(persisted.atlas.unsupportedAuthorDataQuarantine.destructiveReplacement, false);
+  assert.equal(dispatched.ok, false, JSON.stringify(dispatched));
+  assert.match(JSON.stringify(dispatched), /E_PRODUCT_COMMAND_AUTHOR_SCHEMA_UNSUPPORTED/u);
+  assert.equal(await fsPromises.readFile(sourceManifestPath, 'utf8'), sourceRaw);
 
   const reopened = await harness.main.handleProjectLifecycleOpenCommand({ projectId: sourceManifest.projectId });
   assert.equal(reopened.ok, true);
   const reopenedManifest = (await harness.main.readProjectManifest('Роман')).manifest;
-  assert.equal(
-    reopenedManifest.atlas.unsupportedAuthorDataQuarantine.originalAuthorData.unknownFutureLedger.rows[0].id,
-    'future-row',
-  );
+  assert.deepEqual(reopenedManifest.atlas, sourceManifest.atlas);
 
   const recoveryRoot = path.join(projectRoot, 'backups', 'project-lifecycle-recovery');
   const recoveryFiles = fs.existsSync(recoveryRoot)
     ? fs.readdirSync(recoveryRoot, { recursive: true }).map(String)
     : [];
-  assert.equal(recoveryFiles.length > 0, true);
-  assert.equal(
-    recoveryFiles.some((entry) => {
-      const candidate = path.join(recoveryRoot, entry);
-      return fs.existsSync(candidate)
-        && fs.statSync(candidate).isFile()
-        && fs.readFileSync(candidate, 'utf8') === sourceRaw;
-    }),
-    true,
-  );
+  assert.equal(recoveryFiles.length, 0);
+});
+
+test('P0 01: Atlas mutation preserves opaque future Manual Map, Idea and Meaning domains', async (t) => {
+  const harness = await createHarness(t);
+  const created = await harness.main.handleProjectLifecycleCreateCommand({ projectName: 'Роман' });
+  assert.equal(created.ok, true);
+  const projectRoot = path.join(harness.documentsRoot, 'Роман');
+  const manifestPath = path.join(projectRoot, PROJECT_MANIFEST_FILENAME);
+  const manifest = JSON.parse(await fsPromises.readFile(manifestPath, 'utf8'));
+  const futureDomains = {
+    manualMaps: {
+      schemaVersion: 'manualMap.author.vFuture',
+      opaqueMaps: { 'map-future': { nested: ['manual', 'map', 'truth'] } },
+    },
+    ideas: {
+      schemaVersion: 'idea.author.vFuture',
+      opaqueIdeas: { 'idea-future': { nested: ['idea', 'truth'] } },
+    },
+    meanings: {
+      schemaVersion: 'meaning.author.vFuture',
+      opaqueMeanings: { 'meaning-future': { nested: ['meaning', 'truth'] } },
+    },
+  };
+  Object.assign(manifest, futureDomains);
+  await fsPromises.writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
+
+  const opened = await harness.main.handleProjectLifecycleOpenCommand({ projectId: manifest.projectId });
+  assert.equal(opened.ok, true);
+  const commandBridge = harness.ipcHandlers.get('ui:command-bridge');
+  const dispatched = await commandBridge(null, {
+    route: 'command.bus',
+    commandId: 'atlas.entity.create',
+    payload: {
+      projectId: manifest.projectId,
+      entityId: 'entity-preserves-foreign-future-domains',
+      name: 'Preserved Domains',
+      entityKind: 'character',
+    },
+  });
+  assert.equal(dispatched.ok, true, JSON.stringify(dispatched));
+
+  const persisted = JSON.parse(await fsPromises.readFile(manifestPath, 'utf8'));
+  assert.deepEqual(persisted.manualMaps, futureDomains.manualMaps);
+  assert.deepEqual(persisted.ideas, futureDomains.ideas);
+  assert.deepEqual(persisted.meanings, futureDomains.meanings);
+  assert.equal(persisted.atlas.entities['entity-preserves-foreign-future-domains'].name, 'Preserved Domains');
+});
+
+test('P0 01: each commanded future author domain fails before recovery or durable write', async (t) => {
+  const scenarios = [
+    {
+      projectName: 'Роман',
+      manifestKey: 'manualMaps',
+      value: { schemaVersion: 'manualMap.author.vFuture', opaque: { keep: ['map'] } },
+      commandId: 'manualMap.create',
+      payload: { mapId: 'map-new', title: 'Must Not Apply' },
+    },
+    {
+      projectName: 'Роман',
+      manifestKey: 'ideas',
+      value: { schemaVersion: 'idea.author.vFuture', opaque: { keep: ['idea'] } },
+      commandId: 'idea.create',
+      payload: { ideaId: 'idea-new', title: 'Must Not Apply' },
+    },
+    {
+      projectName: 'Роман',
+      manifestKey: 'meanings',
+      value: { schemaVersion: 'meaning.author.vFuture', opaque: { keep: ['meaning'] } },
+      commandId: 'meaning.promote',
+      payload: {
+        meaningId: 'meaning-new',
+        title: 'Must Not Apply',
+        interpretation: 'Must Not Apply',
+        source: { kind: 'idea', ideaId: 'missing-idea' },
+      },
+    },
+  ];
+
+  for (const scenario of scenarios) {
+    const harness = await createHarness(t);
+    const created = await harness.main.handleProjectLifecycleCreateCommand({ projectName: scenario.projectName });
+    assert.equal(created.ok, true);
+    const projectRoot = path.join(harness.documentsRoot, scenario.projectName);
+    const manifestPath = path.join(projectRoot, PROJECT_MANIFEST_FILENAME);
+    const manifest = JSON.parse(await fsPromises.readFile(manifestPath, 'utf8'));
+    manifest[scenario.manifestKey] = scenario.value;
+    const sourceRaw = `${JSON.stringify(manifest, null, 2)}\n`;
+    await fsPromises.writeFile(manifestPath, sourceRaw, 'utf8');
+    assert.equal((await harness.main.handleProjectLifecycleOpenCommand({ projectId: manifest.projectId })).ok, true);
+
+    const dispatched = await harness.ipcHandlers.get('ui:command-bridge')(null, {
+      route: 'command.bus',
+      commandId: scenario.commandId,
+      payload: { projectId: manifest.projectId, ...scenario.payload },
+    });
+    assert.equal(dispatched.ok, false, `${scenario.commandId}:${JSON.stringify(dispatched)}`);
+    assert.match(JSON.stringify(dispatched), /E_PRODUCT_COMMAND_AUTHOR_SCHEMA_UNSUPPORTED/u);
+    assert.equal(await fsPromises.readFile(manifestPath, 'utf8'), sourceRaw);
+    assert.equal(fs.existsSync(path.join(projectRoot, 'backups', 'project-lifecycle-recovery')), false);
+  }
 });

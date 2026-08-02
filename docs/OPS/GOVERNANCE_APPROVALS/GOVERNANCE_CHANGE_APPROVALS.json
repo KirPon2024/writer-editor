@@ -3719,10 +3719,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/RELEASE_CANDIDATE_LOCK.json",
-      "sha256": "93f939838d0ca921ee47a232a9771d1f2d7cb2e16b6aa32214c0600a9e01b01c",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T00:05:30.951Z",
-      "rationale": "Approve release-candidate lock rebind after bounded P0 Review DOCX exporter menu artifact and snapshot refresh; release verify returns PASS while Word SATURATED, return intake, and automatic apply remain false."
+      "sha256": "4fb1acfab93c6a28242e90a7568f818c7897ebc27da09ae80664f471897418fe",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
+      "approvedAtUtc": "2026-08-02T11:45:42.249Z",
+      "rationale": "Approve the bounded release-candidate lock rebind to the already-merged C5V2 full-manuscript Review DOCX menu artifact and snapshot. This repairs pre-existing exact-origin-main integrity drift and introduces no additional runtime, UI, writer-authority, saturation, or Google capability claim."
     },
     {
       "filePath": "docs/OPS/STATUS/RELEASE_CRITICAL_IMPACT_MATRIX_V1.json",

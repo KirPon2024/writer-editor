@@ -72,6 +72,11 @@ const {
   getProductCommandRecord,
 } = require('./shared/productCommandRegistry.cjs');
 const {
+  makeCommandBridgeException,
+  makeCommandBridgeFailure,
+  makeCommandBridgeSuccess,
+} = require('./shared/commandBridgeResponse.cjs');
+const {
   DEFAULT_AUTHORITY_PLATFORM_ID,
   evaluateCommandCapabilityAuthority,
 } = require('./shared/commandCapabilityAuthority.cjs');
@@ -22778,27 +22783,11 @@ ipcMain.handle('ui:command-bridge', async (_, request) => {
     const result = PRODUCT_COMMAND_ID_SET.has(commandId)
       ? await dispatchProductCommandBridge(commandId, payload)
       : await dispatchMenuCommand(commandId, payload, { route: COMMAND_BUS_ROUTE });
-    if (result && result.ok === true) {
-      return { ok: true, value: result };
-    }
+    if (result && result.ok === true) return makeCommandBridgeSuccess(result);
     const reason = findCommandBridgeFailureReason(result) || 'COMMAND_EXECUTION_FAILED';
-    return {
-      ok: false,
-      reason,
-      value: result && typeof result === 'object' ? result : null,
-    };
+    return makeCommandBridgeFailure(reason, result);
   } catch (error) {
-    return {
-      ok: false,
-      reason: 'COMMAND_EXECUTION_THROW',
-      message: error && typeof error.message === 'string'
-        ? error.message
-        : error && typeof error.reason === 'string'
-          ? error.reason
-          : error && typeof error.code === 'string'
-            ? error.code
-            : 'UNKNOWN',
-    };
+    return makeCommandBridgeException(error);
   }
 });
 

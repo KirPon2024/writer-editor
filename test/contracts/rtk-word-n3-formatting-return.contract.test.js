@@ -936,6 +936,8 @@ test('N3 product route exposes a working Review control without renderer-owned a
   assert.match(mainSource, /E_RTK_FORMATTING_RETURN_DIRTY_EDITOR_BLOCKED/u);
   assert.match(mainSource, /writerAuthorityExposedToRenderer:\s*false/u);
   assert.match(mainSource, /rendererAuthority:\s*false/u);
+  assert.match(mainSource, /makeCommandBridgeSuccess\(result\)/u);
+  assert.match(mainSource, /makeCommandBridgeFailure\(reason,\s*result\)/u);
   assert.match(mainSource, /'cmd\.project\.review\.applyFormattingReturn':\s*async/u);
   assert.match(bridgeSource, /extractReviewTransportFormattingRunsV2\(documentXml/u);
   assert.doesNotMatch(rendererSource, /scenePathBySceneId/u);
@@ -951,6 +953,56 @@ test('N3 product route exposes a working Review control without renderer-owned a
     JSON.stringify(testCatalog).includes('rtk-word-n3-formatting-return.contract.test.js'),
     true,
   );
+});
+
+test('N3 command bridge response boundary serializes durable apply results after replay verification', () => {
+  const {
+    makeCommandBridgeFailure,
+    makeCommandBridgeSuccess,
+    toCommandBridgeSerializableValue,
+  } = require('../../src/shared/commandBridgeResponse.cjs');
+  const circular = { status: 'applied-and-replayed' };
+  circular.self = circular;
+  const success = makeCommandBridgeSuccess({
+    ok: true,
+    type: 'yalken.rtk.formattingReturnUiApply',
+    status: 'applied-and-replayed',
+    code: 'RTK_FORMATTING_RETURN_APPLIED_AND_REPLAYED',
+    applied: true,
+    replayVerified: true,
+    writerCalled: true,
+    durableGeneration: 12n,
+    rawDocxBytes: Buffer.from('not-renderer-authority', 'utf8'),
+    circular,
+    reviewSurface: {
+      formattingReturnResult: {
+        ok: true,
+        status: 'applied-and-replayed',
+        replayVerified: true,
+        sceneReadback: [{ sceneId: 'scene-a', matchesAfter: true }],
+      },
+    },
+  });
+  assert.equal(success.ok, true);
+  assert.equal(success.value.ok, true);
+  assert.equal(success.value.status, 'applied-and-replayed');
+  assert.equal(success.value.replayVerified, true);
+  assert.equal(success.value.durableGeneration, '12');
+  assert.deepEqual(success.value.rawDocxBytes, { type: 'Buffer', byteLength: 22, redacted: true });
+  assert.equal(success.value.circular.self, '[Circular]');
+  assert.doesNotThrow(() => JSON.stringify(success));
+
+  const failure = makeCommandBridgeFailure('COMMAND_EXECUTION_FAILED', {
+    ok: false,
+    error: Object.assign(new Error('post-commit refresh failed'), { code: 'E_REFRESH' }),
+  });
+  assert.equal(failure.ok, false);
+  assert.equal(failure.reason, 'COMMAND_EXECUTION_FAILED');
+  assert.equal(failure.value.error.code, 'E_REFRESH');
+  assert.doesNotThrow(() => JSON.stringify(failure));
+
+  const array = toCommandBridgeSerializableValue([undefined, 1n, () => {}]);
+  assert.deepEqual(array, [null, '1', null]);
 });
 
 test('N3 physical canary invokes shipped formatting apply and persisted replay inspection', async () => {

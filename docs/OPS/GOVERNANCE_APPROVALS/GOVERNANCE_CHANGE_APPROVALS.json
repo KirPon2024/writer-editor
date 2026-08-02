@@ -6063,10 +6063,10 @@
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v5-final-audit-p0-03-packaged-visible-journey.mjs",
-      "sha256": "6b38856e88bdd4ba23d66d948f0157a433854c381ad7ea33b48eb487ac1b9885",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R0",
+      "sha256": "d3fe7d9db3e3bfcfb91c13508f4fe4a29c798f6ea6eef508ffcd62a1e0e84513",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_AUDIT_HOLD_REPAIR",
       "approvedAtUtc": "2026-08-02T00:00:00.000Z",
-      "rationale": "Approve exact-head binding and truthful packaged journey labels for actual Atlas, Manual Map, scene save, local import/export and fresh-process reopen evidence."
+      "rationale": "Approve bounded visible-control pointer plus keyboard retry and typed rejection diagnostics for the production packaged Atlas lifecycle; no IPC, reducer, storage, network, or renderer-truth bypass is added."
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v5-final-audit-p0-06-multilingual-matcher.mjs",
@@ -8744,10 +8744,10 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-03-packaged-visible-journey.contract.test.js",
-      "sha256": "f3f1fe825bea1cf5e2c0bfd72d1ad8b1531e0977446b60cf8fe531ee0dd611ad",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R0",
+      "sha256": "88f2cc7dac2457c29d8246b15e205cc7ff3a372771e1351190f7011433ab25e9",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_AUDIT_HOLD_REPAIR",
       "approvedAtUtc": "2026-08-02T00:00:00.000Z",
-      "rationale": "Approve the corrected packaged journey contract with exact origin-main source binding and without unsupported map recovery or undo claims."
+      "rationale": "Approve the packaged journey contract binding bounded visible pointer and keyboard activation retries with fail-closed rejection and not-applied diagnostics."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-06-multilingual-matcher.contract.test.js",

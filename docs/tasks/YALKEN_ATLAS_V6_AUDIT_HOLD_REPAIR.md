@@ -20,6 +20,7 @@ Close the independently confirmed Atlas HOLD at audited ancestor 52bc24ce on the
 - scripts/ops-gate.mjs
 - scripts/ops/sector-m-scope-map.json
 - scripts/ops/yalken-atlas-v5-r3-c03-manual-map-attachments-portals-templates.mjs
+- scripts/ops/yalken-atlas-v5-final-audit-p0-03-packaged-visible-journey.mjs
 - src/collab/eventLog.mjs
 - src/collab/applyEventLog.mjs
 - src/collab/index.mjs
@@ -50,6 +51,7 @@ Close the independently confirmed Atlas HOLD at audited ancestor 52bc24ce on the
 - test/contracts/yalken-atlas-v6-audit-hold-repair.contract.test.js
 - test/contracts/yalken-atlas-v6-production-negative.contract.test.js
 - test/contracts/yalken-atlas-v5-final-audit-p0-04-design-os-binding.contract.test.js
+- test/contracts/yalken-atlas-v5-final-audit-p0-03-packaged-visible-journey.contract.test.js
 - test/contracts/yalken-atlas-v5-final-audit-p0-05-manual-map-portability.contract.test.js
 - test/contracts/yalken-atlas-v5-stage10-pr1391-audit-repair.contract.test.js
 - test/unit/sector-m-s17-notes-schema-storage.test.js
@@ -63,6 +65,7 @@ Close the independently confirmed Atlas HOLD at audited ancestor 52bc24ce on the
 - scripts/ops-gate.mjs
 - scripts/ops/sector-m-scope-map.json
 - scripts/ops/yalken-atlas-v5-r3-c03-manual-map-attachments-portals-templates.mjs
+- scripts/ops/yalken-atlas-v5-final-audit-p0-03-packaged-visible-journey.mjs
 - src/collab/eventLog.mjs
 - src/collab/applyEventLog.mjs
 - src/collab/index.mjs
@@ -93,6 +96,7 @@ Close the independently confirmed Atlas HOLD at audited ancestor 52bc24ce on the
 - test/contracts/yalken-atlas-v6-audit-hold-repair.contract.test.js
 - test/contracts/yalken-atlas-v6-production-negative.contract.test.js
 - test/contracts/yalken-atlas-v5-final-audit-p0-04-design-os-binding.contract.test.js
+- test/contracts/yalken-atlas-v5-final-audit-p0-03-packaged-visible-journey.contract.test.js
 - test/contracts/yalken-atlas-v5-final-audit-p0-05-manual-map-portability.contract.test.js
 - test/contracts/yalken-atlas-v5-stage10-pr1391-audit-repair.contract.test.js
 - test/unit/sector-m-s17-notes-schema-storage.test.js
@@ -161,7 +165,7 @@ CMD: npm run test:atlas-event-contract && npm run test:atlas-release-truth
 PASS: baseline result recorded without interpreting existing green as repaired capability
 
 CHECK_04_POST_ALLOWED_DELTA_ONLY
-CMD: node -e 'const {execSync}=require("node:child_process");const allow=new Set(process.argv.slice(1));if(!allow.size){console.error("ALLOWLIST is empty");process.exit(2);}const out=execSync("git status --porcelain --untracked-files=all",{encoding:"utf8"}).trimEnd();if(!out){console.error("Working tree is clean");process.exit(1);}for(const line of out.split("\n")){const p=line.slice(3).split(" -> ").at(-1);if(!allow.has(p)){console.error(`Disallowed change: ${p}`);process.exit(1);}}process.exit(0);' .github/workflows/rtk-required.yml docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json docs/tasks/YALKEN_ATLAS_V6_AUDIT_HOLD_REPAIR.md package.json scripts/ops-gate.mjs scripts/ops/sector-m-scope-map.json scripts/ops/yalken-atlas-v5-r3-c03-manual-map-attachments-portals-templates.mjs src/collab/eventLog.mjs src/collab/applyEventLog.mjs src/collab/index.mjs src/core/notesStorage.mjs src/core/projectTreeIdentity.mjs src/core/runtime.mjs src/derived/atlas/atlasAnalyticsScheduler.cjs src/derived/atlas/index.mjs src/derived/index.mjs src/main.js src/preload.js src/product/notesStoragePersistence.mjs src/product/projectLease.mjs src/product/stage10ApplicationBootstrap.mjs src/product/stage10ApplicationCommandRoute.mjs src/product/stage10CommandReceiptAuthorityHead.mjs src/product/stage10MainPersistenceAdapter.mjs src/product/stage10ProductWiring.mjs src/product/stage10RecoverySnapshot.mjs src/renderer/commands/command-catalog.v1.mjs src/renderer/design-os/atlasFeatureIntegrationManifest.mjs src/renderer/design-os/index.mjs src/renderer/design-os/atlasSlotCatalog.v1.mjs src/renderer/editor.js src/renderer/editor.bundle.js src/shared/productCommandRegistry.cjs src/shared/workspaceQueryRegistry.cjs test/contracts/yalken-atlas-v5-final-audit-p0-04-design-os-binding.contract.test.js test/contracts/yalken-atlas-v5-final-audit-p0-05-manual-map-portability.contract.test.js test/contracts/yalken-atlas-v5-stage10-pr1391-audit-repair.contract.test.js test/contracts/yalken-atlas-v6-audit-hold-repair.contract.test.js test/contracts/yalken-atlas-v6-production-negative.contract.test.js test/unit/sector-m-s17-notes-schema-storage.test.js scripts/ops/yalken-atlas-v6-production-lifecycle.mjs
+CMD: node -e 'const {execSync}=require("node:child_process");const allow=new Set(process.argv.slice(1));if(!allow.size){console.error("ALLOWLIST is empty");process.exit(2);}const out=execSync("git status --porcelain --untracked-files=all",{encoding:"utf8"}).trimEnd();if(!out){console.error("Working tree is clean");process.exit(1);}for(const line of out.split("\n")){const p=line.slice(3).split(" -> ").at(-1);if(!allow.has(p)){console.error(`Disallowed change: ${p}`);process.exit(1);}}process.exit(0);' .github/workflows/rtk-required.yml docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json docs/tasks/YALKEN_ATLAS_V6_AUDIT_HOLD_REPAIR.md package.json scripts/ops-gate.mjs scripts/ops/sector-m-scope-map.json scripts/ops/yalken-atlas-v5-r3-c03-manual-map-attachments-portals-templates.mjs scripts/ops/yalken-atlas-v5-final-audit-p0-03-packaged-visible-journey.mjs src/collab/eventLog.mjs src/collab/applyEventLog.mjs src/collab/index.mjs src/core/notesStorage.mjs src/core/projectTreeIdentity.mjs src/core/runtime.mjs src/derived/atlas/atlasAnalyticsScheduler.cjs src/derived/atlas/index.mjs src/derived/index.mjs src/main.js src/preload.js src/product/notesStoragePersistence.mjs src/product/projectLease.mjs src/product/stage10ApplicationBootstrap.mjs src/product/stage10ApplicationCommandRoute.mjs src/product/stage10CommandReceiptAuthorityHead.mjs src/product/stage10MainPersistenceAdapter.mjs src/product/stage10ProductWiring.mjs src/product/stage10RecoverySnapshot.mjs src/renderer/commands/command-catalog.v1.mjs src/renderer/design-os/atlasFeatureIntegrationManifest.mjs src/renderer/design-os/index.mjs src/renderer/design-os/atlasSlotCatalog.v1.mjs src/renderer/editor.js src/renderer/editor.bundle.js src/shared/productCommandRegistry.cjs src/shared/workspaceQueryRegistry.cjs test/contracts/yalken-atlas-v5-final-audit-p0-03-packaged-visible-journey.contract.test.js test/contracts/yalken-atlas-v5-final-audit-p0-04-design-os-binding.contract.test.js test/contracts/yalken-atlas-v5-final-audit-p0-05-manual-map-portability.contract.test.js test/contracts/yalken-atlas-v5-stage10-pr1391-audit-repair.contract.test.js test/contracts/yalken-atlas-v6-audit-hold-repair.contract.test.js test/contracts/yalken-atlas-v6-production-negative.contract.test.js test/unit/sector-m-s17-notes-schema-storage.test.js scripts/ops/yalken-atlas-v6-production-lifecycle.mjs
 PASS: exit 0 and every changed path is allowlisted
 
 CHECK_05_POST_FOCUSED_ATLAS

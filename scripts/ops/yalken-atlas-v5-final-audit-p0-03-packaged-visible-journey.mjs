@@ -800,8 +800,53 @@ async function runAtlasEntityRelation(client, sessionId) {
 }
 
 async function clickSurfaceAction(client, sessionId, selector, statusText) {
+  const statusExpression = `document.body.textContent.includes(${textLiteral(statusText)})`;
+  const waitForStatus = (timeoutMs) => waitForExpression(
+    client,
+    sessionId,
+    statusExpression,
+    `status-${statusText}`,
+    timeoutMs,
+  ).then(() => true).catch(() => false);
+  const readStatus = () => evaluate(
+    client,
+    sessionId,
+    `document.querySelector('#status')?.textContent || ''`,
+  );
+  const initialStatus = await readStatus();
   await clickElement(client, sessionId, selector, '', { requireEnabled: true, timeoutMs: 12000 });
-  await waitForExpression(client, sessionId, `document.body.textContent.includes(${textLiteral(statusText)})`, `status-${statusText}`, 14000);
+  if (await waitForStatus(4500)) return;
+  const pointerStatus = await readStatus();
+  if (pointerStatus && pointerStatus !== initialStatus) {
+    throw new Error(`SURFACE_ACTION_REJECTED:${statusText}:${pointerStatus}`);
+  }
+  for (const keyCode of ['Enter', 'Space']) {
+    const statusBeforeKey = await readStatus();
+    await focusElement(client, sessionId, selector);
+    await key(client, sessionId, keyCode);
+    if (await waitForStatus(4500)) return;
+    const statusAfterKey = await readStatus();
+    if (statusAfterKey && statusAfterKey !== statusBeforeKey) {
+      throw new Error(`SURFACE_ACTION_REJECTED:${statusText}:${statusAfterKey}`);
+    }
+  }
+  const debug = await evaluate(client, sessionId, `(() => {
+    const button = document.querySelector(${selectorLiteral(selector)});
+    return {
+      status: document.querySelector('#status')?.textContent || '',
+      button: button ? {
+        disabled: button.disabled === true,
+        text: (button.textContent || '').trim(),
+        title: button.title || '',
+        connected: button.isConnected === true,
+      } : null,
+      activeElement: {
+        tag: document.activeElement?.tagName || '',
+        text: (document.activeElement?.textContent || '').trim(),
+      },
+    };
+  })()`);
+  throw new Error(`SURFACE_ACTION_NOT_APPLIED:${statusText}:${JSON.stringify(debug)}`);
 }
 
 async function selectFirstOption(client, sessionId, selector) {

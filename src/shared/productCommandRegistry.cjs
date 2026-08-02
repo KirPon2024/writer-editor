@@ -288,7 +288,7 @@ const PRODUCT_COMMAND_ROWS = Object.freeze([
     group: 'stage10',
     domain: 'stage10',
     capabilityId: 'cap.stage10.comments.local',
-    surface: ['internal'],
+    surface: ['review', 'product'],
   },
   {
     key: 'STAGE10_COMMENT_DECISION_RECORD',
@@ -297,7 +297,7 @@ const PRODUCT_COMMAND_ROWS = Object.freeze([
     group: 'stage10',
     domain: 'stage10',
     capabilityId: 'cap.stage10.comments.local',
-    surface: ['internal'],
+    surface: ['review', 'product'],
   },
   {
     key: 'STAGE10_CONFLICT_PREVIEW',
@@ -306,7 +306,7 @@ const PRODUCT_COMMAND_ROWS = Object.freeze([
     group: 'stage10',
     domain: 'stage10',
     capabilityId: 'cap.stage10.conflicts.local',
-    surface: ['internal'],
+    surface: ['review', 'product'],
   },
   {
     key: 'STAGE10_CONFLICT_DECISION_RECORD',
@@ -315,7 +315,7 @@ const PRODUCT_COMMAND_ROWS = Object.freeze([
     group: 'stage10',
     domain: 'stage10',
     capabilityId: 'cap.stage10.conflicts.local',
-    surface: ['internal'],
+    surface: ['review', 'product'],
   },
   {
     key: 'STAGE10_OPERATION_EXCHANGE_PREPARE',
@@ -324,7 +324,7 @@ const PRODUCT_COMMAND_ROWS = Object.freeze([
     group: 'stage10',
     domain: 'stage10',
     capabilityId: 'cap.stage10.operationExchange.local',
-    surface: ['internal'],
+    surface: ['review', 'product'],
   },
   {
     key: 'STAGE10_OPERATION_EXCHANGE_PREVIEW',
@@ -333,7 +333,7 @@ const PRODUCT_COMMAND_ROWS = Object.freeze([
     group: 'stage10',
     domain: 'stage10',
     capabilityId: 'cap.stage10.operationExchange.local',
-    surface: ['internal'],
+    surface: ['review', 'product'],
   },
   {
     key: 'STAGE10_COLLAB_EVENT_LOG_APPLY',
@@ -342,7 +342,7 @@ const PRODUCT_COMMAND_ROWS = Object.freeze([
     group: 'stage10',
     domain: 'stage10',
     capabilityId: 'cap.stage10.collabApply.local',
-    surface: ['internal'],
+    surface: ['review', 'product'],
   },
 ].map((row) => Object.freeze({
   ...row,

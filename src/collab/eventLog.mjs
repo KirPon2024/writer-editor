@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 
 const EVENTLOG_SCHEMA_VERSION = 'collab-eventlog.v1';
 const OPERATION_REPLAY_REPORT_SCHEMA_VERSION = 'collab-operation-replay.report.v1';
+export const COMMAND_KERNEL_OPERATION_ENVELOPE_SCHEMA_VERSION = 'yalken.commandKernel.operationEnvelope.v1';
 export const COMMAND_KERNEL_RECEIPT_SCHEMA_VERSION = 'command-kernel.receipt.v1';
 export const COMMAND_KERNEL_RECEIPT_AUTHORITY_KIND = 'command-kernel-receipt-authority.v1';
 const SHA256_HEX_RE = /^[a-f0-9]{64}$/u;
@@ -48,6 +49,21 @@ function normalizeDomainEvents(events) {
   return Array.isArray(events) ? events.map((event) => cloneJson(event)) : [];
 }
 
+function normalizeStringArray(value) {
+  return Array.isArray(value) ? value.map((item) => normalizeString(item)).filter(Boolean) : [];
+}
+
+function normalizeTargets(value) {
+  if (!Array.isArray(value)) return [];
+  return value
+    .filter((target) => isPlainObject(target))
+    .map((target) => ({
+      targetKind: normalizeString(target.targetKind || target.kind),
+      targetId: normalizeString(target.targetId || target.id),
+    }))
+    .filter((target) => target.targetKind && target.targetId);
+}
+
 function isSha256Hex(value) {
   return SHA256_HEX_RE.test(normalizeString(value));
 }
@@ -73,6 +89,105 @@ function hashDomainEventsWithPort(events, portInput = {}) {
   return normalizeString(port.hash(normalizeDomainEvents(events)));
 }
 
+function inferCommandTargets(payload = {}) {
+  const source = isPlainObject(payload) ? payload : {};
+  const targets = [];
+  for (const [field, targetKind] of [
+    ['projectId', 'project'],
+    ['sceneId', 'scene'],
+    ['mapId', 'manualMap'],
+    ['nodeId', 'manualMapNode'],
+    ['edgeId', 'manualMapEdge'],
+    ['entityId', 'atlasEntity'],
+    ['ideaId', 'idea'],
+    ['meaningId', 'meaning'],
+  ]) {
+    const targetId = normalizeString(source[field]);
+    if (targetId) targets.push({ targetKind, targetId });
+  }
+  return targets;
+}
+
+export function createCommandKernelOperationEnvelope(input = {}) {
+  const payload = isPlainObject(input.payload) || Array.isArray(input.payload) ? cloneJson(input.payload) : null;
+  const payloadHash = hashCanonical(payload);
+  const baseRevision = isPlainObject(input.baseRevision) ? cloneJson(input.baseRevision) : {};
+  const envelope = {
+    schemaVersion: COMMAND_KERNEL_OPERATION_ENVELOPE_SCHEMA_VERSION,
+    commandId: normalizeString(input.commandId),
+    commandVersion: Number.isSafeInteger(Number(input.commandVersion)) && Number(input.commandVersion) > 0
+      ? Number(input.commandVersion)
+      : 1,
+    payload,
+    payloadHash,
+    baseRevision: {
+      stateHash: normalizeString(baseRevision.stateHash || input.preStateHash),
+      projectRevision: normalizeString(baseRevision.projectRevision),
+    },
+    targets: normalizeTargets(input.targets).length > 0 ? normalizeTargets(input.targets) : inferCommandTargets(payload),
+    correlationId: normalizeString(input.correlationId || input.opId),
+    sessionId: normalizeString(input.sessionId),
+    dependencies: normalizeStringArray(input.dependencies),
+  };
+  if (normalizeString(input.eventId)) envelope.eventId = normalizeString(input.eventId);
+  if (isPlainObject(input.canonicalTruthLink)) envelope.canonicalTruthLink = cloneJson(input.canonicalTruthLink);
+  return {
+    envelope,
+    envelopeDigest: hashCanonical(envelope),
+  };
+}
+
+function validateCommandKernelOperationEnvelope(envelope, {
+  commandId,
+  payloadHash,
+  preStateHash,
+  operationEnvelopeDigest,
+} = {}) {
+  if (!isPlainObject(envelope)) {
+    return typedError(
+      'E_COLLAB_EVENTLOG_OPERATION_ENVELOPE_MISSING',
+      'collab.eventlog.operationEnvelope',
+      'EXECUTABLE_OPERATION_ENVELOPE_REQUIRED',
+    );
+  }
+  if (envelope.schemaVersion !== COMMAND_KERNEL_OPERATION_ENVELOPE_SCHEMA_VERSION) {
+    return typedError(
+      'E_COLLAB_EVENTLOG_OPERATION_ENVELOPE_SCHEMA_INVALID',
+      'collab.eventlog.operationEnvelope',
+      'EXECUTABLE_OPERATION_ENVELOPE_SCHEMA_UNSUPPORTED',
+    );
+  }
+  if (normalizeString(envelope.commandId) !== normalizeString(commandId) || Number(envelope.commandVersion) !== 1) {
+    return typedError(
+      'E_COLLAB_EVENTLOG_OPERATION_ENVELOPE_COMMAND_INVALID',
+      'collab.eventlog.operationEnvelope',
+      'EXECUTABLE_OPERATION_COMMAND_VERSION_UNSUPPORTED',
+    );
+  }
+  if (normalizeString(envelope.payloadHash) !== normalizeString(payloadHash) || hashCanonical(envelope.payload) !== normalizeString(payloadHash)) {
+    return typedError(
+      'E_COLLAB_EVENTLOG_OPERATION_ENVELOPE_PAYLOAD_HASH_MISMATCH',
+      'collab.eventlog.operationEnvelope',
+      'EXECUTABLE_OPERATION_PAYLOAD_HASH_MISMATCH',
+    );
+  }
+  if (normalizeString(envelope.baseRevision?.stateHash) !== normalizeString(preStateHash)) {
+    return typedError(
+      'E_COLLAB_EVENTLOG_OPERATION_ENVELOPE_BASE_MISMATCH',
+      'collab.eventlog.operationEnvelope',
+      'EXECUTABLE_OPERATION_BASE_REVISION_MISMATCH',
+    );
+  }
+  if (normalizeString(operationEnvelopeDigest) !== hashCanonical(envelope)) {
+    return typedError(
+      'E_COLLAB_EVENTLOG_OPERATION_ENVELOPE_DIGEST_MISMATCH',
+      'collab.eventlog.operationEnvelope',
+      'EXECUTABLE_OPERATION_ENVELOPE_DIGEST_MISMATCH',
+    );
+  }
+  return null;
+}
+
 function domainEventsValid(events, expectedDigest = '', portInput = {}) {
   try {
     const normalized = normalizeDomainEvents(events);
@@ -91,6 +206,7 @@ function domainEventsValid(events, expectedDigest = '', portInput = {}) {
 function normalizeEventEntry(input = {}) {
   const entry = isPlainObject(input) ? input : {};
   const normalized = {
+    eventId: normalizeString(entry.eventId),
     opId: normalizeString(entry.opId),
     ts: normalizeString(entry.ts),
     actorId: normalizeString(entry.actorId),
@@ -99,6 +215,10 @@ function normalizeEventEntry(input = {}) {
     preStateHash: normalizeString(entry.preStateHash),
     postStateHash: normalizeString(entry.postStateHash),
   };
+  if (isPlainObject(entry.operationEnvelope) || typeof entry.operationEnvelopeDigest === 'string') {
+    normalized.operationEnvelope = isPlainObject(entry.operationEnvelope) ? cloneJson(entry.operationEnvelope) : null;
+    normalized.operationEnvelopeDigest = normalizeString(entry.operationEnvelopeDigest);
+  }
   if (
     Array.isArray(entry.domainEvents)
     || typeof entry.domainEventDigest === 'string'
@@ -112,7 +232,8 @@ function normalizeEventEntry(input = {}) {
 
 function eventEntryValid(entry, portInput = {}) {
   const requiredFieldsValid = Boolean(
-    entry.opId
+    entry.eventId
+    && entry.opId
     && entry.ts
     && entry.actorId
     && entry.commandId
@@ -121,6 +242,15 @@ function eventEntryValid(entry, portInput = {}) {
     && entry.postStateHash,
   );
   if (!requiredFieldsValid) return false;
+  if (entry.operationEnvelope || entry.operationEnvelopeDigest) {
+    const envelopeError = validateCommandKernelOperationEnvelope(entry.operationEnvelope, {
+      commandId: entry.commandId,
+      payloadHash: entry.payloadHash,
+      preStateHash: entry.preStateHash,
+      operationEnvelopeDigest: entry.operationEnvelopeDigest,
+    });
+    if (envelopeError) return false;
+  }
   if (Array.isArray(entry.domainEvents) || entry.domainEventDigest) {
     return Array.isArray(entry.domainEvents)
       && isSha256Hex(entry.domainEventDigest)
@@ -141,6 +271,15 @@ function normalizeEventLog(input = {}) {
 function collectKnownOpIds(events) {
   const known = new Set();
   for (const event of events) known.add(event.opId);
+  return known;
+}
+
+function collectKnownEventIds(events) {
+  const known = new Set();
+  for (const event of events) {
+    const eventId = normalizeString(event.eventId);
+    if (eventId) known.add(eventId);
+  }
   return known;
 }
 
@@ -342,9 +481,113 @@ function replayError(code, reason, details) {
   );
 }
 
+function normalizeApplyCommandResult(result) {
+  if (!isPlainObject(result) || result.ok !== true || !isPlainObject(result.state)) return null;
+  return {
+    state: cloneJson(result.state),
+    stateHash: normalizeString(result.stateHash) || hashCanonical(result.state),
+    domainEvents: normalizeDomainEvents(result.events),
+  };
+}
+
+function executeReplayEnvelope({
+  event,
+  index,
+  currentState,
+  currentHash,
+  applyCommand,
+  hashState,
+  domainEventAuthorityPort,
+}) {
+  const envelopeError = validateCommandKernelOperationEnvelope(event.operationEnvelope, {
+    commandId: event.commandId,
+    payloadHash: event.payloadHash,
+    preStateHash: event.preStateHash,
+    operationEnvelopeDigest: event.operationEnvelopeDigest,
+  });
+  if (envelopeError) {
+    return {
+      ok: false,
+      error: replayError(
+        envelopeError.code,
+        envelopeError.reason,
+        { index, opId: event.opId, commandId: event.commandId },
+      ),
+    };
+  }
+  let reducerState = currentState;
+  const canonicalTruthLink = event.operationEnvelope.canonicalTruthLink;
+  if (isPlainObject(canonicalTruthLink)) {
+    const linkedState = canonicalTruthLink.coreState;
+    const linkedHash = normalizeString(canonicalTruthLink.stateHash);
+    if (!isPlainObject(linkedState) || !isSha256Hex(linkedHash) || hashState(linkedState) !== linkedHash) {
+      return {
+        ok: false,
+        error: replayError(
+          'E_COLLAB_OPERATION_REPLAY_CANONICAL_TRUTH_LINK_INVALID',
+          'EXECUTABLE_CANONICAL_TRUTH_LINK_INVALID',
+          { index, opId: event.opId, commandId: event.commandId },
+        ),
+      };
+    }
+    reducerState = cloneJson(linkedState);
+  }
+  const applyResult = normalizeApplyCommandResult(applyCommand(reducerState, {
+    type: event.commandId,
+    payload: cloneJson(event.operationEnvelope.payload),
+    event: cloneJson(event),
+  }));
+  if (!applyResult) {
+    return {
+      ok: false,
+      error: replayError(
+        'E_COLLAB_OPERATION_REPLAY_REDUCER_REJECTED',
+        'EXECUTABLE_REPLAY_REDUCER_REJECTED',
+        { index, opId: event.opId, commandId: event.commandId },
+      ),
+    };
+  }
+  if (event.preStateHash !== currentHash || event.postStateHash !== applyResult.stateHash) {
+    return {
+      ok: false,
+      error: replayError(
+        'E_COLLAB_OPERATION_REPLAY_EXECUTABLE_STATE_HASH_MISMATCH',
+        'EXECUTABLE_REPLAY_STATE_HASH_MISMATCH',
+        {
+          index,
+          opId: event.opId,
+          commandId: event.commandId,
+          expectedPostStateHash: event.postStateHash,
+          actualPostStateHash: applyResult.stateHash,
+        },
+      ),
+    };
+  }
+  const eventDomainDigest = hashDomainEventsWithPort(applyResult.domainEvents, domainEventAuthorityPort);
+  if (
+    normalizeString(event.domainEventDigest) !== eventDomainDigest
+    || hashCanonical(normalizeDomainEvents(event.domainEvents)) !== hashCanonical(applyResult.domainEvents)
+  ) {
+    return {
+      ok: false,
+      error: replayError(
+        'E_COLLAB_OPERATION_REPLAY_EXECUTABLE_DOMAIN_EVENTS_MISMATCH',
+        'EXECUTABLE_REPLAY_DOMAIN_EVENTS_MISMATCH',
+        { index, opId: event.opId, commandId: event.commandId },
+      ),
+    };
+  }
+  return {
+    ok: true,
+    state: applyResult.state,
+    stateHash: applyResult.stateHash,
+  };
+}
+
 function buildReplayStep(event, index, currentHash, receipt) {
   return {
     index,
+    eventId: event.eventId || '',
     opId: event.opId,
     actorId: event.actorId,
     ts: event.ts,
@@ -354,6 +597,14 @@ function buildReplayStep(event, index, currentHash, receipt) {
     postStateHash: event.postStateHash,
     domainEventDigest: event.domainEventDigest || '',
     domainEventCount: Array.isArray(event.domainEvents) ? event.domainEvents.length : 0,
+    operationEnvelopeRef: event.operationEnvelopeDigest
+      ? {
+          schemaVersion: event.operationEnvelope?.schemaVersion || '',
+          commandVersion: Number(event.operationEnvelope?.commandVersion) || 0,
+          operationEnvelopeDigest: event.operationEnvelopeDigest,
+          payloadHash: event.payloadHash,
+        }
+      : null,
     replayedFromStateHash: currentHash,
     commandReceiptRef: receipt ? commandReceiptRef(receipt) : null,
     stateHashProof: {
@@ -403,6 +654,19 @@ export function appendEventLogEntry(input = {}) {
   }
 
   const knownOpIds = collectKnownOpIds(eventLog.events);
+  const knownEventIds = collectKnownEventIds(eventLog.events);
+  if (entry.eventId && knownEventIds.has(entry.eventId)) {
+    return {
+      ok: false,
+      eventLog,
+      error: typedError(
+        'E_COLLAB_EVENTLOG_EVENTID_DUPLICATE',
+        'collab.eventlog.append',
+        'EVENT_ID_ALREADY_EXISTS',
+        { eventId: entry.eventId },
+      ),
+    };
+  }
   if (knownOpIds.has(entry.opId)) {
     return {
       ok: false,
@@ -449,6 +713,20 @@ export function applyCommandWithEventLog(input = {}) {
   const currentStateHash = normalizeString(input.currentStateHash) || hashCanonical(currentState);
   const commandId = normalizeString(input.commandId);
   const payload = isPlainObject(input.payload) || Array.isArray(input.payload) ? cloneJson(input.payload) : null;
+  const payloadHash = hashCanonical(payload);
+  const operationEnvelope = createCommandKernelOperationEnvelope({
+    commandId,
+    payload,
+    opId: input.opId,
+    eventId: input.eventId || input.opId,
+    preStateHash: currentStateHash,
+    sessionId: input.sessionId,
+    correlationId: input.correlationId,
+    dependencies: input.dependencies,
+    targets: input.targets,
+    canonicalTruthLink: input.canonicalTruthLink,
+    commandVersion: input.commandVersion,
+  });
 
   const command = {
     type: commandId,
@@ -491,13 +769,16 @@ export function applyCommandWithEventLog(input = {}) {
   }
   const domainEventDigest = hashDomainEventsWithPort(domainEvents, input.domainEventPort);
   const entry = {
+    eventId: normalizeString(input.eventId || input.opId),
     opId: normalizeString(input.opId),
     ts: normalizeString(input.ts),
     actorId: normalizeString(input.actorId),
     commandId,
-    payloadHash: hashCanonical(payload),
+    payloadHash,
     preStateHash: currentStateHash,
     postStateHash,
+    operationEnvelope: operationEnvelope.envelope,
+    operationEnvelopeDigest: operationEnvelope.envelopeDigest,
     domainEvents,
     domainEventDigest,
   };
@@ -586,6 +867,10 @@ export function buildOperationReplayReport(input = {}) {
   const initialStateHash = normalizeString(input.initialStateHash);
   const expectedFinalStateHash = normalizeString(input.expectedFinalStateHash);
   const requireCommandKernelReceipt = input.requireCommandKernelReceipt === true;
+  const requireExecutableOperationEnvelope = input.requireExecutableOperationEnvelope === true;
+  const applyCommand = typeof input.applyCommand === 'function' ? input.applyCommand : null;
+  const hashState = typeof input.hashState === 'function' ? input.hashState : hashCanonical;
+  const initialState = isPlainObject(input.initialState) ? cloneJson(input.initialState) : null;
   const domainEventAuthorityPort = input.domainEventPort;
   const authorityPort = receiptAuthority(input);
   const commandReceipts = requireCommandKernelReceipt ? [] : normalizeCommandReceipts(input.commandReceipts);
@@ -593,6 +878,7 @@ export function buildOperationReplayReport(input = {}) {
     usesExistingEventLog: true,
     commandKernelReceiptBinding: requireCommandKernelReceipt,
     commandKernelReceiptAuthority: requireCommandKernelReceipt ? COMMAND_KERNEL_RECEIPT_AUTHORITY_KIND : '',
+    executableOperationEnvelope: requireExecutableOperationEnvelope,
     secondOperationLogTruth: false,
     privateCommandBus: false,
     directManuscriptMutation: false,
@@ -601,7 +887,7 @@ export function buildOperationReplayReport(input = {}) {
     networkAdapter: false,
   };
 
-  if (!initialStateHash) {
+  if (!initialStateHash || (requireExecutableOperationEnvelope && (!initialState || !applyCommand))) {
     return buildReplayReport({
       schemaVersion: OPERATION_REPLAY_REPORT_SCHEMA_VERSION,
       ok: false,
@@ -614,10 +900,15 @@ export function buildOperationReplayReport(input = {}) {
       rejectedCount: 1,
       steps: [],
       rejected: [
-        replayError(
-          'E_COLLAB_OPERATION_REPLAY_INITIAL_STATE_HASH_REQUIRED',
-          'INITIAL_STATE_HASH_REQUIRED',
-        ),
+        !initialStateHash
+          ? replayError(
+              'E_COLLAB_OPERATION_REPLAY_INITIAL_STATE_HASH_REQUIRED',
+              'INITIAL_STATE_HASH_REQUIRED',
+            )
+          : replayError(
+              'E_COLLAB_OPERATION_REPLAY_EXECUTABLE_BASELINE_REQUIRED',
+              'EXECUTABLE_REPLAY_BASELINE_AND_REDUCER_REQUIRED',
+            ),
       ],
       authority,
     });
@@ -626,19 +917,12 @@ export function buildOperationReplayReport(input = {}) {
   const steps = [];
   const rejected = [];
   const seenOpIds = new Set();
+  const seenEventIds = new Set();
   let currentHash = initialStateHash;
+  let currentState = initialState;
 
   for (let index = 0; index < eventLog.events.length; index += 1) {
     const event = eventLog.events[index];
-    if (!eventEntryValid(event, domainEventAuthorityPort)) {
-      rejected.push(replayError(
-        'E_COLLAB_OPERATION_REPLAY_ENTRY_INVALID',
-        'ENTRY_FIELDS_REQUIRED',
-        { index, opId: event.opId },
-      ));
-      continue;
-    }
-
     if (seenOpIds.has(event.opId)) {
       rejected.push(replayError(
         'E_COLLAB_OPERATION_REPLAY_DUPLICATE_OP_ID',
@@ -648,6 +932,25 @@ export function buildOperationReplayReport(input = {}) {
       continue;
     }
     seenOpIds.add(event.opId);
+
+    if (event.eventId && seenEventIds.has(event.eventId)) {
+      rejected.push(replayError(
+        'E_COLLAB_OPERATION_REPLAY_DUPLICATE_EVENT_ID',
+        'EVENT_ID_ALREADY_REPLAYED',
+        { index, eventId: event.eventId },
+      ));
+      continue;
+    }
+    if (event.eventId) seenEventIds.add(event.eventId);
+
+    if (!eventEntryValid(event, domainEventAuthorityPort)) {
+      rejected.push(replayError(
+        'E_COLLAB_OPERATION_REPLAY_ENTRY_INVALID',
+        'ENTRY_FIELDS_REQUIRED',
+        { index, opId: event.opId },
+      ));
+      continue;
+    }
 
     if (event.preStateHash !== currentHash) {
       rejected.push(replayError(
@@ -680,8 +983,26 @@ export function buildOperationReplayReport(input = {}) {
       receipt = findCommandReceipt(commandReceipts, event);
     }
 
+    let executable = null;
+    if (requireExecutableOperationEnvelope) {
+      executable = executeReplayEnvelope({
+        event,
+        index,
+        currentState,
+        currentHash,
+        applyCommand,
+        hashState,
+        domainEventAuthorityPort,
+      });
+      if (!executable.ok) {
+        rejected.push(executable.error);
+        continue;
+      }
+    }
+
     steps.push(buildReplayStep(event, index, currentHash, receipt));
-    currentHash = event.postStateHash;
+    currentHash = requireExecutableOperationEnvelope ? executable.stateHash : event.postStateHash;
+    if (requireExecutableOperationEnvelope) currentState = executable.state;
   }
 
   if (expectedFinalStateHash && expectedFinalStateHash !== currentHash) {

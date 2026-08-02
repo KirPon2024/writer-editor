@@ -1007,6 +1007,13 @@ let flowModeState = {
 };
 let reviewSurfaceState = null;
 let reviewSurfaceExactTextApplyTransientState = null;
+let stage10LifecycleSurfaceState = {
+  status: 'idle',
+  lastCommandId: '',
+  lastReceiptId: '',
+  lastReason: '',
+  runningCommandId: '',
+};
 let reviewSurfaceApplyActionListenerBound = false;
 let metaEnabled = false;
 let currentCards = [];
@@ -2241,6 +2248,150 @@ function reviewSurfaceRenderDisplayDiff(tokens) {
   `;
 }
 
+const STAGE10_LIFECYCLE_PRODUCT_COMMANDS = Object.freeze([
+  {
+    commandId: 'cmd.comments.importStablePacket',
+    label: 'Import comment packet',
+    lane: 'comments',
+  },
+  {
+    commandId: 'cmd.collab.conflict.preview',
+    label: 'Preview conflict',
+    lane: 'conflict',
+  },
+  {
+    commandId: 'cmd.collab.operationExchange.prepare',
+    label: 'Prepare exchange',
+    lane: 'exchange',
+  },
+  {
+    commandId: 'cmd.collab.operationExchange.localFixturePreview',
+    label: 'Preview exchange',
+    lane: 'exchange',
+  },
+  {
+    commandId: 'cmd.collab.eventLog.apply',
+    label: 'Apply local event log',
+    lane: 'collab',
+  },
+]);
+
+function unwrapStage10LifecycleCommandResult(result = {}) {
+  const value = reviewSurfaceIsPlainObject(result?.value) ? result.value : {};
+  const bridged = reviewSurfaceIsPlainObject(value.result) ? value.result : value;
+  const nested = reviewSurfaceIsPlainObject(bridged.value) ? bridged.value : bridged;
+  return reviewSurfaceIsPlainObject(nested) ? nested : {};
+}
+
+function getStage10LifecycleReceiptId(result = {}) {
+  const unwrapped = unwrapStage10LifecycleCommandResult(result);
+  return reviewSurfaceText(
+    unwrapped.receipt?.receiptId
+    || unwrapped.receipt?.operationId
+    || unwrapped.value?.receipt?.receiptId
+    || unwrapped.value?.receipt?.operationId,
+  );
+}
+
+function buildStage10LifecyclePayload(commandId) {
+  const base = {
+    projectId: currentProjectId,
+    sceneId: currentDocumentId || 'scene-1',
+  };
+  if (commandId === 'cmd.comments.importStablePacket') {
+    const commentId = `stage10-ui-comment-${Date.now()}`;
+    return {
+      ...base,
+      revisionId: `stage10-ui-revision-${Date.now()}`,
+      reviewIr: {
+        schemaVersion: 'stage10.renderer.commentPacketIntent.v1',
+        commentThreads: [
+          {
+            threadId: commentId,
+            messages: [
+              {
+                author: 'local-author',
+                body: 'Stage-10 visible lifecycle packet',
+                createdAt: new Date().toISOString(),
+              },
+            ],
+          },
+        ],
+      },
+      context: {
+        source: 'review-surface-stage10-lifecycle',
+        visibleControl: true,
+      },
+    };
+  }
+  if (commandId === 'cmd.collab.conflict.preview') {
+    return {
+      ...base,
+      sessions: [],
+    };
+  }
+  if (commandId === 'cmd.collab.operationExchange.prepare') {
+    return {
+      ...base,
+      adapterKind: 'localFixture',
+      transportCapabilityEnabled: true,
+      networkAdapterEnabled: false,
+    };
+  }
+  if (commandId === 'cmd.collab.operationExchange.localFixturePreview') {
+    return base;
+  }
+  if (commandId === 'cmd.collab.eventLog.apply') {
+    return {
+      ...base,
+      events: [],
+    };
+  }
+  return base;
+}
+
+function renderStage10LifecycleSurface() {
+  if (typeof currentProjectId === 'undefined') {
+    return '';
+  }
+  const lifecycleState = (typeof stage10LifecycleSurfaceState !== 'undefined' && stage10LifecycleSurfaceState)
+    ? stage10LifecycleSurfaceState
+    : {};
+  const activeProjectId = currentProjectId;
+  const status = reviewSurfaceText(lifecycleState.status) || 'idle';
+  const lastCommandId = reviewSurfaceText(lifecycleState.lastCommandId);
+  const lastReceiptId = reviewSurfaceText(lifecycleState.lastReceiptId);
+  const lastReason = reviewSurfaceText(lifecycleState.lastReason);
+  const runningCommandId = reviewSurfaceText(lifecycleState.runningCommandId);
+  return `
+    <section class="right-rail-surface right-rail-surface--review-state" data-stage10-lifecycle-surface>
+      <div class="right-rail-section__label">Stage-10 lifecycle</div>
+      <div class="right-rail-review-state right-rail-review-state--${reviewSurfaceEscapeHtml(status === 'failed' ? 'error' : 'info')}">
+        <strong>${reviewSurfaceEscapeHtml(status === 'idle' ? 'Ready' : reviewSurfacePresentStatus(status))}</strong>
+        <p>Visible controls route through preload, main IPC, application bootstrap and the Command Kernel.</p>
+        ${lastCommandId ? `<div class="right-rail-review-code">${reviewSurfaceEscapeHtml(lastCommandId)}${lastReceiptId ? ` · ${reviewSurfaceEscapeHtml(lastReceiptId)}` : ''}</div>` : ''}
+        ${lastReason ? `<div class="right-rail-review-code">${reviewSurfaceEscapeHtml(lastReason)}</div>` : ''}
+      </div>
+      <div class="right-rail-review-actions right-rail-review-actions--batch" data-stage10-lifecycle-controls>
+        ${STAGE10_LIFECYCLE_PRODUCT_COMMANDS.map((command) => {
+          const disabled = !activeProjectId || Boolean(runningCommandId);
+          const reason = activeProjectId ? '' : 'Project is not open';
+          return `
+            <button
+              type="button"
+              class="right-rail-stage10-lifecycle-button"
+              data-stage10-product-command="${reviewSurfaceEscapeHtml(command.commandId)}"
+              data-stage10-lifecycle-lane="${reviewSurfaceEscapeHtml(command.lane)}"
+              ${disabled ? 'disabled aria-disabled="true"' : ''}
+              ${reason ? `title="${reviewSurfaceEscapeHtml(reason)}"` : ''}
+            >${reviewSurfaceEscapeHtml(command.label)}</button>
+          `;
+        }).join('')}
+      </div>
+    </section>
+  `;
+}
+
 function renderReviewSurfaceMarkup(viewModel) {
   const reconciliationItems = reviewSurfaceArray(viewModel.reconciliation?.items);
   const reconciliationErrors = reviewSurfaceArray(viewModel.reconciliation?.errors);
@@ -2581,6 +2732,7 @@ function renderReviewSurfaceMarkup(viewModel) {
         <p>Запись в проект идет только через подтвержденный путь.</p>
       </div>
     </section>
+    ${renderStage10LifecycleSurface()}
     <section class="right-rail-surface">
       <div class="right-rail-section__label">Сводка импорта</div>
       <div class="right-rail-form-grid">${summaryRows}</div>
@@ -16723,9 +16875,55 @@ function setReviewFormattingEditorLock(locked) {
   editor.removeAttribute('aria-busy');
 }
 
+async function handleStage10LifecycleProductCommand(button) {
+  if (!(button instanceof HTMLButtonElement) || button.disabled) return false;
+  const commandId = reviewSurfaceText(button.dataset.stage10ProductCommand);
+  if (!STAGE10_LIFECYCLE_PRODUCT_COMMANDS.some((command) => command.commandId === commandId)) return false;
+  stage10LifecycleSurfaceState = {
+    status: 'running',
+    lastCommandId: commandId,
+    lastReceiptId: '',
+    lastReason: '',
+    runningCommandId: commandId,
+  };
+  renderReviewSurface();
+  const payload = buildStage10LifecyclePayload(commandId);
+  let result = null;
+  try {
+    result = await dispatchUiCommand(commandId, payload);
+  } catch (error) {
+    stage10LifecycleSurfaceState = {
+      status: 'failed',
+      lastCommandId: commandId,
+      lastReceiptId: '',
+      lastReason: error && typeof error.message === 'string' ? error.message : 'STAGE10_LIFECYCLE_COMMAND_THROW',
+      runningCommandId: '',
+    };
+    renderReviewSurface();
+    return true;
+  }
+  const reason = reviewSurfaceExtractCommandFailureReason(result);
+  const receiptId = getStage10LifecycleReceiptId(result);
+  stage10LifecycleSurfaceState = {
+    status: result && result.ok === true ? 'complete' : 'failed',
+    lastCommandId: commandId,
+    lastReceiptId: receiptId,
+    lastReason: result && result.ok === true ? '' : reason,
+    runningCommandId: '',
+  };
+  updateStatusText(result && result.ok === true ? 'Stage-10 lifecycle command persisted' : 'Stage-10 lifecycle command failed');
+  renderReviewSurface();
+  return true;
+}
+
 async function handleReviewSurfaceExactTextApplyClick(event) {
   const target = event?.target;
   if (!(target instanceof Element) || !(reviewSurfaceHost instanceof HTMLElement)) return;
+  const stage10Button = target.closest('[data-stage10-product-command]');
+  if (stage10Button instanceof HTMLButtonElement && reviewSurfaceHost.contains(stage10Button)) {
+    await handleStage10LifecycleProductCommand(stage10Button);
+    return;
+  }
   const replayInspectButton = target.closest('[data-review-inspect-formatting-replay]');
   if (replayInspectButton instanceof HTMLButtonElement && reviewSurfaceHost.contains(replayInspectButton)) {
     if (replayInspectButton.disabled) return;

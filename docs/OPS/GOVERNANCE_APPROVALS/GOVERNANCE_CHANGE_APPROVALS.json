@@ -47,38 +47,11 @@
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_R1_B_REPAIR"
     },
     {
-      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-01-future-schema-loss.contract.test.js",
-      "sha256": "3fe8f70d35d244f2b538adeeb930a27a6bdf77a9d39f3a5651d0af36f83cbfed",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_B",
-      "approvedAtUtc": "2026-08-02T09:48:14.000Z",
-      "rationale": "Approve decisive real-main R1-B tests proving Command Kernel receipt provenance, duplicate preflight, reopen replay, future-schema fail-close and opaque uncommanded-domain preservation.",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_R1_B_REPAIR"
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-05-manual-map-portability.contract.test.js",
-      "sha256": "7e3dc9b661a6adf2188acd6599b45fd8f098780c64cc947e1bc69ad0cc99ad36",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_B",
-      "approvedAtUtc": "2026-08-02T09:48:14.000Z",
-      "rationale": "Approve the exact maintained portability contract boundary update after removal of the generic direct writer while preserving the separately queued portability adapter scope.",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_R1_B_REPAIR"
-    },
-    {
       "filePath": "test/contracts/yalken-atlas-v5-r2-c04-authority-runtime-hygiene.contract.test.js",
       "sha256": "84ee54d1b76fb2581e89ba4127cb04463ddd3785845a2d26069ed22d7daf4761",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_B",
       "approvedAtUtc": "2026-08-02T09:48:14.000Z",
       "rationale": "Approve the exact authority hygiene contract requiring capability revalidation before canonical Stage-10 dispatch and forbidding the old direct reducer receipt path.",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_R1_B_REPAIR"
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-stage10-pr1391-audit-repair.contract.test.js",
-      "sha256": "29de161cdf82d42c69cb0481497583d4fac952e612b02e2969448d9a24bc5cd7",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_B",
-      "approvedAtUtc": "2026-08-02T09:48:14.000Z",
-      "rationale": "Approve decisive filesystem tests proving atomic manifest and Stage-10 authority recovery, failed-write rejection, recovery consumption and bounded recovery metadata.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_R1_B_REPAIR"
     },
@@ -97,15 +70,6 @@
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_STAGE10_PR1391_AUDIT_REPAIR",
       "approvedAtUtc": "2026-08-01T22:12:34.000Z",
       "rationale": "Approve the maintained Stage-10 P0-08 contract rebind to transactional persistence and external integrity-anchor validation.",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_SOURCE_PROVEN_R1_R7_REPAIR"
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-p1-domain-event-contract-repair.contract.test.js",
-      "sha256": "1b48d59f102ac27ff4cc0b0a9aeb93fb593eacdf999e0e880d5ddc599eb70dc4",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_STAGE10_PR1391_AUDIT_REPAIR",
-      "approvedAtUtc": "2026-08-01T22:12:34.000Z",
-      "rationale": "Approve existing domain-event repair tests re-bound to the versioned independent receipt authority and main-owned integrity anchor.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_SOURCE_PROVEN_R1_R7_REPAIR"
     },
@@ -5122,24 +5086,6 @@
       "rationale": "Enforce non-interactive runner auth/network preflight with session cache to prevent popup-style prompts in PR flow."
     },
     {
-      "filePath": "scripts/ops/collab-apply-pipeline-state.mjs",
-      "sha256": "8b4f03a41e7cb5ea88f1540c30c19f8cb13770267440c8023317402c04dd74c2",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_AUDIT_HOLD_REPAIR",
-      "approvedAtUtc": "2026-08-01T17:58:15.000Z",
-      "rationale": "Approve bounded Atlas V5 audit-hold repair for collab apply product domain-event port wiring and maintained CI visibility; preserves offline local behavior, no second journal, no direct core import in collab, no network, no dependency, no UI redesign, and no Program DONE claim.",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_AUDIT_HOLD_REPAIR"
-    },
-    {
-      "filePath": "scripts/ops/collab-eventlog-state.mjs",
-      "sha256": "72cf4b84ff34cdf1085274d0c429560d3fd476297be036dd25e3f40a27b60be0",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_AUDIT_HOLD_REPAIR",
-      "approvedAtUtc": "2026-08-01T17:58:15.000Z",
-      "rationale": "Approve bounded Atlas V5 audit-hold repair for collab event-log proof routing through the product domain-event port; preserves deterministic replay, offline local behavior, no second journal, no direct core import in collab, no network, no dependency, no UI redesign, and no Program DONE claim.",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_AUDIT_HOLD_REPAIR"
-    },
-    {
       "filePath": "scripts/ops/command-surface-caller-trust-state.mjs",
       "sha256": "d1e309cfce8e58b2c188a88ea76dcc93832bc0d98cc81a833833e8de32808594",
       "approvedBy": "DOCS_OPERATOR",
@@ -6636,13 +6582,6 @@
       "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
     },
     {
-      "filePath": "src/renderer/design-os/atlasFeatureIntegrationManifest.mjs",
-      "sha256": "4666609f8f4b6919a77d834a98b4c5853a208afc371da474813a9b755f05f093",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
-      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
-      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
-    },
-    {
       "filePath": "src/renderer/design-os/index.mjs",
       "sha256": "cb9c90b5a942ba2d170ad89334ef9c872f02086078f726a1d7efc3c0909c51b7",
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_04",
@@ -6650,36 +6589,11 @@
       "rationale": "Approve bounded P0_04 runtime Design OS binding files: Atlas and Manual Map surfaces are bound by FEATURE_INTEGRATION_MANIFEST_V1 and YALKEN_ATLAS_FEATURE_SLOT_RESOLVER_V1, renderer provider metadata flows through resolved slot binding, direct provider writes are removed, generated bundle rebuilt, no visual redesign, no network, no storage authority, no second command bus, and Program DoD remains IN_PROGRESS."
     },
     {
-      "filePath": "src/renderer/editor.bundle.js",
-      "sha256": "cf2fe131b81832acc4971ffe18b282a53ad8dab799aadf4302c0f2ef04b74433",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
-      "approvedAtUtc": "2026-08-02T10:57:50.000Z",
-      "rationale": "Approve the exact generated renderer bundle corresponding to the audited N3 editor source and existing toolchain; no independent source authority, framework, dependency, network, or visual redesign.",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
-    },
-    {
-      "filePath": "src/renderer/editor.js",
-      "sha256": "2f3c08922ed956c64ac19e6a68999d5d751f83228f3c350579c62eabe99a1a60",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
-      "approvedAtUtc": "2026-08-02T10:57:50.000Z",
-      "rationale": "Approve the exact renderer binding bytes adding one visible explicit N3 apply control and real status rendering through the existing preload command bridge; no renderer writer, new framework, style-system change, dependency, network, or physical certification claim.",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
-    },
-    {
       "filePath": "src/renderer/index.html",
       "sha256": "eb120716e8d7fb73d4f3c2faf6c655915d5234c635436fd57231d3ef3ff98e5c",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03_CURRENT_STATE_REBIND",
       "approvedAtUtc": "2026-07-31T18:48:00.000Z",
       "rationale": "Current-state governance registry rebind after origin/main drift reconciliation and R2 C03 renderer rebuild: approval hash now matches current repo bytes; no new runtime authority, dependency, network, product truth, or Program DoD readiness claim is introduced."
-    },
-    {
-      "filePath": "src/renderer/styles.css",
-      "sha256": "6617b6460b187af848f569521e626e6b9699a973d4fc964b092b9d9d4a209213",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C03",
-      "approvedAtUtc": "2026-08-01T00:05:00.000Z",
-      "rationale": "Approve bounded R3_C03 Manual Map portability visible UI journey repair; preserves Command Kernel path, Design OS visual canon, local-only runtime, projection readback, persistence, reopen, and no release-ready overclaim."
     },
     {
       "filePath": "src/shared/commandCapabilityAuthority.cjs",
@@ -6743,15 +6657,6 @@
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_AUDIT_HOLD_REPAIR",
       "approvedAtUtc": "2026-08-01T17:58:15.000Z",
       "rationale": "Approve bounded Atlas V5 audit-hold repair deterministic collab apply contract rebinding through the canonical product domain-event adapter; preserves offline local behavior, no second journal, no direct core import in collab, no network, no dependency, no UI redesign, and no Program DONE claim.",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_AUDIT_HOLD_REPAIR"
-    },
-    {
-      "filePath": "test/contracts/collab-apply-pipeline-typed-errors.contract.test.js",
-      "sha256": "3ad3d12e4a21bd360510fe7483d50da7cd6acb8649d5f8bb2d8eea084b3521e4",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_AUDIT_HOLD_REPAIR",
-      "approvedAtUtc": "2026-08-01T17:58:15.000Z",
-      "rationale": "Approve bounded Atlas V5 audit-hold repair typed-error negatives for missing domain-event hash authority and fail-closed collab apply; preserves offline local behavior, no second journal, no direct core import in collab, no network, no dependency, no UI redesign, and no Program DONE claim.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_AUDIT_HOLD_REPAIR"
     },
@@ -8571,13 +8476,6 @@
       "rationale": "Approve ER C01 Unicode anchor integrity contract expansion over the E07 C02 base: proves evidence anchors expose both offsetDomains and canonicalOffsetDomains, Command Kernel confirm, suppression, reassignment, and reattachment preserve adapterOffsetDomain, codePointRange, graphemeRange, normalizationMap, prefixSelector, suffixSelector, and unknown future fields through JSON reopen, legacy minimal anchors stay accepted without invented Unicode fields, and Unicode anchor sources remain free of storage, network, DOM, platform, renderer, worker, daemon, command dispatch, runtime download, dynamic executable plugins, destructive normalization, manuscript mutation, project truth mutation, or hidden UI bypasses."
     },
     {
-      "filePath": "test/contracts/yalken-atlas-v5-e07-c03-language-tag-author-truth-mixed-range-router.contract.test.js",
-      "sha256": "20c73910f78f5c55654155afa1e1a9b58d74914ad2a3b21da2a233a01a383319",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C03_LANGUAGE_TAG_AUTHOR_TRUTH_AND_MIXED_RANGE_ROUTER",
-      "approvedAtUtc": "2026-07-30T06:07:30.000Z",
-      "rationale": "Approve bounded Yalken Atlas V5 E07 C03 contract: proves language tag commands persist author truth while preserving manuscript text, mixed-language routing applies project scene and range overrides, unsupported Hebrew routes to GLOBAL exact-only with englishFallback false, invalid ranges overlaps and stale clears fail without mutation, node capability revalidation admits commands while web denies them, derived exports are present, and router sources remain free of storage, network, DOM IPC, UI dispatch, workers, child processes, dynamic imports, true English fallback, or true Deep support."
-    },
-    {
       "filePath": "test/contracts/yalken-atlas-v5-e07-c04-basic-language-packs-en-ru-european-certification.contract.test.js",
       "sha256": "9777486acb53a162b1f936347cbdb49019c59fbc7cd3acd0216f000a715e8d81",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C04_BASIC_LANGUAGE_PACKS_EN_RU_AND_EUROPEAN_CERTIFICATION_FIXTURES",
@@ -8725,13 +8623,6 @@
       "rationale": "Approve E10 C02 focused contract after origin/main B06 drift reconciliation: proves revision history projection packets over existing collab event log entries, Command Kernel receipt refs, and RTK review apply outcome refs; proves author truth values are not copied into history entries, writer snapshot paths do not leak through receipt refs, derived history invalidation binds to packet and author truth hashes, and commentsHistory remains a read-only derived layer without storage, network, renderer, direct command dispatch, or second history store."
     },
     {
-      "filePath": "test/contracts/yalken-atlas-v5-e10-c03-operation-replay-command-event-log.contract.test.js",
-      "sha256": "69b3c9375c719626e2fa58f9a68a6c3a181ebf79f7ff2e32d3d104fe563532ec",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_AUDIT_HOLD_REPAIR",
-      "approvedAtUtc": "2026-08-01T17:58:15.000Z",
-      "rationale": "Approve bounded Atlas V5 audit-hold repair E10 C03 contract for versioned Command Kernel receipt authority, forged receipt rejection, mandatory domain-event digest verification, and canonical product domain-event port replay; preserves existing event log truth, no second journal, no network, no dependency, no UI redesign, and no Program DONE claim."
-    },
-    {
       "filePath": "test/contracts/yalken-atlas-v5-e10-c04-actor-causal-offline-queue.contract.test.js",
       "sha256": "2a547396cf62041366491a001e9dc6b6936b2d2c7c0e9165ee73026a66f49ae8",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E10_C04_ACTOR_IDENTITY_CAUSAL_ORDERING_AND_OFFLINE_QUEUE",
@@ -8842,13 +8733,6 @@
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R0",
       "approvedAtUtc": "2026-08-02T00:00:00.000Z",
       "rationale": "Approve the corrected packaged journey contract with exact origin-main source binding and without unsupported map recovery or undo claims."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-04-design-os-binding.contract.test.js",
-      "sha256": "447f40757b32e7d27a4a646d53e85a22b359dd300cf937355eca93bb55edf912",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_04",
-      "approvedAtUtc": "2026-08-01T05:58:00.000Z",
-      "rationale": "Approve bounded P0_04 Design OS binding contract: requires FEATURE_INTEGRATION_MANIFEST_V1, actual Design OS slot resolver, query registry binding, Command Kernel command IDs, renderer host binding through resolver metadata, fail-closed negative bypass checks, no visual redesign, no network, no storage authority, and Program DoD remains IN_PROGRESS."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-06-multilingual-matcher.contract.test.js",
@@ -9126,15 +9010,6 @@
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_N3_RESUME"
     },
     {
-      "filePath": "docs/OPS/STATUS/RELEASE_CANDIDATE_LOCK.json",
-      "sha256": "4fb1acfab93c6a28242e90a7568f818c7897ebc27da09ae80664f471897418fe",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_N3_FORMATTING_RETURN_RESPONSE_REPAIR",
-      "approvedAtUtc": "2026-08-02T13:34:42.204Z",
-      "rationale": "Approve exact governed and previously approved product-route bytes for the controller-resumed Word N3 formatting-return response repair. This rebind covers the current T7 branch state after physical Word 16.111.2 apply/replay evidence, preserves Google blocked, adds no network path, and makes no broad Word saturation or fixture-only certification claim.",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_N3_RESUME"
-    },
-    {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
       "sha256": "016544ad0cf7abe9beb657305b027e15eda24ac4df1a83e2bc705c8e2dfde175",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_N3_FORMATTING_RETURN_RESPONSE_REPAIR",
@@ -9146,15 +9021,6 @@
     {
       "filePath": "scripts/ops/rtk-word-sandbox-work-root.mjs",
       "sha256": "d5cd64e78c465f9842c79aa8d4f031ac75c76e115ac915c0e4742589f4bec37e",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_N3_FORMATTING_RETURN_RESPONSE_REPAIR",
-      "approvedAtUtc": "2026-08-02T13:34:42.204Z",
-      "rationale": "Approve exact governed and previously approved product-route bytes for the controller-resumed Word N3 formatting-return response repair. This rebind covers the current T7 branch state after physical Word 16.111.2 apply/replay evidence, preserves Google blocked, adds no network path, and makes no broad Word saturation or fixture-only certification claim.",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_N3_RESUME"
-    },
-    {
-      "filePath": "src/main.js",
-      "sha256": "9f7e6683175aaeac0cc357add84d0021504325228dddb43a9010a429a0e15540",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_N3_FORMATTING_RETURN_RESPONSE_REPAIR",
       "approvedAtUtc": "2026-08-02T13:34:42.204Z",
       "rationale": "Approve exact governed and previously approved product-route bytes for the controller-resumed Word N3 formatting-return response repair. This rebind covers the current T7 branch state after physical Word 16.111.2 apply/replay evidence, preserves Google blocked, adds no network path, and makes no broad Word saturation or fixture-only certification claim.",
@@ -9223,6 +9089,201 @@
       "rationale": "Approve exact governed and previously approved product-route bytes for the controller-resumed Word N3 formatting-return response repair. This rebind covers the current T7 branch state after physical Word 16.111.2 apply/replay evidence, preserves Google blocked, adds no network path, and makes no broad Word saturation or fixture-only certification claim.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_N3_RESUME"
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-01-future-schema-loss.contract.test.js",
+      "sha256": "6a42d1ff253e8951eaeb6cc547e9aca061bb448fe08ac1063e2ad022638c2c57",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_C",
+      "approvedAtUtc": "2026-08-02T11:44:07.000Z",
+      "rationale": "Approve exact R1-C future-schema contract bytes proving supported Manual Map, Idea and Meaning author extensions survive mutation, reopen and replay state.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_R1_C_SOURCE_REPAIR"
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-05-manual-map-portability.contract.test.js",
+      "sha256": "e598940469fb9c0e01e16284311d369449770f2c1fb987808866298e6e9bfc87",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_B",
+      "approvedAtUtc": "2026-08-02T09:48:14.000Z",
+      "rationale": "Approve exact R1-C Manual Map portability contract bytes requiring the main product query to expose existing layout scheduler generation, stale-result discard and resource-budget proof while preserving real JSON/image-PDF/import command routing.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_R1_C_SOURCE_REPAIR"
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-stage10-pr1391-audit-repair.contract.test.js",
+      "sha256": "32ec33784ca7b277d5f25ffb05a10ad479b3f4c5bb5d53ccb01e70015117b896",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_C",
+      "approvedAtUtc": "2026-08-02T11:44:07.000Z",
+      "rationale": "Approve exact R1-C Stage-10 contract bytes proving executable causal ledger replay, imported collaborator event provenance, compensating restore history, one-commit canonical truth linkage, visible review-surface lifecycle controls and non-internal product command metadata.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_R1_C_SOURCE_REPAIR"
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-p1-domain-event-contract-repair.contract.test.js",
+      "sha256": "96dfd2296669252f11b0ce555289c619612b9ba53dd2941c255dcb117f58ac2c",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_C",
+      "approvedAtUtc": "2026-08-02T11:44:07.000Z",
+      "rationale": "Approve exact R1-C domain-event contract bytes re-bound from aggregate collab apply proof to persisted imported collaborator events plus one product receipt.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_R1_C_SOURCE_REPAIR"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/RELEASE_CANDIDATE_LOCK.json",
+      "sha256": "e7ac25d53e92bc5c85888ec264d20511e0f7f687218e72aed9bec798502c7061",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_C",
+      "approvedAtUtc": "2026-08-02T13:56:26.118Z",
+      "rationale": "Approve repo-tool-created R1-C promotion release-candidate lock rebind to approved Word N3 base 591ed56f and current menu artifact hashes after semantic integration; this is gate metadata only and adds no product capability or release acceptance claim."
+    },
+    {
+      "filePath": "src/renderer/design-os/atlasFeatureIntegrationManifest.mjs",
+      "sha256": "a5e88fdab5f1ed22975ccfc7bfdc1d0d79f9c3fbea29d08229fc315e33222118",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_C",
+      "approvedAtUtc": "2026-08-02T12:08:00.000Z",
+      "rationale": "Approve exact R1-C Design OS manifest bytes requiring canonical Atlas slot allowlist validation so arbitrary Atlas-prefixed slots fail closed without visual redesign, storage authority, network, dependency or release acceptance claim."
+    },
+    {
+      "filePath": "src/renderer/styles.css",
+      "sha256": "73cf334a65d7c9c197913c44d3329aa8546f860bd3db306b2b3c481ebd06b3f3",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_C",
+      "approvedAtUtc": "2026-08-02T12:31:00.000Z",
+      "rationale": "Approve exact R1-C stylesheet bytes adding a bounded Stage-10 lifecycle review button class that reuses existing Design OS tokens while preserving existing review apply authority, local-only runtime, no dependency, no network and no release-ready overclaim."
+    },
+    {
+      "filePath": "test/contracts/collab-apply-pipeline-typed-errors.contract.test.js",
+      "sha256": "0300cae3c3c0a744d7c80483b81bc06d97f85d41757b9fd40946e1952939bacd",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_C",
+      "approvedAtUtc": "2026-08-02T11:44:07.000Z",
+      "rationale": "Approve exact R1-C collab apply typed-error contract bytes requiring prior-hash admission to fail closed before unknown-command reduction while preserving offline no-network purity.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_R1_C_SOURCE_REPAIR"
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e07-c03-language-tag-author-truth-mixed-range-router.contract.test.js",
+      "sha256": "c51f250ef6972e399bb57493e756572a7365afcc0f66f7872a4c63cae1a8323d",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_C",
+      "approvedAtUtc": "2026-08-02T11:44:07.000Z",
+      "rationale": "Approve exact R1-C language-tag contract bytes requiring BCP47 validation before mutation, explicit und admission and unchanged state hashes for invalid tags."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e10-c03-operation-replay-command-event-log.contract.test.js",
+      "sha256": "830807607a04e48ad6d6465a1e76dee92f82a7bf757bc3552c44d08463b65273",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_C",
+      "approvedAtUtc": "2026-08-02T11:44:07.000Z",
+      "rationale": "Approve exact R1-C operation replay contract bytes requiring executable operation envelopes and rejecting hash-drift replay without weakening existing receipt authority checks."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-04-design-os-binding.contract.test.js",
+      "sha256": "a408493f191ea1e9f8acd5c1051ad017f694b14ff1f09dab39c5c428a0642d91",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_04",
+      "approvedAtUtc": "2026-08-01T05:58:00.000Z",
+      "rationale": "Approve exact R1-C P0_04 Design OS binding contract bytes requiring canonical slot allowlist validation so arbitrary Atlas-prefixed slots fail closed while preserving existing renderer host binding through resolver metadata."
+    },
+    {
+      "filePath": "scripts/ops/collab-eventlog-state.mjs",
+      "sha256": "07750e9d6a0fc5222f744f7586f771d283f8e73304e8048fa7fa2bbd59c2218b",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_C",
+      "approvedAtUtc": "2026-08-02T13:57:58.000Z",
+      "rationale": "Approve exact R1-C OPS collab event-log detector bytes updated to the strict executable event schema with eventId-bearing append-only and duplicate-op negatives; governance metadata only and no product capability or release acceptance claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_R1_C_SOURCE_REPAIR"
+    },
+    {
+      "filePath": "scripts/ops/collab-apply-pipeline-state.mjs",
+      "sha256": "30fcc20014578e6e2023bc93018e81cc72ab1e50a5c5fedf570a26e37a7f9113",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_C",
+      "approvedAtUtc": "2026-08-02T13:57:58.000Z",
+      "rationale": "Approve exact R1-C OPS collab apply-pipeline detector bytes updated so unknown-command negatives reach the reducer rejection boundary after valid causal prevHash admission; governance metadata only and no product capability or release acceptance claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_R1_C_SOURCE_REPAIR"
+    },
+    {
+      "filePath": "src/main.js",
+      "sha256": "7a7421f15ecde0cdefb9a520799aedb5e7d98227d5f2190c82a4162e69812093",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_C_WORD_N3_INTEGRATION",
+      "approvedAtUtc": "2026-08-02T13:58:54.000Z",
+      "rationale": "Approve exact R1-C plus Word N3 integrated main-process bytes preserving Stage-10 bootstrap routing, Manual Map product-query scheduler proof, Word N3 IPC behavior, offline local behavior, no network and no release acceptance claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_BASE_ADVANCE_591ED56F"
+    },
+    {
+      "filePath": "src/renderer/editor.js",
+      "sha256": "f36a4a1f42422522729ba0f6285dd56fb1a7f20acf03717a663fb725054773cb",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_C_WORD_N3_INTEGRATION",
+      "approvedAtUtc": "2026-08-02T13:58:54.000Z",
+      "rationale": "Approve exact R1-C plus Word N3 reconciled renderer source preserving visible Stage-10 lifecycle controls and Word N3 formatting return controls through the existing review surface command route; no renderer-owned truth, network or release acceptance claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_BASE_ADVANCE_591ED56F"
+    },
+    {
+      "filePath": "src/renderer/editor.bundle.js",
+      "sha256": "16db2d5b57d4b19868b913daeada62c34c8985edb78730a972a1a9ff28ba070a",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_C_WORD_N3_INTEGRATION",
+      "approvedAtUtc": "2026-08-02T13:58:54.000Z",
+      "rationale": "Approve exact generated renderer bundle bytes rebuilt from the reconciled R1-C plus Word N3 editor source; generated artifact only and no product capability or release acceptance claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_BASE_ADVANCE_591ED56F"
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-591ed56fb3e2-8a2da1ef/doctor-strict.log",
+      "sha256": "fdc6aa5555091f8593117be91a2f46e0bca0e2cf7698412c0deaf877522c69f2",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_C_WORD_N3_INTEGRATION",
+      "approvedAtUtc": "2026-08-02T14:04:18.000Z",
+      "rationale": "Approve exact stable R1-C plus Word N3 promotion doctor-strict log after the committed evidence pack became part of the governed branch diff; evidence only and no product capability or release acceptance claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_BASE_ADVANCE_591ED56F"
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-591ed56fb3e2-8a2da1ef/failsignal-registry-snapshot.json",
+      "sha256": "480a720d5f877f5109ea1e0462950bd60500b7823221f0ab7417d98c90e98495",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_C_WORD_N3_INTEGRATION",
+      "approvedAtUtc": "2026-08-02T14:02:30.000Z",
+      "rationale": "Approve exact R1-C plus Word N3 promotion evidence pack bytes generated by the repo release-candidate promotion verifier for rc-591ed56fb3e2-8a2da1ef; evidence only and no product capability or release acceptance claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_BASE_ADVANCE_591ED56F"
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-591ed56fb3e2-8a2da1ef/heavy-lane-summary.json",
+      "sha256": "0b24d1bdb23f3b8095b3cbf95e4e3b3f6465cecab04c3f95ae736778e2ce30b2",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_C_WORD_N3_INTEGRATION",
+      "approvedAtUtc": "2026-08-02T14:02:30.000Z",
+      "rationale": "Approve exact R1-C plus Word N3 promotion evidence pack bytes generated by the repo release-candidate promotion verifier for rc-591ed56fb3e2-8a2da1ef; evidence only and no product capability or release acceptance claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_BASE_ADVANCE_591ED56F"
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-591ed56fb3e2-8a2da1ef/menuArtifactHash.txt",
+      "sha256": "44b5d7610028097b2452d398bb8367fd48d1c4818728fb060e92bc36fd567d7f",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_C_WORD_N3_INTEGRATION",
+      "approvedAtUtc": "2026-08-02T14:02:30.000Z",
+      "rationale": "Approve exact R1-C plus Word N3 promotion evidence pack bytes generated by the repo release-candidate promotion verifier for rc-591ed56fb3e2-8a2da1ef; evidence only and no product capability or release acceptance claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_BASE_ADVANCE_591ED56F"
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-591ed56fb3e2-8a2da1ef/perfBaseline.json",
+      "sha256": "4c2ba9bc56ac34e0e1a6dbabb0bd4506d348699837ed287078e85325244977e3",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_C_WORD_N3_INTEGRATION",
+      "approvedAtUtc": "2026-08-02T14:02:30.000Z",
+      "rationale": "Approve exact R1-C plus Word N3 promotion evidence pack bytes generated by the repo release-candidate promotion verifier for rc-591ed56fb3e2-8a2da1ef; evidence only and no product capability or release acceptance claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_BASE_ADVANCE_591ED56F"
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-591ed56fb3e2-8a2da1ef/promotion-summary.json",
+      "sha256": "28e2fad5fe8bb67c38e7dca2e382fa95bea3e14b07eaa478a62784601bedcb2b",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_C_WORD_N3_INTEGRATION",
+      "approvedAtUtc": "2026-08-02T14:02:30.000Z",
+      "rationale": "Approve exact R1-C plus Word N3 promotion evidence pack bytes generated by the repo release-candidate promotion verifier for rc-591ed56fb3e2-8a2da1ef; evidence only and no product capability or release acceptance claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_BASE_ADVANCE_591ED56F"
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-591ed56fb3e2-8a2da1ef/token-required-set.json",
+      "sha256": "53845afe43620c1da737dba37aaf96a86d09e3a0cc5ee4b086b1912282956ac5",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_C_WORD_N3_INTEGRATION",
+      "approvedAtUtc": "2026-08-02T14:02:30.000Z",
+      "rationale": "Approve exact R1-C plus Word N3 promotion evidence pack bytes generated by the repo release-candidate promotion verifier for rc-591ed56fb3e2-8a2da1ef; evidence only and no product capability or release acceptance claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_BASE_ADVANCE_591ED56F"
     }
   ]
 }

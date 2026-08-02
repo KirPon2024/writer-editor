@@ -274,7 +274,11 @@ function validateHead(head, { projectId, receipts, eventLogDigest, previousHeadD
   if (normalizeString(head.projectId) !== normalizeString(projectId)) {
     return typedError('E_STAGE10_RECEIPT_AUTHORITY_HEAD_PROJECT_INVALID', 'stage10.commandReceiptAuthorityHead', 'COMMAND_KERNEL_RECEIPT_AUTHORITY_HEAD_PROJECT_MISMATCH');
   }
-  if (head.authorityGeneration !== generation || head.receiptCount !== receipts.length) {
+  if (
+    head.receiptCount !== receipts.length
+    || !Number.isSafeInteger(Number(head.authorityGeneration))
+    || Number(head.authorityGeneration) !== generation
+  ) {
     return typedError('E_STAGE10_RECEIPT_AUTHORITY_HEAD_STALE', 'stage10.commandReceiptAuthorityHead', 'COMMAND_KERNEL_RECEIPT_AUTHORITY_HEAD_STALE_OR_ROLLED_BACK');
   }
   if (
@@ -348,6 +352,15 @@ export function validateCommandReceiptAuthorityStore(storeInput, {
     return { ok: false, error: typedError('E_STAGE10_RECEIPT_AUTHORITY_COMPACTION_INVALID', 'stage10.commandReceiptAuthorityHead', 'COMMAND_KERNEL_RECEIPT_AUTHORITY_COMPACTION_INVALID') };
   }
   const previousHeadDigest = normalizeString(store.currentHead?.previousAuthorityHeadDigest);
+  const generation = Number(store.currentHead?.authorityGeneration);
+  if (
+    !Number.isSafeInteger(generation)
+    || generation < 0
+    || (receipts.length === 0 && generation !== 0)
+    || (receipts.length > 0 && (generation < 1 || generation > receipts.length))
+  ) {
+    return { ok: false, error: typedError('E_STAGE10_RECEIPT_AUTHORITY_HEAD_STALE', 'stage10.commandReceiptAuthorityHead', 'COMMAND_KERNEL_RECEIPT_AUTHORITY_HEAD_STALE_OR_ROLLED_BACK') };
+  }
   if (receipts.length === 0 && previousHeadDigest) {
     return { ok: false, error: typedError('E_STAGE10_RECEIPT_AUTHORITY_HEAD_FORKED', 'stage10.commandReceiptAuthorityHead', 'COMMAND_KERNEL_RECEIPT_AUTHORITY_HEAD_PREVIOUS_DIGEST_FORKED') };
   }
@@ -356,7 +369,7 @@ export function validateCommandReceiptAuthorityStore(storeInput, {
     receipts,
     eventLogDigest,
     previousHeadDigest,
-    generation: receipts.length,
+    generation,
   });
   if (headError) return { ok: false, error: headError };
   const headRef = createCommandReceiptAuthorityHeadRef(store.currentHead);
@@ -381,6 +394,10 @@ export function validateCommandReceiptAuthorityStore(storeInput, {
 }
 
 export function appendCommandReceiptAuthorityHead({ store, projectId, eventLog, receipt }) {
+  return appendCommandReceiptAuthorityHeadBatch({ store, projectId, eventLog, receipts: [receipt] });
+}
+
+export function appendCommandReceiptAuthorityHeadBatch({ store, projectId, eventLog, receipts: receiptBatch }) {
   let verifiedStore = store;
   if (!VERIFIED_AUTHORITY_STORES.has(verifiedStore)) {
     const verified = validateCommandReceiptAuthorityStore(store, { projectId });
@@ -390,25 +407,37 @@ export function appendCommandReceiptAuthorityHead({ store, projectId, eventLog, 
   if (normalizeString(verifiedStore.projectId) !== normalizeString(projectId)) {
     throw typedError('E_STAGE10_RECEIPT_AUTHORITY_STORE_PROJECT_INVALID', 'stage10.commandReceiptAuthorityHead', 'COMMAND_KERNEL_RECEIPT_AUTHORITY_STORE_PROJECT_MISMATCH');
   }
-  const receiptIdentity = preflightCommandReceiptIdentity({
-    store: verifiedStore,
-    projectId,
-    operationId: receipt?.operationId,
-    receiptId: receipt?.receiptId,
-  });
-  if (!receiptIdentity.ok) throw receiptIdentity.error;
-  const receipts = [...verifiedStore.receipts, cloneJson(receipt)];
-  const receiptError = validateReceipt(receipts.at(-1), receipts.length - 1);
-  if (receiptError) throw receiptError;
+  const incoming = Array.isArray(receiptBatch) ? receiptBatch.map((receipt) => cloneJson(receipt)) : [];
+  if (incoming.length === 0) {
+    throw typedError('E_STAGE10_RECEIPT_AUTHORITY_RECEIPT_MISSING', 'stage10.commandReceiptAuthorityHead', 'COMMAND_KERNEL_RECEIPT_AUTHORITY_RECEIPT_MISSING');
+  }
+  const receipts = [...verifiedStore.receipts];
+  let receiptRoot = verifiedStore.currentHead.receiptRootDigest;
+  for (const receipt of incoming) {
+    const normalizedOperationId = stableIdentity(receipt?.operationId);
+    const normalizedReceiptId = stableIdentity(receipt?.receiptId);
+    if (!normalizedOperationId || !normalizedReceiptId) {
+      throw typedError('E_STAGE10_OPERATION_ID_INVALID', 'stage10.commandReceiptAuthorityHead', 'COMMAND_KERNEL_OPERATION_ID_INVALID');
+    }
+    if (receipts.some((candidate) => candidate.receiptId === normalizedReceiptId)) {
+      throw typedError('E_STAGE10_RECEIPT_ID_DUPLICATE', 'stage10.commandReceiptAuthorityHead', 'COMMAND_KERNEL_RECEIPT_ID_ALREADY_EXISTS', { receiptId: normalizedReceiptId });
+    }
+    if (receipts.some((candidate) => candidate.operationId === normalizedOperationId)) {
+      throw typedError('E_STAGE10_OPERATION_ID_DUPLICATE', 'stage10.commandReceiptAuthorityHead', 'COMMAND_KERNEL_OPERATION_ID_ALREADY_EXISTS', { operationId: normalizedOperationId });
+    }
+    const nextIndex = receipts.length;
+    const receiptError = validateReceipt(receipt, nextIndex);
+    if (receiptError) throw receiptError;
+    receipts.push(receipt);
+    receiptRoot = appendReceiptRootDigest(receiptRoot, receipt, nextIndex);
+  }
+  const duplicateError = duplicateReceiptIdentityError(receipts);
+  if (duplicateError) throw duplicateError;
   const nextHead = createHead({
     projectId: verifiedStore.projectId,
-    generation: receipts.length,
+    generation: Number(verifiedStore.currentHead.authorityGeneration) + 1,
     receiptCount: receipts.length,
-    receiptRoot: appendReceiptRootDigest(
-      verifiedStore.currentHead.receiptRootDigest,
-      receipts.at(-1),
-      receipts.length - 1,
-    ),
+    receiptRoot,
     eventLogDigest: hashEventLog(eventLog),
     previousAuthorityHeadDigest: verifiedStore.currentHead.authorityHeadDigest,
   });

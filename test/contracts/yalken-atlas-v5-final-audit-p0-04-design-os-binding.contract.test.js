@@ -51,6 +51,7 @@ test('P0 04: Atlas feature integration manifest binds product, command, projecti
       'unknown-query-provider-fails-closed',
       'unknown-command-id-fails-closed',
       'missing-slot-id-fails-closed',
+      'arbitrary-atlas-prefixed-slot-fails-closed',
       'renderer-host-uses-resolved-slot-binding',
     ],
   );
@@ -107,6 +108,17 @@ test('P0 04: Design OS slot resolver fails closed for bypass and drift cases', a
   assert.equal(
     resolveAtlasFeatureDesignOsSlots({
       manifest: badSlot,
+      workspaceQueryIdSet: workspaceQueryRegistry.WORKSPACE_QUERY_ID_SET,
+      commandIds: productCommandRegistry.PRODUCT_COMMAND_IDS,
+    }).reason,
+    'E_ATLAS_SURFACE_SLOT_OUTSIDE_DESIGN_OS_ROUTE',
+  );
+
+  const arbitraryAtlasPrefixedSlot = clone(YALKEN_ATLAS_FEATURE_INTEGRATION_MANIFEST_V1);
+  arbitraryAtlasPrefixedSlot.surfaceManifests[1].slotId = 'rightRail.context.atlas.shadowBypass';
+  assert.equal(
+    resolveAtlasFeatureDesignOsSlots({
+      manifest: arbitraryAtlasPrefixedSlot,
       workspaceQueryIdSet: workspaceQueryRegistry.WORKSPACE_QUERY_ID_SET,
       commandIds: productCommandRegistry.PRODUCT_COMMAND_IDS,
     }).reason,

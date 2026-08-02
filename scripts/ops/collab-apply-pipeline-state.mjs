@@ -235,6 +235,7 @@ export function evaluateCollabApplyPipelineState() {
         opId: 'op-reject',
         commandId: 'project.unknown',
         payload: {},
+        prevHash: fixture.initialStateHash,
       },
     ],
     initialStateHash: fixture.initialStateHash,

@@ -5335,7 +5335,8 @@ button.right-rail-atlas-matrix-list-row {
   color: var(--text-tertiary);
 }
 
-.right-rail-review-apply-button {
+.right-rail-review-apply-button,
+.right-rail-stage10-lifecycle-button {
   min-height: 28px;
   padding: 0 11px;
   border: 1px solid var(--toolbar-control-border);
@@ -5356,12 +5357,14 @@ button.right-rail-atlas-matrix-list-row {
   color: var(--foreground);
 }
 
-.right-rail-review-apply-button:disabled {
+.right-rail-review-apply-button:disabled,
+.right-rail-stage10-lifecycle-button:disabled {
   cursor: default;
   opacity: 0.56;
 }
 
-.right-rail-review-apply-button:focus-visible {
+.right-rail-review-apply-button:focus-visible,
+.right-rail-stage10-lifecycle-button:focus-visible {
   outline: 2px solid rgba(85, 79, 70, 0.34);
   outline-offset: 2px;
 }

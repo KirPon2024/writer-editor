@@ -85,6 +85,12 @@ function normalizeEvents(events) {
   return events.map((event) => normalizeEvent(event));
 }
 
+function normalizeKnownIds(value) {
+  if (value instanceof Set) return new Set([...value].map((item) => normalizeString(item)).filter(Boolean));
+  if (Array.isArray(value)) return new Set(value.map((item) => normalizeString(item)).filter(Boolean));
+  return new Set();
+}
+
 function buildRejectionEnvelope(base, code, reason, details = {}) {
   return {
     code,
@@ -118,11 +124,15 @@ export function applyEventLog(input = {}) {
   const domainEventPort = getDomainEventPort(input);
   const rejected = [];
   const seenEventIds = new Set();
+  const seenOpIds = new Set();
+  const knownEventIds = normalizeKnownIds(input.knownEventIds);
+  const knownOpIds = normalizeKnownIds(input.knownOpIds);
 
   let nextState = coreState;
   let stateHash = normalizeString(input.initialStateHash) || hashState(nextState);
   let appliedCount = 0;
   const domainEvents = [];
+  const appliedEvents = [];
 
   for (let index = 0; index < events.length; index += 1) {
     const event = events[index];
@@ -148,7 +158,38 @@ export function applyEventLog(input = {}) {
     }
     seenEventIds.add(event.eventId);
 
-    if (event.prevHash && event.prevHash !== stateHash) {
+    if (knownEventIds.has(event.eventId)) {
+      rejected.push(buildRejectionEnvelope(
+        event,
+        'E_COLLAB_APPLY_DUPLICATE_EVENT_ID_DURABLE',
+        'EVENT_ID_ALREADY_DURABLE',
+        { index, eventId: event.eventId },
+      ));
+      continue;
+    }
+
+    if (seenOpIds.has(event.opId) || knownOpIds.has(event.opId)) {
+      rejected.push(buildRejectionEnvelope(
+        event,
+        'E_COLLAB_APPLY_DUPLICATE_OP_ID',
+        'OP_ID_DUPLICATE',
+        { index, opId: event.opId, durable: knownOpIds.has(event.opId) },
+      ));
+      continue;
+    }
+    seenOpIds.add(event.opId);
+
+    if (!event.prevHash) {
+      rejected.push(buildRejectionEnvelope(
+        event,
+        'E_COLLAB_APPLY_PREV_HASH_REQUIRED',
+        'PREV_HASH_REQUIRED',
+        { index },
+      ));
+      continue;
+    }
+
+    if (event.prevHash !== stateHash) {
       rejected.push(buildRejectionEnvelope(
         event,
         'E_COLLAB_APPLY_PREV_HASH_MISMATCH',
@@ -176,6 +217,7 @@ export function applyEventLog(input = {}) {
       type: event.commandId,
       payload: cloneJson(event.payload),
     };
+    const beforeStateHash = stateHash;
     const applyResult = applyCommand(nextState, command);
     if (!isPlainObject(applyResult) || applyResult.ok !== true || !isPlainObject(applyResult.state)) {
       rejected.push(buildRejectionEnvelope(
@@ -204,6 +246,16 @@ export function applyEventLog(input = {}) {
     nextState = cloneJson(applyResult.state);
     stateHash = normalizeString(applyResult.stateHash) || hashState(nextState);
     domainEvents.push(...resultEvents);
+    appliedEvents.push({
+      event: cloneJson(event),
+      command,
+      preStateHash: beforeStateHash,
+      postStateHash: stateHash,
+      domainEvents: resultEvents,
+      domainEventDigest: typeof domainEventPort.hash === 'function'
+        ? domainEventPort.hash(resultEvents)
+        : hashCanonical(resultEvents),
+    });
     appliedCount += 1;
   }
 
@@ -213,6 +265,7 @@ export function applyEventLog(input = {}) {
     rejected,
     stateHash,
     domainEvents,
+    appliedEvents,
     domainEventDigest: typeof domainEventPort.hash === 'function'
       ? domainEventPort.hash(domainEvents)
       : hashCanonical(domainEvents),

@@ -443,7 +443,16 @@ function titleFromDorianFile(file, index) {
   return roman ? `Chapter ${roman}` : `Chapter ${index}`;
 }
 
-export function loadCanaryScenes(options = {}) {
+function cleanCanaryPlainText(rawText) {
+  return String(rawText || '')
+    .split(/\n{2,}/u)
+    .map((paragraph) => paragraph.replace(/\s+/gu, ' ').trim())
+    .filter((paragraph) => paragraph.trim().length > 40)
+    .join('\n\n')
+    .trim();
+}
+
+function loadDorianCanaryCorpus(options = {}) {
   const sceneCount = Number.isInteger(options.sceneCount) && options.sceneCount > 0 ? options.sceneCount : 2;
   const sceneStart = Number.isInteger(options.sceneStart) && options.sceneStart >= 0 ? options.sceneStart : (sceneCount === 2 ? 1 : 0);
   const files = fs.readdirSync(CORPUS_SCENE_ROOT)
@@ -461,12 +470,7 @@ export function loadCanaryScenes(options = {}) {
   const baseScenes = chosen.map((scene) => {
     const sourcePath = path.join(CORPUS_SCENE_ROOT, scene.file);
     const rawText = fs.readFileSync(sourcePath, 'utf8');
-    const text = rawText
-      .split(/\n{2,}/u)
-      .map((paragraph) => paragraph.replace(/\s+/gu, ' ').trim())
-      .filter((paragraph) => paragraph.trim().length > 40)
-      .join('\n\n')
-      .trim();
+    const text = cleanCanaryPlainText(rawText);
     return {
       ...scene,
       sourcePath,
@@ -476,15 +480,177 @@ export function loadCanaryScenes(options = {}) {
       sourceSha256: sha256Text(text),
     };
   });
-  if (options.includeMultilingualQa !== true) return baseScenes;
-  const qa = buildC5V2MultilingualQaLayer({ scenes: baseScenes });
-  return baseScenes.map((scene) => ({
-    ...scene,
-    text: `${scene.text}\n\n${qa.passages
-      .filter((passage) => passage.sceneId === scene.sceneId)
-      .map((passage) => passage.text)
-      .join('\n\n')}\n`,
-  }));
+  const scenes = options.includeMultilingualQa !== true
+    ? baseScenes
+    : (() => {
+        const qa = buildC5V2MultilingualQaLayer({ scenes: baseScenes });
+        return baseScenes.map((scene) => {
+          const text = `${scene.text}\n\n${qa.passages
+            .filter((passage) => passage.sceneId === scene.sceneId)
+            .map((passage) => passage.text)
+            .join('\n\n')}\n`;
+          return {
+            ...scene,
+            text,
+            cleanedSourceSha256: sha256Text(text),
+            sourceSha256: sha256Text(text),
+          };
+        });
+      })();
+  return {
+    scenes,
+    provenance: {
+      corpusId: 'dorian-gray-pg174-cleaned-internal-qa',
+      corpus: 'Project Gutenberg 174 cleaned internal QA Dorian Gray corpus',
+      sourceType: 'public-domain-cleaned-corpus',
+      rawCorpusPath: CORPUS_RAW_PATH,
+      rawCorpusSha256: sha256File(CORPUS_RAW_PATH),
+      cleanedCorpusPath: CORPUS_CLEANED_PATH,
+      cleanedCorpusSha256: sha256File(CORPUS_CLEANED_PATH),
+      topology: 'one-genuine-21-scene-product-project',
+      syntheticTailAuthority: false,
+      manifestPath: '',
+      manifestSha256: '',
+      characteristics: ['public-domain-prose', 'twenty-one-scenes'],
+      languageTags: ['en'],
+    },
+  };
+}
+
+function resolvePortfolioScenePath(manifestPath, scene = {}) {
+  const manifestDir = path.dirname(manifestPath);
+  const declared = typeof scene.contentPath === 'string' && scene.contentPath.trim()
+    ? scene.contentPath.trim()
+    : typeof scene.file === 'string' && scene.file.trim()
+      ? scene.file.trim()
+      : '';
+  if (!declared) throw new Error('C5V2_PORTFOLIO_CORPUS_SCENE_PATH_REQUIRED');
+  if (path.isAbsolute(declared)) throw new Error('C5V2_PORTFOLIO_CORPUS_SCENE_PATH_ABSOLUTE_FORBIDDEN');
+  const resolved = path.resolve(manifestDir, declared);
+  const relative = path.relative(manifestDir, resolved);
+  if (!relative || relative.startsWith('..') || path.isAbsolute(relative)) {
+    throw new Error('C5V2_PORTFOLIO_CORPUS_SCENE_PATH_OUTSIDE_ROOT');
+  }
+  return resolved;
+}
+
+function portfolioWordCount(value) {
+  return (String(value || '').match(/\b[\p{L}\p{N}][\p{L}\p{N}'’\-]*\b/gu) || []).length;
+}
+
+export function loadCanaryCorpus(options = {}) {
+  const manifestPath = typeof options.corpusManifestPath === 'string' && options.corpusManifestPath.trim()
+    ? path.resolve(options.corpusManifestPath.trim())
+    : '';
+  if (!manifestPath) return loadDorianCanaryCorpus(options);
+  if (!fs.existsSync(manifestPath)) throw new Error(`C5V2_PORTFOLIO_CORPUS_MANIFEST_MISSING:${manifestPath}`);
+  const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+  if (manifest?.schemaVersion !== 'yalken.rtk.word.c5v2.portfolio-corpus.v1') {
+    throw new Error('C5V2_PORTFOLIO_CORPUS_SCHEMA_INVALID');
+  }
+  if (typeof manifest.corpusId !== 'string' || !manifest.corpusId.trim()) {
+    throw new Error('C5V2_PORTFOLIO_CORPUS_ID_REQUIRED');
+  }
+  if (!Array.isArray(manifest.scenes) || manifest.scenes.length === 0) {
+    throw new Error('C5V2_PORTFOLIO_CORPUS_SCENES_REQUIRED');
+  }
+  if (!Number.isSafeInteger(manifest.sceneCount) || manifest.sceneCount !== manifest.scenes.length) {
+    throw new Error(`C5V2_PORTFOLIO_CORPUS_MANIFEST_SCENE_COUNT_MISMATCH:${manifest.sceneCount}:${manifest.scenes.length}`);
+  }
+  if (manifest.syntheticTailAuthority === true) {
+    throw new Error('C5V2_PORTFOLIO_CORPUS_SYNTHETIC_TAIL_AUTHORITY_FORBIDDEN');
+  }
+  const sceneCount = Number.isInteger(options.sceneCount) && options.sceneCount > 0
+    ? options.sceneCount
+    : manifest.scenes.length;
+  const sceneStart = Number.isInteger(options.sceneStart) && options.sceneStart >= 0 ? options.sceneStart : 0;
+  const seenFiles = new Set();
+  const allScenes = manifest.scenes.map((scene, index) => {
+    if (!Number.isSafeInteger(scene.ordinal) || scene.ordinal !== index + 1) {
+      throw new Error(`C5V2_PORTFOLIO_CORPUS_SCENE_ORDINAL_INVALID:${scene.ordinal}:${index + 1}`);
+    }
+    if (typeof scene.file !== 'string' || !scene.file.trim() || path.basename(scene.file.trim()) !== scene.file.trim()) {
+      throw new Error(`C5V2_PORTFOLIO_CORPUS_SCENE_FILE_INVALID:${index + 1}`);
+    }
+    if (seenFiles.has(scene.file)) throw new Error(`C5V2_PORTFOLIO_CORPUS_SCENE_FILE_DUPLICATE:${scene.file}`);
+    seenFiles.add(scene.file);
+    const sourcePath = resolvePortfolioScenePath(manifestPath, scene);
+    if (!fs.existsSync(sourcePath)) throw new Error(`C5V2_PORTFOLIO_CORPUS_SCENE_MISSING:${sourcePath}`);
+    const manifestRootReal = fs.realpathSync(path.dirname(manifestPath));
+    const sourcePathReal = fs.realpathSync(sourcePath);
+    const sourceRelative = path.relative(manifestRootReal, sourcePathReal);
+    if (!sourceRelative || sourceRelative.startsWith('..') || path.isAbsolute(sourceRelative)) {
+      throw new Error(`C5V2_PORTFOLIO_CORPUS_SCENE_REALPATH_OUTSIDE_ROOT:${scene.file}`);
+    }
+    const sourceStat = fs.lstatSync(sourcePath);
+    if (!sourceStat.isFile() || sourceStat.isSymbolicLink()) {
+      throw new Error(`C5V2_PORTFOLIO_CORPUS_SCENE_NOT_REGULAR_FILE:${scene.file}`);
+    }
+    const rawContent = fs.readFileSync(sourcePath, 'utf8');
+    const authority = readProductSceneAuthority(rawContent);
+    const text = authority.text.trim();
+    if (text.length < 80) throw new Error(`C5V2_PORTFOLIO_CORPUS_SCENE_TOO_SHORT:${scene.file || index}`);
+    const rawSourceSha256 = sha256Text(rawContent);
+    if (typeof scene.rawSourceSha256 !== 'string' || scene.rawSourceSha256 !== rawSourceSha256) {
+      throw new Error(`C5V2_PORTFOLIO_CORPUS_SCENE_HASH_MISMATCH:${scene.file || index}`);
+    }
+    if (typeof scene.visibleTextSha256 !== 'string' || scene.visibleTextSha256 !== authority.textSha256) {
+      throw new Error(`C5V2_PORTFOLIO_CORPUS_VISIBLE_TEXT_HASH_MISMATCH:${scene.file || index}`);
+    }
+    const actualWordCount = portfolioWordCount(authority.text);
+    if (!Number.isSafeInteger(scene.wordCount) || scene.wordCount !== actualWordCount) {
+      throw new Error(`C5V2_PORTFOLIO_CORPUS_SCENE_WORD_COUNT_MISMATCH:${scene.file || index}:${scene.wordCount}:${actualWordCount}`);
+    }
+    const file = scene.file.trim();
+    return {
+      sceneId: file.replace(/\.txt$/iu, ''),
+      file,
+      title: typeof scene.title === 'string' && scene.title.trim()
+        ? scene.title.trim()
+        : path.basename(file, path.extname(file)),
+      sourcePath,
+      rawContent,
+      text,
+      rawSourceSha256,
+      cleanedSourceSha256: authority.textSha256,
+      sourceSha256: authority.textSha256,
+      observableEnvelopeVersion: authority.doc ? 2 : 1,
+      wordCount: actualWordCount,
+    };
+  });
+  const actualWordCount = allScenes.reduce((sum, scene) => sum + scene.wordCount, 0);
+  if (!Number.isSafeInteger(manifest.expectedWordCount) || manifest.expectedWordCount !== actualWordCount) {
+    throw new Error(`C5V2_PORTFOLIO_CORPUS_WORD_COUNT_MISMATCH:${manifest.expectedWordCount}:${actualWordCount}`);
+  }
+  const scenes = allScenes.slice(sceneStart, sceneStart + sceneCount);
+  if (scenes.length !== sceneCount) {
+    throw new Error(`C5V2_PORTFOLIO_CORPUS_SCENE_COUNT_MISMATCH:${scenes.length}:${sceneCount}`);
+  }
+  return {
+    scenes,
+    provenance: {
+      corpusId: manifest.corpusId,
+      corpus: typeof manifest.title === 'string' && manifest.title.trim() ? manifest.title.trim() : manifest.corpusId,
+      sourceType: typeof manifest.sourceType === 'string' ? manifest.sourceType : 'deterministic-internal-qa',
+      rawCorpusPath: '',
+      rawCorpusSha256: '',
+      cleanedCorpusPath: '',
+      cleanedCorpusSha256: '',
+      topology: typeof manifest.topology === 'string' && manifest.topology
+        ? manifest.topology
+        : 'one-portfolio-manuscript-project',
+      syntheticTailAuthority: manifest.syntheticTailAuthority === true,
+      manifestPath,
+      manifestSha256: sha256File(manifestPath),
+      characteristics: Array.isArray(manifest.characteristics) ? manifest.characteristics : [],
+      languageTags: Array.isArray(manifest.languageTags) ? manifest.languageTags : [],
+      expectedWordCount: Number.isSafeInteger(manifest.expectedWordCount) ? manifest.expectedWordCount : null,
+    },
+  };
+}
+
+export function loadCanaryScenes(options = {}) {
+  return loadCanaryCorpus(options).scenes;
 }
 
 function uniquePhrases(text, maxCount) {
@@ -1106,7 +1272,11 @@ const rootDir = ${JSON.stringify(REPO_ROOT)};
 const tempRoot = ${JSON.stringify(tempRoot)};
 const rounds = ${JSON.stringify(childRounds)};
 let activeRound = rounds[0] || null;
-const scenes = ${JSON.stringify(scenes.map((scene) => ({ file: scene.file, text: scene.text })))};
+const scenes = ${JSON.stringify(scenes.map((scene) => ({
+  file: scene.file,
+  text: scene.text,
+  rawContent: typeof scene.rawContent === 'string' ? scene.rawContent : '',
+})))};
 const RESULT_PREFIX = ${JSON.stringify(RESULT_PREFIX)};
 const projectName = '\\u0420\\u043e\\u043c\\u0430\\u043d';
 const dialogCalls = [];
@@ -1984,7 +2154,7 @@ app.whenReady().then(async () => {
       if (newFiles.length !== 1) {
         throw new Error('C5V2_CANARY_CREATE_SCENE_PATH_UNRESOLVED:' + JSON.stringify({ sceneFile: scene.file, nodeId: createResult.nodeId, beforeCount: beforeFiles.size, afterFiles }));
       }
-      fs.writeFileSync(newFiles[0], scene.text, 'utf8');
+      fs.writeFileSync(newFiles[0], scene.rawContent || scene.text, 'utf8');
       const relativePath = path.relative(projectRoot, newFiles[0]).replace(/\\\\/gu, '/');
       productSceneContexts.push({
         sourceFile: scene.file,
@@ -4543,6 +4713,8 @@ function parseArgs(argv) {
     roundCount: 1,
     accessibilityPreflightOnly: false,
     masterLedgerCampaign: false,
+    corpusManifestPath: '',
+    includeMultilingualQa: false,
   };
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
@@ -4568,6 +4740,11 @@ function parseArgs(argv) {
       options.accessibilityPreflightOnly = true;
     } else if (arg === '--master-ledger-campaign') {
       options.masterLedgerCampaign = true;
+    } else if (arg === '--corpus-manifest') {
+      options.corpusManifestPath = argv[index + 1];
+      index += 1;
+    } else if (arg === '--include-multilingual-qa') {
+      options.includeMultilingualQa = true;
     }
   }
   return options;
@@ -4583,10 +4760,40 @@ async function mainCumulative(options) {
   const wordWorkRoot = resolveWordHostLocalQaWorkRoot({
     defaultSegments: ['c5v2-physical-canary', runId],
   });
-  const scenes = loadCanaryScenes({
+  const corpusInput = loadCanaryCorpus({
     sceneCount: options.sceneCount,
     sceneStart: options.sceneStart,
+    corpusManifestPath: options.corpusManifestPath,
+    includeMultilingualQa: options.includeMultilingualQa,
   });
+  const scenes = corpusInput.scenes;
+  const corpusProvenance = {
+    schemaVersion: 'yalken.rtk.word.c5v2.corpus-provenance.v1',
+    corpusId: corpusInput.provenance.corpusId,
+    corpus: corpusInput.provenance.corpus,
+    sourceType: corpusInput.provenance.sourceType,
+    topology: corpusInput.provenance.topology,
+    rawCorpusPath: corpusInput.provenance.rawCorpusPath,
+    rawCorpusSha256: corpusInput.provenance.rawCorpusSha256,
+    cleanedCorpusPath: corpusInput.provenance.cleanedCorpusPath,
+    cleanedCorpusSha256: corpusInput.provenance.cleanedCorpusSha256,
+    corpusManifestPath: corpusInput.provenance.manifestPath,
+    corpusManifestSha256: corpusInput.provenance.manifestSha256,
+    characteristics: corpusInput.provenance.characteristics,
+    languageTags: corpusInput.provenance.languageTags,
+    expectedWordCount: corpusInput.provenance.expectedWordCount,
+    syntheticTailAuthority: corpusInput.provenance.syntheticTailAuthority,
+    sourceScenes: scenes.map((scene) => ({
+      file: scene.file,
+      rawSourceSha256: scene.rawSourceSha256,
+      cleanedSourceSha256: scene.cleanedSourceSha256,
+      observableEnvelopeVersion: scene.observableEnvelopeVersion || 1,
+    })),
+    productScenes: [],
+    productSceneRounds: [],
+    masterLedgerDigest: '',
+  };
+  writeJsonAtomicDurable(path.join(runDir, 'c5v2-corpus-provenance.json'), corpusProvenance);
   if (options.masterLedgerCampaign && (scenes.length !== 21 || roundCount !== 5)) {
     throw new Error(`C5V2_MASTER_LEDGER_CAMPAIGN_REQUIRES_21_SCENES_5_ROUNDS:${scenes.length}:${roundCount}`);
   }
@@ -4668,27 +4875,18 @@ async function mainCumulative(options) {
           throw new Error(`C5V2_MASTER_LEDGER_GATES_FAILED:${JSON.stringify(masterLedger.gates || {})}`);
         }
         writeJsonAtomicDurable(path.join(runDir, 'c5v2-master-ledger.json'), masterLedger);
-        writeJsonAtomicDurable(path.join(runDir, 'c5v2-corpus-provenance.json'), {
-          schemaVersion: 'yalken.rtk.word.c5v2.corpus-provenance.v1',
-          corpus: 'Project Gutenberg 174 cleaned internal QA Dorian Gray corpus',
-          topology: 'one-genuine-21-scene-product-project',
-          rawCorpusPath: CORPUS_RAW_PATH,
-          rawCorpusSha256: sha256File(CORPUS_RAW_PATH),
-          cleanedCorpusPath: CORPUS_CLEANED_PATH,
-          cleanedCorpusSha256: sha256File(CORPUS_CLEANED_PATH),
-          syntheticTailAuthority: false,
-          sourceScenes: scenes.map((scene) => ({
-            file: scene.file,
-            rawSourceSha256: scene.rawSourceSha256,
-            cleanedSourceSha256: scene.cleanedSourceSha256,
-          })),
-          productScenes: currentScenes.map((scene) => ({
-            sceneId: scene.sceneId,
-            sourceSha256: scene.sourceSha256,
-          })),
-          masterLedgerDigest: masterLedger.ledgerDigest,
-        });
+        corpusProvenance.masterLedgerDigest = masterLedger.ledgerDigest;
       }
+      corpusProvenance.productScenes = currentScenes.map((scene) => ({
+        sceneId: scene.sceneId,
+        rawContentSha256: scene.rawContentSha256,
+        sourceSha256: scene.sourceSha256,
+      }));
+      corpusProvenance.productSceneRounds.push({
+        roundId: round.roundId,
+        scenes: corpusProvenance.productScenes,
+      });
+      writeJsonAtomicDurable(path.join(runDir, 'c5v2-corpus-provenance.json'), corpusProvenance);
       const ledger = options.masterLedgerCampaign
         ? adaptC5V2MasterRoundToPhysicalLedger({
             masterLedger,

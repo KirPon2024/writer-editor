@@ -457,6 +457,54 @@ export function deriveC5V2CommentLaneMaturity(commentProductPath = {}) {
   };
 }
 
+export function deriveC5V2ReturnLanePlan(activationSummary = {}) {
+  const graphCounts = activationSummary && typeof activationSummary.reviewGraphCounts === 'object'
+    ? activationSummary.reviewGraphCounts
+    : {};
+  const exactByScene = activationSummary && typeof activationSummary.exactApplyTextChangeIdsByScene === 'object'
+    ? activationSummary.exactApplyTextChangeIdsByScene
+    : {};
+  const exactTextCandidateCount = Object.values(exactByScene)
+    .reduce((total, ids) => total + (Array.isArray(ids) ? ids.length : 0), 0);
+  const commentCandidateCount = Math.max(
+    Number(graphCounts.commentThreads || 0),
+    Number(graphCounts.commentPlacements || 0),
+  );
+  const formattingCandidateCount = Number(activationSummary?.formattingProductPath?.candidateCount || 0);
+  const structuralCandidateCount = Number(graphCounts.structuralChanges || 0);
+  const hasExactText = exactTextCandidateCount > 0;
+  const hasComments = commentCandidateCount > 0;
+  const hasFormatting = formattingCandidateCount > 0;
+  const hasStructure = structuralCandidateCount > 0;
+  return {
+    exactTextCandidateCount,
+    commentCandidateCount,
+    formattingCandidateCount,
+    structuralCandidateCount,
+    hasExactText,
+    hasComments,
+    hasFormatting,
+    hasStructure,
+    formattingMixedWithOtherMutationLane: hasFormatting && (hasExactText || hasComments || hasStructure),
+  };
+}
+
+export function deriveC5V2ProductRouteGaps(returnApply = {}) {
+  const lanes = returnApply.typedPendingLanes && typeof returnApply.typedPendingLanes === 'object'
+    ? returnApply.typedPendingLanes
+    : {};
+  const gaps = [];
+  if (!returnApply || returnApply.ok !== true) {
+    gaps.push('full-manuscript authenticated intake preview explicit apply did not complete green in this canary script');
+  }
+  if (lanes.exactText === 'PENDING_PRODUCT_APPLY_LANE') gaps.push('exact text operations remain typed pending product outcomes');
+  if (lanes.commentsRepliesState === 'PENDING_PRODUCT_APPLY_LANE') gaps.push('comment operations remain typed pending product outcomes');
+  if (lanes.formatting === 'PENDING_PRODUCT_APPLY_LANE') gaps.push('formatting operations remain typed pending product outcomes');
+  if (lanes.formatting === 'BLOCKED_MIXED_LANE_ATOMICITY_REQUIRED') gaps.push('formatting is blocked until mixed return lanes share one atomic product transaction');
+  if (lanes.structural === 'PENDING_PRODUCT_APPLY_LANE') gaps.push('structural operations remain typed pending product outcomes');
+  return gaps;
+}
+
 export function evaluateMacosAccessibilityPreflight(input = {}) {
   const diagnostics = {
     legacyUiElementsEnabled: input.legacyUiElementsEnabled === true || input.uiElementsEnabled === true,
@@ -570,6 +618,7 @@ const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 const deriveC5V2CommentLaneMaturity = ${deriveC5V2CommentLaneMaturity.toString()};
+const deriveC5V2ReturnLanePlan = ${deriveC5V2ReturnLanePlan.toString()};
 const { app, BrowserWindow, dialog, Menu, session } = require('electron');
 const rootDir = ${JSON.stringify(REPO_ROOT)};
 const tempRoot = ${JSON.stringify(tempRoot)};
@@ -725,6 +774,24 @@ function summarizeActivation(result) {
       ? result.commentShadowSession.summary
       : null,
     commentProductPath: result && result.commentProductPath ? result.commentProductPath : null,
+    formattingProductPath: result && result.formattingProductPath
+      ? {
+        prepared: result.formattingProductPath.prepared === true,
+        status: result.formattingProductPath.status || '',
+        code: result.formattingProductPath.code || '',
+        candidateCount: Number.isSafeInteger(result.formattingProductPath.candidateCount)
+          ? result.formattingProductPath.candidateCount
+          : 0,
+        sceneCount: Number.isSafeInteger(result.formattingProductPath.sceneCount)
+          ? result.formattingProductPath.sceneCount
+          : 0,
+        diagnosticCount: Number.isSafeInteger(result.formattingProductPath.diagnosticCount)
+          ? result.formattingProductPath.diagnosticCount
+          : 0,
+        writerCalled: result.formattingProductPath.writerCalled === true,
+        rendererAuthority: result.formattingProductPath.rendererAuthority === true,
+      }
+      : null,
     reviewGraphCounts: {
       textChanges: textChanges.length,
       commentThreads: commentThreads.length,
@@ -787,10 +854,41 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
     bufferSource: returnedBytes.toString('base64'),
   });
   const activationSummary = summarizeActivation(activation);
+  const lanePlan = deriveC5V2ReturnLanePlan(activationSummary);
   const textChangeIdsByScene = activationSummary.exactApplyTextChangeIdsByScene || {};
   const applyResults = [];
   const replayResults = [];
   const staleRetryResults = [];
+  let formattingApplyResult = null;
+  let formattingReplayInspection = null;
+  if (lanePlan.formattingMixedWithOtherMutationLane) {
+    return {
+      ok: false,
+      code: 'BLOCKED_MIXED_LANE_ATOMICITY_REQUIRED',
+      reason: 'BLOCKED_MIXED_LANE_ATOMICITY_REQUIRED',
+      activation: activationSummary,
+      lanePlan,
+      applyResults,
+      replayResults,
+      staleRetryResults,
+      formattingApplyResult,
+      formattingReplayInspection,
+      productOpenContext: global.productOpenContext || null,
+      typedPendingLanes: {
+        exactText: lanePlan.hasExactText ? 'BLOCKED_MIXED_LANE_ATOMICITY_REQUIRED' : 'NO_EXACT_TEXT_CANDIDATE',
+        ...(lanePlan.hasComments
+          ? deriveC5V2CommentLaneMaturity(activationSummary.commentProductPath || {})
+          : {
+            rootCommentsState: 'NO_COMMENT_CANDIDATE',
+            repliesState: 'NO_COMMENT_CANDIDATE',
+            commentState: 'NO_COMMENT_CANDIDATE',
+            commentsRepliesState: 'NO_COMMENT_CANDIDATE',
+          }),
+        formatting: 'BLOCKED_MIXED_LANE_ATOMICITY_REQUIRED',
+        structural: lanePlan.hasStructure ? 'BLOCKED_MIXED_LANE_ATOMICITY_REQUIRED' : 'NO_STRUCTURAL_CANDIDATE',
+      },
+    };
+  }
   async function resolveCurrentSceneContext(sceneContext, normalizedSceneId) {
     const fallback = sceneContext && typeof sceneContext === 'object' ? sceneContext : {};
     try {
@@ -924,46 +1022,85 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
       });
     }
   }
+  if (lanePlan.hasFormatting) {
+    formattingApplyResult = await invokeUiCommand(win, 'cmd.project.review.applyFormattingReturn', {
+      requestId: 'c5v2-physical-canary-formatting-apply-' + requestPrefix,
+    });
+    formattingReplayInspection = await invokeUiCommand(win, 'cmd.project.review.inspectFormattingReturnReplay', {
+      requestId: 'c5v2-physical-canary-formatting-replay-inspect-' + requestPrefix,
+    });
+  }
+  const exactTextGreen = !lanePlan.hasExactText || (
+    applyResults.length > 0
+    && applyResults.every((result) => result.ok === true && result.applied === true)
+    && replayResults.every((result) => result.ok === true && result.replay === true)
+    && staleRetryResults.every((result) => (
+      result.status === 'blocked'
+      && result.applied !== true
+      && ACCEPTABLE_STALE_RETRY_BLOCK_REASONS.has(result.reason)
+    ))
+  );
+  const commentsGreen = !lanePlan.hasComments || Boolean(
+    activationSummary.commentProductPath
+    && activationSummary.commentProductPath.ok === true
+    && activationSummary.commentProductPath.pendingProductApplyLane === false
+    && activationSummary.commentProductPath.commandBusDispatchOnly === true
+    && activationSummary.commentProductPath.directPortDispatch === false
+    && activationSummary.commentProductPath.semanticOracle?.triangleGreen === true
+    && activationSummary.commentProductPath.semanticOracle?.rootApplied > 0
+    && activationSummary.commentProductPath.semanticOracle?.lifecycleApplied > 0
+    && activationSummary.commentProductPath.sceneAuthorityIdentityJoin?.identityJoinCount > 0
+    && activationSummary.commentProductPath.sceneAuthorityIdentityJoin?.unjoinedPlacementCount === 0
+    && activationSummary.commentProductPath.sceneAuthorityIdentityJoin?.nativeCommentIdentityJoin === true
+    && activationSummary.commentProductPath.sceneAuthorityIdentityJoin?.quoteHeuristicUsed === false
+    && activationSummary.commentProductPath.sceneAuthorityIdentityJoin?.arbitraryThreadIdSuffixParsingUsed === false
+    && activationSummary.candidateSummary?.pendingFallbackCommentPlacementCount === 0
+    && Array.isArray(activationSummary.candidateSummary?.commentSceneAuthoritySources)
+    && activationSummary.candidateSummary.commentSceneAuthoritySources.includes('authenticated-full-manuscript-export-map-paragraph-signal')
+  );
+  const formattingGreen = !lanePlan.hasFormatting || Boolean(
+    activationSummary.formattingProductPath?.prepared === true
+    && activationSummary.formattingProductPath?.writerCalled === false
+    && formattingApplyResult?.ok === true
+    && formattingApplyResult?.applied === true
+    && formattingApplyResult?.replayVerified === true
+    && formattingReplayInspection?.ok === true
+    && formattingReplayInspection?.replayVerified === true
+    && formattingReplayInspection?.writerCalled !== true
+  );
+  const structureGreen = !lanePlan.hasStructure;
+  const intakeGreen = activationSummary.ok === true
+    && activationSummary.returnIntake
+    && activationSummary.returnIntake.authenticated === true
+    && activationSummary.returnIntake?.fullManuscriptExportMapTransport?.present === true
+    && activationSummary.returnIntake?.fullManuscriptExportMapTransport?.authority === 'main-owned-active-export-authority-store-after-return-authentication'
+    && activationSummary.returnIntake?.fullManuscriptExportMapTransport?.returnedArtifactExportMapAccepted === false;
   return {
-    ok: activationSummary.ok === true
-      && activationSummary.returnIntake
-      && activationSummary.returnIntake.authenticated === true
-      && applyResults.length > 0
-      && applyResults.every((result) => result.ok === true && result.applied === true)
-      && replayResults.every((result) => result.ok === true && result.replay === true)
-      && staleRetryResults.every((result) => (
-        result.status === 'blocked'
-        && result.applied !== true
-        && ACCEPTABLE_STALE_RETRY_BLOCK_REASONS.has(result.reason)
-      ))
-      && activationSummary.commentProductPath
-      && activationSummary.commentProductPath.ok === true
-      && activationSummary.commentProductPath.pendingProductApplyLane === false
-      && activationSummary.commentProductPath.commandBusDispatchOnly === true
-      && activationSummary.commentProductPath.directPortDispatch === false
-      && activationSummary.commentProductPath.semanticOracle?.triangleGreen === true
-      && activationSummary.commentProductPath.semanticOracle?.rootApplied > 0
-      && activationSummary.commentProductPath.semanticOracle?.lifecycleApplied > 0
-      && activationSummary.commentProductPath.sceneAuthorityIdentityJoin?.identityJoinCount === 7
-      && activationSummary.commentProductPath.sceneAuthorityIdentityJoin?.unjoinedPlacementCount === 0
-      && activationSummary.commentProductPath.sceneAuthorityIdentityJoin?.nativeCommentIdentityJoin === true
-      && activationSummary.commentProductPath.sceneAuthorityIdentityJoin?.quoteHeuristicUsed === false
-      && activationSummary.commentProductPath.sceneAuthorityIdentityJoin?.arbitraryThreadIdSuffixParsingUsed === false
-      && activationSummary.returnIntake?.fullManuscriptExportMapTransport?.present === true
-      && activationSummary.returnIntake?.fullManuscriptExportMapTransport?.authority === 'main-owned-active-export-authority-store-after-return-authentication'
-      && activationSummary.returnIntake?.fullManuscriptExportMapTransport?.returnedArtifactExportMapAccepted === false
-      && activationSummary.candidateSummary?.pendingFallbackCommentPlacementCount === 0
-      && Array.isArray(activationSummary.candidateSummary?.commentSceneAuthoritySources)
-      && activationSummary.candidateSummary.commentSceneAuthoritySources.includes('authenticated-full-manuscript-export-map-paragraph-signal'),
+    ok: intakeGreen && exactTextGreen && commentsGreen && formattingGreen && structureGreen,
     activation: activationSummary,
+    lanePlan,
     applyResults,
     replayResults,
     staleRetryResults,
+    formattingApplyResult,
+    formattingReplayInspection,
     productOpenContext: global.productOpenContext || null,
     typedPendingLanes: {
-      ...deriveC5V2CommentLaneMaturity(activationSummary.commentProductPath || {}),
-      formatting: 'PENDING_PRODUCT_APPLY_LANE',
-      structural: 'PENDING_PRODUCT_APPLY_LANE',
+      exactText: lanePlan.hasExactText
+        ? (exactTextGreen ? 'CANONICAL_PRODUCT_APPLY_AND_REPLAY_PROVEN' : 'PENDING_PRODUCT_APPLY_LANE')
+        : 'NO_EXACT_TEXT_CANDIDATE',
+      ...(lanePlan.hasComments
+        ? deriveC5V2CommentLaneMaturity(activationSummary.commentProductPath || {})
+        : {
+          rootCommentsState: 'NO_COMMENT_CANDIDATE',
+          repliesState: 'NO_COMMENT_CANDIDATE',
+          commentState: 'NO_COMMENT_CANDIDATE',
+          commentsRepliesState: 'NO_COMMENT_CANDIDATE',
+        }),
+      formatting: lanePlan.hasFormatting
+        ? (formattingGreen ? 'PRODUCT_APPLY_AND_REPLAY_VERIFIED' : 'PENDING_PRODUCT_APPLY_LANE')
+        : 'NO_FORMATTING_CANDIDATE',
+      structural: lanePlan.hasStructure ? 'PENDING_PRODUCT_APPLY_LANE' : 'NO_STRUCTURAL_CANDIDATE',
     },
   };
 }
@@ -2260,8 +2397,18 @@ export function inspectNativeCommentLifecycleXml({ commentsXml = '', commentsExt
 
 export function verifyNativeCommentLifecycleSemantics({ ledger, snapshotXmlByOperationId = {} } = {}) {
   const operations = Array.isArray(ledger?.operations) ? ledger.operations : [];
+  const lifecycleOperations = operations.filter((item) => ['reply_attempt', 'state_attempt'].includes(item.family));
+  if (lifecycleOperations.length === 0) {
+    return {
+      ok: true,
+      notApplicable: true,
+      results: [],
+      verifiedCount: 0,
+      blockedCount: 0,
+    };
+  }
   const results = [];
-  for (const operation of operations.filter((item) => ['reply_attempt', 'state_attempt'].includes(item.family))) {
+  for (const operation of lifecycleOperations) {
     const snapshot = snapshotXmlByOperationId[operation.id] || {};
     const graph = inspectNativeCommentLifecycleXml(snapshot);
     const rootBody = `C5V2 root ${operation.targetRootOperationId || ''}`;
@@ -2585,8 +2732,15 @@ async function mainCumulative(options) {
       'round-loop-full-manuscript-export-menu-command',
       'physical-word-open-edit-native-save-per-round',
       'authenticated-intake-quarantine-preview-per-round',
-      'explicit-selected-exact-text-apply-per-round',
-      'atomic-recovery-replay-stale-retry-per-round',
+      ...(rounds.some((round) => (round.ledger?.operations || []).some((operation) => (
+        ['tracked_replace', 'tracked_insert', 'tracked_delete'].includes(operation.family)
+      ))) ? [
+        'explicit-selected-exact-text-apply-per-round',
+        'atomic-recovery-replay-stale-retry-per-round',
+      ] : []),
+      ...(rounds.some((round) => (round.ledger?.operations || []).some((operation) => operation.family === 'formatting'))
+        ? ['shipped-formatting-command-apply-and-persisted-replay-inspection-per-round']
+        : []),
       'next-round-export-from-mutated-product-project',
     ],
     electronResult: {
@@ -2735,8 +2889,15 @@ async function main() {
       'physical-word-close-reopen-object-model-readback',
       'raw-ooxml-package-summary',
       'authenticated-intake-quarantine-preview',
-      'explicit-selected-exact-text-apply',
-      'atomic-recovery-replay-stale-retry',
+      ...(ledger.operations.some((operation) => (
+        ['tracked_replace', 'tracked_insert', 'tracked_delete'].includes(operation.family)
+      )) ? [
+        'explicit-selected-exact-text-apply',
+        'atomic-recovery-replay-stale-retry',
+      ] : []),
+      ...(ledger.operations.some((operation) => operation.family === 'formatting')
+        ? ['shipped-formatting-command-apply-and-persisted-replay-inspection']
+        : []),
       'bounded-semantic-oracle-probe',
     ],
     sourceDocxPath,
@@ -2765,14 +2926,7 @@ async function main() {
     packageSummary: fs.existsSync(returnedDocxPath) ? packageSummary(returnedDocxPath) : null,
     oracleProbe: wordParsed.ops.length > 0 ? buildOracleProbe({ ledger, wordParsed }) : null,
     productReturnApply: exportResult.returnApplyResult?.returnApply || null,
-    productRouteGaps: exportResult.returnApplyResult?.returnApply?.ok === true
-      ? [
-        'formatting and structural operations remain typed pending product outcomes',
-      ]
-      : [
-        'full-manuscript authenticated intake preview explicit apply did not complete green in this canary script',
-        'comment lifecycle, formatting, or structural operations remain typed pending product outcomes',
-      ],
+    productRouteGaps: deriveC5V2ProductRouteGaps(exportResult.returnApplyResult?.returnApply || null),
     certificationClaim: options.sceneCount >= 21
       ? 'NO_PHYSICAL_PROVEN_C5_CERTIFICATION_CLAIM_WHOLE_BOOK_LIGHT_ONLY'
       : 'NO_PHYSICAL_PROVEN_C5_CERTIFICATION_CLAIM',

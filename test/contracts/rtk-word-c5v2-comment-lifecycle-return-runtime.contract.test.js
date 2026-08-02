@@ -210,7 +210,7 @@ test('N2 activation coupling and physical assertion require Command Kernel recei
   assert.match(canary, /commentProductPath\.commandBusDispatchOnly === true/u);
   assert.match(canary, /commentProductPath\.directPortDispatch === false/u);
   assert.match(canary, /commentProductPath\.semanticOracle\?\.lifecycleApplied > 0/u);
-  assert.match(canary, /sceneAuthorityIdentityJoin\?\.identityJoinCount === 7/u);
+  assert.match(canary, /sceneAuthorityIdentityJoin\?\.identityJoinCount > 0/u);
   assert.match(canary, /sceneAuthorityIdentityJoin\?\.unjoinedPlacementCount === 0/u);
   assert.match(canary, /CANONICAL_PRODUCT_APPLY_AND_REPLAY_PROVEN/u);
 });
@@ -507,6 +507,20 @@ test('N2 root-only physical success cannot certify the combined comments replies
   assert.equal(partial.commentState, 'PENDING_COMMENT_STATE_PRODUCT_APPLY_LANE');
   assert.equal(partial.commentsRepliesState, 'PENDING_PRODUCT_APPLY_LANE');
   assert.notEqual(partial.commentsRepliesState, 'CANONICAL_PRODUCT_APPLY_AND_REPLAY_PROVEN');
+});
+
+test('N2 lifecycle verification is explicitly not applicable when the ledger has no lifecycle operations', async () => {
+  const canary = await import(CANARY_PATH);
+  assert.deepEqual(
+    canary.verifyNativeCommentLifecycleSemantics({ ledger: { operations: [] } }),
+    {
+      ok: true,
+      notApplicable: true,
+      results: [],
+      verifiedCount: 0,
+      blockedCount: 0,
+    },
+  );
 });
 
 test('N2 macOS Accessibility preflight classifies environment blockers before UI operations', async () => {

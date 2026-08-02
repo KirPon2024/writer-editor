@@ -12,6 +12,7 @@ const ROOT = path.resolve(__dirname, '..', '..');
 const BRIDGE_PATH = path.join(ROOT, 'src', 'io', 'revisionBridge', 'index.mjs');
 const RUNTIME_PATH = path.join(ROOT, 'src', 'io', 'revisionBridge', 'reviewTransportFormattingReturnRuntime.mjs');
 const ENVELOPE_PATH = path.join(ROOT, 'src', 'renderer', 'documentContentEnvelope.mjs');
+const PHYSICAL_CANARY_PATH = path.join(ROOT, 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs');
 const { buildDocxReviewPacketBuffer } = require(path.join(ROOT, 'src', 'export', 'docx', 'docxReviewPacketBuilder.js'));
 
 function stableJson(value) {
@@ -925,4 +926,55 @@ test('N3 product route exposes a working Review control without renderer-owned a
     JSON.stringify(testCatalog).includes('rtk-word-n3-formatting-return.contract.test.js'),
     true,
   );
+});
+
+test('N3 physical canary invokes shipped formatting apply and persisted replay inspection', async () => {
+  const canary = await import(pathToFileURL(PHYSICAL_CANARY_PATH).href);
+  const source = fs.readFileSync(PHYSICAL_CANARY_PATH, 'utf8');
+  const formattingOnly = canary.deriveC5V2ReturnLanePlan({
+    reviewGraphCounts: { textChanges: 0, commentThreads: 0, commentPlacements: 0, structuralChanges: 0 },
+    exactApplyTextChangeIdsByScene: {},
+    formattingProductPath: { candidateCount: 25 },
+  });
+  assert.deepEqual(formattingOnly, {
+    exactTextCandidateCount: 0,
+    commentCandidateCount: 0,
+    formattingCandidateCount: 25,
+    structuralCandidateCount: 0,
+    hasExactText: false,
+    hasComments: false,
+    hasFormatting: true,
+    hasStructure: false,
+    formattingMixedWithOtherMutationLane: false,
+  });
+  assert.match(source, /invokeUiCommand\(win, 'cmd\.project\.review\.applyFormattingReturn'/u);
+  assert.match(source, /invokeUiCommand\(win, 'cmd\.project\.review\.inspectFormattingReturnReplay'/u);
+  assert.match(source, /formattingApplyResult\?\.replayVerified === true/u);
+  assert.match(source, /formattingReplayInspection\?\.writerCalled !== true/u);
+  assert.deepEqual(canary.deriveC5V2ProductRouteGaps({
+    ok: true,
+    typedPendingLanes: {
+      exactText: 'NO_EXACT_TEXT_CANDIDATE',
+      commentsRepliesState: 'NO_COMMENT_CANDIDATE',
+      formatting: 'PRODUCT_APPLY_AND_REPLAY_VERIFIED',
+      structural: 'NO_STRUCTURAL_CANDIDATE',
+    },
+  }), []);
+});
+
+test('N3 physical canary refuses mixed formatting mutation lanes without one atomic transaction', async () => {
+  const canary = await import(pathToFileURL(PHYSICAL_CANARY_PATH).href);
+  const mixed = canary.deriveC5V2ReturnLanePlan({
+    reviewGraphCounts: { textChanges: 1, commentThreads: 0, commentPlacements: 0, structuralChanges: 0 },
+    exactApplyTextChangeIdsByScene: { 'roman/chapter-01.txt': ['change-01'] },
+    formattingProductPath: { candidateCount: 1 },
+  });
+  assert.equal(mixed.hasExactText, true);
+  assert.equal(mixed.hasFormatting, true);
+  assert.equal(mixed.formattingMixedWithOtherMutationLane, true);
+  assert.match(fs.readFileSync(PHYSICAL_CANARY_PATH, 'utf8'), /BLOCKED_MIXED_LANE_ATOMICITY_REQUIRED/u);
+  assert.deepEqual(canary.deriveC5V2ProductRouteGaps({
+    ok: true,
+    typedPendingLanes: { formatting: 'BLOCKED_MIXED_LANE_ATOMICITY_REQUIRED' },
+  }), ['formatting is blocked until mixed return lanes share one atomic product transaction']);
 });

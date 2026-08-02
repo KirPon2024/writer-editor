@@ -5753,6 +5753,15 @@
       "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
+      "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
+      "sha256": "2a8e5f609cd0ef610a5db9ce5326c9387aadfd4c337ed6db089df4b4f592a974",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1:PHYSICAL_ROUTE_TRUTH_REPAIR",
+      "approvedAtUtc": "2026-08-02T12:08:54.000Z",
+      "rationale": "Approve the exact C5V2 physical runner truth repair: formatting-only returns now invoke the shipped formatting apply command and persisted replay inspector, absent lanes are explicitly not applicable, mixed formatting mutation lanes fail closed until one atomic product transaction exists, and unsupported structure cannot produce a green return claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
+    },
+    {
       "filePath": "scripts/ops/rtk-word-release-audit-p0-500k-terminal-audit.mjs",
       "sha256": "9b55758ca929a1ef75e89c93e6a59210fc108c80032e0f2da862c3f2ea2c58ac",
       "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
@@ -7829,6 +7838,15 @@
       "rationale": "Approve bounded W5 V6 contract coverage proving local release-hardening proof hooks are bound while external Word certification remains resumable, false Word PASS and false DONE mutations fail, and broad Word or release claims remain forbidden; no dependency, UI, runtime, import/export behavior, package publication, or product capability is introduced."
     },
     {
+      "filePath": "test/contracts/rtk-word-c5v2-comment-lifecycle-return-runtime.contract.test.js",
+      "sha256": "c18f3df5e5507059ffd7b40344949ddc88b224ea899491ea5709ebc913237566",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1:PHYSICAL_ROUTE_TRUTH_REPAIR",
+      "approvedAtUtc": "2026-08-02T12:08:54.000Z",
+      "rationale": "Approve the exact lifecycle contract adjustment proving that a formatting-only physical ledger has no native comment lifecycle obligation while existing reply and state ledgers still require reopened native semantic proof.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
+    },
+    {
       "filePath": "test/contracts/rtk-word-c5v2-full-manuscript-product-export.contract.test.js",
       "sha256": "d269486e55227282ab349412f2a2545680d3dc0de9b8f610a9856071202c17d8",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
@@ -7888,10 +7906,10 @@
     },
     {
       "filePath": "test/contracts/rtk-word-n3-formatting-return.contract.test.js",
-      "sha256": "86d961d4799394bb477d8bc9084027ef101489ff48e3dab5d6bee4bb9bcd7aa1",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
-      "approvedAtUtc": "2026-08-02T12:45:00.000Z",
-      "rationale": "Approve the exact strengthened N3 contract family covering effective-style fail-close, conflicting native locators, source revision binding, atomic rename CAS, concurrent edit preservation, path-swap rejection, persisted replay inspection and visible UI reachability; physical Word proof and terminal certification remain pending.",
+      "sha256": "096cfe0a6c1f1ae6055b123facb25627c6f26f08e15b22f791b630774a9425b1",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1:PHYSICAL_ROUTE_TRUTH_REPAIR",
+      "approvedAtUtc": "2026-08-02T12:08:54.000Z",
+      "rationale": "Approve the exact strengthened N3 contract family plus physical runner coupling: the shipped formatting command and persisted replay inspector are required, formatting-only lane accounting is explicit, and mixed mutation lanes are rejected without one atomic transaction; physical Word proof and terminal certification remain pending.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
     },

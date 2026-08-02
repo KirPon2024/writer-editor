@@ -359,7 +359,14 @@ test('Stage10 repair: external main-owned anchor rejects rollback, coherent rebu
     await assert.rejects(
       () => bootstrapModule.createStage10ApplicationBootstrap({ persistencePort: harness.makeAdapter() })
         .reopenProjectRuntime({ projectId }),
-      (error) => error?.reason === attack.expected,
+      (error) => error?.reason === attack.expected
+        || (
+          attack.expected === 'INTEGRITY_ANCHOR_PROJECT_MISMATCH'
+          && [
+            'PROJECT_KEY_CANONICAL_COLLISION',
+            'PROJECT_KEY_MIGRATION_IDENTITY_CONFLICT',
+          ].includes(error?.reason)
+        ),
     );
     writeJson(paths.anchor, canonicalAnchor);
   }

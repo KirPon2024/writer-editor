@@ -7906,10 +7906,10 @@
     },
     {
       "filePath": "test/contracts/rtk-word-n3-formatting-return.contract.test.js",
-      "sha256": "096cfe0a6c1f1ae6055b123facb25627c6f26f08e15b22f791b630774a9425b1",
+      "sha256": "8748915dae9b1a98e9e17e982d4b2b56b6b47b654d6b098af42505b41eed7065",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1:PHYSICAL_ROUTE_TRUTH_REPAIR",
       "approvedAtUtc": "2026-08-02T12:08:54.000Z",
-      "rationale": "Approve the exact strengthened N3 contract family plus physical runner coupling: the shipped formatting command and persisted replay inspector are required, formatting-only lane accounting is explicit, and mixed mutation lanes are rejected without one atomic transaction; physical Word proof and terminal certification remain pending.",
+      "rationale": "Approve the exact strengthened N3 contract family plus physical runner coupling: the shipped formatting command and persisted replay inspector are required, formatting-only lane accounting is explicit, mixed mutation lanes are rejected without one atomic transaction, and the real-process lease killpoint keeps its child alive deterministically; physical Word proof and terminal certification remain pending.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
     },

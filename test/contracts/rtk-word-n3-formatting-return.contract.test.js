@@ -589,6 +589,7 @@ test('N3 startup recovery rolls back a real child process killed after its first
     '  cryptoPort,',
     '  afterSceneWrite: async ({ index }) => {',
     "    if (index === 0) process.stdout.write('AFTER_FIRST_SCENE\\n');",
+    '    if (index === 0) setInterval(() => {}, 1000);',
     '    if (index === 0) await new Promise(() => {});',
     '  },',
     '});',

@@ -1249,6 +1249,263 @@ function firstChildValue(children, localName, attrName = 'val') {
   return found ? attr(found, attrName) : '';
 }
 
+function nearestContainingToken(documentScan, token, localName) {
+  return documentScan.tokens
+    .filter((candidate) => (
+      candidate.localName === localName
+      && candidate.openStart <= token.openStart
+      && candidate.closeEnd >= token.closeEnd
+      && candidate !== token
+    ))
+    .sort((left, right) => right.depth - left.depth || right.openStart - left.openStart)[0] || null;
+}
+
+function textInsideToken(documentXml, documentScan, container) {
+  const blockedRanges = documentScan.tokens
+    .filter((token) => (
+      ['del', 'moveFrom'].includes(token.localName)
+      && token.openStart >= container.openEnd
+      && token.closeEnd <= container.closeStart
+    ))
+    .map((token) => ({ start: token.openStart, end: token.closeEnd }));
+  let output = '';
+  const textTokens = documentScan.tokens
+    .filter((token) => (
+      ['t', 'tab', 'br', 'cr'].includes(token.localName)
+      && token.openStart >= container.openEnd
+      && token.closeEnd <= container.closeStart
+      && !positionInsideRanges(token.openStart, blockedRanges)
+    ))
+    .sort((left, right) => left.openStart - right.openStart || left.closeEnd - right.closeEnd);
+  for (const token of textTokens) {
+    if (token.localName === 'tab') output += '\t';
+    else if (token.localName === 'br' || token.localName === 'cr') output += '\n';
+    else output += decodeEntities(elementBody(documentXml, token));
+  }
+  return output;
+}
+
+function formattingToggleAction(children, localName) {
+  const token = children.find((item) => item.localName === localName);
+  if (!token) return null;
+  const value = attr(token, 'val').trim().toLowerCase();
+  return ['0', 'false', 'off', 'none'].includes(value)
+    ? { action: 'remove' }
+    : { action: 'set', value: true };
+}
+
+function formattingColorAction(children) {
+  const token = children.find((item) => item.localName === 'color');
+  if (!token) return null;
+  const value = attr(token, 'val').trim();
+  if (!value || ['auto', 'none'].includes(value.toLowerCase())) return { action: 'remove' };
+  return /^[A-Fa-f0-9]{6}$/u.test(value)
+    ? { action: 'set', value: `#${value.toLowerCase()}` }
+    : null;
+}
+
+const WORD_HIGHLIGHT_COLOR_BY_NAME = Object.freeze({
+  black: '#000000',
+  blue: '#0000ff',
+  cyan: '#00ffff',
+  darkblue: '#00008b',
+  darkcyan: '#008b8b',
+  darkgray: '#a9a9a9',
+  darkgreen: '#006400',
+  darkmagenta: '#8b008b',
+  darkred: '#8b0000',
+  darkyellow: '#808000',
+  green: '#008000',
+  lightgray: '#d3d3d3',
+  magenta: '#ff00ff',
+  red: '#ff0000',
+  white: '#ffffff',
+  yellow: '#ffff00',
+});
+
+function formattingHighlightAction(children) {
+  const token = children.find((item) => item.localName === 'highlight');
+  if (!token) return null;
+  const value = attr(token, 'val').trim().toLowerCase();
+  if (!value || value === 'none') return { action: 'remove' };
+  return WORD_HIGHLIGHT_COLOR_BY_NAME[value]
+    ? { action: 'set', value: WORD_HIGHLIGHT_COLOR_BY_NAME[value] }
+    : null;
+}
+
+function formattingFontAction(children) {
+  const token = children.find((item) => item.localName === 'rFonts');
+  if (!token) return null;
+  const values = ['ascii', 'hAnsi', 'eastAsia', 'cs'].map((name) => attr(token, name).trim()).filter(Boolean);
+  if (values.length === 0) return { action: 'remove' };
+  const unique = [...new Set(values)];
+  return unique.length === 1 && unique[0].length <= 128
+    ? { action: 'set', value: unique[0] }
+    : null;
+}
+
+function formattingSizeAction(children) {
+  const values = ['sz', 'szCs']
+    .map((name) => children.find((item) => item.localName === name))
+    .filter(Boolean)
+    .map((token) => attr(token, 'val').trim())
+    .filter(Boolean);
+  if (values.length === 0) return null;
+  const unique = [...new Set(values)];
+  if (unique.length !== 1 || !/^\d{1,4}$/u.test(unique[0])) return null;
+  const halfPoints = Number(unique[0]);
+  if (!Number.isSafeInteger(halfPoints) || halfPoints < 2 || halfPoints > 3276) return null;
+  return { action: 'set', value: `${halfPoints / 2}pt` };
+}
+
+function formattingInlineActions(children) {
+  const inline = {};
+  for (const [key, localName] of [['bold', 'b'], ['italic', 'i'], ['underline', 'u'], ['strike', 'strike']]) {
+    const action = formattingToggleAction(children, localName);
+    if (action) inline[key] = action;
+  }
+  const color = formattingColorAction(children);
+  if (color) inline.color = color;
+  const highlight = formattingHighlightAction(children);
+  if (highlight) inline.highlight = highlight;
+  const fontFamily = formattingFontAction(children);
+  if (fontFamily) inline.fontFamily = fontFamily;
+  const fontSize = formattingSizeAction(children);
+  if (fontSize) inline.fontSize = fontSize;
+  return inline;
+}
+
+function formattingInlineState(actions) {
+  const state = {};
+  for (const [key, action] of Object.entries(actions)) {
+    if (action?.action === 'set') state[key] = action.value;
+  }
+  return state;
+}
+
+function formattingParagraphState(children) {
+  const state = {};
+  const alignment = children.find((item) => item.localName === 'jc');
+  if (alignment) {
+    const value = attr(alignment, 'val').trim().toLowerCase();
+    if (['left', 'center', 'right', 'justify'].includes(value)) state.textAlign = value;
+  }
+  return state;
+}
+
+export function extractReviewTransportFormattingRunsV2(documentXml, options = {}) {
+  const cryptoPort = resolveCryptoPort(options.cryptoPort);
+  if (!cryptoPort.ok) {
+    return {
+      ok: false,
+      code: 'RTK_FORMATTING_SCANNER_CRYPTO_PORT_REQUIRED',
+      reasons: [reason('RTK_FORMATTING_SCANNER_CRYPTO_PORT_REQUIRED', 'cryptoPort', 'Formatting scanner requires the bounded parser CryptoPort.', { missing: cryptoPort.missing })],
+      paragraphs: [],
+    };
+  }
+  const budgets = normalizeBudgets(options.budgets);
+  const budgetState = createParserBudgetState(budgets, cryptoPort);
+  const documentScan = parseXmlPart('word/document.xml', documentXml, budgets, cryptoPort, budgetState);
+  const reasons = [...documentScan.diagnostics];
+  if (blockingReason(reasons)) {
+    return { ok: false, code: 'RTK_FORMATTING_SCANNER_XML_BLOCKED', reasons, paragraphs: [] };
+  }
+  const paragraphs = documentScan.tokens
+    .filter((token) => token.localName === 'p' && token.namespaceUri === W_NS)
+    .sort((left, right) => left.openStart - right.openStart);
+  const results = [];
+  for (const [paragraphIndex, paragraph] of paragraphs.entries()) {
+    const paragraphText = textInsideToken(documentXml, documentScan, paragraph);
+    const trackedRevision = documentScan.tokens.some((token) => (
+      ['ins', 'del', 'moveFrom', 'moveTo'].includes(token.localName)
+      && token.openStart >= paragraph.openEnd
+      && token.closeEnd <= paragraph.closeStart
+    ));
+    const bookmarks = documentScan.tokens
+      .filter((token) => (
+        token.localName === 'bookmarkStart'
+        && token.openStart >= paragraph.openEnd
+        && token.closeEnd <= paragraph.closeStart
+      ))
+      .map((token) => attr(token, 'name'))
+      .filter(Boolean);
+    const paragraphProperties = documentScan.tokens.find((token) => (
+      token.localName === 'pPr'
+      && token.namespaceUri === W_NS
+      && nearestContainingToken(documentScan, token, 'p') === paragraph
+    ));
+    const paragraphPropertyChildren = paragraphProperties
+      ? childTokensWithin(documentScan, paragraphProperties).filter((token) => token.namespaceUri === W_NS)
+      : [];
+    const paragraphSemanticNames = [...new Set(paragraphPropertyChildren.map((token) => token.localName))];
+    const unsupportedParagraphNames = paragraphSemanticNames.filter((name) => name !== 'jc');
+    const paragraphState = formattingParagraphState(paragraphPropertyChildren);
+    const paragraphFormattingInvalid = paragraphSemanticNames.includes('jc')
+      && !Object.hasOwn(paragraphState, 'textAlign');
+    const runs = documentScan.tokens
+      .filter((token) => (
+        token.localName === 'r'
+        && token.namespaceUri === W_NS
+        && nearestContainingToken(documentScan, token, 'p') === paragraph
+      ))
+      .sort((left, right) => left.openStart - right.openStart);
+    let cursor = 0;
+    const formattedRuns = [];
+    for (const run of runs) {
+      const text = textInsideToken(documentXml, documentScan, run);
+      const from = cursor;
+      const to = from + text.length;
+      cursor = to;
+      const properties = documentScan.tokens.find((token) => (
+        token.localName === 'rPr'
+        && token.namespaceUri === W_NS
+        && nearestContainingToken(documentScan, token, 'r') === run
+      ));
+      if (!text) continue;
+      const children = properties
+        ? childTokensWithin(documentScan, properties).filter((token) => token.namespaceUri === W_NS)
+        : [];
+      const semanticNames = [...new Set(children.map((token) => token.localName))];
+      const supportedNames = new Set(['b', 'i', 'u', 'strike', 'color', 'highlight', 'rFonts', 'sz', 'szCs']);
+      const unsupportedNames = semanticNames.filter((name) => !supportedNames.has(name));
+      const inline = formattingInlineActions(children);
+      const expectedActionKeys = [
+        ...[['b', 'bold'], ['i', 'italic'], ['u', 'underline'], ['strike', 'strike']]
+          .filter(([name]) => semanticNames.includes(name))
+          .map(([, key]) => key),
+        ...(semanticNames.includes('color') ? ['color'] : []),
+        ...(semanticNames.includes('highlight') ? ['highlight'] : []),
+        ...(semanticNames.includes('rFonts') ? ['fontFamily'] : []),
+        ...(semanticNames.includes('sz') || semanticNames.includes('szCs') ? ['fontSize'] : []),
+      ];
+      const invalidSupportedValue = expectedActionKeys.some((key) => !Object.hasOwn(inline, key));
+      formattedRuns.push({
+        from,
+        to,
+        text,
+        inline,
+        inlineState: formattingInlineState(inline),
+        unsupportedNames,
+        invalidSupportedValue,
+        sourceXmlProvenance: provenance(properties || run),
+      });
+    }
+    results.push({
+      paragraphIndex,
+      paragraphText,
+      trackedRevision,
+      paraId: attr(paragraph, 'paraId'),
+      textId: attr(paragraph, 'textId'),
+      bookmarkNames: bookmarks,
+      paragraphState,
+      unsupportedParagraphNames,
+      paragraphFormattingInvalid,
+      formattedRuns,
+    });
+  }
+  return { ok: true, code: 'RTK_FORMATTING_SCANNER_READY', reasons, paragraphs: results };
+}
+
 function parseFormattingDeltas(documentXml, documentScan, budgetState, reasons) {
   const deltas = [];
   for (const token of documentScan.tokens) {

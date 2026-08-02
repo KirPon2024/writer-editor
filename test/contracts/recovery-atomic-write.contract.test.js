@@ -33,3 +33,17 @@ test('recovery atomic contract: partial write never mutates committed target', a
   const leftovers = fs.readdirSync(dir).filter((name) => name.includes('.tmp.'));
   assert.deepEqual(leftovers, []);
 });
+
+test('recovery atomic contract: strict rename is followed by parent directory durability', async () => {
+  const io = await loadIoModule();
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'recovery-atomic-dir-sync-'));
+  const target = path.join(dir, 'scene.md');
+  let syncedDirectory = '';
+  const written = await io.atomicWriteFile(target, 'durable-content\n', {
+    safetyMode: 'strict',
+    afterDirectorySync: ({ directory }) => { syncedDirectory = directory; },
+  });
+  assert.equal(written.ok, 1);
+  assert.equal(syncedDirectory, dir);
+  assert.equal(fs.readFileSync(target, 'utf8'), 'durable-content\n');
+});

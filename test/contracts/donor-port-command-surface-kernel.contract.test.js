@@ -26,6 +26,7 @@ test('donor port command surface kernel: allowlist is fixed to minimal non-ui co
     'cmd.rtk.review.applyMultiSceneNonOverlapTrackedReplacements',
     'cmd.rtk.review.applyRootCommentReturn',
     'cmd.rtk.review.applyCommentLifecycleReturn',
+    'cmd.rtk.review.applyMultiSceneFormattingReturn',
   ]);
 });
 

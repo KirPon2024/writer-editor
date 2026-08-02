@@ -147,6 +147,53 @@ test('C5V2 full-manuscript source rejects duplicate, reordered, stale and tamper
   });
 });
 
+test('C5V2 full-manuscript source binds rich paragraph FormatIR and raw observable scene authority', () => {
+  const { buildFullManuscriptDocxReviewPacketSource } = require(path.join(
+    REPO_ROOT,
+    'src',
+    'export',
+    'docx',
+    'fullManuscriptDocxReviewPacketSource.js',
+  ));
+  const scenes = makeScenes().slice(0, 2);
+  scenes[0] = {
+    ...scenes[0],
+    text: 'Bold\nline',
+    observableContent: '[doc-v2 rich observable payload]',
+    doc: {
+      type: 'doc',
+      content: [{
+        type: 'paragraph',
+        attrs: { textAlign: 'center' },
+        content: [
+          { type: 'text', text: 'Bold', marks: [{ type: 'bold' }] },
+          { type: 'hardBreak' },
+          { type: 'text', text: 'line', marks: [{ type: 'italic' }] },
+        ],
+      }],
+    },
+  };
+  const source = buildFullManuscriptDocxReviewPacketSource({
+    projectId: 'project-rich-format-ir',
+    scenes,
+  }, {
+    roundIdHex: 'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+    keyIdHex: 'ffffffffffffffffffffffffffffffff',
+    hmacSecret: 'local-secret-for-test-only',
+  });
+  const richBlocks = source.blocks.filter((block) => block.sceneId === scenes[0].sceneId);
+  assert.equal(richBlocks.length, 1);
+  assert.equal(richBlocks[0].text, 'Bold\nline');
+  assert.equal(richBlocks[0].formatIr.paragraph.textAlign, 'center');
+  assert.deepEqual(richBlocks[0].formatIr.runs.map((run) => run.inline), [
+    { bold: true },
+    {},
+    { italic: true },
+  ]);
+  assert.equal(source.localAuthorityCapsule.exportMap.scenes[0].rawSha256, source.advisoryManifest.coreManifest.exportMap.scenes[0].rawSha256);
+  assert.notEqual(source.localAuthorityCapsule.exportMap.scenes[0].rawSha256, source.blocks[0].canonicalTextSha256);
+});
+
 test('C5V2 product review DOCX requires one deterministic modern mode 15 settings package contract', () => {
   const {
     buildDocxReviewPacketBuffer,
@@ -295,6 +342,9 @@ test('C5V2 full-manuscript product export is reachable through command kernel, r
   const readFullExportSourceBody = mainSource.slice(readFullExportSourceStart, readFullExportSourceEnd);
   assert.match(readFullExportSourceBody, /const scope = await buildFullManuscriptDocxReviewExportScope\(\);/u);
   assert.match(readFullExportSourceBody, /readFullManuscriptDocxReviewExportDocumentContent\(candidate\)/u);
+  assert.match(readFullExportSourceBody, /doc:\s*content\.doc/u);
+  assert.match(readFullExportSourceBody, /observableContent:\s*content\.observableContent/u);
+  assert.match(readFullExportSourceBody, /rawSha256:\s*`sha256:\$\{createRtkReviewTransportCryptoPort\(\)\.sha256Text\(content\.observableContent\)\}`/u);
   assert.equal(readFullExportSourceBody.includes('buildSelectedScenesTxtExportScope'), false);
   assert.equal(readFullExportSourceBody.includes('readSelectedScenesTxtExportSceneContent'), false);
   assert.equal(commandSurfaceKernel.includes(`'${COMMAND_ID}'`), true);

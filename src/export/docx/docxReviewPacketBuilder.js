@@ -11,6 +11,25 @@ const CUSTOM_XML_PROPS_NS = 'http://schemas.openxmlformats.org/officeDocument/20
 const WORD_SETTINGS_CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml';
 const WORD_SETTINGS_REL_TYPE = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/settings';
 const WORD_COMPATIBILITY_URI = 'http://schemas.microsoft.com/office/word';
+const FORMAT_IR_SCHEMA = 'yalken.rtk.format-ir.v1';
+const WORD_HIGHLIGHT_NAME_BY_COLOR = Object.freeze({
+  '#000000': 'black',
+  '#0000ff': 'blue',
+  '#00ffff': 'cyan',
+  '#00008b': 'darkBlue',
+  '#008b8b': 'darkCyan',
+  '#a9a9a9': 'darkGray',
+  '#006400': 'darkGreen',
+  '#8b008b': 'darkMagenta',
+  '#8b0000': 'darkRed',
+  '#808000': 'darkYellow',
+  '#008000': 'green',
+  '#d3d3d3': 'lightGray',
+  '#ff00ff': 'magenta',
+  '#ff0000': 'red',
+  '#ffffff': 'white',
+  '#ffff00': 'yellow',
+});
 
 function isPlainObjectValue(value) {
   return Boolean(value && typeof value === 'object' && !Array.isArray(value));
@@ -47,6 +66,9 @@ function normalizeReviewPacketBlocks(input = {}) {
       paraId: normalizeString(block.paraId).replace(/[^a-fA-F0-9]/g, '').slice(0, 8).padStart(8, '0'),
       textId: normalizeString(block.textId).replace(/[^a-fA-F0-9]/g, '').slice(0, 8).padStart(8, '0'),
       text: normalizeDocxXmlText(block.text),
+      formatIr: isPlainObjectValue(block.formatIr) && block.formatIr.schemaVersion === FORMAT_IR_SCHEMA
+        ? JSON.parse(JSON.stringify(block.formatIr))
+        : null,
     }));
 }
 
@@ -55,15 +77,63 @@ function buildBookmarkName(block, index) {
   return `YRTK_${String(index + 1).padStart(4, '0')}_${raw}`.slice(0, 40);
 }
 
+function buildRunPropertiesXml(inline = {}) {
+  const properties = [];
+  if (inline.bold === true) properties.push('<w:b/>');
+  if (inline.italic === true) properties.push('<w:i/>');
+  if (inline.underline === true) properties.push('<w:u w:val="single"/>');
+  if (inline.strike === true) properties.push('<w:strike/>');
+  if (typeof inline.color === 'string' && /^#[a-f0-9]{6}$/iu.test(inline.color)) {
+    properties.push(`<w:color w:val="${inline.color.slice(1).toUpperCase()}"/>`);
+  }
+  if (typeof inline.highlight === 'string') {
+    const highlightName = WORD_HIGHLIGHT_NAME_BY_COLOR[inline.highlight.toLowerCase()];
+    if (!highlightName) throw new Error('DOCX_REVIEW_PACKET_FORMAT_IR_HIGHLIGHT_UNSUPPORTED');
+    properties.push(`<w:highlight w:val="${highlightName}"/>`);
+  }
+  if (typeof inline.fontFamily === 'string' && inline.fontFamily) {
+    const family = escapeXml(inline.fontFamily);
+    properties.push(`<w:rFonts w:ascii="${family}" w:hAnsi="${family}" w:eastAsia="${family}" w:cs="${family}"/>`);
+  }
+  if (typeof inline.fontSize === 'string' && /^(\d{1,4}(?:\.5)?)pt$/u.test(inline.fontSize)) {
+    const halfPoints = String(Math.round(Number.parseFloat(inline.fontSize) * 2));
+    properties.push(`<w:sz w:val="${halfPoints}"/><w:szCs w:val="${halfPoints}"/>`);
+  }
+  return properties.length > 0 ? `<w:rPr>${properties.join('')}</w:rPr>` : '';
+}
+
+function buildRunContentXml(text) {
+  const pieces = normalizeDocxXmlText(text).split('\n');
+  return pieces.map((piece, index) => {
+    const content = piece ? `<w:t xml:space="preserve">${escapeXml(piece)}</w:t>` : '';
+    return index < pieces.length - 1 ? `${content}<w:br/>` : content;
+  }).join('');
+}
+
+function buildFormatIrRunsXml(block) {
+  const runs = Array.isArray(block.formatIr?.runs) ? block.formatIr.runs : [];
+  if (runs.length === 0) {
+    return block.text ? `<w:r><w:t xml:space="preserve">${escapeXml(block.text)}</w:t></w:r>` : '';
+  }
+  const text = runs.map((run) => normalizeString(run?.text)).join('');
+  if (text !== block.text) throw new Error('DOCX_REVIEW_PACKET_FORMAT_IR_TEXT_MISMATCH');
+  return runs.map((run) => {
+    const content = buildRunContentXml(run.text);
+    return content ? `<w:r>${buildRunPropertiesXml(run.inline)}${content}</w:r>` : '';
+  }).join('');
+}
+
 function buildParagraphXml(block, index) {
   const bookmarkId = String(index + 1);
   const bookmarkName = buildBookmarkName(block, index);
-  const text = block.text;
-  const textRun = text
-    ? `<w:r><w:t xml:space="preserve">${escapeXml(text)}</w:t></w:r>`
+  const textRun = buildFormatIrRunsXml(block);
+  const textAlign = normalizeString(block.formatIr?.paragraph?.textAlign);
+  const paragraphProperties = textAlign && ['left', 'center', 'right', 'justify'].includes(textAlign)
+    ? `<w:pPr><w:jc w:val="${textAlign}"/></w:pPr>`
     : '';
   return [
     `<w:p w14:paraId="${escapeXml(block.paraId)}" w14:textId="${escapeXml(block.textId)}">`,
+    paragraphProperties,
     `<w:bookmarkStart w:id="${bookmarkId}" w:name="${escapeXml(bookmarkName)}"/>`,
     textRun,
     `<w:bookmarkEnd w:id="${bookmarkId}"/>`,

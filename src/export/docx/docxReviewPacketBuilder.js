@@ -8,6 +8,9 @@ const W14_NS = 'http://schemas.microsoft.com/office/word/2010/wordml';
 const CUSTOM_PROPS_NS = 'http://schemas.openxmlformats.org/officeDocument/2006/custom-properties';
 const CUSTOM_PROPS_VT_NS = 'http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes';
 const CUSTOM_XML_PROPS_NS = 'http://schemas.openxmlformats.org/officeDocument/2006/customXml';
+const WORD_SETTINGS_CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml';
+const WORD_SETTINGS_REL_TYPE = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/settings';
+const WORD_COMPATIBILITY_URI = 'http://schemas.microsoft.com/office/word';
 
 function isPlainObjectValue(value) {
   return Boolean(value && typeof value === 'object' && !Array.isArray(value));
@@ -37,6 +40,10 @@ function normalizeReviewPacketBlocks(input = {}) {
     .map((block, index) => ({
       blockId: normalizeString(block.blockId) || `block-${String(index + 1).padStart(4, '0')}`,
       paragraphId: normalizeString(block.paragraphId) || `p-${String(index + 1).padStart(4, '0')}`,
+      sceneId: normalizeString(block.sceneId),
+      sceneOrdinal: Number.isInteger(block.sceneOrdinal) && block.sceneOrdinal >= 0 ? block.sceneOrdinal : null,
+      sceneTitle: normalizeString(block.sceneTitle),
+      sceneBoundary: block.sceneBoundary === true,
       paraId: normalizeString(block.paraId).replace(/[^a-fA-F0-9]/g, '').slice(0, 8).padStart(8, '0'),
       textId: normalizeString(block.textId).replace(/[^a-fA-F0-9]/g, '').slice(0, 8).padStart(8, '0'),
       text: normalizeDocxXmlText(block.text),
@@ -119,6 +126,7 @@ function buildContentTypesXml() {
   <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
   <Default Extension="xml" ContentType="application/xml"/>
   <Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>
+  <Override PartName="/word/settings.xml" ContentType="${WORD_SETTINGS_CONTENT_TYPE}"/>
   <Override PartName="/docProps/custom.xml" ContentType="application/vnd.openxmlformats-officedocument.custom-properties+xml"/>
 </Types>`;
 }
@@ -134,7 +142,79 @@ function buildRootRelsXml() {
 
 function buildDocumentRelsXml() {
   return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Relationships xmlns="${WORD_REL_NS}"/>`;
+<Relationships xmlns="${WORD_REL_NS}">
+  <Relationship Id="rIdYrtkSettings" Type="${WORD_SETTINGS_REL_TYPE}" Target="settings.xml"/>
+</Relationships>`;
+}
+
+function buildSettingsXml() {
+  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:settings xmlns:w="${WORD_MAIN_NS}">
+  <w:compat>
+    <w:compatSetting w:name="compatibilityMode" w:uri="${WORD_COMPATIBILITY_URI}" w:val="15"/>
+  </w:compat>
+</w:settings>`;
+}
+
+function storedZipEntryList(buffer) {
+  const entries = [];
+  let offset = 0;
+  while (offset + 30 <= buffer.length && buffer.readUInt32LE(offset) === 0x04034b50) {
+    const method = buffer.readUInt16LE(offset + 8);
+    const compressedSize = buffer.readUInt32LE(offset + 18);
+    const fileNameLength = buffer.readUInt16LE(offset + 26);
+    const extraLength = buffer.readUInt16LE(offset + 28);
+    const nameStart = offset + 30;
+    const dataStart = nameStart + fileNameLength + extraLength;
+    const dataEnd = dataStart + compressedSize;
+    if (method !== 0 || dataEnd > buffer.length) return [];
+    entries.push({
+      name: buffer.slice(nameStart, nameStart + fileNameLength).toString('utf8'),
+      text: buffer.slice(dataStart, dataEnd).toString('utf8'),
+    });
+    offset = dataEnd;
+  }
+  return entries;
+}
+
+function validateDocxReviewPacketModernMode15(buffer) {
+  const entries = storedZipEntryList(buffer);
+  const byName = (name) => entries.filter((entry) => entry.name === name);
+  const settings = byName('word/settings.xml');
+  const contentTypes = byName('[Content_Types].xml');
+  const documentRels = byName('word/_rels/document.xml.rels');
+  const failures = [];
+  if (settings.length !== 1) failures.push('DOCX_REVIEW_PACKET_SETTINGS_PART_COUNT_INVALID');
+  if (contentTypes.length !== 1) failures.push('DOCX_REVIEW_PACKET_CONTENT_TYPES_PART_COUNT_INVALID');
+  if (documentRels.length !== 1) failures.push('DOCX_REVIEW_PACKET_DOCUMENT_RELS_PART_COUNT_INVALID');
+  const settingsXml = settings[0]?.text || '';
+  const modeEntries = settingsXml.match(/<w:compatSetting\b[^>]*\bw:name="compatibilityMode"[^>]*\/>/gu) || [];
+  if (!/^<\?xml[\s\S]*<w:settings\b[\s\S]*<w:compat>[\s\S]*<\/w:compat>[\s\S]*<\/w:settings>\s*$/u.test(settingsXml)) {
+    failures.push('DOCX_REVIEW_PACKET_SETTINGS_XML_MALFORMED');
+  }
+  if (modeEntries.length !== 1) failures.push('DOCX_REVIEW_PACKET_COMPATIBILITY_MODE_COUNT_INVALID');
+  if (modeEntries.length === 1 && !/\bw:val="15"/u.test(modeEntries[0])) {
+    failures.push('DOCX_REVIEW_PACKET_COMPATIBILITY_MODE_NOT_15');
+  }
+  if (modeEntries.length === 1 && !new RegExp(`\\bw:uri="${WORD_COMPATIBILITY_URI}"`, 'u').test(modeEntries[0])) {
+    failures.push('DOCX_REVIEW_PACKET_COMPATIBILITY_MODE_URI_INVALID');
+  }
+  const overrideMatches = (contentTypes[0]?.text || '').match(/<Override\b[^>]*PartName="\/word\/settings\.xml"[^>]*>/gu) || [];
+  if (overrideMatches.length !== 1 || !overrideMatches[0].includes(`ContentType="${WORD_SETTINGS_CONTENT_TYPE}"`)) {
+    failures.push('DOCX_REVIEW_PACKET_SETTINGS_CONTENT_TYPE_INVALID');
+  }
+  const relationshipMatches = (documentRels[0]?.text || '').match(/<Relationship\b[^>]*Type="http:\/\/schemas\.openxmlformats\.org\/officeDocument\/2006\/relationships\/settings"[^>]*>/gu) || [];
+  if (relationshipMatches.length !== 1 || !/\bTarget="settings\.xml"/u.test(relationshipMatches[0])) {
+    failures.push('DOCX_REVIEW_PACKET_SETTINGS_RELATIONSHIP_INVALID');
+  }
+  return {
+    ok: failures.length === 0,
+    code: failures[0] || 'DOCX_REVIEW_PACKET_MODERN_MODE_15_VALID',
+    failures,
+    compatibilityMode: modeEntries.length === 1
+      ? Number.parseInt(modeEntries[0].match(/\bw:val="(\d+)"/u)?.[1] || '', 10)
+      : null,
+  };
 }
 
 function buildCustomXmlRelsXml() {
@@ -169,16 +249,21 @@ function buildDocxReviewPacketBuffer(input = {}) {
     { name: '_rels/.rels', data: buildRootRelsXml() },
     { name: 'word/_rels/document.xml.rels', data: buildDocumentRelsXml() },
     { name: 'word/document.xml', data: buildDocumentXml(blocks) },
+    { name: 'word/settings.xml', data: buildSettingsXml() },
     { name: 'docProps/custom.xml', data: buildCustomPropertiesXml(customProperties) },
     { name: 'customXml/_rels/item1.xml.rels', data: buildCustomXmlRelsXml() },
     { name: 'customXml/item1.xml', data: buildCustomXmlPayloadXml(input) },
     { name: 'customXml/itemProps1.xml', data: buildCustomXmlItemPropsXml() },
   ]);
+  const modernMode = validateDocxReviewPacketModernMode15(buffer);
+  if (!modernMode.ok) throw new Error(modernMode.code);
   assertNoEmbeddedSecret(buffer, input.forbiddenSecret);
   return buffer;
 }
 
 module.exports = {
   buildDocxReviewPacketBuffer,
+  buildSettingsXml,
   normalizeReviewPacketBlocks,
+  validateDocxReviewPacketModernMode15,
 };

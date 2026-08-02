@@ -1,0 +1,210 @@
+{
+  "schemaVersion": "yalken.rtk.word-safety-remediation-v1.c5v2-methodology-repair-manifest.v1",
+  "taskId": "YALKEN_RTK_WORD_CONTINUATION_V2",
+  "contourId": "WORD_SAFETY_REMEDIATION_V1_C5V2_FULLBOOK_METHODOLOGY_REPAIR",
+  "status": "N2_TEXT_AND_ROOT_COMMENT_PHYSICAL_GREEN_LIFECYCLE_TYPED_PENDING",
+  "headSha": "ea00dd9d7fe2de94c3129fa7ca32f4221f8fe3a0",
+  "createdAtUtc": "2026-08-01T21:13:41Z",
+  "googleProductWork": "REPORT_ONLY_BLOCKED_STASH_UNTOUCHED",
+  "oldC5RunTreatment": "EXPLORATORY_ONLY_CASE_357_UNTRUSTED_RERUN_REQUIRED",
+  "productCapability": {
+    "fullManuscriptDocxReviewExport": {
+      "commandId": "cmd.project.review.exportFullManuscriptDocxReviewPacket",
+      "capabilityId": "cap.project.review.exportFullManuscriptDocxReviewPacket",
+      "route": [
+        "capability-manifest",
+        "typed-command-port",
+        "command-surface-kernel",
+        "canonical-project-truth-projection",
+        "docx-review-packet-adapter",
+        "existing-design-os-export-surface"
+      ],
+      "status": "IMPLEMENTED_DRY_CONTRACT_GREEN",
+      "nonClaim": "NOT_PHYSICALLY_WORD_CERTIFIED"
+    },
+    "fullManuscriptReturnRouter": {
+      "applyCommandId": "cmd.rtk.review.applyMultiSceneNonOverlapTrackedReplacements",
+      "supportedPositiveApplyLane": "TRACKED_REPLACE_ONLY_UNTIL_PRODUCT_PHYSICAL_PROOF",
+      "typedUnsupportedLanes": [
+        "root_comment",
+        "reply",
+        "comment_state",
+        "formatting",
+        "structural"
+      ],
+      "status": "IMPLEMENTED_DRY_CONTRACT_GREEN",
+      "nonClaim": "COMMENT_FORMAT_STRUCTURE_APPLY_NOT_CERTIFIED"
+    },
+    "rootCommentReturnApply": {
+      "commandId": "cmd.rtk.review.applyRootCommentReturn",
+      "port": "createRtkNonTextReturnFilePort",
+      "route": [
+        "full-manuscript-return-manifest",
+        "typed-root-comment-command",
+        "command-surface-kernel",
+        "non-text-return-product-port",
+        "canonical-local-project-truth",
+        "atomic-recovery-snapshot",
+        "reopen-readback",
+        "deterministic-replay"
+      ],
+      "status": "IMPLEMENTED_FOCUSED_CONTRACT_AND_TWO_CHAPTER_PHYSICAL_GREEN",
+      "physicalWordStatus": "THREE_VISIBLE_WORD_16_111_2_REPRODUCTIONS_GREEN_FOR_ROOT_COMMENT_APPLY_REOPEN_REPLAY",
+      "networkAuthority": false,
+      "harnessAuthority": false
+    },
+    "commentLifecycleReturnApply": {
+      "commandId": "cmd.rtk.review.applyCommentLifecycleReturn",
+      "supportedActions": [
+        "reply",
+        "resolve",
+        "reopen",
+        "resolve-reopen",
+        "delete"
+      ],
+      "route": [
+        "authenticated-word-return-intake",
+        "parsed-comment-ir",
+        "typed-root-and-lifecycle-command-plan",
+        "command-surface-kernel-dispatch",
+        "non-text-return-product-port",
+        "canonical-local-project-truth",
+        "atomic-recovery-snapshot",
+        "reopen-readback",
+        "deterministic-replay",
+        "semantic-oracle-triangle"
+      ],
+      "status": "IMPLEMENTED_FOCUSED_CONTRACT_GREEN_PHYSICAL_TYPED_PENDING_FOR_REPLY_AND_STATE",
+      "physicalProductAssertion": {
+        "pendingLaneForbidden": true,
+        "commandBusDispatchOnlyRequired": true,
+        "directPortDispatchForbidden": true,
+        "rootApplyRequired": true,
+        "lifecycleApplyRequired": true,
+        "recoveryReadbackReplayRequired": true,
+        "semanticOracleTriangleRequired": true
+      },
+      "supportingPhysicalArtifact": {
+        "runId": "c5v2-n2-two-chapter-controller-20260802T022703Z",
+        "wordVersion": "16.111.2",
+        "exitCode": 0,
+        "sourceSha256": "sha256:88ed3dfd2426f8bd2a8297e0a96611355dd995e26ddeb4d6871a84a655c23071",
+        "returnedSha256": "sha256:1064500e597e96b8bd977b8ddc6a1a782f79b4c05d677c1c63fd35dea8ecee74",
+        "authority": "SUPPORTING_WORD_RETURN_ONLY_NOT_N2_PRODUCT_CERTIFICATION"
+      },
+      "visiblePhysicalCanaryReproductions": [
+        {
+          "runId": "c5v2-n2-visible-continuation-20260802T082347Z",
+          "wordVersion": "16.111.2",
+          "headSha": "ce9f1c5d4de2baa74f0df13b629eafa1078d0d0c",
+          "sourceSha256": "sha256:f3ac9273fea641ce66b9ea93ba15d11dc8494a394adfd9ceee62193ace700d11",
+          "returnedSha256": "sha256:0bac0b0e1ee31521a9fb5d3eec44cc09667658547058336aee3822c3bd76bac7",
+          "wordStatus": "PASS",
+          "phaseLast": "FINAL_SEMANTIC_READBACK",
+          "nativeRevisionCount": 8,
+          "nativeRootCommentCount": 4,
+          "safeApplyCount": 8,
+          "manualOrBlockedCount": 6,
+          "textApplyReplayGreen": true,
+          "rootCommentApplyReplayGreen": true,
+          "staleRetryBlocked": true,
+          "replyAttemptsTypedPending": 3,
+          "stateAttemptsTypedPending": 3,
+          "typedPendingReason": "NATIVE_UI_TARGET_UNAVAILABLE_OR_AMBIGUOUS_WITH_BOUNDED_REVIEW_RIBBON_DIAGNOSTICS",
+          "certificationClaim": "NO_PHYSICAL_PROVEN_C5_CERTIFICATION_CLAIM"
+        },
+        {
+          "runId": "c5v2-n2-visible-continuation-20260802T082654Z",
+          "wordVersion": "16.111.2",
+          "headSha": "ce9f1c5d4de2baa74f0df13b629eafa1078d0d0c",
+          "sourceSha256": "sha256:5c903fc96994776a1231319283610149b38ca3f6372fb7a1d64627e505be8eff",
+          "returnedSha256": "sha256:569e117a1d00279b951081145e3d0340026b608f625acdb3f91603cd9c114c96",
+          "wordStatus": "PASS",
+          "phaseLast": "FINAL_SEMANTIC_READBACK",
+          "nativeRevisionCount": 8,
+          "nativeRootCommentCount": 4,
+          "safeApplyCount": 8,
+          "manualOrBlockedCount": 6,
+          "textApplyReplayGreen": true,
+          "rootCommentApplyReplayGreen": true,
+          "staleRetryBlocked": true,
+          "replyAttemptsTypedPending": 3,
+          "stateAttemptsTypedPending": 3,
+          "typedPendingReason": "NATIVE_UI_TARGET_UNAVAILABLE_OR_AMBIGUOUS_WITH_BOUNDED_REVIEW_RIBBON_DIAGNOSTICS",
+          "certificationClaim": "NO_PHYSICAL_PROVEN_C5_CERTIFICATION_CLAIM"
+        },
+        {
+          "runId": "c5v2-n2-visible-continuation-20260802T082923Z",
+          "wordVersion": "16.111.2",
+          "headSha": "ce9f1c5d4de2baa74f0df13b629eafa1078d0d0c",
+          "sourceSha256": "sha256:1056e9f235d3b63b20677ed257fe47c847e0305c5244b2f94b7031245cca96fd",
+          "returnedSha256": "sha256:44abcf4095c1270fd5d64d9b2b9275d6b5560dbb5518472c9ff062d84f9ceb97",
+          "wordStatus": "PASS",
+          "phaseLast": "FINAL_SEMANTIC_READBACK",
+          "nativeRevisionCount": 8,
+          "nativeRootCommentCount": 4,
+          "safeApplyCount": 8,
+          "manualOrBlockedCount": 6,
+          "textApplyReplayGreen": true,
+          "rootCommentApplyReplayGreen": true,
+          "staleRetryBlocked": true,
+          "replyAttemptsTypedPending": 3,
+          "stateAttemptsTypedPending": 3,
+          "typedPendingReason": "NATIVE_UI_TARGET_UNAVAILABLE_OR_AMBIGUOUS_WITH_BOUNDED_REVIEW_RIBBON_DIAGNOSTICS",
+          "certificationClaim": "NO_PHYSICAL_PROVEN_C5_CERTIFICATION_CLAIM"
+        }
+      ],
+      "networkAuthority": false,
+      "harnessAuthority": false,
+      "certificationClaim": "N2_TEXT_AND_ROOT_COMMENT_ONLY_NOT_FULL_C5_CERTIFICATION"
+    }
+  },
+  "methodologyInfrastructure": {
+    "ledgerDistribution": {
+      "schemaVersion": "yalken.rtk.word.c5v2.fullbook-ledger.v1",
+      "topology": "one-full-manuscript-project-cumulative-rounds",
+      "operationCount": 2000,
+      "sceneCoverageRequirement": "21_OF_21_FOR_APPLICABLE_FAMILIES",
+      "status": "DRY_CONTRACT_GREEN"
+    },
+    "roundCheckpointing": {
+      "schemaVersion": "yalken.rtk.word.c5v2.fullbook-chunk-checkpoint.v1",
+      "checkpointPolicy": "FSYNCED_CHUNK_CHECKPOINTS_PARTIAL_CHUNK_RERUNS_WITH_NEW_ATTEMPT_ID",
+      "status": "DRY_CONTRACT_GREEN"
+    }
+  },
+  "focusedDryGates": {
+    "node --test c5v2 product export return router ledger checkpoint catalog bundle": {
+      "tests": 10,
+      "pass": 10,
+      "fail": 0
+    },
+    "npm run -s build:renderer": {
+      "status": "PASS"
+    },
+    "npm run -s test:rtk": {
+      "status": "FAIL_EXPECTED_UNDELIVERED_WIP_AND_OLD_C5V1_PHYSICAL_RECEIPT",
+      "tests": 361,
+      "pass": 356,
+      "fail": 5,
+      "classifiedFailures": [
+        "G0B frozen ActionEnvelope detects active WIP",
+        "W1 frozen allowlist detects active WIP",
+        "W2 frozen allowlist detects active WIP",
+        "old C5 V1 receipt missing terminal physical phases",
+        "old C5 V1 phase veto remains nonzero"
+      ]
+    }
+  },
+  "absoluteVetoStatus": {
+    "falseFullBookLabel": 0,
+    "syntheticTailOnlyAuthority": 0,
+    "repeatedPositiveRootCommentAnchor": 0,
+    "hotspotGateViolation": 0,
+    "countsOnlyOracle": 0,
+    "nonCumulativeRoundPlan": 0,
+    "fixtureOnlyExporter": 0,
+    "partialCheckpointLoss": 0
+  },
+  "nextRequiredAction": "COMMIT_N2_TEXT_AND_ROOT_COMMENT_VISIBLE_CANARY_CHECKPOINT_THEN_START_N3_FORMATTING_ALLOWLIST_CONTOUR"
+}

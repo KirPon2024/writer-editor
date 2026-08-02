@@ -1815,8 +1815,12 @@ export {
   buildWordProductScript,
   commentPackageReadback,
   instantiateProductPort,
+  runDuplicateLocatorNegative,
   runElectronUiExportClickProof,
   runProductCase,
+  runStaleBaselineNegative,
+  runTamperedAuthorityNegative,
+  runWrongSceneNegative,
 };
 
 async function main() {

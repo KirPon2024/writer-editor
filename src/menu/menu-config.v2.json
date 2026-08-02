@@ -391,6 +391,12 @@
           "command": "cmd.project.review.exportDocxReviewPacket"
         },
         {
+          "id": "review-export-full-manuscript-docx-review-packet",
+          "label": "Export Full Manuscript Review DOCX Packet...",
+          "labelKey": "menu.review.exportFullManuscriptDocxReviewPacket",
+          "command": "cmd.project.review.exportFullManuscriptDocxReviewPacket"
+        },
+        {
           "id": "review-open-docx-review-preview-session",
           "label": "Open DOCX Review (Comments; tracked text candidates are manual-only)...",
           "labelKey": "menu.review.openDocxReviewPreviewSession",

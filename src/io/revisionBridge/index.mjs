@@ -93,6 +93,20 @@ export {
 } from './reviewTransportMultiSceneNonOverlapTrackedReplacementRuntime.mjs';
 
 export {
+  RTK_NON_TEXT_RETURN_EVENT_SCHEMA,
+  RTK_NON_TEXT_RETURN_STATE_SCHEMA,
+  RTK_COMMENT_LIFECYCLE_RETURN_COMMAND_ID,
+  RTK_ROOT_COMMENT_RETURN_COMMAND_ID,
+  applyCommentLifecycleReturnRuntime,
+  applyRootCommentReturnRuntime,
+  buildAuthenticatedCommentReturnCommands,
+  bindAuthenticatedCommentPlacementSceneAuthority,
+  createRtkCommentLifecycleReturnCommandHandler,
+  createRtkNonTextReturnFilePort,
+  createRtkRootCommentReturnCommandHandler,
+} from './reviewTransportNonTextReturnRuntime.mjs';
+
+export {
   RTK_WORD_V4_CORE_MANIFEST_SCHEMA,
   RTK_WORD_V4_EXPORT_MAP_SCHEMA,
   RTK_WORD_V4_YRTK2_MAC_DOMAIN,
@@ -2984,7 +2998,7 @@ const DOCX_REVIEW_PREVIEW_SESSION_CANDIDATE_BOUNDS = Object.freeze({
   maxComments: 250,
   maxCommentBodyChars: 2000,
   maxAnchors: 250,
-  maxTrackedTextCandidates: 100,
+  maxTrackedTextCandidates: 400,
   maxTrackedStructuralCandidates: 100,
   maxTrackedTextChars: 2000,
   maxDiagnostics: 200,
@@ -2992,6 +3006,22 @@ const DOCX_REVIEW_PREVIEW_SESSION_CANDIDATE_BOUNDS = Object.freeze({
   maxTargetPartBytes: DOCX_REVIEW_PREFLIGHT_BOUNDS.maxTargetPartBytes,
   maxXmlScanChars: DOCX_REVIEW_PREFLIGHT_BOUNDS.maxXmlScanChars,
 });
+
+const DOCX_REVIEW_PREVIEW_SESSION_FULL_MANUSCRIPT_CANDIDATE_BOUNDS = Object.freeze({
+  ...DOCX_REVIEW_PREVIEW_SESSION_CANDIDATE_BOUNDS,
+  maxComments: 2000,
+  maxAnchors: 2000,
+  maxTrackedTextCandidates: 5000,
+  maxTrackedStructuralCandidates: 1000,
+  maxDiagnostics: 2000,
+  maxUnsupportedItems: 1000,
+});
+
+function docxReviewPreviewSessionCandidateBounds(options = {}) {
+  return isPlainObject(options.fullManuscriptExportMap)
+    ? DOCX_REVIEW_PREVIEW_SESSION_FULL_MANUSCRIPT_CANDIDATE_BOUNDS
+    : DOCX_REVIEW_PREVIEW_SESSION_CANDIDATE_BOUNDS;
+}
 
 function docxReviewPreviewSessionDiagnostic(code, options = {}) {
   const diagnostic = {
@@ -3010,6 +3040,55 @@ function docxReviewPreviewSessionTargetScope(value) {
   const type = normalizeString(source.type) || 'docx';
   const id = normalizeString(source.id) || 'word/document.xml';
   return { type, id };
+}
+
+function docxReviewPreviewSessionBuildFullManuscriptBlockScopeResolver(exportMap = {}) {
+  const byParaId = new Map();
+  const byTextId = new Map();
+  const byBookmarkName = new Map();
+  const scenes = Array.isArray(exportMap?.scenes) ? exportMap.scenes : [];
+  let globalBlockIndex = 0;
+  for (const scene of scenes) {
+    const sceneId = normalizeString(scene?.sceneId);
+    if (!sceneId) continue;
+    const blocks = Array.isArray(scene?.blocks) ? scene.blocks : [];
+    for (const block of blocks) {
+      const targetScope = { type: 'scene', id: sceneId };
+      const blockId = normalizeString(block?.blockId);
+      if (blockId) {
+        const rawBookmark = blockId.replace(/[^A-Za-z0-9_]/gu, '_');
+        const builderBookmarkName = `YRTK_${String(globalBlockIndex + 1).padStart(4, '0')}_${rawBookmark}`.slice(0, 40);
+        if (builderBookmarkName) byBookmarkName.set(builderBookmarkName.toLowerCase(), targetScope);
+      }
+      const signals = Array.isArray(block?.wordSignals) ? block.wordSignals : [];
+      for (const signal of signals) {
+        if (!isPlainObject(signal)) continue;
+        if (signal.kind === 'w14ParaIdTextId') {
+          const paraId = normalizeString(signal.value?.paraId).toLowerCase();
+          const textId = normalizeString(signal.value?.textId).toLowerCase();
+          if (paraId) byParaId.set(paraId, targetScope);
+          if (textId) byTextId.set(textId, targetScope);
+        } else if (signal.kind === 'bookmarkName') {
+          const name = normalizeString(signal.value?.name).toLowerCase();
+          if (name) byBookmarkName.set(name, targetScope);
+        }
+      }
+      globalBlockIndex += 1;
+    }
+  }
+  return (signal = {}) => {
+    const paraId = normalizeString(signal.paraId).toLowerCase();
+    const textId = normalizeString(signal.textId).toLowerCase();
+    const bookmarkNames = Array.isArray(signal.bookmarkNames)
+      ? signal.bookmarkNames.map((name) => normalizeString(name).toLowerCase()).filter(Boolean)
+      : [];
+    if (paraId && byParaId.has(paraId)) return byParaId.get(paraId);
+    if (textId && byTextId.has(textId)) return byTextId.get(textId);
+    for (const bookmarkName of bookmarkNames) {
+      if (byBookmarkName.has(bookmarkName)) return byBookmarkName.get(bookmarkName);
+    }
+    return null;
+  };
 }
 
 function docxReviewPreviewSessionEmptyReviewPacket() {
@@ -3035,13 +3114,15 @@ function docxReviewPreviewSessionResult({
   preflightReport = null,
   sourceViewState = null,
   summary = {},
+  bounds = DOCX_REVIEW_PREVIEW_SESSION_CANDIDATE_BOUNDS,
 }) {
+  const candidateBounds = isPlainObject(bounds) ? bounds : DOCX_REVIEW_PREVIEW_SESSION_CANDIDATE_BOUNDS;
   const safeReviewPacket = isPlainObject(reviewPacket) ? cloneJsonSafe(reviewPacket) : null;
   const safeDiagnostics = Array.isArray(diagnostics)
-    ? diagnostics.slice(0, DOCX_REVIEW_PREVIEW_SESSION_CANDIDATE_BOUNDS.maxDiagnostics)
+    ? diagnostics.slice(0, candidateBounds.maxDiagnostics)
     : [];
   const safeUnsupportedItems = Array.isArray(unsupportedItems)
-    ? unsupportedItems.slice(0, DOCX_REVIEW_PREVIEW_SESSION_CANDIDATE_BOUNDS.maxUnsupportedItems)
+    ? unsupportedItems.slice(0, candidateBounds.maxUnsupportedItems)
     : [];
   const canOpenReviewSession = ok === true && status === 'ready' && isPlainObject(safeReviewPacket);
   return {
@@ -3062,7 +3143,7 @@ function docxReviewPreviewSessionResult({
     diagnostics: safeDiagnostics,
     unsupportedItems: safeUnsupportedItems,
     preflightReport: isPlainObject(preflightReport) ? cloneJsonSafe(preflightReport) : null,
-    budgets: { ...DOCX_REVIEW_PREVIEW_SESSION_CANDIDATE_BOUNDS },
+    budgets: { ...candidateBounds },
     summary: cloneJsonSafe(summary) || {},
   };
 }
@@ -3110,6 +3191,7 @@ function docxReviewPreviewSessionTextFromXml(xmlText, maxChars) {
 }
 
 function docxReviewPreviewSessionParseCommentsXml(commentsXml, options = {}) {
+  const bounds = docxReviewPreviewSessionCandidateBounds(options);
   const comments = [];
   const diagnostics = [];
   const createdAt = normalizeString(options.createdAt);
@@ -3117,7 +3199,7 @@ function docxReviewPreviewSessionParseCommentsXml(commentsXml, options = {}) {
   let match;
   let index = 0;
   while ((match = commentPattern.exec(String(commentsXml || ''))) !== null) {
-    if (comments.length >= DOCX_REVIEW_PREVIEW_SESSION_CANDIDATE_BOUNDS.maxComments) {
+    if (comments.length >= bounds.maxComments) {
       diagnostics.push(docxReviewPreviewSessionDiagnostic(
         'DOCX_REVIEW_PREVIEW_SESSION_COMMENT_LIMIT_EXCEEDED',
         {
@@ -3133,7 +3215,7 @@ function docxReviewPreviewSessionParseCommentsXml(commentsXml, options = {}) {
     const id = docxReviewPreviewSessionSafeId(rawId, `comment-${index}`);
     const body = docxReviewPreviewSessionTextFromXml(
       match[2],
-      DOCX_REVIEW_PREVIEW_SESSION_CANDIDATE_BOUNDS.maxCommentBodyChars,
+      bounds.maxCommentBodyChars,
     );
     const messageBody = normalizeString(body.text);
     if (!messageBody) {
@@ -3169,6 +3251,7 @@ function docxReviewPreviewSessionParseCommentsXml(commentsXml, options = {}) {
       safeId: id,
       thread: {
         threadId: `docx-comment-${id}`,
+        commentId: rawId,
         authorId: author,
         status: 'open',
         createdAt: date,
@@ -3207,7 +3290,36 @@ function docxReviewPreviewSessionTagsByLocalName(xmlText, localName) {
   return matches;
 }
 
-function docxReviewPreviewSessionRangeForComment(documentXml, rawCommentId) {
+function docxReviewPreviewSessionParagraphAuthorityAt(documentXml, documentIndex, fullManuscriptExportMap) {
+  if (!isPlainObject(fullManuscriptExportMap) || !Number.isSafeInteger(documentIndex) || documentIndex < 0) return null;
+  const resolver = docxReviewPreviewSessionBuildFullManuscriptBlockScopeResolver(fullManuscriptExportMap);
+  const paragraphs = docxReviewPreviewSessionTagsByLocalName(documentXml, 'p')
+    .filter((tag) => tag.index < documentIndex);
+  const paragraph = paragraphs.at(-1);
+  if (!paragraph) return null;
+  const nextParagraph = docxReviewPreviewSessionTagsByLocalName(documentXml, 'p')
+    .find((tag) => tag.index > paragraph.index);
+  if (nextParagraph && nextParagraph.index < documentIndex) return null;
+  const paraId = docxReviewPreviewSessionReadXmlAttr(paragraph.tag, 'paraId');
+  const textId = docxReviewPreviewSessionReadXmlAttr(paragraph.tag, 'textId');
+  const paragraphPrefix = String(documentXml || '').slice(paragraph.endIndex, documentIndex);
+  const bookmarkNames = docxReviewPreviewSessionTagsByLocalName(paragraphPrefix, 'bookmarkStart')
+    .map((tag) => docxReviewPreviewSessionReadXmlAttr(tag.tag, 'name'))
+    .filter(Boolean);
+  const targetScope = resolver({ paraId, textId, bookmarkNames });
+  if (!targetScope || targetScope.type !== 'scene' || !normalizeString(targetScope.id)) return null;
+  return {
+    targetScope,
+    signal: {
+      paraId: normalizeString(paraId),
+      textId: normalizeString(textId),
+      bookmarkNames,
+      authority: 'authenticated-full-manuscript-export-map-paragraph-signal',
+    },
+  };
+}
+
+function docxReviewPreviewSessionRangeForComment(documentXml, rawCommentId, options = {}) {
   const starts = docxReviewPreviewSessionTagsByLocalName(documentXml, 'commentRangeStart')
     .filter((tag) => tag.id === rawCommentId);
   const ends = docxReviewPreviewSessionTagsByLocalName(documentXml, 'commentRangeEnd')
@@ -3243,16 +3355,22 @@ function docxReviewPreviewSessionRangeForComment(documentXml, rawCommentId) {
     ends,
     references,
     quote,
+    paragraphAuthority: docxReviewPreviewSessionParagraphAuthorityAt(
+      documentXml,
+      starts[0].index,
+      options.fullManuscriptExportMap,
+    ),
   };
 }
 
 function docxReviewPreviewSessionBuildPlacements(documentXml, comments, options = {}) {
+  const bounds = docxReviewPreviewSessionCandidateBounds(options);
   const targetScope = docxReviewPreviewSessionTargetScope(options.targetScope);
   const createdAt = normalizeString(options.createdAt);
   const placements = [];
   const diagnostics = [];
   for (const comment of comments) {
-    if (placements.length >= DOCX_REVIEW_PREVIEW_SESSION_CANDIDATE_BOUNDS.maxAnchors) {
+    if (placements.length >= bounds.maxAnchors) {
       diagnostics.push(docxReviewPreviewSessionDiagnostic(
         'DOCX_REVIEW_PREVIEW_SESSION_ANCHOR_LIMIT_EXCEEDED',
         {
@@ -3265,7 +3383,7 @@ function docxReviewPreviewSessionBuildPlacements(documentXml, comments, options 
       ));
       break;
     }
-    const range = docxReviewPreviewSessionRangeForComment(documentXml, comment.rawId);
+    const range = docxReviewPreviewSessionRangeForComment(documentXml, comment.rawId, options);
     if (!range.ok) {
       diagnostics.push(docxReviewPreviewSessionDiagnostic(range.reason, {
         diagnosticId: `docx-review-anchor-${comment.safeId}`,
@@ -3277,10 +3395,25 @@ function docxReviewPreviewSessionBuildPlacements(documentXml, comments, options 
       }));
       continue;
     }
+    if (isPlainObject(options.fullManuscriptExportMap) && !range.paragraphAuthority) {
+      diagnostics.push(docxReviewPreviewSessionDiagnostic(
+        'DOCX_REVIEW_PREVIEW_SESSION_COMMENT_SCENE_AUTHORITY_UNRESOLVED',
+        {
+          diagnosticId: `docx-review-comment-scene-authority-${comment.safeId}`,
+          message: 'DOCX comment paragraph did not resolve through the authenticated full-manuscript export map.',
+          relatedItemId: comment.thread.threadId,
+          severity: 'error',
+          createdAt,
+        },
+      ));
+      continue;
+    }
     placements.push({
       placementId: `docx-comment-placement-${comment.safeId}`,
       threadId: comment.thread.threadId,
-      targetScope,
+      sourceCommentId: comment.rawId,
+      targetScope: range.paragraphAuthority?.targetScope || targetScope,
+      sceneAuthority: range.paragraphAuthority?.signal || null,
       anchor: {
         kind: 'docx-comment-range',
         value: `w:comment:${comment.rawId}`,
@@ -3305,7 +3438,14 @@ function docxReviewPreviewSessionBuildPlacements(documentXml, comments, options 
 }
 
 function docxReviewPreviewSessionTrackedTextChange(kind, revisions, options = {}) {
-  const targetScope = docxReviewPreviewSessionTargetScope(options.targetScope);
+  const fallbackTargetScope = docxReviewPreviewSessionTargetScope(options.targetScope);
+  const revisionTargetScopes = revisions
+    .map((revision) => (isPlainObject(revision.targetScope) ? docxReviewPreviewSessionTargetScope(revision.targetScope) : null))
+    .filter(Boolean);
+  const uniqueRevisionTargetScopeKeys = [...new Set(revisionTargetScopes.map((scope) => `${scope.type}\n${scope.id}`))];
+  const targetScope = uniqueRevisionTargetScopeKeys.length === 1
+    ? revisionTargetScopes[0]
+    : fallbackTargetScope;
   const createdAt = revisions
     .map((revision) => normalizeString(revision.createdAt))
     .find(Boolean) || normalizeString(options.createdAt);
@@ -3317,6 +3457,12 @@ function docxReviewPreviewSessionTrackedTextChange(kind, revisions, options = {}
     .filter((revision) => revision.kind === 'insert')
     .map((revision) => revision.text)
     .join('');
+  const fullManuscriptSceneBound = options.fullManuscriptSceneBound === true
+    && targetScope.type === 'scene'
+    && targetScope.id
+    && deletedText
+    && !insertedText.includes(deletedText)
+    && revisions.every((revision) => revision.fullManuscriptResolved === true);
   const changeHash = revisionBlockHash({
     kind,
     paragraphIndex: revisions[0]?.paragraphIndex,
@@ -3325,11 +3471,11 @@ function docxReviewPreviewSessionTrackedTextChange(kind, revisions, options = {}
     insertedText,
     targetScope,
   });
-  return {
+  const change = {
     changeId: `docx-tracked-${kind}-${changeHash.slice(0, 16)}`,
     targetScope,
     match: {
-      kind: 'manual',
+      kind: fullManuscriptSceneBound ? 'exact' : 'manual',
       quote: deletedText,
       prefix: '',
       suffix: '',
@@ -3337,6 +3483,11 @@ function docxReviewPreviewSessionTrackedTextChange(kind, revisions, options = {}
     replacementText: insertedText,
     createdAt,
   };
+  if (fullManuscriptSceneBound) {
+    change.sourceAuthority = 'full-manuscript-export-map-paragraph-signal';
+    change.typedUnsupportedSiblingsRemainPending = true;
+  }
+  return change;
 }
 
 function docxReviewPreviewSessionTrackedStructuralChange(kind, summary, options = {}) {
@@ -3357,12 +3508,16 @@ function docxReviewPreviewSessionTrackedStructuralChange(kind, summary, options 
 }
 
 function docxReviewPreviewSessionTrackedTextCandidates(documentXml, options = {}) {
+  const bounds = docxReviewPreviewSessionCandidateBounds(options);
   const targetScope = docxReviewPreviewSessionTargetScope(options.targetScope);
+  const fullManuscriptScopeForParagraph =
+    docxReviewPreviewSessionBuildFullManuscriptBlockScopeResolver(options.fullManuscriptExportMap);
   const createdAt = normalizeString(options.createdAt);
   const diagnostics = [];
   const structuralChanges = [];
   const revisions = [];
   const elementStack = [];
+  const paragraphStack = [];
   let revisionSequence = 0;
   let paragraphIndex = -1;
   let paragraphDepth = 0;
@@ -3376,7 +3531,7 @@ function docxReviewPreviewSessionTrackedTextCandidates(documentXml, options = {}
   let match;
 
   const addDiagnostic = (code, message, severity = 'warning', relatedItemId = '') => {
-    if (diagnostics.length >= DOCX_REVIEW_PREVIEW_SESSION_CANDIDATE_BOUNDS.maxDiagnostics) return;
+    if (diagnostics.length >= bounds.maxDiagnostics) return;
     diagnostics.push(docxReviewPreviewSessionDiagnostic(code, {
       diagnosticId: `${code.toLowerCase().replace(/[^a-z0-9]+/gu, '-')}-${diagnostics.length}`,
       message,
@@ -3388,7 +3543,7 @@ function docxReviewPreviewSessionTrackedTextCandidates(documentXml, options = {}
   };
 
   const addStructuralChange = (change, relatedItemId = '') => {
-    if (structuralChanges.length >= DOCX_REVIEW_PREVIEW_SESSION_CANDIDATE_BOUNDS.maxTrackedStructuralCandidates) {
+    if (structuralChanges.length >= bounds.maxTrackedStructuralCandidates) {
       addDiagnostic(
         'DOCX_REVIEW_TRACKED_STRUCTURE_LIMIT_EXCEEDED',
         'DOCX tracked structural candidates exceed the bounded review budget.',
@@ -3402,7 +3557,7 @@ function docxReviewPreviewSessionTrackedTextCandidates(documentXml, options = {}
 
   const finishRevision = () => {
     if (!activeRevision) return;
-    const text = activeRevision.text.slice(0, DOCX_REVIEW_PREVIEW_SESSION_CANDIDATE_BOUNDS.maxTrackedTextChars);
+    const text = activeRevision.text.slice(0, bounds.maxTrackedTextChars);
     const relatedItemId = `docx-revision-${activeRevision.revisionId}`;
     if (activeRevision.complex) {
       const summary = `DOCX tracked ${activeRevision.kind} is structurally complex and remains manual-only.`;
@@ -3428,7 +3583,7 @@ function docxReviewPreviewSessionTrackedTextCandidates(documentXml, options = {}
         'warning',
         relatedItemId,
       );
-    } else if (revisions.length >= DOCX_REVIEW_PREVIEW_SESSION_CANDIDATE_BOUNDS.maxTrackedTextCandidates) {
+    } else if (revisions.length >= bounds.maxTrackedTextCandidates) {
       addDiagnostic(
         'DOCX_REVIEW_TRACKED_CHANGE_LIMIT_EXCEEDED',
         'DOCX tracked text candidates exceed the bounded review budget.',
@@ -3452,7 +3607,7 @@ function docxReviewPreviewSessionTrackedTextCandidates(documentXml, options = {}
     if (!token.startsWith('<')) {
       if (activeRevision && activeTextDepth > 0) {
         const decoded = docxContentPreviewDecodeText(token);
-        const remaining = DOCX_REVIEW_PREVIEW_SESSION_CANDIDATE_BOUNDS.maxTrackedTextChars
+        const remaining = bounds.maxTrackedTextChars
           - activeRevision.text.length;
         if (remaining > 0) activeRevision.text += decoded.slice(0, remaining);
         if (decoded.length > remaining && !activeRevision.truncated) {
@@ -3499,7 +3654,10 @@ function docxReviewPreviewSessionTrackedTextCandidates(documentXml, options = {}
       ) {
         finishRevision();
       }
-      if (tagName === 'w:p') paragraphDepth = Math.max(0, paragraphDepth - 1);
+      if (tagName === 'w:p') {
+        paragraphDepth = Math.max(0, paragraphDepth - 1);
+        paragraphStack.pop();
+      }
       continue;
     }
 
@@ -3508,6 +3666,38 @@ function docxReviewPreviewSessionTrackedTextCandidates(documentXml, options = {}
       if (paragraphDepth > 0 && activeRevision) activeRevision.complex = true;
       paragraphDepth += selfClosing ? 0 : 1;
       paragraphIndex += 1;
+      const paraId = docxReviewPreviewSessionReadXmlAttr(token, 'paraId');
+      const textId = docxReviewPreviewSessionReadXmlAttr(token, 'textId');
+      const resolvedTargetScope = fullManuscriptScopeForParagraph({ paraId, textId, paragraphIndex });
+      if (!selfClosing) {
+        paragraphStack.push({
+          paraId,
+          textId,
+          bookmarkNames: [],
+          fullManuscriptResolved: Boolean(resolvedTargetScope),
+          targetScope: resolvedTargetScope || targetScope,
+        });
+      }
+    } else if (tagName === 'w:bookmarkStart' && paragraphDepth > 0 && paragraphStack.length > 0) {
+      const bookmarkName = docxReviewPreviewSessionReadXmlAttr(token, 'name');
+      const activeParagraph = paragraphStack[paragraphStack.length - 1];
+      if (bookmarkName) {
+        activeParagraph.bookmarkNames = Array.isArray(activeParagraph.bookmarkNames)
+          ? [...activeParagraph.bookmarkNames, bookmarkName]
+          : [bookmarkName];
+        if (activeParagraph.fullManuscriptResolved !== true) {
+          const resolvedTargetScope = fullManuscriptScopeForParagraph({
+            paraId: activeParagraph.paraId,
+            textId: activeParagraph.textId,
+            paragraphIndex,
+            bookmarkNames: activeParagraph.bookmarkNames,
+          });
+          if (resolvedTargetScope) {
+            activeParagraph.targetScope = resolvedTargetScope;
+            activeParagraph.fullManuscriptResolved = true;
+          }
+        }
+      }
     }
 
     const revisionKind = tagName === 'w:ins' ? 'insert' : (tagName === 'w:del' ? 'delete' : '');
@@ -3527,6 +3717,9 @@ function docxReviewPreviewSessionTrackedTextCandidates(documentXml, options = {}
           author: normalizeString(docxReviewPreviewSessionReadXmlAttr(token, 'author')),
           createdAt: normalizeString(docxReviewPreviewSessionReadXmlAttr(token, 'date')) || createdAt,
           paragraphIndex,
+          paragraphSignal: cloneJsonSafe(paragraphStack[paragraphStack.length - 1] || {}),
+          targetScope: cloneJsonSafe((paragraphStack[paragraphStack.length - 1] || {}).targetScope || targetScope),
+          fullManuscriptResolved: (paragraphStack[paragraphStack.length - 1] || {}).fullManuscriptResolved === true,
           boundaryVersion: plainBoundaryVersion,
           startDepth: elementStack.length,
           text: '',
@@ -3579,6 +3772,7 @@ function docxReviewPreviewSessionTrackedTextCandidates(documentXml, options = {}
       textChanges.push(docxReviewPreviewSessionTrackedTextChange('replace', [current, next], {
         targetScope,
         createdAt,
+        fullManuscriptSceneBound: isPlainObject(options.fullManuscriptExportMap),
       }));
       index += 1;
       continue;
@@ -3586,6 +3780,7 @@ function docxReviewPreviewSessionTrackedTextCandidates(documentXml, options = {}
     textChanges.push(docxReviewPreviewSessionTrackedTextChange(current.kind, [current], {
       targetScope,
       createdAt,
+      fullManuscriptSceneBound: isPlainObject(options.fullManuscriptExportMap),
     }));
   }
 
@@ -3698,6 +3893,7 @@ function docxReviewPreviewSessionExtractTargets(bytes) {
 }
 
 export function buildDocxReviewPreviewSessionCandidateFromZipBytes(input, options = {}) {
+  const bounds = docxReviewPreviewSessionCandidateBounds(options);
   const bytes = docxZipInventoryInputToBytes(input);
   const createdAt = normalizeString(options.createdAt);
   const targetScope = docxReviewPreviewSessionTargetScope(options.targetScope);
@@ -3737,14 +3933,20 @@ export function buildDocxReviewPreviewSessionCandidateFromZipBytes(input, option
   const commentsXml = targets.extractedTargets.has('word/comments.xml')
     ? targets.extractedTargets.get('word/comments.xml')
     : '';
-  const commentsResult = docxReviewPreviewSessionParseCommentsXml(commentsXml, { createdAt, targetScope });
+  const commentsResult = docxReviewPreviewSessionParseCommentsXml(commentsXml, {
+    createdAt,
+    targetScope,
+    fullManuscriptExportMap: options.fullManuscriptExportMap,
+  });
   const placementsResult = docxReviewPreviewSessionBuildPlacements(documentXml, commentsResult.comments, {
     createdAt,
     targetScope,
+    fullManuscriptExportMap: options.fullManuscriptExportMap,
   });
   const trackedTextResult = docxReviewPreviewSessionTrackedTextCandidates(documentXml, {
     createdAt,
     targetScope,
+    fullManuscriptExportMap: options.fullManuscriptExportMap,
   });
   if (trackedTextResult.malformed) {
     return docxReviewPreviewSessionResult({
@@ -3774,7 +3976,7 @@ export function buildDocxReviewPreviewSessionCandidateFromZipBytes(input, option
       createdAt,
       targetScope,
     }),
-  ].slice(0, DOCX_REVIEW_PREVIEW_SESSION_CANDIDATE_BOUNDS.maxDiagnostics);
+  ].slice(0, bounds.maxDiagnostics);
 
   const hasReviewGraphCandidate = commentsResult.comments.length > 0
     || trackedTextResult.textChanges.length > 0
@@ -3814,6 +4016,7 @@ export function buildDocxReviewPreviewSessionCandidateFromZipBytes(input, option
         packetHash: diagnosticSourceHash,
         artifactCompletenessClass: 'diagnostic-only-review-evidence',
       } : null,
+      bounds,
       summary: {
         targetScope,
         commentThreadCount: 0,
@@ -3858,6 +4061,7 @@ export function buildDocxReviewPreviewSessionCandidateFromZipBytes(input, option
       packetHash: sourceHash,
       artifactCompletenessClass: 'partial-review-evidence',
     },
+    bounds,
     summary: {
       targetScope,
       commentThreadCount: reviewPacket.commentThreads.length,

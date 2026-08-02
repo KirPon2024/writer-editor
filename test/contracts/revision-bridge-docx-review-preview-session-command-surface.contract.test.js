@@ -10,6 +10,7 @@ const { pathToFileURL } = require('node:url');
 
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
 const MAIN_PATH = path.join(REPO_ROOT, 'src', 'main.js');
+const RETURN_INTAKE_WORKER_PATH = path.join(REPO_ROOT, 'src', 'main', 'rtkDocxReturnIntakeWorker.cjs');
 const BRIDGE_MODULE_PATH = path.join(REPO_ROOT, 'src', 'io', 'revisionBridge', 'index.mjs');
 const MUTATE_SECTION_START = '// CONTOUR_01A_REVIEW_MUTATE_PORT_START';
 const MUTATE_SECTION_END = '// CONTOUR_01A_REVIEW_MUTATE_PORT_END';
@@ -312,6 +313,22 @@ function docxWithAnchoredComment(extraBody = '', extraEntries = []) {
       ].join(''),
     },
     ...extraEntries,
+  ]);
+}
+
+function docxWithCommentAndBody(body, commentBody = 'Resolve this comment.') {
+  return cleanDocxZip(body, [
+    {
+      name: 'word/comments.xml',
+      method: 8,
+      body: [
+        '<w:comments>',
+        '<w:comment w:id="0" w:author="reviewer">',
+        `<w:p><w:r><w:t>${commentBody}</w:t></w:r></w:p>`,
+        '</w:comment>',
+        '</w:comments>',
+      ].join(''),
+    },
   ]);
 }
 
@@ -787,7 +804,8 @@ test('DOCX review preview session command: command is bridge-allowlisted and han
     source,
     /DOCX_REVIEW_PREVIEW_SESSION_ALLOWED_CONTEXT_KINDS\s*=\s*new Set\(\[[\s\S]*'scene'[\s\S]*'chapter-file'[\s\S]*'roman-section'/,
   );
-  assert.match(source, /targetScope:\s*\{\s*type:\s*documentContext\.kind,\s*id:\s*sceneId/u);
+  assert.match(source, /documentKind:\s*documentContext\.kind/u);
+  assert.match(source, /targetScope:\s*\{\s*type:\s*'scene',\s*id:\s*sceneId/u);
 });
 
 test('DOCX review preview session command: activates an in-memory review session from DOCX comments', async () => {
@@ -1246,6 +1264,155 @@ test('DOCX review preview session command: authenticated product return intake g
   assertNoWriteReceiptsOrApplyAuthority(result);
 });
 
+test('DOCX review preview session command: full-manuscript active authority store transports local export map into candidate and canonical comment commands', async () => {
+  const bridge = await loadBridge();
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-n2-authority-transport-'));
+  const sceneId = 'roman/chapter-01.txt';
+  const sceneText = 'Physical comment anchor';
+  const scenePath = path.join(tmpDir, sceneId);
+  fs.mkdirSync(path.dirname(scenePath), { recursive: true });
+  fs.writeFileSync(scenePath, sceneText);
+  const roundId = 'round-full-manuscript-authority-transport';
+  const exportId = 'export-full-manuscript-authority-transport';
+  const payload = {
+    scope: 'full-manuscript', projectId: 'project-1', sceneCount: 1, orderedSceneIds: [sceneId],
+    fullBookRawSha256: c05Sha256Text(sceneText), roundId, exportId,
+    semanticReturnId: 'semantic-full-manuscript-authority-transport',
+    coreManifestDigest: c05Sha256Text('core-full-manuscript-authority-transport'),
+    transportManifestDigest: c05Sha256Text('transport-full-manuscript-authority-transport'),
+  };
+  const parserResult = {
+    ok: true,
+    authorityCarrier: {
+      status: 'verified-baseline-bound',
+      selectedCarrier: { payload, baselineBinding: { allExpectedMatched: true } },
+    },
+    exactAuthority: { validSignedLocator: true, sceneRevisionUnchanged: true, rawSha256Unchanged: true },
+    parserProfileDigest: c05Sha256Text('parser'), analysisDigest: c05Sha256Text('analysis'), sourceMode: 'TRACKED',
+    reviewIr: {
+      commentThreads: [{
+        threadId: 'rtk-comment-0', commentId: '0', status: 'resolved',
+        messages: [
+          { messageId: 'docx-comment-0-root', body: 'Physical root body' },
+          { messageId: 'docx-comment-0-reply', body: 'Physical reply body' },
+        ],
+      }],
+      commentPlacements: [{
+        threadId: 'rtk-comment-0', sourceCommentId: '0', targetScope: { type: 'scene', id: '' }, quote: sceneText,
+      }],
+      textRevisions: [], moveRevisions: [], propertyRevisions: [], formattingDeltas: [],
+      structureChanges: [], opaqueUnsupported: [],
+    },
+  };
+  const bytes = docxWithCommentAndBody([
+    '<w:p w14:paraId="aaaabbbb" w14:textId="11112222">',
+    '<w:commentRangeStart w:id="0"/>',
+    '<w:r><w:t>Physical comment anchor</w:t></w:r>',
+    '<w:commentRangeEnd w:id="0"/>',
+    '<w:r><w:commentReference w:id="0"/></w:r>',
+    '</w:p>',
+  ].join(''), 'Physical root body');
+  const localAuthority = {
+    schemaVersion: 'yalken.rtk.word.product-review-docx-export.local-authority.v1',
+    projectRoot: tmpDir,
+    scope: 'full-manuscript',
+    scenePathBySceneId: { [sceneId]: scenePath },
+    baselineFinalTextBySceneId: { [sceneId]: sceneText },
+    hmacSecret: 'main-owned-local-secret',
+    expectedAuthority: {
+      scope: 'full-manuscript', sceneCount: 1, orderedSceneIds: [sceneId],
+      fullBookRawSha256: payload.fullBookRawSha256, roundId, exportId,
+    },
+    roundId, exportIdentity: exportId,
+    manifestDigest: payload.transportManifestDigest,
+    coreManifestDigest: payload.coreManifestDigest,
+    exportMap: {
+      scenes: [{
+        sceneId,
+        blocks: [{
+          blockId: 'block-1',
+          wordSignals: [{ kind: 'w14ParaIdTextId', value: { paraId: 'aaaabbbb', textId: '11112222' } }],
+        }],
+      }],
+    },
+  };
+  const calls = [];
+  const rootHandler = bridge.createRtkRootCommentReturnCommandHandler();
+  const lifecycleHandler = bridge.createRtkCommentLifecycleReturnCommandHandler();
+  const port = instantiateDocxReviewPreviewSessionPort({
+    dispatchCommandSurfaceKernel: async (commandId, commandPayload = {}) => {
+      calls.push(commandId);
+      if (commandId === 'cmd.rtk.reviewSession.importComments') {
+        return { ok: true, status: 'committed', session: { summary: { threadCount: 1 } }, storageEffects: {} };
+      }
+      if (commandId === 'cmd.rtk.review.applyRootCommentReturn') return rootHandler(commandPayload);
+      if (commandId === 'cmd.rtk.review.applyCommentLifecycleReturn') return lifecycleHandler(commandPayload);
+      return { ok: false, code: 'UNEXPECTED_COMMAND' };
+    },
+  });
+  const result = await port.handleDocxReviewPreviewSessionActivationCommandSurface(toPayload(bytes), {
+    activeReviewDocxExportAuthorityStore: {
+      schemaVersion: 'yalken.rtk.word.product-review-docx-export.authority-store.v1',
+      scope: 'full-manuscript', lastRoundId: roundId, roundsById: { [roundId]: localAuthority },
+      secretExposedToRenderer: false,
+    },
+    runDocxReviewReturnIntakeInUtilityProcess: async () => ({ ok: true, parserResult }),
+    buildMainReviewContext: async () => reviewContext({
+      projectRoot: tmpDir, scenePath, sceneText,
+      targetScope: { type: 'scene', id: sceneId },
+    }),
+  });
+  assert.equal(result.ok, true, JSON.stringify(result, null, 2));
+  assert.equal(result.returnIntake.fullManuscriptExportMapTransport.present, true);
+  assert.equal(result.returnIntake.fullManuscriptExportMapTransport.returnedArtifactExportMapAccepted, false);
+  assert.equal(result.candidateSummary.pendingFallbackCommentPlacementCount, 0);
+  assert.deepEqual(Array.from(result.candidateSummary.commentSceneAuthoritySources), [
+    'authenticated-full-manuscript-export-map-paragraph-signal',
+  ]);
+  assert.equal(result.commentProductPath.ok, true);
+  assert.equal(result.commentProductPath.sceneAuthorityIdentityJoin.identityJoinCount, 1);
+  assert.equal(result.commentProductPath.sceneAuthorityIdentityJoin.unjoinedPlacementCount, 0);
+  assert.equal(result.commentProductPath.semanticOracle.triangleGreen, true);
+  assert.equal(result.commentProductPath.applyReceipts.length, 3);
+  assert.equal(result.commentProductPath.replayReceipts.length, 3);
+  assert.equal(calls.filter((commandId) => commandId === 'cmd.rtk.review.applyRootCommentReturn').length, 2);
+  assert.equal(calls.filter((commandId) => commandId === 'cmd.rtk.review.applyCommentLifecycleReturn').length, 4);
+});
+
+test('DOCX review preview session command: authenticated full-manuscript missing and forged local maps block before command dispatch', async () => {
+  const roundId = 'round-map-negatives';
+  const payload = {
+    scope: 'full-manuscript', roundId, exportId: 'export-map-negatives', orderedSceneIds: ['scene-a'],
+    coreManifestDigest: c05Sha256Text('core-map-negatives'),
+    transportManifestDigest: c05Sha256Text('transport-map-negatives'),
+  };
+  const parserResult = {
+    ok: true,
+    authorityCarrier: { status: 'verified-baseline-bound', selectedCarrier: { payload, baselineBinding: { allExpectedMatched: true } } },
+    exactAuthority: { validSignedLocator: true }, reviewIr: { commentThreads: [], commentPlacements: [] },
+  };
+  for (const [name, exportMap, expectedReason] of [
+    ['missing', undefined, 'RTK_RETURN_INTAKE_LOCAL_FULL_MANUSCRIPT_EXPORT_MAP_REQUIRED'],
+    ['forged', { scenes: [{ sceneId: 'scene-forged', blocks: [{ blockId: 'block-forged' }] }] }, 'RTK_RETURN_INTAKE_LOCAL_FULL_MANUSCRIPT_EXPORT_MAP_MISMATCH'],
+  ]) {
+    let dispatchCount = 0;
+    const port = instantiateDocxReviewPreviewSessionPort({ dispatchCommandSurfaceKernel: async () => { dispatchCount += 1; } });
+    const localAuthority = {
+      scope: 'full-manuscript', hmacSecret: 'main-owned-local-secret', roundId,
+      expectedAuthority: { scope: 'full-manuscript', orderedSceneIds: ['scene-a'], roundId },
+      exportMap,
+    };
+    const result = await port.handleDocxReviewPreviewSessionActivationCommandSurface(toPayload(docxWithAnchoredComment()), {
+      activeReviewDocxExportAuthorityStore: { roundsById: { [roundId]: localAuthority } },
+      runDocxReviewReturnIntakeInUtilityProcess: async () => ({ ok: true, parserResult }),
+      buildMainReviewContext: async () => reviewContext(),
+    });
+    assert.equal(result.ok, false, name);
+    assert.equal(result.error.reason, expectedReason, name);
+    assert.equal(dispatchCount, 0, name);
+  }
+});
+
 test('DOCX review preview session command: product carrier without local round store is blocked before import', async () => {
   const docx = productReviewDocxWithAnchoredComment();
   const port = instantiateDocxReviewPreviewSessionPort({
@@ -1328,6 +1495,26 @@ test('DOCX review preview session command: return intake V2 source is before ses
   assert.match(source, /buildDocxReviewTransportAnalysisFromZipBytes/u);
   assert.match(source, /RTK_RETURN_INTAKE_FOREIGN_OR_EXPIRED_ROUND/u);
   assert.match(source, /RTK_RETURN_INTAKE_AUTHORITY_NOT_VERIFIED/u);
+});
+
+test('DOCX review preview session command: return intake worker accepts Electron parentPort event payloads', () => {
+  delete require.cache[RETURN_INTAKE_WORKER_PATH];
+  const worker = require(RETURN_INTAKE_WORKER_PATH);
+  assert.equal(typeof worker.unwrapParentPortMessage, 'function');
+  assert.equal(typeof worker.stripSecret, 'function');
+  assert.deepEqual(
+    worker.unwrapParentPortMessage({ data: { bytesBase64: 'QUJD', requestId: 'physical-canary' } }),
+    { bytesBase64: 'QUJD', requestId: 'physical-canary' },
+  );
+  assert.deepEqual(
+    worker.unwrapParentPortMessage({ bytesBase64: 'REVG', requestId: 'direct' }),
+    { bytesBase64: 'REVG', requestId: 'direct' },
+  );
+  const bytes = Buffer.from('PK\x03\x04', 'binary');
+  const stripped = worker.stripSecret({ bytes, hmacSecret: 'local-secret-never-returned' });
+  assert.equal(Buffer.isBuffer(stripped.bytes), true);
+  assert.equal(stripped.bytes.equals(bytes), true);
+  assert.equal(Object.prototype.hasOwnProperty.call(stripped, 'hmacSecret'), false);
 });
 
 test('DOCX review preview session command: source section has no storage write authority', () => {

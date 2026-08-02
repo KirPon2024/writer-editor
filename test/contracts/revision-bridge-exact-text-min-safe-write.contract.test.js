@@ -351,6 +351,34 @@ test('C04 batch exact text min safe write applies same-scene replacements all-or
   assertTruthfulBatchReceipt(result.receipt, scenePath, 'Alpha delta gamma sigma.');
 });
 
+test('C04 batch exact text min safe write replays completed operation before stale baseline checks', async () => {
+  const c04 = await loadC04();
+  const { scenePath } = tmpScene('Alpha beta gamma omega.');
+  const input = readyBatchInput({ scenePath });
+  const operationId = 'op_batch_replay_completed';
+
+  const first = await c04.applyExactTextBatchMinSafeWrite(input, {
+    operationId,
+    now: () => 1700000010500,
+  });
+  assert.equal(first.status, 'applied');
+  assert.equal(readText(scenePath), 'Alpha delta gamma sigma.');
+
+  const replay = await c04.applyExactTextBatchMinSafeWrite(input, {
+    operationId,
+    now: () => 1700000010600,
+  });
+
+  assert.equal(replay.ok, true);
+  assert.equal(replay.status, 'replay');
+  assert.equal(replay.replay, true);
+  assert.equal(replay.applied, true);
+  assert.equal(replay.receipt.operationId, operationId);
+  assert.deepEqual(replay.changes.map((change) => change.status), ['replay', 'replay']);
+  assert.equal(replay.reconciliation.outcome, 'applied_receipt_present');
+  assert.equal(readText(scenePath), 'Alpha delta gamma sigma.');
+});
+
 test('R8 batch crash windows distinguish applied-without-receipt from durable receipt completion', async () => {
   const c04 = await loadC04();
   const firstScene = tmpScene('Alpha beta gamma omega.');

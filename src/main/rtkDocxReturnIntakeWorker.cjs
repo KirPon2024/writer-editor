@@ -40,6 +40,14 @@ function cryptoPort() {
 
 function stripSecret(value) {
   if (Array.isArray(value)) return value.map(stripSecret);
+  if (
+    (typeof Buffer !== 'undefined' && Buffer.isBuffer(value))
+    || value instanceof Uint8Array
+    || value instanceof ArrayBuffer
+    || value instanceof DataView
+  ) {
+    return value;
+  }
   if (!isPlainObject(value)) return value;
   return Object.fromEntries(Object.entries(value)
     .filter(([key]) => key !== 'hmacSecret')
@@ -94,16 +102,45 @@ async function run(message = {}) {
   if (typeof message.hmacSecret === 'string' && message.hmacSecret) {
     input.hmacSecret = message.hmacSecret;
   }
-  return enforceWorkerOutputBudget(revisionBridge.buildDocxReviewTransportAnalysisFromZipBytes(input, {
+  const parserResult = revisionBridge.buildDocxReviewTransportAnalysisFromZipBytes(input, {
     cryptoPort: cryptoPort(),
-  }), message);
+  });
+  if (!isPlainObject(parserResult)) {
+    return blocked('RTK_RETURN_INTAKE_PARSER_V2_RESULT_INVALID');
+  }
+  if (parserResult.ok !== true) {
+    return blocked(
+      typeof parserResult.reason === 'string' && parserResult.reason
+        ? parserResult.reason
+        : (typeof parserResult.code === 'string' && parserResult.code
+          ? parserResult.code
+          : 'RTK_RETURN_INTAKE_PARSER_V2_BLOCKED'),
+      { parserCode: typeof parserResult.code === 'string' ? parserResult.code : '' },
+    );
+  }
+  return enforceWorkerOutputBudget({
+    ok: true,
+    parserResult,
+  }, message);
+}
+
+function unwrapParentPortMessage(message = {}) {
+  if (
+    isPlainObject(message)
+    && !Object.prototype.hasOwnProperty.call(message, 'bytesBase64')
+    && isPlainObject(message.data)
+  ) {
+    return message.data;
+  }
+  return message;
 }
 
 if (process.parentPort && typeof process.parentPort.on === 'function') {
   process.parentPort.on('message', async (message) => {
+    const payload = unwrapParentPortMessage(message);
     try {
-      const result = await run(message);
-      process.parentPort.postMessage({ result: enforceWorkerOutputBudget(result, message) });
+      const result = await run(payload);
+      process.parentPort.postMessage({ result: enforceWorkerOutputBudget(result, payload) });
     } catch (error) {
       process.parentPort.postMessage({
         result: blocked('RTK_RETURN_INTAKE_WORKER_FAILED', {
@@ -113,3 +150,9 @@ if (process.parentPort && typeof process.parentPort.on === 'function') {
     }
   });
 }
+
+module.exports = {
+  run,
+  stripSecret,
+  unwrapParentPortMessage,
+};

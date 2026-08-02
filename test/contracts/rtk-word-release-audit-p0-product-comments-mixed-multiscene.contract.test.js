@@ -156,7 +156,7 @@ test('P0 comments mixed multi-scene contour keeps export reachable but apply gua
   assert.equal(applyEntitlement.available, false);
   assert.equal(mainFreeProGuard.includes("'cmd.project.review.exportDocxReviewPacket'"), false);
   assert.equal(mainFreeProGuard.includes("'cmd.project.review.applyExactTextChange'"), true);
-  assert.equal(mainFreeProGuard.includes("'cmd.project.review.applyExactTextChangesBatch'"), true);
+  assert.equal(mainFreeProGuard.includes("'cmd.project.review.applyExactTextChangesBatch'"), false);
 });
 
 test('P0 comments mixed multi-scene runner uses product and Word paths without later-editor execution', () => {

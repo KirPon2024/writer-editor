@@ -29,6 +29,7 @@ export const REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_RECEIPT_SCHEMA =
 
 const READY_CODE = 'REVISION_BRIDGE_EXACT_TEXT_MIN_SAFE_WRITE_APPLIED';
 const BATCH_READY_CODE = 'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_APPLIED';
+const BATCH_REPLAY_CODE = 'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_REPLAY';
 const BLOCKED_CODE = 'E_REVISION_BRIDGE_EXACT_TEXT_MIN_SAFE_WRITE_BLOCKED';
 const FAILED_CODE = 'E_REVISION_BRIDGE_EXACT_TEXT_MIN_SAFE_WRITE_FAILED';
 const RECEIPT_INVALID_CODE = 'REVISION_BRIDGE_EXACT_TEXT_MIN_SAFE_WRITE_RECEIPT_INVALID';
@@ -191,6 +192,35 @@ function buildBatchAppliedResult(receipt, operations, details = {}) {
       status: 'applied',
       reason: BATCH_READY_CODE,
     })),
+    ...details,
+  };
+}
+
+function sameStringSet(left, right) {
+  const leftItems = Array.isArray(left) ? left.map((value) => normalizeString(value)).filter(Boolean).sort() : [];
+  const rightItems = Array.isArray(right) ? right.map((value) => normalizeString(value)).filter(Boolean).sort() : [];
+  return stableJson(leftItems) === stableJson(rightItems);
+}
+
+function buildBatchReplayResult(receipt, reviewItems, details = {}) {
+  const changeIds = Array.isArray(receipt?.changeIds) ? receipt.changeIds : [];
+  return {
+    ok: true,
+    type: 'revisionBridge.exactTextBatchMinSafeWrite',
+    status: 'replay',
+    code: BATCH_REPLAY_CODE,
+    reason: BATCH_REPLAY_CODE,
+    reasons: [],
+    applied: true,
+    replay: true,
+    receipt: cloneJsonSafe(receipt),
+    operations: [],
+    changes: changeIds.map((changeId) => ({
+      changeId,
+      status: 'replay',
+      reason: BATCH_REPLAY_CODE,
+    })),
+    reviewItemCount: Array.isArray(reviewItems) ? reviewItems.length : 0,
     ...details,
   };
 }
@@ -661,6 +691,30 @@ export async function applyExactTextBatchMinSafeWrite(input = {}, options = {}) 
   const projectId = rawString(input.projectSnapshot?.projectId || input.revisionSession?.projectId);
   const sessionProjectId = rawString(input.revisionSession?.projectId);
   const snapshotProjectId = rawString(input.projectSnapshot?.projectId);
+  const operationId = rawString(options.operationId);
+  if (operationId) {
+    try {
+      const reconciliation = await reconcileExactTextApplyJournal(projectRoot, operationId, { now: options.now });
+      if (reconciliation?.outcome === 'applied_receipt_present' && isPlainObject(reconciliation.receipt)) {
+        const requestedChangeIds = reviewItems.map((item) => normalizeString(item?.changeId)).filter(Boolean);
+        const receipt = reconciliation.receipt;
+        if (
+          (!projectId || rawString(receipt.projectId) === projectId)
+          && sameStringSet(receipt.changeIds, requestedChangeIds)
+        ) {
+          return buildBatchReplayResult(receipt, reviewItems, { reconciliation });
+        }
+        return block(buildReason(
+          'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_REPLAY_INPUT_MISMATCH',
+          'operationId',
+          'operationId has an applied receipt for a different batch input',
+          {
+            operationId,
+          },
+        ));
+      }
+    } catch {}
+  }
   if (snapshotProjectId && sessionProjectId && snapshotProjectId !== sessionProjectId) {
     return block(buildReason(
       'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_PROJECT_MISMATCH',

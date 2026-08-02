@@ -214,6 +214,45 @@ test('A03 C01 authenticated return identity binds project scene baseline storage
   assert.equal(fs.existsSync(path.join(blockedRoot, 'backups', 'revision-bridge-rtk-comment-shadow-sessions')), false);
 });
 
+test('A03 C01 authenticated full-manuscript return identity binds full-book comments without inventing scene authority', async () => {
+  const projectRoot = makeProjectRoot();
+  const mod = await loadModule();
+  const fullBookIdentity = authenticatedReturnIdentity({
+    scope: 'full-manuscript',
+    sceneId: '',
+    sceneRevision: '',
+    rawSha256: '',
+    baselineHash: '',
+    currentBaselineHash: '',
+    fullBookRawSha256: 'sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
+    sceneCount: 21,
+    orderedSceneIdsDigest: 'sha256:9999999999999999999999999999999999999999999999999999999999999999',
+  });
+  const reviewIr = reviewIrFixture();
+  reviewIr.roundId = fullBookIdentity.roundId;
+  reviewIr.returnArtifactId = fullBookIdentity.returnArtifactId;
+  reviewIr.semanticReturnId = fullBookIdentity.semanticReturnId;
+
+  const result = await mod.importRtkCommentShadowSession({
+    projectRoot,
+    roundId: fullBookIdentity.roundId,
+    returnArtifactId: fullBookIdentity.returnArtifactId,
+    semanticReturnId: fullBookIdentity.semanticReturnId,
+    authenticatedReturnIdentity: fullBookIdentity,
+    reviewIr,
+  });
+
+  assert.equal(result.ok, true, JSON.stringify(result, null, 2));
+  assert.equal(result.writerCalled, false);
+  assert.equal(result.manuscriptApplyAuthority, false);
+  assert.equal(result.session.authenticatedReturnIdentity.scope, 'full-manuscript');
+  assert.equal(result.session.authenticatedReturnIdentity.sceneId, '');
+  assert.equal(result.session.authenticatedReturnIdentity.fullBookRawSha256, fullBookIdentity.fullBookRawSha256);
+  assert.equal(result.session.authenticatedReturnIdentity.orderedSceneIdsDigest, fullBookIdentity.orderedSceneIdsDigest);
+  assert.equal(result.session.summary.threadCount, 2);
+  assert.equal(result.receipt.vetoMetrics.silentCommentLoss, 0);
+});
+
 test('A03 C01 repeated import is idempotent and does not rewrite a committed shadow session', async () => {
   const projectRoot = makeProjectRoot();
   const mod = await loadModule();

@@ -48,6 +48,13 @@ const { buildDocxMinBuffer: buildDocxMinBufferCore } = require('./export/docx/do
 const { runDocxMinExport } = require('./export/docx/docxMinExportHandler');
 const { buildDocxReviewPacketBuffer: buildDocxReviewPacketBufferCore } = require('./export/docx/docxReviewPacketBuilder');
 const { runDocxReviewPacketExport } = require('./export/docx/docxReviewPacketExportHandler');
+const {
+  FULL_MANUSCRIPT_REVIEW_DOCX_COMMAND_ID,
+  buildFullManuscriptDocxReviewPacketSource,
+} = require('./export/docx/fullManuscriptDocxReviewPacketSource');
+const {
+  buildFullManuscriptReviewReturnApplyPlan,
+} = require('./export/docx/fullManuscriptDocxReviewReturnRouter');
 const { writeBufferAtomic } = require('./export/docx/atomicWriteBuffer');
 const { runPdfExport } = require('./export/pdf/pdfExportHandler');
 const {
@@ -455,12 +462,15 @@ const COMMAND_SURFACE_KERNEL_COMMAND_IDS = Object.freeze({
   PROJECT_IMPORT_FULL_ARCHIVE_V1: IMPORT_PROJECT_ARCHIVE_COMMAND_ID,
   PROJECT_IMPORT_MARKDOWN_V1: 'cmd.project.importMarkdownV1',
   PROJECT_EXPORT_MARKDOWN_V1: 'cmd.project.exportMarkdownV1',
+  PROJECT_REVIEW_EXPORT_FULL_MANUSCRIPT_DOCX_PACKET: FULL_MANUSCRIPT_REVIEW_DOCX_COMMAND_ID,
   PROJECT_RELEASE_CLAIM_ADMIT: 'cmd.project.releaseClaim.admit',
   PROJECT_RELEASE_CLAIM_EXECUTE: 'cmd.project.releaseClaim.execute',
   RTK_REVIEW_SESSION_IMPORT_COMMENTS: 'cmd.rtk.reviewSession.importComments',
   RTK_REVIEW_APPLY_NON_OVERLAP_TRACKED_REPLACEMENTS: 'cmd.rtk.review.applyNonOverlapTrackedReplacements',
   RTK_REVIEW_APPLY_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENTS:
     'cmd.rtk.review.applyMultiSceneNonOverlapTrackedReplacements',
+  RTK_REVIEW_APPLY_ROOT_COMMENT_RETURN: 'cmd.rtk.review.applyRootCommentReturn',
+  RTK_REVIEW_APPLY_COMMENT_LIFECYCLE_RETURN: 'cmd.rtk.review.applyCommentLifecycleReturn',
 });
 let internalCommandSurfaceKernel = null;
 
@@ -996,6 +1006,14 @@ function normalizeReviewExactTextApplyBatchPayload(payload = {}) {
   };
 }
 
+function deriveReviewExactTextApplyOperationId(requestIdRaw, fallbackSeedRaw = '') {
+  const requestId = normalizeReviewExactTextApplyString(requestIdRaw);
+  const fallbackSeed = normalizeReviewExactTextApplyString(fallbackSeedRaw);
+  const seed = requestId || fallbackSeed;
+  if (!seed) return '';
+  return `op_review_batch_${computeHash(seed).slice(0, 32)}`;
+}
+
 function readReviewExactTextRevisionSession(sessionStore) {
   if (!isPlainObjectValue(sessionStore)) return {};
   if (isPlainObjectValue(sessionStore.revisionSession)) {
@@ -1093,18 +1111,6 @@ function selectReviewExactTextChangesBatch(revisionSession, payload = {}) {
     commentThreads,
     commentPlacements,
   } = readReviewExactTextChangeCollections(revisionSession);
-  if (structuralChanges.length > 0 || commentThreads.length > 0 || commentPlacements.length > 0) {
-    return {
-      ok: false,
-      code: 'E_REVIEW_EXACT_TEXT_APPLY_BATCH_BLOCKED',
-      reason: 'REVIEW_EXACT_TEXT_APPLY_BATCH_MIXED_REVIEW_BLOCKED',
-      details: {
-        structuralChangeCount: structuralChanges.length,
-        commentThreadCount: commentThreads.length,
-        commentPlacementCount: commentPlacements.length,
-      },
-    };
-  }
   if (textChanges.length === 0) {
     return {
       ok: false,
@@ -1177,6 +1183,14 @@ function selectReviewExactTextChangesBatch(revisionSession, payload = {}) {
     ok: true,
     value: {
       textChanges: selectedTextChanges,
+      mixedReviewTypedUnapplied: {
+        structuralChangeCount: structuralChanges.length,
+        commentThreadCount: commentThreads.length,
+        commentPlacementCount: commentPlacements.length,
+        policy: structuralChanges.length > 0 || commentThreads.length > 0 || commentPlacements.length > 0
+          ? 'selected-exact-text-only-non-text-lanes-remain-preview-typed'
+          : 'selected-exact-text-only',
+      },
     },
   };
 }
@@ -1822,7 +1836,7 @@ function attachReviewExactTextApplyBatchResult(safeWriteResult) {
     : [];
   const batchAppliedChangeIds = Array.isArray(summary.changes)
     ? summary.changes
-      .filter((change) => change.status === 'applied' && change.changeId)
+      .filter((change) => (change.status === 'applied' || change.status === 'replay') && change.changeId)
       .map((change) => change.changeId)
     : [];
   nextReviewSurface.exactTextAppliedChangeIds = [...new Set([
@@ -1844,14 +1858,15 @@ function makeReviewExactTextApplyBatchResponseFromSafeWrite(safeWriteResult) {
   const requested = Array.isArray(summary.changes) && summary.changes.length > 0
     ? summary.changes.length
     : 0;
-  const applied = summary.changes.filter((change) => change.status === 'applied').length;
+  const applied = summary.changes.filter((change) => change.status === 'applied' || change.status === 'replay').length;
   const failed = safeWriteResult?.status === 'failed' ? 1 : 0;
   const blocked = safeWriteResult?.status === 'blocked' ? 1 : 0;
   return {
     ok: true,
     batch: true,
     applied: summary.applied === true,
-    status: summary.applied === true ? 'applied' : (safeWriteResult?.status || 'blocked'),
+    replay: summary.status === 'replay',
+    status: summary.status || (safeWriteResult?.status || 'blocked'),
     reason: summary.reason,
     totals: {
       requested,
@@ -2003,10 +2018,17 @@ async function handleReviewSurfaceApplyExactTextChangesBatchCommandSurface(paylo
 
   let safeWriteResult = null;
   try {
+    const operationId = deriveReviewExactTextApplyOperationId(
+      normalizedPayload.value.requestId,
+      selectedBatch.value.textChanges.map((change) => change.changeId).join('\n'),
+    );
     safeWriteResult = await runBatchSafeWrite(
       safeWriteModule.applyExactTextBatchMinSafeWrite,
       applyContext.input,
-      isPlainObjectValue(options.safeWriteOptions) ? options.safeWriteOptions : {},
+      {
+        ...(isPlainObjectValue(options.safeWriteOptions) ? options.safeWriteOptions : {}),
+        ...(operationId ? { operationId } : {}),
+      },
     );
   } catch (error) {
     return makeReviewMutateTypedError(
@@ -2141,6 +2163,7 @@ async function handleReviewExactTextReloadReconciledSceneCommandSurface(payload 
 const REVIEW_IMPORT_LOCAL_PACKET_COMMAND_ID = 'cmd.project.review.importLocalPacket';
 const REVIEW_EXPORT_LOCAL_PACKET_COMMAND_ID = 'cmd.project.review.exportLocalPacket';
 const REVIEW_EXPORT_DOCX_PACKET_COMMAND_ID = 'cmd.project.review.exportDocxReviewPacket';
+const REVIEW_EXPORT_FULL_MANUSCRIPT_DOCX_PACKET_COMMAND_ID = FULL_MANUSCRIPT_REVIEW_DOCX_COMMAND_ID;
 const REVIEW_IMPORT_LOCAL_PACKET_MAX_BYTES = 2 * 1024 * 1024;
 const REVIEW_PACKET_V1_VERSION = 'review-packet.v1';
 const REVIEW_PACKET_V1_ALLOWED_TOP_LEVEL_KEYS = new Set([
@@ -3377,6 +3400,14 @@ function makeTypedReviewDocxExportError(code, reason, details = undefined) {
   return { ok: false, error };
 }
 
+function makeTypedFullManuscriptReviewDocxExportError(code, reason, details = undefined) {
+  const result = makeTypedReviewDocxExportError(code, reason, details);
+  if (result && result.error) {
+    result.error.op = REVIEW_EXPORT_FULL_MANUSCRIPT_DOCX_PACKET_COMMAND_ID;
+  }
+  return result;
+}
+
 async function resolveDocxReviewPacketExportPath(payload) {
   const fromPayload = normalizeDocxExportPath(payload.outPath);
   if (fromPayload) return fromPayload;
@@ -3746,6 +3777,65 @@ async function readDocxReviewPacketExportSource() {
   };
 }
 
+async function readFullManuscriptDocxReviewPacketExportSource() {
+  if (isDirty || autoSaveInProgress) {
+    throw new Error('REVIEW_FULL_MANUSCRIPT_DOCX_EXPORT_DIRTY_EDITOR_BLOCKED');
+  }
+  const scope = await buildFullManuscriptDocxReviewExportScope();
+  const sceneCandidates = Array.isArray(scope?.sceneCandidates) ? scope.sceneCandidates : [];
+  if (sceneCandidates.length < 2) {
+    throw new Error('REVIEW_FULL_MANUSCRIPT_DOCX_EXPORT_MULTI_SCENE_PROJECT_REQUIRED');
+  }
+  const projectId = docxReviewPreviewSessionDetailString(scope.projectId);
+  if (!projectId) {
+    throw new Error('REVIEW_FULL_MANUSCRIPT_DOCX_EXPORT_PROJECT_ID_REQUIRED');
+  }
+  const projectRoot = docxReviewPreviewSessionDetailString(scope.projectRoot) || getProjectRootPath();
+  const manifestPath = getProjectManifestPath(DEFAULT_PROJECT_NAME);
+  const scenes = [];
+  for (let index = 0; index < sceneCandidates.length; index += 1) {
+    const candidate = sceneCandidates[index];
+    const text = await readFullManuscriptDocxReviewExportDocumentContent(candidate);
+    scenes.push({
+      sceneId: typeof candidate.sceneId === 'string' ? candidate.sceneId.replace(/\\/g, '/') : '',
+      scenePath: typeof candidate.path === 'string' ? candidate.path : '',
+      title: typeof candidate.title === 'string' ? candidate.title : '',
+      label: typeof candidate.label === 'string' ? candidate.label : '',
+      text,
+      order: index,
+    });
+  }
+  const revisionBridge = await loadRevisionBridgeModule();
+  if (
+    !revisionBridge
+    || typeof revisionBridge.createReviewTransportManifestV2 !== 'function'
+    || typeof revisionBridge.createWordV4CoreManifest !== 'function'
+    || typeof revisionBridge.createYrtk2RoundLocatorToken !== 'function'
+  ) {
+    throw new Error('REVIEW_FULL_MANUSCRIPT_DOCX_EXPORT_RTK_BUILDERS_UNAVAILABLE');
+  }
+  const source = buildFullManuscriptDocxReviewPacketSource({
+    projectId,
+    projectRoot,
+    manifestPath,
+    scenes,
+    expectedOrderedSceneIds: scenes.map((scene) => scene.sceneId),
+  }, {
+    revisionBridge,
+    cryptoPort: createRtkReviewTransportCryptoPort(),
+  });
+  activeReviewDocxExportAuthorityStore = {
+    schemaVersion: 'yalken.rtk.word.product-review-docx-export.authority-store.v1',
+    scope: 'full-manuscript',
+    lastRoundId: source.localAuthorityCapsule.roundId,
+    roundsById: {
+      [source.localAuthorityCapsule.roundId]: source.localAuthorityCapsule,
+    },
+    secretExposedToRenderer: false,
+  };
+  return source;
+}
+
 async function buildDocxReviewPacketBuffer(source) {
   const documentBuffer = buildDocxReviewPacketBufferCore(source);
   return {
@@ -3769,6 +3859,34 @@ async function handleReviewDocxExportPacketCommandSurface(payload = {}, options 
     readDocxReviewPacketExportSource: typeof options.readDocxReviewPacketExportSource === 'function'
       ? options.readDocxReviewPacketExportSource
       : readDocxReviewPacketExportSource,
+    buildDocxReviewPacketBuffer: typeof options.buildDocxReviewPacketBuffer === 'function'
+      ? options.buildDocxReviewPacketBuffer
+      : buildDocxReviewPacketBuffer,
+    queueDiskOperation: typeof options.queueDiskOperation === 'function'
+      ? options.queueDiskOperation
+      : queueDiskOperation,
+    writeBufferAtomic: typeof options.writeBufferAtomic === 'function'
+      ? options.writeBufferAtomic
+      : writeBufferAtomic,
+    updateStatus: typeof options.updateStatus === 'function' ? options.updateStatus : updateStatus,
+  });
+}
+
+async function handleFullManuscriptReviewDocxExportPacketCommandSurface(payload = {}, options = {}) {
+  return runDocxReviewPacketExport(payload, {
+    commandId: REVIEW_EXPORT_FULL_MANUSCRIPT_DOCX_PACKET_COMMAND_ID,
+    normalizeExportPayload,
+    makeTypedReviewDocxExportError: makeTypedFullManuscriptReviewDocxExportError,
+    buildPathBoundaryDetails,
+    resolveDocxReviewPacketExportPath: typeof options.resolveDocxReviewPacketExportPath === 'function'
+      ? options.resolveDocxReviewPacketExportPath
+      : resolveDocxReviewPacketExportPath,
+    validateDocxExportTarget: typeof options.validateDocxExportTarget === 'function'
+      ? options.validateDocxExportTarget
+      : validateDocxExportTarget,
+    readDocxReviewPacketExportSource: typeof options.readDocxReviewPacketExportSource === 'function'
+      ? options.readDocxReviewPacketExportSource
+      : readFullManuscriptDocxReviewPacketExportSource,
     buildDocxReviewPacketBuffer: typeof options.buildDocxReviewPacketBuffer === 'function'
       ? options.buildDocxReviewPacketBuffer
       : buildDocxReviewPacketBuffer,
@@ -4213,15 +4331,16 @@ async function buildDocxReviewPreviewSessionMainContext(options = {}) {
     sceneText: content,
     baselineHash,
     currentBaselineHash: baselineHash,
+    documentKind: documentContext.kind,
     targetScope: {
-      type: documentContext.kind,
+      type: 'scene',
       id: sceneId,
     },
     createdAt: new Date().toISOString(),
   };
 }
 
-function buildDocxReviewPreviewSessionCommentShadowPayload(context, candidate, requestId) {
+function buildDocxReviewPreviewSessionCommentShadowPayload(context, candidate, requestId, revisionBridge) {
   const intake = isPlainObjectValue(context?.reviewTransportReturnIntake)
     ? context.reviewTransportReturnIntake
     : {};
@@ -4240,11 +4359,20 @@ function buildDocxReviewPreviewSessionCommentShadowPayload(context, candidate, r
   if (commentThreads.length === 0) {
     return null;
   }
-  const commentPlacements = Array.isArray(intakeReviewIr?.commentPlacements)
+  const rawCommentPlacements = Array.isArray(intakeReviewIr?.commentPlacements)
     ? cloneJsonSafe(intakeReviewIr.commentPlacements)
     : (Array.isArray(reviewPacket.commentPlacements)
       ? cloneJsonSafe(reviewPacket.commentPlacements)
       : []);
+  const sceneBinding = revisionBridge?.bindAuthenticatedCommentPlacementSceneAuthority?.({
+    commentThreads,
+    parserPlacements: rawCommentPlacements,
+    authenticatedPlacements: Array.isArray(reviewPacket.commentPlacements) ? reviewPacket.commentPlacements : [],
+    localAuthorityCapsule: context.reviewTransportAuthorityCapsule,
+  });
+  const commentPlacements = Array.isArray(sceneBinding?.placements)
+    ? cloneJsonSafe(sceneBinding.placements)
+    : rawCommentPlacements;
   const sourceViewState = isPlainObjectValue(candidate.sourceViewState)
     ? candidate.sourceViewState
     : {};
@@ -4259,11 +4387,17 @@ function buildDocxReviewPreviewSessionCommentShadowPayload(context, candidate, r
   const authenticatedReturnIdentity = {
     schemaVersion: 'yalken.rtk.comment-shadow-authenticated-return-binding.v1',
     authenticated: true,
+    scope: docxReviewPreviewSessionDetailString(intakePayload.scope) || 'scene',
     projectId: docxReviewPreviewSessionDetailString(context.projectId),
     sceneId: docxReviewPreviewSessionDetailString(intakePayload.sceneId)
       || docxReviewPreviewSessionDetailString(context.targetScope?.id),
     sceneRevision: docxReviewPreviewSessionDetailString(intakePayload.sceneRevision),
     rawSha256: docxReviewPreviewSessionDetailString(intakePayload.rawSha256),
+    fullBookRawSha256: docxReviewPreviewSessionDetailString(intakePayload.fullBookRawSha256),
+    sceneCount: Number.isFinite(Number(intakePayload.sceneCount)) ? Number(intakePayload.sceneCount) : 0,
+    orderedSceneIdsDigest: Array.isArray(intakePayload.orderedSceneIds)
+      ? `sha256:${computeHash(JSON.stringify(intakePayload.orderedSceneIds))}`
+      : '',
     baselineHash: docxReviewPreviewSessionDetailString(context.baselineHash),
     currentBaselineHash: docxReviewPreviewSessionDetailString(context.currentBaselineHash),
     roundId,
@@ -4280,6 +4414,17 @@ function buildDocxReviewPreviewSessionCommentShadowPayload(context, candidate, r
     requestId,
     returnArtifactId: returnArtifactId || packetHash,
     semanticReturnId: semanticReturnId || `semantic:${packetHash}`,
+    sceneAuthorityIdentityJoin: {
+      ok: sceneBinding?.ok === true,
+      identityJoinCount: Number.isSafeInteger(sceneBinding?.identityJoinCount) ? sceneBinding.identityJoinCount : 0,
+      unjoinedPlacementCount: Number.isSafeInteger(sceneBinding?.unjoinedPlacementCount)
+        ? sceneBinding.unjoinedPlacementCount
+        : commentThreads.length,
+      nativeCommentIdentityJoin: sceneBinding?.nativeCommentIdentityJoin === true,
+      quoteHeuristicUsed: sceneBinding?.quoteHeuristicUsed === true,
+      arbitraryThreadIdSuffixParsingUsed: sceneBinding?.arbitraryThreadIdSuffixParsingUsed === true,
+      failures: Array.isArray(sceneBinding?.failures) ? cloneJsonSafe(sceneBinding.failures) : [],
+    },
     authenticatedReturnIdentity,
     reviewIr: {
       schemaVersion: 'yalken.rtk.review-ir.v2',
@@ -4294,6 +4439,149 @@ function buildDocxReviewPreviewSessionCommentShadowPayload(context, candidate, r
       formattingDeltas: [],
       structureChanges: [],
       opaqueUnsupported: [],
+    },
+  };
+}
+
+async function applyAuthenticatedDocxCommentProductPath({ context, commentShadowPayload, requestId, revisionBridge } = {}) {
+  const intake = isPlainObjectValue(context?.reviewTransportReturnIntake)
+    ? context.reviewTransportReturnIntake
+    : {};
+  if (intake.authenticated !== true || !isPlainObjectValue(commentShadowPayload?.reviewIr)) {
+    return {
+      ok: false,
+      status: 'blocked',
+      code: 'RTK_COMMENT_PRODUCT_RETURN_NOT_AUTHENTICATED',
+      commandBusDispatchOnly: true,
+      directPortDispatch: false,
+      applyReceipts: [],
+      replayReceipts: [],
+    };
+  }
+  const identityJoin = isPlainObjectValue(commentShadowPayload.sceneAuthorityIdentityJoin)
+    ? commentShadowPayload.sceneAuthorityIdentityJoin
+    : null;
+  if (
+    identityJoin?.ok !== true
+    || identityJoin.nativeCommentIdentityJoin !== true
+    || identityJoin.unjoinedPlacementCount !== 0
+    || identityJoin.quoteHeuristicUsed !== false
+    || identityJoin.arbitraryThreadIdSuffixParsingUsed !== false
+  ) {
+    return {
+      ok: false,
+      status: 'blocked',
+      code: 'RTK_COMMENT_PRODUCT_RETURN_NATIVE_COMMENT_IDENTITY_JOIN_BLOCKED',
+      sceneAuthorityIdentityJoin: cloneJsonSafe(identityJoin) || null,
+      commandBusDispatchOnly: true,
+      directPortDispatch: false,
+      applyReceipts: [],
+      replayReceipts: [],
+    };
+  }
+  if (!revisionBridge || typeof revisionBridge.buildAuthenticatedCommentReturnCommands !== 'function') {
+    return {
+      ok: false,
+      status: 'blocked',
+      code: 'RTK_COMMENT_PRODUCT_RETURN_BUILDER_UNAVAILABLE',
+      commandBusDispatchOnly: true,
+      directPortDispatch: false,
+      applyReceipts: [],
+      replayReceipts: [],
+    };
+  }
+  const plan = revisionBridge.buildAuthenticatedCommentReturnCommands({
+    authenticated: true,
+    projectId: context.projectId,
+    projectRoot: context.projectRoot,
+    returnArtifactId: intake.returnedArtifactSha256,
+    localAuthorityCapsule: context.reviewTransportAuthorityCapsule,
+    reviewIr: commentShadowPayload.reviewIr,
+  });
+  if (!plan || plan.ok !== true) {
+    return {
+      ok: false,
+      status: 'blocked',
+      code: docxReviewPreviewSessionDetailString(plan?.code) || 'RTK_COMMENT_PRODUCT_RETURN_PLAN_BLOCKED',
+      typedBlocked: Array.isArray(plan?.typedBlocked) ? cloneJsonSafe(plan.typedBlocked) : [],
+      commandBusDispatchOnly: true,
+      directPortDispatch: false,
+      applyReceipts: [],
+      replayReceipts: [],
+    };
+  }
+  const applyReceipts = [];
+  const replayReceipts = [];
+  for (const command of plan.commands) {
+    const commandId = command.family === 'root_comment'
+      ? 'cmd.rtk.review.applyRootCommentReturn'
+      : 'cmd.rtk.review.applyCommentLifecycleReturn';
+    const payload = {
+      ...(isPlainObjectValue(command.payload) ? command.payload : {}),
+      requestId,
+    };
+    const applied = await dispatchCommandSurfaceKernel(commandId, payload);
+    applyReceipts.push({
+      family: command.family,
+      commandId,
+      operationId: docxReviewPreviewSessionDetailString(payload.operationId),
+      ok: applied?.ok === true,
+      status: docxReviewPreviewSessionDetailString(applied?.status),
+      code: docxReviewPreviewSessionDetailString(applied?.code || applied?.error?.code),
+      writerCalled: applied?.writerCalled === true,
+      threadStatus: docxReviewPreviewSessionDetailString(applied?.threadStatus),
+      revision: Number.isSafeInteger(applied?.revision) ? applied.revision : 0,
+      canonicalDigest: docxReviewPreviewSessionDetailString(applied?.canonicalDigest),
+      recoveryWritten: isPlainObjectValue(applied?.recovery),
+    });
+    if (!applied || applied.ok !== true || applied.status !== 'applied') break;
+    const replayed = await dispatchCommandSurfaceKernel(commandId, payload);
+    replayReceipts.push({
+      family: command.family,
+      commandId,
+      operationId: docxReviewPreviewSessionDetailString(payload.operationId),
+      ok: replayed?.ok === true,
+      status: docxReviewPreviewSessionDetailString(replayed?.status),
+      code: docxReviewPreviewSessionDetailString(replayed?.code || replayed?.error?.code),
+      writerCalled: replayed?.writerCalled === true,
+      threadStatus: docxReviewPreviewSessionDetailString(replayed?.threadStatus),
+      revision: Number.isSafeInteger(replayed?.revision) ? replayed.revision : 0,
+      canonicalDigest: docxReviewPreviewSessionDetailString(replayed?.canonicalDigest),
+    });
+    if (!replayed || replayed.ok !== true || replayed.status !== 'replay') break;
+  }
+  const appliesGreen = applyReceipts.length === plan.commands.length
+    && applyReceipts.every((receipt) => receipt.ok && receipt.status === 'applied' && receipt.writerCalled && receipt.recoveryWritten);
+  const replaysGreen = replayReceipts.length === plan.commands.length
+    && replayReceipts.every((receipt) => receipt.ok && receipt.status === 'replay' && receipt.writerCalled === false);
+  const rootApplied = applyReceipts.filter((receipt) => receipt.family === 'root_comment').length;
+  const lifecycleApplied = applyReceipts.filter((receipt) => ['reply', 'comment_state'].includes(receipt.family)).length;
+  return {
+    ok: appliesGreen && replaysGreen,
+    status: appliesGreen && replaysGreen ? 'applied-and-replayed' : 'blocked',
+    code: appliesGreen && replaysGreen
+      ? 'RTK_COMMENT_PRODUCT_RETURN_APPLIED_AND_REPLAYED'
+      : 'RTK_COMMENT_PRODUCT_RETURN_APPLY_OR_REPLAY_FAILED',
+    commandBusDispatchOnly: true,
+    directPortDispatch: false,
+    pendingProductApplyLane: false,
+    sceneAuthorityIdentityJoin: cloneJsonSafe(commentShadowPayload.sceneAuthorityIdentityJoin) || null,
+    planSummary: {
+      commandCount: plan.commands.length,
+      rootCommentCount: plan.commands.filter((command) => command.family === 'root_comment').length,
+      replyCount: plan.commands.filter((command) => command.family === 'reply').length,
+      commentStateCount: plan.commands.filter((command) => command.family === 'comment_state').length,
+    },
+    applyReceipts,
+    replayReceipts,
+    semanticOracle: {
+      sourceKind: 'authenticated-word-return-to-command-kernel-to-reopened-yalken-truth',
+      wordOperationCount: plan.commands.length,
+      commandReceiptCount: applyReceipts.length,
+      reopenedCanonicalCount: applyReceipts.filter((receipt) => receipt.canonicalDigest).length,
+      rootApplied,
+      lifecycleApplied,
+      triangleGreen: appliesGreen && replaysGreen,
     },
   };
 }
@@ -4434,6 +4722,7 @@ async function buildDocxReviewPreviewSessionDefaultRtkApplyInput({
   requestId,
   docxBytes,
   revisionBridge,
+  candidate,
 } = {}) {
   const authorityCapsule = readDocxReviewPreviewSessionRtkAuthorityCapsule(context);
   if (!authorityCapsule) return null;
@@ -4468,6 +4757,43 @@ async function buildDocxReviewPreviewSessionDefaultRtkApplyInput({
         || 'RTK_NON_OVERLAP_TRACKED_REPLACEMENT_RETURN_INTAKE_REQUIRED',
       analysis,
     };
+  }
+
+  if (authorityCapsule.scope === 'full-manuscript') {
+    const returnedAuthority = isPlainObjectValue(analysis.authorityCarrier?.selectedCarrier?.payload)
+      ? analysis.authorityCarrier.selectedCarrier.payload
+      : {};
+    const textChanges = Array.isArray(candidate?.reviewPacket?.textChanges)
+      ? candidate.reviewPacket.textChanges.filter(isPlainObjectValue)
+      : [];
+    const operations = textChanges.map((change) => ({
+      id: docxReviewPreviewSessionDetailString(change.changeId),
+      family: 'tracked_text_edit',
+      sceneId: docxReviewPreviewSessionDetailString(change.targetScope?.id),
+      anchor: {
+        sceneId: docxReviewPreviewSessionDetailString(change.targetScope?.id),
+        selectedText: typeof change.match?.quote === 'string' ? change.match.quote : '',
+      },
+      semanticIntent: {
+        kind: 'replace',
+        replacementText: typeof change.replacementText === 'string' ? change.replacementText : '',
+      },
+    }));
+    const fullManuscriptPlan = buildFullManuscriptReviewReturnApplyPlan({
+      projectId: docxReviewPreviewSessionDetailString(returnedAuthority.projectId || authorityCapsule.projectId),
+      requestId,
+      localAuthorityCapsule: authorityCapsule,
+      returnedAuthority,
+      operations,
+    });
+    if (!fullManuscriptPlan.ok) {
+      return {
+        ok: false,
+        reason: fullManuscriptPlan.code || 'RTK_FULL_MANUSCRIPT_EXACT_AUTHORITY_BLOCKED',
+        fullManuscriptPlan,
+      };
+    }
+    return { ok: true, fullManuscriptPlan };
   }
 
   const localBaseline = buildDocxReviewPreviewSessionLocalBaseline(context, authorityCapsule);
@@ -4709,6 +5035,61 @@ async function prepareDocxReviewPreviewSessionNonOverlapTrackedReplacementProduc
     };
   }
   if (!built) return null;
+  if (isPlainObjectValue(built.fullManuscriptPlan)) {
+    const plan = built.fullManuscriptPlan;
+    if (plan.ok !== true || !Array.isArray(plan.sceneCommands) || plan.sceneCommands.length === 0) {
+      return {
+        prepared: false,
+        status: 'blocked',
+        reason: docxReviewPreviewSessionDetailString(plan.code || built.reason)
+          || 'RTK_FULL_MANUSCRIPT_EXACT_AUTHORITY_BLOCKED',
+      };
+    }
+    const previews = plan.sceneCommands.map((sceneCommand) => (
+      revisionBridge.buildNonOverlapTrackedReplacementRuntimePreview(sceneCommand.input, {
+        cryptoPort: createRtkReviewTransportCryptoPort(),
+      })
+    ));
+    const blockedIndex = previews.findIndex((preview) => !isPlainObjectValue(preview) || preview.status !== 'preview-ready');
+    if (blockedIndex >= 0) {
+      return {
+        prepared: false,
+        status: 'blocked',
+        reason: docxReviewPreviewSessionDetailString(previews[blockedIndex]?.reason)
+          || 'RTK_FULL_MANUSCRIPT_SCENE_PREVIEW_BLOCKED',
+        runtimePreview: cloneJsonSafe(previews[blockedIndex]),
+        authorityAgreement: false,
+      };
+    }
+    const dispatchAuthorityDigests = plan.sceneCommands.map((sceneCommand) => (
+      docxReviewPreviewSessionDetailString(sceneCommand.input?.exactAuthorityDigest)
+    ));
+    const previewAuthorityDigests = plan.sceneCommands.map((sceneCommand) => (
+      docxReviewPreviewSessionDetailString(
+        plan.exactAuthorityBySceneId?.[sceneCommand.sceneId]?.authorityDigest,
+      )
+    ));
+    const authorityAgreement = dispatchAuthorityDigests.length === previewAuthorityDigests.length
+      && dispatchAuthorityDigests.every((digest, index) => digest && digest === previewAuthorityDigests[index]);
+    if (!authorityAgreement) {
+      return {
+        prepared: false,
+        status: 'blocked',
+        reason: 'RTK_FULL_MANUSCRIPT_PREVIEW_DISPATCH_AUTHORITY_DISAGREEMENT',
+        authorityAgreement: false,
+      };
+    }
+    return {
+      prepared: true,
+      status: 'preview-ready',
+      reason: 'RTK_FULL_MANUSCRIPT_EXACT_PRODUCT_PATH_READY',
+      writerCalled: false,
+      rendererAuthority: false,
+      authorityAgreement: true,
+      sceneCount: plan.sceneCommands.length,
+      exactAuthorityDigests: dispatchAuthorityDigests,
+    };
+  }
   const commandInput = isPlainObjectValue(built.input) ? built.input : (isPlainObjectValue(built) ? built : null);
   if (!commandInput) {
     return {
@@ -4755,6 +5136,9 @@ async function prepareDocxReviewPreviewSessionNonOverlapTrackedReplacementProduc
 
 function summarizeDocxReviewPreviewSessionCandidate(candidate = {}) {
   const summary = isPlainObjectValue(candidate.summary) ? candidate.summary : {};
+  const commentPlacements = Array.isArray(candidate?.reviewPacket?.commentPlacements)
+    ? candidate.reviewPacket.commentPlacements.filter(isPlainObjectValue)
+    : [];
   const diagnosticFallbackCount = Array.isArray(candidate.diagnostics) ? candidate.diagnostics.length : 0;
   return {
     schemaVersion: docxReviewPreviewSessionDetailString(candidate.schemaVersion),
@@ -4776,6 +5160,14 @@ function summarizeDocxReviewPreviewSessionCandidate(candidate = {}) {
     canAutoApply: candidate.canAutoApply === true,
     canImportMutate: candidate.canImportMutate === true,
     canWriteStorage: candidate.canWriteStorage === true,
+    commentSceneAuthoritySources: [...new Set(commentPlacements
+      .map((placement) => docxReviewPreviewSessionDetailString(placement.sceneAuthority?.authority))
+      .filter(Boolean))],
+    pendingFallbackCommentPlacementCount: commentPlacements.filter((placement) => (
+      docxReviewPreviewSessionDetailString(placement.targetScope?.type) !== 'scene'
+      || !docxReviewPreviewSessionDetailString(placement.targetScope?.id)
+      || !docxReviewPreviewSessionDetailString(placement.sceneAuthority?.authority)
+    )).length,
   };
 }
 
@@ -4830,6 +5222,18 @@ function docxReviewReturnIntakeMaxWorkerOutputBytes(input = {}) {
   return Number.isSafeInteger(value) && value > 0 ? value : 16 * 1024 * 1024;
 }
 
+const DOCX_REVIEW_RETURN_INTAKE_FULL_MANUSCRIPT_PRODUCT_BUDGETS = Object.freeze({
+  maxBlocks: 50_000,
+  maxWorkerOutputBytes: 64 * 1024 * 1024,
+});
+
+function docxReviewReturnIntakeProductBudgets(input = {}) {
+  return {
+    ...(isPlainObjectValue(input?.budgets) ? input.budgets : {}),
+    ...DOCX_REVIEW_RETURN_INTAKE_FULL_MANUSCRIPT_PRODUCT_BUDGETS,
+  };
+}
+
 function docxReviewReturnIntakeWorkerResultWithinBudget(result, input = {}) {
   const limit = docxReviewReturnIntakeMaxWorkerOutputBytes(input);
   const actual = Buffer.byteLength(stableRtkReviewTransportJson(result), 'utf8');
@@ -4882,6 +5286,15 @@ function sanitizeDocxReviewReturnIntakeForResult(intake = {}) {
       rawSha256Unchanged: parserResult.exactAuthority?.rawSha256Unchanged === true,
       baselineBound: selectedCarrier.baselineBinding?.allExpectedMatched === true,
     },
+    fullManuscriptExportMapTransport: {
+      required: intake.authenticated === true && intake.localAuthorityCapsule?.scope === 'full-manuscript',
+      present: isPlainObjectValue(intake.localAuthorityCapsule?.authenticatedFullManuscriptExportMap),
+      authority: docxReviewPreviewSessionDetailString(intake.localAuthorityCapsule?.exportMapAuthority),
+      returnedArtifactExportMapAccepted: intake.localAuthorityCapsule?.returnedArtifactExportMapAccepted === true,
+      sceneCount: Array.isArray(intake.localAuthorityCapsule?.authenticatedFullManuscriptExportMap?.scenes)
+        ? intake.localAuthorityCapsule.authenticatedFullManuscriptExportMap.scenes.length
+        : 0,
+    },
     utilityProcess: {
       requiredForProduct: intake.utilityProcess?.requiredForProduct === true,
       attempted: intake.utilityProcess?.attempted === true,
@@ -4908,6 +5321,27 @@ function verifyDocxReviewReturnIntakeLocalBinding({ context, localAuthority, par
     ? localAuthority.expectedAuthority
     : {};
   const currentRawSha256 = `sha256:${computeHash(typeof context?.sceneText === 'string' ? context.sceneText : '')}`;
+  const localScope = docxReviewPreviewSessionDetailString(localAuthority?.scope || expectedAuthority.scope);
+  if (localScope === 'full-manuscript') {
+    const exportMap = isPlainObjectValue(localAuthority?.exportMap) ? localAuthority.exportMap : null;
+    const mapScenes = Array.isArray(exportMap?.scenes) ? exportMap.scenes : [];
+    const expectedSceneIds = Array.isArray(expectedAuthority.orderedSceneIds)
+      ? expectedAuthority.orderedSceneIds.map(docxReviewPreviewSessionDetailString).filter(Boolean)
+      : [];
+    const mapSceneIds = mapScenes.map((scene) => docxReviewPreviewSessionDetailString(scene?.sceneId)).filter(Boolean);
+    if (!exportMap || expectedSceneIds.length === 0 || mapSceneIds.length !== expectedSceneIds.length) {
+      return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_LOCAL_FULL_MANUSCRIPT_EXPORT_MAP_REQUIRED');
+    }
+    if (expectedSceneIds.some((sceneId, index) => sceneId !== mapSceneIds[index])) {
+      return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_LOCAL_FULL_MANUSCRIPT_EXPORT_MAP_MISMATCH', {
+        expectedSceneIds,
+        mapSceneIds,
+      });
+    }
+    if (mapScenes.some((scene) => !Array.isArray(scene?.blocks) || scene.blocks.length === 0)) {
+      return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_LOCAL_FULL_MANUSCRIPT_EXPORT_MAP_BLOCKS_REQUIRED');
+    }
+  }
   if (
     docxReviewPreviewSessionDetailString(context?.scenePath)
     && docxReviewPreviewSessionDetailString(localAuthority?.scenePath)
@@ -4957,6 +5391,13 @@ function buildDocxReviewReturnIntakeLocalAuthorityCapsule(localAuthority, parser
   const payload = isPlainObjectValue(parserResult?.authorityCarrier?.selectedCarrier?.payload)
     ? parserResult.authorityCarrier.selectedCarrier.payload
     : {};
+  const localScope = docxReviewPreviewSessionDetailString(localAuthority?.scope || localAuthority?.expectedAuthority?.scope);
+  const localExportMap = isPlainObjectValue(localAuthority?.exportMap)
+    ? cloneJsonSafe(localAuthority.exportMap)
+    : null;
+  if (localScope === 'full-manuscript' && !localExportMap) {
+    return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_LOCAL_FULL_MANUSCRIPT_EXPORT_MAP_REQUIRED');
+  }
   return {
     ...cloneJsonSafe(localAuthority),
     roundId: docxReviewPreviewSessionDetailString(localAuthority?.roundId)
@@ -4968,6 +5409,11 @@ function buildDocxReviewReturnIntakeLocalAuthorityCapsule(localAuthority, parser
     coreManifestDigest: docxReviewPreviewSessionDetailString(localAuthority?.coreManifestDigest)
       || docxReviewPreviewSessionDetailString(payload.coreManifestDigest),
     semanticReturnId: docxReviewPreviewSessionDetailString(payload.semanticReturnId),
+    authenticatedFullManuscriptExportMap: localScope === 'full-manuscript' ? localExportMap : null,
+    exportMapAuthority: localScope === 'full-manuscript'
+      ? 'main-owned-active-export-authority-store-after-return-authentication'
+      : 'not-applicable',
+    returnedArtifactExportMapAccepted: false,
   };
 }
 
@@ -5095,6 +5541,7 @@ async function inspectDocxReviewReturnIntakeV2({
   const probe = await runDocxReviewReturnIntakeParserV2InUtilityProcess({
     bytes: docxBytes,
     returnedArtifactSha256,
+    budgets: docxReviewReturnIntakeProductBudgets(options),
   }, revisionBridge, options);
   if (!probe.ok) return probe;
   const probeResult = isPlainObjectValue(probe.parserResult) ? probe.parserResult : {};
@@ -5138,6 +5585,7 @@ async function inspectDocxReviewReturnIntakeV2({
     hmacSecret,
     expectedAuthority,
     returnedArtifactSha256,
+    budgets: docxReviewReturnIntakeProductBudgets(options),
     baselineFinalText: typeof localAuthority.baselineFinalText === 'string'
       ? localAuthority.baselineFinalText
       : (typeof context?.sceneText === 'string' ? context.sceneText : ''),
@@ -5158,13 +5606,15 @@ async function inspectDocxReviewReturnIntakeV2({
     parserResult,
   });
   if (!localBinding.ok) return localBinding;
+  const localAuthorityCapsule = buildDocxReviewReturnIntakeLocalAuthorityCapsule(localAuthority, parserResult);
+  if (localAuthorityCapsule?.ok === false) return localAuthorityCapsule;
   return {
     ok: true,
     status: 'authenticated-return-ir-ready',
     authenticated: true,
     parserResult,
     returnedArtifactSha256,
-    localAuthorityCapsule: buildDocxReviewReturnIntakeLocalAuthorityCapsule(localAuthority, parserResult),
+    localAuthorityCapsule,
     utilityProcess: verified.utilityProcess || probe.utilityProcess,
     canOpenReviewSession: true,
     canAutoApply: false,
@@ -5235,12 +5685,27 @@ async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = 
       ...context,
       reviewTransportReturnIntake: returnIntake,
     };
+  const authenticatedFullManuscriptReturn = returnIntake.authenticated === true
+    && returnIntake.localAuthorityCapsule?.scope === 'full-manuscript';
+  const authenticatedFullManuscriptExportMap = authenticatedFullManuscriptReturn
+    && isPlainObjectValue(returnIntake.localAuthorityCapsule?.authenticatedFullManuscriptExportMap)
+    && returnIntake.localAuthorityCapsule?.exportMapAuthority === 'main-owned-active-export-authority-store-after-return-authentication'
+    && returnIntake.localAuthorityCapsule?.returnedArtifactExportMapAccepted === false
+    ? returnIntake.localAuthorityCapsule.authenticatedFullManuscriptExportMap
+    : null;
+  if (authenticatedFullManuscriptReturn && !authenticatedFullManuscriptExportMap) {
+    return makeDocxReviewPreviewSessionTypedError(
+      'E_DOCX_REVIEW_PREVIEW_SESSION_LOCAL_EXPORT_MAP_REQUIRED',
+      'RTK_RETURN_INTAKE_LOCAL_FULL_MANUSCRIPT_EXPORT_MAP_REQUIRED',
+    );
+  }
 
   let candidate = null;
   try {
     candidate = revisionBridge.buildDocxReviewPreviewSessionCandidateFromZipBytes(decoded.bytes, {
       targetScope: activeContext.targetScope,
       createdAt: activeContext.createdAt,
+      fullManuscriptExportMap: authenticatedFullManuscriptExportMap,
     });
   } catch (error) {
     return makeDocxReviewPreviewSessionTypedError(
@@ -5293,7 +5758,7 @@ async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = 
       isPlainObjectValue(nestedError.details) ? nestedError.details : undefined,
     );
   }
-  const commentShadowPayload = buildDocxReviewPreviewSessionCommentShadowPayload(activeContext, candidate, requestId);
+  const commentShadowPayload = buildDocxReviewPreviewSessionCommentShadowPayload(activeContext, candidate, requestId, revisionBridge);
   let commentShadowResult = null;
   if (commentShadowPayload) {
     commentShadowResult = await dispatchCommandSurfaceKernel(
@@ -5301,6 +5766,14 @@ async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = 
       commentShadowPayload,
     );
   }
+  const commentProductPath = commentShadowPayload
+    ? await applyAuthenticatedDocxCommentProductPath({
+      context: activeContext,
+      commentShadowPayload,
+      requestId,
+      revisionBridge,
+    })
+    : null;
   const nonOverlapTrackedReplacementProductPath =
     await prepareDocxReviewPreviewSessionNonOverlapTrackedReplacementProductPath({
       context: activeContext,
@@ -5338,6 +5811,7 @@ async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = 
           : null,
       }
       : null,
+    commentProductPath: isPlainObjectValue(commentProductPath) ? cloneJsonSafe(commentProductPath) : null,
     nonOverlapTrackedReplacementProductPath: isPlainObjectValue(nonOverlapTrackedReplacementProductPath)
       ? {
         prepared: nonOverlapTrackedReplacementProductPath.prepared === true,
@@ -5345,6 +5819,15 @@ async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = 
         reason: docxReviewPreviewSessionDetailString(nonOverlapTrackedReplacementProductPath.reason),
         writerCalled: nonOverlapTrackedReplacementProductPath.writerCalled === true,
         rendererAuthority: nonOverlapTrackedReplacementProductPath.rendererAuthority === true,
+        authorityAgreement: nonOverlapTrackedReplacementProductPath.authorityAgreement === true,
+        sceneCount: Number.isSafeInteger(nonOverlapTrackedReplacementProductPath.sceneCount)
+          ? nonOverlapTrackedReplacementProductPath.sceneCount
+          : 0,
+        exactAuthorityDigests: Array.isArray(nonOverlapTrackedReplacementProductPath.exactAuthorityDigests)
+          ? nonOverlapTrackedReplacementProductPath.exactAuthorityDigests
+            .map(docxReviewPreviewSessionDetailString)
+            .filter(Boolean)
+          : [],
         runtimePreviewCode: docxReviewPreviewSessionDetailString(nonOverlapTrackedReplacementProductPath.runtimePreview?.code),
         runtimePreviewReasons: Array.isArray(nonOverlapTrackedReplacementProductPath.runtimePreview?.reasons)
           ? nonOverlapTrackedReplacementProductPath.runtimePreview.reasons
@@ -8407,6 +8890,9 @@ function getInternalCommandSurfaceKernel() {
     [COMMAND_SURFACE_KERNEL_COMMAND_IDS.PROJECT_EXPORT_MARKDOWN_V1]: async (payload = {}) => {
       return handleExportMarkdownV1(payload);
     },
+    [COMMAND_SURFACE_KERNEL_COMMAND_IDS.PROJECT_REVIEW_EXPORT_FULL_MANUSCRIPT_DOCX_PACKET]: async (payload = {}) => {
+      return handleFullManuscriptReviewDocxExportPacketCommandSurface(payload);
+    },
     [COMMAND_SURFACE_KERNEL_COMMAND_IDS.PROJECT_RELEASE_CLAIM_ADMIT]: async (payload = {}) => {
       return handleRevisionBridgeReleaseClaimCommandSurfaceAdmission(payload);
     },
@@ -8421,6 +8907,12 @@ function getInternalCommandSurfaceKernel() {
     },
     [COMMAND_SURFACE_KERNEL_COMMAND_IDS.RTK_REVIEW_APPLY_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENTS]: async (payload = {}) => {
       return handleRtkMultiSceneNonOverlapTrackedReplacementCommandSurface(payload);
+    },
+    [COMMAND_SURFACE_KERNEL_COMMAND_IDS.RTK_REVIEW_APPLY_ROOT_COMMENT_RETURN]: async (payload = {}) => {
+      return handleRtkRootCommentReturnCommandSurface(payload);
+    },
+    [COMMAND_SURFACE_KERNEL_COMMAND_IDS.RTK_REVIEW_APPLY_COMMENT_LIFECYCLE_RETURN]: async (payload = {}) => {
+      return handleRtkCommentLifecycleReturnCommandSurface(payload);
     },
   });
   return internalCommandSurfaceKernel;
@@ -15780,6 +16272,67 @@ async function handleRtkMultiSceneNonOverlapTrackedReplacementCommandSurface(pay
   })(payload);
 }
 
+let rtkNonTextReturnModulePromise = null;
+function loadRtkNonTextReturnModule() {
+  if (!rtkNonTextReturnModulePromise) {
+    const modulePath = pathToFileURL(path.join(
+      __dirname,
+      'io',
+      'revisionBridge',
+      'reviewTransportNonTextReturnRuntime.mjs',
+    )).href;
+    rtkNonTextReturnModulePromise = import(modulePath).catch((error) => {
+      rtkNonTextReturnModulePromise = null;
+      throw error;
+    });
+  }
+  return rtkNonTextReturnModulePromise;
+}
+
+async function handleRtkRootCommentReturnCommandSurface(payload = {}) {
+  let module = null;
+  try {
+    module = await loadRtkNonTextReturnModule();
+  } catch (error) {
+    return makeReviewMutateTypedError(
+      'cmd.rtk.review.applyRootCommentReturn',
+      'E_RTK_ROOT_COMMENT_RETURN_UNAVAILABLE',
+      'RTK_ROOT_COMMENT_RETURN_UNAVAILABLE',
+      { message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN' },
+    );
+  }
+  if (!module || typeof module.createRtkRootCommentReturnCommandHandler !== 'function') {
+    return makeReviewMutateTypedError(
+      'cmd.rtk.review.applyRootCommentReturn',
+      'E_RTK_ROOT_COMMENT_RETURN_UNAVAILABLE',
+      'RTK_ROOT_COMMENT_RETURN_HANDLER_UNAVAILABLE',
+    );
+  }
+  return module.createRtkRootCommentReturnCommandHandler()(payload);
+}
+
+async function handleRtkCommentLifecycleReturnCommandSurface(payload = {}) {
+  let module = null;
+  try {
+    module = await loadRtkNonTextReturnModule();
+  } catch (error) {
+    return makeReviewMutateTypedError(
+      'cmd.rtk.review.applyCommentLifecycleReturn',
+      'E_RTK_COMMENT_LIFECYCLE_RETURN_UNAVAILABLE',
+      'RTK_COMMENT_LIFECYCLE_RETURN_UNAVAILABLE',
+      { message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN' },
+    );
+  }
+  if (!module || typeof module.createRtkCommentLifecycleReturnCommandHandler !== 'function') {
+    return makeReviewMutateTypedError(
+      'cmd.rtk.review.applyCommentLifecycleReturn',
+      'E_RTK_COMMENT_LIFECYCLE_RETURN_UNAVAILABLE',
+      'RTK_COMMENT_LIFECYCLE_RETURN_HANDLER_UNAVAILABLE',
+    );
+  }
+  return module.createRtkCommentLifecycleReturnCommandHandler()(payload);
+}
+
 let exactTextMinSafeWriteModulePromise = null;
 function loadExactTextMinSafeWriteModule() {
   if (!exactTextMinSafeWriteModulePromise) {
@@ -16075,9 +16628,19 @@ async function buildReviewExactTextApplyInputFromMainState(request = {}) {
     return makeReviewExactTextApplyContextBlock('REVIEW_EXACT_TEXT_APPLY_PLAN_BUILDER_UNAVAILABLE');
   }
 
+  const selectedRevisionSession = cloneJsonSafe(revisionSession) || {};
+  selectedRevisionSession.baselineHash = projectSnapshot.baselineHash;
+  selectedRevisionSession.reviewGraph = {
+    ...(isPlainObjectValue(selectedRevisionSession.reviewGraph) ? selectedRevisionSession.reviewGraph : {}),
+    commentThreads: [],
+    commentPlacements: [],
+    structuralChanges: [],
+    textChanges: [cloneJsonSafe(textChange) || {}],
+  };
+
   const planPreview = revisionBridge.buildExactTextApplyPlanNoDiskPreview({
     projectSnapshot,
-    revisionSession,
+    revisionSession: selectedRevisionSession,
     reviewItem,
   });
   if (!isPlainObjectValue(planPreview) || planPreview.status !== 'ready' || !isPlainObjectValue(planPreview.plan)) {
@@ -16096,7 +16659,7 @@ async function buildReviewExactTextApplyInputFromMainState(request = {}) {
     input: {
       projectRoot: binding.projectRoot,
       projectSnapshot,
-      revisionSession: cloneJsonSafe(revisionSession) || {},
+      revisionSession: selectedRevisionSession,
       reviewItem: cloneJsonSafe(reviewItem) || {},
       planPreview,
       scenePath: currentFilePath,
@@ -16194,13 +16757,22 @@ async function buildReviewExactTextApplyBatchInputFromMainState(request = {}) {
       },
     ],
   };
+  const selectedRevisionSession = cloneJsonSafe(revisionSession) || {};
+  selectedRevisionSession.baselineHash = projectSnapshot.baselineHash;
+  selectedRevisionSession.reviewGraph = {
+    ...(isPlainObjectValue(selectedRevisionSession.reviewGraph) ? selectedRevisionSession.reviewGraph : {}),
+    commentThreads: [],
+    commentPlacements: [],
+    structuralChanges: [],
+    textChanges: cloneJsonSafe(textChanges) || [],
+  };
 
   return {
     ok: true,
     input: {
       projectRoot: binding.projectRoot,
       projectSnapshot,
-      revisionSession: cloneJsonSafe(revisionSession) || {},
+      revisionSession: selectedRevisionSession,
       reviewItems: cloneJsonSafe(textChanges) || [],
       scenePath: currentFilePath,
       scenePathBySceneId: {
@@ -17510,6 +18082,38 @@ async function collectSelectedScenesTxtExportCandidates(folderPath, binding, out
   }
 }
 
+async function collectFullManuscriptDocxReviewExportCandidates(folderPath, binding, out) {
+  const entries = await readDirectoryEntries(folderPath);
+  for (const entry of entries) {
+    if (entry.isDirectory) {
+      await collectFullManuscriptDocxReviewExportCandidates(entry.path, binding, out);
+      continue;
+    }
+    if (!entry.isFile || !entry.name.toLowerCase().endsWith('.txt')) {
+      continue;
+    }
+
+    const documentContext = getDocumentContextFromPath(entry.path);
+    if (!documentContext || !ROMAN_CONTEXT_KINDS.has(documentContext.kind)) {
+      continue;
+    }
+
+    const sceneId = getProjectRelativeFilePath(entry.path, binding.manifestPath);
+    if (!sceneId) {
+      continue;
+    }
+
+    out.push({
+      sceneId,
+      nodeId: binding.nodeIdsByBindingKey.get(`file:${sceneId.split(path.sep).join('/')}`) || '',
+      label: buildSelectedScenesTxtExportCandidateLabel(sceneId),
+      path: entry.path,
+      title: typeof documentContext.title === 'string' ? documentContext.title : getDisplayNameForEntry(entry.name),
+      documentKind: documentContext.kind,
+    });
+  }
+}
+
 async function buildSelectedScenesTxtExportScope() {
   const manifestPath = getProjectManifestPath(DEFAULT_PROJECT_NAME);
   const manifestRecord = await readProjectManifest(DEFAULT_PROJECT_NAME);
@@ -17552,6 +18156,44 @@ async function buildSelectedScenesTxtExportScope() {
     projectRoot,
     sceneCandidates,
     defaultSceneIds: defaultSceneId ? [defaultSceneId] : [],
+  };
+}
+
+async function buildFullManuscriptDocxReviewExportScope() {
+  const manifestPath = getProjectManifestPath(DEFAULT_PROJECT_NAME);
+  const manifestRecord = await readProjectManifest(DEFAULT_PROJECT_NAME);
+  const manifest = manifestRecord ? manifestRecord.manifest : null;
+  const projectRoot = path.dirname(manifestPath);
+  const romanPath = getProjectSectionPath('roman', DEFAULT_PROJECT_NAME);
+  const nodeIdsByBindingKey = new Map();
+  const identityNodes = manifest?.treeIdentity?.nodes;
+  if (identityNodes && typeof identityNodes === 'object' && !Array.isArray(identityNodes)) {
+    for (const [nodeId, record] of Object.entries(identityNodes)) {
+      if (
+        /^tree-node-[a-f0-9]{32}$/u.test(nodeId)
+        && record
+        && record.present !== false
+        && typeof record.bindingKey === 'string'
+        && record.bindingKey.startsWith('file:')
+      ) {
+        nodeIdsByBindingKey.set(record.bindingKey, nodeId);
+      }
+    }
+  }
+  const sceneCandidates = [];
+  if (await fileExists(romanPath)) {
+    await collectFullManuscriptDocxReviewExportCandidates(
+      romanPath,
+      { manifestPath, nodeIdsByBindingKey },
+      sceneCandidates,
+    );
+  }
+
+  return {
+    projectId: manifest && typeof manifest.projectId === 'string' ? manifest.projectId : '',
+    projectRoot,
+    sceneCandidates,
+    defaultSceneIds: [],
   };
 }
 
@@ -17762,6 +18404,50 @@ async function readSelectedScenesTxtExportSceneContent(sceneCandidate) {
       typeof parsed.issue.userMessage === 'string' && parsed.issue.userMessage
         ? parsed.issue.userMessage
         : 'Selected scene envelope is invalid',
+    );
+  }
+  return parsed.text;
+}
+
+async function readFullManuscriptDocxReviewExportDocumentContent(sceneCandidate) {
+  if (!sceneCandidate || typeof sceneCandidate !== 'object') {
+    throw new Error('Full manuscript export candidate is invalid');
+  }
+  if (typeof sceneCandidate.path !== 'string' || !sceneCandidate.path.trim()) {
+    throw new Error('Full manuscript export path is missing');
+  }
+  if (!isAllowedFilePath(sceneCandidate.path)) {
+    throw new Error('Full manuscript export path is not allowed');
+  }
+
+  const documentContext = getDocumentContextFromPath(sceneCandidate.path);
+  if (!documentContext || !ROMAN_CONTEXT_KINDS.has(documentContext.kind)) {
+    throw new Error('Full manuscript export file is not a roman document');
+  }
+
+  let observableContent = '';
+  if (sceneCandidate.path === currentFilePath) {
+    if (isDirty || autoSaveInProgress) {
+      throw new Error('Unsaved current roman document state cannot be used as full manuscript DOCX source');
+    }
+    const editorSnapshot = await readCanonicalExportSnapshot({});
+    observableContent = editorSnapshot && typeof editorSnapshot.content === 'string'
+      ? editorSnapshot.content
+      : '';
+  } else {
+    observableContent = await fs.readFile(sceneCandidate.path, 'utf8');
+  }
+
+  const envelopeModule = await loadDocumentContentEnvelopeModule();
+  const parsed = envelopeModule.parseObservablePayload(observableContent || '');
+  if (!parsed || typeof parsed.text !== 'string') {
+    throw new Error('Full manuscript envelope could not be parsed');
+  }
+  if (parsed.issue && typeof parsed.issue === 'object') {
+    throw new Error(
+      typeof parsed.issue.userMessage === 'string' && parsed.issue.userMessage
+        ? parsed.issue.userMessage
+        : 'Full manuscript envelope is invalid',
     );
   }
   return parsed.text;
@@ -20478,6 +21164,69 @@ async function resolveProjectTreeNodeIdentity(nodeId, expectedProjectId = '') {
   };
 }
 
+function normalizeProjectRelativeSceneId(value) {
+  const normalized = typeof value === 'string'
+    ? value.trim().replace(/\\/g, '/').replace(/^\/+/u, '')
+    : '';
+  if (
+    !normalized
+    || normalized.length > 512
+    || /[\u0000-\u001F]/u.test(normalized)
+    || !normalized.startsWith('roman/')
+    || !normalized.toLowerCase().endsWith('.txt')
+  ) {
+    return '';
+  }
+  const segments = normalized.split('/');
+  if (
+    segments.some((segment) => !segment || segment === '.' || segment === '..')
+    || segments.some((segment) => segment.startsWith('.'))
+  ) {
+    return '';
+  }
+  return normalized;
+}
+
+async function resolveProjectTreeSceneIdentity(sceneId, expectedProjectId = '') {
+  const normalizedSceneId = normalizeProjectRelativeSceneId(sceneId);
+  if (!normalizedSceneId) {
+    const error = new Error('TREE_SCENE_ID_INVALID');
+    error.code = 'E_TREE_SCENE_ID_INVALID';
+    throw error;
+  }
+  const { manifestPath, manifest } = await ensureProjectManifest(currentProjectName || DEFAULT_PROJECT_NAME);
+  const normalizedExpectedProjectId = typeof expectedProjectId === 'string' ? expectedProjectId.trim() : '';
+  if (normalizedExpectedProjectId && normalizedExpectedProjectId !== manifest.projectId) {
+    const error = new Error('TREE_NODE_PROJECT_MISMATCH');
+    error.code = 'E_TREE_NODE_PROJECT_MISMATCH';
+    throw error;
+  }
+  const projectRoot = path.dirname(manifestPath);
+  const nodePath = joinPathSegmentsWithinRoot(projectRoot, normalizedSceneId.split('/'), {
+    resolveSymlinks: false,
+  });
+  const pathGuard = sanitizePathFieldsWithinRoot({ path: nodePath }, ['path'], projectRoot, {
+    mode: 'any',
+    resolveSymlinks: true,
+  });
+  if (!pathGuard.ok || !pathGuard.payload) {
+    const error = new Error('TREE_SCENE_PATH_BOUNDARY_VIOLATION');
+    error.code = 'E_PATH_BOUNDARY_VIOLATION';
+    throw error;
+  }
+  const identity = await upsertProjectTreeIdentityForPath(pathGuard.payload.path, 'scene');
+  return {
+    projectId: manifest.projectId,
+    projectRoot,
+    manifestPath,
+    manifest,
+    nodeId: identity.nodeId,
+    nodePath: pathGuard.payload.path,
+    kind: 'scene',
+    sceneId: normalizedSceneId,
+  };
+}
+
 async function getProjectDocumentIdentityPayload(filePath) {
   const projectRoot = getProjectRootPath();
   if (typeof filePath !== 'string' || !filePath.trim() || !isPathInside(projectRoot, filePath)) {
@@ -22221,7 +22970,14 @@ async function handleUiOpenDocumentCommand(payload) {
   let resolvedNode;
   let documentTarget;
   try {
-    resolvedNode = await resolveProjectTreeNodeIdentity(safePayload.nodeId, safePayload.projectId);
+    try {
+      resolvedNode = await resolveProjectTreeNodeIdentity(safePayload.nodeId, safePayload.projectId);
+    } catch (nodeError) {
+      if (typeof safePayload.sceneId !== 'string' || !safePayload.sceneId.trim()) {
+        throw nodeError;
+      }
+      resolvedNode = await resolveProjectTreeSceneIdentity(safePayload.sceneId, safePayload.projectId);
+    }
     documentTarget = getResolvedTreeDocumentTarget(resolvedNode);
   } catch (error) {
     return {
@@ -23458,6 +24214,7 @@ const UI_COMMAND_BRIDGE_ALLOWED_COMMAND_IDS = new Set([
   'cmd.project.review.importLocalPacket',
   'cmd.project.review.exportLocalPacket',
   'cmd.project.review.exportDocxReviewPacket',
+  'cmd.project.review.exportFullManuscriptDocxReviewPacket',
   'cmd.project.review.clearSession',
   'cmd.project.review.applyExactTextChange',
   'cmd.project.review.applyExactTextChangesBatch',
@@ -23502,7 +24259,6 @@ const MAIN_FREE_PRO_COMPLEXITY_COMMAND_IDS = new Set([
   'cmd.project.review.openDocxReviewPreviewSession',
   'cmd.project.review.clearSession',
   'cmd.project.review.applyExactTextChange',
-  'cmd.project.review.applyExactTextChangesBatch',
   'cmd.project.review.exportMarkdown',
 ]);
 const SAVE_LIFECYCLE_SIGNAL_BRIDGE_ALLOWED_SIGNAL_IDS = new Set([
@@ -23822,6 +24578,12 @@ const MENU_COMMAND_HANDLERS = Object.freeze({
   },
   'cmd.project.review.exportDocxReviewPacket': async (payload = {}) => {
     return handleReviewDocxExportPacketCommandSurface(payload);
+  },
+  'cmd.project.review.exportFullManuscriptDocxReviewPacket': async (payload = {}) => {
+    return dispatchCommandSurfaceKernel(
+      COMMAND_SURFACE_KERNEL_COMMAND_IDS.PROJECT_REVIEW_EXPORT_FULL_MANUSCRIPT_DOCX_PACKET,
+      payload,
+    );
   },
   'cmd.project.review.clearSession': async () => {
     const result = handleReviewSurfaceClearSessionCommandSurface();

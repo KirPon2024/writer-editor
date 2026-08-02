@@ -1066,6 +1066,7 @@ test('N3 physical canary invokes shipped formatting apply and persisted replay i
     hasFormatting: true,
     hasStructure: false,
     formattingMixedWithOtherMutationLane: false,
+    structuralMixedWithOtherMutationLane: false,
   });
   assert.match(source, /invokeUiCommand\(win, 'cmd\.project\.review\.applyFormattingReturn'/u);
   assert.match(source, /invokeUiCommand\(win, 'cmd\.project\.review\.inspectFormattingReturnReplay'/u);

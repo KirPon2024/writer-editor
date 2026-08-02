@@ -188,13 +188,23 @@ test('E10 C03: duplicate operation id and hash drift produce typed replay envelo
   assert.equal(duplicateReport.appliedCount, 2);
   assert.equal(duplicateReport.finalStateHash, eventLog.events[1].postStateHash);
 
+  const driftEntry = {
+    ...eventLog.events[0],
+    preStateHash: 'sha256:not-the-initial-state',
+  };
+  const driftEnvelope = collab.createCommandKernelOperationEnvelope({
+    commandId: driftEntry.commandId,
+    payload: driftEntry.operationEnvelope.payload,
+    opId: driftEntry.opId,
+    eventId: driftEntry.eventId,
+    preStateHash: driftEntry.preStateHash,
+  });
+  driftEntry.operationEnvelope = driftEnvelope.envelope;
+  driftEntry.operationEnvelopeDigest = driftEnvelope.envelopeDigest;
   const driftReport = collab.buildOperationReplayReport({
     eventLog: {
       schemaVersion: eventLog.schemaVersion,
-      events: [{
-        ...eventLog.events[0],
-        preStateHash: 'sha256:not-the-initial-state',
-      }],
+      events: [driftEntry],
     },
     domainEventPort,
     commandReceiptAuthorityPort: receiptAuthorityPort(collab, commandReceipts),

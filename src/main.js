@@ -9798,6 +9798,18 @@ function loadManualMapListParityModule() {
   return manualMapListParityModulePromise;
 }
 
+let manualMapLayoutSchedulerModulePromise = null;
+function loadManualMapLayoutSchedulerModule() {
+  if (!manualMapLayoutSchedulerModulePromise) {
+    const modulePath = pathToFileURL(path.join(__dirname, 'derived', 'mindmap', 'manualMapLayoutScheduler.mjs')).href;
+    manualMapLayoutSchedulerModulePromise = import(modulePath).catch((error) => {
+      manualMapLayoutSchedulerModulePromise = null;
+      throw error;
+    });
+  }
+  return manualMapLayoutSchedulerModulePromise;
+}
+
 let manualMapExportModulePromise = null;
 function loadManualMapExportModule() {
   if (!manualMapExportModulePromise) {
@@ -11631,9 +11643,10 @@ async function handleWorkspaceManualMapWorkbenchQuery(payload = {}) {
       };
     }
 
-    const [graphModule, listParityModule] = await Promise.all([
+    const [graphModule, listParityModule, layoutSchedulerModule] = await Promise.all([
       loadManualMapGraphModule(),
       loadManualMapListParityModule(),
+      loadManualMapLayoutSchedulerModule(),
     ]);
     const graphResult = graphModule.deriveManualMapGraph({
       coreState,
@@ -11655,6 +11668,21 @@ async function handleWorkspaceManualMapWorkbenchQuery(payload = {}) {
     }
     const graph = graphResult.value;
     const listParity = listParityModule.buildManualMapListParityModel({ graph });
+    const layoutJob = layoutSchedulerModule.createManualMapLayoutJob({
+      graph,
+      sourceRevision: graph.meta?.graphHash || '',
+      sequence: Number(coreState?.data?.lastCommandId || 0) + 1,
+      layoutKind: 'manual-fixed-position',
+      limits: { maxNodes: 500, maxEdges: 750 },
+    });
+    const layoutResult = layoutJob.ok ? layoutSchedulerModule.runManualMapLayoutJob(layoutJob.value) : layoutJob;
+    const layoutAccepted = layoutJob.ok && layoutResult.ok
+      ? layoutSchedulerModule.acceptManualMapLayoutResult({
+        activeJob: layoutJob.value,
+        result: layoutResult.value,
+        currentGraph: graph,
+      })
+      : layoutResult;
     const summary = {
       mapCount: mapIds.length,
       nodeCount: Array.isArray(graph.nodes) ? graph.nodes.length : 0,
@@ -11678,6 +11706,26 @@ async function handleWorkspaceManualMapWorkbenchQuery(payload = {}) {
         mapRows,
         graph,
         listParity,
+        layoutScheduler: layoutAccepted.ok ? {
+          schemaVersion: 'manualMap.productQueryLayoutSchedulerProof.v1',
+          requestId: layoutAccepted.value.requestId,
+          generation: layoutAccepted.value.generation,
+          sourceRevision: layoutAccepted.value.sourceRevision,
+          staleResultDiscard: true,
+          schedulerAdapterKind: layoutJob.value.adapter.kind,
+          networkMutation: false,
+          projectMutation: false,
+          persistedDerivedTruth: false,
+          resourceBudgetProof: layoutAccepted.value.resourceBudgetProof,
+        } : {
+          schemaVersion: 'manualMap.productQueryLayoutSchedulerProof.v1',
+          ok: false,
+          error: layoutAccepted.error || layoutResult.error || layoutJob.error || null,
+          staleResultDiscard: true,
+          networkMutation: false,
+          projectMutation: false,
+          persistedDerivedTruth: false,
+        },
         summary,
       },
     };

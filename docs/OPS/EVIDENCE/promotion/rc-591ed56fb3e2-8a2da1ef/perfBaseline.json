@@ -1,0 +1,23 @@
+{
+  "fixture": "test/fixtures/perf/long-scene.txt",
+  "updatedAt": "2026-03-02",
+  "machine": {
+    "os": "darwin 25.3.0 arm64",
+    "cpu": "Apple M1",
+    "node": "v20.19.0"
+  },
+  "metrics": {
+    "openP95Ms": 8.093,
+    "typeBurstP95Ms": 1.207,
+    "saveP95Ms": 2.11,
+    "reopenP95Ms": 0.636,
+    "longTaskCount": 0
+  },
+  "tolerances": {
+    "openP95MsPct": 35,
+    "typeBurstP95MsPct": 35,
+    "saveP95MsPct": 35,
+    "reopenP95MsPct": 35,
+    "longTaskCountAbs": 5
+  }
+}

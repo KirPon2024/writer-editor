@@ -42,6 +42,7 @@ test('collab apply pipeline returns typed rejection envelopes for invalid events
         opId: 'op-command',
         commandId: 'project.unknown',
         payload: {},
+        prevHash: initialStateHash,
       },
     ],
     applyCommand: (state, command) => core.reduceCoreState(state, command),

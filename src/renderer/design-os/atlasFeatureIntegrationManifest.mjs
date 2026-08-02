@@ -186,6 +186,10 @@ const ATLAS_SURFACE_CONTRIBUTIONS = Object.freeze([
   },
 ]);
 
+export const ATLAS_DESIGN_OS_ALLOWED_SLOT_IDS = Object.freeze([
+  ...new Set(ATLAS_SURFACE_CONTRIBUTIONS.map((surface) => surface.slotId)),
+]);
+
 export const YALKEN_ATLAS_FEATURE_INTEGRATION_MANIFEST_V1 = Object.freeze({
   schemaVersion: ATLAS_FEATURE_INTEGRATION_MANIFEST_SCHEMA_VERSION,
   featureId: 'yalken.atlasAndManualMap.v5',
@@ -234,6 +238,7 @@ export const YALKEN_ATLAS_FEATURE_INTEGRATION_MANIFEST_V1 = Object.freeze({
     'unknown-query-provider-fails-closed',
     'unknown-command-id-fails-closed',
     'missing-slot-id-fails-closed',
+    'arbitrary-atlas-prefixed-slot-fails-closed',
     'renderer-host-uses-resolved-slot-binding',
   ]),
   evidenceBindings: Object.freeze(['P0_04 focused contract', 'EFINAL repair queue receipt row']),
@@ -292,7 +297,7 @@ export function resolveAtlasFeatureDesignOsSlots(options = {}) {
     if (!querySet.has(providerId)) {
       return fail('E_ATLAS_SURFACE_PROVIDER_NOT_IN_QUERY_REGISTRY', { surfaceKey, providerId });
     }
-    if (!slotId.startsWith('rightRail.context.atlas') && slotId !== 'workspace.plan.manualMapWorkbench') {
+    if (!ATLAS_DESIGN_OS_ALLOWED_SLOT_IDS.includes(slotId)) {
       return fail('E_ATLAS_SURFACE_SLOT_OUTSIDE_DESIGN_OS_ROUTE', { surfaceKey, slotId });
     }
     for (const commandId of (Array.isArray(surface.commandIds) ? surface.commandIds : [])) {

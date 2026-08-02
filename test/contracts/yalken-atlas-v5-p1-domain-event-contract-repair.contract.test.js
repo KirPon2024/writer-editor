@@ -857,7 +857,13 @@ test('Atlas V5 P1 domain events: Stage10 exposes the typed offline collab apply 
   });
   const reopenedSession = reopened.getSession();
   assert.equal(Object.keys(reopenedSession.collabApplyReports).length, 1);
-  assert.equal(authorityHeads.get('stage10-collab-apply').receipts[0].commandId, stage10.STAGE10_PRODUCT_COMMAND_IDS.COLLAB_EVENT_LOG_APPLY);
+  assert.equal(reopenedSession.eventLog.events[0].eventId, 'remote-event-1');
+  assert.equal(reopenedSession.eventLog.events[0].commandId, core.CORE_COMMAND_IDS.PROJECT_CREATE);
+  const receiptCommands = authorityHeads.get('stage10-collab-apply').receipts.map((receipt) => receipt.commandId);
+  assert.deepEqual(receiptCommands, [
+    core.CORE_COMMAND_IDS.PROJECT_CREATE,
+    stage10.STAGE10_PRODUCT_COMMAND_IDS.COLLAB_EVENT_LOG_APPLY,
+  ]);
 });
 
 test('Atlas V5 P1 domain events: application bootstrap reaches create, command, persist, reopen and replay through authority head', async () => {

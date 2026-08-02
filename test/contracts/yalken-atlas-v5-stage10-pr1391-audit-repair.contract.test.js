@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
+const { createHash } = require('node:crypto');
 const { performance } = require('node:perf_hooks');
 const { pathToFileURL } = require('node:url');
 
@@ -20,6 +21,10 @@ function readText(relativePath) {
 function writeJson(targetPath, value) {
   fs.mkdirSync(path.dirname(targetPath), { recursive: true });
   fs.writeFileSync(targetPath, `${JSON.stringify(value, null, 2)}\n`, 'utf8');
+}
+
+function sha256Text(value) {
+  return createHash('sha256').update(Buffer.from(typeof value === 'string' ? value : '', 'utf8')).digest('hex');
 }
 
 async function importModule(relativePath) {
@@ -157,6 +162,13 @@ function routedValue(result) {
   return result?.value?.result || result?.result || result?.value || result;
 }
 
+function stage10Activation(commandId) {
+  return {
+    mode: 'DOM_VISIBLE_CONTROL_LISTENER_FALLBACK',
+    controlId: `stage10-r1c-${commandId}`,
+  };
+}
+
 test('Stage10 repair: real renderer command route creates, persists, closes, freshly reopens and replays collab provenance', async () => {
   const harness = await createHarness('real-route');
   const projectId = 'stage10-real-product-route';
@@ -176,6 +188,9 @@ test('Stage10 repair: real renderer command route creates, persists, closes, fre
 
   for (const commandId of Object.values(stage10.STAGE10_PRODUCT_COMMAND_IDS).filter((id) => id.startsWith('cmd.comments.') || id.startsWith('cmd.collab.'))) {
     assert.equal(typeof registry.getHandler(commandId), 'function', `${commandId} missing from real renderer registry`);
+    const meta = registry.getMeta(commandId);
+    assert.equal(meta.surface.includes('review'), true, `${commandId} must be visible from the review product surface`);
+    assert.equal(meta.surface.includes('internal'), false, `${commandId} must not remain internal-only`);
   }
 
   const commentImport = await registry.getHandler(stage10.STAGE10_PRODUCT_COMMAND_IDS.COMMENT_IMPORT_STABLE_PACKET)({
@@ -227,7 +242,8 @@ test('Stage10 repair: real renderer command route creates, persists, closes, fre
   assert.equal(routed.ok, true, routed.error?.reason || 'renderer Stage10 command failed');
 
   const persisted = await harness.adapter.readStage10State(projectId);
-  assert.equal(persisted.session.eventLog.events.at(-1).commandId, commandId);
+  assert.equal(persisted.session.eventLog.events.at(-1).commandId, core.CORE_COMMAND_IDS.PROJECT_APPLY_TEXT_EDIT);
+  assert.equal(persisted.session.eventLog.events.at(-1).opId, 'remote-op-1');
   assert.equal(persisted.authorityStore.receipts.at(-1).commandId, commandId);
   for (const requiredCommandId of Object.values(stage10.STAGE10_PRODUCT_COMMAND_IDS).filter((id) => id.startsWith('cmd.comments.') || id.startsWith('cmd.collab.'))) {
     assert.ok(persisted.authorityStore.receipts.some((receipt) => receipt.commandId === requiredCommandId));
@@ -255,6 +271,29 @@ test('Stage10 repair: real renderer command route creates, persists, closes, fre
       .reopenProjectRuntime({ projectId }),
     (error) => error?.reason === 'INTEGRITY_ANCHOR_SESSION_MISMATCH',
   );
+});
+
+test('Stage10 R1-C: packaged review rail exposes visible lifecycle controls backed by product command ids', () => {
+  const editorSource = fs.readFileSync(path.join(ROOT, 'src', 'renderer', 'editor.js'), 'utf8');
+  const registrySource = fs.readFileSync(path.join(ROOT, 'src', 'shared', 'productCommandRegistry.cjs'), 'utf8');
+  const requiredCommands = [
+    'cmd.comments.importStablePacket',
+    'cmd.collab.conflict.preview',
+    'cmd.collab.operationExchange.prepare',
+    'cmd.collab.operationExchange.localFixturePreview',
+    'cmd.collab.eventLog.apply',
+  ];
+  assert.match(editorSource, /data-stage10-lifecycle-surface/u);
+  assert.match(editorSource, /data-stage10-product-command/u);
+  assert.match(editorSource, /dispatchUiCommand\(commandId,\s*payload\)/u);
+  assert.match(editorSource, /buildStage10LifecyclePayload/u);
+  assert.match(editorSource, /Visible controls route through preload, main IPC, application bootstrap and the Command Kernel/u);
+  for (const commandId of requiredCommands) {
+    assert.match(editorSource, new RegExp(commandId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'u'));
+  }
+  assert.match(registrySource, /surface:\s*\['review',\s*'product'\]/u);
+  assert.doesNotMatch(registrySource, /id:\s*'cmd\\.comments\\.importStablePacket'[\s\S]*?surface:\s*\['internal'\]/u);
+  assert.doesNotMatch(registrySource, /id:\s*'cmd\\.collab\\.eventLog\\.apply'[\s\S]*?surface:\s*\['internal'\]/u);
 });
 
 test('Stage10 repair: external main-owned anchor rejects rollback, coherent rebuild, project mismatch and forged authority', async () => {
@@ -689,4 +728,176 @@ test('Stage10 repair: receipt authority rejects duplicate receipt and operation 
   const validated = authority.validateCommandReceiptAuthorityStore(forged, { projectId, eventLog });
   assert.equal(validated.ok, false);
   assert.equal(validated.error.code, 'E_STAGE10_RECEIPT_ID_DUPLICATE');
+});
+
+test('Stage10 R1-C: persisted operation log is executable from payload envelope and rejects hash-only replay simulation', async () => {
+  const harness = await createHarness('r1c-executable-ledger');
+  const projectId = 'stage10-r1c-executable-ledger';
+  const bootstrap = await createProject(harness, projectId);
+  const stage10 = await importModule('src/product/stage10ProductWiring.mjs');
+  const core = await importModule('src/core/runtime.mjs');
+
+  const result = await bootstrap.dispatchProjectCommand(
+    core.CORE_COMMAND_IDS.MANUAL_MAP_CREATE,
+    { projectId, mapId: 'map-r1c', title: 'Executable ledger' },
+    stage10Activation(core.CORE_COMMAND_IDS.MANUAL_MAP_CREATE),
+  );
+  assert.equal(result.ok, true);
+
+  const persisted = await harness.adapter.readStage10State(projectId);
+  const event = persisted.session.eventLog.events.find((entry) => entry.commandId === core.CORE_COMMAND_IDS.MANUAL_MAP_CREATE);
+  assert.equal(event.operationEnvelope?.schemaVersion, 'yalken.commandKernel.operationEnvelope.v1');
+  assert.equal(event.operationEnvelope.commandVersion, 1);
+  assert.deepEqual(event.operationEnvelope.payload, {
+    projectId,
+    mapId: 'map-r1c',
+    title: 'Executable ledger',
+  });
+  assert.match(event.operationEnvelopeDigest, /^[a-f0-9]{64}$/u);
+  assert.equal(event.operationEnvelope.payloadHash, event.payloadHash);
+
+  const corrupted = cloneJson(persisted);
+  const targetEvent = corrupted.session.eventLog.events.find((entry) => entry.commandId === core.CORE_COMMAND_IDS.MANUAL_MAP_CREATE);
+  targetEvent.operationEnvelope.payload.title = 'Forged title with matching old post hash';
+  writeJson(harness.adapter.paths(projectId).session, corrupted.session);
+  await assert.rejects(
+    async () => {
+      const bootstrapModule = await importModule('src/product/stage10ApplicationBootstrap.mjs');
+      return bootstrapModule
+        .createStage10ApplicationBootstrap({ persistencePort: harness.makeAdapter() })
+        .reopenProjectRuntime({ projectId });
+    },
+    (error) => error?.reason === 'EXECUTABLE_OPERATION_ENVELOPE_DIGEST_MISMATCH'
+      || error?.reason === 'EXECUTABLE_REPLAY_STATE_HASH_MISMATCH'
+      || error?.reason === 'COMMAND_KERNEL_RECEIPT_AUTHORITY_EVENT_LOG_DIGEST_MISMATCH',
+  );
+});
+
+test('Stage10 R1-C: collab apply persists every imported collaborator event and preflights duplicates before mutation', async () => {
+  const harness = await createHarness('r1c-collab-events');
+  const projectId = 'stage10-r1c-collab-events';
+  const bootstrap = await createProject(harness, projectId);
+  const stage10 = await importModule('src/product/stage10ProductWiring.mjs');
+  const core = await importModule('src/core/runtime.mjs');
+
+  const before = bootstrap.getRuntime().getSession();
+  const firstEvent = remoteTextEditEvent(core, before, 'first remote text', '1');
+  const first = await bootstrap.dispatchProjectCommand(
+    stage10.STAGE10_PRODUCT_COMMAND_IDS.COLLAB_EVENT_LOG_APPLY,
+    { projectId, events: [firstEvent] },
+    stage10Activation(stage10.STAGE10_PRODUCT_COMMAND_IDS.COLLAB_EVENT_LOG_APPLY),
+  );
+  assert.equal(first.ok, true);
+
+  const afterFirst = await harness.adapter.readStage10State(projectId);
+  assert.equal(
+    afterFirst.session.eventLog.events.some((entry) => entry.opId === firstEvent.opId && entry.eventId === firstEvent.eventId),
+    true,
+    'imported collaborator event must be durable, not hidden inside an aggregate apply entry',
+  );
+
+  const stateBeforeDuplicate = cloneJson(afterFirst);
+  const duplicate = await bootstrap.dispatchProjectCommand(
+    stage10.STAGE10_PRODUCT_COMMAND_IDS.COLLAB_EVENT_LOG_APPLY,
+    { projectId, events: [firstEvent] },
+    stage10Activation(stage10.STAGE10_PRODUCT_COMMAND_IDS.COLLAB_EVENT_LOG_APPLY),
+  );
+  assert.equal(duplicate.ok, false);
+  assert.equal(duplicate.error.code, 'E_STAGE10_COLLAB_APPLY_DUPLICATE_EVENT_ID');
+  assert.deepEqual(await harness.adapter.readStage10State(projectId), stateBeforeDuplicate);
+});
+
+test('Stage10 R1-C: restore is compensating provenance and does not replace immutable event history', async () => {
+  const harness = await createHarness('r1c-restore-history');
+  const projectId = 'stage10-r1c-restore-history';
+  const bootstrap = await createProject(harness, projectId);
+  const stage10 = await importModule('src/product/stage10ProductWiring.mjs');
+  const core = await importModule('src/core/runtime.mjs');
+
+  const checkpoint = await bootstrap.dispatchProjectCommand(
+    stage10.STAGE10_PRODUCT_COMMAND_IDS.HISTORY_CREATE_CHECKPOINT,
+    { projectId, snapshotId: 'checkpoint-r1c' },
+    stage10Activation(stage10.STAGE10_PRODUCT_COMMAND_IDS.HISTORY_CREATE_CHECKPOINT),
+  );
+  assert.equal(checkpoint.ok, true);
+  const edit = await bootstrap.dispatchProjectCommand(
+    core.CORE_COMMAND_IDS.PROJECT_APPLY_TEXT_EDIT,
+    { projectId, sceneId: 'scene-1', text: 'after checkpoint' },
+    stage10Activation(core.CORE_COMMAND_IDS.PROJECT_APPLY_TEXT_EDIT),
+  );
+  assert.equal(edit.ok, true);
+  const beforeRestore = bootstrap.getRuntime().getSession();
+
+  const preview = await bootstrap.dispatchProjectCommand(
+    stage10.STAGE10_PRODUCT_COMMAND_IDS.HISTORY_RESTORE_PREVIEW,
+    { projectId, snapshotId: 'checkpoint-r1c' },
+    stage10Activation(stage10.STAGE10_PRODUCT_COMMAND_IDS.HISTORY_RESTORE_PREVIEW),
+  );
+  assert.equal(preview.ok, true);
+  const apply = await bootstrap.dispatchProjectCommand(
+    stage10.STAGE10_PRODUCT_COMMAND_IDS.HISTORY_RESTORE_APPLY,
+    { projectId, previewId: preview.preview.previewId, confirmed: true },
+    stage10Activation(stage10.STAGE10_PRODUCT_COMMAND_IDS.HISTORY_RESTORE_APPLY),
+  );
+  assert.equal(apply.ok, true);
+
+  const afterRestore = bootstrap.getRuntime().getSession();
+  assert.equal(
+    afterRestore.eventLog.events.some((event) => event.opId === edit.receipt.operationId),
+    true,
+    'restore must retain prior immutable edit provenance',
+  );
+  assert.equal(afterRestore.eventLog.events.at(-1).commandId, stage10.STAGE10_PRODUCT_COMMAND_IDS.HISTORY_RESTORE_APPLY);
+  assert.equal(afterRestore.eventLog.events.length, beforeRestore.eventLog.events.length + 1);
+});
+
+test('Stage10 R1-C: canonical project truth link and requested author command commit once with no split authority advance', async () => {
+  const harness = await createHarness('r1c-single-commit');
+  const projectId = 'stage10-r1c-single-commit';
+  const bootstrap = await createProject(harness, projectId);
+  const core = await importModule('src/core/runtime.mjs');
+  const before = cloneJson(await harness.adapter.readStage10State(projectId));
+  const canonicalCoreState = cloneJson(before.session.coreState);
+  canonicalCoreState.data.projects[projectId].scenes['scene-1'].text = 'canonical manifest text ahead of session';
+  canonicalCoreState.data.lastCommandId += 1;
+  const previousManifestText = JSON.stringify({
+    projectId,
+    manualMaps: { schemaVersion: 'manualMap.author.v1', maps: {} },
+  });
+  fs.writeFileSync(path.join(harness.projectRoot, 'project.craftsman.json'), previousManifestText, 'utf8');
+  let prepareMutationCalls = 0;
+  const result = await bootstrap.dispatchCanonicalProjectCommand(
+    core.CORE_COMMAND_IDS.MANUAL_MAP_CREATE,
+    { projectId, mapId: 'map-single', title: 'Single commit' },
+    {
+      schemaVersion: 'yalken.stage10.canonicalProjectTruthCommand.v1',
+      projectId,
+      coreState: canonicalCoreState,
+      async prepareMutation(commandResult) {
+        prepareMutationCalls += 1;
+        const nextManifestText = JSON.stringify({
+          projectId,
+          manualMaps: commandResult.nextCoreState.data.projects[projectId].manualMaps,
+        });
+        return {
+          schemaVersion: 'yalken.stage10.projectTruthMutation.v1',
+          projectId,
+          relativePath: 'project.craftsman.json',
+          previousText: previousManifestText,
+          nextText: nextManifestText,
+          previousHash: sha256Text(previousManifestText),
+          nextHash: sha256Text(nextManifestText),
+        };
+      },
+    },
+  );
+  assert.equal(result.ok, true);
+  assert.equal(prepareMutationCalls, 1);
+  const after = await harness.adapter.readStage10State(projectId);
+  assert.equal(after.authorityStore.currentHead.authorityGeneration, before.authorityStore.currentHead.authorityGeneration + 1);
+  assert.equal(
+    after.session.eventLog.events.some((event) => event.commandId === 'system.projectTruth.link'),
+    false,
+    'canonical truth linkage must be metadata on the requested command, not a separate durable command',
+  );
 });

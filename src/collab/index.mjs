@@ -18,6 +18,8 @@ export {
   applyCommandWithEventLog,
   replayEventLog,
   buildOperationReplayReport,
+  createCommandKernelOperationEnvelope,
+  COMMAND_KERNEL_OPERATION_ENVELOPE_SCHEMA_VERSION,
   COMMAND_KERNEL_RECEIPT_AUTHORITY_KIND,
   COMMAND_KERNEL_RECEIPT_SCHEMA_VERSION,
 } from './eventLog.mjs';

@@ -183,6 +183,7 @@ export function evaluateCollabEventLogState() {
   state.checks.schemaDeterministic = toToken(schemaDeterministic);
 
   const entryA = {
+    eventId: 'append-event-1',
     opId: 'append-1',
     ts: '2026-02-13T09:10:00.000Z',
     actorId: 'writer-A',
@@ -192,6 +193,7 @@ export function evaluateCollabEventLogState() {
     postStateHash: 'state-hash-1',
   };
   const entryB = {
+    eventId: 'append-event-2',
     opId: 'append-2',
     ts: '2026-02-13T09:10:01.000Z',
     actorId: 'writer-B',
@@ -224,6 +226,7 @@ export function evaluateCollabEventLogState() {
       eventLog: appendA.eventLog,
       entry: {
         ...entryA,
+        eventId: 'append-event-1-duplicate-op',
         postStateHash: 'state-hash-9',
       },
     })

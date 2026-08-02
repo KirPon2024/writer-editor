@@ -218,6 +218,46 @@ test('E07 C03: Atlas language tag commands fail closed for invalid ranges stale 
   assert.equal(cleared.state.data.projects[projectId].scenes[sceneAId].text, text);
 });
 
+test('R1 C: Atlas language tag command validates BCP47 before mutation and only accepts explicit und', async () => {
+  const { runtime, projectId, state } = await buildLanguageTagFixture();
+  const beforeHash = runtime.hashCoreState(state);
+  for (const languageCode of ['', '   ', null, 'pt_BR', 'en_US']) {
+    const invalid = runtime.reduceCoreState(state, {
+      type: runtime.CORE_COMMAND_IDS.ATLAS_LANGUAGE_TAG_SET,
+      payload: {
+        projectId,
+        scopeKind: 'project',
+        languageCode,
+      },
+    });
+    assert.equal(invalid.ok, false, `invalid language tag was accepted: ${String(languageCode)}`);
+    assert.equal(invalid.error.code, 'E_ATLAS_LANGUAGE_TAG_BCP47_INVALID');
+    assert.equal(invalid.stateHash, beforeHash);
+  }
+
+  const canonicalized = runtime.reduceCoreState(state, {
+    type: runtime.CORE_COMMAND_IDS.ATLAS_LANGUAGE_TAG_SET,
+    payload: {
+      projectId,
+      scopeKind: 'project',
+      languageCode: 'EN-us',
+    },
+  });
+  assert.equal(canonicalized.ok, true, JSON.stringify(canonicalized.error));
+  assert.equal(canonicalized.state.data.projects[projectId].atlas.languageTags.project.languageCode, 'en-US');
+
+  const und = runtime.reduceCoreState(state, {
+    type: runtime.CORE_COMMAND_IDS.ATLAS_LANGUAGE_TAG_SET,
+    payload: {
+      projectId,
+      scopeKind: 'project',
+      languageCode: 'und',
+    },
+  });
+  assert.equal(und.ok, true, JSON.stringify(und.error));
+  assert.equal(und.state.data.projects[projectId].atlas.languageTags.project.languageCode, 'und');
+});
+
 test('E07 C03: Atlas language tag commands are admitted only through node capability revalidation', async () => {
   const { runtime, projectId, sceneAId, state } = await buildLanguageTagFixture();
   const registryModule = await loadModule(path.join('src', 'renderer', 'commands', 'registry.mjs'));

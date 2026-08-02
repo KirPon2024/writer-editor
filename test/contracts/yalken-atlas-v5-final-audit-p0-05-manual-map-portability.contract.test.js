@@ -61,6 +61,12 @@ test('P0 05: main bridge handles portability through Command Kernel without stor
 
   assert.match(mainSource, /function loadManualMapExportModule/u);
   assert.match(mainSource, /function loadManualMapImportModule/u);
+  assert.match(mainSource, /function loadManualMapLayoutSchedulerModule/u);
+  assert.match(mainSource, /createManualMapLayoutJob/u);
+  assert.match(mainSource, /acceptManualMapLayoutResult/u);
+  assert.match(mainSource, /manualMap\.productQueryLayoutSchedulerProof\.v1/u);
+  assert.match(mainSource, /staleResultDiscard:\s*true/u);
+  assert.match(mainSource, /resourceBudgetProof/u);
   assert.match(mainSource, /handleManualMapExportJsonProductCommand/u);
   assert.match(mainSource, /serializeManualMapExportJsonV1WithLossReport/u);
   assert.match(mainSource, /handleManualMapExportImagePdfProductCommand/u);

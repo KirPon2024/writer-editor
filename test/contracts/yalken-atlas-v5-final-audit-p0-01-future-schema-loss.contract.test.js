@@ -10,6 +10,10 @@ const { pathToFileURL } = require('node:url');
 const ROOT = path.resolve(__dirname, '..', '..');
 const PROJECT_MANIFEST_FILENAME = 'project.craftsman.json';
 
+async function loadRuntimeModule() {
+  return import(pathToFileURL(path.join(ROOT, 'src', 'core', 'runtime.mjs')).href);
+}
+
 async function loadMainWithElectronStub(paths) {
   const mainPath = path.join(ROOT, 'src', 'main.js');
   const fileManagerPath = path.join(ROOT, 'src', 'utils', 'fileManager.js');
@@ -201,6 +205,71 @@ test('P0 01: Atlas mutation preserves opaque future Manual Map, Idea and Meaning
   assert.equal(persisted.atlas.entities['entity-preserves-foreign-future-domains'].name, 'Preserved Domains');
 });
 
+test('R1 C: supported Manual Map Idea and Meaning author extensions survive mutation reopen and replay state', async () => {
+  const runtime = await loadRuntimeModule();
+  const projectId = 'author-extension-preservation-project';
+  const sceneId = 'scene-extension-preservation';
+  const created = runtime.applyCoreSequence(runtime.createInitialCoreState(), [
+    {
+      type: runtime.CORE_COMMAND_IDS.PROJECT_CREATE,
+      payload: { projectId, title: 'Author extension preservation', sceneId },
+    },
+  ]);
+  assert.equal(created.ok, true);
+  const state = JSON.parse(JSON.stringify(created.state));
+  const project = state.data.projects[projectId];
+  const manualMapExtension = { extensionSchema: 'manualMap.extension.vFuture', nested: { survives: ['map', 'truth'] } };
+  const ideaExtension = { extensionSchema: 'idea.extension.vFuture', nested: { survives: ['idea', 'truth'] } };
+  const meaningExtension = { extensionSchema: 'meaning.extension.vFuture', nested: { survives: ['meaning', 'truth'] } };
+  project.manualMaps = {
+    schemaVersion: 'manualMap.author.v1',
+    maps: {},
+    extensionCapsule: manualMapExtension,
+  };
+  project.ideas = {
+    schemaVersion: 'idea.author.v1',
+    ideas: {},
+    originLinks: {},
+    extensionCapsule: ideaExtension,
+  };
+  project.meanings = {
+    schemaVersion: 'meaning.author.v1',
+    meanings: {},
+    extensionCapsule: meaningExtension,
+  };
+
+  const mapCreated = runtime.reduceCoreState(state, {
+    type: runtime.CORE_COMMAND_IDS.MANUAL_MAP_CREATE,
+    payload: { projectId, mapId: 'map-extension-preserved', title: 'Preserved Map Extension' },
+  });
+  assert.equal(mapCreated.ok, true, JSON.stringify(mapCreated.error));
+  const ideaCreated = runtime.reduceCoreState(mapCreated.state, {
+    type: runtime.CORE_COMMAND_IDS.IDEA_CREATE,
+    payload: { projectId, ideaId: 'idea-extension-preserved', title: 'Preserved Idea Extension' },
+  });
+  assert.equal(ideaCreated.ok, true, JSON.stringify(ideaCreated.error));
+  const meaningPromoted = runtime.reduceCoreState(ideaCreated.state, {
+    type: runtime.CORE_COMMAND_IDS.MEANING_PROMOTE,
+    payload: {
+      projectId,
+      meaningId: 'meaning-extension-preserved',
+      title: 'Preserved Meaning Extension',
+      interpretation: 'Meaning reducer must not drop future extension fields.',
+      source: { kind: 'idea', ideaId: 'idea-extension-preserved' },
+    },
+  });
+  assert.equal(meaningPromoted.ok, true, JSON.stringify(meaningPromoted.error));
+
+  const reopened = JSON.parse(JSON.stringify(meaningPromoted.state));
+  const reopenedProject = reopened.data.projects[projectId];
+  assert.deepEqual(reopenedProject.manualMaps.extensionCapsule, manualMapExtension);
+  assert.deepEqual(reopenedProject.ideas.extensionCapsule, ideaExtension);
+  assert.deepEqual(reopenedProject.meanings.extensionCapsule, meaningExtension);
+  assert.equal(reopenedProject.manualMaps.maps['map-extension-preserved'].title, 'Preserved Map Extension');
+  assert.equal(reopenedProject.ideas.ideas['idea-extension-preserved'].title, 'Preserved Idea Extension');
+  assert.equal(reopenedProject.meanings.meanings['meaning-extension-preserved'].title, 'Preserved Meaning Extension');
+});
+
 test('R1 B: released Atlas mutation advances the canonical Command Kernel event and receipt authority', async (t) => {
   const harness = await createHarness(t);
   const created = await harness.main.handleProjectLifecycleCreateCommand({ projectName: 'Роман' });
@@ -236,10 +305,10 @@ test('R1 B: released Atlas mutation advances the canonical Command Kernel event 
 
   const afterSession = JSON.parse(await fsPromises.readFile(sessionPath, 'utf8'));
   const afterAuthority = JSON.parse(await fsPromises.readFile(authorityPath, 'utf8'));
-  assert.equal(afterSession.eventLog.events.length, beforeSession.eventLog.events.length + 2);
-  assert.equal(afterAuthority.receipts.length, beforeAuthority.receipts.length + 2);
-  assert.equal(afterSession.eventLog.events.at(-2).commandId, 'system.projectTruth.link');
-  assert.equal(afterAuthority.receipts.at(-2).commandId, 'system.projectTruth.link');
+  assert.equal(afterSession.eventLog.events.length, beforeSession.eventLog.events.length + 1);
+  assert.equal(afterAuthority.receipts.length, beforeAuthority.receipts.length + 1);
+  assert.equal(afterSession.eventLog.events.at(-1).commandId, 'atlas.entity.create');
+  assert.equal(afterAuthority.receipts.at(-1).commandId, 'atlas.entity.create');
   assert.equal(afterSession.eventLog.events.at(-1).opId, 'r1-b-atlas-entity-create-1');
   assert.equal(afterAuthority.receipts.at(-1).operationId, 'r1-b-atlas-entity-create-1');
   assert.equal(

@@ -76,6 +76,13 @@ const ATLAS_AUTHOR_KNOWN_FIELDS = Object.freeze([
   'seriesPortabilityOperations',
   'suppressions',
 ]);
+const MANUAL_MAP_AUTHOR_KNOWN_FIELDS = Object.freeze(['maps', 'schemaVersion']);
+const IDEA_AUTHOR_KNOWN_FIELDS = Object.freeze(['ideas', 'originLinks', 'schemaVersion']);
+const MEANING_AUTHOR_KNOWN_FIELDS = Object.freeze(['meanings', 'schemaVersion']);
+
+const MANUAL_MAP_AUTHOR_UNSUPPORTED_QUARANTINE_SCHEMA_VERSION = 'manualMap.authorUnsupportedQuarantine.v1';
+const IDEA_AUTHOR_UNSUPPORTED_QUARANTINE_SCHEMA_VERSION = 'idea.authorUnsupportedQuarantine.v1';
+const MEANING_AUTHOR_UNSUPPORTED_QUARANTINE_SCHEMA_VERSION = 'meaning.authorUnsupportedQuarantine.v1';
 
 function cloneJson(value) {
   return JSON.parse(JSON.stringify(value));
@@ -161,6 +168,29 @@ function extractUnknownAtlasAuthorFields(input) {
   return unknown;
 }
 
+function extractUnknownAuthorFields(input, knownFields) {
+  if (!isPlainObject(input)) return {};
+  const known = new Set(knownFields);
+  const unknown = {};
+  for (const key of Object.keys(input).sort()) {
+    if (!known.has(key)) {
+      unknown[key] = cloneJson(input[key]);
+    }
+  }
+  return unknown;
+}
+
+function createAuthorUnsupportedQuarantine({ input, schemaVersion, reason }) {
+  const source = isPlainObject(input) ? cloneJson(input) : {};
+  return {
+    schemaVersion,
+    reason,
+    originalSchemaVersion: trimString(source.schemaVersion),
+    originalAuthorData: source,
+    destructiveReplacement: false,
+  };
+}
+
 function createAtlasAuthorUnsupportedQuarantine(input) {
   const source = isPlainObject(input) ? cloneJson(input) : {};
   return {
@@ -240,7 +270,20 @@ function createEmptyIdeaAuthorData() {
 }
 
 function normalizeIdeaAuthorData(input) {
-  if (!isPlainObject(input) || input.schemaVersion !== IDEA_AUTHOR_SCHEMA_VERSION || !isPlainObject(input.ideas)) {
+  if (!isPlainObject(input)) {
+    return createEmptyIdeaAuthorData();
+  }
+  if (input.schemaVersion !== IDEA_AUTHOR_SCHEMA_VERSION) {
+    return {
+      ...createEmptyIdeaAuthorData(),
+      unsupportedAuthorDataQuarantine: createAuthorUnsupportedQuarantine({
+        input,
+        schemaVersion: IDEA_AUTHOR_UNSUPPORTED_QUARANTINE_SCHEMA_VERSION,
+        reason: 'UNSUPPORTED_IDEA_AUTHOR_SCHEMA',
+      }),
+    };
+  }
+  if (!isPlainObject(input.ideas)) {
     return createEmptyIdeaAuthorData();
   }
 
@@ -248,6 +291,7 @@ function normalizeIdeaAuthorData(input) {
     schemaVersion: IDEA_AUTHOR_SCHEMA_VERSION,
     ideas: cloneJson(input.ideas),
     originLinks: isPlainObject(input.originLinks) ? cloneJson(input.originLinks) : {},
+    ...extractUnknownAuthorFields(input, IDEA_AUTHOR_KNOWN_FIELDS),
   };
 }
 
@@ -265,13 +309,27 @@ function createEmptyMeaningAuthorData() {
 }
 
 function normalizeMeaningAuthorData(input) {
-  if (!isPlainObject(input) || input.schemaVersion !== MEANING_AUTHOR_SCHEMA_VERSION || !isPlainObject(input.meanings)) {
+  if (!isPlainObject(input)) {
+    return createEmptyMeaningAuthorData();
+  }
+  if (input.schemaVersion !== MEANING_AUTHOR_SCHEMA_VERSION) {
+    return {
+      ...createEmptyMeaningAuthorData(),
+      unsupportedAuthorDataQuarantine: createAuthorUnsupportedQuarantine({
+        input,
+        schemaVersion: MEANING_AUTHOR_UNSUPPORTED_QUARANTINE_SCHEMA_VERSION,
+        reason: 'UNSUPPORTED_MEANING_AUTHOR_SCHEMA',
+      }),
+    };
+  }
+  if (!isPlainObject(input.meanings)) {
     return createEmptyMeaningAuthorData();
   }
 
   return {
     schemaVersion: MEANING_AUTHOR_SCHEMA_VERSION,
     meanings: cloneJson(input.meanings),
+    ...extractUnknownAuthorFields(input, MEANING_AUTHOR_KNOWN_FIELDS),
   };
 }
 
@@ -289,12 +347,26 @@ function createEmptyManualMapData() {
 }
 
 function normalizeManualMapData(input) {
-  if (!isPlainObject(input) || input.schemaVersion !== MANUAL_MAP_AUTHOR_SCHEMA_VERSION || !isPlainObject(input.maps)) {
+  if (!isPlainObject(input)) {
+    return createEmptyManualMapData();
+  }
+  if (input.schemaVersion !== MANUAL_MAP_AUTHOR_SCHEMA_VERSION) {
+    return {
+      ...createEmptyManualMapData(),
+      unsupportedAuthorDataQuarantine: createAuthorUnsupportedQuarantine({
+        input,
+        schemaVersion: MANUAL_MAP_AUTHOR_UNSUPPORTED_QUARANTINE_SCHEMA_VERSION,
+        reason: 'UNSUPPORTED_MANUAL_MAP_AUTHOR_SCHEMA',
+      }),
+    };
+  }
+  if (!isPlainObject(input.maps)) {
     return createEmptyManualMapData();
   }
   return {
     schemaVersion: MANUAL_MAP_AUTHOR_SCHEMA_VERSION,
     maps: cloneJson(input.maps),
+    ...extractUnknownAuthorFields(input, MANUAL_MAP_AUTHOR_KNOWN_FIELDS),
   };
 }
 
@@ -1957,8 +2029,49 @@ function normalizeAtlasSavedQueryFilter(input) {
 }
 
 function normalizeAtlasLanguageCode(value) {
-  const code = trimString(value).toLowerCase().replace(/_/gu, '-');
-  return code || 'und';
+  const raw = trimString(value);
+  if (!raw) {
+    return {
+      ok: false,
+      languageCode: '',
+      reason: 'LANGUAGE_TAG_REQUIRED',
+      raw: typeof value === 'string' ? value : '',
+    };
+  }
+  try {
+    const locale = new Intl.Locale(raw);
+    const languageCode = locale.baseName;
+    if (!languageCode) {
+      return {
+        ok: false,
+        languageCode: '',
+        reason: 'LANGUAGE_TAG_INVALID',
+        raw,
+      };
+    }
+    if (languageCode === 'und' && raw !== 'und') {
+      return {
+        ok: false,
+        languageCode: '',
+        reason: 'LANGUAGE_TAG_UNDETERMINED_MUST_BE_EXPLICIT',
+        raw,
+      };
+    }
+    return {
+      ok: true,
+      languageCode,
+      reason: '',
+      raw,
+      undPolicy: languageCode === 'und' ? 'EXPLICIT_UNDETERMINED_AUTHOR_TAG' : 'DECLARED_BCP47_TAG',
+    };
+  } catch {
+    return {
+      ok: false,
+      languageCode: '',
+      reason: 'LANGUAGE_TAG_INVALID',
+      raw,
+    };
+  }
 }
 
 function normalizeAtlasLanguageTagScope(value) {
@@ -2011,6 +2124,7 @@ function normalizeAtlasLanguageTagPayload(payload) {
   const blockId = trimString(payload?.blockId);
   const startOffset = normalizeRangeOffset(payload?.startOffset);
   const endOffset = normalizeRangeOffset(payload?.endOffset);
+  const languageTagAdmission = normalizeAtlasLanguageCode(payload?.languageCode);
   return {
     projectId,
     scopeKind,
@@ -2018,7 +2132,8 @@ function normalizeAtlasLanguageTagPayload(payload) {
     blockId,
     startOffset,
     endOffset,
-    languageCode: normalizeAtlasLanguageCode(payload?.languageCode),
+    languageCode: languageTagAdmission.languageCode,
+    languageTagAdmission,
     note: trimString(payload?.note),
     expectedTagHash: trimString(payload?.expectedTagHash),
     tagId: trimString(payload?.tagId) || inferAtlasLanguageTagId({ projectId, scopeKind, sceneId, blockId, startOffset, endOffset }),
@@ -2029,6 +2144,13 @@ function validateAtlasLanguageTagTarget(state, payload, op) {
   const { projectId, scopeKind, sceneId, blockId, startOffset, endOffset } = payload;
   if (!projectId) return fail(state, 'E_CORE_PROJECT_ID_REQUIRED', op, 'PROJECT_ID_REQUIRED');
   if (!scopeKind) return fail(state, 'E_ATLAS_LANGUAGE_TAG_SCOPE_INVALID', op, 'LANGUAGE_TAG_SCOPE_INVALID', { projectId });
+  if (op === 'atlas.languageTag.set' && !payload.languageTagAdmission?.ok) {
+    return fail(state, 'E_ATLAS_LANGUAGE_TAG_BCP47_INVALID', op, payload.languageTagAdmission?.reason || 'LANGUAGE_TAG_INVALID', {
+      projectId,
+      scopeKind,
+      languageCode: payload.languageTagAdmission?.raw || '',
+    });
+  }
   const project = state.data.projects[projectId];
   if (!project) return fail(state, 'E_CORE_PROJECT_NOT_FOUND', op, 'PROJECT_NOT_FOUND', { projectId });
   if ((scopeKind === 'scene' || scopeKind === 'block' || scopeKind === 'range') && !sceneId) {

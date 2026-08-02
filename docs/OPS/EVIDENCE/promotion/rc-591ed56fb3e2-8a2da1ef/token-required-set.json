@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "toolVersion": "generate-required-token-set.v1",
+  "profile": "release",
+  "gateTier": "release",
+  "scopeFlags": {
+    "ECONOMIC_CLAIM_SHARED_CODE": false,
+    "RELEASE_SCOPE_PERF": true,
+    "VNEXT_TOUCHED": false
+  },
+  "requiredSets": {
+    "core": [
+      "CORE_SOT_EXECUTABLE_OK",
+      "RECOVERY_IO_OK",
+      "TOKEN_SOURCE_CONFLICT_OK"
+    ],
+    "release": [
+      "ATTESTATION_SIGNATURE_OK",
+      "CONFIG_HASH_LOCK_OK",
+      "CORE_SOT_EXECUTABLE_OK",
+      "E2E_CRITICAL_USER_PATH_OK",
+      "HEAD_STRICT_OK",
+      "MIGRATIONS_ATOMICITY_OK",
+      "MIGRATIONS_POLICY_OK",
+      "NORMALIZATION_XPLAT_OK",
+      "PERF_BASELINE_OK",
+      "PROOFHOOK_INTEGRITY_OK",
+      "RECOVERY_IO_OK",
+      "REQUIRED_SET_NO_TARGET_OK",
+      "SINGLE_VERIFY_CONTOUR_ENFORCED_OK",
+      "TOKEN_SOURCE_CONFLICT_OK",
+      "VERIFY_ATTESTATION_OK"
+    ],
+    "active": [
+      "ATTESTATION_SIGNATURE_OK",
+      "CONFIG_HASH_LOCK_OK",
+      "CORE_SOT_EXECUTABLE_OK",
+      "E2E_CRITICAL_USER_PATH_OK",
+      "HEAD_STRICT_OK",
+      "MIGRATIONS_ATOMICITY_OK",
+      "MIGRATIONS_POLICY_OK",
+      "NORMALIZATION_XPLAT_OK",
+      "PERF_BASELINE_OK",
+      "PROOFHOOK_INTEGRITY_OK",
+      "RECOVERY_IO_OK",
+      "REQUIRED_SET_NO_TARGET_OK",
+      "SINGLE_VERIFY_CONTOUR_ENFORCED_OK",
+      "TOKEN_SOURCE_CONFLICT_OK",
+      "VERIFY_ATTESTATION_OK"
+    ],
+    "freezeMode": [
+      "FREEZE_MODE_STRICT_OK"
+    ]
+  },
+  "freezeReady": {
+    "requiredAlways": [
+      "ATTESTATION_SIGNATURE_OK",
+      "CORE_SOT_EXECUTABLE_OK",
+      "E2E_CRITICAL_USER_PATH_OK",
+      "HEAD_STRICT_OK",
+      "MIGRATIONS_ATOMICITY_OK",
+      "MIGRATIONS_POLICY_OK",
+      "NORMALIZATION_XPLAT_OK",
+      "PERF_BASELINE_OK",
+      "PROOFHOOK_INTEGRITY_OK",
+      "RECOVERY_IO_OK",
+      "REQUIRED_SET_NO_TARGET_OK",
+      "SINGLE_VERIFY_CONTOUR_ENFORCED_OK",
+      "TOKEN_SOURCE_CONFLICT_OK",
+      "VERIFY_ATTESTATION_OK"
+    ],
+    "requiredFreezeMode": [
+      "FREEZE_MODE_STRICT_OK"
+    ],
+    "requiredTokens": [
+      "ATTESTATION_SIGNATURE_OK",
+      "CORE_SOT_EXECUTABLE_OK",
+      "E2E_CRITICAL_USER_PATH_OK",
+      "FREEZE_MODE_STRICT_OK",
+      "HEAD_STRICT_OK",
+      "MIGRATIONS_ATOMICITY_OK",
+      "MIGRATIONS_POLICY_OK",
+      "NORMALIZATION_XPLAT_OK",
+      "PERF_BASELINE_OK",
+      "PROOFHOOK_INTEGRITY_OK",
+      "RECOVERY_IO_OK",
+      "REQUIRED_SET_NO_TARGET_OK",
+      "SINGLE_VERIFY_CONTOUR_ENFORCED_OK",
+      "TOKEN_SOURCE_CONFLICT_OK",
+      "VERIFY_ATTESTATION_OK"
+    ]
+  },
+  "configHash": "73964d7aac5b0ccd55247732b99bf4271be14b4d99bff5116ebc36ee7ed555da"
+}

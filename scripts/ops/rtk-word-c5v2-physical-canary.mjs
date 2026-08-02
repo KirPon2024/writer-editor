@@ -92,8 +92,8 @@ function docxDocumentWordText(docxPath) {
   return `${paragraphs.join('\r')}\r`;
 }
 
-export function bindLedgerToSourceDocxOffsets({ ledger, sourceDocxPath }) {
-  const docxText = docxDocumentWordText(sourceDocxPath);
+export function bindLedgerToSourceDocxOffsets({ ledger, sourceDocxPath, sourceDocxText = null }) {
+  const docxText = typeof sourceDocxText === 'string' ? sourceDocxText : docxDocumentWordText(sourceDocxPath);
   const seenStarts = new Set();
   const boundOperations = ledger.operations.map((operation) => {
     const start = docxText.indexOf(operation.quote);
@@ -126,16 +126,18 @@ export function bindLedgerToSourceDocxOffsets({ ledger, sourceDocxPath }) {
 }
 
 function buildExportBoundCanaryLedger({ scenes, counts, sourceDocxPath, anchorOffset = 0, idPrefix = '' }) {
+  const sourceDocxText = docxDocumentWordText(sourceDocxPath);
   const failures = [];
   for (let attempt = 0; attempt < 80; attempt += 1) {
     const ledger = buildCanaryLedger(scenes, {
       counts,
       anchorOffset: anchorOffset + (attempt * 7),
       idPrefix,
+      exportedDocxText: sourceDocxText,
     });
     try {
       return {
-        ...bindLedgerToSourceDocxOffsets({ ledger, sourceDocxPath }),
+        ...bindLedgerToSourceDocxOffsets({ ledger, sourceDocxPath, sourceDocxText }),
         exportBinding: {
           status: 'bound-to-exported-docx',
           attempt: attempt + 1,
@@ -281,6 +283,9 @@ export function buildCanaryLedger(scenes, options = {}) {
   ];
   const phrasesByScene = new Map(scenes.map((scene) => [scene.sceneId, uniquePhrases(scene.text, 260)]));
   const globalBookText = scenes.map((scene) => String(scene.text || '').replace(/\s+/gu, ' ')).join(' ');
+  const exportedDocxText = typeof options.exportedDocxText === 'string' ? options.exportedDocxText : '';
+  const candidateIsAvailable = (candidate) => countExactOccurrences(globalBookText, candidate) === 1
+    && (!exportedDocxText || countExactOccurrences(exportedDocxText, candidate) === 1);
   const anchorOffset = Number.isSafeInteger(Number(options.anchorOffset)) && Number(options.anchorOffset) >= 0
     ? Number(options.anchorOffset)
     : 0;
@@ -309,7 +314,7 @@ export function buildCanaryLedger(scenes, options = {}) {
     while (cursor < Math.min(segmentEnd, phrases.length)) {
       const candidate = phrases[cursor];
       cursor += 1;
-      if (!usedQuotes.has(candidate) && countExactOccurrences(globalBookText, candidate) === 1) {
+      if (!usedQuotes.has(candidate) && candidateIsAvailable(candidate)) {
         quote = candidate;
         usedQuotes.add(candidate);
         break;
@@ -321,7 +326,7 @@ export function buildCanaryLedger(scenes, options = {}) {
         ...phrases.slice(segmentStart, Math.min(seededSegmentStart, segmentEnd)),
         ...phrases,
       ]) {
-        if (!usedQuotes.has(candidate) && countExactOccurrences(globalBookText, candidate) === 1) {
+        if (!usedQuotes.has(candidate) && candidateIsAvailable(candidate)) {
           quote = candidate;
           usedQuotes.add(candidate);
           break;

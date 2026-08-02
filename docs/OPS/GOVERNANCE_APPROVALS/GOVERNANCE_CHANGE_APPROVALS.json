@@ -5754,10 +5754,10 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "2a8e5f609cd0ef610a5db9ce5326c9387aadfd4c337ed6db089df4b4f592a974",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1:PHYSICAL_ROUTE_TRUTH_REPAIR",
-      "approvedAtUtc": "2026-08-02T12:08:54.000Z",
-      "rationale": "Approve the exact C5V2 physical runner truth repair: formatting-only returns now invoke the shipped formatting apply command and persisted replay inspector, absent lanes are explicitly not applicable, mixed formatting mutation lanes fail closed until one atomic product transaction exists, and unsupported structure cannot produce a green return claim.",
+      "sha256": "94d141dc7a586db36206bf7b5682131c8a120852419bbc0e7ddd28324ea7691d",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1:HOST_LOCAL_QA_MIRROR_AND_LANE_PREFLIGHT",
+      "approvedAtUtc": "2026-08-02T12:28:54.000Z",
+      "rationale": "Approve the exact C5V2 physical runner route: formatting and other Word Object Model lanes use document-identity preflight without an unrelated Accessibility gate, reply and state lanes still require verified Accessibility UI, Word edits only a generated host-local QA cache copy, and the final native artifact must be byte-for-byte mirrored and hash-verified on T7 before evidence can pass. This does not widen native comment lifecycle or terminal certification claims.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
     },
@@ -5858,10 +5858,10 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-sandbox-work-root.mjs",
-      "sha256": "d4942252fa70307deb2eece720e318bc446a56bf0688572b3ad061f1469edf58",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
-      "approvedAtUtc": "2026-07-31T08:00:17.774Z",
-      "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
+      "sha256": "d5cd64e78c465f9842c79aa8d4f031ac75c76e115ac915c0e4742589f4bec37e",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1:HOST_LOCAL_GENERATED_QA_CACHE",
+      "approvedAtUtc": "2026-08-02T12:28:54.000Z",
+      "rationale": "Approve the existing Word-container resolver plus one explicit host-local generated-QA cache resolver for hosts where Word cannot open T7 directly and shell access to the protected app container is unavailable. The fallback is contained under the user cache, forbids plain tmp and user Documents, touches no private files, requires an exact T7 evidence mirror, adds no network or broad certification claim, and does not weaken the legacy container route."
     },
     {
       "filePath": "scripts/ops/rtk-word-saturation-c01-locator-carrier-lab.mjs",
@@ -7906,10 +7906,10 @@
     },
     {
       "filePath": "test/contracts/rtk-word-n3-formatting-return.contract.test.js",
-      "sha256": "8748915dae9b1a98e9e17e982d4b2b56b6b47b654d6b098af42505b41eed7065",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1:PHYSICAL_ROUTE_TRUTH_REPAIR",
-      "approvedAtUtc": "2026-08-02T12:08:54.000Z",
-      "rationale": "Approve the exact strengthened N3 contract family plus physical runner coupling: the shipped formatting command and persisted replay inspector are required, formatting-only lane accounting is explicit, mixed mutation lanes are rejected without one atomic transaction, and the real-process lease killpoint keeps its child alive deterministically; physical Word proof and terminal certification remain pending.",
+      "sha256": "3804f24391d6d2b2d4f433dc03890a9b46fa1faa38e875e60f1ec9756a322a2f",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1:HOST_LOCAL_QA_MIRROR_AND_LANE_PREFLIGHT",
+      "approvedAtUtc": "2026-08-02T12:28:54.000Z",
+      "rationale": "Approve the exact strengthened N3 contract family and physical runner coupling: it proves host-local QA containment outside user Documents, mandatory T7 evidence mirroring and hash mismatch rejection, Object Model preflight for formatting, Accessibility preflight only for reply or state lanes, shipped formatting apply plus persisted replay inspection, and deterministic real-process lease survival. Physical Word proof and terminal certification remain pending.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
     },

@@ -931,6 +931,7 @@ test('N3 product route exposes a working Review control without renderer-owned a
 
 test('N3 physical canary invokes shipped formatting apply and persisted replay inspection', async () => {
   const canary = await import(pathToFileURL(PHYSICAL_CANARY_PATH).href);
+  const workRootHelper = await import(pathToFileURL(path.join(ROOT, 'scripts', 'ops', 'rtk-word-sandbox-work-root.mjs')).href);
   const source = fs.readFileSync(PHYSICAL_CANARY_PATH, 'utf8');
   const formattingOnly = canary.deriveC5V2ReturnLanePlan({
     reviewGraphCounts: { textChanges: 0, commentThreads: 0, commentPlacements: 0, structuralChanges: 0 },
@@ -952,6 +953,24 @@ test('N3 physical canary invokes shipped formatting apply and persisted replay i
   assert.match(source, /invokeUiCommand\(win, 'cmd\.project\.review\.inspectFormattingReturnReplay'/u);
   assert.match(source, /formattingApplyResult\?\.replayVerified === true/u);
   assert.match(source, /formattingReplayInspection\?\.writerCalled !== true/u);
+  const wordWorkRoot = workRootHelper.resolveWordHostLocalQaWorkRoot({
+    defaultSegments: ['n3-contract-probe'],
+  });
+  assert.equal(wordWorkRoot.hostLocalGeneratedQaCache, true);
+  assert.equal(wordWorkRoot.userDocumentsTouched, false);
+  assert.equal(wordWorkRoot.evidenceMirrorRequired, true);
+  assert.equal(wordWorkRoot.root.includes(`${path.sep}Library${path.sep}Caches${path.sep}YalkenWordLab${path.sep}`), true);
+  assert.equal(wordWorkRoot.root.includes(`${path.sep}Documents${path.sep}`), false);
+  const wordScript = canary.buildWordScript({
+    sourcePath: '/generated-evidence/source.docx',
+    returnedPath: path.join(wordWorkRoot.root, 'returned.docx'),
+    artifactReturnedPath: '/generated-evidence/returned.docx',
+    ledger: { operations: [{ id: 'format-01', family: 'formatting', wordRange: { start: 0, end: 1 } }] },
+  });
+  assert.match(wordScript, /set yAccessibilityUiRequired to false/u);
+  assert.match(wordScript, /WORD_OBJECT_MODEL_PREFLIGHT_READY/u);
+  assert.match(wordScript, /EVIDENCE_MIRROR_VERIFIED/u);
+  assert.match(wordScript, /C5V2_EVIDENCE_MIRROR_HASH_MISMATCH/u);
   assert.deepEqual(canary.deriveC5V2ProductRouteGaps({
     ok: true,
     typedPendingLanes: {
@@ -961,6 +980,18 @@ test('N3 physical canary invokes shipped formatting apply and persisted replay i
       structural: 'NO_STRUCTURAL_CANDIDATE',
     },
   }), []);
+});
+
+test('N3 physical canary retains AX preflight only for native reply and state UI lanes', async () => {
+  const canary = await import(pathToFileURL(PHYSICAL_CANARY_PATH).href);
+  const wordScript = canary.buildWordScript({
+    sourcePath: '/generated-evidence/source.docx',
+    returnedPath: '/generated-word-work/returned.docx',
+    artifactReturnedPath: '/generated-evidence/returned.docx',
+    ledger: { operations: [{ id: 'reply-01', family: 'reply_attempt' }] },
+  });
+  assert.match(wordScript, /set yAccessibilityUiRequired to true/u);
+  assert.match(wordScript, /MACOS_ACCESSIBILITY_PREFLIGHT_READY/u);
 });
 
 test('N3 physical canary refuses mixed formatting mutation lanes without one atomic transaction', async () => {

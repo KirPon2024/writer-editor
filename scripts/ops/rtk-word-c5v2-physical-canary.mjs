@@ -11,6 +11,7 @@ import {
   buildC5V2MultilingualQaLayer,
   validateC5V2SemanticOracle,
 } from './rtk-word-c5v2-semantic-oracle.mjs';
+import { resolveWordHostLocalQaWorkRoot } from './rtk-word-sandbox-work-root.mjs';
 
 const require = createRequire(import.meta.url);
 const electronBinary = require('electron');
@@ -1761,8 +1762,11 @@ function wordOperationLines(ledger, returnedPath) {
   return lines.join('\n');
 }
 
-export function buildWordScript({ sourcePath, returnedPath, ledger }) {
+export function buildWordScript({ sourcePath, returnedPath, artifactReturnedPath = returnedPath, ledger }) {
   const expectedName = path.basename(returnedPath);
+  const requiresAccessibilityUi = ledger.operations.some((operation) => (
+    ['reply_attempt', 'state_attempt'].includes(operation.family)
+  ));
   return [
     'use scripting additions',
     'property yAxVisitedNodes : 0',
@@ -1776,39 +1780,63 @@ export function buildWordScript({ sourcePath, returnedPath, ledger }) {
     '      if (count of documents) > 0 then set yFrontDocument to full name of active document as text',
     '    end try',
     '  end tell',
-    '  delay 0.3',
+    '  set yUiEnabled to false',
+    '  set yProcessExists to false',
+    '  set yWordFrontmost to false',
+    '  set yWindowCount to 0',
+    '  set yAxQuerySucceeded to false',
+    '  set yAxMenuCount to 0',
+    '  set yAxWindowSubtreeCount to 0',
+    '  set yAxErrorNumber to 0',
+    '  set yAxErrorMessage to ""',
+    '  repeat with yAttempt from 1 to 40',
+    '    delay 0.25',
+    '    tell application "System Events"',
+    '      set yUiEnabled to UI elements enabled',
+    '      set yProcessExists to exists process "Microsoft Word"',
+    '      if yProcessExists then',
+    '        tell process "Microsoft Word"',
+    '          try',
+    '            set frontmost to true',
+    '            set yWordFrontmost to frontmost',
+    '            set yWindowCount to count of windows',
+    '            set yAxMenuCount to count of menu bar items of menu bar 1',
+    '            if yWindowCount > 0 then set yAxWindowSubtreeCount to count of UI elements of window 1',
+    '            set yAxQuerySucceeded to yAxMenuCount > 0',
+    '          on error yErrMsg number yErrNo',
+    '            set yAxErrorNumber to yErrNo',
+    '            set yAxErrorMessage to yErrMsg',
+    '          end try',
+    '        end tell',
+    '      end if',
+    '    end tell',
+    '    if yAxQuerySucceeded and yWordFrontmost and yWindowCount > 0 and yAxWindowSubtreeCount > 0 then exit repeat',
+    '  end repeat',
     '  tell application "System Events"',
-    '    set yUiEnabled to UI elements enabled',
-    '    set yProcessExists to exists process "Microsoft Word"',
-    '    set yWordFrontmost to false',
-    '    set yWindowCount to 0',
-    '    set yAxQuerySucceeded to false',
-    '    set yAxMenuCount to 0',
-    '    set yAxWindowSubtreeCount to 0',
-    '    set yAxErrorNumber to 0',
-    '    set yAxErrorMessage to ""',
-    '    if yProcessExists then',
-    '      tell process "Microsoft Word"',
-    '        try',
-    '          set yWordFrontmost to frontmost',
-    '          set yWindowCount to count of windows',
-    '          set yAxMenuCount to count of menu bar items of menu bar 1',
-    '          if yWindowCount > 0 then set yAxWindowSubtreeCount to count of UI elements of window 1',
-    '          set yAxQuerySucceeded to yAxMenuCount > 0',
-    '        on error yErrMsg number yErrNo',
-    '          set yAxErrorNumber to yErrNo',
-    '          set yAxErrorMessage to yErrMsg',
-    '        end try',
-    '      end tell',
-    '    end if',
     '    set yDiagnostics to "LEGACY_UI_ELEMENTS_ENABLED:" & yUiEnabled & ":PROCESS_EXISTS:" & yProcessExists & ":WORD_FRONTMOST:" & yWordFrontmost & ":WINDOW_COUNT:" & yWindowCount & ":AX_MENU_COUNT:" & yAxMenuCount & ":AX_WINDOW_SUBTREE_COUNT:" & yAxWindowSubtreeCount & ":AX_ERROR_NUMBER:" & yAxErrorNumber & ":AX_ERROR_MESSAGE:" & yAxErrorMessage & ":FRONT_DOCUMENT:" & yFrontDocument',
     '    if yProcessExists is false then return "MACOS_ACCESSIBILITY_WORD_PROCESS_MISSING|" & yDiagnostics',
+    '    if yWindowCount < 1 then return "MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE|" & yDiagnostics',
     '    if yAxQuerySucceeded is false then return "MACOS_ACCESSIBILITY_PERMISSION_REQUIRED|" & yDiagnostics',
     '    if yFrontDocument is not yExpectedFullName then return "MACOS_ACCESSIBILITY_FRONT_DOCUMENT_MISMATCH|" & yDiagnostics',
     '    if yWordFrontmost is false or yWindowCount < 1 or yAxWindowSubtreeCount < 1 then return "MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE|" & yDiagnostics',
     '    return "MACOS_ACCESSIBILITY_PREFLIGHT_READY|" & yDiagnostics',
     '  end tell',
     'end yMacosAccessibilityPreflight',
+    'on yWordObjectModelPreflight(yExpectedFullName)',
+    '  tell application "Microsoft Word"',
+    '    set yDocumentCount to count of documents',
+    '    set yWindowCount to count of windows',
+    '    set yFrontDocument to ""',
+    '    try',
+    '      if yDocumentCount > 0 then set yFrontDocument to full name of active document as text',
+    '    end try',
+    '  end tell',
+    '  set yDiagnostics to "DOCUMENT_COUNT:" & yDocumentCount & ":WINDOW_COUNT:" & yWindowCount & ":FRONT_DOCUMENT:" & yFrontDocument',
+    '  if yDocumentCount < 1 then return "WORD_OBJECT_MODEL_DOCUMENT_MISSING|" & yDiagnostics',
+    '  if yWindowCount < 1 then return "WORD_OBJECT_MODEL_WINDOW_UNAVAILABLE|" & yDiagnostics',
+    '  if yFrontDocument is not yExpectedFullName then return "WORD_OBJECT_MODEL_FRONT_DOCUMENT_MISMATCH|" & yDiagnostics',
+    '  return "WORD_OBJECT_MODEL_PREFLIGHT_READY|" & yDiagnostics',
+    'end yWordObjectModelPreflight',
     'on yCloseStaleExpectedDocuments(yExpectedPosixPath)',
     '  tell application "Microsoft Word"',
     '    repeat with yIndex from (count of documents) to 1 by -1',
@@ -2238,7 +2266,8 @@ export function buildWordScript({ sourcePath, returnedPath, ledger }) {
     `  set user initials to ${appleText('C5V2')}`,
     `  set ySourceFile to POSIX file ${appleText(sourcePath)} as alias`,
     `  set yReturnedPath to ${appleText(returnedPath)}`,
-    `  set yCheckpointPath to ${appleText(`${returnedPath}.phase.log`)}`,
+    `  set yArtifactReturnedPath to ${appleText(artifactReturnedPath)}`,
+    `  set yCheckpointPath to ${appleText(`${artifactReturnedPath}.phase.log`)}`,
     '  set my yOverallDeadline to (current date) + 180',
     '  my yResetCheckpoint(yCheckpointPath)',
     '  my yCheckpoint(yCheckpointPath, "CANARY_START", yReturnedPath)',
@@ -2252,13 +2281,19 @@ export function buildWordScript({ sourcePath, returnedPath, ledger }) {
     '  set yDoc to active document',
     '  set yDocWasOpened to true',
     '  my yCheckpoint(yCheckpointPath, "PREFLIGHT_BEFORE", yExpectedFullName)',
-    '  set yAccessibilityPreflight to my yMacosAccessibilityPreflight(yExpectedFullName)',
-    '  if yAccessibilityPreflight does not start with "MACOS_ACCESSIBILITY_PREFLIGHT_READY|" then error yAccessibilityPreflight number 9720',
+    `  set yAccessibilityUiRequired to ${requiresAccessibilityUi ? 'true' : 'false'}`,
+    '  if yAccessibilityUiRequired then',
+    '    set yAccessibilityPreflight to my yMacosAccessibilityPreflight(yExpectedFullName)',
+    '    if yAccessibilityPreflight does not start with "MACOS_ACCESSIBILITY_PREFLIGHT_READY|" then error yAccessibilityPreflight number 9720',
+    '  else',
+    '    set yAccessibilityPreflight to my yWordObjectModelPreflight(yExpectedFullName)',
+    '    if yAccessibilityPreflight does not start with "WORD_OBJECT_MODEL_PREFLIGHT_READY|" then error yAccessibilityPreflight number 9720',
+    '  end if',
     '  my yCheckpoint(yCheckpointPath, "PREFLIGHT_AFTER", yAccessibilityPreflight)',
     '  set remove personal information of yDoc to false',
     '  set remove date and time of yDoc to false',
     '  set show revisions of yDoc to true',
-    wordOperationLines(ledger, returnedPath),
+    wordOperationLines(ledger, artifactReturnedPath),
     '  save yDoc',
     '  my yCheckpoint(yCheckpointPath, "FINAL_SAVE_AFTER", "")',
     '  close yDoc saving yes',
@@ -2282,6 +2317,12 @@ export function buildWordScript({ sourcePath, returnedPath, ledger }) {
     '  my yCheckpoint(yCheckpointPath, "FINAL_SEMANTIC_READBACK", "REVISION_COUNT:" & yRevisionCount & ":COMMENT_COUNT:" & yCommentCount)',
     '  close yDoc saving no',
     '  set yDocWasOpened to false',
+    '  do shell script "/bin/cp " & quoted form of yReturnedPath & " " & quoted form of yArtifactReturnedPath',
+    '  do shell script "/bin/sync"',
+    '  set yWordWorkHash to word 1 of (do shell script "/usr/bin/shasum -a 256 " & quoted form of yReturnedPath)',
+    '  set yEvidenceHash to word 1 of (do shell script "/usr/bin/shasum -a 256 " & quoted form of yArtifactReturnedPath)',
+    '  if yWordWorkHash is not yEvidenceHash then error "C5V2_EVIDENCE_MIRROR_HASH_MISMATCH" number 9731',
+    '  my yCheckpoint(yCheckpointPath, "EVIDENCE_MIRROR_VERIFIED", yEvidenceHash)',
     '  set user name to oldUserName',
     '  set user initials to oldUserInitials',
     '  set display alerts to oldAlerts',
@@ -2594,6 +2635,9 @@ async function mainCumulative(options) {
   const runId = `${options.runPrefix}-${nowStamp()}`;
   const runDir = path.join(options.artifactRoot, runId);
   fs.mkdirSync(runDir, { recursive: true });
+  const wordWorkRoot = resolveWordHostLocalQaWorkRoot({
+    defaultSegments: ['c5v2-physical-canary', runId],
+  });
   const scenes = loadCanaryScenes({
     sceneCount: options.sceneCount,
     sceneStart: options.sceneStart,
@@ -2609,6 +2653,7 @@ async function mainCumulative(options) {
       roundDir,
       sourcePath: path.join(roundDir, 'c5v2-cumulative-source-fullmanuscript.docx'),
       returnedPath: path.join(roundDir, 'c5v2-cumulative-returned-word-native.docx'),
+      wordReturnedPath: path.join(wordWorkRoot.root, roundLabel, 'c5v2-cumulative-returned-word-native.docx'),
       returnedReadyPath: path.join(roundDir, 'c5v2-cumulative-returned-ready.json'),
       ledger: null,
     });
@@ -2618,6 +2663,7 @@ async function mainCumulative(options) {
       counts: options.counts,
       ledgerAuthority: 'DERIVE_FROM_CURRENT_PRODUCT_SCENE_FILES_AFTER_ROUND_EXPORT',
     }, null, 2)}\n`);
+    fs.mkdirSync(path.dirname(rounds.at(-1).wordReturnedPath), { recursive: true });
   }
   const wordVersion = shellValue('/usr/bin/osascript', ['-e', 'tell application "Microsoft Word" to return version as text'], { timeout: 30_000 });
   const electronResult = await runElectronCumulativeFullManuscriptRoundtrip({
@@ -2655,7 +2701,12 @@ async function mainCumulative(options) {
       round.ledger = ledger;
       fs.writeFileSync(path.join(round.roundDir, 'canary-ledger.json'), `${JSON.stringify(ledger, null, 2)}\n`);
       const wordOutput = await runAppleScript(
-        buildWordScript({ sourcePath: round.sourcePath, returnedPath: round.returnedPath, ledger }),
+        buildWordScript({
+          sourcePath: round.sourcePath,
+          returnedPath: round.wordReturnedPath,
+          artifactReturnedPath: round.returnedPath,
+          ledger,
+        }),
         path.join(round.roundDir, 'word-canary.applescript'),
       );
       fs.writeFileSync(path.join(round.roundDir, 'word-output.txt'), wordOutput, 'utf8');
@@ -2725,6 +2776,7 @@ async function mainCumulative(options) {
     headSha: shellValue('git', ['rev-parse', 'HEAD']),
     originMainSha: shellValue('git', ['rev-parse', 'origin/main']),
     wordVersion,
+    wordWorkRoot,
     sceneCount: scenes.length,
     roundCount,
     route: [
@@ -2837,6 +2889,10 @@ async function main() {
   const sourceDocxPath = path.join(runDir, 'c5v2-canary-source-fullmanuscript.docx');
   const returnedDocxPath = path.join(runDir, 'c5v2-canary-returned-word-native.docx');
   const returnedReadyPath = path.join(runDir, 'c5v2-canary-returned-ready.json');
+  const wordWorkRoot = resolveWordHostLocalQaWorkRoot({
+    defaultSegments: ['c5v2-physical-canary', runId],
+  });
+  const wordReturnedDocxPath = path.join(wordWorkRoot.root, 'c5v2-canary-returned-word-native.docx');
   const scenes = loadCanaryScenes({
     sceneCount: options.sceneCount,
     sceneStart: options.sceneStart,
@@ -2860,7 +2916,12 @@ async function main() {
       });
       fs.writeFileSync(path.join(runDir, 'canary-ledger.json'), `${JSON.stringify(ledger, null, 2)}\n`);
       return runAppleScript(
-        buildWordScript({ sourcePath: sourceDocxPath, returnedPath: returnedDocxPath, ledger }),
+        buildWordScript({
+          sourcePath: sourceDocxPath,
+          returnedPath: wordReturnedDocxPath,
+          artifactReturnedPath: returnedDocxPath,
+          ledger,
+        }),
         path.join(runDir, 'word-canary.applescript'),
       );
     },
@@ -2883,6 +2944,8 @@ async function main() {
     headSha: shellValue('git', ['rev-parse', 'HEAD']),
     originMainSha: shellValue('git', ['rev-parse', 'origin/main']),
     wordVersion,
+    wordWorkRoot,
+    wordReturnedDocxPath,
     route: [
       'real-yalken-full-manuscript-export-menu-command',
       'physical-word-open-edit-native-save',

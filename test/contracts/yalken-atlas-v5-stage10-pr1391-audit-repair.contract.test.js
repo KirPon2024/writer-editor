@@ -285,8 +285,13 @@ test('Stage10 R1-C: packaged review rail exposes visible lifecycle controls back
   ];
   assert.match(editorSource, /data-stage10-lifecycle-surface/u);
   assert.match(editorSource, /data-stage10-product-command/u);
-  assert.match(editorSource, /dispatchUiCommand\(commandId,\s*payload\)/u);
-  assert.match(editorSource, /buildStage10LifecyclePayload/u);
+  assert.match(editorSource, /dispatchUiCommand\(commandId,\s*request\.payload\)/u);
+  assert.match(editorSource, /buildStage10LifecycleCommandRequest/u);
+  assert.match(editorSource, /STAGE10_PRODUCT_STATE_QUERY_ID/u);
+  assert.match(editorSource, /latestExchangePacketId/u);
+  assert.match(editorSource, /pendingCollaboratorEvents/u);
+  assert.doesNotMatch(editorSource, /Stage-10 visible lifecycle packet/u);
+  assert.doesNotMatch(editorSource, /adapterKind:\s*'localFixture'/u);
   assert.match(editorSource, /Visible controls route through preload, main IPC, application bootstrap and the Command Kernel/u);
   for (const commandId of requiredCommands) {
     assert.match(editorSource, new RegExp(commandId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'u'));

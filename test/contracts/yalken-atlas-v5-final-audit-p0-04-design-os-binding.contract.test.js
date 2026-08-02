@@ -26,7 +26,8 @@ function clone(value) {
 
 test('P0 04: Atlas feature integration manifest binds product, command, projection and Design OS planes', async () => {
   const workspaceQueryRegistry = require('../../src/shared/workspaceQueryRegistry.cjs');
-  const productCommandRegistry = require('../../src/shared/productCommandRegistry.cjs');
+  const commandCatalog = await import(pathToFileURL(path.join(ROOT, 'src', 'renderer', 'commands', 'command-catalog.v1.mjs')).href);
+  const slotCatalog = await import(pathToFileURL(path.join(ROOT, 'src', 'renderer', 'design-os', 'atlasSlotCatalog.v1.mjs')).href);
   const {
     ATLAS_DESIGN_OS_BINDING_SOURCE,
     ATLAS_DESIGN_OS_SLOT_RESOLVER_ID,
@@ -58,9 +59,9 @@ test('P0 04: Atlas feature integration manifest binds product, command, projecti
 
   const result = resolveAtlasFeatureDesignOsSlots({
     manifest: YALKEN_ATLAS_FEATURE_INTEGRATION_MANIFEST_V1,
-    workspaceQueryIds: workspaceQueryRegistry.WORKSPACE_QUERY_IDS,
-    workspaceQueryIdSet: workspaceQueryRegistry.WORKSPACE_QUERY_ID_SET,
-    commandIds: productCommandRegistry.PRODUCT_COMMAND_IDS,
+    commandCatalog: commandCatalog.listCommandCatalog(),
+    providerCatalog: workspaceQueryRegistry.WORKSPACE_QUERY_RECORDS,
+    slotCatalog: slotCatalog.ATLAS_DESIGN_OS_SLOT_CATALOG_V1,
   });
 
   assert.equal(result.ok, true, JSON.stringify(result, null, 2));
@@ -86,19 +87,26 @@ test('P0 04: Atlas feature integration manifest binds product, command, projecti
 
 test('P0 04: Design OS slot resolver fails closed for bypass and drift cases', async () => {
   const workspaceQueryRegistry = require('../../src/shared/workspaceQueryRegistry.cjs');
-  const productCommandRegistry = require('../../src/shared/productCommandRegistry.cjs');
+  const commandCatalog = await import(pathToFileURL(path.join(ROOT, 'src', 'renderer', 'commands', 'command-catalog.v1.mjs')).href);
+  const slotCatalog = await import(pathToFileURL(path.join(ROOT, 'src', 'renderer', 'design-os', 'atlasSlotCatalog.v1.mjs')).href);
   const {
     YALKEN_ATLAS_FEATURE_INTEGRATION_MANIFEST_V1,
     resolveAtlasFeatureDesignOsSlots,
   } = await loadManifestModule();
+  const catalogs = {
+    commandCatalog: commandCatalog.listCommandCatalog(),
+    providerCatalog: workspaceQueryRegistry.WORKSPACE_QUERY_RECORDS,
+    slotCatalog: slotCatalog.ATLAS_DESIGN_OS_SLOT_CATALOG_V1,
+  };
+
+  assert.equal(resolveAtlasFeatureDesignOsSlots({}).reason, 'E_ATLAS_COMMAND_KERNEL_CATALOG_REQUIRED');
 
   const badProvider = clone(YALKEN_ATLAS_FEATURE_INTEGRATION_MANIFEST_V1);
   badProvider.surfaceManifests[0].providerId = 'query.atlasHardcodedBypass';
   assert.equal(
     resolveAtlasFeatureDesignOsSlots({
       manifest: badProvider,
-      workspaceQueryIdSet: workspaceQueryRegistry.WORKSPACE_QUERY_ID_SET,
-      commandIds: productCommandRegistry.PRODUCT_COMMAND_IDS,
+      ...catalogs,
     }).reason,
     'E_ATLAS_SURFACE_PROVIDER_NOT_IN_QUERY_REGISTRY',
   );
@@ -108,10 +116,9 @@ test('P0 04: Design OS slot resolver fails closed for bypass and drift cases', a
   assert.equal(
     resolveAtlasFeatureDesignOsSlots({
       manifest: badSlot,
-      workspaceQueryIdSet: workspaceQueryRegistry.WORKSPACE_QUERY_ID_SET,
-      commandIds: productCommandRegistry.PRODUCT_COMMAND_IDS,
+      ...catalogs,
     }).reason,
-    'E_ATLAS_SURFACE_SLOT_OUTSIDE_DESIGN_OS_ROUTE',
+    'E_ATLAS_SURFACE_SLOT_BINDING_UNRESOLVED',
   );
 
   const arbitraryAtlasPrefixedSlot = clone(YALKEN_ATLAS_FEATURE_INTEGRATION_MANIFEST_V1);
@@ -119,10 +126,9 @@ test('P0 04: Design OS slot resolver fails closed for bypass and drift cases', a
   assert.equal(
     resolveAtlasFeatureDesignOsSlots({
       manifest: arbitraryAtlasPrefixedSlot,
-      workspaceQueryIdSet: workspaceQueryRegistry.WORKSPACE_QUERY_ID_SET,
-      commandIds: productCommandRegistry.PRODUCT_COMMAND_IDS,
+      ...catalogs,
     }).reason,
-    'E_ATLAS_SURFACE_SLOT_OUTSIDE_DESIGN_OS_ROUTE',
+    'E_ATLAS_SURFACE_SLOT_BINDING_UNRESOLVED',
   );
 
   const badCommand = clone(YALKEN_ATLAS_FEATURE_INTEGRATION_MANIFEST_V1);
@@ -130,8 +136,7 @@ test('P0 04: Design OS slot resolver fails closed for bypass and drift cases', a
   assert.equal(
     resolveAtlasFeatureDesignOsSlots({
       manifest: badCommand,
-      workspaceQueryIdSet: workspaceQueryRegistry.WORKSPACE_QUERY_ID_SET,
-      commandIds: productCommandRegistry.PRODUCT_COMMAND_IDS,
+      ...catalogs,
     }).reason,
     'E_ATLAS_SURFACE_COMMAND_NOT_IN_COMMAND_KERNEL',
   );

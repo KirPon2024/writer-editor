@@ -407,6 +407,9 @@ function attachDomainEventsToCoreResult(previousState, command, result) {
   const nextStateHash = typeof result.stateHash === 'string' && result.stateHash.trim()
     ? result.stateHash
     : hashCoreState(result.state);
+  if (result.preserveDomainEvents === true && Array.isArray(result.events)) {
+    return { ...result, stateHash: nextStateHash, events: cloneJson(result.events) };
+  }
   return {
     ...result,
     events: emitCoreDomainEventsForCommandResult({
@@ -1399,13 +1402,92 @@ function applyManualMapTemplateApply(state, payload) {
   return ok(next);
 }
 
-function failManualMapPortabilityWrapperCommand(state, op) {
-  return fail(state, 'E_MANUAL_MAP_PORTABILITY_COMMAND_KERNEL_BRIDGE_REQUIRED', op, 'COMMAND_KERNEL_BRIDGE_REQUIRED', {
-    mutationApplied: false,
-    storageWritten: false,
-    directCoreMutation: false,
-    bridgeRequired: true,
-  });
+function applyManualMapExportIntent(state, payload, op, expectedFormat) {
+  const projectId = trimString(payload?.projectId);
+  const mapId = trimString(payload?.mapId);
+  const artifact = isPlainObject(payload?.artifact) ? payload.artifact : {};
+  const project = state.data.projects[projectId];
+  if (!project) return fail(state, 'E_CORE_PROJECT_NOT_FOUND', op, 'PROJECT_NOT_FOUND', { projectId });
+  const maps = normalizeManualMapData(project.manualMaps).maps;
+  if (!mapId || !isPlainObject(maps[mapId])) {
+    return fail(state, 'E_MANUAL_MAP_NOT_FOUND', op, 'MAP_NOT_FOUND', { projectId, mapId });
+  }
+  if (
+    artifact.schemaVersion !== 'manualMap.localArtifactIntent.v1'
+    || trimString(artifact.format) !== expectedFormat
+    || !/^[a-f0-9]{64}$/u.test(trimString(artifact.sha256))
+    || !Number.isSafeInteger(Number(artifact.byteLength))
+    || Number(artifact.byteLength) <= 0
+  ) {
+    return fail(state, 'E_MANUAL_MAP_EXPORT_ARTIFACT_INVALID', op, 'EXPORT_ARTIFACT_INTENT_INVALID');
+  }
+  return ok(state);
+}
+
+function applyManualMapImportPlan(state, payload) {
+  const op = CORE_COMMAND_IDS.MANUAL_MAP_IMPORT_JSON_REPEAT;
+  const projectId = trimString(payload?.projectId);
+  const plan = isPlainObject(payload?.importPlan) ? cloneJson(payload.importPlan) : null;
+  if (!projectId || !state.data.projects[projectId]) {
+    return fail(state, 'E_CORE_PROJECT_NOT_FOUND', op, 'PROJECT_NOT_FOUND', { projectId });
+  }
+  const planCore = plan ? cloneJson(plan) : null;
+  const planHash = trimString(planCore?.meta?.planHash);
+  if (planCore) delete planCore.meta;
+  if (
+    !plan
+    || plan.schemaVersion !== 'manualMap.jsonRepeatImportPlan.v1'
+    || plan.projectId !== projectId
+    || plan.commandAuthority !== 'CommandKernel'
+    || plan.directCoreMutation !== false
+    || plan.storageMutation !== false
+    || plan.networkMutation !== false
+    || !Array.isArray(plan.commands)
+    || plan.commands.length === 0
+    || plan.commands.length > 500
+    || !planHash
+    || planHash !== hashCanonicalValue(planCore)
+  ) {
+    return fail(state, 'E_MANUAL_MAP_IMPORT_PLAN_INVALID', op, 'MANUAL_MAP_IMPORT_PLAN_INVALID');
+  }
+  const allowedCommands = new Set([
+    CORE_COMMAND_IDS.MANUAL_MAP_CREATE,
+    CORE_COMMAND_IDS.MANUAL_MAP_NODE_ADD,
+    CORE_COMMAND_IDS.MANUAL_MAP_EDGE_ADD,
+    CORE_COMMAND_IDS.MANUAL_MAP_ATTACHMENT_ADD,
+    CORE_COMMAND_IDS.MANUAL_MAP_PORTAL_ADD,
+    CORE_COMMAND_IDS.MANUAL_MAP_TEMPLATE_APPLY,
+  ]);
+  let currentState = cloneJson(state);
+  const domainEvents = [];
+  for (let index = 0; index < plan.commands.length; index += 1) {
+    const planned = plan.commands[index];
+    if (
+      !isPlainObject(planned)
+      || !allowedCommands.has(planned.type)
+      || !isPlainObject(planned.payload)
+      || trimString(planned.payload.projectId) !== projectId
+    ) {
+      return fail(state, 'E_MANUAL_MAP_IMPORT_PLAN_COMMAND_INVALID', op, 'MANUAL_MAP_IMPORT_PLAN_COMMAND_INVALID', { index });
+    }
+    const applied = reduceCoreState(currentState, planned);
+    if (!applied.ok) {
+      return fail(state, 'E_MANUAL_MAP_IMPORT_PLAN_APPLY_FAILED', op, 'MANUAL_MAP_IMPORT_PLAN_APPLY_FAILED', {
+        index,
+        commandType: planned.type,
+        innerCode: applied.error?.code || '',
+      });
+    }
+    currentState = applied.state;
+    domainEvents.push(...applied.events);
+  }
+  return {
+    ok: true,
+    state: currentState,
+    stateHash: hashCoreState(currentState),
+    events: domainEvents,
+    preserveDomainEvents: true,
+  };
 }
 
 function applyAtlasEntityCreate(state, payload) {
@@ -2028,6 +2110,78 @@ function normalizeAtlasSavedQueryFilter(input) {
   };
 }
 
+const BCP47_GRANDFATHERED_TAGS = new Set([
+  'art-lojban', 'cel-gaulish', 'en-gb-oed', 'i-ami', 'i-bnn', 'i-default', 'i-enochian',
+  'i-hak', 'i-klingon', 'i-lux', 'i-mingo', 'i-navajo', 'i-pwn', 'i-tao', 'i-tay',
+  'i-tsu', 'no-bok', 'no-nyn', 'sgn-be-fr', 'sgn-be-nl', 'sgn-ch-de', 'zh-guoyu',
+  'zh-hakka', 'zh-min', 'zh-min-nan', 'zh-xiang',
+]);
+
+function isAlpha(value) {
+  return /^[a-z]+$/iu.test(value);
+}
+
+function isAlphaNumeric(value) {
+  return /^[a-z0-9]+$/iu.test(value);
+}
+
+function validBcp47Structure(raw) {
+  const lowered = raw.toLowerCase();
+  if (BCP47_GRANDFATHERED_TAGS.has(lowered)) return { ok: true, primaryLanguage: lowered.split('-')[0], privateUseOnly: false };
+  const parts = raw.split('-');
+  if (parts.some((part) => !part || part.length > 8 || !isAlphaNumeric(part))) return { ok: false };
+  if (parts[0].toLowerCase() === 'x') {
+    return parts.length > 1
+      ? { ok: true, primaryLanguage: 'x', privateUseOnly: true }
+      : { ok: false };
+  }
+  const language = parts[0];
+  if (!isAlpha(language) || language.length < 2 || language.length > 8) return { ok: false };
+  let index = 1;
+  if (language.length <= 3) {
+    let extlangCount = 0;
+    while (index < parts.length && parts[index].length === 3 && isAlpha(parts[index]) && extlangCount < 3) {
+      index += 1;
+      extlangCount += 1;
+    }
+  }
+  if (index < parts.length && parts[index].length === 4 && isAlpha(parts[index])) index += 1;
+  if (
+    index < parts.length
+    && ((parts[index].length === 2 && isAlpha(parts[index])) || (/^\d{3}$/u.test(parts[index])))
+  ) index += 1;
+  const variants = new Set();
+  while (index < parts.length) {
+    const part = parts[index];
+    const variant = (part.length >= 5 && part.length <= 8)
+      || (part.length === 4 && /^\d/u.test(part));
+    if (!variant) break;
+    const key = part.toLowerCase();
+    if (variants.has(key)) return { ok: false };
+    variants.add(key);
+    index += 1;
+  }
+  const extensionSingletons = new Set();
+  while (index < parts.length && parts[index].length === 1 && parts[index].toLowerCase() !== 'x') {
+    const singleton = parts[index].toLowerCase();
+    if (!/^[0-9a-wy-z]$/u.test(singleton) || extensionSingletons.has(singleton)) return { ok: false };
+    extensionSingletons.add(singleton);
+    index += 1;
+    const start = index;
+    while (index < parts.length && parts[index].length >= 2 && parts[index].length <= 8) index += 1;
+    if (index === start) return { ok: false };
+  }
+  if (index < parts.length && parts[index].toLowerCase() === 'x') {
+    index += 1;
+    const start = index;
+    while (index < parts.length && parts[index].length >= 1 && parts[index].length <= 8) index += 1;
+    if (index === start) return { ok: false };
+  }
+  return index === parts.length
+    ? { ok: true, primaryLanguage: language.toLowerCase(), privateUseOnly: false }
+    : { ok: false };
+}
+
 function normalizeAtlasLanguageCode(value) {
   const raw = trimString(value);
   if (!raw) {
@@ -2038,33 +2192,8 @@ function normalizeAtlasLanguageCode(value) {
       raw: typeof value === 'string' ? value : '',
     };
   }
-  try {
-    const locale = new Intl.Locale(raw);
-    const languageCode = locale.baseName;
-    if (!languageCode) {
-      return {
-        ok: false,
-        languageCode: '',
-        reason: 'LANGUAGE_TAG_INVALID',
-        raw,
-      };
-    }
-    if (languageCode === 'und' && raw !== 'und') {
-      return {
-        ok: false,
-        languageCode: '',
-        reason: 'LANGUAGE_TAG_UNDETERMINED_MUST_BE_EXPLICIT',
-        raw,
-      };
-    }
-    return {
-      ok: true,
-      languageCode,
-      reason: '',
-      raw,
-      undPolicy: languageCode === 'und' ? 'EXPLICIT_UNDETERMINED_AUTHOR_TAG' : 'DECLARED_BCP47_TAG',
-    };
-  } catch {
+  const admission = validBcp47Structure(raw);
+  if (!admission.ok) {
     return {
       ok: false,
       languageCode: '',
@@ -2072,6 +2201,26 @@ function normalizeAtlasLanguageCode(value) {
       raw,
     };
   }
+  let completeLanguageTag = raw;
+  if (!admission.privateUseOnly && !BCP47_GRANDFATHERED_TAGS.has(raw.toLowerCase())) {
+    try {
+      completeLanguageTag = new Intl.Locale(raw).toString();
+    } catch {
+      completeLanguageTag = raw;
+    }
+  }
+  return {
+    ok: true,
+    languageCode: completeLanguageTag,
+    reason: '',
+    raw,
+    undPolicy: admission.privateUseOnly
+      ? 'EXPLICIT_PRIVATE_USE_ONLY_AUTHOR_TAG'
+      : admission.primaryLanguage === 'und'
+        ? 'EXPLICIT_UNDETERMINED_AUTHOR_TAG'
+        : 'DECLARED_BCP47_TAG',
+    completeTagPreserved: true,
+  };
 }
 
 function normalizeAtlasLanguageTagScope(value) {
@@ -3776,13 +3925,13 @@ function reduceCoreStateWithoutDomainEvents(state, command, type) {
     return applyManualMapTemplateApply(state, command.payload || {});
   }
   if (type === CORE_COMMAND_IDS.MANUAL_MAP_EXPORT_JSON) {
-    return failManualMapPortabilityWrapperCommand(state, CORE_COMMAND_IDS.MANUAL_MAP_EXPORT_JSON);
+    return applyManualMapExportIntent(state, command.payload || {}, CORE_COMMAND_IDS.MANUAL_MAP_EXPORT_JSON, 'json');
   }
   if (type === CORE_COMMAND_IDS.MANUAL_MAP_EXPORT_IMAGE_PDF) {
-    return failManualMapPortabilityWrapperCommand(state, CORE_COMMAND_IDS.MANUAL_MAP_EXPORT_IMAGE_PDF);
+    return applyManualMapExportIntent(state, command.payload || {}, CORE_COMMAND_IDS.MANUAL_MAP_EXPORT_IMAGE_PDF, 'svg');
   }
   if (type === CORE_COMMAND_IDS.MANUAL_MAP_IMPORT_JSON_REPEAT) {
-    return failManualMapPortabilityWrapperCommand(state, CORE_COMMAND_IDS.MANUAL_MAP_IMPORT_JSON_REPEAT);
+    return applyManualMapImportPlan(state, command.payload || {});
   }
 
   return fail(state, 'E_CORE_COMMAND_NOT_FOUND', type || 'unknown', 'COMMAND_NOT_FOUND', { type });

@@ -24,11 +24,15 @@ test('P0 05: Manual Map portability commands are registry, Core and Design OS bo
   const workspaceQueryRegistry = require(path.join(REPO_ROOT, 'src', 'shared', 'workspaceQueryRegistry.cjs'));
   const runtime = await importModule('src/core/runtime.mjs');
   const designOs = await importModule('src/renderer/design-os/atlasFeatureIntegrationManifest.mjs');
+  const commandCatalog = await importModule('src/renderer/commands/command-catalog.v1.mjs');
+  const slotCatalog = await importModule('src/renderer/design-os/atlasSlotCatalog.v1.mjs');
   const typedRegistrySource = readText('src/core/registry.ts');
   const binding = JSON.parse(readText('docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json'));
   const bindingMap = new Map(binding.items.map((row) => [row.commandId, row.capabilityId]));
   const resolved = designOs.resolveAtlasFeatureDesignOsSlots({
-    workspaceQueryIds: workspaceQueryRegistry.WORKSPACE_QUERY_IDS,
+    commandCatalog: commandCatalog.listCommandCatalog(),
+    providerCatalog: workspaceQueryRegistry.WORKSPACE_QUERY_RECORDS,
+    slotCatalog: slotCatalog.ATLAS_DESIGN_OS_SLOT_CATALOG_V1,
   });
   const manualMap = resolved.bindings.find((item) => item.surfaceKey === 'manualMap');
 
@@ -46,18 +50,13 @@ test('P0 05: Manual Map portability commands are registry, Core and Design OS bo
   }
 });
 
-test('P0 05: main bridge handles portability through Command Kernel without storage bypass', () => {
+test('P0 05: main bridge routes real local-file portability through Stage10 transaction authority', () => {
   const mainSource = readText('src/main.js');
   const bridgeStart = mainSource.indexOf('async function dispatchProductCommandBridge');
   const bridgeEnd = mainSource.indexOf('function buildFontSubmenu', bridgeStart);
-  const importStart = mainSource.indexOf('async function handleManualMapImportJsonRepeatProductCommand');
-  const importEnd = mainSource.indexOf('async function dispatchManualMapPortabilityProductCommand', importStart);
   assert.notEqual(bridgeStart, -1);
   assert.notEqual(bridgeEnd, -1);
-  assert.notEqual(importStart, -1);
-  assert.notEqual(importEnd, -1);
   const bridgeSource = mainSource.slice(bridgeStart, bridgeEnd);
-  const importSource = mainSource.slice(importStart, importEnd);
 
   assert.match(mainSource, /function loadManualMapExportModule/u);
   assert.match(mainSource, /function loadManualMapImportModule/u);
@@ -67,21 +66,27 @@ test('P0 05: main bridge handles portability through Command Kernel without stor
   assert.match(mainSource, /manualMap\.productQueryLayoutSchedulerProof\.v1/u);
   assert.match(mainSource, /staleResultDiscard:\s*true/u);
   assert.match(mainSource, /resourceBudgetProof/u);
-  assert.match(mainSource, /handleManualMapExportJsonProductCommand/u);
+  assert.match(mainSource, /prepareManualMapPortabilityCommand/u);
+  assert.match(mainSource, /showOpenDialogWithAutonomousPath/u);
+  assert.match(mainSource, /showSaveDialogWithAutonomousPath/u);
+  assert.match(mainSource, /readExternalFileBounded/u);
+  assert.match(mainSource, /new TextDecoder\('utf-8', \{ fatal: true \}\)/u);
+  assert.match(mainSource, /E_MANUAL_MAP_IMPORT_UTF8_INVALID/u);
+  assert.match(mainSource, /validateExternalWriteTarget/u);
   assert.match(mainSource, /serializeManualMapExportJsonV1WithLossReport/u);
-  assert.match(mainSource, /handleManualMapExportImagePdfProductCommand/u);
   assert.match(mainSource, /buildManualMapImagePdfExportEvidence/u);
-  assert.match(mainSource, /MANUAL_MAP_PDF_BINARY_ADAPTER_NOT_ACTIVE/u);
-  assert.match(mainSource, /handleManualMapImportJsonRepeatProductCommand/u);
-  assert.match(mainSource, /applyManualMapJsonRepeatImportViaCommandKernel/u);
-  assert.match(mainSource, /assertProductCommandManifestUnchanged\(binding, manifestHashBefore, commandId, record\)/u);
-  assert.match(mainSource, /persistProjectManifestAtPath\(binding\.manifestPath, nextManifest, `product command \$\{commandId\}`\)/u);
+  assert.match(mainSource, /E_MANUAL_MAP_PDF_BINARY_ADAPTER_UNAVAILABLE/u);
+  assert.match(mainSource, /buildManualMapJsonRepeatImportPlan/u);
+  assert.match(mainSource, /yalken\.stage10\.externalArtifactMutation\.v1/u);
+  assert.match(mainSource, /externalArtifactMutation:\s*portability\?\.externalArtifactMutation/u);
   assert.match(bridgeSource, /evaluateCommandCapabilityAuthority/u);
-  assert.match(bridgeSource, /dispatchManualMapPortabilityProductCommand/u);
+  assert.match(bridgeSource, /activeStage10ApplicationCommandRoute\.dispatch/u);
   assert.doesNotMatch(bridgeSource, /async function dispatchProductCommandBridgeTransaction/u);
-  assert.match(mainSource, /manualMap\.export\.json[\s\S]{0,1400}mutationApplied:\s*false[\s\S]{0,800}storageWritten:\s*false/u);
-  assert.match(importSource, /mutationApplied:\s*true/u);
-  assert.match(importSource, /storageWritten:\s*true/u);
+  assert.doesNotMatch(mainSource, /handleManualMapExportJsonProductCommand/u);
+  assert.doesNotMatch(mainSource, /handleManualMapExportImagePdfProductCommand/u);
+  assert.doesNotMatch(mainSource, /handleManualMapImportJsonRepeatProductCommand/u);
+  assert.doesNotMatch(mainSource, /dispatchManualMapPortabilityProductCommand/u);
+  assert.doesNotMatch(mainSource, /applyManualMapJsonRepeatImportViaCommandKernel/u);
   assert.doesNotMatch(mainSource, /ipcMain\.handle\(['"]manualMap\./u);
 });
 
@@ -93,11 +98,12 @@ test('P0 05: renderer exposes visible portability controls without importing ser
   }
   assert.match(rendererSource, /dataset\.manualMapPortabilityAction = 'export-json'/u);
   assert.match(rendererSource, /dataset\.manualMapPortabilityAction = 'export-image-pdf'/u);
-  assert.match(rendererSource, /Import exported copy/u);
-  assert.match(rendererSource, /manualMapPortabilityCommandState\.exportJson/u);
+  assert.match(rendererSource, /Import JSON file/u);
+  assert.match(rendererSource, /Export SVG/u);
+  assert.match(rendererSource, /manualMapPortabilityCommandState\.exportJsonSha256/u);
   assert.match(rendererSource, /risk:\s*'structural'/u);
-  assert.match(rendererSource, /Export JSON first/u);
   assert.match(rendererSource, /dataset\.manualMapPortabilityCommandState/u);
+  assert.doesNotMatch(rendererSource, /manualMapPortabilityCommandState\.exportJson\b/u);
   assert.doesNotMatch(rendererSource, /serializeManualMapExportJsonV1/u);
   assert.doesNotMatch(rendererSource, /applyManualMapJsonRepeatImportViaCommandKernel/u);
 });
@@ -105,9 +111,10 @@ test('P0 05: renderer exposes visible portability controls without importing ser
 test('P0 05: physical runner requires visible export/import and honest typed PDF loss', () => {
   const runnerSource = readText('scripts/ops/yalken-atlas-v5-r3-c03-manual-map-attachments-portals-templates.mjs');
 
-  assert.match(runnerSource, /Export image\/PDF packet/u);
+  assert.match(runnerSource, /Export SVG/u);
   assert.match(runnerSource, /Export JSON/u);
-  assert.match(runnerSource, /Import exported copy/u);
+  assert.match(runnerSource, /Import JSON file/u);
+  assert.match(runnerSource, /YALKEN_AUTONOMOUS_FILE_DIALOG_OPEN_MANUAL_MAP_JSON/u);
   assert.match(runnerSource, /data-manual-map-portability-command-state/u);
   assert.match(runnerSource, /visiblePortabilityCommands/u);
   assert.match(runnerSource, /visibleCommandPathExportImport/u);

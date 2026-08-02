@@ -42,9 +42,16 @@ import {
   createStage10IntegrityAnchor,
   validateStage10IntegrityAnchor,
 } from './stage10IntegrityAnchor.mjs';
+import {
+  createStage10RecoveryProvenance,
+  createStage10RecoverySnapshot,
+  validateStage10RecoveryProvenance,
+  validateStage10RecoverySnapshot,
+} from './stage10RecoverySnapshot.mjs';
 
 export const STAGE10_PRODUCT_SESSION_SCHEMA = 'yalken.stage10.localProductSession.v2';
 export const STAGE10_PRODUCT_SURFACE_SCHEMA = 'yalken.stage10.localProductSurface.v1';
+export const STAGE10_PROJECT_TRUTH_RECOVERY_COMMAND_ID = 'system.projectTruth.recover';
 export {
   STAGE10_COMMAND_RECEIPT_AUTHORITY_HEAD_SCHEMA,
   STAGE10_COMMAND_RECEIPT_AUTHORITY_STORE_SCHEMA,
@@ -111,6 +118,7 @@ function createDefaultSession(input = {}) {
   return {
     schemaVersion: STAGE10_PRODUCT_SESSION_SCHEMA,
     projectId,
+    lifecycleId: normalizeString(input.lifecycleId) || `stage10-lifecycle:${projectId}`,
     actorId: normalizeString(input.actorId) || 'local-author',
     sessionId: normalizeString(input.sessionId) || 'stage10-local-session',
     coreState: isPlainObject(input.initialCoreState) ? cloneJson(input.initialCoreState) : createInitialCoreState(),
@@ -396,6 +404,8 @@ async function commitCommandState({ session, authorityState, persistencePort, re
     {
       reason,
       expectedPreviousIntegrityAnchorDigest: authorityState.integrityAnchor.integrityAnchorDigest,
+      expectedPreviousAuthorityHeadDigest: authorityState.store.currentHead.authorityHeadDigest,
+      expectedPreviousRevision: authorityState.revision,
       projectTruthMutation,
     },
   ));
@@ -406,39 +416,62 @@ async function commitCommandState({ session, authorityState, persistencePort, re
   authorityState.store = verified.authorityStore;
   authorityState.integrityAnchor = verified.integrityAnchor;
   authorityState.previousIntegrityAnchor = verified.previousIntegrityAnchor;
+  authorityState.revision = verified.session.eventLog.events.length;
   return verified;
 }
 
-async function writeRecoverySnapshot(session, persistencePort, snapshotId, reason) {
-  const snapshot = {
-    schemaVersion: 'yalken.stage10.recoverySnapshot.v1',
+async function writeRecoverySnapshot(session, persistencePort, authorityState, snapshotId, reason, createdAtUtc) {
+  const snapshot = createStage10RecoverySnapshot({
     snapshotId,
     reason,
-    sessionId: session.sessionId,
-    projectId: session.projectId,
-    stateHash: hashCoreState(session.coreState),
-    eventLogHash: hashEventLog(session.eventLog),
-    session: cloneJson(session),
-  };
+    createdAtUtc,
+    session,
+    authorityStore: authorityState.store,
+    integrityAnchor: authorityState.integrityAnchor,
+  });
   const writeResult = await maybeAwait(persistencePort.writeRecoverySnapshot(session.projectId, snapshotId, snapshot, { reason }));
   if (writeResult?.ok !== true || writeResult.readbackVerified !== true) {
     throw typedError('E_STAGE10_RECOVERY_WRITE_FAILED', 'stage10.productWiring.recovery', 'RECOVERY_SNAPSHOT_WRITE_NOT_ACKNOWLEDGED');
   }
   const readback = await maybeAwait(persistencePort.readRecoverySnapshot(session.projectId, snapshotId));
-  if (hashCanonicalValue(readback) !== hashCanonicalValue(snapshot)) {
+  const validation = validateStage10RecoverySnapshot(readback, {
+    projectId: session.projectId,
+    lifecycleId: session.lifecycleId,
+    currentSession: session,
+    currentAuthorityStore: authorityState.store,
+    currentIntegrityAnchor: authorityState.integrityAnchor,
+    requireCurrent: true,
+  });
+  if (!validation.ok || hashCanonicalValue(readback) !== hashCanonicalValue(snapshot)) {
     throw typedError('E_STAGE10_RECOVERY_READBACK_MISMATCH', 'stage10.productWiring.recovery', 'RECOVERY_SNAPSHOT_READBACK_MISMATCH');
   }
   const ref = {
     snapshotId,
-    sessionId: session.sessionId,
-    stateHash: snapshot.stateHash,
-    eventLogHash: snapshot.eventLogHash,
-    createdAtUtc: new Date(0).toISOString(),
+    lifecycleId: session.lifecycleId,
+    currentRevision: snapshot.currentRevision,
+    authorityHeadDigest: snapshot.authority.authorityHeadDigest,
+    stateHash: snapshot.provenance.stateHash,
+    eventLogHash: snapshot.provenance.eventLogDigest,
+    snapshotDigest: snapshot.snapshotDigest,
+    createdAtUtc,
     readableRecovery: true,
     destructiveRewrite: false,
   };
   session.recoverySnapshotRefs.push(ref);
   return { snapshot, ref };
+}
+
+async function readValidatedRecoverySnapshot({ session, persistencePort, authorityState, snapshotId }) {
+  const snapshot = await maybeAwait(persistencePort.readRecoverySnapshot(session.projectId, snapshotId));
+  const validation = validateStage10RecoverySnapshot(snapshot, {
+    projectId: session.projectId,
+    lifecycleId: session.lifecycleId,
+    currentSession: session,
+    currentAuthorityStore: authorityState.store,
+    requireCurrent: false,
+  });
+  if (!validation.ok) return validation;
+  return { ok: true, snapshot: validation.snapshot };
 }
 
 function deriveViews(session, capabilitySnapshot, authorityStore) {
@@ -521,27 +554,47 @@ function isCoreCommand(commandId) {
 
 function applyStage10ReplayCommand(state, command) {
   if (isCoreCommand(command?.type)) {
+    const recoveryProvenance = command.event?.operationEnvelope?.recoveryProvenance;
+    if (recoveryProvenance !== undefined) {
+      const validation = validateStage10RecoveryProvenance(recoveryProvenance, {
+        projectId: command.event?.operationEnvelope?.projectId,
+        lifecycleId: command.event?.operationEnvelope?.lifecycleId,
+      });
+      if (!validation.ok) {
+        return {
+          ok: false,
+          state,
+          stateHash: hashCoreState(state),
+          error: validation.error,
+          events: [],
+        };
+      }
+      return reduceCoreState(validation.provenance.coreState, command);
+    }
     return reduceCoreState(state, command);
   }
-  if (command?.type === STAGE10_PRODUCT_COMMAND_IDS.HISTORY_RESTORE_APPLY) {
-    const restoredCoreState = command.payload?.restoredCoreState;
-    if (!isPlainObject(restoredCoreState)) {
+  if (
+    command?.type === STAGE10_PROJECT_TRUTH_RECOVERY_COMMAND_ID
+    || command?.type === STAGE10_PRODUCT_COMMAND_IDS.HISTORY_RESTORE_APPLY
+    || command?.type === STAGE10_PRODUCT_COMMAND_IDS.HISTORY_RESTORE_UNDO
+  ) {
+    const provenanceValidation = validateStage10RecoveryProvenance(command.payload?.recoveryProvenance, {
+      projectId: command.event?.operationEnvelope?.projectId,
+      lifecycleId: command.event?.operationEnvelope?.lifecycleId,
+    });
+    if (!provenanceValidation.ok) {
       return {
         ok: false,
         state,
         stateHash: hashCoreState(state),
-        error: typedError(
-          'E_STAGE10_REPLAY_RESTORE_STATE_REQUIRED',
-          command.type,
-          'RESTORE_REPLAY_RESTORED_CORE_STATE_REQUIRED',
-        ),
+        error: provenanceValidation.error,
         events: [],
       };
     }
     return {
       ok: true,
-      state: cloneJson(restoredCoreState),
-      stateHash: hashCoreState(restoredCoreState),
+      state: cloneJson(provenanceValidation.provenance.coreState),
+      stateHash: provenanceValidation.provenance.stateHash,
       events: [],
     };
   }
@@ -586,68 +639,65 @@ function updateCommentDecisionRows(packet, payload) {
   };
 }
 
-function linkCanonicalProjectTruth({ session, authorityState, canonicalCoreState, commandId, opId, ts }) {
-  const preStateHash = hashCoreState(session.coreState);
-  const canonicalStateHash = hashCoreState(canonicalCoreState);
-  if (preStateHash === canonicalStateHash) return null;
-  const linkOpId = `stage10:truth-link:${hashCanonicalValue({ opId, preStateHash, canonicalStateHash }).slice(0, 32)}`;
-  const linkPreflight = preflightCommandReceiptIdentity({
-    store: authorityState.store,
+function appendRecoveryCompensation({
+  session,
+  authorityState,
+  commandId,
+  opId,
+  ts,
+  targetCoreState,
+  sourceHash,
+  sourceRevision,
+  provenanceKind,
+  dependencies = [],
+  context = {},
+}) {
+  const currentRevision = session.eventLog.events.length;
+  const authorityHeadDigest = normalizeString(authorityState.store.currentHead?.authorityHeadDigest);
+  const recoveryProvenance = createStage10RecoveryProvenance({
     projectId: session.projectId,
-    eventLog: session.eventLog,
-    operationId: linkOpId,
-    receiptId: linkOpId,
+    lifecycleId: session.lifecycleId,
+    coreState: targetCoreState,
+    currentRevision,
+    authorityHeadDigest,
+    sourceHash,
+    sourceRevision,
+    provenanceKind,
   });
-  if (!linkPreflight.ok) throw linkPreflight.error;
-  const domainEventPort = createCoreDomainEventProductPort();
-  const domainEvents = [];
-  const domainEventDigest = domainEventPort.hashCoreDomainEvents(domainEvents);
-  const append = appendEventLogEntry({
-    eventLog: session.eventLog,
-    entry: {
-      opId: linkOpId,
-      ts,
-      actorId: session.actorId,
-      commandId: 'system.projectTruth.link',
-      payloadHash: hashCanonicalValue({
-        projectId: session.projectId,
-        causedByCommandId: commandId,
-        sourceRevision: Number(canonicalCoreState?.data?.lastCommandId || 0),
-      }),
-      preStateHash,
-      postStateHash: canonicalStateHash,
-      domainEvents,
-      domainEventDigest,
-    },
-    domainEventPort,
+  const validation = validateStage10RecoveryProvenance(recoveryProvenance, {
+    projectId: session.projectId,
+    lifecycleId: session.lifecycleId,
+    currentRevision,
+    authorityHeadDigest,
   });
-  if (!append.ok) throw append.error;
-  session.coreState = cloneJson(canonicalCoreState);
-  session.eventLog = append.eventLog;
-  const receipt = createReceipt({
-    session,
-    commandId: 'system.projectTruth.link',
-    opId: linkOpId,
+  if (!validation.ok) return validation;
+  const payload = {
+    projectId: session.projectId,
+    ...cloneJson(context),
+    recoveryProvenance,
+  };
+  const applied = applyCommandWithEventLog({
+    eventLog: session.eventLog,
+    currentState: session.coreState,
+    currentStateHash: hashCoreState(session.coreState),
+    domainEventPort: createCoreDomainEventProductPort(),
+    commandId,
+    payload,
+    opId,
+    eventId: opId,
     ts,
-    status: 'APPLIED',
-    activation: {
-      mode: STAGE10_ACTIVATION_MODES.DOM_VISIBLE_CONTROL_LISTENER_FALLBACK,
-      controlId: 'stage10-main-project-truth-port',
-      visibleControl: false,
-    },
-    preStateHash,
-    postStateHash: canonicalStateHash,
-    storageWritten: true,
-    details: {
-      canonicalTruthLink: true,
-      causedByCommandId: commandId,
-      projectTruthMutation: false,
-      sourceRevision: Number(canonicalCoreState?.data?.lastCommandId || 0),
-      domainEvents,
-      domainEventDigest,
-    },
+    actorId: session.actorId,
+    sessionId: session.sessionId,
+    projectId: session.projectId,
+    lifecycleId: session.lifecycleId,
+    dependencies,
+    targets: [{ targetKind: 'project', targetId: session.projectId }],
+    applyCommand: applyStage10ReplayCommand,
   });
-  return receipt;
+  if (!applied.ok) return applied;
+  session.coreState = applied.state;
+  session.eventLog = applied.eventLog;
+  return { ok: true, applied, recoveryProvenance, payload };
 }
 
 async function dispatchCoreCommand({
@@ -662,10 +712,20 @@ async function dispatchCoreCommand({
   canonicalProjectTruth,
 }) {
   let projectTruthMutation = null;
-  let commandInputState = session.coreState;
-  let canonicalTruthLink = null;
+  let canonicalRecoveryProvenance = null;
   if (isPlainObject(canonicalProjectTruth)) {
-    if (!isPlainObject(canonicalProjectTruth.coreState) || typeof canonicalProjectTruth.prepareMutation !== 'function') {
+    const canonicalProjectId = normalizeString(canonicalProjectTruth.projectId) || session.projectId;
+    const canonicalSourceHash = normalizeString(canonicalProjectTruth.sourceHash)
+      || (isPlainObject(canonicalProjectTruth.coreState) ? hashCoreState(canonicalProjectTruth.coreState) : '');
+    const canonicalSourceRevision = canonicalProjectTruth.sourceRevision
+      ?? canonicalProjectTruth.coreState?.data?.lastCommandId
+      ?? session.eventLog.events.length;
+    if (
+      !isPlainObject(canonicalProjectTruth.coreState)
+      || typeof canonicalProjectTruth.prepareMutation !== 'function'
+      || canonicalProjectId !== session.projectId
+      || !canonicalSourceHash
+    ) {
       return {
         ok: false,
         error: typedError(
@@ -678,20 +738,29 @@ async function dispatchCoreCommand({
     const sessionStateHash = hashCoreState(session.coreState);
     const canonicalStateHash = hashCoreState(canonicalProjectTruth.coreState);
     if (sessionStateHash !== canonicalStateHash) {
-      canonicalTruthLink = {
-        schemaVersion: 'yalken.stage10.canonicalTruthLink.v1',
+      canonicalRecoveryProvenance = createStage10RecoveryProvenance({
         projectId: session.projectId,
-        stateHash: canonicalStateHash,
-        coreState: cloneJson(canonicalProjectTruth.coreState),
-        linkedByCommandId: commandId,
-      };
-      commandInputState = cloneJson(canonicalProjectTruth.coreState);
+        lifecycleId: session.lifecycleId,
+        coreState: canonicalProjectTruth.coreState,
+        currentRevision: session.eventLog.events.length,
+        authorityHeadDigest: authorityState.store.currentHead.authorityHeadDigest,
+        sourceHash: canonicalSourceHash,
+        sourceRevision: canonicalSourceRevision,
+        provenanceKind: 'CANONICAL_PROJECT_TRUTH_COMPENSATION',
+      });
+      const validation = validateStage10RecoveryProvenance(canonicalRecoveryProvenance, {
+        projectId: session.projectId,
+        lifecycleId: session.lifecycleId,
+        currentRevision: session.eventLog.events.length,
+        authorityHeadDigest: authorityState.store.currentHead.authorityHeadDigest,
+      });
+      if (!validation.ok) return validation;
     }
   }
   const preStateHash = hashCoreState(session.coreState);
   const applied = applyCommandWithEventLog({
     eventLog: session.eventLog,
-    currentState: commandInputState,
+    currentState: session.coreState,
     currentStateHash: preStateHash,
     domainEventPort: createCoreDomainEventProductPort(),
     commandId,
@@ -700,8 +769,13 @@ async function dispatchCoreCommand({
     ts,
     actorId: session.actorId,
     sessionId: session.sessionId,
-    canonicalTruthLink,
-    applyCommand: (state, command) => reduceCoreState(state, command),
+    projectId: session.projectId,
+    lifecycleId: session.lifecycleId,
+    recoveryProvenance: canonicalRecoveryProvenance,
+    applyCommand: (state, command) => reduceCoreState(
+      canonicalRecoveryProvenance ? canonicalRecoveryProvenance.coreState : state,
+      command,
+    ),
   });
   if (!applied.ok) return applied;
 
@@ -746,7 +820,8 @@ async function dispatchCoreCommand({
       projectTruthMutation: true,
       commandKernel: true,
       canonicalProjectTruthPort: isPlainObject(canonicalProjectTruth),
-      canonicalTruthLink: Boolean(canonicalTruthLink),
+      canonicalRecoveryApplied: Boolean(canonicalRecoveryProvenance),
+      recoveryProvenanceDigest: canonicalRecoveryProvenance?.provenanceDigest || '',
     },
   });
   await commitCommandState({
@@ -760,7 +835,11 @@ async function dispatchCoreCommand({
   return {
     ok: true,
     receipt,
-    canonicalTruthLinkReceipt: null,
+    canonicalRecoveryProvenance: canonicalRecoveryProvenance ? {
+      provenanceDigest: canonicalRecoveryProvenance.provenanceDigest,
+      sourceHash: canonicalRecoveryProvenance.sourceHash,
+      sourceRevision: canonicalRecoveryProvenance.sourceRevision,
+    } : null,
     session: cloneJson(session),
   };
 }
@@ -844,7 +923,7 @@ async function dispatchCommentDecision({ session, persistencePort, authorityStat
 
 async function dispatchHistoryCheckpoint({ session, persistencePort, authorityState, commandId, payload, activation, opId, ts }) {
   const snapshotId = normalizeString(payload.snapshotId) || `history-checkpoint-${opId}`;
-  const { ref } = await writeRecoverySnapshot(session, persistencePort, snapshotId, commandId);
+  const { ref } = await writeRecoverySnapshot(session, persistencePort, authorityState, snapshotId, commandId, ts);
   session.historyCheckpoints[snapshotId] = {
     snapshotId,
     createdByCommandReceiptId: opId,
@@ -873,13 +952,14 @@ async function dispatchHistoryCheckpoint({ session, persistencePort, authoritySt
 
 async function dispatchHistoryRestorePreview({ session, persistencePort, authorityState, commandId, payload, activation, opId, ts }) {
   const snapshotId = normalizeString(payload.snapshotId);
-  const snapshot = await maybeAwait(persistencePort.readRecoverySnapshot(session.projectId, snapshotId));
-  if (!isPlainObject(snapshot) || !isPlainObject(snapshot.session)) {
+  const snapshotResult = await readValidatedRecoverySnapshot({ session, persistencePort, authorityState, snapshotId });
+  if (!snapshotResult.ok) {
     return {
       ok: false,
-      error: typedError('E_STAGE10_HISTORY_SNAPSHOT_NOT_FOUND', commandId, 'HISTORY_SNAPSHOT_NOT_FOUND', { snapshotId }),
+      error: snapshotResult.error,
     };
   }
+  const snapshot = snapshotResult.snapshot;
   const previewId = `history-restore-preview:${hashCanonicalValue({ opId, snapshotId }).slice(0, 24)}`;
   const currentStateHash = hashCoreState(session.coreState);
   const targetStateHash = hashCoreState(snapshot.session.coreState);
@@ -888,6 +968,8 @@ async function dispatchHistoryRestorePreview({ session, persistencePort, authori
     snapshotId,
     currentStateHash,
     targetStateHash,
+    snapshotDigest: snapshot.snapshotDigest,
+    targetRevision: snapshot.currentRevision,
     requiresConfirmation: true,
     mutationApplied: false,
   };
@@ -939,54 +1021,49 @@ async function dispatchHistoryRestoreApply({ session, persistencePort, authority
     };
   }
   const undoSnapshotId = `history-restore-undo-${hashCanonicalValue({ opId, currentStateHash }).slice(0, 16)}`;
-  await writeRecoverySnapshot(session, persistencePort, undoSnapshotId, 'cmd.project.history.restoreApply.preimage');
-  const targetSnapshot = await maybeAwait(persistencePort.readRecoverySnapshot(session.projectId, preview.snapshotId));
-  const restoredSession = normalizeSession(targetSnapshot.session);
-  session.historyRestoreUndoSnapshots[previewId] = { previewId, snapshotId: undoSnapshotId };
-  const restoredCoreState = cloneJson(restoredSession.coreState);
-  const postStateHash = hashCoreState(restoredCoreState);
-  const domainEventPort = createCoreDomainEventProductPort();
-  const restorePayload = {
-    projectId: session.projectId,
-    previewId,
-    snapshotId: preview.snapshotId,
+  await writeRecoverySnapshot(
+    session,
+    persistencePort,
+    authorityState,
     undoSnapshotId,
-    restoredStateHash: postStateHash,
-    restoredCoreState,
-  };
-  const operationEnvelope = createCommandKernelOperationEnvelope({
+    'cmd.project.history.restoreApply.preimage',
+    ts,
+  );
+  const targetResult = await readValidatedRecoverySnapshot({
+    session,
+    persistencePort,
+    authorityState,
+    snapshotId: preview.snapshotId,
+  });
+  if (!targetResult.ok || targetResult.snapshot.snapshotDigest !== preview.snapshotDigest) {
+    return {
+      ok: false,
+      error: targetResult.ok
+        ? typedError('E_STAGE10_HISTORY_PREVIEW_SNAPSHOT_DRIFT', commandId, 'RESTORE_PREVIEW_SNAPSHOT_DIGEST_DRIFTED')
+        : targetResult.error,
+    };
+  }
+  const targetSnapshot = targetResult.snapshot;
+  session.historyRestoreUndoSnapshots[previewId] = { previewId, snapshotId: undoSnapshotId };
+  const recovery = appendRecoveryCompensation({
+    session,
+    authorityState,
     commandId,
-    payload: restorePayload,
     opId,
-    eventId: opId,
-    preStateHash: currentStateHash,
-    sessionId: session.sessionId,
+    ts,
+    targetCoreState: targetSnapshot.session.coreState,
+    sourceHash: targetSnapshot.snapshotDigest,
+    sourceRevision: targetSnapshot.currentRevision,
+    provenanceKind: 'HISTORY_RESTORE_COMPENSATION',
     dependencies: [preview.snapshotId],
-    targets: [{ targetKind: 'project', targetId: session.projectId }],
-  });
-  const domainEvents = [];
-  const domainEventDigest = domainEventPort.hashCoreDomainEvents(domainEvents);
-  const provenance = appendEventLogEntry({
-    eventLog: session.eventLog,
-    entry: {
-      eventId: opId,
-      opId,
-      ts,
-      actorId: session.actorId,
-      commandId,
-      payloadHash: operationEnvelope.envelope.payloadHash,
-      preStateHash: currentStateHash,
-      postStateHash,
-      operationEnvelope: operationEnvelope.envelope,
-      operationEnvelopeDigest: operationEnvelope.envelopeDigest,
-      domainEvents,
-      domainEventDigest,
+    context: {
+      previewId,
+      snapshotId: preview.snapshotId,
+      undoSnapshotId,
     },
-    domainEventPort,
   });
-  if (!provenance.ok) return { ok: false, error: provenance.error };
-  session.coreState = restoredCoreState;
-  session.eventLog = provenance.eventLog;
+  if (!recovery.ok) return recovery;
+  const postStateHash = recovery.applied.stateHash;
   const receipt = createReceipt({
     session,
     commandId,
@@ -1003,8 +1080,10 @@ async function dispatchHistoryRestoreApply({ session, persistencePort, authority
       undoSnapshotId,
       restoreApplied: true,
       authorDataLoss: false,
-      domainEvents,
-      domainEventDigest,
+      recoveryProvenanceDigest: recovery.recoveryProvenance.provenanceDigest,
+      appendOnlyCompensation: true,
+      domainEvents: recovery.applied.domainEvents,
+      domainEventDigest: recovery.applied.domainEventDigest,
     },
   });
   await commitCommandState({ session, authorityState, persistencePort, receipt, reason: commandId });
@@ -1021,10 +1100,27 @@ async function dispatchHistoryRestoreUndo({ session, persistencePort, authorityS
     };
   }
   const currentStateHash = hashCoreState(session.coreState);
-  const undoSnapshot = await maybeAwait(persistencePort.readRecoverySnapshot(session.projectId, undo.snapshotId));
-  const restoredSession = normalizeSession(undoSnapshot.session);
-  session.coreState = cloneJson(restoredSession.coreState);
-  session.eventLog = cloneJson(restoredSession.eventLog);
+  const undoResult = await readValidatedRecoverySnapshot({
+    session,
+    persistencePort,
+    authorityState,
+    snapshotId: undo.snapshotId,
+  });
+  if (!undoResult.ok) return undoResult;
+  const recovery = appendRecoveryCompensation({
+    session,
+    authorityState,
+    commandId,
+    opId,
+    ts,
+    targetCoreState: undoResult.snapshot.session.coreState,
+    sourceHash: undoResult.snapshot.snapshotDigest,
+    sourceRevision: undoResult.snapshot.currentRevision,
+    provenanceKind: 'HISTORY_RESTORE_UNDO_COMPENSATION',
+    dependencies: [undo.snapshotId],
+    context: { previewId, undoSnapshotId: undo.snapshotId },
+  });
+  if (!recovery.ok) return recovery;
   const receipt = createReceipt({
     session,
     commandId,
@@ -1040,6 +1136,10 @@ async function dispatchHistoryRestoreUndo({ session, persistencePort, authorityS
       undoSnapshotId: undo.snapshotId,
       undoApplied: true,
       authorDataLoss: false,
+      recoveryProvenanceDigest: recovery.recoveryProvenance.provenanceDigest,
+      appendOnlyCompensation: true,
+      domainEvents: recovery.applied.domainEvents,
+      domainEventDigest: recovery.applied.domainEventDigest,
     },
   });
   await commitCommandState({ session, authorityState, persistencePort, receipt, reason: commandId });
@@ -1206,6 +1306,12 @@ async function dispatchExchangePreview({ session, persistencePort, authorityStat
 async function dispatchCollabApplyEventLog({ session, persistencePort, authorityState, commandId, payload, activation, opId, ts }) {
   const preStateHash = hashCoreState(session.coreState);
   const domainEventPort = createCoreDomainEventProductPort();
+  if (!Array.isArray(payload.events) || payload.events.length === 0) {
+    return {
+      ok: false,
+      error: typedError('E_STAGE10_COLLAB_EVENTS_REQUIRED', commandId, 'COLLABORATOR_EVENTS_REQUIRED'),
+    };
+  }
   const priorEventIds = new Set(session.eventLog.events.map((event) => normalizeString(event.eventId)).filter(Boolean));
   const priorOpIds = new Set(session.eventLog.events.map((event) => normalizeString(event.opId)).filter(Boolean));
   const report = applyEventLog({
@@ -1217,6 +1323,9 @@ async function dispatchCollabApplyEventLog({ session, persistencePort, authority
     applyCommand: (state, command) => reduceCoreState(state, command),
     knownEventIds: priorEventIds,
     knownOpIds: priorOpIds,
+    requireStrictEnvelope: true,
+    expectedProjectId: session.projectId,
+    expectedLifecycleId: session.lifecycleId,
   });
   const reportId = `collab-apply:${hashCanonicalValue({ opId, stateHash: report.stateHash }).slice(0, 24)}`;
   if (report.rejected.length > 0) {
@@ -1252,10 +1361,33 @@ async function dispatchCollabApplyEventLog({ session, persistencePort, authority
       opId: event.opId,
       eventId: event.eventId,
       preStateHash: appliedEvent.preStateHash,
-      sessionId: normalizeString(event.sessionId) || session.sessionId,
-      correlationId: opId,
-      dependencies: Array.isArray(event.dependsOn) ? event.dependsOn : [],
+      commandVersion: event.commandVersion,
+      projectId: event.projectId,
+      lifecycleId: event.lifecycleId,
+      sessionId: event.sessionId,
+      correlationId: event.causal.correlationId,
+      causationId: event.causal.causationId,
+      dependencies: event.dependencies,
       targets: event.targets,
+      collaboratorProvenance: {
+        schemaVersion: event.schemaVersion,
+        commandVersion: event.commandVersion,
+        projectId: event.projectId,
+        lifecycleId: event.lifecycleId,
+        eventId: event.eventId,
+        actorId: event.actorId,
+        ts: event.ts,
+        opId: event.opId,
+        commandId: event.commandId,
+        sessionId: event.sessionId,
+        payload: event.payload,
+        prevHash: event.prevHash,
+        dependencies: event.dependencies,
+        targets: event.targets,
+        causal: event.causal,
+        admission: event.admission,
+        provenanceDigest: event.provenanceDigest,
+      },
     });
     const provenance = appendEventLogEntry({
       eventLog: nextEventLog,
@@ -1264,6 +1396,11 @@ async function dispatchCollabApplyEventLog({ session, persistencePort, authority
         opId: event.opId,
         ts: event.ts,
         actorId: event.actorId,
+        collaboratorProvenanceDigest: event.provenanceDigest,
+        collaboratorSessionId: event.sessionId,
+        collaboratorDependencies: event.dependencies,
+        collaboratorTargets: event.targets,
+        collaboratorCausal: event.causal,
         commandId: event.commandId,
         payloadHash: operationEnvelope.envelope.payloadHash,
         preStateHash: appliedEvent.preStateHash,
@@ -1430,6 +1567,8 @@ export async function createStage10ProductRuntime(input = {}) {
       {
         reason: 'stage10.initial-state',
         expectedPreviousIntegrityAnchorDigest: '',
+        expectedPreviousAuthorityHeadDigest: '',
+        expectedPreviousRevision: 0,
       },
     ));
     if (committed?.ok !== true || committed.storageWritten !== true || committed.readbackVerified !== true) {
@@ -1442,6 +1581,7 @@ export async function createStage10ProductRuntime(input = {}) {
     store: verifiedBundle.authorityStore,
     integrityAnchor: verifiedBundle.integrityAnchor,
     previousIntegrityAnchor: verifiedBundle.previousIntegrityAnchor,
+    revision: verifiedBundle.session.eventLog.events.length,
   };
   let transactionFailed = false;
 
@@ -1485,6 +1625,7 @@ export async function createStage10ProductRuntime(input = {}) {
     const authorityBefore = authorityState.store;
     const anchorBefore = authorityState.integrityAnchor;
     const previousAnchorBefore = authorityState.previousIntegrityAnchor;
+    const revisionBefore = authorityState.revision;
     session.uiEvents = [...session.uiEvents.slice(-63), {
       opId,
       commandId,
@@ -1536,6 +1677,7 @@ export async function createStage10ProductRuntime(input = {}) {
       authorityState.store = authorityBefore;
       authorityState.integrityAnchor = anchorBefore;
       authorityState.previousIntegrityAnchor = previousAnchorBefore;
+      authorityState.revision = revisionBefore;
       transactionFailed = true;
       throw error;
     }
@@ -1544,6 +1686,7 @@ export async function createStage10ProductRuntime(input = {}) {
       authorityState.store = authorityBefore;
       authorityState.integrityAnchor = anchorBefore;
       authorityState.previousIntegrityAnchor = previousAnchorBefore;
+      authorityState.revision = revisionBefore;
       return result;
     }
 

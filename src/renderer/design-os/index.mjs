@@ -61,3 +61,8 @@ export {
   getAtlasFeatureSurfaceBinding,
   resolveAtlasFeatureDesignOsSlots,
 } from './atlasFeatureIntegrationManifest.mjs';
+
+export {
+  ATLAS_DESIGN_OS_SLOT_CATALOG_SCHEMA_VERSION,
+  ATLAS_DESIGN_OS_SLOT_CATALOG_V1,
+} from './atlasSlotCatalog.v1.mjs';

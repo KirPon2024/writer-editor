@@ -1,4 +1,4 @@
-import { createHash } from 'node:crypto';
+import { sha256Hex } from './browser-safe-hash.mjs';
 
 export const PROJECT_TREE_IDENTITY_SCHEMA_VERSION = 1;
 export const PROJECT_TREE_IDENTITY_PREFIX = 'tree-node-';
@@ -68,9 +68,7 @@ export function createDeterministicTreeNodeId(projectId, bindingKey) {
   if (!normalizedProjectId || !normalizedBindingKey) {
     return '';
   }
-  const digest = createHash('sha256')
-    .update(`${normalizedProjectId}\u0000${normalizedBindingKey}`, 'utf8')
-    .digest('hex');
+  const digest = sha256Hex(`${normalizedProjectId}\u0000${normalizedBindingKey}`);
   return `${PROJECT_TREE_IDENTITY_PREFIX}${digest.slice(0, 32)}`;
 }
 

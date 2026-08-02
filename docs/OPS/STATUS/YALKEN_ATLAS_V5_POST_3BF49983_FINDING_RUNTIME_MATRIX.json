@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "yalken.atlas.v5.findingCommandRuntimePersistenceMatrix.v1",
+  "taskId": "YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR",
+  "auditedBaselineSha": "3bf499832c97ecd38e5edf36fabcf71044133f55",
+  "contourBaseSha": "e036090f24b373792bfb2ea98bc2b4d55cc23c27",
+  "selfAcceptance": false,
+  "rows": [
+    {
+      "findingIds": ["A1", "B10"],
+      "contourId": "R1-B",
+      "scope": "released reducer-backed Atlas, Idea, Meaning and Manual Map author mutations; portability wrappers remain queued",
+      "commandEntry": "ui:command-bridge command.bus",
+      "runtimeAuthority": "stage10ApplicationCommandRoute -> stage10ApplicationBootstrap -> stage10ProductWiring",
+      "commandKernelReceipt": "command-kernel.receipt.v1",
+      "canonicalFactCapsule": "Stage-10 eventLog entry with domainEventDigest",
+      "projectTruth": "project.craftsman.json commanded author domain only",
+      "persistence": "stage10MainPersistenceAdapter project-truth participant plus session, receipt authority and integrity anchor",
+      "recovery": "pending transaction restores the manifest and Stage-10 bundle to the anchor-selected side",
+      "reopen": "project open authenticates Stage-10 session, receipt authority and main-owned integrity anchor before activation",
+      "replay": "Command Kernel receipt authority is required for every event-log entry",
+      "negativeProof": [
+        "duplicate released Atlas operation is rejected before a second durable effect",
+        "interruption after project-truth write restores the previous manifest and authority bundle",
+        "unsupported commanded future author schema fails before mutation",
+        "uncommanded future author domains round-trip opaque"
+      ],
+      "status": "IMPLEMENTED_PENDING_DELIVERY"
+    },
+    {
+      "findingIds": ["A2"],
+      "contourId": "R1-A",
+      "scope": "globally durable receipt and operation identity preflight",
+      "runtimeAuthority": "stage10CommandReceiptAuthorityHead",
+      "persistence": "receipt authority store and main-owned anchor",
+      "reopen": "duplicate identities fail authority validation",
+      "replay": "duplicate operation identifiers fail closed",
+      "status": "MERGED_AT_73561EEB"
+    },
+    {
+      "findingIds": ["A4"],
+      "contourId": "R1-C",
+      "scope": "collab sequence, session and dependency provenance with cross-request dedupe",
+      "status": "QUEUED_SOURCE_PROVEN"
+    },
+    {
+      "findingIds": ["A3", "A6", "A8"],
+      "contourId": "R2",
+      "scope": "snapshot admission, compensating restore fact and coordinated project lifecycle identity",
+      "status": "QUEUED_SOURCE_PROVEN"
+    },
+    {
+      "findingIds": ["A5", "A9"],
+      "contourId": "R2-R7",
+      "scope": "interprocess lease or CAS and two-process required CI attacks",
+      "status": "QUEUED_SOURCE_PROVEN"
+    }
+  ]
+}

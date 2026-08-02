@@ -5,6 +5,7 @@ const fsPromises = require('node:fs/promises');
 const path = require('node:path');
 const os = require('node:os');
 const Module = require('node:module');
+const { pathToFileURL } = require('node:url');
 
 const ROOT = path.resolve(__dirname, '..', '..');
 const PROJECT_MANIFEST_FILENAME = 'project.craftsman.json';
@@ -198,6 +199,121 @@ test('P0 01: Atlas mutation preserves opaque future Manual Map, Idea and Meaning
   assert.deepEqual(persisted.ideas, futureDomains.ideas);
   assert.deepEqual(persisted.meanings, futureDomains.meanings);
   assert.equal(persisted.atlas.entities['entity-preserves-foreign-future-domains'].name, 'Preserved Domains');
+});
+
+test('R1 B: released Atlas mutation advances the canonical Command Kernel event and receipt authority', async (t) => {
+  const harness = await createHarness(t);
+  const created = await harness.main.handleProjectLifecycleCreateCommand({ projectName: 'Роман' });
+  assert.equal(created.ok, true);
+  const projectRoot = path.join(harness.documentsRoot, 'Роман');
+  const manifestPath = path.join(projectRoot, PROJECT_MANIFEST_FILENAME);
+  const manifest = JSON.parse(await fsPromises.readFile(manifestPath, 'utf8'));
+  const stage10Root = path.join(projectRoot, '.stage10-local');
+  const sessionPath = path.join(stage10Root, 'product-session.v2.json');
+  const authorityPath = path.join(stage10Root, 'command-receipt-authority-store.v2.json');
+  const beforeSession = JSON.parse(await fsPromises.readFile(sessionPath, 'utf8'));
+  const beforeAuthority = JSON.parse(await fsPromises.readFile(authorityPath, 'utf8'));
+
+  const commandBridge = harness.ipcHandlers.get('ui:command-bridge');
+  const dispatched = await commandBridge(null, {
+    route: 'command.bus',
+    commandId: 'atlas.entity.create',
+    payload: {
+      projectId: manifest.projectId,
+      opId: 'r1-b-atlas-entity-create-1',
+      entityId: 'entity-command-kernel-authority',
+      name: 'Canonical Authority',
+      entityKind: 'character',
+    },
+  });
+  assert.equal(dispatched.ok, true, JSON.stringify(dispatched));
+  const receipt = dispatched.value?.receipt;
+  assert.equal(receipt?.schemaVersion, 'command-kernel.receipt.v1');
+  assert.equal(receipt?.operationId, 'r1-b-atlas-entity-create-1');
+  assert.equal(receipt?.commandId, 'atlas.entity.create');
+  assert.equal(receipt?.storageWritten, true);
+  assert.equal(receipt?.details?.projectTruthMutation, true);
+
+  const afterSession = JSON.parse(await fsPromises.readFile(sessionPath, 'utf8'));
+  const afterAuthority = JSON.parse(await fsPromises.readFile(authorityPath, 'utf8'));
+  assert.equal(afterSession.eventLog.events.length, beforeSession.eventLog.events.length + 2);
+  assert.equal(afterAuthority.receipts.length, beforeAuthority.receipts.length + 2);
+  assert.equal(afterSession.eventLog.events.at(-2).commandId, 'system.projectTruth.link');
+  assert.equal(afterAuthority.receipts.at(-2).commandId, 'system.projectTruth.link');
+  assert.equal(afterSession.eventLog.events.at(-1).opId, 'r1-b-atlas-entity-create-1');
+  assert.equal(afterAuthority.receipts.at(-1).operationId, 'r1-b-atlas-entity-create-1');
+  assert.equal(
+    afterSession.eventLog.events.at(-1).domainEventDigest,
+    afterAuthority.receipts.at(-1).domainEventDigest,
+  );
+
+  const persisted = JSON.parse(await fsPromises.readFile(manifestPath, 'utf8'));
+  assert.equal(persisted.atlas.entities['entity-command-kernel-authority'].name, 'Canonical Authority');
+
+  const manifestAfterFirst = await fsPromises.readFile(manifestPath, 'utf8');
+  const sessionAfterFirst = await fsPromises.readFile(sessionPath, 'utf8');
+  const authorityAfterFirst = await fsPromises.readFile(authorityPath, 'utf8');
+  const projectTruthRecoveryPath = path.join(stage10Root, 'recovery', 'project-truth.latest.v1.json');
+  const projectTruthRecoveryAfterFirst = await fsPromises.readFile(projectTruthRecoveryPath, 'utf8');
+  const projectTruthRecovery = JSON.parse(projectTruthRecoveryAfterFirst);
+  assert.equal(projectTruthRecovery.schemaVersion, 'yalken.stage10.projectTruthRecovery.v1');
+  assert.equal(projectTruthRecovery.projectId, manifest.projectId);
+  const recoveredPreviousManifest = JSON.parse(projectTruthRecovery.previousText);
+  assert.equal(recoveredPreviousManifest.atlas?.entities?.['entity-command-kernel-authority'], undefined);
+  const duplicate = await commandBridge(null, {
+    route: 'command.bus',
+    commandId: 'atlas.entity.create',
+    payload: {
+      projectId: manifest.projectId,
+      opId: 'r1-b-atlas-entity-create-1',
+      entityId: 'entity-duplicate-must-not-persist',
+      name: 'Duplicate Must Not Persist',
+      entityKind: 'character',
+    },
+  });
+  assert.equal(duplicate.ok, false, JSON.stringify(duplicate));
+  assert.match(JSON.stringify(duplicate), /COMMAND_KERNEL_(RECEIPT_ID|OPERATION_ID)_ALREADY_EXISTS/u);
+  assert.equal(await fsPromises.readFile(manifestPath, 'utf8'), manifestAfterFirst);
+  assert.equal(await fsPromises.readFile(sessionPath, 'utf8'), sessionAfterFirst);
+  assert.equal(await fsPromises.readFile(authorityPath, 'utf8'), authorityAfterFirst);
+  assert.equal(await fsPromises.readFile(projectTruthRecoveryPath, 'utf8'), projectTruthRecoveryAfterFirst);
+
+  const reopened = await harness.main.handleProjectLifecycleOpenCommand({ projectId: manifest.projectId });
+  assert.equal(reopened.ok, true, JSON.stringify(reopened));
+  const reopenedManifest = JSON.parse(await fsPromises.readFile(manifestPath, 'utf8'));
+  assert.equal(reopenedManifest.atlas.entities['entity-command-kernel-authority'].name, 'Canonical Authority');
+  assert.equal(reopenedManifest.atlas.entities['entity-duplicate-must-not-persist'], undefined);
+
+  const reopenedSessionBefore = JSON.parse(await fsPromises.readFile(sessionPath, 'utf8'));
+  const reopenedAuthorityBefore = JSON.parse(await fsPromises.readFile(authorityPath, 'utf8'));
+  const registryModule = await import(pathToFileURL(path.join(ROOT, 'src', 'renderer', 'commands', 'registry.mjs')).href);
+  const projectCommands = await import(pathToFileURL(path.join(ROOT, 'src', 'renderer', 'commands', 'projectCommands.mjs')).href);
+  const registry = registryModule.createCommandRegistry();
+  projectCommands.registerProjectCommands(registry, {
+    electronAPI: {
+      invokeUiCommandBridge: (request) => commandBridge(null, request),
+    },
+  });
+  const alias = await registry.getHandler('atlas.alias.add')({
+    projectId: manifest.projectId,
+    opId: 'r1-b-atlas-alias-add-1',
+    entityId: 'entity-command-kernel-authority',
+    aliasId: 'alias-command-kernel-authority',
+    value: 'Authority Alias',
+  });
+  assert.equal(alias.ok, true, JSON.stringify(alias));
+  assert.equal(alias.value?.result?.receipt?.schemaVersion, 'command-kernel.receipt.v1');
+  const reopenedSessionAfter = JSON.parse(await fsPromises.readFile(sessionPath, 'utf8'));
+  const reopenedAuthorityAfter = JSON.parse(await fsPromises.readFile(authorityPath, 'utf8'));
+  assert.equal(reopenedSessionAfter.eventLog.events.length, reopenedSessionBefore.eventLog.events.length + 1);
+  assert.equal(reopenedAuthorityAfter.receipts.length, reopenedAuthorityBefore.receipts.length + 1);
+  assert.equal(reopenedSessionAfter.eventLog.events.at(-1).commandId, 'atlas.alias.add');
+  assert.equal(reopenedAuthorityAfter.receipts.at(-1).commandId, 'atlas.alias.add');
+  const manifestAfterAlias = JSON.parse(await fsPromises.readFile(manifestPath, 'utf8'));
+  assert.equal(
+    manifestAfterAlias.atlas.entities['entity-command-kernel-authority'].aliases['alias-command-kernel-authority'].value,
+    'Authority Alias',
+  );
 });
 
 test('P0 01: each commanded future author domain fails before recovery or durable write', async (t) => {

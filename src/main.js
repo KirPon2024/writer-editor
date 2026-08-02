@@ -9009,6 +9009,10 @@ async function bootstrapStage10ApplicationForProject(projectRoot, manifest, mode
   activeStage10ApplicationBootstrap = bootstrap;
   activeStage10ApplicationCommandRoute = createStage10ApplicationCommandRoute({
     getBootstrap: () => activeStage10ApplicationBootstrap,
+    canonicalProjectTruthPort: {
+      schemaVersion: 'yalken.stage10.canonicalProjectTruthPort.v1',
+      prepare: prepareCanonicalProjectTruthCommand,
+    },
   });
   return result;
 }
@@ -22277,7 +22281,13 @@ ipcMain.handle('ui:command-bridge', async (_, request) => {
     return {
       ok: false,
       reason: 'COMMAND_EXECUTION_THROW',
-      message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN',
+      message: error && typeof error.message === 'string'
+        ? error.message
+        : error && typeof error.reason === 'string'
+          ? error.reason
+          : error && typeof error.code === 'string'
+            ? error.code
+            : 'UNKNOWN',
     };
   }
 });
@@ -25322,6 +25332,75 @@ function getProjectAuthorDomainForPersistence(project, manifestKey, createEmpty)
   return createEmpty();
 }
 
+async function prepareCanonicalProjectTruthCommand(commandId, payload) {
+  const record = getProductCommandRecord(commandId);
+  const spec = record ? PRODUCT_AUTHOR_DOMAIN_SCHEMAS[record.domain] : null;
+  if (!record || !spec) {
+    const error = new Error('CANONICAL_PROJECT_TRUTH_COMMAND_NOT_SUPPORTED');
+    error.code = 'E_STAGE10_CANONICAL_PROJECT_TRUTH_COMMAND_NOT_SUPPORTED';
+    throw error;
+  }
+  const binding = await buildProductCoreStateForCurrentProject();
+  const requestedProjectId = typeof payload?.projectId === 'string' ? payload.projectId.trim() : '';
+  if (requestedProjectId && requestedProjectId !== binding.projectId) {
+    const error = new Error('CANONICAL_PROJECT_TRUTH_PROJECT_MISMATCH');
+    error.code = 'E_STAGE10_CANONICAL_PROJECT_TRUTH_PROJECT_MISMATCH';
+    throw error;
+  }
+  const schemaFailure = validateProductCommandAuthorDomain(binding, commandId, record);
+  if (schemaFailure) return schemaFailure;
+  const rawRecord = await readProjectManifestRawAtPath(binding.manifestPath);
+  const previousHash = computeHash(rawRecord.raw);
+  return {
+    schemaVersion: 'yalken.stage10.canonicalProjectTruthCommand.v1',
+    projectId: binding.projectId,
+    coreState: cloneJsonSafe(binding.coreState),
+    async prepareMutation(result = {}) {
+      const nextProject = result.nextCoreState?.data?.projects?.[binding.projectId];
+      if (!isPlainObjectValue(nextProject)) {
+        const error = new Error('CANONICAL_PROJECT_TRUTH_NEXT_PROJECT_MISSING');
+        error.code = 'E_STAGE10_CANONICAL_PROJECT_TRUTH_NEXT_PROJECT_MISSING';
+        throw error;
+      }
+      const unchanged = await assertProductCommandManifestUnchanged(
+        binding,
+        previousHash,
+        commandId,
+        record,
+      );
+      if (!unchanged.ok) {
+        const failure = unchanged.error?.error || unchanged.error;
+        const error = new Error(failure?.reason || 'PRODUCT_COMMAND_REVISION_CONFLICT');
+        error.code = failure?.code || 'E_PRODUCT_COMMAND_REVISION_CONFLICT';
+        error.reason = failure?.reason || 'PRODUCT_COMMAND_REVISION_CONFLICT';
+        error.details = failure?.details || {};
+        throw error;
+      }
+      const nextManifest = {
+        ...binding.manifest,
+        [spec.manifestKey]: getProjectAuthorDomainForPersistence(
+          nextProject,
+          spec.manifestKey,
+          () => cloneJsonSafe(binding.manifest?.[spec.manifestKey] || {}),
+        ),
+        lastCommandId: Number.isInteger(result.nextCoreState?.data?.lastCommandId)
+          ? result.nextCoreState.data.lastCommandId
+          : Number(binding.manifest?.lastCommandId || 0),
+      };
+      const nextText = JSON.stringify(nextManifest, null, 2);
+      return {
+        schemaVersion: 'yalken.stage10.projectTruthMutation.v1',
+        projectId: binding.projectId,
+        relativePath: PROJECT_MANIFEST_FILENAME,
+        previousText: rawRecord.raw,
+        nextText,
+        previousHash,
+        nextHash: computeHash(nextText),
+      };
+    },
+  };
+}
+
 async function enqueueProductCommandTransaction(projectKey, operation) {
   const key = typeof projectKey === 'string' && projectKey.trim()
     ? projectKey.trim()
@@ -25780,7 +25859,13 @@ async function dispatchProductCommandBridge(commandId, payload = {}) {
     );
   }
 
-  if (record.domain === 'stage10') {
+  const canonicalAuthorCommand = Object.prototype.hasOwnProperty.call(PRODUCT_AUTHOR_DOMAIN_SCHEMAS, record.domain)
+    && ![
+      'manualMap.export.json',
+      'manualMap.export.imagePdf',
+      'manualMap.import.jsonRepeat',
+    ].includes(commandId);
+  if (record.domain === 'stage10' || canonicalAuthorCommand) {
     if (!activeStage10ApplicationCommandRoute || typeof activeStage10ApplicationCommandRoute.dispatch !== 'function') {
       return makeProductCommandBridgeError(
         commandId,
@@ -25795,176 +25880,51 @@ async function dispatchProductCommandBridge(commandId, payload = {}) {
         },
       );
     }
-    return enqueueProductCommandTransaction(currentProjectName || DEFAULT_PROJECT_NAME, () => (
-      activeStage10ApplicationCommandRoute.dispatch(commandId, payload)
-    ));
+    return enqueueProductCommandTransaction(currentProjectName || DEFAULT_PROJECT_NAME, async () => {
+      try {
+        return await activeStage10ApplicationCommandRoute.dispatch(commandId, payload);
+      } catch (error) {
+        return makeProductCommandBridgeError(
+          commandId,
+          error?.code || 'E_PRODUCT_COMMAND_KERNEL_ROUTE_FAILED',
+          error?.reason || error?.message || 'PRODUCT_COMMAND_KERNEL_ROUTE_FAILED',
+          {
+            commandAuthority: record.commandAuthority,
+            capabilityId: record.capabilityId,
+            domain: record.domain,
+            mutationApplied: false,
+            storageWritten: false,
+          },
+        );
+      }
+    });
   }
 
-  return enqueueProductCommandTransaction(currentProjectName || DEFAULT_PROJECT_NAME, () => (
-    MANUAL_MAP_WORKBENCH_COMMAND_IDS.includes(commandId) && (
+  if (
+    MANUAL_MAP_WORKBENCH_COMMAND_IDS.includes(commandId)
+    && (
       commandId === 'manualMap.export.json'
       || commandId === 'manualMap.export.imagePdf'
       || commandId === 'manualMap.import.jsonRepeat'
     )
-      ? dispatchManualMapPortabilityProductCommand(commandId, payload, record)
-      : dispatchProductCommandBridgeTransaction(commandId, payload, record)
-  ));
-}
-
-async function dispatchProductCommandBridgeTransaction(commandId, payload, record) {
-  const binding = await buildProductCoreStateForCurrentProject();
-  const rawRecord = await readProjectManifestRawAtPath(binding.manifestPath);
-  const manifestHashBefore = computeHash(rawRecord.raw);
-  const requestedProjectId = typeof payload.projectId === 'string' ? payload.projectId.trim() : '';
-  if (requestedProjectId && requestedProjectId !== binding.projectId) {
-    return makeProductCommandBridgeError(
-      commandId,
-      'E_PRODUCT_COMMAND_PROJECT_MISMATCH',
-      'PRODUCT_COMMAND_PROJECT_MISMATCH',
-      {
-        commandAuthority: record.commandAuthority,
-        capabilityId: record.capabilityId,
-        domain: record.domain,
-        requestedProjectId,
-        activeProjectId: binding.projectId,
-        mutationApplied: false,
-        storageWritten: false,
-      },
-    );
+  ) {
+    return enqueueProductCommandTransaction(currentProjectName || DEFAULT_PROJECT_NAME, () => (
+      dispatchManualMapPortabilityProductCommand(commandId, payload, record)
+    ));
   }
 
-  const schemaFailure = validateProductCommandAuthorDomain(binding, commandId, record);
-  if (schemaFailure) return schemaFailure;
-
-  const runtime = await loadCoreRuntimeModule();
-  const commandPayload = {
-    ...cloneJsonSafe(payload),
-    projectId: binding.projectId,
-  };
-  const stateHashBefore = typeof runtime.hashCoreState === 'function'
-    ? runtime.hashCoreState(binding.coreState)
-    : computeHash(JSON.stringify(binding.coreState));
-  const reduced = runtime.reduceCoreState(binding.coreState, {
-    type: commandId,
-    payload: commandPayload,
-  });
-  if (!reduced || reduced.ok !== true) {
-    return makeProductCommandBridgeError(
-      commandId,
-      reduced?.error?.code || 'E_PRODUCT_COMMAND_REDUCER_FAILED',
-      reduced?.error?.reason || 'PRODUCT_COMMAND_REDUCER_FAILED',
-      {
-        commandAuthority: record.commandAuthority,
-        capabilityId: record.capabilityId,
-        domain: record.domain,
-        runtimeBacked: record.runtimeBacked === true,
-        coreError: reduced?.error || null,
-        mutationApplied: false,
-        storageWritten: false,
-      },
-    );
-  }
-  const domainEvents = Array.isArray(reduced.events) ? cloneJsonSafe(reduced.events) || [] : [];
-  let domainEventDigest = '';
-  try {
-    domainEventDigest = typeof runtime.hashCoreDomainEvents === 'function'
-      ? runtime.hashCoreDomainEvents(domainEvents)
-      : computeHash(JSON.stringify(domainEvents));
-  } catch (error) {
-    return makeProductCommandBridgeError(
-      commandId,
-      'E_PRODUCT_COMMAND_DOMAIN_EVENT_INVALID',
-      'PRODUCT_COMMAND_DOMAIN_EVENT_INVALID',
-      {
-        commandAuthority: record.commandAuthority,
-        capabilityId: record.capabilityId,
-        domain: record.domain,
-        projectId: binding.projectId,
-        mutationApplied: false,
-        storageWritten: false,
-        domainEventError: error && typeof error.message === 'string' ? error.message : 'DOMAIN_EVENT_INVALID',
-      },
-    );
-  }
-
-  const nextProject = reduced.state?.data?.projects?.[binding.projectId];
-  if (!isPlainObjectValue(nextProject)) {
-    return makeProductCommandBridgeError(
-      commandId,
-      'E_PRODUCT_COMMAND_NEXT_PROJECT_MISSING',
-      'PRODUCT_COMMAND_NEXT_PROJECT_MISSING',
-      {
-        commandAuthority: record.commandAuthority,
-        capabilityId: record.capabilityId,
-        domain: record.domain,
-        mutationApplied: false,
-        storageWritten: false,
-      },
-    );
-  }
-
-  const unchanged = await assertProductCommandManifestUnchanged(binding, manifestHashBefore, commandId, record);
-  if (!unchanged.ok) {
-    return unchanged.error;
-  }
-  const recovery = await createProjectLifecycleRecovery(
+  return makeProductCommandBridgeError(
+    commandId,
+    'E_PRODUCT_COMMAND_CANONICAL_KERNEL_ROUTE_REQUIRED',
+    'PRODUCT_COMMAND_CANONICAL_KERNEL_ROUTE_REQUIRED',
     {
-      projectId: binding.projectId,
-      projectRoot: binding.projectRoot,
-      manifestPath: binding.manifestPath,
+      commandAuthority: record.commandAuthority,
+      capabilityId: record.capabilityId,
+      domain: record.domain,
+      mutationApplied: false,
+      storageWritten: false,
     },
-    commandId,
-    rawRecord.raw,
   );
-  const nextManifest = {
-    ...binding.manifest,
-    atlas: getProjectAuthorDomainForPersistence(nextProject, 'atlas', () => getAtlasAuthorDataForProjection({})),
-    manualMaps: getProjectAuthorDomainForPersistence(nextProject, 'manualMaps', () => getManualMapAuthorDataForProjection({})),
-    ideas: getProjectAuthorDomainForPersistence(nextProject, 'ideas', () => getIdeaAuthorDataForProjection({})),
-    meanings: getProjectAuthorDomainForPersistence(nextProject, 'meanings', () => getMeaningAuthorDataForProjection({})),
-    lastCommandId: Number.isInteger(reduced.state?.data?.lastCommandId)
-      ? reduced.state.data.lastCommandId
-      : Number(binding.manifest?.lastCommandId || 0),
-  };
-  const manifestTextAfter = JSON.stringify(nextManifest, null, 2);
-  await persistProjectManifestAtPath(binding.manifestPath, nextManifest, `product command ${commandId}`);
-
-  return {
-    ok: true,
-    schemaVersion: 'product-command-dispatch-receipt.v1',
-    commandId,
-    commandAuthority: record.commandAuthority,
-    capabilityId: record.capabilityId,
-    domain: record.domain,
-    runtimeBacked: record.runtimeBacked === true,
-    projectId: binding.projectId,
-    domainEvents,
-    domainEventDigest,
-    mutationApplied: true,
-    storageWritten: true,
-    manifestWritten: true,
-    networkMutation: false,
-    directRendererMutation: false,
-    targetState: {
-      stateHashBefore,
-      stateHashAfter: reduced.stateHash,
-      manifestHashBefore,
-      manifestHashAfter: computeHash(manifestTextAfter),
-      commandSeqBefore: Number(binding.coreState?.data?.lastCommandId || 0),
-      commandSeqAfter: Number(reduced.state?.data?.lastCommandId || 0),
-      transactionSerialized: true,
-      revisionConflictDetected: false,
-      domainEventDigest,
-    },
-    recovery: {
-      snapshotCreated: recovery.snapshotCreated === true,
-      snapshotReadable: recovery.snapshotReadable === true,
-      snapshotHashMatchesInput: recovery.snapshotHashMatchesInput === true,
-      backupCreated: recovery.backupCreated === true,
-      recoveryPackCreated: recovery.recoveryPackCreated === true,
-      manifestHash: recovery.manifestHash || manifestHashBefore,
-    },
-  };
 }
 
 function buildFontSubmenu(config) {

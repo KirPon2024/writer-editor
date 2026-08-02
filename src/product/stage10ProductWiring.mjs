@@ -360,7 +360,7 @@ function prepareCommandReceiptExternal({ session, authorityState, receipt }) {
   return nextStore;
 }
 
-async function commitCommandState({ session, authorityState, persistencePort, receipt, reason }) {
+async function commitCommandState({ session, authorityState, persistencePort, receipt, reason, projectTruthMutation = null }) {
   const nextStore = prepareCommandReceiptExternal({ session, authorityState, receipt });
   const nextAnchor = createStage10IntegrityAnchor({
     projectId: session.projectId,
@@ -378,6 +378,7 @@ async function commitCommandState({ session, authorityState, persistencePort, re
     {
       reason,
       expectedPreviousIntegrityAnchorDigest: authorityState.integrityAnchor.integrityAnchorDigest,
+      projectTruthMutation,
     },
   ));
   if (committed?.ok !== true || committed.storageWritten !== true || committed.readbackVerified !== true) {
@@ -532,7 +533,103 @@ function updateCommentDecisionRows(packet, payload) {
   };
 }
 
-async function dispatchCoreCommand({ session, persistencePort, authorityState, commandId, payload, activation, opId, ts }) {
+function linkCanonicalProjectTruth({ session, authorityState, canonicalCoreState, commandId, opId, ts }) {
+  const preStateHash = hashCoreState(session.coreState);
+  const canonicalStateHash = hashCoreState(canonicalCoreState);
+  if (preStateHash === canonicalStateHash) return null;
+  const linkOpId = `stage10:truth-link:${hashCanonicalValue({ opId, preStateHash, canonicalStateHash }).slice(0, 32)}`;
+  const linkPreflight = preflightCommandReceiptIdentity({
+    store: authorityState.store,
+    projectId: session.projectId,
+    eventLog: session.eventLog,
+    operationId: linkOpId,
+    receiptId: linkOpId,
+  });
+  if (!linkPreflight.ok) throw linkPreflight.error;
+  const domainEventPort = createCoreDomainEventProductPort();
+  const domainEvents = [];
+  const domainEventDigest = domainEventPort.hashCoreDomainEvents(domainEvents);
+  const append = appendEventLogEntry({
+    eventLog: session.eventLog,
+    entry: {
+      opId: linkOpId,
+      ts,
+      actorId: session.actorId,
+      commandId: 'system.projectTruth.link',
+      payloadHash: hashCanonicalValue({
+        projectId: session.projectId,
+        causedByCommandId: commandId,
+        sourceRevision: Number(canonicalCoreState?.data?.lastCommandId || 0),
+      }),
+      preStateHash,
+      postStateHash: canonicalStateHash,
+      domainEvents,
+      domainEventDigest,
+    },
+    domainEventPort,
+  });
+  if (!append.ok) throw append.error;
+  session.coreState = cloneJson(canonicalCoreState);
+  session.eventLog = append.eventLog;
+  const receipt = createReceipt({
+    session,
+    commandId: 'system.projectTruth.link',
+    opId: linkOpId,
+    ts,
+    status: 'APPLIED',
+    activation: {
+      mode: STAGE10_ACTIVATION_MODES.DOM_VISIBLE_CONTROL_LISTENER_FALLBACK,
+      controlId: 'stage10-main-project-truth-port',
+      visibleControl: false,
+    },
+    preStateHash,
+    postStateHash: canonicalStateHash,
+    storageWritten: true,
+    details: {
+      canonicalTruthLink: true,
+      causedByCommandId: commandId,
+      projectTruthMutation: false,
+      sourceRevision: Number(canonicalCoreState?.data?.lastCommandId || 0),
+      domainEvents,
+      domainEventDigest,
+    },
+  });
+  return receipt;
+}
+
+async function dispatchCoreCommand({
+  session,
+  persistencePort,
+  authorityState,
+  commandId,
+  payload,
+  activation,
+  opId,
+  ts,
+  canonicalProjectTruth,
+}) {
+  let projectTruthMutation = null;
+  let canonicalTruthLinkReceipt = null;
+  if (isPlainObject(canonicalProjectTruth)) {
+    if (!isPlainObject(canonicalProjectTruth.coreState) || typeof canonicalProjectTruth.prepareMutation !== 'function') {
+      return {
+        ok: false,
+        error: typedError(
+          'E_STAGE10_CANONICAL_PROJECT_TRUTH_PORT_INVALID',
+          commandId,
+          'CANONICAL_PROJECT_TRUTH_PORT_INVALID',
+        ),
+      };
+    }
+    canonicalTruthLinkReceipt = linkCanonicalProjectTruth({
+      session,
+      authorityState,
+      canonicalCoreState: canonicalProjectTruth.coreState,
+      commandId,
+      opId,
+      ts,
+    });
+  }
   const preStateHash = hashCoreState(session.coreState);
   const applied = applyCommandWithEventLog({
     eventLog: session.eventLog,
@@ -547,6 +644,38 @@ async function dispatchCoreCommand({ session, persistencePort, authorityState, c
     applyCommand: (state, command) => reduceCoreState(state, command),
   });
   if (!applied.ok) return applied;
+
+  if (isPlainObject(canonicalProjectTruth)) {
+    projectTruthMutation = await maybeAwait(canonicalProjectTruth.prepareMutation({
+      commandId,
+      payload: cloneJson(payload),
+      preStateHash,
+      postStateHash: applied.stateHash,
+      nextCoreState: cloneJson(applied.state),
+      domainEvents: cloneJson(applied.domainEvents),
+      domainEventDigest: applied.domainEventDigest,
+    }));
+    if (!isPlainObject(projectTruthMutation)) {
+      return {
+        ok: false,
+        error: typedError(
+          'E_STAGE10_PROJECT_TRUTH_MUTATION_REQUIRED',
+          commandId,
+          'CANONICAL_PROJECT_TRUTH_MUTATION_REQUIRED',
+        ),
+      };
+    }
+  }
+
+  if (canonicalTruthLinkReceipt) {
+    await commitCommandState({
+      session,
+      authorityState,
+      persistencePort,
+      receipt: canonicalTruthLinkReceipt,
+      reason: 'system.projectTruth.link',
+    });
+  }
 
   session.coreState = applied.state;
   session.eventLog = applied.eventLog;
@@ -566,10 +695,24 @@ async function dispatchCoreCommand({ session, persistencePort, authorityState, c
       domainEventDigest: applied.domainEventDigest,
       projectTruthMutation: true,
       commandKernel: true,
+      canonicalProjectTruthPort: isPlainObject(canonicalProjectTruth),
+      canonicalTruthLinkReceiptId: canonicalTruthLinkReceipt?.receiptId || '',
     },
   });
-  await commitCommandState({ session, authorityState, persistencePort, receipt, reason: commandId });
-  return { ok: true, receipt, session: cloneJson(session) };
+  await commitCommandState({
+    session,
+    authorityState,
+    persistencePort,
+    receipt,
+    reason: commandId,
+    projectTruthMutation,
+  });
+  return {
+    ok: true,
+    receipt,
+    canonicalTruthLinkReceipt: canonicalTruthLinkReceipt ? cloneJson(canonicalTruthLinkReceipt) : null,
+    session: cloneJson(session),
+  };
 }
 
 async function dispatchCommentImport({ session, persistencePort, authorityState, capabilitySnapshot, commandId, payload, activation, opId, ts }) {
@@ -1154,7 +1297,7 @@ export async function createStage10ProductRuntime(input = {}) {
 
   await publishSurface();
 
-  async function dispatchVisibleCommand(commandIdInput, payloadInput = {}, activationInput = {}) {
+  async function dispatchVisibleCommand(commandIdInput, payloadInput = {}, activationInput = {}, commandContext = {}) {
     if (transactionFailed) {
       throw typedError('E_STAGE10_RUNTIME_REOPEN_REQUIRED', 'stage10.productWiring.dispatch', 'FAILED_TRANSACTION_REQUIRES_FRESH_REOPEN');
     }
@@ -1198,7 +1341,17 @@ export async function createStage10ProductRuntime(input = {}) {
     let result;
     try {
       if (isCoreCommand(commandId)) {
-        result = await dispatchCoreCommand({ session, persistencePort, authorityState, commandId, payload, activation, opId, ts });
+        result = await dispatchCoreCommand({
+          session,
+          persistencePort,
+          authorityState,
+          commandId,
+          payload,
+          activation,
+          opId,
+          ts,
+          canonicalProjectTruth: commandContext?.canonicalProjectTruth,
+        });
       } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.COMMENT_IMPORT_STABLE_PACKET) {
         result = await dispatchCommentImport({ session, persistencePort, authorityState, capabilitySnapshot, commandId, payload, activation, opId, ts });
       } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.COMMENT_DECISION_RECORD) {

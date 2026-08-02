@@ -35,7 +35,7 @@ function assertAppearsBefore(source, earlier, later) {
   assert.ok(earlierIndex < laterIndex, `${earlier} must appear before ${later}`);
 }
 
-test('R2 C04: main dispatch revalidates capability authority before reducer and persistence', () => {
+test('R2 C04: main dispatch revalidates capability authority before canonical Command Kernel routing', () => {
   const mainSource = readText('src/main.js');
   const bridgeStart = mainSource.indexOf('async function dispatchProductCommandBridge');
   assert.notEqual(bridgeStart, -1);
@@ -48,9 +48,11 @@ test('R2 C04: main dispatch revalidates capability authority before reducer and 
   assert.match(bridgeSource, /const capability = evaluateCommandCapabilityAuthority/u);
   assert.match(bridgeSource, /platformId: DEFAULT_AUTHORITY_PLATFORM_ID/u);
   assert.doesNotMatch(bridgeSource, /platformId:\s*payload\.platformId/u);
-  assertAppearsBefore(bridgeSource, 'const capability = evaluateCommandCapabilityAuthority', 'buildProductCoreStateForCurrentProject');
-  assertAppearsBefore(bridgeSource, 'const capability = evaluateCommandCapabilityAuthority', 'runtime.reduceCoreState');
-  assertAppearsBefore(bridgeSource, 'const capability = evaluateCommandCapabilityAuthority', 'persistProjectManifestAtPath');
+  assertAppearsBefore(bridgeSource, 'const capability = evaluateCommandCapabilityAuthority', 'activeStage10ApplicationCommandRoute.dispatch');
+  assert.match(bridgeSource, /E_PRODUCT_COMMAND_CANONICAL_KERNEL_ROUTE_REQUIRED/u);
+  assert.doesNotMatch(mainSource, /async function dispatchProductCommandBridgeTransaction/u);
+  assert.doesNotMatch(bridgeSource, /runtime\.reduceCoreState/u);
+  assert.doesNotMatch(bridgeSource, /schemaVersion:\s*'product-command-dispatch-receipt\.v1'/u);
   assert.match(bridgeSource, /mutationApplied:\s*false/u);
   assert.match(bridgeSource, /storageWritten:\s*false/u);
 });

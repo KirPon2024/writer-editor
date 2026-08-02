@@ -384,6 +384,68 @@ test('Stage10 repair: interrupted authority/session ordering recovers atomically
   assert.equal(committed.session.coreState.data.projects[committed.session.projectId].scenes['scene-1'].text, 'killpoint after-anchor-write');
 });
 
+test('Stage10 repair: interrupted canonical project truth write rolls manifest and authority back together', async () => {
+  const harness = await createHarness('project-truth-killpoint');
+  const projectId = 'stage10-project-truth-killpoint';
+  await createProject(harness, projectId);
+  const before = cloneJson(await harness.adapter.readStage10State(projectId));
+  const manifestPath = path.join(harness.projectRoot, 'project.craftsman.json');
+  const previousText = `${JSON.stringify({ schemaVersion: 1, projectId, atlas: { schemaVersion: 'atlas.author.v1', entities: {} } }, null, 2)}\n`;
+  const nextText = `${JSON.stringify({ schemaVersion: 1, projectId, atlas: { schemaVersion: 'atlas.author.v1', entities: { 'entity-after-kill': { id: 'entity-after-kill' } } } }, null, 2)}\n`;
+  fs.writeFileSync(manifestPath, previousText, 'utf8');
+  const crypto = require('node:crypto');
+  const hashText = (value) => crypto.createHash('sha256').update(Buffer.from(value, 'utf8')).digest('hex');
+  let armed = true;
+  const faultAdapter = harness.makeAdapter({
+    onKillpoint(name) {
+      if (armed && name === 'after-project-truth-write') {
+        armed = false;
+        throw new Error(`KILLPOINT:${name}`);
+      }
+    },
+  });
+  const bootstrapModule = await importModule('src/product/stage10ApplicationBootstrap.mjs');
+  const core = await importModule('src/core/runtime.mjs');
+  const faultBootstrap = bootstrapModule.createStage10ApplicationBootstrap({ persistencePort: faultAdapter });
+  await faultBootstrap.reopenProjectRuntime({ projectId });
+  const canonicalState = faultBootstrap.getRuntime().getSession().coreState;
+  await assert.rejects(
+    () => faultBootstrap.dispatchCanonicalProjectCommand(
+      core.CORE_COMMAND_IDS.ATLAS_ENTITY_CREATE,
+      {
+        projectId,
+        opId: 'project-truth-killpoint-op',
+        entityId: 'entity-after-kill',
+        name: 'After Kill',
+        entityKind: 'character',
+      },
+      {
+        coreState: canonicalState,
+        prepareMutation() {
+          return {
+            schemaVersion: 'yalken.stage10.projectTruthMutation.v1',
+            projectId,
+            relativePath: 'project.craftsman.json',
+            previousText,
+            nextText,
+            previousHash: hashText(previousText),
+            nextHash: hashText(nextText),
+          };
+        },
+      },
+    ),
+    /KILLPOINT:after-project-truth-write/u,
+  );
+  assert.equal(fs.readFileSync(manifestPath, 'utf8'), nextText);
+
+  const recoveryAdapter = harness.makeAdapter();
+  const recovered = await recoveryAdapter.readStage10State(projectId);
+  assert.equal(recovered.recoveryConsumed, true);
+  assert.equal(fs.readFileSync(manifestPath, 'utf8'), previousText);
+  assert.equal(recovered.authorityStore.currentHead.receiptCount, before.authorityStore.currentHead.receiptCount);
+  assert.deepEqual(recovered.session, before.session);
+});
+
 async function atomicWriteWithFailure(targetBasename) {
   let failed = false;
   return async (targetPath, content) => {
@@ -423,6 +485,52 @@ test('Stage10 repair: negative write acknowledgements never return command succe
     assert.equal(recovered.recoveryConsumed, true);
     assert.equal(recovered.authorityStore.currentHead.receiptCount, before.authorityStore.currentHead.receiptCount);
   }
+
+  const harness = await createHarness('write-fail-project-truth');
+  const projectId = 'stage10-write-fail-project-truth';
+  await createProject(harness, projectId);
+  const before = cloneJson(await harness.adapter.readStage10State(projectId));
+  const manifestPath = path.join(harness.projectRoot, 'project.craftsman.json');
+  const previousText = `${JSON.stringify({ schemaVersion: 1, projectId, atlas: { schemaVersion: 'atlas.author.v1', entities: {} } }, null, 2)}\n`;
+  const nextText = `${JSON.stringify({ schemaVersion: 1, projectId, atlas: { schemaVersion: 'atlas.author.v1', entities: { denied: { id: 'denied' } } } }, null, 2)}\n`;
+  fs.writeFileSync(manifestPath, previousText, 'utf8');
+  const crypto = require('node:crypto');
+  const hashText = (value) => crypto.createHash('sha256').update(Buffer.from(value, 'utf8')).digest('hex');
+  const failureAdapter = harness.makeAdapter({ writeFileAtomic: await atomicWriteWithFailure('project.craftsman.json') });
+  const failureBootstrap = bootstrapModule.createStage10ApplicationBootstrap({ persistencePort: failureAdapter });
+  await failureBootstrap.reopenProjectRuntime({ projectId });
+  await assert.rejects(
+    () => failureBootstrap.dispatchCanonicalProjectCommand(
+      core.CORE_COMMAND_IDS.ATLAS_ENTITY_CREATE,
+      {
+        projectId,
+        opId: 'project-truth-write-rejected',
+        entityId: 'denied',
+        name: 'Denied',
+        entityKind: 'character',
+      },
+      {
+        coreState: failureBootstrap.getRuntime().getSession().coreState,
+        prepareMutation() {
+          return {
+            schemaVersion: 'yalken.stage10.projectTruthMutation.v1',
+            projectId,
+            relativePath: 'project.craftsman.json',
+            previousText,
+            nextText,
+            previousHash: hashText(previousText),
+            nextHash: hashText(nextText),
+          };
+        },
+      },
+    ),
+    (error) => error?.reason === 'PROJECT_TRUTH_WRITE_REJECTED',
+  );
+  const recoveryAdapter = harness.makeAdapter();
+  const recovered = await recoveryAdapter.readStage10State(projectId);
+  assert.equal(recovered.recoveryConsumed, true);
+  assert.equal(fs.readFileSync(manifestPath, 'utf8'), previousText);
+  assert.equal(recovered.authorityStore.currentHead.receiptCount, before.authorityStore.currentHead.receiptCount);
 });
 
 test('Stage10 repair: invalid existing state fails before application activation or UI publication while legacy absence opens safely', async () => {

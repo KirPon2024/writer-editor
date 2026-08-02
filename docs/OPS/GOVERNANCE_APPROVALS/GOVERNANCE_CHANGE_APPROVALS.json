@@ -84,12 +84,12 @@
     },
     {
       "filePath": ".github/workflows/rtk-required.yml",
-      "sha256": "a3d04093aa8465a88fa4ed5750072d373fd9278fc8119b014ff5d24b6d31e0f9",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_AUDIT_HOLD_REPAIR",
-      "approvedAtUtc": "2026-08-02T16:13:13.000Z",
-      "rationale": "Approve exact required-CI workflow bytes that execute the Atlas V6 production-equivalent negative matrix in addition to the maintained RTK and Atlas contract graphs; no branch-protection bypass or release acceptance claim.",
+      "sha256": "03c9234c420ebe242285fb10068c73d5a12b3bb4dba68b39528bf88651dd8352",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_A7_FALSE_GREEN_BOUNDED_REPAIR",
+      "approvedAtUtc": "2026-08-02T23:52:19.000Z",
+      "rationale": "Approve exact required-CI workflow bytes adding an independent Atlas V6 production evidence coverage guard before the production negative matrix; no branch-protection bypass or product runtime change.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_V6_AUDIT_HOLD_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_V6_A7_REPAIR"
     },
     {
       "filePath": "docs/OPERATIONS/STATUS/CODEX_AUTOMATION_POLICY.json",
@@ -5921,12 +5921,12 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "5af206cbf355c59e2074373f52caae5525ff18ef8f4ad35d253ba77f6c41f709",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_A4_BOUNDED_REPAIR",
-      "approvedAtUtc": "2026-08-02T21:22:35.000Z",
-      "rationale": "Approve exact scope-map bytes admitting only the A4 task artifact, shared manifest authority, Unicode identity domain, process-instance lease worker, focused A4 product contract, and maintained S38 compatibility test.",
+      "sha256": "fd3ea9701e8de7ed5682c84bcf7df7393ff83d7301d00aebd2e9872f96cf565b",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_A7_FALSE_GREEN_BOUNDED_REPAIR",
+      "approvedAtUtc": "2026-08-02T23:52:19.000Z",
+      "rationale": "Approve exact scope-map bytes admitting only the A7 task artifact and its focused false-green evidence-binding contract in the maintained Atlas governance contour.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_V6_A4_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_V6_A7_REPAIR"
     },
     {
       "filePath": "scripts/ops/shared-drift-engine-runtime-state.mjs",
@@ -9306,12 +9306,12 @@
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v6-production-lifecycle.mjs",
-      "sha256": "7b8846ad41e3916ca72933026047c116c444876290d44b02f214c21351ab8e1d",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_A4_BOUNDED_REPAIR",
-      "approvedAtUtc": "2026-08-02T21:22:35.000Z",
-      "rationale": "Approve exact production lifecycle runner bytes adding the executable A4 manifest CAS, external target reservation, Unicode and legacy collision, and process-instance liveness negative matrix.",
+      "sha256": "f8b00ba38e7c100c12a2ed6afe54da29a781035ed89b3eac658c85c30c7d09df",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_A7_FALSE_GREEN_BOUNDED_REPAIR",
+      "approvedAtUtc": "2026-08-02T23:52:19.000Z",
+      "rationale": "Approve exact production lifecycle runner bytes replacing aggregate child-exit certification with strict TAP admission and exact named evidence for every one of the 17 production-negative rows.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_V6_A4_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_V6_A7_REPAIR"
     },
     {
       "filePath": "test/contracts/yalken-atlas-v6-audit-hold-repair.contract.test.js",
@@ -9348,6 +9348,15 @@
       "rationale": "Approve exact A4 product contract bytes proving child-process manifest and artifact races, Unicode identity parity, foreign legacy collision rejection, reservation recovery, PID reuse recovery, blocked-loop process-instance protection, bounded cross-platform socket-path startup under a hostile TMPDIR, and crash convergence.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_V6_A4_REPAIR"
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v6-a7-false-green-bounded-repair.contract.test.js",
+      "sha256": "79b5d386406c20800ae068fa89b19ec0503fdfbd06891266dedc04c53fa159b9",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_A7_FALSE_GREEN_BOUNDED_REPAIR",
+      "approvedAtUtc": "2026-08-02T23:52:19.000Z",
+      "rationale": "Approve exact focused A7 contract bytes proving positive row evidence binding and fail-closed zero-test, skip, missing-row, duplicate-row, wrong-map, malformed-report, missing-evidence, duplicate-evidence, and unmapped-evidence behavior.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_V6_A7_REPAIR"
     }
   ]
 }

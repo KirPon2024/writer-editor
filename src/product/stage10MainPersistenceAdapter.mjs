@@ -1,15 +1,19 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { createHash } from 'node:crypto';
 
 import { hashCanonicalValue } from '../core/browser-safe-hash.mjs';
 import { validateStage10IntegrityAnchor } from './stage10IntegrityAnchor.mjs';
 
 export const STAGE10_MAIN_PERSISTENCE_PORT_SCHEMA = 'yalken.stage10.mainPersistencePort.v1';
-export const STAGE10_MAIN_TRANSACTION_SCHEMA = 'yalken.stage10.mainPersistenceTransaction.v1';
+export const STAGE10_MAIN_TRANSACTION_SCHEMA = 'yalken.stage10.mainPersistenceTransaction.v2';
+export const STAGE10_PROJECT_TRUTH_MUTATION_SCHEMA = 'yalken.stage10.projectTruthMutation.v1';
+const STAGE10_LEGACY_MAIN_TRANSACTION_SCHEMA = 'yalken.stage10.mainPersistenceTransaction.v1';
 
 const SESSION_FILENAME = 'product-session.v2.json';
 const AUTHORITY_FILENAME = 'command-receipt-authority-store.v2.json';
 const RECOVERY_DIRNAME = 'recovery';
+const PROJECT_TRUTH_RECOVERY_FILENAME = 'project-truth.latest.v1.json';
 const PROJECT_SERIALIZATION_QUEUES = new Map();
 
 function cloneJson(value) {
@@ -77,6 +81,49 @@ function sameValue(left, right) {
   return hashCanonicalValue(left) === hashCanonicalValue(right);
 }
 
+function hashText(value) {
+  return createHash('sha256').update(Buffer.from(typeof value === 'string' ? value : '', 'utf8')).digest('hex');
+}
+
+function normalizeProjectTruthMutation(projectId, input) {
+  if (!isPlainObject(input)) return null;
+  const normalized = {
+    schemaVersion: input.schemaVersion,
+    projectId: normalizeString(input.projectId),
+    relativePath: normalizeString(input.relativePath),
+    previousText: typeof input.previousText === 'string' ? input.previousText : null,
+    nextText: typeof input.nextText === 'string' ? input.nextText : null,
+    previousHash: normalizeString(input.previousHash),
+    nextHash: normalizeString(input.nextHash),
+  };
+  if (
+    normalized.schemaVersion !== STAGE10_PROJECT_TRUTH_MUTATION_SCHEMA
+    || normalized.projectId !== normalizeString(projectId)
+    || normalized.relativePath !== 'project.craftsman.json'
+    || normalized.previousText === null
+    || normalized.nextText === null
+    || normalized.previousHash !== hashText(normalized.previousText)
+    || normalized.nextHash !== hashText(normalized.nextText)
+  ) {
+    throw typedError('E_STAGE10_PROJECT_TRUTH_MUTATION_INVALID', 'PROJECT_TRUTH_MUTATION_INVALID');
+  }
+  try {
+    const previousManifest = JSON.parse(normalized.previousText);
+    const nextManifest = JSON.parse(normalized.nextText);
+    if (
+      !isPlainObject(previousManifest)
+      || !isPlainObject(nextManifest)
+      || normalizeString(previousManifest.projectId) !== normalizeString(projectId)
+      || normalizeString(nextManifest.projectId) !== normalizeString(projectId)
+    ) {
+      throw new Error('PROJECT_TRUTH_PROJECT_MISMATCH');
+    }
+  } catch {
+    throw typedError('E_STAGE10_PROJECT_TRUTH_MUTATION_JSON_INVALID', 'PROJECT_TRUTH_MUTATION_JSON_INVALID');
+  }
+  return normalized;
+}
+
 function validateBundleIntegrity(projectId, bundle, previousAnchor) {
   if (!isPlainObject(bundle)) {
     throw typedError('E_STAGE10_PERSISTENCE_BUNDLE_INVALID', 'PERSISTENCE_BUNDLE_REQUIRED');
@@ -127,6 +174,7 @@ export function createStage10MainPersistenceAdapter(input = {}) {
       session: path.join(stateRoot, SESSION_FILENAME),
       authority: path.join(stateRoot, AUTHORITY_FILENAME),
       recoveryRoot: path.join(stateRoot, RECOVERY_DIRNAME),
+      projectTruthRecovery: path.join(stateRoot, RECOVERY_DIRNAME, PROJECT_TRUTH_RECOVERY_FILENAME),
       anchorRoot: projectAnchorRoot,
       anchor: path.join(projectAnchorRoot, 'integrity-anchor.v1.json'),
       anchorRecovery: path.join(projectAnchorRoot, 'integrity-anchor.recovery.v1.json'),
@@ -149,6 +197,54 @@ export function createStage10MainPersistenceAdapter(input = {}) {
 
   async function killpoint(name) {
     if (onKillpoint) await onKillpoint(name);
+  }
+
+  async function readProjectTruthText(mutation) {
+    try {
+      return await fs.readFile(path.join(projectRoot, mutation.relativePath), 'utf8');
+    } catch (error) {
+      throw typedError('E_STAGE10_PROJECT_TRUTH_READ_FAILED', 'PROJECT_TRUTH_READ_FAILED', {
+        code: error?.code || '',
+      });
+    }
+  }
+
+  async function assertProjectTruthText(mutation, expectedText, expectedHash, reason) {
+    const actualText = await readProjectTruthText(mutation);
+    if (actualText !== expectedText || hashText(actualText) !== expectedHash) {
+      throw typedError('E_STAGE10_PROJECT_TRUTH_STALE', reason, {
+        expectedHash,
+        actualHash: hashText(actualText),
+      });
+    }
+    return actualText;
+  }
+
+  async function writeProjectTruthText(mutation, target) {
+    const next = target === 'next'
+      ? { text: mutation.nextText, hash: mutation.nextHash }
+      : { text: mutation.previousText, hash: mutation.previousHash };
+    const targetPath = path.join(projectRoot, mutation.relativePath);
+    const result = await writeFileAtomic(targetPath, next.text);
+    if (result?.success === false || result?.ok === false) {
+      throw typedError('E_STAGE10_PROJECT_TRUTH_WRITE_REJECTED', 'PROJECT_TRUTH_WRITE_REJECTED', { target });
+    }
+    await assertProjectTruthText(mutation, next.text, next.hash, 'PROJECT_TRUTH_READBACK_MISMATCH');
+  }
+
+  async function writeProjectTruthRecovery(mutation, reason, previousIntegrityAnchorDigest) {
+    const paths = pathsFor(mutation.projectId);
+    const recovery = {
+      schemaVersion: 'yalken.stage10.projectTruthRecovery.v1',
+      projectId: mutation.projectId,
+      reason: normalizeString(reason),
+      previousIntegrityAnchorDigest: normalizeString(previousIntegrityAnchorDigest),
+      previousHash: mutation.previousHash,
+      intendedNextHash: mutation.nextHash,
+      previousText: mutation.previousText,
+    };
+    await writeJson(paths.projectTruthRecovery, recovery, 'projectTruthRecovery');
+    return recovery;
   }
 
   async function readRawBundle(projectId) {
@@ -200,19 +296,32 @@ export function createStage10MainPersistenceAdapter(input = {}) {
     const paths = pathsFor(projectId);
     const transaction = await readJsonIfPresent(paths.transaction, 'transaction');
     if (!transaction) return false;
+    const legacyTransaction = transaction.schemaVersion === STAGE10_LEGACY_MAIN_TRANSACTION_SCHEMA;
     if (
-      transaction.schemaVersion !== STAGE10_MAIN_TRANSACTION_SCHEMA
+      (!legacyTransaction && transaction.schemaVersion !== STAGE10_MAIN_TRANSACTION_SCHEMA)
       || normalizeString(transaction.projectId) !== normalizeString(projectId)
       || !isPlainObject(transaction.nextBundle)
+      || (legacyTransaction && (
+        Object.prototype.hasOwnProperty.call(transaction, 'projectTruthMutation')
+        || Object.prototype.hasOwnProperty.call(transaction, 'projectTruthMutationDigest')
+      ))
     ) {
       throw typedError('E_STAGE10_PERSISTENCE_RECOVERY_INVALID', 'PERSISTENCE_RECOVERY_INVALID');
     }
     const currentAnchor = await readJsonIfPresent(paths.anchor, 'anchor');
     const previousBundle = isPlainObject(transaction.previousBundle) ? transaction.previousBundle : null;
     const nextBundle = transaction.nextBundle;
+    const projectTruthMutation = normalizeProjectTruthMutation(projectId, transaction.projectTruthMutation);
+    const projectTruthMutationDigest = normalizeString(transaction.projectTruthMutationDigest);
+    const projectTruthDigestValid = legacyTransaction
+      ? projectTruthMutation === null
+      : projectTruthMutation
+        ? projectTruthMutationDigest === hashCanonicalValue(projectTruthMutation)
+        : projectTruthMutationDigest === hashCanonicalValue(null);
     if (
       normalizeString(transaction.nextBundleDigest) !== bundleDigest(nextBundle)
       || normalizeString(transaction.previousBundleDigest) !== bundleDigest(previousBundle)
+      || !projectTruthDigestValid
     ) {
       throw typedError('E_STAGE10_PERSISTENCE_RECOVERY_DIGEST_INVALID', 'PERSISTENCE_RECOVERY_TRANSACTION_DIGEST_INVALID');
     }
@@ -233,6 +342,17 @@ export function createStage10MainPersistenceAdapter(input = {}) {
       ? previousBundle?.integrityAnchor || null
       : await readJsonIfPresent(paths.anchorRecovery, 'anchorRecovery');
     validateBundleIntegrity(projectId, target, targetPreviousAnchor);
+    if (projectTruthMutation) {
+      const currentProjectTruth = await readProjectTruthText(projectTruthMutation);
+      const currentProjectTruthHash = hashText(currentProjectTruth);
+      if (
+        currentProjectTruthHash !== projectTruthMutation.previousHash
+        && currentProjectTruthHash !== projectTruthMutation.nextHash
+      ) {
+        throw typedError('E_STAGE10_PROJECT_TRUTH_RECOVERY_FORKED', 'PROJECT_TRUTH_RECOVERY_FORKED');
+      }
+      await writeProjectTruthText(projectTruthMutation, target === nextBundle ? 'next' : 'previous');
+    }
     await writeJson(paths.authority, target.authorityStore, 'recoveryAuthority');
     await writeJson(paths.session, target.session, 'recoverySession');
     if (!currentDigest || currentDigest !== normalizeString(target.integrityAnchor.integrityAnchorDigest)) {
@@ -273,6 +393,20 @@ export function createStage10MainPersistenceAdapter(input = {}) {
           throw typedError('E_STAGE10_PERSISTENCE_STALE_COMMIT', 'PERSISTENCE_STALE_OR_ROLLED_BACK_COMMIT');
         }
         validateBundleIntegrity(projectId, nextBundle, previousBundle?.integrityAnchor || null);
+        const projectTruthMutation = normalizeProjectTruthMutation(projectId, options.projectTruthMutation);
+        if (projectTruthMutation) {
+          await assertProjectTruthText(
+            projectTruthMutation,
+            projectTruthMutation.previousText,
+            projectTruthMutation.previousHash,
+            'PROJECT_TRUTH_REVISION_CONFLICT',
+          );
+          await writeProjectTruthRecovery(
+            projectTruthMutation,
+            options.reason,
+            actualPreviousDigest,
+          );
+        }
         const transaction = {
           schemaVersion: STAGE10_MAIN_TRANSACTION_SCHEMA,
           projectId: normalizeString(projectId),
@@ -281,10 +415,16 @@ export function createStage10MainPersistenceAdapter(input = {}) {
           nextBundle,
           previousBundleDigest: bundleDigest(previousBundle),
           nextBundleDigest: bundleDigest(nextBundle),
+          projectTruthMutation,
+          projectTruthMutationDigest: hashCanonicalValue(projectTruthMutation),
         };
         const paths = pathsFor(projectId);
         await writeJson(paths.transaction, transaction, 'transaction');
         await killpoint('after-transaction-write');
+        if (projectTruthMutation) {
+          await writeProjectTruthText(projectTruthMutation, 'next');
+          await killpoint('after-project-truth-write');
+        }
         await writeBundlePair(projectId, nextBundle);
         const pairReadback = await Promise.all([
           readJsonIfPresent(paths.session, 'session'),
@@ -295,6 +435,14 @@ export function createStage10MainPersistenceAdapter(input = {}) {
         }
         await writeAnchor(projectId, nextBundle.integrityAnchor, previousBundle?.integrityAnchor || null);
         const verified = await verifyBundleReadback(projectId, nextBundle);
+        if (projectTruthMutation) {
+          await assertProjectTruthText(
+            projectTruthMutation,
+            projectTruthMutation.nextText,
+            projectTruthMutation.nextHash,
+            'PROJECT_TRUTH_READBACK_MISMATCH',
+          );
+        }
         await fs.unlink(paths.transaction);
         return {
           ok: true,

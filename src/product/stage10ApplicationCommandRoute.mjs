@@ -2,10 +2,23 @@ import {
   STAGE10_ACTIVATION_MODES,
   STAGE10_PRODUCT_COMMAND_IDS,
 } from './stage10ProductWiring.mjs';
+import { CORE_COMMAND_IDS } from '../core/runtime.mjs';
 
 export const STAGE10_APPLICATION_COMMAND_ROUTE_SCHEMA = 'yalken.stage10.applicationCommandRoute.v1';
 
-const ALLOWED_COMMAND_IDS = new Set(Object.values(STAGE10_PRODUCT_COMMAND_IDS));
+const CANONICAL_AUTHOR_COMMAND_IDS = new Set(
+  Object.values(CORE_COMMAND_IDS).filter((commandId) => ![
+    CORE_COMMAND_IDS.PROJECT_CREATE,
+    CORE_COMMAND_IDS.PROJECT_APPLY_TEXT_EDIT,
+    CORE_COMMAND_IDS.MANUAL_MAP_EXPORT_JSON,
+    CORE_COMMAND_IDS.MANUAL_MAP_EXPORT_IMAGE_PDF,
+    CORE_COMMAND_IDS.MANUAL_MAP_IMPORT_JSON_REPEAT,
+  ].includes(commandId)),
+);
+const ALLOWED_COMMAND_IDS = new Set([
+  ...Object.values(STAGE10_PRODUCT_COMMAND_IDS),
+  ...CANONICAL_AUTHOR_COMMAND_IDS,
+]);
 
 function normalizeString(value) {
   return typeof value === 'string' ? value.trim() : '';
@@ -19,6 +32,7 @@ function typedError(code, commandId, reason, details) {
 
 export function createStage10ApplicationCommandRoute(input = {}) {
   const getBootstrap = typeof input.getBootstrap === 'function' ? input.getBootstrap : () => null;
+  const canonicalProjectTruthPort = input.canonicalProjectTruthPort;
   return {
     schemaVersion: STAGE10_APPLICATION_COMMAND_ROUTE_SCHEMA,
     async dispatch(commandIdInput, payloadInput = {}) {
@@ -42,6 +56,22 @@ export function createStage10ApplicationCommandRoute(input = {}) {
         });
       }
       payload.projectId = activeProjectId;
+      if (CANONICAL_AUTHOR_COMMAND_IDS.has(commandId)) {
+        if (
+          !canonicalProjectTruthPort
+          || typeof canonicalProjectTruthPort.prepare !== 'function'
+          || typeof bootstrap.dispatchCanonicalProjectCommand !== 'function'
+        ) {
+          return typedError(
+            'E_STAGE10_CANONICAL_PROJECT_TRUTH_PORT_MISSING',
+            commandId,
+            'CANONICAL_PROJECT_TRUTH_PORT_MISSING',
+          );
+        }
+        const canonicalProjectTruth = await canonicalProjectTruthPort.prepare(commandId, payload);
+        if (canonicalProjectTruth?.ok === false) return canonicalProjectTruth;
+        return bootstrap.dispatchCanonicalProjectCommand(commandId, payload, canonicalProjectTruth);
+      }
       return bootstrap.dispatchProjectCommand(commandId, payload, {
         mode: STAGE10_ACTIVATION_MODES.DOM_VISIBLE_CONTROL_LISTENER_FALLBACK,
         controlId: `stage10-product-command-${commandId}`,

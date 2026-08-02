@@ -3,21 +3,84 @@
   "approvals": [
     {
       "filePath": "docs/OPS/CAPABILITIES_MATRIX.json",
-      "sha256": "2a28084d5cb3ce5fe905554a545554f462c7afaf7c7aebce0e5fbb5c265f15bb",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_STAGE10_PR1391_AUDIT_REPAIR",
-      "approvedAtUtc": "2026-08-01T22:12:34.000Z",
-      "rationale": "Approve the bounded Atlas Stage-10 node-only local capability bindings required by the source-proven PR 1391 audit repair; no network, UI redesign, new dependency, second journal, or release acceptance claim.",
+      "sha256": "75efe933988f2646edb435ed5e0a718da522a17928ab11b110614150d6c889b3",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_B",
+      "approvedAtUtc": "2026-08-02T09:48:14.000Z",
+      "rationale": "Approve the exact OPS platform capability projection for the already runtime-bound full-manuscript Word command discovered by the R1-B full promotion gate; no Word runtime or UI change.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_SOURCE_PROVEN_R1_R7_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_R1_B_REPAIR"
     },
     {
       "filePath": "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json",
-      "sha256": "f30bb8adbfc8da38bb72dbe93c1373971f12cb9b92b7cee857587122ecfe4107",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_STAGE10_PR1391_AUDIT_REPAIR",
-      "approvedAtUtc": "2026-08-01T22:12:34.000Z",
-      "rationale": "Approve exact Stage-10 comments, conflict, operation-exchange, and collab command-to-capability bindings for the real canonical application command route.",
+      "sha256": "b7d186af98a89f8f48a0f7f1a4bc100fec24fb998388a7f3126a5c55d9080d8f",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_B",
+      "approvedAtUtc": "2026-08-02T09:48:14.000Z",
+      "rationale": "Approve the exact OPS command-to-capability projection for the already runtime-bound full-manuscript Word command discovered by the R1-B full promotion gate; no Word runtime or UI change.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_SOURCE_PROVEN_R1_R7_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_R1_B_REPAIR"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_POST_3BF49983_FINDING_RUNTIME_MATRIX.json",
+      "sha256": "ec430d088362cff3c755609ea26cf566e5b1536d7d4f15a15d3d635eb1af798a",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_B",
+      "approvedAtUtc": "2026-08-02T09:48:14.000Z",
+      "rationale": "Approve the exact machine-readable R1-B finding-to-command-to-runtime-to-persistence-to-reopen-to-replay matrix with queued contours and no self-acceptance claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_R1_B_REPAIR"
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-er-c03-command-reachability-command-kernel-authority.contract.test.js",
+      "sha256": "0fa295d8a29002a078a9c57d2c5bf5c02645d3a556d66c7e2131566d2d61dae5",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_B",
+      "approvedAtUtc": "2026-08-02T09:48:14.000Z",
+      "rationale": "Approve the exact maintained reachability contract that requires released author commands to enter the canonical Stage-10 Command Kernel route and forbids the removed direct reducer writer.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_R1_B_REPAIR"
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-er-c04-product-vertical-journeys-graph-workbench.contract.test.js",
+      "sha256": "267148b2e30fb7faf7fe72430bbd993fe3b64491b945cabfcdc418df0d65faca",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_B",
+      "approvedAtUtc": "2026-08-02T09:48:14.000Z",
+      "rationale": "Approve the exact maintained Manual Map reachability contract re-bound from the removed direct reducer writer to the canonical Stage-10 Command Kernel route.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_R1_B_REPAIR"
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-01-future-schema-loss.contract.test.js",
+      "sha256": "3fe8f70d35d244f2b538adeeb930a27a6bdf77a9d39f3a5651d0af36f83cbfed",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_B",
+      "approvedAtUtc": "2026-08-02T09:48:14.000Z",
+      "rationale": "Approve decisive real-main R1-B tests proving Command Kernel receipt provenance, duplicate preflight, reopen replay, future-schema fail-close and opaque uncommanded-domain preservation.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_R1_B_REPAIR"
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-05-manual-map-portability.contract.test.js",
+      "sha256": "7e3dc9b661a6adf2188acd6599b45fd8f098780c64cc947e1bc69ad0cc99ad36",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_B",
+      "approvedAtUtc": "2026-08-02T09:48:14.000Z",
+      "rationale": "Approve the exact maintained portability contract boundary update after removal of the generic direct writer while preserving the separately queued portability adapter scope.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_R1_B_REPAIR"
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-r2-c04-authority-runtime-hygiene.contract.test.js",
+      "sha256": "84ee54d1b76fb2581e89ba4127cb04463ddd3785845a2d26069ed22d7daf4761",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_B",
+      "approvedAtUtc": "2026-08-02T09:48:14.000Z",
+      "rationale": "Approve the exact authority hygiene contract requiring capability revalidation before canonical Stage-10 dispatch and forbidding the old direct reducer receipt path.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_R1_B_REPAIR"
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-stage10-pr1391-audit-repair.contract.test.js",
+      "sha256": "29de161cdf82d42c69cb0481497583d4fac952e612b02e2969448d9a24bc5cd7",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_B",
+      "approvedAtUtc": "2026-08-02T09:48:14.000Z",
+      "rationale": "Approve decisive filesystem tests proving atomic manifest and Stage-10 authority recovery, failed-write rejection, recovery consumption and bounded recovery metadata.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_R1_B_REPAIR"
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v5-final-audit-p0-08-stage10-product-wiring.mjs",
@@ -47,15 +110,6 @@
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_SOURCE_PROVEN_R1_R7_REPAIR"
     },
     {
-      "filePath": "test/contracts/yalken-atlas-v5-stage10-pr1391-audit-repair.contract.test.js",
-      "sha256": "149ff54819ff24f572aa770925a12209dce498fa1fadf6f3da37ee53d124977e",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_A",
-      "approvedAtUtc": "2026-08-02T00:00:00.000Z",
-      "rationale": "Approve decisive real-filesystem Stage-10 negatives proving duplicate receipt and operation identities fail before recovery or command persistence effects and fail closed on reopen validation.",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_AUDIT_HOLD_REPAIR"
-    },
-    {
       "filePath": ".github/workflows/rtk-required.yml",
     "sha256": "e2ee17e5231c24b9f1d76dc0b301f09343555d2cce1cd128bd0b74cf3fef3793",
     "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R0",
@@ -80,10 +134,12 @@
     },
     {
       "filePath": "docs/OPS/ARTIFACTS/menu/menu.normalized.json",
-      "sha256": "54a0f555247a53792f7c9f794190f23bb2667fade4a1183ffa7140166bbc0b52",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-07-31T23:58:54.204Z",
-      "rationale": "Approve regenerated normalized menu artifact for bounded Review DOCX exporter menu entry; preserves Design OS menu structure, toolbar geometry, shell modes, local-only runtime, and no automatic apply claim."
+      "sha256": "8a2da1efdd15e00c4c19c1253045728b57e0f863351efbacde7c7ef156302873",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
+      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
+      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
     },
     {
       "filePath": "docs/OPS/BASELINE/OPS_GOVERNANCE_BASELINE_v1.0.json",
@@ -2488,10 +2544,12 @@
     },
     {
       "filePath": "docs/OPS/LOCKS/MENU_ARTIFACT_LOCK.json",
-      "sha256": "d4ff3e2bcccdba4bd74f0443a9f553bcf2b96e7cc7731f385fb7402447efffe8",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-07-31T23:58:54.204Z",
-      "rationale": "Approve regenerated menu artifact lock for bounded Review DOCX exporter menu entry; normalized menu snapshot and artifact bytes are re-bound to current source after release-audit P0 exporter wiring."
+      "sha256": "d0bd3c5ae612bf21a9bc8f68df866aa09b67d638a3b3b7422292223fed6098bb",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
+      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
+      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
     },
     {
       "filePath": "docs/OPS/PROOFHOOKS/PROOFHOOK_INTEGRITY_LOCK.json",
@@ -2592,12 +2650,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "f381ca1cf20f5fd4e489f1a332a9cfcec0d874a5bdc35dd085387c2e6b710e3d",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
-      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
-      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "sha256": "7a20aef245cc83b6ea8a623abee474be63ef089569dbd7563f307974eda0d93c",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
+      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
+      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
+      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
@@ -3554,10 +3612,12 @@
     },
     {
       "filePath": "docs/OPS/STATUS/MENU_SNAPSHOT_REGISTRY.json",
-      "sha256": "bcc85df4dab8df507a2c6ef596938e4c81512ddc6114afd8f90bdb994dae172e",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-07-31T23:58:54.204Z",
-      "rationale": "Approve menu snapshot registry rebind for bounded Review DOCX exporter menu entry; context hash unchanged, no toolbar/layout/shell mode change, no UI redesign, and no release-ready claim."
+      "sha256": "30e624460027f844805603fbe69b8d086c48df804c83a2b16d4d592360597569",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
+      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
+      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
     },
     {
       "filePath": "docs/OPS/STATUS/MODE_MATRIX_SINGLE_AUTHORITY_v3.json",
@@ -5684,10 +5744,12 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-release-audit-p0-product-comments-mixed-multiscene.mjs",
-      "sha256": "151c98f2ca44945520306b187e198530909ac68104d07b1506bb22439cbe410c",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T08:05:00.000Z",
-      "rationale": "Approve bounded Word P0 large manuscript stress product loop: synthetic physical Word cases exercise 10k, 50k and 100k tracked replacement apply, 20k/50-comment and 50k/80-comment shadow import, 50k formatting and paragraph structure diagnostics, authenticated intake, visible preview, replay/readback, typed 150k and 300k Word automation scale boundaries, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
+      "sha256": "086a3e20de3a0776300f75ebc50e2304500e3210abc797eef1bf860d60ecf896",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
+      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
+      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
     },
     {
       "filePath": "scripts/ops/rtk-word-release-audit-p0-product-originated-smoke-wave12.mjs",
@@ -6209,12 +6271,12 @@
     },
     {
       "filePath": "src/command/commandSurfaceKernel.js",
-      "sha256": "9537b3b47a91bbaca432040b564c03ee2b551b34345bb445b009b7cfa00cf97c",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T18:10:00.000Z",
-      "rationale": "Approve bounded Word safety remediation C2 current bytes: canonical multi-scene command path is allowlisted, typed, dispatched through Command Surface Kernel, serialized per project root, validated before writer, replay-safe, rollback-proven, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "sha256": "2be8fd69058283db51c5e80053bdc904d0bd1091af7600eb67a0ab5f28a76678",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
+      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
+      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
       "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
     },
     {
       "filePath": "src/derived/atlas/atlasGraphLayoutWorker.mjs",
@@ -6351,17 +6413,21 @@
     },
     {
       "filePath": "src/io/revisionBridge/exactTextMinSafeWrite.mjs",
-      "sha256": "98a9b931305f5b03a5b2040978ffb06c7cf11273cc4f83b438efe878824fd1d7",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_C05_BLOCK_RANGE_WRITER",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded C05 exact writer guard extension: admits block-local writes only when a locally bound C04-generated range digest is passed through trusted options, rejects caller-forged or tampered ranges, validates schema, provenance, scene, block, offsets, expected text, digests, current text, duplicate block, and duplicate quote, preserves no-blockRange legacy scene-unique behavior, canonical journal, checkpoint, atomic write, readback, receipt, and replay path, and adds no UI, network, dependency, HMAC/YRTK2, fuzzy apply, or full Word saturation claim."
+      "sha256": "60ad8bface7f92ddacd2ea1d41810feb72d3255a338d26150321ba850ee14589",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
+      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
+      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
     },
     {
       "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "717ae0f559158cad8d1d74025120d80c6e72793cc65b7d026702265ca5e03cf5",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T09:10:00.000Z",
-      "rationale": "Approve bounded Word P0 repeat high-density stress product loop: synthetic physical Word cases repeat 10k, 50k and 100k tracked replacement apply and 80/120-comment shadow imports through product export, authenticated intake, visible preview, replay/readback, deterministic signatures, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
+      "sha256": "4b4e103b0abdee89f07cebcc2c1fc41f5a08c9bfc38e068160f3ebce7100aeab",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
+      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
+      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportApplyCore.mjs",
@@ -6411,10 +6477,12 @@
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportCommentShadowSession.mjs",
-      "sha256": "9aeb9dd5b0f406c32cb930a6312b78f7e4af5bdef783decb6fd31631f9041629",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T12:35:00.000Z",
-      "rationale": "Approve Word P0 modern comment resolve/reopen typed-limitation contour: preserves RESOLVED state through authenticated comment shadow product command path, binds reopen lifecycle as typed limitation, advances normalized matrix to formatting lane, keeps automatic apply false, Word saturated false, Google Docs closed, and updates successor verifiers without expanding manuscript authority."
+      "sha256": "0ae8517b57a33705cfe27510722080e66052d9ddd9ee17a55537f251b5b044a1",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
+      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
+      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportContracts.mjs",
@@ -6494,12 +6562,12 @@
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportPackageParserV2.mjs",
-      "sha256": "bfa98cd3550e6718090efd9f73290d0907f0bb193d3e4a635b603737262f8acb",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
-      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "sha256": "9314dbf23ee80c3a3ce25aba2080eed0c18223b3e3b634fbb153edc7c4dac0e7",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
+      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
+      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
       "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportRoundStore.mjs",
@@ -6531,21 +6599,21 @@
     },
     {
       "filePath": "src/main.js",
-    "sha256": "204b6727416c0e614d278cb4e83aa6f91b4e4bba36605faf7cb7a5fd1c99abf7",
-    "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R0",
-    "approvedAtUtc": "2026-08-02T00:00:00.000Z",
-    "rationale": "Approve bounded per-domain future author-schema admission and preservation at the real product command boundary; target future schemas fail before recovery or storage and non-target opaque author domains survive supported mutations.",
+      "sha256": "d4112fa34185e185bea8861d865407cc178859f6b75aadc6d3368b004aca13f9",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
+      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
+      "rationale": "Rebind exact controller-verified main-process bytes containing the already-merged Word PR1394 descendant and the authorized Atlas R1-B canonical Command Kernel integration; this registry-only repair adds no further capability, UI change, network, dependency, or release claim.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_SOURCE_PROVEN_R1_R7_REPAIR"
+      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_AND_ATLAS_R1_B_BYTES"
     },
     {
       "filePath": "src/main/rtkDocxReturnIntakeWorker.cjs",
-      "sha256": "13787a4a0fbe513d89adaa0d9fb8cf47238ba6d26ff9cd5dee5b7327f3e238ba",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
-      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "sha256": "edab6bfd1394554f713059aef4fb996e45c4affb6080b2db2896884a67cbda13",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
+      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
+      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
       "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
     },
     {
       "filePath": "src/preload.js",
@@ -6556,10 +6624,12 @@
     },
     {
       "filePath": "src/renderer/commands/localCapabilityProvider.mjs",
-      "sha256": "1c2a42ad6a50bb187d91bf7ff11aa8060a77fe4c512799ccf1e8620b8e024dc6",
-      "approvedBy": "owner:TASK_ID:WORD_RTK_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE",
-      "approvedAtUtc": "2026-08-01T04:35:00.000Z",
-      "rationale": "Approve bounded P0 product comments mixed multi-scene contour and entitlement repair: Electron Review DOCX export menu proof, physical Word root comment/mixed comment plus tracked replacement/delete/state probe, authenticated V2 intake, visible preview, explicit command apply, comment shadow replay, multi-scene safe block, veto metrics zero, automatic apply false, Word saturated false, Google Docs closed."
+      "sha256": "384665fa639def8d8ffaad946f9898251a23675d1710cf5276e8a77cbf06cc36",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
+      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
+      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
     },
     {
       "filePath": "src/renderer/design-os/atlasFeatureIntegrationManifest.mjs",
@@ -6753,10 +6823,12 @@
     },
     {
       "filePath": "test/contracts/donor-port-command-surface-kernel.contract.test.js",
-      "sha256": "d8729d5d29c78da37058b5a6993ae8c512526421ce96ed3b234aafab929c28de",
-      "approvedBy": "ticket:REVIEW_BRIDGE_CANONICAL_PACKET_UI_APPLY_001_GOVERNANCE_BYTE_TRUTH_REPAIR",
-      "approvedAtUtc": "2026-07-12T17:55:25.000Z",
-      "rationale": "Rebind the pre-existing donor command-surface kernel contract approval to its current mainline bytes discovered by the Phase 01 governance audit; the contract itself is unchanged in this contour and no donor kernel expectation, command scope, publication authority, readiness, persistence, storage, receipt, recovery, or import-export scope is widened."
+      "sha256": "86534feec1e67d35512049a3c7f659788bd1e878fbc913895b26f1c42c415af0",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
+      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
+      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
     },
     {
       "filePath": "test/contracts/e2e-critical-user-path.contract.test.js",
@@ -7341,17 +7413,21 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
-      "sha256": "e2305ec0b49052fd54e979573a6b33200b9e9433cbfde5ec36a346f71aacb835",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
-      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
-      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
+      "sha256": "c9852d0df60b2a6f9303400e3e42b32ece41ce3d261be90bb2d2c9637f203c6d",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
+      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
+      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-review-preview-session.contract.test.js",
-      "sha256": "b54a9b5feb12ab3942b32017bf39868db54b86925f7fbce56456b4a5b2103398",
-      "approvedBy": "ticket:REVIEW_BRIDGE_DOCX_REVIEW_V1_GATE_C_001",
-      "approvedAtUtc": "2026-07-13T00:31:00.000Z",
-      "rationale": "Approve bounded tracked text parsing, structural fallback, malformed XML, and zero-authority contracts."
+      "sha256": "0e1c20e2bee55dacb37cec34837f8e5dc6b1d2787ec25f51f1201473e787f740",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
+      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
+      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-zip-inventory-materializer.contract.test.js",
@@ -7376,10 +7452,12 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-exact-text-min-safe-write.contract.test.js",
-      "sha256": "6cf3165f60be4db5077766f5c8c671f02967cdc812f0611f179f45491bfc345d",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_C05_BLOCK_RANGE_WRITER",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve narrow adjacent exact-writer guard update: extends the existing changed-file allowlist only for the Sector-M scope map plus C05 locally bound block-range authority helper, C05 focused contract, and C05 receipt while preserving legacy scene-unique behavior, canonical writer, recovery, no UI, no network, no dependency, no HMAC/YRTK2 claim, and no full Word saturation claim."
+      "sha256": "52dadd8abf4b9735ff5d2158699cab92af3cc0a45de0bd1c6e4ae47d191832a5",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
+      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
+      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
     },
     {
       "filePath": "test/contracts/revision-bridge-file-authority-hardening.contract.test.js",
@@ -7825,10 +7903,12 @@
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-product-comments-mixed-multiscene.contract.test.js",
-      "sha256": "006683946f6e98e1d2d8d63d44a06828068e7334ab7334f7df4273d5b7757359",
-      "approvedBy": "owner:TASK_ID:WORD_RTK_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE",
-      "approvedAtUtc": "2026-08-01T04:35:00.000Z",
-      "rationale": "Approve bounded P0 product comments mixed multi-scene contour and entitlement repair: Electron Review DOCX export menu proof, physical Word root comment/mixed comment plus tracked replacement/delete/state probe, authenticated V2 intake, visible preview, explicit command apply, comment shadow replay, multi-scene safe block, veto metrics zero, automatic apply false, Word saturated false, Google Docs closed."
+      "sha256": "1bdf16a52d530fcaae74c656572f25115b03b1746221d592b41828e94658bdf5",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
+      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
+      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-product-originated-smoke-wave12.contract.test.js",
@@ -7938,10 +8018,12 @@
     },
     {
       "filePath": "test/contracts/rtk-word-v4-a03-c01-comment-shadow-runtime.contract.test.js",
-      "sha256": "277880ed4dca5cb5320d14a5df97bac5215ef5c2d90b9ba1b82237a5427db278",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T12:20:00.000Z",
-      "rationale": "Approve Word P0 modern comment resolve/reopen typed-limitation closure: done=true state readback is physically bound and RESOLVED state is preserved through the authenticated product comment shadow command path, while reopen/full lifecycle authority remains a typed limitation with no manuscript or automatic apply authority."
+      "sha256": "d8e28bad8361ead19cf8bad976b867f0c6d7fa30328b3ad06e03c572f1f9a617",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
+      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
+      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.contract.test.js",
@@ -8735,20 +8817,6 @@
       "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
     },
     {
-      "filePath": "test/contracts/yalken-atlas-v5-er-c03-command-reachability-command-kernel-authority.contract.test.js",
-      "sha256": "f81614471733409e0969afc557aae23ab7912ce8602e2b45ecb91ab144485aee",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C04_PRODUCT_VERTICAL_JOURNEYS_GRAPH_WORKBENCH",
-      "approvedAtUtc": "2026-07-31T15:45:00.000Z",
-      "rationale": "Approve ER C04 command-reachability contract rebind: removes the old degraded backend marker and requires Core reducer plus manifest persistence through Command Kernel for product writes, preserving fail-closed unknown commands, no menu namespace bypass, no renderer storage write, no dependency, and no network."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-er-c04-product-vertical-journeys-graph-workbench.contract.test.js",
-      "sha256": "48b4cc9c72f2ce79f6f1ee2468f61eb9364702f93b0408fc50a276b54abaf9d9",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C04_PRODUCT_VERTICAL_JOURNEYS_GRAPH_WORKBENCH",
-      "approvedAtUtc": "2026-07-31T15:45:00.000Z",
-      "rationale": "Approve ER C04 focused contract: proves Stage 01 Atlas command journey, Stage 02 Manual Map create edit delete group workbench, Stage 03 projection inspector boundary, Stage 05 product surface reachability, shared query and command registries, Command Kernel-only writes, no direct UI storage mutation, no dependency, and no network."
-    },
-    {
       "filePath": "test/contracts/yalken-atlas-v5-er-c05-real-worker-measured-10k-budget.contract.test.js",
       "sha256": "a77aab0b9ad363d1a91a150c8ca1e90e71992ce8c4c5ed8d4e6196435fce975b",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C05_REAL_WORKER_AND_MEASURED_10K_BUDGET",
@@ -8770,13 +8838,6 @@
       "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
     },
     {
-      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-01-future-schema-loss.contract.test.js",
-      "sha256": "c6c5f712cafc09aaddf1d733ef0046f37e0f0a48c8545a3e57d63f06917f0ff6",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R0",
-      "approvedAtUtc": "2026-08-02T00:00:00.000Z",
-      "rationale": "Approve product-boundary negatives proving future Atlas, Manual Map, Idea and Meaning target schemas fail before write while non-target opaque future domains survive a supported Atlas mutation."
-    },
-    {
       "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-03-packaged-visible-journey.contract.test.js",
       "sha256": "f3f1fe825bea1cf5e2c0bfd72d1ad8b1531e0977446b60cf8fe531ee0dd611ad",
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R0",
@@ -8789,13 +8850,6 @@
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_04",
       "approvedAtUtc": "2026-08-01T05:58:00.000Z",
       "rationale": "Approve bounded P0_04 Design OS binding contract: requires FEATURE_INTEGRATION_MANIFEST_V1, actual Design OS slot resolver, query registry binding, Command Kernel command IDs, renderer host binding through resolver metadata, fail-closed negative bypass checks, no visual redesign, no network, no storage authority, and Program DoD remains IN_PROGRESS."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-05-manual-map-portability.contract.test.js",
-      "sha256": "5569601f63cb6fcb47c52394c58f6431771c6e2f7549f59d6b1880c21e0237f5",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
-      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
-      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-06-multilingual-matcher.contract.test.js",
@@ -8880,13 +8934,6 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
       "approvedAtUtc": "2026-07-31T18:42:00.000Z",
       "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-r2-c04-authority-runtime-hygiene.contract.test.js",
-      "sha256": "d588957934a136cbce6545ec62a6a10689946c4ec84821062ae013b389a09c36",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T18:23:22.246Z",
-      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-r2-c05-honest-black-box-acceptance.contract.test.js",
@@ -9002,10 +9049,12 @@
     },
     {
       "filePath": "test/unit/sector-m-s37-capability-provider-free-pro.test.js",
-      "sha256": "59824e77ce2bac209f07f105e1a552f12f731b16bbcd818d1807866c917364d4",
-      "approvedBy": "owner:TASK_ID:WORD_RTK_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE",
-      "approvedAtUtc": "2026-08-01T04:35:00.000Z",
-      "rationale": "Approve bounded P0 product comments mixed multi-scene contour and entitlement repair: Electron Review DOCX export menu proof, physical Word root comment/mixed comment plus tracked replacement/delete/state probe, authenticated V2 intake, visible preview, explicit command apply, comment shadow replay, multi-scene safe block, veto metrics zero, automatic apply false, Word saturated false, Google Docs closed."
+      "sha256": "233e61b58f95d672da35d2dc67c8c7d9139b765d8f6f631ee21c29c373cd9f6c",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
+      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
+      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
     },
     {
       "filePath": "test/unit/yalken-design-os-sidebar-control-truth.test.js",

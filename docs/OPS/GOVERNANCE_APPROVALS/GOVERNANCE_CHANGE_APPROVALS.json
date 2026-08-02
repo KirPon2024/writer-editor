@@ -48,12 +48,12 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-stage10-pr1391-audit-repair.contract.test.js",
-      "sha256": "0ce096eb321187c52478b29568dc664790059205c527e4ea6975242703907067",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_STAGE10_PR1391_AUDIT_REPAIR",
-      "approvedAtUtc": "2026-08-01T22:12:34.000Z",
-      "rationale": "Approve decisive real-filesystem Stage-10 negatives for rollback, coherent rebuild, forged receipts, fail-closed activation, partial writes, killpoints, recovery, real application routing, replay provenance, and bounded authority growth.",
+      "sha256": "149ff54819ff24f572aa770925a12209dce498fa1fadf6f3da37ee53d124977e",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_A",
+      "approvedAtUtc": "2026-08-02T00:00:00.000Z",
+      "rationale": "Approve decisive real-filesystem Stage-10 negatives proving duplicate receipt and operation identities fail before recovery or command persistence effects and fail closed on reopen validation.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_SOURCE_PROVEN_R1_R7_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_AUDIT_HOLD_REPAIR"
     },
     {
       "filePath": ".github/workflows/rtk-required.yml",

@@ -1016,6 +1016,14 @@ test('N3 physical canary invokes shipped formatting apply and persisted replay i
     'formatting was required by the physical ledger but produced no product candidate',
   ]);
   assert.match(source, /summary\.productRouteGaps\.length === 0/u);
+  assert.deepEqual(canary.deriveC5V2ProductRouteGaps(null, {
+    expectedFamilies: ['formatting'],
+  }), [
+    'full-manuscript authenticated intake preview explicit apply did not complete green in this canary script',
+    'formatting was required by the physical ledger but produced no product candidate',
+  ]);
+  assert.match(source, /progress\('formatting-apply-start'/u);
+  assert.match(source, /progress\('formatting-replay-inspection-complete'/u);
 });
 
 test('N3 physical canary retains AX preflight only for native reply and state UI lanes', async () => {

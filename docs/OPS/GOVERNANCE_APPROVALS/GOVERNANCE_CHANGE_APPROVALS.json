@@ -5754,10 +5754,10 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "5927b262440c39fa25e42f6875c673b3efc2dabbba057f6ca2e5c6789b8d4cd3",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1:PHYSICAL_FORMATTING_FALSE_GREEN_CLOSURE",
-      "approvedAtUtc": "2026-08-02T12:39:38.000Z",
-      "rationale": "Approve the exact C5V2 physical runner route plus expected-lane closure: Word edits only generated host-local QA files with verified T7 mirroring, lane-specific preflight remains intact, and a formatting, tracked-text, comment, or structural family required by the physical ledger now fails the run if the returned product path produces no corresponding candidate. A green process exit additionally requires zero product route gaps; terminal certification remains pending.",
+      "sha256": "016544ad0cf7abe9beb657305b027e15eda24ac4df1a83e2bc705c8e2dfde175",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1:NULL_SAFE_PHYSICAL_FAILURE_CHECKPOINTS",
+      "approvedAtUtc": "2026-08-02T12:43:52.000Z",
+      "rationale": "Approve the exact C5V2 physical runner route plus expected-lane closure and null-safe failure evidence: a missing return-apply result is reported as an intake and required-lane gap instead of crashing before the receipt, green process exit still requires zero route gaps, and bounded progress checkpoints identify activation, formatting apply and replay-inspection boundaries without adding product logic. Terminal certification remains pending.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
     },
@@ -7906,10 +7906,10 @@
     },
     {
       "filePath": "test/contracts/rtk-word-n3-formatting-return.contract.test.js",
-      "sha256": "fbe44f5452a4bfc4946cb5391b00234d731c753890b49dee4e67e4ddf3383e83",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1:WORD_NATIVE_LOCATOR_AND_FALSE_GREEN_NEGATIVES",
-      "approvedAtUtc": "2026-08-02T12:39:38.000Z",
-      "rationale": "Approve the exact strengthened N3 contract family: it proves a physical-shaped Word native save may regenerate paraId and textId only while stable index and YRTK bookmark authority agree, rejects a forged bookmark, and proves a ledger-required formatting lane with no product candidate is an explicit route gap that prevents process success. Prior host-local mirror, preflight, apply, replay, recovery and lease tests remain covered; terminal certification remains pending.",
+      "sha256": "3549c207f82bdcd9e2ffda0a22e858f9381943dcf3af8af19f363945ec533b69",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1:NULL_SAFE_PHYSICAL_FAILURE_NEGATIVE",
+      "approvedAtUtc": "2026-08-02T12:43:52.000Z",
+      "rationale": "Approve the exact strengthened N3 contract family: in addition to regenerated native locator and false-green negatives, a null return-apply result deterministically yields both intake and required-formatting gaps, and source assertions require bounded apply and replay-inspection checkpoints. Prior host-local mirror, apply, replay, recovery and lease tests remain covered; terminal certification remains pending.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
     },

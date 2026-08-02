@@ -491,8 +491,11 @@ export function deriveC5V2ReturnLanePlan(activationSummary = {}) {
 }
 
 export function deriveC5V2ProductRouteGaps(returnApply = {}, options = {}) {
-  const lanes = returnApply.typedPendingLanes && typeof returnApply.typedPendingLanes === 'object'
-    ? returnApply.typedPendingLanes
+  const normalizedReturnApply = returnApply && typeof returnApply === 'object'
+    ? returnApply
+    : {};
+  const lanes = normalizedReturnApply.typedPendingLanes && typeof normalizedReturnApply.typedPendingLanes === 'object'
+    ? normalizedReturnApply.typedPendingLanes
     : {};
   const expectedFamilies = new Set(
     Array.isArray(options.expectedFamilies)
@@ -500,7 +503,7 @@ export function deriveC5V2ProductRouteGaps(returnApply = {}, options = {}) {
       : [],
   );
   const gaps = [];
-  if (!returnApply || returnApply.ok !== true) {
+  if (normalizedReturnApply.ok !== true) {
     gaps.push('full-manuscript authenticated intake preview explicit apply did not complete green in this canary script');
   }
   if (lanes.exactText === 'PENDING_PRODUCT_APPLY_LANE') gaps.push('exact text operations remain typed pending product outcomes');
@@ -508,22 +511,28 @@ export function deriveC5V2ProductRouteGaps(returnApply = {}, options = {}) {
   if (lanes.formatting === 'PENDING_PRODUCT_APPLY_LANE') gaps.push('formatting operations remain typed pending product outcomes');
   if (lanes.formatting === 'BLOCKED_MIXED_LANE_ATOMICITY_REQUIRED') gaps.push('formatting is blocked until mixed return lanes share one atomic product transaction');
   if (lanes.structural === 'PENDING_PRODUCT_APPLY_LANE') gaps.push('structural operations remain typed pending product outcomes');
-  if (expectedFamilies.has('formatting') && lanes.formatting === 'NO_FORMATTING_CANDIDATE') {
+  if (
+    expectedFamilies.has('formatting')
+    && (!lanes.formatting || lanes.formatting === 'NO_FORMATTING_CANDIDATE')
+  ) {
     gaps.push('formatting was required by the physical ledger but produced no product candidate');
   }
   if (
     [...expectedFamilies].some((family) => ['tracked_replace', 'tracked_insert', 'tracked_delete'].includes(family))
-    && lanes.exactText === 'NO_EXACT_TEXT_CANDIDATE'
+    && (!lanes.exactText || lanes.exactText === 'NO_EXACT_TEXT_CANDIDATE')
   ) {
     gaps.push('tracked text was required by the physical ledger but produced no product candidate');
   }
   if (
     [...expectedFamilies].some((family) => ['root_comment', 'reply_attempt', 'state_attempt'].includes(family))
-    && lanes.commentsRepliesState === 'NO_COMMENT_CANDIDATE'
+    && (!lanes.commentsRepliesState || lanes.commentsRepliesState === 'NO_COMMENT_CANDIDATE')
   ) {
     gaps.push('comments or lifecycle work was required by the physical ledger but produced no product candidate');
   }
-  if (expectedFamilies.has('structural') && lanes.structural === 'NO_STRUCTURAL_CANDIDATE') {
+  if (
+    expectedFamilies.has('structural')
+    && (!lanes.structural || lanes.structural === 'NO_STRUCTURAL_CANDIDATE')
+  ) {
     gaps.push('structure was required by the physical ledger but produced no product candidate');
   }
   return gaps;
@@ -873,12 +882,20 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
   await waitUntil(() => returnedReadyPath && fs.existsSync(returnedReadyPath), 'RETURNED_DOCX_READY_FOR_PRODUCT_INTAKE', 240000);
   await waitUntil(() => returnedPath && fs.existsSync(returnedPath), 'RETURNED_DOCX_FILE_FOR_PRODUCT_INTAKE', 30000);
   const returnedBytes = fs.readFileSync(returnedPath);
+  progress('return-activation-start', { requestPrefix, returnedBytes: returnedBytes.length });
   const activation = await invokeUiCommand(win, 'cmd.project.review.activateDocxReviewPreviewSession', {
     requestId: 'c5v2-physical-canary-authenticated-return-activation-' + requestPrefix,
     bufferSource: returnedBytes.toString('base64'),
   });
   const activationSummary = summarizeActivation(activation);
   const lanePlan = deriveC5V2ReturnLanePlan(activationSummary);
+  progress('return-activation-complete', {
+    ok: activationSummary.ok === true,
+    formattingCandidateCount: lanePlan.formattingCandidateCount,
+    exactTextCandidateCount: lanePlan.exactTextCandidateCount,
+    commentCandidateCount: lanePlan.commentCandidateCount,
+    structuralCandidateCount: lanePlan.structuralCandidateCount,
+  });
   const textChangeIdsByScene = activationSummary.exactApplyTextChangeIdsByScene || {};
   const applyResults = [];
   const replayResults = [];
@@ -1047,11 +1064,24 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
     }
   }
   if (lanePlan.hasFormatting) {
+    progress('formatting-apply-start', { candidateCount: lanePlan.formattingCandidateCount });
     formattingApplyResult = await invokeUiCommand(win, 'cmd.project.review.applyFormattingReturn', {
       requestId: 'c5v2-physical-canary-formatting-apply-' + requestPrefix,
     });
+    progress('formatting-apply-complete', {
+      ok: formattingApplyResult?.ok === true,
+      applied: formattingApplyResult?.applied === true,
+      replayVerified: formattingApplyResult?.replayVerified === true,
+      code: formattingApplyResult?.code || '',
+    });
+    progress('formatting-replay-inspection-start', {});
     formattingReplayInspection = await invokeUiCommand(win, 'cmd.project.review.inspectFormattingReturnReplay', {
       requestId: 'c5v2-physical-canary-formatting-replay-inspect-' + requestPrefix,
+    });
+    progress('formatting-replay-inspection-complete', {
+      ok: formattingReplayInspection?.ok === true,
+      replayVerified: formattingReplayInspection?.replayVerified === true,
+      code: formattingReplayInspection?.code || '',
     });
   }
   const exactTextGreen = !lanePlan.hasExactText || (

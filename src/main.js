@@ -9769,6 +9769,45 @@ async function bootstrapStage10ApplicationForProject(projectRoot, manifest, mode
   return result;
 }
 
+async function resolveStartupStage10ProjectBinding() {
+  const settings = await loadSettings();
+  const lastProjectId = normalizeStableProjectId(settings?.lastProjectId);
+  if (lastProjectId) {
+    const binding = await findProjectBindingByProjectId(lastProjectId);
+    if (binding) return binding;
+  }
+
+  const lastExternalFilePath = typeof settings?.lastExternalFilePath === 'string'
+    ? settings.lastExternalFilePath.trim()
+    : '';
+  if (lastExternalFilePath && !lastProjectId) return null;
+
+  const projectName = currentProjectName || DEFAULT_PROJECT_NAME;
+  const { manifestPath, manifest } = await ensureProjectManifest(projectName);
+  return {
+    projectId: manifest.projectId,
+    projectRoot: path.dirname(manifestPath),
+    manifestPath,
+    manifest,
+    sourceSchemaVersion: Number(manifest.schemaVersion),
+  };
+}
+
+async function bootstrapStage10ApplicationAtStartup() {
+  activeStage10ApplicationBootstrap = null;
+  activeStage10ApplicationCommandRoute = null;
+  const binding = await resolveStartupStage10ProjectBinding();
+  if (!binding) {
+    return {
+      ok: true,
+      skipped: true,
+      reason: 'NO_SELECTED_PROJECT',
+    };
+  }
+  setActiveProjectNameFromRoot(binding.projectRoot);
+  return bootstrapStage10ApplicationForProject(binding.projectRoot, binding.manifest, 'reopen');
+}
+
 function handleWorkspaceStage10ProductStateQuery(payload = {}) {
   const bootstrap = activeStage10ApplicationBootstrap;
   const runtime = bootstrap?.getRuntime?.();
@@ -27675,6 +27714,7 @@ async function initializeApp() {
   await fileManager.ensureDocumentsFolder();
   await ensureAutosaveDirectory();
   await ensureProjectStructure();
+  await bootstrapStage10ApplicationAtStartup();
   await reconcileReviewFormattingReturnAtStartup();
   await reconcileReviewStructuralReturnAtStartup();
   await reconcileReviewExactTextApplyJournalsAtStartup();

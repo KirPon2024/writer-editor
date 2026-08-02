@@ -372,3 +372,31 @@ test('Atlas V6: renderer and main contain no fixed Stage-10 or replay injection 
   assert.match(mainSource, /prepareManualMapPortabilityCommand/u);
   assert.match(mainSource, /E_MANUAL_MAP_PDF_BINARY_ADAPTER_UNAVAILABLE/u);
 });
+
+test('Atlas V6: packaged startup binds the selected project before visible product controls become available', () => {
+  const mainSource = fs.readFileSync(path.join(ROOT, 'src/main.js'), 'utf8');
+  const resolverStart = mainSource.indexOf('async function resolveStartupStage10ProjectBinding()');
+  const bootstrapStart = mainSource.indexOf('async function bootstrapStage10ApplicationAtStartup()');
+  const initializeStart = mainSource.indexOf('async function initializeApp()');
+  const readyStart = mainSource.indexOf('app.whenReady().then(async () => {');
+  const createWindowCall = mainSource.indexOf('  createWindow();', readyStart);
+
+  assert.ok(resolverStart > 0);
+  assert.ok(bootstrapStart > resolverStart);
+  assert.ok(initializeStart > bootstrapStart);
+  assert.ok(readyStart > initializeStart);
+  assert.ok(createWindowCall > readyStart);
+  const resolverSource = mainSource.slice(resolverStart, bootstrapStart);
+  const bootstrapSource = mainSource.slice(bootstrapStart, mainSource.indexOf('\nfunction handleWorkspaceStage10ProductStateQuery', bootstrapStart));
+  const initializeSource = mainSource.slice(initializeStart, readyStart);
+  const readySource = mainSource.slice(readyStart, createWindowCall);
+
+  assert.match(resolverSource, /findProjectBindingByProjectId\(lastProjectId\)/u);
+  assert.match(resolverSource, /lastExternalFilePath && !lastProjectId/u);
+  assert.match(bootstrapSource, /activeStage10ApplicationBootstrap = null/u);
+  assert.match(bootstrapSource, /activeStage10ApplicationCommandRoute = null/u);
+  assert.match(bootstrapSource, /bootstrapStage10ApplicationForProject\(binding\.projectRoot, binding\.manifest, 'reopen'\)/u);
+  assert.match(initializeSource, /await bootstrapStage10ApplicationAtStartup\(\);/u);
+  assert.match(readySource, /await appInitializationPromise;/u);
+  assert.equal(readySource.includes('createWindow();'), false);
+});

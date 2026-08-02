@@ -9216,10 +9216,10 @@
     },
     {
       "filePath": "src/main.js",
-      "sha256": "2070ac5f701071f15b77de0e1da101a9aaa285e27646a4f62c89a80c17760624",
+      "sha256": "03135add1971a81cf558614252aac32eff044c520286636f86dea3af00ee36b8",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_AUDIT_HOLD_REPAIR",
-      "approvedAtUtc": "2026-08-02T16:13:13.000Z",
-      "rationale": "Approve exact main-process bytes binding selected Stage-10 state, retained Atlas analytics scheduling, real Manual Map file authority and bounded recovery reads while preserving offline-only operation and the existing Word N4 descendant behavior.",
+      "approvedAtUtc": "2026-08-02T16:47:41.000Z",
+      "rationale": "Approve exact main-process bytes binding selected Stage-10 state before packaged visible controls become available, retained Atlas analytics scheduling, real Manual Map file authority and bounded recovery reads while preserving offline-only operation and the existing Word N4 descendant behavior.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_V6_AUDIT_HOLD_REPAIR"
     },
@@ -9315,10 +9315,10 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v6-audit-hold-repair.contract.test.js",
-      "sha256": "500d8e2ab811c1c04af483d7d571fac7846488d08a7619421e7d7fb96153eae6",
+      "sha256": "a22fa1e8913a45b54790c784a17d18a8c3eec89f8ccf878ca829b562e812dc89",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_AUDIT_HOLD_REPAIR",
-      "approvedAtUtc": "2026-08-02T16:13:13.000Z",
-      "rationale": "Approve exact Atlas V6 focused contract bytes proving strict collaborator admission, canonical Manual Map replay, complete BCP47 preservation, retained analytics scheduling, fail-closed Design OS catalogs and removal of fixed Stage-10 theater.",
+      "approvedAtUtc": "2026-08-02T16:47:41.000Z",
+      "rationale": "Approve exact Atlas V6 focused contract bytes proving strict collaborator admission, canonical Manual Map replay, complete BCP47 preservation, retained analytics scheduling, fail-closed Design OS catalogs, removal of fixed Stage-10 theater and selected-project packaged startup ordering before visible controls.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_V6_AUDIT_HOLD_REPAIR"
     },

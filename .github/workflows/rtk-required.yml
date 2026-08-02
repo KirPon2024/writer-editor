@@ -30,3 +30,6 @@ jobs:
 
       - name: Run maintained Atlas event contract graph
         run: npm run -s test:atlas-event-contract
+
+      - name: Run maintained Atlas release truth graph
+        run: npm run -s test:atlas-release-truth

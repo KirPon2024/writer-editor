@@ -1,9 +1,13 @@
 #!/usr/bin/env node
 import { spawnSync } from 'node:child_process';
-import { createHash } from 'node:crypto';
+import { createHash, randomUUID } from 'node:crypto';
 import fs from 'node:fs';
+import fsPromises from 'node:fs/promises';
+import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+
+import { runP0_03PackagedVisibleJourney } from './yalken-atlas-v5-final-audit-p0-03-packaged-visible-journey.mjs';
 
 const REPORT_SCHEMA = 'yalken.atlas.v5.efinal.finalAuditProgramDod.v2';
 const DEFAULT_OUT_DIR = path.resolve('docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD');
@@ -577,27 +581,69 @@ export function buildMachineCapabilityGate(input = {}) {
 export function evaluateFinalAudit(input = {}) {
   const repoRoot = path.resolve(input.repoRoot || process.cwd());
   const gitIdentity = input.identity || buildGitIdentity(repoRoot);
-  const machineGate = buildMachineCapabilityGate({ ...input, repoRoot, identity: gitIdentity });
+  const diagnosticMachineGate = buildMachineCapabilityGate({ ...input, repoRoot, identity: gitIdentity });
   const legacyReceiptDiagnostics = legacyReceiptDiagnostic(repoRoot, input.legacyReceiptPaths || LEGACY_RECEIPT_DIAGNOSTIC_PATHS);
-  const pass = machineGate.pass === true;
+  const journey = input.currentHeadPackagedJourney || {};
+  const execution = journey.execution || {};
+  const accepted = journey.accepted || {};
+  const acceptance = journey.acceptance || {};
+  const sourceBinding = journey.sourceBinding || {};
+  const freshChecks = [
+    { key: 'freshExecutableInvocation', expected: 'FRESH_CURRENT_HEAD_PACKAGED_EXECUTION', actual: execution.mode, pass: execution.mode === 'FRESH_CURRENT_HEAD_PACKAGED_EXECUTION' },
+    { key: 'freshInvocationId', expected: 'non-empty', actual: execution.invocationId || '', pass: typeof execution.invocationId === 'string' && execution.invocationId.length > 0 },
+    { key: 'packagedJourneyExecuted', expected: true, actual: execution.runnerInvoked, pass: execution.runnerInvoked === true },
+    { key: 'packagedJourneyPass', expected: true, actual: journey.pass, pass: journey.pass === true },
+    { key: 'packagedJourneyStatus', expected: 'PASS_PACKAGED_VISIBLE_UI_JOURNEY', actual: journey.status, pass: journey.status === 'PASS_PACKAGED_VISIBLE_UI_JOURNEY' },
+    { key: 'headEqualsOriginMain', expected: true, actual: gitIdentity.headEqualsOriginMain, pass: gitIdentity.headEqualsOriginMain === true },
+    { key: 'cleanExactHead', expected: 0, actual: gitIdentity.localDirtyFileCount, pass: gitIdentity.localDirtyFileCount === 0 },
+    { key: 'sourceHeadMatchesInvocationHead', expected: gitIdentity.headSha, actual: sourceBinding.headSha, pass: sourceBinding.headSha === gitIdentity.headSha },
+    { key: 'packageBuiltAtInvocationHead', expected: gitIdentity.headSha, actual: sourceBinding.packageBuiltAtHeadSha, pass: sourceBinding.packageBuiltAtHeadSha === gitIdentity.headSha },
+    { key: 'sourceUnchangedDuringExecution', expected: true, actual: execution.sourceUnchanged, pass: execution.sourceUnchanged === true },
+    { key: 'packageArtifactHashPresent', expected: 'sha256', actual: sourceBinding.appAsar?.sha256 || '', pass: /^[a-f0-9]{64}$/u.test(sourceBinding.appAsar?.sha256 || '') },
+    { key: 'packagedExecutableRuntime', expected: true, actual: accepted.packagedExecutableRuntime, pass: accepted.packagedExecutableRuntime === true },
+    { key: 'visibleUiInputUsed', expected: true, actual: accepted.visibleUiInputUsed, pass: accepted.visibleUiInputUsed === true },
+    { key: 'atlasCommandsPersisted', expected: true, actual: accepted.atlasEntityRelationContinuityCommandsPersisted, pass: accepted.atlasEntityRelationContinuityCommandsPersisted === true },
+    { key: 'manualMapCommandsPersisted', expected: true, actual: accepted.manualMapCreateNodeEdgePersisted, pass: accepted.manualMapCreateNodeEdgePersisted === true },
+    { key: 'sceneSaveImportExportPersisted', expected: true, actual: accepted.sceneSaveMarkdownImportTxtExportPersisted, pass: accepted.sceneSaveMarkdownImportTxtExportPersisted === true },
+    { key: 'freshProcessReopenReadback', expected: true, actual: accepted.freshProcessReopenReadback, pass: accepted.freshProcessReopenReadback === true },
+    { key: 'noDirectBridgeAcceptance', expected: true, actual: accepted.noDirectBridgeAcceptance, pass: accepted.noDirectBridgeAcceptance === true },
+    { key: 'noGeneratedArtifactOnlyAcceptance', expected: true, actual: accepted.noGeneratedArtifactOnlyAcceptance, pass: accepted.noGeneratedArtifactOnlyAcceptance === true },
+    { key: 'persistedCommandAndFreshReopenProof', expected: true, actual: acceptance.persistedCommandAndFreshReopenProof, pass: acceptance.persistedCommandAndFreshReopenProof === true },
+    { key: 'noProgramDoneClaim', expected: true, actual: acceptance.noProgramDoneClaim, pass: acceptance.noProgramDoneClaim === true },
+  ];
+  const freshFailures = freshChecks
+    .filter((check) => check.pass !== true)
+    .map((check) => ({ code: 'EFINAL_FRESH_PACKAGED_GATE_FAILED', id: check.key, expected: check.expected, actual: check.actual }));
+  if (execution.error) {
+    freshFailures.push({ code: 'EFINAL_FRESH_PACKAGED_EXECUTION_ERROR', id: 'packagedJourneyRunner', actual: execution.error });
+  }
+  const pass = freshFailures.length === 0;
   return {
     schemaVersion: REPORT_SCHEMA,
     generatedAtUtc: new Date().toISOString(),
     contourId: 'EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD',
-    status: pass ? 'PASS_EFINAL_READY_FOR_INDEPENDENT_AUDIT' : 'NOT_READY_EFINAL_MACHINE_CAPABILITY_GAPS',
+    status: pass ? 'PASS_EFINAL_FRESH_PACKAGED_GATE_READY_FOR_INDEPENDENT_AUDIT' : 'NOT_READY_EFINAL_FRESH_PACKAGED_GATE_GAPS',
     pass,
-    finalProgramDoDClaim: pass,
+    finalProgramDoDClaim: false,
     finalProgramDoDClaimScope: pass
-      ? 'READY_FOR_INDEPENDENT_AUDIT_PENDING_EXTERNAL_NO_OPEN_P0_VERDICT'
-      : 'NOT_READY_RECEIPTS_ARE_DIAGNOSTIC_ONLY_MACHINE_CAPABILITY_GATE_REQUIRED',
+      ? 'FRESH_PACKAGED_GATE_READY_FOR_INDEPENDENT_AUDIT_NO_SELF_ACCEPTANCE'
+      : 'NOT_READY_FRESH_PACKAGED_EXECUTION_REQUIRED',
     gitIdentity,
-    machineCapabilityGate: machineGate,
-    programDodEvidenceMap: machineGate.programDodEvidenceMap,
-    criticalInvariants: machineGate.programDodEvidenceMap,
+    currentHeadPackagedGate: {
+      pass,
+      execution,
+      sourceBinding,
+      checks: freshChecks,
+      failures: freshFailures,
+    },
+    diagnosticMachineCapabilityGate: diagnosticMachineGate,
+    machineCapabilityGate: diagnosticMachineGate,
+    programDodEvidenceMap: diagnosticMachineGate.programDodEvidenceMap,
+    criticalInvariants: freshChecks,
     legacyReceiptDiagnostics,
     legacyReceiptStatusCanCertifyProgramDoD: false,
     activePlatformScope: {
-      macosPackagedElectron: pass ? 'MACHINE_GATE_READY_FOR_INDEPENDENT_AUDIT' : 'NOT_READY_MACHINE_CAPABILITY_GAPS',
+      macosPackagedElectron: pass ? 'FRESH_PACKAGED_GATE_READY_FOR_INDEPENDENT_AUDIT' : 'NOT_READY_FRESH_PACKAGED_GATE_GAPS',
       windows: 'NOT_ACTIVATED_NO_PASS_NO_HOLD',
       linux: 'NOT_ACTIVATED_NO_PASS_NO_HOLD',
       web: 'NOT_ACTIVATED_NO_PASS_NO_HOLD',
@@ -614,16 +660,61 @@ export function evaluateFinalAudit(input = {}) {
       reopenReadbackRequired: true,
       negativeControlsRequired: true,
       allP0RepairsRequiredBeforeProgramDone: true,
+      storedReceiptAggregationAcceptedAsReleaseProof: false,
+      freshPackagedExecutionRequired: true,
     },
-    failures: machineGate.failures,
+    failures: freshFailures,
   };
 }
 
-export async function writeFinalAuditReport({ repoRoot = process.cwd(), outDir = DEFAULT_OUT_DIR } = {}) {
-  const report = evaluateFinalAudit({ repoRoot });
+export async function writeFinalAuditReport({
+  repoRoot = process.cwd(),
+  outDir = DEFAULT_OUT_DIR,
+  packagedJourneyRunner = runP0_03PackagedVisibleJourney,
+  identityProvider = buildGitIdentity,
+} = {}) {
+  const invocationId = randomUUID();
+  const startedAtUtc = new Date().toISOString();
+  const identityBefore = identityProvider(repoRoot);
+  const tempRoot = await fsPromises.mkdtemp(path.join(os.tmpdir(), 'yalken-atlas-efinal-current-head-'));
+  let packagedJourney = null;
+  let executionError = '';
+  try {
+    packagedJourney = await packagedJourneyRunner({
+      outDir: path.join(tempRoot, 'packaged-journey'),
+      receiptPath: path.join(tempRoot, 'packaged-journey-receipt.json'),
+      skipBuild: false,
+      skipRuntime: false,
+    });
+  } catch (error) {
+    executionError = error && typeof error.message === 'string' ? error.message : String(error);
+  }
+  const identityAfter = identityProvider(repoRoot);
+  const completedAtUtc = new Date().toISOString();
+  const execution = {
+    mode: 'FRESH_CURRENT_HEAD_PACKAGED_EXECUTION',
+    invocationId,
+    runnerInvoked: true,
+    startedAtUtc,
+    completedAtUtc,
+    sourceUnchanged: identityBefore.headSha === identityAfter.headSha
+      && identityBefore.originMainSha === identityAfter.originMainSha
+      && identityBefore.localDirtyFileCount === 0
+      && identityAfter.localDirtyFileCount === 0,
+    error: executionError,
+  };
+  const report = evaluateFinalAudit({
+    repoRoot,
+    identity: identityAfter,
+    currentHeadPackagedJourney: {
+      ...(packagedJourney || {}),
+      execution,
+    },
+  });
   fs.mkdirSync(outDir, { recursive: true });
   const reportPath = path.join(outDir, 'final-audit-program-dod-report.json');
   fs.writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`);
+  await fsPromises.rm(tempRoot, { recursive: true, force: true });
   return {
     ...report,
     reportPath,

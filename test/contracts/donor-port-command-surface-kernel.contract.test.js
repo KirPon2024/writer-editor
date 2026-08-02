@@ -13,10 +13,19 @@ test('donor port command surface kernel: allowlist is fixed to minimal non-ui co
     'cmd.project.exportCurrentSceneTxtV1',
     'cmd.project.exportSelectedScenesTxtV1',
     'cmd.project.exportAllScenesTxtV1',
+    'cmd.project.exportPdfV1',
+    'cmd.project.exportFullArchiveV1',
+    'cmd.project.importFullArchiveV1',
     'cmd.project.importMarkdownV1',
     'cmd.project.exportMarkdownV1',
+    'cmd.project.review.exportFullManuscriptDocxReviewPacket',
     'cmd.project.releaseClaim.admit',
     'cmd.project.releaseClaim.execute',
+    'cmd.rtk.reviewSession.importComments',
+    'cmd.rtk.review.applyNonOverlapTrackedReplacements',
+    'cmd.rtk.review.applyMultiSceneNonOverlapTrackedReplacements',
+    'cmd.rtk.review.applyRootCommentReturn',
+    'cmd.rtk.review.applyCommentLifecycleReturn',
   ]);
 });
 

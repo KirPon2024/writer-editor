@@ -1,5 +1,7 @@
 'use strict';
 
+const crypto = require('crypto');
+
 const {
   validateFullManuscriptAuthorityReturn,
 } = require('./fullManuscriptDocxReviewPacketSource');
@@ -9,6 +11,7 @@ const FULL_MANUSCRIPT_TRACKED_REPLACEMENT_APPLY_COMMAND_ID =
 const SINGLE_SCENE_TRACKED_REPLACEMENT_COMMAND_ID =
   'cmd.rtk.review.applyNonOverlapTrackedReplacements';
 const ROOT_COMMENT_RETURN_COMMAND_ID = 'cmd.rtk.review.applyRootCommentReturn';
+const COMMENT_LIFECYCLE_RETURN_COMMAND_ID = 'cmd.rtk.review.applyCommentLifecycleReturn';
 
 function isPlainObjectValue(value) {
   return Boolean(value && typeof value === 'object' && !Array.isArray(value));
@@ -30,10 +33,98 @@ function makeBlocked(code, details = {}) {
   };
 }
 
+function sha256Text(value) {
+  return `sha256:${crypto.createHash('sha256').update(String(value || ''), 'utf8').digest('hex')}`;
+}
+
+function stableJson(value) {
+  if (Array.isArray(value)) return `[${value.map(stableJson).join(',')}]`;
+  if (isPlainObjectValue(value)) {
+    return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${stableJson(value[key])}`).join(',')}}`;
+  }
+  return JSON.stringify(value);
+}
+
+function authorityDigest(value) {
+  return sha256Text(stableJson(value));
+}
+
+function deriveFullManuscriptSceneExactAuthority({ sceneId, baselineText, exportMap, operations } = {}) {
+  const mappedScenes = list(exportMap?.scenes).filter((scene) => normalizeString(scene.sceneId) === sceneId);
+  if (mappedScenes.length !== 1) {
+    return makeBlocked('FULL_MANUSCRIPT_EXACT_AUTHORITY_EXPORT_MAP_IDENTITY_INVALID', {
+      sceneId,
+      matchedSceneCount: mappedScenes.length,
+    });
+  }
+  const mappedScene = mappedScenes[0];
+  const baselineRawSha256 = sha256Text(baselineText);
+  if (!normalizeString(mappedScene.rawSha256) || normalizeString(mappedScene.rawSha256) !== baselineRawSha256) {
+    return makeBlocked('FULL_MANUSCRIPT_EXACT_AUTHORITY_BASELINE_STALE', {
+      sceneId,
+      expectedRawSha256: normalizeString(mappedScene.rawSha256),
+      actualRawSha256: baselineRawSha256,
+    });
+  }
+  const ranges = [];
+  for (const operation of operations) {
+    const quote = typeof operation?.anchor?.selectedText === 'string' ? operation.anchor.selectedText : '';
+    const first = quote ? baselineText.indexOf(quote) : -1;
+    const last = quote ? baselineText.lastIndexOf(quote) : -1;
+    if (first < 0 || first !== last) {
+      return makeBlocked('FULL_MANUSCRIPT_EXACT_AUTHORITY_QUOTE_NOT_UNIQUE', {
+        sceneId,
+        operationId: normalizeString(operation?.id),
+        occurrenceCount: first < 0 ? 0 : 2,
+      });
+    }
+    ranges.push({
+      operationId: normalizeString(operation.id),
+      from: first,
+      to: first + quote.length,
+      quote,
+    });
+  }
+  const orderedRanges = ranges.slice().sort((left, right) => left.from - right.from || left.to - right.to);
+  for (let index = 1; index < orderedRanges.length; index += 1) {
+    if (orderedRanges[index].from < orderedRanges[index - 1].to) {
+      return makeBlocked('FULL_MANUSCRIPT_EXACT_AUTHORITY_RANGES_OVERLAP', {
+        sceneId,
+        leftOperationId: orderedRanges[index - 1].operationId,
+        rightOperationId: orderedRanges[index].operationId,
+      });
+    }
+  }
+  const exactAuthority = {
+    validSignedLocator: true,
+    sceneRevisionUnchanged: true,
+    rawSha256Unchanged: true,
+    uniqueTarget: true,
+    nonOverlapping: true,
+    allRelevantXmlSemanticsAccounted: true,
+    ambiguousDuplicate: false,
+    crossScene: false,
+    structuralTopologyChanged: false,
+    source: 'authenticated-full-manuscript-export-map-baseline-and-local-ranges',
+    sceneId,
+    baselineRawSha256,
+    exportMapId: normalizeString(exportMap?.exportMapId),
+  };
+  return {
+    ok: true,
+    exactAuthority,
+    authorityDigest: authorityDigest({ exactAuthority, ranges }),
+    ranges,
+  };
+}
+
 function classifyFullManuscriptOperation(operation) {
   const family = normalizeString(operation?.family);
   if (family === 'root_comment') {
     return { supported: true, typedOutcome: 'SAFE_ROOT_COMMENT_APPLY' };
+  }
+  if (family === 'reply' || family === 'comment_state') {
+    return { supported: true, typedOutcome: 'SAFE_COMMENT_LIFECYCLE_APPLY' };
   }
   if (family !== 'tracked_text_edit') {
     return {
@@ -53,6 +144,28 @@ function classifyFullManuscriptOperation(operation) {
     };
   }
   return { supported: true, typedOutcome: 'SAFE_APPLY' };
+}
+
+function buildCommentLifecycleCommand({ projectId, projectRoot, operation, sceneId }) {
+  const family = normalizeString(operation.family);
+  const intent = isPlainObjectValue(operation.semanticIntent) ? operation.semanticIntent : {};
+  return {
+    commandId: COMMENT_LIFECYCLE_RETURN_COMMAND_ID,
+    callerRole: 'main',
+    commandAuthority: {
+      issuer: 'main',
+      intent: 'rtk.nonTextReturn',
+      commandId: COMMENT_LIFECYCLE_RETURN_COMMAND_ID,
+    },
+    projectId,
+    projectRoot,
+    operationId: normalizeString(operation.id),
+    sceneId,
+    threadId: normalizeString(intent.parentThreadId),
+    action: family === 'reply' ? 'reply' : normalizeString(intent.kind),
+    replyId: family === 'reply' ? normalizeString(intent.replyId) || normalizeString(operation.id) : '',
+    replyBody: family === 'reply' && typeof intent.replyText === 'string' ? intent.replyText : '',
+  };
 }
 
 function buildRootCommentCommand({ projectId, projectRoot, operation, sceneId, scenePath, baselineText }) {
@@ -78,15 +191,41 @@ function buildRootCommentCommand({ projectId, projectRoot, operation, sceneId, s
   };
 }
 
-function buildSceneCommand({ projectId, roundId, exportId, sceneId, scenePath, baselineText, operations, projectRoot }) {
+function buildSceneCommand({ projectId, roundId, exportId, sceneId, scenePath, baselineText, operations, projectRoot, verifiedAuthority }) {
+  const rangeByOperationId = new Map(verifiedAuthority.ranges.map((range) => [range.operationId, range]));
   const reviewItems = operations.map((operation) => ({
     changeId: operation.id,
     targetScope: { type: 'scene', id: sceneId },
     replacementText: normalizeString(operation.semanticIntent?.replacementText),
     match: {
-      quote: normalizeString(operation.anchor?.selectedText),
+      quote: typeof operation.anchor?.selectedText === 'string' ? operation.anchor.selectedText : '',
+      blockRange: {
+        sceneStart: 0,
+        blockLocalStart: rangeByOperationId.get(normalizeString(operation.id)).from,
+        blockLocalEnd: rangeByOperationId.get(normalizeString(operation.id)).to,
+        authorityDigest: verifiedAuthority.authorityDigest,
+      },
     },
   }));
+  const blockId = `full-manuscript-scene-${sha256Text(sceneId).slice(-24)}`;
+  const textRevisions = operations.flatMap((operation) => {
+    const groupId = normalizeString(operation.id);
+    const deletedText = typeof operation.anchor?.selectedText === 'string' ? operation.anchor.selectedText : '';
+    const insertedText = typeof operation.semanticIntent?.replacementText === 'string'
+      ? operation.semanticIntent.replacementText
+      : '';
+    return [
+      {
+        kind: 'TextRevision', operation: 'delete', nativeRevisionId: `del:${groupId}`,
+        text: deletedText, textDigest: sha256Text(`delete:${deletedText}`), replacementGroupId: groupId,
+      },
+      {
+        kind: 'TextRevision', operation: 'insert', nativeRevisionId: `ins:${groupId}`,
+        text: insertedText, textDigest: sha256Text(`insert:${insertedText}`), replacementGroupId: groupId,
+      },
+    ];
+  });
+  const sourceIdentityDigest = sha256Text(`full-manuscript-scene-baseline:${sceneId}:${verifiedAuthority.exactAuthority.baselineRawSha256}`);
   return {
     sceneId,
     input: {
@@ -102,16 +241,56 @@ function buildSceneCommand({ projectId, roundId, exportId, sceneId, scenePath, b
       requestId: `request:${roundId}:${sceneId}`,
       exportIdentity: exportId,
       returnLifecycleState: 'RETURN_ANALYZED',
-      exactAuthority: {
-        validSignedLocator: true,
-        sceneRevisionUnchanged: true,
-        rawSha256Unchanged: true,
-        uniqueTarget: true,
-        nonOverlapping: true,
-        allRelevantXmlSemanticsAccounted: true,
-        ambiguousDuplicate: false,
-        crossScene: false,
-        structuralTopologyChanged: false,
+      returnArtifactSha256: verifiedAuthority.exactAuthority.baselineRawSha256,
+      manifestDigest: verifiedAuthority.authorityDigest,
+      analysisDigest: authorityDigest({ sceneId, textRevisions }),
+      sourceIdentity: {
+        sourceTokenDomain: 'SOURCE_TOKEN_DOMAIN_V1',
+        writerTextDomain: 'WRITER_TEXT_DOMAIN_V1',
+        revisionSha256: sourceIdentityDigest,
+        rawBytesSha256: verifiedAuthority.exactAuthority.baselineRawSha256,
+      },
+      currentIdentity: {
+        revisionSha256: sourceIdentityDigest,
+        rawBytesSha256: verifiedAuthority.exactAuthority.baselineRawSha256,
+      },
+      exactAuthority: verifiedAuthority.exactAuthority,
+      exactAuthorityDigest: verifiedAuthority.authorityDigest,
+      authorityCarrier: {
+        schemaVersion: 'yalken.rtk.review-transport-authority-carrier.v2',
+        status: 'verified-baseline-bound',
+        selectedCarrier: {
+          carrier: 'main-owned-authenticated-full-manuscript-export-map',
+          verified: true,
+          validSignedLocator: true,
+          payload: {
+            sceneId,
+            blockId,
+            roundId,
+            exportId,
+            rawSha256: verifiedAuthority.exactAuthority.baselineRawSha256,
+          },
+          baselineBinding: {
+            allExpectedPresent: true,
+            allExpectedMatched: true,
+            sceneRevisionMatches: true,
+            rawSha256Matches: true,
+          },
+        },
+        exactAuthority: verifiedAuthority.exactAuthority,
+        carriers: [],
+        reasons: [],
+      },
+      reviewIr: {
+        schemaVersion: 'yalken.rtk.review-ir.v2',
+        sourceMode: 'TRACKED',
+        textRevisions,
+        moveRevisions: [], propertyRevisions: [], structureChanges: [], formattingDeltas: [],
+        commentThreads: [], opaqueUnsupported: [],
+      },
+      localBaseline: {
+        sceneId,
+        sceneBlocks: [{ sceneId, blockId, text: baselineText }],
       },
       writerInput: {
         projectRoot,
@@ -130,6 +309,16 @@ function buildSceneCommand({ projectId, roundId, exportId, sceneId, scenePath, b
         projectSnapshot: {
           projectId,
           scenes: [{ sceneId, text: baselineText }],
+        },
+        revisionSession: {
+          projectId,
+          sessionId: `session:${roundId}:${sceneId}`,
+          baselineHash: verifiedAuthority.exactAuthority.baselineRawSha256,
+          status: 'open',
+          reviewGraph: {
+            commentThreads: [], commentPlacements: [], textChanges: [], structuralChanges: [],
+            diagnosticItems: [], decisionStates: [],
+          },
         },
       },
       previewConfirmed: true,
@@ -155,6 +344,12 @@ function buildFullManuscriptReviewReturnApplyPlan(input = {}) {
   const baselineFinalTextBySceneId = isPlainObjectValue(localAuthorityCapsule.baselineFinalTextBySceneId)
     ? localAuthorityCapsule.baselineFinalTextBySceneId
     : {};
+  const authenticatedExportMap = isPlainObjectValue(localAuthorityCapsule.authenticatedFullManuscriptExportMap)
+    ? localAuthorityCapsule.authenticatedFullManuscriptExportMap
+    : localAuthorityCapsule.exportMap;
+  if (!isPlainObjectValue(authenticatedExportMap)) {
+    return makeBlocked('FULL_MANUSCRIPT_EXACT_AUTHORITY_EXPORT_MAP_REQUIRED');
+  }
   const missingScenes = orderedSceneIds.filter((sceneId) => (
     !normalizeString(scenePathBySceneId[sceneId])
     || typeof baselineFinalTextBySceneId[sceneId] !== 'string'
@@ -165,6 +360,7 @@ function buildFullManuscriptReviewReturnApplyPlan(input = {}) {
   const operations = list(input.operations);
   const supportedBySceneId = new Map();
   const rootCommentCommands = [];
+  const commentLifecycleCommands = [];
   const typedOperations = [];
   for (const operation of operations) {
     const classification = classifyFullManuscriptOperation(operation);
@@ -193,14 +389,38 @@ function buildFullManuscriptReviewReturnApplyPlan(input = {}) {
         scenePath: scenePathBySceneId[sceneId],
         baselineText: baselineFinalTextBySceneId[sceneId],
       }));
+    } else if (['reply', 'comment_state'].includes(normalizeString(operation.family))) {
+      commentLifecycleCommands.push(buildCommentLifecycleCommand({
+        projectId: normalizeString(input.projectId || returnedAuthority.projectId || localAuthorityCapsule.projectId),
+        projectRoot: normalizeString(localAuthorityCapsule.projectRoot),
+        operation,
+        sceneId,
+      }));
     } else {
       supportedBySceneId.get(sceneId).push(operation);
     }
   }
   const sceneCommands = [];
+  const exactAuthorityBySceneId = {};
   for (const sceneId of orderedSceneIds) {
     const sceneOperations = supportedBySceneId.get(sceneId) || [];
     if (sceneOperations.length === 0) continue;
+    const verifiedAuthority = deriveFullManuscriptSceneExactAuthority({
+      sceneId,
+      baselineText: baselineFinalTextBySceneId[sceneId],
+      exportMap: authenticatedExportMap,
+      operations: sceneOperations,
+    });
+    if (!verifiedAuthority.ok) return verifiedAuthority;
+    const admissionAuthority = input.admissionExactAuthorityBySceneId?.[sceneId];
+    if (admissionAuthority && authorityDigest(admissionAuthority) !== authorityDigest(verifiedAuthority.exactAuthority)) {
+      return makeBlocked('FULL_MANUSCRIPT_EXACT_AUTHORITY_PREVIEW_DISPATCH_DISAGREEMENT', { sceneId });
+    }
+    exactAuthorityBySceneId[sceneId] = {
+      exactAuthority: verifiedAuthority.exactAuthority,
+      authorityDigest: verifiedAuthority.authorityDigest,
+      ranges: verifiedAuthority.ranges,
+    };
     sceneCommands.push(buildSceneCommand({
       projectId: normalizeString(input.projectId || returnedAuthority.projectId || localAuthorityCapsule.projectId),
       roundId: returnedAuthority.roundId,
@@ -210,6 +430,7 @@ function buildFullManuscriptReviewReturnApplyPlan(input = {}) {
       baselineText: baselineFinalTextBySceneId[sceneId],
       operations: sceneOperations,
       projectRoot: normalizeString(localAuthorityCapsule.projectRoot),
+      verifiedAuthority,
     }));
   }
   return {
@@ -221,7 +442,9 @@ function buildFullManuscriptReviewReturnApplyPlan(input = {}) {
     requestId: normalizeString(input.requestId) || `request:${returnedAuthority.roundId}:full-manuscript`,
     previewConfirmed: true,
     sceneCommands,
+    exactAuthorityBySceneId,
     rootCommentCommands,
+    commentLifecycleCommands,
     typedOperations,
     atomicity: {
       route: 'existing-multi-scene-command-kernel-rollback',
@@ -235,4 +458,5 @@ module.exports = {
   FULL_MANUSCRIPT_TRACKED_REPLACEMENT_APPLY_COMMAND_ID,
   buildFullManuscriptReviewReturnApplyPlan,
   classifyFullManuscriptOperation,
+  deriveFullManuscriptSceneExactAuthority,
 };

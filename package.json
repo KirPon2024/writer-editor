@@ -28,6 +28,8 @@
     "sector:u:run": "node scripts/sector-u-run.mjs",
     "oss:policy": "node scripts/check-no-paid-tiptap.mjs",
     "design-os:doctrine": "node scripts/check-design-os-integration-doctrine.mjs",
+    "rtk:word:c5v2:physical-canary": "node scripts/ops/rtk-word-c5v2-physical-canary.mjs",
+    "rtk:word:c5v2:accessibility-preflight": "node scripts/ops/rtk-word-c5v2-physical-canary.mjs --accessibility-preflight-only",
     "agent:policy": "node scripts/validate-agent-cost-policy.mjs",
     "agent:repo-map": "node scripts/build-agent-repo-map.mjs",
     "agent:packet": "node scripts/build-stage-task-packet.mjs",

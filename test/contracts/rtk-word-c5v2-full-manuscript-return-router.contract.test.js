@@ -99,7 +99,7 @@ test('C5V2 full-manuscript authority carrier verifies against local full-book au
   );
 });
 
-test('C5V2 return router lowers eligible full-manuscript tracked replacements to existing atomic multi-scene command', () => {
+test('C5V2 return router lowers eligible full-manuscript tracked replacements to existing atomic multi-scene command', async () => {
   const {
     buildFullManuscriptReviewReturnApplyPlan,
   } = require(path.join(REPO_ROOT, 'src', 'export', 'docx', 'fullManuscriptDocxReviewReturnRouter.js'));
@@ -150,6 +150,24 @@ test('C5V2 return router lowers eligible full-manuscript tracked replacements to
           commentText: 'Please clarify the critical distinction.',
         },
       },
+      {
+        id: 'op-comment-reply',
+        family: 'reply',
+        sceneId: 'roman/preface.md',
+        anchor: { sceneId: 'roman/preface.md' },
+        semanticIntent: {
+          kind: 'single-reply-thread',
+          parentThreadId: 'thread-preface-01',
+          replyText: 'The distinction is now explicit.',
+        },
+      },
+      {
+        id: 'op-comment-resolve',
+        family: 'comment_state',
+        sceneId: 'roman/preface.md',
+        anchor: { sceneId: 'roman/preface.md' },
+        semanticIntent: { kind: 'resolve', parentThreadId: 'thread-preface-01' },
+      },
     ],
   });
 
@@ -164,13 +182,29 @@ test('C5V2 return router lowers eligible full-manuscript tracked replacements to
   assert.equal(plan.sceneCommands[0].input.commandId, 'cmd.rtk.review.applyNonOverlapTrackedReplacements');
   assert.equal(plan.sceneCommands[0].input.writerInput.reviewItems[0].targetScope.id, 'roman/preface.md');
   assert.equal(plan.sceneCommands[0].input.writerInput.reviewItems[0].match.quote, 'beautiful things');
-  assert.equal(Object.prototype.hasOwnProperty.call(plan.sceneCommands[0].input.writerInput.reviewItems[0].match, 'blockRange'), false);
+  assert.equal(plan.sceneCommands[0].input.exactAuthority.source, 'authenticated-full-manuscript-export-map-baseline-and-local-ranges');
+  assert.equal(plan.sceneCommands[0].input.exactAuthority.uniqueTarget, true);
+  assert.equal(plan.sceneCommands[0].input.exactAuthority.nonOverlapping, true);
+  assert.equal(plan.sceneCommands[0].input.writerInput.reviewItems[0].match.blockRange.blockLocalStart, 29);
+  assert.equal(plan.sceneCommands[0].input.exactAuthorityDigest, plan.sceneCommands[0].input.writerInput.reviewItems[0].match.blockRange.authorityDigest);
   assert.deepEqual(plan.typedOperations, []);
   assert.equal(plan.rootCommentCommands.length, 1);
   assert.equal(plan.rootCommentCommands[0].commandId, 'cmd.rtk.review.applyRootCommentReturn');
   assert.equal(plan.rootCommentCommands[0].commandAuthority.intent, 'rtk.nonTextReturn');
   assert.equal(plan.rootCommentCommands[0].threadId, 'thread-preface-01');
   assert.equal(plan.rootCommentCommands[0].body, 'Please clarify the critical distinction.');
+  assert.equal(plan.commentLifecycleCommands.length, 2);
+  assert.equal(plan.commentLifecycleCommands[0].commandId, 'cmd.rtk.review.applyCommentLifecycleReturn');
+  assert.equal(plan.commentLifecycleCommands[0].action, 'reply');
+  assert.equal(plan.commentLifecycleCommands[0].replyBody, 'The distinction is now explicit.');
+  assert.equal(plan.commentLifecycleCommands[1].action, 'resolve');
+  const revisionBridge = await import(path.join(REPO_ROOT, 'src', 'io', 'revisionBridge', 'index.mjs'));
+  for (const sceneCommand of plan.sceneCommands) {
+    const preview = revisionBridge.buildNonOverlapTrackedReplacementRuntimePreview(sceneCommand.input, {
+      cryptoPort: makeCryptoPort(),
+    });
+    assert.equal(preview.status, 'preview-ready', JSON.stringify(preview, null, 2));
+  }
 });
 
 test('C5V2 return router rejects wrong scene, missing scene, stale baseline and order tamper before apply planning', () => {
@@ -216,4 +250,73 @@ test('C5V2 return router rejects wrong scene, missing scene, stale baseline and 
       },
     ],
   }).code, 'FULL_MANUSCRIPT_OPERATION_WRONG_SCENE');
+});
+
+test('C5V2 exact authority is shared by preview and dispatch and blocks ambiguity overlap stale baseline and forged maps', () => {
+  const {
+    buildFullManuscriptReviewReturnApplyPlan,
+  } = require(path.join(REPO_ROOT, 'src', 'export', 'docx', 'fullManuscriptDocxReviewReturnRouter.js'));
+  const source = makeSource();
+  const base = {
+    projectId: 'project-c5v2',
+    localAuthorityCapsule: source.localAuthorityCapsule,
+    returnedAuthority: returnedAuthority(source),
+  };
+  const replacement = (id, quote) => ({
+    id,
+    family: 'tracked_text_edit',
+    sceneId: 'roman/preface.md',
+    anchor: { sceneId: 'roman/preface.md', selectedText: quote },
+    semanticIntent: { kind: 'replace', replacementText: `replacement-${id}` },
+  });
+
+  const duplicateBaseline = structuredClone(source.localAuthorityCapsule);
+  duplicateBaseline.baselineFinalTextBySceneId['roman/preface.md'] = 'same quote and same quote';
+  duplicateBaseline.exportMap.scenes[0].rawSha256 = `sha256:${crypto.createHash('sha256').update('same quote and same quote').digest('hex')}`;
+  assert.equal(buildFullManuscriptReviewReturnApplyPlan({
+    ...base,
+    localAuthorityCapsule: duplicateBaseline,
+    operations: [replacement('duplicate', 'same quote')],
+  }).code, 'FULL_MANUSCRIPT_EXACT_AUTHORITY_QUOTE_NOT_UNIQUE');
+
+  assert.equal(buildFullManuscriptReviewReturnApplyPlan({
+    ...base,
+    operations: [replacement('overlap-a', 'beautiful things'), replacement('overlap-b', 'things')],
+  }).code, 'FULL_MANUSCRIPT_EXACT_AUTHORITY_RANGES_OVERLAP');
+
+  const stale = structuredClone(source.localAuthorityCapsule);
+  stale.baselineFinalTextBySceneId['roman/preface.md'] += ' stale';
+  assert.equal(buildFullManuscriptReviewReturnApplyPlan({
+    ...base,
+    localAuthorityCapsule: stale,
+    operations: [replacement('stale', 'beautiful things')],
+  }).code, 'FULL_MANUSCRIPT_EXACT_AUTHORITY_BASELINE_STALE');
+
+  const forged = structuredClone(source.localAuthorityCapsule);
+  forged.exportMap.scenes[0].sceneId = 'roman/forged.md';
+  assert.equal(buildFullManuscriptReviewReturnApplyPlan({
+    ...base,
+    localAuthorityCapsule: forged,
+    operations: [replacement('forged', 'beautiful things')],
+  }).code, 'FULL_MANUSCRIPT_EXACT_AUTHORITY_EXPORT_MAP_IDENTITY_INVALID');
+
+  const positive = buildFullManuscriptReviewReturnApplyPlan({
+    ...base,
+    operations: [replacement('shared', 'beautiful things')],
+  });
+  assert.equal(positive.ok, true);
+  assert.equal(buildFullManuscriptReviewReturnApplyPlan({
+    ...base,
+    operations: [replacement('shared', 'beautiful things')],
+    admissionExactAuthorityBySceneId: {
+      'roman/preface.md': positive.exactAuthorityBySceneId['roman/preface.md'].exactAuthority,
+    },
+  }).ok, true);
+  assert.equal(buildFullManuscriptReviewReturnApplyPlan({
+    ...base,
+    operations: [replacement('shared', 'beautiful things')],
+    admissionExactAuthorityBySceneId: {
+      'roman/preface.md': { ...positive.exactAuthorityBySceneId['roman/preface.md'].exactAuthority, uniqueTarget: false },
+    },
+  }).code, 'FULL_MANUSCRIPT_EXACT_AUTHORITY_PREVIEW_DISPATCH_DISAGREEMENT');
 });

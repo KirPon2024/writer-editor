@@ -95,8 +95,13 @@ export {
 export {
   RTK_NON_TEXT_RETURN_EVENT_SCHEMA,
   RTK_NON_TEXT_RETURN_STATE_SCHEMA,
+  RTK_COMMENT_LIFECYCLE_RETURN_COMMAND_ID,
   RTK_ROOT_COMMENT_RETURN_COMMAND_ID,
+  applyCommentLifecycleReturnRuntime,
   applyRootCommentReturnRuntime,
+  buildAuthenticatedCommentReturnCommands,
+  bindAuthenticatedCommentPlacementSceneAuthority,
+  createRtkCommentLifecycleReturnCommandHandler,
   createRtkNonTextReturnFilePort,
   createRtkRootCommentReturnCommandHandler,
 } from './reviewTransportNonTextReturnRuntime.mjs';
@@ -3246,6 +3251,7 @@ function docxReviewPreviewSessionParseCommentsXml(commentsXml, options = {}) {
       safeId: id,
       thread: {
         threadId: `docx-comment-${id}`,
+        commentId: rawId,
         authorId: author,
         status: 'open',
         createdAt: date,
@@ -3284,7 +3290,36 @@ function docxReviewPreviewSessionTagsByLocalName(xmlText, localName) {
   return matches;
 }
 
-function docxReviewPreviewSessionRangeForComment(documentXml, rawCommentId) {
+function docxReviewPreviewSessionParagraphAuthorityAt(documentXml, documentIndex, fullManuscriptExportMap) {
+  if (!isPlainObject(fullManuscriptExportMap) || !Number.isSafeInteger(documentIndex) || documentIndex < 0) return null;
+  const resolver = docxReviewPreviewSessionBuildFullManuscriptBlockScopeResolver(fullManuscriptExportMap);
+  const paragraphs = docxReviewPreviewSessionTagsByLocalName(documentXml, 'p')
+    .filter((tag) => tag.index < documentIndex);
+  const paragraph = paragraphs.at(-1);
+  if (!paragraph) return null;
+  const nextParagraph = docxReviewPreviewSessionTagsByLocalName(documentXml, 'p')
+    .find((tag) => tag.index > paragraph.index);
+  if (nextParagraph && nextParagraph.index < documentIndex) return null;
+  const paraId = docxReviewPreviewSessionReadXmlAttr(paragraph.tag, 'paraId');
+  const textId = docxReviewPreviewSessionReadXmlAttr(paragraph.tag, 'textId');
+  const paragraphPrefix = String(documentXml || '').slice(paragraph.endIndex, documentIndex);
+  const bookmarkNames = docxReviewPreviewSessionTagsByLocalName(paragraphPrefix, 'bookmarkStart')
+    .map((tag) => docxReviewPreviewSessionReadXmlAttr(tag.tag, 'name'))
+    .filter(Boolean);
+  const targetScope = resolver({ paraId, textId, bookmarkNames });
+  if (!targetScope || targetScope.type !== 'scene' || !normalizeString(targetScope.id)) return null;
+  return {
+    targetScope,
+    signal: {
+      paraId: normalizeString(paraId),
+      textId: normalizeString(textId),
+      bookmarkNames,
+      authority: 'authenticated-full-manuscript-export-map-paragraph-signal',
+    },
+  };
+}
+
+function docxReviewPreviewSessionRangeForComment(documentXml, rawCommentId, options = {}) {
   const starts = docxReviewPreviewSessionTagsByLocalName(documentXml, 'commentRangeStart')
     .filter((tag) => tag.id === rawCommentId);
   const ends = docxReviewPreviewSessionTagsByLocalName(documentXml, 'commentRangeEnd')
@@ -3320,6 +3355,11 @@ function docxReviewPreviewSessionRangeForComment(documentXml, rawCommentId) {
     ends,
     references,
     quote,
+    paragraphAuthority: docxReviewPreviewSessionParagraphAuthorityAt(
+      documentXml,
+      starts[0].index,
+      options.fullManuscriptExportMap,
+    ),
   };
 }
 
@@ -3343,7 +3383,7 @@ function docxReviewPreviewSessionBuildPlacements(documentXml, comments, options 
       ));
       break;
     }
-    const range = docxReviewPreviewSessionRangeForComment(documentXml, comment.rawId);
+    const range = docxReviewPreviewSessionRangeForComment(documentXml, comment.rawId, options);
     if (!range.ok) {
       diagnostics.push(docxReviewPreviewSessionDiagnostic(range.reason, {
         diagnosticId: `docx-review-anchor-${comment.safeId}`,
@@ -3355,10 +3395,25 @@ function docxReviewPreviewSessionBuildPlacements(documentXml, comments, options 
       }));
       continue;
     }
+    if (isPlainObject(options.fullManuscriptExportMap) && !range.paragraphAuthority) {
+      diagnostics.push(docxReviewPreviewSessionDiagnostic(
+        'DOCX_REVIEW_PREVIEW_SESSION_COMMENT_SCENE_AUTHORITY_UNRESOLVED',
+        {
+          diagnosticId: `docx-review-comment-scene-authority-${comment.safeId}`,
+          message: 'DOCX comment paragraph did not resolve through the authenticated full-manuscript export map.',
+          relatedItemId: comment.thread.threadId,
+          severity: 'error',
+          createdAt,
+        },
+      ));
+      continue;
+    }
     placements.push({
       placementId: `docx-comment-placement-${comment.safeId}`,
       threadId: comment.thread.threadId,
-      targetScope,
+      sourceCommentId: comment.rawId,
+      targetScope: range.paragraphAuthority?.targetScope || targetScope,
+      sceneAuthority: range.paragraphAuthority?.signal || null,
       anchor: {
         kind: 'docx-comment-range',
         value: `w:comment:${comment.rawId}`,

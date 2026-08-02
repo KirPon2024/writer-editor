@@ -5,6 +5,7 @@ import path from 'node:path';
 import { atomicWriteFile } from '../markdown/atomicWriteFile.mjs';
 
 export const RTK_ROOT_COMMENT_RETURN_COMMAND_ID = 'cmd.rtk.review.applyRootCommentReturn';
+export const RTK_COMMENT_LIFECYCLE_RETURN_COMMAND_ID = 'cmd.rtk.review.applyCommentLifecycleReturn';
 export const RTK_NON_TEXT_RETURN_STATE_SCHEMA = 'yalken.rtk.word.non-text-return-state.v1';
 export const RTK_NON_TEXT_RETURN_EVENT_SCHEMA = 'yalken.rtk.word.non-text-return-event.v1';
 
@@ -246,4 +247,376 @@ export function createRtkRootCommentReturnCommandHandler(options = {}) {
       commandId: RTK_ROOT_COMMENT_RETURN_COMMAND_ID,
     },
   }, options);
+}
+
+function normalizeCommentLifecycleInput(input) {
+  return {
+    projectId: normalizeString(input.projectId),
+    projectRoot: normalizeString(input.projectRoot),
+    operationId: normalizeString(input.operationId),
+    sceneId: normalizeString(input.sceneId),
+    threadId: normalizeString(input.threadId || input.parentThreadId),
+    action: normalizeString(input.action),
+    replyId: normalizeString(input.replyId),
+    replyBody: typeof input.replyBody === 'string' ? input.replyBody : '',
+  };
+}
+
+function applyCommentLifecycleTransition(thread, input) {
+  const next = clone(thread);
+  if (next.sceneId !== input.sceneId) return blocked('RTK_COMMENT_LIFECYCLE_WRONG_SCENE', 'sceneId');
+  if (input.action === 'reply') {
+    if (next.status === 'deleted') return blocked('RTK_COMMENT_REPLY_TO_DELETED_THREAD', 'threadId');
+    if (!input.replyId || !input.replyBody.trim() || Buffer.byteLength(input.replyBody, 'utf8') > ROOT_COMMENT_BODY_LIMIT) {
+      return blocked('RTK_COMMENT_REPLY_INVALID', 'replyBody');
+    }
+    if (next.messages.some((message) => message.commentId === input.replyId)) {
+      return blocked('RTK_COMMENT_REPLY_IDENTITY_COLLISION', 'replyId');
+    }
+    next.messages.push({ commentId: input.replyId, kind: 'reply', body: input.replyBody });
+    return { ok: true, thread: next, eventKind: 'comment_reply_added', transitions: [next.status] };
+  }
+  if (input.action === 'resolve') {
+    if (next.status !== 'open') return blocked('RTK_COMMENT_RESOLVE_INVALID_TRANSITION', 'action');
+    next.status = 'resolved';
+    return { ok: true, thread: next, eventKind: 'comment_resolved', transitions: ['open', 'resolved'] };
+  }
+  if (input.action === 'reopen') {
+    if (next.status !== 'resolved') return blocked('RTK_COMMENT_REOPEN_INVALID_TRANSITION', 'action');
+    next.status = 'open';
+    return { ok: true, thread: next, eventKind: 'comment_reopened', transitions: ['resolved', 'open'] };
+  }
+  if (input.action === 'resolve-reopen') {
+    if (next.status !== 'open') return blocked('RTK_COMMENT_RESOLVE_REOPEN_INVALID_TRANSITION', 'action');
+    next.status = 'open';
+    return { ok: true, thread: next, eventKind: 'comment_resolved_reopened', transitions: ['open', 'resolved', 'open'] };
+  }
+  if (input.action === 'delete') {
+    if (next.status === 'deleted') return blocked('RTK_COMMENT_DELETE_INVALID_TRANSITION', 'action');
+    const prior = next.status;
+    next.status = 'deleted';
+    next.deleted = true;
+    return { ok: true, thread: next, eventKind: 'comment_deleted', transitions: [prior, 'deleted'] };
+  }
+  return blocked('RTK_COMMENT_LIFECYCLE_ACTION_UNSUPPORTED', 'action', { action: input.action });
+}
+
+export async function applyCommentLifecycleReturnRuntime(input = {}, options = {}) {
+  if (input.commandId !== RTK_COMMENT_LIFECYCLE_RETURN_COMMAND_ID) {
+    return blocked('RTK_COMMENT_LIFECYCLE_COMMAND_INVALID', 'commandId');
+  }
+  if (input.callerRole !== 'main' || input.commandAuthority?.issuer !== 'main'
+    || input.commandAuthority?.commandId !== RTK_COMMENT_LIFECYCLE_RETURN_COMMAND_ID
+    || input.commandAuthority?.intent !== 'rtk.nonTextReturn') {
+    return blocked('RTK_COMMENT_LIFECYCLE_COMMAND_AUTHORITY_INVALID', 'commandAuthority');
+  }
+  const normalized = normalizeCommentLifecycleInput(input);
+  for (const field of ['projectId', 'projectRoot', 'operationId', 'sceneId', 'threadId', 'action']) {
+    if (!normalized[field]) return blocked('RTK_COMMENT_LIFECYCLE_REQUIRED_FIELD_MISSING', field);
+  }
+  const operationDigest = sha256(stableJson({ family: 'comment_lifecycle', ...normalized, projectRoot: undefined }));
+  const port = options.port || createRtkNonTextReturnFilePort(options);
+  let before;
+  try {
+    before = await port.readCanonical(normalized);
+  } catch (error) {
+    return blocked('RTK_COMMENT_LIFECYCLE_CANONICAL_READ_FAILED', 'port.readCanonical', { message: normalizeString(error?.message) });
+  }
+  const priorEvent = before.events.find((event) => event.operationId === normalized.operationId);
+  if (priorEvent) {
+    if (priorEvent.operationDigest !== operationDigest) {
+      return blocked('RTK_COMMENT_LIFECYCLE_REPLAY_PAYLOAD_MISMATCH', 'operationId');
+    }
+    const reopened = await port.readCanonical(normalized);
+    const replayThread = reopened.threads.find((thread) => thread.threadId === normalized.threadId);
+    return {
+      ok: true,
+      status: 'replay',
+      code: 'RTK_COMMENT_LIFECYCLE_ALREADY_APPLIED',
+      commandId: RTK_COMMENT_LIFECYCLE_RETURN_COMMAND_ID,
+      operationId: normalized.operationId,
+      threadStatus: replayThread?.status || '',
+      revision: reopened.revision,
+      canonicalDigest: sha256(stableJson(reopened)),
+      writerCalled: false,
+      replay: true,
+      vetoMetrics: { wrongSceneRouting: 0, silentApply: 0, replayFailure: 0, silentLoss: 0 },
+    };
+  }
+  const threadIndex = before.threads.findIndex((thread) => thread.threadId === normalized.threadId);
+  if (threadIndex < 0) return blocked('RTK_COMMENT_LIFECYCLE_THREAD_NOT_FOUND', 'threadId');
+  const transition = applyCommentLifecycleTransition(before.threads[threadIndex], normalized);
+  if (!transition.ok) return transition;
+  const after = clone(before);
+  after.revision += 1;
+  after.threads[threadIndex] = transition.thread;
+  after.events.push({
+    schemaVersion: RTK_NON_TEXT_RETURN_EVENT_SCHEMA,
+    sequence: before.events.length + 1,
+    operationId: normalized.operationId,
+    operationDigest,
+    kind: transition.eventKind,
+    sceneId: normalized.sceneId,
+    threadId: normalized.threadId,
+    transitions: transition.transitions,
+  });
+  let recovery;
+  try {
+    recovery = await port.writeRecovery({ ...normalized, state: before });
+    await port.writeCanonical({ ...normalized, state: after });
+  } catch (error) {
+    return blocked('RTK_COMMENT_LIFECYCLE_ATOMIC_WRITE_FAILED', 'port.writeCanonical', { message: normalizeString(error?.message) });
+  }
+  let reopened;
+  try {
+    reopened = await port.readCanonical(normalized);
+  } catch (error) {
+    return blocked('RTK_COMMENT_LIFECYCLE_REOPEN_FAILED', 'port.readCanonical', { message: normalizeString(error?.message) });
+  }
+  if (stableJson(reopened) !== stableJson(after)) return blocked('RTK_COMMENT_LIFECYCLE_REVERSE_VERIFY_FAILED', 'readback');
+  return {
+    ok: true,
+    status: 'applied',
+    code: 'RTK_COMMENT_LIFECYCLE_APPLIED',
+    commandId: RTK_COMMENT_LIFECYCLE_RETURN_COMMAND_ID,
+    operationId: normalized.operationId,
+    threadStatus: reopened.threads[threadIndex].status,
+    revision: reopened.revision,
+    canonicalDigest: sha256(stableJson(reopened)),
+    recovery,
+    writerCalled: true,
+    replay: false,
+    vetoMetrics: { wrongSceneRouting: 0, silentApply: 0, replayFailure: 0, silentLoss: 0 },
+  };
+}
+
+export function createRtkCommentLifecycleReturnCommandHandler(options = {}) {
+  return (payload = {}) => applyCommentLifecycleReturnRuntime({
+    ...payload,
+    commandId: RTK_COMMENT_LIFECYCLE_RETURN_COMMAND_ID,
+    callerRole: 'main',
+    commandAuthority: {
+      ...(isPlainObject(payload.commandAuthority) ? payload.commandAuthority : {}),
+      issuer: 'main',
+      intent: 'rtk.nonTextReturn',
+      commandId: RTK_COMMENT_LIFECYCLE_RETURN_COMMAND_ID,
+    },
+  }, options);
+}
+
+export function buildAuthenticatedCommentReturnCommands(input = {}) {
+  if (input.authenticated !== true) return blocked('RTK_COMMENT_PRODUCT_RETURN_NOT_AUTHENTICATED', 'authenticated');
+  const reviewIr = isPlainObject(input.reviewIr) ? input.reviewIr : {};
+  const authority = isPlainObject(input.localAuthorityCapsule) ? input.localAuthorityCapsule : {};
+  const projectId = normalizeString(input.projectId || authority.projectId);
+  const projectRoot = normalizeString(authority.projectRoot || input.projectRoot);
+  const scenePathBySceneId = isPlainObject(authority.scenePathBySceneId) ? authority.scenePathBySceneId : {};
+  const sceneTextBySceneId = isPlainObject(authority.baselineFinalTextBySceneId) ? authority.baselineFinalTextBySceneId : {};
+  if (!projectId || !projectRoot) return blocked('RTK_COMMENT_PRODUCT_RETURN_PROJECT_AUTHORITY_REQUIRED', 'localAuthorityCapsule');
+  const placements = new Map((Array.isArray(reviewIr.commentPlacements) ? reviewIr.commentPlacements : [])
+    .filter(isPlainObject)
+    .map((placement) => [normalizeString(placement.threadId), placement]));
+  const commands = [];
+  const typedBlocked = [];
+  for (const [threadIndex, thread] of (Array.isArray(reviewIr.commentThreads) ? reviewIr.commentThreads : []).entries()) {
+    if (!isPlainObject(thread)) continue;
+    const threadId = normalizeString(thread.threadId || thread.commentId || `comment-thread-${threadIndex + 1}`);
+    const placement = placements.get(threadId) || {};
+    if (isPlainObject(placement.sceneAuthorityMismatch)) {
+      typedBlocked.push({
+        threadId,
+        code: 'RTK_COMMENT_PRODUCT_RETURN_SCENE_AUTHORITY_MISMATCH',
+        parserSceneId: normalizeString(placement.sceneAuthorityMismatch.parserSceneId),
+        authenticatedExportMapSceneId: normalizeString(placement.sceneAuthorityMismatch.authenticatedExportMapSceneId),
+      });
+      continue;
+    }
+    const sceneId = normalizeString(placement.targetScope?.id || thread.targetScope?.id || thread.sceneId);
+    const selectedText = typeof placement.quote === 'string'
+      ? placement.quote
+      : (typeof thread.quotedAnchorText === 'string' ? thread.quotedAnchorText : '');
+    const scenePath = normalizeString(scenePathBySceneId[sceneId]);
+    const sceneText = typeof sceneTextBySceneId[sceneId] === 'string' ? sceneTextBySceneId[sceneId] : '';
+    const messages = Array.isArray(thread.messages) ? thread.messages.filter(isPlainObject) : [];
+    const rootMessage = messages[0] || {};
+    const rootBody = typeof rootMessage.body === 'string' ? rootMessage.body : (typeof thread.body === 'string' ? thread.body : '');
+    if (!threadId || !sceneId || !scenePath || !sceneText || !selectedText || !rootBody.trim()) {
+      typedBlocked.push({
+        threadId,
+        code: 'RTK_COMMENT_PRODUCT_RETURN_THREAD_AUTHORITY_INCOMPLETE',
+        sceneId,
+        hasScenePath: Boolean(scenePath),
+        hasSceneText: Boolean(sceneText),
+        hasSelectedText: Boolean(selectedText),
+        hasRootBody: Boolean(rootBody.trim()),
+      });
+      continue;
+    }
+    const rootOperationId = `physical-root:${sha256(stableJson({
+      returnArtifactId: normalizeString(input.returnArtifactId), threadId, sceneId, selectedText, rootBody,
+    }))}`;
+    commands.push({
+      family: 'root_comment',
+      payload: {
+        projectId, projectRoot, operationId: rootOperationId, sceneId, scenePath, sceneText, selectedText,
+        threadId,
+        commentId: normalizeString(rootMessage.messageId || thread.commentId) || `${threadId}:root`,
+        body: rootBody,
+        anchor: { sceneId },
+      },
+    });
+    const replies = [
+      ...messages.slice(1),
+      ...(Array.isArray(thread.replies) ? thread.replies.filter(isPlainObject) : []),
+    ];
+    replies.forEach((reply, replyIndex) => {
+      const replyBody = typeof reply.body === 'string' ? reply.body : '';
+      const replyId = normalizeString(reply.messageId || reply.commentId || reply.itemId) || `${threadId}:reply:${replyIndex + 1}`;
+      commands.push({
+        family: 'reply',
+        payload: {
+          projectId, projectRoot, sceneId, threadId, action: 'reply', replyId, replyBody,
+          operationId: `physical-reply:${sha256(stableJson({
+            returnArtifactId: normalizeString(input.returnArtifactId), threadId, replyId, replyBody,
+          }))}`,
+        },
+      });
+    });
+    const rawStatus = normalizeString(thread.status).toLowerCase();
+    const lifecycleState = normalizeString(thread.doneResolvedReopenedState).toLowerCase();
+    const action = rawStatus === 'deleted' || lifecycleState === 'deleted'
+      ? 'delete'
+      : rawStatus === 'resolved' || rawStatus === 'done' || lifecycleState === 'resolved'
+        ? 'resolve'
+        : lifecycleState === 'reopened'
+          ? 'resolve-reopen'
+          : '';
+    if (action) {
+      commands.push({
+        family: 'comment_state',
+        payload: {
+          projectId, projectRoot, sceneId, threadId, action,
+          operationId: `physical-state:${sha256(stableJson({
+            returnArtifactId: normalizeString(input.returnArtifactId), threadId, action,
+          }))}`,
+        },
+      });
+    }
+  }
+  return {
+    ok: typedBlocked.length === 0 && commands.length > 0,
+    status: typedBlocked.length === 0 && commands.length > 0 ? 'ready' : 'blocked',
+    code: typedBlocked.length === 0 && commands.length > 0
+      ? 'RTK_COMMENT_PRODUCT_RETURN_COMMANDS_READY'
+      : 'RTK_COMMENT_PRODUCT_RETURN_COMMANDS_BLOCKED',
+    commands,
+    typedBlocked,
+    commandBusRequired: true,
+    directPortDispatchForbidden: true,
+  };
+}
+
+export function bindAuthenticatedCommentPlacementSceneAuthority(input = {}) {
+  const threads = Array.isArray(input.commentThreads) ? input.commentThreads.filter(isPlainObject) : [];
+  const parserPlacements = Array.isArray(input.parserPlacements) ? input.parserPlacements.filter(isPlainObject) : [];
+  const authenticatedPlacements = Array.isArray(input.authenticatedPlacements)
+    ? input.authenticatedPlacements.filter(isPlainObject)
+    : [];
+  const capsule = isPlainObject(input.localAuthorityCapsule) ? input.localAuthorityCapsule : {};
+  const scenePathBySceneId = isPlainObject(capsule.scenePathBySceneId) ? capsule.scenePathBySceneId : {};
+  const sceneTextBySceneId = isPlainObject(capsule.baselineFinalTextBySceneId) ? capsule.baselineFinalTextBySceneId : {};
+  const bound = (sceneId) => Boolean(normalizeString(sceneId))
+    && Boolean(normalizeString(scenePathBySceneId[sceneId]))
+    && typeof sceneTextBySceneId[sceneId] === 'string';
+  const parserByThread = new Map(parserPlacements.map((placement) => [normalizeString(placement.threadId), placement]));
+  const placements = [];
+  const failures = [];
+  const parserIdentityOwners = new Map();
+  const authenticatedByNativeIdentity = new Map();
+  for (const placement of authenticatedPlacements) {
+    const nativeCommentId = normalizeString(placement.sourceCommentId || placement.commentId);
+    if (!nativeCommentId) {
+      failures.push({ threadId: normalizeString(placement.threadId), code: 'RTK_COMMENT_PRODUCT_RETURN_NATIVE_COMMENT_ID_MISSING', side: 'authenticated-candidate' });
+      continue;
+    }
+    if (authenticatedByNativeIdentity.has(nativeCommentId)) {
+      failures.push({ nativeCommentId, code: 'RTK_COMMENT_PRODUCT_RETURN_NATIVE_COMMENT_ID_DUPLICATE', side: 'authenticated-candidate' });
+      continue;
+    }
+    authenticatedByNativeIdentity.set(nativeCommentId, placement);
+  }
+  let identityJoinCount = 0;
+  for (const thread of threads) {
+    const threadId = normalizeString(thread.threadId);
+    const parser = parserByThread.get(threadId) || { threadId, targetScope: { type: 'scene', id: '' } };
+    const threadNativeCommentId = normalizeString(thread.sourceCommentId || thread.commentId);
+    const placementNativeCommentId = normalizeString(parser.sourceCommentId || parser.commentId);
+    if (!threadNativeCommentId) {
+      placements.push(clone(parser));
+      failures.push({ threadId, code: 'RTK_COMMENT_PRODUCT_RETURN_NATIVE_COMMENT_ID_MISSING', side: 'parser-thread' });
+      continue;
+    }
+    if (placementNativeCommentId && placementNativeCommentId !== threadNativeCommentId) {
+      placements.push(clone(parser));
+      failures.push({ threadId, code: 'RTK_COMMENT_PRODUCT_RETURN_NATIVE_COMMENT_ID_CONFLICT', threadNativeCommentId, placementNativeCommentId });
+      continue;
+    }
+    const priorOwner = parserIdentityOwners.get(threadNativeCommentId);
+    if (priorOwner && priorOwner !== threadId) {
+      placements.push(clone(parser));
+      failures.push({ threadId, nativeCommentId: threadNativeCommentId, priorThreadId: priorOwner, code: 'RTK_COMMENT_PRODUCT_RETURN_NATIVE_COMMENT_ID_MANY_TO_ONE' });
+      continue;
+    }
+    parserIdentityOwners.set(threadNativeCommentId, threadId);
+    const authenticated = authenticatedByNativeIdentity.get(threadNativeCommentId) || null;
+    if (!authenticated) {
+      placements.push(clone(parser));
+      failures.push({ threadId, nativeCommentId: threadNativeCommentId, code: 'RTK_COMMENT_PRODUCT_RETURN_NATIVE_COMMENT_ID_UNJOINED' });
+      continue;
+    }
+    identityJoinCount += 1;
+    const parserSceneId = normalizeString(parser.targetScope?.id);
+    const authenticatedSceneId = normalizeString(authenticated?.targetScope?.id);
+    if (parserSceneId && authenticatedSceneId && parserSceneId !== authenticatedSceneId) {
+      const mismatch = { parserSceneId, authenticatedExportMapSceneId: authenticatedSceneId };
+      placements.push({ ...clone(parser), sceneAuthorityMismatch: mismatch });
+      failures.push({ threadId, code: 'RTK_COMMENT_PRODUCT_RETURN_SCENE_AUTHORITY_MISMATCH', ...mismatch });
+      continue;
+    }
+    if (bound(parserSceneId)) {
+      placements.push(clone(parser));
+      continue;
+    }
+    if (bound(authenticatedSceneId)) {
+      placements.push({
+        ...clone(parser),
+        threadId,
+        sourceCommentId: threadNativeCommentId,
+        targetScope: clone(authenticated.targetScope),
+        sceneAuthority: clone(authenticated.sceneAuthority || null),
+        sceneAuthoritySource: 'authenticated-candidate-export-map-placement',
+      });
+      continue;
+    }
+    placements.push(clone(parser));
+    failures.push({
+      threadId,
+      code: 'RTK_COMMENT_PRODUCT_RETURN_SCENE_AUTHORITY_UNRESOLVED',
+      parserSceneId,
+      authenticatedExportMapSceneId: authenticatedSceneId,
+    });
+  }
+  return {
+    ok: failures.length === 0 && placements.length === threads.length,
+    code: failures.length === 0
+      ? 'RTK_COMMENT_PRODUCT_RETURN_SCENE_AUTHORITY_BOUND'
+      : 'RTK_COMMENT_PRODUCT_RETURN_SCENE_AUTHORITY_BLOCKED',
+    placements,
+    failures,
+    identityJoinCount,
+    unjoinedPlacementCount: threads.length - identityJoinCount,
+    nativeCommentIdentityJoin: true,
+    arbitraryThreadIdSuffixParsingUsed: false,
+    quoteHeuristicUsed: false,
+  };
 }

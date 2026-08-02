@@ -69,6 +69,10 @@ function appleText(value) {
     .join('" & return & "')}"`;
 }
 
+function appleList(values) {
+  return `{${(Array.isArray(values) ? values : []).map((value) => appleText(value)).join(', ')}}`;
+}
+
 function decodeXmlText(value) {
   return String(value || '')
     .replace(/&lt;/gu, '<')
@@ -395,6 +399,26 @@ export function buildCanaryLedger(scenes, options = {}) {
       replacementText: `C5V2_${family}_${String(index + 1).padStart(3, '0')}`,
     });
   }
+  const rootOperations = operations.filter((operation) => operation.family === 'root_comment');
+  const rootUseCount = new Map();
+  const lifecycleOperations = operations.filter((operation) => ['reply_attempt', 'state_attempt'].includes(operation.family));
+  let firstResolvedRoot = null;
+  for (const operation of lifecycleOperations) {
+    const sameSceneRoots = rootOperations.filter((root) => root.sceneId === operation.sceneId);
+    const candidates = sameSceneRoots.length > 0 ? sameSceneRoots : rootOperations;
+    if (candidates.length === 0) throw new Error(`C5V2_CANARY_LIFECYCLE_ROOT_REQUIRED:${operation.id}`);
+    const useIndex = rootUseCount.get(operation.family) || 0;
+    const root = operation.family === 'state_attempt' && useIndex === 1 && firstResolvedRoot
+      ? firstResolvedRoot
+      : candidates[useIndex % candidates.length];
+    rootUseCount.set(operation.family, useIndex + 1);
+    operation.targetRootOperationId = root.id;
+    if (operation.family === 'state_attempt') {
+      if (useIndex === 0) firstResolvedRoot = root;
+      operation.sceneId = root.sceneId;
+      operation.requestedState = useIndex === 1 ? 'reopened' : 'resolved';
+    }
+  }
   return {
     schemaVersion: 'yalken.rtk.word.c5v2.physical-canary-ledger.v1',
     operationCount: operations.length,
@@ -414,6 +438,123 @@ export function buildCanaryLedger(scenes, options = {}) {
   };
 }
 
+export function deriveC5V2CommentLaneMaturity(commentProductPath = {}) {
+  const rootApplied = Number(commentProductPath?.semanticOracle?.rootApplied || 0);
+  const lifecycleApplied = Number(commentProductPath?.semanticOracle?.lifecycleApplied || 0);
+  const replyCount = Number(commentProductPath?.planSummary?.replyCount || 0);
+  const commentStateCount = Number(commentProductPath?.planSummary?.commentStateCount || 0);
+  const triangleGreen = commentProductPath?.semanticOracle?.triangleGreen === true;
+  const rootGreen = rootApplied > 0 && triangleGreen;
+  const replyGreen = replyCount > 0 && lifecycleApplied >= replyCount;
+  const stateGreen = commentStateCount > 0 && lifecycleApplied >= replyCount + commentStateCount;
+  return {
+    rootCommentsState: rootGreen ? 'CANONICAL_ROOT_COMMENT_APPLY_AND_REPLAY_PROVEN' : 'PENDING_ROOT_COMMENT_PRODUCT_APPLY_LANE',
+    repliesState: replyGreen ? 'CANONICAL_REPLY_APPLY_AND_REPLAY_PROVEN' : 'PENDING_REPLY_PRODUCT_APPLY_LANE',
+    commentState: stateGreen ? 'CANONICAL_COMMENT_STATE_APPLY_AND_REPLAY_PROVEN' : 'PENDING_COMMENT_STATE_PRODUCT_APPLY_LANE',
+    commentsRepliesState: commentProductPath?.ok === true && rootGreen && replyGreen && stateGreen
+      ? 'CANONICAL_PRODUCT_APPLY_AND_REPLAY_PROVEN'
+      : 'PENDING_PRODUCT_APPLY_LANE',
+  };
+}
+
+export function evaluateMacosAccessibilityPreflight(input = {}) {
+  const diagnostics = {
+    legacyUiElementsEnabled: input.legacyUiElementsEnabled === true || input.uiElementsEnabled === true,
+    wordProcessExists: input.wordProcessExists === true,
+    wordFrontmost: input.wordFrontmost === true,
+    wordWindowCount: Number.isSafeInteger(Number(input.wordWindowCount)) ? Number(input.wordWindowCount) : 0,
+    axQuerySucceeded: input.axQuerySucceeded === true,
+    axMenuBarItemCount: Number.isSafeInteger(Number(input.axMenuBarItemCount)) ? Number(input.axMenuBarItemCount) : 0,
+    axWindowSubtreeItemCount: Number.isSafeInteger(Number(input.axWindowSubtreeItemCount)) ? Number(input.axWindowSubtreeItemCount) : 0,
+    axErrorNumber: Number.isFinite(Number(input.axErrorNumber)) ? Number(input.axErrorNumber) : 0,
+    axErrorMessage: String(input.axErrorMessage || ''),
+    requireOpenDocument: input.requireOpenDocument === true,
+    frontDocumentFullName: String(input.frontDocumentFullName || ''),
+    expectedFrontDocumentFullName: String(input.expectedFrontDocumentFullName || ''),
+  };
+  if (!diagnostics.wordProcessExists) {
+    return { ok: false, status: 'environment-blocked', code: 'MACOS_ACCESSIBILITY_WORD_PROCESS_MISSING', diagnostics };
+  }
+  if (!diagnostics.axQuerySucceeded) {
+    return { ok: false, status: 'environment-blocked', code: 'MACOS_ACCESSIBILITY_PERMISSION_REQUIRED', diagnostics };
+  }
+  if (!diagnostics.requireOpenDocument) {
+    return { ok: true, status: 'ready', code: 'MACOS_ACCESSIBILITY_PREFLIGHT_READY', diagnostics };
+  }
+  if (
+    diagnostics.expectedFrontDocumentFullName
+    && diagnostics.frontDocumentFullName !== diagnostics.expectedFrontDocumentFullName
+  ) {
+    return { ok: false, status: 'environment-blocked', code: 'MACOS_ACCESSIBILITY_FRONT_DOCUMENT_MISMATCH', diagnostics };
+  }
+  if (
+    !diagnostics.wordFrontmost
+    || diagnostics.wordWindowCount < 1
+    || diagnostics.axWindowSubtreeItemCount < 1
+  ) {
+    return { ok: false, status: 'environment-blocked', code: 'MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE', diagnostics };
+  }
+  return { ok: true, status: 'ready', code: 'MACOS_ACCESSIBILITY_PREFLIGHT_READY', diagnostics };
+}
+
+export function buildMacosAccessibilityPreflightScript(expectedFrontDocumentFullName = '') {
+  return [
+    'tell application "Microsoft Word"',
+    '  activate',
+    '  set yFrontDocument to ""',
+    '  try',
+    '    if (count of documents) > 0 then set yFrontDocument to full name of active document as text',
+    '  end try',
+    'end tell',
+    'delay 0.3',
+    'tell application "System Events"',
+    '  set yUiEnabled to UI elements enabled',
+    '  set yProcessExists to exists process "Microsoft Word"',
+    '  set yFrontmost to false',
+    '  set yWindowCount to 0',
+    '  set yAxQuerySucceeded to false',
+    '  set yAxMenuCount to 0',
+    '  set yAxErrorNumber to 0',
+    '  set yAxErrorMessage to ""',
+    '  if yProcessExists then',
+    '    tell process "Microsoft Word"',
+    '      try',
+    '        set yFrontmost to frontmost',
+    '        set yWindowCount to count of windows',
+    '        set yAxMenuCount to count of menu bar items of menu bar 1',
+    '        set yAxQuerySucceeded to yAxMenuCount > 0',
+    '      on error yErrMsg number yErrNo',
+    '        set yAxErrorNumber to yErrNo',
+    '        set yAxErrorMessage to yErrMsg',
+    '      end try',
+    '    end tell',
+    '  end if',
+    `  return "LEGACY_UI_ELEMENTS_ENABLED=" & yUiEnabled & linefeed & "WORD_PROCESS_EXISTS=" & yProcessExists & linefeed & "WORD_FRONTMOST=" & yFrontmost & linefeed & "WORD_WINDOW_COUNT=" & yWindowCount & linefeed & "AX_QUERY_SUCCEEDED=" & yAxQuerySucceeded & linefeed & "AX_MENU_BAR_ITEM_COUNT=" & yAxMenuCount & linefeed & "AX_ERROR_NUMBER=" & yAxErrorNumber & linefeed & "AX_ERROR_MESSAGE=" & yAxErrorMessage & linefeed & "FRONT_DOCUMENT_FULL_NAME=" & yFrontDocument & linefeed & "EXPECTED_FRONT_DOCUMENT_FULL_NAME=" & ${appleText(expectedFrontDocumentFullName)}`,
+    'end tell',
+  ].join('\n');
+}
+
+export function parseMacosAccessibilityPreflightOutput(output, expectedFrontDocumentFullName = '') {
+  const fields = {};
+  for (const line of String(output || '').split(/\r?\n/u)) {
+    const separator = line.indexOf('=');
+    if (separator > 0) fields[line.slice(0, separator)] = line.slice(separator + 1);
+  }
+  return evaluateMacosAccessibilityPreflight({
+    legacyUiElementsEnabled: fields.LEGACY_UI_ELEMENTS_ENABLED === 'true',
+    wordProcessExists: fields.WORD_PROCESS_EXISTS === 'true',
+    wordFrontmost: fields.WORD_FRONTMOST === 'true',
+    wordWindowCount: Number.parseInt(fields.WORD_WINDOW_COUNT || '0', 10),
+    axQuerySucceeded: fields.AX_QUERY_SUCCEEDED === 'true',
+    axMenuBarItemCount: Number.parseInt(fields.AX_MENU_BAR_ITEM_COUNT || '0', 10),
+    axErrorNumber: Number.parseInt(fields.AX_ERROR_NUMBER || '0', 10),
+    axErrorMessage: fields.AX_ERROR_MESSAGE || '',
+    requireOpenDocument: Boolean(expectedFrontDocumentFullName),
+    frontDocumentFullName: fields.FRONT_DOCUMENT_FULL_NAME || '',
+    expectedFrontDocumentFullName: expectedFrontDocumentFullName || fields.EXPECTED_FRONT_DOCUMENT_FULL_NAME || '',
+  });
+}
+
 function createFullManuscriptExportChildSource({ tempRoot, outPath, returnedPath, returnedReadyPath, scenes, rounds = null }) {
   const childRounds = Array.isArray(rounds) && rounds.length > 0
     ? rounds
@@ -428,6 +569,7 @@ function createFullManuscriptExportChildSource({ tempRoot, outPath, returnedPath
 const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
+const deriveC5V2CommentLaneMaturity = ${deriveC5V2CommentLaneMaturity.toString()};
 const { app, BrowserWindow, dialog, Menu, session } = require('electron');
 const rootDir = ${JSON.stringify(REPO_ROOT)};
 const tempRoot = ${JSON.stringify(tempRoot)};
@@ -554,6 +696,7 @@ function summarizeActivation(result) {
       exportId: result.returnIntake.exportId || '',
       sourceMode: result.returnIntake.sourceMode || '',
       counts: result.returnIntake.counts || {},
+      fullManuscriptExportMapTransport: result.returnIntake.fullManuscriptExportMapTransport || null,
     } : null,
     candidateSummary: result && result.candidateSummary ? result.candidateSummary : null,
     nonOverlapTrackedReplacementProductPath: result && result.nonOverlapTrackedReplacementProductPath
@@ -581,6 +724,7 @@ function summarizeActivation(result) {
     commentShadowSessionSummary: result && result.commentShadowSession && result.commentShadowSession.summary
       ? result.commentShadowSession.summary
       : null,
+    commentProductPath: result && result.commentProductPath ? result.commentProductPath : null,
     reviewGraphCounts: {
       textChanges: textChanges.length,
       commentThreads: commentThreads.length,
@@ -791,14 +935,33 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
         result.status === 'blocked'
         && result.applied !== true
         && ACCEPTABLE_STALE_RETRY_BLOCK_REASONS.has(result.reason)
-      )),
+      ))
+      && activationSummary.commentProductPath
+      && activationSummary.commentProductPath.ok === true
+      && activationSummary.commentProductPath.pendingProductApplyLane === false
+      && activationSummary.commentProductPath.commandBusDispatchOnly === true
+      && activationSummary.commentProductPath.directPortDispatch === false
+      && activationSummary.commentProductPath.semanticOracle?.triangleGreen === true
+      && activationSummary.commentProductPath.semanticOracle?.rootApplied > 0
+      && activationSummary.commentProductPath.semanticOracle?.lifecycleApplied > 0
+      && activationSummary.commentProductPath.sceneAuthorityIdentityJoin?.identityJoinCount === 7
+      && activationSummary.commentProductPath.sceneAuthorityIdentityJoin?.unjoinedPlacementCount === 0
+      && activationSummary.commentProductPath.sceneAuthorityIdentityJoin?.nativeCommentIdentityJoin === true
+      && activationSummary.commentProductPath.sceneAuthorityIdentityJoin?.quoteHeuristicUsed === false
+      && activationSummary.commentProductPath.sceneAuthorityIdentityJoin?.arbitraryThreadIdSuffixParsingUsed === false
+      && activationSummary.returnIntake?.fullManuscriptExportMapTransport?.present === true
+      && activationSummary.returnIntake?.fullManuscriptExportMapTransport?.authority === 'main-owned-active-export-authority-store-after-return-authentication'
+      && activationSummary.returnIntake?.fullManuscriptExportMapTransport?.returnedArtifactExportMapAccepted === false
+      && activationSummary.candidateSummary?.pendingFallbackCommentPlacementCount === 0
+      && Array.isArray(activationSummary.candidateSummary?.commentSceneAuthoritySources)
+      && activationSummary.candidateSummary.commentSceneAuthoritySources.includes('authenticated-full-manuscript-export-map-paragraph-signal'),
     activation: activationSummary,
     applyResults,
     replayResults,
     staleRetryResults,
     productOpenContext: global.productOpenContext || null,
     typedPendingLanes: {
-      commentsRepliesState: 'PENDING_PRODUCT_APPLY_LANE',
+      ...deriveC5V2CommentLaneMaturity(activationSummary.commentProductPath || {}),
       formatting: 'PENDING_PRODUCT_APPLY_LANE',
       structural: 'PENDING_PRODUCT_APPLY_LANE',
     },
@@ -1108,6 +1271,17 @@ async function runElectronFullManuscriptRoundtrip({ runDir, sourcePath, returned
         return found || null;
       }, 'ELECTRON_EXPORT_PHASE_NOT_EMITTED', 90_000);
       if (exportPayload.ok === 1 && fs.existsSync(sourcePath) && typeof runWord === 'function') {
+        const sourcePackage = packageSummary(sourcePath);
+        if (sourcePackage.modernMode15Ready !== true) {
+          wordError = `C5V2_SOURCE_PRODUCT_DOCX_MODERN_MODE_15_REQUIRED:${JSON.stringify(sourcePackage.compatibilityModes)}`;
+          fs.writeFileSync(returnedReadyPath, JSON.stringify({
+            ready: false,
+            returnedPath,
+            error: wordError,
+            sourceCompatibilityModes: sourcePackage.compatibilityModes,
+            createdAtUtc: new Date().toISOString(),
+          }, null, 2));
+        } else {
         try {
           wordOutput = await runWord();
           fs.writeFileSync(returnedReadyPath, JSON.stringify({
@@ -1124,6 +1298,7 @@ async function runElectronFullManuscriptRoundtrip({ runDir, sourcePath, returned
             error: wordError,
             createdAtUtc: new Date().toISOString(),
           }, null, 2));
+        }
         }
       }
       await waitForCondition(() => (exited ? exitState : null), 'ELECTRON_RETURN_APPLY_EXIT_NOT_OBSERVED', 240_000);
@@ -1225,6 +1400,20 @@ async function runElectronCumulativeFullManuscriptRoundtrip({
         return found || null;
       }, `ELECTRON_CUMULATIVE_EXPORT_PHASE_NOT_EMITTED:${round.roundId}`, 180_000);
       if (!fs.existsSync(round.sourcePath)) throw new Error(`C5V2_CUMULATIVE_SOURCE_DOCX_MISSING:${round.roundId}`);
+      const sourcePackage = packageSummary(round.sourcePath);
+      if (sourcePackage.modernMode15Ready !== true) {
+        const wordError = `C5V2_SOURCE_PRODUCT_DOCX_MODERN_MODE_15_REQUIRED:${JSON.stringify(sourcePackage.compatibilityModes)}`;
+        wordErrors[roundIndex] = wordError;
+        fs.writeFileSync(round.returnedReadyPath, JSON.stringify({
+          ready: false,
+          roundId: round.roundId,
+          returnedPath: round.returnedPath,
+          error: wordError,
+          sourceCompatibilityModes: sourcePackage.compatibilityModes,
+          createdAtUtc: new Date().toISOString(),
+        }, null, 2));
+        continue;
+      }
       try {
         const wordOutput = await runWordForRound(roundIndex, round, exportPayload);
         wordOutputs[roundIndex] = wordOutput;
@@ -1288,26 +1477,62 @@ async function runElectronCumulativeFullManuscriptRoundtrip({
   };
 }
 
-function wordOperationLines(ledger) {
+function wordOperationLines(ledger, returnedPath) {
   const lines = [];
   lines.push('set yOpsDone to ""');
   lines.push('set yLimitations to ""');
+  lines.push('set yUiDiagnostics to ""');
   lines.push('set yRootComments to {}');
   const markLine = (id, status, indent = '  ') => `${indent}set yOpsDone to yOpsDone & "OP|" & ${appleText(id)} & "|${status}" & linefeed`;
-  const firstRootComment = ledger.operations.find((operation) => operation.family === 'root_comment' && operation.wordRange);
+  const rootOperations = ledger.operations.filter((operation) => operation.family === 'root_comment' && operation.wordRange);
+  const lifecycleOperations = ledger.operations.filter((operation) => ['reply_attempt', 'state_attempt'].includes(operation.family));
+  const nonLifecycleOperations = ledger.operations.filter((operation) => (
+    !rootOperations.includes(operation) && !lifecycleOperations.includes(operation)
+  ));
   const orderedOperations = [
-    ...(firstRootComment ? [firstRootComment] : []),
-    ...ledger.operations
-      .filter((operation) => operation !== firstRootComment)
-      .slice()
-      .sort((left, right) => (right.wordRange?.start || 0) - (left.wordRange?.start || 0)),
+    ...rootOperations,
+    ...nonLifecycleOperations.slice().sort((left, right) => (right.wordRange?.start || 0) - (left.wordRange?.start || 0)),
+    ...lifecycleOperations,
   ];
+  const expectedNativeRevisionCount = ledger.operations.reduce((count, operation) => (
+    count + (operation.family === 'tracked_replace' ? 2 : ['tracked_insert', 'tracked_delete'].includes(operation.family) ? 1 : 0)
+  ), 0);
+  const expectedRootMarkers = rootOperations.map((operation) => `C5V2 root ${operation.id}`);
+  let materializationBoundaryWritten = false;
+  const lifecycleCheckpointLines = (operation) => {
+    const snapshotPath = `${returnedPath}.${operation.id.replace(/[^a-z0-9_-]/giu, '_')}.native-readback.docx`;
+    const checkpoint = [
+      `    my yCheckpoint(yCheckpointPath, "${operation.id}:SAVE_BEFORE", "")`,
+      '    save yDoc',
+      `    my yCheckpoint(yCheckpointPath, "${operation.id}:SAVE_AFTER", "")`,
+      `    my yCheckpoint(yCheckpointPath, "${operation.id}:CLOSE_BEFORE", "")`,
+      '    close yDoc saving yes',
+      '    set yDocWasOpened to false',
+      `    my yCheckpoint(yCheckpointPath, "${operation.id}:CLOSE_AFTER", "")`,
+      `    do shell script "/bin/cp " & quoted form of yReturnedPath & " " & quoted form of ${appleText(snapshotPath)}`,
+      `    my yCheckpoint(yCheckpointPath, "${operation.id}:REOPEN_BEFORE", "")`,
+      '    if my yOpenExpectedDoc(yReturnedPath, yExpectedFullName, yExpectedName) is not true then error "C5V2_LIFECYCLE_REOPEN_TIMEOUT" number 9713',
+      '    set yDoc to active document',
+      '    set yDocWasOpened to true',
+      `    my yCheckpoint(yCheckpointPath, "${operation.id}:REOPEN_AFTER", "")`,
+      `    my yCheckpoint(yCheckpointPath, "${operation.id}:SEMANTIC_READBACK_SNAPSHOT", ${appleText(snapshotPath)})`,
+    ];
+    return checkpoint;
+  };
   for (const operation of orderedOperations) {
+    if (['reply_attempt', 'state_attempt'].includes(operation.family) && !materializationBoundaryWritten) {
+      lines.push(`set yMaterializationHash to my yMaterializeNativeCommentBoundary(yCheckpointPath, yReturnedPath, yExpectedFullName, yExpectedName, ${expectedNativeRevisionCount}, ${rootOperations.length}, ${appleList(expectedRootMarkers)})`);
+      lines.push('set yDoc to active document');
+      lines.push('set yDocWasOpened to true');
+      materializationBoundaryWritten = true;
+    }
     const id = operation.id;
     const quote = operation.quote;
     const rangeStart = operation.wordRange?.start;
     const rangeEnd = operation.wordRange?.end;
     lines.push('try');
+    lines.push(`  my yRequireBudget(yCheckpointPath, ${appleText(`${id}:START`)})`);
+    lines.push(`  my yCheckpoint(yCheckpointPath, ${appleText(`${id}:START`)}, ${appleText(operation.family)})`);
     if (!Number.isInteger(rangeStart) || !Number.isInteger(rangeEnd) || rangeEnd <= rangeStart) {
       lines.push('  error "SOURCE_RANGE_NOT_BOUND" number 9104');
     } else {
@@ -1327,24 +1552,56 @@ function wordOperationLines(ledger) {
       lines.push(markLine(id, 'SAFE_APPLY'));
     } else if (operation.family === 'root_comment') {
       lines.push('  set track revisions of yDoc to false');
+      lines.push(`  my yCheckpoint(yCheckpointPath, ${appleText(`${id}:ROOT_CREATE_BEFORE`)}, "")`);
       lines.push(`  set yComment to make new Word comment at yRange with properties {comment text:${appleText(`C5V2 root ${id}`)}}`);
       lines.push('  set end of yRootComments to yComment');
+      lines.push(`  my yCheckpoint(yCheckpointPath, ${appleText(`${id}:ROOT_CREATE_AFTER`)}, "")`);
       lines.push(markLine(id, 'SAFE_APPLY'));
     } else if (operation.family === 'reply_attempt') {
       lines.push('  set track revisions of yDoc to false');
-      lines.push('  if (count of yRootComments) is 0 then error "NO_ROOT_COMMENT_FOR_REPLY" number 9102');
+      const root = rootOperations.find((candidate) => candidate.id === operation.targetRootOperationId);
+      lines.push(`  set yTargetRootRange to my yFindRange(yDoc, ${appleText(root?.quote || '')})`);
+      lines.push('  if yTargetRootRange is missing value then error "EXPLICIT_ROOT_COMMENT_FOR_REPLY_NOT_FOUND" number 9102');
       lines.push('  try');
-      lines.push(`    make new Word comment at yRange with properties {comment text:${appleText(`C5V2 reply ${id}`)}, parent:(item 1 of yRootComments)}`);
-      lines.push(markLine(id, 'SAFE_APPLY', '    '));
+      lines.push(`    my yCheckpoint(yCheckpointPath, ${appleText(`${id}:TARGET_SELECT_BEFORE`)}, ${appleText(operation.targetRootOperationId)})`);
+      lines.push('    select yTargetRootRange');
+      lines.push(`    my yCheckpoint(yCheckpointPath, ${appleText(`${id}:TARGET_SELECT_AFTER`)}, ${appleText(operation.targetRootOperationId)})`);
+      lines.push(`    set yUiPreparation to my yPrepareCommentsUi(yCheckpointPath, yExpectedFullName, ${appleText(`C5V2 root ${operation.targetRootOperationId}`)}, 0)`);
+      lines.push(`    set yUiDiagnostics to yUiDiagnostics & "OP|${id}|PREPARE|" & yUiPreparation & linefeed`);
+      lines.push('    if yUiPreparation does not contain "UNIQUE_TARGET_MARKER_VERIFIED" then error "REPLY_NATIVE_UI_TARGET_UNAVAILABLE_OR_AMBIGUOUS:" & yUiPreparation number 9112');
+      lines.push(`    my yCheckpoint(yCheckpointPath, ${appleText(`${id}:CONTROL_CLICK_BEFORE`)}, "REPLY")`);
+      lines.push(`    set yUiResult to my yClickBoundedMarkerControl(yCheckpointPath, ${appleText(`C5V2 root ${operation.targetRootOperationId}`)}, {"Ответить", "Reply"})`);
+      lines.push(`    my yCheckpoint(yCheckpointPath, ${appleText(`${id}:CONTROL_CLICK_AFTER`)}, yUiResult)`);
+      lines.push(`    set yUiDiagnostics to yUiDiagnostics & "OP|${id}|ACTION|" & yUiResult & linefeed`);
+      lines.push('    if yUiResult is not "CLICKED" then error "REPLY_NATIVE_UI_CONTROL_UNAVAILABLE_OR_AMBIGUOUS:" & yUiResult number 9112');
+      lines.push(`    my yCheckpoint(yCheckpointPath, ${appleText(`${id}:TEXT_ENTRY_BEFORE`)}, "")`);
+      lines.push(`    my yTypeNativeCommentText(${appleText(`C5V2 reply ${id}`)})`);
+      lines.push(`    my yCheckpoint(yCheckpointPath, ${appleText(`${id}:TEXT_ENTRY_AFTER`)}, "")`);
+      lines.push(markLine(id, 'PENDING_NATIVE_READBACK', '    '));
+      lines.push(...lifecycleCheckpointLines(operation));
       lines.push('  on error errMsg number errNo');
       lines.push('    set yLimitations to yLimitations & "REPLY_ATTEMPT|" & errNo & "|" & errMsg & linefeed');
       lines.push(markLine(id, 'MANUAL_OR_BLOCKED', '    '));
       lines.push('  end try');
     } else if (operation.family === 'state_attempt') {
-      lines.push('  if (count of yRootComments) is 0 then error "NO_ROOT_COMMENT_FOR_STATE" number 9103');
+      const root = rootOperations.find((candidate) => candidate.id === operation.targetRootOperationId);
+      const names = operation.requestedState === 'reopened' ? '{"Повторно открыть", "Reopen"}' : '{"Разрешить", "Resolve"}';
+      lines.push(`  set yTargetRootRange to my yFindRange(yDoc, ${appleText(root?.quote || '')})`);
+      lines.push('  if yTargetRootRange is missing value then error "EXPLICIT_ROOT_COMMENT_FOR_STATE_NOT_FOUND" number 9103');
       lines.push('  try');
-      lines.push('    set done of (item 1 of yRootComments) to true');
-      lines.push(markLine(id, 'SAFE_APPLY', '    '));
+      lines.push(`    my yCheckpoint(yCheckpointPath, ${appleText(`${id}:TARGET_SELECT_BEFORE`)}, ${appleText(operation.targetRootOperationId)})`);
+      lines.push('    select yTargetRootRange');
+      lines.push(`    my yCheckpoint(yCheckpointPath, ${appleText(`${id}:TARGET_SELECT_AFTER`)}, ${appleText(operation.targetRootOperationId)})`);
+      lines.push(`    set yUiPreparation to my yPrepareCommentsUi(yCheckpointPath, yExpectedFullName, ${appleText(`C5V2 root ${operation.targetRootOperationId}`)}, 0)`);
+      lines.push(`    set yUiDiagnostics to yUiDiagnostics & "OP|${id}|PREPARE|" & yUiPreparation & linefeed`);
+      lines.push('    if yUiPreparation does not contain "UNIQUE_TARGET_MARKER_VERIFIED" then error "STATE_NATIVE_UI_TARGET_UNAVAILABLE_OR_AMBIGUOUS:" & yUiPreparation number 9113');
+      lines.push(`    my yCheckpoint(yCheckpointPath, ${appleText(`${id}:CONTROL_CLICK_BEFORE`)}, ${appleText(operation.requestedState)})`);
+      lines.push(`    set yUiResult to my yClickBoundedMarkerControl(yCheckpointPath, ${appleText(`C5V2 root ${operation.targetRootOperationId}`)}, ${names})`);
+      lines.push(`    my yCheckpoint(yCheckpointPath, ${appleText(`${id}:CONTROL_CLICK_AFTER`)}, yUiResult)`);
+      lines.push(`    set yUiDiagnostics to yUiDiagnostics & "OP|${id}|ACTION|" & yUiResult & linefeed`);
+      lines.push('    if yUiResult is not "CLICKED" then error "STATE_NATIVE_UI_CONTROL_UNAVAILABLE_OR_AMBIGUOUS:" & yUiResult number 9113');
+      lines.push(markLine(id, 'PENDING_NATIVE_READBACK', '    '));
+      lines.push(...lifecycleCheckpointLines(operation));
       lines.push('  on error errMsg number errNo');
       lines.push('    set yLimitations to yLimitations & "STATE_ATTEMPT|" & errNo & "|" & errMsg & linefeed');
       lines.push(markLine(id, 'MANUAL_OR_BLOCKED', '    '));
@@ -1370,6 +1627,444 @@ function wordOperationLines(ledger) {
 export function buildWordScript({ sourcePath, returnedPath, ledger }) {
   const expectedName = path.basename(returnedPath);
   return [
+    'use scripting additions',
+    'property yAxVisitedNodes : 0',
+    'property yAxSearchDeadline : missing value',
+    'property yOverallDeadline : missing value',
+    'on yMacosAccessibilityPreflight(yExpectedFullName)',
+    '  tell application "Microsoft Word"',
+    '    activate',
+    '    set yFrontDocument to ""',
+    '    try',
+    '      if (count of documents) > 0 then set yFrontDocument to full name of active document as text',
+    '    end try',
+    '  end tell',
+    '  delay 0.3',
+    '  tell application "System Events"',
+    '    set yUiEnabled to UI elements enabled',
+    '    set yProcessExists to exists process "Microsoft Word"',
+    '    set yWordFrontmost to false',
+    '    set yWindowCount to 0',
+    '    set yAxQuerySucceeded to false',
+    '    set yAxMenuCount to 0',
+    '    set yAxWindowSubtreeCount to 0',
+    '    set yAxErrorNumber to 0',
+    '    set yAxErrorMessage to ""',
+    '    if yProcessExists then',
+    '      tell process "Microsoft Word"',
+    '        try',
+    '          set yWordFrontmost to frontmost',
+    '          set yWindowCount to count of windows',
+    '          set yAxMenuCount to count of menu bar items of menu bar 1',
+    '          if yWindowCount > 0 then set yAxWindowSubtreeCount to count of UI elements of window 1',
+    '          set yAxQuerySucceeded to yAxMenuCount > 0',
+    '        on error yErrMsg number yErrNo',
+    '          set yAxErrorNumber to yErrNo',
+    '          set yAxErrorMessage to yErrMsg',
+    '        end try',
+    '      end tell',
+    '    end if',
+    '    set yDiagnostics to "LEGACY_UI_ELEMENTS_ENABLED:" & yUiEnabled & ":PROCESS_EXISTS:" & yProcessExists & ":WORD_FRONTMOST:" & yWordFrontmost & ":WINDOW_COUNT:" & yWindowCount & ":AX_MENU_COUNT:" & yAxMenuCount & ":AX_WINDOW_SUBTREE_COUNT:" & yAxWindowSubtreeCount & ":AX_ERROR_NUMBER:" & yAxErrorNumber & ":AX_ERROR_MESSAGE:" & yAxErrorMessage & ":FRONT_DOCUMENT:" & yFrontDocument',
+    '    if yProcessExists is false then return "MACOS_ACCESSIBILITY_WORD_PROCESS_MISSING|" & yDiagnostics',
+    '    if yAxQuerySucceeded is false then return "MACOS_ACCESSIBILITY_PERMISSION_REQUIRED|" & yDiagnostics',
+    '    if yFrontDocument is not yExpectedFullName then return "MACOS_ACCESSIBILITY_FRONT_DOCUMENT_MISMATCH|" & yDiagnostics',
+    '    if yWordFrontmost is false or yWindowCount < 1 or yAxWindowSubtreeCount < 1 then return "MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE|" & yDiagnostics',
+    '    return "MACOS_ACCESSIBILITY_PREFLIGHT_READY|" & yDiagnostics',
+    '  end tell',
+    'end yMacosAccessibilityPreflight',
+    'on yCloseStaleExpectedDocuments(yExpectedPosixPath)',
+    '  tell application "Microsoft Word"',
+    '    repeat with yIndex from (count of documents) to 1 by -1',
+    '      set yCandidate to document yIndex',
+    '      set yCandidatePosixPath to ""',
+    '      try',
+    '        set yCandidatePosixPath to POSIX path of ((full name of yCandidate as text) as alias)',
+    '      end try',
+    '      if yCandidatePosixPath is yExpectedPosixPath then close yCandidate saving no',
+    '    end repeat',
+    '  end tell',
+    'end yCloseStaleExpectedDocuments',
+    'on yResetCheckpoint(yCheckpointPath)',
+    '  do shell script "/usr/bin/printf \'%s\\n\' " & quoted form of "CANARY_PHASE_LOG_V1" & " > " & quoted form of yCheckpointPath',
+    'end yResetCheckpoint',
+    'on yCheckpoint(yCheckpointPath, yPhase, yDetail)',
+    '  do shell script "/usr/bin/printf \'%s\\n\' " & quoted form of (yPhase & "|" & yDetail) & " >> " & quoted form of yCheckpointPath',
+    'end yCheckpoint',
+    'on yDurableCheckpoint(yCheckpointPath, yPhase, yDetail)',
+    '  my yCheckpoint(yCheckpointPath, yPhase, yDetail)',
+    '  do shell script "/bin/sync"',
+    'end yDurableCheckpoint',
+    'on yCountTextOccurrences(ySource, yNeedle)',
+    '  if yNeedle is "" then return 0',
+    '  set yCount to 0',
+    '  set yRemainder to ySource as text',
+    '  repeat',
+    '    set yOffset to offset of yNeedle in yRemainder',
+    '    if yOffset is 0 then exit repeat',
+    '    set yCount to yCount + 1',
+    '    if yOffset + (count of characters of yNeedle) > (count of characters of yRemainder) then exit repeat',
+    '    set yRemainder to text (yOffset + (count of characters of yNeedle)) thru -1 of yRemainder',
+    '  end repeat',
+    '  return yCount',
+    'end yCountTextOccurrences',
+    'on yVerifyNativeRootMarkers(yDoc, yExpectedMarkers)',
+    '  tell application "Microsoft Word"',
+    '    repeat with yExpectedMarker in yExpectedMarkers',
+    '      set yMarkerCount to 0',
+    '      repeat with yCommentIndex from 1 to ((count of yExpectedMarkers) + 1)',
+    '        try',
+    '          set yNativeComment to Word comment yCommentIndex of yDoc',
+    '          if (content of comment text of yNativeComment as text) contains (yExpectedMarker as text) then set yMarkerCount to yMarkerCount + 1',
+    '        on error',
+    '          exit repeat',
+    '        end try',
+    '      end repeat',
+    '      if yMarkerCount is not 1 then error "NATIVE_MATERIALIZATION_ROOT_MARKER_COUNT_MISMATCH:" & yExpectedMarker & ":" & yMarkerCount number 9725',
+    '    end repeat',
+    '  end tell',
+    'end yVerifyNativeRootMarkers',
+    'on yMaterializeNativeCommentBoundary(yCheckpointPath, yReturnedPath, yExpectedFullName, yExpectedName, yExpectedRevisionCount, yExpectedRootCount, yExpectedMarkers)',
+    '  my yRequireBudget(yCheckpointPath, "NATIVE_MATERIALIZATION_START")',
+    '  my yDurableCheckpoint(yCheckpointPath, "NATIVE_MATERIALIZATION_SAVE_BEFORE", "")',
+    '  tell application "Microsoft Word"',
+    '    if (count of documents) is 0 then error "NATIVE_MATERIALIZATION_DOCUMENT_MISSING" number 9720',
+    '    if (full name of active document as text) is not yExpectedFullName then error "NATIVE_MATERIALIZATION_WRONG_DOCUMENT_BEFORE_SAVE" number 9721',
+    '    save active document',
+    '    close active document saving yes',
+    '  end tell',
+    '  do shell script "/bin/sync"',
+    '  my yDurableCheckpoint(yCheckpointPath, "NATIVE_MATERIALIZATION_CLOSE_AFTER", yReturnedPath)',
+    '  set yVisibleSize to 0',
+    '  try',
+    '    set yVisibleSize to (do shell script "/usr/bin/stat -f %z " & quoted form of yReturnedPath) as integer',
+    '  on error yErrMsg number yErrNo',
+    '    error "NATIVE_MATERIALIZATION_DURABLE_VISIBILITY_FAILED:" & yErrNo & ":" & yErrMsg number 9722',
+    '  end try',
+    '  if yVisibleSize < 1 then error "NATIVE_MATERIALIZATION_DURABLE_VISIBILITY_FAILED:EMPTY" number 9722',
+    '  set yBoundaryHashLine to do shell script "/usr/bin/shasum -a 256 " & quoted form of yReturnedPath',
+    '  set yBoundaryHash to word 1 of yBoundaryHashLine',
+    '  if (count of characters of yBoundaryHash) is not 64 then error "NATIVE_MATERIALIZATION_HASH_INVALID" number 9723',
+    '  set ySettingsXml to do shell script "/usr/bin/unzip -p " & quoted form of yReturnedPath & " word/settings.xml"',
+    '  if my yCountTextOccurrences(ySettingsXml, "compatibilityMode") is not 1 or ySettingsXml does not contain "w:val=\\"15\\"" then error "NATIVE_MATERIALIZATION_COMPATIBILITY_MODE_15_REQUIRED" number 9724',
+    '  my yDurableCheckpoint(yCheckpointPath, "NATIVE_MATERIALIZATION_REOPEN_BEFORE", yBoundaryHash)',
+    '  if my yOpenExpectedDoc(yReturnedPath, yExpectedFullName, yExpectedName) is not true then error "NATIVE_MATERIALIZATION_REOPEN_TIMEOUT" number 9726',
+    '  tell application "Microsoft Word"',
+    '    if (full name of active document as text) is not yExpectedFullName then error "NATIVE_MATERIALIZATION_REOPEN_IDENTITY_MISMATCH" number 9727',
+    '    set yReopenedRevisionCount to count of revisions of active document',
+    '    set yReopenedRootCount to 0',
+    '    repeat with yCommentIndex from 1 to (yExpectedRootCount + 1)',
+    '      try',
+    '        set yReopenedComment to Word comment yCommentIndex of active document',
+    '        set yReopenedRootCount to yReopenedRootCount + 1',
+    '      on error',
+    '        exit repeat',
+    '      end try',
+    '    end repeat',
+    '    if yReopenedRevisionCount is not yExpectedRevisionCount then error "NATIVE_MATERIALIZATION_REVISION_COUNT_MISMATCH:" & yReopenedRevisionCount & ":" & yExpectedRevisionCount number 9728',
+    '    if yReopenedRootCount is not yExpectedRootCount then error "NATIVE_MATERIALIZATION_ROOT_COUNT_MISMATCH:" & yReopenedRootCount & ":" & yExpectedRootCount number 9729',
+    '    set yReopenedFullName to full name of active document as text',
+    '    my yVerifyNativeRootMarkers(active document, yExpectedMarkers)',
+    '  end tell',
+    '  set yReopenedHashLine to do shell script "/usr/bin/shasum -a 256 " & quoted form of yReturnedPath',
+    '  set yReopenedHash to word 1 of yReopenedHashLine',
+    '  if yReopenedHash is not yBoundaryHash then error "NATIVE_MATERIALIZATION_REOPEN_HASH_DIVERGENCE" number 9730',
+    '  my yDurableCheckpoint(yCheckpointPath, "NATIVE_MATERIALIZATION_REOPEN_VERIFIED", yReopenedFullName & ":HASH:" & yBoundaryHash & ":REVISIONS:" & yReopenedRevisionCount & ":ROOTS:" & yReopenedRootCount)',
+    '  return yBoundaryHash',
+    'end yMaterializeNativeCommentBoundary',
+    'on yRequireBudget(yCheckpointPath, yPhase)',
+    '  if (current date) > my yOverallDeadline then',
+    '    my yCheckpoint(yCheckpointPath, "TIME_BUDGET_EXCEEDED", yPhase)',
+    '    error "TIME_BUDGET_EXCEEDED|" & yPhase number 9798',
+    '  end if',
+    'end yRequireBudget',
+    'on ySkipAxSubtree(yElement)',
+    '  tell application "System Events"',
+    '    set yRole to ""',
+    '    set yDescription to ""',
+    '    try',
+    '      set yRole to role of yElement as text',
+    '    end try',
+    '    try',
+    '      set yDescription to description of yElement as text',
+    '    end try',
+    '    return yRole is "AXLayoutArea" or yDescription contains "document text" or yDescription contains "текст документа"',
+    '  end tell',
+    'end ySkipAxSubtree',
+    'on yBoundedElementHasMarker(yElement, yMarker, yDepth)',
+    '  if yDepth > 6 then return false',
+    '  if (current date) > my yAxSearchDeadline then error "TIME_BUDGET_EXCEEDED|AX_MARKER_SEARCH" number 9798',
+    '  set my yAxVisitedNodes to my yAxVisitedNodes + 1',
+    '  if my yAxVisitedNodes > 500 then error "AX_NODE_BUDGET_EXCEEDED" number 9797',
+    '  if my ySkipAxSubtree(yElement) then return false',
+    '  tell application "System Events"',
+    '    try',
+    '      if (name of yElement as text) contains yMarker then return true',
+    '    end try',
+    '    try',
+    '      if (value of yElement as text) contains yMarker then return true',
+    '    end try',
+    '    try',
+    '      repeat with yChild in UI elements of yElement',
+    '        if my yBoundedElementHasMarker(yChild, yMarker, yDepth + 1) then return true',
+    '      end repeat',
+    '    end try',
+    '    return false',
+    '  end tell',
+    'end yBoundedElementHasMarker',
+    'on yBoundedCountExactMarker(yElement, yMarker, yDepth)',
+    '  if yDepth > 6 then return 0',
+    '  if (current date) > my yAxSearchDeadline then error "TIME_BUDGET_EXCEEDED|AX_EXACT_MARKER_COUNT" number 9798',
+    '  set my yAxVisitedNodes to my yAxVisitedNodes + 1',
+    '  if my yAxVisitedNodes > 500 then error "AX_NODE_BUDGET_EXCEEDED" number 9797',
+    '  if my ySkipAxSubtree(yElement) then return 0',
+    '  tell application "System Events"',
+    '    set yCount to 0',
+    '    set yMatchesMarker to false',
+    '    try',
+    '      if (name of yElement as text) contains yMarker then set yMatchesMarker to true',
+    '    end try',
+    '    try',
+    '      if (value of yElement as text) contains yMarker then set yMatchesMarker to true',
+    '    end try',
+    '    if yMatchesMarker then set yCount to 1',
+    '    if yCount > 1 then return yCount',
+    '    try',
+    '      repeat with yChild in UI elements of yElement',
+    '        set yCount to yCount + my yBoundedCountExactMarker(yChild, yMarker, yDepth + 1)',
+    '        if yCount > 1 then return yCount',
+    '      end repeat',
+    '    end try',
+    '    return yCount',
+    '  end tell',
+    'end yBoundedCountExactMarker',
+    'on yBoundedCountNamedControl(yElement, yTargetNames, yDepth)',
+    '  if yDepth > 6 then return 0',
+    '  if (current date) > my yAxSearchDeadline then error "TIME_BUDGET_EXCEEDED|AX_CONTROL_SEARCH" number 9798',
+    '  set my yAxVisitedNodes to my yAxVisitedNodes + 1',
+    '  if my yAxVisitedNodes > 500 then error "AX_NODE_BUDGET_EXCEEDED" number 9797',
+    '  if my ySkipAxSubtree(yElement) then return 0',
+    '  tell application "System Events"',
+    '    set yCount to 0',
+    '    repeat with yTargetName in yTargetNames',
+    '      try',
+    '        if (name of yElement as text) is (yTargetName as text) and (enabled of yElement as boolean) then',
+    '          set yCount to yCount + 1',
+    '        end if',
+    '      end try',
+    '    end repeat',
+    '    try',
+    '      repeat with yChild in UI elements of yElement',
+    '        set yCount to yCount + my yBoundedCountNamedControl(yChild, yTargetNames, yDepth + 1)',
+    '        if yCount > 1 then return yCount',
+    '      end repeat',
+    '    end try',
+    '    return yCount',
+    '  end tell',
+    'end yBoundedCountNamedControl',
+    'on yBoundedClickFirstNamedControl(yElement, yTargetNames, yDepth)',
+    '  if yDepth > 6 then return false',
+    '  if (current date) > my yAxSearchDeadline then error "TIME_BUDGET_EXCEEDED|AX_CONTROL_CLICK" number 9798',
+    '  set my yAxVisitedNodes to my yAxVisitedNodes + 1',
+    '  if my yAxVisitedNodes > 500 then error "AX_NODE_BUDGET_EXCEEDED" number 9797',
+    '  if my ySkipAxSubtree(yElement) then return false',
+    '  tell application "System Events"',
+    '    repeat with yTargetName in yTargetNames',
+    '      try',
+    '        if (name of yElement as text) is (yTargetName as text) and (enabled of yElement as boolean) then',
+    '          click yElement',
+    '          return true',
+    '        end if',
+    '      end try',
+    '    end repeat',
+    '    try',
+    '      repeat with yChild in UI elements of yElement',
+    '        if my yBoundedClickFirstNamedControl(yChild, yTargetNames, yDepth + 1) then return true',
+    '      end repeat',
+    '    end try',
+    '    return false',
+    '  end tell',
+    'end yBoundedClickFirstNamedControl',
+    'on yClickBoundedMarkerControl(yCheckpointPath, yMarker, yTargetNames)',
+    '  set my yAxVisitedNodes to 0',
+    '  set my yAxSearchDeadline to (current date) + 8',
+    '  tell application "System Events" to tell process "Microsoft Word"',
+    '    if (count of windows) is not 1 then return "WINDOW_COUNT:" & (count of windows)',
+    '    set yWindow to window 1',
+    '    if my yBoundedElementHasMarker(yWindow, yMarker, 0) is false then return "MARKER_NOT_FOUND_WITHIN_BUDGET"',
+    '    set my yAxVisitedNodes to 0',
+    '    set yControlCount to my yBoundedCountNamedControl(yWindow, yTargetNames, 0)',
+    '    if yControlCount is not 1 then return "CONTROL_MATCH_COUNT:" & yControlCount',
+    '    set my yAxVisitedNodes to 0',
+    '    if my yBoundedClickFirstNamedControl(yWindow, yTargetNames, 0) then return "CLICKED"',
+    '    return "CLICK_FAILED"',
+    '  end tell',
+    'end yClickBoundedMarkerControl',
+    'on yAxAttributeText(yElement, yAttributeName)',
+    '  tell application "System Events"',
+    '    try',
+    '      return value of attribute yAttributeName of yElement as text',
+    '    on error yErrMsg number yErrNo',
+    '      return "UNAVAILABLE:" & yErrNo & ":" & yErrMsg',
+    '    end try',
+    '  end tell',
+    'end yAxAttributeText',
+    'on yDescribeAxElement(yElement, yLabel)',
+    '  tell application "System Events"',
+    '    set yActions to ""',
+    '    try',
+    '      repeat with yAction in actions of yElement',
+    '        set yActions to yActions & (name of yAction as text) & ","',
+    '      end repeat',
+    '    on error yErrMsg number yErrNo',
+    '      set yActions to "UNAVAILABLE:" & yErrNo & ":" & yErrMsg',
+    '    end try',
+    '    return yLabel & "{ROLE=" & my yAxAttributeText(yElement, "AXRole") & ";SUBROLE=" & my yAxAttributeText(yElement, "AXSubrole") & ";NAME=" & my yAxAttributeText(yElement, "AXTitle") & ";DESCRIPTION=" & my yAxAttributeText(yElement, "AXDescription") & ";ENABLED=" & my yAxAttributeText(yElement, "AXEnabled") & ";VALUE=" & my yAxAttributeText(yElement, "AXValue") & ";ACTIONS=" & yActions & "}"',
+    '  end tell',
+    'end yDescribeAxElement',
+    'on yDescribeBoundedCommentSurface(yElement, yMarker, yDepth)',
+    '  if yDepth > 2 then return ""',
+    '  if (current date) > my yAxSearchDeadline then error "TIME_BUDGET_EXCEEDED|AX_COMMENT_SURFACE_DIAGNOSTIC" number 9798',
+    '  set my yAxVisitedNodes to my yAxVisitedNodes + 1',
+    '  if my yAxVisitedNodes > 120 then error "AX_COMMENT_SURFACE_NODE_BUDGET_EXCEEDED" number 9797',
+    '  if my ySkipAxSubtree(yElement) then return ""',
+    '  tell application "System Events"',
+    '    set yResult to ""',
+    '    set yNameValue to my yAxAttributeText(yElement, "AXTitle")',
+    '    set yDescriptionValue to my yAxAttributeText(yElement, "AXDescription")',
+    '    set yValueValue to my yAxAttributeText(yElement, "AXValue")',
+    '    if yNameValue contains yMarker or yDescriptionValue contains "comment" or yDescriptionValue contains "примеч" or yValueValue contains yMarker then',
+    '      set yResult to my yDescribeAxElement(yElement, "COMMENT_SURFACE")',
+    '    end if',
+    '    try',
+    '      repeat with yChild in UI elements of yElement',
+    '        set yChildResult to my yDescribeBoundedCommentSurface(yChild, yMarker, yDepth + 1)',
+    '        if yChildResult is not "" then set yResult to yResult & yChildResult',
+    '      end repeat',
+    '    end try',
+    '    return yResult',
+    '  end tell',
+    'end yDescribeBoundedCommentSurface',
+    'on yNavigateToUniqueCommentMarker(yCheckpointPath, yReviewGroup, yWindow, yMarker, yMaxSteps)',
+    '  tell application "System Events"',
+    '    set yNextControls to every button of yReviewGroup whose name is "Следующее"',
+    '    if (count of yNextControls) is 0 then set yNextControls to every button of yReviewGroup whose name is "Next"',
+    '    if (count of yNextControls) is not 1 then return "COMMENT_NAVIGATION_NEXT_CONTROL_COUNT:" & (count of yNextControls)',
+    '    set yNextControl to item 1 of yNextControls',
+    '    if (enabled of yNextControl) is false then return "COMMENT_NAVIGATION_NEXT_CONTROL_DISABLED"',
+    '    set ySawWrongMarker to false',
+    '    repeat with yStep from 0 to yMaxSteps',
+    '      my yRequireBudget(yCheckpointPath, "COMMENT_NAVIGATION_STEP:" & yStep)',
+    '      set my yAxVisitedNodes to 0',
+    '      set my yAxSearchDeadline to (current date) + 8',
+    '      set yExactMarkerCount to my yBoundedCountExactMarker(yWindow, yMarker, 0)',
+    '      if yExactMarkerCount is 1 then return "UNIQUE_TARGET_MARKER_VERIFIED:STEP:" & yStep',
+    '      if yExactMarkerCount > 1 then return "COMMENT_NAVIGATION_TARGET_MARKER_AMBIGUOUS:" & yExactMarkerCount',
+    '      set my yAxVisitedNodes to 0',
+    '      set my yAxSearchDeadline to (current date) + 8',
+    '      set yAnyRootMarkerCount to my yBoundedCountExactMarker(yWindow, "C5V2 root ", 0)',
+    '      if yAnyRootMarkerCount > 1 then return "COMMENT_NAVIGATION_VISIBLE_ROOT_AMBIGUOUS:" & yAnyRootMarkerCount',
+    '      if yAnyRootMarkerCount is 1 then set ySawWrongMarker to true',
+    '      if yStep is yMaxSteps then exit repeat',
+    '      my yDurableCheckpoint(yCheckpointPath, "COMMENT_NAVIGATION_NEXT_BEFORE", yMarker & ":STEP:" & yStep)',
+    '      click yNextControl',
+    '      delay 0.2',
+    '      my yDurableCheckpoint(yCheckpointPath, "COMMENT_NAVIGATION_NEXT_AFTER", yMarker & ":STEP:" & (yStep + 1))',
+    '    end repeat',
+    '    if ySawWrongMarker then return "COMMENT_NAVIGATION_WRONG_MARKER_CYCLE:MAX_STEPS:" & yMaxSteps',
+    '    return "COMMENT_NAVIGATION_CYCLE_OR_TARGET_NOT_REACHED:MAX_STEPS:" & yMaxSteps',
+    '  end tell',
+    'end yNavigateToUniqueCommentMarker',
+    'on yPrepareCommentsUi(yCheckpointPath, yExpectedFullName, yMarker, yMaxNavigationSteps)',
+    '  tell application "Microsoft Word"',
+    '    activate',
+    '    if (count of documents) is 0 then return "WORD_DOCUMENT_COUNT:0"',
+    '    set yFrontIdentity to full name of active document as text',
+    '    if yFrontIdentity is not yExpectedFullName then return "FRONT_DOCUMENT_MISMATCH:" & yFrontIdentity',
+    '    set yWordViewState to "UNAVAILABLE"',
+    '    set yWordProtectionState to "UNAVAILABLE"',
+    '    try',
+    '      set yWordViewState to view type of view of active window as text',
+    '    end try',
+    '    try',
+    '      set yWordProtectionState to protection type of active document as text',
+    '    end try',
+    '  end tell',
+    '  my yRequireBudget(yCheckpointPath, "PANE_OPEN_START")',
+    '  my yCheckpoint(yCheckpointPath, "PANE_OPEN_BEFORE", yMarker)',
+    '  tell application "System Events"',
+    '    if not (exists process "Microsoft Word") then return "WORD_PROCESS_MISSING"',
+    '    tell process "Microsoft Word"',
+    '      set frontmost to true',
+    '      set yWindowCount to count of windows',
+    '      if yWindowCount is 0 then return "ACTIVATED:true:FRONT_DOCUMENT:" & yFrontIdentity & ":WINDOW_COUNT:0"',
+    '      set yRibbonExpansionAttempts to 0',
+    '      set yReviewTab to missing value',
+    '      set yReviewTabValue to 0',
+    '      set yRibbonScrollAreaCount to count of scroll areas of tab group 1 of window 1',
+    '      repeat while yRibbonExpansionAttempts < 3',
+    '        if not (exists radio button "Рецензирование" of tab group 1 of window 1) then return "REVIEW_TAB_MISSING"',
+    '        set yReviewTab to radio button "Рецензирование" of tab group 1 of window 1',
+    '        if (enabled of yReviewTab) is false then return "REVIEW_TAB_DISABLED"',
+    '        set yReviewTabValue to value of yReviewTab',
+    '        set yRibbonScrollAreaCount to count of scroll areas of tab group 1 of window 1',
+    '        if yReviewTabValue is 1 and yRibbonScrollAreaCount is 1 then exit repeat',
+    '        click yReviewTab',
+    '        set yRibbonExpansionAttempts to yRibbonExpansionAttempts + 1',
+    '        delay 0.2',
+    '        set yReviewTabValue to value of yReviewTab',
+    '        set yRibbonScrollAreaCount to count of scroll areas of tab group 1 of window 1',
+    '      end repeat',
+    '      if yReviewTabValue is not 1 then return "REVIEW_TAB_NOT_SELECTED:VALUE:" & yReviewTabValue & ":EXPANSION_ATTEMPTS:" & yRibbonExpansionAttempts',
+    '      if yRibbonScrollAreaCount is not 1 then return "REVIEW_SCROLL_AREA_COUNT:" & yRibbonScrollAreaCount & ":EXPANSION_ATTEMPTS:" & yRibbonExpansionAttempts',
+    '      if not (exists group 5 of scroll area 1 of tab group 1 of window 1) then return "REVIEW_GROUP_5_MISSING"',
+    '      set yReviewGroup to group 5 of scroll area 1 of tab group 1 of window 1',
+    '      set yShowCommentsControls to every checkbox of yReviewGroup whose name is "Показать примечания"',
+    '      set yShowCommentsCount to count of yShowCommentsControls',
+    '      if yShowCommentsCount is not 1 then return "SHOW_COMMENTS_CHECKBOX_COUNT:" & yShowCommentsCount',
+    '      set yShowCommentsControl to item 1 of yShowCommentsControls',
+    '      set yShowCommentsValue to value of yShowCommentsControl',
+    '      set yReviewGroupDiagnostics to ""',
+    '      set yReviewControlIndex to 0',
+    '      repeat with yReviewControl in UI elements of yReviewGroup',
+    '        set yReviewControlIndex to yReviewControlIndex + 1',
+    '        if yReviewControlIndex > 24 then exit repeat',
+    '        set yReviewGroupDiagnostics to yReviewGroupDiagnostics & my yDescribeAxElement(yReviewControl, "REVIEW_GROUP_5_CONTROL_" & yReviewControlIndex)',
+    '      end repeat',
+    '      set my yAxVisitedNodes to 0',
+    '      set my yAxSearchDeadline to (current date) + 8',
+    '      set yContextualCommentDiagnostics to my yDescribeBoundedCommentSurface(window 1, yMarker, 0)',
+    '      set yPreparationDiagnostics to ":REVIEW_TAB_VALUE:" & yReviewTabValue & ":RIBBON_SCROLL_AREA_COUNT:" & yRibbonScrollAreaCount & ":WORD_VIEW:" & yWordViewState & ":PROTECTION:" & yWordProtectionState & ":REVIEW_GROUP_DIAGNOSTICS:" & yReviewGroupDiagnostics & ":CONTEXTUAL_COMMENT_SURFACE:" & yContextualCommentDiagnostics',
+    '      my yCheckpoint(yCheckpointPath, "COMMENTS_UI_BOUNDED_DIAGNOSTIC", yPreparationDiagnostics)',
+    '      if (enabled of yShowCommentsControl) is false then',
+    '        if yShowCommentsValue is 0 then return "SHOW_COMMENTS_CHECKBOX_DISABLED_VALUE_0" & yPreparationDiagnostics',
+    '        if yShowCommentsValue is not 1 then return "SHOW_COMMENTS_CHECKBOX_DISABLED_VALUE_UNSUPPORTED:" & yShowCommentsValue & yPreparationDiagnostics',
+    '        set yPaneRoute to "CHECKBOX_DISABLED_VALUE_1_PANE_ALREADY_OPEN"',
+    '      else',
+    '      if yShowCommentsValue is 0 then',
+    '        click yShowCommentsControl',
+    '        set yPaneRoute to "CHECKBOX_CLICKED_OPEN"',
+    '        delay 0.4',
+    '      else if yShowCommentsValue is 1 then',
+    '        set yPaneRoute to "CHECKBOX_ALREADY_OPEN_PRESERVED"',
+    '      else',
+    '        return "SHOW_COMMENTS_CHECKBOX_VALUE_UNSUPPORTED:" & yShowCommentsValue',
+    '      end if',
+    '      end if',
+    '      set yNavigationResult to my yNavigateToUniqueCommentMarker(yCheckpointPath, yReviewGroup, window 1, yMarker, yMaxNavigationSteps)',
+    '      if yNavigationResult does not start with "UNIQUE_TARGET_MARKER_VERIFIED:" then return yNavigationResult & yPreparationDiagnostics',
+    '      set yPaneRoute to yPaneRoute & ":" & yNavigationResult',
+    '    end tell',
+    '  end tell',
+    '  my yCheckpoint(yCheckpointPath, "PANE_OPEN_AFTER", yPaneRoute)',
+    '  return "ACTIVATED:true:FRONT_DOCUMENT:" & yFrontIdentity & ":WINDOW_COUNT:" & yWindowCount & ":DIRECT_REVIEW_GROUP:5:RIBBON_EXPANSION_ATTEMPTS:" & yRibbonExpansionAttempts & ":PANE_ROUTE:" & yPaneRoute & yPreparationDiagnostics',
+    'end yPrepareCommentsUi',
+    'on yTypeNativeCommentText(yText)',
+    '  tell application "System Events" to tell process "Microsoft Word"',
+    '    keystroke yText',
+    '    key code 36',
+    '    delay 0.5',
+    '  end tell',
+    'end yTypeNativeCommentText',
     'on yOpenExpectedDoc(yPosixPath, yExpectedFullName, yExpectedName)',
     '  do shell script "/usr/bin/open -a " & quoted form of "Microsoft Word" & " " & quoted form of yPosixPath',
     '  set yDeadline to (current date) + 35',
@@ -1406,32 +2101,58 @@ export function buildWordScript({ sourcePath, returnedPath, ledger }) {
     `  set user initials to ${appleText('C5V2')}`,
     `  set ySourceFile to POSIX file ${appleText(sourcePath)} as alias`,
     `  set yReturnedPath to ${appleText(returnedPath)}`,
+    `  set yCheckpointPath to ${appleText(`${returnedPath}.phase.log`)}`,
+    '  set my yOverallDeadline to (current date) + 180',
+    '  my yResetCheckpoint(yCheckpointPath)',
+    '  my yCheckpoint(yCheckpointPath, "CANARY_START", yReturnedPath)',
+    '  my yCloseStaleExpectedDocuments(yReturnedPath)',
+    '  my yCheckpoint(yCheckpointPath, "STALE_EXPECTED_DOCUMENTS_CLEANED", yReturnedPath)',
     `  do shell script "/bin/cp " & quoted form of ${appleText(sourcePath)} & " " & quoted form of yReturnedPath`,
     `  set yFile to POSIX file ${appleText(returnedPath)} as alias`,
     '  set yExpectedFullName to yFile as text',
-    `  if my yOpenExpectedDoc(${appleText(returnedPath)}, yExpectedFullName, ${appleText(expectedName)}) is not true then error "C5V2_CANARY_OPEN_TIMEOUT" number 9700`,
+    `  set yExpectedName to ${appleText(expectedName)}`,
+    `  if my yOpenExpectedDoc(${appleText(returnedPath)}, yExpectedFullName, yExpectedName) is not true then error "C5V2_CANARY_OPEN_TIMEOUT" number 9700`,
     '  set yDoc to active document',
     '  set yDocWasOpened to true',
+    '  my yCheckpoint(yCheckpointPath, "PREFLIGHT_BEFORE", yExpectedFullName)',
+    '  set yAccessibilityPreflight to my yMacosAccessibilityPreflight(yExpectedFullName)',
+    '  if yAccessibilityPreflight does not start with "MACOS_ACCESSIBILITY_PREFLIGHT_READY|" then error yAccessibilityPreflight number 9720',
+    '  my yCheckpoint(yCheckpointPath, "PREFLIGHT_AFTER", yAccessibilityPreflight)',
     '  set remove personal information of yDoc to false',
     '  set remove date and time of yDoc to false',
     '  set show revisions of yDoc to true',
-    wordOperationLines(ledger),
+    wordOperationLines(ledger, returnedPath),
     '  save yDoc',
+    '  my yCheckpoint(yCheckpointPath, "FINAL_SAVE_AFTER", "")',
     '  close yDoc saving yes',
     '  set yDocWasOpened to false',
+    '  my yCheckpoint(yCheckpointPath, "FINAL_CLOSE_AFTER", "")',
     `  if my yOpenExpectedDoc(${appleText(returnedPath)}, yExpectedFullName, ${appleText(expectedName)}) is not true then error "C5V2_CANARY_REOPEN_TIMEOUT" number 9703`,
     '  set yDoc to active document',
     '  set yDocWasOpened to true',
+    '  my yCheckpoint(yCheckpointPath, "FINAL_REOPEN_AFTER", "")',
     '  set yReadback to content of text object of yDoc',
     '  set yRevisionCount to count of revisions of yDoc',
-    '  set yCommentCount to count of Word comments of yDoc',
+    '  set yCommentCount to 0',
+    '  repeat with yCommentIndex from 1 to 1000',
+    '    try',
+    '      set yFinalComment to Word comment yCommentIndex of yDoc',
+    '      set yCommentCount to yCommentCount + 1',
+    '    on error',
+    '      exit repeat',
+    '    end try',
+    '  end repeat',
+    '  my yCheckpoint(yCheckpointPath, "FINAL_SEMANTIC_READBACK", "REVISION_COUNT:" & yRevisionCount & ":COMMENT_COUNT:" & yCommentCount)',
     '  close yDoc saving no',
     '  set yDocWasOpened to false',
     '  set user name to oldUserName',
     '  set user initials to oldUserInitials',
     '  set display alerts to oldAlerts',
-    '  return "WORD_STATUS=PASS" & linefeed & "REVISION_COUNT=" & yRevisionCount & linefeed & "COMMENT_COUNT=" & yCommentCount & linefeed & "READBACK_CHARS=" & (count of yReadback) & linefeed & yOpsDone & "LIMITATIONS_BEGIN" & linefeed & yLimitations & "LIMITATIONS_END"',
+    '  return "WORD_STATUS=PASS" & linefeed & "REVISION_COUNT=" & yRevisionCount & linefeed & "COMMENT_COUNT=" & yCommentCount & linefeed & "READBACK_CHARS=" & (count of yReadback) & linefeed & yOpsDone & "UI_DIAGNOSTICS_BEGIN" & linefeed & yUiDiagnostics & "UI_DIAGNOSTICS_END" & linefeed & "LIMITATIONS_BEGIN" & linefeed & yLimitations & "LIMITATIONS_END"',
     'on error errMsg number errNo',
+    '  try',
+    '    my yCheckpoint(yCheckpointPath, "CANARY_ERROR", (errNo as text) & "|" & errMsg)',
+    '  end try',
     '  try',
     '    if yDocWasOpened then close yDoc saving no',
     '  end try',
@@ -1456,15 +2177,37 @@ export function runAppleScript(scriptText, scriptPath) {
   });
 }
 
+export function readWordPhaseCheckpoint(returnedPath) {
+  const checkpointPath = `${returnedPath}.phase.log`;
+  if (!fs.existsSync(checkpointPath)) return { present: false, entries: [], lastPhase: '' };
+  const entries = fs.readFileSync(checkpointPath, 'utf8').split(/\r?\n/u).map((line) => line.trim()).filter(Boolean);
+  const last = entries.at(-1) || '';
+  return { present: true, entries, lastPhase: last.split('|')[0] || '' };
+}
+
 export function parseWordOutput(output) {
   const lines = String(output || '').split(/\r?\n/u).map((line) => line.trim()).filter(Boolean);
   const ops = [];
   const scalars = {};
   const limitations = [];
+  const uiDiagnostics = [];
   let inLimitations = false;
+  let inUiDiagnostics = false;
   for (const line of lines) {
     if (line === 'LIMITATIONS_BEGIN') {
       inLimitations = true;
+      continue;
+    }
+    if (line === 'UI_DIAGNOSTICS_BEGIN') {
+      inUiDiagnostics = true;
+      continue;
+    }
+    if (line === 'UI_DIAGNOSTICS_END') {
+      inUiDiagnostics = false;
+      continue;
+    }
+    if (inUiDiagnostics) {
+      uiDiagnostics.push(line);
       continue;
     }
     if (line === 'LIMITATIONS_END') {
@@ -1483,19 +2226,133 @@ export function parseWordOutput(output) {
     const eq = line.indexOf('=');
     if (eq > 0) scalars[line.slice(0, eq)] = line.slice(eq + 1);
   }
-  return { scalars, ops, limitations };
+  return { scalars, ops, limitations, uiDiagnostics };
+}
+
+function xmlAttribute(attributes, localName) {
+  const match = String(attributes || '').match(new RegExp(`(?:^|\\s)(?:[A-Za-z_][\\w.-]*:)?${localName}="([^"]*)"`, 'u'));
+  return match ? match[1] : '';
+}
+
+function xmlText(body) {
+  return [...String(body || '').matchAll(/<w:t(?:\s[^>]*)?>([\s\S]*?)<\/w:t>/gu)]
+    .map((match) => match[1].replace(/&lt;/gu, '<').replace(/&gt;/gu, '>').replace(/&amp;/gu, '&'))
+    .join('');
+}
+
+export function inspectNativeCommentLifecycleXml({ commentsXml = '', commentsExtendedXml = '' } = {}) {
+  const comments = [...String(commentsXml).matchAll(/<w:comment\b([^>]*)>([\s\S]*?)<\/w:comment>/gu)].map((match) => {
+    const paragraph = match[2].match(/<w:p\b([^>]*)>/u);
+    return {
+      commentId: xmlAttribute(match[1], 'id'),
+      parentCommentId: xmlAttribute(match[1], 'parentId'),
+      paraId: xmlAttribute(match[1], 'paraId') || xmlAttribute(paragraph?.[1], 'paraId'),
+      body: xmlText(match[2]),
+    };
+  });
+  const commentEx = [...String(commentsExtendedXml).matchAll(/<w15:commentEx\b([^>]*)\/?\s*>/gu)].map((match) => ({
+    paraId: xmlAttribute(match[1], 'paraId'),
+    paraIdParent: xmlAttribute(match[1], 'paraIdParent'),
+    done: xmlAttribute(match[1], 'done'),
+  }));
+  return { comments, commentEx };
+}
+
+export function verifyNativeCommentLifecycleSemantics({ ledger, snapshotXmlByOperationId = {} } = {}) {
+  const operations = Array.isArray(ledger?.operations) ? ledger.operations : [];
+  const results = [];
+  for (const operation of operations.filter((item) => ['reply_attempt', 'state_attempt'].includes(item.family))) {
+    const snapshot = snapshotXmlByOperationId[operation.id] || {};
+    const graph = inspectNativeCommentLifecycleXml(snapshot);
+    const rootBody = `C5V2 root ${operation.targetRootOperationId || ''}`;
+    const roots = graph.comments.filter((comment) => comment.body.includes(rootBody));
+    if (roots.length !== 1) {
+      results.push({ operationId: operation.id, status: 'MANUAL_OR_BLOCKED', reason: roots.length === 0 ? 'NATIVE_ROOT_MISSING' : 'NATIVE_ROOT_DUPLICATE' });
+      continue;
+    }
+    const root = roots[0];
+    if (operation.family === 'reply_attempt') {
+      const replyBody = `C5V2 reply ${operation.id}`;
+      const replies = graph.comments.filter((comment) => comment.body.includes(replyBody));
+      if (replies.length !== 1) {
+        results.push({ operationId: operation.id, status: 'MANUAL_OR_BLOCKED', reason: replies.length === 0 ? 'NATIVE_REPLY_MISSING' : 'NATIVE_REPLY_DUPLICATE' });
+        continue;
+      }
+      const reply = replies[0];
+      const replyEx = graph.commentEx.find((entry) => entry.paraId && entry.paraId === reply.paraId);
+      const parentRelation = (reply.parentCommentId && reply.parentCommentId === root.commentId)
+        || (replyEx?.paraIdParent && replyEx.paraIdParent === root.paraId);
+      results.push({
+        operationId: operation.id,
+        status: parentRelation ? 'SAFE_APPLY' : 'MANUAL_OR_BLOCKED',
+        reason: parentRelation ? 'NATIVE_REPLY_PARENT_VERIFIED_AFTER_REOPEN' : 'NATIVE_REPLY_PARENT_MISSING_OR_WRONG',
+        rootCommentId: root.commentId,
+        replyCommentId: reply.commentId,
+      });
+      continue;
+    }
+    const rootEx = graph.commentEx.filter((entry) => entry.paraId && entry.paraId === root.paraId);
+    const expectedDone = operation.requestedState === 'reopened' ? '0' : '1';
+    const stateVerified = rootEx.length === 1 && rootEx[0].done === expectedDone;
+    results.push({
+      operationId: operation.id,
+      status: stateVerified ? 'SAFE_APPLY' : 'MANUAL_OR_BLOCKED',
+      reason: stateVerified ? `NATIVE_STATE_${operation.requestedState.toUpperCase()}_VERIFIED_AFTER_REOPEN` : 'NATIVE_STATE_MISSING_OR_MISMATCHED',
+      requestedState: operation.requestedState,
+      observedDone: rootEx.length === 1 ? rootEx[0].done : '',
+    });
+  }
+  return {
+    ok: results.length > 0 && results.every((result) => result.status === 'SAFE_APPLY'),
+    results,
+    verifiedCount: results.filter((result) => result.status === 'SAFE_APPLY').length,
+    blockedCount: results.filter((result) => result.status !== 'SAFE_APPLY').length,
+  };
+}
+
+export function readNativeLifecycleSnapshots({ ledger, returnedPath }) {
+  const snapshotXmlByOperationId = {};
+  for (const operation of (ledger.operations || []).filter((item) => ['reply_attempt', 'state_attempt'].includes(item.family))) {
+    const snapshotPath = `${returnedPath}.${operation.id.replace(/[^a-z0-9_-]/giu, '_')}.native-readback.docx`;
+    if (!fs.existsSync(snapshotPath)) continue;
+    snapshotXmlByOperationId[operation.id] = {
+      commentsXml: shellValue('/usr/bin/unzip', ['-p', snapshotPath, 'word/comments.xml'], { timeout: 30_000 }),
+      commentsExtendedXml: shellValue('/usr/bin/unzip', ['-p', snapshotPath, 'word/commentsExtended.xml'], { timeout: 30_000 }),
+    };
+  }
+  return verifyNativeCommentLifecycleSemantics({ ledger, snapshotXmlByOperationId });
+}
+
+export function applyNativeLifecycleVerification(wordParsed, verification) {
+  const lifecycleById = new Map((verification?.results || []).map((result) => [result.operationId, result]));
+  const nonLifecycleOps = (wordParsed?.ops || []).filter((operation) => !lifecycleById.has(operation.id));
+  return {
+    ...(wordParsed || {}),
+    ops: [
+      ...nonLifecycleOps,
+      ...[...lifecycleById.values()].map((result) => ({ id: result.operationId, status: result.status })),
+    ],
+    nativeLifecycleVerification: verification,
+  };
 }
 
 export function packageSummary(docxPath) {
   const entries = shellValue('/usr/bin/unzip', ['-Z1', docxPath], { timeout: 30_000 }).split(/\r?\n/u).filter(Boolean);
   const commentsXml = shellValue('/usr/bin/unzip', ['-p', docxPath, 'word/comments.xml'], { timeout: 30_000 });
   const documentXml = shellValue('/usr/bin/unzip', ['-p', docxPath, 'word/document.xml'], { timeout: 30_000 });
+  const settingsXml = shellValue('/usr/bin/unzip', ['-p', docxPath, 'word/settings.xml'], { timeout: 30_000 });
+  const compatibilityModes = [...settingsXml.matchAll(/<w:compatSetting\b[^>]*\bw:name="compatibilityMode"[^>]*\bw:val="(\d+)"[^>]*\/>/gu)]
+    .map((match) => Number.parseInt(match[1], 10));
+  const settingsPartCount = entries.filter((entry) => entry === 'word/settings.xml').length;
   return {
     zipOk: shellValue('/usr/bin/unzip', ['-tqq', docxPath], { timeout: 30_000 }) === '',
     entries,
     commentRelatedParts: entries.filter((entry) => /^word\/comments/u.test(entry)),
     commentTagCount: (commentsXml.match(/<w:comment[\s>]/gu) || []).length,
     revisionTagCount: (documentXml.match(/<w:(?:ins|del)\b/gu) || []).length,
+    settingsPartCount,
+    compatibilityModes,
+    modernMode15Ready: settingsPartCount === 1 && compatibilityModes.length === 1 && compatibilityModes[0] === 15,
     documentXmlSha256: sha256Text(documentXml),
     commentsXmlSha256: sha256Text(commentsXml),
   };
@@ -1554,6 +2411,7 @@ function parseArgs(argv) {
     artifactRoot: DEFAULT_ARTIFACT_ROOT,
     runPrefix: 'c5v2-physical-canary',
     roundCount: 1,
+    accessibilityPreflightOnly: false,
   };
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
@@ -1575,6 +2433,8 @@ function parseArgs(argv) {
     } else if (arg === '--round-count') {
       options.roundCount = Number.parseInt(argv[index + 1], 10);
       index += 1;
+    } else if (arg === '--accessibility-preflight-only') {
+      options.accessibilityPreflightOnly = true;
     }
   }
   return options;
@@ -1663,7 +2523,10 @@ async function mainCumulative(options) {
   }
   const roundSummaries = rounds.map((round, index) => {
     const wordOutput = electronResult.wordOutputs[index] || '';
-    const wordParsed = parseWordOutput(wordOutput);
+    const nativeLifecycleVerification = round.ledger && fs.existsSync(round.returnedPath)
+      ? readNativeLifecycleSnapshots({ ledger: round.ledger, returnedPath: round.returnedPath })
+      : { ok: false, results: [], verifiedCount: 0, blockedCount: 0 };
+    const wordParsed = applyNativeLifecycleVerification(parseWordOutput(wordOutput), nativeLifecycleVerification);
     const returnApplyEnvelope = electronResult.returnApplyResults.find((line) => line.roundIndex === index) || null;
     const returnApply = returnApplyEnvelope && returnApplyEnvelope.returnApply ? returnApplyEnvelope.returnApply : null;
     const exact = returnApply?.activation?.exactApplyTextChangeIdsByScene || {};
@@ -1674,6 +2537,9 @@ async function mainCumulative(options) {
       returnedDocxPath: round.returnedPath,
       sourceDocxSha256: fs.existsSync(round.sourcePath) ? sha256File(round.sourcePath) : '',
       returnedDocxSha256: fs.existsSync(round.returnedPath) ? sha256File(round.returnedPath) : '',
+      sourcePackageSummary: fs.existsSync(round.sourcePath) ? packageSummary(round.sourcePath) : null,
+      returnedPackageSummary: fs.existsSync(round.returnedPath) ? packageSummary(round.returnedPath) : null,
+      wordPhaseCheckpoint: readWordPhaseCheckpoint(round.returnedPath),
       wordStatus: wordParsed.scalars.WORD_STATUS || (electronResult.wordErrors[index] ? 'FAIL' : 'UNKNOWN'),
       wordOperationSummary: {
         attempted: Array.isArray(round.ledger?.operations) ? round.ledger.operations.length : 0,
@@ -1686,6 +2552,8 @@ async function mainCumulative(options) {
         }, {}),
       },
       limitations: wordParsed.limitations,
+      uiDiagnostics: wordParsed.uiDiagnostics,
+      nativeLifecycleVerification,
       packageSummary: fs.existsSync(round.returnedPath) ? packageSummary(round.returnedPath) : null,
       oracleProbe: wordParsed.ops.length > 0 && round.ledger ? buildOracleProbe({ ledger: round.ledger, wordParsed }) : null,
       productReturnApply: returnApply,
@@ -1767,7 +2635,12 @@ async function mainCumulative(options) {
   }, null, 2)}\n`);
   process.exit(
     summary.electronResult.ok
-      && summary.rounds.every((round) => round.wordStatus === 'PASS' && round.productApplyOk === true)
+      && summary.rounds.every((round) => (
+        round.sourcePackageSummary?.modernMode15Ready === true
+        && round.wordStatus === 'PASS'
+        && round.productApplyOk === true
+        && round.nativeLifecycleVerification?.ok === true
+      ))
       ? 0
       : 1,
   );
@@ -1775,6 +2648,31 @@ async function mainCumulative(options) {
 
 async function main() {
   const options = parseArgs(process.argv.slice(2));
+  if (options.accessibilityPreflightOnly) {
+    let rawOutput = '';
+    let executionError = '';
+    try {
+      rawOutput = execFileSync('/usr/bin/osascript', ['-'], {
+        cwd: REPO_ROOT,
+        input: buildMacosAccessibilityPreflightScript(''),
+        encoding: 'utf8',
+        timeout: 30_000,
+        stdio: ['pipe', 'pipe', 'pipe'],
+      });
+    } catch (error) {
+      executionError = String(error.stderr || error.message || error);
+    }
+    const result = executionError
+      ? {
+        ok: false,
+        status: 'environment-blocked',
+        code: 'MACOS_ACCESSIBILITY_PREFLIGHT_EXECUTION_BLOCKED',
+        diagnostics: { executionError },
+      }
+      : parseMacosAccessibilityPreflightOutput(rawOutput);
+    process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
+    process.exit(result.ok ? 0 : 1);
+  }
   if (Number.isSafeInteger(Number(options.roundCount)) && Number(options.roundCount) > 1) {
     await mainCumulative(options);
     return;
@@ -1821,7 +2719,10 @@ async function main() {
   }
   fs.mkdirSync(runDir, { recursive: true });
   fs.writeFileSync(path.join(runDir, 'word-output.txt'), wordOutput || wordError, 'utf8');
-  const wordParsed = parseWordOutput(wordOutput);
+  const nativeLifecycleVerification = fs.existsSync(returnedDocxPath)
+    ? readNativeLifecycleSnapshots({ ledger, returnedPath: returnedDocxPath })
+    : { ok: false, results: [], verifiedCount: 0, blockedCount: 0 };
+  const wordParsed = applyNativeLifecycleVerification(parseWordOutput(wordOutput), nativeLifecycleVerification);
   const summary = {
     schemaVersion: 'yalken.rtk.word.c5v2.physical-canary.result.v1',
     runId,
@@ -1842,9 +2743,11 @@ async function main() {
     returnedDocxPath,
     sourceDocxSha256: fs.existsSync(sourceDocxPath) ? sha256File(sourceDocxPath) : '',
     returnedDocxSha256: fs.existsSync(returnedDocxPath) ? sha256File(returnedDocxPath) : '',
+    wordPhaseCheckpoint: readWordPhaseCheckpoint(returnedDocxPath),
     exportResult,
     wordStatus: wordParsed.scalars.WORD_STATUS || (wordError ? 'FAIL' : 'UNKNOWN'),
     wordScalars: wordParsed.scalars,
+    nativeLifecycleVerification,
     wordOperationSummary: {
       attempted: ledger.operations.length,
       reported: wordParsed.ops.length,
@@ -1856,16 +2759,19 @@ async function main() {
       }, {}),
     },
     limitations: wordParsed.limitations,
+    uiDiagnostics: wordParsed.uiDiagnostics,
+    sourcePackageSummary: fs.existsSync(sourceDocxPath) ? packageSummary(sourceDocxPath) : null,
+    returnedPackageSummary: fs.existsSync(returnedDocxPath) ? packageSummary(returnedDocxPath) : null,
     packageSummary: fs.existsSync(returnedDocxPath) ? packageSummary(returnedDocxPath) : null,
     oracleProbe: wordParsed.ops.length > 0 ? buildOracleProbe({ ledger, wordParsed }) : null,
     productReturnApply: exportResult.returnApplyResult?.returnApply || null,
     productRouteGaps: exportResult.returnApplyResult?.returnApply?.ok === true
       ? [
-        'comments replies state formatting structural operations are physical Word attempts with typed pending product outcomes, not Yalken apply certification',
+        'formatting and structural operations remain typed pending product outcomes',
       ]
       : [
         'full-manuscript authenticated intake preview explicit apply did not complete green in this canary script',
-        'comments replies state formatting structural operations are physical Word attempts with typed outcomes, not Yalken apply certification',
+        'comment lifecycle, formatting, or structural operations remain typed pending product outcomes',
       ],
     certificationClaim: options.sceneCount >= 21
       ? 'NO_PHYSICAL_PROVEN_C5_CERTIFICATION_CLAIM_WHOLE_BOOK_LIGHT_ONLY'
@@ -1876,7 +2782,9 @@ async function main() {
   process.stdout.write(`${JSON.stringify(summary, null, 2)}\n`);
   process.exit(
     summary.exportResult.ok
+      && summary.sourcePackageSummary?.modernMode15Ready === true
       && summary.wordStatus === 'PASS'
+      && summary.nativeLifecycleVerification?.ok === true
       && summary.productReturnApply?.ok === true
       ? 0
       : 1,

@@ -147,6 +147,59 @@ test('C5V2 full-manuscript source rejects duplicate, reordered, stale and tamper
   });
 });
 
+test('C5V2 product review DOCX requires one deterministic modern mode 15 settings package contract', () => {
+  const {
+    buildDocxReviewPacketBuffer,
+    validateDocxReviewPacketModernMode15,
+  } = require(path.join(REPO_ROOT, 'src', 'export', 'docx', 'docxReviewPacketBuilder.js'));
+  const { buildStoredZip } = require(path.join(REPO_ROOT, 'src', 'export', 'docx', 'docxMinBuilder.js'));
+  const { extractStoredZipEntries } = require(path.join(REPO_ROOT, 'src', 'export', 'docx', 'docxArtifactValidator.js'));
+  const { buildFullManuscriptDocxReviewPacketSource } = require(path.join(REPO_ROOT, 'src', 'export', 'docx', 'fullManuscriptDocxReviewPacketSource.js'));
+  const source = buildFullManuscriptDocxReviewPacketSource({
+    projectId: 'project-c5v2-modern-mode',
+    scenes: makeScenes(),
+  }, {
+    roundIdHex: 'abababababababababababababababab',
+    keyIdHex: 'cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd',
+    hmacSecret: 'local-modern-mode-secret-test-only',
+  });
+  const product = buildDocxReviewPacketBuffer(source);
+  const valid = validateDocxReviewPacketModernMode15(product);
+  assert.equal(valid.ok, true, JSON.stringify(valid));
+  assert.equal(valid.compatibilityMode, 15);
+
+  const entries = [...extractStoredZipEntries(product).entries()].map(([name, data]) => ({ name, data }));
+  const rebuild = (transform) => buildStoredZip(transform(entries.map((entry) => ({ ...entry }))));
+  const settings = entries.find((entry) => entry.name === 'word/settings.xml');
+  const rels = entries.find((entry) => entry.name === 'word/_rels/document.xml.rels');
+  const contentTypes = entries.find((entry) => entry.name === '[Content_Types].xml');
+  assert.ok(settings);
+  assert.ok(rels);
+  assert.ok(contentTypes);
+
+  const cases = [
+    ['missing', rebuild((items) => items.filter((entry) => entry.name !== 'word/settings.xml')), 'DOCX_REVIEW_PACKET_SETTINGS_PART_COUNT_INVALID'],
+    ['duplicate', rebuild((items) => [...items, { ...settings }]), 'DOCX_REVIEW_PACKET_SETTINGS_PART_COUNT_INVALID'],
+    ['malformed', rebuild((items) => items.map((entry) => entry.name === settings.name
+      ? { ...entry, data: Buffer.from('<w:settings><w:compat>', 'utf8') }
+      : entry)), 'DOCX_REVIEW_PACKET_SETTINGS_XML_MALFORMED'],
+    ['downgraded', rebuild((items) => items.map((entry) => entry.name === settings.name
+      ? { ...entry, data: Buffer.from(entry.data.toString('utf8').replace('w:val="15"', 'w:val="12"'), 'utf8') }
+      : entry)), 'DOCX_REVIEW_PACKET_COMPATIBILITY_MODE_NOT_15'],
+    ['missing-relationship', rebuild((items) => items.map((entry) => entry.name === rels.name
+      ? { ...entry, data: Buffer.from(entry.data.toString('utf8').replace(/\s*<Relationship[^>]+settings[^>]+\/>/u, ''), 'utf8') }
+      : entry)), 'DOCX_REVIEW_PACKET_SETTINGS_RELATIONSHIP_INVALID'],
+    ['missing-override', rebuild((items) => items.map((entry) => entry.name === contentTypes.name
+      ? { ...entry, data: Buffer.from(entry.data.toString('utf8').replace(/\s*<Override[^>]+settings\.xml[^>]+\/>/u, ''), 'utf8') }
+      : entry)), 'DOCX_REVIEW_PACKET_SETTINGS_CONTENT_TYPE_INVALID'],
+  ];
+  for (const [name, buffer, code] of cases) {
+    const result = validateDocxReviewPacketModernMode15(buffer);
+    assert.equal(result.ok, false, name);
+    assert.equal(result.failures.includes(code), true, `${name}:${JSON.stringify(result)}`);
+  }
+});
+
 test('C5V2 full-manuscript export handler writes one DOCX and sanitizes full-book capsule fields', async () => {
   const { runDocxReviewPacketExport } = require(path.join(REPO_ROOT, 'src', 'export', 'docx', 'docxReviewPacketExportHandler.js'));
   const { buildFullManuscriptDocxReviewPacketSource } = require(path.join(REPO_ROOT, 'src', 'export', 'docx', 'fullManuscriptDocxReviewPacketSource.js'));

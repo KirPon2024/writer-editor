@@ -230,6 +230,8 @@ test('DOCX review preview session candidate: comments become review packet witho
   assert.equal(result.reviewPacket.commentThreads.length, 1);
   assert.equal(result.reviewPacket.commentThreads[0].messages[0].body, 'Resolve this comment.');
   assert.equal(result.reviewPacket.commentPlacements.length, 1);
+  assert.equal(result.reviewPacket.commentThreads[0].commentId, '0');
+  assert.equal(result.reviewPacket.commentPlacements[0].sourceCommentId, '0');
   assert.equal(result.reviewPacket.commentPlacements[0].quote, 'Anchored text');
   assert.deepEqual(result.reviewPacket.textChanges, []);
   assert.deepEqual(result.reviewPacket.structuralChanges, []);
@@ -359,6 +361,49 @@ test('DOCX review preview session candidate: full manuscript paragraph signals r
     'exact',
   ]);
   assertNoStorageOrApplyAuthority(result);
+});
+
+test('DOCX review preview session candidate: authenticated paragraph signals route comments to scenes without quote heuristics', async () => {
+  const bridge = await loadBridge();
+  const bytes = docxWithCommentAndBody([
+    '<w:p w14:paraId="aaaabbbb" w14:textId="11112222">',
+    '<w:commentRangeStart w:id="0"/>',
+    '<w:r><w:t>Physical comment anchor</w:t></w:r>',
+    '<w:commentRangeEnd w:id="0"/>',
+    '<w:r><w:commentReference w:id="0"/></w:r>',
+    '</w:p>',
+  ].join(''), 'Physical root body');
+  const exportMap = {
+    scenes: [{
+      sceneId: 'roman/chapter-01.txt',
+      blocks: [{
+        wordSignals: [{ kind: 'w14ParaIdTextId', value: { paraId: 'aaaabbbb', textId: '11112222' } }],
+      }],
+    }],
+  };
+  const result = bridge.buildDocxReviewPreviewSessionCandidateFromZipBytes(bytes, {
+    targetScope: { type: 'scene', id: 'roman/currently-open.txt' },
+    fullManuscriptExportMap: exportMap,
+  });
+  assert.equal(result.ok, true);
+  assert.equal(result.reviewPacket.commentPlacements.length, 1);
+  assert.deepEqual(result.reviewPacket.commentPlacements[0].targetScope, {
+    type: 'scene', id: 'roman/chapter-01.txt',
+  });
+  assert.equal(
+    result.reviewPacket.commentPlacements[0].sceneAuthority.authority,
+    'authenticated-full-manuscript-export-map-paragraph-signal',
+  );
+  assert.equal(result.reviewPacket.commentPlacements[0].quote, 'Physical comment anchor');
+
+  const unresolved = bridge.buildDocxReviewPreviewSessionCandidateFromZipBytes(bytes, {
+    targetScope: { type: 'scene', id: 'roman/currently-open.txt' },
+    fullManuscriptExportMap: { scenes: [] },
+  });
+  assert.equal(unresolved.reviewPacket.commentPlacements.length, 0);
+  assert.equal(unresolved.diagnostics.some((item) => (
+    item.diagnosticId === 'docx-review-comment-scene-authority-0'
+  )), true);
 });
 
 test('DOCX review preview session candidate: full manuscript retained-quote insert lane stays manual', async () => {

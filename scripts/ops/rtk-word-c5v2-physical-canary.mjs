@@ -5159,6 +5159,12 @@ async function mainCumulative(options) {
   );
 }
 
+export function shouldRunC5V2CumulativeController(options = {}) {
+  const roundCount = Number(options.roundCount);
+  return (Number.isSafeInteger(roundCount) && roundCount > 1)
+    || (typeof options.corpusManifestPath === 'string' && options.corpusManifestPath.trim().length > 0);
+}
+
 async function main() {
   const options = parseArgs(process.argv.slice(2));
   if (options.accessibilityPreflightOnly) {
@@ -5186,7 +5192,7 @@ async function main() {
     process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
     process.exit(result.ok ? 0 : 1);
   }
-  if (Number.isSafeInteger(Number(options.roundCount)) && Number(options.roundCount) > 1) {
+  if (shouldRunC5V2CumulativeController(options)) {
     await mainCumulative(options);
     return;
   }

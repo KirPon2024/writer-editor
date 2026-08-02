@@ -98,6 +98,13 @@ test('C5V2 portfolio writer and canary loader preserve raw rich scenes and valid
   const outputRoot = path.join(tempRoot, 'corpora');
   writeDorianFixture(dorianRoot);
 
+  assert.equal(canary.shouldRunC5V2CumulativeController({ roundCount: 1 }), false);
+  assert.equal(canary.shouldRunC5V2CumulativeController({ roundCount: 2 }), true);
+  assert.equal(canary.shouldRunC5V2CumulativeController({
+    roundCount: 1,
+    corpusManifestPath: path.join(outputRoot, 'corpus-manifest.json'),
+  }), true);
+
   const results = portfolio.writeC5V2PortfolioCorpora({ root: outputRoot, dorianRoot });
   assert.equal(results.length, 5);
   assert.equal(results.every((result) => result.corpusRoot.startsWith(`${outputRoot}${path.sep}`)), true);

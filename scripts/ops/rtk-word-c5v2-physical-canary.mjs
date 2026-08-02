@@ -125,7 +125,7 @@ export function bindLedgerToSourceDocxOffsets({ ledger, sourceDocxPath, sourceDo
   };
 }
 
-function buildExportBoundCanaryLedger({ scenes, counts, sourceDocxPath, anchorOffset = 0, idPrefix = '' }) {
+function buildExportBoundCanaryLedger({ scenes, counts, sourceDocxPath, anchorOffset = 0, idPrefix = '', weightedSceneAllocation = false }) {
   const sourceDocxText = docxDocumentWordText(sourceDocxPath);
   const failures = [];
   for (let attempt = 0; attempt < 80; attempt += 1) {
@@ -134,6 +134,7 @@ function buildExportBoundCanaryLedger({ scenes, counts, sourceDocxPath, anchorOf
       anchorOffset: anchorOffset + (attempt * 7),
       idPrefix,
       exportedDocxText: sourceDocxText,
+      weightedSceneAllocation,
     });
     try {
       return {
@@ -286,6 +287,54 @@ export function buildCanaryLedger(scenes, options = {}) {
   const exportedDocxText = typeof options.exportedDocxText === 'string' ? options.exportedDocxText : '';
   const candidateIsAvailable = (candidate) => countExactOccurrences(globalBookText, candidate) === 1
     && (!exportedDocxText || countExactOccurrences(exportedDocxText, candidate) === 1);
+  const buildWeightedSceneSchedule = () => {
+    if (options.weightedSceneAllocation !== true) return null;
+    const capacities = scenes.map((scene) => ({
+      scene,
+      capacity: (phrasesByScene.get(scene.sceneId) || []).filter((phrase) => candidateIsAvailable(phrase)).length,
+      allocation: 0,
+      remainder: 0,
+    }));
+    const totalCapacity = capacities.reduce((total, item) => total + item.capacity, 0);
+    if (totalCapacity <= 0) return null;
+    const floor = familyOrder.length >= scenes.length ? 1 : 0;
+    let allocated = 0;
+    for (const item of capacities) {
+      item.allocation = item.capacity > 0 ? Math.min(floor, item.capacity) : 0;
+      allocated += item.allocation;
+    }
+    const remaining = Math.max(0, familyOrder.length - allocated);
+    for (const item of capacities) {
+      const raw = (remaining * item.capacity) / totalCapacity;
+      const extra = Math.floor(raw);
+      item.allocation += extra;
+      item.remainder = raw - extra;
+      allocated += extra;
+    }
+    while (allocated < familyOrder.length) {
+      const next = capacities
+        .filter((item) => item.capacity > item.allocation)
+        .sort((left, right) => right.remainder - left.remainder || right.capacity - left.capacity)[0];
+      if (!next) break;
+      next.allocation += 1;
+      next.remainder = 0;
+      allocated += 1;
+    }
+    const schedule = [];
+    while (schedule.length < familyOrder.length) {
+      let added = false;
+      for (const item of capacities) {
+        if (item.allocation <= 0) continue;
+        schedule.push(item.scene);
+        item.allocation -= 1;
+        added = true;
+        if (schedule.length >= familyOrder.length) break;
+      }
+      if (!added) break;
+    }
+    return schedule.length === familyOrder.length ? schedule : null;
+  };
+  const weightedSceneSchedule = buildWeightedSceneSchedule();
   const anchorOffset = Number.isSafeInteger(Number(options.anchorOffset)) && Number(options.anchorOffset) >= 0
     ? Number(options.anchorOffset)
     : 0;
@@ -297,7 +346,7 @@ export function buildCanaryLedger(scenes, options = {}) {
   const bandNames = ['beginning', 'middle', 'end'];
   for (let index = 0; index < familyOrder.length; index += 1) {
     const family = familyOrder[index];
-    const scene = scenes[index % scenes.length];
+    const scene = weightedSceneSchedule ? weightedSceneSchedule[index] : scenes[index % scenes.length];
     const phrases = phrasesByScene.get(scene.sceneId) || [];
     const usedQuotes = usedQuotesByScene.get(scene.sceneId);
     const localOrdinal = ordinalByScene.get(scene.sceneId) || 0;
@@ -1594,6 +1643,7 @@ async function mainCumulative(options) {
         sourceDocxPath: round.sourcePath,
         anchorOffset: roundIndex * 11,
         idPrefix: `r${String(roundIndex + 1).padStart(2, '0')}-`,
+        weightedSceneAllocation: true,
       });
       round.ledger = ledger;
       fs.writeFileSync(path.join(round.roundDir, 'canary-ledger.json'), `${JSON.stringify(ledger, null, 2)}\n`);

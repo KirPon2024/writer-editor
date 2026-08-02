@@ -345,12 +345,12 @@ async function runJourney(win) {
   await waitForExpression(win, 'document.querySelector("[data-manual-map-plan-host] [data-manual-map-portability-kind=template]")?.textContent.includes("R3C03Template")', 'template-visible');
   await waitForExpression(win, 'Array.from(document.querySelectorAll("[data-manual-map-plan-host] [data-manual-map-node-id]")).some((el) => (el.textContent || "").includes("Template start"))', 'template-node-visible');
 
-  await clickElement(win, host + ' [data-manual-map-portability-action="export-image-pdf"]', 'Export image/PDF packet');
+  await clickElement(win, host + ' [data-manual-map-portability-action="export-image-pdf"]', 'Export SVG');
   await waitForExpression(win, 'Array.from(document.querySelectorAll("[data-manual-map-plan-host] [data-manual-map-portability-command-state]")).some((el) => el.dataset.manualMapPortabilityCommandState === "imagePdf" && (el.textContent || "").includes("typed PDF loss"))', 'image-pdf-packet-visible');
   await clickElement(win, host + ' [data-manual-map-portability-action="export-json"]', 'Export JSON');
   await waitForExpression(win, 'Array.from(document.querySelectorAll("[data-manual-map-plan-host] [data-manual-map-portability-command-state]")).some((el) => el.dataset.manualMapPortabilityCommandState === "json" && !(el.textContent || "").includes("not exported"))', 'json-export-visible');
-  await activateManualMapButton(win, host, 'Import exported copy', 'manualMap.import.jsonRepeat');
-  await waitForExpression(win, 'document.querySelector("[data-manual-map-plan-host] [data-manual-map-impact-preview]")?.textContent.includes("Imports the last exported JSON")', 'import-impact');
+  await activateManualMapButton(win, host, 'Import JSON file', 'manualMap.import.jsonRepeat');
+  await waitForExpression(win, 'document.querySelector("[data-manual-map-plan-host] [data-manual-map-impact-preview]")?.textContent.includes("Selects a local Manual Map JSON file")', 'import-impact');
   await typeInto(win, host + ' [data-manual-map-command-field="title"]', 'R3C03ImportedCopy');
   await applyDraft(win, host, { confirm: true });
   await waitForExpression(win, 'Array.from(document.querySelectorAll("[data-manual-map-plan-host] [data-manual-map-portability-command-state]")).some((el) => el.dataset.manualMapPortabilityCommandState === "import" && !(el.textContent || "").includes("not imported"))', 'import-command-visible');
@@ -382,6 +382,9 @@ for (const methodName of ['showOpenDialog', 'showSaveDialog', 'showMessageBox'])
 app.setPath('appData', path.join(tempRoot, 'appData'));
 app.setPath('userData', path.join(tempRoot, 'userData'));
 app.setPath('documents', path.join(tempRoot, 'documents'));
+const autonomousArtifactRoot = path.join(tempRoot, 'documents', 'manual-map-artifacts');
+process.env.YALKEN_AUTONOMOUS_FILE_DIALOG_ROOT = autonomousArtifactRoot;
+process.env.YALKEN_AUTONOMOUS_FILE_DIALOG_OPEN_MANUAL_MAP_JSON = path.join(autonomousArtifactRoot, 'manual-map.json');
 app.disableHardwareAcceleration();
 app.commandLine.appendSwitch('force-device-scale-factor', '1');
 app.commandLine.appendSwitch('disable-features', 'UseSkiaRenderer');
@@ -562,6 +565,25 @@ function graphFromManifest(manifest, requestedMapId = '') {
 async function buildPortabilityProof(tempRoot) {
   const manifestPath = await findManifestPath(tempRoot);
   const manifest = manifestPath ? JSON.parse(await fs.readFile(manifestPath, 'utf8')) : {};
+  const artifactRoot = path.join(tempRoot, 'documents', 'manual-map-artifacts');
+  const realJsonPath = path.join(artifactRoot, 'manual-map.json');
+  const realSvgPath = path.join(artifactRoot, 'manual-map.svg');
+  const realJsonText = await fs.readFile(realJsonPath, 'utf8').catch(() => '');
+  const realSvgText = await fs.readFile(realSvgPath, 'utf8').catch(() => '');
+  let realJsonValue = null;
+  try {
+    realJsonValue = realJsonText ? JSON.parse(realJsonText) : null;
+  } catch {
+    realJsonValue = null;
+  }
+  const stage10SessionPath = manifestPath
+    ? path.join(path.dirname(manifestPath), '.stage10-local', 'product-session.v2.json')
+    : '';
+  const stage10Session = stage10SessionPath
+    ? await fs.readFile(stage10SessionPath, 'utf8').then((text) => JSON.parse(text)).catch(() => null)
+    : null;
+  const stage10Events = Array.isArray(stage10Session?.eventLog?.events) ? stage10Session.eventLog.events : [];
+  const stage10CommandIds = stage10Events.map((event) => normalizeText(event?.commandId)).filter(Boolean);
   const graph = graphFromManifest(manifest);
   const maps = isPlainObject(manifest?.manualMaps?.maps) ? manifest.manualMaps.maps : {};
   const importedMapId = Object.keys(maps).sort().find((mapId) => mapId.startsWith('manual-map-imported-')) || '';
@@ -585,6 +607,20 @@ async function buildPortabilityProof(tempRoot) {
   return {
     manifestPath,
     manifestProof: fileProof(manifestPath),
+    realJsonProof: fileProof(realJsonPath),
+    realSvgProof: fileProof(realSvgPath),
+    realJsonSchemaVersion: normalizeText(realJsonValue?.schemaVersion),
+    realJsonMapId: normalizeText(realJsonValue?.mapId || realJsonValue?.graph?.mapId),
+    realSvgRootValid: /^<svg\b[^>]*xmlns="http:\/\/www\.w3\.org\/2000\/svg"/u.test(realSvgText.trimStart()),
+    stage10SessionProof: fileProof(stage10SessionPath),
+    stage10ProjectId: normalizeText(stage10Session?.projectId),
+    stage10LifecycleId: normalizeText(stage10Session?.lifecycleId),
+    stage10EventCount: stage10Events.length,
+    stage10CommandIds,
+    stage10ExecutableEnvelopeCount: stage10Events.filter((event) => (
+      normalizeText(event?.operationEnvelope?.schemaVersion) === 'yalken.commandKernel.operationEnvelope.v1'
+      && /^[a-f0-9]{64}$/u.test(normalizeText(event?.operationEnvelopeDigest))
+    )).length,
     graph,
     importedMapId,
     importedGraph,
@@ -646,7 +682,7 @@ export function evaluateManualMapPortabilityJourney(input = {}) {
       && second.runtimeKind === 'production-electron-visible-input-black-box',
     pointerAndKeyboardUsed: countEvents(first, 'mouseDown') >= 8 && countEvents(first, 'keyDown') >= 3 && countEvents(first, 'char') >= 8,
     attachmentPortalTemplateCommandsVisible: ['Add attachment', 'Add portal', 'Apply template'].every((label) => buttons.some((button) => button.text === label && button.disabled === false)),
-    visiblePortabilityCommands: ['Export JSON', 'Export image/PDF packet', 'Import exported copy'].every((label) => buttons.some((button) => button.text === label)),
+    visiblePortabilityCommands: ['Export JSON', 'Export SVG', 'Import JSON file'].every((label) => buttons.some((button) => button.text === label)),
     visibleReadbackRuntime: portabilityRows.some((row) => row.kind === 'attachment' && row.text.includes('R3C03Attachment'))
       && portabilityRows.some((row) => row.kind === 'portal' && row.text.includes('R3C03Portal'))
       && portabilityRows.some((row) => row.kind === 'template' && row.text.includes('R3C03Template')),
@@ -659,6 +695,23 @@ export function evaluateManualMapPortabilityJourney(input = {}) {
     visibleCommandPathExportImport: commandRows.some((row) => row.key === 'json' && !row.text.includes('not exported'))
       && commandRows.some((row) => row.key === 'imagePdf' && row.text.includes('typed PDF loss'))
       && commandRows.some((row) => row.key === 'import' && !row.text.includes('not imported')),
+    realLocalArtifactBytes: portability.realJsonProof?.exists === true
+      && portability.realJsonProof?.bytes > 0
+      && /^[a-f0-9]{64}$/u.test(portability.realJsonProof?.sha256 || '')
+      && portability.realSvgProof?.exists === true
+      && portability.realSvgProof?.bytes > 0
+      && /^[a-f0-9]{64}$/u.test(portability.realSvgProof?.sha256 || '')
+      && portability.realJsonSchemaVersion === 'manualMap.export.json.v1'
+      && portability.realSvgRootValid === true,
+    canonicalPersistenceReopenReplay: portability.stage10SessionProof?.exists === true
+      && portability.stage10ProjectId === portability.graph?.projectId
+      && Boolean(portability.stage10LifecycleId)
+      && portability.stage10EventCount >= 3
+      && portability.stage10ExecutableEnvelopeCount === portability.stage10EventCount
+      && portability.stage10CommandIds.includes('manualMap.export.json')
+      && portability.stage10CommandIds.includes('manualMap.export.imagePdf')
+      && portability.stage10CommandIds.includes('manualMap.import.jsonRepeat')
+      && second.ok === true,
     importedCopyPersistedTruth: portability.importedMapId
       && importedAttachments.some((item) => item.label === 'R3C03Attachment')
       && importedPortals.some((item) => item.label === 'R3C03Portal')

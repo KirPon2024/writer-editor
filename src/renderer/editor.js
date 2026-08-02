@@ -19,6 +19,7 @@ import {
 import { createCommandRegistry } from './commands/registry.mjs';
 import { createCommandRunner } from './commands/runCommand.mjs';
 import { enforceCapabilityForCommand } from './commands/capabilityPolicy.mjs';
+import { listCommandCatalog } from './commands/command-catalog.v1.mjs';
 import {
   COMMAND_IDS,
   EXTRA_COMMAND_IDS,
@@ -90,6 +91,7 @@ import { buildLargePayloadLineSafeRows } from './largePayloadLineWrap.mjs';
 import {
   createRepoGroundedDesignOsBrowserRuntime,
   applyAtlasFeatureSurfaceBinding,
+  ATLAS_DESIGN_OS_SLOT_CATALOG_V1,
   buildLayoutPatchFromSpatialState,
   buildSidebarLayoutModel,
   buildSpatialStateFromLayoutSnapshot,
@@ -134,6 +136,7 @@ import {
 const {
   WORKSPACE_QUERY_IDS,
   WORKSPACE_QUERY_ID_SET,
+  WORKSPACE_QUERY_RECORDS,
 } = workspaceQueryRegistry;
 import * as toolbarRuntimeProjectionModule from './toolbar/toolbarRuntimeProjection.mjs';
 import uiErrorMapDoc from '../../docs/OPS/STATUS/UI_ERROR_MAP.json';
@@ -968,7 +971,6 @@ let manualMapDragState = null;
 let manualMapCommandDraft = null;
 let manualMapPortabilityCommandState = {
   status: '',
-  exportJson: '',
   exportJsonSha256: '',
   exportMapId: '',
   imageEvidenceHash: '',
@@ -1014,6 +1016,7 @@ let stage10LifecycleSurfaceState = {
   lastReason: '',
   runningCommandId: '',
 };
+let stage10ProductState = null;
 let reviewSurfaceApplyActionListenerBound = false;
 let metaEnabled = false;
 let currentCards = [];
@@ -1108,6 +1111,7 @@ const REVIEW_SURFACE_RECEIPT_SCHEMA = 'revision-bridge.exact-text-min-safe-write
 const REVIEW_SURFACE_QUERY_ID = WORKSPACE_QUERY_IDS.REVIEW_SURFACE;
 const METADATA_INSPECTOR_QUERY_ID = WORKSPACE_QUERY_IDS.METADATA_INSPECTOR;
 const SCENE_HISTORY_QUERY_ID = WORKSPACE_QUERY_IDS.SCENE_HISTORY;
+const STAGE10_PRODUCT_STATE_QUERY_ID = WORKSPACE_QUERY_IDS.STAGE10_PRODUCT_STATE;
 const ATLAS_OVERVIEW_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_OVERVIEW;
 const ATLAS_ENTITY_DOSSIER_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_ENTITY_DOSSIER;
 const ATLAS_RELATION_DOSSIER_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_RELATION_DOSSIER;
@@ -1144,12 +1148,17 @@ const ATLAS_SURFACE_IDS = Object.freeze([
 const ATLAS_DEFERRED_SURFACE_IDS = Object.freeze(['heatmap', 'temporal', 'continuity']);
 const ATLAS_DESIGN_OS_SLOT_RESOLUTION = resolveAtlasFeatureDesignOsSlots({
   manifest: YALKEN_ATLAS_FEATURE_INTEGRATION_MANIFEST_V1,
-  workspaceQueryIds: WORKSPACE_QUERY_IDS,
-  workspaceQueryIdSet: WORKSPACE_QUERY_ID_SET,
+  commandCatalog: listCommandCatalog(),
+  providerCatalog: WORKSPACE_QUERY_RECORDS,
+  slotCatalog: ATLAS_DESIGN_OS_SLOT_CATALOG_V1,
 });
+if (!ATLAS_DESIGN_OS_SLOT_RESOLUTION.ok) {
+  throw new Error(`ATLAS_DESIGN_OS_BINDING_FAILED:${ATLAS_DESIGN_OS_SLOT_RESOLUTION.reason || 'UNKNOWN'}`);
+}
 const ATLAS_SURFACE_PROVIDER_BY_ID = Object.freeze(Object.fromEntries(ATLAS_SURFACE_IDS.map((surfaceId) => {
   const binding = getAtlasFeatureSurfaceBinding(ATLAS_DESIGN_OS_SLOT_RESOLUTION, surfaceId);
-  return [surfaceId, binding?.providerId || ATLAS_CURRENT_SCENE_QUERY_ID];
+  if (!binding?.providerId) throw new Error(`ATLAS_DESIGN_OS_PROVIDER_UNRESOLVED:${surfaceId}`);
+  return [surfaceId, binding.providerId];
 })));
 const METADATA_UPDATE_COMMAND_ID = 'cmd.project.metadata.update';
 const REVIEW_SURFACE_IMPORT_LOCAL_PACKET_COMMAND_ID = 'cmd.project.review.importLocalPacket';
@@ -2293,61 +2302,113 @@ function getStage10LifecycleReceiptId(result = {}) {
   );
 }
 
-function buildStage10LifecyclePayload(commandId) {
-  const base = {
-    projectId: currentProjectId,
-    sceneId: currentDocumentId || 'scene-1',
-  };
+function buildStage10LifecycleCommandRequest(commandId) {
+  const productState = reviewSurfaceIsPlainObject(stage10ProductState) ? stage10ProductState : {};
+  const activeProjectMatches = Boolean(
+    currentProjectId
+    && productState.projectId
+    && productState.projectId === currentProjectId,
+  );
+  if (!activeProjectMatches) {
+    return { available: false, reason: 'Stage-10 state is not bound to the selected project', payload: null };
+  }
+  const commandIsPublished = reviewSurfaceArray(productState.controls)
+    .some((control) => reviewSurfaceText(control?.commandId) === commandId);
+  if (!commandIsPublished) {
+    return { available: false, reason: 'Command is not published by the product runtime', payload: null };
+  }
+  const base = { projectId: productState.projectId };
   if (commandId === 'cmd.comments.importStablePacket') {
-    const commentId = `stage10-ui-comment-${Date.now()}`;
+    const revisionSession = reviewSurfaceIsPlainObject(reviewSurfaceState?.revisionSession)
+      ? reviewSurfaceState.revisionSession
+      : {};
+    const reviewGraph = reviewSurfaceIsPlainObject(revisionSession.reviewGraph)
+      ? revisionSession.reviewGraph
+      : {};
+    const commentThreads = reviewSurfaceArray(reviewGraph.commentThreads)
+      .filter((thread) => reviewSurfaceIsPlainObject(thread) && reviewSurfaceText(thread.threadId))
+      .map((thread) => ({
+        ...thread,
+        messages: reviewSurfaceArray(thread.messages)
+          .filter((message) => reviewSurfaceIsPlainObject(message) && reviewSurfaceText(message.body)),
+      }))
+      .filter((thread) => thread.messages.length > 0);
+    if (commentThreads.length === 0) {
+      return { available: false, reason: 'No imported review comments are selected', payload: null };
+    }
+    const sceneId = reviewSurfaceText(
+      reviewGraph.commentPlacements?.[0]?.sceneId
+      || currentDocumentId,
+    );
+    if (!sceneId) {
+      return { available: false, reason: 'No selected scene is bound to the comment packet', payload: null };
+    }
     return {
-      ...base,
-      revisionId: `stage10-ui-revision-${Date.now()}`,
-      reviewIr: {
-        schemaVersion: 'stage10.renderer.commentPacketIntent.v1',
-        commentThreads: [
-          {
-            threadId: commentId,
-            messages: [
-              {
-                author: 'local-author',
-                body: 'Stage-10 visible lifecycle packet',
-                createdAt: new Date().toISOString(),
-              },
-            ],
-          },
-        ],
-      },
-      context: {
-        source: 'review-surface-stage10-lifecycle',
-        visibleControl: true,
+      available: true,
+      reason: '',
+      payload: {
+        ...base,
+        sceneId,
+        revisionId: reviewSurfaceText(
+          revisionSession.revisionId
+          || revisionSession.sessionId
+          || revisionSession.baselineHash,
+        ),
+        reviewIr: {
+          schemaVersion: reviewSurfaceText(revisionSession.reviewIr?.schemaVersion || reviewGraph.schemaVersion),
+          commentThreads,
+        },
+        context: {
+          sourceSessionId: reviewSurfaceText(revisionSession.sessionId),
+          baselineHash: reviewSurfaceText(revisionSession.baselineHash),
+          visibleControl: true,
+        },
       },
     };
   }
   if (commandId === 'cmd.collab.conflict.preview') {
+    const sessions = reviewSurfaceArray(productState.conflictPreviewSessions);
+    if (sessions.length === 0) {
+      return { available: false, reason: 'No retained collaborator sessions require conflict preview', payload: null };
+    }
     return {
-      ...base,
-      sessions: [],
+      available: true,
+      reason: '',
+      payload: { ...base, sessions },
     };
   }
   if (commandId === 'cmd.collab.operationExchange.prepare') {
+    if (!productState.readiness?.exchangePrepare) {
+      return { available: false, reason: 'Canonical event history is empty', payload: null };
+    }
     return {
-      ...base,
-      adapterKind: 'localFixture',
-      transportCapabilityEnabled: true,
-      networkAdapterEnabled: false,
+      available: true,
+      reason: '',
+      payload: {
+        ...base,
+        transportCapabilityEnabled: true,
+        networkAdapterEnabled: false,
+      },
     };
   }
   if (commandId === 'cmd.collab.operationExchange.localFixturePreview') {
-    return base;
+    const packetId = reviewSurfaceText(productState.latestExchangePacketId);
+    return packetId
+      ? { available: true, reason: '', payload: { ...base, packetId } }
+      : { available: false, reason: 'No retained exchange packet is available', payload: null };
   }
   if (commandId === 'cmd.collab.eventLog.apply') {
+    const events = reviewSurfaceArray(productState.pendingCollaboratorEvents);
+    if (events.length === 0) {
+      return { available: false, reason: 'No admitted collaborator events are pending', payload: null };
+    }
     return {
-      ...base,
-      events: [],
+      available: true,
+      reason: '',
+      payload: { ...base, events },
     };
   }
-  return base;
+  return { available: false, reason: 'Stage-10 command is unsupported', payload: null };
 }
 
 function renderStage10LifecycleSurface() {
@@ -2363,19 +2424,32 @@ function renderStage10LifecycleSurface() {
   const lastReceiptId = reviewSurfaceText(lifecycleState.lastReceiptId);
   const lastReason = reviewSurfaceText(lifecycleState.lastReason);
   const runningCommandId = reviewSurfaceText(lifecycleState.runningCommandId);
+  const productState = reviewSurfaceIsPlainObject(stage10ProductState) ? stage10ProductState : {};
   return `
-    <section class="right-rail-surface right-rail-surface--review-state" data-stage10-lifecycle-surface>
+    <section
+      class="right-rail-surface right-rail-surface--review-state"
+      data-stage10-lifecycle-surface
+      data-stage10-project-id="${reviewSurfaceEscapeHtml(reviewSurfaceText(productState.projectId))}"
+      data-stage10-lifecycle-id="${reviewSurfaceEscapeHtml(reviewSurfaceText(productState.lifecycleId))}"
+    >
       <div class="right-rail-section__label">Stage-10 lifecycle</div>
       <div class="right-rail-review-state right-rail-review-state--${reviewSurfaceEscapeHtml(status === 'failed' ? 'error' : 'info')}">
         <strong>${reviewSurfaceEscapeHtml(status === 'idle' ? 'Ready' : reviewSurfacePresentStatus(status))}</strong>
         <p>Visible controls route through preload, main IPC, application bootstrap and the Command Kernel.</p>
         ${lastCommandId ? `<div class="right-rail-review-code">${reviewSurfaceEscapeHtml(lastCommandId)}${lastReceiptId ? ` · ${reviewSurfaceEscapeHtml(lastReceiptId)}` : ''}</div>` : ''}
         ${lastReason ? `<div class="right-rail-review-code">${reviewSurfaceEscapeHtml(lastReason)}</div>` : ''}
+        <div class="right-rail-review-code">
+          events ${Number(productState.eventCount) || 0}
+          · conflicts ${reviewSurfaceArray(productState.conflictReportIds).length}
+          · exchanges ${reviewSurfaceArray(productState.exchangePacketIds).length}
+          · pending ${reviewSurfaceArray(productState.pendingCollaboratorEvents).length}
+        </div>
       </div>
       <div class="right-rail-review-actions right-rail-review-actions--batch" data-stage10-lifecycle-controls>
         ${STAGE10_LIFECYCLE_PRODUCT_COMMANDS.map((command) => {
-          const disabled = !activeProjectId || Boolean(runningCommandId);
-          const reason = activeProjectId ? '' : 'Project is not open';
+          const request = buildStage10LifecycleCommandRequest(command.commandId);
+          const disabled = !activeProjectId || !request.available || Boolean(runningCommandId);
+          const reason = !activeProjectId ? 'Project is not open' : request.reason;
           return `
             <button
               type="button"
@@ -12493,7 +12567,6 @@ async function runManualMapExportCommand(commandId, payload = {}) {
       status: 'exported',
       lastCommandId: commandId,
       exportMapId: receipt.mapId || payload.mapId || '',
-      exportJson: typeof exported.json === 'string' ? exported.json : manualMapPortabilityCommandState.exportJson,
       exportJsonSha256: exported.jsonSha256 || manualMapPortabilityCommandState.exportJsonSha256,
       imageEvidenceHash: exported.evidenceHash || manualMapPortabilityCommandState.imageEvidenceHash,
       pdfTypedLoss: exported.pdf?.typedLoss?.code || manualMapPortabilityCommandState.pdfTypedLoss,
@@ -12611,7 +12684,7 @@ async function applyManualMapCommandDraft() {
       ...manualMapPortabilityCommandState,
       status: 'imported',
       lastCommandId: commandId,
-      importMapId: receipt.mapId || payload.targetMapId || '',
+      importMapId: receipt.import?.mapId || receipt.mapId || payload.targetMapId || '',
     };
   }
   manualMapCommandDraft = {
@@ -13013,7 +13086,7 @@ function renderManualMapToolbar(parent, state, runtime, options = {}) {
   const imagePdfButton = document.createElement('button');
   imagePdfButton.type = 'button';
   imagePdfButton.className = 'right-rail-atlas-action manual-map-workspace__action';
-  imagePdfButton.textContent = 'Export image/PDF packet';
+  imagePdfButton.textContent = 'Export SVG';
   imagePdfButton.dataset.manualMapPortabilityAction = 'export-image-pdf';
   imagePdfButton.dataset.productCommandId = 'manualMap.export.imagePdf';
   imagePdfButton.disabled = !state.mapId;
@@ -13022,7 +13095,7 @@ function renderManualMapToolbar(parent, state, runtime, options = {}) {
     void runManualMapExportCommand('manualMap.export.imagePdf', { mapId });
   });
   actionBar.appendChild(imagePdfButton);
-  actionBar.appendChild(makeManualMapDraftButton('Import exported copy', () => {
+  actionBar.appendChild(makeManualMapDraftButton('Import JSON file', () => {
     const targetMapId = makeStableUiId('manual-map-imported');
     return {
       commandId: 'manualMap.import.jsonRepeat',
@@ -13034,16 +13107,15 @@ function renderManualMapToolbar(parent, state, runtime, options = {}) {
         mapId,
         targetMapId,
         title: `${state.graph.title || state.mapId || 'Manual map'} copy`,
-        exportJson: manualMapPortabilityCommandState.exportJson,
       },
       fields: [
         { name: 'title', label: 'Imported map title', type: 'text', value: `${state.graph.title || state.mapId || 'Manual map'} copy` },
       ],
-      impactPreview: `Imports the last exported JSON into new map ${targetMapId}. Existing maps and scene text stay unchanged.`,
+      impactPreview: `Selects a local Manual Map JSON file and imports it into new map ${targetMapId}. Existing maps and scene text stay unchanged.`,
     };
   }, () => ({
-    disabled: !state.mapId || !manualMapPortabilityCommandState.exportJson,
-    reason: manualMapPortabilityCommandState.exportJson ? '' : 'Export JSON first',
+    disabled: !state.mapId,
+    reason: state.mapId ? '' : 'Create a map first',
   })));
   if (!options.compact) {
     const layoutToggle = document.createElement('button');
@@ -16804,8 +16876,25 @@ function setReviewSurfaceState(nextState = {}, options = {}) {
   return reviewSurfaceState;
 }
 
+async function loadStage10ProductStateFromQuery() {
+  if (!currentProjectId) {
+    stage10ProductState = null;
+    return null;
+  }
+  const result = await invokeWorkspaceQueryBridge(STAGE10_PRODUCT_STATE_QUERY_ID, {
+    projectId: currentProjectId,
+  });
+  stage10ProductState = result?.ok === true && reviewSurfaceIsPlainObject(result.stage10ProductState)
+    ? result.stage10ProductState
+    : null;
+  return stage10ProductState;
+}
+
 async function loadReviewSurfaceFromQuery() {
-  const result = await invokeWorkspaceQueryBridge(REVIEW_SURFACE_QUERY_ID);
+  const [result] = await Promise.all([
+    invokeWorkspaceQueryBridge(REVIEW_SURFACE_QUERY_ID),
+    loadStage10ProductStateFromQuery(),
+  ]);
   if (!result || result.ok === false) {
     return setReviewSurfaceState({});
   }
@@ -16879,6 +16968,8 @@ async function handleStage10LifecycleProductCommand(button) {
   if (!(button instanceof HTMLButtonElement) || button.disabled) return false;
   const commandId = reviewSurfaceText(button.dataset.stage10ProductCommand);
   if (!STAGE10_LIFECYCLE_PRODUCT_COMMANDS.some((command) => command.commandId === commandId)) return false;
+  const request = buildStage10LifecycleCommandRequest(commandId);
+  if (!request.available || !reviewSurfaceIsPlainObject(request.payload)) return false;
   stage10LifecycleSurfaceState = {
     status: 'running',
     lastCommandId: commandId,
@@ -16887,10 +16978,9 @@ async function handleStage10LifecycleProductCommand(button) {
     runningCommandId: commandId,
   };
   renderReviewSurface();
-  const payload = buildStage10LifecyclePayload(commandId);
   let result = null;
   try {
-    result = await dispatchUiCommand(commandId, payload);
+    result = await dispatchUiCommand(commandId, request.payload);
   } catch (error) {
     stage10LifecycleSurfaceState = {
       status: 'failed',
@@ -16912,6 +17002,7 @@ async function handleStage10LifecycleProductCommand(button) {
     runningCommandId: '',
   };
   updateStatusText(result && result.ok === true ? 'Stage-10 lifecycle command persisted' : 'Stage-10 lifecycle command failed');
+  await loadStage10ProductStateFromQuery();
   renderReviewSurface();
   return true;
 }

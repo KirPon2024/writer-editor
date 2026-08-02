@@ -10,9 +10,6 @@ const CANONICAL_AUTHOR_COMMAND_IDS = new Set(
   Object.values(CORE_COMMAND_IDS).filter((commandId) => ![
     CORE_COMMAND_IDS.PROJECT_CREATE,
     CORE_COMMAND_IDS.PROJECT_APPLY_TEXT_EDIT,
-    CORE_COMMAND_IDS.MANUAL_MAP_EXPORT_JSON,
-    CORE_COMMAND_IDS.MANUAL_MAP_EXPORT_IMAGE_PDF,
-    CORE_COMMAND_IDS.MANUAL_MAP_IMPORT_JSON_REPEAT,
   ].includes(commandId)),
 );
 const ALLOWED_COMMAND_IDS = new Set([
@@ -70,7 +67,16 @@ export function createStage10ApplicationCommandRoute(input = {}) {
         }
         const canonicalProjectTruth = await canonicalProjectTruthPort.prepare(commandId, payload);
         if (canonicalProjectTruth?.ok === false) return canonicalProjectTruth;
-        return bootstrap.dispatchCanonicalProjectCommand(commandId, payload, canonicalProjectTruth);
+        const preparedPayload = canonicalProjectTruth?.payload
+          && typeof canonicalProjectTruth.payload === 'object'
+          && !Array.isArray(canonicalProjectTruth.payload)
+          ? JSON.parse(JSON.stringify(canonicalProjectTruth.payload))
+          : payload;
+        const result = await bootstrap.dispatchCanonicalProjectCommand(commandId, preparedPayload, canonicalProjectTruth);
+        if (result?.ok === true && canonicalProjectTruth?.publicResult) {
+          return { ...result, ...JSON.parse(JSON.stringify(canonicalProjectTruth.publicResult)) };
+        }
+        return result;
       }
       return bootstrap.dispatchProjectCommand(commandId, payload, {
         mode: STAGE10_ACTIVATION_MODES.DOM_VISIBLE_CONTROL_LISTENER_FALLBACK,

@@ -4,11 +4,15 @@ import { createHash } from 'node:crypto';
 
 import { hashCanonicalValue } from '../core/browser-safe-hash.mjs';
 import { validateStage10IntegrityAnchor } from './stage10IntegrityAnchor.mjs';
+import { createProjectLeaseManager } from './projectLease.mjs';
+import { validateStage10RecoverySnapshot } from './stage10RecoverySnapshot.mjs';
 
 export const STAGE10_MAIN_PERSISTENCE_PORT_SCHEMA = 'yalken.stage10.mainPersistencePort.v1';
-export const STAGE10_MAIN_TRANSACTION_SCHEMA = 'yalken.stage10.mainPersistenceTransaction.v2';
+export const STAGE10_MAIN_TRANSACTION_SCHEMA = 'yalken.stage10.mainPersistenceTransaction.v3';
 export const STAGE10_PROJECT_TRUTH_MUTATION_SCHEMA = 'yalken.stage10.projectTruthMutation.v1';
+export const STAGE10_EXTERNAL_ARTIFACT_MUTATION_SCHEMA = 'yalken.stage10.externalArtifactMutation.v1';
 const STAGE10_LEGACY_MAIN_TRANSACTION_SCHEMA = 'yalken.stage10.mainPersistenceTransaction.v1';
+const STAGE10_LEGACY_MAIN_TRANSACTION_SCHEMA_V2 = 'yalken.stage10.mainPersistenceTransaction.v2';
 
 const SESSION_FILENAME = 'product-session.v2.json';
 const AUTHORITY_FILENAME = 'command-receipt-authority-store.v2.json';
@@ -77,12 +81,53 @@ function bundleDigest(bundle) {
   });
 }
 
+function bundleRevision(bundle) {
+  const events = bundle?.session?.eventLog?.events;
+  return Array.isArray(events) ? events.length : 0;
+}
+
+function bundleAuthorityHeadDigest(bundle) {
+  return normalizeString(bundle?.authorityStore?.currentHead?.authorityHeadDigest);
+}
+
 function sameValue(left, right) {
   return hashCanonicalValue(left) === hashCanonicalValue(right);
 }
 
 function hashText(value) {
   return createHash('sha256').update(Buffer.from(typeof value === 'string' ? value : '', 'utf8')).digest('hex');
+}
+
+function normalizeExternalArtifactMutation(input) {
+  if (!isPlainObject(input)) return null;
+  const mutation = {
+    schemaVersion: input.schemaVersion,
+    targetPath: normalizeString(input.targetPath),
+    format: normalizeString(input.format),
+    mediaType: normalizeString(input.mediaType),
+    nextText: typeof input.nextText === 'string' ? input.nextText : null,
+    nextHash: normalizeString(input.nextHash),
+    previousExists: input.previousExists === true,
+    previousText: typeof input.previousText === 'string' ? input.previousText : null,
+    previousHash: normalizeString(input.previousHash),
+  };
+  if (
+    mutation.schemaVersion !== STAGE10_EXTERNAL_ARTIFACT_MUTATION_SCHEMA
+    || !path.isAbsolute(mutation.targetPath)
+    || mutation.targetPath === path.parse(mutation.targetPath).root
+    || !['json', 'svg'].includes(mutation.format)
+    || !mutation.mediaType
+    || mutation.nextText === null
+    || mutation.nextText.length === 0
+    || Buffer.byteLength(mutation.nextText, 'utf8') > 8 * 1024 * 1024
+    || mutation.nextHash !== hashText(mutation.nextText)
+    || mutation.previousText === null
+    || (mutation.previousExists && mutation.previousHash !== hashText(mutation.previousText))
+    || (!mutation.previousExists && (mutation.previousText !== '' || mutation.previousHash !== ''))
+  ) {
+    throw typedError('E_STAGE10_EXTERNAL_ARTIFACT_MUTATION_INVALID', 'EXTERNAL_ARTIFACT_MUTATION_INVALID');
+  }
+  return mutation;
 }
 
 function normalizeProjectTruthMutation(projectId, input) {
@@ -95,6 +140,7 @@ function normalizeProjectTruthMutation(projectId, input) {
     nextText: typeof input.nextText === 'string' ? input.nextText : null,
     previousHash: normalizeString(input.previousHash),
     nextHash: normalizeString(input.nextHash),
+    externalArtifactMutation: normalizeExternalArtifactMutation(input.externalArtifactMutation),
   };
   if (
     normalized.schemaVersion !== STAGE10_PROJECT_TRUTH_MUTATION_SCHEMA
@@ -156,14 +202,24 @@ function serializeProjectOperation(projectId, operation) {
 }
 
 export function createStage10MainPersistenceAdapter(input = {}) {
-  const projectRoot = path.resolve(normalizeString(input.projectRoot));
-  const anchorRoot = path.resolve(normalizeString(input.anchorRoot));
-  if (!projectRoot || !anchorRoot || projectRoot === path.parse(projectRoot).root || anchorRoot === path.parse(anchorRoot).root) {
+  const requestedProjectRoot = normalizeString(input.projectRoot);
+  const requestedAnchorRoot = normalizeString(input.anchorRoot);
+  if (!requestedProjectRoot || !requestedAnchorRoot) {
+    throw typedError('E_STAGE10_PERSISTENCE_ROOT_INVALID', 'PERSISTENCE_ROOT_INVALID');
+  }
+  const projectRoot = path.resolve(requestedProjectRoot);
+  const anchorRoot = path.resolve(requestedAnchorRoot);
+  if (projectRoot === path.parse(projectRoot).root || anchorRoot === path.parse(anchorRoot).root) {
     throw typedError('E_STAGE10_PERSISTENCE_ROOT_INVALID', 'PERSISTENCE_ROOT_INVALID');
   }
   const writeFileAtomic = typeof input.writeFileAtomic === 'function' ? input.writeFileAtomic : defaultAtomicWrite;
   const onKillpoint = typeof input.onKillpoint === 'function' ? input.onKillpoint : null;
   const recoveryConsumedProjects = new Set();
+  const leaseManager = createProjectLeaseManager({
+    leaseRoot: anchorRoot,
+    ttlMs: input.leaseTtlMs,
+    nowMs: input.leaseNowMs,
+  });
 
   function pathsFor(projectId) {
     const projectKey = safeProjectKey(projectId);
@@ -232,6 +288,58 @@ export function createStage10MainPersistenceAdapter(input = {}) {
     await assertProjectTruthText(mutation, next.text, next.hash, 'PROJECT_TRUTH_READBACK_MISMATCH');
   }
 
+  async function readExternalArtifactText(mutation) {
+    try {
+      return await fs.readFile(mutation.targetPath, 'utf8');
+    } catch (error) {
+      if (error?.code === 'ENOENT') return null;
+      throw typedError('E_STAGE10_EXTERNAL_ARTIFACT_READ_FAILED', 'EXTERNAL_ARTIFACT_READ_FAILED', {
+        code: error?.code || '',
+      });
+    }
+  }
+
+  async function assertExternalArtifactBefore(mutation) {
+    const current = await readExternalArtifactText(mutation);
+    if (mutation.previousExists) {
+      if (current !== mutation.previousText || hashText(current) !== mutation.previousHash) {
+        throw typedError('E_STAGE10_EXTERNAL_ARTIFACT_CAS_FAILED', 'EXTERNAL_ARTIFACT_REVISION_CONFLICT');
+      }
+    } else if (current !== null) {
+      throw typedError('E_STAGE10_EXTERNAL_ARTIFACT_CAS_FAILED', 'EXTERNAL_ARTIFACT_UNEXPECTEDLY_EXISTS');
+    }
+  }
+
+  async function writeExternalArtifact(mutation, target) {
+    if (!mutation) return;
+    if (target === 'next') {
+      const result = await writeFileAtomic(mutation.targetPath, mutation.nextText);
+      if (result?.success === false || result?.ok === false) {
+        throw typedError('E_STAGE10_EXTERNAL_ARTIFACT_WRITE_REJECTED', 'EXTERNAL_ARTIFACT_WRITE_REJECTED');
+      }
+      const readback = await readExternalArtifactText(mutation);
+      if (readback !== mutation.nextText || hashText(readback) !== mutation.nextHash) {
+        throw typedError('E_STAGE10_EXTERNAL_ARTIFACT_READBACK_MISMATCH', 'EXTERNAL_ARTIFACT_READBACK_MISMATCH');
+      }
+      return;
+    }
+    const current = await readExternalArtifactText(mutation);
+    if (current !== null && hashText(current) !== mutation.nextHash && (!mutation.previousExists || hashText(current) !== mutation.previousHash)) {
+      throw typedError('E_STAGE10_EXTERNAL_ARTIFACT_RECOVERY_FORKED', 'EXTERNAL_ARTIFACT_RECOVERY_FORKED');
+    }
+    if (mutation.previousExists) {
+      const result = await writeFileAtomic(mutation.targetPath, mutation.previousText);
+      if (result?.success === false || result?.ok === false) {
+        throw typedError('E_STAGE10_EXTERNAL_ARTIFACT_RECOVERY_WRITE_REJECTED', 'EXTERNAL_ARTIFACT_RECOVERY_WRITE_REJECTED');
+      }
+      return;
+    }
+    if (current !== null) {
+      const preservedPath = `${mutation.targetPath}.stage10-aborted.${mutation.nextHash.slice(0, 12)}`;
+      await fs.rename(mutation.targetPath, preservedPath);
+    }
+  }
+
   async function writeProjectTruthRecovery(mutation, reason, previousIntegrityAnchorDigest) {
     const paths = pathsFor(mutation.projectId);
     const recovery = {
@@ -292,16 +400,19 @@ export function createStage10MainPersistenceAdapter(input = {}) {
     return actual;
   }
 
-  async function recoverPendingTransaction(projectId) {
+  async function recoverPendingTransaction(projectId, lease) {
+    if (lease) await lease.assertOwned();
     const paths = pathsFor(projectId);
     const transaction = await readJsonIfPresent(paths.transaction, 'transaction');
     if (!transaction) return false;
-    const legacyTransaction = transaction.schemaVersion === STAGE10_LEGACY_MAIN_TRANSACTION_SCHEMA;
+    const legacyV1 = transaction.schemaVersion === STAGE10_LEGACY_MAIN_TRANSACTION_SCHEMA;
+    const legacyV2 = transaction.schemaVersion === STAGE10_LEGACY_MAIN_TRANSACTION_SCHEMA_V2;
+    const legacyTransaction = legacyV1 || legacyV2;
     if (
       (!legacyTransaction && transaction.schemaVersion !== STAGE10_MAIN_TRANSACTION_SCHEMA)
       || normalizeString(transaction.projectId) !== normalizeString(projectId)
       || !isPlainObject(transaction.nextBundle)
-      || (legacyTransaction && (
+      || (legacyV1 && (
         Object.prototype.hasOwnProperty.call(transaction, 'projectTruthMutation')
         || Object.prototype.hasOwnProperty.call(transaction, 'projectTruthMutationDigest')
       ))
@@ -313,7 +424,7 @@ export function createStage10MainPersistenceAdapter(input = {}) {
     const nextBundle = transaction.nextBundle;
     const projectTruthMutation = normalizeProjectTruthMutation(projectId, transaction.projectTruthMutation);
     const projectTruthMutationDigest = normalizeString(transaction.projectTruthMutationDigest);
-    const projectTruthDigestValid = legacyTransaction
+    const projectTruthDigestValid = legacyV1
       ? projectTruthMutation === null
       : projectTruthMutation
         ? projectTruthMutationDigest === hashCanonicalValue(projectTruthMutation)
@@ -324,6 +435,16 @@ export function createStage10MainPersistenceAdapter(input = {}) {
       || !projectTruthDigestValid
     ) {
       throw typedError('E_STAGE10_PERSISTENCE_RECOVERY_DIGEST_INVALID', 'PERSISTENCE_RECOVERY_TRANSACTION_DIGEST_INVALID');
+    }
+    if (!legacyTransaction) {
+      const previousRevision = bundleRevision(previousBundle);
+      const previousAuthorityHeadDigest = bundleAuthorityHeadDigest(previousBundle);
+      if (
+        Number(transaction.expectedPreviousRevision) !== previousRevision
+        || normalizeString(transaction.expectedPreviousAuthorityHeadDigest) !== previousAuthorityHeadDigest
+      ) {
+        throw typedError('E_STAGE10_PERSISTENCE_RECOVERY_CAS_INVALID', 'PERSISTENCE_RECOVERY_CAS_BINDING_INVALID');
+      }
     }
     const currentDigest = normalizeString(currentAnchor?.integrityAnchorDigest);
     const previousDigest = normalizeString(previousBundle?.integrityAnchor?.integrityAnchorDigest);
@@ -343,6 +464,7 @@ export function createStage10MainPersistenceAdapter(input = {}) {
       : await readJsonIfPresent(paths.anchorRecovery, 'anchorRecovery');
     validateBundleIntegrity(projectId, target, targetPreviousAnchor);
     if (projectTruthMutation) {
+      if (lease) await lease.renew();
       const currentProjectTruth = await readProjectTruthText(projectTruthMutation);
       const currentProjectTruthHash = hashText(currentProjectTruth);
       if (
@@ -352,13 +474,24 @@ export function createStage10MainPersistenceAdapter(input = {}) {
         throw typedError('E_STAGE10_PROJECT_TRUTH_RECOVERY_FORKED', 'PROJECT_TRUTH_RECOVERY_FORKED');
       }
       await writeProjectTruthText(projectTruthMutation, target === nextBundle ? 'next' : 'previous');
+      if (projectTruthMutation.externalArtifactMutation) {
+        if (lease) await lease.renew();
+        await writeExternalArtifact(
+          projectTruthMutation.externalArtifactMutation,
+          target === nextBundle ? 'next' : 'previous',
+        );
+      }
     }
+    if (lease) await lease.renew();
     await writeJson(paths.authority, target.authorityStore, 'recoveryAuthority');
+    if (lease) await lease.renew();
     await writeJson(paths.session, target.session, 'recoverySession');
     if (!currentDigest || currentDigest !== normalizeString(target.integrityAnchor.integrityAnchorDigest)) {
+      if (lease) await lease.renew();
       await writeAnchor(projectId, target.integrityAnchor, previousBundle?.integrityAnchor || null);
     }
     await verifyBundleReadback(projectId, target);
+    if (lease) await lease.renew();
     await fs.unlink(paths.transaction).catch((error) => {
       if (error?.code !== 'ENOENT') throw error;
     });
@@ -369,29 +502,46 @@ export function createStage10MainPersistenceAdapter(input = {}) {
   return {
     schemaVersion: STAGE10_MAIN_PERSISTENCE_PORT_SCHEMA,
     async readStage10State(projectId) {
-      return serializeProjectOperation(projectId, async () => {
-        await recoverPendingTransaction(projectId);
+      return serializeProjectOperation(projectId, () => leaseManager.withLease(projectId, async (lease) => {
+        await recoverPendingTransaction(projectId, lease);
         const bundle = await readRawBundle(projectId);
         if (!bundle) return null;
         return {
           ...cloneJson(bundle),
           recoveryConsumed: recoveryConsumedProjects.has(safeProjectKey(projectId)),
         };
-      });
+      }));
     },
     async commitStage10State(projectId, nextBundleInput, options = {}) {
-      return serializeProjectOperation(projectId, async () => {
+      return serializeProjectOperation(projectId, () => leaseManager.withLease(projectId, async (lease) => {
         const nextBundle = cloneJson(nextBundleInput);
         if (!isPlainObject(nextBundle.session) || !isPlainObject(nextBundle.authorityStore) || !isPlainObject(nextBundle.integrityAnchor)) {
           throw typedError('E_STAGE10_PERSISTENCE_BUNDLE_INVALID', 'PERSISTENCE_BUNDLE_REQUIRED');
         }
-        await recoverPendingTransaction(projectId);
+        await recoverPendingTransaction(projectId, lease);
         const previousBundle = await readRawBundle(projectId);
         const expectedPreviousDigest = normalizeString(options.expectedPreviousIntegrityAnchorDigest);
         const actualPreviousDigest = normalizeString(previousBundle?.integrityAnchor?.integrityAnchorDigest);
         if (expectedPreviousDigest !== actualPreviousDigest) {
           throw typedError('E_STAGE10_PERSISTENCE_STALE_COMMIT', 'PERSISTENCE_STALE_OR_ROLLED_BACK_COMMIT');
         }
+        const expectedPreviousRevision = Number(options.expectedPreviousRevision);
+        const actualPreviousRevision = bundleRevision(previousBundle);
+        const expectedPreviousAuthorityHeadDigest = normalizeString(options.expectedPreviousAuthorityHeadDigest);
+        const actualPreviousAuthorityHeadDigest = bundleAuthorityHeadDigest(previousBundle);
+        if (!Number.isSafeInteger(expectedPreviousRevision) || expectedPreviousRevision !== actualPreviousRevision) {
+          throw typedError('E_STAGE10_PERSISTENCE_REVISION_CAS_FAILED', 'PERSISTENCE_REVISION_CAS_FAILED', {
+            expectedPreviousRevision,
+            actualPreviousRevision,
+          });
+        }
+        if (expectedPreviousAuthorityHeadDigest !== actualPreviousAuthorityHeadDigest) {
+          throw typedError('E_STAGE10_PERSISTENCE_AUTHORITY_CAS_FAILED', 'PERSISTENCE_AUTHORITY_HEAD_CAS_FAILED');
+        }
+        await lease.renew({
+          expectedRevision: expectedPreviousRevision,
+          expectedAuthorityHeadDigest: expectedPreviousAuthorityHeadDigest,
+        });
         validateBundleIntegrity(projectId, nextBundle, previousBundle?.integrityAnchor || null);
         const projectTruthMutation = normalizeProjectTruthMutation(projectId, options.projectTruthMutation);
         if (projectTruthMutation) {
@@ -406,6 +556,9 @@ export function createStage10MainPersistenceAdapter(input = {}) {
             options.reason,
             actualPreviousDigest,
           );
+          if (projectTruthMutation.externalArtifactMutation) {
+            await assertExternalArtifactBefore(projectTruthMutation.externalArtifactMutation);
+          }
         }
         const transaction = {
           schemaVersion: STAGE10_MAIN_TRANSACTION_SCHEMA,
@@ -417,15 +570,26 @@ export function createStage10MainPersistenceAdapter(input = {}) {
           nextBundleDigest: bundleDigest(nextBundle),
           projectTruthMutation,
           projectTruthMutationDigest: hashCanonicalValue(projectTruthMutation),
+          expectedPreviousRevision,
+          expectedPreviousAuthorityHeadDigest,
         };
         const paths = pathsFor(projectId);
+        await lease.renew();
         await writeJson(paths.transaction, transaction, 'transaction');
         await killpoint('after-transaction-write');
+        await lease.renew();
         if (projectTruthMutation) {
           await writeProjectTruthText(projectTruthMutation, 'next');
           await killpoint('after-project-truth-write');
+          await lease.renew();
+          if (projectTruthMutation.externalArtifactMutation) {
+            await writeExternalArtifact(projectTruthMutation.externalArtifactMutation, 'next');
+            await killpoint('after-external-artifact-write');
+            await lease.renew();
+          }
         }
         await writeBundlePair(projectId, nextBundle);
+        await lease.renew();
         const pairReadback = await Promise.all([
           readJsonIfPresent(paths.session, 'session'),
           readJsonIfPresent(paths.authority, 'authority'),
@@ -434,6 +598,7 @@ export function createStage10MainPersistenceAdapter(input = {}) {
           throw typedError('E_STAGE10_PERSISTENCE_PAIR_READBACK_MISMATCH', 'PERSISTENCE_PAIR_READBACK_MISMATCH');
         }
         await writeAnchor(projectId, nextBundle.integrityAnchor, previousBundle?.integrityAnchor || null);
+        await lease.renew();
         const verified = await verifyBundleReadback(projectId, nextBundle);
         if (projectTruthMutation) {
           await assertProjectTruthText(
@@ -442,7 +607,17 @@ export function createStage10MainPersistenceAdapter(input = {}) {
             projectTruthMutation.nextHash,
             'PROJECT_TRUTH_READBACK_MISMATCH',
           );
+          if (projectTruthMutation.externalArtifactMutation) {
+            const artifactReadback = await readExternalArtifactText(projectTruthMutation.externalArtifactMutation);
+            if (
+              artifactReadback !== projectTruthMutation.externalArtifactMutation.nextText
+              || hashText(artifactReadback) !== projectTruthMutation.externalArtifactMutation.nextHash
+            ) {
+              throw typedError('E_STAGE10_EXTERNAL_ARTIFACT_READBACK_MISMATCH', 'EXTERNAL_ARTIFACT_READBACK_MISMATCH');
+            }
+          }
         }
+        await lease.renew();
         await fs.unlink(paths.transaction);
         return {
           ok: true,
@@ -450,18 +625,47 @@ export function createStage10MainPersistenceAdapter(input = {}) {
           storageWritten: true,
           atomicWrite: true,
           readbackVerified: true,
+          interprocessLeaseHeld: true,
+          revisionCasVerified: true,
+          authorityCasVerified: true,
+          recoveredExpiredLease: lease.recoveredExpiredLease === true,
           bundle: cloneJson(verified),
         };
-      });
+      }));
     },
     async writeRecoverySnapshot(projectId, snapshotId, snapshotRecord) {
-      return serializeProjectOperation(projectId, async () => {
+      return serializeProjectOperation(projectId, () => leaseManager.withLease(projectId, async (lease) => {
         const paths = pathsFor(projectId);
         const safeSnapshotId = safeProjectKey(snapshotId);
         const targetPath = path.join(paths.recoveryRoot, `${safeSnapshotId}.json`);
-        await writeJson(targetPath, snapshotRecord, 'recoverySnapshot');
+        await recoverPendingTransaction(projectId, lease);
+        const currentBundle = await readRawBundle(projectId);
+        if (!currentBundle) {
+          throw typedError('E_STAGE10_RECOVERY_CURRENT_STATE_MISSING', 'RECOVERY_CURRENT_STATE_REQUIRED');
+        }
+        const validated = validateStage10RecoverySnapshot(snapshotRecord, {
+          projectId,
+          lifecycleId: currentBundle.session?.lifecycleId,
+          currentSession: currentBundle.session,
+          currentAuthorityStore: currentBundle.authorityStore,
+          currentIntegrityAnchor: currentBundle.integrityAnchor,
+          requireCurrent: true,
+        });
+        if (!validated.ok || normalizeString(validated.snapshot?.snapshotId) !== normalizeString(snapshotId)) {
+          throw typedError(
+            validated.error?.code || 'E_STAGE10_RECOVERY_SNAPSHOT_ID_MISMATCH',
+            validated.error?.reason || 'RECOVERY_SNAPSHOT_ID_MISMATCH',
+            validated.error?.details,
+          );
+        }
+        const existing = await readJsonIfPresent(targetPath, 'recoverySnapshot');
+        if (existing && !sameValue(existing, validated.snapshot)) {
+          throw typedError('E_STAGE10_RECOVERY_IMMUTABLE_CONFLICT', 'RECOVERY_SNAPSHOT_IMMUTABLE_CONFLICT');
+        }
+        await lease.renew();
+        if (!existing) await writeJson(targetPath, validated.snapshot, 'recoverySnapshot');
         return { ok: true, atomicWrite: true, readbackVerified: true };
-      });
+      }));
     },
     async readRecoverySnapshot(projectId, snapshotId) {
       return serializeProjectOperation(projectId, async () => {

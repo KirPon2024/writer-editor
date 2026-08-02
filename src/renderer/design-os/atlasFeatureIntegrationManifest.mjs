@@ -253,12 +253,14 @@ function normalizeString(value) {
   return typeof value === 'string' ? value.trim() : '';
 }
 
-function knownQueryValues(workspaceQueryIds = {}) {
-  return new Set(Object.values(isPlainObject(workspaceQueryIds) ? workspaceQueryIds : {}).filter((value) => typeof value === 'string'));
-}
-
-function knownCommandValues(commandIds = []) {
-  return new Set((Array.isArray(commandIds) ? commandIds : []).map((value) => normalizeString(value)).filter(Boolean));
+function catalogById(rows) {
+  const catalog = new Map();
+  for (const row of Array.isArray(rows) ? rows : []) {
+    const id = normalizeString(row?.id);
+    if (!id || catalog.has(id)) return null;
+    catalog.set(id, row);
+  }
+  return catalog;
 }
 
 function fail(reason, details = {}) {
@@ -278,10 +280,25 @@ export function resolveAtlasFeatureDesignOsSlots(options = {}) {
     return fail('E_ATLAS_FEATURE_MANIFEST_SCHEMA_UNSUPPORTED', { schemaVersion: manifest.schemaVersion || '' });
   }
 
-  const querySet = options.workspaceQueryIdSet instanceof Set
-    ? options.workspaceQueryIdSet
-    : knownQueryValues(options.workspaceQueryIds);
-  const commandSet = knownCommandValues(options.commandIds || manifest.commandIds);
+  if (!Array.isArray(options.commandCatalog) || options.commandCatalog.length === 0) {
+    return fail('E_ATLAS_COMMAND_KERNEL_CATALOG_REQUIRED');
+  }
+  if (!Array.isArray(options.providerCatalog) || options.providerCatalog.length === 0) {
+    return fail('E_ATLAS_PROVIDER_CATALOG_REQUIRED');
+  }
+  if (!Array.isArray(options.slotCatalog) || options.slotCatalog.length === 0) {
+    return fail('E_ATLAS_SLOT_BINDING_CATALOG_REQUIRED');
+  }
+  const commandCatalog = catalogById(options.commandCatalog);
+  const providerCatalog = catalogById(options.providerCatalog);
+  const slotCatalog = new Map();
+  for (const row of options.slotCatalog) {
+    const surfaceKey = normalizeString(row?.surfaceKey);
+    if (!surfaceKey || slotCatalog.has(surfaceKey)) return fail('E_ATLAS_SLOT_BINDING_CATALOG_INVALID');
+    slotCatalog.set(surfaceKey, row);
+  }
+  if (!commandCatalog) return fail('E_ATLAS_COMMAND_KERNEL_CATALOG_INVALID');
+  if (!providerCatalog) return fail('E_ATLAS_PROVIDER_CATALOG_INVALID');
   const surfaces = Array.isArray(manifest.surfaceManifests) ? manifest.surfaceManifests : [];
   if (surfaces.length === 0) return fail('E_ATLAS_FEATURE_MANIFEST_SURFACES_MISSING');
 
@@ -294,14 +311,21 @@ export function resolveAtlasFeatureDesignOsSlots(options = {}) {
     if (!surfaceKey || !surfaceId || !providerId || !slotId) {
       return fail('E_ATLAS_SURFACE_BINDING_FIELD_MISSING', { surfaceKey, surfaceId, providerId, slotId });
     }
-    if (!querySet.has(providerId)) {
+    if (!providerCatalog.has(providerId)) {
       return fail('E_ATLAS_SURFACE_PROVIDER_NOT_IN_QUERY_REGISTRY', { surfaceKey, providerId });
     }
-    if (!ATLAS_DESIGN_OS_ALLOWED_SLOT_IDS.includes(slotId)) {
-      return fail('E_ATLAS_SURFACE_SLOT_OUTSIDE_DESIGN_OS_ROUTE', { surfaceKey, slotId });
+    const exactSlot = slotCatalog.get(surfaceKey);
+    if (
+      !exactSlot
+      || normalizeString(exactSlot.surfaceId) !== surfaceId
+      || normalizeString(exactSlot.providerId) !== providerId
+      || normalizeString(exactSlot.slotId) !== slotId
+      || normalizeString(exactSlot.hostKind) !== normalizeString(surface.hostKind)
+    ) {
+      return fail('E_ATLAS_SURFACE_SLOT_BINDING_UNRESOLVED', { surfaceKey, surfaceId, providerId, slotId });
     }
     for (const commandId of (Array.isArray(surface.commandIds) ? surface.commandIds : [])) {
-      if (!commandSet.has(commandId)) {
+      if (!commandCatalog.has(commandId)) {
         return fail('E_ATLAS_SURFACE_COMMAND_NOT_IN_COMMAND_KERNEL', { surfaceKey, commandId });
       }
     }

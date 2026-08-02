@@ -95,16 +95,18 @@ test('C5V2 full-manuscript source builds one ordered multi-scene product review 
   assert.equal(validation.ok, true);
 });
 
-test('C5V2 full-manuscript source rejects duplicate, reordered, stale and tampered authority inputs', () => {
+test('C5V2 manuscript source supports one scene and rejects duplicate, reordered, stale and tampered authority inputs', () => {
   const {
     buildFullManuscriptDocxReviewPacketSource,
     validateFullManuscriptAuthorityReturn,
   } = require(path.join(REPO_ROOT, 'src', 'export', 'docx', 'fullManuscriptDocxReviewPacketSource.js'));
 
-  assert.throws(() => buildFullManuscriptDocxReviewPacketSource({
+  const singleScene = buildFullManuscriptDocxReviewPacketSource({
     projectId: 'project-c5v2',
     scenes: [makeScenes()[0]],
-  }), /FULL_MANUSCRIPT_MULTI_SCENE_PROJECT_REQUIRED/u);
+  });
+  assert.equal(singleScene.exportCapsule.sceneCount, 1);
+  assert.deepEqual(singleScene.exportCapsule.orderedSceneIds, [makeScenes()[0].sceneId]);
 
   assert.throws(() => buildFullManuscriptDocxReviewPacketSource({
     projectId: 'project-c5v2',
@@ -192,6 +194,90 @@ test('C5V2 full-manuscript source binds rich paragraph FormatIR and raw observab
   ]);
   assert.equal(source.localAuthorityCapsule.exportMap.scenes[0].rawSha256, source.advisoryManifest.coreManifest.exportMap.scenes[0].rawSha256);
   assert.notEqual(source.localAuthorityCapsule.exportMap.scenes[0].rawSha256, source.blocks[0].canonicalTextSha256);
+});
+
+test('C5V2 product DOCX carries one-scene headings links highlights lists quotes code and rules without flattening', () => {
+  const { buildFullManuscriptDocxReviewPacketSource } = require(path.join(
+    REPO_ROOT,
+    'src',
+    'export',
+    'docx',
+    'fullManuscriptDocxReviewPacketSource.js',
+  ));
+  const { buildDocxReviewPacketBuffer } = require(path.join(
+    REPO_ROOT,
+    'src',
+    'export',
+    'docx',
+    'docxReviewPacketBuilder.js',
+  ));
+  const { extractStoredZipEntries } = require(path.join(
+    REPO_ROOT,
+    'src',
+    'export',
+    'docx',
+    'docxArtifactValidator.js',
+  ));
+  const doc = {
+    type: 'doc',
+    content: [
+      { type: 'heading', attrs: { level: 2 }, content: [{ type: 'text', text: 'Title' }] },
+      {
+        type: 'paragraph',
+        content: [
+          { type: 'text', text: 'Linked', marks: [{ type: 'link', attrs: { href: 'https://example.test' } }] },
+          { type: 'text', text: ' mark', marks: [{ type: 'highlight', attrs: { color: '#a1b2c3' } }] },
+          { type: 'text', text: ' code', marks: [{ type: 'code' }] },
+        ],
+      },
+      { type: 'blockquote', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Quote' }] }] },
+      {
+        type: 'bulletList',
+        content: [
+          { type: 'listItem', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'One' }] }] },
+          { type: 'listItem', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Two' }] }] },
+        ],
+      },
+      { type: 'codeBlock', attrs: { language: 'js' }, content: [{ type: 'text', text: 'const x = 1;' }] },
+      { type: 'horizontalRule' },
+    ],
+  };
+  const scene = {
+    sceneId: 'roman/rich-single.md',
+    scenePath: '/project/roman/rich-single.md',
+    title: 'Rich single scene',
+    order: 0,
+    text: 'Title\nLinked mark code\nQuote\nOne\nTwo\nconst x = 1;',
+    doc,
+  };
+  const source = buildFullManuscriptDocxReviewPacketSource({
+    projectId: 'project-rich-single',
+    scenes: [scene],
+  }, {
+    roundIdHex: '12121212121212121212121212121212',
+    keyIdHex: '34343434343434343434343434343434',
+    hmacSecret: 'local-rich-secret-test-only',
+  });
+  const product = buildDocxReviewPacketBuffer(source);
+  const entries = extractStoredZipEntries(product);
+  const documentXml = entries.get('word/document.xml').toString('utf8');
+  const relsXml = entries.get('word/_rels/document.xml.rels').toString('utf8');
+  const numberingXml = entries.get('word/numbering.xml').toString('utf8');
+  const stylesXml = entries.get('word/styles.xml').toString('utf8');
+  assert.equal(source.exportCapsule.sceneCount, 1);
+  assert.equal(source.blocks.length, 7);
+  assert.match(documentXml, /<w:outlineLvl w:val="1"\/>/u);
+  assert.match(documentXml, /<w:hyperlink r:id="rIdYrtkLink1">/u);
+  assert.match(documentXml, /<w:shd w:val="clear" w:color="auto" w:fill="A1B2C3"\/>/u);
+  assert.match(documentXml, /<w:rStyle w:val="YalkenInlineCode"\/>/u);
+  assert.match(documentXml, /<w:ind w:left="720"\/>/u);
+  assert.match(documentXml, /<w:numPr><w:ilvl w:val="0"\/><w:numId w:val="1"\/><\/w:numPr>/u);
+  assert.match(documentXml, /<w:pStyle w:val="YalkenCodeBlock"\/>/u);
+  assert.match(documentXml, /<w:pBdr><w:bottom/u);
+  assert.match(relsXml, /Target="https:\/\/example\.test" TargetMode="External"/u);
+  assert.match(numberingXml, /<w:numFmt w:val="bullet"\/>/u);
+  assert.match(stylesXml, /w:styleId="YalkenCodeBlock"/u);
+  assert.match(stylesXml, /w:styleId="YalkenInlineCode"/u);
 });
 
 test('C5V2 product review DOCX requires one deterministic modern mode 15 settings package contract', () => {

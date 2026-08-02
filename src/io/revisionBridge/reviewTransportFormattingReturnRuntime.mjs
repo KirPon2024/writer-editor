@@ -128,7 +128,7 @@ function normalizeOperation(operation, index) {
     return result(false, 'RTK_FORMATTING_OPERATION_AUTHORITY_INVALID', { operationIndex: index, operationId });
   }
   if (sourceAuthority === 'authenticated-full-manuscript-export-map-format-ir-v1'
-    && (!sourceSceneRevision || !SHA256_RE.test(sourceRawSha256))) {
+    && (!SHA256_RE.test(sourceSceneRevision) || !SHA256_RE.test(sourceRawSha256))) {
     return result(false, 'RTK_FORMATTING_OPERATION_SOURCE_REVISION_REQUIRED', { operationIndex: index, operationId });
   }
   const inline = {};
@@ -275,6 +275,35 @@ function applyInlineRange(paragraph, operation) {
   return { ok: true, paragraph: nextParagraph };
 }
 
+function collectFormattingTextBlocks(doc) {
+  const blocks = [];
+  const visit = (node, nodePath) => {
+    if (!isPlainObject(node)) return;
+    if (node.type === 'paragraph' || node.type === 'heading' || node.type === 'codeBlock') {
+      blocks.push({ node, nodePath });
+      return;
+    }
+    for (const [index, child] of (Array.isArray(node.content) ? node.content : []).entries()) {
+      visit(child, [...nodePath, 'content', index]);
+    }
+  };
+  for (const [index, node] of (Array.isArray(doc?.content) ? doc.content : []).entries()) {
+    visit(node, ['content', index]);
+  }
+  return blocks;
+}
+
+function replaceDocumentNodeAtPath(doc, nodePath, nextNode) {
+  let owner = doc;
+  for (let index = 0; index < nodePath.length - 1; index += 1) {
+    owner = owner?.[nodePath[index]];
+  }
+  const key = nodePath.at(-1);
+  if (!owner || key === undefined) return false;
+  owner[key] = nextNode;
+  return true;
+}
+
 export function applyFormattingOperationsToObservableContent(baseContent, operations = []) {
   const parsed = parseObservablePayload(rawString(baseContent));
   if (parsed.issue) return result(false, 'RTK_FORMATTING_SCENE_ENVELOPE_INVALID', { issue: cloneJson(parsed.issue) });
@@ -299,16 +328,24 @@ export function applyFormattingOperationsToObservableContent(baseContent, operat
     left.paragraphOrdinal - right.paragraphOrdinal || left.from - right.from || left.operationId.localeCompare(right.operationId)
   ));
   for (const operation of ordered) {
-    const paragraph = doc.content[operation.paragraphOrdinal];
-    if (!isPlainObject(paragraph) || paragraph.type !== 'paragraph') {
+    const blocks = collectFormattingTextBlocks(doc);
+    const target = blocks[operation.paragraphOrdinal];
+    const paragraph = target?.node;
+    if (!isPlainObject(paragraph) || !['paragraph', 'heading'].includes(paragraph.type)) {
+      return result(false, 'RTK_FORMATTING_PARAGRAPH_AUTHORITY_INVALID', {
+        operationId: operation.operationId,
+        paragraphOrdinal: operation.paragraphOrdinal,
+        nodeType: normalizedString(paragraph?.type),
+      });
+    }
+    const applied = applyInlineRange(paragraph, operation);
+    if (!applied.ok) return applied;
+    if (!replaceDocumentNodeAtPath(doc, target.nodePath, applied.paragraph)) {
       return result(false, 'RTK_FORMATTING_PARAGRAPH_AUTHORITY_INVALID', {
         operationId: operation.operationId,
         paragraphOrdinal: operation.paragraphOrdinal,
       });
     }
-    const applied = applyInlineRange(paragraph, operation);
-    if (!applied.ok) return applied;
-    doc.content[operation.paragraphOrdinal] = applied.paragraph;
   }
   const visibleAfter = deriveVisibleTextFromDocument(doc);
   if (visibleAfter !== parsed.text) {
@@ -461,7 +498,11 @@ function stateReceiptIsValid(receipt, requestId) {
     && receipt.operationIds.every((operationId) => normalizedString(operationId) === operationId)
   )) return false;
   return new Set(receipt.scenes.map((scene) => scene.sceneId)).size === receipt.scenes.length
-    && new Set(receipt.operationIds).size === receipt.operationIds.length;
+    && new Set(receipt.operationIds).size === receipt.operationIds.length
+    && (
+      receipt.committedStateGeneration === undefined
+      || (Number.isSafeInteger(receipt.committedStateGeneration) && receipt.committedStateGeneration > 0)
+    );
 }
 
 function stateStructureIsValid(state, cryptoPort) {
@@ -674,19 +715,60 @@ async function prepareTransactionRecovery(projectRoot, transaction, sceneAuthori
     const scenePath = revalidated?.scenePath || '';
     const current = scenePath ? await fs.readFile(scenePath, 'utf8').catch(() => null) : null;
     const currentSha256 = current === null ? '' : sha256Text(cryptoPort, current);
-    if (!scenePath || ![scene.beforeSha256, scene.afterSha256].includes(currentSha256)) {
+    if (!scenePath) {
       return result(false, 'RTK_FORMATTING_RECOVERY_STATE_DIVERGED', {
         sceneId: scene.sceneId,
         scenePathValid: Boolean(scenePath),
         currentSha256,
       });
     }
-    prepared.push({ ...scene, scenePath, currentSha256 });
+    prepared.push({
+      ...scene,
+      scenePath,
+      currentSha256,
+      matchesBefore: currentSha256 === scene.beforeSha256,
+      matchesAfter: currentSha256 === scene.afterSha256,
+      diverged: ![scene.beforeSha256, scene.afterSha256].includes(currentSha256),
+    });
   }
   return { ok: true, scenes: prepared };
 }
 
-async function restoreTransaction(projectRoot, transaction, sceneAuthorityBySceneId, cryptoPort) {
+async function verifySceneCommitAuthority(projectRoot, authority, expectedSha256, cryptoPort) {
+  const revalidated = await revalidateSceneAuthority(projectRoot, authority);
+  if (!revalidated) return { ok: false, code: 'RTK_FORMATTING_SCENE_PATH_AUTHORITY_CHANGED' };
+  const current = await fs.readFile(revalidated.scenePath, 'utf8').catch(() => null);
+  if (current === null) return { ok: false, code: 'RTK_FORMATTING_SCENE_READ_FAILED' };
+  const currentSha256 = sha256Text(cryptoPort, current);
+  if (currentSha256 !== expectedSha256) {
+    return {
+      ok: false,
+      code: 'RTK_FORMATTING_CONCURRENT_SCENE_CHANGE_BLOCKED',
+      currentSha256,
+      expectedSha256,
+    };
+  }
+  if (!await revalidateSceneAuthority(projectRoot, authority)) {
+    return { ok: false, code: 'RTK_FORMATTING_SCENE_PATH_AUTHORITY_CHANGED' };
+  }
+  return { ok: true, currentSha256 };
+}
+
+function sceneCommitGuard(projectRoot, authority, expectedSha256, cryptoPort, options = {}, context = {}) {
+  return async () => {
+    if (typeof options.beforeAtomicSceneRename === 'function') {
+      await options.beforeAtomicSceneRename({ ...context });
+    }
+    const verified = await verifySceneCommitAuthority(projectRoot, authority, expectedSha256, cryptoPort);
+    if (!verified.ok) {
+      const error = new Error(verified.code);
+      error.details = verified;
+      throw error;
+    }
+  };
+}
+
+async function restoreTransaction(projectRoot, transaction, sceneAuthorityBySceneId, cryptoPort, options = {}) {
   const prepared = await prepareTransactionRecovery(
     projectRoot,
     transaction,
@@ -695,19 +777,63 @@ async function restoreTransaction(projectRoot, transaction, sceneAuthorityByScen
   );
   if (!prepared.ok) return prepared;
   const restored = [];
+  const conflicts = [];
   for (const scene of prepared.scenes) {
     const authority = sceneAuthorityBySceneId[scene.sceneId];
-    if (!await revalidateSceneAuthority(projectRoot, authority)) {
-      return result(false, 'RTK_FORMATTING_SCENE_PATH_AUTHORITY_CHANGED', { sceneId: scene.sceneId });
+    if (scene.diverged) {
+      conflicts.push({
+        sceneId: scene.sceneId,
+        currentSha256: scene.currentSha256,
+        beforeSha256: scene.beforeSha256,
+        afterSha256: scene.afterSha256,
+      });
+      restored.push({ sceneId: scene.sceneId, restored: false, concurrentContentPreserved: true });
+      continue;
     }
-    await atomicWriteFile(scene.scenePath, rawString(scene.beforeContent), { safetyMode: 'strict' });
+    if (scene.matchesBefore) {
+      restored.push({ sceneId: scene.sceneId, restored: true, writerCalled: false });
+      continue;
+    }
+    try {
+      await atomicWriteFile(scene.scenePath, rawString(scene.beforeContent), {
+        safetyMode: 'strict',
+        beforeRename: sceneCommitGuard(
+          projectRoot,
+          authority,
+          scene.afterSha256,
+          cryptoPort,
+          options,
+          { phase: 'rollback', sceneId: scene.sceneId },
+        ),
+      });
+    } catch (error) {
+      const current = await fs.readFile(scene.scenePath, 'utf8').catch(() => null);
+      const currentSha256 = current === null ? '' : sha256Text(cryptoPort, current);
+      conflicts.push({
+        sceneId: scene.sceneId,
+        currentSha256,
+        beforeSha256: scene.beforeSha256,
+        afterSha256: scene.afterSha256,
+        errorCode: normalizedString(error?.message || error?.code),
+      });
+      restored.push({ sceneId: scene.sceneId, restored: false, concurrentContentPreserved: true });
+      continue;
+    }
     if (!await revalidateSceneAuthority(projectRoot, authority)) {
       return result(false, 'RTK_FORMATTING_SCENE_PATH_AUTHORITY_CHANGED', { sceneId: scene.sceneId });
     }
     const readback = await fs.readFile(scene.scenePath, 'utf8');
-    restored.push({ sceneId: scene.sceneId, restored: readback === rawString(scene.beforeContent) });
+    restored.push({
+      sceneId: scene.sceneId,
+      restored: readback === rawString(scene.beforeContent),
+      writerCalled: true,
+    });
   }
-  return { ok: restored.every((scene) => scene.restored), restored };
+  return {
+    ok: restored.every((scene) => scene.restored || scene.concurrentContentPreserved),
+    restored,
+    conflicts,
+  };
 }
 
 async function reconcileActiveTransaction(
@@ -716,6 +842,7 @@ async function reconcileActiveTransaction(
   state,
   sceneAuthorityBySceneId,
   cryptoPort,
+  options = {},
 ) {
   const active = isPlainObject(state.activeTransaction) ? state.activeTransaction : null;
   if (!active) return { ok: true, state, outcome: 'none' };
@@ -736,14 +863,12 @@ async function reconcileActiveTransaction(
       matchesAfter: current !== null && sha256Text(cryptoPort, current) === scene.afterSha256,
     });
   }
-  if (sceneStates.some((scene) => !scene.scenePathValid || (!scene.matchesBefore && !scene.matchesAfter))) {
-    return result(false, 'RTK_FORMATTING_RECOVERY_STATE_DIVERGED', { sceneStates });
-  }
   if (sceneStates.length > 0 && sceneStates.every((scene) => scene.matchesAfter)) {
     const receipt = {
       requestId: active.requestId,
       effectDigest: active.effectDigest,
       status: 'applied-after-recovery-readback',
+      committedStateGeneration: state.generation + 1,
       scenes: active.scenes.map((scene) => ({
         sceneId: scene.sceneId,
         beforeSha256: scene.beforeSha256,
@@ -769,14 +894,18 @@ async function reconcileActiveTransaction(
     active,
     sceneAuthorityBySceneId,
     cryptoPort,
+    options,
   );
   if (!rollback.ok) {
     return result(false, 'RTK_FORMATTING_RECOVERY_ROLLBACK_FAILED', { rollback });
   }
+  const recoveryOutcome = rollback.conflicts.length > 0
+    ? 'rolled-back-with-concurrent-content-preserved'
+    : 'rolled-back-to-baseline';
   const recoveredTransactions = [...state.recoveredTransactions, {
     requestId: active.requestId,
     effectDigest: active.effectDigest,
-    outcome: 'rolled-back-to-baseline',
+    outcome: recoveryOutcome,
   }];
   const next = await writeState(statePath, {
     ...state,
@@ -784,7 +913,52 @@ async function reconcileActiveTransaction(
     activeTransaction: null,
     recoveredTransactions,
   }, cryptoPort);
-  return { ok: true, state: next, outcome: 'rolled-back', restored: rollback.restored };
+  return {
+    ok: true,
+    state: next,
+    outcome: rollback.conflicts.length > 0 ? 'rolled-back-conflict-preserved' : 'rolled-back',
+    restored: rollback.restored,
+    conflicts: rollback.conflicts,
+    manualRequired: rollback.conflicts.length > 0,
+  };
+}
+
+async function buildFormattingReplaySnapshot(state, projectRoot, sceneAuthorityBySceneId, cryptoPort) {
+  const receipts = Object.values(state.receiptsByRequestId);
+  const latestReceipt = receipts.at(-1) || null;
+  const sceneReadback = [];
+  if (latestReceipt) {
+    for (const scene of latestReceipt.scenes) {
+      const authority = sceneAuthorityBySceneId[scene.sceneId];
+      const revalidated = authority
+        ? await revalidateSceneAuthority(projectRoot, authority)
+        : null;
+      const current = revalidated
+        ? await fs.readFile(revalidated.scenePath, 'utf8').catch(() => null)
+        : null;
+      const currentSha256 = current === null ? '' : sha256Text(cryptoPort, current);
+      sceneReadback.push({
+        sceneId: scene.sceneId,
+        expectedAfterSha256: scene.afterSha256,
+        currentSha256,
+        matchesAfter: currentSha256 === scene.afterSha256,
+      });
+    }
+  }
+  const replayVerified = Boolean(latestReceipt) && sceneReadback.every((scene) => scene.matchesAfter);
+  return {
+    schemaVersion: 'yalken.rtk.formatting-return-replay-snapshot.v1',
+    status: !latestReceipt ? 'empty' : (replayVerified ? 'replayed' : 'recovery-required'),
+    projectId: state.projectId,
+    stateGeneration: state.generation,
+    stateDigest: state.stateDigest,
+    receiptCount: receipts.length,
+    latestReceipt: latestReceipt ? cloneJson(latestReceipt) : null,
+    sceneReadback,
+    replayVerified,
+    writerCalled: false,
+    recoveredTransactions: cloneJson(state.recoveredTransactions),
+  };
 }
 
 async function normalizeRuntimeInput(input, cryptoPort) {
@@ -920,12 +1094,57 @@ export async function reconcileFormattingReturnRuntimeAtStartup(input = {}, opti
         state,
         normalized.sceneAuthorityBySceneId,
         cryptoPort,
+        options,
       );
       if (!reconciliation.ok) return reconciliation;
+      const replaySnapshot = await buildFormattingReplaySnapshot(
+        reconciliation.state,
+        normalized.projectRoot,
+        normalized.sceneAuthorityBySceneId,
+        cryptoPort,
+      );
       return result(true, 'RTK_FORMATTING_STARTUP_RECOVERY_COMPLETE', {
         status: 'recovered',
         staleLeaseRecovered: staleLease.recovered === true,
         recoveryOutcome: reconciliation.outcome,
+        replaySnapshot,
+      });
+    } finally {
+      await releaseProjectLease(normalized.paths.lockPath, lease.token).catch(() => {});
+    }
+  });
+}
+
+export async function inspectFormattingReturnRuntimeState(input = {}, options = {}) {
+  const cryptoPort = resolveCryptoPort(options.cryptoPort);
+  const normalized = await normalizeStartupRecoveryInput(input);
+  if (!normalized.ok) return normalized;
+  return enqueueProject(normalized.projectRoot, async () => {
+    const lease = await acquireProjectLease(normalized.paths.lockPath, 'inspect-formatting-replay');
+    if (!lease.ok) return lease;
+    try {
+      let state = await readState(normalized.paths.statePath, normalized.projectId, cryptoPort);
+      if (state?.ok === false) return state;
+      const reconciliation = await reconcileActiveTransaction(
+        normalized.projectRoot,
+        normalized.paths.statePath,
+        state,
+        normalized.sceneAuthorityBySceneId,
+        cryptoPort,
+        options,
+      );
+      if (!reconciliation.ok) return reconciliation;
+      state = reconciliation.state;
+      const replaySnapshot = await buildFormattingReplaySnapshot(
+        state,
+        normalized.projectRoot,
+        normalized.sceneAuthorityBySceneId,
+        cryptoPort,
+      );
+      return result(true, 'RTK_FORMATTING_REPLAY_STATE_INSPECTED', {
+        status: replaySnapshot.status,
+        replaySnapshot,
+        writerCalled: false,
       });
     } finally {
       await releaseProjectLease(normalized.paths.lockPath, lease.token).catch(() => {});
@@ -950,6 +1169,7 @@ export async function applyMultiSceneFormattingReturnRuntime(input = {}, options
         state,
         normalized.sceneAuthorityBySceneId,
         cryptoPort,
+        options,
       );
       if (!reconciliation.ok) return reconciliation;
       state = reconciliation.state;
@@ -993,6 +1213,17 @@ export async function applyMultiSceneFormattingReturnRuntime(input = {}, options
         if (expectedRawHashes.length > 1 || expectedSceneRevisions.length > 1) {
           return result(false, 'RTK_FORMATTING_SOURCE_REVISION_CONFLICT', { sceneId: scene.sceneId });
         }
+        if (
+          expectedRawHashes.length !== 1
+          || expectedSceneRevisions.length !== 1
+          || expectedSceneRevisions[0] !== expectedRawHashes[0]
+        ) {
+          return result(false, 'RTK_FORMATTING_SOURCE_REVISION_INVALID', {
+            sceneId: scene.sceneId,
+            expectedRawSha256: expectedRawHashes[0] || '',
+            expectedSceneRevision: expectedSceneRevisions[0] || '',
+          });
+        }
         if (expectedRawHashes.length === 1 && expectedRawHashes[0] !== beforeSha256) {
           return result(false, 'RTK_FORMATTING_SOURCE_SCENE_STALE', {
             sceneId: scene.sceneId,
@@ -1034,7 +1265,17 @@ export async function applyMultiSceneFormattingReturnRuntime(input = {}, options
           if (!await revalidateSceneAuthority(normalized.projectRoot, authority)) {
             throw new Error('RTK_FORMATTING_SCENE_PATH_AUTHORITY_CHANGED');
           }
-          await atomicWriteFile(scene.scenePath, scene.afterContent, { safetyMode: 'strict' });
+          await atomicWriteFile(scene.scenePath, scene.afterContent, {
+            safetyMode: 'strict',
+            beforeRename: sceneCommitGuard(
+              normalized.projectRoot,
+              authority,
+              scene.beforeSha256,
+              cryptoPort,
+              options,
+              { phase: 'commit', index, sceneId: scene.sceneId },
+            ),
+          });
           writerCalled = true;
           if (!await revalidateSceneAuthority(normalized.projectRoot, authority)) {
             throw new Error('RTK_FORMATTING_SCENE_PATH_AUTHORITY_CHANGED');
@@ -1056,6 +1297,7 @@ export async function applyMultiSceneFormattingReturnRuntime(input = {}, options
           activeTransaction,
           normalized.sceneAuthorityBySceneId,
           cryptoPort,
+          options,
         );
         if (!rollback.ok) {
           return result(false, 'RTK_FORMATTING_RECOVERY_ROLLBACK_FAILED', {
@@ -1071,11 +1313,18 @@ export async function applyMultiSceneFormattingReturnRuntime(input = {}, options
           recoveredTransactions: [...state.recoveredTransactions, {
             requestId: normalized.requestId,
             effectDigest: normalized.effectDigest,
-            outcome: 'writer-failure-rolled-back',
+            outcome: rollback.conflicts.length > 0
+              ? 'writer-failure-concurrent-content-preserved'
+              : 'writer-failure-rolled-back',
           }],
         }, cryptoPort);
-        return result(false, 'RTK_FORMATTING_WRITE_FAILED_ROLLED_BACK', {
-          writerCalled, restored: rollback.restored, errorCode: normalizedString(error?.message || error?.code),
+        return result(false, rollback.conflicts.length > 0
+          ? 'RTK_FORMATTING_CONCURRENT_SCENE_CHANGE_BLOCKED'
+          : 'RTK_FORMATTING_WRITE_FAILED_ROLLED_BACK', {
+          writerCalled,
+          restored: rollback.restored,
+          conflicts: rollback.conflicts,
+          errorCode: normalizedString(error?.message || error?.code),
         });
       }
       const readback = [];
@@ -1092,6 +1341,7 @@ export async function applyMultiSceneFormattingReturnRuntime(input = {}, options
           activeTransaction,
           normalized.sceneAuthorityBySceneId,
           cryptoPort,
+          options,
         );
         if (!rollback.ok) {
           return result(false, 'RTK_FORMATTING_RECOVERY_ROLLBACK_FAILED', {
@@ -1107,19 +1357,23 @@ export async function applyMultiSceneFormattingReturnRuntime(input = {}, options
           recoveredTransactions: [...state.recoveredTransactions, {
             requestId: normalized.requestId,
             effectDigest: normalized.effectDigest,
-            outcome: 'reverse-verify-failure-rolled-back',
+            outcome: rollback.conflicts.length > 0
+              ? 'reverse-verify-failure-concurrent-content-preserved'
+              : 'reverse-verify-failure-rolled-back',
           }],
         }, cryptoPort);
         return result(false, 'RTK_FORMATTING_REVERSE_VERIFY_FAILED', {
           writerCalled,
           readback,
           restored: rollback.restored,
+          conflicts: rollback.conflicts,
         });
       }
       const receipt = {
         requestId: normalized.requestId,
         effectDigest: normalized.effectDigest,
         status: 'applied',
+        committedStateGeneration: state.generation + 1,
         scenes: preparedScenes.map((scene) => ({
           sceneId: scene.sceneId,
           beforeSha256: scene.beforeSha256,

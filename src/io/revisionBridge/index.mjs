@@ -3098,8 +3098,9 @@ function docxReviewFormattingBuildFullManuscriptBlockResolver(exportMap = {}) {
   const byParaId = new Map();
   const byTextId = new Map();
   const byBookmarkName = new Map();
+  const byDocumentParagraphIndex = new Map();
   const addLocator = (index, key, authority) => {
-    if (!key) return;
+    if (key === '' || key === null || key === undefined) return;
     const existing = index.get(key) || [];
     existing.push(authority);
     index.set(key, existing);
@@ -3120,11 +3121,15 @@ function docxReviewFormattingBuildFullManuscriptBlockResolver(exportMap = {}) {
         blockId,
         paragraphId: normalizeString(block?.paragraphId),
         paragraphOrdinal: blockOrdinal,
+        documentParagraphIndex: Number.isSafeInteger(block?.documentParagraphIndex)
+          ? block.documentParagraphIndex
+          : globalBlockIndex,
         canonicalTextSha256: normalizeString(block?.canonicalTextSha256).toLowerCase(),
         canonicalMarksSha256: normalizeString(block?.canonicalMarksSha256).toLowerCase(),
         formatIr: isPlainObject(block?.formatIr) ? cloneJsonSafe(block.formatIr) : null,
         targetScope: { type: 'scene', id: sceneId },
       };
+      addLocator(byDocumentParagraphIndex, authority.documentParagraphIndex, authority);
       if (blockId) {
         const rawBookmark = blockId.replace(/[^A-Za-z0-9_]/gu, '_');
         const builderBookmarkName = `YRTK_${String(globalBlockIndex + 1).padStart(4, '0')}_${rawBookmark}`.slice(0, 40);
@@ -3154,7 +3159,7 @@ function docxReviewFormattingBuildFullManuscriptBlockResolver(exportMap = {}) {
       : [];
     const claims = [];
     const admit = (kind, key, index) => {
-      if (!key) return null;
+      if (key === '' || key === null || key === undefined) return null;
       const matches = index.get(key) || [];
       if (matches.length !== 1) {
         return {
@@ -3170,6 +3175,13 @@ function docxReviewFormattingBuildFullManuscriptBlockResolver(exportMap = {}) {
       claims.push(matches[0]);
       return null;
     };
+    const paragraphIndex = Number.isSafeInteger(signal.paragraphIndex) ? signal.paragraphIndex : -1;
+    const indexFailure = admit(
+      'documentParagraphIndex',
+      paragraphIndex >= 0 ? paragraphIndex : null,
+      byDocumentParagraphIndex,
+    );
+    if (indexFailure) return indexFailure;
     const paraFailure = admit('paraId', paraId, byParaId);
     if (paraFailure) return paraFailure;
     const textFailure = admit('textId', textId, byTextId);
@@ -3179,10 +3191,12 @@ function docxReviewFormattingBuildFullManuscriptBlockResolver(exportMap = {}) {
       const bookmarkFailure = admit('bookmarkName', name, byBookmarkName);
       if (bookmarkFailure) return bookmarkFailure;
     }
-    if (claims.length === 0) {
+    if (claims.length === 0 || paragraphIndex < 0) {
       return { ok: false, code: 'RTK_FORMATTING_RETURN_BLOCK_AUTHORITY_UNRESOLVED' };
     }
-    const identity = (authority) => `${authority.sceneId}\u0000${authority.blockId}\u0000${authority.paragraphOrdinal}`;
+    const identity = (authority) => (
+      `${authority.sceneId}\u0000${authority.blockId}\u0000${authority.paragraphOrdinal}\u0000${authority.documentParagraphIndex}`
+    );
     if (new Set(claims.map(identity)).size !== 1) {
       return {
         ok: false,
@@ -3223,6 +3237,15 @@ function docxReviewFormattingDiffActions(baseline = {}, returned = {}) {
     }
   }
   return actions;
+}
+
+function docxReviewFormattingAmbiguousRemovalKeys(baseline = {}, returned = {}, directActions = {}) {
+  return Object.keys(baseline)
+    .filter((key) => (
+      !Object.hasOwn(returned, key)
+      && directActions?.[key]?.action !== 'remove'
+    ))
+    .sort();
 }
 
 function docxReviewFormattingBuildOperation({ authority, paragraph, from, to, inline = {}, paragraphActions = {} }) {
@@ -3317,11 +3340,26 @@ export function buildDocxReviewFormattingReturnCandidatesFromZipBytes(input, opt
       ? authority.formatIr
       : docxReviewFormattingLegacyFormatIr(paragraph.paragraphText);
     const baselineRuns = Array.isArray(formatIr.runs) ? formatIr.runs : [];
-    const baselineParagraph = isPlainObject(formatIr.paragraph) ? formatIr.paragraph : {};
-    const paragraphActions = docxReviewFormattingDiffActions(
+    const baselineParagraphRecord = isPlainObject(formatIr.paragraph) ? formatIr.paragraph : {};
+    const baselineParagraph = Object.hasOwn(baselineParagraphRecord, 'textAlign')
+      ? { textAlign: baselineParagraphRecord.textAlign }
+      : {};
+    const baselineStructure = baselineParagraphRecord.nodeType === 'heading'
+      ? { nodeType: 'heading', headingLevel: Number(baselineParagraphRecord.headingLevel) }
+      : { nodeType: 'paragraph' };
+    const returnedStructure = isPlainObject(paragraph.paragraphStructure)
+      ? paragraph.paragraphStructure
+      : {};
+    const returnedParagraphState = isPlainObject(paragraph.paragraphState) ? paragraph.paragraphState : {};
+    const returnedParagraphActions = isPlainObject(paragraph.paragraphActions) ? paragraph.paragraphActions : {};
+    const paragraphAmbiguousRemovals = docxReviewFormattingAmbiguousRemovalKeys(
       baselineParagraph,
-      isPlainObject(paragraph.paragraphState) ? paragraph.paragraphState : {},
+      returnedParagraphState,
+      returnedParagraphActions,
     );
+    const paragraphActions = paragraphAmbiguousRemovals.length === 0
+      ? docxReviewFormattingDiffActions(baselineParagraph, returnedParagraphState)
+      : {};
     const hasUnsupportedRunFormatting = returnedRuns.some((run) => (
       run.unsupportedNames.length > 0 || run.invalidSupportedValue === true
     ));
@@ -3342,6 +3380,26 @@ export function buildDocxReviewFormattingReturnCandidatesFromZipBytes(input, opt
         unsupportedRunNames: returnedRuns.flatMap((run) => run.unsupportedNames || []),
       });
       continue;
+    }
+    if (hashCanonicalValue(baselineStructure) !== hashCanonicalValue(returnedStructure)) {
+      diagnostics.push({
+        code: 'RTK_FORMATTING_RETURN_PARAGRAPH_STRUCTURE_CHANGED',
+        sceneId: authority.sceneId,
+        blockId: authority.blockId,
+        paragraphIndex,
+        baselineStructure,
+        returnedStructure,
+      });
+      continue;
+    }
+    if (paragraphAmbiguousRemovals.length > 0) {
+      diagnostics.push({
+        code: 'RTK_FORMATTING_RETURN_EFFECTIVE_PARAGRAPH_STYLE_UNRESOLVED',
+        sceneId: authority.sceneId,
+        blockId: authority.blockId,
+        paragraphIndex,
+        keys: paragraphAmbiguousRemovals,
+      });
     }
     const returnedText = returnedRuns.map((run) => run.text).join('');
     const baselineText = baselineRuns.map((run) => (typeof run?.text === 'string' ? run.text : '')).join('');
@@ -3384,6 +3442,23 @@ export function buildDocxReviewFormattingReturnCandidatesFromZipBytes(input, opt
           blockId: authority.blockId,
           from,
           to,
+        });
+        continue;
+      }
+      const ambiguousRemovalKeys = docxReviewFormattingAmbiguousRemovalKeys(
+        baselineState,
+        returnedState,
+        isPlainObject(returnedRun?.inline) ? returnedRun.inline : {},
+      );
+      if (ambiguousRemovalKeys.length > 0) {
+        diagnostics.push({
+          code: 'RTK_FORMATTING_RETURN_EFFECTIVE_RUN_STYLE_UNRESOLVED',
+          sceneId: authority.sceneId,
+          blockId: authority.blockId,
+          paragraphIndex,
+          from,
+          to,
+          keys: ambiguousRemovalKeys,
         });
         continue;
       }

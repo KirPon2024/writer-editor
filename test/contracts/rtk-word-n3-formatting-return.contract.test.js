@@ -155,7 +155,7 @@ test('N3 extractor fails closed on unresolved block authority and routes duplica
     '<w:p><w:r><w:rPr><w:i/></w:rPr><w:t>Alpha</w:t></w:r></w:p>',
   ), { fullManuscriptExportMap: exportMap(), cryptoPort });
   assert.equal(unresolved.candidates.length, 0);
-  assert.equal(unresolved.diagnostics[0].code, 'RTK_FORMATTING_RETURN_BLOCK_AUTHORITY_UNRESOLVED');
+  assert.equal(unresolved.diagnostics[0].code, 'RTK_FORMATTING_RETURN_BASELINE_NOT_EXACT');
 
   const duplicate = bridge.buildDocxReviewFormattingReturnCandidatesFromZipBytes(docx([
     '<w:p w14:paraId="A1B2C3D4">',
@@ -203,6 +203,26 @@ test('N3 extractor rejects colliding or conflicting native paragraph locators', 
   ].join('')), { fullManuscriptExportMap: collidingMap, cryptoPort });
   assert.equal(conflict.candidates.length, 0);
   assert.equal(conflict.diagnostics[0].code, 'RTK_FORMATTING_RETURN_BLOCK_LOCATOR_AMBIGUOUS');
+
+  const indexConflictMap = exportMap('Alpha beta');
+  indexConflictMap.scenes.push({
+    sceneId: 'scene-b',
+    sceneOrdinal: 1,
+    blocks: [{
+      blockId: 'block-b-1',
+      paragraphId: 'paragraph-b-1',
+      canonicalTextSha256: indexConflictMap.scenes[0].blocks[0].canonicalTextSha256,
+      canonicalMarksSha256: indexConflictMap.scenes[0].blocks[0].canonicalMarksSha256,
+      wordSignals: [{ kind: 'w14ParaIdTextId', value: { paraId: '99999999', textId: '88888888' } }],
+    }],
+  });
+  const swapped = bridge.buildDocxReviewFormattingReturnCandidatesFromZipBytes(docx([
+    '<w:p w14:paraId="99999999" w14:textId="88888888">',
+    '<w:r><w:rPr><w:i/></w:rPr><w:t>Alpha</w:t></w:r><w:r><w:t> beta</w:t></w:r>',
+    '</w:p>',
+  ].join('')), { fullManuscriptExportMap: indexConflictMap, cryptoPort });
+  assert.equal(swapped.candidates.length, 0);
+  assert.equal(swapped.diagnostics[0].code, 'RTK_FORMATTING_RETURN_BLOCK_LOCATOR_CONFLICT');
 });
 
 test('N3 extractor rejects formatting when returned paragraph text or baseline marks are not exact', async () => {
@@ -283,13 +303,15 @@ test('N3 FormatIR distinguishes a rich no-op from bold removal and paragraph ali
     '<w:r><w:t>Bold</w:t></w:r><w:r><w:t xml:space="preserve"> plain</w:t></w:r>',
     '</w:p>',
   ].join('')), { fullManuscriptExportMap: map, cryptoPort });
-  assert.equal(changed.candidates.length, 2, JSON.stringify(changed, null, 2));
-  const inline = changed.candidates.find((candidate) => Object.keys(candidate.inline).length > 0);
+  assert.equal(changed.candidates.length, 1, JSON.stringify(changed, null, 2));
+  assert.equal(changed.diagnostics.some((item) => (
+    item.code === 'RTK_FORMATTING_RETURN_EFFECTIVE_RUN_STYLE_UNRESOLVED'
+    && item.keys.includes('bold')
+  )), true, JSON.stringify(changed, null, 2));
   const paragraph = changed.candidates.find((candidate) => Object.keys(candidate.paragraph).length > 0);
-  assert.deepEqual(inline.inline, { bold: { action: 'remove' } });
   assert.deepEqual(paragraph.paragraph, { textAlign: { action: 'set', value: 'left' } });
-  assert.equal(inline.sourceRawSha256, map.scenes[0].rawSha256);
-  assert.equal(inline.sourceSceneRevision, map.scenes[0].sceneRevision);
+  assert.equal(paragraph.sourceRawSha256, map.scenes[0].rawSha256);
+  assert.equal(paragraph.sourceSceneRevision, map.scenes[0].sceneRevision);
 });
 
 test('N3 FormatIR keeps a hard break inside one paragraph and fails closed on inherited Word styles', async () => {
@@ -325,6 +347,25 @@ test('N3 FormatIR keeps a hard break inside one paragraph and fails closed on in
   ].join('')), { fullManuscriptExportMap: map, cryptoPort });
   assert.equal(inherited.candidates.length, 0);
   assert.equal(inherited.diagnostics[0].code, 'RTK_FORMATTING_RETURN_UNSUPPORTED_WORD_FORMATTING');
+
+  for (const properties of [
+    '<w:rFonts w:asciiTheme="majorHAnsi"/>',
+    '<w:color w:themeColor="accent1"/>',
+    '<w:u w:val="words"/>',
+  ]) {
+    const unresolvedEffectiveStyle = bridge.buildDocxReviewFormattingReturnCandidatesFromZipBytes(docx([
+      '<w:p w14:paraId="A1B2C3D4" w14:textId="D4C3B2A1">',
+      `<w:r><w:rPr>${properties}</w:rPr><w:t>Alpha</w:t></w:r>`,
+      '<w:r><w:br/></w:r><w:r><w:t>Beta</w:t></w:r>',
+      '</w:p>',
+    ].join('')), { fullManuscriptExportMap: map, cryptoPort });
+    assert.equal(unresolvedEffectiveStyle.candidates.length, 0, properties);
+    assert.equal(
+      unresolvedEffectiveStyle.diagnostics.some((item) => item.code === 'RTK_FORMATTING_RETURN_UNSUPPORTED_RUN_FORMATTING'),
+      true,
+      properties,
+    );
+  }
 });
 
 test('N3 transformer preserves rich document, metadata, cards and visible Unicode text', async () => {
@@ -400,6 +441,10 @@ test('N3 transformer removes explicit false marks and blocks grapheme splits', a
 });
 
 function runtimeInput(projectRoot, scenePathBySceneId, requestId = 'request-format-1') {
+  const revisionBySceneId = Object.fromEntries(Object.entries(scenePathBySceneId).map(([sceneId, scenePath]) => {
+    const content = fs.readFileSync(scenePath, 'utf8');
+    return [sceneId, `sha256:${cryptoPort.sha256Text(content)}`];
+  }));
   return {
     commandId: 'cmd.rtk.review.applyMultiSceneFormattingReturn',
     callerRole: 'main',
@@ -418,10 +463,16 @@ function runtimeInput(projectRoot, scenePathBySceneId, requestId = 'request-form
       {
         operationId: `${requestId}-scene-a`, sceneId: 'scene-a', blockId: 'block-a', paragraphOrdinal: 0,
         from: 0, to: 5, selectedText: 'Alpha', inline: { bold: { action: 'set', value: true } },
+        sourceAuthority: 'authenticated-full-manuscript-export-map-format-ir-v1',
+        sourceSceneRevision: revisionBySceneId['scene-a'],
+        sourceRawSha256: revisionBySceneId['scene-a'],
       },
       {
         operationId: `${requestId}-scene-b`, sceneId: 'scene-b', blockId: 'block-b', paragraphOrdinal: 0,
         from: 0, to: 4, selectedText: 'Beta', inline: { italic: { action: 'set', value: true } },
+        sourceAuthority: 'authenticated-full-manuscript-export-map-format-ir-v1',
+        sourceSceneRevision: revisionBySceneId['scene-b'],
+        sourceRawSha256: revisionBySceneId['scene-b'],
       },
     ],
   };
@@ -612,7 +663,7 @@ test('N3 runtime rejects a product FormatIR operation after its observable scene
   input.operations[0] = {
     ...input.operations[0],
     sourceAuthority: 'authenticated-full-manuscript-export-map-format-ir-v1',
-    sourceSceneRevision: `sha256:${'d'.repeat(64)}`,
+    sourceSceneRevision: `sha256:${cryptoPort.sha256Text(before)}`,
     sourceRawSha256: `sha256:${cryptoPort.sha256Text(before)}`,
   };
   fs.writeFileSync(project.sceneA, 'Alpha scene changed outside Word', 'utf8');
@@ -737,6 +788,95 @@ test('N3 runtime detects a parent-directory symlink swap before the first scene 
   assert.equal(fs.readFileSync(path.join(preservedRomanRoot, 'scene-b.txt'), 'utf8'), 'Beta scene');
 });
 
+test('N3 runtime preserves a concurrent scene edit made at the atomic rename boundary', async () => {
+  const runtime = await import(pathToFileURL(RUNTIME_PATH).href);
+  const project = runtimeProject();
+  const input = runtimeInput(project.projectRoot, project.scenePathBySceneId, 'request-format-cas-race');
+  input.operations = input.operations.filter((operation) => operation.sceneId === 'scene-a');
+  let injected = false;
+  const blocked = await runtime.applyMultiSceneFormattingReturnRuntime(input, {
+    cryptoPort,
+    beforeAtomicSceneRename: async ({ phase, sceneId }) => {
+      if (!injected && phase === 'commit' && sceneId === 'scene-a') {
+        injected = true;
+        fs.writeFileSync(project.sceneA, 'Concurrent author edit', 'utf8');
+      }
+    },
+  });
+  assert.equal(blocked.ok, false, JSON.stringify(blocked, null, 2));
+  assert.equal(blocked.code, 'RTK_FORMATTING_CONCURRENT_SCENE_CHANGE_BLOCKED');
+  assert.equal(fs.readFileSync(project.sceneA, 'utf8'), 'Concurrent author edit');
+  assert.equal(blocked.conflicts[0].sceneId, 'scene-a');
+});
+
+test('N3 runtime rejects a parent-directory swap at the atomic rename boundary', async () => {
+  const runtime = await import(pathToFileURL(RUNTIME_PATH).href);
+  const project = runtimeProject();
+  const outsideRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'rtk-n3-atomic-swap-outside-'));
+  const outsideA = path.join(outsideRoot, 'scene-a.txt');
+  fs.writeFileSync(outsideA, 'outside-safe', 'utf8');
+  const romanRoot = path.join(project.projectRoot, 'roman');
+  const preservedRomanRoot = path.join(project.projectRoot, 'roman-preserved');
+  const input = runtimeInput(project.projectRoot, project.scenePathBySceneId, 'request-format-atomic-path-swap');
+  input.operations = input.operations.filter((operation) => operation.sceneId === 'scene-a');
+  let injected = false;
+  const blocked = await runtime.applyMultiSceneFormattingReturnRuntime(input, {
+    cryptoPort,
+    beforeAtomicSceneRename: async ({ phase, sceneId }) => {
+      if (!injected && phase === 'commit' && sceneId === 'scene-a') {
+        injected = true;
+        fs.renameSync(romanRoot, preservedRomanRoot);
+        fs.symlinkSync(outsideRoot, romanRoot);
+      }
+    },
+  });
+  assert.equal(blocked.ok, false, JSON.stringify(blocked, null, 2));
+  assert.equal(blocked.code, 'RTK_FORMATTING_RECOVERY_ROLLBACK_FAILED');
+  assert.equal(fs.readFileSync(outsideA, 'utf8'), 'outside-safe');
+  assert.equal(fs.readFileSync(path.join(preservedRomanRoot, 'scene-a.txt'), 'utf8'), 'Alpha scene');
+});
+
+test('N3 persisted replay inspection revalidates receipt and canonical scene readback after reopen', async () => {
+  const runtime = await import(pathToFileURL(RUNTIME_PATH).href);
+  const project = runtimeProject();
+  const input = runtimeInput(project.projectRoot, project.scenePathBySceneId, 'request-format-reopen-query');
+  const applied = await runtime.applyMultiSceneFormattingReturnRuntime(input, { cryptoPort });
+  assert.equal(applied.status, 'applied', JSON.stringify(applied, null, 2));
+  const inspected = await runtime.inspectFormattingReturnRuntimeState({
+    projectId: input.projectId,
+    projectRoot: project.projectRoot,
+    scenePathBySceneId: project.scenePathBySceneId,
+    startupSingleInstanceAuthority: true,
+  }, { cryptoPort });
+  assert.equal(inspected.ok, true, JSON.stringify(inspected, null, 2));
+  assert.equal(inspected.status, 'replayed');
+  assert.equal(inspected.writerCalled, false);
+  assert.equal(inspected.replaySnapshot.sceneReadback.every((item) => item.matchesAfter), true);
+
+  fs.writeFileSync(project.sceneA, 'Concurrent edit after receipt', 'utf8');
+  const diverged = await runtime.inspectFormattingReturnRuntimeState({
+    projectId: input.projectId,
+    projectRoot: project.projectRoot,
+    scenePathBySceneId: project.scenePathBySceneId,
+    startupSingleInstanceAuthority: true,
+  }, { cryptoPort });
+  assert.equal(diverged.ok, true, JSON.stringify(diverged, null, 2));
+  assert.equal(diverged.status, 'recovery-required');
+  assert.equal(diverged.replaySnapshot.replayVerified, false);
+});
+
+test('N3 runtime rejects mismatched scene revision authority before any write', async () => {
+  const runtime = await import(pathToFileURL(RUNTIME_PATH).href);
+  const project = runtimeProject();
+  const input = runtimeInput(project.projectRoot, project.scenePathBySceneId, 'request-format-revision-mismatch');
+  input.operations = input.operations.filter((operation) => operation.sceneId === 'scene-a');
+  input.operations[0].sourceSceneRevision = `sha256:${'f'.repeat(64)}`;
+  const blocked = await runtime.applyMultiSceneFormattingReturnRuntime(input, { cryptoPort });
+  assert.equal(blocked.ok, false, JSON.stringify(blocked, null, 2));
+  assert.equal(blocked.code, 'RTK_FORMATTING_SOURCE_REVISION_INVALID');
+  assert.equal(fs.readFileSync(project.sceneA, 'utf8'), 'Alpha scene');
+});
+
 test('N3 formatting command is admitted only through the typed Command Surface Kernel', async () => {
   const { ALLOWED_COMMAND_IDS, createCommandSurfaceKernel } = require('../../src/command/commandSurfaceKernel.js');
   const commandId = 'cmd.rtk.review.applyMultiSceneFormattingReturn';
@@ -775,6 +915,9 @@ test('N3 product route exposes a working Review control without renderer-owned a
   assert.doesNotMatch(rendererSource, /scenePathBySceneId/u);
   assert.doesNotMatch(rendererSource, /projectRoot[^A-Za-z]/u);
   assert.match(rendererSource, /data-review-apply-formatting-return/u);
+  assert.match(rendererSource, /data-review-inspect-formatting-replay/u);
+  assert.match(rendererSource, /REVIEW_SURFACE_FORMATTING_REPLAY_INSPECT_COMMAND_ID/u);
+  assert.match(mainSource, /'cmd\.project\.review\.inspectFormattingReturnReplay':\s*async/u);
   assert.match(rendererSource, /REVIEW_SURFACE_FORMATTING_APPLY_COMMAND_ID/u);
   assert.match(rendererSource, /setReviewFormattingEditorLock\(true\)[\s\S]*?finally[\s\S]*?setReviewFormattingEditorLock\(false\)/u);
   assert.match(rendererSource, /replayVerified === true/u);

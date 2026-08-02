@@ -1150,6 +1150,7 @@ const REVIEW_SURFACE_CLEAR_SESSION_COMMAND_ID = 'cmd.project.review.clearSession
 const REVIEW_SURFACE_EXACT_TEXT_APPLY_COMMAND_ID = 'cmd.project.review.applyExactTextChange';
 const REVIEW_SURFACE_EXACT_TEXT_APPLY_BATCH_COMMAND_ID = 'cmd.project.review.applyExactTextChangesBatch';
 const REVIEW_SURFACE_FORMATTING_APPLY_COMMAND_ID = 'cmd.project.review.applyFormattingReturn';
+const REVIEW_SURFACE_FORMATTING_REPLAY_INSPECT_COMMAND_ID = 'cmd.project.review.inspectFormattingReturnReplay';
 const REVIEW_SURFACE_RELOAD_RECONCILED_SCENE_COMMAND_ID = 'cmd.project.review.reloadReconciledScene';
 const REVIEW_SURFACE_CANCEL_OPERATION_COMMAND_ID = 'cmd.project.review.cancelOperation';
 const REVIEW_SURFACE_EXACT_APPLY_BATCH_MAX_CHANGE_IDS = 10;
@@ -1318,7 +1319,14 @@ function reviewSurfaceNormalizeFormattingReturn(previewValue, resultValue) {
     selectedText: typeof operation?.selectedText === 'string' ? operation.selectedText : '',
     expectedOutcome: reviewSurfaceText(operation?.expectedOutcome),
   })).filter((operation) => operation.operationId && operation.sceneId);
-  if (operations.length === 0 && Object.keys(result).length === 0) return null;
+  const diagnostics = reviewSurfaceArray(preview.diagnostics).map((diagnostic) => ({
+    code: reviewSurfaceText(diagnostic?.code),
+    sceneId: reviewSurfaceText(diagnostic?.sceneId),
+    blockId: reviewSurfaceText(diagnostic?.blockId),
+    paragraphIndex: Number.isSafeInteger(diagnostic?.paragraphIndex) ? diagnostic.paragraphIndex : -1,
+    keys: reviewSurfaceArray(diagnostic?.keys).map(reviewSurfaceText).filter(Boolean),
+  })).filter((diagnostic) => diagnostic.code);
+  if (operations.length === 0 && diagnostics.length === 0 && Object.keys(result).length === 0) return null;
   const status = reviewSurfaceText(result.status || preview.status) || 'blocked';
   const replayVerified = result.replayVerified === true;
   return {
@@ -1328,8 +1336,13 @@ function reviewSurfaceNormalizeFormattingReturn(previewValue, resultValue) {
     sceneCount: Number.isSafeInteger(preview.sceneCount)
       ? preview.sceneCount
       : new Set(operations.map((operation) => operation.sceneId)).size,
+    diagnosticCount: Number.isSafeInteger(preview.diagnosticCount)
+      ? preview.diagnosticCount
+      : diagnostics.length,
+    diagnostics,
     operations,
-    ready: preview.status === 'ready' && operations.length > 0,
+    ready: ['ready', 'partial'].includes(preview.status) && operations.length > 0,
+    partial: preview.status === 'partial' || diagnostics.length > 0,
     applied: result.applied === true,
     replayVerified,
     writerCalled: result.writerCalled === true,
@@ -2436,13 +2449,29 @@ function renderReviewSurfaceMarkup(viewModel) {
         : '<div class="tree__empty">Нет точного текстового предпросмотра.</div>'
     );
   const formattingReturn = viewModel.formattingReturn;
+  const formattingDiagnosticsMarkup = formattingReturn?.diagnostics?.length > 0
+    ? reviewSurfaceRenderList(formattingReturn.diagnostics, (diagnostic) => `
+        <article class="right-rail-review-item right-rail-review-item--manual">
+          <div class="right-rail-review-item-head">
+            <div class="right-rail-review-item-title">${reviewSurfaceEscapeHtml(diagnostic.code)}</div>
+            <span class="right-rail-review-pill right-rail-review-pill--manual">Ручная проверка</span>
+          </div>
+          <div class="right-rail-review-item-meta">
+            <span>${reviewSurfaceEscapeHtml(diagnostic.sceneId || 'проект')}</span>
+            <span>${reviewSurfaceEscapeHtml(diagnostic.blockId || `абзац ${diagnostic.paragraphIndex}`)}</span>
+          </div>
+          ${diagnostic.keys.length > 0 ? `<div class="right-rail-review-code">${reviewSurfaceEscapeHtml(diagnostic.keys.join(', '))}</div>` : ''}
+        </article>
+      `, '')
+    : '';
   const formattingReturnMarkup = formattingReturn
     ? `
       <div class="right-rail-review-state ${formattingReturn.replayVerified ? 'right-rail-review-state--info' : 'right-rail-review-state--manual'}">
-        <strong>${reviewSurfaceEscapeHtml(formattingReturn.replayVerified ? 'Форматирование применено' : 'Форматирование из Word готово')}</strong>
-        <p>${reviewSurfaceEscapeHtml(`${formattingReturn.operationCount} операций в ${formattingReturn.sceneCount} сценах`)}</p>
+        <strong>${reviewSurfaceEscapeHtml(formattingReturn.replayVerified ? 'Форматирование применено' : formattingReturn.partial ? 'Безопасная часть готова' : 'Форматирование из Word готово')}</strong>
+        <p>${reviewSurfaceEscapeHtml(`${formattingReturn.operationCount} операций в ${formattingReturn.sceneCount} сценах${formattingReturn.diagnosticCount > 0 ? `, вручную: ${formattingReturn.diagnosticCount}` : ''}`)}</p>
         ${formattingReturn.code ? `<div class="right-rail-review-code">${reviewSurfaceEscapeHtml(formattingReturn.code)}</div>` : ''}
       </div>
+      ${formattingDiagnosticsMarkup}
       <div class="right-rail-review-actions">
         <button
           type="button"
@@ -2450,10 +2479,26 @@ function renderReviewSurfaceMarkup(viewModel) {
           data-review-apply-formatting-return
           aria-label="Применить форматирование из Word"
           ${!formattingReturn.ready || formattingReturn.replayVerified ? 'disabled aria-disabled="true"' : ''}
-        >${reviewSurfaceEscapeHtml(formattingReturn.replayVerified ? 'Применено' : 'Применить форматирование')}</button>
+        >${reviewSurfaceEscapeHtml(formattingReturn.replayVerified ? 'Применено' : formattingReturn.partial ? 'Применить безопасную часть' : 'Применить форматирование')}</button>
+        <button
+          type="button"
+          class="right-rail-review-apply-button"
+          data-review-inspect-formatting-replay
+          aria-label="Проверить сохраненное форматирование после повторного открытия"
+        >Проверить повтор</button>
       </div>
     `
-    : '<div class="tree__empty">Нет безопасного форматирования для применения.</div>';
+    : `
+      <div class="tree__empty">Нет безопасного форматирования для применения.</div>
+      <div class="right-rail-review-actions">
+        <button
+          type="button"
+          class="right-rail-review-apply-button"
+          data-review-inspect-formatting-replay
+          aria-label="Проверить сохраненное форматирование после повторного открытия"
+        >Проверить повтор</button>
+      </div>
+    `;
   const receiptMarkup = viewModel.receipt
     ? `
       <div class="right-rail-form-grid">
@@ -16681,6 +16726,34 @@ function setReviewFormattingEditorLock(locked) {
 async function handleReviewSurfaceExactTextApplyClick(event) {
   const target = event?.target;
   if (!(target instanceof Element) || !(reviewSurfaceHost instanceof HTMLElement)) return;
+  const replayInspectButton = target.closest('[data-review-inspect-formatting-replay]');
+  if (replayInspectButton instanceof HTMLButtonElement && reviewSurfaceHost.contains(replayInspectButton)) {
+    if (replayInspectButton.disabled) return;
+    replayInspectButton.disabled = true;
+    let bridgeResult = null;
+    try {
+      bridgeResult = await invokePreloadUiCommandBridge(
+        REVIEW_SURFACE_FORMATTING_REPLAY_INSPECT_COMMAND_ID,
+        { requestId: `review-formatting-replay-${Date.now()}` },
+      );
+    } catch (error) {
+      updateStatusText(error && typeof error.message === 'string'
+        ? error.message
+        : 'Не удалось проверить сохраненное форматирование');
+      replayInspectButton.disabled = false;
+      return;
+    }
+    const commandResult = reviewSurfaceUnwrapCommandResult(bridgeResult);
+    if (reviewSurfaceIsPlainObject(commandResult?.reviewSurface)) {
+      setReviewSurfaceState(commandResult.reviewSurface);
+    } else {
+      replayInspectButton.disabled = false;
+    }
+    updateStatusText(commandResult?.replayVerified === true
+      ? 'Сохраненное форматирование подтверждено после повторного открытия'
+      : reviewSurfaceExtractCommandFailureReason(bridgeResult) || 'Сохраненное форматирование требует восстановления');
+    return;
+  }
   const formattingButton = target.closest('[data-review-apply-formatting-return]');
   if (formattingButton instanceof HTMLButtonElement && reviewSurfaceHost.contains(formattingButton)) {
     if (formattingButton.disabled) return;

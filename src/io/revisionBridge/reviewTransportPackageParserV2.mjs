@@ -1294,11 +1294,21 @@ function formattingToggleAction(children, localName) {
     : { action: 'set', value: true };
 }
 
+function formattingUnderlineAction(children) {
+  const token = children.find((item) => item.localName === 'u');
+  if (!token) return null;
+  const value = attr(token, 'val').trim().toLowerCase();
+  if (['0', 'false', 'off', 'none'].includes(value)) return { action: 'remove' };
+  if (!value || value === 'single') return { action: 'set', value: true };
+  return null;
+}
+
 function formattingColorAction(children) {
   const token = children.find((item) => item.localName === 'color');
   if (!token) return null;
   const value = attr(token, 'val').trim();
-  if (!value || ['auto', 'none'].includes(value.toLowerCase())) return { action: 'remove' };
+  if (!value) return null;
+  if (['auto', 'none'].includes(value.toLowerCase())) return { action: 'remove' };
   return /^[A-Fa-f0-9]{6}$/u.test(value)
     ? { action: 'set', value: `#${value.toLowerCase()}` }
     : null;
@@ -1333,11 +1343,21 @@ function formattingHighlightAction(children) {
     : null;
 }
 
+function formattingShadingAction(children) {
+  const token = children.find((item) => item.localName === 'shd');
+  if (!token) return null;
+  const fill = attr(token, 'fill').trim();
+  if (!fill || ['auto', 'none', 'nil'].includes(fill.toLowerCase())) return { action: 'remove' };
+  return /^[A-Fa-f0-9]{6}$/u.test(fill)
+    ? { action: 'set', value: `#${fill.toLowerCase()}` }
+    : null;
+}
+
 function formattingFontAction(children) {
   const token = children.find((item) => item.localName === 'rFonts');
   if (!token) return null;
   const values = ['ascii', 'hAnsi', 'eastAsia', 'cs'].map((name) => attr(token, name).trim()).filter(Boolean);
-  if (values.length === 0) return { action: 'remove' };
+  if (values.length === 0) return null;
   const unique = [...new Set(values)];
   return unique.length === 1 && unique[0].length <= 128
     ? { action: 'set', value: unique[0] }
@@ -1360,14 +1380,24 @@ function formattingSizeAction(children) {
 
 function formattingInlineActions(children) {
   const inline = {};
-  for (const [key, localName] of [['bold', 'b'], ['italic', 'i'], ['underline', 'u'], ['strike', 'strike']]) {
+  for (const [key, localName] of [['bold', 'b'], ['italic', 'i'], ['strike', 'strike']]) {
     const action = formattingToggleAction(children, localName);
     if (action) inline[key] = action;
   }
+  const underline = formattingUnderlineAction(children);
+  if (underline) inline.underline = underline;
   const color = formattingColorAction(children);
   if (color) inline.color = color;
   const highlight = formattingHighlightAction(children);
   if (highlight) inline.highlight = highlight;
+  const shading = formattingShadingAction(children);
+  if (shading) {
+    if (inline.highlight && JSON.stringify(inline.highlight) !== JSON.stringify(shading)) {
+      inline.highlightConflict = true;
+    } else {
+      inline.highlight = shading;
+    }
+  }
   const fontFamily = formattingFontAction(children);
   if (fontFamily) inline.fontFamily = fontFamily;
   const fontSize = formattingSizeAction(children);
@@ -1391,6 +1421,23 @@ function formattingParagraphState(children) {
     if (['left', 'center', 'right', 'justify'].includes(value)) state.textAlign = value;
   }
   return state;
+}
+
+function formattingParagraphActions(children) {
+  const state = formattingParagraphState(children);
+  return Object.hasOwn(state, 'textAlign')
+    ? { textAlign: { action: 'set', value: state.textAlign } }
+    : {};
+}
+
+function formattingParagraphStructure(children) {
+  const outline = children.find((item) => item.localName === 'outlineLvl');
+  if (!outline) return { nodeType: 'paragraph' };
+  const value = attr(outline, 'val').trim();
+  if (!/^\d$/u.test(value)) return null;
+  const outlineLevel = Number(value);
+  if (!Number.isSafeInteger(outlineLevel) || outlineLevel < 0 || outlineLevel > 5) return null;
+  return { nodeType: 'heading', headingLevel: outlineLevel + 1 };
 }
 
 export function extractReviewTransportFormattingRunsV2(documentXml, options = {}) {
@@ -1438,10 +1485,13 @@ export function extractReviewTransportFormattingRunsV2(documentXml, options = {}
       ? childTokensWithin(documentScan, paragraphProperties).filter((token) => token.namespaceUri === W_NS)
       : [];
     const paragraphSemanticNames = [...new Set(paragraphPropertyChildren.map((token) => token.localName))];
-    const unsupportedParagraphNames = paragraphSemanticNames.filter((name) => name !== 'jc');
+    const unsupportedParagraphNames = paragraphSemanticNames.filter((name) => !['jc', 'outlineLvl'].includes(name));
     const paragraphState = formattingParagraphState(paragraphPropertyChildren);
+    const paragraphActions = formattingParagraphActions(paragraphPropertyChildren);
+    const paragraphStructure = formattingParagraphStructure(paragraphPropertyChildren);
     const paragraphFormattingInvalid = paragraphSemanticNames.includes('jc')
       && !Object.hasOwn(paragraphState, 'textAlign');
+    const paragraphStructureInvalid = paragraphSemanticNames.includes('outlineLvl') && paragraphStructure === null;
     const runs = documentScan.tokens
       .filter((token) => (
         token.localName === 'r'
@@ -1466,7 +1516,7 @@ export function extractReviewTransportFormattingRunsV2(documentXml, options = {}
         ? childTokensWithin(documentScan, properties).filter((token) => token.namespaceUri === W_NS)
         : [];
       const semanticNames = [...new Set(children.map((token) => token.localName))];
-      const supportedNames = new Set(['b', 'i', 'u', 'strike', 'color', 'highlight', 'rFonts', 'sz', 'szCs']);
+      const supportedNames = new Set(['b', 'i', 'u', 'strike', 'color', 'highlight', 'shd', 'rFonts', 'sz', 'szCs']);
       const unsupportedNames = semanticNames.filter((name) => !supportedNames.has(name));
       const inline = formattingInlineActions(children);
       const expectedActionKeys = [
@@ -1474,11 +1524,13 @@ export function extractReviewTransportFormattingRunsV2(documentXml, options = {}
           .filter(([name]) => semanticNames.includes(name))
           .map(([, key]) => key),
         ...(semanticNames.includes('color') ? ['color'] : []),
-        ...(semanticNames.includes('highlight') ? ['highlight'] : []),
+        ...(semanticNames.includes('highlight') || semanticNames.includes('shd') ? ['highlight'] : []),
         ...(semanticNames.includes('rFonts') ? ['fontFamily'] : []),
         ...(semanticNames.includes('sz') || semanticNames.includes('szCs') ? ['fontSize'] : []),
       ];
-      const invalidSupportedValue = expectedActionKeys.some((key) => !Object.hasOwn(inline, key));
+      const invalidSupportedValue = expectedActionKeys.some((key) => !Object.hasOwn(inline, key))
+        || inline.highlightConflict === true;
+      delete inline.highlightConflict;
       formattedRuns.push({
         from,
         to,
@@ -1498,8 +1550,10 @@ export function extractReviewTransportFormattingRunsV2(documentXml, options = {}
       textId: attr(paragraph, 'textId'),
       bookmarkNames: bookmarks,
       paragraphState,
+      paragraphActions,
+      paragraphStructure: paragraphStructure || {},
       unsupportedParagraphNames,
-      paragraphFormattingInvalid,
+      paragraphFormattingInvalid: paragraphFormattingInvalid || paragraphStructureInvalid,
       formattedRuns,
     });
   }

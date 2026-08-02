@@ -6406,7 +6406,7 @@
     },
     {
       "filePath": "src/export/docx/docxReviewPacketBuilder.js",
-      "sha256": "c90234c7941aaa57004f6efac18ee96fc7f2cbcdd7cd7526ad0ed4258a68b3d8",
+      "sha256": "e3f54e94f8e83dc9fc2cf44bbae8fda19c65c7ccc65626ec87fcf5d940b682c2",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
       "approvedAtUtc": "2026-08-02T10:57:50.000Z",
       "rationale": "Approve the exact DOCX adapter bytes emitting bounded direct FormatIR run and paragraph formatting plus hard breaks from authenticated canonical source; no import writer authority, dependency, network, or terminal certification claim.",
@@ -6422,7 +6422,7 @@
     },
     {
       "filePath": "src/export/docx/fullManuscriptDocxReviewPacketSource.js",
-      "sha256": "2612f720ea6a6011e0e40b8d35558acb79024b2a034db38a1268b084600342fa",
+      "sha256": "4a809155777f1dbbff03df8b605477c3799873851e7a0cfe2b60ff5b81b35643",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
       "approvedAtUtc": "2026-08-02T10:57:50.000Z",
       "rationale": "Approve the exact full-manuscript source projection bytes deriving closed rich FormatIR, observable scene hashes, stable ordered blocks, and fail-closed unsupported content; physical Word and full-book certification remain pending.",
@@ -6449,7 +6449,7 @@
     },
     {
       "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "e6891b5a3114440836ef7340721f6d06b4846569b346e4864c5979e1a9daad92",
+      "sha256": "4a4c9f35c5a9786a12fe3e6be6e68dc824541b1b3b5a293fd39d74926595ebdd",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
       "approvedAtUtc": "2026-08-02T10:57:50.000Z",
       "rationale": "Approve the exact revision-bridge bytes deriving authenticated FormatIR deltas with locator, scene revision, observable hash, unsupported-style rejection, and typed safe-apply classification; no automatic mutation or false EXACT claim.",
@@ -6589,7 +6589,7 @@
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportFormattingReturnRuntime.mjs",
-      "sha256": "d58cc93083a1f408e7a3ca8d3d0326d0354e747e50a22a1ef9bb4560d7836082",
+      "sha256": "e5826dd533be55d22b8f929aad515dd9c512898b47e02af76bdbba047f5b9c8b",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
       "approvedAtUtc": "2026-08-02T10:57:50.000Z",
       "rationale": "Approve the exact N3 runtime bytes implementing main-authorized grapheme-safe formatting transforms, interprocess project lease, immutable effect indexes, atomic multi-scene transaction, rollback, startup recovery, readback, stale-source rejection, path-retarget rejection, and replay; physical Word certification remains pending.",
@@ -6598,7 +6598,7 @@
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportPackageParserV2.mjs",
-      "sha256": "96596e01667d72484780ce5d2bb6518ef938c7750038742d307328a26859336f",
+      "sha256": "c74aaf8ad8db05dab4fb7412fb032fc25cef863c20f8ae7062b8d8c7b75a44c8",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
       "approvedAtUtc": "2026-08-02T10:57:50.000Z",
       "rationale": "Approve the exact package parser bytes collecting bounded direct run and paragraph formatting evidence while rejecting inherited, unsupported, malformed, or tracked formatting; parser grants no writer authority.",
@@ -6635,7 +6635,7 @@
     },
     {
       "filePath": "src/main.js",
-      "sha256": "c205d6b1da12121a4fabc7b5a43978788248325e0c2eeb96480342b3f86e6c91",
+      "sha256": "e01d4b331be5843d3b3c6cec6a51b992b0118ec049539fd78d19ae96d98bb9f9",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
       "approvedAtUtc": "2026-08-02T10:57:50.000Z",
       "rationale": "Approve the exact reconciled main-process bytes preserving Atlas R1-B while wiring N3 authenticated preview, explicit formatting decision, Command Surface Kernel apply, startup recovery, editor synchronization, and replay verification; no renderer-owned authority, secret persistence, network, or certification claim.",
@@ -6683,7 +6683,7 @@
     },
     {
       "filePath": "src/renderer/editor.bundle.js",
-      "sha256": "636ee086bdec356c5e8694715287fd604753fc590a5af585b365bd1f82bbe987",
+      "sha256": "cf2fe131b81832acc4971ffe18b282a53ad8dab799aadf4302c0f2ef04b74433",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
       "approvedAtUtc": "2026-08-02T10:57:50.000Z",
       "rationale": "Approve the exact generated renderer bundle corresponding to the audited N3 editor source and existing toolchain; no independent source authority, framework, dependency, network, or visual redesign.",
@@ -6692,7 +6692,7 @@
     },
     {
       "filePath": "src/renderer/editor.js",
-      "sha256": "30ba342605672a83c0ba97eaacbd24368322e543f55170e536a0b850160ab1ab",
+      "sha256": "2f3c08922ed956c64ac19e6a68999d5d751f83228f3c350579c62eabe99a1a60",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
       "approvedAtUtc": "2026-08-02T10:57:50.000Z",
       "rationale": "Approve the exact renderer binding bytes adding one visible explicit N3 apply control and real status rendering through the existing preload command bridge; no renderer writer, new framework, style-system change, dependency, network, or physical certification claim.",
@@ -7776,10 +7776,10 @@
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-full-manuscript-product-export.contract.test.js",
-      "sha256": "44f85afa97733bde72716ba5dcff54c16e4767cf4ba5fae23889a9e20b9fdbc3",
+      "sha256": "d269486e55227282ab349412f2a2545680d3dc0de9b8f610a9856071202c17d8",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
-      "approvedAtUtc": "2026-08-02T10:57:50.000Z",
-      "rationale": "Approve the exact full-manuscript export contract bytes proving rich FormatIR and observable scene hashes are carried by the existing authenticated product export; C5 physical and full-book certification remain explicitly pending.",
+      "approvedAtUtc": "2026-08-02T12:45:00.000Z",
+      "rationale": "Approve the exact strengthened product export contract bytes proving one-scene and multi-scene rich FormatIR portability for headings, links, arbitrary highlights, lists, blockquotes, code and rules; physical Word and full-corpus certification remain pending.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
     },
@@ -7834,10 +7834,10 @@
     },
     {
       "filePath": "test/contracts/rtk-word-n3-formatting-return.contract.test.js",
-      "sha256": "68b6c5264cffc8f226aeab9b87cdcbe4276c9a9cf4608bf207d46092c6b9fe05",
+      "sha256": "86d961d4799394bb477d8bc9084027ef101489ff48e3dab5d6bee4bb9bcd7aa1",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
-      "approvedAtUtc": "2026-08-02T10:57:50.000Z",
-      "rationale": "Approve the exact bounded N3 contract family covering FormatIR fidelity, stale authority, grapheme safety, interprocess lease, atomic multi-scene apply, killpoint recovery, path-retarget rejection, UI command reachability, reopen readback, and replay; physical Word proof and terminal certification remain pending.",
+      "approvedAtUtc": "2026-08-02T12:45:00.000Z",
+      "rationale": "Approve the exact strengthened N3 contract family covering effective-style fail-close, conflicting native locators, source revision binding, atomic rename CAS, concurrent edit preservation, path-swap rejection, persisted replay inspection and visible UI reachability; physical Word proof and terminal certification remain pending.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
     },

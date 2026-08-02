@@ -3787,8 +3787,8 @@ async function readFullManuscriptDocxReviewPacketExportSource() {
   }
   const scope = await buildFullManuscriptDocxReviewExportScope();
   const sceneCandidates = Array.isArray(scope?.sceneCandidates) ? scope.sceneCandidates : [];
-  if (sceneCandidates.length < 2) {
-    throw new Error('REVIEW_FULL_MANUSCRIPT_DOCX_EXPORT_MULTI_SCENE_PROJECT_REQUIRED');
+  if (sceneCandidates.length < 1) {
+    throw new Error('REVIEW_FULL_MANUSCRIPT_DOCX_EXPORT_SCENE_REQUIRED');
   }
   const projectId = docxReviewPreviewSessionDetailString(scope.projectId);
   if (!projectId) {
@@ -5141,22 +5141,41 @@ async function prepareDocxReviewPreviewSessionNonOverlapTrackedReplacementProduc
   };
 }
 
-function attachRtkFormattingReturnProductPreview({ input, candidates } = {}) {
+function sanitizeRtkFormattingReturnDiagnostics(diagnostics) {
+  return (Array.isArray(diagnostics) ? diagnostics : [])
+    .filter(isPlainObjectValue)
+    .slice(0, 64)
+    .map((diagnostic) => ({
+      code: docxReviewPreviewSessionDetailString(diagnostic.code),
+      sceneId: docxReviewPreviewSessionDetailString(diagnostic.sceneId),
+      blockId: docxReviewPreviewSessionDetailString(diagnostic.blockId),
+      paragraphIndex: Number.isSafeInteger(diagnostic.paragraphIndex) ? diagnostic.paragraphIndex : -1,
+      from: Number.isSafeInteger(diagnostic.from) ? diagnostic.from : -1,
+      to: Number.isSafeInteger(diagnostic.to) ? diagnostic.to : -1,
+      keys: Array.isArray(diagnostic.keys)
+        ? diagnostic.keys.map(docxReviewPreviewSessionDetailString).filter(Boolean).slice(0, 16)
+        : [],
+    }))
+    .filter((diagnostic) => diagnostic.code);
+}
+
+function attachRtkFormattingReturnProductPreview({ input, candidates, diagnostics } = {}) {
   if (
     activeReviewSessionLifecycle !== 'active'
     || !isPlainObjectValue(activeReviewSessionStore)
     || !isPlainObjectValue(input)
     || !Array.isArray(candidates)
-    || candidates.length === 0
   ) return {};
   const sessionToken = readRtkNonOverlapTrackedReplacementSessionToken(activeReviewSessionStore);
   if (!sessionToken.sessionId || !sessionToken.sourcePacketHash) return {};
-  activeRtkFormattingReturnApplyStore = {
-    schemaVersion: 'yalken.rtk.word.n3.main-owned-formatting-apply-store.v1',
-    sessionToken,
-    input: cloneJsonSafe(input),
-    writerAuthorityExposedToRenderer: false,
-  };
+  activeRtkFormattingReturnApplyStore = candidates.length > 0
+    ? {
+        schemaVersion: 'yalken.rtk.word.n3.main-owned-formatting-apply-store.v1',
+        sessionToken,
+        input: cloneJsonSafe(input),
+        writerAuthorityExposedToRenderer: false,
+      }
+    : null;
   const publicOperations = candidates.map((candidate) => ({
     operationId: docxReviewPreviewSessionDetailString(candidate.operationId),
     sceneId: docxReviewPreviewSessionDetailString(candidate.sceneId),
@@ -5173,12 +5192,22 @@ function attachRtkFormattingReturnProductPreview({ input, candidates } = {}) {
   const nextReviewSurface = isPlainObjectValue(nextSessionStore.reviewSurface)
     ? cloneJsonSafe(nextSessionStore.reviewSurface) || {}
     : {};
+  const publicDiagnostics = sanitizeRtkFormattingReturnDiagnostics(diagnostics);
+  const previewStatus = publicOperations.length === 0
+    ? 'manual'
+    : (publicDiagnostics.length > 0 ? 'partial' : 'ready');
   nextReviewSurface.formattingReturnPreview = {
     schemaVersion: 'yalken.rtk.word.n3.formatting-return-preview.v1',
-    status: 'ready',
-    code: 'RTK_FORMATTING_RETURN_USER_DECISION_READY',
+    status: previewStatus,
+    code: previewStatus === 'partial'
+      ? 'RTK_FORMATTING_RETURN_SAFE_SUBSET_USER_DECISION_READY'
+      : previewStatus === 'ready'
+        ? 'RTK_FORMATTING_RETURN_USER_DECISION_READY'
+        : 'RTK_FORMATTING_RETURN_MANUAL_REVIEW_REQUIRED',
     operationCount: publicOperations.length,
     sceneCount: new Set(publicOperations.map((operation) => operation.sceneId)).size,
+    diagnosticCount: publicDiagnostics.length,
+    diagnostics: publicDiagnostics,
     operations: publicOperations,
     applyCommandId: 'cmd.project.review.applyFormattingReturn',
     writerCalled: false,
@@ -5215,7 +5244,7 @@ function prepareAuthenticatedDocxFormattingReturnProductPath({
     fullManuscriptExportMap,
     cryptoPort: createRtkReviewTransportCryptoPort(),
   });
-  if (!isPlainObjectValue(extracted) || extracted.status !== 'ready' || !Array.isArray(extracted.candidates)) {
+  if (!isPlainObjectValue(extracted) || !Array.isArray(extracted.candidates)) {
     return {
       prepared: false,
       status: 'diagnostics',
@@ -5236,14 +5265,25 @@ function prepareAuthenticatedDocxFormattingReturnProductPath({
     operations: cloneJsonSafe(extracted.candidates),
     previewConfirmed: true,
   };
-  const reviewSurface = attachRtkFormattingReturnProductPreview({ input, candidates: extracted.candidates });
+  const diagnostics = Array.isArray(extracted.diagnostics) ? extracted.diagnostics : [];
+  const reviewSurface = attachRtkFormattingReturnProductPreview({
+    input,
+    candidates: extracted.candidates,
+    diagnostics,
+  });
   return {
-    prepared: true,
-    status: 'preview-ready',
-    code: 'RTK_FORMATTING_RETURN_PRODUCT_PATH_READY',
+    prepared: extracted.candidates.length > 0,
+    status: extracted.candidates.length > 0
+      ? (diagnostics.length > 0 ? 'partial-preview-ready' : 'preview-ready')
+      : 'diagnostics',
+    code: extracted.candidates.length > 0
+      ? (diagnostics.length > 0
+          ? 'RTK_FORMATTING_RETURN_SAFE_SUBSET_PRODUCT_PATH_READY'
+          : 'RTK_FORMATTING_RETURN_PRODUCT_PATH_READY')
+      : 'RTK_FORMATTING_RETURN_NO_SAFE_CANDIDATES',
     candidateCount: extracted.candidates.length,
     sceneCount: new Set(extracted.candidates.map((candidate) => candidate.sceneId)).size,
-    diagnosticCount: Array.isArray(extracted.diagnostics) ? extracted.diagnostics.length : 0,
+    diagnosticCount: diagnostics.length,
     writerCalled: false,
     rendererAuthority: false,
     reviewSurface,
@@ -5297,6 +5337,60 @@ function attachRtkFormattingReturnProductResult(result, replay) {
   currentReviewSurfacePayloadSource = 'session';
   currentReviewSurfacePayloadContentHash = '';
   return readActiveReviewSessionReviewSurface();
+}
+
+function attachRtkFormattingReturnReplayInspection(inspected) {
+  const replaySnapshot = isPlainObjectValue(inspected?.replaySnapshot)
+    ? inspected.replaySnapshot
+    : {};
+  const latestReceipt = isPlainObjectValue(replaySnapshot.latestReceipt)
+    ? replaySnapshot.latestReceipt
+    : null;
+  const existingSurface = activeReviewSessionLifecycle === 'active'
+    && isPlainObjectValue(activeReviewSessionStore?.reviewSurface)
+    ? cloneJsonSafe(activeReviewSessionStore.reviewSurface) || {}
+    : cloneJsonSafe(currentReviewSurfacePayload) || {};
+  existingSurface.formattingReturnPreview = {
+    ...(isPlainObjectValue(existingSurface.formattingReturnPreview)
+      ? existingSurface.formattingReturnPreview
+      : {}),
+    schemaVersion: 'yalken.rtk.word.n3.formatting-return-preview.v1',
+    status: replaySnapshot.status === 'empty' ? 'empty' : 'replayed',
+    code: docxReviewPreviewSessionDetailString(inspected?.code),
+    operationCount: Array.isArray(latestReceipt?.operationIds) ? latestReceipt.operationIds.length : 0,
+    sceneCount: Array.isArray(latestReceipt?.scenes) ? latestReceipt.scenes.length : 0,
+    operations: [],
+    writerCalled: false,
+    rendererAuthority: false,
+  };
+  existingSurface.formattingReturnResult = {
+    ok: inspected?.ok === true && replaySnapshot.replayVerified === true,
+    status: docxReviewPreviewSessionDetailString(replaySnapshot.status),
+    code: docxReviewPreviewSessionDetailString(inspected?.code),
+    writerCalled: false,
+    applied: Boolean(latestReceipt),
+    replayVerified: replaySnapshot.replayVerified === true,
+    stateGeneration: Number.isSafeInteger(replaySnapshot.stateGeneration)
+      ? replaySnapshot.stateGeneration
+      : 0,
+    stateDigest: docxReviewPreviewSessionDetailString(replaySnapshot.stateDigest),
+    sceneReadback: Array.isArray(replaySnapshot.sceneReadback)
+      ? replaySnapshot.sceneReadback.map((item) => ({
+          sceneId: docxReviewPreviewSessionDetailString(item?.sceneId),
+          matchesAfter: item?.matchesAfter === true,
+        }))
+      : [],
+  };
+  currentReviewSurfacePayload = existingSurface;
+  currentReviewSurfacePayloadSource = 'formatting-replay-inspection';
+  currentReviewSurfacePayloadContentHash = '';
+  if (activeReviewSessionLifecycle === 'active' && isPlainObjectValue(activeReviewSessionStore)) {
+    activeReviewSessionStore = {
+      ...activeReviewSessionStore,
+      reviewSurface: cloneJsonSafe(existingSurface),
+    };
+  }
+  return cloneJsonSafe(existingSurface) || {};
 }
 
 function summarizeDocxReviewPreviewSessionCandidate(candidate = {}) {
@@ -16609,31 +16703,72 @@ async function handleRtkFormattingReturnCommandSurface(payload = {}) {
   })(payload);
 }
 
+async function buildRtkFormattingReturnRuntimeProjectScope() {
+  const scope = await buildFullManuscriptDocxReviewExportScope();
+  return {
+    projectId: docxReviewPreviewSessionDetailString(scope?.projectId),
+    projectRoot: docxReviewPreviewSessionDetailString(scope?.projectRoot) || getProjectRootPath(),
+    scenePathBySceneId: Object.fromEntries(
+      (Array.isArray(scope?.sceneCandidates) ? scope.sceneCandidates : [])
+        .filter((candidate) => (
+          candidate
+          && typeof candidate.sceneId === 'string'
+          && candidate.sceneId.trim()
+          && typeof candidate.path === 'string'
+          && candidate.path.trim()
+        ))
+        .map((candidate) => [candidate.sceneId.replace(/\\/g, '/'), candidate.path]),
+    ),
+    startupSingleInstanceAuthority: true,
+  };
+}
+
+async function handleReviewSurfaceInspectFormattingReturnReplayCommandSurface(payload = {}) {
+  const unsupportedKeys = Object.keys(isPlainObjectValue(payload) ? payload : {})
+    .filter((key) => !['requestId'].includes(key));
+  if (!isPlainObjectValue(payload) || unsupportedKeys.length > 0) {
+    return makeReviewMutateTypedError(
+      'cmd.project.review.inspectFormattingReturnReplay',
+      'E_RTK_FORMATTING_REPLAY_UI_PAYLOAD_INVALID',
+      'RTK_FORMATTING_REPLAY_UI_PAYLOAD_INVALID',
+      { unsupportedKeys },
+    );
+  }
+  const module = await loadRtkFormattingReturnModule();
+  if (!module || typeof module.inspectFormattingReturnRuntimeState !== 'function') {
+    return makeReviewMutateTypedError(
+      'cmd.project.review.inspectFormattingReturnReplay',
+      'E_RTK_FORMATTING_REPLAY_INSPECTOR_UNAVAILABLE',
+      'RTK_FORMATTING_REPLAY_INSPECTOR_UNAVAILABLE',
+    );
+  }
+  const inspected = await module.inspectFormattingReturnRuntimeState(
+    await buildRtkFormattingReturnRuntimeProjectScope(),
+    { cryptoPort: createRtkReviewTransportCryptoPort() },
+  );
+  const reviewSurface = attachRtkFormattingReturnReplayInspection(inspected);
+  return {
+    ok: inspected?.ok === true,
+    type: 'yalken.rtk.formattingReturnReplayInspection',
+    status: docxReviewPreviewSessionDetailString(inspected?.status),
+    code: docxReviewPreviewSessionDetailString(inspected?.code),
+    replayVerified: inspected?.replaySnapshot?.replayVerified === true,
+    writerCalled: false,
+    reviewSurface,
+  };
+}
+
 async function reconcileReviewFormattingReturnAtStartup() {
   const module = await loadRtkFormattingReturnModule();
   if (!module || typeof module.reconcileFormattingReturnRuntimeAtStartup !== 'function') {
     throw new Error('RTK_FORMATTING_STARTUP_RECOVERY_HANDLER_UNAVAILABLE');
   }
-  const scope = await buildFullManuscriptDocxReviewExportScope();
-  const scenePathBySceneId = Object.fromEntries(
-    (Array.isArray(scope?.sceneCandidates) ? scope.sceneCandidates : [])
-      .filter((candidate) => (
-        candidate
-        && typeof candidate.sceneId === 'string'
-        && candidate.sceneId.trim()
-        && typeof candidate.path === 'string'
-        && candidate.path.trim()
-      ))
-      .map((candidate) => [candidate.sceneId.replace(/\\/g, '/'), candidate.path]),
-  );
-  const result = await module.reconcileFormattingReturnRuntimeAtStartup({
-    projectId: docxReviewPreviewSessionDetailString(scope?.projectId),
-    projectRoot: docxReviewPreviewSessionDetailString(scope?.projectRoot) || getProjectRootPath(),
-    scenePathBySceneId,
-    startupSingleInstanceAuthority: true,
-  }, {
+  const result = await module.reconcileFormattingReturnRuntimeAtStartup(
+    await buildRtkFormattingReturnRuntimeProjectScope(),
+    {
     cryptoPort: createRtkReviewTransportCryptoPort(),
-  });
+    },
+  );
   if (!result || result.ok !== true) {
     const error = new Error(
       docxReviewPreviewSessionDetailString(result?.code || result?.reason)
@@ -16643,6 +16778,7 @@ async function reconcileReviewFormattingReturnAtStartup() {
       || 'RTK_FORMATTING_STARTUP_RECOVERY_FAILED';
     throw error;
   }
+  attachRtkFormattingReturnReplayInspection(result);
   return result;
 }
 
@@ -24603,6 +24739,7 @@ const UI_COMMAND_BRIDGE_ALLOWED_COMMAND_IDS = new Set([
   'cmd.project.review.applyExactTextChange',
   'cmd.project.review.applyExactTextChangesBatch',
   'cmd.project.review.applyFormattingReturn',
+  'cmd.project.review.inspectFormattingReturnReplay',
   'cmd.project.review.reloadReconciledScene',
   'cmd.project.review.cancelOperation',
   'cmd.project.review.inspectDocxIntakeGate',
@@ -24989,6 +25126,9 @@ const MENU_COMMAND_HANDLERS = Object.freeze({
   },
   'cmd.project.review.applyFormattingReturn': async (payload = {}) => {
     return handleReviewSurfaceApplyFormattingReturnCommandSurface(payload);
+  },
+  'cmd.project.review.inspectFormattingReturnReplay': async (payload = {}) => {
+    return handleReviewSurfaceInspectFormattingReturnReplayCommandSurface(payload);
   },
   'cmd.project.review.reloadReconciledScene': async (payload = {}) => {
     return handleReviewExactTextReloadReconciledSceneCommandSurface(payload);

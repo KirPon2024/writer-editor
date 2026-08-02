@@ -7,6 +7,7 @@ const vm = require('node:vm');
 const crypto = require('node:crypto');
 const { deflateRawSync } = require('node:zlib');
 const { pathToFileURL } = require('node:url');
+const { createDocxActivationRequestDigestGuard } = require('../../src/main/rtkDocxActivationGuards.cjs');
 
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
 const MAIN_PATH = path.join(REPO_ROOT, 'src', 'main.js');
@@ -111,6 +112,8 @@ function instantiateDocxReviewPreviewSessionPort(options = {}) {
   const menuCommandHandlersSection = extractMenuCommandHandlersSection(mainSource);
   const runtimeCommands = [];
   const sandbox = {
+    activeDocxActivationRequestDigestGuard: options.activeDocxActivationRequestDigestGuard
+      || createDocxActivationRequestDigestGuard(),
     activeReviewSessionStore: null,
     activeReviewSessionLifecycle: 'passive',
     autoSaveInProgress: false,
@@ -125,11 +128,13 @@ function instantiateDocxReviewPreviewSessionPort(options = {}) {
     cloneJsonSafe,
     computeHash,
     fs: options.fs || { readFile: async () => 'Anchored text' },
+    fsSync: options.fsSync || { readFileSync: () => 'Anchored text' },
     getDocumentContextFromPath: options.getDocumentContextFromPath || (() => ({ kind: 'scene' })),
     getProjectRelativeFilePath: options.getProjectRelativeFilePath || (() => 'roman/imported/scene-1.txt'),
     hasReviewSurfacePayload,
     isAllowedFilePath: options.isAllowedFilePath || (() => true),
     isPlainObjectValue,
+    isPathInsideBoundary: options.isPathInsideBoundary || (() => true),
     loadRevisionBridgeModule: typeof options.loadRevisionBridgeModule === 'function'
       ? options.loadRevisionBridgeModule
       : loadBridge,
@@ -145,6 +150,8 @@ function instantiateDocxReviewPreviewSessionPort(options = {}) {
       manifestPath: '/project/manifest.json',
       projectRoot: '/project',
     })),
+    verifyFullManuscriptCurrentSceneBindings: options.verifyFullManuscriptCurrentSceneBindings
+      || (() => ({ ok: true, status: 'verified', sceneCount: 1, sceneReadback: [] })),
     runtimeCommands,
     sendCanonicalRuntimeCommand(commandId, payload = {}, legacyCommand = '') {
       runtimeCommands.push({ commandId, payload, legacyCommand });

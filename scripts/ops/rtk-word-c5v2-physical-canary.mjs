@@ -12,6 +12,10 @@ import {
   validateC5V2SemanticOracle,
 } from './rtk-word-c5v2-semantic-oracle.mjs';
 import { buildC5V2Ledger } from './rtk-word-c5v2-ledger-engine.mjs';
+import {
+  buildC5V2NegativeProbePlan,
+  materializeC5V2NegativeForks,
+} from './rtk-word-c5v2-negative-forks.mjs';
 import { resolveWordHostLocalQaWorkRoot } from './rtk-word-sandbox-work-root.mjs';
 import { parseObservablePayload } from '../../src/renderer/documentContentEnvelope.mjs';
 
@@ -1308,7 +1312,15 @@ export function parseMacosAccessibilityPreflightOutput(output, expectedFrontDocu
   });
 }
 
-function createFullManuscriptExportChildSource({ tempRoot, outPath, returnedPath, returnedReadyPath, scenes, rounds = null }) {
+export function createFullManuscriptExportChildSource({
+  tempRoot,
+  outPath,
+  returnedPath,
+  returnedReadyPath,
+  scenes,
+  rounds = null,
+  negativeCampaign = null,
+}) {
   const childRounds = Array.isArray(rounds) && rounds.length > 0
     ? rounds
     : [{
@@ -1330,6 +1342,7 @@ const { app, BrowserWindow, dialog, Menu, session } = require('electron');
 const rootDir = ${JSON.stringify(REPO_ROOT)};
 const tempRoot = ${JSON.stringify(tempRoot)};
 const rounds = ${JSON.stringify(childRounds)};
+const negativeCampaign = ${JSON.stringify(negativeCampaign && typeof negativeCampaign === 'object' ? negativeCampaign : null)};
 let activeRound = rounds[0] || null;
 const scenes = ${JSON.stringify(scenes.map((scene) => ({
   file: scene.file,
@@ -2139,6 +2152,269 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
     },
   };
 }
+function sha256ChildBuffer(value) {
+  return 'sha256:' + crypto.createHash('sha256').update(Buffer.from(value || [])).digest('hex');
+}
+function stableChildJson(value) {
+  if (Array.isArray(value)) return '[' + value.map((item) => stableChildJson(item)).join(',') + ']';
+  if (value && typeof value === 'object') {
+    return '{' + Object.keys(value).sort().map((key) => JSON.stringify(key) + ':' + stableChildJson(value[key])).join(',') + '}';
+  }
+  return JSON.stringify(value);
+}
+function writeChildFileAtomicDurable(filePath, bytes) {
+  const dir = path.dirname(filePath);
+  fs.mkdirSync(dir, { recursive: true });
+  const tempPath = path.join(dir, '.' + path.basename(filePath) + '.' + process.pid + '.' + crypto.randomBytes(8).toString('hex') + '.tmp');
+  const fd = fs.openSync(tempPath, 'wx', 0o600);
+  try {
+    fs.writeFileSync(fd, bytes);
+    fs.fsyncSync(fd);
+  } finally {
+    fs.closeSync(fd);
+  }
+  fs.renameSync(tempPath, filePath);
+  const dirFd = fs.openSync(dir, 'r');
+  try { fs.fsyncSync(dirFd); } finally { fs.closeSync(dirFd); }
+}
+function captureNegativeProjectSnapshot() {
+  const sceneReadback = (global.productSceneContexts || []).map((context) => {
+    const rawContent = fs.readFileSync(context.nodePath, 'utf8');
+    return {
+      sceneId: context.relativePath,
+      rawContentSha256: sha256ChildText(rawContent),
+      bytes: Buffer.byteLength(rawContent, 'utf8'),
+    };
+  });
+  return {
+    sceneCount: sceneReadback.length,
+    sceneReadback,
+    digest: sha256ChildText(stableChildJson(sceneReadback)),
+  };
+}
+function findNegativeSceneContext(sceneId) {
+  const normalized = String(sceneId || '').replace(/\\\\/gu, '/');
+  return (global.productSceneContexts || []).find((context) => (
+    context
+    && (
+      context.relativePath === normalized
+      || context.sceneId === normalized
+      || String(context.nodePath || '').replace(/\\\\/gu, '/').endsWith('/' + normalized)
+    )
+  )) || null;
+}
+function negativeResultReason(result) {
+  if (!result || typeof result !== 'object') return '';
+  return String(
+    result.reason
+    || result.code
+    || result.error?.reason
+    || result.error?.code
+    || result.value?.reason
+    || result.value?.code
+    || '',
+  );
+}
+function negativeContainsWriterCalled(value, depth = 0) {
+  if (!value || typeof value !== 'object' || depth > 10 || Buffer.isBuffer(value)) return false;
+  if (value.writerCalled === true) return true;
+  return Object.values(value).some((item) => negativeContainsWriterCalled(item, depth + 1));
+}
+function negativeCandidateTotal(summary) {
+  const counts = summary?.reviewGraphCounts || {};
+  return Number(counts.textChanges || 0)
+    + Number(counts.commentThreads || 0)
+    + Number(counts.commentPlacements || 0)
+    + Number(counts.structuralChanges || 0)
+    + Number(summary?.formattingProductPath?.candidateCount || 0)
+    + Number(summary?.structuralProductPath?.candidateCount || 0);
+}
+function readNegativeArtifact(filePath, expectedSha256) {
+  if (!filePath || !fs.existsSync(filePath)) throw new Error('C5V2_NEGATIVE_ARTIFACT_MISSING:' + String(filePath || ''));
+  const bytes = fs.readFileSync(filePath);
+  const actualSha256 = sha256ChildBuffer(bytes);
+  if (expectedSha256 && actualSha256 !== expectedSha256) {
+    throw new Error('C5V2_NEGATIVE_ARTIFACT_HASH_MISMATCH:' + path.basename(filePath));
+  }
+  return bytes;
+}
+function isC5V2TypedNegativeRejection(probe, activation, activationSummary) {
+  const kind = String(probe?.kind || '');
+  if (activation?.ok !== true) return Boolean(negativeResultReason(activation));
+  if (kind === 'conflicting-overlap' || kind === 'wrong-scene') {
+    return activationSummary?.diagnosticOnly === true && negativeCandidateTotal(activationSummary) === 0;
+  }
+  return false;
+}
+async function runC5V2NegativeCampaign(win, config, baselineReturnApply) {
+  if (!config || typeof config !== 'object') throw new Error('C5V2_NEGATIVE_CAMPAIGN_CONFIG_REQUIRED');
+  const manifest = JSON.parse(fs.readFileSync(config.manifestPath, 'utf8'));
+  const probes = Array.isArray(manifest.probes) ? manifest.probes : [];
+  if (probes.length !== 40 || manifest.operationCount !== 40) {
+    throw new Error('C5V2_NEGATIVE_CAMPAIGN_PROBE_COUNT_INVALID:' + probes.length);
+  }
+  const checkpointDir = config.checkpointDir;
+  fs.mkdirSync(checkpointDir, { recursive: true });
+  const campaignBaseline = captureNegativeProjectSnapshot();
+  const firstSceneContext = (global.productSceneContexts || [])[0] || null;
+  const results = [];
+  let previousCheckpointDigest = sha256ChildText(stableChildJson({
+    manifestDigest: manifest.manifestDigest || '',
+    campaignBaselineDigest: campaignBaseline.digest,
+  }));
+  for (let index = 0; index < probes.length; index += 1) {
+    const probe = probes[index];
+    progress('negative-probe-start', { ordinal: index + 1, id: probe.id, kind: probe.kind, sceneId: probe.sceneId });
+    const before = captureNegativeProjectSnapshot();
+    let staleRestore = null;
+    let setup = {};
+    let firstActivation = null;
+    let secondActivation = null;
+    try {
+      if (probe.kind === 'stale-baseline') {
+        const context = findNegativeSceneContext(probe.sceneId);
+        if (!context) throw new Error('C5V2_NEGATIVE_STALE_SCENE_CONTEXT_MISSING:' + probe.id);
+        const originalBytes = fs.readFileSync(context.nodePath);
+        const staleMarker = Buffer.from('\\nC5V2_STALE_NEGATIVE_' + probe.id + '\\n', 'utf8');
+        const staleBytes = Buffer.concat([originalBytes, staleMarker]);
+        writeChildFileAtomicDurable(context.nodePath, staleBytes);
+        staleRestore = { path: context.nodePath, bytes: originalBytes };
+        setup = {
+          staleSceneId: context.relativePath,
+          canonicalSha256: sha256ChildBuffer(originalBytes),
+          staleSha256: sha256ChildBuffer(staleBytes),
+        };
+      }
+      const primaryBytes = readNegativeArtifact(probe.artifactPath, probe.artifactSha256);
+      if (probe.kind === 'replay-conflict' || probe.kind === 'duplicate-request-mutated-payload') {
+        firstActivation = await invokeUiCommand(win, 'cmd.project.review.activateDocxReviewPreviewSession', {
+          requestId: probe.requestKey,
+          bufferSource: primaryBytes.toString('base64'),
+        });
+        const mutatedBytes = readNegativeArtifact(probe.mutatedArtifactPath, probe.mutatedArtifactSha256);
+        secondActivation = await invokeUiCommand(win, 'cmd.project.review.activateDocxReviewPreviewSession', {
+          requestId: probe.requestKey,
+          bufferSource: mutatedBytes.toString('base64'),
+        });
+      } else {
+        secondActivation = await invokeUiCommand(win, 'cmd.project.review.activateDocxReviewPreviewSession', {
+          requestId: probe.requestKey,
+          bufferSource: primaryBytes.toString('base64'),
+        });
+      }
+    } finally {
+      if (staleRestore) writeChildFileAtomicDurable(staleRestore.path, staleRestore.bytes);
+      if (firstSceneContext) {
+        await invokeUiCommand(win, 'cmd.project.document.open', {
+          nodeId: firstSceneContext.nodeId,
+          sceneId: firstSceneContext.relativePath,
+        });
+      }
+    }
+    const after = captureNegativeProjectSnapshot();
+    const firstSummary = firstActivation ? summarizeActivation(firstActivation) : null;
+    const secondSummary = summarizeActivation(secondActivation);
+    const requestConflictKind = probe.kind === 'replay-conflict' || probe.kind === 'duplicate-request-mutated-payload';
+    const requestConflictGreen = !requestConflictKind || Boolean(
+      firstActivation?.ok === true
+      && firstActivation?.activated === true
+      && negativeCandidateTotal(firstSummary) === 0
+      && secondActivation?.ok !== true
+      && negativeResultReason(secondActivation) === 'RTK_DOCX_ACTIVATION_DUPLICATE_REQUEST_MUTATED_PAYLOAD'
+    );
+    const typedRejectGreen = requestConflictKind
+      ? requestConflictGreen
+      : isC5V2TypedNegativeRejection(probe, secondActivation, secondSummary);
+    const sceneHashGreen = before.digest === after.digest && after.digest === campaignBaseline.digest;
+    const noWriterGreen = !negativeContainsWriterCalled(firstActivation) && !negativeContainsWriterCalled(secondActivation);
+    const networkGreen = networkRequests.length === 0;
+    const result = {
+      schemaVersion: 'yalken.rtk.word.c5v2.negative-probe-result.v1',
+      ordinal: index + 1,
+      id: probe.id,
+      sceneId: probe.sceneId,
+      kind: probe.kind,
+      expectedOutcome: probe.expectedOutcome,
+      observedOutcome: typedRejectGreen && sceneHashGreen && noWriterGreen && networkGreen ? 'REJECT' : 'FAIL',
+      ok: typedRejectGreen && sceneHashGreen && noWriterGreen && networkGreen,
+      requestKey: probe.requestKey,
+      effectKey: probe.effectKey,
+      artifactSha256: probe.artifactSha256,
+      mutatedArtifactSha256: probe.mutatedArtifactSha256 || '',
+      mutation: probe.mutation || null,
+      setup,
+      before,
+      after,
+      typedRejectGreen,
+      requestConflictGreen,
+      sceneHashGreen,
+      noWriterGreen,
+      networkGreen,
+      firstActivation: firstSummary,
+      firstActivationReason: negativeResultReason(firstActivation),
+      rejection: secondSummary,
+      rejectionReason: negativeResultReason(secondActivation),
+      completedAtUtc: new Date().toISOString(),
+    };
+    const checkpoint = {
+      ...result,
+      headSha: config.headSha || '',
+      masterLedgerDigest: config.masterLedgerDigest || '',
+      manifestDigest: manifest.manifestDigest || '',
+      previousCheckpointDigest,
+    };
+    checkpoint.checkpointDigest = sha256ChildText(stableChildJson(checkpoint));
+    const checkpointPath = path.join(checkpointDir, probe.id + '.json');
+    const checkpointWritten = writeChildJsonAtomicDurable(checkpointPath, checkpoint);
+    previousCheckpointDigest = checkpoint.checkpointDigest;
+    results.push({ ...result, checkpointPath: checkpointWritten.path, checkpointSha256: checkpointWritten.sha256, checkpointDigest: checkpoint.checkpointDigest });
+    progress('negative-probe-complete', {
+      ordinal: index + 1,
+      id: probe.id,
+      kind: probe.kind,
+      ok: result.ok,
+      rejectionReason: result.rejectionReason,
+    });
+  }
+  const kindCounts = results.reduce((acc, item) => {
+    acc[item.kind] = (acc[item.kind] || 0) + 1;
+    return acc;
+  }, {});
+  const evidence = {
+    schemaVersion: 'yalken.rtk.word.c5v2.negative-campaign-evidence.v1',
+    headSha: config.headSha || '',
+    masterLedgerDigest: config.masterLedgerDigest || '',
+    manifestDigest: manifest.manifestDigest || '',
+    baselineArtifactSha256: manifest.baselineDocxSha256 || '',
+    baselineReturnApplyOk: baselineReturnApply?.ok === true,
+    campaignBaseline,
+    operationCount: results.length,
+    completedOperationIds: results.filter((item) => item.ok).map((item) => item.id),
+    rejectedCount: results.filter((item) => item.observedOutcome === 'REJECT').length,
+    failedCount: results.filter((item) => !item.ok).length,
+    kindCounts,
+    allSceneHashesStable: results.every((item) => item.sceneHashGreen),
+    allWriterFlagsFalse: results.every((item) => item.noWriterGreen),
+    networkRequests,
+    results,
+    terminalCheckpointDigest: previousCheckpointDigest,
+    createdAtUtc: new Date().toISOString(),
+  };
+  evidence.evidenceDigest = sha256ChildText(stableChildJson(evidence));
+  const written = writeChildJsonAtomicDurable(config.evidencePath, evidence);
+  return {
+    ok: evidence.operationCount === 40 && evidence.rejectedCount === 40 && evidence.failedCount === 0
+      && evidence.allSceneHashesStable && evidence.allWriterFlagsFalse && evidence.networkRequests.length === 0,
+    evidencePath: written.path,
+    evidenceSha256: written.sha256,
+    evidenceDigest: evidence.evidenceDigest,
+    operationCount: evidence.operationCount,
+    rejectedCount: evidence.rejectedCount,
+    failedCount: evidence.failedCount,
+    kindCounts,
+    terminalCheckpointDigest: evidence.terminalCheckpointDigest,
+  };
+}
 for (const dirName of ['appData', 'userData', 'documents']) fs.mkdirSync(path.join(tempRoot, dirName), { recursive: true });
 dialog.showOpenDialog = async () => ({ canceled: true, filePaths: [] });
 dialog.showSaveDialog = async (_window, options = {}) => {
@@ -2365,6 +2641,21 @@ app.whenReady().then(async () => {
         app.exit(2);
         return;
       }
+      if (negativeCampaign && roundIndex === 0) {
+        const negativeResult = await runC5V2NegativeCampaign(win, negativeCampaign, returnApply);
+        emit({
+          phase: 'negative-campaign',
+          ok: negativeResult.ok ? 1 : 0,
+          roundIndex,
+          roundId,
+          negativeResult,
+          networkRequests,
+        });
+        if (!negativeResult.ok) {
+          app.exit(4);
+          return;
+        }
+      }
       if (oracleGatePath) {
         const roundOracleGate = await waitUntil(() => {
           if (!fs.existsSync(oracleGatePath)) return null;
@@ -2400,7 +2691,15 @@ function parseCanaryChildResultLines(stdout) {
     .filter(Boolean);
 }
 
-async function runElectronFullManuscriptRoundtrip({ runDir, sourcePath, returnedPath, returnedReadyPath, scenes, runWord }) {
+async function runElectronFullManuscriptRoundtrip({
+  runDir,
+  sourcePath,
+  returnedPath,
+  returnedReadyPath,
+  scenes,
+  runWord,
+  negativeCampaign = null,
+}) {
   const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-c5v2-canary-ui-'));
   const childPath = path.join(tempRoot, 'fullbook-export-child.cjs');
   fs.writeFileSync(childPath, createFullManuscriptExportChildSource({
@@ -2409,6 +2708,7 @@ async function runElectronFullManuscriptRoundtrip({ runDir, sourcePath, returned
     returnedPath,
     returnedReadyPath,
     scenes,
+    negativeCampaign,
   }), 'utf8');
   const stdoutChunks = [];
   const stderrChunks = [];
@@ -2448,7 +2748,7 @@ async function runElectronFullManuscriptRoundtrip({ runDir, sourcePath, returned
       timedOut = true;
       child.kill('SIGKILL');
     }
-  }, 360_000);
+  }, negativeCampaign ? 1_800_000 : 360_000);
   try {
     try {
       exportPayload = await waitForCondition(() => {
@@ -2486,7 +2786,11 @@ async function runElectronFullManuscriptRoundtrip({ runDir, sourcePath, returned
         }
         }
       }
-      await waitForCondition(() => (exited ? exitState : null), 'ELECTRON_RETURN_APPLY_EXIT_NOT_OBSERVED', 240_000);
+      await waitForCondition(
+        () => (exited ? exitState : null),
+        'ELECTRON_RETURN_APPLY_EXIT_NOT_OBSERVED',
+        negativeCampaign ? 1_740_000 : 240_000,
+      );
     } catch (error) {
       wrapperError = error && error.message ? error.message : String(error);
     }
@@ -2501,6 +2805,7 @@ async function runElectronFullManuscriptRoundtrip({ runDir, sourcePath, returned
   const parsedLines = parseCanaryChildResultLines(stdout);
   const exportResult = exportPayload || parsedLines.find((line) => line.phase === 'export') || parsedLines[0] || null;
   const returnApplyResult = parsedLines.find((line) => line.phase === 'return-apply') || null;
+  const negativeCampaignResult = parsedLines.find((line) => line.phase === 'negative-campaign') || null;
   return {
     ok: timedOut === false && exitState?.code === 0 && exportResult?.ok === 1 && fs.existsSync(sourcePath),
     timedOut,
@@ -2508,6 +2813,7 @@ async function runElectronFullManuscriptRoundtrip({ runDir, sourcePath, returned
     signal: exitState?.signal ?? null,
     result: exportResult,
     returnApplyResult,
+    negativeCampaignResult,
     stderrTail: stderr.slice(-2000),
     wrapperError,
     sourcePath,
@@ -4772,6 +5078,7 @@ function parseArgs(argv) {
     roundCount: 1,
     accessibilityPreflightOnly: false,
     masterLedgerCampaign: false,
+    negativeCampaignLedgerPath: '',
     corpusManifestPath: '',
     includeMultilingualQa: false,
   };
@@ -4799,6 +5106,9 @@ function parseArgs(argv) {
       options.accessibilityPreflightOnly = true;
     } else if (arg === '--master-ledger-campaign') {
       options.masterLedgerCampaign = true;
+    } else if (arg === '--negative-campaign-ledger') {
+      options.negativeCampaignLedgerPath = argv[index + 1];
+      index += 1;
     } else if (arg === '--corpus-manifest') {
       options.corpusManifestPath = argv[index + 1];
       index += 1;
@@ -4807,6 +5117,205 @@ function parseArgs(argv) {
     }
   }
   return options;
+}
+
+async function mainNegativeCampaign(options) {
+  const masterLedgerPath = path.resolve(String(options.negativeCampaignLedgerPath || ''));
+  if (!masterLedgerPath || !fs.existsSync(masterLedgerPath)) {
+    throw new Error(`C5V2_NEGATIVE_MASTER_LEDGER_MISSING:${masterLedgerPath}`);
+  }
+  const masterLedger = JSON.parse(fs.readFileSync(masterLedgerPath, 'utf8'));
+  const negativePlan = buildC5V2NegativeProbePlan(masterLedger);
+  const runId = `${options.runPrefix}-${nowStamp()}`;
+  const runDir = path.join(options.artifactRoot, runId);
+  const forkDir = path.join(runDir, 'negative-forks');
+  const checkpointDir = path.join(runDir, 'negative-checkpoints');
+  const manifestPath = path.join(runDir, 'negative-fork-manifest.json');
+  const evidencePath = path.join(runDir, 'negative-campaign-evidence.json');
+  fs.mkdirSync(runDir, { recursive: true });
+  const sourceDocxPath = path.join(runDir, 'c5v2-negative-source-fullmanuscript.docx');
+  const returnedDocxPath = path.join(runDir, 'c5v2-negative-returned-word-native.docx');
+  const returnedReadyPath = path.join(runDir, 'c5v2-negative-returned-ready.json');
+  const wordWorkRoot = resolveWordHostLocalQaWorkRoot({
+    defaultSegments: ['c5v2-physical-canary', runId],
+  });
+  const wordReturnedDocxPath = path.join(wordWorkRoot.root, 'c5v2-negative-returned-word-native.docx');
+  const corpusInput = loadCanaryCorpus({ sceneCount: 21, sceneStart: 0 });
+  const scenes = corpusInput.scenes;
+  if (scenes.length !== 21) throw new Error(`C5V2_NEGATIVE_DORIAN_SCENE_COUNT_INVALID:${scenes.length}`);
+  const headSha = shellValue('git', ['rev-parse', 'HEAD']);
+  const zeroCounts = {
+    tracked_replace: 0,
+    tracked_insert: 0,
+    tracked_delete: 0,
+    root_comment: 0,
+    reply_attempt: 0,
+    state_attempt: 0,
+    formatting: 0,
+    structural: 0,
+  };
+  let ledger = buildCanaryLedger(scenes, { counts: zeroCounts });
+  writeJsonAtomicDurable(path.join(runDir, 'canary-ledger.pre-export.json'), ledger);
+  writeJsonAtomicDurable(path.join(runDir, 'negative-probe-plan.json'), negativePlan);
+  writeJsonAtomicDurable(path.join(runDir, 'c5v2-corpus-provenance.json'), {
+    schemaVersion: 'yalken.rtk.word.c5v2.negative-corpus-provenance.v1',
+    corpusId: corpusInput.provenance.corpusId,
+    corpus: corpusInput.provenance.corpus,
+    rawCorpusPath: corpusInput.provenance.rawCorpusPath,
+    rawCorpusSha256: corpusInput.provenance.rawCorpusSha256,
+    cleanedCorpusPath: corpusInput.provenance.cleanedCorpusPath,
+    cleanedCorpusSha256: corpusInput.provenance.cleanedCorpusSha256,
+    sceneCount: scenes.length,
+    syntheticTailAuthority: corpusInput.provenance.syntheticTailAuthority,
+    scenes: scenes.map((scene, index) => ({
+      ordinal: index + 1,
+      file: scene.file,
+      rawSourceSha256: scene.rawSourceSha256,
+      cleanedSourceSha256: scene.cleanedSourceSha256,
+      sourceSha256: scene.sourceSha256,
+    })),
+    masterLedgerPath,
+    masterLedgerDigest: masterLedger.ledgerDigest || '',
+    negativePlanDigest: negativePlan.planDigest,
+  });
+  const wordVersion = shellValue('/usr/bin/osascript', ['-e', 'tell application "Microsoft Word" to return version as text'], { timeout: 30_000 });
+  const exportResult = await runElectronFullManuscriptRoundtrip({
+    runDir,
+    sourcePath: sourceDocxPath,
+    returnedPath: returnedDocxPath,
+    returnedReadyPath,
+    scenes,
+    negativeCampaign: {
+      headSha,
+      masterLedgerDigest: masterLedger.ledgerDigest || '',
+      manifestPath,
+      evidencePath,
+      checkpointDir,
+    },
+    runWord: async () => {
+      ledger = buildExportBoundCanaryLedger({
+        scenes,
+        counts: zeroCounts,
+        sourceDocxPath,
+      });
+      writeJsonAtomicDurable(path.join(runDir, 'canary-ledger.json'), ledger);
+      const wordOutput = await runAppleScript(
+        buildWordScript({
+          sourcePath: sourceDocxPath,
+          returnedPath: wordReturnedDocxPath,
+          artifactReturnedPath: returnedDocxPath,
+          ledger,
+        }),
+        path.join(runDir, 'word-negative-baseline.applescript'),
+      );
+      const forkManifest = materializeC5V2NegativeForks({
+        baselineDocxPath: returnedDocxPath,
+        outputDir: forkDir,
+        plan: negativePlan,
+      });
+      writeJsonAtomicDurable(manifestPath, forkManifest);
+      return wordOutput;
+    },
+  });
+  const wordOutput = exportResult.wordOutput || '';
+  const wordError = exportResult.wordError || '';
+  fs.writeFileSync(path.join(runDir, 'word-output.txt'), wordOutput || wordError, 'utf8');
+  const nativeLifecycleVerification = fs.existsSync(returnedDocxPath)
+    ? readNativeLifecycleSnapshots({ ledger, returnedPath: returnedDocxPath })
+    : { ok: false, results: [], verifiedCount: 0, blockedCount: 0 };
+  const wordParsed = applyNativeLifecycleVerification(parseWordOutput(wordOutput), nativeLifecycleVerification);
+  const sourceDocxSha256 = fs.existsSync(sourceDocxPath) ? sha256File(sourceDocxPath) : '';
+  const returnedDocxSha256 = fs.existsSync(returnedDocxPath) ? sha256File(returnedDocxPath) : '';
+  const sourcePackageSummary = fs.existsSync(sourceDocxPath) ? packageSummary(sourceDocxPath) : null;
+  const returnedPackageSummary = fs.existsSync(returnedDocxPath) ? packageSummary(returnedDocxPath) : null;
+  const productReturnApply = exportResult.returnApplyResult?.returnApply || null;
+  const reopenedTruthPath = path.join(runDir, 'yalken-reopened-truth.json');
+  const reopenedTruth = fs.existsSync(reopenedTruthPath)
+    ? JSON.parse(fs.readFileSync(reopenedTruthPath, 'utf8'))
+    : null;
+  const networkRequests = [
+    ...(Array.isArray(exportResult.result?.networkRequests) ? exportResult.result.networkRequests : []),
+    ...(Array.isArray(exportResult.returnApplyResult?.networkRequests) ? exportResult.returnApplyResult.networkRequests : []),
+    ...(Array.isArray(exportResult.negativeCampaignResult?.networkRequests) ? exportResult.negativeCampaignResult.networkRequests : []),
+  ];
+  const noOpOracle = buildC5V2NoOpBaselineOracle({
+    ledger,
+    scenes,
+    wordParsed,
+    sourceDocxSha256,
+    returnedDocxSha256,
+    sourcePackageSummary,
+    returnedPackageSummary,
+    returnApply: productReturnApply,
+    reopenedTruth,
+    networkRequests,
+  });
+  const negativeEvidence = fs.existsSync(evidencePath)
+    ? JSON.parse(fs.readFileSync(evidencePath, 'utf8'))
+    : null;
+  const summary = {
+    schemaVersion: 'yalken.rtk.word.c5v2.physical-negative-campaign.result.v1',
+    runId,
+    headSha,
+    originMainSha: shellValue('git', ['rev-parse', 'origin/main']),
+    wordVersion,
+    wordWorkRoot,
+    sceneCount: scenes.length,
+    masterLedgerPath,
+    masterLedgerDigest: masterLedger.ledgerDigest || '',
+    negativePlanDigest: negativePlan.planDigest,
+    sourceDocxPath,
+    returnedDocxPath,
+    sourceDocxSha256,
+    returnedDocxSha256,
+    sourcePackageSummary,
+    returnedPackageSummary,
+    wordStatus: wordParsed.scalars.WORD_STATUS || (wordError ? 'FAIL' : 'UNKNOWN'),
+    nativeLifecycleVerification,
+    noOpOracle,
+    productReturnApply,
+    negativeCampaignResult: exportResult.negativeCampaignResult?.negativeResult || null,
+    negativeEvidence,
+    electronResult: {
+      ok: exportResult.ok,
+      timedOut: exportResult.timedOut,
+      exitCode: exportResult.exitCode,
+      signal: exportResult.signal,
+      stderrTail: exportResult.stderrTail,
+      wrapperError: exportResult.wrapperError,
+    },
+    vetoStatus: {
+      baselineNotAuthenticated: productReturnApply?.activation?.returnIntake?.authenticated !== true,
+      baselineMutationCandidate: productReturnApply?.noOpBaseline?.zeroMutationGreen !== true,
+      negativeCountMismatch: negativeEvidence?.operationCount !== 40,
+      negativeFalseAccept: negativeEvidence?.failedCount !== 0 || negativeEvidence?.rejectedCount !== 40,
+      negativeWriterCalled: negativeEvidence?.allWriterFlagsFalse !== true,
+      negativeSceneMutation: negativeEvidence?.allSceneHashesStable !== true,
+      productNetwork: networkRequests.length > 0,
+    },
+    certificationClaim: 'NO_TERMINAL_CERTIFICATION_CLAIM_NEGATIVE_CAMPAIGN_REQUIRES_MERGED_HEAD_REPETITIONS_AND_INDEPENDENT_AUDIT',
+  };
+  writeJsonAtomicDurable(path.join(runDir, 'negative-campaign-result.json'), summary);
+  process.stdout.write(`${JSON.stringify({
+    runId,
+    headSha,
+    wordVersion,
+    sceneCount: summary.sceneCount,
+    wordStatus: summary.wordStatus,
+    noOpOracleOk: summary.noOpOracle?.ok === true,
+    negativeCampaign: summary.negativeCampaignResult,
+    vetoStatus: summary.vetoStatus,
+    certificationClaim: summary.certificationClaim,
+  }, null, 2)}\n`);
+  process.exit(
+    summary.electronResult.ok
+      && summary.wordStatus === 'PASS'
+      && summary.noOpOracle?.ok === true
+      && summary.negativeCampaignResult?.ok === true
+      && Object.values(summary.vetoStatus).every((value) => value === false)
+      ? 0
+      : 1,
+  );
 }
 
 async function mainCumulative(options) {
@@ -5259,6 +5768,10 @@ async function main() {
       : parseMacosAccessibilityPreflightOutput(rawOutput);
     process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
     process.exit(result.ok ? 0 : 1);
+  }
+  if (options.negativeCampaignLedgerPath) {
+    await mainNegativeCampaign(options);
+    return;
   }
   if (shouldRunC5V2CumulativeController(options)) {
     await mainCumulative(options);

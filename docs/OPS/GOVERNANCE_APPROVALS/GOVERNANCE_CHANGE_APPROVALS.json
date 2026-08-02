@@ -2650,12 +2650,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "7a20aef245cc83b6ea8a623abee474be63ef089569dbd7563f307974eda0d93c",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
-      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
-      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
+      "sha256": "fea87e599c43423b80367cedbf563ccf12ddb98114190b0d0dae5b9ada2b33b1",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
+      "approvedAtUtc": "2026-08-02T10:57:50.000Z",
+      "rationale": "Approve the exact maintained RTK catalog bytes admitting the bounded N3 formatting-return contract family; this does not claim physical Word certification, full-book completion, Google eligibility, or release readiness.",
       "approved": true,
-      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
@@ -6271,12 +6271,12 @@
     },
     {
       "filePath": "src/command/commandSurfaceKernel.js",
-      "sha256": "2be8fd69058283db51c5e80053bdc904d0bd1091af7600eb67a0ab5f28a76678",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
-      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
-      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
+      "sha256": "13bef528b96b4c64cd32aa89c5c4149177a820ccabbd9e330a8932a503f5b895",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
+      "approvedAtUtc": "2026-08-02T10:57:50.000Z",
+      "rationale": "Approve the exact Command Surface Kernel bytes adding the bounded N3 formatting-return command to the existing main-owned typed allowlist; no alternate bus, renderer writer, network, dependency, or terminal certification claim.",
       "approved": true,
-      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
     },
     {
       "filePath": "src/derived/atlas/atlasGraphLayoutWorker.mjs",
@@ -6405,11 +6405,38 @@
       "rationale": "Approve ER C05 Manual Map scheduler label repair: relabels the existing synchronous layout scheduler so it no longer claims worker execution, preserving derived-only layout behavior, no storage write, no network, no dependency, and no product readiness claim."
     },
     {
+      "filePath": "src/export/docx/docxReviewPacketBuilder.js",
+      "sha256": "c90234c7941aaa57004f6efac18ee96fc7f2cbcdd7cd7526ad0ed4258a68b3d8",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
+      "approvedAtUtc": "2026-08-02T10:57:50.000Z",
+      "rationale": "Approve the exact DOCX adapter bytes emitting bounded direct FormatIR run and paragraph formatting plus hard breaks from authenticated canonical source; no import writer authority, dependency, network, or terminal certification claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
+    },
+    {
       "filePath": "src/import/mindmap/v1/manualMapMarkdownPortabilityBridge.mjs",
       "sha256": "3dec429452955e174a85079ef6066059f1144d45908e6383cfff181c173e433b",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
       "approvedAtUtc": "2026-07-31T12:47:44.597Z",
       "rationale": "Approve bounded E11 C04 active macOS packaged Electron performance/security/final platform handoff: binds C01-C03 package receipts, ER_C05 measured 10k worker budget, hardened generic SAST with zero findings/timeouts/parser gaps, inactive platforms recorded as no-pass-no-hold, and no live production/signing/notarization claim."
+    },
+    {
+      "filePath": "src/export/docx/fullManuscriptDocxReviewPacketSource.js",
+      "sha256": "2612f720ea6a6011e0e40b8d35558acb79024b2a034db38a1268b084600342fa",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
+      "approvedAtUtc": "2026-08-02T10:57:50.000Z",
+      "rationale": "Approve the exact full-manuscript source projection bytes deriving closed rich FormatIR, observable scene hashes, stable ordered blocks, and fail-closed unsupported content; physical Word and full-book certification remain pending.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
+    },
+    {
+      "filePath": "src/io/markdown/atomicWriteFile.mjs",
+      "sha256": "71bab82957b82a505a1ae04774373ef60f5a4656502014934a073b1504272414",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
+      "approvedAtUtc": "2026-08-02T10:57:50.000Z",
+      "rationale": "Approve the exact shared atomic writer bytes adding strict parent-directory fsync after rename for durable N3 scene and state commits; no API widening beyond the existing strict safety mode.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
     },
     {
       "filePath": "src/io/revisionBridge/exactTextMinSafeWrite.mjs",
@@ -6422,12 +6449,12 @@
     },
     {
       "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "4b4e103b0abdee89f07cebcc2c1fc41f5a08c9bfc38e068160f3ebce7100aeab",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
-      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
-      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
+      "sha256": "e6891b5a3114440836ef7340721f6d06b4846569b346e4864c5979e1a9daad92",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
+      "approvedAtUtc": "2026-08-02T10:57:50.000Z",
+      "rationale": "Approve the exact revision-bridge bytes deriving authenticated FormatIR deltas with locator, scene revision, observable hash, unsupported-style rejection, and typed safe-apply classification; no automatic mutation or false EXACT claim.",
       "approved": true,
-      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportApplyCore.mjs",
@@ -6561,13 +6588,22 @@
       "rationale": "Approve bounded W1/W2 V6 canon repair: stable RTK contracts, platform-neutral Review IR core, no regex normative XML parser, canonical durable review storage, comment-lane/source-mode fixes, no UI, writer, DOCX Minimal, network, dependency, apply, or W3 scope."
     },
     {
-      "filePath": "src/io/revisionBridge/reviewTransportPackageParserV2.mjs",
-      "sha256": "9314dbf23ee80c3a3ce25aba2080eed0c18223b3e3b634fbb153edc7c4dac0e7",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
-      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
-      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
+      "filePath": "src/io/revisionBridge/reviewTransportFormattingReturnRuntime.mjs",
+      "sha256": "d58cc93083a1f408e7a3ca8d3d0326d0354e747e50a22a1ef9bb4560d7836082",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
+      "approvedAtUtc": "2026-08-02T10:57:50.000Z",
+      "rationale": "Approve the exact N3 runtime bytes implementing main-authorized grapheme-safe formatting transforms, interprocess project lease, immutable effect indexes, atomic multi-scene transaction, rollback, startup recovery, readback, stale-source rejection, path-retarget rejection, and replay; physical Word certification remains pending.",
       "approved": true,
-      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportPackageParserV2.mjs",
+      "sha256": "96596e01667d72484780ce5d2bb6518ef938c7750038742d307328a26859336f",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
+      "approvedAtUtc": "2026-08-02T10:57:50.000Z",
+      "rationale": "Approve the exact package parser bytes collecting bounded direct run and paragraph formatting evidence while rejecting inherited, unsupported, malformed, or tracked formatting; parser grants no writer authority.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportRoundStore.mjs",
@@ -6599,12 +6635,12 @@
     },
     {
       "filePath": "src/main.js",
-      "sha256": "d4112fa34185e185bea8861d865407cc178859f6b75aadc6d3368b004aca13f9",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
-      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
-      "rationale": "Rebind exact controller-verified main-process bytes containing the already-merged Word PR1394 descendant and the authorized Atlas R1-B canonical Command Kernel integration; this registry-only repair adds no further capability, UI change, network, dependency, or release claim.",
+      "sha256": "c205d6b1da12121a4fabc7b5a43978788248325e0c2eeb96480342b3f86e6c91",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
+      "approvedAtUtc": "2026-08-02T10:57:50.000Z",
+      "rationale": "Approve the exact reconciled main-process bytes preserving Atlas R1-B while wiring N3 authenticated preview, explicit formatting decision, Command Surface Kernel apply, startup recovery, editor synchronization, and replay verification; no renderer-owned authority, secret persistence, network, or certification claim.",
       "approved": true,
-      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_AND_ATLAS_R1_B_BYTES"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
     },
     {
       "filePath": "src/main/rtkDocxReturnIntakeWorker.cjs",
@@ -6646,11 +6682,22 @@
       "rationale": "Approve bounded P0_04 runtime Design OS binding files: Atlas and Manual Map surfaces are bound by FEATURE_INTEGRATION_MANIFEST_V1 and YALKEN_ATLAS_FEATURE_SLOT_RESOLVER_V1, renderer provider metadata flows through resolved slot binding, direct provider writes are removed, generated bundle rebuilt, no visual redesign, no network, no storage authority, no second command bus, and Program DoD remains IN_PROGRESS."
     },
     {
+      "filePath": "src/renderer/editor.bundle.js",
+      "sha256": "636ee086bdec356c5e8694715287fd604753fc590a5af585b365bd1f82bbe987",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
+      "approvedAtUtc": "2026-08-02T10:57:50.000Z",
+      "rationale": "Approve the exact generated renderer bundle corresponding to the audited N3 editor source and existing toolchain; no independent source authority, framework, dependency, network, or visual redesign.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
+    },
+    {
       "filePath": "src/renderer/editor.js",
-      "sha256": "aaf469d92eea14f187b5346bbe09811a9a8ebae7a3a6551a963318ca908780eb",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_EVENT_CONTRACT_REPAIR_V4",
-      "approvedAtUtc": "2026-08-01T18:44:00.000Z",
-      "rationale": "Approve bounded Atlas V5 HOLD repair renderer registration bytes: real project command registration now receives the canonical domain-event verifier/hash product port so forged bridge digestVerified booleans are not authority; preserves Word C4 descendants, offline local behavior, no UI redesign, no dependency, no second journal, and no Program DONE claim."
+      "sha256": "30ba342605672a83c0ba97eaacbd24368322e543f55170e536a0b850160ab1ab",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
+      "approvedAtUtc": "2026-08-02T10:57:50.000Z",
+      "rationale": "Approve the exact renderer binding bytes adding one visible explicit N3 apply control and real status rendering through the existing preload command bridge; no renderer writer, new framework, style-system change, dependency, network, or physical certification claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
     },
     {
       "filePath": "src/renderer/index.html",
@@ -6823,12 +6870,12 @@
     },
     {
       "filePath": "test/contracts/donor-port-command-surface-kernel.contract.test.js",
-      "sha256": "86534feec1e67d35512049a3c7f659788bd1e878fbc913895b26f1c42c415af0",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
-      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
-      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
+      "sha256": "ab196c14e85a121f9a2919c28c6fa38ab6420e910e3f9f564b3fd8829c4dcd6e",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
+      "approvedAtUtc": "2026-08-02T10:57:50.000Z",
+      "rationale": "Approve the exact Command Surface Kernel test bytes proving the N3 formatting mutation is admitted through the existing typed main-owned command authority; no direct renderer writer, dependency, network, or terminal certification claim.",
       "approved": true,
-      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
     },
     {
       "filePath": "test/contracts/e2e-critical-user-path.contract.test.js",
@@ -7081,6 +7128,15 @@
       "approvedBy": "DOCS_OPERATOR",
       "approvedAtUtc": "2026-02-27T04:43:33.713Z",
       "rationale": "TZ-P1-09-RACE-SAFE-GOVERNANCE-FOR-CORE-ARTIFACTS-003-RERUN-01 approvals."
+    },
+    {
+      "filePath": "test/contracts/recovery-atomic-write.contract.test.js",
+      "sha256": "cea8acde294cb921136a9719df7682276e706b5911032bf5fa6996ab66c32c2c",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
+      "approvedAtUtc": "2026-08-02T10:57:50.000Z",
+      "rationale": "Approve the exact atomic-write contract bytes proving strict rename durability includes parent-directory synchronization for the N3 recovery path; no broader storage authority or release claim is introduced.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
     },
     {
       "filePath": "test/contracts/recovery-human-readable.contract.test.js",
@@ -7608,10 +7664,12 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-review-mutate-port.contract.test.js",
-      "sha256": "f0920ce2519c4970adbcbdf59ed15c84b9d3f9340bba71e0617175c907608d42",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
-      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
-      "rationale": "Approve ER C02 adjacent review mutate port harness rebind: updates the workspace query bridge marker and supplies existing main computed-key constants to the VM harness only, preserving review mutation authority, local packet safety, no product runtime change, no UI design change, no dependency, and no network."
+      "sha256": "fc09aa9c7702d35391bd15b6a23bf97fd3df2d92bd2f6e571bac0e68f41e18a4",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
+      "approvedAtUtc": "2026-08-02T10:57:50.000Z",
+      "rationale": "Approve the exact review-mutate port contract bytes proving the packaged Review formatting action remains a typed bridge command with main-owned authority and no renderer storage authority; physical Word certification remains pending.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
     },
     {
       "filePath": "test/contracts/revision-bridge-structural-manual-review.contract.test.js",
@@ -7717,6 +7775,15 @@
       "rationale": "Approve bounded W5 V6 contract coverage proving local release-hardening proof hooks are bound while external Word certification remains resumable, false Word PASS and false DONE mutations fail, and broad Word or release claims remain forbidden; no dependency, UI, runtime, import/export behavior, package publication, or product capability is introduced."
     },
     {
+      "filePath": "test/contracts/rtk-word-c5v2-full-manuscript-product-export.contract.test.js",
+      "sha256": "44f85afa97733bde72716ba5dcff54c16e4767cf4ba5fae23889a9e20b9fdbc3",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
+      "approvedAtUtc": "2026-08-02T10:57:50.000Z",
+      "rationale": "Approve the exact full-manuscript export contract bytes proving rich FormatIR and observable scene hashes are carried by the existing authenticated product export; C5 physical and full-book certification remain explicitly pending.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
+    },
+    {
       "filePath": "test/contracts/rtk-word-latest-semantic-b00.contract.test.js",
       "sha256": "97f2d8f12c0d42aad837db1a944a2a9b74b4714863e2bfe556f77e416eda74e0",
       "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
@@ -7764,6 +7831,15 @@
       "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
       "approvedAtUtc": "2026-07-30T16:35:00.000Z",
       "rationale": "Approve focused B06 contract coverage: proves the committed physical Word receipt has 30-plus native round trips, comment PASS requires package inventory, semantic readback and Word reopen visibility, high-comment and scale rows are physical, hostile package stays BLOCKED, unsupported modern semantics are typed limitations, D1 is not rebound, no fixture-only PASS is allowed, and exact/apply/UI/network claims are not widened."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-n3-formatting-return.contract.test.js",
+      "sha256": "68b6c5264cffc8f226aeab9b87cdcbe4276c9a9cf4608bf207d46092c6b9fe05",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
+      "approvedAtUtc": "2026-08-02T10:57:50.000Z",
+      "rationale": "Approve the exact bounded N3 contract family covering FormatIR fidelity, stale authority, grapheme safety, interprocess lease, atomic multi-scene apply, killpoint recovery, path-retarget rejection, UI command reachability, reopen readback, and replay; physical Word proof and terminal certification remain pending.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
     },
     {
       "filePath": "test/contracts/rtk-word-normalized-capability-matrix.contract.test.js",

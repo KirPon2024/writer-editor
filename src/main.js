@@ -72,8 +72,10 @@ const {
   getProductCommandRecord,
 } = require('./shared/productCommandRegistry.cjs');
 const {
+  makeCommandBridgeEditorSyncSummary,
   makeCommandBridgeException,
   makeCommandBridgeFailure,
+  makeFormattingReturnBridgeReviewSurface,
   makeCommandBridgeSuccess,
 } = require('./shared/commandBridgeResponse.cjs');
 const {
@@ -5308,6 +5310,33 @@ function rtkFormattingReturnStoreMatchesActiveSession() {
   );
 }
 
+function deferRtkFormattingReturnEditorSyncAfterBridgeReply({ currentScenePath = '', bridgeReviewSurface = {} } = {}) {
+  if (!currentScenePath || isDirty || autoSaveInProgress) {
+    return {
+      ok: false,
+      skipped: true,
+      deferred: false,
+      reason: isDirty || autoSaveInProgress
+        ? 'RTK_FORMATTING_RETURN_EDITOR_BECAME_DIRTY'
+        : 'RTK_FORMATTING_RETURN_EDITOR_SYNC_NOT_CURRENT_FILE',
+    };
+  }
+  setImmediate(() => {
+    syncReviewExactTextApplyEditorFromMainState({
+      applyInput: { scenePath: currentScenePath },
+      reviewSurface: bridgeReviewSurface,
+    }).catch((error) => {
+      logDevError('rtk-formatting-return-deferred-editor-sync', error);
+    });
+  });
+  return {
+    ok: false,
+    skipped: true,
+    deferred: true,
+    reason: 'RTK_FORMATTING_RETURN_EDITOR_SYNC_DEFERRED_AFTER_BRIDGE_REPLY',
+  };
+}
+
 function attachRtkFormattingReturnProductResult(result, replay) {
   if (activeReviewSessionLifecycle !== 'active' || !isPlainObjectValue(activeReviewSessionStore)) return {};
   const nextSessionStore = cloneJsonSafe(activeReviewSessionStore) || {};
@@ -6191,6 +6220,7 @@ async function handleReviewSurfaceApplyFormattingReturnCommandSurface(payload = 
     );
     if (!isPlainObjectValue(applied) || !['applied', 'replay'].includes(applied.status)) {
       const reviewSurface = attachRtkFormattingReturnProductResult(applied, null);
+      const bridgeReviewSurface = makeFormattingReturnBridgeReviewSurface(reviewSurface);
       return {
         ok: false,
         type: 'yalken.rtk.formattingReturnUiApply',
@@ -6199,7 +6229,7 @@ async function handleReviewSurfaceApplyFormattingReturnCommandSurface(payload = 
           || 'RTK_FORMATTING_RETURN_APPLY_BLOCKED',
         reason: docxReviewPreviewSessionDetailString(applied?.reason || applied?.error?.reason)
           || 'RTK_FORMATTING_RETURN_APPLY_BLOCKED',
-        reviewSurface,
+        reviewSurface: bridgeReviewSurface,
       };
     }
     const replay = applied.status === 'replay'
@@ -6210,18 +6240,14 @@ async function handleReviewSurfaceApplyFormattingReturnCommandSurface(payload = 
       );
     const replayVerified = replay?.ok === true && replay?.status === 'replay' && replay?.writerCalled !== true;
     const reviewSurface = attachRtkFormattingReturnProductResult(applied, replay);
+    const bridgeReviewSurface = makeFormattingReturnBridgeReviewSurface(reviewSurface);
     const currentScenePath = isPlainObjectValue(input.scenePathBySceneId)
       ? Object.values(input.scenePathBySceneId).find((scenePath) => scenePath === currentFilePath)
       : '';
-    const editorSync = currentScenePath && !isDirty && !autoSaveInProgress
-      ? await syncReviewExactTextApplyEditorFromMainState({ applyInput: { scenePath: currentScenePath }, reviewSurface })
-      : {
-        ok: false,
-        skipped: true,
-        reason: isDirty || autoSaveInProgress
-          ? 'RTK_FORMATTING_RETURN_EDITOR_BECAME_DIRTY'
-          : 'RTK_FORMATTING_RETURN_EDITOR_SYNC_NOT_CURRENT_FILE',
-      };
+    const editorSync = deferRtkFormattingReturnEditorSyncAfterBridgeReply({
+      currentScenePath,
+      bridgeReviewSurface,
+    });
     return {
       ok: replayVerified,
       type: 'yalken.rtk.formattingReturnUiApply',
@@ -6235,8 +6261,8 @@ async function handleReviewSurfaceApplyFormattingReturnCommandSurface(payload = 
       applied: applied.status === 'applied' || applied.status === 'replay',
       replayVerified,
       actionRequestId,
-      reviewSurface,
-      editorSync,
+      reviewSurface: bridgeReviewSurface,
+      editorSync: makeCommandBridgeEditorSyncSummary(editorSync),
     };
   }, 'rtk-formatting-return');
 }
@@ -16759,7 +16785,7 @@ async function handleReviewSurfaceInspectFormattingReturnReplayCommandSurface(pa
     code: docxReviewPreviewSessionDetailString(inspected?.code),
     replayVerified: inspected?.replaySnapshot?.replayVerified === true,
     writerCalled: false,
-    reviewSurface,
+    reviewSurface: makeFormattingReturnBridgeReviewSurface(reviewSurface),
   };
 }
 

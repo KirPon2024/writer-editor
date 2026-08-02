@@ -938,6 +938,9 @@ test('N3 product route exposes a working Review control without renderer-owned a
   assert.match(mainSource, /rendererAuthority:\s*false/u);
   assert.match(mainSource, /makeCommandBridgeSuccess\(result\)/u);
   assert.match(mainSource, /makeCommandBridgeFailure\(reason,\s*result\)/u);
+  assert.match(mainSource, /makeFormattingReturnBridgeReviewSurface\(reviewSurface\)/u);
+  assert.match(mainSource, /deferRtkFormattingReturnEditorSyncAfterBridgeReply\(\{[\s\S]*?bridgeReviewSurface/u);
+  assert.match(mainSource, /RTK_FORMATTING_RETURN_EDITOR_SYNC_DEFERRED_AFTER_BRIDGE_REPLY/u);
   assert.match(mainSource, /'cmd\.project\.review\.applyFormattingReturn':\s*async/u);
   assert.match(bridgeSource, /extractReviewTransportFormattingRunsV2\(documentXml/u);
   assert.doesNotMatch(rendererSource, /scenePathBySceneId/u);
@@ -959,6 +962,7 @@ test('N3 command bridge response boundary serializes durable apply results after
   const {
     makeCommandBridgeFailure,
     makeCommandBridgeSuccess,
+    makeFormattingReturnBridgeReviewSurface,
     toCommandBridgeSerializableValue,
   } = require('../../src/shared/commandBridgeResponse.cjs');
   const circular = { status: 'applied-and-replayed' };
@@ -1003,6 +1007,44 @@ test('N3 command bridge response boundary serializes durable apply results after
 
   const array = toCommandBridgeSerializableValue([undefined, 1n, () => {}]);
   assert.deepEqual(array, [null, '1', null]);
+
+  const bridgeSurface = makeFormattingReturnBridgeReviewSurface({
+    revisionSession: {
+      reviewGraph: {
+        textChanges: [{ changeId: 'must-not-cross-ipc-boundary' }],
+      },
+    },
+    formattingReturnPreview: {
+      status: 'applied',
+      code: 'RTK_FORMATTING_RETURN_APPLIED_AND_REPLAYED',
+      operationCount: 24,
+      sceneCount: 2,
+      diagnosticCount: 0,
+      operations: [{ operationId: 'must-not-return-full-operation-list' }],
+      diagnostics: [],
+      writerCalled: true,
+      rendererAuthority: false,
+      applyCommandId: 'cmd.project.review.applyFormattingReturn',
+    },
+    formattingReturnResult: {
+      ok: true,
+      status: 'applied',
+      code: 'RTK_FORMATTING_MULTI_SCENE_APPLIED',
+      writerCalled: true,
+      applied: true,
+      replayVerified: true,
+      sceneReadback: [
+        { sceneId: 'roman/01.txt', matchesAfter: true },
+        { sceneId: 'roman/02.txt', matchesAfter: true },
+      ],
+    },
+  });
+  assert.equal(bridgeSurface.revisionSession, undefined);
+  assert.equal(bridgeSurface.formattingReturnPreview.operationCount, 24);
+  assert.equal(bridgeSurface.formattingReturnPreview.operations.length, 0);
+  assert.equal(bridgeSurface.formattingReturnResult.replayVerified, true);
+  assert.equal(bridgeSurface.formattingReturnResult.sceneReadback.length, 2);
+  assert.doesNotThrow(() => JSON.stringify(bridgeSurface));
 });
 
 test('N3 physical canary invokes shipped formatting apply and persisted replay inspection', async () => {

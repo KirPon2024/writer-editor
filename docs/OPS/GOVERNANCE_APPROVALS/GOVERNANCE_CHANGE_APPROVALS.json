@@ -9342,10 +9342,10 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v6-a4-bounded-repair.contract.test.js",
-      "sha256": "b9153abed36fea3bbf145026fe512cabb412c27b399770105d78afd0b03838dd",
+      "sha256": "67cacc50cc1add7187be1596143960dbd7c563c4a8959013b409e306c56d7b39",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_A4_BOUNDED_REPAIR",
-      "approvedAtUtc": "2026-08-02T21:36:53.000Z",
-      "rationale": "Approve exact A4 product contract bytes proving child-process manifest and artifact races, Unicode identity parity, foreign legacy collision rejection, reservation recovery, PID reuse recovery, blocked-loop process-instance protection, bounded Darwin socket-path startup, and crash convergence.",
+      "approvedAtUtc": "2026-08-02T21:48:46.000Z",
+      "rationale": "Approve exact A4 product contract bytes proving child-process manifest and artifact races, Unicode identity parity, foreign legacy collision rejection, reservation recovery, PID reuse recovery, blocked-loop process-instance protection, bounded cross-platform socket-path startup under a hostile TMPDIR, and crash convergence.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_V6_A4_REPAIR"
     }

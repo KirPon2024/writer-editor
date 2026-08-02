@@ -1,6 +1,5 @@
 import fs from 'node:fs/promises';
 import net from 'node:net';
-import os from 'node:os';
 import path from 'node:path';
 import { createHash, randomUUID } from 'node:crypto';
 import { Worker } from 'node:worker_threads';
@@ -48,10 +47,10 @@ function processInstanceGuardEndpoint(ownerTokenDigest) {
     .update(Buffer.from(`yalken.projectLease.guard:${ownerTokenDigest}`, 'utf8'))
     .digest('hex');
   if (process.platform === 'win32') return `\\\\.\\pipe\\yalken-project-lease-${endpointKey}`;
-  // Darwin limits AF_UNIX paths to roughly one hundred bytes and its TMPDIR is
-  // already long. A 128-bit, domain-separated name keeps collision resistance
-  // while leaving enough room for the platform-owned temporary directory.
-  return path.join(os.tmpdir(), `ypl-${endpointKey.slice(0, 32)}.sock`);
+  // Darwin and Linux bound AF_UNIX paths independently of TMPDIR. A fixed
+  // platform temporary root plus a 128-bit domain-separated name keeps the
+  // endpoint short, unguessable, and stable across process instances.
+  return path.join('/tmp', `ypl-${endpointKey.slice(0, 32)}.sock`);
 }
 
 function probeProcessInstanceGuard(endpoint, timeoutMs = 500) {

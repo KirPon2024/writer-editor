@@ -462,28 +462,33 @@ test('Atlas V6 A4: interrupted artifact reservation restores prior bytes and sta
 
 test('Atlas V6 A4: process-instance heartbeat defeats PID reuse, wall-clock jumps, blocked-loop expiry and crash staleness', { timeout: 25_000 }, async () => {
   const leaseModule = await importModule('src/product/projectLease.mjs');
-  const originalTemporaryRoot = process.env.TMPDIR;
-  const longTemporaryRoot = path.join(
-    fs.mkdtempSync(path.join('/tmp', 'yalken-a4-socket-root-')),
-    'darwin-temporary-root-length-parity',
-  );
+  const leaseUrl = pathToFileURL(path.join(ROOT, 'src/product/projectLease.mjs')).href;
+  const longTemporaryBase = fs.mkdtempSync(path.join('/tmp', 'yalken-a4-socket-root-'));
+  const longTemporaryRoot = path.join(longTemporaryBase, 'x'.repeat(96));
+  const boundedSocketRoot = fs.mkdtempSync(path.join('/tmp', 'yalken-atlas-v6-a4-bounded-socket-'));
   fs.mkdirSync(longTemporaryRoot, { recursive: true });
-  process.env.TMPDIR = longTemporaryRoot;
   try {
-    const boundedSocketRoot = fs.mkdtempSync(path.join('/tmp', 'yalken-atlas-v6-a4-bounded-socket-'));
-    const boundedSocketManager = leaseModule.createProjectLeaseManager({
-      leaseRoot: boundedSocketRoot,
-      ttlMs: 1_000,
+    const boundedSocketSource = `
+      import { createProjectLeaseManager } from ${JSON.stringify(leaseUrl)};
+      const manager = createProjectLeaseManager({
+        leaseRoot: ${JSON.stringify(boundedSocketRoot)},
+        ttlMs: 1000,
+      });
+      const lease = await manager.acquire('bounded-socket-project');
+      await manager.release(lease);
+      process.stdout.write('BOUNDED_SOCKET_OK\\n');
+    `;
+    const boundedSocket = spawnSync(process.execPath, ['--input-type=module', '-e', boundedSocketSource], {
+      cwd: ROOT,
+      env: { ...process.env, TMPDIR: longTemporaryRoot, FORCE_COLOR: '0', NO_COLOR: '1' },
+      encoding: 'utf8',
+      timeout: 10_000,
     });
-    const boundedSocketLease = await boundedSocketManager.acquire('bounded-socket-project');
-    await boundedSocketManager.release(boundedSocketLease);
-    assert.equal(
-      fs.readdirSync(longTemporaryRoot).some((entry) => entry.startsWith('ypl-')),
-      false,
-    );
+    assert.equal(boundedSocket.status, 0, boundedSocket.stderr);
+    assert.match(boundedSocket.stdout, /BOUNDED_SOCKET_OK/u);
   } finally {
-    if (originalTemporaryRoot === undefined) delete process.env.TMPDIR;
-    else process.env.TMPDIR = originalTemporaryRoot;
+    fs.rmSync(longTemporaryBase, { recursive: true, force: true });
+    fs.rmSync(boundedSocketRoot, { recursive: true, force: true });
   }
 
   let wall = 10_000;
@@ -541,7 +546,6 @@ test('Atlas V6 A4: process-instance heartbeat defeats PID reuse, wall-clock jump
   assert.equal(afterClockEdge.recoveredExpiredLease, true);
   await clockContender.release(afterClockEdge);
 
-  const leaseUrl = pathToFileURL(path.join(ROOT, 'src/product/projectLease.mjs')).href;
   const blockedRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-atlas-v6-a4-blocked-loop-'));
   const blockedSource = `
     import { createProjectLeaseManager } from ${JSON.stringify(leaseUrl)};

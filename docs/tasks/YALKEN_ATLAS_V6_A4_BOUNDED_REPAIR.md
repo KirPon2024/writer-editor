@@ -23,6 +23,7 @@ Close only the independently confirmed Atlas A4 HOLD findings: make every main-o
 - src/product/projectIdDomain.cjs
 - src/product/projectLease.mjs
 - src/product/projectLeaseHeartbeatWorker.mjs
+- src/product/stage10CommandReceiptAuthorityHead.mjs
 - src/product/stage10MainPersistenceAdapter.mjs
 - src/product/stage10ProjectIdentityKey.mjs
 - test/contracts/yalken-atlas-v6-a4-bounded-repair.contract.test.js
@@ -41,6 +42,7 @@ Close only the independently confirmed Atlas A4 HOLD findings: make every main-o
 - src/product/projectIdDomain.cjs
 - src/product/projectLease.mjs
 - src/product/projectLeaseHeartbeatWorker.mjs
+- src/product/stage10CommandReceiptAuthorityHead.mjs
 - src/product/stage10MainPersistenceAdapter.mjs
 - src/product/stage10ProjectIdentityKey.mjs
 - test/contracts/yalken-atlas-v6-a4-bounded-repair.contract.test.js

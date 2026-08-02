@@ -83,9 +83,24 @@ test('C5V2 ledger engine emits deterministic 2,000-op natural full-book coverage
   assert.equal(
     ledger.operations
       .filter((operation) => operation.family === 'root_comment')
-      .every((operation) => operation.anchor.sceneSelectedTextOccurrenceCount === 1),
+      .every((operation) => (
+        operation.anchor.sceneSelectedTextOccurrenceCount === 1
+        && operation.anchor.selectedText === operation.anchor.selectedText.trim()
+        && operation.anchor.wordSelectedText === operation.anchor.selectedText
+        && operation.anchor.sceneWordSelectedTextOccurrenceCount === 1
+      )),
     true,
   );
+  const trackedRangesByParagraph = new Map();
+  for (const operation of trackedOperations) {
+    const ranges = trackedRangesByParagraph.get(operation.anchor.paragraphId) || [];
+    assert.equal(ranges.some((range) => (
+      operation.anchor.graphemeStart <= range.end
+      && operation.anchor.graphemeEnd >= range.start
+    )), false);
+    ranges.push({ start: operation.anchor.graphemeStart, end: operation.anchor.graphemeEnd });
+    trackedRangesByParagraph.set(operation.anchor.paragraphId, ranges);
+  }
   assert.equal(ledger.operations.filter((operation) => operation.expectedOutcome === 'SAFE_APPLY').length, 540);
   assert.equal(ledger.operations.filter((operation) => operation.expectedOutcome === 'MANUAL').length >= 595, true);
   assert.equal(ledger.operations.filter((operation) => operation.expectedOutcome === 'BLOCKED').length, 25);
@@ -152,4 +167,33 @@ test('C5V2 ledger engine rejects synthetic-tail positive source and detects adve
   assert.equal(result.failures.some((failure) => failure.code === 'C5V2_DUPLICATE_POSITIVE_ANCHOR_START'), true);
   assert.equal(result.failures.some((failure) => failure.code === 'C5V2_DUPLICATE_POSITIVE_ROOT_COMMENT_ANCHOR'), true);
   assert.equal(result.failures.some((failure) => failure.code === 'C5V2_COMMENT_PARAGRAPH_HOTSPOT'), true);
+
+  const touching = structuredClone(ledger.operations);
+  const firstTracked = touching.find((operation) => operation.family === 'tracked_text_edit');
+  const secondTracked = touching.find((operation) => (
+    operation.family === 'tracked_text_edit'
+    && operation.id !== firstTracked.id
+    && operation.sceneId === firstTracked.sceneId
+  ));
+  secondTracked.anchor.paragraphId = firstTracked.anchor.paragraphId;
+  secondTracked.anchor.graphemeStart = firstTracked.anchor.graphemeEnd;
+  secondTracked.anchor.graphemeEnd = firstTracked.anchor.graphemeEnd + 1;
+  const touchingResult = validateC5V2LedgerDistribution({
+    operations: touching,
+    sceneProfiles: ledger.sceneProfiles,
+    counts: ledger.counts,
+  });
+  assert.equal(touchingResult.ok, false);
+  assert.equal(touchingResult.failures.some((failure) => failure.code === 'C5V2_TRACKED_RANGE_NOT_WORD_ISOLATED'), true);
+
+  const wordUnstableRoot = structuredClone(ledger.operations);
+  const root = wordUnstableRoot.find((operation) => operation.family === 'root_comment');
+  root.anchor.selectedText = ` ${root.anchor.selectedText}`;
+  const wordUnstableResult = validateC5V2LedgerDistribution({
+    operations: wordUnstableRoot,
+    sceneProfiles: ledger.sceneProfiles,
+    counts: ledger.counts,
+  });
+  assert.equal(wordUnstableResult.ok, false);
+  assert.equal(wordUnstableResult.failures.some((failure) => failure.code === 'C5V2_ROOT_COMMENT_WORD_NORMALIZED_SELECTION_NOT_UNIQUE'), true);
 });

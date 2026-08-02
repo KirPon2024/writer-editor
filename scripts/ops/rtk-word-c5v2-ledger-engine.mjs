@@ -102,6 +102,10 @@ function countExactOccurrences(haystack, needle) {
   return count;
 }
 
+function wordStableSelectedText(value) {
+  return String(value || '').trim();
+}
+
 function graphemes(text) {
   if (typeof Intl !== 'undefined' && typeof Intl.Segmenter === 'function') {
     const segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
@@ -301,6 +305,7 @@ function shiftSpanToGraphemeStart(paragraph, span, graphemeStart) {
 }
 
 function makeAnchor(sceneProfile, paragraph, span, globalOffset = 0) {
+  const wordSelectedText = wordStableSelectedText(span.selectedText);
   return {
     sceneId: sceneProfile.sceneId,
     sceneOrdinal: sceneProfile.sceneOrdinal,
@@ -316,6 +321,8 @@ function makeAnchor(sceneProfile, paragraph, span, globalOffset = 0) {
     contextAfter: span.contextAfter,
     selectedText: span.selectedText,
     sceneSelectedTextOccurrenceCount: countExactOccurrences(sceneProfile.text, span.selectedText),
+    wordSelectedText,
+    sceneWordSelectedTextOccurrenceCount: countExactOccurrences(sceneProfile.text, wordSelectedText),
     baselineHash: span.baselineHash,
   };
 }
@@ -348,7 +355,7 @@ function selectUniqueAnchor({
   requireSceneUniqueSelectedText = false,
 }) {
   const paragraphs = orderedParagraphs(sceneProfile, family, familySceneOrdinal, globalOrdinal, state);
-  const rejectCounts = { short: 0, rootUsed: 0, mixedFamily: 0, reserved: 0, empty: 0, ambiguousSelection: 0, boundaryReserved: 0, overlap: 0, duplicate: 0, duplicateStart: 0, hotspot: 0 };
+  const rejectCounts = { short: 0, rootUsed: 0, mixedFamily: 0, reserved: 0, empty: 0, ambiguousSelection: 0, wordUnstableSelection: 0, boundaryReserved: 0, overlap: 0, wordAdjacency: 0, duplicate: 0, duplicateStart: 0, hotspot: 0 };
   for (const paragraph of paragraphs) {
     if (paragraph.graphemeCount < 4) { rejectCounts.short += 1; continue; }
     if (family === 'root_comment' && (state.commentParagraphCounts.get(paragraph.paragraphId) || 0) > 0) { rejectCounts.rootUsed += 1; continue; }
@@ -358,9 +365,16 @@ function selectUniqueAnchor({
     if (MUTATING_CONTENT_FAMILIES.has(family) && reservation && reservation !== family) { rejectCounts.reserved += 1; continue; }
     const trySpan = (span) => {
       if (!span.selectedText) { rejectCounts.empty += 1; return null; }
-      if (requireSceneUniqueSelectedText && countExactOccurrences(sceneProfile.text, span.selectedText) !== 1) {
-        rejectCounts.ambiguousSelection += 1;
-        return null;
+      if (requireSceneUniqueSelectedText) {
+        const wordSelectedText = wordStableSelectedText(span.selectedText);
+        if (wordSelectedText !== span.selectedText) {
+          rejectCounts.wordUnstableSelection += 1;
+          return null;
+        }
+        if (countExactOccurrences(sceneProfile.text, wordSelectedText) !== 1) {
+          rejectCounts.ambiguousSelection += 1;
+          return null;
+        }
       }
       const boundaryLength = Math.min(32, Math.min(
         paragraph.graphemeCount,
@@ -376,10 +390,17 @@ function selectUniqueAnchor({
         return null;
       }
       const usedRanges = state.paragraphPrimaryRanges.get(paragraph.paragraphId) || [];
+      const overlapsUsedRange = usedRanges.some((range) => (
+        span.graphemeStart < range.end && span.graphemeEnd > range.start
+      ));
+      const touchesTrackedRange = family === 'tracked_text_edit' && usedRanges.some((range) => (
+        span.graphemeStart <= range.end && span.graphemeEnd >= range.start
+      ));
       if (
         RANGE_ISOLATED_PRIMARY_FAMILIES.has(family)
-        && usedRanges.some((range) => span.graphemeStart < range.end && span.graphemeEnd > range.start)
+        && overlapsUsedRange
       ) { rejectCounts.overlap += 1; return null; }
+      if (touchesTrackedRange) { rejectCounts.wordAdjacency += 1; return null; }
       const anchor = makeAnchor(sceneProfile, paragraph, span, globalOffset);
       const key = operationAnchorKey({ anchor });
       if (state.primaryAnchorKeys.has(key)) { rejectCounts.duplicate += 1; return null; }
@@ -763,6 +784,7 @@ export function validateC5V2LedgerDistribution({ operations, sceneProfiles, coun
   const familyBucketCounts = new Map();
   const paragraphRounds = new Map();
   const paragraphMutationFamilies = new Map();
+  const paragraphTrackedRanges = new Map();
   const sceneRoundMutationFamilies = new Map();
   const totalGraphemes = sceneProfiles.reduce((sum, scene) => sum + scene.graphemeCount, 0);
   const sceneProfileById = new Map(sceneProfiles.map((scene) => [scene.sceneId, scene]));
@@ -815,6 +837,44 @@ export function validateC5V2LedgerDistribution({ operations, sceneProfiles, coun
       }
       if (operation.family === 'root_comment' && occurrenceCount !== 1) {
         failures.push({ code: 'C5V2_ROOT_COMMENT_SELECTION_NOT_SCENE_UNIQUE', operationId: operation.id, occurrenceCount });
+      }
+      if (operation.family === 'root_comment') {
+        const wordSelectedText = wordStableSelectedText(operation.anchor.selectedText);
+        const wordOccurrenceCount = typeof sceneProfile?.text === 'string'
+          ? countExactOccurrences(sceneProfile.text, wordSelectedText)
+          : operation.anchor.sceneWordSelectedTextOccurrenceCount;
+        if (
+          wordSelectedText !== operation.anchor.selectedText
+          || operation.anchor.wordSelectedText !== wordSelectedText
+          || operation.anchor.sceneWordSelectedTextOccurrenceCount !== 1
+          || wordOccurrenceCount !== 1
+        ) {
+          failures.push({
+            code: 'C5V2_ROOT_COMMENT_WORD_NORMALIZED_SELECTION_NOT_UNIQUE',
+            operationId: operation.id,
+            wordOccurrenceCount,
+          });
+        }
+      }
+      if (operation.family === 'tracked_text_edit') {
+        const trackedRanges = paragraphTrackedRanges.get(operation.anchor.paragraphId) || [];
+        const touching = trackedRanges.find((range) => (
+          operation.anchor.graphemeStart <= range.end
+          && operation.anchor.graphemeEnd >= range.start
+        ));
+        if (touching) {
+          failures.push({
+            code: 'C5V2_TRACKED_RANGE_NOT_WORD_ISOLATED',
+            operationId: operation.id,
+            touchingOperationId: touching.operationId,
+          });
+        }
+        trackedRanges.push({
+          operationId: operation.id,
+          start: operation.anchor.graphemeStart,
+          end: operation.anchor.graphemeEnd,
+        });
+        paragraphTrackedRanges.set(operation.anchor.paragraphId, trackedRanges);
       }
       const key = operationAnchorKey(operation);
       if (!THREAD_TARGET_FAMILIES.has(operation.family) && anchorKeys.has(key)) {

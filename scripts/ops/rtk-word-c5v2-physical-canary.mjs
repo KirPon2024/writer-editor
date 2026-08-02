@@ -219,6 +219,14 @@ function graphemeParts(value) {
   return Array.from(String(value || ''));
 }
 
+export function c5v2PhysicalReplacementText(operation = {}) {
+  return operation?.semanticIntent?.kind === 'delete'
+    ? ''
+    : typeof operation?.semanticIntent?.replacementText === 'string'
+      ? operation.semanticIntent.replacementText
+      : '';
+}
+
 function productParagraphs(value) {
   return String(value || '')
     .replace(/\r\n/gu, '\n')
@@ -329,7 +337,7 @@ export function adaptC5V2MasterRoundToPhysicalLedger({ masterLedger, currentScen
       band: operation.anchor.positionalThird,
       expectedOutcome: operation.expectedOutcome,
       semanticIntent: operation.semanticIntent,
-      replacementText: operation.semanticIntent?.replacementText || '',
+      replacementText: c5v2PhysicalReplacementText(operation),
       formattingKind: operation.semanticIntent?.kind || '',
       headingLevel: operation.semanticIntent?.headingLevel || 2,
       masterAnchor: operation.anchor,
@@ -795,6 +803,103 @@ export function deriveC5V2ReturnLanePlan(activationSummary = {}) {
   };
 }
 
+export function bindC5V2ExpectedExactTextCandidates(input = {}) {
+  const expectedOperations = (Array.isArray(input.expectedOperations) ? input.expectedOperations : [])
+    .filter((operation) => (
+      ['tracked_replace', 'tracked_insert', 'tracked_delete'].includes(operation?.family)
+      && operation?.expectedOutcome === 'EXACT'
+    ));
+  const activationSummary = input.activationSummary && typeof input.activationSummary === 'object'
+    ? input.activationSummary
+    : {};
+  const hashText = typeof input.hashText === 'function' ? input.hashText : () => '';
+  const normalizeSceneId = (value) => String(value || '').replace(/\\/gu, '/');
+  const signature = ({ sceneId = '', quote = '', replacementText = '' } = {}) => [
+    normalizeSceneId(sceneId),
+    hashText(quote),
+    hashText(replacementText),
+  ].join('|');
+  const expectedBySignature = new Map();
+  for (const operation of expectedOperations) {
+    const key = signature({
+      sceneId: operation.sceneId,
+      quote: operation.quote,
+      replacementText: operation.replacementText,
+    });
+    const records = expectedBySignature.get(key) || [];
+    records.push(operation);
+    expectedBySignature.set(key, records);
+  }
+  const duplicateExpectedSignatureOperationIds = [...expectedBySignature.values()]
+    .filter((records) => records.length !== 1)
+    .flatMap((records) => records.map((operation) => operation.id));
+  const diagnosticsByChangeId = new Map(
+    (Array.isArray(activationSummary.textChangeScopeDiagnostics)
+      ? activationSummary.textChangeScopeDiagnostics
+      : [])
+      .filter((diagnostic) => diagnostic && typeof diagnostic.changeId === 'string')
+      .map((diagnostic) => [diagnostic.changeId, diagnostic]),
+  );
+  const candidateIdsByScene = activationSummary.exactApplyTextChangeIdsByScene
+    && typeof activationSummary.exactApplyTextChangeIdsByScene === 'object'
+    ? activationSummary.exactApplyTextChangeIdsByScene
+    : {};
+  const exactApplyTextChangeIdsByScene = {};
+  const matchedOperationIds = new Set();
+  const duplicateCandidateBindingIds = [];
+  const excludedCandidateIds = [];
+  const missingDiagnosticCandidateIds = [];
+  for (const [sceneId, changeIds] of Object.entries(candidateIdsByScene)) {
+    for (const changeId of (Array.isArray(changeIds) ? changeIds : [])) {
+      const diagnostic = diagnosticsByChangeId.get(changeId);
+      if (!diagnostic) {
+        missingDiagnosticCandidateIds.push(changeId);
+        continue;
+      }
+      const key = [
+        normalizeSceneId(diagnostic.targetScope?.id || sceneId),
+        String(diagnostic.quoteSha256 || ''),
+        String(diagnostic.replacementSha256 || ''),
+      ].join('|');
+      const expected = expectedBySignature.get(key) || [];
+      if (diagnostic.matchKind !== 'exact' || expected.length !== 1) {
+        excludedCandidateIds.push(changeId);
+        continue;
+      }
+      const operation = expected[0];
+      if (matchedOperationIds.has(operation.id)) {
+        duplicateCandidateBindingIds.push(changeId);
+        continue;
+      }
+      matchedOperationIds.add(operation.id);
+      const normalizedSceneId = normalizeSceneId(operation.sceneId);
+      if (!exactApplyTextChangeIdsByScene[normalizedSceneId]) exactApplyTextChangeIdsByScene[normalizedSceneId] = [];
+      exactApplyTextChangeIdsByScene[normalizedSceneId].push(changeId);
+    }
+  }
+  const unmatchedExpectedOperationIds = expectedOperations
+    .filter((operation) => !matchedOperationIds.has(operation.id))
+    .map((operation) => operation.id);
+  const matchedChangeCount = Object.values(exactApplyTextChangeIdsByScene)
+    .reduce((total, changeIds) => total + changeIds.length, 0);
+  return {
+    ok: matchedChangeCount === expectedOperations.length
+      && unmatchedExpectedOperationIds.length === 0
+      && duplicateExpectedSignatureOperationIds.length === 0
+      && duplicateCandidateBindingIds.length === 0
+      && missingDiagnosticCandidateIds.length === 0,
+    expectedOperationCount: expectedOperations.length,
+    matchedOperationCount: matchedOperationIds.size,
+    matchedChangeCount,
+    excludedCandidateCount: excludedCandidateIds.length,
+    exactApplyTextChangeIdsByScene,
+    unmatchedExpectedOperationIds,
+    duplicateExpectedSignatureOperationIds,
+    duplicateCandidateBindingIds,
+    missingDiagnosticCandidateIds,
+  };
+}
+
 export function deriveC5V2ProductRouteGaps(returnApply = {}, options = {}) {
   const normalizedReturnApply = returnApply && typeof returnApply === 'object'
     ? returnApply
@@ -974,6 +1079,7 @@ const fs = require('fs');
 const path = require('path');
 const deriveC5V2CommentLaneMaturity = ${deriveC5V2CommentLaneMaturity.toString()};
 const deriveC5V2ReturnLanePlan = ${deriveC5V2ReturnLanePlan.toString()};
+const bindC5V2ExpectedExactTextCandidates = ${bindC5V2ExpectedExactTextCandidates.toString()};
 const { app, BrowserWindow, dialog, Menu, session } = require('electron');
 const rootDir = ${JSON.stringify(REPO_ROOT)};
 const tempRoot = ${JSON.stringify(tempRoot)};
@@ -1339,7 +1445,15 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
     bufferSource: returnedBytes.toString('base64'),
   });
   const activationSummary = summarizeActivation(activation);
-  const lanePlan = deriveC5V2ReturnLanePlan(activationSummary);
+  const exactLedgerBinding = bindC5V2ExpectedExactTextCandidates({
+    expectedOperations,
+    activationSummary,
+    hashText: sha256ChildText,
+  });
+  const lanePlan = deriveC5V2ReturnLanePlan({
+    ...activationSummary,
+    exactApplyTextChangeIdsByScene: exactLedgerBinding.exactApplyTextChangeIdsByScene,
+  });
   const mutationFamiliesByScene = new Map();
   for (const operation of expectedOperations) {
     const mutationFamily = ['tracked_replace', 'tracked_insert', 'tracked_delete'].includes(operation.family)
@@ -1365,14 +1479,16 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
     typedLifecycle: expectedTypedLifecycleCount,
   };
   lanePlan.mixedSceneConflicts = mixedSceneConflicts;
+  lanePlan.exactLedgerBinding = exactLedgerBinding;
   progress('return-activation-complete', {
     ok: activationSummary.ok === true,
     formattingCandidateCount: lanePlan.formattingCandidateCount,
     exactTextCandidateCount: lanePlan.exactTextCandidateCount,
     commentCandidateCount: lanePlan.commentCandidateCount,
     structuralCandidateCount: lanePlan.structuralCandidateCount,
+    excludedExactCandidateCount: exactLedgerBinding.excludedCandidateCount,
   });
-  const textChangeIdsByScene = activationSummary.exactApplyTextChangeIdsByScene || {};
+  const textChangeIdsByScene = exactLedgerBinding.exactApplyTextChangeIdsByScene || {};
   const applyResults = [];
   const replayResults = [];
   const staleRetryResults = [];
@@ -1586,7 +1702,8 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
     });
   }
   const exactTextGreen = !lanePlan.hasExactText || (
-    lanePlan.exactTextCandidateCount === expectedExactTextCount
+    exactLedgerBinding.ok === true
+    && lanePlan.exactTextCandidateCount === expectedExactTextCount
     && applyResults.length > 0
     && applyResults.reduce((total, result) => total + result.changeIds.length, 0) === expectedExactTextCount
     && applyResults.every((result) => result.ok === true && result.applied === true)
@@ -1685,6 +1802,7 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
       candidateCode: activationSummary.candidateSummary?.code || '',
     } : null,
     activation: activationSummary,
+    exactLedgerBinding,
     lanePlan,
     applyResults,
     replayResults,
@@ -2198,10 +2316,13 @@ async function runElectronCumulativeFullManuscriptRoundtrip({
         }, null, 2));
         throw new Error(`C5V2_CUMULATIVE_WORD_ROUND_FAILED:${round.roundId}:${wordError}`);
       }
-      await waitForCondition(() => {
+      const returnApplyPayload = await waitForCondition(() => {
         const found = resultLines.find((line) => line.phase === 'return-apply' && line.roundIndex === roundIndex);
         return found || null;
       }, `ELECTRON_CUMULATIVE_RETURN_APPLY_NOT_EMITTED:${round.roundId}`, 1_800_000);
+      if (returnApplyPayload.ok !== 1 || returnApplyPayload.returnApply?.ok !== true) {
+        throw new Error(`C5V2_CUMULATIVE_RETURN_APPLY_FAILED:${round.roundId}:${returnApplyPayload.returnApply?.code || returnApplyPayload.returnApply?.reason || 'NON_GREEN'}`);
+      }
     }
     await waitForCondition(() => (exited ? exitState : null), 'ELECTRON_CUMULATIVE_EXIT_NOT_OBSERVED', 120_000);
   } catch (error) {

@@ -150,3 +150,76 @@ test('C5V2 no-op oracle requires authenticated byte-exact Word return and exact 
   assert.equal(blocked.ok, false);
   assert.equal(blocked.failures.includes('exactSceneReadback'), true);
 });
+
+test('C5V2 product apply binds only ledger-authorized EXACT candidates and deletes carry empty replacement text', async () => {
+  const canary = await import(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs'));
+  const sceneId = 'roman/01_dorian.txt';
+  const expectedOperations = [
+    {
+      id: 'replace-exact',
+      family: 'tracked_replace',
+      expectedOutcome: 'EXACT',
+      sceneId,
+      quote: 'unique old phrase',
+      replacementText: 'unique new phrase',
+    },
+    {
+      id: 'delete-exact',
+      family: 'tracked_delete',
+      expectedOutcome: 'EXACT',
+      sceneId,
+      quote: 'unique deleted phrase',
+      replacementText: '',
+    },
+    {
+      id: 'insert-manual',
+      family: 'tracked_insert',
+      expectedOutcome: 'MANUAL',
+      sceneId,
+      quote: 'manual insertion context',
+      replacementText: 'manual inserted text',
+    },
+  ];
+  const diagnostics = expectedOperations.map((operation, index) => ({
+    changeId: `change-${index + 1}`,
+    targetScope: { id: sceneId, type: 'scene' },
+    matchKind: 'exact',
+    quoteSha256: canary.sha256Text(operation.quote),
+    replacementSha256: canary.sha256Text(operation.replacementText),
+  }));
+  const binding = canary.bindC5V2ExpectedExactTextCandidates({
+    expectedOperations,
+    activationSummary: {
+      exactApplyTextChangeIdsByScene: { [sceneId]: diagnostics.map((item) => item.changeId) },
+      textChangeScopeDiagnostics: diagnostics,
+    },
+    hashText: canary.sha256Text,
+  });
+  assert.equal(binding.ok, true);
+  assert.equal(binding.expectedOperationCount, 2);
+  assert.equal(binding.matchedOperationCount, 2);
+  assert.equal(binding.excludedCandidateCount, 1);
+  assert.deepEqual(binding.exactApplyTextChangeIdsByScene, { [sceneId]: ['change-1', 'change-2'] });
+
+  const duplicate = canary.bindC5V2ExpectedExactTextCandidates({
+    expectedOperations,
+    activationSummary: {
+      exactApplyTextChangeIdsByScene: { [sceneId]: ['change-1', 'change-1-duplicate', 'change-2'] },
+      textChangeScopeDiagnostics: [
+        diagnostics[0],
+        { ...diagnostics[0], changeId: 'change-1-duplicate' },
+        diagnostics[1],
+      ],
+    },
+    hashText: canary.sha256Text,
+  });
+  assert.equal(duplicate.ok, false);
+  assert.deepEqual(duplicate.duplicateCandidateBindingIds, ['change-1-duplicate']);
+
+  assert.equal(canary.c5v2PhysicalReplacementText({
+    semanticIntent: { kind: 'delete', replacementText: 'must-not-survive' },
+  }), '');
+  assert.equal(canary.c5v2PhysicalReplacementText({
+    semanticIntent: { kind: 'replace', replacementText: 'replacement' },
+  }), 'replacement');
+});

@@ -4475,12 +4475,16 @@ export function buildC5V2CompleteRoundOracleGate({
   wordParsed = {},
   nativeLifecycleVerification = {},
   oracleProbe = null,
+  oracleCapture = null,
   returnApply = null,
 } = {}) {
   const failures = [];
   if (wordParsed?.scalars?.WORD_STATUS !== 'PASS') failures.push('WORD_STATUS_NOT_PASS');
   if (returnApply?.ok !== true) failures.push('PRODUCT_RETURN_APPLY_NOT_GREEN');
   if (nativeLifecycleVerification?.ok !== true) failures.push('NATIVE_LIFECYCLE_VERIFICATION_NOT_GREEN');
+  if (oracleCapture?.ok === false) {
+    failures.push(`ROUND_ORACLE_VALIDATION_ERROR:${oracleCapture.error?.code || 'UNKNOWN'}`);
+  }
   if (oracleProbe?.ok !== true) failures.push('COMPLETE_ROUND_ORACLE_NOT_GREEN');
   return {
     schemaVersion: 'yalken.rtk.word.c5v2.complete-round-oracle-gate.v1',
@@ -4494,6 +4498,35 @@ export function buildC5V2CompleteRoundOracleGate({
     semanticOracleDigest: oracleProbe?.semanticOracle?.digest || oracleProbe?.semanticOracle?.oracleDigest || '',
     failures,
   };
+}
+
+export function captureC5V2CompleteRoundOracle(input = {}, options = {}) {
+  const builder = typeof options.buildOracleProbe === 'function'
+    ? options.buildOracleProbe
+    : buildOracleProbe;
+  try {
+    return {
+      ok: true,
+      oracleProbe: builder(input),
+      error: null,
+    };
+  } catch (error) {
+    const errorEvidence = {
+      code: String(error?.code || error?.reason || 'C5V2_COMPLETE_ROUND_ORACLE_CAPTURE_FAILED'),
+      name: String(error?.name || 'Error'),
+      message: String(error?.message || error || 'UNKNOWN'),
+    };
+    return {
+      ok: false,
+      oracleProbe: {
+        schemaVersion: 'yalken.rtk.word.c5v2.complete-round-oracle.capture-failure.v1',
+        ok: false,
+        error: errorEvidence,
+        oracleDigest: sha256Text(stableCanonicalJson(errorEvidence)),
+      },
+      error: errorEvidence,
+    };
+  }
 }
 
 function parseArgs(argv) {
@@ -4698,8 +4731,8 @@ async function mainCumulative(options) {
         nativeLifecycleVerification,
       );
       const returnApply = payload.returnApplyPayload?.returnApply || null;
-      const oracleProbe = wordParsed.ops.length > 0 && round.ledger && fs.existsSync(round.returnedPath)
-        ? buildOracleProbe({
+      const oracleCapture = wordParsed.ops.length > 0 && round.ledger && fs.existsSync(round.returnedPath)
+        ? captureC5V2CompleteRoundOracle({
             ledger: round.ledger,
             wordParsed,
             returnedDocxPath: round.returnedPath,
@@ -4709,6 +4742,7 @@ async function mainCumulative(options) {
             returnApply,
           })
         : null;
+      const oracleProbe = oracleCapture?.oracleProbe || null;
       const oracleArtifact = oracleProbe
         ? writeJsonAtomicDurable(path.join(round.roundDir, 'complete-round-oracle.json'), oracleProbe)
         : null;
@@ -4717,6 +4751,7 @@ async function mainCumulative(options) {
         wordParsed,
         nativeLifecycleVerification,
         oracleProbe,
+        oracleCapture,
         returnApply,
       });
       round.completedRoundEvidence = {
@@ -4724,6 +4759,7 @@ async function mainCumulative(options) {
         nativeLifecycleVerification,
         returnApply,
         oracleProbe,
+        oracleCapture,
         oracleArtifact,
         gate,
       };
@@ -4737,19 +4773,26 @@ async function mainCumulative(options) {
     }
   }
   const roundSummaries = rounds.map((round, index) => {
+    const hasCompletedRoundEvidence = isPlainObject(round.completedRoundEvidence);
     const wordOutput = electronResult.wordOutputs[index] || '';
-    const nativeLifecycleVerification = round.completedRoundEvidence?.nativeLifecycleVerification || (round.ledger && fs.existsSync(round.returnedPath)
+    const nativeLifecycleVerification = hasCompletedRoundEvidence
+      ? round.completedRoundEvidence.nativeLifecycleVerification
+      : (round.ledger && fs.existsSync(round.returnedPath)
       ? readNativeLifecycleSnapshots({ ledger: round.ledger, returnedPath: round.returnedPath })
       : { ok: false, results: [], verifiedCount: 0, blockedCount: 0 });
-    const wordParsed = round.completedRoundEvidence?.wordParsed
-      || applyNativeLifecycleVerification(parseWordOutput(wordOutput), nativeLifecycleVerification);
+    const wordParsed = hasCompletedRoundEvidence
+      ? round.completedRoundEvidence.wordParsed
+      : applyNativeLifecycleVerification(parseWordOutput(wordOutput), nativeLifecycleVerification);
     const returnApplyEnvelope = electronResult.returnApplyResults.find((line) => line.roundIndex === index) || null;
-    const returnApply = round.completedRoundEvidence?.returnApply
-      || (returnApplyEnvelope && returnApplyEnvelope.returnApply ? returnApplyEnvelope.returnApply : null);
+    const returnApply = hasCompletedRoundEvidence
+      ? round.completedRoundEvidence.returnApply
+      : (returnApplyEnvelope && returnApplyEnvelope.returnApply ? returnApplyEnvelope.returnApply : null);
     const exact = returnApply?.activation?.exactApplyTextChangeIdsByScene || {};
     const exactTotal = Object.values(exact).reduce((total, ids) => total + (Array.isArray(ids) ? ids.length : 0), 0);
-    const oracleProbe = round.completedRoundEvidence?.oracleProbe || (wordParsed.ops.length > 0 && round.ledger && fs.existsSync(round.returnedPath)
-      ? buildOracleProbe({
+    const oracleCapture = hasCompletedRoundEvidence
+      ? round.completedRoundEvidence.oracleCapture
+      : (wordParsed.ops.length > 0 && round.ledger && fs.existsSync(round.returnedPath)
+        ? captureC5V2CompleteRoundOracle({
           ledger: round.ledger,
           wordParsed,
           returnedDocxPath: round.returnedPath,
@@ -4759,7 +4802,10 @@ async function mainCumulative(options) {
           returnApply,
         })
       : null);
-    const oracleArtifact = round.completedRoundEvidence?.oracleArtifact || (oracleProbe
+    const oracleProbe = oracleCapture?.oracleProbe || null;
+    const oracleArtifact = hasCompletedRoundEvidence
+      ? round.completedRoundEvidence.oracleArtifact
+      : (oracleProbe
       ? writeJsonAtomicDurable(path.join(round.roundDir, 'complete-round-oracle.json'), oracleProbe)
       : null);
     return {
@@ -4790,10 +4836,11 @@ async function mainCumulative(options) {
       nativeLifecycleVerification,
       packageSummary: fs.existsSync(round.returnedPath) ? packageSummary(round.returnedPath) : null,
       oracleProbe,
+      oracleCapture,
       oracleArtifact,
-      roundOracleGate: round.completedRoundEvidence?.gate
-        || electronResult.roundOracleGateResults.find((line) => line.roundIndex === index)?.roundOracleGate
-        || null,
+      roundOracleGate: hasCompletedRoundEvidence
+        ? round.completedRoundEvidence.gate
+        : (electronResult.roundOracleGateResults.find((line) => line.roundIndex === index)?.roundOracleGate || null),
       productReturnApply: returnApply,
       productApplyOk: returnApply?.ok === true,
       exactScenes: Object.keys(exact).length,

@@ -196,6 +196,31 @@ test('C5V2 cumulative controller blocks the next export until the complete round
   assert.equal(blocked.ok, false);
   assert.deepEqual(blocked.failures, ['COMPLETE_ROUND_ORACLE_NOT_GREEN']);
 
+  const captureFailure = canary.captureC5V2CompleteRoundOracle({}, {
+    buildOracleProbe() {
+      const error = new Error('C5V2_PRODUCT_SCENE_OBSERVABLE_PAYLOAD_INVALID:DOC_BLOCK_TRUNCATED');
+      error.code = 'DOC_BLOCK_TRUNCATED';
+      throw error;
+    },
+  });
+  assert.equal(captureFailure.ok, false);
+  assert.equal(captureFailure.oracleProbe.ok, false);
+  assert.equal(captureFailure.oracleProbe.error.code, 'DOC_BLOCK_TRUNCATED');
+  assert.match(captureFailure.oracleProbe.oracleDigest, /^sha256:[a-f0-9]{64}$/u);
+  const failedCaptureGate = canary.buildC5V2CompleteRoundOracleGate({
+    roundId: 'round-02',
+    wordParsed: { scalars: { WORD_STATUS: 'PASS' } },
+    nativeLifecycleVerification: { ok: true },
+    oracleProbe: captureFailure.oracleProbe,
+    oracleCapture: captureFailure,
+    returnApply: { ok: true },
+  });
+  assert.equal(failedCaptureGate.ok, false);
+  assert.deepEqual(failedCaptureGate.failures, [
+    'ROUND_ORACLE_VALIDATION_ERROR:DOC_BLOCK_TRUNCATED',
+    'COMPLETE_ROUND_ORACLE_NOT_GREEN',
+  ]);
+
   const source = fs.readFileSync(
     path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs'),
     'utf8',
@@ -205,4 +230,6 @@ test('C5V2 cumulative controller blocks the next export until the complete round
   assert.match(source, /await validateRound\(roundIndex, round/u);
   assert.match(source, /writeJsonAtomicDurable\(round\.oracleGatePath, roundOracleGate\)/u);
   assert.match(source, /C5V2_CUMULATIVE_COMPLETE_ROUND_ORACLE_FAILED/u);
+  assert.match(source, /captureC5V2CompleteRoundOracle/u);
+  assert.match(source, /hasCompletedRoundEvidence/u);
 });

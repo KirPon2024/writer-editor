@@ -32,6 +32,7 @@ import {
   createCommandKernelReceiptAuthorityPortFromStore,
   createCommandReceiptAuthorityHeadRef,
   createInitialCommandReceiptAuthorityStore,
+  preflightCommandReceiptIdentity,
   validateCommandReceiptAuthorityStore,
 } from './stage10CommandReceiptAuthorityHead.mjs';
 import {
@@ -1172,6 +1173,14 @@ export async function createStage10ProductRuntime(input = {}) {
 
     const payload = isPlainObject(payloadInput) ? cloneJson(payloadInput) : {};
     const opId = normalizeString(payload.opId) || nextOpId(authorityState.store, commandId);
+    const identityPreflight = preflightCommandReceiptIdentity({
+      store: authorityState.store,
+      projectId: session.projectId,
+      eventLog: session.eventLog,
+      operationId: opId,
+      receiptId: opId,
+    });
+    if (!identityPreflight.ok) return identityPreflight;
     const ts = normalizeString(payload.ts) || now();
     const sessionBefore = cloneJson(session);
     const authorityBefore = authorityState.store;

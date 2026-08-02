@@ -40,6 +40,11 @@ function sha256Text(value) {
   return /^[a-f0-9]{64}$/i.test(normalizeString(value));
 }
 
+function stableIdentity(value) {
+  const normalized = normalizeString(value);
+  return /^[a-z0-9][a-z0-9._:-]{0,159}$/iu.test(normalized) ? normalized : '';
+}
+
 export function receiptRootDigest(receipts = []) {
   const normalized = Array.isArray(receipts) ? receipts.map((receipt) => cloneJson(receipt)) : [];
   let rootDigest = hashCanonicalValue({
@@ -149,7 +154,7 @@ function validateReceipt(receipt, index) {
   if (receipt.schemaVersion !== COMMAND_KERNEL_RECEIPT_SCHEMA_VERSION) {
     return typedError('E_STAGE10_RECEIPT_VERSION_INVALID', 'stage10.commandReceiptAuthorityHead', 'COMMAND_KERNEL_RECEIPT_VERSION_INVALID', { index });
   }
-  if (!normalizeString(receipt.operationId) || !normalizeString(receipt.commandId)) {
+  if (!stableIdentity(receipt.receiptId) || !stableIdentity(receipt.operationId) || !normalizeString(receipt.commandId)) {
     return typedError('E_STAGE10_RECEIPT_BINDING_INVALID', 'stage10.commandReceiptAuthorityHead', 'COMMAND_KERNEL_RECEIPT_OPERATION_BINDING_INVALID', { index });
   }
   if (receipt.capabilityRevalidated !== true) {
@@ -165,6 +170,94 @@ function validateReceipt(receipt, index) {
     return typedError('E_STAGE10_RECEIPT_FACTS_DUPLICATED', 'stage10.commandReceiptAuthorityHead', 'COMMAND_KERNEL_RECEIPT_FACTS_MUST_NOT_DUPLICATE_EVENT_LOG', { index });
   }
   return null;
+}
+
+function duplicateReceiptIdentityError(receipts) {
+  const receiptIds = new Set();
+  const operationIds = new Set();
+  for (let index = 0; index < receipts.length; index += 1) {
+    const receiptId = stableIdentity(receipts[index]?.receiptId);
+    const operationId = stableIdentity(receipts[index]?.operationId);
+    if (receiptIds.has(receiptId)) {
+      return typedError(
+        'E_STAGE10_RECEIPT_ID_DUPLICATE',
+        'stage10.commandReceiptAuthorityHead',
+        'COMMAND_KERNEL_RECEIPT_ID_ALREADY_EXISTS',
+        { index, receiptId },
+      );
+    }
+    if (operationIds.has(operationId)) {
+      return typedError(
+        'E_STAGE10_OPERATION_ID_DUPLICATE',
+        'stage10.commandReceiptAuthorityHead',
+        'COMMAND_KERNEL_OPERATION_ID_ALREADY_EXISTS',
+        { index, operationId },
+      );
+    }
+    receiptIds.add(receiptId);
+    operationIds.add(operationId);
+  }
+  return null;
+}
+
+export function preflightCommandReceiptIdentity({ store, projectId, eventLog, operationId, receiptId = operationId } = {}) {
+  const normalizedOperationId = stableIdentity(operationId);
+  const normalizedReceiptId = stableIdentity(receiptId);
+  if (!normalizedOperationId || !normalizedReceiptId) {
+    return {
+      ok: false,
+      error: typedError(
+        'E_STAGE10_OPERATION_ID_INVALID',
+        'stage10.commandReceiptAuthorityHead.preflight',
+        'COMMAND_KERNEL_OPERATION_ID_INVALID',
+      ),
+    };
+  }
+  let verifiedStore = store;
+  if (!VERIFIED_AUTHORITY_STORES.has(verifiedStore)) {
+    const verified = validateCommandReceiptAuthorityStore(store, { projectId, eventLog });
+    if (!verified.ok) return verified;
+    verifiedStore = verified.store;
+  } else if (normalizeString(verifiedStore.projectId) !== normalizeString(projectId)) {
+    return {
+      ok: false,
+      error: typedError(
+        'E_STAGE10_RECEIPT_AUTHORITY_STORE_PROJECT_INVALID',
+        'stage10.commandReceiptAuthorityHead.preflight',
+        'COMMAND_KERNEL_RECEIPT_AUTHORITY_STORE_PROJECT_MISMATCH',
+      ),
+    };
+  }
+  if (verifiedStore.receipts.some((receipt) => receipt.receiptId === normalizedReceiptId)) {
+    return {
+      ok: false,
+      error: typedError(
+        'E_STAGE10_RECEIPT_ID_DUPLICATE',
+        'stage10.commandReceiptAuthorityHead.preflight',
+        'COMMAND_KERNEL_RECEIPT_ID_ALREADY_EXISTS',
+        { receiptId: normalizedReceiptId },
+      ),
+    };
+  }
+  if (
+    verifiedStore.receipts.some((receipt) => receipt.operationId === normalizedOperationId)
+    || (Array.isArray(eventLog?.events) && eventLog.events.some((event) => normalizeString(event?.opId) === normalizedOperationId))
+  ) {
+    return {
+      ok: false,
+      error: typedError(
+        'E_STAGE10_OPERATION_ID_DUPLICATE',
+        'stage10.commandReceiptAuthorityHead.preflight',
+        'COMMAND_KERNEL_OPERATION_ID_ALREADY_EXISTS',
+        { operationId: normalizedOperationId },
+      ),
+    };
+  }
+  return {
+    ok: true,
+    operationId: normalizedOperationId,
+    receiptId: normalizedReceiptId,
+  };
 }
 
 function validateHead(head, { projectId, receipts, eventLogDigest, previousHeadDigest, generation }) {
@@ -236,6 +329,8 @@ export function validateCommandReceiptAuthorityStore(storeInput, {
     const receiptError = validateReceipt(receipts[index], index);
     if (receiptError) return { ok: false, error: receiptError };
   }
+  const duplicateError = duplicateReceiptIdentityError(receipts);
+  if (duplicateError) return { ok: false, error: duplicateError };
   if (requireReceipts && receipts.length === 0) {
     return { ok: false, error: typedError('E_STAGE10_RECEIPT_AUTHORITY_RECEIPT_MISSING', 'stage10.commandReceiptAuthorityHead', 'COMMAND_KERNEL_RECEIPT_AUTHORITY_RECEIPT_MISSING') };
   }
@@ -295,6 +390,13 @@ export function appendCommandReceiptAuthorityHead({ store, projectId, eventLog, 
   if (normalizeString(verifiedStore.projectId) !== normalizeString(projectId)) {
     throw typedError('E_STAGE10_RECEIPT_AUTHORITY_STORE_PROJECT_INVALID', 'stage10.commandReceiptAuthorityHead', 'COMMAND_KERNEL_RECEIPT_AUTHORITY_STORE_PROJECT_MISMATCH');
   }
+  const receiptIdentity = preflightCommandReceiptIdentity({
+    store: verifiedStore,
+    projectId,
+    operationId: receipt?.operationId,
+    receiptId: receipt?.receiptId,
+  });
+  if (!receiptIdentity.ok) throw receiptIdentity.error;
   const receipts = [...verifiedStore.receipts, cloneJson(receipt)];
   const receiptError = validateReceipt(receipts.at(-1), receipts.length - 1);
   if (receiptError) throw receiptError;

@@ -504,3 +504,81 @@ test('Stage10 repair: compact authority append stays bounded per command and req
   const requiredWorkflow = readText('.github/workflows/rtk-required.yml');
   assert.match(requiredWorkflow, /npm run -s test:atlas-event-contract/u);
 });
+
+test('Stage10 repair: duplicate operation identity fails before recovery or command persistence side effects', async () => {
+  const harness = await createHarness('duplicate-preflight');
+  const projectId = 'stage10-duplicate-preflight';
+  const bootstrap = await createProject(harness, projectId);
+  const stage10 = await importModule('src/product/stage10ProductWiring.mjs');
+  const opId = 'duplicate-history-operation';
+  const first = await bootstrap.dispatchProjectCommand(
+    stage10.STAGE10_PRODUCT_COMMAND_IDS.HISTORY_CREATE_CHECKPOINT,
+    { projectId, opId, snapshotId: 'checkpoint-first' },
+  );
+  assert.equal(first.ok, true, JSON.stringify(first));
+  const recoveryRoot = harness.adapter.paths(projectId).recoveryRoot;
+  const recoveryBefore = fs.readdirSync(recoveryRoot).sort();
+  const stateBefore = await harness.adapter.readStage10State(projectId);
+
+  const duplicate = await bootstrap.dispatchProjectCommand(
+    stage10.STAGE10_PRODUCT_COMMAND_IDS.HISTORY_CREATE_CHECKPOINT,
+    { projectId, opId, snapshotId: 'checkpoint-must-not-exist' },
+  );
+  assert.equal(duplicate.ok, false, JSON.stringify(duplicate));
+  assert.equal(duplicate.error.code, 'E_STAGE10_RECEIPT_ID_DUPLICATE');
+  assert.deepEqual(fs.readdirSync(recoveryRoot).sort(), recoveryBefore);
+  assert.equal(fs.existsSync(path.join(recoveryRoot, 'checkpoint-must-not-exist.json')), false);
+  assert.deepEqual(await harness.adapter.readStage10State(projectId), stateBefore);
+
+  const reopenedBootstrap = (await importModule('src/product/stage10ApplicationBootstrap.mjs'))
+    .createStage10ApplicationBootstrap({ persistencePort: harness.makeAdapter() });
+  const reopened = await reopenedBootstrap.reopenProjectRuntime({ projectId });
+  assert.equal(reopened.ok, true);
+  assert.equal(reopenedBootstrap.getRuntime().getReadModels().replay.ok, true);
+});
+
+test('Stage10 repair: receipt authority rejects duplicate receipt and operation identities on append and reopen validation', async () => {
+  const authority = await importModule('src/product/stage10CommandReceiptAuthorityHead.mjs');
+  const collab = await importModule('src/collab/index.mjs');
+  const projectId = 'stage10-duplicate-authority';
+  const eventLog = collab.createEmptyEventLog();
+  const receipt = {
+    schemaVersion: 'command-kernel.receipt.v1',
+    receiptId: 'receipt-duplicate',
+    operationId: 'operation-duplicate',
+    commandId: 'project.applyTextEdit',
+    status: 'APPLIED',
+    appliedAt: '2026-08-02T00:00:00.000Z',
+    actorId: 'local-author',
+    sessionId: 'duplicate-session',
+    preStateHash: 'a'.repeat(64),
+    postStateHash: 'b'.repeat(64),
+    capabilityRevalidated: true,
+    activationMode: 'DOM_VISIBLE_CONTROL_LISTENER_FALLBACK',
+    controlId: 'duplicate-control',
+    visibleUiCommand: true,
+    directBridge: false,
+    storageWritten: true,
+    domainEventDigest: '',
+    domainEventCount: 0,
+    details: {},
+  };
+  const initial = authority.createInitialCommandReceiptAuthorityStore({ projectId, eventLog });
+  const once = authority.appendCommandReceiptAuthorityHead({ store: initial, projectId, eventLog, receipt });
+  assert.throws(
+    () => authority.appendCommandReceiptAuthorityHead({ store: once, projectId, eventLog, receipt }),
+    (error) => error?.code === 'E_STAGE10_RECEIPT_ID_DUPLICATE',
+  );
+
+  const forged = cloneJson(once);
+  forged.receipts.push(cloneJson(receipt));
+  forged.compaction.retainedReceiptCount = 2;
+  forged.currentHead.authorityGeneration = 2;
+  forged.currentHead.receiptCount = 2;
+  forged.currentHead.receiptRootDigest = authority.receiptRootDigest(forged.receipts);
+  forged.currentHead.previousAuthorityHeadDigest = once.currentHead.authorityHeadDigest;
+  forged.currentHead.authorityHeadDigest = authority.authorityHeadDigest(forged.currentHead);
+  const validated = authority.validateCommandReceiptAuthorityStore(forged, { projectId, eventLog });
+  assert.equal(validated.ok, false);
+  assert.equal(validated.error.code, 'E_STAGE10_RECEIPT_ID_DUPLICATE');
+});

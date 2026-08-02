@@ -1117,6 +1117,60 @@
       "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-a69784e66cb5-8a2da1ef/failsignal-registry-snapshot.json",
+      "sha256": "480a720d5f877f5109ea1e0462950bd60500b7823221f0ab7417d98c90e98495",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
+      "approvedAtUtc": "2026-08-02T11:45:42.249Z",
+      "rationale": "Approve the generated promotion evidence pack for the exact N3 formatting-return branch and repaired C5V2 release-candidate lock. The pack records local promotion truth only and does not certify physical Word, saturation, Google, or unsupported return lanes.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WORD_N3_FORMATTING_RETURN_PROMOTION_EVIDENCE"
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-a69784e66cb5-8a2da1ef/heavy-lane-summary.json",
+      "sha256": "96e05cb0ac19b3b84198a1eb63591079b0a64c3b99121ab9e20751d3f2a3ea5f",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
+      "approvedAtUtc": "2026-08-02T11:45:42.249Z",
+      "rationale": "Approve the generated promotion evidence pack for the exact N3 formatting-return branch and repaired C5V2 release-candidate lock. The pack records local promotion truth only and does not certify physical Word, saturation, Google, or unsupported return lanes.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WORD_N3_FORMATTING_RETURN_PROMOTION_EVIDENCE"
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-a69784e66cb5-8a2da1ef/menuArtifactHash.txt",
+      "sha256": "44b5d7610028097b2452d398bb8367fd48d1c4818728fb060e92bc36fd567d7f",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
+      "approvedAtUtc": "2026-08-02T11:45:42.249Z",
+      "rationale": "Approve the generated promotion evidence pack for the exact N3 formatting-return branch and repaired C5V2 release-candidate lock. The pack records local promotion truth only and does not certify physical Word, saturation, Google, or unsupported return lanes.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WORD_N3_FORMATTING_RETURN_PROMOTION_EVIDENCE"
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-a69784e66cb5-8a2da1ef/perfBaseline.json",
+      "sha256": "4c2ba9bc56ac34e0e1a6dbabb0bd4506d348699837ed287078e85325244977e3",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
+      "approvedAtUtc": "2026-08-02T11:45:42.249Z",
+      "rationale": "Approve the generated promotion evidence pack for the exact N3 formatting-return branch and repaired C5V2 release-candidate lock. The pack records local promotion truth only and does not certify physical Word, saturation, Google, or unsupported return lanes.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WORD_N3_FORMATTING_RETURN_PROMOTION_EVIDENCE"
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-a69784e66cb5-8a2da1ef/promotion-summary.json",
+      "sha256": "9e3691f4e3daa9c6dc34f666afa95da3a33458dc077652e937eb615aae290f9f",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
+      "approvedAtUtc": "2026-08-02T11:45:42.249Z",
+      "rationale": "Approve the generated promotion evidence pack for the exact N3 formatting-return branch and repaired C5V2 release-candidate lock. The pack records local promotion truth only and does not certify physical Word, saturation, Google, or unsupported return lanes.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WORD_N3_FORMATTING_RETURN_PROMOTION_EVIDENCE"
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-a69784e66cb5-8a2da1ef/token-required-set.json",
+      "sha256": "53845afe43620c1da737dba37aaf96a86d09e3a0cc5ee4b086b1912282956ac5",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
+      "approvedAtUtc": "2026-08-02T11:45:42.249Z",
+      "rationale": "Approve the generated promotion evidence pack for the exact N3 formatting-return branch and repaired C5V2 release-candidate lock. The pack records local promotion truth only and does not certify physical Word, saturation, Google, or unsupported return lanes.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WORD_N3_FORMATTING_RETURN_PROMOTION_EVIDENCE"
+    },
+    {
       "filePath": "docs/OPS/EVIDENCE/promotion/rc-a87baa693981-54a0f555/failsignal-registry-snapshot.json",
       "sha256": "480a720d5f877f5109ea1e0462950bd60500b7823221f0ab7417d98c90e98495",
       "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",

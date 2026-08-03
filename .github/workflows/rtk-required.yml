@@ -34,5 +34,8 @@ jobs:
       - name: Run maintained Atlas release truth graph
         run: npm run -s test:atlas-release-truth
 
+      - name: Run Atlas V6 production evidence coverage guard
+        run: npm run -s test:atlas-v6-production-coverage
+
       - name: Run Atlas V6 production negative matrix
         run: npm run -s test:atlas-v6-production

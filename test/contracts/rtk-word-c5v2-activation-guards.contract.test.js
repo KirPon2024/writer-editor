@@ -116,3 +116,25 @@ test('C5V2 shipped activation command wires both fail-closed guards before sessi
   const importIndex = mainSource.indexOf('const importPayload = buildDocxReviewPreviewSessionImportPayload', checkIndex);
   assert.equal(checkIndex > 0 && importIndex > checkIndex, true);
 });
+
+test('C5V2 physical canary waits for Roman project tree readiness after startup lease contention', () => {
+  const canarySource = fs.readFileSync(
+    path.join(__dirname, '..', '..', 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs'),
+    'utf8',
+  );
+  const helperIndex = canarySource.indexOf('async function queryRomanProjectTreeUntilReady(win)');
+  assert.notEqual(helperIndex, -1);
+  const helperSource = canarySource.slice(helperIndex, canarySource.indexOf('async function captureReopenedYalkenTruth', helperIndex));
+  assert.match(helperSource, /waitUntil\(async \(\) =>/u);
+  assert.match(helperSource, /window\.electronAPI\.invokeWorkspaceQueryBridge\(\{queryId:'query\.projectTree',payload:\{tab:'roman'\}\}\)/u);
+  assert.match(helperSource, /projectTreeProbe\.error === 'E_PROJECT_LEASE_HELD'\) return null/u);
+  assert.match(helperSource, /C5V2_PROJECT_TREE_QUERY_FAILED/u);
+  assert.match(helperSource, /'PROJECT_TREE_ROMAN_ROOT_NOT_READY', 30000/u);
+
+  const startupIndex = canarySource.indexOf("progress('manifest-ready'");
+  const readyIndex = canarySource.indexOf('await queryRomanProjectTreeUntilReady(win)', startupIndex);
+  const createIndex = canarySource.indexOf("cmd.project.tree.createNode", startupIndex);
+  assert.equal(startupIndex > 0 && readyIndex > startupIndex && readyIndex < createIndex, true);
+  assert.match(canarySource.slice(readyIndex, createIndex), /progress\('project-tree-ready'/u);
+  assert.doesNotMatch(canarySource.slice(startupIndex, readyIndex), /invokeWorkspaceQueryBridge/u);
+});

@@ -196,19 +196,27 @@ test('C5V2 cumulative controller blocks the next export until the complete round
   assert.equal(canary.hasC5V2CompletedRoundEvidence([]), false);
   const policy = canary.getC5V2OperationStatusPolicyBinding();
   const completedRoundReuseBinding = canary.buildC5V2CompletedRoundReuseBinding({
+    roundId: 'round-01',
     exactHead: 'head-current',
     canaryScriptSha256: 'sha256:script-current',
     operationStatusPolicyVersion: policy.version,
     operationStatusPolicyDigest: policy.digest,
     corpusDigest: 'sha256:corpus-current',
-    ledgerDigest: 'sha256:ledger-current',
+    ledger: { operations: [] },
+    ledgerContentDigest: 'sha256:ledger-current',
+    wordOutputSha256: 'sha256:word-output-current',
+    completeRoundOracleSha256: 'sha256:oracle-current',
+    returnedReadySha256: 'sha256:ready-current',
     sourceDocxSha256: 'sha256:source-current',
     returnedDocxSha256: 'sha256:return-current',
     yalkenTruthSha256: 'sha256:truth-current',
     exactLedgerBinding: {
       ok: true,
+      expectedOperationCount: 0,
+      matchedOperationCount: 0,
       matchedChangeCount: 0,
       exactApplyTextChangeIdsByScene: {},
+      exactOperationBindings: [],
     },
   });
   const green = canary.buildC5V2CompleteRoundOracleGate({

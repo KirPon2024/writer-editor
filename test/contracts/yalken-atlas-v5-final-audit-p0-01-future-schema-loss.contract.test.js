@@ -390,6 +390,9 @@ test('P0 01: project tree query uses read-only identity when same process holds 
   const created = await harness.main.handleProjectLifecycleCreateCommand({ projectName: 'Роман' });
   assert.equal(created.ok, true);
   const projectRoot = path.join(harness.documentsRoot, 'Роман');
+  const scenePath = path.join(projectRoot, 'roman', '01_same-process-lease-scene.txt');
+  await fsPromises.mkdir(path.dirname(scenePath), { recursive: true });
+  await fsPromises.writeFile(scenePath, 'Same process lease scene\\n', 'utf8');
   const manifestPath = path.join(projectRoot, PROJECT_MANIFEST_FILENAME);
   const manifest = JSON.parse(await fsPromises.readFile(manifestPath, 'utf8'));
 
@@ -407,6 +410,8 @@ test('P0 01: project tree query uses read-only identity when same process holds 
     const secondTree = await harness.main.handleWorkspaceProjectTreeQuery({ tab: 'roman' });
     assert.equal(secondTree.ok, true, JSON.stringify(secondTree));
     assert.equal(secondTree.projectId, manifest.projectId);
+    const documentIdentity = await harness.main.getProjectDocumentIdentityPayload(scenePath);
+    assert.match(documentIdentity.documentId, /^tree-node-[a-f0-9]{32}$/u);
   } finally {
     await leaseManager.release(heldLease);
   }

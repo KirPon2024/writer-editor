@@ -6202,12 +6202,12 @@
     },
     {
       "filePath": "scripts/run-rtk-tests.mjs",
-      "sha256": "4bcc098dd386785336823d1f93baffe940709e8ada7af115f470ea7179c685ff",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
-      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
-      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "sha256": "0fab1cc0a03d4b0de4f3db75d4cca02877070f339c98a74cf33d90ad5e9ee765",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR_V1",
+      "approvedAtUtc": "2026-08-03T19:46:41.000Z",
+      "rationale": "Approve exact RTK runner bytes that capture and echo TAP while failing closed on hidden skip, TODO, incomplete summary, zero tests, missing mandatory records, count mismatch, cancellation, and not-ok records.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR"
     },
     {
       "filePath": "scripts/sector-m-run.mjs",
@@ -7614,12 +7614,12 @@
     },
     {
       "filePath": "test/contracts/rtk-test-graph-catalog.contract.test.js",
-      "sha256": "b30d65c12e422d5a8dfa13b9e3c338d71bbade15f05b18528c293c02d4e630ce",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
-      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
-      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "sha256": "4a10289ddd06af3dd67076a283170bd57cfe33325fcbca9c3edb031f92706e7f",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR_V1",
+      "approvedAtUtc": "2026-08-03T19:46:41.000Z",
+      "rationale": "Approve exact RTK graph contract bytes adding TAP runner false-green regressions for hidden skip, TODO, incomplete summary, zero tests, and test record count mismatch while preserving required local deterministic graph wiring.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",

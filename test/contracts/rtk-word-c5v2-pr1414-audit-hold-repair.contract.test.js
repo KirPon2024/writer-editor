@@ -28,6 +28,7 @@ function rewriteBoundGate(canary, fixture, bindingChanges = {}, gateChanges = {}
 
 function createBoundCompletedRound(canary, overrides = {}) {
   const roundDir = fs.mkdtempSync(path.join(os.tmpdir(), 'c5v2-pr1414-audit-hold-'));
+  const candidateAuthorityRoot = `${roundDir}-main-owned-authority`;
   const operations = Array.isArray(overrides.operations) ? overrides.operations : [{
     id: 'op-exact-001',
     formalFamily: 'tracked_text_edit',
@@ -146,7 +147,13 @@ function createBoundCompletedRound(canary, overrides = {}) {
     operationStatusPolicyBinding: policy,
     corpusDigest: 'sha256:corpus-current',
     roundId: 'round-01',
+    campaignId: 'campaign-current',
+    candidateAuthorityRoot,
   };
+  canary.initializeC5V2CandidateAuthorityRoot({
+    authorityRoot: candidateAuthorityRoot,
+    createIfMissing: true,
+  });
   const returnApply = {
     ok: true,
     activation: {
@@ -164,6 +171,17 @@ function createBoundCompletedRound(canary, overrides = {}) {
     returnApply,
   });
   writeJson(files.candidateAuthority, returnApplyCandidateAuthority);
+  const returnApplyCandidateAuthorityAnchorValidation = canary.writeC5V2ReturnApplyCandidateAuthorityAnchor({
+    authorityRoot: candidateAuthorityRoot,
+    campaignId: context.campaignId,
+    roundId: context.roundId,
+    exactHead: context.exactHead,
+    corpusDigest: context.corpusDigest,
+    ledger,
+    candidateAuthority: returnApplyCandidateAuthority,
+    candidateAuthorityPath: files.candidateAuthority,
+  });
+  assert.equal(returnApplyCandidateAuthorityAnchorValidation.ok, true);
   const completedRoundReuseBinding = canary.buildC5V2CompletedRoundReuseBinding({
     roundId: overrides.roundId || context.roundId,
     exactHead: overrides.exactHead || context.exactHead,
@@ -181,6 +199,9 @@ function createBoundCompletedRound(canary, overrides = {}) {
     yalkenTruthSha256: canary.sha256File(files.truth),
     returnApplyCandidateAuthority,
     returnApplyCandidateAuthoritySha256: canary.sha256File(files.candidateAuthority),
+    returnApplyCandidateAuthorityAnchor: returnApplyCandidateAuthorityAnchorValidation.anchor,
+    returnApplyCandidateAuthorityAnchorArtifact: returnApplyCandidateAuthorityAnchorValidation.anchorArtifact,
+    returnApplyCandidateAuthorityAnchorValidation,
     exactLedgerBinding,
   });
   const gate = canary.buildC5V2CompleteRoundOracleGate({
@@ -202,10 +223,11 @@ function createBoundCompletedRound(canary, overrides = {}) {
     completedRoundReuseBinding,
     exactLedgerBinding,
     returnApplyCandidateAuthority,
+    returnApplyCandidateAuthorityAnchorValidation,
   };
 }
 
-test('C5V2 v4 rejects synchronized forged change mapping against independent candidate authority', async () => {
+test('C5V2 v5 rejects synchronized raw-authority and exact-mapping changeId swap after every plain digest is refreshed', async () => {
   const canary = await loadCanary();
   const fixture = createBoundCompletedRound(canary, {
     operations: [{
@@ -226,6 +248,18 @@ test('C5V2 v4 rejects synchronized forged change mapping against independent can
       replacementText: 'new text two',
     }],
   });
+  assert.equal(canary.isC5V2ReusableCompletedRound(fixture.roundDir, fixture.context), true);
+  assert.equal(canary.deriveC5V2LedgerBoundExactSummary({
+    exactLedgerBinding: fixture.exactLedgerBinding,
+  }).exactTotal, 2);
+  assert.equal(
+    path.relative(fixture.roundDir, fixture.returnApplyCandidateAuthorityAnchorValidation.anchorArtifact.path).startsWith('..'),
+    true,
+  );
+  assert.equal(
+    fs.lstatSync(path.join(fixture.context.candidateAuthorityRoot, 'candidate-authority-anchor.key')).mode & 0o077,
+    0,
+  );
   const forgedExactLedgerBinding = {
     ...fixture.exactLedgerBinding,
     exactApplyTextChangeIdsByScene: {
@@ -242,20 +276,32 @@ test('C5V2 v4 rejects synchronized forged change mapping against independent can
       changeId: 'change-exact-001',
     }],
   };
-  rewriteBoundGate(canary, fixture, { exactLedgerBinding: forgedExactLedgerBinding });
+  const forgedAuthority = JSON.parse(fs.readFileSync(fixture.files.candidateAuthority, 'utf8'));
+  [forgedAuthority.candidates[0].changeId, forgedAuthority.candidates[1].changeId] = [
+    forgedAuthority.candidates[1].changeId,
+    forgedAuthority.candidates[0].changeId,
+  ];
+  const { contentDigest: _priorAuthorityDigest, ...forgedAuthorityBody } = forgedAuthority;
+  forgedAuthority.contentDigest = canary.sha256Text(canary.stableCanonicalJson(forgedAuthorityBody));
+  writeJson(fixture.files.candidateAuthority, forgedAuthority);
+  rewriteBoundGate(canary, fixture, {
+    exactLedgerBinding: forgedExactLedgerBinding,
+    returnApplyCandidateAuthoritySha256: canary.sha256File(fixture.files.candidateAuthority),
+    returnApplyCandidateAuthorityContentDigest: forgedAuthority.contentDigest,
+  });
 
   assert.equal(canary.validateC5V2ExactLedgerBindingAgainstLedger(
     forgedExactLedgerBinding,
     fixture.ledger,
     {
-      candidateAuthority: fixture.returnApplyCandidateAuthority,
+      candidateAuthority: forgedAuthority,
       roundId: fixture.context.roundId,
     },
-  ).ok, false);
+  ).ok, true, 'the plain self-hashed pair is internally consistent and must be stopped by the external anchor');
   assert.equal(canary.isC5V2ReusableCompletedRound(fixture.roundDir, fixture.context), false);
 });
 
-test('C5V2 v4 rejects candidate authority content mutation even when all authority and binding digests are refreshed', async () => {
+test('C5V2 v5 rejects candidate authority content mutation even when all authority and binding digests are refreshed', async () => {
   const canary = await loadCanary();
   const fixture = createBoundCompletedRound(canary);
   const authority = JSON.parse(fs.readFileSync(fixture.files.candidateAuthority, 'utf8'));
@@ -271,7 +317,7 @@ test('C5V2 v4 rejects candidate authority content mutation even when all authori
   assert.equal(canary.isC5V2ReusableCompletedRound(fixture.roundDir, fixture.context), false);
 });
 
-test('C5V2 v4 rejects candidate authority hash mutation under a refreshed outer binding digest', async () => {
+test('C5V2 v5 rejects candidate authority hash mutation under a refreshed outer binding digest', async () => {
   const canary = await loadCanary();
   const fixture = createBoundCompletedRound(canary);
   rewriteBoundGate(canary, fixture, {
@@ -281,7 +327,77 @@ test('C5V2 v4 rejects candidate authority hash mutation under a refreshed outer 
   assert.equal(canary.isC5V2ReusableCompletedRound(fixture.roundDir, fixture.context), false);
 });
 
-test('C5V2 production-shaped reuse rejects recorded EXACT changed to BLOCKED under a rehashed v4 binding', async () => {
+test('C5V2 v5 anchor lifecycle fails closed for missing corrupt wrong-key and wrong-campaign authority without recovery', async () => {
+  const canary = await loadCanary();
+
+  const missing = createBoundCompletedRound(canary);
+  fs.unlinkSync(missing.returnApplyCandidateAuthorityAnchorValidation.anchorArtifact.path);
+  assert.equal(canary.isC5V2ReusableCompletedRound(missing.roundDir, missing.context), false);
+  assert.equal(canary.isC5V2ReusableCompletedRound(missing.roundDir, missing.context), false);
+  assert.equal(fs.existsSync(missing.returnApplyCandidateAuthorityAnchorValidation.anchorArtifact.path), false);
+
+  const corrupt = createBoundCompletedRound(canary);
+  const corruptAnchorPath = corrupt.returnApplyCandidateAuthorityAnchorValidation.anchorArtifact.path;
+  const corruptAnchor = JSON.parse(fs.readFileSync(corruptAnchorPath, 'utf8'));
+  corruptAnchor.candidateTupleDigest = canary.sha256Text('forged-tuples');
+  corruptAnchor.anchorDigest = canary.sha256Text(canary.stableCanonicalJson({
+    ...corruptAnchor,
+    anchorDigest: undefined,
+  }));
+  writeJson(corruptAnchorPath, corruptAnchor);
+  assert.equal(canary.isC5V2ReusableCompletedRound(corrupt.roundDir, corrupt.context), false);
+
+  const wrongKey = createBoundCompletedRound(canary);
+  const keyPath = path.join(wrongKey.context.candidateAuthorityRoot, 'candidate-authority-anchor.key');
+  fs.writeFileSync(keyPath, `${'f'.repeat(64)}\n`, { encoding: 'utf8', mode: 0o600 });
+  fs.chmodSync(keyPath, 0o600);
+  assert.equal(canary.isC5V2ReusableCompletedRound(wrongKey.roundDir, wrongKey.context), false);
+
+  const wrongCampaign = createBoundCompletedRound(canary);
+  assert.equal(canary.isC5V2ReusableCompletedRound(wrongCampaign.roundDir, {
+    ...wrongCampaign.context,
+    campaignId: 'campaign-replay-from-other-project',
+  }), false);
+});
+
+test('C5V2 v5 anchor root rejects symlink redirection and path escape identifiers', async () => {
+  const canary = await loadCanary();
+  const fixture = createBoundCompletedRound(canary);
+  const symlinkRoot = `${fixture.context.candidateAuthorityRoot}-symlink`;
+  fs.symlinkSync(fixture.context.candidateAuthorityRoot, symlinkRoot, 'dir');
+  assert.equal(canary.isC5V2ReusableCompletedRound(fixture.roundDir, {
+    ...fixture.context,
+    candidateAuthorityRoot: symlinkRoot,
+  }), false);
+
+  const symlinkAnchors = createBoundCompletedRound(canary);
+  const anchorsPath = path.join(symlinkAnchors.context.candidateAuthorityRoot, 'anchors');
+  const externalAnchorsPath = `${anchorsPath}-external`;
+  fs.renameSync(anchorsPath, externalAnchorsPath);
+  fs.symlinkSync(externalAnchorsPath, anchorsPath, 'dir');
+  assert.equal(canary.isC5V2ReusableCompletedRound(symlinkAnchors.roundDir, symlinkAnchors.context), false);
+
+  const nestedRoot = createBoundCompletedRound(canary);
+  const nestedAuthorityRoot = path.join(nestedRoot.roundDir, '..authority-inside-round');
+  fs.cpSync(nestedRoot.context.candidateAuthorityRoot, nestedAuthorityRoot, { recursive: true });
+  assert.equal(canary.isC5V2ReusableCompletedRound(nestedRoot.roundDir, {
+    ...nestedRoot.context,
+    candidateAuthorityRoot: nestedAuthorityRoot,
+  }), false);
+
+  assert.throws(() => canary.writeC5V2ReturnApplyCandidateAuthorityAnchor({
+    authorityRoot: fixture.context.candidateAuthorityRoot,
+    campaignId: fixture.context.campaignId,
+    roundId: '../round-escape',
+    exactHead: fixture.context.exactHead,
+    corpusDigest: fixture.context.corpusDigest,
+    ledger: fixture.ledger,
+    candidateAuthority: fixture.returnApplyCandidateAuthority,
+    candidateAuthorityPath: fixture.files.candidateAuthority,
+  }), /ROUND_ID_INVALID/u);
+});
+
+test('C5V2 production-shaped reuse rejects recorded EXACT changed to BLOCKED under a rehashed v5 binding', async () => {
   const canary = await loadCanary();
   const fixture = createBoundCompletedRound(canary);
   fs.writeFileSync(
@@ -329,7 +445,7 @@ test('C5V2 production-shaped reuse rejects same-count ledger scene mutation with
   assert.equal(canary.isC5V2ReusableCompletedRound(fixture.roundDir, fixture.context), false);
 });
 
-test('C5V2 production-shaped reuse rejects complete oracle ok false under a rehashed v4 binding', async () => {
+test('C5V2 production-shaped reuse rejects complete oracle ok false under a rehashed v5 binding', async () => {
   const canary = await loadCanary();
   const fixture = createBoundCompletedRound(canary);
   const oracle = JSON.parse(fs.readFileSync(fixture.files.oracle, 'utf8'));

@@ -195,6 +195,10 @@ test('C5V2 cumulative controller blocks the next export until the complete round
   assert.equal(canary.hasC5V2CompletedRoundEvidence(null), false);
   assert.equal(canary.hasC5V2CompletedRoundEvidence([]), false);
   const policy = canary.getC5V2OperationStatusPolicyBinding();
+  const returnApplyCandidateAuthority = canary.buildC5V2ReturnApplyCandidateAuthority({
+    roundId: 'round-01',
+    returnApply: { activation: { textChangeScopeDiagnostics: [] } },
+  });
   const completedRoundReuseBinding = canary.buildC5V2CompletedRoundReuseBinding({
     roundId: 'round-01',
     exactHead: 'head-current',
@@ -210,13 +214,20 @@ test('C5V2 cumulative controller blocks the next export until the complete round
     sourceDocxSha256: 'sha256:source-current',
     returnedDocxSha256: 'sha256:return-current',
     yalkenTruthSha256: 'sha256:truth-current',
+    returnApplyCandidateAuthority,
+    returnApplyCandidateAuthoritySha256: 'sha256:return-apply-candidate-authority-current',
     exactLedgerBinding: {
       ok: true,
       expectedOperationCount: 0,
       matchedOperationCount: 0,
       matchedChangeCount: 0,
+      excludedCandidateCount: 0,
       exactApplyTextChangeIdsByScene: {},
       exactOperationBindings: [],
+      unmatchedExpectedOperationIds: [],
+      duplicateExpectedSignatureOperationIds: [],
+      duplicateCandidateBindingIds: [],
+      missingDiagnosticCandidateIds: [],
     },
   });
   const green = canary.buildC5V2CompleteRoundOracleGate({
@@ -280,4 +291,11 @@ test('C5V2 cumulative controller blocks the next export until the complete round
   assert.match(source, /hasCompletedRoundEvidence/u);
   assert.match(source, /deriveC5V2LedgerBoundExactSummary\(returnApply/u);
   assert.doesNotMatch(source, /returnApply\?\.activation\?\.exactApplyTextChangeIdsByScene/u);
+  assert.match(source, /return-apply-candidate-authority\.json/u);
+  assert.match(source, /writeJsonAtomicDurable\([\s\S]*returnApplyCandidateAuthorityPath/u);
+  assert.match(source, /C5V2_RETURN_APPLY_CANDIDATE_AUTHORITY_CURRENT_RETURN_MISMATCH/u);
+  const authorityPersistIndex = source.indexOf('returnApplyCandidateAuthorityArtifact = writeJsonAtomicDurable');
+  const completedBindingIndex = source.indexOf('const completedRoundReuseBinding = buildC5V2CompletedRoundReuseBinding', authorityPersistIndex);
+  assert.ok(authorityPersistIndex > -1, 'raw returnApply candidate authority must be persisted durably');
+  assert.ok(completedBindingIndex > authorityPersistIndex, 'candidate authority persistence must precede completed gate binding');
 });

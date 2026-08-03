@@ -28,39 +28,50 @@ function rewriteBoundGate(canary, fixture, bindingChanges = {}, gateChanges = {}
 
 function createBoundCompletedRound(canary, overrides = {}) {
   const roundDir = fs.mkdtempSync(path.join(os.tmpdir(), 'c5v2-pr1414-audit-hold-'));
+  const operations = Array.isArray(overrides.operations) ? overrides.operations : [{
+    id: 'op-exact-001',
+    formalFamily: 'tracked_text_edit',
+    family: 'tracked_replace',
+    expectedOutcome: 'EXACT',
+    sceneId: 'roman/chapter-01.txt',
+    quote: 'old text',
+    replacementText: 'new text',
+  }];
+  const changeIdByOperationId = Object.fromEntries(operations.map((operation, index) => [
+    operation.id,
+    `change-exact-${String(index + 1).padStart(3, '0')}`,
+  ]));
+  const sceneIds = [...new Set(operations.map((operation) => operation.sceneId))];
   const ledger = {
     schemaVersion: 'yalken.rtk.word.c5v2.physical-master-round-ledger.v1',
     topology: 'one-full-manuscript-project-cumulative-rounds',
     roundNumber: 1,
     masterLedgerDigest: 'sha256:stored-master-ledger-digest',
     ledgerDigest: 'sha256:stored-round-ledger-digest',
-    operationCount: 1,
-    familyCounts: { tracked_replace: 1 },
-    scenes: [{ sceneId: 'roman/chapter-01.txt' }],
-    operations: [{
-      id: 'op-exact-001',
-      formalFamily: 'tracked_text_edit',
-      family: 'tracked_replace',
-      expectedOutcome: 'EXACT',
-      sceneId: 'roman/chapter-01.txt',
-      quote: 'old text',
-      replacementText: 'new text',
-    }],
+    operationCount: operations.length,
+    familyCounts: operations.reduce((counts, operation) => ({
+      ...counts,
+      [operation.family]: Number(counts[operation.family] || 0) + 1,
+    }), {}),
+    scenes: sceneIds.map((sceneId) => ({ sceneId })),
+    operations,
   };
   const exactLedgerBinding = {
     ok: true,
-    expectedOperationCount: 1,
-    matchedOperationCount: 1,
-    matchedChangeCount: 1,
+    expectedOperationCount: operations.length,
+    matchedOperationCount: operations.length,
+    matchedChangeCount: operations.length,
     excludedCandidateCount: 0,
-    exactApplyTextChangeIdsByScene: {
-      'roman/chapter-01.txt': ['change-exact-001'],
-    },
-    exactOperationBindings: [{
-      operationId: 'op-exact-001',
-      sceneId: 'roman/chapter-01.txt',
-      changeId: 'change-exact-001',
-    }],
+    exactApplyTextChangeIdsByScene: operations.reduce((byScene, operation) => {
+      if (!byScene[operation.sceneId]) byScene[operation.sceneId] = [];
+      byScene[operation.sceneId].push(changeIdByOperationId[operation.id]);
+      return byScene;
+    }, {}),
+    exactOperationBindings: operations.map((operation) => ({
+      operationId: operation.id,
+      sceneId: operation.sceneId,
+      changeId: changeIdByOperationId[operation.id],
+    })),
     unmatchedExpectedOperationIds: [],
     duplicateExpectedSignatureOperationIds: [],
     duplicateCandidateBindingIds: [],
@@ -74,30 +85,36 @@ function createBoundCompletedRound(canary, overrides = {}) {
     ready: path.join(roundDir, 'c5v2-cumulative-returned-ready.json'),
     oracle: path.join(roundDir, 'complete-round-oracle.json'),
     gate: path.join(roundDir, 'complete-round-oracle-gate.json'),
+    candidateAuthority: path.join(roundDir, 'return-apply-candidate-authority.json'),
     truth: path.join(roundDir, 'yalken-reopened-truth.json'),
   };
   writeJson(files.ledger, ledger);
-  fs.writeFileSync(files.wordOutput, 'WORD_STATUS=PASS\nOP|op-exact-001|EXACT\nREADBACK|op-exact-001|EXACT|WORD_OBJECT_MODEL_REOPENED\n', 'utf8');
+  fs.writeFileSync(files.wordOutput, [
+    'WORD_STATUS=PASS',
+    ...operations.map((operation) => `OP|${operation.id}|${operation.expectedOutcome}`),
+    ...operations.map((operation) => `READBACK|${operation.id}|${operation.expectedOutcome}|WORD_OBJECT_MODEL_REOPENED`),
+    '',
+  ].join('\n'), 'utf8');
   fs.writeFileSync(files.source, Buffer.from('source-docx-current'));
   fs.writeFileSync(files.returned, Buffer.from('returned-docx-current'));
-  const operationResults = [{
-    operationId: 'op-exact-001',
-    family: 'tracked_text_edit',
-    expectedOutcome: 'EXACT',
-    reportedStatus: 'EXACT',
-    nativeReadbackStatus: 'EXACT',
+  const operationResults = operations.map((operation) => ({
+    operationId: operation.id,
+    family: operation.formalFamily,
+    expectedOutcome: operation.expectedOutcome,
+    reportedStatus: operation.expectedOutcome,
+    nativeReadbackStatus: operation.expectedOutcome,
     wordGreen: true,
     yalkenGreen: true,
-  }];
+  }));
   writeJson(files.oracle, {
     schemaVersion: 'yalken.rtk.word.c5v2.complete-round-oracle.v1',
     ok: true,
-    operationCount: 1,
-    wordStatusCount: 1,
-    nativeWordReadbackCount: 1,
+    operationCount: operations.length,
+    wordStatusCount: operations.length,
+    nativeWordReadbackCount: operations.length,
     duplicateWordStatuses: false,
     duplicateNativeReadbacks: false,
-    semanticOracle: { ok: true, operationCount: 1, failures: [] },
+    semanticOracle: { ok: true, operationCount: operations.length, failures: [] },
     operationResults,
     oracleDigest: canary.sha256Text(canary.stableCanonicalJson(operationResults)),
   });
@@ -109,13 +126,13 @@ function createBoundCompletedRound(canary, overrides = {}) {
     reopenPassCount: 2,
     passes: [1, 2].map((pass) => ({
       pass,
-      scenes: [{ sceneId: 'roman/chapter-01.txt', ok: true }],
+      scenes: sceneIds.map((sceneId) => ({ sceneId, ok: true })),
     })),
-    sceneReadback: [{
-      sceneId: 'roman/chapter-01.txt',
-      rawContent,
-      rawContentSha256: canary.sha256Text(rawContent),
-    }],
+    sceneReadback: sceneIds.map((sceneId) => ({
+      sceneId,
+      rawContent: `${rawContent}:${sceneId}`,
+      rawContentSha256: canary.sha256Text(`${rawContent}:${sceneId}`),
+    })),
     expectedRootCommentCount: 0,
     canonicalNonTextState: { present: false },
     recoveryNonTextState: { present: false },
@@ -130,6 +147,23 @@ function createBoundCompletedRound(canary, overrides = {}) {
     corpusDigest: 'sha256:corpus-current',
     roundId: 'round-01',
   };
+  const returnApply = {
+    ok: true,
+    activation: {
+      textChangeScopeDiagnostics: operations.map((operation) => ({
+        changeId: changeIdByOperationId[operation.id],
+        targetScope: { id: operation.sceneId },
+        matchKind: 'exact',
+        quoteSha256: canary.sha256Text(operation.quote),
+        replacementSha256: canary.sha256Text(operation.replacementText),
+      })),
+    },
+  };
+  const returnApplyCandidateAuthority = canary.buildC5V2ReturnApplyCandidateAuthority({
+    roundId: context.roundId,
+    returnApply,
+  });
+  writeJson(files.candidateAuthority, returnApplyCandidateAuthority);
   const completedRoundReuseBinding = canary.buildC5V2CompletedRoundReuseBinding({
     roundId: overrides.roundId || context.roundId,
     exactHead: overrides.exactHead || context.exactHead,
@@ -145,6 +179,8 @@ function createBoundCompletedRound(canary, overrides = {}) {
     sourceDocxSha256: canary.sha256File(files.source),
     returnedDocxSha256,
     yalkenTruthSha256: canary.sha256File(files.truth),
+    returnApplyCandidateAuthority,
+    returnApplyCandidateAuthoritySha256: canary.sha256File(files.candidateAuthority),
     exactLedgerBinding,
   });
   const gate = canary.buildC5V2CompleteRoundOracleGate({
@@ -152,14 +188,100 @@ function createBoundCompletedRound(canary, overrides = {}) {
     wordParsed: { scalars: { WORD_STATUS: 'PASS' } },
     nativeLifecycleVerification: { ok: true },
     oracleProbe: { ok: true, oracleDigest: 'sha256:oracle-current' },
-    returnApply: { ok: true },
+    returnApply,
     completedRoundReuseBinding,
   });
   writeJson(files.gate, gate);
-  return { roundDir, files, ledger, context, policy, gate, completedRoundReuseBinding, exactLedgerBinding };
+  return {
+    roundDir,
+    files,
+    ledger,
+    context,
+    policy,
+    gate,
+    completedRoundReuseBinding,
+    exactLedgerBinding,
+    returnApplyCandidateAuthority,
+  };
 }
 
-test('C5V2 production-shaped reuse rejects recorded EXACT changed to BLOCKED under a rehashed v3 binding', async () => {
+test('C5V2 v4 rejects synchronized forged change mapping against independent candidate authority', async () => {
+  const canary = await loadCanary();
+  const fixture = createBoundCompletedRound(canary, {
+    operations: [{
+      id: 'op-exact-001',
+      formalFamily: 'tracked_text_edit',
+      family: 'tracked_replace',
+      expectedOutcome: 'EXACT',
+      sceneId: 'roman/chapter-01.txt',
+      quote: 'old text one',
+      replacementText: 'new text one',
+    }, {
+      id: 'op-exact-002',
+      formalFamily: 'tracked_text_edit',
+      family: 'tracked_replace',
+      expectedOutcome: 'EXACT',
+      sceneId: 'roman/chapter-02.txt',
+      quote: 'old text two',
+      replacementText: 'new text two',
+    }],
+  });
+  const forgedExactLedgerBinding = {
+    ...fixture.exactLedgerBinding,
+    exactApplyTextChangeIdsByScene: {
+      'roman/chapter-01.txt': ['change-exact-002'],
+      'roman/chapter-02.txt': ['change-exact-001'],
+    },
+    exactOperationBindings: [{
+      operationId: 'op-exact-001',
+      sceneId: 'roman/chapter-01.txt',
+      changeId: 'change-exact-002',
+    }, {
+      operationId: 'op-exact-002',
+      sceneId: 'roman/chapter-02.txt',
+      changeId: 'change-exact-001',
+    }],
+  };
+  rewriteBoundGate(canary, fixture, { exactLedgerBinding: forgedExactLedgerBinding });
+
+  assert.equal(canary.validateC5V2ExactLedgerBindingAgainstLedger(
+    forgedExactLedgerBinding,
+    fixture.ledger,
+    {
+      candidateAuthority: fixture.returnApplyCandidateAuthority,
+      roundId: fixture.context.roundId,
+    },
+  ).ok, false);
+  assert.equal(canary.isC5V2ReusableCompletedRound(fixture.roundDir, fixture.context), false);
+});
+
+test('C5V2 v4 rejects candidate authority content mutation even when all authority and binding digests are refreshed', async () => {
+  const canary = await loadCanary();
+  const fixture = createBoundCompletedRound(canary);
+  const authority = JSON.parse(fs.readFileSync(fixture.files.candidateAuthority, 'utf8'));
+  authority.candidates[0].changeId = 'change-authority-forged';
+  const { contentDigest: _priorDigest, ...authorityBody } = authority;
+  authority.contentDigest = canary.sha256Text(canary.stableCanonicalJson(authorityBody));
+  writeJson(fixture.files.candidateAuthority, authority);
+  rewriteBoundGate(canary, fixture, {
+    returnApplyCandidateAuthoritySha256: canary.sha256File(fixture.files.candidateAuthority),
+    returnApplyCandidateAuthorityContentDigest: authority.contentDigest,
+  });
+
+  assert.equal(canary.isC5V2ReusableCompletedRound(fixture.roundDir, fixture.context), false);
+});
+
+test('C5V2 v4 rejects candidate authority hash mutation under a refreshed outer binding digest', async () => {
+  const canary = await loadCanary();
+  const fixture = createBoundCompletedRound(canary);
+  rewriteBoundGate(canary, fixture, {
+    returnApplyCandidateAuthoritySha256: 'sha256:forged-authority-file-hash',
+  });
+
+  assert.equal(canary.isC5V2ReusableCompletedRound(fixture.roundDir, fixture.context), false);
+});
+
+test('C5V2 production-shaped reuse rejects recorded EXACT changed to BLOCKED under a rehashed v4 binding', async () => {
   const canary = await loadCanary();
   const fixture = createBoundCompletedRound(canary);
   fs.writeFileSync(
@@ -207,7 +329,7 @@ test('C5V2 production-shaped reuse rejects same-count ledger scene mutation with
   assert.equal(canary.isC5V2ReusableCompletedRound(fixture.roundDir, fixture.context), false);
 });
 
-test('C5V2 production-shaped reuse rejects complete oracle ok false under a rehashed v3 binding', async () => {
+test('C5V2 production-shaped reuse rejects complete oracle ok false under a rehashed v4 binding', async () => {
   const canary = await loadCanary();
   const fixture = createBoundCompletedRound(canary);
   const oracle = JSON.parse(fs.readFileSync(fixture.files.oracle, 'utf8'));
@@ -276,6 +398,14 @@ test('C5V2 current bound completed round is reusable and carries only ledger-bou
   assert.equal(canary.validateC5V2ExactLedgerBindingAgainstLedger(
     fixture.exactLedgerBinding,
     fixture.ledger,
+  ).ok, false);
+  assert.equal(canary.validateC5V2ExactLedgerBindingAgainstLedger(
+    fixture.exactLedgerBinding,
+    fixture.ledger,
+    {
+      candidateAuthority: fixture.returnApplyCandidateAuthority,
+      roundId: fixture.context.roundId,
+    },
   ).ok, true);
   assert.equal(canary.validateC5V2ExactLedgerBindingAgainstLedger({
     ...fixture.exactLedgerBinding,
@@ -284,7 +414,10 @@ test('C5V2 current bound completed round is reusable and carries only ledger-bou
       sceneId: 'roman/chapter-99.txt',
       changeId: 'change-exact-001',
     }],
-  }, fixture.ledger).ok, false);
+  }, fixture.ledger, {
+    candidateAuthority: fixture.returnApplyCandidateAuthority,
+    roundId: fixture.context.roundId,
+  }).ok, false);
   assert.equal(canary.validateC5V2ExactLedgerBindingAgainstLedger({
     ...fixture.exactLedgerBinding,
     exactOperationBindings: [{
@@ -292,7 +425,10 @@ test('C5V2 current bound completed round is reusable and carries only ledger-bou
       sceneId: 'roman/chapter-01.txt',
       changeId: 'change-forged',
     }],
-  }, fixture.ledger).ok, false);
+  }, fixture.ledger, {
+    candidateAuthority: fixture.returnApplyCandidateAuthority,
+    roundId: fixture.context.roundId,
+  }).ok, false);
   assert.deepEqual(canary.deriveC5V2LedgerBoundExactSummary(reused), {
     ok: true,
     code: 'C5V2_EXACT_SUMMARY_LEDGER_BOUND',

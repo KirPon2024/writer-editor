@@ -9044,19 +9044,19 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "97fd3d51d5511d9080da03f910e30caafd13946f502ce5d1662f50202300df83",
+      "sha256": "ac141488d57e6c4ac88ba12a47453995a4b244af9a8e2e542be58a8b34946bfb",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR_V1",
       "approvedAtUtc": "2026-08-03T19:46:41.000Z",
-      "rationale": "Approve exact governed C5V2 physical canary bytes adding canonical realpath artifact containment, T7 APFS FileVault UUID writability checks, and raw master-ledger resume authority binding for exact head, campaign, corpus, exact 2000 operation count, family distribution, operation IDs, and request/effect keys.",
+      "rationale": "Approve exact governed C5V2 physical canary bytes adding canonical realpath artifact containment, T7 APFS FileVault UUID writability checks, raw master-ledger resume authority binding, and completed-prefix resume rehydration of reopened scene truth plus canonical and recovery non-text comment state before the next unfinished export.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-round-checkpoint.contract.test.js",
-      "sha256": "f2f44fc3aef0fbf45b2ba80c10e2db787b1019498700d2ec212823fce1213651",
+      "sha256": "51a74e791ae7305a81dc7ed2ba5f45c846623f92ba0a162ed6300376ebf1ca44",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR_V1",
       "approvedAtUtc": "2026-08-03T19:46:41.000Z",
-      "rationale": "Approve exact maintained round-checkpoint contract bytes proving fail-closed resumed checkpoint validation for exact head, run, round, chunk membership, operation IDs, request and effect keys, checkpoint digest, and source or returned artifact hash mismatches.",
+      "rationale": "Approve exact maintained round-checkpoint contract bytes proving fail-closed resumed checkpoint validation and completed-prefix rehydration ordering: restored reopened scene truth and non-text state must occur after durable completed-round replay and before reused round gate acceptance.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR"
     },

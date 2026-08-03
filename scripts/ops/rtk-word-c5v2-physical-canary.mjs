@@ -2611,6 +2611,79 @@ function readExistingYalkenTruthArtifact(returnedPath) {
     recoveryNonTextStatePresent: artifact.recoveryNonTextState?.present === true,
   };
 }
+async function restoreC5V2ProductTruthFromReopenedArtifact(win, roundId, returnedPath) {
+  const artifactPath = path.join(path.dirname(returnedPath), 'yalken-reopened-truth.json');
+  if (!fs.existsSync(artifactPath)) throw new Error('C5V2_RESUME_REHYDRATE_TRUTH_ARTIFACT_MISSING:' + roundId);
+  const artifact = JSON.parse(fs.readFileSync(artifactPath, 'utf8'));
+  const scenes = Array.isArray(artifact.sceneReadback) ? artifact.sceneReadback : [];
+  if (scenes.length !== (global.productSceneContexts || []).length) {
+    throw new Error('C5V2_RESUME_REHYDRATE_SCENE_COUNT_MISMATCH:' + roundId + ':' + scenes.length + ':' + (global.productSceneContexts || []).length);
+  }
+  const contextBySceneId = new Map((global.productSceneContexts || []).map((context) => [context.relativePath, context]));
+  const restoredScenes = [];
+  for (const scene of scenes) {
+    const sceneId = String(scene.sceneId || '');
+    const context = contextBySceneId.get(sceneId);
+    if (!context || typeof context.nodePath !== 'string' || !context.nodePath) {
+      throw new Error('C5V2_RESUME_REHYDRATE_SCENE_CONTEXT_MISSING:' + roundId + ':' + sceneId);
+    }
+    if (typeof scene.rawContent !== 'string' || sha256ChildText(scene.rawContent) !== scene.rawContentSha256) {
+      throw new Error('C5V2_RESUME_REHYDRATE_SCENE_HASH_INVALID:' + roundId + ':' + sceneId);
+    }
+    writeChildFileAtomicDurable(context.nodePath, Buffer.from(scene.rawContent, 'utf8'));
+    const actualRawContent = fs.readFileSync(context.nodePath, 'utf8');
+    if (sha256ChildText(actualRawContent) !== scene.rawContentSha256) {
+      throw new Error('C5V2_RESUME_REHYDRATE_SCENE_WRITE_MISMATCH:' + roundId + ':' + sceneId);
+    }
+    restoredScenes.push({
+      sceneId,
+      nodePath: context.nodePath,
+      rawContentSha256: scene.rawContentSha256,
+    });
+  }
+  const restoreState = (stateRecord, relativeSegments) => {
+    if (!stateRecord || stateRecord.present !== true) return { restored: false };
+    if (typeof stateRecord.rawContent !== 'string' || sha256ChildText(stateRecord.rawContent) !== stateRecord.rawContentSha256) {
+      throw new Error('C5V2_RESUME_REHYDRATE_NON_TEXT_STATE_HASH_INVALID:' + roundId + ':' + relativeSegments.join('/'));
+    }
+    const statePath = path.join(global.productProjectRoot || '', ...relativeSegments);
+    writeChildFileAtomicDurable(statePath, Buffer.from(stateRecord.rawContent, 'utf8'));
+    const actualRawContent = fs.readFileSync(statePath, 'utf8');
+    if (sha256ChildText(actualRawContent) !== stateRecord.rawContentSha256) {
+      throw new Error('C5V2_RESUME_REHYDRATE_NON_TEXT_STATE_WRITE_MISMATCH:' + roundId + ':' + relativeSegments.join('/'));
+    }
+    return {
+      restored: true,
+      path: statePath,
+      rawContentSha256: stateRecord.rawContentSha256,
+    };
+  };
+  const canonicalNonTextState = restoreState(artifact.canonicalNonTextState, ['.yalken', 'word-review', 'non-text-return-state.v1.json']);
+  const recoveryNonTextState = restoreState(artifact.recoveryNonTextState, ['.yalken', 'recovery', 'non-text-return-state.v1.json']);
+  const firstSceneContext = (global.productSceneContexts || [])[0] || null;
+  if (firstSceneContext) {
+    const openResult = await invokeUiCommand(win, 'cmd.project.document.open', {
+      nodeId: firstSceneContext.nodeId,
+      sceneId: firstSceneContext.relativePath,
+    });
+    if (!openResult || openResult.ok !== true) throw new Error('C5V2_RESUME_REHYDRATE_REOPEN_FAILED:' + roundId);
+  }
+  const digest = sha256ChildText(stableChildJson({
+    scenes: restoredScenes.map((scene) => ({ sceneId: scene.sceneId, rawContentSha256: scene.rawContentSha256 })),
+    canonicalNonTextState,
+    recoveryNonTextState,
+  }));
+  return {
+    ok: true,
+    roundId,
+    artifactPath,
+    artifactSha256: sha256ChildFile(artifactPath),
+    restoredSceneCount: restoredScenes.length,
+    canonicalNonTextState,
+    recoveryNonTextState,
+    digest,
+  };
+}
 const ACCEPTABLE_STALE_RETRY_BLOCK_REASONS = new Set([
   'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_STALE_BASELINE',
   'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_CURRENT_NO_MATCH',
@@ -3783,6 +3856,21 @@ app.whenReady().then(async () => {
         });
         if (!resumedReturnApply.ok) {
           app.exit(2);
+          return;
+        }
+        const rehydration = await restoreC5V2ProductTruthFromReopenedArtifact(win, roundId, returnedPath);
+        emit({
+          phase: 'resume-rehydrate',
+          ok: rehydration.ok ? 1 : 0,
+          roundIndex,
+          roundId,
+          resumed: true,
+          rehydration,
+          dialogCalls,
+          networkRequests,
+        });
+        if (!rehydration.ok) {
+          app.exit(5);
           return;
         }
         if (oracleGatePath) {

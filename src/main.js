@@ -4486,7 +4486,13 @@ function buildDocxReviewPreviewSessionCommentShadowPayload(context, candidate, r
   };
 }
 
-async function applyAuthenticatedDocxCommentProductPath({ context, commentShadowPayload, requestId, revisionBridge } = {}) {
+async function applyAuthenticatedDocxCommentProductPath({
+  context,
+  commentShadowPayload,
+  requestId,
+  revisionBridge,
+  explicitCanonicalApplyConfirmed = false,
+} = {}) {
   const intake = isPlainObjectValue(context?.reviewTransportReturnIntake)
     ? context.reviewTransportReturnIntake
     : {};
@@ -4551,6 +4557,42 @@ async function applyAuthenticatedDocxCommentProductPath({ context, commentShadow
       directPortDispatch: false,
       applyReceipts: [],
       replayReceipts: [],
+    };
+  }
+  if (explicitCanonicalApplyConfirmed !== true) {
+    return {
+      ok: true,
+      status: 'preview-ready',
+      code: 'RTK_COMMENT_PRODUCT_RETURN_PREVIEW_READY_EXPLICIT_APPLY_REQUIRED',
+      commandBusDispatchOnly: true,
+      directPortDispatch: false,
+      pendingProductApplyLane: true,
+      explicitUserConfirmedCanonicalCommandRequired: true,
+      sceneAuthorityIdentityJoin: cloneJsonSafe(commentShadowPayload.sceneAuthorityIdentityJoin) || null,
+      planSummary: {
+        commandCount: plan.commands.length,
+        rootCommentCount: plan.commands.filter((command) => command.family === 'root_comment').length,
+        replyCount: plan.commands.filter((command) => command.family === 'reply').length,
+        commentStateCount: plan.commands.filter((command) => command.family === 'comment_state').length,
+      },
+      previewCommands: plan.commands.map((command) => ({
+        family: docxReviewPreviewSessionDetailString(command.family),
+        operationId: docxReviewPreviewSessionDetailString(command.payload?.operationId),
+        sceneId: docxReviewPreviewSessionDetailString(command.payload?.sceneId),
+        threadId: docxReviewPreviewSessionDetailString(command.payload?.threadId),
+        action: docxReviewPreviewSessionDetailString(command.payload?.action),
+      })),
+      applyReceipts: [],
+      replayReceipts: [],
+      semanticOracle: {
+        sourceKind: 'authenticated-word-return-preview-only',
+        wordOperationCount: plan.commands.length,
+        commandReceiptCount: 0,
+        reopenedCanonicalCount: 0,
+        rootApplied: 0,
+        lifecycleApplied: 0,
+        triangleGreen: false,
+      },
     };
   }
   const applyReceipts = [];

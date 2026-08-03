@@ -123,7 +123,7 @@ function countOccurrences(text, needle) {
     const index = text.indexOf(needle, cursor);
     if (index < 0) break;
     count += 1;
-    cursor = index + Math.max(1, needle.length);
+    cursor = index + 1;
   }
   return count;
 }

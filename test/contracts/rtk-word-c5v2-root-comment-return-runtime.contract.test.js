@@ -51,6 +51,7 @@ test('N1 root comment decisive negatives fail closed before canonical write', as
   for (const [name, overrides, code] of [
     ['wrong-scene', { anchor: { sceneId: 'scene-99' } }, 'RTK_ROOT_COMMENT_WRONG_SCENE'],
     ['ambiguous-anchor', { sceneText: 'same anchor and same anchor', selectedText: 'same anchor' }, 'RTK_ROOT_COMMENT_ANCHOR_NOT_UNIQUE'],
+    ['overlapping-ambiguous-anchor', { sceneText: 'aaa', selectedText: 'aa' }, 'RTK_ROOT_COMMENT_ANCHOR_NOT_UNIQUE'],
     ['missing-body', { body: '' }, 'RTK_ROOT_COMMENT_BODY_INVALID'],
   ]) {
     const projectRoot = fs.mkdtempSync(path.join(os.tmpdir(), `yalken-c5v2-n1-${name}-`));

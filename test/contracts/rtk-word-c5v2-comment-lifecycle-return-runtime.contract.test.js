@@ -269,23 +269,30 @@ test('N2 cumulative returns namespace reused native Word comment identities by a
   ]);
 });
 
-test('N2 activation coupling and physical assertion require Command Kernel receipts and reject pending lane', () => {
+test('N2 activation coupling is preview-only until explicit canonical apply command', () => {
   const main = fs.readFileSync(path.join(REPO_ROOT, 'src', 'main.js'), 'utf8');
   const canary = fs.readFileSync(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs'), 'utf8');
   assert.match(main, /applyAuthenticatedDocxCommentProductPath/u);
-  assert.match(main, /dispatchCommandSurfaceKernel\(commandId, payload\)/u);
+  assert.match(main, /explicitCanonicalApplyConfirmed = false/u);
+  assert.match(main, /RTK_COMMENT_PRODUCT_RETURN_PREVIEW_READY_EXPLICIT_APPLY_REQUIRED/u);
+  assert.match(main, /explicitUserConfirmedCanonicalCommandRequired:\s*true/u);
+  assert.match(main, /pendingProductApplyLane:\s*true/u);
   assert.match(main, /directPortDispatch:\s*false/u);
   assert.match(main, /RTK_COMMENT_PRODUCT_RETURN_NATIVE_COMMENT_IDENTITY_JOIN_BLOCKED/u);
   assert.ok(
     main.indexOf("RTK_COMMENT_PRODUCT_RETURN_NATIVE_COMMENT_IDENTITY_JOIN_BLOCKED")
       < main.indexOf("revisionBridge.buildAuthenticatedCommentReturnCommands", main.indexOf('async function applyAuthenticatedDocxCommentProductPath')),
   );
+  assert.ok(
+    main.indexOf("explicitCanonicalApplyConfirmed !== true", main.indexOf('async function applyAuthenticatedDocxCommentProductPath'))
+      < main.indexOf("dispatchCommandSurfaceKernel(commandId, payload)", main.indexOf('async function applyAuthenticatedDocxCommentProductPath')),
+  );
   assert.match(canary, /commentProductPath\.commandBusDispatchOnly === true/u);
   assert.match(canary, /commentProductPath\.directPortDispatch === false/u);
-  assert.match(canary, /commentProductPath\.semanticOracle\?\.lifecycleApplied > 0/u);
+  assert.match(canary, /commentProductPath\.pendingProductApplyLane === false/u);
   assert.match(canary, /sceneAuthorityIdentityJoin\?\.identityJoinCount > 0/u);
   assert.match(canary, /sceneAuthorityIdentityJoin\?\.unjoinedPlacementCount === 0/u);
-  assert.match(canary, /CANONICAL_PRODUCT_APPLY_AND_REPLAY_PROVEN/u);
+  assert.match(canary, /PENDING_PRODUCT_APPLY_LANE/u);
 });
 
 test('N2 physical-shaped seven-thread empty-scene parser failure binds only through authenticated export-map placements', async () => {

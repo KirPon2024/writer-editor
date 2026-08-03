@@ -9044,12 +9044,12 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "3b8295e4629ff2b93e3cd066bbbe2728f4ec4e07f3de0217123346eb18b3a561",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_N3_FORMATTING_RETURN_RESPONSE_REPAIR",
-      "approvedAtUtc": "2026-08-02T13:34:42.204Z",
-      "rationale": "Approve exact governed and previously approved product-route bytes for the controller-resumed Word N3 formatting-return response repair. This rebind covers the current T7 branch state after physical Word 16.111.2 apply/replay evidence, preserves Google blocked, adds no network path, and makes no broad Word saturation or fixture-only certification claim.",
+      "sha256": "f64b44a5632853889147073c83d53b8cc8ebb1c316a0691dae5883cfbd209b04",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO",
+      "approvedAtUtc": "2026-08-03T04:58:19Z",
+      "rationale": "Approve exact governed C5V2 physical canary harness bytes adding explicit resume-run binding for durable cumulative Word campaign recovery. This rebind preserves existing checkpoint evidence, keeps Google blocked, adds no product network path, and makes no broad Word certification claim.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_N3_RESUME"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_DORIAN_PORTFOLIO_RECOVERY"
     },
     {
       "filePath": "scripts/ops/rtk-word-sandbox-work-root.mjs",

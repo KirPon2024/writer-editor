@@ -47,6 +47,24 @@ export function nowStamp() {
   return new Date().toISOString().replace(/[-:]/gu, '').replace(/\.\d{3}Z$/u, 'Z');
 }
 
+export function resolveC5V2RunIdentity(options = {}) {
+  const artifactRoot = path.resolve(String(options.artifactRoot || DEFAULT_ARTIFACT_ROOT));
+  const resumeRunDir = typeof options.resumeRunDir === 'string' ? options.resumeRunDir.trim() : '';
+  if (!resumeRunDir) {
+    const runId = `${options.runPrefix || 'c5v2-physical-canary'}-${nowStamp()}`;
+    return { runId, runDir: path.join(artifactRoot, runId), artifactRoot, resumed: false };
+  }
+  const runDir = path.resolve(resumeRunDir);
+  const relative = path.relative(artifactRoot, runDir);
+  if (!relative || relative.startsWith('..') || path.isAbsolute(relative)) {
+    throw new Error(`C5V2_RESUME_RUN_DIR_OUTSIDE_ARTIFACT_ROOT:${runDir}`);
+  }
+  if (!fs.existsSync(runDir) || !fs.statSync(runDir).isDirectory()) {
+    throw new Error(`C5V2_RESUME_RUN_DIR_MISSING:${runDir}`);
+  }
+  return { runId: path.basename(runDir), runDir, artifactRoot, resumed: true };
+}
+
 export function hasC5V2CompletedRoundEvidence(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
@@ -1358,6 +1376,7 @@ function emit(payload) { process.stdout.write(RESULT_PREFIX + JSON.stringify(pay
 function progress(step, detail = {}) { emit({ phase: 'child-progress', step, detail }); }
 function sleep(ms) { return new Promise((resolve) => setTimeout(resolve, ms)); }
 function sha256ChildText(value) { return 'sha256:' + crypto.createHash('sha256').update(String(value || ''), 'utf8').digest('hex'); }
+function sha256ChildFile(filePath) { return 'sha256:' + crypto.createHash('sha256').update(fs.readFileSync(filePath)).digest('hex'); }
 function writeChildJsonAtomicDurable(filePath, value) {
   const dir = path.dirname(filePath);
   fs.mkdirSync(dir, { recursive: true });
@@ -1433,6 +1452,23 @@ function chunkArray(items, size) {
     chunks.push(source.slice(index, index + chunkSize));
   }
   return chunks;
+}
+function readExistingYalkenTruthArtifact(returnedPath) {
+  const artifactPath = path.join(path.dirname(returnedPath), 'yalken-reopened-truth.json');
+  if (!fs.existsSync(artifactPath)) return null;
+  const artifact = JSON.parse(fs.readFileSync(artifactPath, 'utf8'));
+  return {
+    path: artifactPath,
+    sha256: sha256ChildFile(artifactPath),
+    sceneCount: Array.isArray(artifact.sceneReadback) ? artifact.sceneReadback.length : 0,
+    reopenPassCount: Number.isSafeInteger(artifact.reopenPassCount) ? artifact.reopenPassCount : 0,
+    allOpenGreen: Array.isArray(artifact.passes)
+      ? artifact.passes.every((pass) => Array.isArray(pass.scenes) && pass.scenes.every((scene) => scene.ok === true))
+      : false,
+    expectedRootCommentCount: Number.isSafeInteger(artifact.expectedRootCommentCount) ? artifact.expectedRootCommentCount : 0,
+    canonicalNonTextStatePresent: artifact.canonicalNonTextState?.present === true,
+    recoveryNonTextStatePresent: artifact.recoveryNonTextState?.present === true,
+  };
 }
 const ACCEPTABLE_STALE_RETRY_BLOCK_REASONS = new Set([
   'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_STALE_BASELINE',
@@ -2566,6 +2602,54 @@ app.whenReady().then(async () => {
       const oracleGatePath = activeRound && typeof activeRound.oracleGatePath === 'string' ? activeRound.oracleGatePath : '';
       if (!outPath) throw new Error('C5V2_CUMULATIVE_ROUND_OUT_PATH_REQUIRED:' + roundId);
       progress('round-start', { roundIndex, roundId, outPath, returnedPath, returnedReadyPath, oracleGatePath });
+      if (activeRound && activeRound.resumeCompletedRound === true) {
+        emit({
+          phase: 'export',
+          ok: 1,
+          roundIndex,
+          roundId,
+          resumed: true,
+          exportTrigger: 'durable-completed-round-replay',
+          exportedExists: fs.existsSync(outPath),
+          exportedSha256: fs.existsSync(outPath) ? crypto.createHash('sha256').update(fs.readFileSync(outPath)).digest('hex') : '',
+          exportedBytes: fs.existsSync(outPath) ? fs.statSync(outPath).size : 0,
+          dialogCalls,
+          networkRequests,
+          projectRoot,
+          productOpenContext: global.productOpenContext,
+          sceneFiles: productSceneContexts.map((scene) => scene.nodePath).filter(Boolean),
+        });
+        if (returnedPath && returnedReadyPath) {
+          const returnApply = await activateApplyAndReplayReturnedDocx(win, activeRound);
+          returnApply.yalkenTruthArtifact = readExistingYalkenTruthArtifact(returnedPath);
+          emit({
+            phase: 'return-apply',
+            ok: returnApply.ok ? 1 : 0,
+            roundIndex,
+            roundId,
+            resumed: true,
+            returnApply,
+            dialogCalls,
+            networkRequests,
+          });
+          if (!returnApply.ok) {
+            app.exit(2);
+            return;
+          }
+        }
+        if (oracleGatePath) {
+          const roundOracleGate = await waitUntil(() => {
+            if (!fs.existsSync(oracleGatePath)) return null;
+            try { return JSON.parse(fs.readFileSync(oracleGatePath, 'utf8')); } catch { return null; }
+          }, 'COMPLETE_ROUND_ORACLE_GATE_NOT_DURABLY_VISIBLE:' + roundId, 1_800_000);
+          emit({ phase: 'round-oracle-gate', ok: roundOracleGate.ok === true ? 1 : 0, roundIndex, roundId, resumed: true, roundOracleGate });
+          if (roundOracleGate.ok !== true) {
+            app.exit(3);
+            return;
+          }
+        }
+        continue;
+      }
       const scopeProbe = await win.webContents.executeJavaScript(
         "window.electronAPI.invokeWorkspaceQueryBridge({queryId:'query.selectedScenesTxtExportScope',payload:{}})",
         true,
@@ -2935,27 +3019,34 @@ async function runElectronCumulativeFullManuscriptRoundtrip({
         }, null, 2));
         continue;
       }
-      try {
-        const wordOutput = await runWordForRound(roundIndex, round, exportPayload);
-        wordOutputs[roundIndex] = wordOutput;
-        fs.writeFileSync(round.returnedReadyPath, JSON.stringify({
-          ready: true,
-          roundId: round.roundId,
-          returnedPath: round.returnedPath,
-          returnedSha256: fs.existsSync(round.returnedPath) ? sha256File(round.returnedPath) : '',
-          createdAtUtc: new Date().toISOString(),
-        }, null, 2));
-      } catch (error) {
-        const wordError = String(error.stderr || error.message || error);
-        wordErrors[roundIndex] = wordError;
-        fs.writeFileSync(round.returnedReadyPath, JSON.stringify({
-          ready: false,
-          roundId: round.roundId,
-          returnedPath: round.returnedPath,
-          error: wordError,
-          createdAtUtc: new Date().toISOString(),
-        }, null, 2));
-        throw new Error(`C5V2_CUMULATIVE_WORD_ROUND_FAILED:${round.roundId}:${wordError}`);
+      if (round.resumeCompletedRound === true) {
+        const existingWordOutputPath = path.join(round.roundDir, 'word-output.txt');
+        wordOutputs[roundIndex] = fs.existsSync(existingWordOutputPath)
+          ? fs.readFileSync(existingWordOutputPath, 'utf8')
+          : '';
+      } else {
+        try {
+          const wordOutput = await runWordForRound(roundIndex, round, exportPayload);
+          wordOutputs[roundIndex] = wordOutput;
+          fs.writeFileSync(round.returnedReadyPath, JSON.stringify({
+            ready: true,
+            roundId: round.roundId,
+            returnedPath: round.returnedPath,
+            returnedSha256: fs.existsSync(round.returnedPath) ? sha256File(round.returnedPath) : '',
+            createdAtUtc: new Date().toISOString(),
+          }, null, 2));
+        } catch (error) {
+          const wordError = String(error.stderr || error.message || error);
+          wordErrors[roundIndex] = wordError;
+          fs.writeFileSync(round.returnedReadyPath, JSON.stringify({
+            ready: false,
+            roundId: round.roundId,
+            returnedPath: round.returnedPath,
+            error: wordError,
+            createdAtUtc: new Date().toISOString(),
+          }, null, 2));
+          throw new Error(`C5V2_CUMULATIVE_WORD_ROUND_FAILED:${round.roundId}:${wordError}`);
+        }
       }
       const returnApplyPayload = await waitForCondition(() => {
         const found = resultLines.find((line) => line.phase === 'return-apply' && line.roundIndex === roundIndex);
@@ -2964,7 +3055,30 @@ async function runElectronCumulativeFullManuscriptRoundtrip({
       if (returnApplyPayload.ok !== 1 || returnApplyPayload.returnApply?.ok !== true) {
         throw new Error(`C5V2_CUMULATIVE_RETURN_APPLY_FAILED:${round.roundId}:${returnApplyPayload.returnApply?.code || returnApplyPayload.returnApply?.reason || 'NON_GREEN'}`);
       }
-      if (round.oracleGatePath) {
+      if (round.resumeCompletedRound === true) {
+        const oraclePath = path.join(round.roundDir, 'complete-round-oracle.json');
+        const gatePath = round.oracleGatePath;
+        const nativeLifecycleVerification = round.ledger && fs.existsSync(round.returnedPath)
+          ? readNativeLifecycleSnapshots({ ledger: round.ledger, returnedPath: round.returnedPath })
+          : { ok: false, results: [], verifiedCount: 0, blockedCount: 0 };
+        const wordParsed = applyNativeLifecycleVerification(
+          parseWordOutput(wordOutputs[roundIndex] || ''),
+          nativeLifecycleVerification,
+        );
+        const oracleProbe = fs.existsSync(oraclePath)
+          ? JSON.parse(fs.readFileSync(oraclePath, 'utf8'))
+          : null;
+        round.completedRoundEvidence = {
+          wordParsed,
+          nativeLifecycleVerification,
+          returnApply: returnApplyPayload.returnApply,
+          oracleProbe,
+          oracleCapture: oracleProbe ? { ok: oracleProbe.ok === true, oracleProbe } : null,
+          oracleArtifact: fs.existsSync(oraclePath) ? { path: oraclePath, sha256: sha256File(oraclePath) } : null,
+          gate: fs.existsSync(gatePath) ? JSON.parse(fs.readFileSync(gatePath, 'utf8')) : null,
+        };
+      }
+      if (round.oracleGatePath && round.resumeCompletedRound !== true) {
         let roundOracleGate;
         try {
           roundOracleGate = typeof validateRound === 'function'
@@ -5106,6 +5220,7 @@ function parseArgs(argv) {
     roundCount: 1,
     accessibilityPreflightOnly: false,
     masterLedgerCampaign: false,
+    resumeRunDir: '',
     negativeCampaignLedgerPath: '',
     negativeProbeStart: 1,
     negativeProbeCount: 40,
@@ -5136,6 +5251,9 @@ function parseArgs(argv) {
       options.accessibilityPreflightOnly = true;
     } else if (arg === '--master-ledger-campaign') {
       options.masterLedgerCampaign = true;
+    } else if (arg === '--resume-run-dir') {
+      options.resumeRunDir = argv[index + 1];
+      index += 1;
     } else if (arg === '--negative-campaign-ledger') {
       options.negativeCampaignLedgerPath = argv[index + 1];
       index += 1;
@@ -5371,8 +5489,9 @@ async function mainCumulative(options) {
   const roundCount = Number.isSafeInteger(Number(options.roundCount)) && Number(options.roundCount) > 0
     ? Number(options.roundCount)
     : 5;
-  const runId = `${options.runPrefix}-${nowStamp()}`;
-  const runDir = path.join(options.artifactRoot, runId);
+  const runIdentity = resolveC5V2RunIdentity(options);
+  const runId = runIdentity.runId;
+  const runDir = runIdentity.runDir;
   fs.mkdirSync(runDir, { recursive: true });
   const wordWorkRoot = resolveWordHostLocalQaWorkRoot({
     defaultSegments: ['c5v2-physical-canary', runId],
@@ -5384,7 +5503,10 @@ async function mainCumulative(options) {
     includeMultilingualQa: options.includeMultilingualQa,
   });
   const scenes = corpusInput.scenes;
-  const corpusProvenance = {
+  const corpusProvenancePath = path.join(runDir, 'c5v2-corpus-provenance.json');
+  const corpusProvenance = runIdentity.resumed === true && fs.existsSync(corpusProvenancePath)
+    ? JSON.parse(fs.readFileSync(corpusProvenancePath, 'utf8'))
+    : {
     schemaVersion: 'yalken.rtk.word.c5v2.corpus-provenance.v1',
     corpusId: corpusInput.provenance.corpusId,
     corpus: corpusInput.provenance.corpus,
@@ -5410,16 +5532,24 @@ async function mainCumulative(options) {
     productSceneRounds: [],
     masterLedgerDigest: '',
   };
-  writeJsonAtomicDurable(path.join(runDir, 'c5v2-corpus-provenance.json'), corpusProvenance);
+  if (runIdentity.resumed !== true || !fs.existsSync(corpusProvenancePath)) {
+    writeJsonAtomicDurable(corpusProvenancePath, corpusProvenance);
+  }
   if (options.masterLedgerCampaign && (scenes.length !== 21 || roundCount !== 5)) {
     throw new Error(`C5V2_MASTER_LEDGER_CAMPAIGN_REQUIRES_21_SCENES_5_ROUNDS:${scenes.length}:${roundCount}`);
   }
-  let masterLedger = null;
+  const masterLedgerPath = path.join(runDir, 'c5v2-master-ledger.json');
+  let masterLedger = runIdentity.resumed === true && fs.existsSync(masterLedgerPath)
+    ? JSON.parse(fs.readFileSync(masterLedgerPath, 'utf8'))
+    : null;
+  let reusablePrefixOpen = runIdentity.resumed === true;
   const rounds = [];
   for (let index = 0; index < roundCount; index += 1) {
     const roundLabel = `round-${String(index + 1).padStart(2, '0')}`;
     const roundDir = path.join(runDir, roundLabel);
     fs.mkdirSync(roundDir, { recursive: true });
+    const resumeCompletedRound = reusablePrefixOpen && isC5V2ReusableCompletedRound(roundDir);
+    reusablePrefixOpen = reusablePrefixOpen && resumeCompletedRound;
     rounds.push({
       roundIndex: index,
       roundId: roundLabel,
@@ -5429,9 +5559,11 @@ async function mainCumulative(options) {
       wordReturnedPath: path.join(wordWorkRoot.root, roundLabel, 'c5v2-cumulative-returned-word-native.docx'),
       returnedReadyPath: path.join(roundDir, 'c5v2-cumulative-returned-ready.json'),
       oracleGatePath: path.join(roundDir, 'complete-round-oracle-gate.json'),
+      resumeCompletedRound,
       ledger: null,
     });
-    writeJsonAtomicDurable(path.join(roundDir, 'round-plan.pre-export.json'), {
+    const roundPlanPath = path.join(roundDir, 'round-plan.pre-export.json');
+    if (resumeCompletedRound !== true || !fs.existsSync(roundPlanPath)) writeJsonAtomicDurable(roundPlanPath, {
       schemaVersion: 'yalken.rtk.word.c5v2.cumulative-round-plan.v1',
       roundId: roundLabel,
       counts: options.counts,
@@ -5439,6 +5571,9 @@ async function mainCumulative(options) {
         ? 'MASTER_2000_OPERATION_LEDGER_BOUND_TO_FIRST_PRODUCT_EXPORT'
         : 'DERIVE_FROM_CURRENT_PRODUCT_SCENE_FILES_AFTER_ROUND_EXPORT',
     });
+    if (resumeCompletedRound === true) {
+      rounds.at(-1).ledger = JSON.parse(fs.readFileSync(path.join(roundDir, 'canary-ledger.json'), 'utf8'));
+    }
     fs.mkdirSync(path.dirname(rounds.at(-1).wordReturnedPath), { recursive: true });
   }
   const wordVersion = shellValue('/usr/bin/osascript', ['-e', 'tell application "Microsoft Word" to return version as text'], { timeout: 30_000 });
@@ -5491,7 +5626,7 @@ async function mainCumulative(options) {
         if (masterLedger.gates?.ok !== true || masterLedger.operations.length !== 2000) {
           throw new Error(`C5V2_MASTER_LEDGER_GATES_FAILED:${JSON.stringify(masterLedger.gates || {})}`);
         }
-        writeJsonAtomicDurable(path.join(runDir, 'c5v2-master-ledger.json'), masterLedger);
+        writeJsonAtomicDurable(masterLedgerPath, masterLedger);
         corpusProvenance.masterLedgerDigest = masterLedger.ledgerDigest;
       }
       corpusProvenance.productScenes = currentScenes.map((scene) => ({
@@ -5499,11 +5634,14 @@ async function mainCumulative(options) {
         rawContentSha256: scene.rawContentSha256,
         sourceSha256: scene.sourceSha256,
       }));
+      corpusProvenance.productSceneRounds = Array.isArray(corpusProvenance.productSceneRounds)
+        ? corpusProvenance.productSceneRounds.filter((entry) => entry?.roundId !== round.roundId)
+        : [];
       corpusProvenance.productSceneRounds.push({
         roundId: round.roundId,
         scenes: corpusProvenance.productScenes,
       });
-      writeJsonAtomicDurable(path.join(runDir, 'c5v2-corpus-provenance.json'), corpusProvenance);
+      writeJsonAtomicDurable(corpusProvenancePath, corpusProvenance);
       const ledger = options.masterLedgerCampaign
         ? adaptC5V2MasterRoundToPhysicalLedger({
             masterLedger,
@@ -5789,6 +5927,26 @@ export function shouldRunC5V2CumulativeController(options = {}) {
 export function shouldUseC5V2ChunkedWordExecution(options = {}) {
   return options.masterLedgerCampaign === true
     || (typeof options.corpusManifestPath === 'string' && options.corpusManifestPath.trim().length > 0);
+}
+
+export function isC5V2ReusableCompletedRound(roundDir) {
+  if (typeof roundDir !== 'string' || !roundDir || !fs.existsSync(roundDir)) return false;
+  const requiredFiles = [
+    'canary-ledger.json',
+    'word-output.txt',
+    'c5v2-cumulative-returned-ready.json',
+    'c5v2-cumulative-returned-word-native.docx',
+    'complete-round-oracle.json',
+    'complete-round-oracle-gate.json',
+  ];
+  if (!requiredFiles.every((name) => fs.existsSync(path.join(roundDir, name)))) return false;
+  try {
+    const ready = JSON.parse(fs.readFileSync(path.join(roundDir, 'c5v2-cumulative-returned-ready.json'), 'utf8'));
+    const gate = JSON.parse(fs.readFileSync(path.join(roundDir, 'complete-round-oracle-gate.json'), 'utf8'));
+    return ready.ready === true && gate.ok === true;
+  } catch {
+    return false;
+  }
 }
 
 async function main() {

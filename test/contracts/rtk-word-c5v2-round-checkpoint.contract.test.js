@@ -169,6 +169,14 @@ test('C5V2 physical Word chunks preserve root-first and descending-range authori
   assert.doesNotMatch(continuation, /my yResetCheckpoint\(yCheckpointPath\)/u);
   assert.match(continuation, /CHUNK_START:word-chunk-002/u);
   assert.match(continuation, /FINAL_NATIVE_REVISION_COUNT_BELOW_COALESCING_FLOOR:" & yRevisionCount & ":3:5/u);
+  const semanticReadbackIndex = continuation.indexOf('my yCheckpoint(yCheckpointPath, "FINAL_SEMANTIC_READBACK"');
+  const mirrorSaveIndex = continuation.indexOf('my yCheckpoint(yCheckpointPath, "EVIDENCE_MIRROR_SAVE_BEFORE"');
+  const mirrorVerifiedIndex = continuation.indexOf('my yCheckpoint(yCheckpointPath, "EVIDENCE_MIRROR_VERIFIED"');
+  const finalReopenCloseIndex = continuation.indexOf('my yCheckpoint(yCheckpointPath, "FINAL_REOPEN_CLOSE_AFTER"');
+  assert.ok(semanticReadbackIndex > -1, 'semantic readback checkpoint must be generated');
+  assert.ok(mirrorSaveIndex > semanticReadbackIndex, 'evidence mirror save must follow semantic readback');
+  assert.ok(mirrorVerifiedIndex > mirrorSaveIndex, 'evidence mirror verification must follow live save');
+  assert.ok(finalReopenCloseIndex > mirrorVerifiedIndex, 'final close must happen after durable evidence mirror');
   assert.match(continuation, /set yFind to find object of selection/u);
   assert.match(continuation, /execute find yFind find text yQuote[\s\S]*wrap find find stop/u);
   assert.match(continuation, /on yFindRangeWithin\(yDoc, yLocator, yQuote\)/u);

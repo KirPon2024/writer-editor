@@ -9044,19 +9044,19 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "2113f4ec2d29b4451e546a6c75082d50dd3707ecb6068f6aa888f2b96434899b",
+      "sha256": "38fd244d97bafa365d9d7b4f9f5b956e5ee52a1525afde617b1587f50ca41a26",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO",
-      "approvedAtUtc": "2026-08-03T09:50:00Z",
-      "rationale": "Approve exact governed C5V2 physical canary harness bytes that preserve completed-round recovery from fsynced oracle-gate and reopened-truth evidence, and treat native Word revision split counts as a lower-bound health signal rather than exact semantic authority. This preserves fail-closed recovery and semantic oracle authority, keeps Google blocked, adds no product network path, and makes no broad Word certification claim.",
+      "approvedAtUtc": "2026-08-03T11:46:00Z",
+      "rationale": "Approve exact governed C5V2 physical canary harness bytes that preserve completed-round recovery from fsynced oracle-gate and reopened-truth evidence, treat native Word revision split counts as a lower-bound health signal, and mirror returned DOCX evidence while the reopened Word document is still live before final close. This preserves fail-closed recovery and semantic oracle authority, keeps Google blocked, adds no product network path, and makes no broad Word certification claim.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_DORIAN_PORTFOLIO_RECOVERY"
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-round-checkpoint.contract.test.js",
-      "sha256": "4dec242f796d6a5b1623e9080bc60d072b1a9d706a834f3f5910fbae7e74a1fb",
+      "sha256": "9f20e5c9c1a93a91415f2655a40e02488f024b00c1ea30c646d826e9dfc8b4c1",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO",
-      "approvedAtUtc": "2026-08-03T10:05:00Z",
-      "rationale": "Approve exact RTK contract bytes binding the C5V2 native Word revision count guard to the cumulative lower-bound health signal used by the shipped physical harness. This preserves semantic oracle authority, keeps fail-closed under-count detection, adds no product network path, and makes no broad Word certification claim.",
+      "approvedAtUtc": "2026-08-03T11:46:00Z",
+      "rationale": "Approve exact RTK contract bytes binding the C5V2 native Word revision count guard to the cumulative lower-bound health signal and requiring live evidence mirroring before final close in the shipped physical harness. This preserves semantic oracle authority, keeps fail-closed under-count detection, adds no product network path, and makes no broad Word certification claim.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_DORIAN_PORTFOLIO_RECOVERY"
     },

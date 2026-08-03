@@ -419,7 +419,11 @@ async function main() {
   const closePromise = waitForClose(killed.child);
   assertGate(killed.child.kill('SIGKILL'), 'C5V2_DORIAN_KILLPOINT_SIGKILL_NOT_SENT');
   const killedExit = await closePromise;
-  assertGate(killedExit.signal === 'SIGKILL', 'C5V2_DORIAN_KILLPOINT_SIGNAL_MISMATCH', killedExit.signal || killedExit.code);
+  assertGate(
+    killedExit.signal === 'SIGKILL',
+    'C5V2_DORIAN_KILLPOINT_SIGNAL_MISMATCH',
+    killedExit.signal || `code-${killedExit.code}`,
+  );
   const recovery = await runChildMode({ childPath, inputPath, mode: 'recover' });
   const recoveredHashes = sceneHashes(scenePathBySceneId);
   assertGate(stableJson(recoveredHashes) === stableJson(beforeHashes), 'C5V2_DORIAN_KILLPOINT_ROLLBACK_HASH_MISMATCH');

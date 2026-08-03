@@ -65,6 +65,7 @@ async function main() {
       handlerOptions.afterSceneWrite = async ({ index, sceneId }) => {
         if (index !== 0) return;
         process.stdout.write(`${FIRST_SCENE_PREFIX}${JSON.stringify({ index, sceneId, pid: process.pid })}\n`);
+        setInterval(() => {}, 1000);
         await new Promise(() => {});
       };
     }

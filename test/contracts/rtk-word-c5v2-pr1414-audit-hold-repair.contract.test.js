@@ -227,7 +227,7 @@ function createBoundCompletedRound(canary, overrides = {}) {
   };
 }
 
-test('C5V2 v5 rejects synchronized raw-authority and exact-mapping changeId swap after every plain digest is refreshed', async () => {
+test('C5V2 v6 rejects synchronized raw-authority and exact-mapping changeId swap after every plain digest is refreshed', async () => {
   const canary = await loadCanary();
   const fixture = createBoundCompletedRound(canary, {
     operations: [{
@@ -301,7 +301,7 @@ test('C5V2 v5 rejects synchronized raw-authority and exact-mapping changeId swap
   assert.equal(canary.isC5V2ReusableCompletedRound(fixture.roundDir, fixture.context), false);
 });
 
-test('C5V2 v5 rejects candidate authority content mutation even when all authority and binding digests are refreshed', async () => {
+test('C5V2 v6 rejects candidate authority content mutation even when all authority and binding digests are refreshed', async () => {
   const canary = await loadCanary();
   const fixture = createBoundCompletedRound(canary);
   const authority = JSON.parse(fs.readFileSync(fixture.files.candidateAuthority, 'utf8'));
@@ -317,7 +317,7 @@ test('C5V2 v5 rejects candidate authority content mutation even when all authori
   assert.equal(canary.isC5V2ReusableCompletedRound(fixture.roundDir, fixture.context), false);
 });
 
-test('C5V2 v5 rejects candidate authority hash mutation under a refreshed outer binding digest', async () => {
+test('C5V2 v6 rejects candidate authority hash mutation under a refreshed outer binding digest', async () => {
   const canary = await loadCanary();
   const fixture = createBoundCompletedRound(canary);
   rewriteBoundGate(canary, fixture, {
@@ -327,7 +327,7 @@ test('C5V2 v5 rejects candidate authority hash mutation under a refreshed outer 
   assert.equal(canary.isC5V2ReusableCompletedRound(fixture.roundDir, fixture.context), false);
 });
 
-test('C5V2 v5 anchor lifecycle fails closed for missing corrupt wrong-key and wrong-campaign authority without recovery', async () => {
+test('C5V2 v6 anchor lifecycle fails closed for missing corrupt wrong-key and wrong-campaign authority without recovery', async () => {
   const canary = await loadCanary();
 
   const missing = createBoundCompletedRound(canary);
@@ -360,7 +360,7 @@ test('C5V2 v5 anchor lifecycle fails closed for missing corrupt wrong-key and wr
   }), false);
 });
 
-test('C5V2 v5 anchor root rejects symlink redirection and path escape identifiers', async () => {
+test('C5V2 v6 anchor root rejects symlink redirection and path escape identifiers', async () => {
   const canary = await loadCanary();
   const fixture = createBoundCompletedRound(canary);
   const symlinkRoot = `${fixture.context.candidateAuthorityRoot}-symlink`;
@@ -397,7 +397,7 @@ test('C5V2 v5 anchor root rejects symlink redirection and path escape identifier
   }), /ROUND_ID_INVALID/u);
 });
 
-test('C5V2 production-shaped reuse rejects recorded EXACT changed to BLOCKED under a rehashed v5 binding', async () => {
+test('C5V2 production-shaped reuse rejects recorded EXACT changed to BLOCKED under a rehashed v6 binding', async () => {
   const canary = await loadCanary();
   const fixture = createBoundCompletedRound(canary);
   fs.writeFileSync(
@@ -445,7 +445,111 @@ test('C5V2 production-shaped reuse rejects same-count ledger scene mutation with
   assert.equal(canary.isC5V2ReusableCompletedRound(fixture.roundDir, fixture.context), false);
 });
 
-test('C5V2 production-shaped reuse rejects complete oracle ok false under a rehashed v5 binding', async () => {
+test('C5V2 v6 keyed anchor rejects same-count operation id and tracked-family mutation after ordinary evidence is refreshed', async () => {
+  const canary = await loadCanary();
+  const fixture = createBoundCompletedRound(canary, {
+    operations: [{
+      id: 'op-exact-001',
+      formalFamily: 'tracked_text_edit',
+      family: 'tracked_replace',
+      expectedOutcome: 'EXACT',
+      sceneId: 'roman/chapter-01.txt',
+      quote: 'old text one',
+      replacementText: 'new text one',
+      semanticIntent: { kind: 'replace', replacementText: 'new text one' },
+    }, {
+      id: 'op-exact-002',
+      formalFamily: 'tracked_text_edit',
+      family: 'tracked_replace',
+      expectedOutcome: 'EXACT',
+      sceneId: 'roman/chapter-02.txt',
+      quote: 'old text two',
+      replacementText: 'new text two',
+      semanticIntent: { kind: 'replace', replacementText: 'new text two' },
+    }],
+  });
+  assert.equal(canary.isC5V2ReusableCompletedRound(fixture.roundDir, fixture.context), true);
+  assert.equal(fixture.completedRoundReuseBinding.exactTotal, 2);
+
+  const anchorPath = fixture.returnApplyCandidateAuthorityAnchorValidation.anchorArtifact.path;
+  const oldAnchor = JSON.parse(fs.readFileSync(anchorPath, 'utf8'));
+  const priorLedgerContentDigest = canary.resolveC5V2LedgerReuseDigest(fixture.ledger);
+  fixture.ledger.operations[0] = {
+    ...fixture.ledger.operations[0],
+    id: 'op-exact-001-rebound',
+    family: 'tracked_insert',
+    semanticIntent: { kind: 'insert', replacementText: 'new text one' },
+  };
+  fixture.ledger.familyCounts = {
+    tracked_insert: 1,
+    tracked_replace: 1,
+  };
+  writeJson(fixture.files.ledger, fixture.ledger);
+  const refreshedLedgerContentDigest = canary.resolveC5V2LedgerReuseDigest(fixture.ledger);
+  assert.notEqual(refreshedLedgerContentDigest, priorLedgerContentDigest);
+  assert.equal(fixture.ledger.operationCount, 2);
+  assert.equal(fixture.ledger.operations.length, 2);
+
+  fs.writeFileSync(fixture.files.wordOutput, [
+    'WORD_STATUS=PASS',
+    'OP|op-exact-001-rebound|EXACT',
+    'OP|op-exact-002|EXACT',
+    'READBACK|op-exact-001-rebound|EXACT|WORD_OBJECT_MODEL_REOPENED',
+    'READBACK|op-exact-002|EXACT|WORD_OBJECT_MODEL_REOPENED',
+    '',
+  ].join('\n'), 'utf8');
+  const oracle = JSON.parse(fs.readFileSync(fixture.files.oracle, 'utf8'));
+  oracle.operationResults = oracle.operationResults.map((result) => (
+    result.operationId === 'op-exact-001'
+      ? { ...result, operationId: 'op-exact-001-rebound' }
+      : result
+  ));
+  oracle.oracleDigest = canary.sha256Text(canary.stableCanonicalJson(oracle.operationResults));
+  writeJson(fixture.files.oracle, oracle);
+  const refreshedExactLedgerBinding = {
+    ...fixture.exactLedgerBinding,
+    exactOperationBindings: fixture.exactLedgerBinding.exactOperationBindings.map((binding) => (
+      binding.operationId === 'op-exact-001'
+        ? { ...binding, operationId: 'op-exact-001-rebound' }
+        : binding
+    )),
+  };
+  const authority = JSON.parse(fs.readFileSync(fixture.files.candidateAuthority, 'utf8'));
+  assert.equal(canary.validateC5V2ExactLedgerBindingAgainstLedger(
+    refreshedExactLedgerBinding,
+    fixture.ledger,
+    {
+      candidateAuthority: authority,
+      roundId: fixture.context.roundId,
+    },
+  ).ok, true, 'ordinary ledger and candidate evidence are internally consistent after refresh');
+  rewriteBoundGate(canary, fixture, {
+    ledgerContentDigest: refreshedLedgerContentDigest,
+    wordOutputSha256: canary.sha256File(fixture.files.wordOutput),
+    completeRoundOracleSha256: canary.sha256File(fixture.files.oracle),
+    exactLedgerBinding: refreshedExactLedgerBinding,
+  });
+
+  assert.deepEqual(JSON.parse(fs.readFileSync(anchorPath, 'utf8')), oldAnchor);
+  const anchorValidation = canary.validateC5V2ReturnApplyCandidateAuthorityAnchor({
+    authorityRoot: fixture.context.candidateAuthorityRoot,
+    campaignId: fixture.context.campaignId,
+    roundId: fixture.context.roundId,
+    exactHead: fixture.context.exactHead,
+    corpusDigest: fixture.context.corpusDigest,
+    ledger: fixture.ledger,
+    candidateAuthority: authority,
+    candidateAuthorityPath: fixture.files.candidateAuthority,
+  });
+  assert.equal(anchorValidation.ok, false);
+  assert.equal(
+    anchorValidation.failures.includes('C5V2_RETURN_APPLY_CANDIDATE_AUTHORITY_ANCHOR_LEDGER_CONTENT_DIGEST_MISMATCH'),
+    true,
+  );
+  assert.equal(canary.isC5V2ReusableCompletedRound(fixture.roundDir, fixture.context), false);
+});
+
+test('C5V2 production-shaped reuse rejects complete oracle ok false under a rehashed v6 binding', async () => {
   const canary = await loadCanary();
   const fixture = createBoundCompletedRound(canary);
   const oracle = JSON.parse(fs.readFileSync(fixture.files.oracle, 'utf8'));

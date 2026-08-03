@@ -30,9 +30,9 @@ const DEFAULT_ARTIFACT_ROOT = '/Volumes/T7-Secure/storage/yalken/word-safety-rem
 const CORPUS_SCENE_ROOT = '/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c5-fullbook-certification/corpus/scenes';
 const CORPUS_RAW_PATH = '/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c5-fullbook-certification/corpus/pg174-raw.txt';
 const CORPUS_CLEANED_PATH = '/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c5-fullbook-certification/corpus/dorian-gray-cleaned-scenes.txt';
-const C5V2_COMPLETED_ROUND_REUSE_BINDING_VERSION = 'yalken.rtk.word.c5v2.completed-round-reuse-binding.v5';
+const C5V2_COMPLETED_ROUND_REUSE_BINDING_VERSION = 'yalken.rtk.word.c5v2.completed-round-reuse-binding.v6';
 const C5V2_RETURN_APPLY_CANDIDATE_AUTHORITY_VERSION = 'yalken.rtk.word.c5v2.return-apply-candidate-authority.v1';
-const C5V2_RETURN_APPLY_CANDIDATE_AUTHORITY_ANCHOR_VERSION = 'yalken.rtk.word.c5v2.return-apply-candidate-authority-anchor.v1';
+const C5V2_RETURN_APPLY_CANDIDATE_AUTHORITY_ANCHOR_VERSION = 'yalken.rtk.word.c5v2.return-apply-candidate-authority-anchor.v2';
 const C5V2_RETURN_APPLY_CANDIDATE_AUTHORITY_KEY_BYTES = 32;
 const C5V2_OPERATION_STATUS_POLICY_VERSION = 'yalken.rtk.word.c5v2.recorded-operation-status-policy.v1';
 const C5V2_OPERATION_STATUS_POLICY = Object.freeze({
@@ -340,6 +340,7 @@ export function validateC5V2ReturnApplyCandidateAuthorityAnchor({
     const candidateAuthoritySha256 = candidateAuthorityPath && fs.existsSync(candidateAuthorityPath)
       ? sha256File(candidateAuthorityPath)
       : '';
+    const ledgerContentDigest = resolveC5V2LedgerReuseDigest(ledger);
     if (anchor.schemaVersion !== C5V2_RETURN_APPLY_CANDIDATE_AUTHORITY_ANCHOR_VERSION) {
       failures.push('C5V2_RETURN_APPLY_CANDIDATE_AUTHORITY_ANCHOR_SCHEMA_INVALID');
     }
@@ -350,6 +351,9 @@ export function validateC5V2ReturnApplyCandidateAuthorityAnchor({
       || anchor.exactHead !== exactHead
       || anchor.corpusDigest !== corpusDigest
     ) failures.push('C5V2_RETURN_APPLY_CANDIDATE_AUTHORITY_ANCHOR_IDENTITY_MISMATCH');
+    if (anchor.ledgerContentDigest !== ledgerContentDigest) {
+      failures.push('C5V2_RETURN_APPLY_CANDIDATE_AUTHORITY_ANCHOR_LEDGER_CONTENT_DIGEST_MISMATCH');
+    }
     if (
       anchor.keyId !== key.keyId
       || anchor.candidateAuthoritySha256 !== candidateAuthoritySha256
@@ -415,6 +419,7 @@ export function writeC5V2ReturnApplyCandidateAuthorityAnchor({
     roundId,
     exactHead,
     corpusDigest,
+    ledgerContentDigest: resolveC5V2LedgerReuseDigest(ledger),
     keyId: key.keyId,
     candidateAuthoritySha256: sha256File(candidateAuthorityPath),
     candidateAuthorityContentDigest: candidateAuthority.contentDigest,
@@ -791,6 +796,7 @@ export function buildC5V2CompletedRoundReuseBinding(input = {}) {
       roundId: input.roundId,
     },
   );
+  const anchorLedgerContentDigest = String(input.returnApplyCandidateAuthorityAnchor?.ledgerContentDigest || '');
   const body = {
     schemaVersion: C5V2_COMPLETED_ROUND_REUSE_BINDING_VERSION,
     roundId: String(input.roundId || ''),
@@ -811,6 +817,7 @@ export function buildC5V2CompletedRoundReuseBinding(input = {}) {
     returnApplyCandidateAuthorityAnchorSha256: String(input.returnApplyCandidateAuthorityAnchorArtifact?.sha256 || ''),
     returnApplyCandidateAuthorityAnchorDigest: String(input.returnApplyCandidateAuthorityAnchor?.anchorDigest || ''),
     returnApplyCandidateAuthorityAnchorKeyId: String(input.returnApplyCandidateAuthorityAnchor?.keyId || ''),
+    returnApplyCandidateAuthorityAnchorLedgerContentDigest: anchorLedgerContentDigest,
     exactLedgerBinding: input.exactLedgerBinding && typeof input.exactLedgerBinding === 'object'
       ? input.exactLedgerBinding
       : null,
@@ -835,11 +842,15 @@ export function buildC5V2CompletedRoundReuseBinding(input = {}) {
     body.returnApplyCandidateAuthorityAnchorSha256,
     body.returnApplyCandidateAuthorityAnchorDigest,
     body.returnApplyCandidateAuthorityAnchorKeyId,
+    body.returnApplyCandidateAuthorityAnchorLedgerContentDigest,
   ];
+  const anchorLedgerDigestMatches = Boolean(body.ledgerContentDigest)
+    && body.returnApplyCandidateAuthorityAnchorLedgerContentDigest === body.ledgerContentDigest;
   const ok = required.every(Boolean)
     && exactSummary.ok === true
     && exactLedgerValidation.ok === true
-    && input.returnApplyCandidateAuthorityAnchorValidation?.ok === true;
+    && input.returnApplyCandidateAuthorityAnchorValidation?.ok === true
+    && anchorLedgerDigestMatches;
   const bound = {
     ...body,
     ok,
@@ -850,6 +861,9 @@ export function buildC5V2CompletedRoundReuseBinding(input = {}) {
       ...(input.returnApplyCandidateAuthorityAnchorValidation?.ok === true
         ? []
         : ['C5V2_RETURN_APPLY_CANDIDATE_AUTHORITY_ANCHOR_NOT_GREEN']),
+      ...(anchorLedgerDigestMatches
+        ? []
+        : ['C5V2_RETURN_APPLY_CANDIDATE_AUTHORITY_ANCHOR_LEDGER_CONTENT_DIGEST_MISMATCH']),
     ],
   };
   return {
@@ -884,6 +898,8 @@ export function buildC5V2CompletedRoundReuseReturnApply(input = {}) {
     || reuseBinding.bindingDigest !== expectedReuseBinding.bindingDigest
     || reuseBinding.roundId !== gate.roundId
     || reuseBinding.roundId !== expectedReuseBinding.roundId
+    || !reuseBinding.returnApplyCandidateAuthorityAnchorLedgerContentDigest
+    || reuseBinding.returnApplyCandidateAuthorityAnchorLedgerContentDigest !== reuseBinding.ledgerContentDigest
     || returnedDocxSha256 !== reuseBinding.returnedDocxSha256
   ) {
     return {
@@ -7049,6 +7065,8 @@ export function isC5V2ReusableCompletedRound(roundDir, options = {}) {
       || binding.returnApplyCandidateAuthorityAnchorSha256 !== candidateAuthorityAnchorArtifact.sha256
       || binding.returnApplyCandidateAuthorityAnchorDigest !== candidateAuthorityAnchor.anchorDigest
       || binding.returnApplyCandidateAuthorityAnchorKeyId !== candidateAuthorityAnchor.keyId
+      || binding.returnApplyCandidateAuthorityAnchorLedgerContentDigest !== candidateAuthorityAnchor.ledgerContentDigest
+      || binding.returnApplyCandidateAuthorityAnchorLedgerContentDigest !== binding.ledgerContentDigest
       || ready.returnedSha256 !== binding.returnedDocxSha256
     ) return false;
     const evidence = validateC5V2CompletedRoundReuseEvidence({

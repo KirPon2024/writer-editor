@@ -9044,19 +9044,19 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "54d91b7d0b8a8a1bc32dfcfb408d35a649312fd4ba33756036ac6f87ca649389",
+      "sha256": "9092d3912700aba196780f40b92357143aa13586144510ab2613597fa0321b55",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO",
-      "approvedAtUtc": "2026-08-03T14:17:00Z",
-      "rationale": "Approve exact governed C5V2 physical canary harness bytes that gate native semantic readback inline by the recorded Word operation status, preventing reopened document evidence from crediting an operation that was explicitly BLOCKED while preserving AppleScript compile validity, and bind summary exact totals to the ledger-bound product apply lane instead of raw activation candidates. This preserves fail-closed recovery and semantic oracle authority, keeps Google blocked, adds no product network path, and makes no broad Word certification claim.",
+      "approvedAtUtc": "2026-08-03T14:54:00Z",
+      "rationale": "Approve exact governed C5V2 physical canary harness bytes that make generated AppleScript shell calls independent of inherited process current-directory liveness by entering a stable root before cp, sync, shasum, stat, unzip, open and phase-log writes. This source-binds the physical chunk-005 EVIDENCE_MIRROR_SAVE_BEFORE failure caused by a deleted CWD, preserves fail-closed recovery and semantic oracle authority, keeps Google blocked, adds no product network path, and makes no broad Word certification claim.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_DORIAN_PORTFOLIO_RECOVERY"
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-round-checkpoint.contract.test.js",
-      "sha256": "79787c0e6a5b30d6af51dc294637779d03c1170de02a0ae98e130a281951a69b",
+      "sha256": "f8c0776d569714376b4e460ca96cc9e24f938636a5a19a0a3cc08c9a82c5d990",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO",
-      "approvedAtUtc": "2026-08-03T14:17:00Z",
-      "rationale": "Approve exact RTK contract bytes requiring generated C5V2 native semantic readback to include an inline recorded-operation-status gate without nested AppleScript handlers and summary exact counts to prefer the ledger-bound product apply lane. This preserves semantic oracle authority, keeps fail-closed under-count detection, adds no product network path, and makes no broad Word certification claim.",
+      "approvedAtUtc": "2026-08-03T14:54:00Z",
+      "rationale": "Approve exact RTK chunk checkpoint contract bytes rebinding generated continuation scripts to the CWD-stable yShell route and preserving resume authority from durable returned DOCX snapshots rather than source reinitialization. This preserves semantic oracle authority, keeps fail-closed under-count detection, adds no product network path, and makes no broad Word certification claim.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_DORIAN_PORTFOLIO_RECOVERY"
     },
@@ -9107,12 +9107,12 @@
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-comment-lifecycle-return-runtime.contract.test.js",
-      "sha256": "b7f2c8b7d20ef9838f47fc2115a4197bbf41107d078fd08856be3d06e1d128be",
+      "sha256": "081083b75c9be554d05d962ce9077d95b1539ee7ca3db7e1b83440e48ed60f17",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO",
-      "approvedAtUtc": "2026-08-03T13:18:00Z",
-      "rationale": "Approve exact governed lifecycle contract bytes rebinding the C5V2 native Word automation timeout budget after physical chunk evidence showed completed operations, save, close and reopen could still be killed before final semantic readback and durable checkpoint. This preserves fail-closed recovery, keeps Google blocked, adds no product network path, and makes no broad Word certification claim.",
+      "approvedAtUtc": "2026-08-03T14:54:00Z",
+      "rationale": "Approve exact governed lifecycle contract bytes requiring native materialization durability calls to route through the CWD-stable yShell helper. This preserves fail-closed recovery, keeps Google blocked, adds no product network path, and makes no broad Word certification claim.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_N3_RESUME"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_DORIAN_PORTFOLIO_RECOVERY"
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-full-manuscript-product-export.contract.test.js",

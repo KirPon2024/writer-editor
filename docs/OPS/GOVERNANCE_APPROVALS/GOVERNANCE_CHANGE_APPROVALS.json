@@ -6201,15 +6201,6 @@
       "rationale": "Approve final P0_06 multilingual matcher delivery bytes: language policy routes before production matching, canonical casefold and grapheme-aware boundary matcher replaces raw case-sensitive UTF16 search, product mention index and Core admission evidence PASS, focused pack PASS 28, full runner PASS 799 total 735 pass 0 fail 64 skipped, no network, no dependency, no Program DONE claim."
     },
     {
-      "filePath": "scripts/run-rtk-tests.mjs",
-      "sha256": "0fab1cc0a03d4b0de4f3db75d4cca02877070f339c98a74cf33d90ad5e9ee765",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR_V1",
-      "approvedAtUtc": "2026-08-03T19:46:41.000Z",
-      "rationale": "Approve exact RTK runner bytes that capture and echo TAP while failing closed on hidden skip, TODO, incomplete summary, zero tests, missing mandatory records, count mismatch, cancellation, and not-ok records.",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR"
-    },
-    {
       "filePath": "scripts/sector-m-run.mjs",
       "sha256": "9d631b8e759cc7340485bd8026f25df3a9a05c1b4cb662d584bba1789abdbd1f",
       "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01_SECTOR_M_GUARD_BOUNDARY_FIX",
@@ -6517,15 +6508,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E11_MULTI_SCENE_ATOMIC_COORDINATOR",
       "approvedAtUtc": "2026-07-31T14:33:00.000Z",
       "rationale": "Approve E11 platform-neutral multi-scene atomic coordinator component: validates same-root prepare records, unique scene request and effect identities, staged receipt matching, root-pointer commit preconditions and recovery states through injected crypto only, with no Node filesystem, Electron, renderer, network or writer authority."
-    },
-    {
-      "filePath": "src/io/revisionBridge/reviewTransportMultiSceneNonOverlapTrackedReplacementRuntime.mjs",
-      "sha256": "9a1c80f9fb1abd12a5e26d3526a1157a58339eacb927cc18dd72518bed91049c",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T18:10:00.000Z",
-      "rationale": "Approve bounded Word safety remediation C2 current bytes: canonical multi-scene command path is allowlisted, typed, dispatched through Command Surface Kernel, serialized per project root, validated before writer, replay-safe, rollback-proven, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportNonOverlapTrackedReplacementRuntime.mjs",
@@ -7613,15 +7595,6 @@
       "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
-      "filePath": "test/contracts/rtk-test-graph-catalog.contract.test.js",
-      "sha256": "4a10289ddd06af3dd67076a283170bd57cfe33325fcbca9c3edb031f92706e7f",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR_V1",
-      "approvedAtUtc": "2026-08-03T19:46:41.000Z",
-      "rationale": "Approve exact RTK graph contract bytes adding TAP runner false-green regressions for hidden skip, TODO, incomplete summary, zero tests, and test record count mismatch while preserving required local deterministic graph wiring.",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR"
-    },
-    {
       "filePath": "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",
       "sha256": "7a9735f8ffa0151481f5d64ccc7eac5b89da3e5ac74f4bb0e55a0ce2fd3561f6",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO:LEDGER_IDENTITY_ANCHOR_REPAIR",
@@ -7899,15 +7872,6 @@
       "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-safety-c2-multiscene-command-path.contract.test.js",
-      "sha256": "a96de4632d80f6c4e43c1c695282a87f864e0eb5847c428f340df104ca9b2098",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T15:02:26.141Z",
-      "rationale": "Approve bounded Word safety remediation C2 current bytes after full local gate refresh: canonical multi-scene command path is allowlisted, typed, dispatched through Command Surface Kernel, serialized per project root, validated before writer, replay-safe, rollback-proven, full runner 799/735/64/0, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
     },
     {
       "filePath": "test/contracts/rtk-word-safety-c3-parser-resource-envelope.contract.test.js",
@@ -9043,33 +9007,6 @@
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_PR1414_AUDIT_HOLD_REPAIR"
     },
     {
-      "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "c5c8ddd117393b8a4c55a9b6e5907fc93a8d691bfeb3ff731f63ee03c9d3ffd1",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR_V1",
-      "approvedAtUtc": "2026-08-03T19:46:41.000Z",
-      "rationale": "Approve exact governed C5V2 physical canary bytes adding canonical realpath artifact containment, T7 APFS FileVault UUID writability checks, raw master-ledger resume authority binding, completed-prefix resume rehydration, and mandatory terminal aggregate validation linking 1960 positive operations with same-head 40-probe negative evidence for exact 2000 distribution.",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-c5v2-round-checkpoint.contract.test.js",
-      "sha256": "51a74e791ae7305a81dc7ed2ba5f45c846623f92ba0a162ed6300376ebf1ca44",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR_V1",
-      "approvedAtUtc": "2026-08-03T19:46:41.000Z",
-      "rationale": "Approve exact maintained round-checkpoint contract bytes proving fail-closed resumed checkpoint validation and completed-prefix rehydration ordering: restored reopened scene truth and non-text state must occur after durable completed-round replay and before reused round gate acceptance.",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-c5v2-pr1414-audit-hold-repair.contract.test.js",
-      "sha256": "d2ed82a4178ba43851b2067dd072283c43b0b2f046fe43080d00c27b0cb6b7fe",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR_V1",
-      "approvedAtUtc": "2026-08-03T19:46:41.000Z",
-      "rationale": "Approve exact PR1414 C5V2 audit-hold contract bytes preserving prior v6 anchor negatives and adding root containment regressions for symlink escape, dotdot escape, non-T7 root, wrong UUID, and missing FileVault.",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR"
-    },
-    {
       "filePath": "scripts/ops/rtk-word-sandbox-work-root.mjs",
       "sha256": "d5cd64e78c465f9842c79aa8d4f031ac75c76e115ac915c0e4742589f4bec37e",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_N3_FORMATTING_RETURN_RESPONSE_REPAIR",
@@ -9388,38 +9325,101 @@
     {
       "filePath": "scripts/ops/rtk-word-c5v2-dorian-atlas-cycles.mjs",
       "sha256": "75bec705b5fc40d20181a0f9ffc1fe575275a548fe5bfaa412e56ff73efa22e9",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR_V1",
-      "approvedAtUtc": "2026-08-03T19:46:41.000Z",
-      "rationale": "Approve exact Word C5V2 Dorian Atlas cycle harness bytes that bind physical campaign head identity to the certification head and fail closed on absent, malformed, or cross-head physical evidence before cyclic acceptance.",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
+      "approvedAtUtc": "2026-08-03T20:26:00.000Z",
+      "rationale": "Approve exact bounded Word C5V2 terminal-audit repair bytes for the owner-authorized implementation contour; no UI, Google, network, dependency, or Atlas behavior expansion.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
     },
     {
-      "filePath": "test/contracts/rtk-word-c5v2-dorian-atlas-cycles.contract.test.js",
-      "sha256": "61da504e45b9e0f5e355ba61fee63cb3e290aba0490474721881e78b86ead2a5",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR_V1",
-      "approvedAtUtc": "2026-08-03T19:46:41.000Z",
-      "rationale": "Approve exact Word C5V2 Dorian Atlas false-green regression bytes proving a stale physical campaign head with refreshed ordinary evidence cannot be accepted for same-head cyclic certification.",
+      "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
+      "sha256": "c5c8ddd117393b8a4c55a9b6e5907fc93a8d691bfeb3ff731f63ee03c9d3ffd1",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
+      "approvedAtUtc": "2026-08-03T20:26:00.000Z",
+      "rationale": "Approve exact bounded Word C5V2 terminal-audit repair bytes for the owner-authorized implementation contour; no UI, Google, network, dependency, or Atlas behavior expansion.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-round-checkpoint.mjs",
       "sha256": "f27367d39c7b8bc31807f4d6d473703ae3b8917207a8e9806f31ba0a7522c187",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR_V1",
-      "approvedAtUtc": "2026-08-03T19:46:41.000Z",
-      "rationale": "Approve exact round-checkpoint reader bytes that fail closed on resumed checkpoint digest, exact head, run, round and chunk membership, operation ID, request and effect key, and source or returned artifact hash mismatches.",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
+      "approvedAtUtc": "2026-08-03T20:26:00.000Z",
+      "rationale": "Approve exact bounded Word C5V2 terminal-audit repair bytes for the owner-authorized implementation contour; no UI, Google, network, dependency, or Atlas behavior expansion.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
+    },
+    {
+      "filePath": "scripts/run-rtk-tests.mjs",
+      "sha256": "0fab1cc0a03d4b0de4f3db75d4cca02877070f339c98a74cf33d90ad5e9ee765",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
+      "approvedAtUtc": "2026-08-03T20:26:00.000Z",
+      "rationale": "Approve exact bounded Word C5V2 terminal-audit repair bytes for the owner-authorized implementation contour; no UI, Google, network, dependency, or Atlas behavior expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportMultiSceneNonOverlapTrackedReplacementRuntime.mjs",
+      "sha256": "ae2887902a9db19e5699d4072006d2a6b8197212f1e66f4b5f53023c4fd304a3",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
+      "approvedAtUtc": "2026-08-03T20:26:00.000Z",
+      "rationale": "Approve exact multi-scene Word apply runtime bytes that keep child outcomes staged under parent transaction authority, roll back failed attempts, and prevent stale single-scene replay authority from poisoning retry convergence.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
+    },
+    {
+      "filePath": "test/contracts/rtk-test-graph-catalog.contract.test.js",
+      "sha256": "4a10289ddd06af3dd67076a283170bd57cfe33325fcbca9c3edb031f92706e7f",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
+      "approvedAtUtc": "2026-08-03T20:26:00.000Z",
+      "rationale": "Approve exact bounded Word C5V2 terminal-audit repair bytes for the owner-authorized implementation contour; no UI, Google, network, dependency, or Atlas behavior expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-c5v2-dorian-atlas-cycles.contract.test.js",
+      "sha256": "61da504e45b9e0f5e355ba61fee63cb3e290aba0490474721881e78b86ead2a5",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
+      "approvedAtUtc": "2026-08-03T20:26:00.000Z",
+      "rationale": "Approve exact bounded Word C5V2 terminal-audit repair bytes for the owner-authorized implementation contour; no UI, Google, network, dependency, or Atlas behavior expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-ledger-distribution.contract.test.js",
       "sha256": "57ac75944b967c7f9ad74e5b76a00c2b821887593f4890b2cd6e320cdeda65d7",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR_V1",
-      "approvedAtUtc": "2026-08-03T19:46:41.000Z",
-      "rationale": "Approve exact C5V2 ledger-distribution contract bytes proving resumed master-ledger authority rejects stale raw ledger mutations and terminal aggregate validation requires 1960 positive plus 40 same-head negative operations with exact family distribution.",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
+      "approvedAtUtc": "2026-08-03T20:26:00.000Z",
+      "rationale": "Approve exact bounded Word C5V2 terminal-audit repair bytes for the owner-authorized implementation contour; no UI, Google, network, dependency, or Atlas behavior expansion.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-c5v2-pr1414-audit-hold-repair.contract.test.js",
+      "sha256": "d2ed82a4178ba43851b2067dd072283c43b0b2f046fe43080d00c27b0cb6b7fe",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
+      "approvedAtUtc": "2026-08-03T20:26:00.000Z",
+      "rationale": "Approve exact bounded Word C5V2 terminal-audit repair bytes for the owner-authorized implementation contour; no UI, Google, network, dependency, or Atlas behavior expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-c5v2-round-checkpoint.contract.test.js",
+      "sha256": "51a74e791ae7305a81dc7ed2ba5f45c846623f92ba0a162ed6300376ebf1ca44",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
+      "approvedAtUtc": "2026-08-03T20:26:00.000Z",
+      "rationale": "Approve exact bounded Word C5V2 terminal-audit repair bytes for the owner-authorized implementation contour; no UI, Google, network, dependency, or Atlas behavior expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-safety-c2-multiscene-command-path.contract.test.js",
+      "sha256": "d1ea75137a945fa58aeb57c8c51afae6329c1e2a487d8b846531a119848f6af5",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
+      "approvedAtUtc": "2026-08-03T20:26:00.000Z",
+      "rationale": "Approve exact multi-scene command-path regression bytes proving simulated failure, rollback, retry, and final replay converge without poisoned child replay outcomes.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
     }
   ]
 }

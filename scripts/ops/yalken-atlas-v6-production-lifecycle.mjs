@@ -108,6 +108,131 @@ function parseCount(lines, label, diagnostics) {
   return Number.parseInt(matches[0][1], 10);
 }
 
+function parseOptionalNestedCount(lines, label, diagnostics, parentName) {
+  const matches = lines
+    .map((line) => line.match(new RegExp(`^# ${label} (\\d+)$`)))
+    .filter(Boolean);
+  if (matches.length > 1) {
+    diagnostics.push(diagnostic('E_TAP_NESTED_SUMMARY_COUNT_INVALID', `${parentName}:${label}`));
+    return null;
+  }
+  return matches.length === 1 ? Number.parseInt(matches[0][1], 10) : null;
+}
+
+function isNestedTapMarker(text) {
+  return /^(?:TAP version 13|# Subtest: .+|(?:ok|not ok) \d+ - .+|1\.\.\d+|# (?:tests|suites|pass|fail|cancelled|skipped|todo) \d+|# duration_ms \d+(?:\.\d+)?)$/.test(text);
+}
+
+function isNestedYamlDiagnosticLine(text) {
+  return text === '---'
+    || text === '...'
+    || /^[A-Za-z_][A-Za-z0-9_]*:/.test(text)
+    || /^[-?]\s/.test(text);
+}
+
+function validateNestedTapBody(bodyLines, parentName, diagnostics) {
+  const nestedLines = bodyLines
+    .map((line) => line.replace(/^\s+/, ''))
+    .filter(Boolean);
+  if (!nestedLines.some(isNestedTapMarker)) return;
+
+  const headers = nestedLines.filter((line) => line === 'TAP version 13');
+  if (headers.length > 1) diagnostics.push(diagnostic('E_TAP_NESTED_HEADER_INVALID', parentName));
+
+  const planMatches = nestedLines
+    .map((line) => line.match(/^1\.\.(\d+)$/))
+    .filter(Boolean);
+  if (planMatches.length > 1) diagnostics.push(diagnostic('E_TAP_NESTED_PLAN_INVALID', parentName));
+  const plan = planMatches.length === 1 ? Number.parseInt(planMatches[0][1], 10) : null;
+  const records = [];
+  const seenNumbers = new Set();
+  const seenNames = new Set();
+  let pendingSubtest = null;
+
+  for (const line of nestedLines) {
+    if (line === 'TAP version 13') continue;
+    if (line.startsWith('# Subtest: ')) {
+      if (pendingSubtest) {
+        diagnostics.push(diagnostic('E_TAP_NESTED_TEST_RECORD_BOUNDARY', `${parentName}:${pendingSubtest}`));
+      }
+      pendingSubtest = line.slice('# Subtest: '.length);
+      continue;
+    }
+
+    const statusMatch = line.match(/^(ok|not ok) (\d+) - (.*?)(?: # (SKIP|TODO)(?: .*)?)?$/);
+    if (statusMatch) {
+      if (!pendingSubtest) {
+        diagnostics.push(diagnostic('E_TAP_NESTED_STATUS_ORPHAN', `${parentName}:${statusMatch[3]}`));
+        continue;
+      }
+      const name = pendingSubtest;
+      const statusName = statusMatch[3];
+      const number = Number.parseInt(statusMatch[2], 10);
+      if (!name || statusName !== name) {
+        diagnostics.push(diagnostic('E_TAP_NESTED_TEST_IDENTITY_MISMATCH', `${parentName}:${name || statusName}`));
+      }
+      if (seenNumbers.has(number) || seenNames.has(name)) {
+        diagnostics.push(diagnostic('E_TAP_NESTED_TEST_IDENTITY_DUPLICATE', `${parentName}:${name}`));
+      }
+      seenNumbers.add(number);
+      seenNames.add(name);
+      records.push({
+        number,
+        name,
+        pass: statusMatch[1] === 'ok' && !statusMatch[4],
+        directive: statusMatch[4] || '',
+      });
+      pendingSubtest = null;
+      continue;
+    }
+
+    if (
+      /^1\.\.\d+$/.test(line)
+      || /^# (?:tests|suites|pass|fail|cancelled|skipped|todo) \d+$/.test(line)
+      || /^# duration_ms \d+(?:\.\d+)?$/.test(line)
+      || isNestedYamlDiagnosticLine(line)
+    ) {
+      continue;
+    }
+
+    diagnostics.push(diagnostic('E_TAP_NESTED_UNEXPECTED_LINE', `${parentName}:${line}`));
+  }
+
+  if (pendingSubtest) {
+    diagnostics.push(diagnostic('E_TAP_NESTED_TEST_RECORD_INCOMPLETE', `${parentName}:${pendingSubtest}`));
+  }
+  records.forEach((record, index) => {
+    if (record.number !== index + 1) diagnostics.push(diagnostic('E_TAP_NESTED_TEST_SEQUENCE_INVALID', `${parentName}:${record.name}`));
+  });
+
+  const counts = {
+    tests: parseOptionalNestedCount(nestedLines, 'tests', diagnostics, parentName),
+    suites: parseOptionalNestedCount(nestedLines, 'suites', diagnostics, parentName),
+    pass: parseOptionalNestedCount(nestedLines, 'pass', diagnostics, parentName),
+    fail: parseOptionalNestedCount(nestedLines, 'fail', diagnostics, parentName),
+    cancelled: parseOptionalNestedCount(nestedLines, 'cancelled', diagnostics, parentName),
+    skipped: parseOptionalNestedCount(nestedLines, 'skipped', diagnostics, parentName),
+    todo: parseOptionalNestedCount(nestedLines, 'todo', diagnostics, parentName),
+  };
+  if (counts.suites !== null && counts.suites !== 0) diagnostics.push(diagnostic('E_TAP_NESTED_SUITES_UNEXPECTED', parentName));
+  if (plan === 0 || counts.tests === 0) diagnostics.push(diagnostic('E_TAP_NESTED_ZERO_TESTS', parentName));
+  if (counts.skipped !== null && counts.skipped !== 0) diagnostics.push(diagnostic('E_TAP_NESTED_SKIPPED_TESTS', parentName));
+  if (counts.todo !== null && counts.todo !== 0) diagnostics.push(diagnostic('E_TAP_NESTED_TODO_TESTS', parentName));
+  if (counts.cancelled !== null && counts.cancelled !== 0) diagnostics.push(diagnostic('E_TAP_NESTED_CANCELLED_TESTS', parentName));
+  if (counts.fail !== null && counts.fail !== 0) diagnostics.push(diagnostic('E_TAP_NESTED_FAILED_TESTS', parentName));
+  if (records.some((record) => record.directive === 'SKIP')) diagnostics.push(diagnostic('E_TAP_NESTED_SKIPPED_TESTS', parentName));
+  if (records.some((record) => record.directive === 'TODO')) diagnostics.push(diagnostic('E_TAP_NESTED_TODO_TESTS', parentName));
+  if (records.some((record) => !record.pass)) diagnostics.push(diagnostic('E_TAP_NESTED_FAILED_TESTS', parentName));
+  if (
+    (plan !== null && plan !== records.length)
+    || (counts.tests !== null && counts.tests !== records.length)
+    || (counts.pass !== null && counts.pass !== records.filter((record) => record.pass).length)
+    || (counts.fail !== null && counts.fail !== records.filter((record) => !record.pass && !record.directive).length)
+  ) {
+    diagnostics.push(diagnostic('E_TAP_NESTED_COUNTS_INCONSISTENT', parentName));
+  }
+}
+
 function parseTapReport(stdout) {
   const diagnostics = [];
   const lines = String(stdout || '').replace(/\r\n/g, '\n').split('\n');
@@ -165,6 +290,7 @@ function parseTapReport(stdout) {
       }
       seenNumbers.add(number);
       seenNames.add(name);
+      validateNestedTapBody(lines.slice(pendingSubtest.index + 1, index), name, diagnostics);
       records.push({
         number,
         name,

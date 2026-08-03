@@ -366,6 +366,75 @@ export function validateC5V2MasterLedgerResumeAuthority(ledger = {}, {
   };
 }
 
+export function buildC5V2TerminalOperationAggregate({
+  headSha = '',
+  masterLedger = null,
+  positiveTotals = {},
+  negativeEvidence = null,
+  negativeEvidenceSha256 = '',
+} = {}) {
+  const failures = [];
+  const expectedCounts = DEFAULT_C5V2_LEDGER_COUNTS;
+  const counts = {};
+  const operations = Array.isArray(masterLedger?.operations) ? masterLedger.operations : [];
+  for (const family of Object.keys(expectedCounts)) {
+    counts[family] = operations.filter((operation) => operation?.family === family).length;
+    if (counts[family] !== expectedCounts[family]) {
+      failures.push(`C5V2_TERMINAL_AGGREGATE_FAMILY_COUNT_INVALID:${family}:${counts[family]}:${expectedCounts[family]}`);
+    }
+  }
+  const positiveExpected = Object.entries(expectedCounts)
+    .filter(([family]) => family !== 'negative_probe')
+    .reduce((sum, [, count]) => sum + count, 0);
+  const negativeExpected = expectedCounts.negative_probe;
+  const positiveAttempted = Number(positiveTotals?.attempted || 0);
+  const positiveReported = Number(positiveTotals?.reported || 0);
+  const negativeCount = Number(negativeEvidence?.operationCount || 0);
+  const negativeRejected = Number(negativeEvidence?.rejectedCount || 0);
+  if (!masterLedger || operations.length !== 2000) failures.push(`C5V2_TERMINAL_AGGREGATE_MASTER_TOTAL_INVALID:${operations.length}`);
+  if (positiveAttempted !== positiveExpected || positiveReported !== positiveExpected) {
+    failures.push(`C5V2_TERMINAL_AGGREGATE_POSITIVE_TOTAL_INVALID:${positiveAttempted}:${positiveReported}:${positiveExpected}`);
+  }
+  if (!negativeEvidence || typeof negativeEvidence !== 'object') failures.push('C5V2_TERMINAL_AGGREGATE_NEGATIVE_EVIDENCE_MISSING');
+  if (negativeCount !== negativeExpected || negativeRejected !== negativeExpected || negativeEvidence?.failedCount !== 0) {
+    failures.push(`C5V2_TERMINAL_AGGREGATE_NEGATIVE_TOTAL_INVALID:${negativeCount}:${negativeRejected}:${negativeExpected}`);
+  }
+  if (negativeEvidence?.headSha !== headSha) failures.push('C5V2_TERMINAL_AGGREGATE_NEGATIVE_HEAD_MISMATCH');
+  if (negativeEvidence?.masterLedgerDigest !== masterLedger?.ledgerDigest) failures.push('C5V2_TERMINAL_AGGREGATE_NEGATIVE_MASTER_LEDGER_MISMATCH');
+  if (negativeEvidence?.allSceneHashesStable !== true || negativeEvidence?.allWriterFlagsFalse !== true || !Array.isArray(negativeEvidence?.networkRequests) || negativeEvidence.networkRequests.length !== 0) {
+    failures.push('C5V2_TERMINAL_AGGREGATE_NEGATIVE_INTEGRITY_NOT_GREEN');
+  }
+  const total = positiveAttempted + negativeCount;
+  if (total !== 2000) failures.push(`C5V2_TERMINAL_AGGREGATE_TOTAL_INVALID:${total}`);
+  const core = {
+    schemaVersion: 'yalken.rtk.word.c5v2.terminal-operation-aggregate.v1',
+    headSha,
+    masterLedgerDigest: masterLedger?.ledgerDigest || '',
+    positive: {
+      operationCount: positiveAttempted,
+      reportedCount: positiveReported,
+      familyCount: positiveExpected,
+    },
+    negative: {
+      evidenceSha256: negativeEvidenceSha256 || '',
+      operationCount: negativeCount,
+      rejectedCount: negativeRejected,
+      familyCount: negativeExpected,
+      manifestDigest: negativeEvidence?.manifestDigest || '',
+      evidenceDigest: negativeEvidence?.evidenceDigest || '',
+    },
+    counts,
+    totalOperationCount: total,
+    exactDistribution: expectedCounts,
+    ok: failures.length === 0,
+    failures,
+  };
+  return {
+    ...core,
+    aggregateDigest: sha256Text(stableCanonicalJson(core)),
+  };
+}
+
 function assertC5V2MasterLedgerResumeAuthority(ledger, options = {}) {
   const validation = validateC5V2MasterLedgerResumeAuthority(ledger, options);
   if (validation.ok !== true) {
@@ -6492,6 +6561,7 @@ function parseArgs(argv) {
     masterLedgerCampaign: false,
     resumeRunDir: '',
     negativeCampaignLedgerPath: '',
+    negativeAggregateEvidencePath: '',
     negativeProbeStart: 1,
     negativeProbeCount: 40,
     corpusManifestPath: '',
@@ -6526,6 +6596,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === '--negative-campaign-ledger') {
       options.negativeCampaignLedgerPath = argv[index + 1];
+      index += 1;
+    } else if (arg === '--negative-aggregate-evidence') {
+      options.negativeAggregateEvidencePath = argv[index + 1];
       index += 1;
     } else if (arg === '--negative-probe-start') {
       options.negativeProbeStart = Number.parseInt(argv[index + 1], 10);
@@ -7227,10 +7300,28 @@ async function mainCumulative(options) {
     acc.productApplyGreen += round.productApplyOk ? 1 : 0;
     return acc;
   }, { attempted: 0, reported: 0, exact: 0, safeApply: 0, manual: 0, blocked: 0, exactTotal: 0, productApplyGreen: 0 });
+  const headSha = shellValue('git', ['rev-parse', 'HEAD']);
+  const negativeAggregateEvidencePath = String(options.negativeAggregateEvidencePath || '').trim()
+    || path.join(runDir, 'negative-campaign-evidence.json');
+  const negativeAggregateEvidence = fs.existsSync(negativeAggregateEvidencePath)
+    ? JSON.parse(fs.readFileSync(negativeAggregateEvidencePath, 'utf8'))
+    : null;
+  const terminalOperationAggregate = options.masterLedgerCampaign
+    ? buildC5V2TerminalOperationAggregate({
+      headSha,
+      masterLedger,
+      positiveTotals: totals,
+      negativeEvidence: negativeAggregateEvidence,
+      negativeEvidenceSha256: negativeAggregateEvidence ? sha256File(negativeAggregateEvidencePath) : '',
+    })
+    : null;
+  const terminalOperationAggregateArtifact = terminalOperationAggregate
+    ? writeJsonAtomicDurable(path.join(runDir, 'terminal-operation-aggregate.json'), terminalOperationAggregate)
+    : null;
   const summary = {
     schemaVersion: 'yalken.rtk.word.c5v2.physical-cumulative.result.v1',
     runId,
-    headSha: shellValue('git', ['rev-parse', 'HEAD']),
+    headSha,
     originMainSha: shellValue('git', ['rev-parse', 'origin/main']),
     wordVersion,
     wordWorkRoot,
@@ -7275,6 +7366,8 @@ async function mainCumulative(options) {
       wrapperError: electronResult.wrapperError,
     },
     totals,
+    terminalOperationAggregate,
+    terminalOperationAggregateArtifact,
     rounds: roundSummaries,
     vetoStatus: {
       falseFullBookLabel: false,
@@ -7300,6 +7393,7 @@ async function mainCumulative(options) {
     sceneCount: summary.sceneCount,
     roundCount: summary.roundCount,
     totals: summary.totals,
+    terminalOperationAggregate: summary.terminalOperationAggregate,
     roundStatuses: summary.rounds.map((round) => ({
       roundId: round.roundId,
       wordStatus: round.wordStatus,
@@ -7314,6 +7408,7 @@ async function mainCumulative(options) {
   }, null, 2)}\n`);
   process.exit(
     summary.electronResult.ok
+      && (options.masterLedgerCampaign !== true || summary.terminalOperationAggregate?.ok === true)
       && summary.rounds.every((round) => (
         round.sourcePackageSummary?.modernMode15Ready === true
         && round.wordStatus === 'PASS'

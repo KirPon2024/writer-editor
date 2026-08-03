@@ -204,6 +204,7 @@ test('C5V2 resumed master ledger authority is recomputed from raw operation cont
   } = await import(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-ledger-engine.mjs'));
   const {
     bindC5V2MasterLedgerResumeAuthority,
+    buildC5V2TerminalOperationAggregate,
     validateC5V2MasterLedgerResumeAuthority,
   } = await import(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs'));
   const identity = {
@@ -259,4 +260,54 @@ test('C5V2 resumed master ledger authority is recomputed from raw operation cont
   const requestKeyTampered = structuredClone(bound);
   requestKeyTampered.operations[0].requestKey = 'sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc';
   assert.equal(validateC5V2MasterLedgerResumeAuthority(requestKeyTampered, identity).failures.some((failure) => failure.startsWith('C5V2_MASTER_LEDGER_REQUEST_KEY_MISMATCH:')), true);
+
+  const negativeEvidence = {
+    headSha: identity.exactHead,
+    masterLedgerDigest: bound.ledgerDigest,
+    operationCount: 40,
+    rejectedCount: 40,
+    failedCount: 0,
+    allSceneHashesStable: true,
+    allWriterFlagsFalse: true,
+    networkRequests: [],
+    manifestDigest: 'sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd',
+    evidenceDigest: 'sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+  };
+  const aggregate = buildC5V2TerminalOperationAggregate({
+    headSha: identity.exactHead,
+    masterLedger: bound,
+    positiveTotals: { attempted: 1960, reported: 1960 },
+    negativeEvidence,
+    negativeEvidenceSha256: 'sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
+  });
+  assert.equal(aggregate.ok, true);
+  assert.equal(aggregate.totalOperationCount, 2000);
+  assert.deepEqual(aggregate.exactDistribution, {
+    tracked_text_edit: 1200,
+    root_comment: 300,
+    reply: 120,
+    comment_state: 100,
+    formatting: 180,
+    structural: 60,
+    negative_probe: 40,
+  });
+
+  assert.equal(buildC5V2TerminalOperationAggregate({
+    headSha: identity.exactHead,
+    masterLedger: bound,
+    positiveTotals: { attempted: 1960, reported: 1960 },
+    negativeEvidence: null,
+  }).ok, false);
+  assert.equal(buildC5V2TerminalOperationAggregate({
+    headSha: identity.exactHead,
+    masterLedger: bound,
+    positiveTotals: { attempted: 1960, reported: 1960 },
+    negativeEvidence: { ...negativeEvidence, operationCount: 39, rejectedCount: 39 },
+  }).failures.some((failure) => failure.startsWith('C5V2_TERMINAL_AGGREGATE_NEGATIVE_TOTAL_INVALID:39:39:40')), true);
+  assert.equal(buildC5V2TerminalOperationAggregate({
+    headSha: identity.exactHead,
+    masterLedger: bound,
+    positiveTotals: { attempted: 1960, reported: 1960 },
+    negativeEvidence: { ...negativeEvidence, headSha: 'babb9764a51bdc5b1344ee8aed44108e066ac820' },
+  }).failures.includes('C5V2_TERMINAL_AGGREGATE_NEGATIVE_HEAD_MISMATCH'), true);
 });

@@ -9044,10 +9044,10 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "ac141488d57e6c4ac88ba12a47453995a4b244af9a8e2e542be58a8b34946bfb",
+      "sha256": "c5c8ddd117393b8a4c55a9b6e5907fc93a8d691bfeb3ff731f63ee03c9d3ffd1",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR_V1",
       "approvedAtUtc": "2026-08-03T19:46:41.000Z",
-      "rationale": "Approve exact governed C5V2 physical canary bytes adding canonical realpath artifact containment, T7 APFS FileVault UUID writability checks, raw master-ledger resume authority binding, and completed-prefix resume rehydration of reopened scene truth plus canonical and recovery non-text comment state before the next unfinished export.",
+      "rationale": "Approve exact governed C5V2 physical canary bytes adding canonical realpath artifact containment, T7 APFS FileVault UUID writability checks, raw master-ledger resume authority binding, completed-prefix resume rehydration, and mandatory terminal aggregate validation linking 1960 positive operations with same-head 40-probe negative evidence for exact 2000 distribution.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR"
     },
@@ -9414,10 +9414,10 @@
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-ledger-distribution.contract.test.js",
-      "sha256": "c26742c4f602cc00eb56c2dcaa9b59f486dcef3cdf5f90ead05ae3b34e2d18bf",
+      "sha256": "57ac75944b967c7f9ad74e5b76a00c2b821887593f4890b2cd6e320cdeda65d7",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR_V1",
       "approvedAtUtc": "2026-08-03T19:46:41.000Z",
-      "rationale": "Approve exact C5V2 ledger-distribution contract bytes proving resumed master-ledger authority is recomputed from raw operation content and rejects 1999 operations, stale digest, changed corpus identity, duplicate operation IDs, altered future round content, and request key tamper.",
+      "rationale": "Approve exact C5V2 ledger-distribution contract bytes proving resumed master-ledger authority rejects stale raw ledger mutations and terminal aggregate validation requires 1960 positive plus 40 same-head negative operations with exact family distribution.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR"
     }

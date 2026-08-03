@@ -9035,30 +9035,39 @@
     },
     {
       "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "ba4af51eccb2ed6198c6eb3118427c438c0dbd302a69925bc8b12743a1a14dde",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_N3_FORMATTING_RETURN_RESPONSE_REPAIR",
-      "approvedAtUtc": "2026-08-02T13:34:42.204Z",
-      "rationale": "Approve exact governed and previously approved product-route bytes for the controller-resumed Word N3 formatting-return response repair. This rebind covers the current T7 branch state after physical Word 16.111.2 apply/replay evidence, preserves Google blocked, adds no network path, and makes no broad Word saturation or fixture-only certification claim.",
+      "sha256": "faf0affeb399295756bdcacd3949a912385bd92087d110c14f4fdec0ed7cff76",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_PR1414_AUDIT_HOLD_REPAIR",
+      "approvedAtUtc": "2026-08-03T14:35:02Z",
+      "rationale": "Approve exact RTK graph catalog bytes adding the behavioral PR 1414 audit-hold repair contract. The contract covers fail-closed completed-round reuse bindings and ledger-only exact summary accounting without touching active physical Word evidence.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_N3_RESUME"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_PR1414_AUDIT_HOLD_REPAIR"
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "9092d3912700aba196780f40b92357143aa13586144510ab2613597fa0321b55",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO",
-      "approvedAtUtc": "2026-08-03T14:54:00Z",
-      "rationale": "Approve exact governed C5V2 physical canary harness bytes that make generated AppleScript shell calls independent of inherited process current-directory liveness by entering a stable root before cp, sync, shasum, stat, unzip, open and phase-log writes. This source-binds the physical chunk-005 EVIDENCE_MIRROR_SAVE_BEFORE failure caused by a deleted CWD, preserves fail-closed recovery and semantic oracle authority, keeps Google blocked, adds no product network path, and makes no broad Word certification claim.",
+      "sha256": "7b9490d4ead53a18797aa5ee225302add5d6150d39115a45092da4cde0bff9f1",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_PR1414_AUDIT_HOLD_REPAIR",
+      "approvedAtUtc": "2026-08-03T15:12:07Z",
+      "rationale": "Approve exact governed C5V2 physical canary bytes on the owner-approved shell-hardening base. The inline compile-safe recorded-status gate and CWD-stable yShell route remain intact; completed-round reuse additionally requires exact HEAD, current canary digest, status-policy, corpus, ledger, and artifact bindings, while exact totals derive only from valid ledger bindings. Active physical Word evidence remains untouched and non-terminal after merge.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_DORIAN_PORTFOLIO_RECOVERY"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_PR1414_AUDIT_HOLD_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-round-checkpoint.contract.test.js",
-      "sha256": "f8c0776d569714376b4e460ca96cc9e24f938636a5a19a0a3cc08c9a82c5d990",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO",
-      "approvedAtUtc": "2026-08-03T14:54:00Z",
-      "rationale": "Approve exact RTK chunk checkpoint contract bytes rebinding generated continuation scripts to the CWD-stable yShell route and preserving resume authority from durable returned DOCX snapshots rather than source reinitialization. This preserves semantic oracle authority, keeps fail-closed under-count detection, adds no product network path, and makes no broad Word certification claim.",
+      "sha256": "09440fde5bb460e0939b559b8b1e5e8887d6b4197233a28eb8c6a3384621dcfa",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_PR1414_AUDIT_HOLD_REPAIR",
+      "approvedAtUtc": "2026-08-03T15:12:07Z",
+      "rationale": "Approve exact round-checkpoint contract bytes preserving both the inline compile-safe status gate and the CWD-stable yShell route while adding the v2 completed-round reuse binding and ledger-only exact summary requirement. The contract remains fail-closed and preserves durable resume plus native semantic readback authority.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_DORIAN_PORTFOLIO_RECOVERY"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_PR1414_AUDIT_HOLD_REPAIR"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-c5v2-pr1414-audit-hold-repair.contract.test.js",
+      "sha256": "37ef38a80d9c2bdc46ffff9cde1a06ec4ecb203d712469cebce0e89085514088",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_PR1414_AUDIT_HOLD_REPAIR",
+      "approvedAtUtc": "2026-08-03T14:35:02Z",
+      "rationale": "Approve exact behavioral contract bytes proving old or mismatched completed rounds are rejected and activation-only candidates cannot inflate exact totals. The test uses isolated temporary fixtures and does not touch active physical Word evidence.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_PR1414_AUDIT_HOLD_REPAIR"
     },
     {
       "filePath": "scripts/ops/rtk-word-sandbox-work-root.mjs",

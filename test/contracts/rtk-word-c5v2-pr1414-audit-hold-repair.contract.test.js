@@ -369,6 +369,22 @@ test('C5V2 v5 anchor root rejects symlink redirection and path escape identifier
     ...fixture.context,
     candidateAuthorityRoot: symlinkRoot,
   }), false);
+
+  const symlinkAnchors = createBoundCompletedRound(canary);
+  const anchorsPath = path.join(symlinkAnchors.context.candidateAuthorityRoot, 'anchors');
+  const externalAnchorsPath = `${anchorsPath}-external`;
+  fs.renameSync(anchorsPath, externalAnchorsPath);
+  fs.symlinkSync(externalAnchorsPath, anchorsPath, 'dir');
+  assert.equal(canary.isC5V2ReusableCompletedRound(symlinkAnchors.roundDir, symlinkAnchors.context), false);
+
+  const nestedRoot = createBoundCompletedRound(canary);
+  const nestedAuthorityRoot = path.join(nestedRoot.roundDir, '..authority-inside-round');
+  fs.cpSync(nestedRoot.context.candidateAuthorityRoot, nestedAuthorityRoot, { recursive: true });
+  assert.equal(canary.isC5V2ReusableCompletedRound(nestedRoot.roundDir, {
+    ...nestedRoot.context,
+    candidateAuthorityRoot: nestedAuthorityRoot,
+  }), false);
+
   assert.throws(() => canary.writeC5V2ReturnApplyCandidateAuthorityAnchor({
     authorityRoot: fixture.context.candidateAuthorityRoot,
     campaignId: fixture.context.campaignId,

@@ -9044,10 +9044,10 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "19a2fa889b7e112ecf0a4c56c1e7aafbfe3c3c342c3f9e4eb1cce155cf8b5e36",
+      "sha256": "1b5ac0dc4097ea5048dc5a73e748cbde8feab8ad0c81a49be015dae7b0a8a45e",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_INDEPENDENT_AUTHORITY_ANCHOR_REPAIR",
       "approvedAtUtc": "2026-08-03T17:18:51Z",
-      "rationale": "Approve exact governed C5V2 physical canary bytes adding completed-round reuse binding v5 and a separate main-owned secret-backed HMAC anchor for the raw returnApply candidate tuple mapping. The 0600 key and immutable per-round anchor live outside mutable run evidence, are written atomically with fsync before reuse binding, are never regenerated on resume, and bind campaign, round, exact head, corpus, candidate artifact, and scene plus quote plus replacement plus changeId tuples. Missing, corrupt, wrong-key, replayed, symlinked, or synchronized self-hashed artifact mutations fail closed. No Word, Electron, physical evidence, UI, network, dependency, or PR 1419 change was invoked.",
+      "rationale": "Approve exact governed C5V2 physical canary bytes adding completed-round reuse binding v5 and a separate main-owned secret-backed HMAC anchor for the raw returnApply candidate tuple mapping. The 0600 key and immutable per-round anchor live outside mutable run evidence, are written atomically with fsync before reuse binding, are never regenerated on resume, and bind campaign, round, exact head, corpus, candidate artifact, and scene plus quote plus replacement plus changeId tuples. Missing, corrupt, wrong-key, replayed, symlinked, nested-authority-root, or synchronized self-hashed artifact mutations fail closed, including an anchors-directory symlink. No Word, Electron, physical evidence, UI, network, dependency, or PR 1419 change was invoked.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_INDEPENDENT_AUTHORITY_ANCHOR_REPAIR"
     },
@@ -9062,10 +9062,10 @@
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-pr1414-audit-hold-repair.contract.test.js",
-      "sha256": "8fdec0a2a74e42315fbd94307f5c700f85b16f83cb1d080cecef12ace14f888e",
+      "sha256": "6dd6f9f8f92f6e5fc1e597108c2e8d419e600604a44129b4b6589bbb18abb02f",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_INDEPENDENT_AUTHORITY_ANCHOR_REPAIR",
       "approvedAtUtc": "2026-08-03T17:18:51Z",
-      "rationale": "Approve exact production-shaped behavioral contract bytes proving a valid two-scene baseline with exact total two and fail-closed rejection of synchronized raw-authority plus mapping changeId swaps after every recomputable plain digest is refreshed. It also proves missing, corrupt, wrong-key, wrong-campaign, symlink, path-escape, candidate-content, candidate-hash, five prior reuse vectors, and activation-only typed-zero behavior without touching physical Word evidence.",
+      "rationale": "Approve exact production-shaped behavioral contract bytes proving a valid two-scene baseline with exact total two and fail-closed rejection of synchronized raw-authority plus mapping changeId swaps after every recomputable plain digest is refreshed. It also proves missing, corrupt, wrong-key, wrong-campaign, authority-root symlink, anchors-directory symlink, nested authority root, path-escape, candidate-content, candidate-hash, five prior reuse vectors, and activation-only typed-zero behavior without touching physical Word evidence.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_INDEPENDENT_AUTHORITY_ANCHOR_REPAIR"
     },

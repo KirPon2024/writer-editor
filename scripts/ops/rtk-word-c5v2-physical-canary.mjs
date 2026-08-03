@@ -217,6 +217,12 @@ function c5v2CandidateAuthorityPaths(authorityRoot, roundId = '') {
   }
   const anchorsRoot = path.join(root, 'anchors');
   const anchorPath = path.join(anchorsRoot, `${normalizedRoundId}.json`);
+  if (fs.existsSync(anchorsRoot)) {
+    const anchorsStat = fs.lstatSync(anchorsRoot);
+    if (anchorsStat.isSymbolicLink() || !anchorsStat.isDirectory()) {
+      throw new Error('C5V2_RETURN_APPLY_CANDIDATE_AUTHORITY_DIRECTORY_UNSAFE');
+    }
+  }
   if (
     path.relative(root, anchorsRoot).startsWith('..')
     || path.relative(anchorsRoot, anchorPath).startsWith('..')
@@ -6949,6 +6955,17 @@ export function shouldUseC5V2ChunkedWordExecution(options = {}) {
 
 export function isC5V2ReusableCompletedRound(roundDir, options = {}) {
   if (typeof roundDir !== 'string' || !roundDir || !fs.existsSync(roundDir)) return false;
+  const resolvedRoundDir = path.resolve(roundDir);
+  const resolvedCandidateAuthorityRoot = path.resolve(String(options.candidateAuthorityRoot || ''));
+  const authorityRelativeToRound = path.relative(resolvedRoundDir, resolvedCandidateAuthorityRoot);
+  const candidateAuthorityRootIsOutsideRound = authorityRelativeToRound === '..'
+    || authorityRelativeToRound.startsWith(`..${path.sep}`)
+    || path.isAbsolute(authorityRelativeToRound);
+  if (
+    !options.candidateAuthorityRoot
+    || !authorityRelativeToRound
+    || !candidateAuthorityRootIsOutsideRound
+  ) return false;
   const requiredFiles = [
     'canary-ledger.json',
     'word-output.txt',

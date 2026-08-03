@@ -9044,12 +9044,12 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "99d3475eb0974a63be818b4e28962194ad17dc468baa208f140f53b68a781055",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO:LEDGER_IDENTITY_ANCHOR_REPAIR",
-      "approvedAtUtc": "2026-08-03T18:34:21.000Z",
-      "rationale": "Approve exact governed C5V2 physical canary bytes bumping the completed-round reuse binding to v6 and candidate authority anchor to v2, binding the canonical physical ledger content digest from the fail-closed ledger reuse digest resolver into the secret-backed HMAC anchor, and validating that digest before completed-round reuse and exactTotal credit. This preserves the inline compile-safe status gate and stable yShell route and adds no Word, Electron, physical evidence, UI, network, dependency, Atlas, or PR 1419 change.",
+      "sha256": "97fd3d51d5511d9080da03f910e30caafd13946f502ce5d1662f50202300df83",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR_V1",
+      "approvedAtUtc": "2026-08-03T19:46:41.000Z",
+      "rationale": "Approve exact governed C5V2 physical canary bytes adding canonical realpath artifact containment, T7 APFS FileVault UUID writability checks, and raw master-ledger resume authority binding for exact head, campaign, corpus, exact 2000 operation count, family distribution, operation IDs, and request/effect keys.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_C5V2_LEDGER_IDENTITY_ANCHOR_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-round-checkpoint.contract.test.js",
@@ -9062,12 +9062,12 @@
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-pr1414-audit-hold-repair.contract.test.js",
-      "sha256": "7bd0282612a1f9e71206e7ff03eeeda428a1ddd81afeabadc5b1a706f7bfe7cf",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO:LEDGER_IDENTITY_ANCHOR_REPAIR",
-      "approvedAtUtc": "2026-08-03T18:34:21.000Z",
-      "rationale": "Approve exact production-shaped C5V2 v6 contract bytes preserving the previous baseline true exactTotal two and negatives while adding the P0 same-count operationId plus tracked-family mutation negative: ordinary evidence and outer binding digests are refreshed, the trusted key and old anchor remain unchanged, and reuse must return false.",
+      "sha256": "d2ed82a4178ba43851b2067dd072283c43b0b2f046fe43080d00c27b0cb6b7fe",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR_V1",
+      "approvedAtUtc": "2026-08-03T19:46:41.000Z",
+      "rationale": "Approve exact PR1414 C5V2 audit-hold contract bytes preserving prior v6 anchor negatives and adding root containment regressions for symlink escape, dotdot escape, non-T7 root, wrong UUID, and missing FileVault.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_C5V2_LEDGER_IDENTITY_ANCHOR_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR"
     },
     {
       "filePath": "scripts/ops/rtk-word-sandbox-work-root.mjs",
@@ -9409,6 +9409,15 @@
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR_V1",
       "approvedAtUtc": "2026-08-03T19:46:41.000Z",
       "rationale": "Approve exact round-checkpoint reader bytes that fail closed on resumed checkpoint digest, exact head, run, round and chunk membership, operation ID, request and effect key, and source or returned artifact hash mismatches.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-c5v2-ledger-distribution.contract.test.js",
+      "sha256": "c26742c4f602cc00eb56c2dcaa9b59f486dcef3cdf5f90ead05ae3b34e2d18bf",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR_V1",
+      "approvedAtUtc": "2026-08-03T19:46:41.000Z",
+      "rationale": "Approve exact C5V2 ledger-distribution contract bytes proving resumed master-ledger authority is recomputed from raw operation content and rejects 1999 operations, stale digest, changed corpus identity, duplicate operation IDs, altered future round content, and request key tamper.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR"
     }

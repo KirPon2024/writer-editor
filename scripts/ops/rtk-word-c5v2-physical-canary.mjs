@@ -11,7 +11,12 @@ import {
   buildC5V2MultilingualQaLayer,
   validateC5V2SemanticOracle,
 } from './rtk-word-c5v2-semantic-oracle.mjs';
-import { buildC5V2Ledger } from './rtk-word-c5v2-ledger-engine.mjs';
+import {
+  C5V2_LEDGER_SCHEMA,
+  DEFAULT_C5V2_LEDGER_COUNTS,
+  buildC5V2Ledger,
+  validateC5V2LedgerDistribution,
+} from './rtk-word-c5v2-ledger-engine.mjs';
 import {
   buildC5V2NegativeProbePlan,
   materializeC5V2NegativeForks,
@@ -27,6 +32,8 @@ const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
 const RESULT_PREFIX = 'YALKEN_C5V2_CANARY_RESULT ';
 const DEFAULT_ARTIFACT_ROOT = '/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c5v2-physical-canary';
+const C5V2_T7_MOUNT = '/Volumes/T7-Secure';
+const C5V2_T7_UUID = 'D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2';
 const CORPUS_SCENE_ROOT = '/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c5-fullbook-certification/corpus/scenes';
 const CORPUS_RAW_PATH = '/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c5-fullbook-certification/corpus/pg174-raw.txt';
 const CORPUS_CLEANED_PATH = '/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c5-fullbook-certification/corpus/dorian-gray-cleaned-scenes.txt';
@@ -57,22 +64,116 @@ export function nowStamp() {
   return new Date().toISOString().replace(/[-:]/gu, '').replace(/\.\d{3}Z$/u, 'Z');
 }
 
+function assertNoC5V2SymlinkPathComponents(targetPath) {
+  const resolved = path.resolve(String(targetPath || ''));
+  if (!resolved || resolved === path.parse(resolved).root) throw new Error('C5V2_ARTIFACT_PATH_INVALID');
+  const parsed = path.parse(resolved);
+  const segments = path.relative(parsed.root, resolved).split(path.sep).filter(Boolean);
+  let cursor = parsed.root;
+  for (const segment of segments) {
+    cursor = path.join(cursor, segment);
+    if (!fs.existsSync(cursor)) continue;
+    if (fs.lstatSync(cursor).isSymbolicLink()) {
+      throw new Error(`C5V2_ARTIFACT_PATH_SYMLINK_COMPONENT:${cursor}`);
+    }
+  }
+}
+
+function assertNoC5V2SymlinkPathComponentsWithinRoot(rootPath, targetPath) {
+  const root = path.resolve(String(rootPath || ''));
+  const target = path.resolve(String(targetPath || ''));
+  const relative = path.relative(root, target);
+  if (!relative || relative.startsWith('..') || path.isAbsolute(relative)) return;
+  let cursor = root;
+  for (const segment of relative.split(path.sep).filter(Boolean)) {
+    cursor = path.join(cursor, segment);
+    if (!fs.existsSync(cursor)) continue;
+    if (fs.lstatSync(cursor).isSymbolicLink()) {
+      throw new Error(`C5V2_ARTIFACT_PATH_SYMLINK_COMPONENT:${cursor}`);
+    }
+  }
+}
+
+export function parseC5V2T7DiskInfo(diskInfoText = '') {
+  const text = String(diskInfoText || '');
+  return {
+    uuid: text.match(/Volume UUID:\s+([A-F0-9-]+)/u)?.[1] || '',
+    apfs: /File System Personality:\s+APFS/u.test(text),
+    fileVault: /FileVault:\s+Yes/u.test(text),
+    readOnly: /Volume Read-Only:\s+Yes/u.test(text),
+  };
+}
+
+export function verifyC5V2PhysicalArtifactRoot({
+  artifactRoot = DEFAULT_ARTIFACT_ROOT,
+  expectedUuid = C5V2_T7_UUID,
+  diskInfoText = '',
+  mountPath = C5V2_T7_MOUNT,
+  requireT7 = true,
+} = {}) {
+  const root = path.resolve(String(artifactRoot || ''));
+  if (!root || root === path.parse(root).root) throw new Error('C5V2_ARTIFACT_ROOT_INVALID');
+  if (requireT7) assertNoC5V2SymlinkPathComponents(root);
+  if (!fs.existsSync(root)) fs.mkdirSync(root, { recursive: true });
+  if (requireT7) assertNoC5V2SymlinkPathComponents(root);
+  const rootReal = fs.realpathSync(root);
+  if (requireT7) {
+    const mountReal = fs.realpathSync(mountPath);
+    const relativeToT7 = path.relative(mountReal, rootReal);
+    if (!relativeToT7 || relativeToT7.startsWith('..') || path.isAbsolute(relativeToT7)) {
+      throw new Error(`C5V2_ARTIFACT_ROOT_NOT_T7:${rootReal}`);
+    }
+  }
+  const diskInfo = requireT7
+    ? (diskInfoText || shellValue('/usr/sbin/diskutil', ['info', mountPath], { timeout: 30_000 }))
+    : diskInfoText;
+  const parsed = parseC5V2T7DiskInfo(diskInfo);
+  if (requireT7 && parsed.uuid !== expectedUuid) throw new Error(`C5V2_ARTIFACT_ROOT_T7_UUID_MISMATCH:${parsed.uuid}`);
+  if (requireT7 && parsed.apfs !== true) throw new Error('C5V2_ARTIFACT_ROOT_T7_APFS_REQUIRED');
+  if (requireT7 && parsed.fileVault !== true) throw new Error('C5V2_ARTIFACT_ROOT_T7_FILEVAULT_REQUIRED');
+  if (requireT7 && parsed.readOnly === true) throw new Error('C5V2_ARTIFACT_ROOT_T7_READ_ONLY');
+  fs.accessSync(rootReal, fs.constants.R_OK | fs.constants.W_OK);
+  return {
+    ok: true,
+    artifactRoot: root,
+    artifactRootRealpath: rootReal,
+    mount: mountPath,
+    uuid: parsed.uuid,
+    apfs: parsed.apfs,
+    fileVault: parsed.fileVault,
+    writable: true,
+  };
+}
+
 export function resolveC5V2RunIdentity(options = {}) {
   const artifactRoot = path.resolve(String(options.artifactRoot || DEFAULT_ARTIFACT_ROOT));
+  const requirePhysicalArtifactRoot = options.requirePhysicalArtifactRoot === true
+    || artifactRoot === C5V2_T7_MOUNT
+    || artifactRoot.startsWith(`${C5V2_T7_MOUNT}${path.sep}`);
+  const rootVerification = verifyC5V2PhysicalArtifactRoot({
+    artifactRoot,
+    expectedUuid: options.expectedT7Uuid || C5V2_T7_UUID,
+    diskInfoText: options.diskInfoText || '',
+    mountPath: options.mountPath || C5V2_T7_MOUNT,
+    requireT7: requirePhysicalArtifactRoot,
+  });
   const resumeRunDir = typeof options.resumeRunDir === 'string' ? options.resumeRunDir.trim() : '';
   if (!resumeRunDir) {
     const runId = `${options.runPrefix || 'c5v2-physical-canary'}-${nowStamp()}`;
-    return { runId, runDir: path.join(artifactRoot, runId), artifactRoot, resumed: false };
+    const runDir = path.join(artifactRoot, runId);
+    return { runId, runDir, artifactRoot, artifactRootRealpath: rootVerification.artifactRootRealpath, resumed: false };
   }
   const runDir = path.resolve(resumeRunDir);
-  const relative = path.relative(artifactRoot, runDir);
-  if (!relative || relative.startsWith('..') || path.isAbsolute(relative)) {
-    throw new Error(`C5V2_RESUME_RUN_DIR_OUTSIDE_ARTIFACT_ROOT:${runDir}`);
-  }
+  assertNoC5V2SymlinkPathComponentsWithinRoot(artifactRoot, runDir);
   if (!fs.existsSync(runDir) || !fs.statSync(runDir).isDirectory()) {
     throw new Error(`C5V2_RESUME_RUN_DIR_MISSING:${runDir}`);
   }
-  return { runId: path.basename(runDir), runDir, artifactRoot, resumed: true };
+  const runReal = fs.realpathSync(runDir);
+  const relative = path.relative(rootVerification.artifactRootRealpath, runReal);
+  if (!relative || relative.startsWith('..') || path.isAbsolute(relative)) {
+    throw new Error(`C5V2_RESUME_RUN_DIR_OUTSIDE_ARTIFACT_ROOT:${runReal}`);
+  }
+  return { runId: path.basename(runDir), runDir, runDirRealpath: runReal, artifactRoot, artifactRootRealpath: rootVerification.artifactRootRealpath, resumed: true };
 }
 
 export function hasC5V2CompletedRoundEvidence(value) {
@@ -124,6 +225,153 @@ export function resolveC5V2LedgerReuseDigest(ledger = {}) {
     ...physicalLedgerContent
   } = source;
   return sha256Text(stableCanonicalJson(physicalLedgerContent));
+}
+
+function c5v2OperationRequestEffectIdentity(operation = {}) {
+  return {
+    operationId: operation.id || operation.operationId || '',
+    family: operation.family || '',
+    sceneId: operation.sceneId || '',
+    round: Number.isInteger(operation.round) ? operation.round : null,
+    expectedOutcome: operation.expectedOutcome || '',
+    semanticIntent: operation.semanticIntent || null,
+    anchor: operation.anchor || null,
+    targetRootOperationId: operation.targetRootOperationId || '',
+  };
+}
+
+function c5v2OperationRequestKey(operation = {}) {
+  return sha256Text(stableCanonicalJson({
+    role: 'request',
+    ...c5v2OperationRequestEffectIdentity(operation),
+  }));
+}
+
+function c5v2OperationEffectKey(operation = {}) {
+  return sha256Text(stableCanonicalJson({
+    role: 'effect',
+    operationId: operation.id || operation.operationId || '',
+    family: operation.family || '',
+    expectedOutcome: operation.expectedOutcome || '',
+    semanticIntent: operation.semanticIntent || null,
+  }));
+}
+
+function c5v2MasterLedgerResumeAuthorityDigest(ledger = {}, identity = {}) {
+  const operations = Array.isArray(ledger.operations) ? ledger.operations : [];
+  return sha256Text(stableCanonicalJson({
+    schemaVersion: 'yalken.rtk.word.c5v2.master-ledger-resume-authority.v1',
+    exactHead: identity.exactHead || '',
+    campaignId: identity.campaignId || '',
+    corpusDigest: identity.corpusDigest || '',
+    roundCount: ledger.roundCount || 0,
+    sceneCount: ledger.sceneCount || 0,
+    ledgerDigest: ledger.ledgerDigest || '',
+    operationCount: operations.length,
+    counts: ledger.counts || {},
+    operationIds: operations.map((operation) => operation.id || operation.operationId || ''),
+    requestEffectKeys: operations.map((operation) => ({
+      operationId: operation.id || operation.operationId || '',
+      requestKey: operation.requestKey || '',
+      effectKey: operation.effectKey || '',
+    })),
+  }));
+}
+
+export function bindC5V2MasterLedgerResumeAuthority(ledger = {}, {
+  exactHead = '',
+  campaignId = '',
+  corpusDigest = '',
+} = {}) {
+  if (!ledger || typeof ledger !== 'object' || Array.isArray(ledger)) throw new Error('C5V2_MASTER_LEDGER_REQUIRED');
+  const operations = (Array.isArray(ledger.operations) ? ledger.operations : []).map((operation) => ({
+    ...operation,
+    requestKey: c5v2OperationRequestKey(operation),
+    effectKey: c5v2OperationEffectKey(operation),
+  }));
+  const bound = {
+    ...ledger,
+    operations,
+    ledgerDigest: sha256Text(JSON.stringify(operations)),
+  };
+  bound.resumeAuthority = {
+    schemaVersion: 'yalken.rtk.word.c5v2.master-ledger-resume-authority.v1',
+    exactHead,
+    campaignId,
+    corpusDigest,
+    digest: c5v2MasterLedgerResumeAuthorityDigest(bound, { exactHead, campaignId, corpusDigest }),
+  };
+  return bound;
+}
+
+export function validateC5V2MasterLedgerResumeAuthority(ledger = {}, {
+  exactHead = '',
+  campaignId = '',
+  corpusDigest = '',
+  roundCount = 5,
+  sceneCount = 21,
+} = {}) {
+  const failures = [];
+  const operations = Array.isArray(ledger?.operations) ? ledger.operations : [];
+  if (!ledger || typeof ledger !== 'object' || Array.isArray(ledger)) failures.push('C5V2_MASTER_LEDGER_REQUIRED');
+  if (ledger?.schemaVersion !== C5V2_LEDGER_SCHEMA) failures.push('C5V2_MASTER_LEDGER_SCHEMA_INVALID');
+  if (ledger?.topology !== 'one-full-manuscript-project-cumulative-rounds') failures.push('C5V2_MASTER_LEDGER_TOPOLOGY_INVALID');
+  if (ledger?.roundCount !== roundCount) failures.push('C5V2_MASTER_LEDGER_ROUND_COUNT_INVALID');
+  if (ledger?.sceneCount !== sceneCount) failures.push('C5V2_MASTER_LEDGER_SCENE_COUNT_INVALID');
+  if (operations.length !== 2000) failures.push(`C5V2_MASTER_LEDGER_OPERATION_COUNT_INVALID:${operations.length}`);
+  const expectedDigest = sha256Text(JSON.stringify(operations));
+  if (ledger?.ledgerDigest !== expectedDigest) failures.push('C5V2_MASTER_LEDGER_DIGEST_STALE');
+  const ids = new Set();
+  for (const operation of operations) {
+    const id = operation?.id || operation?.operationId || '';
+    if (!id) failures.push('C5V2_MASTER_LEDGER_OPERATION_ID_MISSING');
+    if (ids.has(id)) failures.push(`C5V2_MASTER_LEDGER_OPERATION_ID_DUPLICATE:${id}`);
+    ids.add(id);
+    if (operation?.requestKey !== c5v2OperationRequestKey(operation)) failures.push(`C5V2_MASTER_LEDGER_REQUEST_KEY_MISMATCH:${id}`);
+    if (operation?.effectKey !== c5v2OperationEffectKey(operation)) failures.push(`C5V2_MASTER_LEDGER_EFFECT_KEY_MISMATCH:${id}`);
+  }
+  for (const [family, expected] of Object.entries(DEFAULT_C5V2_LEDGER_COUNTS)) {
+    const declared = ledger?.counts?.[family];
+    const actual = operations.filter((operation) => operation?.family === family).length;
+    if (declared !== expected || actual !== expected) failures.push(`C5V2_MASTER_LEDGER_FAMILY_COUNT_INVALID:${family}:${declared}:${actual}:${expected}`);
+  }
+  const distribution = validateC5V2LedgerDistribution({
+    operations,
+    sceneProfiles: Array.isArray(ledger?.sceneProfiles) ? ledger.sceneProfiles : [],
+    counts: DEFAULT_C5V2_LEDGER_COUNTS,
+  });
+  if (distribution.ok !== true) failures.push('C5V2_MASTER_LEDGER_DISTRIBUTION_INVALID');
+  if (ledger?.gates?.ok !== true || Array.isArray(ledger?.gates?.failures) !== true || ledger.gates.failures.length !== 0) {
+    failures.push('C5V2_MASTER_LEDGER_GATES_NOT_GREEN');
+  }
+  if (ledger?.resumeAuthority?.schemaVersion !== 'yalken.rtk.word.c5v2.master-ledger-resume-authority.v1') {
+    failures.push('C5V2_MASTER_LEDGER_RESUME_AUTHORITY_SCHEMA_INVALID');
+  }
+  if (
+    ledger?.resumeAuthority?.exactHead !== exactHead
+    || ledger?.resumeAuthority?.campaignId !== campaignId
+    || ledger?.resumeAuthority?.corpusDigest !== corpusDigest
+  ) failures.push('C5V2_MASTER_LEDGER_RESUME_AUTHORITY_IDENTITY_MISMATCH');
+  const expectedAuthorityDigest = c5v2MasterLedgerResumeAuthorityDigest(ledger, { exactHead, campaignId, corpusDigest });
+  if (ledger?.resumeAuthority?.digest !== expectedAuthorityDigest) failures.push('C5V2_MASTER_LEDGER_RESUME_AUTHORITY_DIGEST_MISMATCH');
+  return {
+    ok: failures.length === 0,
+    failures,
+    ledgerDigest: expectedDigest,
+    operationCount: operations.length,
+    counts: Object.fromEntries(Object.keys(DEFAULT_C5V2_LEDGER_COUNTS).map((family) => [
+      family,
+      operations.filter((operation) => operation?.family === family).length,
+    ])),
+  };
+}
+
+function assertC5V2MasterLedgerResumeAuthority(ledger, options = {}) {
+  const validation = validateC5V2MasterLedgerResumeAuthority(ledger, options);
+  if (validation.ok !== true) {
+    throw new Error(`C5V2_MASTER_LEDGER_RESUME_AUTHORITY_INVALID:${validation.failures.join(',')}`);
+  }
+  return validation;
 }
 
 function assertC5V2CandidateAuthorityRoot(authorityRoot) {
@@ -6496,6 +6744,15 @@ async function mainCumulative(options) {
   let masterLedger = runIdentity.resumed === true && fs.existsSync(masterLedgerPath)
     ? JSON.parse(fs.readFileSync(masterLedgerPath, 'utf8'))
     : null;
+  if (masterLedger) {
+    assertC5V2MasterLedgerResumeAuthority(masterLedger, {
+      exactHead: completedRoundReuseContext.exactHead,
+      campaignId: runId,
+      corpusDigest: completedRoundReuseContext.corpusDigest,
+      roundCount,
+      sceneCount: scenes.length,
+    });
+  }
   let reusablePrefixOpen = runIdentity.resumed === true;
   const rounds = [];
   for (let index = 0; index < roundCount; index += 1) {
@@ -6584,8 +6841,22 @@ async function mainCumulative(options) {
         },
       );
       if (options.masterLedgerCampaign && !masterLedger) {
-        masterLedger = buildC5V2Ledger({ scenes: currentScenes, roundCount });
-        if (masterLedger.gates?.ok !== true || masterLedger.operations.length !== 2000) {
+        masterLedger = bindC5V2MasterLedgerResumeAuthority(
+          buildC5V2Ledger({ scenes: currentScenes, roundCount }),
+          {
+            exactHead: completedRoundReuseContext.exactHead,
+            campaignId: runId,
+            corpusDigest: completedRoundReuseContext.corpusDigest,
+          },
+        );
+        const masterLedgerAuthority = assertC5V2MasterLedgerResumeAuthority(masterLedger, {
+          exactHead: completedRoundReuseContext.exactHead,
+          campaignId: runId,
+          corpusDigest: completedRoundReuseContext.corpusDigest,
+          roundCount,
+          sceneCount: scenes.length,
+        });
+        if (masterLedger.gates?.ok !== true || masterLedgerAuthority.operationCount !== 2000) {
           throw new Error(`C5V2_MASTER_LEDGER_GATES_FAILED:${JSON.stringify(masterLedger.gates || {})}`);
         }
         writeJsonAtomicDurable(masterLedgerPath, masterLedger);
@@ -6605,12 +6876,21 @@ async function mainCumulative(options) {
       });
       writeJsonAtomicDurable(corpusProvenancePath, corpusProvenance);
       const ledger = options.masterLedgerCampaign
-        ? adaptC5V2MasterRoundToPhysicalLedger({
-            masterLedger,
-            currentScenes,
-            roundNumber: roundIndex + 1,
-            sourceDocxPath: round.sourcePath,
-          })
+        ? (() => {
+            assertC5V2MasterLedgerResumeAuthority(masterLedger, {
+              exactHead: completedRoundReuseContext.exactHead,
+              campaignId: runId,
+              corpusDigest: completedRoundReuseContext.corpusDigest,
+              roundCount,
+              sceneCount: scenes.length,
+            });
+            return adaptC5V2MasterRoundToPhysicalLedger({
+              masterLedger,
+              currentScenes,
+              roundNumber: roundIndex + 1,
+              sourceDocxPath: round.sourcePath,
+            });
+          })()
         : buildExportBoundCanaryLedger({
             scenes: currentScenes,
             counts: options.counts,

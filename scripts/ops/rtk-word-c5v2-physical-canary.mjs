@@ -1463,15 +1463,27 @@ async function invokeUiCommand(win, commandId, payload) {
   }
   return result;
 }
+async function queryRomanProjectTreeUntilReady(win) {
+  return waitUntil(async () => {
+    const projectTreeProbe = await win.webContents.executeJavaScript(
+      "window.electronAPI.invokeWorkspaceQueryBridge({queryId:'query.projectTree',payload:{tab:'roman'}})",
+      true,
+    );
+    if (projectTreeProbe && projectTreeProbe.ok === false) {
+      if (projectTreeProbe.error === 'E_PROJECT_LEASE_HELD') return null;
+      throw new Error('C5V2_PROJECT_TREE_QUERY_FAILED:' + JSON.stringify(projectTreeProbe));
+    }
+    const romanNode = findTreeNodeByKind(projectTreeProbe && projectTreeProbe.root, 'roman-root');
+    if (!romanNode || typeof romanNode.nodeId !== 'string' || !romanNode.nodeId) return null;
+    return { projectTreeProbe, romanNode };
+  }, 'PROJECT_TREE_ROMAN_ROOT_NOT_READY', 30000);
+}
 async function captureReopenedYalkenTruth(win, roundId, returnedPath) {
   const passes = [];
   for (let pass = 1; pass <= 2; pass += 1) {
     const passResults = [];
     for (const context of global.productSceneContexts || []) {
-      const treeProbe = await win.webContents.executeJavaScript(
-        "window.electronAPI.invokeWorkspaceQueryBridge({queryId:'query.projectTree',payload:{tab:'roman'}})",
-        true,
-      );
+      const { projectTreeProbe: treeProbe } = await queryRomanProjectTreeUntilReady(win);
       const resolved = findTreeNodeByPathSuffix(treeProbe && treeProbe.root, context.relativePath) || context;
       const openResult = await invokeUiCommand(win, 'cmd.project.document.open', {
         nodeId: typeof resolved.nodeId === 'string' ? resolved.nodeId : context.nodeId,
@@ -1836,10 +1848,7 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
   async function resolveCurrentSceneContext(sceneContext, normalizedSceneId) {
     const fallback = sceneContext && typeof sceneContext === 'object' ? sceneContext : {};
     try {
-      const treeProbe = await win.webContents.executeJavaScript(
-        "window.electronAPI.invokeWorkspaceQueryBridge({queryId:'query.projectTree',payload:{tab:'roman'}})",
-        true,
-      );
+      const { projectTreeProbe: treeProbe } = await queryRomanProjectTreeUntilReady(win);
       const byRelativePath = findTreeNodeByPathSuffix(treeProbe && treeProbe.root, normalizedSceneId);
       if (byRelativePath && typeof byRelativePath.nodeId === 'string' && byRelativePath.nodeId) {
         return {
@@ -2483,11 +2492,8 @@ app.whenReady().then(async () => {
     const manifestPath = path.join(projectRoot, 'project.craftsman.json');
     await waitUntil(() => fs.existsSync(manifestPath), 'MANIFEST_NOT_CREATED');
     progress('manifest-ready', { manifestPath });
-    const projectTreeProbe = await win.webContents.executeJavaScript(
-      "window.electronAPI.invokeWorkspaceQueryBridge({queryId:'query.projectTree',payload:{tab:'roman'}})",
-      true,
-    );
-    const romanNode = findTreeNodeByKind(projectTreeProbe && projectTreeProbe.root, 'roman-root');
+    const { projectTreeProbe, romanNode } = await queryRomanProjectTreeUntilReady(win);
+    progress('project-tree-ready', { projectId: projectTreeProbe.projectId || '', romanNodeId: romanNode.nodeId });
     const romanRoot = romanNode && typeof romanNode.nodePath === 'string' && romanNode.nodePath
       ? romanNode.nodePath
       : path.join(projectRoot, 'roman');

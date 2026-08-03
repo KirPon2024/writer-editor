@@ -7580,12 +7580,12 @@
     },
     {
       "filePath": "test/contracts/rtk-g0b-feasibility.contract.test.js",
-      "sha256": "9dd9614a74d20eb5d12d1fda91ff33824cb8656e46fa29792ea73ccd48a84c32",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO",
-      "approvedAtUtc": "2026-08-03T13:23:00Z",
-      "rationale": "Approve exact G0B stage-scope guard bytes admitting the C5V2 lifecycle timeout contract alongside the C5V2 round checkpoint contract and physical canary harness script. This is a narrow contract-scope binding only, preserves Google blocked, adds no product network path, and makes no broad Word certification claim.",
+      "sha256": "4391f0b29d6b2ea82b72342044612a2112ffc4705638b2b18833ad6569721f0b",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO:LEDGER_IDENTITY_ANCHOR_REPAIR",
+      "approvedAtUtc": "2026-08-03T18:48:12.000Z",
+      "rationale": "Approve exact G0B stage-scope guard bytes admitting the maintained C5V2 PR1414 audit-hold repair contract alongside the existing C5V2 round checkpoint contract and physical canary harness script for the bounded ledger identity anchor repair. This is a narrow contract-scope binding only, preserves Google blocked, adds no product network path, and makes no broad Word certification claim.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_DORIAN_PORTFOLIO_RECOVERY"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_C5V2_LEDGER_IDENTITY_ANCHOR_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-g0c-exact-safety.contract.test.js",
@@ -7623,21 +7623,21 @@
     },
     {
       "filePath": "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",
-      "sha256": "0ed8504cf7be5aeae67c7b9dce7b533006e04228477b3356a30d12b450dd3bb1",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO",
-      "approvedAtUtc": "2026-08-03T13:23:00Z",
-      "rationale": "Approve exact W1 stage-scope guard bytes admitting the C5V2 lifecycle timeout contract alongside the C5V2 round checkpoint contract and physical canary harness script. This is a narrow contract-scope binding only, preserves Google blocked, adds no product network path, and makes no broad Word certification claim.",
+      "sha256": "7a9735f8ffa0151481f5d64ccc7eac5b89da3e5ac74f4bb0e55a0ce2fd3561f6",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO:LEDGER_IDENTITY_ANCHOR_REPAIR",
+      "approvedAtUtc": "2026-08-03T18:48:12.000Z",
+      "rationale": "Approve exact W1 stage-scope guard bytes admitting the maintained C5V2 PR1414 audit-hold repair contract alongside the existing C5V2 round checkpoint contract and physical canary harness script for the bounded ledger identity anchor repair. This is a narrow contract-scope binding only, preserves Google blocked, adds no product network path, and makes no broad Word certification claim.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_DORIAN_PORTFOLIO_RECOVERY"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_C5V2_LEDGER_IDENTITY_ANCHOR_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js",
-      "sha256": "590cdcfa9f62887434304dd204f113b870a937ae7717de1007a872fcf2f3c687",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO",
-      "approvedAtUtc": "2026-08-03T13:23:00Z",
-      "rationale": "Approve exact W2 stage-scope guard bytes admitting the C5V2 lifecycle timeout contract alongside the C5V2 round checkpoint contract and physical canary harness script. This is a narrow contract-scope binding only, preserves Google blocked, adds no product network path, and makes no broad Word certification claim.",
+      "sha256": "67d72b47c4c202db7e5f6710df9434bed819d263dbc4944be4df0d3743a68ce8",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO:LEDGER_IDENTITY_ANCHOR_REPAIR",
+      "approvedAtUtc": "2026-08-03T18:48:12.000Z",
+      "rationale": "Approve exact W2 stage-scope guard bytes admitting the maintained C5V2 PR1414 audit-hold repair contract alongside the existing C5V2 round checkpoint contract and physical canary harness script for the bounded ledger identity anchor repair. This is a narrow contract-scope binding only, preserves Google blocked, adds no product network path, and makes no broad Word certification claim.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_DORIAN_PORTFOLIO_RECOVERY"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_C5V2_LEDGER_IDENTITY_ANCHOR_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-w3-exact-apply-replay.contract.test.js",
@@ -9044,30 +9044,30 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "1b5ac0dc4097ea5048dc5a73e748cbde8feab8ad0c81a49be015dae7b0a8a45e",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_INDEPENDENT_AUTHORITY_ANCHOR_REPAIR",
-      "approvedAtUtc": "2026-08-03T17:18:51Z",
-      "rationale": "Approve exact governed C5V2 physical canary bytes adding completed-round reuse binding v5 and a separate main-owned secret-backed HMAC anchor for the raw returnApply candidate tuple mapping. The 0600 key and immutable per-round anchor live outside mutable run evidence, are written atomically with fsync before reuse binding, are never regenerated on resume, and bind campaign, round, exact head, corpus, candidate artifact, and scene plus quote plus replacement plus changeId tuples. Missing, corrupt, wrong-key, replayed, symlinked, nested-authority-root, or synchronized self-hashed artifact mutations fail closed, including an anchors-directory symlink. No Word, Electron, physical evidence, UI, network, dependency, or PR 1419 change was invoked.",
+      "sha256": "99d3475eb0974a63be818b4e28962194ad17dc468baa208f140f53b68a781055",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO:LEDGER_IDENTITY_ANCHOR_REPAIR",
+      "approvedAtUtc": "2026-08-03T18:34:21.000Z",
+      "rationale": "Approve exact governed C5V2 physical canary bytes bumping the completed-round reuse binding to v6 and candidate authority anchor to v2, binding the canonical physical ledger content digest from the fail-closed ledger reuse digest resolver into the secret-backed HMAC anchor, and validating that digest before completed-round reuse and exactTotal credit. This preserves the inline compile-safe status gate and stable yShell route and adds no Word, Electron, physical evidence, UI, network, dependency, Atlas, or PR 1419 change.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_INDEPENDENT_AUTHORITY_ANCHOR_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_C5V2_LEDGER_IDENTITY_ANCHOR_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-round-checkpoint.contract.test.js",
-      "sha256": "167cf2a340607505cb29b52536fdbace790369ff568ebc40cb92b0e66a9608aa",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_INDEPENDENT_AUTHORITY_ANCHOR_REPAIR",
-      "approvedAtUtc": "2026-08-03T17:18:51Z",
-      "rationale": "Approve exact round-checkpoint contract bytes updated for completed-round reuse binding v5. The contract requires durable raw candidate persistence followed by the main-owned keyed anchor before completed gate binding while preserving the inline compile-safe status gate, CWD-stable shell route, checkpoint durability, and ledger-bound exact summary requirement.",
+      "sha256": "7611d41721a3b2e113b641f8dfccafa057d33c63fb5aec66eec1dff7f2b6ea84",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO:LEDGER_IDENTITY_ANCHOR_REPAIR",
+      "approvedAtUtc": "2026-08-03T18:34:21.000Z",
+      "rationale": "Approve exact maintained round-checkpoint contract bytes updated to build completed-round reuse fixtures with the canonical ledger reuse digest resolver required by the v6 secret-backed ledger identity anchor.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_INDEPENDENT_AUTHORITY_ANCHOR_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_C5V2_LEDGER_IDENTITY_ANCHOR_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-pr1414-audit-hold-repair.contract.test.js",
-      "sha256": "6dd6f9f8f92f6e5fc1e597108c2e8d419e600604a44129b4b6589bbb18abb02f",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_INDEPENDENT_AUTHORITY_ANCHOR_REPAIR",
-      "approvedAtUtc": "2026-08-03T17:18:51Z",
-      "rationale": "Approve exact production-shaped behavioral contract bytes proving a valid two-scene baseline with exact total two and fail-closed rejection of synchronized raw-authority plus mapping changeId swaps after every recomputable plain digest is refreshed. It also proves missing, corrupt, wrong-key, wrong-campaign, authority-root symlink, anchors-directory symlink, nested authority root, path-escape, candidate-content, candidate-hash, five prior reuse vectors, and activation-only typed-zero behavior without touching physical Word evidence.",
+      "sha256": "7bd0282612a1f9e71206e7ff03eeeda428a1ddd81afeabadc5b1a706f7bfe7cf",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO:LEDGER_IDENTITY_ANCHOR_REPAIR",
+      "approvedAtUtc": "2026-08-03T18:34:21.000Z",
+      "rationale": "Approve exact production-shaped C5V2 v6 contract bytes preserving the previous baseline true exactTotal two and negatives while adding the P0 same-count operationId plus tracked-family mutation negative: ordinary evidence and outer binding digests are refreshed, the trusted key and old anchor remain unchanged, and reuse must return false.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_INDEPENDENT_AUTHORITY_ANCHOR_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_C5V2_LEDGER_IDENTITY_ANCHOR_REPAIR"
     },
     {
       "filePath": "scripts/ops/rtk-word-sandbox-work-root.mjs",

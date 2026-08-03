@@ -94,6 +94,7 @@ const N4_STRUCTURAL_RETURN_ALLOWLIST = [
   'src/renderer/documentContentEnvelope.mjs',
   'src/shared/commandBridgeResponse.cjs',
   'test/contracts/rtk-word-c5v2-comment-lifecycle-return-runtime.contract.test.js',
+  'test/contracts/rtk-word-c5v2-pr1414-audit-hold-repair.contract.test.js',
   'test/contracts/rtk-word-c5v2-round-checkpoint.contract.test.js',
   'test/contracts/rtk-word-n3-formatting-return.contract.test.js',
   'test/contracts/rtk-word-n4-structural-return.contract.test.js',

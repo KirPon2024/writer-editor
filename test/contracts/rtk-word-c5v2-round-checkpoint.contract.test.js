@@ -206,13 +206,14 @@ test('C5V2 cumulative controller blocks the next export until the complete round
     authorityRoot: candidateAuthorityRoot,
     createIfMissing: true,
   });
+  const ledger = { operations: [] };
   const returnApplyCandidateAuthorityAnchorValidation = canary.writeC5V2ReturnApplyCandidateAuthorityAnchor({
     authorityRoot: candidateAuthorityRoot,
     campaignId: 'campaign-current',
     roundId: 'round-01',
     exactHead: 'head-current',
     corpusDigest: 'sha256:corpus-current',
-    ledger: { operations: [] },
+    ledger,
     candidateAuthority: returnApplyCandidateAuthority,
     candidateAuthorityPath,
   });
@@ -224,8 +225,8 @@ test('C5V2 cumulative controller blocks the next export until the complete round
     operationStatusPolicyVersion: policy.version,
     operationStatusPolicyDigest: policy.digest,
     corpusDigest: 'sha256:corpus-current',
-    ledger: { operations: [] },
-    ledgerContentDigest: 'sha256:ledger-current',
+    ledger,
+    ledgerContentDigest: canary.resolveC5V2LedgerReuseDigest(ledger),
     wordOutputSha256: 'sha256:word-output-current',
     completeRoundOracleSha256: 'sha256:oracle-current',
     returnedReadySha256: 'sha256:ready-current',

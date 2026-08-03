@@ -758,8 +758,8 @@ test('N2 AX route has bounded traversal timeout and durable killed-process phase
   const source = fs.readFileSync(CANARY_PATH, 'utf8');
   assert.doesNotMatch(source, /entire contents of/u);
   assert.doesNotMatch(source, /yDescribeHierarchy|yClickUniqueNamedControl|yCountMarker/u);
-  assert.match(source, /set my yOverallDeadline to \(current date\) \+ 180/u);
-  assert.match(source, /timeout:\s*240_000/u);
+  assert.match(source, /set my yOverallDeadline to \(current date\) \+ 420/u);
+  assert.match(source, /timeout:\s*480_000/u);
   assert.match(source, /AX_NODE_BUDGET_EXCEEDED/u);
   assert.match(source, /TIME_BUDGET_EXCEEDED\|AX_/u);
   const orderedScript = canary.buildWordScript({

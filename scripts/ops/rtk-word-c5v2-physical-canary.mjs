@@ -2828,6 +2828,11 @@ async function runElectronFullManuscriptRoundtrip({
   let bufferedStdout = '';
   let exited = false;
   let exitState = null;
+  const markChildFinished = (code, signal, eventName) => {
+    if (exited) return;
+    exited = true;
+    exitState = { code, signal, eventName };
+  };
   const child = spawn(electronBinary, [childPath], {
     cwd: REPO_ROOT,
     env: { ...process.env, ELECTRON_ENABLE_SECURITY_WARNINGS: 'false' },
@@ -2846,10 +2851,8 @@ async function runElectronFullManuscriptRoundtrip({
     }
   });
   child.stderr.on('data', (chunk) => stderrChunks.push(chunk));
-  child.once('exit', (code, signal) => {
-    exited = true;
-    exitState = { code, signal };
-  });
+  child.once('exit', (code, signal) => markChildFinished(code, signal, 'exit'));
+  child.once('close', (code, signal) => markChildFinished(code, signal, 'close'));
   let timedOut = false;
   let wordOutput = '';
   let wordError = '';
@@ -3001,6 +3004,9 @@ async function runElectronCumulativeFullManuscriptRoundtrip({
     for (let roundIndex = 0; roundIndex < rounds.length; roundIndex += 1) {
       const round = rounds[roundIndex];
       const exportPayload = await waitForCondition(() => {
+        if (exited) {
+          throw new Error(`ELECTRON_CUMULATIVE_EXIT_BEFORE_EXPORT:${round.roundId}:${exitState?.eventName || 'unknown'}:${exitState?.code ?? 'null'}:${exitState?.signal || 'null'}`);
+        }
         const found = resultLines.find((line) => line.phase === 'export' && line.ok === 1 && line.roundIndex === roundIndex);
         return found || null;
       }, `ELECTRON_CUMULATIVE_EXPORT_PHASE_NOT_EMITTED:${round.roundId}`, 180_000);
@@ -3049,6 +3055,9 @@ async function runElectronCumulativeFullManuscriptRoundtrip({
         }
       }
       const returnApplyPayload = await waitForCondition(() => {
+        if (exited) {
+          throw new Error(`ELECTRON_CUMULATIVE_EXIT_BEFORE_RETURN_APPLY:${round.roundId}:${exitState?.eventName || 'unknown'}:${exitState?.code ?? 'null'}:${exitState?.signal || 'null'}`);
+        }
         const found = resultLines.find((line) => line.phase === 'return-apply' && line.roundIndex === roundIndex);
         return found || null;
       }, `ELECTRON_CUMULATIVE_RETURN_APPLY_NOT_EMITTED:${round.roundId}`, 1_800_000);

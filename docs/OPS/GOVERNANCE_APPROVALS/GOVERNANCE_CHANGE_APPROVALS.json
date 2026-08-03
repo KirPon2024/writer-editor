@@ -9044,19 +9044,19 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "d5b53d6a5e18378a1600110215097be0685b3e471d9cfcd79dbf1daa09f803fe",
+      "sha256": "bc418351e399ced64f2259b504dd97f838cc20311c21c430ed0b2d423e09ead8",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO",
-      "approvedAtUtc": "2026-08-03T13:14:00Z",
-      "rationale": "Approve exact governed C5V2 physical canary harness bytes that resolve tracked text edits through the live Word unique locator plus selected quote instead of raw absolute character offsets and extends native Word automation timeout budgets so dense physical chunks can complete final reopened semantic readback through the checkpointed fail-closed path instead of being externally killed. This preserves fail-closed recovery and semantic oracle authority, keeps Google blocked, adds no product network path, and makes no broad Word certification claim.",
+      "approvedAtUtc": "2026-08-03T13:56:52Z",
+      "rationale": "Approve exact governed C5V2 physical canary harness bytes that gate native semantic readback by the recorded Word operation status, preventing reopened document evidence from crediting an operation that was explicitly BLOCKED, and bind summary exact totals to the ledger-bound product apply lane instead of raw activation candidates. This preserves fail-closed recovery and semantic oracle authority, keeps Google blocked, adds no product network path, and makes no broad Word certification claim.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_DORIAN_PORTFOLIO_RECOVERY"
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-round-checkpoint.contract.test.js",
-      "sha256": "376f4f5d248d68d3768495447f06623f56e00e1b5aa13459e7789bb96b30325a",
+      "sha256": "3db63d59e91dc3d599f1912b6e6b2fbbdfc238e34e96a62e539c6cd3eeaaa863",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO",
-      "approvedAtUtc": "2026-08-03T13:14:00Z",
-      "rationale": "Approve exact RTK contract bytes requiring generated C5V2 tracked text operations to use the Word locator-bound range path and binding the extended in-script native Word timeout budget while preserving cumulative chunk checkpoint, semantic readback, and live evidence mirroring guarantees. This preserves semantic oracle authority, keeps fail-closed under-count detection, adds no product network path, and makes no broad Word certification claim.",
+      "approvedAtUtc": "2026-08-03T13:56:52Z",
+      "rationale": "Approve exact RTK contract bytes requiring generated C5V2 native semantic readback to include a recorded-operation-status gate and summary exact counts to prefer the ledger-bound product apply lane. This preserves semantic oracle authority, keeps fail-closed under-count detection, adds no product network path, and makes no broad Word certification claim.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_DORIAN_PORTFOLIO_RECOVERY"
     },

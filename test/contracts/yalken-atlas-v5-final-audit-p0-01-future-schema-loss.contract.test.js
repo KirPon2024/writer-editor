@@ -385,6 +385,33 @@ test('R1 B: released Atlas mutation advances the canonical Command Kernel event 
   );
 });
 
+test('P0 01: project tree query uses read-only identity when same process holds Stage-10 lease', async (t) => {
+  const harness = await createHarness(t);
+  const created = await harness.main.handleProjectLifecycleCreateCommand({ projectName: 'Роман' });
+  assert.equal(created.ok, true);
+  const projectRoot = path.join(harness.documentsRoot, 'Роман');
+  const manifestPath = path.join(projectRoot, PROJECT_MANIFEST_FILENAME);
+  const manifest = JSON.parse(await fsPromises.readFile(manifestPath, 'utf8'));
+
+  const firstTree = await harness.main.handleWorkspaceProjectTreeQuery({ tab: 'roman' });
+  assert.equal(firstTree.ok, true, JSON.stringify(firstTree));
+
+  const { createProjectLeaseManager } = await import(pathToFileURL(
+    path.join(ROOT, 'src', 'product', 'projectLease.mjs'),
+  ).href);
+  const leaseManager = createProjectLeaseManager({
+    leaseRoot: path.join(harness.userDataRoot, 'stage10-integrity-anchors'),
+  });
+  const heldLease = await leaseManager.acquire(manifest.projectId);
+  try {
+    const secondTree = await harness.main.handleWorkspaceProjectTreeQuery({ tab: 'roman' });
+    assert.equal(secondTree.ok, true, JSON.stringify(secondTree));
+    assert.equal(secondTree.projectId, manifest.projectId);
+  } finally {
+    await leaseManager.release(heldLease);
+  }
+});
+
 test('P0 01: each commanded future author domain fails before recovery or durable write', async (t) => {
   const scenarios = [
     {

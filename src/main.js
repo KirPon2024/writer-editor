@@ -24434,7 +24434,23 @@ async function handleWorkspaceProjectTreeQuery(payload) {
     return { ok: false, error: 'Unknown tab' };
   }
   try {
-    const { projectId, roots } = await buildProjectTreeRootsWithIdentities();
+    let projectTree;
+    try {
+      projectTree = await buildProjectTreeRootsWithIdentitiesReadOnly();
+    } catch (readOnlyError) {
+      const readOnlyCode = readOnlyError && typeof readOnlyError.code === 'string'
+        ? readOnlyError.code
+        : '';
+      if (![
+        'E_PROJECT_MANIFEST_UNAVAILABLE',
+        'E_TREE_IDENTITY_READONLY_STALE',
+        'E_TREE_IDENTITY_READ_FAILED',
+      ].includes(readOnlyCode)) {
+        throw readOnlyError;
+      }
+      projectTree = await buildProjectTreeRootsWithIdentities();
+    }
+    const { projectId, roots } = projectTree;
     return {
       ok: true,
       projectId,

@@ -93,21 +93,21 @@
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v6-production-lifecycle.mjs",
-      "sha256": "635f3865c55599bb94c41ce0e474bdafe8b31332f9f9e714e9ebd5cb57a35ddc",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_A10_TAP_STRUCTURE_FALSE_GREEN_REPAIR",
-      "approvedAtUtc": "2026-08-03T01:50:11.000Z",
-      "rationale": "Approve exact Atlas V6 production lifecycle TAP parser hardening that binds each top-level Subtest to its own adjacent status record and rejects reordered or orphaned status evidence; no runtime or UI change.",
+      "sha256": "b4691dd395fc51636d4fc95079dc2b15430b3cd8137f364c09b80d311503e82b",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_A10_NESTED_TAP_HOLD_REPAIR",
+      "approvedAtUtc": "2026-08-03T19:20:13.000Z",
+      "rationale": "Approve exact Atlas V6 production lifecycle TAP parser hardening that binds each top-level Subtest to its own adjacent status record, validates indented nested TAP records inside that record, and fails closed on reordered, orphaned, hidden nested fail, skip, todo, incomplete and invalid evidence; no runtime, UI, network or dependency change.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_A10_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_ATLAS_A10_NESTED_TAP_REPAIR"
     },
     {
       "filePath": "test/contracts/yalken-atlas-a10-tap-structure-false-green-repair.contract.test.js",
-      "sha256": "202870787d3063d16ed1b38d0917007a9749847b53e0d4961f10408b2e2f0cf5",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_A10_TAP_STRUCTURE_FALSE_GREEN_REPAIR",
-      "approvedAtUtc": "2026-08-03T01:50:11.000Z",
-      "rationale": "Approve exact A10 adversarial TAP structure coverage for all-subtests-then-statuses, interleaved foreign status, orphan status and status crossing record boundary negatives.",
+      "sha256": "dadc498be4f530f098d13483dd74bdb3f227ce1cd00eb69d83328c737be06d9b",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_A10_NESTED_TAP_HOLD_REPAIR",
+      "approvedAtUtc": "2026-08-03T19:20:13.000Z",
+      "rationale": "Approve exact A10 adversarial TAP structure coverage for all-subtests-then-statuses, interleaved foreign status, orphan status, status crossing record boundary, hidden nested fail, hidden nested skip, hidden nested todo, incomplete nested subtest and invalid nested content negatives.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_A10_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_ATLAS_A10_NESTED_TAP_REPAIR"
     },
     {
       "filePath": "docs/OPERATIONS/STATUS/CODEX_AUTOMATION_POLICY.json",

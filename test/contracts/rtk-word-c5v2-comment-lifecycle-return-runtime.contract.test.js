@@ -185,15 +185,88 @@ test('N2 authenticated Word return lowers root, reply and resolved state into sh
 test('N2 authenticated return refuses incomplete scene authority and unauthenticated input', async () => {
   const module = await import(MODULE_PATH);
   assert.equal(module.buildAuthenticatedCommentReturnCommands({ authenticated: false }).code, 'RTK_COMMENT_PRODUCT_RETURN_NOT_AUTHENTICATED');
+  assert.equal(module.buildAuthenticatedCommentReturnCommands({
+    authenticated: true,
+    projectId: 'project-c5v2-n2',
+    projectRoot: '/tmp/project-c5v2-n2',
+    localAuthorityCapsule: { projectRoot: '/tmp/project-c5v2-n2' },
+  }).code, 'RTK_COMMENT_PRODUCT_RETURN_ARTIFACT_ID_REQUIRED');
   const blocked = module.buildAuthenticatedCommentReturnCommands({
     authenticated: true,
     projectId: 'project-c5v2-n2',
     projectRoot: '/tmp/project-c5v2-n2',
+    returnArtifactId: 'sha256:incomplete-authority-return',
     localAuthorityCapsule: { projectRoot: '/tmp/project-c5v2-n2' },
     reviewIr: { commentThreads: [{ threadId: 'thread', messages: [{ body: 'body' }] }], commentPlacements: [] },
   });
   assert.equal(blocked.ok, false);
   assert.equal(blocked.typedBlocked[0].code, 'RTK_COMMENT_PRODUCT_RETURN_THREAD_AUTHORITY_INCOMPLETE');
+});
+
+test('N2 cumulative returns namespace reused native Word comment identities by authenticated artifact', async () => {
+  const module = await import(MODULE_PATH);
+  const projectRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-c5v2-n2-cumulative-identity-'));
+  const scenePath = path.join(projectRoot, 'scene-01.txt');
+  const sceneText = 'First unique anchor and second unique anchor live in one scene.';
+  fs.writeFileSync(scenePath, sceneText);
+  const authority = {
+    projectId: 'project-c5v2-n2-cumulative',
+    projectRoot,
+    scenePathBySceneId: { 'scene-01': scenePath },
+    baselineFinalTextBySceneId: { 'scene-01': sceneText },
+  };
+  const buildPlan = ({ returnArtifactId, quote, body }) => module.buildAuthenticatedCommentReturnCommands({
+    authenticated: true,
+    projectId: authority.projectId,
+    projectRoot,
+    returnArtifactId,
+    localAuthorityCapsule: authority,
+    reviewIr: {
+      commentThreads: [{
+        threadId: 'rtk-comment-2034',
+        commentId: '2034',
+        status: 'open',
+        messages: [{ messageId: '2034', body }],
+      }],
+      commentPlacements: [{
+        threadId: 'rtk-comment-2034',
+        targetScope: { type: 'scene', id: 'scene-01' },
+        quote,
+      }],
+    },
+  });
+  const firstPlan = buildPlan({
+    returnArtifactId: `sha256:${'a'.repeat(64)}`,
+    quote: 'First unique anchor',
+    body: 'Round one physical root.',
+  });
+  const secondPlan = buildPlan({
+    returnArtifactId: `sha256:${'b'.repeat(64)}`,
+    quote: 'second unique anchor',
+    body: 'Round two physical root.',
+  });
+  assert.equal(firstPlan.ok, true);
+  assert.equal(secondPlan.ok, true);
+  assert.notEqual(firstPlan.commands[0].payload.threadId, secondPlan.commands[0].payload.threadId);
+  assert.notEqual(firstPlan.commands[0].payload.commentId, secondPlan.commands[0].payload.commentId);
+  assert.equal(firstPlan.commands[0].payload.sourceThreadId, 'rtk-comment-2034');
+  assert.equal(secondPlan.commands[0].payload.sourceThreadId, 'rtk-comment-2034');
+
+  const handler = module.createRtkRootCommentReturnCommandHandler();
+  for (const plan of [firstPlan, secondPlan]) {
+    assert.equal((await handler(plan.commands[0].payload)).status, 'applied');
+    assert.equal((await handler(plan.commands[0].payload)).status, 'replay');
+  }
+  const canonical = JSON.parse(fs.readFileSync(
+    path.join(projectRoot, '.yalken', 'word-review', 'non-text-return-state.v1.json'),
+    'utf8',
+  ));
+  assert.equal(canonical.threads.length, 2);
+  assert.equal(canonical.events.length, 2);
+  assert.deepEqual(canonical.threads.map((thread) => thread.messages[0].body), [
+    'Round one physical root.',
+    'Round two physical root.',
+  ]);
 });
 
 test('N2 activation coupling and physical assertion require Command Kernel receipts and reject pending lane', () => {
@@ -507,6 +580,107 @@ test('N2 root-only physical success cannot certify the combined comments replies
   assert.equal(partial.commentState, 'PENDING_COMMENT_STATE_PRODUCT_APPLY_LANE');
   assert.equal(partial.commentsRepliesState, 'PENDING_PRODUCT_APPLY_LANE');
   assert.notEqual(partial.commentsRepliesState, 'CANONICAL_PRODUCT_APPLY_AND_REPLAY_PROVEN');
+});
+
+test('N2 C5V2 oracle binds root receipts through reopened canonical state instead of parser thread identifiers', async () => {
+  const canary = await import(CANARY_PATH);
+  const marker = 'C5V2 root c5v2-root_comment-0001';
+  const sceneId = 'roman/01_dorian.txt';
+  const selectedText = 'unique anchor';
+  const operationId = `physical-root:${'a'.repeat(64)}`;
+  const canonicalState = {
+    schemaVersion: 'yalken.rtk.word.non-text-return-state.v1',
+    projectId: 'project-c5v2-oracle',
+    revision: 1,
+    threads: [{
+      threadId: 'rtk-comment-3',
+      sceneId,
+      status: 'open',
+      anchor: { selectedText },
+      rootCommentId: '3',
+      messages: [{ commentId: '3', kind: 'root', body: marker }],
+    }],
+    events: [{
+      schemaVersion: 'yalken.rtk.word.non-text-return-event.v1',
+      sequence: 1,
+      operationId,
+      operationDigest: 'digest',
+      kind: 'root_comment_added',
+      sceneId,
+      threadId: 'rtk-comment-3',
+    }],
+  };
+  const receipt = {
+    operationId,
+    ok: true,
+    recoveryWritten: true,
+    canonicalDigest: 'canonical-after-root',
+  };
+  const binding = canary.bindC5V2CanonicalRootCommentEvidence({
+    operation: { sceneId, quote: selectedText },
+    marker,
+    canonicalState,
+    threadDiagnostics: [{
+      threadId: 'docx-comment-3',
+      messages: [{ body: marker }],
+    }],
+    placementDiagnostics: [{
+      threadId: 'docx-comment-3',
+      targetScope: { type: 'scene', id: sceneId },
+      quote: selectedText,
+    }],
+    applyReceipts: [{ ...receipt, status: 'applied' }],
+    replayReceipts: [{ ...receipt, status: 'replay' }],
+  });
+  assert.equal(binding.green, true);
+  assert.equal(binding.diagnosticThreadId, 'docx-comment-3');
+  assert.equal(binding.canonicalThreadId, 'rtk-comment-3');
+  assert.equal(binding.expectedReceiptId, operationId);
+
+  const recoveryState = {
+    schemaVersion: canonicalState.schemaVersion,
+    projectId: canonicalState.projectId,
+    revision: 0,
+    threads: [],
+    events: [],
+  };
+  const canonicalRaw = `${JSON.stringify(canonicalState, null, 2)}\n`;
+  const recoveryRaw = `${JSON.stringify(recoveryState, null, 2)}\n`;
+  const captured = canary.validateC5V2CapturedCommentState({
+    expectedRootCommentCount: 1,
+    canonicalNonTextState: {
+      present: true,
+      rawContent: canonicalRaw,
+      rawContentSha256: canary.sha256Text(canonicalRaw),
+      state: canonicalState,
+    },
+    recoveryNonTextState: {
+      present: true,
+      rawContent: recoveryRaw,
+      rawContentSha256: canary.sha256Text(recoveryRaw),
+      state: recoveryState,
+    },
+  });
+  assert.equal(captured.ok, true);
+
+  const tampered = canary.validateC5V2CapturedCommentState({
+    expectedRootCommentCount: 1,
+    canonicalNonTextState: {
+      present: true,
+      rawContent: canonicalRaw.replace(marker, `${marker} tampered`),
+      rawContentSha256: canary.sha256Text(canonicalRaw),
+      state: canonicalState,
+    },
+    recoveryNonTextState: {
+      present: true,
+      rawContent: recoveryRaw,
+      rawContentSha256: canary.sha256Text(recoveryRaw),
+      state: recoveryState,
+    },
+  });
+  assert.equal(tampered.ok, false);
+  assert.equal(tampered.failures.includes('CANONICAL_COMMENT_STATE_RAW_HASH_MISMATCH'), true);
+  assert.equal(tampered.failures.includes('CANONICAL_COMMENT_STATE_PARSED_STATE_MISMATCH'), true);
 });
 
 test('N2 lifecycle verification is explicitly not applicable when the ledger has no lifecycle operations', async () => {

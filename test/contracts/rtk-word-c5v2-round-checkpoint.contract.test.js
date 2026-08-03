@@ -126,3 +126,113 @@ test('C5V2 chunk checkpoints are fsynced immutable digest records and resume aft
   assert.deepEqual(resumeAfterSecond.completedOperationIds, [...first.operationIds, ...second.operationIds].sort());
   assert.equal(resumeAfterSecond.nextChunk.chunkId, plan.rounds[1].chunks[0].chunkId);
 });
+
+test('C5V2 physical Word chunks preserve root-first and descending-range authority with cumulative readback counts', async () => {
+  const {
+    buildWordLedgerChunkPlan,
+    buildWordScript,
+  } = await import(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs'));
+  const ledger = {
+    masterLedgerDigest: 'sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    operations: [
+      { id: 'replace-low', family: 'tracked_replace', quote: 'aa', replacementText: 'bb', wordRange: { start: 10, end: 12 } },
+      { id: 'root-high', family: 'root_comment', quote: 'cc', wordRange: { start: 90, end: 92 } },
+      { id: 'delete-high', family: 'tracked_delete', quote: 'dd', wordRange: { start: 70, end: 72 } },
+      { id: 'insert-mid', family: 'tracked_insert', quote: 'ee', replacementText: 'ff', wordRange: { start: 40, end: 42 } },
+      { id: 'reply-typed', family: 'reply_attempt', expectedOutcome: 'MANUAL', physicalAction: 'typed-limit' },
+    ],
+  };
+  const plan = buildWordLedgerChunkPlan(ledger, 2);
+  assert.deepEqual(plan.flatMap((chunk) => chunk.operations.map((operation) => operation.id)), [
+    'root-high',
+    'delete-high',
+    'insert-mid',
+    'replace-low',
+    'reply-typed',
+  ]);
+  assert.deepEqual(plan.map((chunk) => chunk.expectedNativeRevisionCount), [1, 5, 5]);
+  assert.deepEqual(plan.map((chunk) => chunk.minimumNativeRevisionCount), [1, 3, 3]);
+  assert.deepEqual(plan.map((chunk) => chunk.expectedRootMarkers.length), [1, 1, 1]);
+  const continuation = buildWordScript({
+    sourcePath: '/generated-evidence/source.docx',
+    returnedPath: '/generated-word-work/returned.docx',
+    artifactReturnedPath: '/generated-evidence/returned.docx',
+    ledger: { ...ledger, operations: plan[1].operations },
+    initializeFromSource: false,
+    resetCheckpoint: false,
+    expectedNativeRevisionCount: plan[1].expectedNativeRevisionCount,
+    expectedRootMarkers: plan[1].expectedRootMarkers,
+    chunkId: plan[1].chunkId,
+  });
+  assert.doesNotMatch(continuation, /do shell script "\/bin\/cp " & quoted form of "\/generated-evidence\/source\.docx"/u);
+  assert.doesNotMatch(continuation, /my yResetCheckpoint\(yCheckpointPath\)/u);
+  assert.match(continuation, /CHUNK_START:word-chunk-002/u);
+  assert.match(continuation, /FINAL_NATIVE_REVISION_COUNT_MISMATCH:" & yRevisionCount & ":5/u);
+  assert.match(continuation, /set yFind to find object of selection/u);
+  assert.match(continuation, /execute find yFind find text yQuote[\s\S]*wrap find find stop/u);
+  assert.match(continuation, /on yFindRangeWithin\(yDoc, yLocator, yQuote\)/u);
+  assert.doesNotMatch(continuation, /offset of yQuote/u);
+});
+
+test('C5V2 cumulative controller blocks the next export until the complete round oracle gate is green', async () => {
+  const canary = await import(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs'));
+  assert.equal(canary.hasC5V2CompletedRoundEvidence({ oracleCapture: { ok: false } }), true);
+  assert.equal(canary.hasC5V2CompletedRoundEvidence(null), false);
+  assert.equal(canary.hasC5V2CompletedRoundEvidence([]), false);
+  const green = canary.buildC5V2CompleteRoundOracleGate({
+    roundId: 'round-01',
+    wordParsed: { scalars: { WORD_STATUS: 'PASS' } },
+    nativeLifecycleVerification: { ok: true },
+    oracleProbe: { ok: true, oracleDigest: 'sha256:oracle' },
+    returnApply: { ok: true },
+  });
+  assert.equal(green.ok, true);
+  assert.deepEqual(green.failures, []);
+
+  const blocked = canary.buildC5V2CompleteRoundOracleGate({
+    roundId: 'round-01',
+    wordParsed: { scalars: { WORD_STATUS: 'PASS' } },
+    nativeLifecycleVerification: { ok: true },
+    oracleProbe: { ok: false },
+    returnApply: { ok: true },
+  });
+  assert.equal(blocked.ok, false);
+  assert.deepEqual(blocked.failures, ['COMPLETE_ROUND_ORACLE_NOT_GREEN']);
+
+  const captureFailure = canary.captureC5V2CompleteRoundOracle({}, {
+    buildOracleProbe() {
+      const error = new Error('C5V2_PRODUCT_SCENE_OBSERVABLE_PAYLOAD_INVALID:DOC_BLOCK_TRUNCATED');
+      error.code = 'DOC_BLOCK_TRUNCATED';
+      throw error;
+    },
+  });
+  assert.equal(captureFailure.ok, false);
+  assert.equal(captureFailure.oracleProbe.ok, false);
+  assert.equal(captureFailure.oracleProbe.error.code, 'DOC_BLOCK_TRUNCATED');
+  assert.match(captureFailure.oracleProbe.oracleDigest, /^sha256:[a-f0-9]{64}$/u);
+  const failedCaptureGate = canary.buildC5V2CompleteRoundOracleGate({
+    roundId: 'round-02',
+    wordParsed: { scalars: { WORD_STATUS: 'PASS' } },
+    nativeLifecycleVerification: { ok: true },
+    oracleProbe: captureFailure.oracleProbe,
+    oracleCapture: captureFailure,
+    returnApply: { ok: true },
+  });
+  assert.equal(failedCaptureGate.ok, false);
+  assert.deepEqual(failedCaptureGate.failures, [
+    'ROUND_ORACLE_VALIDATION_ERROR:DOC_BLOCK_TRUNCATED',
+    'COMPLETE_ROUND_ORACLE_NOT_GREEN',
+  ]);
+
+  const source = fs.readFileSync(
+    path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs'),
+    'utf8',
+  );
+  assert.match(source, /COMPLETE_ROUND_ORACLE_GATE_NOT_DURABLY_VISIBLE/u);
+  assert.match(source, /phase: 'round-oracle-gate'/u);
+  assert.match(source, /await validateRound\(roundIndex, round/u);
+  assert.match(source, /writeJsonAtomicDurable\(round\.oracleGatePath, roundOracleGate\)/u);
+  assert.match(source, /C5V2_CUMULATIVE_COMPLETE_ROUND_ORACLE_FAILED/u);
+  assert.match(source, /captureC5V2CompleteRoundOracle/u);
+  assert.match(source, /hasCompletedRoundEvidence/u);
+});

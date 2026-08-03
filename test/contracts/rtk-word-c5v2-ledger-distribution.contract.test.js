@@ -51,9 +51,11 @@ test('C5V2 ledger engine emits deterministic 2,000-op natural full-book coverage
   assert.equal(serialized.includes('OLD_WORD'), false);
   assert.equal(serialized.includes('FORMAT_ME'), false);
 
-  const rootAnchorKeys = new Set();
+  const primaryAnchorKeys = new Set();
   const commentParagraphCounts = new Map();
-  for (const operation of ledger.operations.filter((item) => item.family === 'root_comment')) {
+  for (const operation of ledger.operations.filter((item) => (
+    item.family !== 'negative_probe' && !['reply', 'comment_state'].includes(item.family)
+  ))) {
     const key = [
       operation.anchor.sceneId,
       operation.anchor.paragraphId,
@@ -62,11 +64,77 @@ test('C5V2 ledger engine emits deterministic 2,000-op natural full-book coverage
       operation.anchor.contextBefore,
       operation.anchor.contextAfter,
     ].join('|');
-    assert.equal(rootAnchorKeys.has(key), false);
-    rootAnchorKeys.add(key);
+    assert.equal(primaryAnchorKeys.has(key), false);
+    primaryAnchorKeys.add(key);
+  }
+  for (const operation of ledger.operations.filter((item) => (
+    ['root_comment', 'reply', 'comment_state'].includes(item.family)
+  ))) {
     commentParagraphCounts.set(operation.anchor.paragraphId, (commentParagraphCounts.get(operation.anchor.paragraphId) || 0) + 1);
   }
-  assert.equal(Math.max(...commentParagraphCounts.values()), 1);
+  assert.equal(Math.max(...commentParagraphCounts.values()), 2);
+  const trackedOperations = ledger.operations.filter((operation) => operation.family === 'tracked_text_edit');
+  const trackedExact = trackedOperations.filter((operation) => operation.expectedOutcome === 'EXACT');
+  const trackedManual = trackedOperations.filter((operation) => operation.expectedOutcome === 'MANUAL');
+  assert.equal(trackedExact.length + trackedManual.length, 1200);
+  assert.equal(trackedExact.length > 0, true);
+  assert.equal(trackedManual.length >= 400, true);
+  assert.equal(trackedExact.every((operation) => operation.anchor.sceneSelectedTextOccurrenceCount === 1), true);
+  assert.equal(
+    ledger.operations
+      .filter((operation) => operation.family === 'root_comment')
+      .every((operation) => (
+        operation.anchor.sceneSelectedTextOccurrenceCount === 1
+        && operation.anchor.selectedText === operation.anchor.selectedText.trim()
+        && operation.anchor.wordSelectedText === operation.anchor.selectedText
+        && operation.anchor.sceneWordSelectedTextOccurrenceCount === 1
+      )),
+    true,
+  );
+  const trackedRangesByParagraph = new Map();
+  for (const operation of trackedOperations) {
+    const ranges = trackedRangesByParagraph.get(operation.anchor.paragraphId) || [];
+    assert.equal(ranges.some((range) => (
+      operation.anchor.graphemeStart <= range.end
+      && operation.anchor.graphemeEnd >= range.start
+    )), false);
+    ranges.push({ start: operation.anchor.graphemeStart, end: operation.anchor.graphemeEnd });
+    trackedRangesByParagraph.set(operation.anchor.paragraphId, ranges);
+  }
+  assert.equal(ledger.operations.filter((operation) => operation.expectedOutcome === 'SAFE_APPLY').length, 540);
+  assert.equal(ledger.operations.filter((operation) => operation.expectedOutcome === 'MANUAL').length >= 595, true);
+  assert.equal(ledger.operations.filter((operation) => operation.expectedOutcome === 'BLOCKED').length, 25);
+  assert.equal(ledger.operations.filter((operation) => operation.expectedOutcome === 'REJECT').length, 40);
+  assert.deepEqual(
+    [...new Set(ledger.operations.filter((operation) => operation.family === 'structural').map((operation) => operation.semanticIntent.kind))],
+    ['headingLevel'],
+  );
+  assert.deepEqual(
+    [...new Set(ledger.operations.filter((operation) => operation.family === 'tracked_text_edit').map((operation) => operation.semanticIntent.unicodeProfile))].sort(),
+    ['cjk', 'emoji-zwj', 'indic', 'nfc-composed', 'nfd-combining', 'rtl-arabic', 'rtl-hebrew', 'thai'],
+  );
+  const paragraphRounds = new Map();
+  const sceneRoundMutationFamilies = new Map();
+  for (const operation of ledger.operations.filter((item) => item.anchor)) {
+    const rounds = paragraphRounds.get(operation.anchor.paragraphId) || new Set();
+    rounds.add(operation.round);
+    paragraphRounds.set(operation.anchor.paragraphId, rounds);
+    if (['tracked_text_edit', 'formatting', 'structural'].includes(operation.family)) {
+      const key = `${operation.sceneId}:${operation.round}`;
+      const families = sceneRoundMutationFamilies.get(key) || new Set();
+      families.add(operation.family);
+      sceneRoundMutationFamilies.set(key, families);
+    }
+  }
+  assert.equal([...paragraphRounds.values()].every((rounds) => rounds.size === 1), true);
+  assert.equal([...sceneRoundMutationFamilies.values()].every((families) => families.size === 1), true);
+  for (const round of [1, 2, 3, 4, 5]) {
+    const roundFamilies = new Set(ledger.operations.filter((operation) => operation.round === round).map((operation) => operation.family));
+    assert.deepEqual(
+      [...roundFamilies].sort(),
+      ['comment_state', 'formatting', 'reply', 'root_comment', 'structural', 'tracked_text_edit'],
+    );
+  }
   assert.equal(ledger.distribution.paragraphHotspotGini < 0.75, true);
 });
 
@@ -95,6 +163,37 @@ test('C5V2 ledger engine rejects synthetic-tail positive source and detects adve
     counts: ledger.counts,
   });
   assert.equal(result.ok, false);
+  assert.equal(result.failures.some((failure) => failure.code === 'C5V2_DUPLICATE_POSITIVE_ANCHOR'), true);
+  assert.equal(result.failures.some((failure) => failure.code === 'C5V2_DUPLICATE_POSITIVE_ANCHOR_START'), true);
   assert.equal(result.failures.some((failure) => failure.code === 'C5V2_DUPLICATE_POSITIVE_ROOT_COMMENT_ANCHOR'), true);
   assert.equal(result.failures.some((failure) => failure.code === 'C5V2_COMMENT_PARAGRAPH_HOTSPOT'), true);
+
+  const touching = structuredClone(ledger.operations);
+  const firstTracked = touching.find((operation) => operation.family === 'tracked_text_edit');
+  const secondTracked = touching.find((operation) => (
+    operation.family === 'tracked_text_edit'
+    && operation.id !== firstTracked.id
+    && operation.sceneId === firstTracked.sceneId
+  ));
+  secondTracked.anchor.paragraphId = firstTracked.anchor.paragraphId;
+  secondTracked.anchor.graphemeStart = firstTracked.anchor.graphemeEnd;
+  secondTracked.anchor.graphemeEnd = firstTracked.anchor.graphemeEnd + 1;
+  const touchingResult = validateC5V2LedgerDistribution({
+    operations: touching,
+    sceneProfiles: ledger.sceneProfiles,
+    counts: ledger.counts,
+  });
+  assert.equal(touchingResult.ok, false);
+  assert.equal(touchingResult.failures.some((failure) => failure.code === 'C5V2_TRACKED_RANGE_NOT_WORD_ISOLATED'), true);
+
+  const wordUnstableRoot = structuredClone(ledger.operations);
+  const root = wordUnstableRoot.find((operation) => operation.family === 'root_comment');
+  root.anchor.selectedText = ` ${root.anchor.selectedText}`;
+  const wordUnstableResult = validateC5V2LedgerDistribution({
+    operations: wordUnstableRoot,
+    sceneProfiles: ledger.sceneProfiles,
+    counts: ledger.counts,
+  });
+  assert.equal(wordUnstableResult.ok, false);
+  assert.equal(wordUnstableResult.failures.some((failure) => failure.code === 'C5V2_ROOT_COMMENT_WORD_NORMALIZED_SELECTION_NOT_UNIQUE'), true);
 });

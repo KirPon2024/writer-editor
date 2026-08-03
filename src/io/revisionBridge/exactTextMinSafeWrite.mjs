@@ -17,6 +17,11 @@ import {
   recordExactTextApplyJournalSnapshot,
 } from './exactTextApplyJournal.mjs';
 import { buildExactTextApplyPlanNoDiskPreview } from './index.mjs';
+import {
+  composeObservablePayload,
+  deriveVisibleTextFromDocument,
+  parseObservablePayload,
+} from '../../renderer/documentContentEnvelope.mjs';
 
 export const REVISION_BRIDGE_EXACT_TEXT_MIN_SAFE_WRITE_SCHEMA =
   'revision-bridge.exact-text-min-safe-write.v1';
@@ -644,6 +649,272 @@ function isClosedRevisionSession(status) {
   return ['closed', 'archived', 'completed', 'resolved'].includes(normalizeString(status));
 }
 
+function graphemeBoundaries(text) {
+  if (typeof Intl.Segmenter !== 'function') return null;
+  const boundaries = new Set([0, text.length]);
+  const segmenter = new Intl.Segmenter('und', { granularity: 'grapheme' });
+  for (const segment of segmenter.segment(text)) boundaries.add(segment.index);
+  return boundaries;
+}
+
+function collectRichTextBlocks(doc) {
+  const blocks = [];
+  const visit = (node, nodePath) => {
+    if (!isPlainObject(node)) return;
+    if (['paragraph', 'heading', 'codeBlock'].includes(rawString(node.type))) {
+      blocks.push({ node, nodePath });
+      return;
+    }
+    for (const [index, child] of (Array.isArray(node.content) ? node.content : []).entries()) {
+      visit(child, [...nodePath, 'content', index]);
+    }
+  };
+  for (const [index, node] of (Array.isArray(doc?.content) ? doc.content : []).entries()) {
+    visit(node, ['content', index]);
+  }
+  return blocks;
+}
+
+function replaceDocumentNodeAtPath(doc, nodePath, nextNode) {
+  let owner = doc;
+  for (let index = 0; index < nodePath.length - 1; index += 1) {
+    owner = owner?.[nodePath[index]];
+  }
+  const key = nodePath.at(-1);
+  if (!owner || key === undefined) return false;
+  owner[key] = nextNode;
+  return true;
+}
+
+function textNodeShape(node) {
+  const shape = cloneJsonSafe(node);
+  delete shape.text;
+  return shape;
+}
+
+function appendRichInlineNode(nodes, node) {
+  if (!isPlainObject(node)) return;
+  if (node.type !== 'text' || !rawString(node.text)) {
+    nodes.push(node);
+    return;
+  }
+  const previous = nodes.at(-1);
+  if (
+    isPlainObject(previous)
+    && previous.type === 'text'
+    && stableJson(textNodeShape(previous)) === stableJson(textNodeShape(node))
+  ) {
+    previous.text = `${rawString(previous.text)}${rawString(node.text)}`;
+    return;
+  }
+  nodes.push(node);
+}
+
+function richBlockVisibleText(block) {
+  return deriveVisibleTextFromDocument({ type: 'doc', content: [block] });
+}
+
+function findAllTextOccurrences(text, needle) {
+  const starts = [];
+  if (!needle) return starts;
+  let cursor = 0;
+  while (cursor <= text.length) {
+    const found = text.indexOf(needle, cursor);
+    if (found < 0) break;
+    starts.push(found);
+    cursor = found + 1;
+  }
+  return starts;
+}
+
+function applyRichInlineReplacement(block, operation) {
+  const blockText = richBlockVisibleText(block);
+  const from = Number(operation.from);
+  const to = Number(operation.to);
+  if (from < 0 || to < from || blockText.slice(from, to) !== operation.expectedText) {
+    return {
+      ok: false,
+      code: 'REVISION_BRIDGE_EXACT_TEXT_RICH_RANGE_MISMATCH',
+      details: { changeId: operation.changeId, from, to },
+    };
+  }
+  if (/[\r\n]/u.test(operation.replacementText)) {
+    return {
+      ok: false,
+      code: 'REVISION_BRIDGE_EXACT_TEXT_RICH_STRUCTURAL_REPLACEMENT_UNSUPPORTED',
+      details: { changeId: operation.changeId },
+    };
+  }
+  const boundaries = graphemeBoundaries(blockText);
+  if (!boundaries) {
+    return {
+      ok: false,
+      code: 'REVISION_BRIDGE_EXACT_TEXT_GRAPHEME_SEGMENTER_REQUIRED',
+      details: { changeId: operation.changeId },
+    };
+  }
+  if (!boundaries.has(from) || !boundaries.has(to)) {
+    return {
+      ok: false,
+      code: 'REVISION_BRIDGE_EXACT_TEXT_GRAPHEME_SPLIT_BLOCKED',
+      details: { changeId: operation.changeId, from, to },
+    };
+  }
+
+  const content = Array.isArray(block.content) ? block.content : [];
+  let cursor = 0;
+  let replacementShape = null;
+  let replacementInserted = false;
+  const nextContent = [];
+  for (const sourceNode of content) {
+    if (!isPlainObject(sourceNode)) {
+      return {
+        ok: false,
+        code: 'REVISION_BRIDGE_EXACT_TEXT_RICH_INLINE_NODE_UNSUPPORTED',
+        details: { changeId: operation.changeId, nodeType: '' },
+      };
+    }
+    if (sourceNode.type === 'hardBreak') {
+      const overlaps = from < cursor + 1 && cursor < to;
+      if (overlaps) {
+        return {
+          ok: false,
+          code: 'REVISION_BRIDGE_EXACT_TEXT_RICH_STRUCTURAL_RANGE_UNSUPPORTED',
+          details: { changeId: operation.changeId },
+        };
+      }
+      appendRichInlineNode(nextContent, cloneJsonSafe(sourceNode));
+      cursor += 1;
+      continue;
+    }
+    if (sourceNode.type !== 'text') {
+      return {
+        ok: false,
+        code: 'REVISION_BRIDGE_EXACT_TEXT_RICH_INLINE_NODE_UNSUPPORTED',
+        details: { changeId: operation.changeId, nodeType: rawString(sourceNode.type) },
+      };
+    }
+    const value = rawString(sourceNode.text);
+    const nodeStart = cursor;
+    const nodeEnd = nodeStart + value.length;
+    const overlapStart = Math.max(nodeStart, from);
+    const overlapEnd = Math.min(nodeEnd, to);
+    if (overlapStart >= overlapEnd) {
+      appendRichInlineNode(nextContent, cloneJsonSafe(sourceNode));
+      cursor = nodeEnd;
+      continue;
+    }
+
+    const shape = textNodeShape(sourceNode);
+    if (replacementShape === null) replacementShape = shape;
+    else if (stableJson(replacementShape) !== stableJson(shape)) {
+      return {
+        ok: false,
+        code: 'REVISION_BRIDGE_EXACT_TEXT_RICH_MARK_BOUNDARY_AMBIGUOUS',
+        details: { changeId: operation.changeId },
+      };
+    }
+    const before = value.slice(0, overlapStart - nodeStart);
+    const after = value.slice(overlapEnd - nodeStart);
+    if (before) appendRichInlineNode(nextContent, { ...cloneJsonSafe(sourceNode), text: before });
+    if (!replacementInserted && operation.replacementText) {
+      appendRichInlineNode(nextContent, { ...cloneJsonSafe(sourceNode), text: operation.replacementText });
+      replacementInserted = true;
+    }
+    if (after) appendRichInlineNode(nextContent, { ...cloneJsonSafe(sourceNode), text: after });
+    cursor = nodeEnd;
+  }
+  if (replacementShape === null) {
+    return {
+      ok: false,
+      code: 'REVISION_BRIDGE_EXACT_TEXT_RICH_RANGE_MISMATCH',
+      details: { changeId: operation.changeId, from, to },
+    };
+  }
+  const nextBlock = { ...cloneJsonSafe(block) };
+  if (nextContent.length > 0) nextBlock.content = nextContent;
+  else delete nextBlock.content;
+  return { ok: true, block: nextBlock };
+}
+
+function transformRichExactTextOperations(parsed, operations, nextVisibleText) {
+  const doc = cloneJsonSafe(parsed.doc);
+  const blocks = collectRichTextBlocks(doc);
+  const boundOperations = [];
+  for (const operation of operations) {
+    const candidates = [];
+    for (const block of blocks) {
+      const blockText = richBlockVisibleText(block.node);
+      for (const start of findAllTextOccurrences(blockText, operation.expectedText)) {
+        candidates.push({
+          nodePath: block.nodePath,
+          from: start,
+          to: start + operation.expectedText.length,
+        });
+      }
+    }
+    if (candidates.length !== 1) {
+      return {
+        ok: false,
+        code: 'REVISION_BRIDGE_EXACT_TEXT_RICH_BLOCK_RANGE_AMBIGUOUS',
+        details: { changeId: operation.changeId, candidateCount: candidates.length },
+      };
+    }
+    boundOperations.push({ ...operation, ...candidates[0] });
+  }
+
+  const byPath = new Map();
+  for (const operation of boundOperations) {
+    const key = stableJson(operation.nodePath);
+    if (!byPath.has(key)) byPath.set(key, { nodePath: operation.nodePath, operations: [] });
+    byPath.get(key).operations.push(operation);
+  }
+  for (const group of byPath.values()) {
+    let block = group.nodePath.reduce((value, key) => value?.[key], doc);
+    const ordered = group.operations.slice().sort((left, right) => (
+      right.from - left.from || String(right.changeId).localeCompare(String(left.changeId))
+    ));
+    for (const operation of ordered) {
+      const applied = applyRichInlineReplacement(block, operation);
+      if (!applied.ok) return applied;
+      block = applied.block;
+    }
+    if (!replaceDocumentNodeAtPath(doc, group.nodePath, block)) {
+      return {
+        ok: false,
+        code: 'REVISION_BRIDGE_EXACT_TEXT_RICH_BLOCK_PATH_INVALID',
+        details: { nodePath: group.nodePath },
+      };
+    }
+  }
+  const observedVisibleText = deriveVisibleTextFromDocument(doc);
+  if (observedVisibleText !== nextVisibleText) {
+    return {
+      ok: false,
+      code: 'REVISION_BRIDGE_EXACT_TEXT_RICH_VISIBLE_READBACK_MISMATCH',
+      details: {
+        expectedHash: sha256Text(nextVisibleText),
+        observedHash: sha256Text(observedVisibleText),
+      },
+    };
+  }
+  const content = composeObservablePayload({
+    doc,
+    metaEnabled: parsed.hasMetaBlock,
+    meta: parsed.meta,
+    cards: parsed.cards,
+  });
+  const reopened = parseObservablePayload(content);
+  if (reopened.issue || reopened.text !== nextVisibleText) {
+    return {
+      ok: false,
+      code: 'REVISION_BRIDGE_EXACT_TEXT_RICH_ENVELOPE_REOPEN_FAILED',
+      details: { issue: reopened.issue || null },
+    };
+  }
+  return { ok: true, content, doc, observedVisibleText };
+}
+
 export async function applyExactTextBatchMinSafeWrite(input = {}, options = {}) {
   if (!isPlainObject(input)) {
     return block(buildReason(
@@ -821,13 +1092,29 @@ export async function applyExactTextBatchMinSafeWrite(input = {}, options = {}) 
     ));
   }
 
-  if (currentText !== sceneText) {
+  const currentObservable = parseObservablePayload(currentText);
+  if (currentObservable.issue) {
+    return block(buildReason(
+      'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_SCENE_ENVELOPE_INVALID',
+      'scenePath',
+      'current rich scene envelope is invalid',
+      {
+        issueCode: rawString(currentObservable.issue.code),
+        issueReason: rawString(currentObservable.issue.reason),
+      },
+    ));
+  }
+  const currentExactText = currentObservable.doc ? currentObservable.text : currentText;
+  const snapshotMatchesRaw = sceneText === currentText;
+  const snapshotMatchesVisible = Boolean(currentObservable.doc) && sceneText === currentExactText;
+  if (!snapshotMatchesRaw && !snapshotMatchesVisible) {
     return block(buildReason(
       'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_CURRENT_DRIFT',
       'scenePath',
-      'current scene file differs from projectSnapshot scene text',
+      'current scene file differs from both the raw and visible projectSnapshot authorities',
       {
         currentHash: sha256Text(currentText),
+        currentVisibleHash: sha256Text(currentExactText),
         snapshotHash: sha256Text(sceneText),
       },
     ));
@@ -878,7 +1165,7 @@ export async function applyExactTextBatchMinSafeWrite(input = {}, options = {}) 
     const blockRangeOperation = resolveBlockRangeOperation({
       item,
       sceneId,
-      currentText,
+      currentText: currentExactText,
       expectedText,
       replacementText,
       trustedBlockRangeDigests,
@@ -891,7 +1178,7 @@ export async function applyExactTextBatchMinSafeWrite(input = {}, options = {}) 
     let to = Number.isSafeInteger(blockRangeOperation?.to) ? blockRangeOperation.to : -1;
     let operationAuthority = normalizeString(blockRangeOperation?.operationAuthority);
     if (!blockRangeOperation) {
-      const occurrenceCount = countOccurrences(currentText, expectedText);
+      const occurrenceCount = countOccurrences(currentExactText, expectedText);
       if (occurrenceCount === 0) {
         return block(buildReason(
           'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_CURRENT_NO_MATCH',
@@ -912,7 +1199,7 @@ export async function applyExactTextBatchMinSafeWrite(input = {}, options = {}) 
         ));
       }
 
-      from = currentText.indexOf(expectedText);
+      from = currentExactText.indexOf(expectedText);
       to = from + expectedText.length;
       operationAuthority = 'sceneUniqueQuote';
     }
@@ -943,21 +1230,35 @@ export async function applyExactTextBatchMinSafeWrite(input = {}, options = {}) 
     operations.push(operation);
   }
 
-  let nextText = currentText;
+  let nextExactText = currentExactText;
   const operationsRightToLeft = operations.slice().sort((left, right) => (
     right.from - left.from
     || String(right.changeId).localeCompare(String(left.changeId))
   ));
   for (const operation of operationsRightToLeft) {
-    nextText = `${nextText.slice(0, operation.from)}${operation.replacementText}${nextText.slice(operation.to)}`;
+    nextExactText = `${nextExactText.slice(0, operation.from)}${operation.replacementText}${nextExactText.slice(operation.to)}`;
   }
 
-  if (nextText === currentText) {
+  if (nextExactText === currentExactText) {
     return block(buildReason(
       'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_NO_OP',
       'reviewItems.replacementText',
       'batch replacement must change the scene text',
     ));
+  }
+
+  let nextText = nextExactText;
+  if (currentObservable.doc) {
+    const transformed = transformRichExactTextOperations(currentObservable, operations, nextExactText);
+    if (!transformed.ok) {
+      return block(buildReason(
+        transformed.code,
+        'reviewItems.match.quote',
+        'rich scene exact text replacement could not be applied without losing document semantics',
+        transformed.details,
+      ));
+    }
+    nextText = transformed.content;
   }
 
   const inputHash = buildBatchInputHash(input, operations);
@@ -1223,19 +1524,35 @@ export async function applyExactTextMinSafeWrite(input = {}, options = {}) {
     ));
   }
 
-  if (currentText !== sceneText) {
+  const currentObservable = parseObservablePayload(currentText);
+  if (currentObservable.issue) {
+    return block(buildReason(
+      'REVISION_BRIDGE_EXACT_TEXT_MIN_SAFE_WRITE_SCENE_ENVELOPE_INVALID',
+      'scenePath',
+      'current rich scene envelope is invalid',
+      {
+        issueCode: rawString(currentObservable.issue.code),
+        issueReason: rawString(currentObservable.issue.reason),
+      },
+    ));
+  }
+  const currentExactText = currentObservable.doc ? currentObservable.text : currentText;
+  const snapshotMatchesRaw = sceneText === currentText;
+  const snapshotMatchesVisible = Boolean(currentObservable.doc) && sceneText === currentExactText;
+  if (!snapshotMatchesRaw && !snapshotMatchesVisible) {
     return block(buildReason(
       'REVISION_BRIDGE_EXACT_TEXT_MIN_SAFE_WRITE_CURRENT_DRIFT',
       'scenePath',
-      'current scene file differs from projectSnapshot scene text',
+      'current scene file differs from both the raw and visible projectSnapshot authorities',
       {
         currentHash: sha256Text(currentText),
+        currentVisibleHash: sha256Text(currentExactText),
         snapshotHash: sha256Text(sceneText),
       },
     ));
   }
 
-  const occurrenceCount = countOccurrences(currentText, expectedText);
+  const occurrenceCount = countOccurrences(currentExactText, expectedText);
   if (occurrenceCount === 0) {
     return block(buildReason(
       'REVISION_BRIDGE_EXACT_TEXT_MIN_SAFE_WRITE_CURRENT_NO_MATCH',
@@ -1256,24 +1573,48 @@ export async function applyExactTextMinSafeWrite(input = {}, options = {}) {
 
   const from = Number.isSafeInteger(op.from) ? op.from : -1;
   const to = Number.isSafeInteger(op.to) ? op.to : -1;
-  if (from < 0 || to < from || currentText.slice(from, to) !== expectedText) {
+  if (from < 0 || to < from || sceneText.slice(from, to) !== expectedText) {
     return block(buildReason(
       'REVISION_BRIDGE_EXACT_TEXT_MIN_SAFE_WRITE_CURRENT_OFFSET_MISMATCH',
       'providedPlan.applyOps.0',
-      'current scene text does not match the exact C03 op offset',
+      'projectSnapshot scene authority does not match the exact C03 op offset',
       {
         from,
         to,
       },
     ));
   }
-  const nextText = `${currentText.slice(0, from)}${replacementText}${currentText.slice(to)}`;
-  if (nextText === currentText) {
+  const exactFrom = currentExactText.indexOf(expectedText);
+  const exactTo = exactFrom + expectedText.length;
+  const nextExactText = `${currentExactText.slice(0, exactFrom)}${replacementText}${currentExactText.slice(exactTo)}`;
+  if (nextExactText === currentExactText) {
     return block(buildReason(
       'REVISION_BRIDGE_EXACT_TEXT_MIN_SAFE_WRITE_NO_OP',
       'replacementText',
       'replacement must change the scene text',
     ));
+  }
+  let nextText = nextExactText;
+  if (currentObservable.doc) {
+    const transformed = transformRichExactTextOperations(currentObservable, [{
+      kind: 'replaceExactText',
+      sceneId: rawString(op.sceneId),
+      changeId: rawString(op.changeId),
+      from: exactFrom,
+      to: exactTo,
+      expectedText,
+      replacementText,
+      authority: snapshotMatchesVisible ? 'visibleSnapshotExactOffset' : 'rawSnapshotPlanVisibleUniqueQuote',
+    }], nextExactText);
+    if (!transformed.ok) {
+      return block(buildReason(
+        transformed.code,
+        'providedPlan.applyOps.0',
+        'rich scene exact text replacement could not be applied without losing document semantics',
+        transformed.details,
+      ));
+    }
+    nextText = transformed.content;
   }
   const inputHash = buildInputHash(input, providedPlan);
   const outputHash = sha256Text(nextText);

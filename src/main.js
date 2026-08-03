@@ -44,6 +44,10 @@ const {
   readExternalFileBounded,
   validateExternalWriteTarget,
 } = require('./utils/externalFileAuthority');
+const {
+  createDocxActivationRequestDigestGuard,
+  verifyFullManuscriptCurrentSceneBindings,
+} = require('./main/rtkDocxActivationGuards.cjs');
 const { buildDocxMinBuffer: buildDocxMinBufferCore } = require('./export/docx/docxMinBuilder');
 const { runDocxMinExport } = require('./export/docx/docxMinExportHandler');
 const { buildDocxReviewPacketBuffer: buildDocxReviewPacketBufferCore } = require('./export/docx/docxReviewPacketBuilder');
@@ -101,6 +105,7 @@ let currentReviewSurfacePayloadSource = 'none';
 let currentReviewSurfacePayloadContentHash = '';
 let activeReviewSessionStore = null;
 let activeReviewSessionLifecycle = 'passive';
+const activeDocxActivationRequestDigestGuard = createDocxActivationRequestDigestGuard({ maxEntries: 128 });
 let reviewExactTextApplyReconciliationState = { userRelevant: [], errors: [] };
 let pendingMarkdownLocalFilePreview = null;
 let pendingProjectArchiveImportPreview = null;
@@ -572,6 +577,7 @@ function resetActiveReviewSessionStore(nextLifecycle = 'passive') {
   activeRtkFormattingReturnApplyStore = null;
   activeRtkStructuralReturnApplyStore = null;
   activeReviewDocxExportAuthorityStore = null;
+  activeDocxActivationRequestDigestGuard.clear();
   currentReviewSurfacePayload = {};
   currentReviewSurfacePayloadSource = 'none';
   currentReviewSurfacePayloadContentHash = '';
@@ -5257,6 +5263,7 @@ function prepareAuthenticatedDocxFormattingReturnProductPath({
   docxBytes,
   revisionBridge,
   fullManuscriptExportMap,
+  budgets,
 } = {}) {
   const capsule = isPlainObjectValue(context?.reviewTransportAuthorityCapsule)
     ? context.reviewTransportAuthorityCapsule
@@ -5273,6 +5280,7 @@ function prepareAuthenticatedDocxFormattingReturnProductPath({
   const extracted = revisionBridge.buildDocxReviewFormattingReturnCandidatesFromZipBytes(docxBytes, {
     fullManuscriptExportMap,
     cryptoPort: createRtkReviewTransportCryptoPort(),
+    budgets,
   });
   if (!isPlainObjectValue(extracted) || !Array.isArray(extracted.candidates)) {
     return {
@@ -5409,6 +5417,7 @@ function prepareAuthenticatedDocxStructuralReturnProductPath({
   docxBytes,
   revisionBridge,
   fullManuscriptExportMap,
+  budgets,
 } = {}) {
   const capsule = isPlainObjectValue(context?.reviewTransportAuthorityCapsule)
     ? context.reviewTransportAuthorityCapsule
@@ -5425,6 +5434,7 @@ function prepareAuthenticatedDocxStructuralReturnProductPath({
   const extracted = revisionBridge.buildDocxReviewStructuralReturnCandidatesFromZipBytes(docxBytes, {
     fullManuscriptExportMap,
     cryptoPort: createRtkReviewTransportCryptoPort(),
+    budgets,
   });
   if (!isPlainObjectValue(extracted) || !Array.isArray(extracted.candidates)) {
     return {
@@ -5939,6 +5949,21 @@ function verifyDocxReviewReturnIntakeLocalBinding({ context, localAuthority, par
     if (mapScenes.some((scene) => !Array.isArray(scene?.blocks) || scene.blocks.length === 0)) {
       return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_LOCAL_FULL_MANUSCRIPT_EXPORT_MAP_BLOCKS_REQUIRED');
     }
+    const currentBindings = verifyFullManuscriptCurrentSceneBindings({
+      projectRoot: context?.projectRoot,
+      exportMapScenes: mapScenes,
+      scenePathBySceneId: localAuthority?.scenePathBySceneId,
+    }, {
+      readFileSync: fsSync.readFileSync,
+      sha256Text: (value) => `sha256:${computeHash(String(value || ''))}`,
+      isPathInsideBoundary,
+    });
+    if (!currentBindings.ok) {
+      return docxReviewReturnIntakeBlocked(
+        currentBindings.reason || 'RTK_RETURN_INTAKE_LOCAL_FULL_MANUSCRIPT_CURRENT_BINDING_REQUIRED',
+        isPlainObjectValue(currentBindings.details) ? currentBindings.details : {},
+      );
+    }
   }
   if (
     docxReviewPreviewSessionDetailString(context?.scenePath)
@@ -6230,6 +6255,22 @@ async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = 
       decoded.error?.details,
     );
   }
+  const requestId = normalizeDocxIntakeGateRequestId(payload?.requestId);
+  const requestDigestGate = activeDocxActivationRequestDigestGuard.check({
+    requestId,
+    bytes: decoded.bytes,
+  });
+  if (!requestDigestGate.ok) {
+    return makeDocxReviewPreviewSessionTypedError(
+      'E_DOCX_REVIEW_PREVIEW_SESSION_REQUEST_PAYLOAD_CONFLICT',
+      requestDigestGate.reason || 'RTK_DOCX_ACTIVATION_DUPLICATE_REQUEST_MUTATED_PAYLOAD',
+      {
+        requestId,
+        priorDigest: requestDigestGate.priorDigest || '',
+        artifactDigest: requestDigestGate.artifactDigest || '',
+      },
+    );
+  }
 
   const context = await buildDocxReviewPreviewSessionMainContext(options);
   if (!context.ok) {
@@ -6345,7 +6386,6 @@ async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = 
     );
   }
 
-  const requestId = normalizeDocxIntakeGateRequestId(payload?.requestId);
   const importPayload = buildDocxReviewPreviewSessionImportPayload(activeContext, candidate, requestId);
   const importResult = await handleReviewSurfaceImportPacketCommandSurface(importPayload);
   if (!importResult || importResult.ok !== true) {
@@ -6387,6 +6427,7 @@ async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = 
     docxBytes: decoded.bytes,
     revisionBridge,
     fullManuscriptExportMap: authenticatedFullManuscriptExportMap,
+    budgets: docxReviewReturnIntakeProductBudgets(options),
   });
   const structuralProductPath = prepareAuthenticatedDocxStructuralReturnProductPath({
     context: activeContext,
@@ -6394,6 +6435,7 @@ async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = 
     docxBytes: decoded.bytes,
     revisionBridge,
     fullManuscriptExportMap: authenticatedFullManuscriptExportMap,
+    budgets: docxReviewReturnIntakeProductBudgets(options),
   });
   const reviewSurface = isPlainObjectValue(formattingProductPath?.reviewSurface)
     && Object.keys(formattingProductPath.reviewSurface).length > 0
@@ -6405,7 +6447,7 @@ async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = 
     ? nonOverlapTrackedReplacementProductPath.reviewSurface
     : importResult.reviewSurface;
 
-  return assertDocxReviewPreviewSessionActivationResult({
+  const result = assertDocxReviewPreviewSessionActivationResult({
     ok: true,
     commandId: DOCX_REVIEW_PREVIEW_SESSION_COMMAND_ID,
     requestId,
@@ -6504,6 +6546,10 @@ async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = 
     canImportMutate: false,
     canWriteStorage: false,
   });
+  if (result && result.ok === true && result.activated === true) {
+    activeDocxActivationRequestDigestGuard.remember({ requestId, bytes: decoded.bytes });
+  }
+  return result;
 }
 // DOCX_REVIEW_PREVIEW_SESSION_COMMAND_SURFACE_END
 

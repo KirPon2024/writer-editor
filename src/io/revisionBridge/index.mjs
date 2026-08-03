@@ -3494,7 +3494,24 @@ export function buildDocxReviewFormattingReturnCandidatesFromZipBytes(input, opt
         });
         continue;
       }
-      intervalOperations.push(docxReviewFormattingBuildOperation({ authority, paragraph, from, to, inline }));
+      const previousOperation = intervalOperations.at(-1);
+      const canCoalesceWithPrevious = Boolean(
+        previousOperation
+        && previousOperation.to === from
+        && Object.keys(previousOperation.paragraph || {}).length === 0
+        && hashCanonicalValue(previousOperation.inline) === hashCanonicalValue(inline)
+      );
+      if (canCoalesceWithPrevious) {
+        intervalOperations[intervalOperations.length - 1] = docxReviewFormattingBuildOperation({
+          authority,
+          paragraph,
+          from: previousOperation.from,
+          to,
+          inline,
+        });
+      } else {
+        intervalOperations.push(docxReviewFormattingBuildOperation({ authority, paragraph, from, to, inline }));
+      }
     }
     if (Object.keys(paragraphActions).length > 0) {
       if (!paragraph.paragraphText) {

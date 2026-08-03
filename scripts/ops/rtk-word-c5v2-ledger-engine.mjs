@@ -40,10 +40,24 @@ const HIGH_COUNT_SCENE_COVERAGE_FAMILIES = Object.freeze([
 const TRACKED_INTENTS = Object.freeze(['insert', 'delete', 'replace']);
 const TRACKED_SPAN_TYPES = Object.freeze(['character', 'word', 'phrase', 'sentence', 'paragraph-boundary']);
 const COMMENT_SPAN_TYPES = Object.freeze(['word', 'multiword-phrase', 'clause', 'sentence', 'punctuation-adjacent', 'paragraph-boundary']);
-const FORMAT_FEATURES = Object.freeze(['bold', 'italic', 'underline', 'color', 'highlight', 'alignment', 'list', 'mixed-inline-paragraph']);
-const STRUCTURAL_FEATURES = Object.freeze(['split', 'merge', 'heading', 'page-break', 'list', 'reorder']);
+const FORMAT_FEATURES = Object.freeze(['bold', 'italic']);
+const STRUCTURAL_FEATURES = Object.freeze(['headingLevel']);
 const COMMENT_STATE_INTENTS = Object.freeze(['resolve', 'reopen', 'delete', 'resolve-reopen']);
 const SENTINEL_TOKENS = Object.freeze(['YALKEN_C5_CERTIFICATION_ANCHORS', 'COMMENT_TARGET', 'OLD_WORD', 'FORMAT_ME']);
+const COMMENT_FAMILIES = new Set(['root_comment', 'reply', 'comment_state']);
+const THREAD_TARGET_FAMILIES = new Set(['reply', 'comment_state']);
+const MUTATING_CONTENT_FAMILIES = new Set(['tracked_text_edit', 'formatting', 'structural']);
+const RANGE_ISOLATED_PRIMARY_FAMILIES = new Set([...MUTATING_CONTENT_FAMILIES, 'root_comment']);
+const UNICODE_REPLACEMENTS = Object.freeze([
+  { profile: 'nfc-composed', text: 'caf\u00e9' },
+  { profile: 'nfd-combining', text: 'cafe\u0301' },
+  { profile: 'emoji-zwj', text: '\ud83d\udc69\u200d\ud83d\udcbb' },
+  { profile: 'rtl-arabic', text: '\u0645\u0631\u062d\u0628\u0627 \u0628\u0627\u0644\u0639\u0627\u0644\u0645' },
+  { profile: 'rtl-hebrew', text: '\u05e9\u05dc\u05d5\u05dd \u05e2\u05d5\u05dc\u05dd' },
+  { profile: 'cjk', text: '\u7de8\u96c6\u306e\u8a3c\u8de1' },
+  { profile: 'indic', text: '\u0938\u0902\u092a\u093e\u0926\u0928 \u0938\u093e\u0915\u094d\u0937\u094d\u092f' },
+  { profile: 'thai', text: '\u0e2b\u0e25\u0e31\u0e01\u0e10\u0e32\u0e19\u0e01\u0e32\u0e23\u0e41\u0e01\u0e49\u0e44\u0e02' },
+]);
 
 function sha256Text(value) {
   return `sha256:${crypto.createHash('sha256').update(String(value || ''), 'utf8').digest('hex')}`;
@@ -71,6 +85,25 @@ function assertPlainScene(scene, index) {
 
 function normalizeText(value) {
   return String(value || '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+}
+
+function countExactOccurrences(haystack, needle) {
+  const source = String(haystack || '');
+  const query = String(needle || '');
+  if (!query) return 0;
+  let count = 0;
+  let cursor = 0;
+  while (cursor <= source.length - query.length) {
+    const index = source.indexOf(query, cursor);
+    if (index < 0) break;
+    count += 1;
+    cursor = index + query.length;
+  }
+  return count;
+}
+
+function wordStableSelectedText(value) {
+  return String(value || '').trim();
 }
 
 function graphemes(text) {
@@ -182,42 +215,25 @@ function allocateWeightedCounts(sceneProfiles, total) {
   }
   weighted.sort((a, b) => (b.frac - a.frac) || (a.index - b.index));
   for (let index = 0; index < remaining; index += 1) {
+    if (weighted.length === 0) throw new Error('C5V2_LEDGER_SCENES_REQUIRED');
     base[weighted[index % weighted.length].index] += 1;
   }
   return base;
 }
 
-function chooseParagraph(sceneProfile, family, familySceneOrdinal, globalOrdinal, state) {
+function orderedParagraphs(sceneProfile, family, familySceneOrdinal, globalOrdinal, state) {
   const targetDecile = (familySceneOrdinal + (sceneProfile.sceneOrdinal * 3)) % 10;
-  const sorted = [...sceneProfile.paragraphs].sort((a, b) => {
+  return [...sceneProfile.paragraphs].sort((a, b) => {
+    const rootA = state.commentParagraphCounts.get(a.paragraphId) || 0;
+    const rootB = state.commentParagraphCounts.get(b.paragraphId) || 0;
+    if (family === 'root_comment' && rootA !== rootB) return rootA - rootB;
+    const useA = state.familyParagraphUseCounts.get(`${family}:${a.paragraphId}`) || 0;
+    const useB = state.familyParagraphUseCounts.get(`${family}:${b.paragraphId}`) || 0;
+    if (useA !== useB) return useA - useB;
     const da = Math.abs(a.decile - targetDecile);
     const db = Math.abs(b.decile - targetDecile);
     return (da - db) || (a.paragraphOrdinal - b.paragraphOrdinal);
   });
-  if (family === 'root_comment') {
-    for (const paragraph of sorted) {
-      const key = paragraph.paragraphId;
-      const count = state.commentParagraphCounts.get(key) || 0;
-      if (count === 0 && paragraph.graphemeCount >= 4) {
-        return paragraph;
-      }
-    }
-  }
-  for (const paragraph of sorted) {
-    const key = paragraph.paragraphId;
-    if (family === 'root_comment') {
-      const count = state.commentParagraphCounts.get(key) || 0;
-      if (count >= 2) continue;
-    }
-    if (paragraph.graphemeCount >= 4) {
-      return paragraph;
-    }
-  }
-  const fallback = sorted[(globalOrdinal + familySceneOrdinal) % sorted.length];
-  if (!fallback) {
-    throw new Error(`C5V2_PARAGRAPH_SELECTION_FAILED:${sceneProfile.sceneId}:${family}`);
-  }
-  return fallback;
 }
 
 function makeSpan(paragraph, spanType, family, ordinal) {
@@ -239,10 +255,10 @@ function makeSpan(paragraph, spanType, family, ordinal) {
       length = Math.min(42, Math.max(6, Math.floor(count / 5)));
       break;
     case 'sentence':
-      length = Math.min(count, Math.max(8, Math.floor(count / 2)));
+      length = Math.min(96, Math.min(count, Math.max(8, Math.floor(count / 4))));
       break;
     case 'paragraph-boundary':
-      length = Math.min(count, Math.max(2, Math.floor(count / 12)));
+      length = Math.min(32, Math.min(count, Math.max(2, Math.floor(count / 18))));
       break;
     default:
       length = Math.min(12, Math.max(1, Math.floor(count / 10)));
@@ -273,7 +289,23 @@ function makeSpan(paragraph, spanType, family, ordinal) {
   };
 }
 
+function shiftSpanToGraphemeStart(paragraph, span, graphemeStart) {
+  const parts = graphemes(paragraph.text);
+  const length = Math.max(1, span.graphemeEnd - span.graphemeStart);
+  const start = Math.min(Math.max(0, graphemeStart), Math.max(0, parts.length - length));
+  const end = Math.min(parts.length, start + length);
+  return {
+    ...span,
+    graphemeStart: start,
+    graphemeEnd: end,
+    selectedText: parts.slice(start, end).join(''),
+    contextBefore: parts.slice(Math.max(0, start - 16), start).join(''),
+    contextAfter: parts.slice(end, Math.min(parts.length, end + 16)).join(''),
+  };
+}
+
 function makeAnchor(sceneProfile, paragraph, span, globalOffset = 0) {
+  const wordSelectedText = wordStableSelectedText(span.selectedText);
   return {
     sceneId: sceneProfile.sceneId,
     sceneOrdinal: sceneProfile.sceneOrdinal,
@@ -288,15 +320,168 @@ function makeAnchor(sceneProfile, paragraph, span, globalOffset = 0) {
     contextBefore: span.contextBefore,
     contextAfter: span.contextAfter,
     selectedText: span.selectedText,
+    sceneSelectedTextOccurrenceCount: countExactOccurrences(sceneProfile.text, span.selectedText),
+    wordSelectedText,
+    sceneWordSelectedTextOccurrenceCount: countExactOccurrences(sceneProfile.text, wordSelectedText),
     baselineHash: span.baselineHash,
   };
 }
 
 function addOperation(operations, op) {
+  const defaultOutcome = op.family === 'negative_probe'
+    ? 'REJECT'
+    : op.family === 'tracked_text_edit'
+      ? (op.semanticIntent?.kind === 'insert' ? 'MANUAL' : 'EXACT')
+      : op.family === 'reply'
+        ? 'MANUAL'
+        : op.family === 'comment_state'
+          ? (op.semanticIntent?.kind === 'delete' ? 'BLOCKED' : 'MANUAL')
+          : 'SAFE_APPLY';
   operations.push({
-    expectedOutcome: op.family === 'negative_probe' ? 'REJECT' : 'SAFE_APPLY',
+    expectedOutcome: defaultOutcome,
     ...op,
   });
+}
+
+function selectUniqueAnchor({
+  sceneProfile,
+  family,
+  familyCount,
+  familySceneOrdinal,
+  globalOrdinal,
+  globalOffset,
+  spanType,
+  state,
+  requireSceneUniqueSelectedText = false,
+}) {
+  const paragraphs = orderedParagraphs(sceneProfile, family, familySceneOrdinal, globalOrdinal, state);
+  const rejectCounts = { short: 0, rootUsed: 0, mixedFamily: 0, reserved: 0, empty: 0, ambiguousSelection: 0, wordUnstableSelection: 0, boundaryReserved: 0, overlap: 0, wordAdjacency: 0, duplicate: 0, duplicateStart: 0, hotspot: 0 };
+  for (const paragraph of paragraphs) {
+    if (paragraph.graphemeCount < 4) { rejectCounts.short += 1; continue; }
+    if (family === 'root_comment' && (state.commentParagraphCounts.get(paragraph.paragraphId) || 0) > 0) { rejectCounts.rootUsed += 1; continue; }
+    const existingMutationFamily = state.paragraphMutationFamily.get(paragraph.paragraphId) || '';
+    const reservation = state.paragraphReservation.get(paragraph.paragraphId) || '';
+    if (MUTATING_CONTENT_FAMILIES.has(family) && existingMutationFamily && existingMutationFamily !== family) { rejectCounts.mixedFamily += 1; continue; }
+    if (MUTATING_CONTENT_FAMILIES.has(family) && reservation && reservation !== family) { rejectCounts.reserved += 1; continue; }
+    const trySpan = (span) => {
+      if (!span.selectedText) { rejectCounts.empty += 1; return null; }
+      if (requireSceneUniqueSelectedText) {
+        const wordSelectedText = wordStableSelectedText(span.selectedText);
+        if (wordSelectedText !== span.selectedText) {
+          rejectCounts.wordUnstableSelection += 1;
+          return null;
+        }
+        if (countExactOccurrences(sceneProfile.text, wordSelectedText) !== 1) {
+          rejectCounts.ambiguousSelection += 1;
+          return null;
+        }
+      }
+      const boundaryLength = Math.min(32, Math.min(
+        paragraph.graphemeCount,
+        Math.max(2, Math.floor(paragraph.graphemeCount / 18)),
+      ));
+      if (
+        family === 'tracked_text_edit'
+        && spanType !== 'paragraph-boundary'
+        && paragraph.graphemeCount > ((boundaryLength * 2) + (span.graphemeEnd - span.graphemeStart))
+        && (span.graphemeStart < boundaryLength || span.graphemeEnd > paragraph.graphemeCount - boundaryLength)
+      ) {
+        rejectCounts.boundaryReserved += 1;
+        return null;
+      }
+      const usedRanges = state.paragraphPrimaryRanges.get(paragraph.paragraphId) || [];
+      const overlapsUsedRange = usedRanges.some((range) => (
+        span.graphemeStart < range.end && span.graphemeEnd > range.start
+      ));
+      const touchesTrackedRange = family === 'tracked_text_edit' && usedRanges.some((range) => (
+        span.graphemeStart <= range.end && span.graphemeEnd >= range.start
+      ));
+      if (
+        RANGE_ISOLATED_PRIMARY_FAMILIES.has(family)
+        && overlapsUsedRange
+      ) { rejectCounts.overlap += 1; return null; }
+      if (touchesTrackedRange) { rejectCounts.wordAdjacency += 1; return null; }
+      const anchor = makeAnchor(sceneProfile, paragraph, span, globalOffset);
+      const key = operationAnchorKey({ anchor });
+      if (state.primaryAnchorKeys.has(key)) { rejectCounts.duplicate += 1; return null; }
+      const startKey = `${anchor.sceneId}|${anchor.paragraphId}|${anchor.graphemeStart}`;
+      if (state.primaryAnchorStarts.has(startKey)) { rejectCounts.duplicateStart += 1; return null; }
+      const bucket = Math.min(99, Math.max(0, Math.floor(
+        (anchor.globalGraphemeStart / Math.max(1, state.totalGraphemes)) * 100,
+      )));
+      const bucketKey = `${family}:${bucket}`;
+      const maxBucket = Math.max(2, Math.ceil(familyCount * 0.02));
+      if ((state.familyBucketCounts.get(bucketKey) || 0) >= maxBucket) { rejectCounts.hotspot += 1; return null; }
+      state.primaryAnchorKeys.add(key);
+      state.primaryAnchorStarts.add(startKey);
+      if (RANGE_ISOLATED_PRIMARY_FAMILIES.has(family)) {
+        usedRanges.push({ start: span.graphemeStart, end: span.graphemeEnd, family });
+        state.paragraphPrimaryRanges.set(paragraph.paragraphId, usedRanges);
+      }
+      state.familyBucketCounts.set(bucketKey, (state.familyBucketCounts.get(bucketKey) || 0) + 1);
+      if (MUTATING_CONTENT_FAMILIES.has(family)) state.paragraphMutationFamily.set(paragraph.paragraphId, family);
+      const useKey = `${family}:${paragraph.paragraphId}`;
+      state.familyParagraphUseCounts.set(useKey, (state.familyParagraphUseCounts.get(useKey) || 0) + 1);
+      return { paragraph, anchor };
+    };
+    const attemptLimit = Math.min(256, Math.max(24, paragraph.graphemeCount * 2));
+    for (let salt = 0; salt < attemptLimit; salt += 1) {
+      const span = makeSpan(paragraph, spanType, family, globalOrdinal + (salt * 37));
+      const accepted = trySpan(span);
+      if (accepted) return accepted;
+    }
+    const template = makeSpan(paragraph, spanType, family, globalOrdinal);
+    let fallbackStarts;
+    if (spanType === 'paragraph-boundary') {
+      fallbackStarts = [0, Math.max(0, paragraph.graphemeCount - (template.graphemeEnd - template.graphemeStart))];
+    } else if (spanType === 'punctuation-adjacent') {
+      fallbackStarts = graphemes(paragraph.text)
+        .map((value, index) => (/[,.!?;:]/u.test(value) ? Math.max(0, index - 1) : -1))
+        .filter((value) => value >= 0);
+    } else {
+      fallbackStarts = Array.from({ length: Math.max(1, paragraph.graphemeCount) }, (_, index) => index);
+    }
+    for (const fallbackStart of new Set(fallbackStarts)) {
+      const accepted = trySpan(shiftSpanToGraphemeStart(paragraph, template, fallbackStart));
+      if (accepted) return accepted;
+    }
+  }
+  throw new Error(`C5V2_UNIQUE_ANCHOR_EXHAUSTED:${sceneProfile.sceneId}:${family}:${globalOrdinal}:${JSON.stringify(rejectCounts)}`);
+}
+
+function buildParagraphReservations(sceneProfiles, counts) {
+  const paragraphReservation = new Map();
+  const reservationCountBySceneFamily = new Map();
+  const structuralAllocations = allocateWeightedCounts(sceneProfiles, counts.structural);
+  const formattingAllocations = allocateWeightedCounts(sceneProfiles, counts.formatting);
+  for (let sceneIndex = 0; sceneIndex < sceneProfiles.length; sceneIndex += 1) {
+    const scene = sceneProfiles[sceneIndex];
+    const available = [...scene.paragraphs].sort((left, right) => left.paragraphOrdinal - right.paragraphOrdinal);
+    const reserve = (family, requested) => {
+      const chosen = [];
+      for (let index = 0; index < requested; index += 1) {
+        const phase = ((sceneIndex * 3) + (family === 'formatting' ? 1 : 0)) % 10;
+        const spreadDecile = Math.floor(((index + 0.5) * 10) / Math.max(1, requested));
+        const targetDecile = (phase + spreadDecile) % 10;
+        const candidate = [...available]
+          .filter((paragraph) => !paragraphReservation.has(paragraph.paragraphId))
+          .sort((left, right) => (
+            Math.abs(left.decile - targetDecile) - Math.abs(right.decile - targetDecile)
+          ) || (left.paragraphOrdinal - right.paragraphOrdinal))[0];
+        if (!candidate) throw new Error(`C5V2_PARAGRAPH_RESERVATION_EXHAUSTED:${scene.sceneId}:${family}`);
+        paragraphReservation.set(candidate.paragraphId, family);
+        chosen.push(candidate);
+      }
+      reservationCountBySceneFamily.set(`${scene.sceneId}:${family}`, chosen.length);
+    };
+    reserve('structural', structuralAllocations[sceneIndex]);
+    const remainingParagraphs = Math.max(0, available.length - structuralAllocations[sceneIndex] - 1);
+    const formattingParagraphs = formattingAllocations[sceneIndex] > 0
+      ? Math.min(remainingParagraphs, formattingAllocations[sceneIndex])
+      : 0;
+    reserve('formatting', formattingParagraphs);
+  }
+  return { paragraphReservation, reservationCountBySceneFamily };
 }
 
 function buildPositiveFamilyOperations({
@@ -313,30 +498,28 @@ function buildPositiveFamilyOperations({
   for (let sceneIndex = 0; sceneIndex < sceneProfiles.length; sceneIndex += 1) {
     const sceneProfile = sceneProfiles[sceneIndex];
     for (let localOrdinal = 0; localOrdinal < allocations[sceneIndex]; localOrdinal += 1) {
-      const paragraph = chooseParagraph(sceneProfile, family, localOrdinal, familyOrdinal, state);
+      const trackedKind = family === 'tracked_text_edit'
+        ? TRACKED_INTENTS[familyOrdinal % TRACKED_INTENTS.length]
+        : '';
       const spanType = family === 'root_comment'
         ? COMMENT_SPAN_TYPES[familyOrdinal % COMMENT_SPAN_TYPES.length]
         : family === 'tracked_text_edit'
           ? TRACKED_SPAN_TYPES[familyOrdinal % TRACKED_SPAN_TYPES.length]
           : 'phrase';
-      let span = makeSpan(paragraph, spanType, family, familyOrdinal + localOrdinal);
-      let anchor = makeAnchor(sceneProfile, paragraph, span, globalOffsets[sceneIndex] || 0);
+      const { paragraph, anchor } = selectUniqueAnchor({
+        sceneProfile,
+        family,
+        familyCount: count,
+        familySceneOrdinal: localOrdinal,
+        globalOrdinal: familyOrdinal,
+        globalOffset: globalOffsets[sceneIndex] || 0,
+        spanType,
+        state,
+        requireSceneUniqueSelectedText: family === 'root_comment',
+      });
       const id = `c5v2-${family}-${String(familyOrdinal + 1).padStart(4, '0')}`;
       const round = (familyOrdinal % roundCount) + 1;
       if (family === 'root_comment') {
-        let salt = 1;
-        while (state.rootCommentAnchorKeys.has([
-          anchor.sceneId,
-          anchor.paragraphId,
-          anchor.graphemeStart,
-          anchor.graphemeEnd,
-          anchor.contextBefore,
-          anchor.contextAfter,
-        ].join('|')) && salt < 80) {
-          span = makeSpan(paragraph, spanType, family, familyOrdinal + localOrdinal + salt);
-          anchor = makeAnchor(sceneProfile, paragraph, span, globalOffsets[sceneIndex] || 0);
-          salt += 1;
-        }
         state.rootCommentAnchorKeys.add([
           anchor.sceneId,
           anchor.paragraphId,
@@ -356,19 +539,23 @@ function buildPositiveFamilyOperations({
       }
       const intent = family === 'tracked_text_edit'
         ? {
-            kind: TRACKED_INTENTS[familyOrdinal % TRACKED_INTENTS.length],
+            kind: trackedKind,
             spanType,
-            replacementText: `c5v2 replacement ${familyOrdinal + 1}`,
+            replacementText: `${UNICODE_REPLACEMENTS[familyOrdinal % UNICODE_REPLACEMENTS.length].text} c5v2 edit ${familyOrdinal + 1}`,
+            unicodeProfile: UNICODE_REPLACEMENTS[familyOrdinal % UNICODE_REPLACEMENTS.length].profile,
           }
         : family === 'formatting'
           ? {
               kind: FORMAT_FEATURES[familyOrdinal % FORMAT_FEATURES.length],
-              spanType: familyOrdinal % 3 === 0 ? 'paragraph' : 'inline',
+              spanType: FORMAT_FEATURES[familyOrdinal % FORMAT_FEATURES.length] === 'textAlign' ? 'paragraph' : 'inline',
             }
           : family === 'structural'
             ? {
-                kind: STRUCTURAL_FEATURES[familyOrdinal % STRUCTURAL_FEATURES.length],
-                typedOutcomeForUnsupportedStates: 'MANUAL_OR_BLOCKED_AFTER_THREE_PHYSICAL_REPRODUCTIONS',
+                kind: STRUCTURAL_FEATURES[0],
+                nodeType: 'heading',
+                headingLevel: (familyOrdinal % 3) + 1,
+                supportedProductRoute: 'cmd.project.review.applyStructuralReturn',
+                typedPendingStructuralKinds: ['split', 'merge', 'list', 'pageBreak', 'reorder'],
               }
             : {
                 kind: 'root-comment',
@@ -382,6 +569,13 @@ function buildPositiveFamilyOperations({
         sceneId: sceneProfile.sceneId,
         anchor,
         semanticIntent: intent,
+        ...(family === 'tracked_text_edit'
+          ? {
+              expectedOutcome: trackedKind === 'insert' || anchor.sceneSelectedTextOccurrenceCount !== 1
+                ? 'MANUAL'
+                : 'EXACT',
+            }
+          : {}),
       });
       familyOrdinal += 1;
     }
@@ -401,14 +595,28 @@ function buildThreadLifecycleOperations({ operations, family, count, state, scen
     (a.anchor?.globalGraphemeStart || 0) - (b.anchor?.globalGraphemeStart || 0)
   ) || a.threadId.localeCompare(b.threadId));
   for (let index = 0; index < count; index += 1) {
-    let thread;
+    let candidates;
     if (index < sceneProfiles.length) {
       const sceneProfile = sceneProfiles[index % sceneProfiles.length];
-      const sceneThreads = threadsBySceneId.get(sceneProfile.sceneId) || state.commentThreads;
-      thread = sceneThreads[0];
+      candidates = threadsBySceneId.get(sceneProfile.sceneId) || [];
     } else {
-      thread = sortedThreads[Math.min(sortedThreads.length - 1, Math.floor((index * sortedThreads.length) / count))];
+      const targetIndex = Math.min(sortedThreads.length - 1, Math.floor((index * sortedThreads.length) / count));
+      candidates = [...sortedThreads.slice(targetIndex), ...sortedThreads.slice(0, targetIndex)];
     }
+    const maxBucket = Math.max(2, Math.ceil(count * 0.02));
+    const thread = candidates.find((candidate) => {
+      if (state.lifecycleThreadIdsUsed.has(candidate.threadId)) return false;
+      const start = Number(candidate.anchor?.globalGraphemeStart || 0);
+      const bucket = Math.min(99, Math.max(0, Math.floor((start / Math.max(1, state.totalGraphemes)) * 100)));
+      return (state.lifecycleBucketCounts.get(`${family}:${bucket}`) || 0) < maxBucket;
+    });
+    if (!thread) throw new Error(`C5V2_${family.toUpperCase()}_UNIQUE_THREAD_TARGET_EXHAUSTED:${index}`);
+    state.lifecycleThreadIdsUsed.add(thread.threadId);
+    const threadBucket = Math.min(99, Math.max(0, Math.floor(
+      (Number(thread.anchor?.globalGraphemeStart || 0) / Math.max(1, state.totalGraphemes)) * 100,
+    )));
+    const lifecycleBucketKey = `${family}:${threadBucket}`;
+    state.lifecycleBucketCounts.set(lifecycleBucketKey, (state.lifecycleBucketCounts.get(lifecycleBucketKey) || 0) + 1);
     const id = `c5v2-${family}-${String(index + 1).padStart(4, '0')}`;
     addOperation(operations, {
       id,
@@ -416,6 +624,8 @@ function buildThreadLifecycleOperations({ operations, family, count, state, scen
       round: (index % roundCount) + 1,
       sceneId: thread.sceneId,
       anchor: thread.anchor,
+      targetRootOperationId: thread.rootOperationId,
+      targetThreadId: thread.threadId,
       semanticIntent: family === 'reply'
         ? {
             kind: index % 5 === 0 ? 'multi-reply-thread' : 'single-reply-thread',
@@ -432,7 +642,7 @@ function buildThreadLifecycleOperations({ operations, family, count, state, scen
 }
 
 function buildNegativeProbeOperations({ operations, count, sceneProfiles }) {
-  const kinds = ['stale-baseline', 'tampered-authority', 'wrong-scene', 'corrupt-package', 'replay-conflict'];
+  const kinds = ['stale-baseline', 'conflicting-overlap', 'tampered-authority', 'wrong-scene', 'corrupt-package', 'replay-conflict', 'truncated-package', 'duplicate-request-mutated-payload'];
   for (let index = 0; index < count; index += 1) {
     const sceneProfile = sceneProfiles[index % sceneProfiles.length];
     addOperation(operations, {
@@ -446,6 +656,52 @@ function buildNegativeProbeOperations({ operations, count, sceneProfiles }) {
         contaminationPolicy: 'separate-copy-never-positive-authority-chain',
       },
     });
+  }
+}
+
+function assignCumulativeRounds(operations, sceneProfiles, roundCount) {
+  const sceneOrdinalById = new Map(sceneProfiles.map((scene) => [scene.sceneId, scene.sceneOrdinal]));
+  const paragraphRound = new Map();
+  const rootRoundByOperationId = new Map();
+  const roundAtOffset = (base, offset) => ((base - 1 + offset) % roundCount) + 1;
+  for (const operation of operations) {
+    if (!MUTATING_CONTENT_FAMILIES.has(operation.family)) continue;
+    const paragraphId = operation.anchor?.paragraphId || '';
+    if (!paragraphId) continue;
+    let round = paragraphRound.get(paragraphId);
+    if (!round) {
+      const sceneOrdinal = sceneOrdinalById.get(operation.sceneId) || 0;
+      const base = (sceneOrdinal % roundCount) + 1;
+      const hashParity = Number.parseInt(stableHash(paragraphId).slice(0, 8), 16) % 2;
+      if (operation.family === 'tracked_text_edit') round = roundAtOffset(base, hashParity === 0 ? 0 : 4);
+      else if (operation.family === 'formatting') round = roundAtOffset(base, 2);
+      else if (operation.family === 'structural') round = roundAtOffset(base, 3);
+      else round = roundAtOffset(base, 1 + (Number.parseInt(stableHash(paragraphId).slice(8, 16), 16) % 4));
+      paragraphRound.set(paragraphId, round);
+    }
+    operation.round = round;
+  }
+  for (const operation of operations) {
+    if (operation.family === 'negative_probe' || THREAD_TARGET_FAMILIES.has(operation.family)) continue;
+    if (MUTATING_CONTENT_FAMILIES.has(operation.family)) continue;
+    const paragraphId = operation.anchor?.paragraphId || '';
+    if (!paragraphId) continue;
+    let round = paragraphRound.get(paragraphId);
+    if (!round) {
+      const sceneOrdinal = sceneOrdinalById.get(operation.sceneId) || 0;
+      const base = (sceneOrdinal % roundCount) + 1;
+      round = roundAtOffset(base, 1 + (Number.parseInt(stableHash(paragraphId).slice(8, 16), 16) % 4));
+      paragraphRound.set(paragraphId, round);
+    }
+    operation.round = round;
+    if (operation.family === 'root_comment') rootRoundByOperationId.set(operation.id, round);
+  }
+  for (const operation of operations) {
+    if (!THREAD_TARGET_FAMILIES.has(operation.family)) continue;
+    const round = rootRoundByOperationId.get(operation.targetRootOperationId)
+      || paragraphRound.get(operation.anchor?.paragraphId || '');
+    if (!Number.isInteger(round)) throw new Error(`C5V2_LIFECYCLE_ROUND_AUTHORITY_MISSING:${operation.id}`);
+    operation.round = round;
   }
 }
 
@@ -522,10 +778,16 @@ export function validateC5V2LedgerDistribution({ operations, sceneProfiles, coun
   const failures = [];
   const positives = operations.filter((operation) => operation.family !== 'negative_probe');
   const anchorKeys = new Set();
+  const primaryAnchorStarts = new Set();
   const rootCommentAnchorKeys = new Set();
   const paragraphCommentCounts = new Map();
   const familyBucketCounts = new Map();
+  const paragraphRounds = new Map();
+  const paragraphMutationFamilies = new Map();
+  const paragraphTrackedRanges = new Map();
+  const sceneRoundMutationFamilies = new Map();
   const totalGraphemes = sceneProfiles.reduce((sum, scene) => sum + scene.graphemeCount, 0);
+  const sceneProfileById = new Map(sceneProfiles.map((scene) => [scene.sceneId, scene]));
   const coverage = computeCoverage(operations, sceneProfiles, counts);
 
   for (const [family, expected] of Object.entries(counts)) {
@@ -560,17 +822,95 @@ export function validateC5V2LedgerDistribution({ operations, sceneProfiles, coun
       continue;
     }
     if (operation.anchor) {
+      const sceneProfile = sceneProfileById.get(operation.sceneId);
+      const occurrenceCount = Number.isInteger(operation.anchor.sceneSelectedTextOccurrenceCount)
+        ? operation.anchor.sceneSelectedTextOccurrenceCount
+        : typeof sceneProfile?.text === 'string'
+          ? countExactOccurrences(sceneProfile.text, operation.anchor.selectedText)
+          : null;
+      if (
+        operation.family === 'tracked_text_edit'
+        && operation.expectedOutcome === 'EXACT'
+        && occurrenceCount !== 1
+      ) {
+        failures.push({ code: 'C5V2_EXACT_TRACKED_SELECTION_NOT_SCENE_UNIQUE', operationId: operation.id, occurrenceCount });
+      }
+      if (operation.family === 'root_comment' && occurrenceCount !== 1) {
+        failures.push({ code: 'C5V2_ROOT_COMMENT_SELECTION_NOT_SCENE_UNIQUE', operationId: operation.id, occurrenceCount });
+      }
+      if (operation.family === 'root_comment') {
+        const wordSelectedText = wordStableSelectedText(operation.anchor.selectedText);
+        const wordOccurrenceCount = typeof sceneProfile?.text === 'string'
+          ? countExactOccurrences(sceneProfile.text, wordSelectedText)
+          : operation.anchor.sceneWordSelectedTextOccurrenceCount;
+        if (
+          wordSelectedText !== operation.anchor.selectedText
+          || operation.anchor.wordSelectedText !== wordSelectedText
+          || operation.anchor.sceneWordSelectedTextOccurrenceCount !== 1
+          || wordOccurrenceCount !== 1
+        ) {
+          failures.push({
+            code: 'C5V2_ROOT_COMMENT_WORD_NORMALIZED_SELECTION_NOT_UNIQUE',
+            operationId: operation.id,
+            wordOccurrenceCount,
+          });
+        }
+      }
+      if (operation.family === 'tracked_text_edit') {
+        const trackedRanges = paragraphTrackedRanges.get(operation.anchor.paragraphId) || [];
+        const touching = trackedRanges.find((range) => (
+          operation.anchor.graphemeStart <= range.end
+          && operation.anchor.graphemeEnd >= range.start
+        ));
+        if (touching) {
+          failures.push({
+            code: 'C5V2_TRACKED_RANGE_NOT_WORD_ISOLATED',
+            operationId: operation.id,
+            touchingOperationId: touching.operationId,
+          });
+        }
+        trackedRanges.push({
+          operationId: operation.id,
+          start: operation.anchor.graphemeStart,
+          end: operation.anchor.graphemeEnd,
+        });
+        paragraphTrackedRanges.set(operation.anchor.paragraphId, trackedRanges);
+      }
       const key = operationAnchorKey(operation);
-      anchorKeys.add(key);
+      if (!THREAD_TARGET_FAMILIES.has(operation.family) && anchorKeys.has(key)) {
+        failures.push({ code: 'C5V2_DUPLICATE_POSITIVE_ANCHOR', operationId: operation.id });
+      }
+      if (!THREAD_TARGET_FAMILIES.has(operation.family)) {
+        anchorKeys.add(key);
+        const startKey = `${operation.anchor.sceneId}|${operation.anchor.paragraphId}|${operation.anchor.graphemeStart}`;
+        if (primaryAnchorStarts.has(startKey)) {
+          failures.push({ code: 'C5V2_DUPLICATE_POSITIVE_ANCHOR_START', operationId: operation.id });
+        }
+        primaryAnchorStarts.add(startKey);
+      }
       if (operation.family === 'root_comment') {
         if (rootCommentAnchorKeys.has(key)) {
           failures.push({ code: 'C5V2_DUPLICATE_POSITIVE_ROOT_COMMENT_ANCHOR', operationId: operation.id });
         }
         rootCommentAnchorKeys.add(key);
+      }
+      if (COMMENT_FAMILIES.has(operation.family)) {
         paragraphCommentCounts.set(
           operation.anchor.paragraphId,
           (paragraphCommentCounts.get(operation.anchor.paragraphId) || 0) + 1,
         );
+      }
+      const paragraphRoundSet = paragraphRounds.get(operation.anchor.paragraphId) || new Set();
+      paragraphRoundSet.add(operation.round);
+      paragraphRounds.set(operation.anchor.paragraphId, paragraphRoundSet);
+      if (MUTATING_CONTENT_FAMILIES.has(operation.family)) {
+        const paragraphFamilySet = paragraphMutationFamilies.get(operation.anchor.paragraphId) || new Set();
+        paragraphFamilySet.add(operation.family);
+        paragraphMutationFamilies.set(operation.anchor.paragraphId, paragraphFamilySet);
+        const sceneRoundKey = `${operation.sceneId}:${operation.round}`;
+        const sceneRoundFamilySet = sceneRoundMutationFamilies.get(sceneRoundKey) || new Set();
+        sceneRoundFamilySet.add(operation.family);
+        sceneRoundMutationFamilies.set(sceneRoundKey, sceneRoundFamilySet);
       }
       const bucket = Math.min(99, Math.max(0, Math.floor((operation.anchor.globalGraphemeStart / Math.max(1, totalGraphemes)) * 100)));
       const familyBucketKey = `${operation.family}:${bucket}`;
@@ -581,6 +921,22 @@ export function validateC5V2LedgerDistribution({ operations, sceneProfiles, coun
   for (const [paragraphId, count] of paragraphCommentCounts.entries()) {
     if (count > 2) {
       failures.push({ code: 'C5V2_COMMENT_PARAGRAPH_HOTSPOT', paragraphId, count });
+    }
+  }
+
+  for (const [paragraphId, rounds] of paragraphRounds.entries()) {
+    if (rounds.size > 1) {
+      failures.push({ code: 'C5V2_PARAGRAPH_REUSED_ACROSS_CUMULATIVE_ROUNDS', paragraphId, rounds: [...rounds].sort() });
+    }
+  }
+  for (const [paragraphId, families] of paragraphMutationFamilies.entries()) {
+    if (families.size > 1) {
+      failures.push({ code: 'C5V2_PARAGRAPH_MIXED_MUTATION_FAMILIES', paragraphId, families: [...families].sort() });
+    }
+  }
+  for (const [sceneRound, families] of sceneRoundMutationFamilies.entries()) {
+    if (families.size > 1) {
+      failures.push({ code: 'C5V2_SCENE_ROUND_MIXED_MUTATION_FAMILIES', sceneRound, families: [...families].sort() });
     }
   }
 
@@ -627,10 +983,22 @@ export function buildC5V2Ledger(input = {}) {
     globalOffsets.push(offset);
     offset += scene.graphemeCount;
   }
+  const reservations = buildParagraphReservations(sceneProfiles, counts);
   const state = {
     commentParagraphCounts: new Map(),
     rootCommentAnchorKeys: new Set(),
     commentThreads: [],
+    primaryAnchorKeys: new Set(),
+    primaryAnchorStarts: new Set(),
+    familyParagraphUseCounts: new Map(),
+    familyBucketCounts: new Map(),
+    lifecycleThreadIdsUsed: new Set(),
+    lifecycleBucketCounts: new Map(),
+    paragraphMutationFamily: new Map(),
+    paragraphPrimaryRanges: new Map(),
+    paragraphReservation: reservations.paragraphReservation,
+    reservationCountBySceneFamily: reservations.reservationCountBySceneFamily,
+    totalGraphemes: offset,
   };
   const operations = [];
   buildPositiveFamilyOperations({
@@ -685,6 +1053,7 @@ export function buildC5V2Ledger(input = {}) {
     state,
     roundCount,
   });
+  assignCumulativeRounds(operations, sceneProfiles, roundCount);
   buildNegativeProbeOperations({
     operations,
     count: counts.negative_probe,

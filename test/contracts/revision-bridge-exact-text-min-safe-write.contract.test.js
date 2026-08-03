@@ -56,6 +56,8 @@ const RTK_C05_BLOCK_RANGE_WRITER_TEST_PATH =
   'test/contracts/rtk-word-saturation-c05-block-range-writer.contract.test.js';
 const RTK_C05_BLOCK_RANGE_WRITER_RECEIPT_PATH =
   'docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_C05_BLOCK_RANGE_WRITER_RECEIPT.json';
+const RTK_C5V2_PHYSICAL_CANARY_PATH = 'scripts/ops/rtk-word-c5v2-physical-canary.mjs';
+const RTK_C5V2_ROUND_CHECKPOINT_TEST_PATH = 'test/contracts/rtk-word-c5v2-round-checkpoint.contract.test.js';
 const ALLOWLIST = [
   MODULE_PATH,
   JOURNAL_MODULE_PATH,
@@ -94,6 +96,8 @@ const ALLOWLIST = [
   RTK_C05_BLOCK_RANGE_AUTHORITY_MODULE_PATH,
   RTK_C05_BLOCK_RANGE_WRITER_TEST_PATH,
   RTK_C05_BLOCK_RANGE_WRITER_RECEIPT_PATH,
+  RTK_C5V2_PHYSICAL_CANARY_PATH,
+  RTK_C5V2_ROUND_CHECKPOINT_TEST_PATH,
 ];
 const TOLERATED_NEIGHBOR_REVIEW_BRIDGE_TEST_PATHS = Object.freeze([
   'test/contracts/review-bridge-first-useful-release-gate.contract.test.js',
@@ -113,6 +117,10 @@ async function loadC04() {
 
 async function loadC03() {
   return import(pathToFileURL(path.join(process.cwd(), C03_MODULE_PATH)).href);
+}
+
+async function loadEnvelope() {
+  return import(pathToFileURL(path.join(process.cwd(), 'src/renderer/documentContentEnvelope.mjs')).href);
 }
 
 function tmpScene(text) {
@@ -349,6 +357,120 @@ test('C04 batch exact text min safe write applies same-scene replacements all-or
   assert.deepEqual(result.changes.map((change) => change.status), ['applied', 'applied']);
   assert.deepEqual(result.operations.map((operation) => operation.changeId), ['change-1', 'change-2']);
   assertTruthfulBatchReceipt(result.receipt, scenePath, 'Alpha delta gamma sigma.');
+});
+
+test('C04 batch exact text safe write edits rich document semantics and regenerates a valid envelope', async () => {
+  const c04 = await loadC04();
+  const envelope = await loadEnvelope();
+  const original = envelope.composeObservablePayload({
+    doc: {
+      type: 'doc',
+      content: [
+        {
+          type: 'heading',
+          attrs: { level: 2 },
+          content: [
+            { type: 'text', text: 'Alpha ' },
+            { type: 'text', text: 'beta', marks: [{ type: 'bold' }] },
+            { type: 'text', text: ' gamma ' },
+            { type: 'text', text: 'omega', marks: [{ type: 'italic' }] },
+            { type: 'text', text: '.' },
+          ],
+        },
+        { type: 'paragraph', content: [{ type: 'text', text: 'Second paragraph.' }] },
+      ],
+    },
+    metaEnabled: true,
+    meta: {
+      synopsis: 'Preserve me',
+      status: 'draft',
+      tags: { pov: 'Dorian', line: 'A', place: 'London' },
+    },
+    cards: [{ title: 'Card', text: 'Keep this', tags: 'qa' }],
+  });
+  const { scenePath } = tmpScene(original);
+  const input = readyBatchInput({ sceneText: original, scenePath });
+  input.reviewItems[0].replacementText = 'delta "quoted" 👩‍💻';
+  input.reviewItems[1].replacementText = 'συντεθειμένο';
+
+  const result = await c04.applyExactTextBatchMinSafeWrite(input, { now: () => 1700000010250 });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.status, 'applied');
+  const written = readText(scenePath);
+  const reopened = envelope.parseObservablePayload(written);
+  assert.equal(reopened.issue, null);
+  assert.equal(reopened.text, 'Alpha delta "quoted" 👩‍💻 gamma συντεθειμένο.\nSecond paragraph.');
+  assert.equal(reopened.doc.content[0].type, 'heading');
+  assert.equal(reopened.doc.content[0].attrs.level, 2);
+  const headingNodes = reopened.doc.content[0].content;
+  const boldReplacement = headingNodes.find((node) => node.text === 'delta "quoted" 👩‍💻');
+  const italicReplacement = headingNodes.find((node) => node.text === 'συντεθειμένο');
+  assert.deepEqual(boldReplacement.marks, [{ type: 'bold' }]);
+  assert.deepEqual(italicReplacement.marks, [{ type: 'italic' }]);
+  assert.equal(reopened.meta.synopsis, 'Preserve me');
+  assert.deepEqual(reopened.cards, [{ title: 'Card', text: 'Keep this', tags: 'qa' }]);
+  const header = /\[doc-v2 length=(\d+)\]\n/u.exec(written);
+  assert.ok(header);
+  const serializedStart = header.index + header[0].length;
+  const serialized = written.slice(serializedStart, serializedStart + Number(header[1]));
+  assert.doesNotThrow(() => JSON.parse(serialized));
+  assert.equal(serialized.length, Number(header[1]));
+  assertTruthfulRecoveryEvidence(result.receipt.recovery, original);
+  assert.equal(result.receipt.outputHash, sha256Text(written));
+  assert.equal(result.receipt.bytesWritten, Buffer.byteLength(written, 'utf8'));
+});
+
+test('C04 single exact text safe write preserves a rich heading while applying through raw snapshot authority', async () => {
+  const c04 = await loadC04();
+  const envelope = await loadEnvelope();
+  const original = envelope.composeObservablePayload({
+    doc: {
+      type: 'doc',
+      content: [
+        { type: 'heading', attrs: { level: 3 }, content: [{ type: 'text', text: 'Alpha beta gamma.' }] },
+      ],
+    },
+  });
+  const { scenePath } = tmpScene(original);
+  const input = await readyInput({ sceneText: original, scenePath });
+
+  const result = await c04.applyExactTextMinSafeWrite(input, { now: () => 1700000010275 });
+
+  assert.equal(result.ok, true);
+  const reopened = envelope.parseObservablePayload(readText(scenePath));
+  assert.equal(reopened.issue, null);
+  assert.equal(reopened.text, 'Alpha delta gamma.');
+  assert.equal(reopened.doc.content[0].type, 'heading');
+  assert.equal(reopened.doc.content[0].attrs.level, 3);
+  assertTruthfulRecoveryEvidence(result.receipt.recovery, original);
+});
+
+test('C04 rich exact text safe write blocks a replacement spanning incompatible mark shapes with zero writes', async () => {
+  const c04 = await loadC04();
+  const envelope = await loadEnvelope();
+  const original = envelope.composeObservablePayload({
+    doc: {
+      type: 'doc',
+      content: [{
+        type: 'paragraph',
+        content: [
+          { type: 'text', text: 'Alpha be' },
+          { type: 'text', text: 'ta', marks: [{ type: 'bold' }] },
+          { type: 'text', text: ' gamma omega.' },
+        ],
+      }],
+    },
+  });
+  const { scenePath } = tmpScene(original);
+  const input = readyBatchInput({ sceneText: original, scenePath });
+
+  const result = await c04.applyExactTextBatchMinSafeWrite(input);
+
+  assert.equal(result.ok, false);
+  assert.equal(result.status, 'blocked');
+  assert.equal(result.reason, 'REVISION_BRIDGE_EXACT_TEXT_RICH_MARK_BOUNDARY_AMBIGUOUS');
+  assert.equal(readText(scenePath), original);
 });
 
 test('C04 batch exact text min safe write replays completed operation before stale baseline checks', async () => {

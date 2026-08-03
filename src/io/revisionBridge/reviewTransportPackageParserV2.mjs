@@ -449,7 +449,7 @@ function parseXmlPart(partName, xml, budgets, cryptoPort, budgetState = null) {
     }
     const qName = parsedName.value;
     const split = splitQName(qName);
-    if (budgetState && partName === 'word/document.xml') {
+    if (budgetState && !closing && partName === 'word/document.xml') {
       if (split.localName === 'p') {
         stopForBudget = stopForBudget || !admitBudgetCount(
           budgetState,
@@ -471,7 +471,7 @@ function parseXmlPart(partName, xml, budgets, cryptoPort, budgetState = null) {
         );
       }
     }
-    if (budgetState && partName === 'word/comments.xml' && split.localName === 'comment') {
+    if (budgetState && !closing && partName === 'word/comments.xml' && split.localName === 'comment') {
       stopForBudget = stopForBudget || !admitBudgetCount(
         budgetState,
         diagnostics,
@@ -1249,17 +1249,6 @@ function firstChildValue(children, localName, attrName = 'val') {
   return found ? attr(found, attrName) : '';
 }
 
-function nearestContainingToken(documentScan, token, localName) {
-  return documentScan.tokens
-    .filter((candidate) => (
-      candidate.localName === localName
-      && candidate.openStart <= token.openStart
-      && candidate.closeEnd >= token.closeEnd
-      && candidate !== token
-    ))
-    .sort((left, right) => right.depth - left.depth || right.openStart - left.openStart)[0] || null;
-}
-
 function textInsideToken(documentXml, documentScan, container) {
   const blockedRanges = documentScan.tokens
     .filter((token) => (
@@ -1440,6 +1429,43 @@ function formattingParagraphStructure(children) {
   return { nodeType: 'heading', headingLevel: outlineLevel + 1 };
 }
 
+function indexFormattingDocumentTokens(tokens) {
+  const ordered = [...tokens].sort((left, right) => (
+    (left.openStart - right.openStart)
+    || (right.closeEnd - left.closeEnd)
+  ));
+  const stack = [];
+  const paragraphs = [];
+  for (const token of ordered) {
+    while (stack.length > 0) {
+      const parent = stack[stack.length - 1];
+      if (
+        parent.token.openStart < token.openStart
+        && parent.token.closeEnd >= token.closeEnd
+      ) break;
+      stack.pop();
+    }
+    const parent = stack.length > 0
+      ? stack[stack.length - 1]
+      : { paragraph: null, run: null };
+    if (parent.paragraph) parent.paragraph.tokens.push(token);
+    if (parent.run) parent.run.tokens.push(token);
+
+    let paragraph = parent.paragraph;
+    let run = parent.run;
+    if (token.localName === 'p' && token.namespaceUri === W_NS) {
+      paragraph = { token, tokens: [], runs: [] };
+      run = null;
+      paragraphs.push(paragraph);
+    } else if (token.localName === 'r' && token.namespaceUri === W_NS && paragraph) {
+      run = { token, tokens: [] };
+      paragraph.runs.push(run);
+    }
+    if (!token.selfClosing) stack.push({ token, paragraph, run });
+  }
+  return paragraphs;
+}
+
 export function extractReviewTransportFormattingRunsV2(documentXml, options = {}) {
   const cryptoPort = resolveCryptoPort(options.cryptoPort);
   if (!cryptoPort.ok) {
@@ -1457,32 +1483,27 @@ export function extractReviewTransportFormattingRunsV2(documentXml, options = {}
   if (blockingReason(reasons)) {
     return { ok: false, code: 'RTK_FORMATTING_SCANNER_XML_BLOCKED', reasons, paragraphs: [] };
   }
-  const paragraphs = documentScan.tokens
-    .filter((token) => token.localName === 'p' && token.namespaceUri === W_NS)
-    .sort((left, right) => left.openStart - right.openStart);
+  const paragraphs = indexFormattingDocumentTokens(documentScan.tokens);
   const results = [];
-  for (const [paragraphIndex, paragraph] of paragraphs.entries()) {
-    const paragraphText = textInsideToken(documentXml, documentScan, paragraph);
-    const trackedRevision = documentScan.tokens.some((token) => (
+  for (const [paragraphIndex, paragraphRecord] of paragraphs.entries()) {
+    const paragraph = paragraphRecord.token;
+    const paragraphScan = { tokens: paragraphRecord.tokens };
+    const paragraphText = textInsideToken(documentXml, paragraphScan, paragraph);
+    const trackedRevision = paragraphRecord.tokens.some((token) => (
       ['ins', 'del', 'moveFrom', 'moveTo'].includes(token.localName)
-      && token.openStart >= paragraph.openEnd
-      && token.closeEnd <= paragraph.closeStart
     ));
-    const bookmarks = documentScan.tokens
+    const bookmarks = paragraphRecord.tokens
       .filter((token) => (
         token.localName === 'bookmarkStart'
-        && token.openStart >= paragraph.openEnd
-        && token.closeEnd <= paragraph.closeStart
       ))
       .map((token) => attr(token, 'name'))
       .filter(Boolean);
-    const paragraphProperties = documentScan.tokens.find((token) => (
+    const paragraphProperties = paragraphRecord.tokens.find((token) => (
       token.localName === 'pPr'
       && token.namespaceUri === W_NS
-      && nearestContainingToken(documentScan, token, 'p') === paragraph
     ));
     const paragraphPropertyChildren = paragraphProperties
-      ? childTokensWithin(documentScan, paragraphProperties).filter((token) => token.namespaceUri === W_NS)
+      ? childTokensWithin(paragraphScan, paragraphProperties).filter((token) => token.namespaceUri === W_NS)
       : [];
     const paragraphSemanticNames = [...new Set(paragraphPropertyChildren.map((token) => token.localName))];
     const unsupportedParagraphNames = paragraphSemanticNames.filter((name) => !['jc', 'outlineLvl'].includes(name));
@@ -1492,28 +1513,22 @@ export function extractReviewTransportFormattingRunsV2(documentXml, options = {}
     const paragraphFormattingInvalid = paragraphSemanticNames.includes('jc')
       && !Object.hasOwn(paragraphState, 'textAlign');
     const paragraphStructureInvalid = paragraphSemanticNames.includes('outlineLvl') && paragraphStructure === null;
-    const runs = documentScan.tokens
-      .filter((token) => (
-        token.localName === 'r'
-        && token.namespaceUri === W_NS
-        && nearestContainingToken(documentScan, token, 'p') === paragraph
-      ))
-      .sort((left, right) => left.openStart - right.openStart);
     let cursor = 0;
     const formattedRuns = [];
-    for (const run of runs) {
-      const text = textInsideToken(documentXml, documentScan, run);
+    for (const runRecord of paragraphRecord.runs) {
+      const run = runRecord.token;
+      const runScan = { tokens: runRecord.tokens };
+      const text = textInsideToken(documentXml, runScan, run);
       const from = cursor;
       const to = from + text.length;
       cursor = to;
-      const properties = documentScan.tokens.find((token) => (
+      const properties = runRecord.tokens.find((token) => (
         token.localName === 'rPr'
         && token.namespaceUri === W_NS
-        && nearestContainingToken(documentScan, token, 'r') === run
       ));
       if (!text) continue;
       const children = properties
-        ? childTokensWithin(documentScan, properties).filter((token) => token.namespaceUri === W_NS)
+        ? childTokensWithin(runScan, properties).filter((token) => token.namespaceUri === W_NS)
         : [];
       const semanticNames = [...new Set(children.map((token) => token.localName))];
       const supportedNames = new Set(['b', 'i', 'u', 'strike', 'color', 'highlight', 'shd', 'rFonts', 'sz', 'szCs']);

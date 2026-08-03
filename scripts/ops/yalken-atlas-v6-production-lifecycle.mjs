@@ -122,12 +122,9 @@ function parseTapReport(stdout) {
     }
   }
 
-  const subtests = lines
+  const topLevelRecords = lines
     .map((line, index) => ({ line, index }))
-    .filter(({ line }) => line.startsWith('# Subtest: '));
-  const statuses = lines
-    .map((line, index) => ({ line, index }))
-    .filter(({ line }) => /^(?:ok|not ok) \d+ - /.test(line));
+    .filter(({ line }) => line && !/^\s/.test(line));
   const planMatches = lines
     .map((line) => line.match(/^1\.\.(\d+)$/))
     .filter(Boolean);
@@ -137,34 +134,53 @@ function parseTapReport(stdout) {
   const records = [];
   const seenNumbers = new Set();
   const seenNames = new Set();
-  if (subtests.length !== statuses.length) {
-    diagnostics.push(diagnostic('E_TAP_TEST_RECORD_INCOMPLETE'));
-  }
-  for (let index = 0; index < Math.min(subtests.length, statuses.length); index += 1) {
-    const subtest = subtests[index];
-    const status = statuses[index];
-    const match = status.line.match(/^(ok|not ok) (\d+) - (.*?)(?: # (SKIP|TODO)(?: .*)?)?$/);
-    if (!match || status.index <= subtest.index) {
-      diagnostics.push(diagnostic('E_TAP_TEST_RECORD_MALFORMED'));
+  let pendingSubtest = null;
+  for (const item of topLevelRecords) {
+    const { line, index } = item;
+    if (line === 'TAP version 13') continue;
+    if (line.startsWith('# Subtest: ')) {
+      if (pendingSubtest) {
+        diagnostics.push(diagnostic('E_TAP_TEST_RECORD_BOUNDARY', pendingSubtest.name));
+      }
+      pendingSubtest = {
+        index,
+        name: line.slice('# Subtest: '.length),
+      };
       continue;
     }
-    const name = subtest.line.slice('# Subtest: '.length);
-    const statusName = match[3];
-    const number = Number.parseInt(match[2], 10);
-    if (!name || statusName !== name) {
-      diagnostics.push(diagnostic('E_TAP_TEST_IDENTITY_MISMATCH', name || statusName));
+    const statusMatch = line.match(/^(ok|not ok) (\d+) - (.*?)(?: # (SKIP|TODO)(?: .*)?)?$/);
+    if (statusMatch) {
+      if (!pendingSubtest) {
+        diagnostics.push(diagnostic('E_TAP_STATUS_ORPHAN', statusMatch[3]));
+        continue;
+      }
+      const name = pendingSubtest.name;
+      const statusName = statusMatch[3];
+      const number = Number.parseInt(statusMatch[2], 10);
+      if (!name || statusName !== name) {
+        diagnostics.push(diagnostic('E_TAP_TEST_IDENTITY_MISMATCH', name || statusName));
+      }
+      if (seenNumbers.has(number) || seenNames.has(name)) {
+        diagnostics.push(diagnostic('E_TAP_TEST_IDENTITY_DUPLICATE', name));
+      }
+      seenNumbers.add(number);
+      seenNames.add(name);
+      records.push({
+        number,
+        name,
+        pass: statusMatch[1] === 'ok' && !statusMatch[4],
+        directive: statusMatch[4] || '',
+      });
+      pendingSubtest = null;
+      continue;
     }
-    if (seenNumbers.has(number) || seenNames.has(name)) {
-      diagnostics.push(diagnostic('E_TAP_TEST_IDENTITY_DUPLICATE', name));
+    if (pendingSubtest && (line.startsWith('1..') || line.startsWith('# '))) {
+      diagnostics.push(diagnostic('E_TAP_TEST_RECORD_BOUNDARY', pendingSubtest.name));
+      pendingSubtest = null;
     }
-    seenNumbers.add(number);
-    seenNames.add(name);
-    records.push({
-      number,
-      name,
-      pass: match[1] === 'ok' && !match[4],
-      directive: match[4] || '',
-    });
+  }
+  if (pendingSubtest) {
+    diagnostics.push(diagnostic('E_TAP_TEST_RECORD_INCOMPLETE', pendingSubtest.name));
   }
 
   records.forEach((record, index) => {

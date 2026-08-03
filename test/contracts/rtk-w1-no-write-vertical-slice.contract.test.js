@@ -18,6 +18,7 @@ const W3_APPLY_STORE_PATH = 'src/io/revisionBridge/reviewTransportApplyStore.mjs
 const W3_EXACT_APPLY_PATH = 'src/io/revisionBridge/reviewTransportExactApply.mjs';
 const W3_TEST_PATH = 'test/contracts/rtk-w3-exact-apply-replay.contract.test.js';
 const DOCX_PREFLIGHT_RUNTIME_REPAIR_PATH = 'src/io/revisionBridge/index.mjs';
+const DOCX_REVIEW_PREVIEW_SESSION_TEST_PATH = 'test/contracts/revision-bridge-docx-review-preview-session.contract.test.js';
 const C4_ALLOWLIST = [
   '.github/workflows/rtk-required.yml',
   'docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json',
@@ -107,6 +108,7 @@ const ALLOWLIST = [
   W3_EXACT_APPLY_PATH,
   W3_TEST_PATH,
   DOCX_PREFLIGHT_RUNTIME_REPAIR_PATH,
+  DOCX_REVIEW_PREVIEW_SESSION_TEST_PATH,
   'scripts/ops/sector-m-scope-map.json',
   'docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json',
   ...C4_ALLOWLIST,

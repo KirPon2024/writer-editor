@@ -6403,12 +6403,12 @@
     },
     {
       "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "3ba22f68e0485cfeb11945c664938da32cbf854d0eb7ad4f1a3f65b3a4d05940",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1:WORD_NATIVE_LOCATOR_REGENERATION",
-      "approvedAtUtc": "2026-08-02T12:39:38.000Z",
-      "rationale": "Approve the exact revision-bridge bytes deriving authenticated FormatIR deltas while handling source-proven native Word saves that regenerate paraId and textId. Unknown regenerated native identifiers are non-authoritative; stable paragraph-index and bookmark claims remain authoritative, known identifier collisions and cross-authority conflicts still fail closed, and scene revision, observable hash, unsupported-style and typed safe-apply guards remain mandatory. No automatic mutation or false EXACT claim.",
+      "sha256": "0d5b48809936962339c002bcd210423eca1b06b20412549cbc77180a6653aa37",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO",
+      "approvedAtUtc": "2026-08-03T15:36:47.000Z",
+      "rationale": "Approve exact revision-bridge bytes preserving native locator regeneration handling and adding Word C5V2 completed-round replay binding for native Word split open bookmark ranges so authenticated full-manuscript comment placement can join by native comment identity without fallback authority.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_REPLAY_REPAIR"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportApplyCore.mjs",
@@ -7366,12 +7366,12 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-review-preview-session.contract.test.js",
-      "sha256": "0e1c20e2bee55dacb37cec34837f8e5dc6b1d2787ec25f51f1201473e787f740",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
-      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
-      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
+      "sha256": "ec74b044c7403b4bb1d0985967a9ca8e725a52dc5a1c700130e2b95187c9912e",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO",
+      "approvedAtUtc": "2026-08-03T15:36:47.000Z",
+      "rationale": "Approve exact Word C5V2 completed-round replay regression contract bytes proving native Word split open bookmark authority binds full-manuscript comment placement without storage or apply authority.",
       "approved": true,
-      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_REPLAY_REPAIR"
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-zip-inventory-materializer.contract.test.js",
@@ -7580,12 +7580,12 @@
     },
     {
       "filePath": "test/contracts/rtk-g0b-feasibility.contract.test.js",
-      "sha256": "9dd9614a74d20eb5d12d1fda91ff33824cb8656e46fa29792ea73ccd48a84c32",
+      "sha256": "d0219c786982a809afafddf1500387ed376c643bd9719b06a8e2112da1d85c3e",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO",
-      "approvedAtUtc": "2026-08-03T13:23:00Z",
-      "rationale": "Approve exact G0B stage-scope guard bytes admitting the C5V2 lifecycle timeout contract alongside the C5V2 round checkpoint contract and physical canary harness script. This is a narrow contract-scope binding only, preserves Google blocked, adds no product network path, and makes no broad Word certification claim.",
+      "approvedAtUtc": "2026-08-03T15:36:47.000Z",
+      "rationale": "Approve exact RTK G0B allowlist bytes admitting only the Word C5V2 completed-round replay regression contract path for this source-bound repair contour.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_DORIAN_PORTFOLIO_RECOVERY"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_REPLAY_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-g0c-exact-safety.contract.test.js",
@@ -7623,21 +7623,21 @@
     },
     {
       "filePath": "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",
-      "sha256": "0ed8504cf7be5aeae67c7b9dce7b533006e04228477b3356a30d12b450dd3bb1",
+      "sha256": "998d51b3803874acccd91228099d827508f09126a2c50f7aa65e3ddc103b926e",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO",
-      "approvedAtUtc": "2026-08-03T13:23:00Z",
-      "rationale": "Approve exact W1 stage-scope guard bytes admitting the C5V2 lifecycle timeout contract alongside the C5V2 round checkpoint contract and physical canary harness script. This is a narrow contract-scope binding only, preserves Google blocked, adds no product network path, and makes no broad Word certification claim.",
+      "approvedAtUtc": "2026-08-03T15:36:47.000Z",
+      "rationale": "Approve exact RTK W1 allowlist bytes admitting only the Word C5V2 completed-round replay regression contract path while preserving no-write vertical slice scope.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_DORIAN_PORTFOLIO_RECOVERY"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_REPLAY_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js",
-      "sha256": "590cdcfa9f62887434304dd204f113b870a937ae7717de1007a872fcf2f3c687",
+      "sha256": "3b6f290efc2f27ded34f2cd024eb4bca2b8196828cc51fe9fb6e0a577ab02141",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO",
-      "approvedAtUtc": "2026-08-03T13:23:00Z",
-      "rationale": "Approve exact W2 stage-scope guard bytes admitting the C5V2 lifecycle timeout contract alongside the C5V2 round checkpoint contract and physical canary harness script. This is a narrow contract-scope binding only, preserves Google blocked, adds no product network path, and makes no broad Word certification claim.",
+      "approvedAtUtc": "2026-08-03T15:36:47.000Z",
+      "rationale": "Approve exact RTK W2 allowlist bytes admitting only the Word C5V2 completed-round replay regression contract path while preserving bounded parser review IR scope.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_DORIAN_PORTFOLIO_RECOVERY"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_REPLAY_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-w3-exact-apply-replay.contract.test.js",

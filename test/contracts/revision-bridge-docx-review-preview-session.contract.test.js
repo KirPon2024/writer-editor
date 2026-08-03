@@ -492,6 +492,48 @@ test('DOCX review preview session candidate: full manuscript bookmark signals ro
   assertNoStorageOrApplyAuthority(result);
 });
 
+test('DOCX review preview session candidate: full manuscript comment accepts Word-split open bookmark authority', async () => {
+  const bridge = await loadBridge();
+  const result = bridge.buildDocxReviewPreviewSessionCandidateFromZipBytes(docxWithCommentAndBody([
+    '<w:p w14:paraId="wordmade01" w14:textId="wordmade02">',
+    '<w:bookmarkStart w:id="7" w:name="YRTK_0001_scene_01_block_0001_abcdef1234"/>',
+    '</w:p>',
+    '<w:p w14:paraId="wordmade03" w14:textId="wordmade04">',
+    '<w:r><w:t>Alpha </w:t></w:r>',
+    '<w:commentRangeStart w:id="0"/>',
+    '<w:r><w:t>comment anchor</w:t></w:r>',
+    '<w:commentRangeEnd w:id="0"/>',
+    '<w:r><w:commentReference w:id="0"/></w:r>',
+    '<w:r><w:t> omega</w:t></w:r>',
+    '<w:bookmarkEnd w:id="7"/>',
+    '</w:p>',
+  ].join(''), 'Root body'), {
+    targetScope: { type: 'scene', id: 'roman/currently-open.txt' },
+    fullManuscriptExportMap: {
+      scenes: [
+        {
+          sceneId: 'roman/chapter-01.txt',
+          blocks: [
+            {
+              blockId: 'scene-01-block-0001-abcdef1234567890',
+              wordSignals: [
+                { kind: 'w14ParaIdTextId', value: { paraId: 'deadbeef', textId: '11112222' } },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.status, 'ready');
+  assert.equal(result.reviewPacket.commentPlacements.length, 1);
+  assert.deepEqual(result.reviewPacket.commentPlacements[0].targetScope, { type: 'scene', id: 'roman/chapter-01.txt' });
+  assert.equal(result.reviewPacket.commentPlacements[0].sceneAuthority.bookmarkNames.includes('YRTK_0001_scene_01_block_0001_abcdef1234'), true);
+  assertNoStorageOrApplyAuthority(result);
+});
+
 test('DOCX review preview session candidate: full manuscript unresolved paragraphs cannot fall back to exact open scene', async () => {
   const bridge = await loadBridge();
   const result = bridge.buildDocxReviewPreviewSessionCandidateFromZipBytes(cleanDocxZip([

@@ -3977,14 +3977,32 @@ function docxReviewPreviewSessionParagraphAuthorityAt(documentXml, documentIndex
   const bookmarkNames = docxReviewPreviewSessionTagsByLocalName(paragraphPrefix, 'bookmarkStart')
     .map((tag) => docxReviewPreviewSessionReadXmlAttr(tag.tag, 'name'))
     .filter(Boolean);
+  const bookmarkEndsBeforeIndex = new Set(docxReviewPreviewSessionTagsByLocalName(documentXml, 'bookmarkEnd')
+    .filter((tag) => tag.index < documentIndex)
+    .map((tag) => normalizeString(tag.id))
+    .filter(Boolean));
+  const openBookmarkNames = docxReviewPreviewSessionTagsByLocalName(documentXml, 'bookmarkStart')
+    .filter((tag) => tag.index < documentIndex)
+    .filter((tag) => !bookmarkEndsBeforeIndex.has(normalizeString(tag.id)))
+    .map((tag) => docxReviewPreviewSessionReadXmlAttr(tag.tag, 'name'))
+    .filter(Boolean);
   const targetScope = resolver({ paraId, textId, bookmarkNames });
-  if (!targetScope || targetScope.type !== 'scene' || !normalizeString(targetScope.id)) return null;
+  const openBookmarkTargetScope = targetScope || resolver({
+    paraId: '',
+    textId: '',
+    bookmarkNames: openBookmarkNames,
+  });
+  if (
+    !openBookmarkTargetScope
+    || openBookmarkTargetScope.type !== 'scene'
+    || !normalizeString(openBookmarkTargetScope.id)
+  ) return null;
   return {
-    targetScope,
+    targetScope: openBookmarkTargetScope,
     signal: {
       paraId: normalizeString(paraId),
       textId: normalizeString(textId),
-      bookmarkNames,
+      bookmarkNames: [...new Set([...bookmarkNames, ...openBookmarkNames])],
       authority: 'authenticated-full-manuscript-export-map-paragraph-signal',
     },
   };

@@ -17,6 +17,7 @@ const W3_APPLY_CORE_PATH = 'src/io/revisionBridge/reviewTransportApplyCore.mjs';
 const W3_APPLY_STORE_PATH = 'src/io/revisionBridge/reviewTransportApplyStore.mjs';
 const W3_EXACT_APPLY_PATH = 'src/io/revisionBridge/reviewTransportExactApply.mjs';
 const W3_TEST_PATH = 'test/contracts/rtk-w3-exact-apply-replay.contract.test.js';
+const DOCX_REVIEW_PREVIEW_SESSION_TEST_PATH = 'test/contracts/revision-bridge-docx-review-preview-session.contract.test.js';
 const SCHEMA_PATH = 'docs/OPS/RTK/G0B_NORMATIVE_SCHEMA_V2.json';
 const CORPUS_PATH = 'docs/OPS/RTK/G0B_SUPPORTED_CORPUS_V1.json';
 const WORD_SETTINGS_PATH = 'docs/OPS/RTK/G0B_WORD_SETTINGS_CAPSULE_CONTRACT_V1.json';
@@ -111,6 +112,7 @@ const ALLOWLIST = [
   W3_APPLY_STORE_PATH,
   W3_EXACT_APPLY_PATH,
   W3_TEST_PATH,
+  DOCX_REVIEW_PREVIEW_SESSION_TEST_PATH,
   SCHEMA_PATH,
   CORPUS_PATH,
   WORD_SETTINGS_PATH,

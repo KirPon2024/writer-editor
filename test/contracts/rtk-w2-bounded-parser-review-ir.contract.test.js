@@ -10,6 +10,7 @@ const CORE_PATH = 'src/io/revisionBridge/reviewTransportCore.mjs';
 const ORACLE_PATH = 'src/io/revisionBridge/reviewTransportOracle.mjs';
 const ROUND_STORE_PATH = 'src/io/revisionBridge/reviewTransportRoundStore.mjs';
 const TEST_PATH = 'test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js';
+const DOCX_REVIEW_PREVIEW_SESSION_TEST_PATH = 'test/contracts/revision-bridge-docx-review-preview-session.contract.test.js';
 const C4_ALLOWLIST = [
   '.github/workflows/rtk-required.yml',
   'docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json',
@@ -98,6 +99,7 @@ const ALLOWLIST = [
   'test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js',
   TEST_PATH,
   'test/contracts/rtk-w3-exact-apply-replay.contract.test.js',
+  DOCX_REVIEW_PREVIEW_SESSION_TEST_PATH,
   'scripts/ops/sector-m-scope-map.json',
   'docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json',
   ...C4_ALLOWLIST,

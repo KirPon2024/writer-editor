@@ -22,6 +22,7 @@ const FREE_PRO_COMPLEXITY_COMMAND_IDS = Object.freeze([
   'cmd.project.review.openDocxReviewPreviewSession',
   'cmd.project.review.clearSession',
   'cmd.project.review.applyExactTextChange',
+  'cmd.project.review.applyFullManuscriptExactTextReturn',
   'cmd.project.review.exportMarkdown',
 ]);
 
@@ -95,6 +96,7 @@ const FREE_ALWAYS_AVAILABLE_COMMAND_IDS = Object.freeze([
   'cmd.project.tools.openDiagnostics',
   'cmd.project.review.openRecovery',
   'cmd.project.review.applyExactTextChangesBatch',
+  'cmd.project.review.applyFullManuscriptExactTextReturn',
   'cmd.project.review.exportDocxReviewPacket',
   'cmd.project.review.exportFullManuscriptDocxReviewPacket',
   'cmd.project.insert.markdownPrompt',

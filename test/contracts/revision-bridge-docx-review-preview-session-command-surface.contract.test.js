@@ -83,6 +83,16 @@ const MENU_HANDLER_COMPUTED_KEY_GLOBALS = Object.freeze({
   HISTORY_RESTORE_UNDO_COMMAND_ID: 'cmd.project.history.restoreUndo',
 });
 
+const COMMAND_SURFACE_KERNEL_COMMAND_IDS = Object.freeze({
+  RTK_REVIEW_APPLY_NON_OVERLAP_TRACKED_REPLACEMENTS: 'cmd.rtk.review.applyNonOverlapTrackedReplacements',
+  RTK_REVIEW_APPLY_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENTS:
+    'cmd.rtk.review.applyMultiSceneNonOverlapTrackedReplacements',
+  RTK_REVIEW_APPLY_ROOT_COMMENT_RETURN: 'cmd.rtk.review.applyRootCommentReturn',
+  RTK_REVIEW_APPLY_COMMENT_LIFECYCLE_RETURN: 'cmd.rtk.review.applyCommentLifecycleReturn',
+  RTK_REVIEW_APPLY_MULTI_SCENE_FORMATTING_RETURN: 'cmd.rtk.review.applyMultiSceneFormattingReturn',
+  RTK_REVIEW_APPLY_MULTI_SCENE_STRUCTURAL_RETURN: 'cmd.rtk.review.applyMultiSceneStructuralReturn',
+});
+
 function cloneJsonSafe(value) {
   if (value === undefined) return undefined;
   return JSON.parse(JSON.stringify(value));
@@ -124,12 +134,18 @@ function instantiateDocxReviewPreviewSessionPort(options = {}) {
     isDirty: false,
     crypto,
     Buffer,
+    COMMAND_SURFACE_KERNEL_COMMAND_IDS,
     ...MENU_HANDLER_COMPUTED_KEY_GLOBALS,
     cloneJsonSafe,
     computeHash,
     fs: options.fs || { readFile: async () => 'Anchored text' },
-    fsSync: options.fsSync || { readFileSync: () => 'Anchored text' },
+    fsSync: options.fsSync || {
+      existsSync: () => false,
+      lstatSync: () => ({ isSymbolicLink: () => false, isFile: () => false }),
+      readFileSync: () => 'Anchored text',
+    },
     getDocumentContextFromPath: options.getDocumentContextFromPath || (() => ({ kind: 'scene' })),
+    getProjectRootPath: options.getProjectRootPath || (() => '/project'),
     getProjectRelativeFilePath: options.getProjectRelativeFilePath || (() => 'roman/imported/scene-1.txt'),
     hasReviewSurfacePayload,
     isAllowedFilePath: options.isAllowedFilePath || (() => true),
@@ -171,6 +187,13 @@ const MENU_CUSTOMIZATION_COMMAND_RESET = 'cmd.menu.customization.reset';
 const MENU_CUSTOMIZATION_COMMAND_TOGGLE_VISIBILITY = 'cmd.menu.customization.toggleVisibility';
 const MENU_CUSTOMIZATION_COMMAND_MOVE_EARLIER = 'cmd.menu.customization.moveEarlier';
 const MENU_CUSTOMIZATION_COMMAND_MOVE_LATER = 'cmd.menu.customization.moveLater';
+const __testHandleDocxReviewPreviewSessionActivationCommandSurface = handleDocxReviewPreviewSessionActivationCommandSurface;
+handleDocxReviewPreviewSessionActivationCommandSurface = (payload = {}, testOptions = {}) => (
+  __testHandleDocxReviewPreviewSessionActivationCommandSurface(payload, {
+    allowInlineDocxReturnIntakeParserForTests: true,
+    ...testOptions,
+  })
+);
 ${menuCommandHandlersSection}
 module.exports = {
   DOCX_REVIEW_PREVIEW_SESSION_COMMAND_ID,
@@ -178,6 +201,7 @@ module.exports = {
   runtimeCommands,
   handleDocxReviewPreviewSessionActivationCommandSurface,
   handleReviewSurfaceApplyExactTextChangeCommandSurface,
+  handleReviewSurfaceApplyFullManuscriptExactTextReturnCommandSurface,
   getState() {
     return {
       activeReviewSessionStore,
@@ -400,6 +424,15 @@ const c05CryptoPort = {
   },
   sha256Json(value) {
     return `sha256:${this.sha256Text(stableJson(value))}`;
+  },
+  hmacSha256Json(value, secret) {
+    return `hmac-sha256:${crypto
+      .createHmac('sha256', String(secret || ''))
+      .update(stableJson(value), 'utf8')
+      .digest('hex')}`;
+  },
+  byteLength(value) {
+    return Buffer.byteLength(String(value || ''), 'utf8');
   },
 };
 
@@ -1065,6 +1098,174 @@ test('DOCX review preview session command: non-overlap tracked replacements reac
   assert.equal(port.getState().currentReviewSurfacePayload.rtkNonOverlapTrackedReplacementApplyResult.status, 'applied');
 });
 
+test('DOCX review preview session command: full-manuscript return exposes only explicit product apply and dispatches main-owned multi-scene envelope', async () => {
+  const {
+    buildFullManuscriptDocxReviewPacketSource,
+  } = require(path.join(REPO_ROOT, 'src', 'export', 'docx', 'fullManuscriptDocxReviewPacketSource.js'));
+  const {
+    buildFullManuscriptReviewReturnApplyPlan,
+  } = require(path.join(REPO_ROOT, 'src', 'export', 'docx', 'fullManuscriptDocxReviewReturnRouter.js'));
+  const fullSource = buildFullManuscriptDocxReviewPacketSource({
+    projectId: 'project-c5v2-product-route',
+    projectRoot: '/project',
+    manifestPath: '/project/manifest.json',
+    scenes: [
+      {
+        sceneId: 'roman/preface.md',
+        scenePath: '/project/roman/preface.md',
+        text: 'The artist is the creator of beautiful things.',
+        order: 0,
+      },
+      {
+        sceneId: 'roman/chapter-01.md',
+        scenePath: '/project/roman/chapter-01.md',
+        text: 'The studio was filled with the rich odour of roses.',
+        order: 1,
+      },
+    ],
+  }, {
+    roundIdHex: 'feed0000000000000000000000000001',
+    keyIdHex: 'feed0000000000000000000000000002',
+    hmacSecret: 'local-secret-for-full-manuscript-product-route',
+    cryptoPort: c05CryptoPort,
+  });
+  const returnedAuthority = {
+    scope: 'full-manuscript',
+    projectId: 'project-c5v2-product-route',
+    roundId: fullSource.localAuthorityCapsule.roundId,
+    exportId: fullSource.localAuthorityCapsule.exportIdentity,
+    fullBookRawSha256: fullSource.exportCapsule.fullBookRawSha256,
+    orderedSceneIds: fullSource.exportCapsule.orderedSceneIds,
+  };
+  const fullPlan = buildFullManuscriptReviewReturnApplyPlan({
+    projectId: 'project-c5v2-product-route',
+    requestId: 'activate-full-manuscript-product-route',
+    localAuthorityCapsule: fullSource.localAuthorityCapsule,
+    returnedAuthority,
+    operations: [
+      {
+        id: 'op-preface-full-product-route',
+        family: 'tracked_text_edit',
+        sceneId: 'roman/preface.md',
+        anchor: { sceneId: 'roman/preface.md', selectedText: 'beautiful things' },
+        semanticIntent: { kind: 'replace', replacementText: 'luminous forms' },
+      },
+      {
+        id: 'op-chapter-full-product-route',
+        family: 'tracked_text_edit',
+        sceneId: 'roman/chapter-01.md',
+        anchor: { sceneId: 'roman/chapter-01.md', selectedText: 'rich odour of roses' },
+        semanticIntent: { kind: 'replace', replacementText: 'quiet scent of roses' },
+      },
+    ],
+  });
+  assert.equal(fullPlan.ok, true, JSON.stringify(fullPlan, null, 2));
+  const calls = [];
+  const port = instantiateDocxReviewPreviewSessionPort({
+    dispatchCommandSurfaceKernel: async (commandId, payload = {}) => {
+      calls.push({ commandId, payload: cloneJsonSafe(payload) });
+      assert.equal(commandId, 'cmd.rtk.review.applyMultiSceneNonOverlapTrackedReplacements');
+      assert.equal(payload.previewConfirmed, true);
+      assert.equal(payload.commandId, 'cmd.rtk.review.applyMultiSceneNonOverlapTrackedReplacements');
+      assert.equal(payload.sceneCommands.length, 2);
+      assert.equal(payload.sceneCommands[0].input.commandAuthority.issuer, 'main');
+      assert.equal(payload.sceneCommands[1].input.commandAuthority.issuer, 'main');
+      return {
+        ok: true,
+        status: 'applied',
+        code: 'RTK_MULTI_SCENE_EXACT_APPLIED',
+        reason: 'RTK_MULTI_SCENE_EXACT_APPLIED',
+        applied: true,
+        replay: false,
+        writerCalled: true,
+        automaticApplyCertified: false,
+        multiSceneAtomicApplyCertified: true,
+        sceneResults: [
+          { sceneId: 'roman/preface.md', status: 'applied' },
+          { sceneId: 'roman/chapter-01.md', status: 'applied' },
+        ],
+      };
+    },
+  });
+  const parserResult = {
+    ok: true,
+    authorityCarrier: {
+      status: 'verified-baseline-bound',
+      selectedCarrier: { payload: returnedAuthority, baselineBinding: { allExpectedMatched: true } },
+    },
+    exactAuthority: { validSignedLocator: true, sceneRevisionUnchanged: true, rawSha256Unchanged: true },
+    parserProfileDigest: c05Sha256Text('parser-full-route'),
+    analysisDigest: c05Sha256Text('analysis-full-route'),
+    sourceMode: 'TRACKED',
+    reviewIr: c05ReviewIr(),
+  };
+  const result = await port.handleDocxReviewPreviewSessionActivationCommandSurface(
+    toPayload(cleanDocxZip([
+      '<w:p>',
+      '<w:r><w:t>Alpha </w:t></w:r>',
+      '<w:del w:id="1"><w:r><w:delText>beta</w:delText></w:r></w:del>',
+      '<w:ins w:id="2"><w:r><w:t>delta</w:t></w:r></w:ins>',
+      '<w:r><w:t> gamma.</w:t></w:r>',
+      '</w:p>',
+    ].join(''))),
+    {
+      activeReviewDocxExportAuthorityStore: {
+        schemaVersion: 'yalken.rtk.word.product-review-docx-export.authority-store.v1',
+        scope: 'full-manuscript',
+        lastRoundId: fullSource.localAuthorityCapsule.roundId,
+        roundsById: { [fullSource.localAuthorityCapsule.roundId]: fullSource.localAuthorityCapsule },
+        secretExposedToRenderer: false,
+      },
+      runDocxReviewReturnIntakeInUtilityProcess: async () => ({ ok: true, parserResult }),
+      buildMainReviewContext: async () => reviewContext({
+        projectId: 'project-c5v2-product-route',
+        projectRoot: '/project',
+        targetScope: { type: 'scene', id: 'roman/preface.md' },
+      }),
+      buildRtkNonOverlapTrackedReplacementApplyInput: async () => ({
+        ok: true,
+        fullManuscriptPlan: fullPlan,
+      }),
+    },
+  );
+
+  assert.equal(result.ok, true, JSON.stringify(result, null, 2));
+  assert.equal(result.nonOverlapTrackedReplacementProductPath.prepared, true);
+  assert.equal(result.nonOverlapTrackedReplacementProductPath.reason, 'RTK_FULL_MANUSCRIPT_EXACT_PRODUCT_PATH_READY');
+  assert.equal(result.nonOverlapTrackedReplacementProductPath.writerCalled, false);
+  assert.equal(result.nonOverlapTrackedReplacementProductPath.rendererAuthority, false);
+  assert.equal(result.reviewSurface.fullManuscriptExactTextReturnPreview.applyCommandId, 'cmd.project.review.applyFullManuscriptExactTextReturn');
+  assert.equal(result.reviewSurface.fullManuscriptExactTextReturnPreview.rendererAuthority, false);
+  assert.equal(result.reviewSurface.fullManuscriptExactTextReturnPreview.productRuntimeWired, true);
+  assert.equal(Object.prototype.hasOwnProperty.call(result.reviewSurface.fullManuscriptExactTextReturnPreview, 'sceneCommands'), false);
+  assert.equal(Object.prototype.hasOwnProperty.call(result.reviewSurface.fullManuscriptExactTextReturnPreview, 'fullManuscriptInput'), false);
+  assert.equal(result.reviewSurface.exactTextPlanPreview.plan.fullManuscript, true);
+  assert.equal(result.reviewSurface.exactTextPlanPreview.plan.applyOps.length, 2);
+  assert.equal(calls.length, 0);
+
+  const applied = await port.handleReviewSurfaceApplyFullManuscriptExactTextReturnCommandSurface({
+    requestId: 'explicit-renderer-confirmed-full-manuscript-apply',
+  });
+  assert.equal(applied.ok, true, JSON.stringify(applied, null, 2));
+  assert.equal(applied.applied, true);
+  assert.equal(applied.result.multiSceneAtomicApplyCertified, true);
+  assert.equal(applied.result.automaticApplyCertified, false);
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].payload.requestId, 'explicit-renderer-confirmed-full-manuscript-apply');
+  assert.equal(calls[0].payload.sceneCommands.length, 2);
+  assert.equal(applied.reviewSurface.exactTextAppliedChangeIds.length, 2);
+  assert.equal(applied.reviewSurface.rtkFullManuscriptNonOverlapTrackedReplacementApplyResult.status, 'applied');
+
+  const mainSource = readMainSource();
+  const rendererSource = fs.readFileSync(path.join(REPO_ROOT, 'src', 'renderer', 'editor.js'), 'utf8');
+  const capabilitySource = fs.readFileSync(path.join(REPO_ROOT, 'src', 'renderer', 'commands', 'localCapabilityProvider.mjs'), 'utf8');
+  assert.match(mainSource, /'cmd\.project\.review\.applyFullManuscriptExactTextReturn': async/u);
+  assert.match(mainSource, /COMMAND_SURFACE_KERNEL_COMMAND_IDS\.RTK_REVIEW_APPLY_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENTS/u);
+  assert.match(rendererSource, /REVIEW_SURFACE_FULL_MANUSCRIPT_EXACT_TEXT_APPLY_COMMAND_ID/u);
+  assert.match(rendererSource, /data-review-apply-full-manuscript-exact/u);
+  assert.match(capabilitySource, /cmd\.project\.review\.applyFullManuscriptExactTextReturn/u);
+});
+
 test('DOCX review preview session command: authenticated return IR drives visible preview explicit apply and replay', async () => {
   const docx = productReviewDocxWithTrackedReplacement();
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-rtk-p0-return-loop-'));
@@ -1377,13 +1578,17 @@ test('DOCX review preview session command: full-manuscript active authority stor
     'authenticated-full-manuscript-export-map-paragraph-signal',
   ]);
   assert.equal(result.commentProductPath.ok, true);
+  assert.equal(result.commentProductPath.status, 'preview-ready');
+  assert.equal(result.commentProductPath.code, 'RTK_COMMENT_PRODUCT_RETURN_PREVIEW_READY_EXPLICIT_APPLY_REQUIRED');
+  assert.equal(result.commentProductPath.pendingProductApplyLane, true);
+  assert.equal(result.commentProductPath.explicitUserConfirmedCanonicalCommandRequired, true);
   assert.equal(result.commentProductPath.sceneAuthorityIdentityJoin.identityJoinCount, 1);
   assert.equal(result.commentProductPath.sceneAuthorityIdentityJoin.unjoinedPlacementCount, 0);
-  assert.equal(result.commentProductPath.semanticOracle.triangleGreen, true);
-  assert.equal(result.commentProductPath.applyReceipts.length, 3);
-  assert.equal(result.commentProductPath.replayReceipts.length, 3);
-  assert.equal(calls.filter((commandId) => commandId === 'cmd.rtk.review.applyRootCommentReturn').length, 2);
-  assert.equal(calls.filter((commandId) => commandId === 'cmd.rtk.review.applyCommentLifecycleReturn').length, 4);
+  assert.equal(result.commentProductPath.planSummary.commandCount, 3);
+  assert.equal(result.commentProductPath.applyReceipts.length, 0);
+  assert.equal(result.commentProductPath.previewCommands.length, 3);
+  assert.equal(calls.filter((commandId) => commandId === 'cmd.rtk.review.applyRootCommentReturn').length, 0);
+  assert.equal(calls.filter((commandId) => commandId === 'cmd.rtk.review.applyCommentLifecycleReturn').length, 0);
 });
 
 test('DOCX review preview session command: authenticated full-manuscript missing and forged local maps block before command dispatch', async () => {
@@ -1526,8 +1731,8 @@ test('DOCX review preview session command: return intake worker accepts Electron
 
 test('DOCX review preview session command: source section has no storage write authority', () => {
   const source = extractMarkedSection(readMainSource(), ACTIVATION_SECTION_START, ACTIVATION_SECTION_END);
+  assert.match(source, /persistDocxReviewReturnAuthorityStore/u);
   for (const forbidden of [
-    'writeFileAtomic',
     'queueDiskOperation',
     'applyExactTextMinSafeWrite',
     'applyDocxImportSafeCreate',

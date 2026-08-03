@@ -9044,10 +9044,10 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "eaf0dbd12c20feea1e4b922807ca39c0860af5744ca713d87dc66f4b591f1901",
+      "sha256": "7df4ab01e3d1488baa9b5ab0f40623f9f96e20b4f3792a967d41ab8f39748920",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO",
-      "approvedAtUtc": "2026-08-03T05:22:34Z",
-      "rationale": "Approve exact governed C5V2 physical canary harness bytes adding explicit resume-run binding plus fail-fast persisted-log handling when the Electron child exits before a cumulative recovery phase. This rebind preserves checkpoint evidence, keeps Google blocked, adds no product network path, and makes no broad Word certification claim.",
+      "approvedAtUtc": "2026-08-03T09:50:00Z",
+      "rationale": "Approve exact governed C5V2 physical canary harness bytes that preserve completed-round recovery from fsynced oracle-gate and reopened-truth evidence without reactivating stale returned DOCX authority in a fresh product session. This preserves fail-closed recovery, keeps Google blocked, adds no product network path, and makes no broad Word certification claim.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_DORIAN_PORTFOLIO_RECOVERY"
     },

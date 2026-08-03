@@ -7580,10 +7580,10 @@
     },
     {
       "filePath": "test/contracts/rtk-g0b-feasibility.contract.test.js",
-      "sha256": "6858449631133a8ef093f94fc94c26a98a6e6e9a21fb99da5b14bb795fd71d4b",
+      "sha256": "9dd9614a74d20eb5d12d1fda91ff33824cb8656e46fa29792ea73ccd48a84c32",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO",
-      "approvedAtUtc": "2026-08-03T10:10:00Z",
-      "rationale": "Approve exact G0B stage-scope guard bytes admitting the C5V2 round checkpoint contract alongside the existing C5V2 physical canary harness script. This is a narrow contract-scope binding only, preserves Google blocked, adds no product network path, and makes no broad Word certification claim.",
+      "approvedAtUtc": "2026-08-03T13:23:00Z",
+      "rationale": "Approve exact G0B stage-scope guard bytes admitting the C5V2 lifecycle timeout contract alongside the C5V2 round checkpoint contract and physical canary harness script. This is a narrow contract-scope binding only, preserves Google blocked, adds no product network path, and makes no broad Word certification claim.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_DORIAN_PORTFOLIO_RECOVERY"
     },
@@ -7623,19 +7623,19 @@
     },
     {
       "filePath": "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",
-      "sha256": "fcc891d7a0f4bafc9c28b835139ca4ff6eef12d1c9d71ad1556485a3976a1be1",
+      "sha256": "0ed8504cf7be5aeae67c7b9dce7b533006e04228477b3356a30d12b450dd3bb1",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO",
-      "approvedAtUtc": "2026-08-03T10:10:00Z",
-      "rationale": "Approve exact W1 stage-scope guard bytes admitting the C5V2 round checkpoint contract alongside the existing C5V2 physical canary harness script. This is a narrow contract-scope binding only, preserves Google blocked, adds no product network path, and makes no broad Word certification claim.",
+      "approvedAtUtc": "2026-08-03T13:23:00Z",
+      "rationale": "Approve exact W1 stage-scope guard bytes admitting the C5V2 lifecycle timeout contract alongside the C5V2 round checkpoint contract and physical canary harness script. This is a narrow contract-scope binding only, preserves Google blocked, adds no product network path, and makes no broad Word certification claim.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_DORIAN_PORTFOLIO_RECOVERY"
     },
     {
       "filePath": "test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js",
-      "sha256": "6a1ee9f073238c47533ff27345de31636862fbe0374b0008cbd7b47bab15ec5c",
+      "sha256": "590cdcfa9f62887434304dd204f113b870a937ae7717de1007a872fcf2f3c687",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO",
-      "approvedAtUtc": "2026-08-03T10:10:00Z",
-      "rationale": "Approve exact W2 stage-scope guard bytes admitting the C5V2 round checkpoint contract alongside the existing C5V2 physical canary harness script. This is a narrow contract-scope binding only, preserves Google blocked, adds no product network path, and makes no broad Word certification claim.",
+      "approvedAtUtc": "2026-08-03T13:23:00Z",
+      "rationale": "Approve exact W2 stage-scope guard bytes admitting the C5V2 lifecycle timeout contract alongside the C5V2 round checkpoint contract and physical canary harness script. This is a narrow contract-scope binding only, preserves Google blocked, adds no product network path, and makes no broad Word certification claim.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_DORIAN_PORTFOLIO_RECOVERY"
     },
@@ -9044,19 +9044,19 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "4dcd67c70a2cc657d03a96bbb960199494bcfbbdbc9a95fe24194038ed12f7be",
+      "sha256": "d5b53d6a5e18378a1600110215097be0685b3e471d9cfcd79dbf1daa09f803fe",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO",
-      "approvedAtUtc": "2026-08-03T12:58:00Z",
-      "rationale": "Approve exact governed C5V2 physical canary harness bytes that resolve tracked text edits through the live Word unique locator plus selected quote instead of raw absolute character offsets. This prevents paragraph-boundary misplacement in dense physical Word revision chunks, preserves fail-closed recovery and semantic oracle authority, keeps Google blocked, adds no product network path, and makes no broad Word certification claim.",
+      "approvedAtUtc": "2026-08-03T13:14:00Z",
+      "rationale": "Approve exact governed C5V2 physical canary harness bytes that resolve tracked text edits through the live Word unique locator plus selected quote instead of raw absolute character offsets and extends native Word automation timeout budgets so dense physical chunks can complete final reopened semantic readback through the checkpointed fail-closed path instead of being externally killed. This preserves fail-closed recovery and semantic oracle authority, keeps Google blocked, adds no product network path, and makes no broad Word certification claim.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_DORIAN_PORTFOLIO_RECOVERY"
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-round-checkpoint.contract.test.js",
-      "sha256": "1ee0a3a83582ad102af37dafc7382e6e8d1361b529218d75b231274ef858bc5a",
+      "sha256": "376f4f5d248d68d3768495447f06623f56e00e1b5aa13459e7789bb96b30325a",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO",
-      "approvedAtUtc": "2026-08-03T12:58:00Z",
-      "rationale": "Approve exact RTK contract bytes requiring generated C5V2 tracked text operations to use the Word locator-bound range path while preserving cumulative chunk checkpoint, semantic readback, and live evidence mirroring guarantees. This preserves semantic oracle authority, keeps fail-closed under-count detection, adds no product network path, and makes no broad Word certification claim.",
+      "approvedAtUtc": "2026-08-03T13:14:00Z",
+      "rationale": "Approve exact RTK contract bytes requiring generated C5V2 tracked text operations to use the Word locator-bound range path and binding the extended in-script native Word timeout budget while preserving cumulative chunk checkpoint, semantic readback, and live evidence mirroring guarantees. This preserves semantic oracle authority, keeps fail-closed under-count detection, adds no product network path, and makes no broad Word certification claim.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_DORIAN_PORTFOLIO_RECOVERY"
     },
@@ -9107,10 +9107,10 @@
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-comment-lifecycle-return-runtime.contract.test.js",
-      "sha256": "61b5eb330fab6e28b6ce084fe7428ebb6766a65da94e6570b83b9adfeb10889a",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_N3_FORMATTING_RETURN_RESPONSE_REPAIR",
-      "approvedAtUtc": "2026-08-02T13:34:42.204Z",
-      "rationale": "Approve exact governed and previously approved product-route bytes for the controller-resumed Word N3 formatting-return response repair. This rebind covers the current T7 branch state after physical Word 16.111.2 apply/replay evidence, preserves Google blocked, adds no network path, and makes no broad Word saturation or fixture-only certification claim.",
+      "sha256": "b7f2c8b7d20ef9838f47fc2115a4197bbf41107d078fd08856be3d06e1d128be",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO",
+      "approvedAtUtc": "2026-08-03T13:18:00Z",
+      "rationale": "Approve exact governed lifecycle contract bytes rebinding the C5V2 native Word automation timeout budget after physical chunk evidence showed completed operations, save, close and reopen could still be killed before final semantic readback and durable checkpoint. This preserves fail-closed recovery, keeps Google blocked, adds no product network path, and makes no broad Word certification claim.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_N3_RESUME"
     },

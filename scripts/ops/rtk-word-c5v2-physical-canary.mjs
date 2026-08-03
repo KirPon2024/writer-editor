@@ -4005,7 +4005,7 @@ export function buildWordScript({
     `  set yReturnedPath to ${appleText(returnedPath)}`,
     `  set yArtifactReturnedPath to ${appleText(artifactReturnedPath)}`,
     `  set yCheckpointPath to ${appleText(`${artifactReturnedPath}.phase.log`)}`,
-    '  set my yOverallDeadline to (current date) + 180',
+    '  set my yOverallDeadline to (current date) + 420',
     ...(resetCheckpoint ? ['  my yResetCheckpoint(yCheckpointPath)'] : []),
     `  my yCheckpoint(yCheckpointPath, ${appleText(chunkId ? `CHUNK_START:${chunkId}` : 'CANARY_START')}, yReturnedPath)`,
     '  my yCloseStaleExpectedDocuments(yReturnedPath)',
@@ -4111,7 +4111,7 @@ export function runAppleScript(scriptText, scriptPath) {
   return execFileSync('/usr/bin/osascript', [scriptPath], {
     cwd: REPO_ROOT,
     encoding: 'utf8',
-    timeout: 240_000,
+    timeout: 480_000,
     stdio: ['ignore', 'pipe', 'pipe'],
   });
 }

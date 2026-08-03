@@ -9044,30 +9044,30 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "4ae045d7a12340def29e60e4e4422954748c7dcf736e5b7d9cf6809181d56e55",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_INDEPENDENT_EXACT_HEAD_HOLD_REPAIR",
-      "approvedAtUtc": "2026-08-03T15:55:23Z",
-      "rationale": "Approve exact governed C5V2 physical canary bytes adding the fail-closed completed-round reuse binding v3. Reuse now binds current round identity, recomputed physical ledger content, Word output, complete oracle, ready record, source, returned DOCX, reopened truth, and exact operation-to-scene-to-change mappings while preserving the inline compile-safe recorded-status gate and CWD-stable yShell route. No Word, Electron, or physical evidence run was invoked.",
+      "sha256": "2953948e32acb8dcc8a4db8031c5acc836f7b53d40fcf5189ccc876221c3f38d",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_CHANGE_AUTHORITY_HOLD_REPAIR",
+      "approvedAtUtc": "2026-08-03T16:33:56Z",
+      "rationale": "Approve exact governed C5V2 physical canary bytes adding completed-round reuse binding v4 and a durably persisted raw returnApply candidate-authority projection. Reuse reconstructs operation-to-scene-to-change mappings from independent candidate scene and content hashes and rejects self-authored synchronized swaps while preserving the inline compile-safe recorded-status gate and CWD-stable yShell route. No Word, Electron, or physical evidence run was invoked.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_INDEPENDENT_EXACT_HEAD_HOLD_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_CHANGE_AUTHORITY_HOLD_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-round-checkpoint.contract.test.js",
-      "sha256": "b0753d70833549dc96a64185085e4e3ed1c40b522cea1daadd02f1e029941451",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_INDEPENDENT_EXACT_HEAD_HOLD_REPAIR",
-      "approvedAtUtc": "2026-08-03T15:55:23Z",
-      "rationale": "Approve exact round-checkpoint contract bytes updated for completed-round reuse binding v3 while preserving the inline compile-safe status gate, CWD-stable yShell route, durable checkpoint behavior, native semantic readback authority, and ledger-only exact summary requirement.",
+      "sha256": "dacb64ee84f899715e03c0b43daff9d14973ce8e1425a8659c811d89d2810215",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_CHANGE_AUTHORITY_HOLD_REPAIR",
+      "approvedAtUtc": "2026-08-03T16:33:56Z",
+      "rationale": "Approve exact round-checkpoint contract bytes updated for completed-round reuse binding v4 and durable raw candidate-authority persistence before gate binding while preserving the inline compile-safe status gate, CWD-stable yShell route, durable checkpoint behavior, and ledger-bound exact summary requirement.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_INDEPENDENT_EXACT_HEAD_HOLD_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_CHANGE_AUTHORITY_HOLD_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-pr1414-audit-hold-repair.contract.test.js",
-      "sha256": "1bca6840dc706fa770958508126482acdf01dcc56c2703980d7efdc2bd6336a1",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_INDEPENDENT_EXACT_HEAD_HOLD_REPAIR",
-      "approvedAtUtc": "2026-08-03T15:55:23Z",
-      "rationale": "Approve exact production-shaped behavioral contract bytes proving fail-closed rejection of same-count ledger identifier and scene mutations with unchanged declared digests, recorded EXACT-to-BLOCKED mutation, complete oracle downgrade, stale round identity, and forged exact scene or change mappings. Fixtures are isolated and do not touch physical Word evidence.",
+      "sha256": "4b34e7d7d1e173426b061f8ed159cf6861b766a402ac6a8b96bf8a1c4325f524",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_CHANGE_AUTHORITY_HOLD_REPAIR",
+      "approvedAtUtc": "2026-08-03T16:33:56Z",
+      "rationale": "Approve exact production-shaped behavioral contract bytes proving fail-closed rejection of synchronized two-scene changeId swaps, candidate-authority content and hash mutations, the five prior completed-round vectors, one-sided mapping forges, and activation-only candidates. Fixtures are isolated and do not touch physical Word evidence.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_INDEPENDENT_EXACT_HEAD_HOLD_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_CHANGE_AUTHORITY_HOLD_REPAIR"
     },
     {
       "filePath": "scripts/ops/rtk-word-sandbox-work-root.mjs",

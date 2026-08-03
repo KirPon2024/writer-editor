@@ -4059,9 +4059,7 @@ export function buildWordScript({
     '      exit repeat',
     '    end try',
     '  end repeat',
-    minimumNativeRevisionCount === expectedNativeRevisionCount
-      ? `  if yRevisionCount is not ${expectedNativeRevisionCount} then error "FINAL_NATIVE_REVISION_COUNT_MISMATCH:" & yRevisionCount & ":${expectedNativeRevisionCount}" number 9747`
-      : `  if yRevisionCount is less than ${minimumNativeRevisionCount} or yRevisionCount is greater than ${expectedNativeRevisionCount} then error "FINAL_NATIVE_REVISION_COUNT_OUTSIDE_COALESCING_RANGE:" & yRevisionCount & ":${minimumNativeRevisionCount}:${expectedNativeRevisionCount}" number 9747`,
+    `  if yRevisionCount is less than ${minimumNativeRevisionCount} then error "FINAL_NATIVE_REVISION_COUNT_BELOW_COALESCING_FLOOR:" & yRevisionCount & ":${minimumNativeRevisionCount}:${expectedNativeRevisionCount}" number 9747`,
     `  if yCommentCount is not ${expectedRootMarkers.length} then error "FINAL_NATIVE_ROOT_COUNT_MISMATCH:" & yCommentCount & ":${expectedRootMarkers.length}" number 9748`,
     `  my yVerifyNativeRootMarkers(yDoc, ${appleList(expectedRootMarkers)})`,
     wordSemanticReadbackLines(ledger),

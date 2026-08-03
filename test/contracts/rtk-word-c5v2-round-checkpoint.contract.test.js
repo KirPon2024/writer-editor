@@ -183,9 +183,9 @@ test('C5V2 physical Word chunks preserve root-first and descending-range authori
   assert.match(continuation, /on yFindRangeWithin\(yDoc, yLocator, yQuote\)/u);
   assert.match(continuation, /set yRange to my yFindRangeWithin\(yDoc, "ee", "ee"\)/u);
   assert.match(continuation, /set yRange to my yFindRangeWithin\(yDoc, "aa", "aa"\)/u);
-  assert.match(continuation, /on yRecordedOperationStatus\(yOpsDone, yOperationId\)/u);
+  assert.doesNotMatch(continuation, /on yRecordedOperationStatus\(yOpsDone, yOperationId\)/u);
   assert.match(continuation, /NATIVE_READBACK_REPORTED_STATUS_MISMATCH:insert-mid:/u);
-  assert.match(continuation, /if yOperationReportedStatus is not "EXACT" then error/u);
+  assert.match(continuation, /if yOpsDone does not contain \("OP\|insert-mid\|EXACT" & linefeed\) then error/u);
   assert.doesNotMatch(continuation, /offset of yQuote/u);
 });
 

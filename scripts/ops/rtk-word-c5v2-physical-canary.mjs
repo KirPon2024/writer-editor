@@ -3397,15 +3397,6 @@ function wordSemanticReadbackLines(ledger) {
     ['tracked_replace', 'tracked_insert', 'tracked_delete'].includes(operation.family)
   ));
   lines.push('set yNativeReadback to ""');
-  lines.push('on yRecordedOperationStatus(yOpsDone, yOperationId)');
-  lines.push('  if yOpsDone contains ("OP|" & yOperationId & "|EXACT" & linefeed) then return "EXACT"');
-  lines.push('  if yOpsDone contains ("OP|" & yOperationId & "|SAFE_APPLY" & linefeed) then return "SAFE_APPLY"');
-  lines.push('  if yOpsDone contains ("OP|" & yOperationId & "|MANUAL" & linefeed) then return "MANUAL"');
-  lines.push('  if yOpsDone contains ("OP|" & yOperationId & "|MANUAL_OR_BLOCKED" & linefeed) then return "MANUAL_OR_BLOCKED"');
-  lines.push('  if yOpsDone contains ("OP|" & yOperationId & "|BLOCKED" & linefeed) then return "BLOCKED"');
-  lines.push('  if yOpsDone contains ("OP|" & yOperationId & "|PENDING_NATIVE_READBACK" & linefeed) then return "PENDING_NATIVE_READBACK"');
-  lines.push('  return ""');
-  lines.push('end yRecordedOperationStatus');
   if (tracked.length > 0) lines.push('set yTrackedOperationCount to ' + tracked.length);
   for (const operation of operations) {
     const id = String(operation.id || '').replaceAll('"', '');
@@ -3418,8 +3409,7 @@ function wordSemanticReadbackLines(ledger) {
     }
     lines.push('try');
     if (!['reply_attempt', 'state_attempt'].includes(operation.family)) {
-      lines.push(`  set yOperationReportedStatus to my yRecordedOperationStatus(yOpsDone, ${appleText(id)})`);
-      lines.push(`  if yOperationReportedStatus is not ${appleText(expected)} then error ${appleText(`NATIVE_READBACK_REPORTED_STATUS_MISMATCH:${id}:`)} & yOperationReportedStatus & ${appleText(`:${expected}`)} number 9741`);
+      lines.push(`  if yOpsDone does not contain (${appleText(`OP|${id}|${expected}`)} & linefeed) then error ${appleText(`NATIVE_READBACK_REPORTED_STATUS_MISMATCH:${id}:NOT_RECORDED_AS_${expected}:${expected}`)} number 9741`);
     }
     if (['tracked_replace', 'tracked_insert', 'tracked_delete'].includes(operation.family)) {
       lines.push('  if yTrackedOperationCount is less than 1 then error "NATIVE_TRACKED_CHUNK_READBACK_MISSING" number 9740');

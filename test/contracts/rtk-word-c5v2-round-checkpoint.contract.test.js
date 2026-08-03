@@ -165,7 +165,7 @@ test('C5V2 physical Word chunks preserve root-first and descending-range authori
     expectedRootMarkers: plan[1].expectedRootMarkers,
     chunkId: plan[1].chunkId,
   });
-  assert.doesNotMatch(continuation, /do shell script "\/bin\/cp " & quoted form of "\/generated-evidence\/source\.docx"/u);
+  assert.doesNotMatch(continuation, /my yShell\("\/bin\/cp " & quoted form of "\/generated-evidence\/source\.docx"/u);
   assert.doesNotMatch(continuation, /my yResetCheckpoint\(yCheckpointPath\)/u);
   assert.match(continuation, /CHUNK_START:word-chunk-002/u);
   assert.match(continuation, /set my yOverallDeadline to \(current date\) \+ 420/u);

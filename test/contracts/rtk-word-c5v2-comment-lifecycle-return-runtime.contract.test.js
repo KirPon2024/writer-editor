@@ -551,7 +551,7 @@ test('N2 Word canary never classifies reply or state setter no-error as SAFE_APP
   assert.match(source, /NATIVE_MATERIALIZATION_COMPATIBILITY_MODE_15_REQUIRED/u);
   assert.match(source, /NATIVE_MATERIALIZATION_SAVE_BEFORE/u);
   assert.match(source, /NATIVE_MATERIALIZATION_REOPEN_VERIFIED/u);
-  assert.match(source, /do shell script "\/bin\/sync"/u);
+  assert.match(source, /my yShell\("\/bin\/sync"\)/u);
   assert.match(source, /settingsPartCount/u);
   assert.match(source, /compatibilityModes/u);
   assert.match(source, /modernMode15Ready/u);

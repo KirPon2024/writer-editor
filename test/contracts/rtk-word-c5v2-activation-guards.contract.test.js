@@ -133,6 +133,21 @@ test('C5V2 product activation requires isolated parser and keeps inline fallback
   );
 });
 
+test('C5V2 return authority survives product restart through main-only durable store', () => {
+  const mainSource = fs.readFileSync(path.join(__dirname, '..', '..', 'src', 'main.js'), 'utf8');
+  assert.match(mainSource, /REVIEW_DOCX_RETURN_AUTHORITY_STORE_SCHEMA/u);
+  assert.match(mainSource, /persistDocxReviewReturnAuthorityStore\(activeReviewDocxExportAuthorityStore\)/u);
+  assert.match(mainSource, /readDurableDocxReviewReturnAuthorityStore\(options\)/u);
+  assert.match(mainSource, /activeReviewDocxExportAuthorityStore = durableStore/u);
+  assert.match(mainSource, /secretExposedToRenderer:\s*false/u);
+  assert.match(mainSource, /secretEmbeddedInDocx:\s*false/u);
+  assert.match(mainSource, /durableSecretScope:\s*'local-project-state-only'/u);
+  const sanitizerIndex = mainSource.indexOf('function sanitizeDocxReviewReturnIntakeForResult');
+  assert.notEqual(sanitizerIndex, -1);
+  const sanitizerSource = mainSource.slice(sanitizerIndex, mainSource.indexOf('function findDocxReviewReturnIntakeRoundAuthority', sanitizerIndex));
+  assert.doesNotMatch(sanitizerSource, /hmacSecret/u);
+});
+
 test('C5V2 physical canary waits for Roman project tree readiness after startup lease contention', () => {
   const canarySource = fs.readFileSync(
     path.join(__dirname, '..', '..', 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs'),

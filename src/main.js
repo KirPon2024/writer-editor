@@ -513,6 +513,13 @@ let activeRtkNonOverlapTrackedReplacementApplyStore = null;
 let activeRtkFormattingReturnApplyStore = null;
 let activeRtkStructuralReturnApplyStore = null;
 let activeReviewDocxExportAuthorityStore = null;
+const REVIEW_DOCX_RETURN_AUTHORITY_STORE_SCHEMA =
+  'yalken.rtk.word.product-review-docx-export.authority-store.v2';
+const REVIEW_DOCX_RETURN_AUTHORITY_STORE_RELATIVE_SEGMENTS = [
+  '.yalken',
+  'word-review',
+  'return-authority-store.v1.json',
+];
 
 function isReviewSessionEditorContextDirty() {
   return (typeof isDirty === 'boolean' && isDirty)
@@ -3773,13 +3780,14 @@ async function readDocxReviewPacketExportSource() {
     exportMap,
   };
   activeReviewDocxExportAuthorityStore = {
-    schemaVersion: 'yalken.rtk.word.product-review-docx-export.authority-store.v1',
+    schemaVersion: REVIEW_DOCX_RETURN_AUTHORITY_STORE_SCHEMA,
     lastRoundId: roundId,
     roundsById: {
       [roundId]: localAuthorityCapsule,
     },
     secretExposedToRenderer: false,
   };
+  await persistDocxReviewReturnAuthorityStore(activeReviewDocxExportAuthorityStore);
 
   return {
     sceneText,
@@ -3868,7 +3876,7 @@ async function readFullManuscriptDocxReviewPacketExportSource() {
     cryptoPort: createRtkReviewTransportCryptoPort(),
   });
   activeReviewDocxExportAuthorityStore = {
-    schemaVersion: 'yalken.rtk.word.product-review-docx-export.authority-store.v1',
+    schemaVersion: REVIEW_DOCX_RETURN_AUTHORITY_STORE_SCHEMA,
     scope: 'full-manuscript',
     lastRoundId: source.localAuthorityCapsule.roundId,
     roundsById: {
@@ -3876,6 +3884,7 @@ async function readFullManuscriptDocxReviewPacketExportSource() {
     },
     secretExposedToRenderer: false,
   };
+  await persistDocxReviewReturnAuthorityStore(activeReviewDocxExportAuthorityStore);
   return source;
 }
 
@@ -5850,7 +5859,89 @@ function readActiveDocxReviewReturnAuthorityStore(options = {}) {
   ) {
     return activeReviewDocxExportAuthorityStore;
   }
+  const durableStore = readDurableDocxReviewReturnAuthorityStore(options);
+  if (durableStore) {
+    activeReviewDocxExportAuthorityStore = durableStore;
+    return durableStore;
+  }
   return null;
+}
+
+function docxReviewReturnAuthorityStorePath(projectRootRaw) {
+  const projectRoot = docxReviewPreviewSessionDetailString(projectRootRaw || getProjectRootPath());
+  if (!projectRoot) return '';
+  const targetPath = path.join(projectRoot, ...REVIEW_DOCX_RETURN_AUTHORITY_STORE_RELATIVE_SEGMENTS);
+  const resolvedRoot = path.resolve(projectRoot);
+  const resolvedTarget = path.resolve(targetPath);
+  if (!isPathInsideBoundary(resolvedRoot, resolvedTarget)) return '';
+  return resolvedTarget;
+}
+
+function buildDocxReviewReturnAuthorityStoreRecord(store = {}) {
+  const roundsById = isPlainObjectValue(store.roundsById) ? cloneJsonSafe(store.roundsById) : {};
+  const unsigned = {
+    schemaVersion: REVIEW_DOCX_RETURN_AUTHORITY_STORE_SCHEMA,
+    scope: docxReviewPreviewSessionDetailString(store.scope),
+    lastRoundId: docxReviewPreviewSessionDetailString(store.lastRoundId),
+    roundsById,
+    secretExposedToRenderer: false,
+    secretEmbeddedInDocx: false,
+    durableSecretScope: 'local-project-state-only',
+  };
+  return {
+    ...unsigned,
+    authorityStoreDigest: createRtkReviewTransportCryptoPort().sha256Json(unsigned),
+  };
+}
+
+function validateDocxReviewReturnAuthorityStoreRecord(record = {}) {
+  if (!isPlainObjectValue(record) || record.schemaVersion !== REVIEW_DOCX_RETURN_AUTHORITY_STORE_SCHEMA) return null;
+  if (record.secretExposedToRenderer !== false || record.secretEmbeddedInDocx !== false) return null;
+  if (!isPlainObjectValue(record.roundsById) || !docxReviewPreviewSessionDetailString(record.lastRoundId)) return null;
+  const expected = buildDocxReviewReturnAuthorityStoreRecord(record);
+  if (docxReviewPreviewSessionDetailString(record.authorityStoreDigest) !== expected.authorityStoreDigest) return null;
+  return cloneJsonSafe(record);
+}
+
+function projectRootFromDocxReviewAuthorityStore(store = {}) {
+  const rounds = Object.values(isPlainObjectValue(store.roundsById) ? store.roundsById : {});
+  const first = rounds.find(isPlainObjectValue) || {};
+  return docxReviewPreviewSessionDetailString(first.projectRoot);
+}
+
+async function persistDocxReviewReturnAuthorityStore(store = {}) {
+  const projectRoot = projectRootFromDocxReviewAuthorityStore(store);
+  const storePath = docxReviewReturnAuthorityStorePath(projectRoot);
+  if (!storePath) {
+    throw new Error('DOCX_REVIEW_RETURN_AUTHORITY_STORE_PATH_INVALID');
+  }
+  await fs.mkdir(path.dirname(storePath), { recursive: true });
+  const record = buildDocxReviewReturnAuthorityStoreRecord(store);
+  await fileManager.writeFileAtomic(storePath, `${JSON.stringify(record, null, 2)}\n`);
+  const reopened = validateDocxReviewReturnAuthorityStoreRecord(
+    JSON.parse(await fs.readFile(storePath, 'utf8')),
+  );
+  if (!reopened) throw new Error('DOCX_REVIEW_RETURN_AUTHORITY_STORE_VERIFY_FAILED');
+  return { storePath, authorityStoreDigest: record.authorityStoreDigest };
+}
+
+function readDurableDocxReviewReturnAuthorityStore(options = {}) {
+  const projectRoot = docxReviewPreviewSessionDetailString(options.projectRoot || getProjectRootPath());
+  const storePath = docxReviewReturnAuthorityStorePath(projectRoot);
+  if (!storePath || !fsSync.existsSync(storePath)) return null;
+  try {
+    const stat = fsSync.lstatSync(storePath);
+    if (stat.isSymbolicLink() || !stat.isFile()) return null;
+    const record = validateDocxReviewReturnAuthorityStoreRecord(
+      JSON.parse(fsSync.readFileSync(storePath, 'utf8')),
+    );
+    if (!record) return null;
+    const round = record.roundsById[record.lastRoundId];
+    if (!isPlainObjectValue(round) || docxReviewPreviewSessionDetailString(round.projectRoot) !== projectRoot) return null;
+    return record;
+  } catch {
+    return null;
+  }
 }
 
 function docxReviewReturnIntakeBlocked(reason, details = {}) {

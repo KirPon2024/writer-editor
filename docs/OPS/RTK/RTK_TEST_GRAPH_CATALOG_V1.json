@@ -42,6 +42,7 @@
     "rtk-word-c5v2-negative-forks.contract.test.js",
     "rtk-word-c5v2-noop-baseline.contract.test.js",
     "rtk-word-c5v2-portfolio-corpus.contract.test.js",
+    "rtk-word-c5v2-pr1414-audit-hold-repair.contract.test.js",
     "rtk-word-c5v2-root-comment-return-runtime.contract.test.js",
     "rtk-word-c5v2-round-checkpoint.contract.test.js",
     "rtk-word-c5v2-semantic-oracle.contract.test.js",

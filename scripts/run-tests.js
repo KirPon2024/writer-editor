@@ -615,12 +615,15 @@ function runExecutionSequenceGuard(rootDir, isPromotionMode) {
 
 function runReleaseCandidateGuard(rootDir, isPromotionMode) {
   const checkMode = isPromotionMode ? 'promotion' : 'release';
+  const evidenceRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-rc-evidence-'));
   const result = spawnSync(
     process.execPath,
     [
       'scripts/ops/release-candidate.mjs',
       '--verify',
       `--mode=${checkMode}`,
+      '--evidence-root',
+      evidenceRoot,
     ],
     { cwd: rootDir, stdio: 'inherit' },
   );

@@ -5505,13 +5505,6 @@
       "rationale": "RECOVERY_READABILITY_DONOR_PORT_001 approves the narrow recovery state evaluator extension that emits RECOVERY_HUMAN_READABLE_OK from a dedicated machine proof."
     },
     {
-      "filePath": "scripts/ops/release-candidate.mjs",
-      "sha256": "0db814e8e9675a16db333958e9cc6e9bddada9e41851ba59fee06b78b2c9bb16",
-      "approvedBy": "ticket:YALKEN_NEXT_STAGE_AUTONOMOUS_V2_3_S43_PROMOTION_EVIDENCE_ORDER",
-      "approvedAtUtc": "2026-07-19T11:45:00.000Z",
-      "rationale": "Approve bounded S43 promotion verifier lifecycle fix: collect strict doctor output before writing promotion evidence so failed promotion verification cannot leave untracked governance evidence; no product runtime, storage, import, export, UI, dependency, network, cloud, entitlement, or release capability claim is introduced."
-    },
-    {
       "filePath": "scripts/ops/release-gate-exit-nonzero-state.mjs",
       "sha256": "3f349f7428781e10c24c4237f50e851e3ae558e9d3009ec81b92223ba5703ac0",
       "approvedBy": "DOCS_OPERATOR",
@@ -7021,13 +7014,6 @@
       "approvedBy": "ticket:SCENE_RICH_CONTENT_TRUTH_FOUNDATION_001",
       "approvedAtUtc": "2026-04-13T12:00:00.000Z",
       "rationale": "SCENE_RICH_CONTENT_TRUTH_FOUNDATION_001 approves the bounded recovery truth contract for versioned rich scene payload v2."
-    },
-    {
-      "filePath": "test/contracts/release-candidate-lock-and-promotion-evidence.contract.test.js",
-      "sha256": "8f4b1e40b1425517ee62b52a3168c5b37b0431f48bc09f973e5a48d680327638",
-      "approvedBy": "ticket:YALKEN_NEXT_STAGE_AUTONOMOUS_V2_3_S43_PROMOTION_EVIDENCE_ORDER",
-      "approvedAtUtc": "2026-07-19T11:45:00.000Z",
-      "rationale": "Approve bounded S43 regression coverage proving promotion verify writes no evidence when strict doctor fails; no product runtime, storage, import, export, UI, dependency, network, cloud, entitlement, or release capability claim is introduced."
     },
     {
       "filePath": "test/contracts/release-gate-exit-nonzero.contract.test.js",
@@ -9305,10 +9291,19 @@
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_V6_A7_REPAIR"
     },
     {
+      "filePath": "scripts/ops/release-candidate.mjs",
+      "sha256": "12a01258f4b842046a3f730055c4e441e946a209bcb53051fef02334bbe95ea5",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
+      "approvedAtUtc": "2026-08-03T21:26:00.000Z",
+      "rationale": "Approve exact release-candidate evidence-root parameter bytes enabling promotion evidence to be generated outside repository scope during maintained parallel RTK runs.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
+    },
+    {
       "filePath": "scripts/ops/rtk-word-c5v2-dorian-atlas-cycles.mjs",
       "sha256": "75bec705b5fc40d20181a0f9ffc1fe575275a548fe5bfaa412e56ff73efa22e9",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T21:09:00.000Z",
+      "approvedAtUtc": "2026-08-03T21:26:00.000Z",
       "rationale": "Approve exact bounded Word C5V2 final implementation repair bytes for the owner-authorized contour; no UI, Google, network, dependency, or Atlas behavior expansion.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
@@ -9317,7 +9312,7 @@
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
       "sha256": "c5c8ddd117393b8a4c55a9b6e5907fc93a8d691bfeb3ff731f63ee03c9d3ffd1",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T21:09:00.000Z",
+      "approvedAtUtc": "2026-08-03T21:26:00.000Z",
       "rationale": "Approve exact bounded Word C5V2 final implementation repair bytes for the owner-authorized contour; no UI, Google, network, dependency, or Atlas behavior expansion.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
@@ -9326,7 +9321,7 @@
       "filePath": "scripts/ops/rtk-word-c5v2-round-checkpoint.mjs",
       "sha256": "f27367d39c7b8bc31807f4d6d473703ae3b8917207a8e9806f31ba0a7522c187",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T21:09:00.000Z",
+      "approvedAtUtc": "2026-08-03T21:26:00.000Z",
       "rationale": "Approve exact bounded Word C5V2 final implementation repair bytes for the owner-authorized contour; no UI, Google, network, dependency, or Atlas behavior expansion.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
@@ -9335,8 +9330,17 @@
       "filePath": "scripts/run-rtk-tests.mjs",
       "sha256": "0fab1cc0a03d4b0de4f3db75d4cca02877070f339c98a74cf33d90ad5e9ee765",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T21:09:00.000Z",
+      "approvedAtUtc": "2026-08-03T21:26:00.000Z",
       "rationale": "Approve exact bounded Word C5V2 final implementation repair bytes for the owner-authorized contour; no UI, Google, network, dependency, or Atlas behavior expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
+    },
+    {
+      "filePath": "scripts/run-tests.js",
+      "sha256": "e4cec097d194712a42277eb7d6aeef8eb692c3db5fc46db39dc4a233b85806f9",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
+      "approvedAtUtc": "2026-08-03T21:26:00.000Z",
+      "rationale": "Approve exact maintained RTK runner bytes that route release-candidate promotion evidence to a temp root outside the repository, preventing doctor-strict log contamination of scope tests.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
     },
@@ -9344,7 +9348,7 @@
       "filePath": "src/io/revisionBridge/reviewTransportMultiSceneNonOverlapTrackedReplacementRuntime.mjs",
       "sha256": "ae2887902a9db19e5699d4072006d2a6b8197212f1e66f4b5f53023c4fd304a3",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T21:09:00.000Z",
+      "approvedAtUtc": "2026-08-03T21:26:00.000Z",
       "rationale": "Approve exact bounded Word C5V2 final implementation repair bytes for the owner-authorized contour; no UI, Google, network, dependency, or Atlas behavior expansion.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
@@ -9353,7 +9357,7 @@
       "filePath": "src/io/revisionBridge/reviewTransportNonTextReturnRuntime.mjs",
       "sha256": "a60aedc24599922a4044d4e1312d5c3bc855feea263792a967e01ac2245cb771",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T21:09:00.000Z",
+      "approvedAtUtc": "2026-08-03T21:26:00.000Z",
       "rationale": "Approve exact bounded Word C5V2 final implementation repair bytes for the owner-authorized contour; no UI, Google, network, dependency, or Atlas behavior expansion.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
@@ -9362,8 +9366,26 @@
       "filePath": "src/main.js",
       "sha256": "80a50754d2799b70a60765abe373ee3d88bbe7a21461b88011ee8fbf183ae08e",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T21:09:00.000Z",
-      "rationale": "Approve exact main-owned durable DOCX review return authority store bytes that atomically persist local HMAC authority across product restart without exposing secrets to DOCX or renderer.",
+      "approvedAtUtc": "2026-08-03T21:26:00.000Z",
+      "rationale": "Approve exact bounded Word C5V2 final implementation repair bytes for the owner-authorized contour; no UI, Google, network, dependency, or Atlas behavior expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
+    },
+    {
+      "filePath": "test/contracts/promotion-heavy-lane-entrypoint.contract.test.js",
+      "sha256": "eec83697483765bfff6c579a06c3900db507a3d55fb1c7f5c6bc76fef54cc8af",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
+      "approvedAtUtc": "2026-08-03T21:26:00.000Z",
+      "rationale": "Approve exact runner wiring regression bytes pinning release-candidate evidence-root isolation in the promotion heavy lane.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
+    },
+    {
+      "filePath": "test/contracts/release-candidate-lock-and-promotion-evidence.contract.test.js",
+      "sha256": "d8bcd61042a8a5e4ea9dd1162177f3de5a5353acf47e18fa32e0797e590f9679",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
+      "approvedAtUtc": "2026-08-03T21:26:00.000Z",
+      "rationale": "Approve exact regression bytes proving external promotion evidence root is honored and no repo-scope doctor-strict log is created.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
     },
@@ -9371,7 +9393,7 @@
       "filePath": "test/contracts/rtk-test-graph-catalog.contract.test.js",
       "sha256": "4a10289ddd06af3dd67076a283170bd57cfe33325fcbca9c3edb031f92706e7f",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T21:09:00.000Z",
+      "approvedAtUtc": "2026-08-03T21:26:00.000Z",
       "rationale": "Approve exact bounded Word C5V2 final implementation repair bytes for the owner-authorized contour; no UI, Google, network, dependency, or Atlas behavior expansion.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
@@ -9380,8 +9402,8 @@
       "filePath": "test/contracts/rtk-word-c5v2-activation-guards.contract.test.js",
       "sha256": "1fa74b7d72fe0319d673f934ce2009c32744a939904e49de536206cd9a23abd4",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T21:09:00.000Z",
-      "rationale": "Approve exact restart-authority regression bytes proving DOCX return activation reads a main-only durable authority store and keeps HMAC secrets out of sanitized renderer results.",
+      "approvedAtUtc": "2026-08-03T21:26:00.000Z",
+      "rationale": "Approve exact bounded Word C5V2 final implementation repair bytes for the owner-authorized contour; no UI, Google, network, dependency, or Atlas behavior expansion.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
     },
@@ -9389,7 +9411,7 @@
       "filePath": "test/contracts/rtk-word-c5v2-comment-lifecycle-return-runtime.contract.test.js",
       "sha256": "1bfc084827864a5cc8b97477d6fc16eae6342b7c0305b8886a550e1987a931f3",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T21:09:00.000Z",
+      "approvedAtUtc": "2026-08-03T21:26:00.000Z",
       "rationale": "Approve exact bounded Word C5V2 final implementation repair bytes for the owner-authorized contour; no UI, Google, network, dependency, or Atlas behavior expansion.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
@@ -9398,7 +9420,7 @@
       "filePath": "test/contracts/rtk-word-c5v2-dorian-atlas-cycles.contract.test.js",
       "sha256": "61da504e45b9e0f5e355ba61fee63cb3e290aba0490474721881e78b86ead2a5",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T21:09:00.000Z",
+      "approvedAtUtc": "2026-08-03T21:26:00.000Z",
       "rationale": "Approve exact bounded Word C5V2 final implementation repair bytes for the owner-authorized contour; no UI, Google, network, dependency, or Atlas behavior expansion.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
@@ -9407,7 +9429,7 @@
       "filePath": "test/contracts/rtk-word-c5v2-ledger-distribution.contract.test.js",
       "sha256": "57ac75944b967c7f9ad74e5b76a00c2b821887593f4890b2cd6e320cdeda65d7",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T21:09:00.000Z",
+      "approvedAtUtc": "2026-08-03T21:26:00.000Z",
       "rationale": "Approve exact bounded Word C5V2 final implementation repair bytes for the owner-authorized contour; no UI, Google, network, dependency, or Atlas behavior expansion.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
@@ -9416,7 +9438,7 @@
       "filePath": "test/contracts/rtk-word-c5v2-pr1414-audit-hold-repair.contract.test.js",
       "sha256": "d2ed82a4178ba43851b2067dd072283c43b0b2f046fe43080d00c27b0cb6b7fe",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T21:09:00.000Z",
+      "approvedAtUtc": "2026-08-03T21:26:00.000Z",
       "rationale": "Approve exact bounded Word C5V2 final implementation repair bytes for the owner-authorized contour; no UI, Google, network, dependency, or Atlas behavior expansion.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
@@ -9425,7 +9447,7 @@
       "filePath": "test/contracts/rtk-word-c5v2-root-comment-return-runtime.contract.test.js",
       "sha256": "fab5a0e2ff34106605db974e8b3c8f023582a439a2214fa2b329e67c7a7fb894",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T21:09:00.000Z",
+      "approvedAtUtc": "2026-08-03T21:26:00.000Z",
       "rationale": "Approve exact bounded Word C5V2 final implementation repair bytes for the owner-authorized contour; no UI, Google, network, dependency, or Atlas behavior expansion.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
@@ -9434,7 +9456,7 @@
       "filePath": "test/contracts/rtk-word-c5v2-round-checkpoint.contract.test.js",
       "sha256": "51a74e791ae7305a81dc7ed2ba5f45c846623f92ba0a162ed6300376ebf1ca44",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T21:09:00.000Z",
+      "approvedAtUtc": "2026-08-03T21:26:00.000Z",
       "rationale": "Approve exact bounded Word C5V2 final implementation repair bytes for the owner-authorized contour; no UI, Google, network, dependency, or Atlas behavior expansion.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
@@ -9443,7 +9465,7 @@
       "filePath": "test/contracts/rtk-word-safety-c2-multiscene-command-path.contract.test.js",
       "sha256": "d1ea75137a945fa58aeb57c8c51afae6329c1e2a487d8b846531a119848f6af5",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T21:09:00.000Z",
+      "approvedAtUtc": "2026-08-03T21:26:00.000Z",
       "rationale": "Approve exact bounded Word C5V2 final implementation repair bytes for the owner-authorized contour; no UI, Google, network, dependency, or Atlas behavior expansion.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"

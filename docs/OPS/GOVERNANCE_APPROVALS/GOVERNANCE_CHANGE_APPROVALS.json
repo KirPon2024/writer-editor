@@ -9053,12 +9053,12 @@
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-round-checkpoint.contract.test.js",
-      "sha256": "7611d41721a3b2e113b641f8dfccafa057d33c63fb5aec66eec1dff7f2b6ea84",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO:LEDGER_IDENTITY_ANCHOR_REPAIR",
-      "approvedAtUtc": "2026-08-03T18:34:21.000Z",
-      "rationale": "Approve exact maintained round-checkpoint contract bytes updated to build completed-round reuse fixtures with the canonical ledger reuse digest resolver required by the v6 secret-backed ledger identity anchor.",
+      "sha256": "f2f44fc3aef0fbf45b2ba80c10e2db787b1019498700d2ec212823fce1213651",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR_V1",
+      "approvedAtUtc": "2026-08-03T19:46:41.000Z",
+      "rationale": "Approve exact maintained round-checkpoint contract bytes proving fail-closed resumed checkpoint validation for exact head, run, round, chunk membership, operation IDs, request and effect keys, checkpoint digest, and source or returned artifact hash mismatches.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_C5V2_LEDGER_IDENTITY_ANCHOR_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-pr1414-audit-hold-repair.contract.test.js",
@@ -9400,6 +9400,15 @@
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR_V1",
       "approvedAtUtc": "2026-08-03T19:46:41.000Z",
       "rationale": "Approve exact Word C5V2 Dorian Atlas false-green regression bytes proving a stale physical campaign head with refreshed ordinary evidence cannot be accepted for same-head cyclic certification.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-c5v2-round-checkpoint.mjs",
+      "sha256": "f27367d39c7b8bc31807f4d6d473703ae3b8917207a8e9806f31ba0a7522c187",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR_V1",
+      "approvedAtUtc": "2026-08-03T19:46:41.000Z",
+      "rationale": "Approve exact round-checkpoint reader bytes that fail closed on resumed checkpoint digest, exact head, run, round and chunk membership, operation ID, request and effect key, and source or returned artifact hash mismatches.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR"
     }

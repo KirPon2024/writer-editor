@@ -16,8 +16,137 @@ function sha256Text(value) {
   return `sha256:${crypto.createHash('sha256').update(String(value || ''), 'utf8').digest('hex')}`;
 }
 
+function sha256Bytes(value) {
+  return `sha256:${crypto.createHash('sha256').update(value).digest('hex')}`;
+}
+
 function stableJson(value) {
-  return JSON.stringify(value, Object.keys(value || {}).sort());
+  if (Array.isArray(value)) return `[${value.map((item) => stableJson(item)).join(',')}]`;
+  if (value && typeof value === 'object') {
+    return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${stableJson(value[key])}`).join(',')}}`;
+  }
+  return JSON.stringify(value);
+}
+
+function assertSha256Digest(value, code) {
+  if (typeof value !== 'string' || !/^sha256:[0-9a-f]{64}$/u.test(value)) {
+    throw new Error(code);
+  }
+}
+
+function arraysEqual(left = [], right = []) {
+  return Array.isArray(left)
+    && Array.isArray(right)
+    && left.length === right.length
+    && left.every((value, index) => value === right[index]);
+}
+
+function checkpointDigest(checkpoint) {
+  return sha256Text(stableJson({ ...checkpoint, checkpointDigest: '' }));
+}
+
+function roundIdFor(round) {
+  return `round-${String(round).padStart(2, '0')}`;
+}
+
+function indexRoundPlan(roundPlan) {
+  const chunks = new Map();
+  if (!roundPlan) return chunks;
+  if (!Array.isArray(roundPlan.rounds)) throw new Error('C5V2_RESUME_ROUND_PLAN_INVALID');
+  for (const round of roundPlan.rounds) {
+    if (!Number.isInteger(round.round) || !Array.isArray(round.chunks)) {
+      throw new Error('C5V2_RESUME_ROUND_PLAN_INVALID');
+    }
+    for (const chunk of round.chunks) {
+      if (typeof chunk.chunkId !== 'string' || !chunk.chunkId) {
+        throw new Error('C5V2_RESUME_ROUND_PLAN_CHUNK_INVALID');
+      }
+      chunks.set(chunk.chunkId, {
+        ...chunk,
+        expectedRoundId: roundIdFor(round.round),
+      });
+    }
+  }
+  return chunks;
+}
+
+function assertArtifactHash(checkpoint, pathKey, hashKey, requireArtifactPaths) {
+  const artifactPath = checkpoint[pathKey];
+  if (typeof artifactPath !== 'string' || !artifactPath.trim()) {
+    if (requireArtifactPaths) throw new Error(`C5V2_CHECKPOINT_${pathKey.toUpperCase()}_REQUIRED`);
+    return;
+  }
+  if (!fs.existsSync(artifactPath) || !fs.statSync(artifactPath).isFile()) {
+    throw new Error(`C5V2_CHECKPOINT_${pathKey.toUpperCase()}_MISSING`);
+  }
+  const actual = sha256Bytes(fs.readFileSync(artifactPath));
+  if (actual !== checkpoint[hashKey]) {
+    throw new Error(`C5V2_CHECKPOINT_${hashKey.toUpperCase()}_MISMATCH`);
+  }
+}
+
+function validateCheckpointRecord(parsed, context) {
+  const {
+    ledgerDigest,
+    exactHead,
+    runId,
+    chunkIndex,
+    completedOperationIds,
+    requireArtifactPaths,
+  } = context;
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    throw new Error('C5V2_CHECKPOINT_RECORD_INVALID');
+  }
+  if (parsed.schemaVersion !== C5V2_CHUNK_CHECKPOINT_SCHEMA) {
+    throw new Error('C5V2_CHECKPOINT_SCHEMA_INVALID');
+  }
+  assertSha256Digest(parsed.ledgerDigest, 'C5V2_CHECKPOINT_LEDGER_DIGEST_INVALID');
+  assertSha256Digest(parsed.immutableLedgerDigest, 'C5V2_CHECKPOINT_IMMUTABLE_LEDGER_DIGEST_INVALID');
+  if (parsed.ledgerDigest !== parsed.immutableLedgerDigest) {
+    throw new Error('C5V2_CHECKPOINT_IMMUTABLE_LEDGER_DIGEST_MISMATCH');
+  }
+  if (ledgerDigest && parsed.ledgerDigest !== ledgerDigest) {
+    throw new Error('C5V2_CHECKPOINT_LEDGER_DIGEST_MISMATCH');
+  }
+  if (exactHead && parsed.exactHead !== exactHead) {
+    throw new Error('C5V2_CHECKPOINT_HEAD_MISMATCH');
+  }
+  if (runId && parsed.runId !== runId) {
+    throw new Error('C5V2_CHECKPOINT_RUN_ID_MISMATCH');
+  }
+  assertSha256Digest(parsed.sourceDocxSha256, 'C5V2_CHECKPOINT_SOURCE_DOCX_SHA_INVALID');
+  assertSha256Digest(parsed.returnedDocxSha256, 'C5V2_CHECKPOINT_RETURNED_DOCX_SHA_INVALID');
+  assertSha256Digest(parsed.oracleDigest, 'C5V2_CHECKPOINT_ORACLE_DIGEST_INVALID');
+  assertSha256Digest(parsed.checkpointDigest, 'C5V2_CHECKPOINT_DIGEST_INVALID');
+  if (checkpointDigest(parsed) !== parsed.checkpointDigest) {
+    throw new Error('C5V2_CHECKPOINT_DIGEST_MISMATCH');
+  }
+  const expectedChunk = chunkIndex.get(parsed.chunkId);
+  if (chunkIndex.size > 0 && !expectedChunk) {
+    throw new Error('C5V2_CHECKPOINT_CHUNK_NOT_IN_ROUND_PLAN');
+  }
+  if (expectedChunk) {
+    if (parsed.roundId !== expectedChunk.expectedRoundId) {
+      throw new Error('C5V2_CHECKPOINT_ROUND_MISMATCH');
+    }
+    if (!arraysEqual(parsed.completedOperationIds, expectedChunk.operationIds)) {
+      throw new Error('C5V2_CHECKPOINT_OPERATION_IDS_MISMATCH');
+    }
+    if (!arraysEqual(parsed.requestKeys, expectedChunk.requestKeys)) {
+      throw new Error('C5V2_CHECKPOINT_REQUEST_KEYS_MISMATCH');
+    }
+    if (!arraysEqual(parsed.effectKeys, expectedChunk.effectKeys)) {
+      throw new Error('C5V2_CHECKPOINT_EFFECT_KEYS_MISMATCH');
+    }
+  }
+  for (const operationId of parsed.completedOperationIds || []) {
+    if (completedOperationIds.has(operationId)) {
+      throw new Error('C5V2_CHECKPOINT_DUPLICATE_OPERATION_ID');
+    }
+    completedOperationIds.add(operationId);
+  }
+  assertArtifactHash(parsed, 'sourceDocxPath', 'sourceDocxSha256', requireArtifactPaths);
+  assertArtifactHash(parsed, 'returnedDocxPath', 'returnedDocxSha256', requireArtifactPaths);
 }
 
 function assertLedger(ledger) {
@@ -181,14 +310,16 @@ export function buildC5V2ChunkCheckpoint(input = {}) {
     completedOperationIds,
     requestKeys: Array.isArray(input.requestKeys) ? input.requestKeys.filter((value) => typeof value === 'string' && value) : [],
     effectKeys: Array.isArray(input.effectKeys) ? input.effectKeys.filter((value) => typeof value === 'string' && value) : [],
+    sourceDocxPath: typeof input.sourceDocxPath === 'string' ? input.sourceDocxPath : '',
     sourceDocxSha256: input.sourceDocxSha256,
+    returnedDocxPath: typeof input.returnedDocxPath === 'string' ? input.returnedDocxPath : '',
     returnedDocxSha256: input.returnedDocxSha256,
     projectRecoveryRevision: typeof input.projectRecoveryRevision === 'string' ? input.projectRecoveryRevision : '',
     oracleDigest: input.oracleDigest,
     checkpointDigest: '',
     completedAtUtc: typeof input.completedAtUtc === 'string' ? input.completedAtUtc : new Date().toISOString(),
   };
-  checkpoint.checkpointDigest = sha256Text(stableJson({ ...checkpoint, checkpointDigest: '' }));
+  checkpoint.checkpointDigest = checkpointDigest(checkpoint);
   return checkpoint;
 }
 
@@ -201,27 +332,38 @@ export function writeC5V2ChunkCheckpoint(filePath, input = {}) {
   };
 }
 
-export function readC5V2ResumeState(checkpointDir, { ledgerDigest, roundPlan } = {}) {
+export function readC5V2ResumeState(checkpointDir, { ledgerDigest, roundPlan, exactHead = '', runId = '', requireArtifactPaths = false } = {}) {
   const files = fs.existsSync(checkpointDir)
     ? fs.readdirSync(checkpointDir).filter((name) => name.endsWith('.json')).sort()
     : [];
   const completedChunks = [];
   const completedOperationIds = new Set();
+  const chunkIndex = indexRoundPlan(roundPlan);
   for (const name of files) {
     const parsed = JSON.parse(fs.readFileSync(path.join(checkpointDir, name), 'utf8'));
-    if (parsed.schemaVersion !== C5V2_CHUNK_CHECKPOINT_SCHEMA) continue;
-    if (ledgerDigest && parsed.ledgerDigest !== ledgerDigest) continue;
+    validateCheckpointRecord(parsed, {
+      ledgerDigest,
+      exactHead,
+      runId,
+      chunkIndex,
+      completedOperationIds,
+      requireArtifactPaths,
+    });
     completedChunks.push({
       file: name,
+      runId: parsed.runId,
+      exactHead: parsed.exactHead,
       roundId: parsed.roundId,
       chunkId: parsed.chunkId,
       attemptId: parsed.attemptId,
       checkpointDigest: parsed.checkpointDigest,
       completedOperationIds: parsed.completedOperationIds,
+      requestKeys: parsed.requestKeys,
+      effectKeys: parsed.effectKeys,
+      sourceDocxSha256: parsed.sourceDocxSha256,
+      returnedDocxSha256: parsed.returnedDocxSha256,
+      oracleDigest: parsed.oracleDigest,
     });
-    for (const operationId of parsed.completedOperationIds || []) {
-      completedOperationIds.add(operationId);
-    }
   }
   let nextChunk = null;
   if (roundPlan && Array.isArray(roundPlan.rounds)) {

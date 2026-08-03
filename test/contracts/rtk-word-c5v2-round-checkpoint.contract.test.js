@@ -5,6 +5,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
+const crypto = require('node:crypto');
 
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
 
@@ -36,6 +37,14 @@ function makeLedger() {
     ledgerDigest: 'sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
     operations,
   };
+}
+
+function sha256Bytes(bytes) {
+  return `sha256:${crypto.createHash('sha256').update(bytes).digest('hex')}`;
+}
+
+function writeJson(filePath, value) {
+  fs.writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`);
 }
 
 test('C5V2 round plan requires one full-manuscript product export route per cumulative editorial round', async () => {
@@ -125,6 +134,117 @@ test('C5V2 chunk checkpoints are fsynced immutable digest records and resume aft
   assert.equal(resumeAfterSecond.completedChunks.length, 2);
   assert.deepEqual(resumeAfterSecond.completedOperationIds, [...first.operationIds, ...second.operationIds].sort());
   assert.equal(resumeAfterSecond.nextChunk.chunkId, plan.rounds[1].chunks[0].chunkId);
+});
+
+test('C5V2 resume checkpoints reject wrong head, round, digest, forged operations, request keys and artifact hashes', async () => {
+  const {
+    buildC5V2ChunkCheckpoint,
+    buildC5V2RoundPlan,
+    readC5V2ResumeState,
+  } = await import(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-round-checkpoint.mjs'));
+  const ledger = makeLedger();
+  const plan = buildC5V2RoundPlan(ledger, { chunkSize: 3 });
+  const chunk = plan.rounds[0].chunks[0];
+  const exactHead = 'ea00dd9d7fe2de94c3129fa7ca32f4221f8fe3a0';
+  const runId = 'run-c5v2-strict';
+
+  function build(input = {}) {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rtk-c5v2-strict-checkpoint-'));
+    const sourcePath = path.join(dir, 'source.docx');
+    const returnedPath = path.join(dir, 'returned.docx');
+    fs.writeFileSync(sourcePath, Buffer.from('source-bytes'));
+    fs.writeFileSync(returnedPath, Buffer.from('returned-bytes'));
+    const checkpoint = buildC5V2ChunkCheckpoint({
+      runId,
+      attemptId: `${chunk.chunkId}-attempt-01`,
+      exactHead,
+      ledgerDigest: ledger.ledgerDigest,
+      roundId: 'round-01',
+      chunkId: chunk.chunkId,
+      completedOperationIds: chunk.operationIds,
+      requestKeys: chunk.requestKeys,
+      effectKeys: chunk.effectKeys,
+      sourceDocxPath: sourcePath,
+      sourceDocxSha256: sha256Bytes(fs.readFileSync(sourcePath)),
+      returnedDocxPath: returnedPath,
+      returnedDocxSha256: sha256Bytes(fs.readFileSync(returnedPath)),
+      oracleDigest: 'sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd',
+      ...input,
+    });
+    writeJson(path.join(dir, `${chunk.chunkId}.json`), checkpoint);
+    return dir;
+  }
+
+  const accepted = readC5V2ResumeState(build(), {
+    ledgerDigest: ledger.ledgerDigest,
+    roundPlan: plan,
+    exactHead,
+    runId,
+    requireArtifactPaths: true,
+  });
+  assert.equal(accepted.completedChunks.length, 1);
+  assert.deepEqual(accepted.completedOperationIds, chunk.operationIds);
+
+  assert.throws(() => readC5V2ResumeState(build({ exactHead: 'bb00dd9d7fe2de94c3129fa7ca32f4221f8fe3a0' }), {
+    ledgerDigest: ledger.ledgerDigest,
+    roundPlan: plan,
+    exactHead,
+    runId,
+    requireArtifactPaths: true,
+  }), /C5V2_CHECKPOINT_HEAD_MISMATCH/u);
+
+  assert.throws(() => readC5V2ResumeState(build({ roundId: 'round-02' }), {
+    ledgerDigest: ledger.ledgerDigest,
+    roundPlan: plan,
+    exactHead,
+    runId,
+    requireArtifactPaths: true,
+  }), /C5V2_CHECKPOINT_ROUND_MISMATCH/u);
+
+  assert.throws(() => readC5V2ResumeState(build({ ledgerDigest: 'sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb' }), {
+    ledgerDigest: ledger.ledgerDigest,
+    roundPlan: plan,
+    exactHead,
+    runId,
+    requireArtifactPaths: true,
+  }), /C5V2_CHECKPOINT_LEDGER_DIGEST_MISMATCH/u);
+
+  assert.throws(() => readC5V2ResumeState(build({ completedOperationIds: ['forged-op-a', ...chunk.operationIds.slice(1)] }), {
+    ledgerDigest: ledger.ledgerDigest,
+    roundPlan: plan,
+    exactHead,
+    runId,
+    requireArtifactPaths: true,
+  }), /C5V2_CHECKPOINT_OPERATION_IDS_MISMATCH/u);
+
+  assert.throws(() => readC5V2ResumeState(build({ requestKeys: ['request:forged', ...chunk.requestKeys.slice(1)] }), {
+    ledgerDigest: ledger.ledgerDigest,
+    roundPlan: plan,
+    exactHead,
+    runId,
+    requireArtifactPaths: true,
+  }), /C5V2_CHECKPOINT_REQUEST_KEYS_MISMATCH/u);
+
+  assert.throws(() => readC5V2ResumeState(build({ sourceDocxSha256: 'sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc' }), {
+    ledgerDigest: ledger.ledgerDigest,
+    roundPlan: plan,
+    exactHead,
+    runId,
+    requireArtifactPaths: true,
+  }), /C5V2_CHECKPOINT_SOURCEDOCXSHA256_MISMATCH/u);
+
+  const malformedDigestDir = build();
+  const malformedDigestPath = path.join(malformedDigestDir, `${chunk.chunkId}.json`);
+  const malformedDigest = JSON.parse(fs.readFileSync(malformedDigestPath, 'utf8'));
+  malformedDigest.checkpointDigest = 'sha256:0000000000000000000000000000000000000000000000000000000000000000';
+  writeJson(malformedDigestPath, malformedDigest);
+  assert.throws(() => readC5V2ResumeState(malformedDigestDir, {
+    ledgerDigest: ledger.ledgerDigest,
+    roundPlan: plan,
+    exactHead,
+    runId,
+    requireArtifactPaths: true,
+  }), /C5V2_CHECKPOINT_DIGEST_MISMATCH/u);
 });
 
 test('C5V2 physical Word chunks preserve root-first and descending-range authority with cumulative readback counts', async () => {

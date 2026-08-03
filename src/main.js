@@ -90,8 +90,13 @@ const {
 const {
   countAtlasMultilingualMatches,
 } = require('./shared/atlasMultilingualMatcher.cjs');
+const {
+  createAtlasAnalyticsScheduler,
+} = require('./derived/atlas/atlasAnalyticsScheduler.cjs');
+const { normalizeProjectId } = require('./product/projectIdDomain.cjs');
 
 const launchT0 = performance.now();
+const atlasAnalyticsScheduler = createAtlasAnalyticsScheduler({ maxRetainedResults: 32 });
 let mainWindow;
 let currentFilePath = null; // Путь к текущему открытому файлу
 let currentProjectName = '';
@@ -442,6 +447,7 @@ const PROJECT_LIFECYCLE_BACKUP_COMMAND_ID = 'cmd.project.lifecycle.createBackup'
 const PROJECT_LIFECYCLE_INTEGRITY_COMMAND_ID = 'cmd.project.lifecycle.inspectIntegrity';
 const PROJECT_LIFECYCLE_PERMANENT_DELETE_COMMAND_ID = 'cmd.project.lifecycle.permanentDelete';
 const SCENE_HISTORY_QUERY_ID = WORKSPACE_QUERY_IDS.SCENE_HISTORY;
+const STAGE10_PRODUCT_STATE_QUERY_ID = WORKSPACE_QUERY_IDS.STAGE10_PRODUCT_STATE;
 const ATLAS_OVERVIEW_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_OVERVIEW;
 const ATLAS_ENTITY_DOSSIER_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_ENTITY_DOSSIER;
 const ATLAS_RELATION_DOSSIER_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_RELATION_DOSSIER;
@@ -454,6 +460,18 @@ const ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_DI
 const ATLAS_CURRENT_SCENE_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_CURRENT_SCENE;
 const MANUAL_MAP_WORKBENCH_QUERY_ID = WORKSPACE_QUERY_IDS.MANUAL_MAP_WORKBENCH;
 const PROJECTION_INSPECTOR_QUERY_ID = WORKSPACE_QUERY_IDS.PROJECTION_INSPECTOR;
+const ATLAS_ANALYTICS_QUERY_IDS = new Set([
+  ATLAS_OVERVIEW_QUERY_ID,
+  ATLAS_ENTITY_DOSSIER_QUERY_ID,
+  ATLAS_RELATION_DOSSIER_QUERY_ID,
+  ATLAS_MATRICES_QUERY_ID,
+  ATLAS_HEATMAP_QUERY_ID,
+  ATLAS_TEMPORAL_LAYOUT_QUERY_ID,
+  ATLAS_CONTINUITY_LEDGER_SURFACE_QUERY_ID,
+  ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID,
+  ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID,
+  ATLAS_CURRENT_SCENE_QUERY_ID,
+]);
 const HISTORY_CREATE_CHECKPOINT_COMMAND_ID = 'cmd.project.history.createCheckpoint';
 const HISTORY_RESTORE_PREVIEW_COMMAND_ID = 'cmd.project.history.restorePreview';
 const HISTORY_RESTORE_APPLY_COMMAND_ID = 'cmd.project.history.restoreApply';
@@ -9772,10 +9790,12 @@ async function bootstrapStage10ApplicationForProject(projectRoot, manifest, mode
     error.reason = 'STAGE10_LEGACY_INTEGRITY_STATE_REJECTED';
     throw error;
   }
+  const transactionAuthority = await getMainProjectManifestAuthority();
   const persistencePort = createStage10MainPersistenceAdapter({
     projectRoot,
     anchorRoot: path.join(app.getPath('userData'), 'stage10-integrity-anchors'),
     writeFileAtomic: (targetPath, content) => fileManager.writeFileAtomic(targetPath, content),
+    transactionAuthority,
   });
   const bootstrap = createStage10ApplicationBootstrap({
     persistencePort,
@@ -9796,6 +9816,106 @@ async function bootstrapStage10ApplicationForProject(projectRoot, manifest, mode
     },
   });
   return result;
+}
+
+async function resolveStartupStage10ProjectBinding() {
+  const settings = await loadSettings();
+  const lastProjectId = normalizeStableProjectId(settings?.lastProjectId);
+  if (lastProjectId) {
+    const binding = await findProjectBindingByProjectId(lastProjectId);
+    if (binding) return binding;
+  }
+
+  const lastExternalFilePath = typeof settings?.lastExternalFilePath === 'string'
+    ? settings.lastExternalFilePath.trim()
+    : '';
+  if (lastExternalFilePath && !lastProjectId) return null;
+
+  const projectName = currentProjectName || DEFAULT_PROJECT_NAME;
+  const { manifestPath, manifest } = await ensureProjectManifest(projectName);
+  return {
+    projectId: manifest.projectId,
+    projectRoot: path.dirname(manifestPath),
+    manifestPath,
+    manifest,
+    sourceSchemaVersion: Number(manifest.schemaVersion),
+  };
+}
+
+async function bootstrapStage10ApplicationAtStartup() {
+  activeStage10ApplicationBootstrap = null;
+  activeStage10ApplicationCommandRoute = null;
+  const binding = await resolveStartupStage10ProjectBinding();
+  if (!binding) {
+    return {
+      ok: true,
+      skipped: true,
+      reason: 'NO_SELECTED_PROJECT',
+    };
+  }
+  setActiveProjectNameFromRoot(binding.projectRoot);
+  return bootstrapStage10ApplicationForProject(binding.projectRoot, binding.manifest, 'reopen');
+}
+
+function handleWorkspaceStage10ProductStateQuery(payload = {}) {
+  const bootstrap = activeStage10ApplicationBootstrap;
+  const runtime = bootstrap?.getRuntime?.();
+  const activeProjectId = normalizeStableProjectId(bootstrap?.getProjectId?.());
+  const requestedProjectId = normalizeStableProjectId(payload?.projectId);
+  if (!runtime || !activeProjectId) {
+    return {
+      ok: false,
+      error: 'STAGE10_PRODUCT_RUNTIME_UNAVAILABLE',
+      stage10ProductState: null,
+    };
+  }
+  if (requestedProjectId && requestedProjectId !== activeProjectId) {
+    return {
+      ok: false,
+      error: 'STAGE10_PRODUCT_PROJECT_MISMATCH',
+      stage10ProductState: null,
+    };
+  }
+  const session = runtime.getSession();
+  const surface = runtime.getVisibleSurface();
+  const conflictReports = isPlainObjectValue(session.conflictReports) ? session.conflictReports : {};
+  const exchangePackets = isPlainObjectValue(session.operationExchangePackets)
+    ? session.operationExchangePackets
+    : {};
+  const pendingCollaboratorEvents = Array.isArray(session.pendingCollaboratorEvents)
+    ? session.pendingCollaboratorEvents.slice(0, 100)
+    : [];
+  const conflictPreviewSessions = Array.isArray(session.conflictPreviewSessions)
+    ? session.conflictPreviewSessions.slice(0, 16)
+    : [];
+  const eventCount = Array.isArray(session.eventLog?.events) ? session.eventLog.events.length : 0;
+  return {
+    ok: true,
+    stage10ProductState: {
+      schemaVersion: 'yalken.stage10.productStateProjection.v1',
+      projectId: activeProjectId,
+      lifecycleId: typeof session.lifecycleId === 'string' ? session.lifecycleId : '',
+      sessionId: typeof session.sessionId === 'string' ? session.sessionId : '',
+      eventCount,
+      commentPacketCount: isPlainObjectValue(session.commentPackets)
+        ? Object.keys(session.commentPackets).length
+        : 0,
+      conflictReportIds: Object.keys(conflictReports),
+      latestConflictReportId: Object.keys(conflictReports).at(-1) || '',
+      conflictPreviewSessions: cloneJsonSafe(conflictPreviewSessions) || [],
+      exchangePacketIds: Object.keys(exchangePackets),
+      latestExchangePacketId: Object.keys(exchangePackets).at(-1) || '',
+      pendingCollaboratorEvents: cloneJsonSafe(pendingCollaboratorEvents) || [],
+      controls: cloneJsonSafe(surface?.controls || []) || [],
+      readiness: {
+        commentImport: true,
+        conflictPreview: conflictPreviewSessions.length > 0,
+        exchangePrepare: eventCount > 0,
+        exchangePreview: Object.keys(exchangePackets).length > 0,
+        collaboratorApply: pendingCollaboratorEvents.length > 0,
+      },
+    },
+  };
 }
 
 function buildSectionDefinitions(labels) {
@@ -9832,23 +9952,10 @@ function isPlainObjectValue(value) {
 }
 
 function normalizeStableProjectId(projectId) {
-  if (typeof projectId !== 'string') {
-    return '';
-  }
-
-  const normalized = projectId.trim();
-  if (!normalized) {
-    return '';
-  }
-
-  if (normalized.length > 128) {
-    return '';
-  }
-
-  if (/[\\/\u0000-\u001F]/.test(normalized)) {
-    return '';
-  }
-
+  const normalized = normalizeProjectId(projectId);
+  if (!normalized) return '';
+  if (normalized.length > 128) return '';
+  if (/[\\/\u0000-\u001F]/.test(normalized)) return '';
   return normalized;
 }
 
@@ -9901,7 +10008,7 @@ function loadProjectTreeIdentityModule() {
 let notesStorageModulePromise = null;
 function loadNotesStorageModule() {
   if (!notesStorageModulePromise) {
-    const modulePath = pathToFileURL(path.join(__dirname, 'core', 'notesStorage.mjs')).href;
+    const modulePath = pathToFileURL(path.join(__dirname, 'product', 'notesStoragePersistence.mjs')).href;
     notesStorageModulePromise = import(modulePath).catch((error) => {
       notesStorageModulePromise = null;
       throw error;
@@ -10105,6 +10212,8 @@ function loadCoreRuntimeModule() {
 let stage10ApplicationBootstrapModulePromise = null;
 let stage10MainPersistenceAdapterModulePromise = null;
 let stage10ApplicationCommandRouteModulePromise = null;
+let mainProjectManifestAuthorityModulePromise = null;
+let mainProjectManifestAuthority = null;
 function loadStage10ApplicationBootstrapModule() {
   if (!stage10ApplicationBootstrapModulePromise) {
     const modulePath = pathToFileURL(path.join(__dirname, 'product', 'stage10ApplicationBootstrap.mjs')).href;
@@ -10136,6 +10245,27 @@ function loadStage10ApplicationCommandRouteModule() {
     });
   }
   return stage10ApplicationCommandRouteModulePromise;
+}
+
+function loadMainProjectManifestAuthorityModule() {
+  if (!mainProjectManifestAuthorityModulePromise) {
+    const modulePath = pathToFileURL(path.join(__dirname, 'product', 'mainProjectManifestAuthority.mjs')).href;
+    mainProjectManifestAuthorityModulePromise = import(modulePath).catch((error) => {
+      mainProjectManifestAuthorityModulePromise = null;
+      throw error;
+    });
+  }
+  return mainProjectManifestAuthorityModulePromise;
+}
+
+async function getMainProjectManifestAuthority() {
+  if (mainProjectManifestAuthority) return mainProjectManifestAuthority;
+  const { createMainProjectManifestAuthority } = await loadMainProjectManifestAuthorityModule();
+  mainProjectManifestAuthority = createMainProjectManifestAuthority({
+    anchorRoot: path.join(app.getPath('userData'), 'stage10-integrity-anchors'),
+    writeFileAtomic: (targetPath, content) => fileManager.writeFileAtomic(targetPath, content),
+  });
+  return mainProjectManifestAuthority;
 }
 
 let manualMapGraphModulePromise = null;
@@ -10258,6 +10388,7 @@ async function readProjectManifest(projectName = DEFAULT_PROJECT_NAME) {
     const parsed = JSON.parse(raw);
     const sourceManifest = isPlainObjectValue(parsed) ? parsed : null;
     return {
+      raw,
       manifest: await normalizeProjectManifest(sourceManifest || {}, projectName),
       sourceManifestComparable: getProjectManifestComparable(sourceManifest)
     };
@@ -10268,27 +10399,40 @@ async function readProjectManifest(projectName = DEFAULT_PROJECT_NAME) {
 
 async function ensureProjectManifest(projectName = DEFAULT_PROJECT_NAME) {
   const manifestPath = getProjectManifestPath(projectName);
-  const existingManifestRecord = await readProjectManifest(projectName);
-  const existingManifest = existingManifestRecord ? existingManifestRecord.manifest : null;
-  const sourceManifestComparable = existingManifestRecord ? existingManifestRecord.sourceManifestComparable : null;
-  const nextManifest = await normalizeProjectManifest(existingManifest || {}, projectName);
-  const shouldWrite = !sourceManifestComparable
-    || JSON.stringify(sourceManifestComparable) !== JSON.stringify(getProjectManifestComparable(nextManifest));
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    const existingManifestRecord = await readProjectManifest(projectName);
+    const existingManifest = existingManifestRecord ? existingManifestRecord.manifest : null;
+    const sourceManifestComparable = existingManifestRecord ? existingManifestRecord.sourceManifestComparable : null;
+    const nextManifest = await normalizeProjectManifest(existingManifest || {}, projectName);
+    const shouldWrite = !sourceManifestComparable
+      || JSON.stringify(sourceManifestComparable) !== JSON.stringify(getProjectManifestComparable(nextManifest));
+    const nextText = shouldWrite
+      ? JSON.stringify(nextManifest, null, 2)
+      : existingManifestRecord.raw;
 
-  if (shouldWrite) {
-    const writeResult = await queueDiskOperation(
-      () => fileManager.writeFileAtomic(manifestPath, JSON.stringify(nextManifest, null, 2)),
-      'save project manifest'
-    );
-    if (!writeResult.success) {
-      throw new Error(writeResult.error || 'Failed to save project manifest');
+    if (shouldWrite) {
+      const authority = await getMainProjectManifestAuthority();
+      try {
+        await authority.commitManifestText({
+          projectId: nextManifest.projectId,
+          targetPath: manifestPath,
+          expectedText: existingManifestRecord?.raw ?? null,
+          nextText,
+          label: 'ensureProjectManifest',
+        });
+      } catch (error) {
+        if (error?.code === 'E_MAIN_PROJECT_MANIFEST_CAS_FAILED' && attempt < 2) continue;
+        throw error;
+      }
     }
-  }
 
-  return {
-    manifestPath,
-    manifest: nextManifest
-  };
+    return {
+      manifestPath,
+      manifest: nextManifest,
+      manifestRaw: nextText,
+    };
+  }
+  throw new Error('PROJECT_MANIFEST_RETRY_EXHAUSTED');
 }
 
 async function migrateProjectNotesStorage(options = {}) {
@@ -11750,6 +11894,98 @@ async function buildAtlasOverviewCoreState() {
   return buildProductCoreStateForCurrentProject();
 }
 
+async function readAtlasAnalyticsSourceRecord(requestedProjectId = '') {
+  const { projectId, roots, manifestPath, manifest } = await buildProjectTreeRootsWithIdentitiesReadOnly();
+  if (requestedProjectId && requestedProjectId !== projectId) {
+    const error = new Error('ATLAS_ANALYTICS_PROJECT_MISMATCH');
+    error.code = 'E_ATLAS_ANALYTICS_PROJECT_MISMATCH';
+    throw error;
+  }
+  const projectRoot = path.dirname(manifestPath);
+  const manifestText = await fs.readFile(manifestPath, 'utf8');
+  const sceneDigests = [];
+  for (const node of collectAtlasOverviewSceneNodes(roots)) {
+    try {
+      const target = getResolvedTreeDocumentTarget({
+        projectId,
+        projectRoot,
+        manifestPath,
+        manifest,
+        nodeId: node.nodeId,
+        nodePath: typeof node.nodePath === 'string' ? node.nodePath : node.path,
+        kind: node.kind,
+      });
+      const guard = sanitizePayloadWithinProjectRoot({ path: target.filePath }, ['path'], projectRoot);
+      if (!guard.ok || !guard.payload) continue;
+      const text = await fs.readFile(guard.payload.path, 'utf8');
+      sceneDigests.push([node.nodeId, computeHash(text)]);
+    } catch (error) {
+      if (error?.code === 'ENOENT') sceneDigests.push([node.nodeId, 'missing']);
+      else throw error;
+    }
+  }
+  sceneDigests.sort(([left], [right]) => left.localeCompare(right));
+  const dependencyRevisions = {
+    [`project:${projectId}:manifest`]: computeHash(manifestText),
+    [`project:${projectId}:scenes`]: computeHash(JSON.stringify(sceneDigests)),
+  };
+  return {
+    projectId,
+    dependencyRevisions,
+    sourceRevision: computeHash(JSON.stringify(dependencyRevisions)),
+  };
+}
+
+async function runScheduledAtlasAnalyticsQuery(queryId, payload, handler) {
+  const requestedProjectId = normalizeStableProjectId(payload?.projectId);
+  let source;
+  try {
+    source = await readAtlasAnalyticsSourceRecord(requestedProjectId);
+  } catch (error) {
+    return {
+      ok: false,
+      error: {
+        code: error?.code || 'E_ATLAS_ANALYTICS_SOURCE_UNAVAILABLE',
+        reason: error?.message || 'ATLAS_ANALYTICS_SOURCE_UNAVAILABLE',
+      },
+    };
+  }
+  const synchronized = atlasAnalyticsScheduler.synchronizeSource(source);
+  if (!synchronized.ok) return synchronized;
+  const requestKey = computeHash(JSON.stringify(canonicalizeComparableValue({ queryId, payload })));
+  const dependencyKeys = Object.keys(source.dependencyRevisions).sort();
+  const scheduled = await atlasAnalyticsScheduler.schedule({
+    projectId: source.projectId,
+    queryId,
+    requestKey,
+    sourceRevision: source.sourceRevision,
+    dependencyKeys,
+    run: async ({ signal }) => {
+      if (signal.aborted) throw Object.assign(new Error('ATLAS_ANALYTICS_JOB_CANCELLED'), { code: 'E_ATLAS_ANALYTICS_JOB_CANCELLED' });
+      const result = await handler(payload);
+      if (signal.aborted) throw Object.assign(new Error('ATLAS_ANALYTICS_JOB_CANCELLED'), { code: 'E_ATLAS_ANALYTICS_JOB_CANCELLED' });
+      return result;
+    },
+    getCurrentRevision: async () => (
+      await readAtlasAnalyticsSourceRecord(source.projectId)
+    ).sourceRevision,
+  });
+  if (!scheduled.ok) {
+    return {
+      ok: false,
+      error: scheduled.error,
+      analyticsScheduler: {
+        schemaVersion: atlasAnalyticsScheduler.schemaVersion,
+        staleResultDiscarded: scheduled.error?.code === 'E_ATLAS_ANALYTICS_STALE_RESULT_DISCARDED',
+      },
+    };
+  }
+  return {
+    ...scheduled.value,
+    analyticsScheduler: scheduled.scheduler,
+  };
+}
+
 function normalizeAtlasOverviewPayload(payload = {}) {
   const source = isPlainObjectValue(payload) ? payload : {};
   return {
@@ -12949,10 +13185,13 @@ async function readHistoryRestoreSnapshotById(filePath, snapshotId) {
     };
   }
   try {
+    const loadedSnapshot = await markdownIo.readMarkdownWithLimits(snapshotPath, {
+      maxInputBytes: MARKDOWN_LOCAL_FILE_MAX_BYTES,
+    });
     return {
       ok: true,
       snapshotPath,
-      snapshotText: await fs.readFile(snapshotPath, 'utf8'),
+      snapshotText: loadedSnapshot.text,
     };
   } catch (error) {
     return {
@@ -14214,12 +14453,13 @@ async function resolveProjectBindingForFile(filePath) {
     return null;
   }
 
-  const { manifestPath, manifest } = await ensureProjectManifest(currentProjectName || DEFAULT_PROJECT_NAME);
+  const { manifestPath, manifest, manifestRaw } = await ensureProjectManifest(currentProjectName || DEFAULT_PROJECT_NAME);
   return {
     manifestPath,
     projectRoot,
     projectId: manifest.projectId,
     manifest,
+    manifestRaw,
   };
 }
 
@@ -14263,6 +14503,7 @@ async function findProjectBindingByProjectId(projectId) {
             manifestPath,
             projectRoot: path.dirname(manifestPath),
             manifest,
+            manifestRaw: raw,
             sourceSchemaVersion,
           };
         }
@@ -14642,36 +14883,46 @@ async function recoverProjectLifecycleJournal() {
   const journal = await readProjectLifecycleJournal();
   if (!journal) return { ok: true, recovered: false };
   const commandId = typeof journal.commandId === 'string' ? journal.commandId : '';
+  const projectId = normalizeStableProjectId(journal.projectId);
   const phase = typeof journal.phase === 'string' ? journal.phase : '';
   const sourceRoot = normalizeProjectRootWithinDocuments(journal.sourceRoot);
   const targetRoot = normalizeProjectRootWithinDocuments(journal.targetRoot);
   const tempRoot = normalizeProjectRootWithinDocuments(journal.tempRoot);
-  if (!commandId || !phase || (!sourceRoot && !targetRoot && !tempRoot)) {
+  if (!commandId || !projectId || !phase || (!sourceRoot && !targetRoot && !tempRoot)) {
     await clearProjectLifecycleJournal();
     return { ok: true, recovered: true, action: 'cleared-invalid-journal' };
   }
 
   try {
-    if (commandId === PROJECT_LIFECYCLE_DUPLICATE_COMMAND_ID) {
-      if (tempRoot) await fs.rm(tempRoot, { recursive: true, force: true });
-      await clearProjectLifecycleJournal();
-      return { ok: true, recovered: true, action: 'duplicate-temp-removed' };
-    }
+    const authority = await getMainProjectManifestAuthority();
+    return await authority.withProjectLease(projectId, async (lease) => {
+      await lease.assertOwned();
+      if (
+        commandId === PROJECT_LIFECYCLE_DUPLICATE_COMMAND_ID
+        || (commandId === IMPORT_PROJECT_ARCHIVE_COMMAND_ID && phase === 'importing-to-temp')
+      ) {
+        if (tempRoot) {
+          await lease.publish(() => fs.rm(tempRoot, { recursive: true, force: true }));
+        }
+        await clearProjectLifecycleJournal();
+        return { ok: true, recovered: true, action: 'incomplete-temp-removed' };
+      }
 
-    if (phase === 'source-moved-to-temp' && tempRoot && sourceRoot && !(await fileExists(sourceRoot))) {
-      await fs.rename(tempRoot, sourceRoot);
-      await clearProjectLifecycleJournal();
-      return { ok: true, recovered: true, action: 'source-restored' };
-    }
+      if (phase === 'source-moved-to-temp' && tempRoot && sourceRoot && !(await fileExists(sourceRoot))) {
+        await lease.publish(() => fs.rename(tempRoot, sourceRoot));
+        await clearProjectLifecycleJournal();
+        return { ok: true, recovered: true, action: 'source-restored' };
+      }
 
-    if (phase === 'final-moved' && targetRoot && await fileExists(targetRoot)) {
-      if (tempRoot) await fs.rm(tempRoot, { recursive: true, force: true });
-      await clearProjectLifecycleJournal();
-      return { ok: true, recovered: true, action: 'finalized' };
-    }
+      if (phase === 'final-moved' && targetRoot && await fileExists(targetRoot)) {
+        if (tempRoot) await fs.rm(tempRoot, { recursive: true, force: true });
+        await clearProjectLifecycleJournal();
+        return { ok: true, recovered: true, action: 'finalized' };
+      }
 
-    await clearProjectLifecycleJournal();
-    return { ok: true, recovered: true, action: 'cleared-stale-journal' };
+      await clearProjectLifecycleJournal();
+      return { ok: true, recovered: true, action: 'cleared-stale-journal' };
+    });
   } catch (error) {
     logDevError('project lifecycle journal recovery', error);
     return makeProjectLifecycleError('E_PROJECT_LIFECYCLE_RECOVERY_FAILED', 'PROJECT_LIFECYCLE_RECOVERY_FAILED');
@@ -14760,14 +15011,23 @@ async function replaceProjectLibraryIndexBinding(previousRoot, projectBinding, o
   }
 }
 
-async function writeProjectManifestRawAtomic(manifestPath, manifest) {
-  const writeResult = await queueDiskOperation(
-    () => fileManager.writeFileAtomic(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`),
-    'save project lifecycle manifest',
-  );
-  if (!writeResult || writeResult.success !== true) {
-    throw new Error(writeResult?.error || 'PROJECT_MANIFEST_WRITE_FAILED');
+async function writeProjectManifestRawAtomic(manifestPath, manifest, options = {}) {
+  const projectId = normalizeStableProjectId(manifest?.projectId);
+  if (!projectId || (!Object.prototype.hasOwnProperty.call(options, 'expectedText'))) {
+    const error = new Error('PROJECT_MANIFEST_EXPECTED_BYTES_REQUIRED');
+    error.code = 'E_MAIN_PROJECT_MANIFEST_EXPECTED_BYTES_REQUIRED';
+    throw error;
   }
+  const authority = await getMainProjectManifestAuthority();
+  return authority.commitManifestText({
+    projectId,
+    targetPath: manifestPath,
+    expectedText: options.expectedText,
+    expectedProjectId: options.expectedProjectId,
+    nextText: `${JSON.stringify(manifest, null, 2)}\n`,
+    label: options.operationLabel || 'save project lifecycle manifest',
+    ...(options.lease ? { lease: options.lease } : {}),
+  });
 }
 
 async function resolveMutableProjectBinding(projectId) {
@@ -14779,7 +15039,27 @@ async function resolveMutableProjectBinding(projectId) {
   return { ok: true, binding };
 }
 
-async function moveProjectDirectoryWithManifestMutation({
+async function moveProjectDirectoryWithManifestMutation(input) {
+  const projectId = normalizeStableProjectId(input?.projectBinding?.projectId);
+  if (!projectId) return makeProjectLifecycleError('E_PROJECT_ID_REQUIRED', 'PROJECT_ID_REQUIRED');
+  const authority = await getMainProjectManifestAuthority();
+  try {
+    return await authority.withProjectLease(projectId, (lease) => (
+      moveProjectDirectoryWithManifestMutationUnderLease({
+        ...input,
+        options: { ...(input.options || {}), lease },
+      })
+    ));
+  } catch (error) {
+    return makeProjectLifecycleError(
+      error?.code || 'E_PROJECT_DIRECTORY_TRANSACTION_FAILED',
+      error?.reason || 'PROJECT_DIRECTORY_TRANSACTION_FAILED',
+      error?.details || {},
+    );
+  }
+}
+
+async function moveProjectDirectoryWithManifestMutationUnderLease({
   commandId,
   projectBinding,
   targetRoot,
@@ -14787,6 +15067,7 @@ async function moveProjectDirectoryWithManifestMutation({
   statusText,
   options = {},
 }) {
+  await options.lease?.assertOwned();
   const sourceRoot = projectBinding.projectRoot;
   if (path.resolve(sourceRoot) === path.resolve(targetRoot)) {
     return {
@@ -14814,7 +15095,8 @@ async function moveProjectDirectoryWithManifestMutation({
   });
   try {
     if (typeof options.beforeSourceMove === 'function') await options.beforeSourceMove({ sourceRoot, tempRoot, targetRoot });
-    await fs.rename(sourceRoot, tempRoot);
+    if (options.lease) await options.lease.publish(() => fs.rename(sourceRoot, tempRoot));
+    else await fs.rename(sourceRoot, tempRoot);
     await writeProjectLifecycleJournal({
       commandId,
       projectId: projectBinding.projectId,
@@ -14827,11 +15109,15 @@ async function moveProjectDirectoryWithManifestMutation({
       resolveSymlinks: false,
     });
     const nextManifest = mutateManifest({ ...rawRecord.manifest });
-    await writeProjectManifestRawAtomic(tempManifestPath, nextManifest);
+    await writeProjectManifestRawAtomic(tempManifestPath, nextManifest, {
+      expectedText: rawRecord.raw,
+      ...(options.lease ? { lease: options.lease } : {}),
+    });
     if (typeof options.afterManifestBeforeFinalMove === 'function') {
       await options.afterManifestBeforeFinalMove({ sourceRoot, tempRoot, targetRoot });
     }
-    await fs.rename(tempRoot, targetRoot);
+    if (options.lease) await options.lease.publish(() => fs.rename(tempRoot, targetRoot));
+    else await fs.rename(tempRoot, targetRoot);
     await writeProjectLifecycleJournal({
       commandId,
       projectId: projectBinding.projectId,
@@ -14878,8 +15164,10 @@ async function moveProjectDirectoryWithManifestMutation({
     };
   } catch (error) {
     try {
+      if (options.lease) await options.lease.assertOwned();
       if (await fileExists(tempRoot) && !(await fileExists(sourceRoot))) {
-        await fs.rename(tempRoot, sourceRoot);
+        if (options.lease) await options.lease.publish(() => fs.rename(tempRoot, sourceRoot));
+        else await fs.rename(tempRoot, sourceRoot);
       }
     } catch (rollbackError) {
       logDevError('project lifecycle directory rollback', rollbackError);
@@ -14946,70 +15234,109 @@ async function handleProjectLifecycleDuplicateCommand(payload = {}, options = {}
   const resolved = await resolveMutableProjectBinding(normalized.projectId);
   if (!resolved.ok) return resolved;
   const binding = resolved.binding;
-  const targetRoot = joinPathSegmentsWithinRoot(fileManager.getDocumentsPath(), [duplicateName], {
-    resolveSymlinks: false,
-  });
-  if (await fileExists(targetRoot)) return makeProjectLifecycleError('E_PROJECT_TARGET_EXISTS', 'PROJECT_TARGET_EXISTS');
-  const tempRoot = makeProjectLifecycleTempPath(targetRoot, 'project-lifecycle-duplicate');
-  const rawRecord = await readProjectManifestRawAtPath(binding.manifestPath);
-  const recovery = await createProjectLifecycleRecovery(binding, PROJECT_LIFECYCLE_DUPLICATE_COMMAND_ID, rawRecord.raw, options);
-  const newProjectId = createStableProjectId();
-  await writeProjectLifecycleJournal({
-    commandId: PROJECT_LIFECYCLE_DUPLICATE_COMMAND_ID,
-    projectId: binding.projectId,
-    phase: 'copying-to-temp',
-    sourceRoot: binding.projectRoot,
-    targetRoot,
-    tempRoot,
-  });
+  const authority = await getMainProjectManifestAuthority();
   try {
-    if (typeof options.beforeCopy === 'function') await options.beforeCopy({ sourceRoot: binding.projectRoot, tempRoot, targetRoot });
-    await copyDirectoryContents(binding.projectRoot, tempRoot, { overwriteExisting: true });
-    const tempManifestPath = joinPathSegmentsWithinRoot(tempRoot, [PROJECT_MANIFEST_FILENAME], {
-      resolveSymlinks: false,
+    return await authority.withProjectLease(binding.projectId, async (sourceLease) => {
+      await sourceLease.assertOwned();
+      const targetRoot = joinPathSegmentsWithinRoot(fileManager.getDocumentsPath(), [duplicateName], {
+        resolveSymlinks: false,
+      });
+      if (await fileExists(targetRoot)) {
+        return makeProjectLifecycleError('E_PROJECT_TARGET_EXISTS', 'PROJECT_TARGET_EXISTS');
+      }
+      const tempRoot = makeProjectLifecycleTempPath(targetRoot, 'project-lifecycle-duplicate');
+      const rawRecord = await readProjectManifestRawAtPath(binding.manifestPath);
+      const recovery = await createProjectLifecycleRecovery(
+        binding,
+        PROJECT_LIFECYCLE_DUPLICATE_COMMAND_ID,
+        rawRecord.raw,
+        options,
+      );
+      const newProjectId = createStableProjectId();
+      await writeProjectLifecycleJournal({
+        commandId: PROJECT_LIFECYCLE_DUPLICATE_COMMAND_ID,
+        projectId: binding.projectId,
+        targetProjectId: newProjectId,
+        phase: 'copying-to-temp',
+        sourceRoot: binding.projectRoot,
+        targetRoot,
+        tempRoot,
+      });
+      try {
+        if (typeof options.beforeCopy === 'function') {
+          await options.beforeCopy({ sourceRoot: binding.projectRoot, tempRoot, targetRoot });
+        }
+        await copyDirectoryContents(binding.projectRoot, tempRoot, { overwriteExisting: true });
+        const tempManifestPath = joinPathSegmentsWithinRoot(tempRoot, [PROJECT_MANIFEST_FILENAME], {
+          resolveSymlinks: false,
+        });
+        const nextManifest = {
+          ...rawRecord.manifest,
+          schemaVersion: PROJECT_MANIFEST_SCHEMA_VERSION,
+          projectId: newProjectId,
+          projectName: duplicateName,
+          createdAtUtc: new Date().toISOString(),
+          duplicatedFromProjectId: binding.projectId,
+        };
+        delete nextManifest.treeIdentity;
+        return await authority.withProjectLease(newProjectId, async (targetLease) => {
+          await targetLease.assertOwned();
+          await writeProjectManifestRawAtomic(tempManifestPath, nextManifest, {
+            expectedText: rawRecord.raw,
+            expectedProjectId: binding.projectId,
+            lease: targetLease,
+          });
+          if (typeof options.afterManifestBeforeFinalMove === 'function') {
+            await options.afterManifestBeforeFinalMove({ sourceRoot: binding.projectRoot, tempRoot, targetRoot });
+          }
+          await sourceLease.assertOwned();
+          await targetLease.publish(() => fs.rename(tempRoot, targetRoot));
+          await sourceLease.assertOwned();
+          const targetManifestPath = joinPathSegmentsWithinRoot(targetRoot, [PROJECT_MANIFEST_FILENAME], {
+            resolveSymlinks: false,
+          });
+          const targetManifestRecord = await readProjectManifestRawAtPath(targetManifestPath);
+          if (normalizeStableProjectId(targetManifestRecord.manifest?.projectId) !== newProjectId) {
+            throw new Error('PROJECT_DUPLICATE_MANIFEST_READBACK_MISMATCH');
+          }
+          await targetLease.assertOwned();
+          await clearProjectLifecycleJournal();
+          const nextBinding = {
+            projectId: newProjectId,
+            projectRoot: targetRoot,
+            manifestPath: targetManifestPath,
+            manifest: await normalizeProjectManifest(nextManifest, duplicateName),
+          };
+          await replaceProjectLibraryIndexBinding('', nextBinding, { status: 'available', markOpened: false });
+          return {
+            ok: true,
+            duplicated: true,
+            projectId: newProjectId,
+            sourceProjectId: binding.projectId,
+            projectName: duplicateName,
+            receipt: makeProjectLifecycleReceipt(PROJECT_LIFECYCLE_DUPLICATE_COMMAND_ID, newProjectId, {
+              duplicated: true,
+              sourceProjectId: binding.projectId,
+              recovery,
+            }),
+          };
+        });
+      } catch (error) {
+        await fs.rm(tempRoot, { recursive: true, force: true }).catch(() => {});
+        await clearProjectLifecycleJournal();
+        logDevError('project lifecycle duplicate', error);
+        return makeProjectLifecycleError('E_PROJECT_DUPLICATE_FAILED', 'PROJECT_DUPLICATE_FAILED', {
+          message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN',
+          recovery,
+        });
+      }
     });
-    const nextManifest = {
-      ...rawRecord.manifest,
-      schemaVersion: PROJECT_MANIFEST_SCHEMA_VERSION,
-      projectId: newProjectId,
-      projectName: duplicateName,
-      createdAtUtc: new Date().toISOString(),
-      duplicatedFromProjectId: binding.projectId,
-    };
-    delete nextManifest.treeIdentity;
-    await writeProjectManifestRawAtomic(tempManifestPath, nextManifest);
-    if (typeof options.afterManifestBeforeFinalMove === 'function') {
-      await options.afterManifestBeforeFinalMove({ sourceRoot: binding.projectRoot, tempRoot, targetRoot });
-    }
-    await fs.rename(tempRoot, targetRoot);
-    await clearProjectLifecycleJournal();
-    const nextBinding = {
-      projectId: newProjectId,
-      projectRoot: targetRoot,
-      manifestPath: tempManifestPath.replace(tempRoot, targetRoot),
-      manifest: await normalizeProjectManifest(nextManifest, duplicateName),
-    };
-    await replaceProjectLibraryIndexBinding('', nextBinding, { status: 'available', markOpened: false });
-    return {
-      ok: true,
-      duplicated: true,
-      projectId: newProjectId,
-      sourceProjectId: binding.projectId,
-      projectName: duplicateName,
-      receipt: makeProjectLifecycleReceipt(PROJECT_LIFECYCLE_DUPLICATE_COMMAND_ID, newProjectId, {
-        duplicated: true,
-        sourceProjectId: binding.projectId,
-        recovery,
-      }),
-    };
   } catch (error) {
-    await fs.rm(tempRoot, { recursive: true, force: true }).catch(() => {});
-    await clearProjectLifecycleJournal();
-    logDevError('project lifecycle duplicate', error);
-    return makeProjectLifecycleError('E_PROJECT_DUPLICATE_FAILED', 'PROJECT_DUPLICATE_FAILED', {
-      message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN',
-      recovery,
-    });
+    return makeProjectLifecycleError(
+      error?.code || 'E_PROJECT_DUPLICATE_TRANSACTION_FAILED',
+      error?.reason || 'PROJECT_DUPLICATE_TRANSACTION_FAILED',
+      error?.details || {},
+    );
   }
 }
 
@@ -15106,6 +15433,7 @@ async function resolveProjectLibraryBindingFromEntry(entry) {
         projectRoot: entry.projectRoot,
         manifestPath: entry.manifestPath,
         manifest,
+        manifestRaw: rawRecord.raw,
         sourceSchemaVersion: rawRecord.sourceSchemaVersion,
       },
       rawRecord,
@@ -15365,7 +15693,13 @@ async function handleProjectLifecycleCreateBackupCommand(payload = {}, options =
     const receiptPath = joinPathSegmentsWithinRoot(tempRoot, ['project-backup-receipt.v1.json'], {
       resolveSymlinks: false,
     });
-    await writeProjectManifestRawAtomic(receiptPath, receipt);
+    const receiptWrite = await queueDiskOperation(
+      () => fileManager.writeFileAtomic(receiptPath, `${JSON.stringify(receipt, null, 2)}\n`),
+      'save project lifecycle backup receipt',
+    );
+    if (!receiptWrite || receiptWrite.success !== true) {
+      throw new Error(receiptWrite?.error || 'PROJECT_LIFECYCLE_BACKUP_RECEIPT_WRITE_FAILED');
+    }
     if (typeof options.afterCopyBeforeFinalMove === 'function') {
       await options.afterCopyBeforeFinalMove({ tempRoot, targetRoot });
     }
@@ -16065,14 +16399,29 @@ async function readCanonicalExportSnapshot(payload = {}) {
   });
 }
 
-async function persistProjectManifestAtPath(manifestPath, manifest, operationLabel = 'save project manifest') {
-  const writeResult = await queueDiskOperation(
-    () => fileManager.writeFileAtomic(manifestPath, JSON.stringify(manifest, null, 2)),
-    operationLabel,
-  );
-  if (!writeResult.success) {
-    throw new Error(writeResult.error || 'Failed to save project manifest');
+async function persistProjectManifestAtPath(
+  manifestPath,
+  manifest,
+  operationLabel = 'save project manifest',
+  options = {},
+) {
+  const projectId = normalizeStableProjectId(manifest?.projectId);
+  const expectedText = typeof options.expectedText === 'string' ? options.expectedText : null;
+  if (!projectId || expectedText === null) {
+    const error = new Error('PROJECT_MANIFEST_EXPECTED_BYTES_REQUIRED');
+    error.code = 'E_MAIN_PROJECT_MANIFEST_EXPECTED_BYTES_REQUIRED';
+    error.reason = 'PROJECT_MANIFEST_EXPECTED_BYTES_REQUIRED';
+    throw error;
   }
+  const authority = await getMainProjectManifestAuthority();
+  return authority.commitManifestText({
+    projectId,
+    targetPath: manifestPath,
+    expectedText,
+    nextText: JSON.stringify(manifest, null, 2),
+    label: operationLabel,
+    ...(options.lease ? { lease: options.lease } : {}),
+  });
 }
 
 async function persistFreeEditProDataInvalidationForSceneIds(sceneIds = [], options = {}) {
@@ -16094,12 +16443,14 @@ async function persistFreeEditProDataInvalidationForSceneIds(sceneIds = [], opti
     ? options.manifestPath
     : '';
   let manifest = isPlainObjectValue(options.manifest) ? options.manifest : null;
+  let manifestRaw = typeof options.manifestRaw === 'string' ? options.manifestRaw : '';
   if (!manifestPath || !manifest) {
     const record = await ensureProjectManifest(currentProjectName || DEFAULT_PROJECT_NAME);
     manifestPath = record.manifestPath;
     manifest = record.manifest;
+    manifestRaw = record.manifestRaw;
   }
-  if (!manifestPath || !isPlainObjectValue(manifest)) {
+  if (!manifestPath || !isPlainObjectValue(manifest) || !manifestRaw) {
     return { persisted: false, reason: 'PROJECT_BINDING_UNAVAILABLE' };
   }
 
@@ -16125,6 +16476,7 @@ async function persistFreeEditProDataInvalidationForSceneIds(sceneIds = [], opti
     typeof options.operationLabel === 'string' && options.operationLabel
       ? options.operationLabel
       : 'save pro data invalidation',
+    { expectedText: manifestRaw },
   );
   return { persisted: true, receipt: result.receipt };
 }
@@ -16150,6 +16502,7 @@ async function persistFreeEditProDataInvalidationForFile(filePath, options = {})
     changedSceneIds: [sceneId],
     manifestPath: binding.manifestPath,
     manifest: binding.manifest,
+    manifestRaw: binding.manifestRaw,
   });
 }
 
@@ -16221,7 +16574,9 @@ async function persistBookProfileForFile(filePath, bookProfile, operationLabel =
     };
   }
 
-  await persistProjectManifestAtPath(projectBinding.manifestPath, nextManifest, operationLabel);
+  await persistProjectManifestAtPath(projectBinding.manifestPath, nextManifest, operationLabel, {
+    expectedText: projectBinding.manifestRaw,
+  });
   return {
     persisted: true,
     manifest: nextManifest,
@@ -20614,107 +20969,140 @@ async function handleImportProjectArchive(payloadRaw = {}, options = {}) {
   const targetRoot = await getUniqueProjectLifecycleRoot(fileManager.getDocumentsPath(), preferredName);
   const tempRoot = makeProjectLifecycleTempPath(targetRoot, 'project-archive-import');
   const newProjectId = mode === 'copy' ? createStableProjectId() : archiveProjectId;
+  const authority = await getMainProjectManifestAuthority();
 
   try {
-    await writeProjectLifecycleJournal({
-      commandId: IMPORT_PROJECT_ARCHIVE_COMMAND_ID,
-      projectId: archiveProjectId,
-      phase: 'importing-to-temp',
-      targetRoot,
-      tempRoot,
-    });
-    if (typeof options.beforeExtract === 'function') await options.beforeExtract({ tempRoot, targetRoot });
-    await queueDiskOperation(
-      () => writeProjectArchivePayloadToTempRoot(archivePayload, tempRoot),
-      'import project archive entries',
-    );
-    const tempManifestPath = joinPathSegmentsWithinRoot(tempRoot, [PROJECT_MANIFEST_FILENAME], {
-      resolveSymlinks: false,
-    });
-    const rawRecord = await readProjectManifestRawAtPath(tempManifestPath);
-    const sourceManifest = isPlainObjectValue(rawRecord.manifest) ? rawRecord.manifest : {};
-    if (normalizeStableProjectId(sourceManifest.projectId) !== archiveProjectId) {
-      throw new Error('PROJECT_ARCHIVE_IMPORT_PROJECT_ID_MISMATCH');
-    }
-    let nextManifest = sourceManifest;
-    if (mode === 'copy') {
-      nextManifest = {
-        ...sourceManifest,
-        schemaVersion: PROJECT_MANIFEST_SCHEMA_VERSION,
+    return await authority.withProjectLease(newProjectId, async (lease) => {
+      await lease.assertOwned();
+      const racedBinding = await findProjectBindingByProjectId(newProjectId);
+      if (racedBinding?.projectRoot) {
+        const error = new Error('PROJECT_ARCHIVE_IMPORT_PROJECT_ID_COLLISION');
+        error.code = 'E_PROJECT_ARCHIVE_IMPORT_PROJECT_ID_COLLISION';
+        error.reason = 'project_archive_import_project_id_collision';
+        throw error;
+      }
+      await writeProjectLifecycleJournal({
+        commandId: IMPORT_PROJECT_ARCHIVE_COMMAND_ID,
         projectId: newProjectId,
-        projectName: preferredName,
-        createdAtUtc: new Date().toISOString(),
-        copiedFromProjectId: archiveProjectId,
-      };
-      delete nextManifest.treeIdentity;
-      await writeProjectManifestRawAtomic(tempManifestPath, nextManifest);
-    }
-    if (typeof options.afterExtractBeforeFinalMove === 'function') {
-      await options.afterExtractBeforeFinalMove({ tempRoot, targetRoot });
-    }
-    if (await fileExists(targetRoot)) {
-      throw new Error('PROJECT_ARCHIVE_IMPORT_TARGET_EXISTS');
-    }
-    await fs.rename(tempRoot, targetRoot);
-    await clearProjectLifecycleJournal();
-
-    const manifestPath = joinPathSegmentsWithinRoot(targetRoot, [PROJECT_MANIFEST_FILENAME], { resolveSymlinks: false });
-    const normalizedManifest = await normalizeProjectManifest(nextManifest, preferredName);
-    const projectBinding = {
-      projectId: newProjectId,
-      projectRoot: targetRoot,
-      manifestPath,
-      manifest: normalizedManifest,
-      sourceSchemaVersion: Number(nextManifest?.schemaVersion),
-    };
-    await replaceProjectLibraryIndexBinding('', projectBinding, {
-      status: 'available',
-      markOpened: payload.openAfterImport === true,
-      dropSameProjectId: mode === 'restore',
-    });
-    if (payload.openAfterImport === true) {
-      setActiveProjectNameFromRoot(targetRoot);
-      const target = await resolveProjectContinueTarget(projectBinding, {});
-      if (target.filePath) {
-        await openProjectDocumentFile(target.filePath, {
-          statusText: 'Архив проекта импортирован',
+        sourceProjectId: archiveProjectId,
+        phase: 'importing-to-temp',
+        targetRoot,
+        tempRoot,
+      });
+      if (typeof options.beforeExtract === 'function') await options.beforeExtract({ tempRoot, targetRoot });
+      await queueDiskOperation(
+        () => writeProjectArchivePayloadToTempRoot(archivePayload, tempRoot),
+        'import project archive entries',
+      );
+      const tempManifestPath = joinPathSegmentsWithinRoot(tempRoot, [PROJECT_MANIFEST_FILENAME], {
+        resolveSymlinks: false,
+      });
+      const rawRecord = await readProjectManifestRawAtPath(tempManifestPath);
+      const sourceManifest = isPlainObjectValue(rawRecord.manifest) ? rawRecord.manifest : {};
+      if (normalizeStableProjectId(sourceManifest.projectId) !== archiveProjectId) {
+        throw new Error('PROJECT_ARCHIVE_IMPORT_PROJECT_ID_MISMATCH');
+      }
+      let nextManifest = sourceManifest;
+      if (mode === 'copy') {
+        nextManifest = {
+          ...sourceManifest,
+          schemaVersion: PROJECT_MANIFEST_SCHEMA_VERSION,
           projectId: newProjectId,
-          projectBinding,
+          projectName: preferredName,
+          createdAtUtc: new Date().toISOString(),
+          copiedFromProjectId: archiveProjectId,
+        };
+        delete nextManifest.treeIdentity;
+        await writeProjectManifestRawAtomic(tempManifestPath, nextManifest, {
+          expectedText: rawRecord.raw,
+          expectedProjectId: archiveProjectId,
+          lease,
         });
       }
-    }
-    updateStatus('Архив проекта импортирован');
-    pendingProjectArchiveImportPreview = null;
-    return {
-      ok: true,
-      imported: true,
-      mode,
-      projectId: newProjectId,
-      sourceProjectId: archiveProjectId,
-      projectName: normalizedManifest.projectName || preferredName,
-      archiveManifest: archiveSummary,
-      receipt: makeProjectArchiveImportReceipt(IMPORT_PROJECT_ARCHIVE_COMMAND_ID, newProjectId, {
-        mode,
-        restored: mode === 'restore',
-        copied: mode === 'copy',
+      if (typeof options.afterExtractBeforeFinalMove === 'function') {
+        await options.afterExtractBeforeFinalMove({ tempRoot, targetRoot });
+      }
+      if (await fileExists(targetRoot)) {
+        throw new Error('PROJECT_ARCHIVE_IMPORT_TARGET_EXISTS');
+      }
+      await lease.publish(() => fs.rename(tempRoot, targetRoot));
+      await writeProjectLifecycleJournal({
+        commandId: IMPORT_PROJECT_ARCHIVE_COMMAND_ID,
+        projectId: newProjectId,
         sourceProjectId: archiveProjectId,
-        archiveSha256: archiveSummary.archiveSha256,
-        fileCount: archiveSummary.fileCount,
-        byteCount: archiveSummary.byteCount,
-      }),
-      authority: {
-        pathsExposed: false,
-        networkRequired: false,
-      },
-    };
+        phase: 'final-moved',
+        targetRoot,
+        tempRoot,
+      });
+
+      const manifestPath = joinPathSegmentsWithinRoot(targetRoot, [PROJECT_MANIFEST_FILENAME], {
+        resolveSymlinks: false,
+      });
+      const publishedManifestRecord = await readProjectManifestRawAtPath(manifestPath);
+      if (normalizeStableProjectId(publishedManifestRecord.manifest?.projectId) !== newProjectId) {
+        throw new Error('PROJECT_ARCHIVE_IMPORT_MANIFEST_READBACK_MISMATCH');
+      }
+      await lease.assertOwned();
+      await clearProjectLifecycleJournal();
+      const normalizedManifest = await normalizeProjectManifest(nextManifest, preferredName);
+      const projectBinding = {
+        projectId: newProjectId,
+        projectRoot: targetRoot,
+        manifestPath,
+        manifest: normalizedManifest,
+        sourceSchemaVersion: Number(nextManifest?.schemaVersion),
+      };
+      await replaceProjectLibraryIndexBinding('', projectBinding, {
+        status: 'available',
+        markOpened: payload.openAfterImport === true,
+        dropSameProjectId: mode === 'restore',
+      });
+      if (payload.openAfterImport === true) {
+        setActiveProjectNameFromRoot(targetRoot);
+        const target = await resolveProjectContinueTarget(projectBinding, {});
+        if (target.filePath) {
+          await openProjectDocumentFile(target.filePath, {
+            statusText: 'Архив проекта импортирован',
+            projectId: newProjectId,
+            projectBinding,
+          });
+        }
+      }
+      updateStatus('Архив проекта импортирован');
+      pendingProjectArchiveImportPreview = null;
+      return {
+        ok: true,
+        imported: true,
+        mode,
+        projectId: newProjectId,
+        sourceProjectId: archiveProjectId,
+        projectName: normalizedManifest.projectName || preferredName,
+        archiveManifest: archiveSummary,
+        receipt: makeProjectArchiveImportReceipt(IMPORT_PROJECT_ARCHIVE_COMMAND_ID, newProjectId, {
+          mode,
+          restored: mode === 'restore',
+          copied: mode === 'copy',
+          sourceProjectId: archiveProjectId,
+          archiveSha256: archiveSummary.archiveSha256,
+          fileCount: archiveSummary.fileCount,
+          byteCount: archiveSummary.byteCount,
+        }),
+        authority: {
+          pathsExposed: false,
+          networkRequired: false,
+        },
+      };
+    });
   } catch (error) {
     await fs.rm(tempRoot, { recursive: true, force: true }).catch(() => {});
     await clearProjectLifecycleJournal();
     pendingProjectArchiveImportPreview = null;
     logDevError('project archive import', error);
     return makeTypedProjectArchiveImportError(
-      'E_PROJECT_ARCHIVE_IMPORT_FAILED',
-      error && typeof error.message === 'string' ? error.message : 'project_archive_import_failed',
+      typeof error?.code === 'string' ? error.code : 'E_PROJECT_ARCHIVE_IMPORT_FAILED',
+      typeof error?.reason === 'string'
+        ? error.reason
+        : (error && typeof error.message === 'string' ? error.message : 'project_archive_import_failed'),
     );
   }
 }
@@ -22025,7 +22413,9 @@ async function persistProjectTreeIdentityMigration(manifestPath, projectRoot, so
   if (!backupResult || backupResult.success !== true) {
     throw new Error(backupResult?.error || 'PROJECT_TREE_IDENTITY_BACKUP_FAILED');
   }
-  await persistProjectManifestAtPath(manifestPath, manifest, 'save project tree identity registry');
+  await persistProjectManifestAtPath(manifestPath, manifest, 'save project tree identity registry', {
+    expectedText: sourceText,
+  });
 }
 
 async function createProjectTreeMoveRecovery(manifestPath, projectRoot, sourceText, options = {}) {
@@ -23436,6 +23826,7 @@ const WORKSPACE_QUERY_BRIDGE_HANDLERS = new Map([
   [NOTES_WORKSPACE_QUERY_ID, handleWorkspaceProjectNotesQuery],
   [PROJECT_SEARCH_QUERY_ID, handleWorkspaceProjectSearchQuery],
   [SCENE_HISTORY_QUERY_ID, handleWorkspaceSceneHistoryQuery],
+  [STAGE10_PRODUCT_STATE_QUERY_ID, handleWorkspaceStage10ProductStateQuery],
   [ATLAS_OVERVIEW_QUERY_ID, handleWorkspaceAtlasOverviewQuery],
   [ATLAS_ENTITY_DOSSIER_QUERY_ID, handleWorkspaceAtlasEntityDossierQuery],
   [ATLAS_RELATION_DOSSIER_QUERY_ID, handleWorkspaceAtlasRelationDossierQuery],
@@ -23467,7 +23858,9 @@ ipcMain.handle('ui:workspace-query-bridge', async (_, request) => {
   if (typeof handler !== 'function') {
     return { ok: false, error: 'QUERY_HANDLER_UNAVAILABLE' };
   }
-  return handler(payload);
+  return ATLAS_ANALYTICS_QUERY_IDS.has(queryId)
+    ? runScheduledAtlasAnalyticsQuery(queryId, payload, handler)
+    : handler(payload);
 });
 
 ipcMain.handle('ui:save-lifecycle-signal-bridge', async (_, request) => {
@@ -26482,6 +26875,240 @@ function getProjectAuthorDomainForPersistence(project, manifestKey, createEmpty)
   return createEmpty();
 }
 
+const MANUAL_MAP_LOCAL_FILE_MAX_BYTES = 8 * 1024 * 1024;
+
+function manualMapPortabilityError(commandId, code, reason, details = {}) {
+  return {
+    ok: false,
+    error: {
+      code,
+      op: commandId,
+      reason,
+      details: isPlainObjectValue(details) ? cloneJsonSafe(details) : {},
+    },
+  };
+}
+
+async function buildManualMapExternalArtifactMutation({ targetPath, content, format, mediaType }) {
+  const nextText = typeof content === 'string' ? content : '';
+  const nextHash = computeHash(nextText);
+  let previousExists = false;
+  let previousText = '';
+  try {
+    previousText = await fs.readFile(targetPath, 'utf8');
+    previousExists = true;
+  } catch (error) {
+    if (error?.code !== 'ENOENT') throw error;
+  }
+  if (Buffer.byteLength(previousText, 'utf8') > MANUAL_MAP_LOCAL_FILE_MAX_BYTES) {
+    throw Object.assign(new Error('MANUAL_MAP_EXPORT_TARGET_TOO_LARGE'), {
+      code: 'E_MANUAL_MAP_EXPORT_TARGET_TOO_LARGE',
+      reason: 'MANUAL_MAP_EXPORT_TARGET_TOO_LARGE',
+    });
+  }
+  return {
+    schemaVersion: 'yalken.stage10.externalArtifactMutation.v1',
+    targetPath,
+    format,
+    mediaType,
+    nextText,
+    nextHash,
+    previousExists,
+    previousText,
+    previousHash: previousExists ? computeHash(previousText) : '',
+  };
+}
+
+async function prepareManualMapPortabilityCommand(commandId, payload, binding, record) {
+  const safePayload = normalizeManualMapPortabilityPayload(payload);
+  if (commandId === 'manualMap.import.jsonRepeat') {
+    const selection = await showOpenDialogWithAutonomousPath(mainWindow, {
+      title: 'Import Manual Map JSON',
+      defaultPath: fileManager.getDocumentsPath(),
+      filters: [{ name: 'Manual Map JSON', extensions: ['json'] }],
+      properties: ['openFile'],
+    }, 'YALKEN_AUTONOMOUS_FILE_DIALOG_OPEN_MANUAL_MAP_JSON');
+    const sourcePath = !selection?.canceled && Array.isArray(selection.filePaths)
+      ? selection.filePaths[0]
+      : '';
+    if (!sourcePath) {
+      return manualMapPortabilityError(commandId, 'E_MANUAL_MAP_IMPORT_CANCELED', 'MANUAL_MAP_IMPORT_CANCELED');
+    }
+    let loaded;
+    try {
+      loaded = await readExternalFileBounded(sourcePath, {
+        projectRoot: binding.projectRoot,
+        allowedExtensions: ['.json'],
+        allowEmpty: false,
+        maxBytes: MANUAL_MAP_LOCAL_FILE_MAX_BYTES,
+      });
+    } catch (error) {
+      return manualMapPortabilityError(
+        commandId,
+        error?.code || 'E_MANUAL_MAP_IMPORT_READ_FAILED',
+        error?.reason || 'MANUAL_MAP_IMPORT_READ_FAILED',
+      );
+    }
+    const importModule = await loadManualMapImportModule();
+    const targetMapId = safePayload.targetMapId || `${safePayload.mapId || 'manual-map'}-imported`;
+    let exportJson;
+    try {
+      exportJson = new TextDecoder('utf-8', { fatal: true }).decode(loaded.bytes);
+    } catch {
+      return manualMapPortabilityError(
+        commandId,
+        'E_MANUAL_MAP_IMPORT_UTF8_INVALID',
+        'MANUAL_MAP_IMPORT_UTF8_INVALID',
+      );
+    }
+    const importPlan = importModule.buildManualMapJsonRepeatImportPlan({
+      exportJson,
+      initialState: binding.coreState,
+      targetProjectId: binding.projectId,
+      targetMapId,
+      title: safePayload.title || targetMapId,
+    });
+    if (!importPlan?.ok) {
+      return manualMapPortabilityError(
+        commandId,
+        importPlan?.error?.code || 'E_MANUAL_MAP_IMPORT_PLAN_FAILED',
+        importPlan?.error?.reason || 'MANUAL_MAP_IMPORT_PLAN_FAILED',
+      );
+    }
+    return {
+      ok: true,
+      payload: {
+        projectId: binding.projectId,
+        mapId: targetMapId,
+        importPlan: importPlan.value,
+        sourceArtifact: {
+          schemaVersion: 'manualMap.localArtifactSource.v1',
+          sourceName: path.basename(loaded.filePath),
+          sha256: computeHash(loaded.bytes),
+          byteLength: loaded.byteLength,
+        },
+      },
+      publicResult: {
+        import: {
+          mapId: targetMapId,
+          commandPlanHash: importPlan.value.meta?.planHash || '',
+          appliedCommandCount: importPlan.value.commands.length,
+          sourceSha256: computeHash(loaded.bytes),
+          sourceByteLength: loaded.byteLength,
+          localFileIntake: true,
+        },
+      },
+      externalArtifactMutation: null,
+    };
+  }
+
+  const derived = await deriveManualMapGraphForProductCommand(binding, safePayload, commandId, record);
+  if (!derived.ok) return { ok: false, error: derived.error?.error || derived.error };
+  let content;
+  let format;
+  let mediaType;
+  let publicResult;
+  if (commandId === 'manualMap.export.json') {
+    const exportModule = await loadManualMapExportModule();
+    const exported = exportModule.serializeManualMapExportJsonV1WithLossReport(derived.value.graph);
+    content = exported.json;
+    format = 'json';
+    mediaType = 'application/json';
+    publicResult = {
+      export: {
+        format,
+        jsonSha256: computeHash(content),
+        byteLength: Buffer.byteLength(content, 'utf8'),
+        lossCount: exported.lossReport?.count ?? -1,
+        lossReport: cloneJsonSafe(exported.lossReport || {}),
+        localFileWritten: true,
+      },
+    };
+  } else {
+    if (typeof payload?.requestedFormat === 'string' && payload.requestedFormat.trim().toLowerCase() === 'pdf') {
+      return manualMapPortabilityError(
+        commandId,
+        'E_MANUAL_MAP_PDF_BINARY_ADAPTER_UNAVAILABLE',
+        'LOCAL_PRINT_TO_PDF_PORT_NOT_BOUND_FOR_MANUAL_MAP_EXPORT',
+        { binaryGenerated: false, typedLoss: true },
+      );
+    }
+    const exportModule = await loadManualMapExportModule();
+    const evidence = exportModule.buildManualMapImagePdfExportEvidence(derived.value.graph);
+    if (!evidence?.ok || typeof evidence.value?.image?.content !== 'string') {
+      return manualMapPortabilityError(
+        commandId,
+        evidence?.error?.code || 'E_MANUAL_MAP_SVG_EXPORT_FAILED',
+        evidence?.error?.reason || 'MANUAL_MAP_SVG_EXPORT_FAILED',
+      );
+    }
+    content = evidence.value.image.content;
+    format = 'svg';
+    mediaType = 'image/svg+xml';
+    publicResult = {
+      export: {
+        format,
+        svgSha256: computeHash(content),
+        byteLength: Buffer.byteLength(content, 'utf8'),
+        evidenceHash: evidence.value.meta?.evidenceHash || '',
+        localFileWritten: true,
+        pdf: {
+          binaryGenerated: false,
+          typedLoss: {
+            code: 'E_MANUAL_MAP_PDF_BINARY_ADAPTER_UNAVAILABLE',
+            reason: 'LOCAL_PRINT_TO_PDF_PORT_NOT_BOUND_FOR_MANUAL_MAP_EXPORT',
+          },
+        },
+      },
+    };
+  }
+  const extension = format === 'json' ? 'json' : 'svg';
+  const save = await showSaveDialogWithAutonomousPath(mainWindow, {
+    title: format === 'json' ? 'Export Manual Map JSON' : 'Export Manual Map SVG',
+    defaultPath: `manual-map.${extension}`,
+    filters: [{ name: format === 'json' ? 'Manual Map JSON' : 'Scalable Vector Graphics', extensions: [extension] }],
+  }, `manual-map.${extension}`);
+  if (!save || save.canceled || !save.filePath) {
+    return manualMapPortabilityError(commandId, 'E_MANUAL_MAP_EXPORT_CANCELED', 'MANUAL_MAP_EXPORT_CANCELED');
+  }
+  let validated;
+  try {
+    validated = await validateExternalWriteTarget(save.filePath, {
+      projectRoot: binding.projectRoot,
+      sourcePaths: [binding.manifestPath],
+      allowedExtensions: [`.${extension}`],
+    });
+  } catch (error) {
+    return manualMapPortabilityError(
+      commandId,
+      error?.code || 'E_MANUAL_MAP_EXPORT_TARGET_INVALID',
+      error?.reason || 'MANUAL_MAP_EXPORT_TARGET_INVALID',
+    );
+  }
+  const externalArtifactMutation = await buildManualMapExternalArtifactMutation({
+    targetPath: validated.targetPath,
+    content,
+    format,
+    mediaType,
+  });
+  return {
+    ok: true,
+    payload: {
+      projectId: binding.projectId,
+      mapId: derived.value.mapId,
+      artifact: {
+        schemaVersion: 'manualMap.localArtifactIntent.v1',
+        format,
+        mediaType,
+        sha256: externalArtifactMutation.nextHash,
+        byteLength: Buffer.byteLength(content, 'utf8'),
+      },
+    },
+    publicResult,
+    externalArtifactMutation,
+  };
+}
+
 async function prepareCanonicalProjectTruthCommand(commandId, payload) {
   const record = getProductCommandRecord(commandId);
   const spec = record ? PRODUCT_AUTHOR_DOMAIN_SCHEMAS[record.domain] : null;
@@ -26501,10 +27128,22 @@ async function prepareCanonicalProjectTruthCommand(commandId, payload) {
   if (schemaFailure) return schemaFailure;
   const rawRecord = await readProjectManifestRawAtPath(binding.manifestPath);
   const previousHash = computeHash(rawRecord.raw);
+  const portability = [
+    'manualMap.export.json',
+    'manualMap.export.imagePdf',
+    'manualMap.import.jsonRepeat',
+  ].includes(commandId)
+    ? await prepareManualMapPortabilityCommand(commandId, payload, binding, record)
+    : null;
+  if (portability && portability.ok !== true) return portability;
   return {
     schemaVersion: 'yalken.stage10.canonicalProjectTruthCommand.v1',
     projectId: binding.projectId,
+    sourceHash: previousHash,
+    sourceRevision: Number(binding.manifest?.lastCommandId || 0),
     coreState: cloneJsonSafe(binding.coreState),
+    payload: portability?.payload || cloneJsonSafe(payload),
+    publicResult: portability?.publicResult || null,
     async prepareMutation(result = {}) {
       const nextProject = result.nextCoreState?.data?.projects?.[binding.projectId];
       if (!isPlainObjectValue(nextProject)) {
@@ -26546,6 +27185,7 @@ async function prepareCanonicalProjectTruthCommand(commandId, payload) {
         nextText,
         previousHash,
         nextHash: computeHash(nextText),
+        externalArtifactMutation: portability?.externalArtifactMutation || null,
       };
     },
   };
@@ -26607,7 +27247,6 @@ function normalizeManualMapPortabilityPayload(payload = {}) {
     mapId: typeof source.mapId === 'string' ? source.mapId.trim() : '',
     targetMapId: typeof source.targetMapId === 'string' ? source.targetMapId.trim() : '',
     title: typeof source.title === 'string' ? source.title.trim() : '',
-    exportJson: typeof source.exportJson === 'string' ? source.exportJson : '',
   };
 }
 
@@ -26667,298 +27306,6 @@ async function deriveManualMapGraphForProductCommand(binding, payload, commandId
   return { ok: true, value: { mapId, graph: derived.value } };
 }
 
-async function handleManualMapExportJsonProductCommand(binding, payload, record, manifestHashBefore) {
-  const commandId = 'manualMap.export.json';
-  const derived = await deriveManualMapGraphForProductCommand(binding, payload, commandId, record);
-  if (!derived.ok) return derived.error;
-  const exportModule = await loadManualMapExportModule();
-  const exported = exportModule.serializeManualMapExportJsonV1WithLossReport(derived.value.graph);
-  const exportHash = computeHash(exported.json);
-  return {
-    ok: true,
-    schemaVersion: 'product-command-dispatch-receipt.v1',
-    commandId,
-    commandAuthority: record.commandAuthority,
-    capabilityId: record.capabilityId,
-    domain: record.domain,
-    runtimeBacked: record.runtimeBacked === true,
-    projectId: binding.projectId,
-    mapId: derived.value.mapId,
-    mutationApplied: false,
-    storageWritten: false,
-    manifestWritten: false,
-    networkMutation: false,
-    directRendererMutation: false,
-    productTruthMutation: false,
-    targetState: {
-      manifestHashBefore,
-      manifestHashAfter: manifestHashBefore,
-      transactionSerialized: true,
-      revisionConflictDetected: false,
-    },
-    export: {
-      format: exportModule.MANUAL_MAP_EXPORT_FORMAT,
-      schemaVersion: exportModule.MANUAL_MAP_EXPORT_SCHEMA_VERSION,
-      json: exported.json,
-      jsonSha256: exportHash,
-      byteLength: Buffer.byteLength(exported.json, 'utf8'),
-      lossCount: exported.lossReport?.count ?? -1,
-      lossReport: cloneJsonSafe(exported.lossReport || {}),
-    },
-  };
-}
-
-async function handleManualMapExportImagePdfProductCommand(binding, payload, record, manifestHashBefore) {
-  const commandId = 'manualMap.export.imagePdf';
-  const derived = await deriveManualMapGraphForProductCommand(binding, payload, commandId, record);
-  if (!derived.ok) return derived.error;
-  const exportModule = await loadManualMapExportModule();
-  const evidence = exportModule.buildManualMapImagePdfExportEvidence(derived.value.graph);
-  if (!evidence || evidence.ok !== true) {
-    return makeProductCommandBridgeError(
-      commandId,
-      evidence?.error?.code || 'E_MANUAL_MAP_IMAGE_PDF_EXPORT_FAILED',
-      evidence?.error?.reason || 'MANUAL_MAP_IMAGE_PDF_EXPORT_FAILED',
-      {
-        commandAuthority: record.commandAuthority,
-        capabilityId: record.capabilityId,
-        domain: record.domain,
-        projectId: binding.projectId,
-        mapId: derived.value.mapId,
-        mutationApplied: false,
-        storageWritten: false,
-        exportError: evidence?.error || null,
-      },
-    );
-  }
-  return {
-    ok: true,
-    schemaVersion: 'product-command-dispatch-receipt.v1',
-    commandId,
-    commandAuthority: record.commandAuthority,
-    capabilityId: record.capabilityId,
-    domain: record.domain,
-    runtimeBacked: record.runtimeBacked === true,
-    projectId: binding.projectId,
-    mapId: derived.value.mapId,
-    mutationApplied: false,
-    storageWritten: false,
-    manifestWritten: false,
-    networkMutation: false,
-    directRendererMutation: false,
-    productTruthMutation: false,
-    targetState: {
-      manifestHashBefore,
-      manifestHashAfter: manifestHashBefore,
-      transactionSerialized: true,
-      revisionConflictDetected: false,
-    },
-    export: {
-      schemaVersion: evidence.value.schemaVersion,
-      evidenceHash: evidence.value.meta?.evidenceHash || '',
-      image: cloneJsonSafe(evidence.value.image || {}),
-      pdf: {
-        format: evidence.value.pdf?.format || 'pdf',
-        sourceFormat: evidence.value.pdf?.sourceFormat || '',
-        adapterRequired: evidence.value.pdf?.adapterRequired || '',
-        binaryGenerated: evidence.value.pdf?.binaryGenerated === true,
-        htmlSha256: evidence.value.pdf?.htmlSha256 || '',
-        htmlUtf8ByteLength: evidence.value.pdf?.htmlUtf8ByteLength || 0,
-        typedLoss: evidence.value.pdf?.binaryGenerated === true ? null : {
-          code: 'MANUAL_MAP_PDF_BINARY_ADAPTER_NOT_ACTIVE',
-          reason: 'LOCAL_PRINT_TO_PDF_PORT_NOT_BOUND_FOR_MANUAL_MAP_EXPORT',
-        },
-      },
-      summary: cloneJsonSafe(evidence.value.summary || {}),
-    },
-  };
-}
-
-async function handleManualMapImportJsonRepeatProductCommand(binding, payload, record, manifestHashBefore) {
-  const commandId = 'manualMap.import.jsonRepeat';
-  const safePayload = normalizeManualMapPortabilityPayload(payload);
-  if (!safePayload.exportJson) {
-    return makeProductCommandBridgeError(
-      commandId,
-      'E_MANUAL_MAP_IMPORT_EXPORT_JSON_REQUIRED',
-      'MANUAL_MAP_IMPORT_EXPORT_JSON_REQUIRED',
-      {
-        commandAuthority: record.commandAuthority,
-        capabilityId: record.capabilityId,
-        domain: record.domain,
-        projectId: binding.projectId,
-        mutationApplied: false,
-        storageWritten: false,
-      },
-    );
-  }
-  const importModule = await loadManualMapImportModule();
-  const runtime = await loadCoreRuntimeModule();
-  const targetMapId = safePayload.targetMapId || `${safePayload.mapId || 'manual-map'}-imported`;
-  const imported = await importModule.applyManualMapJsonRepeatImportViaCommandKernel({
-    exportJson: safePayload.exportJson,
-    initialState: binding.coreState,
-    targetProjectId: binding.projectId,
-    targetMapId,
-    title: safePayload.title || targetMapId,
-    commandExecutor: (command, context) => runtime.reduceCoreState(context.state, command),
-    capabilitySnapshot: {
-      platformId: DEFAULT_AUTHORITY_PLATFORM_ID,
-      capabilities: { 'manualMap.view': true, manualMapView: true },
-    },
-  });
-  if (!imported || imported.ok !== true || !isPlainObjectValue(imported.value?.state)) {
-    return makeProductCommandBridgeError(
-      commandId,
-      imported?.error?.code || 'E_MANUAL_MAP_IMPORT_JSON_REPEAT_FAILED',
-      imported?.error?.reason || 'MANUAL_MAP_IMPORT_JSON_REPEAT_FAILED',
-      {
-        commandAuthority: record.commandAuthority,
-        capabilityId: record.capabilityId,
-        domain: record.domain,
-        projectId: binding.projectId,
-        mapId: targetMapId,
-        mutationApplied: false,
-        storageWritten: false,
-        importError: imported?.error || null,
-      },
-    );
-  }
-
-  const unchanged = await assertProductCommandManifestUnchanged(binding, manifestHashBefore, commandId, record);
-  if (!unchanged.ok) return unchanged.error;
-  const domainEvents = Array.isArray(imported.value.domainEvents) ? cloneJsonSafe(imported.value.domainEvents) || [] : [];
-  let domainEventDigest = '';
-  try {
-    domainEventDigest = typeof runtime.hashCoreDomainEvents === 'function'
-      ? runtime.hashCoreDomainEvents(domainEvents)
-      : computeHash(JSON.stringify(domainEvents));
-  } catch (error) {
-    return makeProductCommandBridgeError(
-      commandId,
-      'E_PRODUCT_COMMAND_DOMAIN_EVENT_INVALID',
-      'PRODUCT_COMMAND_DOMAIN_EVENT_INVALID',
-      {
-        commandAuthority: record.commandAuthority,
-        capabilityId: record.capabilityId,
-        domain: record.domain,
-        projectId: binding.projectId,
-        mapId: targetMapId,
-        mutationApplied: false,
-        storageWritten: false,
-        domainEventError: error && typeof error.message === 'string' ? error.message : 'DOMAIN_EVENT_INVALID',
-      },
-    );
-  }
-  const recovery = await createProjectLifecycleRecovery(
-    {
-      projectId: binding.projectId,
-      projectRoot: binding.projectRoot,
-      manifestPath: binding.manifestPath,
-    },
-    commandId,
-    unchanged.latest.raw,
-  );
-  const nextProject = imported.value.state.data.projects[binding.projectId];
-  const nextManifest = {
-    ...binding.manifest,
-    atlas: getProjectAuthorDomainForPersistence(nextProject, 'atlas', () => getAtlasAuthorDataForProjection({})),
-    manualMaps: getProjectAuthorDomainForPersistence(nextProject, 'manualMaps', () => getManualMapAuthorDataForProjection({})),
-    ideas: getProjectAuthorDomainForPersistence(nextProject, 'ideas', () => getIdeaAuthorDataForProjection({})),
-    meanings: getProjectAuthorDomainForPersistence(nextProject, 'meanings', () => getMeaningAuthorDataForProjection({})),
-    lastCommandId: Number.isInteger(imported.value.state?.data?.lastCommandId)
-      ? imported.value.state.data.lastCommandId
-      : Number(binding.manifest?.lastCommandId || 0),
-  };
-  const manifestTextAfter = JSON.stringify(nextManifest, null, 2);
-  await persistProjectManifestAtPath(binding.manifestPath, nextManifest, `product command ${commandId}`);
-
-  return {
-    ok: true,
-    schemaVersion: 'product-command-dispatch-receipt.v1',
-    commandId,
-    commandAuthority: record.commandAuthority,
-    capabilityId: record.capabilityId,
-    domain: record.domain,
-    runtimeBacked: record.runtimeBacked === true,
-    projectId: binding.projectId,
-    mapId: targetMapId,
-    domainEvents,
-    domainEventDigest,
-    mutationApplied: true,
-    storageWritten: true,
-    manifestWritten: true,
-    networkMutation: false,
-    directRendererMutation: false,
-    targetState: {
-      stateHashBefore: runtime.hashCoreState(binding.coreState),
-      stateHashAfter: imported.value.meta?.stateHash || runtime.hashCoreState(imported.value.state),
-      manifestHashBefore,
-      manifestHashAfter: computeHash(manifestTextAfter),
-      commandSeqBefore: Number(binding.coreState?.data?.lastCommandId || 0),
-      commandSeqAfter: Number(imported.value.state?.data?.lastCommandId || 0),
-      transactionSerialized: true,
-      revisionConflictDetected: false,
-    },
-    recovery: {
-      snapshotCreated: recovery.snapshotCreated === true,
-      snapshotReadable: recovery.snapshotReadable === true,
-      snapshotHashMatchesInput: recovery.snapshotHashMatchesInput === true,
-      backupCreated: recovery.backupCreated === true,
-      recoveryPackCreated: recovery.recoveryPackCreated === true,
-      manifestHash: recovery.manifestHash || manifestHashBefore,
-    },
-    import: {
-      commandPlanHash: imported.value.commandPlanHash || '',
-      appliedCommandCount: imported.value.appliedCommandCount || 0,
-      domainEventDigest,
-      expectedGraphHash: imported.value.expectedGraphHash || '',
-      actualGraphHash: imported.value.actualGraphHash || '',
-      repeatExportGraphHash: imported.value.repeatExportGraphHash || '',
-      repeatExportLossCount: imported.value.repeatExportLossCount ?? -1,
-      repeatExportJsonSha256: computeHash(imported.value.repeatExportJson || ''),
-      directCoreMutation: imported.value.directCoreMutation === true,
-      storageMutation: false,
-      rendererMutation: imported.value.rendererMutation === true,
-    },
-  };
-}
-
-async function dispatchManualMapPortabilityProductCommand(commandId, payload, record) {
-  const binding = await buildProductCoreStateForCurrentProject();
-  const rawRecord = await readProjectManifestRawAtPath(binding.manifestPath);
-  const manifestHashBefore = computeHash(rawRecord.raw);
-  const requestedProjectId = typeof payload.projectId === 'string' ? payload.projectId.trim() : '';
-  if (requestedProjectId && requestedProjectId !== binding.projectId) {
-    return makeProductCommandBridgeError(
-      commandId,
-      'E_PRODUCT_COMMAND_PROJECT_MISMATCH',
-      'PRODUCT_COMMAND_PROJECT_MISMATCH',
-      {
-        commandAuthority: record.commandAuthority,
-        capabilityId: record.capabilityId,
-        domain: record.domain,
-        requestedProjectId,
-        activeProjectId: binding.projectId,
-        mutationApplied: false,
-        storageWritten: false,
-      },
-    );
-  }
-  const schemaFailure = validateProductCommandAuthorDomain(binding, commandId, record);
-  if (schemaFailure) return schemaFailure;
-  if (commandId === 'manualMap.export.json') {
-    return handleManualMapExportJsonProductCommand(binding, payload, record, manifestHashBefore);
-  }
-  if (commandId === 'manualMap.export.imagePdf') {
-    return handleManualMapExportImagePdfProductCommand(binding, payload, record, manifestHashBefore);
-  }
-  if (commandId === 'manualMap.import.jsonRepeat') {
-    return handleManualMapImportJsonRepeatProductCommand(binding, payload, record, manifestHashBefore);
-  }
-  return makeProductCommandBridgeError(commandId, 'E_MANUAL_MAP_PORTABILITY_COMMAND_UNSUPPORTED', 'MANUAL_MAP_PORTABILITY_COMMAND_UNSUPPORTED');
-}
-
 async function dispatchProductCommandBridge(commandId, payload = {}) {
   const record = getProductCommandRecord(commandId);
   if (!record) {
@@ -27009,12 +27356,7 @@ async function dispatchProductCommandBridge(commandId, payload = {}) {
     );
   }
 
-  const canonicalAuthorCommand = Object.prototype.hasOwnProperty.call(PRODUCT_AUTHOR_DOMAIN_SCHEMAS, record.domain)
-    && ![
-      'manualMap.export.json',
-      'manualMap.export.imagePdf',
-      'manualMap.import.jsonRepeat',
-    ].includes(commandId);
+  const canonicalAuthorCommand = Object.prototype.hasOwnProperty.call(PRODUCT_AUTHOR_DOMAIN_SCHEMAS, record.domain);
   if (record.domain === 'stage10' || canonicalAuthorCommand) {
     if (!activeStage10ApplicationCommandRoute || typeof activeStage10ApplicationCommandRoute.dispatch !== 'function') {
       return makeProductCommandBridgeError(
@@ -27048,19 +27390,6 @@ async function dispatchProductCommandBridge(commandId, payload = {}) {
         );
       }
     });
-  }
-
-  if (
-    MANUAL_MAP_WORKBENCH_COMMAND_IDS.includes(commandId)
-    && (
-      commandId === 'manualMap.export.json'
-      || commandId === 'manualMap.export.imagePdf'
-      || commandId === 'manualMap.import.jsonRepeat'
-    )
-  ) {
-    return enqueueProductCommandTransaction(currentProjectName || DEFAULT_PROJECT_NAME, () => (
-      dispatchManualMapPortabilityProductCommand(commandId, payload, record)
-    ));
   }
 
   return makeProductCommandBridgeError(
@@ -27609,6 +27938,7 @@ async function initializeApp() {
   await fileManager.ensureDocumentsFolder();
   await ensureAutosaveDirectory();
   await ensureProjectStructure();
+  await bootstrapStage10ApplicationAtStartup();
   await reconcileReviewFormattingReturnAtStartup();
   await reconcileReviewStructuralReturnAtStartup();
   await reconcileReviewExactTextApplyJournalsAtStartup();

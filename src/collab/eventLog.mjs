@@ -5,6 +5,7 @@ const OPERATION_REPLAY_REPORT_SCHEMA_VERSION = 'collab-operation-replay.report.v
 export const COMMAND_KERNEL_OPERATION_ENVELOPE_SCHEMA_VERSION = 'yalken.commandKernel.operationEnvelope.v1';
 export const COMMAND_KERNEL_RECEIPT_SCHEMA_VERSION = 'command-kernel.receipt.v1';
 export const COMMAND_KERNEL_RECEIPT_AUTHORITY_KIND = 'command-kernel-receipt-authority.v1';
+export const COMMAND_KERNEL_COMMAND_VERSION = 1;
 const SHA256_HEX_RE = /^[a-f0-9]{64}$/u;
 
 function isPlainObject(value) {
@@ -58,6 +59,7 @@ function normalizeTargets(value) {
   return value
     .filter((target) => isPlainObject(target))
     .map((target) => ({
+      ...cloneJson(target),
       targetKind: normalizeString(target.targetKind || target.kind),
       targetId: normalizeString(target.targetId || target.id),
     }))
@@ -117,7 +119,7 @@ export function createCommandKernelOperationEnvelope(input = {}) {
     commandId: normalizeString(input.commandId),
     commandVersion: Number.isSafeInteger(Number(input.commandVersion)) && Number(input.commandVersion) > 0
       ? Number(input.commandVersion)
-      : 1,
+      : COMMAND_KERNEL_COMMAND_VERSION,
     payload,
     payloadHash,
     baseRevision: {
@@ -126,11 +128,15 @@ export function createCommandKernelOperationEnvelope(input = {}) {
     },
     targets: normalizeTargets(input.targets).length > 0 ? normalizeTargets(input.targets) : inferCommandTargets(payload),
     correlationId: normalizeString(input.correlationId || input.opId),
+    causationId: normalizeString(input.causationId || input.correlationId || input.opId),
     sessionId: normalizeString(input.sessionId),
     dependencies: normalizeStringArray(input.dependencies),
   };
+  if (normalizeString(input.projectId)) envelope.projectId = normalizeString(input.projectId);
+  if (normalizeString(input.lifecycleId)) envelope.lifecycleId = normalizeString(input.lifecycleId);
   if (normalizeString(input.eventId)) envelope.eventId = normalizeString(input.eventId);
-  if (isPlainObject(input.canonicalTruthLink)) envelope.canonicalTruthLink = cloneJson(input.canonicalTruthLink);
+  if (isPlainObject(input.collaboratorProvenance)) envelope.collaboratorProvenance = cloneJson(input.collaboratorProvenance);
+  if (isPlainObject(input.recoveryProvenance)) envelope.recoveryProvenance = cloneJson(input.recoveryProvenance);
   return {
     envelope,
     envelopeDigest: hashCanonical(envelope),
@@ -157,7 +163,7 @@ function validateCommandKernelOperationEnvelope(envelope, {
       'EXECUTABLE_OPERATION_ENVELOPE_SCHEMA_UNSUPPORTED',
     );
   }
-  if (normalizeString(envelope.commandId) !== normalizeString(commandId) || Number(envelope.commandVersion) !== 1) {
+  if (normalizeString(envelope.commandId) !== normalizeString(commandId) || Number(envelope.commandVersion) !== COMMAND_KERNEL_COMMAND_VERSION) {
     return typedError(
       'E_COLLAB_EVENTLOG_OPERATION_ENVELOPE_COMMAND_INVALID',
       'collab.eventlog.operationEnvelope',
@@ -184,6 +190,30 @@ function validateCommandKernelOperationEnvelope(envelope, {
       'collab.eventlog.operationEnvelope',
       'EXECUTABLE_OPERATION_ENVELOPE_DIGEST_MISMATCH',
     );
+  }
+  if (isPlainObject(envelope.collaboratorProvenance)) {
+    const provenance = cloneJson(envelope.collaboratorProvenance);
+    const provenanceDigest = normalizeString(provenance.provenanceDigest);
+    delete provenance.provenanceDigest;
+    if (!provenanceDigest || provenanceDigest !== hashCanonical(provenance)) {
+      return typedError(
+        'E_COLLAB_EVENTLOG_COLLABORATOR_PROVENANCE_INVALID',
+        'collab.eventlog.operationEnvelope',
+        'COLLABORATOR_PROVENANCE_DIGEST_INVALID',
+      );
+    }
+  }
+  if (isPlainObject(envelope.recoveryProvenance)) {
+    const provenance = cloneJson(envelope.recoveryProvenance);
+    const provenanceDigest = normalizeString(provenance.provenanceDigest);
+    delete provenance.provenanceDigest;
+    if (!provenanceDigest || provenanceDigest !== hashCanonical(provenance)) {
+      return typedError(
+        'E_COLLAB_EVENTLOG_RECOVERY_PROVENANCE_INVALID',
+        'collab.eventlog.operationEnvelope',
+        'RECOVERY_PROVENANCE_DIGEST_INVALID',
+      );
+    }
   }
   return null;
 }
@@ -515,24 +545,7 @@ function executeReplayEnvelope({
       ),
     };
   }
-  let reducerState = currentState;
-  const canonicalTruthLink = event.operationEnvelope.canonicalTruthLink;
-  if (isPlainObject(canonicalTruthLink)) {
-    const linkedState = canonicalTruthLink.coreState;
-    const linkedHash = normalizeString(canonicalTruthLink.stateHash);
-    if (!isPlainObject(linkedState) || !isSha256Hex(linkedHash) || hashState(linkedState) !== linkedHash) {
-      return {
-        ok: false,
-        error: replayError(
-          'E_COLLAB_OPERATION_REPLAY_CANONICAL_TRUTH_LINK_INVALID',
-          'EXECUTABLE_CANONICAL_TRUTH_LINK_INVALID',
-          { index, opId: event.opId, commandId: event.commandId },
-        ),
-      };
-    }
-    reducerState = cloneJson(linkedState);
-  }
-  const applyResult = normalizeApplyCommandResult(applyCommand(reducerState, {
+  const applyResult = normalizeApplyCommandResult(applyCommand(currentState, {
     type: event.commandId,
     payload: cloneJson(event.operationEnvelope.payload),
     event: cloneJson(event),
@@ -603,6 +616,15 @@ function buildReplayStep(event, index, currentHash, receipt) {
           commandVersion: Number(event.operationEnvelope?.commandVersion) || 0,
           operationEnvelopeDigest: event.operationEnvelopeDigest,
           payloadHash: event.payloadHash,
+          projectId: normalizeString(event.operationEnvelope?.projectId),
+          lifecycleId: normalizeString(event.operationEnvelope?.lifecycleId),
+          sessionId: normalizeString(event.operationEnvelope?.sessionId),
+          correlationId: normalizeString(event.operationEnvelope?.correlationId),
+          causationId: normalizeString(event.operationEnvelope?.causationId),
+          dependencies: normalizeStringArray(event.operationEnvelope?.dependencies),
+          targets: normalizeTargets(event.operationEnvelope?.targets),
+          collaboratorProvenanceDigest: normalizeString(event.operationEnvelope?.collaboratorProvenance?.provenanceDigest),
+          recoveryProvenanceDigest: normalizeString(event.operationEnvelope?.recoveryProvenance?.provenanceDigest),
         }
       : null,
     replayedFromStateHash: currentHash,
@@ -721,10 +743,14 @@ export function applyCommandWithEventLog(input = {}) {
     eventId: input.eventId || input.opId,
     preStateHash: currentStateHash,
     sessionId: input.sessionId,
+    projectId: input.projectId,
+    lifecycleId: input.lifecycleId,
     correlationId: input.correlationId,
+    causationId: input.causationId,
     dependencies: input.dependencies,
     targets: input.targets,
-    canonicalTruthLink: input.canonicalTruthLink,
+    collaboratorProvenance: input.collaboratorProvenance,
+    recoveryProvenance: input.recoveryProvenance,
     commandVersion: input.commandVersion,
   });
 

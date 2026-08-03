@@ -179,6 +179,9 @@ test('P0 03: implementation uses packaged executable and visible CDP input, not 
   assert.match(source, /Contents', 'MacOS', 'Yalken'/u);
   assert.match(source, /remote-debugging-port/u);
   assert.match(source, /Input\.dispatchMouseEvent/u);
+  assert.match(source, /for \(const keyCode of \['Enter', 'Space'\]\)/u);
+  assert.match(source, /SURFACE_ACTION_REJECTED/u);
+  assert.match(source, /SURFACE_ACTION_NOT_APPLIED/u);
   assert.match(source, /text:\s*char/u);
   assert.match(source, /PHYSICAL_POINTER_OR_KEYBOARD/u);
   assert.match(source, /DOM_VISIBLE_CONTROL_LISTENER_FALLBACK/u);

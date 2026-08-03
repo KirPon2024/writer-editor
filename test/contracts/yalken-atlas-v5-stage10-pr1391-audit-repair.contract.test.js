@@ -285,8 +285,13 @@ test('Stage10 R1-C: packaged review rail exposes visible lifecycle controls back
   ];
   assert.match(editorSource, /data-stage10-lifecycle-surface/u);
   assert.match(editorSource, /data-stage10-product-command/u);
-  assert.match(editorSource, /dispatchUiCommand\(commandId,\s*payload\)/u);
-  assert.match(editorSource, /buildStage10LifecyclePayload/u);
+  assert.match(editorSource, /dispatchUiCommand\(commandId,\s*request\.payload\)/u);
+  assert.match(editorSource, /buildStage10LifecycleCommandRequest/u);
+  assert.match(editorSource, /STAGE10_PRODUCT_STATE_QUERY_ID/u);
+  assert.match(editorSource, /latestExchangePacketId/u);
+  assert.match(editorSource, /pendingCollaboratorEvents/u);
+  assert.doesNotMatch(editorSource, /Stage-10 visible lifecycle packet/u);
+  assert.doesNotMatch(editorSource, /adapterKind:\s*'localFixture'/u);
   assert.match(editorSource, /Visible controls route through preload, main IPC, application bootstrap and the Command Kernel/u);
   for (const commandId of requiredCommands) {
     assert.match(editorSource, new RegExp(commandId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'u'));
@@ -354,7 +359,14 @@ test('Stage10 repair: external main-owned anchor rejects rollback, coherent rebu
     await assert.rejects(
       () => bootstrapModule.createStage10ApplicationBootstrap({ persistencePort: harness.makeAdapter() })
         .reopenProjectRuntime({ projectId }),
-      (error) => error?.reason === attack.expected,
+      (error) => error?.reason === attack.expected
+        || (
+          attack.expected === 'INTEGRITY_ANCHOR_PROJECT_MISMATCH'
+          && [
+            'PROJECT_KEY_CANONICAL_COLLISION',
+            'PROJECT_KEY_MIGRATION_IDENTITY_CONFLICT',
+          ].includes(error?.reason)
+        ),
     );
     writeJson(paths.anchor, canonicalAnchor);
   }

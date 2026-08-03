@@ -1,5 +1,8 @@
 import { createHash } from 'node:crypto';
 
+export const COLLABORATOR_EVENT_ENVELOPE_SCHEMA_VERSION = 'yalken.collaborator.eventEnvelope.v1';
+export const COLLABORATOR_COMMAND_VERSION = 1;
+
 function isPlainObject(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
 }
@@ -32,6 +35,144 @@ function normalizeString(value) {
 
 function normalizeDomainEvents(events) {
   return Array.isArray(events) ? events.map((event) => cloneJson(event)) : [];
+}
+
+function normalizeStringArray(value) {
+  return Array.isArray(value) ? value.map((item) => normalizeString(item)).filter(Boolean) : [];
+}
+
+function normalizeTargets(value) {
+  if (!Array.isArray(value)) return [];
+  return value
+    .filter((target) => isPlainObject(target))
+    .map((target) => ({
+      ...cloneJson(target),
+      targetKind: normalizeString(target.targetKind || target.kind),
+      targetId: normalizeString(target.targetId || target.id),
+    }))
+    .filter((target) => target.targetKind && target.targetId);
+}
+
+function collaboratorAdmissionError(event, code, reason, details = {}) {
+  return {
+    ok: false,
+    error: buildRejectionEnvelope(isPlainObject(event) ? event : {}, code, reason, details),
+  };
+}
+
+/**
+ * Validate the original transport object before any lossy normalization. This
+ * function is intentionally strict: collaborator input is an authority
+ * boundary, not a migration surface for unknown schema versions.
+ */
+export function admitCollaboratorEventEnvelope(input, options = {}) {
+  if (!isPlainObject(input)) {
+    return collaboratorAdmissionError({}, 'E_COLLAB_APPLY_ENVELOPE_REQUIRED', 'COLLABORATOR_EVENT_ENVELOPE_REQUIRED');
+  }
+  const legacyEnvelope = input.schemaVersion === undefined && input.commandVersion === undefined;
+  if (!legacyEnvelope && input.schemaVersion !== COLLABORATOR_EVENT_ENVELOPE_SCHEMA_VERSION) {
+    return collaboratorAdmissionError(
+      input,
+      'E_COLLAB_APPLY_EVENT_SCHEMA_UNSUPPORTED',
+      'COLLABORATOR_EVENT_SCHEMA_UNSUPPORTED',
+      { schemaVersion: normalizeString(input.schemaVersion) },
+    );
+  }
+  if (!legacyEnvelope && (!Number.isSafeInteger(input.commandVersion) || input.commandVersion !== COLLABORATOR_COMMAND_VERSION)) {
+    return collaboratorAdmissionError(
+      input,
+      'E_COLLAB_APPLY_COMMAND_VERSION_UNSUPPORTED',
+      'COLLABORATOR_COMMAND_VERSION_UNSUPPORTED',
+      { commandVersion: input.commandVersion },
+    );
+  }
+  const expectedProjectId = normalizeString(options.expectedProjectId);
+  const expectedLifecycleId = normalizeString(options.expectedLifecycleId);
+  const projectId = normalizeString(input.projectId) || (legacyEnvelope ? expectedProjectId : '');
+  const lifecycleId = normalizeString(input.lifecycleId) || (legacyEnvelope ? expectedLifecycleId : '');
+  if (!projectId || (expectedProjectId && projectId !== expectedProjectId)) {
+    return collaboratorAdmissionError(
+      input,
+      'E_COLLAB_APPLY_PROJECT_MISMATCH',
+      'COLLABORATOR_EVENT_PROJECT_MISMATCH',
+      { expectedProjectId, actualProjectId: projectId },
+    );
+  }
+  if (!lifecycleId || (expectedLifecycleId && lifecycleId !== expectedLifecycleId)) {
+    return collaboratorAdmissionError(
+      input,
+      'E_COLLAB_APPLY_LIFECYCLE_MISMATCH',
+      'COLLABORATOR_EVENT_LIFECYCLE_MISMATCH',
+      { expectedLifecycleId, actualLifecycleId: lifecycleId },
+    );
+  }
+  const requiredStrings = ['eventId', 'actorId', 'ts', 'opId', 'commandId', 'prevHash'];
+  if (!legacyEnvelope) requiredStrings.push('sessionId');
+  const missingFields = requiredStrings.filter((field) => !normalizeString(input[field]));
+  if (missingFields.length > 0 || !Object.prototype.hasOwnProperty.call(input, 'payload')) {
+    return collaboratorAdmissionError(
+      input,
+      'E_COLLAB_APPLY_EVENT_INVALID',
+      'EVENT_FIELDS_REQUIRED',
+      { missingFields: [...missingFields, ...(!Object.prototype.hasOwnProperty.call(input, 'payload') ? ['payload'] : [])] },
+    );
+  }
+  if (
+    !legacyEnvelope
+    && (!Array.isArray(input.dependencies) || !Array.isArray(input.targets) || !isPlainObject(input.causal))
+  ) {
+    return collaboratorAdmissionError(
+      input,
+      'E_COLLAB_APPLY_PROVENANCE_REQUIRED',
+      'COLLABORATOR_EVENT_PROVENANCE_REQUIRED',
+      { required: ['dependencies', 'targets', 'causal'] },
+    );
+  }
+  const dependencies = Array.isArray(input.dependencies) ? normalizeStringArray(input.dependencies) : [];
+  const targets = Array.isArray(input.targets)
+    ? normalizeTargets(input.targets)
+    : [{ targetKind: 'project', targetId: projectId }];
+  const causal = isPlainObject(input.causal)
+    ? cloneJson(input.causal)
+    : { correlationId: normalizeString(input.opId), causationId: normalizeString(input.opId) };
+  if (
+    (Array.isArray(input.dependencies) && dependencies.length !== input.dependencies.length)
+    || (Array.isArray(input.targets) && targets.length !== input.targets.length)
+    || !normalizeString(causal.correlationId)
+    || !normalizeString(causal.causationId)
+  ) {
+    return collaboratorAdmissionError(
+      input,
+      'E_COLLAB_APPLY_PROVENANCE_INVALID',
+      'COLLABORATOR_EVENT_PROVENANCE_INVALID',
+    );
+  }
+  const envelope = {
+    schemaVersion: COLLABORATOR_EVENT_ENVELOPE_SCHEMA_VERSION,
+    commandVersion: COLLABORATOR_COMMAND_VERSION,
+    projectId,
+    lifecycleId,
+    eventId: normalizeString(input.eventId),
+    actorId: normalizeString(input.actorId),
+    ts: normalizeString(input.ts),
+    opId: normalizeString(input.opId),
+    commandId: normalizeString(input.commandId),
+    sessionId: normalizeString(input.sessionId) || `legacy-session:${normalizeString(input.actorId)}`,
+    payload: cloneJson(input.payload),
+    prevHash: normalizeString(input.prevHash),
+    dependencies,
+    targets,
+    causal,
+    admission: {
+      legacyEnvelopeMigrated: legacyEnvelope,
+      originalFieldNames: Object.keys(input).sort(),
+    },
+  };
+  return {
+    ok: true,
+    event: envelope,
+    provenanceDigest: hashCanonical(envelope),
+  };
 }
 
 function getDomainEventPort(input = {}) {
@@ -69,7 +210,7 @@ function normalizeEvent(input = {}) {
   const payload = Object.prototype.hasOwnProperty.call(event, 'payload')
     ? cloneJson(event.payload)
     : null;
-  return {
+  const normalized = {
     eventId: normalizeString(event.eventId),
     actorId: normalizeString(event.actorId),
     ts: normalizeString(event.ts),
@@ -78,6 +219,17 @@ function normalizeEvent(input = {}) {
     payload,
     prevHash: normalizeString(event.prevHash),
   };
+  if (event.schemaVersion) normalized.schemaVersion = normalizeString(event.schemaVersion);
+  if (Number.isSafeInteger(event.commandVersion)) normalized.commandVersion = event.commandVersion;
+  if (event.projectId) normalized.projectId = normalizeString(event.projectId);
+  if (event.lifecycleId) normalized.lifecycleId = normalizeString(event.lifecycleId);
+  if (event.sessionId) normalized.sessionId = normalizeString(event.sessionId);
+  if (Array.isArray(event.dependencies)) normalized.dependencies = normalizeStringArray(event.dependencies);
+  if (Array.isArray(event.targets)) normalized.targets = normalizeTargets(event.targets);
+  if (isPlainObject(event.causal)) normalized.causal = cloneJson(event.causal);
+  if (isPlainObject(event.admission)) normalized.admission = cloneJson(event.admission);
+  if (event.provenanceDigest) normalized.provenanceDigest = normalizeString(event.provenanceDigest);
+  return normalized;
 }
 
 function normalizeEvents(events) {
@@ -118,7 +270,37 @@ function defaultHashState(state) {
 
 export function applyEventLog(input = {}) {
   const coreState = isPlainObject(input.coreState) ? cloneJson(input.coreState) : {};
-  const events = normalizeEvents(input.events);
+  const rawEvents = Array.isArray(input.events) ? input.events : [];
+  let events;
+  if (input.requireStrictEnvelope === true) {
+    const admitted = rawEvents.map((event) => admitCollaboratorEventEnvelope(event, {
+      expectedProjectId: input.expectedProjectId,
+      expectedLifecycleId: input.expectedLifecycleId,
+    }));
+    const rejectedAdmission = admitted
+      .map((result, index) => (result.ok ? null : { ...result.error, details: { ...result.error.details, index } }))
+      .filter(Boolean);
+    if (rejectedAdmission.length > 0) {
+      const initialStateHash = normalizeString(input.initialStateHash) || (
+        typeof input.hashState === 'function' ? input.hashState(coreState) : defaultHashState(coreState)
+      );
+      return {
+        nextState: coreState,
+        appliedCount: 0,
+        rejected: rejectedAdmission,
+        stateHash: initialStateHash,
+        domainEvents: [],
+        appliedEvents: [],
+        domainEventDigest: hashCanonical([]),
+      };
+    }
+    events = admitted.map((result) => normalizeEvent({
+      ...result.event,
+      provenanceDigest: result.provenanceDigest,
+    }));
+  } else {
+    events = normalizeEvents(rawEvents);
+  }
   const applyCommand = typeof input.applyCommand === 'function' ? input.applyCommand : null;
   const hashState = typeof input.hashState === 'function' ? input.hashState : defaultHashState;
   const domainEventPort = getDomainEventPort(input);

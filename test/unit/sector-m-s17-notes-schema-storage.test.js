@@ -10,7 +10,7 @@ const { pathToFileURL } = require('node:url');
 const ROOT = path.resolve(__dirname, '..', '..');
 
 async function loadNotesStorage() {
-  return import(pathToFileURL(path.join(ROOT, 'src', 'core', 'notesStorage.mjs')).href);
+  return import(pathToFileURL(path.join(ROOT, 'src', 'product', 'notesStoragePersistence.mjs')).href);
 }
 
 async function loadMainWithElectronStub() {

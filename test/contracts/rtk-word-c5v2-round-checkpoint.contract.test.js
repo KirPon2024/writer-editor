@@ -183,6 +183,9 @@ test('C5V2 physical Word chunks preserve root-first and descending-range authori
   assert.match(continuation, /on yFindRangeWithin\(yDoc, yLocator, yQuote\)/u);
   assert.match(continuation, /set yRange to my yFindRangeWithin\(yDoc, "ee", "ee"\)/u);
   assert.match(continuation, /set yRange to my yFindRangeWithin\(yDoc, "aa", "aa"\)/u);
+  assert.match(continuation, /on yRecordedOperationStatus\(yOpsDone, yOperationId\)/u);
+  assert.match(continuation, /NATIVE_READBACK_REPORTED_STATUS_MISMATCH:insert-mid:/u);
+  assert.match(continuation, /if yOperationReportedStatus is not "EXACT" then error/u);
   assert.doesNotMatch(continuation, /offset of yQuote/u);
 });
 
@@ -247,4 +250,5 @@ test('C5V2 cumulative controller blocks the next export until the complete round
   assert.match(source, /C5V2_CUMULATIVE_COMPLETE_ROUND_ORACLE_FAILED/u);
   assert.match(source, /captureC5V2CompleteRoundOracle/u);
   assert.match(source, /hasCompletedRoundEvidence/u);
+  assert.match(source, /returnApply\?\.exactLedgerBinding\?\.exactApplyTextChangeIdsByScene/u);
 });

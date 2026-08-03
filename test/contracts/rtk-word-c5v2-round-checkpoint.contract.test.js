@@ -180,6 +180,8 @@ test('C5V2 physical Word chunks preserve root-first and descending-range authori
   assert.match(continuation, /set yFind to find object of selection/u);
   assert.match(continuation, /execute find yFind find text yQuote[\s\S]*wrap find find stop/u);
   assert.match(continuation, /on yFindRangeWithin\(yDoc, yLocator, yQuote\)/u);
+  assert.match(continuation, /set yRange to my yFindRangeWithin\(yDoc, "ee", "ee"\)/u);
+  assert.match(continuation, /set yRange to my yFindRangeWithin\(yDoc, "aa", "aa"\)/u);
   assert.doesNotMatch(continuation, /offset of yQuote/u);
 });
 

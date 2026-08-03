@@ -9384,6 +9384,24 @@
       "rationale": "Approve exact focused A7 contract bytes proving positive row evidence binding and fail-closed zero-test, skip, missing-row, duplicate-row, wrong-map, malformed-report, missing-evidence, duplicate-evidence, and unmapped-evidence behavior.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_V6_A7_REPAIR"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-c5v2-dorian-atlas-cycles.mjs",
+      "sha256": "75bec705b5fc40d20181a0f9ffc1fe575275a548fe5bfaa412e56ff73efa22e9",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR_V1",
+      "approvedAtUtc": "2026-08-03T19:46:41.000Z",
+      "rationale": "Approve exact Word C5V2 Dorian Atlas cycle harness bytes that bind physical campaign head identity to the certification head and fail closed on absent, malformed, or cross-head physical evidence before cyclic acceptance.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-c5v2-dorian-atlas-cycles.contract.test.js",
+      "sha256": "61da504e45b9e0f5e355ba61fee63cb3e290aba0490474721881e78b86ead2a5",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR_V1",
+      "approvedAtUtc": "2026-08-03T19:46:41.000Z",
+      "rationale": "Approve exact Word C5V2 Dorian Atlas false-green regression bytes proving a stale physical campaign head with refreshed ordinary evidence cannot be accepted for same-head cyclic certification.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_TERMINAL_AUDIT_HOLD_REPAIR"
     }
   ]
 }

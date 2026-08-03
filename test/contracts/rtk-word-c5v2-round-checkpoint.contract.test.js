@@ -161,13 +161,14 @@ test('C5V2 physical Word chunks preserve root-first and descending-range authori
     initializeFromSource: false,
     resetCheckpoint: false,
     expectedNativeRevisionCount: plan[1].expectedNativeRevisionCount,
+    minimumNativeRevisionCount: plan[1].minimumNativeRevisionCount,
     expectedRootMarkers: plan[1].expectedRootMarkers,
     chunkId: plan[1].chunkId,
   });
   assert.doesNotMatch(continuation, /do shell script "\/bin\/cp " & quoted form of "\/generated-evidence\/source\.docx"/u);
   assert.doesNotMatch(continuation, /my yResetCheckpoint\(yCheckpointPath\)/u);
   assert.match(continuation, /CHUNK_START:word-chunk-002/u);
-  assert.match(continuation, /FINAL_NATIVE_REVISION_COUNT_MISMATCH:" & yRevisionCount & ":5/u);
+  assert.match(continuation, /FINAL_NATIVE_REVISION_COUNT_BELOW_COALESCING_FLOOR:" & yRevisionCount & ":3:5/u);
   assert.match(continuation, /set yFind to find object of selection/u);
   assert.match(continuation, /execute find yFind find text yQuote[\s\S]*wrap find find stop/u);
   assert.match(continuation, /on yFindRangeWithin\(yDoc, yLocator, yQuote\)/u);

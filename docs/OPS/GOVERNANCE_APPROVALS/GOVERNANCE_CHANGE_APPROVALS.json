@@ -7580,12 +7580,12 @@
     },
     {
       "filePath": "test/contracts/rtk-g0b-feasibility.contract.test.js",
-      "sha256": "294d4333a5ba7fafb9da10be9931db856a669150a8061bbb1fa6410da32834cb",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
-      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
-      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "sha256": "6858449631133a8ef093f94fc94c26a98a6e6e9a21fb99da5b14bb795fd71d4b",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO",
+      "approvedAtUtc": "2026-08-03T10:10:00Z",
+      "rationale": "Approve exact G0B stage-scope guard bytes admitting the C5V2 round checkpoint contract alongside the existing C5V2 physical canary harness script. This is a narrow contract-scope binding only, preserves Google blocked, adds no product network path, and makes no broad Word certification claim.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_DORIAN_PORTFOLIO_RECOVERY"
     },
     {
       "filePath": "test/contracts/rtk-g0c-exact-safety.contract.test.js",
@@ -7623,21 +7623,21 @@
     },
     {
       "filePath": "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",
-      "sha256": "de37c3f75005510f059ec2a630934aff526f8176d0c8c1dcda046d54a7445846",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
-      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
-      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "sha256": "fcc891d7a0f4bafc9c28b835139ca4ff6eef12d1c9d71ad1556485a3976a1be1",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO",
+      "approvedAtUtc": "2026-08-03T10:10:00Z",
+      "rationale": "Approve exact W1 stage-scope guard bytes admitting the C5V2 round checkpoint contract alongside the existing C5V2 physical canary harness script. This is a narrow contract-scope binding only, preserves Google blocked, adds no product network path, and makes no broad Word certification claim.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_DORIAN_PORTFOLIO_RECOVERY"
     },
     {
       "filePath": "test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js",
-      "sha256": "25779f623594fc6d6c85eada6130c786a8e0a4bb0e59c525062ccb50968d62b0",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
-      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
-      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "sha256": "6a1ee9f073238c47533ff27345de31636862fbe0374b0008cbd7b47bab15ec5c",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO",
+      "approvedAtUtc": "2026-08-03T10:10:00Z",
+      "rationale": "Approve exact W2 stage-scope guard bytes admitting the C5V2 round checkpoint contract alongside the existing C5V2 physical canary harness script. This is a narrow contract-scope binding only, preserves Google blocked, adds no product network path, and makes no broad Word certification claim.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_DORIAN_PORTFOLIO_RECOVERY"
     },
     {
       "filePath": "test/contracts/rtk-w3-exact-apply-replay.contract.test.js",
@@ -9044,10 +9044,19 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "7df4ab01e3d1488baa9b5ab0f40623f9f96e20b4f3792a967d41ab8f39748920",
+      "sha256": "2113f4ec2d29b4451e546a6c75082d50dd3707ecb6068f6aa888f2b96434899b",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO",
       "approvedAtUtc": "2026-08-03T09:50:00Z",
-      "rationale": "Approve exact governed C5V2 physical canary harness bytes that preserve completed-round recovery from fsynced oracle-gate and reopened-truth evidence without reactivating stale returned DOCX authority in a fresh product session. This preserves fail-closed recovery, keeps Google blocked, adds no product network path, and makes no broad Word certification claim.",
+      "rationale": "Approve exact governed C5V2 physical canary harness bytes that preserve completed-round recovery from fsynced oracle-gate and reopened-truth evidence, and treat native Word revision split counts as a lower-bound health signal rather than exact semantic authority. This preserves fail-closed recovery and semantic oracle authority, keeps Google blocked, adds no product network path, and makes no broad Word certification claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_DORIAN_PORTFOLIO_RECOVERY"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-c5v2-round-checkpoint.contract.test.js",
+      "sha256": "4dec242f796d6a5b1623e9080bc60d072b1a9d706a834f3f5910fbae7e74a1fb",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO",
+      "approvedAtUtc": "2026-08-03T10:05:00Z",
+      "rationale": "Approve exact RTK contract bytes binding the C5V2 native Word revision count guard to the cumulative lower-bound health signal used by the shipped physical harness. This preserves semantic oracle authority, keeps fail-closed under-count detection, adds no product network path, and makes no broad Word certification claim.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_DORIAN_PORTFOLIO_RECOVERY"
     },

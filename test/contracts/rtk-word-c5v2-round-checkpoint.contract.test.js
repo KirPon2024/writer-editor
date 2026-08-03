@@ -194,12 +194,30 @@ test('C5V2 cumulative controller blocks the next export until the complete round
   assert.equal(canary.hasC5V2CompletedRoundEvidence({ oracleCapture: { ok: false } }), true);
   assert.equal(canary.hasC5V2CompletedRoundEvidence(null), false);
   assert.equal(canary.hasC5V2CompletedRoundEvidence([]), false);
+  const policy = canary.getC5V2OperationStatusPolicyBinding();
+  const completedRoundReuseBinding = canary.buildC5V2CompletedRoundReuseBinding({
+    exactHead: 'head-current',
+    canaryScriptSha256: 'sha256:script-current',
+    operationStatusPolicyVersion: policy.version,
+    operationStatusPolicyDigest: policy.digest,
+    corpusDigest: 'sha256:corpus-current',
+    ledgerDigest: 'sha256:ledger-current',
+    sourceDocxSha256: 'sha256:source-current',
+    returnedDocxSha256: 'sha256:return-current',
+    yalkenTruthSha256: 'sha256:truth-current',
+    exactLedgerBinding: {
+      ok: true,
+      matchedChangeCount: 0,
+      exactApplyTextChangeIdsByScene: {},
+    },
+  });
   const green = canary.buildC5V2CompleteRoundOracleGate({
     roundId: 'round-01',
     wordParsed: { scalars: { WORD_STATUS: 'PASS' } },
     nativeLifecycleVerification: { ok: true },
     oracleProbe: { ok: true, oracleDigest: 'sha256:oracle' },
     returnApply: { ok: true },
+    completedRoundReuseBinding,
   });
   assert.equal(green.ok, true);
   assert.deepEqual(green.failures, []);
@@ -210,6 +228,7 @@ test('C5V2 cumulative controller blocks the next export until the complete round
     nativeLifecycleVerification: { ok: true },
     oracleProbe: { ok: false },
     returnApply: { ok: true },
+    completedRoundReuseBinding,
   });
   assert.equal(blocked.ok, false);
   assert.deepEqual(blocked.failures, ['COMPLETE_ROUND_ORACLE_NOT_GREEN']);
@@ -232,6 +251,7 @@ test('C5V2 cumulative controller blocks the next export until the complete round
     oracleProbe: captureFailure.oracleProbe,
     oracleCapture: captureFailure,
     returnApply: { ok: true },
+    completedRoundReuseBinding,
   });
   assert.equal(failedCaptureGate.ok, false);
   assert.deepEqual(failedCaptureGate.failures, [
@@ -250,5 +270,6 @@ test('C5V2 cumulative controller blocks the next export until the complete round
   assert.match(source, /C5V2_CUMULATIVE_COMPLETE_ROUND_ORACLE_FAILED/u);
   assert.match(source, /captureC5V2CompleteRoundOracle/u);
   assert.match(source, /hasCompletedRoundEvidence/u);
-  assert.match(source, /returnApply\?\.exactLedgerBinding\?\.exactApplyTextChangeIdsByScene/u);
+  assert.match(source, /deriveC5V2LedgerBoundExactSummary\(returnApply/u);
+  assert.doesNotMatch(source, /returnApply\?\.activation\?\.exactApplyTextChangeIdsByScene/u);
 });

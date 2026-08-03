@@ -6125,6 +6125,19 @@ async function runDocxReviewReturnIntakeParserV2InUtilityProcess(input = {}, rev
     || typeof utilityProcess.fork !== 'function'
     || typeof __dirname !== 'string'
   ) {
+    if (options.allowInlineDocxReturnIntakeParserForTests !== true) {
+      return {
+        ...docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_UTILITY_PROCESS_REQUIRED', {
+          requiredForProduct: true,
+          attempted: false,
+        }),
+        utilityProcess: {
+          requiredForProduct: true,
+          attempted: false,
+          mode: 'unavailable',
+        },
+      };
+    }
     return {
       ...(runDocxReviewReturnIntakeParserV2Inline(input, revisionBridge)),
       utilityProcess: {

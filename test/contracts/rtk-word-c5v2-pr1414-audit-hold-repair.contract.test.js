@@ -397,6 +397,71 @@ test('C5V2 v6 anchor root rejects symlink redirection and path escape identifier
   }), /ROUND_ID_INVALID/u);
 });
 
+test('C5V2 physical run identity requires canonical realpath containment and verified T7 volume identity', async () => {
+  const canary = await loadCanary();
+  const diskInfo = [
+    'Volume UUID: D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2',
+    'File System Personality: APFS',
+    'FileVault: Yes',
+    'Volume Read-Only: No',
+  ].join('\n');
+
+  const parent = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), 'c5v2-run-root-'));
+  const artifactRoot = path.join(parent, 'artifact-root');
+  const outside = path.join(parent, 'outside-run');
+  fs.mkdirSync(artifactRoot);
+  fs.mkdirSync(outside);
+
+  const symlinkRun = path.join(artifactRoot, 'symlink-run');
+  fs.symlinkSync(outside, symlinkRun, 'dir');
+  assert.throws(() => canary.resolveC5V2RunIdentity({
+    artifactRoot,
+    resumeRunDir: symlinkRun,
+    requirePhysicalArtifactRoot: false,
+  }), /C5V2_ARTIFACT_PATH_SYMLINK_COMPONENT/u);
+
+  assert.throws(() => canary.resolveC5V2RunIdentity({
+    artifactRoot,
+    resumeRunDir: path.join(artifactRoot, '..', 'outside-run'),
+    requirePhysicalArtifactRoot: false,
+  }), /C5V2_RESUME_RUN_DIR_OUTSIDE_ARTIFACT_ROOT/u);
+
+  const fakeT7 = path.join(parent, 'fake-t7');
+  const fakeT7ArtifactRoot = path.join(fakeT7, 'storage', 'c5v2');
+  fs.mkdirSync(fakeT7ArtifactRoot, { recursive: true });
+  assert.equal(canary.verifyC5V2PhysicalArtifactRoot({
+    artifactRoot: fakeT7ArtifactRoot,
+    mountPath: fakeT7,
+    expectedUuid: 'D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2',
+    diskInfoText: diskInfo,
+    requireT7: true,
+  }).ok, true);
+
+  assert.throws(() => canary.verifyC5V2PhysicalArtifactRoot({
+    artifactRoot,
+    mountPath: fakeT7,
+    expectedUuid: 'D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2',
+    diskInfoText: diskInfo,
+    requireT7: true,
+  }), /C5V2_ARTIFACT_ROOT_NOT_T7/u);
+
+  assert.throws(() => canary.verifyC5V2PhysicalArtifactRoot({
+    artifactRoot: fakeT7ArtifactRoot,
+    mountPath: fakeT7,
+    expectedUuid: 'D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2',
+    diskInfoText: diskInfo.replace('D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2', '00000000-0000-0000-0000-000000000000'),
+    requireT7: true,
+  }), /C5V2_ARTIFACT_ROOT_T7_UUID_MISMATCH/u);
+
+  assert.throws(() => canary.verifyC5V2PhysicalArtifactRoot({
+    artifactRoot: fakeT7ArtifactRoot,
+    mountPath: fakeT7,
+    expectedUuid: 'D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2',
+    diskInfoText: diskInfo.replace('FileVault: Yes', 'FileVault: No'),
+    requireT7: true,
+  }), /C5V2_ARTIFACT_ROOT_T7_FILEVAULT_REQUIRED/u);
+});
+
 test('C5V2 production-shaped reuse rejects recorded EXACT changed to BLOCKED under a rehashed v6 binding', async () => {
   const canary = await loadCanary();
   const fixture = createBoundCompletedRound(canary);

@@ -94,6 +94,7 @@ function parseArgs(argv = process.argv.slice(2)) {
     mode: MODE_RELEASE,
     repoRoot: '',
     lockPath: DEFAULT_LOCK_PATH,
+    evidenceRoot: DEFAULT_EVIDENCE_ROOT,
   };
 
   for (let i = 0; i < argv.length; i += 1) {
@@ -136,6 +137,15 @@ function parseArgs(argv = process.argv.slice(2)) {
     }
     if (arg === '--lock-path' && i + 1 < argv.length) {
       out.lockPath = normalizeString(argv[i + 1]) || DEFAULT_LOCK_PATH;
+      i += 1;
+      continue;
+    }
+    if (arg.startsWith('--evidence-root=')) {
+      out.evidenceRoot = normalizeString(arg.slice('--evidence-root='.length)) || DEFAULT_EVIDENCE_ROOT;
+      continue;
+    }
+    if (arg === '--evidence-root' && i + 1 < argv.length) {
+      out.evidenceRoot = normalizeString(argv[i + 1]) || DEFAULT_EVIDENCE_ROOT;
       i += 1;
     }
   }
@@ -432,9 +442,9 @@ function sanitizeRcIdForPath(rcId) {
   return normalized || 'rc-unknown';
 }
 
-function generatePromotionEvidencePack({ repoRoot, lockDoc, lockPath, observed }) {
+function generatePromotionEvidencePack({ repoRoot, lockDoc, lockPath, observed, evidenceRootPath }) {
   const safeRcId = sanitizeRcIdForPath(lockDoc.rcId);
-  const evidenceRoot = resolvePath(repoRoot, DEFAULT_EVIDENCE_ROOT);
+  const evidenceRoot = resolvePath(repoRoot, evidenceRootPath || DEFAULT_EVIDENCE_ROOT);
   const evidenceDir = path.join(evidenceRoot, safeRcId);
   const doctorLog = collectDoctorLog(repoRoot);
   fs.mkdirSync(evidenceDir, { recursive: true });
@@ -547,7 +557,7 @@ function runCreate({ mode, repoRoot, lockPath }) {
   };
 }
 
-function runVerify({ mode, repoRoot, lockPath }) {
+function runVerify({ mode, repoRoot, lockPath, evidenceRoot }) {
   const mismatches = [];
   const lockDoc = readJsonObject(lockPath);
   if (!lockDoc) {
@@ -642,6 +652,7 @@ function runVerify({ mode, repoRoot, lockPath }) {
       lockDoc,
       lockPath,
       observed,
+      evidenceRootPath: evidenceRoot,
     });
     payload.evidencePackPath = toRepoRelative(repoRoot, evidence.evidenceDir);
     payload.evidenceFiles = evidence.files.map((filePath) => toRepoRelative(repoRoot, filePath));
@@ -684,7 +695,7 @@ function main() {
       token: {
         [TOKEN_NAME]: 0,
       },
-      usage: 'node scripts/ops/release-candidate.mjs (--create|--verify) [--mode release|promotion] [--repo-root <path>] [--lock-path <path>] [--json]',
+      usage: 'node scripts/ops/release-candidate.mjs (--create|--verify) [--mode release|promotion] [--repo-root <path>] [--lock-path <path>] [--evidence-root <path>] [--json]',
     };
     if (args.json) process.stdout.write(`${JSON.stringify(usage, null, 2)}\n`);
     else printHuman(usage);
@@ -695,7 +706,7 @@ function main() {
   try {
     state = args.create
       ? runCreate({ mode, repoRoot, lockPath })
-      : runVerify({ mode, repoRoot, lockPath });
+      : runVerify({ mode, repoRoot, lockPath, evidenceRoot: args.evidenceRoot });
   } catch (error) {
     state = {
       operation: args.create ? 'create' : 'verify',

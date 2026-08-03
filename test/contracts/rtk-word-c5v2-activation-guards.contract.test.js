@@ -117,6 +117,37 @@ test('C5V2 shipped activation command wires both fail-closed guards before sessi
   assert.equal(checkIndex > 0 && importIndex > checkIndex, true);
 });
 
+test('C5V2 product activation requires isolated parser and keeps inline fallback test-only', () => {
+  const mainSource = fs.readFileSync(path.join(__dirname, '..', '..', 'src', 'main.js'), 'utf8');
+  const helperIndex = mainSource.indexOf('async function runDocxReviewReturnIntakeParserV2InUtilityProcess');
+  assert.notEqual(helperIndex, -1);
+  const helperSource = mainSource.slice(helperIndex, mainSource.indexOf('async function inspectDocxReviewReturnIntakeV2', helperIndex));
+  assert.match(helperSource, /RTK_RETURN_INTAKE_UTILITY_PROCESS_REQUIRED/u);
+  assert.match(helperSource, /allowInlineDocxReturnIntakeParserForTests !== true/u);
+  assert.match(helperSource, /mode:\s*'unavailable'/u);
+  assert.match(helperSource, /mode:\s*'inline-test-fallback'/u);
+  assert.ok(helperSource.indexOf('RTK_RETURN_INTAKE_UTILITY_PROCESS_REQUIRED') < helperSource.indexOf('inline-test-fallback'));
+  assert.doesNotMatch(
+    mainSource.slice(mainSource.indexOf('async function handleDocxReviewPreviewSessionCommandSurface')),
+    /allowInlineDocxReturnIntakeParserForTests:\s*true/u,
+  );
+});
+
+test('C5V2 return authority survives product restart through main-only durable store', () => {
+  const mainSource = fs.readFileSync(path.join(__dirname, '..', '..', 'src', 'main.js'), 'utf8');
+  assert.match(mainSource, /REVIEW_DOCX_RETURN_AUTHORITY_STORE_SCHEMA/u);
+  assert.match(mainSource, /persistDocxReviewReturnAuthorityStore\(activeReviewDocxExportAuthorityStore\)/u);
+  assert.match(mainSource, /readDurableDocxReviewReturnAuthorityStore\(options\)/u);
+  assert.match(mainSource, /activeReviewDocxExportAuthorityStore = durableStore/u);
+  assert.match(mainSource, /secretExposedToRenderer:\s*false/u);
+  assert.match(mainSource, /secretEmbeddedInDocx:\s*false/u);
+  assert.match(mainSource, /durableSecretScope:\s*'local-project-state-only'/u);
+  const sanitizerIndex = mainSource.indexOf('function sanitizeDocxReviewReturnIntakeForResult');
+  assert.notEqual(sanitizerIndex, -1);
+  const sanitizerSource = mainSource.slice(sanitizerIndex, mainSource.indexOf('function findDocxReviewReturnIntakeRoundAuthority', sanitizerIndex));
+  assert.doesNotMatch(sanitizerSource, /hmacSecret/u);
+});
+
 test('C5V2 physical canary waits for Roman project tree readiness after startup lease contention', () => {
   const canarySource = fs.readFileSync(
     path.join(__dirname, '..', '..', 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs'),

@@ -7,7 +7,6 @@ import {
   reconcileRtkWordV4MultiSceneAtomicRecovery,
 } from './reviewTransportMultiSceneAtomicCoordinatorV4.mjs';
 import {
-  applyNonOverlapTrackedReplacementRuntime,
   buildNonOverlapTrackedReplacementRuntimePreview,
 } from './reviewTransportNonOverlapTrackedReplacementRuntime.mjs';
 
@@ -357,6 +356,42 @@ async function rollbackScenesToBaseline(scenes, cryptoPort) {
   };
 }
 
+async function writeSceneUnderParentTransaction(scene) {
+  await atomicWriteFile(scene.scenePath, scene.afterText, {
+    safetyMode: 'strict',
+  });
+  const currentText = await fs.readFile(scene.scenePath, 'utf8');
+  return {
+    sceneId: scene.sceneId,
+    status: currentText === scene.afterText ? 'applied' : 'blocked',
+    code: currentText === scene.afterText ? 'RTK_MULTI_SCENE_CHILD_STAGED_APPLIED' : 'RTK_MULTI_SCENE_CHILD_REVERSE_VERIFY_FAILED',
+    reason: currentText === scene.afterText ? 'RTK_MULTI_SCENE_CHILD_STAGED_APPLIED' : 'RTK_MULTI_SCENE_CHILD_REVERSE_VERIFY_FAILED',
+    writerCalled: true,
+    applied: currentText === scene.afterText,
+    replay: false,
+    canonicalSceneWritten: currentText === scene.afterText,
+    stagedOutcomeOnly: true,
+    requestKey: scene.intent.requestKey,
+    effectKey: scene.intent.effectKey,
+  };
+}
+
+function replaySceneUnderParentTransaction(scene) {
+  return {
+    sceneId: scene.sceneId,
+    status: 'replay',
+    code: 'RTK_ALREADY_APPLIED',
+    reason: 'RTK_ALREADY_APPLIED',
+    writerCalled: false,
+    applied: false,
+    replay: true,
+    canonicalSceneWritten: false,
+    stagedOutcomeOnly: true,
+    requestKey: scene.intent.requestKey,
+    effectKey: scene.intent.effectKey,
+  };
+}
+
 export function buildMultiSceneNonOverlapTrackedReplacementRuntimePreview(input = {}, options = {}) {
   const cryptoPort = resolveCryptoPort(options.cryptoPort);
   if (!isPlainObject(input)) {
@@ -532,15 +567,27 @@ async function applyMultiSceneNonOverlapTrackedReplacementRuntimeReserved({
   const simulateFailureAt = Number.isSafeInteger(Number(options.simulateMultiSceneApplyFailureAtIndex))
     ? Number(options.simulateMultiSceneApplyFailureAtIndex)
     : -1;
-  for (const [sceneIndex, scene] of preview.sceneCommands.entries()) {
-    const result = await applyNonOverlapTrackedReplacementRuntime({
-      ...scene.input,
-      requestId: `${normalizeString(input.requestId) || 'multi-scene'}:${scene.sceneId}`,
-      previewConfirmed: true,
-    }, {
-      ...options,
-      cryptoPort,
-    });
+  if (replayCount === preview.sceneCommands.length) {
+    for (const scene of preview.sceneCommands) {
+      sceneResults.push({ sceneId: scene.sceneId, result: replaySceneUnderParentTransaction(scene) });
+    }
+  } else {
+    for (const [sceneIndex, scene] of preview.sceneCommands.entries()) {
+      let result = null;
+      try {
+        result = await writeSceneUnderParentTransaction(scene);
+      } catch (error) {
+        result = {
+          sceneId: scene.sceneId,
+          status: 'blocked',
+          code: 'RTK_MULTI_SCENE_CHILD_WRITE_FAILED',
+          reason: 'RTK_MULTI_SCENE_CHILD_WRITE_FAILED',
+          writerCalled: false,
+          applied: false,
+          replay: false,
+          errorCode: normalizeString(error?.code || error?.message),
+        };
+      }
     sceneResults.push({ sceneId: scene.sceneId, result });
     if (simulateFailureAt === sceneIndex) {
       const rollback = await rollbackScenesToBaseline(preview.sceneCommands, cryptoPort);
@@ -581,6 +628,7 @@ async function applyMultiSceneNonOverlapTrackedReplacementRuntimeReserved({
         rollback,
         recovery,
       });
+    }
     }
   }
 
@@ -628,6 +676,8 @@ async function applyMultiSceneNonOverlapTrackedReplacementRuntimeReserved({
       writerCalled: item.result?.writerCalled === true,
       applied: item.result?.status === 'applied',
       replay: item.result?.status === 'replay',
+      stagedOutcomeOnly: item.result?.stagedOutcomeOnly === true,
+      canonicalSceneWritten: item.result?.canonicalSceneWritten === true,
       runtimeSummary: isPlainObject(item.result?.runtimeSummary) ? cloneJsonSafe(item.result.runtimeSummary) : {},
     })),
     readback,

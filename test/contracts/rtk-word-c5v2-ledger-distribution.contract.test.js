@@ -197,3 +197,117 @@ test('C5V2 ledger engine rejects synthetic-tail positive source and detects adve
   assert.equal(wordUnstableResult.ok, false);
   assert.equal(wordUnstableResult.failures.some((failure) => failure.code === 'C5V2_ROOT_COMMENT_WORD_NORMALIZED_SELECTION_NOT_UNIQUE'), true);
 });
+
+test('C5V2 resumed master ledger authority is recomputed from raw operation content and exact campaign identity', async () => {
+  const {
+    buildC5V2Ledger,
+  } = await import(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-ledger-engine.mjs'));
+  const {
+    bindC5V2MasterLedgerResumeAuthority,
+    buildC5V2TerminalOperationAggregate,
+    validateC5V2MasterLedgerResumeAuthority,
+  } = await import(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs'));
+  const identity = {
+    exactHead: '631a71f915aee10d46ea45cf0643ba7a33fa0a5d',
+    campaignId: 'c5v2-dorian-finalrep02-631a71f9',
+    corpusDigest: 'sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+  };
+  const bound = bindC5V2MasterLedgerResumeAuthority(buildC5V2Ledger({ scenes: makeScenes() }), identity);
+  const accepted = validateC5V2MasterLedgerResumeAuthority(bound, identity);
+  assert.equal(accepted.ok, true);
+  assert.equal(accepted.operationCount, 2000);
+  assert.deepEqual(accepted.counts, {
+    tracked_text_edit: 1200,
+    root_comment: 300,
+    reply: 120,
+    comment_state: 100,
+    formatting: 180,
+    structural: 60,
+    negative_probe: 40,
+  });
+
+  const removedOperation = structuredClone(bound);
+  removedOperation.operations.pop();
+  assert.equal(validateC5V2MasterLedgerResumeAuthority(removedOperation, identity).ok, false);
+  assert.equal(
+    validateC5V2MasterLedgerResumeAuthority(removedOperation, identity).failures.some((failure) => failure.startsWith('C5V2_MASTER_LEDGER_OPERATION_COUNT_INVALID:1999')),
+    true,
+  );
+
+  const staleDigest = structuredClone(bound);
+  staleDigest.operations[0].family = 'formatting';
+  assert.equal(validateC5V2MasterLedgerResumeAuthority(staleDigest, identity).failures.includes('C5V2_MASTER_LEDGER_DIGEST_STALE'), true);
+
+  const wrongCorpus = validateC5V2MasterLedgerResumeAuthority(bound, {
+    ...identity,
+    corpusDigest: 'sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+  });
+  assert.equal(wrongCorpus.ok, false);
+  assert.equal(wrongCorpus.failures.includes('C5V2_MASTER_LEDGER_RESUME_AUTHORITY_IDENTITY_MISMATCH'), true);
+
+  const duplicateId = structuredClone(bound);
+  duplicateId.operations[1].id = duplicateId.operations[0].id;
+  duplicateId.operations[1].requestKey = duplicateId.operations[0].requestKey;
+  duplicateId.operations[1].effectKey = duplicateId.operations[0].effectKey;
+  duplicateId.ledgerDigest = bound.ledgerDigest;
+  assert.equal(validateC5V2MasterLedgerResumeAuthority(duplicateId, identity).failures.some((failure) => failure.startsWith('C5V2_MASTER_LEDGER_OPERATION_ID_DUPLICATE:')), true);
+
+  const futureRoundAltered = structuredClone(bound);
+  const futureOperation = futureRoundAltered.operations.find((operation) => operation.round === 5);
+  futureOperation.expectedOutcome = 'SAFE_APPLY';
+  assert.equal(validateC5V2MasterLedgerResumeAuthority(futureRoundAltered, identity).failures.includes('C5V2_MASTER_LEDGER_DIGEST_STALE'), true);
+
+  const requestKeyTampered = structuredClone(bound);
+  requestKeyTampered.operations[0].requestKey = 'sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc';
+  assert.equal(validateC5V2MasterLedgerResumeAuthority(requestKeyTampered, identity).failures.some((failure) => failure.startsWith('C5V2_MASTER_LEDGER_REQUEST_KEY_MISMATCH:')), true);
+
+  const negativeEvidence = {
+    headSha: identity.exactHead,
+    masterLedgerDigest: bound.ledgerDigest,
+    operationCount: 40,
+    rejectedCount: 40,
+    failedCount: 0,
+    allSceneHashesStable: true,
+    allWriterFlagsFalse: true,
+    networkRequests: [],
+    manifestDigest: 'sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd',
+    evidenceDigest: 'sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+  };
+  const aggregate = buildC5V2TerminalOperationAggregate({
+    headSha: identity.exactHead,
+    masterLedger: bound,
+    positiveTotals: { attempted: 1960, reported: 1960 },
+    negativeEvidence,
+    negativeEvidenceSha256: 'sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
+  });
+  assert.equal(aggregate.ok, true);
+  assert.equal(aggregate.totalOperationCount, 2000);
+  assert.deepEqual(aggregate.exactDistribution, {
+    tracked_text_edit: 1200,
+    root_comment: 300,
+    reply: 120,
+    comment_state: 100,
+    formatting: 180,
+    structural: 60,
+    negative_probe: 40,
+  });
+
+  assert.equal(buildC5V2TerminalOperationAggregate({
+    headSha: identity.exactHead,
+    masterLedger: bound,
+    positiveTotals: { attempted: 1960, reported: 1960 },
+    negativeEvidence: null,
+  }).ok, false);
+  assert.equal(buildC5V2TerminalOperationAggregate({
+    headSha: identity.exactHead,
+    masterLedger: bound,
+    positiveTotals: { attempted: 1960, reported: 1960 },
+    negativeEvidence: { ...negativeEvidence, operationCount: 39, rejectedCount: 39 },
+  }).failures.some((failure) => failure.startsWith('C5V2_TERMINAL_AGGREGATE_NEGATIVE_TOTAL_INVALID:39:39:40')), true);
+  assert.equal(buildC5V2TerminalOperationAggregate({
+    headSha: identity.exactHead,
+    masterLedger: bound,
+    positiveTotals: { attempted: 1960, reported: 1960 },
+    negativeEvidence: { ...negativeEvidence, headSha: 'babb9764a51bdc5b1344ee8aed44108e066ac820' },
+  }).failures.includes('C5V2_TERMINAL_AGGREGATE_NEGATIVE_HEAD_MISMATCH'), true);
+});

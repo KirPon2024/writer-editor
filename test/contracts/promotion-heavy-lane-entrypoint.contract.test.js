@@ -72,6 +72,11 @@ test('promotion heavy lane entrypoint: heavy lane propagates --mode=${checkMode}
     /'scripts\/ops\/check-command-namespace-static\.mjs'[\s\S]*?`--mode=\$\{checkMode\}`/u,
     'command namespace static mode wiring',
   );
+  assertContainsRegex(
+    source,
+    /'scripts\/ops\/release-candidate\.mjs'[\s\S]*?'--evidence-root'[\s\S]*?evidenceRoot/u,
+    'release candidate evidence root isolation wiring',
+  );
 });
 
 test('promotion heavy lane entrypoint: run-tests accepts --mode=promotion without fast branch', () => {

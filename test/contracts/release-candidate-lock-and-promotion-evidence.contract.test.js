@@ -199,6 +199,33 @@ test('promotion verify generates evidence pack and keeps deterministic files sta
   }
 });
 
+test('promotion verify honors external evidence root and avoids repo-scope doctor log contamination', () => {
+  const fixtureRoot = makeFixtureRepo();
+  const evidenceRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'release-candidate-external-evidence-'));
+  try {
+    const create = runReleaseCandidate(['--create', '--repo-root', fixtureRoot, '--mode=release', '--json']);
+    assert.equal(create.status, 0, `${create.stdout}\n${create.stderr}`);
+
+    const verify = runReleaseCandidate([
+      '--verify',
+      '--repo-root',
+      fixtureRoot,
+      '--mode=promotion',
+      '--evidence-root',
+      evidenceRoot,
+      '--json',
+    ]);
+    assert.equal(verify.status, 0, `${verify.stdout}\n${verify.stderr}`);
+    const payload = parseJsonOutput(verify);
+    assert.equal(payload.result, 'PASS');
+    assert.equal(fs.existsSync(path.join(fixtureRoot, 'docs', 'OPS', 'EVIDENCE', 'promotion')), false);
+    assert.equal(fs.existsSync(path.join(evidenceRoot, payload.rcId, 'doctor-strict.log')), true);
+  } finally {
+    fs.rmSync(fixtureRoot, { recursive: true, force: true });
+    fs.rmSync(evidenceRoot, { recursive: true, force: true });
+  }
+});
+
 test('promotion verify does not write evidence when doctor strict fails', () => {
   const fixtureRoot = makeFixtureRepo();
   try {

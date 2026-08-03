@@ -409,6 +409,41 @@ test('C2 failure in scene N rolls back every scene to the prepared baseline', as
   });
 });
 
+test('C2 rollback invalidates child replay authority and retry converges through parent transaction', async () => {
+  const module = await loadModule();
+  const project = tmpProject();
+  const failingKernel = createKernel(module, {
+    simulateMultiSceneApplyFailureAtIndex: 1,
+  });
+  const input = multiInput(project, {
+    requestId: 'request-multiscene-failure-retry',
+  });
+
+  const failed = await failingKernel.dispatch(MULTI_COMMAND_ID, input);
+  assert.equal(failed.status, 'blocked', JSON.stringify(failed, null, 2));
+  assert.equal(failed.reason, 'RTK_MULTI_SCENE_SIMULATED_SCENE_FAILURE_ROLLED_BACK');
+  assert.equal(failed.rollback.ok, true);
+  assert.deepEqual(readScenes(project), {
+    alpha: project.scenes.alpha.text,
+    bravo: project.scenes.bravo.text,
+  });
+
+  const recovered = await createKernel(module).dispatch(MULTI_COMMAND_ID, input);
+  assert.equal(recovered.status, 'applied', JSON.stringify(recovered, null, 2));
+  assert.equal(recovered.multiSceneAtomicApplyCertified, true);
+  assert.equal(recovered.writerCalled, true);
+  assert.equal(recovered.sceneResults.every((item) => item.replay === false), true);
+  assert.equal(recovered.sceneResults.every((item) => item.stagedOutcomeOnly === true), true);
+  assert.deepEqual(readScenes(project), {
+    alpha: 'Alpha delta gamma.',
+    bravo: 'One epsilon two.',
+  });
+
+  const replay = await createKernel(module).dispatch(MULTI_COMMAND_ID, input);
+  assert.equal(replay.status, 'replay', JSON.stringify(replay, null, 2));
+  assert.equal(replay.writerCalled, false);
+});
+
 test('C2 main bridge registers the multi-scene handler without renderer writer authority', () => {
   const mainSource = fs.readFileSync(MAIN_PATH, 'utf8');
 

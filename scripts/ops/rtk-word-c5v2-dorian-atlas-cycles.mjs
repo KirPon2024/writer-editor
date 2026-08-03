@@ -431,6 +431,32 @@ function verifyT7(expectedUuid) {
   };
 }
 
+export function validateC5V2DorianAtlasPhysicalCampaignBinding(campaignResult, { expectedHeadSha } = {}) {
+  assertGate(campaignResult && typeof campaignResult === 'object' && !Array.isArray(campaignResult), 'C5V2_DORIAN_ATLAS_CAMPAIGN_RESULT_REQUIRED');
+  assertGate(typeof expectedHeadSha === 'string' && /^[0-9a-f]{40}$/u.test(expectedHeadSha), 'C5V2_DORIAN_ATLAS_EXPECTED_HEAD_INVALID');
+  assertGate(typeof campaignResult.headSha === 'string' && /^[0-9a-f]{40}$/u.test(campaignResult.headSha), 'C5V2_DORIAN_ATLAS_PHYSICAL_HEAD_INVALID');
+  assertGate(campaignResult.headSha === expectedHeadSha, 'C5V2_DORIAN_ATLAS_PHYSICAL_HEAD_MISMATCH', campaignResult.headSha);
+  assertGate(campaignResult.roundCount === 5 && campaignResult.sceneCount === 21, 'C5V2_DORIAN_ATLAS_CAMPAIGN_TOPOLOGY_INVALID');
+  assertGate(campaignResult.electronResult?.ok === true, 'C5V2_DORIAN_ATLAS_CAMPAIGN_CONTROLLER_NOT_GREEN');
+  assertGate(
+    campaignResult.vetoStatus
+      && typeof campaignResult.vetoStatus === 'object'
+      && Object.values(campaignResult.vetoStatus).every((value) => value === false),
+    'C5V2_DORIAN_ATLAS_CAMPAIGN_VETO_NOT_CLEAR',
+  );
+  assertGate(
+    campaignResult.totals?.attempted === 1960
+      && campaignResult.totals?.reported === 1960
+      && campaignResult.totals?.productApplyGreen === 5,
+    'C5V2_DORIAN_ATLAS_CAMPAIGN_POSITIVE_TOTALS_INVALID',
+  );
+  return {
+    ok: true,
+    physicalCampaignHeadSha: campaignResult.headSha,
+    exactHeadPhysicalCampaign: true,
+  };
+}
+
 function commandPayload(commandId, payload, operationId) {
   return {
     ...payload,
@@ -448,20 +474,7 @@ export async function runC5V2DorianAtlasCycles(options = {}) {
   const t7 = verifyT7(options.expectedT7Uuid);
   const campaignResultPath = path.join(options.campaignRoot, 'cumulative-result.json');
   const campaignResult = readJson(campaignResultPath);
-  assertGate(campaignResult.roundCount === 5 && campaignResult.sceneCount === 21, 'C5V2_DORIAN_ATLAS_CAMPAIGN_TOPOLOGY_INVALID');
-  assertGate(campaignResult.electronResult?.ok === true, 'C5V2_DORIAN_ATLAS_CAMPAIGN_CONTROLLER_NOT_GREEN');
-  assertGate(
-    campaignResult.vetoStatus
-      && typeof campaignResult.vetoStatus === 'object'
-      && Object.values(campaignResult.vetoStatus).every((value) => value === false),
-    'C5V2_DORIAN_ATLAS_CAMPAIGN_VETO_NOT_CLEAR',
-  );
-  assertGate(
-    campaignResult.totals?.attempted === 1960
-      && campaignResult.totals?.reported === 1960
-      && campaignResult.totals?.productApplyGreen === 5,
-    'C5V2_DORIAN_ATLAS_CAMPAIGN_POSITIVE_TOTALS_INVALID',
-  );
+  const physicalCampaignBinding = validateC5V2DorianAtlasPhysicalCampaignBinding(campaignResult, { expectedHeadSha: headSha });
   const rounds = readPhysicalRounds(options.campaignRoot, campaignResult);
   const carryover = verifyC5V2CycleCarryover(rounds);
   assertGate(carryover.ok, 'C5V2_DORIAN_ATLAS_WORD_CHECKPOINT_CARRYOVER_FAILED');
@@ -871,8 +884,8 @@ export async function runC5V2DorianAtlasCycles(options = {}) {
     headSha,
     originMainSha,
     campaignResultSha256: sha256File(campaignResultPath),
-    physicalCampaignHeadSha: campaignResult.headSha,
-    exactHeadPhysicalCampaign: campaignResult.headSha === headSha,
+    physicalCampaignHeadSha: physicalCampaignBinding.physicalCampaignHeadSha,
+    exactHeadPhysicalCampaign: physicalCampaignBinding.exactHeadPhysicalCampaign,
     projectId,
     t7,
     topology: {
@@ -898,6 +911,7 @@ export async function runC5V2DorianAtlasCycles(options = {}) {
       checkpointSha256: previousCheckpointSha256,
     },
     acceptance: {
+      sameHeadPhysicalCampaign: physicalCampaignBinding.exactHeadPhysicalCampaign,
       allPhysicalRoundOraclesGreen: rounds.every((round) => Boolean(round.oracleDigest)),
       fiveCumulativeYalkenWordYalkenAtlasCycles: cycleRows.length === 5,
       fourWordCheckpointYalkenAtlasWordCarryovers: carryover.carryovers.length === 4 && carryover.ok,

@@ -1151,6 +1151,7 @@ const REVIEW_SURFACE_IMPORT_LOCAL_PACKET_COMMAND_ID = 'cmd.project.review.import
 const REVIEW_SURFACE_CLEAR_SESSION_COMMAND_ID = 'cmd.project.review.clearSession';
 const REVIEW_SURFACE_EXACT_TEXT_APPLY_COMMAND_ID = 'cmd.project.review.applyExactTextChange';
 const REVIEW_SURFACE_EXACT_TEXT_APPLY_BATCH_COMMAND_ID = 'cmd.project.review.applyExactTextChangesBatch';
+const REVIEW_SURFACE_FULL_MANUSCRIPT_EXACT_TEXT_APPLY_COMMAND_ID = 'cmd.project.review.applyFullManuscriptExactTextReturn';
 const REVIEW_SURFACE_FORMATTING_APPLY_COMMAND_ID = 'cmd.project.review.applyFormattingReturn';
 const REVIEW_SURFACE_FORMATTING_REPLAY_INSPECT_COMMAND_ID = 'cmd.project.review.inspectFormattingReturnReplay';
 const REVIEW_SURFACE_RELOAD_RECONCILED_SCENE_COMMAND_ID = 'cmd.project.review.reloadReconciledScene';
@@ -2070,6 +2071,9 @@ function reviewSurfaceBuildTerminalSummary(state) {
 
 function reviewSurfaceBuildExactTextPreview(state) {
   const exactPreview = reviewSurfaceIsPlainObject(state.exactTextPlanPreview) ? state.exactTextPlanPreview : {};
+  const fullManuscriptPreview = reviewSurfaceIsPlainObject(state.fullManuscriptExactTextReturnPreview)
+    ? state.fullManuscriptExactTextReturnPreview
+    : {};
   const structuralPreview = reviewSurfaceIsPlainObject(state.structuralManualReviewPreview) ? state.structuralManualReviewPreview : {};
   const commentPreview = reviewSurfaceIsPlainObject(state.commentSurvivalPreview) ? state.commentSurvivalPreview : {};
   const applyOpsRaw = reviewSurfaceArray(exactPreview.plan?.applyOps);
@@ -2126,6 +2130,34 @@ function reviewSurfaceBuildExactTextPreview(state) {
       batchApplyState = 'ready';
     }
   }
+  const fullManuscriptCandidate = exactPreview.status === 'ready'
+    && exactPreview.plan?.fullManuscript === true
+    && fullManuscriptPreview.status === 'preview-ready'
+    && reviewSurfaceText(fullManuscriptPreview.applyCommandId) === REVIEW_SURFACE_FULL_MANUSCRIPT_EXACT_TEXT_APPLY_COMMAND_ID
+    && applyOpsRaw.length > 0;
+  const fullManuscriptAllApplied = fullManuscriptCandidate
+    && batchChangeIds.length === applyOpsRaw.length
+    && batchChangeIds.every((changeId) => appliedChangeIds.has(changeId));
+  let fullManuscriptApplyState = 'blocked';
+  let fullManuscriptApplyReason = '';
+  if (fullManuscriptCandidate) {
+    if (fullManuscriptAllApplied) {
+      fullManuscriptApplyState = 'applied';
+    } else if (transient && !transient.changeId) {
+      fullManuscriptApplyState = transient.state;
+      fullManuscriptApplyReason = transient.reason;
+    } else if (structuralBlocked) {
+      fullManuscriptApplyReason = 'REVIEW_SURFACE_STRUCTURAL_REVIEW_BLOCKS_FULL_MANUSCRIPT_EXACT_APPLY';
+    } else if (commentBlocked) {
+      fullManuscriptApplyReason = 'REVIEW_SURFACE_COMMENT_REVIEW_BLOCKS_FULL_MANUSCRIPT_EXACT_APPLY';
+    } else if (batchChangeIds.length !== applyOpsRaw.length) {
+      fullManuscriptApplyReason = REVIEW_SURFACE_EXACT_APPLY_CHANGE_ID_REQUIRED_REASON;
+    } else if (batchUniqueChangeIds.length !== batchChangeIds.length) {
+      fullManuscriptApplyReason = 'REVIEW_SURFACE_FULL_MANUSCRIPT_EXACT_DUPLICATE_CHANGE_ID';
+    } else {
+      fullManuscriptApplyState = 'ready';
+    }
+  }
   const applyOps = applyOpsRaw.map((op) => {
     const changeId = reviewSurfaceText(op?.changeId);
     const opCanApply = singleReadyOp && Boolean(changeId);
@@ -2171,6 +2203,18 @@ function reviewSurfaceBuildExactTextPreview(state) {
             applyLabel: batchApplyState === 'ready' ? 'Применить все' : reviewSurfacePresentExactApplyState(batchApplyState),
             applyDisabled: batchApplyState !== 'ready',
             applyReason: batchApplyReason,
+          }
+        : null,
+      fullManuscriptAction: fullManuscriptCandidate
+        ? {
+            changeIds: batchUniqueChangeIds,
+            sceneIds: batchSceneIds,
+            applyState: fullManuscriptApplyState,
+            applyLabel: fullManuscriptApplyState === 'ready'
+              ? 'Применить весь рукописный пакет'
+              : reviewSurfacePresentExactApplyState(fullManuscriptApplyState),
+            applyDisabled: fullManuscriptApplyState !== 'ready',
+            applyReason: fullManuscriptApplyReason,
           }
         : null,
       blockedReasons: [],
@@ -2615,6 +2659,19 @@ function renderReviewSurfaceMarkup(viewModel) {
   const exactPreview = viewModel.exactTextPreview;
   const exactPreviewMarkup = exactPreview.state === 'ready'
     ? `
+      ${exactPreview.fullManuscriptAction
+        ? `
+          <div class="right-rail-review-actions right-rail-review-actions--batch">
+            <button
+              type="button"
+              class="right-rail-review-apply-button"
+              data-review-apply-full-manuscript-exact
+              ${exactPreview.fullManuscriptAction.applyDisabled ? 'disabled aria-disabled="true"' : ''}
+            >${reviewSurfaceEscapeHtml(exactPreview.fullManuscriptAction.applyLabel)}</button>
+          </div>
+          ${exactPreview.fullManuscriptAction.applyReason ? `<div class="right-rail-review-code">${reviewSurfaceEscapeHtml(exactPreview.fullManuscriptAction.applyReason)}</div>` : ''}
+        `
+        : ''}
       ${exactPreview.batchAction
         ? `
           <div class="right-rail-review-actions right-rail-review-actions--batch">
@@ -17144,6 +17201,62 @@ async function handleReviewSurfaceExactTextApplyClick(event) {
       changeId: '',
       reason,
     });
+    return;
+  }
+  const fullManuscriptButton = target.closest('[data-review-apply-full-manuscript-exact]');
+  if (fullManuscriptButton instanceof HTMLButtonElement && reviewSurfaceHost.contains(fullManuscriptButton)) {
+    if (fullManuscriptButton.disabled) return;
+    const requestId = `review-full-manuscript-exact-apply-${Date.now()}`;
+    setReviewSurfaceExactTextApplyTransientState({
+      state: 'applying',
+      requestId,
+      changeId: '',
+    });
+
+    let bridgeResult = null;
+    try {
+      bridgeResult = await invokePreloadUiCommandBridge(
+        REVIEW_SURFACE_FULL_MANUSCRIPT_EXACT_TEXT_APPLY_COMMAND_ID,
+        { requestId },
+      );
+    } catch (error) {
+      setReviewSurfaceExactTextApplyTransientState({
+        state: 'failed',
+        requestId,
+        changeId: '',
+        reason: error && typeof error.message === 'string' ? error.message : 'REVIEW_SURFACE_FULL_MANUSCRIPT_APPLY_THROW',
+      });
+      return;
+    }
+
+    const commandResult = reviewSurfaceUnwrapCommandResult(bridgeResult);
+    if (
+      bridgeResult?.ok === true
+      && commandResult?.ok === true
+      && (commandResult.applied === true || commandResult.replay === true)
+    ) {
+      reviewSurfaceExactTextApplyTransientState = null;
+      if (reviewSurfaceIsPlainObject(commandResult.reviewSurface)) {
+        setReviewSurfaceState(commandResult.reviewSurface);
+        return;
+      }
+      await loadReviewSurfaceFromQuery();
+      return;
+    }
+
+    const reason = reviewSurfaceExtractCommandFailureReason(bridgeResult);
+    const blocked = reviewSurfaceIsExactApplyBlockedReason(reason);
+    reviewSurfaceExactTextApplyTransientState = {
+      state: reviewSurfaceIsExactApplyAmbiguousReason(reason) ? 'ambiguous' : (blocked ? 'blocked' : 'failed'),
+      requestId,
+      changeId: '',
+      reason,
+    };
+    if (reviewSurfaceIsPlainObject(commandResult?.reviewSurface)) {
+      setReviewSurfaceState(commandResult.reviewSurface, { preserveExactApplyState: true });
+    } else {
+      renderReviewSurface();
+    }
     return;
   }
   const batchButton = target.closest('[data-review-apply-exact-batch]');

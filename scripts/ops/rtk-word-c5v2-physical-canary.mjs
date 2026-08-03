@@ -11,7 +11,12 @@ import {
   buildC5V2MultilingualQaLayer,
   validateC5V2SemanticOracle,
 } from './rtk-word-c5v2-semantic-oracle.mjs';
-import { buildC5V2Ledger } from './rtk-word-c5v2-ledger-engine.mjs';
+import {
+  C5V2_LEDGER_SCHEMA,
+  DEFAULT_C5V2_LEDGER_COUNTS,
+  buildC5V2Ledger,
+  validateC5V2LedgerDistribution,
+} from './rtk-word-c5v2-ledger-engine.mjs';
 import {
   buildC5V2NegativeProbePlan,
   materializeC5V2NegativeForks,
@@ -27,6 +32,8 @@ const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
 const RESULT_PREFIX = 'YALKEN_C5V2_CANARY_RESULT ';
 const DEFAULT_ARTIFACT_ROOT = '/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c5v2-physical-canary';
+const C5V2_T7_MOUNT = '/Volumes/T7-Secure';
+const C5V2_T7_UUID = 'D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2';
 const CORPUS_SCENE_ROOT = '/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c5-fullbook-certification/corpus/scenes';
 const CORPUS_RAW_PATH = '/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c5-fullbook-certification/corpus/pg174-raw.txt';
 const CORPUS_CLEANED_PATH = '/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c5-fullbook-certification/corpus/dorian-gray-cleaned-scenes.txt';
@@ -57,22 +64,116 @@ export function nowStamp() {
   return new Date().toISOString().replace(/[-:]/gu, '').replace(/\.\d{3}Z$/u, 'Z');
 }
 
+function assertNoC5V2SymlinkPathComponents(targetPath) {
+  const resolved = path.resolve(String(targetPath || ''));
+  if (!resolved || resolved === path.parse(resolved).root) throw new Error('C5V2_ARTIFACT_PATH_INVALID');
+  const parsed = path.parse(resolved);
+  const segments = path.relative(parsed.root, resolved).split(path.sep).filter(Boolean);
+  let cursor = parsed.root;
+  for (const segment of segments) {
+    cursor = path.join(cursor, segment);
+    if (!fs.existsSync(cursor)) continue;
+    if (fs.lstatSync(cursor).isSymbolicLink()) {
+      throw new Error(`C5V2_ARTIFACT_PATH_SYMLINK_COMPONENT:${cursor}`);
+    }
+  }
+}
+
+function assertNoC5V2SymlinkPathComponentsWithinRoot(rootPath, targetPath) {
+  const root = path.resolve(String(rootPath || ''));
+  const target = path.resolve(String(targetPath || ''));
+  const relative = path.relative(root, target);
+  if (!relative || relative.startsWith('..') || path.isAbsolute(relative)) return;
+  let cursor = root;
+  for (const segment of relative.split(path.sep).filter(Boolean)) {
+    cursor = path.join(cursor, segment);
+    if (!fs.existsSync(cursor)) continue;
+    if (fs.lstatSync(cursor).isSymbolicLink()) {
+      throw new Error(`C5V2_ARTIFACT_PATH_SYMLINK_COMPONENT:${cursor}`);
+    }
+  }
+}
+
+export function parseC5V2T7DiskInfo(diskInfoText = '') {
+  const text = String(diskInfoText || '');
+  return {
+    uuid: text.match(/Volume UUID:\s+([A-F0-9-]+)/u)?.[1] || '',
+    apfs: /File System Personality:\s+APFS/u.test(text),
+    fileVault: /FileVault:\s+Yes/u.test(text),
+    readOnly: /Volume Read-Only:\s+Yes/u.test(text),
+  };
+}
+
+export function verifyC5V2PhysicalArtifactRoot({
+  artifactRoot = DEFAULT_ARTIFACT_ROOT,
+  expectedUuid = C5V2_T7_UUID,
+  diskInfoText = '',
+  mountPath = C5V2_T7_MOUNT,
+  requireT7 = true,
+} = {}) {
+  const root = path.resolve(String(artifactRoot || ''));
+  if (!root || root === path.parse(root).root) throw new Error('C5V2_ARTIFACT_ROOT_INVALID');
+  if (requireT7) assertNoC5V2SymlinkPathComponents(root);
+  if (!fs.existsSync(root)) fs.mkdirSync(root, { recursive: true });
+  if (requireT7) assertNoC5V2SymlinkPathComponents(root);
+  const rootReal = fs.realpathSync(root);
+  if (requireT7) {
+    const mountReal = fs.realpathSync(mountPath);
+    const relativeToT7 = path.relative(mountReal, rootReal);
+    if (!relativeToT7 || relativeToT7.startsWith('..') || path.isAbsolute(relativeToT7)) {
+      throw new Error(`C5V2_ARTIFACT_ROOT_NOT_T7:${rootReal}`);
+    }
+  }
+  const diskInfo = requireT7
+    ? (diskInfoText || shellValue('/usr/sbin/diskutil', ['info', mountPath], { timeout: 30_000 }))
+    : diskInfoText;
+  const parsed = parseC5V2T7DiskInfo(diskInfo);
+  if (requireT7 && parsed.uuid !== expectedUuid) throw new Error(`C5V2_ARTIFACT_ROOT_T7_UUID_MISMATCH:${parsed.uuid}`);
+  if (requireT7 && parsed.apfs !== true) throw new Error('C5V2_ARTIFACT_ROOT_T7_APFS_REQUIRED');
+  if (requireT7 && parsed.fileVault !== true) throw new Error('C5V2_ARTIFACT_ROOT_T7_FILEVAULT_REQUIRED');
+  if (requireT7 && parsed.readOnly === true) throw new Error('C5V2_ARTIFACT_ROOT_T7_READ_ONLY');
+  fs.accessSync(rootReal, fs.constants.R_OK | fs.constants.W_OK);
+  return {
+    ok: true,
+    artifactRoot: root,
+    artifactRootRealpath: rootReal,
+    mount: mountPath,
+    uuid: parsed.uuid,
+    apfs: parsed.apfs,
+    fileVault: parsed.fileVault,
+    writable: true,
+  };
+}
+
 export function resolveC5V2RunIdentity(options = {}) {
   const artifactRoot = path.resolve(String(options.artifactRoot || DEFAULT_ARTIFACT_ROOT));
+  const requirePhysicalArtifactRoot = options.requirePhysicalArtifactRoot === true
+    || artifactRoot === C5V2_T7_MOUNT
+    || artifactRoot.startsWith(`${C5V2_T7_MOUNT}${path.sep}`);
+  const rootVerification = verifyC5V2PhysicalArtifactRoot({
+    artifactRoot,
+    expectedUuid: options.expectedT7Uuid || C5V2_T7_UUID,
+    diskInfoText: options.diskInfoText || '',
+    mountPath: options.mountPath || C5V2_T7_MOUNT,
+    requireT7: requirePhysicalArtifactRoot,
+  });
   const resumeRunDir = typeof options.resumeRunDir === 'string' ? options.resumeRunDir.trim() : '';
   if (!resumeRunDir) {
     const runId = `${options.runPrefix || 'c5v2-physical-canary'}-${nowStamp()}`;
-    return { runId, runDir: path.join(artifactRoot, runId), artifactRoot, resumed: false };
+    const runDir = path.join(artifactRoot, runId);
+    return { runId, runDir, artifactRoot, artifactRootRealpath: rootVerification.artifactRootRealpath, resumed: false };
   }
   const runDir = path.resolve(resumeRunDir);
-  const relative = path.relative(artifactRoot, runDir);
-  if (!relative || relative.startsWith('..') || path.isAbsolute(relative)) {
-    throw new Error(`C5V2_RESUME_RUN_DIR_OUTSIDE_ARTIFACT_ROOT:${runDir}`);
-  }
+  assertNoC5V2SymlinkPathComponentsWithinRoot(artifactRoot, runDir);
   if (!fs.existsSync(runDir) || !fs.statSync(runDir).isDirectory()) {
     throw new Error(`C5V2_RESUME_RUN_DIR_MISSING:${runDir}`);
   }
-  return { runId: path.basename(runDir), runDir, artifactRoot, resumed: true };
+  const runReal = fs.realpathSync(runDir);
+  const relative = path.relative(rootVerification.artifactRootRealpath, runReal);
+  if (!relative || relative.startsWith('..') || path.isAbsolute(relative)) {
+    throw new Error(`C5V2_RESUME_RUN_DIR_OUTSIDE_ARTIFACT_ROOT:${runReal}`);
+  }
+  return { runId: path.basename(runDir), runDir, runDirRealpath: runReal, artifactRoot, artifactRootRealpath: rootVerification.artifactRootRealpath, resumed: true };
 }
 
 export function hasC5V2CompletedRoundEvidence(value) {
@@ -124,6 +225,222 @@ export function resolveC5V2LedgerReuseDigest(ledger = {}) {
     ...physicalLedgerContent
   } = source;
   return sha256Text(stableCanonicalJson(physicalLedgerContent));
+}
+
+function c5v2OperationRequestEffectIdentity(operation = {}) {
+  return {
+    operationId: operation.id || operation.operationId || '',
+    family: operation.family || '',
+    sceneId: operation.sceneId || '',
+    round: Number.isInteger(operation.round) ? operation.round : null,
+    expectedOutcome: operation.expectedOutcome || '',
+    semanticIntent: operation.semanticIntent || null,
+    anchor: operation.anchor || null,
+    targetRootOperationId: operation.targetRootOperationId || '',
+  };
+}
+
+function c5v2OperationRequestKey(operation = {}) {
+  return sha256Text(stableCanonicalJson({
+    role: 'request',
+    ...c5v2OperationRequestEffectIdentity(operation),
+  }));
+}
+
+function c5v2OperationEffectKey(operation = {}) {
+  return sha256Text(stableCanonicalJson({
+    role: 'effect',
+    operationId: operation.id || operation.operationId || '',
+    family: operation.family || '',
+    expectedOutcome: operation.expectedOutcome || '',
+    semanticIntent: operation.semanticIntent || null,
+  }));
+}
+
+function c5v2MasterLedgerResumeAuthorityDigest(ledger = {}, identity = {}) {
+  const operations = Array.isArray(ledger.operations) ? ledger.operations : [];
+  return sha256Text(stableCanonicalJson({
+    schemaVersion: 'yalken.rtk.word.c5v2.master-ledger-resume-authority.v1',
+    exactHead: identity.exactHead || '',
+    campaignId: identity.campaignId || '',
+    corpusDigest: identity.corpusDigest || '',
+    roundCount: ledger.roundCount || 0,
+    sceneCount: ledger.sceneCount || 0,
+    ledgerDigest: ledger.ledgerDigest || '',
+    operationCount: operations.length,
+    counts: ledger.counts || {},
+    operationIds: operations.map((operation) => operation.id || operation.operationId || ''),
+    requestEffectKeys: operations.map((operation) => ({
+      operationId: operation.id || operation.operationId || '',
+      requestKey: operation.requestKey || '',
+      effectKey: operation.effectKey || '',
+    })),
+  }));
+}
+
+export function bindC5V2MasterLedgerResumeAuthority(ledger = {}, {
+  exactHead = '',
+  campaignId = '',
+  corpusDigest = '',
+} = {}) {
+  if (!ledger || typeof ledger !== 'object' || Array.isArray(ledger)) throw new Error('C5V2_MASTER_LEDGER_REQUIRED');
+  const operations = (Array.isArray(ledger.operations) ? ledger.operations : []).map((operation) => ({
+    ...operation,
+    requestKey: c5v2OperationRequestKey(operation),
+    effectKey: c5v2OperationEffectKey(operation),
+  }));
+  const bound = {
+    ...ledger,
+    operations,
+    ledgerDigest: sha256Text(JSON.stringify(operations)),
+  };
+  bound.resumeAuthority = {
+    schemaVersion: 'yalken.rtk.word.c5v2.master-ledger-resume-authority.v1',
+    exactHead,
+    campaignId,
+    corpusDigest,
+    digest: c5v2MasterLedgerResumeAuthorityDigest(bound, { exactHead, campaignId, corpusDigest }),
+  };
+  return bound;
+}
+
+export function validateC5V2MasterLedgerResumeAuthority(ledger = {}, {
+  exactHead = '',
+  campaignId = '',
+  corpusDigest = '',
+  roundCount = 5,
+  sceneCount = 21,
+} = {}) {
+  const failures = [];
+  const operations = Array.isArray(ledger?.operations) ? ledger.operations : [];
+  if (!ledger || typeof ledger !== 'object' || Array.isArray(ledger)) failures.push('C5V2_MASTER_LEDGER_REQUIRED');
+  if (ledger?.schemaVersion !== C5V2_LEDGER_SCHEMA) failures.push('C5V2_MASTER_LEDGER_SCHEMA_INVALID');
+  if (ledger?.topology !== 'one-full-manuscript-project-cumulative-rounds') failures.push('C5V2_MASTER_LEDGER_TOPOLOGY_INVALID');
+  if (ledger?.roundCount !== roundCount) failures.push('C5V2_MASTER_LEDGER_ROUND_COUNT_INVALID');
+  if (ledger?.sceneCount !== sceneCount) failures.push('C5V2_MASTER_LEDGER_SCENE_COUNT_INVALID');
+  if (operations.length !== 2000) failures.push(`C5V2_MASTER_LEDGER_OPERATION_COUNT_INVALID:${operations.length}`);
+  const expectedDigest = sha256Text(JSON.stringify(operations));
+  if (ledger?.ledgerDigest !== expectedDigest) failures.push('C5V2_MASTER_LEDGER_DIGEST_STALE');
+  const ids = new Set();
+  for (const operation of operations) {
+    const id = operation?.id || operation?.operationId || '';
+    if (!id) failures.push('C5V2_MASTER_LEDGER_OPERATION_ID_MISSING');
+    if (ids.has(id)) failures.push(`C5V2_MASTER_LEDGER_OPERATION_ID_DUPLICATE:${id}`);
+    ids.add(id);
+    if (operation?.requestKey !== c5v2OperationRequestKey(operation)) failures.push(`C5V2_MASTER_LEDGER_REQUEST_KEY_MISMATCH:${id}`);
+    if (operation?.effectKey !== c5v2OperationEffectKey(operation)) failures.push(`C5V2_MASTER_LEDGER_EFFECT_KEY_MISMATCH:${id}`);
+  }
+  for (const [family, expected] of Object.entries(DEFAULT_C5V2_LEDGER_COUNTS)) {
+    const declared = ledger?.counts?.[family];
+    const actual = operations.filter((operation) => operation?.family === family).length;
+    if (declared !== expected || actual !== expected) failures.push(`C5V2_MASTER_LEDGER_FAMILY_COUNT_INVALID:${family}:${declared}:${actual}:${expected}`);
+  }
+  const distribution = validateC5V2LedgerDistribution({
+    operations,
+    sceneProfiles: Array.isArray(ledger?.sceneProfiles) ? ledger.sceneProfiles : [],
+    counts: DEFAULT_C5V2_LEDGER_COUNTS,
+  });
+  if (distribution.ok !== true) failures.push('C5V2_MASTER_LEDGER_DISTRIBUTION_INVALID');
+  if (ledger?.gates?.ok !== true || Array.isArray(ledger?.gates?.failures) !== true || ledger.gates.failures.length !== 0) {
+    failures.push('C5V2_MASTER_LEDGER_GATES_NOT_GREEN');
+  }
+  if (ledger?.resumeAuthority?.schemaVersion !== 'yalken.rtk.word.c5v2.master-ledger-resume-authority.v1') {
+    failures.push('C5V2_MASTER_LEDGER_RESUME_AUTHORITY_SCHEMA_INVALID');
+  }
+  if (
+    ledger?.resumeAuthority?.exactHead !== exactHead
+    || ledger?.resumeAuthority?.campaignId !== campaignId
+    || ledger?.resumeAuthority?.corpusDigest !== corpusDigest
+  ) failures.push('C5V2_MASTER_LEDGER_RESUME_AUTHORITY_IDENTITY_MISMATCH');
+  const expectedAuthorityDigest = c5v2MasterLedgerResumeAuthorityDigest(ledger, { exactHead, campaignId, corpusDigest });
+  if (ledger?.resumeAuthority?.digest !== expectedAuthorityDigest) failures.push('C5V2_MASTER_LEDGER_RESUME_AUTHORITY_DIGEST_MISMATCH');
+  return {
+    ok: failures.length === 0,
+    failures,
+    ledgerDigest: expectedDigest,
+    operationCount: operations.length,
+    counts: Object.fromEntries(Object.keys(DEFAULT_C5V2_LEDGER_COUNTS).map((family) => [
+      family,
+      operations.filter((operation) => operation?.family === family).length,
+    ])),
+  };
+}
+
+export function buildC5V2TerminalOperationAggregate({
+  headSha = '',
+  masterLedger = null,
+  positiveTotals = {},
+  negativeEvidence = null,
+  negativeEvidenceSha256 = '',
+} = {}) {
+  const failures = [];
+  const expectedCounts = DEFAULT_C5V2_LEDGER_COUNTS;
+  const counts = {};
+  const operations = Array.isArray(masterLedger?.operations) ? masterLedger.operations : [];
+  for (const family of Object.keys(expectedCounts)) {
+    counts[family] = operations.filter((operation) => operation?.family === family).length;
+    if (counts[family] !== expectedCounts[family]) {
+      failures.push(`C5V2_TERMINAL_AGGREGATE_FAMILY_COUNT_INVALID:${family}:${counts[family]}:${expectedCounts[family]}`);
+    }
+  }
+  const positiveExpected = Object.entries(expectedCounts)
+    .filter(([family]) => family !== 'negative_probe')
+    .reduce((sum, [, count]) => sum + count, 0);
+  const negativeExpected = expectedCounts.negative_probe;
+  const positiveAttempted = Number(positiveTotals?.attempted || 0);
+  const positiveReported = Number(positiveTotals?.reported || 0);
+  const negativeCount = Number(negativeEvidence?.operationCount || 0);
+  const negativeRejected = Number(negativeEvidence?.rejectedCount || 0);
+  if (!masterLedger || operations.length !== 2000) failures.push(`C5V2_TERMINAL_AGGREGATE_MASTER_TOTAL_INVALID:${operations.length}`);
+  if (positiveAttempted !== positiveExpected || positiveReported !== positiveExpected) {
+    failures.push(`C5V2_TERMINAL_AGGREGATE_POSITIVE_TOTAL_INVALID:${positiveAttempted}:${positiveReported}:${positiveExpected}`);
+  }
+  if (!negativeEvidence || typeof negativeEvidence !== 'object') failures.push('C5V2_TERMINAL_AGGREGATE_NEGATIVE_EVIDENCE_MISSING');
+  if (negativeCount !== negativeExpected || negativeRejected !== negativeExpected || negativeEvidence?.failedCount !== 0) {
+    failures.push(`C5V2_TERMINAL_AGGREGATE_NEGATIVE_TOTAL_INVALID:${negativeCount}:${negativeRejected}:${negativeExpected}`);
+  }
+  if (negativeEvidence?.headSha !== headSha) failures.push('C5V2_TERMINAL_AGGREGATE_NEGATIVE_HEAD_MISMATCH');
+  if (negativeEvidence?.masterLedgerDigest !== masterLedger?.ledgerDigest) failures.push('C5V2_TERMINAL_AGGREGATE_NEGATIVE_MASTER_LEDGER_MISMATCH');
+  if (negativeEvidence?.allSceneHashesStable !== true || negativeEvidence?.allWriterFlagsFalse !== true || !Array.isArray(negativeEvidence?.networkRequests) || negativeEvidence.networkRequests.length !== 0) {
+    failures.push('C5V2_TERMINAL_AGGREGATE_NEGATIVE_INTEGRITY_NOT_GREEN');
+  }
+  const total = positiveAttempted + negativeCount;
+  if (total !== 2000) failures.push(`C5V2_TERMINAL_AGGREGATE_TOTAL_INVALID:${total}`);
+  const core = {
+    schemaVersion: 'yalken.rtk.word.c5v2.terminal-operation-aggregate.v1',
+    headSha,
+    masterLedgerDigest: masterLedger?.ledgerDigest || '',
+    positive: {
+      operationCount: positiveAttempted,
+      reportedCount: positiveReported,
+      familyCount: positiveExpected,
+    },
+    negative: {
+      evidenceSha256: negativeEvidenceSha256 || '',
+      operationCount: negativeCount,
+      rejectedCount: negativeRejected,
+      familyCount: negativeExpected,
+      manifestDigest: negativeEvidence?.manifestDigest || '',
+      evidenceDigest: negativeEvidence?.evidenceDigest || '',
+    },
+    counts,
+    totalOperationCount: total,
+    exactDistribution: expectedCounts,
+    ok: failures.length === 0,
+    failures,
+  };
+  return {
+    ...core,
+    aggregateDigest: sha256Text(stableCanonicalJson(core)),
+  };
+}
+
+function assertC5V2MasterLedgerResumeAuthority(ledger, options = {}) {
+  const validation = validateC5V2MasterLedgerResumeAuthority(ledger, options);
+  if (validation.ok !== true) {
+    throw new Error(`C5V2_MASTER_LEDGER_RESUME_AUTHORITY_INVALID:${validation.failures.join(',')}`);
+  }
+  return validation;
 }
 
 function assertC5V2CandidateAuthorityRoot(authorityRoot) {
@@ -2363,6 +2680,79 @@ function readExistingYalkenTruthArtifact(returnedPath) {
     recoveryNonTextStatePresent: artifact.recoveryNonTextState?.present === true,
   };
 }
+async function restoreC5V2ProductTruthFromReopenedArtifact(win, roundId, returnedPath) {
+  const artifactPath = path.join(path.dirname(returnedPath), 'yalken-reopened-truth.json');
+  if (!fs.existsSync(artifactPath)) throw new Error('C5V2_RESUME_REHYDRATE_TRUTH_ARTIFACT_MISSING:' + roundId);
+  const artifact = JSON.parse(fs.readFileSync(artifactPath, 'utf8'));
+  const scenes = Array.isArray(artifact.sceneReadback) ? artifact.sceneReadback : [];
+  if (scenes.length !== (global.productSceneContexts || []).length) {
+    throw new Error('C5V2_RESUME_REHYDRATE_SCENE_COUNT_MISMATCH:' + roundId + ':' + scenes.length + ':' + (global.productSceneContexts || []).length);
+  }
+  const contextBySceneId = new Map((global.productSceneContexts || []).map((context) => [context.relativePath, context]));
+  const restoredScenes = [];
+  for (const scene of scenes) {
+    const sceneId = String(scene.sceneId || '');
+    const context = contextBySceneId.get(sceneId);
+    if (!context || typeof context.nodePath !== 'string' || !context.nodePath) {
+      throw new Error('C5V2_RESUME_REHYDRATE_SCENE_CONTEXT_MISSING:' + roundId + ':' + sceneId);
+    }
+    if (typeof scene.rawContent !== 'string' || sha256ChildText(scene.rawContent) !== scene.rawContentSha256) {
+      throw new Error('C5V2_RESUME_REHYDRATE_SCENE_HASH_INVALID:' + roundId + ':' + sceneId);
+    }
+    writeChildFileAtomicDurable(context.nodePath, Buffer.from(scene.rawContent, 'utf8'));
+    const actualRawContent = fs.readFileSync(context.nodePath, 'utf8');
+    if (sha256ChildText(actualRawContent) !== scene.rawContentSha256) {
+      throw new Error('C5V2_RESUME_REHYDRATE_SCENE_WRITE_MISMATCH:' + roundId + ':' + sceneId);
+    }
+    restoredScenes.push({
+      sceneId,
+      nodePath: context.nodePath,
+      rawContentSha256: scene.rawContentSha256,
+    });
+  }
+  const restoreState = (stateRecord, relativeSegments) => {
+    if (!stateRecord || stateRecord.present !== true) return { restored: false };
+    if (typeof stateRecord.rawContent !== 'string' || sha256ChildText(stateRecord.rawContent) !== stateRecord.rawContentSha256) {
+      throw new Error('C5V2_RESUME_REHYDRATE_NON_TEXT_STATE_HASH_INVALID:' + roundId + ':' + relativeSegments.join('/'));
+    }
+    const statePath = path.join(global.productProjectRoot || '', ...relativeSegments);
+    writeChildFileAtomicDurable(statePath, Buffer.from(stateRecord.rawContent, 'utf8'));
+    const actualRawContent = fs.readFileSync(statePath, 'utf8');
+    if (sha256ChildText(actualRawContent) !== stateRecord.rawContentSha256) {
+      throw new Error('C5V2_RESUME_REHYDRATE_NON_TEXT_STATE_WRITE_MISMATCH:' + roundId + ':' + relativeSegments.join('/'));
+    }
+    return {
+      restored: true,
+      path: statePath,
+      rawContentSha256: stateRecord.rawContentSha256,
+    };
+  };
+  const canonicalNonTextState = restoreState(artifact.canonicalNonTextState, ['.yalken', 'word-review', 'non-text-return-state.v1.json']);
+  const recoveryNonTextState = restoreState(artifact.recoveryNonTextState, ['.yalken', 'recovery', 'non-text-return-state.v1.json']);
+  const firstSceneContext = (global.productSceneContexts || [])[0] || null;
+  if (firstSceneContext) {
+    const openResult = await invokeUiCommand(win, 'cmd.project.document.open', {
+      nodeId: firstSceneContext.nodeId,
+      sceneId: firstSceneContext.relativePath,
+    });
+    if (!openResult || openResult.ok !== true) throw new Error('C5V2_RESUME_REHYDRATE_REOPEN_FAILED:' + roundId);
+  }
+  const digest = sha256ChildText(stableChildJson({
+    scenes: restoredScenes.map((scene) => ({ sceneId: scene.sceneId, rawContentSha256: scene.rawContentSha256 })),
+    canonicalNonTextState,
+    recoveryNonTextState,
+  }));
+  return {
+    ok: true,
+    roundId,
+    artifactPath,
+    artifactSha256: sha256ChildFile(artifactPath),
+    restoredSceneCount: restoredScenes.length,
+    canonicalNonTextState,
+    recoveryNonTextState,
+    digest,
+  };
+}
 const ACCEPTABLE_STALE_RETRY_BLOCK_REASONS = new Set([
   'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_STALE_BASELINE',
   'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_CURRENT_NO_MATCH',
@@ -3535,6 +3925,21 @@ app.whenReady().then(async () => {
         });
         if (!resumedReturnApply.ok) {
           app.exit(2);
+          return;
+        }
+        const rehydration = await restoreC5V2ProductTruthFromReopenedArtifact(win, roundId, returnedPath);
+        emit({
+          phase: 'resume-rehydrate',
+          ok: rehydration.ok ? 1 : 0,
+          roundIndex,
+          roundId,
+          resumed: true,
+          rehydration,
+          dialogCalls,
+          networkRequests,
+        });
+        if (!rehydration.ok) {
+          app.exit(5);
           return;
         }
         if (oracleGatePath) {
@@ -6156,6 +6561,7 @@ function parseArgs(argv) {
     masterLedgerCampaign: false,
     resumeRunDir: '',
     negativeCampaignLedgerPath: '',
+    negativeAggregateEvidencePath: '',
     negativeProbeStart: 1,
     negativeProbeCount: 40,
     corpusManifestPath: '',
@@ -6190,6 +6596,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === '--negative-campaign-ledger') {
       options.negativeCampaignLedgerPath = argv[index + 1];
+      index += 1;
+    } else if (arg === '--negative-aggregate-evidence') {
+      options.negativeAggregateEvidencePath = argv[index + 1];
       index += 1;
     } else if (arg === '--negative-probe-start') {
       options.negativeProbeStart = Number.parseInt(argv[index + 1], 10);
@@ -6496,6 +6905,15 @@ async function mainCumulative(options) {
   let masterLedger = runIdentity.resumed === true && fs.existsSync(masterLedgerPath)
     ? JSON.parse(fs.readFileSync(masterLedgerPath, 'utf8'))
     : null;
+  if (masterLedger) {
+    assertC5V2MasterLedgerResumeAuthority(masterLedger, {
+      exactHead: completedRoundReuseContext.exactHead,
+      campaignId: runId,
+      corpusDigest: completedRoundReuseContext.corpusDigest,
+      roundCount,
+      sceneCount: scenes.length,
+    });
+  }
   let reusablePrefixOpen = runIdentity.resumed === true;
   const rounds = [];
   for (let index = 0; index < roundCount; index += 1) {
@@ -6584,8 +7002,22 @@ async function mainCumulative(options) {
         },
       );
       if (options.masterLedgerCampaign && !masterLedger) {
-        masterLedger = buildC5V2Ledger({ scenes: currentScenes, roundCount });
-        if (masterLedger.gates?.ok !== true || masterLedger.operations.length !== 2000) {
+        masterLedger = bindC5V2MasterLedgerResumeAuthority(
+          buildC5V2Ledger({ scenes: currentScenes, roundCount }),
+          {
+            exactHead: completedRoundReuseContext.exactHead,
+            campaignId: runId,
+            corpusDigest: completedRoundReuseContext.corpusDigest,
+          },
+        );
+        const masterLedgerAuthority = assertC5V2MasterLedgerResumeAuthority(masterLedger, {
+          exactHead: completedRoundReuseContext.exactHead,
+          campaignId: runId,
+          corpusDigest: completedRoundReuseContext.corpusDigest,
+          roundCount,
+          sceneCount: scenes.length,
+        });
+        if (masterLedger.gates?.ok !== true || masterLedgerAuthority.operationCount !== 2000) {
           throw new Error(`C5V2_MASTER_LEDGER_GATES_FAILED:${JSON.stringify(masterLedger.gates || {})}`);
         }
         writeJsonAtomicDurable(masterLedgerPath, masterLedger);
@@ -6605,12 +7037,21 @@ async function mainCumulative(options) {
       });
       writeJsonAtomicDurable(corpusProvenancePath, corpusProvenance);
       const ledger = options.masterLedgerCampaign
-        ? adaptC5V2MasterRoundToPhysicalLedger({
-            masterLedger,
-            currentScenes,
-            roundNumber: roundIndex + 1,
-            sourceDocxPath: round.sourcePath,
-          })
+        ? (() => {
+            assertC5V2MasterLedgerResumeAuthority(masterLedger, {
+              exactHead: completedRoundReuseContext.exactHead,
+              campaignId: runId,
+              corpusDigest: completedRoundReuseContext.corpusDigest,
+              roundCount,
+              sceneCount: scenes.length,
+            });
+            return adaptC5V2MasterRoundToPhysicalLedger({
+              masterLedger,
+              currentScenes,
+              roundNumber: roundIndex + 1,
+              sourceDocxPath: round.sourcePath,
+            });
+          })()
         : buildExportBoundCanaryLedger({
             scenes: currentScenes,
             counts: options.counts,
@@ -6859,10 +7300,28 @@ async function mainCumulative(options) {
     acc.productApplyGreen += round.productApplyOk ? 1 : 0;
     return acc;
   }, { attempted: 0, reported: 0, exact: 0, safeApply: 0, manual: 0, blocked: 0, exactTotal: 0, productApplyGreen: 0 });
+  const headSha = shellValue('git', ['rev-parse', 'HEAD']);
+  const negativeAggregateEvidencePath = String(options.negativeAggregateEvidencePath || '').trim()
+    || path.join(runDir, 'negative-campaign-evidence.json');
+  const negativeAggregateEvidence = fs.existsSync(negativeAggregateEvidencePath)
+    ? JSON.parse(fs.readFileSync(negativeAggregateEvidencePath, 'utf8'))
+    : null;
+  const terminalOperationAggregate = options.masterLedgerCampaign
+    ? buildC5V2TerminalOperationAggregate({
+      headSha,
+      masterLedger,
+      positiveTotals: totals,
+      negativeEvidence: negativeAggregateEvidence,
+      negativeEvidenceSha256: negativeAggregateEvidence ? sha256File(negativeAggregateEvidencePath) : '',
+    })
+    : null;
+  const terminalOperationAggregateArtifact = terminalOperationAggregate
+    ? writeJsonAtomicDurable(path.join(runDir, 'terminal-operation-aggregate.json'), terminalOperationAggregate)
+    : null;
   const summary = {
     schemaVersion: 'yalken.rtk.word.c5v2.physical-cumulative.result.v1',
     runId,
-    headSha: shellValue('git', ['rev-parse', 'HEAD']),
+    headSha,
     originMainSha: shellValue('git', ['rev-parse', 'origin/main']),
     wordVersion,
     wordWorkRoot,
@@ -6907,6 +7366,8 @@ async function mainCumulative(options) {
       wrapperError: electronResult.wrapperError,
     },
     totals,
+    terminalOperationAggregate,
+    terminalOperationAggregateArtifact,
     rounds: roundSummaries,
     vetoStatus: {
       falseFullBookLabel: false,
@@ -6932,6 +7393,7 @@ async function mainCumulative(options) {
     sceneCount: summary.sceneCount,
     roundCount: summary.roundCount,
     totals: summary.totals,
+    terminalOperationAggregate: summary.terminalOperationAggregate,
     roundStatuses: summary.rounds.map((round) => ({
       roundId: round.roundId,
       wordStatus: round.wordStatus,
@@ -6946,6 +7408,7 @@ async function mainCumulative(options) {
   }, null, 2)}\n`);
   process.exit(
     summary.electronResult.ok
+      && (options.masterLedgerCampaign !== true || summary.terminalOperationAggregate?.ok === true)
       && summary.rounds.every((round) => (
         round.sourcePackageSummary?.modernMode15Ready === true
         && round.wordStatus === 'PASS'

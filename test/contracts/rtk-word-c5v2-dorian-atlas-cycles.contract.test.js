@@ -49,6 +49,41 @@ test('C5V2 Dorian Atlas cycles require exact raw and visible carryover without r
   assert.equal(rejected.carryovers[0].exact, false);
 });
 
+test('C5V2 Dorian Atlas cycles reject cross-head physical campaign evidence before certification acceptance', async () => {
+  const harness = await loadHarness();
+  const expectedHeadSha = 'babb9764a51bdc5b1344ee8aed44108e066ac820';
+  const stalePhysicalHeadSha = 'c19d5467a51bdc5b1344ee8aed44108e066ac820';
+  const campaignResult = {
+    headSha: stalePhysicalHeadSha,
+    roundCount: 5,
+    sceneCount: 21,
+    electronResult: { ok: true },
+    vetoStatus: {
+      wordSaturated: false,
+      activeBindingFailed: false,
+    },
+    totals: {
+      attempted: 1960,
+      reported: 1960,
+      productApplyGreen: 5,
+    },
+  };
+
+  assert.throws(
+    () => harness.validateC5V2DorianAtlasPhysicalCampaignBinding(campaignResult, { expectedHeadSha }),
+    /C5V2_DORIAN_ATLAS_PHYSICAL_HEAD_MISMATCH/u,
+  );
+
+  assert.deepEqual(
+    harness.validateC5V2DorianAtlasPhysicalCampaignBinding({ ...campaignResult, headSha: expectedHeadSha }, { expectedHeadSha }),
+    {
+      ok: true,
+      physicalCampaignHeadSha: expectedHeadSha,
+      exactHeadPhysicalCampaign: true,
+    },
+  );
+});
+
 test('C5V2 Dorian Atlas cycles select one natural unique grapheme-safe anchor without normalization', async () => {
   const harness = await loadHarness();
   const scenes = [

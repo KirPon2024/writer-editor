@@ -513,6 +513,13 @@ let activeRtkNonOverlapTrackedReplacementApplyStore = null;
 let activeRtkFormattingReturnApplyStore = null;
 let activeRtkStructuralReturnApplyStore = null;
 let activeReviewDocxExportAuthorityStore = null;
+const REVIEW_DOCX_RETURN_AUTHORITY_STORE_SCHEMA =
+  'yalken.rtk.word.product-review-docx-export.authority-store.v2';
+const REVIEW_DOCX_RETURN_AUTHORITY_STORE_RELATIVE_SEGMENTS = [
+  '.yalken',
+  'word-review',
+  'return-authority-store.v1.json',
+];
 
 function isReviewSessionEditorContextDirty() {
   return (typeof isDirty === 'boolean' && isDirty)
@@ -898,6 +905,7 @@ function handleReviewSurfaceClearSessionCommandSurface() {
 
 const REVIEW_EXACT_TEXT_APPLY_COMMAND_ID = 'cmd.project.review.applyExactTextChange';
 const REVIEW_EXACT_TEXT_APPLY_BATCH_COMMAND_ID = 'cmd.project.review.applyExactTextChangesBatch';
+const REVIEW_FULL_MANUSCRIPT_EXACT_TEXT_APPLY_COMMAND_ID = 'cmd.project.review.applyFullManuscriptExactTextReturn';
 const REVIEW_EXACT_TEXT_RELOAD_RECONCILED_COMMAND_ID = 'cmd.project.review.reloadReconciledScene';
 const REVIEW_EXACT_TEXT_APPLY_BATCH_MAX_CHANGE_IDS = 10;
 const REVIEW_EXACT_TEXT_APPLY_ALLOWED_DOCUMENT_KINDS = new Set([
@@ -912,6 +920,9 @@ const REVIEW_EXACT_TEXT_APPLY_ALLOWED_PAYLOAD_KEYS = Object.freeze([
 const REVIEW_EXACT_TEXT_APPLY_BATCH_ALLOWED_PAYLOAD_KEYS = Object.freeze([
   'requestId',
   'changeIds',
+]);
+const REVIEW_FULL_MANUSCRIPT_EXACT_TEXT_APPLY_ALLOWED_PAYLOAD_KEYS = Object.freeze([
+  'requestId',
 ]);
 const REVIEW_EXACT_TEXT_APPLY_FORBIDDEN_AUTHORITY_KEYS = Object.freeze([
   'applyOps',
@@ -1042,6 +1053,44 @@ function normalizeReviewExactTextApplyBatchPayload(payload = {}) {
     value: {
       ...(requestId ? { requestId } : {}),
       changeIds,
+    },
+  };
+}
+
+function normalizeReviewFullManuscriptExactTextApplyPayload(payload = {}) {
+  if (!isPlainObjectValue(payload)) {
+    return {
+      ok: false,
+      code: 'E_REVIEW_FULL_MANUSCRIPT_EXACT_TEXT_APPLY_PAYLOAD_INVALID',
+      reason: 'REVIEW_FULL_MANUSCRIPT_EXACT_TEXT_APPLY_PAYLOAD_REQUIRED',
+    };
+  }
+
+  const keys = Object.keys(payload);
+  const forbiddenAuthorityKeys = keys
+    .filter((key) => REVIEW_EXACT_TEXT_APPLY_FORBIDDEN_AUTHORITY_KEYS.includes(key))
+    .sort();
+  const unsupportedKeys = keys
+    .filter((key) => !REVIEW_FULL_MANUSCRIPT_EXACT_TEXT_APPLY_ALLOWED_PAYLOAD_KEYS.includes(key))
+    .sort();
+  if (forbiddenAuthorityKeys.length > 0 || unsupportedKeys.length > 0) {
+    return {
+      ok: false,
+      code: 'E_REVIEW_FULL_MANUSCRIPT_EXACT_TEXT_APPLY_PAYLOAD_INVALID',
+      reason: forbiddenAuthorityKeys.length > 0
+        ? 'REVIEW_FULL_MANUSCRIPT_EXACT_TEXT_APPLY_RENDERER_AUTHORITY_DENIED'
+        : 'REVIEW_FULL_MANUSCRIPT_EXACT_TEXT_APPLY_PAYLOAD_UNSUPPORTED_FIELDS',
+      details: {
+        fields: forbiddenAuthorityKeys.length > 0 ? forbiddenAuthorityKeys : unsupportedKeys,
+      },
+    };
+  }
+
+  const requestId = typeof payload.requestId === 'string' ? payload.requestId.trim() : '';
+  return {
+    ok: true,
+    value: {
+      ...(requestId ? { requestId } : {}),
     },
   };
 }
@@ -1454,6 +1503,13 @@ function readRtkNonOverlapTrackedReplacementProductApplyInput(activeSession, cha
   return null;
 }
 
+function readRtkFullManuscriptNonOverlapTrackedReplacementProductApplyInput(activeSession) {
+  if (!rtkNonOverlapTrackedReplacementStoreTokenMatches(activeSession)) return null;
+  const store = activeRtkNonOverlapTrackedReplacementApplyStore;
+  if (!isPlainObjectValue(store?.fullManuscriptInput)) return null;
+  return cloneJsonSafe(store.fullManuscriptInput) || null;
+}
+
 function reviewExactTextChangeRequiresRtkNonOverlapProductPath(textChange) {
   return rtkNonOverlapTrackedReplacementDetailString(textChange?.rtkProductPath)
     === 'nonOverlapTrackedReplacement';
@@ -1486,6 +1542,28 @@ function summarizeRtkNonOverlapTrackedReplacementProductResult(result) {
   };
 }
 
+function summarizeRtkFullManuscriptNonOverlapTrackedReplacementProductResult(result) {
+  if (!isPlainObjectValue(result)) return {};
+  return {
+    schemaVersion: 'yalken.rtk.word.a03.c05.full-manuscript-product-path-result-summary.v1',
+    status: rtkNonOverlapTrackedReplacementDetailString(result.status),
+    code: rtkNonOverlapTrackedReplacementDetailString(result.code),
+    reason: rtkNonOverlapTrackedReplacementDetailString(result.reason),
+    applied: result.status === 'applied',
+    replay: result.status === 'replay',
+    writerCalled: result.writerCalled === true,
+    automaticApplyCertified: result.automaticApplyCertified === true,
+    multiSceneAtomicApplyCertified: result.multiSceneAtomicApplyCertified === true,
+    sceneCount: Array.isArray(result.sceneResults) ? result.sceneResults.length : 0,
+    sceneResults: Array.isArray(result.sceneResults)
+      ? result.sceneResults.filter(isPlainObjectValue).map((sceneResult) => ({
+        sceneId: rtkNonOverlapTrackedReplacementDetailString(sceneResult.sceneId),
+        status: rtkNonOverlapTrackedReplacementDetailString(sceneResult.status),
+      }))
+      : [],
+  };
+}
+
 function attachRtkNonOverlapTrackedReplacementProductResult(result, changeIds) {
   if (
     activeReviewSessionLifecycle !== 'active'
@@ -1515,6 +1593,45 @@ function attachRtkNonOverlapTrackedReplacementProductResult(result, changeIds) {
   nextReviewSurface.rtkNonOverlapTrackedReplacementApplyResult = summary;
   nextSessionStore.reviewSurface = nextReviewSurface;
   nextSessionStore.lastRtkNonOverlapTrackedReplacementApplyResult = summary;
+  activeReviewSessionStore = nextSessionStore;
+  currentReviewSurfacePayload = cloneJsonSafe(nextReviewSurface) || {};
+  currentReviewSurfacePayloadSource = 'session';
+  currentReviewSurfacePayloadContentHash = '';
+  return readActiveReviewSessionReviewSurface();
+}
+
+function attachRtkFullManuscriptNonOverlapTrackedReplacementProductResult(result) {
+  if (
+    activeReviewSessionLifecycle !== 'active'
+    || !isPlainObjectValue(activeReviewSessionStore)
+    || !isPlainObjectValue(result)
+  ) {
+    return {};
+  }
+
+  const storeChangeIds = normalizeRtkNonOverlapTrackedReplacementChangeIds(
+    activeRtkNonOverlapTrackedReplacementApplyStore?.fullManuscriptChangeIds || [],
+  );
+  const nextSessionStore = cloneJsonSafe(activeReviewSessionStore) || {};
+  const nextReviewSurface = isPlainObjectValue(nextSessionStore.reviewSurface)
+    ? cloneJsonSafe(nextSessionStore.reviewSurface) || {}
+    : {};
+  const existingAppliedChangeIds = Array.isArray(nextReviewSurface.exactTextAppliedChangeIds)
+    ? nextReviewSurface.exactTextAppliedChangeIds.filter((changeId) => typeof changeId === 'string')
+    : [];
+  const appliedOrReplay = result.status === 'applied' || result.status === 'replay';
+  if (appliedOrReplay) {
+    nextReviewSurface.exactTextAppliedChangeIds = [...new Set([
+      ...existingAppliedChangeIds,
+      ...storeChangeIds,
+    ])];
+  }
+  const summary = summarizeRtkFullManuscriptNonOverlapTrackedReplacementProductResult(result);
+  nextReviewSurface.exactTextBatchApplyResult = summary;
+  nextReviewSurface.fullManuscriptExactTextApplyResult = summary;
+  nextReviewSurface.rtkFullManuscriptNonOverlapTrackedReplacementApplyResult = summary;
+  nextSessionStore.reviewSurface = nextReviewSurface;
+  nextSessionStore.lastRtkFullManuscriptNonOverlapTrackedReplacementApplyResult = summary;
   activeReviewSessionStore = nextSessionStore;
   currentReviewSurfacePayload = cloneJsonSafe(nextReviewSurface) || {};
   currentReviewSurfacePayloadSource = 'session';
@@ -1588,6 +1705,72 @@ async function runRtkNonOverlapTrackedReplacementProductApplyFromMainState({
     result: summarizeRtkNonOverlapTrackedReplacementProductResult(result),
     reviewSurface,
     editorSync,
+  };
+}
+
+async function handleReviewSurfaceApplyFullManuscriptExactTextReturnCommandSurface(payload = {}, options = {}) {
+  const normalizedPayload = normalizeReviewFullManuscriptExactTextApplyPayload(payload);
+  if (!normalizedPayload.ok) {
+    return makeReviewMutateTypedError(
+      REVIEW_FULL_MANUSCRIPT_EXACT_TEXT_APPLY_COMMAND_ID,
+      normalizedPayload.code,
+      normalizedPayload.reason,
+      normalizedPayload.details,
+    );
+  }
+
+  if (activeReviewSessionLifecycle !== 'active' || !isPlainObjectValue(activeReviewSessionStore)) {
+    return makeReviewMutateTypedError(
+      REVIEW_FULL_MANUSCRIPT_EXACT_TEXT_APPLY_COMMAND_ID,
+      'E_REVIEW_FULL_MANUSCRIPT_EXACT_TEXT_APPLY_NO_ACTIVE_SESSION',
+      'REVIEW_FULL_MANUSCRIPT_EXACT_TEXT_APPLY_NO_ACTIVE_SESSION',
+    );
+  }
+
+  const activeSession = cloneActiveReviewSessionStore();
+  const commandInput = readRtkFullManuscriptNonOverlapTrackedReplacementProductApplyInput(activeSession);
+  if (!commandInput) {
+    return makeReviewMutateTypedError(
+      REVIEW_FULL_MANUSCRIPT_EXACT_TEXT_APPLY_COMMAND_ID,
+      'E_RTK_FULL_MANUSCRIPT_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_BLOCKED',
+      'RTK_FULL_MANUSCRIPT_NON_OVERLAP_TRACKED_REPLACEMENT_MAIN_ENVELOPE_UNAVAILABLE',
+    );
+  }
+
+  const confirmedInput = {
+    ...commandInput,
+    requestId: rtkNonOverlapTrackedReplacementDetailString(normalizedPayload.value.requestId)
+      || commandInput.requestId,
+    previewConfirmed: true,
+  };
+  const dispatchRtkApply = typeof options.dispatchCommandSurfaceKernel === 'function'
+    ? options.dispatchCommandSurfaceKernel
+    : dispatchCommandSurfaceKernel;
+  const result = await dispatchRtkApply(
+    COMMAND_SURFACE_KERNEL_COMMAND_IDS.RTK_REVIEW_APPLY_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENTS,
+    confirmedInput,
+  );
+  if (!isPlainObjectValue(result) || (result.status !== 'applied' && result.status !== 'replay')) {
+    return makeReviewMutateTypedError(
+      REVIEW_FULL_MANUSCRIPT_EXACT_TEXT_APPLY_COMMAND_ID,
+      rtkNonOverlapTrackedReplacementDetailString(result?.code || result?.error?.code)
+        || 'E_RTK_FULL_MANUSCRIPT_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_APPLY_BLOCKED',
+      rtkNonOverlapTrackedReplacementDetailString(result?.reason || result?.error?.reason)
+        || 'RTK_FULL_MANUSCRIPT_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_APPLY_BLOCKED',
+      isPlainObjectValue(result)
+        ? summarizeRtkFullManuscriptNonOverlapTrackedReplacementProductResult(result)
+        : undefined,
+    );
+  }
+
+  const reviewSurface = attachRtkFullManuscriptNonOverlapTrackedReplacementProductResult(result);
+  return {
+    ok: true,
+    applied: result.status === 'applied',
+    replay: result.status === 'replay',
+    status: result.status,
+    result: summarizeRtkFullManuscriptNonOverlapTrackedReplacementProductResult(result),
+    reviewSurface,
   };
 }
 
@@ -3773,13 +3956,14 @@ async function readDocxReviewPacketExportSource() {
     exportMap,
   };
   activeReviewDocxExportAuthorityStore = {
-    schemaVersion: 'yalken.rtk.word.product-review-docx-export.authority-store.v1',
+    schemaVersion: REVIEW_DOCX_RETURN_AUTHORITY_STORE_SCHEMA,
     lastRoundId: roundId,
     roundsById: {
       [roundId]: localAuthorityCapsule,
     },
     secretExposedToRenderer: false,
   };
+  await persistDocxReviewReturnAuthorityStore(activeReviewDocxExportAuthorityStore);
 
   return {
     sceneText,
@@ -3868,7 +4052,7 @@ async function readFullManuscriptDocxReviewPacketExportSource() {
     cryptoPort: createRtkReviewTransportCryptoPort(),
   });
   activeReviewDocxExportAuthorityStore = {
-    schemaVersion: 'yalken.rtk.word.product-review-docx-export.authority-store.v1',
+    schemaVersion: REVIEW_DOCX_RETURN_AUTHORITY_STORE_SCHEMA,
     scope: 'full-manuscript',
     lastRoundId: source.localAuthorityCapsule.roundId,
     roundsById: {
@@ -3876,6 +4060,7 @@ async function readFullManuscriptDocxReviewPacketExportSource() {
     },
     secretExposedToRenderer: false,
   };
+  await persistDocxReviewReturnAuthorityStore(activeReviewDocxExportAuthorityStore);
   return source;
 }
 
@@ -4486,7 +4671,13 @@ function buildDocxReviewPreviewSessionCommentShadowPayload(context, candidate, r
   };
 }
 
-async function applyAuthenticatedDocxCommentProductPath({ context, commentShadowPayload, requestId, revisionBridge } = {}) {
+async function applyAuthenticatedDocxCommentProductPath({
+  context,
+  commentShadowPayload,
+  requestId,
+  revisionBridge,
+  explicitCanonicalApplyConfirmed = false,
+} = {}) {
   const intake = isPlainObjectValue(context?.reviewTransportReturnIntake)
     ? context.reviewTransportReturnIntake
     : {};
@@ -4551,6 +4742,42 @@ async function applyAuthenticatedDocxCommentProductPath({ context, commentShadow
       directPortDispatch: false,
       applyReceipts: [],
       replayReceipts: [],
+    };
+  }
+  if (explicitCanonicalApplyConfirmed !== true) {
+    return {
+      ok: true,
+      status: 'preview-ready',
+      code: 'RTK_COMMENT_PRODUCT_RETURN_PREVIEW_READY_EXPLICIT_APPLY_REQUIRED',
+      commandBusDispatchOnly: true,
+      directPortDispatch: false,
+      pendingProductApplyLane: true,
+      explicitUserConfirmedCanonicalCommandRequired: true,
+      sceneAuthorityIdentityJoin: cloneJsonSafe(commentShadowPayload.sceneAuthorityIdentityJoin) || null,
+      planSummary: {
+        commandCount: plan.commands.length,
+        rootCommentCount: plan.commands.filter((command) => command.family === 'root_comment').length,
+        replyCount: plan.commands.filter((command) => command.family === 'reply').length,
+        commentStateCount: plan.commands.filter((command) => command.family === 'comment_state').length,
+      },
+      previewCommands: plan.commands.map((command) => ({
+        family: docxReviewPreviewSessionDetailString(command.family),
+        operationId: docxReviewPreviewSessionDetailString(command.payload?.operationId),
+        sceneId: docxReviewPreviewSessionDetailString(command.payload?.sceneId),
+        threadId: docxReviewPreviewSessionDetailString(command.payload?.threadId),
+        action: docxReviewPreviewSessionDetailString(command.payload?.action),
+      })),
+      applyReceipts: [],
+      replayReceipts: [],
+      semanticOracle: {
+        sourceKind: 'authenticated-word-return-preview-only',
+        wordOperationCount: plan.commands.length,
+        commandReceiptCount: 0,
+        reopenedCanonicalCount: 0,
+        rootApplied: 0,
+        lifecycleApplied: 0,
+        triangleGreen: false,
+      },
     };
   }
   const applyReceipts = [];
@@ -4990,6 +5217,169 @@ function buildPublicRtkNonOverlapTrackedReplacementRevisionSession(runtimePrevie
   };
 }
 
+function buildPublicRtkFullManuscriptNonOverlapTrackedReplacementRevisionSession(plan, fallbackSession = {}) {
+  const revisionSession = cloneJsonSafe(fallbackSession) || {};
+  const reviewGraph = isPlainObjectValue(revisionSession.reviewGraph)
+    ? cloneJsonSafe(revisionSession.reviewGraph) || {}
+    : {};
+  const publicTextChanges = [];
+  for (const sceneCommand of Array.isArray(plan?.sceneCommands) ? plan.sceneCommands : []) {
+    const writerInput = isPlainObjectValue(sceneCommand?.input?.writerInput)
+      ? sceneCommand.input.writerInput
+      : {};
+    if (!Array.isArray(writerInput.reviewItems)) continue;
+    for (const item of writerInput.reviewItems.filter(isPlainObjectValue)) {
+      publicTextChanges.push({
+        changeId: docxReviewPreviewSessionDetailString(item.changeId),
+        targetScope: isPlainObjectValue(item.targetScope) ? cloneJsonSafe(item.targetScope) : {},
+        match: {
+          kind: 'exact',
+          quote: typeof item.match?.quote === 'string' ? item.match.quote : '',
+          blockId: docxReviewPreviewSessionDetailString(item.match?.blockId),
+        },
+        replacementText: typeof item.replacementText === 'string' ? item.replacementText : '',
+        sourceRevisionIds: Array.isArray(item.sourceRevisionIds)
+          ? item.sourceRevisionIds.filter((id) => typeof id === 'string')
+          : [],
+        authorityCandidateId: docxReviewPreviewSessionDetailString(item.authorityCandidateId),
+        rtkProductPath: 'fullManuscriptNonOverlapTrackedReplacement',
+      });
+    }
+  }
+  return {
+    ...revisionSession,
+    reviewGraph: {
+      ...reviewGraph,
+      textChanges: publicTextChanges,
+    },
+  };
+}
+
+function buildRtkFullManuscriptNonOverlapTrackedReplacementPlanPreview(plan, previews, sessionToken) {
+  const scenePreviews = Array.isArray(previews) ? previews.filter(isPlainObjectValue) : [];
+  const applyOps = [];
+  for (const preview of scenePreviews) {
+    const scenePlan = buildRtkNonOverlapTrackedReplacementPlanPreview(preview, sessionToken);
+    applyOps.push(...(Array.isArray(scenePlan?.plan?.applyOps) ? scenePlan.plan.applyOps : []));
+  }
+  const sceneIds = [...new Set(applyOps.map((op) => docxReviewPreviewSessionDetailString(op.sceneId)).filter(Boolean))];
+  return {
+    ok: true,
+    type: 'revisionBridge.fullManuscriptExactTextApplyPlanNoDiskPreview',
+    status: 'ready',
+    code: 'RTK_FULL_MANUSCRIPT_EXACT_PRODUCT_PATH_READY',
+    reason: 'RTK_FULL_MANUSCRIPT_EXACT_PRODUCT_PATH_READY',
+    reasons: [],
+    plan: {
+      schemaVersion: 'revision-bridge.full-manuscript-exact-text-ui-plan.v1',
+      commandId: REVIEW_FULL_MANUSCRIPT_EXACT_TEXT_APPLY_COMMAND_ID,
+      runtimeCommandId: COMMAND_SURFACE_KERNEL_COMMAND_IDS.RTK_REVIEW_APPLY_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENTS,
+      sessionId: sessionToken.sessionId,
+      fullManuscript: true,
+      sceneCount: sceneIds.length,
+      sceneIds,
+      canApply: false,
+      noDisk: true,
+      safeWriteCandidate: false,
+      applyOps,
+      preconditions: [
+        { code: 'SIGNED_LOCATOR_BOUND', satisfied: true },
+        { code: 'FULL_MANUSCRIPT_BASELINE_GUARDS_MATCH', satisfied: true },
+        { code: 'MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENTS_ONLY', satisfied: true },
+        { code: 'COMMAND_KERNEL_MULTI_SCENE_APPLY_REQUIRED', satisfied: true },
+      ],
+      blockedReasons: [],
+    },
+    productPath: {
+      runtimeCommandId: COMMAND_SURFACE_KERNEL_COMMAND_IDS.RTK_REVIEW_APPLY_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENTS,
+      applyCommandId: REVIEW_FULL_MANUSCRIPT_EXACT_TEXT_APPLY_COMMAND_ID,
+      rendererAuthority: false,
+      writerCalled: false,
+      previewConfirmationRequired: true,
+      sessionId: sessionToken.sessionId,
+      sourcePacketHash: sessionToken.sourcePacketHash,
+    },
+  };
+}
+
+function attachRtkFullManuscriptNonOverlapTrackedReplacementProductPreview({
+  plan,
+  previews,
+  sessionToken,
+} = {}) {
+  if (
+    activeReviewSessionLifecycle !== 'active'
+    || !isPlainObjectValue(activeReviewSessionStore)
+    || !isPlainObjectValue(plan)
+    || !isPlainObjectValue(sessionToken)
+  ) {
+    return {};
+  }
+  const planPreview = buildRtkFullManuscriptNonOverlapTrackedReplacementPlanPreview(plan, previews, sessionToken);
+  const changeIds = normalizeRtkNonOverlapTrackedReplacementChangeIds(
+    planPreview.plan.applyOps.map((op) => op.changeId),
+  );
+  if (changeIds.length === 0) return {};
+  const sceneIds = [...new Set(planPreview.plan.applyOps
+    .map((op) => docxReviewPreviewSessionDetailString(op.sceneId))
+    .filter(Boolean))];
+  activeRtkNonOverlapTrackedReplacementApplyStore = {
+    schemaVersion: 'yalken.rtk.word.a03.c05.main-owned-apply-store.v2',
+    sessionToken: cloneJsonSafe(sessionToken),
+    fullManuscriptInput: cloneJsonSafe(plan) || {},
+    fullManuscriptChangeIds: changeIds,
+    fullManuscriptSceneIds: sceneIds,
+    inputsByChangeId: {},
+    inputsByKey: {},
+    writerAuthorityExposedToRenderer: false,
+    fullManuscriptApplyEnvelopeExposedToRenderer: false,
+  };
+
+  const nextSessionStore = cloneJsonSafe(activeReviewSessionStore) || {};
+  const nextReviewSurface = isPlainObjectValue(nextSessionStore.reviewSurface)
+    ? cloneJsonSafe(nextSessionStore.reviewSurface) || {}
+    : {};
+  const publicRevisionSession = buildPublicRtkFullManuscriptNonOverlapTrackedReplacementRevisionSession(
+    plan,
+    nextSessionStore.revisionSession,
+  );
+  nextReviewSurface.exactTextPlanPreview = cloneJsonSafe(planPreview) || {};
+  nextReviewSurface.revisionSession = publicRevisionSession;
+  nextReviewSurface.fullManuscriptExactTextReturnPreview = {
+    schemaVersion: 'yalken.rtk.word.a03.c05.full-manuscript-product-path-preview.v1',
+    status: 'preview-ready',
+    applyCommandId: REVIEW_FULL_MANUSCRIPT_EXACT_TEXT_APPLY_COMMAND_ID,
+    runtimeCommandId: COMMAND_SURFACE_KERNEL_COMMAND_IDS.RTK_REVIEW_APPLY_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENTS,
+    explicitUserConfirmedCanonicalCommandRequired: true,
+    productRuntimeWired: true,
+    automaticApplyCertified: false,
+    writerCalled: false,
+    rendererAuthority: false,
+    changeIds,
+    sceneIds,
+    sceneCount: sceneIds.length,
+  };
+  nextReviewSurface.rtkFullManuscriptNonOverlapTrackedReplacementProductPath = {
+    schemaVersion: 'yalken.rtk.word.a03.c05.full-manuscript-product-path-preview.v1',
+    status: 'preview-ready',
+    authorityLevel: 'PRODUCT_RUNTIME_WIRED_USER_CONFIRMED_MULTI_SCENE_APPLY_PATH',
+    productRuntimeWired: true,
+    automaticApplyCertified: false,
+    writerCalled: false,
+    rendererAuthority: false,
+    changeIds,
+    sceneIds,
+    sceneCount: sceneIds.length,
+  };
+  nextSessionStore.revisionSession = publicRevisionSession;
+  nextSessionStore.reviewSurface = nextReviewSurface;
+  activeReviewSessionStore = nextSessionStore;
+  currentReviewSurfacePayload = cloneJsonSafe(nextReviewSurface) || {};
+  currentReviewSurfacePayloadSource = 'session';
+  currentReviewSurfacePayloadContentHash = '';
+  return readActiveReviewSessionReviewSurface();
+}
+
 function attachRtkNonOverlapTrackedReplacementProductPreview({
   runtimePreview,
   commandInput,
@@ -5122,6 +5512,12 @@ async function prepareDocxReviewPreviewSessionNonOverlapTrackedReplacementProduc
         authorityAgreement: false,
       };
     }
+    const sessionToken = readRtkNonOverlapTrackedReplacementSessionToken(activeReviewSessionStore);
+    const reviewSurface = attachRtkFullManuscriptNonOverlapTrackedReplacementProductPreview({
+      plan,
+      previews,
+      sessionToken,
+    });
     return {
       prepared: true,
       status: 'preview-ready',
@@ -5131,6 +5527,9 @@ async function prepareDocxReviewPreviewSessionNonOverlapTrackedReplacementProduc
       authorityAgreement: true,
       sceneCount: plan.sceneCommands.length,
       exactAuthorityDigests: dispatchAuthorityDigests,
+      productRuntimeWired: true,
+      applyCommandId: REVIEW_FULL_MANUSCRIPT_EXACT_TEXT_APPLY_COMMAND_ID,
+      reviewSurface,
     };
   }
   const commandInput = isPlainObjectValue(built.input) ? built.input : (isPlainObjectValue(built) ? built : null);
@@ -5808,7 +6207,89 @@ function readActiveDocxReviewReturnAuthorityStore(options = {}) {
   ) {
     return activeReviewDocxExportAuthorityStore;
   }
+  const durableStore = readDurableDocxReviewReturnAuthorityStore(options);
+  if (durableStore) {
+    activeReviewDocxExportAuthorityStore = durableStore;
+    return durableStore;
+  }
   return null;
+}
+
+function docxReviewReturnAuthorityStorePath(projectRootRaw) {
+  const projectRoot = docxReviewPreviewSessionDetailString(projectRootRaw || getProjectRootPath());
+  if (!projectRoot) return '';
+  const targetPath = path.join(projectRoot, ...REVIEW_DOCX_RETURN_AUTHORITY_STORE_RELATIVE_SEGMENTS);
+  const resolvedRoot = path.resolve(projectRoot);
+  const resolvedTarget = path.resolve(targetPath);
+  if (!isPathInsideBoundary(resolvedRoot, resolvedTarget)) return '';
+  return resolvedTarget;
+}
+
+function buildDocxReviewReturnAuthorityStoreRecord(store = {}) {
+  const roundsById = isPlainObjectValue(store.roundsById) ? cloneJsonSafe(store.roundsById) : {};
+  const unsigned = {
+    schemaVersion: REVIEW_DOCX_RETURN_AUTHORITY_STORE_SCHEMA,
+    scope: docxReviewPreviewSessionDetailString(store.scope),
+    lastRoundId: docxReviewPreviewSessionDetailString(store.lastRoundId),
+    roundsById,
+    secretExposedToRenderer: false,
+    secretEmbeddedInDocx: false,
+    durableSecretScope: 'local-project-state-only',
+  };
+  return {
+    ...unsigned,
+    authorityStoreDigest: createRtkReviewTransportCryptoPort().sha256Json(unsigned),
+  };
+}
+
+function validateDocxReviewReturnAuthorityStoreRecord(record = {}) {
+  if (!isPlainObjectValue(record) || record.schemaVersion !== REVIEW_DOCX_RETURN_AUTHORITY_STORE_SCHEMA) return null;
+  if (record.secretExposedToRenderer !== false || record.secretEmbeddedInDocx !== false) return null;
+  if (!isPlainObjectValue(record.roundsById) || !docxReviewPreviewSessionDetailString(record.lastRoundId)) return null;
+  const expected = buildDocxReviewReturnAuthorityStoreRecord(record);
+  if (docxReviewPreviewSessionDetailString(record.authorityStoreDigest) !== expected.authorityStoreDigest) return null;
+  return cloneJsonSafe(record);
+}
+
+function projectRootFromDocxReviewAuthorityStore(store = {}) {
+  const rounds = Object.values(isPlainObjectValue(store.roundsById) ? store.roundsById : {});
+  const first = rounds.find(isPlainObjectValue) || {};
+  return docxReviewPreviewSessionDetailString(first.projectRoot);
+}
+
+async function persistDocxReviewReturnAuthorityStore(store = {}) {
+  const projectRoot = projectRootFromDocxReviewAuthorityStore(store);
+  const storePath = docxReviewReturnAuthorityStorePath(projectRoot);
+  if (!storePath) {
+    throw new Error('DOCX_REVIEW_RETURN_AUTHORITY_STORE_PATH_INVALID');
+  }
+  await fs.mkdir(path.dirname(storePath), { recursive: true });
+  const record = buildDocxReviewReturnAuthorityStoreRecord(store);
+  await fileManager.writeFileAtomic(storePath, `${JSON.stringify(record, null, 2)}\n`);
+  const reopened = validateDocxReviewReturnAuthorityStoreRecord(
+    JSON.parse(await fs.readFile(storePath, 'utf8')),
+  );
+  if (!reopened) throw new Error('DOCX_REVIEW_RETURN_AUTHORITY_STORE_VERIFY_FAILED');
+  return { storePath, authorityStoreDigest: record.authorityStoreDigest };
+}
+
+function readDurableDocxReviewReturnAuthorityStore(options = {}) {
+  const projectRoot = docxReviewPreviewSessionDetailString(options.projectRoot || getProjectRootPath());
+  const storePath = docxReviewReturnAuthorityStorePath(projectRoot);
+  if (!storePath || !fsSync.existsSync(storePath)) return null;
+  try {
+    const stat = fsSync.lstatSync(storePath);
+    if (stat.isSymbolicLink() || !stat.isFile()) return null;
+    const record = validateDocxReviewReturnAuthorityStoreRecord(
+      JSON.parse(fsSync.readFileSync(storePath, 'utf8')),
+    );
+    if (!record) return null;
+    const round = record.roundsById[record.lastRoundId];
+    if (!isPlainObjectValue(round) || docxReviewPreviewSessionDetailString(round.projectRoot) !== projectRoot) return null;
+    return record;
+  } catch {
+    return null;
+  }
 }
 
 function docxReviewReturnIntakeBlocked(reason, details = {}) {
@@ -6083,6 +6564,19 @@ async function runDocxReviewReturnIntakeParserV2InUtilityProcess(input = {}, rev
     || typeof utilityProcess.fork !== 'function'
     || typeof __dirname !== 'string'
   ) {
+    if (options.allowInlineDocxReturnIntakeParserForTests !== true) {
+      return {
+        ...docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_UTILITY_PROCESS_REQUIRED', {
+          requiredForProduct: true,
+          attempted: false,
+        }),
+        utilityProcess: {
+          requiredForProduct: true,
+          attempted: false,
+          mode: 'unavailable',
+        },
+      };
+    }
     return {
       ...(runDocxReviewReturnIntakeParserV2Inline(input, revisionBridge)),
       utilityProcess: {
@@ -25755,6 +26249,7 @@ const UI_COMMAND_BRIDGE_ALLOWED_COMMAND_IDS = new Set([
   'cmd.project.review.clearSession',
   'cmd.project.review.applyExactTextChange',
   'cmd.project.review.applyExactTextChangesBatch',
+  'cmd.project.review.applyFullManuscriptExactTextReturn',
   'cmd.project.review.applyFormattingReturn',
   'cmd.project.review.inspectFormattingReturnReplay',
   'cmd.project.review.applyStructuralReturn',
@@ -25800,6 +26295,7 @@ const MAIN_FREE_PRO_COMPLEXITY_COMMAND_IDS = new Set([
   'cmd.project.review.openDocxReviewPreviewSession',
   'cmd.project.review.clearSession',
   'cmd.project.review.applyExactTextChange',
+  'cmd.project.review.applyFullManuscriptExactTextReturn',
   'cmd.project.review.exportMarkdown',
 ]);
 const SAVE_LIFECYCLE_SIGNAL_BRIDGE_ALLOWED_SIGNAL_IDS = new Set([
@@ -26142,6 +26638,9 @@ const MENU_COMMAND_HANDLERS = Object.freeze({
   },
   'cmd.project.review.applyExactTextChangesBatch': async (payload = {}) => {
     return handleReviewSurfaceApplyExactTextChangesBatchCommandSurface(payload);
+  },
+  'cmd.project.review.applyFullManuscriptExactTextReturn': async (payload = {}) => {
+    return handleReviewSurfaceApplyFullManuscriptExactTextReturnCommandSurface(payload);
   },
   'cmd.project.review.applyFormattingReturn': async (payload = {}) => {
     return handleReviewSurfaceApplyFormattingReturnCommandSurface(payload);

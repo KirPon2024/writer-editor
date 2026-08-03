@@ -30,6 +30,13 @@ const DEFAULT_ARTIFACT_ROOT = '/Volumes/T7-Secure/storage/yalken/word-safety-rem
 const CORPUS_SCENE_ROOT = '/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c5-fullbook-certification/corpus/scenes';
 const CORPUS_RAW_PATH = '/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c5-fullbook-certification/corpus/pg174-raw.txt';
 const CORPUS_CLEANED_PATH = '/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c5-fullbook-certification/corpus/dorian-gray-cleaned-scenes.txt';
+const C5V2_COMPLETED_ROUND_REUSE_BINDING_VERSION = 'yalken.rtk.word.c5v2.completed-round-reuse-binding.v1';
+const C5V2_OPERATION_STATUS_POLICY_VERSION = 'yalken.rtk.word.c5v2.recorded-operation-status-policy.v1';
+const C5V2_OPERATION_STATUS_POLICY = Object.freeze({
+  expectedOutcomeMustMatchRecordedOperationStatus: true,
+  expectedOutcomeMustMatchNativeReadbackStatus: true,
+  blockedOperationCannotBeCreditedAsExact: true,
+});
 
 export function sha256Bytes(bytes) {
   return crypto.createHash('sha256').update(bytes).digest('hex');
@@ -69,6 +76,166 @@ export function hasC5V2CompletedRoundEvidence(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
 
+export function getC5V2OperationStatusPolicyBinding() {
+  return {
+    version: C5V2_OPERATION_STATUS_POLICY_VERSION,
+    digest: sha256Text(stableCanonicalJson(C5V2_OPERATION_STATUS_POLICY)),
+  };
+}
+
+export function isC5V2RecordedOperationStatusGreen({
+  expectedOutcome = '',
+  reportedStatus = '',
+  nativeReadbackStatus = '',
+} = {}) {
+  return Boolean(
+    expectedOutcome
+    && reportedStatus === expectedOutcome
+    && nativeReadbackStatus === expectedOutcome,
+  );
+}
+
+export function buildC5V2CorpusReuseDigest({ provenance = {}, scenes = [] } = {}) {
+  return sha256Text(stableCanonicalJson({
+    corpusId: provenance.corpusId || '',
+    sourceType: provenance.sourceType || '',
+    topology: provenance.topology || '',
+    rawCorpusSha256: provenance.rawCorpusSha256 || '',
+    cleanedCorpusSha256: provenance.cleanedCorpusSha256 || '',
+    manifestSha256: provenance.manifestSha256 || '',
+    expectedWordCount: Number.isSafeInteger(provenance.expectedWordCount) ? provenance.expectedWordCount : null,
+    scenes: (Array.isArray(scenes) ? scenes : []).map((scene) => ({
+      file: scene?.file || '',
+      rawSourceSha256: scene?.rawSourceSha256 || '',
+      cleanedSourceSha256: scene?.cleanedSourceSha256 || '',
+      observableEnvelopeVersion: Number(scene?.observableEnvelopeVersion || 1),
+    })),
+  }));
+}
+
+export function resolveC5V2LedgerReuseDigest(ledger = {}) {
+  return ledger.masterLedgerDigest
+    || ledger.ledgerDigest
+    || sha256Text(stableCanonicalJson(Array.isArray(ledger.operations) ? ledger.operations : []));
+}
+
+export function deriveC5V2LedgerBoundExactSummary(returnApply = {}) {
+  const exactLedgerBinding = returnApply?.exactLedgerBinding
+    || returnApply?.lanePlan?.exactLedgerBinding
+    || null;
+  if (!exactLedgerBinding || exactLedgerBinding.ok !== true) {
+    return {
+      ok: false,
+      code: 'C5V2_EXACT_SUMMARY_LEDGER_BINDING_REQUIRED',
+      exactApplyTextChangeIdsByScene: {},
+      exactScenes: 0,
+      exactTotal: 0,
+    };
+  }
+  const source = exactLedgerBinding.exactApplyTextChangeIdsByScene;
+  if (!source || typeof source !== 'object' || Array.isArray(source)) {
+    return {
+      ok: false,
+      code: 'C5V2_EXACT_SUMMARY_LEDGER_BINDING_INVALID',
+      exactApplyTextChangeIdsByScene: {},
+      exactScenes: 0,
+      exactTotal: 0,
+    };
+  }
+  const normalized = {};
+  const seen = new Set();
+  for (const [sceneId, ids] of Object.entries(source)) {
+    if (!Array.isArray(ids)) {
+      return {
+        ok: false,
+        code: 'C5V2_EXACT_SUMMARY_LEDGER_BINDING_INVALID',
+        exactApplyTextChangeIdsByScene: {},
+        exactScenes: 0,
+        exactTotal: 0,
+      };
+    }
+    for (const changeId of ids) {
+      if (typeof changeId !== 'string' || !changeId || seen.has(changeId)) {
+        return {
+          ok: false,
+          code: 'C5V2_EXACT_SUMMARY_LEDGER_BINDING_INVALID',
+          exactApplyTextChangeIdsByScene: {},
+          exactScenes: 0,
+          exactTotal: 0,
+        };
+      }
+      seen.add(changeId);
+      if (!normalized[sceneId]) normalized[sceneId] = [];
+      normalized[sceneId].push(changeId);
+    }
+  }
+  if (
+    Number.isSafeInteger(exactLedgerBinding.matchedChangeCount)
+    && exactLedgerBinding.matchedChangeCount !== seen.size
+  ) {
+    return {
+      ok: false,
+      code: 'C5V2_EXACT_SUMMARY_LEDGER_BINDING_COUNT_MISMATCH',
+      exactApplyTextChangeIdsByScene: {},
+      exactScenes: 0,
+      exactTotal: 0,
+    };
+  }
+  return {
+    ok: true,
+    code: 'C5V2_EXACT_SUMMARY_LEDGER_BOUND',
+    exactApplyTextChangeIdsByScene: normalized,
+    exactScenes: Object.keys(normalized).length,
+    exactTotal: seen.size,
+  };
+}
+
+export function buildC5V2CompletedRoundReuseBinding(input = {}) {
+  const exactSummary = deriveC5V2LedgerBoundExactSummary({
+    exactLedgerBinding: input.exactLedgerBinding,
+  });
+  const body = {
+    schemaVersion: C5V2_COMPLETED_ROUND_REUSE_BINDING_VERSION,
+    exactHead: String(input.exactHead || ''),
+    canaryScriptSha256: String(input.canaryScriptSha256 || ''),
+    operationStatusPolicyVersion: String(input.operationStatusPolicyVersion || ''),
+    operationStatusPolicyDigest: String(input.operationStatusPolicyDigest || ''),
+    corpusDigest: String(input.corpusDigest || ''),
+    ledgerDigest: String(input.ledgerDigest || ''),
+    sourceDocxSha256: String(input.sourceDocxSha256 || ''),
+    returnedDocxSha256: String(input.returnedDocxSha256 || ''),
+    yalkenTruthSha256: String(input.yalkenTruthSha256 || ''),
+    exactLedgerBinding: input.exactLedgerBinding && typeof input.exactLedgerBinding === 'object'
+      ? input.exactLedgerBinding
+      : null,
+    exactTotal: exactSummary.exactTotal,
+  };
+  const required = [
+    body.exactHead,
+    body.canaryScriptSha256,
+    body.operationStatusPolicyVersion,
+    body.operationStatusPolicyDigest,
+    body.corpusDigest,
+    body.ledgerDigest,
+    body.sourceDocxSha256,
+    body.returnedDocxSha256,
+    body.yalkenTruthSha256,
+  ];
+  const ok = required.every(Boolean) && exactSummary.ok === true;
+  const bound = {
+    ...body,
+    ok,
+    failures: [
+      ...(required.every(Boolean) ? [] : ['C5V2_COMPLETED_ROUND_REUSE_BINDING_FIELD_MISSING']),
+      ...(exactSummary.ok === true ? [] : [exactSummary.code]),
+    ],
+  };
+  return {
+    ...bound,
+    bindingDigest: sha256Text(stableCanonicalJson(bound)),
+  };
+}
+
 export function buildC5V2CompletedRoundReuseReturnApply(input = {}) {
   const gate = input.gate && typeof input.gate === 'object' && !Array.isArray(input.gate)
     ? input.gate
@@ -77,11 +244,28 @@ export function buildC5V2CompletedRoundReuseReturnApply(input = {}) {
     ? input.yalkenTruthArtifact
     : null;
   const returnedDocxSha256 = typeof input.returnedDocxSha256 === 'string' ? input.returnedDocxSha256 : '';
+  const reuseBinding = gate?.completedRoundReuseBinding;
+  const expectedReuseBinding = input.expectedReuseBinding;
   if (!gate || gate.ok !== true) {
     return {
       ok: false,
       code: 'C5V2_COMPLETED_ROUND_ORACLE_GATE_NOT_GREEN',
       reason: 'C5V2_COMPLETED_ROUND_ORACLE_GATE_NOT_GREEN',
+      resumedCompletedRound: true,
+    };
+  }
+  if (
+    !reuseBinding
+    || reuseBinding.ok !== true
+    || !expectedReuseBinding
+    || expectedReuseBinding.ok !== true
+    || reuseBinding.bindingDigest !== expectedReuseBinding.bindingDigest
+    || returnedDocxSha256 !== reuseBinding.returnedDocxSha256
+  ) {
+    return {
+      ok: false,
+      code: 'C5V2_COMPLETED_ROUND_REUSE_BINDING_INVALID',
+      reason: 'C5V2_COMPLETED_ROUND_REUSE_BINDING_INVALID',
       resumedCompletedRound: true,
     };
   }
@@ -93,6 +277,14 @@ export function buildC5V2CompletedRoundReuseReturnApply(input = {}) {
       resumedCompletedRound: true,
     };
   }
+  if (yalkenTruthArtifact.sha256 !== reuseBinding.yalkenTruthSha256) {
+    return {
+      ok: false,
+      code: 'C5V2_COMPLETED_ROUND_REOPENED_TRUTH_MISMATCH',
+      reason: 'C5V2_COMPLETED_ROUND_REOPENED_TRUTH_MISMATCH',
+      resumedCompletedRound: true,
+    };
+  }
   return {
     ok: true,
     status: 'reused-durable-completed-round',
@@ -100,7 +292,8 @@ export function buildC5V2CompletedRoundReuseReturnApply(input = {}) {
     resumedCompletedRound: true,
     productApplyReusedFromDurableOracle: true,
     activation: null,
-    lanePlan: null,
+    exactLedgerBinding: reuseBinding.exactLedgerBinding,
+    lanePlan: { exactLedgerBinding: reuseBinding.exactLedgerBinding },
     applyResults: [],
     replayResults: [],
     staleRetryResults: [],
@@ -116,6 +309,7 @@ export function buildC5V2CompletedRoundReuseReturnApply(input = {}) {
       semanticOracleDigest: typeof gate.semanticOracleDigest === 'string' ? gate.semanticOracleDigest : '',
       returnedDocxSha256,
       yalkenTruthSha256: yalkenTruthArtifact.sha256,
+      reuseBindingDigest: reuseBinding.bindingDigest,
     },
   };
 }
@@ -1408,6 +1602,7 @@ const path = require('path');
 const deriveC5V2CommentLaneMaturity = ${deriveC5V2CommentLaneMaturity.toString()};
 const deriveC5V2ReturnLanePlan = ${deriveC5V2ReturnLanePlan.toString()};
 const bindC5V2ExpectedExactTextCandidates = ${bindC5V2ExpectedExactTextCandidates.toString()};
+const buildC5V2CompletedRoundReuseReturnApply = ${buildC5V2CompletedRoundReuseReturnApply.toString()};
 const { app, BrowserWindow, dialog, Menu, session } = require('electron');
 const rootDir = ${JSON.stringify(REPO_ROOT)};
 const tempRoot = ${JSON.stringify(tempRoot)};
@@ -2660,6 +2855,7 @@ app.whenReady().then(async () => {
         const resumedYalkenTruthArtifact = readExistingYalkenTruthArtifact(returnedPath);
         const resumedReturnApply = buildC5V2CompletedRoundReuseReturnApply({
           gate: resumedGate,
+          expectedReuseBinding: activeRound.completedRoundReuseBinding,
           yalkenTruthArtifact: resumedYalkenTruthArtifact,
           returnedDocxSha256: returnedPath && fs.existsSync(returnedPath) ? sha256File(returnedPath) : '',
         });
@@ -3017,6 +3213,8 @@ async function runElectronCumulativeFullManuscriptRoundtrip({
       returnedPath: round.returnedPath,
       returnedReadyPath: round.returnedReadyPath,
       oracleGatePath: round.oracleGatePath || '',
+      resumeCompletedRound: round.resumeCompletedRound === true,
+      completedRoundReuseBinding: round.completedRoundReuseBinding || null,
     })),
   }), 'utf8');
   const stdoutChunks = [];
@@ -5092,7 +5290,11 @@ export function buildOracleProbe({
     formalOperations.push(formalOperation);
     const reportedStatus = statusById.get(operation.id) || '';
     const nativeReadback = readbackById.get(operation.id) || null;
-    const expectedReported = reportedStatus === expectedOutcome && nativeReadback?.status === expectedOutcome;
+    const expectedReported = isC5V2RecordedOperationStatusGreen({
+      expectedOutcome,
+      reportedStatus,
+      nativeReadbackStatus: nativeReadback?.status || '',
+    });
     let wordRawGreen = false;
     let wordEvidence = {};
     let yalkenGreen = productSceneGreenById.get(operation.sceneId) === true;
@@ -5240,6 +5442,7 @@ export function buildC5V2CompleteRoundOracleGate({
   oracleProbe = null,
   oracleCapture = null,
   returnApply = null,
+  completedRoundReuseBinding = null,
 } = {}) {
   const failures = [];
   if (wordParsed?.scalars?.WORD_STATUS !== 'PASS') failures.push('WORD_STATUS_NOT_PASS');
@@ -5249,8 +5452,9 @@ export function buildC5V2CompleteRoundOracleGate({
     failures.push(`ROUND_ORACLE_VALIDATION_ERROR:${oracleCapture.error?.code || 'UNKNOWN'}`);
   }
   if (oracleProbe?.ok !== true) failures.push('COMPLETE_ROUND_ORACLE_NOT_GREEN');
+  if (completedRoundReuseBinding?.ok !== true) failures.push('COMPLETED_ROUND_REUSE_BINDING_NOT_GREEN');
   return {
-    schemaVersion: 'yalken.rtk.word.c5v2.complete-round-oracle-gate.v1',
+    schemaVersion: 'yalken.rtk.word.c5v2.complete-round-oracle-gate.v2',
     roundId,
     ok: failures.length === 0,
     wordStatus: wordParsed?.scalars?.WORD_STATUS || 'UNKNOWN',
@@ -5259,6 +5463,7 @@ export function buildC5V2CompleteRoundOracleGate({
     completeRoundOracleGreen: oracleProbe?.ok === true,
     oracleDigest: oracleProbe?.oracleDigest || '',
     semanticOracleDigest: oracleProbe?.semanticOracle?.digest || oracleProbe?.semanticOracle?.oracleDigest || '',
+    completedRoundReuseBinding,
     failures,
   };
 }
@@ -5585,6 +5790,13 @@ async function mainCumulative(options) {
     includeMultilingualQa: options.includeMultilingualQa,
   });
   const scenes = corpusInput.scenes;
+  const operationStatusPolicyBinding = getC5V2OperationStatusPolicyBinding();
+  const completedRoundReuseContext = {
+    exactHead: shellValue('git', ['rev-parse', 'HEAD']),
+    canaryScriptSha256: sha256File(__filename),
+    operationStatusPolicyBinding,
+    corpusDigest: buildC5V2CorpusReuseDigest({ provenance: corpusInput.provenance, scenes }),
+  };
   const corpusProvenancePath = path.join(runDir, 'c5v2-corpus-provenance.json');
   const corpusProvenance = runIdentity.resumed === true && fs.existsSync(corpusProvenancePath)
     ? JSON.parse(fs.readFileSync(corpusProvenancePath, 'utf8'))
@@ -5630,8 +5842,12 @@ async function mainCumulative(options) {
     const roundLabel = `round-${String(index + 1).padStart(2, '0')}`;
     const roundDir = path.join(runDir, roundLabel);
     fs.mkdirSync(roundDir, { recursive: true });
-    const resumeCompletedRound = reusablePrefixOpen && isC5V2ReusableCompletedRound(roundDir);
+    const resumeCompletedRound = reusablePrefixOpen
+      && isC5V2ReusableCompletedRound(roundDir, completedRoundReuseContext);
     reusablePrefixOpen = reusablePrefixOpen && resumeCompletedRound;
+    const completedRoundReuseBinding = resumeCompletedRound
+      ? JSON.parse(fs.readFileSync(path.join(roundDir, 'complete-round-oracle-gate.json'), 'utf8')).completedRoundReuseBinding
+      : null;
     rounds.push({
       roundIndex: index,
       roundId: roundLabel,
@@ -5642,6 +5858,7 @@ async function mainCumulative(options) {
       returnedReadyPath: path.join(roundDir, 'c5v2-cumulative-returned-ready.json'),
       oracleGatePath: path.join(roundDir, 'complete-round-oracle-gate.json'),
       resumeCompletedRound,
+      completedRoundReuseBinding,
       ledger: null,
     });
     const roundPlanPath = path.join(roundDir, 'round-plan.pre-export.json');
@@ -5789,6 +6006,18 @@ async function mainCumulative(options) {
       const oracleArtifact = oracleProbe
         ? writeJsonAtomicDurable(path.join(round.roundDir, 'complete-round-oracle.json'), oracleProbe)
         : null;
+      const completedRoundReuseBinding = buildC5V2CompletedRoundReuseBinding({
+        exactHead: completedRoundReuseContext.exactHead,
+        canaryScriptSha256: completedRoundReuseContext.canaryScriptSha256,
+        operationStatusPolicyVersion: operationStatusPolicyBinding.version,
+        operationStatusPolicyDigest: operationStatusPolicyBinding.digest,
+        corpusDigest: completedRoundReuseContext.corpusDigest,
+        ledgerDigest: resolveC5V2LedgerReuseDigest(round.ledger || {}),
+        sourceDocxSha256: fs.existsSync(round.sourcePath) ? sha256File(round.sourcePath) : '',
+        returnedDocxSha256: fs.existsSync(round.returnedPath) ? sha256File(round.returnedPath) : '',
+        yalkenTruthSha256: returnApply?.yalkenTruthArtifact?.sha256 || '',
+        exactLedgerBinding: returnApply?.exactLedgerBinding || returnApply?.lanePlan?.exactLedgerBinding || null,
+      });
       const gate = buildC5V2CompleteRoundOracleGate({
         roundId: round.roundId,
         wordParsed,
@@ -5796,6 +6025,7 @@ async function mainCumulative(options) {
         oracleProbe,
         oracleCapture,
         returnApply,
+        completedRoundReuseBinding,
       });
       round.completedRoundEvidence = {
         wordParsed,
@@ -5830,11 +6060,9 @@ async function mainCumulative(options) {
     const returnApply = hasCompletedRoundEvidence
       ? round.completedRoundEvidence.returnApply
       : (returnApplyEnvelope && returnApplyEnvelope.returnApply ? returnApplyEnvelope.returnApply : null);
-    const exact = returnApply?.exactLedgerBinding?.exactApplyTextChangeIdsByScene
-      || returnApply?.lanePlan?.exactLedgerBinding?.exactApplyTextChangeIdsByScene
-      || returnApply?.activation?.exactApplyTextChangeIdsByScene
-      || {};
-    const exactTotal = Object.values(exact).reduce((total, ids) => total + (Array.isArray(ids) ? ids.length : 0), 0);
+    const exactSummary = deriveC5V2LedgerBoundExactSummary(returnApply || {});
+    const exact = exactSummary.exactApplyTextChangeIdsByScene;
+    const exactTotal = exactSummary.exactTotal;
     const oracleCapture = hasCompletedRoundEvidence
       ? round.completedRoundEvidence.oracleCapture
       : (wordParsed.ops.length > 0 && round.ledger && fs.existsSync(round.returnedPath)
@@ -5889,6 +6117,7 @@ async function mainCumulative(options) {
         : (electronResult.roundOracleGateResults.find((line) => line.roundIndex === index)?.roundOracleGate || null),
       productReturnApply: returnApply,
       productApplyOk: returnApply?.ok === true,
+      exactSummaryBinding: exactSummary,
       exactScenes: Object.keys(exact).length,
       exactTotal,
       typedPendingLanes: returnApply?.typedPendingLanes || null,
@@ -6016,7 +6245,7 @@ export function shouldUseC5V2ChunkedWordExecution(options = {}) {
     || (typeof options.corpusManifestPath === 'string' && options.corpusManifestPath.trim().length > 0);
 }
 
-export function isC5V2ReusableCompletedRound(roundDir) {
+export function isC5V2ReusableCompletedRound(roundDir, options = {}) {
   if (typeof roundDir !== 'string' || !roundDir || !fs.existsSync(roundDir)) return false;
   const requiredFiles = [
     'canary-ledger.json',
@@ -6032,7 +6261,47 @@ export function isC5V2ReusableCompletedRound(roundDir) {
   try {
     const ready = JSON.parse(fs.readFileSync(path.join(roundDir, 'c5v2-cumulative-returned-ready.json'), 'utf8'));
     const gate = JSON.parse(fs.readFileSync(path.join(roundDir, 'complete-round-oracle-gate.json'), 'utf8'));
-    return ready.ready === true && gate.ok === true;
+    const ledgerPath = path.join(roundDir, 'canary-ledger.json');
+    const sourcePath = path.join(roundDir, 'c5v2-cumulative-source-fullmanuscript.docx');
+    const returnedPath = path.join(roundDir, 'c5v2-cumulative-returned-word-native.docx');
+    const truthPath = path.join(roundDir, 'yalken-reopened-truth.json');
+    const ledger = JSON.parse(fs.readFileSync(ledgerPath, 'utf8'));
+    const binding = gate.completedRoundReuseBinding;
+    if (
+      ready.ready !== true
+      || gate.ok !== true
+      || gate.schemaVersion !== 'yalken.rtk.word.c5v2.complete-round-oracle-gate.v2'
+      || !binding
+      || binding.ok !== true
+      || binding.schemaVersion !== C5V2_COMPLETED_ROUND_REUSE_BINDING_VERSION
+    ) return false;
+    const { bindingDigest, ...boundBody } = binding;
+    if (bindingDigest !== sha256Text(stableCanonicalJson(boundBody))) return false;
+    const policy = options.operationStatusPolicyBinding || getC5V2OperationStatusPolicyBinding();
+    const expectedHead = String(options.exactHead || shellValue('git', ['rev-parse', 'HEAD']));
+    const expectedScriptSha256 = String(options.canaryScriptSha256 || sha256File(__filename));
+    const expectedCorpusDigest = String(options.corpusDigest || '');
+    if (
+      binding.exactHead !== expectedHead
+      || binding.canaryScriptSha256 !== expectedScriptSha256
+      || binding.operationStatusPolicyVersion !== policy.version
+      || binding.operationStatusPolicyDigest !== policy.digest
+      || !expectedCorpusDigest
+      || binding.corpusDigest !== expectedCorpusDigest
+      || binding.ledgerDigest !== resolveC5V2LedgerReuseDigest(ledger)
+      || binding.sourceDocxSha256 !== sha256File(sourcePath)
+      || binding.returnedDocxSha256 !== sha256File(returnedPath)
+      || binding.yalkenTruthSha256 !== sha256File(truthPath)
+      || ready.returnedSha256 !== binding.returnedDocxSha256
+    ) return false;
+    const exactSummary = deriveC5V2LedgerBoundExactSummary({ exactLedgerBinding: binding.exactLedgerBinding });
+    const expectedExactTotal = (Array.isArray(ledger.operations) ? ledger.operations : []).filter((operation) => (
+      ['tracked_replace', 'tracked_insert', 'tracked_delete'].includes(operation?.family)
+      && operation?.expectedOutcome === 'EXACT'
+    )).length;
+    return exactSummary.ok === true
+      && exactSummary.exactTotal === expectedExactTotal
+      && binding.exactTotal === expectedExactTotal;
   } catch {
     return false;
   }

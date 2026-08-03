@@ -6742,12 +6742,12 @@
     },
     {
       "filePath": "src/main.js",
-      "sha256": "9988a26fa6289e4921ef800f24648a7da68360915d1599c9061b03fdf6368f03",
+      "sha256": "693d6e4f5690625e299d761853c83797960999a41f36000558e417d09355fa4f",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T21:05:27.922Z",
-      "rationale": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR",
+      "approvedAtUtc": "2026-08-03T22:15:47.000Z",
+      "rationale": "Approve exact main-process read-only-first project-tree identity query repair after physical Word C5V2 failed closed on E_PROJECT_LEASE_HELD during return activation; no UI, network, dependency, Google, Atlas mutation or physical evidence claim change.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
+      "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
     },
     {
       "filePath": "src/main/rtkDocxReturnIntakeWorker.cjs",
@@ -9145,12 +9145,12 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-01-future-schema-loss.contract.test.js",
-      "sha256": "6a42d1ff253e8951eaeb6cc547e9aca061bb448fe08ac1063e2ad022638c2c57",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_C",
-      "approvedAtUtc": "2026-08-02T11:44:07.000Z",
-      "rationale": "Approve exact R1-C future-schema contract bytes proving supported Manual Map, Idea and Meaning author extensions survive mutation, reopen and replay state.",
+      "sha256": "099589aa853b73b5e020da4cab7897961c416526d3cc49ca3d4c0ba9d7eec6ba",
+      "approvedBy": "owner-watchdog:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
+      "approvedAtUtc": "2026-08-03T22:15:47.000Z",
+      "rationale": "Approve exact focused same-process Stage-10 lease regression for read-only project-tree identity query repair after physical Word C5V2 failed closed on E_PROJECT_LEASE_HELD during return activation; no UI, network, dependency, Google, Atlas mutation or physical evidence claim change.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_R1_C_SOURCE_REPAIR"
+      "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-03-packaged-visible-journey.contract.test.js",

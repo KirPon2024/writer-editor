@@ -2,6 +2,7 @@
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const crypto = require('node:crypto');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
@@ -47,6 +48,19 @@ function unzipText(docxPath, part) {
   return execFileSync('/usr/bin/unzip', ['-p', docxPath, part], { encoding: 'utf8' });
 }
 
+function stableJson(value) {
+  if (Array.isArray(value)) return `[${value.map((item) => stableJson(item)).join(',')}]`;
+  if (value && typeof value === 'object') {
+    return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${stableJson(value[key])}`).join(',')}}`;
+  }
+  return JSON.stringify(value);
+}
+
+function digest(value) {
+  const bytes = Buffer.isBuffer(value) ? value : Buffer.from(String(value), 'utf8');
+  return `sha256:${crypto.createHash('sha256').update(bytes).digest('hex')}`;
+}
+
 test('C5V2 negative plan preserves the exact 40-operation, five-per-kind ledger contract', async () => {
   const negative = await import(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-negative-forks.mjs'));
   const master = syntheticMasterLedger(negative.C5V2_NEGATIVE_PROBE_KINDS);
@@ -61,6 +75,22 @@ test('C5V2 negative plan preserves the exact 40-operation, five-per-kind ledger 
   assert.equal(first.probes.every((probe) => probe.isolatedFork === true), true);
   assert.equal(new Set(first.probes.map((probe) => probe.id)).size, 40);
   assert.equal(new Set(first.probes.map((probe) => probe.requestKey)).size, 40);
+});
+
+test('C5V2 negative probe chunk selection preserves global ordinals and full-plan authority', async () => {
+  const negative = await import(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-negative-forks.mjs'));
+  const full = negative.buildC5V2NegativeProbePlan(syntheticMasterLedger(negative.C5V2_NEGATIVE_PROBE_KINDS));
+  const chunk = negative.selectC5V2NegativeProbeChunk(full, { start: 16, count: 5 });
+
+  assert.deepEqual(chunk.chunk, { start: 16, count: 5, end: 20 });
+  assert.equal(chunk.operationCount, 5);
+  assert.equal(chunk.fullCampaignOperationCount, 40);
+  assert.deepEqual(chunk.probes.map((probe) => probe.ordinal), [16, 17, 18, 19, 20]);
+  assert.equal(chunk.planDigest, full.planDigest);
+  assert.throws(
+    () => negative.selectC5V2NegativeProbeChunk(full, { start: 39, count: 5 }),
+    /CHUNK_INVALID/u,
+  );
 });
 
 test('C5V2 negative fork materialization is isolated, hash-bound and fault-specific', async () => {
@@ -156,4 +186,109 @@ test('C5V2 physical child routes negative forks through the shipped activation c
   assert.match(source, /RTK_DOCX_ACTIVATION_DUPLICATE_REQUEST_MUTATED_PAYLOAD/u);
   assert.match(source, /allSceneHashesStable/u);
   assert.match(source, /allWriterFlagsFalse/u);
+});
+
+test('C5V2 negative aggregate verifies eight durable five-probe chains and exact 40-operation coverage', async () => {
+  const negative = await import(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-negative-forks.mjs'));
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-c5v2-negative-aggregate-'));
+  const plan = negative.buildC5V2NegativeProbePlan(syntheticMasterLedger(negative.C5V2_NEGATIVE_PROBE_KINDS));
+  const headSha = 'a'.repeat(40);
+  const evidencePaths = [];
+  for (let chunkIndex = 0; chunkIndex < 8; chunkIndex += 1) {
+    const start = chunkIndex * 5 + 1;
+    const chunk = { start, count: 5, end: start + 4 };
+    const manifestDigest = digest(`manifest-${start}`);
+    const campaignBaseline = { digest: digest(`baseline-${start}`) };
+    let previousCheckpointDigest = digest(stableJson({
+      manifestDigest,
+      campaignBaselineDigest: campaignBaseline.digest,
+    }));
+    const results = [];
+    for (const probe of plan.probes.slice(start - 1, start + 4)) {
+      const result = {
+        schemaVersion: 'yalken.rtk.word.c5v2.negative-probe-result.v1',
+        ordinal: probe.ordinal,
+        id: probe.id,
+        sceneId: probe.sceneId,
+        kind: probe.kind,
+        expectedOutcome: 'REJECT',
+        observedOutcome: 'REJECT',
+        ok: true,
+        requestKey: probe.requestKey,
+        effectKey: digest(`effect-${probe.id}`),
+        artifactSha256: digest(`artifact-${probe.id}`),
+        typedRejectGreen: true,
+        sceneHashGreen: true,
+        noWriterGreen: true,
+        networkGreen: true,
+      };
+      const checkpoint = {
+        ...result,
+        headSha,
+        masterLedgerDigest: plan.masterLedgerDigest,
+        fullPlanDigest: plan.planDigest,
+        chunk,
+        manifestDigest,
+        previousCheckpointDigest,
+      };
+      checkpoint.checkpointDigest = digest(stableJson(checkpoint));
+      const checkpointPath = path.join(tempRoot, `${probe.id}.json`);
+      const checkpointBytes = Buffer.from(`${JSON.stringify(checkpoint, null, 2)}\n`, 'utf8');
+      fs.writeFileSync(checkpointPath, checkpointBytes);
+      results.push({
+        ...result,
+        checkpointPath,
+        checkpointSha256: digest(checkpointBytes),
+        checkpointDigest: checkpoint.checkpointDigest,
+      });
+      previousCheckpointDigest = checkpoint.checkpointDigest;
+    }
+    const evidence = {
+      schemaVersion: 'yalken.rtk.word.c5v2.negative-campaign-evidence.v1',
+      headSha,
+      masterLedgerDigest: plan.masterLedgerDigest,
+      fullPlanDigest: plan.planDigest,
+      chunk,
+      manifestDigest,
+      baselineArtifactSha256: digest(`baseline-artifact-${start}`),
+      baselineReturnApplyOk: true,
+      campaignBaseline,
+      operationCount: results.length,
+      completedOperationIds: results.map((result) => result.id),
+      rejectedCount: results.length,
+      failedCount: 0,
+      kindCounts: results.reduce((acc, result) => {
+        acc[result.kind] = (acc[result.kind] || 0) + 1;
+        return acc;
+      }, {}),
+      allSceneHashesStable: true,
+      allWriterFlagsFalse: true,
+      networkRequests: [],
+      results,
+      terminalCheckpointDigest: previousCheckpointDigest,
+      createdAtUtc: '2026-08-02T00:00:00.000Z',
+    };
+    evidence.evidenceDigest = digest(stableJson(evidence));
+    const evidencePath = path.join(tempRoot, `evidence-${String(start).padStart(2, '0')}.json`);
+    fs.writeFileSync(evidencePath, `${JSON.stringify(evidence, null, 2)}\n`, 'utf8');
+    evidencePaths.push(evidencePath);
+  }
+
+  const aggregate = negative.aggregateC5V2NegativeCampaignChunks({ plan, evidencePaths, expectedHeadSha: headSha });
+  assert.equal(aggregate.operationCount, 40);
+  assert.equal(aggregate.chunkCount, 8);
+  assert.equal(aggregate.rejectedCount, 40);
+  assert.equal(aggregate.failedCount, 0);
+  assert.equal(aggregate.uniqueRequestKeyCount, 40);
+  assert.equal(aggregate.uniqueEffectKeyCount, 40);
+  assert.deepEqual(aggregate.kindCounts, plan.kindCounts);
+  assert.match(aggregate.aggregateDigest, /^sha256:[a-f0-9]{64}$/u);
+
+  const tampered = JSON.parse(fs.readFileSync(evidencePaths[0], 'utf8'));
+  tampered.results[0].observedOutcome = 'FAIL';
+  fs.writeFileSync(evidencePaths[0], `${JSON.stringify(tampered, null, 2)}\n`, 'utf8');
+  assert.throws(
+    () => negative.aggregateC5V2NegativeCampaignChunks({ plan, evidencePaths, expectedHeadSha: headSha }),
+    /EVIDENCE_DIGEST_MISMATCH/u,
+  );
 });

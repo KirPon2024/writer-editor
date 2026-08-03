@@ -315,11 +315,47 @@ export function buildC5V2NegativeProbePlan(masterLedger) {
   };
 }
 
+export function selectC5V2NegativeProbeChunk(fullPlan, { start, count }) {
+  const operationCount = Number(fullPlan?.operationCount);
+  const chunkStart = Number(start);
+  const chunkCount = Number(count);
+  if (
+    !Array.isArray(fullPlan?.probes)
+    || !Number.isSafeInteger(operationCount)
+    || fullPlan.probes.length !== operationCount
+    || !Number.isSafeInteger(chunkStart)
+    || chunkStart < 1
+    || chunkStart > operationCount
+    || !Number.isSafeInteger(chunkCount)
+    || chunkCount < 1
+    || chunkStart + chunkCount - 1 > operationCount
+  ) {
+    throw new Error(`C5V2_NEGATIVE_PROBE_CHUNK_INVALID:${chunkStart}:${chunkCount}`);
+  }
+  const probes = fullPlan.probes.slice(chunkStart - 1, chunkStart - 1 + chunkCount);
+  const kindCounts = probes.reduce((acc, probe) => {
+    acc[probe.kind] = (acc[probe.kind] || 0) + 1;
+    return acc;
+  }, {});
+  return {
+    ...fullPlan,
+    operationCount: probes.length,
+    fullCampaignOperationCount: operationCount,
+    kindCounts,
+    probes,
+    chunk: {
+      start: chunkStart,
+      count: chunkCount,
+      end: chunkStart + chunkCount - 1,
+    },
+  };
+}
+
 export function materializeC5V2NegativeForks({ baselineDocxPath, outputDir, plan }) {
   if (!baselineDocxPath || !fs.existsSync(baselineDocxPath)) {
     throw new Error('C5V2_NEGATIVE_BASELINE_DOCX_REQUIRED');
   }
-  if (!plan || !Array.isArray(plan.probes) || plan.probes.length !== 40) {
+  if (!plan || !Array.isArray(plan.probes) || plan.probes.length < 1 || plan.probes.length > 40) {
     throw new Error('C5V2_NEGATIVE_PLAN_REQUIRED');
   }
   fs.mkdirSync(outputDir, { recursive: true });
@@ -394,6 +430,10 @@ export function materializeC5V2NegativeForks({ baselineDocxPath, outputDir, plan
     baselineDocxSha256: sha256Bytes(baselineBytes),
     masterLedgerDigest: plan.masterLedgerDigest,
     planDigest: plan.planDigest,
+    fullCampaignOperationCount: Number.isSafeInteger(plan.fullCampaignOperationCount)
+      ? plan.fullCampaignOperationCount
+      : 40,
+    chunk: plan.chunk && typeof plan.chunk === 'object' ? plan.chunk : null,
     operationCount: materialized.length,
     kindCounts: plan.kindCounts,
     probes: materialized,
@@ -402,4 +442,277 @@ export function materializeC5V2NegativeForks({ baselineDocxPath, outputDir, plan
     ...manifest,
     manifestDigest: sha256Bytes(Buffer.from(stableJson(manifest), 'utf8')),
   };
+}
+
+function digestObjectWithoutField(value, fieldName) {
+  const copy = { ...value };
+  delete copy[fieldName];
+  return sha256Bytes(Buffer.from(stableJson(copy), 'utf8'));
+}
+
+function assertNegativeAggregate(condition, code, detail = '') {
+  if (!condition) throw new Error(`${code}${detail ? `:${detail}` : ''}`);
+}
+
+function validateCheckpointChain(evidence) {
+  let previousCheckpointDigest = sha256Bytes(Buffer.from(stableJson({
+    manifestDigest: evidence.manifestDigest || '',
+    campaignBaselineDigest: evidence.campaignBaseline?.digest || '',
+  }), 'utf8'));
+  for (const result of evidence.results) {
+    const checkpointPath = String(result.checkpointPath || '');
+    assertNegativeAggregate(checkpointPath && fs.existsSync(checkpointPath), 'C5V2_NEGATIVE_CHECKPOINT_MISSING', result.id);
+    const checkpointBytes = fs.readFileSync(checkpointPath);
+    assertNegativeAggregate(
+      sha256Bytes(checkpointBytes) === result.checkpointSha256,
+      'C5V2_NEGATIVE_CHECKPOINT_FILE_HASH_MISMATCH',
+      result.id,
+    );
+    const checkpoint = JSON.parse(checkpointBytes.toString('utf8'));
+    assertNegativeAggregate(checkpoint.id === result.id, 'C5V2_NEGATIVE_CHECKPOINT_ID_MISMATCH', result.id);
+    assertNegativeAggregate(checkpoint.ordinal === result.ordinal, 'C5V2_NEGATIVE_CHECKPOINT_ORDINAL_MISMATCH', result.id);
+    assertNegativeAggregate(checkpoint.headSha === evidence.headSha, 'C5V2_NEGATIVE_CHECKPOINT_HEAD_MISMATCH', result.id);
+    assertNegativeAggregate(
+      checkpoint.masterLedgerDigest === evidence.masterLedgerDigest,
+      'C5V2_NEGATIVE_CHECKPOINT_LEDGER_MISMATCH',
+      result.id,
+    );
+    assertNegativeAggregate(
+      checkpoint.fullPlanDigest === evidence.fullPlanDigest,
+      'C5V2_NEGATIVE_CHECKPOINT_PLAN_MISMATCH',
+      result.id,
+    );
+    assertNegativeAggregate(
+      stableJson(checkpoint.chunk) === stableJson(evidence.chunk),
+      'C5V2_NEGATIVE_CHECKPOINT_CHUNK_MISMATCH',
+      result.id,
+    );
+    assertNegativeAggregate(
+      checkpoint.previousCheckpointDigest === previousCheckpointDigest,
+      'C5V2_NEGATIVE_CHECKPOINT_CHAIN_MISMATCH',
+      result.id,
+    );
+    assertNegativeAggregate(
+      digestObjectWithoutField(checkpoint, 'checkpointDigest') === checkpoint.checkpointDigest,
+      'C5V2_NEGATIVE_CHECKPOINT_DIGEST_MISMATCH',
+      result.id,
+    );
+    assertNegativeAggregate(
+      checkpoint.checkpointDigest === result.checkpointDigest,
+      'C5V2_NEGATIVE_RESULT_CHECKPOINT_DIGEST_MISMATCH',
+      result.id,
+    );
+    const resultPayload = { ...result };
+    delete resultPayload.checkpointPath;
+    delete resultPayload.checkpointSha256;
+    delete resultPayload.checkpointDigest;
+    const checkpointPayload = { ...checkpoint };
+    for (const field of [
+      'headSha',
+      'masterLedgerDigest',
+      'fullPlanDigest',
+      'chunk',
+      'manifestDigest',
+      'previousCheckpointDigest',
+      'checkpointDigest',
+    ]) delete checkpointPayload[field];
+    assertNegativeAggregate(
+      stableJson(resultPayload) === stableJson(checkpointPayload),
+      'C5V2_NEGATIVE_CHECKPOINT_PAYLOAD_MISMATCH',
+      result.id,
+    );
+    previousCheckpointDigest = checkpoint.checkpointDigest;
+  }
+  assertNegativeAggregate(
+    evidence.terminalCheckpointDigest === previousCheckpointDigest,
+    'C5V2_NEGATIVE_TERMINAL_CHECKPOINT_MISMATCH',
+  );
+}
+
+function loadEvidenceFile(evidencePath) {
+  const resolvedPath = path.resolve(String(evidencePath || ''));
+  assertNegativeAggregate(resolvedPath && fs.existsSync(resolvedPath), 'C5V2_NEGATIVE_EVIDENCE_MISSING', resolvedPath);
+  const bytes = fs.readFileSync(resolvedPath);
+  return {
+    path: resolvedPath,
+    sha256: sha256Bytes(bytes),
+    evidence: JSON.parse(bytes.toString('utf8')),
+  };
+}
+
+export function aggregateC5V2NegativeCampaignChunks({ plan, evidencePaths, expectedHeadSha }) {
+  assertNegativeAggregate(
+    plan?.schemaVersion === 'yalken.rtk.word.c5v2.negative-probe-plan.v1'
+      && Array.isArray(plan?.probes)
+      && plan.operationCount === 40
+      && plan.probes.length === 40,
+    'C5V2_NEGATIVE_AGGREGATE_PLAN_INVALID',
+  );
+  assertNegativeAggregate(
+    plan.planDigest === sha256Bytes(Buffer.from(stableJson(plan.probes), 'utf8')),
+    'C5V2_NEGATIVE_AGGREGATE_PLAN_DIGEST_MISMATCH',
+  );
+  assertNegativeAggregate(
+    typeof expectedHeadSha === 'string' && /^[a-f0-9]{40}$/u.test(expectedHeadSha),
+    'C5V2_NEGATIVE_AGGREGATE_HEAD_INVALID',
+  );
+  assertNegativeAggregate(
+    Array.isArray(evidencePaths) && evidencePaths.length === 8,
+    'C5V2_NEGATIVE_AGGREGATE_CHUNK_COUNT_INVALID',
+    Array.isArray(evidencePaths) ? evidencePaths.length : 0,
+  );
+  const chunks = evidencePaths.map(loadEvidenceFile).sort((left, right) => (
+    Number(left.evidence?.chunk?.start || 0) - Number(right.evidence?.chunk?.start || 0)
+  ));
+  const allResults = [];
+  const chunkSummaries = [];
+  for (let index = 0; index < chunks.length; index += 1) {
+    const expectedStart = index * 5 + 1;
+    const loaded = chunks[index];
+    const evidence = loaded.evidence;
+    assertNegativeAggregate(
+      evidence?.schemaVersion === 'yalken.rtk.word.c5v2.negative-campaign-evidence.v1',
+      'C5V2_NEGATIVE_EVIDENCE_SCHEMA_INVALID',
+      expectedStart,
+    );
+    assertNegativeAggregate(evidence.headSha === expectedHeadSha, 'C5V2_NEGATIVE_EVIDENCE_HEAD_MISMATCH', expectedStart);
+    assertNegativeAggregate(
+      evidence.masterLedgerDigest === plan.masterLedgerDigest,
+      'C5V2_NEGATIVE_EVIDENCE_LEDGER_MISMATCH',
+      expectedStart,
+    );
+    assertNegativeAggregate(
+      evidence.fullPlanDigest === plan.planDigest,
+      'C5V2_NEGATIVE_EVIDENCE_PLAN_MISMATCH',
+      expectedStart,
+    );
+    assertNegativeAggregate(
+      evidence.chunk?.start === expectedStart
+        && evidence.chunk?.count === 5
+        && evidence.chunk?.end === expectedStart + 4,
+      'C5V2_NEGATIVE_EVIDENCE_CHUNK_INVALID',
+      expectedStart,
+    );
+    assertNegativeAggregate(
+      evidence.operationCount === 5 && Array.isArray(evidence.results) && evidence.results.length === 5,
+      'C5V2_NEGATIVE_EVIDENCE_OPERATION_COUNT_INVALID',
+      expectedStart,
+    );
+    assertNegativeAggregate(
+      digestObjectWithoutField(evidence, 'evidenceDigest') === evidence.evidenceDigest,
+      'C5V2_NEGATIVE_EVIDENCE_DIGEST_MISMATCH',
+      expectedStart,
+    );
+    assertNegativeAggregate(evidence.baselineReturnApplyOk === true, 'C5V2_NEGATIVE_BASELINE_APPLY_NOT_GREEN', expectedStart);
+    assertNegativeAggregate(
+      evidence.allSceneHashesStable === true,
+      'C5V2_NEGATIVE_SCENE_HASH_STABILITY_NOT_GREEN',
+      expectedStart,
+    );
+    assertNegativeAggregate(
+      evidence.allWriterFlagsFalse === true,
+      'C5V2_NEGATIVE_WRITER_FLAG_NOT_GREEN',
+      expectedStart,
+    );
+    assertNegativeAggregate(
+      Array.isArray(evidence.networkRequests) && evidence.networkRequests.length === 0,
+      'C5V2_NEGATIVE_NETWORK_NOT_GREEN',
+      expectedStart,
+    );
+    assertNegativeAggregate(
+      evidence.rejectedCount === 5 && evidence.failedCount === 0,
+      'C5V2_NEGATIVE_TYPED_OUTCOME_COUNT_INVALID',
+      expectedStart,
+    );
+    validateCheckpointChain(evidence);
+    allResults.push(...evidence.results);
+    chunkSummaries.push({
+      start: evidence.chunk.start,
+      end: evidence.chunk.end,
+      evidencePath: loaded.path,
+      evidenceFileSha256: loaded.sha256,
+      evidenceDigest: evidence.evidenceDigest,
+      manifestDigest: evidence.manifestDigest,
+      baselineArtifactSha256: evidence.baselineArtifactSha256,
+      terminalCheckpointDigest: evidence.terminalCheckpointDigest,
+    });
+  }
+  const requestKeys = new Set();
+  const effectKeys = new Set();
+  const completedOperationIds = [];
+  const kindCounts = Object.fromEntries(C5V2_NEGATIVE_PROBE_KINDS.map((kind) => [kind, 0]));
+  for (let index = 0; index < plan.probes.length; index += 1) {
+    const expected = plan.probes[index];
+    const result = allResults[index];
+    assertNegativeAggregate(
+      result?.ordinal === expected.ordinal && result?.id === expected.id && result?.kind === expected.kind
+        && result?.sceneId === expected.sceneId,
+      'C5V2_NEGATIVE_AGGREGATE_ORDER_MISMATCH',
+      expected.id,
+    );
+    assertNegativeAggregate(
+      result.expectedOutcome === 'REJECT' && result.observedOutcome === 'REJECT' && result.ok === true,
+      'C5V2_NEGATIVE_AGGREGATE_OUTCOME_MISMATCH',
+      expected.id,
+    );
+    assertNegativeAggregate(
+      result.typedRejectGreen === true && result.sceneHashGreen === true
+        && result.noWriterGreen === true && result.networkGreen === true,
+      'C5V2_NEGATIVE_AGGREGATE_PROBE_GATE_NOT_GREEN',
+      expected.id,
+    );
+    assertNegativeAggregate(
+      result.requestKey === expected.requestKey && !requestKeys.has(result.requestKey),
+      'C5V2_NEGATIVE_AGGREGATE_REQUEST_KEY_INVALID',
+      expected.id,
+    );
+    assertNegativeAggregate(
+      typeof result.effectKey === 'string' && /^sha256:[a-f0-9]{64}$/u.test(result.effectKey)
+        && !effectKeys.has(result.effectKey),
+      'C5V2_NEGATIVE_AGGREGATE_EFFECT_KEY_INVALID',
+      expected.id,
+    );
+    assertNegativeAggregate(
+      typeof result.artifactSha256 === 'string' && /^sha256:[a-f0-9]{64}$/u.test(result.artifactSha256),
+      'C5V2_NEGATIVE_AGGREGATE_ARTIFACT_HASH_INVALID',
+      expected.id,
+    );
+    requestKeys.add(result.requestKey);
+    effectKeys.add(result.effectKey);
+    completedOperationIds.push(result.id);
+    kindCounts[result.kind] += 1;
+  }
+  assertNegativeAggregate(
+    stableJson(kindCounts) === stableJson(plan.kindCounts),
+    'C5V2_NEGATIVE_AGGREGATE_KIND_COUNTS_INVALID',
+  );
+  const aggregate = {
+    schemaVersion: 'yalken.rtk.word.c5v2.negative-campaign-aggregate.v1',
+    headSha: expectedHeadSha,
+    masterLedgerDigest: plan.masterLedgerDigest,
+    fullPlanDigest: plan.planDigest,
+    operationCount: allResults.length,
+    chunkCount: chunks.length,
+    completedOperationIds,
+    rejectedCount: allResults.filter((result) => result.observedOutcome === 'REJECT').length,
+    failedCount: allResults.filter((result) => !result.ok).length,
+    kindCounts,
+    allSceneHashesStable: allResults.every((result) => result.sceneHashGreen),
+    allWriterFlagsFalse: allResults.every((result) => result.noWriterGreen),
+    allNetworkFlagsGreen: allResults.every((result) => result.networkGreen),
+    uniqueRequestKeyCount: requestKeys.size,
+    uniqueEffectKeyCount: effectKeys.size,
+    chunks: chunkSummaries,
+    terminalCheckpointDigests: chunkSummaries.map((chunk) => chunk.terminalCheckpointDigest),
+    certificationClaim: 'NO_TERMINAL_CERTIFICATION_CLAIM_REQUIRES_MERGED_HEAD_REPETITIONS_AND_INDEPENDENT_AUDIT',
+  };
+  return {
+    ...aggregate,
+    aggregateDigest: sha256Bytes(Buffer.from(stableJson(aggregate), 'utf8')),
+  };
+}
+
+export function writeC5V2NegativeAggregateAtomicDurable(outputPath, aggregate) {
+  const bytes = Buffer.from(`${JSON.stringify(aggregate, null, 2)}\n`, 'utf8');
+  return writeBufferAtomicDurable(path.resolve(String(outputPath || '')), bytes);
 }

@@ -15,6 +15,7 @@ import { buildC5V2Ledger } from './rtk-word-c5v2-ledger-engine.mjs';
 import {
   buildC5V2NegativeProbePlan,
   materializeC5V2NegativeForks,
+  selectC5V2NegativeProbeChunk,
 } from './rtk-word-c5v2-negative-forks.mjs';
 import { resolveWordHostLocalQaWorkRoot } from './rtk-word-sandbox-work-root.mjs';
 import { parseObservablePayload } from '../../src/renderer/documentContentEnvelope.mjs';
@@ -2242,7 +2243,21 @@ function isC5V2TypedNegativeRejection(probe, activation, activationSummary) {
   const kind = String(probe?.kind || '');
   if (activation?.ok !== true) return Boolean(negativeResultReason(activation));
   if (kind === 'conflicting-overlap' || kind === 'wrong-scene') {
-    return activationSummary?.diagnosticOnly === true && negativeCandidateTotal(activationSummary) === 0;
+    const productPath = activationSummary?.nonOverlapTrackedReplacementProductPath || {};
+    const reason = String(productPath.reason || '');
+    const expectedReason = kind === 'conflicting-overlap'
+      ? reason === 'FULL_MANUSCRIPT_EXACT_AUTHORITY_RANGES_OVERLAP'
+      : [
+          'FULL_MANUSCRIPT_EXACT_AUTHORITY_QUOTE_NOT_UNIQUE',
+          'FULL_MANUSCRIPT_OPERATION_WRONG_SCENE',
+          'FULL_MANUSCRIPT_EXACT_AUTHORITY_EXPORT_MAP_IDENTITY_INVALID',
+        ].includes(reason);
+    return productPath.prepared !== true
+      && productPath.status === 'blocked'
+      && expectedReason
+      && activation?.canAutoApply === false
+      && activation?.canImportMutate === false
+      && activation?.canWriteStorage === false;
   }
   return false;
 }
@@ -2250,7 +2265,10 @@ async function runC5V2NegativeCampaign(win, config, baselineReturnApply) {
   if (!config || typeof config !== 'object') throw new Error('C5V2_NEGATIVE_CAMPAIGN_CONFIG_REQUIRED');
   const manifest = JSON.parse(fs.readFileSync(config.manifestPath, 'utf8'));
   const probes = Array.isArray(manifest.probes) ? manifest.probes : [];
-  if (probes.length !== 40 || manifest.operationCount !== 40) {
+  const expectedOperationCount = Number.isSafeInteger(config.expectedOperationCount) && config.expectedOperationCount > 0
+    ? config.expectedOperationCount
+    : 40;
+  if (probes.length !== expectedOperationCount || manifest.operationCount !== expectedOperationCount) {
     throw new Error('C5V2_NEGATIVE_CAMPAIGN_PROBE_COUNT_INVALID:' + probes.length);
   }
   const checkpointDir = config.checkpointDir;
@@ -2264,7 +2282,7 @@ async function runC5V2NegativeCampaign(win, config, baselineReturnApply) {
   }));
   for (let index = 0; index < probes.length; index += 1) {
     const probe = probes[index];
-    progress('negative-probe-start', { ordinal: index + 1, id: probe.id, kind: probe.kind, sceneId: probe.sceneId });
+    progress('negative-probe-start', { ordinal: probe.ordinal, id: probe.id, kind: probe.kind, sceneId: probe.sceneId });
     const before = captureNegativeProjectSnapshot();
     let staleRestore = null;
     let setup = {};
@@ -2330,7 +2348,7 @@ async function runC5V2NegativeCampaign(win, config, baselineReturnApply) {
     const networkGreen = networkRequests.length === 0;
     const result = {
       schemaVersion: 'yalken.rtk.word.c5v2.negative-probe-result.v1',
-      ordinal: index + 1,
+      ordinal: probe.ordinal,
       id: probe.id,
       sceneId: probe.sceneId,
       kind: probe.kind,
@@ -2360,6 +2378,8 @@ async function runC5V2NegativeCampaign(win, config, baselineReturnApply) {
       ...result,
       headSha: config.headSha || '',
       masterLedgerDigest: config.masterLedgerDigest || '',
+      fullPlanDigest: config.fullPlanDigest || '',
+      chunk: config.chunk || null,
       manifestDigest: manifest.manifestDigest || '',
       previousCheckpointDigest,
     };
@@ -2369,7 +2389,7 @@ async function runC5V2NegativeCampaign(win, config, baselineReturnApply) {
     previousCheckpointDigest = checkpoint.checkpointDigest;
     results.push({ ...result, checkpointPath: checkpointWritten.path, checkpointSha256: checkpointWritten.sha256, checkpointDigest: checkpoint.checkpointDigest });
     progress('negative-probe-complete', {
-      ordinal: index + 1,
+      ordinal: probe.ordinal,
       id: probe.id,
       kind: probe.kind,
       ok: result.ok,
@@ -2384,6 +2404,8 @@ async function runC5V2NegativeCampaign(win, config, baselineReturnApply) {
     schemaVersion: 'yalken.rtk.word.c5v2.negative-campaign-evidence.v1',
     headSha: config.headSha || '',
     masterLedgerDigest: config.masterLedgerDigest || '',
+    fullPlanDigest: config.fullPlanDigest || '',
+    chunk: config.chunk || null,
     manifestDigest: manifest.manifestDigest || '',
     baselineArtifactSha256: manifest.baselineDocxSha256 || '',
     baselineReturnApplyOk: baselineReturnApply?.ok === true,
@@ -2403,7 +2425,7 @@ async function runC5V2NegativeCampaign(win, config, baselineReturnApply) {
   evidence.evidenceDigest = sha256ChildText(stableChildJson(evidence));
   const written = writeChildJsonAtomicDurable(config.evidencePath, evidence);
   return {
-    ok: evidence.operationCount === 40 && evidence.rejectedCount === 40 && evidence.failedCount === 0
+    ok: evidence.operationCount === expectedOperationCount && evidence.rejectedCount === expectedOperationCount && evidence.failedCount === 0
       && evidence.allSceneHashesStable && evidence.allWriterFlagsFalse && evidence.networkRequests.length === 0,
     evidencePath: written.path,
     evidenceSha256: written.sha256,
@@ -5079,6 +5101,8 @@ function parseArgs(argv) {
     accessibilityPreflightOnly: false,
     masterLedgerCampaign: false,
     negativeCampaignLedgerPath: '',
+    negativeProbeStart: 1,
+    negativeProbeCount: 40,
     corpusManifestPath: '',
     includeMultilingualQa: false,
   };
@@ -5109,6 +5133,12 @@ function parseArgs(argv) {
     } else if (arg === '--negative-campaign-ledger') {
       options.negativeCampaignLedgerPath = argv[index + 1];
       index += 1;
+    } else if (arg === '--negative-probe-start') {
+      options.negativeProbeStart = Number.parseInt(argv[index + 1], 10);
+      index += 1;
+    } else if (arg === '--negative-probe-count') {
+      options.negativeProbeCount = Number.parseInt(argv[index + 1], 10);
+      index += 1;
     } else if (arg === '--corpus-manifest') {
       options.corpusManifestPath = argv[index + 1];
       index += 1;
@@ -5125,7 +5155,14 @@ async function mainNegativeCampaign(options) {
     throw new Error(`C5V2_NEGATIVE_MASTER_LEDGER_MISSING:${masterLedgerPath}`);
   }
   const masterLedger = JSON.parse(fs.readFileSync(masterLedgerPath, 'utf8'));
-  const negativePlan = buildC5V2NegativeProbePlan(masterLedger);
+  const fullNegativePlan = buildC5V2NegativeProbePlan(masterLedger);
+  const negativeProbeStart = Number(options.negativeProbeStart);
+  const negativeProbeCount = Number(options.negativeProbeCount);
+  const negativePlan = selectC5V2NegativeProbeChunk(fullNegativePlan, {
+    start: negativeProbeStart,
+    count: negativeProbeCount,
+  });
+  const negativeChunk = negativePlan.chunk;
   const runId = `${options.runPrefix}-${nowStamp()}`;
   const runDir = path.join(options.artifactRoot, runId);
   const forkDir = path.join(runDir, 'negative-forks');
@@ -5156,7 +5193,8 @@ async function mainNegativeCampaign(options) {
   };
   let ledger = buildCanaryLedger(scenes, { counts: zeroCounts });
   writeJsonAtomicDurable(path.join(runDir, 'canary-ledger.pre-export.json'), ledger);
-  writeJsonAtomicDurable(path.join(runDir, 'negative-probe-plan.json'), negativePlan);
+  writeJsonAtomicDurable(path.join(runDir, 'negative-probe-plan.json'), fullNegativePlan);
+  writeJsonAtomicDurable(path.join(runDir, 'negative-probe-chunk-plan.json'), negativePlan);
   writeJsonAtomicDurable(path.join(runDir, 'c5v2-corpus-provenance.json'), {
     schemaVersion: 'yalken.rtk.word.c5v2.negative-corpus-provenance.v1',
     corpusId: corpusInput.provenance.corpusId,
@@ -5176,7 +5214,8 @@ async function mainNegativeCampaign(options) {
     })),
     masterLedgerPath,
     masterLedgerDigest: masterLedger.ledgerDigest || '',
-    negativePlanDigest: negativePlan.planDigest,
+    negativePlanDigest: fullNegativePlan.planDigest,
+    negativeChunk,
   });
   const wordVersion = shellValue('/usr/bin/osascript', ['-e', 'tell application "Microsoft Word" to return version as text'], { timeout: 30_000 });
   const exportResult = await runElectronFullManuscriptRoundtrip({
@@ -5188,6 +5227,9 @@ async function mainNegativeCampaign(options) {
     negativeCampaign: {
       headSha,
       masterLedgerDigest: masterLedger.ledgerDigest || '',
+      fullPlanDigest: fullNegativePlan.planDigest,
+      expectedOperationCount: negativeProbeCount,
+      chunk: negativeChunk,
       manifestPath,
       evidencePath,
       checkpointDir,
@@ -5263,7 +5305,8 @@ async function mainNegativeCampaign(options) {
     sceneCount: scenes.length,
     masterLedgerPath,
     masterLedgerDigest: masterLedger.ledgerDigest || '',
-    negativePlanDigest: negativePlan.planDigest,
+    negativePlanDigest: fullNegativePlan.planDigest,
+    negativeChunk,
     sourceDocxPath,
     returnedDocxPath,
     sourceDocxSha256,
@@ -5287,8 +5330,8 @@ async function mainNegativeCampaign(options) {
     vetoStatus: {
       baselineNotAuthenticated: productReturnApply?.activation?.returnIntake?.authenticated !== true,
       baselineMutationCandidate: productReturnApply?.noOpBaseline?.zeroMutationGreen !== true,
-      negativeCountMismatch: negativeEvidence?.operationCount !== 40,
-      negativeFalseAccept: negativeEvidence?.failedCount !== 0 || negativeEvidence?.rejectedCount !== 40,
+      negativeCountMismatch: negativeEvidence?.operationCount !== negativeProbeCount,
+      negativeFalseAccept: negativeEvidence?.failedCount !== 0 || negativeEvidence?.rejectedCount !== negativeProbeCount,
       negativeWriterCalled: negativeEvidence?.allWriterFlagsFalse !== true,
       negativeSceneMutation: negativeEvidence?.allSceneHashesStable !== true,
       productNetwork: networkRequests.length > 0,

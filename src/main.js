@@ -23278,8 +23278,28 @@ async function getProjectDocumentIdentityPayload(filePath) {
     };
   }
   try {
-    await buildProjectTreeRootsWithIdentities();
-    const { manifestPath, manifest } = await ensureProjectManifest(currentProjectName || DEFAULT_PROJECT_NAME);
+    let projectTree;
+    try {
+      projectTree = await buildProjectTreeRootsWithIdentitiesReadOnly();
+    } catch (readOnlyError) {
+      const readOnlyCode = readOnlyError && typeof readOnlyError.code === 'string'
+        ? readOnlyError.code
+        : '';
+      if (![
+        'E_PROJECT_MANIFEST_UNAVAILABLE',
+        'E_TREE_IDENTITY_READONLY_STALE',
+        'E_TREE_IDENTITY_READ_FAILED',
+      ].includes(readOnlyCode)) {
+        throw readOnlyError;
+      }
+      await buildProjectTreeRootsWithIdentities();
+      const reconciled = await ensureProjectManifest(currentProjectName || DEFAULT_PROJECT_NAME);
+      projectTree = {
+        manifestPath: reconciled.manifestPath,
+        manifest: reconciled.manifest,
+      };
+    }
+    const { manifestPath, manifest } = projectTree;
     const normalizedPath = path.basename(filePath).toLowerCase() === '.index.txt'
       ? path.dirname(filePath)
       : filePath;

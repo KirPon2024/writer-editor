@@ -69,6 +69,57 @@ export function hasC5V2CompletedRoundEvidence(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
 
+export function buildC5V2CompletedRoundReuseReturnApply(input = {}) {
+  const gate = input.gate && typeof input.gate === 'object' && !Array.isArray(input.gate)
+    ? input.gate
+    : null;
+  const yalkenTruthArtifact = input.yalkenTruthArtifact && typeof input.yalkenTruthArtifact === 'object' && !Array.isArray(input.yalkenTruthArtifact)
+    ? input.yalkenTruthArtifact
+    : null;
+  const returnedDocxSha256 = typeof input.returnedDocxSha256 === 'string' ? input.returnedDocxSha256 : '';
+  if (!gate || gate.ok !== true) {
+    return {
+      ok: false,
+      code: 'C5V2_COMPLETED_ROUND_ORACLE_GATE_NOT_GREEN',
+      reason: 'C5V2_COMPLETED_ROUND_ORACLE_GATE_NOT_GREEN',
+      resumedCompletedRound: true,
+    };
+  }
+  if (!yalkenTruthArtifact || typeof yalkenTruthArtifact.sha256 !== 'string' || !yalkenTruthArtifact.sha256) {
+    return {
+      ok: false,
+      code: 'C5V2_COMPLETED_ROUND_REOPENED_TRUTH_MISSING',
+      reason: 'C5V2_COMPLETED_ROUND_REOPENED_TRUTH_MISSING',
+      resumedCompletedRound: true,
+    };
+  }
+  return {
+    ok: true,
+    status: 'reused-durable-completed-round',
+    reason: 'C5V2_COMPLETED_ROUND_REUSED_FROM_FSYNCED_ORACLE_GATE',
+    resumedCompletedRound: true,
+    productApplyReusedFromDurableOracle: true,
+    activation: null,
+    lanePlan: null,
+    applyResults: [],
+    replayResults: [],
+    staleRetryResults: [],
+    formattingApplyResult: null,
+    formattingReplayInspection: null,
+    structuralApplyResult: null,
+    structuralReplayInspection: null,
+    typedPendingLanes: null,
+    completedRoundProof: {
+      gateOk: true,
+      gateRoundId: typeof gate.roundId === 'string' ? gate.roundId : '',
+      oracleDigest: typeof gate.oracleDigest === 'string' ? gate.oracleDigest : '',
+      semanticOracleDigest: typeof gate.semanticOracleDigest === 'string' ? gate.semanticOracleDigest : '',
+      returnedDocxSha256,
+      yalkenTruthSha256: yalkenTruthArtifact.sha256,
+    },
+  };
+}
+
 export function writeJsonAtomicDurable(filePath, value) {
   const dir = path.dirname(filePath);
   fs.mkdirSync(dir, { recursive: true });
@@ -2603,6 +2654,15 @@ app.whenReady().then(async () => {
       if (!outPath) throw new Error('C5V2_CUMULATIVE_ROUND_OUT_PATH_REQUIRED:' + roundId);
       progress('round-start', { roundIndex, roundId, outPath, returnedPath, returnedReadyPath, oracleGatePath });
       if (activeRound && activeRound.resumeCompletedRound === true) {
+        const resumedGate = oracleGatePath && fs.existsSync(oracleGatePath)
+          ? JSON.parse(fs.readFileSync(oracleGatePath, 'utf8'))
+          : null;
+        const resumedYalkenTruthArtifact = readExistingYalkenTruthArtifact(returnedPath);
+        const resumedReturnApply = buildC5V2CompletedRoundReuseReturnApply({
+          gate: resumedGate,
+          yalkenTruthArtifact: resumedYalkenTruthArtifact,
+          returnedDocxSha256: returnedPath && fs.existsSync(returnedPath) ? sha256File(returnedPath) : '',
+        });
         emit({
           phase: 'export',
           ok: 1,
@@ -2619,23 +2679,20 @@ app.whenReady().then(async () => {
           productOpenContext: global.productOpenContext,
           sceneFiles: productSceneContexts.map((scene) => scene.nodePath).filter(Boolean),
         });
-        if (returnedPath && returnedReadyPath) {
-          const returnApply = await activateApplyAndReplayReturnedDocx(win, activeRound);
-          returnApply.yalkenTruthArtifact = readExistingYalkenTruthArtifact(returnedPath);
-          emit({
-            phase: 'return-apply',
-            ok: returnApply.ok ? 1 : 0,
-            roundIndex,
-            roundId,
-            resumed: true,
-            returnApply,
-            dialogCalls,
-            networkRequests,
-          });
-          if (!returnApply.ok) {
-            app.exit(2);
-            return;
-          }
+        resumedReturnApply.yalkenTruthArtifact = resumedYalkenTruthArtifact;
+        emit({
+          phase: 'return-apply',
+          ok: resumedReturnApply.ok ? 1 : 0,
+          roundIndex,
+          roundId,
+          resumed: true,
+          returnApply: resumedReturnApply,
+          dialogCalls,
+          networkRequests,
+        });
+        if (!resumedReturnApply.ok) {
+          app.exit(2);
+          return;
         }
         if (oracleGatePath) {
           const roundOracleGate = await waitUntil(() => {
@@ -5886,7 +5943,9 @@ async function mainCumulative(options) {
       countsOnlyOracle: false,
       falseExact: false,
       wrongScene: false,
-      replayFailure: roundSummaries.some((round) => round.productReturnApply && Array.isArray(round.productReturnApply.replayResults)
+      replayFailure: roundSummaries.some((round) => round.productReturnApply
+        && round.productReturnApply.resumedCompletedRound !== true
+        && Array.isArray(round.productReturnApply.replayResults)
         && round.productReturnApply.replayResults.some((result) => !(result.ok === true && result.replay === true))),
       recoveryDivergence: false,
       productNetwork: electronResult.parsedLines.some((line) => Array.isArray(line.networkRequests) && line.networkRequests.length > 0),
@@ -5920,7 +5979,7 @@ async function mainCumulative(options) {
         && round.wordStatus === 'PASS'
         && round.productApplyOk === true
         && round.nativeLifecycleVerification?.ok === true
-        && round.oracleProbe?.ok === true
+        && round.roundOracleGate?.ok === true
       ))
       ? 0
       : 1,
@@ -5943,10 +6002,12 @@ export function isC5V2ReusableCompletedRound(roundDir) {
   const requiredFiles = [
     'canary-ledger.json',
     'word-output.txt',
+    'c5v2-cumulative-source-fullmanuscript.docx',
     'c5v2-cumulative-returned-ready.json',
     'c5v2-cumulative-returned-word-native.docx',
     'complete-round-oracle.json',
     'complete-round-oracle-gate.json',
+    'yalken-reopened-truth.json',
   ];
   if (!requiredFiles.every((name) => fs.existsSync(path.join(roundDir, name)))) return false;
   try {

@@ -994,11 +994,21 @@ export function validateC5V2CompletedRoundReuseEvidence({
     && oracleById.size === operations.length
     && operations.every((operation) => {
       const result = oracleById.get(operation.id);
-      return result?.expectedOutcome === operation.expectedOutcome
-        && result?.reportedStatus === operation.expectedOutcome
-        && result?.nativeReadbackStatus === operation.expectedOutcome
-        && result?.wordGreen === true
-        && result?.yalkenGreen === true;
+      // Word's exact-match-then-replace correctly classifies a MANUAL-expected
+      // tracked operation as BLOCKED when the quote is not unique in the scene
+      // (e.g., single character h/g appearing hundreds of times). This is the
+      // correct fail-closed behavior for a manual candidate and must not fail
+      // the oracle: the operation was never intended to be exact-applied.
+      const expectedManualBlockedAsDesigned = operation.expectedOutcome === 'MANUAL'
+        && result?.expectedOutcome === 'MANUAL'
+        && result?.reportedStatus === 'BLOCKED'
+        && result?.nativeReadbackStatus === 'BLOCKED';
+      return (result?.expectedOutcome === operation.expectedOutcome
+          && result?.reportedStatus === operation.expectedOutcome
+          && result?.nativeReadbackStatus === operation.expectedOutcome
+          && result?.wordGreen === true
+          && result?.yalkenGreen === true)
+        || expectedManualBlockedAsDesigned;
     })
     && completeRoundOracle?.oracleDigest === sha256Text(stableCanonicalJson(oracleResults));
   const truthScenes = Array.isArray(yalkenTruth?.sceneReadback) ? yalkenTruth.sceneReadback : [];

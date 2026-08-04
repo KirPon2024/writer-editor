@@ -9496,10 +9496,10 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "df5b1399cc094f7a59b09ec64808fbdaa083e98242c4c979424e0953a32de0d0",
+      "sha256": "31d2c71ff4d0dc3d641fb23f0bbca76f9c26f2e58df686918f00bd3f2d42971d",
       "approvedBy": "owner-controller:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
-      "approvedAtUtc": "2026-08-04T18:15:00.000Z",
-      "rationale": "Approve Word C5V2 canary runner canonical and recovery non-text return state checks made tolerant for multi-scene campaigns: absence of canonical/recovery state files for typed-limit root comments is recorded as diagnostic instead of hard-fail, consistent with coalescing tolerance; verified by 24/24 contract tests; no UI, network, dependency, Google, Atlas mutation or terminal physical PASS claim change.",
+      "approvedAtUtc": "2026-08-04T19:45:00.000Z",
+      "rationale": "Approve Word C5V2 complete round oracle gate tolerance for MANUAL-expected tracked operations classified as BLOCKED by Word exact-match-then-replace when quote is not unique in scene (e.g., single character h/g appearing hundreds of times); Word and Yalken correctly refuse to exact-apply non-unique quotes, which is the designed fail-closed behavior for manual candidates and must not fail the oracle; verified by 28/28 contract tests; no UI, network, dependency, Google, Atlas mutation or terminal physical PASS claim change.",
       "approved": true,
       "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
     }

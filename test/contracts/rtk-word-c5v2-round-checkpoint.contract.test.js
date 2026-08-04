@@ -289,7 +289,9 @@ test('C5V2 physical Word chunks preserve root-first and descending-range authori
   assert.doesNotMatch(continuation, /my yResetCheckpoint\(yCheckpointPath\)/u);
   assert.match(continuation, /CHUNK_START:word-chunk-002/u);
   assert.match(continuation, /set my yOverallDeadline to \(current date\) \+ 420/u);
+  assert.match(continuation, /REVISION_COUNT_COALESCING_DIAGNOSTIC/u);
   assert.match(continuation, /FINAL_NATIVE_REVISION_COUNT_BELOW_COALESCING_FLOOR:" & yRevisionCount & ":3:5/u);
+  assert.doesNotMatch(continuation, /then error "FINAL_NATIVE_REVISION_COUNT_BELOW_COALESCING_FLOOR/u);
   const semanticReadbackIndex = continuation.indexOf('my yCheckpoint(yCheckpointPath, "FINAL_SEMANTIC_READBACK"');
   const mirrorSaveIndex = continuation.indexOf('my yCheckpoint(yCheckpointPath, "EVIDENCE_MIRROR_SAVE_BEFORE"');
   const mirrorVerifiedIndex = continuation.indexOf('my yCheckpoint(yCheckpointPath, "EVIDENCE_MIRROR_VERIFIED"');

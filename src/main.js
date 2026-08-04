@@ -15262,9 +15262,29 @@ async function handleProjectLifecycleOpenCommand(payload = {}) {
   if (!canProceed) return { ok: false, cancelled: true };
   const binding = await findProjectBindingByProjectId(normalized.projectId);
   if (!binding) return makeProjectLifecycleError('E_PROJECT_NOT_FOUND', 'PROJECT_NOT_FOUND');
+  const readOnlyProject = Number(binding.sourceSchemaVersion) > PROJECT_MANIFEST_SCHEMA_VERSION;
+  setActiveProjectNameFromRoot(binding.projectRoot);
+  let manifestForBinding = binding.manifest;
+  if (!readOnlyProject) {
+    try {
+      await buildProjectTreeRootsWithIdentities();
+      const manifestRecord = await readProjectManifest(path.basename(binding.projectRoot));
+      manifestForBinding = manifestRecord?.manifest || manifestForBinding;
+    } catch (error) {
+      return makeProjectLifecycleError(
+        'E_PROJECT_TREE_IDENTITY_BOOTSTRAP_FAILED',
+        error?.reason || error?.code || 'PROJECT_TREE_IDENTITY_BOOTSTRAP_FAILED',
+        { message: error?.message || 'Project tree identity bootstrap failed' },
+      );
+    }
+  }
+  const projectBindingForOpen = {
+    ...binding,
+    manifest: manifestForBinding,
+  };
   let stage10Bootstrap = null;
   try {
-    stage10Bootstrap = await bootstrapStage10ApplicationForProject(binding.projectRoot, binding.manifest, 'reopen');
+    stage10Bootstrap = await bootstrapStage10ApplicationForProject(binding.projectRoot, manifestForBinding, 'reopen');
   } catch (error) {
     return makeProjectLifecycleError(
       'E_STAGE10_APPLICATION_BOOTSTRAP_FAILED_CLOSED',
@@ -15272,11 +15292,9 @@ async function handleProjectLifecycleOpenCommand(payload = {}) {
       { message: error?.message || 'Stage-10 bootstrap failed closed' },
     );
   }
-  setActiveProjectNameFromRoot(binding.projectRoot);
   const settings = await loadSettings();
-  const target = await resolveProjectContinueTarget(binding, settings);
+  const target = await resolveProjectContinueTarget(projectBindingForOpen, settings);
   if (!target.filePath) return makeProjectLifecycleError('E_PROJECT_EMPTY', 'PROJECT_EMPTY');
-  const readOnlyProject = Number(binding.sourceSchemaVersion) > PROJECT_MANIFEST_SCHEMA_VERSION;
   const selectionRange = settings.lastProjectId === binding.projectId
     ? normalizeSelectionRangeForSettings(settings.lastProjectSelectionRange)
     : null;
@@ -15284,7 +15302,7 @@ async function handleProjectLifecycleOpenCommand(payload = {}) {
     selectionRange,
     statusText: target.source === 'last-active' ? 'Проект открыт' : 'Проект открыт с первой сцены',
     projectId: binding.projectId,
-    projectBinding: binding,
+    projectBinding: projectBindingForOpen,
     readOnlyProject,
   });
   if (!opened.ok) return opened;
@@ -15292,7 +15310,7 @@ async function handleProjectLifecycleOpenCommand(payload = {}) {
     ok: true,
     opened: true,
     projectId: binding.projectId,
-    projectName: binding.manifest?.projectName || path.basename(binding.projectRoot),
+    projectName: manifestForBinding?.projectName || path.basename(binding.projectRoot),
     documentId: opened.documentId,
     continuationSource: target.source,
     stage10Bootstrap: stage10Bootstrap ? { ok: true, productLifecycleReachable: true } : null,

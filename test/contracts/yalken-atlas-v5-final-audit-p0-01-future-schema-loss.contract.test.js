@@ -629,6 +629,74 @@ test('P0 01: startup-created product project persists tree identity before rende
   assert.equal(manifestRawAfter.includes(bridgeResult.value.nodeId), true);
 });
 
+test('P0 01: lifecycle open bootstraps current-schema missing or stale tree identity before renderer child scene creation', async (t) => {
+  const scenarios = [
+    {
+      name: 'missing-tree-identity',
+      mutateManifest(manifest) {
+        delete manifest.treeIdentity;
+      },
+    },
+    {
+      name: 'stale-tree-identity',
+      mutateManifest(manifest) {
+        manifest.treeIdentity = {
+          schemaVersion: 1,
+          nodes: {
+            'tree-node-stale-open-route': {
+              bindingKey: 'file:roman/Deleted/ghost.txt',
+              kind: 'scene',
+              present: true,
+            },
+          },
+        };
+      },
+    },
+  ];
+
+  for (const scenario of scenarios) {
+    await t.test(scenario.name, async (t) => {
+      const harness = await createHarness(t, { devMode: true });
+      const created = await harness.main.handleProjectLifecycleCreateCommand({ projectName: 'Роман' });
+      assert.equal(created.ok, true);
+      const projectRoot = path.join(harness.documentsRoot, 'Роман');
+      const manifestPath = path.join(projectRoot, PROJECT_MANIFEST_FILENAME);
+      const manifest = JSON.parse(await fsPromises.readFile(manifestPath, 'utf8'));
+      scenario.mutateManifest(manifest);
+      await fsPromises.writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
+
+      const opened = await harness.main.handleProjectLifecycleOpenCommand({ projectId: manifest.projectId });
+      assert.equal(opened.ok, true, JSON.stringify(opened));
+      assert.equal(opened.readOnlyProject, false);
+
+      const manifestRawAfterOpen = await fsPromises.readFile(manifestPath, 'utf8');
+      const tree = await harness.main.handleWorkspaceProjectTreeQuery({ tab: 'roman' });
+      assert.equal(tree.ok, true, JSON.stringify(tree));
+      const romanNode = findSerializedTreeNodeByName(tree.root, 'Роман');
+      assert.ok(romanNode && typeof romanNode.nodeId === 'string', JSON.stringify(tree.root));
+      assert.equal(manifestRawAfterOpen.includes(romanNode.nodeId), true);
+
+      const commandBridge = harness.ipcHandlers.get('ui:command-bridge');
+      assert.equal(typeof commandBridge, 'function');
+      const bridgeResult = await commandBridge(null, {
+        route: 'command.bus',
+        commandId: 'cmd.project.tree.createNode',
+        payload: {
+          parentNodeId: romanNode.nodeId,
+          kind: 'scene',
+          name: `dorian-${scenario.name}`,
+        },
+      });
+      assert.equal(bridgeResult.ok, true, JSON.stringify(bridgeResult));
+      assert.equal(bridgeResult.value?.ok, true, JSON.stringify(bridgeResult));
+      assert.match(bridgeResult.value.nodeId, /^tree-node-[a-f0-9]{32}$/u);
+      assert.doesNotMatch(JSON.stringify(bridgeResult), /E_TREE_NODE_NOT_FOUND/u);
+      const manifestRawAfterCreate = await fsPromises.readFile(manifestPath, 'utf8');
+      assert.equal(manifestRawAfterCreate.includes(bridgeResult.value.nodeId), true);
+    });
+  }
+});
+
 test('P0 01: each commanded future author domain fails before recovery or durable write', async (t) => {
   const scenarios = [
     {

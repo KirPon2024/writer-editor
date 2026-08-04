@@ -1,0 +1,123 @@
+{
+  "title": "Yalken Agent Context Packet V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "status",
+    "objective",
+    "repoRoot",
+    "headSha",
+    "originMainSha",
+    "branch",
+    "worktreeDirty",
+    "activeCanon",
+    "currentCorex",
+    "architectureManifest",
+    "readingOrder",
+    "requiredPreflight",
+    "nextAction"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "status": {
+      "const": "READY_FOR_READ_AND_DECLARATION"
+    },
+    "objective": {
+      "type": "string",
+      "minLength": 3
+    },
+    "repoRoot": {
+      "type": "string",
+      "minLength": 1
+    },
+    "headSha": {
+      "$ref": "#/$defs/sha"
+    },
+    "originMainSha": {
+      "$ref": "#/$defs/sha"
+    },
+    "branch": {
+      "type": "string",
+      "minLength": 1
+    },
+    "worktreeDirty": {
+      "type": "boolean"
+    },
+    "activeCanon": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "version",
+        "path",
+        "activeFeatureExtensions"
+      ],
+      "properties": {
+        "status": {
+          "const": "ACTIVE_CANON"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "activeFeatureExtensions": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "currentCorex": {
+      "const": "docs/corex/COREX.v2.md"
+    },
+    "architectureManifest": {
+      "const": "docs/architecture/AGENT_ARCHITECTURE_MANIFEST_V1.json"
+    },
+    "readingOrder": {
+      "type": "array",
+      "minItems": 8,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "requiredPreflight": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "template",
+        "schema",
+        "command"
+      ],
+      "properties": {
+        "template": {
+          "const": "docs/templates/AGENT_TASK_ARCHITECTURE_DECLARATION_V1.json"
+        },
+        "schema": {
+          "const": "docs/architecture/AGENT_TASK_ARCHITECTURE_DECLARATION_V1.schema.json"
+        },
+        "command": {
+          "const": "npm run agent:preflight -- --declaration <temporary-json-file>"
+        }
+      }
+    },
+    "nextAction": {
+      "const": "READ_IN_ORDER_THEN_CREATE_AND_VALIDATE_TASK_ARCHITECTURE_DECLARATION_BEFORE_WRITE"
+    }
+  },
+  "$defs": {
+    "sha": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{40}$"
+    }
+  }
+}

@@ -1,0 +1,164 @@
+{
+  "title": "Yalken Agent Final Report V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "TASK_ID",
+    "STATUS",
+    "HEAD_SHA_BEFORE",
+    "HEAD_SHA_AFTER",
+    "COMMIT_SHA",
+    "MERGED_SHA",
+    "CHANGED_BASENAMES",
+    "STAGED_SCOPE_MATCH",
+    "TEST_RESULTS",
+    "COMMIT_OUTCOME",
+    "PUSH_RESULT",
+    "PR_RESULT",
+    "CI_RESULT",
+    "MERGE_RESULT",
+    "POST_MERGE_VERIFICATION",
+    "CURRENT_CLAIM_SCOPE",
+    "OPEN_LIMITATIONS",
+    "ROLLBACK",
+    "NEXT_STEP"
+  ],
+  "properties": {
+    "TASK_ID": {
+      "type": "string",
+      "minLength": 3
+    },
+    "STATUS": {
+      "enum": [
+        "PASS",
+        "STOP_NOT_DONE",
+        "BLOCKED",
+        "UNKNOWN"
+      ]
+    },
+    "HEAD_SHA_BEFORE": {
+      "$ref": "#/$defs/shaOrNotApplicable"
+    },
+    "HEAD_SHA_AFTER": {
+      "$ref": "#/$defs/shaOrNotApplicable"
+    },
+    "COMMIT_SHA": {
+      "$ref": "#/$defs/shaOrNotApplicable"
+    },
+    "MERGED_SHA": {
+      "$ref": "#/$defs/shaOrNotApplicable"
+    },
+    "CHANGED_BASENAMES": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^[^/\\\\]+$"
+      }
+    },
+    "STAGED_SCOPE_MATCH": {
+      "type": "boolean"
+    },
+    "TEST_RESULTS": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "status",
+          "passed",
+          "total",
+          "skipped",
+          "todo",
+          "scope"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "PASS",
+              "FAIL",
+              "BLOCKED",
+              "NOT_APPLICABLE"
+            ]
+          },
+          "passed": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "skipped": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "todo": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "scope": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "COMMIT_OUTCOME": {
+      "type": "string",
+      "minLength": 1
+    },
+    "PUSH_RESULT": {
+      "type": "string",
+      "minLength": 1
+    },
+    "PR_RESULT": {
+      "type": "string",
+      "minLength": 1
+    },
+    "CI_RESULT": {
+      "type": "string",
+      "minLength": 1
+    },
+    "MERGE_RESULT": {
+      "type": "string",
+      "minLength": 1
+    },
+    "POST_MERGE_VERIFICATION": {
+      "type": "string",
+      "minLength": 1
+    },
+    "CURRENT_CLAIM_SCOPE": {
+      "type": "string",
+      "minLength": 1
+    },
+    "OPEN_LIMITATIONS": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "ROLLBACK": {
+      "type": "string",
+      "minLength": 1
+    },
+    "NEXT_STEP": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "$defs": {
+    "shaOrNotApplicable": {
+      "type": "string",
+      "pattern": "^(?:[a-f0-9]{40}|NOT_APPLICABLE)$"
+    }
+  }
+}

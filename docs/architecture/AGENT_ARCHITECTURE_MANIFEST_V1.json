@@ -1,0 +1,397 @@
+{
+  "schemaVersion": 1,
+  "manifestId": "YALKEN_AGENT_ARCHITECTURE_MANIFEST_V1",
+  "status": "ACTIVE_REPOSITORY_ARCHITECTURE_BOOTSTRAP",
+  "claimBoundary": "ARCHITECTURE_AND_PROCESS_CONTRACT_NOT_RUNTIME_COMPLETENESS_CLAIM",
+  "authorityOrder": [
+    {
+      "id": "ACTIVE_EXECUTION_CANON_RESOLVER",
+      "path": "docs/OPS/STATUS/CANON_STATUS.json",
+      "documentClass": "EXECUTION_RESOLVER"
+    },
+    {
+      "id": "RESOLVED_ACTIVE_EXECUTION_CANON",
+      "pathFrom": "canonicalDocPath",
+      "documentClass": "EXECUTION_LAW"
+    },
+    {
+      "id": "REPO_CANON",
+      "path": "CANON.md",
+      "documentClass": "REPO_CANON"
+    },
+    {
+      "id": "COREX_POINTER",
+      "path": "docs/corex/COREX.md",
+      "documentClass": "TARGET_ARCHITECTURE_RESOLVER"
+    },
+    {
+      "id": "CURRENT_COREX",
+      "path": "docs/corex/COREX.v2.md",
+      "documentClass": "TARGET_ARCHITECTURE"
+    },
+    {
+      "id": "PRODUCT_MAP",
+      "path": "docs/BIBLE.md",
+      "documentClass": "PRODUCT_MAP"
+    },
+    {
+      "id": "ARCHITECTURE_ORIENTATION",
+      "path": "docs/ARCHITECTURE_ONE_PAGE.md",
+      "documentClass": "REFERENCE"
+    },
+    {
+      "id": "CANONICAL_TERMINOLOGY",
+      "path": "docs/PRODUCT_GLOSSARY.md",
+      "documentClass": "REFERENCE"
+    },
+    {
+      "id": "DOCUMENTATION_CONSTITUTION",
+      "path": "docs/DOCUMENTATION_CONSTITUTION.md",
+      "documentClass": "PROCESS"
+    },
+    {
+      "id": "FACTUAL_CONTEXT",
+      "path": "docs/CONTEXT.md",
+      "documentClass": "FACTUAL_STATUS"
+    },
+    {
+      "id": "PROCESS",
+      "path": "docs/PROCESS.md",
+      "documentClass": "PROCESS"
+    },
+    {
+      "id": "HANDOFF",
+      "path": "docs/HANDOFF.md",
+      "documentClass": "FACTUAL_STATUS"
+    }
+  ],
+  "requiredEntrypoints": [
+    "AGENTS.md",
+    "CANON.md",
+    "README.md",
+    "docs/AGENT_START_PROMPT.md",
+    "docs/AGENT_START_PROTOCOL.md",
+    "docs/ARCHITECTURE_ONE_PAGE.md",
+    "docs/DOCUMENTATION_CONSTITUTION.md",
+    "docs/PRODUCT_GLOSSARY.md",
+    "docs/YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1.md",
+    "docs/corex/COREX.md",
+    "docs/corex/COREX.v2.md"
+  ],
+  "frozenArtifacts": [
+    {
+      "path": "docs/corex/COREX.v1.md",
+      "sha256": "eb01e070a91bb99a9703f319e9aa3090e5ccf7806dbf7739694a6881813dacc8",
+      "role": "PREVIOUS_FROZEN_COREX"
+    },
+    {
+      "path": "docs/corex/COREX.v2.md",
+      "sha256": "ea25f66352497e58935c673d3bf3c82d828e31dcc3cdad1ca19ef1250512f0bf",
+      "role": "CURRENT_FROZEN_COREX"
+    }
+  ],
+  "architectureEquation": "PRODUCT_TRUTH + COMMAND_MEANING + COMPUTED_INTERFACE_FORM = YALKEN",
+  "layers": [
+    {
+      "id": "PRODUCT_CORE",
+      "owns": [
+        "DOMAIN_TRUTH",
+        "SCHEMAS",
+        "IDENTITY",
+        "MIGRATIONS",
+        "ATOMIC_PERSISTENCE",
+        "RECOVERY",
+        "PROVENANCE"
+      ],
+      "mustNotOwn": [
+        "UI_LAYOUT",
+        "VISIBILITY",
+        "DIRECT_PLATFORM_API"
+      ],
+      "observedRoots": [
+        "src/core",
+        "src/product",
+        "src/io",
+        "src/import",
+        "src/export"
+      ]
+    },
+    {
+      "id": "COMMAND_KERNEL",
+      "owns": [
+        "COMMAND_MEANING",
+        "AVAILABILITY",
+        "CAPABILITY_POLICY",
+        "DISPATCH",
+        "EFFECT_RESERVATION",
+        "MUTATION_ROUTING"
+      ],
+      "mustNotOwn": [
+        "VISUAL_FORM",
+        "UI_VISIBILITY_AS_AUTHORITY"
+      ],
+      "observedRoots": [
+        "src/command",
+        "src/shared/productCommandRegistry.cjs",
+        "src/shared/commandCapabilityAuthority.cjs"
+      ]
+    },
+    {
+      "id": "DESIGN_OS",
+      "owns": [
+        "SURFACES",
+        "TYPED_SLOTS",
+        "REPRESENTATIONS",
+        "LAYOUT",
+        "SHELL_MODES",
+        "PROFILES",
+        "VISIBILITY",
+        "PLATFORM_FALLBACK"
+      ],
+      "mustNotOwn": [
+        "PROJECT_TRUTH",
+        "COMMAND_MEANING",
+        "STORAGE_WRITE",
+        "PRODUCT_RECOVERY"
+      ],
+      "observedRoots": [
+        "src/renderer/design-os",
+        "src/renderer/theme",
+        "src/renderer/toolbar"
+      ]
+    },
+    {
+      "id": "RENDERER",
+      "owns": [
+        "PRESENTATION",
+        "USER_INTENT",
+        "TRANSIENT_UI_STATE"
+      ],
+      "mustNotOwn": [
+        "SEMANTIC_TRUTH",
+        "DIRECT_CORE_WRITE",
+        "DIRECT_STORAGE_WRITE",
+        "DIRECT_PLATFORM_ACCESS"
+      ],
+      "observedRoots": [
+        "src/renderer"
+      ]
+    },
+    {
+      "id": "DERIVED_SUBSYSTEM",
+      "owns": [
+        "REBUILDABLE_ANALYSIS",
+        "DERIVED_PROJECTIONS",
+        "GENERATION_GUARDS"
+      ],
+      "mustNotOwn": [
+        "CANONICAL_PRODUCT_WRITE",
+        "UNGUARDED_STALE_PUBLICATION"
+      ],
+      "observedRoots": [
+        "src/derived"
+      ]
+    },
+    {
+      "id": "PLATFORM_ADAPTERS",
+      "owns": [
+        "NAMED_EXTERNAL_EFFECT_IMPLEMENTATION"
+      ],
+      "mustNotOwn": [
+        "DOMAIN_POLICY",
+        "PRIVATE_COMMAND_PATH"
+      ],
+      "observedRoots": [
+        "src/ports",
+        "src/adapters"
+      ]
+    }
+  ],
+  "legacySeams": [
+    {
+      "path": "src/main.js",
+      "law": "TOUCHED_LEGACY_SEAMS_MUST_NOT_WIDEN_BYPASS_OR_AUTHORITY_LEAK"
+    },
+    {
+      "path": "src/preload.js",
+      "law": "TRANSPORT_BOUNDARY_IS_NOT_AUTHORITY_SOURCE"
+    }
+  ],
+  "operationKinds": [
+    "COMMAND",
+    "QUERY",
+    "EVENT",
+    "EFFECT",
+    "BACKGROUND_JOB",
+    "PROJECTION"
+  ],
+  "stateClasses": [
+    {
+      "id": "PROJECT_STATE",
+      "owner": "PRODUCT_CORE",
+      "lossPolicy": "ATOMIC_WRITE_AND_READABLE_RECOVERY"
+    },
+    {
+      "id": "AUTHORING_WORKING_STATE",
+      "owner": "PRODUCT_EDITOR_CONTRACT",
+      "lossPolicy": "NO_LOSS_DUTY"
+    },
+    {
+      "id": "DERIVED_STATE",
+      "owner": "DERIVED_SUBSYSTEM",
+      "lossPolicy": "REBUILDABLE_SOURCE_REMAINS_AUTHORITY"
+    },
+    {
+      "id": "SHELL_STATE",
+      "owner": "DESIGN_OS_SHELL",
+      "lossPolicy": "SEPARATE_STORE_MUST_NOT_CHANGE_MANUSCRIPT"
+    },
+    {
+      "id": "TRANSIENT_STATE",
+      "owner": "RENDERER",
+      "lossPolicy": "DISCARDABLE_ONLY_BY_EXPLICIT_DEFINITION"
+    }
+  ],
+  "terminology": {
+    "workspaces": [
+      "WRITE",
+      "PLAN",
+      "REVIEW"
+    ],
+    "shellModes": [
+      "CALM_DOCKED",
+      "COMPACT_DOCKED",
+      "SPATIAL_ADVANCED",
+      "SAFE_RECOVERY"
+    ],
+    "profiles": [
+      "BASELINE",
+      "SAFE",
+      "FOCUS",
+      "COMPACT"
+    ],
+    "historicalNonCanonicalRuntimeTerms": [
+      "Minimal",
+      "Workbench",
+      "Studio"
+    ]
+  },
+  "writerV1ExtensionBoundary": {
+    "allowed": "DECLARATIVE_INTERNAL_FEATURE_PACK",
+    "forbidden": [
+      "EXECUTABLE_PLUGIN_RUNTIME",
+      "MARKETPLACE",
+      "PUBLIC_PLUGIN_SDK",
+      "PRIVATE_CORE",
+      "PRIVATE_COMMAND_BUS",
+      "PRIVATE_STORAGE_WRITER"
+    ]
+  },
+  "requiredTaskDeclarationFields": [
+    "schemaVersion",
+    "taskId",
+    "objective",
+    "taskType",
+    "bindingBaseSha",
+    "scopeIn",
+    "scopeOut",
+    "productAuthority",
+    "commandAuthority",
+    "designAuthority",
+    "operationKinds",
+    "writePaths",
+    "readPaths",
+    "productPorts",
+    "designOsPorts",
+    "readProjections",
+    "stateClasses",
+    "identityGuards",
+    "capabilityRevalidation",
+    "fallbacks",
+    "recoveryAndNegativeChecks",
+    "securityAndInputBoundary",
+    "performanceAndAccessibility",
+    "currentReality",
+    "targetOnly",
+    "designToolRouter",
+    "dependenciesAndNetwork",
+    "deliveryPolicy",
+    "rollbackPlan"
+  ],
+  "stopSignals": [
+    {
+      "code": "E_AGENT_CANON_RESOLUTION_FAILED",
+      "meaning": "Active canon resolver is missing, invalid or unsafe"
+    },
+    {
+      "code": "E_AGENT_COREX_POINTER_DRIFT",
+      "meaning": "COREX pointer, manifest or frozen digest diverged"
+    },
+    {
+      "code": "E_AGENT_ENTRYPOINT_CASE_DRIFT",
+      "meaning": "Tracked AGENTS.md entrypoint is missing or lowercase-only"
+    },
+    {
+      "code": "E_TASK_DECLARATION_INVALID",
+      "meaning": "Required pre-write architecture decision is missing or empty"
+    },
+    {
+      "code": "E_BASE_SHA_MISMATCH",
+      "meaning": "Task declaration is not bound to current exact HEAD"
+    },
+    {
+      "code": "E_SCOPE_OR_DIRTY_STATE_UNSAFE",
+      "meaning": "Scope is ambiguous or worktree contains unowned changes"
+    },
+    {
+      "code": "E_ARCHITECTURE_AUTHORITY_BYPASS",
+      "meaning": "UI, worker, feature pack or adapter bypasses canonical authority"
+    },
+    {
+      "code": "E_STATE_CLASS_COLLAPSE",
+      "meaning": "Project, authoring, derived, shell or transient state are mixed"
+    },
+    {
+      "code": "E_CAPABILITY_REVALIDATION_MISSING",
+      "meaning": "Visibility is used instead of Command Kernel capability check"
+    },
+    {
+      "code": "E_STALE_ASYNC_GUARD_MISSING",
+      "meaning": "Async publication lacks identity, revision or generation guard"
+    },
+    {
+      "code": "E_TARGET_REPORTED_AS_CURRENT",
+      "meaning": "Target architecture is claimed as live without exact-head evidence"
+    },
+    {
+      "code": "E_DELIVERY_CHAIN_INCOMPLETE",
+      "meaning": "Required commit, push, PR, CI, merge or post-merge verification is missing"
+    }
+  ],
+  "requiredFinalReportFields": [
+    "TASK_ID",
+    "STATUS",
+    "HEAD_SHA_BEFORE",
+    "HEAD_SHA_AFTER",
+    "COMMIT_SHA",
+    "MERGED_SHA",
+    "CHANGED_BASENAMES",
+    "STAGED_SCOPE_MATCH",
+    "TEST_RESULTS",
+    "COMMIT_OUTCOME",
+    "PUSH_RESULT",
+    "PR_RESULT",
+    "CI_RESULT",
+    "MERGE_RESULT",
+    "POST_MERGE_VERIFICATION",
+    "CURRENT_CLAIM_SCOPE",
+    "OPEN_LIMITATIONS",
+    "ROLLBACK",
+    "NEXT_STEP"
+  ],
+  "validationCommands": [
+    "npm run agent:guardrails",
+    "npm run design-os:doctrine",
+    "node --test test/contracts/agent-architecture-guardrails.contract.test.js test/contracts/agent-bootstrap-spec.contract.test.js"
+  ]
+}

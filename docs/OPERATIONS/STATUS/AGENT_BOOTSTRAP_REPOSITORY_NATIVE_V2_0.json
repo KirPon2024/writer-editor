@@ -1,0 +1,156 @@
+{
+  "documentId": "AGENT_BOOTSTRAP_REPOSITORY_NATIVE_V2_0",
+  "documentStatus": "ACTIVE_BOOTSTRAP_FOR_ANY_AGENT",
+  "documentDateUtc": "2026-08-04",
+  "documentLanguage": "RU_EN_IDENTIFIERS",
+  "documentIntent": "REPOSITORY_NATIVE_OBJECTIVE_ONLY_CONTEXT_RECOVERY_AND_PREFLIGHT",
+  "documentClass": "PROCESS_AND_MACHINE_BOOTSTRAP",
+  "activeCanonResolution": {
+    "resolverPath": "docs/OPS/STATUS/CANON_STATUS.json",
+    "rule": "READ_RESOLVER_THEN_EXACT_CANONICAL_DOC_PATH",
+    "rememberedCanonNameAllowed": false
+  },
+  "sourceAuthorityOrder": [
+    "CANON_STATUS_RESOLVER",
+    "RESOLVED_ACTIVE_EXECUTION_CANON",
+    "CANON_MD",
+    "COREX_POINTER",
+    "CURRENT_COREX_V2",
+    "BIBLE_MD",
+    "ARCHITECTURE_ONE_PAGE",
+    "PRODUCT_GLOSSARY",
+    "DOCUMENTATION_CONSTITUTION",
+    "CONTEXT_MD",
+    "PROCESS_MD",
+    "HANDOFF_MD",
+    "EXACT_CODE_TESTS_AND_EXACT_HEAD_EVIDENCE"
+  ],
+  "repositoryNativeContext": {
+    "objectiveOnlyPromptSufficient": true,
+    "extraArchitecturePromptRequired": false,
+    "rootEntrypoint": "AGENTS.md",
+    "humanProtocol": "docs/AGENT_START_PROTOCOL.md",
+    "architectureManifest": "docs/architecture/AGENT_ARCHITECTURE_MANIFEST_V1.json",
+    "architectureManifestSha256": "23b7dca7371647211fb23c0cf007df946f310680e196e0c8b6ad600a876f7cd8",
+    "contextPacketSchema": "docs/architecture/AGENT_CONTEXT_PACKET_V1.schema.json",
+    "taskDeclarationSchema": "docs/architecture/AGENT_TASK_ARCHITECTURE_DECLARATION_V1.schema.json",
+    "finalReportSchema": "docs/architecture/AGENT_FINAL_REPORT_V1.schema.json"
+  },
+  "directTaskPolicy": {
+    "ordinaryDirectAgentTaskRequiresSeparateExecutionTicket": false,
+    "writeTaskRequiresArchitectureDeclaration": true,
+    "declarationMayRemainOutsideRepo": true,
+    "declarationValidationCommand": "npm run agent:preflight -- --declaration <file>",
+    "guardrailValidationCommand": "npm run agent:guardrails"
+  },
+  "taskTypes": [
+    "REPORT_ONLY",
+    "DOCS_ONLY",
+    "PRODUCT_CODE",
+    "PRODUCT_UI",
+    "OPS_GOVERNANCE",
+    "HYGIENE_ISOLATION"
+  ],
+  "automationExecutionTicket": {
+    "requiredFor": [
+      "AUTOMATION_RUNNER",
+      "DELEGATED_EXECUTOR_WITH_FIXED_ALLOWLIST",
+      "CROSS_THREAD_STATE_CHANGING_DISPATCH"
+    ],
+    "notRequiredFor": [
+      "DIRECT_OWNER_OBJECTIVE_IN_CURRENT_AGENT_THREAD",
+      "REPORT_ONLY_TASK"
+    ],
+    "requiredFields": [
+      "TICKET_ID",
+      "ROLE_ROUTE",
+      "GOAL",
+      "BASE_SHA",
+      "HEAD_SHA_AT_START",
+      "TARGET_BRANCH",
+      "PUSH_BRANCH",
+      "PR_MODE",
+      "ALLOWLIST_PATHS_MODE",
+      "ALLOWLIST_PATHS",
+      "DENYLIST_PATHS",
+      "CHECK_PACK",
+      "STOP_CONDITION",
+      "REPORT_FORMAT",
+      "RESUME_POLICY",
+      "OWNER",
+      "EXPIRY",
+      "ROLLBACK_PLAN"
+    ],
+    "defaults": {
+      "scopeMode": "EXACT",
+      "prMode": "URL_ONLY",
+      "mergePolicy": "REPOSITORY_DELIVERY_POLICY"
+    }
+  },
+  "architectureLaws": [
+    "PRODUCT_CORE_OWNS_TRUTH",
+    "COMMAND_KERNEL_OWNS_ACTION_MEANING_AND_MUTATION_AUTHORITY",
+    "DESIGN_OS_OWNS_COMPUTED_FORM",
+    "RENDERER_CONSUMES_PROJECTIONS_AND_EMITS_INTENT",
+    "PLATFORM_EFFECTS_USE_PORTS_AND_ADAPTERS",
+    "STATE_CLASSES_NEVER_COLLAPSE",
+    "VISIBILITY_IS_NOT_CAPABILITY",
+    "TARGET_IS_NOT_CURRENT"
+  ],
+  "stateClasses": [
+    "PROJECT_STATE",
+    "AUTHORING_WORKING_STATE",
+    "DERIVED_STATE",
+    "SHELL_STATE",
+    "TRANSIENT_STATE"
+  ],
+  "operationKinds": [
+    "COMMAND",
+    "QUERY",
+    "EVENT",
+    "EFFECT",
+    "BACKGROUND_JOB",
+    "PROJECTION"
+  ],
+  "defaultDeliveryPolicy": {
+    "commitRequired": true,
+    "pushRequired": true,
+    "prRequired": true,
+    "mergeRequired": true,
+    "postMergeExactHeadVerificationRequired": true
+  },
+  "runProtocol": [
+    "RUN_READ_ONLY_AGENT_BOOTSTRAP",
+    "READ_AUTHORITY_ORDER_AND_EXACT_TASK_SOURCES",
+    "CLASSIFY_TASK",
+    "SNAPSHOT_BASE_WORKTREE_AND_WRITER_LOCK",
+    "CREATE_AND_VALIDATE_TASK_ARCHITECTURE_DECLARATION_FOR_WRITE",
+    "EXECUTE_ONE_BOUNDED_CONTOUR",
+    "RUN_FOCUSED_NEGATIVE_AND_AFFECTED_CHAIN",
+    "RUN_REQUIRED_REPOSITORY_GATES",
+    "COMPLETE_COMMIT_PUSH_PR_CI_MERGE_CHAIN",
+    "VERIFY_EXACT_MERGED_HEAD",
+    "EMIT_EVIDENCE_BOUNDED_FINAL_REPORT"
+  ],
+  "stopRegistryRef": "docs/architecture/AGENT_ARCHITECTURE_MANIFEST_V1.json#/stopSignals",
+  "bootstrapDoneCriteria": [
+    "ACTIVE_CANON_RESOLVED_FROM_STATUS",
+    "CURRENT_COREX_POINTER_VALID",
+    "FROZEN_COREX_V1_DIGEST_VALID",
+    "UPPERCASE_TRACKED_AGENT_ENTRYPOINT_PRESENT",
+    "ARCHITECTURE_MANIFEST_VALID",
+    "OBJECTIVE_NONEMPTY",
+    "READING_ORDER_EMITTED",
+    "PREFLIGHT_COMMAND_EMITTED"
+  ],
+  "finalReport": {
+    "schemaRef": "docs/architecture/AGENT_FINAL_REPORT_V1.schema.json",
+    "claimRule": "PASS_MUST_NAME_EXACT_SHA_SCOPE_AND_NUMERATOR_DENOMINATOR",
+    "selfPassAllowed": false,
+    "nextActionsAllowed": 1
+  },
+  "masterConclusion": {
+    "statement": "AN_AGENT_WITH_AN_OBJECTIVE_AND_REPOSITORY_ACCESS_CAN_RECOVER_ARCHITECTURE_AND_PROCESS_WITHOUT_A_SEPARATE_TZ",
+    "guard": "BOOTSTRAP_AND_PREFLIGHT_MUST_PASS_BEFORE_WRITE"
+  }
+}

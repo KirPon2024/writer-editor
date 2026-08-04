@@ -1,6 +1,6 @@
 # HANDOFF (Yalken Writer)
 
-_Updated: 2026-07-29_
+_Updated: 2026-08-04_
 
 ## Start Here
 - Active execution canon resolver: `docs/OPS/STATUS/CANON_STATUS.json`
@@ -8,8 +8,12 @@ _Updated: 2026-07-29_
 - Repo canon: `CANON.md`
 - Design OS change guide: `docs/YALKEN_DESIGN_OS_CHANGE_GUIDE_V2_2.md`
 - Feature integration doctrine: `docs/YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1.md`
-- COREX: `docs/corex/COREX.v1.md`
+- COREX resolver: `docs/corex/COREX.md`; current: `docs/corex/COREX.v2.md`
 - Product map: `docs/BIBLE.md`
+- Agent bootstrap: `docs/AGENT_START_PROTOCOL.md`
+- Architecture orientation: `docs/ARCHITECTURE_ONE_PAGE.md`
+- Canonical terminology: `docs/PRODUCT_GLOSSARY.md`
+- Documentation law: `docs/DOCUMENTATION_CONSTITUTION.md`
 - Factual context: `docs/CONTEXT.md`
 - Process: `docs/PROCESS.md`
 - Recent changes: `docs/WORKLOG.md`
@@ -17,13 +21,14 @@ _Updated: 2026-07-29_
 ## Reading Order
 1. `docs/OPS/STATUS/CANON_STATUS.json` and the active canonical execution document it resolves to
 2. `CANON.md`
-3. `docs/corex/COREX.v1.md`
+3. `docs/corex/COREX.md`, затем выбранный им `docs/corex/COREX.v2.md`
 4. `docs/BIBLE.md`
-5. `README.md`
-6. `docs/CONTEXT.md`
-7. `docs/PROCESS.md`
-8. `docs/HANDOFF.md`
-9. `docs/YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1.md` для любой новой фичи или процесса
+5. `docs/ARCHITECTURE_ONE_PAGE.md`, `docs/PRODUCT_GLOSSARY.md` и `docs/DOCUMENTATION_CONSTITUTION.md`
+6. `README.md`
+7. `docs/CONTEXT.md`
+8. `docs/PROCESS.md`
+9. `docs/HANDOFF.md`
+10. `docs/YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1.md` для любой новой фичи или процесса
 
 ## Feature Integration Re-entry
 - Product Core владеет данными и смыслом.

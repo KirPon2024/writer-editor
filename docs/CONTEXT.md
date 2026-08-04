@@ -5,8 +5,10 @@
 ## Как читать репозиторий
 - Active execution canon: `docs/OPS/STATUS/CANON_STATUS.json`
 - Верхний repo entrypoint: `CANON.md`
-- Target architecture: `docs/corex/COREX.v1.md`
+- Target architecture resolver: `docs/corex/COREX.md`; current: `docs/corex/COREX.v2.md`
 - Product map: `docs/BIBLE.md`
+- Agent bootstrap: `docs/AGENT_START_PROTOCOL.md`
+- Architecture orientation: `docs/ARCHITECTURE_ONE_PAGE.md` и `docs/PRODUCT_GLOSSARY.md`
 - Process rules: `docs/PROCESS.md`
 - Quick re-entry: `docs/HANDOFF.md`
 - Feature integration doctrine: `docs/YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1.md`

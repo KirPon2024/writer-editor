@@ -13,7 +13,11 @@ async function loadChecker() {
 
 function loadActualTextMap(requiredPaths) {
   const doctrinePath = 'docs/YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1.md';
-  return Object.fromEntries([doctrinePath, ...requiredPaths].map((relativePath) => [
+  return Object.fromEntries([
+    doctrinePath,
+    ...requiredPaths,
+    'docs/AGENT_START_PROMPT.md',
+  ].map((relativePath) => [
     relativePath,
     fs.readFileSync(path.join(REPO_ROOT, relativePath), 'utf8'),
   ]));
@@ -48,14 +52,29 @@ test('feature integration doctrine rejects a missing authority marker', async ()
 test('feature integration doctrine rejects an unbound active entrypoint', async () => {
   const checker = await loadChecker();
   const textMap = loadActualTextMap(checker.REQUIRED_REFERENCE_PATHS);
-  textMap['agents.md'] = textMap['agents.md'].replaceAll(
+  textMap['AGENTS.md'] = textMap['AGENTS.md'].replaceAll(
     'YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1.md',
     'REMOVED_DOCTRINE_REFERENCE.md',
   );
   const result = checker.evaluateDoctrineTextMap(textMap, loadPackageJson());
   assert.equal(result.ok, false);
   assert.ok(result.errors.some((entry) => (
-    entry.code === 'E_DOCTRINE_REFERENCE_MISSING' && entry.path === 'agents.md'
+    entry.code === 'E_DOCTRINE_REFERENCE_MISSING' && entry.path === 'AGENTS.md'
+  )));
+});
+
+test('feature integration doctrine rejects a fallback prompt that bypasses repository routing', async () => {
+  const checker = await loadChecker();
+  const textMap = loadActualTextMap(checker.REQUIRED_REFERENCE_PATHS);
+  textMap['docs/AGENT_START_PROMPT.md'] = textMap['docs/AGENT_START_PROMPT.md'].replace(
+    'docs/AGENT_START_PROTOCOL.md',
+    'REMOVED_PROTOCOL.md',
+  );
+  const result = checker.evaluateDoctrineTextMap(textMap, loadPackageJson());
+  assert.equal(result.ok, false);
+  assert.ok(result.errors.some((entry) => (
+    entry.code === 'E_AGENT_ENTRYPOINT_ROUTING_INVALID'
+      && entry.path === 'docs/AGENT_START_PROMPT.md'
   )));
 });
 

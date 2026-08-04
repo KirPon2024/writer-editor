@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "taskId": "REPLACE_WITH_STABLE_TASK_ID",
+  "objective": "REPLACE_WITH_ONE_CONCRETE_OUTCOME",
+  "taskType": "DOCS_ONLY",
+  "bindingBaseSha": "REPLACE_WITH_EXACT_40_CHARACTER_HEAD_SHA",
+  "scopeIn": [
+    "REPLACE_WITH_EXACT_PATH"
+  ],
+  "scopeOut": [
+    "src/renderer",
+    "package-lock.json"
+  ],
+  "productAuthority": "NOT_APPLICABLE_DOCS_ONLY",
+  "commandAuthority": "NOT_APPLICABLE_DOCS_ONLY",
+  "designAuthority": "NOT_APPLICABLE_DOCS_ONLY",
+  "operationKinds": [
+    "NOT_APPLICABLE_DOCS_ONLY"
+  ],
+  "writePaths": [
+    "REPLACE_WITH_DOCUMENTATION_WRITE_PATHS"
+  ],
+  "readPaths": [
+    "CANON_AND_EXACT_SOURCE_READS"
+  ],
+  "productPorts": [
+    "NOT_APPLICABLE_DOCS_ONLY"
+  ],
+  "designOsPorts": [
+    "NOT_APPLICABLE_DOCS_ONLY"
+  ],
+  "readProjections": [
+    "NOT_APPLICABLE_DOCS_ONLY"
+  ],
+  "stateClasses": [
+    "NOT_APPLICABLE_DOCS_ONLY"
+  ],
+  "identityGuards": [
+    "EXACT_HEAD_AND_DOCUMENT_VERSION"
+  ],
+  "capabilityRevalidation": "NOT_APPLICABLE_DOCS_ONLY",
+  "fallbacks": [
+    "FAIL_CLOSED_ON_AUTHORITY_OR_SCHEMA_DRIFT"
+  ],
+  "recoveryAndNegativeChecks": [
+    "VALIDATOR_REJECTS_MISSING_FIELD",
+    "ROLLBACK_POINTER_AND_POLICY_IN_ONE_PR"
+  ],
+  "securityAndInputBoundary": "NO_RUNTIME_OR_EXTERNAL_INPUT_CHANGE",
+  "performanceAndAccessibility": "NOT_APPLICABLE_DOCS_ONLY",
+  "currentReality": [
+    "REPLACE_WITH_EXACT_CURRENT_FACT"
+  ],
+  "targetOnly": [
+    "REPLACE_WITH_EXPLICIT_NON_CLAIM"
+  ],
+  "designToolRouter": "NOT_APPLICABLE",
+  "dependenciesAndNetwork": "NO_NEW_DEPENDENCY_NO_RUNTIME_NETWORK",
+  "deliveryPolicy": {
+    "commitRequired": true,
+    "pushRequired": true,
+    "prRequired": true,
+    "mergeRequired": true,
+    "postMergeExactHeadVerificationRequired": true
+  },
+  "rollbackPlan": "REPLACE_WITH_EXACT_REVERSIBLE_ROLLBACK"
+}

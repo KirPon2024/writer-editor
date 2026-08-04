@@ -1,4 +1,9 @@
-Назначение: зафиксировать расхождения между docs/CANON.md и текущими декларативными документами (COREX/BIBLE) фактами.
+STATUS: HISTORICAL_AUDIT_INPUT
+CLAIM_BOUNDARY: COREX_V1_GAPS_NOT_CURRENT_ARCHITECTURE_STATUS
+
+Назначение: сохранить расхождения старого COREX v1 с тогдашними
+декларативными документами. Для current architecture использовать resolver
+`docs/corex/COREX.md`; строки `Current_State` ниже намеренно исторические.
 
 GAP-ENTRY
 Invariant: "The UI Runtime MUST NOT be a source of truth." (docs/CANON.md — GLOBAL LAWS)

@@ -13,9 +13,9 @@
   - Уточняет только high-impact неопределенности.
 - CODEX:
   - Реализует файлы и tests в allowlist scope.
-  - Выполняет checks, commit/push, PR create.
-  - По умолчанию оставляет merge человеку (human merge).
-  - Может выполнить `gh pr merge --merge` только при PASS всех safe gates.
+  - Выполняет checks, commit, push, PR, required CI, merge и exact-head verify.
+  - Передаёт merge человеку только при явном governance/UI handoff.
+  - Выполняет `gh pr merge --merge` только при PASS всех applicable gates.
 
 ## ACCOUNT BOOTSTRAP-PERMISSIONS (MANDATORY PREFLIGHT)
 1. `git --version`
@@ -34,7 +34,7 @@
 ## PRECONDITIONS
 - Рабочая ветка: `codex/<task-id>`.
 - Обязателен валидный execution ticket в формате bootstrap spec:
-  - `docs/OPERATIONS/STATUS/AGENT_BOOTSTRAP_ONE_SHOT_SPEC_V1_0.json#/executionTicket`.
+  - `docs/OPERATIONS/STATUS/AGENT_BOOTSTRAP_REPOSITORY_NATIVE_V2_0.json#/automationExecutionTicket`.
 - Scope только OPS-layer:
   - `docs/OPERATIONS/**`
   - `scripts/guards/**`

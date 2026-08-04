@@ -6,10 +6,11 @@ const DOCTRINE_PATH = 'docs/YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1.md'
 const DOCTRINE_REF = 'YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1.md';
 
 export const REQUIRED_REFERENCE_PATHS = Object.freeze([
-  'agents.md',
+  'AGENTS.md',
   'CANON.md',
   'README.md',
-  'docs/AGENT_START_PROMPT.md',
+  'docs/AGENT_START_PROTOCOL.md',
+  'docs/ARCHITECTURE_ONE_PAGE.md',
   'docs/BIBLE.md',
   'docs/CONTEXT.md',
   'docs/HANDOFF.md',
@@ -26,13 +27,13 @@ export const REQUIRED_REFERENCE_PATHS = Object.freeze([
 ]);
 
 export const REQUIRED_CANON_ORDER = Object.freeze({
-  'agents.md': ['CANON_STATUS.json', 'CANON.md', 'COREX.v1.md', 'BIBLE.md'],
-  'README.md': ['CANON_STATUS.json', 'CANON.md', 'COREX.v1.md', 'BIBLE.md'],
-  'docs/AGENT_START_PROMPT.md': ['CANON_STATUS.json', 'CANON.md', 'COREX.md', 'BIBLE.md'],
-  'docs/CONTEXT.md': ['CANON_STATUS.json', 'CANON.md', 'COREX.v1.md', 'BIBLE.md'],
-  'docs/HANDOFF.md': ['CANON_STATUS.json', 'CANON.md', 'COREX.v1.md', 'BIBLE.md'],
-  'docs/PROCESS.md': ['CANON_STATUS.json', 'CANON.md', 'COREX.v1.md', 'BIBLE.md'],
-  'docs/corex/COREX.md': ['CANON_STATUS.json', 'CANON.md', 'COREX.vN.md', 'BIBLE.md'],
+  'AGENTS.md': ['CANON_STATUS.json', 'CANON.md', 'COREX.md', 'BIBLE.md'],
+  'README.md': ['CANON_STATUS.json', 'CANON.md', 'COREX.md', 'BIBLE.md'],
+  'docs/AGENT_START_PROTOCOL.md': ['CANON_STATUS.json', 'CANON.md', 'COREX.md', 'BIBLE.md'],
+  'docs/CONTEXT.md': ['CANON_STATUS.json', 'CANON.md', 'COREX.md', 'BIBLE.md'],
+  'docs/HANDOFF.md': ['CANON_STATUS.json', 'CANON.md', 'COREX.md', 'BIBLE.md'],
+  'docs/PROCESS.md': ['CANON_STATUS.json', 'CANON.md', 'COREX.md', 'BIBLE.md'],
+  'docs/corex/COREX.md': ['CANON_STATUS.json', 'CANON.md', 'docs/corex/COREX.md', 'BIBLE.md'],
   'docs/templates/EDITOR_CORE_TZ.md': ['CANON_STATUS.json', 'CANON.md', 'COREX', 'BIBLE.md'],
   'docs/templates/FEATURE_TZ.md': ['CANON_STATUS.json', 'CANON.md', 'COREX', 'BIBLE.md'],
   'docs/templates/hard-tz.md': ['CANON_STATUS.json', 'CANON.md', 'COREX', 'BIBLE'],
@@ -40,12 +41,20 @@ export const REQUIRED_CANON_ORDER = Object.freeze({
 });
 
 export const REQUIRED_OUTPUT_POLICY_PATHS = Object.freeze([
-  'docs/AGENT_START_PROMPT.md',
+  'AGENTS.md',
   'docs/templates/CODEX_TZ_CHECKLIST.md',
   'docs/templates/EDITOR_CORE_TZ.md',
   'docs/templates/FEATURE_TZ.md',
   'docs/templates/hard-tz.md',
 ]);
+
+export const REQUIRED_INDIRECT_ENTRYPOINTS = Object.freeze({
+  'docs/AGENT_START_PROMPT.md': [
+    'AGENTS.md',
+    'AGENT_START_PROTOCOL.md',
+    'npm run agent:bootstrap',
+  ],
+});
 
 export const REQUIRED_DOCTRINE_MARKERS = Object.freeze([
   'DOCTRINE_ID: YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1',
@@ -113,6 +122,13 @@ export function evaluateDoctrineTextMap(textByPath, packageJson) {
     }
   }
 
+  for (const [relativePath, tokens] of Object.entries(REQUIRED_INDIRECT_ENTRYPOINTS)) {
+    const text = String(textByPath[relativePath] || '');
+    if (!tokensAreOrdered(text, tokens)) {
+      errors.push({ code: 'E_AGENT_ENTRYPOINT_ROUTING_INVALID', path: relativePath, tokens });
+    }
+  }
+
   for (const relativePath of REQUIRED_OUTPUT_POLICY_PATHS) {
     const text = String(textByPath[relativePath] || '');
     if (!text.includes('CHANGED_BASENAMES')) {
@@ -132,7 +148,11 @@ export function evaluateDoctrineTextMap(textByPath, packageJson) {
 }
 
 function readTextMap(repoRoot) {
-  const paths = [DOCTRINE_PATH, ...REQUIRED_REFERENCE_PATHS];
+  const paths = [
+    DOCTRINE_PATH,
+    ...REQUIRED_REFERENCE_PATHS,
+    ...Object.keys(REQUIRED_INDIRECT_ENTRYPOINTS),
+  ];
   return Object.fromEntries(paths.map((relativePath) => [
     relativePath,
     fs.existsSync(path.join(repoRoot, relativePath))

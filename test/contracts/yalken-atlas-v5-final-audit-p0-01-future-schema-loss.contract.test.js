@@ -571,6 +571,33 @@ test('P0 01: Word-return document identity does not upsert readable unbound path
   }
 });
 
+test('P0 01: fresh product project persists tree identity before mutating child scene creation', async (t) => {
+  const harness = await createHarness(t, { devMode: true });
+  const { value: created } = await captureConsoleErrorDuring(
+    () => harness.main.handleProjectLifecycleCreateCommand({ projectName: 'Роман' }),
+  );
+  assert.equal(created.ok, true);
+  const projectRoot = path.join(harness.documentsRoot, 'Роман');
+  const manifestPath = path.join(projectRoot, PROJECT_MANIFEST_FILENAME);
+  const manifestRawBefore = await fsPromises.readFile(manifestPath, 'utf8');
+  const tree = await harness.main.handleWorkspaceProjectTreeQuery({ tab: 'roman' });
+  assert.equal(tree.ok, true, JSON.stringify(tree));
+  const romanNode = findSerializedTreeNodeByName(tree.root, 'Роман');
+  assert.ok(romanNode && typeof romanNode.nodeId === 'string', JSON.stringify(tree.root));
+
+  const createResult = await harness.main.handleUiCreateNodeCommand({
+    parentNodeId: romanNode.nodeId,
+    kind: 'scene',
+    name: 'dorian-00-preface',
+  });
+  assert.equal(createResult.ok, true, JSON.stringify(createResult));
+  assert.match(createResult.nodeId, /^tree-node-[a-f0-9]{32}$/u);
+  assert.equal(manifestRawBefore.includes(romanNode.nodeId), true);
+  const manifestRawAfter = await fsPromises.readFile(manifestPath, 'utf8');
+  assert.equal(manifestRawAfter.includes(createResult.nodeId), true);
+  assert.doesNotMatch(JSON.stringify(createResult), /E_TREE_NODE_NOT_FOUND/u);
+});
+
 test('P0 01: each commanded future author domain fails before recovery or durable write', async (t) => {
   const scenarios = [
     {

@@ -3909,6 +3909,23 @@ app.whenReady().then(async () => {
       const oracleGatePath = activeRound && typeof activeRound.oracleGatePath === 'string' ? activeRound.oracleGatePath : '';
       if (!outPath) throw new Error('C5V2_CUMULATIVE_ROUND_OUT_PATH_REQUIRED:' + roundId);
       progress('round-start', { roundIndex, roundId, outPath, returnedPath, returnedReadyPath, oracleGatePath });
+      // Resume after process restart: a live-resumed round must regenerate its full
+      // downstream evidence chain from its own fresh export. The product authority store
+      // is ephemeral per process (fresh empty store on resume), so the stale returned DOCX
+      // from the dead process carries a YRTK2 roundId that has no authority capsule here
+      // (RTK_RETURN_INTAKE_FOREIGN_OR_EXPIRED_ROUND). Purge stale returned artifacts for
+      // live-resumed rounds so the normal export + Word + return-apply flow creates a
+      // fresh roundId, fresh store, and fresh returned DOCX with matching identity.
+      const isLiveResumedRound = !activeRound?.resumeCompletedRound
+        && fs.existsSync(outPath)
+        && (fs.existsSync(returnedPath) || (returnedReadyPath && fs.existsSync(returnedReadyPath)));
+      if (isLiveResumedRound) {
+        progress('resume-purge-stale-returned-artifacts', { roundIndex, roundId, outPath, returnedPath });
+        for (const stalePath of [returnedPath, returnedReadyPath]) {
+          if (stalePath && fs.existsSync(stalePath)) fs.unlinkSync(stalePath);
+        }
+        fs.unlinkSync(outPath);
+      }
       if (activeRound && activeRound.resumeCompletedRound === true) {
         const resumedGate = oracleGatePath && fs.existsSync(oracleGatePath)
           ? JSON.parse(fs.readFileSync(oracleGatePath, 'utf8'))
@@ -3964,6 +3981,18 @@ app.whenReady().then(async () => {
         });
         if (!rehydration.ok) {
           app.exit(5);
+          return;
+        }
+        // After a resumed round's rehydration, save the document so the editor is clean.
+        // Rehydration restores product state from the reopened truth artifact and leaves
+        // the editor dirty, which would block the next live round's export with
+        // REVIEW_FULL_MANUSCRIPT_DOCX_EXPORT_DIRTY_EDITOR_BLOCKED.
+        try {
+          await invokeUiCommand(win, 'cmd.project.document.save', {});
+          progress('document-saved-after-rehydration', { roundIndex, roundId });
+        } catch (saveError) {
+          emit({ phase: 'error', ok: 0, message: 'C5V2_DOCUMENT_SAVE_AFTER_REHYDRATION_FAILED:' + (saveError && saveError.message ? saveError.message : String(saveError)), dialogCalls, networkRequests });
+          app.exit(6);
           return;
         }
         if (oracleGatePath) {

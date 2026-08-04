@@ -9495,20 +9495,20 @@
       "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
     },
     {
-      "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "fa6af06a0f66e8e1046ff46494f7b6740a049f4c6c2989f85c11955f1610bc66",
-      "approvedBy": "owner-controller:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
-      "approvedAtUtc": "2026-08-04T20:45:00.000Z",
-      "rationale": "Approve Word C5V2 buildOracleProbe wordGreen and outcome tolerance for MANUAL-expected tracked operations correctly classified as BLOCKED by Word exact-apply for non-unique quotes (red team verified the earlier gate-level tolerance was dead code; this fix applies the tolerance at the per-operation level where wordGreen and outcome are computed); verified by 30/30 contract tests.",
-      "approved": true,
-      "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
-    },
-    {
       "filePath": "scripts/ops/rtk-word-c5v2-semantic-oracle.mjs",
       "sha256": "afbdb3c6c02d98c2036229bae3a862766c3094e8a60202ddffd2b359f5a6b8e7",
       "approvedBy": "owner-controller:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
       "approvedAtUtc": "2026-08-04T20:45:00.000Z",
       "rationale": "Approve Word C5V2 semantic oracle outcome mismatch tolerance for MANUAL-expected tracked operations with BLOCKED outcome (Word correctly refused to apply non-unique quote); BLOCKED outcome for MANUAL-expected op is no longer counted as C5V2_ORACLE_WORD_OUTCOME_MISMATCH; verified by 30/30 contract tests.",
+      "approved": true,
+      "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
+      "sha256": "c926a419e33ff2a4e5bffa9253ebeaf1eb766e5cb4f1c407bcd55f33e446c318",
+      "approvedBy": "owner-controller:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
+      "approvedAtUtc": "2026-08-05T01:15:00.000Z",
+      "rationale": "Approve Word C5V2 cumulative campaign resume fixes: (1) purge stale returned artifacts for live-resumed rounds (YRTK2 roundId from dead process is foreign/expired in ephemeral store), (2) save document after resumed round rehydration (dirty editor blocks live export with REVIEW_FULL_MANUSCRIPT_DOCX_EXPORT_DIRTY_EDITOR_BLOCKED); both verified by 28/28 contract tests.",
       "approved": true,
       "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
     }

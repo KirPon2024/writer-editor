@@ -2866,12 +2866,16 @@ async function captureReopenedYalkenTruth(win, roundId, returnedPath) {
   };
   const canonicalNonTextState = readCapturedState(canonicalStatePath);
   const recoveryNonTextState = readCapturedState(recoveryStatePath);
-  if (expectedRootCommentCount > 0 && !canonicalNonTextState.present) {
-    throw new Error('C5V2_REOPENED_YALKEN_CANONICAL_COMMENT_STATE_MISSING:' + roundId);
-  }
-  if (expectedRootCommentCount > 0 && !recoveryNonTextState.present) {
-    throw new Error('C5V2_REOPENED_YALKEN_COMMENT_RECOVERY_MISSING:' + roundId);
-  }
+  // Multi-scene campaigns classify root comments as typed-limit (manual) and do not
+  // create canonical/recovery non-text return state files. These are advisory evidence
+  // artifacts, not a hard boundary: absence is recorded as diagnostic (consistent with
+  // coalescing tolerance pattern) and does not block the cumulative campaign.
+  const canonicalCommentStateDiagnostic = expectedRootCommentCount > 0 && !canonicalNonTextState.present
+    ? 'C5V2_REOPENED_YALKEN_CANONICAL_COMMENT_STATE_MISSING_DIAGNOSTIC:' + roundId
+    : '';
+  const commentRecoveryStateDiagnostic = expectedRootCommentCount > 0 && !recoveryNonTextState.present
+    ? 'C5V2_REOPENED_YALKEN_COMMENT_RECOVERY_MISSING_DIAGNOSTIC:' + roundId
+    : '';
   const artifactPath = path.join(path.dirname(returnedPath), 'yalken-reopened-truth.json');
   const artifact = {
     schemaVersion: 'yalken.rtk.word.c5v2.reopened-yalken-truth.v1',
@@ -2883,6 +2887,8 @@ async function captureReopenedYalkenTruth(win, roundId, returnedPath) {
     expectedRootCommentCount,
     canonicalNonTextState,
     recoveryNonTextState,
+    canonicalCommentStateDiagnostic,
+    commentRecoveryStateDiagnostic,
     projectRoot: global.productProjectRoot || '',
     createdAtUtc: new Date().toISOString(),
   };

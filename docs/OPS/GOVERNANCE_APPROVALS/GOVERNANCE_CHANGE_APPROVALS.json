@@ -5663,10 +5663,10 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "06daf30c3f89bdc6301d582a803ad39c1d49bc2caa79b1860f14cefad9a833be",
+      "sha256": "b587249fc7a70ab07f1a50605202412423c367fe51143dec6466384fba286363",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-04T00:05:00.000Z",
-      "rationale": "Approve exact C5V2 physical canary explicit canonical comment apply decision after physical Word failed closed because authenticated return activation remained preview-only and produced no durable non-text return state; no UI, network, dependency, Google, Atlas mutation or terminal physical PASS claim change.",
+      "approvedAtUtc": "2026-08-04T01:10:00.000Z",
+      "rationale": "Approve exact C5V2 physical canary locator repair after merged-head Dorian round 1 failed closed because unique selected text was wrapped in mutable after-context that could be changed by reverse-order same-paragraph Word operations before locator search; no UI, network, dependency, Google, Atlas mutation or terminal physical PASS claim change.",
       "approved": true,
       "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
     },
@@ -7949,6 +7949,15 @@
       "rationale": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-c5v2-noop-baseline.contract.test.js",
+      "sha256": "c8697ae72256120c44d8b0835941f5d793e745db1c18eaa65c57083c5b8c1cb6",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
+      "approvedAtUtc": "2026-08-04T01:10:00.000Z",
+      "rationale": "Approve exact regression proving the C5V2 physical adapter prefers a unique selected-text locator over mutable after-context for same-paragraph reverse-order tracked operations; no UI, network, dependency, Google, Atlas mutation or terminal physical PASS claim change.",
+      "approved": true,
+      "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-pr1414-audit-hold-repair.contract.test.js",

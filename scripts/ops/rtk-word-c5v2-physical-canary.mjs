@@ -1527,6 +1527,13 @@ function buildUniquePhysicalLocator({ paragraphText, graphemeStart, graphemeEnd,
   const parts = graphemeParts(paragraphText);
   const selectedText = parts.slice(graphemeStart, graphemeEnd).join('');
   if (!selectedText) throw new Error(`C5V2_PHYSICAL_SELECTED_TEXT_REQUIRED:${operationId}`);
+  if (countExactOccurrences(sourceDocxText, selectedText) === 1) {
+    return {
+      quote: selectedText,
+      locatorQuote: selectedText,
+      locatorSelectionStart: 0,
+    };
+  }
   for (const radius of [8, 16, 24, 32, 48, 64, 96, 128, 192, 256, parts.length]) {
     const start = Math.max(0, graphemeStart - radius);
     const end = Math.min(parts.length, graphemeEnd + radius);

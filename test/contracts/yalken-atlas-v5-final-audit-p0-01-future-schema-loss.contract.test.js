@@ -716,8 +716,10 @@ test('P0 01: failed lifecycle open preserves prior active project tree authority
   for (const folderName of ['roman', 'mindmap', 'print', 'materials', 'reference', 'trash', 'backups']) {
     await fsPromises.mkdir(path.join(betaRoot, folderName), { recursive: true });
   }
+  // Бета намеренно пуста (нет ни одной сцены): tree identity bootstrap корректно
+  // выполняется для открываемого проекта, а open честно завершается E_PROJECT_EMPTY
+  // уже ПОСЛЕ активации active project, что реально упражняет transactional rollback.
   await fsPromises.mkdir(path.join(betaRoot, 'roman', 'Imported'), { recursive: true });
-  await fsPromises.writeFile(path.join(betaRoot, 'roman', 'Imported', '01 Beta.txt'), 'Beta target scene.\n', 'utf8');
   await fsPromises.writeFile(betaManifestPath, `${JSON.stringify(betaManifest, null, 2)}\n`, 'utf8');
 
   const openedAlpha = await harness.main.handleProjectLifecycleOpenCommand({ projectId: alphaManifest.projectId });
@@ -728,7 +730,7 @@ test('P0 01: failed lifecycle open preserves prior active project tree authority
 
   const failedBetaOpen = await harness.main.handleProjectLifecycleOpenCommand({ projectId: betaManifest.projectId });
   assert.equal(failedBetaOpen.ok, false, JSON.stringify(failedBetaOpen));
-  assert.equal(failedBetaOpen.code, 'E_PROJECT_TREE_IDENTITY_BOOTSTRAP_FAILED', JSON.stringify(failedBetaOpen));
+  assert.equal(failedBetaOpen.code, 'E_PROJECT_EMPTY', JSON.stringify(failedBetaOpen));
 
   const activeTreeAfterFailure = await harness.main.handleWorkspaceProjectTreeQuery({ tab: 'roman' });
   assert.equal(activeTreeAfterFailure.ok, true, JSON.stringify(activeTreeAfterFailure));

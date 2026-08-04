@@ -15273,11 +15273,10 @@ async function handleProjectLifecycleOpenCommand(payload = {}) {
     return result;
   };
   const readOnlyProject = Number(binding.sourceSchemaVersion) > PROJECT_MANIFEST_SCHEMA_VERSION;
-  setActiveProjectNameFromRoot(binding.projectRoot);
   let manifestForBinding = binding.manifest;
   if (!readOnlyProject) {
     try {
-      await buildProjectTreeRootsWithIdentities();
+      await buildProjectTreeRootsWithIdentities(path.basename(binding.projectRoot));
       const manifestRecord = await readProjectManifest(path.basename(binding.projectRoot));
       manifestForBinding = manifestRecord?.manifest || manifestForBinding;
     } catch (error) {
@@ -15302,6 +15301,7 @@ async function handleProjectLifecycleOpenCommand(payload = {}) {
       { message: error?.message || 'Stage-10 bootstrap failed closed' },
     ));
   }
+  setActiveProjectNameFromRoot(binding.projectRoot);
   const settings = await loadSettings();
   const target = await resolveProjectContinueTarget(projectBindingForOpen, settings);
   if (!target.filePath) return restoreActiveProjectOnFailedOpen(makeProjectLifecycleError('E_PROJECT_EMPTY', 'PROJECT_EMPTY'));
@@ -23007,8 +23007,8 @@ async function createProjectTreeMoveRecovery(manifestPath, projectRoot, sourceTe
   return recovery;
 }
 
-async function reconcileProjectTreeIdentities(roots) {
-  const { manifestPath, manifest } = await ensureProjectManifest(currentProjectName || DEFAULT_PROJECT_NAME);
+async function reconcileProjectTreeIdentities(roots, projectName = currentProjectName || DEFAULT_PROJECT_NAME) {
+  const { manifestPath, manifest } = await ensureProjectManifest(projectName);
   const projectRoot = path.dirname(manifestPath);
   const descriptors = collectProjectTreeIdentityDescriptors(roots, projectRoot);
   const identityModule = await loadProjectTreeIdentityModule();
@@ -23038,7 +23038,7 @@ async function reconcileProjectTreeIdentities(roots) {
   };
 }
 
-async function annotateProjectTreeDerivedCounters(roots) {
+async function annotateProjectTreeDerivedCounters(roots, projectName = currentProjectName || DEFAULT_PROJECT_NAME) {
   const counterModule = await loadNavigatorCountersModule();
   if (!counterModule || typeof counterModule.annotateNavigatorDerivedCounters !== 'function') {
     return {
@@ -23051,7 +23051,7 @@ async function annotateProjectTreeDerivedCounters(roots) {
     const nodePath = typeof node.path === 'string' ? node.path : '';
     const kind = typeof node.kind === 'string' ? node.kind : '';
     if (!nodePath || (kind !== 'scene' && kind !== 'chapter-file')) return '';
-    const projectRoot = getProjectRootPath();
+    const projectRoot = getProjectRootPath(projectName);
     const guard = sanitizePayloadWithinProjectRoot({ path: nodePath }, ['path'], projectRoot);
     if (!guard.ok || !guard.payload) return '';
     try {
@@ -23126,23 +23126,23 @@ function serializeProjectTreeNode(node) {
   };
 }
 
-async function buildProjectTreeRootsWithIdentities() {
-  const romanRoot = await buildRomanTree();
-  const mindmapRoot = await buildMindMapTree();
-  const printRoot = await buildPrintTree();
+async function buildProjectTreeRootsWithIdentities(projectName = currentProjectName || DEFAULT_PROJECT_NAME) {
+  const romanRoot = await buildRomanTree(projectName);
+  const mindmapRoot = await buildMindMapTree(projectName);
+  const printRoot = await buildPrintTree(projectName);
   const roots = {
     roman: buildNode({
       name: 'Roman tab',
       label: 'Roman',
       kind: 'roman-tab-root',
-      nodePath: getProjectRootPath(),
+      nodePath: getProjectRootPath(projectName),
       children: [romanRoot, mindmapRoot, printRoot],
     }),
-    materials: await buildMaterialsTree(),
-    reference: await buildReferenceTree(),
+    materials: await buildMaterialsTree(projectName),
+    reference: await buildReferenceTree(projectName),
   };
-  const identity = await reconcileProjectTreeIdentities(Object.values(roots));
-  await annotateProjectTreeDerivedCounters(Object.values(roots));
+  const identity = await reconcileProjectTreeIdentities(Object.values(roots), projectName);
+  await annotateProjectTreeDerivedCounters(Object.values(roots), projectName);
   return {
     projectId: identity.projectId,
     roots,

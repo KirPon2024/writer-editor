@@ -9505,10 +9505,10 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "7e043ebb64c14288625cdbc9d8e1c1fc12e57d7afbb5058acd43019e1ab41ee6",
+      "sha256": "c926a419e33ff2a4e5bffa9253ebeaf1eb766e5cb4f1c407bcd55f33e446c318",
       "approvedBy": "owner-controller:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
-      "approvedAtUtc": "2026-08-05T00:30:00.000Z",
-      "rationale": "Approve Word C5V2 cumulative campaign resume purge of stale returned artifacts for live-resumed rounds: product authority store is ephemeral per process, so returned DOCX from a dead process carries a YRTK2 roundId with no authority capsule in the fresh process (RTK_RETURN_INTAKE_FOREIGN_OR_EXPIRED_ROUND). Purging stale returned artifacts for live-resumed rounds forces full re-export + Word + return-apply with matching fresh roundId and store. Verified by 28/28 contract tests; no UI, network, dependency, Google, Atlas mutation or terminal physical PASS claim change.",
+      "approvedAtUtc": "2026-08-05T01:15:00.000Z",
+      "rationale": "Approve Word C5V2 cumulative campaign resume fixes: (1) purge stale returned artifacts for live-resumed rounds (YRTK2 roundId from dead process is foreign/expired in ephemeral store), (2) save document after resumed round rehydration (dirty editor blocks live export with REVIEW_FULL_MANUSCRIPT_DOCX_EXPORT_DIRTY_EDITOR_BLOCKED); both verified by 28/28 contract tests.",
       "approved": true,
       "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
     }

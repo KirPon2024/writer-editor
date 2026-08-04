@@ -3983,6 +3983,18 @@ app.whenReady().then(async () => {
           app.exit(5);
           return;
         }
+        // After a resumed round's rehydration, save the document so the editor is clean.
+        // Rehydration restores product state from the reopened truth artifact and leaves
+        // the editor dirty, which would block the next live round's export with
+        // REVIEW_FULL_MANUSCRIPT_DOCX_EXPORT_DIRTY_EDITOR_BLOCKED.
+        try {
+          await invokeUiCommand(win, 'cmd.project.document.save', {});
+          progress('document-saved-after-rehydration', { roundIndex, roundId });
+        } catch (saveError) {
+          emit({ phase: 'error', ok: 0, message: 'C5V2_DOCUMENT_SAVE_AFTER_REHYDRATION_FAILED:' + (saveError && saveError.message ? saveError.message : String(saveError)), dialogCalls, networkRequests });
+          app.exit(6);
+          return;
+        }
         if (oracleGatePath) {
           const roundOracleGate = await waitUntil(() => {
             if (!fs.existsSync(oracleGatePath)) return null;

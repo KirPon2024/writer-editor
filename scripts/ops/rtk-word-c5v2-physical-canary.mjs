@@ -4586,9 +4586,15 @@ function wordOperationLines(ledger, returnedPath) {
     }
     const id = operation.id;
     const quote = operation.quote;
-    const rangeStart = operation.wordRange?.start;
-    const rangeEnd = operation.wordRange?.end;
     const isTrackedTextOperation = ['tracked_replace', 'tracked_insert', 'tracked_delete'].includes(operation.family);
+    // Direct range operations resolve their target by native Word find on the
+    // unique locator, never by absolute story offsets. Absolute offsets silently
+    // mis-target when foreign content enters the live document between operations
+    // (observed 2026-08-04: a 3-char foreign insertion at story position 0 shifted
+    // every subsequent create-range selection by +3 and mis-applied 22 formatting
+    // operations; the complete round oracle correctly failed the round).
+    const isDirectRangeOperation = isTrackedTextOperation
+      || ['formatting', 'structural', 'root_comment'].includes(operation.family);
     lines.push('try');
     lines.push(`  my yRequireBudget(yCheckpointPath, ${appleText(`${id}:START`)})`);
     lines.push(`  my yCheckpoint(yCheckpointPath, ${appleText(`${id}:START`)}, ${appleText(operation.family)})`);
@@ -4601,7 +4607,7 @@ function wordOperationLines(ledger, returnedPath) {
       lines.push('end try');
       continue;
     }
-    if (isTrackedTextOperation) {
+    if (isDirectRangeOperation) {
       const locator = operation.locatorQuote || quote;
       if (!locator || !quote) {
         lines.push('  error "SOURCE_LOCATOR_NOT_BOUND" number 9104');
@@ -4609,10 +4615,6 @@ function wordOperationLines(ledger, returnedPath) {
         lines.push(`  set yRange to my yFindRangeWithin(yDoc, ${appleText(locator)}, ${appleText(quote)})`);
         lines.push('  if yRange is missing value then error "SOURCE_LOCATOR_NOT_FOUND" number 9104');
       }
-    } else if (!Number.isInteger(rangeStart) || !Number.isInteger(rangeEnd) || rangeEnd <= rangeStart) {
-      lines.push('  error "SOURCE_RANGE_NOT_BOUND" number 9104');
-    } else {
-      lines.push(`  set yRange to create range yDoc start ${rangeStart} end ${rangeEnd}`);
     }
     if (operation.family === 'tracked_replace') {
       lines.push('  set track revisions of yDoc to true');

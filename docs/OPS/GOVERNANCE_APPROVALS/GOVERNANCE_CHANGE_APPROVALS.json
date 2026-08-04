@@ -6744,10 +6744,10 @@
     },
     {
       "filePath": "src/main.js",
-      "sha256": "6183d7864d6a840783d97b293d4794e8526f040690067e85be4f51e686279863",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-04T06:26:38.000Z",
-      "rationale": "Approve exact main-process explicit canonical comment apply payload threading, mutating project-create tree identity bootstrap and startup default-project tree identity bootstrap while preserving preview-only default and read-only identity no-write guards; no UI, network, dependency, Google, Atlas mutation or terminal physical PASS claim change.",
+      "sha256": "a01ea5e230c547e600ea689ae5a57f9678d3d035e794e1749b44bc8a6d4813f9",
+      "approvedBy": "owner-controller:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
+      "approvedAtUtc": "2026-08-04T12:00:00.000Z",
+      "rationale": "Approve Stage10-compliant lifecycle-open tree identity bootstrap: explicit project-name threading through buildProjectTreeRootsWithIdentities, reconcileProjectTreeIdentities and annotateProjectTreeDerivedCounters, setActiveProjectNameFromRoot moved after stage10 bootstrap per Stage10 repair source-order contract, transactional active-project rollback preserved, and latent wrong-project bootstrap defect removed; no UI, network, dependency, Google, Atlas mutation or terminal physical PASS claim change.",
       "approved": true,
       "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
     },
@@ -9160,10 +9160,10 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-01-future-schema-loss.contract.test.js",
-      "sha256": "ea9aca5d6f9b37d1150da3888d46b7ae949b666b0458fa1860126425d29573f7",
-      "approvedBy": "owner-watchdog:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-04T06:26:38.000Z",
-      "rationale": "Approve exact focused same-process Stage-10 lease regression covering project-tree query, active document identity payload, fresh product create-to-child-scene identity bootstrap and startup-created renderer command child-scene identity bootstrap after physical Word C5V2 failed closed before export; no UI, network, dependency, Google, Atlas mutation or physical evidence claim change.",
+      "sha256": "6e6d37d7e687b0f6e5b14c204e85d934bc7a201f88285d3c86a1c0cb207d2038",
+      "approvedBy": "owner-watchdog:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
+      "approvedAtUtc": "2026-08-04T12:00:00.000Z",
+      "rationale": "Approve exact focused same-process Stage-10 lease regression covering project-tree query, active document identity payload, fresh product create-to-child-scene identity bootstrap, startup-created renderer command child-scene identity bootstrap, lifecycle-open missing-or-stale current-schema identity bootstrap and failed lifecycle-open active-project rollback rebased to genuine E_PROJECT_EMPTY failure after the wrong-project bootstrap defect removal; no UI, network, dependency, Google, Atlas mutation or physical evidence claim change.",
       "approved": true,
       "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
     },

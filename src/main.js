@@ -15262,37 +15262,75 @@ async function handleProjectLifecycleOpenCommand(payload = {}) {
   if (!canProceed) return { ok: false, cancelled: true };
   const binding = await findProjectBindingByProjectId(normalized.projectId);
   if (!binding) return makeProjectLifecycleError('E_PROJECT_NOT_FOUND', 'PROJECT_NOT_FOUND');
+  const previousActiveProjectName = currentProjectName;
+  const previousCurrentFilePath = currentFilePath;
+  let openCommitted = false;
+  const restoreActiveProjectOnFailedOpen = (result) => {
+    if (!openCommitted) {
+      currentProjectName = previousActiveProjectName;
+      currentFilePath = previousCurrentFilePath;
+    }
+    return result;
+  };
+  const readOnlyProject = Number(binding.sourceSchemaVersion) > PROJECT_MANIFEST_SCHEMA_VERSION;
+  let manifestForBinding = binding.manifest;
+  if (!readOnlyProject) {
+    try {
+      await buildProjectTreeRootsWithIdentities(path.basename(binding.projectRoot));
+      const manifestRecord = await readProjectManifest(path.basename(binding.projectRoot));
+      manifestForBinding = manifestRecord?.manifest || manifestForBinding;
+    } catch (error) {
+      return restoreActiveProjectOnFailedOpen(makeProjectLifecycleError(
+        'E_PROJECT_TREE_IDENTITY_BOOTSTRAP_FAILED',
+        error?.reason || error?.code || 'PROJECT_TREE_IDENTITY_BOOTSTRAP_FAILED',
+        { message: error?.message || 'Project tree identity bootstrap failed' },
+      ));
+    }
+  }
+  const projectBindingForOpen = {
+    ...binding,
+    manifest: manifestForBinding,
+  };
   let stage10Bootstrap = null;
   try {
-    stage10Bootstrap = await bootstrapStage10ApplicationForProject(binding.projectRoot, binding.manifest, 'reopen');
+    stage10Bootstrap = await bootstrapStage10ApplicationForProject(binding.projectRoot, manifestForBinding, 'reopen');
   } catch (error) {
-    return makeProjectLifecycleError(
+    return restoreActiveProjectOnFailedOpen(makeProjectLifecycleError(
       'E_STAGE10_APPLICATION_BOOTSTRAP_FAILED_CLOSED',
       error?.reason || error?.code || 'STAGE10_APPLICATION_BOOTSTRAP_FAILED_CLOSED',
       { message: error?.message || 'Stage-10 bootstrap failed closed' },
-    );
+    ));
   }
   setActiveProjectNameFromRoot(binding.projectRoot);
   const settings = await loadSettings();
-  const target = await resolveProjectContinueTarget(binding, settings);
-  if (!target.filePath) return makeProjectLifecycleError('E_PROJECT_EMPTY', 'PROJECT_EMPTY');
-  const readOnlyProject = Number(binding.sourceSchemaVersion) > PROJECT_MANIFEST_SCHEMA_VERSION;
+  const target = await resolveProjectContinueTarget(projectBindingForOpen, settings);
+  if (!target.filePath) return restoreActiveProjectOnFailedOpen(makeProjectLifecycleError('E_PROJECT_EMPTY', 'PROJECT_EMPTY'));
   const selectionRange = settings.lastProjectId === binding.projectId
     ? normalizeSelectionRangeForSettings(settings.lastProjectSelectionRange)
     : null;
-  const opened = await openProjectDocumentFile(target.filePath, {
-    selectionRange,
-    statusText: target.source === 'last-active' ? 'Проект открыт' : 'Проект открыт с первой сцены',
-    projectId: binding.projectId,
-    projectBinding: binding,
-    readOnlyProject,
-  });
-  if (!opened.ok) return opened;
+  let opened;
+  try {
+    opened = await openProjectDocumentFile(target.filePath, {
+      selectionRange,
+      statusText: target.source === 'last-active' ? 'Проект открыт' : 'Проект открыт с первой сцены',
+      projectId: binding.projectId,
+      projectBinding: projectBindingForOpen,
+      readOnlyProject,
+    });
+  } catch (error) {
+    return restoreActiveProjectOnFailedOpen(makeProjectLifecycleError(
+      error?.code || 'E_PROJECT_OPEN_FAILED',
+      error?.reason || error?.message || 'PROJECT_OPEN_FAILED',
+      { message: error?.message || 'Project open failed' },
+    ));
+  }
+  if (!opened.ok) return restoreActiveProjectOnFailedOpen(opened);
+  openCommitted = true;
   return {
     ok: true,
     opened: true,
     projectId: binding.projectId,
-    projectName: binding.manifest?.projectName || path.basename(binding.projectRoot),
+    projectName: manifestForBinding?.projectName || path.basename(binding.projectRoot),
     documentId: opened.documentId,
     continuationSource: target.source,
     stage10Bootstrap: stage10Bootstrap ? { ok: true, productLifecycleReachable: true } : null,
@@ -22969,8 +23007,8 @@ async function createProjectTreeMoveRecovery(manifestPath, projectRoot, sourceTe
   return recovery;
 }
 
-async function reconcileProjectTreeIdentities(roots) {
-  const { manifestPath, manifest } = await ensureProjectManifest(currentProjectName || DEFAULT_PROJECT_NAME);
+async function reconcileProjectTreeIdentities(roots, projectName = currentProjectName || DEFAULT_PROJECT_NAME) {
+  const { manifestPath, manifest } = await ensureProjectManifest(projectName);
   const projectRoot = path.dirname(manifestPath);
   const descriptors = collectProjectTreeIdentityDescriptors(roots, projectRoot);
   const identityModule = await loadProjectTreeIdentityModule();
@@ -23000,7 +23038,7 @@ async function reconcileProjectTreeIdentities(roots) {
   };
 }
 
-async function annotateProjectTreeDerivedCounters(roots) {
+async function annotateProjectTreeDerivedCounters(roots, projectName = currentProjectName || DEFAULT_PROJECT_NAME) {
   const counterModule = await loadNavigatorCountersModule();
   if (!counterModule || typeof counterModule.annotateNavigatorDerivedCounters !== 'function') {
     return {
@@ -23013,7 +23051,7 @@ async function annotateProjectTreeDerivedCounters(roots) {
     const nodePath = typeof node.path === 'string' ? node.path : '';
     const kind = typeof node.kind === 'string' ? node.kind : '';
     if (!nodePath || (kind !== 'scene' && kind !== 'chapter-file')) return '';
-    const projectRoot = getProjectRootPath();
+    const projectRoot = getProjectRootPath(projectName);
     const guard = sanitizePayloadWithinProjectRoot({ path: nodePath }, ['path'], projectRoot);
     if (!guard.ok || !guard.payload) return '';
     try {
@@ -23088,23 +23126,23 @@ function serializeProjectTreeNode(node) {
   };
 }
 
-async function buildProjectTreeRootsWithIdentities() {
-  const romanRoot = await buildRomanTree();
-  const mindmapRoot = await buildMindMapTree();
-  const printRoot = await buildPrintTree();
+async function buildProjectTreeRootsWithIdentities(projectName = currentProjectName || DEFAULT_PROJECT_NAME) {
+  const romanRoot = await buildRomanTree(projectName);
+  const mindmapRoot = await buildMindMapTree(projectName);
+  const printRoot = await buildPrintTree(projectName);
   const roots = {
     roman: buildNode({
       name: 'Roman tab',
       label: 'Roman',
       kind: 'roman-tab-root',
-      nodePath: getProjectRootPath(),
+      nodePath: getProjectRootPath(projectName),
       children: [romanRoot, mindmapRoot, printRoot],
     }),
-    materials: await buildMaterialsTree(),
-    reference: await buildReferenceTree(),
+    materials: await buildMaterialsTree(projectName),
+    reference: await buildReferenceTree(projectName),
   };
-  const identity = await reconcileProjectTreeIdentities(Object.values(roots));
-  await annotateProjectTreeDerivedCounters(Object.values(roots));
+  const identity = await reconcileProjectTreeIdentities(Object.values(roots), projectName);
+  await annotateProjectTreeDerivedCounters(Object.values(roots), projectName);
   return {
     projectId: identity.projectId,
     roots,

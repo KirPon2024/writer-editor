@@ -3909,6 +3909,23 @@ app.whenReady().then(async () => {
       const oracleGatePath = activeRound && typeof activeRound.oracleGatePath === 'string' ? activeRound.oracleGatePath : '';
       if (!outPath) throw new Error('C5V2_CUMULATIVE_ROUND_OUT_PATH_REQUIRED:' + roundId);
       progress('round-start', { roundIndex, roundId, outPath, returnedPath, returnedReadyPath, oracleGatePath });
+      // Resume after process restart: a live-resumed round must regenerate its full
+      // downstream evidence chain from its own fresh export. The product authority store
+      // is ephemeral per process (fresh empty store on resume), so the stale returned DOCX
+      // from the dead process carries a YRTK2 roundId that has no authority capsule here
+      // (RTK_RETURN_INTAKE_FOREIGN_OR_EXPIRED_ROUND). Purge stale returned artifacts for
+      // live-resumed rounds so the normal export + Word + return-apply flow creates a
+      // fresh roundId, fresh store, and fresh returned DOCX with matching identity.
+      const isLiveResumedRound = !activeRound?.resumeCompletedRound
+        && fs.existsSync(outPath)
+        && (fs.existsSync(returnedPath) || (returnedReadyPath && fs.existsSync(returnedReadyPath)));
+      if (isLiveResumedRound) {
+        progress('resume-purge-stale-returned-artifacts', { roundIndex, roundId, outPath, returnedPath });
+        for (const stalePath of [returnedPath, returnedReadyPath]) {
+          if (stalePath && fs.existsSync(stalePath)) fs.unlinkSync(stalePath);
+        }
+        fs.unlinkSync(outPath);
+      }
       if (activeRound && activeRound.resumeCompletedRound === true) {
         const resumedGate = oracleGatePath && fs.existsSync(oracleGatePath)
           ? JSON.parse(fs.readFileSync(oracleGatePath, 'utf8'))

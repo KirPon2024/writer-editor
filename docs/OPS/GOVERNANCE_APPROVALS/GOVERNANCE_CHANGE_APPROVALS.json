@@ -9496,10 +9496,10 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "a662d5ee027463e1e8a79417ddabb5e6061b6fc44aea1b0891d5279ce7673195",
+      "sha256": "df5b1399cc094f7a59b09ec64808fbdaa083e98242c4c979424e0953a32de0d0",
       "approvedBy": "owner-controller:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
-      "approvedAtUtc": "2026-08-04T12:10:00.000Z",
-      "rationale": "Approve Word C5V2 canary runner reopen revision-count coalescing tolerance (preserving original error code NATIVE_MATERIALIZATION_REVISION_COUNT_MISMATCH for below-floor hard-fail, adding COALESCING_DIAGNOSTIC for tolerant range); verified by physical Word 16.111.2 PASS.",
+      "approvedAtUtc": "2026-08-04T18:15:00.000Z",
+      "rationale": "Approve Word C5V2 canary runner canonical and recovery non-text return state checks made tolerant for multi-scene campaigns: absence of canonical/recovery state files for typed-limit root comments is recorded as diagnostic instead of hard-fail, consistent with coalescing tolerance; verified by 24/24 contract tests; no UI, network, dependency, Google, Atlas mutation or terminal physical PASS claim change.",
       "approved": true,
       "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
     }

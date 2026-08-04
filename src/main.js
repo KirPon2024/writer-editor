@@ -23136,18 +23136,17 @@ async function buildProjectTreeRootsWithIdentitiesReadOnly() {
     error.code = result.error?.code || 'E_TREE_IDENTITY_READ_FAILED';
     throw error;
   }
-  if (result.changed) {
-    const error = new Error('PROJECT_TREE_IDENTITY_STALE');
-    error.code = 'E_TREE_IDENTITY_READONLY_STALE';
-    throw error;
-  }
+  const effectiveManifest = result.changed
+    ? { ...manifest, treeIdentity: result.value }
+    : manifest;
   annotateProjectTreeIdentities(Object.values(roots), projectRoot, result.bindings);
   await annotateProjectTreeDerivedCounters(Object.values(roots));
   return {
     projectId: manifest.projectId,
     roots,
     manifestPath,
-    manifest,
+    manifest: effectiveManifest,
+    readOnlyIdentityChanged: result.changed === true,
   };
 }
 

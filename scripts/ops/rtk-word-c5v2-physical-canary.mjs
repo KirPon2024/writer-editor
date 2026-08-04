@@ -5243,6 +5243,7 @@ export function buildWordScript({
     'on yFindRangeWithin(yDoc, yLocator, yQuote)',
     '  set yLocatorRange to my yFindRange(yDoc, yLocator)',
     '  if yLocatorRange is missing value then return missing value',
+    '  if yLocator is yQuote then return yLocatorRange',
     '  tell application "Microsoft Word"',
     '    select yLocatorRange',
     '    set yFind to find object of selection',

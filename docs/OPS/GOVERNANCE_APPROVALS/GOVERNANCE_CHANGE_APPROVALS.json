@@ -5663,10 +5663,10 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "a289ad83a829989ee7478abd3ef1977ee1cc2e94c8db63e39ace6b2d8f41c988",
+      "sha256": "eea4aa1f85c5de61f970cf45e6b1935108e397d9718b075fab6ff1d37283fdd8",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-04T01:55:00.000Z",
-      "rationale": "Approve exact C5V2 physical canary locator and Word revision coalescing diagnostic repair after merged-head Dorian physical evidence failed closed because native Word 16.111.2 coalesced revision objects below the harness floor before the stronger raw OOXML and reopened Yalken oracle could decide; no UI, network, dependency, Google, Atlas mutation or terminal physical PASS claim change.",
+      "approvedAtUtc": "2026-08-04T02:33:14.000Z",
+      "rationale": "Approve exact C5V2 physical canary self-locator repair after merged-head Dorian physical evidence failed closed because unique selected-text locators made locatorQuote equal quote, while the generated Word yFindRangeWithin path attempted an unreliable nested self-find and produced SOURCE_LOCATOR_NOT_FOUND before semantic oracle agreement; no UI, network, dependency, Google, Atlas mutation or terminal physical PASS claim change.",
       "approved": true,
       "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
     },
@@ -7979,10 +7979,10 @@
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-round-checkpoint.contract.test.js",
-      "sha256": "6668659c393c278a39b2f9a8d9b82c8c50d482baf3455bf0e4d85b6be6f099b4",
+      "sha256": "65d12cfd79080ebd8de0003252ed269352b58b3e022c539688e1680d6a0dc8e7",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-04T01:55:00.000Z",
-      "rationale": "Approve exact round-checkpoint regression update proving native revision-count coalescing is checkpointed as diagnostic evidence rather than a pre-oracle fatal error; complete-round oracle and durable checkpoint gates remain fail-closed.",
+      "approvedAtUtc": "2026-08-04T02:33:14.000Z",
+      "rationale": "Approve exact round-checkpoint regression update proving generated Word self-locator ranges return the first locator range directly when locatorQuote equals quote; complete-round oracle and durable checkpoint gates remain fail-closed.",
       "approved": true,
       "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
     },

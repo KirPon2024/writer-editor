@@ -5,19 +5,19 @@ const path = require('node:path');
 
 const policyPath = path.join(process.cwd(), 'docs', 'OPERATIONS', 'STATUS', 'CODEX_AUTOMATION_POLICY.json');
 
-test('codex automation policy v1.4 bootstrap schema is present and valid', () => {
+test('codex automation policy v1.5 bootstrap schema is present and valid', () => {
   assert.equal(fs.existsSync(policyPath), true, 'policy file must exist');
   const doc = JSON.parse(fs.readFileSync(policyPath, 'utf8'));
 
-  assert.equal(doc.policyVersion, 'v1.4');
+  assert.equal(doc.policyVersion, 'v1.5');
   assert.equal(doc.promptMode, 'prompt_disabled');
   assert.equal(
     doc.bootstrapSpecRef,
-    'docs/OPERATIONS/STATUS/AGENT_BOOTSTRAP_ONE_SHOT_SPEC_V1_0.json',
+    'docs/OPERATIONS/STATUS/AGENT_BOOTSTRAP_REPOSITORY_NATIVE_V2_0.json',
   );
   assert.equal(
     doc.executionTicketPolicyRef,
-    'docs/OPERATIONS/STATUS/AGENT_BOOTSTRAP_ONE_SHOT_SPEC_V1_0.json#/executionTicket',
+    'docs/OPERATIONS/STATUS/AGENT_BOOTSTRAP_REPOSITORY_NATIVE_V2_0.json#/automationExecutionTicket',
   );
   assert.equal(Array.isArray(doc.allowlist), true);
   assert.equal(Array.isArray(doc.denylist), true);
@@ -44,6 +44,14 @@ test('codex automation policy v1.4 bootstrap schema is present and valid', () =>
   );
   assert.equal(
     doc.commandAllowlist.includes('node scripts/contracts/check-agent-bootstrap-spec.mjs'),
+    true,
+  );
+  assert.equal(
+    doc.commandAllowlist.includes('node scripts/validate-agent-guardrails.mjs'),
+    true,
+  );
+  assert.equal(
+    doc.commandAllowlist.includes('node scripts/agent-bootstrap.mjs --objective automation-preflight'),
     true,
   );
   assert.equal(

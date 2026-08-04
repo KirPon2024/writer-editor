@@ -8,10 +8,29 @@
 - `docs/OPS/STATUS/CANON_STATUS.json` — resolver active execution canon
 - указанный resolver-ом active execution document — binding execution law
 - `CANON.md` — верхний repo canon решений и change control
-- `docs/corex/COREX.v1.md` — философия и target architecture
+- `docs/corex/COREX.md` — resolver текущей версии COREX
+- `docs/corex/COREX.v2.md` — философия и target architecture
 - `docs/BIBLE.md` — product map и roadmap
 
 ## Быстрый старт (как работать с новой задачей)
+До выбора режима и до любого write агент выполняет read-only bootstrap:
+
+```bash
+npm run agent:bootstrap -- --objective "один конкретный результат"
+```
+
+Bootstrap не заменяет чтение: он разрешает active canon, фиксирует exact HEAD и
+выдаёт authority order. Для любой write-задачи затем обязательна архитектурная
+декларация по `AGENT_TASK_ARCHITECTURE_DECLARATION_V1.schema.json` и проверка:
+
+```bash
+npm run agent:preflight -- --declaration path-to-declaration.json
+```
+
+Если preflight не может доказать владельца truth, command write path, state
+classes, точный scope, clean writer или delivery policy, результат — STOP до
+исправления входных данных. Отдельный вводный ТЗ-промт не заменяет этот маршрут.
+
 0) **Два режима: ChatGPT → Codex**
 - В **ChatGPT (Чат)**: готовим ТЗ/план/проверки и уточняем детали. **Код/файлы не меняем**.
 - В **Codex (Агент)**: по готовому ТЗ **правим репозиторий по умолчанию**, этапами, с проверками из ТЗ.

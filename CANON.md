@@ -17,7 +17,7 @@ Machine-bound blocking law определяется не этим докумен
 Порядок чтения:
 1. `CANON_STATUS.json` и active canonical execution document.
 2. Этот `CANON.md` как верхний repo entrypoint и change-control canon.
-3. `docs/corex/COREX.v1.md` как философия и target architecture.
+3. `docs/corex/COREX.md` как resolver текущего COREX и `docs/corex/COREX.v2.md` как философия и target architecture.
 4. `docs/BIBLE.md` как product map и target model.
 5. `docs/CONTEXT.md` и `docs/HANDOFF.md` как factual operational docs.
 
@@ -26,6 +26,25 @@ Machine-bound blocking law определяется не этим докумен
 - product map не может сам по себе создавать blocking law;
 - factual docs не могут переопределять active canon;
 - split-brain между несколькими активными truth surfaces запрещён.
+
+## 1.1 Repository-Native Agent Bootstrap
+
+Любой агент начинает работу через `AGENTS.md` и
+`docs/AGENT_START_PROTOCOL.md`. До первого write он обязан:
+
+1. Выполнить read-only `npm run agent:bootstrap -- --objective "<one concrete outcome>"`.
+2. Прочитать выданный bootstrap-ом authority order и точные task sources.
+3. Для write-задачи создать архитектурную декларацию по machine schema и
+   выполнить `npm run agent:preflight -- --declaration <file>`.
+4. Считать `current runtime` и `target architecture` разными классами истины.
+5. Остановиться при конфликте authority, неполном scope, грязном writer
+   worktree, неизвестном владельце state/write path или невалидном preflight.
+
+Отдельный вводный архитектурный промт не является источником истины и не нужен,
+если агент имеет доступ к репозиторию. Репозиторий обязан сам выдавать
+достаточный контекст через entrypoint, resolver, manifest и детерминированные
+проверки. Автоматизированный или cross-thread state-changing dispatch всё ещё
+требует отдельный execution ticket по active bootstrap policy.
 
 ## 2. Active Canon Resolution
 

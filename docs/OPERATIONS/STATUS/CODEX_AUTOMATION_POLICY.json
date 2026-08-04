@@ -1,8 +1,8 @@
 {
-  "policyVersion": "v1.4",
+  "policyVersion": "v1.5",
   "promptMode": "prompt_disabled",
-  "bootstrapSpecRef": "docs/OPERATIONS/STATUS/AGENT_BOOTSTRAP_ONE_SHOT_SPEC_V1_0.json",
-  "executionTicketPolicyRef": "docs/OPERATIONS/STATUS/AGENT_BOOTSTRAP_ONE_SHOT_SPEC_V1_0.json#/executionTicket",
+  "bootstrapSpecRef": "docs/OPERATIONS/STATUS/AGENT_BOOTSTRAP_REPOSITORY_NATIVE_V2_0.json",
+  "executionTicketPolicyRef": "docs/OPERATIONS/STATUS/AGENT_BOOTSTRAP_REPOSITORY_NATIVE_V2_0.json#/automationExecutionTicket",
   "autoApplyWithinAllowlist": true,
   "denylistAbsolute": true,
   "allowlist": [
@@ -27,6 +27,8 @@
   "commandAllowlist": [
     "node scripts/contracts/check-codex-policy-schema.mjs",
     "node scripts/contracts/check-agent-bootstrap-spec.mjs",
+    "node scripts/validate-agent-guardrails.mjs",
+    "node scripts/agent-bootstrap.mjs --objective automation-preflight",
     "node scripts/guards/check-codex-allowlist-boundary.mjs",
     "node scripts/guards/check-codex-denylist-boundary.mjs",
     "node scripts/contracts/check-codex-prompt-mode.mjs",
@@ -222,7 +224,7 @@
   "evidence": {
     "verifiedAt": null,
     "verifiedBy": "HO",
-    "notes": "PR-1 bootstrap only; no synthetic validation yet"
+    "notes": "Repository-native V2 bootstrap; exact-head validation is required before any write"
   },
   "failReasons": [
     "ARTIFACT_MISSING",

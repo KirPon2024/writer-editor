@@ -1,39 +1,38 @@
-# COREX (указатель)
+# COREX — active version resolver
 
-COREX — **версионированная энциклопедия** проекта YALKEN / Writer-Editor:
-- философия
-- целевая архитектурная модель
-- долгосрочный вектор развития
+STATUS: ACTIVE_POINTER
 
-COREX:
-- не заменяет и не переписывает существующие каноны
-- не управляет кодом напрямую
-- не является текущим ТЗ
+COREX — версионированная энциклопедия философии, target architecture и
+долгосрочного вектора Yalken. COREX не управляет кодом напрямую и не доказывает
+current runtime capability.
 
-## Иерархия источников истины (жёстко)
-1. `docs/OPS/STATUS/CANON_STATUS.json` и указанный active execution canon
-2. `CANON.md` — верхний repo canon (правила, запреты, приоритеты)
-3. `docs/corex/COREX.vN.md` — философия + целевая архитектура + долгий горизонт
-4. `docs/BIBLE.md` — product map и roadmap
-5. Остальные `docs/**` — factual, process и справочные материалы
+## Authority order
 
-Правило конфликта: active execution canon имеет высший execution priority;
-`CANON.md` имеет приоритет над COREX и BIBLE и не может отменить binding law
-из active execution canon.
+1. `docs/OPS/STATUS/CANON_STATUS.json` и указанный active execution canon.
+2. `CANON.md`.
+3. Текущая версия COREX из этого `docs/corex/COREX.md` resolver-а.
+4. `docs/BIBLE.md`.
+5. Factual docs, exact code и exact-head evidence.
 
-## Текущая версия
-- Каноническая версия: `docs/corex/COREX.v1.md`
-- Методическая детализация интеграции фич без изменения frozen COREX:
+## Current version
+
+- ACTIVE_COREX: `docs/corex/COREX.v2.md`
+- PREVIOUS_FROZEN_COREX: `docs/corex/COREX.v1.md`
+- CHANGELOG: `docs/corex/CHANGELOG.md`
+- FEATURE_INTEGRATION_METHOD:
   `docs/YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1.md`
 
-Доктрина подчинена COREX и active canon. Она разъясняет две плоскости
-подключения фичи: product contracts для смысла и эффектов, Design OS contracts
-для surfaces, slots и вычисляемой формы интерфейса.
+COREX v2 заменяет v1 только как текущую философскую и target-architectural
+версию. Он не заменяет active execution canon и не повышает capability claims.
 
-## Правило изменения (жёстко)
-- Любые правки COREX — только через выпуск новой версии: `COREX.v2.md`, `COREX.v3.md`, ...
-- Каждая новая версия обязана быть записана в `docs/corex/CHANGELOG.md` (причина / эффект / rollback).
+## Version law
 
-## Нейминг (политика)
-- В COREX фиксируется философское имя: **YALKEN / Writer-Editor**
-- Во внутренних идентификаторах временно сохраняется legacy имя (**craftsman**) до отдельного этапа deep rename
+- Опубликованная версия не редактируется задним числом.
+- Новая семантика выпускается только как `COREX.vN.md`.
+- Каждая версия имеет changelog: reason, effect, compatibility и rollback.
+- Pointer меняется вместе с validator/test, чтобы две версии не были active.
+
+## Naming
+
+- Философское имя: YALKEN / Writer-Editor.
+- Legacy identifier `craftsman` сохраняется только до отдельного deep rename.

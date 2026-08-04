@@ -12,8 +12,12 @@ Yalken развивается как desktop-first и offline-first writer tool 
 ## Канон
 - Active execution canon: `docs/OPS/STATUS/CANON_STATUS.json`
 - Верхний repo canon: `CANON.md`
-- COREX: `docs/corex/COREX.v1.md`
+- COREX resolver: `docs/corex/COREX.md`
+- Current COREX: `docs/corex/COREX.v2.md`
 - Product map: `docs/BIBLE.md`
+- Agent start protocol: `docs/AGENT_START_PROTOCOL.md`
+- Architecture one-page: `docs/ARCHITECTURE_ONE_PAGE.md`
+- Product glossary: `docs/PRODUCT_GLOSSARY.md`
 - Factual context: `docs/CONTEXT.md`
 - Process: `docs/PROCESS.md`
 - Handoff: `docs/HANDOFF.md`
@@ -84,6 +88,24 @@ Yalken развивается как desktop-first и offline-first writer tool 
 npm install
 npm run dev
 ```
+
+## Старт агента
+
+Агенту достаточно репозитория и одной конкретной цели. Перед чтением task-specific
+файлов он запускает read-only bootstrap:
+
+```bash
+npm run agent:bootstrap -- --objective "один конкретный результат"
+```
+
+Перед любым write агент заполняет архитектурную декларацию и запускает:
+
+```bash
+npm run agent:preflight -- --declaration path-to-declaration.json
+npm run agent:guardrails
+```
+
+Полный маршрут и STOP-условия находятся в `docs/AGENT_START_PROTOCOL.md`.
 
 ## Проверка зависимостей
 - `npm run oss:policy`

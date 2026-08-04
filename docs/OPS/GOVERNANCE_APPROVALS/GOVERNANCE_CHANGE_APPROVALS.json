@@ -12,10 +12,12 @@
     },
     {
       "filePath": "docs/OPERATIONS/STATUS/CODEX_AUTOMATION_POLICY.json",
-      "sha256": "73774d9cfeb9b0b2a4656b8d2adddfcccc5765c8b618094a4db38be5e292bb91",
-      "approvedBy": "ticket:TZ_EXEC_PKG_01_A03_2026_02_27",
-      "approvedAtUtc": "2026-02-27T00:00:00.000Z",
-      "rationale": "EXECUTION_PACKAGE_01_MIN_FIXSET_01_02_GOVERNANCE_REBIND"
+      "sha256": "f163fa24357b02c51daf7c57c708c5cd2319991e0c5557e3a7e1cd1d28018d7d",
+      "approvedBy": "owner-direct:TASK_ID:YALKEN_REPOSITORY_NATIVE_AGENT_GUARDRAIL_SYSTEM_V1",
+      "approvedAtUtc": "2026-08-04T09:40:50.000Z",
+      "rationale": "Owner-directed automation policy rebinding to active repository-native V2 bootstrap resolver and deterministic guardrail commands while preserving strict prompt, allowlist, denylist and handoff policy; no product runtime, UI, dependency, network or capability claim change.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_BUILD_REPOSITORY_NATIVE_AGENT_CONTEXT_AND_GUARDRAILS"
     },
     {
       "filePath": "docs/OPERATIONS/STATUS/SAFE_AUTOMERGE_OPS_ONLY_PROFILE.json",
@@ -6842,10 +6844,12 @@
     },
     {
       "filePath": "test/contracts/agent-bootstrap-spec.contract.test.js",
-      "sha256": "1d519c70facdd45cedcf1f104cf56d2b9d8b3ec1b4167c4b4cc6b738c524740a",
-      "approvedBy": "ticket:TZ_CONTOUR_CLOSE_V4_A03_GIT_FORMALIZATION",
-      "approvedAtUtc": "2026-02-28T08:20:46.000Z",
-      "rationale": "TAILS_GIT_FORMALIZATION_GOVERNANCE_REBIND"
+      "sha256": "17ce05697d2fd6717971237d6ceb9b4f890a4a497595e13b1e0444889628859c",
+      "approvedBy": "owner-direct:TASK_ID:YALKEN_REPOSITORY_NATIVE_AGENT_GUARDRAIL_SYSTEM_V1",
+      "approvedAtUtc": "2026-08-04T09:40:50.000Z",
+      "rationale": "Owner-directed bootstrap contract rebinding from stale V1 two-thread assumptions to repository-native V2 objective-only context recovery, architecture declaration, full delivery and self-PASS rejection; no product runtime, UI, dependency, network or capability claim change.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_BUILD_REPOSITORY_NATIVE_AGENT_CONTEXT_AND_GUARDRAILS"
     },
     {
       "filePath": "test/contracts/attestation-trust-lock.contract.test.js",
@@ -6884,10 +6888,12 @@
     },
     {
       "filePath": "test/contracts/codex-automation-policy.test.js",
-      "sha256": "7535dc9cb45d013022dcef607d1600a54616221c9503de3db1b970378e278800",
-      "approvedBy": "ticket:TZ_CONTOUR_CLOSE_V4_A03_GIT_FORMALIZATION",
-      "approvedAtUtc": "2026-02-28T08:20:46.000Z",
-      "rationale": "TAILS_GIT_FORMALIZATION_GOVERNANCE_REBIND"
+      "sha256": "fe8e82552bf6903c0ea65858d9e56e8553e96288edc08f4319e5855afa92f039",
+      "approvedBy": "owner-direct:TASK_ID:YALKEN_REPOSITORY_NATIVE_AGENT_GUARDRAIL_SYSTEM_V1",
+      "approvedAtUtc": "2026-08-04T09:40:50.000Z",
+      "rationale": "Owner-directed automation policy contract rebinding to active repository-native V2 bootstrap resolver and deterministic guardrail commands while preserving strict prompt, allowlist, denylist and handoff policy; no product runtime, UI, dependency, network or capability claim change.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_BUILD_REPOSITORY_NATIVE_AGENT_CONTEXT_AND_GUARDRAILS"
     },
     {
       "filePath": "test/contracts/collab-apply-pipeline-deterministic.contract.test.js",
@@ -9478,6 +9484,15 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+    },
+    {
+      "filePath": "test/contracts/agent-architecture-guardrails.contract.test.js",
+      "sha256": "0e33ca7ae5af774de71dbecdc5bbcedcaa38b630e9ad6347a06a3888ec881ee0",
+      "approvedBy": "owner-direct:TASK_ID:YALKEN_REPOSITORY_NATIVE_AGENT_GUARDRAIL_SYSTEM_V1",
+      "approvedAtUtc": "2026-08-04T09:40:50.000Z",
+      "rationale": "Owner-directed repository-native agent guardrail contract: positive exact-head bootstrap and complete declaration checks plus negative missing-authority, wrong-type, stale-base, UI-router and incomplete-delivery cases; docs and process only, no product runtime, UI, dependency, network or capability claim change.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_BUILD_REPOSITORY_NATIVE_AGENT_CONTEXT_AND_GUARDRAILS"
     }
   ]
 }

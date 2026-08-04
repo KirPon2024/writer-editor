@@ -10,19 +10,22 @@ const SPEC_PATH = path.join(
   'docs',
   'OPERATIONS',
   'STATUS',
-  'AGENT_BOOTSTRAP_ONE_SHOT_SPEC_V1_0.json',
+  'AGENT_BOOTSTRAP_REPOSITORY_NATIVE_V2_0.json',
 );
 
 test('agent bootstrap spec: required machine-bound fields are present', () => {
   const doc = JSON.parse(fs.readFileSync(SPEC_PATH, 'utf8'));
 
-  assert.equal(doc.documentId, 'AGENT_BOOTSTRAP_ONE_SHOT_SPEC_V1_0');
-  assert.equal(doc.documentStatus, 'ACTIVE_BOOTSTRAP_FOR_NEW_AGENT');
-  assert.equal(doc.threadModel.name, 'TWO_THREAD_STRICT');
-  assert.equal(doc.executionTicket.required, true);
-  assert.equal(doc.executionTicket.requiredFields.length >= 18, true);
-  assert.equal(doc.automationPolicy.mode, 'STRICT');
-  assert.equal(doc.automationPolicy.promptMode, 'PROMPT_DISABLED');
+  assert.equal(doc.documentId, 'AGENT_BOOTSTRAP_REPOSITORY_NATIVE_V2_0');
+  assert.equal(doc.documentStatus, 'ACTIVE_BOOTSTRAP_FOR_ANY_AGENT');
+  assert.equal(doc.repositoryNativeContext.objectiveOnlyPromptSufficient, true);
+  assert.equal(doc.repositoryNativeContext.extraArchitecturePromptRequired, false);
+  assert.equal(doc.repositoryNativeContext.rootEntrypoint, 'AGENTS.md');
+  assert.equal(doc.directTaskPolicy.ordinaryDirectAgentTaskRequiresSeparateExecutionTicket, false);
+  assert.equal(doc.directTaskPolicy.writeTaskRequiresArchitectureDeclaration, true);
+  assert.equal(doc.automationExecutionTicket.requiredFields.length >= 18, true);
+  assert.equal(doc.defaultDeliveryPolicy.mergeRequired, true);
+  assert.equal(doc.finalReport.selfPassAllowed, false);
 });
 
 test('agent bootstrap spec checker: policy and spec alignment passes', () => {
@@ -37,4 +40,6 @@ test('agent bootstrap spec checker: policy and spec alignment passes', () => {
   assert.match(output, /CP-7 AGENT_BOOTSTRAP_SPEC_OK=1/);
   assert.match(output, /CP-8 EXECUTION_TICKET_SCHEMA_OK=1/);
   assert.match(output, /CP-9 AUTOMATION_POLICY_ALIGNMENT_OK=1/);
+  assert.match(output, /CP-10 REPOSITORY_NATIVE_CONTEXT_OK=1/);
+  assert.match(output, /CP-11 ARCHITECTURE_PREFLIGHT_BINDING_OK=1/);
 });

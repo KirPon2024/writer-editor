@@ -1,9 +1,16 @@
 # macOS Release Readiness Matrix v1.0
 
-## Current Status (Snapshot)
+STATUS: HISTORICAL_SNAPSHOT_SUPERSEDED
+CLAIM_BOUNDARY: NOT_CURRENT_RELEASE_READINESS_OR_EXECUTION_AUTHORITY
+
+Этот документ сохраняет старый snapshot и не используется для current claims.
+Текущая authority chain разрешается через `CANON_STATUS.json`, `CANON.md` и
+`docs/corex/COREX.md`.
+
+## Historical Status (Snapshot)
 - Estimated Readiness: ~30%
 - Target: Release Candidate (RC)
-- Canon priority: macOS first (ref `docs/corex/COREX.v1.md`, section 14.1)
+- Original source: frozen `docs/corex/COREX.v1.md`, section 14.1
 
 ---
 

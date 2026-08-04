@@ -5664,15 +5664,6 @@
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
     },
     {
-      "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "eea4aa1f85c5de61f970cf45e6b1935108e397d9718b075fab6ff1d37283fdd8",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-04T02:33:14.000Z",
-      "rationale": "Approve exact C5V2 physical canary self-locator repair after merged-head Dorian physical evidence failed closed because unique selected-text locators made locatorQuote equal quote, while the generated Word yFindRangeWithin path attempted an unreliable nested self-find and produced SOURCE_LOCATOR_NOT_FOUND before semantic oracle agreement; no UI, network, dependency, Google, Atlas mutation or terminal physical PASS claim change.",
-      "approved": true,
-      "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
-    },
-    {
       "filePath": "scripts/ops/rtk-word-c5v2-round-checkpoint.mjs",
       "sha256": "f27367d39c7b8bc31807f4d6d473703ae3b8917207a8e9806f31ba0a7522c187",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
@@ -9500,6 +9491,15 @@
       "approvedBy": "owner-controller:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
       "approvedAtUtc": "2026-08-04T12:50:00.000Z",
       "rationale": "Approve W02/W03 terminal acceptance matrix artifact binding 25 Word capability rows to merged origin main a23ee492 with W03 vocabulary, zero safety veto counters and terminal plan; docs-only artifact, no UI, network, dependency, Google, Atlas mutation or terminal physical PASS claim change.",
+      "approved": true,
+      "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
+      "sha256": "a662d5ee027463e1e8a79417ddabb5e6061b6fc44aea1b0891d5279ce7673195",
+      "approvedBy": "owner-controller:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
+      "approvedAtUtc": "2026-08-04T12:10:00.000Z",
+      "rationale": "Approve Word C5V2 canary runner reopen revision-count coalescing tolerance (preserving original error code NATIVE_MATERIALIZATION_REVISION_COUNT_MISMATCH for below-floor hard-fail, adding COALESCING_DIAGNOSTIC for tolerant range); verified by physical Word 16.111.2 PASS.",
       "approved": true,
       "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
     }

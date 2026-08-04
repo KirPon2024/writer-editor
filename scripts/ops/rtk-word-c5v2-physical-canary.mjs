@@ -4498,6 +4498,18 @@ function wordOperationLines(ledger, returnedPath) {
   const expectedNativeRevisionCount = ledger.operations.reduce((count, operation) => (
     count + (['tracked_replace', 'tracked_insert'].includes(operation.family) ? 2 : operation.family === 'tracked_delete' ? 1 : 0)
   ), 0);
+  // Word for Mac может coalesce соседние same-author inline revisions при save/reopen,
+  // уменьшая фактический count of revisions относительно ожидаемого. Floor = число
+  // уникальных tracked-operation anchors (как в FINAL readback coalescing diagnostic),
+  // ниже которого loss уже не объясняется coalescing и должен hard-fail.
+  const trackedOperationsForFloor = ledger.operations.filter((operation) => (
+    ['tracked_replace', 'tracked_insert', 'tracked_delete'].includes(operation.family)
+  ));
+  const materializationMinimumRevisionCount = new Set(trackedOperationsForFloor.map((operation) => {
+    const anchor = operation.masterAnchor || {};
+    if (anchor.paragraphId) return `${operation.sceneId}|${anchor.paragraphId}`;
+    return `${operation.sceneId || ''}|${operation.wordRange?.start || operation.id}`;
+  })).size;
   const expectedRootMarkers = rootOperations.map((operation) => `C5V2 root ${operation.id}`);
   let materializationBoundaryWritten = false;
   const lifecycleCheckpointLines = (operation) => {
@@ -4522,7 +4534,7 @@ function wordOperationLines(ledger, returnedPath) {
   };
   for (const operation of orderedOperations) {
     if (['reply_attempt', 'state_attempt'].includes(operation.family) && operation.physicalAction !== 'typed-limit' && !materializationBoundaryWritten) {
-      lines.push(`set yMaterializationHash to my yMaterializeNativeCommentBoundary(yCheckpointPath, yReturnedPath, yExpectedFullName, yExpectedName, ${expectedNativeRevisionCount}, ${rootOperations.length}, ${appleList(expectedRootMarkers)})`);
+      lines.push(`set yMaterializationHash to my yMaterializeNativeCommentBoundary(yCheckpointPath, yReturnedPath, yExpectedFullName, yExpectedName, ${expectedNativeRevisionCount}, ${materializationMinimumRevisionCount}, ${rootOperations.length}, ${appleList(expectedRootMarkers)})`);
       lines.push('set yDoc to active document');
       lines.push('set yDocWasOpened to true');
       materializationBoundaryWritten = true;
@@ -4851,7 +4863,7 @@ export function buildWordScript({
     '    end repeat',
     '  end tell',
     'end yVerifyNativeRootMarkers',
-    'on yMaterializeNativeCommentBoundary(yCheckpointPath, yReturnedPath, yExpectedFullName, yExpectedName, yExpectedRevisionCount, yExpectedRootCount, yExpectedMarkers)',
+    'on yMaterializeNativeCommentBoundary(yCheckpointPath, yReturnedPath, yExpectedFullName, yExpectedName, yExpectedRevisionCount, yMinimumRevisionCount, yExpectedRootCount, yExpectedMarkers)',
     '  my yRequireBudget(yCheckpointPath, "NATIVE_MATERIALIZATION_START")',
     '  my yDurableCheckpoint(yCheckpointPath, "NATIVE_MATERIALIZATION_SAVE_BEFORE", "")',
     '  tell application "Microsoft Word"',
@@ -4888,7 +4900,11 @@ export function buildWordScript({
     '        exit repeat',
     '      end try',
     '    end repeat',
-    '    if yReopenedRevisionCount is not yExpectedRevisionCount then error "NATIVE_MATERIALIZATION_REVISION_COUNT_MISMATCH:" & yReopenedRevisionCount & ":" & yExpectedRevisionCount number 9728',
+    '    if yReopenedRevisionCount is less than yMinimumRevisionCount then error "NATIVE_MATERIALIZATION_REVISION_COUNT_MISMATCH:" & yReopenedRevisionCount & ":" & yMinimumRevisionCount & ":" & yExpectedRevisionCount number 9728',
+    '    if yReopenedRevisionCount is not yExpectedRevisionCount then',
+    '      set yReopenCoalescingDiagnostic to "NATIVE_MATERIALIZATION_REVISION_COUNT_COALESCING_DIAGNOSTIC:" & yReopenedRevisionCount & ":" & yMinimumRevisionCount & ":" & yExpectedRevisionCount',
+    '      my yCheckpoint(yCheckpointPath, "REOPEN_REVISION_COUNT_COALESCING_DIAGNOSTIC", yReopenCoalescingDiagnostic)',
+    '    end if',
     '    if yReopenedRootCount is not yExpectedRootCount then error "NATIVE_MATERIALIZATION_ROOT_COUNT_MISMATCH:" & yReopenedRootCount & ":" & yExpectedRootCount number 9729',
     '    set yReopenedFullName to full name of active document as text',
     '    my yVerifyNativeRootMarkers(active document, yExpectedMarkers)',

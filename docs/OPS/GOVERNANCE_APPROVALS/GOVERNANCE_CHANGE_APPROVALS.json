@@ -9496,10 +9496,19 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "7315fc642f1da2b9be4bb2b2489befa2bfaf0d8fa7bd10f5f7edce1acc917bbf",
+      "sha256": "fa6af06a0f66e8e1046ff46494f7b6740a049f4c6c2989f85c11955f1610bc66",
       "approvedBy": "owner-controller:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
-      "approvedAtUtc": "2026-08-04T20:15:00.000Z",
-      "rationale": "Approve Word C5V2 complete round oracle probe tolerance in buildOracleProbe complete check: MANUAL-expected tracked operations correctly classified as BLOCKED by Word exact-apply for non-unique quotes (e.g., single character h/g appearing hundreds of times) are now tolerated in the complete round oracle, consistent with the gate-level tolerance added earlier; verified by 28/28 contract tests; no UI, network, dependency, Google, Atlas mutation or terminal physical PASS claim change.",
+      "approvedAtUtc": "2026-08-04T20:45:00.000Z",
+      "rationale": "Approve Word C5V2 buildOracleProbe wordGreen and outcome tolerance for MANUAL-expected tracked operations correctly classified as BLOCKED by Word exact-apply for non-unique quotes (red team verified the earlier gate-level tolerance was dead code; this fix applies the tolerance at the per-operation level where wordGreen and outcome are computed); verified by 30/30 contract tests.",
+      "approved": true,
+      "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-c5v2-semantic-oracle.mjs",
+      "sha256": "afbdb3c6c02d98c2036229bae3a862766c3094e8a60202ddffd2b359f5a6b8e7",
+      "approvedBy": "owner-controller:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
+      "approvedAtUtc": "2026-08-04T20:45:00.000Z",
+      "rationale": "Approve Word C5V2 semantic oracle outcome mismatch tolerance for MANUAL-expected tracked operations with BLOCKED outcome (Word correctly refused to apply non-unique quote); BLOCKED outcome for MANUAL-expected op is no longer counted as C5V2_ORACLE_WORD_OUTCOME_MISMATCH; verified by 30/30 contract tests.",
       "approved": true,
       "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
     }

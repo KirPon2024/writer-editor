@@ -14,10 +14,14 @@ async function loadRuntimeModule() {
   return import(pathToFileURL(path.join(ROOT, 'src', 'core', 'runtime.mjs')).href);
 }
 
-async function loadMainWithElectronStub(paths) {
+async function loadMainWithElectronStub(paths, options = {}) {
   const mainPath = path.join(ROOT, 'src', 'main.js');
   const fileManagerPath = path.join(ROOT, 'src', 'utils', 'fileManager.js');
   const originalLoad = Module._load;
+  const originalArgv = process.argv.slice();
+  if (options.devMode === true && !process.argv.includes('--dev')) {
+    process.argv.push('--dev');
+  }
   const ipcHandlers = new Map();
   const electronStub = {
     app: {
@@ -73,10 +77,11 @@ async function loadMainWithElectronStub(paths) {
     };
   } finally {
     Module._load = originalLoad;
+    process.argv = originalArgv;
   }
 }
 
-async function createHarness(t) {
+async function createHarness(t, options = {}) {
   const tempRoot = await fsPromises.mkdtemp(path.join(os.tmpdir(), 'atlas-p0-01-'));
   t.after(async () => fsPromises.rm(tempRoot, { recursive: true, force: true }));
   const documentsParent = path.join(tempRoot, 'Documents');
@@ -84,7 +89,7 @@ async function createHarness(t) {
   const userDataRoot = path.join(tempRoot, 'userData');
   await fsPromises.mkdir(documentsRoot, { recursive: true });
   await fsPromises.mkdir(userDataRoot, { recursive: true });
-  const loaded = await loadMainWithElectronStub({ tempRoot, documentsParent, userDataRoot });
+  const loaded = await loadMainWithElectronStub({ tempRoot, documentsParent, userDataRoot }, options);
   const originalGetDocumentsPath = loaded.fileManager.getDocumentsPath;
   loaded.fileManager.getDocumentsPath = () => documentsRoot;
   t.after(() => { loaded.fileManager.getDocumentsPath = originalGetDocumentsPath; });
@@ -94,6 +99,37 @@ async function createHarness(t) {
     documentsRoot,
     userDataRoot,
   };
+}
+
+function findSerializedTreeNodeByName(node, name) {
+  if (!node || typeof node !== 'object') return null;
+  if (node.name === name || node.label === name) return node;
+  for (const child of Array.isArray(node.children) ? node.children : []) {
+    const found = findSerializedTreeNodeByName(child, name);
+    if (found) return found;
+  }
+  return null;
+}
+
+async function captureConsoleErrorDuring(operation) {
+  const originalError = console.error;
+  const messages = [];
+  console.error = (...args) => {
+    messages.push(args.map((arg) => {
+      if (typeof arg === 'string') return arg;
+      try {
+        return JSON.stringify(arg);
+      } catch {
+        return String(arg);
+      }
+    }).join(' '));
+  };
+  try {
+    const value = await operation();
+    return { value, messages };
+  } finally {
+    console.error = originalError;
+  }
 }
 
 async function injectFutureAtlasPayload(manifestPath) {
@@ -390,7 +426,7 @@ test('P0 01: project tree query uses read-only identity when same process holds 
   const created = await harness.main.handleProjectLifecycleCreateCommand({ projectName: 'Роман' });
   assert.equal(created.ok, true);
   const projectRoot = path.join(harness.documentsRoot, 'Роман');
-  const scenePath = path.join(projectRoot, 'roman', '01_same-process-lease-scene.txt');
+  const scenePath = path.join(projectRoot, 'roman', 'Imported', '01_same-process-lease-scene.txt');
   await fsPromises.mkdir(path.dirname(scenePath), { recursive: true });
   await fsPromises.writeFile(scenePath, 'Same process lease scene\\n', 'utf8');
   const manifestPath = path.join(projectRoot, PROJECT_MANIFEST_FILENAME);
@@ -398,6 +434,8 @@ test('P0 01: project tree query uses read-only identity when same process holds 
 
   const firstTree = await harness.main.handleWorkspaceProjectTreeQuery({ tab: 'roman' });
   assert.equal(firstTree.ok, true, JSON.stringify(firstTree));
+  const manifestRawAfterFirstTree = await fsPromises.readFile(manifestPath, 'utf8');
+  const staleScenePath = path.join(projectRoot, 'roman', 'Imported', '02_stale-readonly-lease-scene.txt');
 
   const { createProjectLeaseManager } = await import(pathToFileURL(
     path.join(ROOT, 'src', 'product', 'projectLease.mjs'),
@@ -407,11 +445,127 @@ test('P0 01: project tree query uses read-only identity when same process holds 
   });
   const heldLease = await leaseManager.acquire(manifest.projectId);
   try {
+    await fsPromises.writeFile(staleScenePath, 'Stale read-only lease scene\\n', 'utf8');
     const secondTree = await harness.main.handleWorkspaceProjectTreeQuery({ tab: 'roman' });
     assert.equal(secondTree.ok, true, JSON.stringify(secondTree));
     assert.equal(secondTree.projectId, manifest.projectId);
-    const documentIdentity = await harness.main.getProjectDocumentIdentityPayload(scenePath);
+    const staleNode = findSerializedTreeNodeByName(secondTree.root, 'stale-readonly-lease-scene');
+    assert.ok(staleNode, JSON.stringify(secondTree.root));
+    assert.match(staleNode.nodeId, /^tree-node-[a-f0-9]{32}$/u);
+    const documentIdentity = await harness.main.getProjectDocumentIdentityPayload(staleScenePath);
     assert.match(documentIdentity.documentId, /^tree-node-[a-f0-9]{32}$/u);
+    assert.equal(documentIdentity.documentId, staleNode.nodeId);
+    assert.equal(await fsPromises.readFile(manifestPath, 'utf8'), manifestRawAfterFirstTree);
+  } finally {
+    await leaseManager.release(heldLease);
+  }
+});
+
+test('P0 01: Word-return read-only identity consumers do not write when manifest is unavailable under Stage-10 lease', async (t) => {
+  const harness = await createHarness(t, { devMode: true });
+  const { value: created } = await captureConsoleErrorDuring(
+    () => harness.main.handleProjectLifecycleCreateCommand({ projectName: 'Роман' }),
+  );
+  assert.equal(created.ok, true);
+  const projectRoot = path.join(harness.documentsRoot, 'Роман');
+  const scenePath = path.join(projectRoot, 'roman', 'Imported', '01_missing-manifest-return-scene.txt');
+  await fsPromises.mkdir(path.dirname(scenePath), { recursive: true });
+  await fsPromises.writeFile(scenePath, 'Missing manifest return scene\\n', 'utf8');
+  const manifestPath = path.join(projectRoot, PROJECT_MANIFEST_FILENAME);
+  const manifest = JSON.parse(await fsPromises.readFile(manifestPath, 'utf8'));
+
+  const { createProjectLeaseManager } = await import(pathToFileURL(
+    path.join(ROOT, 'src', 'product', 'projectLease.mjs'),
+  ).href);
+  const leaseManager = createProjectLeaseManager({
+    leaseRoot: path.join(harness.userDataRoot, 'stage10-integrity-anchors'),
+  });
+  const heldLease = await leaseManager.acquire(manifest.projectId);
+  try {
+    await fsPromises.unlink(manifestPath);
+    const captured = await captureConsoleErrorDuring(async () => {
+      const tree = await harness.main.handleWorkspaceProjectTreeQuery({ tab: 'roman' });
+      assert.equal(tree.ok, false, JSON.stringify(tree));
+      assert.equal(tree.error, 'E_PROJECT_MANIFEST_UNAVAILABLE');
+      await assert.rejects(
+        () => harness.main.getProjectDocumentIdentityPayload(scenePath),
+        (error) => error && error.code === 'E_PROJECT_DOCUMENT_IDENTITY_UNAVAILABLE',
+      );
+    });
+    assert.equal(captured.messages.join('\\n').includes('E_PROJECT_LEASE_HELD'), false);
+    assert.equal(fs.existsSync(manifestPath), false);
+  } finally {
+    await leaseManager.release(heldLease);
+  }
+});
+
+test('P0 01: Word-return read-only identity consumers do not repair unreadable manifest under Stage-10 lease', async (t) => {
+  const harness = await createHarness(t, { devMode: true });
+  const { value: created } = await captureConsoleErrorDuring(
+    () => harness.main.handleProjectLifecycleCreateCommand({ projectName: 'Роман' }),
+  );
+  assert.equal(created.ok, true);
+  const projectRoot = path.join(harness.documentsRoot, 'Роман');
+  const scenePath = path.join(projectRoot, 'roman', 'Imported', '01_unreadable-manifest-return-scene.txt');
+  await fsPromises.mkdir(path.dirname(scenePath), { recursive: true });
+  await fsPromises.writeFile(scenePath, 'Unreadable manifest return scene\\n', 'utf8');
+  const manifestPath = path.join(projectRoot, PROJECT_MANIFEST_FILENAME);
+  const manifest = JSON.parse(await fsPromises.readFile(manifestPath, 'utf8'));
+  const unreadableManifestText = '{ "schemaVersion": 1, "projectId": ';
+
+  const { createProjectLeaseManager } = await import(pathToFileURL(
+    path.join(ROOT, 'src', 'product', 'projectLease.mjs'),
+  ).href);
+  const leaseManager = createProjectLeaseManager({
+    leaseRoot: path.join(harness.userDataRoot, 'stage10-integrity-anchors'),
+  });
+  const heldLease = await leaseManager.acquire(manifest.projectId);
+  try {
+    await fsPromises.writeFile(manifestPath, unreadableManifestText, 'utf8');
+    const captured = await captureConsoleErrorDuring(async () => {
+      const tree = await harness.main.handleWorkspaceProjectTreeQuery({ tab: 'roman' });
+      assert.equal(tree.ok, false, JSON.stringify(tree));
+      assert.equal(tree.error, 'E_PROJECT_MANIFEST_UNAVAILABLE');
+      await assert.rejects(
+        () => harness.main.getProjectDocumentIdentityPayload(scenePath),
+        (error) => error && error.code === 'E_PROJECT_DOCUMENT_IDENTITY_UNAVAILABLE',
+      );
+    });
+    assert.equal(captured.messages.join('\\n').includes('E_PROJECT_LEASE_HELD'), false);
+    assert.equal(await fsPromises.readFile(manifestPath, 'utf8'), unreadableManifestText);
+  } finally {
+    await leaseManager.release(heldLease);
+  }
+});
+
+test('P0 01: Word-return document identity does not upsert readable unbound paths under Stage-10 lease', async (t) => {
+  const harness = await createHarness(t, { devMode: true });
+  const { value: created } = await captureConsoleErrorDuring(
+    () => harness.main.handleProjectLifecycleCreateCommand({ projectName: 'Роман' }),
+  );
+  assert.equal(created.ok, true);
+  const projectRoot = path.join(harness.documentsRoot, 'Роман');
+  const scenePath = path.join(projectRoot, 'roman', 'Detached', '01_unbound-readable-return-scene.txt');
+  await fsPromises.mkdir(path.dirname(scenePath), { recursive: true });
+  await fsPromises.writeFile(scenePath, 'Unbound readable return scene\\n', 'utf8');
+  const manifestPath = path.join(projectRoot, PROJECT_MANIFEST_FILENAME);
+  const manifest = JSON.parse(await fsPromises.readFile(manifestPath, 'utf8'));
+  const manifestRawBefore = await fsPromises.readFile(manifestPath, 'utf8');
+
+  const { createProjectLeaseManager } = await import(pathToFileURL(
+    path.join(ROOT, 'src', 'product', 'projectLease.mjs'),
+  ).href);
+  const leaseManager = createProjectLeaseManager({
+    leaseRoot: path.join(harness.userDataRoot, 'stage10-integrity-anchors'),
+  });
+  const heldLease = await leaseManager.acquire(manifest.projectId);
+  try {
+    const captured = await captureConsoleErrorDuring(async () => {
+      const identity = await harness.main.getProjectDocumentIdentityPayload(scenePath);
+      assert.match(identity.documentId, /^tree-node-[a-f0-9]{32}$/u);
+    });
+    assert.equal(captured.messages.join('\\n').includes('E_PROJECT_LEASE_HELD'), false);
+    assert.equal(await fsPromises.readFile(manifestPath, 'utf8'), manifestRawBefore);
   } finally {
     await leaseManager.release(heldLease);
   }

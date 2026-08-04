@@ -23136,18 +23136,17 @@ async function buildProjectTreeRootsWithIdentitiesReadOnly() {
     error.code = result.error?.code || 'E_TREE_IDENTITY_READ_FAILED';
     throw error;
   }
-  if (result.changed) {
-    const error = new Error('PROJECT_TREE_IDENTITY_STALE');
-    error.code = 'E_TREE_IDENTITY_READONLY_STALE';
-    throw error;
-  }
+  const effectiveManifest = result.changed
+    ? { ...manifest, treeIdentity: result.value }
+    : manifest;
   annotateProjectTreeIdentities(Object.values(roots), projectRoot, result.bindings);
   await annotateProjectTreeDerivedCounters(Object.values(roots));
   return {
     projectId: manifest.projectId,
     roots,
     manifestPath,
-    manifest,
+    manifest: effectiveManifest,
+    readOnlyIdentityChanged: result.changed === true,
   };
 }
 
@@ -23279,27 +23278,7 @@ async function getProjectDocumentIdentityPayload(filePath) {
     };
   }
   try {
-    let projectTree;
-    try {
-      projectTree = await buildProjectTreeRootsWithIdentitiesReadOnly();
-    } catch (readOnlyError) {
-      const readOnlyCode = readOnlyError && typeof readOnlyError.code === 'string'
-        ? readOnlyError.code
-        : '';
-      if (![
-        'E_PROJECT_MANIFEST_UNAVAILABLE',
-        'E_TREE_IDENTITY_READONLY_STALE',
-        'E_TREE_IDENTITY_READ_FAILED',
-      ].includes(readOnlyCode)) {
-        throw readOnlyError;
-      }
-      await buildProjectTreeRootsWithIdentities();
-      const reconciled = await ensureProjectManifest(currentProjectName || DEFAULT_PROJECT_NAME);
-      projectTree = {
-        manifestPath: reconciled.manifestPath,
-        manifest: reconciled.manifest,
-      };
-    }
+    const projectTree = await buildProjectTreeRootsWithIdentitiesReadOnly();
     const { manifestPath, manifest } = projectTree;
     const normalizedPath = path.basename(filePath).toLowerCase() === '.index.txt'
       ? path.dirname(filePath)
@@ -23311,9 +23290,11 @@ async function getProjectDocumentIdentityPayload(filePath) {
     const existing = Object.entries(normalized.value.nodes)
       .find(([, record]) => record.present !== false && record.bindingKey === bindingKey);
     if (existing) return { documentId: existing[0] };
-    const context = getDocumentContextFromPath(filePath);
-    const created = await upsertProjectTreeIdentityForPath(normalizedPath, context.kind || 'external');
-    return { documentId: created.nodeId };
+    const documentId = identityModule.createDeterministicTreeNodeId(manifest.projectId, bindingKey);
+    if (documentId) return { documentId };
+    const resolutionError = new Error('PROJECT_DOCUMENT_IDENTITY_READONLY_UNBOUND');
+    resolutionError.code = 'E_PROJECT_DOCUMENT_IDENTITY_READONLY_UNBOUND';
+    throw resolutionError;
   } catch (error) {
     logDevError('project document identity payload', error);
     try {
@@ -24450,27 +24431,11 @@ async function handleWorkspaceProjectTreeQuery(payload) {
     return { ok: false, error: 'Missing tab' };
   }
 
-  await ensureProjectStructure(currentProjectName || DEFAULT_PROJECT_NAME);
   if (!['roman', 'materials', 'reference'].includes(tab)) {
     return { ok: false, error: 'Unknown tab' };
   }
   try {
-    let projectTree;
-    try {
-      projectTree = await buildProjectTreeRootsWithIdentitiesReadOnly();
-    } catch (readOnlyError) {
-      const readOnlyCode = readOnlyError && typeof readOnlyError.code === 'string'
-        ? readOnlyError.code
-        : '';
-      if (![
-        'E_PROJECT_MANIFEST_UNAVAILABLE',
-        'E_TREE_IDENTITY_READONLY_STALE',
-        'E_TREE_IDENTITY_READ_FAILED',
-      ].includes(readOnlyCode)) {
-        throw readOnlyError;
-      }
-      projectTree = await buildProjectTreeRootsWithIdentities();
-    }
+    const projectTree = await buildProjectTreeRootsWithIdentitiesReadOnly();
     const { projectId, roots } = projectTree;
     return {
       ok: true,

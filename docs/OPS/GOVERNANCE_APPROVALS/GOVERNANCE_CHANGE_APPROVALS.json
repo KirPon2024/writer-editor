@@ -9493,6 +9493,15 @@
       "rationale": "Owner-directed repository-native agent guardrail contract: positive exact-head bootstrap and complete declaration checks plus negative missing-authority, wrong-type, stale-base, UI-router and incomplete-delivery cases; docs and process only, no product runtime, UI, dependency, network or capability claim change.",
       "approved": true,
       "authority": "DIRECT_OWNER_REQUEST_BUILD_REPOSITORY_NATIVE_AGENT_CONTEXT_AND_GUARDRAILS"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_WORD_C5V2_TERMINAL_ACCEPTANCE_MATRIX_V1.json",
+      "sha256": "675aecda1ac4b2616236a32dea269eedcec9076b6da4c01c346ed16f82b11e31",
+      "approvedBy": "owner-controller:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
+      "approvedAtUtc": "2026-08-04T12:50:00.000Z",
+      "rationale": "Approve W02/W03 terminal acceptance matrix artifact binding 25 Word capability rows to merged origin main a23ee492 with W03 vocabulary, zero safety veto counters and terminal plan; docs-only artifact, no UI, network, dependency, Google, Atlas mutation or terminal physical PASS claim change.",
+      "approved": true,
+      "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
     }
   ]
 }

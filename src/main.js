@@ -4133,7 +4133,7 @@ async function handleFullManuscriptReviewDocxExportPacketCommandSurface(payload 
 const DOCX_INTAKE_GATE_COMMAND_ID = 'cmd.project.review.inspectDocxIntakeGate';
 const DOCX_INTAKE_GATE_MAX_BYTES = 10 * 1024 * 1024;
 const DOCX_INTAKE_GATE_MAX_BASE64_CHARS = Math.ceil(DOCX_INTAKE_GATE_MAX_BYTES / 3) * 4;
-const DOCX_INTAKE_GATE_ALLOWED_PAYLOAD_KEYS = new Set(['requestId', 'bufferSource']);
+const DOCX_INTAKE_GATE_ALLOWED_PAYLOAD_KEYS = new Set(['requestId', 'bufferSource', 'explicitCanonicalApplyConfirmed']);
 
 function makeDocxIntakeGateTypedError(code, reason, details = undefined) {
   const error = {
@@ -6904,6 +6904,7 @@ async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = 
       commentShadowPayload,
       requestId,
       revisionBridge,
+      explicitCanonicalApplyConfirmed: payload?.explicitCanonicalApplyConfirmed === true,
     })
     : null;
   const nonOverlapTrackedReplacementProductPath =

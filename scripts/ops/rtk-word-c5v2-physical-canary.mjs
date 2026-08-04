@@ -3081,6 +3081,7 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
   const activation = await invokeUiCommand(win, 'cmd.project.review.activateDocxReviewPreviewSession', {
     requestId: 'c5v2-physical-canary-authenticated-return-activation-' + requestPrefix,
     bufferSource: returnedBytes.toString('base64'),
+    explicitCanonicalApplyConfirmed: true,
   });
   const activationSummary = summarizeActivation(activation);
   const exactLedgerBinding = bindC5V2ExpectedExactTextCandidates({

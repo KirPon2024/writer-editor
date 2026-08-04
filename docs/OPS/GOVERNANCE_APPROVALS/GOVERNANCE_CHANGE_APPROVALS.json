@@ -5663,12 +5663,12 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "c5c8ddd117393b8a4c55a9b6e5907fc93a8d691bfeb3ff731f63ee03c9d3ffd1",
+      "sha256": "06daf30c3f89bdc6301d582a803ad39c1d49bc2caa79b1860f14cefad9a833be",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T21:05:27.922Z",
-      "rationale": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR",
+      "approvedAtUtc": "2026-08-04T00:05:00.000Z",
+      "rationale": "Approve exact C5V2 physical canary explicit canonical comment apply decision after physical Word failed closed because authenticated return activation remained preview-only and produced no durable non-text return state; no UI, network, dependency, Google, Atlas mutation or terminal physical PASS claim change.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
+      "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-round-checkpoint.mjs",
@@ -6742,10 +6742,10 @@
     },
     {
       "filePath": "src/main.js",
-      "sha256": "27e935faebaf35c26a715a09f908f7578cd952242140fe8ce6bb38213355493f",
+      "sha256": "2403e9a65394d229c2a6e2ec01838b2e7ec3968ad267da1e9b0a3e888ee17675",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T23:10:00.000Z",
-      "rationale": "Approve exact main-process read-only-first active document identity payload repair after physical Word C5V2 failed closed with C5V2_REOPENED_YALKEN_CANONICAL_COMMENT_STATE_MISSING and same-process E_PROJECT_LEASE_HELD during post-apply reopened truth capture; no UI, network, dependency, Google, Atlas mutation or physical evidence claim change.",
+      "approvedAtUtc": "2026-08-04T00:05:00.000Z",
+      "rationale": "Approve exact main-process explicit canonical comment apply payload threading while preserving preview-only default after physical Word C5V2 proved authenticated root comments had candidates but no durable non-text return state; no UI, network, dependency, Google, Atlas mutation or terminal physical PASS claim change.",
       "approved": true,
       "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
     },
@@ -7600,12 +7600,12 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
-      "sha256": "2f6e6bbb284de45bdb4b5429a33a30a3316d6c0bae0b4376da277c9c1c27e0e4",
+      "sha256": "d43c7d0569c965e488fc21145bf18f79cbe47db4b225a16620235ad52a2c7449",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T21:05:27.922Z",
-      "rationale": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR",
+      "approvedAtUtc": "2026-08-04T00:05:00.000Z",
+      "rationale": "Approve regression proving authenticated full-manuscript comments remain preview-only by default and write canonical durable non-text state only after explicit canonical apply confirmation; no UI, network, dependency, Google, Atlas mutation or terminal physical PASS claim change.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
+      "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-review-preview-session.contract.test.js",

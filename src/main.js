@@ -15206,9 +15206,22 @@ async function handleProjectLifecycleCreateCommand(payload = {}) {
   if (!canProceed) return { ok: false, cancelled: true };
   const created = await ensureProjectSkeleton(projectName);
   if (!created.ok) return created;
+  setActiveProjectNameFromRoot(created.projectRoot);
+  let manifestForBinding = created.manifest;
+  try {
+    await buildProjectTreeRootsWithIdentities();
+    const manifestRecord = await readProjectManifest(projectName);
+    manifestForBinding = manifestRecord?.manifest || manifestForBinding;
+  } catch (error) {
+    return makeProjectLifecycleError(
+      'E_PROJECT_TREE_IDENTITY_BOOTSTRAP_FAILED',
+      error?.reason || error?.code || 'PROJECT_TREE_IDENTITY_BOOTSTRAP_FAILED',
+      { message: error?.message || 'Project tree identity bootstrap failed' },
+    );
+  }
   let stage10Bootstrap = null;
   try {
-    stage10Bootstrap = await bootstrapStage10ApplicationForProject(created.projectRoot, created.manifest, 'create');
+    stage10Bootstrap = await bootstrapStage10ApplicationForProject(created.projectRoot, manifestForBinding, 'create');
   } catch (error) {
     return makeProjectLifecycleError(
       'E_STAGE10_APPLICATION_BOOTSTRAP_FAILED',
@@ -15216,7 +15229,6 @@ async function handleProjectLifecycleCreateCommand(payload = {}) {
       { message: error?.message || 'Stage-10 bootstrap failed' },
     );
   }
-  setActiveProjectNameFromRoot(created.projectRoot);
   const opened = await openProjectDocumentFile(created.firstScenePath, { statusText: 'Проект создан' });
   if (!opened.ok) return opened;
   await touchProjectLibraryIndexForBinding({
@@ -15225,7 +15237,7 @@ async function handleProjectLifecycleCreateCommand(payload = {}) {
     manifestPath: joinPathSegmentsWithinRoot(created.projectRoot, [PROJECT_MANIFEST_FILENAME], {
       resolveSymlinks: false,
     }),
-    manifest: created.manifest,
+    manifest: manifestForBinding,
   });
   return {
     ok: true,

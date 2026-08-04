@@ -6742,10 +6742,10 @@
     },
     {
       "filePath": "src/main.js",
-      "sha256": "05318519b90db17c5cec8b96b113bc05bd7ac03ea92da0b40631fbb1ee935444",
+      "sha256": "7f553cf11bc4e63e6961bc2d2ab37f00e21609313b6f7ad41f62698546fbe61c",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
       "approvedAtUtc": "2026-08-04T00:05:00.000Z",
-      "rationale": "Approve exact main-process explicit canonical comment apply payload threading while preserving preview-only default after physical Word C5V2 proved authenticated root comments had candidates but no durable non-text return state; no UI, network, dependency, Google, Atlas mutation or terminal physical PASS claim change.",
+      "rationale": "Approve exact main-process explicit canonical comment apply payload threading and mutating project-create tree identity bootstrap while preserving preview-only default and read-only identity no-write guards; no UI, network, dependency, Google, Atlas mutation or terminal physical PASS claim change.",
       "approved": true,
       "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
     },
@@ -9154,10 +9154,10 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-01-future-schema-loss.contract.test.js",
-      "sha256": "88fe13b24164b5f1a81498df74cc5d0bef66dcdcdab2d3c62c198e1e16dcf0ff",
+      "sha256": "bf605268a9a279de9fe46a71ecc44fb9a8bbc858276b5511ef790901a9261599",
       "approvedBy": "owner-watchdog:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
       "approvedAtUtc": "2026-08-03T23:10:00.000Z",
-      "rationale": "Approve exact focused same-process Stage-10 lease regression covering both project-tree query and active document identity payload after physical Word C5V2 failed closed during post-apply reopened truth capture; no UI, network, dependency, Google, Atlas mutation or physical evidence claim change.",
+      "rationale": "Approve exact focused same-process Stage-10 lease regression covering project-tree query, active document identity payload and fresh product create-to-child-scene identity bootstrap after physical Word C5V2 failed closed before export; no UI, network, dependency, Google, Atlas mutation or physical evidence claim change.",
       "approved": true,
       "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
     },
@@ -9253,10 +9253,10 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-p1-domain-event-contract-repair.contract.test.js",
-      "sha256": "96dfd2296669252f11b0ce555289c619612b9ba53dd2941c255dcb117f58ac2c",
+      "sha256": "84ca238732421cf3018d991f49f2e6207e4c17f92a770b4eaf88d66404170b96",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_C",
       "approvedAtUtc": "2026-08-02T11:44:07.000Z",
-      "rationale": "Approve exact R1-C domain-event contract bytes re-bound from aggregate collab apply proof to persisted imported collaborator events plus one product receipt.",
+      "rationale": "Approve exact R1-C domain-event contract bytes re-bound from aggregate collab apply proof to persisted imported collaborator events plus one product receipt, with project create bootstrap accepting the persisted manifest binding.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_R1_C_SOURCE_REPAIR"
     },

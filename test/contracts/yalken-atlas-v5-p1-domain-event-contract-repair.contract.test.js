@@ -900,7 +900,8 @@ test('Atlas V5 P1 domain events: application bootstrap reaches create, command, 
 
   const source = readRepoText('src/main.js');
   assert.match(source, /loadStage10ApplicationBootstrapModule/u);
-  assert.match(source, /bootstrapStage10ApplicationForProject\(created\.projectRoot,\s*created\.manifest,\s*'create'\)/u);
+  assert.match(source, /let manifestForBinding = created\.manifest/u);
+  assert.match(source, /bootstrapStage10ApplicationForProject\(created\.projectRoot,\s*manifestForBinding,\s*'create'\)/u);
   assert.match(source, /bootstrapStage10ApplicationForProject\(binding\.projectRoot,\s*binding\.manifest,\s*'reopen'\)/u);
   assert.match(source, /createStage10MainPersistenceAdapter/u);
   assert.match(source, /stage10-integrity-anchors/u);

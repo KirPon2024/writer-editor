@@ -15262,6 +15262,16 @@ async function handleProjectLifecycleOpenCommand(payload = {}) {
   if (!canProceed) return { ok: false, cancelled: true };
   const binding = await findProjectBindingByProjectId(normalized.projectId);
   if (!binding) return makeProjectLifecycleError('E_PROJECT_NOT_FOUND', 'PROJECT_NOT_FOUND');
+  const previousActiveProjectName = currentProjectName;
+  const previousCurrentFilePath = currentFilePath;
+  let openCommitted = false;
+  const restoreActiveProjectOnFailedOpen = (result) => {
+    if (!openCommitted) {
+      currentProjectName = previousActiveProjectName;
+      currentFilePath = previousCurrentFilePath;
+    }
+    return result;
+  };
   const readOnlyProject = Number(binding.sourceSchemaVersion) > PROJECT_MANIFEST_SCHEMA_VERSION;
   setActiveProjectNameFromRoot(binding.projectRoot);
   let manifestForBinding = binding.manifest;
@@ -15271,11 +15281,11 @@ async function handleProjectLifecycleOpenCommand(payload = {}) {
       const manifestRecord = await readProjectManifest(path.basename(binding.projectRoot));
       manifestForBinding = manifestRecord?.manifest || manifestForBinding;
     } catch (error) {
-      return makeProjectLifecycleError(
+      return restoreActiveProjectOnFailedOpen(makeProjectLifecycleError(
         'E_PROJECT_TREE_IDENTITY_BOOTSTRAP_FAILED',
         error?.reason || error?.code || 'PROJECT_TREE_IDENTITY_BOOTSTRAP_FAILED',
         { message: error?.message || 'Project tree identity bootstrap failed' },
-      );
+      ));
     }
   }
   const projectBindingForOpen = {
@@ -15286,26 +15296,36 @@ async function handleProjectLifecycleOpenCommand(payload = {}) {
   try {
     stage10Bootstrap = await bootstrapStage10ApplicationForProject(binding.projectRoot, manifestForBinding, 'reopen');
   } catch (error) {
-    return makeProjectLifecycleError(
+    return restoreActiveProjectOnFailedOpen(makeProjectLifecycleError(
       'E_STAGE10_APPLICATION_BOOTSTRAP_FAILED_CLOSED',
       error?.reason || error?.code || 'STAGE10_APPLICATION_BOOTSTRAP_FAILED_CLOSED',
       { message: error?.message || 'Stage-10 bootstrap failed closed' },
-    );
+    ));
   }
   const settings = await loadSettings();
   const target = await resolveProjectContinueTarget(projectBindingForOpen, settings);
-  if (!target.filePath) return makeProjectLifecycleError('E_PROJECT_EMPTY', 'PROJECT_EMPTY');
+  if (!target.filePath) return restoreActiveProjectOnFailedOpen(makeProjectLifecycleError('E_PROJECT_EMPTY', 'PROJECT_EMPTY'));
   const selectionRange = settings.lastProjectId === binding.projectId
     ? normalizeSelectionRangeForSettings(settings.lastProjectSelectionRange)
     : null;
-  const opened = await openProjectDocumentFile(target.filePath, {
-    selectionRange,
-    statusText: target.source === 'last-active' ? 'Проект открыт' : 'Проект открыт с первой сцены',
-    projectId: binding.projectId,
-    projectBinding: projectBindingForOpen,
-    readOnlyProject,
-  });
-  if (!opened.ok) return opened;
+  let opened;
+  try {
+    opened = await openProjectDocumentFile(target.filePath, {
+      selectionRange,
+      statusText: target.source === 'last-active' ? 'Проект открыт' : 'Проект открыт с первой сцены',
+      projectId: binding.projectId,
+      projectBinding: projectBindingForOpen,
+      readOnlyProject,
+    });
+  } catch (error) {
+    return restoreActiveProjectOnFailedOpen(makeProjectLifecycleError(
+      error?.code || 'E_PROJECT_OPEN_FAILED',
+      error?.reason || error?.message || 'PROJECT_OPEN_FAILED',
+      { message: error?.message || 'Project open failed' },
+    ));
+  }
+  if (!opened.ok) return restoreActiveProjectOnFailedOpen(opened);
+  openCommitted = true;
   return {
     ok: true,
     opened: true,

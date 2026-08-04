@@ -697,6 +697,67 @@ test('P0 01: lifecycle open bootstraps current-schema missing or stale tree iden
   }
 });
 
+test('P0 01: failed lifecycle open preserves prior active project tree authority', async (t) => {
+  const harness = await createHarness(t, { devMode: true });
+  const alpha = await harness.main.handleProjectLifecycleCreateCommand({ projectName: 'Роман' });
+  assert.equal(alpha.ok, true, JSON.stringify(alpha));
+
+  const alphaRoot = path.join(harness.documentsRoot, 'Роман');
+  const betaRoot = path.join(harness.documentsRoot, 'Бета');
+  const alphaManifestPath = path.join(alphaRoot, PROJECT_MANIFEST_FILENAME);
+  const betaManifestPath = path.join(betaRoot, PROJECT_MANIFEST_FILENAME);
+  const alphaManifest = JSON.parse(await fsPromises.readFile(alphaManifestPath, 'utf8'));
+  const betaManifest = {
+    schemaVersion: alphaManifest.schemaVersion,
+    projectId: 'project-beta-failed-open-rollback',
+    projectName: 'Бета',
+    createdAtUtc: '2026-08-04T00:00:00.000Z',
+  };
+  for (const folderName of ['roman', 'mindmap', 'print', 'materials', 'reference', 'trash', 'backups']) {
+    await fsPromises.mkdir(path.join(betaRoot, folderName), { recursive: true });
+  }
+  await fsPromises.mkdir(path.join(betaRoot, 'roman', 'Imported'), { recursive: true });
+  await fsPromises.writeFile(path.join(betaRoot, 'roman', 'Imported', '01 Beta.txt'), 'Beta target scene.\n', 'utf8');
+  await fsPromises.writeFile(betaManifestPath, `${JSON.stringify(betaManifest, null, 2)}\n`, 'utf8');
+
+  const openedAlpha = await harness.main.handleProjectLifecycleOpenCommand({ projectId: alphaManifest.projectId });
+  assert.equal(openedAlpha.ok, true, JSON.stringify(openedAlpha));
+  const alphaTreeBefore = await harness.main.handleWorkspaceProjectTreeQuery({ tab: 'roman' });
+  assert.equal(alphaTreeBefore.ok, true, JSON.stringify(alphaTreeBefore));
+  assert.equal(alphaTreeBefore.projectId, alphaManifest.projectId);
+
+  const failedBetaOpen = await harness.main.handleProjectLifecycleOpenCommand({ projectId: betaManifest.projectId });
+  assert.equal(failedBetaOpen.ok, false, JSON.stringify(failedBetaOpen));
+  assert.equal(failedBetaOpen.code, 'E_PROJECT_TREE_IDENTITY_BOOTSTRAP_FAILED', JSON.stringify(failedBetaOpen));
+
+  const activeTreeAfterFailure = await harness.main.handleWorkspaceProjectTreeQuery({ tab: 'roman' });
+  assert.equal(activeTreeAfterFailure.ok, true, JSON.stringify(activeTreeAfterFailure));
+  assert.equal(activeTreeAfterFailure.projectId, alphaManifest.projectId);
+  const alphaRomanNode = findSerializedTreeNodeByName(activeTreeAfterFailure.root, 'Роман');
+  assert.ok(alphaRomanNode && typeof alphaRomanNode.nodeId === 'string', JSON.stringify(activeTreeAfterFailure.root));
+
+  const commandBridge = harness.ipcHandlers.get('ui:command-bridge');
+  assert.equal(typeof commandBridge, 'function');
+  const createAfterFailure = await commandBridge(null, {
+    route: 'command.bus',
+    commandId: 'cmd.project.tree.createNode',
+    payload: {
+      parentNodeId: alphaRomanNode.nodeId,
+      kind: 'scene',
+      name: 'alpha-after-failed-beta-open',
+    },
+  });
+  assert.equal(createAfterFailure.ok, true, JSON.stringify(createAfterFailure));
+  assert.equal(createAfterFailure.value?.ok, true, JSON.stringify(createAfterFailure));
+  assert.match(createAfterFailure.value.nodeId, /^tree-node-[a-f0-9]{32}$/u);
+  assert.doesNotMatch(JSON.stringify(createAfterFailure), /E_TREE_NODE_NOT_FOUND/u);
+
+  const alphaManifestAfter = await fsPromises.readFile(alphaManifestPath, 'utf8');
+  const betaManifestAfter = await fsPromises.readFile(betaManifestPath, 'utf8');
+  assert.equal(alphaManifestAfter.includes(createAfterFailure.value.nodeId), true);
+  assert.equal(betaManifestAfter.includes(createAfterFailure.value.nodeId), false);
+});
+
 test('P0 01: each commanded future author domain fails before recovery or durable write', async (t) => {
   const scenarios = [
     {

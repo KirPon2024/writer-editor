@@ -538,6 +538,39 @@ test('P0 01: Word-return read-only identity consumers do not repair unreadable m
   }
 });
 
+test('P0 01: Word-return document identity does not upsert readable unbound paths under Stage-10 lease', async (t) => {
+  const harness = await createHarness(t, { devMode: true });
+  const { value: created } = await captureConsoleErrorDuring(
+    () => harness.main.handleProjectLifecycleCreateCommand({ projectName: 'Роман' }),
+  );
+  assert.equal(created.ok, true);
+  const projectRoot = path.join(harness.documentsRoot, 'Роман');
+  const scenePath = path.join(projectRoot, 'roman', 'Detached', '01_unbound-readable-return-scene.txt');
+  await fsPromises.mkdir(path.dirname(scenePath), { recursive: true });
+  await fsPromises.writeFile(scenePath, 'Unbound readable return scene\\n', 'utf8');
+  const manifestPath = path.join(projectRoot, PROJECT_MANIFEST_FILENAME);
+  const manifest = JSON.parse(await fsPromises.readFile(manifestPath, 'utf8'));
+  const manifestRawBefore = await fsPromises.readFile(manifestPath, 'utf8');
+
+  const { createProjectLeaseManager } = await import(pathToFileURL(
+    path.join(ROOT, 'src', 'product', 'projectLease.mjs'),
+  ).href);
+  const leaseManager = createProjectLeaseManager({
+    leaseRoot: path.join(harness.userDataRoot, 'stage10-integrity-anchors'),
+  });
+  const heldLease = await leaseManager.acquire(manifest.projectId);
+  try {
+    const captured = await captureConsoleErrorDuring(async () => {
+      const identity = await harness.main.getProjectDocumentIdentityPayload(scenePath);
+      assert.match(identity.documentId, /^tree-node-[a-f0-9]{32}$/u);
+    });
+    assert.equal(captured.messages.join('\\n').includes('E_PROJECT_LEASE_HELD'), false);
+    assert.equal(await fsPromises.readFile(manifestPath, 'utf8'), manifestRawBefore);
+  } finally {
+    await leaseManager.release(heldLease);
+  }
+});
+
 test('P0 01: each commanded future author domain fails before recovery or durable write', async (t) => {
   const scenarios = [
     {

@@ -23290,9 +23290,11 @@ async function getProjectDocumentIdentityPayload(filePath) {
     const existing = Object.entries(normalized.value.nodes)
       .find(([, record]) => record.present !== false && record.bindingKey === bindingKey);
     if (existing) return { documentId: existing[0] };
-    const context = getDocumentContextFromPath(filePath);
-    const created = await upsertProjectTreeIdentityForPath(normalizedPath, context.kind || 'external');
-    return { documentId: created.nodeId };
+    const documentId = identityModule.createDeterministicTreeNodeId(manifest.projectId, bindingKey);
+    if (documentId) return { documentId };
+    const resolutionError = new Error('PROJECT_DOCUMENT_IDENTITY_READONLY_UNBOUND');
+    resolutionError.code = 'E_PROJECT_DOCUMENT_IDENTITY_READONLY_UNBOUND';
+    throw resolutionError;
   } catch (error) {
     logDevError('project document identity payload', error);
     try {

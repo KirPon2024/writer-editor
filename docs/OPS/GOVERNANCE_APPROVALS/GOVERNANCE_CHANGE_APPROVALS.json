@@ -9496,10 +9496,10 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "77f4f002f93b737769d9e018f1a5c24df5ed4ed22532d8d1ca035fb41f477aa5",
+      "sha256": "a662d5ee027463e1e8a79417ddabb5e6061b6fc44aea1b0891d5279ce7673195",
       "approvedBy": "owner-controller:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
-      "approvedAtUtc": "2026-08-04T11:50:00.000Z",
-      "rationale": "Approve Word C5V2 canary runner reopen revision-count coalescing tolerance; verified by physical Word 16.111.2 PASS.",
+      "approvedAtUtc": "2026-08-04T12:10:00.000Z",
+      "rationale": "Approve Word C5V2 canary runner reopen revision-count coalescing tolerance (preserving original error code NATIVE_MATERIALIZATION_REVISION_COUNT_MISMATCH for below-floor hard-fail, adding COALESCING_DIAGNOSTIC for tolerant range); verified by physical Word 16.111.2 PASS.",
       "approved": true,
       "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
     }

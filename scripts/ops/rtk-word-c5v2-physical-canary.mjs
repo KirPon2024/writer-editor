@@ -4900,7 +4900,7 @@ export function buildWordScript({
     '        exit repeat',
     '      end try',
     '    end repeat',
-    '    if yReopenedRevisionCount is less than yMinimumRevisionCount then error "NATIVE_MATERIALIZATION_REVISION_COUNT_BELOW_COALESCING_FLOOR:" & yReopenedRevisionCount & ":" & yMinimumRevisionCount & ":" & yExpectedRevisionCount number 9728',
+    '    if yReopenedRevisionCount is less than yMinimumRevisionCount then error "NATIVE_MATERIALIZATION_REVISION_COUNT_MISMATCH:" & yReopenedRevisionCount & ":" & yMinimumRevisionCount & ":" & yExpectedRevisionCount number 9728',
     '    if yReopenedRevisionCount is not yExpectedRevisionCount then',
     '      set yReopenCoalescingDiagnostic to "NATIVE_MATERIALIZATION_REVISION_COUNT_COALESCING_DIAGNOSTIC:" & yReopenedRevisionCount & ":" & yMinimumRevisionCount & ":" & yExpectedRevisionCount',
     '      my yCheckpoint(yCheckpointPath, "REOPEN_REVISION_COUNT_COALESCING_DIAGNOSTIC", yReopenCoalescingDiagnostic)',

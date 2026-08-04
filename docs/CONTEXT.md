@@ -38,7 +38,7 @@
 - Flow is `PARTIAL`: it is a derived scene projection with guarded editing and recoverable batch save for supported content only. It is not a second manuscript truth, not a semantic merge lane, and not an arbitrary cross-scene editor.
 - Free/Pro is local and shared-format only. Free keeps authorship, toolbar, import/export, recovery, settings, archive, and readable Pro data preservation; Pro-only complexity surfaces are unavailable in Free but preserved without deletion.
 - Web and mobile-wrapper local filesystem project commands are `BLOCKED`; only the explicitly true editor-command subset in `CAPABILITIES_MATRIX.json` is admitted outside desktop node.
-- Editor-specific Word and Google support remains `PLANNED` or post-v1, not live. No Word support, Google Docs support, roundtrip, layout parity, cloud integration, EPUB, HTML, or release-readiness claim follows from the current merged runtime.
+- The active Word semantic roundtrip extension is `YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4` (`ACTIVE_POST_D1_WORD_EXTENSION` in `CANON_STATUS.json`, activated 2026-07-31). Word C5V2 contour truth as of 2026-08-04: tracked text replacement/delete inside trusted block range, root comment shadow apply, multi-round replay guards and multi-scene atomic apply are `EXACT_SUPPORTED` with physical Word 16.111.2 evidence; comment replies/resolve/reopen/delete, effective formatting, structural changes and adjacent tracked replacement remain typed `MANUAL_ONLY` limitations bound by evidence; no terminal Word claim (`WORD_TERMINAL_PASS`) is made; Google Docs execution remains `BLOCKED` and Atlas remains `PAUSED_WITH_PROTECTED_WIP`. Machine-readable row truth: `YALKEN_WORD_C5V2_TERMINAL_ACCEPTANCE_MATRIX_V1.json`.
 
 ## What Is Already True
 
@@ -260,6 +260,15 @@ No further transfer is required for this variant; the transfer axis is closed.
 ## What Is Not Yet Claimed
 - pack layer не считается обязательным,
 - post-v1 freedom не считается текущим implementation commitment и остаётся evaluation-only.
+
+## Word C5V2 Terminal Contour Reality (2026-08-04)
+- PR `1435` merged at `a23ee4921171361f36123fe20285a4662ce8870a`: lifecycle-open Stage10 source-order contract restored (stage10 bootstrap before active project activation), tree identity bootstrap now targets the opening project explicitly, transactional active-project rollback preserved, and the latent wrong-project bootstrap defect removed.
+- Required CI after the fix: `rtk-required`, `oss-policy`, `x1-runtime-parity` on ubuntu and windows all green; post-merge focused Stage10 and P0-01 chains green on the exact merged head.
+- Physical contour state: Word 16.111.2; canary 200/200 safe apply with 240 revision and 38 comment readback; N2 text and root comment apply/reopen/replay green across three visible reproductions; E12 waves 10/40/100/300 observed with all safety veto counters zero.
+- Saturation: E12 stability limitation audit `COMPLETE_NOT_SATURATED`; `READY_FOR_INDEPENDENT_EXACT_HEAD_AUDIT` is the next engineering order.
+- Terminal campaign (Dorian 2000 on one frozen exact head, three full repetitions, two independent exact-head audits) is in progress under `EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1`; no `WORD_TERMINAL_PASS` claim is made until all terminal requirements hold.
+- Comment policy remains preview-only until explicit user action; replies/resolve/reopen/delete stay typed limitations (`NATIVE_UI_TARGET_UNAVAILABLE_OR_AMBIGUOUS`) unless new physical Word evidence changes the boundary.
+- Google Docs execution stays `BLOCKED`; Atlas WIP stays byte-for-byte preserved; no UI, network, dependency, or release-readiness claim follows from this contour.
 
 ## Policies That Remain Binding
 - SECURITY_POLICY: CSP, blocked navigation, blocked new-window, no remote code

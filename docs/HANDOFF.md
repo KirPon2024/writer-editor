@@ -63,6 +63,15 @@ _Updated: 2026-07-29_
 - Free/Pro remains local-only and shared-format. Free preserves Pro data and marks dependent Pro records stale after text edits, but Pro-only complexity surfaces remain unavailable in Free.
 - Web and mobile-wrapper local filesystem project commands remain blocked by platform capability rows. Word, Google Docs, broad layout parity, EPUB/HTML, cloud, sync, accounts, release readiness, and Pro analytics recomputation remain unclaimed.
 
+## Word C5V2 Re-entry (2026-08-04)
+- Active Word extension: `YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4` (`ACTIVE_POST_D1_WORD_EXTENSION` in `CANON_STATUS.json`); Word capability row truth lives in `WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_V1.json` and terminal acceptance rows in `YALKEN_WORD_C5V2_TERMINAL_ACCEPTANCE_MATRIX_V1.json`.
+- Merged main head: `a23ee4921171361f36123fe20285a4662ce8870a` (PR `1435`, 2026-08-04) — lifecycle-open Stage10 source-order contract restored, explicit project tree identity bootstrap, transactional rollback preserved.
+- Physical truth: Word 16.111.2; text tracked replacement/delete and root comment shadow apply/reopen/replay green (canary + N2 three visible reproductions); E12 waves 10/40/100/300 with all veto counters zero; saturation NOT declared.
+- Typed limitations (MANUAL_ONLY by design): comment replies/resolve/reopen/delete, effective formatting, structural changes, adjacent tracked replacement, modern comment done-state readback.
+- Terminal contour `EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1` is in progress: Dorian 2000 ledger (1200 text / 300 root / 120 reply / 100 lifecycle-delete / 180 formatting / 60 supported structural / 40 negative), three full physical repetitions on one frozen exact head, two independent exact-head audits; no `WORD_TERMINAL_PASS` yet.
+- Google stays `BLOCKED`; Atlas stays `PAUSED_WITH_PROTECTED_WIP` (byte-for-byte WIP preservation); no UI, network, dependency, or release-readiness claim follows.
+- Controller convention: one owned Word controller, zero extraneous open Word documents, fresh isolated synthetic fixtures per run, exact build 16.111.2_16.111.26072617 profile.
+
 ## Local Machine State
 - This file describes a snapshot-bound mainline reality, not the forever-current state of the local machine.
 - Local branch, local worktree cleanliness, and local generated artifacts must be checked separately before any new write contour.

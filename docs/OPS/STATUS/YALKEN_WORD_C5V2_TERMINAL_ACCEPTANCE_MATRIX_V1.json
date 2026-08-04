@@ -1,0 +1,298 @@
+{
+  "schemaVersion": "yalken.word.c5v2.terminal-acceptance-matrix.v1",
+  "taskId": "EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
+  "stage": "W02_ACCEPTANCE_MATRIX_AND_W03_CAPABILITY_TRUTH",
+  "createdAtUtc": "2026-08-04T12:45:00.000Z",
+  "headBinding": {
+    "mergedOriginMainSha": "a23ee4921171361f36123fe20285a4662ce8870a",
+    "pr": "PR_1435",
+    "prMergeCommit": "a23ee4921171361f36123fe20285a4662ce8870a",
+    "prHeadSha": "3e2c29a5ed9bb23368d6ba0eb38df4dcc3537ee8",
+    "wordBuild": "16.111.2"
+  },
+  "sourceBindings": {
+    "normalizedCapabilityMatrix": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_V1.json",
+    "v4Spec": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
+    "canonResolver": "docs/OPS/STATUS/CANON_STATUS.json",
+    "c5v2Canary": "docs/OPS/STATUS/C5V2_PHYSICAL_WORD_CANARY_STATUS.json",
+    "c5v2Methodology": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C5V2_METHODOLOGY_REPAIR_MANIFEST.json"
+  },
+  "capabilityStates": ["EXACT_SUPPORTED", "MANUAL_ONLY", "UNSUPPORTED", "BLOCKED", "UNVERIFIED"],
+  "rows": [
+    {
+      "rowId": "TEXT_REVISION_TRUSTED_BLOCK_RANGE",
+      "requirement": "Tracked replacement pair or delete inside trusted block range compiled to exact apply",
+      "implementation": "ReviewIRV2 tracked candidate -> command-kernel exact apply path; C05 product path",
+      "focusedTest": "rtk-word-c5v2-full-manuscript-product-export.contract.test.js; rtk-word-c5v2-full-manuscript-return-router.contract.test.js",
+      "physicalEvidence": "E12 wave300 receipt; C5V2 canary; N2 two-chapter controller run",
+      "status": "EXACT_SUPPORTED",
+      "nextGap": "Terminal campaign repetition on frozen exact head"
+    },
+    {
+      "rowId": "WORD_CARRIER_SURVIVAL",
+      "requirement": "Word carrier survival and placement signal selection for authenticated round locator",
+      "implementation": "YRTK2 carrier + locator stack; carrier survival lab",
+      "focusedTest": "rtk-word-c5v2-activation-guards.contract.test.js",
+      "physicalEvidence": "E02 locator stack survival receipt; E12 physical waves",
+      "status": "EXACT_SUPPORTED",
+      "nextGap": "None"
+    },
+    {
+      "rowId": "COMMENTS_REPLIES_STATES",
+      "requirement": "Classic and modern comment replies resolve reopen delete lifecycle",
+      "implementation": "Root comment shadow session and apply proven; reply/resolve/reopen/delete typed diagnostics only",
+      "focusedTest": "rtk-word-c5v2-root-comment-return-runtime.contract.test.js; rtk-word-c5v2-comment-lifecycle-return-runtime.contract.test.js",
+      "physicalEvidence": "E07 comments replies states receipt; E12 modern comment follow-up receipts; typed pending reason NATIVE_UI_TARGET_UNAVAILABLE_OR_AMBIGUOUS",
+      "status": "MANUAL_ONLY",
+      "nextGap": "NONE_REPLY_TYPED_LIMITATION_BOUND"
+    },
+    {
+      "rowId": "COREMANIFEST_YRTK2",
+      "requirement": "CoreManifest ExportMap hash tree YRTK2 token and double self-parse",
+      "implementation": "CoreManifest kernel and authenticated round identity",
+      "focusedTest": "rtk-word-c5v2-round-checkpoint.contract.test.js",
+      "physicalEvidence": "E03 CoreManifest YRTK2 receipt",
+      "status": "EXACT_SUPPORTED",
+      "nextGap": "None"
+    },
+    {
+      "rowId": "PARSER_ISOLATION",
+      "requirement": "Isolated parser output to Minimal Word Semantic Kernel lanes",
+      "implementation": "Parser V2 intake worker with hostile budgets",
+      "focusedTest": "rtk-word-c5v2-activation-guards.contract.test.js",
+      "physicalEvidence": "E04 minimal semantic kernel receipt; wave parser pass 299/300",
+      "status": "EXACT_SUPPORTED",
+      "nextGap": "None"
+    },
+    {
+      "rowId": "SOURCEMAP_UNIQUEDIFF",
+      "requirement": "SourceMap B/O/C/G projections UniqueDiff and bounded text effects",
+      "implementation": "Semantic kernel projections and exact candidate extraction",
+      "focusedTest": "rtk-word-c5v2-semantic-oracle.contract.test.js",
+      "physicalEvidence": "E05 SourceMap UniqueDiff receipt",
+      "status": "EXACT_SUPPORTED",
+      "nextGap": "None"
+    },
+    {
+      "rowId": "WORD_PHYSICAL_TEXT_CORPUS",
+      "requirement": "Word 16.111.2 physical text roundtrip corpus",
+      "implementation": "Physical Word lab runner",
+      "focusedTest": "rtk-word-c5v2-dorian-killpoint.contract.test.js",
+      "physicalEvidence": "E06 physical text certification receipt; E12 wave300 receipt; N2 visible reproductions",
+      "status": "EXACT_SUPPORTED",
+      "nextGap": "Terminal campaign repetition on frozen exact head"
+    },
+    {
+      "rowId": "FORMATTING_EFFECTIVE",
+      "requirement": "Effective formatting headings lists hyperlinks and typography deltas",
+      "implementation": "Formatting diagnostics and typed limitation boundary",
+      "focusedTest": "rtk-word-c5v2-dorian-killpoint.contract.test.js",
+      "physicalEvidence": "E08 effective formatting receipt; E12 physical formatting cases 17 diagnostic",
+      "status": "MANUAL_ONLY",
+      "nextGap": "NONE_FORMATTING_TYPED_LIMITATION_BOUND"
+    },
+    {
+      "rowId": "STRUCTURAL_CHANGES",
+      "requirement": "Paragraph structure moves cross-scene topology tables sections footnotes endnotes fields Compare Combine",
+      "implementation": "Structural diagnostics and typed limitation boundary; no structural auto apply",
+      "focusedTest": "rtk-word-c5v2-negative-forks.contract.test.js",
+      "physicalEvidence": "E09 typed structural edits receipt; E12 physical structural cases 30 diagnostic",
+      "status": "MANUAL_ONLY",
+      "nextGap": "NONE_STRUCTURAL_TYPED_LIMITATION_BOUND"
+    },
+    {
+      "rowId": "MULTI_ROUND_REPLAY",
+      "requirement": "Multi-round repeated import stale baseline tampered locator conflict and no-edit conservation guards",
+      "implementation": "Round ledger and replay protection",
+      "focusedTest": "rtk-word-c5v2-ledger-distribution.contract.test.js",
+      "physicalEvidence": "E10 multi-round replay conflicts receipt; multi-round ledger reconciliation receipts",
+      "status": "EXACT_SUPPORTED",
+      "nextGap": "NONE_MULTI_ROUND_LEDGER_RECONCILED"
+    },
+    {
+      "rowId": "MULTI_SCENE_COORDINATOR",
+      "requirement": "Multi-scene single-root-pointer prepare commit recovery coordinator",
+      "implementation": "Multi-scene atomic coordinator engine",
+      "focusedTest": "rtk-word-c5v2-full-manuscript-return-router.contract.test.js",
+      "physicalEvidence": "E11 multi-scene atomic coordinator receipt; P0 multi-scene product vertical receipts",
+      "status": "EXACT_SUPPORTED",
+      "nextGap": "NONE_SUPERSEDED_BY_P0_MULTI_SCENE_PRODUCT_VERTICAL"
+    },
+    {
+      "rowId": "SATURATION_GOVERNANCE",
+      "requirement": "Unicode hostile performance crash replay and escalating physical Word wave saturation ledger",
+      "implementation": "E12 wave campaign 10/40/100/300 with saturation ledger",
+      "focusedTest": "rtk-word-c5v2-dorian-atlas-cycles.contract.test.js",
+      "physicalEvidence": "E12 saturation ledger receipt; E12 stability limitation audit receipt COMPLETE_NOT_SATURATED; veto counters all zero",
+      "status": "EXACT_SUPPORTED",
+      "nextGap": "NONE_READY_FOR_INDEPENDENT_EXACT_HEAD_AUDIT"
+    },
+    {
+      "rowId": "ROOT_COMMENT_SHADOW",
+      "requirement": "Root modern comments shadow session import through Command Kernel",
+      "implementation": "Comment shadow session product path",
+      "focusedTest": "rtk-word-c5v2-root-comment-return-runtime.contract.test.js",
+      "physicalEvidence": "N2 three visible Word 16.111.2 reproductions for root comment apply reopen replay",
+      "status": "EXACT_SUPPORTED",
+      "nextGap": "NONE_FOR_ROOT_COMMENT_SHADOW_ONLY"
+    },
+    {
+      "rowId": "TEXT_REVISION_SINGLE_SCENE",
+      "requirement": "TextRevision replacement pair inside trusted single-scene block range",
+      "implementation": "Composition registered component consumer; superseded by C05 product path",
+      "focusedTest": "rtk-word-c5v2-full-manuscript-product-export.contract.test.js",
+      "physicalEvidence": "E06 physical text certification receipt",
+      "status": "EXACT_SUPPORTED",
+      "nextGap": "NONE_SUPERSEDED_BY_C05_PRODUCT_PATH"
+    },
+    {
+      "rowId": "ADJACENT_TRACKED_REPLACEMENT",
+      "requirement": "Adjacent tracked replacement exact candidate",
+      "implementation": "Typed limitation boundary; adjacent pairs stay manual",
+      "focusedTest": "rtk-word-c5v2-negative-forks.contract.test.js",
+      "physicalEvidence": "E12 follow-up receipts",
+      "status": "MANUAL_ONLY",
+      "nextGap": "NONE_UNLESS_NEW_WORD_EVIDENCE_CHANGES_BOUNDARY"
+    },
+    {
+      "rowId": "MODERN_COMMENT_DONE_STATE",
+      "requirement": "Modern comment done state and thread lifecycle readback",
+      "implementation": "Typed limitation boundary; readback diagnostics",
+      "focusedTest": "rtk-word-c5v2-comment-lifecycle-return-runtime.contract.test.js",
+      "physicalEvidence": "E12 modern comment native UI follow-up receipt",
+      "status": "MANUAL_ONLY",
+      "nextGap": "NONE_RESOLVE_REOPEN_TYPED_LIMITATION_BOUND"
+    },
+    {
+      "rowId": "RETURN_NON_OVERLAP_APPLY",
+      "requirement": "Word-return non-overlap tracked replacement preview and explicit apply path",
+      "implementation": "cmd.rtk.review.applyMultiSceneNonOverlapTrackedReplacements through command kernel",
+      "focusedTest": "rtk-word-c5v2-full-manuscript-return-router.contract.test.js",
+      "physicalEvidence": "E06 physical text certification receipt; N2 text apply replay green",
+      "status": "EXACT_SUPPORTED",
+      "nextGap": "NONE_FOR_SUPPORTED_NON_OVERLAP_REPLACEMENTS"
+    },
+    {
+      "rowId": "PRODUCT_EXPORT_PACKET",
+      "requirement": "Product-originated Review DOCX export packet with authenticated round identity",
+      "implementation": "cmd.project.review.exportFullManuscriptDocxReviewPacket",
+      "focusedTest": "rtk-word-c5v2-full-manuscript-product-export.contract.test.js",
+      "physicalEvidence": "C5V2 canary real export menu command",
+      "status": "EXACT_SUPPORTED",
+      "nextGap": "None"
+    },
+    {
+      "rowId": "RETURN_INTAKE_PARSER",
+      "requirement": "Authenticated Review DOCX return intake through parser V2 before storage authority",
+      "implementation": "rtkDocxReturnIntakeWorker with hostile budgets",
+      "focusedTest": "rtk-word-c5v2-activation-guards.contract.test.js",
+      "physicalEvidence": "E12 wave parser pass",
+      "status": "EXACT_SUPPORTED",
+      "nextGap": "None"
+    },
+    {
+      "rowId": "REVIEWIR_PREVIEW_APPLY",
+      "requirement": "Authenticated ReviewIRV2 to visible exact preview and explicit command-kernel apply replay",
+      "implementation": "ReviewIRV2 -> preview -> explicit apply -> replay product path",
+      "focusedTest": "rtk-word-c5v2-root-comment-return-runtime.contract.test.js",
+      "physicalEvidence": "N2 apply reopen replay green",
+      "status": "EXACT_SUPPORTED",
+      "nextGap": "None"
+    },
+    {
+      "rowId": "COMMENT_SHADOW_STORAGE",
+      "requirement": "Authenticated product comment shadow session identity and storage effects",
+      "implementation": "Shadow storage with explicit activation",
+      "focusedTest": "rtk-word-c5v2-comment-lifecycle-return-runtime.contract.test.js",
+      "physicalEvidence": "N2 root comment apply reopen replay green",
+      "status": "EXACT_SUPPORTED",
+      "nextGap": "NONE_FOR_COMMENT_SHADOW_STORAGE_ONLY"
+    },
+    {
+      "rowId": "PRODUCT_WORD_SMOKE_WAVE",
+      "requirement": "Product-originated Review DOCX to physical Word return smoke wave",
+      "implementation": "Physical canary runner",
+      "focusedTest": "rtk-word-c5v2-noop-baseline.contract.test.js",
+      "physicalEvidence": "C5V2 canary 20260801T215839Z green",
+      "status": "EXACT_SUPPORTED",
+      "nextGap": "None"
+    },
+    {
+      "rowId": "PRODUCT_WORD_TRACKED_APPLY",
+      "requirement": "Product Review DOCX to physical Word tracked replacement return to explicit command apply",
+      "implementation": "Full product path export -> Word -> return -> apply",
+      "focusedTest": "rtk-word-c5v2-full-manuscript-return-router.contract.test.js",
+      "physicalEvidence": "N2 controller run 20260802T022703Z exit 0; three visible reproductions",
+      "status": "EXACT_SUPPORTED",
+      "nextGap": "None"
+    },
+    {
+      "rowId": "MIXED_PATH_TYPED_LIMITATION",
+      "requirement": "Product Review DOCX comments mixed tracked replacement and multi-scene typed limitation",
+      "implementation": "Proven mixed path with typed limitation envelope",
+      "focusedTest": "rtk-word-c5v2-full-manuscript-return-router.contract.test.js",
+      "physicalEvidence": "N2 mixed safeApply 8 manualOrBlocked 6",
+      "status": "EXACT_SUPPORTED",
+      "nextGap": "NONE_FOR_PROVEN_ROOT_COMMENT_MIXED_PATH"
+    },
+    {
+      "rowId": "MULTI_SCENE_DELETE_TOMBSTONE",
+      "requirement": "Product multi-scene atomic tracked replacement and comment delete state closure",
+      "implementation": "Multi-scene atomic product path with delete tombstone closure",
+      "focusedTest": "rtk-word-c5v2-negative-forks.contract.test.js",
+      "physicalEvidence": "P0 multi scene atomic comment state closure receipts",
+      "status": "EXACT_SUPPORTED",
+      "nextGap": "NONE_FOR_PROVEN_MULTI_SCENE_DELETE_TOMBSTONE_PATH"
+    }
+  ],
+  "blockedLanes": [
+    {
+      "lane": "GOOGLE_DOCS_EXECUTION",
+      "state": "BLOCKED",
+      "evidence": "REPORT_ONLY_BLOCKED_STASH_UNTOUCHED; EXECUTION_13 not open until Word C1-C5 and independent audit"
+    },
+    {
+      "lane": "ATLAS_MUTATION",
+      "state": "BLOCKED",
+      "evidence": "ATLAS_WIP_RULE byte-for-byte preservation; read-only reconciliation only"
+    }
+  ],
+  "safetyVetoCounters": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0,
+    "productNetworkRequests": 0,
+    "prematureGoogleDocsOpen": 0,
+    "falseSaturationClaim": 0
+  },
+  "terminalPlan": {
+    "dorianProjectCount": 1,
+    "dorianSceneCount": 21,
+    "dorianTotalOperations": 2000,
+    "dorianText": 1200,
+    "dorianRootComments": 300,
+    "dorianReplies": 120,
+    "dorianLifecycleOrDelete": 100,
+    "dorianFormatting": 180,
+    "dorianSupportedStructural": 60,
+    "dorianNegativeProbes": 40,
+    "campaigns": [
+      "CLEAN_NOOP",
+      "FIVE_CUMULATIVE_MIXED_ROUNDS",
+      "TEXT_COMMENTS_REPLIES_LIFECYCLE_FORMATTING_SUPPORTED_STRUCTURAL",
+      "FORTY_NEGATIVE_PROBES",
+      "AMBIGUOUS_OVERLAPPING_STALE_UNBOUND_CONTRADICTORY_TAMPERED_REPLAY",
+      "KILLPOINTS_ROLLBACK_COMPENSATION_RECOVERY",
+      "NORMAL_CLOSE_REOPEN_REPLAY",
+      "ADDITIONAL_CORPORA",
+      "UNICODE_MULTILINGUAL",
+      "MIXED_YALKEN_WORD_ATLAS_READONLY"
+    ],
+    "repetitions": 3,
+    "repetitionIdentity": "one exact final merged SHA and one exact Word build profile",
+    "independentAudits": 2
+  },
+  "terminalClaim": "NOT_MADE_WORD_TERMINAL_PASS_REQUIRED"
+}

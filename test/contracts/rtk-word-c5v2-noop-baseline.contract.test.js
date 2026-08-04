@@ -300,6 +300,70 @@ test('C5V2 rich reopened scenes retain complete topology while exposing stable n
   assert.equal(physicalLedger.operations[0].semanticIntent.replacementText, '');
 });
 
+test('C5V2 physical locator prefers unique selected text over mutable after-context', async () => {
+  const canary = await import(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs'));
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'c5v2-stable-locator-'));
+  const sourceDocxPath = path.join(tempRoot, 'round-one.docx');
+  const paragraph = 'alpha UNIQUELOW mid UNIQUEHIGH omega';
+  const { buildStoredZip } = require(path.join(REPO_ROOT, 'src', 'export', 'docx', 'docxMinBuilder.js'));
+  fs.writeFileSync(sourceDocxPath, buildStoredZip([{
+    name: 'word/document.xml',
+    data: '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>'
+      + `<w:p><w:r><w:t>${paragraph}</w:t></w:r></w:p>`
+      + '</w:body></w:document>',
+  }]));
+  const sceneId = 'roman/stable-locator.txt';
+  const lowStart = paragraph.indexOf('UNIQUELOW');
+  const highStart = paragraph.indexOf('UNIQUEHIGH');
+  const physicalLedger = canary.adaptC5V2MasterRoundToPhysicalLedger({
+    masterLedger: {
+      gates: { ok: true },
+      roundCount: 5,
+      ledgerDigest: 'sha256:stable-locator-master',
+      sceneProfiles: [{ sceneId }],
+      operations: [
+        {
+          id: 'stable-locator-low',
+          family: 'tracked_text_edit',
+          round: 1,
+          sceneId,
+          expectedOutcome: 'EXACT',
+          semanticIntent: { kind: 'replace', replacementText: 'LOW-REPLACED' },
+          anchor: {
+            paragraphOrdinal: 0,
+            graphemeStart: lowStart,
+            graphemeEnd: lowStart + 'UNIQUELOW'.length,
+            selectedText: 'UNIQUELOW',
+            positionalThird: 'beginning',
+          },
+        },
+        {
+          id: 'stable-locator-high',
+          family: 'tracked_text_edit',
+          round: 1,
+          sceneId,
+          expectedOutcome: 'EXACT',
+          semanticIntent: { kind: 'replace', replacementText: 'HIGH-REPLACED' },
+          anchor: {
+            paragraphOrdinal: 0,
+            graphemeStart: highStart,
+            graphemeEnd: highStart + 'UNIQUEHIGH'.length,
+            selectedText: 'UNIQUEHIGH',
+            positionalThird: 'middle',
+          },
+        },
+      ],
+    },
+    currentScenes: [{ sceneId, text: paragraph, paragraphs: [paragraph] }],
+    roundNumber: 1,
+    sourceDocxPath,
+  });
+  const low = physicalLedger.operations.find((operation) => operation.id === 'stable-locator-low');
+  assert.equal(low.quote, 'UNIQUELOW');
+  assert.equal(low.locatorQuote, 'UNIQUELOW');
+  assert.equal(low.locatorSelectionStart, 0);
+});
+
 test('C5V2 expected reopened text follows canonical boundary trimming after an exact delete', async () => {
   const canary = await import(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs'));
   const result = canary.buildExpectedSceneParagraphs(

@@ -1591,6 +1591,133 @@ test('DOCX review preview session command: full-manuscript active authority stor
   assert.equal(calls.filter((commandId) => commandId === 'cmd.rtk.review.applyCommentLifecycleReturn').length, 0);
 });
 
+test('DOCX review preview session command: explicit full-manuscript comment apply writes canonical durable state', async () => {
+  const bridge = await loadBridge();
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'docx-review-full-comment-explicit-'));
+  const sceneId = 'roman/scene-comment-explicit.txt';
+  const sceneText = 'Physical comment anchor';
+  const scenePath = path.join(tmpDir, sceneId);
+  fs.mkdirSync(path.dirname(scenePath), { recursive: true });
+  fs.writeFileSync(scenePath, sceneText);
+  const roundId = 'round-full-manuscript-comment-explicit';
+  const exportId = 'export-full-manuscript-comment-explicit';
+  const payload = {
+    scope: 'full-manuscript', projectId: 'project-1', sceneCount: 1, orderedSceneIds: [sceneId],
+    fullBookRawSha256: c05Sha256Text(sceneText), roundId, exportId,
+    semanticReturnId: 'semantic-full-manuscript-comment-explicit',
+    coreManifestDigest: c05Sha256Text('core-full-manuscript-comment-explicit'),
+    transportManifestDigest: c05Sha256Text('transport-full-manuscript-comment-explicit'),
+  };
+  const parserResult = {
+    ok: true,
+    authorityCarrier: {
+      status: 'verified-baseline-bound',
+      selectedCarrier: { payload, baselineBinding: { allExpectedMatched: true } },
+    },
+    exactAuthority: { validSignedLocator: true, sceneRevisionUnchanged: true, rawSha256Unchanged: true },
+    parserProfileDigest: c05Sha256Text('parser-explicit'),
+    analysisDigest: c05Sha256Text('analysis-explicit'),
+    sourceMode: 'TRACKED',
+    reviewIr: {
+      commentThreads: [{
+        threadId: 'rtk-comment-explicit-0', commentId: '0', status: 'resolved',
+        messages: [
+          { messageId: 'docx-comment-explicit-0-root', body: 'Physical root body' },
+          { messageId: 'docx-comment-explicit-0-reply', body: 'Physical reply body' },
+        ],
+      }],
+      commentPlacements: [{
+        threadId: 'rtk-comment-explicit-0',
+        sourceCommentId: '0',
+        targetScope: { type: 'scene', id: '' },
+        quote: sceneText,
+      }],
+      textRevisions: [], moveRevisions: [], propertyRevisions: [], formattingDeltas: [],
+      structureChanges: [], opaqueUnsupported: [],
+    },
+  };
+  const bytes = docxWithCommentAndBody([
+    '<w:p w14:paraId="aaaabbbb" w14:textId="11112222">',
+    '<w:commentRangeStart w:id="0"/>',
+    '<w:r><w:t>Physical comment anchor</w:t></w:r>',
+    '<w:commentRangeEnd w:id="0"/>',
+    '<w:r><w:commentReference w:id="0"/></w:r>',
+    '</w:p>',
+  ].join(''), 'Physical root body');
+  const localAuthority = {
+    schemaVersion: 'yalken.rtk.word.product-review-docx-export.local-authority.v1',
+    projectRoot: tmpDir,
+    scope: 'full-manuscript',
+    scenePathBySceneId: { [sceneId]: scenePath },
+    baselineFinalTextBySceneId: { [sceneId]: sceneText },
+    hmacSecret: 'main-owned-local-secret',
+    expectedAuthority: {
+      scope: 'full-manuscript', sceneCount: 1, orderedSceneIds: [sceneId],
+      fullBookRawSha256: payload.fullBookRawSha256, roundId, exportId,
+    },
+    roundId,
+    exportIdentity: exportId,
+    manifestDigest: payload.transportManifestDigest,
+    coreManifestDigest: payload.coreManifestDigest,
+    exportMap: {
+      scenes: [{
+        sceneId,
+        blocks: [{
+          blockId: 'block-1',
+          wordSignals: [{ kind: 'w14ParaIdTextId', value: { paraId: 'aaaabbbb', textId: '11112222' } }],
+        }],
+      }],
+    },
+  };
+  const calls = [];
+  const rootHandler = bridge.createRtkRootCommentReturnCommandHandler();
+  const lifecycleHandler = bridge.createRtkCommentLifecycleReturnCommandHandler();
+  const port = instantiateDocxReviewPreviewSessionPort({
+    dispatchCommandSurfaceKernel: async (commandId, commandPayload = {}) => {
+      calls.push(commandId);
+      if (commandId === 'cmd.rtk.reviewSession.importComments') {
+        return { ok: true, status: 'committed', session: { summary: { threadCount: 1 } }, storageEffects: {} };
+      }
+      if (commandId === 'cmd.rtk.review.applyRootCommentReturn') return rootHandler(commandPayload);
+      if (commandId === 'cmd.rtk.review.applyCommentLifecycleReturn') return lifecycleHandler(commandPayload);
+      return { ok: false, code: 'UNEXPECTED_COMMAND' };
+    },
+  });
+  const result = await port.handleDocxReviewPreviewSessionActivationCommandSurface({
+    ...toPayload(bytes),
+    explicitCanonicalApplyConfirmed: true,
+  }, {
+    activeReviewDocxExportAuthorityStore: {
+      schemaVersion: 'yalken.rtk.word.product-review-docx-export.authority-store.v1',
+      scope: 'full-manuscript', lastRoundId: roundId, roundsById: { [roundId]: localAuthority },
+      secretExposedToRenderer: false,
+    },
+    runDocxReviewReturnIntakeInUtilityProcess: async () => ({ ok: true, parserResult }),
+    buildMainReviewContext: async () => reviewContext({
+      projectRoot: tmpDir, scenePath, sceneText,
+      targetScope: { type: 'scene', id: sceneId },
+    }),
+  });
+  assert.equal(result.ok, true, JSON.stringify(result, null, 2));
+  assert.equal(result.commentProductPath.ok, true);
+  assert.equal(result.commentProductPath.status, 'applied-and-replayed');
+  assert.equal(result.commentProductPath.pendingProductApplyLane, false);
+  assert.equal(result.commentProductPath.semanticOracle.rootApplied, 1);
+  assert.equal(result.commentProductPath.semanticOracle.lifecycleApplied, 2);
+  assert.equal(result.commentProductPath.semanticOracle.triangleGreen, true);
+  assert.equal(calls.filter((commandId) => commandId === 'cmd.rtk.review.applyRootCommentReturn').length, 2);
+  assert.equal(calls.filter((commandId) => commandId === 'cmd.rtk.review.applyCommentLifecycleReturn').length, 4);
+  const canonical = JSON.parse(fs.readFileSync(
+    path.join(tmpDir, '.yalken', 'word-review', 'non-text-return-state.v1.json'),
+    'utf8',
+  ));
+  assert.equal(canonical.threads[0].messages[0].body, 'Physical root body');
+  assert.deepEqual(canonical.events.map((event) => event.kind), [
+    'root_comment_added', 'comment_reply_added', 'comment_resolved',
+  ]);
+  assert.equal(fs.existsSync(path.join(tmpDir, '.yalken', 'recovery', 'non-text-return-state.v1.json')), true);
+});
+
 test('DOCX review preview session command: authenticated full-manuscript missing and forged local maps block before command dispatch', async () => {
   const roundId = 'round-map-negatives';
   const payload = {

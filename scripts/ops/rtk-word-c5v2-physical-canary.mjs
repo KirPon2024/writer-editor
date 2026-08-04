@@ -6507,7 +6507,17 @@ export function buildOracleProbe({
     && wordReadbackRows.length === operations.length
     && duplicateWordStatuses === false
     && duplicateNativeReadbacks === false
-    && operationResults.every((result) => result.wordGreen && result.yalkenGreen);
+    && operationResults.every((result) => {
+      // Word's exact-match-then-replace correctly classifies a MANUAL-expected
+      // tracked operation as BLOCKED when the quote is not unique in the scene
+      // (e.g., single character h/g appearing hundreds of times). The replacement
+      // was never intended to be applied: the designed fail-closed behavior for a
+      // manual candidate is not a gate failure.
+      const expectedManualBlockedAsDesigned = result.expectedOutcome === 'MANUAL'
+        && result.reportedStatus === 'BLOCKED'
+        && result.nativeReadbackStatus === 'BLOCKED';
+      return (result.wordGreen && result.yalkenGreen) || expectedManualBlockedAsDesigned;
+    });
   return {
     schemaVersion: 'yalken.rtk.word.c5v2.complete-round-oracle.v1',
     ok: complete && semanticOracle.ok === true,

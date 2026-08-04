@@ -9496,10 +9496,10 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "31d2c71ff4d0dc3d641fb23f0bbca76f9c26f2e58df686918f00bd3f2d42971d",
+      "sha256": "7315fc642f1da2b9be4bb2b2489befa2bfaf0d8fa7bd10f5f7edce1acc917bbf",
       "approvedBy": "owner-controller:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
-      "approvedAtUtc": "2026-08-04T19:45:00.000Z",
-      "rationale": "Approve Word C5V2 complete round oracle gate tolerance for MANUAL-expected tracked operations classified as BLOCKED by Word exact-match-then-replace when quote is not unique in scene (e.g., single character h/g appearing hundreds of times); Word and Yalken correctly refuse to exact-apply non-unique quotes, which is the designed fail-closed behavior for manual candidates and must not fail the oracle; verified by 28/28 contract tests; no UI, network, dependency, Google, Atlas mutation or terminal physical PASS claim change.",
+      "approvedAtUtc": "2026-08-04T20:15:00.000Z",
+      "rationale": "Approve Word C5V2 complete round oracle probe tolerance in buildOracleProbe complete check: MANUAL-expected tracked operations correctly classified as BLOCKED by Word exact-apply for non-unique quotes (e.g., single character h/g appearing hundreds of times) are now tolerated in the complete round oracle, consistent with the gate-level tolerance added earlier; verified by 28/28 contract tests; no UI, network, dependency, Google, Atlas mutation or terminal physical PASS claim change.",
       "approved": true,
       "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
     }

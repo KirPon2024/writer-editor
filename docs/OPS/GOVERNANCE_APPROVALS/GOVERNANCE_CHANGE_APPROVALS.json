@@ -9478,6 +9478,15 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_WORD_C5V2_TERMINAL_ACCEPTANCE_MATRIX_V1.json",
+      "sha256": "675aecda1ac4b2616236a32dea269eedcec9076b6da4c01c346ed16f82b11e31",
+      "approvedBy": "owner-controller:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
+      "approvedAtUtc": "2026-08-04T12:50:00.000Z",
+      "rationale": "Approve W02/W03 terminal acceptance matrix artifact binding 25 Word capability rows to merged origin main a23ee492 with W03 vocabulary, zero safety veto counters and terminal plan; docs-only artifact, no UI, network, dependency, Google, Atlas mutation or terminal physical PASS claim change.",
+      "approved": true,
+      "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
     }
   ]
 }

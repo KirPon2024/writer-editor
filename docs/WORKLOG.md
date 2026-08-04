@@ -3,6 +3,13 @@
 Короткая хронология изменений и решений. Это не полный лог чата, а сжатые записи “что сделали / зачем / что дальше”.
 Если в переписке были важные продуктовые/UX‑решения (даже без кода) — фиксируйте их здесь короткими пунктами.
 
+## 2026-08-04
+- Word contour `EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1` opened after CONTEXT_ACCEPTED_READY_FOR_EXECUTION_PROMPT; master-plan SHA and active canon re-verified.
+- PR `1435` required RTK failure closed: root cause was Stage10 repair source-order contract (`bootstrapStage10ApplicationForProject` must precede `setActiveProjectNameFromRoot` in `handleProjectLifecycleOpenCommand`) plus a latent wrong-project tree bootstrap defect (tree builders defaulted to `DEFAULT_PROJECT_NAME` instead of the opening project).
+- Fix merged as `a23ee4921171361f36123fe20285a4662ce8870a`: explicit project-name threading through tree identity bootstrap functions, `setActiveProjectNameFromRoot` moved after stage10 bootstrap, transactional rollback preserved, rollback contract test rebased to genuine `E_PROJECT_EMPTY` failure; required CI green (`rtk-required`, `oss-policy`, `x1-runtime-parity` ubuntu/windows); focused chains 29/29 on exact merged head.
+- STAGE_W02/W03: acceptance matrix artifact `YALKEN_WORD_C5V2_TERMINAL_ACCEPTANCE_MATRIX_V1.json` created (25 capability rows, W03 vocabulary, safety veto counters zero, terminal plan); CONTEXT.md and HANDOFF.md updated to current Word C5V2 truth (typed limitations, physical evidence, no terminal claim).
+- Next: W03 delivery chain, W04 freeze of final merged Word head, W05-W07 physical terminal campaign (Dorian 2000 x3), W08 two independent exact-head audits.
+
 ## 2026-07-29
 - Зафиксирована единая доктрина интеграции фич: Product Core владеет данными и смыслом, Command Kernel — действиями и availability, Design OS — вычисляемой формой интерфейса.
 - Каждая новая фича получает два независимых подключения: product plane через Commands, Events, Queries, product ports и adapters; interface plane через Design OS ports, surface manifests, typed slots и projection adapters.

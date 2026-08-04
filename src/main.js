@@ -28451,6 +28451,7 @@ async function initializeApp() {
   await fileManager.ensureDocumentsFolder();
   await ensureAutosaveDirectory();
   await ensureProjectStructure();
+  await buildProjectTreeRootsWithIdentities();
   await bootstrapStage10ApplicationAtStartup();
   await reconcileReviewFormattingReturnAtStartup();
   await reconcileReviewStructuralReturnAtStartup();
@@ -28596,6 +28597,7 @@ module.exports = {
   handleProjectLifecycleCreateBackupCommand,
   handleProjectLifecycleInspectIntegrityCommand,
   handleProjectLifecyclePermanentDeleteCommand,
+  initializeApp,
   handleExportProjectArchive,
   handleImportProjectArchive,
   recoverProjectLifecycleJournal,

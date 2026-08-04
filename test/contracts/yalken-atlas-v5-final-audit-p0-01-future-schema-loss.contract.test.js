@@ -598,6 +598,37 @@ test('P0 01: fresh product project persists tree identity before mutating child 
   assert.doesNotMatch(JSON.stringify(createResult), /E_TREE_NODE_NOT_FOUND/u);
 });
 
+test('P0 01: startup-created product project persists tree identity before renderer child scene creation', async (t) => {
+  const harness = await createHarness(t, { devMode: true });
+  await harness.main.initializeApp();
+  const projectRoot = path.join(harness.documentsRoot, 'Роман');
+  const manifestPath = path.join(projectRoot, PROJECT_MANIFEST_FILENAME);
+  const manifestRawBefore = await fsPromises.readFile(manifestPath, 'utf8');
+  const tree = await harness.main.handleWorkspaceProjectTreeQuery({ tab: 'roman' });
+  assert.equal(tree.ok, true, JSON.stringify(tree));
+  const romanNode = findSerializedTreeNodeByName(tree.root, 'Роман');
+  assert.ok(romanNode && typeof romanNode.nodeId === 'string', JSON.stringify(tree.root));
+  assert.equal(manifestRawBefore.includes(romanNode.nodeId), true);
+
+  const commandBridge = harness.ipcHandlers.get('ui:command-bridge');
+  assert.equal(typeof commandBridge, 'function');
+  const bridgeResult = await commandBridge(null, {
+    route: 'command.bus',
+    commandId: 'cmd.project.tree.createNode',
+    payload: {
+      parentNodeId: romanNode.nodeId,
+      kind: 'scene',
+      name: 'dorian-00-preface',
+    },
+  });
+  assert.equal(bridgeResult.ok, true, JSON.stringify(bridgeResult));
+  assert.equal(bridgeResult.value?.ok, true, JSON.stringify(bridgeResult));
+  assert.match(bridgeResult.value.nodeId, /^tree-node-[a-f0-9]{32}$/u);
+  assert.doesNotMatch(JSON.stringify(bridgeResult), /E_TREE_NODE_NOT_FOUND/u);
+  const manifestRawAfter = await fsPromises.readFile(manifestPath, 'utf8');
+  assert.equal(manifestRawAfter.includes(bridgeResult.value.nodeId), true);
+});
+
 test('P0 01: each commanded future author domain fails before recovery or durable write', async (t) => {
   const scenarios = [
     {

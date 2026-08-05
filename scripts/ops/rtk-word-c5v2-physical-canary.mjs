@@ -94,6 +94,31 @@ function assertNoC5V2SymlinkPathComponentsWithinRoot(rootPath, targetPath) {
   }
 }
 
+function resolveC5V2CandidatePathInRoot(rootRealpath, targetPath, errorPrefix) {
+  const rawTarget = path.resolve(String(targetPath || ''));
+  let cursor = rawTarget;
+  const missingSegments = [];
+  while (!fs.existsSync(cursor) && cursor !== rootRealpath && cursor !== path.parse(cursor).root) {
+    missingSegments.push(path.basename(cursor));
+    cursor = path.dirname(cursor);
+  }
+  let canonicalTarget = rawTarget;
+  if (fs.existsSync(cursor)) {
+    if (fs.lstatSync(cursor).isSymbolicLink()) {
+      throw new Error(`${errorPrefix}_SYMLINK_COMPONENT:${cursor}`);
+    }
+    const realCursor = fs.realpathSync(cursor);
+    canonicalTarget = missingSegments.length > 0
+      ? path.join(realCursor, ...missingSegments.reverse())
+      : realCursor;
+  }
+  const relative = path.relative(rootRealpath, canonicalTarget);
+  if (!relative || relative === '..' || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) {
+    throw new Error(`${errorPrefix}_OUTSIDE_ARTIFACT_ROOT:${canonicalTarget}`);
+  }
+  return canonicalTarget;
+}
+
 export function parseC5V2T7DiskInfo(diskInfoText = '') {
   const text = String(diskInfoText || '');
   return {
@@ -158,6 +183,21 @@ export function resolveC5V2RunIdentity(options = {}) {
     requireT7: requirePhysicalArtifactRoot,
   });
   const resumeRunDir = typeof options.resumeRunDir === 'string' ? options.resumeRunDir.trim() : '';
+  const explicitRunDir = typeof options.explicitRunDir === 'string' ? options.explicitRunDir.trim() : '';
+  if (!resumeRunDir && explicitRunDir) {
+    // Orchestrated stage protocol: exact run directory from the orchestrator, never
+    // a generated timestamp. The directory must not exist yet (collision STOP).
+    const runDir = resolveC5V2CandidatePathInRoot(
+      rootVerification.artifactRootRealpath || artifactRoot,
+      explicitRunDir,
+      'ORCH_CANARY_RUN_DIR',
+    );
+    if (fs.existsSync(runDir)) {
+      throw new Error(`ORCH_CANARY_RUN_DIR_COLLISION:${runDir}`);
+    }
+    fs.mkdirSync(runDir, { recursive: true });
+    return { runId: path.basename(runDir), runDir, artifactRoot, artifactRootRealpath: rootVerification.artifactRootRealpath, resumed: false, orchestratedExplicit: true };
+  }
   if (!resumeRunDir) {
     const runId = `${options.runPrefix || 'c5v2-physical-canary'}-${nowStamp()}`;
     const runDir = path.join(artifactRoot, runId);
@@ -6727,9 +6767,92 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === '--include-multilingual-qa') {
       options.includeMultilingualQa = true;
+    } else if (arg === '--orchestrated-stage') {
+      options.orchestratedStage = String(argv[index + 1] || '');
+      index += 1;
+    } else if (arg === '--run-dir') {
+      options.explicitRunDir = String(argv[index + 1] || '');
+      index += 1;
+    } else if (arg === '--stage-result-path') {
+      options.stageResultPath = String(argv[index + 1] || '');
+      index += 1;
+    } else if (arg === '--heartbeat-path') {
+      options.heartbeatPath = String(argv[index + 1] || '');
+      index += 1;
+    } else if (arg === '--campaign-id') {
+      options.campaignId = String(argv[index + 1] || '');
+      index += 1;
+    } else if (arg === '--chain-id') {
+      options.chainId = String(argv[index + 1] || '');
+      index += 1;
+    } else if (arg === '--expected-sha') {
+      options.expectedSha = String(argv[index + 1] || '');
+      index += 1;
+    } else if (arg === '--expected-word-version') {
+      options.expectedWordVersion = String(argv[index + 1] || '');
+      index += 1;
+    } else if (arg === '--expected-word-build') {
+      options.expectedWordBuild = String(argv[index + 1] || '');
+      index += 1;
     }
   }
   return options;
+}
+
+const C5V2_ORCHESTRATED_STAGES = Object.freeze(['POSITIVE', 'NEGATIVE', 'AGGREGATE']);
+const C5V2_ORCHESTRATED_KNOWN_FLAGS = Object.freeze([
+  '--scene-count', '--scene-start', '--family-counts-json', '--artifact-root', '--run-prefix',
+  '--round-count', '--accessibility-preflight-only', '--master-ledger-campaign', '--resume-run-dir',
+  '--negative-campaign-ledger', '--negative-aggregate-evidence', '--negative-probe-start',
+  '--negative-probe-count', '--corpus-manifest', '--include-multilingual-qa', '--orchestrated-stage',
+  '--run-dir', '--stage-result-path', '--heartbeat-path', '--campaign-id', '--chain-id',
+  '--expected-sha', '--expected-word-version', '--expected-word-build',
+]);
+
+export function validateC5V2OrchestratedArgs(options, argv = []) {
+  if (!options.orchestratedStage) return { ok: true };
+  if (!C5V2_ORCHESTRATED_STAGES.includes(options.orchestratedStage)) {
+    return { ok: false, code: `ORCH_CANARY_STAGE_INVALID:${options.orchestratedStage}` };
+  }
+  const seen = new Set();
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = argv[index];
+    if (!String(arg).startsWith('--')) continue;
+    if (!C5V2_ORCHESTRATED_KNOWN_FLAGS.includes(arg)) return { ok: false, code: `ORCH_CANARY_UNKNOWN_ARG:${arg}` };
+    if (seen.has(arg)) return { ok: false, code: `ORCH_CANARY_DUPLICATE_ARG:${arg}` };
+    seen.add(arg);
+  }
+  const required = {
+    explicitRunDir: '--run-dir',
+    stageResultPath: '--stage-result-path',
+    heartbeatPath: '--heartbeat-path',
+    campaignId: '--campaign-id',
+    chainId: '--chain-id',
+    expectedSha: '--expected-sha',
+    expectedWordVersion: '--expected-word-version',
+    expectedWordBuild: '--expected-word-build',
+  };
+  for (const [key, flag] of Object.entries(required)) {
+    if (!options[key]) return { ok: false, code: `ORCH_CANARY_ARG_REQUIRED:${flag}` };
+  }
+  const identityRe = /^[A-Za-z0-9._-]{1,64}$/u;
+  if (!identityRe.test(options.campaignId)) return { ok: false, code: `ORCH_CANARY_CAMPAIGN_ID_INVALID:${options.campaignId}` };
+  if (!['W06', 'REP1', 'REP2', 'REP3'].includes(options.chainId)) return { ok: false, code: `ORCH_CANARY_CHAIN_ID_INVALID:${options.chainId}` };
+  if (!/^[0-9a-f]{40}$/u.test(options.expectedSha)) return { ok: false, code: 'ORCH_CANARY_SHA_FORMAT' };
+  const runDir = path.resolve(options.explicitRunDir);
+  const resultPath = path.resolve(options.stageResultPath);
+  const heartbeatPath = path.resolve(options.heartbeatPath);
+  for (const [name, candidate] of [['run-dir', runDir], ['stage-result-path', resultPath], ['heartbeat-path', heartbeatPath]]) {
+    if (!path.isAbsolute(candidate)) return { ok: false, code: `ORCH_CANARY_PATH_NOT_ABSOLUTE:${name}` };
+    if (candidate.split(path.sep).some((segment) => segment === '..')) return { ok: false, code: `ORCH_CANARY_PATH_TRAVERSAL:${name}` };
+  }
+  if (options.orchestratedStage === 'NEGATIVE' && !options.negativeCampaignLedgerPath) {
+    return { ok: false, code: 'ORCH_CANARY_ARG_REQUIRED:--negative-campaign-ledger' };
+  }
+  if (options.orchestratedStage === 'AGGREGATE' && (!options.resumeRunDir || !options.negativeAggregateEvidencePath)) {
+    return { ok: false, code: 'ORCH_CANARY_ARG_REQUIRED:--resume-run-dir+--negative-aggregate-evidence' };
+  }
+  return { ok: true };
 }
 
 async function mainNegativeCampaign(options) {
@@ -6746,8 +6869,10 @@ async function mainNegativeCampaign(options) {
     count: negativeProbeCount,
   });
   const negativeChunk = negativePlan.chunk;
-  const runId = `${options.runPrefix}-${nowStamp()}`;
-  const runDir = path.join(options.artifactRoot, runId);
+  const explicitRunDir = typeof options.explicitRunDir === 'string' ? options.explicitRunDir.trim() : '';
+  const runId = explicitRunDir ? path.basename(path.resolve(explicitRunDir)) : `${options.runPrefix}-${nowStamp()}`;
+  const runDir = explicitRunDir ? path.resolve(explicitRunDir) : path.join(options.artifactRoot, runId);
+  if (explicitRunDir && fs.existsSync(runDir) && fs.readdirSync(runDir).length > 0) throw new Error('ORCH_CANARY_RUN_DIR_COLLISION:' + runDir);
   const forkDir = path.join(runDir, 'negative-forks');
   const checkpointDir = path.join(runDir, 'negative-checkpoints');
   const manifestPath = path.join(runDir, 'negative-fork-manifest.json');
@@ -6921,6 +7046,39 @@ async function mainNegativeCampaign(options) {
     },
     certificationClaim: 'NO_TERMINAL_CERTIFICATION_CLAIM_NEGATIVE_CAMPAIGN_REQUIRES_MERGED_HEAD_REPETITIONS_AND_INDEPENDENT_AUDIT',
   };
+  if (options.orchestratedContext && options.orchestratedStage === 'NEGATIVE') {
+    emitOrchestratedHeartbeat(options, 'stage-finish', { stage: 'NEGATIVE', ok: summary.negativeCampaignResult?.ok === true });
+    const evidencePath = path.join(runDir, 'negative-campaign-evidence.json');
+    const green = summary.electronResult.ok === true
+      && summary.wordStatus === 'PASS'
+      && summary.noOpOracle?.ok === true
+      && summary.negativeCampaignResult?.ok === true
+      && summary.vetoStatus?.baselineNotAuthenticated !== true
+      && summary.vetoStatus?.baselineMutationCandidate !== true
+      && summary.vetoStatus?.negativeCountMismatch !== true
+      && summary.vetoStatus?.negativeFalseAccept !== true
+      && summary.vetoStatus?.negativeWriterCalled !== true
+      && summary.vetoStatus?.negativeSceneMutation !== true
+      && summary.vetoStatus?.productNetwork !== true;
+    publishOrchestratedStageResult(options, {
+      runDir,
+      evidencePath,
+      evidenceDigest: fs.existsSync(evidencePath) ? sha256File(evidencePath) : '',
+      probeIdSetDigest: negativeEvidence?.probeIdSetDigest || sha256Text(JSON.stringify((negativeEvidence?.probes || []).map((probe) => probe.probeId || probe.id || ''))),
+      mainLedgerDigest: masterLedger.ledgerDigest || '',
+    }, {
+      evidence: fs.existsSync(evidencePath)
+        ? { path: evidencePath, sha256: sha256File(evidencePath), size: fs.statSync(evidencePath).size }
+        : { path: evidencePath, sha256: '', size: 0 },
+    }, {
+      operationCount: Number(negativeEvidence?.operationCount || 0),
+      rejectedCount: Number(negativeEvidence?.rejectedCount || 0),
+      failedCount: Number(negativeEvidence?.failedCount || 0),
+      green,
+    });
+    process.stdout.write(JSON.stringify({ orchestratedStage: 'NEGATIVE', green, runDir }, null, 2) + '\n');
+    process.exit(green ? 0 : 1);
+  }
   writeJsonAtomicDurable(path.join(runDir, 'negative-campaign-result.json'), summary);
   process.stdout.write(`${JSON.stringify({
     runId,
@@ -7327,6 +7485,7 @@ async function mainCumulative(options) {
         returnApplyCandidateAuthorityAnchorArtifact: returnApplyCandidateAuthorityAnchorValidation.anchorArtifact,
         gate,
       };
+      emitOrchestratedHeartbeat(options, 'round-gate', { roundId: round.roundId, gateOk: gate?.ok === true });
       return gate;
     },
   });
@@ -7433,6 +7592,7 @@ async function mainCumulative(options) {
     ? JSON.parse(fs.readFileSync(negativeAggregateEvidencePath, 'utf8'))
     : null;
   const terminalOperationAggregate = options.masterLedgerCampaign
+    && options.orchestratedStage !== 'POSITIVE'
     ? buildC5V2TerminalOperationAggregate({
       headSha,
       masterLedger,
@@ -7511,6 +7671,78 @@ async function mainCumulative(options) {
     },
     certificationClaim: 'NO_PHYSICAL_PROVEN_C5_CERTIFICATION_CLAIM_CUMULATIVE_CAMPAIGN_IN_PROGRESS',
   };
+  if (options.orchestratedContext && (options.orchestratedStage === 'POSITIVE' || options.orchestratedStage === 'AGGREGATE')) {
+    const roundGates = rounds.map((round) => {
+      const gatePath = path.join(round.roundDir, 'complete-round-oracle-gate.json');
+      return { roundId: round.roundId, path: gatePath, sha256: fs.existsSync(gatePath) ? sha256File(gatePath) : '' };
+    });
+    const gatesManifest = {
+      schemaVersion: 'yalken.rtk.word.c5v2.orchestrated-round-gates-manifest.v1',
+      campaignId: options.campaignId,
+      chainId: options.chainId,
+      runDir,
+      gates: roundGates,
+    };
+    writeJsonAtomicDurable(path.join(runDir, 'orchestrated-round-gates-manifest.json'), gatesManifest);
+    const roundGatesManifestPath = path.join(runDir, 'orchestrated-round-gates-manifest.json');
+    const ledgerPath = path.join(runDir, 'c5v2-master-ledger.json');
+    const roundGreen = summary.electronResult.ok === true && summary.rounds.every((round) => (
+      round.sourcePackageSummary?.modernMode15Ready === true
+      && round.wordStatus === 'PASS'
+      && round.productApplyOk === true
+      && round.nativeLifecycleVerification?.ok === true
+      && round.roundOracleGate?.ok === true
+    ));
+    if (options.orchestratedStage === 'POSITIVE') {
+      emitOrchestratedHeartbeat(options, 'stage-finish', { stage: 'POSITIVE', ok: roundGreen });
+      publishOrchestratedStageResult(options, {
+        mainRunDir: runDir,
+        ledgerPath,
+        ledgerDigest: masterLedger?.ledgerDigest || '',
+        operationIdSetDigest: sha256Text(JSON.stringify((masterLedger?.operations || []).map((operation) => operation.id || ''))),
+      }, {
+        ledger: fs.existsSync(ledgerPath)
+          ? { path: ledgerPath, sha256: sha256File(ledgerPath), size: fs.statSync(ledgerPath).size }
+          : { path: ledgerPath, sha256: '', size: 0 },
+        roundGates: { path: roundGatesManifestPath, sha256: sha256File(roundGatesManifestPath), size: fs.statSync(roundGatesManifestPath).size },
+      }, {
+        operationCount: (masterLedger?.operations || []).length,
+        roundGreen,
+      });
+      process.stdout.write(JSON.stringify({ orchestratedStage: 'POSITIVE', green: roundGreen, runDir }, null, 2) + '\n');
+      process.exit(roundGreen ? 0 : 1);
+    }
+    // AGGREGATE stage
+    const aggregatePath = path.join(runDir, 'terminal-operation-aggregate.json');
+    const postRoundInventory = inventoryOrchestratedRoundArtifacts(runDir);
+    const roundArtifactsUnchanged = postRoundInventory === options.orchestratedContext.preRoundInventory;
+    const aggregateGreen = summary.electronResult.ok === true
+      && roundGreen
+      && summary.terminalOperationAggregate?.ok === true
+      && roundArtifactsUnchanged;
+    emitOrchestratedHeartbeat(options, 'stage-finish', { stage: 'AGGREGATE', ok: aggregateGreen, roundArtifactsUnchanged });
+    publishOrchestratedStageResult(options, {
+      mainRunDir: runDir,
+      negativeEvidencePath: options.negativeAggregateEvidencePath,
+      aggregateOk: summary.terminalOperationAggregate?.ok === true,
+      aggregateDigest: summary.terminalOperationAggregate?.aggregateDigest || '',
+      preRoundInventory: options.orchestratedContext.preRoundInventory,
+      postRoundInventory,
+      roundArtifactsUnchanged,
+    }, {
+      terminalAggregate: fs.existsSync(aggregatePath)
+        ? { path: aggregatePath, sha256: sha256File(aggregatePath), size: fs.statSync(aggregatePath).size }
+        : { path: aggregatePath, sha256: '', size: 0 },
+      roundGates: { path: roundGatesManifestPath, sha256: sha256File(roundGatesManifestPath), size: fs.statSync(roundGatesManifestPath).size },
+    }, {
+      operationCount: (masterLedger?.operations || []).length,
+      positiveTotal: Number(summary.terminalOperationAggregate?.positive?.operationCount || 0),
+      negativeTotal: Number(summary.terminalOperationAggregate?.negative?.operationCount || 0),
+      aggregateGreen,
+    });
+    process.stdout.write(JSON.stringify({ orchestratedStage: 'AGGREGATE', green: aggregateGreen, runDir }, null, 2) + '\n');
+    process.exit(aggregateGreen ? 0 : 1);
+  }
   writeJsonAtomicDurable(path.join(runDir, 'cumulative-result.json'), summary);
   process.stdout.write(`${JSON.stringify({
     runId: summary.runId,
@@ -7724,8 +7956,143 @@ export function resolveC5V2CompletedRoundResumeDisposition(roundDir, options = {
   };
 }
 
+
+// ---------------------------------------------------------------------------
+// Orchestrated stage protocol (driven by rtk-word-c5v2-terminal-orchestrator)
+// ---------------------------------------------------------------------------
+
+const ORCHESTRATED_HEARTBEAT_SCHEMA = 'yalken.rtk.word.c5v2.orchestrated-heartbeat.v1';
+const ORCHESTRATED_STAGE_RESULT_SCHEMA = 'yalken.rtk.word.c5v2.orchestrated-stage-result.v1';
+
+function emitOrchestratedHeartbeat(options, phase, detail = {}) {
+  const context = options.orchestratedContext;
+  if (!context || !options.heartbeatPath) return;
+  context.sequence += 1;
+  const event = {
+    schemaVersion: ORCHESTRATED_HEARTBEAT_SCHEMA,
+    campaignId: options.campaignId,
+    chainId: options.chainId,
+    stage: options.orchestratedStage,
+    sequence: context.sequence,
+    phase,
+    atUtc: nowStamp(),
+    detail,
+  };
+  fs.appendFileSync(options.heartbeatPath, JSON.stringify(event) + '\n', 'utf8');
+}
+
+function verifyOrchestratedCampaignBinding(options) {
+  const head = shellValue('git', ['rev-parse', 'HEAD']);
+  if (head !== options.expectedSha) throw new Error(`ORCH_CANARY_SHA_MISMATCH:${options.expectedSha}:${head}`);
+  const origin = shellValue('git', ['rev-parse', 'origin/main']);
+  if (origin !== options.expectedSha) throw new Error(`ORCH_CANARY_ORIGIN_MAIN_MISMATCH:${options.expectedSha}:${origin}`);
+  let wordVersion = '';
+  let wordBuild = '';
+  try {
+    const plist = execFileSync('defaults', ['read', '/Applications/Microsoft Word.app/Contents/Info.plist'], { encoding: 'utf8', timeout: 15000 });
+    wordVersion = (plist.match(/CFBundleShortVersionString<\/key>\s*<string>([^<]+)</u) || [])[1] || '';
+    wordBuild = (plist.match(/CFBundleVersion<\/key>\s*<string>([^<]+)</u) || [])[1] || '';
+  } catch (error) {
+    throw new Error('ORCH_CANARY_WORD_PLIST_UNAVAILABLE:' + String(error && error.message ? error.message : error).slice(0, 120));
+  }
+  if (wordVersion !== options.expectedWordVersion) throw new Error(`ORCH_CANARY_WORD_VERSION_MISMATCH:${options.expectedWordVersion}:${wordVersion}`);
+  if (wordBuild !== options.expectedWordBuild) throw new Error(`ORCH_CANARY_WORD_BUILD_MISMATCH:${options.expectedWordBuild}:${wordBuild}`);
+  return { headSha: head, originMainSha: origin, wordVersion, wordBuild };
+}
+
+function publishOrchestratedStageResult(options, stageData, artifacts, counters = {}) {
+  const context = options.orchestratedContext;
+  const result = {
+    schemaVersion: ORCHESTRATED_STAGE_RESULT_SCHEMA,
+    stage: options.orchestratedStage,
+    status: 'SEALED',
+    campaignId: options.campaignId,
+    chainId: options.chainId,
+    headSha: context.binding.headSha,
+    originMainSha: context.binding.originMainSha,
+    wordVersion: context.binding.wordVersion,
+    wordBuild: context.binding.wordBuild,
+    startedAtUtc: context.startedAtUtc,
+    finishedAtUtc: new Date().toISOString(),
+    sequence: context.sequence,
+    stageData,
+    artifacts,
+    counters,
+  };
+  const serialized = JSON.stringify(result, null, 2) + '\n';
+  const resultPath = path.resolve(options.stageResultPath);
+  fs.mkdirSync(path.dirname(resultPath), { recursive: true });
+  const tempPath = resultPath + '.tmp-' + process.pid + '-' + Date.now();
+  fs.writeFileSync(tempPath, serialized, 'utf8');
+  const fd = fs.openSync(tempPath, 'r+');
+  try {
+    fs.fsyncSync(fd);
+  } finally {
+    fs.closeSync(fd);
+  }
+  fs.renameSync(tempPath, resultPath);
+  if (fs.readFileSync(resultPath, 'utf8') !== serialized) throw new Error('ORCH_CANARY_STAGE_RESULT_PUBLISH_VERIFY_FAILED');
+  return { result, resultPath };
+}
+
+function inventoryOrchestratedRoundArtifacts(runDir) {
+  const entries = [];
+  for (let index = 1; index <= 5; index += 1) {
+    const roundDir = path.join(runDir, 'round-' + String(index).padStart(2, '0'));
+    if (!fs.existsSync(roundDir)) continue;
+    const stack = [roundDir];
+    while (stack.length > 0) {
+      const dir = stack.pop();
+      for (const entry of fs.readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
+        const full = path.join(dir, entry.name);
+        if (entry.isDirectory()) stack.push(full);
+        else if (entry.isFile()) {
+          entries.push(path.relative(runDir, full) + '|' + sha256File(full));
+        }
+      }
+    }
+  }
+  return sha256Text(entries.join('\n'));
+}
+
+async function mainOrchestratedStage(options, argv) {
+  const validation = validateC5V2OrchestratedArgs(options, argv);
+  if (validation.ok !== true) throw new Error(validation.code);
+  const binding = verifyOrchestratedCampaignBinding(options);
+  options.orchestratedContext = {
+    binding,
+    sequence: 0,
+    startedAtUtc: new Date().toISOString(),
+  };
+  emitOrchestratedHeartbeat(options, 'stage-start', { stage: options.orchestratedStage });
+  if (options.orchestratedStage === 'NEGATIVE') {
+    if (!fs.existsSync(options.negativeCampaignLedgerPath)) {
+      throw new Error('ORCH_CANARY_NEGATIVE_LEDGER_MISSING:' + options.negativeCampaignLedgerPath);
+    }
+    await mainNegativeCampaign(options);
+    return;
+  }
+  if (options.orchestratedStage === 'AGGREGATE') {
+    if (!fs.existsSync(options.resumeRunDir)) throw new Error('ORCH_CANARY_AGGREGATE_RUN_DIR_MISSING:' + options.resumeRunDir);
+    if (!fs.existsSync(options.negativeAggregateEvidencePath)) {
+      throw new Error('ORCH_CANARY_AGGREGATE_NEGATIVE_EVIDENCE_MISSING:' + options.negativeAggregateEvidencePath);
+    }
+    options.orchestratedContext.preRoundInventory = inventoryOrchestratedRoundArtifacts(path.resolve(options.resumeRunDir));
+    options.masterLedgerCampaign = true;
+    await mainCumulative(options);
+    return;
+  }
+  // POSITIVE
+  options.masterLedgerCampaign = true;
+  await mainCumulative(options);
+}
+
 async function main() {
   const options = parseArgs(process.argv.slice(2));
+  if (options.orchestratedStage) {
+    await mainOrchestratedStage(options, process.argv.slice(2));
+    return;
+  }
   if (options.accessibilityPreflightOnly) {
     let rawOutput = '';
     let executionError = '';

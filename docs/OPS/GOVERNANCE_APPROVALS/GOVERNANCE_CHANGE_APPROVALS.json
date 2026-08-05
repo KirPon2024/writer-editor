@@ -2670,12 +2670,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "faf0affeb399295756bdcacd3949a912385bd92087d110c14f4fdec0ed7cff76",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_PR1414_AUDIT_HOLD_REPAIR",
-      "approvedAtUtc": "2026-08-03T14:35:02Z",
-      "rationale": "Approve exact RTK graph catalog bytes adding the behavioral PR 1414 audit-hold repair contract. The contract covers fail-closed completed-round reuse bindings and ledger-only exact summary accounting without touching active physical Word evidence.",
+      "sha256": "870ba03e2dc2f56081e2c9f4869c8691da9afe3e8672db1f3cda02256117d8cd",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_ORCHESTRATOR_RECOVERY_CLOSEOUT",
+      "approvedAtUtc": "2026-08-05T13:49:22.000Z",
+      "rationale": "Approve exact RTK graph catalog bytes already present on this Word C5V2 orchestrator branch before recovery takeover, rebinding the maintained RTK catalog to the current branch diff so strict governance can evaluate the local closeout. This approval adds no new catalog scope beyond the existing branch contour and makes no physical campaign, UI, dependency, network, or certification claim.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_C5V2_PR1414_AUDIT_HOLD_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_YALKEN_WORD_C5V2_ORCHESTRATOR_RECOVERY_CLOSEOUT"
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
@@ -9505,30 +9505,30 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "8b751a393abda0ac3bb0dc41049eee938a14af4bff7d228951caa79f7470689f",
-      "approvedBy": "owner-controller:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
-      "approvedAtUtc": "2026-08-05T07:49:40.172Z",
-      "rationale": "Approve WAVE_1 P0_1 RESUME_NO_FALLBACK: sealed completed round failing reuse validation now hard-stops with C5V2_COMPLETED_ROUND_INVALID_STOP plus exact explain code (new explainC5V2ReusableCompletedRound and resolveC5V2CompletedRoundResumeDisposition); sealed valid round after chain break stops with NEW_ATTEMPT_REQUIRES_NEW_CAMPAIGN_ID; child template refuses purge of a sealed round (C5V2_SEALED_ROUND_LIVE_RERUN_FORBIDDEN). Incomplete unsealed rounds keep designed checkpoint resume. Validation semantics unchanged apart from reasoned returns (isC5V2ReusableCompletedRound wrapper preserved).",
+      "sha256": "1e7ee018637e464df50e7a531595554163ae69891fae7f679ecf2c8ebdf6bbc7",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_ORCHESTRATOR_RECOVERY_CLOSEOUT",
+      "approvedAtUtc": "2026-08-05T13:49:22.000Z",
+      "rationale": "Approve exact Word C5V2 canary bytes required by the terminal-orchestrator recovery closeout: orchestrated-stage argument validation, exact run-directory identity under canonical artifact-root realpath, collision and path-escape rejection, heartbeat and stage-result publication, and closed fsync descriptor handling. No physical Dorian campaign, W06/W07 run, Google path, runtime network, UI, dependency, or terminal Word certification claim is added.",
       "approved": true,
-      "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_YALKEN_WORD_C5V2_ORCHESTRATOR_RECOVERY_CLOSEOUT"
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-terminal-orchestrator.mjs",
-      "sha256": "7e7c4aa9c32d655219fb0b4e574261209b4a7435d1e8e60e1a23cda41792e8b6",
-      "approvedBy": "owner-controller:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
-      "approvedAtUtc": "2026-08-05T11:19:54.244Z",
-      "rationale": "Approve WAVE_1 contour 2: repository-native certification-grade terminal orchestrator closing P0_2/P0_3 — explicit --expected-sha enforcement at chain start and before seal, clean-tree STOP, secure-volume gate (UUID/FileVault/writable/space), full Word build gate, exclusive lock with stale-break marker, structured stage results, bounded wall and activity timeouts with child-death watchdog, append-only failure markers, no aggregate on failure, explicit run identity with FORBIDDEN_DISCOVERY (no readdirSync/latest/glob). Offline fault-injection contract proves non-zero exit, wall timeout, activity timeout, missing artifact, lock exclusion, SHA mismatch and fail-fast chain semantics.",
+      "sha256": "4d07040dcd68cea7d296a11a845f8d5e22dc4f3f8ec1848d81bbbcfe006ac662",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_ORCHESTRATOR_RECOVERY_CLOSEOUT",
+      "approvedAtUtc": "2026-08-05T13:49:22.000Z",
+      "rationale": "Approve exact terminal-orchestrator recovery bytes: closed atomic-write descriptors, canonical artifactRoot/campaignRoot path authority including macOS realpath aliases and missing descendants, unified awaited abortOwnedProcessGroup handling for timeout heartbeat schema spawn signal and failure paths, bounded TERM-to-KILL escalation, zero-success-before-owned-process-exit, quarantine on unknown liveness, and narrow test-only bypass isolation. No production path weakening or physical campaign certification claim is added.",
       "approved": true,
-      "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_YALKEN_WORD_C5V2_ORCHESTRATOR_RECOVERY_CLOSEOUT"
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-terminal-orchestrator.contract.test.js",
-      "sha256": "6396d87d0e3363d47b4ece99b2bdb64c6fcc6a869c922e4d296b33a5a7f71569",
-      "approvedBy": "owner-controller:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
-      "approvedAtUtc": "2026-08-05T11:19:54.244Z",
-      "rationale": "Approve orchestrator contract coverage: arg required/format validation, expected SHA and clean-tree gates via temp git repos, exclusive lock second-writer block and stale break, stage child success/nonzero/wall-timeout/activity-timeout/missing-artifact, fail-fast chain with no aggregate after failure, FORBIDDEN_DISCOVERY source assertions. No Word automation in any test.",
+      "sha256": "bea14ee0cec31cfac7f99707e11118d52b4f1dc5fdc806efca5e451eb82677f9",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_ORCHESTRATOR_RECOVERY_CLOSEOUT",
+      "approvedAtUtc": "2026-08-05T13:49:22.000Z",
+      "rationale": "Approve exact orchestrator contract bytes for the recovery closeout: lifecycle timeout and heartbeat failure cleanup, process-group and descendant liveness postconditions, impossible SIGKILL-handler fixture removal, exact detached-fixture cleanup by recorded PID, path-authority and canary run-identity coverage, malformed result validation, fail-fast chain ordering, quarantine behavior, collision rejection, and fake-runner dataflow. Tests remain offline and do not run Microsoft Word.",
       "approved": true,
-      "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_YALKEN_WORD_C5V2_ORCHESTRATOR_RECOVERY_CLOSEOUT"
     }
   ]
 }

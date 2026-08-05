@@ -3937,6 +3937,12 @@ app.whenReady().then(async () => {
         && fs.existsSync(outPath)
         && (fs.existsSync(returnedPath) || (returnedReadyPath && fs.existsSync(returnedReadyPath)));
       if (isLiveResumedRound) {
+        // SEALED_ROUND_IS_IMMUTABLE: a round with a durable oracle gate was sealed.
+        // Purging its artifacts and re-executing it live is forbidden; the parent
+        // must have already stopped with C5V2_COMPLETED_ROUND_INVALID_STOP.
+        if (oracleGatePath && fs.existsSync(oracleGatePath)) {
+          throw new Error('C5V2_SEALED_ROUND_LIVE_RERUN_FORBIDDEN:' + roundId);
+        }
         progress('resume-purge-stale-returned-artifacts', { roundIndex, roundId, outPath, returnedPath });
         for (const stalePath of [returnedPath, returnedReadyPath]) {
           if (stalePath && fs.existsSync(stalePath)) fs.unlinkSync(stalePath);
@@ -7030,11 +7036,21 @@ async function mainCumulative(options) {
     const roundLabel = `round-${String(index + 1).padStart(2, '0')}`;
     const roundDir = path.join(runDir, roundLabel);
     fs.mkdirSync(roundDir, { recursive: true });
-    const resumeCompletedRound = reusablePrefixOpen
-      && isC5V2ReusableCompletedRound(roundDir, {
-        ...completedRoundReuseContext,
-        roundId: roundLabel,
-      });
+    // RESUME_NO_FALLBACK: a sealed completed round (gate present) that fails reuse
+    // validation is evidence of tampering, corruption, or a stale chain — never a
+    // signal to purge and re-execute it. Only unsealed (incomplete) rounds may
+    // continue live from their verified checkpoint.
+    const resumeDisposition = resolveC5V2CompletedRoundResumeDisposition(roundDir, {
+      ...completedRoundReuseContext,
+      roundId: roundLabel,
+    });
+    if (resumeDisposition.disposition === 'STOP') {
+      throw new Error(`C5V2_COMPLETED_ROUND_INVALID_STOP:${resumeDisposition.reason}`);
+    }
+    if (resumeDisposition.disposition === 'REUSE' && reusablePrefixOpen !== true) {
+      throw new Error(`C5V2_COMPLETED_ROUND_SEALED_AFTER_CHAIN_BREAK:${roundLabel}:NEW_ATTEMPT_REQUIRES_NEW_CAMPAIGN_ID`);
+    }
+    const resumeCompletedRound = reusablePrefixOpen && resumeDisposition.disposition === 'REUSE';
     reusablePrefixOpen = reusablePrefixOpen && resumeCompletedRound;
     const completedRoundReuseBinding = resumeCompletedRound
       ? JSON.parse(fs.readFileSync(path.join(roundDir, 'complete-round-oracle-gate.json'), 'utf8')).completedRoundReuseBinding
@@ -7542,8 +7558,10 @@ export function shouldUseC5V2ChunkedWordExecution(options = {}) {
     || (typeof options.corpusManifestPath === 'string' && options.corpusManifestPath.trim().length > 0);
 }
 
-export function isC5V2ReusableCompletedRound(roundDir, options = {}) {
-  if (typeof roundDir !== 'string' || !roundDir || !fs.existsSync(roundDir)) return false;
+export function explainC5V2ReusableCompletedRound(roundDir, options = {}) {
+  if (typeof roundDir !== 'string' || !roundDir || !fs.existsSync(roundDir)) {
+    return { ok: false, code: 'C5V2_REUSE_ROUND_DIR_MISSING' };
+  }
   const resolvedRoundDir = path.resolve(roundDir);
   const resolvedCandidateAuthorityRoot = path.resolve(String(options.candidateAuthorityRoot || ''));
   const authorityRelativeToRound = path.relative(resolvedRoundDir, resolvedCandidateAuthorityRoot);
@@ -7554,7 +7572,7 @@ export function isC5V2ReusableCompletedRound(roundDir, options = {}) {
     !options.candidateAuthorityRoot
     || !authorityRelativeToRound
     || !candidateAuthorityRootIsOutsideRound
-  ) return false;
+  ) return { ok: false, code: 'C5V2_REUSE_AUTHORITY_ROOT_NOT_OUTSIDE_ROUND' };
   const requiredFiles = [
     'canary-ledger.json',
     'word-output.txt',
@@ -7566,7 +7584,9 @@ export function isC5V2ReusableCompletedRound(roundDir, options = {}) {
     'return-apply-candidate-authority.json',
     'yalken-reopened-truth.json',
   ];
-  if (!requiredFiles.every((name) => fs.existsSync(path.join(roundDir, name)))) return false;
+  if (!requiredFiles.every((name) => fs.existsSync(path.join(roundDir, name)))) {
+    return { ok: false, code: 'C5V2_REUSE_REQUIRED_FILE_MISSING:' + requiredFiles.find((name) => !fs.existsSync(path.join(roundDir, name))) };
+  }
   try {
     const wordOutputPath = path.join(roundDir, 'word-output.txt');
     const readyPath = path.join(roundDir, 'c5v2-cumulative-returned-ready.json');
@@ -7593,9 +7613,11 @@ export function isC5V2ReusableCompletedRound(roundDir, options = {}) {
       || !binding
       || binding.ok !== true
       || binding.schemaVersion !== C5V2_COMPLETED_ROUND_REUSE_BINDING_VERSION
-    ) return false;
+    ) return { ok: false, code: 'C5V2_REUSE_GATE_OR_BINDING_NOT_GREEN' };
     const { bindingDigest, ...boundBody } = binding;
-    if (bindingDigest !== sha256Text(stableCanonicalJson(boundBody))) return false;
+    if (bindingDigest !== sha256Text(stableCanonicalJson(boundBody))) {
+      return { ok: false, code: 'C5V2_REUSE_BINDING_DIGEST_MISMATCH' };
+    }
     const policy = options.operationStatusPolicyBinding || getC5V2OperationStatusPolicyBinding();
     const expectedHead = String(options.exactHead || shellValue('git', ['rev-parse', 'HEAD']));
     const expectedScriptSha256 = String(options.canaryScriptSha256 || sha256File(__filename));
@@ -7612,7 +7634,9 @@ export function isC5V2ReusableCompletedRound(roundDir, options = {}) {
       candidateAuthority: returnApplyCandidateAuthority,
       candidateAuthorityPath: returnApplyCandidateAuthorityPath,
     });
-    if (candidateAuthorityAnchorValidation.ok !== true) return false;
+    if (candidateAuthorityAnchorValidation.ok !== true) {
+      return { ok: false, code: 'C5V2_REUSE_CANDIDATE_AUTHORITY_ANCHOR_INVALID:' + (candidateAuthorityAnchorValidation.failures || []).join(',') };
+    }
     const candidateAuthorityAnchor = candidateAuthorityAnchorValidation.anchor;
     const candidateAuthorityAnchorArtifact = candidateAuthorityAnchorValidation.anchorArtifact;
     if (
@@ -7641,7 +7665,7 @@ export function isC5V2ReusableCompletedRound(roundDir, options = {}) {
       || binding.returnApplyCandidateAuthorityAnchorLedgerContentDigest !== candidateAuthorityAnchor.ledgerContentDigest
       || binding.returnApplyCandidateAuthorityAnchorLedgerContentDigest !== binding.ledgerContentDigest
       || ready.returnedSha256 !== binding.returnedDocxSha256
-    ) return false;
+    ) return { ok: false, code: 'C5V2_REUSE_BINDING_FIELD_MISMATCH' };
     const evidence = validateC5V2CompletedRoundReuseEvidence({
       roundId: expectedRoundId,
       ledger,
@@ -7651,24 +7675,53 @@ export function isC5V2ReusableCompletedRound(roundDir, options = {}) {
       yalkenTruth,
       returnedDocxSha256: binding.returnedDocxSha256,
     });
-    if (evidence.ok !== true) return false;
+    if (evidence.ok !== true) {
+      return { ok: false, code: 'C5V2_REUSE_EVIDENCE_INVALID:' + JSON.stringify({ wordGreen: evidence.wordGreen, oracleGreen: evidence.oracleGreen, readyGreen: evidence.readyGreen, truthGreen: evidence.truthGreen }) };
+    }
     const exactLedgerValidation = validateC5V2ExactLedgerBindingAgainstLedger(
       binding.exactLedgerBinding,
       ledger,
       { candidateAuthority: returnApplyCandidateAuthority, roundId: expectedRoundId },
     );
-    if (exactLedgerValidation.ok !== true) return false;
+    if (exactLedgerValidation.ok !== true) {
+      return { ok: false, code: 'C5V2_REUSE_EXACT_LEDGER_INVALID:' + (exactLedgerValidation.failures || []).join(',') };
+    }
     const exactSummary = deriveC5V2LedgerBoundExactSummary({ exactLedgerBinding: binding.exactLedgerBinding });
     const expectedExactTotal = (Array.isArray(ledger.operations) ? ledger.operations : []).filter((operation) => (
       ['tracked_replace', 'tracked_insert', 'tracked_delete'].includes(operation?.family)
       && operation?.expectedOutcome === 'EXACT'
     )).length;
-    return exactSummary.ok === true
+    const exactTotalGreen = exactSummary.ok === true
       && exactSummary.exactTotal === expectedExactTotal
       && binding.exactTotal === expectedExactTotal;
-  } catch {
-    return false;
+    return exactTotalGreen
+      ? { ok: true, code: 'C5V2_REUSE_COMPLETED_ROUND_VALID' }
+      : { ok: false, code: 'C5V2_REUSE_EXACT_TOTAL_MISMATCH' };
+  } catch (error) {
+    return { ok: false, code: 'C5V2_REUSE_VALIDATION_EXCEPTION:' + String(error && error.message ? error.message : error).slice(0, 200) };
   }
+}
+
+export function isC5V2ReusableCompletedRound(roundDir, options = {}) {
+  return explainC5V2ReusableCompletedRound(roundDir, options).ok === true;
+}
+
+export function resolveC5V2CompletedRoundResumeDisposition(roundDir, options = {}) {
+  const explanation = explainC5V2ReusableCompletedRound(roundDir, options);
+  if (explanation.ok === true) {
+    return { disposition: 'REUSE', reason: explanation.code };
+  }
+  const sealed = fs.existsSync(path.join(String(roundDir || ''), 'complete-round-oracle-gate.json'));
+  if (sealed) {
+    return {
+      disposition: 'STOP',
+      reason: 'C5V2_COMPLETED_ROUND_SEALED_BUT_INVALID:' + String(options.roundId || '') + ':' + explanation.code,
+    };
+  }
+  return {
+    disposition: 'INCOMPLETE_LIVE',
+    reason: 'C5V2_ROUND_INCOMPLETE_CHECKPOINT_RESUME_ALLOWED:' + String(options.roundId || ''),
+  };
 }
 
 async function main() {

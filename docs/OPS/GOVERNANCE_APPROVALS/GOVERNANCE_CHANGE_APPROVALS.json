@@ -5701,8 +5701,8 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-terminal-orchestrator.mjs",
-      "sha256": "ebe452a9a79f561f1326dd63510d01c1568f6855fabd31e93393e89257cfb77e",
-      "rationale": "Approve exact frozen Phase A CI-repair terminal orchestrator bytes for portable fail-closed process cwd inventory after Ubuntu lsof gap; no Word launch, long campaign, Google work, dependency change, allowlist weakening, or scope expansion.",
+      "sha256": "86309b7e901362bf10e83770859a92935aa87b669a6550e25e7643f4bfb6641e",
+      "rationale": "Approve exact frozen Phase A CI-repair terminal orchestrator bytes for portable fail-closed process cwd inventory after Ubuntu lsof gap and bounded post-close discovery of delayed detached cwd-owned processes; no Word launch, long campaign, Google work, dependency change, allowlist weakening, or scope expansion.",
       "approvedBy": "owner-direct:TASK_ID:PHASE_A_CI_REQUIRED_REPAIR_PORTABLE_PROCESS_AND_HERMETIC_LEDGER",
       "approvedAtUtc": "2026-08-05T21:42:12Z",
       "approved": true,
@@ -8030,8 +8030,8 @@
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-terminal-orchestrator.contract.test.js",
-      "sha256": "4726f388a6c2e65c9bb18e53750d749fe8e1a0c335a3e3d40002d5542a663aa3",
-      "rationale": "Approve exact frozen Phase A CI-repair orchestrator contract bytes for Linux proc cwd regression, CI-hermetic canonical 21-scene ledger fixture, and deterministic 15G stage freshness timing; no production semantic claim beyond this evidence.",
+      "sha256": "2f2cf6089cebadb6e129f7715b8886c24835a8645e191a6170fdbad8b1be334e",
+      "rationale": "Approve exact frozen Phase A CI-repair orchestrator contract bytes for Linux proc cwd regression, delayed proc visibility regression, CI-hermetic canonical 21-scene ledger fixture, and deterministic 15G stage freshness timing; no production semantic claim beyond this evidence.",
       "approvedBy": "owner-direct:TASK_ID:PHASE_A_CI_REQUIRED_REPAIR_PORTABLE_PROCESS_AND_HERMETIC_LEDGER",
       "approvedAtUtc": "2026-08-05T21:42:12Z",
       "approved": true,

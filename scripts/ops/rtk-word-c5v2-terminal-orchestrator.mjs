@@ -777,6 +777,17 @@ export function listProcessCwdsUnder(rootPath, options = {}) {
   return [...deduped.values()];
 }
 
+export async function waitForProcessCwdsUnder(rootPath, options = {}) {
+  const timeoutMs = Number.isFinite(Number(options.timeoutMs)) ? Math.max(0, Number(options.timeoutMs)) : 0;
+  const intervalMs = Number.isFinite(Number(options.intervalMs)) ? Math.max(10, Number(options.intervalMs)) : 50;
+  const deadline = Date.now() + timeoutMs;
+  while (true) {
+    const rows = listProcessCwdsUnder(rootPath, options);
+    if (rows.length > 0 || Date.now() >= deadline) return rows;
+    await new Promise((resolve) => setTimeout(resolve, intervalMs));
+  }
+}
+
 export function readProcessIdentity(pid) {
   const parsedPid = Number(pid);
   if (!Number.isSafeInteger(parsedPid) || parsedPid <= 0) return null;
@@ -1217,7 +1228,8 @@ export async function runOwnedStageProcess({
   // PIDs are captured while the stage root is alive: after the root dies,
   // escapees are re-parented to launchd and invisible to parent-only scans.
   if (path.resolve(cwd || '') !== REPO_ROOT) {
-    for (const row of listProcessCwdsUnder(cwd)) {
+    const discoveryWindowMs = result.ok === true ? Math.max(100, Math.min(killGraceMs, 1000)) : 0;
+    for (const row of await waitForProcessCwdsUnder(cwd, { timeoutMs: discoveryWindowMs, intervalMs: 25 })) {
       if (row.pid !== process.pid) {
         if (!capturedOwnedPids.has(row.pid)) unregisteredOwnedPids.add(row.pid);
         capturedOwnedPids.add(row.pid);

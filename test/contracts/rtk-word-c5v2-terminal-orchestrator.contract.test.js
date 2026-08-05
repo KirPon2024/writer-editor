@@ -1138,6 +1138,35 @@ test('ORCH_TEST_14G: Linux proc cwd inventory finds contained detached processes
   assert.equal(rows[0].cwd, fs.realpathSync(inside));
 });
 
+test('ORCH_TEST_14H: cwd inventory waits for delayed proc visibility before allowing success', async () => {
+  const orch = await loadOrchestrator();
+  assert.equal(typeof orch.waitForProcessCwdsUnder, 'function');
+  const dir = tmpDir('c5v2-orch-proc-cwd-wait-');
+  const root = path.join(dir, 'root');
+  const inside = path.join(root, 'nested');
+  const procRoot = path.join(dir, 'proc');
+  fs.mkdirSync(inside, { recursive: true });
+  fs.mkdirSync(procRoot, { recursive: true });
+
+  setTimeout(() => {
+    const pidDir = path.join(procRoot, '4444');
+    fs.mkdirSync(pidDir, { recursive: true });
+    fs.symlinkSync(inside, path.join(pidDir, 'cwd'));
+    fs.writeFileSync(path.join(pidDir, 'comm'), 'delayed-node\n', 'utf8');
+  }, 50);
+
+  const rows = await orch.waitForProcessCwdsUnder(root, {
+    includeLsof: false,
+    procRoot,
+    selfPid: 9999,
+    timeoutMs: 500,
+    intervalMs: 10,
+  });
+  assert.deepEqual(rows.map((row) => row.pid), [4444]);
+  assert.equal(rows[0].command, 'delayed-node');
+  assert.equal(rows[0].cwd, fs.realpathSync(inside));
+});
+
 test('ORCH_TEST_14F: leader identity waits through pre-setsid race and timeout cleanup leaves zero survivors', async () => {
   const orch = await loadOrchestrator();
   assert.equal(typeof orch.waitForStableProcessIdentity, 'function');

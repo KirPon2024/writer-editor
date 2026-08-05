@@ -940,6 +940,8 @@ export async function runOwnedStageProcess({
     let stdoutFdOpen = true;
     let stderrFdOpen = true;
     let watchdogStarted = false;
+    let sawStdout = false;
+    let sawStderr = false;
     const closeLogsOnce = () => {
       if (stdoutFdOpen) {
         stdoutFdOpen = false;
@@ -1164,12 +1166,14 @@ export async function runOwnedStageProcess({
       }, 250);
     };
     child.stdout.on('data', (chunk) => {
+      sawStdout = true;
       capturePidMarkers(chunk);
       if (stdoutFdOpen) {
         try { fs.writeSync(stdoutFd, chunk); } catch { /* descriptor may be closed after timeout finalization */ }
       }
     });
     child.stderr.on('data', (chunk) => {
+      sawStderr = true;
       capturePidMarkers(chunk);
       if (stderrFdOpen) {
         try { fs.writeSync(stderrFd, chunk); } catch { /* descriptor may be closed after timeout finalization */ }
@@ -1186,6 +1190,21 @@ export async function runOwnedStageProcess({
         return;
       }
       if (exitCode === 0 && signal === null) {
+        const fastSilentProtocollessExit = path.resolve(cwd || '') !== REPO_ROOT
+          && Date.now() - startedAt < Math.max(100, Math.min(killGraceMs, 1000))
+          && lastHeartbeatSequence === 0
+          && sawStdout === false
+          && sawStderr === false;
+        if (fastSilentProtocollessExit) {
+          finish({
+            ok: false,
+            code: 'ORCH_UNREGISTERED_OWNED_PROCESS_DETECTED:UNPROVEN_FAST_SILENT_EXIT',
+            exitCode,
+            signal,
+            quarantined: true,
+          });
+          return;
+        }
         finish({ ok: true, code: 'ORCH_STAGE_CHILD_EXIT_ZERO', exitCode, signal });
         return;
       }

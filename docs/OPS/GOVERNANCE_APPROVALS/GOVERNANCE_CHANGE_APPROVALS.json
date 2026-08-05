@@ -5701,8 +5701,8 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-terminal-orchestrator.mjs",
-      "sha256": "86309b7e901362bf10e83770859a92935aa87b669a6550e25e7643f4bfb6641e",
-      "rationale": "Approve exact frozen Phase A CI-repair terminal orchestrator bytes for portable fail-closed process cwd inventory after Ubuntu lsof gap and bounded post-close discovery of delayed detached cwd-owned processes; no Word launch, long campaign, Google work, dependency change, allowlist weakening, or scope expansion.",
+      "sha256": "0d6997aa7f01f4e7f19052796e676edb8d8c0288fd660b5c9d086ea9aadf8021",
+      "rationale": "Approve exact frozen Phase A CI-repair terminal orchestrator bytes for portable fail-closed process cwd inventory after Ubuntu lsof gap, bounded post-close discovery of delayed detached cwd-owned processes, and fast silent zero-exit fail-closed protocol classification; no Word launch, long campaign, Google work, dependency change, allowlist weakening, or scope expansion.",
       "approvedBy": "owner-direct:TASK_ID:PHASE_A_CI_REQUIRED_REPAIR_PORTABLE_PROCESS_AND_HERMETIC_LEDGER",
       "approvedAtUtc": "2026-08-05T21:42:12Z",
       "approved": true,

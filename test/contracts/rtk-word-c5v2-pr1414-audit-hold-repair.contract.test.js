@@ -937,3 +937,58 @@ test('C5V2 cumulative child source completed-round reuse path never references p
   const syntax = spawnSync(process.execPath, ['--check', syntaxPath], { encoding: 'utf8' });
   assert.equal(syntax.status, 0, syntax.stderr);
 });
+
+test('C5V2 resume disposition: pristine sealed round REUSE, tampered sealed round STOP, unsealed round INCOMPLETE_LIVE', async () => {
+  const canary = await loadCanary();
+  assert.equal(typeof canary.resolveC5V2CompletedRoundResumeDisposition, 'function');
+  const fixture = createBoundCompletedRound(canary);
+  const pristine = canary.resolveC5V2CompletedRoundResumeDisposition(fixture.roundDir, fixture.context);
+  assert.equal(pristine.disposition, 'REUSE');
+
+  const tampered = createBoundCompletedRound(canary);
+  fs.appendFileSync(tampered.files.wordOutput, 'OP|tampered-extra|EXACT\n', 'utf8');
+  const stopped = canary.resolveC5V2CompletedRoundResumeDisposition(tampered.roundDir, tampered.context);
+  assert.equal(stopped.disposition, 'STOP');
+  assert.match(stopped.reason, /C5V2_COMPLETED_ROUND_SEALED_BUT_INVALID/u);
+
+  const incomplete = createBoundCompletedRound(canary);
+  fs.unlinkSync(incomplete.files.gate);
+  const live = canary.resolveC5V2CompletedRoundResumeDisposition(incomplete.roundDir, incomplete.context);
+  assert.equal(live.disposition, 'INCOMPLETE_LIVE');
+});
+
+test('C5V2 explainC5V2ReusableCompletedRound returns exact failure reason for sealed tampered round', async () => {
+  const canary = await loadCanary();
+  assert.equal(typeof canary.explainC5V2ReusableCompletedRound, 'function');
+  const fixture = createBoundCompletedRound(canary);
+  const okResult = canary.explainC5V2ReusableCompletedRound(fixture.roundDir, fixture.context);
+  assert.equal(okResult.ok, true);
+  fs.appendFileSync(fixture.files.wordOutput, 'OP|tampered-extra|EXACT\n', 'utf8');
+  const badResult = canary.explainC5V2ReusableCompletedRound(fixture.roundDir, fixture.context);
+  assert.equal(badResult.ok, false);
+  assert.equal(typeof badResult.code, 'string');
+  assert.ok(badResult.code.length > 0);
+  assert.equal(canary.isC5V2ReusableCompletedRound(fixture.roundDir, fixture.context), false);
+});
+
+test('C5V2 cumulative child source refuses to purge a sealed round for live rerun', async () => {
+  const canary = await loadCanary();
+  const source = canary.createFullManuscriptExportChildSource({
+    tempRoot: path.join(os.tmpdir(), 'c5v2-child-sealed-guard'),
+    outPath: path.join(os.tmpdir(), 'c5v2-child-sealed-guard', 'source.docx'),
+    returnedPath: path.join(os.tmpdir(), 'c5v2-child-sealed-guard', 'returned.docx'),
+    returnedReadyPath: path.join(os.tmpdir(), 'c5v2-child-sealed-guard', 'returned-ready.json'),
+    scenes: [{ file: 'roman/chapter-01.txt', text: 'scene text', rawContent: 'scene text' }],
+    rounds: [{
+      roundIndex: 0,
+      roundId: 'round-01',
+      outPath: path.join(os.tmpdir(), 'c5v2-child-sealed-guard', 'source.docx'),
+      returnedPath: path.join(os.tmpdir(), 'c5v2-child-sealed-guard', 'returned.docx'),
+      returnedReadyPath: path.join(os.tmpdir(), 'c5v2-child-sealed-guard', 'returned-ready.json'),
+      oracleGatePath: path.join(os.tmpdir(), 'c5v2-child-sealed-guard', 'complete-round-oracle-gate.json'),
+      resumeCompletedRound: false,
+      completedRoundReuseBinding: null,
+    }],
+  });
+  assert.match(source, /C5V2_SEALED_ROUND_LIVE_RERUN_FORBIDDEN/u);
+});

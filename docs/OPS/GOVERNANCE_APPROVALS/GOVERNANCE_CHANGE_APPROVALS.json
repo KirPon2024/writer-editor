@@ -7958,10 +7958,10 @@
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-pr1414-audit-hold-repair.contract.test.js",
-      "sha256": "9c8b794958bd02ccda1137c25050d18bc0098a67b01e43e68d673ae629ca3ce1",
+      "sha256": "0874408cabd2c2d9f2afc537d5bab84248c34ab40ecb4a394e1caca2e3c66de7",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-05T02:25:45.712Z",
-      "rationale": "Approve regression coverage for the completed-round reuse repair: digest stability between in-memory undefined keys and durable JSON form, production-shaped completed round with adapter-emitted undefined ledger keys reusable, and MANUAL-expected Word-blocked designed outcome accepted with inconsistent readback rejected.",
+      "approvedAtUtc": "2026-08-05T05:17:17.458Z",
+      "rationale": "Approve regression contract: generated cumulative child source completed-round reuse path uses sha256ChildFile, never references parent-only sha256File/sha256Text, and passes node --check syntax validation.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
     },
@@ -9505,10 +9505,10 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "e75bd93c507fc9e48f703f540078cb478974aabe35e869e79fdba5ec9f1dc3bd",
+      "sha256": "c5e7b7b6408b98987c59e30cfa3738edaeccd2ebe9a79c1e59ce3cd1824486bb",
       "approvedBy": "owner-controller:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
-      "approvedAtUtc": "2026-08-05T02:25:45.712Z",
-      "rationale": "Approve Word C5V2 completed-round reuse repair after the 2026-08-05 resume incident: (A) resolveC5V2LedgerReuseDigest now JSON-normalizes input so in-memory ledgers with adapter-emitted undefined-valued keys (structuralParagraphScope on non-structural operations) hash identically to their durable on-disk form — pristine completed rounds previously failed reuse validation and a negative-evidence-binding resume re-ran round-01 live and rewrote campaign artifacts; (B) the reuse-evidence wordGreen check now mirrors the already-merged MANUAL-expected BLOCKED designed-outcome tolerance present in the live oracle and in the same validators oracleGreen check. Identity for JSON-clean ledgers; EXACT-plus-BLOCKED and inconsistent-readback cases remain rejected; regression coverage added in the pr1414 contract.",
+      "approvedAtUtc": "2026-08-05T05:17:17.458Z",
+      "rationale": "Approve Word C5V2 cumulative child completed-round reuse path repair: the generated child script called parent-only sha256File (ReferenceError: sha256File is not defined at fullbook-cumulative-child.cjs), crashing the child before any reuse emit and leading the parent to build a hollow 220-of-1960 summary with recaptured round oracles; now uses the child-local sha256ChildFile with identical prefixed-bytes digest format. Generated child source verified free of parent-only sha256File/sha256Text/stableCanonicalJson references and node --check clean.",
       "approved": true,
       "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
     }

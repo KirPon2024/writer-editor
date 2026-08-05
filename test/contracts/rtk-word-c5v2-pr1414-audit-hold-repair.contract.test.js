@@ -5,6 +5,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
+const { spawnSync } = require('node:child_process');
 
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
 
@@ -906,4 +907,33 @@ test('C5V2 completed round reuse accepts MANUAL-expected Word-blocked designed o
   assert.equal(canary.isC5V2ReusableCompletedRound(fixture.roundDir, fixture.context), true);
   writeBlockedEvidence('MANUAL');
   assert.equal(canary.isC5V2ReusableCompletedRound(fixture.roundDir, fixture.context), false);
+});
+
+test('C5V2 cumulative child source completed-round reuse path never references parent-only sha256File', async () => {
+  const canary = await loadCanary();
+  const source = canary.createFullManuscriptExportChildSource({
+    tempRoot: path.join(os.tmpdir(), 'c5v2-child-source-contract'),
+    outPath: path.join(os.tmpdir(), 'c5v2-child-source-contract', 'source.docx'),
+    returnedPath: path.join(os.tmpdir(), 'c5v2-child-source-contract', 'returned.docx'),
+    returnedReadyPath: path.join(os.tmpdir(), 'c5v2-child-source-contract', 'returned-ready.json'),
+    scenes: [{ file: 'roman/chapter-01.txt', text: 'scene text', rawContent: 'scene text' }],
+    rounds: [{
+      roundIndex: 0,
+      roundId: 'round-01',
+      outPath: path.join(os.tmpdir(), 'c5v2-child-source-contract', 'source.docx'),
+      returnedPath: path.join(os.tmpdir(), 'c5v2-child-source-contract', 'returned.docx'),
+      returnedReadyPath: path.join(os.tmpdir(), 'c5v2-child-source-contract', 'returned-ready.json'),
+      oracleGatePath: path.join(os.tmpdir(), 'c5v2-child-source-contract', 'complete-round-oracle-gate.json'),
+      resumeCompletedRound: true,
+      completedRoundReuseBinding: null,
+    }],
+  });
+  assert.match(source, /function sha256ChildFile\(/u);
+  assert.match(source, /\? sha256ChildFile\(returnedPath\) : ''/u);
+  assert.doesNotMatch(source, /[^a-zA-Z]sha256File\(/u);
+  assert.doesNotMatch(source, /[^a-zA-Z]sha256Text\(/u);
+  const syntaxPath = path.join(os.tmpdir(), 'c5v2-child-source-contract-syntax.cjs');
+  fs.writeFileSync(syntaxPath, source, 'utf8');
+  const syntax = spawnSync(process.execPath, ['--check', syntaxPath], { encoding: 'utf8' });
+  assert.equal(syntax.status, 0, syntax.stderr);
 });

@@ -3952,7 +3952,7 @@ app.whenReady().then(async () => {
           gate: resumedGate,
           expectedReuseBinding: activeRound.completedRoundReuseBinding,
           yalkenTruthArtifact: resumedYalkenTruthArtifact,
-          returnedDocxSha256: returnedPath && fs.existsSync(returnedPath) ? sha256File(returnedPath) : '',
+          returnedDocxSha256: returnedPath && fs.existsSync(returnedPath) ? sha256ChildFile(returnedPath) : '',
         });
         emit({
           phase: 'export',

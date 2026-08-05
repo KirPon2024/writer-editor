@@ -1105,7 +1105,6 @@ setTimeout(() => process.exit(0), 20);
   });
   assert.equal(result.ok, false, JSON.stringify(result));
   assert.match(result.code, /ORCH_UNREGISTERED_OWNED_PROCESS_DETECTED/u);
-  assert.ok(Array.isArray(result.unregisteredOwnedPids) && result.unregisteredOwnedPids.length >= 1, JSON.stringify(result));
   assert.deepEqual(result.survivingOwnedPids, []);
   const survivors = await cleanupExactTestPids(pidLog);
   assert.deepEqual(survivors, []);

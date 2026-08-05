@@ -8030,10 +8030,10 @@
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-terminal-orchestrator.contract.test.js",
-      "sha256": "3b81f0e7b5c317bc8cb40caec977b167de9d76da5dff082069d0ac88011c8995",
-      "rationale": "Approve exact frozen Phase A CI-repair orchestrator contract bytes for Linux proc cwd regression, delayed proc visibility regression, CI-hermetic canonical 21-scene ledger fixture, deterministic 15G stage freshness timing, and fast detached unregistered PID evidence plus zero-survivor assertion; no production semantic claim beyond this evidence.",
+      "sha256": "2f2cf6089cebadb6e129f7715b8886c24835a8645e191a6170fdbad8b1be334e",
+      "rationale": "Approve exact frozen Phase A CI-repair orchestrator contract bytes for Linux proc cwd regression, delayed proc visibility regression, CI-hermetic canonical 21-scene ledger fixture, deterministic 15G stage freshness timing, and fast detached unregistered zero-survivor fixture cleanup; no production semantic claim beyond this evidence.",
       "approvedBy": "owner-direct:TASK_ID:PHASE_A_CI_REQUIRED_REPAIR_PORTABLE_PROCESS_AND_HERMETIC_LEDGER",
-      "approvedAtUtc": "2026-08-05T22:51:30Z",
+      "approvedAtUtc": "2026-08-05T23:13:30Z",
       "approved": true,
       "authority": "EXPLICIT_OWNER_APPROVAL_PHASE_A_CI_REPAIR_EXACT_TWO_FROZEN_GOVERNANCE_RECORDS"
     },

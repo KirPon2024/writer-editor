@@ -5111,6 +5111,15 @@
       "rationale": "Approve bounded S42 factual status artifact for the already merged S00-S41 next-stage runtime. The artifact records explicit LIVE, PARTIAL, PLANNED, and BLOCKED statuses and accepted limitations only; it introduces no runtime, command, storage, recovery, UI, dependency, account, cloud, network, import/export, entitlement, or project-format change."
     },
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_WORD_C5V2_TERMINAL_ACCEPTANCE_MATRIX_V1.json",
+      "sha256": "675aecda1ac4b2616236a32dea269eedcec9076b6da4c01c346ed16f82b11e31",
+      "approvedBy": "owner-controller:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
+      "approvedAtUtc": "2026-08-04T12:50:00.000Z",
+      "rationale": "Approve W02/W03 terminal acceptance matrix artifact binding 25 Word capability rows to merged origin main a23ee492 with W03 vocabulary, zero safety veto counters and terminal plan; docs-only artifact, no UI, network, dependency, Google, Atlas mutation or terminal physical PASS claim change.",
+      "approved": true,
+      "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
+    },
+    {
       "filePath": "docs/OPS/TOKENS/TOKEN_CATALOG_LOCK.json",
       "sha256": "8bdc2e7b9f328f707737e89906c4de2103efa207adebc45a26be53ae5fe0147c",
       "approvedBy": "ticket:RECOVERY_READABILITY_CENTRAL_BINDING_001",
@@ -5664,6 +5673,15 @@
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
     },
     {
+      "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
+      "sha256": "449723529661b1597bcfd34c95c8d44d529bb63b063757d685f1508aca5676da",
+      "rationale": "Approve exact Phase A physical canary hardening bytes for C5V2 pre-long-run orchestrator repair; no Word launch, long campaign, Google work, dependency change, or scope expansion.",
+      "approvedBy": "owner-direct:TASK_ID:PHASE_A_CLOSEOUT_DIRECTIVE",
+      "approvedAtUtc": "2026-08-05T20:51:35.256Z",
+      "approved": true,
+      "authority": "EXPLICIT_OWNER_APPROVAL_PHASE_A_EXACT_FIVE_FROZEN_GOVERNANCE_RECORDS"
+    },
+    {
       "filePath": "scripts/ops/rtk-word-c5v2-round-checkpoint.mjs",
       "sha256": "f27367d39c7b8bc31807f4d6d473703ae3b8917207a8e9806f31ba0a7522c187",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
@@ -5671,6 +5689,24 @@
       "rationale": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-c5v2-semantic-oracle.mjs",
+      "sha256": "afbdb3c6c02d98c2036229bae3a862766c3094e8a60202ddffd2b359f5a6b8e7",
+      "approvedBy": "owner-controller:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
+      "approvedAtUtc": "2026-08-04T20:45:00.000Z",
+      "rationale": "Approve Word C5V2 semantic oracle outcome mismatch tolerance for MANUAL-expected tracked operations with BLOCKED outcome (Word correctly refused to apply non-unique quote); BLOCKED outcome for MANUAL-expected op is no longer counted as C5V2_ORACLE_WORD_OUTCOME_MISMATCH; verified by 30/30 contract tests.",
+      "approved": true,
+      "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-c5v2-terminal-orchestrator.mjs",
+      "sha256": "b848912fccbf3a3b974647e864c08a79aacbed765452e7f95e1d06d521429013",
+      "rationale": "Approve exact Phase A terminal orchestrator hardening bytes for process, path, portfolio, corpus, semantic oracle, quarantine, and closeout controls; no Word launch, long campaign, Google work, dependency change, or scope expansion.",
+      "approvedBy": "owner-direct:TASK_ID:PHASE_A_CLOSEOUT_DIRECTIVE",
+      "approvedAtUtc": "2026-08-05T20:51:35.256Z",
+      "approved": true,
+      "authority": "EXPLICIT_OWNER_APPROVAL_PHASE_A_EXACT_FIVE_FROZEN_GOVERNANCE_RECORDS"
     },
     {
       "filePath": "scripts/ops/rtk-word-latest-physical-certification-lab.mjs",
@@ -6834,6 +6870,15 @@
       "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
+      "filePath": "test/contracts/agent-architecture-guardrails.contract.test.js",
+      "sha256": "0e33ca7ae5af774de71dbecdc5bbcedcaa38b630e9ad6347a06a3888ec881ee0",
+      "approvedBy": "owner-direct:TASK_ID:YALKEN_REPOSITORY_NATIVE_AGENT_GUARDRAIL_SYSTEM_V1",
+      "approvedAtUtc": "2026-08-04T09:40:50.000Z",
+      "rationale": "Owner-directed repository-native agent guardrail contract: positive exact-head bootstrap and complete declaration checks plus negative missing-authority, wrong-type, stale-base, UI-router and incomplete-delivery cases; docs and process only, no product runtime, UI, dependency, network or capability claim change.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_BUILD_REPOSITORY_NATIVE_AGENT_CONTEXT_AND_GUARDRAILS"
+    },
+    {
       "filePath": "test/contracts/agent-bootstrap-spec.contract.test.js",
       "sha256": "17ce05697d2fd6717971237d6ceb9b4f890a4a497595e13b1e0444889628859c",
       "approvedBy": "owner-direct:TASK_ID:YALKEN_REPOSITORY_NATIVE_AGENT_GUARDRAIL_SYSTEM_V1",
@@ -7958,12 +8003,12 @@
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-pr1414-audit-hold-repair.contract.test.js",
-      "sha256": "4a2baf33e2a70d5470efadd1ddd46c8a5aa06921b55cdc202b44affaf3f51378",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-05T07:49:40.172Z",
-      "rationale": "Approve WAVE_1 P0_1 regression coverage: resume disposition REUSE for pristine sealed round, STOP for tampered sealed round, INCOMPLETE_LIVE for unsealed round; explainC5V2ReusableCompletedRound exact failure reason; child source sealed-round purge guard.",
+      "sha256": "8a593095e0ee05d215daf207604def1bb43e917fd49e9acb6d6e97663a64f098",
+      "rationale": "Approve exact Phase A legacy PR1414 contract fixture alignment bytes using canonical deep Word-free completed-round evidence; test evidence alignment only, no production compatibility shim.",
+      "approvedBy": "owner-direct:TASK_ID:PHASE_A_CLOSEOUT_DIRECTIVE",
+      "approvedAtUtc": "2026-08-05T20:51:35.256Z",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
+      "authority": "EXPLICIT_OWNER_APPROVAL_PHASE_A_EXACT_FIVE_FROZEN_GOVERNANCE_RECORDS"
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-root-comment-return-runtime.contract.test.js",
@@ -7976,12 +8021,21 @@
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-round-checkpoint.contract.test.js",
-      "sha256": "65d12cfd79080ebd8de0003252ed269352b58b3e022c539688e1680d6a0dc8e7",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-04T02:33:14.000Z",
-      "rationale": "Approve exact round-checkpoint regression update proving generated Word self-locator ranges return the first locator range directly when locatorQuote equals quote; complete-round oracle and durable checkpoint gates remain fail-closed.",
+      "sha256": "85cb7f245aa999dbbca654e3cc7bb6eed10ca4c472a1781b37a1a1e07de134bf",
+      "rationale": "Approve exact Phase A round-checkpoint contract fixture alignment bytes for hardened completed-round binding construction; test evidence alignment only, no production compatibility shim.",
+      "approvedBy": "owner-direct:TASK_ID:PHASE_A_CLOSEOUT_DIRECTIVE",
+      "approvedAtUtc": "2026-08-05T20:51:35.256Z",
       "approved": true,
-      "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
+      "authority": "EXPLICIT_OWNER_APPROVAL_PHASE_A_EXACT_FIVE_FROZEN_GOVERNANCE_RECORDS"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-c5v2-terminal-orchestrator.contract.test.js",
+      "sha256": "1a40c9ca2528b9169bf612afcd4a805ee9969dd6c8e2f170f7b4e5b833683130",
+      "rationale": "Approve exact Phase A executable orchestrator regression contract bytes covering hardened lifecycle, path authority, semantic false-green, portfolio, corpus, and closeout attacks; no production semantic claim beyond this evidence.",
+      "approvedBy": "owner-direct:TASK_ID:PHASE_A_CLOSEOUT_DIRECTIVE",
+      "approvedAtUtc": "2026-08-05T20:51:35.256Z",
+      "approved": true,
+      "authority": "EXPLICIT_OWNER_APPROVAL_PHASE_A_EXACT_FIVE_FROZEN_GOVERNANCE_RECORDS"
     },
     {
       "filePath": "test/contracts/rtk-word-latest-semantic-b00.contract.test.js",
@@ -9475,60 +9529,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
-    },
-    {
-      "filePath": "test/contracts/agent-architecture-guardrails.contract.test.js",
-      "sha256": "0e33ca7ae5af774de71dbecdc5bbcedcaa38b630e9ad6347a06a3888ec881ee0",
-      "approvedBy": "owner-direct:TASK_ID:YALKEN_REPOSITORY_NATIVE_AGENT_GUARDRAIL_SYSTEM_V1",
-      "approvedAtUtc": "2026-08-04T09:40:50.000Z",
-      "rationale": "Owner-directed repository-native agent guardrail contract: positive exact-head bootstrap and complete declaration checks plus negative missing-authority, wrong-type, stale-base, UI-router and incomplete-delivery cases; docs and process only, no product runtime, UI, dependency, network or capability claim change.",
-      "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_BUILD_REPOSITORY_NATIVE_AGENT_CONTEXT_AND_GUARDRAILS"
-    },
-    {
-      "filePath": "docs/OPS/STATUS/YALKEN_WORD_C5V2_TERMINAL_ACCEPTANCE_MATRIX_V1.json",
-      "sha256": "675aecda1ac4b2616236a32dea269eedcec9076b6da4c01c346ed16f82b11e31",
-      "approvedBy": "owner-controller:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
-      "approvedAtUtc": "2026-08-04T12:50:00.000Z",
-      "rationale": "Approve W02/W03 terminal acceptance matrix artifact binding 25 Word capability rows to merged origin main a23ee492 with W03 vocabulary, zero safety veto counters and terminal plan; docs-only artifact, no UI, network, dependency, Google, Atlas mutation or terminal physical PASS claim change.",
-      "approved": true,
-      "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-c5v2-semantic-oracle.mjs",
-      "sha256": "afbdb3c6c02d98c2036229bae3a862766c3094e8a60202ddffd2b359f5a6b8e7",
-      "approvedBy": "owner-controller:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
-      "approvedAtUtc": "2026-08-04T20:45:00.000Z",
-      "rationale": "Approve Word C5V2 semantic oracle outcome mismatch tolerance for MANUAL-expected tracked operations with BLOCKED outcome (Word correctly refused to apply non-unique quote); BLOCKED outcome for MANUAL-expected op is no longer counted as C5V2_ORACLE_WORD_OUTCOME_MISMATCH; verified by 30/30 contract tests.",
-      "approved": true,
-      "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "1e7ee018637e464df50e7a531595554163ae69891fae7f679ecf2c8ebdf6bbc7",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_ORCHESTRATOR_RECOVERY_CLOSEOUT",
-      "approvedAtUtc": "2026-08-05T13:49:22.000Z",
-      "rationale": "Approve exact Word C5V2 canary bytes required by the terminal-orchestrator recovery closeout: orchestrated-stage argument validation, exact run-directory identity under canonical artifact-root realpath, collision and path-escape rejection, heartbeat and stage-result publication, and closed fsync descriptor handling. No physical Dorian campaign, W06/W07 run, Google path, runtime network, UI, dependency, or terminal Word certification claim is added.",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_YALKEN_WORD_C5V2_ORCHESTRATOR_RECOVERY_CLOSEOUT"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-c5v2-terminal-orchestrator.mjs",
-      "sha256": "233d850f4ef486186a193575f3c5b509520571c2f1a3a6eb208390da95923842",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_ORCHESTRATOR_RECOVERY_CLOSEOUT",
-      "approvedAtUtc": "2026-08-05T13:49:22.000Z",
-      "rationale": "Approve exact terminal-orchestrator recovery bytes: closed atomic-write descriptors, canonical artifactRoot/campaignRoot path authority including macOS realpath aliases and missing descendants, unified awaited abortOwnedProcessGroup handling for timeout heartbeat schema spawn signal and failure paths, bounded TERM-to-KILL escalation, zero-success-before-owned-process-exit, quarantine on unknown liveness, narrow test-only bypass isolation, and plist fixture fallback for CI hosts without /usr/bin/plutil while preserving fail-closed unavailable tokens when no readable plist exists. No production path weakening or physical campaign certification claim is added.",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_YALKEN_WORD_C5V2_ORCHESTRATOR_RECOVERY_CLOSEOUT"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-c5v2-terminal-orchestrator.contract.test.js",
-      "sha256": "bea14ee0cec31cfac7f99707e11118d52b4f1dc5fdc806efca5e451eb82677f9",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_ORCHESTRATOR_RECOVERY_CLOSEOUT",
-      "approvedAtUtc": "2026-08-05T13:49:22.000Z",
-      "rationale": "Approve exact orchestrator contract bytes for the recovery closeout: lifecycle timeout and heartbeat failure cleanup, process-group and descendant liveness postconditions, impossible SIGKILL-handler fixture removal, exact detached-fixture cleanup by recorded PID, path-authority and canary run-identity coverage, malformed result validation, fail-fast chain ordering, quarantine behavior, collision rejection, and fake-runner dataflow. Tests remain offline and do not run Microsoft Word.",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_YALKEN_WORD_C5V2_ORCHESTRATOR_RECOVERY_CLOSEOUT"
     }
   ]
 }

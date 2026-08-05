@@ -5,6 +5,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
+const crypto = require('node:crypto');
 const { spawnSync } = require('node:child_process');
 
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
@@ -15,6 +16,204 @@ async function loadCanary() {
 
 function writeJson(filePath, value) {
   fs.writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`, 'utf8');
+}
+
+const CRC32_TABLE = Array.from({ length: 256 }, (_, index) => {
+  let value = index;
+  for (let bit = 0; bit < 8; bit += 1) {
+    value = (value & 1) ? (0xedb88320 ^ (value >>> 1)) : (value >>> 1);
+  }
+  return value >>> 0;
+});
+
+function crc32Buffer(buffer) {
+  let crc = 0xffffffff;
+  for (const byte of buffer) crc = CRC32_TABLE[(crc ^ byte) & 0xff] ^ (crc >>> 8);
+  return (crc ^ 0xffffffff) >>> 0;
+}
+
+function xmlEscape(value) {
+  return String(value)
+    .replace(/&/gu, '&amp;')
+    .replace(/</gu, '&lt;')
+    .replace(/>/gu, '&gt;')
+    .replace(/"/gu, '&quot;')
+    .replace(/'/gu, '&apos;');
+}
+
+function writeStoredZip(filePath, entries) {
+  const localParts = [];
+  const centralParts = [];
+  let offset = 0;
+  for (const entry of entries) {
+    const name = Buffer.from(entry.name, 'utf8');
+    const content = Buffer.isBuffer(entry.content) ? entry.content : Buffer.from(String(entry.content), 'utf8');
+    const crc = crc32Buffer(content);
+    const local = Buffer.alloc(30);
+    local.writeUInt32LE(0x04034b50, 0);
+    local.writeUInt16LE(20, 4);
+    local.writeUInt16LE(0, 6);
+    local.writeUInt16LE(0, 8);
+    local.writeUInt16LE(0, 10);
+    local.writeUInt16LE(0, 12);
+    local.writeUInt32LE(crc, 14);
+    local.writeUInt32LE(content.length, 18);
+    local.writeUInt32LE(content.length, 22);
+    local.writeUInt16LE(name.length, 26);
+    local.writeUInt16LE(0, 28);
+    localParts.push(local, name, content);
+
+    const central = Buffer.alloc(46);
+    central.writeUInt32LE(0x02014b50, 0);
+    central.writeUInt16LE(20, 4);
+    central.writeUInt16LE(20, 6);
+    central.writeUInt16LE(0, 8);
+    central.writeUInt16LE(0, 10);
+    central.writeUInt16LE(0, 12);
+    central.writeUInt16LE(0, 14);
+    central.writeUInt32LE(crc, 16);
+    central.writeUInt32LE(content.length, 20);
+    central.writeUInt32LE(content.length, 24);
+    central.writeUInt16LE(name.length, 28);
+    central.writeUInt16LE(0, 30);
+    central.writeUInt16LE(0, 32);
+    central.writeUInt16LE(0, 34);
+    central.writeUInt16LE(0, 36);
+    central.writeUInt32LE(0, 38);
+    central.writeUInt32LE(offset, 42);
+    centralParts.push(central, name);
+    offset += local.length + name.length + content.length;
+  }
+  const centralDirectory = Buffer.concat(centralParts);
+  const end = Buffer.alloc(22);
+  end.writeUInt32LE(0x06054b50, 0);
+  end.writeUInt16LE(0, 4);
+  end.writeUInt16LE(0, 6);
+  end.writeUInt16LE(entries.length, 8);
+  end.writeUInt16LE(entries.length, 10);
+  end.writeUInt32LE(centralDirectory.length, 12);
+  end.writeUInt32LE(offset, 16);
+  end.writeUInt16LE(0, 20);
+  fs.writeFileSync(filePath, Buffer.concat([...localParts, centralDirectory, end]));
+}
+
+function runTextXml(text) {
+  return `<w:r><w:t>${xmlEscape(text)}</w:t></w:r>`;
+}
+
+function paragraphXml(text) {
+  return `<w:p>${runTextXml(text)}</w:p>`;
+}
+
+function writeDocxPackage(filePath, { paragraphs = [], revisionOperations = [] } = {}) {
+  const documentParagraphs = paragraphs.map((text) => paragraphXml(text));
+  const revisionParagraphs = revisionOperations.map((operation) => {
+    const inserted = operation.family === 'tracked_delete'
+      ? ''
+      : `<w:ins>${runTextXml(operation.replacementText || '')}</w:ins>`;
+    const deleted = operation.family === 'tracked_insert'
+      ? ''
+      : `<w:del><w:r><w:delText>${xmlEscape(operation.quote || '')}</w:delText></w:r></w:del>`;
+    return `<w:p>${inserted}${deleted}</w:p>`;
+  });
+  writeStoredZip(filePath, [
+    {
+      name: '[Content_Types].xml',
+      content: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+        + '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'
+        + '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'
+        + '<Default Extension="xml" ContentType="application/xml"/>'
+        + '<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>'
+        + '<Override PartName="/word/settings.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml"/>'
+        + '<Override PartName="/word/comments.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml"/>'
+        + '</Types>',
+    },
+    {
+      name: '_rels/.rels',
+      content: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+        + '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
+        + '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>'
+        + '</Relationships>',
+    },
+    {
+      name: 'word/document.xml',
+      content: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+        + '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">'
+        + `<w:body>${documentParagraphs.join('')}${revisionParagraphs.join('')}<w:sectPr/></w:body>`
+        + '</w:document>',
+    },
+    {
+      name: 'word/comments.xml',
+      content: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+        + '<w:comments xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"/>',
+    },
+    {
+      name: 'word/settings.xml',
+      content: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+        + '<w:settings xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">'
+        + '<w:compat><w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/></w:compat>'
+        + '</w:settings>',
+    },
+  ]);
+}
+
+function markedTextNodeForTest(text) {
+  return { type: 'text', text };
+}
+
+function docV2PayloadFromParagraphs(paragraphs) {
+  const doc = {
+    type: 'doc',
+    content: paragraphs.map((text) => ({
+      type: 'paragraph',
+      content: [markedTextNodeForTest(text)],
+    })),
+  };
+  const serialized = JSON.stringify(doc, null, 2);
+  return `[doc-v2 length=${serialized.length}]\n${serialized}`;
+}
+
+function graphemePartsForTest(value) {
+  if (typeof Intl !== 'undefined' && typeof Intl.Segmenter === 'function') {
+    const segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
+    return Array.from(segmenter.segment(String(value || '')), (part) => part.segment);
+  }
+  return Array.from(String(value || ''));
+}
+
+function buildExpectedParagraphsForTest(scene, operations) {
+  const paragraphs = scene.paragraphs.slice();
+  for (const operation of operations.slice().sort((left, right) => (
+    right.masterAnchor.paragraphOrdinal - left.masterAnchor.paragraphOrdinal
+      || right.masterAnchor.graphemeStart - left.masterAnchor.graphemeStart
+  ))) {
+    if (operation.expectedOutcome !== 'EXACT') continue;
+    const ordinal = operation.masterAnchor.paragraphOrdinal;
+    const parts = graphemePartsForTest(paragraphs[ordinal]);
+    const replacement = operation.family === 'tracked_delete'
+      ? ''
+      : operation.family === 'tracked_insert'
+        ? `${operation.replacementText} ${operation.quote}`
+        : operation.replacementText;
+    parts.splice(
+      operation.masterAnchor.graphemeStart,
+      operation.masterAnchor.graphemeEnd - operation.masterAnchor.graphemeStart,
+      ...graphemePartsForTest(replacement),
+    );
+    paragraphs[ordinal] = parts.join('').trim();
+  }
+  return paragraphs;
+}
+
+function nativeLifecycleVerificationForTest(operations) {
+  const lifecycle = operations.filter((operation) => ['reply_attempt', 'state_attempt'].includes(operation.family));
+  if (lifecycle.length === 0) return { ok: true, notApplicable: true, results: [], verifiedCount: 0, blockedCount: 0 };
+  const results = lifecycle.map((operation) => ({
+    operationId: operation.id,
+    status: operation.expectedOutcome === 'BLOCKED' ? 'BLOCKED' : 'MANUAL',
+    reason: 'PHYSICALLY_UNSUPPORTED_TYPED_OUTCOME',
+  }));
+  return { ok: true, notApplicable: false, typedLimitOnly: true, results, verifiedCount: 0, blockedCount: results.length };
 }
 
 function rewriteBoundGate(canary, fixture, bindingChanges = {}, gateChanges = {}) {
@@ -30,7 +229,7 @@ function rewriteBoundGate(canary, fixture, bindingChanges = {}, gateChanges = {}
 function createBoundCompletedRound(canary, overrides = {}) {
   const roundDir = fs.mkdtempSync(path.join(os.tmpdir(), 'c5v2-pr1414-audit-hold-'));
   const candidateAuthorityRoot = `${roundDir}-main-owned-authority`;
-  const operations = Array.isArray(overrides.operations) ? overrides.operations : [{
+  const inputOperations = Array.isArray(overrides.operations) ? overrides.operations : [{
     id: 'op-exact-001',
     formalFamily: 'tracked_text_edit',
     family: 'tracked_replace',
@@ -39,6 +238,38 @@ function createBoundCompletedRound(canary, overrides = {}) {
     quote: 'old text',
     replacementText: 'new text',
   }];
+  const sceneOrdinalById = new Map();
+  const operations = inputOperations.map((operation) => {
+    const sceneId = String(operation.sceneId || 'roman/chapter-01.txt');
+    const paragraphOrdinal = sceneOrdinalById.get(sceneId) || 0;
+    sceneOrdinalById.set(sceneId, paragraphOrdinal + 1);
+    const quote = String(operation.quote || operation.id || '');
+    const family = operation.family || 'tracked_replace';
+    const replacementText = String(operation.replacementText || '');
+    return {
+      ...operation,
+      formalFamily: operation.formalFamily || 'tracked_text_edit',
+      family,
+      expectedOutcome: operation.expectedOutcome || 'EXACT',
+      sceneId,
+      quote,
+      replacementText,
+      semanticIntent: operation.semanticIntent || {
+        kind: family === 'tracked_insert' ? 'insert' : family === 'tracked_delete' ? 'delete' : 'replace',
+        replacementText,
+      },
+      masterAnchor: operation.masterAnchor || {
+        paragraphOrdinal,
+        graphemeStart: 0,
+        graphemeEnd: graphemePartsForTest(quote).length,
+        selectedText: quote,
+      },
+    };
+  });
+  const exactOperations = operations.filter((operation) => (
+    ['tracked_replace', 'tracked_insert', 'tracked_delete'].includes(operation.family)
+    && operation.expectedOutcome === 'EXACT'
+  ));
   const changeIdByOperationId = Object.fromEntries(operations.map((operation, index) => [
     operation.id,
     `change-exact-${String(index + 1).padStart(3, '0')}`,
@@ -60,16 +291,16 @@ function createBoundCompletedRound(canary, overrides = {}) {
   };
   const exactLedgerBinding = {
     ok: true,
-    expectedOperationCount: operations.length,
-    matchedOperationCount: operations.length,
-    matchedChangeCount: operations.length,
+    expectedOperationCount: exactOperations.length,
+    matchedOperationCount: exactOperations.length,
+    matchedChangeCount: exactOperations.length,
     excludedCandidateCount: 0,
-    exactApplyTextChangeIdsByScene: operations.reduce((byScene, operation) => {
+    exactApplyTextChangeIdsByScene: exactOperations.reduce((byScene, operation) => {
       if (!byScene[operation.sceneId]) byScene[operation.sceneId] = [];
       byScene[operation.sceneId].push(changeIdByOperationId[operation.id]);
       return byScene;
     }, {}),
-    exactOperationBindings: operations.map((operation) => ({
+    exactOperationBindings: exactOperations.map((operation) => ({
       operationId: operation.id,
       sceneId: operation.sceneId,
       changeId: changeIdByOperationId[operation.id],
@@ -89,38 +320,66 @@ function createBoundCompletedRound(canary, overrides = {}) {
     gate: path.join(roundDir, 'complete-round-oracle-gate.json'),
     candidateAuthority: path.join(roundDir, 'return-apply-candidate-authority.json'),
     truth: path.join(roundDir, 'yalken-reopened-truth.json'),
+    baseline: path.join(roundDir, 'product-baseline-scenes.json'),
+    returnApply: path.join(roundDir, 'product-return-apply.json'),
+    nativeLifecycle: path.join(roundDir, 'native-lifecycle-verification.json'),
   };
   writeJson(files.ledger, ledger);
+  const statusForOperation = (operation) => (
+    operation.expectedOutcome === 'MANUAL' ? 'BLOCKED' : operation.expectedOutcome
+  );
   fs.writeFileSync(files.wordOutput, [
     'WORD_STATUS=PASS',
-    ...operations.map((operation) => `OP|${operation.id}|${operation.expectedOutcome}`),
-    ...operations.map((operation) => `READBACK|${operation.id}|${operation.expectedOutcome}|WORD_OBJECT_MODEL_REOPENED`),
+    ...operations.map((operation) => `OP|${operation.id}|${statusForOperation(operation)}`),
+    ...operations.map((operation) => `READBACK|${operation.id}|${statusForOperation(operation)}|WORD_OBJECT_MODEL_REOPENED`),
     '',
   ].join('\n'), 'utf8');
-  fs.writeFileSync(files.source, Buffer.from('source-docx-current'));
-  fs.writeFileSync(files.returned, Buffer.from('returned-docx-current'));
-  const operationResults = operations.map((operation) => ({
-    operationId: operation.id,
-    family: operation.formalFamily,
-    expectedOutcome: operation.expectedOutcome,
-    reportedStatus: operation.expectedOutcome,
-    nativeReadbackStatus: operation.expectedOutcome,
-    wordGreen: true,
-    yalkenGreen: true,
-  }));
-  writeJson(files.oracle, {
-    schemaVersion: 'yalken.rtk.word.c5v2.complete-round-oracle.v1',
-    ok: true,
-    operationCount: operations.length,
-    wordStatusCount: operations.length,
-    nativeWordReadbackCount: operations.length,
-    duplicateWordStatuses: false,
-    duplicateNativeReadbacks: false,
-    semanticOracle: { ok: true, operationCount: operations.length, failures: [] },
-    operationResults,
-    oracleDigest: canary.sha256Text(canary.stableCanonicalJson(operationResults)),
+  const baselineScenes = sceneIds.map((sceneId) => {
+    const sceneOperations = operations.filter((operation) => operation.sceneId === sceneId);
+    const paragraphs = sceneOperations.map((operation) => `${operation.quote} baseline for ${operation.id}`);
+    const rawContent = docV2PayloadFromParagraphs(paragraphs);
+    return {
+      sceneId,
+      rawContent,
+      rawContentSha256: canary.sha256Text(rawContent),
+      text: paragraphs.join('\n\n'),
+      textSha256: canary.sha256Text(paragraphs.join('\n\n')),
+      paragraphs,
+    };
   });
-  const rawContent = 'production shaped reopened scene';
+  writeJson(files.baseline, {
+    schemaVersion: 'yalken.rtk.word.c5v2.product-baseline-scenes.v1',
+    roundId: 'round-01',
+    projectRoot: '',
+    scenes: baselineScenes,
+  });
+  const truthSceneReadback = baselineScenes.map((scene) => {
+    const expectedParagraphs = buildExpectedParagraphsForTest(
+      scene,
+      operations.filter((operation) => operation.sceneId === scene.sceneId),
+    );
+    const rawContent = docV2PayloadFromParagraphs(expectedParagraphs);
+    return { sceneId: scene.sceneId, rawContent, rawContentSha256: canary.sha256Text(rawContent) };
+  });
+  writeDocxPackage(files.source, {
+    paragraphs: baselineScenes.flatMap((scene) => scene.paragraphs),
+  });
+  writeDocxPackage(files.returned, {
+    paragraphs: truthSceneReadback.flatMap((scene) => {
+      const parsed = JSON.parse(String(scene.rawContent).replace(/^\[doc-v2 length=\d+\]\n/u, ''));
+      return parsed.content.map((block) => block.content.map((node) => node.text || '').join(''));
+    }),
+    revisionOperations: exactOperations,
+  });
+  const wordVisibleReadbackPath = `${files.returned}.word-visible-readback.txt`;
+  fs.writeFileSync(
+    wordVisibleReadbackPath,
+    exactOperations
+      .filter((operation) => operation.family !== 'tracked_delete')
+      .map((operation) => operation.replacementText)
+      .join('\n'),
+    'utf8',
+  );
   writeJson(files.truth, {
     schemaVersion: 'yalken.rtk.word.c5v2.reopened-yalken-truth.v1',
     roundId: 'round-01',
@@ -130,11 +389,7 @@ function createBoundCompletedRound(canary, overrides = {}) {
       pass,
       scenes: sceneIds.map((sceneId) => ({ sceneId, ok: true })),
     })),
-    sceneReadback: sceneIds.map((sceneId) => ({
-      sceneId,
-      rawContent: `${rawContent}:${sceneId}`,
-      rawContentSha256: canary.sha256Text(`${rawContent}:${sceneId}`),
-    })),
+    sceneReadback: truthSceneReadback,
     expectedRootCommentCount: 0,
     canonicalNonTextState: { present: false },
     recoveryNonTextState: { present: false },
@@ -157,16 +412,28 @@ function createBoundCompletedRound(canary, overrides = {}) {
   });
   const returnApply = {
     ok: true,
+    exactLedgerBinding,
+    lanePlan: { exactLedgerBinding },
     activation: {
-      textChangeScopeDiagnostics: operations.map((operation) => ({
+      ok: true,
+      textChangeScopeDiagnostics: exactOperations.map((operation) => ({
         changeId: changeIdByOperationId[operation.id],
         targetScope: { id: operation.sceneId },
         matchKind: 'exact',
         quoteSha256: canary.sha256Text(operation.quote),
         replacementSha256: canary.sha256Text(operation.replacementText),
       })),
+      commentThreadDiagnostics: [],
+      commentPlacementDiagnostics: [],
+      commentProductPath: {
+        semanticOracle: { lifecycleApplied: 0 },
+        applyReceipts: [],
+        replayReceipts: [],
+      },
     },
+    yalkenTruthArtifact: { path: files.truth, sha256: canary.sha256File(files.truth) },
   };
+  writeJson(files.returnApply, returnApply);
   const returnApplyCandidateAuthority = canary.buildC5V2ReturnApplyCandidateAuthority({
     roundId: context.roundId,
     returnApply,
@@ -183,6 +450,21 @@ function createBoundCompletedRound(canary, overrides = {}) {
     candidateAuthorityPath: files.candidateAuthority,
   });
   assert.equal(returnApplyCandidateAuthorityAnchorValidation.ok, true);
+  const nativeLifecycleVerification = nativeLifecycleVerificationForTest(operations);
+  writeJson(files.nativeLifecycle, nativeLifecycleVerification);
+  const oracle = canary.buildOracleProbe({
+    ledger,
+    wordParsed: canary.applyNativeLifecycleVerification(
+      canary.parseWordOutput(fs.readFileSync(files.wordOutput, 'utf8')),
+      nativeLifecycleVerification,
+    ),
+    returnedDocxPath: files.returned,
+    wordVisibleReadbackPath,
+    baselineArtifactPath: files.baseline,
+    yalkenTruthPath: files.truth,
+    returnApply,
+  });
+  writeJson(files.oracle, oracle);
   const completedRoundReuseBinding = canary.buildC5V2CompletedRoundReuseBinding({
     roundId: overrides.roundId || context.roundId,
     exactHead: overrides.exactHead || context.exactHead,
@@ -192,12 +474,29 @@ function createBoundCompletedRound(canary, overrides = {}) {
     corpusDigest: overrides.corpusDigest || context.corpusDigest,
     ledger,
     ledgerContentDigest: canary.resolveC5V2LedgerReuseDigest(ledger),
+    roundLedgerPath: files.ledger,
+    roundLedgerSha256: canary.sha256File(files.ledger),
+    wordOutputPath: files.wordOutput,
     wordOutputSha256: canary.sha256File(files.wordOutput),
+    wordVisibleReadbackPath,
+    wordVisibleReadbackSha256: canary.sha256File(wordVisibleReadbackPath),
+    completeRoundOraclePath: files.oracle,
     completeRoundOracleSha256: canary.sha256File(files.oracle),
+    returnedReadyPath: files.ready,
     returnedReadySha256: canary.sha256File(files.ready),
+    productBaselinePath: files.baseline,
+    productBaselineSha256: canary.sha256File(files.baseline),
+    returnApplyPath: files.returnApply,
+    returnApplySha256: canary.sha256File(files.returnApply),
+    nativeLifecycleVerificationPath: files.nativeLifecycle,
+    nativeLifecycleVerificationSha256: canary.sha256File(files.nativeLifecycle),
+    sourceDocxPath: files.source,
     sourceDocxSha256: canary.sha256File(files.source),
+    returnedDocxPath: files.returned,
     returnedDocxSha256,
+    yalkenTruthPath: files.truth,
     yalkenTruthSha256: canary.sha256File(files.truth),
+    returnApplyCandidateAuthorityPath: files.candidateAuthority,
     returnApplyCandidateAuthority,
     returnApplyCandidateAuthoritySha256: canary.sha256File(files.candidateAuthority),
     returnApplyCandidateAuthorityAnchor: returnApplyCandidateAuthorityAnchorValidation.anchor,
@@ -208,10 +507,12 @@ function createBoundCompletedRound(canary, overrides = {}) {
   const gate = canary.buildC5V2CompleteRoundOracleGate({
     roundId: overrides.gateRoundId || 'round-01',
     wordParsed: { scalars: { WORD_STATUS: 'PASS' } },
-    nativeLifecycleVerification: { ok: true },
-    oracleProbe: { ok: true, oracleDigest: 'sha256:oracle-current' },
+    nativeLifecycleVerification,
+    oracleProbe: oracle,
     returnApply,
     completedRoundReuseBinding,
+    roundOperationIds: operations.map((operation) => operation.id),
+    cumulativeOperationIds: operations.map((operation) => operation.id),
   });
   writeJson(files.gate, gate);
   return {
@@ -839,7 +1140,7 @@ test('C5V2 completed round reuse accepts MANUAL-expected Word-blocked designed o
     expectedOperationCount: 1,
     matchedOperationCount: 1,
     matchedChangeCount: 1,
-    excludedCandidateCount: 1,
+    excludedCandidateCount: 0,
     exactApplyTextChangeIdsByScene: { 'roman/chapter-01.txt': ['change-exact-001'] },
     exactOperationBindings: [{
       operationId: 'op-exact-001',

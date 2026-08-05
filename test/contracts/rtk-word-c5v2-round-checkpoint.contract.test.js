@@ -325,11 +325,32 @@ test('C5V2 cumulative controller blocks the next export until the complete round
   const candidateAuthorityRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'c5v2-anchor-root-'));
   const candidateAuthorityPath = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'c5v2-anchor-artifact-')), 'return-apply-candidate-authority.json');
   fs.writeFileSync(candidateAuthorityPath, `${JSON.stringify(returnApplyCandidateAuthority, null, 2)}\n`, 'utf8');
+  const evidenceDir = fs.mkdtempSync(path.join(os.tmpdir(), 'c5v2-round-gate-evidence-'));
+  const evidenceFiles = {
+    ledger: path.join(evidenceDir, 'canary-ledger.json'),
+    wordOutput: path.join(evidenceDir, 'word-output.txt'),
+    wordVisibleReadback: path.join(evidenceDir, 'word-visible-readback.txt'),
+    oracle: path.join(evidenceDir, 'complete-round-oracle.json'),
+    ready: path.join(evidenceDir, 'c5v2-cumulative-returned-ready.json'),
+    baseline: path.join(evidenceDir, 'product-baseline-scenes.json'),
+    returnApply: path.join(evidenceDir, 'product-return-apply.json'),
+    nativeLifecycle: path.join(evidenceDir, 'native-lifecycle-verification.json'),
+    sourceDocx: path.join(evidenceDir, 'c5v2-cumulative-source-fullmanuscript.docx'),
+    returnedDocx: path.join(evidenceDir, 'c5v2-cumulative-returned-word-native.docx'),
+    truth: path.join(evidenceDir, 'yalken-reopened-truth.json'),
+  };
   canary.initializeC5V2CandidateAuthorityRoot({
     authorityRoot: candidateAuthorityRoot,
     createIfMissing: true,
   });
   const ledger = { operations: [] };
+  for (const [name, filePath] of Object.entries(evidenceFiles)) {
+    if (name.endsWith('Docx')) {
+      fs.writeFileSync(filePath, Buffer.from(`fixture-${name}`));
+    } else {
+      writeJson(filePath, { schemaVersion: `fixture.${name}.v1`, ok: true });
+    }
+  }
   const returnApplyCandidateAuthorityAnchorValidation = canary.writeC5V2ReturnApplyCandidateAuthorityAnchor({
     authorityRoot: candidateAuthorityRoot,
     campaignId: 'campaign-current',
@@ -350,14 +371,31 @@ test('C5V2 cumulative controller blocks the next export until the complete round
     corpusDigest: 'sha256:corpus-current',
     ledger,
     ledgerContentDigest: canary.resolveC5V2LedgerReuseDigest(ledger),
-    wordOutputSha256: 'sha256:word-output-current',
-    completeRoundOracleSha256: 'sha256:oracle-current',
-    returnedReadySha256: 'sha256:ready-current',
-    sourceDocxSha256: 'sha256:source-current',
-    returnedDocxSha256: 'sha256:return-current',
-    yalkenTruthSha256: 'sha256:truth-current',
+    roundLedgerPath: evidenceFiles.ledger,
+    roundLedgerSha256: sha256Bytes(fs.readFileSync(evidenceFiles.ledger)),
+    wordOutputPath: evidenceFiles.wordOutput,
+    wordOutputSha256: sha256Bytes(fs.readFileSync(evidenceFiles.wordOutput)),
+    wordVisibleReadbackPath: evidenceFiles.wordVisibleReadback,
+    wordVisibleReadbackSha256: sha256Bytes(fs.readFileSync(evidenceFiles.wordVisibleReadback)),
+    completeRoundOraclePath: evidenceFiles.oracle,
+    completeRoundOracleSha256: sha256Bytes(fs.readFileSync(evidenceFiles.oracle)),
+    returnedReadyPath: evidenceFiles.ready,
+    returnedReadySha256: sha256Bytes(fs.readFileSync(evidenceFiles.ready)),
+    productBaselinePath: evidenceFiles.baseline,
+    productBaselineSha256: sha256Bytes(fs.readFileSync(evidenceFiles.baseline)),
+    returnApplyPath: evidenceFiles.returnApply,
+    returnApplySha256: sha256Bytes(fs.readFileSync(evidenceFiles.returnApply)),
+    nativeLifecycleVerificationPath: evidenceFiles.nativeLifecycle,
+    nativeLifecycleVerificationSha256: sha256Bytes(fs.readFileSync(evidenceFiles.nativeLifecycle)),
+    sourceDocxPath: evidenceFiles.sourceDocx,
+    sourceDocxSha256: sha256Bytes(fs.readFileSync(evidenceFiles.sourceDocx)),
+    returnedDocxPath: evidenceFiles.returnedDocx,
+    returnedDocxSha256: sha256Bytes(fs.readFileSync(evidenceFiles.returnedDocx)),
+    yalkenTruthPath: evidenceFiles.truth,
+    yalkenTruthSha256: sha256Bytes(fs.readFileSync(evidenceFiles.truth)),
+    returnApplyCandidateAuthorityPath: candidateAuthorityPath,
     returnApplyCandidateAuthority,
-    returnApplyCandidateAuthoritySha256: 'sha256:return-apply-candidate-authority-current',
+    returnApplyCandidateAuthoritySha256: sha256Bytes(fs.readFileSync(candidateAuthorityPath)),
     returnApplyCandidateAuthorityAnchor: returnApplyCandidateAuthorityAnchorValidation.anchor,
     returnApplyCandidateAuthorityAnchorArtifact: returnApplyCandidateAuthorityAnchorValidation.anchorArtifact,
     returnApplyCandidateAuthorityAnchorValidation,

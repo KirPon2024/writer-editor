@@ -64,6 +64,44 @@ export function nowStamp() {
   return new Date().toISOString().replace(/[-:]/gu, '').replace(/\.\d{3}Z$/u, 'Z');
 }
 
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/gu, '\\$&');
+}
+
+function extractXmlPlistStringValue(plistText, key) {
+  const pattern = new RegExp(`<key>\\s*${escapeRegExp(key)}\\s*<\\/key>\\s*<string>([^<]+)<\\/string>`, 'u');
+  return (String(plistText || '').match(pattern) || [])[1] || '';
+}
+
+export function readC5V2WordPlistVersionAndBuild({
+  wordPlistPath = '/Applications/Microsoft Word.app/Contents/Info.plist',
+  execFileSyncImpl = execFileSync,
+  fallbackText = null,
+} = {}) {
+  try {
+    const wordVersion = String(execFileSyncImpl('/usr/bin/plutil', ['-extract', 'CFBundleShortVersionString', 'raw', '-o', '-', wordPlistPath], { encoding: 'utf8', timeout: 15000 })).trim();
+    const wordBuild = String(execFileSyncImpl('/usr/bin/plutil', ['-extract', 'CFBundleVersion', 'raw', '-o', '-', wordPlistPath], { encoding: 'utf8', timeout: 15000 })).trim();
+    if (!wordVersion || !wordBuild) return { ok: false, code: 'ORCH_CANARY_WORD_PLIST_EMPTY_FIELD', wordVersion, wordBuild };
+    return { ok: true, code: 'ORCH_CANARY_WORD_PLIST_READ', wordVersion, wordBuild };
+  } catch (error) {
+    try {
+      const plistText = fallbackText === null ? fs.readFileSync(wordPlistPath, 'utf8') : String(fallbackText || '');
+      if (!/<plist[\s>]/u.test(plistText) || !/<key>/u.test(plistText)) {
+        return { ok: false, code: 'ORCH_CANARY_WORD_PLIST_XML_FALLBACK_MALFORMED' };
+      }
+      const wordVersion = extractXmlPlistStringValue(plistText, 'CFBundleShortVersionString').trim();
+      const wordBuild = extractXmlPlistStringValue(plistText, 'CFBundleVersion').trim();
+      if (!wordVersion || !wordBuild) return { ok: false, code: 'ORCH_CANARY_WORD_PLIST_XML_FALLBACK_MISSING_FIELD' };
+      return { ok: true, code: 'ORCH_CANARY_WORD_PLIST_XML_FALLBACK_READ', wordVersion, wordBuild };
+    } catch (fallbackError) {
+      return {
+        ok: false,
+        code: 'ORCH_CANARY_WORD_PLIST_UNAVAILABLE:' + String((fallbackError && fallbackError.message) || (error && error.message) || fallbackError || error).slice(0, 120),
+      };
+    }
+  }
+}
+
 function assertNoC5V2SymlinkPathComponents(targetPath) {
   const resolved = path.resolve(String(targetPath || ''));
   if (!resolved || resolved === path.parse(resolved).root) throw new Error('C5V2_ARTIFACT_PATH_INVALID');
@@ -171,7 +209,9 @@ export function verifyC5V2PhysicalArtifactRoot({
 }
 
 export function resolveC5V2RunIdentity(options = {}) {
-  const artifactRoot = path.resolve(String(options.artifactRoot || DEFAULT_ARTIFACT_ROOT));
+  const rawArtifactRoot = String(options.artifactRoot || DEFAULT_ARTIFACT_ROOT);
+  if (!path.isAbsolute(rawArtifactRoot)) throw new Error('C5V2_ARTIFACT_ROOT_NOT_ABSOLUTE');
+  const artifactRoot = path.resolve(rawArtifactRoot);
   const requirePhysicalArtifactRoot = options.requirePhysicalArtifactRoot === true
     || artifactRoot === C5V2_T7_MOUNT
     || artifactRoot.startsWith(`${C5V2_T7_MOUNT}${path.sep}`);
@@ -415,10 +455,14 @@ export function validateC5V2MasterLedgerResumeAuthority(ledger = {}, {
 
 export function buildC5V2TerminalOperationAggregate({
   headSha = '',
+  corpusDigest = '',
   masterLedger = null,
   positiveTotals = {},
   negativeEvidence = null,
   negativeEvidenceSha256 = '',
+  positiveStageSealDigest = '',
+  negativeStageSealDigest = '',
+  roundInventoryDigest = '',
 } = {}) {
   const failures = [];
   const expectedCounts = DEFAULT_C5V2_LEDGER_COUNTS;
@@ -456,16 +500,20 @@ export function buildC5V2TerminalOperationAggregate({
   const core = {
     schemaVersion: 'yalken.rtk.word.c5v2.terminal-operation-aggregate.v1',
     headSha,
+    corpusDigest,
     masterLedgerDigest: masterLedger?.ledgerDigest || '',
     positive: {
+      stageSealDigest: positiveStageSealDigest,
       operationCount: positiveAttempted,
       reportedCount: positiveReported,
       familyCount: positiveExpected,
     },
     negative: {
+      stageSealDigest: negativeStageSealDigest,
       evidenceSha256: negativeEvidenceSha256 || '',
       operationCount: negativeCount,
       rejectedCount: negativeRejected,
+      failedCount: negativeEvidence?.failedCount ?? null,
       familyCount: negativeExpected,
       manifestDigest: negativeEvidence?.manifestDigest || '',
       evidenceDigest: negativeEvidence?.evidenceDigest || '',
@@ -473,6 +521,7 @@ export function buildC5V2TerminalOperationAggregate({
     counts,
     totalOperationCount: total,
     exactDistribution: expectedCounts,
+    roundInventoryDigest,
     ok: failures.length === 0,
     failures,
   };
@@ -1190,14 +1239,32 @@ export function buildC5V2CompletedRoundReuseBinding(input = {}) {
     operationStatusPolicyDigest: String(input.operationStatusPolicyDigest || ''),
     corpusDigest: String(input.corpusDigest || ''),
     ledgerContentDigest: String(input.ledgerContentDigest || ''),
+    roundLedgerPath: String(input.roundLedgerPath || ''),
+    roundLedgerSha256: String(input.roundLedgerSha256 || ''),
+    wordOutputPath: String(input.wordOutputPath || ''),
     wordOutputSha256: String(input.wordOutputSha256 || ''),
+    wordVisibleReadbackPath: String(input.wordVisibleReadbackPath || ''),
+    wordVisibleReadbackSha256: String(input.wordVisibleReadbackSha256 || ''),
+    completeRoundOraclePath: String(input.completeRoundOraclePath || ''),
     completeRoundOracleSha256: String(input.completeRoundOracleSha256 || ''),
+    returnedReadyPath: String(input.returnedReadyPath || ''),
     returnedReadySha256: String(input.returnedReadySha256 || ''),
+    productBaselinePath: String(input.productBaselinePath || ''),
+    productBaselineSha256: String(input.productBaselineSha256 || ''),
+    returnApplyPath: String(input.returnApplyPath || ''),
+    returnApplySha256: String(input.returnApplySha256 || ''),
+    nativeLifecycleVerificationPath: String(input.nativeLifecycleVerificationPath || ''),
+    nativeLifecycleVerificationSha256: String(input.nativeLifecycleVerificationSha256 || ''),
+    sourceDocxPath: String(input.sourceDocxPath || ''),
     sourceDocxSha256: String(input.sourceDocxSha256 || ''),
+    returnedDocxPath: String(input.returnedDocxPath || ''),
     returnedDocxSha256: String(input.returnedDocxSha256 || ''),
+    yalkenTruthPath: String(input.yalkenTruthPath || ''),
     yalkenTruthSha256: String(input.yalkenTruthSha256 || ''),
+    returnApplyCandidateAuthorityPath: String(input.returnApplyCandidateAuthorityPath || ''),
     returnApplyCandidateAuthoritySha256: String(input.returnApplyCandidateAuthoritySha256 || ''),
     returnApplyCandidateAuthorityContentDigest: String(input.returnApplyCandidateAuthority?.contentDigest || ''),
+    returnApplyCandidateAuthorityAnchorPath: String(input.returnApplyCandidateAuthorityAnchorArtifact?.path || ''),
     returnApplyCandidateAuthorityAnchorSha256: String(input.returnApplyCandidateAuthorityAnchorArtifact?.sha256 || ''),
     returnApplyCandidateAuthorityAnchorDigest: String(input.returnApplyCandidateAuthorityAnchor?.anchorDigest || ''),
     returnApplyCandidateAuthorityAnchorKeyId: String(input.returnApplyCandidateAuthorityAnchor?.keyId || ''),
@@ -1216,8 +1283,12 @@ export function buildC5V2CompletedRoundReuseBinding(input = {}) {
     body.corpusDigest,
     body.ledgerContentDigest,
     body.wordOutputSha256,
+    body.wordVisibleReadbackSha256,
     body.completeRoundOracleSha256,
     body.returnedReadySha256,
+    body.productBaselineSha256,
+    body.returnApplySha256,
+    body.nativeLifecycleVerificationSha256,
     body.sourceDocxSha256,
     body.returnedDocxSha256,
     body.yalkenTruthSha256,
@@ -3803,6 +3874,8 @@ async function runC5V2NegativeCampaign(win, config, baselineReturnApply) {
       kind: probe.kind,
       ok: result.ok,
       rejectionReason: result.rejectionReason,
+      checkpointPath: checkpointWritten.path,
+      checkpointSha256: checkpointWritten.sha256,
     });
   }
   const kindCounts = results.reduce((acc, item) => {
@@ -4232,6 +4305,7 @@ async function runElectronFullManuscriptRoundtrip({
   scenes,
   runWord,
   negativeCampaign = null,
+  onChildProgress = null,
 }) {
   const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-c5v2-canary-ui-'));
   const childPath = path.join(tempRoot, 'fullbook-export-child.cjs');
@@ -4267,7 +4341,11 @@ async function runElectronFullManuscriptRoundtrip({
     for (const line of lines) {
       if (!line.startsWith(RESULT_PREFIX)) continue;
       try {
-        resultLines.push(JSON.parse(line.slice(RESULT_PREFIX.length)));
+        const parsed = JSON.parse(line.slice(RESULT_PREFIX.length));
+        resultLines.push(parsed);
+        if (parsed?.phase === 'child-progress' && typeof onChildProgress === 'function') {
+          onChildProgress(parsed);
+        }
       } catch {}
     }
   });
@@ -5554,6 +5632,7 @@ export function runWordLedgerInChunks({
   ledger,
   evidenceDir,
   chunkSize = 48,
+  onChunkProgress = null,
 }) {
   const chunks = buildWordLedgerChunkPlan(ledger, chunkSize);
   const outputs = [];
@@ -5638,8 +5717,95 @@ export function runWordLedgerInChunks({
         effectKey: `${ledgerDigest}:${operation.id}`,
       })),
     });
+    if (typeof onChunkProgress === 'function') {
+      onChunkProgress({
+        chunkId: chunk.chunkId,
+        chunkIndex: chunk.chunkIndex,
+        completedCount: chunk.completedOperationIds.length,
+        completedOperationIds: chunk.completedOperationIds,
+        lastOperationId: chunk.completedOperationIds.at(-1) || '',
+      });
+    }
   }
   return outputs.join('\n');
+}
+
+export function createPositiveStageProgressTracker(initialCompletedCount = 0) {
+  let completedBeforeCurrentRound = Number.isSafeInteger(initialCompletedCount) && initialCompletedCount >= 0
+    ? initialCompletedCount
+    : 0;
+  const roundBases = new Map();
+  return {
+    recordRoundChunk({
+      roundIndex,
+      roundId,
+      completedCount,
+      completedOperationIds = [],
+      lastOperationId = '',
+      emitHeartbeat,
+    }) {
+      const key = `${roundIndex}:${roundId}`;
+      if (!roundBases.has(key)) roundBases.set(key, completedBeforeCurrentRound);
+      const roundCompletedCount = Number(completedCount);
+      if (!Number.isSafeInteger(roundCompletedCount) || roundCompletedCount < 0) {
+        throw new Error(`C5V2_POSITIVE_PROGRESS_COUNT_INVALID:${roundId}:${completedCount}`);
+      }
+      const operationId = String(lastOperationId || completedOperationIds.at(-1) || '').trim();
+      if (!operationId) throw new Error(`C5V2_POSITIVE_PROGRESS_OPERATION_ID_MISSING:${roundId}:${completedCount}`);
+      const detail = {
+        roundIndex,
+        roundId,
+        roundCompletedCount,
+        completedCount: roundBases.get(key) + roundCompletedCount,
+        lastOperationId: operationId,
+      };
+      if (typeof emitHeartbeat === 'function') emitHeartbeat(detail);
+      return detail;
+    },
+    finishRound({ roundIndex, roundId = '', operationCount }) {
+      const parsed = Number(operationCount);
+      if (!Number.isSafeInteger(parsed) || parsed < 0) {
+        throw new Error(`C5V2_POSITIVE_PROGRESS_ROUND_COUNT_INVALID:${roundIndex}:${operationCount}`);
+      }
+      const keyPrefix = `${roundIndex}:`;
+      const roundBase = [...roundBases.entries()].find(([key]) => key === `${roundIndex}:${roundId}` || key.startsWith(keyPrefix))?.[1]
+        ?? completedBeforeCurrentRound;
+      completedBeforeCurrentRound = roundBase + parsed;
+      return completedBeforeCurrentRound;
+    },
+    get completedCount() {
+      return completedBeforeCurrentRound;
+    },
+  };
+}
+
+export function collectNegativeProbeCompletionHeartbeats({
+  progressEvents = [],
+  initialCompletedCount = 0,
+  emitHeartbeat,
+}) {
+  let completedCount = Number.isSafeInteger(initialCompletedCount) && initialCompletedCount >= 0
+    ? initialCompletedCount
+    : 0;
+  let lastOperationId = '';
+  for (const event of progressEvents) {
+    if (!event || event.phase !== 'child-progress' || event.step !== 'negative-probe-complete') continue;
+    const detail = event.detail && typeof event.detail === 'object' ? event.detail : {};
+    const operationId = String(detail.id || detail.probeId || '').trim();
+    if (!operationId) throw new Error('C5V2_NEGATIVE_PROGRESS_OPERATION_ID_MISSING');
+    completedCount += 1;
+    lastOperationId = operationId;
+    if (typeof emitHeartbeat === 'function') {
+      emitHeartbeat('negative-probe', {
+        completedProbeCount: completedCount,
+        completedCount,
+        lastOperationId,
+        checkpointPath: typeof detail.checkpointPath === 'string' ? detail.checkpointPath : '',
+        checkpointSha256: typeof detail.checkpointSha256 === 'string' ? detail.checkpointSha256 : '',
+      });
+    }
+  }
+  return { completedCount, lastOperationId };
 }
 
 export function readWordPhaseCheckpoint(returnedPath) {
@@ -6651,6 +6817,8 @@ export function buildC5V2CompleteRoundOracleGate({
   oracleCapture = null,
   returnApply = null,
   completedRoundReuseBinding = null,
+  roundOperationIds = [],
+  cumulativeOperationIds = [],
 } = {}) {
   const failures = [];
   if (wordParsed?.scalars?.WORD_STATUS !== 'PASS') failures.push('WORD_STATUS_NOT_PASS');
@@ -6661,6 +6829,8 @@ export function buildC5V2CompleteRoundOracleGate({
   }
   if (oracleProbe?.ok !== true) failures.push('COMPLETE_ROUND_ORACLE_NOT_GREEN');
   if (completedRoundReuseBinding?.ok !== true) failures.push('COMPLETED_ROUND_REUSE_BINDING_NOT_GREEN');
+  const normalizedRoundOperationIds = Array.isArray(roundOperationIds) ? roundOperationIds.map(String) : [];
+  const normalizedCumulativeOperationIds = Array.isArray(cumulativeOperationIds) ? cumulativeOperationIds.map(String) : [];
   return {
     schemaVersion: 'yalken.rtk.word.c5v2.complete-round-oracle-gate.v2',
     roundId,
@@ -6671,6 +6841,12 @@ export function buildC5V2CompleteRoundOracleGate({
     completeRoundOracleGreen: oracleProbe?.ok === true,
     oracleDigest: oracleProbe?.oracleDigest || '',
     semanticOracleDigest: oracleProbe?.semanticOracle?.digest || oracleProbe?.semanticOracle?.oracleDigest || '',
+    roundOperationIds: normalizedRoundOperationIds,
+    roundOperationIdsDigest: sha256Text(stableCanonicalJson(normalizedRoundOperationIds)),
+    roundOperationCount: normalizedRoundOperationIds.length,
+    cumulativeOperationIds: normalizedCumulativeOperationIds,
+    cumulativeOperationIdsDigest: sha256Text(stableCanonicalJson(normalizedCumulativeOperationIds)),
+    cumulativeOperationCount: normalizedCumulativeOperationIds.length,
     completedRoundReuseBinding,
     failures,
   };
@@ -6718,6 +6894,10 @@ function parseArgs(argv) {
     resumeRunDir: '',
     negativeCampaignLedgerPath: '',
     negativeAggregateEvidencePath: '',
+    positiveStageSealDigest: '',
+    negativeStageSealDigest: '',
+    roundInventoryDigest: '',
+    expectedCorpusDigest: '',
     negativeProbeStart: 1,
     negativeProbeCount: 40,
     corpusManifestPath: '',
@@ -6755,6 +6935,18 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === '--negative-aggregate-evidence') {
       options.negativeAggregateEvidencePath = argv[index + 1];
+      index += 1;
+    } else if (arg === '--positive-stage-seal-digest') {
+      options.positiveStageSealDigest = String(argv[index + 1] || '');
+      index += 1;
+    } else if (arg === '--negative-stage-seal-digest') {
+      options.negativeStageSealDigest = String(argv[index + 1] || '');
+      index += 1;
+    } else if (arg === '--round-inventory-digest') {
+      options.roundInventoryDigest = String(argv[index + 1] || '');
+      index += 1;
+    } else if (arg === '--expected-corpus-digest') {
+      options.expectedCorpusDigest = String(argv[index + 1] || '');
       index += 1;
     } else if (arg === '--negative-probe-start') {
       options.negativeProbeStart = Number.parseInt(argv[index + 1], 10);
@@ -6804,7 +6996,8 @@ const C5V2_ORCHESTRATED_KNOWN_FLAGS = Object.freeze([
   '--scene-count', '--scene-start', '--family-counts-json', '--artifact-root', '--run-prefix',
   '--round-count', '--accessibility-preflight-only', '--master-ledger-campaign', '--resume-run-dir',
   '--negative-campaign-ledger', '--negative-aggregate-evidence', '--negative-probe-start',
-  '--negative-probe-count', '--corpus-manifest', '--include-multilingual-qa', '--orchestrated-stage',
+  '--negative-probe-count', '--positive-stage-seal-digest', '--negative-stage-seal-digest',
+  '--round-inventory-digest', '--expected-corpus-digest', '--corpus-manifest', '--include-multilingual-qa', '--orchestrated-stage',
   '--run-dir', '--stage-result-path', '--heartbeat-path', '--campaign-id', '--chain-id',
   '--expected-sha', '--expected-word-version', '--expected-word-build',
 ]);
@@ -6839,12 +7032,69 @@ export function validateC5V2OrchestratedArgs(options, argv = []) {
   if (!identityRe.test(options.campaignId)) return { ok: false, code: `ORCH_CANARY_CAMPAIGN_ID_INVALID:${options.campaignId}` };
   if (!['W06', 'REP1', 'REP2', 'REP3'].includes(options.chainId)) return { ok: false, code: `ORCH_CANARY_CHAIN_ID_INVALID:${options.chainId}` };
   if (!/^[0-9a-f]{40}$/u.test(options.expectedSha)) return { ok: false, code: 'ORCH_CANARY_SHA_FORMAT' };
-  const runDir = path.resolve(options.explicitRunDir);
-  const resultPath = path.resolve(options.stageResultPath);
-  const heartbeatPath = path.resolve(options.heartbeatPath);
-  for (const [name, candidate] of [['run-dir', runDir], ['stage-result-path', resultPath], ['heartbeat-path', heartbeatPath]]) {
+  const rawPaths = [
+    ['run-dir', options.explicitRunDir],
+    ['stage-result-path', options.stageResultPath],
+    ['heartbeat-path', options.heartbeatPath],
+  ];
+  if (options.negativeCampaignLedgerPath) rawPaths.push(['negative-campaign-ledger', options.negativeCampaignLedgerPath]);
+  if (options.resumeRunDir) rawPaths.push(['resume-run-dir', options.resumeRunDir]);
+  if (options.negativeAggregateEvidencePath) rawPaths.push(['negative-aggregate-evidence', options.negativeAggregateEvidencePath]);
+  if (options.corpusManifestPath) rawPaths.push(['corpus-manifest', options.corpusManifestPath]);
+  for (const [name, rawCandidate] of rawPaths) {
+    const candidate = String(rawCandidate || '');
     if (!path.isAbsolute(candidate)) return { ok: false, code: `ORCH_CANARY_PATH_NOT_ABSOLUTE:${name}` };
     if (candidate.split(path.sep).some((segment) => segment === '..')) return { ok: false, code: `ORCH_CANARY_PATH_TRAVERSAL:${name}` };
+  }
+	  const canonicalCandidate = (rawCandidate) => {
+	    const absolute = path.resolve(String(rawCandidate || ''));
+	    let cursor = absolute;
+	    const missing = [];
+	    while (!fs.existsSync(cursor) && cursor !== path.parse(cursor).root) {
+	      missing.push(path.basename(cursor));
+	      cursor = path.dirname(cursor);
+	    }
+	    if (fs.existsSync(cursor)) {
+	      const stat = fs.lstatSync(cursor);
+	      if (stat.isSymbolicLink()) {
+	        const realCursor = fs.realpathSync(cursor);
+	        const allowedMacAlias = (cursor === '/tmp' && realCursor === '/private/tmp') || (cursor === '/var' && realCursor === '/private/var');
+	        if (!allowedMacAlias) return { ok: false, code: `SYMLINK:${cursor}` };
+	      }
+	      return { ok: true, path: missing.length > 0 ? path.join(fs.realpathSync(cursor), ...missing.reverse()) : fs.realpathSync(cursor) };
+	    }
+    return { ok: true, path: absolute };
+  };
+  const containedIn = (rootPath, candidatePath) => {
+    const relative = path.relative(rootPath, candidatePath);
+    return relative.length > 0 && relative !== '..' && !relative.startsWith(`..${path.sep}`) && !path.isAbsolute(relative);
+  };
+  if (options.artifactRoot) {
+    if (!path.isAbsolute(String(options.artifactRoot))) return { ok: false, code: 'ORCH_CANARY_PATH_NOT_ABSOLUTE:artifact-root' };
+    const rootResolution = canonicalCandidate(options.artifactRoot);
+    if (rootResolution.ok !== true) return { ok: false, code: `ORCH_CANARY_PATH_SYMLINK:artifact-root:${rootResolution.code}` };
+    const rootPath = rootResolution.path;
+    const runDirResolution = canonicalCandidate(options.explicitRunDir);
+    if (runDirResolution.ok !== true) return { ok: false, code: `ORCH_CANARY_PATH_SYMLINK:run-dir:${runDirResolution.code}` };
+    if (!containedIn(rootPath, runDirResolution.path)) return { ok: false, code: 'ORCH_CANARY_PATH_OUTSIDE_ARTIFACT_ROOT:run-dir' };
+    const orchestratorRoot = path.join(rootPath, 'ORCHESTRATOR');
+    for (const [name, rawCandidate] of rawPaths.filter(([name]) => name !== 'corpus-manifest')) {
+      const candidateResolution = canonicalCandidate(rawCandidate);
+      if (candidateResolution.ok !== true) return { ok: false, code: `ORCH_CANARY_PATH_SYMLINK:${name}:${candidateResolution.code}` };
+      const candidate = candidateResolution.path;
+      if (!containedIn(rootPath, candidate)) {
+        return { ok: false, code: `ORCH_CANARY_PATH_OUTSIDE_ARTIFACT_ROOT:${name}` };
+      }
+    }
+    const stageResultResolution = canonicalCandidate(options.stageResultPath);
+    const heartbeatResolution = canonicalCandidate(options.heartbeatPath);
+    if (stageResultResolution.ok !== true) return { ok: false, code: `ORCH_CANARY_PATH_SYMLINK:stage-result-path:${stageResultResolution.code}` };
+    if (heartbeatResolution.ok !== true) return { ok: false, code: `ORCH_CANARY_PATH_SYMLINK:heartbeat-path:${heartbeatResolution.code}` };
+    if (!containedIn(orchestratorRoot, stageResultResolution.path)) return { ok: false, code: 'ORCH_CANARY_PATH_OUTSIDE_ORCHESTRATOR_ROOT:stage-result-path' };
+    if (!containedIn(orchestratorRoot, heartbeatResolution.path)) return { ok: false, code: 'ORCH_CANARY_PATH_OUTSIDE_ORCHESTRATOR_ROOT:heartbeat-path' };
+  }
+  if ((options.orchestratedStage === 'POSITIVE' || options.orchestratedStage === 'AGGREGATE') && !/^sha256:[0-9a-f]{64}$/u.test(String(options.expectedCorpusDigest || ''))) {
+    return { ok: false, code: 'ORCH_CANARY_ARG_REQUIRED:--expected-corpus-digest' };
   }
   if (options.orchestratedStage === 'NEGATIVE' && !options.negativeCampaignLedgerPath) {
     return { ok: false, code: 'ORCH_CANARY_ARG_REQUIRED:--negative-campaign-ledger' };
@@ -6853,6 +7103,21 @@ export function validateC5V2OrchestratedArgs(options, argv = []) {
     return { ok: false, code: 'ORCH_CANARY_ARG_REQUIRED:--resume-run-dir+--negative-aggregate-evidence' };
   }
   return { ok: true };
+}
+
+export function verifyC5V2ExpectedCorpusDigest(options = {}) {
+  const corpusInput = loadCanaryCorpus({
+    sceneCount: options.sceneCount,
+    sceneStart: options.sceneStart,
+    corpusManifestPath: options.corpusManifestPath,
+    includeMultilingualQa: options.includeMultilingualQa,
+  });
+  const corpusDigest = buildC5V2CorpusReuseDigest({ provenance: corpusInput.provenance, scenes: corpusInput.scenes });
+  const expectedCorpusDigest = String(options.expectedCorpusDigest || '');
+  if (expectedCorpusDigest && corpusDigest !== expectedCorpusDigest) {
+    return { ok: false, code: `ORCH_CANARY_CORPUS_DIGEST_MISMATCH:${expectedCorpusDigest}:${corpusDigest}`, corpusDigest, corpusInput };
+  }
+  return { ok: true, code: 'ORCH_CANARY_CORPUS_DIGEST_VERIFIED', corpusDigest, corpusInput };
 }
 
 async function mainNegativeCampaign(options) {
@@ -6869,6 +7134,7 @@ async function mainNegativeCampaign(options) {
     count: negativeProbeCount,
   });
   const negativeChunk = negativePlan.chunk;
+  let negativeHeartbeatCompletedCount = 0;
   const explicitRunDir = typeof options.explicitRunDir === 'string' ? options.explicitRunDir.trim() : '';
   const runId = explicitRunDir ? path.basename(path.resolve(explicitRunDir)) : `${options.runPrefix}-${nowStamp()}`;
   const runDir = explicitRunDir ? path.resolve(explicitRunDir) : path.join(options.artifactRoot, runId);
@@ -6942,6 +7208,16 @@ async function mainNegativeCampaign(options) {
       evidencePath,
       checkpointDir,
     },
+    onChildProgress: options.orchestratedContext && options.orchestratedStage === 'NEGATIVE'
+      ? (event) => {
+          const state = collectNegativeProbeCompletionHeartbeats({
+            progressEvents: [event],
+            initialCompletedCount: negativeHeartbeatCompletedCount,
+            emitHeartbeat: (phase, detail) => emitOrchestratedHeartbeat(options, phase, detail),
+          });
+          negativeHeartbeatCompletedCount = state.completedCount;
+        }
+      : null,
     runWord: async () => {
       ledger = buildExportBoundCanaryLedger({
         scenes,
@@ -7066,6 +7342,7 @@ async function mainNegativeCampaign(options) {
       evidenceDigest: fs.existsSync(evidencePath) ? sha256File(evidencePath) : '',
       probeIdSetDigest: negativeEvidence?.probeIdSetDigest || sha256Text(JSON.stringify((negativeEvidence?.probes || []).map((probe) => probe.probeId || probe.id || ''))),
       mainLedgerDigest: masterLedger.ledgerDigest || '',
+      evidenceContentDigest: negativeEvidence?.evidenceDigest || '',
     }, {
       evidence: fs.existsSync(evidencePath)
         ? { path: evidencePath, sha256: sha256File(evidencePath), size: fs.statSync(evidencePath).size }
@@ -7113,19 +7390,16 @@ async function mainCumulative(options) {
   const wordWorkRoot = resolveWordHostLocalQaWorkRoot({
     defaultSegments: ['c5v2-physical-canary', runId],
   });
-  const corpusInput = loadCanaryCorpus({
-    sceneCount: options.sceneCount,
-    sceneStart: options.sceneStart,
-    corpusManifestPath: options.corpusManifestPath,
-    includeMultilingualQa: options.includeMultilingualQa,
-  });
+  const corpusVerification = verifyC5V2ExpectedCorpusDigest(options);
+  if (corpusVerification.ok !== true) throw new Error(corpusVerification.code);
+  const corpusInput = corpusVerification.corpusInput;
   const scenes = corpusInput.scenes;
   const operationStatusPolicyBinding = getC5V2OperationStatusPolicyBinding();
   const completedRoundReuseContext = {
     exactHead: shellValue('git', ['rev-parse', 'HEAD']),
     canaryScriptSha256: sha256File(__filename),
     operationStatusPolicyBinding,
-    corpusDigest: buildC5V2CorpusReuseDigest({ provenance: corpusInput.provenance, scenes }),
+    corpusDigest: corpusVerification.corpusDigest,
   };
   const candidateAuthorityRoot = resolveC5V2CandidateAuthorityRoot({
     artifactRoot: runIdentity.artifactRoot,
@@ -7241,6 +7515,7 @@ async function mainCumulative(options) {
     fs.mkdirSync(path.dirname(rounds.at(-1).wordReturnedPath), { recursive: true });
   }
   const wordVersion = shellValue('/usr/bin/osascript', ['-e', 'tell application "Microsoft Word" to return version as text'], { timeout: 30_000 });
+  const positiveStageProgress = createPositiveStageProgressTracker();
   const electronResult = await runElectronCumulativeFullManuscriptRoundtrip({
     runDir,
     scenes,
@@ -7357,6 +7632,12 @@ async function mainCumulative(options) {
             artifactReturnedPath: round.returnedPath,
             ledger,
             evidenceDir: round.roundDir,
+            onChunkProgress: (progress) => positiveStageProgress.recordRoundChunk({
+              roundIndex,
+              roundId,
+              ...progress,
+              emitHeartbeat: (detail) => emitOrchestratedHeartbeat(options, 'word-chunk', detail),
+            }),
           })
         : await runAppleScript(
             buildWordScript({
@@ -7367,6 +7648,11 @@ async function mainCumulative(options) {
             }),
             path.join(round.roundDir, 'word-canary.applescript'),
           );
+      positiveStageProgress.finishRound({
+        roundIndex,
+        roundId,
+        operationCount: Array.isArray(ledger?.operations) ? ledger.operations.length : 0,
+      });
       fs.writeFileSync(path.join(round.roundDir, 'word-output.txt'), wordOutput, 'utf8');
       return wordOutput;
     },
@@ -7379,6 +7665,14 @@ async function mainCumulative(options) {
         nativeLifecycleVerification,
       );
       const returnApply = payload.returnApplyPayload?.returnApply || null;
+      const nativeLifecycleVerificationArtifact = writeJsonAtomicDurable(
+        path.join(round.roundDir, 'native-lifecycle-verification.json'),
+        nativeLifecycleVerification,
+      );
+      const returnApplyArtifact = returnApply
+        ? writeJsonAtomicDurable(path.join(round.roundDir, 'product-return-apply.json'), returnApply)
+        : null;
+      const wordVisibleReadbackPath = `${round.returnedPath}.word-visible-readback.txt`;
       const returnApplyCandidateAuthorityPath = path.join(
         round.roundDir,
         'return-apply-candidate-authority.json',
@@ -7427,7 +7721,7 @@ async function mainCumulative(options) {
             ledger: round.ledger,
             wordParsed,
             returnedDocxPath: round.returnedPath,
-            wordVisibleReadbackPath: `${round.returnedPath}.word-visible-readback.txt`,
+            wordVisibleReadbackPath,
             baselineArtifactPath: round.productBaselineArtifact?.path || path.join(round.roundDir, 'product-baseline-scenes.json'),
             yalkenTruthPath: returnApply?.yalkenTruthArtifact?.path || path.join(round.roundDir, 'yalken-reopened-truth.json'),
             returnApply,
@@ -7446,17 +7740,38 @@ async function mainCumulative(options) {
         corpusDigest: completedRoundReuseContext.corpusDigest,
         ledger: round.ledger || {},
         ledgerContentDigest: resolveC5V2LedgerReuseDigest(round.ledger || {}),
+        roundLedgerPath: path.join(round.roundDir, 'canary-ledger.json'),
+        roundLedgerSha256: fs.existsSync(path.join(round.roundDir, 'canary-ledger.json'))
+          ? sha256File(path.join(round.roundDir, 'canary-ledger.json'))
+          : '',
+        wordOutputPath: path.join(round.roundDir, 'word-output.txt'),
         wordOutputSha256: fs.existsSync(path.join(round.roundDir, 'word-output.txt'))
           ? sha256File(path.join(round.roundDir, 'word-output.txt'))
           : '',
+        wordVisibleReadbackPath,
+        wordVisibleReadbackSha256: fs.existsSync(wordVisibleReadbackPath)
+          ? sha256File(wordVisibleReadbackPath)
+          : '',
+        completeRoundOraclePath: oracleArtifact?.path || path.join(round.roundDir, 'complete-round-oracle.json'),
         completeRoundOracleSha256: oracleArtifact?.sha256 || '',
+        returnedReadyPath: round.returnedReadyPath,
         returnedReadySha256: fs.existsSync(round.returnedReadyPath)
           ? sha256File(round.returnedReadyPath)
           : '',
+        productBaselinePath: round.productBaselineArtifact?.path || path.join(round.roundDir, 'product-baseline-scenes.json'),
+        productBaselineSha256: round.productBaselineArtifact?.sha256 || '',
+        returnApplyPath: returnApplyArtifact?.path || path.join(round.roundDir, 'product-return-apply.json'),
+        returnApplySha256: returnApplyArtifact?.sha256 || '',
+        nativeLifecycleVerificationPath: nativeLifecycleVerificationArtifact?.path || path.join(round.roundDir, 'native-lifecycle-verification.json'),
+        nativeLifecycleVerificationSha256: nativeLifecycleVerificationArtifact?.sha256 || '',
+        sourceDocxPath: round.sourcePath,
         sourceDocxSha256: fs.existsSync(round.sourcePath) ? sha256File(round.sourcePath) : '',
+        returnedDocxPath: round.returnedPath,
         returnedDocxSha256: fs.existsSync(round.returnedPath) ? sha256File(round.returnedPath) : '',
+        yalkenTruthPath: returnApply?.yalkenTruthArtifact?.path || path.join(round.roundDir, 'yalken-reopened-truth.json'),
         yalkenTruthSha256: returnApply?.yalkenTruthArtifact?.sha256 || '',
         returnApplyCandidateAuthority,
+        returnApplyCandidateAuthorityPath: returnApplyCandidateAuthorityArtifact?.path || path.join(round.roundDir, 'return-apply-candidate-authority.json'),
         returnApplyCandidateAuthoritySha256: returnApplyCandidateAuthorityArtifact?.sha256 || '',
         returnApplyCandidateAuthorityAnchor: returnApplyCandidateAuthorityAnchorValidation.anchor,
         returnApplyCandidateAuthorityAnchorArtifact: returnApplyCandidateAuthorityAnchorValidation.anchorArtifact,
@@ -7471,11 +7786,19 @@ async function mainCumulative(options) {
         oracleCapture,
         returnApply,
         completedRoundReuseBinding,
+        roundOperationIds: (round.ledger?.operations || []).map((operation) => operation.id || operation.operationId || ''),
+        cumulativeOperationIds: options.masterLedgerCampaign && masterLedger
+          ? (masterLedger.operations || [])
+            .filter((operation) => operation.family !== 'negative_probe' && Number(operation.round) <= roundIndex + 1)
+            .map((operation) => operation.id || operation.operationId || '')
+          : (round.ledger?.operations || []).map((operation) => operation.id || operation.operationId || ''),
       });
       round.completedRoundEvidence = {
         wordParsed,
         nativeLifecycleVerification,
+        nativeLifecycleVerificationArtifact,
         returnApply,
+        returnApplyArtifact,
         oracleProbe,
         oracleCapture,
         oracleArtifact,
@@ -7595,10 +7918,14 @@ async function mainCumulative(options) {
     && options.orchestratedStage !== 'POSITIVE'
     ? buildC5V2TerminalOperationAggregate({
       headSha,
+      corpusDigest: completedRoundReuseContext.corpusDigest,
       masterLedger,
       positiveTotals: totals,
       negativeEvidence: negativeAggregateEvidence,
       negativeEvidenceSha256: negativeAggregateEvidence ? sha256File(negativeAggregateEvidencePath) : '',
+      positiveStageSealDigest: options.positiveStageSealDigest || '',
+      negativeStageSealDigest: options.negativeStageSealDigest || '',
+      roundInventoryDigest: options.roundInventoryDigest || '',
     })
     : null;
   const terminalOperationAggregateArtifact = terminalOperationAggregate
@@ -7674,7 +8001,22 @@ async function mainCumulative(options) {
   if (options.orchestratedContext && (options.orchestratedStage === 'POSITIVE' || options.orchestratedStage === 'AGGREGATE')) {
     const roundGates = rounds.map((round) => {
       const gatePath = path.join(round.roundDir, 'complete-round-oracle-gate.json');
-      return { roundId: round.roundId, path: gatePath, sha256: fs.existsSync(gatePath) ? sha256File(gatePath) : '' };
+      const roundNumber = Number(String(round.roundId || '').replace(/^round-/u, ''));
+      const roundOperationIds = (round.ledger?.operations || []).map((operation) => operation.id || operation.operationId || '');
+      const cumulativeOperationIds = options.masterLedgerCampaign && masterLedger
+        ? (masterLedger.operations || [])
+          .filter((operation) => operation.family !== 'negative_probe' && Number(operation.round) <= roundNumber)
+          .map((operation) => operation.id || operation.operationId || '')
+        : roundOperationIds;
+      return {
+        roundId: round.roundId,
+        path: gatePath,
+        sha256: fs.existsSync(gatePath) ? sha256File(gatePath) : '',
+        roundOperationCount: roundOperationIds.length,
+        roundOperationIdsDigest: sha256Text(stableCanonicalJson(roundOperationIds)),
+        cumulativeOperationCount: cumulativeOperationIds.length,
+        cumulativeOperationIdsDigest: sha256Text(stableCanonicalJson(cumulativeOperationIds)),
+      };
     });
     const gatesManifest = {
       schemaVersion: 'yalken.rtk.word.c5v2.orchestrated-round-gates-manifest.v1',
@@ -7700,6 +8042,8 @@ async function mainCumulative(options) {
         ledgerPath,
         ledgerDigest: masterLedger?.ledgerDigest || '',
         operationIdSetDigest: sha256Text(JSON.stringify((masterLedger?.operations || []).map((operation) => operation.id || ''))),
+        corpusDigest: completedRoundReuseContext.corpusDigest,
+        roundInventoryDigest: sha256Text(stableCanonicalJson(roundGates)),
       }, {
         ledger: fs.existsSync(ledgerPath)
           ? { path: ledgerPath, sha256: sha256File(ledgerPath), size: fs.statSync(ledgerPath).size }
@@ -7707,6 +8051,10 @@ async function mainCumulative(options) {
         roundGates: { path: roundGatesManifestPath, sha256: sha256File(roundGatesManifestPath), size: fs.statSync(roundGatesManifestPath).size },
       }, {
         operationCount: (masterLedger?.operations || []).length,
+        positiveOperationCount: (masterLedger?.operations || []).filter((operation) => operation.family !== 'negative_probe').length,
+        negativeOperationCount: (masterLedger?.operations || []).filter((operation) => operation.family === 'negative_probe').length,
+        sceneCount: scenes.length,
+        roundGateCount: roundGates.length,
         roundGreen,
       });
       process.stdout.write(JSON.stringify({ orchestratedStage: 'POSITIVE', green: roundGreen, runDir }, null, 2) + '\n');
@@ -7724,10 +8072,15 @@ async function mainCumulative(options) {
     publishOrchestratedStageResult(options, {
       mainRunDir: runDir,
       negativeEvidencePath: options.negativeAggregateEvidencePath,
+      aggregatePath,
       aggregateOk: summary.terminalOperationAggregate?.ok === true,
       aggregateDigest: summary.terminalOperationAggregate?.aggregateDigest || '',
+      positiveStageSealDigest: options.positiveStageSealDigest || '',
+      negativeStageSealDigest: options.negativeStageSealDigest || '',
+      corpusDigest: completedRoundReuseContext.corpusDigest,
       preRoundInventory: options.orchestratedContext.preRoundInventory,
       postRoundInventory,
+      roundInventoryDigest: options.roundInventoryDigest || '',
       roundArtifactsUnchanged,
     }, {
       terminalAggregate: fs.existsSync(aggregatePath)
@@ -7978,6 +8331,9 @@ function emitOrchestratedHeartbeat(options, phase, detail = {}) {
     atUtc: nowStamp(),
     detail,
   };
+  const completedCount = Number(detail.completedCount ?? detail.completedOperationCount ?? detail.completedProbeCount);
+  if (Number.isSafeInteger(completedCount) && completedCount >= 0) event.completedCount = completedCount;
+  if (typeof detail.lastOperationId === 'string' && detail.lastOperationId) event.lastOperationId = detail.lastOperationId;
   fs.appendFileSync(options.heartbeatPath, JSON.stringify(event) + '\n', 'utf8');
 }
 
@@ -7986,15 +8342,9 @@ function verifyOrchestratedCampaignBinding(options) {
   if (head !== options.expectedSha) throw new Error(`ORCH_CANARY_SHA_MISMATCH:${options.expectedSha}:${head}`);
   const origin = shellValue('git', ['rev-parse', 'origin/main']);
   if (origin !== options.expectedSha) throw new Error(`ORCH_CANARY_ORIGIN_MAIN_MISMATCH:${options.expectedSha}:${origin}`);
-  let wordVersion = '';
-  let wordBuild = '';
-  try {
-    const plist = execFileSync('defaults', ['read', '/Applications/Microsoft Word.app/Contents/Info.plist'], { encoding: 'utf8', timeout: 15000 });
-    wordVersion = (plist.match(/CFBundleShortVersionString<\/key>\s*<string>([^<]+)</u) || [])[1] || '';
-    wordBuild = (plist.match(/CFBundleVersion<\/key>\s*<string>([^<]+)</u) || [])[1] || '';
-  } catch (error) {
-    throw new Error('ORCH_CANARY_WORD_PLIST_UNAVAILABLE:' + String(error && error.message ? error.message : error).slice(0, 120));
-  }
+  const plist = readC5V2WordPlistVersionAndBuild();
+  if (plist.ok !== true) throw new Error(plist.code);
+  const { wordVersion, wordBuild } = plist;
   if (wordVersion !== options.expectedWordVersion) throw new Error(`ORCH_CANARY_WORD_VERSION_MISMATCH:${options.expectedWordVersion}:${wordVersion}`);
   if (wordBuild !== options.expectedWordBuild) throw new Error(`ORCH_CANARY_WORD_BUILD_MISMATCH:${options.expectedWordBuild}:${wordBuild}`);
   return { headSha: head, originMainSha: origin, wordVersion, wordBuild };

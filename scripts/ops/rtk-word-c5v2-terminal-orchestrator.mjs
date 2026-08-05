@@ -681,9 +681,23 @@ function processAlive(pid) {
   try { process.kill(pid, 0); return true; } catch { return false; }
 }
 
-function listProcessCwdsUnder(rootPath) {
-  if (!rootPath || !fs.existsSync(rootPath)) return [];
-  const root = fs.realpathSync(rootPath);
+function safeRealpathMaybe(targetPath) {
+  try {
+    return fs.realpathSync(targetPath);
+  } catch {
+    return '';
+  }
+}
+
+function isCanonicalDescendantOrSelf(rootPath, candidatePath) {
+  const root = safeRealpathMaybe(rootPath);
+  const candidate = safeRealpathMaybe(candidatePath);
+  if (!root || !candidate) return false;
+  const relative = path.relative(root, candidate);
+  return relative === '' || (relative.length > 0 && !relative.startsWith('..') && !path.isAbsolute(relative));
+}
+
+function listProcessCwdsFromLsof(root) {
   const result = spawnSync('lsof', ['-n', '-Fpcn', '-a', '-d', 'cwd', '+D', root], { encoding: 'utf8', timeout: 1000 });
   if (result.status !== 0 && !String(result.stdout || '').trim()) return [];
   const rows = [];
@@ -702,12 +716,65 @@ function listProcessCwdsUnder(rootPath) {
     }
   }
   if (current?.pid) rows.push(current);
-  return rows.filter((row) => {
-    if (!Number.isSafeInteger(row.pid) || row.pid <= 0 || !row.cwd) return false;
-    const cwdReal = fs.realpathSync(row.cwd);
-    const relative = path.relative(root, cwdReal);
-    return relative === '' || (relative.length > 0 && !relative.startsWith('..') && !path.isAbsolute(relative));
-  });
+  return rows;
+}
+
+function listProcessCwdsFromProc(root, options = {}) {
+  const procRoot = typeof options.procRoot === 'string' && options.procRoot.trim()
+    ? options.procRoot.trim()
+    : '/proc';
+  if (!fs.existsSync(procRoot)) return [];
+  let entries;
+  try {
+    entries = fs.readdirSync(procRoot, { withFileTypes: true });
+  } catch {
+    return [];
+  }
+  const selfPid = Number.isSafeInteger(options.selfPid) && options.selfPid > 0 ? options.selfPid : process.pid;
+  const rows = [];
+  for (const entry of entries) {
+    if (!entry.isDirectory() || !/^\d+$/u.test(entry.name)) continue;
+    const pid = Number(entry.name);
+    if (!Number.isSafeInteger(pid) || pid <= 0 || pid === selfPid) continue;
+    const cwdLink = path.join(procRoot, entry.name, 'cwd');
+    let cwd;
+    try {
+      cwd = fs.readlinkSync(cwdLink);
+    } catch {
+      continue;
+    }
+    if (!cwd || !isCanonicalDescendantOrSelf(root, cwd)) continue;
+    let command = '';
+    try {
+      command = fs.readFileSync(path.join(procRoot, entry.name, 'comm'), 'utf8').trim();
+    } catch {
+      command = '';
+    }
+    rows.push({ pid, command, cwd });
+  }
+  return rows;
+}
+
+export function listProcessCwdsUnder(rootPath, options = {}) {
+  if (!rootPath || !fs.existsSync(rootPath)) return [];
+  const root = fs.realpathSync(rootPath);
+  const rows = [
+    ...(options.includeLsof === false ? [] : listProcessCwdsFromLsof(root)),
+    ...listProcessCwdsFromProc(root, options),
+  ];
+  const deduped = new Map();
+  for (const row of rows) {
+    if (!Number.isSafeInteger(row.pid) || row.pid <= 0 || !row.cwd) continue;
+    if (!isCanonicalDescendantOrSelf(root, row.cwd)) continue;
+    if (!deduped.has(row.pid)) {
+      deduped.set(row.pid, {
+        pid: row.pid,
+        command: String(row.command || ''),
+        cwd: safeRealpathMaybe(row.cwd),
+      });
+    }
+  }
+  return [...deduped.values()];
 }
 
 export function readProcessIdentity(pid) {

@@ -530,29 +530,42 @@ function makeCorpusManifestFileForTest(dir = tmpDir('c5v2-corpus-manifest-')) {
   return fs.realpathSync(manifestPath);
 }
 
-function makeLoadableCorpusManifestFileForTest(label, dir = tmpDir(`c5v2-loadable-corpus-${label}-`)) {
-  const file = `${label}-scene-01.txt`;
-  const text = `${label} scene text `.repeat(12);
-  const scenePath = path.join(dir, file);
+function makeLoadableCorpusManifestFileForTest(label, dir = tmpDir(`c5v2-loadable-corpus-${label}-`), sceneCount = 1) {
   fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(scenePath, text, 'utf8');
-  const visibleTextSha256 = sha256Text(text);
-  const rawSourceSha256 = sha256Text(text);
-  const wordCount = (text.match(/\b[\p{L}\p{N}][\p{L}\p{N}'’\-]*\b/gu) || []).length;
+  const scenes = [];
+  let expectedWordCount = 0;
+  for (let index = 0; index < sceneCount; index += 1) {
+    const ordinal = index + 1;
+    const file = `${label}-scene-${String(ordinal).padStart(2, '0')}.txt`;
+    const text = Array.from({ length: 80 }, (_, paragraphIndex) => {
+      const paragraphOrdinal = paragraphIndex + 1;
+      const tokens = Array.from({ length: 60 }, (_, tokenIndex) => (
+        `s${String(ordinal).padStart(2, '0')}p${String(paragraphOrdinal).padStart(2, '0')}w${String(tokenIndex + 1).padStart(2, '0')}`
+      ));
+      return `${tokens.slice(0, 20).join(' ')}. ${tokens.slice(20, 40).join(' ')}; ${tokens.slice(40).join(' ')}.`;
+    }).join('\n\n');
+    const scenePath = path.join(dir, file);
+    fs.writeFileSync(scenePath, text, 'utf8');
+    const visibleTextSha256 = sha256Text(text);
+    const rawSourceSha256 = sha256Text(text);
+    const wordCount = (text.match(/\b[\p{L}\p{N}][\p{L}\p{N}'’\-]*\b/gu) || []).length;
+    expectedWordCount += wordCount;
+    scenes.push({
+      ordinal,
+      file,
+      title: `${label} Scene ${String(ordinal).padStart(2, '0')}`,
+      rawSourceSha256,
+      visibleTextSha256,
+      wordCount,
+    });
+  }
   const manifestPath = path.join(dir, 'corpus-manifest.json');
   writeJson(manifestPath, {
     schemaVersion: 'yalken.rtk.word.c5v2.portfolio-corpus.v1',
     corpusId: `test-corpus-${label}`,
-    sceneCount: 1,
-    expectedWordCount: wordCount,
-    scenes: [{
-      ordinal: 1,
-      file,
-      title: `${label} Scene`,
-      rawSourceSha256,
-      visibleTextSha256,
-      wordCount,
-    }],
+    sceneCount,
+    expectedWordCount,
+    scenes,
   });
   return fs.realpathSync(manifestPath);
 }
@@ -1095,6 +1108,34 @@ setTimeout(() => process.exit(0), 20);
   assert.deepEqual(result.survivingOwnedPids, []);
   const survivors = await cleanupExactTestPids(pidLog);
   assert.deepEqual(survivors, []);
+});
+
+test('ORCH_TEST_14G: Linux proc cwd inventory finds contained detached processes without lsof', async () => {
+  const orch = await loadOrchestrator();
+  assert.equal(typeof orch.listProcessCwdsUnder, 'function');
+  const dir = tmpDir('c5v2-orch-proc-cwd-');
+  const root = path.join(dir, 'root');
+  const inside = path.join(root, 'nested');
+  const outside = path.join(dir, 'outside');
+  const procRoot = path.join(dir, 'proc');
+  fs.mkdirSync(inside, { recursive: true });
+  fs.mkdirSync(outside, { recursive: true });
+  fs.mkdirSync(procRoot, { recursive: true });
+  const writeProc = (pid, cwdTarget, command = 'node') => {
+    const pidDir = path.join(procRoot, String(pid));
+    fs.mkdirSync(pidDir, { recursive: true });
+    fs.symlinkSync(cwdTarget, path.join(pidDir, 'cwd'));
+    fs.writeFileSync(path.join(pidDir, 'comm'), `${command}\n`, 'utf8');
+  };
+  writeProc(1111, inside, 'fixture-node');
+  writeProc(2222, outside, 'outside-node');
+  writeProc(3333, inside, 'self-node');
+  fs.mkdirSync(path.join(procRoot, 'not-a-pid'), { recursive: true });
+
+  const rows = orch.listProcessCwdsUnder(root, { includeLsof: false, procRoot, selfPid: 3333 });
+  assert.deepEqual(rows.map((row) => row.pid), [1111]);
+  assert.equal(rows[0].command, 'fixture-node');
+  assert.equal(rows[0].cwd, fs.realpathSync(inside));
 });
 
 test('ORCH_TEST_14F: leader identity waits through pre-setsid race and timeout cleanup leaves zero survivors', async () => {
@@ -2417,7 +2458,8 @@ test('ORCH_TEST_15G: real canonical ledger engine binds negative round zero and 
   const [orch, canary, ledgerEngine] = await Promise.all([loadOrchestrator(), loadCanary(), loadLedgerEngine()]);
   const options = validOptions();
   fs.mkdirSync(options.campaignRoot, { recursive: true });
-  const corpus = canary.loadCanaryCorpus({ sceneCount: 21, sceneStart: 0 });
+  const corpusManifestPath = makeLoadableCorpusManifestFileForTest('canonical-ledger', tmpDir('c5v2-canonical-ledger-corpus-'), 21);
+  const corpus = canary.loadCanaryCorpus({ sceneCount: 21, sceneStart: 0, corpusManifestPath });
   const rawLedger = ledgerEngine.buildC5V2Ledger({ scenes: corpus.scenes, roundCount: 5 });
   const ledger = canary.bindC5V2MasterLedgerResumeAuthority(rawLedger, {
     exactHead: options.expectedSha,
@@ -2428,6 +2470,7 @@ test('ORCH_TEST_15G: real canonical ledger engine binds negative round zero and 
   assert.deepEqual([...new Set(ledger.operations.filter((operation) => operation.family === 'negative_probe').map((operation) => operation.round))], [0]);
   assert.deepEqual([...new Set(ledger.operations.filter((operation) => operation.family !== 'negative_probe').map((operation) => operation.round))].sort(), [1, 2, 3, 4, 5]);
 
+  const stageConstructionStartedAtMs = Date.now();
   const semantic = makeSemanticStageResult({
     options,
     stage: 'POSITIVE',
@@ -2472,7 +2515,7 @@ test('ORCH_TEST_15G: real canonical ledger engine binds negative round zero and 
     expectedSha: options.expectedSha,
     expectedWordVersion: options.expectedWordVersion,
     expectedWordBuild: options.expectedWordBuild,
-    stageStartedAtMs: Date.now() - 1000,
+    stageStartedAtMs: stageConstructionStartedAtMs,
     requiredOutputKeys: ['ledger', 'roundGates'],
     expectedCampaignRoot: options.campaignRoot,
     expectedStageRoot: semantic.runRoot,

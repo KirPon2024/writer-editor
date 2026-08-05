@@ -5701,12 +5701,12 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-terminal-orchestrator.mjs",
-      "sha256": "b848912fccbf3a3b974647e864c08a79aacbed765452e7f95e1d06d521429013",
-      "rationale": "Approve exact Phase A terminal orchestrator hardening bytes for process, path, portfolio, corpus, semantic oracle, quarantine, and closeout controls; no Word launch, long campaign, Google work, dependency change, or scope expansion.",
-      "approvedBy": "owner-direct:TASK_ID:PHASE_A_CLOSEOUT_DIRECTIVE",
-      "approvedAtUtc": "2026-08-05T20:51:35.256Z",
+      "sha256": "ebe452a9a79f561f1326dd63510d01c1568f6855fabd31e93393e89257cfb77e",
+      "rationale": "Approve exact frozen Phase A CI-repair terminal orchestrator bytes for portable fail-closed process cwd inventory after Ubuntu lsof gap; no Word launch, long campaign, Google work, dependency change, allowlist weakening, or scope expansion.",
+      "approvedBy": "owner-direct:TASK_ID:PHASE_A_CI_REQUIRED_REPAIR_PORTABLE_PROCESS_AND_HERMETIC_LEDGER",
+      "approvedAtUtc": "2026-08-05T21:42:12Z",
       "approved": true,
-      "authority": "EXPLICIT_OWNER_APPROVAL_PHASE_A_EXACT_FIVE_FROZEN_GOVERNANCE_RECORDS"
+      "authority": "EXPLICIT_OWNER_APPROVAL_PHASE_A_CI_REPAIR_EXACT_TWO_FROZEN_GOVERNANCE_RECORDS"
     },
     {
       "filePath": "scripts/ops/rtk-word-latest-physical-certification-lab.mjs",
@@ -8030,12 +8030,12 @@
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-terminal-orchestrator.contract.test.js",
-      "sha256": "1a40c9ca2528b9169bf612afcd4a805ee9969dd6c8e2f170f7b4e5b833683130",
-      "rationale": "Approve exact Phase A executable orchestrator regression contract bytes covering hardened lifecycle, path authority, semantic false-green, portfolio, corpus, and closeout attacks; no production semantic claim beyond this evidence.",
-      "approvedBy": "owner-direct:TASK_ID:PHASE_A_CLOSEOUT_DIRECTIVE",
-      "approvedAtUtc": "2026-08-05T20:51:35.256Z",
+      "sha256": "4726f388a6c2e65c9bb18e53750d749fe8e1a0c335a3e3d40002d5542a663aa3",
+      "rationale": "Approve exact frozen Phase A CI-repair orchestrator contract bytes for Linux proc cwd regression, CI-hermetic canonical 21-scene ledger fixture, and deterministic 15G stage freshness timing; no production semantic claim beyond this evidence.",
+      "approvedBy": "owner-direct:TASK_ID:PHASE_A_CI_REQUIRED_REPAIR_PORTABLE_PROCESS_AND_HERMETIC_LEDGER",
+      "approvedAtUtc": "2026-08-05T21:42:12Z",
       "approved": true,
-      "authority": "EXPLICIT_OWNER_APPROVAL_PHASE_A_EXACT_FIVE_FROZEN_GOVERNANCE_RECORDS"
+      "authority": "EXPLICIT_OWNER_APPROVAL_PHASE_A_CI_REPAIR_EXACT_TWO_FROZEN_GOVERNANCE_RECORDS"
     },
     {
       "filePath": "test/contracts/rtk-word-latest-semantic-b00.contract.test.js",

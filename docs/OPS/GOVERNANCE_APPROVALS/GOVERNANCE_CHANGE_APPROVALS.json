@@ -9511,6 +9511,24 @@
       "rationale": "Approve WAVE_1 P0_1 RESUME_NO_FALLBACK: sealed completed round failing reuse validation now hard-stops with C5V2_COMPLETED_ROUND_INVALID_STOP plus exact explain code (new explainC5V2ReusableCompletedRound and resolveC5V2CompletedRoundResumeDisposition); sealed valid round after chain break stops with NEW_ATTEMPT_REQUIRES_NEW_CAMPAIGN_ID; child template refuses purge of a sealed round (C5V2_SEALED_ROUND_LIVE_RERUN_FORBIDDEN). Incomplete unsealed rounds keep designed checkpoint resume. Validation semantics unchanged apart from reasoned returns (isC5V2ReusableCompletedRound wrapper preserved).",
       "approved": true,
       "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-c5v2-terminal-orchestrator.mjs",
+      "sha256": "7e7c4aa9c32d655219fb0b4e574261209b4a7435d1e8e60e1a23cda41792e8b6",
+      "approvedBy": "owner-controller:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
+      "approvedAtUtc": "2026-08-05T11:19:54.244Z",
+      "rationale": "Approve WAVE_1 contour 2: repository-native certification-grade terminal orchestrator closing P0_2/P0_3 — explicit --expected-sha enforcement at chain start and before seal, clean-tree STOP, secure-volume gate (UUID/FileVault/writable/space), full Word build gate, exclusive lock with stale-break marker, structured stage results, bounded wall and activity timeouts with child-death watchdog, append-only failure markers, no aggregate on failure, explicit run identity with FORBIDDEN_DISCOVERY (no readdirSync/latest/glob). Offline fault-injection contract proves non-zero exit, wall timeout, activity timeout, missing artifact, lock exclusion, SHA mismatch and fail-fast chain semantics.",
+      "approved": true,
+      "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-c5v2-terminal-orchestrator.contract.test.js",
+      "sha256": "6396d87d0e3363d47b4ece99b2bdb64c6fcc6a869c922e4d296b33a5a7f71569",
+      "approvedBy": "owner-controller:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
+      "approvedAtUtc": "2026-08-05T11:19:54.244Z",
+      "rationale": "Approve orchestrator contract coverage: arg required/format validation, expected SHA and clean-tree gates via temp git repos, exclusive lock second-writer block and stale break, stage child success/nonzero/wall-timeout/activity-timeout/missing-artifact, fail-fast chain with no aggregate after failure, FORBIDDEN_DISCOVERY source assertions. No Word automation in any test.",
+      "approved": true,
+      "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
     }
   ]
 }

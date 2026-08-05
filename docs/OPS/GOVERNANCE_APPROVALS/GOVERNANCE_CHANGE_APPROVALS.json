@@ -7958,10 +7958,10 @@
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-pr1414-audit-hold-repair.contract.test.js",
-      "sha256": "d2ed82a4178ba43851b2067dd072283c43b0b2f046fe43080d00c27b0cb6b7fe",
+      "sha256": "9c8b794958bd02ccda1137c25050d18bc0098a67b01e43e68d673ae629ca3ce1",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T21:05:27.922Z",
-      "rationale": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR",
+      "approvedAtUtc": "2026-08-05T02:25:45.712Z",
+      "rationale": "Approve regression coverage for the completed-round reuse repair: digest stability between in-memory undefined keys and durable JSON form, production-shaped completed round with adapter-emitted undefined ledger keys reusable, and MANUAL-expected Word-blocked designed outcome accepted with inconsistent readback rejected.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
     },
@@ -9505,10 +9505,10 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "f91617b3fb88ec64e52d07b995845f102f8a16d61b20f929052e27ab820535c3",
+      "sha256": "e75bd93c507fc9e48f703f540078cb478974aabe35e869e79fdba5ec9f1dc3bd",
       "approvedBy": "owner-controller:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
-      "approvedAtUtc": "2026-08-04T22:57:51.581Z",
-      "rationale": "Approve Word C5V2 physical lab execution hardening: all direct-range operation families (formatting, structural, root_comment) now resolve targets by native Word find on the unique locator via yFindRangeWithin instead of absolute create-range story offsets. Root cause evidence: fresh Dorian 2000 round-01 on 17b874de went oracle-RED on 22/36 formatting ops after a foreign tracked insertion (3 chars, ru-RU, 2026-08-04T22:00:00Z, absent from ledger) entered the live document at story position 0 and shifted every subsequent absolute selection by +3; find-based tracked text ops were immune, the complete round oracle caught every mis-application, and Yalken reopened truth verified uncontaminated. Lifecycle reply/state ops drop dead absolute yRange creation. Fail-closed SOURCE_LOCATOR_NOT_BOUND/NOT_FOUND semantics preserved; complete round oracle unchanged as independent gate; 89/89 C5V2 contract tests green.",
+      "approvedAtUtc": "2026-08-05T02:25:45.712Z",
+      "rationale": "Approve Word C5V2 completed-round reuse repair after the 2026-08-05 resume incident: (A) resolveC5V2LedgerReuseDigest now JSON-normalizes input so in-memory ledgers with adapter-emitted undefined-valued keys (structuralParagraphScope on non-structural operations) hash identically to their durable on-disk form — pristine completed rounds previously failed reuse validation and a negative-evidence-binding resume re-ran round-01 live and rewrote campaign artifacts; (B) the reuse-evidence wordGreen check now mirrors the already-merged MANUAL-expected BLOCKED designed-outcome tolerance present in the live oracle and in the same validators oracleGreen check. Identity for JSON-clean ledgers; EXACT-plus-BLOCKED and inconsistent-readback cases remain rejected; regression coverage added in the pr1414 contract.",
       "approved": true,
       "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
     }

@@ -219,11 +219,18 @@ export function buildC5V2CorpusReuseDigest({ provenance = {}, scenes = [] } = {}
 
 export function resolveC5V2LedgerReuseDigest(ledger = {}) {
   const source = ledger && typeof ledger === 'object' && !Array.isArray(ledger) ? ledger : {};
+  // Round-trip through JSON so an in-memory ledger hashes identically to its
+  // durable on-disk form: JSON.stringify drops undefined-valued keys (the master
+  // round adapter emits e.g. structuralParagraphScope: undefined on non-structural
+  // operations). Without this normalization the completed-round reuse binding
+  // digest diverges from the written ledger, every pristine completed round fails
+  // reuse validation, and a resume silently re-runs it live and rewrites evidence.
+  const normalized = JSON.parse(JSON.stringify(source));
   const {
     masterLedgerDigest: _declaredMasterLedgerDigest,
     ledgerDigest: _declaredLedgerDigest,
     ...physicalLedgerContent
-  } = source;
+  } = normalized;
   return sha256Text(stableCanonicalJson(physicalLedgerContent));
 }
 
@@ -977,11 +984,21 @@ export function validateC5V2CompletedRoundReuseEvidence({
     && parsed.readbacks.length === operations.length
     && statusById.size === operations.length
     && readbackById.size === operations.length
-    && operations.every((operation) => isC5V2RecordedOperationStatusGreen({
-      expectedOutcome: operation.expectedOutcome,
-      reportedStatus: statusById.get(operation.id) || '',
-      nativeReadbackStatus: readbackById.get(operation.id) || '',
-    }));
+    && operations.every((operation) => {
+      const reportedStatus = statusById.get(operation.id) || '';
+      const nativeReadbackStatus = readbackById.get(operation.id) || '';
+      // Same designed-outcome tolerance as the oracleGreen check below: a
+      // MANUAL-expected operation that Word correctly blocked (for example a
+      // non-unique quote) is the intended fail-closed result, not evidence loss.
+      const expectedManualBlockedAsDesigned = operation.expectedOutcome === 'MANUAL'
+        && reportedStatus === 'BLOCKED'
+        && nativeReadbackStatus === 'BLOCKED';
+      return isC5V2RecordedOperationStatusGreen({
+        expectedOutcome: operation.expectedOutcome,
+        reportedStatus,
+        nativeReadbackStatus,
+      }) || expectedManualBlockedAsDesigned;
+    });
   const oracleGreen = completeRoundOracle?.schemaVersion === 'yalken.rtk.word.c5v2.complete-round-oracle.v1'
     && completeRoundOracle?.ok === true
     && completeRoundOracle?.operationCount === operations.length

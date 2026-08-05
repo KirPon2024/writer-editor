@@ -5701,10 +5701,10 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-terminal-orchestrator.mjs",
-      "sha256": "0d6997aa7f01f4e7f19052796e676edb8d8c0288fd660b5c9d086ea9aadf8021",
-      "rationale": "Approve exact frozen Phase A CI-repair terminal orchestrator bytes for portable fail-closed process cwd inventory after Ubuntu lsof gap, bounded post-close discovery of delayed detached cwd-owned processes, and fast silent zero-exit fail-closed protocol classification; no Word launch, long campaign, Google work, dependency change, allowlist weakening, or scope expansion.",
+      "sha256": "a00a45cc3dca48913bdaae1043d683d2097fc8b99139885d57e58a032b9a6d9e",
+      "rationale": "Approve exact frozen Phase A CI-repair terminal orchestrator bytes for portable fail-closed process cwd inventory after Ubuntu lsof gap, bounded post-close discovery of delayed detached cwd-owned processes, fast silent zero-exit fail-closed protocol classification, and quarantined fast-exit cwd discovery before cleanup; no Word launch, long campaign, Google work, dependency change, allowlist weakening, or scope expansion.",
       "approvedBy": "owner-direct:TASK_ID:PHASE_A_CI_REQUIRED_REPAIR_PORTABLE_PROCESS_AND_HERMETIC_LEDGER",
-      "approvedAtUtc": "2026-08-05T21:42:12Z",
+      "approvedAtUtc": "2026-08-05T22:51:30Z",
       "approved": true,
       "authority": "EXPLICIT_OWNER_APPROVAL_PHASE_A_CI_REPAIR_EXACT_TWO_FROZEN_GOVERNANCE_RECORDS"
     },
@@ -8030,10 +8030,10 @@
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-terminal-orchestrator.contract.test.js",
-      "sha256": "2f2cf6089cebadb6e129f7715b8886c24835a8645e191a6170fdbad8b1be334e",
-      "rationale": "Approve exact frozen Phase A CI-repair orchestrator contract bytes for Linux proc cwd regression, delayed proc visibility regression, CI-hermetic canonical 21-scene ledger fixture, and deterministic 15G stage freshness timing; no production semantic claim beyond this evidence.",
+      "sha256": "3b81f0e7b5c317bc8cb40caec977b167de9d76da5dff082069d0ac88011c8995",
+      "rationale": "Approve exact frozen Phase A CI-repair orchestrator contract bytes for Linux proc cwd regression, delayed proc visibility regression, CI-hermetic canonical 21-scene ledger fixture, deterministic 15G stage freshness timing, and fast detached unregistered PID evidence plus zero-survivor assertion; no production semantic claim beyond this evidence.",
       "approvedBy": "owner-direct:TASK_ID:PHASE_A_CI_REQUIRED_REPAIR_PORTABLE_PROCESS_AND_HERMETIC_LEDGER",
-      "approvedAtUtc": "2026-08-05T21:42:12Z",
+      "approvedAtUtc": "2026-08-05T22:51:30Z",
       "approved": true,
       "authority": "EXPLICIT_OWNER_APPROVAL_PHASE_A_CI_REPAIR_EXACT_TWO_FROZEN_GOVERNANCE_RECORDS"
     },

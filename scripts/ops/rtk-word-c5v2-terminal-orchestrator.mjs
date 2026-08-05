@@ -1247,7 +1247,9 @@ export async function runOwnedStageProcess({
   // PIDs are captured while the stage root is alive: after the root dies,
   // escapees are re-parented to launchd and invisible to parent-only scans.
   if (path.resolve(cwd || '') !== REPO_ROOT) {
-    const discoveryWindowMs = result.ok === true ? Math.max(100, Math.min(killGraceMs, 1000)) : 0;
+    const discoveryWindowMs = result.ok === true || result.quarantined === true
+      ? Math.max(100, Math.min(killGraceMs, 1000))
+      : 0;
     for (const row of await waitForProcessCwdsUnder(cwd, { timeoutMs: discoveryWindowMs, intervalMs: 25 })) {
       if (row.pid !== process.pid) {
         if (!capturedOwnedPids.has(row.pid)) unregisteredOwnedPids.add(row.pid);

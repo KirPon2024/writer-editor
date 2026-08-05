@@ -765,3 +765,145 @@ test('C5V2 fresh status gate and comment lifecycle maturity remain fail-closed a
     commentsRepliesState: 'CANONICAL_PRODUCT_APPLY_AND_REPLAY_PROVEN',
   });
 });
+
+test('C5V2 ledger reuse digest is identical for in-memory undefined keys and durable JSON form', async () => {
+  const canary = await loadCanary();
+  const inMemoryLedger = {
+    schemaVersion: 'yalken.rtk.word.c5v2.physical-master-round-ledger.v1',
+    operations: [
+      { id: 'op-1', family: 'formatting', quote: 'nice', structuralParagraphScope: undefined },
+      { id: 'op-2', family: 'tracked_replace', quote: 'old', replacementText: 'new', structuralParagraphScope: undefined },
+    ],
+  };
+  const durableLedger = JSON.parse(JSON.stringify(inMemoryLedger));
+  assert.equal('structuralParagraphScope' in durableLedger.operations[0], false);
+  assert.equal(
+    canary.resolveC5V2LedgerReuseDigest(inMemoryLedger),
+    canary.resolveC5V2LedgerReuseDigest(durableLedger),
+  );
+  assert.notEqual(
+    canary.resolveC5V2LedgerReuseDigest(durableLedger),
+    canary.resolveC5V2LedgerReuseDigest({
+      ...durableLedger,
+      operations: [{ id: 'op-3', family: 'formatting', quote: 'nice' }, durableLedger.operations[1]],
+    }),
+  );
+});
+
+test('C5V2 production-shaped completed round with adapter-emitted undefined ledger keys is reusable', async () => {
+  const canary = await loadCanary();
+  const fixture = createBoundCompletedRound(canary, {
+    operations: [{
+      id: 'op-exact-001',
+      formalFamily: 'tracked_text_edit',
+      family: 'tracked_replace',
+      expectedOutcome: 'EXACT',
+      sceneId: 'roman/chapter-01.txt',
+      quote: 'old text',
+      replacementText: 'new text',
+      structuralParagraphScope: undefined,
+    }],
+  });
+  assert.equal('structuralParagraphScope' in fixture.ledger.operations[0], true);
+  assert.equal('structuralParagraphScope' in JSON.parse(fs.readFileSync(fixture.files.ledger, 'utf8')).operations[0], false);
+  assert.equal(canary.isC5V2ReusableCompletedRound(fixture.roundDir, fixture.context), true);
+});
+
+test('C5V2 completed round reuse accepts MANUAL-expected Word-blocked designed outcome and rejects inconsistent readback', async () => {
+  const canary = await loadCanary();
+  const fixture = createBoundCompletedRound(canary, {
+    operations: [
+      {
+        id: 'op-exact-001',
+        formalFamily: 'tracked_text_edit',
+        family: 'tracked_replace',
+        expectedOutcome: 'EXACT',
+        sceneId: 'roman/chapter-01.txt',
+        quote: 'old text',
+        replacementText: 'new text',
+      },
+      {
+        id: 'op-manual-001',
+        formalFamily: 'tracked_text_edit',
+        family: 'tracked_replace',
+        expectedOutcome: 'MANUAL',
+        sceneId: 'roman/chapter-01.txt',
+        quote: 'h',
+        replacementText: 'x',
+      },
+    ],
+  });
+  const productionExactLedgerBinding = {
+    ...fixture.exactLedgerBinding,
+    expectedOperationCount: 1,
+    matchedOperationCount: 1,
+    matchedChangeCount: 1,
+    excludedCandidateCount: 1,
+    exactApplyTextChangeIdsByScene: { 'roman/chapter-01.txt': ['change-exact-001'] },
+    exactOperationBindings: [{
+      operationId: 'op-exact-001',
+      sceneId: 'roman/chapter-01.txt',
+      changeId: 'change-exact-001',
+    }],
+  };
+  const blockedWordOutput = [
+    'WORD_STATUS=PASS',
+    'OP|op-exact-001|EXACT',
+    'OP|op-manual-001|BLOCKED',
+    'READBACK|op-exact-001|EXACT|WORD_OBJECT_MODEL_REOPENED',
+    'READBACK|op-manual-001|BLOCKED|WORD_OBJECT_MODEL_REOPENED',
+    '',
+  ].join('\n');
+  const blockedOperationResults = [
+    {
+      operationId: 'op-exact-001',
+      family: 'tracked_text_edit',
+      expectedOutcome: 'EXACT',
+      reportedStatus: 'EXACT',
+      nativeReadbackStatus: 'EXACT',
+      wordGreen: true,
+      yalkenGreen: true,
+    },
+    {
+      operationId: 'op-manual-001',
+      family: 'tracked_text_edit',
+      expectedOutcome: 'MANUAL',
+      reportedStatus: 'BLOCKED',
+      nativeReadbackStatus: 'BLOCKED',
+      wordGreen: false,
+      yalkenGreen: false,
+    },
+  ];
+  const writeBlockedEvidence = (readbackStatus) => {
+    fs.writeFileSync(fixture.files.wordOutput, blockedWordOutput.replace(
+      'READBACK|op-manual-001|BLOCKED|',
+      `READBACK|op-manual-001|${readbackStatus}|`,
+    ), 'utf8');
+    const results = blockedOperationResults.map((result) => (
+      result.operationId === 'op-manual-001' ? { ...result, nativeReadbackStatus: readbackStatus } : result
+    ));
+    writeJson(fixture.files.oracle, {
+      schemaVersion: 'yalken.rtk.word.c5v2.complete-round-oracle.v1',
+      ok: true,
+      operationCount: 2,
+      wordStatusCount: 2,
+      nativeWordReadbackCount: 2,
+      duplicateWordStatuses: false,
+      duplicateNativeReadbacks: false,
+      semanticOracle: { ok: true, operationCount: 2, failures: [] },
+      operationResults: results,
+      oracleDigest: canary.sha256Text(canary.stableCanonicalJson(results)),
+    });
+    rewriteBoundGate(canary, fixture, {
+      ok: true,
+      exactLedgerBinding: productionExactLedgerBinding,
+      exactTotal: 1,
+      wordOutputSha256: canary.sha256File(fixture.files.wordOutput),
+      completeRoundOracleSha256: canary.sha256File(fixture.files.oracle),
+    }, { ok: true });
+  };
+  writeBlockedEvidence('BLOCKED');
+  assert.equal(canary.isC5V2ReusableCompletedRound(fixture.roundDir, fixture.context), true);
+  writeBlockedEvidence('MANUAL');
+  assert.equal(canary.isC5V2ReusableCompletedRound(fixture.roundDir, fixture.context), false);
+});

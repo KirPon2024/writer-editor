@@ -207,6 +207,43 @@ export function assertOrchestratorPathAuthority({ artifactRoot, campaignRoot, mu
 // Preflight (re-run before every stage and before chain seal)
 // ---------------------------------------------------------------------------
 
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/gu, '\\$&');
+}
+
+function extractXmlPlistStringValue(plistText, key) {
+  const pattern = new RegExp(`<key>\\s*${escapeRegExp(key)}\\s*<\\/key>\\s*<string>([^<]+)<\\/string>`, 'u');
+  return (String(plistText || '').match(pattern) || [])[1] || '';
+}
+
+function readWordPlistVersionAndBuild(wordPlistPath) {
+  try {
+    return {
+      wordVersion: String(execFileSync('/usr/bin/plutil', ['-extract', 'CFBundleShortVersionString', 'raw', '-o', '-', wordPlistPath], { encoding: 'utf8', timeout: 15000 })).trim(),
+      wordBuild: String(execFileSync('/usr/bin/plutil', ['-extract', 'CFBundleVersion', 'raw', '-o', '-', wordPlistPath], { encoding: 'utf8', timeout: 15000 })).trim(),
+      error: '',
+    };
+  } catch (error) {
+    if (fs.existsSync(wordPlistPath)) {
+      try {
+        const plistText = fs.readFileSync(wordPlistPath, 'utf8');
+        return {
+          wordVersion: extractXmlPlistStringValue(plistText, 'CFBundleShortVersionString').trim(),
+          wordBuild: extractXmlPlistStringValue(plistText, 'CFBundleVersion').trim(),
+          error: '',
+        };
+      } catch {
+        // Fall through to the original fail-closed unavailable error.
+      }
+    }
+    return {
+      wordVersion: '',
+      wordBuild: '',
+      error: String(error && error.message ? error.message : error).slice(0, 120),
+    };
+  }
+}
+
 export function runOrchestratorPreflight({ options, scope, repoRoot = REPO_ROOT, wordPlistPath = '/Applications/Microsoft Word.app/Contents/Info.plist' }) {
   const failures = [];
   const head = gitValue(repoRoot, ['rev-parse', 'HEAD']);
@@ -220,12 +257,10 @@ export function runOrchestratorPreflight({ options, scope, repoRoot = REPO_ROOT,
   else if (dirty.value) failures.push(`ORCH_CLEAN_TREE_VIOLATION:${dirty.value.split('\n')[0].slice(0, 120)}`);
   let wordVersion = '';
   let wordBuild = '';
-  try {
-    wordVersion = String(execFileSync('/usr/bin/plutil', ['-extract', 'CFBundleShortVersionString', 'raw', '-o', '-', wordPlistPath], { encoding: 'utf8', timeout: 15000 })).trim();
-    wordBuild = String(execFileSync('/usr/bin/plutil', ['-extract', 'CFBundleVersion', 'raw', '-o', '-', wordPlistPath], { encoding: 'utf8', timeout: 15000 })).trim();
-  } catch (error) {
-    failures.push(`ORCH_WORD_PLIST_UNAVAILABLE:${String(error && error.message ? error.message : error).slice(0, 120)}`);
-  }
+  const plist = readWordPlistVersionAndBuild(wordPlistPath);
+  wordVersion = plist.wordVersion;
+  wordBuild = plist.wordBuild;
+  if (plist.error) failures.push(`ORCH_WORD_PLIST_UNAVAILABLE:${plist.error}`);
   if (wordVersion && wordVersion !== options.expectedWordVersion) failures.push(`ORCH_WORD_VERSION_MISMATCH:${options.expectedWordVersion}:${wordVersion}`);
   if (wordBuild && wordBuild !== options.expectedWordBuild) failures.push(`ORCH_WORD_BUILD_MISMATCH:${options.expectedWordBuild}:${wordBuild}`);
   if (!wordVersion) failures.push('ORCH_WORD_VERSION_UNAVAILABLE');

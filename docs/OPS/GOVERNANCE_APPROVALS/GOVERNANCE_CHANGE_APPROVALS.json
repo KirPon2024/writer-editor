@@ -9514,10 +9514,10 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-terminal-orchestrator.mjs",
-      "sha256": "4d07040dcd68cea7d296a11a845f8d5e22dc4f3f8ec1848d81bbbcfe006ac662",
+      "sha256": "233d850f4ef486186a193575f3c5b509520571c2f1a3a6eb208390da95923842",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_ORCHESTRATOR_RECOVERY_CLOSEOUT",
       "approvedAtUtc": "2026-08-05T13:49:22.000Z",
-      "rationale": "Approve exact terminal-orchestrator recovery bytes: closed atomic-write descriptors, canonical artifactRoot/campaignRoot path authority including macOS realpath aliases and missing descendants, unified awaited abortOwnedProcessGroup handling for timeout heartbeat schema spawn signal and failure paths, bounded TERM-to-KILL escalation, zero-success-before-owned-process-exit, quarantine on unknown liveness, and narrow test-only bypass isolation. No production path weakening or physical campaign certification claim is added.",
+      "rationale": "Approve exact terminal-orchestrator recovery bytes: closed atomic-write descriptors, canonical artifactRoot/campaignRoot path authority including macOS realpath aliases and missing descendants, unified awaited abortOwnedProcessGroup handling for timeout heartbeat schema spawn signal and failure paths, bounded TERM-to-KILL escalation, zero-success-before-owned-process-exit, quarantine on unknown liveness, narrow test-only bypass isolation, and plist fixture fallback for CI hosts without /usr/bin/plutil while preserving fail-closed unavailable tokens when no readable plist exists. No production path weakening or physical campaign certification claim is added.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_YALKEN_WORD_C5V2_ORCHESTRATOR_RECOVERY_CLOSEOUT"
     },

@@ -9568,12 +9568,12 @@
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-terminal-orchestrator.contract.test.js",
-      "sha256": "ef20f3a53167eb9b33464ac2a91e2440a623b11f93e882e8f2afe9d6e3558c1e",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_PHASE_C_NATIVE_LIFECYCLE_V1",
-      "approvedAtUtc": "2026-08-06T04:07:00.000Z",
-      "rationale": "Approve exact Phase C terminal orchestrator contract bytes proving parent native lifecycle coverage binding and rejecting fabricated semantic gates. No physical Word run, no Google work, no long campaign, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
+      "sha256": "a250d318d729949c4a089a4d6ca68f92171f5dd1681ff43d5ecb35e25166289d",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_TEMP_LEASE_HYGIENE_V1",
+      "approvedAtUtc": "2026-08-06T06:18:17.962Z",
+      "rationale": "Approve exact test-only C5V2 terminal orchestrator contract bytes adding TempLease fixture cleanup and lazy validOptions allocation. No production runtime semantics, no Word operation, no full RTK claim while Word Container remains platform-blocked, no Google work, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
       "approved": true,
-      "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_PHASE_C_NATIVE_LIFECYCLE"
+      "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_TEMP_LEASE_HYGIENE"
     }
   ]
 }

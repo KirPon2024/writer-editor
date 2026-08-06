@@ -11,6 +11,8 @@ const REPO_ROOT = path.resolve(__dirname, '..', '..');
 const ORCH_PATH = path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-terminal-orchestrator.mjs');
 const CANARY_PATH = path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs');
 const LEDGER_ENGINE_PATH = path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-ledger-engine.mjs');
+const TEST_TMP_REAL = fs.realpathSync.native(os.tmpdir());
+const C5V2_TEMP_PREFIXES = Object.freeze(['c5v2-', 'yalken-c5v2-', 'rtk-c5v2-']);
 
 async function loadOrchestrator() {
   return import(ORCH_PATH);
@@ -24,8 +26,173 @@ async function loadLedgerEngine() {
   return import(LEDGER_ENGINE_PATH);
 }
 
+function directChildOf(parent, child) {
+  return path.dirname(child) === parent;
+}
+
+function formatLeaseResidue(residue) {
+  return residue.map((item) => `${item.path}:${item.reason}:${item.bytes}`).join(',');
+}
+
+function byteSizeNoFollow(root) {
+  let total = 0;
+  const stack = [root];
+  while (stack.length > 0) {
+    const current = stack.pop();
+    let stat;
+    try {
+      stat = fs.lstatSync(current);
+    } catch (error) {
+      if (error && error.code === 'ENOENT') continue;
+      throw error;
+    }
+    total += stat.size;
+    if (stat.isDirectory() && !stat.isSymbolicLink()) {
+      for (const entry of fs.readdirSync(current)) stack.push(path.join(current, entry));
+    }
+  }
+  return total;
+}
+
+function removeNoFollow(root) {
+  let stat;
+  try {
+    stat = fs.lstatSync(root);
+  } catch (error) {
+    if (error && error.code === 'ENOENT') return;
+    throw error;
+  }
+  if (stat.isDirectory() && !stat.isSymbolicLink()) {
+    for (const entry of fs.readdirSync(root)) removeNoFollow(path.join(root, entry));
+    fs.rmdirSync(root);
+    return;
+  }
+  fs.unlinkSync(root);
+}
+
+function createTempLeaseRegistry({
+  tmpRoot = os.tmpdir(),
+  allowedPrefixes = C5V2_TEMP_PREFIXES,
+  beforeRemove = null,
+} = {}) {
+  const tmpReal = fs.realpathSync.native(tmpRoot);
+  const leases = new Map();
+
+  const assertLeaseRoot = (root, { requireExists = true } = {}) => {
+    const resolved = path.resolve(root);
+    if (!directChildOf(tmpReal, resolved)) {
+      throw new Error(`TEMP_LEASE_ROOT_NOT_DIRECT_CHILD:${resolved}`);
+    }
+    const base = path.basename(resolved);
+    if (!allowedPrefixes.some((prefix) => base.startsWith(prefix))) {
+      throw new Error(`TEMP_LEASE_ROOT_PREFIX_REJECTED:${resolved}`);
+    }
+    let stat = null;
+    try {
+      stat = fs.lstatSync(resolved);
+    } catch (error) {
+      if (error && error.code === 'ENOENT' && !requireExists) return resolved;
+      throw error;
+    }
+    if (!stat.isDirectory() || stat.isSymbolicLink()) {
+      throw new Error(`TEMP_LEASE_ROOT_TYPE_REJECTED:${resolved}`);
+    }
+    const real = fs.realpathSync.native(resolved);
+    if (real !== resolved || !directChildOf(tmpReal, real)) {
+      throw new Error(`TEMP_LEASE_ROOT_CANONICAL_REJECTED:${resolved}:${real}`);
+    }
+    return resolved;
+  };
+
+  return {
+    mkdtemp(prefix) {
+      if (!allowedPrefixes.some((allowed) => prefix.startsWith(allowed))) {
+        throw new Error(`TEMP_LEASE_PREFIX_REJECTED:${prefix}`);
+      }
+      const root = fs.mkdtempSync(path.join(tmpReal, prefix));
+      const leaseRoot = assertLeaseRoot(root);
+      leases.set(leaseRoot, { root: leaseRoot, createdAtMs: Date.now(), prefix });
+      return leaseRoot;
+    },
+    registerExistingRoot(root) {
+      const leaseRoot = assertLeaseRoot(root);
+      leases.set(leaseRoot, { root: leaseRoot, createdAtMs: Date.now(), prefix: path.basename(leaseRoot) });
+      return leaseRoot;
+    },
+    has(root) {
+      return leases.has(path.resolve(root));
+    },
+    count() {
+      return leases.size;
+    },
+    snapshot() {
+      return [...leases.keys()].sort();
+    },
+    cleanupAll() {
+      const residue = [];
+      for (const leaseRoot of [...leases.keys()].sort().reverse()) {
+        try {
+          assertLeaseRoot(leaseRoot, { requireExists: false });
+          if (fs.existsSync(leaseRoot)) {
+            if (beforeRemove) beforeRemove(leaseRoot);
+            removeNoFollow(leaseRoot);
+          }
+          leases.delete(leaseRoot);
+        } catch (error) {
+          residue.push({
+            path: leaseRoot,
+            reason: error && error.message ? error.message : String(error),
+            bytes: fs.existsSync(leaseRoot) ? byteSizeNoFollow(leaseRoot) : 0,
+          });
+        }
+      }
+      if (residue.length > 0) {
+        throw new Error(`TEMP_LEASE_CLEANUP_FAILED:${formatLeaseResidue(residue)}`);
+      }
+      return { ok: true, cleaned: true };
+    },
+  };
+}
+
+function collectOwnedTempResidue() {
+  const roots = [os.tmpdir(), '/tmp', '/private/tmp'];
+  const seen = new Set();
+  for (const root of roots) {
+    let entries = [];
+    try {
+      entries = fs.readdirSync(root);
+    } catch {
+      continue;
+    }
+    let realRoot;
+    try {
+      realRoot = fs.realpathSync.native(root);
+    } catch {
+      continue;
+    }
+    for (const entry of entries) {
+      if (!C5V2_TEMP_PREFIXES.some((prefix) => entry.startsWith(prefix))) continue;
+      const full = path.join(realRoot, entry);
+      if (!directChildOf(realRoot, full)) continue;
+      seen.add(full);
+    }
+  }
+  return [...seen].sort().map((item) => ({
+    path: item,
+    bytes: fs.existsSync(item) ? byteSizeNoFollow(item) : 0,
+  }));
+}
+
+const tempLeases = createTempLeaseRegistry();
+
+test.after(() => {
+  tempLeases.cleanupAll();
+  const residue = collectOwnedTempResidue();
+  assert.deepEqual(residue, [], `C5V2_TEMP_RESIDUE:${JSON.stringify(residue)}`);
+});
+
 function tmpDir(prefix) {
-  return fs.mkdtempSync(path.join(os.tmpdir(), prefix));
+  return tempLeases.mkdtemp(prefix);
 }
 
 function sha256File(filePath) {
@@ -678,8 +845,8 @@ function initCleanGitRepo(dir) {
 }
 
 function validOptions(overrides = {}) {
-  const artifactRoot = tmpDir('c5v2-orch-opt-');
   const ledger = makeSemanticLedger();
+  const artifactRoot = overrides.artifactRoot || tmpDir('c5v2-orch-opt-');
   return {
     expectedSha: 'a'.repeat(40),
     expectedWordVersion: '16.111.2',
@@ -695,7 +862,7 @@ function validOptions(overrides = {}) {
     stageTimeoutMs: 5000,
     progressTimeoutMs: 1500,
     killGraceMs: 700,
-    campaignRoot: path.join(artifactRoot, 'test-campaign-001'),
+    campaignRoot: overrides.campaignRoot || path.join(artifactRoot, overrides.campaignId || 'test-campaign-001'),
     ...overrides,
   };
 }
@@ -716,6 +883,115 @@ const BASE_ARGS = [
 function withArg(flag, value) {
   return BASE_ARGS.map((arg, index) => (BASE_ARGS[index - 1] === flag ? value : arg));
 }
+
+test('ORCH_TEMP_LEASE_1: lease cleanup is no-follow, exact, idempotent and preserves symlink targets', () => {
+  const root = tmpDir('c5v2-orch-lease-root-');
+  const outside = path.join(root, 'outside');
+  fs.mkdirSync(outside, { recursive: true });
+  const outsideFile = path.join(outside, 'keep.txt');
+  fs.writeFileSync(outsideFile, 'keep\n', 'utf8');
+  const registryRoot = path.join(root, 'leases');
+  fs.mkdirSync(registryRoot);
+  const registry = createTempLeaseRegistry({ tmpRoot: registryRoot, allowedPrefixes: ['c5v2-fixture-'] });
+  const lease = registry.mkdtemp('c5v2-fixture-');
+  fs.writeFileSync(path.join(lease, 'owned.txt'), 'owned\n', 'utf8');
+  fs.symlinkSync(outsideFile, path.join(lease, 'outside-link'));
+
+  assert.equal(registry.count(), 1);
+  assert.equal(registry.cleanupAll().ok, true);
+  assert.equal(fs.existsSync(lease), false);
+  assert.equal(fs.readFileSync(outsideFile, 'utf8'), 'keep\n');
+  assert.equal(registry.cleanupAll().ok, true);
+});
+
+test('ORCH_TEMP_LEASE_2: symlink root, foreign root, T7 path and pre-existing matching prefix are rejected or preserved', () => {
+  const root = tmpDir('c5v2-orch-lease-foreign-');
+  const registryRoot = path.join(root, 'leases');
+  const outside = path.join(root, 'outside');
+  fs.mkdirSync(registryRoot);
+  fs.mkdirSync(outside);
+  const registry = createTempLeaseRegistry({ tmpRoot: registryRoot, allowedPrefixes: ['c5v2-fixture-'] });
+  const symlinkRoot = path.join(registryRoot, 'c5v2-fixture-symlink-root');
+  fs.symlinkSync(outside, symlinkRoot);
+  assert.throws(() => registry.registerExistingRoot(symlinkRoot), /TEMP_LEASE_ROOT_TYPE_REJECTED/u);
+  assert.throws(() => registry.registerExistingRoot(outside), /TEMP_LEASE_ROOT_NOT_DIRECT_CHILD|TEMP_LEASE_ROOT_PREFIX_REJECTED/u);
+  assert.throws(
+    () => registry.registerExistingRoot('/Volumes/T7-Secure/c5v2-fixture-never-delete'),
+    /TEMP_LEASE_ROOT_NOT_DIRECT_CHILD/u,
+  );
+
+  const preExisting = path.join(registryRoot, 'c5v2-fixture-pre-existing');
+  fs.mkdirSync(preExisting);
+  const owned = registry.mkdtemp('c5v2-fixture-');
+  assert.equal(registry.cleanupAll().ok, true);
+  assert.equal(fs.existsSync(owned), false);
+  assert.equal(fs.existsSync(preExisting), true);
+  removeNoFollow(preExisting);
+});
+
+test('ORCH_TEMP_LEASE_3: cleanup callback failures are not swallowed and residue is reported', () => {
+  const root = tmpDir('c5v2-orch-lease-throw-');
+  const registryRoot = path.join(root, 'leases');
+  fs.mkdirSync(registryRoot);
+  const registry = createTempLeaseRegistry({
+    tmpRoot: registryRoot,
+    allowedPrefixes: ['c5v2-fixture-'],
+    beforeRemove() {
+      throw new Error('INJECTED_CLEANUP_FAILURE');
+    },
+  });
+  const lease = registry.mkdtemp('c5v2-fixture-');
+  fs.writeFileSync(path.join(lease, 'owned.txt'), 'owned\n', 'utf8');
+  assert.throws(() => registry.cleanupAll(), /TEMP_LEASE_CLEANUP_FAILED:.*INJECTED_CLEANUP_FAILURE/u);
+  assert.equal(fs.existsSync(lease), true);
+  removeNoFollow(lease);
+});
+
+test('ORCH_TEMP_LEASE_4: concurrent fixture allocation is unique and cleanup waits for process cleanup marker', () => {
+  const root = tmpDir('c5v2-orch-lease-concurrent-');
+  const registryRoot = path.join(root, 'leases');
+  fs.mkdirSync(registryRoot);
+  let processCleanupDone = false;
+  const registry = createTempLeaseRegistry({
+    tmpRoot: registryRoot,
+    allowedPrefixes: ['c5v2-fixture-'],
+    beforeRemove() {
+      assert.equal(processCleanupDone, true);
+    },
+  });
+  const leases = Array.from({ length: 25 }, () => registry.mkdtemp('c5v2-fixture-'));
+  assert.equal(new Set(leases).size, leases.length);
+  for (const lease of leases) fs.writeFileSync(path.join(lease, 'owned.txt'), lease, 'utf8');
+  processCleanupDone = true;
+  assert.equal(registry.cleanupAll().ok, true);
+  for (const lease of leases) assert.equal(fs.existsSync(lease), false);
+});
+
+test('ORCH_TEMP_LEASE_5: assertion and timeout style failures still run exact cleanup in finally', async () => {
+  const root = tmpDir('c5v2-orch-lease-failure-');
+  const registryRoot = path.join(root, 'leases');
+  fs.mkdirSync(registryRoot);
+  const registry = createTempLeaseRegistry({ tmpRoot: registryRoot, allowedPrefixes: ['c5v2-fixture-'] });
+  const assertionLease = registry.mkdtemp('c5v2-fixture-');
+  fs.writeFileSync(path.join(assertionLease, 'owned.txt'), 'owned\n', 'utf8');
+  let assertionObserved = false;
+  try {
+    assert.equal('actual', 'expected');
+  } catch {
+    assertionObserved = true;
+  } finally {
+    registry.cleanupAll();
+  }
+  assert.equal(assertionObserved, true);
+  assert.equal(fs.existsSync(assertionLease), false);
+
+  const timeoutLease = registry.mkdtemp('c5v2-fixture-');
+  await Promise.race([
+    new Promise((resolve) => setTimeout(resolve, 1)),
+    new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 20)),
+  ]).finally(() => registry.cleanupAll());
+  assert.equal(fs.existsSync(timeoutLease), false);
+});
 
 test('ORCH_TEST_1: CLI rejects missing required args with exact flag', async () => {
   const orch = await loadOrchestrator();

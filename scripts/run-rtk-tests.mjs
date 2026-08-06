@@ -111,25 +111,44 @@ export function removeNoFollow(targetPath) {
 
 function summarizeExistingRoot(rootPath, limit = 20) {
   const entries = [];
+  const errors = [];
   let count = 0;
   let bytes = 0;
   const visit = (targetPath) => {
     let stat;
     try {
       stat = fs.lstatSync(targetPath);
-    } catch {
+    } catch (error) {
+      errors.push({
+        op: 'lstat',
+        path: targetPath,
+        code: error?.code || '',
+        message: error?.message || String(error),
+      });
       return;
     }
     count += 1;
     bytes += stat.size;
     if (entries.length < limit) entries.push(targetPath);
     if (!stat.isDirectory() || stat.isSymbolicLink()) return;
-    for (const entry of fs.readdirSync(targetPath, { withFileTypes: true })) {
+    let children;
+    try {
+      children = fs.readdirSync(targetPath, { withFileTypes: true });
+    } catch (error) {
+      errors.push({
+        op: 'readdir',
+        path: targetPath,
+        code: error?.code || '',
+        message: error?.message || String(error),
+      });
+      return;
+    }
+    for (const entry of children) {
       visit(path.join(targetPath, entry.name));
     }
   };
   visit(rootPath);
-  return { count, bytes, entries };
+  return { count, bytes, entries, errors };
 }
 
 export function cleanupOwnedTmpLease(lease, { removeImpl = removeNoFollow } = {}) {
@@ -153,8 +172,11 @@ export function cleanupOwnedTmpLease(lease, { removeImpl = removeNoFollow } = {}
   }
   const residuePath = rootReal || realpathIfExists(lease.root) || lease.root;
   const exists = fs.existsSync(residuePath);
-  const residue = exists ? summarizeExistingRoot(residuePath) : { count: 0, bytes: 0, entries: [] };
+  const residue = exists ? summarizeExistingRoot(residuePath) : { count: 0, bytes: 0, entries: [], errors: [] };
   if (exists) failures.push(`RTK_TMPDIR_RESIDUE_REMAINS:${residuePath}`);
+  for (const error of residue.errors || []) {
+    failures.push(`RTK_TMPDIR_RESIDUE_SUMMARY_${error.op.toUpperCase()}_FAILED:${error.code || 'UNKNOWN'}:${error.path}`);
+  }
   return {
     ok: failures.length === 0,
     failures,
@@ -249,18 +271,58 @@ export function runRtkTestGraph({
     error: null,
   };
   let thrownSpawnError = null;
+  let tap = {
+    ok: false,
+    failures: ['RTK_TAP_NOT_EVALUATED'],
+    summary: {},
+    statusRecordCount: 0,
+  };
+  let cleanup = {
+    ok: false,
+    failures: ['RTK_TMPDIR_CLEANUP_NOT_RUN'],
+    root: lease.root,
+    residue: null,
+  };
   try {
-    result = spawnImpl(process.execPath, ['--test', ...plan.testFiles], {
-      cwd: REPO_ROOT,
-      encoding: 'utf8',
-      maxBuffer: 128 * 1024 * 1024,
-      env: childEnv,
-    });
-  } catch (error) {
-    thrownSpawnError = error;
-  } finally {
+    try {
+      result = spawnImpl(process.execPath, ['--test', ...plan.testFiles], {
+        cwd: REPO_ROOT,
+        encoding: 'utf8',
+        maxBuffer: 128 * 1024 * 1024,
+        env: childEnv,
+      });
+    } catch (error) {
+      thrownSpawnError = error;
+    }
     if (result.stdout) stdout.write(result.stdout);
     if (result.stderr) stderr.write(result.stderr);
+    try {
+      tap = evaluateMandatoryTapOutput(result.stdout || '', result.stderr || '', { expectedFileCount: plan.testFiles.length });
+    } catch (error) {
+      tap = {
+        ok: false,
+        failures: [`RTK_TAP_EVALUATION_THROWN:${error?.code || error?.message || String(error)}`],
+        summary: {},
+        statusRecordCount: 0,
+      };
+    }
+    if (!tap.ok) {
+      stderr.write(`RTK_TAP_INVENTORY_FAILED=${JSON.stringify(tap)}\n`);
+    }
+  } finally {
+    try {
+      cleanup = cleanupLease(lease);
+    } catch (error) {
+      cleanup = {
+        ok: false,
+        failures: [`RTK_TMPDIR_CLEANUP_THROWN:${error?.code || error?.message || String(error)}`],
+        root: lease.root,
+        residue: summarizeExistingRoot(lease.root),
+      };
+    }
+    if (!cleanup.ok) {
+      stderr.write(`RTK_TMPDIR_CLEANUP_FAILED=${JSON.stringify(cleanup)}\n`);
+    }
   }
   const spawnError = thrownSpawnError || result.error;
   if (spawnError) {
@@ -269,14 +331,6 @@ export function runRtkTestGraph({
       message: spawnError.message,
       code: spawnError.code,
     })}\n`);
-  }
-  const tap = evaluateMandatoryTapOutput(result.stdout || '', result.stderr || '', { expectedFileCount: plan.testFiles.length });
-  if (!tap.ok) {
-    stderr.write(`RTK_TAP_INVENTORY_FAILED=${JSON.stringify(tap)}\n`);
-  }
-  const cleanup = cleanupLease(lease);
-  if (!cleanup.ok) {
-    stderr.write(`RTK_TMPDIR_CLEANUP_FAILED=${JSON.stringify(cleanup)}\n`);
   }
   const childOk = (result.status ?? 1) === 0 && !spawnError;
   return {

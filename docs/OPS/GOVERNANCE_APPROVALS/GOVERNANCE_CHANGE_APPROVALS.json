@@ -6348,10 +6348,10 @@
     },
     {
       "filePath": "scripts/run-rtk-tests.mjs",
-      "sha256": "45be645d63787c9dbaf219027ef7eb7db17c9345e83eb0edb031905b75babd20",
-      "approvedBy": "owner-direct:STANDING_DEFAULT_AUTHORIZATION:YALKEN_RTK_OWNED_TMPDIR_HYGIENE_V1",
-      "approvedAtUtc": "2026-08-06T08:22:50.048Z",
-      "rationale": "Approve exact RTK runner bytes that execute the mandatory RTK graph inside a runner-owned TMPDIR lease, remove only that no-follow direct-child root after TAP completion, fail closed on cleanup uncertainty, and scrub inherited node:test context for deterministic runner coverage; no production runtime, Word, UI, dependency, network, Google, or long-campaign change.",
+      "sha256": "8c075a30933b11421bf851f9f64b94c4e0ed3c34e6fcba48f7f281aab52a214d",
+      "approvedBy": "owner-direct:STANDING_DEFAULT_AUTHORIZATION:YALKEN_RTK_OWNED_TMPDIR_HYGIENE_V1_P1_REPAIR",
+      "approvedAtUtc": "2026-08-06T09:21:26.826Z",
+      "rationale": "Approve exact RTK runner bytes that execute the mandatory RTK graph inside a runner-owned TMPDIR lease, clean the no-follow direct-child root from a guaranteed cleanup path, report traversal/remove cleanup failures as structured RTK_TMPDIR_CLEANUP_FAILED evidence without throwing, and preserve fail-closed TAP/spawn diagnostics; no production runtime, Word, UI, dependency, network, Google, or long-campaign change.",
       "approved": true,
       "authority": "OWNER_STANDING_DEFAULT_AUTHORIZATION_FOR_ROUTINE_IN_SCOPE_EXACT_GOVERNANCE_RECORDS"
     },
@@ -7890,10 +7890,10 @@
     },
     {
       "filePath": "test/contracts/rtk-test-graph-catalog.contract.test.js",
-      "sha256": "3042660a1ecc09f3204a13e82b4c0fea1d532a9cd0ed65fcd5eae87a242df2ef",
-      "approvedBy": "owner-direct:STANDING_DEFAULT_AUTHORIZATION:YALKEN_RTK_OWNED_TMPDIR_HYGIENE_V1",
-      "approvedAtUtc": "2026-08-06T08:20:52.937Z",
-      "rationale": "Approve exact RTK catalog contract bytes that add executable hygiene regressions for runner-owned TMPDIR cleanup, inherited TMPDIR isolation, symlink no-follow cleanup, and cleanup-failure fail-closed behavior; no production runtime, Word, UI, dependency, network, Google, or long-campaign change.",
+      "sha256": "0759ea2c3e04d3d57a6dd9b73a63004731010634d26470a74ad5e3faebd44dea",
+      "approvedBy": "owner-direct:STANDING_DEFAULT_AUTHORIZATION:YALKEN_RTK_OWNED_TMPDIR_HYGIENE_V1_P1_REPAIR",
+      "approvedAtUtc": "2026-08-06T09:21:26.826Z",
+      "rationale": "Approve exact RTK catalog contract bytes that add executable hygiene regressions for runner-owned TMPDIR cleanup, inherited TMPDIR isolation, symlink no-follow cleanup, cleanup-failure fail-closed behavior, and unreadable traversal residue reporting; no production runtime, Word, UI, dependency, network, Google, or long-campaign change.",
       "approved": true,
       "authority": "OWNER_STANDING_DEFAULT_AUTHORIZATION_FOR_ROUTINE_IN_SCOPE_EXACT_GOVERNANCE_RECORDS"
     },

@@ -243,3 +243,57 @@ test('C4 RTK runner fails closed when owned TMPDIR cleanup cannot be proven', as
     runner.removeNoFollow(run.lease.root);
   }
 });
+
+test('C4 RTK runner reports unreadable cleanup residue without throwing', async (t) => {
+  const runner = await import(RUNNER_PATH);
+  const tmpParent = makeTempParent(t);
+  const fake = writeFakeContract(tmpParent, `
+    const test = require('node:test');
+    test('passes before unreadable cleanup residue', () => {});
+  `);
+  const lease = runner.createOwnedTmpLease({ tmpParent });
+  const blockedDir = path.join(lease.root, 'c5v2-unreadable-residue');
+  fs.mkdirSync(blockedDir);
+  fs.writeFileSync(path.join(blockedDir, 'artifact.json'), JSON.stringify({ leaked: true }));
+  const originalReaddirSync = fs.readdirSync;
+  const stdout = makeWriter();
+  const stderr = makeWriter();
+  try {
+    fs.readdirSync = function patchedReaddirSync(targetPath, options) {
+      if (path.resolve(String(targetPath)) === blockedDir) {
+        const error = new Error('injected traversal denial');
+        error.code = 'EACCES';
+        throw error;
+      }
+      return originalReaddirSync.call(this, targetPath, options);
+    };
+    const run = runner.runRtkTestGraph({
+      plan: { testFiles: [fake] },
+      tmpParent,
+      stdout,
+      stderr,
+      createLease: () => lease,
+      cleanupLease: (ownedLease) => runner.cleanupOwnedTmpLease(ownedLease, {
+        removeImpl: () => {
+          const error = new Error('injected remove denial');
+          error.code = 'EACCES';
+          throw error;
+        },
+      }),
+    });
+    assert.equal(run.exitCode, 1);
+    assert.equal(run.cleanup.ok, false);
+    assert.match(stderr.value(), /RTK_TMPDIR_CLEANUP_FAILED/u);
+    assert.match(stderr.value(), /RTK_TMPDIR_CLEANUP_REMOVE_FAILED:EACCES/u);
+    assert.match(stderr.value(), /RTK_TMPDIR_RESIDUE_REMAINS/u);
+    assert.match(stderr.value(), /RTK_TMPDIR_RESIDUE_SUMMARY_READDIR_FAILED:EACCES/u);
+    assert.equal(run.cleanup.residue.errors.length, 1);
+    assert.equal(run.cleanup.residue.errors[0].op, 'readdir');
+    assert.equal(run.cleanup.residue.errors[0].path, blockedDir);
+    assert.equal(run.cleanup.residue.count >= 2, true);
+    assert.equal(fs.existsSync(lease.root), true);
+  } finally {
+    fs.readdirSync = originalReaddirSync;
+    runner.removeNoFollow(lease.root);
+  }
+});

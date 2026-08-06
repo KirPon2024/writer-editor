@@ -86,10 +86,10 @@ test('C5V2 portfolio generator builds five deterministic 21-scene full-manuscrip
   });
   assert.equal(nestedLedger.operationCount, 200);
   assert.equal(nestedLedger.operations.filter((operation) => operation.family === 'structural').length, 10);
-  const typedLifecycle = nestedLedger.operations.filter((operation) => ['reply_attempt', 'state_attempt'].includes(operation.family));
-  assert.equal(typedLifecycle.length, 15);
-  assert.equal(typedLifecycle.every((operation) => operation.physicalAction === 'typed-limit'), true);
-  assert.equal(typedLifecycle.every((operation) => operation.expectedOutcome === 'MANUAL'), true);
+  const nativeLifecycle = nestedLedger.operations.filter((operation) => ['reply_attempt', 'state_attempt'].includes(operation.family));
+  assert.equal(nativeLifecycle.length, 15);
+  assert.equal(nativeLifecycle.every((operation) => operation.physicalAction !== 'typed-limit'), true);
+  assert.equal(nativeLifecycle.every((operation) => operation.expectedOutcome === 'SAFE_APPLY'), true);
   const trackedDeletes = nestedLedger.operations.filter((operation) => operation.family === 'tracked_delete');
   assert.equal(trackedDeletes.length, 20);
   assert.equal(trackedDeletes.every((operation) => operation.expectedOutcome === 'MANUAL'), true);

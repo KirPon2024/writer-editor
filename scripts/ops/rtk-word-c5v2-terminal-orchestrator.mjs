@@ -32,6 +32,7 @@ import {
   packageSummary as canaryPackageSummary,
   parseWordOutput as parseCanaryWordOutput,
   readNativeLifecycleSnapshots,
+  summarizeC5V2NativeLifecycleCoverage,
   validateC5V2ReturnApplyCandidateAuthority,
   validateC5V2ReturnApplyCandidateAuthorityAnchor,
 } from './rtk-word-c5v2-physical-canary.mjs';
@@ -1660,10 +1661,21 @@ function validateCompletedRoundDeepProof({
   const returnApply = readJsonForValidation(reuse.returnApplyPath, failures, 'ORCH_STAGE_RESULT_ROUND_GATE_RETURN_APPLY_JSON');
   const persistedNativeLifecycle = readJsonForValidation(reuse.nativeLifecycleVerificationPath, failures, 'ORCH_STAGE_RESULT_ROUND_GATE_NATIVE_LIFECYCLE_JSON');
   let canonicalNativeLifecycle = null;
+  let nativeLifecycleCoverage = null;
   try {
     canonicalNativeLifecycle = readNativeLifecycleSnapshots({ ledger: roundLedger, returnedPath: reuse.returnedDocxPath });
     if (!stableJsonEqual(persistedNativeLifecycle, canonicalNativeLifecycle)) {
       failures.push(`ORCH_STAGE_RESULT_ROUND_GATE_NATIVE_LIFECYCLE_RECOMPUTE:${roundLabel}`);
+    }
+    nativeLifecycleCoverage = summarizeC5V2NativeLifecycleCoverage({
+      ledger: roundLedger,
+      nativeLifecycleVerification: persistedNativeLifecycle || {},
+    });
+    if (nativeLifecycleCoverage.ok !== true) {
+      failures.push(`ORCH_STAGE_RESULT_ROUND_GATE_NATIVE_LIFECYCLE_COVERAGE:${roundLabel}`);
+    }
+    if (!stableJsonEqual(gateJson?.nativeLifecycleCoverage, nativeLifecycleCoverage)) {
+      failures.push(`ORCH_STAGE_RESULT_ROUND_GATE_NATIVE_LIFECYCLE_COVERAGE_BINDING:${roundLabel}`);
     }
   } catch (error) {
     failures.push(`ORCH_STAGE_RESULT_ROUND_GATE_NATIVE_LIFECYCLE_RECOMPUTE_ERROR:${roundLabel}:${String(error?.message || error).slice(0, 120)}`);
@@ -1973,7 +1985,12 @@ function validatePositiveStageSemantics({
     if (gateJson?.ok !== true) failures.push(`ORCH_STAGE_RESULT_ROUND_GATE_NOT_GREEN:${gate.roundId || ''}`);
     if (gateJson?.wordStatus !== 'PASS') failures.push(`ORCH_STAGE_RESULT_ROUND_GATE_WORD_STATUS:${gate.roundId || ''}:${gateJson?.wordStatus}`);
     if (Array.isArray(gateJson?.failures) !== true || gateJson.failures.length !== 0) failures.push(`ORCH_STAGE_RESULT_ROUND_GATE_FAILURES:${gate.roundId || ''}`);
-	    if (gateJson?.productReturnApplyGreen !== true || gateJson?.nativeLifecycleVerificationGreen !== true || gateJson?.completeRoundOracleGreen !== true) {
+	    if (
+      gateJson?.productReturnApplyGreen !== true
+      || gateJson?.nativeLifecycleVerificationGreen !== true
+      || gateJson?.completeRoundOracleGreen !== true
+      || gateJson?.nativeLifecycleCoverage?.ok !== true
+    ) {
 	      failures.push(`ORCH_STAGE_RESULT_ROUND_GATE_ORACLE_COVERAGE:${gate.roundId || ''}`);
 	    }
 	    if (!SHA256_DIGEST_RE.test(String(gateJson?.oracleDigest || '')) || !SHA256_DIGEST_RE.test(String(gateJson?.semanticOracleDigest || ''))) {

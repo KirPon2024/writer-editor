@@ -6348,12 +6348,12 @@
     },
     {
       "filePath": "scripts/run-rtk-tests.mjs",
-      "sha256": "0fab1cc0a03d4b0de4f3db75d4cca02877070f339c98a74cf33d90ad5e9ee765",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T21:05:27.922Z",
-      "rationale": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR",
+      "sha256": "8c075a30933b11421bf851f9f64b94c4e0ed3c34e6fcba48f7f281aab52a214d",
+      "approvedBy": "owner-direct:STANDING_DEFAULT_AUTHORIZATION:YALKEN_RTK_OWNED_TMPDIR_HYGIENE_V1_P1_REPAIR",
+      "approvedAtUtc": "2026-08-06T09:21:26.826Z",
+      "rationale": "Approve exact RTK runner bytes that execute the mandatory RTK graph inside a runner-owned TMPDIR lease, clean the no-follow direct-child root from a guaranteed cleanup path, report traversal/remove cleanup failures as structured RTK_TMPDIR_CLEANUP_FAILED evidence without throwing, and preserve fail-closed TAP/spawn diagnostics; no production runtime, Word, UI, dependency, network, Google, or long-campaign change.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
+      "authority": "OWNER_STANDING_DEFAULT_AUTHORIZATION_FOR_ROUTINE_IN_SCOPE_EXACT_GOVERNANCE_RECORDS"
     },
     {
       "filePath": "scripts/run-tests.js",
@@ -7890,12 +7890,12 @@
     },
     {
       "filePath": "test/contracts/rtk-test-graph-catalog.contract.test.js",
-      "sha256": "4a10289ddd06af3dd67076a283170bd57cfe33325fcbca9c3edb031f92706e7f",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T21:05:27.922Z",
-      "rationale": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR",
+      "sha256": "0759ea2c3e04d3d57a6dd9b73a63004731010634d26470a74ad5e3faebd44dea",
+      "approvedBy": "owner-direct:STANDING_DEFAULT_AUTHORIZATION:YALKEN_RTK_OWNED_TMPDIR_HYGIENE_V1_P1_REPAIR",
+      "approvedAtUtc": "2026-08-06T09:21:26.826Z",
+      "rationale": "Approve exact RTK catalog contract bytes that add executable hygiene regressions for runner-owned TMPDIR cleanup, inherited TMPDIR isolation, symlink no-follow cleanup, cleanup-failure fail-closed behavior, and unreadable traversal residue reporting; no production runtime, Word, UI, dependency, network, Google, or long-campaign change.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
+      "authority": "OWNER_STANDING_DEFAULT_AUTHORIZATION_FOR_ROUTINE_IN_SCOPE_EXACT_GOVERNANCE_RECORDS"
     },
     {
       "filePath": "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",
@@ -9566,14 +9566,14 @@
       "approved": true,
       "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_PHASE_C_NATIVE_LIFECYCLE"
     },
-      {
-        "filePath": "test/contracts/rtk-word-c5v2-terminal-orchestrator.contract.test.js",
-        "sha256": "423049792791b1c541f4d73dce321c1136c1acc7a2f89ff20e5fbb1f47ef2a9f",
-        "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_TEMP_LEASE_HYGIENE_V1",
-        "approvedAtUtc": "2026-08-06T07:05:57.000Z",
-        "rationale": "Approve exact test-only C5V2 terminal orchestrator contract bytes adding TempLease fixture cleanup, lazy validOptions allocation, per-test registered-root cleanup after PID/FD test cleanup, CI-safe suite-owned residue accounting without broad os.tmpdir namespace scans, and canonical-ledger fixture construction without throwaway deep artifacts. No production runtime semantics, no Word operation, no full local RTK claim while Word Container remains platform-blocked, no Google work, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
-        "approved": true,
-        "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_TEMP_LEASE_HYGIENE"
-      }
+    {
+      "filePath": "test/contracts/rtk-word-c5v2-terminal-orchestrator.contract.test.js",
+      "sha256": "423049792791b1c541f4d73dce321c1136c1acc7a2f89ff20e5fbb1f47ef2a9f",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_TEMP_LEASE_HYGIENE_V1",
+      "approvedAtUtc": "2026-08-06T07:05:57.000Z",
+      "rationale": "Approve exact test-only C5V2 terminal orchestrator contract bytes adding TempLease fixture cleanup, lazy validOptions allocation, per-test registered-root cleanup after PID/FD test cleanup, CI-safe suite-owned residue accounting without broad os.tmpdir namespace scans, and canonical-ledger fixture construction without throwaway deep artifacts. No production runtime semantics, no Word operation, no full local RTK claim while Word Container remains platform-blocked, no Google work, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_TEMP_LEASE_HYGIENE"
+    }
   ]
 }

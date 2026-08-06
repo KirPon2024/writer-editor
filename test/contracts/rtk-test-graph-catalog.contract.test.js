@@ -1,6 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
+const os = require('node:os');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 
@@ -18,6 +19,48 @@ function listRtkContracts() {
   return fs.readdirSync(path.join(REPO_ROOT, 'test', 'contracts'))
     .filter((name) => /^rtk-.*\.contract\.test\.js$/u.test(name))
     .sort();
+}
+
+function removeNoFollowLocal(targetPath) {
+  let stat;
+  try {
+    stat = fs.lstatSync(targetPath);
+  } catch (error) {
+    if (error.code === 'ENOENT') return;
+    throw error;
+  }
+  if (stat.isDirectory() && !stat.isSymbolicLink()) {
+    for (const entry of fs.readdirSync(targetPath, { withFileTypes: true })) {
+      removeNoFollowLocal(path.join(targetPath, entry.name));
+    }
+    fs.rmdirSync(targetPath);
+    return;
+  }
+  fs.unlinkSync(targetPath);
+}
+
+function makeTempParent(t, prefix = 'rtk-runner-contract-') {
+  const root = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), prefix));
+  t.after(() => removeNoFollowLocal(root));
+  return root;
+}
+
+function writeFakeContract(dir, source) {
+  const filePath = path.join(dir, `fake-${Date.now()}-${Math.random().toString(16).slice(2)}.test.js`);
+  fs.writeFileSync(filePath, source);
+  return filePath;
+}
+
+function makeWriter() {
+  let value = '';
+  return {
+    write(chunk) {
+      value += String(chunk);
+    },
+    value() {
+      return value;
+    },
+  };
 }
 
 test('C4 RTK catalog deterministically covers every maintained rtk contract', () => {
@@ -100,4 +143,157 @@ test('C4 RTK runner rejects hidden skip todo incomplete and zero-test TAP false 
 
   const mismatch = valid.replace('# tests 2', '# tests 3');
   assert.equal(runner.evaluateMandatoryTapOutput(mismatch, '', { expectedFileCount: 2 }).failures.includes('RTK_TAP_TEST_RECORD_COUNT_MISMATCH:2:3'), true);
+});
+
+test('C4 RTK runner leases an owned TMPDIR and cleans child C5V2 residue', async (t) => {
+  const runner = await import(RUNNER_PATH);
+  const tmpParent = makeTempParent(t);
+  const inheritedTmp = makeTempParent(t, 'rtk-runner-inherited-');
+  const fake = writeFakeContract(tmpParent, `
+    const test = require('node:test');
+    const assert = require('node:assert/strict');
+    const fs = require('node:fs');
+    const os = require('node:os');
+    const path = require('node:path');
+    test('writes owned residue', () => {
+      assert.notEqual(fs.realpathSync(os.tmpdir()), fs.realpathSync(process.env.INHERITED_TMPDIR));
+      const residue = fs.mkdtempSync(path.join(os.tmpdir(), 'c5v2-runner-owned-residue-'));
+      fs.writeFileSync(path.join(residue, 'artifact.json'), JSON.stringify({ ok: true }));
+      console.log('CHILD_TMPDIR=' + fs.realpathSync(os.tmpdir()));
+    });
+  `);
+  const stdout = makeWriter();
+  const stderr = makeWriter();
+  const run = runner.runRtkTestGraph({
+    plan: { testFiles: [fake] },
+    tmpParent,
+    env: {
+      ...process.env,
+      TMPDIR: inheritedTmp,
+      TMP: inheritedTmp,
+      TEMP: inheritedTmp,
+      INHERITED_TMPDIR: inheritedTmp,
+    },
+    stdout,
+    stderr,
+  });
+  assert.equal(run.exitCode, 0, `${stdout.value()}\n${stderr.value()}`);
+  assert.equal(run.cleanup.ok, true);
+  assert.equal(fs.existsSync(run.lease.root), false);
+  assert.deepEqual(fs.readdirSync(inheritedTmp), []);
+  assert.match(stdout.value(), /CHILD_TMPDIR=.*rtk-owned-tmpdir-/u);
+});
+
+test('C4 RTK runner cleanup removes symlink descendants without following escape targets', async (t) => {
+  const runner = await import(RUNNER_PATH);
+  const tmpParent = makeTempParent(t);
+  const outside = makeTempParent(t, 'rtk-runner-outside-target-');
+  const outsideFile = path.join(outside, 'must-survive.txt');
+  fs.writeFileSync(outsideFile, 'outside target');
+  const fake = writeFakeContract(tmpParent, `
+    const test = require('node:test');
+    const fs = require('node:fs');
+    const os = require('node:os');
+    const path = require('node:path');
+    test('creates symlink escape', () => {
+      fs.symlinkSync(process.env.OUTSIDE_TARGET, path.join(os.tmpdir(), 'c5v2-symlink-escape'));
+      fs.writeFileSync(path.join(os.tmpdir(), 'c5v2-plain-file'), 'plain');
+    });
+  `);
+  const stdout = makeWriter();
+  const stderr = makeWriter();
+  const run = runner.runRtkTestGraph({
+    plan: { testFiles: [fake] },
+    tmpParent,
+    env: { ...process.env, OUTSIDE_TARGET: outside },
+    stdout,
+    stderr,
+  });
+  assert.equal(run.exitCode, 0, `${stdout.value()}\n${stderr.value()}`);
+  assert.equal(fs.existsSync(run.lease.root), false);
+  assert.equal(fs.readFileSync(outsideFile, 'utf8'), 'outside target');
+});
+
+test('C4 RTK runner fails closed when owned TMPDIR cleanup cannot be proven', async (t) => {
+  const runner = await import(RUNNER_PATH);
+  const tmpParent = makeTempParent(t);
+  const fake = writeFakeContract(tmpParent, `
+    const test = require('node:test');
+    test('passes before cleanup failure', () => {});
+  `);
+  const stdout = makeWriter();
+  const stderr = makeWriter();
+  const run = runner.runRtkTestGraph({
+    plan: { testFiles: [fake] },
+    tmpParent,
+    stdout,
+    stderr,
+    cleanupLease: (lease) => ({
+      ok: false,
+      failures: ['INJECTED_CLEANUP_FAILURE'],
+      root: lease.root,
+      residue: { count: 1, bytes: 1, entries: [lease.root] },
+    }),
+  });
+  try {
+    assert.equal(run.exitCode, 1);
+    assert.match(stderr.value(), /RTK_TMPDIR_CLEANUP_FAILED/u);
+    assert.match(stderr.value(), /INJECTED_CLEANUP_FAILURE/u);
+  } finally {
+    runner.removeNoFollow(run.lease.root);
+  }
+});
+
+test('C4 RTK runner reports unreadable cleanup residue without throwing', async (t) => {
+  const runner = await import(RUNNER_PATH);
+  const tmpParent = makeTempParent(t);
+  const fake = writeFakeContract(tmpParent, `
+    const test = require('node:test');
+    test('passes before unreadable cleanup residue', () => {});
+  `);
+  const lease = runner.createOwnedTmpLease({ tmpParent });
+  const blockedDir = path.join(lease.root, 'c5v2-unreadable-residue');
+  fs.mkdirSync(blockedDir);
+  fs.writeFileSync(path.join(blockedDir, 'artifact.json'), JSON.stringify({ leaked: true }));
+  const originalReaddirSync = fs.readdirSync;
+  const stdout = makeWriter();
+  const stderr = makeWriter();
+  try {
+    fs.readdirSync = function patchedReaddirSync(targetPath, options) {
+      if (path.resolve(String(targetPath)) === blockedDir) {
+        const error = new Error('injected traversal denial');
+        error.code = 'EACCES';
+        throw error;
+      }
+      return originalReaddirSync.call(this, targetPath, options);
+    };
+    const run = runner.runRtkTestGraph({
+      plan: { testFiles: [fake] },
+      tmpParent,
+      stdout,
+      stderr,
+      createLease: () => lease,
+      cleanupLease: (ownedLease) => runner.cleanupOwnedTmpLease(ownedLease, {
+        removeImpl: () => {
+          const error = new Error('injected remove denial');
+          error.code = 'EACCES';
+          throw error;
+        },
+      }),
+    });
+    assert.equal(run.exitCode, 1);
+    assert.equal(run.cleanup.ok, false);
+    assert.match(stderr.value(), /RTK_TMPDIR_CLEANUP_FAILED/u);
+    assert.match(stderr.value(), /RTK_TMPDIR_CLEANUP_REMOVE_FAILED:EACCES/u);
+    assert.match(stderr.value(), /RTK_TMPDIR_RESIDUE_REMAINS/u);
+    assert.match(stderr.value(), /RTK_TMPDIR_RESIDUE_SUMMARY_READDIR_FAILED:EACCES/u);
+    assert.equal(run.cleanup.residue.errors.length, 1);
+    assert.equal(run.cleanup.residue.errors[0].op, 'readdir');
+    assert.equal(run.cleanup.residue.errors[0].path, blockedDir);
+    assert.equal(run.cleanup.residue.count >= 2, true);
+    assert.equal(fs.existsSync(lease.root), true);
+  } finally {
+    fs.readdirSync = originalReaddirSync;
+    runner.removeNoFollow(lease.root);
+  }
 });

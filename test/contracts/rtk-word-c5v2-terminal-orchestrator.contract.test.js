@@ -12,7 +12,7 @@ const ORCH_PATH = path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-terminal
 const CANARY_PATH = path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs');
 const LEDGER_ENGINE_PATH = path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-ledger-engine.mjs');
 const TEST_TMP_REAL = fs.realpathSync.native(os.tmpdir());
-const C5V2_TEMP_PREFIXES = Object.freeze(['c5v2-', 'yalken-c5v2-', 'rtk-c5v2-']);
+const C5V2_CONTRACT_TEMP_PREFIXES = Object.freeze(['c5v2-']);
 
 async function loadOrchestrator() {
   return import(ORCH_PATH);
@@ -72,7 +72,7 @@ function removeNoFollow(root) {
 
 function createTempLeaseRegistry({
   tmpRoot = os.tmpdir(),
-  allowedPrefixes = C5V2_TEMP_PREFIXES,
+  allowedPrefixes = C5V2_CONTRACT_TEMP_PREFIXES,
   beforeRemove = null,
 } = {}) {
   const tmpReal = fs.realpathSync.native(tmpRoot);
@@ -154,45 +154,32 @@ function createTempLeaseRegistry({
   };
 }
 
-function collectOwnedTempResidue() {
-  const roots = [os.tmpdir(), '/tmp', '/private/tmp'];
-  const seen = new Set();
-  for (const root of roots) {
-    let entries = [];
-    try {
-      entries = fs.readdirSync(root);
-    } catch {
-      continue;
-    }
-    let realRoot;
-    try {
-      realRoot = fs.realpathSync.native(root);
-    } catch {
-      continue;
-    }
-    for (const entry of entries) {
-      if (!C5V2_TEMP_PREFIXES.some((prefix) => entry.startsWith(prefix))) continue;
-      const full = path.join(realRoot, entry);
-      if (!directChildOf(realRoot, full)) continue;
-      seen.add(full);
-    }
-  }
-  return [...seen].sort().map((item) => ({
-    path: item,
-    bytes: fs.existsSync(item) ? byteSizeNoFollow(item) : 0,
-  }));
-}
-
 const tempLeases = createTempLeaseRegistry();
 
 test.after(() => {
   tempLeases.cleanupAll();
-  const residue = collectOwnedTempResidue();
-  assert.deepEqual(residue, [], `C5V2_TEMP_RESIDUE:${JSON.stringify(residue)}`);
+  assert.equal(tempLeases.count(), 0, `C5V2_TEMP_LEASES_UNCLEANED:${JSON.stringify(tempLeases.snapshot())}`);
 });
 
 function tmpDir(prefix) {
   return tempLeases.mkdtemp(prefix);
+}
+
+function leaseTest(name, options, fn) {
+  if (typeof options === 'function') {
+    fn = options;
+    options = undefined;
+  }
+  return test(name, options, async (t) => {
+    try {
+      return await fn(t);
+    } finally {
+      t.after(() => {
+        tempLeases.cleanupAll();
+        assert.equal(tempLeases.count(), 0, `C5V2_TEMP_LEASES_UNCLEANED:${JSON.stringify(tempLeases.snapshot())}`);
+      });
+    }
+  });
 }
 
 function sha256File(filePath) {
@@ -884,7 +871,7 @@ function withArg(flag, value) {
   return BASE_ARGS.map((arg, index) => (BASE_ARGS[index - 1] === flag ? value : arg));
 }
 
-test('ORCH_TEMP_LEASE_1: lease cleanup is no-follow, exact, idempotent and preserves symlink targets', () => {
+leaseTest('ORCH_TEMP_LEASE_1: lease cleanup is no-follow, exact, idempotent and preserves symlink targets', () => {
   const root = tmpDir('c5v2-orch-lease-root-');
   const outside = path.join(root, 'outside');
   fs.mkdirSync(outside, { recursive: true });
@@ -904,7 +891,7 @@ test('ORCH_TEMP_LEASE_1: lease cleanup is no-follow, exact, idempotent and prese
   assert.equal(registry.cleanupAll().ok, true);
 });
 
-test('ORCH_TEMP_LEASE_2: symlink root, foreign root, T7 path and pre-existing matching prefix are rejected or preserved', () => {
+leaseTest('ORCH_TEMP_LEASE_2: symlink root, foreign root, T7 path and pre-existing matching prefix are rejected or preserved', () => {
   const root = tmpDir('c5v2-orch-lease-foreign-');
   const registryRoot = path.join(root, 'leases');
   const outside = path.join(root, 'outside');
@@ -929,7 +916,7 @@ test('ORCH_TEMP_LEASE_2: symlink root, foreign root, T7 path and pre-existing ma
   removeNoFollow(preExisting);
 });
 
-test('ORCH_TEMP_LEASE_3: cleanup callback failures are not swallowed and residue is reported', () => {
+leaseTest('ORCH_TEMP_LEASE_3: cleanup callback failures are not swallowed and residue is reported', () => {
   const root = tmpDir('c5v2-orch-lease-throw-');
   const registryRoot = path.join(root, 'leases');
   fs.mkdirSync(registryRoot);
@@ -947,7 +934,7 @@ test('ORCH_TEMP_LEASE_3: cleanup callback failures are not swallowed and residue
   removeNoFollow(lease);
 });
 
-test('ORCH_TEMP_LEASE_4: concurrent fixture allocation is unique and cleanup waits for process cleanup marker', () => {
+leaseTest('ORCH_TEMP_LEASE_4: concurrent fixture allocation is unique and cleanup waits for process cleanup marker', () => {
   const root = tmpDir('c5v2-orch-lease-concurrent-');
   const registryRoot = path.join(root, 'leases');
   fs.mkdirSync(registryRoot);
@@ -967,7 +954,7 @@ test('ORCH_TEMP_LEASE_4: concurrent fixture allocation is unique and cleanup wai
   for (const lease of leases) assert.equal(fs.existsSync(lease), false);
 });
 
-test('ORCH_TEMP_LEASE_5: assertion and timeout style failures still run exact cleanup in finally', async () => {
+leaseTest('ORCH_TEMP_LEASE_5: assertion and timeout style failures still run exact cleanup in finally', async () => {
   const root = tmpDir('c5v2-orch-lease-failure-');
   const registryRoot = path.join(root, 'leases');
   fs.mkdirSync(registryRoot);
@@ -993,20 +980,20 @@ test('ORCH_TEMP_LEASE_5: assertion and timeout style failures still run exact cl
   assert.equal(fs.existsSync(timeoutLease), false);
 });
 
-test('ORCH_TEST_1: CLI rejects missing required args with exact flag', async () => {
+leaseTest('ORCH_TEST_1: CLI rejects missing required args with exact flag', async () => {
   const orch = await loadOrchestrator();
   assert.throws(() => orch.parseOrchestratorArgs([]), /ORCH_ARG_REQUIRED:--expected-sha/u);
   assert.throws(() => orch.parseOrchestratorArgs(BASE_ARGS.slice(0, 6)), /ORCH_ARG_REQUIRED/u);
 });
 
-test('ORCH_TEST_2: CLI rejects unknown, duplicate and value-missing args', async () => {
+leaseTest('ORCH_TEST_2: CLI rejects unknown, duplicate and value-missing args', async () => {
   const orch = await loadOrchestrator();
   assert.throws(() => orch.parseOrchestratorArgs([...BASE_ARGS, '--bogus']), /ORCH_UNKNOWN_ARG:--bogus/u);
   assert.throws(() => orch.parseOrchestratorArgs([...BASE_ARGS, '--chain-id', 'W06']), /ORCH_DUPLICATE_ARG:--chain-id/u);
   assert.throws(() => orch.parseOrchestratorArgs(BASE_ARGS.slice(0, -1)), /ORCH_ARG_VALUE_MISSING/u);
 });
 
-test('ORCH_TEST_3: CLI rejects invalid sha, build, timeout, campaign and chain identities', async () => {
+leaseTest('ORCH_TEST_3: CLI rejects invalid sha, build, timeout, campaign and chain identities', async () => {
   const orch = await loadOrchestrator();
   assert.throws(() => orch.parseOrchestratorArgs(withArg('--expected-sha', 'zz')), /ORCH_ARG_INVALID:--expected-sha/u);
   assert.throws(() => orch.parseOrchestratorArgs(withArg('--expected-word-build', 'x.y')), /ORCH_ARG_INVALID:--expected-word-build/u);
@@ -1020,7 +1007,7 @@ test('ORCH_TEST_3: CLI rejects invalid sha, build, timeout, campaign and chain i
   assert.equal(parsed.campaignRoot, path.join('/tmp/c5v2-orch-args', 'test-campaign-001'));
 });
 
-test('ORCH_TEST_4: path authority rejects escape, symlink component and collision', async () => {
+leaseTest('ORCH_TEST_4: path authority rejects escape, symlink component and collision', async () => {
   const orch = await loadOrchestrator();
   const root = tmpDir('c5v2-orch-path-');
   assert.equal(orch.assertOrchestratorPathAuthority({ artifactRoot: root, campaignRoot: path.join(root, 'camp'), mustBeAbsent: true }).ok, true);
@@ -1034,7 +1021,7 @@ test('ORCH_TEST_4: path authority rejects escape, symlink component and collisio
   assert.match(orch.assertOrchestratorPathAuthority({ artifactRoot: root, campaignRoot: path.join(linkParent, 'camp2'), mustBeAbsent: true }).code, /ORCH_PATH_SYMLINK_COMPONENT/u);
 });
 
-test('ORCH_TEST_5: preflight stops on HEAD mismatch, origin mismatch and dirty tree before spawn', async () => {
+leaseTest('ORCH_TEST_5: preflight stops on HEAD mismatch, origin mismatch and dirty tree before spawn', async () => {
   const orch = await loadOrchestrator();
   const dir = tmpDir('c5v2-orch-pre-');
   const head = initCleanGitRepo(dir);
@@ -1051,7 +1038,7 @@ test('ORCH_TEST_5: preflight stops on HEAD mismatch, origin mismatch and dirty t
   assert.match(dirty.code, /ORCH_CLEAN_TREE_VIOLATION/u);
 });
 
-test('ORCH_TEST_6: preflight detects Word version and build mismatch from plist', async () => {
+leaseTest('ORCH_TEST_6: preflight detects Word version and build mismatch from plist', async () => {
   const orch = await loadOrchestrator();
   const dir = tmpDir('c5v2-orch-word-');
   const head = initCleanGitRepo(dir);
@@ -1079,7 +1066,7 @@ test('ORCH_TEST_6: preflight detects Word version and build mismatch from plist'
   assert.match(versionMismatch.code, /ORCH_WORD_VERSION_MISMATCH/u);
 });
 
-test('ORCH_TEST_6A: CLI rejects relative artifact roots before path.resolve can grant authority', async () => {
+leaseTest('ORCH_TEST_6A: CLI rejects relative artifact roots before path.resolve can grant authority', async () => {
   const orch = await loadOrchestrator();
   assert.throws(
     () => orch.parseOrchestratorArgs(withArg('--artifact-root', 'relative-campaign-root')),
@@ -1087,7 +1074,7 @@ test('ORCH_TEST_6A: CLI rejects relative artifact roots before path.resolve can 
   );
 });
 
-test('ORCH_TEST_6B: nested secure-volume preflight verifies mount root and writes nothing', async () => {
+leaseTest('ORCH_TEST_6B: nested secure-volume preflight verifies mount root and writes nothing', async () => {
   const orch = await loadOrchestrator();
   const repo = tmpDir('c5v2-orch-nested-repo-');
   const head = initCleanGitRepo(repo);
@@ -1126,7 +1113,7 @@ test('ORCH_TEST_6B: nested secure-volume preflight verifies mount root and write
   assert.equal(fs.existsSync(artifactRoot), false);
 });
 
-test('ORCH_TEST_7: atomic lock admits exactly one writer under concurrent acquisition', async () => {
+leaseTest('ORCH_TEST_7: atomic lock admits exactly one writer under concurrent acquisition', async () => {
   const orch = await loadOrchestrator();
   const root = tmpDir('c5v2-orch-lockrace-');
   const attempts = await Promise.all([
@@ -1141,7 +1128,7 @@ test('ORCH_TEST_7: atomic lock admits exactly one writer under concurrent acquis
   for (const loser of losers) assert.match(loser.code, /ORCH_LOCK_HELD|ORCH_STALE_LOCK_REQUIRES_EXPLICIT_CLEANUP|ORCH_LOCK_ACQUIRE_FAILED|ORCH_LOCK_AMBIGUOUS/u);
 });
 
-test('ORCH_TEST_8: stale lock is never broken automatically', async () => {
+leaseTest('ORCH_TEST_8: stale lock is never broken automatically', async () => {
   const orch = await loadOrchestrator();
   const root = tmpDir('c5v2-orch-stale-');
   const first = orch.acquireOrchestratorLock({ lockRoot: root, campaignId: 'camp-a', chainId: 'W06', expectedSha: 'a'.repeat(40) });
@@ -1155,7 +1142,7 @@ test('ORCH_TEST_8: stale lock is never broken automatically', async () => {
   assert.match(second.code, /ORCH_STALE_LOCK_REQUIRES_EXPLICIT_CLEANUP/u);
 });
 
-test('ORCH_TEST_9: wrong ownership token cannot release the lock, right token releases', async () => {
+leaseTest('ORCH_TEST_9: wrong ownership token cannot release the lock, right token releases', async () => {
   const orch = await loadOrchestrator();
   const root = tmpDir('c5v2-orch-token-');
   const first = orch.acquireOrchestratorLock({ lockRoot: root, campaignId: 'camp-a', chainId: 'W06', expectedSha: 'a'.repeat(40) });
@@ -1200,7 +1187,7 @@ async function cleanupExactTestPids(pidLogPath) {
   return pids.filter(pidAlive);
 }
 
-test('ORCH_TEST_10: owned stage success, non-zero exit and spawn error classification', async () => {
+leaseTest('ORCH_TEST_10: owned stage success, non-zero exit and spawn error classification', async () => {
   const orch = await loadOrchestrator();
   const dir = tmpDir('c5v2-orch-owned-');
   const okChild = writeSleepChild(dir, 'ok.cjs', "process.stdout.write('hi\\n');process.exit(0);");
@@ -1225,7 +1212,7 @@ test('ORCH_TEST_10: owned stage success, non-zero exit and spawn error classific
   assert.match(spawnResult.code, /ORCH_CHILD_SPAWN_ERROR/u);
 });
 
-test('ORCH_TEST_11: wall timeout sends TERM then escalates to uncaught KILL for the process group', async () => {
+leaseTest('ORCH_TEST_11: wall timeout sends TERM then escalates to uncaught KILL for the process group', async () => {
   const orch = await loadOrchestrator();
   const dir = tmpDir('c5v2-orch-signals-');
   const signalLog = path.join(dir, 'signals.jsonl');
@@ -1246,7 +1233,7 @@ setInterval(()=>{},500);
   assert.deepEqual(signals, ['TERM']);
 });
 
-test('ORCH_TEST_12: silent child without heartbeat is killed with progress timeout', async () => {
+leaseTest('ORCH_TEST_12: silent child without heartbeat is killed with progress timeout', async () => {
   const orch = await loadOrchestrator();
   const dir = tmpDir('c5v2-orch-silent-');
   const child = writeSleepChild(dir, 'silent.cjs', "process.stdout.write('boot\\n');setInterval(()=>{},500);");
@@ -1258,7 +1245,7 @@ test('ORCH_TEST_12: silent child without heartbeat is killed with progress timeo
   assert.match(result.code, /ORCH_PROGRESS_TIMEOUT/u);
 });
 
-test('ORCH_TEST_13: owned grandchild inside the process group dies with the group; detached fixture cleanup is exact', async (t) => {
+leaseTest('ORCH_TEST_13: owned grandchild inside the process group dies with the group; detached fixture cleanup is exact', async (t) => {
   const orch = await loadOrchestrator();
   const dir = tmpDir('c5v2-orch-grand-');
   const grandPath = path.join(dir, 'grand.cjs');
@@ -1298,7 +1285,7 @@ setInterval(()=>{},500);
   assert.deepEqual(quarantine.survivingOwnedPids, []);
 });
 
-test('ORCH_TEST_14: arbitrary stdout is not heartbeat; identity and sequence violations fail', async () => {
+leaseTest('ORCH_TEST_14: arbitrary stdout is not heartbeat; identity and sequence violations fail', async () => {
   const orch = await loadOrchestrator();
   const dir = tmpDir('c5v2-orch-hb-');
   const heartbeatPath = path.join(dir, 'hb.jsonl');
@@ -1336,7 +1323,7 @@ setInterval(()=>{},500);
   assert.match(sequenceResult.code, /ORCH_HEARTBEAT_SEQUENCE_NON_MONOTONIC/u);
 });
 
-test('ORCH_TEST_14A: legitimate short-lived descendants are diagnostic after clean exit', async () => {
+leaseTest('ORCH_TEST_14A: legitimate short-lived descendants are diagnostic after clean exit', async () => {
   const orch = await loadOrchestrator();
   const dir = tmpDir('c5v2-orch-descendant-ok-');
   const worker = writeSleepChild(dir, 'worker.cjs', 'setTimeout(() => process.exit(0), 600);');
@@ -1354,7 +1341,7 @@ process.exit(result.status || 0);
   assert.deepEqual(result.survivingOwnedPids, []);
 });
 
-test('ORCH_TEST_14B: heartbeat must prove forward progress, not just timer ticks', async () => {
+leaseTest('ORCH_TEST_14B: heartbeat must prove forward progress, not just timer ticks', async () => {
   const orch = await loadOrchestrator();
   const dir = tmpDir('c5v2-orch-hb-progress-');
   const stagnantHeartbeatPath = path.join(dir, 'stagnant.jsonl');
@@ -1414,7 +1401,7 @@ const timer = setInterval(() => {
   assert.equal(movingResult.ok, true, JSON.stringify(movingResult));
 });
 
-test('ORCH_TEST_14C: simulated PID reuse is never signaled by per-PID cleanup', async () => {
+leaseTest('ORCH_TEST_14C: simulated PID reuse is never signaled by per-PID cleanup', async () => {
   const orch = await loadOrchestrator();
   assert.equal(typeof orch.signalOwnedPidIfIdentityMatches, 'function');
   const signaled = [];
@@ -1431,7 +1418,7 @@ test('ORCH_TEST_14C: simulated PID reuse is never signaled by per-PID cleanup', 
   assert.deepEqual(signaled, []);
 });
 
-test('ORCH_TEST_14D: simulated PGID reuse is never signaled by group cleanup', async () => {
+leaseTest('ORCH_TEST_14D: simulated PGID reuse is never signaled by group cleanup', async () => {
   const orch = await loadOrchestrator();
   assert.equal(typeof orch.signalOwnedProcessGroupIfLeaderMatches, 'function');
   const signaled = [];
@@ -1447,7 +1434,7 @@ test('ORCH_TEST_14D: simulated PGID reuse is never signaled by group cleanup', a
   assert.deepEqual(signaled, []);
 });
 
-test('ORCH_TEST_14E: fast detached unregistered grandchild cannot produce stage success', async (t) => {
+leaseTest('ORCH_TEST_14E: fast detached unregistered grandchild cannot produce stage success', async (t) => {
   const orch = await loadOrchestrator();
   const dir = tmpDir('c5v2-orch-fast-detach-');
   const pidLog = path.join(dir, 'detached-pids.txt');
@@ -1478,7 +1465,7 @@ setTimeout(() => process.exit(0), 20);
   assert.deepEqual(survivors, []);
 });
 
-test('ORCH_TEST_14G: Linux proc cwd inventory finds contained detached processes without lsof', async () => {
+leaseTest('ORCH_TEST_14G: Linux proc cwd inventory finds contained detached processes without lsof', async () => {
   const orch = await loadOrchestrator();
   assert.equal(typeof orch.listProcessCwdsUnder, 'function');
   const dir = tmpDir('c5v2-orch-proc-cwd-');
@@ -1506,7 +1493,7 @@ test('ORCH_TEST_14G: Linux proc cwd inventory finds contained detached processes
   assert.equal(rows[0].cwd, fs.realpathSync(inside));
 });
 
-test('ORCH_TEST_14H: cwd inventory waits for delayed proc visibility before allowing success', async () => {
+leaseTest('ORCH_TEST_14H: cwd inventory waits for delayed proc visibility before allowing success', async () => {
   const orch = await loadOrchestrator();
   assert.equal(typeof orch.waitForProcessCwdsUnder, 'function');
   const dir = tmpDir('c5v2-orch-proc-cwd-wait-');
@@ -1535,7 +1522,7 @@ test('ORCH_TEST_14H: cwd inventory waits for delayed proc visibility before allo
   assert.equal(rows[0].cwd, fs.realpathSync(inside));
 });
 
-test('ORCH_TEST_14F: leader identity waits through pre-setsid race and timeout cleanup leaves zero survivors', async () => {
+leaseTest('ORCH_TEST_14F: leader identity waits through pre-setsid race and timeout cleanup leaves zero survivors', async () => {
   const orch = await loadOrchestrator();
   assert.equal(typeof orch.waitForStableProcessIdentity, 'function');
   const pid = 42424;
@@ -1602,7 +1589,7 @@ function makeStageResultFile({ dir, stage, options, stageData = {}, artifactDefs
   return resultPath;
 }
 
-test('ORCH_TEST_15: stage result verifier accepts valid and rejects malformed, identity, hash, missing and stale', async () => {
+leaseTest('ORCH_TEST_15: stage result verifier accepts valid and rejects malformed, identity, hash, missing and stale', async () => {
   const orch = await loadOrchestrator();
   const options = validOptions();
   const dir = options.campaignRoot;
@@ -2161,13 +2148,13 @@ function writePositiveRoundGateEvidence({ options, runRoot, ledger, ledgerDigest
   };
 }
 
-function makeSemanticStageResult({ options, stage, dir = options.campaignRoot, mutate = null }) {
+function makeSemanticStageResult({ options, stage, dir = options.campaignRoot, mutate = null, ledgerOverride = null, scenes = null }) {
   const runRoot = stage === 'NEGATIVE' ? path.join(dir, 'NEGATIVE') : path.join(dir, 'MAIN');
   fs.mkdirSync(runRoot, { recursive: true });
   const artifacts = {};
   let stageData = {};
   let counters = {};
-  const ledger = makeSemanticLedger({
+  const ledger = ledgerOverride || makeSemanticLedger({
     exactHead: options.expectedSha,
     campaignId: options.campaignId,
     corpusDigest: options.expectedCorpusDigest,
@@ -2180,7 +2167,7 @@ function makeSemanticStageResult({ options, stage, dir = options.campaignRoot, m
     writeJson(ledgerPath, ledger);
     const gates = [];
     for (let index = 0; index < 5; index += 1) {
-      gates.push(writePositiveRoundGateEvidence({ options, runRoot, ledger, ledgerDigest, index }));
+      gates.push(writePositiveRoundGateEvidence({ options, runRoot, ledger, ledgerDigest, index, scenes }));
     }
     const roundGatesPath = path.join(runRoot, 'orchestrated-round-gates-manifest.json');
     writeJson(roundGatesPath, {
@@ -2326,7 +2313,7 @@ function makeSemanticStageResult({ options, stage, dir = options.campaignRoot, m
     if (!fs.existsSync(roundGatesPath)) {
       const gates = [];
       for (let index = 0; index < 5; index += 1) {
-        gates.push(writePositiveRoundGateEvidence({ options, runRoot, ledger, ledgerDigest, index }));
+        gates.push(writePositiveRoundGateEvidence({ options, runRoot, ledger, ledgerDigest, index, scenes }));
       }
       writeJson(roundGatesPath, {
         schemaVersion: 'yalken.rtk.word.c5v2.orchestrated-round-gates-manifest.v1',
@@ -2543,7 +2530,7 @@ function rewriteRoundGatesToCoherentMinimalDocxForgery({ runRoot, roundGatesPath
   return gates;
 }
 
-test('ORCH_TEST_15B: stage result verifier rejects off-root symlink non-regular and false semantic artifacts', async () => {
+leaseTest('ORCH_TEST_15B: stage result verifier rejects off-root symlink non-regular and false semantic artifacts', async () => {
   const orch = await loadOrchestrator();
   const options = validOptions();
   fs.mkdirSync(options.campaignRoot, { recursive: true });
@@ -2591,7 +2578,7 @@ test('ORCH_TEST_15B: stage result verifier rejects off-root symlink non-regular 
   }).code, /ORCH_STAGE_RESULT_AGGREGATE_SPLIT/u);
 });
 
-test('ORCH_TEST_15C: semantic verifier rejects fabricated arbitrary 1960 plus 40 ledger', async () => {
+leaseTest('ORCH_TEST_15C: semantic verifier rejects fabricated arbitrary 1960 plus 40 ledger', async () => {
   const orch = await loadOrchestrator();
   const options = validOptions();
   fs.mkdirSync(options.campaignRoot, { recursive: true });
@@ -2643,7 +2630,7 @@ test('ORCH_TEST_15C: semantic verifier rejects fabricated arbitrary 1960 plus 40
   assert.match(result.code, /ORCH_STAGE_RESULT_OPERATION_FAMILY_INVALID|ORCH_STAGE_RESULT_LEDGER_DIGEST_EXPECTED_MISMATCH/u);
 });
 
-test('ORCH_TEST_15D: semantic verifier rejects empty negative evidence with fabricated 40 of 40 counters', async () => {
+leaseTest('ORCH_TEST_15D: semantic verifier rejects empty negative evidence with fabricated 40 of 40 counters', async () => {
   const orch = await loadOrchestrator();
   const options = validOptions();
   fs.mkdirSync(options.campaignRoot, { recursive: true });
@@ -2692,7 +2679,7 @@ test('ORCH_TEST_15D: semantic verifier rejects empty negative evidence with fabr
   assert.match(result.code, /ORCH_STAGE_RESULT_NEGATIVE_ROWS|ORCH_STAGE_RESULT_NEGATIVE_COMPLETED_ID_SET_MISMATCH/u);
 });
 
-test('ORCH_TEST_15E: semantic verifier rejects unbound topology-less positive ledger and fake round gates', async () => {
+leaseTest('ORCH_TEST_15E: semantic verifier rejects unbound topology-less positive ledger and fake round gates', async () => {
   const orch = await loadOrchestrator();
   const options = validOptions();
   fs.mkdirSync(options.campaignRoot, { recursive: true });
@@ -2779,7 +2766,7 @@ test('ORCH_TEST_15E: semantic verifier rejects unbound topology-less positive le
   assert.match(result.code, /ORCH_STAGE_RESULT_LEDGER_TOPOLOGY|ORCH_STAGE_RESULT_OPERATION_REQUEST_KEY|ORCH_STAGE_RESULT_LEDGER_RESUME_AUTHORITY|ORCH_STAGE_RESULT_ROUND_GATE_REUSE_BINDING/u);
 });
 
-test('ORCH_TEST_15F: semantic verifier rejects fabricated negative rows wrong genesis terminal and evidence path', async () => {
+leaseTest('ORCH_TEST_15F: semantic verifier rejects fabricated negative rows wrong genesis terminal and evidence path', async () => {
   const orch = await loadOrchestrator();
   const options = validOptions();
   fs.mkdirSync(options.campaignRoot, { recursive: true });
@@ -2890,7 +2877,7 @@ test('ORCH_TEST_15F: semantic verifier rejects fabricated negative rows wrong ge
   assert.match(result.code, /ORCH_STAGE_RESULT_NEGATIVE_EVIDENCE_PATH_IDENTITY|ORCH_STAGE_RESULT_NEGATIVE_KIND|ORCH_STAGE_RESULT_NEGATIVE_REQUEST_EFFECT|ORCH_STAGE_RESULT_NEGATIVE_CHECKPOINT_CHAIN|ORCH_STAGE_RESULT_NEGATIVE_TERMINAL_CHECKPOINT/u);
 });
 
-test('ORCH_TEST_15G: real canonical ledger engine binds negative round zero and positive rounds one through five', async () => {
+leaseTest('ORCH_TEST_15G: real canonical ledger engine binds negative round zero and positive rounds one through five', async () => {
   const [orch, canary, ledgerEngine] = await Promise.all([loadOrchestrator(), loadCanary(), loadLedgerEngine()]);
   const options = validOptions();
   fs.mkdirSync(options.campaignRoot, { recursive: true });
@@ -2903,6 +2890,7 @@ test('ORCH_TEST_15G: real canonical ledger engine binds negative round zero and 
     corpusDigest: options.expectedCorpusDigest,
   });
   const ledgerOperationIdSetDigest = sha256Text(JSON.stringify(ledger.operations.map((operation) => operation.id || '')));
+  ledger.operationIdSetDigest = ledgerOperationIdSetDigest;
   assert.deepEqual([...new Set(ledger.operations.filter((operation) => operation.family === 'negative_probe').map((operation) => operation.round))], [0]);
   assert.deepEqual([...new Set(ledger.operations.filter((operation) => operation.family !== 'negative_probe').map((operation) => operation.round))].sort(), [1, 2, 3, 4, 5]);
 
@@ -2910,38 +2898,8 @@ test('ORCH_TEST_15G: real canonical ledger engine binds negative round zero and 
   const semantic = makeSemanticStageResult({
     options,
     stage: 'POSITIVE',
-	    mutate: (body, { runRoot }) => {
-	      const ledgerPath = body.artifacts.ledger.path;
-	      writeJson(ledgerPath, ledger);
-	      const roundManifest = JSON.parse(fs.readFileSync(body.artifacts.roundGates.path, 'utf8'));
-	      roundManifest.gates = [];
-	      for (let index = 0; index < 5; index += 1) {
-        roundManifest.gates.push(writePositiveRoundGateEvidence({
-          options,
-          runRoot,
-          ledger,
-          ledgerDigest: ledger.ledgerDigest,
-          index,
-          scenes: corpus.scenes,
-        }));
-      }
-	      writeJson(body.artifacts.roundGates.path, roundManifest);
-      return {
-        ...body,
-        stageData: {
-          ...body.stageData,
-          ledgerPath,
-          ledgerDigest: ledger.ledgerDigest,
-          operationIdSetDigest: ledgerOperationIdSetDigest,
-          roundInventoryDigest: digestOf(roundManifest.gates),
-        },
-        artifacts: {
-          ...body.artifacts,
-          ledger: { path: ledgerPath, sha256: sha256File(ledgerPath), size: fs.statSync(ledgerPath).size },
-          roundGates: { path: body.artifacts.roundGates.path, sha256: sha256File(body.artifacts.roundGates.path), size: fs.statSync(body.artifacts.roundGates.path).size },
-        },
-      };
-    },
+    ledgerOverride: ledger,
+    scenes: corpus.scenes,
   });
   const green = orch.validateStageResult({
     stage: 'POSITIVE',
@@ -2994,25 +2952,18 @@ test('ORCH_TEST_15G: real canonical ledger engine binds negative round zero and 
   assert.equal(positiveRoundZeroResult.ok, false);
   assert.match(positiveRoundZeroResult.code, /ORCH_STAGE_RESULT_POSITIVE_ROUND_INVALID/u);
 
+  const mutatedLedger = JSON.parse(JSON.stringify(ledger));
+  const firstNegative = mutatedLedger.operations.find((operation) => operation.family === 'negative_probe');
+  firstNegative.round = 1;
+  firstNegative.requestKey = operationRequestKey(firstNegative);
+  firstNegative.effectKey = operationEffectKey(firstNegative);
+  mutatedLedger.ledgerDigest = sha256Text(JSON.stringify(mutatedLedger.operations));
+  mutatedLedger.resumeAuthority.digest = resumeAuthorityDigest(mutatedLedger, { exactHead: options.expectedSha, campaignId: options.campaignId, corpusDigest: options.expectedCorpusDigest });
   const semanticNegativeRound = makeSemanticStageResult({
     options,
     stage: 'POSITIVE',
-    mutate: (body, { runRoot }) => {
-      const mutatedLedger = JSON.parse(JSON.stringify(ledger));
-      const firstNegative = mutatedLedger.operations.find((operation) => operation.family === 'negative_probe');
-      firstNegative.round = 1;
-      firstNegative.requestKey = operationRequestKey(firstNegative);
-      firstNegative.effectKey = operationEffectKey(firstNegative);
-      mutatedLedger.ledgerDigest = sha256Text(JSON.stringify(mutatedLedger.operations));
-      mutatedLedger.resumeAuthority.digest = resumeAuthorityDigest(mutatedLedger, { exactHead: options.expectedSha, campaignId: options.campaignId, corpusDigest: options.expectedCorpusDigest });
-      const ledgerPath = body.artifacts.ledger.path;
-      writeJson(ledgerPath, mutatedLedger);
-      return {
-        ...body,
-        stageData: { ...body.stageData, ledgerPath, ledgerDigest: mutatedLedger.ledgerDigest, operationIdSetDigest: ledgerOperationIdSetDigest },
-        artifacts: { ...body.artifacts, ledger: { path: ledgerPath, sha256: sha256File(ledgerPath), size: fs.statSync(ledgerPath).size } },
-      };
-    },
+    ledgerOverride: mutatedLedger,
+    scenes: corpus.scenes,
   });
   const negativeNonzeroResult = orch.validateStageResult({
     stage: 'POSITIVE',
@@ -3034,7 +2985,7 @@ test('ORCH_TEST_15G: real canonical ledger engine binds negative round zero and 
   assert.match(negativeNonzeroResult.code, /ORCH_STAGE_RESULT_NEGATIVE_ROUND_INVALID/u);
 });
 
-test('ORCH_TEST_15H: semantic verifier rejects self-consistent fabricated completed-round gates without evidence artifacts', async () => {
+leaseTest('ORCH_TEST_15H: semantic verifier rejects self-consistent fabricated completed-round gates without evidence artifacts', async () => {
   const orch = await loadOrchestrator();
   const options = validOptions();
   fs.mkdirSync(options.campaignRoot, { recursive: true });
@@ -3085,7 +3036,7 @@ test('ORCH_TEST_15H: semantic verifier rejects self-consistent fabricated comple
   assert.match(result.code, /ORCH_STAGE_RESULT_ROUND_GATE_DEEP_PROOF|ORCH_STAGE_RESULT_ROUND_GATE_ARTIFACT|ORCH_STAGE_RESULT_ROUND_GATE_ROSTER/u);
 });
 
-test('ORCH_TEST_15J: semantic verifier rejects self-consistent non-DOCX round packages', async () => {
+leaseTest('ORCH_TEST_15J: semantic verifier rejects self-consistent non-DOCX round packages', async () => {
   const orch = await loadOrchestrator();
   const options = validOptions();
   fs.mkdirSync(options.campaignRoot, { recursive: true });
@@ -3134,7 +3085,7 @@ test('ORCH_TEST_15J: semantic verifier rejects self-consistent non-DOCX round pa
   assert.match(result.code, /ORCH_STAGE_RESULT_ROUND_GATE_(SOURCE|RETURNED)_DOCX_DOCX_PACKAGE/u);
 });
 
-test('ORCH_TEST_15K: semantic verifier rejects valid minimal DOCX with forged self-rehashed oracle evidence', async () => {
+leaseTest('ORCH_TEST_15K: semantic verifier rejects valid minimal DOCX with forged self-rehashed oracle evidence', async () => {
   const orch = await loadOrchestrator();
   const options = validOptions();
   fs.mkdirSync(options.campaignRoot, { recursive: true });
@@ -3169,7 +3120,7 @@ test('ORCH_TEST_15K: semantic verifier rejects valid minimal DOCX with forged se
   assert.match(result.code, /ORCH_STAGE_RESULT_ROUND_GATE_ORACLE_RECOMPUTE|ORCH_STAGE_RESULT_ROUND_GATE_ORACLE_ROW/u);
 });
 
-test('ORCH_TEST_15I: deep round oracle rejects single-field artifact path hash roster and cumulative mutations', async () => {
+leaseTest('ORCH_TEST_15I: deep round oracle rejects single-field artifact path hash roster and cumulative mutations', async () => {
   const orch = await loadOrchestrator();
   const cases = [
     {
@@ -3356,7 +3307,7 @@ async function runSemanticPortfolioChain({ orch, chain, manifest, parentLockApi 
   return { ok: outcome.ok, code: outcome.failure?.code || outcome.state, chainSealDigest: outcome.chainSeal?.chainSealDigest || '' };
 }
 
-test('ORCH_TEST_16: full stubbed chain seals all stages in order, releases lock, writes journal and chain seal', async () => {
+leaseTest('ORCH_TEST_16: full stubbed chain seals all stages in order, releases lock, writes journal and chain seal', async () => {
   const orch = await loadOrchestrator();
   const options = validOptions();
   const outcome = await orch.runSingleChainOrchestrator({
@@ -3387,7 +3338,7 @@ test('ORCH_TEST_16: full stubbed chain seals all stages in order, releases lock,
   assert.ok(!fs.existsSync(path.join(options.artifactRoot, '.orchestrator-locks', 'c5v2-word-campaign.lock')));
 });
 
-test('ORCH_TEST_17: failing POSITIVE never starts NEGATIVE and AGGREGATE; failing NEGATIVE never starts AGGREGATE', async () => {
+leaseTest('ORCH_TEST_17: failing POSITIVE never starts NEGATIVE and AGGREGATE; failing NEGATIVE never starts AGGREGATE', async () => {
   const orch = await loadOrchestrator();
   const optionsA = validOptions();
   let executedStagesA = 0;
@@ -3422,7 +3373,7 @@ test('ORCH_TEST_17: failing POSITIVE never starts NEGATIVE and AGGREGATE; failin
   assert.equal(outcomeB.stageSeals.length, 1);
 });
 
-test('ORCH_TEST_18: preflight failure before a stage stops the chain before any spawn for that stage', async () => {
+leaseTest('ORCH_TEST_18: preflight failure before a stage stops the chain before any spawn for that stage', async () => {
   const orch = await loadOrchestrator();
   const options = validOptions();
   let spawned = 0;
@@ -3438,7 +3389,7 @@ test('ORCH_TEST_18: preflight failure before a stage stops the chain before any 
   assert.match(outcome.failure.code, /ORCH_EXPECTED_SHA_MISMATCH/u);
 });
 
-test('ORCH_TEST_19: quarantined stage result keeps the lock with QUARANTINED marker', async () => {
+leaseTest('ORCH_TEST_19: quarantined stage result keeps the lock with QUARANTINED marker', async () => {
   const orch = await loadOrchestrator();
   const options = validOptions();
   const outcome = await orch.runSingleChainOrchestrator({
@@ -3453,7 +3404,7 @@ test('ORCH_TEST_19: quarantined stage result keeps the lock with QUARANTINED mar
   assert.ok(fs.existsSync(path.join(lockDir, 'QUARANTINED.json')));
 });
 
-test('ORCH_TEST_19A: actual emitted quarantine codes keep tokenized lock through finally', async () => {
+leaseTest('ORCH_TEST_19A: actual emitted quarantine codes keep tokenized lock through finally', async () => {
   const orch = await loadOrchestrator();
   const options = validOptions();
   const outcome = await orch.runSingleChainOrchestrator({
@@ -3477,7 +3428,7 @@ test('ORCH_TEST_19A: actual emitted quarantine codes keep tokenized lock through
   assert.ok(fs.existsSync(path.join(lockDir, 'QUARANTINED.json')));
 });
 
-test('ORCH_TEST_19B: orchestrator owns control dirs only; canary owns fresh stage dirs', async () => {
+leaseTest('ORCH_TEST_19B: orchestrator owns control dirs only; canary owns fresh stage dirs', async () => {
   const orch = await loadOrchestrator();
   const options = validOptions();
   const seen = [];
@@ -3532,7 +3483,7 @@ test('ORCH_TEST_19B: orchestrator owns control dirs only; canary owns fresh stag
   assert.deepEqual(seen.map((entry) => entry.stage), ['POSITIVE', 'NEGATIVE', 'AGGREGATE']);
 });
 
-test('ORCH_TEST_20: pre-existing campaign root is a collision STOP and stale green directory is ignored', async () => {
+leaseTest('ORCH_TEST_20: pre-existing campaign root is a collision STOP and stale green directory is ignored', async () => {
   const orch = await loadOrchestrator();
   const options = validOptions();
   fs.mkdirSync(path.join(options.campaignRoot, 'ORCHESTRATOR'), { recursive: true });
@@ -3547,7 +3498,7 @@ test('ORCH_TEST_20: pre-existing campaign root is a collision STOP and stale gre
   assert.equal(outcome.state, 'FAILED');
 });
 
-test('ORCH_TEST_21: explicit test-only preflight injection writes no chain seal but seals all stages', async () => {
+leaseTest('ORCH_TEST_21: explicit test-only preflight injection writes no chain seal but seals all stages', async () => {
   const orch = await loadOrchestrator();
   const options = validOptions();
   const outcome = await orch.runSingleChainOrchestrator({
@@ -3640,7 +3591,7 @@ process.exit(0);
   return runnerPath;
 }
 
-test('ORCH_TEST_22: production CLI rejects ambient test bypass and runner replacement before writes', async () => {
+leaseTest('ORCH_TEST_22: production CLI rejects ambient test bypass and runner replacement before writes', async () => {
   const dir = tmpDir('c5v2-orch-cli-');
   const artifactRoot = path.join(dir, 'artifacts');
   fs.mkdirSync(artifactRoot, { recursive: true });
@@ -3666,7 +3617,7 @@ test('ORCH_TEST_22: production CLI rejects ambient test bypass and runner replac
   assert.equal(fs.existsSync(path.join(artifactRoot, campaignId)), false);
 });
 
-test('ORCH_TEST_23: controller refuses pre-existing campaign root with collision before spawn', async () => {
+leaseTest('ORCH_TEST_23: controller refuses pre-existing campaign root with collision before spawn', async () => {
   const orch = await loadOrchestrator();
   const options = validOptions({ campaignId: 'cli-collision-test' });
   fs.mkdirSync(options.campaignRoot, { recursive: true });
@@ -3696,7 +3647,7 @@ function snapshotTree(root) {
   return out.sort();
 }
 
-test('ORCH_TEST_24: pre-authority failures and resume rejection write nothing', async () => {
+leaseTest('ORCH_TEST_24: pre-authority failures and resume rejection write nothing', async () => {
   const orch = await loadOrchestrator();
   const root = tmpDir('c5v2-orch-zero-write-');
   const options = validOptions({ artifactRoot: path.join(root, 'artifacts'), campaignId: 'zero-write' });
@@ -3757,7 +3708,7 @@ test('ORCH_TEST_24: pre-authority failures and resume rejection write nothing', 
   assert.deepEqual(snapshotTree(lockRoot), beforeLock);
 });
 
-test('ORCH_TEST_25: failed lock release prevents green chain seal outcome', async () => {
+leaseTest('ORCH_TEST_25: failed lock release prevents green chain seal outcome', async () => {
   const orch = await loadOrchestrator();
   const options = validOptions({ campaignId: 'lock-release-fail' });
   const outcome = await orch.runSingleChainOrchestrator({
@@ -3781,7 +3732,7 @@ test('ORCH_TEST_25: failed lock release prevents green chain seal outcome', asyn
   assert.equal(journal.some((entry) => entry.transition === 'CHAIN_SEALED'), false);
 });
 
-test('ORCH_TEST_26: production CLI rejects resume before writes', async () => {
+leaseTest('ORCH_TEST_26: production CLI rejects resume before writes', async () => {
   const dir = tmpDir('c5v2-orch-resume-cli-');
   const artifactRoot = path.join(dir, 'artifacts');
   const head = spawnSync('git', ['rev-parse', 'HEAD'], { cwd: REPO_ROOT, encoding: 'utf8' }).stdout.trim();
@@ -3804,7 +3755,7 @@ test('ORCH_TEST_26: production CLI rejects resume before writes', async () => {
   assert.equal(fs.existsSync(artifactRoot), false);
 });
 
-test('CANARY_PROTOCOL_1: orchestrated args validation rejects unknown, duplicate, missing and invalid stage', async () => {
+leaseTest('CANARY_PROTOCOL_1: orchestrated args validation rejects unknown, duplicate, missing and invalid stage', async () => {
   const canary = await loadCanary();
   const root = '/tmp/c5v2-canary-proto';
   const base = {
@@ -3840,7 +3791,7 @@ test('CANARY_PROTOCOL_1: orchestrated args validation rejects unknown, duplicate
   assert.equal(canary.validateC5V2OrchestratedArgs({ orchestratedStage: '' }, []).ok, true);
 });
 
-test('CANARY_PROTOCOL_2: orchestrated run identity uses exact directory without timestamp and rejects collision and escape', async () => {
+leaseTest('CANARY_PROTOCOL_2: orchestrated run identity uses exact directory without timestamp and rejects collision and escape', async () => {
   const canary = await loadCanary();
   const root = tmpDir('c5v2-canary-runid-');
   const identity = canary.resolveC5V2RunIdentity({
@@ -3870,7 +3821,7 @@ test('CANARY_PROTOCOL_2: orchestrated run identity uses exact directory without 
   assert.match(legacy.runId, /^c5v2-legacy-\d{8}T\d{6}Z$/u);
 });
 
-test('CANARY_PROTOCOL_3: Word plist reader accepts plutil raw keys and rejects defaults OpenStep as XML', async () => {
+leaseTest('CANARY_PROTOCOL_3: Word plist reader accepts plutil raw keys and rejects defaults OpenStep as XML', async () => {
   const canary = await loadCanary();
   assert.equal(typeof canary.readC5V2WordPlistVersionAndBuild, 'function');
   const plistPath = path.join(tmpDir('c5v2-canary-plist-'), 'Info.plist');
@@ -3902,7 +3853,7 @@ test('CANARY_PROTOCOL_3: Word plist reader accepts plutil raw keys and rejects d
   assert.equal(calls, 2);
 });
 
-test('CANARY_PROTOCOL_4: negative probe heartbeats are emitted only after durable completion', async () => {
+leaseTest('CANARY_PROTOCOL_4: negative probe heartbeats are emitted only after durable completion', async () => {
   const canary = await loadCanary();
   assert.equal(typeof canary.collectNegativeProbeCompletionHeartbeats, 'function');
   const events = [];
@@ -3922,7 +3873,7 @@ test('CANARY_PROTOCOL_4: negative probe heartbeats are emitted only after durabl
   ]);
 });
 
-test('CANARY_PROTOCOL_5: positive chunk heartbeat uses stage-global ordinal across round boundary', async () => {
+leaseTest('CANARY_PROTOCOL_5: positive chunk heartbeat uses stage-global ordinal across round boundary', async () => {
   const canary = await loadCanary();
   assert.equal(typeof canary.createPositiveStageProgressTracker, 'function');
   const tracker = canary.createPositiveStageProgressTracker();
@@ -3948,7 +3899,7 @@ test('CANARY_PROTOCOL_5: positive chunk heartbeat uses stage-global ordinal acro
   ]);
 });
 
-test('ORCH_PORTFOLIO_1: dry-run portfolio binds W06 REP1 REP2 REP3 order, identity, resume and fail-fast', async () => {
+leaseTest('ORCH_PORTFOLIO_1: dry-run portfolio binds W06 REP1 REP2 REP3 order, identity, resume and fail-fast', async () => {
   const orch = await loadOrchestrator();
   assert.equal(typeof orch.buildTerminalPortfolioManifest, 'function');
   assert.equal(typeof orch.runTerminalPortfolio, 'function');
@@ -4045,7 +3996,7 @@ test('ORCH_PORTFOLIO_1: dry-run portfolio binds W06 REP1 REP2 REP3 order, identi
   assert.deepEqual(executed, ['REP1', 'REP2', 'REP3']);
 });
 
-test('ORCH_PORTFOLIO_2: portfolio cannot seal from arbitrary digests or mutated manifest identity', async () => {
+leaseTest('ORCH_PORTFOLIO_2: portfolio cannot seal from arbitrary digests or mutated manifest identity', async () => {
   const orch = await loadOrchestrator();
   const arbitraryManifest = makePortfolioManifestForTest(orch, 'portfolio-auth-arbitrary', tmpDir('c5v2-portfolio-auth-arbitrary-'));
   const arbitrary = await orch.runTerminalPortfolio({
@@ -4090,7 +4041,7 @@ test('ORCH_PORTFOLIO_2: portfolio cannot seal from arbitrary digests or mutated 
   assert.match(forgedResume.code, /ORCH_PORTFOLIO_RESUME_SEAL_DIGEST_MISMATCH|ORCH_PORTFOLIO_CHAIN_SEAL_INVALID/u);
 });
 
-test('ORCH_PORTFOLIO_2B: manifest profile and deterministic root formulas reject before writes or executor', async () => {
+leaseTest('ORCH_PORTFOLIO_2B: manifest profile and deterministic root formulas reject before writes or executor', async () => {
   const orch = await loadOrchestrator();
   const mutations = [
     {
@@ -4140,7 +4091,7 @@ test('ORCH_PORTFOLIO_2B: manifest profile and deterministic root formulas reject
   }
 });
 
-test('ORCH_PORTFOLIO_3: roots attempts retry collision corrupt journal and lock loser are fail-closed', async () => {
+leaseTest('ORCH_PORTFOLIO_3: roots attempts retry collision corrupt journal and lock loser are fail-closed', async () => {
   const orch = await loadOrchestrator();
   const sharedRoot = tmpDir('c5v2-portfolio-roots-');
   const firstManifest = makePortfolioManifestForTest(orch, 'portfolio-root-a', sharedRoot);
@@ -4197,7 +4148,7 @@ test('ORCH_PORTFOLIO_3: roots attempts retry collision corrupt journal and lock 
   assert.equal(fs.existsSync(lockLoserManifest.portfolioRoot), false);
 });
 
-test('ORCH_PORTFOLIO_4: forged chain seal and later journal failure cannot satisfy resume', async () => {
+leaseTest('ORCH_PORTFOLIO_4: forged chain seal and later journal failure cannot satisfy resume', async () => {
   const orch = await loadOrchestrator();
   const manifest = makePortfolioManifestForTest(orch, 'portfolio-forged', tmpDir('c5v2-portfolio-forged-'));
   const chain = manifest.chains[0];
@@ -4277,7 +4228,7 @@ test('ORCH_PORTFOLIO_4: forged chain seal and later journal failure cannot satis
   assert.match(lateFailureResume.code, /ORCH_PORTFOLIO_CHAIN_JOURNAL_FAILURE_TRANSITION|ORCH_PORTFOLIO_CHAIN_JOURNAL_SEAL_NOT_TERMINAL/u);
 });
 
-test('ORCH_PORTFOLIO_5: production CLI uses canonical script hash schema and explicit injection only', async () => {
+leaseTest('ORCH_PORTFOLIO_5: production CLI uses canonical script hash schema and explicit injection only', async () => {
   const orch = await loadOrchestrator();
   const ledger = makeSemanticLedger();
   assert.throws(() => orch.buildTerminalPortfolioManifest({
@@ -4340,7 +4291,7 @@ test('ORCH_PORTFOLIO_5: production CLI uses canonical script hash schema and exp
   assert.match(writes.stderr, /ORCH_PRODUCTION_ENV_BYPASS_REJECTED/u);
 });
 
-test('ORCH_PORTFOLIO_6: production CLI propagates corpus manifest and canary rejects A versus B digest', async () => {
+leaseTest('ORCH_PORTFOLIO_6: production CLI propagates corpus manifest and canary rejects A versus B digest', async () => {
   const [orch, canary] = await Promise.all([loadOrchestrator(), loadCanary()]);
   const corpusAPath = makeLoadableCorpusManifestFileForTest('a');
   const corpusBPath = makeLoadableCorpusManifestFileForTest('b');

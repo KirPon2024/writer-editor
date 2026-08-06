@@ -5673,15 +5673,6 @@
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
     },
     {
-      "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "449723529661b1597bcfd34c95c8d44d529bb63b063757d685f1508aca5676da",
-      "rationale": "Approve exact Phase A physical canary hardening bytes for C5V2 pre-long-run orchestrator repair; no Word launch, long campaign, Google work, dependency change, or scope expansion.",
-      "approvedBy": "owner-direct:TASK_ID:PHASE_A_CLOSEOUT_DIRECTIVE",
-      "approvedAtUtc": "2026-08-05T20:51:35.256Z",
-      "approved": true,
-      "authority": "EXPLICIT_OWNER_APPROVAL_PHASE_A_EXACT_FIVE_FROZEN_GOVERNANCE_RECORDS"
-    },
-    {
       "filePath": "scripts/ops/rtk-word-c5v2-round-checkpoint.mjs",
       "sha256": "f27367d39c7b8bc31807f4d6d473703ae3b8917207a8e9806f31ba0a7522c187",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
@@ -5698,15 +5689,6 @@
       "rationale": "Approve Word C5V2 semantic oracle outcome mismatch tolerance for MANUAL-expected tracked operations with BLOCKED outcome (Word correctly refused to apply non-unique quote); BLOCKED outcome for MANUAL-expected op is no longer counted as C5V2_ORACLE_WORD_OUTCOME_MISMATCH; verified by 30/30 contract tests.",
       "approved": true,
       "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-c5v2-terminal-orchestrator.mjs",
-      "sha256": "a00a45cc3dca48913bdaae1043d683d2097fc8b99139885d57e58a032b9a6d9e",
-      "rationale": "Approve exact frozen Phase A CI-repair terminal orchestrator bytes for portable fail-closed process cwd inventory after Ubuntu lsof gap, bounded post-close discovery of delayed detached cwd-owned processes, fast silent zero-exit fail-closed protocol classification, and quarantined fast-exit cwd discovery before cleanup; no Word launch, long campaign, Google work, dependency change, allowlist weakening, or scope expansion.",
-      "approvedBy": "owner-direct:TASK_ID:PHASE_A_CI_REQUIRED_REPAIR_PORTABLE_PROCESS_AND_HERMETIC_LEDGER",
-      "approvedAtUtc": "2026-08-05T22:51:30Z",
-      "approved": true,
-      "authority": "EXPLICIT_OWNER_APPROVAL_PHASE_A_CI_REPAIR_EXACT_TWO_FROZEN_GOVERNANCE_RECORDS"
     },
     {
       "filePath": "scripts/ops/rtk-word-latest-physical-certification-lab.mjs",
@@ -7957,15 +7939,6 @@
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
     },
     {
-      "filePath": "test/contracts/rtk-word-c5v2-comment-lifecycle-return-runtime.contract.test.js",
-      "sha256": "1bfc084827864a5cc8b97477d6fc16eae6342b7c0305b8886a550e1987a931f3",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T21:05:27.922Z",
-      "rationale": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
-    },
-    {
       "filePath": "test/contracts/rtk-word-c5v2-dorian-atlas-cycles.contract.test.js",
       "sha256": "61da504e45b9e0f5e355ba61fee63cb3e290aba0490474721881e78b86ead2a5",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
@@ -7984,15 +7957,6 @@
       "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_PHASE_B_PRODUCT_TRUST_CHAIN"
     },
     {
-      "filePath": "test/contracts/rtk-word-c5v2-ledger-distribution.contract.test.js",
-      "sha256": "57ac75944b967c7f9ad74e5b76a00c2b821887593f4890b2cd6e320cdeda65d7",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T21:05:27.922Z",
-      "rationale": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
-    },
-    {
       "filePath": "test/contracts/rtk-word-c5v2-noop-baseline.contract.test.js",
       "sha256": "c8697ae72256120c44d8b0835941f5d793e745db1c18eaa65c57083c5b8c1cb6",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
@@ -8000,15 +7964,6 @@
       "rationale": "Approve exact regression proving the C5V2 physical adapter prefers a unique selected-text locator over mutable after-context for same-paragraph reverse-order tracked operations; no UI, network, dependency, Google, Atlas mutation or terminal physical PASS claim change.",
       "approved": true,
       "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-c5v2-pr1414-audit-hold-repair.contract.test.js",
-      "sha256": "8a593095e0ee05d215daf207604def1bb43e917fd49e9acb6d6e97663a64f098",
-      "rationale": "Approve exact Phase A legacy PR1414 contract fixture alignment bytes using canonical deep Word-free completed-round evidence; test evidence alignment only, no production compatibility shim.",
-      "approvedBy": "owner-direct:TASK_ID:PHASE_A_CLOSEOUT_DIRECTIVE",
-      "approvedAtUtc": "2026-08-05T20:51:35.256Z",
-      "approved": true,
-      "authority": "EXPLICIT_OWNER_APPROVAL_PHASE_A_EXACT_FIVE_FROZEN_GOVERNANCE_RECORDS"
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-root-comment-return-runtime.contract.test.js",
@@ -8027,15 +7982,6 @@
       "approvedAtUtc": "2026-08-05T20:51:35.256Z",
       "approved": true,
       "authority": "EXPLICIT_OWNER_APPROVAL_PHASE_A_EXACT_FIVE_FROZEN_GOVERNANCE_RECORDS"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-c5v2-terminal-orchestrator.contract.test.js",
-      "sha256": "2f2cf6089cebadb6e129f7715b8886c24835a8645e191a6170fdbad8b1be334e",
-      "rationale": "Approve exact frozen Phase A CI-repair orchestrator contract bytes for Linux proc cwd regression, delayed proc visibility regression, CI-hermetic canonical 21-scene ledger fixture, deterministic 15G stage freshness timing, and fast detached unregistered zero-survivor fixture cleanup; no production semantic claim beyond this evidence.",
-      "approvedBy": "owner-direct:TASK_ID:PHASE_A_CI_REQUIRED_REPAIR_PORTABLE_PROCESS_AND_HERMETIC_LEDGER",
-      "approvedAtUtc": "2026-08-05T23:13:30Z",
-      "approved": true,
-      "authority": "EXPLICIT_OWNER_APPROVAL_PHASE_A_CI_REPAIR_EXACT_TWO_FROZEN_GOVERNANCE_RECORDS"
     },
     {
       "filePath": "test/contracts/rtk-word-latest-semantic-b00.contract.test.js",
@@ -9556,6 +9502,78 @@
       "rationale": "Approve exact Phase B product trust-chain bytes: full-manuscript DOCX export now requires V4 provisional self-parse plus final self-parse semantic equivalence before publication; returned full-manuscript intake requires byte-backed YRTK2/CoreManifest proof before router MatchProof and Command Kernel authority; direct forged return-intake proof and missing-provisional-gate attacks are blocked. No physical Word run, no Google work, no long campaign, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
       "approved": true,
       "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_PHASE_B_PRODUCT_TRUST_CHAIN"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-c5v2-ledger-engine.mjs",
+      "sha256": "e5d3ed64c129b5d744f963258ea47f8bd6fa6990c785c91de00dfd4f729c5c99",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_PHASE_C_NATIVE_LIFECYCLE_V1",
+      "approvedAtUtc": "2026-08-06T04:07:00.000Z",
+      "rationale": "Approve exact Phase C native lifecycle bytes after focused lifecycle, ledger, portfolio, PR1414, checkpoint and terminal contracts passed; reply/state lifecycle rows are native SAFE_APPLY rather than typed-limit. No physical Word run, no Google work, no long campaign, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_PHASE_C_NATIVE_LIFECYCLE"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
+      "sha256": "6d44ee1f92b934d8b21ba569a43ba27eebd41c2c5f96209419ed7650748c48af",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_PHASE_C_NATIVE_LIFECYCLE_V1",
+      "approvedAtUtc": "2026-08-06T04:07:00.000Z",
+      "rationale": "Approve exact Phase C native lifecycle bytes after native reply/state/delete/resolve-reopen verification and typed-limit false-green coverage passed. No physical Word run, no Google work, no long campaign, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_PHASE_C_NATIVE_LIFECYCLE"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-c5v2-terminal-orchestrator.mjs",
+      "sha256": "db4e4543273d0bb06cd8ea3cd434f63989d3cfee0aa36c283a1d37a1d87b1831",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_PHASE_C_NATIVE_LIFECYCLE_V1",
+      "approvedAtUtc": "2026-08-06T04:07:00.000Z",
+      "rationale": "Approve exact Phase C parent-oracle native lifecycle coverage binding after terminal orchestrator contract 60/60 passed with deep semantic and portfolio gates. No physical Word run, no Google work, no long campaign, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_PHASE_C_NATIVE_LIFECYCLE"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-c5v2-comment-lifecycle-return-runtime.contract.test.js",
+      "sha256": "d314fba14d69e0b7a23997945121c6476d233e052bef0a6dcb30b561b2ceb944",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_PHASE_C_NATIVE_LIFECYCLE_V1",
+      "approvedAtUtc": "2026-08-06T04:07:00.000Z",
+      "rationale": "Approve exact Phase C lifecycle runtime contract bytes proving native lifecycle coverage and typed-limit false-green rejection. No physical Word run, no Google work, no long campaign, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_PHASE_C_NATIVE_LIFECYCLE"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-c5v2-ledger-distribution.contract.test.js",
+      "sha256": "840c850f175c2b8d91a14e4607bb3a7b68f49427d1be294b228f60218806f47a",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_PHASE_C_NATIVE_LIFECYCLE_V1",
+      "approvedAtUtc": "2026-08-06T04:07:00.000Z",
+      "rationale": "Approve exact Phase C ledger distribution contract bytes aligning lifecycle denominator to native SAFE_APPLY coverage. No physical Word run, no Google work, no long campaign, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_PHASE_C_NATIVE_LIFECYCLE"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-c5v2-portfolio-corpus.contract.test.js",
+      "sha256": "73ed85b70b6caced81c9c46f956378e795398d33adc57febbc39214535de59c2",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_PHASE_C_NATIVE_LIFECYCLE_V1",
+      "approvedAtUtc": "2026-08-06T04:07:00.000Z",
+      "rationale": "Approve exact Phase C portfolio corpus contract bytes verifying corpus-to-native-lifecycle adapter expectations. No physical Word run, no Google work, no long campaign, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_PHASE_C_NATIVE_LIFECYCLE"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-c5v2-pr1414-audit-hold-repair.contract.test.js",
+      "sha256": "07a849508bd035c80f72e10b25ec4352c53cdaece9516e70fdc44f8ff3f1b5d2",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_PHASE_C_NATIVE_LIFECYCLE_V1",
+      "approvedAtUtc": "2026-08-06T04:07:00.000Z",
+      "rationale": "Approve exact Phase C PR1414 compatibility fixture bytes preserving deep completed-round reuse while native lifecycle inputs remain mandatory. No physical Word run, no Google work, no long campaign, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_PHASE_C_NATIVE_LIFECYCLE"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-c5v2-terminal-orchestrator.contract.test.js",
+      "sha256": "ef20f3a53167eb9b33464ac2a91e2440a623b11f93e882e8f2afe9d6e3558c1e",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_PHASE_C_NATIVE_LIFECYCLE_V1",
+      "approvedAtUtc": "2026-08-06T04:07:00.000Z",
+      "rationale": "Approve exact Phase C terminal orchestrator contract bytes proving parent native lifecycle coverage binding and rejecting fabricated semantic gates. No physical Word run, no Google work, no long campaign, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_PHASE_C_NATIVE_LIFECYCLE"
     }
   ]
 }

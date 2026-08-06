@@ -332,11 +332,9 @@ function addOperation(operations, op) {
     ? 'REJECT'
     : op.family === 'tracked_text_edit'
       ? (op.semanticIntent?.kind === 'insert' ? 'MANUAL' : 'EXACT')
-      : op.family === 'reply'
-        ? 'MANUAL'
-        : op.family === 'comment_state'
-          ? (op.semanticIntent?.kind === 'delete' ? 'BLOCKED' : 'MANUAL')
-          : 'SAFE_APPLY';
+      : op.family === 'reply' || op.family === 'comment_state'
+        ? 'SAFE_APPLY'
+        : 'SAFE_APPLY';
   operations.push({
     expectedOutcome: defaultOutcome,
     ...op,
@@ -586,6 +584,12 @@ function buildThreadLifecycleOperations({ operations, family, count, state, scen
   if (state.commentThreads.length === 0) {
     throw new Error(`C5V2_${family.toUpperCase()}_ROOT_THREADS_REQUIRED`);
   }
+  if (!state.lifecycleThreadStateById) state.lifecycleThreadStateById = new Map();
+  if (!state.lifecycleThreadLastResolveOperationId) state.lifecycleThreadLastResolveOperationId = new Map();
+  if (!state.lifecycleResolvedThreadIds) state.lifecycleResolvedThreadIds = [];
+  for (const thread of state.commentThreads) {
+    if (!state.lifecycleThreadStateById.has(thread.threadId)) state.lifecycleThreadStateById.set(thread.threadId, 'open');
+  }
   const threadsBySceneId = new Map();
   for (const thread of state.commentThreads) {
     if (!threadsBySceneId.has(thread.sceneId)) threadsBySceneId.set(thread.sceneId, []);
@@ -604,8 +608,12 @@ function buildThreadLifecycleOperations({ operations, family, count, state, scen
       candidates = [...sortedThreads.slice(targetIndex), ...sortedThreads.slice(0, targetIndex)];
     }
     const maxBucket = Math.max(2, Math.ceil(count * 0.02));
-    const thread = candidates.find((candidate) => {
+    const rawRequestedKind = family === 'comment_state' ? COMMENT_STATE_INTENTS[index % COMMENT_STATE_INTENTS.length] : '';
+    const requestedKind = rawRequestedKind === 'reopen' ? 'resolve-reopen' : rawRequestedKind;
+    let thread = null;
+    if (!thread) thread = candidates.find((candidate) => {
       if (state.lifecycleThreadIdsUsed.has(candidate.threadId)) return false;
+      if (state.lifecycleThreadStateById.get(candidate.threadId) !== 'open') return false;
       const start = Number(candidate.anchor?.globalGraphemeStart || 0);
       const bucket = Math.min(99, Math.max(0, Math.floor((start / Math.max(1, state.totalGraphemes)) * 100)));
       return (state.lifecycleBucketCounts.get(`${family}:${bucket}`) || 0) < maxBucket;
@@ -618,6 +626,7 @@ function buildThreadLifecycleOperations({ operations, family, count, state, scen
     const lifecycleBucketKey = `${family}:${threadBucket}`;
     state.lifecycleBucketCounts.set(lifecycleBucketKey, (state.lifecycleBucketCounts.get(lifecycleBucketKey) || 0) + 1);
     const id = `c5v2-${family}-${String(index + 1).padStart(4, '0')}`;
+    const stateKind = family === 'comment_state' ? requestedKind : '';
     addOperation(operations, {
       id,
       family,
@@ -633,11 +642,22 @@ function buildThreadLifecycleOperations({ operations, family, count, state, scen
             replyText: `C5V2 reply ${index + 1}`,
           }
         : {
-            kind: COMMENT_STATE_INTENTS[index % COMMENT_STATE_INTENTS.length],
+            kind: stateKind,
             parentThreadId: thread.threadId,
             lifecycleOrder: Math.floor(index / state.commentThreads.length) + 1,
           },
     });
+    if (family === 'comment_state') {
+      if (stateKind === 'resolve') {
+        state.lifecycleThreadStateById.set(thread.threadId, 'resolved');
+        state.lifecycleThreadLastResolveOperationId.set(thread.threadId, id);
+        state.lifecycleResolvedThreadIds.push(thread.threadId);
+      } else if (stateKind === 'reopen' || stateKind === 'resolve-reopen') {
+        state.lifecycleThreadStateById.set(thread.threadId, 'open');
+      } else if (stateKind === 'delete') {
+        state.lifecycleThreadStateById.set(thread.threadId, 'deleted');
+      }
+    }
   }
 }
 

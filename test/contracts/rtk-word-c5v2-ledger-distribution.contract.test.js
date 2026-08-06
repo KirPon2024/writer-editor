@@ -101,9 +101,9 @@ test('C5V2 ledger engine emits deterministic 2,000-op natural full-book coverage
     ranges.push({ start: operation.anchor.graphemeStart, end: operation.anchor.graphemeEnd });
     trackedRangesByParagraph.set(operation.anchor.paragraphId, ranges);
   }
-  assert.equal(ledger.operations.filter((operation) => operation.expectedOutcome === 'SAFE_APPLY').length, 540);
+  assert.equal(ledger.operations.filter((operation) => operation.expectedOutcome === 'SAFE_APPLY').length, 760);
   assert.equal(ledger.operations.filter((operation) => operation.expectedOutcome === 'MANUAL').length >= 595, true);
-  assert.equal(ledger.operations.filter((operation) => operation.expectedOutcome === 'BLOCKED').length, 25);
+  assert.equal(ledger.operations.filter((operation) => operation.expectedOutcome === 'BLOCKED').length, 0);
   assert.equal(ledger.operations.filter((operation) => operation.expectedOutcome === 'REJECT').length, 40);
   assert.deepEqual(
     [...new Set(ledger.operations.filter((operation) => operation.family === 'structural').map((operation) => operation.semanticIntent.kind))],

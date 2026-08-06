@@ -217,6 +217,53 @@ function writeMinimalDocx(filePath, text) {
   writeDocxPackage(filePath, { paragraphs: [{ text }] });
 }
 
+function writeNativeLifecycleSnapshotDocx(filePath, operation) {
+  const rootId = String(operation.targetRootOperationId || '').replace(/^.*?(\d+)$/u, '$1') || '1';
+  const rootParaId = `ROOT_${rootId}`;
+  const replyParaId = `REPLY_${String(operation.id || '').replace(/[^A-Za-z0-9]/gu, '_')}`;
+  const requestedState = operation.requestedState === 'reopened' ? 'reopen' : operation.requestedState;
+  const rootComment = `<w:comment w:id="${xmlEscape(rootId)}"><w:p w14:paraId="${xmlEscape(rootParaId)}"><w:r><w:t>${xmlEscape(`C5V2 root ${operation.targetRootOperationId}`)}</w:t></w:r></w:p></w:comment>`;
+  const replyComment = `<w:comment w:id="${xmlEscape(`${rootId}8`)}" w:parentId="${xmlEscape(rootId)}"><w:p w14:paraId="${xmlEscape(replyParaId)}"><w:r><w:t>${xmlEscape(`C5V2 reply ${operation.id}`)}</w:t></w:r></w:p></w:comment>`;
+  const commentsXml = requestedState === 'delete'
+    ? '<w:comments xmlns:w="w" xmlns:w14="w14"/>'
+    : `<w:comments xmlns:w="w" xmlns:w14="w14">${rootComment}${operation.family === 'reply_attempt' ? replyComment : ''}</w:comments>`;
+  const done = requestedState === 'resolve' ? '1' : '0';
+  const commentsExtendedXml = requestedState === 'delete'
+    ? '<w15:commentsEx xmlns:w15="w15"/>'
+    : '<w15:commentsEx xmlns:w15="w15">'
+      + `<w15:commentEx w15:paraId="${xmlEscape(rootParaId)}" w15:done="${done}"/>`
+      + (operation.family === 'reply_attempt'
+        ? `<w15:commentEx w15:paraId="${xmlEscape(replyParaId)}" w15:paraIdParent="${xmlEscape(rootParaId)}" w15:done="0"/>`
+        : '')
+      + '</w15:commentsEx>';
+  writeStoredZip(filePath, [
+    {
+      name: '[Content_Types].xml',
+      content: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+        + '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'
+        + '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'
+        + '<Default Extension="xml" ContentType="application/xml"/>'
+        + '<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>'
+        + '<Override PartName="/word/comments.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml"/>'
+        + '</Types>',
+    },
+    {
+      name: '_rels/.rels',
+      content: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+        + '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
+        + '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>'
+        + '</Relationships>',
+    },
+    {
+      name: 'word/document.xml',
+      content: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+        + '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body><w:p><w:r><w:t>native lifecycle snapshot</w:t></w:r></w:p><w:sectPr/></w:body></w:document>',
+    },
+    { name: 'word/comments.xml', content: commentsXml },
+    { name: 'word/commentsExtended.xml', content: commentsExtendedXml },
+  ]);
+}
+
 function productParagraphsForTest(text) {
   return String(text || '')
     .split(/\n{2,}/u)
@@ -300,7 +347,7 @@ function physicalOperationForTest(operation, fallbackParagraphOrdinal = 0) {
     locatorSelectionStart: contextBefore.length,
     ...(operation.targetRootOperationId ? { targetRootOperationId: operation.targetRootOperationId } : {}),
     ...(family === 'reply_attempt' || family === 'state_attempt'
-      ? { requestedState: operation.semanticIntent?.kind || '', physicalAction: 'typed-limit' }
+      ? { requestedState: family === 'reply_attempt' ? 'reply' : (operation.semanticIntent?.kind || 'resolve') }
       : {}),
   };
 }
@@ -396,10 +443,55 @@ function nativeLifecycleVerificationForTest(operations) {
   if (lifecycle.length === 0) return { ok: true, notApplicable: true, results: [], verifiedCount: 0, blockedCount: 0 };
   const results = lifecycle.map((operation) => ({
     operationId: operation.id,
-    status: operation.expectedOutcome === 'BLOCKED' ? 'BLOCKED' : 'MANUAL',
-    reason: 'PHYSICALLY_UNSUPPORTED_TYPED_OUTCOME',
+    status: 'SAFE_APPLY',
+    reason: operation.family === 'reply_attempt'
+      ? 'NATIVE_REPLY_PARENT_VERIFIED_AFTER_REOPEN'
+      : `NATIVE_STATE_${String(operation.requestedState || 'resolve').toUpperCase()}_VERIFIED_AFTER_REOPEN`,
   }));
-  return { ok: true, notApplicable: false, typedLimitOnly: true, results, verifiedCount: 0, blockedCount: results.length };
+  return { ok: true, notApplicable: false, results, verifiedCount: results.length, blockedCount: 0 };
+}
+
+function nativeLifecycleCoverageForTest(operations, nativeLifecycleVerification) {
+  const lifecycle = operations.filter((operation) => ['reply_attempt', 'state_attempt'].includes(operation.family));
+  const expectedOperationIds = lifecycle.map((operation) => String(operation.id || operation.operationId || ''));
+  const typedLimitCount = lifecycle.filter((operation) => operation.physicalAction === 'typed-limit').length;
+  const results = Array.isArray(nativeLifecycleVerification?.results) ? nativeLifecycleVerification.results : [];
+  const resultIds = results.map((result) => String(result?.operationId || ''));
+  const resultIdSet = new Set(resultIds);
+  const duplicateResultIds = resultIds.length !== resultIdSet.size;
+  const missingOperationIds = expectedOperationIds.filter((operationId) => !resultIdSet.has(operationId));
+  const extraResultIds = resultIds.filter((operationId) => operationId && !expectedOperationIds.includes(operationId));
+  const verifiedResultCount = results.filter((result) => result?.status === 'SAFE_APPLY').length;
+  const blockedResultCount = results.filter((result) => result?.status !== 'SAFE_APPLY').length;
+  const notApplicable = lifecycle.length === 0;
+  const ok = notApplicable
+    ? nativeLifecycleVerification?.ok === true && results.length === 0
+    : nativeLifecycleVerification?.ok === true
+      && typedLimitCount === 0
+      && duplicateResultIds === false
+      && missingOperationIds.length === 0
+      && extraResultIds.length === 0
+      && Number(nativeLifecycleVerification.verifiedCount) === lifecycle.length
+      && Number(nativeLifecycleVerification.blockedCount) === 0
+      && verifiedResultCount === lifecycle.length
+      && blockedResultCount === 0;
+  return {
+    schemaVersion: 'yalken.rtk.word.c5v2.native-lifecycle-coverage.v1',
+    ok,
+    notApplicable,
+    expectedLifecycleCount: lifecycle.length,
+    typedLimitCount,
+    resultCount: results.length,
+    verifiedCount: Number(nativeLifecycleVerification?.verifiedCount || 0),
+    blockedCount: Number(nativeLifecycleVerification?.blockedCount || 0),
+    verifiedResultCount,
+    blockedResultCount,
+    duplicateResultIds,
+    missingOperationIds,
+    extraResultIds,
+    expectedOperationIdsDigest: sha256Text(stableJson(expectedOperationIds)),
+    resultOperationIdsDigest: sha256Text(stableJson(resultIds)),
+  };
 }
 
 function canonicalCommentStateForTest(rootOps) {
@@ -1306,8 +1398,9 @@ function makeSemanticLedger({
         : family === 'tracked_text_edit'
           ? 'MANUAL'
             : ['reply', 'comment_state'].includes(family)
-              ? 'MANUAL'
+              ? 'SAFE_APPLY'
               : 'SAFE_APPLY';
+      const stateKinds = ['resolve', 'reopen', 'delete', 'resolve-reopen'];
       const semanticIntent = {
         kind: family === 'negative_probe'
           ? `negative-fixture-${String(index + 1).padStart(4, '0')}`
@@ -1317,7 +1410,11 @@ function makeSemanticLedger({
               ? (index % 2 === 0 ? 'bold' : 'italic')
               : family === 'structural'
                 ? 'headingLevel'
-                : `${family}-fixture`,
+                : family === 'reply'
+                  ? 'reply'
+                  : family === 'comment_state'
+                    ? stateKinds[index % stateKinds.length]
+                    : `${family}-fixture`,
       };
       if (family === 'tracked_text_edit') semanticIntent.replacementText = `replacement-${String(index + 1).padStart(4, '0')}`;
       if (family === 'structural') semanticIntent.headingLevel = (index % 3) + 1;
@@ -1540,6 +1637,14 @@ function writePositiveRoundGateEvidence({ options, runRoot, ledger, ledgerDigest
       rootCommentOperations: rootCommentOps,
     });
   }
+  if (!forgedMinimalDocx) {
+    for (const operation of physicalOperations.filter((item) => ['reply_attempt', 'state_attempt'].includes(item.family))) {
+      writeNativeLifecycleSnapshotDocx(
+        `${returnedDocxPath}.${operation.id.replace(/[^a-z0-9_-]/giu, '_')}.native-readback.docx`,
+        operation,
+      );
+    }
+  }
   const wordVisibleReadbackPath = `${returnedDocxPath}.word-visible-readback.txt`;
   fs.writeFileSync(
     wordVisibleReadbackPath,
@@ -1582,15 +1687,30 @@ function writePositiveRoundGateEvidence({ options, runRoot, ledger, ledgerDigest
   }));
   const applyReceipts = rootCommentOps.map((operation) => ({
     operationId: operation.id,
+    family: 'root_comment',
     ok: true,
     status: 'applied',
+    writerCalled: true,
     recoveryWritten: true,
     canonicalDigest: sha256Text(`canonical:${operation.id}`),
   }));
+  for (const operation of physicalOperations.filter((item) => ['reply_attempt', 'state_attempt'].includes(item.family))) {
+    applyReceipts.push({
+      operationId: operation.id,
+      family: operation.family === 'reply_attempt' ? 'reply' : 'comment_state',
+      ok: true,
+      status: 'applied',
+      writerCalled: true,
+      recoveryWritten: true,
+      canonicalDigest: sha256Text(`canonical:${operation.id}`),
+    });
+  }
   const replayReceipts = applyReceipts.map((receipt) => ({
     operationId: receipt.operationId,
+    family: receipt.family,
     ok: true,
     status: 'replay',
+    writerCalled: false,
     canonicalDigest: receipt.canonicalDigest,
   }));
   const returnApply = {
@@ -1603,7 +1723,15 @@ function writePositiveRoundGateEvidence({ options, runRoot, ledger, ledgerDigest
       commentThreadDiagnostics,
       commentPlacementDiagnostics,
       commentProductPath: {
-        semanticOracle: { lifecycleApplied: 0 },
+        ok: true,
+        pendingProductApplyLane: false,
+        commandBusDispatchOnly: true,
+        directPortDispatch: false,
+        semanticOracle: {
+          triangleGreen: true,
+          rootApplied: rootCommentOps.length,
+          lifecycleApplied: physicalOperations.filter((item) => ['reply_attempt', 'state_attempt'].includes(item.family)).length,
+        },
         applyReceipts,
         replayReceipts,
       },
@@ -1675,6 +1803,8 @@ function writePositiveRoundGateEvidence({ options, runRoot, ledger, ledgerDigest
     returnApplyPath,
     nativeLifecyclePath: nativeLifecycleVerificationPath,
   });
+  const canonicalNativeLifecycleVerification = JSON.parse(fs.readFileSync(nativeLifecycleVerificationPath, 'utf8'));
+  const nativeLifecycleCoverage = nativeLifecycleCoverageForTest(physicalOperations, canonicalNativeLifecycleVerification);
   const oraclePath = path.join(roundDir, 'complete-round-oracle.json');
   writeJson(oraclePath, oracle);
 
@@ -1728,7 +1858,8 @@ function writePositiveRoundGateEvidence({ options, runRoot, ledger, ledgerDigest
     ok: true,
     wordStatus: 'PASS',
     productReturnApplyGreen: true,
-    nativeLifecycleVerificationGreen: true,
+    nativeLifecycleVerificationGreen: nativeLifecycleCoverage.ok === true,
+    nativeLifecycleCoverage,
     completeRoundOracleGreen: true,
     oracleDigest: oracle.oracleDigest,
     semanticOracleDigest: oracle.semanticOracle?.oracleDigest || '',

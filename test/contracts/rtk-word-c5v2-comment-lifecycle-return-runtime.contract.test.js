@@ -9,6 +9,115 @@ const test = require('node:test');
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
 const MODULE_PATH = path.join(REPO_ROOT, 'src', 'io', 'revisionBridge', 'reviewTransportNonTextReturnRuntime.mjs');
 const CANARY_PATH = path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs');
+const LEDGER_PATH = path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-ledger-engine.mjs');
+
+const CRC32_TABLE = Array.from({ length: 256 }, (_, index) => {
+  let value = index;
+  for (let bit = 0; bit < 8; bit += 1) {
+    value = (value & 1) ? (0xedb88320 ^ (value >>> 1)) : (value >>> 1);
+  }
+  return value >>> 0;
+});
+
+function crc32Buffer(buffer) {
+  let crc = 0xffffffff;
+  for (const byte of buffer) crc = CRC32_TABLE[(crc ^ byte) & 0xff] ^ (crc >>> 8);
+  return (crc ^ 0xffffffff) >>> 0;
+}
+
+function xmlEscape(value) {
+  return String(value)
+    .replace(/&/gu, '&amp;')
+    .replace(/</gu, '&lt;')
+    .replace(/>/gu, '&gt;')
+    .replace(/"/gu, '&quot;')
+    .replace(/'/gu, '&apos;');
+}
+
+function writeStoredZip(filePath, entries) {
+  const localParts = [];
+  const centralParts = [];
+  let offset = 0;
+  for (const entry of entries) {
+    const name = Buffer.from(entry.name, 'utf8');
+    const content = Buffer.isBuffer(entry.content) ? entry.content : Buffer.from(String(entry.content), 'utf8');
+    const crc = crc32Buffer(content);
+    const local = Buffer.alloc(30);
+    local.writeUInt32LE(0x04034b50, 0);
+    local.writeUInt16LE(20, 4);
+    local.writeUInt16LE(0, 6);
+    local.writeUInt16LE(0, 8);
+    local.writeUInt16LE(0, 10);
+    local.writeUInt16LE(0, 12);
+    local.writeUInt32LE(crc, 14);
+    local.writeUInt32LE(content.length, 18);
+    local.writeUInt32LE(content.length, 22);
+    local.writeUInt16LE(name.length, 26);
+    local.writeUInt16LE(0, 28);
+    localParts.push(local, name, content);
+
+    const central = Buffer.alloc(46);
+    central.writeUInt32LE(0x02014b50, 0);
+    central.writeUInt16LE(20, 4);
+    central.writeUInt16LE(20, 6);
+    central.writeUInt16LE(0, 8);
+    central.writeUInt16LE(0, 10);
+    central.writeUInt16LE(0, 12);
+    central.writeUInt16LE(0, 14);
+    central.writeUInt32LE(crc, 16);
+    central.writeUInt32LE(content.length, 20);
+    central.writeUInt32LE(content.length, 24);
+    central.writeUInt16LE(name.length, 28);
+    central.writeUInt16LE(0, 30);
+    central.writeUInt16LE(0, 32);
+    central.writeUInt16LE(0, 34);
+    central.writeUInt16LE(0, 36);
+    central.writeUInt32LE(0, 38);
+    central.writeUInt32LE(offset, 42);
+    centralParts.push(central, name);
+    offset += local.length + name.length + content.length;
+  }
+  const centralDirectory = Buffer.concat(centralParts);
+  const end = Buffer.alloc(22);
+  end.writeUInt32LE(0x06054b50, 0);
+  end.writeUInt16LE(0, 4);
+  end.writeUInt16LE(0, 6);
+  end.writeUInt16LE(entries.length, 8);
+  end.writeUInt16LE(entries.length, 10);
+  end.writeUInt32LE(centralDirectory.length, 12);
+  end.writeUInt32LE(offset, 16);
+  end.writeUInt16LE(0, 20);
+  fs.writeFileSync(filePath, Buffer.concat([...localParts, centralDirectory, end]));
+}
+
+function writeTextDocx(filePath, paragraphs) {
+  const body = paragraphs.map((text) => `<w:p><w:r><w:t>${xmlEscape(text)}</w:t></w:r></w:p>`).join('');
+  writeStoredZip(filePath, [
+    {
+      name: '[Content_Types].xml',
+      content: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+        + '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'
+        + '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'
+        + '<Default Extension="xml" ContentType="application/xml"/>'
+        + '<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>'
+        + '</Types>',
+    },
+    {
+      name: '_rels/.rels',
+      content: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+        + '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
+        + '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>'
+        + '</Relationships>',
+    },
+    {
+      name: 'word/document.xml',
+      content: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+        + '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">'
+        + `<w:body>${body}<w:sectPr/></w:body>`
+        + '</w:document>',
+    },
+  ]);
+}
 
 function rootInput(projectRoot) {
   return {
@@ -24,6 +133,17 @@ function lifecycleInput(projectRoot, operationId, action, overrides = {}) {
     action, replyId: action === 'reply' ? `reply-${operationId}` : '', replyBody: action === 'reply' ? `Reply ${operationId}` : '',
     ...overrides,
   };
+}
+
+function makePhaseCLifecycleScenes() {
+  const sentence = 'The painter studied the changing light beside the window, while the editor marked a careful phrase for later discussion.';
+  return Array.from({ length: 21 }, (_, index) => ({
+    sceneId: `phase-c-${String(index).padStart(2, '0')}`,
+    title: index === 0 ? 'Preface' : `Chapter ${index}`,
+    text: Array.from({ length: 120 }, (_, paragraphIndex) => (
+      `${index === 0 ? 'Preface' : `Chapter ${index}`} paragraph ${paragraphIndex + 1}. ${sentence} This natural paragraph contains distinct lifecycle language for deterministic native sampling ${index}-${paragraphIndex}.`
+    )).join('\n\n'),
+  }));
 }
 
 async function seededRuntime() {
@@ -501,6 +621,133 @@ test('N2 native lifecycle proof requires reopened parent and requested done sema
     assert.equal(result.ok, false, name);
     assert.equal(result.results[0].status, 'MANUAL_OR_BLOCKED', name);
   }
+});
+
+test('N2 native lifecycle proof covers delete and resolve-reopen without typed-limit fallback', async () => {
+  const canary = await import(CANARY_PATH);
+  const ledger = {
+    operations: [
+      { id: 'delete-3', family: 'state_attempt', targetRootOperationId: 'root-3', requestedState: 'delete' },
+      { id: 'resolve-reopen-4', family: 'state_attempt', targetRootOperationId: 'root-4', requestedState: 'resolve-reopen' },
+    ],
+  };
+  const root = (id, paraId) => `<w:comment w:id="${id}"><w:p w14:paraId="${paraId}"><w:r><w:t>C5V2 root root-${id}</w:t></w:r></w:p></w:comment>`;
+  const positive = canary.verifyNativeCommentLifecycleSemantics({
+    ledger,
+    snapshotXmlByOperationId: {
+      'delete-3': { commentsXml: '<w:comments xmlns:w="w" xmlns:w14="w14"/>', commentsExtendedXml: '<w15:commentsEx xmlns:w15="w15"/>' },
+      'resolve-reopen-4': {
+        commentsXml: `<w:comments xmlns:w="w" xmlns:w14="w14">${root('4', 'ROOT4')}</w:comments>`,
+        commentsExtendedXml: '<w15:commentsEx xmlns:w15="w15"><w15:commentEx w15:paraId="ROOT4" w15:done="0"/></w15:commentsEx>',
+      },
+    },
+  });
+  assert.equal(positive.ok, true, JSON.stringify(positive, null, 2));
+  assert.equal(positive.verifiedCount, 2);
+  assert.equal(positive.blockedCount, 0);
+
+  const deleteNoop = canary.verifyNativeCommentLifecycleSemantics({
+    ledger: { operations: [ledger.operations[0]] },
+    snapshotXmlByOperationId: {
+      'delete-3': {
+        commentsXml: `<w:comments xmlns:w="w" xmlns:w14="w14">${root('3', 'ROOT3')}</w:comments>`,
+        commentsExtendedXml: '<w15:commentsEx xmlns:w15="w15"><w15:commentEx w15:paraId="ROOT3" w15:done="0"/></w15:commentsEx>',
+      },
+    },
+  });
+  assert.equal(deleteNoop.ok, false);
+  assert.equal(deleteNoop.results[0].reason, 'NATIVE_DELETE_ROOT_STILL_PRESENT');
+});
+
+test('N2 master-ledger lifecycle adapts to native Word actions across cumulative rounds', async () => {
+  const canary = await import(CANARY_PATH);
+  const ledgerEngine = await import(LEDGER_PATH);
+  const scenes = makePhaseCLifecycleScenes();
+  const masterLedger = ledgerEngine.buildC5V2Ledger({ scenes });
+  const lifecycle = masterLedger.operations.filter((operation) => ['reply', 'comment_state'].includes(operation.family));
+  assert.equal(masterLedger.gates.ok, true, JSON.stringify(masterLedger.gates.failures, null, 2));
+  assert.equal(lifecycle.length, 220);
+  assert.equal(lifecycle.every((operation) => operation.expectedOutcome === 'SAFE_APPLY'), true);
+  assert.equal(lifecycle.every((operation) => operation.physicalAction !== 'typed-limit'), true);
+  assert.equal(lifecycle.some((operation) => operation.family === 'comment_state' && operation.semanticIntent.kind === 'reopen'), false);
+  const reopen = lifecycle.find((operation) => operation.family === 'comment_state' && operation.semanticIntent.kind === 'resolve-reopen');
+  assert.ok(reopen);
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-c5v2-phase-c-ledger-'));
+  const sourceDocxPath = path.join(tempRoot, 'source.docx');
+  writeTextDocx(sourceDocxPath, scenes.flatMap((scene) => scene.text.split(/\n{2,}/u)));
+  const currentScenes = scenes.map((scene) => ({
+    sceneId: scene.sceneId,
+    title: scene.title,
+    text: scene.text,
+    paragraphs: scene.text.split(/\n{2,}/u),
+    sourceSha256: canary.sha256Text(scene.text),
+  }));
+  const adapted = canary.adaptC5V2MasterRoundToPhysicalLedger({
+    masterLedger,
+    currentScenes,
+    roundNumber: Number(reopen.round),
+    sourceDocxPath,
+  });
+  const adaptedLifecycle = adapted.operations.filter((operation) => ['reply_attempt', 'state_attempt'].includes(operation.family));
+  assert.ok(adaptedLifecycle.length > 0);
+  assert.equal(adaptedLifecycle.every((operation) => operation.physicalAction !== 'typed-limit'), true);
+  assert.equal(adaptedLifecycle.every((operation) => operation.expectedOutcome === 'SAFE_APPLY'), true);
+  const adaptedReopen = adaptedLifecycle.find((operation) => operation.id === reopen.id);
+  if (adaptedReopen) assert.equal(adaptedReopen.requestedState, 'resolve-reopen');
+  assert.equal(
+    adapted.operations.some((operation) => operation.family === 'root_comment' && operation.id === reopen.targetRootOperationId),
+    true,
+  );
+});
+
+test('N2 native lifecycle coverage rejects typed-limit boolean greens and missing per-operation proof', async () => {
+  const canary = await import(CANARY_PATH);
+  const ledger = {
+    operations: [
+      { id: 'reply-1', family: 'reply_attempt' },
+      { id: 'state-1', family: 'state_attempt', requestedState: 'resolve-reopen' },
+    ],
+  };
+  const green = canary.summarizeC5V2NativeLifecycleCoverage({
+    ledger,
+    nativeLifecycleVerification: {
+      ok: true,
+      results: [
+        { operationId: 'reply-1', status: 'SAFE_APPLY' },
+        { operationId: 'state-1', status: 'SAFE_APPLY' },
+      ],
+      verifiedCount: 2,
+      blockedCount: 0,
+    },
+  });
+  assert.equal(green.ok, true);
+  assert.equal(green.expectedLifecycleCount, 2);
+  assert.equal(green.typedLimitCount, 0);
+
+  const typedBooleanGreen = canary.summarizeC5V2NativeLifecycleCoverage({
+    ledger: { operations: [{ id: 'reply-1', family: 'reply_attempt', physicalAction: 'typed-limit' }] },
+    nativeLifecycleVerification: {
+      ok: true,
+      typedLimitOnly: true,
+      results: [{ operationId: 'reply-1', status: 'MANUAL', reason: 'PHYSICALLY_UNSUPPORTED_TYPED_OUTCOME' }],
+      verifiedCount: 0,
+      blockedCount: 1,
+    },
+  });
+  assert.equal(typedBooleanGreen.ok, false);
+  assert.equal(typedBooleanGreen.typedLimitCount, 1);
+
+  const missingProof = canary.summarizeC5V2NativeLifecycleCoverage({
+    ledger,
+    nativeLifecycleVerification: {
+      ok: true,
+      results: [{ operationId: 'reply-1', status: 'SAFE_APPLY' }],
+      verifiedCount: 1,
+      blockedCount: 0,
+    },
+  });
+  assert.equal(missingProof.ok, false);
+  assert.deepEqual(missingProof.missingOperationIds, ['state-1']);
 });
 
 test('N2 Word canary never classifies reply or state setter no-error as SAFE_APPLY', () => {

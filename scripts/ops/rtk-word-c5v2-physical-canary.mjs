@@ -1518,6 +1518,7 @@ export function bindLedgerToSourceDocxOffsets({ ledger, sourceDocxPath, sourceDo
   const seenStructuralParagraphScopes = new Set();
   const boundOperations = ledger.operations.map((operation) => {
     if (operation.physicalAction === 'typed-limit') return operation;
+    if (['reply_attempt', 'state_attempt'].includes(operation.family)) return operation;
     const locatorQuote = operation.locatorQuote || operation.quote;
     const locatorStart = docxText.indexOf(locatorQuote);
     if (locatorStart < 0) {
@@ -1697,7 +1698,7 @@ export function adaptC5V2MasterRoundToPhysicalLedger({ masterLedger, currentScen
   const masterOperations = masterLedger.operations.filter((operation) => operation.round === roundNumber);
   const rootPhysicalById = new Map();
   const operations = [];
-  for (const operation of masterOperations.filter((item) => !['reply', 'comment_state'].includes(item.family))) {
+  const bindPhysicalOperation = (operation) => {
     const scene = sceneById.get(operation.sceneId);
     if (!scene) throw new Error(`C5V2_PHYSICAL_SCENE_AUTHORITY_MISSING:${operation.id}:${operation.sceneId}`);
     const paragraphs = Array.isArray(scene.paragraphs) && scene.paragraphs.length > 0
@@ -1733,6 +1734,23 @@ export function adaptC5V2MasterRoundToPhysicalLedger({ masterLedger, currentScen
       masterAnchor: operation.anchor,
       ...locator,
     };
+    return physical;
+  };
+  const rootTargetIds = new Set(masterOperations
+    .filter((item) => ['reply', 'comment_state'].includes(item.family))
+    .map((item) => item.targetRootOperationId)
+    .filter(Boolean));
+  for (const operation of (masterLedger.operations || []).filter((item) => (
+    item.family === 'root_comment'
+    && Number(item.round) <= roundNumber
+    && rootTargetIds.has(item.id)
+  ))) {
+    rootPhysicalById.set(operation.id, bindPhysicalOperation(operation));
+  }
+  for (const operation of masterOperations.filter((item) => !['reply', 'comment_state'].includes(item.family))) {
+    const physical = operation.family === 'root_comment' && rootPhysicalById.has(operation.id)
+      ? rootPhysicalById.get(operation.id)
+      : bindPhysicalOperation(operation);
     operations.push(physical);
     if (operation.family === 'root_comment') rootPhysicalById.set(operation.id, physical);
   }
@@ -1750,7 +1768,9 @@ export function adaptC5V2MasterRoundToPhysicalLedger({ masterLedger, currentScen
       masterAnchor: operation.anchor,
       targetRootOperationId: operation.targetRootOperationId,
       requestedState: operation.semanticIntent?.kind || '',
-      physicalAction: 'typed-limit',
+      predecessorOperationId: operation.semanticIntent?.predecessorOperationId || '',
+      quote: root.quote,
+      locatorQuote: root.locatorQuote,
     });
   }
   const familyCounts = operations.reduce((acc, operation) => {
@@ -2310,18 +2330,13 @@ export function buildCanaryLedger(scenes, options = {}) {
       band,
       quote,
       expectedOutcome: family.includes('attempt')
-        ? options.typedLifecycleLimits === true
-          ? 'MANUAL'
-          : 'MANUAL_OR_BLOCKED'
+        ? 'SAFE_APPLY'
         : ['tracked_insert', 'tracked_delete'].includes(family)
           ? 'MANUAL'
           : family === 'tracked_replace'
             ? 'EXACT'
             : 'SAFE_APPLY',
       replacementText: `C5V2_${family}_${String(index + 1).padStart(3, '0')}`,
-      ...(family.includes('attempt') && options.typedLifecycleLimits === true
-        ? { physicalAction: 'typed-limit' }
-        : {}),
     });
   }
   const rootOperations = operations.filter((operation) => operation.family === 'root_comment');
@@ -4804,7 +4819,12 @@ function wordOperationLines(ledger, returnedPath) {
       lines.push('  end try');
     } else if (operation.family === 'state_attempt') {
       const root = rootOperations.find((candidate) => candidate.id === operation.targetRootOperationId);
-      const names = operation.requestedState === 'reopened' ? '{"Повторно открыть", "Reopen"}' : '{"Разрешить", "Resolve"}';
+      const requestedState = operation.requestedState === 'reopened' ? 'reopen' : operation.requestedState;
+      const names = requestedState === 'reopen'
+        ? '{"Повторно открыть", "Reopen"}'
+        : requestedState === 'delete'
+          ? '{"Удалить примечание", "Delete Comment", "Delete"}'
+          : '{"Разрешить", "Resolve"}';
       lines.push(`  set yTargetRootRange to my yFindRange(yDoc, ${appleText(root?.quote || '')})`);
       lines.push('  if yTargetRootRange is missing value then error "EXPLICIT_ROOT_COMMENT_FOR_STATE_NOT_FOUND" number 9103');
       lines.push('  try');
@@ -4819,6 +4839,14 @@ function wordOperationLines(ledger, returnedPath) {
       lines.push(`    my yCheckpoint(yCheckpointPath, ${appleText(`${id}:CONTROL_CLICK_AFTER`)}, yUiResult)`);
       lines.push(`    set yUiDiagnostics to yUiDiagnostics & "OP|${id}|ACTION|" & yUiResult & linefeed`);
       lines.push('    if yUiResult is not "CLICKED" then error "STATE_NATIVE_UI_CONTROL_UNAVAILABLE_OR_AMBIGUOUS:" & yUiResult number 9113');
+      if (requestedState === 'resolve-reopen') {
+        lines.push(`    set yUiPreparation to my yPrepareCommentsUi(yCheckpointPath, yExpectedFullName, ${appleText(`C5V2 root ${operation.targetRootOperationId}`)}, 0)`);
+        lines.push(`    set yUiDiagnostics to yUiDiagnostics & "OP|${id}|PREPARE_REOPEN|" & yUiPreparation & linefeed`);
+        lines.push('    if yUiPreparation does not contain "UNIQUE_TARGET_MARKER_VERIFIED" then error "STATE_NATIVE_UI_REOPEN_TARGET_UNAVAILABLE_OR_AMBIGUOUS:" & yUiPreparation number 9114');
+        lines.push(`    set yUiResult to my yClickBoundedMarkerControl(yCheckpointPath, ${appleText(`C5V2 root ${operation.targetRootOperationId}`)}, {"Повторно открыть", "Reopen"})`);
+        lines.push(`    set yUiDiagnostics to yUiDiagnostics & "OP|${id}|ACTION_REOPEN|" & yUiResult & linefeed`);
+        lines.push('    if yUiResult is not "CLICKED" then error "STATE_NATIVE_UI_REOPEN_CONTROL_UNAVAILABLE_OR_AMBIGUOUS:" & yUiResult number 9114');
+      }
       lines.push(markLine(id, 'PENDING_NATIVE_READBACK', '    '));
       lines.push(...lifecycleCheckpointLines(operation));
       lines.push('  on error errMsg number errNo');
@@ -5930,6 +5958,17 @@ export function verifyNativeCommentLifecycleSemantics({ ledger, snapshotXmlByOpe
     const graph = inspectNativeCommentLifecycleXml(snapshot);
     const rootBody = `C5V2 root ${operation.targetRootOperationId || ''}`;
     const roots = graph.comments.filter((comment) => comment.body.includes(rootBody));
+    const requestedState = operation.requestedState === 'reopened' ? 'reopen' : operation.requestedState;
+    if (operation.family === 'state_attempt' && requestedState === 'delete') {
+      results.push({
+        operationId: operation.id,
+        status: roots.length === 0 ? 'SAFE_APPLY' : 'MANUAL_OR_BLOCKED',
+        reason: roots.length === 0 ? 'NATIVE_DELETE_VERIFIED_AFTER_REOPEN' : 'NATIVE_DELETE_ROOT_STILL_PRESENT',
+        requestedState,
+        observedRootCount: roots.length,
+      });
+      continue;
+    }
     if (roots.length !== 1) {
       results.push({ operationId: operation.id, status: 'MANUAL_OR_BLOCKED', reason: roots.length === 0 ? 'NATIVE_ROOT_MISSING' : 'NATIVE_ROOT_DUPLICATE' });
       continue;
@@ -5956,13 +5995,13 @@ export function verifyNativeCommentLifecycleSemantics({ ledger, snapshotXmlByOpe
       continue;
     }
     const rootEx = graph.commentEx.filter((entry) => entry.paraId && entry.paraId === root.paraId);
-    const expectedDone = operation.requestedState === 'reopened' ? '0' : '1';
+    const expectedDone = requestedState === 'reopen' || requestedState === 'resolve-reopen' ? '0' : '1';
     const stateVerified = rootEx.length === 1 && rootEx[0].done === expectedDone;
     results.push({
       operationId: operation.id,
       status: stateVerified ? 'SAFE_APPLY' : 'MANUAL_OR_BLOCKED',
-      reason: stateVerified ? `NATIVE_STATE_${operation.requestedState.toUpperCase()}_VERIFIED_AFTER_REOPEN` : 'NATIVE_STATE_MISSING_OR_MISMATCHED',
-      requestedState: operation.requestedState,
+      reason: stateVerified ? `NATIVE_STATE_${requestedState.toUpperCase()}_VERIFIED_AFTER_REOPEN` : 'NATIVE_STATE_MISSING_OR_MISMATCHED',
+      requestedState,
       observedDone: rootEx.length === 1 ? rootEx[0].done : '',
     });
   }
@@ -5999,6 +6038,50 @@ export function applyNativeLifecycleVerification(wordParsed, verification) {
       ...[...lifecycleById.values()].map((result) => ({ id: result.operationId, status: result.status })),
     ],
     nativeLifecycleVerification: verification,
+  };
+}
+
+export function summarizeC5V2NativeLifecycleCoverage({ ledger = {}, nativeLifecycleVerification = {} } = {}) {
+  const operations = Array.isArray(ledger?.operations) ? ledger.operations : [];
+  const lifecycleOperations = operations.filter((operation) => ['reply_attempt', 'state_attempt'].includes(operation.family));
+  const expectedOperationIds = lifecycleOperations.map((operation) => String(operation.id || operation.operationId || ''));
+  const typedLimitCount = lifecycleOperations.filter((operation) => operation.physicalAction === 'typed-limit').length;
+  const results = Array.isArray(nativeLifecycleVerification?.results) ? nativeLifecycleVerification.results : [];
+  const resultIds = results.map((result) => String(result?.operationId || ''));
+  const resultIdSet = new Set(resultIds);
+  const duplicateResultIds = resultIds.length !== resultIdSet.size;
+  const missingOperationIds = expectedOperationIds.filter((operationId) => !resultIdSet.has(operationId));
+  const extraResultIds = resultIds.filter((operationId) => operationId && !expectedOperationIds.includes(operationId));
+  const verifiedResultCount = results.filter((result) => result?.status === 'SAFE_APPLY').length;
+  const blockedResultCount = results.filter((result) => result?.status !== 'SAFE_APPLY').length;
+  const notApplicable = lifecycleOperations.length === 0;
+  const ok = notApplicable
+    ? nativeLifecycleVerification?.ok === true && results.length === 0
+    : nativeLifecycleVerification?.ok === true
+      && typedLimitCount === 0
+      && duplicateResultIds === false
+      && missingOperationIds.length === 0
+      && extraResultIds.length === 0
+      && Number(nativeLifecycleVerification.verifiedCount) === lifecycleOperations.length
+      && Number(nativeLifecycleVerification.blockedCount) === 0
+      && verifiedResultCount === lifecycleOperations.length
+      && blockedResultCount === 0;
+  return {
+    schemaVersion: 'yalken.rtk.word.c5v2.native-lifecycle-coverage.v1',
+    ok,
+    notApplicable,
+    expectedLifecycleCount: lifecycleOperations.length,
+    typedLimitCount,
+    resultCount: results.length,
+    verifiedCount: Number(nativeLifecycleVerification.verifiedCount || 0),
+    blockedCount: Number(nativeLifecycleVerification.blockedCount || 0),
+    verifiedResultCount,
+    blockedResultCount,
+    duplicateResultIds,
+    missingOperationIds,
+    extraResultIds,
+    expectedOperationIdsDigest: sha256Text(stableCanonicalJson(expectedOperationIds)),
+    resultOperationIdsDigest: sha256Text(stableCanonicalJson(resultIds)),
   };
 }
 
@@ -6630,6 +6713,11 @@ export function buildOracleProbe({
   const commentPath = activation.commentProductPath || {};
   const applyReceipts = Array.isArray(commentPath.applyReceipts) ? commentPath.applyReceipts : [];
   const replayReceipts = Array.isArray(commentPath.replayReceipts) ? commentPath.replayReceipts : [];
+  const nativeLifecycleById = new Map((wordParsed?.nativeLifecycleVerification?.results || [])
+    .map((result) => [String(result?.operationId || ''), result]));
+  const lifecycleOperationCount = operations.filter((operation) => (
+    ['reply', 'comment_state'].includes(operation.formalFamily || operation.family)
+  )).length;
   const formalOperations = [];
   const wordOperationsById = {};
   const yalkenOperationsById = {};
@@ -6700,14 +6788,51 @@ export function buildOracleProbe({
         ...canonicalBinding,
       };
     } else if (['reply', 'comment_state'].includes(operation.formalFamily)) {
-      const replyMarker = `C5V2 reply ${operation.id}`;
-      const nativeMutationAbsent = !comments.some((comment) => comment.body.includes(replyMarker));
-      wordRawGreen = nativeMutationAbsent;
+      const nativeLifecycle = nativeLifecycleById.get(operation.id) || null;
+      wordRawGreen = nativeLifecycle?.status === 'SAFE_APPLY';
+      const lifecycleApplied = Number(commentPath.semanticOracle?.lifecycleApplied || 0);
+      const lifecycleApplyReceipts = applyReceipts.filter((receipt) => (
+        ['reply', 'comment_state'].includes(receipt?.family)
+        && receipt?.ok === true
+        && receipt?.status === 'applied'
+        && receipt?.writerCalled === true
+        && receipt?.recoveryWritten === true
+        && typeof receipt?.canonicalDigest === 'string'
+        && receipt.canonicalDigest.length > 0
+      ));
+      const lifecycleReplayReceipts = replayReceipts.filter((receipt) => (
+        ['reply', 'comment_state'].includes(receipt?.family)
+        && receipt?.ok === true
+        && receipt?.status === 'replay'
+        && receipt?.writerCalled === false
+        && typeof receipt?.canonicalDigest === 'string'
+        && receipt.canonicalDigest.length > 0
+      ));
+      const productLifecycleGreen = commentPath.ok === true
+        && commentPath.pendingProductApplyLane === false
+        && commentPath.commandBusDispatchOnly === true
+        && commentPath.directPortDispatch === false
+        && commentPath.semanticOracle?.triangleGreen === true
+        && lifecycleApplied >= lifecycleOperationCount
+        && lifecycleApplyReceipts.length >= lifecycleOperationCount
+        && lifecycleReplayReceipts.length >= lifecycleOperationCount;
       yalkenGreen = yalkenGreen
-        && nativeMutationAbsent
-        && Number(commentPath.semanticOracle?.lifecycleApplied || 0) === 0;
-      wordEvidence = { nativeMutationAbsent, typedLimit: true };
-      yalkenEvidence = { ...yalkenEvidence, lifecycleApplied: Number(commentPath.semanticOracle?.lifecycleApplied || 0), typedLimit: true };
+        && productLifecycleGreen;
+      wordEvidence = {
+        nativeLifecycleStatus: nativeLifecycle?.status || '',
+        nativeLifecycleReason: nativeLifecycle?.reason || '',
+        nativeLifecycleVerified: wordRawGreen,
+      };
+      yalkenEvidence = {
+        ...yalkenEvidence,
+        lifecycleApplied,
+        lifecycleOperationCount,
+        productLifecycleGreen,
+        lifecycleApplyReceiptCount: lifecycleApplyReceipts.length,
+        lifecycleReplayReceiptCount: lifecycleReplayReceipts.length,
+        commandBusDispatchOnly: commentPath.commandBusDispatchOnly === true,
+        directPortDispatch: commentPath.directPortDispatch === false,
+      };
     } else if (operation.formalFamily === 'formatting') {
       const formatting = verifyDocxFormattingEvidence(paragraphs, operation);
       wordRawGreen = formatting.ok === true;
@@ -6811,6 +6936,7 @@ export function buildOracleProbe({
 
 export function buildC5V2CompleteRoundOracleGate({
   roundId = '',
+  ledger = {},
   wordParsed = {},
   nativeLifecycleVerification = {},
   oracleProbe = null,
@@ -6821,9 +6947,11 @@ export function buildC5V2CompleteRoundOracleGate({
   cumulativeOperationIds = [],
 } = {}) {
   const failures = [];
+  const nativeLifecycleCoverage = summarizeC5V2NativeLifecycleCoverage({ ledger, nativeLifecycleVerification });
   if (wordParsed?.scalars?.WORD_STATUS !== 'PASS') failures.push('WORD_STATUS_NOT_PASS');
   if (returnApply?.ok !== true) failures.push('PRODUCT_RETURN_APPLY_NOT_GREEN');
   if (nativeLifecycleVerification?.ok !== true) failures.push('NATIVE_LIFECYCLE_VERIFICATION_NOT_GREEN');
+  if (nativeLifecycleCoverage.ok !== true) failures.push('NATIVE_LIFECYCLE_COVERAGE_NOT_GREEN');
   if (oracleCapture?.ok === false) {
     failures.push(`ROUND_ORACLE_VALIDATION_ERROR:${oracleCapture.error?.code || 'UNKNOWN'}`);
   }
@@ -6837,7 +6965,8 @@ export function buildC5V2CompleteRoundOracleGate({
     ok: failures.length === 0,
     wordStatus: wordParsed?.scalars?.WORD_STATUS || 'UNKNOWN',
     productReturnApplyGreen: returnApply?.ok === true,
-    nativeLifecycleVerificationGreen: nativeLifecycleVerification?.ok === true,
+    nativeLifecycleVerificationGreen: nativeLifecycleVerification?.ok === true && nativeLifecycleCoverage.ok === true,
+    nativeLifecycleCoverage,
     completeRoundOracleGreen: oracleProbe?.ok === true,
     oracleDigest: oracleProbe?.oracleDigest || '',
     semanticOracleDigest: oracleProbe?.semanticOracle?.digest || oracleProbe?.semanticOracle?.oracleDigest || '',
@@ -7780,6 +7909,7 @@ async function mainCumulative(options) {
       });
       const gate = buildC5V2CompleteRoundOracleGate({
         roundId: round.roundId,
+        ledger: round.ledger || {},
         wordParsed,
         nativeLifecycleVerification,
         oracleProbe,

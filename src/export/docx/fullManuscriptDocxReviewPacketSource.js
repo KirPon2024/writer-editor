@@ -914,6 +914,15 @@ function buildFullManuscriptDocxReviewPacketSource(input = {}, deps = {}) {
     exportIdentity: exportId,
     manifestDigest: transportManifestResult.manifest.payloadDigest,
     coreManifestDigest: coreManifestResult.coreManifestDigest,
+    yrtk2: {
+      schemaVersion: yrtk2Result.schemaVersion,
+      tokenDigest: cryptoPort.sha256Text(yrtk2Result.token),
+      tokenLength: yrtk2Result.tokenLength,
+      keyIdHex: yrtk2Result.keyIdHex,
+      roundIdHex: yrtk2Result.roundIdHex,
+      coreManifestDigest: yrtk2Result.coreManifestDigest,
+      secretEmbeddedInDocx: false,
+    },
     exportMap,
   };
   return {
@@ -950,6 +959,14 @@ function buildFullManuscriptDocxReviewPacketSource(input = {}, deps = {}) {
         automaticApplyCertified: false,
         harnessLocalPositiveAuthority: false,
       },
+    },
+    provisionalSelfParseArtifact: {
+      schemaVersion: 'yalken.rtk.word.v4.provisional-docx-self-parse-artifact.v1',
+      provisionalDocxSha256,
+      bytes: provisionalBuffer,
+      expectedDocumentTextSha256: cryptoPort.sha256Json({
+        sceneText: scenes.map((scene) => scene.text).join('\n\n'),
+      }),
     },
     exportCapsule,
     localAuthorityCapsule,

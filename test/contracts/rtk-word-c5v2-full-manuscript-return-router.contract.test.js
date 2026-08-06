@@ -75,6 +75,40 @@ function returnedAuthority(source, overrides = {}) {
   };
 }
 
+function returnIntakeProof(source, operations = [], overrides = {}) {
+  const cryptoPort = makeCryptoPort();
+  const proof = {
+    status: 'authenticated-return-ir-ready',
+    authenticated: true,
+    returnedArtifactSha256: cryptoPort.sha256Json({ returned: source.localAuthorityCapsule.roundId }),
+    coreManifestDigest: source.localAuthorityCapsule.coreManifestDigest,
+    yrtk2Verification: {
+      code: 'RTK_RETURN_INTAKE_YRTK2_VERIFIED',
+      coreManifestDigest: source.localAuthorityCapsule.coreManifestDigest,
+      keyIdHex: source.localAuthorityCapsule.yrtk2.keyIdHex,
+      roundIdHex: source.localAuthorityCapsule.yrtk2.roundIdHex,
+      tokenDigest: source.localAuthorityCapsule.yrtk2.tokenDigest,
+    },
+    parserProfileDigest: cryptoPort.sha256Json({ parser: 'test-parser-v2' }),
+    analysisDigest: cryptoPort.sha256Json({ analysis: operations.map((operation) => operation.id) }),
+    reviewIrDigest: cryptoPort.sha256Json({ reviewIr: operations.map((operation) => operation.id) }),
+    operationSource: 'parsed-review-ir',
+    operationIds: operations.map((operation) => operation.id),
+    ...overrides,
+  };
+  const {
+    buildFullManuscriptReturnIntakeProofBindingDigest,
+  } = require(path.join(REPO_ROOT, 'src', 'export', 'docx', 'fullManuscriptDocxReviewReturnRouter.js'));
+  if (overrides.mainIntakeAuthorityDigest === undefined) {
+    proof.mainIntakeAuthorityDigest = buildFullManuscriptReturnIntakeProofBindingDigest({
+      proof,
+      localAuthority: source.localAuthorityCapsule,
+      operations,
+    });
+  }
+  return proof;
+}
+
 test('C5V2 full-manuscript authority carrier verifies against local full-book authority', async () => {
   const source = makeSource();
   const {
@@ -104,71 +138,73 @@ test('C5V2 return router lowers eligible full-manuscript tracked replacements to
     buildFullManuscriptReviewReturnApplyPlan,
   } = require(path.join(REPO_ROOT, 'src', 'export', 'docx', 'fullManuscriptDocxReviewReturnRouter.js'));
   const source = makeSource();
+  const operations = [
+    {
+      id: 'op-preface-replace',
+      family: 'tracked_text_edit',
+      sceneId: 'roman/preface.md',
+      anchor: {
+        sceneId: 'roman/preface.md',
+        selectedText: 'beautiful things',
+      },
+      semanticIntent: {
+        kind: 'replace',
+        replacementText: 'luminous forms',
+      },
+    },
+    {
+      id: 'op-chapter-replace',
+      family: 'tracked_text_edit',
+      sceneId: 'roman/chapter-01.md',
+      anchor: {
+        sceneId: 'roman/chapter-01.md',
+        selectedText: 'rich odour of roses',
+      },
+      semanticIntent: {
+        kind: 'replace',
+        replacementText: 'quiet scent of roses',
+      },
+    },
+    {
+      id: 'op-comment-root',
+      family: 'root_comment',
+      sceneId: 'roman/preface.md',
+      anchor: {
+        sceneId: 'roman/preface.md',
+        selectedText: 'critic translates',
+      },
+      semanticIntent: {
+        kind: 'root-comment',
+        threadId: 'thread-preface-01',
+        commentId: 'comment-preface-01',
+        commentText: 'Please clarify the critical distinction.',
+      },
+    },
+    {
+      id: 'op-comment-reply',
+      family: 'reply',
+      sceneId: 'roman/preface.md',
+      anchor: { sceneId: 'roman/preface.md' },
+      semanticIntent: {
+        kind: 'single-reply-thread',
+        parentThreadId: 'thread-preface-01',
+        replyText: 'The distinction is now explicit.',
+      },
+    },
+    {
+      id: 'op-comment-resolve',
+      family: 'comment_state',
+      sceneId: 'roman/preface.md',
+      anchor: { sceneId: 'roman/preface.md' },
+      semanticIntent: { kind: 'resolve', parentThreadId: 'thread-preface-01' },
+    },
+  ];
   const plan = buildFullManuscriptReviewReturnApplyPlan({
     projectId: 'project-c5v2',
     localAuthorityCapsule: source.localAuthorityCapsule,
     returnedAuthority: returnedAuthority(source),
-    operations: [
-      {
-        id: 'op-preface-replace',
-        family: 'tracked_text_edit',
-        sceneId: 'roman/preface.md',
-        anchor: {
-          sceneId: 'roman/preface.md',
-          selectedText: 'beautiful things',
-        },
-        semanticIntent: {
-          kind: 'replace',
-          replacementText: 'luminous forms',
-        },
-      },
-      {
-        id: 'op-chapter-replace',
-        family: 'tracked_text_edit',
-        sceneId: 'roman/chapter-01.md',
-        anchor: {
-          sceneId: 'roman/chapter-01.md',
-          selectedText: 'rich odour of roses',
-        },
-        semanticIntent: {
-          kind: 'replace',
-          replacementText: 'quiet scent of roses',
-        },
-      },
-      {
-        id: 'op-comment-root',
-        family: 'root_comment',
-        sceneId: 'roman/preface.md',
-        anchor: {
-          sceneId: 'roman/preface.md',
-          selectedText: 'critic translates',
-        },
-        semanticIntent: {
-          kind: 'root-comment',
-          threadId: 'thread-preface-01',
-          commentId: 'comment-preface-01',
-          commentText: 'Please clarify the critical distinction.',
-        },
-      },
-      {
-        id: 'op-comment-reply',
-        family: 'reply',
-        sceneId: 'roman/preface.md',
-        anchor: { sceneId: 'roman/preface.md' },
-        semanticIntent: {
-          kind: 'single-reply-thread',
-          parentThreadId: 'thread-preface-01',
-          replyText: 'The distinction is now explicit.',
-        },
-      },
-      {
-        id: 'op-comment-resolve',
-        family: 'comment_state',
-        sceneId: 'roman/preface.md',
-        anchor: { sceneId: 'roman/preface.md' },
-        semanticIntent: { kind: 'resolve', parentThreadId: 'thread-preface-01' },
-      },
-    ],
+    operations,
+    returnIntakeProof: returnIntakeProof(source, operations),
   });
 
   assert.equal(plan.ok, true);
@@ -249,6 +285,7 @@ test('C5V2 return router rejects wrong scene, missing scene, stale baseline and 
         semanticIntent: { kind: 'replace', replacementText: 'blocked' },
       },
     ],
+    returnIntakeProof: returnIntakeProof(source, [{ id: 'op-wrong-scene' }]),
   }).code, 'FULL_MANUSCRIPT_OPERATION_WRONG_SCENE');
 });
 
@@ -273,50 +310,103 @@ test('C5V2 exact authority is shared by preview and dispatch and blocks ambiguit
   const duplicateBaseline = structuredClone(source.localAuthorityCapsule);
   duplicateBaseline.baselineFinalTextBySceneId['roman/preface.md'] = 'same quote and same quote';
   duplicateBaseline.exportMap.scenes[0].rawSha256 = `sha256:${crypto.createHash('sha256').update('same quote and same quote').digest('hex')}`;
+  const duplicateOperation = replacement('duplicate', 'same quote');
   assert.equal(buildFullManuscriptReviewReturnApplyPlan({
     ...base,
     localAuthorityCapsule: duplicateBaseline,
-    operations: [replacement('duplicate', 'same quote')],
+    operations: [duplicateOperation],
+    returnIntakeProof: returnIntakeProof(source, [duplicateOperation]),
   }).code, 'FULL_MANUSCRIPT_EXACT_AUTHORITY_QUOTE_NOT_UNIQUE');
 
+  const overlapOperations = [replacement('overlap-a', 'beautiful things'), replacement('overlap-b', 'things')];
   assert.equal(buildFullManuscriptReviewReturnApplyPlan({
     ...base,
-    operations: [replacement('overlap-a', 'beautiful things'), replacement('overlap-b', 'things')],
+    operations: overlapOperations,
+    returnIntakeProof: returnIntakeProof(source, overlapOperations),
   }).code, 'FULL_MANUSCRIPT_EXACT_AUTHORITY_RANGES_OVERLAP');
 
   const stale = structuredClone(source.localAuthorityCapsule);
   stale.baselineFinalTextBySceneId['roman/preface.md'] += ' stale';
+  const staleOperation = replacement('stale', 'beautiful things');
   assert.equal(buildFullManuscriptReviewReturnApplyPlan({
     ...base,
     localAuthorityCapsule: stale,
-    operations: [replacement('stale', 'beautiful things')],
+    operations: [staleOperation],
+    returnIntakeProof: returnIntakeProof(source, [staleOperation]),
   }).code, 'FULL_MANUSCRIPT_EXACT_AUTHORITY_BASELINE_STALE');
 
   const forged = structuredClone(source.localAuthorityCapsule);
   forged.exportMap.scenes[0].sceneId = 'roman/forged.md';
+  const forgedOperation = replacement('forged', 'beautiful things');
   assert.equal(buildFullManuscriptReviewReturnApplyPlan({
     ...base,
     localAuthorityCapsule: forged,
-    operations: [replacement('forged', 'beautiful things')],
+    operations: [forgedOperation],
+    returnIntakeProof: returnIntakeProof(source, [forgedOperation]),
   }).code, 'FULL_MANUSCRIPT_EXACT_AUTHORITY_EXPORT_MAP_IDENTITY_INVALID');
 
+  const sharedOperation = replacement('shared', 'beautiful things');
   const positive = buildFullManuscriptReviewReturnApplyPlan({
     ...base,
-    operations: [replacement('shared', 'beautiful things')],
+    operations: [sharedOperation],
+    returnIntakeProof: returnIntakeProof(source, [sharedOperation]),
   });
   assert.equal(positive.ok, true);
   assert.equal(buildFullManuscriptReviewReturnApplyPlan({
     ...base,
-    operations: [replacement('shared', 'beautiful things')],
+    operations: [sharedOperation],
+    returnIntakeProof: returnIntakeProof(source, [sharedOperation]),
     admissionExactAuthorityBySceneId: {
       'roman/preface.md': positive.exactAuthorityBySceneId['roman/preface.md'].exactAuthority,
     },
   }).ok, true);
   assert.equal(buildFullManuscriptReviewReturnApplyPlan({
     ...base,
-    operations: [replacement('shared', 'beautiful things')],
+    operations: [sharedOperation],
+    returnIntakeProof: returnIntakeProof(source, [sharedOperation]),
     admissionExactAuthorityBySceneId: {
       'roman/preface.md': { ...positive.exactAuthorityBySceneId['roman/preface.md'].exactAuthority, uniqueTarget: false },
     },
   }).code, 'FULL_MANUSCRIPT_EXACT_AUTHORITY_PREVIEW_DISPATCH_DISAGREEMENT');
+});
+
+test('C5V2 return router rejects handcrafted operations without authenticated return-intake proof', () => {
+  const {
+    buildFullManuscriptReviewReturnApplyPlan,
+  } = require(path.join(REPO_ROOT, 'src', 'export', 'docx', 'fullManuscriptDocxReviewReturnRouter.js'));
+  const source = makeSource();
+  const operation = {
+    id: 'op-handcrafted',
+    family: 'tracked_text_edit',
+    sceneId: 'roman/preface.md',
+    anchor: { sceneId: 'roman/preface.md', selectedText: 'beautiful things' },
+    semanticIntent: { kind: 'replace', replacementText: 'luminous forms' },
+  };
+
+  assert.equal(buildFullManuscriptReviewReturnApplyPlan({
+    projectId: 'project-c5v2',
+    localAuthorityCapsule: source.localAuthorityCapsule,
+    returnedAuthority: returnedAuthority(source),
+    operations: [operation],
+  }).code, 'FULL_MANUSCRIPT_RETURN_INTAKE_PROOF_REQUIRED');
+
+  assert.equal(buildFullManuscriptReviewReturnApplyPlan({
+    projectId: 'project-c5v2',
+    localAuthorityCapsule: source.localAuthorityCapsule,
+    returnedAuthority: returnedAuthority(source),
+    operations: [operation],
+    returnIntakeProof: returnIntakeProof(source, [operation], {
+      mainIntakeAuthorityDigest: 'hmac-sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    }),
+  }).code, 'FULL_MANUSCRIPT_RETURN_INTAKE_PROOF_BINDING_MISMATCH');
+
+  assert.equal(buildFullManuscriptReviewReturnApplyPlan({
+    projectId: 'project-c5v2',
+    localAuthorityCapsule: source.localAuthorityCapsule,
+    returnedAuthority: returnedAuthority(source),
+    operations: [operation],
+    returnIntakeProof: returnIntakeProof(source, [operation], {
+      operationIds: ['other-operation'],
+    }),
+  }).code, 'FULL_MANUSCRIPT_RETURN_INTAKE_OPERATION_IDS_MISMATCH');
 });

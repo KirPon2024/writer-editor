@@ -12,6 +12,7 @@ const SINGLE_SCENE_TRACKED_REPLACEMENT_COMMAND_ID =
   'cmd.rtk.review.applyNonOverlapTrackedReplacements';
 const ROOT_COMMENT_RETURN_COMMAND_ID = 'cmd.rtk.review.applyRootCommentReturn';
 const COMMENT_LIFECYCLE_RETURN_COMMAND_ID = 'cmd.rtk.review.applyCommentLifecycleReturn';
+const SIGNED_SHA256_RE = /^sha256:[a-f0-9]{64}$/u;
 
 function isPlainObjectValue(value) {
   return Boolean(value && typeof value === 'object' && !Array.isArray(value));
@@ -47,6 +48,106 @@ function stableJson(value) {
 
 function authorityDigest(value) {
   return sha256Text(stableJson(value));
+}
+
+function hmacSha256Json(value, secret) {
+  return `hmac-sha256:${crypto
+    .createHmac('sha256', String(secret || ''))
+    .update(stableJson(value), 'utf8')
+    .digest('hex')}`;
+}
+
+function normalizeSignedSha256(value) {
+  const text = normalizeString(value).toLowerCase();
+  if (SIGNED_SHA256_RE.test(text)) return text;
+  if (/^[a-f0-9]{64}$/u.test(text)) return `sha256:${text}`;
+  return '';
+}
+
+function buildFullManuscriptReturnIntakeProofBindingPayload({ proof, localAuthority, operations } = {}) {
+  const operationIds = (Array.isArray(operations) ? operations : [])
+    .map((operation) => normalizeString(operation?.id))
+    .filter(Boolean);
+  return {
+    schemaVersion: 'yalken.rtk.word.full-manuscript-return-intake-proof-binding.v1',
+    roundId: normalizeString(localAuthority?.roundId || localAuthority?.expectedAuthority?.roundId),
+    exportIdentity: normalizeString(localAuthority?.exportIdentity || localAuthority?.expectedAuthority?.exportId),
+    returnedArtifactSha256: normalizeSignedSha256(proof?.returnedArtifactSha256),
+    coreManifestDigest: normalizeSignedSha256(proof?.coreManifestDigest || proof?.yrtk2Verification?.coreManifestDigest),
+    yrtk2: {
+      code: normalizeString(proof?.yrtk2Verification?.code),
+      keyIdHex: normalizeString(proof?.yrtk2Verification?.keyIdHex).toLowerCase(),
+      roundIdHex: normalizeString(proof?.yrtk2Verification?.roundIdHex).toLowerCase(),
+      tokenDigest: normalizeSignedSha256(proof?.yrtk2Verification?.tokenDigest),
+    },
+    parserProfileDigest: normalizeSignedSha256(proof?.parserProfileDigest),
+    analysisDigest: normalizeSignedSha256(proof?.analysisDigest),
+    reviewIrDigest: normalizeSignedSha256(proof?.reviewIrDigest),
+    operationSource: normalizeString(proof?.operationSource),
+    operationIds,
+  };
+}
+
+function buildFullManuscriptReturnIntakeProofBindingDigest({ proof, localAuthority, operations } = {}) {
+  const secret = normalizeString(localAuthority?.hmacSecret);
+  if (!secret) return '';
+  return hmacSha256Json(
+    buildFullManuscriptReturnIntakeProofBindingPayload({ proof, localAuthority, operations }),
+    secret,
+  );
+}
+
+function validateFullManuscriptReturnIntakeProof({ proof, localAuthority, operations } = {}) {
+  if (!isPlainObjectValue(proof)) {
+    return makeBlocked('FULL_MANUSCRIPT_RETURN_INTAKE_PROOF_REQUIRED');
+  }
+  if (proof.authenticated !== true || normalizeString(proof.status) !== 'authenticated-return-ir-ready') {
+    return makeBlocked('FULL_MANUSCRIPT_RETURN_INTAKE_AUTHENTICATED_PROOF_REQUIRED');
+  }
+  const returnedArtifactSha256 = normalizeSignedSha256(proof.returnedArtifactSha256);
+  if (!returnedArtifactSha256) {
+    return makeBlocked('FULL_MANUSCRIPT_RETURN_ARTIFACT_SHA256_REQUIRED');
+  }
+  const expectedCoreManifestDigest = normalizeSignedSha256(localAuthority?.coreManifestDigest || localAuthority?.yrtk2?.coreManifestDigest);
+  const proofCoreManifestDigest = normalizeSignedSha256(proof.coreManifestDigest || proof.yrtk2Verification?.coreManifestDigest);
+  if (!expectedCoreManifestDigest || proofCoreManifestDigest !== expectedCoreManifestDigest) {
+    return makeBlocked('FULL_MANUSCRIPT_RETURN_INTAKE_CORE_MANIFEST_PROOF_MISMATCH');
+  }
+  if (proof.yrtk2Verification?.code !== 'RTK_RETURN_INTAKE_YRTK2_VERIFIED') {
+    return makeBlocked('FULL_MANUSCRIPT_RETURN_INTAKE_YRTK2_PROOF_REQUIRED');
+  }
+  for (const key of ['parserProfileDigest', 'analysisDigest', 'reviewIrDigest']) {
+    if (!normalizeSignedSha256(proof[key])) {
+      return makeBlocked('FULL_MANUSCRIPT_RETURN_INTAKE_DIGEST_PROOF_REQUIRED', { field: key });
+    }
+  }
+  if (normalizeString(proof.operationSource) !== 'parsed-review-ir') {
+    return makeBlocked('FULL_MANUSCRIPT_RETURN_INTAKE_OPERATION_SOURCE_REQUIRED');
+  }
+  const expectedProofBindingDigest = buildFullManuscriptReturnIntakeProofBindingDigest({ proof, localAuthority, operations });
+  if (!expectedProofBindingDigest) {
+    return makeBlocked('FULL_MANUSCRIPT_RETURN_INTAKE_PROOF_BINDING_SECRET_REQUIRED');
+  }
+  if (normalizeString(proof.mainIntakeAuthorityDigest) !== expectedProofBindingDigest) {
+    return makeBlocked('FULL_MANUSCRIPT_RETURN_INTAKE_PROOF_BINDING_MISMATCH');
+  }
+  const proofIds = Array.isArray(proof.operationIds) ? proof.operationIds.map(normalizeString).filter(Boolean) : [];
+  const operationIds = (Array.isArray(operations) ? operations : []).map((operation) => normalizeString(operation?.id)).filter(Boolean);
+  if (proofIds.length !== operationIds.length || proofIds.some((id, index) => id !== operationIds[index])) {
+    return makeBlocked('FULL_MANUSCRIPT_RETURN_INTAKE_OPERATION_IDS_MISMATCH', {
+      proofOperationIds: proofIds,
+      operationIds,
+    });
+  }
+  return {
+    ok: true,
+    returnedArtifactSha256,
+    parserProfileDigest: normalizeSignedSha256(proof.parserProfileDigest),
+    analysisDigest: normalizeSignedSha256(proof.analysisDigest),
+    reviewIrDigest: normalizeSignedSha256(proof.reviewIrDigest),
+    coreManifestDigest: proofCoreManifestDigest,
+    mainIntakeAuthorityDigest: expectedProofBindingDigest,
+  };
 }
 
 function deriveFullManuscriptSceneExactAuthority({ sceneId, baselineText, exportMap, operations } = {}) {
@@ -191,7 +292,18 @@ function buildRootCommentCommand({ projectId, projectRoot, operation, sceneId, s
   };
 }
 
-function buildSceneCommand({ projectId, roundId, exportId, sceneId, scenePath, baselineText, operations, projectRoot, verifiedAuthority }) {
+function buildSceneCommand({
+  projectId,
+  roundId,
+  exportId,
+  sceneId,
+  scenePath,
+  baselineText,
+  operations,
+  projectRoot,
+  verifiedAuthority,
+  returnIntakeProof,
+}) {
   const rangeByOperationId = new Map(verifiedAuthority.ranges.map((range) => [range.operationId, range]));
   const reviewItems = operations.map((operation) => ({
     changeId: operation.id,
@@ -241,9 +353,10 @@ function buildSceneCommand({ projectId, roundId, exportId, sceneId, scenePath, b
       requestId: `request:${roundId}:${sceneId}`,
       exportIdentity: exportId,
       returnLifecycleState: 'RETURN_ANALYZED',
-      returnArtifactSha256: verifiedAuthority.exactAuthority.baselineRawSha256,
-      manifestDigest: verifiedAuthority.authorityDigest,
-      analysisDigest: authorityDigest({ sceneId, textRevisions }),
+      returnArtifactSha256: returnIntakeProof.returnedArtifactSha256,
+      manifestDigest: returnIntakeProof.coreManifestDigest,
+      analysisDigest: returnIntakeProof.analysisDigest,
+      reviewIrDigest: returnIntakeProof.reviewIrDigest,
       sourceIdentity: {
         sourceTokenDomain: 'SOURCE_TOKEN_DOMAIN_V1',
         writerTextDomain: 'WRITER_TEXT_DOMAIN_V1',
@@ -358,6 +471,12 @@ function buildFullManuscriptReviewReturnApplyPlan(input = {}) {
     return makeBlocked('FULL_MANUSCRIPT_LOCAL_AUTHORITY_SCENE_MISSING', { missingScenes });
   }
   const operations = list(input.operations);
+  const returnIntakeProof = validateFullManuscriptReturnIntakeProof({
+    proof: input.returnIntakeProof,
+    localAuthority: localAuthorityCapsule,
+    operations,
+  });
+  if (!returnIntakeProof.ok) return returnIntakeProof;
   const supportedBySceneId = new Map();
   const rootCommentCommands = [];
   const commentLifecycleCommands = [];
@@ -431,6 +550,7 @@ function buildFullManuscriptReviewReturnApplyPlan(input = {}) {
       operations: sceneOperations,
       projectRoot: normalizeString(localAuthorityCapsule.projectRoot),
       verifiedAuthority,
+      returnIntakeProof,
     }));
   }
   return {
@@ -443,6 +563,15 @@ function buildFullManuscriptReviewReturnApplyPlan(input = {}) {
     previewConfirmed: true,
     sceneCommands,
     exactAuthorityBySceneId,
+    returnIntakeProof: {
+      returnedArtifactSha256: returnIntakeProof.returnedArtifactSha256,
+      coreManifestDigest: returnIntakeProof.coreManifestDigest,
+      parserProfileDigest: returnIntakeProof.parserProfileDigest,
+      analysisDigest: returnIntakeProof.analysisDigest,
+      reviewIrDigest: returnIntakeProof.reviewIrDigest,
+      mainIntakeAuthorityDigest: returnIntakeProof.mainIntakeAuthorityDigest,
+      operationSource: 'parsed-review-ir',
+    },
     rootCommentCommands,
     commentLifecycleCommands,
     typedOperations,
@@ -456,6 +585,7 @@ function buildFullManuscriptReviewReturnApplyPlan(input = {}) {
 
 module.exports = {
   FULL_MANUSCRIPT_TRACKED_REPLACEMENT_APPLY_COMMAND_ID,
+  buildFullManuscriptReturnIntakeProofBindingDigest,
   buildFullManuscriptReviewReturnApplyPlan,
   classifyFullManuscriptOperation,
   deriveFullManuscriptSceneExactAuthority,

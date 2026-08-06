@@ -2,6 +2,7 @@
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const crypto = require('node:crypto');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
@@ -84,6 +85,15 @@ test('C5V2 full-manuscript source builds one ordered multi-scene product review 
   assert.equal(JSON.stringify(source.exportCapsule).includes('local-secret-for-test-only'), false);
   assert.equal(JSON.stringify(source.advisoryManifest).includes('local-secret-for-test-only'), false);
   assert.equal(source.localAuthorityCapsule.hmacSecret, 'local-secret-for-test-only');
+  assert.equal(Buffer.isBuffer(source.provisionalSelfParseArtifact.bytes), true);
+  assert.equal(
+    `sha256:${crypto.createHash('sha256').update(source.provisionalSelfParseArtifact.bytes).digest('hex')}`,
+    source.advisoryManifest.coreManifest.artifactIdentities.provisionalDocxSha256,
+  );
+  assert.equal(
+    source.provisionalSelfParseArtifact.provisionalDocxSha256,
+    source.advisoryManifest.coreManifest.artifactIdentities.provisionalDocxSha256,
+  );
 
   const validation = validateFullManuscriptAuthorityReturn({
     scope: 'full-manuscript',
@@ -376,6 +386,24 @@ test('C5V2 full-manuscript export handler writes one DOCX and sanitizes full-boo
         return {
           documentBuffer: Buffer.from('FULLBOOK-DOCX'),
           exportCapsule: input.exportCapsule,
+          publicationGate: {
+            ok: true,
+            code: 'RTK_V4_DOUBLE_SELF_PARSE_PASS',
+            publishAllowed: true,
+            finalArtifactSha256: 'sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+            coreManifestDigest: input.exportCapsule.coreManifestDigest,
+            provisionalSelfParse: {
+              verified: true,
+              actualBaselineDigest: input.exportCapsule.fullBookRawSha256,
+              provisionalDocxSha256: 'sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+            },
+            finalSelfParse: {
+              semanticEquivalent: true,
+            },
+            yrtk2Verification: {
+              code: 'RTK_RETURN_INTAKE_YRTK2_VERIFIED',
+            },
+          },
         };
       },
       async queueDiskOperation(operation) {
@@ -398,8 +426,143 @@ test('C5V2 full-manuscript export handler writes one DOCX and sanitizes full-boo
   assert.equal(result.exportCapsule.returnIntakeWired, true);
   assert.equal(result.exportCapsule.fullBookRawSha256.startsWith('sha256:'), true);
   assert.equal(result.exportCapsule.capabilityManifestDigest.startsWith('sha256:'), true);
+  assert.equal(result.publicationGate.publishAllowed, true);
+  assert.equal(result.publicationGate.code, 'RTK_V4_DOUBLE_SELF_PARSE_PASS');
   assert.equal(JSON.stringify(result).includes('local-secret-for-test-only'), false);
   assert.equal(fs.readFileSync(outPath, 'utf8'), 'FULLBOOK-DOCX');
+});
+
+test('C5V2 full-manuscript export handler rejects final DOCX publication without V4 publication gate', async () => {
+  const { runDocxReviewPacketExport } = require(path.join(REPO_ROOT, 'src', 'export', 'docx', 'docxReviewPacketExportHandler.js'));
+  const { buildFullManuscriptDocxReviewPacketSource } = require(path.join(REPO_ROOT, 'src', 'export', 'docx', 'fullManuscriptDocxReviewPacketSource.js'));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rtk-c5v2-fullbook-export-gate-'));
+  const outPath = path.join(dir, 'fullbook.docx');
+  const source = buildFullManuscriptDocxReviewPacketSource({
+    projectId: 'project-c5v2',
+    scenes: makeScenes(),
+  }, {
+    roundIdHex: '01010101010101010101010101010101',
+    keyIdHex: '02020202020202020202020202020202',
+    hmacSecret: 'local-secret-for-test-only',
+  });
+
+  const result = await runDocxReviewPacketExport(
+    { requestId: 'req-c5v2', outPath },
+    {
+      commandId: COMMAND_ID,
+      normalizeExportPayload(input) {
+        return {
+          requestId: input.requestId,
+          outPath: input.outPath,
+          outDir: '',
+          bufferSource: '',
+          options: {},
+        };
+      },
+      makeTypedReviewDocxExportError(code, reason, details) {
+        return { ok: false, error: { code, op: COMMAND_ID, reason, details } };
+      },
+      resolveDocxReviewPacketExportPath(payload) {
+        return payload.outPath;
+      },
+      validateDocxExportTarget() {
+        return { ok: true };
+      },
+      readDocxReviewPacketExportSource() {
+        return source;
+      },
+      buildDocxReviewPacketBuffer(input) {
+        return {
+          documentBuffer: Buffer.from('FULLBOOK-DOCX'),
+          exportCapsule: input.exportCapsule,
+        };
+      },
+      async queueDiskOperation(operation) {
+        return operation();
+      },
+      async writeBufferAtomic(targetPath, buffer) {
+        fs.writeFileSync(targetPath, buffer);
+        return { success: true, bytesWritten: buffer.length };
+      },
+      updateStatus() {},
+    },
+  );
+
+  assert.equal(result.ok, false);
+  assert.equal(result.error.code, 'E_REVIEW_DOCX_EXPORT_PUBLICATION_GATE_BLOCKED');
+  assert.equal(result.error.reason, 'REVIEW_DOCX_EXPORT_PUBLICATION_GATE_REQUIRED');
+  assert.equal(fs.existsSync(outPath), false);
+});
+
+test('C5V2 full-manuscript export handler rejects self-consistent gate without provisional parse evidence', async () => {
+  const { runDocxReviewPacketExport } = require(path.join(REPO_ROOT, 'src', 'export', 'docx', 'docxReviewPacketExportHandler.js'));
+  const { buildFullManuscriptDocxReviewPacketSource } = require(path.join(REPO_ROOT, 'src', 'export', 'docx', 'fullManuscriptDocxReviewPacketSource.js'));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rtk-c5v2-fullbook-export-provisional-gate-'));
+  const outPath = path.join(dir, 'fullbook.docx');
+  const source = buildFullManuscriptDocxReviewPacketSource({
+    projectId: 'project-c5v2',
+    scenes: makeScenes(),
+  }, {
+    roundIdHex: '11111111111111111111111111111111',
+    keyIdHex: '22222222222222222222222222222222',
+    hmacSecret: 'local-secret-for-test-only',
+  });
+
+  const result = await runDocxReviewPacketExport(
+    { requestId: 'req-c5v2', outPath },
+    {
+      commandId: COMMAND_ID,
+      normalizeExportPayload(input) {
+        return {
+          requestId: input.requestId,
+          outPath: input.outPath,
+          outDir: '',
+          bufferSource: '',
+          options: {},
+        };
+      },
+      makeTypedReviewDocxExportError(code, reason, details) {
+        return { ok: false, error: { code, op: COMMAND_ID, reason, details } };
+      },
+      resolveDocxReviewPacketExportPath(payload) {
+        return payload.outPath;
+      },
+      validateDocxExportTarget() {
+        return { ok: true };
+      },
+      readDocxReviewPacketExportSource() {
+        return source;
+      },
+      buildDocxReviewPacketBuffer(input) {
+        return {
+          documentBuffer: Buffer.from('FULLBOOK-DOCX'),
+          exportCapsule: input.exportCapsule,
+          publicationGate: {
+            ok: true,
+            code: 'RTK_V4_DOUBLE_SELF_PARSE_PASS',
+            publishAllowed: true,
+            finalArtifactSha256: 'sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+            coreManifestDigest: input.exportCapsule.coreManifestDigest,
+            finalSelfParse: { semanticEquivalent: true },
+            yrtk2Verification: { code: 'RTK_RETURN_INTAKE_YRTK2_VERIFIED' },
+          },
+        };
+      },
+      async queueDiskOperation(operation) {
+        return operation();
+      },
+      async writeBufferAtomic(targetPath, buffer) {
+        fs.writeFileSync(targetPath, buffer);
+        return { success: true, bytesWritten: buffer.length };
+      },
+      updateStatus() {},
+    },
+  );
+
+  assert.equal(result.ok, false);
+  assert.equal(result.error.code, 'E_REVIEW_DOCX_EXPORT_PUBLICATION_GATE_BLOCKED');
+  assert.equal(result.error.details.provisionalSelfParseVerified, false);
+  assert.equal(fs.existsSync(outPath), false);
 });
 
 test('C5V2 full-manuscript product export is reachable through command kernel, renderer, capability and menu layers', () => {
@@ -421,6 +584,9 @@ test('C5V2 full-manuscript product export is reachable through command kernel, r
   assert.match(mainSource, /budgets:\s*docxReviewReturnIntakeProductBudgets\(options\)/u);
   assert.equal(mainSource.includes('buildFullManuscriptDocxReviewPacketSource'), true);
   assert.equal(mainSource.includes('readFullManuscriptDocxReviewPacketExportSource'), true);
+  assert.equal(mainSource.includes('buildFullManuscriptPublicationGate'), true);
+  assert.match(mainSource, /evaluateWordV4DoubleSelfParse/u);
+  assert.match(mainSource, /verifyYrtk2RoundLocatorToken/u);
   assert.equal(mainSource.includes('collectFullManuscriptDocxReviewExportCandidates'), true);
   assert.equal(mainSource.includes('readFullManuscriptDocxReviewExportDocumentContent'), true);
   const readFullExportSourceStart = mainSource.indexOf('async function readFullManuscriptDocxReviewPacketExportSource()');

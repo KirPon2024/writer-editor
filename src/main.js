@@ -58,6 +58,7 @@ const {
 } = require('./export/docx/fullManuscriptDocxReviewPacketSource');
 const {
   buildFullManuscriptReviewReturnApplyPlan,
+  buildFullManuscriptReturnIntakeProofBindingDigest,
 } = require('./export/docx/fullManuscriptDocxReviewReturnRouter');
 const { writeBufferAtomic } = require('./export/docx/atomicWriteBuffer');
 const { runPdfExport } = require('./export/pdf/pdfExportHandler');
@@ -573,6 +574,323 @@ function createRtkReviewTransportCryptoPort() {
     byteLength(value) {
       return Buffer.byteLength(String(value || ''), 'utf8');
     },
+  };
+}
+
+function normalizeRtkSignedSha256(value) {
+  const text = docxReviewPreviewSessionDetailString(value).toLowerCase();
+  if (/^sha256:[a-f0-9]{64}$/u.test(text)) return text;
+  if (/^[a-f0-9]{64}$/u.test(text)) return `sha256:${text}`;
+  return '';
+}
+
+function decodeDocxCustomPropertyText(value) {
+  return docxReviewPreviewSessionDetailString(value)
+    .replace(/&lt;/gu, '<')
+    .replace(/&gt;/gu, '>')
+    .replace(/&quot;/gu, '"')
+    .replace(/&apos;/gu, "'")
+    .replace(/&amp;/gu, '&');
+}
+
+function extractDocxCustomPropertyValue(customXml, propertyName) {
+  const wanted = docxReviewPreviewSessionDetailString(propertyName);
+  if (!wanted) return '';
+  const xml = docxReviewPreviewSessionDetailString(customXml);
+  const propertyRe = /<property\b(?<attrs>[^>]*)>(?<body>[\s\S]*?)<\/property>/gu;
+  let match = propertyRe.exec(xml);
+  while (match) {
+    const attrs = match.groups?.attrs || '';
+    const nameMatch = attrs.match(/\bname="([^"]+)"/u);
+    if (decodeDocxCustomPropertyText(nameMatch?.[1] || '') === wanted) {
+      const valueMatch = (match.groups?.body || '').match(/<vt:lpwstr>([\s\S]*?)<\/vt:lpwstr>/u);
+      return decodeDocxCustomPropertyText(valueMatch?.[1] || '');
+    }
+    match = propertyRe.exec(xml);
+  }
+  return '';
+}
+
+function extractDocxReviewReturnYrtk2Properties(docxBytes, revisionBridge, cryptoPort) {
+  if (!revisionBridge || typeof revisionBridge.extractDocxReviewTransportPackagePartsFromZipBytes !== 'function') {
+    return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_YRTK2_PACKAGE_EXTRACTOR_REQUIRED');
+  }
+  const extracted = revisionBridge.extractDocxReviewTransportPackagePartsFromZipBytes({
+    bytes: docxBytes,
+  }, { cryptoPort });
+  if (!extracted || extracted.ok !== true) {
+    return docxReviewReturnIntakeBlocked(
+      docxReviewPreviewSessionDetailString(extracted?.code) || 'RTK_RETURN_INTAKE_YRTK2_PACKAGE_BLOCKED',
+      { extractorCode: docxReviewPreviewSessionDetailString(extracted?.code) },
+    );
+  }
+  const customXml = docxReviewPreviewSessionDetailString(extracted.parts?.['docProps/custom.xml']);
+  return {
+    ok: true,
+    token: extractDocxCustomPropertyValue(customXml, 'YRTK2_TOKEN'),
+    coreManifestDigest: extractDocxCustomPropertyValue(customXml, 'YRTK_CORE_DIGEST'),
+    packagePartsFromZipBytes: {
+      status: extracted.status,
+      code: extracted.code,
+      zipEntryCount: Array.isArray(extracted.zipInventory?.entries) ? extracted.zipInventory.entries.length : 0,
+    },
+  };
+}
+
+function decodeDocxXmlText(value) {
+  return docxReviewPreviewSessionDetailString(value)
+    .replace(/&lt;/gu, '<')
+    .replace(/&gt;/gu, '>')
+    .replace(/&quot;/gu, '"')
+    .replace(/&apos;/gu, "'")
+    .replace(/&amp;/gu, '&');
+}
+
+function visibleTextFromWordDocumentXml(documentXml) {
+  const xml = docxReviewPreviewSessionDetailString(documentXml);
+  const paragraphs = [];
+  const paragraphRe = /<w:p\b[\s\S]*?<\/w:p>/gu;
+  let paragraphMatch = paragraphRe.exec(xml);
+  while (paragraphMatch) {
+    const paragraphXml = paragraphMatch[0];
+    const runs = [];
+    const textRe = /<w:(?:t|delText)\b[^>]*>([\s\S]*?)<\/w:(?:t|delText)>/gu;
+    let textMatch = textRe.exec(paragraphXml);
+    while (textMatch) {
+      runs.push(decodeDocxXmlText(textMatch[1]));
+      textMatch = textRe.exec(paragraphXml);
+    }
+    paragraphs.push(runs.join(''));
+    paragraphMatch = paragraphRe.exec(xml);
+  }
+  return paragraphs.join('\n').replace(/\n{3,}/gu, '\n\n').replace(/^\n+/u, '').replace(/\n+$/u, '');
+}
+
+function buildFullManuscriptProvisionalSelfParse({ source, revisionBridge, cryptoPort, coreManifest } = {}) {
+  const artifact = isPlainObjectValue(source?.provisionalSelfParseArtifact) ? source.provisionalSelfParseArtifact : {};
+  const bytes = Buffer.isBuffer(artifact.bytes) ? artifact.bytes : null;
+  if (!bytes) {
+    return { ok: false, code: 'RTK_V4_PUBLICATION_GATE_PROVISIONAL_ARTIFACT_REQUIRED' };
+  }
+  const provisionalDocxSha256 = `sha256:${sha256DocxReviewPreviewSessionBytes(bytes)}`;
+  const expectedProvisionalDocxSha256 = normalizeRtkSignedSha256(coreManifest?.artifactIdentities?.provisionalDocxSha256);
+  if (!expectedProvisionalDocxSha256 || provisionalDocxSha256 !== expectedProvisionalDocxSha256) {
+    return {
+      ok: false,
+      code: 'RTK_V4_PUBLICATION_GATE_PROVISIONAL_DOCX_SHA_MISMATCH',
+      provisionalDocxSha256,
+      expectedProvisionalDocxSha256,
+    };
+  }
+  const extracted = revisionBridge.extractDocxReviewTransportPackagePartsFromZipBytes({ bytes }, { cryptoPort });
+  if (!extracted || extracted.ok !== true) {
+    return {
+      ok: false,
+      code: docxReviewPreviewSessionDetailString(extracted?.code) || 'RTK_V4_PUBLICATION_GATE_PROVISIONAL_PACKAGE_BLOCKED',
+      provisionalDocxSha256,
+    };
+  }
+  const documentText = visibleTextFromWordDocumentXml(extracted.parts?.['word/document.xml']);
+  const documentTextSha256 = cryptoPort.sha256Json({ sceneText: documentText });
+  const expectedDocumentTextSha256 = normalizeRtkSignedSha256(artifact.expectedDocumentTextSha256);
+  if (!expectedDocumentTextSha256 || documentTextSha256 !== expectedDocumentTextSha256) {
+    return {
+      ok: false,
+      code: 'RTK_V4_PUBLICATION_GATE_PROVISIONAL_TEXT_MISMATCH',
+      provisionalDocxSha256,
+      documentTextSha256,
+      expectedDocumentTextSha256,
+    };
+  }
+  return {
+    ok: true,
+    verified: true,
+    code: 'RTK_V4_PUBLICATION_GATE_PROVISIONAL_SELF_PARSE_VERIFIED',
+    provisionalDocxSha256,
+    actualBaselineDigest: normalizeRtkSignedSha256(coreManifest?.actualBaselineDigest),
+    documentTextSha256,
+    packagePartsFromZipBytes: {
+      status: extracted.status,
+      code: extracted.code,
+      zipEntryCount: Array.isArray(extracted.zipInventory?.entries) ? extracted.zipInventory.entries.length : 0,
+    },
+  };
+}
+
+function verifyDocxReviewReturnYrtk2Binding({
+  docxBytes,
+  localAuthority,
+  revisionBridge,
+  hmacSecret,
+  returnedArtifactSha256,
+} = {}) {
+  const cryptoPort = createRtkReviewTransportCryptoPort();
+  if (!revisionBridge || typeof revisionBridge.verifyYrtk2RoundLocatorToken !== 'function') {
+    return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_YRTK2_VERIFIER_REQUIRED');
+  }
+  const expectedYrtk2 = isPlainObjectValue(localAuthority?.yrtk2) ? localAuthority.yrtk2 : {};
+  const expectedCoreManifestDigest = normalizeRtkSignedSha256(
+    expectedYrtk2.coreManifestDigest || localAuthority?.coreManifestDigest,
+  );
+  if (!expectedCoreManifestDigest) {
+    return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_YRTK2_EXPECTED_CORE_DIGEST_REQUIRED');
+  }
+  const properties = extractDocxReviewReturnYrtk2Properties(docxBytes, revisionBridge, cryptoPort);
+  if (!properties.ok) return properties;
+  const token = docxReviewPreviewSessionDetailString(properties.token);
+  const coreManifestDigest = normalizeRtkSignedSha256(properties.coreManifestDigest);
+  if (!token || !coreManifestDigest) {
+    return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_YRTK2_REQUIRED', {
+      hasToken: Boolean(token),
+      hasCoreManifestDigest: Boolean(coreManifestDigest),
+    });
+  }
+  if (coreManifestDigest !== expectedCoreManifestDigest) {
+    return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_YRTK2_CORE_DIGEST_PROPERTY_MISMATCH', {
+      expectedCoreManifestDigest,
+      actualCoreManifestDigest: coreManifestDigest,
+    });
+  }
+  const tokenDigest = normalizeRtkSignedSha256(cryptoPort.sha256Text(token));
+  const expectedTokenDigest = normalizeRtkSignedSha256(expectedYrtk2.tokenDigest);
+  if (expectedTokenDigest && tokenDigest !== expectedTokenDigest) {
+    return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_YRTK2_TOKEN_DIGEST_MISMATCH', {
+      expectedTokenDigest,
+      actualTokenDigest: tokenDigest,
+    });
+  }
+  const verified = revisionBridge.verifyYrtk2RoundLocatorToken({
+    token,
+    hmacSecret,
+    expectedKeyIdHex: docxReviewPreviewSessionDetailString(expectedYrtk2.keyIdHex),
+    expectedRoundIdHex: docxReviewPreviewSessionDetailString(expectedYrtk2.roundIdHex),
+    expectedCoreManifestDigest,
+  }, { cryptoPort });
+  if (!verified || verified.ok !== true) {
+    return docxReviewReturnIntakeBlocked(
+      docxReviewPreviewSessionDetailString(verified?.code) || 'RTK_RETURN_INTAKE_YRTK2_VERIFICATION_FAILED',
+      {
+        yrtk2Code: docxReviewPreviewSessionDetailString(verified?.code),
+        returnedArtifactSha256: docxReviewPreviewSessionDetailString(returnedArtifactSha256),
+      },
+    );
+  }
+  return {
+    ok: true,
+    status: 'verified',
+    code: 'RTK_RETURN_INTAKE_YRTK2_VERIFIED',
+    tokenDigest,
+    coreManifestDigest: verified.coreManifestDigest,
+    keyIdHex: verified.keyIdHex,
+    roundIdHex: verified.roundIdHex,
+    packagePartsFromZipBytes: properties.packagePartsFromZipBytes,
+  };
+}
+
+async function buildFullManuscriptPublicationGate(source, documentBuffer, revisionBridge) {
+  const exportCapsule = isPlainObjectValue(source?.exportCapsule) ? source.exportCapsule : {};
+  if (exportCapsule.fullManuscript !== true) return null;
+  const cryptoPort = createRtkReviewTransportCryptoPort();
+  const localAuthority = isPlainObjectValue(source?.localAuthorityCapsule) ? source.localAuthorityCapsule : {};
+  const expectedAuthority = isPlainObjectValue(localAuthority.expectedAuthority) ? localAuthority.expectedAuthority : {};
+  const hmacSecret = docxReviewPreviewSessionDetailString(source?.forbiddenSecret || localAuthority.hmacSecret);
+  const coreManifest = isPlainObjectValue(source?.advisoryManifest?.coreManifest)
+    ? source.advisoryManifest.coreManifest
+    : {};
+  if (
+    !revisionBridge
+    || typeof revisionBridge.buildDocxReviewTransportAnalysisFromZipBytes !== 'function'
+    || typeof revisionBridge.extractDocxReviewTransportPackagePartsFromZipBytes !== 'function'
+  ) {
+    return { ok: false, code: 'RTK_V4_PUBLICATION_GATE_PARSER_REQUIRED', publishAllowed: false };
+  }
+  if (!hmacSecret || !isPlainObjectValue(expectedAuthority)) {
+    return { ok: false, code: 'RTK_V4_PUBLICATION_GATE_LOCAL_AUTHORITY_REQUIRED', publishAllowed: false };
+  }
+  const provisionalSelfParse = buildFullManuscriptProvisionalSelfParse({
+    source,
+    revisionBridge,
+    cryptoPort,
+    coreManifest,
+  });
+  if (!provisionalSelfParse.ok) {
+    return {
+      ok: false,
+      code: docxReviewPreviewSessionDetailString(provisionalSelfParse.code)
+        || 'RTK_V4_PUBLICATION_GATE_PROVISIONAL_SELF_PARSE_BLOCKED',
+      publishAllowed: false,
+      provisionalSelfParse,
+    };
+  }
+  const finalArtifactSha256 = `sha256:${sha256DocxReviewPreviewSessionBytes(documentBuffer)}`;
+  const finalParse = revisionBridge.buildDocxReviewTransportAnalysisFromZipBytes({
+    bytes: documentBuffer,
+    hmacSecret,
+    expectedAuthority,
+    returnedArtifactSha256: finalArtifactSha256,
+    baselineFinalText: typeof source?.sceneText === 'string' ? source.sceneText : '',
+  }, { cryptoPort });
+  if (!finalParse || finalParse.ok !== true) {
+    return {
+      ok: false,
+      code: docxReviewPreviewSessionDetailString(finalParse?.code) || 'RTK_V4_PUBLICATION_GATE_FINAL_SELF_PARSE_BLOCKED',
+      publishAllowed: false,
+      finalArtifactSha256,
+    };
+  }
+  const yrtk2Verification = verifyDocxReviewReturnYrtk2Binding({
+    docxBytes: documentBuffer,
+    localAuthority,
+    revisionBridge,
+    hmacSecret,
+    returnedArtifactSha256: finalArtifactSha256,
+  });
+  if (!yrtk2Verification.ok) {
+    return {
+      ok: false,
+      code: docxReviewPreviewSessionDetailString(yrtk2Verification.code) || 'RTK_V4_PUBLICATION_GATE_YRTK2_BLOCKED',
+      publishAllowed: false,
+      finalArtifactSha256,
+      yrtk2Verification,
+    };
+  }
+  const finalPayload = finalParse.authorityCarrier?.selectedCarrier?.payload || {};
+  const semanticEquivalent = finalParse.authorityCarrier?.status === 'verified-baseline-bound'
+    && normalizeRtkSignedSha256(finalPayload.coreManifestDigest) === normalizeRtkSignedSha256(coreManifest.coreManifestDigest)
+    && docxReviewPreviewSessionDetailString(finalPayload.scope) === 'full-manuscript';
+  const doubleSelfParse = typeof revisionBridge.evaluateWordV4DoubleSelfParse === 'function'
+    ? revisionBridge.evaluateWordV4DoubleSelfParse({
+        coreManifest,
+        provisionalSelfParse,
+        finalSelfParse: {
+          coreManifestDigest: yrtk2Verification.coreManifestDigest,
+          semanticEquivalent,
+        },
+        yrtk2Verification,
+      })
+    : { ok: false, code: 'RTK_V4_DOUBLE_SELF_PARSE_EVALUATOR_REQUIRED', publishAllowed: false };
+  return {
+    ok: doubleSelfParse.ok === true,
+    code: docxReviewPreviewSessionDetailString(doubleSelfParse.code),
+    publishAllowed: doubleSelfParse.publishAllowed === true,
+    finalArtifactSha256,
+    coreManifestDigest: yrtk2Verification.coreManifestDigest,
+    yrtk2Verification,
+    provisionalSelfParse: {
+      verified: provisionalSelfParse.verified === true,
+      code: docxReviewPreviewSessionDetailString(provisionalSelfParse.code),
+      provisionalDocxSha256: docxReviewPreviewSessionDetailString(provisionalSelfParse.provisionalDocxSha256),
+      actualBaselineDigest: docxReviewPreviewSessionDetailString(provisionalSelfParse.actualBaselineDigest),
+      documentTextSha256: docxReviewPreviewSessionDetailString(provisionalSelfParse.documentTextSha256),
+    },
+    finalSelfParse: {
+      parserStatus: finalParse.status,
+      authorityCarrierStatus: finalParse.authorityCarrier?.status,
+      semanticEquivalent,
+      parserProfileDigest: docxReviewPreviewSessionDetailString(finalParse.parserProfileDigest),
+      analysisDigest: docxReviewPreviewSessionDetailString(finalParse.analysisDigest),
+    },
+    reasons: Array.isArray(doubleSelfParse.reasons) ? cloneJsonSafe(doubleSelfParse.reasons) : [],
   };
 }
 
@@ -4066,9 +4384,14 @@ async function readFullManuscriptDocxReviewPacketExportSource() {
 
 async function buildDocxReviewPacketBuffer(source) {
   const documentBuffer = buildDocxReviewPacketBufferCore(source);
+  const revisionBridge = source?.exportCapsule?.fullManuscript === true
+    ? await loadRevisionBridgeModule()
+    : null;
+  const publicationGate = await buildFullManuscriptPublicationGate(source, documentBuffer, revisionBridge);
   return {
     documentBuffer,
     exportCapsule: source.exportCapsule,
+    publicationGate,
   };
 }
 
@@ -5049,12 +5372,31 @@ async function buildDocxReviewPreviewSessionDefaultRtkApplyInput({
         replacementText: typeof change.replacementText === 'string' ? change.replacementText : '',
       },
     }));
+    const returnIntakeProof = {
+      status: docxReviewPreviewSessionDetailString(context.reviewTransportReturnIntake?.status),
+      authenticated: context.reviewTransportReturnIntake?.authenticated === true,
+      returnedArtifactSha256,
+      coreManifestDigest: docxReviewPreviewSessionDetailString(context.reviewTransportReturnIntake?.yrtk2Verification?.coreManifestDigest)
+        || docxReviewPreviewSessionDetailString(authorityCapsule.coreManifestDigest),
+      yrtk2Verification: cloneJsonSafe(context.reviewTransportReturnIntake?.yrtk2Verification) || {},
+      parserProfileDigest: docxReviewPreviewSessionDetailString(analysis.parserProfileDigest),
+      analysisDigest: docxReviewPreviewSessionDetailString(analysis.analysisDigest),
+      reviewIrDigest: cryptoPort.sha256Json(analysis.reviewIr || {}),
+      operationSource: 'parsed-review-ir',
+      operationIds: operations.map((operation) => operation.id),
+    };
+    returnIntakeProof.mainIntakeAuthorityDigest = buildFullManuscriptReturnIntakeProofBindingDigest({
+      proof: returnIntakeProof,
+      localAuthority: authorityCapsule,
+      operations,
+    });
     const fullManuscriptPlan = buildFullManuscriptReviewReturnApplyPlan({
       projectId: docxReviewPreviewSessionDetailString(returnedAuthority.projectId || authorityCapsule.projectId),
       requestId,
       localAuthorityCapsule: authorityCapsule,
       returnedAuthority,
       operations,
+      returnIntakeProof,
     });
     if (!fullManuscriptPlan.ok) {
       return {
@@ -6375,6 +6717,14 @@ function sanitizeDocxReviewReturnIntakeForResult(intake = {}) {
       rawSha256Unchanged: parserResult.exactAuthority?.rawSha256Unchanged === true,
       baselineBound: selectedCarrier.baselineBinding?.allExpectedMatched === true,
     },
+    yrtk2: {
+      verified: intake.yrtk2Verification?.code === 'RTK_RETURN_INTAKE_YRTK2_VERIFIED',
+      code: docxReviewPreviewSessionDetailString(intake.yrtk2Verification?.code),
+      keyIdHex: docxReviewPreviewSessionDetailString(intake.yrtk2Verification?.keyIdHex),
+      roundIdHex: docxReviewPreviewSessionDetailString(intake.yrtk2Verification?.roundIdHex),
+      coreManifestDigest: docxReviewPreviewSessionDetailString(intake.yrtk2Verification?.coreManifestDigest),
+      tokenDigest: docxReviewPreviewSessionDetailString(intake.yrtk2Verification?.tokenDigest),
+    },
     fullManuscriptExportMapTransport: {
       required: intake.authenticated === true && intake.localAuthorityCapsule?.scope === 'full-manuscript',
       present: isPlainObjectValue(intake.localAuthorityCapsule?.authenticatedFullManuscriptExportMap),
@@ -6697,6 +7047,14 @@ async function inspectDocxReviewReturnIntakeV2({
   if (!hmacSecret || !isPlainObjectValue(expectedAuthority)) {
     return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_LOCAL_SECRET_REQUIRED', { roundId });
   }
+  const yrtk2Verification = verifyDocxReviewReturnYrtk2Binding({
+    docxBytes,
+    localAuthority,
+    revisionBridge,
+    hmacSecret,
+    returnedArtifactSha256,
+  });
+  if (!yrtk2Verification.ok) return yrtk2Verification;
   const verified = await runDocxReviewReturnIntakeParserV2InUtilityProcess({
     bytes: docxBytes,
     hmacSecret,
@@ -6732,6 +7090,7 @@ async function inspectDocxReviewReturnIntakeV2({
     parserResult,
     returnedArtifactSha256,
     localAuthorityCapsule,
+    yrtk2Verification,
     utilityProcess: verified.utilityProcess || probe.utilityProcess,
     canOpenReviewSession: true,
     canAutoApply: false,

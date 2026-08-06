@@ -139,6 +139,30 @@ async function runDocxReviewPacketExport(payloadRaw, deps = {}) {
       bytes: Buffer.isBuffer(documentBuffer) ? documentBuffer.length : null,
     });
   }
+  const exportCapsule = sanitizeReviewDocxExportCapsule(built?.exportCapsule || source?.exportCapsule);
+  const publicationGate = isPlainObjectValue(built?.publicationGate) ? built.publicationGate : null;
+  if (exportCapsule.fullManuscript === true) {
+    const publicationGateReady = publicationGate
+      && publicationGate.publishAllowed === true
+      && publicationGate.ok === true
+      && publicationGate.provisionalSelfParse?.verified === true
+      && publicationGate.finalSelfParse?.semanticEquivalent === true
+      && publicationGate.yrtk2Verification?.code === 'RTK_RETURN_INTAKE_YRTK2_VERIFIED';
+    if (!publicationGateReady) {
+      return makeTypedReviewDocxExportError(
+        'E_REVIEW_DOCX_EXPORT_PUBLICATION_GATE_BLOCKED',
+        typeof publicationGate?.code === 'string' && publicationGate.code
+          ? publicationGate.code
+          : 'REVIEW_DOCX_EXPORT_PUBLICATION_GATE_REQUIRED',
+        isPlainObjectValue(publicationGate) ? {
+          ...publicationGate,
+          provisionalSelfParseVerified: publicationGate.provisionalSelfParse?.verified === true,
+          finalSelfParseSemanticEquivalent: publicationGate.finalSelfParse?.semanticEquivalent === true,
+          yrtk2Verified: publicationGate.yrtk2Verification?.code === 'RTK_RETURN_INTAKE_YRTK2_VERIFIED',
+        } : {},
+      );
+    }
+  }
 
   try {
     await queueDiskOperation(async () => {
@@ -159,7 +183,17 @@ async function runDocxReviewPacketExport(payloadRaw, deps = {}) {
       exported: true,
       outPath,
       bytesWritten: documentBuffer.length,
-      exportCapsule: sanitizeReviewDocxExportCapsule(built?.exportCapsule || source?.exportCapsule),
+      exportCapsule,
+      publicationGate: publicationGate ? {
+        ok: publicationGate.ok === true,
+        code: typeof publicationGate.code === 'string' ? publicationGate.code : '',
+        publishAllowed: publicationGate.publishAllowed === true,
+        finalArtifactSha256: typeof publicationGate.finalArtifactSha256 === 'string' ? publicationGate.finalArtifactSha256 : '',
+        coreManifestDigest: typeof publicationGate.coreManifestDigest === 'string' ? publicationGate.coreManifestDigest : '',
+        provisionalSelfParseVerified: publicationGate.provisionalSelfParse?.verified === true,
+        finalSelfParseSemanticEquivalent: publicationGate.finalSelfParse?.semanticEquivalent === true,
+        yrtk2Verified: publicationGate.yrtk2Verification?.code === 'RTK_RETURN_INTAKE_YRTK2_VERIFIED',
+      } : null,
       canAutoApply: false,
       canWriteManuscript: false,
       canImportMutate: false,

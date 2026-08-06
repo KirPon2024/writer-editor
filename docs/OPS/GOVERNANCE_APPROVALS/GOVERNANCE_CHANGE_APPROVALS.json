@@ -6542,12 +6542,12 @@
     },
     {
       "filePath": "src/export/docx/fullManuscriptDocxReviewPacketSource.js",
-      "sha256": "4a809155777f1dbbff03df8b605477c3799873851e7a0cfe2b60ff5b81b35643",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
-      "approvedAtUtc": "2026-08-02T10:57:50.000Z",
-      "rationale": "Approve the exact full-manuscript source projection bytes deriving closed rich FormatIR, observable scene hashes, stable ordered blocks, and fail-closed unsupported content; physical Word and full-book certification remain pending.",
+      "sha256": "3dfd0b39043d8a299690fc4b67d1d8c07f3602ccc3d25de0b4ef395c4f5459a2",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_PHASE_B_PRODUCT_TRUST_CHAIN_V1",
+      "approvedAtUtc": "2026-08-06T00:06:06.000Z",
+      "rationale": "Approve exact Phase B product trust-chain bytes: full-manuscript DOCX export now requires V4 provisional self-parse plus final self-parse semantic equivalence before publication; returned full-manuscript intake requires byte-backed YRTK2/CoreManifest proof before router MatchProof and Command Kernel authority; direct forged return-intake proof and missing-provisional-gate attacks are blocked. No physical Word run, no Google work, no long campaign, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
+      "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_PHASE_B_PRODUCT_TRUST_CHAIN"
     },
     {
       "filePath": "src/import/mindmap/v1/manualMapMarkdownPortabilityBridge.mjs",
@@ -6771,12 +6771,12 @@
     },
     {
       "filePath": "src/main.js",
-      "sha256": "a01ea5e230c547e600ea689ae5a57f9678d3d035e794e1749b44bc8a6d4813f9",
-      "approvedBy": "owner-controller:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
-      "approvedAtUtc": "2026-08-04T12:00:00.000Z",
-      "rationale": "Approve Stage10-compliant lifecycle-open tree identity bootstrap: explicit project-name threading through buildProjectTreeRootsWithIdentities, reconcileProjectTreeIdentities and annotateProjectTreeDerivedCounters, setActiveProjectNameFromRoot moved after stage10 bootstrap per Stage10 repair source-order contract, transactional active-project rollback preserved, and latent wrong-project bootstrap defect removed; no UI, network, dependency, Google, Atlas mutation or terminal physical PASS claim change.",
+      "sha256": "cb069481c79c8c848f058778e6b815fc99e6aecf2a47fa8f3fdfae7fea3c99da",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_PHASE_B_PRODUCT_TRUST_CHAIN_V1",
+      "approvedAtUtc": "2026-08-06T00:06:06.000Z",
+      "rationale": "Approve exact Phase B product trust-chain bytes: full-manuscript DOCX export now requires V4 provisional self-parse plus final self-parse semantic equivalence before publication; returned full-manuscript intake requires byte-backed YRTK2/CoreManifest proof before router MatchProof and Command Kernel authority; direct forged return-intake proof and missing-provisional-gate attacks are blocked. No physical Word run, no Google work, no long campaign, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
       "approved": true,
-      "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
+      "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_PHASE_B_PRODUCT_TRUST_CHAIN"
     },
     {
       "filePath": "src/main/rtkDocxReturnIntakeWorker.cjs",
@@ -7642,12 +7642,12 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
-      "sha256": "d43c7d0569c965e488fc21145bf18f79cbe47db4b225a16620235ad52a2c7449",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-04T00:05:00.000Z",
-      "rationale": "Approve regression proving authenticated full-manuscript comments remain preview-only by default and write canonical durable non-text state only after explicit canonical apply confirmation; no UI, network, dependency, Google, Atlas mutation or terminal physical PASS claim change.",
+      "sha256": "a6f809aa5797aef00f4b72504dee53392db16e13fe4073a3a3d11654006db25d",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_PHASE_B_PRODUCT_TRUST_CHAIN_V1",
+      "approvedAtUtc": "2026-08-06T00:06:06.000Z",
+      "rationale": "Approve exact Phase B product trust-chain bytes: full-manuscript DOCX export now requires V4 provisional self-parse plus final self-parse semantic equivalence before publication; returned full-manuscript intake requires byte-backed YRTK2/CoreManifest proof before router MatchProof and Command Kernel authority; direct forged return-intake proof and missing-provisional-gate attacks are blocked. No physical Word run, no Google work, no long campaign, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
       "approved": true,
-      "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
+      "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_PHASE_B_PRODUCT_TRUST_CHAIN"
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-review-preview-session.contract.test.js",
@@ -7976,12 +7976,12 @@
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-full-manuscript-product-export.contract.test.js",
-      "sha256": "d269486e55227282ab349412f2a2545680d3dc0de9b8f610a9856071202c17d8",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_N3_FORMATTING_RETURN_RESPONSE_REPAIR",
-      "approvedAtUtc": "2026-08-02T13:34:42.204Z",
-      "rationale": "Approve exact governed and previously approved product-route bytes for the controller-resumed Word N3 formatting-return response repair. This rebind covers the current T7 branch state after physical Word 16.111.2 apply/replay evidence, preserves Google blocked, adds no network path, and makes no broad Word saturation or fixture-only certification claim.",
+      "sha256": "32cb7597b0f5ea1ad37ea8f47ec10b0fa490dc4706d46130f68c4cd599f92280",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_PHASE_B_PRODUCT_TRUST_CHAIN_V1",
+      "approvedAtUtc": "2026-08-06T00:06:06.000Z",
+      "rationale": "Approve exact Phase B product trust-chain bytes: full-manuscript DOCX export now requires V4 provisional self-parse plus final self-parse semantic equivalence before publication; returned full-manuscript intake requires byte-backed YRTK2/CoreManifest proof before router MatchProof and Command Kernel authority; direct forged return-intake proof and missing-provisional-gate attacks are blocked. No physical Word run, no Google work, no long campaign, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_N3_RESUME"
+      "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_PHASE_B_PRODUCT_TRUST_CHAIN"
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-ledger-distribution.contract.test.js",
@@ -9529,6 +9529,33 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+    },
+    {
+      "filePath": "src/export/docx/docxReviewPacketExportHandler.js",
+      "sha256": "5e7375e5c3f62eb199bc07087cce09b7821f134716eb48f6548ac225fc7c0515",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_PHASE_B_PRODUCT_TRUST_CHAIN_V1",
+      "approvedAtUtc": "2026-08-06T00:06:06.000Z",
+      "rationale": "Approve exact Phase B product trust-chain bytes: full-manuscript DOCX export now requires V4 provisional self-parse plus final self-parse semantic equivalence before publication; returned full-manuscript intake requires byte-backed YRTK2/CoreManifest proof before router MatchProof and Command Kernel authority; direct forged return-intake proof and missing-provisional-gate attacks are blocked. No physical Word run, no Google work, no long campaign, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_PHASE_B_PRODUCT_TRUST_CHAIN"
+    },
+    {
+      "filePath": "src/export/docx/fullManuscriptDocxReviewReturnRouter.js",
+      "sha256": "c0e167bd41eb218fcee16036a247adf596480034ed943c2d5bc15fcf8a7350f9",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_PHASE_B_PRODUCT_TRUST_CHAIN_V1",
+      "approvedAtUtc": "2026-08-06T00:06:06.000Z",
+      "rationale": "Approve exact Phase B product trust-chain bytes: full-manuscript DOCX export now requires V4 provisional self-parse plus final self-parse semantic equivalence before publication; returned full-manuscript intake requires byte-backed YRTK2/CoreManifest proof before router MatchProof and Command Kernel authority; direct forged return-intake proof and missing-provisional-gate attacks are blocked. No physical Word run, no Google work, no long campaign, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_PHASE_B_PRODUCT_TRUST_CHAIN"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-c5v2-full-manuscript-return-router.contract.test.js",
+      "sha256": "473e94aeb2e00ad4dc5e380f68fb72474e6751fa7a3c7103c3e781ef90b65ec1",
+      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_PHASE_B_PRODUCT_TRUST_CHAIN_V1",
+      "approvedAtUtc": "2026-08-06T00:06:06.000Z",
+      "rationale": "Approve exact Phase B product trust-chain bytes: full-manuscript DOCX export now requires V4 provisional self-parse plus final self-parse semantic equivalence before publication; returned full-manuscript intake requires byte-backed YRTK2/CoreManifest proof before router MatchProof and Command Kernel authority; direct forged return-intake proof and missing-provisional-gate attacks are blocked. No physical Word run, no Google work, no long campaign, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_PHASE_B_PRODUCT_TRUST_CHAIN"
     }
   ]
 }

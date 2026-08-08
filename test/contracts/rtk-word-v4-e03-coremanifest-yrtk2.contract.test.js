@@ -35,6 +35,46 @@ function digest(seed) {
   return `sha256:${crypto.createHash('sha256').update(Buffer.from(seed, 'utf8')).digest('hex')}`;
 }
 
+// CANON-01: honest recomputing hash tree for the E03 single-scene fixture. Built with the same
+// domain-separated bottom-up recipe (domainBlock/domainScene/domainRoot) the CoreManifest
+// validator recomputes, so the fixture reconciles instead of carrying fabricated digests.
+function honestE03HashTree() {
+  const projectId = 'project-e03';
+  const sceneId = 'scene-e03';
+  const sceneOrdinal = 0;
+  const blockId = 'block-e03';
+  const documentParagraphIndex = 0;
+  const blockDigest = cryptoPort.sha256Json({
+    domain: 'domainBlock',
+    sceneId,
+    sceneOrdinal,
+    documentParagraphIndex,
+    blockId,
+    paragraphId: 'paragraph-e03',
+    canonicalTextSha256: digest('block-text'),
+    canonicalMarksSha256: digest('block-marks'),
+    formatIr: null,
+  });
+  const sceneDigest = cryptoPort.sha256Json({
+    domain: 'domainScene',
+    projectId,
+    sceneId,
+    sceneOrdinal,
+    sceneRevision: 'scene-revision-e03',
+    rawSha256: digest('scene-text'),
+    blockDigests: [{ blockId, digest: blockDigest }],
+  });
+  const rootDigest = cryptoPort.sha256Json({
+    domain: 'domainRoot',
+    sceneDigests: [{ sceneId, digest: sceneDigest }],
+  });
+  return {
+    rootDigest,
+    sceneDigests: [{ sceneId, sceneOrdinal, digest: sceneDigest }],
+    blockDigests: [{ sceneId, sceneOrdinal, documentParagraphIndex, blockId, digest: blockDigest }],
+  };
+}
+
 function manifestInput(overrides = {}) {
   return {
     profileId: 'word-mac-latest-safe-semantic-roundtrip-v4',
@@ -56,18 +96,22 @@ function manifestInput(overrides = {}) {
     exportMap: {
       exportMapId: 'export-map-e03',
       profileId: 'word-mac-latest-safe-semantic-roundtrip-v4',
+      scope: 'scene',
       roundId: 'round-e03',
       scenes: [
         {
           sceneId: 'scene-e03',
+          sceneOrdinal: 0,
           sceneRevision: 'scene-revision-e03',
           rawSha256: digest('scene-text'),
           blocks: [
             {
               blockId: 'block-e03',
               paragraphId: 'paragraph-e03',
+              documentParagraphIndex: 0,
               canonicalTextSha256: digest('block-text'),
               canonicalMarksSha256: digest('block-marks'),
+              formatIr: null,
               wordSignals: [
                 {
                   kind: 'w14ParaIdTextId',
@@ -80,11 +124,10 @@ function manifestInput(overrides = {}) {
         },
       ],
     },
-    hashTree: {
-      rootDigest: digest('root'),
-      sceneDigests: [{ sceneId: 'scene-e03', digest: digest('scene') }],
-      blockDigests: [{ sceneId: 'scene-e03', blockId: 'block-e03', digest: digest('block') }],
-    },
+    // CANON-01: honest recomputing hash tree built with the same domain-separated bottom-up
+    // recipe the CoreManifest validator recomputes (domainBlock/domainScene/domainRoot), so the
+    // E03 fixture reconciles rather than carrying fabricated constant digests.
+    hashTree: honestE03HashTree(),
     ...overrides,
   };
 }

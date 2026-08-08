@@ -54,46 +54,163 @@ function list(value) {
   return Array.isArray(value) ? value.filter(isPlainObject) : [];
 }
 
+// CANON-01: domain-separated bottom-up hash tree recipe over the ORDERED export map.
+// Block digest <- domainBlock {sceneId, sceneOrdinal, documentParagraphIndex, blockId,
+//   paragraphId, canonicalTextSha256, canonicalMarksSha256, formatIr}.
+// Scene digest <- domainScene {projectId, sceneId, sceneOrdinal, sceneRevision, rawSha256,
+//   ordered blockDigests [{blockId, digest}]}.
+// Root digest <- domainRoot {sceneDigests [{sceneId, digest}]}.
+// This single builder is used both by producers (full-manuscript / single-scene) and by
+// validateCoreManifestPayload recomputation, so an honest tree always reconciles and a
+// fabricated tree of constant digests is rejected.
+export const RTK_WORD_V4_DOMAIN_BLOCK = 'domainBlock';
+export const RTK_WORD_V4_DOMAIN_SCENE = 'domainScene';
+export const RTK_WORD_V4_DOMAIN_ROOT = 'domainRoot';
+
+export function buildWordV4ManifestHashTree(exportMap, projectId, cryptoPort) {
+  const port = cryptoPort || {};
+  const sha256Json = typeof port.sha256Json === 'function' ? port.sha256Json.bind(port) : null;
+  if (!sha256Json) {
+    return {
+      ok: false,
+      status: 'blocked',
+      code: 'RTK_V4_CORE_MANIFEST_CRYPTO_PORT_REQUIRED',
+      reasons: [reason('RTK_V4_CORE_MANIFEST_CRYPTO_PORT_REQUIRED', 'cryptoPort.sha256Json', 'Hash tree builder requires CryptoPort.sha256Json.')],
+    };
+  }
+  const normOrdinal = (value) => (Number.isSafeInteger(value) ? value : null);
+  const scenes = Array.isArray(exportMap?.scenes) ? exportMap.scenes : [];
+  const blockDigests = [];
+  const blockDigestByBlockId = new Map();
+  for (const scene of scenes) {
+    const sceneId = rawString(scene.sceneId);
+    const sceneOrdinal = normOrdinal(scene.sceneOrdinal);
+    for (const block of Array.isArray(scene.blocks) ? scene.blocks : []) {
+      const blockId = rawString(block.blockId);
+      const documentParagraphIndex = normOrdinal(block.documentParagraphIndex);
+      const entry = {
+        sceneId,
+        sceneOrdinal,
+        documentParagraphIndex,
+        blockId,
+        digest: sha256Json({
+          domain: RTK_WORD_V4_DOMAIN_BLOCK,
+          sceneId,
+          sceneOrdinal,
+          documentParagraphIndex,
+          blockId,
+          paragraphId: rawString(block.paragraphId),
+          canonicalTextSha256: normalizeSha256(block.canonicalTextSha256),
+          canonicalMarksSha256: normalizeSha256(block.canonicalMarksSha256),
+          formatIr: cloneJsonSafe(block.formatIr ?? null),
+        }),
+      };
+      blockDigests.push(entry);
+      blockDigestByBlockId.set(blockId, entry.digest);
+    }
+  }
+  const sceneDigests = scenes.map((scene) => {
+    const sceneId = rawString(scene.sceneId);
+    const sceneOrdinal = normOrdinal(scene.sceneOrdinal);
+    const digest = sha256Json({
+      domain: RTK_WORD_V4_DOMAIN_SCENE,
+      projectId: rawString(projectId),
+      sceneId,
+      sceneOrdinal,
+      sceneRevision: rawString(scene.sceneRevision),
+      rawSha256: normalizeSha256(scene.rawSha256),
+      blockDigests: (Array.isArray(scene.blocks) ? scene.blocks : []).map((block) => ({
+        blockId: rawString(block.blockId),
+        digest: blockDigestByBlockId.get(rawString(block.blockId)) || '',
+      })),
+    });
+    return { sceneId, sceneOrdinal, digest };
+  });
+  return {
+    ok: true,
+    status: 'created',
+    code: 'RTK_V4_CORE_MANIFEST_HASH_TREE_BUILT',
+    rootDigest: sha256Json({
+      domain: RTK_WORD_V4_DOMAIN_ROOT,
+      sceneDigests: sceneDigests.map((entry) => ({ sceneId: entry.sceneId, digest: entry.digest })),
+    }),
+    sceneDigests,
+    blockDigests,
+    reasons: [],
+  };
+}
+
 function normalizeHashTree(input = {}) {
   return {
     treeAlg: rawString(input.treeAlg) || 'sha256-stable-json-v1',
     rootDigest: normalizeSha256(input.rootDigest),
+    // CANON-01 P0-02: ORDERED projection — preserve producer scene/block order. Sorting by id
+    // erased order swaps (C2); the canonical projection now carries ordinals and keeps order.
     sceneDigests: list(input.sceneDigests).map((scene) => ({
       sceneId: rawString(scene.sceneId),
+      sceneOrdinal: Number.isSafeInteger(scene.sceneOrdinal) ? scene.sceneOrdinal : undefined,
       digest: normalizeSha256(scene.digest),
-    })).sort((left, right) => left.sceneId.localeCompare(right.sceneId)),
+    })),
     blockDigests: list(input.blockDigests).map((block) => ({
       sceneId: rawString(block.sceneId),
+      sceneOrdinal: Number.isSafeInteger(block.sceneOrdinal) ? block.sceneOrdinal : undefined,
+      documentParagraphIndex: Number.isSafeInteger(block.documentParagraphIndex) ? block.documentParagraphIndex : undefined,
       blockId: rawString(block.blockId),
       digest: normalizeSha256(block.digest),
-    })).sort((left, right) => (
-      `${left.sceneId}:${left.blockId}`.localeCompare(`${right.sceneId}:${right.blockId}`)
-    )),
+    })),
   };
 }
 
+// CANON-01 F-02/P0-02: closed ordered export-map projection. Preserves producer order of
+// scenes/blocks/wordSignals (NO id/kind sort), carries scope + sceneOrdinal + blockOrdinal
+// (paragraphOrdinal) + documentParagraphIndex + formatIr into the digest. Ordinals and
+// formatIr participate as canonical values: their presence/absence/reorder changes the
+// digest (C2/C3/C4), but absence is a distinct canonical value rather than a hard rejection,
+// matching the canon01 spec (C3 keeps ok:true with differing digests when ordinals drop).
+// Replacing the order-preserving projection with an id sort re-introduces the C1/C2/C3/C4
+// collisions the contract kills.
 function normalizeExportMap(input = {}) {
+  const scenes = list(input.scenes).map((scene) => {
+    const sceneOrdinalRaw = scene.sceneOrdinal;
+    return {
+      sceneId: rawString(scene.sceneId),
+      sceneOrdinal: Number.isSafeInteger(sceneOrdinalRaw) ? sceneOrdinalRaw : null,
+      sceneRevision: rawString(scene.sceneRevision),
+      rawSha256: normalizeSha256(scene.rawSha256),
+      blocks: list(scene.blocks).map((block) => {
+        const documentParagraphIndexRaw = block.documentParagraphIndex;
+        const paragraphOrdinalRaw = block.paragraphOrdinal;
+        return {
+          blockId: rawString(block.blockId),
+          paragraphId: rawString(block.paragraphId),
+          documentParagraphIndex: Number.isSafeInteger(documentParagraphIndexRaw)
+            ? documentParagraphIndexRaw
+            : null,
+          paragraphOrdinal: Number.isSafeInteger(paragraphOrdinalRaw)
+            ? paragraphOrdinalRaw
+            : null,
+          canonicalTextSha256: normalizeSha256(block.canonicalTextSha256),
+          canonicalMarksSha256: normalizeSha256(block.canonicalMarksSha256),
+          // CANON-01 C4: formatIr participates in the digest; closed form is the cloned object.
+          formatIr: cloneJsonSafe(block.formatIr ?? null),
+          wordSignals: list(block.wordSignals).map((signal) => ({
+            kind: rawString(signal.kind),
+            value: cloneJsonSafe(signal.value ?? {}),
+            applyAuthority: signal.applyAuthority === true,
+          })),
+        };
+      }),
+    };
+  });
   return {
     schemaVersion: RTK_WORD_V4_EXPORT_MAP_SCHEMA,
     exportMapId: rawString(input.exportMapId),
     profileId: rawString(input.profileId),
+    // CANON-01 C1: scope participates in the digest; previously dropped, colliding full-manuscript
+    // and scene scopes over identical block payloads.
+    scope: rawString(input.scope),
     roundId: rawString(input.roundId),
-    scenes: list(input.scenes).map((scene) => ({
-      sceneId: rawString(scene.sceneId),
-      sceneRevision: rawString(scene.sceneRevision),
-      rawSha256: normalizeSha256(scene.rawSha256),
-      blocks: list(scene.blocks).map((block) => ({
-        blockId: rawString(block.blockId),
-        paragraphId: rawString(block.paragraphId),
-        canonicalTextSha256: normalizeSha256(block.canonicalTextSha256),
-        canonicalMarksSha256: normalizeSha256(block.canonicalMarksSha256),
-        wordSignals: list(block.wordSignals).map((signal) => ({
-          kind: rawString(signal.kind),
-          value: cloneJsonSafe(signal.value ?? {}),
-          applyAuthority: signal.applyAuthority === true,
-        })).sort((left, right) => left.kind.localeCompare(right.kind)),
-      })).sort((left, right) => left.blockId.localeCompare(right.blockId)),
-    })).sort((left, right) => left.sceneId.localeCompare(right.sceneId)),
+    scenes,
   };
 }
 
@@ -161,7 +278,7 @@ function manifestWithoutDigest(input = {}) {
   };
 }
 
-function validateCoreManifestPayload(payload, originalInput = {}) {
+function validateCoreManifestPayload(payload, originalInput = {}, cryptoPort = null) {
   const reasons = [];
   for (const key of ['profileId', 'projectId', 'roundId', 'exportArtifactId', 'createdAtUtc']) {
     if (!payload[key]) reasons.push(reason('RTK_V4_CORE_MANIFEST_FIELD_REQUIRED', key, 'CoreManifest field is required.'));
@@ -176,10 +293,45 @@ function validateCoreManifestPayload(payload, originalInput = {}) {
   if (!SIGNED_SHA256_RE.test(payload.hashTree.rootDigest)) {
     reasons.push(reason('RTK_V4_CORE_MANIFEST_HASH_TREE_ROOT_INVALID', 'hashTree.rootDigest', 'Hash tree root must be a full lowercase sha256 digest.'));
   }
+  // CANON-01 C5/C8: bottom-up recompute over the ORDERED export map. The single shared builder
+  // is used here, so a tree of fabricated constant digests is rejected while an honestly-built
+  // canonical tree reconciles. Recompute runs only after the payload-level digest checks, so
+  // an invalid rootDigest still produces its typed code first.
+  if (SIGNED_SHA256_RE.test(payload.hashTree.rootDigest)) {
+    const recomputed = buildWordV4ManifestHashTree(payload.exportMap, payload.projectId, { sha256Json: cryptoPort?.sha256Json });
+    if (recomputed.ok && (
+      recomputed.rootDigest !== payload.hashTree.rootDigest
+      || !treeDigestsMatch(recomputed.sceneDigests, payload.hashTree.sceneDigests)
+      || !treeDigestsMatch(recomputed.blockDigests, payload.hashTree.blockDigests)
+    )) {
+      reasons.push(reason(
+        'RTK_V4_CORE_MANIFEST_HASH_TREE_RECOMPUTE_MISMATCH',
+        'hashTree',
+        'Hash tree does not reconcile with the bottom-up recomputation over the ordered export map.',
+        { provided: payload.hashTree.rootDigest, recomputed: recomputed.rootDigest },
+      ));
+    }
+  }
   if (!SIGNED_SHA256_RE.test(payload.artifactIdentities.provisionalDocxSha256)) {
     reasons.push(reason('RTK_V4_CORE_MANIFEST_PROVISIONAL_DOCX_HASH_REQUIRED', 'artifactIdentities.provisionalDocxSha256', 'Provisional DOCX hash is required for double self-parse binding.'));
   }
   return reasons;
+}
+
+function treeDigestsMatch(recomputed, provided) {
+  if (!Array.isArray(recomputed) || !Array.isArray(provided) || recomputed.length !== provided.length) {
+    return false;
+  }
+  const providedByKey = new Map();
+  for (const entry of provided) {
+    const key = entry.blockId ? `${entry.sceneId}:${entry.blockId}` : entry.sceneId;
+    providedByKey.set(key, normalizeSha256(entry.digest));
+  }
+  for (const entry of recomputed) {
+    const key = entry.blockId ? `${entry.sceneId}:${entry.blockId}` : entry.sceneId;
+    if (providedByKey.get(key) !== normalizeSha256(entry.digest)) return false;
+  }
+  return true;
 }
 
 export function createWordV4CoreManifest(input = {}, ports = {}) {
@@ -193,7 +345,7 @@ export function createWordV4CoreManifest(input = {}, ports = {}) {
     };
   }
   const payload = manifestWithoutDigest(input);
-  const reasons = validateCoreManifestPayload(payload, input);
+  const reasons = validateCoreManifestPayload(payload, input, { sha256Json: cryptoPort.sha256Json });
   if (reasons.length > 0) {
     return {
       ok: false,

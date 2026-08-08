@@ -507,7 +507,41 @@ function buildFullManuscriptBlocks(scenes, cryptoPort = createDefaultCryptoPort(
   return blocks;
 }
 
-function buildFullManuscriptHashTree({ projectId, scenes, blocks }, cryptoPort = createDefaultCryptoPort()) {
+// CANON-01: the full-manuscript hash tree is built with the SAME domain-separated bottom-up
+// recipe the CoreManifest validator recomputes (domainBlock/domainScene/domainRoot). When the
+// revisionBridge dependency surface exposes the shared builder, delegate to it so producer and
+// validator are guaranteed to converge on one canonical tree; otherwise fall back to an inline
+// implementation of the identical recipe.
+function buildFullManuscriptHashTree({ projectId, scenes, blocks }, cryptoPort = createDefaultCryptoPort(), revisionBridge = {}) {
+  const normOrdinal = (value) => (Number.isSafeInteger(value) ? value : null);
+  const exportMap = {
+    scenes: scenes.map((scene) => ({
+      sceneId: scene.sceneId,
+      sceneOrdinal: normOrdinal(scene.sceneOrdinal),
+      sceneRevision: scene.sceneRevision,
+      rawSha256: scene.rawSha256,
+      blocks: blocks
+        .filter((block) => block.sceneId === scene.sceneId)
+        .map((block) => ({
+          blockId: block.blockId,
+          paragraphId: block.paragraphId,
+          documentParagraphIndex: normOrdinal(block.documentParagraphIndex),
+          canonicalTextSha256: block.canonicalTextSha256,
+          canonicalMarksSha256: block.canonicalMarksSha256,
+          formatIr: cloneJson(block.formatIr ?? null),
+        })),
+    })),
+  };
+  if (revisionBridge && typeof revisionBridge.buildWordV4ManifestHashTree === 'function') {
+    const shared = revisionBridge.buildWordV4ManifestHashTree(exportMap, projectId, cryptoPort);
+    if (shared && shared.ok) {
+      return {
+        rootDigest: shared.rootDigest,
+        sceneDigests: shared.sceneDigests,
+        blockDigests: shared.blockDigests,
+      };
+    }
+  }
   const blocksBySceneId = new Map();
   for (const block of blocks) {
     if (!blocksBySceneId.has(block.sceneId)) blocksBySceneId.set(block.sceneId, []);
@@ -515,28 +549,31 @@ function buildFullManuscriptHashTree({ projectId, scenes, blocks }, cryptoPort =
   }
   const blockDigests = blocks.map((block) => ({
     sceneId: block.sceneId,
-    sceneOrdinal: block.sceneOrdinal,
-    documentParagraphIndex: block.documentParagraphIndex,
+    sceneOrdinal: normOrdinal(block.sceneOrdinal),
+    documentParagraphIndex: normOrdinal(block.documentParagraphIndex),
     blockId: block.blockId,
     digest: cryptoPort.sha256Json({
+      domain: 'domainBlock',
       sceneId: block.sceneId,
-      sceneOrdinal: block.sceneOrdinal,
-      documentParagraphIndex: block.documentParagraphIndex,
+      sceneOrdinal: normOrdinal(block.sceneOrdinal),
+      documentParagraphIndex: normOrdinal(block.documentParagraphIndex),
       blockId: block.blockId,
       paragraphId: block.paragraphId,
       canonicalTextSha256: block.canonicalTextSha256,
       canonicalMarksSha256: block.canonicalMarksSha256,
+      formatIr: cloneJson(block.formatIr ?? null),
     }),
   }));
   const sceneDigests = scenes.map((scene) => {
     const sceneBlocks = blocksBySceneId.get(scene.sceneId) || [];
     return {
       sceneId: scene.sceneId,
-      sceneOrdinal: scene.sceneOrdinal,
+      sceneOrdinal: normOrdinal(scene.sceneOrdinal),
       digest: cryptoPort.sha256Json({
+        domain: 'domainScene',
         projectId,
         sceneId: scene.sceneId,
-        sceneOrdinal: scene.sceneOrdinal,
+        sceneOrdinal: normOrdinal(scene.sceneOrdinal),
         sceneRevision: scene.sceneRevision,
         rawSha256: scene.rawSha256,
         blockDigests: sceneBlocks.map((block) => ({
@@ -547,7 +584,7 @@ function buildFullManuscriptHashTree({ projectId, scenes, blocks }, cryptoPort =
     };
   });
   return {
-    rootDigest: cryptoPort.sha256Json({ sceneDigests }),
+    rootDigest: cryptoPort.sha256Json({ domain: 'domainRoot', sceneDigests: sceneDigests.map((entry) => ({ sceneId: entry.sceneId, digest: entry.digest })) }),
     sceneDigests,
     blockDigests,
   };
@@ -737,7 +774,8 @@ function buildFullManuscriptDocxReviewPacketSource(input = {}, deps = {}) {
         })),
     })),
   };
-  const hashTree = buildFullManuscriptHashTree({ projectId, scenes, blocks }, cryptoPort);
+  const revisionBridgeForHashTree = isPlainObjectValue(deps.revisionBridge) ? deps.revisionBridge : {};
+  const hashTree = buildFullManuscriptHashTree({ projectId, scenes, blocks }, cryptoPort, revisionBridgeForHashTree);
   const fullBookRawSha256 = cryptoPort.sha256Json(scenes.map((scene) => ({
     sceneId: scene.sceneId,
     sceneOrdinal: scene.sceneOrdinal,

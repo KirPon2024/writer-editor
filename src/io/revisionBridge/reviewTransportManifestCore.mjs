@@ -63,10 +63,8 @@ function normalizeSceneSnapshots(scenes = []) {
           canonicalTextSha256: normalizeDigest(block.canonicalTextSha256),
           canonicalMarksSha256: normalizeDigest(block.canonicalMarksSha256),
           locatorSignals: normalizeLocatorSignals(block.locatorSignals),
-        }))
-        .sort((left, right) => rawString(left.blockId).localeCompare(rawString(right.blockId))),
-    }))
-    .sort((left, right) => rawString(left.sceneId).localeCompare(rawString(right.sceneId)));
+        })),
+    }));
 }
 
 function normalizePayload(input = {}) {

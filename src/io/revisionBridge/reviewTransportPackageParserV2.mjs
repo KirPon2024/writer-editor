@@ -886,6 +886,65 @@ function provenance(token) {
   };
 }
 
+// CANON-01 P0-18: placement-aware semantic digest helpers. The semantic projection entries for
+// textRevisions/commentThreads/formattingDeltas carry placement (story + paragraph index/ordinal,
+// and for comments an anchor quote digest) so relocating a revision or comment between paragraphs
+// changes supportedSemanticDigest (C6/C6b). Placement is derived from existing parser raw
+// material and is namespace-invariant by construction: it uses only the paragraph count (which
+// is prefix/attribute-order independent) and decoded text, never raw XML byte offsets. This
+// preserves the b02 determinism pin (C7) and the W2 namespace-invariance control (C6c/C3-test).
+function paragraphIndexForOffset(documentScan, offset) {
+  if (typeof offset !== 'number') return null;
+  let index = 0;
+  for (const token of documentScan.tokens) {
+    if (!isWordToken(token, 'p') || token.path.length !== 3 || token.path[1] !== 'body') continue;
+    if (offset >= token.openStart && offset <= token.closeEnd) return index;
+    index += 1;
+  }
+  // Fall back to the count of top-level body paragraphs before the offset so a revision that
+  // starts before/after a paragraph boundary still maps to a stable positional index.
+  let position = 0;
+  for (const token of documentScan.tokens) {
+    if (!isWordToken(token, 'p') || token.path.length !== 3 || token.path[1] !== 'body') continue;
+    if (token.openStart > offset) break;
+    position += 1;
+  }
+  return position;
+}
+
+function placementForRevision(documentScan, revision) {
+  const openStart = revision?.sourceXmlProvenance?.openStart;
+  const paragraphIndex = paragraphIndexForOffset(documentScan, typeof openStart === 'number' ? openStart : 0);
+  return {
+    story: 'document.xml',
+    paragraphIndex,
+    ordinal: paragraphIndex,
+  };
+}
+
+function placementForCommentAnchor(documentScan, anchor, cryptoPort) {
+  const anchorStart = anchor?.anchorStart;
+  const quoted = rawString(anchor?.quotedAnchorText);
+  const paragraphIndex = paragraphIndexForOffset(documentScan, typeof anchorStart === 'number' ? anchorStart : 0);
+  return {
+    story: 'document.xml',
+    paragraphIndex,
+    ordinal: paragraphIndex,
+    // anchor quote digest is over the DECODED anchor text (namespace-invariant), not raw bytes.
+    anchorQuoteDigest: quoted ? cryptoPort.sha256Text(quoted) : null,
+  };
+}
+
+function placementForFormattingDelta(documentScan, delta) {
+  const openStart = delta?.sourceXmlProvenance?.openStart;
+  const paragraphIndex = paragraphIndexForOffset(documentScan, typeof openStart === 'number' ? openStart : 0);
+  return {
+    story: 'document.xml',
+    paragraphIndex,
+    ordinal: paragraphIndex,
+  };
+}
+
 function isWordToken(token, localName) {
   return token.localName === localName && (!token.namespaceUri || token.namespaceUri === W_NS);
 }
@@ -2354,6 +2413,9 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
       nativeRevisionId: item.nativeRevisionId,
       textDigest: item.textDigest,
       replacementGroupId: item.replacementGroupId,
+      // CANON-01 C6: placement participates so relocating a revision between paragraphs changes
+      // supportedSemanticDigest.
+      placement: placementForRevision(documentScan, item),
     })),
     moveRevisions: moveRevisions.map((item) => ({
       nativeRevisionId: item.nativeRevisionId,
@@ -2375,6 +2437,13 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
         : null,
       replyDigests: thread.replies.map((reply) => reply.bodyDigest),
       bodyDigest: cryptoPort.sha256Json({ commentId: thread.commentId, body: thread.body }),
+      // CANON-01 C6b: anchor placement participates so relocating a comment between paragraphs
+      // changes supportedSemanticDigest.
+      placement: placementForCommentAnchor(documentScan, {
+        anchorStart: thread.anchorStart,
+        anchorEnd: thread.anchorEnd,
+        quotedAnchorText: thread.quotedAnchorText,
+      }, cryptoPort),
     })),
     commentGraphCapability,
     authorityCarrier: {
@@ -2395,6 +2464,8 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
     formattingDeltas: formattingDeltas.map((delta) => ({
       formatKind: delta.formatKind,
       values: delta.values,
+      // CANON-01 P0-18: placement participates so relocated formatting deltas change the digest.
+      placement: placementForFormattingDelta(documentScan, delta),
     })),
     opaqueUnsupported: opaqueUnsupported.map((item) => ({
       partName: item.partName,

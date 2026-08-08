@@ -2670,12 +2670,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "c790cf92c1452122fd729474f002460fe72c22a31141903d1b5bfaffbb5e1fd9",
-      "approvedBy": "owner-direct:TASK_ID:EXPORT-01_UNIFIED_BOOKMARK",
-      "approvedAtUtc": "2026-08-08T18:47:22.199Z",
-      "rationale": "Approve additive RTK graph catalog bytes adding the EXPORT-01 unified bookmark contract test file; supersedes the CANON-01-era catalog byte approval retained in git history.",
+      "sha256": "9ce15f2d2eba180f2ce4321779400a12a8e3b9624cc36729cf6e27ff237daae8",
+      "approvedBy": "owner-direct:TASK_ID:PARSER-01_NAMESPACE_ATOMS",
+      "approvedAtUtc": "2026-08-08T20:18:43.395Z",
+      "rationale": "Approve additive RTK graph catalog bytes adding the PARSER-01 namespace-atoms contract test file; supersedes the EXPORT-01-era catalog byte approval retained in git history.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EXPORT01_UNIFIED_BOOKMARK"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PARSER01_NAMESPACE_ATOMS"
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
@@ -6515,12 +6515,12 @@
     },
     {
       "filePath": "src/export/docx/docxReviewPacketBuilder.js",
-      "sha256": "dea2840744f958f617861ee8ddc60f71b9046fbd16a064d5e14f6938cc4a3b15",
-      "approvedBy": "owner-direct:TASK_ID:EXPORT-01_UNIFIED_BOOKMARK",
-      "approvedAtUtc": "2026-08-08T18:47:22.199Z",
-      "rationale": "Approve EXPORT-01 builder emitting declared bookmark names byte-for-byte with wordSignals carried through block normalization; builder-side generator removed.",
+      "sha256": "6160ae0862cad646a9e8d5b9bf80435c8566658138d05977f19c831a23a083bb",
+      "approvedBy": "owner-direct:TASK_ID:PARSER-01_NAMESPACE_ATOMS",
+      "approvedAtUtc": "2026-08-08T20:18:43.395Z",
+      "rationale": "Approve PARSER-01 hyperlink emission documentation keeping bounded http(s) External relationships admitted as inert evidence by the parser while hostile forms stay blocked.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EXPORT01_UNIFIED_BOOKMARK"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PARSER01_NAMESPACE_ATOMS"
     },
     {
       "filePath": "src/export/docx/fullManuscriptDocxReviewPacketSource.js",
@@ -6629,12 +6629,12 @@
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportCore.mjs",
-      "sha256": "d751a44dc59897e67bd7690024395ff1627ec566bee2fbd914f65393a5cd466c",
-      "approvedBy": "owner-direct:TASK_ID:CANON-01_ORDERED_PROJECTIONS",
-      "approvedAtUtc": "2026-08-08T16:40:00.527Z",
-      "rationale": "Approve CANON-01 W2 placement side-map feeding placement into the semantic digest projection while keeping the pinned reviewIr digest byte-stable.",
+      "sha256": "19979e428ec781d74176c733a878b2b2a0fe11fef657021eab10b7e5353d7dca",
+      "approvedBy": "owner-direct:TASK_ID:PARSER-01_NAMESPACE_ATOMS",
+      "approvedAtUtc": "2026-08-08T20:18:43.395Z",
+      "rationale": "Approve PARSER-01 reason-code registration (XML QName, unbound namespace, duplicate attribute, namespace profile, comment anchor family) appended to the frozen catalog.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_CANON01_ORDERED_PROJECTIONS"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PARSER01_NAMESPACE_ATOMS"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportExactApply.mjs",
@@ -6718,12 +6718,12 @@
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportPackageParserV2.mjs",
-      "sha256": "5de0ce5b290952c94b2bd42f21b0adaa2c9b6b88b7f99748ba526ed1ac264fee",
-      "approvedBy": "owner-direct:TASK_ID:CANON-01_ORDERED_PROJECTIONS",
-      "approvedAtUtc": "2026-08-08T16:40:00.527Z",
-      "rationale": "Approve CANON-01 placement-aware semantic digest projection carrying namespace-invariant story, paragraph index, ordinal and anchor quote digest for text, comment and formatting entries; no IR atom change.",
+      "sha256": "9bbe2dfae5eae9d21aa862ec82e18aaa06dca0a6105a4e5cf15dd19ac6f1b929",
+      "approvedBy": "owner-direct:TASK_ID:PARSER-01_NAMESPACE_ATOMS",
+      "approvedAtUtc": "2026-08-08T20:18:43.395Z",
+      "rationale": "Approve PARSER-01 namespace-exact scanner (expanded-name close matching, unbound prefix and duplicate attribute rejection, empty namespace not Word), semantic atom projector with whitespace preservation, branded block-local positions, paragraph-mark structural classification, same-paragraph replacement grouping with metadata policy, typed comment anchor validation, and inert hyperlink profile admission.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_CANON01_ORDERED_PROJECTIONS"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PARSER01_NAMESPACE_ATOMS"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportRoundStore.mjs",
@@ -9629,12 +9629,12 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "944153cd5ffda15bd8d26c0298637db9f720e287ff8bfe70ec071ad94a57c0f0",
-      "approvedBy": "owner-direct:TASK_ID:EXPORT-01_UNIFIED_BOOKMARK",
-      "approvedAtUtc": "2026-08-08T18:47:22.199Z",
-      "rationale": "Approve additive test:rtk-export01 lane script; no dependency or runtime change.",
+      "sha256": "a2a25cb19969dd36c3af3167a693b8be2a613fff84a104d1355fdb35259f0a00",
+      "approvedBy": "owner-direct:TASK_ID:PARSER-01_NAMESPACE_ATOMS",
+      "approvedAtUtc": "2026-08-08T20:18:43.395Z",
+      "rationale": "Approve additive test:rtk-parser01 lane script; no dependency or runtime change.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EXPORT01_UNIFIED_BOOKMARK"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PARSER01_NAMESPACE_ATOMS"
     },
     {
       "filePath": "test/contracts/rtk-admit01-accountable-lanes.contract.test.js",
@@ -9689,6 +9689,15 @@
       "rationale": "Approve EXPORT-01 unified bookmark contract tests (E1-E8: real two-scene gate, name parity, synthesis impossibility, failed-export zero authority, activation round-trip, controls); tests only.",
       "approved": true,
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EXPORT01_UNIFIED_BOOKMARK"
+    },
+    {
+      "filePath": "test/contracts/rtk-parser01-namespace-atoms.contract.test.js",
+      "sha256": "eddde51c8d4beaf35869ea0eaf0557d7689e0af196b38660c208844d1022013e",
+      "approvedBy": "owner-direct:TASK_ID:PARSER-01_NAMESPACE_ATOMS",
+      "approvedAtUtc": "2026-08-08T20:18:43.395Z",
+      "rationale": "Approve PARSER-01 namespace-atoms contract tests (P1-P10 plus P7b single-dimension replacement-boundary pin and controls); tests only.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PARSER01_NAMESPACE_ATOMS"
     }
   ]
 }

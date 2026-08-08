@@ -329,6 +329,15 @@ function buildRootRelsXml() {
 }
 
 function buildDocumentRelsXml(hyperlinks = []) {
+  // PARSER-01 (P9) hyperlink emission form: the exact-text product profile keeps
+  // emitting TargetMode="External" hyperlink relationships so a physical Word
+  // reopen shows a clickable link, AND the bounded parser
+  // (reviewTransportPackageParserV2.mjs) admits a bounded http(s) hyperlink rel
+  // as INERT preserved evidence inside the declared profile — it is never
+  // authority, never a locator, never a click target. Non-http(s) and
+  // active/attached-template External rels remain RTK_HOSTILE_PACKAGE_BLOCKED.
+  // This resolves the former builder↔parser self-conflict where the product's
+  // own exported packet was rejected as hostile.
   const hyperlinkRelationships = hyperlinks.map((entry) => (
     `  <Relationship Id="${escapeXml(entry.relationshipId)}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink" Target="${escapeXml(entry.href)}" TargetMode="External"/>`
   )).join('\n');

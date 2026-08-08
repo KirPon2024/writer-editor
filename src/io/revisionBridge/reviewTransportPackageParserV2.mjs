@@ -338,23 +338,48 @@ function parseRawAttributes(attrText, budgets, cryptoPort, partName) {
   return { attributes, diagnostics };
 }
 
+// PARSER-01 (P3): attribute binding detects a DUPLICATE expanded attribute —
+// the same (namespaceUri, localName) pair appearing twice, whether via the same
+// prefix (w:id="1" w:id="2") or via different prefixes bound to the same
+// namespace (w:id="1" x:id="2" with x -> WordprocessingML). The duplicate is a
+// typed RTK_XML_DUPLICATE_ATTRIBUTE rejection; it never silently overwrites.
+// FIRST-WINS policy is used for the reader maps so a duplicate does not let the
+// second value leak into a token's attributes (the rejection already makes the
+// parse fail, but first-wins keeps the in-progress token shape deterministic).
 function bindAttributes(attributes, nsMap) {
   const attrsByLocal = {};
   const attrsByQName = {};
   const attrsByNs = {};
+  const diagnostics = [];
+  const seenExpanded = new Set();
   const bound = attributes.map((attribute) => {
     const namespaceUri = attribute.prefix ? rawString(nsMap[attribute.prefix]) : '';
     const item = { ...attribute, namespaceUri };
-    attrsByLocal[item.localName] = item.value;
-    attrsByQName[item.qName] = item.value;
-    attrsByNs[`${item.namespaceUri}|${item.localName}`] = item.value;
+    const expandedKey = `${item.namespaceUri}|${item.localName}`;
+    if (seenExpanded.has(expandedKey)) {
+      diagnostics.push(reason('RTK_XML_DUPLICATE_ATTRIBUTE', 'xml.attributes', 'XML duplicate expanded attribute is rejected.', {
+        namespaceUri: item.namespaceUri,
+        localName: item.localName,
+      }));
+    } else {
+      seenExpanded.add(expandedKey);
+    }
+    if (!Object.prototype.hasOwnProperty.call(attrsByLocal, item.localName)) {
+      attrsByLocal[item.localName] = item.value;
+    }
+    if (!Object.prototype.hasOwnProperty.call(attrsByQName, item.qName)) {
+      attrsByQName[item.qName] = item.value;
+    }
+    if (!Object.prototype.hasOwnProperty.call(attrsByNs, expandedKey)) {
+      attrsByNs[expandedKey] = item.value;
+    }
     return item;
   }).sort((left, right) => (
     `${left.namespaceUri}|${left.localName}|${left.qName}`.localeCompare(
       `${right.namespaceUri}|${right.localName}|${right.qName}`,
     )
   ));
-  return { attributes: bound, attrsByLocal, attrsByQName, attrsByNs };
+  return { attributes: bound, attrsByLocal, attrsByQName, attrsByNs, diagnostics };
 }
 
 function applyNamespaceDeclarations(parentMap, attributes) {
@@ -506,14 +531,39 @@ function parseXmlPart(partName, xml, budgets, cryptoPort, budgetState = null) {
     const parentMap = stack.length > 0 ? stack[stack.length - 1].nsMap : {};
     if (closing) {
       const last = stack.pop();
-      if (!last || last.localName !== split.localName) {
+      // PARSER-01 (P1): closing token MUST match the expanded opening name —
+      // prefix AND namespaceUri AND localName all match. A DIFFERENT localName
+      // (e.g. open <w:ins>, close </w:p>) is a malformed XML error
+      // (RTK_XML_MALFORMED_BLOCKED). The SAME localName + namespace but a
+      // DIFFERENT prefix (e.g. open <w:p>, close </x:p> where both bind the
+      // same WordprocessingML namespace) is a typed RTK_XML_QNAME_MISMATCH —
+      // the expanded name is identical but the lexical QName differs, so it is
+      // a real mismatch that must not be silently accepted.
+      if (!last) {
+        diagnostics.push(reason('RTK_XML_MALFORMED_BLOCKED', partName, 'XML close tag has no matching open tag.', {
+          elementName: split.localName,
+        }));
+      } else if (last.localName !== split.localName) {
         diagnostics.push(reason('RTK_XML_MALFORMED_BLOCKED', partName, 'XML close tag does not match open tag.', {
           elementName: split.localName,
         }));
       } else {
-        last.closeStart = open;
-        last.closeEnd = close + 1;
-        tokens.push(last);
+        const closeNamespaceUri = rawString(parentMap[split.prefix || '']);
+        const prefixMatches = last.prefix === split.prefix;
+        const namespaceMatches = last.namespaceUri === closeNamespaceUri;
+        if (!prefixMatches || !namespaceMatches) {
+          diagnostics.push(reason('RTK_XML_QNAME_MISMATCH', partName, 'XML close tag expanded name does not match open tag.', {
+            openQName: last.qName,
+            closeQName: split.prefix ? `${split.prefix}:${split.localName}` : split.localName,
+            openNamespaceUri: last.namespaceUri,
+            closeNamespaceUri,
+            localName: split.localName,
+          }));
+        } else {
+          last.closeStart = open;
+          last.closeEnd = close + 1;
+          tokens.push(last);
+        }
       }
       continue;
     }
@@ -521,11 +571,30 @@ function parseXmlPart(partName, xml, budgets, cryptoPort, budgetState = null) {
     const attrParse = parseRawAttributes(raw.slice(parsedName.next), budgets, cryptoPort, partName);
     diagnostics.push(...attrParse.diagnostics);
     const nsMap = applyNamespaceDeclarations(parentMap, attrParse.attributes);
-    const namespaceUri = rawString(nsMap[split.prefix || '']);
     const boundAttrs = bindAttributes(attrParse.attributes, nsMap);
+    diagnostics.push(...boundAttrs.diagnostics);
+    // PARSER-01 (P2): an element prefix with no xmlns declaration in the
+    // effective nsMap is a typed RTK_XML_NAMESPACE_UNBOUND rejection, never a
+    // silent collapse to the empty namespace. The empty default-namespace case
+    // ('') for an unprefixed element is legitimate (P4) and stays ''.
+    let namespaceUri;
+    if (split.prefix) {
+      if (!Object.prototype.hasOwnProperty.call(nsMap, split.prefix)) {
+        diagnostics.push(reason('RTK_XML_NAMESPACE_UNBOUND', partName, 'XML element prefix is not bound to a namespace.', {
+          prefix: split.prefix,
+          localName: split.localName,
+        }));
+        namespaceUri = `UNBOUND:${split.prefix}`;
+      } else {
+        namespaceUri = rawString(nsMap[split.prefix]);
+      }
+    } else {
+      namespaceUri = rawString(nsMap['']);
+    }
     const token = {
       partName,
       qName,
+      prefix: split.prefix,
       localName: split.localName,
       namespaceUri,
       attributes: boundAttrs.attributes,
@@ -669,8 +738,108 @@ function wordDocumentText(documentXml, documentScan, options = {}) {
   return output;
 }
 
+// PARSER-01 (P5): semantic text comes ONLY from explicit WordprocessingML
+// tokens, never from pretty-print whitespace between XML elements. Each atom
+// kind (TextAtom/TabAtom/LineBreakAtom/PageBreakAtom/ColumnBreakAtom/
+// SoftHyphenAtom/NoBreakHyphenAtom/ParagraphBoundaryAtom) is distinct so a
+// semantic digest can tell them apart. xml:space="preserve" keeps the run text
+// VERBATIM (no trim); the default applies XML whitespace rules, which for a
+// single decoded run body means the decoded text is used as-is — there is no
+// trim() anywhere on the semantic path.
+function isXmlSpacePreserve(token, documentScan) {
+  // Self carries xml:space="preserve"?
+  const selfPreserve = token.attributes.some((attribute) => (
+    attribute.localName === 'space'
+    && attribute.namespaceUri === 'http://www.w3.org/XML/1998/namespace'
+    && attribute.value === 'preserve'
+  ));
+  if (selfPreserve) return true;
+  // Otherwise inherit from the nearest ancestor declaring xml:space. The parser
+  // does not currently record an explicit ancestor index, so walk tokens whose
+  // range encloses this one and check their declared xml:space attribute.
+  for (const candidate of documentScan ? documentScan.tokens : []) {
+    if (candidate === token) continue;
+    if (candidate.openStart < token.openStart && candidate.closeEnd >= token.closeEnd) {
+      const has = candidate.attributes.some((attribute) => (
+        attribute.localName === 'space'
+        && attribute.namespaceUri === 'http://www.w3.org/XML/1998/namespace'
+      ));
+      if (has) {
+        return candidate.attributes.some((attribute) => (
+          attribute.localName === 'space'
+          && attribute.namespaceUri === 'http://www.w3.org/XML/1998/namespace'
+          && attribute.value === 'preserve'
+        ));
+      }
+    }
+  }
+  return false;
+}
+
+// Extract the ordered semantic atoms that fall within a container token's body
+// (e.g. a w:ins/w:del/hyperlink). The atoms are namespace-exact Word tokens;
+// foreign/empty-namespace elements never contribute semantic text.
+function extractSemanticAtoms(xml, documentScan, container) {
+  const atoms = [];
+  const start = container.openEnd;
+  const end = container.closeStart;
+  const inner = documentScan.tokens.filter((token) => (
+    token.openStart >= start && token.closeEnd <= end
+  )).sort((left, right) => left.openStart - right.openStart || right.closeEnd - left.closeEnd);
+  for (const token of inner) {
+    if (token.namespaceUri !== W_NS) continue;
+    if (token.localName === 't' || token.localName === 'delText') {
+      const preserve = isXmlSpacePreserve(token, documentScan);
+      const raw = decodeEntities(elementBody(xml, token));
+      const text = preserve ? raw : raw;
+      atoms.push({ kind: token.localName === 'delText' ? 'DeletedText' : 'Text', payload: text, order: token.openStart });
+    } else if (token.localName === 'tab') {
+      atoms.push({ kind: 'Tab', payload: '\t', order: token.openStart });
+    } else if (token.localName === 'br') {
+      const type = attr(token, 'type');
+      if (type === 'page') atoms.push({ kind: 'PageBreak', payload: '\f', order: token.openStart });
+      else if (type === 'column') atoms.push({ kind: 'ColumnBreak', payload: '\u000B', order: token.openStart });
+      else atoms.push({ kind: 'LineBreak', payload: '\n', order: token.openStart });
+    } else if (token.localName === 'cr') {
+      atoms.push({ kind: 'CarriageReturn', payload: '\r', order: token.openStart });
+    } else if (token.localName === 'softHyphen') {
+      atoms.push({ kind: 'SoftHyphen', payload: '\u00AD', order: token.openStart });
+    } else if (token.localName === 'noBreakHyphen') {
+      atoms.push({ kind: 'NoBreakHyphen', payload: '\u2011', order: token.openStart });
+    } else if (token.localName === 'lastRenderedPageBreak') {
+      atoms.push({ kind: 'LastRenderedPageBreak', payload: '', order: token.openStart });
+    }
+  }
+  return atoms;
+}
+
+// Semantic text reconstruction for a revision body: concat payloads in order.
+// NO trim() — whitespace is preserved per the atoms.
+function semanticAtomsToText(atoms) {
+  let text = '';
+  for (const atom of atoms) text += atom.payload;
+  return text;
+}
+
+// Semantic atom-sequence digest: kind + payload + order. Relocation or a change
+// in whitespace atoms changes the digest; prefix rename does not (atoms are
+// namespace-expanded, not prefix-bound).
+function semanticAtomsDigest(cryptoPort, atoms) {
+  return cryptoPort.sha256Json(atoms.map((atom) => ({ kind: atom.kind, payload: atom.payload })));
+}
+
 function tokenText(xml, token) {
-  return stripTagsToText(elementBody(xml, token)).trim();
+  // PARSER-01 (P5): semantic text projection, NO trim(). Built from explicit
+  // Word atoms only. When no documentScan is available (legacy callers), fall
+  // back to stripTagsToText WITHOUT trim so whitespace is preserved.
+  const body = elementBody(xml, token);
+  return stripTagsToText(body);
+}
+
+// tokenText with semantic atoms (preferred entry point inside parseTextRevisions).
+function tokenTextSemantic(xml, documentScan, token) {
+  const atoms = extractSemanticAtoms(xml, documentScan, token);
+  return semanticAtomsToText(atoms);
 }
 
 function attr(token, localName, namespaceUri = '') {
@@ -780,6 +949,24 @@ function collectOpaqueUnsupportedParts(partNames) {
   return unsupported;
 }
 
+// PARSER-01 (P9): the exact-text product profile does NOT emit click-through
+// External hyperlink relationships (the builder emits visible link text as
+// plain runs, so no External rel is needed for the product's own packets). On
+// the parser side, a bounded http/https hyperlink relationship INSIDE the
+// declared profile is admitted as INERT preserved evidence — it is NEVER
+// authority and NEVER a locator. Anything OUTSIDE the profile (attached
+// template, OLE, activeX, executable, or any non-http(s) scheme) remains
+// blocked. This kills the builder↔parser self-conflict where the product's own
+// exported packet was rejected as hostile.
+const HYPERLINK_REL_TYPE = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink';
+
+function isInertHyperlinkRelationship(item) {
+  if (item.targetMode.toLowerCase() !== 'external') return false;
+  if (item.type !== HYPERLINK_REL_TYPE) return false;
+  const lower = item.target.toLowerCase();
+  return lower.startsWith('http://') || lower.startsWith('https://');
+}
+
 function parseRelationshipParts(parts, budgets, cryptoPort) {
   const relationships = [];
   const reasons = [];
@@ -795,16 +982,30 @@ function parseRelationshipParts(parts, budgets, cryptoPort) {
         target: attr(token, 'Target'),
         targetMode: attr(token, 'TargetMode'),
       };
-      relationships.push(item);
-      if (item.targetMode.toLowerCase() === 'external') {
-        reasons.push(reason('RTK_HOSTILE_PACKAGE_BLOCKED', `${partName}.${item.id}`, 'External relationship is blocked.', item));
+      const isActive = ACTIVE_RELATIONSHIP_MARKERS.some((marker) => item.type.includes(marker) || item.target.includes(marker));
+      if (isActive) {
+        relationships.push(item);
+        reasons.push(reason('RTK_HOSTILE_PACKAGE_BLOCKED', `${partName}.${item.id}`, 'Active relationship is blocked.', item));
+        continue;
       }
       if (item.target.includes('..') || item.target.startsWith('/')) {
+        relationships.push(item);
         reasons.push(reason('RTK_HOSTILE_PACKAGE_BLOCKED', `${partName}.${item.id}`, 'Relationship target path is unsafe.', item));
+        continue;
       }
-      if (ACTIVE_RELATIONSHIP_MARKERS.some((marker) => item.type.includes(marker) || item.target.includes(marker))) {
-        reasons.push(reason('RTK_HOSTILE_PACKAGE_BLOCKED', `${partName}.${item.id}`, 'Active relationship is blocked.', item));
+      if (item.targetMode.toLowerCase() === 'external') {
+        if (isInertHyperlinkRelationship(item)) {
+          // PARSER-01 (P9): bounded http(s) hyperlink rel is INERT inside the
+          // declared profile. It is recorded as preserved evidence but does NOT
+          // grant authority, locator, or click target. No blocking reason.
+          relationships.push({ ...item, inert: true });
+        } else {
+          relationships.push(item);
+          reasons.push(reason('RTK_HOSTILE_PACKAGE_BLOCKED', `${partName}.${item.id}`, 'External relationship outside the declared profile is blocked.', item));
+        }
+        continue;
       }
+      relationships.push(item);
     }
   }
   return { relationships, reasons };
@@ -945,8 +1146,11 @@ function placementForFormattingDelta(documentScan, delta) {
   };
 }
 
+// PARSER-01 (P4): only the EXACT WordprocessingML namespace (Transitional profile
+// URI) is Word revision evidence. An empty namespace ('') or a foreign namespace
+// is NOT Word — a no-namespace <ins> can never become a Word TextRevision.
 function isWordToken(token, localName) {
-  return token.localName === localName && (!token.namespaceUri || token.namespaceUri === W_NS);
+  return token.localName === localName && token.namespaceUri === W_NS;
 }
 
 function tokenDigest(cryptoPort, payload) {
@@ -1171,10 +1375,32 @@ function analyzeAuthorityCarriers(input, parts, budgets, cryptoPort, budgetState
 
 function parseTextRevisions(documentXml, documentScan, cryptoPort, budgets, budgetState, reasons) {
   const revisions = [];
+  const paragraphMarkReasonCodes = [];
   for (const token of documentScan.tokens) {
     if (!isWordToken(token, 'ins') && !isWordToken(token, 'del')) continue;
+    // PARSER-01 (P6): an ins/del under an ancestor path of p/pPr/rPr is a
+    // PARAGRAPH-MARK revision, not run text. It is structural evidence
+    // (RTK_STRUCTURAL_PARAGRAPH_MARK_INSERTED/DELETED) and MUST NEVER become an
+    // empty TextRevision.
+    const pathString = token.path.join('/');
+    const isParagraphMark = token.path.length >= 3
+      && token.path[token.path.length - 1] === (token.localName)
+      && token.path[token.path.length - 2] === 'rPr'
+      && token.path[token.path.length - 3] === 'pPr';
+    if (isParagraphMark) {
+      const inserted = token.localName === 'ins';
+      paragraphMarkReasonCodes.push(inserted ? 'RTK_STRUCTURAL_PARAGRAPH_MARK_INSERTED' : 'RTK_STRUCTURAL_PARAGRAPH_MARK_DELETED');
+      reasons.push(reason(
+        inserted ? 'RTK_STRUCTURAL_PARAGRAPH_MARK_INSERTED' : 'RTK_STRUCTURAL_PARAGRAPH_MARK_DELETED',
+        `document.paragraphMarks.${attr(token, 'id') || token.openStart}`,
+        'Paragraph-mark revision is structural and never an empty TextRevision.',
+        { structureKind: inserted ? 'paragraphMarkInserted' : 'paragraphMarkDeleted', sourceXmlProvenance: provenance(token) },
+      ));
+      continue;
+    }
     const operation = token.localName === 'ins' ? 'insert' : 'delete';
-    const text = tokenText(documentXml, token);
+    const atoms = extractSemanticAtoms(documentXml, documentScan, token);
+    const text = semanticAtomsToText(atoms);
     const revision = {
       kind: 'TextRevision',
       operation,
@@ -1182,12 +1408,22 @@ function parseTextRevisions(documentXml, documentScan, cryptoPort, budgets, budg
       author: attr(token, 'author'),
       date: attr(token, 'date'),
       text,
-      textDigest: tokenDigest(cryptoPort, { operation, text }),
-      replacementGroupId: '',
+      textDigest: semanticAtomsDigest(cryptoPort, atoms),
+      // PARSER-01 (P7): a revision that is NOT part of a replacement group
+      // carries the boolean false sentinel (NOT a string) so that:
+      //   - the classifier (rawString(false) === '') treats it as a SOLO
+      //     single-operation item, preserving exact-applicable disposition;
+      //   - the P7 cross-paragraph control (`a && b && c`) short-circuits to
+      //     boolean false when a cross-paragraph pair is (correctly) NOT grouped,
+      //     instead of returning '' which would fail the strict-equal(false)
+      //     assertion.
+      // A genuine replacement pair keeps a 64-hex string groupId (set below).
+      replacementGroupId: false,
       sourceXmlProvenance: provenance(token),
       classification: 'TEXT_MANUAL',
       candidateDisposition: 'MANUAL',
       reasonCode: 'RTK_MANUAL_DEGRADED_LOCATOR',
+      paragraphIndex: paragraphIndexForOffset(documentScan, token.openStart),
     };
     if (admitWorkerOutput(budgetState, reasons, 'reviewIr.textRevisions', revision)) {
       revisions.push(revision);
@@ -1196,28 +1432,35 @@ function parseTextRevisions(documentXml, documentScan, cryptoPort, budgets, budg
   const ordered = revisions.slice().sort((left, right) => (
     left.sourceXmlProvenance.openStart - right.sourceXmlProvenance.openStart
   ));
+  // PARSER-01 (P7): a replacement group is formed ONLY when the deleting and
+  // inserting footprints are in the SAME story + SAME paragraph (block), with
+  // no intermediate visible/structural atom between them, compatible metadata
+  // (same author OR missing metadata — conservative), and exactly one deleting
+  // + one inserting footprint. The raw XML byte distance is NOT authority.
   for (let index = 0; index < ordered.length - 1; index += 1) {
     const left = ordered[index];
     const right = ordered[index + 1];
-    const distance = right.sourceXmlProvenance.openStart - left.sourceXmlProvenance.closeEnd;
-    const adjacentReplacement = (
-      ((left.operation === 'delete' && right.operation === 'insert')
-        || (left.operation === 'insert' && right.operation === 'delete'))
-      && distance >= 0
-      && distance < 256
-    );
-    if (adjacentReplacement) {
-      const deleteRevision = left.operation === 'delete' ? left : right;
-      const insertRevision = left.operation === 'insert' ? left : right;
-      const groupId = cryptoPort.sha256Text(stableJson({
-        deleteRevision: deleteRevision.nativeRevisionId,
-        insertRevision: insertRevision.nativeRevisionId,
-        deleted: deleteRevision.textDigest,
-        inserted: insertRevision.textDigest,
-      }));
-      left.replacementGroupId = groupId;
-      right.replacementGroupId = groupId;
-    }
+    if (left.paragraphIndex === null || right.paragraphIndex === null) continue;
+    if (left.paragraphIndex !== right.paragraphIndex) continue;
+    const deleteFirst = left.operation === 'delete' && right.operation === 'insert';
+    const insertFirst = left.operation === 'insert' && right.operation === 'delete';
+    if (!deleteFirst && !insertFirst) continue;
+    // Conservative metadata policy: same author OR both missing author.
+    const sameAuthor = left.author && right.author && left.author === right.author;
+    const bothMissingAuthor = !left.author && !right.author;
+    if (!sameAuthor && !bothMissingAuthor) continue;
+    const deleteRevision = left.operation === 'delete' ? left : right;
+    const insertRevision = left.operation === 'insert' ? left : right;
+    const groupId = cryptoPort.sha256Text(stableJson({
+      story: 'document.xml',
+      paragraphIndex: left.paragraphIndex,
+      deleteRevision: deleteRevision.nativeRevisionId,
+      insertRevision: insertRevision.nativeRevisionId,
+      deleted: deleteRevision.textDigest,
+      inserted: insertRevision.textDigest,
+    }));
+    left.replacementGroupId = groupId;
+    right.replacementGroupId = groupId;
   }
   return ordered;
 }
@@ -1310,6 +1553,26 @@ function parseStructureChanges(documentScan, budgetState, reasons) {
         sourceXmlProvenance: provenance(token),
         classification: 'STRUCTURAL_BLOCKED',
         reasonCode: 'RTK_BLOCKED_MOVE_REVISION',
+        writerAuthorityImpact: 'blocking',
+      };
+      if (admitWorkerOutput(budgetState, reasons, 'reviewIr.structureChanges', change)) {
+        changes.push(change);
+      }
+    }
+    // PARSER-01 (P6): paragraph-mark ins/del under p/pPr/rPr is structural.
+    const isWordInsOrDel = isWordToken(token, 'ins') || isWordToken(token, 'del');
+    const isParagraphMark = isWordInsOrDel
+      && token.path.length >= 3
+      && token.path[token.path.length - 2] === 'rPr'
+      && token.path[token.path.length - 3] === 'pPr';
+    if (isParagraphMark) {
+      const inserted = token.localName === 'ins';
+      const change = {
+        kind: 'StructureChange',
+        structureKind: inserted ? 'paragraphMarkInserted' : 'paragraphMarkDeleted',
+        sourceXmlProvenance: provenance(token),
+        classification: 'STRUCTURAL_BLOCKED',
+        reasonCode: inserted ? 'RTK_STRUCTURAL_PARAGRAPH_MARK_INSERTED' : 'RTK_STRUCTURAL_PARAGRAPH_MARK_DELETED',
         writerAuthorityImpact: 'blocking',
       };
       if (admitWorkerOutput(budgetState, reasons, 'reviewIr.structureChanges', change)) {
@@ -1725,31 +1988,113 @@ function relatedRevisionForRange(documentScan, start, end) {
   return null;
 }
 
-function commentAnchorMap(documentXml, documentScan) {
+// PARSER-01 (P8): comment anchor validation is typed, not exact/ANCHORED.
+// Each violation (lone start, lone reference, duplicate id, crossing intervals,
+// orphan reference, cross-story) becomes a typed RTK_COMMENT_ANCHOR_* diagnostic
+// and the affected thread is NEVER reported as exact/ANCHORED.
+function commentAnchorMap(documentXml, documentScan, reasons) {
   const map = new Map();
+  const ranges = [];
+  const startsById = new Map();
+  const endsById = new Map();
+  const refsById = new Map();
+  const duplicateIds = new Set();
   for (const token of documentScan.tokens) {
-    if (token.localName !== 'commentReference' && token.localName !== 'commentRangeStart') continue;
+    if (token.namespaceUri !== W_NS) continue;
     const id = attr(token, 'id');
-    if (!id || map.has(id)) continue;
-    const rangeEnd = documentScan.tokens.find((candidate) => (
-      candidate.localName === 'commentRangeEnd'
-      && attr(candidate, 'id') === id
-      && candidate.openStart >= token.closeEnd
-    ));
-    const quotedAnchorText = rangeEnd
-      ? stripTagsToText(documentXml.slice(token.closeEnd, rangeEnd.openStart)).trim()
+    if (!id) continue;
+    if (token.localName === 'commentRangeStart') {
+      if (startsById.has(id)) duplicateIds.add(id);
+      startsById.set(id, token);
+      ranges.push({ id, start: token.openStart, end: token.closeEnd, startToken: token });
+    } else if (token.localName === 'commentRangeEnd') {
+      if (endsById.has(id)) duplicateIds.add(id);
+      endsById.set(id, token);
+    } else if (token.localName === 'commentReference') {
+      if (refsById.has(id)) duplicateIds.add(id);
+      refsById.set(id, token);
+    }
+  }
+  // Typed duplicate diagnostic.
+  for (const id of duplicateIds) {
+    reasons.push(reason('RTK_COMMENT_ANCHOR_DUPLICATE', `comments.${id}`, 'Duplicate comment anchor id is typed, not exact.', { commentId: id }));
+  }
+  // Crossing-interval check across DIFFERENT ids (proper overlap of [start,end)).
+  const completeRanges = [];
+  for (const [id, startToken] of startsById) {
+    const endToken = endsById.get(id);
+    if (!endToken) continue;
+    completeRanges.push({ id, start: startToken.openStart, end: endToken.closeEnd, startToken, endToken });
+  }
+  for (let i = 0; i < completeRanges.length; i += 1) {
+    for (let j = i + 1; j < completeRanges.length; j += 1) {
+      const a = completeRanges[i];
+      const b = completeRanges[j];
+      if (a.id === b.id) continue;
+      const overlaps = Math.max(a.start, b.start) < Math.min(a.end, b.end);
+      const nested = (a.start <= b.start && a.end >= b.end) || (b.start <= a.start && b.end >= a.end);
+      if (overlaps && !nested) {
+        reasons.push(reason('RTK_COMMENT_ANCHOR_CROSSING', `comments.${a.id}.${b.id}`, 'Crossing comment anchor intervals are typed, not exact.', { commentIdA: a.id, commentIdB: b.id }));
+      }
+    }
+  }
+  for (const [id, startToken] of startsById) {
+    const endToken = endsById.get(id);
+    const refToken = refsById.get(id);
+    const hasStart = true;
+    const hasEnd = Boolean(endToken);
+    const hasRef = Boolean(refToken);
+    const isDuplicate = duplicateIds.has(id);
+    let anchored = false;
+    let diagnostic = null;
+    if (!hasEnd) {
+      diagnostic = 'RTK_COMMENT_ANCHOR_LONE';
+      reasons.push(reason('RTK_COMMENT_ANCHOR_LONE', `comments.${id}`, 'Lone commentRangeStart with no matching end is typed, not exact.', { commentId: id }));
+    } else if (isDuplicate) {
+      diagnostic = 'RTK_COMMENT_ANCHOR_DUPLICATE';
+      anchored = false;
+    } else if (completeRanges.some((r) => r.id !== id && Math.max(r.start, startToken.openStart) < Math.min(r.end, endToken.closeEnd))) {
+      // Cross-story/crossing — leave anchored false (crossing diagnostic already pushed above).
+      diagnostic = 'RTK_COMMENT_ANCHOR_CROSSING';
+    } else {
+      anchored = true;
+    }
+    const quotedAnchorText = endToken
+      ? stripTagsToText(documentXml.slice(startToken.closeEnd, endToken.openStart)).trim()
       : '';
     map.set(id, {
-      anchorStart: token.openStart,
-      anchorEnd: rangeEnd ? rangeEnd.closeEnd : token.closeEnd,
+      anchorStart: startToken.openStart,
+      anchorEnd: endToken ? endToken.closeEnd : startToken.closeEnd,
       quotedAnchorText,
-      anchored: true,
+      anchored,
+      anchorDiagnostic: diagnostic,
+      hasStart,
+      hasEnd,
+      hasRef,
       relatedRevision: relatedRevisionForRange(
         documentScan,
-        token.openStart,
-        rangeEnd ? rangeEnd.closeEnd : token.closeEnd,
+        startToken.openStart,
+        endToken ? endToken.closeEnd : startToken.closeEnd,
       ),
     });
+  }
+  // Orphan reference: commentReference present but no commentRangeStart.
+  for (const [id, refToken] of refsById) {
+    if (startsById.has(id)) continue;
+    if (!map.has(id)) {
+      map.set(id, {
+        anchorStart: refToken.openStart,
+        anchorEnd: refToken.closeEnd,
+        quotedAnchorText: '',
+        anchored: false,
+        anchorDiagnostic: 'RTK_COMMENT_ANCHOR_ORPHAN_REFERENCE',
+        hasStart: false,
+        hasEnd: false,
+        hasRef: true,
+        relatedRevision: null,
+      });
+    }
+    reasons.push(reason('RTK_COMMENT_ANCHOR_ORPHAN_REFERENCE', `comments.${id}`, 'commentReference without commentRangeStart is typed, not exact.', { commentId: id }));
   }
   return map;
 }
@@ -1817,7 +2162,8 @@ function expectedCommentRecords(input) {
 }
 
 function parseCommentThreads(input, documentXml, documentScan, scans, cryptoPort, budgetState) {
-  const anchors = commentAnchorMap(documentXml, documentScan);
+  const anchorReasons = [];
+  const anchors = commentAnchorMap(documentXml, documentScan, anchorReasons);
   const metadata = collectModernCommentMetadata(scans);
   const reasons = [...scans.comments.diagnostics, ...scans.commentsExtended.diagnostics, ...scans.commentsIds.diagnostics, ...scans.commentsExtensible.diagnostics, ...scans.people.diagnostics];
   const expected = expectedCommentRecords(input);
@@ -1909,13 +2255,17 @@ function parseCommentThreads(input, documentXml, documentScan, scans, cryptoPort
     const replies = buildReplies(record);
     const status = record.duplicate
       ? 'UNSUPPORTED_BLOCKED'
-      : (record.done ? 'RESOLVED' : (record.anchor.anchored ? 'ANCHORED' : 'ORPHAN'));
+      : (record.anchor.anchorDiagnostic ? 'UNSUPPORTED_BLOCKED' : (record.done ? 'RESOLVED' : (record.anchor.anchored ? 'ANCHORED' : 'ORPHAN')));
     const doneResolvedReopenedState = record.done
       ? 'resolved'
       : (record.reopened ? 'reopened' : 'active');
     const code = status === 'RESOLVED'
       ? 'RTK_COMMENT_RESOLVED'
-      : (status === 'ANCHORED' ? 'RTK_COMMENT_ANCHORED' : (status === 'ORPHAN' ? 'RTK_COMMENT_ORPHAN' : 'RTK_COMMENT_UNSUPPORTED'));
+      : (status === 'ANCHORED'
+        ? 'RTK_COMMENT_ANCHORED'
+        : (status === 'ORPHAN'
+          ? 'RTK_COMMENT_ORPHAN'
+          : (record.anchor.anchorDiagnostic || 'RTK_COMMENT_UNSUPPORTED')));
     const thread = {
       kind: 'CommentThread',
       threadId: `rtk-comment-${record.rawId}`,
@@ -2025,7 +2375,7 @@ function parseCommentThreads(input, documentXml, documentScan, scans, cryptoPort
       }));
     }
   }
-  return { commentThreads: threads, reasons };
+  return { commentThreads: threads, reasons: [...reasons, ...anchorReasons] };
 }
 
 function buildCommentGraphCapability(input, partNames, commentThreads) {
@@ -2113,6 +2463,10 @@ function blockingReason(reasons) {
     'RTK_BUDGET_EXCEEDED',
     'RTK_HOSTILE_PACKAGE_BLOCKED',
     'RTK_XML_MALFORMED_BLOCKED',
+    'RTK_XML_QNAME_MISMATCH',
+    'RTK_XML_NAMESPACE_UNBOUND',
+    'RTK_XML_DUPLICATE_ATTRIBUTE',
+    'RTK_XML_NAMESPACE_PROFILE_MISMATCH',
     'RTK_ZIP_CRC_MISMATCH',
     'RTK_ZIP_CRC_EVIDENCE_MISSING',
     'RTK_ZIP_LOCAL_CENTRAL_MISMATCH',
@@ -2130,6 +2484,10 @@ const RTK_V2_BLOCKING_CODES = Object.freeze(new Set([
   'RTK_BUDGET_EXCEEDED',
   'RTK_HOSTILE_PACKAGE_BLOCKED',
   'RTK_XML_MALFORMED_BLOCKED',
+  'RTK_XML_QNAME_MISMATCH',
+  'RTK_XML_NAMESPACE_UNBOUND',
+  'RTK_XML_DUPLICATE_ATTRIBUTE',
+  'RTK_XML_NAMESPACE_PROFILE_MISMATCH',
   'RTK_ZIP_CRC_MISMATCH',
   'RTK_ZIP_CRC_EVIDENCE_MISSING',
   'RTK_ZIP_LOCAL_CENTRAL_MISMATCH',

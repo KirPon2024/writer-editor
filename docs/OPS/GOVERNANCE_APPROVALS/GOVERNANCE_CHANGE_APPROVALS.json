@@ -2670,12 +2670,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "870ba03e2dc2f56081e2c9f4869c8691da9afe3e8672db1f3cda02256117d8cd",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_ORCHESTRATOR_RECOVERY_CLOSEOUT",
-      "approvedAtUtc": "2026-08-05T13:49:22.000Z",
-      "rationale": "Approve exact RTK graph catalog bytes already present on this Word C5V2 orchestrator branch before recovery takeover, rebinding the maintained RTK catalog to the current branch diff so strict governance can evaluate the local closeout. This approval adds no new catalog scope beyond the existing branch contour and makes no physical campaign, UI, dependency, network, or certification claim.",
+      "sha256": "65c5c07cdbca48df55581afc9d8986a8b80b609523664887f6c2bee090d07056",
+      "approvedBy": "owner-direct:TASK_ID:CERT-01_RUNNER_V2_EVIDENCE_INFRA",
+      "approvedAtUtc": "2026-08-08T00:13:05.908Z",
+      "rationale": "Approve additive RTK graph catalog bytes adding the two CERT-01 Runner V2 contract test files (rtk-runner-v2-cert01 and rtk-runner-v2-cert01-crash-resume); no existing catalog entry removed or reordered; supersedes the previous catalog byte approval which is retained in git history; test/ops governance only, no product runtime, UI, dependency, network or capability claim.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_YALKEN_WORD_C5V2_ORCHESTRATOR_RECOVERY_CLOSEOUT"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_CERT01_RUNNER_V2"
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
@@ -9574,6 +9574,33 @@
       "rationale": "Approve exact test-only C5V2 terminal orchestrator contract bytes adding TempLease fixture cleanup, lazy validOptions allocation, per-test registered-root cleanup after PID/FD test cleanup, CI-safe suite-owned residue accounting without broad os.tmpdir namespace scans, and canonical-ledger fixture construction without throwaway deep artifacts. No production runtime semantics, no Word operation, no full local RTK claim while Word Container remains platform-blocked, no Google work, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
       "approved": true,
       "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_TEMP_LEASE_HYGIENE"
+    },
+    {
+      "filePath": "scripts/ops/rtk-runner-v2.mjs",
+      "sha256": "084c45a8d59692932ecf22d3d3ac33fba6b7315b9ba9b6afa6d0571a097d1369",
+      "approvedBy": "owner-direct:TASK_ID:CERT-01_RUNNER_V2_EVIDENCE_INFRA",
+      "approvedAtUtc": "2026-08-08T00:11:07.145Z",
+      "rationale": "Approve new hermetic RTK Runner V2 evidence-infrastructure module (StartSnapshot, machine lease, process-group walls, durable outcomes, resume, reconciliation, seal); test/ops tooling only, no product runtime, renderer, IPC, dependency, network or capability change.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_CERT01_RUNNER_V2"
+    },
+    {
+      "filePath": "test/contracts/rtk-runner-v2-cert01.contract.test.js",
+      "sha256": "8b45c354ec5f7af285a98e853ccdbc0a41caa10609a2c342413502d187f074c5",
+      "approvedBy": "owner-direct:TASK_ID:CERT-01_RUNNER_V2_EVIDENCE_INFRA",
+      "approvedAtUtc": "2026-08-08T00:11:07.145Z",
+      "rationale": "Approve CERT-01 contract tests freezing Runner V2 behavior (13 behavioral + 3 orchestrator-review regression scenarios); tests only, no product runtime change.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_CERT01_RUNNER_V2"
+    },
+    {
+      "filePath": "test/contracts/rtk-runner-v2-cert01-crash-resume.contract.test.js",
+      "sha256": "adea889a19863648fbf37d19817931bb56dadfbd4ba7f86f9094ea72d6e737e0",
+      "approvedBy": "owner-direct:TASK_ID:CERT-01_RUNNER_V2_EVIDENCE_INFRA",
+      "approvedAtUtc": "2026-08-08T00:11:07.145Z",
+      "rationale": "Approve CERT-01 crash/resume contract tests with real SIGKILL and durable-state proofs, including the documented deterministic gate-file revision of CERT01-05; tests only, no product runtime change.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_CERT01_RUNNER_V2"
     }
   ]
 }

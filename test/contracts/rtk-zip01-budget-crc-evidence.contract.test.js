@@ -26,6 +26,13 @@ const ALLOWLIST = [
   'src/main.js',
   'src/main/rtkDocxReturnIntakeWorker.cjs',
   'test/contracts/revision-bridge-docx-zip-inventory-materializer.contract.test.js',
+  // EVID-01 Pass 2 write-set: packet module + contract test refinement.
+  'src/io/revisionBridge/reviewTransportReturnEvidenceV1.mjs',
+  'test/contracts/rtk-evid01-return-evidence-packet.contract.test.js',
+  'test/contracts/rtk-word-n3-formatting-return.contract.test.js',
+  'test/contracts/rtk-word-n4-structural-return.contract.test.js',
+  'test/contracts/rtk-zip01-budget-crc-evidence.contract.test.js',
+  'src/io/revisionBridge/reviewTransportPackageParserV2.mjs',
 ];
 
 const W_NS = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main';

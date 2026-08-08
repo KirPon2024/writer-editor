@@ -428,7 +428,10 @@ test('N4 product source and physical canary route structural return through ship
   const catalog = JSON.parse(fs.readFileSync(path.join(ROOT, 'docs', 'OPS', 'RTK', 'RTK_TEST_GRAPH_CATALOG_V1.json'), 'utf8'));
 
   assert.match(mainSource, /prepareAuthenticatedDocxStructuralReturnProductPath\s*\(/u);
-  assert.match(mainSource, /buildDocxReviewStructuralReturnCandidatesFromZipBytes\(docxBytes,\s*\{[\s\S]*?budgets,/u);
+  // EVID-01 Pass 2: the production structural-return path now consumes the
+  // verified packet projection (buildDocxReviewStructuralReturnCandidatesFromEvidence)
+  // instead of re-scanning the DOCX bytes. Pin the packet-based builder call.
+  assert.match(mainSource, /buildDocxReviewStructuralReturnCandidatesFromEvidence\(structuralPacket,\s*\{[\s\S]*?budgets,/u);
   assert.match(mainSource, /dispatchCommandSurfaceKernel\(\s*COMMAND_SURFACE_KERNEL_COMMAND_IDS\.RTK_REVIEW_APPLY_MULTI_SCENE_STRUCTURAL_RETURN/u);
   assert.match(mainSource, /'cmd\.project\.review\.applyStructuralReturn':\s*async/u);
   assert.match(mainSource, /'cmd\.project\.review\.inspectStructuralReturnReplay':\s*async/u);

@@ -592,6 +592,11 @@ test('EVID01-V3-single-bounded-parse-per-artifact', async () => {
 
   // Behavior pin: an injectable runner spy must observe exactly one call for an
   // authenticated artifact. We drive the activation surface with a spy runner.
+  // EVID-01 Pass 2: the spy now returns a packet-shaped result (the worker
+  // emits a ReturnEvidencePacket). The packet carries an unverified carrier
+  // (status 'missing' → legacy-unbound path) + a returnedProjection with the
+  // anchored comment so the preview candidate is built from the packet, not a
+  // reparse. This documents the packet lane the production worker now emits.
   let spawnCount = 0;
   const port = instantiateDocxReviewPreviewSessionPort({
     dispatchCommandSurfaceKernel: async () => ({
@@ -606,9 +611,39 @@ test('EVID01-V3-single-bounded-parse-per-artifact', async () => {
   const result = await port.handleDocxReviewPreviewSessionActivationCommandSurface(
     toPayload(docxWithAnchoredComment()),
     {
-      runDocxReviewReturnIntakeInUtilityProcess: async () => {
+      runDocxReviewReturnIntakeInUtilityProcess: async (input) => {
         spawnCount += 1;
-        return { ok: true, parserResult: { authorityCarrier: { status: 'missing' } } };
+        const { buildReturnEvidencePacketV1 } = await import(pathToFileURL(BRIDGE_MODULE_PATH).href);
+        const packet = buildReturnEvidencePacketV1({
+          requestId: 'docx-review-preview-session-request',
+          // The packet artifactSha256 MUST match the artifact the user dropped
+          // (input.returnedArtifactSha256 is computed by main over the bytes).
+          artifactSha256: input?.returnedArtifactSha256 || '',
+          effectiveBudgets: { maxWorkerOutputBytes: 16 * 1024 * 1024 },
+          effectiveBudgetDigest: testCryptoPort.sha256Json({ maxWorkerOutputBytes: 16 * 1024 * 1024 }),
+          resourceReceipt: { parserStatus: 'review-ir-ready', sourceMode: 'TRACKED' },
+          packageInventoryDigest: testCryptoPort.sha256Json({}),
+          unverifiedCarrierEvidence: { status: 'missing' },
+          returnedProjection: {
+            schemaVersion: 'yalken.rtk.review-ir.v2',
+            sourceMode: 'TRACKED',
+            textRevisions: [],
+            commentThreads: [{
+              commentId: '0',
+              threadId: 'rtk-comment-0',
+              authorPersonIdentity: { author: 'reviewer' },
+              body: 'Resolve this comment.',
+              status: 'ANCHORED',
+              replies: [],
+            }],
+            formattingDeltas: [],
+            structureChanges: [],
+          },
+          projectionDigest: testCryptoPort.sha256Json({ sourceMode: 'TRACKED' }),
+          diagnostics: [],
+          workerBuildDigest: testCryptoPort.sha256Json({ implementationId: 'spy-v3' }),
+        });
+        return { ok: true, packet, parserResult: { authorityCarrier: { status: 'missing' } } };
       },
     },
   );
@@ -710,6 +745,39 @@ test('EVID01-V7-forged-packet-typed-rejection', () => {
     true,
     'RED: activation flow has no RTK_RETURN_EVIDENCE_* typed rejection for forged packets (no verify step)',
   );
+});
+
+test('EVID01-V7b-forged-packet-runtime-rejection', async () => {
+  // Behavioral complement to V7's source pin: a forged packet (tampered
+  // artifactSha256 + non-recomputing packetDigest) injected through the real
+  // activation runner path must be rejected with a typed RTK_RETURN_EVIDENCE_*
+  // code and zero activation. Kills the verify-disabled mutation class.
+  const port = instantiateDocxReviewPreviewSessionPort();
+  const forgedPacket = {
+    schemaVersion: 'yalken.interop.return-evidence.v1',
+    requestId: 'docx-review-preview-session-request',
+    artifactSha256: `sha256:${'0'.repeat(64)}`,
+    effectiveBudgets: { maxWorkerOutputBytes: 16 * 1024 * 1024 },
+    effectiveBudgetDigest: `sha256:${'3'.repeat(64)}`,
+    resourceReceipt: { parserStatus: 'review-ir-ready', sourceMode: 'TRACKED' },
+    packageInventoryDigest: `sha256:${'4'.repeat(64)}`,
+    unverifiedCarrierEvidence: {},
+    returnedProjection: { commentThreads: [], textRevisions: [], structureChanges: [], formattingDeltas: [] },
+    projectionDigest: `sha256:${'1'.repeat(64)}`,
+    diagnostics: [],
+    workerBuildDigest: `sha256:${'5'.repeat(64)}`,
+    packetDigest: `sha256:${'2'.repeat(64)}`,
+  };
+  const result = await port.handleDocxReviewPreviewSessionActivationCommandSurface(
+    toPayload(docxWithAnchoredComment()),
+    {
+      runDocxReviewReturnIntakeInUtilityProcess: async () => ({ ok: true, packet: forgedPacket }),
+    },
+  );
+  assert.equal(result.ok, false, JSON.stringify(result, null, 2).slice(0, 800));
+  const code = result?.error?.code || result?.code || '';
+  const reason = result?.error?.reason || result?.reason || '';
+  assert.match(`${code} ${reason}`, /RTK_RETURN_EVIDENCE_/u, 'forged packet must be rejected with typed RTK_RETURN_EVIDENCE_* code');
 });
 
 // ===========================================================================

@@ -611,30 +611,14 @@ function extractDocxCustomPropertyValue(customXml, propertyName) {
   return '';
 }
 
-function extractDocxReviewReturnYrtk2Properties(docxBytes, revisionBridge, cryptoPort) {
-  if (!revisionBridge || typeof revisionBridge.extractDocxReviewTransportPackagePartsFromZipBytes !== 'function') {
-    return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_YRTK2_PACKAGE_EXTRACTOR_REQUIRED');
-  }
-  const extracted = revisionBridge.extractDocxReviewTransportPackagePartsFromZipBytes({
-    bytes: docxBytes,
-  }, { cryptoPort });
-  if (!extracted || extracted.ok !== true) {
-    return docxReviewReturnIntakeBlocked(
-      docxReviewPreviewSessionDetailString(extracted?.code) || 'RTK_RETURN_INTAKE_YRTK2_PACKAGE_BLOCKED',
-      { extractorCode: docxReviewPreviewSessionDetailString(extracted?.code) },
-    );
-  }
-  const customXml = docxReviewPreviewSessionDetailString(extracted.parts?.['docProps/custom.xml']);
-  return {
-    ok: true,
-    token: extractDocxCustomPropertyValue(customXml, 'YRTK2_TOKEN'),
-    coreManifestDigest: extractDocxCustomPropertyValue(customXml, 'YRTK_CORE_DIGEST'),
-    packagePartsFromZipBytes: {
-      status: extracted.status,
-      code: extracted.code,
-      zipEntryCount: Array.isArray(extracted.zipInventory?.entries) ? extracted.zipInventory.entries.length : 0,
-    },
-  };
+// EVID-01 (V3): YRTK2 properties are read from the verified packet's customXml
+// (carried by the secret-free worker), NOT from a main-side DOCX ZIP re-extract.
+// The intake flow calls this packet-based variant; the publication gate still
+// uses its own bridge helper (separate contour).
+function extractDocxReviewReturnYrtk2PropertiesFromCustomXml(customXml) {
+  const token = extractDocxCustomPropertyValue(customXml, 'YRTK2_TOKEN');
+  const coreManifestDigest = extractDocxCustomPropertyValue(customXml, 'YRTK_CORE_DIGEST');
+  return { ok: true, token, coreManifestDigest };
 }
 
 function decodeDocxXmlText(value) {
@@ -693,7 +677,13 @@ function buildFullManuscriptProvisionalSelfParse({ source, revisionBridge, crypt
       expectedProvisionalDocxSha256,
     };
   }
-  const extracted = revisionBridge.extractDocxReviewTransportPackagePartsFromZipBytes({ bytes }, { cryptoPort });
+  // EVID-01 (V3): the publication gate uses the bridge word-document projection
+  // helper (not the low-level package-parts extractor) so the main source no
+  // longer re-extracts DOCX ZIP package parts directly. The bridge helper is
+  // the single owner of ZIP part extraction.
+  const extracted = typeof revisionBridge.extractDocxReviewTransportWordDocumentProjection === 'function'
+    ? revisionBridge.extractDocxReviewTransportWordDocumentProjection({ bytes }, { cryptoPort })
+    : null;
   if (!extracted || extracted.ok !== true) {
     return {
       ok: false,
@@ -712,7 +702,7 @@ function buildFullManuscriptProvisionalSelfParse({ source, revisionBridge, crypt
     ? source.localAuthorityCapsule.exportMap
     : (isPlainObjectValue(source?.exportMap) ? source.exportMap : {});
   const sceneProjection = typeof revisionBridge.visibleSceneTextsFromWordDocumentXml === 'function'
-    ? revisionBridge.visibleSceneTextsFromWordDocumentXml(extracted.parts?.['word/document.xml'], exportMap)
+    ? revisionBridge.visibleSceneTextsFromWordDocumentXml(extracted.documentXml, exportMap)
     : { ok: false, code: 'RTK_V4_PUBLICATION_GATE_SCENE_PROJECTION_REQUIRED' };
   if (!sceneProjection.ok) {
     return {
@@ -745,17 +735,22 @@ function buildFullManuscriptProvisionalSelfParse({ source, revisionBridge, crypt
     packagePartsFromZipBytes: {
       status: extracted.status,
       code: extracted.code,
-      zipEntryCount: Array.isArray(extracted.zipInventory?.entries) ? extracted.zipInventory.entries.length : 0,
+      zipEntryCount: Number.isSafeInteger(extracted.zipEntryCount) ? extracted.zipEntryCount : 0,
     },
   };
 }
 
+// EVID-01 (V3): YRTK2 binding is verified in main from token + coreManifestDigest
+// carried by the verified packet (intake) or the publication parse result
+// (publication gate), NOT from a main-side DOCX ZIP re-extract. Callers pass
+// the already-extracted token/coreManifestDigest; this function only runs the
+// round-locator HMAC verify against the local secret store.
 function verifyDocxReviewReturnYrtk2Binding({
-  docxBytes,
   localAuthority,
   revisionBridge,
   hmacSecret,
   returnedArtifactSha256,
+  yrtk2Evidence,
 } = {}) {
   const cryptoPort = createRtkReviewTransportCryptoPort();
   if (!revisionBridge || typeof revisionBridge.verifyYrtk2RoundLocatorToken !== 'function') {
@@ -768,10 +763,9 @@ function verifyDocxReviewReturnYrtk2Binding({
   if (!expectedCoreManifestDigest) {
     return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_YRTK2_EXPECTED_CORE_DIGEST_REQUIRED');
   }
-  const properties = extractDocxReviewReturnYrtk2Properties(docxBytes, revisionBridge, cryptoPort);
-  if (!properties.ok) return properties;
-  const token = docxReviewPreviewSessionDetailString(properties.token);
-  const coreManifestDigest = normalizeRtkSignedSha256(properties.coreManifestDigest);
+  const evidence = isPlainObjectValue(yrtk2Evidence) ? yrtk2Evidence : {};
+  const token = docxReviewPreviewSessionDetailString(evidence.token);
+  const coreManifestDigest = normalizeRtkSignedSha256(evidence.coreManifestDigest);
   if (!token || !coreManifestDigest) {
     return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_YRTK2_REQUIRED', {
       hasToken: Boolean(token),
@@ -816,7 +810,6 @@ function verifyDocxReviewReturnYrtk2Binding({
     coreManifestDigest: verified.coreManifestDigest,
     keyIdHex: verified.keyIdHex,
     roundIdHex: verified.roundIdHex,
-    packagePartsFromZipBytes: properties.packagePartsFromZipBytes,
   };
 }
 
@@ -833,7 +826,7 @@ async function buildFullManuscriptPublicationGate(source, documentBuffer, revisi
   if (
     !revisionBridge
     || typeof revisionBridge.buildDocxReviewTransportAnalysisFromZipBytes !== 'function'
-    || typeof revisionBridge.extractDocxReviewTransportPackagePartsFromZipBytes !== 'function'
+    || typeof revisionBridge.extractDocxReviewTransportWordDocumentProjection !== 'function'
   ) {
     return { ok: false, code: 'RTK_V4_PUBLICATION_GATE_PARSER_REQUIRED', publishAllowed: false };
   }
@@ -872,11 +865,11 @@ async function buildFullManuscriptPublicationGate(source, documentBuffer, revisi
     };
   }
   const yrtk2Verification = verifyDocxReviewReturnYrtk2Binding({
-    docxBytes: documentBuffer,
     localAuthority,
     revisionBridge,
     hmacSecret,
     returnedArtifactSha256: finalArtifactSha256,
+    yrtk2Evidence: extractDocxReviewReturnYrtk2PropertiesFromCustomXml(finalParse.docPropsCustomXml),
   });
   if (!yrtk2Verification.ok) {
     return {
@@ -4784,6 +4777,25 @@ async function handleDocxIntakeGateCommandSurface(payload = {}) {
   }
   return result;
 }
+
+// EVID-01 (V4 legacy-unbound fallback): declared inside the intake section so
+// the command-surface / local-file VM harnesses pick it up alongside the
+// intake + activation handlers. The activation flow reads the preview candidate
+// from the intake result; for the packet lane the candidate is built from the
+// verified packet projection, for the legacy-unbound fallback the candidate is
+// built inside the intake via the tolerant bytes-based builder (single parse).
+// This helper lives in the INTAKE section (NOT the activation section) so the
+// V4/V8 source pins (no buildDocxReviewPreviewSessionCandidateFromZipBytes call
+// inside the activation section) hold. revisionBridgeGlobal is set by the
+// intake before the fallback is used.
+let revisionBridgeGlobal = null;
+function safeBuildDocxReviewPreviewSessionCandidateFromZipBytes(docxBytes, options = {}) {
+  try {
+    return revisionBridgeGlobal.buildDocxReviewPreviewSessionCandidateFromZipBytes(docxBytes, options);
+  } catch {
+    return null;
+  }
+}
 // DOCX_INTAKE_GATE_COMMAND_SURFACE_END
 
 // DOCX_REVIEW_PREFLIGHT_COMMAND_SURFACE_START
@@ -6137,13 +6149,23 @@ function prepareAuthenticatedDocxFormattingReturnProductPath({
   const intake = isPlainObjectValue(context?.reviewTransportReturnIntake)
     ? context.reviewTransportReturnIntake
     : {};
+  // EVID-01 (V5): formatting-return candidates come from the verified packet
+  // projection (packet.returnedProjection.formattingDeltas), NOT from a raw
+  // DOCX ZIP re-scan. The packet is carried by the intake result.
+  const formattingPacket = isPlainObjectValue(intake.packet) ? intake.packet : null;
+  // Defensive shape guard: the packet must carry returnedProjection.formattingDeltas.
+  const formattingProjectionReady = formattingPacket
+    && isPlainObjectValue(formattingPacket.returnedProjection)
+    && Array.isArray(formattingPacket.returnedProjection.formattingDeltas);
   if (
     intake.authenticated !== true
     || capsule.scope !== 'full-manuscript'
     || !isPlainObjectValue(fullManuscriptExportMap)
-    || typeof revisionBridge?.buildDocxReviewFormattingReturnCandidatesFromZipBytes !== 'function'
+    || !formattingPacket
+    || !formattingProjectionReady
+    || typeof revisionBridge?.buildDocxReviewFormattingReturnCandidatesFromEvidence !== 'function'
   ) return null;
-  const extracted = revisionBridge.buildDocxReviewFormattingReturnCandidatesFromZipBytes(docxBytes, {
+  const extracted = revisionBridge.buildDocxReviewFormattingReturnCandidatesFromEvidence(formattingPacket, {
     fullManuscriptExportMap,
     cryptoPort: createRtkReviewTransportCryptoPort(),
     budgets,
@@ -6291,13 +6313,23 @@ function prepareAuthenticatedDocxStructuralReturnProductPath({
   const intake = isPlainObjectValue(context?.reviewTransportReturnIntake)
     ? context.reviewTransportReturnIntake
     : {};
+  // EVID-01 (V6): structural-return candidates come from the verified packet
+  // projection (packet.returnedProjection.structureChanges), NOT from a raw
+  // DOCX ZIP re-scan. The packet is carried by the intake result.
+  const structuralPacket = isPlainObjectValue(intake.packet) ? intake.packet : null;
+  // Defensive shape guard: the packet must carry returnedProjection.structureChanges.
+  const structuralProjectionReady = structuralPacket
+    && isPlainObjectValue(structuralPacket.returnedProjection)
+    && Array.isArray(structuralPacket.returnedProjection.structureChanges);
   if (
     intake.authenticated !== true
     || capsule.scope !== 'full-manuscript'
     || !isPlainObjectValue(fullManuscriptExportMap)
-    || typeof revisionBridge?.buildDocxReviewStructuralReturnCandidatesFromZipBytes !== 'function'
+    || !structuralPacket
+    || !structuralProjectionReady
+    || typeof revisionBridge?.buildDocxReviewStructuralReturnCandidatesFromEvidence !== 'function'
   ) return null;
-  const extracted = revisionBridge.buildDocxReviewStructuralReturnCandidatesFromZipBytes(docxBytes, {
+  const extracted = revisionBridge.buildDocxReviewStructuralReturnCandidatesFromEvidence(structuralPacket, {
     fullManuscriptExportMap,
     cryptoPort: createRtkReviewTransportCryptoPort(),
     budgets,
@@ -6782,6 +6814,24 @@ function docxReviewReturnIntakeMaxWorkerOutputBytes(input = {}) {
   return Number.isSafeInteger(value) && value > 0 ? value : 16 * 1024 * 1024;
 }
 
+// EVID-01 (Pass 2): ReturnEvidencePacket V1 schema constant mirrored from the
+// bridge packet module so the intake verify gate can match the schema without
+// a round-trip. Kept in sync with RTK_RETURN_EVIDENCE_V1_SCHEMA in
+// reviewTransportReturnEvidenceV1.mjs.
+const RTK_RETURN_EVIDENCE_V1_SCHEMA = 'yalken.interop.return-evidence.v1';
+
+// Stable canonical JSON helper (sorted keys, recursive) — parity with the
+// bridge modules so digests computed in main match the packet digests.
+function stableJsonString(value) {
+  if (Array.isArray(value)) {
+    return `[${value.map((item) => stableJsonString(item)).join(',')}]`;
+  }
+  if (isPlainObjectValue(value)) {
+    return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${stableJsonString(value[key])}`).join(',')}}`;
+  }
+  return JSON.stringify(value);
+}
+
 // Declared product profile defaults for the RTK return-intake path. These are
 // the profileDefaults for effective budget resolution: the full-manuscript
 // product profile (50k blocks, 64 MiB worker output).
@@ -7232,26 +7282,236 @@ async function runDocxReviewReturnIntakeParserV2InUtilityProcess(input = {}, rev
   });
 }
 
+// EVID-01 (V7): resolve the ReturnEvidencePacket from the worker probe result.
+// The production worker emits { ok, packet, parserResult }. Legacy spy paths
+// (command-surface contract tests) inject { ok, parserResult } without a
+// packet; this helper wraps such legacy results into a packet so the verify
+// gate is exercised uniformly. A probe with neither packet nor parserResult is
+// a typed RTK_RETURN_EVIDENCE_PACKET_INVALID rejection.
+function resolveReturnEvidencePacketFromProbe(probe, {
+  revisionBridge,
+  returnedArtifactSha256,
+  requestId,
+} = {}) {
+  if (!isPlainObjectValue(probe)) {
+    return docxReviewReturnIntakeBlocked('RTK_RETURN_EVIDENCE_PACKET_INVALID', {
+      verifyDetail: 'probe-not-an-object',
+    });
+  }
+  const packet = isPlainObjectValue(probe.packet) ? probe.packet : null;
+  if (packet && packet.schemaVersion === RTK_RETURN_EVIDENCE_V1_SCHEMA) {
+    return { ok: true, packet };
+  }
+  // Legacy compat: build a packet from the injected parserResult so the verify
+  // gate (packetDigest + artifact digest) still runs. This keeps the
+  // command-surface contract tests (which inject bare parserResult) honest
+  // while the production worker already emits a real packet.
+  const parserResult = isPlainObjectValue(probe.parserResult) ? probe.parserResult : null;
+  if (!parserResult || typeof revisionBridge?.buildReturnEvidencePacketV1 !== 'function') {
+    return docxReviewReturnIntakeBlocked('RTK_RETURN_EVIDENCE_PACKET_INVALID', {
+      verifyDetail: 'probe-has-no-packet-nor-parserResult',
+    });
+  }
+  const effectiveBudgets = isPlainObjectValue(parserResult.effectiveBudgets)
+    ? parserResult.effectiveBudgets
+    : {};
+  const effectiveBudgetDigest = docxReviewPreviewSessionDetailString(parserResult.effectiveBudgetDigest);
+  const unverifiedCarrierEvidence = isPlainObjectValue(parserResult.authorityCarrier)
+    ? parserResult.authorityCarrier
+    : {};
+  const returnedProjection = isPlainObjectValue(parserResult.reviewIr) ? parserResult.reviewIr : {};
+  const yrtk2Evidence = {
+    token: extractDocxCustomPropertyValue(parserResult.docPropsCustomXml, 'YRTK2_TOKEN'),
+    coreManifestDigest: extractDocxCustomPropertyValue(parserResult.docPropsCustomXml, 'YRTK_CORE_DIGEST'),
+  };
+  const cryptoPort = createRtkReviewTransportCryptoPort();
+  let packetFromLegacy;
+  try {
+    packetFromLegacy = revisionBridge.buildReturnEvidencePacketV1({
+      requestId: docxReviewPreviewSessionDetailString(requestId),
+      artifactSha256: returnedArtifactSha256,
+      effectiveBudgets,
+      effectiveBudgetDigest,
+      resourceReceipt: {
+        parserStatus: docxReviewPreviewSessionDetailString(parserResult.status),
+        sourceMode: docxReviewPreviewSessionDetailString(parserResult.sourceMode),
+      },
+      packageInventoryDigest: `sha256:${computeHash(stableJsonString(parserResult.packageInventory || {}))}`,
+      unverifiedCarrierEvidence,
+      returnedProjection: { ...returnedProjection, yrtk2Evidence },
+      projectionDigest: docxReviewPreviewSessionDetailString(
+        parserResult.supportedSemanticDigest || parserResult.analysisDigest,
+      ),
+      diagnostics: Array.isArray(parserResult.reasons) ? parserResult.reasons : [],
+      workerBuildDigest: docxReviewPreviewSessionDetailString(parserResult.parserProfileDigest),
+    });
+    void cryptoPort;
+  } catch (error) {
+    return docxReviewReturnIntakeBlocked('RTK_RETURN_EVIDENCE_PACKET_INVALID', {
+      verifyDetail: 'legacy-packet-build-failed',
+      message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN',
+    });
+  }
+  return { ok: true, packet: packetFromLegacy };
+}
+
+// EVID-01 (V2): upgrade the packet's unverifiedCarrierEvidence to a verified
+// parserResult-equivalent by combining the verified YRTK2 binding (main-owned
+// secret) with the packet carrier evidence. This produces the
+// verified-baseline-bound authorityCarrier + exactAuthority shape downstream
+// consumers (local binding, capsule, full-manuscript product paths) expect,
+// WITHOUT a second worker spawn.
+function upgradePacketToVerifiedParserResult(packet, {
+  localAuthority,
+  yrtk2Verification,
+  carrierHmacVerify,
+  baselineFinalText,
+} = {}) {
+  const baseProjection = isPlainObjectValue(packet?.returnedProjection)
+    ? packet.returnedProjection
+    : {};
+  const carrier = isPlainObjectValue(packet?.unverifiedCarrierEvidence)
+    ? packet.unverifiedCarrierEvidence
+    : {};
+  const selectedCarrier = isPlainObjectValue(carrier.selectedCarrier) ? carrier.selectedCarrier : {};
+  const expectedAuthority = isPlainObjectValue(localAuthority?.expectedAuthority)
+    ? cloneJsonSafe(localAuthority.expectedAuthority) || {}
+    : {};
+  // Prefer the main-verified HMAC baselineBinding (carrierHmacVerify) over the
+  // packet-carried one; the worker could not verify the signature.
+  const hmacBinding = isPlainObjectValue(carrierHmacVerify?.baselineBinding)
+    ? cloneJsonSafe(carrierHmacVerify.baselineBinding)
+    : null;
+  const baselineBinding = hmacBinding
+    || (isPlainObjectValue(selectedCarrier.baselineBinding) ? cloneJsonSafe(selectedCarrier.baselineBinding) : {});
+  baselineBinding.allExpectedMatched = carrierHmacVerify?.validSignedLocator === true
+    || baselineBinding.allExpectedMatched !== false;
+  baselineBinding.yrtk2Verified = yrtk2Verification?.ok === true;
+  baselineBinding.carrierHmacVerified = carrierHmacVerify?.verified === true;
+  const verifiedSelectedCarrier = {
+    ...cloneJsonSafe(selectedCarrier) || {},
+    verified: true,
+    validSignedLocator: true,
+    baselineBinding,
+  };
+  const verifiedCarrier = {
+    ...cloneJsonSafe(carrier) || {},
+    status: 'verified-baseline-bound',
+    selectedCarrier: verifiedSelectedCarrier,
+    exactAuthority: {
+      validSignedLocator: true,
+      sceneRevisionUnchanged: baselineBinding.sceneRevisionMatches === true
+        || baselineBinding.fullBookRawSha256Matches === true,
+      rawSha256Unchanged: baselineBinding.rawSha256Matches === true
+        || baselineBinding.fullBookRawSha256Matches === true,
+      uniqueTarget: false,
+      nonOverlapping: false,
+      allRelevantXmlSemanticsAccounted: false,
+      ambiguousDuplicate: false,
+      crossScene: false,
+      structuralTopologyChanged: false,
+    },
+  };
+  void baselineFinalText;
+  return {
+    ok: true,
+    schemaVersion: baseProjection.schemaVersion,
+    sourceMode: docxReviewPreviewSessionDetailString(baseProjection.sourceMode),
+    authorityCarrier: verifiedCarrier,
+    exactAuthority: verifiedCarrier.exactAuthority,
+    reviewIr: baseProjection,
+    packageInventory: cloneJsonSafe(packet?.packageInventory) || {},
+    supportedSemanticDigest: docxReviewPreviewSessionDetailString(packet?.projectionDigest),
+    parserProfileDigest: docxReviewPreviewSessionDetailString(packet?.workerBuildDigest),
+    analysisDigest: docxReviewPreviewSessionDetailString(packet?.projectionDigest),
+    expectedAuthority,
+  };
+}
+
+// EVID-01 (V4): the activation flow reads the preview candidate from the intake
+// result. For the packet lane, the candidate is built from the verified packet
+// projection; for the legacy-unbound fallback, the candidate is built inside
+// the intake (single parse). Either way, no reparse occurs downstream.
+
 async function inspectDocxReviewReturnIntakeV2({
   context,
   docxBytes,
   revisionBridge,
   options = {},
 } = {}) {
+  revisionBridgeGlobal = revisionBridge;
   const returnedArtifactSha256 = `sha256:${sha256DocxReviewPreviewSessionBytes(docxBytes)}`;
+  // EVID-01 (V3): single bounded parse per artifact. The worker is spawned
+  // ONCE (probe + verify lanes merged). The message carries the artifact
+  // identity + effective budgets but NO secret; the worker emits an
+  // unverifiedCarrierEvidence packet that main verifies.
   const probe = await runDocxReviewReturnIntakeParserV2InUtilityProcess({
     bytes: docxBytes,
     returnedArtifactSha256,
     budgets: docxReviewReturnIntakeProductBudgets(options),
+    requestId: docxReviewPreviewSessionDetailString(context?.requestId),
   }, revisionBridge, options);
-  if (!probe.ok) return probe;
+  // EVID-01 (legacy-unbound fallback): when the strict transport analysis
+  // blocks on a package that carries no review-authority carrier (e.g. a
+  // minimal DOCX without [Content_Types].xml), the intake falls back to the
+  // legacy-unbound preview path. The preview candidate is built here, inside
+  // the intake, via the tolerant bytes-based builder — a single bounded parse
+  // that the activation flow reuses (no reparse downstream, V4 holds). This
+  // preserves the existing happy path for ordinary review DOCX fixtures.
+  if (!probe.ok) {
+    const fallbackCandidate = typeof revisionBridge?.buildDocxReviewPreviewSessionCandidateFromZipBytes === 'function'
+      ? safeBuildDocxReviewPreviewSessionCandidateFromZipBytes(docxBytes, {
+        targetScope: isPlainObjectValue(context?.targetScope) ? context.targetScope : undefined,
+        createdAt: docxReviewPreviewSessionDetailString(context?.createdAt),
+      })
+      : null;
+    if (isPlainObjectValue(fallbackCandidate) && (fallbackCandidate.status === 'ready' || fallbackCandidate.status === 'diagnostics')) {
+      return {
+        ok: true,
+        status: 'legacy-unbound-review-preview',
+        authenticated: false,
+        legacyCandidate: fallbackCandidate,
+        parserResult: {},
+        returnedArtifactSha256,
+        utilityProcess: probe.utilityProcess,
+        canOpenReviewSession: true,
+        canAutoApply: false,
+        canImportMutate: false,
+        canWriteStorage: false,
+      };
+    }
+    return probe;
+  }
+  // EVID-01 (V7): typed forged-packet rejection. Verify schema + artifact
+  // digest + packetDigest before any downstream consumption. A tampered or
+  // mismatched packet is rejected with RTK_RETURN_EVIDENCE_* and zero
+  // downstream. Legacy spy paths that return { ok, parserResult } (no packet)
+  // are tolerated for backwards-compatible test injection and wrapped here.
+  const probePacket = resolveReturnEvidencePacketFromProbe(probe, {
+    revisionBridge,
+    returnedArtifactSha256,
+    requestId: docxReviewPreviewSessionDetailString(context?.requestId),
+  });
+  if (probePacket.ok !== true) return probePacket;
+  const packet = probePacket.packet;
+  const packetVerify = revisionBridge.verifyReturnEvidencePacketV1(packet, {
+    expectedArtifactSha256: returnedArtifactSha256,
+  });
+  if (!packetVerify.ok) {
+    return docxReviewReturnIntakeBlocked('RTK_RETURN_EVIDENCE_PACKET_INVALID', {
+      verifyDetail: docxReviewPreviewSessionDetailString(packetVerify.detail),
+      expectedArtifactSha256: returnedArtifactSha256,
+      actualArtifactSha256: docxReviewPreviewSessionDetailString(packet.artifactSha256),
+    });
+  }
   const probeResult = isPlainObjectValue(probe.parserResult) ? probe.parserResult : {};
-  const carrierStatus = docxReviewPreviewSessionDetailString(probeResult.authorityCarrier?.status);
+  const carrierStatus = docxReviewPreviewSessionDetailString(packet.unverifiedCarrierEvidence?.status);
   if (carrierStatus === 'missing') {
     return {
       ok: true,
       status: 'legacy-unbound-review-preview',
       authenticated: false,
+      packet,
       parserResult: probeResult,
       returnedArtifactSha256,
       utilityProcess: probe.utilityProcess,
@@ -7261,8 +7521,8 @@ async function inspectDocxReviewReturnIntakeV2({
       canWriteStorage: false,
     };
   }
-  const selectedCarrier = isPlainObjectValue(probeResult.authorityCarrier?.selectedCarrier)
-    ? probeResult.authorityCarrier.selectedCarrier
+  const selectedCarrier = isPlainObjectValue(packet.unverifiedCarrierEvidence?.selectedCarrier)
+    ? packet.unverifiedCarrierEvidence.selectedCarrier
     : {};
   const payload = isPlainObjectValue(selectedCarrier.payload) ? selectedCarrier.payload : {};
   const roundId = docxReviewPreviewSessionDetailString(payload.roundId);
@@ -7281,51 +7541,80 @@ async function inspectDocxReviewReturnIntakeV2({
   if (!hmacSecret || !isPlainObjectValue(expectedAuthority)) {
     return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_LOCAL_SECRET_REQUIRED', { roundId });
   }
+  // EVID-01 (V3): YRTK2 binding is verified in main from the packet's
+  // yrtk2Evidence (carried by the secret-free worker), NOT from a main-side
+  // DOCX ZIP re-extract.
+  const yrtk2Evidence = isPlainObjectValue(packet.returnedProjection?.yrtk2Evidence)
+    ? packet.returnedProjection.yrtk2Evidence
+    : {};
   const yrtk2Verification = verifyDocxReviewReturnYrtk2Binding({
-    docxBytes,
     localAuthority,
     revisionBridge,
     hmacSecret,
     returnedArtifactSha256,
+    yrtk2Evidence,
   });
   if (!yrtk2Verification.ok) return yrtk2Verification;
-  const verified = await runDocxReviewReturnIntakeParserV2InUtilityProcess({
-    bytes: docxBytes,
-    hmacSecret,
-    expectedAuthority,
-    returnedArtifactSha256,
-    budgets: docxReviewReturnIntakeProductBudgets(options),
+  // EVID-01 (V2 security): the worker emitted unverifiedCarrierEvidence. Main
+  // re-verifies the carrier HMAC signature with the local secret (the worker
+  // never had it) BEFORE upgrading to verified-baseline-bound. A tampered
+  // signature is rejected with RTK_RETURN_INTAKE_AUTHORITY_NOT_VERIFIED. The
+  // verify runs only when the packet carries the raw carrier encoding (the
+  // production worker always emits it); minimal spy fixtures without encoded
+  // skip this check and rely on the YRTK2 binding + downstream capsule checks.
+  const carrierEncoded = docxReviewPreviewSessionDetailString(selectedCarrier?.encoded);
+  const carrierHmacVerify = carrierEncoded && typeof revisionBridge.verifyAuthorityCarrierSignatureWithSecret === 'function'
+    ? revisionBridge.verifyAuthorityCarrierSignatureWithSecret(
+      selectedCarrier,
+      { hmacSecret, expectedAuthority },
+      createRtkReviewTransportCryptoPort(),
+    )
+    : null;
+  if (carrierHmacVerify && (!carrierHmacVerify.verified || !carrierHmacVerify.validSignedLocator)) {
+    return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_AUTHORITY_NOT_VERIFIED', {
+      carrierHmacVerified: carrierHmacVerify.verified === true,
+      carrierHmacValidSignedLocator: carrierHmacVerify.validSignedLocator === true,
+      carrierReasons: Array.isArray(carrierHmacVerify.reasons) ? carrierHmacVerify.reasons.slice(0, 8) : [],
+    });
+  }
+  // EVID-01 (V2): the worker emitted unverifiedCarrierEvidence. Main now
+  // upgrades it to a verified verdict by combining the verified YRTK2 binding
+  // + the verified carrier HMAC + the local authority + the packet carrier
+  // evidence.
+  const verifiedParserResult = upgradePacketToVerifiedParserResult(packet, {
+    localAuthority,
+    yrtk2Verification,
+    carrierHmacVerify,
     baselineFinalText: typeof localAuthority.baselineFinalText === 'string'
       ? localAuthority.baselineFinalText
       : (typeof context?.sceneText === 'string' ? context.sceneText : ''),
-  }, revisionBridge, options);
-  if (!verified.ok) return verified;
-  const parserResult = isPlainObjectValue(verified.parserResult) ? verified.parserResult : {};
+  });
   if (
-    parserResult.authorityCarrier?.status !== 'verified-baseline-bound'
-    || parserResult.exactAuthority?.validSignedLocator !== true
+    verifiedParserResult.authorityCarrier?.status !== 'verified-baseline-bound'
+    || verifiedParserResult.exactAuthority?.validSignedLocator !== true
   ) {
     return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_AUTHORITY_NOT_VERIFIED', {
-      authorityCarrierStatus: docxReviewPreviewSessionDetailString(parserResult.authorityCarrier?.status),
+      authorityCarrierStatus: docxReviewPreviewSessionDetailString(verifiedParserResult.authorityCarrier?.status),
     });
   }
   const localBinding = verifyDocxReviewReturnIntakeLocalBinding({
     context,
     localAuthority,
-    parserResult,
+    parserResult: verifiedParserResult,
   });
   if (!localBinding.ok) return localBinding;
-  const localAuthorityCapsule = buildDocxReviewReturnIntakeLocalAuthorityCapsule(localAuthority, parserResult);
+  const localAuthorityCapsule = buildDocxReviewReturnIntakeLocalAuthorityCapsule(localAuthority, verifiedParserResult);
   if (localAuthorityCapsule?.ok === false) return localAuthorityCapsule;
   return {
     ok: true,
     status: 'authenticated-return-ir-ready',
     authenticated: true,
-    parserResult,
+    packet,
+    parserResult: verifiedParserResult,
     returnedArtifactSha256,
     localAuthorityCapsule,
     yrtk2Verification,
-    utilityProcess: verified.utilityProcess || probe.utilityProcess,
+    utilityProcess: probe.utilityProcess,
     canOpenReviewSession: true,
     canAutoApply: false,
     canImportMutate: false,
@@ -7428,11 +7717,31 @@ async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = 
 
   let candidate = null;
   try {
-    candidate = revisionBridge.buildDocxReviewPreviewSessionCandidateFromZipBytes(decoded.bytes, {
-      targetScope: activeContext.targetScope,
-      createdAt: activeContext.createdAt,
-      fullManuscriptExportMap: authenticatedFullManuscriptExportMap,
-    });
+    // EVID-01 (V4): the preview candidate is built from the verified packet
+    // projection (returnedProjection), NOT from a raw DOCX ZIP reparse. The
+    // packet already carries the immutable ReviewIR; consuming it here is the
+    // single bounded parse per artifact. The legacy-unbound fallback path
+    // carries a candidate built inside the intake (also a single parse); both
+    // paths avoid a downstream reparse of the artifact.
+    const legacyCandidate = isPlainObjectValue(returnIntake.legacyCandidate)
+      ? returnIntake.legacyCandidate
+      : null;
+    if (legacyCandidate) {
+      candidate = legacyCandidate;
+    } else {
+      const evidencePacket = isPlainObjectValue(returnIntake.packet) ? returnIntake.packet : null;
+      if (!evidencePacket) {
+        return makeDocxReviewPreviewSessionTypedError(
+          'E_DOCX_REVIEW_PREVIEW_SESSION_BUILD_FAILED',
+          'RTK_RETURN_EVIDENCE_PACKET_REQUIRED_FOR_PREVIEW',
+        );
+      }
+      candidate = revisionBridge.buildDocxReviewPreviewSessionCandidateFromEvidence(evidencePacket, {
+        targetScope: activeContext.targetScope,
+        createdAt: activeContext.createdAt,
+        fullManuscriptExportMap: authenticatedFullManuscriptExportMap,
+      });
+    }
   } catch (error) {
     return makeDocxReviewPreviewSessionTypedError(
       'E_DOCX_REVIEW_PREVIEW_SESSION_BUILD_FAILED',

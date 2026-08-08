@@ -50,7 +50,7 @@ const {
 } = require('./main/rtkDocxActivationGuards.cjs');
 const { buildDocxMinBuffer: buildDocxMinBufferCore } = require('./export/docx/docxMinBuilder');
 const { runDocxMinExport } = require('./export/docx/docxMinExportHandler');
-const { buildDocxReviewPacketBuffer: buildDocxReviewPacketBufferCore } = require('./export/docx/docxReviewPacketBuilder');
+const { buildDocxReviewPacketBuffer: buildDocxReviewPacketBufferCore, deriveWordBookmarkNameV1: deriveWordBookmarkNameV1Cjs } = require('./export/docx/docxReviewPacketBuilder');
 const { runDocxReviewPacketExport } = require('./export/docx/docxReviewPacketExportHandler');
 const {
   FULL_MANUSCRIPT_REVIEW_DOCX_COMMAND_ID,
@@ -666,6 +666,17 @@ function visibleTextFromWordDocumentXml(documentXml) {
   return paragraphs.join('\n').replace(/\n{3,}/gu, '\n\n').replace(/^\n+/u, '').replace(/\n+$/u, '');
 }
 
+// EXPORT-01 (F-01/P0-01): boundary-aware scene-text projection. The flat
+// visibleTextFromWordDocumentXml join cannot reproduce the producer recipe
+// scenes.map(s => s.text).join('\n\n') because the exported DOCX carries no
+// inter-scene boundary marker that survives a flat paragraph join ('\n'). The
+// single implementation lives in revisionBridge (visibleSceneTextsFromWordDocumentXml)
+// so the gate and the contract tests share ONE re-parse recipe. It is imported
+// lazily alongside the other revisionBridge surfaces in
+// buildFullManuscriptProvisionalSelfParse.
+
+
+
 function buildFullManuscriptProvisionalSelfParse({ source, revisionBridge, cryptoPort, coreManifest } = {}) {
   const artifact = isPlainObjectValue(source?.provisionalSelfParseArtifact) ? source.provisionalSelfParseArtifact : {};
   const bytes = Buffer.isBuffer(artifact.bytes) ? artifact.bytes : null;
@@ -690,7 +701,29 @@ function buildFullManuscriptProvisionalSelfParse({ source, revisionBridge, crypt
       provisionalDocxSha256,
     };
   }
-  const documentText = visibleTextFromWordDocumentXml(extracted.parts?.['word/document.xml']);
+  // EXPORT-01 (F-01/P0-01): boundary-aware scene-text projection. The flat
+  // paragraph join could not reproduce scenes.join('\n\n') because the DOCX has
+  // no inter-scene boundary marker that survives a flat join. Grouping
+  // paragraphs by their declared bookmark→block→scene reconstructs the ordered
+  // scene texts the producer hashed, so the gate's re-parse converges with the
+  // expected digest on the real multi-scene route. The single implementation is
+  // revisionBridge.visibleSceneTextsFromWordDocumentXml (shared with tests).
+  const exportMap = isPlainObjectValue(source?.localAuthorityCapsule?.exportMap)
+    ? source.localAuthorityCapsule.exportMap
+    : (isPlainObjectValue(source?.exportMap) ? source.exportMap : {});
+  const sceneProjection = typeof revisionBridge.visibleSceneTextsFromWordDocumentXml === 'function'
+    ? revisionBridge.visibleSceneTextsFromWordDocumentXml(extracted.parts?.['word/document.xml'], exportMap)
+    : { ok: false, code: 'RTK_V4_PUBLICATION_GATE_SCENE_PROJECTION_REQUIRED' };
+  if (!sceneProjection.ok) {
+    return {
+      ok: false,
+      code: docxReviewPreviewSessionDetailString(sceneProjection.code)
+        || 'RTK_V4_PUBLICATION_GATE_PROVISIONAL_TEXT_MISMATCH',
+      provisionalDocxSha256,
+    };
+  }
+  const documentText = sceneProjection.sceneTexts.join('\n\n')
+    .replace(/\n{3,}/gu, '\n\n').replace(/^\n+/u, '').replace(/\n+$/u, '');
   const documentTextSha256 = cryptoPort.sha256Json({ sceneText: documentText });
   const expectedDocumentTextSha256 = normalizeRtkSignedSha256(artifact.expectedDocumentTextSha256);
   if (!expectedDocumentTextSha256 || documentTextSha256 !== expectedDocumentTextSha256) {
@@ -3987,7 +4020,11 @@ function buildReviewDocxPacketAuthorityEnvelope(payload, hmacSecret, cryptoPort)
   return `YRTK1.${base64UrlEncodeReviewDocxPacketText(JSON.stringify(body))}`;
 }
 
-function buildReviewDocxPacketBlocks(sceneText, sceneId, cryptoPort) {
+function buildReviewDocxPacketBlocks(sceneText, sceneId, cryptoPort, options = {}) {
+  const roundId = typeof options.roundId === 'string' ? options.roundId : '';
+  const deriveWordBookmarkNameV1 = typeof options.deriveWordBookmarkNameV1 === 'function'
+    ? options.deriveWordBookmarkNameV1
+    : deriveWordBookmarkNameV1Cjs;
   const lines = String(sceneText || '').replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n');
   return lines.map((text, index) => {
     const seed = `${sceneId}\n${index}\n${text}`;
@@ -4012,7 +4049,9 @@ function buildReviewDocxPacketBlocks(sceneText, sceneId, cryptoPort) {
         },
         {
           kind: 'bookmarkName',
-          value: { name: `YRTK_${String(index + 1).padStart(4, '0')}_${seedHash.slice(0, 12)}` },
+          // EXPORT-01 (P0-20): unified generator — same name as full-manuscript
+          // path and the resolver. roundBlockOccurrenceId = per-scene block index.
+          value: { name: deriveWordBookmarkNameV1({ roundId, sceneId, roundBlockOccurrenceId: index }) },
           applyAuthority: false,
         },
       ],
@@ -4137,7 +4176,7 @@ async function readDocxReviewPacketExportSource() {
   const semanticReturnId = `semantic-return-${roundIdHex}`;
   const hmacSecret = crypto.randomBytes(32).toString('hex');
   const cryptoPort = createRtkReviewTransportCryptoPort();
-  const blocks = buildReviewDocxPacketBlocks(sceneText, sceneId, cryptoPort);
+  const blocks = buildReviewDocxPacketBlocks(sceneText, sceneId, cryptoPort, { roundId });
   const primaryBlock = blocks[0] || {
     blockId: 'block-0000-empty',
     paragraphId: 'yrtk-p-empty',
@@ -4323,7 +4362,11 @@ async function readDocxReviewPacketExportSource() {
     },
     secretExposedToRenderer: false,
   };
-  await persistDocxReviewReturnAuthorityStore(activeReviewDocxExportAuthorityStore);
+  // EXPORT-01 (P0-09): the authority store is NO LONGER persisted here. It stays
+  // in-memory as pendingAuthorityStore and is persisted only by the export
+  // handler AFTER a successful gate + atomic write + exact readback (activation
+  // phase). A failed write therefore leaves zero durable authority. The in-memory
+  // assignment keeps the current session usable until publication.
 
   return {
     sceneText,
@@ -4358,6 +4401,9 @@ async function readDocxReviewPacketExportSource() {
       },
     },
     exportCapsule,
+    // EXPORT-01 (P0-09): pending in-memory authority store; persisted only on
+    // post-write activation. Nothing durable until the published write readback.
+    pendingAuthorityStore: activeReviewDocxExportAuthorityStore,
   };
 }
 
@@ -4420,7 +4466,11 @@ async function readFullManuscriptDocxReviewPacketExportSource() {
     },
     secretExposedToRenderer: false,
   };
-  await persistDocxReviewReturnAuthorityStore(activeReviewDocxExportAuthorityStore);
+  // EXPORT-01 (P0-09): the authority store is NO LONGER persisted here. It stays
+  // in-memory and is surfaced as pendingAuthorityStore so the export handler can
+  // persist it only AFTER a successful gate + atomic write + exact readback. A
+  // failed export therefore leaves zero durable authority for this round.
+  source.pendingAuthorityStore = activeReviewDocxExportAuthorityStore;
   return source;
 }
 
@@ -4435,6 +4485,27 @@ async function buildDocxReviewPacketBuffer(source) {
     exportCapsule: source.exportCapsule,
     publicationGate,
   };
+}
+
+// EXPORT-01 (P0-09): post-write activation helpers. readWrittenDocxBuffer
+// re-reads the published file for an exact sha256 readback against the written
+// buffer; activateReviewDocxExportAuthority persists the in-memory pending
+// authority store ONLY after that readback matches. A failed write or a
+// readback mismatch therefore leaves zero durable authority.
+async function readWrittenDocxBuffer(outPath) {
+  if (typeof outPath !== 'string' || !outPath) return null;
+  return fs.readFile(outPath);
+}
+
+async function activateReviewDocxExportAuthority(pendingAuthorityStore) {
+  if (!isPlainObjectValue(pendingAuthorityStore)) return null;
+  // EXPORT-01 (P0-09): activation promotes the in-memory pending store to the
+  // active module-level store and persists it to the main-only durable store.
+  // This happens ONLY after the export handler's gate + atomic write + exact
+  // readback all succeed; a failure before activation leaves the pending store
+  // in-memory and zero durable authority on disk.
+  activeReviewDocxExportAuthorityStore = pendingAuthorityStore;
+  return persistDocxReviewReturnAuthorityStore(activeReviewDocxExportAuthorityStore);
 }
 
 async function handleReviewDocxExportPacketCommandSurface(payload = {}, options = {}) {
@@ -4462,6 +4533,12 @@ async function handleReviewDocxExportPacketCommandSurface(payload = {}, options 
       ? options.writeBufferAtomic
       : writeBufferAtomic,
     updateStatus: typeof options.updateStatus === 'function' ? options.updateStatus : updateStatus,
+    readWrittenBuffer: typeof options.readWrittenBuffer === 'function'
+      ? options.readWrittenBuffer
+      : readWrittenDocxBuffer,
+    activateReviewDocxExportAuthority: typeof options.activateReviewDocxExportAuthority === 'function'
+      ? options.activateReviewDocxExportAuthority
+      : activateReviewDocxExportAuthority,
   });
 }
 
@@ -4490,6 +4567,12 @@ async function handleFullManuscriptReviewDocxExportPacketCommandSurface(payload 
       ? options.writeBufferAtomic
       : writeBufferAtomic,
     updateStatus: typeof options.updateStatus === 'function' ? options.updateStatus : updateStatus,
+    readWrittenBuffer: typeof options.readWrittenBuffer === 'function'
+      ? options.readWrittenBuffer
+      : readWrittenDocxBuffer,
+    activateReviewDocxExportAuthority: typeof options.activateReviewDocxExportAuthority === 'function'
+      ? options.activateReviewDocxExportAuthority
+      : activateReviewDocxExportAuthority,
   });
 }
 // DOCX_REVIEW_PACKET_EXPORT_COMMAND_SURFACE_END

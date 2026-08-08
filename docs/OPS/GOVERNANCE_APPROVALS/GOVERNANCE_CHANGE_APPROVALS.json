@@ -2670,12 +2670,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "2234f23c766b40f3d42d3e5bdb28802d827b0b19e10b6030ed8260514ba5d9da",
-      "approvedBy": "owner-direct:TASK_ID:CANON-01_ORDERED_PROJECTIONS",
-      "approvedAtUtc": "2026-08-08T16:40:00.527Z",
-      "rationale": "Approve additive RTK graph catalog bytes adding the CANON-01 ordered-projections contract test file; supersedes the ZIP-01-era catalog byte approval retained in git history.",
+      "sha256": "c790cf92c1452122fd729474f002460fe72c22a31141903d1b5bfaffbb5e1fd9",
+      "approvedBy": "owner-direct:TASK_ID:EXPORT-01_UNIFIED_BOOKMARK",
+      "approvedAtUtc": "2026-08-08T18:47:22.199Z",
+      "rationale": "Approve additive RTK graph catalog bytes adding the EXPORT-01 unified bookmark contract test file; supersedes the CANON-01-era catalog byte approval retained in git history.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_CANON01_ORDERED_PROJECTIONS"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EXPORT01_UNIFIED_BOOKMARK"
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
@@ -6515,21 +6515,21 @@
     },
     {
       "filePath": "src/export/docx/docxReviewPacketBuilder.js",
-      "sha256": "e3f54e94f8e83dc9fc2cf44bbae8fda19c65c7ccc65626ec87fcf5d940b682c2",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
-      "approvedAtUtc": "2026-08-02T10:57:50.000Z",
-      "rationale": "Approve the exact DOCX adapter bytes emitting bounded direct FormatIR run and paragraph formatting plus hard breaks from authenticated canonical source; no import writer authority, dependency, network, or terminal certification claim.",
+      "sha256": "dea2840744f958f617861ee8ddc60f71b9046fbd16a064d5e14f6938cc4a3b15",
+      "approvedBy": "owner-direct:TASK_ID:EXPORT-01_UNIFIED_BOOKMARK",
+      "approvedAtUtc": "2026-08-08T18:47:22.199Z",
+      "rationale": "Approve EXPORT-01 builder emitting declared bookmark names byte-for-byte with wordSignals carried through block normalization; builder-side generator removed.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EXPORT01_UNIFIED_BOOKMARK"
     },
     {
       "filePath": "src/export/docx/fullManuscriptDocxReviewPacketSource.js",
-      "sha256": "49521103f37e60ac2a03e0665a6affc5424f456932963fc76efa9e0b5a7cce28",
-      "approvedBy": "owner-direct:TASK_ID:CANON-01_ORDERED_PROJECTIONS",
-      "approvedAtUtc": "2026-08-08T16:40:00.527Z",
-      "rationale": "Approve CANON-01 producer hash-tree delegation to the shared domain-separated bottom-up builder with formatIr included.",
+      "sha256": "0989de38d48448bbf1b4a7d3bbd767cc58727be2e93b9a49c5fbdae3648a05e5",
+      "approvedBy": "owner-direct:TASK_ID:EXPORT-01_UNIFIED_BOOKMARK",
+      "approvedAtUtc": "2026-08-08T18:47:22.199Z",
+      "rationale": "Approve EXPORT-01 declared bookmark signal switched to the unified generator in the full-manuscript packet source.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_CANON01_ORDERED_PROJECTIONS"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EXPORT01_UNIFIED_BOOKMARK"
     },
     {
       "filePath": "src/import/mindmap/v1/manualMapMarkdownPortabilityBridge.mjs",
@@ -6558,12 +6558,12 @@
     },
     {
       "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "40314190e0d70fdc33a9b3abfea09b58966e50ff84451d9fd25e7e5e53a9b00d",
-      "approvedBy": "owner-direct:TASK_ID:ZIP-01_BUDGET_CRC_EVIDENCE",
-      "approvedAtUtc": "2026-08-08T14:15:51.524Z",
-      "rationale": "Approve ZIP-01 CRC reads in central/local header paths, typed local-central CRC divergence, real eocdCount, effective-budget first-touch raw and pre-inflate enforcement with cumulative totals; no scanner grammar change.",
+      "sha256": "fa56ce91464b68e6c0ba6ae38adc1403c11d7914ff68d1b95a25e8033955b243",
+      "approvedBy": "owner-direct:TASK_ID:EXPORT-01_UNIFIED_BOOKMARK",
+      "approvedAtUtc": "2026-08-08T18:47:22.199Z",
+      "rationale": "Approve EXPORT-01 resolver synthesis removal (declared-signal-only bookmark admission) and the shared boundary-aware scene-text projection export.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ZIP01_BUDGET_CRC_EVIDENCE"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EXPORT01_UNIFIED_BOOKMARK"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportApplyCore.mjs",
@@ -6761,12 +6761,12 @@
     },
     {
       "filePath": "src/main.js",
-      "sha256": "78de93fd7e82ea600ae203b298f088c0c72dace1f51740ed7b6d4ae7abc02262",
-      "approvedBy": "owner-direct:TASK_ID:CANON-01_ORDERED_PROJECTIONS",
-      "approvedAtUtc": "2026-08-08T16:40:00.527Z",
-      "rationale": "Approve CANON-01 single-scene hash-tree alignment to the shared domain-separated recipe and export map carrying scope, ordinals and formatIr.",
+      "sha256": "ae0dccd4fc1877de5daf336ed6caa0d10d808dd68f3607ac63a495d48393ef8c",
+      "approvedBy": "owner-direct:TASK_ID:EXPORT-01_UNIFIED_BOOKMARK",
+      "approvedAtUtc": "2026-08-08T18:47:22.199Z",
+      "rationale": "Approve EXPORT-01 boundary-aware provisional self-parse via the shared scene projection, unified single-scene bookmark generator, pending in-memory authority store, post-readback activation, and canonical secretEmbeddedInDocx field.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_CANON01_ORDERED_PROJECTIONS"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EXPORT01_UNIFIED_BOOKMARK"
     },
     {
       "filePath": "src/main/rtkDocxReturnIntakeWorker.cjs",
@@ -7641,12 +7641,12 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-review-preview-session.contract.test.js",
-      "sha256": "0e1c20e2bee55dacb37cec34837f8e5dc6b1d2787ec25f51f1201473e787f740",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
-      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
-      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
+      "sha256": "5cbe4495bd6526d9ab78a1fe13bbc4127ee03d5084cb81f011f1c7d41e20a128",
+      "approvedBy": "owner-direct:TASK_ID:EXPORT-01_UNIFIED_BOOKMARK",
+      "approvedAtUtc": "2026-08-08T18:47:22.199Z",
+      "rationale": "Approve EXPORT-01 resolver name re-pin to the unified declared bookmark signal in the preview-session contract; tests only.",
       "approved": true,
-      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EXPORT01_UNIFIED_BOOKMARK"
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-zip-inventory-materializer.contract.test.js",
@@ -9494,12 +9494,12 @@
     },
     {
       "filePath": "src/export/docx/docxReviewPacketExportHandler.js",
-      "sha256": "5e7375e5c3f62eb199bc07087cce09b7821f134716eb48f6548ac225fc7c0515",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_PHASE_B_PRODUCT_TRUST_CHAIN_V1",
-      "approvedAtUtc": "2026-08-06T00:06:06.000Z",
-      "rationale": "Approve exact Phase B product trust-chain bytes: full-manuscript DOCX export now requires V4 provisional self-parse plus final self-parse semantic equivalence before publication; returned full-manuscript intake requires byte-backed YRTK2/CoreManifest proof before router MatchProof and Command Kernel authority; direct forged return-intake proof and missing-provisional-gate attacks are blocked. No physical Word run, no Google work, no long campaign, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
+      "sha256": "c927397d04890038ae6fdf99abd902fdc28d316a9ff822d014490425cbc0ca26",
+      "approvedBy": "owner-direct:TASK_ID:EXPORT-01_UNIFIED_BOOKMARK",
+      "approvedAtUtc": "2026-08-08T18:47:22.199Z",
+      "rationale": "Approve EXPORT-01 post-write activation phase: exact readback digest comparison before any authority persistence; failures before activation leave zero durable authority.",
       "approved": true,
-      "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_PHASE_B_PRODUCT_TRUST_CHAIN"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EXPORT01_UNIFIED_BOOKMARK"
     },
     {
       "filePath": "src/export/docx/fullManuscriptDocxReviewReturnRouter.js",
@@ -9629,12 +9629,12 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "6c0fc053eed1cca8d6e3b90ada0b4a4d885a08f2285f47354df755bd08a8434e",
-      "approvedBy": "owner-direct:TASK_ID:CANON-01_ORDERED_PROJECTIONS",
-      "approvedAtUtc": "2026-08-08T16:40:00.527Z",
-      "rationale": "Approve additive test:rtk-canon01 lane script; no dependency or runtime change.",
+      "sha256": "944153cd5ffda15bd8d26c0298637db9f720e287ff8bfe70ec071ad94a57c0f0",
+      "approvedBy": "owner-direct:TASK_ID:EXPORT-01_UNIFIED_BOOKMARK",
+      "approvedAtUtc": "2026-08-08T18:47:22.199Z",
+      "rationale": "Approve additive test:rtk-export01 lane script; no dependency or runtime change.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_CANON01_ORDERED_PROJECTIONS"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EXPORT01_UNIFIED_BOOKMARK"
     },
     {
       "filePath": "test/contracts/rtk-admit01-accountable-lanes.contract.test.js",
@@ -9671,6 +9671,24 @@
       "rationale": "Approve CANON-01 ordered-projections contract tests (13 scenarios: scope/order/ordinal/formatIr collisions, tree recompute, relocation placement, controls); tests only.",
       "approved": true,
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_CANON01_ORDERED_PROJECTIONS"
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportWordBookmarkV1.mjs",
+      "sha256": "ddbe48d8e1739751e7022c63e68eec01b80f895d4c327b351a69829b7d2abe15",
+      "approvedBy": "owner-direct:TASK_ID:EXPORT-01_UNIFIED_BOOKMARK",
+      "approvedAtUtc": "2026-08-08T18:47:22.199Z",
+      "rationale": "Approve new bounded unified bookmark generator module (deriveWordBookmarkNameV1, domain-separated, 37-char YRTK name); single source of truth for declared, emitted and resolver names.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EXPORT01_UNIFIED_BOOKMARK"
+    },
+    {
+      "filePath": "test/contracts/rtk-export01-unified-bookmark.contract.test.js",
+      "sha256": "c2d72a1b70253d3edcb93f82c1c38a5b473b4c5d7e2630e49cf1d434ff8d543c",
+      "approvedBy": "owner-direct:TASK_ID:EXPORT-01_UNIFIED_BOOKMARK",
+      "approvedAtUtc": "2026-08-08T18:47:22.199Z",
+      "rationale": "Approve EXPORT-01 unified bookmark contract tests (E1-E8: real two-scene gate, name parity, synthesis impossibility, failed-export zero authority, activation round-trip, controls); tests only.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EXPORT01_UNIFIED_BOOKMARK"
     }
   ]
 }

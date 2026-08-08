@@ -445,9 +445,24 @@ test('DOCX review preview session candidate: full manuscript retained-quote inse
 
 test('DOCX review preview session candidate: full manuscript bookmark signals route Word-rewritten paragraphs', async () => {
   const bridge = await loadBridge();
+  // EXPORT-01 (P0-20): re-pinned from the old synthesized bookmark name
+  // (YRTK_0002_scene_02_block_0001_abcdef1234, derived from blockId +
+  // globalBlockIndex by the resolver) to the unified declared bookmark name
+  // produced by deriveWordBookmarkNameV1. The export map now DECLARES the
+  // bookmarkName signal (it did not before), so resolution goes through the
+  // real declared-signal path, not synthesis. Resolution semantics are
+  // unchanged: a Word-rewritten paragraph whose paraId/textId were regenerated
+  // is still routed to its declared scene via the declared bookmark.
+  const unifiedRoundId = 'round-export01-preview-pin';
+  const unifiedSceneId = 'roman/chapter-02.txt';
+  const declaredChapterTwoBookmark = bridge.deriveWordBookmarkNameV1({
+    roundId: unifiedRoundId,
+    sceneId: unifiedSceneId,
+    roundBlockOccurrenceId: 0,
+  });
   const result = bridge.buildDocxReviewPreviewSessionCandidateFromZipBytes(cleanDocxZip([
     '<w:p w14:paraId="wordmade01" w14:textId="wordmade02">',
-    '<w:bookmarkStart w:id="7" w:name="YRTK_0002_scene_02_block_0001_abcdef1234"/>',
+    `<w:bookmarkStart w:id="7" w:name="${declaredChapterTwoBookmark}"/>`,
     '<w:r><w:t>Beta </w:t></w:r>',
     '<w:del w:id="3"><w:r><w:delText>second phrase</w:delText></w:r></w:del>',
     '<w:ins w:id="4"><w:r><w:t>second replacement</w:t></w:r></w:ins>',
@@ -456,6 +471,7 @@ test('DOCX review preview session candidate: full manuscript bookmark signals ro
   ].join('')), {
     targetScope: { type: 'scene', id: 'roman/currently-open.txt' },
     fullManuscriptExportMap: {
+      roundId: unifiedRoundId,
       scenes: [
         {
           sceneId: 'roman/chapter-01.txt',
@@ -469,12 +485,13 @@ test('DOCX review preview session candidate: full manuscript bookmark signals ro
           ],
         },
         {
-          sceneId: 'roman/chapter-02.txt',
+          sceneId: unifiedSceneId,
           blocks: [
             {
               blockId: 'scene-02-block-0001-abcdef1234567890',
               wordSignals: [
                 { kind: 'w14ParaIdTextId', value: { paraId: 'abcdef12', textId: '33334444' } },
+                { kind: 'bookmarkName', value: { name: declaredChapterTwoBookmark } },
               ],
             },
           ],

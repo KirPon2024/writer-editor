@@ -42,6 +42,120 @@ exact-head evidence и более высокого источника истин
 Новые зависимости, абстракции «на будущее» и расширение release scope без
 прямого canon/owner решения запрещены.
 
+<!-- MAP_MOVE_PROVE_PROTOCOL_V1:BEGIN -->
+## 1A. Универсальный рабочий цикл: MAP → MOVE → PROVE
+
+`MAP_MOVE_PROVE_PROTOCOL_V1`
+
+Этот цикл подчинён active canon, правилам репозитория, архитектурной декларации
+и authority конкретной задачи. Он не уменьшает уже выданную агенту автономию:
+внутри разрешённого scope агент самостоятельно выбирает методы и инструменты,
+исследует, реализует и проверяет результат. Цикл не разрешает самовольно
+расширять scope, ставить зависимости, включать network/cloud, использовать
+секреты или выполнять destructive, privileged либо external actions.
+
+Evidence и mutation authority — разные контракты:
+
+```text
+EVIDENCE_NEVER_CREATES_AUTHORITY
+
+MUTATION_ALLOWED =
+  TASK_AUTHORITY
+  AND ACTIVE_CANON_COMPATIBLE
+  AND REPO_POLICY_COMPATIBLE
+  AND (RUNTIME_REVALIDATION_PASSED
+       OR (NO_RUNTIME_MUTATION
+           AND RUNTIME_REVALIDATION_NOT_APPLICABLE_BY_VALID_DECLARATION))
+```
+
+После обязательного bootstrap и чтения канона, но до первого edit, агент держит
+минимальный рабочий пакет. Он является краткой формой мышления и не заменяет
+`TASK_ARCHITECTURE_DECLARATION_V1` или preflight:
+
+```text
+O: observable outcome и acceptance observation
+T: source of truth -> decision authority -> actual write/publication path
+H: root-cause/solution hypothesis -> predicted observation
+B: protected state, invariants, non-goals и rollback
+P: cheapest sufficient proof плюс все mandatory gates
+I: exact base, target, entity, revision, artifact, build и profile identities,
+   где они применимы
+```
+
+### MAP
+
+1. После обязательных bootstrap и canon reads расширять контекст прогрессивно,
+   начиная с затронутых source, tests и evidence, а не поглощать весь repo без
+   причины.
+2. Проследить полный путь:
+   `input -> validation -> decision -> authority -> mutation -> persistence -> publication -> result`.
+3. До edit сформулировать hypothesis и наблюдение, которое подтвердит или
+   опровергнет её; diagnosis без предсказуемого evidence не даёт write authority.
+4. Зафиксировать защищённое чужое состояние, scope, exact identities, риски,
+   rollback и самый дешёвый достаточный proof.
+
+### MOVE
+
+1. Делать одну согласованную концептуальную дельту. Один bounded vertical slice
+   может затрагивать несколько слоёв, если у него один outcome и один rollback.
+2. Сохранять всё pre-existing и unrelated; cleanup вне scope отделять.
+3. UI, visibility, cache, heuristic, stale async result, fixture, screenshot,
+   narrative receipt и self-authored count никогда не дают mutation authority.
+4. Перед async publication повторно проверять project, lifecycle, entity,
+   source revision, generation и текущую capability.
+5. Внешний payload проверять до normalization, interpretation и извлечения
+   path, command или write authority.
+6. Не скрывать failure через silent fallback, swallowed exception, disabled
+   test, skip/todo, synthetic success или подмену обязательного oracle.
+7. Destructive, external, privileged или irreversible действие выполнять
+   только при явной authority задачи и после точного разрешения target.
+
+### PROVE
+
+1. Выполнить cheapest sufficient evidence, покрывающий каждый затронутый
+   invariant, и все обязательные repository gates; экономия не отменяет gate.
+2. Проверить финальный diff и риск-ориентированные counterexamples: normal,
+   boundary/adversarial и, когда применимо, stale/race/recovery/rollback.
+3. Exit code `0` является process evidence, а не автоматическим доказательством
+   пользовательского outcome.
+4. Claim ограничивается exact SHA, build/profile, scope, numerator/denominator,
+   artifact hashes и действительно исполненным oracle. Self-PASS запрещён.
+5. Missing, stale, skipped, todo, zero-test, self-authored, different-head или
+   count-only evidence означает `UNKNOWN` либо `FAIL`, но не `PASS`.
+6. После третьего повторения одной failure signature прекратить loop и записать
+   expected, actual, seed, exact HEAD, hashes и одну следующую hypothesis.
+
+Сила утверждения определяется слабейшим обязательным звеном:
+
+```text
+CLAIM_STRENGTH = min(
+  SOURCE_TRUST,
+  EXECUTED_COVERAGE,
+  ARTIFACT_INTEGRITY,
+  SNAPSHOT_FRESHNESS,
+  ORACLE_INDEPENDENCE
+)
+```
+
+Неизвестное обязательное звено не может дать `PASS`.
+
+```text
+DONE =
+  OUTCOME_OBSERVED
+  AND REQUIRED_PROOFS_PASSED
+  AND EXACT_IDENTITY_VERIFIED
+  AND DIFF_REVIEWED
+  AND PRE_EXISTING_WORK_PRESERVED
+  AND (REQUIRED_DELIVERY_COMPLETE OR DELIVERY_NOT_APPLICABLE_BY_TASK_POLICY)
+  AND NO_OPEN_BLOCKING_FINDING
+  AND RESIDUAL_RISK_DECLARED
+```
+
+Финальный отчёт остаётся ровно тем, который требует
+`AGENT_FINAL_REPORT_V1.schema.json` и раздел 12 ниже; этот цикл не создаёт второй
+формат отчёта, новый tracker или альтернативный источник истины.
+<!-- MAP_MOVE_PROVE_PROTOCOL_V1:END -->
+
 ## 2. Архитектура, которую нельзя смешивать
 
 ```text

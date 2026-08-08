@@ -113,6 +113,20 @@ export const RTK_V6_BUDGETS = Object.freeze({
   memoryTargetBytes: 256 * 1024 * 1024,
 });
 
+// Shared blocking-code set used by both the pre-lane and the post-lane
+// accountability gate inside buildReviewIRV2. A blocking diagnostic found
+// AFTER the text/structure/comments lanes have been parsed must never be
+// masked as an empty success (ADMIT-01 F-14/F-15).
+const RTK_BLOCKING_CODES = Object.freeze(new Set([
+  'RTK_BUDGET_EXCEEDED',
+  'RTK_ZIP_CRC_MISMATCH',
+  'RTK_ZIP_LOCAL_CENTRAL_MISMATCH',
+  'RTK_ZIP_REGION_OVERLAP',
+  'RTK_ZIP_FAKE_EOCD',
+  'RTK_XML_MALFORMED_BLOCKED',
+  'RTK_WORKER_AUTHORITY_BLOCKED',
+]));
+
 const ADMITTED_PARTS = Object.freeze([
   'word/document.xml',
   'word/comments.xml',
@@ -566,6 +580,28 @@ function parseComments(commentsXml, commentsExtendedXml, scannedDocument, budget
   return { commentThreads, reasons };
 }
 
+// ADMIT-01 laneCompleteness for V1 ReviewIR. Each lane maps to COMPLETE unless
+// a blocking resource diagnostic references that lane's field namespace. The
+// marker is additive so the successful ReviewIR shape stays byte-stable (A4
+// control pins the digests); only the blocked form carries a reasonCode.
+function laneStatusV1(reasons, laneFields) {
+  for (const item of reasons) {
+    if (!RTK_BLOCKING_CODES.has(item.code)) continue;
+    const field = rawString(item.field);
+    if (laneFields.some((prefix) => field === prefix || field.startsWith(`${prefix}.`) || field.startsWith(`${prefix}`))) {
+      return { status: 'BLOCKED_RESOURCE', reasonCode: item.code };
+    }
+  }
+  return { status: 'COMPLETE' };
+}
+
+function buildLaneCompletenessV1(reasons) {
+  const text = laneStatusV1(reasons, ['textChanges']);
+  const structure = laneStatusV1(reasons, ['structuralChanges', 'structureChanges']);
+  const comments = laneStatusV1(reasons, ['comments']);
+  return { text: text.status, structure: structure.status, comments: comments.status };
+}
+
 export function buildWorkerCapabilityAdapterV1(capabilities = {}) {
   const blocked = capabilities.pathAuthority === true
     || capabilities.writerAuthority === true
@@ -601,23 +637,15 @@ export function buildReviewIRV2(input = {}, ports = {}) {
   const commentsExtendedXml = rawString(normalizedParts.admittedParts['word/commentsExtended.xml']);
   const scannedDocument = scanXml(documentXml, budgets, cryptoPort);
   reasons.push(...scannedDocument.diagnostics);
-  const blockingCodes = new Set([
-    'RTK_BUDGET_EXCEEDED',
-    'RTK_ZIP_CRC_MISMATCH',
-    'RTK_ZIP_LOCAL_CENTRAL_MISMATCH',
-    'RTK_ZIP_REGION_OVERLAP',
-    'RTK_ZIP_FAKE_EOCD',
-    'RTK_XML_MALFORMED_BLOCKED',
-    'RTK_WORKER_AUTHORITY_BLOCKED',
-  ]);
-  if (reasons.some((item) => blockingCodes.has(item.code))) {
+  if (reasons.some((item) => RTK_BLOCKING_CODES.has(item.code))) {
     return {
       ok: false,
       schemaVersion: RTK_RETURNED_REVIEW_ANALYSIS_V2_SCHEMA,
       status: 'blocked',
-      code: reasons.find((item) => blockingCodes.has(item.code))?.code || 'RTK_HOSTILE_PACKAGE_BLOCKED',
+      code: reasons.find((item) => RTK_BLOCKING_CODES.has(item.code))?.code || 'RTK_HOSTILE_PACKAGE_BLOCKED',
       canWriteManuscript: false,
       canApply: false,
+      laneCompleteness: buildLaneCompletenessV1(reasons),
       reasons,
     };
   }
@@ -628,6 +656,45 @@ export function buildReviewIRV2(input = {}, ports = {}) {
   const tracked = parseTrackedChanges(documentXml, scannedDocument, budgets, cryptoPort);
   const comments = parseComments(commentsXml, commentsExtendedXml, scannedDocument, budgets, cryptoPort);
   reasons.push(...tracked.diagnostics, ...comments.reasons);
+
+  // ADMIT-01: post-lane accountability re-check. The pre-lane gate runs before
+  // parseTrackedChanges/parseComments, so the F-14/F-15 budget diagnostics they
+  // append (textChanges.N truncation, comments overflow) can otherwise mask an
+  // overflow as {ok:true, code:'RTK_EXACT_APPLICABLE'} with empty lanes. Re-run
+  // the same blocking-code set against the now-merged reasons and return a
+  // typed blocked result with a safe reviewIr and a laneCompleteness marker.
+  const postLaneBlocked = reasons.find((item) => RTK_BLOCKING_CODES.has(item.code));
+  if (postLaneBlocked) {
+    const safeReviewIr = {
+      schemaVersion: RTK_REVIEW_IR_V2_SCHEMA,
+      sourceMode,
+      textChanges: [],
+      changes: [],
+      structuralChanges: [],
+      commentThreads: [],
+      comments: [],
+      modernCommentMetadata: [],
+      diagnostics: reasons,
+      conservation: {
+        commentBodiesIndependentFromPlacement: true,
+        commentLaneIndependentFromTextLane: true,
+        fullTextStoredOnlyForChangedBlocks: true,
+        unchangedBlocksStoredAsSpansHashesAndExcerpts: true,
+      },
+    };
+    return {
+      ok: false,
+      schemaVersion: RTK_RETURNED_REVIEW_ANALYSIS_V2_SCHEMA,
+      status: 'blocked',
+      code: postLaneBlocked.code,
+      canWriteManuscript: false,
+      canApply: false,
+      sourceMode,
+      reviewIr: safeReviewIr,
+      laneCompleteness: buildLaneCompletenessV1(reasons),
+      reasons,
+    };
+  }
 
   const semanticProjection = {
     canonicalDocument: canonicalizeScannedXml(documentXml, budgets, cryptoPort),
@@ -707,6 +774,7 @@ export function buildReviewIRV2(input = {}, ports = {}) {
     worker,
     rejectedParts: normalizedParts.rejectedParts,
     reviewIr,
+    laneCompleteness: buildLaneCompletenessV1(reasons),
     supportedSemanticDigest,
     parserProfileDigest,
     analysisDigest,

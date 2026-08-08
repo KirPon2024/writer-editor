@@ -1876,12 +1876,22 @@ function parseCommentThreads(input, documentXml, documentScan, scans, cryptoPort
       modernMetadata: cloneJsonSafe(record.metadata || {}),
       sourceXmlProvenance: record.sourceXmlProvenance,
     };
-    if (admitWorkerOutput(budgetState, reasons, 'reviewIr.commentThreads', thread)) {
+    const admitted = admitWorkerOutput(budgetState, reasons, 'reviewIr.commentThreads', thread);
+    if (admitted) {
       threads.push(thread);
+      // ADMIT-01 (B1): success-shaped per-comment reason is published ONLY for
+      // admitted threads. A dropped thread must never carry ANCHORED/ORPHAN/...
+      // success reasons while it is absent from reviewIr.commentThreads.
+      reasons.push(reason(code, `comments.${record.rawId}`, 'Comment lane was parsed before text classification and kept independent.', {
+        threadId: thread.threadId,
+      }));
+    } else {
+      // ADMIT-01 (B1): dropped threads get a typed budget reason instead of a
+      // success-shaped outcome, so the comment lane is marked BLOCKED_RESOURCE.
+      reasons.push(reason('RTK_BUDGET_EXCEEDED', `comments.${record.rawId}`, 'Comment thread exceeded the parser worker output budget and was dropped from the ReviewIR comment lane.', {
+        threadId: thread.threadId,
+      }));
     }
-    reasons.push(reason(code, `comments.${record.rawId}`, 'Comment lane was parsed before text classification and kept independent.', {
-      threadId: thread.threadId,
-    }));
   }
   const observedKeys = new Set();
   for (const record of records) {
@@ -1923,12 +1933,21 @@ function parseCommentThreads(input, documentXml, documentScan, scans, cryptoPort
       modernMetadata: {},
       sourceXmlProvenance: null,
     };
-    if (admitWorkerOutput(budgetState, reasons, 'reviewIr.commentThreads', thread)) {
+    const missingAdmitted = admitWorkerOutput(budgetState, reasons, 'reviewIr.commentThreads', thread);
+    if (missingAdmitted) {
       threads.push(thread);
     }
+    // RTK_COMMENT_UNSUPPORTED for missing threads is an inventory diagnostic,
+    // not a success-shaped per-comment outcome; keep it on both paths so the
+    // dropped-vs-missing distinction stays typed and never silently drops.
     reasons.push(reason('RTK_COMMENT_UNSUPPORTED', `comments.${key}`, 'Expected comment thread is missing from the returned package and cannot be silently dropped.', {
       threadId: thread.threadId,
     }));
+    if (!missingAdmitted) {
+      reasons.push(reason('RTK_BUDGET_EXCEEDED', `comments.${key}`, 'Missing comment thread exceeded the parser worker output budget and was dropped from the ReviewIR comment lane.', {
+        threadId: thread.threadId,
+      }));
+    }
   }
   return { commentThreads: threads, reasons };
 }
@@ -2025,6 +2044,46 @@ function blockingReason(reasons) {
   ].includes(item.code));
 }
 
+// ADMIT-01 laneCompleteness for V2 ReviewIR. The marker covers both the
+// short lane names (text/structure/comments) asserted by abort contracts and
+// the V2 IR field names (textRevisions/structureChanges/commentThreads) so the
+// additive field is usable by every caller. A lane is BLOCKED_RESOURCE when a
+// blocking diagnostic references that lane's field namespace.
+const RTK_V2_BLOCKING_CODES = Object.freeze(new Set([
+  'RTK_BUDGET_EXCEEDED',
+  'RTK_HOSTILE_PACKAGE_BLOCKED',
+  'RTK_XML_MALFORMED_BLOCKED',
+  'RTK_ZIP_CRC_MISMATCH',
+  'RTK_ZIP_LOCAL_CENTRAL_MISMATCH',
+  'RTK_ZIP_REGION_OVERLAP',
+  'RTK_ZIP_FAKE_EOCD',
+]));
+
+function v2LaneStatus(reasons, laneFields) {
+  for (const item of reasons) {
+    if (!RTK_V2_BLOCKING_CODES.has(item.code)) continue;
+    const field = rawString(item.field);
+    if (laneFields.some((prefix) => field === prefix || field.startsWith(`${prefix}.`) || field.startsWith(prefix))) {
+      return 'BLOCKED_RESOURCE';
+    }
+  }
+  return 'COMPLETE';
+}
+
+function buildLaneCompletenessV2(reasons) {
+  const text = v2LaneStatus(reasons, ['textRevisions', 'reviewIr.textRevisions']);
+  const structure = v2LaneStatus(reasons, ['structureChanges', 'reviewIr.structureChanges']);
+  const comments = v2LaneStatus(reasons, ['commentThreads', 'reviewIr.commentThreads', 'comments']);
+  return {
+    text,
+    structure,
+    comments,
+    textRevisions: text,
+    structureChanges: structure,
+    commentThreads: comments,
+  };
+}
+
 function emptyReviewIr(diagnostics = []) {
   return {
     schemaVersion: RTK_REVIEW_IR_V2_SCHEMA,
@@ -2066,6 +2125,7 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
       canApply: false,
       sourceMode: 'CLEAN',
       reviewIr: emptyReviewIr(initialReasons),
+      laneCompleteness: buildLaneCompletenessV2(initialReasons),
       reasons: initialReasons,
     };
   }
@@ -2147,6 +2207,7 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
       authorityCarrier,
       exactAuthority: authorityCarrier.exactAuthority,
       reviewIr: emptyReviewIr(reasons),
+      laneCompleteness: buildLaneCompletenessV2(reasons),
       reasons,
     };
   }
@@ -2179,6 +2240,7 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
       authorityCarrier,
       exactAuthority: authorityCarrier.exactAuthority,
       reviewIr: emptyReviewIr(reasons),
+      laneCompleteness: buildLaneCompletenessV2(reasons),
       reasons,
     };
   }
@@ -2324,6 +2386,7 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
       exactAuthority: authorityCarrier.exactAuthority,
       reviewIr: emptyReviewIr(reasons),
       parserProfile,
+      laneCompleteness: buildLaneCompletenessV2(reasons),
       reasons,
     };
   }
@@ -2349,6 +2412,7 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
     exactAuthority: authorityCarrier.exactAuthority,
     reviewIr,
     parserProfile,
+    laneCompleteness: buildLaneCompletenessV2(reasons),
     supportedSemanticDigest,
     parserProfileDigest,
     analysisDigest,

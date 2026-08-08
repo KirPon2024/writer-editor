@@ -2670,12 +2670,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "6ee525a2308b3f19f135c2e7dc5ced10ed2568efb2e4f65dba88f693b0688656",
-      "approvedBy": "owner-direct:TASK_ID:STOP-01_AUTHORITY_STOP",
-      "approvedAtUtc": "2026-08-08T09:18:02.277Z",
-      "rationale": "Approve additive RTK graph catalog bytes adding the STOP-01 authority-stop contract test file (rtk-stop01-authority-stop); no existing entry removed; supersedes the CERT-01-era catalog byte approval retained in git history; no product runtime change.",
+      "sha256": "b3e4ad8ee751f8a8b02657b834cfb1c2770f5c3cd6bd3a9ff0c63eb817b3a684",
+      "approvedBy": "owner-direct:TASK_ID:ADMIT-01_ACCOUNTABLE_LANES",
+      "approvedAtUtc": "2026-08-08T11:03:22.818Z",
+      "rationale": "Approve additive RTK graph catalog bytes adding the ADMIT-01 accountable-lanes contract test file; no existing entry removed; supersedes the STOP-01-era catalog byte approval retained in git history.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_STOP01_AUTHORITY_STOP"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ADMIT01_ACCOUNTABLE_LANES"
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
@@ -6629,12 +6629,12 @@
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportCore.mjs",
-      "sha256": "4c265acb5582fdd72f877176245fae4b7a3e7a33c6a69242689d59e6b4f28927",
-      "approvedBy": "owner-direct:TASK_ID:STOP-01_AUTHORITY_STOP",
-      "approvedAtUtc": "2026-08-08T09:18:57.858Z",
-      "rationale": "Approve STOP-01 addition of RTK_APPLY_ELIGIBLE_LIFECYCLE_STATES and two typed reason codes; RTK_TERMINAL_LIFECYCLE_STATES preserved for cold-archive consumers.",
+      "sha256": "875136f493a99e84fb621b42f4e3b962ecd6516fcf5ab34390dc1ca0dd67b8ce",
+      "approvedBy": "owner-direct:TASK_ID:ADMIT-01_ACCOUNTABLE_LANES",
+      "approvedAtUtc": "2026-08-08T11:03:22.818Z",
+      "rationale": "Approve ADMIT-01 V1 post-lane blocking re-check with shared blocking-code set and additive laneCompleteness markers on blocked and success forms; successful ReviewIR bytes unchanged.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_STOP01_AUTHORITY_STOP"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ADMIT01_ACCOUNTABLE_LANES"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportExactApply.mjs",
@@ -6716,12 +6716,12 @@
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportPackageParserV2.mjs",
-      "sha256": "a017be3c32a6a089b69469a8df6d127b0d255981b73a368b988772b75910caa8",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
-      "approvedAtUtc": "2026-08-02T10:57:50.000Z",
-      "rationale": "Approve the exact package parser bytes collecting bounded direct run and paragraph formatting evidence while rejecting inherited, unsupported, malformed, or tracked formatting; parser grants no writer authority.",
+      "sha256": "0b841ef73ff4e81bb3f94ae7b7c0411f47fba7f4be674806a9e2ec2ac6e797ec",
+      "approvedBy": "owner-direct:TASK_ID:ADMIT-01_ACCOUNTABLE_LANES",
+      "approvedAtUtc": "2026-08-08T11:03:22.818Z",
+      "rationale": "Approve ADMIT-01 V2 comment reason conditioning (success reasons only for admitted threads, typed budget reasons for dropped) and additive laneCompleteness markers on abort and success forms.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ADMIT01_ACCOUNTABLE_LANES"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportRoundStore.mjs",
@@ -9621,12 +9621,21 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "5075333005b68d7aad778263d58aea27393c659eb06ae10436e3f20ad7575067",
-      "approvedBy": "owner-direct:TASK_ID:STOP-01_AUTHORITY_STOP",
-      "approvedAtUtc": "2026-08-08T09:18:57.858Z",
-      "rationale": "Approve additive test:rtk-stop01 lane script for the STOP-01 contract test file; no dependency or runtime change.",
+      "sha256": "bad28da572c5c1f5d3063b92fef7b3bb21d6796197dde429cd58699c80a010a2",
+      "approvedBy": "owner-direct:TASK_ID:ADMIT-01_ACCOUNTABLE_LANES",
+      "approvedAtUtc": "2026-08-08T11:03:22.818Z",
+      "rationale": "Approve additive test:rtk-admit01 lane script for the ADMIT-01 contract test file; no dependency or runtime change.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_STOP01_AUTHORITY_STOP"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ADMIT01_ACCOUNTABLE_LANES"
+    },
+    {
+      "filePath": "test/contracts/rtk-admit01-accountable-lanes.contract.test.js",
+      "sha256": "1678b720667c7563c908489105602588d649613996e70d73c5e8ed6611978943",
+      "approvedBy": "owner-direct:TASK_ID:ADMIT-01_ACCOUNTABLE_LANES",
+      "approvedAtUtc": "2026-08-08T11:03:22.818Z",
+      "rationale": "Approve ADMIT-01 accountable-lanes contract tests (8 scenarios: V1 masked success aborts, V1 comment overflow abort, V2 dropped-comment reason conditioning, lane completeness markers, controls); tests only.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ADMIT01_ACCOUNTABLE_LANES"
     }
   ]
 }

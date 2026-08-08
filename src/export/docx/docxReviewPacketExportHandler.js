@@ -1,5 +1,7 @@
 'use strict';
 
+const crypto = require('crypto');
+
 function isPlainObjectValue(value) {
   return Boolean(value && typeof value === 'object' && !Array.isArray(value));
 }
@@ -63,6 +65,14 @@ async function runDocxReviewPacketExport(payloadRaw, deps = {}) {
   const buildPathBoundaryDetails = typeof deps.buildPathBoundaryDetails === 'function'
     ? deps.buildPathBoundaryDetails
     : (error) => error;
+  // EXPORT-01 (P0-09): post-write activation deps. The authority store is
+  // persisted ONLY after a successful gate + atomic write + EXACT readback. Any
+  // failure before activation leaves zero durable authority. These are optional
+  // so the handler stays usable for callers that carry no authority store.
+  const readWrittenBuffer = typeof deps.readWrittenBuffer === 'function' ? deps.readWrittenBuffer : null;
+  const activateReviewDocxExportAuthority = typeof deps.activateReviewDocxExportAuthority === 'function'
+    ? deps.activateReviewDocxExportAuthority
+    : null;
 
   const payload = normalizeExportPayload(payloadRaw);
   if (!payload) {
@@ -177,6 +187,40 @@ async function runDocxReviewPacketExport(payloadRaw, deps = {}) {
       return writeBufferAtomic(outPath, documentBuffer);
     }, 'export review docx packet');
     updateStatus('Review DOCX экспортирован');
+    // EXPORT-01 (P0-09): ACTIVATION phase. The authority store is persisted ONLY
+    // after the published file is re-read and its sha256 matches the written
+    // buffer byte-for-byte. A gate block, a write failure, or a readback
+    // mismatch all leave ZERO durable authority for this round.
+    const pendingAuthorityStore = isPlainObjectValue(source?.pendingAuthorityStore)
+      ? source.pendingAuthorityStore
+      : null;
+    let activation = null;
+    if (pendingAuthorityStore && activateReviewDocxExportAuthority) {
+      const writtenDigest = crypto.createHash('sha256').update(documentBuffer).digest('hex');
+      let readbackDigest = null;
+      if (readWrittenBuffer) {
+        const readBack = await readWrittenBuffer(outPath);
+        if (Buffer.isBuffer(readBack)) {
+          readbackDigest = crypto.createHash('sha256').update(readBack).digest('hex');
+        }
+      }
+      if (!readbackDigest || readbackDigest !== writtenDigest) {
+        return makeTypedReviewDocxExportError(
+          'E_REVIEW_DOCX_EXPORT_ACTIVATION_READBACK_MISMATCH',
+          'REVIEW_DOCX_EXPORT_ACTIVATION_READBACK_MISMATCH',
+          { outPath, writtenDigest, readbackDigest },
+        );
+      }
+      try {
+        activation = await activateReviewDocxExportAuthority(pendingAuthorityStore);
+      } catch (error) {
+        return makeTypedReviewDocxExportError(
+          'E_REVIEW_DOCX_EXPORT_ACTIVATION_FAILED',
+          'REVIEW_DOCX_EXPORT_ACTIVATION_FAILED',
+          { message: getErrorMessage(error), outPath },
+        );
+      }
+    }
     return {
       ok: true,
       commandId: typeof deps.commandId === 'string' ? deps.commandId : 'cmd.project.review.exportDocxReviewPacket',
@@ -184,6 +228,7 @@ async function runDocxReviewPacketExport(payloadRaw, deps = {}) {
       outPath,
       bytesWritten: documentBuffer.length,
       exportCapsule,
+      activation,
       publicationGate: publicationGate ? {
         ok: publicationGate.ok === true,
         code: typeof publicationGate.code === 'string' ? publicationGate.code : '',

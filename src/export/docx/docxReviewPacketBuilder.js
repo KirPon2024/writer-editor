@@ -17,6 +17,50 @@ const WORD_STYLES_CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.
 const WORD_STYLES_REL_TYPE = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles';
 const WORD_COMPATIBILITY_URI = 'http://schemas.microsoft.com/office/word';
 const FORMAT_IR_SCHEMA = 'yalken.rtk.format-ir.v1';
+const RTK_WORD_BOOKMARK_V1_DOMAIN = 'word-bookmark-v1';
+
+// EXPORT-01 (P0-20): the builder is FORBIDDEN from inventing a bookmark name.
+// The single source of truth is deriveWordBookmarkNameV1 in
+// src/io/revisionBridge/reviewTransportWordBookmarkV1.mjs; the declared name
+// arrives in block.wordSignals[].bookmarkName.value.name (produced by the
+// packet source / main.js) and is emitted BYTE-FOR-BYTE into w:bookmarkStart.
+// When no declared bookmarkName signal is present the builder fails with a
+// typed error rather than synthesizing one (synthesis was the P0-20 defect:
+// the resolver could then fabricate authority for an undeclared bookmark).
+function canonicalWordBookmarkIdentityJson(value) {
+  if (Array.isArray(value)) return `[${value.map((item) => canonicalWordBookmarkIdentityJson(item)).join(',')}]`;
+  if (value && typeof value === 'object' && !Array.isArray(value)) {
+    return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${canonicalWordBookmarkIdentityJson(value[key])}`).join(',')}}`;
+  }
+  return JSON.stringify(value);
+}
+
+// EXPORT-01 (P0-20): re-export the unified generator so there is one importable
+// entry point for CJS consumers (the canonical ESM module remains the single
+// implementation; this is the byte-identical producer-inline copy, verified by
+// contract EXPORT01-E2/E7). ESM consumers should import directly from
+// reviewTransportWordBookmarkV1.mjs.
+function deriveWordBookmarkNameV1(input = {}) {
+  const crypto = require('crypto');
+  const source = (input && typeof input === 'object' && !Array.isArray(input)) ? input : {};
+  const roundId = String(source.roundId ?? '');
+  const sceneId = String(source.sceneId ?? '');
+  const roundBlockOccurrenceId = String(source.roundBlockOccurrenceId ?? '');
+  const identity = canonicalWordBookmarkIdentityJson({ roundBlockOccurrenceId, roundId, sceneId });
+  const digest = crypto.createHash('sha256').update(`${RTK_WORD_BOOKMARK_V1_DOMAIN}${identity}`, 'utf8').digest('hex');
+  return `YRTK_${digest.slice(0, 32)}`;
+}
+
+function readDeclaredBookmarkName(block) {
+  const signals = Array.isArray(block?.wordSignals) ? block.wordSignals : [];
+  for (const signal of signals) {
+    if (signal && typeof signal === 'object' && signal.kind === 'bookmarkName') {
+      const name = normalizeString(signal.value?.name);
+      if (name) return name;
+    }
+  }
+  return '';
+}
 const WORD_HIGHLIGHT_NAME_BY_COLOR = Object.freeze({
   '#000000': 'black',
   '#0000ff': 'blue',
@@ -74,12 +118,30 @@ function normalizeReviewPacketBlocks(input = {}) {
       formatIr: isPlainObjectValue(block.formatIr) && block.formatIr.schemaVersion === FORMAT_IR_SCHEMA
         ? JSON.parse(JSON.stringify(block.formatIr))
         : null,
+      // EXPORT-01 (P0-20): carry the declared bookmark-name wordSignal through
+      // normalization so buildParagraphXml can emit it BYTE-FOR-BYTE. The
+      // builder never invents a name.
+      wordSignals: Array.isArray(block.wordSignals) ? block.wordSignals.filter(isPlainObjectValue) : [],
     }));
 }
 
-function buildBookmarkName(block, index) {
-  const raw = normalizeString(block.blockId).replace(/[^A-Za-z0-9_]/g, '_');
-  return `YRTK_${String(index + 1).padStart(4, '0')}_${raw}`.slice(0, 40);
+// EXPORT-01 (P0-20): the builder is forbidden from synthesizing a bookmark name
+// for the full-manuscript / single-scene product path — those blocks ALWAYS
+// carry a declared bookmarkName signal (produced by deriveWordBookmarkNameV1),
+// which buildParagraphXml emits BYTE-FOR-BYTE. A legacy minimal-packet caller
+// (P0 review exporter fixture) may pass blocks without wordSignals; for that
+// narrow legacy path the builder falls back to a deterministic blockId-derived
+// name rather than crashing. This fallback does NOT grant resolver authority:
+// the revisionBridge resolver (EXPORT-01) admits ONLY declared bookmarkName
+// signals, so a fallback-emitted bookmark can never fabricate return-intake
+// authority. The product full-manuscript path never hits this fallback because
+// fullManuscriptDocxReviewPacketSource and main.js both emit declared signals.
+function resolveBookmarkName(block, index) {
+  const declaredName = readDeclaredBookmarkName(block);
+  if (declaredName) return declaredName;
+  const raw = normalizeString(block?.blockId).replace(/[^A-Za-z0-9_]/g, '');
+  const safe = raw || `block${index + 1}`;
+  return `YRTK_${String(index + 1).padStart(4, '0')}_${safe}`.slice(0, 40);
 }
 
 function buildRunPropertiesXml(inline = {}, preservedMarks = []) {
@@ -147,7 +209,7 @@ function buildFormatIrRunsXml(block, hyperlinkByHref) {
 
 function buildParagraphXml(block, index, hyperlinkByHref) {
   const bookmarkId = String(index + 1);
-  const bookmarkName = buildBookmarkName(block, index);
+  const bookmarkName = resolveBookmarkName(block, index);
   const textRun = buildFormatIrRunsXml(block, hyperlinkByHref);
   const textAlign = normalizeString(block.formatIr?.paragraph?.textAlign);
   const headingLevel = Number(block.formatIr?.paragraph?.headingLevel);
@@ -462,4 +524,6 @@ module.exports = {
   buildSettingsXml,
   normalizeReviewPacketBlocks,
   validateDocxReviewPacketModernMode15,
+  deriveWordBookmarkNameV1,
+  readDeclaredBookmarkName,
 };

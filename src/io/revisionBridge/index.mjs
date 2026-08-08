@@ -157,6 +157,16 @@ import {
   RTK_ZIP_CEILING_DECLARED,
 } from './reviewTransportZipEvidenceV1.mjs';
 
+// EXPORT-01 (P0-20): unified bookmark-name generator — single source of truth.
+// Both the source producer and this resolver MUST derive the same name, so the
+// declared bookmark the resolver admits is byte-identical to the name the
+// builder emitted.
+import {
+  deriveWordBookmarkNameV1,
+} from './reviewTransportWordBookmarkV1.mjs';
+
+export { deriveWordBookmarkNameV1 };
+
 export const REVISION_BRIDGE_P0_PACKET_SCHEMA = 'revision-bridge-p0.packet.v1';
 export const REVISION_BRIDGE_REVISION_SESSION_SCHEMA = 'revision-bridge.revision-session.v1';
 export const REVISION_BRIDGE_COMMENT_THREAD_SCHEMA = 'revision-bridge.comment-thread.v1';
@@ -2696,6 +2706,104 @@ function shouldExtractDocxReviewTransportAnalysisPart(entryId) {
     || lower.endsWith('.rels');
 }
 
+// EXPORT-01 (F-01/P0-01): boundary-aware scene-text projection, shared between
+// the publication gate (src/main.js buildFullManuscriptProvisionalSelfParse)
+// and contract tests so the re-parse recipe is ONE implementation, not a copy.
+// See the long note on visibleSceneTextsFromWordDocumentXml in main.js: a flat
+// paragraph join cannot reproduce scenes.map(s => s.text).join('\n\n') because
+// the DOCX carries no inter-scene boundary marker; grouping paragraphs by their
+// declared bookmark→block→scene reconstructs the ordered scene texts.
+function decodeXmlTextEntities(value) {
+  return normalizeString(value)
+    .replace(/&lt;/gu, '<')
+    .replace(/&gt;/gu, '>')
+    .replace(/&quot;/gu, '"')
+    .replace(/&apos;/gu, "'")
+    .replace(/&amp;/gu, '&');
+}
+
+export function visibleSceneTextsFromWordDocumentXml(documentXml, exportMap) {
+  const xml = normalizeString(documentXml);
+  const scenes = isPlainObject(exportMap) && Array.isArray(exportMap.scenes) ? exportMap.scenes : [];
+  const sceneOrderBySceneId = new Map();
+  const sceneIdByBookmarkName = new Map();
+  const orderedSceneIds = [];
+  for (const scene of scenes) {
+    const sceneId = normalizeString(scene?.sceneId);
+    if (!sceneId || sceneOrderBySceneId.has(sceneId)) continue;
+    sceneOrderBySceneId.set(sceneId, orderedSceneIds.length);
+    orderedSceneIds.push(sceneId);
+    const blocks = Array.isArray(scene?.blocks) ? scene.blocks : [];
+    for (const block of blocks) {
+      const signals = Array.isArray(block?.wordSignals) ? block.wordSignals : [];
+      for (const signal of signals) {
+        if (isPlainObject(signal) && signal.kind === 'bookmarkName') {
+          const name = normalizeString(signal.value?.name).toLowerCase();
+          if (name) sceneIdByBookmarkName.set(name, sceneId);
+        }
+      }
+    }
+  }
+  const paragraphRe = /<w:p\b[\s\S]*?<\/w:p>/gu;
+  const blocksBySceneId = new Map();
+  for (const sceneId of orderedSceneIds) blocksBySceneId.set(sceneId, []);
+  let paragraphMatch = paragraphRe.exec(xml);
+  while (paragraphMatch) {
+    const paragraphXml = paragraphMatch[0];
+    const bookmarkNames = [];
+    const bookmarkRe = /<w:bookmarkStart\b[^>]*\bw:name="([^"]*)"[^>]*\/>/gu;
+    let bookmarkMatch = bookmarkRe.exec(paragraphXml);
+    while (bookmarkMatch) {
+      bookmarkNames.push(normalizeString(bookmarkMatch[1]));
+      bookmarkMatch = bookmarkRe.exec(paragraphXml);
+    }
+    const runs = [];
+    const textRe = /<w:(?:t|delText)\b[^>]*>([\s\S]*?)<\/w:(?:t|delText)>/gu;
+    let textMatch = textRe.exec(paragraphXml);
+    while (textMatch) {
+      runs.push(decodeXmlTextEntities(textMatch[1]));
+      textMatch = textRe.exec(paragraphXml);
+    }
+    const paragraphText = runs.join('');
+    let resolvedSceneId = null;
+    let ambiguous = false;
+    for (const rawName of bookmarkNames) {
+      const sceneId = sceneIdByBookmarkName.get(rawName.toLowerCase());
+      if (!sceneId) continue;
+      if (resolvedSceneId === null) resolvedSceneId = sceneId;
+      else if (resolvedSceneId !== sceneId) ambiguous = true;
+    }
+    if (bookmarkNames.length > 0 && resolvedSceneId === null) {
+      return {
+        ok: false,
+        code: 'RTK_V4_PUBLICATION_GATE_PROVISIONAL_BOOKMARK_UNDECLARED',
+        bookmarkNames,
+      };
+    }
+    if (ambiguous) {
+      return {
+        ok: false,
+        code: 'RTK_V4_PUBLICATION_GATE_PROVISIONAL_BOOKMARK_AMBIGUOUS',
+        bookmarkNames,
+      };
+    }
+    if (resolvedSceneId !== null) {
+      blocksBySceneId.get(resolvedSceneId).push(paragraphText);
+    } else if (orderedSceneIds.length === 1) {
+      blocksBySceneId.get(orderedSceneIds[0]).push(paragraphText);
+    } else {
+      return {
+        ok: false,
+        code: 'RTK_V4_PUBLICATION_GATE_PROVISIONAL_BOOKMARK_UNDECLARED',
+        bookmarkNames,
+      };
+    }
+    paragraphMatch = paragraphRe.exec(xml);
+  }
+  const sceneTexts = orderedSceneIds.map((sceneId) => blocksBySceneId.get(sceneId).join('\n'));
+  return { ok: true, sceneTexts };
+}
+
 export function extractDocxReviewTransportPackagePartsFromZipBytes(input, options = {}) {
   const bytes = docxZipInventoryInputToBytes(
     isPlainObject(input) && input.bytes !== undefined ? input.bytes : input,
@@ -3196,19 +3304,16 @@ function docxReviewPreviewSessionBuildFullManuscriptBlockScopeResolver(exportMap
   const byTextId = new Map();
   const byBookmarkName = new Map();
   const scenes = Array.isArray(exportMap?.scenes) ? exportMap.scenes : [];
-  let globalBlockIndex = 0;
+  // EXPORT-01 (P0-20): no synthesis. The resolver admits ONLY declared signals
+  // (w14ParaIdTextId and bookmarkName wordSignals). A DOCX bookmark that does
+  // not match a DECLARED bookmarkName signal is an unresolved no-match, never a
+  // fabricated resolution from a blockId-derived name.
   for (const scene of scenes) {
     const sceneId = normalizeString(scene?.sceneId);
     if (!sceneId) continue;
     const blocks = Array.isArray(scene?.blocks) ? scene.blocks : [];
     for (const block of blocks) {
       const targetScope = { type: 'scene', id: sceneId };
-      const blockId = normalizeString(block?.blockId);
-      if (blockId) {
-        const rawBookmark = blockId.replace(/[^A-Za-z0-9_]/gu, '_');
-        const builderBookmarkName = `YRTK_${String(globalBlockIndex + 1).padStart(4, '0')}_${rawBookmark}`.slice(0, 40);
-        if (builderBookmarkName) byBookmarkName.set(builderBookmarkName.toLowerCase(), targetScope);
-      }
       const signals = Array.isArray(block?.wordSignals) ? block.wordSignals : [];
       for (const signal of signals) {
         if (!isPlainObject(signal)) continue;
@@ -3222,7 +3327,6 @@ function docxReviewPreviewSessionBuildFullManuscriptBlockScopeResolver(exportMap
           if (name) byBookmarkName.set(name, targetScope);
         }
       }
-      globalBlockIndex += 1;
     }
   }
   return (signal = {}) => {
@@ -3252,13 +3356,20 @@ function docxReviewFormattingBuildFullManuscriptBlockResolver(exportMap = {}) {
     index.set(key, existing);
   };
   const scenes = Array.isArray(exportMap?.scenes) ? exportMap.scenes : [];
-  let globalBlockIndex = 0;
+  // EXPORT-01 (P0-20): no synthesis. documentParagraphIndex is derived from the
+  // export map's declared documentParagraphIndex (or blockOrdinal within a
+  // scene), never from a global counter. The bookmark locator admits ONLY the
+  // declared bookmarkName signal — a blockId-derived name is never indexed.
+  let globalDocumentParagraphIndex = 0;
   for (const [sceneIndex, scene] of scenes.entries()) {
     const sceneId = normalizeString(scene?.sceneId);
     if (!sceneId) continue;
     const blocks = Array.isArray(scene?.blocks) ? scene.blocks : [];
     for (const [blockOrdinal, block] of blocks.entries()) {
       const blockId = normalizeString(block?.blockId);
+      const declaredDocumentParagraphIndex = Number.isSafeInteger(block?.documentParagraphIndex)
+        ? block.documentParagraphIndex
+        : globalDocumentParagraphIndex;
       const authority = {
         sceneId,
         sceneOrdinal: Number.isSafeInteger(scene?.sceneOrdinal) ? scene.sceneOrdinal : sceneIndex,
@@ -3267,20 +3378,13 @@ function docxReviewFormattingBuildFullManuscriptBlockResolver(exportMap = {}) {
         blockId,
         paragraphId: normalizeString(block?.paragraphId),
         paragraphOrdinal: blockOrdinal,
-        documentParagraphIndex: Number.isSafeInteger(block?.documentParagraphIndex)
-          ? block.documentParagraphIndex
-          : globalBlockIndex,
+        documentParagraphIndex: declaredDocumentParagraphIndex,
         canonicalTextSha256: normalizeString(block?.canonicalTextSha256).toLowerCase(),
         canonicalMarksSha256: normalizeString(block?.canonicalMarksSha256).toLowerCase(),
         formatIr: isPlainObject(block?.formatIr) ? cloneJsonSafe(block.formatIr) : null,
         targetScope: { type: 'scene', id: sceneId },
       };
       addLocator(byDocumentParagraphIndex, authority.documentParagraphIndex, authority);
-      if (blockId) {
-        const rawBookmark = blockId.replace(/[^A-Za-z0-9_]/gu, '_');
-        const builderBookmarkName = `YRTK_${String(globalBlockIndex + 1).padStart(4, '0')}_${rawBookmark}`.slice(0, 40);
-        addLocator(byBookmarkName, builderBookmarkName.toLowerCase(), authority);
-      }
       const signals = Array.isArray(block?.wordSignals) ? block.wordSignals : [];
       for (const signal of signals) {
         if (!isPlainObject(signal)) continue;
@@ -3294,7 +3398,7 @@ function docxReviewFormattingBuildFullManuscriptBlockResolver(exportMap = {}) {
           addLocator(byBookmarkName, name, authority);
         }
       }
-      globalBlockIndex += 1;
+      globalDocumentParagraphIndex += 1;
     }
   }
   return (signal = {}) => {

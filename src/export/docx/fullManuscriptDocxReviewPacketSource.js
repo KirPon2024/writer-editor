@@ -14,6 +14,33 @@ const FORMAT_IR_BOOLEAN_MARKS = new Set(['bold', 'italic', 'underline', 'strike'
 const FORMAT_IR_TEXT_STYLE_KEYS = new Set(['color', 'fontFamily', 'fontSize']);
 const FORMAT_IR_TEXT_ALIGNMENTS = new Set(['left', 'center', 'right', 'justify']);
 
+// EXPORT-01 (P0-20): unified bookmark-name generator. The single source of
+// truth is src/io/revisionBridge/reviewTransportWordBookmarkV1.mjs
+// (deriveWordBookmarkNameV1). This CJS module cannot synchronously import an
+// ESM module, so when deps.deriveWordBookmarkNameV1 is supplied (main.js wires
+// the real revisionBridge generator) it is used; otherwise this inline copy of
+// the IDENTICAL formula runs. This is the same producer-inline + shared-builder
+// pattern CANON-01 already uses for buildFullManuscriptHashTree. Contract
+// EXPORT01-E2 asserts declared == emitted == resolved byte-for-byte, so any drift
+// between this fallback and reviewTransportWordBookmarkV1.mjs is caught.
+const RTK_WORD_BOOKMARK_V1_DOMAIN = 'word-bookmark-v1';
+function canonicalWordBookmarkIdentityJson(value) {
+  if (Array.isArray(value)) return `[${value.map((item) => canonicalWordBookmarkIdentityJson(item)).join(',')}]`;
+  if (value && typeof value === 'object' && !Array.isArray(value)) {
+    return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${canonicalWordBookmarkIdentityJson(value[key])}`).join(',')}}`;
+  }
+  return JSON.stringify(value);
+}
+function deriveWordBookmarkNameV1Fallback(input = {}) {
+  const source = (input && typeof input === 'object' && !Array.isArray(input)) ? input : {};
+  const roundId = String(source.roundId ?? '');
+  const sceneId = String(source.sceneId ?? '');
+  const roundBlockOccurrenceId = String(source.roundBlockOccurrenceId ?? '');
+  const identity = canonicalWordBookmarkIdentityJson({ roundBlockOccurrenceId, roundId, sceneId });
+  const digest = crypto.createHash('sha256').update(`${RTK_WORD_BOOKMARK_V1_DOMAIN}${identity}`, 'utf8').digest('hex');
+  return `YRTK_${digest.slice(0, 32)}`;
+}
+
 function isPlainObjectValue(value) {
   return Boolean(value && typeof value === 'object' && !Array.isArray(value));
 }
@@ -442,7 +469,11 @@ function normalizeFullManuscriptScenes(input = {}) {
   };
 }
 
-function buildFullManuscriptBlocks(scenes, cryptoPort = createDefaultCryptoPort()) {
+function buildFullManuscriptBlocks(scenes, cryptoPort = createDefaultCryptoPort(), options = {}) {
+  const roundId = typeof options.roundId === 'string' ? options.roundId : '';
+  const deriveWordBookmarkNameV1 = typeof options.deriveWordBookmarkNameV1 === 'function'
+    ? options.deriveWordBookmarkNameV1
+    : deriveWordBookmarkNameV1Fallback;
   const blocks = [];
   for (const scene of scenes) {
     const paragraphs = buildFormatIrParagraphs(scene);
@@ -476,7 +507,7 @@ function buildFullManuscriptBlocks(scenes, cryptoPort = createDefaultCryptoPort(
           },
           {
             kind: 'bookmarkName',
-            value: { name: `YRTK_${String(scene.sceneOrdinal + 1).padStart(2, '0')}_${String(index + 1).padStart(4, '0')}_${seedHash.slice(0, 8)}` },
+            value: { name: deriveWordBookmarkNameV1({ roundId, sceneId: scene.sceneId, roundBlockOccurrenceId: index }) },
             applyAuthority: false,
           },
         ],
@@ -733,7 +764,12 @@ function buildFullManuscriptDocxReviewPacketSource(input = {}, deps = {}) {
   const exportId = `export-${roundIdHex}`;
   const exportArtifactId = `export-artifact-${roundIdHex}`;
   const semanticReturnId = `semantic-return-${roundIdHex}`;
-  const blocks = buildFullManuscriptBlocks(scenes, cryptoPort);
+  const blocks = buildFullManuscriptBlocks(scenes, cryptoPort, {
+    roundId,
+    deriveWordBookmarkNameV1: typeof deps.deriveWordBookmarkNameV1 === 'function'
+      ? deps.deriveWordBookmarkNameV1
+      : undefined,
+  });
   const sceneSnapshots = scenes.map((scene) => ({
     sceneId: scene.sceneId,
     sceneOrdinal: scene.sceneOrdinal,

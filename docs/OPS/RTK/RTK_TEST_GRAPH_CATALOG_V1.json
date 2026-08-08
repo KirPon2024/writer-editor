@@ -12,6 +12,7 @@
     "Google Docs remains report-only blocked until Word safety remediation C1-C5 and independent audit complete."
   ],
   "contractBasenames": [
+    "rtk-admit01-accountable-lanes.contract.test.js",
     "rtk-g0a-assurance.contract.test.js",
     "rtk-g0b-feasibility.contract.test.js",
     "rtk-g0c-exact-safety.contract.test.js",

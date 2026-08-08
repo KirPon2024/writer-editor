@@ -321,20 +321,23 @@ function zipFixture(entries) {
   return Buffer.concat([Buffer.concat(locals.map((entry) => entry.bytes)), central, end]);
 }
 
-function documentXml(body) {
-  return `<w:document><w:body>${body}</w:body></w:document>`;
+const W_NS = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main';
+const W14_NS = 'http://schemas.microsoft.com/office/word/2010/wordml';
+
+function documentXml(body, extraNamespaces = '') {
+  return `<w:document xmlns:w="${W_NS}"${extraNamespaces}><w:body>${body}</w:body></w:document>`;
 }
 
 function paragraphXml(text) {
   return `<w:p><w:r><w:t>${text}</w:t></w:r></w:p>`;
 }
 
-function cleanDocxZip(body = '<w:p/>', extraEntries = []) {
+function cleanDocxZip(body = '<w:p/>', extraEntries = [], options = {}) {
   return zipFixture([
     {
       name: 'word/document.xml',
       method: 8,
-      body: documentXml(body),
+      body: documentXml(body, options.extraNamespaces),
     },
     ...extraEntries,
   ]);
@@ -354,7 +357,7 @@ function docxWithAnchoredComment(extraBody = '', extraEntries = []) {
       name: 'word/comments.xml',
       method: 8,
       body: [
-        '<w:comments>',
+        `<w:comments xmlns:w="${W_NS}">`,
         '<w:comment w:id="0" w:author="reviewer" w:date="2026-04-24T08:00:00.000Z">',
         '<w:p><w:r><w:t>Resolve this comment.</w:t></w:r></w:p>',
         '</w:comment>',
@@ -365,13 +368,13 @@ function docxWithAnchoredComment(extraBody = '', extraEntries = []) {
   ]);
 }
 
-function docxWithCommentAndBody(body, commentBody = 'Resolve this comment.', extraEntries = []) {
+function docxWithCommentAndBody(body, commentBody = 'Resolve this comment.', extraEntries = [], options = {}) {
   return cleanDocxZip(body, [
     {
       name: 'word/comments.xml',
       method: 8,
       body: [
-        '<w:comments>',
+        `<w:comments xmlns:w="${W_NS}">`,
         '<w:comment w:id="0" w:author="reviewer">',
         `<w:p><w:r><w:t>${commentBody}</w:t></w:r></w:p>`,
         '</w:comment>',
@@ -379,7 +382,7 @@ function docxWithCommentAndBody(body, commentBody = 'Resolve this comment.', ext
       ].join(''),
     },
     ...extraEntries,
-  ]);
+  ], options);
 }
 
 function toPayload(bytes, overrides = {}) {
@@ -1694,7 +1697,7 @@ test('DOCX review preview session command: full-manuscript active authority stor
         { name: 'YRTK_CORE_DIGEST', value: payload.coreManifestDigest },
       ]),
     },
-  ]);
+  ], { extraNamespaces: ` xmlns:w14="${W14_NS}"` });
   const localAuthority = {
     schemaVersion: 'yalken.rtk.word.product-review-docx-export.local-authority.v1',
     projectRoot: tmpDir,
@@ -1845,7 +1848,7 @@ test('DOCX review preview session command: explicit full-manuscript comment appl
         { name: 'YRTK_CORE_DIGEST', value: coreManifestDigest },
       ]),
     },
-  ]);
+  ], { extraNamespaces: ` xmlns:w14="${W14_NS}"` });
   const localAuthority = {
     schemaVersion: 'yalken.rtk.word.product-review-docx-export.local-authority.v1',
     projectRoot: tmpDir,

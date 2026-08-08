@@ -7611,10 +7611,12 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-review-local-file-entry-command-surface.contract.test.js",
-      "sha256": "e317ccd227f61f5e6a92f3640a4a4e67ab33f144863df40242f48f4a73bc1a0a",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:31:32.031Z",
-      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 scope: product Review DOCX returned package is parsed through the Review Transport parser gate with local authority binding before session import or storage authority; preserves Word SATURATED false, automatic apply false, Google Docs closed, no product network dependency, no user document use, and no broad corpus or release-ready claim."
+      "sha256": "77a39218126ee96bb586ca73e4a29471271a3ca4d5be07afc103cbfb13761e7b",
+      "approvedBy": "owner-direct:TASK_ID:PARSER-01-HOTFIX-001",
+      "approvedAtUtc": "2026-08-08T22:00:35.586Z",
+      "rationale": "Approve PARSER-01-HOTFIX-001 harness repair: real activation digest guard instance in sandbox, inline intake parser wrapper for tests, real CRC32 in fixture headers, and xmlns:w fixture declarations; no assertion weakened.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PARSER01_HOTFIX_001"
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-review-preflight-command-surface.contract.test.js",
@@ -7632,12 +7634,12 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
-      "sha256": "7bb52e538bf9f9cf0429586d7e8fba84eebc5fed81c22437a6181719288b641b",
-      "approvedBy": "owner-direct:TASK_ID:ZIP-01_BUDGET_CRC_EVIDENCE",
-      "approvedAtUtc": "2026-08-08T14:15:51.524Z",
-      "rationale": "Approve ZIP-01 fixture repair writing real CRC32 into local and central headers of the preview-session command-surface DOCX fixtures; no assertion weakened; tests only.",
+      "sha256": "ec0859123ba2fecf72e362031702e3d2773531df27ad431aa1fd7e5fedf35341",
+      "approvedBy": "owner-direct:TASK_ID:PARSER-01-HOTFIX-001",
+      "approvedAtUtc": "2026-08-08T22:00:35.586Z",
+      "rationale": "Approve PARSER-01-HOTFIX-001 namespace-validity fixture repair: xmlns:w and optional xmlns:w14 declarations on emitted fixture parts; no assertion weakened.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ZIP01_BUDGET_CRC_EVIDENCE"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PARSER01_HOTFIX_001"
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-review-preview-session.contract.test.js",

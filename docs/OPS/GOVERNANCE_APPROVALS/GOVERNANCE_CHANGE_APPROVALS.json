@@ -6861,12 +6861,12 @@
     },
     {
       "filePath": "test/contracts/agent-architecture-guardrails.contract.test.js",
-      "sha256": "0e33ca7ae5af774de71dbecdc5bbcedcaa38b630e9ad6347a06a3888ec881ee0",
-      "approvedBy": "owner-direct:TASK_ID:YALKEN_REPOSITORY_NATIVE_AGENT_GUARDRAIL_SYSTEM_V1",
-      "approvedAtUtc": "2026-08-04T09:40:50.000Z",
-      "rationale": "Owner-directed repository-native agent guardrail contract: positive exact-head bootstrap and complete declaration checks plus negative missing-authority, wrong-type, stale-base, UI-router and incomplete-delivery cases; docs and process only, no product runtime, UI, dependency, network or capability claim change.",
+      "sha256": "fb4e51549550e7a2ffbf8ee339b4b22b5300bebffa7c6a81ee049af6c14df549",
+      "approvedBy": "owner-direct:TASK_ID:YALKEN_AGENT_MAP_MOVE_PROVE_PROTOCOL_V1",
+      "approvedAtUtc": "2026-08-08T14:24:40.000Z",
+      "rationale": "Owner-directed MAP MOVE PROVE agent protocol contract: bind the complete bounded protocol section by exact UTF-8 digest, prove full entrypoint acceptance, reject every stripped marker, and reject a decoy-marker shell through the real repository validator; governance and agent documentation only, with no product runtime, import-export, Word, Google, UI, dependency, network, or capability change.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_BUILD_REPOSITORY_NATIVE_AGENT_CONTEXT_AND_GUARDRAILS"
+      "authority": "DIRECT_OWNER_REQUEST_ADD_MAP_MOVE_PROVE_AGENT_PROTOCOL"
     },
     {
       "filePath": "test/contracts/agent-bootstrap-spec.contract.test.js",

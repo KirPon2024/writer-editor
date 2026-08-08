@@ -7,6 +7,26 @@ export const ARCHITECTURE_MANIFEST_PATH = 'docs/architecture/AGENT_ARCHITECTURE_
 export const BOOTSTRAP_STATUS_PATH = 'docs/OPERATIONS/STATUS/AGENT_BOOTSTRAP_STATUS.json';
 export const AUTOMATION_POLICY_PATH = 'docs/OPERATIONS/STATUS/CODEX_AUTOMATION_POLICY.json';
 export const CURRENT_COREX_PATH = 'docs/corex/COREX.v2.md';
+export const MAP_MOVE_PROVE_PROTOCOL_BEGIN = '<!-- MAP_MOVE_PROVE_PROTOCOL_V1:BEGIN -->';
+export const MAP_MOVE_PROVE_PROTOCOL_END = '<!-- MAP_MOVE_PROVE_PROTOCOL_V1:END -->';
+export const MAP_MOVE_PROVE_PROTOCOL_SHA256 = '325de78de70d3f175fb924edfd226995d807d1f6b72360c54c17b458bef9b4ec';
+export const AGENT_ENTRYPOINT_REQUIRED_TOKENS = Object.freeze([
+  'npm run agent:bootstrap',
+  'Product Core',
+  'Command Kernel',
+  'Design OS',
+  'AUTHORING_WORKING_STATE',
+  'npm run agent:preflight',
+  'npm run agent:guardrails',
+  'MAP_MOVE_PROVE_PROTOCOL_V1',
+  MAP_MOVE_PROVE_PROTOCOL_BEGIN,
+  MAP_MOVE_PROVE_PROTOCOL_END,
+  'MAP → MOVE → PROVE',
+  'EVIDENCE_NEVER_CREATES_AUTHORITY',
+  'MUTATION_ALLOWED =',
+  'CLAIM_STRENGTH = min(',
+  'DONE =',
+]);
 
 const TASK_TYPES = new Set([
   'REPORT_ONLY',
@@ -132,11 +152,99 @@ function requireTokens(repoRoot, relativePath, tokens, errors) {
     return;
   }
   const text = fs.readFileSync(fullPath, 'utf8');
-  for (const token of tokens) {
-    if (!text.includes(token)) {
-      errors.push(fail('E_AGENT_DOCUMENT_DRIFT', `${relativePath} missing ${token}`, { path: relativePath }));
-    }
+  for (const token of findMissingRequiredTokens(text, tokens)) {
+    errors.push(fail('E_AGENT_DOCUMENT_DRIFT', `${relativePath} missing ${token}`, { path: relativePath }));
   }
+}
+
+export function findMissingRequiredTokens(text, tokens = AGENT_ENTRYPOINT_REQUIRED_TOKENS) {
+  const source = typeof text === 'string' ? text : '';
+  return tokens.filter((token) => !source.includes(token));
+}
+
+function markerIndexes(source, marker) {
+  const indexes = [];
+  let cursor = 0;
+  while (cursor <= source.length) {
+    const index = source.indexOf(marker, cursor);
+    if (index === -1) break;
+    indexes.push(index);
+    cursor = index + marker.length;
+  }
+  return indexes;
+}
+
+export function extractSingleBoundedSection(
+  text,
+  beginMarker = MAP_MOVE_PROVE_PROTOCOL_BEGIN,
+  endMarker = MAP_MOVE_PROVE_PROTOCOL_END,
+) {
+  const source = typeof text === 'string' ? text : '';
+  const beginIndexes = markerIndexes(source, beginMarker);
+  const endIndexes = markerIndexes(source, endMarker);
+  if (beginIndexes.length !== 1 || endIndexes.length !== 1) {
+    return {
+      ok: false,
+      text: '',
+      failDetail: `BOUNDARY_COUNT_BEGIN_${beginIndexes.length}_END_${endIndexes.length}`,
+    };
+  }
+  const beginIndex = beginIndexes[0];
+  const endIndex = endIndexes[0];
+  if (endIndex <= beginIndex) {
+    return {
+      ok: false,
+      text: '',
+      failDetail: 'BOUNDARY_ORDER_INVALID',
+    };
+  }
+  return {
+    ok: true,
+    text: source.slice(beginIndex, endIndex + endMarker.length),
+    failDetail: '',
+  };
+}
+
+export function validateAgentEntrypointText(text, relativePath = 'AGENTS.md') {
+  const errors = [];
+  for (const token of findMissingRequiredTokens(text)) {
+    errors.push(fail('E_AGENT_DOCUMENT_DRIFT', `${relativePath} missing ${token}`, { path: relativePath }));
+  }
+
+  const section = extractSingleBoundedSection(text);
+  if (!section.ok) {
+    errors.push(fail(
+      'E_AGENT_DOCUMENT_DRIFT',
+      `${relativePath} MAP MOVE PROVE boundary invalid: ${section.failDetail}`,
+      { path: relativePath },
+    ));
+    return { ok: false, errors, protocolSha256: '' };
+  }
+
+  const protocolSha256 = crypto.createHash('sha256').update(section.text, 'utf8').digest('hex');
+  if (protocolSha256 !== MAP_MOVE_PROVE_PROTOCOL_SHA256) {
+    errors.push(fail(
+      'E_AGENT_DOCUMENT_DRIFT',
+      `${relativePath} MAP MOVE PROVE digest mismatch`,
+      {
+        path: relativePath,
+        expected: MAP_MOVE_PROVE_PROTOCOL_SHA256,
+        actual: protocolSha256,
+      },
+    ));
+  }
+  return { ok: errors.length === 0, errors, protocolSha256 };
+}
+
+function requireAgentEntrypoint(repoRoot, errors) {
+  const relativePath = 'AGENTS.md';
+  const fullPath = path.join(repoRoot, relativePath);
+  if (!fs.existsSync(fullPath)) {
+    errors.push(fail('E_AGENT_ENTRYPOINT_MISSING', `Missing required entrypoint ${relativePath}`, { path: relativePath }));
+    return;
+  }
+  const result = validateAgentEntrypointText(fs.readFileSync(fullPath, 'utf8'), relativePath);
+  errors.push(...result.errors);
 }
 
 export function validateRepositoryGuardrails(options = {}) {
@@ -222,15 +330,7 @@ export function validateRepositoryGuardrails(options = {}) {
   ensureUniqueStrings(manifest.requiredTaskDeclarationFields, 'requiredTaskDeclarationFields', errors);
   ensureUniqueStrings(manifest.requiredFinalReportFields, 'requiredFinalReportFields', errors);
 
-  requireTokens(repoRoot, 'AGENTS.md', [
-    'npm run agent:bootstrap',
-    'Product Core',
-    'Command Kernel',
-    'Design OS',
-    'AUTHORING_WORKING_STATE',
-    'npm run agent:preflight',
-    'npm run agent:guardrails',
-  ], errors);
+  requireAgentEntrypoint(repoRoot, errors);
   requireTokens(repoRoot, 'CANON.md', [CURRENT_COREX_PATH, 'AGENT_START_PROTOCOL.md'], errors);
   requireTokens(repoRoot, 'README.md', ['AGENT_START_PROTOCOL.md', CURRENT_COREX_PATH], errors);
   requireTokens(repoRoot, 'docs/AGENT_START_PROMPT.md', [

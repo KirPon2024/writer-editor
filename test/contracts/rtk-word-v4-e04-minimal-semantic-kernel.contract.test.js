@@ -97,7 +97,10 @@ test('V4 E04 certifies minimal tracked text semantics only with YRTK2 and all gu
 
   assert.equal(result.ok, true);
   assert.equal(result.status, 'semantic-kernel-ready');
-  assert.equal(result.exactSemanticReady, true);
+  // E04 is analysis-only: it never restates caller booleans as a write-ready
+  // exactSemanticReady flag. The field must be absent and analysisOnly declared.
+  assert.equal(result.exactSemanticReady, undefined);
+  assert.equal(result.analysisOnly, true);
   assert.equal(result.canApply, false);
   assert.equal(result.canWriteManuscript, false);
   assert.equal(result.summary.supportedTextRevisions, 2);
@@ -115,7 +118,8 @@ test('V4 E04 comments remain shadow-supported when text is manual or blocked', a
   }, { cryptoPort });
 
   assert.equal(result.status, 'semantic-kernel-manual-or-blocked');
-  assert.equal(result.exactSemanticReady, false);
+  assert.equal(result.exactSemanticReady, undefined);
+  assert.equal(result.analysisOnly, true);
   assert.equal(result.semantics.comments[0].semanticSupport, 'COMMENT_SHADOW_SUPPORTED');
   assert.equal(result.semantics.comments[0].reviewSessionMutationAllowed, false);
   assert.equal(result.reasons.some((item) => item.code === 'RTK_V4_KERNEL_AMBIGUOUS_OR_OVERLAPPING_TEXT'), true);
@@ -133,7 +137,11 @@ test('V4 E04 blocks moves structure and opaque unsupported from exact semantics'
     yrtk2Verification: yrtk2(),
   }, { cryptoPort });
 
-  assert.equal(result.exactSemanticReady, false);
+  // analysis-only: the kernel never emits exactSemanticReady, even when the
+  // analysis classification is manual-or-blocked due to moves/structure/opaque.
+  assert.equal(result.exactSemanticReady, undefined);
+  assert.equal(result.analysisOnly, true);
+  assert.equal(result.status, 'semantic-kernel-manual-or-blocked');
   assert.equal(result.summary.blockedMoves, 1);
   assert.equal(result.summary.manualStructure, 1);
   assert.equal(result.summary.opaqueUnsupported, 1);
@@ -156,7 +164,10 @@ test('V4 E04 rejects invalid parser result missing YRTK2 stale baseline and miss
     yrtk2Verification: yrtk2(),
   }, {});
 
-  assert.equal(blocked.exactSemanticReady, false);
+  // analysis-only contract: blocked analysis never restates as write authority.
+  assert.equal(blocked.exactSemanticReady, undefined);
+  assert.equal(blocked.analysisOnly, true);
+  assert.equal(blocked.status, 'semantic-kernel-manual-or-blocked');
   assert.equal(blocked.reasons.some((item) => item.code === 'RTK_V4_KERNEL_PACKAGE_REJECT'), true);
   assert.equal(blocked.reasons.some((item) => item.code === 'RTK_V4_KERNEL_YRTK2_REQUIRED'), true);
   assert.equal(blocked.reasons.some((item) => item.code === 'RTK_V4_KERNEL_STALE_SCENE_REVISION'), true);

@@ -13,6 +13,7 @@ const SINGLE_SCENE_TRACKED_REPLACEMENT_COMMAND_ID =
 const ROOT_COMMENT_RETURN_COMMAND_ID = 'cmd.rtk.review.applyRootCommentReturn';
 const COMMENT_LIFECYCLE_RETURN_COMMAND_ID = 'cmd.rtk.review.applyCommentLifecycleReturn';
 const SIGNED_SHA256_RE = /^sha256:[a-f0-9]{64}$/u;
+const FULL_MANUSCRIPT_APPLY_ELIGIBLE_LIFECYCLE = 'RETURN_ANALYZED';
 
 function isPlainObjectValue(value) {
   return Boolean(value && typeof value === 'object' && !Array.isArray(value));
@@ -303,6 +304,7 @@ function buildSceneCommand({
   projectRoot,
   verifiedAuthority,
   returnIntakeProof,
+  returnLifecycleState,
 }) {
   const rangeByOperationId = new Map(verifiedAuthority.ranges.map((range) => [range.operationId, range]));
   const reviewItems = operations.map((operation) => ({
@@ -352,7 +354,7 @@ function buildSceneCommand({
       roundId,
       requestId: `request:${roundId}:${sceneId}`,
       exportIdentity: exportId,
-      returnLifecycleState: 'RETURN_ANALYZED',
+      returnLifecycleState: normalizeString(returnLifecycleState) || FULL_MANUSCRIPT_APPLY_ELIGIBLE_LIFECYCLE,
       returnArtifactSha256: returnIntakeProof.returnedArtifactSha256,
       manifestDigest: returnIntakeProof.coreManifestDigest,
       analysisDigest: returnIntakeProof.analysisDigest,
@@ -445,6 +447,17 @@ function buildFullManuscriptReviewReturnApplyPlan(input = {}) {
   const validation = validateFullManuscriptAuthorityReturn(returnedAuthority, localAuthorityCapsule);
   if (!validation.ok) {
     return makeBlocked(validation.code || 'FULL_MANUSCRIPT_RETURN_AUTHORITY_INVALID');
+  }
+  // Lifecycle honesty: when the real round lifecycle is present on the returned
+  // authority, the apply plan must refuse any state other than RETURN_ANALYZED
+  // before producing scene commands that would hardcode RETURN_ANALYZED. An
+  // empty/unavailable lifecycle (legacy callers that do not thread it yet) does
+  // not fail closed here — the apply dispatch re-derives lifecycle at runtime
+  // through the command envelope eligibility gate, and preview-only paths never
+  // authorize a write. Only an explicit non-eligible state blocks the plan.
+  const roundLifecycleState = normalizeString(returnedAuthority.lifecycleState);
+  if (roundLifecycleState && roundLifecycleState !== FULL_MANUSCRIPT_APPLY_ELIGIBLE_LIFECYCLE) {
+    return makeBlocked('FULL_MANUSCRIPT_ROUND_LIFECYCLE_NOT_ELIGIBLE', { lifecycleState: roundLifecycleState });
   }
   const expected = localAuthorityCapsule.expectedAuthority || {};
   const orderedSceneIds = list(expected.orderedSceneIds);
@@ -551,6 +564,7 @@ function buildFullManuscriptReviewReturnApplyPlan(input = {}) {
       projectRoot: normalizeString(localAuthorityCapsule.projectRoot),
       verifiedAuthority,
       returnIntakeProof,
+      returnLifecycleState: roundLifecycleState,
     }));
   }
   return {

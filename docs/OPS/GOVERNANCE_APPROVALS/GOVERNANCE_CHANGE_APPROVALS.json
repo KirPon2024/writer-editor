@@ -2670,12 +2670,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "65c5c07cdbca48df55581afc9d8986a8b80b609523664887f6c2bee090d07056",
-      "approvedBy": "owner-direct:TASK_ID:CERT-01_RUNNER_V2_EVIDENCE_INFRA",
-      "approvedAtUtc": "2026-08-08T00:13:05.908Z",
-      "rationale": "Approve additive RTK graph catalog bytes adding the two CERT-01 Runner V2 contract test files (rtk-runner-v2-cert01 and rtk-runner-v2-cert01-crash-resume); no existing catalog entry removed or reordered; supersedes the previous catalog byte approval which is retained in git history; test/ops governance only, no product runtime, UI, dependency, network or capability claim.",
+      "sha256": "6ee525a2308b3f19f135c2e7dc5ced10ed2568efb2e4f65dba88f693b0688656",
+      "approvedBy": "owner-direct:TASK_ID:STOP-01_AUTHORITY_STOP",
+      "approvedAtUtc": "2026-08-08T09:18:02.277Z",
+      "rationale": "Approve additive RTK graph catalog bytes adding the STOP-01 authority-stop contract test file (rtk-stop01-authority-stop); no existing entry removed; supersedes the CERT-01-era catalog byte approval retained in git history; no product runtime change.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_CERT01_RUNNER_V2"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_STOP01_AUTHORITY_STOP"
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
@@ -6567,21 +6567,21 @@
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportApplyCore.mjs",
-      "sha256": "4d15cefd27f6c38419678e6dc22e6617dc41320f4f81e2d1ec591e32a4273295",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T17:20:00.000Z",
-      "rationale": "Approve bounded Word safety remediation C1 current bytes: Google remains report-only blocked until C1-C5 pass, Word acceptance is revoked by source-bound evidence, exact apply uses durable request/effect reservation, keyed replay, immutable outcome/recovery and fail-closed scan overflow; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "sha256": "0e9814b8baa44d0756939fda3bbd1c7b2bb19d39c1dd29df93b1d7badc0f8591",
+      "approvedBy": "owner-direct:TASK_ID:STOP-01_AUTHORITY_STOP",
+      "approvedAtUtc": "2026-08-08T09:18:57.858Z",
+      "rationale": "Approve STOP-01 lifecycle admission switch to the apply-eligible state set with typed RTK_APPLY_STATE_NOT_ELIGIBLE; QUARANTINED and TERMINAL no longer reach the writer.",
       "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_STOP01_AUTHORITY_STOP"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportApplyStore.mjs",
-      "sha256": "5335800f50d78007da73a2a8caff12d51172fcc3014000ba285ecc4de4f57006",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T17:20:00.000Z",
-      "rationale": "Approve bounded Word safety remediation C1 current bytes: Google remains report-only blocked until C1-C5 pass, Word acceptance is revoked by source-bound evidence, exact apply uses durable request/effect reservation, keyed replay, immutable outcome/recovery and fail-closed scan overflow; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "sha256": "da803df58b4b61d5747006244439b4da501963bd83733c98ab405736f3130935",
+      "approvedBy": "owner-direct:TASK_ID:STOP-01_AUTHORITY_STOP",
+      "approvedAtUtc": "2026-08-08T09:18:57.858Z",
+      "rationale": "Approve STOP-01 full outcome binding on replay reads (request and effect identity, APPLIED_ONCE status, outcomeDigest recompute, canonical receipt schema) with typed RTK_APPLY_OUTCOME_BINDING_INVALID.",
       "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_STOP01_AUTHORITY_STOP"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportBlockExactAuthorityV2.mjs",
@@ -6629,21 +6629,21 @@
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportCore.mjs",
-      "sha256": "b5da9b4c8708f43cb91783ba446c5733d145ed88cac186a38eef3578a470efb8",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T17:20:00.000Z",
-      "rationale": "Approve bounded Word safety remediation C1 current bytes: Google remains report-only blocked until C1-C5 pass, Word acceptance is revoked by source-bound evidence, exact apply uses durable request/effect reservation, keyed replay, immutable outcome/recovery and fail-closed scan overflow; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "sha256": "4c265acb5582fdd72f877176245fae4b7a3e7a33c6a69242689d59e6b4f28927",
+      "approvedBy": "owner-direct:TASK_ID:STOP-01_AUTHORITY_STOP",
+      "approvedAtUtc": "2026-08-08T09:18:57.858Z",
+      "rationale": "Approve STOP-01 addition of RTK_APPLY_ELIGIBLE_LIFECYCLE_STATES and two typed reason codes; RTK_TERMINAL_LIFECYCLE_STATES preserved for cold-archive consumers.",
       "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_STOP01_AUTHORITY_STOP"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportExactApply.mjs",
-      "sha256": "67fb8c269adb3240f2f1d9a5c26950b398ecf94e567e44cf1159f11af60aa3bc",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T17:20:00.000Z",
-      "rationale": "Approve bounded Word safety remediation C1 current bytes: Google remains report-only blocked until C1-C5 pass, Word acceptance is revoked by source-bound evidence, exact apply uses durable request/effect reservation, keyed replay, immutable outcome/recovery and fail-closed scan overflow; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "sha256": "d195c87fe54d3e97b9be34d525e3e435b7996f0ab52a334fde82c1de0c418a53",
+      "approvedBy": "owner-direct:TASK_ID:STOP-01_AUTHORITY_STOP",
+      "approvedAtUtc": "2026-08-08T09:18:57.858Z",
+      "rationale": "Approve STOP-01 typed error-code propagation from replay outcome lookup catches so binding rejections surface their typed code.",
       "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_STOP01_AUTHORITY_STOP"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportExactApplyAdapterV2.mjs",
@@ -6732,17 +6732,21 @@
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportSourceMapUniqueDiffV4.mjs",
-      "sha256": "7fb508b75452ea85c5f88f98848bd56c05c6aa2c3a4499e56b7a660fff7e90b7",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E05_SOURCEMAP_UNIQUEDIFF",
-      "approvedAtUtc": "2026-07-31T05:10:00.000Z",
-      "rationale": "Approve V4 E05 platform-neutral SourceMap UniqueDiff core: validates canonical SourceMap digest, word segment uniqueness, block identity, expected block and slice hashes, non-overlapping bijective footprints, B/O/C/G projections, accepted/untracked single-hunk text effects, pending G revision effects through SourceMap and Minimal Semantic Kernel support, and adds no Node/Electron/filesystem/renderer/network, writer, UI, dependency, or automatic apply authority."
+      "sha256": "50867e79a1e621df9f74859014fa92a0a13ce95b5af6a3bd21285b69476ff999",
+      "approvedBy": "owner-direct:TASK_ID:STOP-01_AUTHORITY_STOP",
+      "approvedAtUtc": "2026-08-08T09:18:57.858Z",
+      "rationale": "Approve STOP-01 E05 analysis-only contract: kernel analysisOnly gate, exactEffectReady permanently false; no runtime route change.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_STOP01_AUTHORITY_STOP"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportWordSemanticKernelV4.mjs",
-      "sha256": "2e453028e206fdea76bd38b27773a3a3493836211ae7185585b76d28f8896f9f",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E04_MINIMAL_SEMANTIC_KERNEL",
-      "approvedAtUtc": "2026-07-31T05:18:00.000Z",
-      "rationale": "Approve V4 E04 platform-neutral Minimal Word Semantic Kernel: consumes ReviewIR/YRTK2/authority guards, emits typed semantic lanes and diagnostics, keeps comments as shadow analysis, blocks parser reject, missing YRTK2, stale guards, moves, structure, and opaque unsupported from exact semantics, imports no Node/Electron/filesystem/renderer/network, and adds no writer, UI, dependency, or automatic apply authority."
+      "sha256": "13d03cd09ab78bc18a24ab682e55033cea7d32232c047855c568571ce23f3fa5",
+      "approvedBy": "owner-direct:TASK_ID:STOP-01_AUTHORITY_STOP",
+      "approvedAtUtc": "2026-08-08T09:18:57.858Z",
+      "rationale": "Approve STOP-01 E04 kernel analysis-only contract: exactSemanticReady removed, analysisOnly declared; no runtime route change.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_STOP01_AUTHORITY_STOP"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportYrtk2Core.mjs",
@@ -8367,17 +8371,21 @@
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e04-minimal-semantic-kernel.contract.test.js",
-      "sha256": "04d42e6271d083d3a03f6e7a11dc935ce8d9a8a40cfda480ae0451fe7b24e31d",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E04_MINIMAL_SEMANTIC_KERNEL",
-      "approvedAtUtc": "2026-07-31T05:18:00.000Z",
-      "rationale": "Approve V4 E04 contract coverage: proves minimal tracked text semantics with YRTK2 and guards, comments independent under manual text, move/structure/opaque blocking, parser reject, missing YRTK2, stale baseline, missing CryptoPort, public barrel exports, receipt truth, and platform-neutral non-writer source boundaries."
+      "sha256": "edf56c0a21b8e40de1b11306ca6f201b451ce68319d70c571987d9e70cc9448e",
+      "approvedBy": "owner-direct:TASK_ID:STOP-01_AUTHORITY_STOP",
+      "approvedAtUtc": "2026-08-08T09:18:02.277Z",
+      "rationale": "Approve E04 minimal semantic kernel test migration to the analysis-only contract (exactSemanticReady removed, analysisOnly asserted); negative blocks preserved; tests only.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_STOP01_AUTHORITY_STOP"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e05-sourcemap-uniquediff.contract.test.js",
-      "sha256": "c55dd6b9c4856a2e8e6d9de39e5495a06b90ec7694a53cbb3fbbadbee79514b3",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E05_SOURCEMAP_UNIQUEDIFF",
-      "approvedAtUtc": "2026-07-31T05:10:00.000Z",
-      "rationale": "Approve V4 E05 contract coverage: proves duplicate quote text routes by SourceMap block identity and distinct effect footprints, tampered stale duplicate and overlapping SourceMap rows block, quote-only fallback is refused, multi-hunk and O-to-C divergence stay manual, pending G revisions require SourceMap and kernel semantics, public barrel exports, receipt truth, and platform-neutral non-writer source boundaries."
+      "sha256": "ee568a3664df65e750c33be05ec943479b0d4900403dcdc47c1502b12c274cfa",
+      "approvedBy": "owner-direct:TASK_ID:STOP-01_AUTHORITY_STOP",
+      "approvedAtUtc": "2026-08-08T09:18:02.277Z",
+      "rationale": "Approve E05 sourcemap uniquediff test migration to the analysis-only contract (kernel analysisOnly gate, exactEffectReady false); negative blocks preserved; tests only.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_STOP01_AUTHORITY_STOP"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
@@ -9487,12 +9495,12 @@
     },
     {
       "filePath": "src/export/docx/fullManuscriptDocxReviewReturnRouter.js",
-      "sha256": "c0e167bd41eb218fcee16036a247adf596480034ed943c2d5bc15fcf8a7350f9",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_PHASE_B_PRODUCT_TRUST_CHAIN_V1",
-      "approvedAtUtc": "2026-08-06T00:06:06.000Z",
-      "rationale": "Approve exact Phase B product trust-chain bytes: full-manuscript DOCX export now requires V4 provisional self-parse plus final self-parse semantic equivalence before publication; returned full-manuscript intake requires byte-backed YRTK2/CoreManifest proof before router MatchProof and Command Kernel authority; direct forged return-intake proof and missing-provisional-gate attacks are blocked. No physical Word run, no Google work, no long campaign, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
+      "sha256": "85679a011983992c92f033786a3e0b6c7dfbbe12272d38f681c85c8f46bd6202",
+      "approvedBy": "owner-direct:TASK_ID:STOP-01_AUTHORITY_STOP",
+      "approvedAtUtc": "2026-08-08T09:18:57.858Z",
+      "rationale": "Approve STOP-01 full-manuscript router lifecycle honesty: explicit non-eligible round lifecycle blocks the apply plan and scene commands thread the real lifecycle instead of a hardcoded state.",
       "approved": true,
-      "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_PHASE_B_PRODUCT_TRUST_CHAIN"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_STOP01_AUTHORITY_STOP"
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-full-manuscript-return-router.contract.test.js",
@@ -9601,6 +9609,24 @@
       "rationale": "Approve CERT-01 crash/resume contract tests with real SIGKILL and durable-state proofs, including the documented deterministic gate-file revision of CERT01-05; tests only, no product runtime change.",
       "approved": true,
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_CERT01_RUNNER_V2"
+    },
+    {
+      "filePath": "test/contracts/rtk-stop01-authority-stop.contract.test.js",
+      "sha256": "8c8b049248d899687c6296c0a96375a0c1f9255ddd246ed04c33cfa5c998bac5",
+      "approvedBy": "owner-direct:TASK_ID:STOP-01_AUTHORITY_STOP",
+      "approvedAtUtc": "2026-08-08T09:18:02.277Z",
+      "rationale": "Approve STOP-01 authority-stop contract tests (17 scenarios: lifecycle eligibility, forged replay binding, router lifecycle honesty, kernel analysis-only, controls); tests only.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_STOP01_AUTHORITY_STOP"
+    },
+    {
+      "filePath": "package.json",
+      "sha256": "5075333005b68d7aad778263d58aea27393c659eb06ae10436e3f20ad7575067",
+      "approvedBy": "owner-direct:TASK_ID:STOP-01_AUTHORITY_STOP",
+      "approvedAtUtc": "2026-08-08T09:18:57.858Z",
+      "rationale": "Approve additive test:rtk-stop01 lane script for the STOP-01 contract test file; no dependency or runtime change.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_STOP01_AUTHORITY_STOP"
     }
   ]
 }

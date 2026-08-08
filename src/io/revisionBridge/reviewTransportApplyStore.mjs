@@ -19,6 +19,14 @@ const RESERVATION_REQUEST_DIRECTORY_SEGMENTS = ['backups', 'revision-bridge-rtk-
 const RESERVATION_EFFECT_DIRECTORY_SEGMENTS = ['backups', 'revision-bridge-rtk-apply-reservations', 'by-effect'];
 const RESERVATION_STATE_DIRECTORY_SEGMENTS = ['backups', 'revision-bridge-rtk-apply-reservations', 'states'];
 const MAX_RECORD_BYTES = 512 * 1024;
+// Canonical receipt schema versions emitted by the exact-text-min-safe-write
+// product writers. Duplicated here (not imported) to avoid a circular module
+// dependency through the revision-bridge barrel; these are immutable schema
+// identity strings that never change without a contract version bump.
+const EXACT_TEXT_RECEIPT_SCHEMAS = Object.freeze([
+  'revision-bridge.exact-text-min-safe-write.receipt.v1',
+  'revision-bridge.exact-text-batch-min-safe-write.receipt.v1',
+]);
 const MAX_SCAN = 512;
 const RESERVATION_STATE_ORDER = Object.freeze({
   RESERVED: 1,
@@ -243,32 +251,131 @@ function sameReservationIdentity(left, right) {
     && normalizeString(left?.envelopeDigest) === normalizeString(right?.envelopeDigest);
 }
 
-async function readOutcomeByRequestKey(root, requestKey) {
+function verifyOutcomeRecordIntegrity(record) {
+  if (!isPlainObject(record)) {
+    throw typedStoreError('RTK_APPLY_OUTCOME_BINDING_INVALID', 'RTK apply outcome record is not an object', { field: 'record' });
+  }
+  if (normalizeString(record.status) !== 'APPLIED_ONCE') {
+    throw typedStoreError('RTK_APPLY_OUTCOME_BINDING_INVALID', 'RTK apply outcome status is not APPLIED_ONCE', { field: 'status', status: normalizeString(record.status) });
+  }
+  // Recompute outcomeDigest from the stored record body and compare against the
+  // stored digest. This catches tampering with any field of the record after it
+  // was written.
+  const recordBody = { ...record };
+  delete recordBody.outcomeDigest;
+  const recomputedOutcomeDigest = sha256Json(recordBody);
+  if (normalizeString(record.outcomeDigest) !== recomputedOutcomeDigest) {
+    throw typedStoreError('RTK_APPLY_OUTCOME_BINDING_INVALID', 'RTK apply outcome digest no longer recomputes from the stored record', {
+      field: 'outcomeDigest', stored: normalizeString(record.outcomeDigest), recomputed: recomputedOutcomeDigest,
+    });
+  }
+  // writerReceipt must be a plain object with a non-empty operationId and a
+  // schemaVersion matching one of the canonical exact-text-min-safe-write
+  // receipt schemas produced by the product writer. A forged outcome without a
+  // real writer receipt (no canonical schemaVersion) cannot authorise a replay.
+  if (!isPlainObject(record.writerReceipt)) {
+    throw typedStoreError('RTK_APPLY_OUTCOME_BINDING_INVALID', 'RTK apply outcome writerReceipt is missing', { field: 'writerReceipt' });
+  }
+  const receiptOperationId = normalizeString(record.writerReceipt.operationId);
+  const receiptSchemaVersion = normalizeString(record.writerReceipt.schemaVersion);
+  if (!receiptOperationId) {
+    throw typedStoreError('RTK_APPLY_OUTCOME_BINDING_INVALID', 'RTK apply outcome writerReceipt.operationId is empty', { field: 'writerReceipt.operationId' });
+  }
+  if (!EXACT_TEXT_RECEIPT_SCHEMAS.includes(receiptSchemaVersion)) {
+    throw typedStoreError('RTK_APPLY_OUTCOME_BINDING_INVALID', 'RTK apply outcome writerReceipt.schemaVersion is not a canonical exact-text-min-safe-write receipt schema', {
+      field: 'writerReceipt.schemaVersion', schemaVersion: receiptSchemaVersion,
+    });
+  }
+}
+
+// Request-path binding: the record was looked up by its requestKey, so its full
+// request identity (requestKey + envelopeDigest) must match the live envelope.
+// This is the strictest binding: every field that distinguishes one request
+// from another must agree.
+function verifyRequestBinding(record, envelope) {
+  verifyOutcomeRecordIntegrity(record);
+  const checks = [
+    ['requestKey', normalizeString(record.requestKey), normalizeString(envelope?.requestKey)],
+    ['effectKey', normalizeString(record.effectKey), normalizeString(envelope?.effectKey)],
+    ['roundId', normalizeString(record.roundId), normalizeString(envelope?.roundId)],
+    ['envelopeDigest', normalizeString(record.envelopeDigest), normalizeString(envelope?.envelopeDigest)],
+  ];
+  for (const [field, actual, expected] of checks) {
+    if (actual !== expected) {
+      throw typedStoreError('RTK_APPLY_OUTCOME_BINDING_INVALID', `RTK apply outcome ${field} does not match the live envelope`, { field, actual, expected });
+    }
+  }
+}
+
+// Effect-path binding: the record was looked up by its effectKey (same-round
+// semantic-equivalent effect dedup). Two requests in the same round that share
+// effect identity (roundId, lifecycle, source identity, writer digest) but
+// differ in request identity (requestId/commandId/returnArtifactSha256) are
+// legitimately replayed through this path. Therefore requestKey and
+// envelopeDigest of the record MAY legitimately differ from the live envelope;
+// what must match is the shared effect identity plus a real, untampered,
+// receipt-backed outcome.
+function verifyEffectBinding(record, envelope) {
+  verifyOutcomeRecordIntegrity(record);
+  const expectedEffectKey = normalizeString(envelope?.effectKey);
+  const expectedRoundId = normalizeString(envelope?.roundId);
+  const checks = [
+    ['effectKey', normalizeString(record.effectKey), expectedEffectKey],
+    ['roundId', normalizeString(record.roundId), expectedRoundId],
+  ];
+  for (const [field, actual, expected] of checks) {
+    if (actual !== expected) {
+      throw typedStoreError('RTK_APPLY_OUTCOME_BINDING_INVALID', `RTK apply outcome ${field} does not match the live envelope effect identity`, { field, actual, expected });
+    }
+  }
+}
+
+async function readOutcomeByRequestKey(root, requestKey, envelope) {
   const record = await readJsonFileIfPresent(outcomePath(root, requestKey));
   if (!record) return null;
   if (record.schemaVersion !== RTK_EXACT_APPLY_OUTCOME_V2_SCHEMA) {
     throw typedStoreError('RTK_WRITE_RESERVATION_RECOVERY_REQUIRED', 'RTK apply outcome schema is invalid');
   }
+  verifyRequestBinding(record, envelope);
   return record;
 }
 
-async function readOutcomeByEffectKey(root, effectKey, roundId) {
+async function readOutcomeByEffectKey(root, effectKey, envelope) {
+  const roundId = normalizeString(envelope?.roundId);
   const index = await readJsonFileIfPresent(outcomeEffectIndexPath(root, effectKey));
   if (!index) return null;
   if (index.schemaVersion !== RTK_EXACT_APPLY_OUTCOME_EFFECT_INDEX_V1_SCHEMA) {
     throw typedStoreError('RTK_WRITE_RESERVATION_RECOVERY_REQUIRED', 'RTK apply outcome effect index schema is invalid');
   }
-  if (normalizeString(index.roundId) !== normalizeString(roundId)) return null;
-  const record = await readOutcomeByRequestKey(root, index.requestKey);
+  if (normalizeString(index.roundId) !== roundId) return null;
+  // Look up the bound record directly by the index's requestKey, then run the
+  // effect-path binding (effect identity + receipt integrity). We deliberately
+  // do NOT call readOutcomeByRequestKey here because the record's requestKey
+  // legitimately differs from the live envelope's requestKey for same-round
+  // effect dedup.
+  const record = await readJsonFileIfPresent(outcomePath(root, index.requestKey));
   if (!record) {
     throw typedStoreError('RTK_WRITE_RESERVATION_RECOVERY_REQUIRED', 'RTK apply outcome effect index points to a missing outcome');
   }
-  if (
-    normalizeString(record.roundId) !== normalizeString(roundId)
-    || normalizeString(record.effectKey) !== normalizeString(effectKey)
-    || normalizeString(record.outcomeDigest) !== normalizeString(index.outcomeDigest)
-  ) {
-    throw typedStoreError('RTK_WRITE_RESERVATION_RECOVERY_REQUIRED', 'RTK apply outcome effect index does not match outcome record');
+  if (record.schemaVersion !== RTK_EXACT_APPLY_OUTCOME_V2_SCHEMA) {
+    throw typedStoreError('RTK_WRITE_RESERVATION_RECOVERY_REQUIRED', 'RTK apply outcome schema is invalid');
+  }
+  verifyEffectBinding(record, envelope);
+  // Full effect-index binding: the index must point at a record whose own
+  // effect identity and outcome digest match the index. A forged index that
+  // merely has valid structure but points at a forged outcome (or a mismatched
+  // outcome) is rejected here, in addition to the record-level binding above.
+  const indexChecks = [
+    ['effectKey', normalizeString(index.effectKey), normalizeString(effectKey)],
+    ['roundId', normalizeString(index.roundId), roundId],
+    ['requestKey', normalizeString(index.requestKey), normalizeString(record.requestKey)],
+    ['envelopeDigest', normalizeString(index.envelopeDigest), normalizeString(record.envelopeDigest)],
+    ['outcomeDigest', normalizeString(index.outcomeDigest), normalizeString(record.outcomeDigest)],
+  ];
+  for (const [field, actual, expected] of indexChecks) {
+    if (actual !== expected) {
+      throw typedStoreError('RTK_APPLY_OUTCOME_BINDING_INVALID', `RTK apply outcome effect index ${field} does not match the bound record`, { field: `effectIndex.${field}`, actual, expected });
+    }
   }
   return record;
 }
@@ -309,9 +416,8 @@ export async function findRtkExactApplyOutcome(projectRoot, envelope) {
   const root = path.resolve(normalizeString(projectRoot));
   const requestKey = normalizeString(envelope?.requestKey);
   const effectKey = normalizeString(envelope?.effectKey);
-  const roundId = normalizeString(envelope?.roundId);
-  const requestMatch = requestKey ? await readOutcomeByRequestKey(root, requestKey) : null;
-  const effectMatch = effectKey ? await readOutcomeByEffectKey(root, effectKey, roundId) : null;
+  const requestMatch = requestKey ? await readOutcomeByRequestKey(root, requestKey, envelope) : null;
+  const effectMatch = effectKey ? await readOutcomeByEffectKey(root, effectKey, envelope) : null;
   const records = [requestMatch, effectMatch]
     .filter(Boolean)
     .filter((record, index, array) => (

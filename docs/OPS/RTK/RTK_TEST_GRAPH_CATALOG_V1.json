@@ -19,6 +19,7 @@
     "rtk-g0b-feasibility.contract.test.js",
     "rtk-g0c-exact-safety.contract.test.js",
     "rtk-google-docs-g00-discovery-binding.contract.test.js",
+    "rtk-parser01-namespace-atoms.contract.test.js",
     "rtk-post-d1-portability-program.contract.test.js",
     "rtk-runner-v2-cert01.contract.test.js",
     "rtk-runner-v2-cert01-crash-resume.contract.test.js",

@@ -1,3 +1,11 @@
+import {
+  crc32 as zipEvidenceCrc32,
+  evaluateZipCrcEvidence,
+  resolveEffectiveBudgets,
+  RTK_ZIP_PROFILE_DEFAULTS_V6,
+  RTK_ZIP_CEILING_DECLARED,
+} from './reviewTransportZipEvidenceV1.mjs';
+
 export const RTK_RETURNED_REVIEW_ANALYSIS_V2_SCHEMA =
   'yalken.rtk.returned-review-analysis.v2';
 export const RTK_REVIEW_IR_V2_SCHEMA = 'yalken.rtk.review-ir.v2';
@@ -63,6 +71,7 @@ export const RTK_REASON_CODES = Object.freeze([
   'RTK_ZIP_REGION_OVERLAP',
   'RTK_ZIP_FAKE_EOCD',
   'RTK_ZIP_CRC_MISMATCH',
+  'RTK_ZIP_CRC_EVIDENCE_MISSING',
   'RTK_XML_MALFORMED_BLOCKED',
   'RTK_RECOVERY_REQUIRED',
   'RTK_COMMENT_ANCHORED',
@@ -120,6 +129,7 @@ export const RTK_V6_BUDGETS = Object.freeze({
 const RTK_BLOCKING_CODES = Object.freeze(new Set([
   'RTK_BUDGET_EXCEEDED',
   'RTK_ZIP_CRC_MISMATCH',
+  'RTK_ZIP_CRC_EVIDENCE_MISSING',
   'RTK_ZIP_LOCAL_CENTRAL_MISMATCH',
   'RTK_ZIP_REGION_OVERLAP',
   'RTK_ZIP_FAKE_EOCD',
@@ -357,10 +367,14 @@ function canonicalizeScannedXml(xml, budgets, cryptoPort) {
 }
 
 function normalizeBudgets(input = {}) {
-  return {
-    ...RTK_V6_BUDGETS,
-    ...Object.fromEntries(Object.entries(input).filter(([, value]) => Number.isSafeInteger(value) && value > 0)),
-  };
+  // Effective budget resolution via the shared min-clamp resolver so core and
+  // parser V2 share identical effective-budget semantics (F-11/P1-02).
+  const { effective } = resolveEffectiveBudgets({
+    requested: input,
+    profileDefaults: RTK_ZIP_PROFILE_DEFAULTS_V6,
+    ceiling: RTK_ZIP_CEILING_DECLARED,
+  });
+  return effective;
 }
 
 function normalizeParts(parts = {}, budgets, cryptoPort) {
@@ -402,33 +416,29 @@ function rangesOverlap(left, right) {
     && Math.max(left.start, right.start) < Math.min(left.end, right.end);
 }
 
-function evaluatePackageIntegrity(inventory = {}, admittedParts = {}, cryptoPort) {
+function evaluatePackageIntegrity(inventory = {}, admittedParts = {}, cryptoPort, maxZipEntries) {
   const reasons = [];
   const entries = Array.isArray(inventory.entries) ? inventory.entries.filter(isPlainObject) : [];
   const ranges = [];
-  if (entries.length > RTK_V6_BUDGETS.maxZipEntries) {
-    reasons.push(reason('RTK_BUDGET_EXCEEDED', 'zip.entries', 'ZIP entry count exceeds V6 budget.'));
+  const effectiveMaxZipEntries = Number.isSafeInteger(maxZipEntries) && maxZipEntries > 0
+    ? maxZipEntries
+    : RTK_V6_BUDGETS.maxZipEntries;
+  if (entries.length > effectiveMaxZipEntries) {
+    reasons.push(reason('RTK_BUDGET_EXCEEDED', 'zip.entries', 'ZIP entry count exceeds effective budget.', {
+      actual: entries.length,
+      limit: effectiveMaxZipEntries,
+    }));
   }
   if (Number(inventory.fakeEocdCount || 0) > 0 || Number(inventory.eocdCount || 1) > 1) {
     reasons.push(reason('RTK_ZIP_FAKE_EOCD', 'zip.eocd', 'Fake or duplicate EOCD marker is blocked.'));
   }
   for (const entry of entries) {
     const name = rawString(entry.name);
-    const centralCrc = Number.isSafeInteger(entry.centralCrc32) ? entry.centralCrc32 : entry.crc32;
-    const localCrc = Number.isSafeInteger(entry.localCrc32) ? entry.localCrc32 : centralCrc;
-    if (Number.isSafeInteger(centralCrc) && Number.isSafeInteger(localCrc) && centralCrc !== localCrc) {
-      reasons.push(reason('RTK_ZIP_LOCAL_CENTRAL_MISMATCH', `zip.${name}.crc32`, 'ZIP local and central metadata disagree.', { partName: name }));
-    }
-    if (Object.hasOwn(admittedParts, name) && Number.isSafeInteger(centralCrc)) {
-      const actual = cryptoPort.crc32(admittedParts[name]);
-      if (actual !== centralCrc) {
-        reasons.push(reason('RTK_ZIP_CRC_MISMATCH', `zip.${name}.crc32`, 'Admitted part CRC does not match package metadata.', {
-          partName: name,
-          expected: centralCrc,
-          actual,
-        }));
-      }
-    }
+    // Shared CRC evidence evaluation (same helper as parser V2): central-vs-
+    // local divergence, missing evidence rejection, and actual recompute via
+    // the bounded crc32 implementation. Actual recompute is REQUIRED (Z1) and
+    // missing evidence is a rejection (Z3), never a silent skip.
+    reasons.push(...evaluateZipCrcEvidence(entry, admittedParts, zipEvidenceCrc32));
     const start = Number(entry.dataStart ?? entry.start);
     const end = Number(entry.dataEnd ?? entry.end);
     for (const previous of ranges) {
@@ -631,7 +641,7 @@ export function buildReviewIRV2(input = {}, ports = {}) {
   const worker = buildWorkerCapabilityAdapterV1(input.workerCapabilities);
   const normalizedParts = normalizeParts(input.parts, budgets, cryptoPort);
   const reasons = [...worker.reasons, ...normalizedParts.reasons];
-  reasons.push(...evaluatePackageIntegrity(input.zipInventory, normalizedParts.admittedParts, cryptoPort));
+  reasons.push(...evaluatePackageIntegrity(input.zipInventory, normalizedParts.admittedParts, cryptoPort, budgets.maxZipEntries));
   const documentXml = rawString(normalizedParts.admittedParts['word/document.xml']);
   const commentsXml = rawString(normalizedParts.admittedParts['word/comments.xml']);
   const commentsExtendedXml = rawString(normalizedParts.admittedParts['word/commentsExtended.xml']);

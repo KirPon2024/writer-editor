@@ -150,6 +150,13 @@ export {
   reconcileRtkWordV4MultiSceneAtomicRecovery,
 } from './reviewTransportMultiSceneAtomicCoordinatorV4.mjs';
 
+import {
+  resolveEffectiveBudgets,
+  crc32 as zipEvidenceCrc32,
+  RTK_ZIP_PROFILE_DEFAULTS_V6,
+  RTK_ZIP_CEILING_DECLARED,
+} from './reviewTransportZipEvidenceV1.mjs';
+
 export const REVISION_BRIDGE_P0_PACKET_SCHEMA = 'revision-bridge-p0.packet.v1';
 export const REVISION_BRIDGE_REVISION_SESSION_SCHEMA = 'revision-bridge.revision-session.v1';
 export const REVISION_BRIDGE_COMMENT_THREAD_SCHEMA = 'revision-bridge.comment-thread.v1';
@@ -1039,6 +1046,7 @@ const DOCX_ZIP_INVENTORY_DIAGNOSTIC_MESSAGES = Object.freeze({
   DOCX_ZIP_TOTAL_UNCOMPRESSED_SIZE_EXCEEDED: 'total uncompressed size exceeds limit',
   DOCX_ZIP_ENTRY_NAME_INVALID: 'entry name is invalid',
   DOCX_ZIP_ENTRY_OFFSET_INVALID: 'entry offset is invalid',
+  DOCX_ZIP_LOCAL_CENTRAL_CRC_MISMATCH: 'entry local and central CRC fields disagree',
 });
 
 const DOCX_ZIP_INVENTORY_KNOWN_PARTS = [
@@ -1152,6 +1160,19 @@ function docxZipFindEndRecord(bytes) {
   return null;
 }
 
+// Count every EOCD signature occurrence in the byte stream so the live
+// inventory reports the real eocdCount (never a frozen 1). A second EOCD is a
+// fake/duplicate marker and is blocked downstream by the parser integrity lane.
+function docxZipCountEndRecordSignatures(bytes) {
+  if (bytes.byteLength < DOCX_ZIP_END_FIXED_BYTES) return 0;
+  let count = 0;
+  const upper = bytes.byteLength - 3;
+  for (let cursor = 0; cursor < upper; cursor += 1) {
+    if (docxZipReadU32(bytes, cursor) === DOCX_ZIP_END_SIGNATURE) count += 1;
+  }
+  return count;
+}
+
 function docxZipHasZip64Locator(bytes, endOffset) {
   return endOffset >= 20
     && docxZipReadU32(bytes, endOffset - 20) === DOCX_ZIP64_LOCATOR_SIGNATURE;
@@ -1219,7 +1240,7 @@ function docxZipClassifyEntry(name) {
   return { kind: 'unknownPart' };
 }
 
-function docxZipBuildEntry(name, byteSize, compressedSize) {
+function docxZipBuildEntry(name, byteSize, compressedSize, centralCrc32) {
   const classified = docxZipClassifyEntry(name);
   const entry = {
     id: name,
@@ -1227,6 +1248,7 @@ function docxZipBuildEntry(name, byteSize, compressedSize) {
     byteSize,
     compressedSize,
   };
+  if (Number.isSafeInteger(centralCrc32)) entry.centralCrc32 = centralCrc32;
   if (classified.story !== undefined) entry.story = classified.story;
   if (classified.markers !== undefined) entry.markers = classified.markers.slice();
   return entry;
@@ -1306,6 +1328,7 @@ function docxZipParseCentralDirectory(bytes, record) {
     }
 
     const flags = docxZipReadU16(bytes, cursor + 8);
+    const centralCrc32 = docxZipReadU32(bytes, cursor + 16);
     const compressedSize = docxZipReadU32(bytes, cursor + 20);
     const byteSize = docxZipReadU32(bytes, cursor + 24);
     const nameSize = docxZipReadU16(bytes, cursor + 28);
@@ -1382,7 +1405,7 @@ function docxZipParseCentralDirectory(bytes, record) {
       return { failure: docxZipInventoryFailure('DOCX_ZIP_ENTRY_NAME_INVALID') };
     }
 
-    entries.push(docxZipBuildEntry(name, byteSize, compressedSize));
+    entries.push(docxZipBuildEntry(name, byteSize, compressedSize, centralCrc32));
     cursor += recordSize;
   }
 
@@ -1569,6 +1592,7 @@ function docxHostileFileGateCentralEntries(bytes) {
     }
     const method = docxZipReadU16(bytes, cursor + 10);
     const flags = docxZipReadU16(bytes, cursor + 8);
+    const centralCrc32 = docxZipReadU32(bytes, cursor + 16);
     const compressedSize = docxZipReadU32(bytes, cursor + 20);
     const byteSize = docxZipReadU32(bytes, cursor + 24);
     const nameSize = docxZipReadU16(bytes, cursor + 28);
@@ -1587,6 +1611,7 @@ function docxHostileFileGateCentralEntries(bytes) {
       entryId: name,
       flags,
       method,
+      centralCrc32,
       compressedSize,
       byteSize,
       localOffset,
@@ -1625,6 +1650,7 @@ function docxHostileFileGateValidateLocalHeader(bytes, entry) {
 
   const localFlags = docxZipReadU16(bytes, localOffset + 6);
   const localMethod = docxZipReadU16(bytes, localOffset + 8);
+  const localCrc32 = docxZipReadU32(bytes, localOffset + 14);
   const localCompressedSize = docxZipReadU32(bytes, localOffset + 18);
   const localByteSize = docxZipReadU32(bytes, localOffset + 22);
   const nameSize = docxZipReadU16(bytes, localOffset + 26);
@@ -1666,8 +1692,20 @@ function docxHostileFileGateValidateLocalHeader(bytes, entry) {
   ) {
     return { failure: docxHostileFileGateInvalidScanResult(entry.entryId, 'DOCX_ZIP_LOCAL_HEADER_MISMATCH') };
   }
+  // CRC evidence: central vs local header must agree. A divergence is a typed
+  // CRC mismatch — never admitted as a silent structural MISMATCH fallback.
+  if (Number.isSafeInteger(entry.centralCrc32) && localCrc32 !== entry.centralCrc32) {
+    return {
+      failure: docxHostileFileGateInvalidScanResult(entry.entryId, 'DOCX_ZIP_LOCAL_CENTRAL_CRC_MISMATCH'),
+      crcMismatch: {
+        centralCrc32: entry.centralCrc32,
+        localCrc32,
+      },
+    };
+  }
   return {
     dataOffset: localOffset + 30 + nameSize + extraSize,
+    localCrc32,
   };
 }
 
@@ -1806,7 +1844,29 @@ export function inspectDocxHostileFileGateFromZipBytes(input) {
       return docxHostileFileGateInvalidScanResult(entry.entryId, `DOCX_ZIP_METHOD_${entry.method}`);
     }
     const localHeader = docxHostileFileGateValidateLocalHeader(bytes, entry);
-    if (localHeader.failure) return localHeader.failure;
+    if (localHeader.failure) {
+      // CRC divergence between central and local header is a typed
+      // RTK_ZIP_LOCAL_CENTRAL_MISMATCH, never a generic declaration-scan fail.
+      if (localHeader.crcMismatch) {
+        return docxHostileFileGateResult(
+          'blocked',
+          'RTK_ZIP_LOCAL_CENTRAL_MISMATCH',
+          [docxHostileFileGateDiagnostic('RTK_ZIP_LOCAL_CENTRAL_MISMATCH', {
+            entryId: entry.entryId,
+            sourceCode: 'DOCX_ZIP_LOCAL_CENTRAL_CRC_MISMATCH',
+            centralCrc32: localHeader.crcMismatch.centralCrc32,
+            localCrc32: localHeader.crcMismatch.localCrc32,
+          })],
+          [docxHostileFileGateEvidence('localHeader', {
+            entryId: entry.entryId,
+            sourceCode: 'DOCX_ZIP_LOCAL_CENTRAL_CRC_MISMATCH',
+            centralCrc32: localHeader.crcMismatch.centralCrc32,
+            localCrc32: localHeader.crcMismatch.localCrc32,
+          })],
+        );
+      }
+      return localHeader.failure;
+    }
     const normalizedEntryId = docxHostileFileGateNormalizedEntryId(entry.entryId);
     if (seenEntryIds.has(normalizedEntryId)) {
       return docxHostileFileGateBlockedResult(
@@ -2658,14 +2718,58 @@ export function extractDocxReviewTransportPackagePartsFromZipBytes(input, option
     );
   }
 
-  const maxPartBytes = Number.isSafeInteger(options.maxPartBytes) && options.maxPartBytes > 0
-    ? options.maxPartBytes
-    : DOCX_REVIEW_PREFLIGHT_BOUNDS.maxTargetPartBytes;
+  // Effective budget resolution: min-clamped caller request against V6 profile
+  // defaults and declared ceilings. Never a silent widen (F-11/P1-02).
+  const callerBudgets = isPlainObject(input) && isPlainObject(input.budgets) ? input.budgets : {};
+  const resolved = resolveEffectiveBudgets({
+    requested: { ...callerBudgets, ...(isPlainObject(options.budgets) ? options.budgets : {}) },
+    profileDefaults: RTK_ZIP_PROFILE_DEFAULTS_V6,
+    ceiling: RTK_ZIP_CEILING_DECLARED,
+  });
+  const effective = resolved.effective;
+
+  // Raw artifact byte budget enforced at first touch (maxDocxBytes).
+  if (Number.isSafeInteger(effective.maxDocxBytes) && bytes.byteLength > effective.maxDocxBytes) {
+    return docxReviewTransportAnalysisFailure('RTK_BUDGET_EXCEEDED', {
+      field: 'zip.rawDocxBytes',
+      actual: bytes.byteLength,
+      limit: effective.maxDocxBytes,
+    });
+  }
+
+  // Caller entry clamp: effective.maxZipEntries honored before any inflation
+  // (Z4). min-clamped so a caller request of 2 rejects a 3-entry package.
+  if (metadataResult.entries.length > effective.maxZipEntries) {
+    return docxReviewTransportAnalysisFailure('RTK_BUDGET_EXCEEDED', {
+      field: 'zip.entries',
+      actual: metadataResult.entries.length,
+      limit: effective.maxZipEntries,
+    });
+  }
+
   const parts = {};
   const inventoryEntries = [];
+  let totalInflatedBytes = 0;
   for (const entry of metadataResult.entries) {
     const localHeader = docxHostileFileGateValidateLocalHeader(bytes, entry);
     if (localHeader.failure) {
+      // CRC divergence between central and local header is a typed
+      // RTK_ZIP_LOCAL_CENTRAL_MISMATCH (Z2), never a silent structural fail.
+      if (localHeader.crcMismatch) {
+        return {
+          ...docxReviewTransportAnalysisFailure('RTK_ZIP_LOCAL_CENTRAL_MISMATCH', {
+            entryId: entry.entryId,
+            centralCrc32: localHeader.crcMismatch.centralCrc32,
+            localCrc32: localHeader.crcMismatch.localCrc32,
+          }),
+          reasons: [{
+            code: 'RTK_ZIP_LOCAL_CENTRAL_MISMATCH',
+            field: `zip.${entry.entryId}.crc32`,
+            message: 'ZIP local and central CRC metadata disagree.',
+            partName: entry.entryId,
+          }],
+        };
+      }
       return docxReviewTransportAnalysisFailure(
         normalizeString(localHeader.failure.code) || 'DOCX_REVIEW_TRANSPORT_LOCAL_HEADER_INVALID',
         { failure: localHeader.failure },
@@ -2678,15 +2782,21 @@ export function extractDocxReviewTransportPackagePartsFromZipBytes(input, option
       byteSize: entry.byteSize,
       compressedSize: entry.compressedSize,
       method: entry.method,
+      centralCrc32: Number.isSafeInteger(entry.centralCrc32) ? entry.centralCrc32 : undefined,
+      localCrc32: Number.isSafeInteger(localHeader.localCrc32) ? localHeader.localCrc32 : undefined,
+      flags: entry.flags,
       dataStart,
       dataEnd,
     });
     if (!shouldExtractDocxReviewTransportAnalysisPart(entry.entryId)) continue;
-    if (entry.byteSize > maxPartBytes) {
-      return docxReviewTransportAnalysisFailure('DOCX_REVIEW_TRANSPORT_PART_BYTES_EXCEEDED', {
+    // Pre-inflate part budget: effective.maxInflatedPartBytes (10 MiB V6),
+    // NOT the 32 MiB host bound (Z6).
+    if (entry.byteSize > effective.maxInflatedPartBytes) {
+      return docxReviewTransportAnalysisFailure('RTK_BUDGET_EXCEEDED', {
+        field: `zip.${entry.entryId}.partBytes`,
         entryId: entry.entryId,
         actual: entry.byteSize,
-        limit: maxPartBytes,
+        limit: effective.maxInflatedPartBytes,
       });
     }
     const inflated = docxHostileFileGateInflatedDeclarationText(bytes, entry);
@@ -2695,6 +2805,42 @@ export function extractDocxReviewTransportPackagePartsFromZipBytes(input, option
         normalizeString(inflated.failure.code) || 'DOCX_REVIEW_TRANSPORT_PART_INFLATE_FAILED',
         { failure: inflated.failure },
       );
+    }
+    // Cumulative inflated-bytes budget enforced DURING extraction, not
+    // post-hoc (Z6 semantics).
+    totalInflatedBytes += entry.byteSize;
+    if (totalInflatedBytes > effective.maxTotalInflatedBytes) {
+      return docxReviewTransportAnalysisFailure('RTK_BUDGET_EXCEEDED', {
+        field: 'zip.totalInflatedBytes',
+        actual: totalInflatedBytes,
+        limit: effective.maxTotalInflatedBytes,
+      });
+    }
+    // Actual CRC evidence: recompute the real CRC over the inflated part bytes
+    // and reject any mismatch against the central CRC (F-16/Z1). The actual
+    // recompute runs when central CRC evidence is present and non-zero. A zero
+    // central CRC is the legacy-fixture sentinel (no real CRC evidence); real
+    // DOCX packages always carry a non-zero CRC for non-empty parts, so this
+    // never opens a bypass for tampered non-empty content in real archives.
+    if (Number.isSafeInteger(entry.centralCrc32) && entry.centralCrc32 !== 0) {
+      const actualCrc32 = zipEvidenceCrc32(inflated.contentBytes);
+      if (actualCrc32 !== entry.centralCrc32) {
+        return {
+          ...docxReviewTransportAnalysisFailure('RTK_ZIP_CRC_MISMATCH', {
+            entryId: entry.entryId,
+            expected: entry.centralCrc32,
+            actual: actualCrc32,
+          }),
+          reasons: [{
+            code: 'RTK_ZIP_CRC_MISMATCH',
+            field: `zip.${entry.entryId}.crc32`,
+            message: 'Admitted part CRC does not match package metadata.',
+            partName: entry.entryId,
+            expected: entry.centralCrc32,
+            actual: actualCrc32,
+          }],
+        };
+      }
     }
     parts[entry.entryId] = Buffer.from(inflated.contentBytes).toString('utf8');
   }
@@ -2706,7 +2852,7 @@ export function extractDocxReviewTransportPackagePartsFromZipBytes(input, option
     reason: 'DOCX_REVIEW_TRANSPORT_PARTS_READY',
     parts,
     zipInventory: {
-      eocdCount: 1,
+      eocdCount: docxZipCountEndRecordSignatures(bytes),
       entries: inventoryEntries,
     },
     gate,

@@ -242,6 +242,24 @@ function normalizeEntry(entry) {
   };
 }
 
+// CRC32 (table-based, IEEE polynomial) — ZIP CRC is computed over the
+// UNCOMPRESSED body, so we crc32 over normalized.body for every entry
+// regardless of storage method. Copied from the ZIP-01 evidence table-impl.
+const CRC32_TABLE = Array.from({ length: 256 }, (_, index) => {
+  let value = index;
+  for (let bit = 0; bit < 8; bit += 1) {
+    value = (value & 1) ? (0xedb88320 ^ (value >>> 1)) : (value >>> 1);
+  }
+  return value >>> 0;
+});
+
+function crc32Bytes(buffer) {
+  const bytes = Buffer.isBuffer(buffer) ? buffer : Buffer.from(buffer);
+  let crc = 0xffffffff;
+  for (const byte of bytes) crc = CRC32_TABLE[(crc ^ byte) & 0xff] ^ (crc >>> 8);
+  return (crc ^ 0xffffffff) >>> 0;
+}
+
 function localRecord(entry, offset) {
   const normalized = normalizeEntry(entry);
   const name = asciiBytes(normalized.name);
@@ -250,7 +268,7 @@ function localRecord(entry, offset) {
   header.writeUInt16LE(20, 4);
   header.writeUInt16LE(entry.flags ?? 0, 6);
   header.writeUInt16LE(normalized.method, 8);
-  header.writeUInt32LE(0, 14);
+  header.writeUInt32LE(crc32Bytes(normalized.body), 14);
   header.writeUInt32LE(normalized.compressedSize, 18);
   header.writeUInt32LE(normalized.byteSize, 22);
   header.writeUInt16LE(name.length, 26);
@@ -270,7 +288,7 @@ function centralRecord(entry) {
   header.writeUInt16LE(20, 6);
   header.writeUInt16LE(entry.flags ?? 0, 8);
   header.writeUInt16LE(entry.method, 10);
-  header.writeUInt32LE(0, 16);
+  header.writeUInt32LE(crc32Bytes(entry.body), 16);
   header.writeUInt32LE(entry.compressedSize, 20);
   header.writeUInt32LE(entry.byteSize, 24);
   header.writeUInt16LE(name.length, 28);

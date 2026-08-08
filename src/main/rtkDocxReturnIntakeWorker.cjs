@@ -67,8 +67,33 @@ function blocked(reason, details = {}) {
 }
 
 function maxWorkerOutputBytes(message = {}) {
+  // Effective budget from the parent (resolved via the shared min-clamp
+  // resolver in main.js). When present, the effective value wins over the
+  // local 16 MiB default (F-11/P1-02).
+  const effective = Number(message?.effectiveBudgets?.maxWorkerOutputBytes);
+  if (Number.isSafeInteger(effective) && effective > 0) return effective;
   const value = Number(message?.budgets?.maxWorkerOutputBytes);
   return Number.isSafeInteger(value) && value > 0 ? value : DEFAULT_MAX_WORKER_OUTPUT_BYTES;
+}
+
+// Normalize the incoming bytes payload to a Buffer. Accepts ArrayBuffer,
+// Uint8Array, Buffer directly (the transferable-bytes path). Falls back to
+// legacy bytesBase64 decode for compatibility with existing boundary tests.
+// Preference: bytes > bytesBase64.
+function normalizeMessageBytes(message = {}) {
+  if (message.bytes !== undefined && message.bytes !== null) {
+    const raw = message.bytes;
+    if (Buffer.isBuffer(raw)) return raw;
+    if (raw instanceof ArrayBuffer) return Buffer.from(raw);
+    if (ArrayBuffer.isView(raw)) {
+      return Buffer.from(raw.buffer, raw.byteOffset, raw.byteLength);
+    }
+    if (raw instanceof Uint8Array) return Buffer.from(raw);
+  }
+  if (message.bytesBase64 !== undefined && message.bytesBase64 !== null) {
+    return Buffer.from(String(message.bytesBase64), 'base64');
+  }
+  return Buffer.alloc(0);
 }
 
 function enforceWorkerOutputBudget(result, message = {}) {
@@ -92,7 +117,7 @@ async function run(message = {}) {
   if (typeof revisionBridge.buildDocxReviewTransportAnalysisFromZipBytes !== 'function') {
     return blocked('RTK_RETURN_INTAKE_PARSER_V2_UNAVAILABLE');
   }
-  const bytes = Buffer.from(String(message.bytesBase64 || ''), 'base64');
+  const bytes = normalizeMessageBytes(message);
   if (bytes.length === 0) return blocked('RTK_RETURN_INTAKE_BYTES_REQUIRED');
   const input = stripSecret({
     ...message,

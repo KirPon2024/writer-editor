@@ -5,6 +5,15 @@ import {
   stableJson,
 } from './reviewTransportCore.mjs';
 
+import {
+  crc32,
+  resolveEffectiveBudgets,
+  effectiveBudgetDigest,
+  evaluateZipCrcEvidence,
+  RTK_ZIP_PROFILE_DEFAULTS_V6,
+  RTK_ZIP_CEILING_DECLARED,
+} from './reviewTransportZipEvidenceV1.mjs';
+
 export const RTK_REVIEW_TRANSPORT_PACKAGE_PARSER_V2_PROFILE =
   'yalken.rtk.package-aware-review-ir-parser.v2.b02';
 export const RTK_REVIEW_TRANSPORT_PACKAGE_PARSER_V2_BUILD =
@@ -86,13 +95,25 @@ function reason(code, field, message, details = {}) {
   return { code, field, message, ...details };
 }
 
+// Resolve the effective budget object via the shared min-clamp resolver
+// (F-11/P1-02). profileDefaults are the V6 values; ceilings are the declared
+// product max (50k for counts, 64 MiB worker output). Caller requests above a
+// ceiling are clamped and recorded — never silently widened.
 function normalizeBudgets(input = {}) {
-  return {
-    ...RTK_V6_BUDGETS,
-    ...Object.fromEntries(Object.entries(input).filter(([, value]) => (
-      Number.isSafeInteger(value) && value > 0
-    ))),
-  };
+  const { effective, clampedFields } = resolveEffectiveBudgets({
+    requested: input,
+    profileDefaults: RTK_ZIP_PROFILE_DEFAULTS_V6,
+    ceiling: RTK_ZIP_CEILING_DECLARED,
+  });
+  return effective;
+}
+
+function resolveBudgetsWithClamps(input = {}) {
+  return resolveEffectiveBudgets({
+    requested: input,
+    profileDefaults: RTK_ZIP_PROFILE_DEFAULTS_V6,
+    ceiling: RTK_ZIP_CEILING_DECLARED,
+  });
 }
 
 function resolveCryptoPort(port) {
@@ -810,11 +831,17 @@ function parseContentTypes(partXml, budgets, cryptoPort) {
   return { contentTypes, reasons };
 }
 
-function evaluateZipInventory(inventory = {}, parts = {}, cryptoPort) {
+function evaluateZipInventory(inventory = {}, parts = {}, cryptoPort, maxZipEntries) {
   const reasons = [];
   const entries = Array.isArray(inventory.entries) ? inventory.entries.filter(isPlainObject) : [];
-  if (entries.length > RTK_V6_BUDGETS.maxZipEntries) {
-    reasons.push(reason('RTK_BUDGET_EXCEEDED', 'zip.entries', 'ZIP entry count exceeds V6 budget.'));
+  const effectiveMaxZipEntries = Number.isSafeInteger(maxZipEntries) && maxZipEntries > 0
+    ? maxZipEntries
+    : RTK_V6_BUDGETS.maxZipEntries;
+  if (entries.length > effectiveMaxZipEntries) {
+    reasons.push(reason('RTK_BUDGET_EXCEEDED', 'zip.entries', 'ZIP entry count exceeds effective budget.', {
+      actual: entries.length,
+      limit: effectiveMaxZipEntries,
+    }));
   }
   if (Number(inventory.fakeEocdCount || 0) > 0 || Number(inventory.eocdCount || 1) > 1) {
     reasons.push(reason('RTK_ZIP_FAKE_EOCD', 'zip.eocd', 'Fake or duplicate EOCD marker is blocked.'));
@@ -822,21 +849,11 @@ function evaluateZipInventory(inventory = {}, parts = {}, cryptoPort) {
   const ranges = [];
   for (const entry of entries) {
     const partName = rawString(entry.name);
-    const centralCrc = Number.isSafeInteger(entry.centralCrc32) ? entry.centralCrc32 : entry.crc32;
-    const localCrc = Number.isSafeInteger(entry.localCrc32) ? entry.localCrc32 : centralCrc;
-    if (Number.isSafeInteger(centralCrc) && Number.isSafeInteger(localCrc) && centralCrc !== localCrc) {
-      reasons.push(reason('RTK_ZIP_LOCAL_CENTRAL_MISMATCH', `zip.${partName}.crc32`, 'ZIP local and central metadata disagree.', { partName }));
-    }
-    if (cryptoPort.crc32 && Object.hasOwn(parts, partName) && Number.isSafeInteger(centralCrc)) {
-      const actual = cryptoPort.crc32(parts[partName]);
-      if (actual !== centralCrc) {
-        reasons.push(reason('RTK_ZIP_CRC_MISMATCH', `zip.${partName}.crc32`, 'Admitted part CRC does not match package metadata.', {
-          partName,
-          expected: centralCrc,
-          actual,
-        }));
-      }
-    }
+    // Shared CRC evidence evaluation: central-vs-local divergence, missing
+    // evidence, and actual recompute via the bounded crc32 implementation
+    // (NOT the sha-only cryptoPort). Actual recompute is REQUIRED (Z1) and
+    // missing evidence is a rejection (Z3), never a silent skip.
+    reasons.push(...evaluateZipCrcEvidence(entry, parts, crc32));
     const start = Number(entry.dataStart ?? entry.start);
     const end = Number(entry.dataEnd ?? entry.end);
     for (const previous of ranges) {
@@ -2038,6 +2055,7 @@ function blockingReason(reasons) {
     'RTK_HOSTILE_PACKAGE_BLOCKED',
     'RTK_XML_MALFORMED_BLOCKED',
     'RTK_ZIP_CRC_MISMATCH',
+    'RTK_ZIP_CRC_EVIDENCE_MISSING',
     'RTK_ZIP_LOCAL_CENTRAL_MISMATCH',
     'RTK_ZIP_REGION_OVERLAP',
     'RTK_ZIP_FAKE_EOCD',
@@ -2054,6 +2072,7 @@ const RTK_V2_BLOCKING_CODES = Object.freeze(new Set([
   'RTK_HOSTILE_PACKAGE_BLOCKED',
   'RTK_XML_MALFORMED_BLOCKED',
   'RTK_ZIP_CRC_MISMATCH',
+  'RTK_ZIP_CRC_EVIDENCE_MISSING',
   'RTK_ZIP_LOCAL_CENTRAL_MISMATCH',
   'RTK_ZIP_REGION_OVERLAP',
   'RTK_ZIP_FAKE_EOCD',
@@ -2110,7 +2129,18 @@ function emptyReviewIr(diagnostics = []) {
 
 export function parseReviewTransportPackageV2(input = {}, ports = {}) {
   const cryptoPort = resolveCryptoPort(ports.cryptoPort);
-  const budgets = normalizeBudgets(input.budgets);
+  const budgetResolution = resolveBudgetsWithClamps(input.budgets);
+  const budgets = budgetResolution.effective;
+  const budgetClamps = budgetResolution.clampedFields;
+  const effectiveBudgetDigestValue = effectiveBudgetDigest(budgets);
+  // Effective budget evidence attached to EVERY result path (blocked or ok) so
+  // the exact min-clamped budget + digest + clamp record is observable
+  // downstream regardless of the parse outcome (F-11/P1-02).
+  const budgetEvidence = {
+    effectiveBudgets: budgets,
+    effectiveBudgetDigest: effectiveBudgetDigestValue,
+    budgetClamps,
+  };
   const initialReasons = [];
   if (!cryptoPort.ok) {
     initialReasons.push(reason('RTK_HOSTILE_PACKAGE_BLOCKED', 'cryptoPort', 'CryptoPort is required for package analysis digests.', {
@@ -2127,6 +2157,7 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
       reviewIr: emptyReviewIr(initialReasons),
       laneCompleteness: buildLaneCompletenessV2(initialReasons),
       reasons: initialReasons,
+      ...budgetEvidence,
     };
   }
 
@@ -2142,7 +2173,7 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
       }));
     }
   }
-  reasons.push(...evaluateZipInventory(input.zipInventory, parts, cryptoPort));
+  reasons.push(...evaluateZipInventory(input.zipInventory, parts, cryptoPort, budgets.maxZipEntries));
   const relationships = parseRelationshipParts(parts, budgets, cryptoPort);
   const contentTypes = parseContentTypes(parts['[Content_Types].xml'], budgets, cryptoPort);
   reasons.push(...relationships.reasons, ...contentTypes.reasons);
@@ -2209,6 +2240,7 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
       reviewIr: emptyReviewIr(reasons),
       laneCompleteness: buildLaneCompletenessV2(reasons),
       reasons,
+      ...budgetEvidence,
     };
   }
 
@@ -2242,6 +2274,7 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
       reviewIr: emptyReviewIr(reasons),
       laneCompleteness: buildLaneCompletenessV2(reasons),
       reasons,
+      ...budgetEvidence,
     };
   }
   if (moveRevisions.length > 0) {
@@ -2388,6 +2421,7 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
       parserProfile,
       laneCompleteness: buildLaneCompletenessV2(reasons),
       reasons,
+      ...budgetEvidence,
     };
   }
   const supportedSemanticDigest = cryptoPort.sha256Json(semanticProjection);
@@ -2421,6 +2455,9 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
       parserProfileDigest,
       manifestDigest: rawString(input.manifestDigest),
     }),
+    effectiveBudgets: budgets,
+    effectiveBudgetDigest: effectiveBudgetDigestValue,
+    budgetClamps,
     reasons: [
       reason('RTK_NO_WRITE_ANALYSIS_READY', 'reviewIr', 'Package-aware ReviewIRV2 parser produced immutable analysis without write authority.'),
       ...reasons,

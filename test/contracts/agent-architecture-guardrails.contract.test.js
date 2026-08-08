@@ -1,11 +1,14 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const os = require('node:os');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 const { pathToFileURL } = require('node:url');
 
 const REPO_ROOT = process.cwd();
 const LIB_PATH = path.join(REPO_ROOT, 'scripts', 'agent-guardrails-lib.mjs');
+const VALIDATOR_PATH = path.join(REPO_ROOT, 'scripts', 'validate-agent-guardrails.mjs');
 
 async function loadGuardrails() {
   return import(pathToFileURL(LIB_PATH).href);
@@ -67,6 +70,74 @@ test('agent architecture guardrails validate the active repository contract', as
   assert.equal(result.ok, true, JSON.stringify(result.errors, null, 2));
   assert.equal(result.details.currentCorexPath, 'docs/corex/COREX.v2.md');
   assert.equal(result.details.bootstrapSpecId, 'AGENT_BOOTSTRAP_REPOSITORY_NATIVE_V2_0');
+});
+
+test('agent entrypoint requires every MAP MOVE PROVE protocol marker', async () => {
+  const guardrails = await loadGuardrails();
+  const agentText = fs.readFileSync(path.join(REPO_ROOT, 'AGENTS.md'), 'utf8');
+  assert.deepEqual(guardrails.findMissingRequiredTokens(agentText), []);
+  const integrity = guardrails.validateAgentEntrypointText(agentText);
+  assert.equal(integrity.ok, true, JSON.stringify(integrity.errors, null, 2));
+  assert.equal(integrity.protocolSha256, guardrails.MAP_MOVE_PROVE_PROTOCOL_SHA256);
+
+  const protocolMarkers = [
+    'MAP_MOVE_PROVE_PROTOCOL_V1',
+    'MAP → MOVE → PROVE',
+    'EVIDENCE_NEVER_CREATES_AUTHORITY',
+    'MUTATION_ALLOWED =',
+    'CLAIM_STRENGTH = min(',
+    'DONE =',
+  ];
+  for (const marker of protocolMarkers) {
+    const strippedText = agentText.replaceAll(marker, 'REMOVED_PROTOCOL_MARKER');
+    assert.ok(
+      guardrails.findMissingRequiredTokens(strippedText).includes(marker),
+      `guardrails must reject AGENTS.md without ${marker}`,
+    );
+  }
+});
+
+test('agent entrypoint rejects a decoy-marker shell after the full protocol section is removed', async () => {
+  const guardrails = await loadGuardrails();
+  const agentText = fs.readFileSync(path.join(REPO_ROOT, 'AGENTS.md'), 'utf8');
+  const section = guardrails.extractSingleBoundedSection(agentText);
+  assert.equal(section.ok, true, section.failDetail);
+
+  let tamperedText = agentText.replace(section.text, '');
+  const decoyMarkers = guardrails.AGENT_ENTRYPOINT_REQUIRED_TOKENS
+    .filter((token) => !tamperedText.includes(token));
+  tamperedText += `\n<!-- TAMPERED_DECOY_MARKERS_ONLY -->\n${decoyMarkers.join('\n')}\n`;
+  assert.deepEqual(guardrails.findMissingRequiredTokens(tamperedText), []);
+
+  const fixtureRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'agent-guardrails-tampered-'));
+  try {
+    const clone = spawnSync('git', ['clone', '--quiet', '--shared', '--no-checkout', REPO_ROOT, fixtureRoot], {
+      encoding: 'utf8',
+      timeout: 30000,
+    });
+    assert.equal(clone.status, 0, `${clone.stdout}\n${clone.stderr}`);
+    const checkout = spawnSync('git', ['-C', fixtureRoot, 'checkout', '--quiet', 'HEAD'], {
+      encoding: 'utf8',
+      timeout: 30000,
+    });
+    assert.equal(checkout.status, 0, `${checkout.stdout}\n${checkout.stderr}`);
+    fs.writeFileSync(path.join(fixtureRoot, 'AGENTS.md'), tamperedText, 'utf8');
+
+    const validation = spawnSync(process.execPath, [VALIDATOR_PATH, '--json'], {
+      cwd: fixtureRoot,
+      encoding: 'utf8',
+      timeout: 30000,
+    });
+    assert.equal(validation.status, 1, `${validation.stdout}\n${validation.stderr}`);
+    const result = JSON.parse(validation.stdout);
+    assert.equal(result.ok, false);
+    assert.ok(result.errors.some((entry) => (
+      entry.code === 'E_AGENT_DOCUMENT_DRIFT'
+      && entry.message.includes('MAP MOVE PROVE digest mismatch')
+    )), JSON.stringify(result.errors, null, 2));
+  } finally {
+    fs.rmSync(fixtureRoot, { recursive: true, force: true });
+  }
 });
 
 test('agent bootstrap fails closed without one concrete objective', async () => {

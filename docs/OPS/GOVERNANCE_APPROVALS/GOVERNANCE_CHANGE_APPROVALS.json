@@ -2670,12 +2670,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "8daf3d61667d94b14a5d5db12e362dc0c0bd309308c524aab4d3f0342d7e3b7b",
-      "approvedBy": "owner-direct:TASK_ID:ZIP-01_BUDGET_CRC_EVIDENCE",
-      "approvedAtUtc": "2026-08-08T14:15:51.524Z",
-      "rationale": "Approve additive RTK graph catalog bytes adding the ZIP-01 budget/CRC evidence contract test file; no existing entry removed; supersedes the ADMIT-01-era catalog byte approval retained in git history.",
+      "sha256": "2234f23c766b40f3d42d3e5bdb28802d827b0b19e10b6030ed8260514ba5d9da",
+      "approvedBy": "owner-direct:TASK_ID:CANON-01_ORDERED_PROJECTIONS",
+      "approvedAtUtc": "2026-08-08T16:40:00.527Z",
+      "rationale": "Approve additive RTK graph catalog bytes adding the CANON-01 ordered-projections contract test file; supersedes the ZIP-01-era catalog byte approval retained in git history.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ZIP01_BUDGET_CRC_EVIDENCE"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_CANON01_ORDERED_PROJECTIONS"
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
@@ -6524,12 +6524,12 @@
     },
     {
       "filePath": "src/export/docx/fullManuscriptDocxReviewPacketSource.js",
-      "sha256": "3dfd0b39043d8a299690fc4b67d1d8c07f3602ccc3d25de0b4ef395c4f5459a2",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_PHASE_B_PRODUCT_TRUST_CHAIN_V1",
-      "approvedAtUtc": "2026-08-06T00:06:06.000Z",
-      "rationale": "Approve exact Phase B product trust-chain bytes: full-manuscript DOCX export now requires V4 provisional self-parse plus final self-parse semantic equivalence before publication; returned full-manuscript intake requires byte-backed YRTK2/CoreManifest proof before router MatchProof and Command Kernel authority; direct forged return-intake proof and missing-provisional-gate attacks are blocked. No physical Word run, no Google work, no long campaign, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
+      "sha256": "49521103f37e60ac2a03e0665a6affc5424f456932963fc76efa9e0b5a7cce28",
+      "approvedBy": "owner-direct:TASK_ID:CANON-01_ORDERED_PROJECTIONS",
+      "approvedAtUtc": "2026-08-08T16:40:00.527Z",
+      "rationale": "Approve CANON-01 producer hash-tree delegation to the shared domain-separated bottom-up builder with formatIr included.",
       "approved": true,
-      "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_PHASE_B_PRODUCT_TRUST_CHAIN"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_CANON01_ORDERED_PROJECTIONS"
     },
     {
       "filePath": "src/import/mindmap/v1/manualMapMarkdownPortabilityBridge.mjs",
@@ -6629,12 +6629,12 @@
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportCore.mjs",
-      "sha256": "c55eca0eef7bb7d4c2d5e3837f085f00386e5cc30d526877ce01847e3f103816",
-      "approvedBy": "owner-direct:TASK_ID:ZIP-01_BUDGET_CRC_EVIDENCE",
-      "approvedAtUtc": "2026-08-08T14:15:51.524Z",
-      "rationale": "Approve ZIP-01 reason-code registration and evaluatePackageIntegrity alignment with shared CRC evidence and effective entry clamp.",
+      "sha256": "d751a44dc59897e67bd7690024395ff1627ec566bee2fbd914f65393a5cd466c",
+      "approvedBy": "owner-direct:TASK_ID:CANON-01_ORDERED_PROJECTIONS",
+      "approvedAtUtc": "2026-08-08T16:40:00.527Z",
+      "rationale": "Approve CANON-01 W2 placement side-map feeding placement into the semantic digest projection while keeping the pinned reviewIr digest byte-stable.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ZIP01_BUDGET_CRC_EVIDENCE"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_CANON01_ORDERED_PROJECTIONS"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportExactApply.mjs",
@@ -6670,10 +6670,12 @@
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportManifestCore.mjs",
-      "sha256": "bda5ec2faac7a44b266f6122c52fb45417adc23210c00c4de23bbf093476ab04",
-      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
-      "approvedAtUtc": "2026-07-30T14:31:00.000Z",
-      "rationale": "Approve platform-neutral Review Transport Manifest v2 core: normalizes signed scene/block/baseline locator payloads, requires CryptoPort-provided SHA/HMAC, forbids embedded secrets, blocks tamper, missing secret and missing signed authority, keeps bookmarks, SDT, w14 ids and fingerprints as non-authoritative placement or manual signals, imports no Node, Electron, filesystem, Buffer, picker, network, parser, UI, or writer authority, and makes no automatic apply expansion claim."
+      "sha256": "a72e04d30b77edebe718f4e2b6c2cdd5f4feb2d2d727d0d8fcd9b28fb50e741c",
+      "approvedBy": "owner-direct:TASK_ID:CANON-01_ORDERED_PROJECTIONS",
+      "approvedAtUtc": "2026-08-08T16:40:00.527Z",
+      "rationale": "Approve CANON-01 order-preserving scene snapshot normalization in the transport manifest (producer block/scene order digested, no identifier sort).",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_CANON01_ORDERED_PROJECTIONS"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportMultiSceneAtomicCoordinatorV4.mjs",
@@ -6716,12 +6718,12 @@
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportPackageParserV2.mjs",
-      "sha256": "eeca4819f0a65cf9a2b808da31a9ede41eb24e8b8be1de9bd48519351047daed",
-      "approvedBy": "owner-direct:TASK_ID:ZIP-01_BUDGET_CRC_EVIDENCE",
-      "approvedAtUtc": "2026-08-08T14:15:51.524Z",
-      "rationale": "Approve ZIP-01 effective-budget resolution replacing widen-merge, shared CRC evidence evaluation with mandatory evidence rejection, effective entry clamp, and additive effective budget fields on parse results.",
+      "sha256": "5de0ce5b290952c94b2bd42f21b0adaa2c9b6b88b7f99748ba526ed1ac264fee",
+      "approvedBy": "owner-direct:TASK_ID:CANON-01_ORDERED_PROJECTIONS",
+      "approvedAtUtc": "2026-08-08T16:40:00.527Z",
+      "rationale": "Approve CANON-01 placement-aware semantic digest projection carrying namespace-invariant story, paragraph index, ordinal and anchor quote digest for text, comment and formatting entries; no IR atom change.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ZIP01_BUDGET_CRC_EVIDENCE"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_CANON01_ORDERED_PROJECTIONS"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportRoundStore.mjs",
@@ -6750,19 +6752,21 @@
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportYrtk2Core.mjs",
-      "sha256": "e0cf41090074f0c0941bf640665ca343a908f88aaf546e0fe10445a43fc5d4e5",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E03_COREMANIFEST_YRTK2",
-      "approvedAtUtc": "2026-07-31T05:05:00.000Z",
-      "rationale": "Approve V4 E03 platform-neutral CoreManifest/YRTK2 core: creates CoreManifest, ExportMap, hash tree binding, fixed 101-byte/135-character YRTK2 round locator token, HMAC verification through CryptoPort, hash-cycle rejection, double self-parse gate, no Buffer, Node, Electron, filesystem, renderer, network, parser authority, writer authority, UI, dependency, or automatic apply expansion."
+      "sha256": "923fdf69de6aca2f27437a3a97af51a6350a5f29f12f8fe3293fd16affc51dab",
+      "approvedBy": "owner-direct:TASK_ID:CANON-01_ORDERED_PROJECTIONS",
+      "approvedAtUtc": "2026-08-08T16:40:00.527Z",
+      "rationale": "Approve CANON-01 closed ordered export-map and hash-tree projections with scope, ordinals and formatIr in the digest, single domain-separated bottom-up tree builder shared by producers and validator, and recompute mismatch rejection.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_CANON01_ORDERED_PROJECTIONS"
     },
     {
       "filePath": "src/main.js",
-      "sha256": "10307e21a3aaa5a8663e97842c959fcd14a9b9e4f6d999df5dd376a1869027a3",
-      "approvedBy": "owner-direct:TASK_ID:ZIP-01_BUDGET_CRC_EVIDENCE",
-      "approvedAtUtc": "2026-08-08T14:15:51.524Z",
-      "rationale": "Approve ZIP-01 intake effective budget resolution with declared product profile and ceiling, transferable ArrayBuffer postMessage replacing base64, per-spawn buffer copy, and watchdog aligned to effective hard timeout plus grace.",
+      "sha256": "78de93fd7e82ea600ae203b298f088c0c72dace1f51740ed7b6d4ae7abc02262",
+      "approvedBy": "owner-direct:TASK_ID:CANON-01_ORDERED_PROJECTIONS",
+      "approvedAtUtc": "2026-08-08T16:40:00.527Z",
+      "rationale": "Approve CANON-01 single-scene hash-tree alignment to the shared domain-separated recipe and export map carrying scope, ordinals and formatIr.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ZIP01_BUDGET_CRC_EVIDENCE"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_CANON01_ORDERED_PROJECTIONS"
     },
     {
       "filePath": "src/main/rtkDocxReturnIntakeWorker.cjs",
@@ -8366,10 +8370,12 @@
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e03-coremanifest-yrtk2.contract.test.js",
-      "sha256": "9ae3084f529091138616df3c40a4757b4629c76c18d861cea17f24cc281ff981",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E03_COREMANIFEST_YRTK2",
-      "approvedAtUtc": "2026-07-31T05:05:00.000Z",
-      "rationale": "Approve V4 E03 contract coverage: proves CoreManifest and fixed-length YRTK2 creation/verification, double self-parse pass, hash-cycle blocking, Word signal apply-authority blocking, missing secret, tamper, stale round, digest mismatch, public barrel exports, receipt truth, and platform-neutral source boundaries."
+      "sha256": "871fe7c710c795d511ba68a6e9636d52d5e9d2c51b8d9d8a0ef2d75cd9f97791",
+      "approvedBy": "owner-direct:TASK_ID:CANON-01_ORDERED_PROJECTIONS",
+      "approvedAtUtc": "2026-08-08T16:40:00.527Z",
+      "rationale": "Approve honest e03 fixture migration to a bottom-up recomputing hash tree with ordinals and formatIr in the export map; negative cases preserved; tests only.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_CANON01_ORDERED_PROJECTIONS"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e04-minimal-semantic-kernel.contract.test.js",
@@ -9623,12 +9629,12 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "057744a530ed51edbbf2ff741f132ebd9026f6a45e695d3cc897945eeea211a1",
-      "approvedBy": "owner-direct:TASK_ID:ZIP-01_BUDGET_CRC_EVIDENCE",
-      "approvedAtUtc": "2026-08-08T14:15:51.524Z",
-      "rationale": "Approve additive test:rtk-zip01 lane script; no dependency or runtime change.",
+      "sha256": "6c0fc053eed1cca8d6e3b90ada0b4a4d885a08f2285f47354df755bd08a8434e",
+      "approvedBy": "owner-direct:TASK_ID:CANON-01_ORDERED_PROJECTIONS",
+      "approvedAtUtc": "2026-08-08T16:40:00.527Z",
+      "rationale": "Approve additive test:rtk-canon01 lane script; no dependency or runtime change.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ZIP01_BUDGET_CRC_EVIDENCE"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_CANON01_ORDERED_PROJECTIONS"
     },
     {
       "filePath": "test/contracts/rtk-admit01-accountable-lanes.contract.test.js",
@@ -9656,6 +9662,15 @@
       "rationale": "Approve ZIP-01 budget/CRC evidence contract tests (Z1-Z10 plus boundary guards); tests only.",
       "approved": true,
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ZIP01_BUDGET_CRC_EVIDENCE"
+    },
+    {
+      "filePath": "test/contracts/rtk-canon01-ordered-projections.contract.test.js",
+      "sha256": "ed21fe75c4084fdb9b528c87e401f43a2739456afd818a07f0e5fbb11f936920",
+      "approvedBy": "owner-direct:TASK_ID:CANON-01_ORDERED_PROJECTIONS",
+      "approvedAtUtc": "2026-08-08T16:40:00.527Z",
+      "rationale": "Approve CANON-01 ordered-projections contract tests (13 scenarios: scope/order/ordinal/formatIr collisions, tree recompute, relocation placement, controls); tests only.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_CANON01_ORDERED_PROJECTIONS"
     }
   ]
 }

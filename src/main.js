@@ -4038,28 +4038,66 @@ function buildReviewDocxPacketBlocks(sceneText, sceneId, cryptoPort) {
   });
 }
 
-function buildReviewDocxPacketHashTree({ projectId, sceneId, sceneRevision, rawSha256, blocks }, cryptoPort) {
-  const blockDigests = blocks.map((block) => ({
+// CANON-01: the single-scene hash tree uses the SAME domain-separated bottom-up recipe the
+// CoreManifest validator recomputes (domainBlock/domainScene/domainRoot), so the producer and
+// the validator converge on one canonical tree. When the revisionBridge exposes the shared
+// builder, delegate to it; otherwise build the identical recipe inline.
+function buildReviewDocxPacketHashTree({ projectId, sceneId, sceneRevision, rawSha256, blocks }, cryptoPort, revisionBridge) {
+  const normOrdinal = (value) => (Number.isSafeInteger(value) ? value : null);
+  const sceneOrdinal = 0;
+  const exportMapScenes = [{
     sceneId,
+    sceneOrdinal,
+    sceneRevision,
+    rawSha256,
+    blocks: blocks.map((block, blockIndex) => ({
+      blockId: block.blockId,
+      paragraphId: block.paragraphId,
+      documentParagraphIndex: normOrdinal(block.documentParagraphIndex ?? blockIndex),
+      canonicalTextSha256: block.canonicalTextSha256,
+      canonicalMarksSha256: block.canonicalMarksSha256,
+      formatIr: null,
+    })),
+  }];
+  if (revisionBridge && typeof revisionBridge.buildWordV4ManifestHashTree === 'function') {
+    const shared = revisionBridge.buildWordV4ManifestHashTree({ scenes: exportMapScenes }, projectId, cryptoPort);
+    if (shared && shared.ok) {
+      return {
+        rootDigest: shared.rootDigest,
+        sceneDigests: shared.sceneDigests,
+        blockDigests: shared.blockDigests,
+      };
+    }
+  }
+  const blockDigests = blocks.map((block, blockIndex) => ({
+    sceneId,
+    sceneOrdinal,
+    documentParagraphIndex: normOrdinal(block.documentParagraphIndex ?? blockIndex),
     blockId: block.blockId,
     digest: cryptoPort.sha256Json({
+      domain: 'domainBlock',
       sceneId,
+      sceneOrdinal,
+      documentParagraphIndex: normOrdinal(block.documentParagraphIndex ?? blockIndex),
       blockId: block.blockId,
       paragraphId: block.paragraphId,
       canonicalTextSha256: block.canonicalTextSha256,
       canonicalMarksSha256: block.canonicalMarksSha256,
+      formatIr: null,
     }),
   }));
   const sceneDigest = cryptoPort.sha256Json({
+    domain: 'domainScene',
     projectId,
     sceneId,
+    sceneOrdinal,
     sceneRevision,
     rawSha256,
-    blockDigests,
+    blockDigests: blockDigests.map((entry) => ({ blockId: entry.blockId, digest: entry.digest })),
   });
   return {
-    rootDigest: cryptoPort.sha256Json({ sceneDigests: [{ sceneId, digest: sceneDigest }] }),
-    sceneDigests: [{ sceneId, digest: sceneDigest }],
+    rootDigest: cryptoPort.sha256Json({ domain: 'domainRoot', sceneDigests: [{ sceneId, digest: sceneDigest }] }),
+    sceneDigests: [{ sceneId, sceneOrdinal, digest: sceneDigest }],
     blockDigests,
   };
 }
@@ -4123,17 +4161,21 @@ async function readDocxReviewPacketExportSource() {
   const exportMap = {
     exportMapId: `export-map-${roundIdHex}`,
     profileId: REVIEW_DOCX_PACKET_PROFILE_ID,
+    scope: 'scene',
     roundId,
     scenes: [
       {
         sceneId,
+        sceneOrdinal: 0,
         sceneRevision,
         rawSha256,
-        blocks: blocks.map((block) => ({
+        blocks: blocks.map((block, blockIndex) => ({
           blockId: block.blockId,
           paragraphId: block.paragraphId,
+          documentParagraphIndex: blockIndex,
           canonicalTextSha256: block.canonicalTextSha256,
           canonicalMarksSha256: block.canonicalMarksSha256,
+          formatIr: null,
           wordSignals: block.wordSignals,
         })),
       },
@@ -4179,7 +4221,7 @@ async function readDocxReviewPacketExportSource() {
     sceneRevision,
     rawSha256,
     blocks,
-  }, cryptoPort);
+  }, cryptoPort, revisionBridge);
   const coreManifestResult = revisionBridge.createWordV4CoreManifest({
     profileId: REVIEW_DOCX_PACKET_PROFILE_ID,
     projectId,

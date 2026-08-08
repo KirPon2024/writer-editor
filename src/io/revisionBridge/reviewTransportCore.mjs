@@ -471,6 +471,10 @@ function classifySourceMode(documentXml, input, scannedDocument) {
 function parseTrackedChanges(documentXml, scannedDocument, budgets, cryptoPort) {
   const changes = [];
   const diagnostics = [];
+  // CANON-01 P0-18: placement map (candidateId -> namespace-invariant paragraph index) kept
+  // OUT of the reviewIr change objects so the pinned reviewIr digest stays byte-stable; the
+  // semantic projection reads it separately to participate in supportedSemanticDigest.
+  const placementByCandidateId = new Map();
   let index = 0;
   for (const token of scannedDocument.tokens) {
     if (!['ins', 'del', 'moveFrom', 'moveTo'].includes(token.name)) continue;
@@ -481,8 +485,10 @@ function parseTrackedChanges(documentXml, scannedDocument, budgets, cryptoPort) 
     }
     const structural = token.name === 'moveFrom' || token.name === 'moveTo';
     const code = structural ? 'RTK_BLOCKED_MOVE_REVISION' : 'RTK_EXACT_APPLICABLE';
+    const candidateId = `rtk-candidate-${cryptoPort.sha256Text(stableJson({ kind: token.name, attrs: token.attrs, text }))}`;
+    placementByCandidateId.set(candidateId, paragraphIndexAtOffset(scannedDocument, token.openStart));
     changes.push({
-      candidateId: `rtk-candidate-${cryptoPort.sha256Text(stableJson({ kind: token.name, attrs: token.attrs, text }))}`,
+      candidateId,
       kind: token.name,
       candidateDisposition: structural ? 'BLOCKED' : 'MANUAL',
       classification: structural ? 'STRUCTURAL_BLOCKED' : 'TEXT_MANUAL',
@@ -508,7 +514,21 @@ function parseTrackedChanges(documentXml, scannedDocument, budgets, cryptoPort) 
       ));
     }
   }
-  return { changes, diagnostics };
+  return { changes, diagnostics, placementByCandidateId };
+}
+
+// CANON-01 P0-18: namespace-invariant paragraph index for W2 placement. Counts top-level body
+// paragraph localName tokens before the offset; localName 'p' is prefix-independent, so the
+// index is stable across namespace-prefix rename and attribute reorder (C6c/C7 controls).
+function paragraphIndexAtOffset(scannedDocument, offset) {
+  if (typeof offset !== 'number') return null;
+  let position = 0;
+  for (const token of scannedDocument.tokens) {
+    if (token.name !== 'p' || token.closing) continue;
+    if (token.openStart > offset) break;
+    position += 1;
+  }
+  return position;
 }
 
 function commentReferenceIds(scannedDocument) {
@@ -716,6 +736,11 @@ export function buildReviewIRV2(input = {}, ports = {}) {
       textDigest: change.textDigest,
       attributes: change.attributes,
       reasonCode: change.reasonCode,
+      // CANON-01 P0-18: placement participates in the W2 digest so relocation between paragraphs
+      // is visible. canonicalDocument remains the authoritative placement source; this per-change
+      // paragraph index is a namespace-invariant supplement read from a side map so the pinned
+      // reviewIr digest stays byte-stable.
+      placement: { story: 'document.xml', paragraphIndex: tracked.placementByCandidateId?.get(change.candidateId) ?? null },
     })),
     commentThreads: comments.commentThreads.map((thread) => ({
       rawId: thread.rawId,

@@ -36,6 +36,7 @@ export const RTK_LIFECYCLE_STATES = Object.freeze([
   'QUARANTINED',
 ]);
 export const RTK_TERMINAL_LIFECYCLE_STATES = Object.freeze(['RETURN_ANALYZED', 'TERMINAL', 'QUARANTINED']);
+export const RTK_APPLY_ELIGIBLE_LIFECYCLE_STATES = Object.freeze(['RETURN_ANALYZED']);
 export const RTK_RETURN_MODES = Object.freeze(['TRACKED', 'CLEAN', 'MIXED']);
 export const RTK_COMMENT_OUTCOMES = Object.freeze(['ANCHORED', 'ORPHAN', 'RESOLVED', 'UNSUPPORTED_BLOCKED']);
 export const RTK_REASON_CODES = Object.freeze([
@@ -89,6 +90,8 @@ export const RTK_REASON_CODES = Object.freeze([
   'RTK_ROUND_OPEN_FOR_RETURN',
   'RTK_ROUND_NOT_OPEN_FOR_RETURN',
   'RTK_NO_WRITE_ANALYSIS_READY',
+  'RTK_APPLY_STATE_NOT_ELIGIBLE',
+  'RTK_APPLY_OUTCOME_BINDING_INVALID',
 ]);
 
 export const RTK_V6_BUDGETS = Object.freeze({

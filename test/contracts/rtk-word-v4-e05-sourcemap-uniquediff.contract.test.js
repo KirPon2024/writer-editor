@@ -53,7 +53,7 @@ async function sourceMapFor(rowsInput) {
 
 function kernelReady() {
   return {
-    exactSemanticReady: true,
+    analysisOnly: true,
     semantics: {
       text: [],
     },
@@ -93,11 +93,16 @@ test('V4 E05 distinguishes duplicate quote text by SourceMap block identity and 
     kernelResult: kernelReady(),
   }, { cryptoPort });
 
-  assert.equal(blockTwoResult.exactEffectReady, true);
+  // E05 is analysis-only: it derives bounded text effects but never certifies
+  // them as a write-ready exactEffectReady authority flag. The status string
+  // remains the analysis classification; analysisOnly is always declared.
+  assert.equal(blockTwoResult.exactEffectReady, false);
+  assert.equal(blockTwoResult.analysisOnly, true);
   assert.equal(blockTwoResult.uniqueDiff.acceptedUntrackedEffects.length, 1);
   assert.equal(blockTwoResult.uniqueDiff.acceptedUntrackedEffects[0].blockId, 'block-2');
   assert.equal(blockTwoResult.conservation.quoteTextIsNeverAuthority, true);
-  assert.equal(blockOneResult.exactEffectReady, true);
+  assert.equal(blockOneResult.exactEffectReady, false);
+  assert.equal(blockOneResult.analysisOnly, true);
   assert.notEqual(
     blockTwoResult.uniqueDiff.acceptedUntrackedEffects[0].effectId,
     blockOneResult.uniqueDiff.acceptedUntrackedEffects[0].effectId,
@@ -214,7 +219,7 @@ test('V4 E05 derives pending G revision effects only through SourceMap and kerne
     reviewIr,
     sourceMap,
     kernelResult: {
-      exactSemanticReady: true,
+      analysisOnly: true,
       semantics: {
         text: [
           {
@@ -227,7 +232,10 @@ test('V4 E05 derives pending G revision effects only through SourceMap and kerne
     },
   }, { cryptoPort });
 
-  assert.equal(result.exactEffectReady, true);
+  // E05 derives the pending revision effect through SourceMap + analysis-only
+  // kernel semantics, but never certifies it as write-ready authority.
+  assert.equal(result.exactEffectReady, false);
+  assert.equal(result.analysisOnly, true);
   assert.equal(result.uniqueDiff.pendingRevisionEffects.length, 1);
   assert.equal(result.uniqueDiff.pendingRevisionEffects[0].sourceMapSegmentId, 'seg-beta');
   assert.equal(result.lanes.comments, 'independent-shadow-analysis');

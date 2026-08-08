@@ -230,7 +230,7 @@ async function applyReviewTransportExactApplyReserved(context) {
   try {
     preflightReplay = await findRtkExactApplyOutcome(projectRoot, envelope);
   } catch (error) {
-    return reservationBlock('RTK_WRITE_RESERVATION_RECOVERY_REQUIRED', error.message, { envelope, errorCode: error?.code });
+    return reservationBlock(normalizeString(error?.code) || 'RTK_WRITE_RESERVATION_RECOVERY_REQUIRED', error.message, { envelope, errorCode: error?.code });
   }
   if (preflightReplay.requestMatch) {
     return replay(preflightReplay.requestMatch, { replayKind: 'request', envelope });
@@ -249,7 +249,7 @@ async function applyReviewTransportExactApplyReserved(context) {
   try {
     postRecheckReplay = await findRtkExactApplyOutcome(projectRoot, envelope);
   } catch (error) {
-    return reservationBlock('RTK_WRITE_RESERVATION_RECOVERY_REQUIRED', error.message, { envelope, errorCode: error?.code });
+    return reservationBlock(normalizeString(error?.code) || 'RTK_WRITE_RESERVATION_RECOVERY_REQUIRED', error.message, { envelope, errorCode: error?.code });
   }
   if (postRecheckReplay.requestMatch) {
     return replay(postRecheckReplay.requestMatch, { replayKind: 'request_post_recheck', envelope });

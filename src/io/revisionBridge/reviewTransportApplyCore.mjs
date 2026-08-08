@@ -1,4 +1,5 @@
 import {
+  RTK_APPLY_ELIGIBLE_LIFECYCLE_STATES,
   RTK_EXACT_APPLY_COMMAND_ENVELOPE_V2_SCHEMA,
   RTK_EXACT_APPLY_OUTCOME_V2_SCHEMA,
   RTK_EXACT_APPLY_OUTCOME_EFFECT_INDEX_V1_SCHEMA,
@@ -6,7 +7,6 @@ import {
   RTK_EXACT_APPLY_RESERVATION_STATE_V1_SCHEMA,
   RTK_EXACT_APPLY_RESERVATION_V1_SCHEMA,
   RTK_REASON_CODES,
-  RTK_TERMINAL_LIFECYCLE_STATES,
   stableJson,
 } from './reviewTransportCore.mjs';
 
@@ -199,12 +199,12 @@ function validateEnvelopeInput(input, writerSemanticChanges) {
       { expectedIntent: RTK_EXACT_APPLY_INTENT },
     ));
   }
-  if (!RTK_TERMINAL_LIFECYCLE_STATES.includes(lifecycleState)) {
+  if (!RTK_APPLY_ELIGIBLE_LIFECYCLE_STATES.includes(lifecycleState)) {
     reasons.push(reason(
-      'RTK_WRITE_PRECONDITION_FAILED',
+      'RTK_APPLY_STATE_NOT_ELIGIBLE',
       'returnLifecycleState',
-      'Exact apply requires terminal returned-review analysis.',
-      { lifecycleState },
+      'Exact apply requires the returned round to be in RETURN_ANALYZED lifecycle before writer admission.',
+      { lifecycleState, eligibleStates: RTK_APPLY_ELIGIBLE_LIFECYCLE_STATES },
     ));
   }
   if (identity.sourceTokenDomain !== SOURCE_TOKEN_DOMAIN_V1) {

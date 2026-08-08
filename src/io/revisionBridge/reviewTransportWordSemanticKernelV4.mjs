@@ -213,17 +213,23 @@ export function evaluateWordV4MinimalSemanticKernel(input = {}, ports = {}) {
     authority,
     parserResult: input.parserResult,
   });
-  const exactSemanticReady = reasons.length === 0
-    && text.every((item) => item.exactEligibleSemantic)
-    && semantics.replacementGroups.every((item) => item.exactEligibleSemantic)
-    && text.length > 0;
+  // The E04 kernel is analysis-only. The returned status string
+  // (semantic-kernel-ready / semantic-kernel-manual-or-blocked) is an analysis
+  // classification of the reviewed text semantics, not apply authority. The
+  // kernel deliberately does not restate caller-provided authority booleans as
+  // a write-ready flag; it only declares analysisOnly so downstream consumers
+  // can prove the kernel result came from the analysis plane.
   return {
     ok: true,
     schemaVersion: RTK_WORD_V4_MINIMAL_SEMANTIC_KERNEL_SCHEMA,
     profileId: RTK_WORD_V4_MINIMAL_SEMANTIC_KERNEL_PROFILE,
     status: reasons.length === 0 ? 'semantic-kernel-ready' : 'semantic-kernel-manual-or-blocked',
     code: reasons.length === 0 ? 'RTK_V4_KERNEL_READY' : reasons[0].code,
-    exactSemanticReady,
+    // The E04 kernel is analysis-only. It never restates caller-provided
+    // authority booleans as a write-ready exactSemanticReady flag; the returned
+    // status string is an analysis classification, not apply authority. This
+    // prevents a caller from fabricating write authority by passing booleans.
+    analysisOnly: true,
     canApply: false,
     canWriteManuscript: false,
     reasons,

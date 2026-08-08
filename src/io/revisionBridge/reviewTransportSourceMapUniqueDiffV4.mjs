@@ -474,8 +474,8 @@ export function evaluateWordV4SourceMapUniqueDiff(input = {}, ports = {}) {
       }
     }
   }
-  if (kernelResult.exactSemanticReady !== true) {
-    reasons.push(reason('RTK_V4_E05_KERNEL_READY_REQUIRED', 'kernelResult.exactSemanticReady', 'E05 requires Minimal Word Semantic Kernel exact-semantic readiness before exact effects.'));
+  if (kernelResult.analysisOnly !== true) {
+    reasons.push(reason('RTK_V4_E05_KERNEL_ANALYSIS_ONLY_REQUIRED', 'kernelResult.analysisOnly', 'E05 requires a Minimal Word Semantic Kernel result that explicitly declares analysisOnly authority before deriving effects.'));
   }
 
   const sourceMapState = validateSourceMap({
@@ -521,7 +521,13 @@ export function evaluateWordV4SourceMapUniqueDiff(input = {}, ports = {}) {
     profileId: RTK_WORD_V4_SOURCEMAP_UNIQUEDIFF_PROFILE,
     status: exactEffectReady ? 'sourcemap-uniquediff-ready' : 'sourcemap-uniquediff-manual-or-blocked',
     code: exactEffectReady ? 'RTK_V4_E05_READY' : (reasons[0]?.code || 'RTK_V4_E05_NO_EFFECTS'),
-    exactEffectReady,
+    // E05 is analysis-only. exactEffectReady is permanently false: E05 derives
+    // bounded text effects from the SourceMap and the analysis-only kernel, but
+    // it never certifies them as a write-ready authority flag. The status string
+    // remains an analysis classification; apply authority lives in a later typed
+    // apply contour.
+    analysisOnly: true,
+    exactEffectReady: false,
     canApply: false,
     canWriteManuscript: false,
     sourceMap: {

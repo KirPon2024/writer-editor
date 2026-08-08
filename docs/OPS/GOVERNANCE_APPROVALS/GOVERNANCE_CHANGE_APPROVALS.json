@@ -2670,12 +2670,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "b3e4ad8ee751f8a8b02657b834cfb1c2770f5c3cd6bd3a9ff0c63eb817b3a684",
-      "approvedBy": "owner-direct:TASK_ID:ADMIT-01_ACCOUNTABLE_LANES",
-      "approvedAtUtc": "2026-08-08T11:03:22.818Z",
-      "rationale": "Approve additive RTK graph catalog bytes adding the ADMIT-01 accountable-lanes contract test file; no existing entry removed; supersedes the STOP-01-era catalog byte approval retained in git history.",
+      "sha256": "8daf3d61667d94b14a5d5db12e362dc0c0bd309308c524aab4d3f0342d7e3b7b",
+      "approvedBy": "owner-direct:TASK_ID:ZIP-01_BUDGET_CRC_EVIDENCE",
+      "approvedAtUtc": "2026-08-08T14:15:51.524Z",
+      "rationale": "Approve additive RTK graph catalog bytes adding the ZIP-01 budget/CRC evidence contract test file; no existing entry removed; supersedes the ADMIT-01-era catalog byte approval retained in git history.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ADMIT01_ACCOUNTABLE_LANES"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ZIP01_BUDGET_CRC_EVIDENCE"
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
@@ -6558,12 +6558,12 @@
     },
     {
       "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "3ba22f68e0485cfeb11945c664938da32cbf854d0eb7ad4f1a3f65b3a4d05940",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1:WORD_NATIVE_LOCATOR_REGENERATION",
-      "approvedAtUtc": "2026-08-02T12:39:38.000Z",
-      "rationale": "Approve the exact revision-bridge bytes deriving authenticated FormatIR deltas while handling source-proven native Word saves that regenerate paraId and textId. Unknown regenerated native identifiers are non-authoritative; stable paragraph-index and bookmark claims remain authoritative, known identifier collisions and cross-authority conflicts still fail closed, and scene revision, observable hash, unsupported-style and typed safe-apply guards remain mandatory. No automatic mutation or false EXACT claim.",
+      "sha256": "40314190e0d70fdc33a9b3abfea09b58966e50ff84451d9fd25e7e5e53a9b00d",
+      "approvedBy": "owner-direct:TASK_ID:ZIP-01_BUDGET_CRC_EVIDENCE",
+      "approvedAtUtc": "2026-08-08T14:15:51.524Z",
+      "rationale": "Approve ZIP-01 CRC reads in central/local header paths, typed local-central CRC divergence, real eocdCount, effective-budget first-touch raw and pre-inflate enforcement with cumulative totals; no scanner grammar change.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ZIP01_BUDGET_CRC_EVIDENCE"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportApplyCore.mjs",
@@ -6629,12 +6629,12 @@
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportCore.mjs",
-      "sha256": "875136f493a99e84fb621b42f4e3b962ecd6516fcf5ab34390dc1ca0dd67b8ce",
-      "approvedBy": "owner-direct:TASK_ID:ADMIT-01_ACCOUNTABLE_LANES",
-      "approvedAtUtc": "2026-08-08T11:03:22.818Z",
-      "rationale": "Approve ADMIT-01 V1 post-lane blocking re-check with shared blocking-code set and additive laneCompleteness markers on blocked and success forms; successful ReviewIR bytes unchanged.",
+      "sha256": "c55eca0eef7bb7d4c2d5e3837f085f00386e5cc30d526877ce01847e3f103816",
+      "approvedBy": "owner-direct:TASK_ID:ZIP-01_BUDGET_CRC_EVIDENCE",
+      "approvedAtUtc": "2026-08-08T14:15:51.524Z",
+      "rationale": "Approve ZIP-01 reason-code registration and evaluatePackageIntegrity alignment with shared CRC evidence and effective entry clamp.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ADMIT01_ACCOUNTABLE_LANES"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ZIP01_BUDGET_CRC_EVIDENCE"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportExactApply.mjs",
@@ -6716,12 +6716,12 @@
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportPackageParserV2.mjs",
-      "sha256": "0b841ef73ff4e81bb3f94ae7b7c0411f47fba7f4be674806a9e2ec2ac6e797ec",
-      "approvedBy": "owner-direct:TASK_ID:ADMIT-01_ACCOUNTABLE_LANES",
-      "approvedAtUtc": "2026-08-08T11:03:22.818Z",
-      "rationale": "Approve ADMIT-01 V2 comment reason conditioning (success reasons only for admitted threads, typed budget reasons for dropped) and additive laneCompleteness markers on abort and success forms.",
+      "sha256": "eeca4819f0a65cf9a2b808da31a9ede41eb24e8b8be1de9bd48519351047daed",
+      "approvedBy": "owner-direct:TASK_ID:ZIP-01_BUDGET_CRC_EVIDENCE",
+      "approvedAtUtc": "2026-08-08T14:15:51.524Z",
+      "rationale": "Approve ZIP-01 effective-budget resolution replacing widen-merge, shared CRC evidence evaluation with mandatory evidence rejection, effective entry clamp, and additive effective budget fields on parse results.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ADMIT01_ACCOUNTABLE_LANES"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ZIP01_BUDGET_CRC_EVIDENCE"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportRoundStore.mjs",
@@ -6757,21 +6757,21 @@
     },
     {
       "filePath": "src/main.js",
-      "sha256": "cb069481c79c8c848f058778e6b815fc99e6aecf2a47fa8f3fdfae7fea3c99da",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_PHASE_B_PRODUCT_TRUST_CHAIN_V1",
-      "approvedAtUtc": "2026-08-06T00:06:06.000Z",
-      "rationale": "Approve exact Phase B product trust-chain bytes: full-manuscript DOCX export now requires V4 provisional self-parse plus final self-parse semantic equivalence before publication; returned full-manuscript intake requires byte-backed YRTK2/CoreManifest proof before router MatchProof and Command Kernel authority; direct forged return-intake proof and missing-provisional-gate attacks are blocked. No physical Word run, no Google work, no long campaign, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
+      "sha256": "10307e21a3aaa5a8663e97842c959fcd14a9b9e4f6d999df5dd376a1869027a3",
+      "approvedBy": "owner-direct:TASK_ID:ZIP-01_BUDGET_CRC_EVIDENCE",
+      "approvedAtUtc": "2026-08-08T14:15:51.524Z",
+      "rationale": "Approve ZIP-01 intake effective budget resolution with declared product profile and ceiling, transferable ArrayBuffer postMessage replacing base64, per-spawn buffer copy, and watchdog aligned to effective hard timeout plus grace.",
       "approved": true,
-      "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_PHASE_B_PRODUCT_TRUST_CHAIN"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ZIP01_BUDGET_CRC_EVIDENCE"
     },
     {
       "filePath": "src/main/rtkDocxReturnIntakeWorker.cjs",
-      "sha256": "edab6bfd1394554f713059aef4fb996e45c4affb6080b2db2896884a67cbda13",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
-      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
-      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
+      "sha256": "883a8f778baa427a30df6e0d1d755fa5776f4760277e25dec8788a0e4644f6e4",
+      "approvedBy": "owner-direct:TASK_ID:ZIP-01_BUDGET_CRC_EVIDENCE",
+      "approvedAtUtc": "2026-08-08T14:15:51.524Z",
+      "rationale": "Approve ZIP-01 worker byte normalization accepting transferable bytes with legacy base64 compatibility decode and effective worker output limit consumption.",
       "approved": true,
-      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ZIP01_BUDGET_CRC_EVIDENCE"
     },
     {
       "filePath": "src/preload.js",
@@ -7628,12 +7628,12 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
-      "sha256": "a6f809aa5797aef00f4b72504dee53392db16e13fe4073a3a3d11654006db25d",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_PHASE_B_PRODUCT_TRUST_CHAIN_V1",
-      "approvedAtUtc": "2026-08-06T00:06:06.000Z",
-      "rationale": "Approve exact Phase B product trust-chain bytes: full-manuscript DOCX export now requires V4 provisional self-parse plus final self-parse semantic equivalence before publication; returned full-manuscript intake requires byte-backed YRTK2/CoreManifest proof before router MatchProof and Command Kernel authority; direct forged return-intake proof and missing-provisional-gate attacks are blocked. No physical Word run, no Google work, no long campaign, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
+      "sha256": "7bb52e538bf9f9cf0429586d7e8fba84eebc5fed81c22437a6181719288b641b",
+      "approvedBy": "owner-direct:TASK_ID:ZIP-01_BUDGET_CRC_EVIDENCE",
+      "approvedAtUtc": "2026-08-08T14:15:51.524Z",
+      "rationale": "Approve ZIP-01 fixture repair writing real CRC32 into local and central headers of the preview-session command-surface DOCX fixtures; no assertion weakened; tests only.",
       "approved": true,
-      "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_PHASE_B_PRODUCT_TRUST_CHAIN"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ZIP01_BUDGET_CRC_EVIDENCE"
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-review-preview-session.contract.test.js",
@@ -7646,10 +7646,12 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-zip-inventory-materializer.contract.test.js",
-      "sha256": "bbf509466f4e1febf9169e3e0d59628c90721287601be2e13a954dc8b30ff175",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
-      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
+      "sha256": "db0a17d6bd5221194b81db54bc07be6ce0899293f26c21eef023fc5c11a06606",
+      "approvedBy": "owner-direct:TASK_ID:ZIP-01_BUDGET_CRC_EVIDENCE",
+      "approvedAtUtc": "2026-08-08T14:15:51.524Z",
+      "rationale": "Approve additive centralCrc32 expectation and ZIP-01 contour allowlist entries in the materializer contract; tests only.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ZIP01_BUDGET_CRC_EVIDENCE"
     },
     {
       "filePath": "test/contracts/revision-bridge-exact-text-apply-crash-reconciliation.contract.test.js",
@@ -9621,12 +9623,12 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "bad28da572c5c1f5d3063b92fef7b3bb21d6796197dde429cd58699c80a010a2",
-      "approvedBy": "owner-direct:TASK_ID:ADMIT-01_ACCOUNTABLE_LANES",
-      "approvedAtUtc": "2026-08-08T11:03:22.818Z",
-      "rationale": "Approve additive test:rtk-admit01 lane script for the ADMIT-01 contract test file; no dependency or runtime change.",
+      "sha256": "057744a530ed51edbbf2ff741f132ebd9026f6a45e695d3cc897945eeea211a1",
+      "approvedBy": "owner-direct:TASK_ID:ZIP-01_BUDGET_CRC_EVIDENCE",
+      "approvedAtUtc": "2026-08-08T14:15:51.524Z",
+      "rationale": "Approve additive test:rtk-zip01 lane script; no dependency or runtime change.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ADMIT01_ACCOUNTABLE_LANES"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ZIP01_BUDGET_CRC_EVIDENCE"
     },
     {
       "filePath": "test/contracts/rtk-admit01-accountable-lanes.contract.test.js",
@@ -9636,6 +9638,24 @@
       "rationale": "Approve ADMIT-01 accountable-lanes contract tests (8 scenarios: V1 masked success aborts, V1 comment overflow abort, V2 dropped-comment reason conditioning, lane completeness markers, controls); tests only.",
       "approved": true,
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ADMIT01_ACCOUNTABLE_LANES"
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportZipEvidenceV1.mjs",
+      "sha256": "2d5bfc1f1aaa579c03d591187a9529e605859ff6f2e2623d0591309c0bf72cec",
+      "approvedBy": "owner-direct:TASK_ID:ZIP-01_BUDGET_CRC_EVIDENCE",
+      "approvedAtUtc": "2026-08-08T14:15:51.524Z",
+      "rationale": "Approve new bounded ZIP-01 evidence module: crc32, min-clamp effective budget resolver with clamp recording, effective budget digest, shared CRC evidence evaluation with empty-part-only zero-CRC exemption; pure functions, no runtime wiring change.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ZIP01_BUDGET_CRC_EVIDENCE"
+    },
+    {
+      "filePath": "test/contracts/rtk-zip01-budget-crc-evidence.contract.test.js",
+      "sha256": "9fb350f148580e4816ba072c928aef865f5ac50c3eba579fd40f01d5b179e181",
+      "approvedBy": "owner-direct:TASK_ID:ZIP-01_BUDGET_CRC_EVIDENCE",
+      "approvedAtUtc": "2026-08-08T14:15:51.524Z",
+      "rationale": "Approve ZIP-01 budget/CRC evidence contract tests (Z1-Z10 plus boundary guards); tests only.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ZIP01_BUDGET_CRC_EVIDENCE"
     }
   ]
 }

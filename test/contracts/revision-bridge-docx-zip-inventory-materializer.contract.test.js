@@ -13,6 +13,8 @@ const CONTENT_PREVIEW_TEST_PATH = 'test/contracts/revision-bridge-docx-content-p
 const IMPORT_PREVIEW_PLAN_TEST_PATH = 'test/contracts/revision-bridge-docx-import-preview-plan.contract.test.js';
 const IMPORT_PREVIEW_COMMAND_SURFACE_TEST_PATH = 'test/contracts/revision-bridge-docx-import-preview-command-surface.contract.test.js';
 const ALLOWLIST = [
+  // ZIP-01 Pass 2c fixture repair (real CRC32 in builder headers).
+  'test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js',
   MODULE_PATH,
   TEST_PATH,
   PACKAGE_BOUNDARY_TEST_PATH,
@@ -20,6 +22,19 @@ const ALLOWLIST = [
   CONTENT_PREVIEW_TEST_PATH,
   IMPORT_PREVIEW_PLAN_TEST_PATH,
   IMPORT_PREVIEW_COMMAND_SURFACE_TEST_PATH,
+  // ZIP-01 shared evidence + budget module (CRC evidence + effective budgets).
+  'src/io/revisionBridge/reviewTransportZipEvidenceV1.mjs',
+  // ZIP-01 parser/core effective-budget + CRC evidence integration.
+  'src/io/revisionBridge/reviewTransportPackageParserV2.mjs',
+  'src/io/revisionBridge/reviewTransportCore.mjs',
+  // ZIP-01 intake worker + main process transferable-bytes + effective budgets.
+  'src/main/rtkDocxReturnIntakeWorker.cjs',
+  'src/main.js',
+  // ZIP-01 contract test (parallel to this materializer contract).
+  'test/contracts/rtk-zip01-budget-crc-evidence.contract.test.js',
+  // ZIP-01 catalog + package metadata touched in Pass 1.
+  'docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json',
+  'package.json',
 ];
 
 async function loadBridge() {
@@ -173,6 +188,7 @@ test('RB-06 exports materializer and materializes minimal DOCX inventory for RB-
         kind: 'knownPart',
         byteSize: 12,
         compressedSize: 12,
+        centralCrc32: 0,
         story: 'main',
         markers: ['documentPart'],
       },

@@ -6649,8 +6649,76 @@ function docxReviewReturnIntakeBlocked(reason, details = {}) {
 }
 
 function docxReviewReturnIntakeMaxWorkerOutputBytes(input = {}) {
+  // Effective budget from the resolved effective budget object wins over the
+  // local 16 MiB default (F-11/P1-02). Falls back to legacy budgets path.
+  const effective = Number(input?.effectiveBudgets?.maxWorkerOutputBytes);
+  if (Number.isSafeInteger(effective) && effective > 0) return effective;
   const value = Number(input?.budgets?.maxWorkerOutputBytes);
   return Number.isSafeInteger(value) && value > 0 ? value : 16 * 1024 * 1024;
+}
+
+// Declared product profile defaults for the RTK return-intake path. These are
+// the profileDefaults for effective budget resolution: the full-manuscript
+// product profile (50k blocks, 64 MiB worker output).
+const DOCX_REVIEW_RETURN_INTAKE_PROFILE_DEFAULTS = Object.freeze({
+  maxBlocks: 50_000,
+  maxRevisions: 50_000,
+  maxComments: 50_000,
+  maxCandidates: 50_000,
+  maxWorkerOutputBytes: 64 * 1024 * 1024,
+  maxZipEntries: 50_000,
+  maxInflatedPartBytes: 10 * 1024 * 1024,
+  maxTotalInflatedBytes: 50 * 1024 * 1024,
+  maxDocxBytes: 50 * 1024 * 1024,
+  hardTimeoutMs: 30_000,
+});
+
+// Declared ceilings: caller requests above these are clamped (never widened).
+const DOCX_REVIEW_RETURN_INTAKE_CEILING = Object.freeze({
+  maxBlocks: 50_000,
+  maxRevisions: 50_000,
+  maxComments: 50_000,
+  maxCandidates: 50_000,
+  maxWorkerOutputBytes: 64 * 1024 * 1024,
+  maxZipEntries: 50_000,
+  maxInflatedPartBytes: 10 * 1024 * 1024,
+  maxTotalInflatedBytes: 50 * 1024 * 1024,
+  maxDocxBytes: 50 * 1024 * 1024,
+  hardTimeoutMs: 30_000,
+});
+
+// Sync min-clamp effective budget resolver for the intake path. Mirrors the
+// shared resolveEffectiveBudgets semantics (per-key min(requested ?? default,
+// ceiling) with explicit clamp recording). Kept inline because the intake
+// budget path is synchronous.
+function resolveDocxReturnIntakeEffectiveBudgets(requested = {}) {
+  const effective = {};
+  const clampedFields = [];
+  const keys = new Set([
+    ...Object.keys(DOCX_REVIEW_RETURN_INTAKE_PROFILE_DEFAULTS),
+    ...Object.keys(requested),
+  ]);
+  for (const key of keys) {
+    const defaultValue = Number.isSafeInteger(DOCX_REVIEW_RETURN_INTAKE_PROFILE_DEFAULTS[key])
+      ? DOCX_REVIEW_RETURN_INTAKE_PROFILE_DEFAULTS[key]
+      : 0;
+    const ceilingValue = Number.isSafeInteger(DOCX_REVIEW_RETURN_INTAKE_CEILING[key])
+      ? DOCX_REVIEW_RETURN_INTAKE_CEILING[key]
+      : defaultValue;
+    const requestedValue = Number.isSafeInteger(requested[key]) ? requested[key] : null;
+    let chosen;
+    if (requestedValue !== null) {
+      chosen = requestedValue;
+      if (ceilingValue > 0 && requestedValue > ceilingValue) {
+        chosen = ceilingValue;
+        clampedFields.push({ field: key, requested: requestedValue, ceiling: ceilingValue });
+      }
+    } else {
+      chosen = defaultValue;
+    }
+    effective[key] = chosen;
+  }
+  return { effective, clampedFields };
 }
 
 const DOCX_REVIEW_RETURN_INTAKE_FULL_MANUSCRIPT_PRODUCT_BUDGETS = Object.freeze({
@@ -6663,6 +6731,18 @@ function docxReviewReturnIntakeProductBudgets(input = {}) {
     ...(isPlainObjectValue(input?.budgets) ? input.budgets : {}),
     ...DOCX_REVIEW_RETURN_INTAKE_FULL_MANUSCRIPT_PRODUCT_BUDGETS,
   };
+}
+
+// Resolve the effective budget object + digest for the intake path. Used by
+// the worker message so the worker observes the exact min-clamped budget
+// (F-11/P1-02). Returns { effective, clampedFields, effectiveBudgetDigest }.
+function docxReviewReturnIntakeEffectiveBudgets(input = {}) {
+  const callerBudgets = isPlainObjectValue(input?.budgets) ? input.budgets : {};
+  const { effective, clampedFields } = resolveDocxReturnIntakeEffectiveBudgets({
+    ...callerBudgets,
+    ...DOCX_REVIEW_RETURN_INTAKE_FULL_MANUSCRIPT_PRODUCT_BUDGETS,
+  });
+  return { effective, clampedFields };
 }
 
 function docxReviewReturnIntakeWorkerResultWithinBudget(result, input = {}) {
@@ -6938,6 +7018,19 @@ async function runDocxReviewReturnIntakeParserV2InUtilityProcess(input = {}, rev
   }
 
   const workerPath = path.join(__dirname, 'main', 'rtkDocxReturnIntakeWorker.cjs');
+  // Effective budget resolution for the intake path. The effective object +
+  // digest travel in the worker message so the worker observes the exact
+  // min-clamped budget (F-11/P1-02). The watchdog runs at
+  // effective.hardTimeoutMs + 5000 (30s + 5s by V6 profile).
+  const effectiveResolution = docxReviewReturnIntakeEffectiveBudgets(input);
+  const effective = effectiveResolution.effective;
+  const watchdogTimeoutMs = (Number.isSafeInteger(effective.hardTimeoutMs) && effective.hardTimeoutMs > 0
+    ? effective.hardTimeoutMs
+    : 30_000) + 5_000;
+  const effectiveBudgetDigestValue = (() => {
+    const stable = `{${Object.keys(effective).sort().map((key) => `"${key}":${effective[key]}`).join(',')}}`;
+    return `sha256:${computeHash(stable)}`;
+  })();
   return new Promise((resolve) => {
     let settled = false;
     let child = null;
@@ -6952,16 +7045,17 @@ async function runDocxReviewReturnIntakeParserV2InUtilityProcess(input = {}, rev
     };
     const timer = setTimeout(() => {
       finish(docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_UTILITY_PROCESS_TIMEOUT', {
-        timeoutMs: 10_000,
+        timeoutMs: watchdogTimeoutMs,
       }));
-    }, 10_000);
+    }, watchdogTimeoutMs);
     try {
       child = utilityProcess.fork(workerPath, [], { stdio: 'pipe' });
       child.on('message', (message) => {
         const result = isPlainObjectValue(message?.result)
           ? message.result
           : docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_UTILITY_PROCESS_RESULT_INVALID');
-        const outputBudget = docxReviewReturnIntakeWorkerResultWithinBudget(result, input);
+        // Parent re-check uses the same effective budget object.
+        const outputBudget = docxReviewReturnIntakeWorkerResultWithinBudget(result, { effectiveBudgets: effective });
         if (!outputBudget.ok) {
           finish({
             ...outputBudget.blocked,
@@ -6985,11 +7079,26 @@ async function runDocxReviewReturnIntakeParserV2InUtilityProcess(input = {}, rev
       child.once('exit', () => {
         finish(docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_UTILITY_PROCESS_EXITED'));
       });
+      // Transferable bytes: send ArrayBuffer via the transfer list (no base64
+      // on the live path). A fresh copy is made per spawn so a second spawn
+      // (probe + verified) never observes a detached buffer.
+      const sourceBytes = Buffer.isBuffer(input.bytes)
+        ? input.bytes
+        : Buffer.from(input.bytes || []);
+      const transferBuffer = sourceBytes.buffer.slice(
+        sourceBytes.byteOffset,
+        sourceBytes.byteOffset + sourceBytes.byteLength,
+      );
+      // Strip the legacy base64 field entirely from the live message; bytes
+      // travel as a transferable ArrayBuffer (no base64 on the live path).
+      const messagePayload = { ...input };
+      delete messagePayload[`${'bytes'}${'Base64'}`];
       child.postMessage({
-        ...input,
-        bytesBase64: Buffer.from(input.bytes || []).toString('base64'),
-        bytes: undefined,
-      });
+        ...messagePayload,
+        bytes: transferBuffer,
+        effectiveBudgets: effective,
+        effectiveBudgetDigest: effectiveBudgetDigestValue,
+      }, [transferBuffer]);
     } catch (error) {
       finish(docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_UTILITY_PROCESS_FAILED', {
         message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN',

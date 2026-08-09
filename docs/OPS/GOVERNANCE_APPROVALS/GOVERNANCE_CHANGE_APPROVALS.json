@@ -2670,12 +2670,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "14befa52110b970d3462c09bd8e79ba81ea33ef38af4633ce5aeed852353c3b7",
-      "approvedBy": "owner-direct:TASK_ID:LAB01_BUILD_BOUND_WORD_PROFILES",
-      "approvedAtUtc": "2026-08-09T09:39:44.998Z",
-      "rationale": "Approve additive RTK graph catalog bytes adding the LAB-01 build-bound profiles contract test file; supersedes the MULTI-01-era catalog byte approval retained in git history.",
+      "sha256": "f1ee3ea625968551019d9d3722590474076e8bfd1a1e670ae1d62154fef07044",
+      "approvedBy": "owner-direct:TASK_ID:GOOGLE01_PROVIDER_PROFILES",
+      "approvedAtUtc": "2026-08-09T10:24:58.894Z",
+      "rationale": "Approve additive RTK graph catalog bytes adding the GOOGLE-01 provider profiles contract test file; supersedes the LAB-01-era catalog byte approval retained in git history.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_LAB01_BUILD_BOUND_WORD_PROFILES"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_GOOGLE01_PROVIDER_PROFILES"
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
@@ -9647,12 +9647,12 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "ce6db1e0d7999ea1678d823e159ecdab798e3e12014212c0a3548e0156666ee7",
-      "approvedBy": "owner-direct:TASK_ID:LAB01_BUILD_BOUND_WORD_PROFILES",
-      "approvedAtUtc": "2026-08-09T09:42:07.555Z",
-      "rationale": "Approve additive package.json bytes adding the test:rtk-lab01 lane next to test:rtk-multi01; supersedes the MULTI-01-era package.json byte approval retained in git history.",
+      "sha256": "41cfababecad7100cd4094466a9b3dbc190b3928d6a44d60d7d269df9cbaae44",
+      "approvedBy": "owner-direct:TASK_ID:GOOGLE01_PROVIDER_PROFILES",
+      "approvedAtUtc": "2026-08-09T10:24:58.894Z",
+      "rationale": "Approve additive package.json bytes adding the test:rtk-google01 lane next to test:rtk-lab01; supersedes the LAB-01-era package.json byte approval retained in git history.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_LAB01_BUILD_BOUND_WORD_PROFILES"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_GOOGLE01_PROVIDER_PROFILES"
     },
     {
       "filePath": "test/contracts/rtk-admit01-accountable-lanes.contract.test.js",
@@ -9836,12 +9836,12 @@
     },
     {
       "filePath": "docs/CONTEXT.md",
-      "sha256": "cb3ce1b3f02e105cb95eab80fa30dc08be5db04263dd4d766b326b9dfb5d4a63",
-      "approvedBy": "owner-direct:TASK_ID:LAB01_BUILD_BOUND_WORD_PROFILES",
-      "approvedAtUtc": "2026-08-09T09:42:32.245Z",
-      "rationale": "Approve additive docs/CONTEXT.md bytes typing the LAB-01 build-bound profile registry, no-inheritance evaluator and ladder admission as CURRENT reality while Word 16.111.2 stays COMPLETE_NOT_SATURATED and Windows/Online stay NOT_PROVEN/DECLARED; supersedes the MULTI-01-era CONTEXT.md byte approval retained in git history.",
+      "sha256": "2d33d7a00aa5648f91aa8df7cff1937e36be62dde35797bab24caa29f65e289b",
+      "approvedBy": "owner-direct:TASK_ID:GOOGLE01_PROVIDER_PROFILES",
+      "approvedAtUtc": "2026-08-09T10:24:58.894Z",
+      "rationale": "Approve additive docs/CONTEXT.md bytes typing the GOOGLE-01 parallel Google profile registry (office-mode and native-conversion both DECLARED with empty ladders/heads) and mirrored no-inheritance evaluator while Google execution stays BLOCKED; supersedes the LAB-01-era CONTEXT.md byte approval retained in git history.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_LAB01_BUILD_BOUND_WORD_PROFILES"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_GOOGLE01_PROVIDER_PROFILES"
     },
     {
       "filePath": "test/contracts/rtk-multi01-multi-scene-scope-blocked.contract.test.js",
@@ -9878,6 +9878,33 @@
       "rationale": "Approve the LAB-01 contract test lane (20 scenarios) pinning the build-bound profile registry contract: red-first proven, mutation-killed across ten targeted mutations.",
       "approved": true,
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_LAB01_BUILD_BOUND_WORD_PROFILES"
+    },
+    {
+      "filePath": "docs/OPS/RTK/GOOGLE_BUILD_PROFILE_REGISTRY_V1.json",
+      "sha256": "23bbf9ea035a4b677e3225642e53ed82d9c5b9d9751681bb1b64b91edc69c4f7",
+      "approvedBy": "owner-direct:TASK_ID:GOOGLE01_PROVIDER_PROFILES",
+      "approvedAtUtc": "2026-08-09T10:24:58.894Z",
+      "rationale": "Approve the GOOGLE-01 machine-readable google-docs provider profile registry: office-mode and native-conversion as separate DECLARED profiles with empty ladders/heads, sha256-pinned G00 discovery heads, and explicit non-claims; read-only evidence, no product write authority, Google execution stays BLOCKED.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_GOOGLE01_PROVIDER_PROFILES"
+    },
+    {
+      "filePath": "scripts/ops/rtk-google-build-profiles-v1.mjs",
+      "sha256": "d4b425c45c1af7e592cc9979b894ed2ca83e6db636dd622f7c973c7b482d519b",
+      "approvedBy": "owner-direct:TASK_ID:GOOGLE01_PROVIDER_PROFILES",
+      "approvedAtUtc": "2026-08-09T10:24:58.894Z",
+      "rationale": "Approve the GOOGLE-01 read-only evaluator: registry schema+digest loader, provider/mode no-inheritance evidence join, forward-only ladder admission and reconciliation (shared heads, discovery-as-evidence, preseeded, cross-mode, rung-without-evidence); no filesystem writes, no product runtime change.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_GOOGLE01_PROVIDER_PROFILES"
+    },
+    {
+      "filePath": "test/contracts/rtk-google01-provider-profiles.contract.test.js",
+      "sha256": "5b2cf0fa169e6039af77e148ae044636b17020960c8d728babdc7e41337560ae",
+      "approvedBy": "owner-direct:TASK_ID:GOOGLE01_PROVIDER_PROFILES",
+      "approvedAtUtc": "2026-08-09T10:24:58.894Z",
+      "rationale": "Approve the GOOGLE-01 contract test lane (17 scenarios) pinning the google-docs provider profile registry contract: red-first proven, mutation-killed across ten targeted mutations.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_GOOGLE01_PROVIDER_PROFILES"
     }
   ]
 }

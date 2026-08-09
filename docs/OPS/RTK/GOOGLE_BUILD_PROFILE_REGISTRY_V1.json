@@ -1,0 +1,122 @@
+{
+  "schemaVersion": "yalken.rtk.google-build-profile-registry.v1",
+  "registryId": "google-build-profile-registry-v1",
+  "purpose": "Machine-readable google-docs provider profiles for the GOOGLE-01 Proof-Carrying Interop V2 §37 no-inheritance contract. Google Docs has TWO distinct editor modes (OFFICE_MODE and NATIVE_CONVERSION) that are TWO separate provider profiles with separate evidence heads; green NEVER carries between modes or between providers. Both profiles are DECLARED with empty evidence heads and empty ladders, mirroring the honest current UNTESTED state of Google Docs (Google execution is BLOCKED in CONTEXT.md). This registry is read-only evidence; it grants no product write authority and never changes Google saturation status.",
+  "classVocabulary": [
+    "HISTORICAL_BUILD_BOUND",
+    "COMPETING_NOT_SATURATED",
+    "SATURATED",
+    "NOT_PROVEN",
+    "DECLARED"
+  ],
+  "editorModeVocabulary": [
+    "OFFICE_MODE",
+    "NATIVE_CONVERSION"
+  ],
+  "conversionBoundaryVocabulary": [
+    "NONE",
+    "DOCX_TO_NATIVE_ROUNDTRIP"
+  ],
+  "ladderRungs": [
+    "CARRIER_SURVIVAL_SMOKE",
+    "SEMANTIC_DIFFERENTIAL_SUBSET",
+    "NEGATIVE_REPLAY_CRASH_SUBSET",
+    "WAVE_10",
+    "WAVE_40",
+    "WAVE_100",
+    "WAVE_300"
+  ],
+  "discoveryHeads": [
+    {
+      "path": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
+      "sha256": "sha256:53e31b720f54b51fe11e268ad045171ba70f2abdc7a87a8d67381ad0e3695d9f",
+      "note": "G00 capability matrix — discovery/program evidence, NOT a profile evidence head. Pinned here so a profile may never silently inherit this artifact as its own proof (anti-inheritance law)."
+    },
+    {
+      "path": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json",
+      "sha256": "sha256:ba2313ff407257d1f09f11d5ec8c42a2b5447ad6fee78768aa12e8d533782831",
+      "note": "G00 discovery receipt — discovery/program evidence, NOT a profile evidence head. Pinned here so a profile may never silently inherit this artifact as its own proof (anti-inheritance law)."
+    },
+    {
+      "path": "docs/OPS/STATUS/REVIEW_BRIDGE_GOOGLE_DOCS_EVIDENCE_CLAIM_BINDING_001_STATUS.json",
+      "sha256": "sha256:0afd161f9a66604e22a1bd722e099034324cfc0dfd04d9458b8b226325c1bc97",
+      "note": "Review-bridge claim-binding status — discovery/program evidence, NOT a profile evidence head. Pinned here so a profile may never silently inherit this artifact as its own proof (anti-inheritance law)."
+    }
+  ],
+  "profiles": [
+    {
+      "profileId": "google-docs-office-mode-post-d1-v1",
+      "class": "DECLARED",
+      "provider": "google-docs",
+      "editorMode": "OFFICE_MODE",
+      "conversionBoundary": "NONE",
+      "clientIdentity": {
+        "channel": "web-client-unpinned",
+        "build": "unproven"
+      },
+      "sessionClass": "NONE_BOUND",
+      "os": {
+        "platform": "unproven"
+      },
+      "locale": "unproven",
+      "declaredNote": "Google Docs OFFICE_MODE (DOCX edited in Google Docs without conversion) is DECLARED only. Google Docs runs in a web client that is not pin-able to a build; clientIdentity is web-client-unpinned / unproven, session is NONE_BOUND, and there is no committed physical Google evidence today. Green never carries: this profile does NOT prove NATIVE_CONVERSION. Google execution remains BLOCKED.",
+      "evidenceHeads": [],
+      "freshnessPolicy": {
+        "maxEvidenceAgeDays": 90
+      },
+      "ladder": {
+        "completedRungs": []
+      },
+      "nonClaims": [
+        "GOOGLE_DOCS_NO_GOOGLE_IMPORT_AUTHORITY",
+        "GOOGLE_DOCS_NO_GOOGLE_ROUNDTRIP_AUTHORITY",
+        "GOOGLE_DOCS_NO_GOOGLE_SYNC_AUTHORITY",
+        "GOOGLE_DOCS_NO_GOOGLE_APPLY_AUTHORITY",
+        "GOOGLE_DOCS_NO_GOOGLE_API_AUTHORITY",
+        "GOOGLE_DOCS_NO_GOOGLE_NETWORK_AUTHORITY",
+        "GOOGLE_DOCS_NO_GOOGLE_SESSION_AUTHORITY",
+        "GOOGLE_DOCS_GREEN_NEVER_CARRIES_ACROSS_MODES_OR_PROVIDERS",
+        "GOOGLE_DOCS_OFFICE_MODE_DOES_NOT_PROVE_NATIVE_CONVERSION",
+        "GOOGLE_DOCS_NATIVE_CONVERSION_LOSSY_BY_DEFAULT_UNTIL_EVIDENCE"
+      ],
+      "profileDigest": "sha256:73c3eef42f8f76189907a332a9a1c985953b23caf0ec2d936683318b4311fa58"
+    },
+    {
+      "profileId": "google-docs-native-conversion-post-d1-v1",
+      "class": "DECLARED",
+      "provider": "google-docs",
+      "editorMode": "NATIVE_CONVERSION",
+      "conversionBoundary": "DOCX_TO_NATIVE_ROUNDTRIP",
+      "clientIdentity": {
+        "channel": "web-client-unpinned",
+        "build": "unproven"
+      },
+      "sessionClass": "NONE_BOUND",
+      "os": {
+        "platform": "unproven"
+      },
+      "locale": "unproven",
+      "declaredNote": "Google Docs NATIVE_CONVERSION (DOCX -> Google native -> DOCX) is DECLARED only and LOSSY by default until proven otherwise. The DOCX_TO_NATIVE_ROUNDTRIP boundary is the lossy boundary typed as G00_NATIVE_CONVERSION_DEFAULTS_LOSSY_UNTIL_EVIDENCE. Google Docs runs in a web client that is not pin-able to a build; clientIdentity is web-client-unpinned / unproven, session is NONE_BOUND, and there is no committed physical Google evidence today. Green never carries: this profile does NOT prove OFFICE_MODE. Google execution remains BLOCKED.",
+      "evidenceHeads": [],
+      "freshnessPolicy": {
+        "maxEvidenceAgeDays": 90
+      },
+      "ladder": {
+        "completedRungs": []
+      },
+      "nonClaims": [
+        "GOOGLE_DOCS_NO_GOOGLE_IMPORT_AUTHORITY",
+        "GOOGLE_DOCS_NO_GOOGLE_ROUNDTRIP_AUTHORITY",
+        "GOOGLE_DOCS_NO_GOOGLE_SYNC_AUTHORITY",
+        "GOOGLE_DOCS_NO_GOOGLE_APPLY_AUTHORITY",
+        "GOOGLE_DOCS_NO_GOOGLE_API_AUTHORITY",
+        "GOOGLE_DOCS_NO_GOOGLE_NETWORK_AUTHORITY",
+        "GOOGLE_DOCS_NO_GOOGLE_SESSION_AUTHORITY",
+        "GOOGLE_DOCS_GREEN_NEVER_CARRIES_ACROSS_MODES_OR_PROVIDERS",
+        "GOOGLE_DOCS_NATIVE_CONVERSION_DOES_NOT_PROVE_OFFICE_MODE",
+        "GOOGLE_DOCS_NATIVE_CONVERSION_LOSSY_BY_DEFAULT_UNTIL_EVIDENCE"
+      ],
+      "profileDigest": "sha256:262d29fd7590688713e9224f8d6ae87633b84959b3afcf7e8b0a9999e8237ae9"
+    }
+  ]
+}

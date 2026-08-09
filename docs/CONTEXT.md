@@ -272,6 +272,7 @@ No further transfer is required for this variant; the transfer axis is closed.
 - Comment policy remains preview-only until explicit user action; replies/resolve/reopen/delete stay typed limitations (`NATIVE_UI_TARGET_UNAVAILABLE_OR_AMBIGUOUS`) unless new physical Word evidence changes the boundary.
 - Google Docs execution stays `BLOCKED`; Atlas WIP stays byte-for-byte preserved; no UI, network, dependency, or release-readiness claim follows from this contour.
 - LAB-01 introduced a read-only build-bound Word profile registry (`docs/OPS/RTK/WORD_BUILD_PROFILE_REGISTRY_V1.json`) with a no-inheritance evidence/profile join evaluator and a forward-only ladder admission gate (`scripts/ops/rtk-word-build-profiles-v1.mjs`); Word 16.111.2 remains `COMPLETE_NOT_SATURATED`, and Windows Word and Word Online remain `NOT_PROVEN` and `DECLARED` with empty ladders.
+- GOOGLE-01 introduced a parallel read-only google-docs provider profile registry (`docs/OPS/RTK/GOOGLE_BUILD_PROFILE_REGISTRY_V1.json`) with office-mode (`OFFICE_MODE`, `NONE`) and native-conversion (`NATIVE_CONVERSION`, `DOCX_TO_NATIVE_ROUNDTRIP`) profiles, both `DECLARED` with empty ladders/heads and the three G00 discovery heads sha256-pinned, plus a mirrored no-inheritance evidence/profile join evaluator (`scripts/ops/rtk-google-build-profiles-v1.mjs`); Google execution remains `BLOCKED` and no new claims follow.
 
 ## Policies That Remain Binding
 - SECURITY_POLICY: CSP, blocked navigation, blocked new-window, no remote code

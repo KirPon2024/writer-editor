@@ -150,6 +150,9 @@ async function validTwoProfileRegistry() {
           wordVersion: '16.111.2',
           wordBuild: '16.111.26072617',
           sealedAtUtc: '2026-08-01T00:00:00.000Z',
+          // LAB-02: name the justified rungs explicitly so the fixture registry
+          // reconciles green under the rung-without-evidence law.
+          rungs: [...module.LADDER_RUNGS],
         },
       ],
       ladder: { completedRungs: module.LADDER_RUNGS },
@@ -179,6 +182,8 @@ async function validTwoProfileRegistry() {
   return {
     schemaVersion: module.WORD_BUILD_PROFILE_REGISTRY_SCHEMA,
     registryId: 'word-build-profile-registry-v1',
+    // LAB-02: the current-profile pointer is part of the registry contract.
+    currentProfileId: 'word-mac-16.111.2-d1',
     profiles: [profileA, profileB],
   };
 }
@@ -811,6 +816,162 @@ test('LAB01-20-profile-classes-frozen-vocabulary', async () => {
   ], 'profile class vocabulary must be the frozen five-class list');
   assert.equal(Object.isFrozen(module.PROFILE_CLASSES), true, 'PROFILE_CLASSES must be frozen');
   assert.equal(Object.isFrozen(module.LADDER_RUNGS), true, 'LADDER_RUNGS must be frozen');
+});
+
+// ===========================================================================
+// LAB-02 — build migration 16.111.2 -> 16.111.3 (owner-directed contour).
+//
+// Physical Word on the lab machine moved from 16.111.2 (build 16.111.26072617)
+// to 16.111.3 (build 16.111.26080215) on 2026-08-10. The LAB-01 no-inheritance
+// law makes the old build's evidence unjoinable to any new-build profile
+// (RTK_LAB01_CROSS_BUILD_EVIDENCE), so the migration is typed, never implicit:
+//
+//   1. word-mac-16.111.2-d1 freezes as HISTORICAL_BUILD_BOUND (no new heads,
+//      no new rungs — existing historical law);
+//   2. word-mac-16.111.3-26080215 registers as DECLARED with an empty ladder;
+//   3. the registry gains a mandatory currentProfileId pointer, validated on
+//      reconciliation: it must resolve to a registered profile and must never
+//      aim at a HISTORICAL_BUILD_BOUND profile (RTK_LAB01_CURRENT_POINTER_INVALID);
+//   4. a DECLARED/NOT_PROVEN profile carrying saturation fields inherits nothing
+//      (RTK_LAB01_SATURATION_INHERITANCE);
+//   5. rungs, saturation and CURRENT claims never carry from 16.111.2.
+// ===========================================================================
+
+const LAB02_CODES = {
+  CURRENT_POINTER_INVALID: 'RTK_LAB01_CURRENT_POINTER_INVALID',
+  SATURATION_INHERITANCE: 'RTK_LAB01_SATURATION_INHERITANCE',
+};
+
+// L2-01: the real migrated registry — 16.111.2 frozen historical, 16.111.3
+// DECLARED current with an empty ladder, pointer at 16.111.3.
+test('LAB02-01-real-registry-migrated-honestly', async () => {
+  const module = await loadModule();
+  const registryJson = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
+  const loaded = module.loadBuildProfileRegistry(registryJson);
+  assert.equal(loaded.ok, true, `migrated registry must load: ${JSON.stringify(loaded.reasons)}`);
+  const reconciliation = module.evaluateRegistryReconciliation(registryJson);
+  assert.equal(reconciliation.ok, true, `migrated registry must reconcile: ${JSON.stringify(reconciliation.reasons)}`);
+
+  const profiles = registryJson.profiles;
+  const old = profiles.find((p) => p.profileId === 'word-mac-16.111.2-d1');
+  const current = profiles.find((p) => p.profileId === 'word-mac-16.111.3-26080215');
+  assert.equal(old.class, 'HISTORICAL_BUILD_BOUND', '16.111.2 must freeze as HISTORICAL_BUILD_BOUND');
+  assert.equal(old.supersededBy, 'word-mac-16.111.3-26080215', '16.111.2 must name its superseding build');
+  assert.ok(current, '16.111.3 profile must exist');
+  assert.equal(current.class, 'DECLARED', '16.111.3 must start DECLARED');
+  assert.equal(current.wordVersion, '16.111.3');
+  assert.equal(current.wordBuild, '16.111.26080215');
+  assert.equal(current.evidenceHeads.length, 0, '16.111.3 must start with zero evidence heads');
+  assert.equal(current.ladder.completedRungs.length, 0, '16.111.3 must start with an empty ladder');
+  assert.equal(registryJson.currentProfileId, 'word-mac-16.111.3-26080215', 'pointer must name the current build profile');
+});
+
+// L2-02: pointer validation — unresolvable, historical-targeted and missing
+// pointers all fail reconciliation with CURRENT_POINTER_INVALID.
+test('LAB02-02-current-pointer-invalid-cases', async () => {
+  const module = await loadModule();
+  const base = await validTwoProfileRegistry();
+
+  const unknown = cloneRegistry(base);
+  unknown.currentProfileId = 'word-mac-does-not-exist';
+  const unknownResult = module.evaluateRegistryReconciliation(unknown);
+  assert.equal(unknownResult.ok, false);
+  assert.ok((unknownResult.reasons || []).some((r) => r.code === LAB02_CODES.CURRENT_POINTER_INVALID),
+    `unresolvable pointer must fail: ${JSON.stringify(unknownResult.reasons)}`);
+
+  const historical = cloneRegistry(base);
+  historical.currentProfileId = 'word-mac-16.42-d1';
+  const historicalResult = module.evaluateRegistryReconciliation(historical);
+  assert.equal(historicalResult.ok, false, 'pointer at a HISTORICAL profile must fail');
+  assert.ok((historicalResult.reasons || []).some((r) => r.code === LAB02_CODES.CURRENT_POINTER_INVALID));
+
+  const missing = cloneRegistry(base);
+  delete missing.currentProfileId;
+  const missingResult = module.evaluateRegistryReconciliation(missing);
+  assert.equal(missingResult.ok, false, 'missing pointer must fail');
+  assert.ok((missingResult.reasons || []).some((r) => r.code === LAB02_CODES.CURRENT_POINTER_INVALID));
+
+  const valid = module.evaluateRegistryReconciliation(base);
+  assert.equal(valid.ok, true, `valid pointer must pass: ${JSON.stringify(valid.reasons)}`);
+});
+
+// L2-03: a DECLARED profile carrying saturation fields inherits nothing.
+test('LAB02-03-saturation-inheritance-blocked', async () => {
+  const module = await loadModule();
+  const profile = await withDigest(baseProfile({
+    profileId: 'word-mac-16.111.3-26080215',
+    class: 'DECLARED',
+    wordVersion: '16.111.3',
+    wordBuild: '16.111.26080215',
+  }));
+  profile.saturationStatus = 'SATURATED'; // forged inheritance attempt
+  const registry = {
+    schemaVersion: module.WORD_BUILD_PROFILE_REGISTRY_SCHEMA,
+    registryId: 'word-build-profile-registry-v1',
+    currentProfileId: 'word-mac-16.111.3-26080215',
+    profiles: [await withDigest(profile)],
+  };
+  const result = module.evaluateRegistryReconciliation(registry);
+  assert.equal(result.ok, false, 'saturation on a DECLARED profile must fail');
+  assert.ok((result.reasons || []).some((r) => r.code === LAB02_CODES.SATURATION_INHERITANCE),
+    `reasons must include SATURATION_INHERITANCE: ${JSON.stringify(result.reasons)}`);
+});
+
+// L2-04: the frozen 16.111.2 profile rejects new evidence heads (real registry).
+test('LAB02-04-frozen-16-111-2-rejects-new-evidence', async () => {
+  const module = await loadModule();
+  const registryJson = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
+  const result = module.evaluateEvidenceProfileJoin({
+    registry: registryJson,
+    profileId: 'word-mac-16.111.2-d1',
+    evidence: {
+      wordVersion: '16.111.2',
+      wordBuild: '16.111.26072617',
+      evidenceHeadPath: 'docs/OPS/RTK/FABRICATED_NEW_HEAD.json',
+    },
+  });
+  assert.equal(result.ok, false);
+  assert.equal(result.code, 'RTK_LAB01_HISTORICAL_PROFILE_MUTATION');
+});
+
+// L2-05: 16.111.3 DECLARED rejects green evidence of its own build.
+test('LAB02-05-declared-16-111-3-rejects-green', async () => {
+  const module = await loadModule();
+  const registryJson = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
+  const result = module.evaluateEvidenceProfileJoin({
+    registry: registryJson,
+    profileId: 'word-mac-16.111.3-26080215',
+    evidence: { wordVersion: '16.111.3', wordBuild: '16.111.26080215' },
+  });
+  assert.equal(result.ok, false);
+  assert.equal(result.code, 'RTK_LAB01_NOT_PROVEN_CLAIM');
+});
+
+// L2-06: no rung inheritance — 16.111.3 admits only the first rung (an attempt,
+// not a completion) and bypass attempts fail.
+test('LAB02-06-no-rung-inheritance-on-new-build', async () => {
+  const module = await loadModule();
+  const registryJson = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
+  const first = module.evaluateLadderAdmission({
+    registry: registryJson,
+    profileId: 'word-mac-16.111.3-26080215',
+    rung: 'CARRIER_SURVIVAL_SMOKE',
+  });
+  assert.equal(first.ok, true, 'first rung admission (attempt) must be allowed');
+  const bypass = module.evaluateLadderAdmission({
+    registry: registryJson,
+    profileId: 'word-mac-16.111.3-26080215',
+    rung: 'WAVE_40',
+  });
+  assert.equal(bypass.ok, false);
+  assert.equal(bypass.code, 'RTK_LAB01_LADDER_BYPASS');
+  const historicalAdmission = module.evaluateLadderAdmission({
+    registry: registryJson,
+    profileId: 'word-mac-16.111.2-d1',
+    rung: 'WAVE_300',
+  });
+  assert.equal(historicalAdmission.ok, false, 'frozen historical profile admits no rungs');
+  assert.equal(historicalAdmission.code, 'RTK_LAB01_HISTORICAL_PROFILE_MUTATION');
 });
 
 // Keep cryptoPort referenced for fixture symmetry with sibling contracts.

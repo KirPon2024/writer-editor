@@ -54,6 +54,19 @@ export const CLAIM_CLASSES = Object.freeze([
   'USER_FACING_BOUNDED_SUPPORTED',
 ]);
 
+// EVIDENCE_SCOPES (LAB-02): every claim declares what its evidence is allowed
+// to prove. BUILD_INDEPENDENT_PRODUCT_FUNCTION claims assert a product function
+// (the product's own DOCX import/export/preview behavior) and may be backed by
+// HISTORICAL_BUILD_BOUND evidence — the function does not disappear when Word
+// moves builds. CURRENT_BUILD_COMPATIBILITY claims assert compatibility with
+// the CURRENT Word build and may bind only to a COMPETING_NOT_SATURATED or
+// SATURATED profile of that build: historical evidence backs historical scope
+// only.
+export const EVIDENCE_SCOPES = Object.freeze([
+  'BUILD_INDEPENDENT_PRODUCT_FUNCTION',
+  'CURRENT_BUILD_COMPATIBILITY',
+]);
+
 // ---------------------------------------------------------------------------
 // Typed codes. Every string here is pinned by name in the RELEASE-01 contract
 // test, so renaming a value changes the contract.
@@ -256,7 +269,7 @@ function validateClaimSchema(claim, reasons, surfaceIds) {
     reasons.push(reason(RELEASE01_CODES.REGISTRY_SCHEMA_INVALID, 'claim must be an object'));
     return;
   }
-  const mandatory = ['claimId', 'claimClass', 'surfaceId', 'wording', 'evidenceBinding'];
+  const mandatory = ['claimId', 'claimClass', 'surfaceId', 'wording', 'evidenceBinding', 'evidenceScope'];
   for (const field of mandatory) {
     if (!(field in claim)) {
       reasons.push(reason(RELEASE01_CODES.REGISTRY_SCHEMA_INVALID, `claim ${claim.claimId || '(unknown)'} missing mandatory field ${field}`));
@@ -315,6 +328,14 @@ const SUFFICIENT_PROFILE_CLASSES = new Set([
   'HISTORICAL_BUILD_BOUND',
 ]);
 
+// LAB-02: CURRENT_BUILD_COMPATIBILITY claims may bind only to the CURRENT
+// build's proven-in-progress or proven profile. HISTORICAL_BUILD_BOUND evidence
+// backs historical scope only and is NOT sufficient for current compatibility.
+const CURRENT_COMPAT_SUFFICIENT_CLASSES = new Set([
+  'COMPETING_NOT_SATURATED',
+  'SATURATED',
+]);
+
 export function evaluateClaimEvidenceBinding({ claim, profile } = {}) {
   if (!profile) {
     const profileId = claim && claim.evidenceBinding && claim.evidenceBinding.profileId;
@@ -338,15 +359,29 @@ export function evaluateClaimEvidenceBinding({ claim, profile } = {}) {
     };
   }
 
+  // LAB-02: every claim must declare its evidence scope, and the scope decides
+  // which profile classes are sufficient. A missing or unknown scope fails
+  // closed — evidence without a declared scope proves nothing.
+  const scope = claim && claim.evidenceScope;
+  if (!EVIDENCE_SCOPES.includes(scope)) {
+    return {
+      ok: false,
+      code: RELEASE01_CODES.CLAIM_EXCEEDS_EVIDENCE,
+      reasons: [reason(RELEASE01_CODES.CLAIM_EXCEEDS_EVIDENCE, `claim ${claim && claim.claimId} carries missing or unknown evidenceScope ${JSON.stringify(scope)}`)],
+    };
+  }
+
   // USER_FACING_* classes require a profile class in the sufficient set AND at
   // least one evidence head. A DECLARED/NOT_PROVEN profile, or a sufficient
-  // profile with empty heads, cannot back a user-visible support claim.
+  // profile with empty heads, cannot back a user-visible support claim. For
+  // CURRENT_BUILD_COMPATIBILITY the sufficient set excludes HISTORICAL.
   if (claimClass === 'USER_FACING_MANUAL_ONLY' || claimClass === 'USER_FACING_BOUNDED_SUPPORTED') {
-    if (!SUFFICIENT_PROFILE_CLASSES.has(profile.class)) {
+    const sufficient = scope === 'CURRENT_BUILD_COMPATIBILITY' ? CURRENT_COMPAT_SUFFICIENT_CLASSES : SUFFICIENT_PROFILE_CLASSES;
+    if (!sufficient.has(profile.class)) {
       return {
         ok: false,
         code: RELEASE01_CODES.CLAIM_EXCEEDS_EVIDENCE,
-        reasons: [reason(RELEASE01_CODES.CLAIM_EXCEEDS_EVIDENCE, `claim ${claim.claimId} class ${claimClass} requires profile class in {COMPETING_NOT_SATURATED, SATURATED, HISTORICAL_BUILD_BOUND}, got ${JSON.stringify(profile.class)}`)],
+        reasons: [reason(RELEASE01_CODES.CLAIM_EXCEEDS_EVIDENCE, `claim ${claim.claimId} class ${claimClass} scope ${scope} requires profile class in ${JSON.stringify([...sufficient])}, got ${JSON.stringify(profile.class)}`)],
       };
     }
     const heads = Array.isArray(profile.evidenceHeads) ? profile.evidenceHeads : [];
@@ -956,7 +991,10 @@ export function evaluateTerminalRollup({ registry, context } = {}) {
 // ---------------------------------------------------------------------------
 
 const TERMINAL_MATRIX_SCHEMA = 'yalken.word.c5v2.terminal-acceptance-matrix.v1';
-const REQUIRED_CURRENT_WORD_PROFILE_ID = 'word-mac-16.111.2-d1';
+// LAB-02: the current Word profile is no longer hardcoded. The caller passes
+// context.currentProfileId read from the Word build profile registry
+// (registry.currentProfileId); a build migration is then a registry edit with
+// a digest, never a code change.
 const PROFILE_CLASS_VOCABULARY = new Set([
   'HISTORICAL_BUILD_BOUND',
   'COMPETING_NOT_SATURATED',
@@ -991,10 +1029,12 @@ export function evaluateTerminalRollupStrict({ registry, context } = {}) {
   const terminalMatrix = ctx && ctx.terminalMatrix;
   const vetoCounters = ctx && ctx.vetoCounters;
   const claims = ctx && ctx.claims;
+  const currentProfileId = ctx && ctx.currentProfileId;
   if (!ctx || !Array.isArray(wordProfiles) || !Array.isArray(googleProfiles)
-    || !isPlainObject(terminalMatrix) || !isPlainObject(vetoCounters) || !Array.isArray(claims)) {
+    || !isPlainObject(terminalMatrix) || !isPlainObject(vetoCounters) || !Array.isArray(claims)
+    || !isNonEmptyString(currentProfileId)) {
     return strictFail(RELEASE01_CODES.ROLLUP_CONTEXT_INCOMPLETE,
-      'context must carry wordProfiles[], googleProfiles[], terminalMatrix{}, vetoCounters{} and claims[]');
+      'context must carry currentProfileId, wordProfiles[], googleProfiles[], terminalMatrix{}, vetoCounters{} and claims[]');
   }
   const allProfiles = [...wordProfiles, ...googleProfiles];
   for (const p of allProfiles) {
@@ -1016,9 +1056,10 @@ export function evaluateTerminalRollupStrict({ registry, context } = {}) {
 
   // --- 3. required profile resolution --------------------------------------
   const profilesById = new Map(allProfiles.map((p) => [p.profileId, p]));
-  if (!profilesById.has(REQUIRED_CURRENT_WORD_PROFILE_ID)) {
+  const wordProfilesById = new Map(wordProfiles.map((p) => [p.profileId, p]));
+  if (!wordProfilesById.has(currentProfileId)) {
     return strictFail(RELEASE01_CODES.REQUIRED_PROFILE_MISSING,
-      `required current Word profile ${REQUIRED_CURRENT_WORD_PROFILE_ID} is absent`);
+      `current Word profile ${currentProfileId} (context.currentProfileId) is absent from wordProfiles`);
   }
   for (const claim of claims) {
     const profileId = claim && claim.evidenceBinding && claim.evidenceBinding.profileId;
@@ -1049,9 +1090,9 @@ export function evaluateTerminalRollupStrict({ registry, context } = {}) {
 
   // --- 6. deterministic blockers --------------------------------------------
   const blockers = [];
-  const currentWord = profilesById.get(REQUIRED_CURRENT_WORD_PROFILE_ID);
+  const currentWord = wordProfilesById.get(currentProfileId);
   if (currentWord.class !== 'SATURATED') {
-    blockers.push(`WORD_PROFILE_NOT_SATURATED:${REQUIRED_CURRENT_WORD_PROFILE_ID}`);
+    blockers.push(`WORD_PROFILE_NOT_SATURATED:${currentProfileId}`);
   }
   for (const p of wordProfiles) {
     if (p.class === 'NOT_PROVEN') blockers.push(`WORD_PROFILE_UNPROVEN:${p.profileId}`);

@@ -2670,12 +2670,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "c504c5f608925cfcf1f39b9e0615b4bdc86aa33ba348155e921b6782cad91387",
-      "approvedBy": "owner-direct:TASK_ID:TX-01_SINGLE_SCENE_TRANSACTION",
-      "approvedAtUtc": "2026-08-09T04:44:43.807Z",
-      "rationale": "Approve additive RTK graph catalog bytes adding the TX-01 single-scene transaction contract test file; supersedes the ROUND-01-era catalog byte approval retained in git history.",
+      "sha256": "35f71bb410794db660e519221b4115b138a2635210822a87eb97cfe535a97fc3",
+      "approvedBy": "owner-direct:TASK_ID:GENERIC-01_CREATE_ONLY_IMPORT",
+      "approvedAtUtc": "2026-08-09T06:25:17.945Z",
+      "rationale": "Approve additive RTK graph catalog bytes adding the GENERIC-01 create-only import contract test file; supersedes the TX-01-era catalog byte approval retained in git history.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_TX01_SINGLE_SCENE_TRANSACTION"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_GENERIC01_CREATE_ONLY_IMPORT"
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
@@ -6558,12 +6558,12 @@
     },
     {
       "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "ce5115d39f0d317801150dad79753beada6676db15cbf341514f16619510784f",
-      "approvedBy": "owner-direct:TASK_ID:ROUND-01_ROUND_RECORD_V3",
-      "approvedAtUtc": "2026-08-09T02:53:57.311Z",
-      "rationale": "Approve ROUND-01 V3 API re-export through the revision-bridge entry point (disclosed scope clarification).",
+      "sha256": "bebe66a31b9ef39bd34dfe3c13a6bf4548b176f21a85a333a7e69b441da99ed4",
+      "approvedBy": "owner-direct:TASK_ID:GENERIC-01_CREATE_ONLY_IMPORT",
+      "approvedAtUtc": "2026-08-09T06:25:17.945Z",
+      "rationale": "Approve GENERIC-01 raw-bytes SHA-256 artifact identity, bounded custom-properties extraction, and explicit YRTK2 carrier-ignored classification with typed reason on the generic route.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ROUND01_ROUND_RECORD_V3"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_GENERIC01_CREATE_ONLY_IMPORT"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportApplyCore.mjs",
@@ -6767,12 +6767,12 @@
     },
     {
       "filePath": "src/main.js",
-      "sha256": "884a86ec551d414aa81125667378f3c5599928646ea576a66bb4d76b1c0cc149",
-      "approvedBy": "owner-direct:TASK_ID:ROUND-01_ROUND_RECORD_V3",
-      "approvedAtUtc": "2026-08-09T02:53:57.311Z",
-      "rationale": "Approve ROUND-01 store construction merge retaining prior rounds, durable record redaction of the raw HMAC secret to an opaque keyRef, CAS record validation, all-round durable read validation, lifecycle-gated return intake authority, vault-resolved secret operations, CAS activation to PUBLISHED_ACTIVE preserving EXPORT-01 ordering, and startup round reconciliation.",
+      "sha256": "72147667f01a1d7b155566b1b9606c6ee53a72d5fb76e363fb93d97730d2fdcc",
+      "approvedBy": "owner-direct:TASK_ID:GENERIC-01_CREATE_ONLY_IMPORT",
+      "approvedAtUtc": "2026-08-09T06:25:17.945Z",
+      "rationale": "Approve GENERIC-01 transactionAuthority port wiring into the safe-create handler and idempotent command results (created false on re-apply).",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ROUND01_ROUND_RECORD_V3"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_GENERIC01_CREATE_ONLY_IMPORT"
     },
     {
       "filePath": "src/main/rtkDocxReturnIntakeWorker.cjs",
@@ -7533,10 +7533,12 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-content-preview.contract.test.js",
-      "sha256": "e7ff3f8229f254660fac2c2f176ad2daa437fc34f8d8980686d8bb0dafe05068",
-      "approvedBy": "ticket:REVIEW_BRIDGE_BOUNDED_FIDELITY_GOLDEN_ACCEPTANCE_001",
-      "approvedAtUtc": "2026-07-12T23:00:00.000Z",
-      "rationale": "Approve bounded content preview coverage allowing known ignored DOCX parts while retaining hostile and malformed package rejection and explicit diagnostics."
+      "sha256": "635825982bb56c175fec41bc649bd141413d707a652c5be04c5922b1abd1138b",
+      "approvedBy": "owner-direct:TASK_ID:GENERIC-01_CREATE_ONLY_IMPORT",
+      "approvedAtUtc": "2026-08-09T06:25:17.945Z",
+      "rationale": "Approve GENERIC-01 content preview identity pins (legacy 8-hex text hash preserved plus full SHA-256 artifact identity and carrier classification); tests only.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_GENERIC01_CREATE_ONLY_IMPORT"
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-hostile-file-gate.contract.test.js",
@@ -7547,10 +7549,12 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-import-e2e-command-chain.contract.test.js",
-      "sha256": "e4874934343fbadbb93193dc38f76dec40c75f8338dff1fe27d3f9bac984cab1",
-      "approvedBy": "ticket:DOCX_IMPORT_E2E_COMMAND_CHAIN_001",
-      "approvedAtUtc": "2026-06-30T17:34:55.000Z",
-      "rationale": "Approve bounded DOCX import E2E command-chain contract proof for existing command surfaces only; no production runtime, UI, renderer, preload, CSS, export, dependency, cloud, network, or DOCX full-fidelity claim is introduced."
+      "sha256": "0e679441f394358ea448f695839a7d9967243fddc96ea2845393efbe38b8e695",
+      "approvedBy": "owner-direct:TASK_ID:GENERIC-01_CREATE_ONLY_IMPORT",
+      "approvedAtUtc": "2026-08-09T06:25:17.945Z",
+      "rationale": "Approve GENERIC-01 e2e chain amendment from duplicate-error to duplicate-same-receipt with zero writes; tamper and blocked pins preserved; tests only.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_GENERIC01_CREATE_ONLY_IMPORT"
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-import-local-file-preview-command-surface.contract.test.js",
@@ -7575,17 +7579,21 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-import-preview-plan.contract.test.js",
-      "sha256": "f9c9535abed60a0c0ed22418a36b28c70304172da73e3603dd109f62a9deba90",
-      "approvedBy": "ticket:DOCX_CONTENT_PREVIEW_TO_IMPORT_PLAN_001",
-      "approvedAtUtc": "2026-06-30T12:48:00.000Z",
-      "rationale": "DOCX_CONTENT_PREVIEW_TO_IMPORT_PLAN_001 approves the bounded kernel-only DOCX import preview plan contract for accepted content preview reports, deterministic single-scene candidateCreatePlan, explicit loss report diagnostics, fail-closed malformed and layer-leaking source reports, tamper hash rejection, and no renderer, preload, UI, storage write, import mutation, safe create apply, review packet, export rewrite, network, dependency, or release claim."
+      "sha256": "13716d003a9daca1c543cc69a14aecbe624e91c08f025093c5b4c985a3386151",
+      "approvedBy": "owner-direct:TASK_ID:GENERIC-01_CREATE_ONLY_IMPORT",
+      "approvedAtUtc": "2026-08-09T06:25:17.945Z",
+      "rationale": "Approve GENERIC-01 preview plan full-SHA identity pins with distinct-artifact distinct-sceneId and carrier-ignored classification; determinism and create-only pins preserved; tests only.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_GENERIC01_CREATE_ONLY_IMPORT"
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-import-safe-create-command-surface.contract.test.js",
-      "sha256": "53431d775c465273259926cb95045a3e0179df3506e7bccedc8ad679cc684efc",
-      "approvedBy": "ticket:DOCX_IMPORT_SAFE_CREATE_ADMISSION_001",
-      "approvedAtUtc": "2026-06-30T16:58:00.000Z",
-      "rationale": "DOCX_IMPORT_SAFE_CREATE_ADMISSION_001 approves the bounded main-only DOCX import safe-create command-surface contract for requestId plus previously admitted docxImportPreviewPlan gating, trusted main-state project context, create-only atomic scene write delegation, pathless receipt guard, helper fail-closed behavior, helper-error detail scrubbing including messageCode path rejection, forbidden authority payload and result guards, and no renderer, preload, UI, DOCX reparse, export rewrite, Markdown rewrite, review packet, network, dependency, broad import, or release claim."
+      "sha256": "ea0f6a8deedc81df3e5d78f44a959e36b4b7a8ae14024820b988718495d42ca5",
+      "approvedBy": "owner-direct:TASK_ID:GENERIC-01_CREATE_ONLY_IMPORT",
+      "approvedAtUtc": "2026-08-09T06:25:17.945Z",
+      "rationale": "Approve GENERIC-01 safe-create command-surface receipt schema v2 with identity, tree, loss, manifest authority and carrier fields; forbidden-key pins preserved; tests only.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_GENERIC01_CREATE_ONLY_IMPORT"
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-intake-gate-command-surface.contract.test.js",
@@ -9637,12 +9645,12 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "ec5d4eed12c3fbe20bea4f2349e73c1cbdbe85e6523bb8b082f6c9eb9ce55115",
-      "approvedBy": "owner-direct:TASK_ID:TX-01_SINGLE_SCENE_TRANSACTION",
-      "approvedAtUtc": "2026-08-09T04:44:43.807Z",
-      "rationale": "Approve additive test:rtk-tx01 lane script; no dependency or runtime change.",
+      "sha256": "c72e9ad9c6526ba213a78da5c75dc292614c948c5583b4e64d1a021694513d63",
+      "approvedBy": "owner-direct:TASK_ID:GENERIC-01_CREATE_ONLY_IMPORT",
+      "approvedAtUtc": "2026-08-09T06:25:17.945Z",
+      "rationale": "Approve additive test:rtk-generic01 lane script; no dependency or runtime change.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_TX01_SINGLE_SCENE_TRANSACTION"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_GENERIC01_CREATE_ONLY_IMPORT"
     },
     {
       "filePath": "test/contracts/rtk-admit01-accountable-lanes.contract.test.js",
@@ -9796,6 +9804,33 @@
       "rationale": "Approve TX-01 single-scene transaction contract tests (T1-T6 plus T7 controls: stuck reconciliation, fencing, epoch and slices, recovery actions, durable primitives, semantic readback); tests only.",
       "approved": true,
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_TX01_SINGLE_SCENE_TRANSACTION"
+    },
+    {
+      "filePath": "src/utils/docxImportSafeCreate.js",
+      "sha256": "82de7f717202255705edf37ebd511eb763d4cd5420b1550a8513e745d6fcbb2c",
+      "approvedBy": "owner-direct:TASK_ID:GENERIC-01_CREATE_ONLY_IMPORT",
+      "approvedAtUtc": "2026-08-09T06:25:17.945Z",
+      "rationale": "Approve GENERIC-01 durable idempotent receipt store with main-owned importOperationId, duplicate-returns-same-receipt with zero writes, Core-allocated tree identity, manifest-authority transaction port, instance-identity target paths, and persisted typed LossLedger.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_GENERIC01_CREATE_ONLY_IMPORT"
+    },
+    {
+      "filePath": "src/utils/docxImportLocalFilePreview.js",
+      "sha256": "f2b415da09b92db9a0d266edb6655847e8e4e97057991aa82ec6e56b02af2152",
+      "approvedBy": "owner-direct:TASK_ID:GENERIC-01_CREATE_ONLY_IMPORT",
+      "approvedAtUtc": "2026-08-09T06:25:17.945Z",
+      "rationale": "Approve GENERIC-01 full SHA-256 source artifact identity and carrier-ignored classification threading through the local file preview envelope.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_GENERIC01_CREATE_ONLY_IMPORT"
+    },
+    {
+      "filePath": "test/contracts/rtk-generic01-create-only-import.contract.test.js",
+      "sha256": "585294dc211fded73d792df6bce3635597811256d518730ddfcca7f7697da402",
+      "approvedBy": "owner-direct:TASK_ID:GENERIC-01_CREATE_ONLY_IMPORT",
+      "approvedAtUtc": "2026-08-09T06:25:17.945Z",
+      "rationale": "Approve GENERIC-01 create-only import contract tests (G1-G7 plus G8 controls incl. self-amended duplicate control per its own contract comment); tests only.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_GENERIC01_CREATE_ONLY_IMPORT"
     }
   ]
 }

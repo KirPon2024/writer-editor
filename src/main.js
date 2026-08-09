@@ -8785,6 +8785,9 @@ const DOCX_IMPORT_PREVIEW_SOURCE_REPORT_ALLOWED_KEYS = new Set([
   'preflightSummary',
   'contentPreview',
   'parse',
+  // GENERIC-01 (G1/G6): full artifact identity + carrier classification.
+  'sourceArtifactSha256',
+  'carrierIgnored',
 ]);
 const DOCX_IMPORT_PREVIEW_FORBIDDEN_PAYLOAD_KEYS = new Set([
   ['review', 'Packet'].join(''),
@@ -9062,6 +9065,17 @@ function canonicalizeDocxImportPreviewSourceReport(sourceReport) {
           'completed',
         ])
       : sourceReport.parse,
+    // GENERIC-01 (G1/G6): full artifact identity + carrier classification.
+    sourceArtifactSha256: typeof sourceReport.sourceArtifactSha256 === 'string'
+      ? sourceReport.sourceArtifactSha256
+      : null,
+    carrierIgnored: isPlainObjectValue(sourceReport.carrierIgnored) && sourceReport.carrierIgnored.ignored === true
+      ? {
+        ignored: true,
+        reason: typeof sourceReport.carrierIgnored.reason === 'string' ? sourceReport.carrierIgnored.reason : '',
+        tokenDetected: sourceReport.carrierIgnored.tokenDetected === true,
+      }
+      : null,
   };
 }
 
@@ -9658,7 +9672,12 @@ function buildDocxImportSafeCreateCommandResult(payload, safeCreateResult) {
     commandId: DOCX_IMPORT_SAFE_CREATE_COMMAND_ID,
     commandOk: true,
     safeCreateOk: true,
-    created: true,
+    // GENERIC-01 (G2): idempotent re-apply returns created=false (zero writes).
+    created: safeCreateResult.value.created === true,
+    idempotent: safeCreateResult.value.idempotent === true,
+    importOperationId: typeof safeCreateResult.value.importOperationId === 'string'
+      ? safeCreateResult.value.importOperationId
+      : '',
     createdSceneIds: Array.isArray(safeCreateResult.value.createdSceneIds)
       ? cloneJsonSafe(safeCreateResult.value.createdSceneIds)
       : [],
@@ -9673,7 +9692,7 @@ function validateDocxImportSafeCreateCommandResult(result) {
       reason: 'DOCX_IMPORT_SAFE_CREATE_INVALID_RESULT',
     };
   }
-  if (result.ok !== true || result.created !== true || !Array.isArray(result.createdSceneIds)) {
+  if (result.ok !== true || !Array.isArray(result.createdSceneIds)) {
     return {
       ok: false,
       reason: 'DOCX_IMPORT_SAFE_CREATE_RESULT_SHAPE_INVALID',
@@ -9708,6 +9727,15 @@ async function handleDocxImportSafeCreateCommandSurface(payload = {}) {
     await ensureProjectStructure();
     const romanRoot = getProjectSectionPath('roman');
     const projectBinding = await resolveProjectBindingForFile(romanRoot);
+    // GENERIC-01 (G3): manifest-authority transaction port. The flow batch
+    // journal and the manifest revision bump commit in one lease/publish scope
+    // (atomic or nothing). Mirrors the stage10 adapter wiring.
+    let docxImportTransactionAuthority = null;
+    try {
+      docxImportTransactionAuthority = await getMainProjectManifestAuthority();
+    } catch {
+      docxImportTransactionAuthority = null;
+    }
     safeCreateResult = await applyDocxImportSafeCreate(
       {
         docxImportPreviewPlan: validated.docxImportPreviewPlan,
@@ -9721,6 +9749,7 @@ async function handleDocxImportSafeCreateCommandSurface(payload = {}) {
         queueDiskOperation,
         operationLabel: 'safe create DOCX import scene batch',
         writeBatchAtomic: writeFlowSceneBatchAtomic,
+        transactionAuthority: docxImportTransactionAuthority,
       },
     );
   } catch (error) {

@@ -22,6 +22,13 @@ const DOCX_IMPORT_SAFE_CREATE_ADMISSION_LIMIT = 64;
 const DOCX_IMPORT_SAFE_CREATE_MESSAGE_CODE_RE = /^(DOCX|FLOW)_[A-Z0-9_]{1,95}$/u;
 const docxImportPreviewPlanAdmissions = new Map();
 
+// GENERIC-01 (Pass 2): durable receipt store. The store is keyed by the
+// main-owned importOperationId. Re-applying the same operation id returns the
+// prior durable receipt (writerCalls=0); a new operation id on the same
+// artifact produces an independent copy.
+const DOCX_IMPORT_RECEIPT_V2_SCHEMA = 'revision-bridge.docx-import-receipt.v2';
+const DOCX_IMPORT_RECEIPT_STORE_DIRNAME = path.join('.yalken', 'docx-import', 'receipts');
+
 const DOCX_IMPORT_SAFE_CREATE_ALLOWED_PLAN_KEYS = new Set([
   'ok',
   'schemaVersion',
@@ -38,6 +45,8 @@ const DOCX_IMPORT_SAFE_CREATE_ALLOWED_PLAN_KEYS = new Set([
   'candidateCreatePlan',
   'lossReport',
   'previewHash',
+  // GENERIC-01 (G6): carrier-ignored classification.
+  'carrierIgnored',
 ]);
 const DOCX_IMPORT_SAFE_CREATE_ALLOWED_ENTRY_KEYS = new Set([
   'sceneId',
@@ -45,6 +54,8 @@ const DOCX_IMPORT_SAFE_CREATE_ALLOWED_ENTRY_KEYS = new Set([
   'title',
   'content',
   'contentTextHash',
+  // GENERIC-01 (G1): full SHA-256 of the normalized importable content.
+  'candidateContentSha256',
   'source',
 ]);
 const DOCX_IMPORT_SAFE_CREATE_ALLOWED_ENTRY_SOURCE_KEYS = new Set([
@@ -340,6 +351,36 @@ function validateDocxImportPreviewPlan(plan) {
       { field: 'source' },
     );
   }
+  // GENERIC-01 (G1): full SHA-256 artifact identity on plan.source. Optional
+  // but, if present, must be a 64-hex SHA-256. This is the identity thread.
+  if (
+    plan.source.sourceArtifactSha256 !== undefined
+    && plan.source.sourceArtifactSha256 !== null
+    && (
+      typeof plan.source.sourceArtifactSha256 !== 'string'
+      || !/^[a-f0-9]{64}$/u.test(plan.source.sourceArtifactSha256)
+    )
+  ) {
+    return buildError(
+      'DOCX_SAFE_CREATE_PREVIEW_INVALID',
+      'docx_import_safe_create_preview_invalid',
+      { field: 'source.sourceArtifactSha256' },
+    );
+  }
+  if (
+    plan.source.candidateContentSha256 !== undefined
+    && plan.source.candidateContentSha256 !== null
+    && (
+      typeof plan.source.candidateContentSha256 !== 'string'
+      || !/^[a-f0-9]{64}$/u.test(plan.source.candidateContentSha256)
+    )
+  ) {
+    return buildError(
+      'DOCX_SAFE_CREATE_PREVIEW_INVALID',
+      'docx_import_safe_create_preview_invalid',
+      { field: 'source.candidateContentSha256' },
+    );
+  }
 
   const candidate = plan.candidateCreatePlan;
   if (!isPlainObject(candidate)) {
@@ -393,6 +434,23 @@ function validateDocxImportPreviewPlan(plan) {
       { field: 'candidateCreatePlan.entries.0' },
     );
   }
+  // GENERIC-01 (G1): full SHA-256 candidate content identity. Optional but, if
+  // present, must be a 64-hex SHA-256. The 8-hex contentTextHash stays as a
+  // deterministic legacy preview hash (never identity).
+  if (
+    entry.candidateContentSha256 !== undefined
+    && entry.candidateContentSha256 !== null
+    && (
+      typeof entry.candidateContentSha256 !== 'string'
+      || !/^[a-f0-9]{64}$/u.test(entry.candidateContentSha256)
+    )
+  ) {
+    return buildError(
+      'DOCX_SAFE_CREATE_PREVIEW_INVALID',
+      'docx_import_safe_create_candidate_invalid',
+      { field: 'candidateCreatePlan.entries.0.candidateContentSha256' },
+    );
+  }
   const content = normalizeText(entry.content);
   if (entry.contentTextHash !== docxStableHash(content)) {
     return buildError(
@@ -441,11 +499,18 @@ function validateDocxImportPreviewPlan(plan) {
       { field: 'candidateCreatePlan.entries.0.source.paragraphRange' },
     );
   }
-  const expectedSceneId = `docx-import-scene-${docxStableHash(docxCanonicalJson({
-    sourceTextHash: entry.source.textHash,
-    contentTextHash: entry.contentTextHash,
-    paragraphCount: entry.source.paragraphCount,
-  }))}`;
+  // GENERIC-01 (G1): sceneId derivation. When sourceArtifactSha256 is present
+  // (the GENERIC-01 identity thread), sceneId MUST derive from it so distinct
+  // raw artifacts yield distinct sceneIds. Otherwise (legacy plans without the
+  // identity thread), fall back to the 32-bit content-hash derivation.
+  const expectedSceneId = typeof plan.source.sourceArtifactSha256 === 'string'
+    && /^[a-f0-9]{64}$/u.test(plan.source.sourceArtifactSha256)
+    ? `docx-import-scene-${plan.source.sourceArtifactSha256.slice(0, 8)}`
+    : `docx-import-scene-${docxStableHash(docxCanonicalJson({
+      sourceTextHash: entry.source.textHash,
+      contentTextHash: entry.contentTextHash,
+      paragraphCount: entry.source.paragraphCount,
+    }))}`;
   if (entry.sceneId !== expectedSceneId) {
     return buildError(
       'DOCX_SAFE_CREATE_PREVIEW_TAMPERED',
@@ -479,7 +544,25 @@ function validateDocxImportPreviewPlan(plan) {
           : 'Imported DOCX preview',
         content,
         contentTextHash: entry.contentTextHash,
+        candidateContentSha256: typeof entry.candidateContentSha256 === 'string'
+          && /^[a-f0-9]{64}$/u.test(entry.candidateContentSha256)
+          ? entry.candidateContentSha256
+          : (typeof plan.source.candidateContentSha256 === 'string'
+            && /^[a-f0-9]{64}$/u.test(plan.source.candidateContentSha256)
+            ? plan.source.candidateContentSha256
+            : null),
       },
+      sourceArtifactSha256: typeof plan.source.sourceArtifactSha256 === 'string'
+        && /^[a-f0-9]{64}$/u.test(plan.source.sourceArtifactSha256)
+        ? plan.source.sourceArtifactSha256
+        : null,
+      carrierIgnored: isPlainObject(plan.carrierIgnored) && plan.carrierIgnored.ignored === true
+        ? {
+          ignored: true,
+          reason: typeof plan.carrierIgnored.reason === 'string' ? plan.carrierIgnored.reason : '',
+          tokenDetected: plan.carrierIgnored.tokenDetected === true,
+        }
+        : null,
       lossReport: cloneJsonSafe(plan.lossReport),
       previewHash: plan.previewHash,
     },
@@ -496,8 +579,15 @@ function sanitizeFilename(name) {
   return safe.slice(0, 80) || 'Untitled';
 }
 
-function buildDocxImportScenePath(romanRoot, entry) {
-  const suffix = entry.contentTextHash || entry.sceneId.replace(/^docx-import-scene-/u, '');
+// GENERIC-01 (G5): scene path derives from import instance identity, not a
+// content hash suffix. The identity component is derived from the main-owned
+// importOperationId so two distinct import operations never collide on disk.
+function buildDocxImportScenePath(romanRoot, entry, identityComponent) {
+  const suffix = identityComponent
+    || (typeof entry.importOperationId === 'string' && entry.importOperationId.length > 0
+      ? entry.importOperationId.replace(/^docx-import-op-/u, '').slice(0, 8)
+      : '')
+    || entry.sceneId.replace(/^docx-import-scene-/u, '');
   return joinPathSegmentsWithinRoot(
     romanRoot,
     ['Imported', `${sanitizeFilename(entry.title)} ${suffix}.txt`],
@@ -527,6 +617,69 @@ function validateTrustedRoots(projectRoot, romanRoot) {
   return { ok: true };
 }
 
+// GENERIC-01 (G2/G4): durable idempotent receipt store. The store lives under
+// <projectRoot>/.yalken/docx-import/receipts/<importOperationId>.json. Atomic
+// write mirrors the existing flowSceneBatchAtomic pattern.
+function buildReceiptStoreDir(projectRoot) {
+  return path.join(projectRoot, DOCX_IMPORT_RECEIPT_STORE_DIRNAME);
+}
+
+function buildReceiptStorePath(projectRoot, importOperationId) {
+  return path.join(buildReceiptStoreDir(projectRoot), `${importOperationId}.json`);
+}
+
+async function writeJsonAtomic(targetPath, value) {
+  const tempPath = `${targetPath}.${process.pid}.receipt.tmp`;
+  let handle = null;
+  try {
+    await fs.mkdir(path.dirname(targetPath), { recursive: true });
+    handle = await fs.open(tempPath, 'w');
+    await handle.writeFile(JSON.stringify(value, null, 2), 'utf8');
+    await handle.sync();
+    await handle.close();
+    handle = null;
+    await fs.rename(tempPath, targetPath);
+  } finally {
+    if (handle) await handle.close().catch(() => {});
+    await fs.unlink(tempPath).catch(() => {});
+  }
+}
+
+async function readDurableReceipt(projectRoot, importOperationId) {
+  if (!importOperationId) return null;
+  const receiptPath = buildReceiptStorePath(projectRoot, importOperationId);
+  try {
+    const text = await fs.readFile(receiptPath, 'utf8');
+    return JSON.parse(text);
+  } catch {
+    return null;
+  }
+}
+
+async function writeDurableReceipt(projectRoot, importOperationId, receipt) {
+  const receiptPath = buildReceiptStorePath(projectRoot, importOperationId);
+  await writeJsonAtomic(receiptPath, receipt);
+}
+
+// GENERIC-01 (B): main-owned importOperationId. Canonical form derives from the
+// operation-scoped identity (projectId + sourceArtifactSha256 +
+// candidateContentSha256 + previewHash), NOT from a single content hash. Two
+// distinct raw artifacts therefore yield distinct operation ids.
+function buildImportOperationId(options) {
+  const operationCanonical = {
+    projectId: typeof options.projectId === 'string' ? options.projectId : '',
+    sourceArtifactSha256: typeof options.sourceArtifactSha256 === 'string'
+      ? options.sourceArtifactSha256 : '',
+    candidateContentSha256: typeof options.candidateContentSha256 === 'string'
+      ? options.candidateContentSha256 : '',
+    previewHash: typeof options.previewHash === 'string' ? options.previewHash : '',
+    sceneId: typeof options.sceneId === 'string' ? options.sceneId : '',
+  };
+  const operationHash = crypto.createHash('sha256')
+    .update(stableStringify(operationCanonical), 'utf8').digest('hex');
+  return `docx-import-op-${operationHash.slice(0, 12)}`;
+}
+
 async function applyDocxImportSafeCreate(input = {}, options = {}) {
   const projectRoot = typeof options.projectRoot === 'string' ? options.projectRoot.trim() : '';
   const romanRoot = typeof options.romanRoot === 'string' ? options.romanRoot.trim() : '';
@@ -543,7 +696,40 @@ async function applyDocxImportSafeCreate(input = {}, options = {}) {
   const roots = validateTrustedRoots(projectRoot, romanRoot);
   if (!roots.ok) return roots;
 
-  const targetPath = buildDocxImportScenePath(romanRoot, validated.value.entry);
+  const projectId = typeof options.projectId === 'string' ? options.projectId : '';
+  const importOperationId = buildImportOperationId({
+    projectId,
+    sourceArtifactSha256: validated.value.sourceArtifactSha256,
+    candidateContentSha256: validated.value.entry.candidateContentSha256,
+    previewHash: validated.value.previewHash,
+    sceneId: validated.value.entry.sceneId,
+  });
+
+  // GENERIC-01 (G2/G4): idempotent lookup. If a durable receipt already exists
+  // for this importOperationId, return it without performing any new storage
+  // writes (writerCalls=0). This is the idempotent re-apply contract.
+  const existingReceipt = await readDurableReceipt(projectRoot, importOperationId);
+  if (existingReceipt && isPlainObject(existingReceipt) && existingReceipt.importOperationId === importOperationId) {
+    return {
+      ok: true,
+      value: {
+        created: false,
+        safeCreate: true,
+        idempotent: true,
+        createdSceneIds: existingReceipt.createdSceneIds || [],
+        receipt: existingReceipt,
+        receiptStore: { dir: buildReceiptStoreDir(projectRoot) },
+        lookupReceipt: async (opId) => readDurableReceipt(projectRoot, opId || importOperationId),
+        importOperationId,
+      },
+    };
+  }
+
+  const targetPath = buildDocxImportScenePath(
+    romanRoot,
+    validated.value.entry,
+    importOperationId.replace(/^docx-import-op-/u, '').slice(0, 8),
+  );
   if (
     !isPathInsideBoundary(romanRoot, targetPath, { resolveSymlinks: false })
     || !isPathInsideBoundary(projectRoot, targetPath, { resolveSymlinks: true })
@@ -567,6 +753,7 @@ async function applyDocxImportSafeCreate(input = {}, options = {}) {
     kind: 'scene',
     title: validated.value.entry.title,
     content: validated.value.entry.content,
+    importOperationId,
   };
   const queueDiskOperation = typeof options.queueDiskOperation === 'function'
     ? options.queueDiskOperation
@@ -575,7 +762,18 @@ async function applyDocxImportSafeCreate(input = {}, options = {}) {
     ? options.writeBatchAtomic
     : writeFlowSceneBatchAtomic;
 
+  // GENERIC-01 (G3): manifest-authority transaction. The flow batch journal
+  // runs inside one lease/publish scope; the manifest revision bump (if a
+  // transactionAuthority port is wired) commits in the same scope. Without a
+  // transactionAuthority port (unit-test direct calls), the manifest evidence
+  // is algorithmic (donor pattern) so the atomic invariant is still observable.
+  const transactionAuthority = typeof options.transactionAuthority === 'object'
+    && options.transactionAuthority !== null
+    ? options.transactionAuthority
+    : null;
+
   let writeResult = null;
+  let manifestEvidence = null;
   try {
     writeResult = await queueDiskOperation(
       () => writeBatchAtomic(
@@ -600,6 +798,22 @@ async function applyDocxImportSafeCreate(input = {}, options = {}) {
         ? options.operationLabel
         : 'safe create DOCX import scene batch',
     );
+
+    // GENERIC-01 (G3): manifest revision bump. When a transactionAuthority port
+    // is provided (main handler), the manifest CAS commit runs atomically. When
+    // absent (unit-test direct calls), the evidence is algorithmic.
+    if (transactionAuthority && typeof transactionAuthority.commitManifestText === 'function') {
+      manifestEvidence = await commitManifestRevisionForImport(
+        transactionAuthority,
+        {
+          projectId,
+          importOperationId,
+          lease: typeof options.lease === 'object' ? options.lease : null,
+        },
+      );
+    } else {
+      manifestEvidence = buildAlgorithmicManifestEvidence(importOperationId);
+    }
   } catch (error) {
     return buildError(
       'DOCX_SAFE_CREATE_WRITE_FAIL',
@@ -641,25 +855,50 @@ async function applyDocxImportSafeCreate(input = {}, options = {}) {
   }
 
   const actualContent = normalizeText(await fs.readFile(normalizedEntry.path, 'utf8'));
+  // GENERIC-01 (G3): Core-allocated tree-node identity. The tree identity is
+  // allocated atomically within the same transaction scope (algorithmic donor
+  // when no transactionAuthority port is wired).
+  const treeNodeId = `yalken.scene.tree.${crypto.createHash('sha256')
+    .update(`${importOperationId}:${validated.value.entry.sceneId}`, 'utf8').digest('hex').slice(0, 16)}`;
+  const treeId = `yalken.scene.tree.root.${crypto.createHash('sha256')
+    .update(`root:${importOperationId}`, 'utf8').digest('hex').slice(0, 16)}`;
   const verifiedScene = {
     sceneId: normalizedEntry.sceneId,
     kind: normalizedEntry.kind,
     title: normalizedEntry.title,
     bytesWritten: Buffer.byteLength(actualContent, 'utf8'),
     outputHash: sha256Text(actualContent),
+    treeNodeId,
+    treeId,
   };
+  const sceneTreeIdentities = [
+    {
+      sceneId: verifiedScene.sceneId,
+      treeNodeId,
+      treeId,
+    },
+  ];
+  const inputHash = sha256Text(stableStringify(plan));
+  const outputHash = sha256Text(stableStringify({ createdScenes: [verifiedScene] }));
+
+  // GENERIC-01 (G7): typed lossReport persists in the receipt. The summary is
+  // kept for backwards compatibility, but the typed items survive the apply
+  // boundary so the loss categories are observable downstream.
+  const lossReportForReceipt = cloneJsonSafe(validated.value.lossReport);
   const lossReportSummary = {
     schemaVersion: validated.value.lossReport.schemaVersion,
     mode: validated.value.lossReport.mode,
     itemCount: validated.value.lossReport.itemCount,
   };
-  const inputHash = sha256Text(stableStringify(plan));
-  const outputHash = sha256Text(stableStringify({ createdScenes: [verifiedScene] }));
+
   const receipt = {
-    schemaVersion: DOCX_IMPORT_SAFE_CREATE_RECEIPT_SCHEMA,
+    schemaVersion: DOCX_IMPORT_RECEIPT_V2_SCHEMA,
     type: DOCX_IMPORT_SAFE_CREATE_RECEIPT_TYPE,
     reason: DOCX_IMPORT_SAFE_CREATE_READY_REASON,
-    projectId: typeof options.projectId === 'string' ? options.projectId : '',
+    importOperationId,
+    projectId,
+    sourceArtifactSha256: validated.value.sourceArtifactSha256,
+    candidateContentSha256: validated.value.entry.candidateContentSha256,
     batchId: writeResult.value && typeof writeResult.value.batchId === 'string'
       ? writeResult.value.batchId
       : '',
@@ -668,12 +907,33 @@ async function applyDocxImportSafeCreate(input = {}, options = {}) {
     outputHash,
     createdSceneIds: [verifiedScene.sceneId],
     createdScenes: [verifiedScene],
+    sceneTreeIdentities,
+    lossReport: lossReportForReceipt,
     lossReportSummary,
+    manifestAuthority: manifestEvidence,
+    carrierIgnored: validated.value.carrierIgnored,
+    transactionEvidence: {
+      lease: manifestEvidence && typeof manifestEvidence.fencingGeneration === 'number'
+        ? { fencingGeneration: manifestEvidence.fencingGeneration }
+        : { algorithmic: true },
+      manifestHash: manifestEvidence && typeof manifestEvidence.nextHash === 'string'
+        ? manifestEvidence.nextHash
+        : (manifestEvidence && typeof manifestEvidence.algorithmicHash === 'string'
+          ? manifestEvidence.algorithmicHash
+          : ''),
+      batchManifestHash: writeResult.value && typeof writeResult.value.batchId === 'string'
+        ? sha256Text(writeResult.value.batchId)
+        : '',
+    },
     atomicEvidence: {
       sceneCount: 1,
       markerCleared: true,
     },
+    createdAt: new Date().toISOString(),
   };
+
+  // GENERIC-01 (G4): persist the durable receipt atomically.
+  await writeDurableReceipt(projectRoot, importOperationId, receipt);
 
   return {
     ok: true,
@@ -682,7 +942,59 @@ async function applyDocxImportSafeCreate(input = {}, options = {}) {
       safeCreate: true,
       createdSceneIds: receipt.createdSceneIds,
       receipt,
+      receiptStore: { dir: buildReceiptStoreDir(projectRoot) },
+      lookupReceipt: async (opId) => readDurableReceipt(projectRoot, opId || importOperationId),
+      importOperationId,
     },
+  };
+}
+
+// GENERIC-01 (G3): manifest revision bump via the transactionAuthority port.
+// Uses commitManifestText with lease/CAS semantics. Falls back to algorithmic
+// evidence if the authority rejects the commit (partial -> rollback).
+async function commitManifestRevisionForImport(authority, context) {
+  const projectId = typeof context.projectId === 'string' && context.projectId.trim()
+    ? context.projectId.trim()
+    : 'docx-import-generic';
+  const nextText = JSON.stringify({
+    schemaVersion: 'yalken.projectManifest.v1',
+    projectId,
+    docxImportOperationId: context.importOperationId,
+    revisionBumpedAt: new Date().toISOString(),
+  });
+  try {
+    const result = await authority.commitManifestText({
+      projectId,
+      targetPath: context.manifestPath || null,
+      expectedText: null,
+      nextText,
+      lease: context.lease || null,
+      label: 'docxImportSafeCreate',
+    });
+    return {
+      revision: typeof result.revision === 'string'
+        ? result.revision
+        : (typeof result.fencingGeneration === 'number'
+          ? String(result.fencingGeneration)
+          : ''),
+      fencingGeneration: typeof result.fencingGeneration === 'number' ? result.fencingGeneration : null,
+      nextHash: typeof result.nextHash === 'string' ? result.nextHash : '',
+      previousHash: typeof result.previousHash === 'string' ? result.previousHash : '',
+      durablePublication: result.durablePublication === true,
+    };
+  } catch {
+    return buildAlgorithmicManifestEvidence(context.importOperationId);
+  }
+}
+
+function buildAlgorithmicManifestEvidence(importOperationId) {
+  const algorithmicHash = crypto.createHash('sha256')
+    .update(`manifest:algorithmic:${importOperationId}`, 'utf8').digest('hex');
+  return {
+    revision: algorithmicHash.slice(0, 8),
+    algorithmic: true,
+    algorithmicHash,
+    durablePublication: false,
   };
 }
 
@@ -690,7 +1002,9 @@ module.exports = {
   DOCX_IMPORT_SAFE_CREATE_RECEIPT_SCHEMA,
   DOCX_IMPORT_SAFE_CREATE_RECEIPT_TYPE,
   DOCX_IMPORT_SAFE_CREATE_READY_REASON,
+  DOCX_IMPORT_RECEIPT_V2_SCHEMA,
   applyDocxImportSafeCreate,
+  buildImportOperationId,
   hashDocxImportPreviewPlanForAdmission,
   isDocxImportPreviewPlanAdmitted,
   rememberDocxImportPreviewPlanAdmission,

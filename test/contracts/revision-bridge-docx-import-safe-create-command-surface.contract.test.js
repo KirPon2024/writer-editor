@@ -63,17 +63,24 @@ function instantiateDocxImportSafeCreatePort(options = {}) {
             operationLabel: helperOptions.operationLabel,
             hasQueueDiskOperation: typeof helperOptions.queueDiskOperation === 'function',
             hasWriteBatchAtomic: typeof helperOptions.writeBatchAtomic === 'function',
+            hasTransactionAuthority: helperOptions.transactionAuthority !== null
+              && typeof helperOptions.transactionAuthority === 'object',
           }) });
           return {
             ok: true,
             value: {
               created: true,
               createdSceneIds: ['docx-import-scene-1234abcd'],
+              importOperationId: 'docx-import-op-teststub0001',
               receipt: {
-                schemaVersion: 'revision-bridge.docx-import-safe-create-receipt.v1',
+                // GENERIC-01 (G8 amendment): receipt schema bumped to v2.
+                schemaVersion: 'revision-bridge.docx-import-receipt.v2',
                 type: 'docx.import.safeCreate.receipt',
                 reason: 'DOCX_IMPORT_SAFE_CREATE_APPLIED',
+                importOperationId: 'docx-import-op-teststub0001',
                 projectId: helperOptions.projectId,
+                sourceArtifactSha256: 'd'.repeat(64),
+                candidateContentSha256: 'e'.repeat(64),
                 batchId: 'flow-batch-test',
                 sourcePreviewHash: input.docxImportPreviewPlan.previewHash,
                 inputHash: 'a'.repeat(64),
@@ -85,13 +92,52 @@ function instantiateDocxImportSafeCreatePort(options = {}) {
                     kind: 'scene',
                     bytesWritten: 5,
                     outputHash: 'c'.repeat(64),
+                    treeNodeId: 'yalken.scene.tree.stubtree0001',
+                    treeId: 'yalken.scene.tree.root.stubroot01',
                   },
                 ],
+                sceneTreeIdentities: [
+                  {
+                    sceneId: 'docx-import-scene-1234abcd',
+                    treeNodeId: 'yalken.scene.tree.stubtree0001',
+                    treeId: 'yalken.scene.tree.root.stubroot01',
+                  },
+                ],
+                lossReport: {
+                  schemaVersion: 'revision-bridge.docx-import-preview.loss-report.v1',
+                  mode: 'plain-text-only',
+                  itemCount: 1,
+                  items: [
+                    {
+                      code: 'DOCX_IMPORT_PREVIEW_PLAIN_TEXT_ONLY',
+                      severity: 'info',
+                      category: 'formatting',
+                      message: 'DOCX import preview candidate is limited to plain text scene content',
+                    },
+                  ],
+                },
                 lossReportSummary: {
                   schemaVersion: 'revision-bridge.docx-import-preview.loss-report.v1',
                   mode: 'plain-text-only',
                   itemCount: 1,
                 },
+                manifestAuthority: {
+                  revision: 'stubrev01',
+                  algorithmic: true,
+                  algorithmicHash: 'f'.repeat(64),
+                  durablePublication: false,
+                },
+                carrierIgnored: null,
+                transactionEvidence: {
+                  lease: { algorithmic: true },
+                  manifestHash: 'f'.repeat(64),
+                  batchManifestHash: '1'.repeat(64),
+                },
+                atomicEvidence: {
+                  sceneCount: 1,
+                  markerCleared: true,
+                },
+                createdAt: '2026-01-01T00:00:00.000Z',
               },
             },
           };

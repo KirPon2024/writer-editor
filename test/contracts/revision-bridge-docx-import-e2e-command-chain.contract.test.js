@@ -479,17 +479,24 @@ test('DOCX import e2e command chain: blocked intake never becomes storage mutati
   assertNoPublicAuthorityLeak(result.safeCreate);
 });
 
-test('DOCX import e2e command chain: tamper and duplicate apply fail closed without public leaks', async () => {
+test('DOCX import e2e command chain: tamper fails closed and duplicate apply returns idempotent receipt without public leaks', async () => {
   const first = await runDocxImportCommandChain(cleanDocxZip([`Once ${Date.now()}`]));
   assert.equal(first.safeCreate.ok, true, JSON.stringify(first.safeCreate, null, 2));
   const originalText = readOnlyCreatedScene(first.romanRoot);
+  const firstOperationId = first.safeCreate.receipt.importOperationId;
 
+  // GENERIC-01 (G2 amendment): duplicate = same idempotent receipt (zero new
+  // writes), not a blocking error. Re-applying the same admitted plan returns
+  // the original receipt with the same importOperationId and performs no new
+  // storage writes.
   const duplicate = await first.ports.safeCreate.handleDocxImportSafeCreateCommandSurface({
     requestId: 'request-2',
     docxImportPreviewPlan: first.preview.docxImportPreviewPlan,
   });
-  assert.equal(duplicate.ok, false);
-  assert.equal(duplicate.error.code, 'DOCX_SAFE_CREATE_EXISTING_SCENE_BLOCKED');
+  assert.equal(duplicate.ok, true, JSON.stringify(duplicate, null, 2));
+  assert.equal(duplicate.safeCreateOk, true);
+  assert.equal(duplicate.created, false, 'duplicate must not create a new scene');
+  assert.equal(duplicate.receipt.importOperationId, firstOperationId);
   assert.equal(readOnlyCreatedScene(first.romanRoot), originalText);
   assertNoPublicAuthorityLeak(duplicate);
 

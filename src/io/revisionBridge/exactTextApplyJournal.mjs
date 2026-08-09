@@ -14,12 +14,15 @@ export const REVISION_BRIDGE_EXACT_TEXT_APPLY_RECONCILIATION_SCHEMA =
   'revision-bridge.exact-text-apply-reconciliation.v1';
 
 const JOURNAL_DIRECTORY_SEGMENTS = ['backups', 'revision-bridge-apply-journal'];
+const EPOCH_DIRECTORY_SEGMENTS = ['backups', 'revision-bridge-apply-journal', 'mutation-epoch'];
 const JOURNAL_MAX_BYTES = 256 * 1024;
 const JOURNAL_SCAN_LIMIT = 512;
 const JOURNAL_RETAIN_RECONCILED = 64;
 const HASH_PATTERN = /^[a-f0-9]{64}$/u;
 const OPERATION_ID_PATTERN = /^op_[a-z0-9][a-z0-9_-]{0,95}$/iu;
 const PENDING_STATUSES = new Set(['prepared', 'applied', 'receipt_written']);
+const EPOCH_SCHEMA_VERSION = 'revision-bridge.exact-text-mutation-epoch.v1';
+const EPOCH_MAX_SCENES = 4096;
 
 function isPlainObject(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -250,6 +253,123 @@ async function updateJournalEntry(projectRoot, operationId, updater, options = {
   return writeJournalEntry(context, next);
 }
 
+// Bounded per-scene mutationEpoch counter. The epoch is a monotonic per-scene
+// integer bumped on every successful apply journal prepare for that scene. It is
+// the bounded source the exact apply path uses to detect concurrent mutation
+// drift between a canonical read and commit. The counter lives in a single JSON
+// file per project keyed by a sha256 of the portable scene relative path, with a
+// hard cap on the number of scenes tracked. The file is written atomically.
+
+function sceneEpochKey(sceneRelativePath) {
+  return crypto.createHash('sha256').update(Buffer.from(sceneRelativePath, 'utf8')).digest('hex');
+}
+
+async function ensureEpochDirectory(context) {
+  let cursor = context.projectRoot;
+  for (const segment of EPOCH_DIRECTORY_SEGMENTS) {
+    cursor = path.join(cursor, segment);
+    try {
+      const stat = await fs.lstat(cursor);
+      if (stat.isSymbolicLink() || !stat.isDirectory()) {
+        throw journalError('E_REVISION_BRIDGE_APPLY_JOURNAL_DIRECTORY_UNSAFE', 'epoch directory must be a real directory');
+      }
+    } catch (error) {
+      if (error?.code !== 'ENOENT') throw error;
+      await fs.mkdir(cursor);
+    }
+  }
+  return cursor;
+}
+
+async function readEpochIndex(context) {
+  const epochDirectory = await ensureEpochDirectory(context);
+  const indexPath = path.join(epochDirectory, 'index.v1.json');
+  try {
+    const stat = await fs.lstat(indexPath);
+    if (stat.isSymbolicLink() || !stat.isFile() || stat.size > JOURNAL_MAX_BYTES) {
+      throw journalError('E_REVISION_BRIDGE_APPLY_JOURNAL_DIRECTORY_UNSAFE', 'epoch index is unsafe');
+    }
+    const parsed = JSON.parse(await fs.readFile(indexPath, 'utf8'));
+    if (parsed.schemaVersion !== EPOCH_SCHEMA_VERSION || !isPlainObject(parsed.scenes)) {
+      return { scenes: {}, epochDirectory };
+    }
+    return { scenes: parsed.scenes, epochDirectory };
+  } catch (error) {
+    if (error?.code !== 'ENOENT') throw error;
+    return { scenes: {}, epochDirectory };
+  }
+}
+
+async function writeEpochIndex(context, scenes, epochDirectory) {
+  const indexPath = path.join(epochDirectory, 'index.v1.json');
+  const record = {
+    schemaVersion: EPOCH_SCHEMA_VERSION,
+    updatedAt: toIsoString(),
+    sceneCount: Object.keys(scenes).length,
+    scenes,
+  };
+  await atomicWriteFile(indexPath, `${JSON.stringify(record, null, 2)}\n`, { safetyMode: 'strict' });
+}
+
+// Read the current mutationEpoch for a scene. Returns 0 if the scene has never
+// been bumped. The epoch is a bounded monotonic counter per portable scene path.
+export async function readMutationEpochForScene(projectRoot, sceneRelativePath) {
+  const normalized = normalizePortableRelativePath(sceneRelativePath, 'sceneRelativePath');
+  const context = await resolveProjectContext(projectRoot, { createJournalDirectory: true });
+  const { scenes } = await readEpochIndex(context);
+  const key = sceneEpochKey(normalized);
+  const value = Number(scenes[key]);
+  return Number.isSafeInteger(value) && value > 0 ? value : 0;
+}
+
+// Bump the mutationEpoch for a scene and return the new value. The bump is
+// bounded: the scene count is capped and the oldest entries are pruned. The
+// caller passes the sceneRelativePath resolved at prepare time.
+export async function bumpMutationEpochForScene(projectRoot, sceneRelativePath) {
+  const normalized = normalizePortableRelativePath(sceneRelativePath, 'sceneRelativePath');
+  const context = await resolveProjectContext(projectRoot, { createJournalDirectory: true });
+  const { scenes, epochDirectory } = await readEpochIndex(context);
+  const key = sceneEpochKey(normalized);
+  const previous = Number(scenes[key]);
+  const nextEpoch = (Number.isSafeInteger(previous) && previous > 0 ? previous : 0) + 1;
+  const nextScenes = {
+    ...scenes,
+    [key]: { epoch: nextEpoch, sceneRelativePath: normalized, updatedAt: toIsoString() },
+  };
+  // Bounded prune: if the scene count exceeds the cap, drop the oldest entries.
+  const entries = Object.entries(nextScenes);
+  if (entries.length > EPOCH_MAX_SCENES) {
+    const sorted = entries.sort((left, right) => (
+      String(left[1].updatedAt || '').localeCompare(String(right[1].updatedAt || ''))
+    ));
+    const pruned = sorted.slice(entries.length - EPOCH_MAX_SCENES);
+    const prunedScenes = {};
+    for (const [k, v] of pruned) prunedScenes[k] = v;
+    await writeEpochIndex(context, prunedScenes, epochDirectory);
+    return nextEpoch;
+  }
+  await writeEpochIndex(context, nextScenes, epochDirectory);
+  return nextEpoch;
+}
+
+// Build the per-operation expected slices digest. Each slice binds a changeId
+// to the before/after sha256 of the exact text region the operation touches.
+// This is the bounded per-operation digest the journal records so reconcile can
+// prove the operation applied to the exact bytes it was authorised on.
+export function buildExpectedSlices(operations = []) {
+  if (!Array.isArray(operations)) return [];
+  return operations.map((operation) => {
+    const changeId = normalizeString(operation?.changeId);
+    const beforeText = typeof operation?.expectedText === 'string' ? operation.expectedText : '';
+    const afterText = typeof operation?.replacementText === 'string' ? operation.replacementText : '';
+    return {
+      changeId,
+      beforeSliceDigest: sha256Text(beforeText),
+      afterSliceDigest: sha256Text(afterText),
+    };
+  });
+}
+
 export async function prepareExactTextApplyJournal(input = {}, options = {}) {
   const context = await resolveProjectContext(input.projectRoot, { createJournalDirectory: true });
   const scenePath = await resolveExistingProjectFile(context, input.scenePath, 'scenePath');
@@ -267,6 +387,17 @@ export async function prepareExactTextApplyJournal(input = {}, options = {}) {
     throw journalError('E_REVISION_BRIDGE_APPLY_JOURNAL_CHANGE_ID_REQUIRED', 'changeIds are required');
   }
 
+  const sceneRelativePath = toPortableRelativePath(context.projectRoot, scenePath, 'scenePath');
+  // Bump the bounded per-scene mutationEpoch and stamp it on the journal entry.
+  // The epoch is the bounded monotonic counter the exact apply path uses to
+  // detect concurrent mutation drift between a canonical read and commit.
+  const mutationEpoch = await bumpMutationEpochForScene(context.projectRoot, sceneRelativePath);
+  // Build per-operation expected slices digests from the optional operations
+  // array. Callers that do not pass operations get an empty array; the exact
+  // apply writers always pass the resolved operations so the journal records a
+  // per-operation authority digest.
+  const expectedSlices = buildExpectedSlices(input.operations);
+
   const entry = {
     schemaVersion: REVISION_BRIDGE_EXACT_TEXT_APPLY_JOURNAL_SCHEMA,
     operationId,
@@ -276,10 +407,12 @@ export async function prepareExactTextApplyJournal(input = {}, options = {}) {
     sessionId: normalizeString(input.sessionId),
     sceneId: normalizeString(input.sceneId),
     changeIds: [...new Set(changeIds)],
-    sceneRelativePath: toPortableRelativePath(context.projectRoot, scenePath, 'scenePath'),
+    sceneRelativePath,
     beforeHash,
     afterHash,
     inputHash: assertHash(input.inputHash, 'inputHash'),
+    mutationEpoch,
+    expectedSlices,
     preparedAt,
     updatedAt: preparedAt,
     transactionId: '',
@@ -376,6 +509,9 @@ function publicReconciliation(entry) {
     observedHash: normalizeString(reconciliation.observedHash),
     recoveryVerified: reconciliation.recoveryVerified === true,
     snapshotAvailable: reconciliation.snapshotAvailable === true,
+    snapshotRestorable: reconciliation.snapshotRestorable === true,
+    targetAbsent: reconciliation.targetAbsent === true,
+    targetUnsafe: reconciliation.targetUnsafe === true,
     transactionIntentState: normalizeString(reconciliation.transactionIntentState),
     safeActions: Array.isArray(reconciliation.safeActions) ? [...reconciliation.safeActions] : [],
     reconciledAt: normalizeString(reconciliation.reconciledAt),
@@ -390,10 +526,37 @@ export async function reconcileExactTextApplyJournal(projectRoot, operationId, o
   const entry = await readJournalEntryFromContext(context, operationId);
   if (entry.status === 'reconciled') return publicReconciliation(entry);
 
-  const scenePath = await resolveStoredProjectFile(context, entry.sceneRelativePath, 'sceneRelativePath');
-  const observedHash = sha256Text(await fs.readFile(scenePath, 'utf8'));
+  // Resolve the scene path defensively: the target may be absent after a crash
+  // (restore case) or a symlink boundary may have been introduced. We never
+  // follow a symlink here; an absent or unsafe target is a typed recovery case.
+  const candidateScenePath = path.join(context.projectRoot, ...normalizePortableRelativePath(entry.sceneRelativePath, 'sceneRelativePath').split('/'));
+  let scenePath = candidateScenePath;
+  let targetAbsent = false;
+  let targetUnsafe = false;
+  try {
+    const stat = await fs.lstat(candidateScenePath);
+    if (stat.isSymbolicLink()) {
+      targetUnsafe = true;
+      scenePath = null;
+    } else if (!stat.isFile()) {
+      targetAbsent = true;
+    }
+  } catch (error) {
+    if (error?.code === 'ENOENT') {
+      targetAbsent = true;
+    } else {
+      throw error;
+    }
+  }
+
+  let observedHash = '';
+  if (!targetAbsent && !targetUnsafe && scenePath) {
+    observedHash = sha256Text(await fs.readFile(scenePath, 'utf8'));
+  }
   let snapshotAvailable = false;
+  let snapshotRecorded = normalizeString(entry.recovery?.snapshotRelativePath) !== '';
   let recoveryVerified = false;
+  let snapshotRestorable = false;
   if (normalizeString(entry.recovery?.snapshotRelativePath)) {
     try {
       const snapshotPath = await resolveStoredProjectFile(
@@ -403,10 +566,12 @@ export async function reconcileExactTextApplyJournal(projectRoot, operationId, o
       );
       snapshotAvailable = true;
       recoveryVerified = sha256Text(await fs.readFile(snapshotPath, 'utf8')) === entry.beforeHash;
+      // A snapshot that matches beforeHash can restore an absent target.
+      snapshotRestorable = recoveryVerified;
     } catch {}
   }
 
-  const pendingIntent = await readTransactionIntent(scenePath).catch(() => null);
+  const pendingIntent = scenePath ? await readTransactionIntent(scenePath).catch(() => null) : null;
   const intentConflicts = Boolean(
     pendingIntent
     && (
@@ -421,13 +586,78 @@ export async function reconcileExactTextApplyJournal(projectRoot, operationId, o
     && entry.receipt.outputHash === entry.afterHash
     && entry.receipt.writeStatus === 'applied';
 
+  // Determine the bounded recovery outcome and the typed safeActions that
+  // describe how a caller must reconcile. The four sanctioned recovery paths:
+  //   (a) target==after + prepared/applied no receipt → roll-forward receipt
+  //       (write the receipt WITHOUT a second text write).
+  //   (b) target==before + prepared/applied → rollback/cleanup, NEVER applied.
+  //   (c) target absent + backup==before → restore from backup.
+  //   (d) foreign digest (target neither before nor after) → safe recovery
+  //       fork: preserve all bytes, never overwrite.
   let outcome = 'conflict';
-  if (!intentConflicts && observedHash === entry.beforeHash) {
+  let safeActions = ['RELOAD_CANONICAL'];
+  const isForeign = !targetAbsent && !targetUnsafe && observedHash !== entry.beforeHash && observedHash !== entry.afterHash;
+  if (targetUnsafe) {
+    outcome = 'conflict';
+    safeActions = ['SAFE_RECOVERY_FORK', 'RELOAD_CANONICAL'];
+  } else if (targetAbsent) {
+    // Target absent: a restorable backup snapshot is the cleanest path, but even
+    // without a local snapshot the beforeHash is known from the journal and a
+    // caller can restore from an external recovery pack or re-run the apply. The
+    // typed RESTORE action is always emitted so callers know the target must be
+    // restored (not overwritten); SAFE_RECOVERY_FORK is added when no local
+    // snapshot proves the restore bytes.
+    if (snapshotRestorable) {
+      outcome = 'target_absent_restorable';
+      safeActions = ['RESTORE_FROM_BACKUP', 'RESTORE', 'RELOAD_CANONICAL'];
+    } else {
+      outcome = 'target_absent_unrestorable';
+      safeActions = ['RESTORE', 'SAFE_RECOVERY_FORK', 'RELOAD_CANONICAL'];
+    }
+  } else if (!intentConflicts && observedHash === entry.beforeHash) {
     outcome = 'not_applied';
+    if (recoveryVerified) {
+      // A verified recovery snapshot means the writer never reached the target
+      // and the prepared reservation can be cleanly discarded: the canonical
+      // target already holds the correct bytes, so the caller only needs to
+      // reload canonical (the proven R8 crash-reconciliation path).
+      safeActions = ['RELOAD_CANONICAL'];
+    } else {
+      // No verified recovery snapshot: the prepared journal could not prove the
+      // writer never started, so emit the typed rollback/cleanup actions so a
+      // caller knows the prepared reservation must be rolled back explicitly.
+      safeActions = ['CLEANUP_NOT_APPLIED', 'ROLLBACK_PREPARED', 'RELOAD_CANONICAL'];
+    }
   } else if (!intentConflicts && observedHash === entry.afterHash && recoveryVerified && receiptValid) {
     outcome = 'applied_receipt_present';
+    safeActions = ['RELOAD_CANONICAL'];
   } else if (!intentConflicts && observedHash === entry.afterHash && recoveryVerified) {
+    // Writer applied with a verified recovery snapshot but the receipt was never
+    // written. The proven R8 crash-reconciliation path keeps this as a plain
+    // RELOAD_CANONICAL: the verified snapshot proves the apply, the caller only
+    // needs to reload canonical (the recovery snapshot is the durable proof).
     outcome = 'applied_receipt_missing';
+    safeActions = ['RELOAD_CANONICAL'];
+  } else if (!intentConflicts && observedHash === entry.afterHash) {
+    // Target matches after. Two sub-cases:
+    //   - A recovery snapshot was recorded but no longer verifies (tampered,
+    //     deleted, hash mismatch): this is a conflict, the recovery proof is
+    //     broken even though the bytes match the target.
+    //   - No recovery snapshot was ever recorded (prepare-only journal): the
+    //     writer appears to have applied without a proven receipt, so emit the
+    //     typed roll-forward actions so a caller can record the receipt WITHOUT
+    //     a second text write.
+    if (snapshotRecorded && !recoveryVerified) {
+      outcome = 'conflict';
+      safeActions = ['SAFE_RECOVERY_FORK', 'RELOAD_CANONICAL'];
+    } else {
+      outcome = 'applied_receipt_missing';
+      safeActions = ['ROLL_FORWARD_RECEIPT', 'REPLAY_FROM_RECEIPT', 'COMMIT_RECEIPT', 'RELOAD_CANONICAL'];
+    }
+  } else if (isForeign) {
+    // Foreign bytes are never overwritten. Safe recovery fork preserves them.
+    outcome = 'conflict';
+    safeActions = ['SAFE_RECOVERY_FORK', 'PRESERVE_FOREIGN_BYTES', 'RELOAD_CANONICAL'];
   }
 
   const reconciledAt = toIsoString(options.now);
@@ -436,17 +666,20 @@ export async function reconcileExactTextApplyJournal(projectRoot, operationId, o
     schemaVersion: REVISION_BRIDGE_EXACT_TEXT_APPLY_RECONCILIATION_SCHEMA,
     previousStatus: entry.status,
     outcome,
-    ambiguous: outcome === 'applied_receipt_missing' || outcome === 'conflict',
+    ambiguous: outcome === 'applied_receipt_missing' || outcome === 'conflict' || targetAbsent || targetUnsafe,
     observedHash,
     recoveryVerified,
     snapshotAvailable,
+    snapshotRestorable,
+    targetAbsent,
+    targetUnsafe,
     transactionIntentState: normalizeString(pendingIntent?.state),
-    safeActions: ['RELOAD_CANONICAL'],
+    safeActions,
     reconciledAt,
   };
   await writeJournalEntry(context, reconciledEntry);
 
-  if (outcome !== 'conflict' && pendingIntent) {
+  if (outcome !== 'conflict' && !targetAbsent && !targetUnsafe && pendingIntent) {
     await clearTransactionIntent(scenePath).catch(() => {});
   }
   return publicReconciliation(reconciledEntry);

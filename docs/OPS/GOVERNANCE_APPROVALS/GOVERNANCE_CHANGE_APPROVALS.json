@@ -2670,12 +2670,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "3094a7c7431fcd4fb65ea6a5b32654ace2d96590b8baca51ab1d5d85b04f34a2",
-      "approvedBy": "owner-direct:TASK_ID:ROUND-01_ROUND_RECORD_V3",
-      "approvedAtUtc": "2026-08-09T02:53:57.311Z",
-      "rationale": "Approve additive RTK graph catalog bytes adding the ROUND-01 round-record-v3 contract test file; supersedes the MATCH-01-era catalog byte approval retained in git history.",
+      "sha256": "c504c5f608925cfcf1f39b9e0615b4bdc86aa33ba348155e921b6782cad91387",
+      "approvedBy": "owner-direct:TASK_ID:TX-01_SINGLE_SCENE_TRANSACTION",
+      "approvedAtUtc": "2026-08-09T04:44:43.807Z",
+      "rationale": "Approve additive RTK graph catalog bytes adding the TX-01 single-scene transaction contract test file; supersedes the ROUND-01-era catalog byte approval retained in git history.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ROUND01_ROUND_RECORD_V3"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_TX01_SINGLE_SCENE_TRANSACTION"
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
@@ -6540,21 +6540,21 @@
     },
     {
       "filePath": "src/io/markdown/atomicWriteFile.mjs",
-      "sha256": "71bab82957b82a505a1ae04774373ef60f5a4656502014934a073b1504272414",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
-      "approvedAtUtc": "2026-08-02T10:57:50.000Z",
-      "rationale": "Approve the exact shared atomic writer bytes adding strict parent-directory fsync after rename for durable N3 scene and state commits; no API widening beyond the existing strict safety mode.",
+      "sha256": "4f1f91da795af4bbcc0383159b91d0ece565fb3cf7db36fb52048383412c5710",
+      "approvedBy": "owner-direct:TASK_ID:TX-01_SINGLE_SCENE_TRANSACTION",
+      "approvedAtUtc": "2026-08-09T04:44:43.807Z",
+      "rationale": "Approve TX-01 durable primitives: exclusive 0600 write with exact readback, exclusive hard link, and durable unlink with parent sync.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_TX01_SINGLE_SCENE_TRANSACTION"
     },
     {
       "filePath": "src/io/revisionBridge/exactTextMinSafeWrite.mjs",
-      "sha256": "e47ef00aa759dfbc0546372b51e376cc80562562f7b09b3baf812755aa58fd2e",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
-      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
-      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
+      "sha256": "fa008510223effb21fe0547084bfafc00ee9e10e80bdb8c97b9596a9bd18b89b",
+      "approvedBy": "owner-direct:TASK_ID:TX-01_SINGLE_SCENE_TRANSACTION",
+      "approvedAtUtc": "2026-08-09T04:44:43.807Z",
+      "rationale": "Approve TX-01 expected slices and mutation epoch stamped on the writer journal plus semantic after-parse readback compare with typed mismatch; writer guards preserved.",
       "approved": true,
-      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_TX01_SINGLE_SCENE_TRANSACTION"
     },
     {
       "filePath": "src/io/revisionBridge/index.mjs",
@@ -6644,12 +6644,12 @@
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportExactApply.mjs",
-      "sha256": "d195c87fe54d3e97b9be34d525e3e435b7996f0ab52a334fde82c1de0c418a53",
-      "approvedBy": "owner-direct:TASK_ID:STOP-01_AUTHORITY_STOP",
-      "approvedAtUtc": "2026-08-08T09:18:57.858Z",
-      "rationale": "Approve STOP-01 typed error-code propagation from replay outcome lookup catches so binding rejections surface their typed code.",
+      "sha256": "c26c0352b5d7b5d7c8894015e7a33bb5c4f64d8e4db70c800db1a17f5d716b7a",
+      "approvedBy": "owner-direct:TASK_ID:TX-01_SINGLE_SCENE_TRANSACTION",
+      "approvedAtUtc": "2026-08-09T04:44:43.807Z",
+      "rationale": "Approve TX-01 bounded per-scene writer lease with monotonic fencing token and stale-owner rejection, release proof, typed stale-epoch detection, and stuck-reservation reconciliation to replay, commit completion or typed release-retry-allowed.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_STOP01_AUTHORITY_STOP"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_TX01_SINGLE_SCENE_TRANSACTION"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportExactApplyAdapterV2.mjs",
@@ -8259,12 +8259,12 @@
     },
     {
       "filePath": "test/contracts/rtk-word-safety-c1-effect-reservation.contract.test.js",
-      "sha256": "d9b2ab57f563a87feb566db7c8f22af9ffbed1db55e4d64f64b0243f59d0937b",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
-      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
-      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "sha256": "35b3dd42dbe62d738cfa9e6a4920fc8f984483e0df12c9eb03533a6cbf369cd9",
+      "approvedBy": "owner-direct:TASK_ID:TX-01_SINGLE_SCENE_TRANSACTION",
+      "approvedAtUtc": "2026-08-09T04:44:43.807Z",
+      "rationale": "Approve sanctioned TX-01 amendment of the killpoint reservation expectation from eternal recovery-required block to typed reconciliation with writer never repeating; tests only.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_TX01_SINGLE_SCENE_TRANSACTION"
     },
     {
       "filePath": "test/contracts/rtk-word-safety-c2-multiscene-command-path.contract.test.js",
@@ -9637,12 +9637,12 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "824e5f19065ff22c29cc019fb8df29c1b17c4164250d581ea9475f2da95487fd",
-      "approvedBy": "owner-direct:TASK_ID:ROUND-01_ROUND_RECORD_V3",
-      "approvedAtUtc": "2026-08-09T02:53:57.311Z",
-      "rationale": "Approve additive test:rtk-round01 lane script; no dependency or runtime change.",
+      "sha256": "ec5d4eed12c3fbe20bea4f2349e73c1cbdbe85e6523bb8b082f6c9eb9ce55115",
+      "approvedBy": "owner-direct:TASK_ID:TX-01_SINGLE_SCENE_TRANSACTION",
+      "approvedAtUtc": "2026-08-09T04:44:43.807Z",
+      "rationale": "Approve additive test:rtk-tx01 lane script; no dependency or runtime change.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ROUND01_ROUND_RECORD_V3"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_TX01_SINGLE_SCENE_TRANSACTION"
     },
     {
       "filePath": "test/contracts/rtk-admit01-accountable-lanes.contract.test.js",
@@ -9760,6 +9760,42 @@
       "rationale": "Approve ROUND-01 round-record-v3 contract tests (R1-R7 plus R8 controls: eviction, raw secret, CAS, transitions, startup, eligibility, key states); tests only.",
       "approved": true,
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ROUND01_ROUND_RECORD_V3"
+    },
+    {
+      "filePath": "src/io/revisionBridge/exactTextApplyJournal.mjs",
+      "sha256": "6e4bd10cbd08c91a19b1fc7dfeef5c5eaae2321bc38e5a29bead0bf9c5119580",
+      "approvedBy": "owner-direct:TASK_ID:TX-01_SINGLE_SCENE_TRANSACTION",
+      "approvedAtUtc": "2026-08-09T04:44:43.807Z",
+      "rationale": "Approve TX-01 journal schema carrying mutationEpoch and expected slices and typed recovery actions (roll-forward, rollback, restore, safe fork) beyond reload-canonical.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_TX01_SINGLE_SCENE_TRANSACTION"
+    },
+    {
+      "filePath": "src/io/markdown/snapshotFile.mjs",
+      "sha256": "ad625d36aa4659882cbf4c150c3eb6293acbb7ec7e29286f845cd34bb7d2b6cc",
+      "approvedBy": "owner-direct:TASK_ID:TX-01_SINGLE_SCENE_TRANSACTION",
+      "approvedAtUtc": "2026-08-09T04:44:43.807Z",
+      "rationale": "Approve TX-01 fsynced recovery snapshots with parent directory sync.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_TX01_SINGLE_SCENE_TRANSACTION"
+    },
+    {
+      "filePath": "src/io/markdown/index.mjs",
+      "sha256": "877572df95560fcf146b54c42d9379fd993efb057bc48bbad360c2ed9bb5d7ee",
+      "approvedBy": "owner-direct:TASK_ID:TX-01_SINGLE_SCENE_TRANSACTION",
+      "approvedAtUtc": "2026-08-09T04:44:43.807Z",
+      "rationale": "Approve TX-01 durable transaction intent unlink with parent sync and no-follow regular read and inspect with typed symlink rejection.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_TX01_SINGLE_SCENE_TRANSACTION"
+    },
+    {
+      "filePath": "test/contracts/rtk-tx01-single-scene-transaction.contract.test.js",
+      "sha256": "b5c45562b894922c4c95faaea712e1297a521dc782e557383e3c8f46660cfa63",
+      "approvedBy": "owner-direct:TASK_ID:TX-01_SINGLE_SCENE_TRANSACTION",
+      "approvedAtUtc": "2026-08-09T04:44:43.807Z",
+      "rationale": "Approve TX-01 single-scene transaction contract tests (T1-T6 plus T7 controls: stuck reconciliation, fencing, epoch and slices, recovery actions, durable primitives, semantic readback); tests only.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_TX01_SINGLE_SCENE_TRANSACTION"
     }
   ]
 }

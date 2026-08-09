@@ -62,10 +62,45 @@ export async function listRecoverySnapshots(targetPathRaw) {
   }
 }
 
+// Fsync a file handle and swallow platform-incompatible errors so the snapshot
+// path remains durable on POSIX while degrading cleanly on Windows.
+async function fsyncFileHandle(filePath) {
+  let handle = null;
+  try {
+    handle = await fs.open(filePath, 'r');
+    await handle.sync();
+    return true;
+  } catch (error) {
+    const unsupportedOnWindows = process.platform === 'win32'
+      && ['EPERM', 'EISDIR', 'EINVAL', 'ENOTSUP'].includes(error?.code);
+    if (!unsupportedOnWindows) throw error;
+    return false;
+  } finally {
+    if (handle) await handle.close().catch(() => {});
+  }
+}
+
+async function fsyncParentDirectory(directory) {
+  let handle = null;
+  try {
+    handle = await fs.open(directory, 'r');
+    await handle.sync();
+    return true;
+  } catch (error) {
+    const unsupportedOnWindows = process.platform === 'win32'
+      && ['EPERM', 'EISDIR', 'EINVAL', 'ENOTSUP'].includes(error?.code);
+    if (!unsupportedOnWindows) throw error;
+    return false;
+  } finally {
+    if (handle) await handle.close().catch(() => {});
+  }
+}
+
 export async function createRecoverySnapshot(targetPathRaw, options = {}) {
   const targetPath = normalizeSnapshotPath(targetPathRaw);
   const maxSnapshots = normalizeMaxSnapshots(options.maxSnapshots);
   const nowFn = typeof options.now === 'function' ? options.now : Date.now;
+  const afterSyncHook = typeof options.afterSync === 'function' ? options.afterSync : null;
 
   const directory = path.dirname(targetPath);
   const snapshotPrefix = buildSnapshotPrefix(targetPath);
@@ -79,6 +114,7 @@ export async function createRecoverySnapshot(targetPathRaw, options = {}) {
       snapshotPath: '',
       purgedSnapshots: [],
       maxSnapshots,
+      synced: false,
     };
   }
 
@@ -94,6 +130,25 @@ export async function createRecoverySnapshot(targetPathRaw, options = {}) {
 
   try {
     await fs.copyFile(targetPath, snapshotPath);
+
+    // Durable snapshot: fsync the copied snapshot file AND its parent directory
+    // so the backup bytes survive a crash that follows the copy. Without this
+    // fsync the snapshot is only in the page cache and recovery is not proven.
+    let snapshotSynced = false;
+    try {
+      snapshotSynced = await fsyncFileHandle(snapshotPath);
+      await fsyncParentDirectory(directory);
+    } catch (error) {
+      throw asMarkdownIoError(error, 'E_IO_SNAPSHOT_FAIL', 'snapshot_sync_failed', {
+        targetPath,
+        snapshotPath,
+      });
+    }
+    if (snapshotSynced && afterSyncHook) {
+      try {
+        await afterSyncHook({ snapshotPath, directory });
+      } catch {}
+    }
 
     const matching = await listRecoverySnapshots(targetPath);
 
@@ -111,6 +166,7 @@ export async function createRecoverySnapshot(targetPathRaw, options = {}) {
       snapshotPath,
       purgedSnapshots,
       maxSnapshots,
+      synced: snapshotSynced,
     };
   } catch (error) {
     throw asMarkdownIoError(error, 'E_IO_SNAPSHOT_FAIL', 'snapshot_failed', {

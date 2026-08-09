@@ -3,7 +3,7 @@ import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { TextDecoder } from 'node:util';
-import { atomicWriteFile } from './atomicWriteFile.mjs';
+import { atomicWriteFile, unlinkDurable } from './atomicWriteFile.mjs';
 import { createRecoverySnapshot, listRecoverySnapshots } from './snapshotFile.mjs';
 import { asMarkdownIoError, createMarkdownIoError } from './ioErrors.mjs';
 import { appendReliabilityLog, buildReliabilityLogRecord } from './reliabilityLog.mjs';
@@ -194,12 +194,103 @@ async function readTransactionIntent(targetPath) {
   }
 }
 
-async function clearTransactionIntent(targetPath) {
+// Durable unlink of the transaction intent file: after unlinking the intent we
+// fsync the parent directory so the deletion is durable, not just the page
+// cache. Without the parent fsync a crash after unlink can leave a stale intent
+// that re-triggers ambiguous recovery even though the scene write committed.
+// The optional afterParentSync hook lets tests observe the parent fsync happened.
+async function clearTransactionIntent(targetPath, options = {}) {
   const intentPath = buildTransactionIntentPath(targetPath);
   await fs.unlink(intentPath).catch((error) => {
     if (error && error.code !== 'ENOENT') throw error;
   });
-  return { intentPath };
+  const directory = path.dirname(intentPath);
+  let directoryHandle = null;
+  let parentSynced = false;
+  try {
+    directoryHandle = await fs.open(directory, 'r');
+    await directoryHandle.sync();
+    parentSynced = true;
+  } catch (error) {
+    const unsupportedOnWindows = process.platform === 'win32'
+      && ['EPERM', 'EISDIR', 'EINVAL', 'ENOTSUP'].includes(error?.code);
+    if (!unsupportedOnWindows) throw error;
+  } finally {
+    if (directoryHandle) await directoryHandle.close().catch(() => {});
+  }
+  if (parentSynced && typeof options.afterParentSync === 'function') {
+    try {
+      await options.afterParentSync({ directory });
+    } catch {}
+  }
+  return { intentPath, directory, parentSynced };
+}
+
+// No-follow regular-file guard. The exact apply read path must never follow a
+// symlinked scene file: a symlink whose target lives outside the project would
+// let a crafted scene mutate bytes outside the project root. lstat first; if the
+// entry is a symlink, reject with a typed no-follow error before any read.
+async function inspectRegularNoFollow(sourcePath) {
+  let stat;
+  try {
+    stat = await fs.lstat(sourcePath);
+  } catch (error) {
+    if (error && error.code === 'ENOENT') {
+      throw createMarkdownIoError('E_IO_READ_FAIL', 'read_markdown_failed', {
+        sourcePath,
+      });
+    }
+    throw error;
+  }
+  if (stat.isSymbolicLink()) {
+    throw createMarkdownIoError('E_IO_SYMLINK_REJECTED_NO_FOLLOW', 'symlink_scene_rejected_no_follow', {
+      sourcePath,
+      recoveryAction: 'ABORT',
+    });
+  }
+  if (!stat.isFile()) {
+    throw createMarkdownIoError('E_IO_NOT_A_REGULAR_FILE', 'not_a_regular_file', {
+      sourcePath,
+    });
+  }
+  return stat;
+}
+
+// No-follow regular file read: lstat guards against symlinks, then the file is
+// read with a size cap and an optional expected sha256. This is the bounded
+// read oracle for scene reads on the exact apply path.
+async function readRegularNoFollow(sourcePath, options = {}) {
+  const maxBytes = normalizeLimit(options.maxInputBytes);
+  const expectedSha256 = normalizeExpectedSha256(options.expectedSha256);
+  const resolvedPath = resolveSourcePath(sourcePath);
+  const stat = await inspectRegularNoFollow(resolvedPath);
+  if (stat.size > maxBytes) {
+    throw createMarkdownIoError('E_IO_INPUT_TOO_LARGE', 'input_too_large', {
+      maxInputBytes: maxBytes,
+      byteLen: stat.size,
+    });
+  }
+  const buffer = await fs.readFile(resolvedPath);
+  if (buffer.includes(0)) {
+    throw createMarkdownIoError('E_IO_CORRUPT_INPUT', 'corrupt_input_null_byte', {
+      byteLen: buffer.byteLength,
+    });
+  }
+  if (expectedSha256) {
+    const actualSha256 = computeSha256Bytes(buffer);
+    if (actualSha256 !== expectedSha256) {
+      throw createMarkdownIoError('E_IO_INTEGRITY_MISMATCH', 'integrity_hash_mismatch', {
+        expectedSha256,
+        actualSha256,
+      });
+    }
+  }
+  const text = decodeUtf8Strict(buffer);
+  return {
+    text,
+    byteLen: buffer.byteLength,
+    path: resolvedPath,
+  };
 }
 
 export async function createMarkdownRecoveryPack(targetPathRaw, options = {}) {
@@ -467,42 +558,25 @@ export async function writeMarkdownWithRecovery(targetPath, markdown, options = 
 }
 
 export async function readMarkdownWithLimits(sourcePath, options = {}) {
-  const maxBytes = normalizeLimit(options.maxInputBytes);
-  const expectedSha256 = normalizeExpectedSha256(options.expectedSha256);
   const resolvedPath = resolveSourcePath(sourcePath);
 
   try {
-    const stat = await fs.stat(resolvedPath);
-    if (stat.size > maxBytes) {
-      throw createMarkdownIoError('E_IO_INPUT_TOO_LARGE', 'input_too_large', {
-        maxInputBytes: maxBytes,
-        byteLen: stat.size,
+    // No-follow guard: a symlinked scene must be rejected before any read so a
+    // crafted scene can never mutate bytes outside the project root through the
+    // apply read path. fs.stat would follow the symlink; lstat does not.
+    const stat = await fs.lstat(resolvedPath);
+    if (stat.isSymbolicLink()) {
+      throw createMarkdownIoError('E_IO_SYMLINK_REJECTED_NO_FOLLOW', 'symlink_scene_rejected_no_follow', {
+        sourcePath: resolvedPath,
+        recoveryAction: 'ABORT',
       });
     }
-
-    const buffer = await fs.readFile(resolvedPath);
-    if (buffer.includes(0)) {
-      throw createMarkdownIoError('E_IO_CORRUPT_INPUT', 'corrupt_input_null_byte', {
-        byteLen: buffer.byteLength,
+    if (!stat.isFile()) {
+      throw createMarkdownIoError('E_IO_NOT_A_REGULAR_FILE', 'not_a_regular_file', {
+        sourcePath: resolvedPath,
       });
     }
-
-    if (expectedSha256) {
-      const actualSha256 = computeSha256Bytes(buffer);
-      if (actualSha256 !== expectedSha256) {
-        throw createMarkdownIoError('E_IO_INTEGRITY_MISMATCH', 'integrity_hash_mismatch', {
-          expectedSha256,
-          actualSha256,
-        });
-      }
-    }
-
-    const text = decodeUtf8Strict(buffer);
-    return {
-      text,
-      byteLen: buffer.byteLength,
-      path: resolvedPath,
-    };
+    return await readRegularNoFollow(resolvedPath, options);
   } catch (error) {
     throw toMarkdownIoError(error, 'E_IO_READ_FAIL', 'read_markdown_failed', {
       sourcePath: resolvedPath,
@@ -694,7 +768,10 @@ export {
   computeSha256Bytes,
   createRecoverySnapshot,
   createMarkdownIoError,
+  inspectRegularNoFollow,
   listRecoverySnapshots,
   normalizeSafetyMode,
+  readRegularNoFollow,
   readTransactionIntent,
+  unlinkDurable,
 };

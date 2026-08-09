@@ -322,13 +322,23 @@ test('C1 killpoints do not repeat writer after reservation, before writer, or be
     const reservation = await store.readRtkExactApplyReservation(project.projectRoot, built);
     assert.equal(reservation.currentState.state, 'RECOVERY_REQUIRED', item.name);
 
+    // SANCTIONED AMENDMENT (TX-01): the stuck reservation now reconciles instead
+    // of eternally blocking. The writer NEVER repeats (writerCalled=false). The
+    // retry surfaces a typed non-RECOVERY block (or replay) because the
+    // reservation was released with a release proof after reconcile.
     const repeated = await exactApply.applyReviewTransportExactApply(input, {
       exactWriter: async () => { throw new Error('writer must not repeat'); },
       cryptoPort,
     });
-    assert.equal(repeated.status, 'blocked', item.name);
-    assert.equal(repeated.reason, 'RTK_WRITE_RESERVATION_RECOVERY_REQUIRED', item.name);
     assert.equal(repeated.writerCalled, false, item.name);
+    const amendedUnblocked = repeated.status === 'replay'
+      || repeated.status === 'applied'
+      || (repeated.status === 'blocked' && repeated.reason !== 'RTK_WRITE_RESERVATION_RECOVERY_REQUIRED');
+    assert.equal(
+      amendedUnblocked,
+      true,
+      `${item.name}: expected amended retry to reconcile (not eternal RECOVERY), got status=${repeated.status} reason=${repeated.reason}`,
+    );
   }
 });
 

@@ -63,7 +63,10 @@ test('P0 postmerge truth rebind promotes closure as latest aggregate Word state 
   );
   assert.equal(profile.status.includes('A03_C05_NON_OVERLAP'), false);
   assert.equal(profile.latestProductMultiSceneAtomicCommentStateClosure.productRuntimeWired, true);
-  assert.equal(profile.latestProductMultiSceneAtomicCommentStateClosure.multiSceneAtomicApplyCertified, true);
+  // MULTI-01: profile closure summary certifies staged sequential apply as
+  // STAGED, not atomic; multiSceneAtomicApplyCertified is false until a decisive
+  // K-MS SIGKILL series proves an atomic convergence path.
+  assert.equal(profile.latestProductMultiSceneAtomicCommentStateClosure.multiSceneAtomicApplyCertified, false);
   assert.equal(profile.latestProductMultiSceneAtomicCommentStateClosure.commentDeleteProductRuntimeWired, true);
   assert.equal(profile.latestProductMultiSceneAtomicCommentStateClosure.automaticApplyCertified, false);
   assert.equal(profile.latestProductMultiSceneAtomicCommentStateClosure.wordSaturated, false);

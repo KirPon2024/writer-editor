@@ -270,7 +270,10 @@ test('C2 allowlists multi-scene command and dispatches through canonical command
   const applied = await kernel.dispatch(MULTI_COMMAND_ID, multiInput(project));
   assert.equal(applied.type, module.RTK_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_TYPE);
   assert.equal(applied.status, 'applied', JSON.stringify(applied, null, 2));
-  assert.equal(applied.multiSceneAtomicApplyCertified, true);
+  // MULTI-01: staged sequential apply is certified as STAGED, not atomic. The
+  // runtime apply works, but multiSceneAtomicApplyCertified stays false until a
+  // decisive K-MS SIGKILL series proves an atomic convergence path.
+  assert.equal(applied.multiSceneAtomicApplyCertified, false);
   assert.equal(applied.automaticApplyCertified, false);
   assert.equal(applied.writerCalled, true);
   assert.deepEqual(readScenes(project), {
@@ -430,7 +433,8 @@ test('C2 rollback invalidates child replay authority and retry converges through
 
   const recovered = await createKernel(module).dispatch(MULTI_COMMAND_ID, input);
   assert.equal(recovered.status, 'applied', JSON.stringify(recovered, null, 2));
-  assert.equal(recovered.multiSceneAtomicApplyCertified, true);
+  // MULTI-01: staged sequential recovery apply is certified as STAGED, not atomic.
+  assert.equal(recovered.multiSceneAtomicApplyCertified, false);
   assert.equal(recovered.writerCalled, true);
   assert.equal(recovered.sceneResults.every((item) => item.replay === false), true);
   assert.equal(recovered.sceneResults.every((item) => item.stagedOutcomeOnly === true), true);

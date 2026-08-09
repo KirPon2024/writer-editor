@@ -44,6 +44,16 @@ test('P0 multi-scene atomic comment-state receipt verifies terminal product trut
   assert.equal(result.ok, true, JSON.stringify(result.issues, null, 2));
   assert.equal(result.observedCases, 3);
   assert.equal(result.negativeCases, 4);
+  // MULTI-01 Pass 2 amendment (staged vs atomic): this historical receipt
+  // captures the proven STAGED sequential apply (applyStatus applied, replay
+  // idempotent, rollback allScenesRestored, pre-writer negatives writerCalls=0).
+  // The receipt's `true` flag records the staged-apply-capable contour truth at
+  // receipt time. The LIVE runtime now types atomic apply as BLOCKED via
+  // MULTI_SCENE_SCOPE_BLOCKED_UNTIL_DECISIVE_CRASH_PROOF (see
+  // reviewTransportMultiSceneNonOverlapTrackedReplacementRuntime.mjs
+  // assertMultiSceneAtomicApplyNotOverclaimed + the profile closure-summary
+  // multiSceneAtomicApplyCertified:false pin). Atomicity is certified blocked,
+  // staged sequential apply is certified staged.
   assert.equal(result.multiSceneAtomicApplyCertified, true);
   assert.equal(result.commentDeleteProductRuntimeWired, true);
   assert.equal(result.automaticApplyCertified, false);
@@ -62,6 +72,12 @@ test('P0 multi-scene product loop uses one coordinated command and all scenes re
   assert.equal(multi.commandKernelCommandIds.includes('cmd.rtk.review.applyMultiSceneNonOverlapTrackedReplacements'), true);
   assert.equal(multi.applyStatus, 'applied');
   assert.equal(multi.replayStatus, 'replay');
+  // MULTI-01 Pass 2 amendment (staged vs atomic): the P0MS-001 case proves the
+  // STAGED sequential apply (one coordinated command, all scenes applied, replay
+  // idempotent). The historical `true` records staged-apply capability; the live
+  // runtime certifies atomic apply as BLOCKED until a decisive K-MS SIGKILL
+  // series (see runtime assertMultiSceneAtomicApplyNotOverclaimed). Staged
+  // sequential apply certified staged, atomic blocked.
   assert.equal(multi.multiSceneAtomicApplyCertified, true);
   assert.equal(multi.automaticApplyCertified, false);
   assert.equal(multi.scenes.every((scene) => scene.productLoop.authenticatedV2Intake === true), true);

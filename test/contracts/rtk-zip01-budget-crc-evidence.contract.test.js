@@ -33,6 +33,22 @@ const ALLOWLIST = [
   'test/contracts/rtk-word-n4-structural-return.contract.test.js',
   'test/contracts/rtk-zip01-budget-crc-evidence.contract.test.js',
   'src/io/revisionBridge/reviewTransportPackageParserV2.mjs',
+  // MULTI-01 Pass 2 write-set: multi-scene scope typed blocked until decisive
+  // K-MS SIGKILL crash proof. Runtime seam + claim flip, capability surfaces,
+  // router narrative, CONTEXT truth, and the claim-pin amendments that align
+  // legacy overclaim pins with the typed blocked runtime.
+  'src/io/revisionBridge/reviewTransportMultiSceneNonOverlapTrackedReplacementRuntime.mjs',
+  'src/export/docx/fullManuscriptDocxReviewReturnRouter.js',
+  'docs/OPS/STATUS/YALKEN_WORD_C5V2_TERMINAL_ACCEPTANCE_MATRIX_V1.json',
+  'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json',
+  'docs/CONTEXT.md',
+  'test/contracts/rtk-multi01-multi-scene-scope-blocked.contract.test.js',
+  'test/contracts/rtk-word-release-audit-p0-multiscene-atomic-comment-state-closure.contract.test.js',
+  'test/contracts/rtk-word-safety-c2-multiscene-command-path.contract.test.js',
+  'test/contracts/rtk-word-release-audit-p0-postmerge-truth-rebind.contract.test.js',
+  'test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js',
+  // MULTI-01 Pass 2: closure evaluator accepts the typed blocked profile cell.
+  'scripts/ops/rtk-word-release-audit-p0-multiscene-atomic-comment-state-closure.mjs',
 ];
 
 const W_NS = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main';

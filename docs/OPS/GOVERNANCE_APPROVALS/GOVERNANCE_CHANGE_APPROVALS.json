@@ -2670,12 +2670,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "35f71bb410794db660e519221b4115b138a2635210822a87eb97cfe535a97fc3",
-      "approvedBy": "owner-direct:TASK_ID:GENERIC-01_CREATE_ONLY_IMPORT",
-      "approvedAtUtc": "2026-08-09T06:25:17.945Z",
-      "rationale": "Approve additive RTK graph catalog bytes adding the GENERIC-01 create-only import contract test file; supersedes the TX-01-era catalog byte approval retained in git history.",
+      "sha256": "80d76406b31394375c9c5f8f97703f32955ccb81f2c008ad84c7e6f7a4ed55dd",
+      "approvedBy": "owner-direct:TASK_ID:MULTI-01_MULTI_SCENE_SCOPE_BLOCKED",
+      "approvedAtUtc": "2026-08-09T08:39:49.233Z",
+      "rationale": "Approve additive RTK graph catalog bytes adding the MULTI-01 multi-scene scope-blocked contract test file; supersedes the GENERIC-01-era catalog byte approval retained in git history.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_GENERIC01_CREATE_ONLY_IMPORT"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MULTI01_MULTI_SCENE_SCOPE_BLOCKED"
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
@@ -3000,12 +3000,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "a4c2076c006b2d676600d83e810fe0be4502cd9a509a6671ede85266e195fe94",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
-      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
-      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "sha256": "f6997f80c158504103bc939d40acde8ddc19cf7360f85090cbd40d8ae79ce1e3",
+      "approvedBy": "owner-direct:TASK_ID:MULTI-01_MULTI_SCENE_SCOPE_BLOCKED",
+      "approvedAtUtc": "2026-08-09T08:39:49.233Z",
+      "rationale": "Approve MULTI-01 capability profile cell typed false with blocked reason and kill criterion.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MULTI01_MULTI_SCENE_SCOPE_BLOCKED"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
@@ -5112,12 +5112,12 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_WORD_C5V2_TERMINAL_ACCEPTANCE_MATRIX_V1.json",
-      "sha256": "675aecda1ac4b2616236a32dea269eedcec9076b6da4c01c346ed16f82b11e31",
-      "approvedBy": "owner-controller:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
-      "approvedAtUtc": "2026-08-04T12:50:00.000Z",
-      "rationale": "Approve W02/W03 terminal acceptance matrix artifact binding 25 Word capability rows to merged origin main a23ee492 with W03 vocabulary, zero safety veto counters and terminal plan; docs-only artifact, no UI, network, dependency, Google, Atlas mutation or terminal physical PASS claim change.",
+      "sha256": "195dac580859d3a1c82b0cab20c86e104a8abf1fe1a1624ba402f8cea6df7be7",
+      "approvedBy": "owner-direct:TASK_ID:MULTI-01_MULTI_SCENE_SCOPE_BLOCKED",
+      "approvedAtUtc": "2026-08-09T08:39:49.233Z",
+      "rationale": "Approve MULTI-01 capability rows typed BLOCKED with kill criterion bound to the missing K-MS SIGKILL series.",
       "approved": true,
-      "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MULTI01_MULTI_SCENE_SCOPE_BLOCKED"
     },
     {
       "filePath": "docs/OPS/TOKENS/TOKEN_CATALOG_LOCK.json",
@@ -5804,12 +5804,12 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-release-audit-p0-multiscene-atomic-comment-state-closure.mjs",
-      "sha256": "4d669c54e6fbd2caa9156572eae842ea7ab5bf9b2aee2bed86adf1699fcd717f",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
-      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
-      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "sha256": "52291893b20949c9c2a3b8969d516622cd2aee40f329d30e786a886bfd4784eb",
+      "approvedBy": "owner-direct:TASK_ID:MULTI-01_MULTI_SCENE_SCOPE_BLOCKED",
+      "approvedAtUtc": "2026-08-09T08:39:49.233Z",
+      "rationale": "Approve MULTI-01 evaluator accepting the typed cell (historical true or false with blocked reason) required by both the typed capability flip and the closure suite.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MULTI01_MULTI_SCENE_SCOPE_BLOCKED"
     },
     {
       "filePath": "scripts/ops/rtk-word-release-audit-p0-parsed-ir-preview-apply-replay.mjs",
@@ -6692,12 +6692,12 @@
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportMultiSceneNonOverlapTrackedReplacementRuntime.mjs",
-      "sha256": "ae2887902a9db19e5699d4072006d2a6b8197212f1e66f4b5f53023c4fd304a3",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T21:05:27.922Z",
-      "rationale": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR",
+      "sha256": "f36337401c6c23070cbfa33eec4214df8eb9004b2c9a81aa9ba91e06774f1c31",
+      "approvedBy": "owner-direct:TASK_ID:MULTI-01_MULTI_SCENE_SCOPE_BLOCKED",
+      "approvedAtUtc": "2026-08-09T08:39:49.233Z",
+      "rationale": "Approve MULTI-01 test-only afterSceneWrite seam, typed multi-scene atomic apply blocked claim until a decisive crash proof, staged behavior preserved, and the overclaim guard rejecting atomic-certified results without a crash receipt.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MULTI01_MULTI_SCENE_SCOPE_BLOCKED"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportNonOverlapTrackedReplacementRuntime.mjs",
@@ -7648,12 +7648,12 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
-      "sha256": "a5efaf86058f685ba7a5fbce8a27fbf22f08f1dda8efb7cb33594187d7389f86",
-      "approvedBy": "owner-direct:TASK_ID:EVID-01_RETURN_EVIDENCE_PACKET",
-      "approvedAtUtc": "2026-08-08T23:55:04.384Z",
-      "rationale": "Approve EVID-01 packet-shaped fake injections and evidence-shaped anchor locators in the preview-session command-surface contract; no assertion weakened; tests only.",
+      "sha256": "9b56f4247cea7bd721506ee850141a8a825e397e3848fc4d557641c451762daa",
+      "approvedBy": "owner-direct:TASK_ID:MULTI-01_MULTI_SCENE_SCOPE_BLOCKED",
+      "approvedAtUtc": "2026-08-09T08:39:49.233Z",
+      "rationale": "Approve MULTI-01 runtime claim pin migration to typed false in the preview-session command-surface contract; tests only.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EVID01_RETURN_EVIDENCE_PACKET"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MULTI01_MULTI_SCENE_SCOPE_BLOCKED"
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-review-preview-session.contract.test.js",
@@ -8191,10 +8191,12 @@
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-multiscene-atomic-comment-state-closure.contract.test.js",
-      "sha256": "028e0d335bbfb5d652678be124bd5a4bf34b9c98e981e7847402550689c30f1f",
-      "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "Owner-approved bounded P0 Word contour for multi-scene atomic command apply and comment delete state closure; Word replies and resolve reopen remain typed limitations; automatic apply false; Word saturated false; Google Docs closed."
+      "sha256": "3c64c698c920c3dd2a9f62a6bcec63197bf43f7735764cec276c5aeb6a2ac4ac",
+      "approvedBy": "owner-direct:TASK_ID:MULTI-01_MULTI_SCENE_SCOPE_BLOCKED",
+      "approvedAtUtc": "2026-08-09T08:39:49.233Z",
+      "rationale": "Approve MULTI-01 sanctioned amendment documenting staged versus atomic semantics with receipt-compatible literals preserved; tests only.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MULTI01_MULTI_SCENE_SCOPE_BLOCKED"
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-parsed-ir-preview-apply-replay.contract.test.js",
@@ -8205,12 +8207,12 @@
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-postmerge-truth-rebind.contract.test.js",
-      "sha256": "f89f7d3b8100b01d89a8c05eeac461523f980cc8c349d41544f8472aa70f11fa",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
-      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
-      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "sha256": "d1bf26828a37a664e572b1b7e3621313c3fadc69ebed3e4daaa21fbe42722f14",
+      "approvedBy": "owner-direct:TASK_ID:MULTI-01_MULTI_SCENE_SCOPE_BLOCKED",
+      "approvedAtUtc": "2026-08-09T08:39:49.233Z",
+      "rationale": "Approve MULTI-01 profile closure pin migration to typed false; tests only.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MULTI01_MULTI_SCENE_SCOPE_BLOCKED"
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-product-comments-mixed-multiscene.contract.test.js",
@@ -8276,12 +8278,12 @@
     },
     {
       "filePath": "test/contracts/rtk-word-safety-c2-multiscene-command-path.contract.test.js",
-      "sha256": "d1ea75137a945fa58aeb57c8c51afae6329c1e2a487d8b846531a119848f6af5",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T21:05:27.922Z",
-      "rationale": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR",
+      "sha256": "a3d5afd86d40747e881ccb51010da32ab690015da7c9426069ef9e75ebce8535",
+      "approvedBy": "owner-direct:TASK_ID:MULTI-01_MULTI_SCENE_SCOPE_BLOCKED",
+      "approvedAtUtc": "2026-08-09T08:39:49.233Z",
+      "rationale": "Approve MULTI-01 claim pin migration to typed false in the multiscene command path contract; tests only.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MULTI01_MULTI_SCENE_SCOPE_BLOCKED"
     },
     {
       "filePath": "test/contracts/rtk-word-safety-c3-parser-resource-envelope.contract.test.js",
@@ -9519,12 +9521,12 @@
     },
     {
       "filePath": "src/export/docx/fullManuscriptDocxReviewReturnRouter.js",
-      "sha256": "85679a011983992c92f033786a3e0b6c7dfbbe12272d38f681c85c8f46bd6202",
-      "approvedBy": "owner-direct:TASK_ID:STOP-01_AUTHORITY_STOP",
-      "approvedAtUtc": "2026-08-08T09:18:57.858Z",
-      "rationale": "Approve STOP-01 full-manuscript router lifecycle honesty: explicit non-eligible round lifecycle blocks the apply plan and scene commands thread the real lifecycle instead of a hardcoded state.",
+      "sha256": "9de2d7a01244a628e38d62c72edc9a952d4be30367319e9a619da28a4892625e",
+      "approvedBy": "owner-direct:TASK_ID:MULTI-01_MULTI_SCENE_SCOPE_BLOCKED",
+      "approvedAtUtc": "2026-08-09T08:39:49.233Z",
+      "rationale": "Approve MULTI-01 honest atomicity narrative: staged sequential apply with atomicity blocked until the decisive crash series.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_STOP01_AUTHORITY_STOP"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MULTI01_MULTI_SCENE_SCOPE_BLOCKED"
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-full-manuscript-return-router.contract.test.js",
@@ -9645,12 +9647,12 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "c72e9ad9c6526ba213a78da5c75dc292614c948c5583b4e64d1a021694513d63",
-      "approvedBy": "owner-direct:TASK_ID:GENERIC-01_CREATE_ONLY_IMPORT",
-      "approvedAtUtc": "2026-08-09T06:25:17.945Z",
-      "rationale": "Approve additive test:rtk-generic01 lane script; no dependency or runtime change.",
+      "sha256": "560156277a3761b12c75d939d63f7aa4055a18ec32195266a715a6085e890887",
+      "approvedBy": "owner-direct:TASK_ID:MULTI-01_MULTI_SCENE_SCOPE_BLOCKED",
+      "approvedAtUtc": "2026-08-09T08:39:49.233Z",
+      "rationale": "Approve additive test:rtk-multi01 lane script; no dependency or runtime change.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_GENERIC01_CREATE_ONLY_IMPORT"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MULTI01_MULTI_SCENE_SCOPE_BLOCKED"
     },
     {
       "filePath": "test/contracts/rtk-admit01-accountable-lanes.contract.test.js",
@@ -9672,12 +9674,12 @@
     },
     {
       "filePath": "test/contracts/rtk-zip01-budget-crc-evidence.contract.test.js",
-      "sha256": "0d3b053e9faffef8962939e4a80b17bf5c125182d5eabb2e386f1d9dd005e4b3",
-      "approvedBy": "owner-direct:TASK_ID:EVID-01_RETURN_EVIDENCE_PACKET",
-      "approvedAtUtc": "2026-08-08T23:55:04.384Z",
-      "rationale": "Approve EVID-01 worker result shape pin update in the ZIP-01 budget and CRC evidence contract; tests only.",
+      "sha256": "76cb29111cfdef7ef9fa83c6183d9402e67d7b8e30d4d4fa5e7f9f39adebe0ac",
+      "approvedBy": "owner-direct:TASK_ID:MULTI-01_MULTI_SCENE_SCOPE_BLOCKED",
+      "approvedAtUtc": "2026-08-09T08:39:49.233Z",
+      "rationale": "Approve MULTI-01 contour allowlist extension in the ZIP-01 evidence contract; tests only.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EVID01_RETURN_EVIDENCE_PACKET"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MULTI01_MULTI_SCENE_SCOPE_BLOCKED"
     },
     {
       "filePath": "test/contracts/rtk-canon01-ordered-projections.contract.test.js",
@@ -9831,6 +9833,24 @@
       "rationale": "Approve GENERIC-01 create-only import contract tests (G1-G7 plus G8 controls incl. self-amended duplicate control per its own contract comment); tests only.",
       "approved": true,
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_GENERIC01_CREATE_ONLY_IMPORT"
+    },
+    {
+      "filePath": "docs/CONTEXT.md",
+      "sha256": "4ee10e03f64d6831dff87ddeb06b86cb15685c2d7c8099f9394c587ec1c72569",
+      "approvedBy": "owner-direct:TASK_ID:MULTI-01_MULTI_SCENE_SCOPE_BLOCKED",
+      "approvedAtUtc": "2026-08-09T08:39:49.233Z",
+      "rationale": "Approve MULTI-01 factual context line typing multi-scene atomic apply as BLOCKED with the staged sequential framing while single-scene and replay stay supported.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MULTI01_MULTI_SCENE_SCOPE_BLOCKED"
+    },
+    {
+      "filePath": "test/contracts/rtk-multi01-multi-scene-scope-blocked.contract.test.js",
+      "sha256": "550f7fdc38591a0693c350622a0b573bf38be0522e2787c06aa95bae8ae6dc1d",
+      "approvedBy": "owner-direct:TASK_ID:MULTI-01_MULTI_SCENE_SCOPE_BLOCKED",
+      "approvedAtUtc": "2026-08-09T08:39:49.233Z",
+      "rationale": "Approve MULTI-01 multi-scene scope-blocked contract tests (seam, SIGKILL mixed-state drill, claim typing, overclaim guard, staged controls); tests only.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MULTI01_MULTI_SCENE_SCOPE_BLOCKED"
     }
   ]
 }

@@ -1357,7 +1357,7 @@ test('DOCX review preview session command: full-manuscript return exposes only e
         replay: false,
         writerCalled: true,
         automaticApplyCertified: false,
-        multiSceneAtomicApplyCertified: true,
+        multiSceneAtomicApplyCertified: false,
         sceneResults: [
           { sceneId: 'roman/preface.md', status: 'applied' },
           { sceneId: 'roman/chapter-01.md', status: 'applied' },
@@ -1440,7 +1440,8 @@ test('DOCX review preview session command: full-manuscript return exposes only e
   });
   assert.equal(applied.ok, true, JSON.stringify(applied, null, 2));
   assert.equal(applied.applied, true);
-  assert.equal(applied.result.multiSceneAtomicApplyCertified, true);
+  // MULTI-01: staged sequential apply certified as STAGED, not atomic.
+  assert.equal(applied.result.multiSceneAtomicApplyCertified, false);
   assert.equal(applied.result.automaticApplyCertified, false);
   assert.equal(calls.length, 1);
   assert.equal(calls[0].payload.requestId, 'explicit-renderer-confirmed-full-manuscript-apply');

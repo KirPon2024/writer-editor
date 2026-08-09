@@ -112,11 +112,12 @@
     {
       "rowId": "MULTI_SCENE_COORDINATOR",
       "requirement": "Multi-scene single-root-pointer prepare commit recovery coordinator",
-      "implementation": "Multi-scene atomic coordinator engine",
-      "focusedTest": "rtk-word-c5v2-full-manuscript-return-router.contract.test.js",
-      "physicalEvidence": "E11 multi-scene atomic coordinator receipt; P0 multi-scene product vertical receipts",
-      "status": "EXACT_SUPPORTED",
-      "nextGap": "NONE_SUPERSEDED_BY_P0_MULTI_SCENE_PRODUCT_VERTICAL"
+      "implementation": "Multi-scene atomic coordinator engine (shadow-only: staging prepare/commit/recovery, no runtime write authority)",
+      "focusedTest": "rtk-word-c5v2-full-manuscript-return-router.contract.test.js; rtk-multi01-multi-scene-scope-blocked.contract.test.js",
+      "physicalEvidence": "E11 multi-scene atomic coordinator receipt; P0 multi-scene product vertical receipts; MULTI-01 M1b SIGKILL mixed-state drill classifies partial state as RTK_MULTI_SCENE_PARTIAL_REPLAY_BLOCKED with no convergence path",
+      "status": "BLOCKED",
+      "nextGap": "Decisive K-MS SIGKILL crash series must prove a single-root-pointer atomic convergence path; until then the coordinator stays shadow-only and multi-scene atomic apply is not certified",
+      "killCriterion": "MULTI-01: a real SIGKILL between staged scene writes leaves mixed canonical state (scene-1 replay-candidate, scene-2 ready) classified as RTK_MULTI_SCENE_PARTIAL_REPLAY_BLOCKED with no atomic convergence path. The coordinator is unblocked only when a K-MS SIGKILL series proves durable atomic boundary + fresh-process convergence."
     },
     {
       "rowId": "SATURATION_GOVERNANCE",
@@ -166,11 +167,12 @@
     {
       "rowId": "RETURN_NON_OVERLAP_APPLY",
       "requirement": "Word-return non-overlap tracked replacement preview and explicit apply path",
-      "implementation": "cmd.rtk.review.applyMultiSceneNonOverlapTrackedReplacements through command kernel",
-      "focusedTest": "rtk-word-c5v2-full-manuscript-return-router.contract.test.js",
-      "physicalEvidence": "E06 physical text certification receipt; N2 text apply replay green",
-      "status": "EXACT_SUPPORTED",
-      "nextGap": "NONE_FOR_SUPPORTED_NON_OVERLAP_REPLACEMENTS"
+      "implementation": "cmd.rtk.review.applyMultiSceneNonOverlapTrackedReplacements through command kernel (staged sequential apply; atomicity not certified)",
+      "focusedTest": "rtk-word-c5v2-full-manuscript-return-router.contract.test.js; rtk-multi01-multi-scene-scope-blocked.contract.test.js",
+      "physicalEvidence": "E06 physical text certification receipt; N2 text apply replay green; MULTI-01 M1b SIGKILL mixed-state drill proves no durable boundary between staged writes",
+      "status": "BLOCKED",
+      "nextGap": "Multi-scene atomic convergence: the staged sequential apply works (preview/apply/replay/rollback proven), but atomicity is BLOCKED until a decisive K-MS SIGKILL series proves a convergence path. Single-scene non-overlap apply remains EXACT_SUPPORTED via the single-scene runtime.",
+      "killCriterion": "MULTI-01: the multi-scene portion of RETURN_NON_OVERLAP_APPLY cannot be certified atomic because independent per-scene writes have no durable boundary; unblocked only by a K-MS SIGKILL series with fresh-process atomic convergence."
     },
     {
       "rowId": "PRODUCT_EXPORT_PACKET",
@@ -238,11 +240,12 @@
     {
       "rowId": "MULTI_SCENE_DELETE_TOMBSTONE",
       "requirement": "Product multi-scene atomic tracked replacement and comment delete state closure",
-      "implementation": "Multi-scene atomic product path with delete tombstone closure",
-      "focusedTest": "rtk-word-c5v2-negative-forks.contract.test.js",
-      "physicalEvidence": "P0 multi scene atomic comment state closure receipts",
-      "status": "EXACT_SUPPORTED",
-      "nextGap": "NONE_FOR_PROVEN_MULTI_SCENE_DELETE_TOMBSTONE_PATH"
+      "implementation": "Multi-scene atomic product path with delete tombstone closure (staged sequential apply; atomicity not certified)",
+      "focusedTest": "rtk-word-c5v2-negative-forks.contract.test.js; rtk-multi01-multi-scene-scope-blocked.contract.test.js",
+      "physicalEvidence": "P0 multi scene atomic comment state closure receipts; MULTI-01 M1b SIGKILL mixed-state drill proves no durable atomic boundary between scene writes",
+      "status": "BLOCKED",
+      "nextGap": "Decisive K-MS SIGKILL crash series must prove a durable atomic boundary and a fresh-process convergence path; comment delete tombstone closure remains product-wired, but multi-scene atomic apply is not certified",
+      "killCriterion": "MULTI-01: a SIGKILL between staged scene writes leaves mixed canonical state classified as RTK_MULTI_SCENE_PARTIAL_REPLAY_BLOCKED; the row is unblocked only when a K-MS series proves atomic convergence."
     }
   ],
   "blockedLanes": [

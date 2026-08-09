@@ -271,6 +271,7 @@ No further transfer is required for this variant; the transfer axis is closed.
 - Terminal campaign (Dorian 2000 on one frozen exact head, three full repetitions, two independent exact-head audits) is in progress under `EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1`; no `WORD_TERMINAL_PASS` claim is made until all terminal requirements hold.
 - Comment policy remains preview-only until explicit user action; replies/resolve/reopen/delete stay typed limitations (`NATIVE_UI_TARGET_UNAVAILABLE_OR_AMBIGUOUS`) unless new physical Word evidence changes the boundary.
 - Google Docs execution stays `BLOCKED`; Atlas WIP stays byte-for-byte preserved; no UI, network, dependency, or release-readiness claim follows from this contour.
+- LAB-01 introduced a read-only build-bound Word profile registry (`docs/OPS/RTK/WORD_BUILD_PROFILE_REGISTRY_V1.json`) with a no-inheritance evidence/profile join evaluator and a forward-only ladder admission gate (`scripts/ops/rtk-word-build-profiles-v1.mjs`); Word 16.111.2 remains `COMPLETE_NOT_SATURATED`, and Windows Word and Word Online remain `NOT_PROVEN` and `DECLARED` with empty ladders.
 
 ## Policies That Remain Binding
 - SECURITY_POLICY: CSP, blocked navigation, blocked new-window, no remote code

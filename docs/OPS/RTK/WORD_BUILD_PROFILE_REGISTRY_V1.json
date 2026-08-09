@@ -1,0 +1,290 @@
+{
+  "schemaVersion": "yalken.rtk.word-build-profile-registry.v1",
+  "registryId": "word-build-profile-registry-v1",
+  "purpose": "Machine-readable build-bound Word provider profiles for the LAB-01 Proof-Carrying Interop V2 §36 no-inheritance contract. Every evidenceHead path is a real committed file; every sha256 is the exact file sha256 at registry authoring time. This registry is read-only evidence; it grants no product write authority and never changes Word saturation status.",
+  "classVocabulary": [
+    "HISTORICAL_BUILD_BOUND",
+    "COMPETING_NOT_SATURATED",
+    "SATURATED",
+    "NOT_PROVEN",
+    "DECLARED"
+  ],
+  "ladderRungs": [
+    "CARRIER_SURVIVAL_SMOKE",
+    "SEMANTIC_DIFFERENTIAL_SUBSET",
+    "NEGATIVE_REPLAY_CRASH_SUBSET",
+    "WAVE_10",
+    "WAVE_40",
+    "WAVE_100",
+    "WAVE_300"
+  ],
+  "profiles": [
+    {
+      "profileId": "word-mac-16.42-d1",
+      "class": "HISTORICAL_BUILD_BOUND",
+      "platform": "word-mac",
+      "wordVersion": "16.42",
+      "wordBuild": "16.42.20101102",
+      "os": {
+        "macosVersion": "26.5.2",
+        "macosBuild": "25F84"
+      },
+      "locale": "ru_FI",
+      "compatibilityMode": "DOCX_FORMAT_DOCUMENT_WORD_16_42_OPEN_SAVE_REOPEN",
+      "saveFormat": "format document",
+      "controllerVersion": "rtk-word-v4",
+      "corpusDigest": "sha256:2b47991f142415d6930a86734efadebe7e220089a3f412410a0e089e59f0f601",
+      "frozenNote": "D1 Word 16.42 is immutable historical release evidence; this profile is frozen and admits no new evidence heads and no new ladder rungs.",
+      "evidenceHeads": [
+        {
+          "path": "docs/OPS/RTK/WORD_MAC_SETTINGS_CAPSULE.json",
+          "sha256": "sha256:64db9a5ab3bac6d31293c64cfefe050a51363211aa021d0835bda42ff080b0d1",
+          "wordVersion": "16.42",
+          "wordBuild": "16.42.20101102",
+          "sealedAtUtc": "2026-08-09T00:00:00.000Z",
+          "rungs": [
+            "CARRIER_SURVIVAL_SMOKE",
+            "SEMANTIC_DIFFERENTIAL_SUBSET",
+            "NEGATIVE_REPLAY_CRASH_SUBSET",
+            "WAVE_10",
+            "WAVE_40",
+            "WAVE_100",
+            "WAVE_300"
+          ]
+        },
+        {
+          "path": "docs/OPS/RTK/WORD_MAC_CERTIFICATION_STATUS.json",
+          "sha256": "sha256:e7e000c8a705c14621df46e6400ff465506118dbcd109f4fbcc064c6bc8de988",
+          "wordVersion": "16.42",
+          "wordBuild": "16.42.20101102",
+          "sealedAtUtc": "2026-08-09T00:00:00.000Z",
+          "rungs": [
+            "CARRIER_SURVIVAL_SMOKE",
+            "SEMANTIC_DIFFERENTIAL_SUBSET",
+            "NEGATIVE_REPLAY_CRASH_SUBSET",
+            "WAVE_10",
+            "WAVE_40",
+            "WAVE_100",
+            "WAVE_300"
+          ]
+        }
+      ],
+      "freshnessPolicy": {
+        "maxEvidenceAgeDays": 3650
+      },
+      "ladder": {
+        "completedRungs": [
+          "CARRIER_SURVIVAL_SMOKE",
+          "SEMANTIC_DIFFERENTIAL_SUBSET",
+          "NEGATIVE_REPLAY_CRASH_SUBSET",
+          "WAVE_10",
+          "WAVE_40",
+          "WAVE_100",
+          "WAVE_300"
+        ]
+      },
+      "profileDigest": "sha256:edb2082cd5a2784d4d0b87b8a0d38fee19320617d6d21ea3977c595bc7b29b8f"
+    },
+    {
+      "profileId": "word-mac-16.111.1-b06",
+      "class": "HISTORICAL_BUILD_BOUND",
+      "platform": "word-mac",
+      "wordVersion": "16.111.1",
+      "wordBuild": "16.111.26071913",
+      "os": {
+        "macosVersion": "26.5.2",
+        "macosBuild": "25F84"
+      },
+      "locale": "ru_FI",
+      "observedVersionMatchesOwnerPatchBrief": false,
+      "supersededBy": "word-mac-16.111.2-d1",
+      "frozenNote": "Superseded observed build bound captured by the B06 physical certification receipt. Frozen once the live oracle moved to 16.111.2 (build 16.111.26072617); admitted only what the B06 receipt physically proved.",
+      "evidenceHeads": [
+        {
+          "path": "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_B06_PHYSICAL_CERTIFICATION_RECEIPT.json",
+          "sha256": "sha256:7762958bb6c638b2cd8308be2783cc51c4345d70329601ff98f77636a9f920cd",
+          "wordVersion": "16.111.1",
+          "wordBuild": "16.111.26071913",
+          "sealedAtUtc": "2026-07-30T16:11:16.288Z",
+          "rungs": [
+            "SEMANTIC_DIFFERENTIAL_SUBSET"
+          ]
+        }
+      ],
+      "freshnessPolicy": {
+        "maxEvidenceAgeDays": 3650
+      },
+      "ladder": {
+        "completedRungs": [
+          "SEMANTIC_DIFFERENTIAL_SUBSET"
+        ]
+      },
+      "profileDigest": "sha256:09010acad2d27fe5dc01cfd7b3c63e26b507808faaa55684fc0dc47049a28fcb"
+    },
+    {
+      "profileId": "word-mac-16.111.2-d1",
+      "class": "COMPETING_NOT_SATURATED",
+      "platform": "word-mac",
+      "wordVersion": "16.111.2",
+      "wordBuild": "16.111.26072617",
+      "os": {
+        "macosVersion": "26.5.2",
+        "macosBuild": "25F84"
+      },
+      "locale": "ru_FI",
+      "controllerVersion": "rtk-word-v4",
+      "saturationStatus": "COMPLETE_NOT_SATURATED",
+      "saturationNote": "E12 stability limitation audit COMPLETE_NOT_SATURATED; LAB-01 does not change saturation status. All seven ladder rungs are proven by on-build physical evidence; saturation=false remains.",
+      "evidenceHeads": [
+        {
+          "path": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE12_RECEIPT.json",
+          "sha256": "sha256:331aa00db7c71faf7d688468f56401c6eadc3280816ff48453e3366c3593bdcb",
+          "wordVersion": "16.111.2",
+          "wordBuild": "16.111.26072617",
+          "sealedAtUtc": "2026-08-01T02:58:01.449Z",
+          "rungs": [
+            "CARRIER_SURVIVAL_SMOKE"
+          ]
+        },
+        {
+          "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E06_PHYSICAL_TEXT_CERTIFICATION_RECEIPT.json",
+          "sha256": "sha256:ebd1065afbac5f4a585b46727147b0498f95660d9f1d982ab5420328db2717b7",
+          "wordVersion": "16.111.2",
+          "wordBuild": "16.111.26072617",
+          "sealedAtUtc": "2026-07-31T08:35:00.000Z",
+          "rungs": [
+            "SEMANTIC_DIFFERENTIAL_SUBSET"
+          ]
+        },
+        {
+          "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS_RECEIPT.json",
+          "sha256": "sha256:a651cea9bdbdc5150e6a37e92160cbbdb73ef30491f3ada4cc499dd56b1f39dd",
+          "wordVersion": "16.111.2",
+          "wordBuild": "16.111.26072617",
+          "sealedAtUtc": "2026-07-31T08:35:00.000Z",
+          "rungs": [
+            "NEGATIVE_REPLAY_CRASH_SUBSET"
+          ]
+        },
+        {
+          "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+          "sha256": "sha256:08e44cdeb3bf5329084f9101e12703d7e18c77a71cf41ff46e7eb32db709d54b",
+          "wordVersion": "16.111.2",
+          "wordBuild": "16.111.26072617",
+          "sealedAtUtc": "2026-07-31T12:05:00.000Z",
+          "rungs": [
+            "WAVE_10"
+          ]
+        },
+        {
+          "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40_RECEIPT.json",
+          "sha256": "sha256:d87f04655f94b595951e3a73c524b6be9d731808abf6ea6945f3ea4e40348a35",
+          "wordVersion": "16.111.2",
+          "wordBuild": "16.111.26072617",
+          "sealedAtUtc": "2026-07-31T07:45:09.778Z",
+          "rungs": [
+            "WAVE_40"
+          ]
+        },
+        {
+          "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE100_RECEIPT.json",
+          "sha256": "sha256:caa7fcdeec3b5f935f210fc4c1ddfeab81fd09aaf797118caffb97c499f8fd3b",
+          "wordVersion": "16.111.2",
+          "wordBuild": "16.111.26072617",
+          "sealedAtUtc": "2026-07-31T08:24:49.712Z",
+          "rungs": [
+            "WAVE_100"
+          ]
+        },
+        {
+          "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_RECEIPT.json",
+          "sha256": "sha256:1431aea0c1cc68d119e24e373003c4c297b70214623a67d4c0da8d57cc821fb3",
+          "wordVersion": "16.111.2",
+          "wordBuild": "16.111.26072617",
+          "sealedAtUtc": "2026-07-31T10:17:41.249Z",
+          "rungs": [
+            "WAVE_300"
+          ]
+        },
+        {
+          "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_REPEAT_RECEIPT.json",
+          "sha256": "sha256:108f475c0776795f1f36fca710ec88529c2f88dc0e2de97be0ebabee54439623",
+          "wordVersion": "16.111.2",
+          "wordBuild": "16.111.26072617",
+          "sealedAtUtc": "2026-07-31T11:27:28.232Z",
+          "rungs": [
+            "WAVE_300"
+          ]
+        },
+        {
+          "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
+          "sha256": "sha256:2d914a5e62785d12b5191b796d4c5d26badf9a885fa6b42e881103382ac0ced6",
+          "wordVersion": "16.111.2",
+          "wordBuild": "16.111.26072617",
+          "sealedAtUtc": "2026-07-31T10:55:00.000Z",
+          "rungs": [
+            "WAVE_10",
+            "WAVE_40",
+            "WAVE_100",
+            "WAVE_300"
+          ]
+        }
+      ],
+      "freshnessPolicy": {
+        "maxEvidenceAgeDays": 90
+      },
+      "ladder": {
+        "completedRungs": [
+          "CARRIER_SURVIVAL_SMOKE",
+          "SEMANTIC_DIFFERENTIAL_SUBSET",
+          "NEGATIVE_REPLAY_CRASH_SUBSET",
+          "WAVE_10",
+          "WAVE_40",
+          "WAVE_100",
+          "WAVE_300"
+        ]
+      },
+      "profileDigest": "sha256:aa3ef4def265dd6f9af645d55b647cdd7cf97a461d70aa8073f97e134d848718"
+    },
+    {
+      "profileId": "word-windows-current",
+      "class": "NOT_PROVEN",
+      "platform": "word-windows",
+      "wordVersion": "unproven",
+      "wordBuild": "unproven",
+      "os": {
+        "profileAdvisory": "WINDOWS_WORD_CURRENT_CHANNEL_MOVED_TO_FUTURE_PLATFORM_ADVISORY_FOR_CURRENT_MACOS_RELEASE"
+      },
+      "locale": "unproven",
+      "notProvenNote": "Windows Word has no committed physical build, settings capsule, or corpus in this repository. POST_D1 lists Windows Word only as a future platform advisory; LAB-01 records it as NOT_PROVEN with no evidence heads and an empty ladder.",
+      "evidenceHeads": [],
+      "freshnessPolicy": {
+        "maxEvidenceAgeDays": 90
+      },
+      "ladder": {
+        "completedRungs": []
+      },
+      "profileDigest": "sha256:f29c73ccb6d1f46d858200ce3e69c838a479f71fece1cc2dfda84c2c36854fda"
+    },
+    {
+      "profileId": "word-online-declared",
+      "class": "DECLARED",
+      "platform": "word-online",
+      "wordVersion": "online",
+      "wordBuild": "online",
+      "os": {
+        "profileAdvisory": "WORD_ONLINE_RETURNED_DOCX_RESUMABLE_PHYSICAL_PROFILE_REQUIRED"
+      },
+      "locale": "unproven",
+      "declaredNote": "Word Online returned DOCX is declared as a compatibility profile only (RESUMABLE_PHYSICAL_PROFILE_REQUIRED) in POST_D1 externalEditorProfiles. It has no committed physical evidence; LAB-01 records it as DECLARED with no evidence heads and an empty ladder.",
+      "evidenceHeads": [],
+      "freshnessPolicy": {
+        "maxEvidenceAgeDays": 90
+      },
+      "ladder": {
+        "completedRungs": []
+      },
+      "profileDigest": "sha256:2399aef1d66eec424552232e77965aa28f55d3c936f38c78702c7903caab3d4a"
+    }
+  ]
+}

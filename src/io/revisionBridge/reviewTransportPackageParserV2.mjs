@@ -1399,6 +1399,16 @@ function parseTextRevisions(documentXml, documentScan, cryptoPort, budgets, budg
       continue;
     }
     const operation = token.localName === 'ins' ? 'insert' : 'delete';
+    // EVID-01 (spec §32.5/§12.2): a tracked ins/del that CONTAINS a block-level
+    // w:p element is a tracked paragraph insertion/deletion — a structural,
+    // paragraph-boundary change, never a run-text revision. It is classified by
+    // parseStructureChanges as trackedParagraphInsert/trackedParagraphDelete and
+    // must not also appear as a TextRevision (no double-counted text evidence).
+    const containsParagraphElement = documentScan.tokens.some((inner) => inner !== token
+      && isWordToken(inner, 'p')
+      && inner.openStart > token.openStart
+      && inner.closeEnd <= token.closeEnd);
+    if (containsParagraphElement) continue;
     const atoms = extractSemanticAtoms(documentXml, documentScan, token);
     const text = semanticAtomsToText(atoms);
     const revision = {
@@ -1573,6 +1583,30 @@ function parseStructureChanges(documentScan, budgetState, reasons) {
         sourceXmlProvenance: provenance(token),
         classification: 'STRUCTURAL_BLOCKED',
         reasonCode: inserted ? 'RTK_STRUCTURAL_PARAGRAPH_MARK_INSERTED' : 'RTK_STRUCTURAL_PARAGRAPH_MARK_DELETED',
+        writerAuthorityImpact: 'blocking',
+      };
+      if (admitWorkerOutput(budgetState, reasons, 'reviewIr.structureChanges', change)) {
+        changes.push(change);
+      }
+    }
+    // EVID-01 (spec §32.5/§12.2): a tracked ins/del that CONTAINS a block-level
+    // w:p element is a tracked paragraph insertion/deletion — a structural,
+    // paragraph-boundary change (whole-paragraph tracked change), classified
+    // here as trackedParagraphInsert/trackedParagraphDelete and suppressed from
+    // the TextRevision lane (see parseTextRevisions).
+    const containsParagraphElement = isWordInsOrDel && !isParagraphMark
+      && documentScan.tokens.some((inner) => inner !== token
+        && isWordToken(inner, 'p')
+        && inner.openStart > token.openStart
+        && inner.closeEnd <= token.closeEnd);
+    if (containsParagraphElement) {
+      const inserted = token.localName === 'ins';
+      const change = {
+        kind: 'StructureChange',
+        structureKind: inserted ? 'trackedParagraphInsert' : 'trackedParagraphDelete',
+        sourceXmlProvenance: provenance(token),
+        classification: 'STRUCTURAL_BLOCKED',
+        reasonCode: 'RTK_BLOCKED_STRUCTURAL',
         writerAuthorityImpact: 'blocking',
       };
       if (admitWorkerOutput(budgetState, reasons, 'reviewIr.structureChanges', change)) {
@@ -1992,6 +2026,36 @@ function relatedRevisionForRange(documentScan, start, end) {
 // Each violation (lone start, lone reference, duplicate id, crossing intervals,
 // orphan reference, cross-story) becomes a typed RTK_COMMENT_ANCHOR_* diagnostic
 // and the affected thread is NEVER reported as exact/ANCHORED.
+// EVID-01: locate the top-level Word paragraph containing an offset and read
+// its declared locator signals (paraId/textId plus bookmarkStart names inside
+// the paragraph range). Used to bind comment anchors to declared paragraph
+// identity for downstream scene-authority resolution.
+function anchorLocatorForOffset(documentScan, offset) {
+  if (!Number.isSafeInteger(offset)) return null;
+  let containing = null;
+  for (const token of documentScan.tokens) {
+    if (!isWordToken(token, 'p') || token.path.length !== 3 || token.path[1] !== 'body') continue;
+    if (offset >= token.openStart && offset <= token.closeEnd) {
+      containing = token;
+      break;
+    }
+  }
+  if (!containing) return null;
+  const bookmarkNames = [];
+  for (const token of documentScan.tokens) {
+    if (token.localName !== 'bookmarkStart') continue;
+    if (token.openStart >= containing.openStart && token.closeEnd <= containing.closeEnd) {
+      const name = attr(token, 'name');
+      if (name) bookmarkNames.push(name);
+    }
+  }
+  return {
+    paraId: attr(containing, 'paraId'),
+    textId: attr(containing, 'textId'),
+    bookmarkNames,
+  };
+}
+
 function commentAnchorMap(documentXml, documentScan, reasons) {
   const map = new Map();
   const ranges = [];
@@ -2071,6 +2135,11 @@ function commentAnchorMap(documentXml, documentScan, reasons) {
       hasStart,
       hasEnd,
       hasRef,
+      // EVID-01: declared locator of the paragraph containing this anchor —
+      // paraId/textId/bookmarkNames read from the enclosing top-level Word
+      // paragraph. Downstream consumers resolve scene authority through the
+      // authenticated export map's declared signals without reparsing.
+      anchorLocator: anchorLocatorForOffset(documentScan, startToken.openStart),
       relatedRevision: relatedRevisionForRange(
         documentScan,
         startToken.openStart,
@@ -2288,6 +2357,14 @@ function parseCommentThreads(input, documentXml, documentScan, scans, cryptoPort
       bodyExcerpt: record.body.slice(0, 160),
       orderingKey: record.ordinal,
       status,
+      // EVID-01: the anchor's document-order paragraph index lets downstream
+      // consumers resolve scene authority through the authenticated export map
+      // (ordered projection) without reparsing the DOCX. Null when the anchor
+      // is missing (ORPHAN lane).
+      paragraphIndex: Number.isSafeInteger(record.anchor.anchorStart)
+        ? paragraphIndexForOffset(documentScan, record.anchor.anchorStart)
+        : null,
+      anchorLocator: record.anchor.anchorLocator || null,
       placement: {
         outcome: status,
         anchored: record.anchor.anchored === true,
@@ -2891,5 +2968,71 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
       reason('RTK_NO_WRITE_ANALYSIS_READY', 'reviewIr', 'Package-aware ReviewIRV2 parser produced immutable analysis without write authority.'),
       ...reasons,
     ],
+  };
+}
+
+// EVID-01 (Pass 2): re-verify an authority carrier HMAC signature in main
+// (which owns the local secret) against a carrier emitted by the secret-free
+// worker. The worker carries unverifiedCarrierEvidence; main combines the
+// verified YRTK2 binding with this HMAC check to upgrade the carrier to
+// verified-baseline-bound WITHOUT a second worker spawn. Returns
+// { ok, verified, validSignedLocator, baselineBinding, reasons }.
+export function verifyAuthorityCarrierSignatureWithSecret(selectedCarrier, input = {}, cryptoPort) {
+  const reasons = [];
+  const candidate = isPlainObject(selectedCarrier) ? selectedCarrier : {};
+  const hmacSecret = rawString(input?.hmacSecret);
+  const expected = isPlainObject(input?.expectedAuthority) ? input.expectedAuthority : {};
+  if (!hmacSecret) {
+    return { ok: false, verified: false, validSignedLocator: false, baselineBinding: {}, reasons: [{ code: 'RTK_MANUAL_DEGRADED_LOCATOR', field: 'authorityCarrier.hmacSecret', message: 'Local HMAC secret is required for authority carrier verification.' }] };
+  }
+  const decoded = base64UrlDecodeText(candidate.encoded);
+  if (!decoded.ok) {
+    return { ok: false, verified: false, validSignedLocator: false, baselineBinding: {}, reasons: [{ code: 'RTK_MANUAL_DEGRADED_LOCATOR', field: 'authorityCarrier.encoded', message: 'Authority carrier could not be decoded.' }] };
+  }
+  let envelope = null;
+  try {
+    envelope = JSON.parse(decoded.value);
+  } catch {
+    return { ok: false, verified: false, validSignedLocator: false, baselineBinding: {}, reasons: [{ code: 'RTK_MANUAL_DEGRADED_LOCATOR', field: 'authorityCarrier.envelope', message: 'Authority carrier JSON is malformed.' }] };
+  }
+  const payload = isPlainObject(envelope?.payload) ? envelope.payload : {};
+  const fullManuscript = isFullManuscriptAuthorityPayload(payload, expected);
+  const expectedPayloadDigest = cryptoPort.sha256Json(payload);
+  if (rawString(envelope?.payloadDigest) !== expectedPayloadDigest) {
+    reasons.push({ code: 'RTK_MANUAL_DEGRADED_LOCATOR', field: 'authorityCarrier.payloadDigest', message: 'Authority carrier payload digest mismatch.' });
+  }
+  if (!HMAC_RE.test(rawString(envelope?.signature))) {
+    reasons.push({ code: 'RTK_MANUAL_DEGRADED_LOCATOR', field: 'authorityCarrier.signature', message: 'Authority carrier signature must be a full hmac-sha256 digest.' });
+  }
+  if (envelope?.secretEmbeddedInDocx !== false) {
+    reasons.push({ code: 'RTK_MANUAL_DEGRADED_LOCATOR', field: 'authorityCarrier.secretEmbeddedInDocx', message: 'Authority carrier secret must not be embedded.' });
+  }
+  const expectedHmac = normalizeHmac(cryptoPort.hmacSha256Json(payload, hmacSecret));
+  if (rawString(envelope?.signature) !== expectedHmac) {
+    reasons.push({ code: 'RTK_MANUAL_DEGRADED_LOCATOR', field: 'authorityCarrier.signature', message: 'Authority carrier HMAC mismatch.' });
+  }
+  const expectedKeys = fullManuscript
+    ? ['scope', 'fullBookRawSha256', 'roundId', 'exportId', 'capabilityManifestDigest']
+    : ['sceneId', 'sceneRevision', 'rawSha256', 'blockId', 'roundId', 'exportId'];
+  const baselineBinding = Object.fromEntries(expectedKeys.map((key) => {
+    const expectedValue = rawString(expected[key]);
+    return [`${key}Matches`, Boolean(expectedValue) && rawString(payload[key]) === expectedValue];
+  }));
+  for (const key of expectedKeys) {
+    const expectedValue = rawString(expected[key]);
+    if (expectedValue && rawString(payload[key]) !== expectedValue) {
+      reasons.push({ code: 'RTK_MANUAL_DEGRADED_LOCATOR', field: `authorityCarrier.expectedAuthority.${key}`, message: 'Authority carrier does not match the expected local baseline.' });
+    }
+  }
+  const allExpectedPresent = expectedKeys.every((key) => rawString(expected[key]));
+  const allExpectedMatched = allExpectedPresent && Object.values(baselineBinding).every(Boolean);
+  const verified = reasons.length === 0;
+  return {
+    ok: true,
+    verified,
+    validSignedLocator: verified && allExpectedMatched,
+    payload: cloneJsonSafe(payload),
+    baselineBinding: { ...baselineBinding, allExpectedPresent, allExpectedMatched },
+    reasons,
   };
 }

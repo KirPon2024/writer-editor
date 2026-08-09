@@ -14,6 +14,7 @@
   "contractBasenames": [
     "rtk-admit01-accountable-lanes.contract.test.js",
     "rtk-canon01-ordered-projections.contract.test.js",
+    "rtk-evid01-return-evidence-packet.contract.test.js",
     "rtk-export01-unified-bookmark.contract.test.js",
     "rtk-g0a-assurance.contract.test.js",
     "rtk-g0b-feasibility.contract.test.js",

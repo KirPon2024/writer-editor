@@ -817,6 +817,60 @@ function c05ExactAuthority(overrides = {}) {
   };
 }
 
+// EVID-01 Pass 2: the DOCX return intake worker now emits a ReturnEvidencePacket
+// V1 alongside the legacy parserResult. The command-surface spies inject a
+// worker result; this helper wraps a fake parserResult into a packet-shaped
+// worker result so the intake verify gate (schema + artifact digest +
+// packetDigest) and the YRTK2-from-packet lane are exercised honestly. The
+// yrtk2 evidence (token + coreManifestDigest) is taken from the local
+// authority capsule the test already owns.
+const { createRequire } = require('node:module');
+const cjsRequireForEsm = createRequire(__filename);
+let buildReturnEvidencePacketV1Sync = null;
+try {
+  // The packet module is ESM (.mjs); createRequire lets us load it synchronously
+  // because it has no ESM-only runtime imports beyond node:crypto.
+  ({ buildReturnEvidencePacketV1: buildReturnEvidencePacketV1Sync } = cjsRequireForEsm('../../src/io/revisionBridge/reviewTransportReturnEvidenceV1.mjs'));
+} catch {
+  buildReturnEvidencePacketV1Sync = null;
+}
+
+function wrapParserResultAsPacketResult(parserResult, options = {}) {
+  if (typeof buildReturnEvidencePacketV1Sync !== 'function') {
+    // Fallback: return the legacy shape if the packet module could not be
+    // required synchronously. This keeps older node paths usable.
+    return { ok: true, parserResult };
+  }
+  const artifactSha256 = typeof options.returnedArtifactSha256 === 'string'
+    ? options.returnedArtifactSha256
+    : '';
+  const yrtk2Token = typeof options.yrtk2Token === 'string' ? options.yrtk2Token : '';
+  const coreManifestDigest = typeof options.coreManifestDigest === 'string'
+    ? options.coreManifestDigest
+    : '';
+  const effectiveBudgets = { maxWorkerOutputBytes: 16 * 1024 * 1024 };
+  const packet = buildReturnEvidencePacketV1Sync({
+    requestId: typeof options.requestId === 'string' ? options.requestId : 'docx-review-preview-session-request',
+    artifactSha256,
+    effectiveBudgets,
+    effectiveBudgetDigest: c05CryptoPort.sha256Json(effectiveBudgets),
+    resourceReceipt: {
+      parserStatus: parserResult?.status || 'review-ir-ready',
+      sourceMode: parserResult?.sourceMode || 'TRACKED',
+    },
+    packageInventoryDigest: c05CryptoPort.sha256Json(parserResult?.packageInventory || {}),
+    unverifiedCarrierEvidence: isPlainObjectValue(parserResult?.authorityCarrier) ? parserResult.authorityCarrier : {},
+    returnedProjection: {
+      ...(isPlainObjectValue(parserResult?.reviewIr) ? parserResult.reviewIr : {}),
+      yrtk2Evidence: { token: yrtk2Token, coreManifestDigest },
+    },
+    projectionDigest: parserResult?.supportedSemanticDigest || parserResult?.analysisDigest || c05CryptoPort.sha256Json({ sourceMode: parserResult?.sourceMode || 'TRACKED' }),
+    diagnostics: Array.isArray(parserResult?.reasons) ? parserResult.reasons : [],
+    workerBuildDigest: parserResult?.parserProfileDigest || c05CryptoPort.sha256Json({ implementationId: 'command-surface-spy' }),
+  });
+  return { ok: true, packet, parserResult };
+}
+
 function c05AuthorityCarrier(sceneId = 'roman/imported/scene-1.txt', blockId = 'block-c05-target') {
   return {
     schemaVersion: 'yalken.rtk.review-transport-authority-carrier.v2',
@@ -1350,7 +1404,11 @@ test('DOCX review preview session command: full-manuscript return exposes only e
         roundsById: { [fullSource.localAuthorityCapsule.roundId]: fullSource.localAuthorityCapsule },
         secretExposedToRenderer: false,
       },
-      runDocxReviewReturnIntakeInUtilityProcess: async () => ({ ok: true, parserResult }),
+      runDocxReviewReturnIntakeInUtilityProcess: async (input) => wrapParserResultAsPacketResult(parserResult, {
+        returnedArtifactSha256: input?.returnedArtifactSha256,
+        yrtk2Token: customPropertyFromSource(fullSource, 'YRTK2_TOKEN'),
+        coreManifestDigest: fullSource.localAuthorityCapsule.coreManifestDigest,
+      }),
       buildMainReviewContext: async () => reviewContext({
         projectId: 'project-c5v2-product-route',
         projectRoot: '/project',
@@ -1667,7 +1725,9 @@ test('DOCX review preview session command: full-manuscript active authority stor
     parserProfileDigest: c05Sha256Text('parser'), analysisDigest: c05Sha256Text('analysis'), sourceMode: 'TRACKED',
     reviewIr: {
       commentThreads: [{
-        threadId: 'rtk-comment-0', commentId: '0', status: 'resolved',
+        threadId: 'rtk-comment-0', commentId: '0', status: 'resolved', paragraphIndex: 0,
+        anchorLocator: { paraId: 'aaaabbbb', textId: '11112222', bookmarkNames: [] },
+        quotedAnchorText: sceneText,
         messages: [
           { messageId: 'docx-comment-0-root', body: 'Physical root body' },
           { messageId: 'docx-comment-0-reply', body: 'Physical reply body' },
@@ -1750,7 +1810,11 @@ test('DOCX review preview session command: full-manuscript active authority stor
       scope: 'full-manuscript', lastRoundId: roundId, roundsById: { [roundId]: localAuthority },
       secretExposedToRenderer: false,
     },
-    runDocxReviewReturnIntakeInUtilityProcess: async () => ({ ok: true, parserResult }),
+    runDocxReviewReturnIntakeInUtilityProcess: async (input) => wrapParserResultAsPacketResult(parserResult, {
+      returnedArtifactSha256: input?.returnedArtifactSha256,
+      yrtk2Token: yrtk2.token,
+      coreManifestDigest: yrtk2.coreManifestDigest,
+    }),
     buildMainReviewContext: async () => reviewContext({
       projectRoot: tmpDir, scenePath, sceneText,
       targetScope: { type: 'scene', id: sceneId },
@@ -1815,7 +1879,9 @@ test('DOCX review preview session command: explicit full-manuscript comment appl
     sourceMode: 'TRACKED',
     reviewIr: {
       commentThreads: [{
-        threadId: 'rtk-comment-explicit-0', commentId: '0', status: 'resolved',
+        threadId: 'rtk-comment-explicit-0', commentId: '0', status: 'resolved', paragraphIndex: 0,
+        anchorLocator: { paraId: 'aaaabbbb', textId: '11112222', bookmarkNames: [] },
+        quotedAnchorText: sceneText,
         messages: [
           { messageId: 'docx-comment-explicit-0-root', body: 'Physical root body' },
           { messageId: 'docx-comment-explicit-0-reply', body: 'Physical reply body' },
@@ -1905,7 +1971,11 @@ test('DOCX review preview session command: explicit full-manuscript comment appl
       scope: 'full-manuscript', lastRoundId: roundId, roundsById: { [roundId]: localAuthority },
       secretExposedToRenderer: false,
     },
-    runDocxReviewReturnIntakeInUtilityProcess: async () => ({ ok: true, parserResult }),
+    runDocxReviewReturnIntakeInUtilityProcess: async (input) => wrapParserResultAsPacketResult(parserResult, {
+      returnedArtifactSha256: input?.returnedArtifactSha256,
+      yrtk2Token: yrtk2.token,
+      coreManifestDigest: yrtk2.coreManifestDigest,
+    }),
     buildMainReviewContext: async () => reviewContext({
       projectRoot: tmpDir, scenePath, sceneText,
       targetScope: { type: 'scene', id: sceneId },
@@ -1983,7 +2053,11 @@ test('DOCX review preview session command: authenticated full-manuscript missing
     };
     const result = await port.handleDocxReviewPreviewSessionActivationCommandSurface(toPayload(bytes), {
       activeReviewDocxExportAuthorityStore: { roundsById: { [roundId]: localAuthority } },
-      runDocxReviewReturnIntakeInUtilityProcess: async () => ({ ok: true, parserResult }),
+      runDocxReviewReturnIntakeInUtilityProcess: async (input) => wrapParserResultAsPacketResult(parserResult, {
+        returnedArtifactSha256: input?.returnedArtifactSha256,
+        yrtk2Token: yrtk2.token,
+        coreManifestDigest: yrtk2.coreManifestDigest,
+      }),
       buildMainReviewContext: async () => reviewContext(),
     });
     assert.equal(result.ok, false, name);

@@ -2670,12 +2670,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "9ce15f2d2eba180f2ce4321779400a12a8e3b9624cc36729cf6e27ff237daae8",
-      "approvedBy": "owner-direct:TASK_ID:PARSER-01_NAMESPACE_ATOMS",
-      "approvedAtUtc": "2026-08-08T20:18:43.395Z",
-      "rationale": "Approve additive RTK graph catalog bytes adding the PARSER-01 namespace-atoms contract test file; supersedes the EXPORT-01-era catalog byte approval retained in git history.",
+      "sha256": "dae81539f441f1b16dbf830c977a922f905af68349256b51650351f717d1e1b3",
+      "approvedBy": "owner-direct:TASK_ID:EVID-01_RETURN_EVIDENCE_PACKET",
+      "approvedAtUtc": "2026-08-08T23:56:11.511Z",
+      "rationale": "Approve additive RTK graph catalog bytes adding the EVID-01 return-evidence-packet contract test file; supersedes the PARSER-01-era catalog byte approval retained in git history.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PARSER01_NAMESPACE_ATOMS"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EVID01_RETURN_EVIDENCE_PACKET"
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
@@ -6558,12 +6558,12 @@
     },
     {
       "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "fa56ce91464b68e6c0ba6ae38adc1403c11d7914ff68d1b95a25e8033955b243",
-      "approvedBy": "owner-direct:TASK_ID:EXPORT-01_UNIFIED_BOOKMARK",
-      "approvedAtUtc": "2026-08-08T18:47:22.199Z",
-      "rationale": "Approve EXPORT-01 resolver synthesis removal (declared-signal-only bookmark admission) and the shared boundary-aware scene-text projection export.",
+      "sha256": "188efb1f9b27aa23d91d4ccd1b63611325cf4394fb287cfe633bc907c0094137",
+      "approvedBy": "owner-direct:TASK_ID:EVID-01_RETURN_EVIDENCE_PACKET",
+      "approvedAtUtc": "2026-08-08T23:55:04.384Z",
+      "rationale": "Approve EVID-01 packet-based candidate builders with projection placements and scene-authority resolution through the authenticated export map, tracked whole-paragraph diagnostics, and declared-signal-only bookmark admission.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EXPORT01_UNIFIED_BOOKMARK"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EVID01_RETURN_EVIDENCE_PACKET"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportApplyCore.mjs",
@@ -6718,12 +6718,12 @@
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportPackageParserV2.mjs",
-      "sha256": "9bbe2dfae5eae9d21aa862ec82e18aaa06dca0a6105a4e5cf15dd19ac6f1b929",
-      "approvedBy": "owner-direct:TASK_ID:PARSER-01_NAMESPACE_ATOMS",
-      "approvedAtUtc": "2026-08-08T20:18:43.395Z",
-      "rationale": "Approve PARSER-01 namespace-exact scanner (expanded-name close matching, unbound prefix and duplicate attribute rejection, empty namespace not Word), semantic atom projector with whitespace preservation, branded block-local positions, paragraph-mark structural classification, same-paragraph replacement grouping with metadata policy, typed comment anchor validation, and inert hyperlink profile admission.",
+      "sha256": "77336d4559730e696e0ed3203dfc7081e7d2b3448ff7142367329827293f30fe",
+      "approvedBy": "owner-direct:TASK_ID:EVID-01_RETURN_EVIDENCE_PACKET",
+      "approvedAtUtc": "2026-08-08T23:55:04.384Z",
+      "rationale": "Approve EVID-01 structural classification of whole-paragraph tracked insertions and deletions plus anchor locator capture for scene-authority resolution; PARSER-01 laws preserved.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PARSER01_NAMESPACE_ATOMS"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EVID01_RETURN_EVIDENCE_PACKET"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportRoundStore.mjs",
@@ -6761,21 +6761,21 @@
     },
     {
       "filePath": "src/main.js",
-      "sha256": "ae0dccd4fc1877de5daf336ed6caa0d10d808dd68f3607ac63a495d48393ef8c",
-      "approvedBy": "owner-direct:TASK_ID:EXPORT-01_UNIFIED_BOOKMARK",
-      "approvedAtUtc": "2026-08-08T18:47:22.199Z",
-      "rationale": "Approve EXPORT-01 boundary-aware provisional self-parse via the shared scene projection, unified single-scene bookmark generator, pending in-memory authority store, post-readback activation, and canonical secretEmbeddedInDocx field.",
+      "sha256": "2fd4223aac483b2c981283265e71c9d2f5f1bb637661c644efd09872f87fbee1",
+      "approvedBy": "owner-direct:TASK_ID:EVID-01_RETURN_EVIDENCE_PACKET",
+      "approvedAtUtc": "2026-08-08T23:55:04.384Z",
+      "rationale": "Approve EVID-01 single bounded parse per intake with packet verification before consumption, YRTK2 properties from the packet instead of main ZIP re-extract, packet-based preview and formatting and structural consumers, and no resolver synthesis.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EXPORT01_UNIFIED_BOOKMARK"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EVID01_RETURN_EVIDENCE_PACKET"
     },
     {
       "filePath": "src/main/rtkDocxReturnIntakeWorker.cjs",
-      "sha256": "883a8f778baa427a30df6e0d1d755fa5776f4760277e25dec8788a0e4644f6e4",
-      "approvedBy": "owner-direct:TASK_ID:ZIP-01_BUDGET_CRC_EVIDENCE",
-      "approvedAtUtc": "2026-08-08T14:15:51.524Z",
-      "rationale": "Approve ZIP-01 worker byte normalization accepting transferable bytes with legacy base64 compatibility decode and effective worker output limit consumption.",
+      "sha256": "184d895636855f487dff110519a000b764b29b15a0971b60df8db972f37bbba9",
+      "approvedBy": "owner-direct:TASK_ID:EVID-01_RETURN_EVIDENCE_PACKET",
+      "approvedAtUtc": "2026-08-08T23:55:04.384Z",
+      "rationale": "Approve EVID-01 worker emitting the immutable evidence packet without any secret access (HMAC secret no longer read) while keeping the transferable-bytes boundary and budget receipt.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ZIP01_BUDGET_CRC_EVIDENCE"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EVID01_RETURN_EVIDENCE_PACKET"
     },
     {
       "filePath": "src/preload.js",
@@ -7634,12 +7634,12 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
-      "sha256": "ec0859123ba2fecf72e362031702e3d2773531df27ad431aa1fd7e5fedf35341",
-      "approvedBy": "owner-direct:TASK_ID:PARSER-01-HOTFIX-001",
-      "approvedAtUtc": "2026-08-08T22:00:35.586Z",
-      "rationale": "Approve PARSER-01-HOTFIX-001 namespace-validity fixture repair: xmlns:w and optional xmlns:w14 declarations on emitted fixture parts; no assertion weakened.",
+      "sha256": "a5efaf86058f685ba7a5fbce8a27fbf22f08f1dda8efb7cb33594187d7389f86",
+      "approvedBy": "owner-direct:TASK_ID:EVID-01_RETURN_EVIDENCE_PACKET",
+      "approvedAtUtc": "2026-08-08T23:55:04.384Z",
+      "rationale": "Approve EVID-01 packet-shaped fake injections and evidence-shaped anchor locators in the preview-session command-surface contract; no assertion weakened; tests only.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PARSER01_HOTFIX_001"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EVID01_RETURN_EVIDENCE_PACKET"
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-review-preview-session.contract.test.js",
@@ -8046,21 +8046,21 @@
     },
     {
       "filePath": "test/contracts/rtk-word-n3-formatting-return.contract.test.js",
-      "sha256": "625084fd0f5cda57a4405a2a478fca0b04ebb3765044088374cc6ff9961fa0ac",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_N3_FORMATTING_RETURN_RESPONSE_REPAIR",
-      "approvedAtUtc": "2026-08-02T13:34:42.204Z",
-      "rationale": "Approve exact governed and previously approved product-route bytes for the controller-resumed Word N3 formatting-return response repair. This rebind covers the current T7 branch state after physical Word 16.111.2 apply/replay evidence, preserves Google blocked, adds no network path, and makes no broad Word saturation or fixture-only certification claim.",
+      "sha256": "c0dfb9a078140c14d147b6eedf2f85a3338f49fb197de83bcd95710733a5a91f",
+      "approvedBy": "owner-direct:TASK_ID:EVID-01_RETURN_EVIDENCE_PACKET",
+      "approvedAtUtc": "2026-08-08T23:55:04.384Z",
+      "rationale": "Approve EVID-01 packet-based production call pin updates in the formatting return contract; negative blocks preserved; tests only.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_N3_RESUME"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EVID01_RETURN_EVIDENCE_PACKET"
     },
     {
       "filePath": "test/contracts/rtk-word-n4-structural-return.contract.test.js",
-      "sha256": "c3db042b3322a3dbbb91b2b605740b90f114f7d06f013cc6fa58c85635539f67",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_VISIBLE_CONTINUATION:N4_STRUCTURAL_RETURN",
-      "approvedAtUtc": "2026-08-02T14:44:00.000Z",
-      "rationale": "Approve the exact maintained N4 structural-return contract proving authenticated extractor authority, heading-only runtime apply/replay, stale and partial negatives, bridge serialization, and physical canary command wiring.",
+      "sha256": "4229100a840f96581b787278e16ee54505872bffb031ffc9e4656dfb5141b95b",
+      "approvedBy": "owner-direct:TASK_ID:EVID-01_RETURN_EVIDENCE_PACKET",
+      "approvedAtUtc": "2026-08-08T23:55:04.384Z",
+      "rationale": "Approve EVID-01 packet-based production call pin updates in the structural return contract; negative blocks preserved; tests only.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_AND_PHYSICAL_CERTIFICATION_WITHIN_OWNER_RESUME_WORD_N3_N4_PROGRAM"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EVID01_RETURN_EVIDENCE_PACKET"
     },
     {
       "filePath": "test/contracts/rtk-word-normalized-capability-matrix.contract.test.js",
@@ -9631,12 +9631,12 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "a2a25cb19969dd36c3af3167a693b8be2a613fff84a104d1355fdb35259f0a00",
-      "approvedBy": "owner-direct:TASK_ID:PARSER-01_NAMESPACE_ATOMS",
-      "approvedAtUtc": "2026-08-08T20:18:43.395Z",
-      "rationale": "Approve additive test:rtk-parser01 lane script; no dependency or runtime change.",
+      "sha256": "a612c9c895ae741a29dccc69fb7412416761acba8040e39658b35fe490faff7b",
+      "approvedBy": "owner-direct:TASK_ID:EVID-01_RETURN_EVIDENCE_PACKET",
+      "approvedAtUtc": "2026-08-08T23:56:11.511Z",
+      "rationale": "Approve additive test:rtk-evid01 lane script; no dependency or runtime change.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PARSER01_NAMESPACE_ATOMS"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EVID01_RETURN_EVIDENCE_PACKET"
     },
     {
       "filePath": "test/contracts/rtk-admit01-accountable-lanes.contract.test.js",
@@ -9658,12 +9658,12 @@
     },
     {
       "filePath": "test/contracts/rtk-zip01-budget-crc-evidence.contract.test.js",
-      "sha256": "9fb350f148580e4816ba072c928aef865f5ac50c3eba579fd40f01d5b179e181",
-      "approvedBy": "owner-direct:TASK_ID:ZIP-01_BUDGET_CRC_EVIDENCE",
-      "approvedAtUtc": "2026-08-08T14:15:51.524Z",
-      "rationale": "Approve ZIP-01 budget/CRC evidence contract tests (Z1-Z10 plus boundary guards); tests only.",
+      "sha256": "0d3b053e9faffef8962939e4a80b17bf5c125182d5eabb2e386f1d9dd005e4b3",
+      "approvedBy": "owner-direct:TASK_ID:EVID-01_RETURN_EVIDENCE_PACKET",
+      "approvedAtUtc": "2026-08-08T23:55:04.384Z",
+      "rationale": "Approve EVID-01 worker result shape pin update in the ZIP-01 budget and CRC evidence contract; tests only.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ZIP01_BUDGET_CRC_EVIDENCE"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EVID01_RETURN_EVIDENCE_PACKET"
     },
     {
       "filePath": "test/contracts/rtk-canon01-ordered-projections.contract.test.js",
@@ -9700,6 +9700,24 @@
       "rationale": "Approve PARSER-01 namespace-atoms contract tests (P1-P10 plus P7b single-dimension replacement-boundary pin and controls); tests only.",
       "approved": true,
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PARSER01_NAMESPACE_ATOMS"
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportReturnEvidenceV1.mjs",
+      "sha256": "68ea6f35062ea7c7b0f1beed61c7f5a888a64827d688b0c0c45e77a1f871c1fc",
+      "approvedBy": "owner-direct:TASK_ID:EVID-01_RETURN_EVIDENCE_PACKET",
+      "approvedAtUtc": "2026-08-08T23:55:04.384Z",
+      "rationale": "Approve new bounded EVID-01 ReturnEvidencePacket module: packet build with digest, schema plus artifact-digest plus packet-digest verification, and forbidden authority-field rejection; pure functions.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EVID01_RETURN_EVIDENCE_PACKET"
+    },
+    {
+      "filePath": "test/contracts/rtk-evid01-return-evidence-packet.contract.test.js",
+      "sha256": "9440278e0e13420f0dcfc69db66c98c1396aebbff3345427f06cb1ebb3017473",
+      "approvedBy": "owner-direct:TASK_ID:EVID-01_RETURN_EVIDENCE_PACKET",
+      "approvedAtUtc": "2026-08-08T23:55:04.384Z",
+      "rationale": "Approve EVID-01 return-evidence-packet contract tests (V1-V9 plus V7b runtime forged-packet rejection); tests only.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EVID01_RETURN_EVIDENCE_PACKET"
     }
   ]
 }

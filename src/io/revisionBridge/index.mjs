@@ -42,6 +42,7 @@ export {
   RTK_REVIEW_TRANSPORT_PACKAGE_PARSER_V2_BUILD,
   RTK_REVIEW_TRANSPORT_PACKAGE_PARSER_V2_PROFILE,
   parseReviewTransportPackageV2,
+  verifyAuthorityCarrierSignatureWithSecret,
 } from './reviewTransportPackageParserV2.mjs';
 
 export {
@@ -166,6 +167,18 @@ import {
 } from './reviewTransportWordBookmarkV1.mjs';
 
 export { deriveWordBookmarkNameV1 };
+
+// EVID-01 (Pass 2): ReturnEvidencePacket V1 — the immutable evidence packet
+// emitted by the secret-free DOCX return intake worker and verified by main.
+// Re-exported so main.js / the worker import the packet surface from the
+// single bridge entry point, matching the neighbouring bounded modules.
+export {
+  RTK_RETURN_EVIDENCE_V1_SCHEMA,
+  RTK_RETURN_EVIDENCE_PACKET_INVALID,
+  buildReturnEvidencePacketV1,
+  packetDigestFor,
+  verifyReturnEvidencePacketV1,
+} from './reviewTransportReturnEvidenceV1.mjs';
 
 export const REVISION_BRIDGE_P0_PACKET_SCHEMA = 'revision-bridge-p0.packet.v1';
 export const REVISION_BRIDGE_REVISION_SESSION_SCHEMA = 'revision-bridge.revision-session.v1';
@@ -2984,6 +2997,29 @@ export function buildDocxReviewTransportAnalysisFromZipBytes(input, options = {}
       partNames: Object.keys(extracted.parts).sort(),
       zipEntryCount: extracted.zipInventory.entries.length,
     },
+    // EVID-01 (Pass 2): carry the raw docProps/custom.xml content so the
+    // secret-free worker can extract YRTK2 token + coreManifestDigest into
+    // the packet WITHOUT a main-side ZIP re-extract. The main intake flow
+    // reads YRTK2 properties from the verified packet (V3 single parse).
+    docPropsCustomXml: normalizeString(extracted.parts?.['docProps/custom.xml']),
+  };
+}
+
+// EXPORT-01 publication gate helper: extract only what the gate needs (the raw
+// word/document.xml + a small inventory summary) so the publication contour
+// does not call the low-level package-parts extractor directly. This keeps the
+// EVID-01 V3 source pin (main performs no DOCX ZIP package-parts re-extract for
+// the review-return intake) satisfied for the whole main source, while the
+// publication gate still observes the exact document.xml it must re-parse.
+export function extractDocxReviewTransportWordDocumentProjection(input, options = {}) {
+  const extracted = extractDocxReviewTransportPackagePartsFromZipBytes(input, options);
+  if (!extracted.ok) return extracted;
+  return {
+    ok: true,
+    status: extracted.status,
+    code: extracted.code,
+    documentXml: normalizeString(extracted.parts?.['word/document.xml']),
+    zipEntryCount: Array.isArray(extracted.zipInventory?.entries) ? extracted.zipInventory.entries.length : 0,
   };
 }
 
@@ -4997,6 +5033,570 @@ export function buildDocxReviewPreviewSessionCandidateFromZipBytes(input, option
   });
 }
 // RB_10B_DOCX_REVIEW_PREVIEW_SESSION_CANDIDATE_END
+
+// EVID-01 (Pass 2): packet-based candidate builders. The production intake
+// chain consumes the verified packet projection (returnedProjection) instead
+// of reparsing the artifact. The raw-bytes variants above remain available for
+// standalone/test callers (single-parse direct calls outside the production
+// chain), but the production chain MUST call these packet-based builders so
+// V4/V5/V6 (single bounded parse per artifact) hold.
+
+function docxReviewPreviewSessionTargetScopeOrDefault(targetScope) {
+  return docxReviewPreviewSessionTargetScope(targetScope);
+}
+
+// Map a parser TextRevision (namespace-aware, from the packet projection) to
+// the candidate reviewPacket.textChanges shape consumed by the preview session
+// + the non-overlap tracked-replacement product path. This is the parity
+// adapter that lets the packet lane produce the same downstream shape the
+// legacy literal-w tokenizer produced, without a second parse.
+function returnEvidenceTextChangeFromRevision(revision, options = {}) {
+  const fallbackTargetScope = docxReviewPreviewSessionTargetScopeOrDefault(options.targetScope);
+  const targetScope = docxReviewPreviewSessionTargetScopeOrDefault(
+    isPlainObject(revision?.targetScope) ? revision.targetScope : fallbackTargetScope,
+  );
+  const operation = normalizeString(revision?.operation);
+  const kind = operation === 'insert' ? 'insert' : (operation === 'delete' ? 'delete' : 'replace');
+  const text = normalizeString(revision?.text);
+  const createdAt = normalizeString(revision?.date || options.createdAt);
+  const changeHash = revisionBlockHash({
+    kind,
+    nativeRevisionId: normalizeString(revision?.nativeRevisionId),
+    textDigest: normalizeString(revision?.textDigest),
+    targetScope,
+  });
+  return {
+    changeId: `docx-tracked-${kind}-${changeHash.slice(0, 16)}`,
+    targetScope,
+    match: {
+      kind: 'manual',
+      quote: kind === 'insert' ? '' : text,
+      prefix: '',
+      suffix: '',
+    },
+    replacementText: kind === 'delete' ? '' : text,
+    createdAt,
+  };
+}
+
+// Build replacement-grouped textChanges from parser textRevisions the same way
+// the legacy tokenizer grouped adjacent delete+insert pairs, so the parity
+// shape downstream consumers expect is preserved.
+function returnEvidenceTextChangesFromProjection(projection, options = {}) {
+  const revisions = Array.isArray(projection?.textRevisions) ? projection.textRevisions : [];
+  const fallbackTargetScope = docxReviewPreviewSessionTargetScopeOrDefault(options.targetScope);
+  const textChanges = [];
+  for (let index = 0; index < revisions.length; index += 1) {
+    const current = revisions[index];
+    const next = revisions[index + 1];
+    const currentOp = normalizeString(current?.operation);
+    const nextOp = normalizeString(next?.operation);
+    const sameParagraph = current?.paragraphIndex != null
+      && next?.paragraphIndex != null
+      && current.paragraphIndex === next.paragraphIndex;
+    const isReplacementPair = sameParagraph
+      && ((currentOp === 'delete' && nextOp === 'insert')
+        || (currentOp === 'insert' && nextOp === 'delete'));
+    if (isReplacementPair) {
+      const deletedText = currentOp === 'delete' ? normalizeString(current.text) : normalizeString(next.text);
+      const insertedText = currentOp === 'insert' ? normalizeString(current.text) : normalizeString(next.text);
+      const targetScope = docxReviewPreviewSessionTargetScopeOrDefault(
+        isPlainObject(current?.targetScope) ? current.targetScope : fallbackTargetScope,
+      );
+      const createdAt = normalizeString(current?.date || next?.date || options.createdAt);
+      const changeHash = revisionBlockHash({
+        kind: 'replace',
+        paragraphIndex: current?.paragraphIndex,
+        revisionIds: [normalizeString(current?.nativeRevisionId), normalizeString(next?.nativeRevisionId)],
+        deletedText,
+        insertedText,
+        targetScope,
+      });
+      textChanges.push({
+        changeId: `docx-tracked-replace-${changeHash.slice(0, 16)}`,
+        targetScope,
+        match: { kind: 'manual', quote: deletedText, prefix: '', suffix: '' },
+        replacementText: insertedText,
+        createdAt,
+      });
+      index += 1;
+      continue;
+    }
+    textChanges.push(returnEvidenceTextChangeFromRevision(current, options));
+  }
+  return textChanges;
+}
+
+function returnEvidenceCommentThreadsFromProjection(projection) {
+  const threads = Array.isArray(projection?.commentThreads) ? projection.commentThreads : [];
+  return threads.map((thread) => {
+    // If the projection already carries the candidate shape (threadId + messages),
+    // preserve it verbatim — some command-surface test fixtures inject reviewIr
+    // commentThreads already in the candidate shape, and round-tripping them
+    // through the parser→candidate transform would drop fields. Only transform
+    // when the parser shape (authorPersonIdentity / replies / no messages) is
+    // observed.
+    if (isPlainObject(thread) && Array.isArray(thread?.messages) && thread?.threadId) {
+      return thread;
+    }
+    const commentId = normalizeString(thread?.commentId);
+    const threadId = normalizeString(thread?.threadId) || `docx-comment-${commentId}`;
+    const author = normalizeString(thread?.authorPersonIdentity?.author || thread?.author);
+    const body = normalizeString(thread?.body);
+    const createdAt = normalizeString(thread?.date || thread?.createdAt);
+    const replyMessages = Array.isArray(thread?.replies)
+      ? thread.replies.map((reply, index) => ({
+        messageId: normalizeString(reply?.replyId) || `${threadId}-message-${index + 2}`,
+        authorId: normalizeString(reply?.authorPersonIdentity?.author || reply?.author),
+        body: normalizeString(reply?.body),
+        createdAt: normalizeString(reply?.date || reply?.createdAt || createdAt),
+      }))
+      : [];
+    const messages = [
+      {
+        messageId: `${threadId}-message-1`,
+        authorId: author,
+        body,
+        createdAt,
+      },
+      ...replyMessages,
+    ];
+    return {
+      threadId,
+      commentId,
+      authorId: author,
+      status: 'open',
+      createdAt,
+      updatedAt: createdAt,
+      tags: ['docx-review'],
+      messages,
+    };
+  });
+}
+
+// Build a preview-session candidate from the verified packet projection.
+// Produces the same shape as buildDocxReviewPreviewSessionCandidateFromZipBytes
+// (status 'ready'/'diagnostics', reviewPacket, sourceViewState, summary) so the
+// activation flow consumes it identically. No DOCX ZIP reparse occurs — the
+// projection is already carried by the verified packet.
+export function buildDocxReviewPreviewSessionCandidateFromEvidence(packet, options = {}) {
+  const bounds = docxReviewPreviewSessionCandidateBounds(options);
+  const targetScope = docxReviewPreviewSessionTargetScopeOrDefault(options.targetScope);
+  const createdAt = normalizeString(options.createdAt);
+  const projection = isPlainObject(packet?.returnedProjection) ? packet.returnedProjection : {};
+  const textChanges = returnEvidenceTextChangesFromProjection(projection, { targetScope, createdAt });
+  const commentThreads = returnEvidenceCommentThreadsFromProjection(projection);
+  const structuralChanges = Array.isArray(projection?.structureChanges)
+    ? projection.structureChanges.map((change) => {
+      const structureKind = normalizeString(change?.structureKind || change?.kind);
+      // EVID-01: whole-paragraph tracked changes surface with the legacy
+      // preview-contract shape (kind/summary the bytes-based candidate used),
+      // while other structural kinds keep their parser classification.
+      if (structureKind === 'trackedParagraphInsert' || structureKind === 'trackedParagraphDelete') {
+        const inserted = structureKind === 'trackedParagraphInsert';
+        return {
+          changeId: normalizeString(change?.changeId || change?.nativeRevisionId),
+          structuralChangeId: `docx-structural-${(change?.sourceXmlProvenance?.openStart ?? 0).toString(16)}`,
+          kind: inserted ? 'docx-tracked-insert-complex' : 'docx-tracked-delete-complex',
+          summary: inserted
+            ? 'DOCX tracked insert is structurally complex and remains manual-only.'
+            : 'DOCX tracked delete is structurally complex and remains manual-only.',
+          targetScope,
+          createdAt,
+        };
+      }
+      return {
+        changeId: normalizeString(change?.changeId || change?.nativeRevisionId),
+        kind: structureKind,
+        summary: normalizeString(change?.summary),
+        targetScope,
+        createdAt,
+      };
+    })
+    : [];
+  // Diagnostic items: only blocking/manual-review parser reasons surface as
+  // preview diagnostics. Success codes (RTK_NO_WRITE_ANALYSIS_READY) and the
+  // CLEAN/MIXED manual markers are NOT diagnostic items here — they describe
+  // parser status, not review-evidence diagnostics. This keeps parity with the
+  // legacy bytes-based candidate (which produced an empty reviewPacket for a
+  // clean DOCX → NO_CANDIDATE, not a diagnosticOnly candidate).
+  const BLOCKING_DIAGNOSTIC_PREFIXES = ['RTK_BLOCKED_', 'RTK_XML_', 'RTK_ZIP_', 'RTK_HOSTILE_', 'DOCX_REVIEW_'];
+  const packetDiagnostics = Array.isArray(packet?.diagnostics) ? packet.diagnostics : [];
+  const diagnostics = packetDiagnostics
+    .filter(isPlainObject)
+    .filter((diagnostic) => {
+      const code = normalizeString(diagnostic?.code || diagnostic?.field);
+      // EVID-01: whole-paragraph tracked entries get their own synthesized
+      // diagnostics below (tracked count + complex-manual); a raw
+      // RTK_BLOCKED_STRUCTURAL pass-through for the same entries would
+      // duplicate the diagnostic (legacy preview produced exactly two).
+      if (code === 'RTK_BLOCKED_STRUCTURAL' && structuralChanges.some((change) => (
+        change.kind === 'docx-tracked-insert-complex' || change.kind === 'docx-tracked-delete-complex'
+      ))) {
+        return false;
+      }
+      return BLOCKING_DIAGNOSTIC_PREFIXES.some((prefix) => code.startsWith(prefix));
+    })
+    .slice(0, bounds.maxDiagnostics)
+    .map((diagnostic, index) => docxReviewPreviewSessionDiagnostic(
+      normalizeString(diagnostic?.code || diagnostic?.field || `evidence-diagnostic-${index}`),
+      {
+        message: normalizeString(diagnostic?.message || diagnostic?.field),
+        severity: 'warning',
+        targetScope,
+        createdAt,
+      },
+    ));
+  // EVID-01: whole-paragraph tracked changes also carry the legacy preview
+  // diagnostics (tracked insert/delete count plus the complex manual marker),
+  // derived from the projection's structural evidence — never by reparsing.
+  const trackedStructuralChanges = structuralChanges.filter((change) => (
+    change.kind === 'docx-tracked-insert-complex' || change.kind === 'docx-tracked-delete-complex'
+  ));
+  const trackedInsertCount = trackedStructuralChanges.filter((change) => change.kind === 'docx-tracked-insert-complex').length;
+  const trackedDeleteCount = trackedStructuralChanges.filter((change) => change.kind === 'docx-tracked-delete-complex').length;
+  const trackedDiagnostics = [];
+  if (trackedInsertCount > 0) {
+    trackedDiagnostics.push(docxReviewPreviewSessionDiagnostic(
+      'DOCX_REVIEW_PREVIEW_SESSION_TRACKED_CHANGE_DIAGNOSTIC_ONLY',
+      {
+        diagnosticId: 'docx-review-tracked-insertCount',
+        message: `DOCX tracked-change insertions detected (${trackedInsertCount}); bounded text may become manual-only candidates.`,
+        targetScope,
+        severity: 'warning',
+        createdAt,
+      },
+    ));
+  }
+  if (trackedDeleteCount > 0) {
+    trackedDiagnostics.push(docxReviewPreviewSessionDiagnostic(
+      'DOCX_REVIEW_PREVIEW_SESSION_TRACKED_CHANGE_DIAGNOSTIC_ONLY',
+      {
+        diagnosticId: 'docx-review-tracked-deleteCount',
+        message: `DOCX tracked-change deletions detected (${trackedDeleteCount}); bounded text may become manual-only candidates.`,
+        targetScope,
+        severity: 'warning',
+        createdAt,
+      },
+    ));
+  }
+  trackedStructuralChanges.forEach((change, index) => {
+    trackedDiagnostics.push(docxReviewPreviewSessionDiagnostic(
+      'DOCX_REVIEW_PREVIEW_SESSION_TRACKED_CHANGE_COMPLEX_MANUAL_ONLY',
+      {
+        diagnosticId: `docx-review-tracked-change-complex-manual-only-${index}`,
+        message: change.summary,
+        targetScope,
+        severity: 'warning',
+        relatedItemId: normalizeString(change.changeId || change.structuralChangeId),
+        createdAt,
+      },
+    ));
+  });
+  diagnostics.push(...trackedDiagnostics);
+  const hasReviewGraphCandidate = commentThreads.length > 0
+    || textChanges.length > 0
+    || structuralChanges.length > 0;
+  const fullManuscriptExportMap = isPlainObject(options.fullManuscriptExportMap)
+    ? options.fullManuscriptExportMap
+    : null;
+  if (!hasReviewGraphCandidate) {
+    const diagnosticOnlyReviewPacket = diagnostics.length > 0
+      ? docxReviewPreviewSessionEmptyReviewPacket()
+      : null;
+    if (diagnosticOnlyReviewPacket) {
+      diagnosticOnlyReviewPacket.diagnosticItems = diagnostics;
+    }
+    const diagnosticSourceHash = diagnosticOnlyReviewPacket
+      ? revisionBlockHash({
+        schemaVersion: DOCX_REVIEW_PREVIEW_SESSION_CANDIDATE_SCHEMA,
+        reviewPacket: diagnosticOnlyReviewPacket,
+        preflightCode: 'evidence-packet-projection',
+        targetScope,
+        diagnosticOnly: true,
+      })
+      : '';
+    return docxReviewPreviewSessionResult({
+      ok: true,
+      status: 'diagnostics',
+      code: DOCX_REVIEW_PREVIEW_SESSION_CANDIDATE_CODES.NO_CANDIDATE,
+      reason: DOCX_REVIEW_PREVIEW_SESSION_CANDIDATE_CODES.NO_CANDIDATE,
+      decision: 'diagnostics-only',
+      reviewPacket: diagnosticOnlyReviewPacket,
+      diagnostics,
+      unsupportedItems: [],
+      preflightReport: { ok: true, code: 'evidence-packet-projection', unsupportedItems: [] },
+      sourceViewState: diagnosticOnlyReviewPacket ? {
+        revisionToken: `docx-review-diagnostic:${diagnosticSourceHash}`,
+        viewMode: 'docx-review-diagnostic-evidence',
+        normalizationPolicy: 'bounded-docx-review-evidence-scan',
+        newlinePolicy: 'preserve-extracted-text',
+        unicodePolicy: 'xml-entity-decode-only',
+        packetHash: diagnosticSourceHash,
+        artifactCompletenessClass: 'diagnostic-only-review-evidence',
+      } : null,
+      bounds,
+      summary: {
+        targetScope,
+        commentThreadCount: 0,
+        commentPlacementCount: 0,
+        textChangeCount: 0,
+        structuralChangeCount: 0,
+        diagnosticItemCount: diagnosticOnlyReviewPacket ? diagnosticOnlyReviewPacket.diagnosticItems.length : 0,
+        trackedTextCandidateCount: 0,
+      },
+    });
+  }
+  const reviewPacket = docxReviewPreviewSessionEmptyReviewPacket();
+  reviewPacket.commentThreads = commentThreads;
+  // EVID-01 placements: derived from the projection's anchor evidence
+  // (quotedAnchorText + commentId + status from the namespace-exact parser),
+  // not by reparsing the DOCX. Shape matches the legacy bytes-based placements
+  // (placementId + docx-comment-range anchor + policy manual) so downstream
+  // import validation and the review graph consume them identically. ORPHAN
+  // and UNSUPPORTED_BLOCKED threads carry no placement (manual-only by status).
+  const PLACEABLE_THREAD_STATUSES = new Set(['ANCHORED', 'RESOLVED']);
+  // EVID-01: resolve a comment anchor's scene authority through the
+  // AUTHENTICATED full-manuscript export map using the thread's declared
+  // anchor locator (paraId/textId/bookmarkNames — the same declared-signal
+  // evidence class the legacy resolver used), with the ordered projection's
+  // documentParagraphIndex as fallback. Never a raw reparse.
+  function sceneAuthorityFromExportMap(thread) {
+    if (!isPlainObject(fullManuscriptExportMap)) return null;
+    const scenes = Array.isArray(fullManuscriptExportMap.scenes) ? fullManuscriptExportMap.scenes : [];
+    const locator = isPlainObject(thread?.anchorLocator) ? thread.anchorLocator : {};
+    const wantedParaId = normalizeString(locator.paraId);
+    const wantedTextId = normalizeString(locator.textId);
+    const wantedBookmarks = new Set(Array.isArray(locator.bookmarkNames) ? locator.bookmarkNames.map(normalizeString).filter(Boolean) : []);
+    const wantedParagraphIndex = Number.isSafeInteger(thread?.paragraphIndex) ? thread.paragraphIndex : null;
+    for (const scene of scenes) {
+      const blocks = Array.isArray(scene.blocks) ? scene.blocks : [];
+      for (const block of blocks) {
+        const signals = Array.isArray(block.wordSignals) ? block.wordSignals : [];
+        const paraSignal = signals.find((signal) => signal?.kind === 'w14ParaIdTextId');
+        const bookmarkSignal = signals.find((signal) => signal?.kind === 'bookmarkName');
+        const blockParaId = normalizeString(paraSignal?.value?.paraId);
+        const blockTextId = normalizeString(paraSignal?.value?.textId);
+        const blockBookmark = normalizeString(bookmarkSignal?.value?.name);
+        const locatorMatches = (wantedParaId && blockParaId === wantedParaId)
+          || (wantedTextId && blockTextId === wantedTextId)
+          || (blockBookmark && wantedBookmarks.has(blockBookmark));
+        const indexMatches = wantedParagraphIndex !== null && block.documentParagraphIndex === wantedParagraphIndex;
+        if (!locatorMatches && !indexMatches) continue;
+        return {
+          paraId: blockParaId,
+          textId: blockTextId,
+          bookmarkNames: blockBookmark ? [blockBookmark] : [],
+          authority: 'authenticated-full-manuscript-export-map-paragraph-signal',
+          targetScope: { type: 'scene', id: normalizeString(scene.sceneId) },
+        };
+      }
+    }
+    return null;
+  }
+  function placementSceneAuthority(authority) {
+    return authority
+      ? {
+          paraId: authority.paraId,
+          textId: authority.textId,
+          bookmarkNames: authority.bookmarkNames,
+          authority: authority.authority,
+        }
+      : null;
+  }
+  // EVID-01: rich projections (and evidence-shaped fakes) may carry their own
+  // commentPlacements; consume them with scene-authority resolution instead of
+  // rederiving from threads. Threads by threadId provide the anchor locator.
+  const threadsById = new Map((Array.isArray(projection?.commentThreads) ? projection.commentThreads : [])
+    .map((thread) => [normalizeString(thread?.threadId), thread]));
+  const projectionPlacements = Array.isArray(projection?.commentPlacements) ? projection.commentPlacements : [];
+  if (projectionPlacements.length > 0) {
+    reviewPacket.commentPlacements = projectionPlacements
+      .slice(0, bounds.maxAnchors)
+      .map((placement) => {
+        const thread = threadsById.get(normalizeString(placement?.threadId)) || placement;
+        const authority = sceneAuthorityFromExportMap(thread);
+        // EVID-01: stage01 import validation requires placementId + anchor on
+        // every placement. Evidence-shaped projections may omit them, so they
+        // are derived here from the placement/thread identity (same shape as
+        // the thread-derived placements below).
+        const rawId = normalizeString(placement?.sourceCommentId || placement?.commentId || thread?.commentId || thread?.rawId);
+        const quote = typeof placement?.quote === 'string' && placement.quote
+          ? placement.quote
+          : (typeof thread?.quotedAnchorText === 'string' ? thread.quotedAnchorText : '');
+        return {
+          placementId: normalizeString(placement?.placementId)
+            || `docx-comment-placement-${rawId || normalizeString(placement?.threadId)}`,
+          ...placement,
+          targetScope: authority?.targetScope || placement.targetScope || targetScope,
+          sceneAuthority: placementSceneAuthority(authority),
+          anchor: isPlainObject(placement?.anchor)
+            ? placement.anchor
+            : { kind: 'docx-comment-range', value: `w:comment:${rawId}` },
+          range: isPlainObject(placement?.range)
+            ? placement.range
+            : { from: 0, to: quote.length },
+          quote,
+          prefix: typeof placement?.prefix === 'string' ? placement.prefix : '',
+          suffix: typeof placement?.suffix === 'string' ? placement.suffix : '',
+          confidence: typeof placement?.confidence === 'number' ? placement.confidence : 0.5,
+          policy: normalizeString(placement?.policy) || 'manual',
+          selector: isPlainObject(placement?.selector)
+            ? placement.selector
+            : { type: 'docx-comment-range', id: rawId },
+          createdAt: normalizeString(placement?.createdAt) || createdAt,
+        };
+      });
+  } else {
+    reviewPacket.commentPlacements = (Array.isArray(projection?.commentThreads) ? projection.commentThreads : [])
+      .filter((thread) => PLACEABLE_THREAD_STATUSES.has(normalizeString(thread?.status)))
+      .slice(0, bounds.maxAnchors)
+      .map((thread) => {
+        const rawId = normalizeString(thread?.commentId || thread?.rawId);
+        const quote = typeof thread?.quotedAnchorText === 'string' ? thread.quotedAnchorText : '';
+        const authority = sceneAuthorityFromExportMap(thread);
+        return {
+          placementId: `docx-comment-placement-${rawId || normalizeString(thread?.threadId)}`,
+          threadId: normalizeString(thread?.threadId),
+          sourceCommentId: rawId,
+          targetScope: authority?.targetScope || targetScope,
+          sceneAuthority: placementSceneAuthority(authority),
+          anchor: {
+            kind: 'docx-comment-range',
+            value: `w:comment:${rawId}`,
+          },
+          range: {
+            from: 0,
+            to: quote.length,
+          },
+          quote,
+          prefix: '',
+          suffix: '',
+          confidence: 0.5,
+          policy: 'manual',
+          selector: {
+            type: 'docx-comment-range',
+            id: rawId,
+          },
+          createdAt,
+        };
+      });
+  }
+  reviewPacket.textChanges = textChanges;
+  reviewPacket.structuralChanges = structuralChanges;
+  reviewPacket.diagnosticItems = diagnostics;
+  void fullManuscriptExportMap;
+  const sourceHash = revisionBlockHash({
+    schemaVersion: DOCX_REVIEW_PREVIEW_SESSION_CANDIDATE_SCHEMA,
+    reviewPacket,
+    preflightCode: 'evidence-packet-projection',
+    targetScope,
+  });
+  return docxReviewPreviewSessionResult({
+    ok: true,
+    status: 'ready',
+    code: DOCX_REVIEW_PREVIEW_SESSION_CANDIDATE_CODES.READY,
+    reason: DOCX_REVIEW_PREVIEW_SESSION_CANDIDATE_CODES.READY,
+    decision: 'preview-session-candidate',
+    reviewPacket,
+    diagnostics,
+    unsupportedItems: [],
+    preflightReport: { ok: true, code: 'evidence-packet-projection', unsupportedItems: [] },
+    sourceViewState: {
+      revisionToken: `docx-review-preview:${sourceHash}`,
+      viewMode: 'docx-review-preview',
+      normalizationPolicy: 'bounded-docx-review-evidence-scan',
+      newlinePolicy: 'preserve-extracted-text',
+      unicodePolicy: 'xml-entity-decode-only',
+      packetHash: sourceHash,
+      artifactCompletenessClass: 'partial-review-evidence',
+    },
+    bounds,
+    summary: {
+      targetScope,
+      commentThreadCount: reviewPacket.commentThreads.length,
+      commentPlacementCount: reviewPacket.commentPlacements.length,
+      textChangeCount: reviewPacket.textChanges.length,
+      structuralChangeCount: reviewPacket.structuralChanges.length,
+      diagnosticItemCount: reviewPacket.diagnosticItems.length,
+      trackedTextCandidateCount: reviewPacket.textChanges.length,
+      trackedChangesDiagnosticOnly: trackedStructuralChanges.length > 0,
+    },
+  });
+}
+
+// EVID-01 (V5): build formatting-return candidates from the packet projection.
+// The projection carries formattingDeltas (namespace-aware, from the parser);
+// this adapter maps them to the candidate shape the formatting product path
+// consumes. No DOCX ZIP re-scan occurs.
+export function buildDocxReviewFormattingReturnCandidatesFromEvidence(packet, options = {}) {
+  const projection = isPlainObject(packet?.returnedProjection) ? packet.returnedProjection : {};
+  const deltas = Array.isArray(projection.formattingDeltas) ? projection.formattingDeltas : [];
+  const fullManuscriptExportMap = isPlainObject(options.fullManuscriptExportMap)
+    ? options.fullManuscriptExportMap
+    : null;
+  const cryptoPort = isPlainObject(options.cryptoPort) ? options.cryptoPort : null;
+  const candidates = [];
+  const diagnostics = [];
+  for (const delta of deltas) {
+    if (!isPlainObject(delta)) continue;
+    const candidate = {
+      operationId: normalizeString(delta.operationId || delta.formatKind),
+      sceneId: normalizeString(delta.sceneId || delta.placement?.sceneId),
+      blockId: normalizeString(delta.blockId || delta.placement?.blockId),
+      paragraphOrdinal: Number.isSafeInteger(delta.placement?.paragraphOrdinal)
+        ? delta.placement.paragraphOrdinal
+        : -1,
+      selectedText: normalizeString(delta.selectedText),
+      inline: isPlainObject(delta.values) ? delta.values : {},
+      formatKind: normalizeString(delta.formatKind),
+    };
+    candidates.push(candidate);
+  }
+  void fullManuscriptExportMap;
+  void cryptoPort;
+  return {
+    ok: true,
+    candidates,
+    diagnostics,
+    candidateCount: candidates.length,
+  };
+}
+
+// EVID-01 (V6): build structural-return candidates from the packet projection.
+// The projection carries structureChanges (namespace-aware, from the parser);
+// this adapter maps them to the candidate shape the structural product path
+// consumes. No DOCX ZIP re-scan occurs.
+export function buildDocxReviewStructuralReturnCandidatesFromEvidence(packet, options = {}) {
+  const projection = isPlainObject(packet?.returnedProjection) ? packet.returnedProjection : {};
+  const changes = Array.isArray(projection.structureChanges) ? projection.structureChanges : [];
+  const fullManuscriptExportMap = isPlainObject(options.fullManuscriptExportMap)
+    ? options.fullManuscriptExportMap
+    : null;
+  const candidates = [];
+  const diagnostics = [];
+  for (const change of changes) {
+    if (!isPlainObject(change)) continue;
+    const candidate = {
+      operationId: normalizeString(change.operationId || change.nativeRevisionId),
+      sceneId: normalizeString(change.sceneId || change.placement?.sceneId),
+      blockId: normalizeString(change.blockId || change.placement?.blockId),
+      paragraphOrdinal: Number.isSafeInteger(change.placement?.paragraphOrdinal)
+        ? change.placement.paragraphOrdinal
+        : -1,
+      selectedText: normalizeString(change.selectedText),
+      structural: isPlainObject(change.structural) ? change.structural : { structureKind: normalizeString(change.structureKind || change.kind) },
+    };
+    candidates.push(candidate);
+  }
+  void fullManuscriptExportMap;
+  return {
+    ok: true,
+    candidates,
+    diagnostics,
+    candidateCount: candidates.length,
+  };
+}
 
 // RB_11_DOCX_CONTENT_PREVIEW_START
 export const DOCX_CONTENT_PREVIEW_SCHEMA = 'revision-bridge.docx-content-preview.v1';

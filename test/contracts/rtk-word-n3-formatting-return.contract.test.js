@@ -955,7 +955,10 @@ test('N3 product route exposes a working Review control without renderer-owned a
   ));
 
   assert.match(mainSource, /prepareAuthenticatedDocxFormattingReturnProductPath\s*\(/u);
-  assert.match(mainSource, /buildDocxReviewFormattingReturnCandidatesFromZipBytes\(docxBytes,\s*\{[\s\S]*?budgets,/u);
+  // EVID-01 Pass 2: the production formatting-return path now consumes the
+  // verified packet projection (buildDocxReviewFormattingReturnCandidatesFromEvidence)
+  // instead of re-scanning the DOCX bytes. Pin the packet-based builder call.
+  assert.match(mainSource, /buildDocxReviewFormattingReturnCandidatesFromEvidence\(formattingPacket,\s*\{[\s\S]*?budgets,/u);
   assert.match(mainSource, /dispatchCommandSurfaceKernel\(\s*COMMAND_SURFACE_KERNEL_COMMAND_IDS\.RTK_REVIEW_APPLY_MULTI_SCENE_FORMATTING_RETURN/u);
   assert.match(mainSource, /handleReviewSurfaceApplyFormattingReturnCommandSurface[\s\S]*?queueDiskOperation\(async \(\) =>[\s\S]*?'rtk-formatting-return'\)/u);
   assert.match(mainSource, /E_RTK_FORMATTING_RETURN_DIRTY_EDITOR_BLOCKED/u);

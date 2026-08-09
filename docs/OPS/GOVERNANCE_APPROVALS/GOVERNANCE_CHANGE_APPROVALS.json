@@ -2670,12 +2670,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "80d76406b31394375c9c5f8f97703f32955ccb81f2c008ad84c7e6f7a4ed55dd",
-      "approvedBy": "owner-direct:TASK_ID:MULTI-01_MULTI_SCENE_SCOPE_BLOCKED",
-      "approvedAtUtc": "2026-08-09T08:39:49.233Z",
-      "rationale": "Approve additive RTK graph catalog bytes adding the MULTI-01 multi-scene scope-blocked contract test file; supersedes the GENERIC-01-era catalog byte approval retained in git history.",
+      "sha256": "14befa52110b970d3462c09bd8e79ba81ea33ef38af4633ce5aeed852353c3b7",
+      "approvedBy": "owner-direct:TASK_ID:LAB01_BUILD_BOUND_WORD_PROFILES",
+      "approvedAtUtc": "2026-08-09T09:39:44.998Z",
+      "rationale": "Approve additive RTK graph catalog bytes adding the LAB-01 build-bound profiles contract test file; supersedes the MULTI-01-era catalog byte approval retained in git history.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MULTI01_MULTI_SCENE_SCOPE_BLOCKED"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_LAB01_BUILD_BOUND_WORD_PROFILES"
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
@@ -9647,12 +9647,12 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "560156277a3761b12c75d939d63f7aa4055a18ec32195266a715a6085e890887",
-      "approvedBy": "owner-direct:TASK_ID:MULTI-01_MULTI_SCENE_SCOPE_BLOCKED",
-      "approvedAtUtc": "2026-08-09T08:39:49.233Z",
-      "rationale": "Approve additive test:rtk-multi01 lane script; no dependency or runtime change.",
+      "sha256": "ce6db1e0d7999ea1678d823e159ecdab798e3e12014212c0a3548e0156666ee7",
+      "approvedBy": "owner-direct:TASK_ID:LAB01_BUILD_BOUND_WORD_PROFILES",
+      "approvedAtUtc": "2026-08-09T09:42:07.555Z",
+      "rationale": "Approve additive package.json bytes adding the test:rtk-lab01 lane next to test:rtk-multi01; supersedes the MULTI-01-era package.json byte approval retained in git history.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MULTI01_MULTI_SCENE_SCOPE_BLOCKED"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_LAB01_BUILD_BOUND_WORD_PROFILES"
     },
     {
       "filePath": "test/contracts/rtk-admit01-accountable-lanes.contract.test.js",
@@ -9836,12 +9836,12 @@
     },
     {
       "filePath": "docs/CONTEXT.md",
-      "sha256": "4ee10e03f64d6831dff87ddeb06b86cb15685c2d7c8099f9394c587ec1c72569",
-      "approvedBy": "owner-direct:TASK_ID:MULTI-01_MULTI_SCENE_SCOPE_BLOCKED",
-      "approvedAtUtc": "2026-08-09T08:39:49.233Z",
-      "rationale": "Approve MULTI-01 factual context line typing multi-scene atomic apply as BLOCKED with the staged sequential framing while single-scene and replay stay supported.",
+      "sha256": "cb3ce1b3f02e105cb95eab80fa30dc08be5db04263dd4d766b326b9dfb5d4a63",
+      "approvedBy": "owner-direct:TASK_ID:LAB01_BUILD_BOUND_WORD_PROFILES",
+      "approvedAtUtc": "2026-08-09T09:42:32.245Z",
+      "rationale": "Approve additive docs/CONTEXT.md bytes typing the LAB-01 build-bound profile registry, no-inheritance evaluator and ladder admission as CURRENT reality while Word 16.111.2 stays COMPLETE_NOT_SATURATED and Windows/Online stay NOT_PROVEN/DECLARED; supersedes the MULTI-01-era CONTEXT.md byte approval retained in git history.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MULTI01_MULTI_SCENE_SCOPE_BLOCKED"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_LAB01_BUILD_BOUND_WORD_PROFILES"
     },
     {
       "filePath": "test/contracts/rtk-multi01-multi-scene-scope-blocked.contract.test.js",
@@ -9851,6 +9851,33 @@
       "rationale": "Approve MULTI-01 multi-scene scope-blocked contract tests (seam, SIGKILL mixed-state drill, claim typing, overclaim guard, staged controls); tests only.",
       "approved": true,
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MULTI01_MULTI_SCENE_SCOPE_BLOCKED"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_BUILD_PROFILE_REGISTRY_V1.json",
+      "sha256": "9eadcd860d5170a71f9a24e4751f38cccf10eab938f0888f4a8864b1ba5cca63",
+      "approvedBy": "owner-direct:TASK_ID:LAB01_BUILD_BOUND_WORD_PROFILES",
+      "approvedAtUtc": "2026-08-09T09:39:44.998Z",
+      "rationale": "Approve the LAB-01 machine-readable build-bound Word profile registry: five profiles (16.42 historical, 16.111.1 superseded B06, 16.111.2 competing-not-saturated, Windows NOT_PROVEN, Word Online DECLARED) with sha256-pinned committed evidence heads; read-only evidence, no product write authority.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_LAB01_BUILD_BOUND_WORD_PROFILES"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-build-profiles-v1.mjs",
+      "sha256": "ce44894505603139bd8d7bf7ae83591e2cce25275acb7131c92517532b9409dd",
+      "approvedBy": "owner-direct:TASK_ID:LAB01_BUILD_BOUND_WORD_PROFILES",
+      "approvedAtUtc": "2026-08-09T09:39:44.998Z",
+      "rationale": "Approve the LAB-01 read-only evaluator: registry schema+digest loader, no-inheritance evidence/profile join, forward-only ladder admission and registry reconciliation with typed fail-closed codes; no filesystem writes, no product runtime change.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_LAB01_BUILD_BOUND_WORD_PROFILES"
+    },
+    {
+      "filePath": "test/contracts/rtk-lab01-build-bound-profiles.contract.test.js",
+      "sha256": "21ff76eb87bb438463e2102175c8a27c844f93775557184b0169165e6fed2805",
+      "approvedBy": "owner-direct:TASK_ID:LAB01_BUILD_BOUND_WORD_PROFILES",
+      "approvedAtUtc": "2026-08-09T09:39:44.998Z",
+      "rationale": "Approve the LAB-01 contract test lane (20 scenarios) pinning the build-bound profile registry contract: red-first proven, mutation-killed across ten targeted mutations.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_LAB01_BUILD_BOUND_WORD_PROFILES"
     }
   ]
 }

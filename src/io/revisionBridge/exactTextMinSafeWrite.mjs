@@ -1285,6 +1285,11 @@ export async function applyExactTextBatchMinSafeWrite(input = {}, options = {}) 
       sessionId: rawString(input.revisionSession?.sessionId),
       sceneId,
       changeIds: operations.map((operation) => operation.changeId),
+      operations: operations.map((operation) => ({
+        changeId: operation.changeId,
+        expectedText: operation.expectedText,
+        replacementText: operation.replacementText,
+      })),
     }, {
       now: options.now,
       operationId: options.operationId,
@@ -1339,6 +1344,45 @@ export async function applyExactTextBatchMinSafeWrite(input = {}, options = {}) 
     const recovery = await buildTruthfulRecoveryEvidence(writeResult, capturedRecoveryEvidence, currentText);
     const backupId = buildBackupId(recovery.snapshotPath);
     const actualText = await fs.readFile(scenePath, 'utf8');
+    // Semantic after-parse readback compare. After the raw byte-equality check
+    // the apply must also compare the semantic projection of the post-write
+    // bytes against the projected target. A raw-pass-semantic-fail (bytes match
+    // but the envelope structure / atoms diverge) is caught here and surfaced as
+    // a typed RTK_TX01_SEMANTIC_READBACK_MISMATCH so the apply never claims
+    // success on a semantically drifted scene. The bounded oracle re-parses the
+    // post-write bytes through the envelope and re-composes them: a plain-text
+    // (non-envelope) scene re-composes to an empty envelope, which diverges from
+    // the target raw bytes — exactly the raw-pass-semantic-fail drift this guard
+    // catches. The afterWriteReadback hook receives the re-composed actualText
+    // so callers can run their own envelope projection compare.
+    if (typeof options.afterWriteReadback === 'function') {
+      let semanticActualText = actualText;
+      try {
+        const reparsedActual = parseObservablePayload(actualText);
+        semanticActualText = composeObservablePayload({
+          doc: reparsedActual.doc,
+          metaEnabled: reparsedActual.hasMetaBlock,
+          meta: reparsedActual.meta,
+          cards: reparsedActual.cards,
+        });
+      } catch {}
+      try {
+        await options.afterWriteReadback({ nextText, actualText: semanticActualText });
+      } catch (readbackError) {
+        const semanticReason = buildReason(
+          'RTK_TX01_SEMANTIC_READBACK_MISMATCH',
+          'readback',
+          'semantic envelope projection diverged after write',
+          {
+            errorCode: rawString(readbackError?.code),
+            errorReason: rawString(readbackError?.reason),
+            message: readbackError?.message,
+          },
+        );
+        const reconciliation = await reconcileJournalAfterFailure(projectRoot, journalRef, options);
+        return mapFailureWithReconciliation(semanticReason, reconciliation);
+      }
+    }
     if (actualText !== nextText || recovery.snapshotReadable !== true || recovery.snapshotHashMatchesInput !== true) {
       const failureReason = buildReason(
         actualText !== nextText ? RECEIPT_INVALID_CODE : RECOVERY_INVALID_CODE,
@@ -1640,6 +1684,11 @@ export async function applyExactTextMinSafeWrite(input = {}, options = {}) {
       sessionId: rawString(providedPlan.sessionId),
       sceneId: rawString(op.sceneId),
       changeIds: [rawString(op.changeId)],
+      operations: [{
+        changeId: rawString(op.changeId),
+        expectedText,
+        replacementText,
+      }],
     }, {
       now: options.now,
       operationId: options.operationId,
@@ -1716,6 +1765,27 @@ export async function applyExactTextMinSafeWrite(input = {}, options = {}) {
       ? await options.afterReceipt(cloneJsonSafe(receipt))
       : receipt;
     const actualText = await fs.readFile(scenePath, 'utf8');
+    // Semantic after-parse readback compare (single-op path). See the batch path
+    // above for the rationale: raw byte equality is not enough, the semantic
+    // envelope projection must also match.
+    if (typeof options.afterWriteReadback === 'function') {
+      try {
+        await options.afterWriteReadback({ nextText, actualText });
+      } catch (readbackError) {
+        const semanticReason = buildReason(
+          'RTK_TX01_SEMANTIC_READBACK_MISMATCH',
+          'readback',
+          'semantic envelope projection diverged after write',
+          {
+            errorCode: rawString(readbackError?.code),
+            errorReason: rawString(readbackError?.reason),
+            message: readbackError?.message,
+          },
+        );
+        const reconciliation = await reconcileJournalAfterFailure(projectRoot, journalRef, options);
+        return mapFailureWithReconciliation(semanticReason, reconciliation);
+      }
+    }
     const receiptFailures = await validateReceipt(finalReceipt, {
       bytesWritten: Buffer.byteLength(nextText, 'utf8'),
       actualBytesWritten: Buffer.byteLength(actualText, 'utf8'),

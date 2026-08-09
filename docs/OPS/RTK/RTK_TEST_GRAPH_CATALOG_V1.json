@@ -28,6 +28,7 @@
     "rtk-round01-round-record-v3.contract.test.js",
     "rtk-stop01-authority-stop.contract.test.js",
     "rtk-test-graph-catalog.contract.test.js",
+    "rtk-tx01-single-scene-transaction.contract.test.js",
     "rtk-w1-no-write-vertical-slice.contract.test.js",
     "rtk-w2-bounded-parser-review-ir.contract.test.js",
     "rtk-w3-exact-apply-replay.contract.test.js",

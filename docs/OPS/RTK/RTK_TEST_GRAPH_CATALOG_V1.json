@@ -21,6 +21,7 @@
     "rtk-g0b-feasibility.contract.test.js",
     "rtk-g0c-exact-safety.contract.test.js",
     "rtk-google-docs-g00-discovery-binding.contract.test.js",
+    "rtk-google01-provider-profiles.contract.test.js",
     "rtk-lab01-build-bound-profiles.contract.test.js",
     "rtk-match01-placement-proof.contract.test.js",
     "rtk-multi01-multi-scene-scope-blocked.contract.test.js",

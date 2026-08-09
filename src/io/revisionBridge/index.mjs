@@ -180,6 +180,23 @@ export {
   verifyReturnEvidencePacketV1,
 } from './reviewTransportReturnEvidenceV1.mjs';
 
+// MATCH-01: placement-aware MatchProof V1 — the immutable bijection proof
+// between a source projection (export map) and a returned projection (parsed
+// ReviewIR). Identity basis is the declared bookmark; index/native ids are
+// corroboration after identity; unclassified blocks block ready. Re-exported
+// so the contour reaches it through the single bridge entry point, matching
+// the neighbouring bounded modules (ReturnEvidenceV1 / WordBookmarkV1).
+export {
+  RTK_REVIEW_TRANSPORT_MATCH_PROOF_V1_SCHEMA,
+  RTK_REVIEW_TRANSPORT_MATCH_PROOF_V1_PROFILE,
+  RTK_MATCH_UNCLASSIFIED_BLOCKS,
+  RTK_MATCH_LOCATOR_CONTRADICTION,
+  RTK_MATCH_LOCATOR_CONFLICT,
+  RTK_MATCH_BOOKMARK_AMBIGUOUS,
+  buildReviewTransportMatchProofV1,
+  recomputeAuthorityFromBijection,
+} from './reviewTransportMatchProofV1.mjs';
+
 export const REVISION_BRIDGE_P0_PACKET_SCHEMA = 'revision-bridge-p0.packet.v1';
 export const REVISION_BRIDGE_REVISION_SESSION_SCHEMA = 'revision-bridge.revision-session.v1';
 export const REVISION_BRIDGE_COMMENT_THREAD_SCHEMA = 'revision-bridge.comment-thread.v1';
@@ -3464,9 +3481,11 @@ function docxReviewFormattingBuildFullManuscriptBlockResolver(exportMap = {}) {
     const admitRegenerableNativeLocator = (kind, key, index) => {
       if (key === '' || key === null || key === undefined) return null;
       const matches = index.get(key) || [];
-      // Word may regenerate paraId/textId during a native save. A regenerated
-      // value is non-authoritative; a value that still names known authority
-      // must remain unique and agree with the stable index/bookmark claims.
+      // MATCH-01: paraId/textId are regenerable Word locators. A regenerated
+      // value is non-authoritative (0 matches is never a failure — Word may
+      // rewrite these on a native save); a value that still names known
+      // authority must remain unique and agree with the declared bookmark
+      // claim, otherwise it is an ambiguity or a typed contradiction.
       if (matches.length === 0) return null;
       if (matches.length > 1) {
         return {
@@ -3480,13 +3499,19 @@ function docxReviewFormattingBuildFullManuscriptBlockResolver(exportMap = {}) {
       claims.push(matches[0]);
       return null;
     };
+    // MATCH-01: documentParagraphIndex is CORROBORATION AFTER identity. It
+    // participates in the agreement check only AFTER an identity match (a
+    // declared bookmark or a still-known paraId/textId) and never creates a
+    // claim on its own. A known index that names a DIFFERENT source block
+    // than the established identity is a typed contradiction
+    // (RTK_FORMATTING_RETURN_BLOCK_LOCATOR_CONFLICT), never an index rescue.
     const paragraphIndex = Number.isSafeInteger(signal.paragraphIndex) ? signal.paragraphIndex : -1;
-    const indexFailure = admit(
-      'documentParagraphIndex',
-      paragraphIndex >= 0 ? paragraphIndex : null,
-      byDocumentParagraphIndex,
-    );
-    if (indexFailure) return indexFailure;
+    const indexCorroboration = (key) => {
+      if (key === null || key === undefined || key < 0) return null;
+      const matches = byDocumentParagraphIndex.get(key) || [];
+      if (matches.length === 0) return null;
+      return matches;
+    };
     const paraFailure = admitRegenerableNativeLocator('paraId', paraId, byParaId);
     if (paraFailure) return paraFailure;
     const textFailure = admitRegenerableNativeLocator('textId', textId, byTextId);
@@ -3496,18 +3521,39 @@ function docxReviewFormattingBuildFullManuscriptBlockResolver(exportMap = {}) {
       const bookmarkFailure = admit('bookmarkName', name, byBookmarkName);
       if (bookmarkFailure) return bookmarkFailure;
     }
-    if (claims.length === 0 || paragraphIndex < 0) {
+    if (claims.length === 0) {
+      // MATCH-01: index alone cannot create identity. A paragraph that only
+      // carries a documentParagraphIndex (no declared bookmark, no still-known
+      // paraId/textId) is unresolved as a typed manual outcome — never an
+      // index-only rescue.
       return { ok: false, code: 'RTK_FORMATTING_RETURN_BLOCK_AUTHORITY_UNRESOLVED' };
     }
     const identity = (authority) => (
       `${authority.sceneId}\u0000${authority.blockId}\u0000${authority.paragraphOrdinal}\u0000${authority.documentParagraphIndex}`
     );
-    if (new Set(claims.map(identity)).size !== 1) {
+    const claimIdentities = new Set(claims.map(identity));
+    if (claimIdentities.size !== 1) {
       return {
         ok: false,
         code: 'RTK_FORMATTING_RETURN_BLOCK_LOCATOR_CONFLICT',
         claimCount: claims.length,
       };
+    }
+    const indexMatches = indexCorroboration(paragraphIndex);
+    if (indexMatches) {
+      const indexNamesDifferent = indexMatches.some((match) => !claimIdentities.has(identity(match)));
+      if (indexNamesDifferent) {
+        // MATCH-01: a known native index that points at a different source
+        // block than the established identity is a typed contradiction
+        // (registered as RTK_FORMATTING_RETURN_BLOCK_LOCATOR_CONFLICT for the
+        // formatting lane; the MatchProof surfaces the same family as
+        // RTK_MATCH_LOCATOR_CONTRADICTION).
+        return {
+          ok: false,
+          code: 'RTK_FORMATTING_RETURN_BLOCK_LOCATOR_CONFLICT',
+          claimCount: claims.length,
+        };
+      }
     }
     return { ok: true, authority: cloneJsonSafe(claims[0]) };
   };
@@ -3619,6 +3665,13 @@ export function buildDocxReviewFormattingReturnCandidatesFromZipBytes(input, opt
   const candidates = [];
   const diagnostics = Array.isArray(scanned.reasons) ? [...scanned.reasons] : [];
   const seenOperationIds = new Set();
+  // MATCH-01: unclassified topology tracking. A returned paragraph that
+  // carries styled content but cannot be bound to a source block by a
+  // declared bookmark (or still-known native locator) is an UNCLASSIFIED
+  // block. unclassifiedBlocks > 0 must block ready with a typed reason
+  // (RTK_MATCH_UNCLASSIFIED_BLOCKS family) — never silently disappear.
+  let unclassifiedBlocks = 0;
+  const unclassifiedIndices = [];
   for (const paragraph of scanned.paragraphs) {
     const paragraphIndex = Number.isSafeInteger(paragraph.paragraphIndex) ? paragraph.paragraphIndex : -1;
     const resolution = resolveBlock({
@@ -3630,6 +3683,15 @@ export function buildDocxReviewFormattingReturnCandidatesFromZipBytes(input, opt
     const authority = resolution?.ok === true ? resolution.authority : null;
     const returnedRuns = Array.isArray(paragraph.formattedRuns) ? paragraph.formattedRuns : [];
     if (returnedRuns.length > 0 && !authority) {
+      // MATCH-01: this paragraph carries styled content but has no resolvable
+      // identity (no declared bookmark, no still-known paraId/textId). It is
+      // an unclassified returned block — collected into the topology so the
+      // contour cannot be silently ready. The per-paragraph diagnostic keeps
+      // its original typed locator code (UNRESOLVED/AMBIGUOUS/CONFLICT); the
+      // topology-level RTK_MATCH_UNCLASSIFIED_BLOCKS reason is surfaced once
+      // after the loop so downstream lanes can route the whole contour.
+      unclassifiedBlocks += 1;
+      unclassifiedIndices.push(paragraphIndex);
       diagnostics.push({
         code: normalizeString(resolution?.code) || 'RTK_FORMATTING_RETURN_BLOCK_AUTHORITY_UNRESOLVED',
         paragraphIndex,
@@ -3835,10 +3897,29 @@ export function buildDocxReviewFormattingReturnCandidatesFromZipBytes(input, opt
       candidates.push(operation);
     }
   }
-  const status = candidates.length > 0 ? 'ready' : 'diagnostics';
-  const code = candidates.length > 0
-    ? 'RTK_FORMATTING_RETURN_CANDIDATES_READY'
-    : 'RTK_FORMATTING_RETURN_NO_SAFE_CANDIDATES';
+  // MATCH-01: unclassified topology invariant. A returned paragraph with
+  // styled content but no resolvable identity is an unclassified block. While
+  // unclassifiedBlocks > 0 the contour is NOT ready: the topology-level typed
+  // reason RTK_MATCH_UNCLASSIFIED_BLOCKS is surfaced (in addition to the
+  // per-paragraph locator diagnostics) and candidates are demoted to
+  // diagnostic-only (writerCalls = 0 on the apply path).
+  const unclassifiedBlocked = unclassifiedBlocks > 0;
+  if (unclassifiedBlocked) {
+    diagnostics.unshift({
+      code: 'RTK_MATCH_UNCLASSIFIED_BLOCKS',
+      unclassifiedBlocks,
+      unclassifiedIndices,
+    });
+    candidates.length = 0;
+  }
+  const status = unclassifiedBlocked
+    ? 'diagnostics'
+    : (candidates.length > 0 ? 'ready' : 'diagnostics');
+  const code = unclassifiedBlocked
+    ? 'RTK_MATCH_UNCLASSIFIED_BLOCKS'
+    : (candidates.length > 0
+      ? 'RTK_FORMATTING_RETURN_CANDIDATES_READY'
+      : 'RTK_FORMATTING_RETURN_NO_SAFE_CANDIDATES');
   return {
     ok: true,
     status,

@@ -180,7 +180,13 @@ test('N3 extractor fails closed on unresolved block authority and routes duplica
     '<w:p><w:r><w:rPr><w:i/></w:rPr><w:t>Alpha</w:t></w:r></w:p>',
   ), { fullManuscriptExportMap: exportMap(), cryptoPort });
   assert.equal(unresolved.candidates.length, 0);
-  assert.equal(unresolved.diagnostics[0].code, 'RTK_FORMATTING_RETURN_BASELINE_NOT_EXACT');
+  // MATCH-01 (M2): a paragraph with no declared bookmark / still-known
+  // paraId is unresolved as a typed unclassified block — index no longer
+  // creates authority, so BASELINE_NOT_EXACT (an index-rescue artefact) is
+  // replaced by the topology-level RTK_MATCH_UNCLASSIFIED_BLOCKS reason that
+  // blocks ready.
+  assert.equal(unresolved.diagnostics[0].code, 'RTK_MATCH_UNCLASSIFIED_BLOCKS');
+  assert.notEqual(unresolved.status, 'ready');
 
   const duplicate = bridge.buildDocxReviewFormattingReturnCandidatesFromZipBytes(docx([
     '<w:p w14:paraId="A1B2C3D4">',
@@ -214,7 +220,11 @@ test('N3 extractor accepts Word-regenerated native ids only when stable index an
     '</w:p>',
   ].join('')), { fullManuscriptExportMap: exportMap(), cryptoPort });
   assert.equal(wrongBookmark.candidates.length, 0);
-  assert.equal(wrongBookmark.diagnostics[0].code, 'RTK_FORMATTING_RETURN_BLOCK_LOCATOR_UNRESOLVED');
+  // MATCH-01 (M2): an unknown bookmark + regenerated paraId is unresolved as a
+  // typed unclassified block; index no longer rescues identity. The topology
+  // reason RTK_MATCH_UNCLASSIFIED_BLOCKS blocks ready.
+  assert.equal(wrongBookmark.diagnostics[0].code, 'RTK_MATCH_UNCLASSIFIED_BLOCKS');
+  assert.notEqual(wrongBookmark.status, 'ready');
 });
 
 test('N3 extractor rejects colliding or conflicting native paragraph locators', async () => {
@@ -242,7 +252,11 @@ test('N3 extractor rejects colliding or conflicting native paragraph locators', 
     '</w:p>',
   ].join('')), { fullManuscriptExportMap: collidingMap, cryptoPort });
   assert.equal(collision.candidates.length, 0);
-  assert.equal(collision.diagnostics[0].code, 'RTK_FORMATTING_RETURN_BLOCK_LOCATOR_AMBIGUOUS');
+  // MATCH-01: the ambiguous paraId still yields a per-paragraph AMBIGUOUS
+  // diagnostic; the topology-level RTK_MATCH_UNCLASSIFIED_BLOCKS reason is
+  // surfaced first because the unresolved paragraph blocks ready.
+  assert.equal(collision.diagnostics[0].code, 'RTK_MATCH_UNCLASSIFIED_BLOCKS');
+  assert.ok(collision.diagnostics.some((d) => d.code === 'RTK_FORMATTING_RETURN_BLOCK_LOCATOR_AMBIGUOUS'));
 
   const conflict = bridge.buildDocxReviewFormattingReturnCandidatesFromZipBytes(docx([
     '<w:p w14:paraId="A1B2C3D4" w14:textId="11111111">',
@@ -251,7 +265,8 @@ test('N3 extractor rejects colliding or conflicting native paragraph locators', 
     '</w:p>',
   ].join('')), { fullManuscriptExportMap: collidingMap, cryptoPort });
   assert.equal(conflict.candidates.length, 0);
-  assert.equal(conflict.diagnostics[0].code, 'RTK_FORMATTING_RETURN_BLOCK_LOCATOR_AMBIGUOUS');
+  assert.equal(conflict.diagnostics[0].code, 'RTK_MATCH_UNCLASSIFIED_BLOCKS');
+  assert.ok(conflict.diagnostics.some((d) => d.code === 'RTK_FORMATTING_RETURN_BLOCK_LOCATOR_AMBIGUOUS'));
 
   const indexConflictMap = exportMap('Alpha beta');
   indexConflictMap.scenes.push({
@@ -271,7 +286,11 @@ test('N3 extractor rejects colliding or conflicting native paragraph locators', 
     '</w:p>',
   ].join('')), { fullManuscriptExportMap: indexConflictMap, cryptoPort });
   assert.equal(swapped.candidates.length, 0);
-  assert.equal(swapped.diagnostics[0].code, 'RTK_FORMATTING_RETURN_BLOCK_LOCATOR_CONFLICT');
+  // MATCH-01: a known index that names a different source block than the
+  // paraId identity is a typed contradiction; the topology-level unclassified
+  // reason surfaces first, the per-paragraph CONFLICT diagnostic follows.
+  assert.equal(swapped.diagnostics[0].code, 'RTK_MATCH_UNCLASSIFIED_BLOCKS');
+  assert.ok(swapped.diagnostics.some((d) => d.code === 'RTK_FORMATTING_RETURN_BLOCK_LOCATOR_CONFLICT'));
 });
 
 test('N3 extractor rejects formatting when returned paragraph text or baseline marks are not exact', async () => {

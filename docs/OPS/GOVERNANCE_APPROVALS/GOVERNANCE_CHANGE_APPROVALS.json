@@ -2670,12 +2670,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "dae81539f441f1b16dbf830c977a922f905af68349256b51650351f717d1e1b3",
-      "approvedBy": "owner-direct:TASK_ID:EVID-01_RETURN_EVIDENCE_PACKET",
-      "approvedAtUtc": "2026-08-08T23:56:11.511Z",
-      "rationale": "Approve additive RTK graph catalog bytes adding the EVID-01 return-evidence-packet contract test file; supersedes the PARSER-01-era catalog byte approval retained in git history.",
+      "sha256": "f8a80ab394d364837a003313aaeca42858dc091c742b750b14beff40a056b9db",
+      "approvedBy": "owner-direct:TASK_ID:MATCH-01_PLACEMENT_PROOF",
+      "approvedAtUtc": "2026-08-09T01:33:42.348Z",
+      "rationale": "Approve additive RTK graph catalog bytes adding the MATCH-01 placement-proof contract test file; supersedes the EVID-01-era catalog byte approval retained in git history.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EVID01_RETURN_EVIDENCE_PACKET"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MATCH01_PLACEMENT_PROOF"
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
@@ -6558,12 +6558,12 @@
     },
     {
       "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "188efb1f9b27aa23d91d4ccd1b63611325cf4394fb287cfe633bc907c0094137",
-      "approvedBy": "owner-direct:TASK_ID:EVID-01_RETURN_EVIDENCE_PACKET",
-      "approvedAtUtc": "2026-08-08T23:55:04.384Z",
-      "rationale": "Approve EVID-01 packet-based candidate builders with projection placements and scene-authority resolution through the authenticated export map, tracked whole-paragraph diagnostics, and declared-signal-only bookmark admission.",
+      "sha256": "f19fa9b050438e2e28bcfda59693fbd673a12d9fdab75690bc2cb62c32f99267",
+      "approvedBy": "owner-direct:TASK_ID:MATCH-01_PLACEMENT_PROOF",
+      "approvedAtUtc": "2026-08-09T01:33:42.348Z",
+      "rationale": "Approve MATCH-01 resolver demotion of documentParagraphIndex to corroboration-after-identity with typed contradiction, unresolved-without-claim, and topology tracking with unclassified-blocks blocking ready in the formatting and structural extractors.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EVID01_RETURN_EVIDENCE_PACKET"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MATCH01_PLACEMENT_PROOF"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportApplyCore.mjs",
@@ -6585,10 +6585,12 @@
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportBlockExactAuthorityV2.mjs",
-      "sha256": "fbfb852683f77d9a72deb2ca9d99cf13670ec06a758fbaa68cae4eb13e79ca9a",
-      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
-      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
-      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
+      "sha256": "eb40a26b9247594159ec561b1fcfea194b5cc1a748cbe2a6b0c56ae0cce21de0",
+      "approvedBy": "owner-direct:TASK_ID:MATCH-01_PLACEMENT_PROOF",
+      "approvedAtUtc": "2026-08-09T01:33:42.348Z",
+      "rationale": "Approve MATCH-01 uniqueTarget and ambiguousDuplicate recomputed from the bijection instead of caller booleans in block exact authority.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MATCH01_PLACEMENT_PROOF"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportBlockExactWriterBindingV2.mjs",
@@ -6606,10 +6608,12 @@
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportClassifierV2.mjs",
-      "sha256": "46496be08b65283680b27a4e50d3c368f70105d865e3282dfde4baa6ff627429",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T13:20:00.000Z",
-      "rationale": "Approve Word P0 safe structural lane typed-limitation closure: physical E09 structural evidence and product-loop structural diagnostics are bound, structural edits remain manual or blocked only, no structural writer authority or automatic apply is added, Word saturated remains false, and Google Docs remains closed."
+      "sha256": "14a76074a0252089812139b600f313129eddac88e7b02c0e1743184fcdcf2f15",
+      "approvedBy": "owner-direct:TASK_ID:MATCH-01_PLACEMENT_PROOF",
+      "approvedAtUtc": "2026-08-09T01:33:42.348Z",
+      "rationale": "Approve MATCH-01 classifier authority fields recomputed from the bijection when baseline material is present while caller values stay authoritative without it; negative blocks preserved.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MATCH01_PLACEMENT_PROOF"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportCommentShadowSession.mjs",
@@ -8046,12 +8050,12 @@
     },
     {
       "filePath": "test/contracts/rtk-word-n3-formatting-return.contract.test.js",
-      "sha256": "c0dfb9a078140c14d147b6eedf2f85a3338f49fb197de83bcd95710733a5a91f",
-      "approvedBy": "owner-direct:TASK_ID:EVID-01_RETURN_EVIDENCE_PACKET",
-      "approvedAtUtc": "2026-08-08T23:55:04.384Z",
-      "rationale": "Approve EVID-01 packet-based production call pin updates in the formatting return contract; negative blocks preserved; tests only.",
+      "sha256": "5b71c9564ecb710e9d258121d214bac905d96aeb4440682913b823fd9bf8816e",
+      "approvedBy": "owner-direct:TASK_ID:MATCH-01_PLACEMENT_PROOF",
+      "approvedAtUtc": "2026-08-09T01:33:42.348Z",
+      "rationale": "Approve MATCH-01 unresolved outcome pin updates to typed unclassified-blocks in the formatting return contract; locator diagnostics preserved; tests only.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EVID01_RETURN_EVIDENCE_PACKET"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MATCH01_PLACEMENT_PROOF"
     },
     {
       "filePath": "test/contracts/rtk-word-n4-structural-return.contract.test.js",
@@ -9631,12 +9635,12 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "a612c9c895ae741a29dccc69fb7412416761acba8040e39658b35fe490faff7b",
-      "approvedBy": "owner-direct:TASK_ID:EVID-01_RETURN_EVIDENCE_PACKET",
-      "approvedAtUtc": "2026-08-08T23:56:11.511Z",
-      "rationale": "Approve additive test:rtk-evid01 lane script; no dependency or runtime change.",
+      "sha256": "b741bb049f8ef9b0b409133d7b912dca9ac8ff281e2dca9ede9aa3150802e510",
+      "approvedBy": "owner-direct:TASK_ID:MATCH-01_PLACEMENT_PROOF",
+      "approvedAtUtc": "2026-08-09T01:33:42.348Z",
+      "rationale": "Approve additive test:rtk-match01 lane script; no dependency or runtime change.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EVID01_RETURN_EVIDENCE_PACKET"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MATCH01_PLACEMENT_PROOF"
     },
     {
       "filePath": "test/contracts/rtk-admit01-accountable-lanes.contract.test.js",
@@ -9718,6 +9722,24 @@
       "rationale": "Approve EVID-01 return-evidence-packet contract tests (V1-V9 plus V7b runtime forged-packet rejection); tests only.",
       "approved": true,
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EVID01_RETURN_EVIDENCE_PACKET"
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportMatchProofV1.mjs",
+      "sha256": "d53cfc43e16e2a097d8f35025a4a71acf7e6d6692f4ec3385857a1d4a71b2490",
+      "approvedBy": "owner-direct:TASK_ID:MATCH-01_PLACEMENT_PROOF",
+      "approvedAtUtc": "2026-08-09T01:33:42.348Z",
+      "rationale": "Approve new bounded MATCH-01 MatchProof module: strict declared-bookmark bijection, index and native IDs as corroboration-after-identity, topology invariant with unclassified-blocks gate, typed contradiction codes, and authority recompute from bijection.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MATCH01_PLACEMENT_PROOF"
+    },
+    {
+      "filePath": "test/contracts/rtk-match01-placement-proof.contract.test.js",
+      "sha256": "6c2e0255662959acd5c80539b1152fac08a930da7baaa5f17b1dc33865b495a2",
+      "approvedBy": "owner-direct:TASK_ID:MATCH-01_PLACEMENT_PROOF",
+      "approvedAtUtc": "2026-08-09T01:33:42.348Z",
+      "rationale": "Approve MATCH-01 placement-proof contract tests (M1-M7b: inserted duplicate, index demotion, caller booleans, unclassified blocks, native contradiction, computed proof, controls); tests only.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MATCH01_PLACEMENT_PROOF"
     }
   ]
 }

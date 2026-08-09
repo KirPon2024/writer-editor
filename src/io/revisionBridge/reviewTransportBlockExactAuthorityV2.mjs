@@ -1,4 +1,5 @@
 import { stableJson } from './reviewTransportCore.mjs';
+import { recomputeAuthorityFromBijection } from './reviewTransportMatchProofV1.mjs';
 
 export const RTK_REVIEW_TRANSPORT_BLOCK_EXACT_AUTHORITY_V2_SCHEMA =
   'yalken.rtk.review-transport-block-exact-authority.v2';
@@ -318,8 +319,19 @@ export function evaluateReviewTransportBlockExactAuthorityV2(input = {}, options
   reasons.push(...grouped.reasons);
   const exactTextAnchors = [];
   const ranges = [];
-  let ambiguousDuplicate = matchingBlocks.length > 1 || baseAuthority.ambiguousDuplicate === true;
-  let uniqueTarget = grouped.groups.length > 0 && Boolean(targetBlock);
+  // MATCH-01: uniqueTarget / ambiguousDuplicate are RECOMPUTED from the local
+  // baseline + revision text via the placement-aware bijection
+  // (recomputeAuthorityFromBijection). The caller-supplied booleans are
+  // ignored for these two fields so a caller cannot force a unique-baseline
+  // replacement pair into MANUAL_REVIEW by lying
+  // (reviewTransportBlockExactAuthorityV2.mjs doctrine, M3).
+  const recomputed = recomputeAuthorityFromBijection({
+    localBaseline,
+    authorityCarrier,
+    reviewIr,
+  });
+  let ambiguousDuplicate = matchingBlocks.length > 1 || recomputed.ambiguousDuplicate;
+  let uniqueTarget = recomputed.uniqueTarget && grouped.groups.length > 0 && Boolean(targetBlock);
   let allSupportedTextGroups = grouped.groups.length > 0;
 
   for (const group of grouped.groups) {

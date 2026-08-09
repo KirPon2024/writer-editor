@@ -1,4 +1,5 @@
 import { stableJson } from './reviewTransportCore.mjs';
+import { recomputeAuthorityFromBijection } from './reviewTransportMatchProofV1.mjs';
 
 export const RTK_REVIEW_TRANSPORT_CLASSIFIER_V2_SCHEMA =
   'yalken.rtk.review-transport-classifier.v2';
@@ -42,9 +43,62 @@ function reviewIrFrom(input) {
   return {};
 }
 
-function authorityFrom(input) {
-  const authority = isPlainObject(input.exactAuthority) ? input.exactAuthority : {};
+function authorityCarrierFrom(input) {
+  if (isPlainObject(input.authorityCarrier)) return input.authorityCarrier;
+  if (isPlainObject(input.analysis?.authorityCarrier)) return input.analysis.authorityCarrier;
+  return {};
+}
+
+function localBaselineFrom(input) {
+  if (isPlainObject(input.localBaseline)) return input.localBaseline;
+  if (isPlainObject(input.baseline)) return input.baseline;
+  return {};
+}
+
+// MATCH-01 (M3): uniqueTarget / ambiguousDuplicate are RECOMPUTED from the
+// local baseline + revision text via the placement-aware bijection
+// (recomputeAuthorityFromBijection) whenever baseline material for the signed
+// target block is present — the same doctrine as
+// reviewTransportBlockExactAuthorityV2.mjs (M3). The caller-supplied booleans
+// for these two fields are ignored ONLY when the bijection actually resolves a
+// baseline, so a caller cannot force a unique-baseline replacement pair into
+// MANUAL_REVIEW by lying. When no baseline material is available (the B04
+// contract path that supplies exactAuthority booleans only), the caller
+// booleans stay authoritative for these fields and the B04 behavioural
+// contract (ambiguousDuplicate=true → MANUAL_REVIEW) is preserved.
+//
+// `hasBaselineMaterial` mirrors the target-block resolution inside
+// recomputeAuthorityFromBijection (payload.blockId || localBaseline.blockId)
+// so the override fires exactly when the bijection can compute truth.
+function hasBaselineMaterial(localBaseline, authorityCarrier) {
+  if (!isPlainObject(localBaseline) || Object.keys(localBaseline).length === 0) return false;
+  const selected = isPlainObject(authorityCarrier.selectedCarrier)
+    ? authorityCarrier.selectedCarrier
+    : {};
+  const payload = isPlainObject(selected.payload) ? selected.payload : {};
+  const targetBlockId = rawString(payload.blockId || localBaseline.blockId).trim();
+  return targetBlockId !== '';
+}
+
+function recomputeAuthorityFields(authority, input, reviewIr) {
+  const localBaseline = localBaselineFrom(input);
+  const authorityCarrier = authorityCarrierFrom(input);
+  if (!hasBaselineMaterial(localBaseline, authorityCarrier)) return authority;
+  const recomputed = recomputeAuthorityFromBijection({
+    localBaseline,
+    authorityCarrier,
+    reviewIr,
+  });
   return {
+    ...authority,
+    uniqueTarget: recomputed.uniqueTarget,
+    ambiguousDuplicate: recomputed.ambiguousDuplicate,
+  };
+}
+
+function authorityFrom(input, reviewIr) {
+  const authority = isPlainObject(input.exactAuthority) ? input.exactAuthority : {};
+  const base = {
     validSignedLocator: authority.validSignedLocator === true,
     sceneRevisionUnchanged: authority.sceneRevisionUnchanged === true,
     rawSha256Unchanged: authority.rawSha256Unchanged === true,
@@ -55,6 +109,7 @@ function authorityFrom(input) {
     crossScene: authority.crossScene === true,
     structuralTopologyChanged: authority.structuralTopologyChanged === true,
   };
+  return recomputeAuthorityFields(base, input, reviewIr);
 }
 
 function exactAuthorityReasons(authority, path) {
@@ -230,7 +285,7 @@ export function classifyReviewTransportIrV2(input = {}, ports = {}) {
   }
   const cryptoPort = cryptoState.port;
   const reviewIr = reviewIrFrom(input);
-  const authority = authorityFrom(input);
+  const authority = authorityFrom(input, reviewIr);
   const text = classifyTextRevisions(reviewIr, authority, cryptoPort);
   const classifications = {
     text: text.items,

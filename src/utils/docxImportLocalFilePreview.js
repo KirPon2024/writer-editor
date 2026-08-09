@@ -185,6 +185,17 @@ function sanitizeContentPreviewReport(report) {
             : [],
         }
       : null,
+    // GENERIC-01 (G1/G6): full artifact identity + carrier classification.
+    sourceArtifactSha256: typeof report.sourceArtifactSha256 === 'string'
+      ? report.sourceArtifactSha256
+      : null,
+    carrierIgnored: isPlainObject(report.carrierIgnored) && report.carrierIgnored.ignored === true
+      ? {
+        ignored: true,
+        reason: typeof report.carrierIgnored.reason === 'string' ? report.carrierIgnored.reason : '',
+        tokenDetected: report.carrierIgnored.tokenDetected === true,
+      }
+      : null,
     parse: isPlainObject(report.parse)
       ? copyAllowedFields(report.parse, [
           'attempted',
@@ -226,6 +237,8 @@ function sanitizeImportPreviewPlan(plan) {
           'paragraphCount',
           'textLength',
           'textHash',
+          'sourceArtifactSha256',
+          'candidateContentSha256',
         ])
       : null,
     candidateCreatePlan: isPlainObject(plan.candidateCreatePlan)
@@ -243,6 +256,9 @@ function sanitizeImportPreviewPlan(plan) {
                   title: entry.title,
                   content: entry.content,
                   contentTextHash: entry.contentTextHash,
+                  candidateContentSha256: typeof entry.candidateContentSha256 === 'string'
+                    ? entry.candidateContentSha256
+                    : null,
                   source: isPlainObject(entry.source)
                     ? {
                         schemaVersion: entry.source.schemaVersion,
@@ -280,6 +296,14 @@ function sanitizeImportPreviewPlan(plan) {
               .filter(isPlainObject)
             : [],
         }
+      : null,
+    // GENERIC-01 (G6): carrier-ignored classification on the preview plan.
+    carrierIgnored: isPlainObject(plan.carrierIgnored) && plan.carrierIgnored.ignored === true
+      ? {
+        ignored: true,
+        reason: typeof plan.carrierIgnored.reason === 'string' ? plan.carrierIgnored.reason : '',
+        tokenDetected: plan.carrierIgnored.tokenDetected === true,
+      }
       : null,
     previewHash: typeof plan.previewHash === 'string' ? plan.previewHash : '',
   };

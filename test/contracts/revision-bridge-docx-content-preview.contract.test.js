@@ -214,6 +214,23 @@ test('DOCX content preview: clean main document returns ordered deterministic pa
   assert.deepEqual(first.contentPreview.paragraphs.map((paragraph) => paragraph.order), [0, 1, 2]);
   assert.match(first.contentPreview.textHash, /^[a-f0-9]{8}$/u);
   assert.equal(first.evidence.some((item) => item.kind === 'contentPreview' && item.textHash), true);
+
+  // GENERIC-01 (G1 amendment): full SHA-256 artifact identity. The 8-hex
+  // textHash stays as a deterministic legacy preview hash; the 64-hex
+  // sourceArtifactSha256 is the full artifact identity over raw bytes.
+  assert.match(first.sourceArtifactSha256, /^[a-f0-9]{64}$/u);
+  assert.equal(
+    first.sourceArtifactSha256 !== first.contentPreview.textHash,
+    true,
+    'sourceArtifactSha256 (64 hex) must be distinct from textHash (8 hex)',
+  );
+  // Distinct raw bytes yield distinct artifact SHA-256.
+  const otherBytes = cleanDocxZip(['Alpha', 'Bravo', 'Delta']);
+  const other = bridge.buildDocxContentPreviewFromZipBytes(otherBytes);
+  assert.notEqual(first.sourceArtifactSha256, other.sourceArtifactSha256);
+
+  // GENERIC-01 (G6 amendment): clean DOCX has no carrier classification.
+  assert.equal(first.carrierIgnored, null);
 });
 
 test('DOCX content preview: tabs, breaks, empty paragraphs, and XML entities are stable text only', async () => {

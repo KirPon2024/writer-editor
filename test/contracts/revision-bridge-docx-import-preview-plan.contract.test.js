@@ -164,6 +164,65 @@ test('DOCX import preview plan: clean content preview becomes deterministic sing
     true,
   );
   assert.equal(first.evidence.some((item) => item.kind === 'candidateCreatePlan'), true);
+
+  // GENERIC-01 (G1 amendment): full SHA-256 candidate content identity. The
+  // 8-hex contentTextHash stays as a deterministic legacy preview hash; the
+  // 64-hex candidateContentSha256 is the full identity. It is always present
+  // (computed from the normalized importable text) even when the source report
+  // does not carry an artifact SHA.
+  assert.match(
+    first.candidateCreatePlan.entries[0].candidateContentSha256,
+    /^[a-f0-9]{64}$/u,
+  );
+  assert.equal(
+    first.candidateCreatePlan.entries[0].candidateContentSha256
+      !== first.candidateCreatePlan.entries[0].contentTextHash,
+    true,
+    'candidateContentSha256 (64 hex) must be distinct from contentTextHash (8 hex)',
+  );
+
+  // GENERIC-01 (G1 amendment): when the source report carries a full artifact
+  // SHA-256, the preview plan threads it into plan.source and derives sceneId
+  // from it (distinct artifacts -> distinct sceneIds).
+  const withArtifactSha = contentPreviewReport(['Alpha', 'Bravo'], {
+    reportOverrides: {
+      sourceArtifactSha256: 'a'.repeat(64),
+    },
+  });
+  const planFromArtifact = bridge.buildDocxImportPreviewPlanFromContentPreview(withArtifactSha);
+  assert.equal(planFromArtifact.ok, true);
+  assert.match(planFromArtifact.source.sourceArtifactSha256, /^[a-f0-9]{64}$/u);
+  assert.equal(planFromArtifact.source.sourceArtifactSha256, 'a'.repeat(64));
+  assert.equal(
+    planFromArtifact.candidateCreatePlan.entries[0].sceneId,
+    `docx-import-scene-${'a'.repeat(64).slice(0, 8)}`,
+    'sceneId must derive from the full artifact SHA-256',
+  );
+
+  // Distinct raw artifacts (same text, different artifact SHA) yield distinct
+  // sceneIds — the 32-bit collision defect is fixed.
+  const distinctArtifact = contentPreviewReport(['Alpha', 'Bravo'], {
+    reportOverrides: {
+      sourceArtifactSha256: 'b'.repeat(64),
+    },
+  });
+  const planDistinct = bridge.buildDocxImportPreviewPlanFromContentPreview(distinctArtifact);
+  assert.notEqual(
+    planFromArtifact.candidateCreatePlan.entries[0].sceneId,
+    planDistinct.candidateCreatePlan.entries[0].sceneId,
+    'distinct artifact SHA-256 must yield distinct sceneIds',
+  );
+
+  // GENERIC-01 (G6 amendment): carrier-ignored classification threads through.
+  assert.equal(planFromArtifact.carrierIgnored, null);
+  const withCarrier = contentPreviewReport(['Alpha', 'Bravo'], {
+    reportOverrides: {
+      carrierIgnored: { ignored: true, reason: 'DOCX_IMPORT_CARRIER_IGNORED_GENERIC_ROUTE', tokenDetected: true },
+    },
+  });
+  const planWithCarrier = bridge.buildDocxImportPreviewPlanFromContentPreview(withCarrier);
+  assert.equal(planWithCarrier.carrierIgnored.ignored, true);
+  assert.equal(planWithCarrier.carrierIgnored.reason, 'DOCX_IMPORT_CARRIER_IGNORED_GENERIC_ROUTE');
 });
 
 test('DOCX import preview plan: blocked, malformed, or layer-leaking source reports fail closed', async () => {

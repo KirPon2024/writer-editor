@@ -1553,6 +1553,44 @@ function docxHostileFileGateInflateRawSync(rawBytes, maxOutputLength) {
   return zlibModule.inflateRawSync(Buffer.from(rawBytes), { maxOutputLength });
 }
 
+// GENERIC-01 (G1): full SHA-256 over raw artifact bytes. The 32-bit FNV hash
+// (docxContentPreviewStableHash) stays as a deterministic preview/legacy form;
+// it is never used for artifact identity or sceneId derivation after G1.
+function sha256BytesHex(rawBytes) {
+  const cryptoModule = typeof process?.getBuiltinModule === 'function'
+    ? process.getBuiltinModule('node:crypto')
+    : null;
+  if (!cryptoModule || typeof cryptoModule.createHash !== 'function') {
+    throw new Error('DOCX_CRYPTO_UNAVAILABLE');
+  }
+  return cryptoModule.createHash('sha256').update(Buffer.from(rawBytes)).digest('hex');
+}
+
+// GENERIC-01 (G6): detect a YRTK2 carrier token in docProps/custom.xml. The
+// generic import lane never gains return/apply authority for the carrier; it
+// only classifies the carrier as explicitly ignored so the receipt records the
+// classification with a typed reason. The carrier payload never leaks.
+const DOCX_IMPORT_CARRIER_TOKEN_NAMES = Object.freeze(['YRTK2_TOKEN', 'YRTK2TOKEN']);
+const DOCX_IMPORT_CARRIER_IGNORED_REASON = 'DOCX_IMPORT_CARRIER_IGNORED_GENERIC_ROUTE';
+
+function docxImportDetectCarrierIgnored(customXmlBytes) {
+  if (!customXmlBytes || customXmlBytes.byteLength === 0) return null;
+  let text;
+  try {
+    text = Buffer.from(customXmlBytes).toString('utf8');
+  } catch {
+    return null;
+  }
+  if (!text) return null;
+  const hasToken = DOCX_IMPORT_CARRIER_TOKEN_NAMES.some((name) => text.includes(name));
+  if (!hasToken) return null;
+  return {
+    ignored: true,
+    reason: DOCX_IMPORT_CARRIER_IGNORED_REASON,
+    tokenDetected: true,
+  };
+}
+
 function docxHostileFileGateDiagnostic(code, options = {}) {
   const diagnostic = {
     code,
@@ -5820,6 +5858,19 @@ function docxContentPreviewResult(options) {
       attempted: options.parseAttempted === true,
       completed: options.parseCompleted === true,
     },
+    // GENERIC-01 (G1/G6): full SHA-256 artifact identity + carrier classification.
+    // Carried on every result (blocked or ready) so the identity thread is
+    // unbroken from raw bytes to receipt.
+    sourceArtifactSha256: typeof options.sourceArtifactSha256 === 'string'
+      ? options.sourceArtifactSha256
+      : null,
+    carrierIgnored: isPlainObject(options.carrierIgnored) && options.carrierIgnored.ignored === true
+      ? {
+        ignored: true,
+        reason: typeof options.carrierIgnored.reason === 'string' ? options.carrierIgnored.reason : '',
+        tokenDetected: options.carrierIgnored.tokenDetected === true,
+      }
+      : null,
   };
 }
 
@@ -5955,6 +6006,36 @@ function docxContentPreviewExtractMainDocumentXmlBytes(bytes) {
       method: entry.method,
     },
   };
+}
+
+// GENERIC-01 (G6): bounded extraction of an auxiliary part (docProps/custom.xml)
+// for carrier classification. Never exposes raw bytes; only a boolean
+// classification record. The generic lane has no return/apply authority for
+// YRTK2 carrier payloads.
+function docxContentPreviewExtractAuxiliaryPartBytes(bytes, entryId, maxBytes) {
+  const metadataResult = docxHostileFileGateCentralEntries(bytes);
+  if (metadataResult.failure) return null;
+  const entry = metadataResult.entries.find((candidate) => candidate.entryId === entryId);
+  if (!entry) return null;
+  if (!Number.isInteger(maxBytes) || entry.byteSize > maxBytes) return null;
+  const localHeader = docxHostileFileGateValidateLocalHeader(bytes, entry);
+  if (localHeader.failure) return null;
+  const dataOffset = localHeader.dataOffset;
+  const dataEnd = dataOffset + entry.compressedSize;
+  if (dataOffset > bytes.byteLength || dataEnd > bytes.byteLength) return null;
+  const rawBytes = bytes.subarray(dataOffset, dataEnd);
+  let contentBytes = rawBytes;
+  if (entry.method === 8) {
+    try {
+      contentBytes = docxHostileFileGateInflateRawSync(rawBytes, maxBytes);
+    } catch {
+      return null;
+    }
+  } else if (entry.method !== 0) {
+    return null;
+  }
+  if (contentBytes.length !== entry.byteSize) return null;
+  return contentBytes;
 }
 
 function docxContentPreviewDecodeEntity(entity) {
@@ -6231,6 +6312,31 @@ export function buildDocxContentPreviewFromZipBytes(input) {
   const bytes = docxZipInventoryInputToBytes(input);
   if (bytes === null) return docxContentPreviewBlockedByPreflight(preflight);
 
+  // GENERIC-01 (G1): full SHA-256 over raw artifact bytes — computed once at
+  // first touch so the identity thread is unbroken from raw bytes to receipt.
+  // The 32-bit FNV text hash stays as a deterministic preview/legacy form.
+  let sourceArtifactSha256 = null;
+  try {
+    sourceArtifactSha256 = sha256BytesHex(bytes);
+  } catch {
+    sourceArtifactSha256 = null;
+  }
+
+  // GENERIC-01 (G6): detect a YRTK2 carrier token in docProps/custom.xml. The
+  // generic lane only classifies the carrier; it never gains return/apply
+  // authority and the carrier payload never leaks.
+  let carrierIgnored = null;
+  try {
+    const customXmlBytes = docxContentPreviewExtractAuxiliaryPartBytes(
+      bytes,
+      'docProps/custom.xml',
+      DOCX_CONTENT_PREVIEW_BOUNDS.maxMainDocumentBytes,
+    );
+    carrierIgnored = docxImportDetectCarrierIgnored(customXmlBytes);
+  } catch {
+    carrierIgnored = null;
+  }
+
   const extraction = docxContentPreviewExtractMainDocumentXmlBytes(bytes);
   if (extraction.failure) {
     return docxContentPreviewResult({
@@ -6246,6 +6352,8 @@ export function buildDocxContentPreviewFromZipBytes(input) {
       evidence: [
         docxContentPreviewEvidence('preflight', { sourceCode: preflightSummary.code }),
       ],
+      sourceArtifactSha256,
+      carrierIgnored,
     });
   }
 
@@ -6274,6 +6382,8 @@ export function buildDocxContentPreviewFromZipBytes(input) {
           byteSize: extraction.entry.byteSize,
         }),
       ],
+      sourceArtifactSha256,
+      carrierIgnored,
     });
   }
   if (/<!\s*(DOCTYPE|ENTITY)\b/iu.test(xmlText)) {
@@ -6298,6 +6408,8 @@ export function buildDocxContentPreviewFromZipBytes(input) {
           byteSize: extraction.entry.byteSize,
         }),
       ],
+      sourceArtifactSha256,
+      carrierIgnored,
     });
   }
   const unsupportedPrefix = docxContentPreviewUnsupportedPrefix(xmlText);
@@ -6324,6 +6436,8 @@ export function buildDocxContentPreviewFromZipBytes(input) {
           byteSize: extraction.entry.byteSize,
         }),
       ],
+      sourceArtifactSha256,
+      carrierIgnored,
     });
   }
 
@@ -6345,6 +6459,8 @@ export function buildDocxContentPreviewFromZipBytes(input) {
           byteSize: extraction.entry.byteSize,
         }),
       ],
+      sourceArtifactSha256,
+      carrierIgnored,
     });
   }
 
@@ -6377,6 +6493,8 @@ export function buildDocxContentPreviewFromZipBytes(input) {
       }),
     ],
     contentPreview: parsed.contentPreview,
+    sourceArtifactSha256,
+    carrierIgnored,
   });
 }
 // RB_11_DOCX_CONTENT_PREVIEW_END
@@ -6518,6 +6636,16 @@ function docxImportPreviewResult(options = {}) {
     source: options.source || null,
     candidateCreatePlan: options.candidateCreatePlan || null,
     lossReport: options.lossReport || null,
+    // GENERIC-01 (G6): carrier-ignored classification. Carried on the preview
+    // plan so the receipt can record the classification. The carrier payload
+    // never leaks — only the typed classification record.
+    carrierIgnored: isPlainObject(options.carrierIgnored) && options.carrierIgnored.ignored === true
+      ? {
+        ignored: true,
+        reason: typeof options.carrierIgnored.reason === 'string' ? options.carrierIgnored.reason : '',
+        tokenDetected: options.carrierIgnored.tokenDetected === true,
+      }
+      : null,
   };
   return {
     ...body,
@@ -6827,21 +6955,36 @@ function docxImportPreviewBuildLossReport(sourceReport, contentPreview, imported
 function docxImportPreviewBuildCandidateCreatePlan(sourceReport, contentPreview, importedText) {
   const contentTextHash = docxContentPreviewStableHash(importedText);
   const sourceTextHash = typeof contentPreview.textHash === 'string' ? contentPreview.textHash : '';
+  // GENERIC-01 (G1): sceneId derives from the full artifact SHA-256, not the
+  // 32-bit content hash. Distinct raw artifacts now yield distinct sceneIds.
+  // The 8-hex format is preserved (legacy compatibility), but the bytes are
+  // the first 8 hex of sourceArtifactSha256.
+  const artifactSha = typeof sourceReport.sourceArtifactSha256 === 'string'
+    && /^[a-f0-9]{64}$/u.test(sourceReport.sourceArtifactSha256)
+    ? sourceReport.sourceArtifactSha256
+    : docxContentPreviewStableHash(
+      `${sourceTextHash}:${contentTextHash}:${contentPreview.paragraphCount}`,
+    ).padEnd(64, '0');
+  const identityComponent = artifactSha.slice(0, 8);
+  // GENERIC-01 (G1): full SHA-256 of the normalized importable content.
+  let candidateContentSha256;
+  try {
+    candidateContentSha256 = sha256Hex(importedText);
+  } catch {
+    candidateContentSha256 = null;
+  }
   return {
     mode: 'create-only',
     sceneStrategy: 'single-scene',
     entryCount: 1,
     entries: [
       {
-        sceneId: `docx-import-scene-${docxImportPreviewStableHash({
-          sourceTextHash,
-          contentTextHash,
-          paragraphCount: contentPreview.paragraphCount,
-        })}`,
+        sceneId: `docx-import-scene-${identityComponent}`,
         kind: 'scene',
         title: 'Imported DOCX preview',
         content: importedText,
         contentTextHash,
+        candidateContentSha256,
         source: {
           schemaVersion: sourceReport.schemaVersion,
           type: sourceReport.type,
@@ -6881,6 +7024,19 @@ export function buildDocxImportPreviewPlanFromContentPreview(input = {}) {
   const sourceHash = docxImportPreviewStableHash(input);
   const candidateCreatePlan = docxImportPreviewBuildCandidateCreatePlan(input, contentPreview, importedText);
   const lossReport = docxImportPreviewBuildLossReport(input, contentPreview, importedText);
+  // GENERIC-01 (G1): thread full artifact SHA-256 from the content preview
+  // report into the preview plan source. This is the identity thread: raw
+  // artifact bytes -> content preview -> preview plan source -> receipt.
+  const sourceArtifactSha256 = typeof input.sourceArtifactSha256 === 'string'
+    && /^[a-f0-9]{64}$/u.test(input.sourceArtifactSha256)
+    ? input.sourceArtifactSha256
+    : null;
+  const candidateContentSha256 = candidateCreatePlan
+    && candidateCreatePlan.entries
+    && candidateCreatePlan.entries[0]
+    && typeof candidateCreatePlan.entries[0].candidateContentSha256 === 'string'
+    ? candidateCreatePlan.entries[0].candidateContentSha256
+    : null;
   const source = {
     schemaVersion: input.schemaVersion,
     type: input.type,
@@ -6890,6 +7046,8 @@ export function buildDocxImportPreviewPlanFromContentPreview(input = {}) {
     paragraphCount: contentPreview.paragraphCount,
     textLength: contentPreview.textLength,
     textHash: contentPreview.textHash,
+    sourceArtifactSha256,
+    candidateContentSha256,
   };
 
   return docxImportPreviewResult({
@@ -6899,6 +7057,9 @@ export function buildDocxImportPreviewPlanFromContentPreview(input = {}) {
     reason: DOCX_IMPORT_PREVIEW_CODES.READY,
     decision: 'preview',
     source,
+    carrierIgnored: isPlainObject(input.carrierIgnored) && input.carrierIgnored.ignored === true
+      ? input.carrierIgnored
+      : null,
     diagnostics: Array.isArray(input.diagnostics)
       ? input.diagnostics.map((diagnostic) => cloneJsonSafe(diagnostic)).filter(isPlainObject)
       : [],

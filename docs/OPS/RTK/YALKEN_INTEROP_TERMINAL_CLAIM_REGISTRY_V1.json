@@ -34,7 +34,8 @@
         "profileId": "word-mac-16.111.2-d1"
       },
       "blockedRowRef": null,
-      "claimDigest": "sha256:d9d657f22c7b55e62db17a7f082b0de45822adb2aa202f8112c8bb8a694af418"
+      "evidenceScope": "BUILD_INDEPENDENT_PRODUCT_FUNCTION",
+      "claimDigest": "sha256:e0743fa9e14b4354b75a9ae04e46b49895d817652b25f7102b2b55d84474b5c4"
     },
     {
       "claimId": "claim-menu-import-docx-content",
@@ -45,7 +46,8 @@
         "profileId": "word-mac-16.111.2-d1"
       },
       "blockedRowRef": null,
-      "claimDigest": "sha256:694032e765873dba67419c3825fe55efda23fbcd4a511afa6e5563a52e8cb09e"
+      "evidenceScope": "BUILD_INDEPENDENT_PRODUCT_FUNCTION",
+      "claimDigest": "sha256:4302359afe66ec9d575caa8148af5ddcf14ed17dabc99f0e8523c6375e297ab5"
     },
     {
       "claimId": "claim-menu-export-docx-minimal",
@@ -56,7 +58,8 @@
         "profileId": "word-mac-16.111.2-d1"
       },
       "blockedRowRef": null,
-      "claimDigest": "sha256:072258344dd9e808175640a06a49e7ed09c89e72e3395f4b4201f16e46f5cb36"
+      "evidenceScope": "BUILD_INDEPENDENT_PRODUCT_FUNCTION",
+      "claimDigest": "sha256:6a9e108dfdc9a8d4b0b36c789c297c883dffd6c25bc93a358564b0650da7617e"
     },
     {
       "claimId": "claim-menu-export-review-docx-packet",
@@ -67,7 +70,8 @@
         "profileId": "word-mac-16.111.2-d1"
       },
       "blockedRowRef": null,
-      "claimDigest": "sha256:3f03c388545c68d074c47a9888940d69fd8bc8ec55de6bd63aa9b1f0cc563a7e"
+      "evidenceScope": "BUILD_INDEPENDENT_PRODUCT_FUNCTION",
+      "claimDigest": "sha256:3a5c3adfb1a7613c18ebea31ab4d77a79f984d8c96fbf3fd75a341865abe39af"
     },
     {
       "claimId": "claim-menu-export-full-manuscript-review-docx-packet",
@@ -78,7 +82,8 @@
         "profileId": "word-mac-16.111.2-d1"
       },
       "blockedRowRef": null,
-      "claimDigest": "sha256:5a2ce16b2a59c825e56933810c801c977abc0b0d56f49e45870547973d886638"
+      "evidenceScope": "BUILD_INDEPENDENT_PRODUCT_FUNCTION",
+      "claimDigest": "sha256:d2f0f5c26147800b8a30118380cf6a54a7e4118df0b8df3f891558f365a20783"
     },
     {
       "claimId": "claim-menu-open-docx-review-manual-only",
@@ -89,7 +94,8 @@
         "profileId": "word-mac-16.111.2-d1"
       },
       "blockedRowRef": null,
-      "claimDigest": "sha256:39a4c55a6d612f661754f434c6fed11587878c170922105b1f7ba4bb8fd73b88"
+      "evidenceScope": "BUILD_INDEPENDENT_PRODUCT_FUNCTION",
+      "claimDigest": "sha256:934f0b841a0e4e137b25e3bcc721322c4ae5095e6ad1ecb830157c0b2222c6dc"
     },
     {
       "claimId": "claim-editor-docx-minimal",
@@ -100,7 +106,8 @@
         "profileId": "word-mac-16.111.2-d1"
       },
       "blockedRowRef": null,
-      "claimDigest": "sha256:d5eb9d9585393daa8aa71c09c2780b1e07560596b49c38dbbad054acf6f32d89"
+      "evidenceScope": "BUILD_INDEPENDENT_PRODUCT_FUNCTION",
+      "claimDigest": "sha256:ffc0ef7abb5b33eefcdabb8976e12aae39faf6a934c8d75523f4cffa76d942c6"
     },
     {
       "claimId": "claim-editor-docx-baseline-export-confirm",
@@ -111,7 +118,8 @@
         "profileId": "word-mac-16.111.2-d1"
       },
       "blockedRowRef": null,
-      "claimDigest": "sha256:a9205c4a2223647080f7047d0756c43c348ca9d069b6dd4be5b75f08c0435e38"
+      "evidenceScope": "BUILD_INDEPENDENT_PRODUCT_FUNCTION",
+      "claimDigest": "sha256:bce7038d3b42e13cf5e93f21934f1ffe4a7964d39c3eac625f42f6292a8ba45b"
     },
     {
       "claimId": "claim-editor-docx-evidence",
@@ -122,7 +130,8 @@
         "profileId": "word-mac-16.111.2-d1"
       },
       "blockedRowRef": null,
-      "claimDigest": "sha256:7d0cf4fd548485dc396445240fe8b2824127c8a27cd1eb32d25b6ddbab360a3b"
+      "evidenceScope": "BUILD_INDEPENDENT_PRODUCT_FUNCTION",
+      "claimDigest": "sha256:f033cf0c99ce1ff1f1861cafddde0637afb6ffc47c8105ff9939b8aa11e9244f"
     },
     {
       "claimId": "claim-editor-docx-import-preview-ready",
@@ -133,7 +142,8 @@
         "profileId": "word-mac-16.111.2-d1"
       },
       "blockedRowRef": null,
-      "claimDigest": "sha256:acc3644e5cf70208c2f8dc0b192fd4a22489b9df14555826d5aa4e645cf16e81"
+      "evidenceScope": "BUILD_INDEPENDENT_PRODUCT_FUNCTION",
+      "claimDigest": "sha256:07afc4b4881d3daf888a8bf082e32a72622cb5a48c0e580b9f5757471a8b2968"
     },
     {
       "claimId": "claim-editor-docx-import-preview-unavailable",
@@ -144,7 +154,8 @@
         "profileId": "word-mac-16.111.2-d1"
       },
       "blockedRowRef": null,
-      "claimDigest": "sha256:57b3bf25ded6a569c536864940152a537c3633878bf8f0fa7bdd5d8eadd39652"
+      "evidenceScope": "BUILD_INDEPENDENT_PRODUCT_FUNCTION",
+      "claimDigest": "sha256:1f3f8941d6d540ab92119d0d711be5050aa0e1d0d25cc82cb6e62fec65125346"
     },
     {
       "claimId": "claim-editor-docx-preview-not-importable",
@@ -155,7 +166,8 @@
         "profileId": "word-mac-16.111.2-d1"
       },
       "blockedRowRef": null,
-      "claimDigest": "sha256:f5daa20c5f69841106cea0083e243e1e42bc08cb2e09f076c50cbe069ff54faf"
+      "evidenceScope": "BUILD_INDEPENDENT_PRODUCT_FUNCTION",
+      "claimDigest": "sha256:4d6c25be09403561687173246ab50293deccbab09cbfcd260a2dc0978d4ff8cb"
     },
     {
       "claimId": "claim-editor-imported-docx-preview",
@@ -166,7 +178,8 @@
         "profileId": "word-mac-16.111.2-d1"
       },
       "blockedRowRef": null,
-      "claimDigest": "sha256:fd68a210bc48d9ab73cce09549737837de9687c8927e6227dd37dc3900199752"
+      "evidenceScope": "BUILD_INDEPENDENT_PRODUCT_FUNCTION",
+      "claimDigest": "sha256:a15271e986131c463de1b0ce0f6c29694a0541a1c4e59eb33a29396074ca85bd"
     },
     {
       "claimId": "claim-editor-importing-docx",
@@ -177,7 +190,8 @@
         "profileId": "word-mac-16.111.2-d1"
       },
       "blockedRowRef": null,
-      "claimDigest": "sha256:08269cf8ddd025434704ba9ff55f0b870ab8687c51d519a3007b8c5a72d2b754"
+      "evidenceScope": "BUILD_INDEPENDENT_PRODUCT_FUNCTION",
+      "claimDigest": "sha256:41a2c60af0c1a3d9e8691e8695d675ca5f6aa56306be0cb8b3ac2a3eb924f880"
     },
     {
       "claimId": "claim-editor-preparing-docx-import-preview",
@@ -188,7 +202,8 @@
         "profileId": "word-mac-16.111.2-d1"
       },
       "blockedRowRef": null,
-      "claimDigest": "sha256:8e7a81e3e07c734e4ed80120fc64a346b91ec3a06efdbadc0b35ebff58923e2c"
+      "evidenceScope": "BUILD_INDEPENDENT_PRODUCT_FUNCTION",
+      "claimDigest": "sha256:5787ae9bc483a78c70b2e0612e990cd7191242225aafc904121ba98ad78316f1"
     },
     {
       "claimId": "claim-editor-tracked-pravki-word",
@@ -199,7 +214,8 @@
         "profileId": "word-mac-16.111.2-d1"
       },
       "blockedRowRef": null,
-      "claimDigest": "sha256:1f93d3da9cfd013dc86f33f52662546a5a6d9f21f3961d56e7977ed300f7c1a0"
+      "evidenceScope": "BUILD_INDEPENDENT_PRODUCT_FUNCTION",
+      "claimDigest": "sha256:d06d45d173e22e87c5da94d69b72ed5d42c792ee3a20affc7816bac2e5dda553"
     },
     {
       "claimId": "claim-editor-ne-udalos-primenit-format-word",
@@ -210,7 +226,8 @@
         "profileId": "word-mac-16.111.2-d1"
       },
       "blockedRowRef": null,
-      "claimDigest": "sha256:3bd3df0354cc33c1b7f3110e97ccda8f27d2eac9b6c7d6b81629a7ad041aeacd"
+      "evidenceScope": "BUILD_INDEPENDENT_PRODUCT_FUNCTION",
+      "claimDigest": "sha256:29d52d7f06e0fdab37df4b5a79b0e7942b963de9cbe5a0eb5ebd141270fa81f8"
     },
     {
       "claimId": "claim-editor-format-word-blocked",
@@ -221,7 +238,8 @@
         "profileId": "word-mac-16.111.2-d1"
       },
       "blockedRowRef": null,
-      "claimDigest": "sha256:0ed82e397435b0540bda5f03eeffcf4b5ac86b27e0ad5042e55f4d0956099f9b"
+      "evidenceScope": "BUILD_INDEPENDENT_PRODUCT_FUNCTION",
+      "claimDigest": "sha256:31582637c5c670a7999d0f38394eb1f5f09c67495753e4e885be3a6b0d17cb0e"
     },
     {
       "claimId": "claim-editor-format-word-applied",
@@ -232,7 +250,8 @@
         "profileId": "word-mac-16.111.2-d1"
       },
       "blockedRowRef": null,
-      "claimDigest": "sha256:66dd129ffa19284ae3a40b657551cdb4d3dddc6c8248011de3cf7f8b6be33ec9"
+      "evidenceScope": "BUILD_INDEPENDENT_PRODUCT_FUNCTION",
+      "claimDigest": "sha256:b0064db1612a01b0d3e06d17d0ac9438a7ad136ec2823123fdb8caa14efb7524"
     },
     {
       "claimId": "claim-google-office-mode",
@@ -243,7 +262,8 @@
         "profileId": "google-docs-office-mode-post-d1-v1"
       },
       "blockedRowRef": null,
-      "claimDigest": "sha256:b94825827ee1df78787be260506f0f6c511c995258bf36ce33b411feb342039f"
+      "evidenceScope": "CURRENT_BUILD_COMPATIBILITY",
+      "claimDigest": "sha256:5a863955d5412c5a74db67b4e67e3c1aebbc8c52b2eb953380bfd3458a9db9d1"
     },
     {
       "claimId": "claim-google-native-conversion",
@@ -254,7 +274,8 @@
         "profileId": "google-docs-native-conversion-post-d1-v1"
       },
       "blockedRowRef": null,
-      "claimDigest": "sha256:c069f789e149a0ba193d6a5198c84936b6871bed1908e750291ee465ee42fef4"
+      "evidenceScope": "CURRENT_BUILD_COMPATIBILITY",
+      "claimDigest": "sha256:a772511eec9ad94309fd3b370bfe0539d1a73ae758dc16f62a830bdcea65e79f"
     },
     {
       "claimId": "claim-word-windows",
@@ -265,7 +286,8 @@
         "profileId": "word-windows-current"
       },
       "blockedRowRef": null,
-      "claimDigest": "sha256:adb6d41b17c16018bc56f7e0bb1c7072dcd4e78d31dd4b6ca2a0b2f0f9608f98"
+      "evidenceScope": "CURRENT_BUILD_COMPATIBILITY",
+      "claimDigest": "sha256:1aa99075adf377dac9fdf5cdcc29e7ec0c6a368a9be172e44fbd4dc2c277381d"
     },
     {
       "claimId": "claim-word-online",
@@ -276,7 +298,8 @@
         "profileId": "word-online-declared"
       },
       "blockedRowRef": null,
-      "claimDigest": "sha256:82ecf1757c9a43d7acf06fc5772ad596ce947f93ce944dcb23c560561773948c"
+      "evidenceScope": "CURRENT_BUILD_COMPATIBILITY",
+      "claimDigest": "sha256:e514b992ec948f1d1e9a572bba0bcb8a27ce195f38e73182047786d11ed7aa6a"
     },
     {
       "claimId": "claim-multi-scene-atomic-apply",
@@ -287,7 +310,8 @@
         "profileId": "word-mac-16.111.2-d1"
       },
       "blockedRowRef": "MULTI_SCENE_COORDINATOR",
-      "claimDigest": "sha256:8dfceb542e03a598f6f6441219cf46d2e0b154d2e0828921f9e04e1a3c0b8b3f"
+      "evidenceScope": "CURRENT_BUILD_COMPATIBILITY",
+      "claimDigest": "sha256:527f9467020090735e32eaf596fe7373dd263b81e65f7fa4a38adea40cd4aedd"
     },
     {
       "claimId": "claim-word-saturated",
@@ -295,10 +319,24 @@
       "surfaceId": null,
       "wording": null,
       "evidenceBinding": {
-        "profileId": "word-mac-16.111.2-d1"
+        "profileId": "word-mac-16.111.3-26080215"
       },
       "blockedRowRef": null,
-      "claimDigest": "sha256:9e54d2eb1d0eb26ddbfcbc4a417b3f7d337abf206c08997f95a5a04681a8b589"
+      "evidenceScope": "CURRENT_BUILD_COMPATIBILITY",
+      "claimDigest": "sha256:3004560ef7421e61ed7b15d7bad296073840ccf8b99a7e8a0319dbf37f6f92e3"
+    },
+    {
+      "claimId": "claim-current-word-compatibility",
+      "claimClass": "NOT_CLAIMED_BLOCKED",
+      "surfaceId": null,
+      "wording": null,
+      "evidenceBinding": {
+        "profileId": "word-mac-16.111.3-26080215"
+      },
+      "evidenceScope": "CURRENT_BUILD_COMPATIBILITY",
+      "blockedRowRef": null,
+      "note": "Compatibility of Yalken DOCX interop with the CURRENT Word build (16.111.3, build 16.111.26080215) is NOT claimed: the profile is DECLARED with an empty ladder and zero evidence heads. Historical 16.111.2 evidence backs historical scope only.",
+      "claimDigest": "sha256:22c2d3e290d9fdfc046855f9be3a46e7dcab1bf3493b433f916911523bce4c5e"
     }
   ],
   "bannedWordingPatterns": [
@@ -342,6 +380,7 @@
   "terminalRollup": {
     "state": "NOT_MADE_WORD_TERMINAL_PASS_REQUIRED",
     "blockers": [
+      "BLOCKED_CLAIM:claim-current-word-compatibility",
       "BLOCKED_CLAIM:claim-google-native-conversion",
       "BLOCKED_CLAIM:claim-google-office-mode",
       "BLOCKED_CLAIM:claim-multi-scene-atomic-apply",
@@ -353,10 +392,11 @@
       "TERMINAL_MATRIX_ROW_BLOCKED:MULTI_SCENE_COORDINATOR",
       "TERMINAL_MATRIX_ROW_BLOCKED:MULTI_SCENE_DELETE_TOMBSTONE",
       "TERMINAL_MATRIX_ROW_BLOCKED:RETURN_NON_OVERLAP_APPLY",
+      "WORD_PROFILE_DECLARED:word-mac-16.111.3-26080215",
       "WORD_PROFILE_DECLARED:word-online-declared",
-      "WORD_PROFILE_NOT_SATURATED:word-mac-16.111.2-d1",
+      "WORD_PROFILE_NOT_SATURATED:word-mac-16.111.3-26080215",
       "WORD_PROFILE_UNPROVEN:word-windows-current"
     ],
-    "blockerBinding": "deterministic-strict-rollup-v1: recorded blockers must equal the set computed by evaluateTerminalRollupStrict from the live registries, terminal acceptance matrix, veto inventory and claim inventory; state remains NOT_MADE_WORD_TERMINAL_PASS_REQUIRED"
+    "blockerBinding": "deterministic-strict-rollup-v2: recorded blockers equal the set computed by evaluateTerminalRollupStrict from the live registries (current pointer word-mac-16.111.3-26080215), terminal acceptance matrix, veto inventory and claim inventory; state remains NOT_MADE_WORD_TERMINAL_PASS_REQUIRED"
   }
 }

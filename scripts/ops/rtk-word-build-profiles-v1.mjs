@@ -80,6 +80,11 @@ export const LAB01_CODES = Object.freeze({
   RUNG_WITHOUT_EVIDENCE: 'RTK_LAB01_RUNG_WITHOUT_EVIDENCE',
   // Pass 2b additions.
   BUILD_IDENTITY_MISSING: 'RTK_LAB01_BUILD_IDENTITY_MISSING',
+  // LAB-02 additions (build migration 16.111.2 -> 16.111.3): the registry
+  // current-profile pointer must resolve to a registered non-HISTORICAL
+  // profile, and a DECLARED/NOT_PROVEN profile inherits no saturation state.
+  CURRENT_POINTER_INVALID: 'RTK_LAB01_CURRENT_POINTER_INVALID',
+  SATURATION_INHERITANCE: 'RTK_LAB01_SATURATION_INHERITANCE',
 });
 
 // ---------------------------------------------------------------------------
@@ -442,6 +447,29 @@ export function evaluateRegistryReconciliation(registry) {
         reasons.push(reason(LAB01_CODES.RUNG_WITHOUT_EVIDENCE, `profile ${profile.profileId} completedRung ${rung} has no justifying evidence head of this profile`));
       }
     }
+
+    // (f) LAB-02: saturation inheritance — a DECLARED or NOT_PROVEN profile
+    // must not carry saturation state fields. A new build starts with no
+    // saturation claim; saturation is earned only inside its own ladder.
+    if (profile.class === 'DECLARED' || profile.class === 'NOT_PROVEN') {
+      if (profile.saturationStatus !== undefined || profile.saturated !== undefined || profile.saturationNote !== undefined) {
+        reasons.push(reason(LAB01_CODES.SATURATION_INHERITANCE, `profile ${profile.profileId} class ${profile.class} must not carry saturation fields (saturationStatus/saturated/saturationNote)`));
+      }
+    }
+  }
+
+  // (e) LAB-02: current-profile pointer. The registry must name exactly one
+  // registered profile as current, and the pointer must never aim at a
+  // HISTORICAL_BUILD_BOUND profile (a frozen build cannot be the current
+  // target of new evidence).
+  const pointer = registry.currentProfileId;
+  const pointed = isNonEmptyString(pointer)
+    ? profiles.find((p) => p && p.profileId === pointer) || null
+    : null;
+  if (!pointed) {
+    reasons.push(reason(LAB01_CODES.CURRENT_POINTER_INVALID, `registry currentProfileId ${JSON.stringify(pointer)} does not resolve to a registered profile`));
+  } else if (pointed.class === 'HISTORICAL_BUILD_BOUND') {
+    reasons.push(reason(LAB01_CODES.CURRENT_POINTER_INVALID, `registry currentProfileId ${pointer} aims at HISTORICAL_BUILD_BOUND profile`));
   }
 
   if (reasons.length > 0) {

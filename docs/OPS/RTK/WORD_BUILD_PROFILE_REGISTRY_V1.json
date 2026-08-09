@@ -123,7 +123,7 @@
     },
     {
       "profileId": "word-mac-16.111.2-d1",
-      "class": "COMPETING_NOT_SATURATED",
+      "class": "HISTORICAL_BUILD_BOUND",
       "platform": "word-mac",
       "wordVersion": "16.111.2",
       "wordBuild": "16.111.26072617",
@@ -244,7 +244,9 @@
           "WAVE_300"
         ]
       },
-      "profileDigest": "sha256:aa3ef4def265dd6f9af645d55b647cdd7cf97a461d70aa8073f97e134d848718"
+      "supersededBy": "word-mac-16.111.3-26080215",
+      "frozenNote": "Superseded 2026-08-10: the lab machine moved to Word 16.111.3 (build 16.111.26080215). The 16.111.2 ladder froze at seven rungs with saturation COMPLETE_NOT_SATURATED forever; this profile admits no new evidence heads and no new rungs. Its evidence keeps backing build-independent product-function claims and historical scope only.",
+      "profileDigest": "sha256:5d884554f9ed41dbc39b28bde37e0c1cdc7c84a94d4807b1826c9fd292772c3e"
     },
     {
       "profileId": "word-windows-current",
@@ -285,6 +287,30 @@
         "completedRungs": []
       },
       "profileDigest": "sha256:2399aef1d66eec424552232e77965aa28f55d3c936f38c78702c7903caab3d4a"
+    },
+    {
+      "profileId": "word-mac-16.111.3-26080215",
+      "class": "DECLARED",
+      "platform": "word-mac",
+      "wordVersion": "16.111.3",
+      "wordBuild": "16.111.26080215",
+      "os": {
+        "macosVersion": "26.5.2",
+        "macosBuild": "25F84"
+      },
+      "locale": "ru_FI",
+      "controllerVersion": "rtk-word-v4",
+      "supersedes": "word-mac-16.111.2-d1",
+      "declaredNote": "Word 16.111.3 (build 16.111.26080215) observed on the lab machine 2026-08-10 via plist and live AppleScript probe. DECLARED with zero evidence heads and an empty ladder: nothing carries from 16.111.2 — no rungs, no saturation, no CURRENT claims. The migration ladder restarts at CARRIER_SURVIVAL_SMOKE under PHYS-16.111.3.",
+      "evidenceHeads": [],
+      "freshnessPolicy": {
+        "maxEvidenceAgeDays": 90
+      },
+      "ladder": {
+        "completedRungs": []
+      },
+      "profileDigest": "sha256:63843394672abe2cf5fbe506b468d05004bc9e92669b1e6ffb31dd65be71f4d1"
     }
-  ]
+  ],
+  "currentProfileId": "word-mac-16.111.3-26080215"
 }

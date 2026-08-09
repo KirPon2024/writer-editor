@@ -139,6 +139,10 @@ function baseClaim(overrides = {}) {
     surfaceId: overrides.surfaceId === undefined ? 'surface-menu-config' : overrides.surfaceId,
     wording: overrides.wording === undefined ? 'Export DOCX (Minimal)...' : overrides.wording,
     evidenceBinding: overrides.evidenceBinding || { profileId: 'word-mac-16.111.2-d1' },
+    // LAB-02: every claim carries an evidence scope. Build-independent product
+    // functions may be backed by HISTORICAL evidence; CURRENT_BUILD_COMPATIBILITY
+    // claims may bind only to the current build's COMPETING/SATURATED profile.
+    evidenceScope: overrides.evidenceScope === undefined ? 'BUILD_INDEPENDENT_PRODUCT_FUNCTION' : overrides.evidenceScope,
     blockedRowRef: overrides.blockedRowRef === undefined ? null : overrides.blockedRowRef,
   };
 }
@@ -842,6 +846,9 @@ function hotfixCleanClaims() {
 
 function hotfixCleanContext() {
   return {
+    // LAB-02: the current-profile pointer travels in the context (read from the
+    // Word registry by callers); the roll-up no longer hardcodes a profile id.
+    currentProfileId: 'word-mac-16.111.2-d1',
     wordProfiles: hotfixSaturatedWordProfiles(),
     googleProfiles: hotfixCleanGoogleProfiles(),
     terminalMatrix: hotfixCleanMatrix(),
@@ -867,6 +874,9 @@ test('RELEASE01-H01-real-registry-strict-rollup-honest-not-made', async () => {
   const vetoCounters = {};
   for (const key of VETO_KNOWN_KEYS) vetoCounters[key] = v4Profile.capabilityClaimPolicy[key];
   const context = {
+    // LAB-02: the pointer travels with the context and is read from the real
+    // Word registry (post-migration: word-mac-16.111.3-26080215).
+    currentProfileId: wordRegistry.currentProfileId,
     wordProfiles: wordRegistry.profiles,
     googleProfiles: googleRegistry.profiles,
     terminalMatrix: matrix,
@@ -913,7 +923,9 @@ test('RELEASE01-H04-required-profile-missing', async () => {
   assert.equal(a.code, HOTFIX_CODES.REQUIRED_PROFILE_MISSING);
 
   const contextB = hotfixCleanContext();
-  contextB.wordProfiles = contextB.wordProfiles.filter((p) => p.profileId !== 'word-mac-16.111.2-d1');
+  // LAB-02: the required profile is the one the pointer names; removing the
+  // pointed-at profile must fail with REQUIRED_PROFILE_MISSING.
+  contextB.wordProfiles = contextB.wordProfiles.filter((p) => p.profileId !== contextB.currentProfileId);
   contextB.claims = [];
   const b = module.evaluateTerminalRollupStrict({ registry: hotfixRecorded('NOT_MADE_WORD_TERMINAL_PASS_REQUIRED', ['WORD_PROFILE_NOT_SATURATED:word-mac-16.111.2-d1']), context: contextB });
   assert.equal(b.ok, false);
@@ -1064,6 +1076,8 @@ test('RELEASE01-H16-owner-counterexample-fails-closed', async () => {
   const registry = module.loadTerminalClaimRegistry(REGISTRY_PATH).registry;
   const wordRegistry = JSON.parse(fs.readFileSync(WORD_REGISTRY_PATH, 'utf8'));
   const context = {
+    // LAB-02: the counterexample pins 16.111.2 as the (then) current build.
+    currentProfileId: 'word-mac-16.111.2-d1',
     wordProfiles: wordRegistry.profiles.map((p) => p.profileId === 'word-mac-16.111.2-d1' ? { ...p, class: 'SATURATED' } : p),
     googleProfiles: [
       { profileId: 'google-docs-office-mode-post-d1-v1', class: 'SATURATED', evidenceHeads: [{ path: 'g' }] },
@@ -1100,6 +1114,155 @@ test('RELEASE01-H17-recorded-blocker-content-mismatch-same-length', async () => 
   });
   assert.equal(result.ok, false, 'same-length different-content blocker set must mismatch');
   assert.equal(result.code, HOTFIX_CODES.BLOCKER_SET_MISMATCH);
+});
+
+// ===========================================================================
+// LAB-02 scope split (owner-directed build migration contour):
+// build-independent product-function claims may be backed by HISTORICAL
+// evidence; CURRENT_BUILD_COMPATIBILITY claims may bind only to the current
+// build's COMPETING_NOT_SATURATED / SATURATED profile. Historical evidence
+// backs historical scope only. The strict roll-up reads the current-profile
+// pointer from the context instead of hardcoding a profile id.
+// ===========================================================================
+
+// S01: CURRENT_BUILD_COMPATIBILITY on a HISTORICAL profile fails.
+test('RELEASE01-S01-current-compat-on-historical-blocked', async () => {
+  const module = await loadModule();
+  const historical = {
+    profileId: 'word-mac-16.111.2-d1',
+    class: 'HISTORICAL_BUILD_BOUND',
+    evidenceHeads: [{ path: 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_RECEIPT.json' }],
+  };
+  const claim = baseClaim({
+    claimId: 'claim-current-compat-on-historical',
+    claimClass: 'USER_FACING_BOUNDED_SUPPORTED',
+    evidenceScope: 'CURRENT_BUILD_COMPATIBILITY',
+    evidenceBinding: { profileId: 'word-mac-16.111.2-d1' },
+  });
+  const result = module.evaluateClaimEvidenceBinding({ claim, profile: historical });
+  assert.equal(result.ok, false, 'current-compat claim on historical evidence must fail');
+  assert.equal(result.code, RELEASE01_CODES.CLAIM_EXCEEDS_EVIDENCE);
+});
+
+// S02: CURRENT_BUILD_COMPATIBILITY on a COMPETING current profile with heads passes.
+test('RELEASE01-S02-current-compat-on-competing-current-ok', async () => {
+  const module = await loadModule();
+  const current = {
+    profileId: 'word-mac-16.111.3-26080215',
+    class: 'COMPETING_NOT_SATURATED',
+    evidenceHeads: [{ path: 'docs/OPS/RTK/SOME_FUTURE_HEAD.json' }],
+  };
+  const claim = baseClaim({
+    claimId: 'claim-current-compat-on-current',
+    claimClass: 'USER_FACING_BOUNDED_SUPPORTED',
+    evidenceScope: 'CURRENT_BUILD_COMPATIBILITY',
+    evidenceBinding: { profileId: 'word-mac-16.111.3-26080215' },
+  });
+  const result = module.evaluateClaimEvidenceBinding({ claim, profile: current });
+  assert.equal(result.ok, true, `current-compat claim on a proven current profile must pass: ${JSON.stringify(result.reasons)}`);
+});
+
+// S03: BUILD_INDEPENDENT_PRODUCT_FUNCTION on a HISTORICAL profile with heads
+// stays valid (the product function does not disappear when Word moves builds).
+test('RELEASE01-S03-build-independent-on-historical-ok', async () => {
+  const module = await loadModule();
+  const historical = {
+    profileId: 'word-mac-16.111.2-d1',
+    class: 'HISTORICAL_BUILD_BOUND',
+    evidenceHeads: [{ path: 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40_RECEIPT.json' }],
+  };
+  const claim = baseClaim({
+    claimId: 'claim-docx-export-minimal',
+    claimClass: 'USER_FACING_BOUNDED_SUPPORTED',
+    evidenceScope: 'BUILD_INDEPENDENT_PRODUCT_FUNCTION',
+    evidenceBinding: { profileId: 'word-mac-16.111.2-d1' },
+  });
+  const result = module.evaluateClaimEvidenceBinding({ claim, profile: historical });
+  assert.equal(result.ok, true, `build-independent claim on historical evidence must pass: ${JSON.stringify(result.reasons)}`);
+});
+
+// S04: a claim without evidenceScope fails closed.
+test('RELEASE01-S04-missing-evidence-scope-blocked', async () => {
+  const module = await loadModule();
+  const profile = {
+    profileId: 'word-mac-16.111.2-d1',
+    class: 'HISTORICAL_BUILD_BOUND',
+    evidenceHeads: [{ path: 'x' }],
+  };
+  const claim = baseClaim({ claimId: 'claim-no-scope' });
+  delete claim.evidenceScope;
+  const result = module.evaluateClaimEvidenceBinding({ claim, profile });
+  assert.equal(result.ok, false, 'missing evidenceScope must fail closed');
+  assert.equal(result.code, RELEASE01_CODES.CLAIM_EXCEEDS_EVIDENCE);
+});
+
+// S05: the strict roll-up reads the current pointer from the context.
+test('RELEASE01-S05-rollup-pointer-driven', async () => {
+  const module = await loadModule();
+
+  // Missing pointer -> CONTEXT_INCOMPLETE.
+  const noPointer = hotfixCleanContext();
+  delete noPointer.currentProfileId;
+  const a = module.evaluateTerminalRollupStrict({ registry: hotfixRecorded('WORD_TERMINAL_PASS_ACHIEVED', []), context: noPointer });
+  assert.equal(a.ok, false);
+  assert.equal(a.code, HOTFIX_CODES.ROLLUP_CONTEXT_INCOMPLETE);
+
+  // Unresolvable pointer -> REQUIRED_PROFILE_MISSING.
+  const ghost = hotfixCleanContext();
+  ghost.currentProfileId = 'word-mac-ghost';
+  const b = module.evaluateTerminalRollupStrict({ registry: hotfixRecorded('WORD_TERMINAL_PASS_ACHIEVED', []), context: ghost });
+  assert.equal(b.ok, false);
+  assert.equal(b.code, HOTFIX_CODES.REQUIRED_PROFILE_MISSING);
+
+  // Pointer at a DECLARED current build -> deterministic blockers name it.
+  const migrated = hotfixCleanContext();
+  migrated.currentProfileId = 'word-mac-16.111.3-26080215';
+  migrated.wordProfiles.push({ profileId: 'word-mac-16.111.3-26080215', class: 'DECLARED', evidenceHeads: [] });
+  const c = module.evaluateTerminalRollupStrict({ registry: hotfixRecorded('WORD_TERMINAL_PASS_ACHIEVED', []), context: migrated });
+  assert.equal(c.ok, false);
+  assert.equal(c.terminalClaim, 'NOT_MADE_WORD_TERMINAL_PASS_REQUIRED');
+  assert.ok(c.blockers.includes('WORD_PROFILE_DECLARED:word-mac-16.111.3-26080215'));
+  assert.ok(c.blockers.includes('WORD_PROFILE_NOT_SATURATED:word-mac-16.111.3-26080215'));
+});
+
+// S06: real integration — every registry claim carries evidenceScope; the new
+// current-compatibility claim is NOT_CLAIMED_BLOCKED against the DECLARED
+// 16.111.3 profile; the strict roll-up over the real context agrees with the
+// recorded (rebound) blocker set.
+test('RELEASE01-S06-real-registry-scope-and-pointer-integration', async () => {
+  const module = await loadModule();
+  const registry = module.loadTerminalClaimRegistry(REGISTRY_PATH).registry;
+  for (const claim of registry.claims) {
+    assert.ok(claim.evidenceScope === 'BUILD_INDEPENDENT_PRODUCT_FUNCTION' || claim.evidenceScope === 'CURRENT_BUILD_COMPATIBILITY',
+      `claim ${claim.claimId} must carry a known evidenceScope`);
+  }
+  const compat = registry.claims.find((c) => c.claimId === 'claim-current-word-compatibility');
+  assert.ok(compat, 'the current-word-compatibility claim must exist');
+  assert.equal(compat.claimClass, 'NOT_CLAIMED_BLOCKED', 'current Word compatibility is not claimed while 16.111.3 is DECLARED');
+  assert.equal(compat.evidenceScope, 'CURRENT_BUILD_COMPATIBILITY');
+  assert.equal(compat.evidenceBinding.profileId, 'word-mac-16.111.3-26080215');
+
+  const wordRegistry = JSON.parse(fs.readFileSync(WORD_REGISTRY_PATH, 'utf8'));
+  const googleRegistry = JSON.parse(fs.readFileSync(GOOGLE_REGISTRY_PATH, 'utf8'));
+  const matrix = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'docs', 'OPS', 'STATUS', 'YALKEN_WORD_C5V2_TERMINAL_ACCEPTANCE_MATRIX_V1.json'), 'utf8'));
+  const v4Profile = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json'), 'utf8'));
+  const vetoCounters = {};
+  for (const key of VETO_KNOWN_KEYS) vetoCounters[key] = v4Profile.capabilityClaimPolicy[key];
+  const result = module.evaluateTerminalRollupStrict({
+    registry,
+    context: {
+      currentProfileId: wordRegistry.currentProfileId,
+      wordProfiles: wordRegistry.profiles,
+      googleProfiles: googleRegistry.profiles,
+      terminalMatrix: matrix,
+      vetoCounters,
+      claims: registry.claims,
+    },
+  });
+  assert.equal(result.ok, true, `real migrated roll-up must agree: ${JSON.stringify(result.reasons)}`);
+  assert.equal(result.terminalClaim, 'NOT_MADE_WORD_TERMINAL_PASS_REQUIRED');
+  assert.ok(result.blockers.includes('WORD_PROFILE_DECLARED:word-mac-16.111.3-26080215'),
+    `computed blockers must name the DECLARED current build: ${JSON.stringify(result.blockers)}`);
 });
 
 // Keep stableJson referenced for fixture symmetry with sibling contracts.

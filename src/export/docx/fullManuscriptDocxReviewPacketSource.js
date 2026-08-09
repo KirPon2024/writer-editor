@@ -760,6 +760,16 @@ function buildFullManuscriptDocxReviewPacketSource(input = {}, deps = {}) {
   const hmacSecret = typeof deps.hmacSecret === 'string' && deps.hmacSecret
     ? deps.hmacSecret
     : crypto.randomBytes(32).toString('hex');
+  // ROUND-01 (V3): opaque keyRef + public correlation material. The raw
+  // hmacSecret stays a local signing input; the durable capsule carries only
+  // the keyRef so the secret never reaches disk / renderer / worker / DOCX.
+  // main.js imports the secret into the main-process vault and OVERWRITES this
+  // provisional keyRef with the real vault handle. When no keyRef is supplied
+  // (e.g. test fixtures), a non-empty opaque local keyRef is generated so the
+  // durable capsule always carries a resolvable keyRef correlation.
+  const keyRef = typeof deps.keyRef === 'string' && deps.keyRef
+    ? deps.keyRef
+    : crypto.randomBytes(16).toString('hex');
   const roundId = `round-${roundIdHex}`;
   const exportId = `export-${roundIdHex}`;
   const exportArtifactId = `export-artifact-${roundIdHex}`;
@@ -974,7 +984,17 @@ function buildFullManuscriptDocxReviewPacketSource(input = {}, deps = {}) {
     scope: 'full-manuscript',
     scenePathBySceneId,
     baselineFinalTextBySceneId,
+    // ROUND-01 (V3): opaque keyRef + public correlation material alongside the
+    // in-memory hmacSecret. The DURABLE record (buildDocxReviewReturnAuthorityStoreRecord)
+    // redacts hmacSecret and keeps only keyRef; the in-memory capsule retains the
+    // secret so the downstream return-router proof binding can still compute its
+    // HMAC during a live session without a vault round-trip.
     hmacSecret,
+    keyRef,
+    keyIdHex: yrtk2Result.keyIdHex,
+    roundIdHex: yrtk2Result.roundIdHex,
+    lifecycleState: 'ALLOCATED',
+    recordVersion: 1,
     expectedAuthority: {
       scope: 'full-manuscript',
       sceneCount: scenes.length,

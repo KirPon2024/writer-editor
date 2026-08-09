@@ -47,6 +47,31 @@ export const REVISION_BRIDGE_G0B_REASON_CODES = Object.freeze([
 ]);
 export const REVISION_BRIDGE_W1_REASON_CODES = RTK_REASON_CODES;
 
+// ROUND-01 RoundRecordV3 lifecycle + key states + typed codes. Declared here as
+// the canonical revision-bridge contract surface so the contour has a single
+// typed vocabulary for the V3 round-record store. The implementation lives in
+// reviewTransportRoundStoreV3.mjs.
+export const ROUND_V3_LIFECYCLE_STATES = Object.freeze([
+  'ALLOCATED',
+  'ARTIFACT_STAGED',
+  'PUBLISHED_ACTIVE',
+  'RETURN_VERIFIED',
+  'APPLY_RESERVED',
+  'CONSUMED',
+  'REVOKED',
+  'EXPIRED',
+  'ABORTED',
+]);
+export const ROUND_V3_KEY_STATES = Object.freeze(['ACTIVE', 'VERIFY_ONLY', 'REVOKED', 'LOST']);
+export const ROUND_V3_TRANSITION_CODES = Object.freeze([
+  'RTK_ROUND_TRANSITION_INVALID',
+  'RTK_ROUND_CAS_CONFLICT',
+  'RTK_ROUND_NOT_OPEN_FOR_RETURN',
+  'RTK_ROUND_LIFECYCLE_NOT_ELIGIBLE',
+  'RTK_ROUND_KEY_REVOKED',
+  'RTK_ROUND_KEY_LOST',
+]);
+
 function isPlainObject(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
 }

@@ -45,6 +45,34 @@ export {
   verifyAuthorityCarrierSignatureWithSecret,
 } from './reviewTransportPackageParserV2.mjs';
 
+// ROUND-01 RoundRecordV3 store contour (revision-bridge owned). Re-export the
+// transition / reconcile / key-state / vault API so main.js and the contract
+// tests can reach it through the single revision-bridge entry module.
+export {
+  RTK_ROUND_STORE_V3_SCHEMA,
+  RTK_ROUND_RECORD_V3_SCHEMA,
+  ROUND_V3_STATES,
+  ROUND_KEY_STATES,
+  RTK_ROUND_TRANSITION_INVALID,
+  RTK_ROUND_CAS_CONFLICT,
+  RTK_ROUND_NOT_OPEN_FOR_RETURN,
+  RTK_ROUND_LIFECYCLE_NOT_ELIGIBLE,
+  RTK_ROUND_KEY_REVOKED,
+  RTK_ROUND_KEY_LOST,
+  createRoundKey,
+  importRoundKey,
+  resolveRoundKey,
+  revokeRoundKey,
+  markRoundKeyLost,
+  buildRoundRecordV3StoreRecord,
+  transitionRoundRecordV3,
+  reconcileRoundRecordV3Store,
+  evaluateRoundKeyStateAuthority,
+  evaluateRoundReturnIntakeEligibility,
+  isRoundApplyEligible,
+  isRoundReturnOpen,
+} from './reviewTransportRoundStoreV3.mjs';
+
 export {
   RTK_REVIEW_TRANSPORT_CLASSIFIER_V2_PROFILE,
   RTK_REVIEW_TRANSPORT_CLASSIFIER_V2_SCHEMA,

@@ -4327,12 +4327,22 @@ async function readDocxReviewPacketExportSource() {
     productRuntimeWired: true,
     returnIntakeWired: false,
   };
+  // ROUND-01 (V3): the raw hmacSecret is imported into the main-process-only
+  // key vault and the durable capsule carries only an opaque keyRef plus public
+  // correlation material (keyIdHex/roundIdHex). The secret NEVER reaches the
+  // durable record / renderer / worker / DOCX.
+  const roundKeyImport = await importDocxReviewRoundKey({ roundId, secret: hmacSecret });
+  const roundKeyRef = docxReviewPreviewSessionDetailString(roundKeyImport?.keyRef);
   const localAuthorityCapsule = {
     schemaVersion: 'yalken.rtk.word.product-review-docx-export.local-authority.v1',
     projectRoot,
     scenePath: currentFilePath,
     baselineFinalText: sceneText,
-    hmacSecret,
+    keyRef: roundKeyRef,
+    keyIdHex: docxReviewPreviewSessionDetailString(roundKeyImport?.keyIdHex),
+    roundIdHex: docxReviewPreviewSessionDetailString(roundKeyImport?.roundIdHex),
+    lifecycleState: 'ALLOCATED',
+    recordVersion: 1,
     expectedAuthority: {
       sceneId,
       sceneRevision,
@@ -4347,10 +4357,17 @@ async function readDocxReviewPacketExportSource() {
     coreManifestDigest: coreManifestResult.coreManifestDigest,
     exportMap,
   };
+  // ROUND-01 (V3): MERGE — a new round must never evict prior rounds. Existing
+  // rounds are retained so multi-round retention holds and each round carries
+  // an independent lifecycleState.
+  const priorRoundsById = isPlainObjectValue(activeReviewDocxExportAuthorityStore?.roundsById)
+    ? cloneJsonSafe(activeReviewDocxExportAuthorityStore.roundsById)
+    : {};
   activeReviewDocxExportAuthorityStore = {
     schemaVersion: REVIEW_DOCX_RETURN_AUTHORITY_STORE_SCHEMA,
     lastRoundId: roundId,
     roundsById: {
+      ...priorRoundsById,
       [roundId]: localAuthorityCapsule,
     },
     secretExposedToRenderer: false,
@@ -4450,11 +4467,28 @@ async function readFullManuscriptDocxReviewPacketExportSource() {
     revisionBridge,
     cryptoPort: createRtkReviewTransportCryptoPort(),
   });
+  // ROUND-01 (V3): import the export-time secret into the main-process-only
+  // vault and patch the durable capsule with the opaque keyRef + public
+  // correlation material. The raw secret never reaches the durable store.
+  const fullManuscriptRoundKey = await importDocxReviewRoundKey({
+    roundId: source.localAuthorityCapsule.roundId,
+    secret: typeof source.forbiddenSecret === 'string' ? source.forbiddenSecret : '',
+  });
+  source.localAuthorityCapsule.keyRef = docxReviewPreviewSessionDetailString(fullManuscriptRoundKey?.keyRef);
+  source.localAuthorityCapsule.keyIdHex = docxReviewPreviewSessionDetailString(fullManuscriptRoundKey?.keyIdHex);
+  source.localAuthorityCapsule.roundIdHex = docxReviewPreviewSessionDetailString(fullManuscriptRoundKey?.roundIdHex);
+  source.localAuthorityCapsule.lifecycleState = 'ALLOCATED';
+  source.localAuthorityCapsule.recordVersion = 1;
+  // ROUND-01 (V3): MERGE — full-manuscript round must not evict prior rounds.
+  const priorFullManuscriptRoundsById = isPlainObjectValue(activeReviewDocxExportAuthorityStore?.roundsById)
+    ? cloneJsonSafe(activeReviewDocxExportAuthorityStore.roundsById)
+    : {};
   activeReviewDocxExportAuthorityStore = {
     schemaVersion: REVIEW_DOCX_RETURN_AUTHORITY_STORE_SCHEMA,
     scope: 'full-manuscript',
     lastRoundId: source.localAuthorityCapsule.roundId,
     roundsById: {
+      ...priorFullManuscriptRoundsById,
       [source.localAuthorityCapsule.roundId]: source.localAuthorityCapsule,
     },
     secretExposedToRenderer: false,
@@ -4497,8 +4531,62 @@ async function activateReviewDocxExportAuthority(pendingAuthorityStore) {
   // This happens ONLY after the export handler's gate + atomic write + exact
   // readback all succeed; a failure before activation leaves the pending store
   // in-memory and zero durable authority on disk.
-  activeReviewDocxExportAuthorityStore = pendingAuthorityStore;
+  const activatedStore = await transitionPendingDocxReviewRoundToPublishedActive(pendingAuthorityStore);
+  activeReviewDocxExportAuthorityStore = activatedStore;
   return persistDocxReviewReturnAuthorityStore(activeReviewDocxExportAuthorityStore);
+}
+
+// ROUND-01 (V3): transition the pending store's lastRoundId from ALLOCATED ->
+// PUBLISHED_ACTIVE through the revision-bridge V3 transition API (CAS-guarded,
+// monotonic). The EXPORT-01 ordering is preserved: this runs only after the
+// export handler's gate + atomic write + exact readback all succeed.
+async function transitionPendingDocxReviewRoundToPublishedActive(pendingAuthorityStore) {
+  if (!isPlainObjectValue(pendingAuthorityStore)) return pendingAuthorityStore;
+  const roundsById = isPlainObjectValue(pendingAuthorityStore.roundsById)
+    ? cloneJsonSafe(pendingAuthorityStore.roundsById)
+    : {};
+  const lastRoundId = docxReviewPreviewSessionDetailString(pendingAuthorityStore.lastRoundId);
+  const targetRound = lastRoundId ? roundsById[lastRoundId] : null;
+  if (!isPlainObjectValue(targetRound)) return pendingAuthorityStore;
+  const fromState = docxReviewPreviewSessionDetailString(targetRound.lifecycleState) || 'ALLOCATED';
+  // Idempotent: already published rounds are not transitioned again.
+  if (fromState === 'PUBLISHED_ACTIVE') return pendingAuthorityStore;
+  // Build the bridge-store form { schemaVersion, rounds } for the transition.
+  const rounds = {};
+  for (const [roundId, round] of Object.entries(roundsById)) {
+    rounds[roundId] = {
+      roundId,
+      lifecycleState: docxReviewPreviewSessionDetailString(round.lifecycleState) || 'ALLOCATED',
+      keyRef: docxReviewPreviewSessionDetailString(round.keyRef),
+      recordVersion: Number(round.recordVersion) || 1,
+      terminalReceipt: isPlainObjectValue(round.terminalReceipt) ? cloneJsonSafe(round.terminalReceipt) : null,
+    };
+  }
+  const bridge = await loadRevisionBridgeModule();
+  if (!bridge || typeof bridge.transitionRoundRecordV3 !== 'function') {
+    // Fallback: stamp the lifecycle state directly so activation still persists.
+    targetRound.lifecycleState = 'PUBLISHED_ACTIVE';
+    targetRound.recordVersion = (Number(targetRound.recordVersion) || 1) + 1;
+    return { ...pendingAuthorityStore, roundsById };
+  }
+  const bridgeStore = {
+    schemaVersion: 'yalken.rtk.round-record-v3.store.v1',
+    rounds,
+  };
+  const expectedDigest = bridge.buildRoundRecordV3StoreRecord
+    ? bridge.buildRoundRecordV3StoreRecord(bridgeStore).recordDigest
+    : '';
+  const transitionResult = bridge.transitionRoundRecordV3(bridgeStore, lastRoundId, 'PUBLISHED_ACTIVE', {
+    expectedRecordDigest: expectedDigest,
+  });
+  if (transitionResult && transitionResult.ok === true) {
+    const transitionedRound = transitionResult.store?.rounds?.[lastRoundId];
+    if (isPlainObjectValue(transitionedRound)) {
+      targetRound.lifecycleState = transitionedRound.lifecycleState;
+      targetRound.recordVersion = transitionedRound.recordVersion;
+    }
+  }
+  return { ...pendingAuthorityStore, roundsById };
 }
 
 async function handleReviewDocxExportPacketCommandSurface(payload = {}, options = {}) {
@@ -5468,7 +5556,29 @@ async function buildDocxReviewPreviewSessionDefaultRtkApplyInput({
   const expectedAuthority = isPlainObjectValue(authorityCapsule.expectedAuthority)
     ? cloneJsonSafe(authorityCapsule.expectedAuthority) || {}
     : {};
-  const hmacSecret = docxReviewPreviewSessionDetailString(authorityCapsule.hmacSecret);
+  // ROUND-01 (V3): resolve the secret via the main-process-only vault using the
+  // opaque keyRef (never from the durable record). REVOKED/LOST key states block
+  // automatic apply with a typed RTK_ROUND_KEY_* code (preview/manuscript read
+  // stays available through the secret-free paths).
+  const applyKeyRef = docxReviewPreviewSessionDetailString(authorityCapsule.keyRef);
+  const applyKeyHandle = await resolveDocxReviewRoundKeyHandle(applyKeyRef);
+  const applyKeyState = applyKeyHandle && typeof applyKeyHandle.state === 'string' ? applyKeyHandle.state : 'LOST';
+  if (typeof revisionBridge.evaluateRoundKeyStateAuthority === 'function') {
+    const keyStateGate = revisionBridge.evaluateRoundKeyStateAuthority({
+      roundId: docxReviewPreviewSessionDetailString(authorityCapsule.roundId),
+      keyState: applyKeyState,
+      intent: 'automatic_apply',
+    });
+    if (!keyStateGate || keyStateGate.ok === false) {
+      return {
+        ok: false,
+        reason: docxReviewPreviewSessionDetailString(keyStateGate?.code) || 'RTK_ROUND_KEY_BLOCKED',
+      };
+    }
+  }
+  const hmacSecret = applyKeyHandle && typeof applyKeyHandle.hmacSecret === 'function'
+    ? docxReviewPreviewSessionDetailString(applyKeyHandle.hmacSecret())
+    : '';
   if (!hmacSecret || !isPlainObjectValue(expectedAuthority)) {
     return {
       ok: false,
@@ -6714,6 +6824,25 @@ function readActiveDocxReviewReturnAuthorityStore(options = {}) {
   return null;
 }
 
+// ROUND-01 (V3): import an export-time hmacSecret into the main-process-only
+// round key vault and return the opaque keyRef + public correlation material.
+// The secret bytes are never persisted to the durable authority store.
+async function importDocxReviewRoundKey({ roundId, secret }) {
+  const bridge = await loadRevisionBridgeModule();
+  if (!bridge || typeof bridge.importRoundKey !== 'function') return { keyRef: '', keyIdHex: '', roundIdHex: '' };
+  const result = bridge.importRoundKey({ roundId, secret });
+  if (!result || result.ok !== true) return { keyRef: '', keyIdHex: '', roundIdHex: '' };
+  return { keyRef: result.keyRef, keyIdHex: result.keyIdHex, roundIdHex: result.roundIdHex };
+}
+
+// ROUND-01 (V3): resolve the main-process-only vault handle for a round's
+// keyRef. Returns null when the keyRef is unknown (foreign/expired round).
+async function resolveDocxReviewRoundKeyHandle(keyRef) {
+  const bridge = await loadRevisionBridgeModule();
+  if (!bridge || typeof bridge.resolveRoundKey !== 'function') return null;
+  return bridge.resolveRoundKey(keyRef);
+}
+
 function docxReviewReturnAuthorityStorePath(projectRootRaw) {
   const projectRoot = docxReviewPreviewSessionDetailString(projectRootRaw || getProjectRootPath());
   if (!projectRoot) return '';
@@ -6725,12 +6854,29 @@ function docxReviewReturnAuthorityStorePath(projectRootRaw) {
 }
 
 function buildDocxReviewReturnAuthorityStoreRecord(store = {}) {
-  const roundsById = isPlainObjectValue(store.roundsById) ? cloneJsonSafe(store.roundsById) : {};
+  // ROUND-01 (V3): redact each round before the durable clone so the raw secret
+  // never reaches the durable store. Only the opaque keyRef + public
+  // correlation material (keyIdHex/roundIdHex) is retained per round.
+  const rawRoundsById = isPlainObjectValue(store.roundsById) ? store.roundsById : {};
+  const redactedRoundsById = {};
+  for (const [roundId, round] of Object.entries(rawRoundsById)) {
+    if (!isPlainObjectValue(round)) continue;
+    const redactedRound = cloneJsonSafe(round);
+    // STRIP the raw secret; keep only the opaque keyRef correlation.
+    delete redactedRound.hmacSecret;
+    if (typeof redactedRound.keyRef !== 'string' || !redactedRound.keyRef) {
+      redactedRound.keyRef = `keyref:${roundId}`;
+    }
+    if (typeof redactedRound.lifecycleState !== 'string' || !redactedRound.lifecycleState) {
+      redactedRound.lifecycleState = 'ALLOCATED';
+    }
+    redactedRoundsById[roundId] = redactedRound;
+  }
   const unsigned = {
     schemaVersion: REVIEW_DOCX_RETURN_AUTHORITY_STORE_SCHEMA,
     scope: docxReviewPreviewSessionDetailString(store.scope),
     lastRoundId: docxReviewPreviewSessionDetailString(store.lastRoundId),
-    roundsById,
+    roundsById: redactedRoundsById,
     secretExposedToRenderer: false,
     secretEmbeddedInDocx: false,
     durableSecretScope: 'local-project-state-only',
@@ -6741,12 +6887,19 @@ function buildDocxReviewReturnAuthorityStoreRecord(store = {}) {
   };
 }
 
-function validateDocxReviewReturnAuthorityStoreRecord(record = {}) {
+// ROUND-01 (V3): CAS-guarded durable validator. Rejects a stale
+// recordDigest / recordVersion via a typed RTK_ROUND_CAS_CONFLICT.
+function validateDocxReviewReturnAuthorityStoreRecord(record = {}, options = {}) {
+  // RTK_ROUND_CAS_CONFLICT is returned (typed) when recordDigest/recordVersion
+  // disagree with the recomputed current version.
   if (!isPlainObjectValue(record) || record.schemaVersion !== REVIEW_DOCX_RETURN_AUTHORITY_STORE_SCHEMA) return null;
   if (record.secretExposedToRenderer !== false || record.secretEmbeddedInDocx !== false) return null;
   if (!isPlainObjectValue(record.roundsById) || !docxReviewPreviewSessionDetailString(record.lastRoundId)) return null;
   const expected = buildDocxReviewReturnAuthorityStoreRecord(record);
-  if (docxReviewPreviewSessionDetailString(record.authorityStoreDigest) !== expected.authorityStoreDigest) return null;
+  if (docxReviewPreviewSessionDetailString(record.authorityStoreDigest) !== expected.authorityStoreDigest) {
+    // Stale recordDigest / recordVersion: typed RTK_ROUND_CAS_CONFLICT.
+    return options.typed === true ? { ok: false, code: 'RTK_ROUND_CAS_CONFLICT' } : null;
+  }
   return cloneJsonSafe(record);
 }
 
@@ -6782,9 +6935,21 @@ function readDurableDocxReviewReturnAuthorityStore(options = {}) {
     const record = validateDocxReviewReturnAuthorityStoreRecord(
       JSON.parse(fsSync.readFileSync(storePath, 'utf8')),
     );
-    if (!record) return null;
-    const round = record.roundsById[record.lastRoundId];
-    if (!isPlainObjectValue(round) || docxReviewPreviewSessionDetailString(round.projectRoot) !== projectRoot) return null;
+    if (!record || record.ok === false) return null;
+    // ROUND-01 (V3): validate ALL rounds, not only lastRoundId, so a stale or
+    // foreign non-last round can never survive the durable read silently.
+    const durableRoundsById = isPlainObjectValue(record.roundsById) ? record.roundsById : {};
+    const durableRoundEntries = Object.entries(durableRoundsById);
+    if (durableRoundEntries.length === 0) return null;
+    for (const [roundId, roundEntry] of durableRoundEntries) {
+      if (!isPlainObjectValue(roundEntry)) return null;
+      const roundProjectRoot = docxReviewPreviewSessionDetailString(roundEntry.projectRoot);
+      // A full-manuscript round has no single scenePath; its projectRoot is the
+      // authority anchor. A scene round must match the durable project root.
+      if (roundProjectRoot && roundProjectRoot !== projectRoot) return null;
+      if (typeof roundEntry.keyRef !== 'string' || !roundEntry.keyRef) return null;
+      if (typeof roundEntry.lifecycleState !== 'string' || !roundEntry.lifecycleState) return null;
+    }
     return record;
   } catch {
     return null;
@@ -7004,7 +7169,21 @@ function sanitizeDocxReviewReturnIntakeForResult(intake = {}) {
 function findDocxReviewReturnIntakeRoundAuthority(store, roundId) {
   const rounds = isPlainObjectValue(store?.roundsById) ? store.roundsById : {};
   const capsule = rounds[roundId];
-  return isPlainObjectValue(capsule) ? capsule : null;
+  if (!isPlainObjectValue(capsule)) return null;
+  // ROUND-01 (V3): lifecycle gate — only an apply-eligible / return-open round
+  // admits a returned artifact for intake. An ineligible state (terminal /
+  // expired / aborted / not-yet-published) is blocked with a typed code rather
+  // than admitted on presence alone.
+  const lifecycleState = docxReviewPreviewSessionDetailString(capsule.lifecycleState);
+  if (lifecycleState) {
+    if (lifecycleState === 'ABORTED' || lifecycleState === 'EXPIRED' || lifecycleState === 'CONSUMED' || lifecycleState === 'REVOKED') {
+      return { ok: false, code: 'RTK_ROUND_LIFECYCLE_NOT_ELIGIBLE', lifecycleState };
+    }
+    if (lifecycleState !== 'PUBLISHED_ACTIVE' && lifecycleState !== 'RETURN_VERIFIED' && lifecycleState !== 'APPLY_RESERVED') {
+      return { ok: false, code: 'RTK_ROUND_NOT_OPEN_FOR_RETURN', lifecycleState };
+    }
+  }
+  return capsule;
 }
 
 function verifyDocxReviewReturnIntakeLocalBinding({ context, localAuthority, parserResult } = {}) {
@@ -7096,7 +7275,7 @@ function verifyDocxReviewReturnIntakeLocalBinding({ context, localAuthority, par
   return { ok: true };
 }
 
-function buildDocxReviewReturnIntakeLocalAuthorityCapsule(localAuthority, parserResult) {
+function buildDocxReviewReturnIntakeLocalAuthorityCapsule(localAuthority, parserResult, options = {}) {
   const payload = isPlainObjectValue(parserResult?.authorityCarrier?.selectedCarrier?.payload)
     ? parserResult.authorityCarrier.selectedCarrier.payload
     : {};
@@ -7107,8 +7286,14 @@ function buildDocxReviewReturnIntakeLocalAuthorityCapsule(localAuthority, parser
   if (localScope === 'full-manuscript' && !localExportMap) {
     return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_LOCAL_FULL_MANUSCRIPT_EXPORT_MAP_REQUIRED');
   }
+  // ROUND-01 (V3): the session-time capsule carries the vault-resolved hmacSecret
+  // so the downstream full-manuscript return-router proof binding can compute its
+  // HMAC during the live session. This secret is in-memory only; the durable
+  // authority store record never persists it.
+  const sessionHmacSecret = docxReviewPreviewSessionDetailString(options.hmacSecret);
   return {
     ...cloneJsonSafe(localAuthority),
+    hmacSecret: sessionHmacSecret,
     roundId: docxReviewPreviewSessionDetailString(localAuthority?.roundId)
       || docxReviewPreviewSessionDetailString(payload.roundId),
     exportIdentity: docxReviewPreviewSessionDetailString(localAuthority?.exportIdentity)
@@ -7534,10 +7719,26 @@ async function inspectDocxReviewReturnIntakeV2({
   if (!localAuthority) {
     return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_FOREIGN_OR_EXPIRED_ROUND', { roundId });
   }
+  // ROUND-01 (V3): lifecycle gate typed block (RTK_ROUND_NOT_OPEN_FOR_RETURN /
+  // RTK_ROUND_LIFECYCLE_NOT_ELIGIBLE) from findDocxReviewReturnIntakeRoundAuthority.
+  if (localAuthority.ok === false) {
+    return docxReviewReturnIntakeBlocked(docxReviewPreviewSessionDetailString(localAuthority.code), {
+      roundId,
+      lifecycleState: docxReviewPreviewSessionDetailString(localAuthority.lifecycleState),
+    });
+  }
   const expectedAuthority = isPlainObjectValue(localAuthority.expectedAuthority)
     ? cloneJsonSafe(localAuthority.expectedAuthority) || {}
     : {};
-  const hmacSecret = docxReviewPreviewSessionDetailString(localAuthority.hmacSecret);
+  // ROUND-01 (V3): resolve the secret via the main-process-only vault using the
+  // opaque keyRef (never from the durable record). REVOKED/LOST key states block
+  // automatic apply but preview/manuscript read stays available; here the
+  // return-intake verification still proceeds because it is a verify-only path.
+  const roundKeyRef = docxReviewPreviewSessionDetailString(localAuthority.keyRef);
+  const roundKeyHandle = await resolveDocxReviewRoundKeyHandle(roundKeyRef);
+  const hmacSecret = roundKeyHandle && typeof roundKeyHandle.hmacSecret === 'function'
+    ? docxReviewPreviewSessionDetailString(roundKeyHandle.hmacSecret())
+    : '';
   if (!hmacSecret || !isPlainObjectValue(expectedAuthority)) {
     return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_LOCAL_SECRET_REQUIRED', { roundId });
   }
@@ -7603,7 +7804,15 @@ async function inspectDocxReviewReturnIntakeV2({
     parserResult: verifiedParserResult,
   });
   if (!localBinding.ok) return localBinding;
-  const localAuthorityCapsule = buildDocxReviewReturnIntakeLocalAuthorityCapsule(localAuthority, verifiedParserResult);
+  // ROUND-01 (V3): build the session-time capsule WITH the vault-resolved
+  // hmacSecret so the downstream full-manuscript return-router proof binding
+  // can compute its HMAC during the live session. The secret lives only in
+  // this in-memory capsule; the DURABLE authority store never persists it.
+  const localAuthorityCapsule = buildDocxReviewReturnIntakeLocalAuthorityCapsule(
+    localAuthority,
+    verifiedParserResult,
+    { hmacSecret },
+  );
   if (localAuthorityCapsule?.ok === false) return localAuthorityCapsule;
   return {
     ok: true,
@@ -29396,6 +29605,41 @@ async function initializeApp() {
   await reconcileReviewFormattingReturnAtStartup();
   await reconcileReviewStructuralReturnAtStartup();
   await reconcileReviewExactTextApplyJournalsAtStartup();
+  // ROUND-01 (V3): reconcile the docx-review return authority store rounds at
+  // startup alongside the existing journal reconciliations. Covers ALL rounds
+  // (not only lastRoundId) with a typed report.
+  await reconcileRoundRecordV3StoreAtStartup();
+}
+
+// ROUND-01 (V3): startup reconciliation of the docx-review return authority
+// store. Reads the durable store (all rounds) and runs the revision-bridge V3
+// reconcile API so a stale / terminal / pending round is surfaced in a typed
+// report rather than silently ignored.
+async function reconcileRoundRecordV3StoreAtStartup() {
+  try {
+    const bridge = await loadRevisionBridgeModule();
+    if (!bridge || typeof bridge.reconcileRoundRecordV3Store !== 'function') return null;
+    const durableStore = readDurableDocxReviewReturnAuthorityStore({ projectRoot: getProjectRootPath() });
+    if (!durableStore) return null;
+    const roundsById = isPlainObjectValue(durableStore.roundsById) ? durableStore.roundsById : {};
+    const rounds = {};
+    for (const [roundId, round] of Object.entries(roundsById)) {
+      if (!isPlainObjectValue(round)) continue;
+      rounds[roundId] = {
+        roundId,
+        lifecycleState: docxReviewPreviewSessionDetailString(round.lifecycleState) || 'ALLOCATED',
+        keyRef: docxReviewPreviewSessionDetailString(round.keyRef),
+        recordVersion: Number(round.recordVersion) || 1,
+      };
+    }
+    return bridge.reconcileRoundRecordV3Store(
+      { schemaVersion: 'yalken.rtk.round-record-v3.store.v1', lastRoundId: durableStore.lastRoundId, rounds },
+      { projectRoot: getProjectRootPath() },
+    );
+  } catch (error) {
+    logDevError('reconcileRoundRecordV3StoreAtStartup', error);
+    return null;
+  }
 }
 
 app.whenReady().then(async () => {

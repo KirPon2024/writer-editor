@@ -2670,12 +2670,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "f8a80ab394d364837a003313aaeca42858dc091c742b750b14beff40a056b9db",
-      "approvedBy": "owner-direct:TASK_ID:MATCH-01_PLACEMENT_PROOF",
-      "approvedAtUtc": "2026-08-09T01:33:42.348Z",
-      "rationale": "Approve additive RTK graph catalog bytes adding the MATCH-01 placement-proof contract test file; supersedes the EVID-01-era catalog byte approval retained in git history.",
+      "sha256": "3094a7c7431fcd4fb65ea6a5b32654ace2d96590b8baca51ab1d5d85b04f34a2",
+      "approvedBy": "owner-direct:TASK_ID:ROUND-01_ROUND_RECORD_V3",
+      "approvedAtUtc": "2026-08-09T02:53:57.311Z",
+      "rationale": "Approve additive RTK graph catalog bytes adding the ROUND-01 round-record-v3 contract test file; supersedes the MATCH-01-era catalog byte approval retained in git history.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MATCH01_PLACEMENT_PROOF"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ROUND01_ROUND_RECORD_V3"
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
@@ -6524,12 +6524,12 @@
     },
     {
       "filePath": "src/export/docx/fullManuscriptDocxReviewPacketSource.js",
-      "sha256": "0989de38d48448bbf1b4a7d3bbd767cc58727be2e93b9a49c5fbdae3648a05e5",
-      "approvedBy": "owner-direct:TASK_ID:EXPORT-01_UNIFIED_BOOKMARK",
-      "approvedAtUtc": "2026-08-08T18:47:22.199Z",
-      "rationale": "Approve EXPORT-01 declared bookmark signal switched to the unified generator in the full-manuscript packet source.",
+      "sha256": "8df8041b09ea7ff37ee2b10518610c46f08ef4b00c96713c7241eacb251927c1",
+      "approvedBy": "owner-direct:TASK_ID:ROUND-01_ROUND_RECORD_V3",
+      "approvedAtUtc": "2026-08-09T02:53:57.311Z",
+      "rationale": "Approve ROUND-01 full-manuscript capsule carrying opaque keyRef and public correlation material with in-memory secret confined to live proof binding.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EXPORT01_UNIFIED_BOOKMARK"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ROUND01_ROUND_RECORD_V3"
     },
     {
       "filePath": "src/import/mindmap/v1/manualMapMarkdownPortabilityBridge.mjs",
@@ -6558,12 +6558,12 @@
     },
     {
       "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "f19fa9b050438e2e28bcfda59693fbd673a12d9fdab75690bc2cb62c32f99267",
-      "approvedBy": "owner-direct:TASK_ID:MATCH-01_PLACEMENT_PROOF",
-      "approvedAtUtc": "2026-08-09T01:33:42.348Z",
-      "rationale": "Approve MATCH-01 resolver demotion of documentParagraphIndex to corroboration-after-identity with typed contradiction, unresolved-without-claim, and topology tracking with unclassified-blocks blocking ready in the formatting and structural extractors.",
+      "sha256": "ce5115d39f0d317801150dad79753beada6676db15cbf341514f16619510784f",
+      "approvedBy": "owner-direct:TASK_ID:ROUND-01_ROUND_RECORD_V3",
+      "approvedAtUtc": "2026-08-09T02:53:57.311Z",
+      "rationale": "Approve ROUND-01 V3 API re-export through the revision-bridge entry point (disclosed scope clarification).",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MATCH01_PLACEMENT_PROOF"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ROUND01_ROUND_RECORD_V3"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportApplyCore.mjs",
@@ -6626,10 +6626,12 @@
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportContracts.mjs",
-      "sha256": "ae56b094ea2769313a93c792a4a9f24cceeb1e6256ef4cf4a0525617b9e6e5e8",
-      "approvedBy": "ticket:YALKEN_RTK_W1_W2_CANON_REPAIR",
-      "approvedAtUtc": "2026-07-29T16:30:29.812Z",
-      "rationale": "Approve bounded W1/W2 V6 canon repair: stable RTK contracts, platform-neutral Review IR core, no regex normative XML parser, canonical durable review storage, comment-lane/source-mode fixes, no UI, writer, DOCX Minimal, network, dependency, apply, or W3 scope."
+      "sha256": "c24769dac5a8a1799f7fea90399148fd5819e3c6b5e39820dfed4e8c4731f1ac",
+      "approvedBy": "owner-direct:TASK_ID:ROUND-01_ROUND_RECORD_V3",
+      "approvedAtUtc": "2026-08-09T02:53:57.311Z",
+      "rationale": "Approve ROUND-01 typed lifecycle and key state vocabulary declarations in the contracts file (disclosed scope clarification).",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ROUND01_ROUND_RECORD_V3"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportCore.mjs",
@@ -6765,12 +6767,12 @@
     },
     {
       "filePath": "src/main.js",
-      "sha256": "2fd4223aac483b2c981283265e71c9d2f5f1bb637661c644efd09872f87fbee1",
-      "approvedBy": "owner-direct:TASK_ID:EVID-01_RETURN_EVIDENCE_PACKET",
-      "approvedAtUtc": "2026-08-08T23:55:04.384Z",
-      "rationale": "Approve EVID-01 single bounded parse per intake with packet verification before consumption, YRTK2 properties from the packet instead of main ZIP re-extract, packet-based preview and formatting and structural consumers, and no resolver synthesis.",
+      "sha256": "884a86ec551d414aa81125667378f3c5599928646ea576a66bb4d76b1c0cc149",
+      "approvedBy": "owner-direct:TASK_ID:ROUND-01_ROUND_RECORD_V3",
+      "approvedAtUtc": "2026-08-09T02:53:57.311Z",
+      "rationale": "Approve ROUND-01 store construction merge retaining prior rounds, durable record redaction of the raw HMAC secret to an opaque keyRef, CAS record validation, all-round durable read validation, lifecycle-gated return intake authority, vault-resolved secret operations, CAS activation to PUBLISHED_ACTIVE preserving EXPORT-01 ordering, and startup round reconciliation.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EVID01_RETURN_EVIDENCE_PACKET"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ROUND01_ROUND_RECORD_V3"
     },
     {
       "filePath": "src/main/rtkDocxReturnIntakeWorker.cjs",
@@ -9635,12 +9637,12 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "b741bb049f8ef9b0b409133d7b912dca9ac8ff281e2dca9ede9aa3150802e510",
-      "approvedBy": "owner-direct:TASK_ID:MATCH-01_PLACEMENT_PROOF",
-      "approvedAtUtc": "2026-08-09T01:33:42.348Z",
-      "rationale": "Approve additive test:rtk-match01 lane script; no dependency or runtime change.",
+      "sha256": "824e5f19065ff22c29cc019fb8df29c1b17c4164250d581ea9475f2da95487fd",
+      "approvedBy": "owner-direct:TASK_ID:ROUND-01_ROUND_RECORD_V3",
+      "approvedAtUtc": "2026-08-09T02:53:57.311Z",
+      "rationale": "Approve additive test:rtk-round01 lane script; no dependency or runtime change.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MATCH01_PLACEMENT_PROOF"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ROUND01_ROUND_RECORD_V3"
     },
     {
       "filePath": "test/contracts/rtk-admit01-accountable-lanes.contract.test.js",
@@ -9689,12 +9691,12 @@
     },
     {
       "filePath": "test/contracts/rtk-export01-unified-bookmark.contract.test.js",
-      "sha256": "c2d72a1b70253d3edcb93f82c1c38a5b473b4c5d7e2630e49cf1d434ff8d543c",
-      "approvedBy": "owner-direct:TASK_ID:EXPORT-01_UNIFIED_BOOKMARK",
-      "approvedAtUtc": "2026-08-08T18:47:22.199Z",
-      "rationale": "Approve EXPORT-01 unified bookmark contract tests (E1-E8: real two-scene gate, name parity, synthesis impossibility, failed-export zero authority, activation round-trip, controls); tests only.",
+      "sha256": "694cb9ab9f4937a87a72272a28c77e4a0e80f616f55ff05ba6018177c08e04d8",
+      "approvedBy": "owner-direct:TASK_ID:ROUND-01_ROUND_RECORD_V3",
+      "approvedAtUtc": "2026-08-09T02:53:57.311Z",
+      "rationale": "Approve sanctioned E8 amendment from raw hmacSecret pin to keyRef form with raw-secret absence proven by durable redaction; other E8 assertions preserved; tests only.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EXPORT01_UNIFIED_BOOKMARK"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ROUND01_ROUND_RECORD_V3"
     },
     {
       "filePath": "test/contracts/rtk-parser01-namespace-atoms.contract.test.js",
@@ -9740,6 +9742,24 @@
       "rationale": "Approve MATCH-01 placement-proof contract tests (M1-M7b: inserted duplicate, index demotion, caller booleans, unclassified blocks, native contradiction, computed proof, controls); tests only.",
       "approved": true,
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MATCH01_PLACEMENT_PROOF"
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportRoundStoreV3.mjs",
+      "sha256": "63b8dbc350d9513e73213456a640c581c6af95d1facc6419e77c8e1ee08e49fb",
+      "approvedBy": "owner-direct:TASK_ID:ROUND-01_ROUND_RECORD_V3",
+      "approvedAtUtc": "2026-08-09T02:53:57.311Z",
+      "rationale": "Approve new bounded ROUND-01 RoundRecordV3 module: multi-round retention, monotonic CAS-guarded transitions with typed codes, main-process key vault with opaque keyRef and ACTIVE/VERIFY_ONLY/REVOKED/LOST key states, startup reconciliation, and apply/key eligibility gates.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ROUND01_ROUND_RECORD_V3"
+    },
+    {
+      "filePath": "test/contracts/rtk-round01-round-record-v3.contract.test.js",
+      "sha256": "5557884eeada09a7ed16ed3e5dcc5aee3d28ada2c7a1336ce7f98fe8aa5f6d9e",
+      "approvedBy": "owner-direct:TASK_ID:ROUND-01_ROUND_RECORD_V3",
+      "approvedAtUtc": "2026-08-09T02:53:57.311Z",
+      "rationale": "Approve ROUND-01 round-record-v3 contract tests (R1-R7 plus R8 controls: eviction, raw secret, CAS, transitions, startup, eligibility, key states); tests only.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ROUND01_ROUND_RECORD_V3"
     }
   ]
 }

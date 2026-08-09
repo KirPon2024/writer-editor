@@ -875,14 +875,32 @@ test('EXPORT01-E8-CONTROL-activated-round-resolvable-after-successful-export', a
     roundId,
     'E8: activated round capsule must carry the matching roundId',
   );
+  // ROUND-01 (V3) amendment: the raw HMAC secret is replaced by an opaque
+  // keyRef on the durable round (the secret now lives only in the main-process
+  // key vault, and buildDocxReviewReturnAuthorityStoreRecord redacts it before
+  // the durable write). The activated round must carry the opaque keyRef + the
+  // public correlation material (keyIdHex / roundIdHex) so return intake can
+  // resolve the vault handle. The raw hmacSecret is verified absent from the
+  // DURABLE record by R2 (buildCurrentDurableRecord redacts it); the in-memory
+  // pending capsule may retain it for the live return-router proof binding.
   assert.equal(
-    typeof activatedRound.hmacSecret,
+    typeof activatedRound.keyRef,
     'string',
-    'E8: activated round must carry the local HMAC secret for return-intake binding',
+    'E8: activated round must carry the opaque keyRef for return-intake binding',
   );
   assert.ok(
-    activatedRound.hmacSecret.length > 0,
-    'E8: activated round HMAC secret must be non-empty',
+    activatedRound.keyRef.length > 0,
+    'E8: activated round keyRef must be non-empty',
+  );
+  assert.equal(
+    typeof activatedRound.keyIdHex,
+    'string',
+    'E8: activated round must carry public keyIdHex correlation',
+  );
+  assert.equal(
+    typeof activatedRound.roundIdHex,
+    'string',
+    'E8: activated round must carry public roundIdHex correlation',
   );
   assert.ok(
     isPlainObjectValue(activatedRound.expectedAuthority),

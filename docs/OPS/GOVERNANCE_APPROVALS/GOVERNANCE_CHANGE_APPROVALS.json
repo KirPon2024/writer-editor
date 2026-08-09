@@ -2670,12 +2670,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "f1ee3ea625968551019d9d3722590474076e8bfd1a1e670ae1d62154fef07044",
-      "approvedBy": "owner-direct:TASK_ID:GOOGLE01_PROVIDER_PROFILES",
-      "approvedAtUtc": "2026-08-09T10:24:58.894Z",
-      "rationale": "Approve additive RTK graph catalog bytes adding the GOOGLE-01 provider profiles contract test file; supersedes the LAB-01-era catalog byte approval retained in git history.",
+      "sha256": "a87548ced826c386f4dbc9c83422da79792d8dc17668093b634479ce267a5141",
+      "approvedBy": "owner-direct:TASK_ID:RELEASE01_TERMINAL_CLAIM_COMPILER",
+      "approvedAtUtc": "2026-08-09T11:38:46.342Z",
+      "rationale": "Approve additive RTK graph catalog bytes adding the RELEASE-01 terminal claims contract test file; supersedes the GOOGLE-01-era catalog byte approval retained in git history.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_GOOGLE01_PROVIDER_PROFILES"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_RELEASE01_TERMINAL_CLAIM_COMPILER"
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
@@ -9647,12 +9647,12 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "41cfababecad7100cd4094466a9b3dbc190b3928d6a44d60d7d269df9cbaae44",
-      "approvedBy": "owner-direct:TASK_ID:GOOGLE01_PROVIDER_PROFILES",
-      "approvedAtUtc": "2026-08-09T10:24:58.894Z",
-      "rationale": "Approve additive package.json bytes adding the test:rtk-google01 lane next to test:rtk-lab01; supersedes the LAB-01-era package.json byte approval retained in git history.",
+      "sha256": "7e21ccfc33dd1e3bd6d81b58a40a00cbb481493e0b61af1f66dc84a744bef140",
+      "approvedBy": "owner-direct:TASK_ID:RELEASE01_TERMINAL_CLAIM_COMPILER",
+      "approvedAtUtc": "2026-08-09T11:38:46.342Z",
+      "rationale": "Approve additive package.json bytes adding the test:rtk-release01 lane next to test:rtk-google01; supersedes the GOOGLE-01-era package.json byte approval retained in git history.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_GOOGLE01_PROVIDER_PROFILES"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_RELEASE01_TERMINAL_CLAIM_COMPILER"
     },
     {
       "filePath": "test/contracts/rtk-admit01-accountable-lanes.contract.test.js",
@@ -9836,12 +9836,12 @@
     },
     {
       "filePath": "docs/CONTEXT.md",
-      "sha256": "2d33d7a00aa5648f91aa8df7cff1937e36be62dde35797bab24caa29f65e289b",
-      "approvedBy": "owner-direct:TASK_ID:GOOGLE01_PROVIDER_PROFILES",
-      "approvedAtUtc": "2026-08-09T10:24:58.894Z",
-      "rationale": "Approve additive docs/CONTEXT.md bytes typing the GOOGLE-01 parallel Google profile registry (office-mode and native-conversion both DECLARED with empty ladders/heads) and mirrored no-inheritance evaluator while Google execution stays BLOCKED; supersedes the LAB-01-era CONTEXT.md byte approval retained in git history.",
+      "sha256": "1f97874be215226612958c7d2edf302964f39c22598f194dae3a2ee5331f7383",
+      "approvedBy": "owner-direct:TASK_ID:RELEASE01_TERMINAL_CLAIM_COMPILER",
+      "approvedAtUtc": "2026-08-09T11:38:46.342Z",
+      "rationale": "Approve additive docs/CONTEXT.md bytes typing the RELEASE-01 terminal claim registry and compiler as CURRENT reality while the terminal claim stays NOT_MADE_WORD_TERMINAL_PASS_REQUIRED; supersedes the GOOGLE-01-era CONTEXT.md byte approval retained in git history.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_GOOGLE01_PROVIDER_PROFILES"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_RELEASE01_TERMINAL_CLAIM_COMPILER"
     },
     {
       "filePath": "test/contracts/rtk-multi01-multi-scene-scope-blocked.contract.test.js",
@@ -9905,6 +9905,33 @@
       "rationale": "Approve the GOOGLE-01 contract test lane (17 scenarios) pinning the google-docs provider profile registry contract: red-first proven, mutation-killed across ten targeted mutations.",
       "approved": true,
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_GOOGLE01_PROVIDER_PROFILES"
+    },
+    {
+      "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+      "sha256": "84525ef887582e7047dca2f3a00453d8c67d5d8d09c3933e7ad21c2b9563fd56",
+      "approvedBy": "owner-direct:TASK_ID:RELEASE01_TERMINAL_CLAIM_COMPILER",
+      "approvedAtUtc": "2026-08-09T11:38:46.342Z",
+      "rationale": "Approve the RELEASE-01 terminal claim registry: 25 claims binding every public Word/DOCX wording string across README.md, package.json, menu-config.v2.json and editor.js to typed profile evidence, six NOT_CLAIMED_BLOCKED claims (Google modes, Word Windows/Online, multi-scene atomic apply, Word saturation), 26-item terminal nonClaim union, terminal roll-up NOT_MADE_WORD_TERMINAL_PASS_REQUIRED; read-only evidence, no product write authority.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_RELEASE01_TERMINAL_CLAIM_COMPILER"
+    },
+    {
+      "filePath": "scripts/ops/rtk-interop-terminal-claims-v1.mjs",
+      "sha256": "ec68ad771d8c7918e0a0efa1993c51676016e0c81db01044e4765f374df9e63a",
+      "approvedBy": "owner-direct:TASK_ID:RELEASE01_TERMINAL_CLAIM_COMPILER",
+      "approvedAtUtc": "2026-08-09T11:38:46.342Z",
+      "rationale": "Approve the RELEASE-01 read-only terminal claim compiler: registry schema+digest loader, claim/evidence sufficiency binding, banned-wording overclaim check, deterministic wording-surface scanner (JS string-literal tokenizer, JSON leaves, markdown lines) with google-before-unmapped order, nonClaim union and anti-overclaim terminal roll-up; no filesystem writes, no product runtime change.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_RELEASE01_TERMINAL_CLAIM_COMPILER"
+    },
+    {
+      "filePath": "test/contracts/rtk-release01-terminal-claims.contract.test.js",
+      "sha256": "00938252669c06cc4666713df4576808b16105899d199976d1e8b20ea86af0e1",
+      "approvedBy": "owner-direct:TASK_ID:RELEASE01_TERMINAL_CLAIM_COMPILER",
+      "approvedAtUtc": "2026-08-09T11:38:46.342Z",
+      "rationale": "Approve the RELEASE-01 contract test lane (16 scenarios) pinning the terminal claim compiler contract: red-first proven, eleven targeted mutations each killed by a named test including the unmasking class-gate amendment.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_RELEASE01_TERMINAL_CLAIM_COMPILER"
     }
   ]
 }

@@ -1,0 +1,351 @@
+{
+  "schemaVersion": "yalken.rtk.interop-terminal-claim-registry.v1",
+  "registryId": "yalken-interop-terminal-claim-registry-v1",
+  "purpose": "Machine-readable terminal-claim registry for the RELEASE-01 Proof-Carrying Interop V2 §38 contract. This is the terminal layer above the WORD (LAB-01), GOOGLE (GOOGLE-01), MULTI-01 and CAPABILITY_MATRIX contours: it binds every public Word/DOCX product wording string (README.md, package.json description, src/menu/menu-config.v2.json labels, src/renderer/editor.js formatting/status strings) to a typed claim, a profile class and committed evidence, and records NOT_CLAIMED_BLOCKED claims for the Google profiles, Windows Word, Word Online, the MULTI_SCENE_COORDINATOR blocked row and the (not-yet-made) Word saturation claim. The wordingSurfaces sha256 values are the exact file sha256 at registry authoring time; every claimDigest is a stable sorted-keys sha256 over the claim minus its own claimDigest. The terminalNonClaimInventory is the deduplicated union of the real source nonClaim inventories (both Google profiles, CAPABILITY_MATRIX top-level nonClaims, the Word normalized-matrix nonClaims) plus the two terminal non-claims WORD_MAC_16_111_2_COMPLETE_NOT_SATURATED and MULTI_SCENE_ATOMIC_APPLY_BLOCKED_UNTIL_DECISIVE_CRASH_PROOF. The terminal roll-up stays NOT_MADE_WORD_TERMINAL_PASS_REQUIRED: Word 16.111.2-d1 is COMPETING_NOT_SATURATED (not SATURATED), both Google profiles are DECLARED, the MULTI_SCENE_COORDINATOR row remains blocked, and Windows/Online Word are unproven. This registry is read-only evidence; it grants no product write authority and never changes Word or Google saturation status.",
+  "wordingSurfaces": [
+    {
+      "surfaceId": "surface-readme",
+      "path": "README.md",
+      "sha256": "sha256:fe2afbd2a004a025f8a61a6b437285e8a9d0c48d47b6a69f89ea5f7d1c24aa49"
+    },
+    {
+      "surfaceId": "surface-package-json",
+      "path": "package.json",
+      "sha256": "sha256:7e21ccfc33dd1e3bd6d81b58a40a00cbb481493e0b61af1f66dc84a744bef140"
+    },
+    {
+      "surfaceId": "surface-menu-config",
+      "path": "src/menu/menu-config.v2.json",
+      "sha256": "sha256:b69dc2a3dfed941c1d7e2405aec501635cc96e72450658c92abd9dd583dee2d7"
+    },
+    {
+      "surfaceId": "surface-editor-js",
+      "path": "src/renderer/editor.js",
+      "sha256": "sha256:9f172a5a6fc7bd0a402ad6b569050444550811624988aae188c96b1fb05b19b1"
+    }
+  ],
+  "claims": [
+    {
+      "claimId": "claim-readme-docx-first-export",
+      "claimClass": "USER_FACING_BOUNDED_SUPPORTED",
+      "surfaceId": "surface-readme",
+      "wording": "- DOCX first export",
+      "evidenceBinding": {
+        "profileId": "word-mac-16.111.2-d1"
+      },
+      "blockedRowRef": null,
+      "claimDigest": "sha256:d9d657f22c7b55e62db17a7f082b0de45822adb2aa202f8112c8bb8a694af418"
+    },
+    {
+      "claimId": "claim-menu-import-docx-content",
+      "claimClass": "USER_FACING_BOUNDED_SUPPORTED",
+      "surfaceId": "surface-menu-config",
+      "wording": "Import DOCX Content (Content only)...",
+      "evidenceBinding": {
+        "profileId": "word-mac-16.111.2-d1"
+      },
+      "blockedRowRef": null,
+      "claimDigest": "sha256:694032e765873dba67419c3825fe55efda23fbcd4a511afa6e5563a52e8cb09e"
+    },
+    {
+      "claimId": "claim-menu-export-docx-minimal",
+      "claimClass": "USER_FACING_BOUNDED_SUPPORTED",
+      "surfaceId": "surface-menu-config",
+      "wording": "Export DOCX (Minimal)...",
+      "evidenceBinding": {
+        "profileId": "word-mac-16.111.2-d1"
+      },
+      "blockedRowRef": null,
+      "claimDigest": "sha256:072258344dd9e808175640a06a49e7ed09c89e72e3395f4b4201f16e46f5cb36"
+    },
+    {
+      "claimId": "claim-menu-export-review-docx-packet",
+      "claimClass": "USER_FACING_BOUNDED_SUPPORTED",
+      "surfaceId": "surface-menu-config",
+      "wording": "Export Review DOCX Packet...",
+      "evidenceBinding": {
+        "profileId": "word-mac-16.111.2-d1"
+      },
+      "blockedRowRef": null,
+      "claimDigest": "sha256:3f03c388545c68d074c47a9888940d69fd8bc8ec55de6bd63aa9b1f0cc563a7e"
+    },
+    {
+      "claimId": "claim-menu-export-full-manuscript-review-docx-packet",
+      "claimClass": "USER_FACING_BOUNDED_SUPPORTED",
+      "surfaceId": "surface-menu-config",
+      "wording": "Export Full Manuscript Review DOCX Packet...",
+      "evidenceBinding": {
+        "profileId": "word-mac-16.111.2-d1"
+      },
+      "blockedRowRef": null,
+      "claimDigest": "sha256:5a2ce16b2a59c825e56933810c801c977abc0b0d56f49e45870547973d886638"
+    },
+    {
+      "claimId": "claim-menu-open-docx-review-manual-only",
+      "claimClass": "USER_FACING_MANUAL_ONLY",
+      "surfaceId": "surface-menu-config",
+      "wording": "Open DOCX Review (Comments; tracked text candidates are manual-only)...",
+      "evidenceBinding": {
+        "profileId": "word-mac-16.111.2-d1"
+      },
+      "blockedRowRef": null,
+      "claimDigest": "sha256:39a4c55a6d612f661754f434c6fed11587878c170922105b1f7ba4bb8fd73b88"
+    },
+    {
+      "claimId": "claim-editor-docx-minimal",
+      "claimClass": "USER_FACING_BOUNDED_SUPPORTED",
+      "surfaceId": "surface-editor-js",
+      "wording": "DOCX Minimal",
+      "evidenceBinding": {
+        "profileId": "word-mac-16.111.2-d1"
+      },
+      "blockedRowRef": null,
+      "claimDigest": "sha256:d5eb9d9585393daa8aa71c09c2780b1e07560596b49c38dbbad054acf6f32d89"
+    },
+    {
+      "claimId": "claim-editor-docx-baseline-export-confirm",
+      "claimClass": "USER_FACING_BOUNDED_SUPPORTED",
+      "surfaceId": "surface-editor-js",
+      "wording": "DOCX baseline export. Confirm to continue.",
+      "evidenceBinding": {
+        "profileId": "word-mac-16.111.2-d1"
+      },
+      "blockedRowRef": null,
+      "claimDigest": "sha256:a9205c4a2223647080f7047d0756c43c348ca9d069b6dd4be5b75f08c0435e38"
+    },
+    {
+      "claimId": "claim-editor-docx-evidence",
+      "claimClass": "USER_FACING_BOUNDED_SUPPORTED",
+      "surfaceId": "surface-editor-js",
+      "wording": "DOCX evidence",
+      "evidenceBinding": {
+        "profileId": "word-mac-16.111.2-d1"
+      },
+      "blockedRowRef": null,
+      "claimDigest": "sha256:7d0cf4fd548485dc396445240fe8b2824127c8a27cd1eb32d25b6ddbab360a3b"
+    },
+    {
+      "claimId": "claim-editor-docx-import-preview-ready",
+      "claimClass": "USER_FACING_BOUNDED_SUPPORTED",
+      "surfaceId": "surface-editor-js",
+      "wording": "DOCX import preview ready",
+      "evidenceBinding": {
+        "profileId": "word-mac-16.111.2-d1"
+      },
+      "blockedRowRef": null,
+      "claimDigest": "sha256:acc3644e5cf70208c2f8dc0b192fd4a22489b9df14555826d5aa4e645cf16e81"
+    },
+    {
+      "claimId": "claim-editor-docx-import-preview-unavailable",
+      "claimClass": "USER_FACING_BOUNDED_SUPPORTED",
+      "surfaceId": "surface-editor-js",
+      "wording": "DOCX import preview unavailable",
+      "evidenceBinding": {
+        "profileId": "word-mac-16.111.2-d1"
+      },
+      "blockedRowRef": null,
+      "claimDigest": "sha256:57b3bf25ded6a569c536864940152a537c3633878bf8f0fa7bdd5d8eadd39652"
+    },
+    {
+      "claimId": "claim-editor-docx-preview-not-importable",
+      "claimClass": "USER_FACING_BOUNDED_SUPPORTED",
+      "surfaceId": "surface-editor-js",
+      "wording": "DOCX preview is not importable.",
+      "evidenceBinding": {
+        "profileId": "word-mac-16.111.2-d1"
+      },
+      "blockedRowRef": null,
+      "claimDigest": "sha256:f5daa20c5f69841106cea0083e243e1e42bc08cb2e09f076c50cbe069ff54faf"
+    },
+    {
+      "claimId": "claim-editor-imported-docx-preview",
+      "claimClass": "USER_FACING_BOUNDED_SUPPORTED",
+      "surfaceId": "surface-editor-js",
+      "wording": "Imported DOCX preview",
+      "evidenceBinding": {
+        "profileId": "word-mac-16.111.2-d1"
+      },
+      "blockedRowRef": null,
+      "claimDigest": "sha256:fd68a210bc48d9ab73cce09549737837de9687c8927e6227dd37dc3900199752"
+    },
+    {
+      "claimId": "claim-editor-importing-docx",
+      "claimClass": "USER_FACING_BOUNDED_SUPPORTED",
+      "surfaceId": "surface-editor-js",
+      "wording": "Importing DOCX",
+      "evidenceBinding": {
+        "profileId": "word-mac-16.111.2-d1"
+      },
+      "blockedRowRef": null,
+      "claimDigest": "sha256:08269cf8ddd025434704ba9ff55f0b870ab8687c51d519a3007b8c5a72d2b754"
+    },
+    {
+      "claimId": "claim-editor-preparing-docx-import-preview",
+      "claimClass": "USER_FACING_BOUNDED_SUPPORTED",
+      "surfaceId": "surface-editor-js",
+      "wording": "Preparing DOCX import preview",
+      "evidenceBinding": {
+        "profileId": "word-mac-16.111.2-d1"
+      },
+      "blockedRowRef": null,
+      "claimDigest": "sha256:8e7a81e3e07c734e4ed80120fc64a346b91ec3a06efdbadc0b35ebff58923e2c"
+    },
+    {
+      "claimId": "claim-editor-tracked-pravki-word",
+      "claimClass": "USER_FACING_MANUAL_ONLY",
+      "surfaceId": "surface-editor-js",
+      "wording": "TRACKED: правки Word",
+      "evidenceBinding": {
+        "profileId": "word-mac-16.111.2-d1"
+      },
+      "blockedRowRef": null,
+      "claimDigest": "sha256:1f93d3da9cfd013dc86f33f52662546a5a6d9f21f3961d56e7977ed300f7c1a0"
+    },
+    {
+      "claimId": "claim-editor-ne-udalos-primenit-format-word",
+      "claimClass": "USER_FACING_BOUNDED_SUPPORTED",
+      "surfaceId": "surface-editor-js",
+      "wording": "Не удалось применить форматирование из Word",
+      "evidenceBinding": {
+        "profileId": "word-mac-16.111.2-d1"
+      },
+      "blockedRowRef": null,
+      "claimDigest": "sha256:3bd3df0354cc33c1b7f3110e97ccda8f27d2eac9b6c7d6b81629a7ad041aeacd"
+    },
+    {
+      "claimId": "claim-editor-format-word-blocked",
+      "claimClass": "USER_FACING_BOUNDED_SUPPORTED",
+      "surfaceId": "surface-editor-js",
+      "wording": "Форматирование из Word заблокировано",
+      "evidenceBinding": {
+        "profileId": "word-mac-16.111.2-d1"
+      },
+      "blockedRowRef": null,
+      "claimDigest": "sha256:0ed82e397435b0540bda5f03eeffcf4b5ac86b27e0ad5042e55f4d0956099f9b"
+    },
+    {
+      "claimId": "claim-editor-format-word-applied",
+      "claimClass": "USER_FACING_BOUNDED_SUPPORTED",
+      "surfaceId": "surface-editor-js",
+      "wording": "Форматирование из Word применено и проверено повтором",
+      "evidenceBinding": {
+        "profileId": "word-mac-16.111.2-d1"
+      },
+      "blockedRowRef": null,
+      "claimDigest": "sha256:66dd129ffa19284ae3a40b657551cdb4d3dddc6c8248011de3cf7f8b6be33ec9"
+    },
+    {
+      "claimId": "claim-google-office-mode",
+      "claimClass": "NOT_CLAIMED_BLOCKED",
+      "surfaceId": null,
+      "wording": null,
+      "evidenceBinding": {
+        "profileId": "google-docs-office-mode-post-d1-v1"
+      },
+      "blockedRowRef": null,
+      "claimDigest": "sha256:b94825827ee1df78787be260506f0f6c511c995258bf36ce33b411feb342039f"
+    },
+    {
+      "claimId": "claim-google-native-conversion",
+      "claimClass": "NOT_CLAIMED_BLOCKED",
+      "surfaceId": null,
+      "wording": null,
+      "evidenceBinding": {
+        "profileId": "google-docs-native-conversion-post-d1-v1"
+      },
+      "blockedRowRef": null,
+      "claimDigest": "sha256:c069f789e149a0ba193d6a5198c84936b6871bed1908e750291ee465ee42fef4"
+    },
+    {
+      "claimId": "claim-word-windows",
+      "claimClass": "NOT_CLAIMED_BLOCKED",
+      "surfaceId": null,
+      "wording": null,
+      "evidenceBinding": {
+        "profileId": "word-windows-current"
+      },
+      "blockedRowRef": null,
+      "claimDigest": "sha256:adb6d41b17c16018bc56f7e0bb1c7072dcd4e78d31dd4b6ca2a0b2f0f9608f98"
+    },
+    {
+      "claimId": "claim-word-online",
+      "claimClass": "NOT_CLAIMED_BLOCKED",
+      "surfaceId": null,
+      "wording": null,
+      "evidenceBinding": {
+        "profileId": "word-online-declared"
+      },
+      "blockedRowRef": null,
+      "claimDigest": "sha256:82ecf1757c9a43d7acf06fc5772ad596ce947f93ce944dcb23c560561773948c"
+    },
+    {
+      "claimId": "claim-multi-scene-atomic-apply",
+      "claimClass": "NOT_CLAIMED_BLOCKED",
+      "surfaceId": null,
+      "wording": null,
+      "evidenceBinding": {
+        "profileId": "word-mac-16.111.2-d1"
+      },
+      "blockedRowRef": "MULTI_SCENE_COORDINATOR",
+      "claimDigest": "sha256:8dfceb542e03a598f6f6441219cf46d2e0b154d2e0828921f9e04e1a3c0b8b3f"
+    },
+    {
+      "claimId": "claim-word-saturated",
+      "claimClass": "NOT_CLAIMED_BLOCKED",
+      "surfaceId": null,
+      "wording": null,
+      "evidenceBinding": {
+        "profileId": "word-mac-16.111.2-d1"
+      },
+      "blockedRowRef": null,
+      "claimDigest": "sha256:9e54d2eb1d0eb26ddbfcbc4a417b3f7d337abf206c08997f95a5a04681a8b589"
+    }
+  ],
+  "bannedWordingPatterns": [
+    "fully supports",
+    "seamless",
+    "production-ready",
+    "SATURATED",
+    "complete Word support",
+    "complete Google",
+    "полная поддержка",
+    "гарантирован"
+  ],
+  "terminalNonClaimInventory": [
+    "Automatic apply is not certified broadly.",
+    "Component proven cells are not missing product UI work unless their intended terminal class says so.",
+    "Diagnostic-only formatting and structural lanes are not silent apply capability.",
+    "GOOGLE_DOCS_GREEN_NEVER_CARRIES_ACROSS_MODES_OR_PROVIDERS",
+    "GOOGLE_DOCS_NATIVE_CONVERSION_DOES_NOT_PROVE_OFFICE_MODE",
+    "GOOGLE_DOCS_NATIVE_CONVERSION_LOSSY_BY_DEFAULT_UNTIL_EVIDENCE",
+    "GOOGLE_DOCS_NO_GOOGLE_API_AUTHORITY",
+    "GOOGLE_DOCS_NO_GOOGLE_APPLY_AUTHORITY",
+    "GOOGLE_DOCS_NO_GOOGLE_IMPORT_AUTHORITY",
+    "GOOGLE_DOCS_NO_GOOGLE_NETWORK_AUTHORITY",
+    "GOOGLE_DOCS_NO_GOOGLE_ROUNDTRIP_AUTHORITY",
+    "GOOGLE_DOCS_NO_GOOGLE_SESSION_AUTHORITY",
+    "GOOGLE_DOCS_NO_GOOGLE_SYNC_AUTHORITY",
+    "GOOGLE_DOCS_OFFICE_MODE_DOES_NOT_PROVE_NATIVE_CONVERSION",
+    "Gate D editor-specific claims",
+    "Google Docs remains closed until terminal Word audit and fresh independent exact-head audit.",
+    "Google Docs support",
+    "MULTI_SCENE_ATOMIC_APPLY_BLOCKED_UNTIL_DECISIVE_CRASH_PROOF",
+    "Mindmap export",
+    "Physical Word evidence is not product runtime authority by itself.",
+    "WORD_MAC_16_111_2_COMPLETE_NOT_SATURATED",
+    "Word support",
+    "cloud sync",
+    "cross-platform packaged smoke",
+    "project-level cross-scene apply",
+    "release packaging"
+  ],
+  "terminalRollup": {
+    "state": "NOT_MADE_WORD_TERMINAL_PASS_REQUIRED",
+    "blockers": [
+      "WORD_MAC_16_111_2_COMPLETE_NOT_SATURATED",
+      "GOOGLE_DOCS_BOTH_PROFILES_DECLARED",
+      "MULTI_SCENE_ROWS_BLOCKED",
+      "WORD_WINDOWS_AND_ONLINE_UNPROVEN"
+    ]
+  }
+}

@@ -27,6 +27,7 @@
     "rtk-multi01-multi-scene-scope-blocked.contract.test.js",
     "rtk-parser01-namespace-atoms.contract.test.js",
     "rtk-post-d1-portability-program.contract.test.js",
+    "rtk-release01-terminal-claims.contract.test.js",
     "rtk-runner-v2-cert01.contract.test.js",
     "rtk-runner-v2-cert01-crash-resume.contract.test.js",
     "rtk-round01-round-record-v3.contract.test.js",

@@ -72,7 +72,8 @@
     "prebuild:mac": "npm run build:renderer",
     "build:mac": "electron-builder --mac",
     "build:win": "electron-builder --win",
-    "build:linux": "electron-builder --linux"
+    "build:linux": "electron-builder --linux",
+    "test:rtk-phys01": "node --test test/contracts/rtk-phys01-ladder-runner.contract.test.js"
   },
   "keywords": [
     "editor",

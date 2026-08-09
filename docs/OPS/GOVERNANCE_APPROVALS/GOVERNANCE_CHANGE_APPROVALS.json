@@ -2670,12 +2670,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "a87548ced826c386f4dbc9c83422da79792d8dc17668093b634479ce267a5141",
-      "approvedBy": "owner-direct:TASK_ID:RELEASE01_TERMINAL_CLAIM_COMPILER",
-      "approvedAtUtc": "2026-08-09T11:38:46.342Z",
-      "rationale": "Approve additive RTK graph catalog bytes adding the RELEASE-01 terminal claims contract test file; supersedes the GOOGLE-01-era catalog byte approval retained in git history.",
+      "sha256": "7637514b745b51575f66cbb294b1e931bc66220c0e4c1d3a311dfe576ef696ac",
+      "approvedBy": "owner-direct:TASK_ID:PHYS01_LADDER_RUNNER_16_111_3",
+      "approvedAtUtc": "2026-08-09T22:52:34.352Z",
+      "rationale": "Approve additive catalog bytes adding the PHYS-01 ladder runner contract test file; supersedes the RELEASE-01-era catalog byte approval retained in git history.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_RELEASE01_TERMINAL_CLAIM_COMPILER"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS01_LADDER_RUNNER"
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
@@ -9647,12 +9647,12 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "7e21ccfc33dd1e3bd6d81b58a40a00cbb481493e0b61af1f66dc84a744bef140",
-      "approvedBy": "owner-direct:TASK_ID:RELEASE01_TERMINAL_CLAIM_COMPILER",
-      "approvedAtUtc": "2026-08-09T11:38:46.342Z",
-      "rationale": "Approve additive package.json bytes adding the test:rtk-release01 lane next to test:rtk-google01; supersedes the GOOGLE-01-era package.json byte approval retained in git history.",
+      "sha256": "d1bd63ea04290c9bae3a2c07afa1e433e42a1281a073f485eacbb3e04f146c76",
+      "approvedBy": "owner-direct:TASK_ID:PHYS01_LADDER_RUNNER_16_111_3",
+      "approvedAtUtc": "2026-08-09T22:52:34.352Z",
+      "rationale": "Approve additive package.json bytes adding the test:rtk-phys01 lane; supersedes the RELEASE-01-era package.json byte approval retained in git history.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_RELEASE01_TERMINAL_CLAIM_COMPILER"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS01_LADDER_RUNNER"
     },
     {
       "filePath": "test/contracts/rtk-admit01-accountable-lanes.contract.test.js",
@@ -9836,12 +9836,12 @@
     },
     {
       "filePath": "docs/CONTEXT.md",
-      "sha256": "dd49ee29bbb9b56ba98017b22ef2e85b64f191486e35a18c37cc7fd3bfd3a560",
-      "approvedBy": "owner-direct:TASK_ID:LAB02_BUILD_MIGRATION_16_111_3",
-      "approvedAtUtc": "2026-08-09T22:20:29.956Z",
-      "rationale": "Approve additive docs/CONTEXT.md bytes recording the LAB-02 build migration typing; the terminal claim remains NOT_MADE_WORD_TERMINAL_PASS_REQUIRED.",
+      "sha256": "e2f793625d9192e00165bc11865ee929593195edaf400769a4fdab3f05f69023",
+      "approvedBy": "owner-direct:TASK_ID:PHYS01_LADDER_RUNNER_16_111_3",
+      "approvedAtUtc": "2026-08-09T22:53:08.573Z",
+      "rationale": "Approve additive docs/CONTEXT.md bytes recording the PHYS-01 build-bound ladder runner contour.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_LAB02_BUILD_MIGRATION"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS01_LADDER_RUNNER"
     },
     {
       "filePath": "test/contracts/rtk-multi01-multi-scene-scope-blocked.contract.test.js",
@@ -9908,12 +9908,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "23ba9cc9e24f5f00c7f80c2d34803a6750cd7aacbfd534dd8482f6178e481594",
-      "approvedBy": "owner-direct:TASK_ID:LAB02_BUILD_MIGRATION_16_111_3",
-      "approvedAtUtc": "2026-08-09T22:20:29.956Z",
-      "rationale": "Approve the LAB-02 terminal claim registry migration: evidenceScope on all claims, claim-current-word-compatibility NOT_CLAIMED_BLOCKED against DECLARED 16.111.3, claim-word-saturated rebound to the current build, terminal blockers rebound to the migrated computed set.",
+      "sha256": "2f3c71723ab952a0166e65a0f9f69bfb9f513144b00baa1ddafa5afe70216d7c",
+      "approvedBy": "owner-direct:TASK_ID:PHYS01_LADDER_RUNNER_16_111_3",
+      "approvedAtUtc": "2026-08-09T22:52:34.352Z",
+      "rationale": "Approve the PHYS-01-driven wording-surface rebind: package.json bytes changed with the test:rtk-phys01 lane, so the registry surface sha256 for package.json is rebound (WORDING_SURFACE_DRIFT law honored); no claim, class or blocker changes.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_LAB02_BUILD_MIGRATION"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS01_LADDER_RUNNER"
     },
     {
       "filePath": "scripts/ops/rtk-interop-terminal-claims-v1.mjs",
@@ -9932,6 +9932,24 @@
       "rationale": "Approve the LAB-02 release-lane scenarios S01-S06 (scope split, pointer-driven roll-up, real migrated integration) plus sanctioned fixture migrations (baseClaim evidenceScope, context currentProfileId).",
       "approved": true,
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_LAB02_BUILD_MIGRATION"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-phys-ladder-16-111-3.mjs",
+      "sha256": "908d264e381f6d489daad1cb97ca11f640cddabe8fb73dc2a9b4932184b8d099",
+      "approvedBy": "owner-direct:TASK_ID:PHYS01_LADDER_RUNNER_16_111_3",
+      "approvedAtUtc": "2026-08-09T22:52:34.352Z",
+      "rationale": "Approve the PHYS-01 build-bound physical ladder runner for word-mac-16.111.3-26080215: fail-closed gates (rung, exact SHA, clean tree, Word build probe, inline T7 verifier, clean Word session), CARRIER_SURVIVAL_SMOKE rung with a build-bound receipt path, seal law without a silent seal path; synthetic fixtures only, no user documents, no network.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS01_LADDER_RUNNER"
+    },
+    {
+      "filePath": "test/contracts/rtk-phys01-ladder-runner.contract.test.js",
+      "sha256": "32bb64bb6cd635caa6d3d71041ecd00b7c43bc18980c3148db10b0e25b3f4fce",
+      "approvedBy": "owner-direct:TASK_ID:PHYS01_LADDER_RUNNER_16_111_3",
+      "approvedAtUtc": "2026-08-09T22:52:34.352Z",
+      "rationale": "Approve the PHYS-01 contract lane (10 scenarios) pinning gate and receipt laws hermetically without Word/T7/network; red-first proven; ten targeted mutations each killed by a named test.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS01_LADDER_RUNNER"
     }
   ]
 }

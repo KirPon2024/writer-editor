@@ -72,6 +72,18 @@ export const RELEASE01_CODES = Object.freeze({
   NONCLAIM_DROPPED: 'RTK_RELEASE01_NONCLAIM_DROPPED',
   CLAIM_ON_BLOCKED_ROW: 'RTK_RELEASE01_CLAIM_ON_BLOCKED_ROW',
   COMPILED_OK: 'RTK_RELEASE01_COMPILED_OK',
+  // HOTFIX YALKEN_INTEROP_RELEASE01_TERMINAL_ROLLUP_FAIL_CLOSED_HOTFIX_V1:
+  // strict roll-up codes. The legacy evaluateTerminalRollup below is preserved
+  // for the RELEASE01-14/15 preservation scenarios only; the binding gate is
+  // evaluateTerminalRollupStrict.
+  ROLLUP_CONTEXT_INCOMPLETE: 'RTK_RELEASE01_ROLLUP_CONTEXT_INCOMPLETE',
+  REQUIRED_PROFILE_MISSING: 'RTK_RELEASE01_REQUIRED_PROFILE_MISSING',
+  DUPLICATE_PROFILE_ID: 'RTK_RELEASE01_DUPLICATE_PROFILE_ID',
+  BLOCKED_CLAIM_PRESENT: 'RTK_RELEASE01_BLOCKED_CLAIM_PRESENT',
+  BLOCKER_SET_MISMATCH: 'RTK_RELEASE01_BLOCKER_SET_MISMATCH',
+  VETO_INVENTORY_INVALID: 'RTK_RELEASE01_VETO_INVENTORY_INVALID',
+  TERMINAL_STATE_MISMATCH: 'RTK_RELEASE01_TERMINAL_STATE_MISMATCH',
+  TERMINAL_MATRIX_INVALID: 'RTK_RELEASE01_TERMINAL_MATRIX_INVALID',
 });
 
 // ---------------------------------------------------------------------------
@@ -898,6 +910,194 @@ export function evaluateTerminalRollup({ registry, context } = {}) {
     terminalClaim: computed,
     code: RELEASE01_CODES.COMPILED_OK,
     reasons: [reason(RELEASE01_CODES.COMPILED_OK, `terminal roll-up agrees: ${JSON.stringify(computed)}`)],
+  };
+}
+
+// ---------------------------------------------------------------------------
+// evaluateTerminalRollupStrict  (HOTFIX
+// YALKEN_INTEROP_RELEASE01_TERMINAL_ROLLUP_FAIL_CLOSED_HOTFIX_V1)
+//
+// Strictly fail-closed terminal roll-up. Replaces the rank-inequality legacy
+// semantics as the binding gate:
+//
+//   context = { wordProfiles, googleProfiles, terminalMatrix, vetoCounters,
+//               claims } — ALL five collections are mandatory; a missing or
+//   malformed collection is ROLLUP_CONTEXT_INCOMPLETE, never a silent default.
+//
+// Check order (load-bearing, pinned by the RELEASE01-H01..H16 contract):
+//   1. ROLLUP_CONTEXT_INCOMPLETE  — missing/malformed collection, malformed
+//      profile entry, or unknown profile class;
+//   2. DUPLICATE_PROFILE_ID       — one profileId appearing twice;
+//   3. REQUIRED_PROFILE_MISSING   — the required current Word profile
+//      (word-mac-16.111.2-d1) absent, or a claim's evidenceBinding.profileId
+//      unresolvable;
+//   4. TERMINAL_MATRIX_INVALID    — terminalMatrix is not the current terminal
+//      acceptance matrix (schema mismatch or rows not an array);
+//   5. VETO_INVENTORY_INVALID     — a known veto key missing, or any value not
+//      exactly numeric zero (nonzero numbers, truthy strings, booleans all
+//      fail closed);
+//   6. compute the deterministic blocker set (sorted):
+//        WORD_PROFILE_NOT_SATURATED:<id>  required current profile not SATURATED
+//        WORD_PROFILE_UNPROVEN:<id>       word profile class NOT_PROVEN
+//        WORD_PROFILE_DECLARED:<id>       word profile class DECLARED
+//        GOOGLE_PROFILE_UNPROVEN:<id>     google profile class NOT_PROVEN
+//        GOOGLE_PROFILE_DECLARED:<id>     google profile class DECLARED
+//        BLOCKED_CLAIM:<claimId>          claim class NOT_CLAIMED_BLOCKED remains
+//        TERMINAL_MATRIX_ROW_BLOCKED:<id> terminal matrix row status BLOCKED
+//      computed state is WORD_TERMINAL_PASS_ACHIEVED iff the blocker set is
+//      empty, else NOT_MADE_WORD_TERMINAL_PASS_REQUIRED;
+//   7. BLOCKER_SET_MISMATCH       — recorded terminalRollup.blockers must equal
+//      the computed set exactly (sorted arrays, element-wise);
+//   8. TERMINAL_STATE_MISMATCH    — recorded terminalRollup.state must equal the
+//      computed state exactly, in BOTH directions (wider AND narrower recorded
+//      states are equally mismatches).
+//
+// EVIDENCE_NEVER_CREATES_AUTHORITY: read-only; returns typed reasons only.
+// ---------------------------------------------------------------------------
+
+const TERMINAL_MATRIX_SCHEMA = 'yalken.word.c5v2.terminal-acceptance-matrix.v1';
+const REQUIRED_CURRENT_WORD_PROFILE_ID = 'word-mac-16.111.2-d1';
+const PROFILE_CLASS_VOCABULARY = new Set([
+  'HISTORICAL_BUILD_BOUND',
+  'COMPETING_NOT_SATURATED',
+  'SATURATED',
+  'NOT_PROVEN',
+  'DECLARED',
+]);
+const VETO_KNOWN_KEYS = Object.freeze([
+  'falseExactVeto',
+  'wrongSceneVeto',
+  'silentApplyVeto',
+  'replayFailureVeto',
+  'silentCommentLossVeto',
+  'productNetworkRequestsVeto',
+]);
+
+function strictFail(code, message, terminalClaim, blockers) {
+  return {
+    ok: false,
+    code,
+    terminalClaim: terminalClaim === undefined ? null : terminalClaim,
+    blockers: Array.isArray(blockers) ? blockers : null,
+    reasons: [reason(code, message)],
+  };
+}
+
+export function evaluateTerminalRollupStrict({ registry, context } = {}) {
+  // --- 1. context completeness ---------------------------------------------
+  const ctx = isPlainObject(context) ? context : null;
+  const wordProfiles = ctx && ctx.wordProfiles;
+  const googleProfiles = ctx && ctx.googleProfiles;
+  const terminalMatrix = ctx && ctx.terminalMatrix;
+  const vetoCounters = ctx && ctx.vetoCounters;
+  const claims = ctx && ctx.claims;
+  if (!ctx || !Array.isArray(wordProfiles) || !Array.isArray(googleProfiles)
+    || !isPlainObject(terminalMatrix) || !isPlainObject(vetoCounters) || !Array.isArray(claims)) {
+    return strictFail(RELEASE01_CODES.ROLLUP_CONTEXT_INCOMPLETE,
+      'context must carry wordProfiles[], googleProfiles[], terminalMatrix{}, vetoCounters{} and claims[]');
+  }
+  const allProfiles = [...wordProfiles, ...googleProfiles];
+  for (const p of allProfiles) {
+    if (!isPlainObject(p) || !isNonEmptyString(p.profileId) || !PROFILE_CLASS_VOCABULARY.has(p.class)) {
+      return strictFail(RELEASE01_CODES.ROLLUP_CONTEXT_INCOMPLETE,
+        `malformed profile entry or unknown profile class: ${JSON.stringify(p && p.profileId)} class ${JSON.stringify(p && p.class)}`);
+    }
+  }
+
+  // --- 2. duplicate profile identity ---------------------------------------
+  const seenProfileIds = new Set();
+  for (const p of allProfiles) {
+    if (seenProfileIds.has(p.profileId)) {
+      return strictFail(RELEASE01_CODES.DUPLICATE_PROFILE_ID,
+        `duplicate profileId ${p.profileId}`);
+    }
+    seenProfileIds.add(p.profileId);
+  }
+
+  // --- 3. required profile resolution --------------------------------------
+  const profilesById = new Map(allProfiles.map((p) => [p.profileId, p]));
+  if (!profilesById.has(REQUIRED_CURRENT_WORD_PROFILE_ID)) {
+    return strictFail(RELEASE01_CODES.REQUIRED_PROFILE_MISSING,
+      `required current Word profile ${REQUIRED_CURRENT_WORD_PROFILE_ID} is absent`);
+  }
+  for (const claim of claims) {
+    const profileId = claim && claim.evidenceBinding && claim.evidenceBinding.profileId;
+    if (!isNonEmptyString(profileId) || !profilesById.has(profileId)) {
+      return strictFail(RELEASE01_CODES.REQUIRED_PROFILE_MISSING,
+        `claim ${claim && claim.claimId} references unresolvable profileId ${JSON.stringify(profileId)}`);
+    }
+  }
+
+  // --- 4. terminal matrix identity ------------------------------------------
+  if (terminalMatrix.schemaVersion !== TERMINAL_MATRIX_SCHEMA || !Array.isArray(terminalMatrix.rows)) {
+    return strictFail(RELEASE01_CODES.TERMINAL_MATRIX_INVALID,
+      `terminalMatrix must be the current terminal acceptance matrix (${TERMINAL_MATRIX_SCHEMA}) with rows[]`);
+  }
+
+  // --- 5. veto inventory -----------------------------------------------------
+  for (const key of VETO_KNOWN_KEYS) {
+    if (!(key in vetoCounters)) {
+      return strictFail(RELEASE01_CODES.VETO_INVENTORY_INVALID,
+        `veto inventory missing known key ${key}`);
+    }
+    const value = vetoCounters[key];
+    if (typeof value !== 'number' || value !== 0) {
+      return strictFail(RELEASE01_CODES.VETO_INVENTORY_INVALID,
+        `veto ${key} must be numeric zero, got ${JSON.stringify(value)}`);
+    }
+  }
+
+  // --- 6. deterministic blockers --------------------------------------------
+  const blockers = [];
+  const currentWord = profilesById.get(REQUIRED_CURRENT_WORD_PROFILE_ID);
+  if (currentWord.class !== 'SATURATED') {
+    blockers.push(`WORD_PROFILE_NOT_SATURATED:${REQUIRED_CURRENT_WORD_PROFILE_ID}`);
+  }
+  for (const p of wordProfiles) {
+    if (p.class === 'NOT_PROVEN') blockers.push(`WORD_PROFILE_UNPROVEN:${p.profileId}`);
+    if (p.class === 'DECLARED') blockers.push(`WORD_PROFILE_DECLARED:${p.profileId}`);
+  }
+  for (const p of googleProfiles) {
+    if (p.class === 'NOT_PROVEN') blockers.push(`GOOGLE_PROFILE_UNPROVEN:${p.profileId}`);
+    if (p.class === 'DECLARED') blockers.push(`GOOGLE_PROFILE_DECLARED:${p.profileId}`);
+  }
+  for (const claim of claims) {
+    if (claim && claim.claimClass === 'NOT_CLAIMED_BLOCKED') {
+      blockers.push(`BLOCKED_CLAIM:${claim.claimId}`);
+    }
+  }
+  for (const row of terminalMatrix.rows) {
+    if (row && row.status === 'BLOCKED') {
+      blockers.push(`TERMINAL_MATRIX_ROW_BLOCKED:${row.rowId || row.id}`);
+    }
+  }
+  blockers.sort();
+  const computed = blockers.length === 0 ? 'WORD_TERMINAL_PASS_ACHIEVED' : 'NOT_MADE_WORD_TERMINAL_PASS_REQUIRED';
+
+  // --- 7. recorded blocker set equality --------------------------------------
+  const recordedRollup = (isPlainObject(registry) && isPlainObject(registry.terminalRollup)) ? registry.terminalRollup : {};
+  const recordedBlockers = Array.isArray(recordedRollup.blockers) ? [...recordedRollup.blockers].sort() : null;
+  if (recordedBlockers === null
+    || recordedBlockers.length !== blockers.length
+    || recordedBlockers.some((value, index) => value !== blockers[index])) {
+    return strictFail(RELEASE01_CODES.BLOCKER_SET_MISMATCH,
+      `recorded blockers ${JSON.stringify(recordedBlockers)} != computed ${JSON.stringify(blockers)}`,
+      computed, blockers);
+  }
+
+  // --- 8. recorded state exact equality (both directions) --------------------
+  if (recordedRollup.state !== computed) {
+    return strictFail(RELEASE01_CODES.TERMINAL_STATE_MISMATCH,
+      `recorded state ${JSON.stringify(recordedRollup.state)} != computed ${JSON.stringify(computed)}`,
+      computed, blockers);
+  }
+
+  return {
+    ok: true,
+    code: RELEASE01_CODES.COMPILED_OK,
+    terminalClaim: computed,
+    blockers,
+    reasons: [reason(RELEASE01_CODES.COMPILED_OK, `strict terminal roll-up agrees: ${JSON.stringify(computed)}`)],
   };
 }
 

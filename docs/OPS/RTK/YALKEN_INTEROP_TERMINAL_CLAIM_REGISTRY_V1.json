@@ -342,10 +342,21 @@
   "terminalRollup": {
     "state": "NOT_MADE_WORD_TERMINAL_PASS_REQUIRED",
     "blockers": [
-      "WORD_MAC_16_111_2_COMPLETE_NOT_SATURATED",
-      "GOOGLE_DOCS_BOTH_PROFILES_DECLARED",
-      "MULTI_SCENE_ROWS_BLOCKED",
-      "WORD_WINDOWS_AND_ONLINE_UNPROVEN"
-    ]
+      "BLOCKED_CLAIM:claim-google-native-conversion",
+      "BLOCKED_CLAIM:claim-google-office-mode",
+      "BLOCKED_CLAIM:claim-multi-scene-atomic-apply",
+      "BLOCKED_CLAIM:claim-word-online",
+      "BLOCKED_CLAIM:claim-word-saturated",
+      "BLOCKED_CLAIM:claim-word-windows",
+      "GOOGLE_PROFILE_DECLARED:google-docs-native-conversion-post-d1-v1",
+      "GOOGLE_PROFILE_DECLARED:google-docs-office-mode-post-d1-v1",
+      "TERMINAL_MATRIX_ROW_BLOCKED:MULTI_SCENE_COORDINATOR",
+      "TERMINAL_MATRIX_ROW_BLOCKED:MULTI_SCENE_DELETE_TOMBSTONE",
+      "TERMINAL_MATRIX_ROW_BLOCKED:RETURN_NON_OVERLAP_APPLY",
+      "WORD_PROFILE_DECLARED:word-online-declared",
+      "WORD_PROFILE_NOT_SATURATED:word-mac-16.111.2-d1",
+      "WORD_PROFILE_UNPROVEN:word-windows-current"
+    ],
+    "blockerBinding": "deterministic-strict-rollup-v1: recorded blockers must equal the set computed by evaluateTerminalRollupStrict from the live registries, terminal acceptance matrix, veto inventory and claim inventory; state remains NOT_MADE_WORD_TERMINAL_PASS_REQUIRED"
   }
 }

@@ -745,5 +745,362 @@ test('RELEASE01-16-class-gate-unmasked-by-heads', async () => {
   assert.equal(result.code, RELEASE01_CODES.CLAIM_EXCEEDS_EVIDENCE);
 });
 
+// ===========================================================================
+// HOTFIX YALKEN_INTEROP_RELEASE01_TERMINAL_ROLLUP_FAIL_CLOSED_HOTFIX_V1
+//
+// Owner-audited false-green on 74bcee13 (reproduced by the orchestrator before
+// this repair): the legacy evaluateTerminalRollup returned ok=true
+// WORD_TERMINAL_PASS_ACHIEVED for a context with word-windows NOT_PROVEN,
+// word-online DECLARED and six NOT_CLAIMED_BLOCKED claims, and silently
+// defaulted missing context collections to empty values. The sixteen scenarios
+// below pin the STRICT replacement evaluateTerminalRollupStrict:
+//
+//   context = { wordProfiles, googleProfiles, terminalMatrix, vetoCounters,
+//               claims } — all five collections mandatory.
+//   Check order (load-bearing): CONTEXT_INCOMPLETE -> DUPLICATE_PROFILE_ID ->
+//   REQUIRED_PROFILE_MISSING -> TERMINAL_MATRIX_INVALID -> VETO_INVENTORY_INVALID
+//   -> compute deterministic blockers -> BLOCKER_SET_MISMATCH (recorded blockers
+//   must equal computed exactly) -> TERMINAL_STATE_MISMATCH (recorded state must
+//   equal computed exactly, both directions) -> COMPILED_OK.
+//
+//   Deterministic blocker codes (sorted):
+//     WORD_PROFILE_NOT_SATURATED:<profileId>   (required current profile not SATURATED)
+//     WORD_PROFILE_UNPROVEN:<profileId>        (word profile class NOT_PROVEN)
+//     WORD_PROFILE_DECLARED:<profileId>        (word profile class DECLARED)
+//     GOOGLE_PROFILE_UNPROVEN:<profileId>      (google profile class NOT_PROVEN)
+//     GOOGLE_PROFILE_DECLARED:<profileId>      (google profile class DECLARED)
+//     BLOCKED_CLAIM:<claimId>                  (claim class NOT_CLAIMED_BLOCKED remains)
+//     TERMINAL_MATRIX_ROW_BLOCKED:<rowId>      (terminal matrix row status BLOCKED)
+//
+//   computed PASS requires an EMPTY computed blocker set; recorded blockers and
+//   recorded state must equal the computed values exactly.
+// ===========================================================================
+
+const HOTFIX_CODES = {
+  ROLLUP_CONTEXT_INCOMPLETE: 'RTK_RELEASE01_ROLLUP_CONTEXT_INCOMPLETE',
+  REQUIRED_PROFILE_MISSING: 'RTK_RELEASE01_REQUIRED_PROFILE_MISSING',
+  DUPLICATE_PROFILE_ID: 'RTK_RELEASE01_DUPLICATE_PROFILE_ID',
+  BLOCKED_CLAIM_PRESENT: 'RTK_RELEASE01_BLOCKED_CLAIM_PRESENT',
+  BLOCKER_SET_MISMATCH: 'RTK_RELEASE01_BLOCKER_SET_MISMATCH',
+  VETO_INVENTORY_INVALID: 'RTK_RELEASE01_VETO_INVENTORY_INVALID',
+  TERMINAL_STATE_MISMATCH: 'RTK_RELEASE01_TERMINAL_STATE_MISMATCH',
+  TERMINAL_MATRIX_INVALID: 'RTK_RELEASE01_TERMINAL_MATRIX_INVALID',
+};
+
+const TERMINAL_MATRIX_SCHEMA = 'yalken.word.c5v2.terminal-acceptance-matrix.v1';
+const VETO_KNOWN_KEYS = [
+  'falseExactVeto',
+  'wrongSceneVeto',
+  'silentApplyVeto',
+  'replayFailureVeto',
+  'silentCommentLossVeto',
+  'productNetworkRequestsVeto',
+];
+
+function hotfixSaturatedWordProfiles() {
+  return [
+    { profileId: 'word-mac-16.42-d1', class: 'HISTORICAL_BUILD_BOUND', evidenceHeads: [{ path: 'capsule' }] },
+    { profileId: 'word-mac-16.111.1-b06', class: 'HISTORICAL_BUILD_BOUND', evidenceHeads: [{ path: 'b06' }] },
+    { profileId: 'word-mac-16.111.2-d1', class: 'SATURATED', evidenceHeads: [{ path: 'waves' }] },
+    { profileId: 'word-windows-current', class: 'SATURATED', evidenceHeads: [{ path: 'win' }] },
+    { profileId: 'word-online-declared', class: 'SATURATED', evidenceHeads: [{ path: 'online' }] },
+  ];
+}
+
+function hotfixCleanGoogleProfiles() {
+  return [
+    { profileId: 'google-docs-office-mode-post-d1-v1', class: 'SATURATED', evidenceHeads: [{ path: 'go' }] },
+    { profileId: 'google-docs-native-conversion-post-d1-v1', class: 'SATURATED', evidenceHeads: [{ path: 'gn' }] },
+  ];
+}
+
+function hotfixCleanMatrix() {
+  return {
+    schemaVersion: TERMINAL_MATRIX_SCHEMA,
+    rows: [
+      { rowId: 'MULTI_SCENE_COORDINATOR', status: 'EXACT_SUPPORTED' },
+    ],
+  };
+}
+
+function hotfixZeroVetoes() {
+  return {
+    falseExactVeto: 0,
+    wrongSceneVeto: 0,
+    silentApplyVeto: 0,
+    replayFailureVeto: 0,
+    silentCommentLossVeto: 0,
+    productNetworkRequestsVeto: 0,
+  };
+}
+
+function hotfixCleanClaims() {
+  return [
+    { claimId: 'claim-docx-export-minimal', claimClass: 'USER_FACING_BOUNDED_SUPPORTED', evidenceBinding: { profileId: 'word-mac-16.111.2-d1' } },
+  ];
+}
+
+function hotfixCleanContext() {
+  return {
+    wordProfiles: hotfixSaturatedWordProfiles(),
+    googleProfiles: hotfixCleanGoogleProfiles(),
+    terminalMatrix: hotfixCleanMatrix(),
+    vetoCounters: hotfixZeroVetoes(),
+    claims: hotfixCleanClaims(),
+  };
+}
+
+function hotfixRecorded(state, blockers) {
+  return { terminalRollup: { state, blockers } };
+}
+
+// H01 (TEST_01 preservation): the REAL registry against the REAL context stays
+// honestly NOT_MADE with recorded blockers exactly equal to computed blockers.
+test('RELEASE01-H01-real-registry-strict-rollup-honest-not-made', async () => {
+  const module = await loadModule();
+  assert.equal(typeof module.evaluateTerminalRollupStrict, 'function', 'strict roll-up must exist');
+  const registry = module.loadTerminalClaimRegistry(REGISTRY_PATH).registry;
+  const wordRegistry = JSON.parse(fs.readFileSync(WORD_REGISTRY_PATH, 'utf8'));
+  const googleRegistry = JSON.parse(fs.readFileSync(GOOGLE_REGISTRY_PATH, 'utf8'));
+  const matrix = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'docs', 'OPS', 'STATUS', 'YALKEN_WORD_C5V2_TERMINAL_ACCEPTANCE_MATRIX_V1.json'), 'utf8'));
+  const v4Profile = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json'), 'utf8'));
+  const vetoCounters = {};
+  for (const key of VETO_KNOWN_KEYS) vetoCounters[key] = v4Profile.capabilityClaimPolicy[key];
+  const context = {
+    wordProfiles: wordRegistry.profiles,
+    googleProfiles: googleRegistry.profiles,
+    terminalMatrix: matrix,
+    vetoCounters,
+    claims: registry.claims,
+  };
+  const result = module.evaluateTerminalRollupStrict({ registry, context });
+  assert.equal(result.ok, true, `real registry must agree with strict computation: ${JSON.stringify(result.reasons)}`);
+  assert.equal(result.terminalClaim, 'NOT_MADE_WORD_TERMINAL_PASS_REQUIRED');
+  assert.ok(Array.isArray(result.blockers) && result.blockers.length > 0, 'real state must carry deterministic blockers');
+});
+
+// H02 (TEST_02): only a SATURATED 16.111.2 profile, every other collection missing.
+test('RELEASE01-H02-partial-context-incomplete', async () => {
+  const module = await loadModule();
+  const result = module.evaluateTerminalRollupStrict({
+    registry: hotfixRecorded('NOT_MADE_WORD_TERMINAL_PASS_REQUIRED', []),
+    context: { wordProfiles: [{ profileId: 'word-mac-16.111.2-d1', class: 'SATURATED', evidenceHeads: [{ path: 'x' }] }] },
+  });
+  assert.equal(result.ok, false);
+  assert.equal(result.code, HOTFIX_CODES.ROLLUP_CONTEXT_INCOMPLETE);
+});
+
+// H03 (TEST_03): missing googleProfiles under full-interop semantics.
+test('RELEASE01-H03-missing-google-profiles-incomplete', async () => {
+  const module = await loadModule();
+  const context = hotfixCleanContext();
+  delete context.googleProfiles;
+  const result = module.evaluateTerminalRollupStrict({
+    registry: hotfixRecorded('WORD_TERMINAL_PASS_ACHIEVED', []),
+    context,
+  });
+  assert.equal(result.ok, false);
+  assert.equal(result.code, HOTFIX_CODES.ROLLUP_CONTEXT_INCOMPLETE);
+});
+
+// H04 (TEST_04): claim references an unresolvable profileId; required current profile absent.
+test('RELEASE01-H04-required-profile-missing', async () => {
+  const module = await loadModule();
+  const contextA = hotfixCleanContext();
+  contextA.claims = [{ claimId: 'claim-ghost', claimClass: 'DECLARED_ONLY', evidenceBinding: { profileId: 'word-ghost-does-not-exist' } }];
+  const a = module.evaluateTerminalRollupStrict({ registry: hotfixRecorded('WORD_TERMINAL_PASS_ACHIEVED', []), context: contextA });
+  assert.equal(a.ok, false);
+  assert.equal(a.code, HOTFIX_CODES.REQUIRED_PROFILE_MISSING);
+
+  const contextB = hotfixCleanContext();
+  contextB.wordProfiles = contextB.wordProfiles.filter((p) => p.profileId !== 'word-mac-16.111.2-d1');
+  contextB.claims = [];
+  const b = module.evaluateTerminalRollupStrict({ registry: hotfixRecorded('NOT_MADE_WORD_TERMINAL_PASS_REQUIRED', ['WORD_PROFILE_NOT_SATURATED:word-mac-16.111.2-d1']), context: contextB });
+  assert.equal(b.ok, false);
+  assert.equal(b.code, HOTFIX_CODES.REQUIRED_PROFILE_MISSING);
+});
+
+// H05 (TEST_05): duplicate profileId.
+test('RELEASE01-H05-duplicate-profile-id', async () => {
+  const module = await loadModule();
+  const context = hotfixCleanContext();
+  context.wordProfiles.push({ profileId: 'word-mac-16.111.2-d1', class: 'SATURATED', evidenceHeads: [{ path: 'dup' }] });
+  const result = module.evaluateTerminalRollupStrict({ registry: hotfixRecorded('WORD_TERMINAL_PASS_ACHIEVED', []), context });
+  assert.equal(result.ok, false);
+  assert.equal(result.code, HOTFIX_CODES.DUPLICATE_PROFILE_ID);
+});
+
+// H06 (TEST_06): Word Windows NOT_PROVEN forbids PASS with everything else closed.
+test('RELEASE01-H06-windows-not-proven-blocks-pass', async () => {
+  const module = await loadModule();
+  const context = hotfixCleanContext();
+  context.wordProfiles.find((p) => p.profileId === 'word-windows-current').class = 'NOT_PROVEN';
+  const result = module.evaluateTerminalRollupStrict({ registry: hotfixRecorded('WORD_TERMINAL_PASS_ACHIEVED', []), context });
+  assert.equal(result.ok, false);
+  assert.equal(result.terminalClaim, 'NOT_MADE_WORD_TERMINAL_PASS_REQUIRED');
+  assert.ok(result.blockers.includes('WORD_PROFILE_UNPROVEN:word-windows-current'), `blockers must name the Windows profile: ${JSON.stringify(result.blockers)}`);
+});
+
+// H07 (TEST_07): Word Online DECLARED forbids PASS.
+test('RELEASE01-H07-online-declared-blocks-pass', async () => {
+  const module = await loadModule();
+  const context = hotfixCleanContext();
+  context.wordProfiles.find((p) => p.profileId === 'word-online-declared').class = 'DECLARED';
+  const result = module.evaluateTerminalRollupStrict({ registry: hotfixRecorded('WORD_TERMINAL_PASS_ACHIEVED', []), context });
+  assert.equal(result.ok, false);
+  assert.equal(result.terminalClaim, 'NOT_MADE_WORD_TERMINAL_PASS_REQUIRED');
+  assert.ok(result.blockers.includes('WORD_PROFILE_DECLARED:word-online-declared'), `blockers must name the Online profile: ${JSON.stringify(result.blockers)}`);
+});
+
+// H08 (TEST_08): any remaining NOT_CLAIMED_BLOCKED claim forbids PASS.
+test('RELEASE01-H08-blocked-claim-blocks-pass', async () => {
+  const module = await loadModule();
+  const context = hotfixCleanContext();
+  context.claims.push({ claimId: 'claim-word-saturated', claimClass: 'NOT_CLAIMED_BLOCKED', evidenceBinding: { profileId: 'word-mac-16.111.2-d1' } });
+  const result = module.evaluateTerminalRollupStrict({ registry: hotfixRecorded('WORD_TERMINAL_PASS_ACHIEVED', []), context });
+  assert.equal(result.ok, false);
+  assert.equal(result.terminalClaim, 'NOT_MADE_WORD_TERMINAL_PASS_REQUIRED');
+  assert.ok(result.blockers.includes('BLOCKED_CLAIM:claim-word-saturated'), `blockers must name the blocked claim: ${JSON.stringify(result.blockers)}`);
+});
+
+// H09 (TEST_09): recorded blocker set non-empty while computed is empty.
+test('RELEASE01-H09-recorded-blocker-set-mismatch', async () => {
+  const module = await loadModule();
+  const result = module.evaluateTerminalRollupStrict({
+    registry: hotfixRecorded('WORD_TERMINAL_PASS_ACHIEVED', ['STALE_BLOCKER_LEFT_BEHIND']),
+    context: hotfixCleanContext(),
+  });
+  assert.equal(result.ok, false);
+  assert.equal(result.code, HOTFIX_CODES.BLOCKER_SET_MISMATCH);
+});
+
+// H10 (TEST_10): real terminal matrix BLOCKED rows forbid PASS; a substitute matrix is invalid.
+test('RELEASE01-H10-terminal-matrix-rows-and-substitute', async () => {
+  const module = await loadModule();
+  const realMatrix = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'docs', 'OPS', 'STATUS', 'YALKEN_WORD_C5V2_TERMINAL_ACCEPTANCE_MATRIX_V1.json'), 'utf8'));
+  const context = hotfixCleanContext();
+  context.terminalMatrix = realMatrix;
+  const blocked = module.evaluateTerminalRollupStrict({ registry: hotfixRecorded('WORD_TERMINAL_PASS_ACHIEVED', []), context });
+  assert.equal(blocked.ok, false);
+  assert.equal(blocked.terminalClaim, 'NOT_MADE_WORD_TERMINAL_PASS_REQUIRED');
+  assert.ok(blocked.blockers.includes('TERMINAL_MATRIX_ROW_BLOCKED:MULTI_SCENE_COORDINATOR'), `blockers must name the matrix row: ${JSON.stringify(blocked.blockers)}`);
+
+  const substitute = hotfixCleanContext();
+  substitute.terminalMatrix = { schemaVersion: 'revision-bridge.capability-matrix.v1', rows: [] };
+  const invalid = module.evaluateTerminalRollupStrict({ registry: hotfixRecorded('WORD_TERMINAL_PASS_ACHIEVED', []), context: substitute });
+  assert.equal(invalid.ok, false);
+  assert.equal(invalid.code, HOTFIX_CODES.TERMINAL_MATRIX_INVALID);
+});
+
+// H11 (TEST_11): veto inventory missing a known key.
+test('RELEASE01-H11-veto-inventory-missing-key', async () => {
+  const module = await loadModule();
+  const context = hotfixCleanContext();
+  delete context.vetoCounters.replayFailureVeto;
+  const result = module.evaluateTerminalRollupStrict({ registry: hotfixRecorded('WORD_TERMINAL_PASS_ACHIEVED', []), context });
+  assert.equal(result.ok, false);
+  assert.equal(result.code, HOTFIX_CODES.VETO_INVENTORY_INVALID);
+});
+
+// H12 (TEST_12): nonzero vetoes in numeric, string and boolean form.
+test('RELEASE01-H12-veto-nonzero-typed-forms', async () => {
+  const module = await loadModule();
+  for (const value of [1, '1', true]) {
+    const context = hotfixCleanContext();
+    context.vetoCounters.silentApplyVeto = value;
+    const result = module.evaluateTerminalRollupStrict({ registry: hotfixRecorded('WORD_TERMINAL_PASS_ACHIEVED', []), context });
+    assert.equal(result.ok, false, `veto value ${JSON.stringify(value)} must fail closed`);
+    assert.equal(result.code, HOTFIX_CODES.VETO_INVENTORY_INVALID);
+  }
+});
+
+// H13 (TEST_13): recorded PASS while computed NOT_MADE (blockers equal so the
+// state check is the first failing one).
+test('RELEASE01-H13-recorded-pass-vs-computed-not-made', async () => {
+  const module = await loadModule();
+  const context = hotfixCleanContext();
+  context.terminalMatrix = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'docs', 'OPS', 'STATUS', 'YALKEN_WORD_C5V2_TERMINAL_ACCEPTANCE_MATRIX_V1.json'), 'utf8'));
+  const probe = module.evaluateTerminalRollupStrict({ registry: hotfixRecorded('NOT_MADE_WORD_TERMINAL_PASS_REQUIRED', []), context });
+  const computedBlockers = probe.blockers;
+  const result = module.evaluateTerminalRollupStrict({
+    registry: hotfixRecorded('WORD_TERMINAL_PASS_ACHIEVED', computedBlockers),
+    context,
+  });
+  assert.equal(result.ok, false);
+  assert.equal(result.code, HOTFIX_CODES.TERMINAL_STATE_MISMATCH);
+});
+
+// H14 (TEST_14): recorded NOT_MADE while computed PASS (narrower recorded is
+// equally a mismatch — strict equality, not rank ordering).
+test('RELEASE01-H14-recorded-not-made-vs-computed-pass', async () => {
+  const module = await loadModule();
+  const result = module.evaluateTerminalRollupStrict({
+    registry: hotfixRecorded('NOT_MADE_WORD_TERMINAL_PASS_REQUIRED', []),
+    context: hotfixCleanContext(),
+  });
+  assert.equal(result.ok, false);
+  assert.equal(result.code, HOTFIX_CODES.TERMINAL_STATE_MISMATCH);
+  assert.equal(result.terminalClaim, 'WORD_TERMINAL_PASS_ACHIEVED');
+});
+
+// H15 (TEST_15): fully closed synthetic control still reaches PASS (the gate is
+// not a permanent red).
+test('RELEASE01-H15-fully-closed-control-passes', async () => {
+  const module = await loadModule();
+  const result = module.evaluateTerminalRollupStrict({
+    registry: hotfixRecorded('WORD_TERMINAL_PASS_ACHIEVED', []),
+    context: hotfixCleanContext(),
+  });
+  assert.equal(result.ok, true, `fully closed control must pass: ${JSON.stringify(result.reasons)}`);
+  assert.equal(result.terminalClaim, 'WORD_TERMINAL_PASS_ACHIEVED');
+  assert.deepEqual(result.blockers, []);
+});
+
+// H16 (TEST_16 preservation): the owner counterexample itself — Windows
+// NOT_PROVEN, Online DECLARED and the six real blocked claims present — must now
+// fail closed with deterministic blockers on the REAL registry data.
+test('RELEASE01-H16-owner-counterexample-fails-closed', async () => {
+  const module = await loadModule();
+  const registry = module.loadTerminalClaimRegistry(REGISTRY_PATH).registry;
+  const wordRegistry = JSON.parse(fs.readFileSync(WORD_REGISTRY_PATH, 'utf8'));
+  const context = {
+    wordProfiles: wordRegistry.profiles.map((p) => p.profileId === 'word-mac-16.111.2-d1' ? { ...p, class: 'SATURATED' } : p),
+    googleProfiles: [
+      { profileId: 'google-docs-office-mode-post-d1-v1', class: 'SATURATED', evidenceHeads: [{ path: 'g' }] },
+      { profileId: 'google-docs-native-conversion-post-d1-v1', class: 'SATURATED', evidenceHeads: [{ path: 'h' }] },
+    ],
+    terminalMatrix: { schemaVersion: TERMINAL_MATRIX_SCHEMA, rows: [] },
+    vetoCounters: hotfixZeroVetoes(),
+    claims: registry.claims,
+  };
+  const result = module.evaluateTerminalRollupStrict({
+    registry: { terminalRollup: { state: 'WORD_TERMINAL_PASS_ACHIEVED', blockers: [] } },
+    context,
+  });
+  assert.equal(result.ok, false, 'owner counterexample must never pass');
+  assert.equal(result.terminalClaim, 'NOT_MADE_WORD_TERMINAL_PASS_REQUIRED');
+  assert.ok(result.blockers.includes('WORD_PROFILE_UNPROVEN:word-windows-current'));
+  assert.ok(result.blockers.includes('WORD_PROFILE_DECLARED:word-online-declared'));
+  assert.ok(result.blockers.includes('BLOCKED_CLAIM:claim-word-saturated'));
+});
+
+// H17 (unmasking amendment): recorded blocker set of EQUAL length but different
+// content must still mismatch. Without this scenario the element-wise blocker
+// comparison is masked by the length check (H09 exercises length only).
+test('RELEASE01-H17-recorded-blocker-content-mismatch-same-length', async () => {
+  const module = await loadModule();
+  const context = hotfixCleanContext();
+  context.terminalMatrix = {
+    schemaVersion: TERMINAL_MATRIX_SCHEMA,
+    rows: [{ rowId: 'MULTI_SCENE_COORDINATOR', status: 'BLOCKED' }],
+  };
+  const result = module.evaluateTerminalRollupStrict({
+    registry: hotfixRecorded('NOT_MADE_WORD_TERMINAL_PASS_REQUIRED', ['TERMINAL_MATRIX_ROW_BLOCKED:SOME_OTHER_ROW']),
+    context,
+  });
+  assert.equal(result.ok, false, 'same-length different-content blocker set must mismatch');
+  assert.equal(result.code, HOTFIX_CODES.BLOCKER_SET_MISMATCH);
+});
+
 // Keep stableJson referenced for fixture symmetry with sibling contracts.
 void stableJson;

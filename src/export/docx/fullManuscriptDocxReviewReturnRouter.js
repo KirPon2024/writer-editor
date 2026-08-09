@@ -590,9 +590,19 @@ function buildFullManuscriptReviewReturnApplyPlan(input = {}) {
     commentLifecycleCommands,
     typedOperations,
     atomicity: {
-      route: 'existing-multi-scene-command-kernel-rollback',
+      // MULTI-01: the apply plan routes every scene through one explicit
+      // multi-scene command, but the underlying writes are an independent
+      // staged sequence with no durable atomic boundary. A crash between writes
+      // leaves mixed canonical state that the runtime classifies as
+      // RTK_MULTI_SCENE_PARTIAL_REPLAY_BLOCKED. Atomicity is therefore typed
+      // BLOCKED until a decisive K-MS SIGKILL series proves an atomic path.
+      route: 'staged-sequential-multi-scene-apply-atomicity-blocked',
       allScenesValidatedBeforeWrite: true,
+      stagedSequentialApplyCertifiedAsStaged: true,
       partialCanonicalWriteForbidden: true,
+      multiSceneAtomicApplyCertified: false,
+      multiSceneAtomicApplyBlockedReason: 'MULTI_SCENE_SCOPE_BLOCKED_UNTIL_DECISIVE_CRASH_PROOF',
+      killCriterion: 'A decisive K-MS SIGKILL crash series must prove an atomic convergence path before this route may certify atomic apply.',
     },
   };
 }

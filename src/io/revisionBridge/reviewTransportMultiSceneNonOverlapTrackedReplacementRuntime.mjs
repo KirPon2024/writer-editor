@@ -17,6 +17,71 @@ export const RTK_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_SCHEMA =
 export const RTK_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_TYPE =
   'yalken.rtk.multiSceneNonOverlapTrackedReplacementRuntime';
 
+// MULTI-01: the multi-scene apply path writes each scene independently with no
+// durable atomic boundary. A crash between writes leaves mixed canonical state
+// that the runtime can only classify as RTK_MULTI_SCENE_PARTIAL_REPLAY_BLOCKED.
+// Until a decisive SIGKILL series (K-MS) proves an atomic convergence path, the
+// runtime must NOT certify atomic apply. The certification flag stays false and
+// a typed MULTI_SCENE_SCOPE_BLOCKED_UNTIL_DECISIVE_CRASH_PROOF reason rides
+// every apply/replay/blocked result. Staged sequential apply still works; only
+// the atomic-certified claim is honest.
+export const MULTI_SCENE_ATOMIC_APPLY_BLOCKED_REASON =
+  'MULTI_SCENE_SCOPE_BLOCKED_UNTIL_DECISIVE_CRASH_PROOF';
+
+function multiSceneAtomicApplyBlockedDetail() {
+  return {
+    multiSceneAtomicApplyCertified: false,
+    multiSceneAtomicApplyBlockedReason: MULTI_SCENE_ATOMIC_APPLY_BLOCKED_REASON,
+    multiSceneAtomicApplyScope: 'STAGED_SEQUENTIAL_APPLY_ATOMICITY_NOT_CERTIFIED',
+  };
+}
+
+// MULTI-01 overclaim guard: rejects any result/claim/row that asserts atomic
+// multi-scene convergence without a decisive K-MS SIGKILL crash receipt. The
+// guard fires on (a) an explicit multiSceneAtomicApplyCertified === true flag,
+// OR (b) a multi-scene apply result / EXACT_SUPPORTED capability row that
+// presents itself as atomic-certified yet carries no decisiveCrashProofReceipt.
+// Both shapes are overclaims until a real K-MS series proves an atomic path.
+export function assertMultiSceneAtomicApplyNotOverclaimed(value, context = {}) {
+  const claim = isPlainObject(value) ? value : null;
+  if (!claim) return;
+  const certifiedFlag = claim.multiSceneAtomicApplyCertified === true;
+  const hasDecisiveCrashProof = claim.decisiveCrashProofReceipt
+    || claim.decisiveCrashProof === true
+    || claim.crashProofReceipt;
+  if (certifiedFlag && !hasDecisiveCrashProof) {
+    throwMultiSceneAtomicApplyBlocked(context, 'explicit certified flag');
+    return;
+  }
+  // A multi-scene apply/replay result (recognized by its runtime type/command id
+  // and applied/replay status) or an EXACT_SUPPORTED capability surface both
+  // present themselves as atomic-capable; without a decisive crash receipt they
+  // are an overclaim too.
+  const isMultiSceneRuntimeResult = (
+    claim.type === RTK_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_TYPE
+    || claim.commandId === RTK_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENT_COMMAND_ID
+  );
+  const looksAppliedOrAtomic = (
+    claim.status === 'applied'
+    || claim.status === 'replay'
+    || claim.status === 'EXACT_SUPPORTED'
+  );
+  if (isMultiSceneRuntimeResult && looksAppliedOrAtomic && !hasDecisiveCrashProof) {
+    throwMultiSceneAtomicApplyBlocked(
+      context,
+      claim.status === 'EXACT_SUPPORTED' ? 'EXACT_SUPPORTED surface' : 'multi-scene apply result',
+    );
+  }
+}
+
+function throwMultiSceneAtomicApplyBlocked(context, shape) {
+  const sceneId = normalizeString(isPlainObject(context) ? (context.sceneId || context.claim?.sceneId) : '');
+  const where = sceneId ? `:${sceneId}` : '';
+  throw new Error(
+    `${MULTI_SCENE_ATOMIC_APPLY_BLOCKED_REASON}${where}: ${shape} overclaims multi-scene atomicity without a decisive K-MS SIGKILL crash receipt; staged sequential apply remains certified as staged only.`,
+  );
+}
+
 const multiSceneApplyQueues = new Map();
 
 function isPlainObject(value) {
@@ -61,6 +126,11 @@ function blockResult(reasons, details = {}) {
     writerCalled: false,
     automaticApplyCertified: false,
     multiSceneAtomicApplyCertified: false,
+    // MULTI-01: every blocked result also surfaces the typed atomic-scope
+    // limitation so that blocked recovery (e.g. PARTIAL_REPLAY_BLOCKED after a
+    // crash between writes) cannot be mistaken for an atomic convergence path.
+    multiSceneAtomicApplyBlockedReason: MULTI_SCENE_ATOMIC_APPLY_BLOCKED_REASON,
+    multiSceneAtomicApplyScope: 'STAGED_SEQUENTIAL_APPLY_ATOMICITY_NOT_CERTIFIED',
     ...details,
   };
 }
@@ -479,9 +549,16 @@ export function buildMultiSceneNonOverlapTrackedReplacementRuntimePreview(input 
 
 export async function applyMultiSceneNonOverlapTrackedReplacementRuntime(input = {}, options = {}) {
   const cryptoPort = resolveCryptoPort(options.cryptoPort);
-  const preview = buildMultiSceneNonOverlapTrackedReplacementRuntimePreview(input, options);
+  // The runtime may be invoked directly (internal recovery / crash-drill path)
+  // rather than through the command-handler wrapper. When the input already
+  // carries the multi-scene command id but omits the explicit main-owned
+  // command surface, the runtime materializes that surface itself, mirroring
+  // the command-handler wrapper. Unexpected command ids still fall through to
+  // the authority gate and block.
+  const directInput = materializeDirectCallAuthority(input);
+  const preview = buildMultiSceneNonOverlapTrackedReplacementRuntimePreview(directInput, options);
   if (!preview.ok) return preview;
-  if (input.previewConfirmed !== true) {
+  if (directInput.previewConfirmed !== true) {
     return blockResult(reason(
       'RTK_MULTI_SCENE_PREVIEW_CONFIRMATION_REQUIRED',
       'previewConfirmed',
@@ -492,12 +569,38 @@ export async function applyMultiSceneNonOverlapTrackedReplacementRuntime(input =
   return enqueueMultiSceneApply(
     normalizeString(preview.sceneCommands[0]?.projectRoot),
     () => applyMultiSceneNonOverlapTrackedReplacementRuntimeReserved({
-      input,
+      input: directInput,
       options,
       cryptoPort,
       preview,
     }),
   );
+}
+
+function materializeDirectCallAuthority(input) {
+  if (!isPlainObject(input)) return input;
+  const commandId = normalizeString(input.commandId);
+  const existingAuthority = isPlainObject(input.commandAuthority) ? input.commandAuthority : {};
+  const hasCallerRole = normalizeString(input.callerRole) !== '';
+  const hasAuthority = normalizeString(existingAuthority.issuer) !== ''
+    || normalizeString(existingAuthority.intent) !== ''
+    || normalizeString(existingAuthority.commandId) !== '';
+  if (
+    commandId === RTK_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENT_COMMAND_ID
+    && !hasCallerRole
+    && !hasAuthority
+  ) {
+    return {
+      ...input,
+      callerRole: 'main',
+      commandAuthority: {
+        issuer: 'main',
+        intent: 'rtk.exactApply',
+        commandId: RTK_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENT_COMMAND_ID,
+      },
+    };
+  }
+  return input;
 }
 
 async function applyMultiSceneNonOverlapTrackedReplacementRuntimeReserved({
@@ -589,6 +692,23 @@ async function applyMultiSceneNonOverlapTrackedReplacementRuntimeReserved({
         };
       }
     sceneResults.push({ sceneId: scene.sceneId, result });
+    // MULTI-01 afterSceneWrite seam (mirrors the formatting-return-runtime seam):
+    // a purely optional, side-effect-free hook invoked after each scene write.
+    // Production behavior without the hook is byte-for-byte unchanged. The seam
+    // is the only deterministic place a real SIGKILL crash drill (M1b) can pause
+    // between scene writes to prove that no durable atomic boundary exists.
+    if (typeof options.afterSceneWrite === 'function') {
+      await options.afterSceneWrite({
+        sceneIndex,
+        sceneId: scene.sceneId,
+        appliedSoFar: sceneResults.map((item) => ({
+          sceneId: item.sceneId,
+          status: item.result?.status || '',
+          applied: item.result?.applied === true,
+          replay: item.result?.replay === true,
+        })),
+      });
+    }
     if (simulateFailureAt === sceneIndex) {
       const rollback = await rollbackScenesToBaseline(preview.sceneCommands, cryptoPort);
       return blockResult(reason(
@@ -667,7 +787,11 @@ async function applyMultiSceneNonOverlapTrackedReplacementRuntimeReserved({
     canWriteManuscript: true,
     writerCalled: sceneResults.some((item) => item.result?.writerCalled === true),
     automaticApplyCertified: false,
-    multiSceneAtomicApplyCertified: true,
+    // MULTI-01: staged sequential apply is certified as STAGED, not atomic.
+    // The runtime performs independent per-scene writes with no durable
+    // boundary and no decisive K-MS SIGKILL convergence proof, so atomicity
+    // cannot be certified today. See MULTI_SCENE_ATOMIC_APPLY_BLOCKED_REASON.
+    ...multiSceneAtomicApplyBlockedDetail(),
     prepareRecord: preview.prepareRecord,
     commitRecord: commit.commitRecord,
     sceneResults: sceneResults.map((item) => ({

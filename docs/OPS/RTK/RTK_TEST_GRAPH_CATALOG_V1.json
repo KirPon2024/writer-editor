@@ -22,6 +22,7 @@
     "rtk-g0c-exact-safety.contract.test.js",
     "rtk-google-docs-g00-discovery-binding.contract.test.js",
     "rtk-match01-placement-proof.contract.test.js",
+    "rtk-multi01-multi-scene-scope-blocked.contract.test.js",
     "rtk-parser01-namespace-atoms.contract.test.js",
     "rtk-post-d1-portability-program.contract.test.js",
     "rtk-runner-v2-cert01.contract.test.js",

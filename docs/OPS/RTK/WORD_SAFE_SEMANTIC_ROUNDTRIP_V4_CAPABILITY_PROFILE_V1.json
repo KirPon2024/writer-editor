@@ -1115,7 +1115,8 @@
       "productCompositionRegistered": true,
       "productRuntimeWired": true,
       "liveElectronUiExportSurfaceClicked": true,
-      "multiSceneAtomicApplyCertified": true,
+      "multiSceneAtomicApplyCertified": false,
+      "multiSceneAtomicApplyBlockedReason": "MULTI_SCENE_SCOPE_BLOCKED_UNTIL_DECISIVE_CRASH_PROOF",
       "commentDeleteProductRuntimeWired": true,
       "modernReplyProductRuntimeWired": false,
       "modernResolveReopenProductRuntimeWired": false,
@@ -1129,16 +1130,17 @@
       "acceptanceTest": "test/contracts/rtk-word-release-audit-p0-multiscene-atomic-comment-state-closure.contract.test.js",
       "supportedNow": [
         "two physical Word returned scene commands coordinate through one explicit multi-scene command",
-        "multi-scene writer prevalidates every scene before any write and replays deterministically",
+        "multi-scene writer prevalidates every scene before any write and replays deterministically as a staged sequential apply",
         "Word comment delete is product-wired as a comment shadow tombstone without manuscript authority",
         "stale wrong-scene and tampered multi-scene attempts block before writer authority"
       ],
       "limitations": [
         "MODERN_COMMENT_REPLY_NOT_PRODUCT_CERTIFIED",
         "MODERN_COMMENT_RESOLVE_REOPEN_NOT_PRODUCT_CERTIFIED",
-        "Word SATURATED remains false until bounded varied wave 64 and later stress are complete"
+        "Word SATURATED remains false until bounded varied wave 64 and later stress are complete",
+        "MULTI_SCENE_SCOPE_BLOCKED_UNTIL_DECISIVE_CRASH_PROOF: staged sequential apply is certified as staged, not atomic; a SIGKILL between writes leaves mixed canonical state (RTK_MULTI_SCENE_PARTIAL_REPLAY_BLOCKED) with no convergence path"
       ],
-      "killCriterion": "Any partial scene write, wrong scene route, silent comment loss, nonzero veto, reply resolve runtime claim, automatic apply claim, or Google Docs execution invalidates this capability."
+      "killCriterion": "Any partial scene write, wrong scene route, silent comment loss, nonzero veto, reply resolve runtime claim, automatic apply claim, atomic-apply claim without a decisive K-MS SIGKILL series, or Google Docs execution invalidates this capability."
     }
   ],
   "latestProductVerticalTrackedEdit": {
@@ -1158,7 +1160,8 @@
     "receiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE_RECEIPT.json",
     "physicalWordEvidence": true,
     "productRuntimeWired": true,
-    "multiSceneAtomicApplyCertified": true,
+    "multiSceneAtomicApplyCertified": false,
+    "multiSceneAtomicApplyBlockedReason": "MULTI_SCENE_SCOPE_BLOCKED_UNTIL_DECISIVE_CRASH_PROOF",
     "commentDeleteProductRuntimeWired": true,
     "modernReplyProductRuntimeWired": false,
     "modernResolveReopenProductRuntimeWired": false,

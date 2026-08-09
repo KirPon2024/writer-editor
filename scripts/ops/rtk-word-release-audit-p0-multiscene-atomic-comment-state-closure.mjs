@@ -1002,7 +1002,21 @@ export function evaluateWordReleaseAuditP0MultiSceneAtomicCommentStateClosure(in
     || program.releaseAuditNight01?.googleDocsOpened !== false)) {
     addIssue(issues, 'RTK_P0_MSCS_PROGRAM_INVALID', 'program.releaseAuditNight01', 'Program state must bind product truth without saturation.');
   }
-  if (!cell || cell.productRuntimeWired !== true || cell.multiSceneAtomicApplyCertified !== true || cell.automaticApplyCertified !== false || cell.wordSaturated !== false) {
+  // MULTI-01 Pass 2: the live capability profile cell certifies staged
+  // sequential apply as STAGED and types atomic apply as BLOCKED until a
+  // decisive K-MS SIGKILL series proves an atomic convergence path. The cell is
+  // valid in either the historical staged-apply-capable form
+  // (multiSceneAtomicApplyCertified:true) or the typed blocked form
+  // (multiSceneAtomicApplyCertified:false plus a MULTI_SCENE_SCOPE_BLOCKED
+  // reason). Both must keep productRuntimeWired true, automaticApplyCertified
+  // false, and wordSaturated false.
+  const cellAtomicValid = cell && (
+    cell.multiSceneAtomicApplyCertified === true
+    || (cell.multiSceneAtomicApplyCertified === false
+      && typeof cell.multiSceneAtomicApplyBlockedReason === 'string'
+      && cell.multiSceneAtomicApplyBlockedReason.startsWith('MULTI_SCENE_SCOPE_BLOCKED'))
+  );
+  if (!cell || cell.productRuntimeWired !== true || !cellAtomicValid || cell.automaticApplyCertified !== false || cell.wordSaturated !== false) {
     addIssue(issues, 'RTK_P0_MSCS_PROFILE_INVALID', 'profile.cells', 'Capability profile must bind product runtime truth without overclaim.');
   }
   if (!coverage || coverage.passCases !== 3 || coverage.negativePass !== 4 || coverage.multiSceneAtomicApplyCertified !== true || coverage.wordSaturated !== false) {

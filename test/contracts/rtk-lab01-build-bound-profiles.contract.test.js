@@ -858,11 +858,17 @@ test('LAB02-01-real-registry-migrated-honestly', async () => {
   assert.equal(old.class, 'HISTORICAL_BUILD_BOUND', '16.111.2 must freeze as HISTORICAL_BUILD_BOUND');
   assert.equal(old.supersededBy, 'word-mac-16.111.3-26080215', '16.111.2 must name its superseding build');
   assert.ok(current, '16.111.3 profile must exist');
-  assert.equal(current.class, 'DECLARED', '16.111.3 must start DECLARED');
+  // PHYS-02 amendment: the CARRIER_SURVIVAL_SMOKE rung was physically earned on
+  // 2026-08-10 (12/12 sealed on merged SHA 197ba60f). The profile is now
+  // COMPETING_NOT_SATURATED with exactly one head and exactly one rung; every
+  // later rung remains unearned.
+  assert.equal(current.class, 'COMPETING_NOT_SATURATED', '16.111.3 is COMPETING after the sealed smoke rung');
   assert.equal(current.wordVersion, '16.111.3');
   assert.equal(current.wordBuild, '16.111.26080215');
-  assert.equal(current.evidenceHeads.length, 0, '16.111.3 must start with zero evidence heads');
-  assert.equal(current.ladder.completedRungs.length, 0, '16.111.3 must start with an empty ladder');
+  assert.equal(current.evidenceHeads.length, 1, 'exactly the smoke evidence head');
+  assert.equal(current.evidenceHeads[0].path, 'docs/OPS/RTK/WORD_MAC_16_111_3_CARRIER_SURVIVAL_SMOKE_RECEIPT.json');
+  assert.deepEqual(current.evidenceHeads[0].rungs, ['CARRIER_SURVIVAL_SMOKE']);
+  assert.deepEqual(current.ladder.completedRungs, ['CARRIER_SURVIVAL_SMOKE'], 'exactly the smoke rung is earned');
   assert.equal(registryJson.currentProfileId, 'word-mac-16.111.3-26080215', 'pointer must name the current build profile');
 });
 
@@ -938,13 +944,27 @@ test('LAB02-04-frozen-16-111-2-rejects-new-evidence', async () => {
 test('LAB02-05-declared-16-111-3-rejects-green', async () => {
   const module = await loadModule();
   const registryJson = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
-  const result = module.evaluateEvidenceProfileJoin({
+  // PHYS-02 amendment: 16.111.3 is COMPETING_NOT_SATURATED after the sealed
+  // smoke rung, so the NOT_PROVEN_CLAIM law moves to its honest remaining
+  // targets: a foreign build never joins (cross-build), and the smoke head is
+  // re-joinable (idempotent read of registered evidence).
+  const crossBuild = module.evaluateEvidenceProfileJoin({
     registry: registryJson,
     profileId: 'word-mac-16.111.3-26080215',
-    evidence: { wordVersion: '16.111.3', wordBuild: '16.111.26080215' },
+    evidence: { wordVersion: '16.111.4', wordBuild: '16.111.99999999' },
   });
-  assert.equal(result.ok, false);
-  assert.equal(result.code, 'RTK_LAB01_NOT_PROVEN_CLAIM');
+  assert.equal(crossBuild.ok, false);
+  assert.equal(crossBuild.code, 'RTK_LAB01_CROSS_BUILD_EVIDENCE');
+  const rejoin = module.evaluateEvidenceProfileJoin({
+    registry: registryJson,
+    profileId: 'word-mac-16.111.3-26080215',
+    evidence: {
+      wordVersion: '16.111.3',
+      wordBuild: '16.111.26080215',
+      evidenceHeadPath: 'docs/OPS/RTK/WORD_MAC_16_111_3_CARRIER_SURVIVAL_SMOKE_RECEIPT.json',
+    },
+  });
+  assert.equal(rejoin.ok, true, `re-joining the registered smoke head is a read: ${JSON.stringify(rejoin.reasons)}`);
 });
 
 // L2-06: no rung inheritance — 16.111.3 admits only the first rung (an attempt,
@@ -952,12 +972,15 @@ test('LAB02-05-declared-16-111-3-rejects-green', async () => {
 test('LAB02-06-no-rung-inheritance-on-new-build', async () => {
   const module = await loadModule();
   const registryJson = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
+  // PHYS-02 amendment: CARRIER_SURVIVAL_SMOKE is earned; the next admission is
+  // SEMANTIC_DIFFERENTIAL_SUBSET, and re-admission of the earned rung stays an
+  // idempotent read.
   const first = module.evaluateLadderAdmission({
     registry: registryJson,
     profileId: 'word-mac-16.111.3-26080215',
-    rung: 'CARRIER_SURVIVAL_SMOKE',
+    rung: 'SEMANTIC_DIFFERENTIAL_SUBSET',
   });
-  assert.equal(first.ok, true, 'first rung admission (attempt) must be allowed');
+  assert.equal(first.ok, true, 'the next rung admission (attempt) must be allowed');
   const bypass = module.evaluateLadderAdmission({
     registry: registryJson,
     profileId: 'word-mac-16.111.3-26080215',

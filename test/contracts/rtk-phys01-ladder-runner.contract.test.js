@@ -1273,3 +1273,24 @@ test('PHYS01-P37-diverse-scope-requires-manifest', async () => {
   assert.equal(invalid.ok, false, 'diverse scope without the embedded manifest is invalid');
   assert.equal(invalid.code, 'RTK_PHYS_RECEIPT_INVALID');
 });
+
+// E07 (DIVERSITY-02 anti-drift): every family anchor must be present verbatim
+// in the lab's synthetic fixture bytes (the first diverse run found a CJK
+// token drift between the lab text and the runner's copy; 13/13 CJK cases
+// failed anchor-missing while all other families passed).
+test('PHYS01-E07-anchors-present-in-lab-fixture-bytes', async () => {
+  const module = await loadModule();
+  const lab = await import(pathToFileURL(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-latest-physical-certification-lab.mjs')).href);
+  const buffer = lab.buildB06SyntheticDocxBuffer({ id: 'anchor-probe', title: 'anchor probe' });
+  const text = buffer.toString('utf8');
+  const anchors = ['OLD_WORD', 'INSERT_HERE', 'COMMENT_TARGET', 'SCENE_BOUNDARY', 'café', 'shalom', '短文'];
+  for (const anchor of anchors) {
+    assert.ok(text.includes(anchor), `anchor ${JSON.stringify(anchor)} must be present in the lab fixture bytes`);
+  }
+  // And the runner's own fixture copy must agree on every family anchor.
+  for (const family of ['replacement', 'deletion', 'insertion', 'duplicate-anchors', 'comments', 'formatting', 'structural-boundaries', 'unicode', 'rtl', 'cjk']) {
+    const spec = module.buildDiverseWaveCaseSpecs('WAVE_300').find((s) => s.family === family);
+    const script = module.buildFamilyWordScriptForTest('case.docx', '/tmp/case.docx', spec);
+    assert.ok(script.length > 100, `${family} script builds against the runner fixture copy`);
+  }
+});

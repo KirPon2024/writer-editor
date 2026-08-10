@@ -9935,21 +9935,21 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-phys-ladder-16-111-3.mjs",
-      "sha256": "af0094109ac315cbbe07d4293ff06baccb8ee00b2bc7495158467acd58330548",
-      "approvedBy": "owner-direct:TASK_ID:PHYS01C_SCRIPT_APPEND_REPAIR",
-      "approvedAtUtc": "2026-08-10T07:21:45.815Z",
-      "rationale": "Approve the PHYS-01C repair: the generated Word script appends via the proven create-range idiom; the invalid set-end-of statement is removed; the builder is exported for the script contract pin.",
+      "sha256": "bc649b08a4576b5fefa0dedd3b807b75e02e4ea27882f1f2c5a2e4514e93ede3",
+      "approvedBy": "owner-direct:TASK_ID:PHYS01D_TEXT_LENGTH_REPAIR",
+      "approvedAtUtc": "2026-08-10T07:45:42.403Z",
+      "rationale": "Approve the PHYS-01D repair bytes: the append measures the already-read yInitialText variable (Word 16.111.3 returns 0 for the live text object), with the PHYS_TEXT_LENGTH_UNAVAILABLE guard and the updated P21 pin.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS01C_REPAIR"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS01D_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-phys01-ladder-runner.contract.test.js",
-      "sha256": "34297f00e0b1a43664c5cc29f31f5e7153b6fb21d3df1b423789bc93cd17fee7",
-      "approvedBy": "owner-direct:TASK_ID:PHYS01C_SCRIPT_APPEND_REPAIR",
-      "approvedAtUtc": "2026-08-10T07:21:45.815Z",
-      "rationale": "Approve PHYS01-P21: generated-script contract pinning the create-range append idiom and banning the invalid set-end-of statement, found by the first physical smoke run on Word 16.111.3 (AppleScript -10006).",
+      "sha256": "000b6af8283cb92119f988d8829667eecd9c509081084faf106959f7aa66efcd",
+      "approvedBy": "owner-direct:TASK_ID:PHYS01D_TEXT_LENGTH_REPAIR",
+      "approvedAtUtc": "2026-08-10T07:45:42.403Z",
+      "rationale": "Approve the PHYS-01D repair bytes: the append measures the already-read yInitialText variable (Word 16.111.3 returns 0 for the live text object), with the PHYS_TEXT_LENGTH_UNAVAILABLE guard and the updated P21 pin.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS01C_REPAIR"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS01D_REPAIR"
     }
   ]
 }

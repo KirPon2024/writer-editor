@@ -9935,21 +9935,21 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-phys-ladder-16-111-3.mjs",
-      "sha256": "9cf24077fd628c2a2a9b34af5d9d9736de65b47fc43c95eb9b0147a2eca1189c",
-      "approvedBy": "owner-direct:TASK_ID:DIVERSITY02_FAMILY_EXECUTORS",
-      "approvedAtUtc": "2026-08-10T21:28:33.804Z",
-      "rationale": "Approve the DIVERSITY-02 follow-up: per-family dispatch in the wave executor, repeat manifest replay wiring in main(), repeat digest binding at receipt build, and the diverse-scope-requires-manifest validator law with P37.",
+      "sha256": "22ff8f1d40aab7fbdf322297813969b74cea8166009da8d99da0ad99224b02dd",
+      "approvedBy": "owner-direct:TASK_ID:PHYS11A_CJK_ANCHOR_REPAIR",
+      "approvedAtUtc": "2026-08-10T22:49:24.648Z",
+      "rationale": "Approve the CJK anchor repair found by the first diverse wave run (13/13 CJK cases anchor-missing): the runner fixture copy and anchors now match the lab fixture bytes (短文), pinned by E07 against the real fixture buffer.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_DIVERSITY02_EXECUTORS"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS11A_CJK"
     },
     {
       "filePath": "test/contracts/rtk-phys01-ladder-runner.contract.test.js",
-      "sha256": "aef541c66240b9941d9fa2dff2b8dab27200e79eb31514eba4d1f17889cd5efc",
-      "approvedBy": "owner-direct:TASK_ID:DIVERSITY02_FAMILY_EXECUTORS",
-      "approvedAtUtc": "2026-08-10T21:28:33.804Z",
-      "rationale": "Approve the DIVERSITY-02 follow-up: per-family dispatch in the wave executor, repeat manifest replay wiring in main(), repeat digest binding at receipt build, and the diverse-scope-requires-manifest validator law with P37.",
+      "sha256": "73894c507b9507dea50abaf43029b8d3033f9e2ddae8a8952b055ec24262481e",
+      "approvedBy": "owner-direct:TASK_ID:PHYS11A_CJK_ANCHOR_REPAIR",
+      "approvedAtUtc": "2026-08-10T22:49:24.648Z",
+      "rationale": "Approve the CJK anchor repair found by the first diverse wave run (13/13 CJK cases anchor-missing): the runner fixture copy and anchors now match the lab fixture bytes (短文), pinned by E07 against the real fixture buffer.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_DIVERSITY02_EXECUTORS"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS11A_CJK"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_MAC_16_111_3_CARRIER_SURVIVAL_SMOKE_RECEIPT.json",

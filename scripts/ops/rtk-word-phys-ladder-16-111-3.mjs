@@ -1057,7 +1057,7 @@ const FAMILY_ANCHORS = Object.freeze({
   'structural-boundaries': 'SCENE_BOUNDARY',
   unicode: 'cafe\u0301',  // decomposed form as in the fixture text
   rtl: 'shalom',
-  cjk: '\u5a67\u6587',  // exact CJK token from the fixture text
+  cjk: '\u77ed\u6587',  // exact CJK token from the lab fixture text
 });
 
 function anchorOffsets(spec, anchor) {
@@ -1212,7 +1212,7 @@ function fixtureParagraphs(spec) {
     'Alpha beta gamma locator anchor repeats Alpha beta gamma for ambiguity pressure.',
     'Replacement target OLD_WORD and insert target INSERT_HERE live in this paragraph.',
     'Comment anchor COMMENT_TARGET and duplicate COMMENT_TARGET stay visible after reopen.',
-    'Unicode lane cafe\u0301 NBSP\u00a0marker soft\u00adhyphen emoji \u{1f680}\ufe0f ZWJ \u{1f469}\u200d\u{1f4bb} ZWNJ x\u200cy ZWSP x\u200by RTL \u202bshalom\u202c CJK \u5a67\u6587.',
+    'Unicode lane cafe\u0301 NBSP\u00a0marker soft\u00adhyphen emoji \u{1f680}\ufe0f ZWJ \u{1f469}\u200d\u{1f4bb} ZWNJ x\u200cy ZWSP x\u200by RTL \u202bshalom\u202c CJK \u77ed\u6587.',
     'Scene boundary A ends here. SCENE_BOUNDARY Scene boundary B begins here.',
   ];
 }

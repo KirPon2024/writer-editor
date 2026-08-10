@@ -290,7 +290,7 @@
     },
     {
       "profileId": "word-mac-16.111.3-26080215",
-      "class": "DECLARED",
+      "class": "COMPETING_NOT_SATURATED",
       "platform": "word-mac",
       "wordVersion": "16.111.3",
       "wordBuild": "16.111.26080215",
@@ -301,15 +301,28 @@
       "locale": "ru_FI",
       "controllerVersion": "rtk-word-v4",
       "supersedes": "word-mac-16.111.2-d1",
-      "declaredNote": "Word 16.111.3 (build 16.111.26080215) observed on the lab machine 2026-08-10 via plist and live AppleScript probe. DECLARED with zero evidence heads and an empty ladder: nothing carries from 16.111.2 — no rungs, no saturation, no CURRENT claims. The migration ladder restarts at CARRIER_SURVIVAL_SMOKE under PHYS-16.111.3.",
-      "evidenceHeads": [],
+      "evidenceHeads": [
+        {
+          "path": "docs/OPS/RTK/WORD_MAC_16_111_3_CARRIER_SURVIVAL_SMOKE_RECEIPT.json",
+          "sha256": "sha256:eff1ad70661447ca823a31cf1e5553bbcf82fdeb391825ab0abaf4790ee46281",
+          "wordVersion": "16.111.3",
+          "wordBuild": "16.111.26080215",
+          "sealedAtUtc": "2026-08-10T07:55:00.000Z",
+          "rungs": [
+            "CARRIER_SURVIVAL_SMOKE"
+          ]
+        }
+      ],
       "freshnessPolicy": {
         "maxEvidenceAgeDays": 90
       },
       "ladder": {
-        "completedRungs": []
+        "completedRungs": [
+          "CARRIER_SURVIVAL_SMOKE"
+        ]
       },
-      "profileDigest": "sha256:63843394672abe2cf5fbe506b468d05004bc9e92669b1e6ffb31dd65be71f4d1"
+      "competingNote": "First physical evidence on 16.111.3: CARRIER_SURVIVAL_SMOKE 12/12 sealed on exact merged SHA 197ba60f (tracked append readback proven per case, 12 distinct returned digests). All later rungs remain unearned; saturation is not claimed.",
+      "profileDigest": "sha256:da8f11ef61542ed98801fea66076cbd263ffd960662fdd17238788f1fd055445"
     }
   ],
   "currentProfileId": "word-mac-16.111.3-26080215"

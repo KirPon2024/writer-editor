@@ -1261,8 +1261,11 @@ test('RELEASE01-S06-real-registry-scope-and-pointer-integration', async () => {
   });
   assert.equal(result.ok, true, `real migrated roll-up must agree: ${JSON.stringify(result.reasons)}`);
   assert.equal(result.terminalClaim, 'NOT_MADE_WORD_TERMINAL_PASS_REQUIRED');
-  assert.ok(result.blockers.includes('WORD_PROFILE_DECLARED:word-mac-16.111.3-26080215'),
-    `computed blockers must name the DECLARED current build: ${JSON.stringify(result.blockers)}`);
+  // PHYS-02 amendment: after the sealed smoke rung the current build is
+  // COMPETING_NOT_SATURATED, so the DECLARED blocker is replaced by the
+  // not-saturated blocker for the same profile.
+  assert.ok(result.blockers.includes('WORD_PROFILE_NOT_SATURATED:word-mac-16.111.3-26080215'),
+    `computed blockers must name the unsaturated current build: ${JSON.stringify(result.blockers)}`);
 });
 
 // Keep stableJson referenced for fixture symmetry with sibling contracts.

@@ -9836,12 +9836,12 @@
     },
     {
       "filePath": "docs/CONTEXT.md",
-      "sha256": "de5eaf5df80fe2bff3d724912276b84f43d9fb9171469ff1df4ee1f7f6ec70eb",
-      "approvedBy": "owner-direct:TASK_ID:PHYS01B_FULL_LADDER_RUNNER",
-      "approvedAtUtc": "2026-08-10T00:00:02.048Z",
-      "rationale": "Approve additive docs/CONTEXT.md bytes recording the PHYS-01B full-ladder runner extension; no physical run executed and the terminal claim remains NOT_MADE_WORD_TERMINAL_PASS_REQUIRED.",
+      "sha256": "5989967120ab49f9c30d7bdf5e547fa983663b988a7f51b73ea645f1a3e7ddbe",
+      "approvedBy": "owner-direct:TASK_ID:PHYS02_CARRIER_SMOKE_EVIDENCE_16_111_3",
+      "approvedAtUtc": "2026-08-10T08:09:12.817Z",
+      "rationale": "Approve additive docs/CONTEXT.md bytes recording the PHYS-02 sealed smoke evidence (12/12 on 16.111.3 at merged SHA 197ba60f); terminal claim remains NOT_MADE.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS01B_FULL_LADDER"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS02_SMOKE_EVIDENCE"
     },
     {
       "filePath": "test/contracts/rtk-multi01-multi-scene-scope-blocked.contract.test.js",
@@ -9854,12 +9854,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_BUILD_PROFILE_REGISTRY_V1.json",
-      "sha256": "7c8640552ff380a9304e19dcfd8cf114d9edaf567f5043d5b1c261e2ffd80d85",
-      "approvedBy": "owner-direct:TASK_ID:LAB02_BUILD_MIGRATION_16_111_3",
-      "approvedAtUtc": "2026-08-09T22:20:29.956Z",
-      "rationale": "Approve the LAB-02 Word registry migration: word-mac-16.111.2-d1 frozen HISTORICAL_BUILD_BOUND superseded; word-mac-16.111.3-26080215 registered DECLARED with empty ladder and zero heads; currentProfileId moved to 16.111.3.",
+      "sha256": "2d9a92d11db238f053c9d899a34ddfc86b3321a40df959b9fd1c8ab8f58a089b",
+      "approvedBy": "owner-direct:TASK_ID:PHYS02_CARRIER_SMOKE_EVIDENCE_16_111_3",
+      "approvedAtUtc": "2026-08-10T08:09:12.817Z",
+      "rationale": "Approve the PHYS-02 evidence attachment: word-mac-16.111.3-26080215 becomes COMPETING_NOT_SATURATED with the sealed carrier-survival smoke receipt head (sha256-pinned) and exactly the CARRIER_SURVIVAL_SMOKE rung earned.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_LAB02_BUILD_MIGRATION"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS02_SMOKE_EVIDENCE"
     },
     {
       "filePath": "scripts/ops/rtk-word-build-profiles-v1.mjs",
@@ -9872,12 +9872,12 @@
     },
     {
       "filePath": "test/contracts/rtk-lab01-build-bound-profiles.contract.test.js",
-      "sha256": "a1585c56411a14d2e7c18b3c37c3974e131384ff1078f2cc425ad7e953a3f99a",
-      "approvedBy": "owner-direct:TASK_ID:LAB02_BUILD_MIGRATION_16_111_3",
-      "approvedAtUtc": "2026-08-09T22:20:29.956Z",
-      "rationale": "Approve the LAB-02 lab-lane scenarios L2-01..L2-06 (pointer laws, saturation inheritance, frozen 16.111.2, DECLARED 16.111.3, no rung inheritance) plus sanctioned fixture amendments (registry currentProfileId field, explicit head rungs).",
+      "sha256": "2f353321c05476bee4fff391910c17e429f99f28916ee7e9bf704f9077335208",
+      "approvedBy": "owner-direct:TASK_ID:PHYS02_CARRIER_SMOKE_EVIDENCE_16_111_3",
+      "approvedAtUtc": "2026-08-10T08:09:12.817Z",
+      "rationale": "Approve the PHYS-02 sanctioned amendments L2-01/L2-05/L2-06: the real 16.111.3 profile state after the sealed smoke rung (COMPETING, one head, one rung; cross-build still rejected; next rung admission is SEMANTIC).",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_LAB02_BUILD_MIGRATION"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS02_SMOKE_EVIDENCE"
     },
     {
       "filePath": "docs/OPS/RTK/GOOGLE_BUILD_PROFILE_REGISTRY_V1.json",
@@ -9908,12 +9908,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "2f3c71723ab952a0166e65a0f9f69bfb9f513144b00baa1ddafa5afe70216d7c",
-      "approvedBy": "owner-direct:TASK_ID:PHYS01_LADDER_RUNNER_16_111_3",
-      "approvedAtUtc": "2026-08-09T22:52:34.352Z",
-      "rationale": "Approve the PHYS-01-driven wording-surface rebind: package.json bytes changed with the test:rtk-phys01 lane, so the registry surface sha256 for package.json is rebound (WORDING_SURFACE_DRIFT law honored); no claim, class or blocker changes.",
+      "sha256": "856adfdd1c65c79931b1dbf1624298045b1e67eb580e7a94b91d5776908936ee",
+      "approvedBy": "owner-direct:TASK_ID:PHYS02_CARRIER_SMOKE_EVIDENCE_16_111_3",
+      "approvedAtUtc": "2026-08-10T08:09:12.817Z",
+      "rationale": "Approve the PHYS-02 terminal blocker rebind: the DECLARED blocker for 16.111.3 is replaced by the not-saturated blocker; all other blockers unchanged; terminal claim remains NOT_MADE.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS01_LADDER_RUNNER"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS02_SMOKE_EVIDENCE"
     },
     {
       "filePath": "scripts/ops/rtk-interop-terminal-claims-v1.mjs",
@@ -9926,12 +9926,12 @@
     },
     {
       "filePath": "test/contracts/rtk-release01-terminal-claims.contract.test.js",
-      "sha256": "bb68b70edc1b6eb8d9d3bc5aa3742783bf46d79bde45b201c4cb610026ac0ed8",
-      "approvedBy": "owner-direct:TASK_ID:LAB02_BUILD_MIGRATION_16_111_3",
-      "approvedAtUtc": "2026-08-09T22:20:29.956Z",
-      "rationale": "Approve the LAB-02 release-lane scenarios S01-S06 (scope split, pointer-driven roll-up, real migrated integration) plus sanctioned fixture migrations (baseClaim evidenceScope, context currentProfileId).",
+      "sha256": "d127a8e841f0f0cec195d6550511cfd9a4332fff8ca92aa8a582e4009cb587a9",
+      "approvedBy": "owner-direct:TASK_ID:PHYS02_CARRIER_SMOKE_EVIDENCE_16_111_3",
+      "approvedAtUtc": "2026-08-10T08:09:12.817Z",
+      "rationale": "Approve the PHYS-02 sanctioned S06 amendment: the current-build blocker assertion follows the class transition (NOT_SATURATED blocker).",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_LAB02_BUILD_MIGRATION"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS02_SMOKE_EVIDENCE"
     },
     {
       "filePath": "scripts/ops/rtk-word-phys-ladder-16-111-3.mjs",
@@ -9950,6 +9950,15 @@
       "rationale": "Approve the PHYS-01D repair bytes: the append measures the already-read yInitialText variable (Word 16.111.3 returns 0 for the live text object), with the PHYS_TEXT_LENGTH_UNAVAILABLE guard and the updated P21 pin.",
       "approved": true,
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS01D_REPAIR"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_MAC_16_111_3_CARRIER_SURVIVAL_SMOKE_RECEIPT.json",
+      "sha256": "eff1ad70661447ca823a31cf1e5553bbcf82fdeb391825ab0abaf4790ee46281",
+      "approvedBy": "owner-direct:TASK_ID:PHYS02_CARRIER_SMOKE_EVIDENCE_16_111_3",
+      "approvedAtUtc": "2026-08-10T08:09:12.817Z",
+      "rationale": "Approve the first physical evidence receipt of the 16.111.3 profile: carrier survival smoke 12/12 sealed on Word 16.111.3 build 16.111.26080215 at exact merged SHA 197ba60f with per-case readback proof and distinct returned digests.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS02_SMOKE_EVIDENCE"
     }
   ]
 }

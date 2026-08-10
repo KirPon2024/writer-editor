@@ -212,6 +212,7 @@ test('PHYS01-P10-no-seal-on-failure', async () => {
 function passWaveCase(rung, i) {
   return {
     caseId: `${rung.toLowerCase()}-case-${i + 1}`,
+    ordinal: i + 1,
     wordStatus: 'PASS',
     openEditSaveCloseReopen: 'PASS',
     readbackContainsSentinel: true,
@@ -234,11 +235,28 @@ function passSemanticCase(i) {
 // headSha, diversity-proven scope and embedded manifests with recomputed
 // digests binding the repeat to the first wave.
 function auditReadySet(module) {
-  const manifest = module.buildCaseManifest(module.buildDiverseWaveCaseSpecs('WAVE_300'));
+  const diverseSpecs = module.buildDiverseWaveCaseSpecs('WAVE_300');
+  const manifest = module.buildCaseManifest(diverseSpecs);
   const receipts = {};
   for (const [rung, count] of [['WAVE_10', 10], ['WAVE_40', 40], ['WAVE_100', 100], ['WAVE_300', 300], ['WAVE_300_REPEAT', 300]]) {
     receipts[rung] = sealedWaveReceipt(rung, count);
     receipts[rung].headSha = 'a'.repeat(40);
+  }
+  // DIVERSITY-01D: small waves embed their own manifests with distinct
+  // in-vocab cases (prefix slices of the diverse 300 manifest), bound to the
+  // receipt cases per ordinal.
+  for (const [rung, count] of [['WAVE_10', 10], ['WAVE_40', 40], ['WAVE_100', 100]]) {
+    const smallSpecs = diverseSpecs.slice(0, count);
+    const smallManifest = module.buildCaseManifest(smallSpecs);
+    receipts[rung].caseManifest = smallManifest;
+    receipts[rung].manifestDigest = smallManifest.manifestDigest;
+    receipts[rung].cases = smallManifest.cases.map((c, i) => ({
+      ...passWaveCase(rung, i),
+      ordinal: c.ordinal,
+      family: c.family,
+      operationShape: c.operationShape,
+      contentClass: c.contentClass,
+    }));
   }
   receipts.WAVE_300.caseManifest = manifest;
   receipts.WAVE_300_REPEAT.caseManifest = JSON.parse(JSON.stringify(manifest));
@@ -1022,4 +1040,67 @@ test('PHYS01-D14-null-manifest-entry-typed', async () => {
   const r = module.evaluateSaturationAudit({ receiptsByRung: receipts });
   assert.equal(r.ok, false, 'a null manifest entry must fail typed');
   assert.equal(r.code, 'RTK_PHYS_AUDIT_MANIFEST_MISMATCH');
+});
+
+// ===========================================================================
+// DIVERSITY-01D pins: small-wave manifest law, full seal law in the audit,
+// ordinal binding, typed non-array manifest entries.
+// ===========================================================================
+
+test('PHYS01-P34-small-wave-manifest-law', async () => {
+  const module = await loadModule();
+  const missing = auditReadySet(module);
+  delete missing.WAVE_10.caseManifest;
+  const r1 = module.evaluateSaturationAudit({ receiptsByRung: missing });
+  assert.equal(r1.ok, false);
+  assert.equal(r1.code, 'RTK_PHYS_AUDIT_MANIFEST_MISMATCH');
+
+  const dupes = auditReadySet(module);
+  // Self-consistent manifest whose cases 0 and 1 are the same normalized form
+  // (honest digests over the duplicated content).
+  const baseSpecs = module.buildDiverseWaveCaseSpecs('WAVE_300').slice(0, 10);
+  const dupSpecs = baseSpecs.map((spec, i) => (i === 1 ? { ...spec, family: baseSpecs[0].family, operationShape: baseSpecs[0].operationShape, contentClass: baseSpecs[0].contentClass } : spec));
+  const dupManifest = module.buildCaseManifest(dupSpecs);
+  dupes.WAVE_10.caseManifest = dupManifest;
+  dupes.WAVE_10.manifestDigest = dupManifest.manifestDigest;
+  dupes.WAVE_10.cases = dupManifest.cases.map((c, i) => ({
+    ...passWaveCase('WAVE_10', i),
+    ordinal: c.ordinal,
+    family: c.family,
+    operationShape: c.operationShape,
+    contentClass: c.contentClass,
+  }));
+  const r2 = module.evaluateSaturationAudit({ receiptsByRung: dupes });
+  assert.equal(r2.ok, false, 'duplicate normalized cases in a small-wave manifest must fail');
+  assert.equal(r2.code, 'RTK_PHYS_AUDIT_DIVERSITY_MISSING');
+});
+
+test('PHYS01-P35-audit-full-seal-law', async () => {
+  const module = await loadModule();
+  const set = auditReadySet(module);
+  set.WAVE_40.cases[7] = { ...set.WAVE_40.cases[7], wordStatus: 'FAIL', readbackContainsSentinel: false };
+  const r = module.evaluateSaturationAudit({ receiptsByRung: set });
+  assert.equal(r.ok, false, 'a wordStatus FAIL under a passing one-field flag must fail the full seal law');
+  assert.equal(r.code, 'RTK_PHYS_AUDIT_WAVE_MISSING');
+});
+
+test('PHYS01-P36-ordinal-and-counter-binding', async () => {
+  const module = await loadModule();
+  const badOrdinal = auditReadySet(module);
+  badOrdinal.WAVE_100.cases = badOrdinal.WAVE_100.cases.map((c) => ({ ...c, ordinal: 999 }));
+  const r1 = module.evaluateSaturationAudit({ receiptsByRung: badOrdinal });
+  assert.equal(r1.ok, false);
+  assert.equal(r1.code, 'RTK_PHYS_AUDIT_MANIFEST_MISMATCH');
+
+  const lyingTotal = auditReadySet(module);
+  lyingTotal.WAVE_10.counters = { total: 9999, passed: 9999, failed: 0 };
+  const r2 = module.evaluateSaturationAudit({ receiptsByRung: lyingTotal });
+  assert.equal(r2.ok, false, 'counters lying about the case list must fail');
+  assert.equal(r2.code, 'RTK_PHYS_AUDIT_VETO_NONZERO');
+
+  const nonArray = auditReadySet(module);
+  nonArray.WAVE_300_REPEAT.caseManifest = { cases: 42 };
+  const r3 = module.evaluateSaturationAudit({ receiptsByRung: nonArray });
+  assert.equal(r3.ok, false, 'non-array manifest cases must fail typed');
+  assert.equal(r3.code, 'RTK_PHYS_AUDIT_MANIFEST_MISMATCH');
 });

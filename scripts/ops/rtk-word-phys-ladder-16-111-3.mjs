@@ -459,11 +459,22 @@ export function evaluateSaturationAudit({ receiptsByRung } = {}) {
     if (!isPlainObject(receipt)) {
       return { ok: false, status: 'AUDIT_INCOMPLETE', code: PHYS_CODES.AUDIT_WAVE_MISSING, reasons: [reason(PHYS_CODES.AUDIT_WAVE_MISSING, `required wave receipt ${rung} is missing`)] };
     }
-    const def = RUNG_DEFINITIONS[rung];
+    // DIVERSITY-01D: the audit applies the runner's own full seal law per rung
+    // (wordStatus, openEditSaveCloseReopen, readback proofs, exact
+    // denominator), never an ad-hoc one-field check.
     const cases = Array.isArray(receipt.cases) ? receipt.cases : [];
-    const sealed = cases.length === def.caseCount && cases.every((c) => c && c.openEditSaveCloseReopen === 'PASS');
-    if (!sealed) {
-      return { ok: false, status: 'AUDIT_INCOMPLETE', code: PHYS_CODES.AUDIT_WAVE_MISSING, reasons: [reason(PHYS_CODES.AUDIT_WAVE_MISSING, `wave receipt ${rung} is not a sealed ${def.caseCount}-case pass`)] };
+    const seal = evaluateRungCases(rung, cases);
+    if (!seal.ok) {
+      return { ok: false, status: 'AUDIT_INCOMPLETE', code: PHYS_CODES.AUDIT_WAVE_MISSING, reasons: [reason(PHYS_CODES.AUDIT_WAVE_MISSING, `wave receipt ${rung} fails the full seal law: ${seal.code}`)] };
+    }
+    const counters = isPlainObject(receipt.counters) ? receipt.counters : {};
+    if (counters.total !== cases.length || counters.passed !== cases.length || counters.failed !== 0) {
+      return { ok: false, status: 'AUDIT_INCOMPLETE', code: PHYS_CODES.AUDIT_VETO_NONZERO, reasons: [reason(PHYS_CODES.AUDIT_VETO_NONZERO, `wave receipt ${rung} counters ${JSON.stringify(counters)} disagree with the sealed case list`)] };
+    }
+    // Ordinal binding: case ordinals are 1..N in order.
+    const ordinalsOk = cases.every((c, i) => c.ordinal === i + 1);
+    if (!ordinalsOk) {
+      return { ok: false, status: 'AUDIT_INCOMPLETE', code: PHYS_CODES.AUDIT_MANIFEST_MISMATCH, reasons: [reason(PHYS_CODES.AUDIT_MANIFEST_MISMATCH, `wave receipt ${rung} case ordinals are not 1..N in order`)] };
     }
   }
   for (const rung of AUDIT_REQUIRED_RUNGS) {
@@ -484,8 +495,8 @@ export function evaluateSaturationAudit({ receiptsByRung } = {}) {
   };
   const firstRecomputed = recomputeTop(firstManifest);
   const repeatRecomputed = recomputeTop(repeatManifest);
-  const repeatManifestCases = (repeatManifest && repeatManifest.cases) || [];
-  const manifestEntriesValid = (m) => Array.isArray(m && m.cases) && m.cases.every((c) => isPlainObject(c)
+  const repeatManifestCases = Array.isArray(repeatManifest && repeatManifest.cases) ? repeatManifest.cases : [];
+  const manifestEntriesValid = (m) => Array.isArray(m && m.cases) && m.cases.length > 0 && m.cases.every((c) => isPlainObject(c)
     && isVocabString(c.family) && isVocabString(c.operationShape) && isVocabString(c.contentClass));
   const repeatSpecs = repeatManifestCases.map((c, i) => ({
     ordinal: i + 1,
@@ -502,6 +513,38 @@ export function evaluateSaturationAudit({ receiptsByRung } = {}) {
     || firstRecomputed !== repeatRecomputed
     || binding.ok !== true) {
     return { ok: false, status: 'AUDIT_INCOMPLETE', code: PHYS_CODES.AUDIT_MANIFEST_MISMATCH, reasons: [reason(PHYS_CODES.AUDIT_MANIFEST_MISMATCH, 'wave manifests missing, malformed, divergent or not one-to-one bound')] };
+  }
+
+  // DIVERSITY-01D: small waves (10/40/100) must embed self-consistent
+  // manifests whose cases are vocabulary-valid, normalized-distinct and bound
+  // to the receipt cases per ordinal (family/shape/class). Quota minima apply
+  // only at the 300-denominator rungs.
+  for (const rung of ['WAVE_10', 'WAVE_40', 'WAVE_100']) {
+    const receipt = receipts[rung];
+    const manifest = receipt.caseManifest;
+    const recomputed = recomputeTop(manifest);
+    if (recomputed === null || receipt.manifestDigest !== recomputed) {
+      return { ok: false, status: 'AUDIT_INCOMPLETE', code: PHYS_CODES.AUDIT_MANIFEST_MISMATCH, reasons: [reason(PHYS_CODES.AUDIT_MANIFEST_MISMATCH, `wave receipt ${rung} manifest missing or digest not recomputed from embedded cases`)] };
+    }
+    const manifestSpecs = manifest.cases.map((c, i) => ({ id: `m-${rung}-${i}`, ordinal: i + 1, family: c && c.family, operationShape: c && c.operationShape, contentClass: c && c.contentClass }));
+    for (const spec of manifestSpecs) {
+      const shapes = FAMILY_SHAPES[spec.family];
+      if (!OPERATION_FAMILIES.includes(spec.family) || !shapes || !shapes.includes(spec.operationShape) || !CONTENT_CLASSES.includes(spec.contentClass)) {
+        return { ok: false, status: 'AUDIT_INCOMPLETE', code: PHYS_CODES.AUDIT_DIVERSITY_MISSING, reasons: [reason(PHYS_CODES.AUDIT_DIVERSITY_MISSING, `wave receipt ${rung} manifest case ${spec.ordinal} uses out-of-vocabulary family/shape/class`)] };
+      }
+    }
+    const distinct = new Set(manifestSpecs.map((spec) => stableJson(normalizeCaseForDiversity(spec))));
+    if (distinct.size !== manifestSpecs.length) {
+      return { ok: false, status: 'AUDIT_INCOMPLETE', code: PHYS_CODES.AUDIT_DIVERSITY_MISSING, reasons: [reason(PHYS_CODES.AUDIT_DIVERSITY_MISSING, `wave receipt ${rung} manifest contains duplicate normalized cases`)] };
+    }
+    const receiptCases = Array.isArray(receipt.cases) ? receipt.cases : [];
+    const bound = receiptCases.length === manifest.cases.length && receiptCases.every((c, i) => isPlainObject(c)
+      && c.family === manifest.cases[i].family
+      && c.operationShape === manifest.cases[i].operationShape
+      && c.contentClass === manifest.cases[i].contentClass);
+    if (!bound) {
+      return { ok: false, status: 'AUDIT_INCOMPLETE', code: PHYS_CODES.AUDIT_MANIFEST_MISMATCH, reasons: [reason(PHYS_CODES.AUDIT_MANIFEST_MISMATCH, `wave receipt ${rung} cases do not bind to its embedded manifest per ordinal`)] };
+    }
   }
 
   // DIVERSITY-01C: the audit re-runs the diversity oracle over the embedded

@@ -420,6 +420,6 @@ test('PHYS01-P21-generated-word-script-contract', async () => {
   const script = module.buildSmokeWordScriptForTest('case.docx', '/tmp/case.docx', 'SENTINEL_X', ' INSERT_Y');
   assert.ok(!script.includes('set end of content of text object'), 'invalid set-end-of statement must never be generated');
   assert.ok(script.includes('create range yDoc start (yTextLen - 1) end yTextLen'), 'append must use the proven create-range idiom');
-  assert.ok(script.includes('set yTextLen to count of content of text object of yDoc'), 'append must measure the text length once');
+  assert.ok(script.includes('set yTextLen to count of yInitialText'), 'append must measure the already-read text variable, never the live text object (Word 16.111.3 returns 0/missing value for the live object)');
   assert.ok(script.includes('SENTINEL_X') && script.includes('INSERT_Y'), 'sentinel and insertion literals must be embedded');
 });

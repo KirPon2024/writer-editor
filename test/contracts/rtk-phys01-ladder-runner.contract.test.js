@@ -230,6 +230,23 @@ function passSemanticCase(i) {
   };
 }
 
+// DIVERSITY-01B: a full audit-ready receipt set — sealed cases, 40-hex
+// headSha, diversity-proven scope and embedded manifests with recomputed
+// digests binding the repeat to the first wave.
+function auditReadySet(module) {
+  const manifest = module.buildCaseManifest(module.buildDiverseWaveCaseSpecs('WAVE_300'));
+  const receipts = {};
+  for (const [rung, count] of [['WAVE_10', 10], ['WAVE_40', 40], ['WAVE_100', 100], ['WAVE_300', 300], ['WAVE_300_REPEAT', 300]]) {
+    receipts[rung] = sealedWaveReceipt(rung, count);
+    receipts[rung].headSha = 'a'.repeat(40);
+  }
+  receipts.WAVE_300.caseManifest = manifest;
+  receipts.WAVE_300_REPEAT.caseManifest = manifest;
+  receipts.WAVE_300.manifestDigest = manifest.manifestDigest;
+  receipts.WAVE_300_REPEAT.manifestDigest = manifest.manifestDigest;
+  return receipts;
+}
+
 function sealedWaveReceipt(rung, count, overrides = {}) {
   return {
     schema: `yalken.rtk.word-mac-16-111-3.${rung.toLowerCase().replace(/_/g, '-')}-receipt.v1`,
@@ -337,13 +354,7 @@ test('PHYS01-P15-wave-denominator-law', async () => {
 // P16: saturation audit happy path -> COMPLETE_NOT_SATURATED (never SATURATED).
 test('PHYS01-P16-audit-complete-not-saturated', async () => {
   const module = await loadModule();
-  const receiptsByRung = {
-    WAVE_10: sealedWaveReceipt('WAVE_10', 10),
-    WAVE_40: sealedWaveReceipt('WAVE_40', 40),
-    WAVE_100: sealedWaveReceipt('WAVE_100', 100),
-    WAVE_300: sealedWaveReceipt('WAVE_300', 300),
-    WAVE_300_REPEAT: sealedWaveReceipt('WAVE_300_REPEAT', 300),
-  };
+  const receiptsByRung = auditReadySet(module);
   const result = module.evaluateSaturationAudit({ receiptsByRung });
   assert.equal(result.ok, true, `full sealed ladder must audit: ${JSON.stringify(result.reasons)}`);
   assert.equal(result.status, 'COMPLETE_NOT_SATURATED');
@@ -382,15 +393,8 @@ test('PHYS01-P18-audit-profile-mismatch', async () => {
 // P19: a nonzero failure counter (veto) fails the audit.
 test('PHYS01-P19-audit-veto-nonzero', async () => {
   const module = await loadModule();
-  const badWave = sealedWaveReceipt('WAVE_100', 100);
-  badWave.counters.failed = 1;
-  const receiptsByRung = {
-    WAVE_10: sealedWaveReceipt('WAVE_10', 10),
-    WAVE_40: sealedWaveReceipt('WAVE_40', 40),
-    WAVE_100: badWave,
-    WAVE_300: sealedWaveReceipt('WAVE_300', 300),
-    WAVE_300_REPEAT: sealedWaveReceipt('WAVE_300_REPEAT', 300),
-  };
+  const receiptsByRung = auditReadySet(module);
+  receiptsByRung.WAVE_100.counters.failed = 1;
   const result = module.evaluateSaturationAudit({ receiptsByRung });
   assert.equal(result.ok, false);
   assert.equal(result.code, 'RTK_PHYS_AUDIT_VETO_NONZERO');
@@ -399,14 +403,8 @@ test('PHYS01-P19-audit-veto-nonzero', async () => {
 // P20: a receipt claiming SATURATED fails the audit as a false saturation claim.
 test('PHYS01-P20-audit-false-saturation', async () => {
   const module = await loadModule();
-  const lying = sealedWaveReceipt('WAVE_300', 300, { status: 'SATURATED' });
-  const receiptsByRung = {
-    WAVE_10: sealedWaveReceipt('WAVE_10', 10),
-    WAVE_40: sealedWaveReceipt('WAVE_40', 40),
-    WAVE_100: sealedWaveReceipt('WAVE_100', 100),
-    WAVE_300: lying,
-    WAVE_300_REPEAT: sealedWaveReceipt('WAVE_300_REPEAT', 300),
-  };
+  const receiptsByRung = auditReadySet(module);
+  receiptsByRung.WAVE_300.status = 'SATURATED';
   const result = module.evaluateSaturationAudit({ receiptsByRung });
   assert.equal(result.ok, false);
   assert.equal(result.code, 'RTK_PHYS_AUDIT_FALSE_SATURATION');
@@ -670,9 +668,8 @@ test('PHYS01-P31-repeat-scope-enforced', async () => {
 test('PHYS01-P32-audit-diversity-gate', async () => {
   const module = await loadModule();
   const makeSet = (scope) => {
-    const receipts = {};
-    for (const [rung, count] of [['WAVE_10', 10], ['WAVE_40', 40], ['WAVE_100', 100], ['WAVE_300', 300], ['WAVE_300_REPEAT', 300]]) {
-      receipts[rung] = sealedWaveReceipt(rung, count);
+    const receipts = auditReadySet(module);
+    for (const rung of Object.keys(receipts)) {
       if (scope === undefined) delete receipts[rung].claimScope;
       else receipts[rung].claimScope = scope;
     }
@@ -689,7 +686,7 @@ test('PHYS01-P32-audit-diversity-gate', async () => {
   const repeatScoped = module.evaluateSaturationAudit({ receiptsByRung: makeSet('APPEND_CYCLE_STABILITY_REPEAT_ONLY') });
   assert.equal(repeatScoped.ok, false, 'repeat-scoped receipts must fail the audit');
 
-  const diverse = makeSet('DIVERSE_FAMILY_WAVE_PROVEN');
+  const diverse = auditReadySet(module);
   // The repeat receipt of a diverse set repeats the first wave's manifest — the
   // audit checks the repeat binds the same manifest digest.
   const result = module.evaluateSaturationAudit({ receiptsByRung: diverse });
@@ -740,7 +737,7 @@ test('PHYS01-D01-diverse-wave-passes-oracle', async () => {
 // to a denominator of one and fail.
 test('PHYS01-D02-id-only-uniqueness-collapses', async () => {
   const module = await loadModule();
-  const idOnly = Array.from({ length: 300 }, (_, i) => diverseSpec(`case-${i}`, 'insertion', 'append-tracked-insertion', 'plain-text'));
+  const idOnly = Array.from({ length: 300 }, (_, i) => diverseSpec(`case-${i}`, 'insertion', 'paragraph-end', 'plain-text'));
   const verdict = module.evaluateDiversityOracle(idOnly);
   assert.equal(verdict.ok, false, 'ID-only uniqueness must fail the oracle');
   assert.equal(verdict.code, 'RTK_PHYS_DIVERSITY_DUPLICATE_NORMALIZED');
@@ -751,11 +748,14 @@ test('PHYS01-D02-id-only-uniqueness-collapses', async () => {
 // D03: a family below its quota fails with the family named.
 test('PHYS01-D03-quota-missing-blocked', async () => {
   const module = await loadModule();
-  const specs = module.buildDiverseWaveCaseSpecs('WAVE_300').filter((s) => s.family !== 'comments');
-  // Refill to 300 with normalized-distinct replacement extras (fresh shapes not
-  // present in the generated set) to isolate the quota dimension.
-  const extras = Array.from({ length: 300 - specs.length }, (_, i) => diverseSpec(`extra-${i}`, 'replacement', `extra-shape-${i}`, 'plain-text'));
-  const filled = [...specs, ...extras];
+  // Isolate the quota dimension: shrink the comments family below its quota by
+  // dropping surplus comment cases; every remaining case stays in-vocabulary
+  // and normalized-distinct.
+  const all = module.buildDiverseWaveCaseSpecs('WAVE_300');
+  const commentCases = all.filter((s) => s.family === 'comments');
+  const dropCount = commentCases.length - (module.FAMILY_QUOTAS.comments - 1);
+  const dropped = new Set(commentCases.slice(0, dropCount).map((s) => s.id));
+  const filled = all.filter((s) => !dropped.has(s.id));
   const verdict = module.evaluateDiversityOracle(filled);
   assert.equal(verdict.ok, false);
   assert.equal(verdict.code, 'RTK_PHYS_DIVERSITY_QUOTA_MISSING');
@@ -817,15 +817,7 @@ test('PHYS01-D06-oracle-strips-identity-fields', async () => {
 // manifest digest.
 test('PHYS01-P33-audit-manifest-binding', async () => {
   const module = await loadModule();
-  const makeSet = () => {
-    const receipts = {};
-    for (const [rung, count] of [['WAVE_10', 10], ['WAVE_40', 40], ['WAVE_100', 100], ['WAVE_300', 300], ['WAVE_300_REPEAT', 300]]) {
-      receipts[rung] = sealedWaveReceipt(rung, count);
-    }
-    receipts.WAVE_300.manifestDigest = 'a'.repeat(64);
-    receipts.WAVE_300_REPEAT.manifestDigest = 'a'.repeat(64);
-    return receipts;
-  };
+  const makeSet = () => auditReadySet(module);
   const ok = module.evaluateSaturationAudit({ receiptsByRung: makeSet() });
   assert.equal(ok.ok, true, `manifest-bound set audits: ${JSON.stringify(ok.reasons)}`);
 
@@ -836,8 +828,158 @@ test('PHYS01-P33-audit-manifest-binding', async () => {
   assert.equal(bad.code, 'RTK_PHYS_AUDIT_MANIFEST_MISMATCH');
 
   const missing = makeSet();
-  delete missing.WAVE_300.manifestDigest;
+  delete missing.WAVE_300.caseManifest;
   const bad2 = module.evaluateSaturationAudit({ receiptsByRung: missing });
-  assert.equal(bad2.ok, false, 'a wave without a manifest digest fails the binding');
+  assert.equal(bad2.ok, false, 'a wave without an embedded manifest fails the binding');
   assert.equal(bad2.code, 'RTK_PHYS_AUDIT_MANIFEST_MISMATCH');
+});
+
+// ===========================================================================
+// DIVERSITY-01B — independent audit repair (findings B + residuals):
+// 1. evaluateRepeatManifestBinding recomputes and compares the TOP-LEVEL
+//    manifestDigest (hex-64 required), not only per-case digests;
+// 2. the saturation audit recomputes both wave manifests from EMBEDDED
+//    manifest cases (self-authored digest strings no longer pass), requires
+//    hex-64 format and runs the one-to-one binding between them;
+// 3. the audit cross-checks counters.failed against cases and requires a
+//    40-hex headSha per receipt;
+// 4. the false-saturation filter is case-insensitive and composite-proof;
+// 5. the oracle fails typed (never a raw SyntaxError) on malformed specs and
+//    rejects shapes/classes outside the frozen vocabularies.
+// ===========================================================================
+
+// D07: top-level manifestDigest is recomputed and compared; a bogus or absent
+// top-level digest fails even with faithful per-case digests.
+test('PHYS01-D07-toplevel-manifest-digest-enforced', async () => {
+  const module = await loadModule();
+  const specs = module.buildDiverseWaveCaseSpecs('WAVE_300');
+  const manifest = module.buildCaseManifest(specs);
+  const faithful = module.buildRepeatCaseSpecs(manifest);
+
+  const bogus = { ...manifest, manifestDigest: '0'.repeat(64) };
+  const r1 = module.evaluateRepeatManifestBinding({ manifest: bogus, repeatSpecs: faithful });
+  assert.equal(r1.ok, false, 'bogus top-level digest must fail');
+  assert.equal(r1.code, 'RTK_PHYS_REPEAT_MANIFEST_MISMATCH');
+
+  const absent = { ...manifest };
+  delete absent.manifestDigest;
+  const r2 = module.evaluateRepeatManifestBinding({ manifest: absent, repeatSpecs: faithful });
+  assert.equal(r2.ok, false, 'absent top-level digest must fail');
+
+  const malformed = { ...manifest, manifestDigest: true };
+  const r3 = module.evaluateRepeatManifestBinding({ manifest: malformed, repeatSpecs: faithful });
+  assert.equal(r3.ok, false, 'non-hex-64 digest must fail');
+
+  const ok = module.evaluateRepeatManifestBinding({ manifest, repeatSpecs: faithful });
+  assert.equal(ok.ok, true, `honest manifest passes: ${JSON.stringify(ok.reasons)}`);
+});
+
+// D08: the audit recomputes manifests from embedded cases — self-authored
+// digest strings without real manifests no longer pass.
+test('PHYS01-D08-audit-recomputes-embedded-manifests', async () => {
+  const module = await loadModule();
+  const specs = module.buildDiverseWaveCaseSpecs('WAVE_300');
+  const manifest = module.buildCaseManifest(specs);
+  const makeSet = () => {
+    const receipts = {};
+    for (const [rung, count] of [['WAVE_10', 10], ['WAVE_40', 40], ['WAVE_100', 100], ['WAVE_300', 300], ['WAVE_300_REPEAT', 300]]) {
+      receipts[rung] = sealedWaveReceipt(rung, count);
+    }
+    receipts.WAVE_300.caseManifest = manifest;
+    receipts.WAVE_300_REPEAT.caseManifest = manifest;
+    receipts.WAVE_300.manifestDigest = manifest.manifestDigest;
+    receipts.WAVE_300_REPEAT.manifestDigest = manifest.manifestDigest;
+    return receipts;
+  };
+  const ok = module.evaluateSaturationAudit({ receiptsByRung: makeSet() });
+  assert.equal(ok.ok, true, `embedded manifests pass: ${JSON.stringify(ok.reasons)}`);
+
+  const selfAuthored = makeSet();
+  delete selfAuthored.WAVE_300.caseManifest;
+  delete selfAuthored.WAVE_300_REPEAT.caseManifest;
+  const r1 = module.evaluateSaturationAudit({ receiptsByRung: selfAuthored });
+  assert.equal(r1.ok, false, 'digest strings without embedded manifests must fail');
+  assert.equal(r1.code, 'RTK_PHYS_AUDIT_MANIFEST_MISMATCH');
+
+  const different = makeSet();
+  different.WAVE_300_REPEAT.caseManifest = module.buildCaseManifest(module.buildDiverseWaveCaseSpecs('WAVE_300').map((s, i) => (i === 0 ? { ...s, family: 'tamper' } : s)));
+  different.WAVE_300_REPEAT.manifestDigest = different.WAVE_300_REPEAT.caseManifest.manifestDigest;
+  const r2 = module.evaluateSaturationAudit({ receiptsByRung: different });
+  assert.equal(r2.ok, false, 'a repeat manifest differing from the first wave must fail');
+  assert.equal(r2.code, 'RTK_PHYS_AUDIT_MANIFEST_MISMATCH');
+});
+
+// D09: audit cross-checks — counters.failed must match cases, headSha must be
+// 40-hex, receipt.rung must match its slot.
+test('PHYS01-D09-audit-cross-checks', async () => {
+  const module = await loadModule();
+  const specs = module.buildDiverseWaveCaseSpecs('WAVE_300');
+  const manifest = module.buildCaseManifest(specs);
+  const makeSet = () => {
+    const receipts = {};
+    for (const [rung, count] of [['WAVE_10', 10], ['WAVE_40', 40], ['WAVE_100', 100], ['WAVE_300', 300], ['WAVE_300_REPEAT', 300]]) {
+      receipts[rung] = sealedWaveReceipt(rung, count);
+      receipts[rung].headSha = 'a'.repeat(40);
+    }
+    receipts.WAVE_300.caseManifest = manifest;
+    receipts.WAVE_300_REPEAT.caseManifest = manifest;
+    receipts.WAVE_300.manifestDigest = manifest.manifestDigest;
+    receipts.WAVE_300_REPEAT.manifestDigest = manifest.manifestDigest;
+    return receipts;
+  };
+  const ok = module.evaluateSaturationAudit({ receiptsByRung: makeSet() });
+  assert.equal(ok.ok, true, `cross-checked set passes: ${JSON.stringify(ok.reasons)}`);
+
+  const lyingCounters = makeSet();
+  lyingCounters.WAVE_40.counters.failed = 1;
+  const r1 = module.evaluateSaturationAudit({ receiptsByRung: lyingCounters });
+  assert.equal(r1.ok, false, 'a failed counter disagreeing with all-pass cases must fail');
+  assert.equal(r1.code, 'RTK_PHYS_AUDIT_VETO_NONZERO');
+
+  const brokenSeal = makeSet();
+  brokenSeal.WAVE_40.cases[3] = { ...brokenSeal.WAVE_40.cases[3], openEditSaveCloseReopen: 'FAIL', wordStatus: 'FAIL' };
+  const r1b = module.evaluateSaturationAudit({ receiptsByRung: brokenSeal });
+  assert.equal(r1b.ok, false, 'a failed case breaks the seal first');
+  assert.equal(r1b.code, 'RTK_PHYS_AUDIT_WAVE_MISSING');
+
+  const badHead = makeSet();
+  badHead.WAVE_100.headSha = 'not-a-sha';
+  const r2 = module.evaluateSaturationAudit({ receiptsByRung: badHead });
+  assert.equal(r2.ok, false, 'a non-hex headSha must fail');
+});
+
+// D10: false-saturation filter is case-insensitive and composite-proof.
+test('PHYS01-D10-false-saturation-filter-hardened', async () => {
+  const module = await loadModule();
+  for (const status of ['saturated', 'Saturated', 'SATURATED', 'NOT_SATURATED;SATURATED', 'SATURATED_NOT']) {
+    const receipts = {};
+    for (const [rung, count] of [['WAVE_10', 10], ['WAVE_40', 40], ['WAVE_100', 100], ['WAVE_300', 300], ['WAVE_300_REPEAT', 300]]) {
+      receipts[rung] = sealedWaveReceipt(rung, count);
+      receipts[rung].headSha = 'a'.repeat(40);
+    }
+    const manifest = module.buildCaseManifest(module.buildDiverseWaveCaseSpecs('WAVE_300'));
+    receipts.WAVE_300.caseManifest = manifest;
+    receipts.WAVE_300_REPEAT.caseManifest = manifest;
+    receipts.WAVE_300.manifestDigest = manifest.manifestDigest;
+    receipts.WAVE_300_REPEAT.manifestDigest = manifest.manifestDigest;
+    receipts.WAVE_300.status = status;
+    const r = module.evaluateSaturationAudit({ receiptsByRung: receipts });
+    assert.equal(r.ok, false, `status ${JSON.stringify(status)} must be refused`);
+    assert.equal(r.code, 'RTK_PHYS_AUDIT_FALSE_SATURATION');
+  }
+});
+
+// D11: the oracle fails typed on malformed specs and rejects out-of-vocabulary
+// shapes/classes.
+test('PHYS01-D11-oracle-typed-malformed-and-vocabulary', async () => {
+  const module = await loadModule();
+  const malformed = module.evaluateDiversityOracle([{ id: 'x', family: undefined, operationShape: undefined, contentClass: undefined }]);
+  assert.equal(malformed.ok, false);
+  assert.equal(malformed.code, 'RTK_PHYS_DIVERSITY_CASE_MALFORMED');
+
+  const specs = module.buildDiverseWaveCaseSpecs('WAVE_300');
+  const badVocab = specs.map((s, i) => (i === 0 ? { ...s, operationShape: 'invented-shape-not-in-vocabulary' } : s));
+  const r = module.evaluateDiversityOracle(badVocab);
+  assert.equal(r.ok, false, 'out-of-vocabulary shape must fail');
+  assert.equal(r.code, 'RTK_PHYS_DIVERSITY_VOCABULARY_INVALID');
 });

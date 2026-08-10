@@ -9836,12 +9836,12 @@
     },
     {
       "filePath": "docs/CONTEXT.md",
-      "sha256": "1c2c0e32b74998c1f1500091bac19f37a81a6f24cd60d30a3298755898d73b83",
-      "approvedBy": "owner-direct:TASK_ID:DIVERSITY01_ORACLE_QUOTAS_MANIFEST",
-      "approvedAtUtc": "2026-08-10T18:54:45.879Z",
-      "rationale": "Approve additive docs/CONTEXT.md bytes recording the DIVERSITY-01 diversity gate machinery; no physical run executed; terminal claim remains NOT_MADE.",
+      "sha256": "27c838aea1f3947c491dbfa43694b08a8f8e6a04504e1026068f885b7478a28e",
+      "approvedBy": "owner-direct:TASK_ID:DIVERSITY01B_AUDIT_REPAIR",
+      "approvedAtUtc": "2026-08-10T19:31:09.688Z",
+      "rationale": "Approve additive docs/CONTEXT.md bytes recording the DIVERSITY-01B audit repairs.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_DIVERSITY01"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_DIVERSITY01B_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-multi01-multi-scene-scope-blocked.contract.test.js",
@@ -9935,21 +9935,21 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-phys-ladder-16-111-3.mjs",
-      "sha256": "ad4d64517e2f0b6c98f7f19b0d9368ba61ca73c86490ee72fd99582e4822e744",
-      "approvedBy": "owner-direct:TASK_ID:DIVERSITY01_ORACLE_QUOTAS_MANIFEST",
-      "approvedAtUtc": "2026-08-10T18:54:45.879Z",
-      "rationale": "Approve the DIVERSITY-01 machinery: normalized diversity oracle (identity fields stripped), fourteen pinned operation families with quotas over distinct normalized cases, deterministic diverse-wave generator, manifest-bound repeat with recomputed case digests, and the audit manifest-digest binding law.",
+      "sha256": "781893035b5a5d4d61018977d0707f7dc1b9a412c3c11ab7ea1672e7f407b3f4",
+      "approvedBy": "owner-direct:TASK_ID:DIVERSITY01B_AUDIT_REPAIR",
+      "approvedAtUtc": "2026-08-10T19:31:09.688Z",
+      "rationale": "Approve the DIVERSITY-01B audit repairs: top-level manifestDigest recompute and hex-64 enforcement, embedded-manifest recomputation in the saturation audit, counters/cases cross-checks, headSha and rung-slot checks, hardened false-saturation filter, typed oracle malformed and vocabulary failures.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_DIVERSITY01"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_DIVERSITY01B_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-phys01-ladder-runner.contract.test.js",
-      "sha256": "e918882524bd92eb84622b44bfcd4198a55d719d62b3573a0575e4c02bfb6b91",
-      "approvedBy": "owner-direct:TASK_ID:DIVERSITY01_ORACLE_QUOTAS_MANIFEST",
-      "approvedAtUtc": "2026-08-10T18:54:45.879Z",
-      "rationale": "Approve the DIVERSITY-01 scenarios D01-D06 and P33 with the strengthened pins (literal family list, digest-only tamper, readback-line pins); six mutations killed.",
+      "sha256": "14cdb51c33ef47e3761f9038fc7f0e60d183d476131e0254fe0798670a87c4f7",
+      "approvedBy": "owner-direct:TASK_ID:DIVERSITY01B_AUDIT_REPAIR",
+      "approvedAtUtc": "2026-08-10T19:31:09.688Z",
+      "rationale": "Approve the DIVERSITY-01B scenarios D07-D11 with the auditReadySet fixture rewire; mutation battery includes the EM2b self-authored-digest revert killed by P33/D08.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_DIVERSITY01"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_DIVERSITY01B_REPAIR"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_MAC_16_111_3_CARRIER_SURVIVAL_SMOKE_RECEIPT.json",

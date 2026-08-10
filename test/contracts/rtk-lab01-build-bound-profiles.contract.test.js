@@ -991,18 +991,23 @@ test('LAB02-06-no-rung-inheritance-on-new-build', async () => {
   // PHYS-02 amendment: CARRIER_SURVIVAL_SMOKE is earned; the next admission is
   // SEMANTIC_DIFFERENTIAL_SUBSET, and re-admission of the earned rung stays an
   // idempotent read.
+  // PHYS-06 amendment (rung-agnostic): the admitted rung is always the first
+  // unearned rung; the bypass probe is the rung after it.
+  const earned = registryJson.profiles.find((p) => p.profileId === 'word-mac-16.111.3-26080215').ladder.completedRungs;
+  const nextRung = module.LADDER_RUNGS[earned.length];
+  const skipRung = module.LADDER_RUNGS[earned.length + 1];
   const first = module.evaluateLadderAdmission({
     registry: registryJson,
     profileId: 'word-mac-16.111.3-26080215',
-    rung: 'SEMANTIC_DIFFERENTIAL_SUBSET',
+    rung: nextRung,
   });
   assert.equal(first.ok, true, 'the next rung admission (attempt) must be allowed');
   const bypass = module.evaluateLadderAdmission({
     registry: registryJson,
     profileId: 'word-mac-16.111.3-26080215',
-    rung: 'WAVE_40',
+    rung: skipRung,
   });
-  assert.equal(bypass.ok, false);
+  assert.equal(bypass.ok, false, `skipping ${nextRung} to ${skipRung} must be blocked`);
   assert.equal(bypass.code, 'RTK_LAB01_LADDER_BYPASS');
   const historicalAdmission = module.evaluateLadderAdmission({
     registry: registryJson,

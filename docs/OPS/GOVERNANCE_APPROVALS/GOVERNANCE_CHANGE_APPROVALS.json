@@ -9872,12 +9872,12 @@
     },
     {
       "filePath": "test/contracts/rtk-lab01-build-bound-profiles.contract.test.js",
-      "sha256": "683495fbfb4f3bcf409463f7447f7df0261b1df35e79dbe6915946c3ed9373c3",
-      "approvedBy": "owner-direct:TASK_ID:PHYS04_SEMANTIC_EVIDENCE_16_111_3",
-      "approvedAtUtc": "2026-08-10T09:02:15.592Z",
-      "rationale": "Approve the PHYS-04 sanctioned L2-01 amendment: the rung-count-agnostic earned-ladder law (ordered prefix, justifying on-build heads with disk-verified sha256).",
+      "sha256": "12dd95d862dad2d5f955ec199ec0c45251aadb8a38ab00c3de0a91a4653fc217",
+      "approvedBy": "owner-direct:TASK_ID:PHYS06_WAVE10_EVIDENCE_16_111_3",
+      "approvedAtUtc": "2026-08-10T14:32:19.991Z",
+      "rationale": "Approve the PHYS-06 sanctioned L2-06 amendment: rung-agnostic admission probes (next unearned rung admitted, the rung after it bypass-blocked) plus the L2-01 prefix law.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS04_SEMANTIC_EVIDENCE"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS06_WAVE10_EVIDENCE"
     },
     {
       "filePath": "docs/OPS/RTK/GOOGLE_BUILD_PROFILE_REGISTRY_V1.json",

@@ -9836,12 +9836,12 @@
     },
     {
       "filePath": "docs/CONTEXT.md",
-      "sha256": "e2f793625d9192e00165bc11865ee929593195edaf400769a4fdab3f05f69023",
-      "approvedBy": "owner-direct:TASK_ID:PHYS01_LADDER_RUNNER_16_111_3",
-      "approvedAtUtc": "2026-08-09T22:53:08.573Z",
-      "rationale": "Approve additive docs/CONTEXT.md bytes recording the PHYS-01 build-bound ladder runner contour.",
+      "sha256": "de5eaf5df80fe2bff3d724912276b84f43d9fb9171469ff1df4ee1f7f6ec70eb",
+      "approvedBy": "owner-direct:TASK_ID:PHYS01B_FULL_LADDER_RUNNER",
+      "approvedAtUtc": "2026-08-10T00:00:02.048Z",
+      "rationale": "Approve additive docs/CONTEXT.md bytes recording the PHYS-01B full-ladder runner extension; no physical run executed and the terminal claim remains NOT_MADE_WORD_TERMINAL_PASS_REQUIRED.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS01_LADDER_RUNNER"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS01B_FULL_LADDER"
     },
     {
       "filePath": "test/contracts/rtk-multi01-multi-scene-scope-blocked.contract.test.js",
@@ -9935,21 +9935,21 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-phys-ladder-16-111-3.mjs",
-      "sha256": "908d264e381f6d489daad1cb97ca11f640cddabe8fb73dc2a9b4932184b8d099",
-      "approvedBy": "owner-direct:TASK_ID:PHYS01_LADDER_RUNNER_16_111_3",
-      "approvedAtUtc": "2026-08-09T22:52:34.352Z",
-      "rationale": "Approve the PHYS-01 build-bound physical ladder runner for word-mac-16.111.3-26080215: fail-closed gates (rung, exact SHA, clean tree, Word build probe, inline T7 verifier, clean Word session), CARRIER_SURVIVAL_SMOKE rung with a build-bound receipt path, seal law without a silent seal path; synthetic fixtures only, no user documents, no network.",
+      "sha256": "44f82bc970cef88cdc1bd8dfd7c2a1c7d5c2bc0910f534eb16c97ba9f2790938",
+      "approvedBy": "owner-direct:TASK_ID:PHYS01B_FULL_LADDER_RUNNER",
+      "approvedAtUtc": "2026-08-10T00:00:02.048Z",
+      "rationale": "Approve the PHYS-01B runner extension: all nine ladder rungs with pinned denominators, distinct build-bound receipt paths, semantic differential seal law, negative-probe detection law and the fail-closed saturation audit capped at COMPLETE_NOT_SATURATED.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS01_LADDER_RUNNER"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS01B_FULL_LADDER"
     },
     {
       "filePath": "test/contracts/rtk-phys01-ladder-runner.contract.test.js",
-      "sha256": "32bb64bb6cd635caa6d3d71041ecd00b7c43bc18980c3148db10b0e25b3f4fce",
-      "approvedBy": "owner-direct:TASK_ID:PHYS01_LADDER_RUNNER_16_111_3",
-      "approvedAtUtc": "2026-08-09T22:52:34.352Z",
-      "rationale": "Approve the PHYS-01 contract lane (10 scenarios) pinning gate and receipt laws hermetically without Word/T7/network; red-first proven; ten targeted mutations each killed by a named test.",
+      "sha256": "e8084e1702bc1fce74d07aa200e87f6fb28051df3943820f5aa6543b55d9118a",
+      "approvedBy": "owner-direct:TASK_ID:PHYS01B_FULL_LADDER_RUNNER",
+      "approvedAtUtc": "2026-08-10T00:00:02.048Z",
+      "rationale": "Approve the PHYS-01B scenarios P11-P20 (rung registry, denominator law, semantic law, negative detection, audit laws) plus the sanctioned P02 unknown-rung amendment; red-first proven; eight targeted mutations killed.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS01_LADDER_RUNNER"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS01B_FULL_LADDER"
     }
   ]
 }

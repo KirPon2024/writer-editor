@@ -85,7 +85,77 @@ export function verifyPhysArtifactRoot({ artifactRoot, diskInfoText } = {}) {
 export const PHYS_PROFILE_ID = 'word-mac-16.111.3-26080215';
 export const PHYS_EXPECTED_WORD_VERSION = '16.111.3';
 export const PHYS_EXPECTED_WORD_BUILD = '16.111.26080215';
-export const PHYS_LADDER_RUNGS = Object.freeze(['CARRIER_SURVIVAL_SMOKE']);
+export const PHYS_LADDER_RUNGS = Object.freeze([
+  'CARRIER_SURVIVAL_SMOKE',
+  'SEMANTIC_DIFFERENTIAL_SUBSET',
+  'NEGATIVE_REPLAY_CRASH_SUBSET',
+  'WAVE_10',
+  'WAVE_40',
+  'WAVE_100',
+  'WAVE_300',
+  'WAVE_300_REPEAT',
+  'SATURATION_LIMITATION_AUDIT',
+]);
+
+// PHYS-01B: per-rung definitions. Every receipt path is bound to the 16.111.3
+// profile and never collides with a 16.111.2-bound artifact.
+export const RUNG_DEFINITIONS = Object.freeze({
+  CARRIER_SURVIVAL_SMOKE: Object.freeze({
+    kind: 'smoke',
+    caseCount: 12,
+    receiptRef: 'docs/OPS/RTK/WORD_MAC_16_111_3_CARRIER_SURVIVAL_SMOKE_RECEIPT.json',
+    receiptSchema: 'yalken.rtk.word-mac-16-111-3.carrier-survival-smoke-receipt.v1',
+  }),
+  SEMANTIC_DIFFERENTIAL_SUBSET: Object.freeze({
+    kind: 'semantic',
+    caseCount: 24,
+    receiptRef: 'docs/OPS/RTK/WORD_MAC_16_111_3_SEMANTIC_DIFFERENTIAL_RECEIPT.json',
+    receiptSchema: 'yalken.rtk.word-mac-16-111-3.semantic-differential-receipt.v1',
+  }),
+  NEGATIVE_REPLAY_CRASH_SUBSET: Object.freeze({
+    kind: 'negative',
+    caseCount: 8,
+    receiptRef: 'docs/OPS/RTK/WORD_MAC_16_111_3_NEGATIVE_REPLAY_CRASH_RECEIPT.json',
+    receiptSchema: 'yalken.rtk.word-mac-16-111-3.negative-replay-crash-receipt.v1',
+  }),
+  WAVE_10: Object.freeze({
+    kind: 'wave',
+    caseCount: 10,
+    receiptRef: 'docs/OPS/RTK/WORD_MAC_16_111_3_PHYSICAL_WAVE10_RECEIPT.json',
+    receiptSchema: 'yalken.rtk.word-mac-16-111-3.wave-10-receipt.v1',
+  }),
+  WAVE_40: Object.freeze({
+    kind: 'wave',
+    caseCount: 40,
+    receiptRef: 'docs/OPS/RTK/WORD_MAC_16_111_3_PHYSICAL_WAVE40_RECEIPT.json',
+    receiptSchema: 'yalken.rtk.word-mac-16-111-3.wave-40-receipt.v1',
+  }),
+  WAVE_100: Object.freeze({
+    kind: 'wave',
+    caseCount: 100,
+    receiptRef: 'docs/OPS/RTK/WORD_MAC_16_111_3_PHYSICAL_WAVE100_RECEIPT.json',
+    receiptSchema: 'yalken.rtk.word-mac-16-111-3.wave-100-receipt.v1',
+  }),
+  WAVE_300: Object.freeze({
+    kind: 'wave',
+    caseCount: 300,
+    receiptRef: 'docs/OPS/RTK/WORD_MAC_16_111_3_PHYSICAL_WAVE300_RECEIPT.json',
+    receiptSchema: 'yalken.rtk.word-mac-16-111-3.wave-300-receipt.v1',
+  }),
+  WAVE_300_REPEAT: Object.freeze({
+    kind: 'wave',
+    caseCount: 300,
+    receiptRef: 'docs/OPS/RTK/WORD_MAC_16_111_3_PHYSICAL_WAVE300_REPEAT_RECEIPT.json',
+    receiptSchema: 'yalken.rtk.word-mac-16-111-3.wave-300-repeat-receipt.v1',
+    repeatOf: 'WAVE_300',
+  }),
+  SATURATION_LIMITATION_AUDIT: Object.freeze({
+    kind: 'audit',
+    caseCount: 0,
+    receiptRef: 'docs/OPS/RTK/WORD_MAC_16_111_3_SATURATION_LIMITATION_AUDIT_RECEIPT.json',
+    receiptSchema: 'yalken.rtk.word-mac-16-111-3.saturation-limitation-audit-receipt.v1',
+  }),
+});
 export const SMOKE_RECEIPT_SCHEMA = 'yalken.rtk.word-mac-16-111-3.carrier-survival-smoke-receipt.v1';
 export const SMOKE_RECEIPT_REF = 'docs/OPS/RTK/WORD_MAC_16_111_3_CARRIER_SURVIVAL_SMOKE_RECEIPT.json';
 export const SMOKE_CASE_COUNT = 12;
@@ -101,6 +171,13 @@ export const PHYS_CODES = Object.freeze({
   WORD_SESSION_NOT_CLEAN: 'RTK_PHYS_WORD_SESSION_NOT_CLEAN',
   CASE_FAILURES_PRESENT: 'RTK_PHYS_CASE_FAILURES_PRESENT',
   RECEIPT_INVALID: 'RTK_PHYS_RECEIPT_INVALID',
+  // PHYS-01B additions.
+  CASE_COUNT_MISMATCH: 'RTK_PHYS_CASE_COUNT_MISMATCH',
+  NEGATIVE_PROBE_UNDETECTED: 'RTK_PHYS_NEGATIVE_PROBE_UNDETECTED',
+  AUDIT_WAVE_MISSING: 'RTK_PHYS_AUDIT_WAVE_MISSING',
+  AUDIT_VETO_NONZERO: 'RTK_PHYS_AUDIT_VETO_NONZERO',
+  AUDIT_PROFILE_MISMATCH: 'RTK_PHYS_AUDIT_PROFILE_MISMATCH',
+  AUDIT_FALSE_SATURATION: 'RTK_PHYS_AUDIT_FALSE_SATURATION',
 });
 
 function reason(code, message) {
@@ -210,6 +287,114 @@ export function buildSmokeCaseSpecs() {
     ordinal: i + 1,
     title: `Carrier survival smoke case ${i + 1} (Word 16.111.3)`,
   }));
+}
+
+// ---------------------------------------------------------------------------
+// PHYS-01B: generic rung case evaluation. The seal law per kind:
+//   smoke/wave: wordStatus PASS + openEditSaveCloseReopen PASS + sentinel and
+//               insertion readback proof;
+//   semantic:   additionally expectedFinalTextPresent and removedTextAbsent
+//               (the exact differential) and at least one tracked revision;
+//   negative:   probes are evaluated by evaluateNegativeProbes instead.
+// The denominator is exact: caseCount must equal the rung definition.
+// ---------------------------------------------------------------------------
+
+export function evaluateRungCases(rung, cases) {
+  const def = RUNG_DEFINITIONS[rung];
+  if (!def) {
+    return { ok: false, sealed: false, code: PHYS_CODES.RUNG_UNKNOWN, reasons: [reason(PHYS_CODES.RUNG_UNKNOWN, `rung ${JSON.stringify(rung)} unknown`)] };
+  }
+  const list = Array.isArray(cases) ? cases : [];
+  if (def.kind !== 'audit' && list.length !== def.caseCount) {
+    return {
+      ok: false,
+      sealed: false,
+      code: PHYS_CODES.CASE_COUNT_MISMATCH,
+      reasons: [reason(PHYS_CODES.CASE_COUNT_MISMATCH, `rung ${rung} requires exactly ${def.caseCount} cases, got ${list.length}`)],
+    };
+  }
+  const failed = list.filter((c) => {
+    if (!c || c.wordStatus !== 'PASS' || c.openEditSaveCloseReopen !== 'PASS') return true;
+    if (c.readbackContainsSentinel !== true || c.readbackContainsInsertion !== true) return true;
+    if (def.kind === 'semantic') {
+      if (c.expectedFinalTextPresent !== true || c.removedTextAbsent !== true) return true;
+      if (!(Number(c.wordRevisionCount) >= 1)) return true;
+    }
+    return false;
+  });
+  if (def.kind !== 'audit' && (list.length === 0 || failed.length > 0)) {
+    return {
+      ok: false,
+      sealed: false,
+      code: PHYS_CODES.CASE_FAILURES_PRESENT,
+      reasons: [reason(PHYS_CODES.CASE_FAILURES_PRESENT, `${failed.length} of ${list.length} cases of rung ${rung} failed or lack proof`)],
+    };
+  }
+  return { ok: true, sealed: def.kind !== 'audit', code: PHYS_CODES.GATES_OK, reasons: [reason(PHYS_CODES.GATES_OK, `rung ${rung}: ${list.length}/${def.caseCount} cases pass`)] };
+}
+
+// Negative probes: every expected detection must fire. A probe that does not
+// detect its anomaly is a failed probe (fail-closed).
+export function evaluateNegativeProbes(probes) {
+  const list = Array.isArray(probes) ? probes : [];
+  const undetected = list.filter((p) => !p || p.expectedDetection !== true || p.detected !== true);
+  if (list.length === 0 || undetected.length > 0) {
+    return {
+      ok: false,
+      sealed: false,
+      code: PHYS_CODES.NEGATIVE_PROBE_UNDETECTED,
+      reasons: [reason(PHYS_CODES.NEGATIVE_PROBE_UNDETECTED, `${undetected.length} of ${list.length} negative probes failed to detect their anomaly`)],
+    };
+  }
+  return { ok: true, sealed: true, code: PHYS_CODES.GATES_OK, reasons: [reason(PHYS_CODES.GATES_OK, `${list.length} negative probes detected their anomalies`)] };
+}
+
+// Saturation limitation audit: consumes the sealed wave receipts of THIS
+// profile. The audit can never produce SATURATED — its ceiling is
+// COMPLETE_NOT_SATURATED. Laws, in pinned order:
+//   AUDIT_WAVE_MISSING     -> a required wave receipt absent or unsealed;
+//   AUDIT_PROFILE_MISMATCH -> a receipt naming another profile;
+//   AUDIT_VETO_NONZERO     -> a receipt with a nonzero failed counter;
+//   AUDIT_FALSE_SATURATION -> a receipt whose status claims saturation.
+const AUDIT_REQUIRED_RUNGS = Object.freeze(['WAVE_10', 'WAVE_40', 'WAVE_100', 'WAVE_300', 'WAVE_300_REPEAT']);
+
+export function evaluateSaturationAudit({ receiptsByRung } = {}) {
+  const receipts = isPlainObject(receiptsByRung) ? receiptsByRung : {};
+  for (const rung of AUDIT_REQUIRED_RUNGS) {
+    const receipt = receipts[rung];
+    if (!isPlainObject(receipt)) {
+      return { ok: false, status: 'AUDIT_INCOMPLETE', code: PHYS_CODES.AUDIT_WAVE_MISSING, reasons: [reason(PHYS_CODES.AUDIT_WAVE_MISSING, `required wave receipt ${rung} is missing`)] };
+    }
+    const def = RUNG_DEFINITIONS[rung];
+    const cases = Array.isArray(receipt.cases) ? receipt.cases : [];
+    const sealed = cases.length === def.caseCount && cases.every((c) => c && c.openEditSaveCloseReopen === 'PASS');
+    if (!sealed) {
+      return { ok: false, status: 'AUDIT_INCOMPLETE', code: PHYS_CODES.AUDIT_WAVE_MISSING, reasons: [reason(PHYS_CODES.AUDIT_WAVE_MISSING, `wave receipt ${rung} is not a sealed ${def.caseCount}-case pass`)] };
+    }
+  }
+  for (const rung of AUDIT_REQUIRED_RUNGS) {
+    if (receipts[rung].profileId !== PHYS_PROFILE_ID) {
+      return { ok: false, status: 'AUDIT_INCOMPLETE', code: PHYS_CODES.AUDIT_PROFILE_MISMATCH, reasons: [reason(PHYS_CODES.AUDIT_PROFILE_MISMATCH, `wave receipt ${rung} names profile ${JSON.stringify(receipts[rung].profileId)}, not ${PHYS_PROFILE_ID}`)] };
+    }
+  }
+  for (const rung of AUDIT_REQUIRED_RUNGS) {
+    const failed = Number(receipts[rung].counters && receipts[rung].counters.failed);
+    if (!Number.isFinite(failed) || failed !== 0) {
+      return { ok: false, status: 'AUDIT_INCOMPLETE', code: PHYS_CODES.AUDIT_VETO_NONZERO, reasons: [reason(PHYS_CODES.AUDIT_VETO_NONZERO, `wave receipt ${rung} has failed counter ${JSON.stringify(receipts[rung].counters && receipts[rung].counters.failed)}`)] };
+    }
+  }
+  for (const rung of AUDIT_REQUIRED_RUNGS) {
+    const status = String(receipts[rung].status || '');
+    if (/SATURATED/u.test(status) && status !== 'COMPLETE_NOT_SATURATED' && !/NOT_SATURATED/u.test(status)) {
+      return { ok: false, status: 'AUDIT_INCOMPLETE', code: PHYS_CODES.AUDIT_FALSE_SATURATION, reasons: [reason(PHYS_CODES.AUDIT_FALSE_SATURATION, `wave receipt ${rung} claims saturation status ${JSON.stringify(status)}`)] };
+    }
+  }
+  return {
+    ok: true,
+    status: 'COMPLETE_NOT_SATURATED',
+    code: PHYS_CODES.GATES_OK,
+    reasons: [reason(PHYS_CODES.GATES_OK, 'all required waves sealed for this profile; saturation is NOT claimed')],
+  };
 }
 
 export function evaluateSmokeCases(cases) {

@@ -285,6 +285,7 @@ No further transfer is required for this variant; the transfer axis is closed.
 - PHYS-05 sealed the third physical rung: NEGATIVE_REPLAY_CRASH_SUBSET 8/8 on Word 16.111.3 at exact merged SHA `7e876c84` — all eight probes with real detections on two physically driven carriers (duplicate-digest distinctness, EOCD tamper destruction, validator-enforced stale head, crash no-seal, cross-profile receipt, counter tamper, unknown rung refusal, cross-build join rejection through the real LAB-01 evaluator); the profile ladder now holds three earned rungs, waves remain unearned, and the terminal claim stays `NOT_MADE_WORD_TERMINAL_PASS_REQUIRED`.
 - PHYS-06 sealed WAVE_10 10/10 on Word 16.111.3 at exact merged SHA `3b8a7d8f` (per-case readback proof, 10 distinct returned digests); four of nine rungs earned, waves 40/100/300 and the repeat remain unearned, terminal claim stays `NOT_MADE_WORD_TERMINAL_PASS_REQUIRED`.
 - PHYS-07 sealed WAVE_40 40/40 on Word 16.111.3 at exact merged SHA `4837733e` (per-case readback proof, 40 distinct returned digests); five of nine rungs earned, waves 100/300 and the repeat remain unearned, terminal claim stays `NOT_MADE_WORD_TERMINAL_PASS_REQUIRED`.
+- PHYS-08 sealed WAVE_100 100/100 on Word 16.111.3 at exact merged SHA `19081471` (per-case readback proof, 100 distinct returned digests); six of nine rungs earned, wave 300 and the repeat remain unearned, terminal claim stays `NOT_MADE_WORD_TERMINAL_PASS_REQUIRED`.
 
 ## Policies That Remain Binding
 - SECURITY_POLICY: CSP, blocked navigation, blocked new-window, no remote code

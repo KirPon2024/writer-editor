@@ -351,6 +351,16 @@
           "rungs": [
             "WAVE_40"
           ]
+        },
+        {
+          "path": "docs/OPS/RTK/WORD_MAC_16_111_3_PHYSICAL_WAVE100_RECEIPT.json",
+          "sha256": "sha256:618635e8fbe4587ec72195cb9988b08a2cd20c0ad4efe36436fd0a497de58ad9",
+          "wordVersion": "16.111.3",
+          "wordBuild": "16.111.26080215",
+          "sealedAtUtc": "2026-08-10T15:17:53.549Z",
+          "rungs": [
+            "WAVE_100"
+          ]
         }
       ],
       "freshnessPolicy": {
@@ -362,11 +372,12 @@
           "SEMANTIC_DIFFERENTIAL_SUBSET",
           "NEGATIVE_REPLAY_CRASH_SUBSET",
           "WAVE_10",
-          "WAVE_40"
+          "WAVE_40",
+          "WAVE_100"
         ]
       },
-      "competingNote": "Physical evidence on 16.111.3: smoke 12/12 (197ba60f), semantic 24/24 (c277aa9f), negative 8/8 (7e876c84), wave-10 10/10 (3b8a7d8f), wave-40 40/40 (4837733e). Waves 100/300 and repeat unearned; saturation not claimed.",
-      "profileDigest": "sha256:d0dc777453a311878e4a9321d9520ede24bbfccd07dc44ca0492f9ee999e6440"
+      "competingNote": "Physical evidence on 16.111.3: smoke 12/12 (197ba60f), semantic 24/24 (c277aa9f), negative 8/8 (7e876c84), waves 10/10 (3b8a7d8f), 40/40 (4837733e), 100/100 (19081471). Wave 300 and repeat unearned; saturation not claimed.",
+      "profileDigest": "sha256:a097cd857860b00e241d434609d43bc99e0b8a37f4ca71ead3aeff9e4b7fbccd"
     }
   ],
   "currentProfileId": "word-mac-16.111.3-26080215"

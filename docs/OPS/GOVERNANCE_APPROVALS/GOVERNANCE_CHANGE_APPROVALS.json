@@ -9836,12 +9836,12 @@
     },
     {
       "filePath": "docs/CONTEXT.md",
-      "sha256": "43500932f575179ec6b301fc79dda005fef39a02f0a7f98e3c136dcaa045a721",
-      "approvedBy": "owner-direct:TASK_ID:PHYS07_WAVE40_EVIDENCE_16_111_3",
-      "approvedAtUtc": "2026-08-10T14:54:50.032Z",
-      "rationale": "Approve additive docs/CONTEXT.md bytes recording the PHYS-07 sealed wave-40; terminal claim remains NOT_MADE.",
+      "sha256": "a9288dd911fcdc62cf38064cf10ffb3d7ff1e4e8bda4485df9e4218bdd1bae28",
+      "approvedBy": "owner-direct:TASK_ID:PHYS08_WAVE100_EVIDENCE_16_111_3",
+      "approvedAtUtc": "2026-08-10T15:18:26.831Z",
+      "rationale": "Approve additive docs/CONTEXT.md bytes recording the PHYS-08 sealed wave-100; terminal claim remains NOT_MADE.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS07_WAVE40_EVIDENCE"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS08_WAVE100_EVIDENCE"
     },
     {
       "filePath": "test/contracts/rtk-multi01-multi-scene-scope-blocked.contract.test.js",
@@ -9854,12 +9854,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_BUILD_PROFILE_REGISTRY_V1.json",
-      "sha256": "b2f6abd7abdf2726a25253aedd915941846c539c1dfa012626801880ae0c8fef",
-      "approvedBy": "owner-direct:TASK_ID:PHYS07_WAVE40_EVIDENCE_16_111_3",
-      "approvedAtUtc": "2026-08-10T14:54:50.032Z",
-      "rationale": "Approve the PHYS-07 evidence attachment: the WAVE_40 receipt head (sha256-pinned) and the WAVE_40 rung earned for word-mac-16.111.3-26080215.",
+      "sha256": "d65bd5c00129195db65dea99f06f56338a03cf9bcb74c1299078561944aeff3c",
+      "approvedBy": "owner-direct:TASK_ID:PHYS08_WAVE100_EVIDENCE_16_111_3",
+      "approvedAtUtc": "2026-08-10T15:18:26.831Z",
+      "rationale": "Approve the PHYS-08 evidence attachment: the WAVE_100 receipt head (sha256-pinned) and the WAVE_100 rung earned for word-mac-16.111.3-26080215.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS07_WAVE40_EVIDENCE"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS08_WAVE100_EVIDENCE"
     },
     {
       "filePath": "scripts/ops/rtk-word-build-profiles-v1.mjs",
@@ -9872,12 +9872,12 @@
     },
     {
       "filePath": "test/contracts/rtk-lab01-build-bound-profiles.contract.test.js",
-      "sha256": "12dd95d862dad2d5f955ec199ec0c45251aadb8a38ab00c3de0a91a4653fc217",
-      "approvedBy": "owner-direct:TASK_ID:PHYS06_WAVE10_EVIDENCE_16_111_3",
-      "approvedAtUtc": "2026-08-10T14:32:19.991Z",
-      "rationale": "Approve the PHYS-06 sanctioned L2-06 amendment: rung-agnostic admission probes (next unearned rung admitted, the rung after it bypass-blocked) plus the L2-01 prefix law.",
+      "sha256": "aff63cfbd5850603516d49960b7d7fb53cbcfdd832199fb05499b7c757a51acd",
+      "approvedBy": "owner-direct:TASK_ID:PHYS08_WAVE100_EVIDENCE_16_111_3",
+      "approvedAtUtc": "2026-08-10T15:20:10.435Z",
+      "rationale": "Approve the PHYS-08 sanctioned L2-06 boundary fix: with fewer than two unearned rungs the bypass probe uses a fabricated gap clone (skipping ahead of the earned prefix still bypass-blocks).",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS06_WAVE10_EVIDENCE"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS08_WAVE100_EVIDENCE"
     },
     {
       "filePath": "docs/OPS/RTK/GOOGLE_BUILD_PROFILE_REGISTRY_V1.json",
@@ -9995,6 +9995,15 @@
       "rationale": "Approve the PHYS-07 wave-40 receipt: 40/40 physical cases with readback proof and distinct returned digests on Word 16.111.3 build 16.111.26080215 at exact merged SHA 4837733e.",
       "approved": true,
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS07_WAVE40_EVIDENCE"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_MAC_16_111_3_PHYSICAL_WAVE100_RECEIPT.json",
+      "sha256": "618635e8fbe4587ec72195cb9988b08a2cd20c0ad4efe36436fd0a497de58ad9",
+      "approvedBy": "owner-direct:TASK_ID:PHYS08_WAVE100_EVIDENCE_16_111_3",
+      "approvedAtUtc": "2026-08-10T15:18:26.831Z",
+      "rationale": "Approve the PHYS-08 wave-100 receipt: 100/100 physical cases with readback proof and distinct returned digests on Word 16.111.3 build 16.111.26080215 at exact merged SHA 19081471.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS08_WAVE100_EVIDENCE"
     }
   ]
 }

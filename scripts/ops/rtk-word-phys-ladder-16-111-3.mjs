@@ -1399,6 +1399,14 @@ export function buildRungReceipt(plan, { rung, headSha, originMainSha, wordProfi
       claimScope = 'DIVERSE_FAMILY_WAVE_PROVEN';
       caseManifest = buildCaseManifest(caseSpecs);
       manifestDigest = caseManifest.manifestDigest;
+      if (plan.rung === 'WAVE_300_REPEAT') {
+        // The repeat binds the first wave's manifest digest; a divergent
+        // digest refuses the receipt.
+        const firstWaveDigest = plan.caseManifest && plan.caseManifest.manifestDigest;
+        if (!firstWaveDigest || firstWaveDigest !== manifestDigest) {
+          throw new Error(`RTK_PHYS_REPEAT_MANIFEST_MISMATCH: repeat digest ${JSON.stringify(manifestDigest)} != first wave ${JSON.stringify(firstWaveDigest)}`);
+        }
+      }
     } else {
       claimScope = plan.rung === 'WAVE_300_REPEAT' ? 'APPEND_CYCLE_STABILITY_REPEAT_ONLY' : 'APPEND_CYCLE_STABILITY_ONLY';
     }
@@ -1442,8 +1450,14 @@ export function validateRungReceipt(plan, receipt, { expectedHeadSha } = {}) {
   if (receipt.schema !== plan.receiptSchema) reasons.push(reason(PHYS_CODES.RECEIPT_INVALID, 'schema mismatch'));
   if (receipt.profileId !== PHYS_PROFILE_ID) reasons.push(reason(PHYS_CODES.RECEIPT_INVALID, 'profileId mismatch'));
   if (receipt.rung !== plan.rung) reasons.push(reason(PHYS_CODES.RECEIPT_INVALID, 'rung mismatch'));
-  if (plan.rung === 'WAVE_300_REPEAT' && receipt.claimScope !== 'APPEND_CYCLE_STABILITY_REPEAT_ONLY') {
-    reasons.push(reason(PHYS_CODES.RECEIPT_INVALID, `repeat receipt claimScope must be exactly APPEND_CYCLE_STABILITY_REPEAT_ONLY, got ${JSON.stringify(receipt.claimScope)}`));
+  if (plan.rung === 'WAVE_300_REPEAT' && receipt.claimScope !== 'APPEND_CYCLE_STABILITY_REPEAT_ONLY' && receipt.claimScope !== 'DIVERSE_FAMILY_WAVE_PROVEN') {
+    reasons.push(reason(PHYS_CODES.RECEIPT_INVALID, `repeat receipt claimScope must be APPEND_CYCLE_STABILITY_REPEAT_ONLY or DIVERSE_FAMILY_WAVE_PROVEN, got ${JSON.stringify(receipt.claimScope)}`));
+  }
+  // A diversity-proven wave receipt must embed its manifest and digest;
+  // otherwise the scope is an empty assertion.
+  if (receipt.claimScope === 'DIVERSE_FAMILY_WAVE_PROVEN'
+    && (!isPlainObject(receipt.caseManifest) || !/^[0-9a-f]{64}$/u.test(String(receipt.manifestDigest || '')))) {
+    reasons.push(reason(PHYS_CODES.RECEIPT_INVALID, 'DIVERSE_FAMILY_WAVE_PROVEN requires the embedded caseManifest and hex-64 manifestDigest'));
   }
   const cases = Array.isArray(receipt.cases) ? receipt.cases : [];
   const counters = isPlainObject(receipt.counters) ? receipt.counters : {};
@@ -1507,28 +1521,44 @@ async function runRungPhysical({ plan, artifactRoot, runId }) {
   }
 
   if (plan.executor === 'wave-cycle') {
+    // DIVERSITY-02: each case executes its family's real operation (edit
+    // families via per-family scripts; probe families via runner-level
+    // detections over a carrier cycle). Cases carry family/shape/class so the
+    // receipt binds to the embedded manifest per ordinal.
+    const specs = plan.rung === 'WAVE_300_REPEAT' && plan.caseManifest
+      ? buildRepeatCaseSpecs(plan.caseManifest)
+      : buildWaveCaseSpecs(plan.rung);
     const cases = [];
-    for (const spec of buildWaveCaseSpecs(plan.rung)) {
+    for (const spec of specs) {
       const sentinel = `YALKEN_B06_CASE ${spec.id}`;
       const sourcePath = path.join(dirs.wordSources, `${spec.id}-source.docx`);
       const returnedPath = path.join(dirs.wordReturns, `${spec.id}-returned.docx`);
       const buffer = buildB06SyntheticDocxBuffer({ id: spec.id, title: spec.title });
       fs.writeFileSync(sourcePath, buffer);
       fs.copyFileSync(sourcePath, returnedPath);
-      const script = buildSmokeWordScript(path.basename(returnedPath), returnedPath, sentinel, spec.insertion);
+      const isProbeFamily = ['stale', 'replay', 'tamper', 'crash'].includes(spec.family);
+      const script = isProbeFamily
+        ? buildSmokeWordScript(path.basename(returnedPath), returnedPath, sentinel, ` PHYS_16_111_3_${spec.family.toUpperCase()}_PROBE_${spec.ordinal}`)
+        : buildFamilyWordScript(path.basename(returnedPath), returnedPath, spec);
       const scriptPath = path.join(dirs.evidence, `${spec.id}.applescript`);
       fs.writeFileSync(scriptPath, script);
       const output = shell('osascript', [scriptPath], { timeout: 120_000 });
       const kv = parseKeyValueLines(output);
       fs.copyFileSync(returnedPath, path.join(dirs.evidence, `${spec.id}-returned.docx`));
       fs.copyFileSync(sourcePath, path.join(dirs.evidence, `${spec.id}-source.docx`));
+      const cycleOk = kv.WORD_STATUS === 'PASS' && kv.SENTINEL_OK === 'true' && kv.INSERTION_OK === 'true';
       cases.push({
         caseId: spec.id,
         ordinal: spec.ordinal,
-        wordStatus: kv.WORD_STATUS === 'PASS' && kv.SENTINEL_OK === 'true' && kv.INSERTION_OK === 'true' ? 'PASS' : 'FAIL',
+        family: spec.family,
+        operationShape: spec.operationShape,
+        contentClass: spec.contentClass,
+        wordStatus: cycleOk ? 'PASS' : 'FAIL',
         openEditSaveCloseReopen: kv.WORD_STATUS === 'PASS' ? 'PASS' : 'FAIL',
         readbackContainsSentinel: kv.SENTINEL_OK === 'true',
         readbackContainsInsertion: kv.INSERTION_OK === 'true',
+        expectedFinalTextPresent: kv.EXPECTED_PRESENT_OK === undefined ? undefined : kv.EXPECTED_PRESENT_OK === 'true',
+        removedTextAbsent: kv.REMOVED_ABSENT_OK === undefined ? undefined : kv.REMOVED_ABSENT_OK === 'true',
         wordRevisionCount: Number(kv.REVISION_COUNT || 0),
         sourceDocxSha256: sha256File(sourcePath),
         returnedDocxSha256: sha256File(returnedPath),
@@ -1689,6 +1719,25 @@ async function main() {
   }
 
   const plan = buildRungPlan(rung);
+  // DIVERSITY-02: the repeat rung replays the first diverse wave's manifest.
+  if (rung === 'WAVE_300_REPEAT') {
+    const firstWavePath = path.join(REPO_ROOT, RUNG_DEFINITIONS.WAVE_300.receiptRef);
+    if (!fs.existsSync(firstWavePath)) {
+      console.log('PHYS_RUN=FAIL code=RTK_PHYS_REPEAT_MANIFEST_MISMATCH reason=first-wave receipt missing');
+      process.exitCode = 1;
+      return;
+    }
+    const firstWaveReceipt = JSON.parse(fs.readFileSync(firstWavePath, 'utf8'));
+    try {
+      const repeatPlan = buildRepeatPlan(firstWaveReceipt);
+      plan.caseManifest = repeatPlan.caseManifest;
+      plan.repeatSpecs = repeatPlan.specs;
+    } catch (error) {
+      console.log(`PHYS_RUN=FAIL code=RTK_PHYS_REPEAT_MANIFEST_MISMATCH reason=${error.message}`);
+      process.exitCode = 1;
+      return;
+    }
+  }
   const runId = `phys-${rung.toLowerCase().replace(/_/g, '-')}-${new Date().toISOString().replace(/[-:.]/g, '').slice(0, 15)}`;
   if (plan.executor === 'audit') {
     const fsRefs = buildAuditPlan();
@@ -1719,6 +1768,9 @@ async function main() {
   const cases = await runRungPhysical({ plan, artifactRoot, runId });
   const verdict = evaluateRungCases(rung, cases);
   const headSha = defaultPorts().gitHead();
+  const caseSpecs = rung === 'WAVE_300_REPEAT'
+    ? plan.repeatSpecs
+    : (plan.kind === 'wave' ? buildWaveCaseSpecs(rung) : undefined);
   const receiptAttempt = {
     rung,
     headSha,
@@ -1726,6 +1778,7 @@ async function main() {
     wordProfile: collectPhysWordProfile(),
     cases,
     artifactRoot: path.join(artifactRoot, runId),
+    caseSpecs,
   };
   if (!verdict.ok) {
     const failPath = path.join(artifactRoot, runId, 'FAILED_RUN.json');

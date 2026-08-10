@@ -1253,3 +1253,23 @@ test('PHYS01-E06-wave-cycle-uses-diverse-specs', async () => {
   const full = module.evaluateDiversityOracle(module.buildWaveCaseSpecs('WAVE_300'));
   assert.equal(full.ok, true, 'the 300-wave specs must satisfy the full quota oracle by construction');
 });
+
+// P37 (DIVERSITY-02): a diversity-proven scope without an embedded manifest is
+// an empty assertion and invalid; the repeat accepts either the restricted
+// append scope or the diversity-proven scope.
+test('PHYS01-P37-diverse-scope-requires-manifest', async () => {
+  const module = await loadModule();
+  const plan = module.buildRungPlan('WAVE_40');
+  const specs = module.buildWaveCaseSpecs('WAVE_40');
+  const cases = specs.map((s, i) => ({ ...passWaveCase('WAVE_40', i), ordinal: i + 1, family: s.family, operationShape: s.operationShape, contentClass: s.contentClass }));
+  const receipt = module.buildRungReceipt(plan, { rung: 'WAVE_40', headSha: 'a'.repeat(40), originMainSha: 'a'.repeat(40), wordProfile: {}, cases, artifactRoot: '/x', caseSpecs: specs });
+  assert.equal(receipt.claimScope, 'DIVERSE_FAMILY_WAVE_PROVEN');
+  const valid = module.validateRungReceipt(plan, receipt);
+  assert.equal(valid.ok, true, `diverse receipt with manifest validates: ${JSON.stringify(valid.reasons)}`);
+
+  const stripped = JSON.parse(JSON.stringify(receipt));
+  delete stripped.caseManifest;
+  const invalid = module.validateRungReceipt(plan, stripped);
+  assert.equal(invalid.ok, false, 'diverse scope without the embedded manifest is invalid');
+  assert.equal(invalid.code, 'RTK_PHYS_RECEIPT_INVALID');
+});

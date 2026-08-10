@@ -9935,19 +9935,19 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-phys-ladder-16-111-3.mjs",
-      "sha256": "3da90c733844bfa0034e2c30285470c7c333ac9b24f9bd8ee016a8482eeed0aa",
+      "sha256": "9cf24077fd628c2a2a9b34af5d9d9736de65b47fc43c95eb9b0147a2eca1189c",
       "approvedBy": "owner-direct:TASK_ID:DIVERSITY02_FAMILY_EXECUTORS",
-      "approvedAtUtc": "2026-08-10T21:07:33.013Z",
-      "rationale": "Approve the DIVERSITY-02 production wiring: per-family operation builders, oracle-gated diversity scope stamp with manifest embedding, manifest-replay repeat plan, null-safe audit signature, exported diversity vocabularies.",
+      "approvedAtUtc": "2026-08-10T21:28:33.804Z",
+      "rationale": "Approve the DIVERSITY-02 follow-up: per-family dispatch in the wave executor, repeat manifest replay wiring in main(), repeat digest binding at receipt build, and the diverse-scope-requires-manifest validator law with P37.",
       "approved": true,
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_DIVERSITY02_EXECUTORS"
     },
     {
       "filePath": "test/contracts/rtk-phys01-ladder-runner.contract.test.js",
-      "sha256": "457df09018eb7971888ba40335b649dc683b305555fa9f1abe47048404509769",
+      "sha256": "aef541c66240b9941d9fa2dff2b8dab27200e79eb31514eba4d1f17889cd5efc",
       "approvedBy": "owner-direct:TASK_ID:DIVERSITY02_FAMILY_EXECUTORS",
-      "approvedAtUtc": "2026-08-10T21:07:33.013Z",
-      "rationale": "Approve the DIVERSITY-02 scenarios E01-E06 including the quota-isolated 300-denominator gate; mutations HM1-HM5 killed.",
+      "approvedAtUtc": "2026-08-10T21:28:33.804Z",
+      "rationale": "Approve the DIVERSITY-02 follow-up: per-family dispatch in the wave executor, repeat manifest replay wiring in main(), repeat digest binding at receipt build, and the diverse-scope-requires-manifest validator law with P37.",
       "approved": true,
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_DIVERSITY02_EXECUTORS"
     },

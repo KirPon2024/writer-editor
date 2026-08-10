@@ -52,6 +52,10 @@ export const LADDER_RUNGS = Object.freeze([
   'WAVE_40',
   'WAVE_100',
   'WAVE_300',
+  // PHYS-10: the stability repeat is the eighth ladder rung. The saturation
+  // limitation audit is an evaluation over wave receipts, not a rung with its
+  // own evidence head, so it is not in the ladder vocabulary.
+  'WAVE_300_REPEAT',
 ]);
 
 // ---------------------------------------------------------------------------

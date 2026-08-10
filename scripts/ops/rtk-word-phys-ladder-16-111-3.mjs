@@ -178,6 +178,7 @@ export const PHYS_CODES = Object.freeze({
   AUDIT_VETO_NONZERO: 'RTK_PHYS_AUDIT_VETO_NONZERO',
   AUDIT_PROFILE_MISMATCH: 'RTK_PHYS_AUDIT_PROFILE_MISMATCH',
   AUDIT_FALSE_SATURATION: 'RTK_PHYS_AUDIT_FALSE_SATURATION',
+  AUDIT_MANIFEST_MISMATCH: 'RTK_PHYS_AUDIT_MANIFEST_MISMATCH',
   // PHYS-10 additions (owner ruling): the repeat is append-cycle stability
   // repeat evidence only; the audit hard-gates diversity.
   AUDIT_DIVERSITY_MISSING: 'RTK_PHYS_AUDIT_DIVERSITY_MISSING',
@@ -197,6 +198,19 @@ export const DIVERSITY_PROVEN_CLAIM_SCOPES = Object.freeze([
 
 function reason(code, message) {
   return { code, message };
+}
+
+// Canonical JSON for digests and normalized comparisons: object keys sorted
+// ascending, arrays in source order.
+function stableJson(value) {
+  if (Array.isArray(value)) {
+    return `[${value.map((item) => stableJson(item)).join(',')}]`;
+  }
+  if (value && typeof value === 'object') {
+    const keys = Object.keys(value).sort();
+    return `{${keys.map((key) => `${JSON.stringify(key)}:${stableJson(value[key])}`).join(',')}}`;
+  }
+  return JSON.stringify(value);
 }
 
 function isPlainObject(value) {
@@ -457,6 +471,12 @@ export function evaluateSaturationAudit({ receiptsByRung } = {}) {
       return { ok: false, status: 'AUDIT_INCOMPLETE', code: PHYS_CODES.AUDIT_PROFILE_MISMATCH, reasons: [reason(PHYS_CODES.AUDIT_PROFILE_MISMATCH, `wave receipt ${rung} names profile ${JSON.stringify(receipts[rung].profileId)}, not ${PHYS_PROFILE_ID}`)] };
     }
   }
+  // Owner law: the repeat must bind the first wave's manifest digest.
+  const firstWaveDigest = receipts.WAVE_300 && receipts.WAVE_300.manifestDigest;
+  const repeatDigest = receipts.WAVE_300_REPEAT && receipts.WAVE_300_REPEAT.manifestDigest;
+  if (!firstWaveDigest || firstWaveDigest !== repeatDigest) {
+    return { ok: false, status: 'AUDIT_INCOMPLETE', code: PHYS_CODES.AUDIT_MANIFEST_MISMATCH, reasons: [reason(PHYS_CODES.AUDIT_MANIFEST_MISMATCH, `repeat manifestDigest ${JSON.stringify(repeatDigest)} != first-wave manifestDigest ${JSON.stringify(firstWaveDigest)}`)] };
+  }
   for (const rung of AUDIT_REQUIRED_RUNGS) {
     const scope = receipts[rung].claimScope;
     if (!DIVERSITY_PROVEN_CLAIM_SCOPES.includes(scope)) {
@@ -481,6 +501,230 @@ export function evaluateSaturationAudit({ receiptsByRung } = {}) {
     code: PHYS_CODES.GATES_OK,
     reasons: [reason(PHYS_CODES.GATES_OK, 'all required waves sealed for this profile; saturation is NOT claimed')],
   };
+}
+
+// ---------------------------------------------------------------------------
+// DIVERSITY-01 — owner spec: normalized diversity oracle, fourteen operation
+// families with minimum quotas, and the manifest-bound repeat.
+//
+// Case identity for coverage is the NORMALIZED form (family + operationShape +
+// contentClass). Case ID, path and sentinel are stripped before comparison, so
+// ID-only uniqueness collapses to its true normalized count and duplicate
+// normalized cases never grow the coverage denominator.
+// ---------------------------------------------------------------------------
+
+export const OPERATION_FAMILIES = Object.freeze([
+  'replacement',
+  'deletion',
+  'insertion',
+  'duplicate-anchors',
+  'comments',
+  'formatting',
+  'structural-boundaries',
+  'unicode',
+  'rtl',
+  'cjk',
+  'stale',
+  'replay',
+  'tamper',
+  'crash',
+]);
+
+export const FAMILY_QUOTAS = Object.freeze({
+  replacement: 40,
+  deletion: 30,
+  insertion: 30,
+  'duplicate-anchors': 20,
+  comments: 30,
+  formatting: 30,
+  'structural-boundaries': 15,
+  unicode: 20,
+  rtl: 10,
+  cjk: 10,
+  stale: 8,
+  replay: 8,
+  tamper: 4,
+  crash: 4,
+});
+
+const FAMILY_SHAPES = Object.freeze({
+  replacement: ['single-word', 'multi-word', 'anchor-word', 'unicode-word', 'rtl-word', 'cjk-word', 'duplicate-anchor-first', 'paragraph-end'],
+  deletion: ['single-word', 'sentence', 'anchor-word', 'unicode-word', 'rtl-word', 'cjk-word', 'paragraph-end', 'list-item'],
+  insertion: ['single-word', 'mid-sentence', 'anchor-adjacent', 'unicode-word', 'rtl-word', 'cjk-word', 'paragraph-end', 'list-item'],
+  'duplicate-anchors': ['first-occurrence', 'second-occurrence', 'adjacent-pair', 'cross-paragraph', 'cross-scene-boundary'],
+  comments: ['single-anchor', 'duplicate-anchor', 'unicode-anchor', 'rtl-anchor', 'cjk-anchor', 'paragraph-anchor', 'multi-anchor', 'adjacent-anchor'],
+  formatting: ['bold-word', 'italic-word', 'underline-word', 'bold-unicode', 'italic-rtl', 'bold-cjk', 'mixed-range', 'paragraph-level'],
+  'structural-boundaries': ['paragraph-split', 'paragraph-merge', 'scene-boundary-touch', 'list-break', 'heading-adjacent'],
+  unicode: ['combining-marks', 'nbsp-run', 'soft-hyphen', 'emoji-zwj', 'mixed-script'],
+  rtl: ['hebrew-run', 'arabic-run', 'bidi-embed', 'bidi-override'],
+  cjk: ['cjk-words', 'cjk-mixed-latin', 'cjk-punctuation', 'fullwidth-forms'],
+  stale: ['stale-anchor-reject', 'stale-head-reject', 'stale-manifest-reject', 'stale-round-reject', 'stale-revision-reject', 'stale-digest-reject'],
+  replay: ['replay-digest-reject', 'replay-manifest-reject', 'replay-round-reject', 'replay-receipt-reject', 'replay-anchor-reject', 'replay-case-reject'],
+  tamper: ['tamper-crc-reject', 'tamper-digest-reject', 'tamper-manifest-reject', 'tamper-authority-reject'],
+  crash: ['crash-no-seal', 'crash-partial-reject', 'crash-resume-clean', 'crash-orphan-reject'],
+});
+
+const CONTENT_CLASSES = Object.freeze(['plain-text', 'unicode', 'rtl', 'cjk', 'mixed', 'nbsp']);
+
+export function normalizeCaseForDiversity(caseSpec) {
+  return {
+    family: caseSpec && caseSpec.family,
+    operationShape: caseSpec && caseSpec.operationShape,
+    contentClass: caseSpec && caseSpec.contentClass,
+  };
+}
+
+function normalizedKey(caseSpec) {
+  return stableJson(normalizeCaseForDiversity(caseSpec));
+}
+
+export function evaluateDiversityOracle(cases) {
+  const list = Array.isArray(cases) ? cases : [];
+  const seen = new Map();
+  const duplicates = [];
+  for (const spec of list) {
+    const key = normalizedKey(spec);
+    if (seen.has(key)) {
+      duplicates.push({ duplicate: spec.id, normalizedFormOf: seen.get(key) });
+    } else {
+      seen.set(key, spec.id);
+    }
+  }
+  const coverageDenominator = seen.size;
+
+  // Duplicates first: phantom duplicate cases must not satisfy quotas, so the
+  // duplicate law outranks the quota law, and quotas are evaluated over
+  // distinct normalized cases only.
+  if (duplicates.length > 0 || coverageDenominator !== list.length) {
+    return {
+      ok: false,
+      code: 'RTK_PHYS_DIVERSITY_DUPLICATE_NORMALIZED',
+      coverageDenominator,
+      duplicates,
+      quotaFailures: [],
+      reasons: [reason('RTK_PHYS_DIVERSITY_DUPLICATE_NORMALIZED', `${duplicates.length} duplicate normalized cases; coverage denominator ${coverageDenominator} of ${list.length}`)],
+    };
+  }
+  const distinctPerFamily = new Map();
+  for (const key of seen.keys()) {
+    const family = JSON.parse(key).family;
+    distinctPerFamily.set(family, (distinctPerFamily.get(family) || 0) + 1);
+  }
+  const quotaFailures = [];
+  for (const family of OPERATION_FAMILIES) {
+    const count = distinctPerFamily.get(family) || 0;
+    if (count < FAMILY_QUOTAS[family]) {
+      quotaFailures.push({ family, required: FAMILY_QUOTAS[family], actual: count });
+    }
+  }
+  if (quotaFailures.length > 0) {
+    return {
+      ok: false,
+      code: 'RTK_PHYS_DIVERSITY_QUOTA_MISSING',
+      coverageDenominator,
+      duplicates,
+      quotaFailures,
+      reasons: [reason('RTK_PHYS_DIVERSITY_QUOTA_MISSING', `families below quota: ${JSON.stringify(quotaFailures)}`)],
+    };
+  }
+  return {
+    ok: true,
+    code: PHYS_CODES.GATES_OK,
+    coverageDenominator,
+    duplicates: [],
+    quotaFailures: [],
+    reasons: [reason(PHYS_CODES.GATES_OK, `${coverageDenominator} distinct normalized cases; all quotas met`)],
+  };
+}
+
+export function buildDiverseWaveCaseSpecs(rung) {
+  const def = RUNG_DEFINITIONS[rung];
+  if (!def || def.kind !== 'wave') throw new Error(`${PHYS_CODES.RUNG_UNKNOWN}:diverse:${JSON.stringify(rung)}`);
+  const total = def.caseCount;
+  // Quotas plus the remainder distributed round-robin in family order.
+  const counts = {};
+  for (const family of OPERATION_FAMILIES) counts[family] = FAMILY_QUOTAS[family];
+  let remaining = total - Object.values(counts).reduce((a, b) => a + b, 0);
+  if (remaining < 0) throw new Error('RTK_PHYS_DIVERSITY_QUOTA_OVERFLOW');
+  for (let i = 0; remaining > 0; i += 1, remaining -= 1) {
+    counts[OPERATION_FAMILIES[i % OPERATION_FAMILIES.length]] += 1;
+  }
+  const specs = [];
+  let ordinal = 0;
+  for (const family of OPERATION_FAMILIES) {
+    const shapes = FAMILY_SHAPES[family];
+    const combos = shapes.length * CONTENT_CLASSES.length;
+    if (combos < counts[family]) throw new Error(`RTK_PHYS_DIVERSITY_GENERATOR_INSUFFICIENT:${family}:${combos}<${counts[family]}`);
+    for (let i = 0; i < counts[family]; i += 1) {
+      ordinal += 1;
+      const shape = shapes[i % shapes.length];
+      const contentClass = CONTENT_CLASSES[Math.floor(i / shapes.length) % CONTENT_CLASSES.length];
+      specs.push({
+        id: `phys-16-111-3-${rung.toLowerCase().replace(/_/g, '-')}-${String(ordinal).padStart(3, '0')}`,
+        ordinal,
+        family,
+        operationShape: shape,
+        contentClass,
+        title: `${rung} ${family}/${shape}/${contentClass} case ${i + 1}`,
+      });
+    }
+  }
+  return specs;
+}
+
+function caseManifestEntry(spec) {
+  return {
+    ordinal: spec.ordinal,
+    family: spec.family,
+    operationShape: spec.operationShape,
+    contentClass: spec.contentClass,
+  };
+}
+
+export function buildCaseManifest(specs) {
+  const cases = (Array.isArray(specs) ? specs : []).map((spec, index) => {
+    const entry = caseManifestEntry({ ...spec, ordinal: index + 1 });
+    return { ...entry, caseDigest: crypto.createHash('sha256').update(stableJson(entry), 'utf8').digest('hex') };
+  });
+  const manifestDigest = crypto.createHash('sha256').update(stableJson(cases.map((c) => c.caseDigest)), 'utf8').digest('hex');
+  return { manifestDigest, cases };
+}
+
+export function buildRepeatCaseSpecs(manifest) {
+  const cases = manifest && Array.isArray(manifest.cases) ? manifest.cases : [];
+  return cases.map((entry, index) => ({
+    id: `phys-16-111-3-wave-300-repeat-${String(index + 1).padStart(3, '0')}`,
+    ordinal: index + 1,
+    family: entry.family,
+    operationShape: entry.operationShape,
+    contentClass: entry.contentClass,
+    title: `WAVE_300_REPEAT ${entry.family}/${entry.operationShape}/${entry.contentClass} case ${index + 1}`,
+  }));
+}
+
+export function evaluateRepeatManifestBinding({ manifest, repeatSpecs } = {}) {
+  const cases = manifest && Array.isArray(manifest.cases) ? manifest.cases : [];
+  const specs = Array.isArray(repeatSpecs) ? repeatSpecs : [];
+  if (cases.length === 0 || cases.length !== specs.length) {
+    return { ok: false, code: 'RTK_PHYS_REPEAT_MANIFEST_MISMATCH', reasons: [reason('RTK_PHYS_REPEAT_MANIFEST_MISMATCH', `manifest has ${cases.length} cases, repeat has ${specs.length}`)] };
+  }
+  for (let i = 0; i < cases.length; i += 1) {
+    const entry = cases[i];
+    const spec = specs[i];
+    const recomputed = crypto.createHash('sha256').update(stableJson(caseManifestEntry({ ...spec, ordinal: i + 1 })), 'utf8').digest('hex');
+    if (entry.ordinal !== i + 1 || spec.ordinal !== i + 1
+      || entry.family !== spec.family
+      || entry.operationShape !== spec.operationShape
+      || entry.contentClass !== spec.contentClass
+      || entry.caseDigest !== recomputed) {
+      return {
+        ok: false,
+        code: 'RTK_PHYS_REPEAT_MANIFEST_MISMATCH',
+        reasons: [reason('RTK_PHYS_REPEAT_MANIFEST_MISMATCH', `case ${i + 1} deviates from the first-wave manifest (family/shape/class/digest)`)],
+      };
+    }
+  }
+  return { ok: true, code: PHYS_CODES.GATES_OK, reasons: [reason(PHYS_CODES.GATES_OK, `repeat binds the manifest one-to-one (${cases.length} cases, digests verified)`)] };
 }
 
 export function evaluateSmokeCases(cases) {

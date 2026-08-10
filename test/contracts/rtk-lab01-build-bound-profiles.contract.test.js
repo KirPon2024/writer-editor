@@ -62,6 +62,10 @@ function sha256Text(text) {
   return `sha256:${crypto.createHash('sha256').update(Buffer.from(text, 'utf8')).digest('hex')}`;
 }
 
+function sha256File(absPath) {
+  return `sha256:${crypto.createHash('sha256').update(fs.readFileSync(absPath)).digest('hex')}`;
+}
+
 async function loadModule() {
   return import(pathToFileURL(MODULE_PATH).href);
 }
@@ -862,13 +866,25 @@ test('LAB02-01-real-registry-migrated-honestly', async () => {
   // 2026-08-10 (12/12 sealed on merged SHA 197ba60f). The profile is now
   // COMPETING_NOT_SATURATED with exactly one head and exactly one rung; every
   // later rung remains unearned.
-  assert.equal(current.class, 'COMPETING_NOT_SATURATED', '16.111.3 is COMPETING after the sealed smoke rung');
+  assert.equal(current.class, 'COMPETING_NOT_SATURATED', '16.111.3 is COMPETING while rungs are earned and saturation is not claimed');
   assert.equal(current.wordVersion, '16.111.3');
   assert.equal(current.wordBuild, '16.111.26080215');
-  assert.equal(current.evidenceHeads.length, 1, 'exactly the smoke evidence head');
-  assert.equal(current.evidenceHeads[0].path, 'docs/OPS/RTK/WORD_MAC_16_111_3_CARRIER_SURVIVAL_SMOKE_RECEIPT.json');
-  assert.deepEqual(current.evidenceHeads[0].rungs, ['CARRIER_SURVIVAL_SMOKE']);
-  assert.deepEqual(current.ladder.completedRungs, ['CARRIER_SURVIVAL_SMOKE'], 'exactly the smoke rung is earned');
+  // PHYS-04 amendment (rung-count-agnostic law): the earned ladder is always an
+  // exact ordered PREFIX of LADDER_RUNGS, every earned rung is justified by at
+  // least one on-build head, and every head sha256 verifies against disk. This
+  // law holds for every future rung without further amendments.
+  const rungs = current.ladder.completedRungs;
+  const idx = module.LADDER_RUNGS.indexOf(rungs[rungs.length - 1]);
+  assert.deepEqual(rungs, module.LADDER_RUNGS.slice(0, idx + 1), 'earned rungs must be an exact ordered prefix of the ladder');
+  assert.ok(rungs.length >= 1, 'at least the smoke rung is earned');
+  const justified = new Set(current.evidenceHeads.flatMap((h) => h.rungs || []));
+  for (const rung of rungs) assert.ok(justified.has(rung), `rung ${rung} must have a justifying head`);
+  for (const head of current.evidenceHeads) {
+    const abs = path.join(REPO_ROOT, head.path);
+    assert.equal(fs.existsSync(abs), true, `head must exist: ${head.path}`);
+    assert.equal(sha256File(abs), head.sha256, `head sha must verify: ${head.path}`);
+    assert.equal(head.wordBuild, '16.111.26080215', 'head must be on-build');
+  }
   assert.equal(registryJson.currentProfileId, 'word-mac-16.111.3-26080215', 'pointer must name the current build profile');
 });
 

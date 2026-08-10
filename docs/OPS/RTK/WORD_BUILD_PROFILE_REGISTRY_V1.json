@@ -311,6 +311,16 @@
           "rungs": [
             "CARRIER_SURVIVAL_SMOKE"
           ]
+        },
+        {
+          "path": "docs/OPS/RTK/WORD_MAC_16_111_3_SEMANTIC_DIFFERENTIAL_RECEIPT.json",
+          "sha256": "sha256:28ff93128b6ec3da38596c9a0d299a1e8678353ec23d63a7bfba30519c53e9f5",
+          "wordVersion": "16.111.3",
+          "wordBuild": "16.111.26080215",
+          "sealedAtUtc": "2026-08-10T09:00:24.996Z",
+          "rungs": [
+            "SEMANTIC_DIFFERENTIAL_SUBSET"
+          ]
         }
       ],
       "freshnessPolicy": {
@@ -318,11 +328,12 @@
       },
       "ladder": {
         "completedRungs": [
-          "CARRIER_SURVIVAL_SMOKE"
+          "CARRIER_SURVIVAL_SMOKE",
+          "SEMANTIC_DIFFERENTIAL_SUBSET"
         ]
       },
-      "competingNote": "First physical evidence on 16.111.3: CARRIER_SURVIVAL_SMOKE 12/12 sealed on exact merged SHA 197ba60f (tracked append readback proven per case, 12 distinct returned digests). All later rungs remain unearned; saturation is not claimed.",
-      "profileDigest": "sha256:da8f11ef61542ed98801fea66076cbd263ffd960662fdd17238788f1fd055445"
+      "competingNote": "Physical evidence on 16.111.3: CARRIER_SURVIVAL_SMOKE 12/12 (SHA 197ba60f) and SEMANTIC_DIFFERENTIAL_SUBSET 24/24 (SHA c277aa9f, exact tracked-replacement differentials with readback proof, 24 distinct returned digests). Later rungs unearned; saturation not claimed.",
+      "profileDigest": "sha256:7d60d0f56ab3e4ca003077bad24f96d69ee2c57d795fdcad93f8553217112d73"
     }
   ],
   "currentProfileId": "word-mac-16.111.3-26080215"

@@ -9836,12 +9836,12 @@
     },
     {
       "filePath": "docs/CONTEXT.md",
-      "sha256": "0b7a94c368a636c317ed078be02bb11f85515b4f919c97480f545d7a2bf89255",
-      "approvedBy": "owner-direct:TASK_ID:PHYS03_RUNG_EXECUTORS",
-      "approvedAtUtc": "2026-08-10T08:39:15.967Z",
-      "rationale": "Approve additive docs/CONTEXT.md bytes recording the PHYS-03 executor layer; no physical run executed; terminal claim remains NOT_MADE.",
+      "sha256": "f49da39991fe991835d313412cf0e6767196bab6d2bcd3bb0d1dc5965914356a",
+      "approvedBy": "owner-direct:TASK_ID:PHYS04_SEMANTIC_EVIDENCE_16_111_3",
+      "approvedAtUtc": "2026-08-10T09:02:15.592Z",
+      "rationale": "Approve additive docs/CONTEXT.md bytes recording the PHYS-04 sealed semantic rung; terminal claim remains NOT_MADE.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS03_EXECUTORS"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS04_SEMANTIC_EVIDENCE"
     },
     {
       "filePath": "test/contracts/rtk-multi01-multi-scene-scope-blocked.contract.test.js",
@@ -9854,12 +9854,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_BUILD_PROFILE_REGISTRY_V1.json",
-      "sha256": "2d9a92d11db238f053c9d899a34ddfc86b3321a40df959b9fd1c8ab8f58a089b",
-      "approvedBy": "owner-direct:TASK_ID:PHYS02_CARRIER_SMOKE_EVIDENCE_16_111_3",
-      "approvedAtUtc": "2026-08-10T08:09:12.817Z",
-      "rationale": "Approve the PHYS-02 evidence attachment: word-mac-16.111.3-26080215 becomes COMPETING_NOT_SATURATED with the sealed carrier-survival smoke receipt head (sha256-pinned) and exactly the CARRIER_SURVIVAL_SMOKE rung earned.",
+      "sha256": "67e9a93b82912a72c348d3c373714a31c0106a8e12a0dd3d68d51ba89c0ba2a2",
+      "approvedBy": "owner-direct:TASK_ID:PHYS04_SEMANTIC_EVIDENCE_16_111_3",
+      "approvedAtUtc": "2026-08-10T09:02:15.592Z",
+      "rationale": "Approve the PHYS-04 evidence attachment: the semantic differential receipt head (sha256-pinned) and the SEMANTIC_DIFFERENTIAL_SUBSET rung earned for word-mac-16.111.3-26080215.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS02_SMOKE_EVIDENCE"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS04_SEMANTIC_EVIDENCE"
     },
     {
       "filePath": "scripts/ops/rtk-word-build-profiles-v1.mjs",
@@ -9872,12 +9872,12 @@
     },
     {
       "filePath": "test/contracts/rtk-lab01-build-bound-profiles.contract.test.js",
-      "sha256": "2f353321c05476bee4fff391910c17e429f99f28916ee7e9bf704f9077335208",
-      "approvedBy": "owner-direct:TASK_ID:PHYS02_CARRIER_SMOKE_EVIDENCE_16_111_3",
-      "approvedAtUtc": "2026-08-10T08:09:12.817Z",
-      "rationale": "Approve the PHYS-02 sanctioned amendments L2-01/L2-05/L2-06: the real 16.111.3 profile state after the sealed smoke rung (COMPETING, one head, one rung; cross-build still rejected; next rung admission is SEMANTIC).",
+      "sha256": "683495fbfb4f3bcf409463f7447f7df0261b1df35e79dbe6915946c3ed9373c3",
+      "approvedBy": "owner-direct:TASK_ID:PHYS04_SEMANTIC_EVIDENCE_16_111_3",
+      "approvedAtUtc": "2026-08-10T09:02:15.592Z",
+      "rationale": "Approve the PHYS-04 sanctioned L2-01 amendment: the rung-count-agnostic earned-ladder law (ordered prefix, justifying on-build heads with disk-verified sha256).",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS02_SMOKE_EVIDENCE"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS04_SEMANTIC_EVIDENCE"
     },
     {
       "filePath": "docs/OPS/RTK/GOOGLE_BUILD_PROFILE_REGISTRY_V1.json",
@@ -9959,6 +9959,15 @@
       "rationale": "Approve the first physical evidence receipt of the 16.111.3 profile: carrier survival smoke 12/12 sealed on Word 16.111.3 build 16.111.26080215 at exact merged SHA 197ba60f with per-case readback proof and distinct returned digests.",
       "approved": true,
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS02_SMOKE_EVIDENCE"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_MAC_16_111_3_SEMANTIC_DIFFERENTIAL_RECEIPT.json",
+      "sha256": "28ff93128b6ec3da38596c9a0d299a1e8678353ec23d63a7bfba30519c53e9f5",
+      "approvedBy": "owner-direct:TASK_ID:PHYS04_SEMANTIC_EVIDENCE_16_111_3",
+      "approvedAtUtc": "2026-08-10T09:02:15.592Z",
+      "rationale": "Approve the PHYS-04 semantic differential receipt: 24/24 tracked-replacement cases with exact differentials and readback proof on Word 16.111.3 build 16.111.26080215 at exact merged SHA c277aa9f.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS04_SEMANTIC_EVIDENCE"
     }
   ]
 }

@@ -241,6 +241,9 @@ function sealedWaveReceipt(rung, count, overrides = {}) {
     // carry the diversity-proven scope by default so P16-P20 isolate their own
     // dimension (wave-missing / profile / veto / false-saturation).
     claimScope: 'DIVERSE_FAMILY_WAVE_PROVEN',
+    // DIVERSITY-01 (owner item 7): the audit binds the repeat to the first
+    // wave's manifest digest; fixtures share one digest by default.
+    manifestDigest: 'a'.repeat(64),
     counters: { total: count, passed: count, failed: 0 },
     cases: Array.from({ length: count }, (_, i) => passWaveCase(rung, i)),
     ...overrides,
@@ -692,4 +695,149 @@ test('PHYS01-P32-audit-diversity-gate', async () => {
   const result = module.evaluateSaturationAudit({ receiptsByRung: diverse });
   assert.equal(result.ok, true, `diversity-proven receipts must audit: ${JSON.stringify(result.reasons)}`);
   assert.equal(result.status, 'COMPLETE_NOT_SATURATED');
+});
+
+// ===========================================================================
+// DIVERSITY-01 — owner spec: normalized diversity oracle (case ID, path and
+// sentinel stripped before comparison; duplicate normalized cases never grow
+// the coverage denominator), fourteen operation families with minimum quotas,
+// and the manifest-bound repeat (one-to-one manifest replay with original
+// case digest verification).
+// ===========================================================================
+
+function diverseSpec(id, family, shape, contentClass) {
+  return {
+    id,
+    family,
+    operationShape: shape,
+    contentClass,
+    sentinel: `SENTINEL_${id}`,
+    path: `/tmp/${id}.docx`,
+  };
+}
+
+// D01: the generated diverse WAVE_300 passes the oracle with the full
+// denominator and every family meeting its quota.
+test('PHYS01-D01-diverse-wave-passes-oracle', async () => {
+  const module = await loadModule();
+  const specs = module.buildDiverseWaveCaseSpecs('WAVE_300');
+  assert.equal(specs.length, 300, 'exactly 300 cases');
+  assert.deepEqual([...module.OPERATION_FAMILIES], [
+    'replacement', 'deletion', 'insertion', 'duplicate-anchors', 'comments', 'formatting',
+    'structural-boundaries', 'unicode', 'rtl', 'cjk', 'stale', 'replay', 'tamper', 'crash',
+  ], 'the fourteen operation families are pinned literally');
+  const verdict = module.evaluateDiversityOracle(specs);
+  assert.equal(verdict.ok, true, `generated wave must pass the oracle: ${JSON.stringify(verdict)}`);
+  assert.equal(verdict.coverageDenominator, 300, 'full coverage denominator');
+  assert.equal(verdict.duplicates.length, 0, 'no duplicates');
+  for (const family of module.OPERATION_FAMILIES) {
+    const count = specs.filter((s) => s.family === family).length;
+    assert.ok(count >= module.FAMILY_QUOTAS[family], `family ${family} meets its quota (${count} >= ${module.FAMILY_QUOTAS[family]})`);
+  }
+});
+
+// D02: the owner-named bypass — 300 cases differing only by ID must collapse
+// to a denominator of one and fail.
+test('PHYS01-D02-id-only-uniqueness-collapses', async () => {
+  const module = await loadModule();
+  const idOnly = Array.from({ length: 300 }, (_, i) => diverseSpec(`case-${i}`, 'insertion', 'append-tracked-insertion', 'plain-text'));
+  const verdict = module.evaluateDiversityOracle(idOnly);
+  assert.equal(verdict.ok, false, 'ID-only uniqueness must fail the oracle');
+  assert.equal(verdict.code, 'RTK_PHYS_DIVERSITY_DUPLICATE_NORMALIZED');
+  assert.equal(verdict.coverageDenominator, 1, 'the 300 ID-only cases are one normalized case');
+  assert.equal(verdict.duplicates.length, 299, 'all but one are duplicates');
+});
+
+// D03: a family below its quota fails with the family named.
+test('PHYS01-D03-quota-missing-blocked', async () => {
+  const module = await loadModule();
+  const specs = module.buildDiverseWaveCaseSpecs('WAVE_300').filter((s) => s.family !== 'comments');
+  // Refill to 300 with normalized-distinct replacement extras (fresh shapes not
+  // present in the generated set) to isolate the quota dimension.
+  const extras = Array.from({ length: 300 - specs.length }, (_, i) => diverseSpec(`extra-${i}`, 'replacement', `extra-shape-${i}`, 'plain-text'));
+  const filled = [...specs, ...extras];
+  const verdict = module.evaluateDiversityOracle(filled);
+  assert.equal(verdict.ok, false);
+  assert.equal(verdict.code, 'RTK_PHYS_DIVERSITY_QUOTA_MISSING');
+  assert.ok(JSON.stringify(verdict.quotaFailures).includes('comments'), 'the missing family must be named');
+});
+
+// D04: the repeat must replay the first wave's manifest one-to-one and verify
+// original case digests.
+test('PHYS01-D04-repeat-manifest-binding', async () => {
+  const module = await loadModule();
+  const firstWave = module.buildDiverseWaveCaseSpecs('WAVE_300');
+  const manifest = module.buildCaseManifest(firstWave);
+  assert.ok(/^[a-f0-9]{64}$/u.test(manifest.manifestDigest), 'manifest digest is a hex sha256');
+
+  const faithful = module.buildRepeatCaseSpecs(manifest);
+  const ok = module.evaluateRepeatManifestBinding({ manifest, repeatSpecs: faithful });
+  assert.equal(ok.ok, true, `a faithful manifest replay must pass: ${JSON.stringify(ok.reasons)}`);
+
+  const swapped = faithful.map((s, i) => (i === 10 ? { ...s, family: 'tamper' } : s));
+  const bad = module.evaluateRepeatManifestBinding({ manifest, repeatSpecs: swapped });
+  assert.equal(bad.ok, false, 'a swapped case family must fail the binding');
+  assert.equal(bad.code, 'RTK_PHYS_REPEAT_MANIFEST_MISMATCH');
+
+  const reordered = [...faithful].reverse();
+  const bad2 = module.evaluateRepeatManifestBinding({ manifest, repeatSpecs: reordered });
+  assert.equal(bad2.ok, false, 'a reordered manifest must fail the binding');
+  assert.equal(bad2.code, 'RTK_PHYS_REPEAT_MANIFEST_MISMATCH');
+
+  // Digest-only tamper: faithful specs but a corrupted manifest caseDigest must
+  // fail (the digest is recomputed from the repeat specs and compared).
+  const tamperedManifest = JSON.parse(JSON.stringify(manifest));
+  tamperedManifest.cases[7].caseDigest = '0'.repeat(64);
+  const bad3 = module.evaluateRepeatManifestBinding({ manifest: tamperedManifest, repeatSpecs: faithful });
+  assert.equal(bad3.ok, false, 'a tampered manifest caseDigest must fail the binding');
+  assert.equal(bad3.code, 'RTK_PHYS_REPEAT_MANIFEST_MISMATCH');
+});
+
+// D05: the generator's normalized forms are all distinct (no hidden duplicates
+// inside a family across shapes/content classes).
+test('PHYS01-D05-generator-normalized-forms-distinct', async () => {
+  const module = await loadModule();
+  const specs = module.buildDiverseWaveCaseSpecs('WAVE_300');
+  const normalized = specs.map((s) => JSON.stringify(module.normalizeCaseForDiversity(s)));
+  assert.equal(new Set(normalized).size, specs.length, 'every generated case is a distinct normalized case');
+});
+
+// D06: the oracle strips identity fields — two cases differing only in
+// id/path/sentinel are duplicates regardless of those fields.
+test('PHYS01-D06-oracle-strips-identity-fields', async () => {
+  const module = await loadModule();
+  const a = diverseSpec('case-A', 'replacement', 'tracked-replacement', 'unicode');
+  const b = { ...diverseSpec('case-B', 'replacement', 'tracked-replacement', 'unicode'), path: '/other/path.docx' };
+  const n1 = JSON.stringify(module.normalizeCaseForDiversity(a));
+  const n2 = JSON.stringify(module.normalizeCaseForDiversity(b));
+  assert.equal(n1, n2, 'identity fields never enter the normalized form');
+});
+
+// P33 (owner item 7): the audit requires the repeat to bind the first wave's
+// manifest digest.
+test('PHYS01-P33-audit-manifest-binding', async () => {
+  const module = await loadModule();
+  const makeSet = () => {
+    const receipts = {};
+    for (const [rung, count] of [['WAVE_10', 10], ['WAVE_40', 40], ['WAVE_100', 100], ['WAVE_300', 300], ['WAVE_300_REPEAT', 300]]) {
+      receipts[rung] = sealedWaveReceipt(rung, count);
+    }
+    receipts.WAVE_300.manifestDigest = 'a'.repeat(64);
+    receipts.WAVE_300_REPEAT.manifestDigest = 'a'.repeat(64);
+    return receipts;
+  };
+  const ok = module.evaluateSaturationAudit({ receiptsByRung: makeSet() });
+  assert.equal(ok.ok, true, `manifest-bound set audits: ${JSON.stringify(ok.reasons)}`);
+
+  const mismatched = makeSet();
+  mismatched.WAVE_300_REPEAT.manifestDigest = 'b'.repeat(64);
+  const bad = module.evaluateSaturationAudit({ receiptsByRung: mismatched });
+  assert.equal(bad.ok, false);
+  assert.equal(bad.code, 'RTK_PHYS_AUDIT_MANIFEST_MISMATCH');
+
+  const missing = makeSet();
+  delete missing.WAVE_300.manifestDigest;
+  const bad2 = module.evaluateSaturationAudit({ receiptsByRung: missing });
+  assert.equal(bad2.ok, false, 'a wave without a manifest digest fails the binding');
+  assert.equal(bad2.code, 'RTK_PHYS_AUDIT_MANIFEST_MISMATCH');
 });

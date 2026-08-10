@@ -9836,12 +9836,12 @@
     },
     {
       "filePath": "docs/CONTEXT.md",
-      "sha256": "fe05f027c983f1b67da693016fd843dc54eca84ad3e2246d4f96f34ffccfb7b1",
-      "approvedBy": "owner-direct:TASK_ID:PHYS10_REPEAT_SCOPE_TYPING",
-      "approvedAtUtc": "2026-08-10T18:31:12.454Z",
-      "rationale": "Approve additive docs/CONTEXT.md bytes recording the PHYS-10 scope typing per the owner diversity ruling; terminal claim remains NOT_MADE.",
+      "sha256": "1c2c0e32b74998c1f1500091bac19f37a81a6f24cd60d30a3298755898d73b83",
+      "approvedBy": "owner-direct:TASK_ID:DIVERSITY01_ORACLE_QUOTAS_MANIFEST",
+      "approvedAtUtc": "2026-08-10T18:54:45.879Z",
+      "rationale": "Approve additive docs/CONTEXT.md bytes recording the DIVERSITY-01 diversity gate machinery; no physical run executed; terminal claim remains NOT_MADE.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS10_SCOPE_TYPING"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_DIVERSITY01"
     },
     {
       "filePath": "test/contracts/rtk-multi01-multi-scene-scope-blocked.contract.test.js",
@@ -9935,21 +9935,21 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-phys-ladder-16-111-3.mjs",
-      "sha256": "2fa8d016cb96c6fb671797e023a366a68e272333325282da0cd28da9e9cde800",
-      "approvedBy": "owner-direct:TASK_ID:PHYS10_REPEAT_SCOPE_TYPING",
-      "approvedAtUtc": "2026-08-10T18:31:12.454Z",
-      "rationale": "Approve the PHYS-10 scope laws: the repeat receipt builder stamps and the validator enforces APPEND_CYCLE_STABILITY_REPEAT_ONLY; the saturation audit hard-gates diversity (RTK_PHYS_AUDIT_DIVERSITY_MISSING).",
+      "sha256": "ad4d64517e2f0b6c98f7f19b0d9368ba61ca73c86490ee72fd99582e4822e744",
+      "approvedBy": "owner-direct:TASK_ID:DIVERSITY01_ORACLE_QUOTAS_MANIFEST",
+      "approvedAtUtc": "2026-08-10T18:54:45.879Z",
+      "rationale": "Approve the DIVERSITY-01 machinery: normalized diversity oracle (identity fields stripped), fourteen pinned operation families with quotas over distinct normalized cases, deterministic diverse-wave generator, manifest-bound repeat with recomputed case digests, and the audit manifest-digest binding law.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS10_SCOPE_TYPING"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_DIVERSITY01"
     },
     {
       "filePath": "test/contracts/rtk-phys01-ladder-runner.contract.test.js",
-      "sha256": "312fd03b37ea41eafb16c29376eff39bd0ebb2895830107cdf15cad7613c7aa5",
-      "approvedBy": "owner-direct:TASK_ID:PHYS10_REPEAT_SCOPE_TYPING",
-      "approvedAtUtc": "2026-08-10T18:31:12.454Z",
-      "rationale": "Approve PHYS01-P31/P32 (repeat scope enforcement, audit diversity gate) plus the audit fixture scope stamping.",
+      "sha256": "e918882524bd92eb84622b44bfcd4198a55d719d62b3573a0575e4c02bfb6b91",
+      "approvedBy": "owner-direct:TASK_ID:DIVERSITY01_ORACLE_QUOTAS_MANIFEST",
+      "approvedAtUtc": "2026-08-10T18:54:45.879Z",
+      "rationale": "Approve the DIVERSITY-01 scenarios D01-D06 and P33 with the strengthened pins (literal family list, digest-only tamper, readback-line pins); six mutations killed.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS10_SCOPE_TYPING"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_DIVERSITY01"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_MAC_16_111_3_CARRIER_SURVIVAL_SMOKE_RECEIPT.json",

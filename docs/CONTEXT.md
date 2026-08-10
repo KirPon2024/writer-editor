@@ -286,6 +286,7 @@ No further transfer is required for this variant; the transfer axis is closed.
 - PHYS-06 sealed WAVE_10 10/10 on Word 16.111.3 at exact merged SHA `3b8a7d8f` (per-case readback proof, 10 distinct returned digests); four of nine rungs earned, waves 40/100/300 and the repeat remain unearned, terminal claim stays `NOT_MADE_WORD_TERMINAL_PASS_REQUIRED`.
 - PHYS-07 sealed WAVE_40 40/40 on Word 16.111.3 at exact merged SHA `4837733e` (per-case readback proof, 40 distinct returned digests); five of nine rungs earned, waves 100/300 and the repeat remain unearned, terminal claim stays `NOT_MADE_WORD_TERMINAL_PASS_REQUIRED`.
 - PHYS-08 sealed WAVE_100 100/100 on Word 16.111.3 at exact merged SHA `19081471` (per-case readback proof, 100 distinct returned digests); six of nine rungs earned, wave 300 and the repeat remain unearned, terminal claim stays `NOT_MADE_WORD_TERMINAL_PASS_REQUIRED`.
+- PHYS-09 sealed WAVE_300 300/300 on Word 16.111.3 at exact merged SHA `17305103` (the first attempt died unsealed at ~200/300 when the machine slept; the rung was honestly rerun from scratch on the unchanged head; per-case readback proof, 300 distinct returned digests); seven of nine rungs earned, only the wave-300 repeat and the saturation audit remain, terminal claim stays `NOT_MADE_WORD_TERMINAL_PASS_REQUIRED`.
 
 ## Policies That Remain Binding
 - SECURITY_POLICY: CSP, blocked navigation, blocked new-window, no remote code

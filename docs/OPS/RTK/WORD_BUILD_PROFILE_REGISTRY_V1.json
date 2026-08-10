@@ -361,6 +361,16 @@
           "rungs": [
             "WAVE_100"
           ]
+        },
+        {
+          "path": "docs/OPS/RTK/WORD_MAC_16_111_3_PHYSICAL_WAVE300_RECEIPT.json",
+          "sha256": "sha256:ac759bd7ce80de80423810fb98bccdc3ee58fef765717bbbcf9c7a19e3546fa4",
+          "wordVersion": "16.111.3",
+          "wordBuild": "16.111.26080215",
+          "sealedAtUtc": "2026-08-10T17:32:38.900Z",
+          "rungs": [
+            "WAVE_300"
+          ]
         }
       ],
       "freshnessPolicy": {
@@ -373,11 +383,12 @@
           "NEGATIVE_REPLAY_CRASH_SUBSET",
           "WAVE_10",
           "WAVE_40",
-          "WAVE_100"
+          "WAVE_100",
+          "WAVE_300"
         ]
       },
-      "competingNote": "Physical evidence on 16.111.3: smoke 12/12 (197ba60f), semantic 24/24 (c277aa9f), negative 8/8 (7e876c84), waves 10/10 (3b8a7d8f), 40/40 (4837733e), 100/100 (19081471). Wave 300 and repeat unearned; saturation not claimed.",
-      "profileDigest": "sha256:a097cd857860b00e241d434609d43bc99e0b8a37f4ca71ead3aeff9e4b7fbccd"
+      "competingNote": "Physical evidence on 16.111.3: smoke 12/12 (197ba60f), semantic 24/24 (c277aa9f), negative 8/8 (7e876c84), waves 10/10 (3b8a7d8f), 40/40 (4837733e), 100/100 (19081471), 300/300 (17305103; first run interrupted by machine sleep at ~200/300 and honestly rerun from scratch on the unchanged head). Repeat and saturation audit unearned; saturation not claimed.",
+      "profileDigest": "sha256:5dea1d1990fa1fb82ecb7c3528b8a51e662d57198b0e268f104c7ddbcd37bda5"
     }
   ],
   "currentProfileId": "word-mac-16.111.3-26080215"

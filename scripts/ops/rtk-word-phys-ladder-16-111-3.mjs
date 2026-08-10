@@ -471,11 +471,34 @@ export function evaluateSaturationAudit({ receiptsByRung } = {}) {
       return { ok: false, status: 'AUDIT_INCOMPLETE', code: PHYS_CODES.AUDIT_PROFILE_MISMATCH, reasons: [reason(PHYS_CODES.AUDIT_PROFILE_MISMATCH, `wave receipt ${rung} names profile ${JSON.stringify(receipts[rung].profileId)}, not ${PHYS_PROFILE_ID}`)] };
     }
   }
-  // Owner law: the repeat must bind the first wave's manifest digest.
-  const firstWaveDigest = receipts.WAVE_300 && receipts.WAVE_300.manifestDigest;
-  const repeatDigest = receipts.WAVE_300_REPEAT && receipts.WAVE_300_REPEAT.manifestDigest;
-  if (!firstWaveDigest || firstWaveDigest !== repeatDigest) {
-    return { ok: false, status: 'AUDIT_INCOMPLETE', code: PHYS_CODES.AUDIT_MANIFEST_MISMATCH, reasons: [reason(PHYS_CODES.AUDIT_MANIFEST_MISMATCH, `repeat manifestDigest ${JSON.stringify(repeatDigest)} != first-wave manifestDigest ${JSON.stringify(firstWaveDigest)}`)] };
+  // Owner law (hardened by the independent audit): the repeat must bind the
+  // first wave's manifest — recomputed from EMBEDDED manifest cases, never
+  // from self-authored digest strings.
+  const firstManifest = receipts.WAVE_300.caseManifest;
+  const repeatManifest = receipts.WAVE_300_REPEAT.caseManifest;
+  const recomputeTop = (m) => {
+    const cases = m && Array.isArray(m.cases) ? m.cases : null;
+    if (!cases || cases.length === 0) return null;
+    if (!cases.every((c) => isVocabString(c && c.caseDigest) && HEX64_RE.test(c.caseDigest))) return null;
+    return crypto.createHash('sha256').update(stableJson(cases.map((c) => c.caseDigest)), 'utf8').digest('hex');
+  };
+  const firstRecomputed = recomputeTop(firstManifest);
+  const repeatRecomputed = recomputeTop(repeatManifest);
+  const repeatSpecs = (repeatManifest && repeatManifest.cases || []).map((c, i) => ({
+    ordinal: i + 1,
+    family: c.family,
+    operationShape: c.operationShape,
+    contentClass: c.contentClass,
+  }));
+  const binding = firstRecomputed && repeatRecomputed
+    ? evaluateRepeatManifestBinding({ manifest: firstManifest, repeatSpecs })
+    : { ok: false };
+  if (firstRecomputed === null || repeatRecomputed === null
+    || receipts.WAVE_300.manifestDigest !== firstRecomputed
+    || receipts.WAVE_300_REPEAT.manifestDigest !== repeatRecomputed
+    || firstRecomputed !== repeatRecomputed
+    || binding.ok !== true) {
+    return { ok: false, status: 'AUDIT_INCOMPLETE', code: PHYS_CODES.AUDIT_MANIFEST_MISMATCH, reasons: [reason(PHYS_CODES.AUDIT_MANIFEST_MISMATCH, 'wave manifests missing, malformed, divergent or not one-to-one bound')] };
   }
   for (const rung of AUDIT_REQUIRED_RUNGS) {
     const scope = receipts[rung].claimScope;
@@ -484,14 +507,23 @@ export function evaluateSaturationAudit({ receiptsByRung } = {}) {
     }
   }
   for (const rung of AUDIT_REQUIRED_RUNGS) {
-    const failed = Number(receipts[rung].counters && receipts[rung].counters.failed);
-    if (!Number.isFinite(failed) || failed !== 0) {
-      return { ok: false, status: 'AUDIT_INCOMPLETE', code: PHYS_CODES.AUDIT_VETO_NONZERO, reasons: [reason(PHYS_CODES.AUDIT_VETO_NONZERO, `wave receipt ${rung} has failed counter ${JSON.stringify(receipts[rung].counters && receipts[rung].counters.failed)}`)] };
+    const receipt = receipts[rung];
+    if (!/^[0-9a-f]{40}$/u.test(String(receipt.headSha || ''))) {
+      return { ok: false, status: 'AUDIT_INCOMPLETE', code: PHYS_CODES.AUDIT_VETO_NONZERO, reasons: [reason(PHYS_CODES.AUDIT_VETO_NONZERO, `wave receipt ${rung} headSha is not a 40-hex exact head`)] };
+    }
+    if (receipt.rung !== rung) {
+      return { ok: false, status: 'AUDIT_INCOMPLETE', code: PHYS_CODES.AUDIT_VETO_NONZERO, reasons: [reason(PHYS_CODES.AUDIT_VETO_NONZERO, `wave receipt slot ${rung} carries rung ${JSON.stringify(receipt.rung)}`)] };
+    }
+    const failed = Number(receipt.counters && receipt.counters.failed);
+    const cases = Array.isArray(receipt.cases) ? receipt.cases : [];
+    const actualFailed = cases.filter((c) => !c || c.openEditSaveCloseReopen !== 'PASS').length;
+    if (!Number.isFinite(failed) || failed !== 0 || actualFailed !== 0 || failed !== actualFailed) {
+      return { ok: false, status: 'AUDIT_INCOMPLETE', code: PHYS_CODES.AUDIT_VETO_NONZERO, reasons: [reason(PHYS_CODES.AUDIT_VETO_NONZERO, `wave receipt ${rung} failed counter ${JSON.stringify(receipt.counters && receipt.counters.failed)} vs actual failed cases ${actualFailed}`)] };
     }
   }
   for (const rung of AUDIT_REQUIRED_RUNGS) {
     const status = String(receipts[rung].status || '');
-    if (/SATURATED/u.test(status) && status !== 'COMPLETE_NOT_SATURATED' && !/NOT_SATURATED/u.test(status)) {
+    if (/saturated/iu.test(status) && status !== 'COMPLETE_NOT_SATURATED') {
       return { ok: false, status: 'AUDIT_INCOMPLETE', code: PHYS_CODES.AUDIT_FALSE_SATURATION, reasons: [reason(PHYS_CODES.AUDIT_FALSE_SATURATION, `wave receipt ${rung} claims saturation status ${JSON.stringify(status)}`)] };
     }
   }
@@ -574,12 +606,28 @@ export function normalizeCaseForDiversity(caseSpec) {
   };
 }
 
+function isVocabString(value) {
+  return typeof value === 'string' && value.length > 0;
+}
+
 function normalizedKey(caseSpec) {
   return stableJson(normalizeCaseForDiversity(caseSpec));
 }
 
 export function evaluateDiversityOracle(cases) {
   const list = Array.isArray(cases) ? cases : [];
+  // DIVERSITY-01B: malformed specs fail typed (never a raw SyntaxError), and
+  // every field must come from the frozen vocabularies.
+  for (const spec of list) {
+    const n = normalizeCaseForDiversity(spec);
+    if (!isVocabString(n.family) || !isVocabString(n.operationShape) || !isVocabString(n.contentClass)) {
+      return { ok: false, code: 'RTK_PHYS_DIVERSITY_CASE_MALFORMED', coverageDenominator: 0, duplicates: [], quotaFailures: [], reasons: [reason('RTK_PHYS_DIVERSITY_CASE_MALFORMED', `spec ${JSON.stringify(spec && spec.id)} has missing or non-string normalized fields`)] };
+    }
+    const shapes = FAMILY_SHAPES[n.family];
+    if (!OPERATION_FAMILIES.includes(n.family) || !shapes || !shapes.includes(n.operationShape) || !CONTENT_CLASSES.includes(n.contentClass)) {
+      return { ok: false, code: 'RTK_PHYS_DIVERSITY_VOCABULARY_INVALID', coverageDenominator: 0, duplicates: [], quotaFailures: [], reasons: [reason('RTK_PHYS_DIVERSITY_VOCABULARY_INVALID', `spec ${JSON.stringify(spec && spec.id)} uses out-of-vocabulary family/shape/class`)] };
+    }
+  }
   const seen = new Map();
   const duplicates = [];
   for (const spec of list) {
@@ -702,9 +750,20 @@ export function buildRepeatCaseSpecs(manifest) {
   }));
 }
 
+const HEX64_RE = /^[0-9a-f]{64}$/u;
+
 export function evaluateRepeatManifestBinding({ manifest, repeatSpecs } = {}) {
   const cases = manifest && Array.isArray(manifest.cases) ? manifest.cases : [];
   const specs = Array.isArray(repeatSpecs) ? repeatSpecs : [];
+  // Top-level digest law: the recorded manifestDigest must be a hex-64 sha256
+  // recomputed from the manifest's own per-case digests — never trusted.
+  const recorded = manifest && manifest.manifestDigest;
+  const recomputedTop = cases.length > 0 && cases.every((c) => isVocabString(c && c.caseDigest) && HEX64_RE.test(c.caseDigest))
+    ? crypto.createHash('sha256').update(stableJson(cases.map((c) => c.caseDigest)), 'utf8').digest('hex')
+    : null;
+  if (!isVocabString(recorded) || !HEX64_RE.test(recorded) || recomputedTop === null || recorded !== recomputedTop) {
+    return { ok: false, code: 'RTK_PHYS_REPEAT_MANIFEST_MISMATCH', reasons: [reason('RTK_PHYS_REPEAT_MANIFEST_MISMATCH', 'manifestDigest missing, malformed or not recomputed from the per-case digests')] };
+  }
   if (cases.length === 0 || cases.length !== specs.length) {
     return { ok: false, code: 'RTK_PHYS_REPEAT_MANIFEST_MISMATCH', reasons: [reason('RTK_PHYS_REPEAT_MANIFEST_MISMATCH', `manifest has ${cases.length} cases, repeat has ${specs.length}`)] };
   }

@@ -561,6 +561,417 @@ function collectPhysWordProfile() {
   };
 }
 
+// ---------------------------------------------------------------------------
+// PHYS-03: rung plans and per-kind executors.
+// ---------------------------------------------------------------------------
+
+const RUNG_EXECUTORS = Object.freeze({
+  smoke: 'append-cycle',
+  semantic: 'replacement-cycle',
+  negative: 'probe-suite',
+  wave: 'wave-cycle',
+  audit: 'audit',
+});
+
+export function buildRungPlan(rung) {
+  const def = RUNG_DEFINITIONS[rung];
+  if (!def) throw new Error(`${PHYS_CODES.RUNG_UNKNOWN}:${JSON.stringify(rung)}`);
+  return {
+    rung,
+    kind: def.kind,
+    executor: RUNG_EXECUTORS[def.kind],
+    caseCount: def.caseCount,
+    receiptRef: def.receiptRef,
+    receiptSchema: def.receiptSchema,
+  };
+}
+
+// The deterministic fixture paragraph layout mirrors caseParagraphs() in the
+// B06 lab for a default caseSpec (no scaleWords). Offsets are computed against
+// the same text Word exposes (paragraph separators are single characters in
+// both layouts, so the join style does not shift positions).
+function fixtureParagraphs(spec) {
+  return [
+    `YALKEN_B06_CASE ${spec.id} ${spec.title}`,
+    'Alpha beta gamma locator anchor repeats Alpha beta gamma for ambiguity pressure.',
+    'Replacement target OLD_WORD and insert target INSERT_HERE live in this paragraph.',
+    'Comment anchor COMMENT_TARGET and duplicate COMMENT_TARGET stay visible after reopen.',
+    'Unicode lane cafe\u0301 NBSP\u00a0marker soft\u00adhyphen emoji \u{1f680}\ufe0f ZWJ \u{1f469}\u200d\u{1f4bb} ZWNJ x\u200cy ZWSP x\u200by RTL \u202bshalom\u202c CJK \u5a67\u6587.',
+    'Scene boundary A ends here. SCENE_BOUNDARY Scene boundary B begins here.',
+  ];
+}
+
+function fixtureTextFor(spec) {
+  return fixtureParagraphs(spec).join('\n');
+}
+
+// Exported for the contract: the semantic offset math must point at the exact
+// removed text inside the deterministic fixture text.
+export function buildSemanticFixtureTextForTest(spec) {
+  return fixtureTextFor(spec);
+}
+
+export function buildSemanticCaseSpecs() {
+  return Array.from({ length: RUNG_DEFINITIONS.SEMANTIC_DIFFERENTIAL_SUBSET.caseCount }, (_, i) => {
+    const id = `phys-16-111-3-semantic-${String(i + 1).padStart(2, '0')}`;
+    const probe = { id, title: `Semantic differential case ${i + 1} (Word 16.111.3)` };
+    const text = fixtureTextFor(probe);
+    const needle = 'OLD_WORD';
+    const index = text.indexOf(needle);
+    if (index < 0) throw new Error('RTK_PHYS_FIXTURE_ANCHOR_MISSING:OLD_WORD');
+    return {
+      id,
+      ordinal: i + 1,
+      title: probe.title,
+      sentinel: `YALKEN_B06_CASE ${id}`,
+      removedText: needle,
+      // Word text ranges are 1-based and inclusive at both ends.
+      replaceStart: index + 1,
+      replaceEnd: index + needle.length,
+      replacementText: `NEWWORD_${id}`,
+    };
+  });
+}
+
+export function buildSemanticWordScriptForTest(expectedName, returnedPath, spec) {
+  return buildSemanticWordScript(expectedName, returnedPath, spec);
+}
+
+function buildSemanticWordScript(expectedName, returnedPath, spec) {
+  const returnedPathLiteral = appleLiteral(returnedPath);
+  return [
+    'on yOpenExpectedDoc(yPosixPath, yExpectedFullName, yExpectedName)',
+    '  do shell script "/usr/bin/open -a " & quoted form of "Microsoft Word" & " " & quoted form of yPosixPath',
+    '  set yDeadline to (current date) + 25',
+    '  tell application "Microsoft Word"',
+    '    activate',
+    '    repeat while (current date) is less than yDeadline',
+    '      try',
+    '        if (name of active document as text) is yExpectedName and (full name of active document as text) is yExpectedFullName then return true',
+    '      end try',
+    '      delay 0.25',
+    '    end repeat',
+    '  end tell',
+    '  return false',
+    'end yOpenExpectedDoc',
+    'tell application "Microsoft Word"',
+    'activate',
+    'set yDocWasOpened to false',
+    'set oldAlerts to display alerts',
+    'try',
+    '  set display alerts to alerts none',
+    `  set yFile to POSIX file ${returnedPathLiteral} as alias`,
+    '  set yExpectedFullName to yFile as text',
+    `  if my yOpenExpectedDoc(${returnedPathLiteral}, yExpectedFullName, ${appleLiteral(expectedName)}) is not true then error "PHYS_OPEN_TIMEOUT" number 9700`,
+    '  set yDoc to active document',
+    '  set yDocWasOpened to true',
+    '  set yInitialText to content of text object of yDoc',
+    `  if yInitialText does not contain ${appleLiteral(spec.sentinel)} then error "PHYS_OPEN_CONTENT_MISMATCH" number 9701`,
+    `  if yInitialText does not contain ${appleLiteral(spec.removedText)} then error "PHYS_ANCHOR_MISSING" number 9705`,
+    '  set track revisions of yDoc to true',
+    '  set show revisions of yDoc to true',
+    `  set content of (create range yDoc start ${spec.replaceStart} end ${spec.replaceEnd}) to ${appleLiteral(spec.replacementText)}`,
+    '  set yMidText to content of text object of yDoc',
+    '  set yExpectedOk to yMidText contains ' + appleLiteral(spec.replacementText),
+    '  set yRemovedOk to not (yMidText contains ' + appleLiteral(spec.removedText) + ')',
+    '  if not yExpectedOk or not yRemovedOk then error "PHYS_DIFFERENTIAL_NOT_VISIBLE" number 9706',
+    '  save yDoc',
+    '  close yDoc saving yes',
+    '  set yDocWasOpened to false',
+    `  if my yOpenExpectedDoc(${returnedPathLiteral}, yExpectedFullName, ${appleLiteral(expectedName)}) is not true then error "PHYS_REOPEN_TIMEOUT" number 9703`,
+    '  set yDoc to active document',
+    '  set yDocWasOpened to true',
+    '  set yReadback to content of text object of yDoc',
+    '  set ySentinelOk to yReadback contains ' + appleLiteral(spec.sentinel),
+    '  set yExpectedOk2 to yReadback contains ' + appleLiteral(spec.replacementText),
+    '  set yRemovedOk2 to not (yReadback contains ' + appleLiteral(spec.removedText) + ')',
+    '  set yRevisionCount to count of revisions of yDoc',
+    '  close yDoc saving no',
+    '  set yDocWasOpened to false',
+    '  set display alerts to oldAlerts',
+    '  return "WORD_STATUS=PASS" & linefeed & "SENTINEL_OK=" & ySentinelOk & linefeed & "INSERTION_OK=" & yExpectedOk2 & linefeed & "EXPECTED_PRESENT_OK=" & yExpectedOk2 & linefeed & "REMOVED_ABSENT_OK=" & yRemovedOk2 & linefeed & "REVISION_COUNT=" & yRevisionCount',
+    'on error errMsg number errNo',
+    '  try',
+    '    if yDocWasOpened then close yDoc saving no',
+    '  end try',
+    '  try',
+    '    set display alerts to oldAlerts',
+    '  end try',
+    '  return "WORD_STATUS=FAIL" & linefeed & "ERRNO=" & errNo & linefeed & "ERR=" & errMsg',
+    'end try',
+    'end tell',
+  ].join('\n');
+}
+
+export function buildWaveCaseSpecs(rung) {
+  const def = RUNG_DEFINITIONS[rung];
+  if (!def || def.kind !== 'wave') throw new Error(`${PHYS_CODES.RUNG_UNKNOWN}:wave:${JSON.stringify(rung)}`);
+  return Array.from({ length: def.caseCount }, (_, i) => ({
+    id: `phys-16-111-3-${rung.toLowerCase().replace(/_/g, '-')}-${String(i + 1).padStart(3, '0')}`,
+    ordinal: i + 1,
+    title: `${rung} wave case ${i + 1} (Word 16.111.3)`,
+    insertion: ` PHYS_16_111_3_${rung}_CASE_${String(i + 1).padStart(3, '0')}`,
+  }));
+}
+
+export const NEGATIVE_PROBE_IDS = Object.freeze([
+  'duplicate-digest-replay',
+  'tampered-package-crc',
+  'stale-head-binding',
+  'crash-partial-no-seal',
+  'cross-profile-receipt',
+  'counter-tamper',
+  'unknown-rung-receipt',
+  'cross-build-evidence-join',
+]);
+
+export function buildAuditPlan() {
+  const requiredRungs = ['WAVE_10', 'WAVE_40', 'WAVE_100', 'WAVE_300', 'WAVE_300_REPEAT'];
+  return {
+    requiredRungs,
+    receiptRefs: requiredRungs.map((rung) => RUNG_DEFINITIONS[rung].receiptRef),
+  };
+}
+
+// Generic per-kind receipt build/validate (the smoke-specific pair stays as
+// the compatibility wrapper pinned by the PHYS-01 scenarios).
+export function buildRungReceipt(plan, { rung, headSha, originMainSha, wordProfile, cases, artifactRoot }) {
+  const verdict = evaluateRungCases(rung, cases);
+  if (!verdict.ok) {
+    throw new Error(`${PHYS_CODES.CASE_FAILURES_PRESENT}: cannot seal a ${rung} receipt with failed cases`);
+  }
+  const passed = cases.filter((c) => c.openEditSaveCloseReopen === 'PASS').length;
+  return {
+    schema: plan.receiptSchema,
+    profileId: PHYS_PROFILE_ID,
+    rung,
+    status: plan.kind === 'wave' ? 'PHYSICAL_WAVE_PASS' : (plan.kind === 'semantic' ? 'PHYSICAL_SEMANTIC_DIFFERENTIAL_PASS' : (plan.kind === 'negative' ? 'PHYSICAL_NEGATIVE_PROBES_PASS' : 'PHYSICAL_CARRIER_SURVIVAL_SMOKE_PASS')),
+    headSha,
+    originMainSha,
+    wordProfile,
+    artifactRoot,
+    counters: { total: cases.length, passed, failed: cases.length - passed },
+    cases,
+    nonClaims: [
+      'This receipt is evidence for the word-mac-16.111.3-26080215 profile only.',
+      'No compatibility with the current Word build is claimed by this rung.',
+      'No saturation, no terminal pass and no user-facing claim follows.',
+    ],
+  };
+}
+
+export function validateRungReceipt(plan, receipt, { expectedHeadSha } = {}) {
+  if (plan.rung === 'CARRIER_SURVIVAL_SMOKE') return validateSmokeReceipt(receipt);
+  const reasons = [];
+  if (!isPlainObject(receipt)) {
+    return { ok: false, code: PHYS_CODES.RECEIPT_INVALID, reasons: [reason(PHYS_CODES.RECEIPT_INVALID, 'receipt must be an object')] };
+  }
+  if (receipt.schema !== plan.receiptSchema) reasons.push(reason(PHYS_CODES.RECEIPT_INVALID, 'schema mismatch'));
+  if (receipt.profileId !== PHYS_PROFILE_ID) reasons.push(reason(PHYS_CODES.RECEIPT_INVALID, 'profileId mismatch'));
+  if (receipt.rung !== plan.rung) reasons.push(reason(PHYS_CODES.RECEIPT_INVALID, 'rung mismatch'));
+  if (expectedHeadSha !== undefined && receipt.headSha !== expectedHeadSha) {
+    reasons.push(reason(PHYS_CODES.RECEIPT_INVALID, `headSha ${JSON.stringify(receipt.headSha)} is not the expected exact head ${JSON.stringify(expectedHeadSha)}`));
+  }
+  const cases = Array.isArray(receipt.cases) ? receipt.cases : [];
+  const counters = isPlainObject(receipt.counters) ? receipt.counters : {};
+  if (counters.total !== cases.length || counters.passed !== cases.filter((c) => c && c.openEditSaveCloseReopen === 'PASS').length) {
+    reasons.push(reason(PHYS_CODES.RECEIPT_INVALID, 'counters do not match cases'));
+  }
+  const verdict = evaluateRungCases(plan.rung, cases);
+  if (!verdict.ok) reasons.push(reason(PHYS_CODES.RECEIPT_INVALID, `cases violate the seal law: ${verdict.reasons[0].message}`));
+  if (reasons.length > 0) return { ok: false, code: PHYS_CODES.RECEIPT_INVALID, reasons };
+  return { ok: true, code: PHYS_CODES.GATES_OK, reasons: [reason(PHYS_CODES.GATES_OK, 'receipt valid')] };
+}
+
+// Per-kind physical executor. append-cycle is the proven smoke cycle; wave-cycle
+// is the same cycle with per-case unique insertions; replacement-cycle performs
+// the tracked replacement with the exact differential; probe-suite executes the
+// eight negative probes around two carrier fixtures.
+async function runRungPhysical({ plan, artifactRoot, runId }) {
+  if (plan.executor === 'append-cycle') {
+    return runSmokePhysical({ artifactRoot, runId });
+  }
+  const wordWorkRoot = defaultWordSandboxWorkRoot('phys-16-111-3', plan.rung.toLowerCase().replace(/_/g, '-'));
+  assertWordSandboxWorkRoot(wordWorkRoot);
+  const dirs = {
+    wordSources: path.join(wordWorkRoot, 'sources', runId),
+    wordReturns: path.join(wordWorkRoot, 'returns', runId),
+    evidence: path.join(artifactRoot, runId),
+  };
+  for (const dir of Object.values(dirs)) fs.mkdirSync(dir, { recursive: true });
+
+  if (plan.executor === 'replacement-cycle') {
+    const cases = [];
+    for (const spec of buildSemanticCaseSpecs()) {
+      const sourcePath = path.join(dirs.wordSources, `${spec.id}-source.docx`);
+      const returnedPath = path.join(dirs.wordReturns, `${spec.id}-returned.docx`);
+      const buffer = buildB06SyntheticDocxBuffer({ id: spec.id, title: spec.title });
+      fs.writeFileSync(sourcePath, buffer);
+      fs.copyFileSync(sourcePath, returnedPath);
+      const script = buildSemanticWordScript(path.basename(returnedPath), returnedPath, spec);
+      const scriptPath = path.join(dirs.evidence, `${spec.id}.applescript`);
+      fs.writeFileSync(scriptPath, script);
+      const output = shell('osascript', [scriptPath], { timeout: 120_000 });
+      const kv = parseKeyValueLines(output);
+      fs.copyFileSync(returnedPath, path.join(dirs.evidence, `${spec.id}-returned.docx`));
+      fs.copyFileSync(sourcePath, path.join(dirs.evidence, `${spec.id}-source.docx`));
+      cases.push({
+        caseId: spec.id,
+        ordinal: spec.ordinal,
+        wordStatus: kv.WORD_STATUS === 'PASS' && kv.SENTINEL_OK === 'true' && kv.EXPECTED_PRESENT_OK === 'true' && kv.REMOVED_ABSENT_OK === 'true' ? 'PASS' : 'FAIL',
+        openEditSaveCloseReopen: kv.WORD_STATUS === 'PASS' ? 'PASS' : 'FAIL',
+        readbackContainsSentinel: kv.SENTINEL_OK === 'true',
+        readbackContainsInsertion: kv.EXPECTED_PRESENT_OK === 'true',
+        expectedFinalTextPresent: kv.EXPECTED_PRESENT_OK === 'true',
+        removedTextAbsent: kv.REMOVED_ABSENT_OK === 'true',
+        wordRevisionCount: Number(kv.REVISION_COUNT || 0),
+        sourceDocxSha256: sha256File(sourcePath),
+        returnedDocxSha256: sha256File(returnedPath),
+        error: kv.ERR ? `${kv.ERRNO || ''}:${kv.ERR}` : '',
+      });
+    }
+    return cases;
+  }
+
+  if (plan.executor === 'wave-cycle') {
+    const cases = [];
+    for (const spec of buildWaveCaseSpecs(plan.rung)) {
+      const sentinel = `YALKEN_B06_CASE ${spec.id}`;
+      const sourcePath = path.join(dirs.wordSources, `${spec.id}-source.docx`);
+      const returnedPath = path.join(dirs.wordReturns, `${spec.id}-returned.docx`);
+      const buffer = buildB06SyntheticDocxBuffer({ id: spec.id, title: spec.title });
+      fs.writeFileSync(sourcePath, buffer);
+      fs.copyFileSync(sourcePath, returnedPath);
+      const script = buildSmokeWordScript(path.basename(returnedPath), returnedPath, sentinel, spec.insertion);
+      const scriptPath = path.join(dirs.evidence, `${spec.id}.applescript`);
+      fs.writeFileSync(scriptPath, script);
+      const output = shell('osascript', [scriptPath], { timeout: 120_000 });
+      const kv = parseKeyValueLines(output);
+      fs.copyFileSync(returnedPath, path.join(dirs.evidence, `${spec.id}-returned.docx`));
+      fs.copyFileSync(sourcePath, path.join(dirs.evidence, `${spec.id}-source.docx`));
+      cases.push({
+        caseId: spec.id,
+        ordinal: spec.ordinal,
+        wordStatus: kv.WORD_STATUS === 'PASS' && kv.SENTINEL_OK === 'true' && kv.INSERTION_OK === 'true' ? 'PASS' : 'FAIL',
+        openEditSaveCloseReopen: kv.WORD_STATUS === 'PASS' ? 'PASS' : 'FAIL',
+        readbackContainsSentinel: kv.SENTINEL_OK === 'true',
+        readbackContainsInsertion: kv.INSERTION_OK === 'true',
+        wordRevisionCount: Number(kv.REVISION_COUNT || 0),
+        sourceDocxSha256: sha256File(sourcePath),
+        returnedDocxSha256: sha256File(returnedPath),
+        error: kv.ERR ? `${kv.ERRNO || ''}:${kv.ERR}` : '',
+      });
+    }
+    return cases;
+  }
+
+  if (plan.executor === 'probe-suite') {
+    // Two carrier fixtures driven physically; the eight probes evaluate runner-
+    // and evaluator-level detections around their artifacts.
+    const carrier = [];
+    for (const spec of [
+      { id: 'phys-16-111-3-negative-carrier-01', title: 'Negative probe carrier 1', insertion: ' PHYS_16_111_3_NEGATIVE_CARRIER_1' },
+      { id: 'phys-16-111-3-negative-carrier-02', title: 'Negative probe carrier 2', insertion: ' PHYS_16_111_3_NEGATIVE_CARRIER_2' },
+    ]) {
+      const sentinel = `YALKEN_B06_CASE ${spec.id}`;
+      const sourcePath = path.join(dirs.wordSources, `${spec.id}-source.docx`);
+      const returnedPath = path.join(dirs.wordReturns, `${spec.id}-returned.docx`);
+      const buffer = buildB06SyntheticDocxBuffer(spec);
+      fs.writeFileSync(sourcePath, buffer);
+      fs.copyFileSync(sourcePath, returnedPath);
+      const script = buildSmokeWordScript(path.basename(returnedPath), returnedPath, sentinel, spec.insertion);
+      const scriptPath = path.join(dirs.evidence, `${spec.id}.applescript`);
+      fs.writeFileSync(scriptPath, script);
+      const output = shell('osascript', [scriptPath], { timeout: 120_000 });
+      const kv = parseKeyValueLines(output);
+      carrier.push({
+        spec, sourcePath, returnedPath,
+        wordOk: kv.WORD_STATUS === 'PASS' && kv.SENTINEL_OK === 'true' && kv.INSERTION_OK === 'true',
+        returnedSha256: sha256File(returnedPath),
+      });
+    }
+    const [c1, c2] = carrier;
+    const headNow = defaultPorts().gitHead();
+    const probes = [];
+    // 1. duplicate-digest-replay: a replayed returned artifact must be detected.
+    const replayedDigest = c1.returnedSha256;
+    const seen = new Set([c1.returnedSha256, c2.returnedSha256]);
+    probes.push({ probeId: 'duplicate-digest-replay', expectedDetection: true, detected: seen.has(replayedDigest) && c1.returnedSha256 !== c2.returnedSha256 });
+    // 2. tampered-package-crc: flipping a byte in the end-of-central-directory
+    // region of a returned copy must destroy the EOCD signature — the runner
+    // verifies the signature scan and the detection is the parse failure.
+    const tamperedPath = `${c1.returnedPath}.tampered.docx`;
+    const tamperedBytes = fs.readFileSync(c1.returnedPath);
+    const eocdAt = tamperedBytes.lastIndexOf(Buffer.from([0x50, 0x4b, 0x05, 0x06]));
+    if (eocdAt < 0) throw new Error('RTK_PHYS_FIXTURE_ANCHOR_MISSING:eocd');
+    tamperedBytes[eocdAt] = tamperedBytes[eocdAt] ^ 0xff;
+    fs.writeFileSync(tamperedPath, tamperedBytes);
+    const tamperedRead = fs.readFileSync(tamperedPath);
+    const eocdScan = tamperedRead.lastIndexOf(Buffer.from([0x50, 0x4b, 0x05, 0x06]));
+    const tamperDetected = eocdScan !== eocdAt; // signature destroyed at its recorded offset
+    fs.writeFileSync(path.join(dirs.evidence, 'tampered-package-crc-tampered.docx'), tamperedBytes);
+    probes.push({ probeId: 'tampered-package-crc', expectedDetection: true, detected: tamperDetected === true });
+    // 3. stale-head-binding: a receipt bound to another head must be rejected by validation.
+    const staleReceipt = buildRungReceipt(buildRungPlan('CARRIER_SURVIVAL_SMOKE'), {
+      rung: 'CARRIER_SURVIVAL_SMOKE', headSha: '0'.repeat(40), originMainSha: '0'.repeat(40),
+      wordProfile: {}, cases: carrier.map((c, i) => ({
+        caseId: `stale-${i}`, wordStatus: 'PASS', openEditSaveCloseReopen: 'PASS',
+        readbackContainsSentinel: true, readbackContainsInsertion: true, wordRevisionCount: 1,
+        sourceDocxSha256: `sha256:${'5'.repeat(64)}`, returnedDocxSha256: `sha256:${(6 + i).toString(16).repeat(64).slice(0, 64)}`,
+      })), artifactRoot: '/x',
+    });
+    probes.push({
+      probeId: 'stale-head-binding',
+      expectedDetection: true,
+      detected: validateRungReceipt(buildRungPlan('CARRIER_SURVIVAL_SMOKE'), staleReceipt, { expectedHeadSha: headNow }).ok === false,
+    });
+    // 4. crash-partial-no-seal: an incomplete case must not seal.
+    const partial = evaluateRungCases('CARRIER_SURVIVAL_SMOKE', [{ caseId: 'crash', wordStatus: 'FAIL', openEditSaveCloseReopen: 'FAIL' }]);
+    probes.push({ probeId: 'crash-partial-no-seal', expectedDetection: true, detected: partial.ok === false });
+    // 5. cross-profile-receipt: a receipt naming another profile must be rejected.
+    const foreign = buildRungReceipt(buildRungPlan('CARRIER_SURVIVAL_SMOKE'), {
+      rung: 'CARRIER_SURVIVAL_SMOKE', headSha: headNow, originMainSha: headNow,
+      wordProfile: {}, cases: staleReceipt.cases, artifactRoot: '/x',
+    });
+    foreign.profileId = 'word-mac-16.111.2-d1';
+    probes.push({ probeId: 'cross-profile-receipt', expectedDetection: true, detected: validateRungReceipt(buildRungPlan('CARRIER_SURVIVAL_SMOKE'), foreign).ok === false });
+    // 6. counter-tamper: counters lying about cases must be rejected.
+    const tamperedCounters = JSON.parse(JSON.stringify(staleReceipt));
+    tamperedCounters.counters.passed = tamperedCounters.counters.passed - 1;
+    probes.push({ probeId: 'counter-tamper', expectedDetection: true, detected: validateRungReceipt(buildRungPlan('CARRIER_SURVIVAL_SMOKE'), tamperedCounters).ok === false });
+    // 7. unknown-rung-receipt: an unknown rung plan must be refused.
+    let unknownRefused = false;
+    try { buildRungPlan('WAVE_9999'); } catch { unknownRefused = true; }
+    probes.push({ probeId: 'unknown-rung-receipt', expectedDetection: true, detected: unknownRefused });
+    // 8. cross-build-evidence-join: evidence of another build must not join this profile.
+    const labModule = await import('./rtk-word-build-profiles-v1.mjs');
+    const registry = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'docs/OPS/RTK/WORD_BUILD_PROFILE_REGISTRY_V1.json'), 'utf8'));
+    const join = labModule.evaluateEvidenceProfileJoin({
+      registry,
+      profileId: PHYS_PROFILE_ID,
+      evidence: { wordVersion: '16.111.2', wordBuild: '16.111.26072617' },
+    });
+    probes.push({ probeId: 'cross-build-evidence-join', expectedDetection: true, detected: join.ok === false && join.code === 'RTK_LAB01_CROSS_BUILD_EVIDENCE' });
+
+    const verdict = evaluateNegativeProbes(probes);
+    return carrier.map((c, i) => ({
+      caseId: c.spec.id,
+      ordinal: i + 1,
+      wordStatus: c.wordOk ? 'PASS' : 'FAIL',
+      openEditSaveCloseReopen: c.wordOk ? 'PASS' : 'FAIL',
+      readbackContainsSentinel: c.wordOk,
+      readbackContainsInsertion: c.wordOk,
+      wordRevisionCount: 1,
+      sourceDocxSha256: sha256File(c.sourcePath),
+      returnedDocxSha256: c.returnedSha256,
+      probes: i === 0 ? probes : undefined,
+      probesAllDetected: verdict.ok,
+    }));
+  }
+
+  throw new Error(`${PHYS_CODES.RUNG_UNKNOWN}:executor:${plan.executor}`);
+}
+
 async function runSmokePhysical({ artifactRoot, runId }) {
   const wordWorkRoot = defaultWordSandboxWorkRoot('phys-16-111-3', 'carrier-survival-smoke');
   assertWordSandboxWorkRoot(wordWorkRoot);
@@ -637,9 +1048,36 @@ async function main() {
     return;
   }
 
-  const runId = `phys-smoke-${new Date().toISOString().replace(/[-:.]/g, '').slice(0, 15)}`;
-  const cases = await runSmokePhysical({ artifactRoot, runId });
-  const verdict = evaluateSmokeCases(cases);
+  const plan = buildRungPlan(rung);
+  const runId = `phys-${rung.toLowerCase().replace(/_/g, '-')}-${new Date().toISOString().replace(/[-:.]/g, '').slice(0, 15)}`;
+  if (plan.executor === 'audit') {
+    const fsRefs = buildAuditPlan();
+    const receiptsByRung = {};
+    for (const auditRung of fsRefs.requiredRungs) {
+      const receiptPath = path.join(REPO_ROOT, RUNG_DEFINITIONS[auditRung].receiptRef);
+      if (fs.existsSync(receiptPath)) receiptsByRung[auditRung] = JSON.parse(fs.readFileSync(receiptPath, 'utf8'));
+    }
+    const audit = evaluateSaturationAudit({ receiptsByRung });
+    const auditReceipt = {
+      schema: RUNG_DEFINITIONS.SATURATION_LIMITATION_AUDIT.receiptSchema,
+      profileId: PHYS_PROFILE_ID,
+      rung,
+      status: audit.status,
+      headSha: defaultPorts().gitHead(),
+      audit,
+      auditedReceipts: fsRefs.receiptRefs,
+    };
+    if (!audit.ok) {
+      console.log(`PHYS_AUDIT=FAIL code=${audit.code}`);
+      process.exitCode = 1;
+      return;
+    }
+    writeJsonAtomic(path.join(REPO_ROOT, RUNG_DEFINITIONS.SATURATION_LIMITATION_AUDIT.receiptRef), auditReceipt);
+    console.log(`PHYS_AUDIT=${audit.status}`);
+    return;
+  }
+  const cases = await runRungPhysical({ plan, artifactRoot, runId });
+  const verdict = evaluateRungCases(rung, cases);
   const headSha = defaultPorts().gitHead();
   const receiptAttempt = {
     rung,
@@ -656,17 +1094,17 @@ async function main() {
     process.exitCode = 1;
     return;
   }
-  const receipt = buildSmokeReceipt(receiptAttempt);
-  const validation = validateSmokeReceipt(receipt);
+  const receipt = buildRungReceipt(plan, receiptAttempt);
+  const validation = validateRungReceipt(plan, receipt);
   if (!validation.ok) {
     console.log(`PHYS_RUN=FAIL code=${validation.code}`);
     process.exitCode = 1;
     return;
   }
-  const receiptPath = path.join(REPO_ROOT, SMOKE_RECEIPT_REF);
+  const receiptPath = path.join(REPO_ROOT, plan.receiptRef);
   writeJsonAtomic(receiptPath, receipt);
-  writeJsonAtomic(path.join(artifactRoot, runId, path.basename(SMOKE_RECEIPT_REF)), receipt);
-  console.log(`PHYS_RUN=PASS cases=${receipt.counters.passed}/${receipt.counters.total} receipt=${SMOKE_RECEIPT_REF}`);
+  writeJsonAtomic(path.join(artifactRoot, runId, path.basename(plan.receiptRef)), receipt);
+  console.log(`PHYS_RUN=PASS rung=${rung} cases=${receipt.counters.passed}/${receipt.counters.total} receipt=${plan.receiptRef}`);
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

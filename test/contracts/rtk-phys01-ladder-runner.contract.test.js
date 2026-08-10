@@ -423,3 +423,133 @@ test('PHYS01-P21-generated-word-script-contract', async () => {
   assert.ok(script.includes('set yTextLen to count of yInitialText'), 'append must measure the already-read text variable, never the live text object (Word 16.111.3 returns 0/missing value for the live object)');
   assert.ok(script.includes('SENTINEL_X') && script.includes('INSERT_Y'), 'sentinel and insertion literals must be embedded');
 });
+
+// ===========================================================================
+// PHYS-03 — per-kind executors. Until this contour every rung fell through to
+// the smoke cycle. These scenarios pin the routing table, the semantic
+// replacement plan, the negative probe inventory, wave case uniqueness and the
+// audit plan — all hermetic.
+// ===========================================================================
+
+// P22: routing — every rung maps to its kind executor with the pinned
+// denominator; a wave never routes to the smoke executor.
+test('PHYS01-P22-rung-routing-table', async () => {
+  const module = await loadModule();
+  const expected = {
+    CARRIER_SURVIVAL_SMOKE: 'append-cycle',
+    SEMANTIC_DIFFERENTIAL_SUBSET: 'replacement-cycle',
+    NEGATIVE_REPLAY_CRASH_SUBSET: 'probe-suite',
+    WAVE_10: 'wave-cycle',
+    WAVE_40: 'wave-cycle',
+    WAVE_100: 'wave-cycle',
+    WAVE_300: 'wave-cycle',
+    WAVE_300_REPEAT: 'wave-cycle',
+    SATURATION_LIMITATION_AUDIT: 'audit',
+  };
+  for (const [rung, executor] of Object.entries(expected)) {
+    const plan = module.buildRungPlan(rung);
+    assert.equal(plan.executor, executor, `${rung} executor`);
+    assert.equal(plan.caseCount, module.RUNG_DEFINITIONS[rung].caseCount, `${rung} denominator`);
+    assert.equal(plan.receiptRef, module.RUNG_DEFINITIONS[rung].receiptRef, `${rung} receipt path`);
+  }
+  assert.throws(() => module.buildRungPlan('WAVE_9999'), /RTK_PHYS_RUNG_UNKNOWN/u);
+});
+
+// P23: semantic case specs carry JS-computed replacement offsets into the
+// deterministic fixture text, with a distinct replacement per case.
+test('PHYS01-P23-semantic-replacement-plan', async () => {
+  const module = await loadModule();
+  const specs = module.buildSemanticCaseSpecs();
+  assert.equal(specs.length, 24, '24 semantic cases');
+  const replacements = new Set();
+  for (const spec of specs) {
+    assert.ok(Number.isSafeInteger(spec.replaceStart) && spec.replaceStart > 0, `${spec.id} replaceStart`);
+    assert.ok(Number.isSafeInteger(spec.replaceEnd) && spec.replaceEnd > spec.replaceStart, `${spec.id} replaceEnd > replaceStart`);
+    assert.ok(spec.removedText.length > 0, `${spec.id} removedText recorded`);
+    // Unmasking amendment: the range must cover EXACTLY the removed text in the
+    // deterministic fixture text (1-based inclusive Word range over the 0-based
+    // fixture string slice).
+    const fixtureText = module.buildSemanticFixtureTextForTest({ id: spec.id, title: spec.title });
+    assert.equal(fixtureText.slice(spec.replaceStart - 1, spec.replaceEnd), spec.removedText,
+      `${spec.id} range must cover exactly the removed text`);
+    assert.ok(spec.replacementText.includes(spec.id), `${spec.id} replacement carries the case id`);
+    replacements.add(spec.replacementText);
+  }
+  assert.equal(replacements.size, 24, 'each semantic replacement is unique');
+});
+
+// P24: the negative probe inventory is exactly the eight named probes.
+test('PHYS01-P24-negative-probe-inventory', async () => {
+  const module = await loadModule();
+  assert.deepEqual([...module.NEGATIVE_PROBE_IDS], [
+    'duplicate-digest-replay',
+    'tampered-package-crc',
+    'stale-head-binding',
+    'crash-partial-no-seal',
+    'cross-profile-receipt',
+    'counter-tamper',
+    'unknown-rung-receipt',
+    'cross-build-evidence-join',
+  ], 'exactly the eight named negative probes');
+});
+
+// P25: wave case specs carry unique insertions per case and per rung.
+test('PHYS01-P25-wave-case-uniqueness', async () => {
+  const module = await loadModule();
+  for (const [rung, count] of [['WAVE_10', 10], ['WAVE_40', 40]]) {
+    const specs = module.buildWaveCaseSpecs(rung);
+    assert.equal(specs.length, count, `${rung} spec count`);
+    const insertions = new Set(specs.map((s) => s.insertion));
+    assert.equal(insertions.size, count, `${rung} insertions unique`);
+  }
+  const w10 = module.buildWaveCaseSpecs('WAVE_10');
+  const w40 = module.buildWaveCaseSpecs('WAVE_40');
+  const overlap = w10.filter((a) => w40.some((b) => b.insertion === a.insertion));
+  assert.equal(overlap.length, 0, 'insertions never repeat across rungs');
+});
+
+// P26: the audit plan binds exactly the five wave receipt refs of this profile.
+test('PHYS01-P26-audit-plan-binding', async () => {
+  const module = await loadModule();
+  const plan = module.buildAuditPlan();
+  assert.deepEqual(plan.requiredRungs, ['WAVE_10', 'WAVE_40', 'WAVE_100', 'WAVE_300', 'WAVE_300_REPEAT']);
+  for (const ref of plan.receiptRefs) {
+    assert.ok(ref.includes('16_111_3'), `audit receipt ref must be build-bound: ${ref}`);
+  }
+  assert.equal(new Set(plan.receiptRefs).size, 5, 'five distinct wave receipts');
+});
+
+// P27: the semantic word script embeds literal offsets and the differential
+// readback flags (never the live text object count).
+test('PHYS01-P27-semantic-script-contract', async () => {
+  const module = await loadModule();
+  const spec = module.buildSemanticCaseSpecs()[0];
+  const script = module.buildSemanticWordScriptForTest('case.docx', '/tmp/case.docx', spec);
+  assert.ok(!script.includes('set end of content of text object'), 'invalid statement banned');
+  assert.ok(!script.includes('count of content of text object of yDoc'), 'live text object count banned');
+  assert.ok(script.includes(`create range yDoc start ${spec.replaceStart} end ${spec.replaceEnd}`), 'literal offsets embedded');
+  assert.ok(script.includes(spec.replacementText), 'replacement literal embedded');
+  assert.ok(script.includes('set yExpectedOk2 to yReadback contains') && script.includes('set yRemovedOk2 to not (yReadback contains'), 'post-reopen differential readback lines must be generated');
+});
+
+// P28 (PHYS-03 honesty amendment): the negative probe suite must use REAL
+// detections — the stale-head probe exercises the validator's expected-head
+// path, and the validator must reject a receipt bound to another head.
+test('PHYS01-P28-validator-expected-head-binding', async () => {
+  const module = await loadModule();
+  const plan = module.buildRungPlan('WAVE_10');
+  const cases = Array.from({ length: 10 }, (_, i) => passWaveCase('WAVE_10', i));
+  const receipt = module.buildRungReceipt(plan, {
+    rung: 'WAVE_10',
+    headSha: 'b'.repeat(40),
+    originMainSha: 'b'.repeat(40),
+    wordProfile: {},
+    cases,
+    artifactRoot: '/x',
+  });
+  const okSame = module.validateRungReceipt(plan, receipt, { expectedHeadSha: 'b'.repeat(40) });
+  assert.equal(okSame.ok, true, `matching head validates: ${JSON.stringify(okSame.reasons)}`);
+  const stale = module.validateRungReceipt(plan, receipt, { expectedHeadSha: 'c'.repeat(40) });
+  assert.equal(stale.ok, false, 'a receipt bound to another head must be rejected when an expected head is enforced');
+  assert.equal(stale.code, 'RTK_PHYS_RECEIPT_INVALID');
+});

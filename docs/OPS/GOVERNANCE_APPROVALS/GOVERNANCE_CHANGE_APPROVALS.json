@@ -9935,21 +9935,21 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-phys-ladder-16-111-3.mjs",
-      "sha256": "44f82bc970cef88cdc1bd8dfd7c2a1c7d5c2bc0910f534eb16c97ba9f2790938",
-      "approvedBy": "owner-direct:TASK_ID:PHYS01B_FULL_LADDER_RUNNER",
-      "approvedAtUtc": "2026-08-10T00:00:02.048Z",
-      "rationale": "Approve the PHYS-01B runner extension: all nine ladder rungs with pinned denominators, distinct build-bound receipt paths, semantic differential seal law, negative-probe detection law and the fail-closed saturation audit capped at COMPLETE_NOT_SATURATED.",
+      "sha256": "af0094109ac315cbbe07d4293ff06baccb8ee00b2bc7495158467acd58330548",
+      "approvedBy": "owner-direct:TASK_ID:PHYS01C_SCRIPT_APPEND_REPAIR",
+      "approvedAtUtc": "2026-08-10T07:21:45.815Z",
+      "rationale": "Approve the PHYS-01C repair: the generated Word script appends via the proven create-range idiom; the invalid set-end-of statement is removed; the builder is exported for the script contract pin.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS01B_FULL_LADDER"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS01C_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-phys01-ladder-runner.contract.test.js",
-      "sha256": "e8084e1702bc1fce74d07aa200e87f6fb28051df3943820f5aa6543b55d9118a",
-      "approvedBy": "owner-direct:TASK_ID:PHYS01B_FULL_LADDER_RUNNER",
-      "approvedAtUtc": "2026-08-10T00:00:02.048Z",
-      "rationale": "Approve the PHYS-01B scenarios P11-P20 (rung registry, denominator law, semantic law, negative detection, audit laws) plus the sanctioned P02 unknown-rung amendment; red-first proven; eight targeted mutations killed.",
+      "sha256": "34297f00e0b1a43664c5cc29f31f5e7153b6fb21d3df1b423789bc93cd17fee7",
+      "approvedBy": "owner-direct:TASK_ID:PHYS01C_SCRIPT_APPEND_REPAIR",
+      "approvedAtUtc": "2026-08-10T07:21:45.815Z",
+      "rationale": "Approve PHYS01-P21: generated-script contract pinning the create-range append idiom and banning the invalid set-end-of statement, found by the first physical smoke run on Word 16.111.3 (AppleScript -10006).",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS01B_FULL_LADDER"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS01C_REPAIR"
     }
   ]
 }

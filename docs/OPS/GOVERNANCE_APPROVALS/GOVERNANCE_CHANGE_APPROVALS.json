@@ -9836,12 +9836,12 @@
     },
     {
       "filePath": "docs/CONTEXT.md",
-      "sha256": "f49da39991fe991835d313412cf0e6767196bab6d2bcd3bb0d1dc5965914356a",
-      "approvedBy": "owner-direct:TASK_ID:PHYS04_SEMANTIC_EVIDENCE_16_111_3",
-      "approvedAtUtc": "2026-08-10T09:02:15.592Z",
-      "rationale": "Approve additive docs/CONTEXT.md bytes recording the PHYS-04 sealed semantic rung; terminal claim remains NOT_MADE.",
+      "sha256": "79d40f2dca00529bae8fd37b3a1cec41e95c9a1e5dfe6911aba778249529ddc8",
+      "approvedBy": "owner-direct:TASK_ID:PHYS04B_NEGATIVE_PROBE_REPAIR",
+      "approvedAtUtc": "2026-08-10T09:25:59.442Z",
+      "rationale": "Approve additive docs/CONTEXT.md bytes recording the PHYS-04B probe-suite repair; no negative evidence attached yet.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS04_SEMANTIC_EVIDENCE"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS04B_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-multi01-multi-scene-scope-blocked.contract.test.js",
@@ -9935,21 +9935,21 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-phys-ladder-16-111-3.mjs",
-      "sha256": "1aa67b05bbb50a4ad81c90affab4a6266a0019505b4519a4d0a9c252cabf819f",
-      "approvedBy": "owner-direct:TASK_ID:PHYS03_RUNG_EXECUTORS",
-      "approvedAtUtc": "2026-08-10T08:39:15.967Z",
-      "rationale": "Approve the PHYS-03 executor layer: rung routing, semantic replacement with literal offsets and differential readback, the eight negative probes with real detections, wave cycles with unique insertions, the audit executor and expected-head receipt validation.",
+      "sha256": "acb2f53d2982b066da3954717774304840760135a1698070e6e79192e0a57996",
+      "approvedBy": "owner-direct:TASK_ID:PHYS04B_NEGATIVE_PROBE_REPAIR",
+      "approvedAtUtc": "2026-08-10T09:25:59.442Z",
+      "rationale": "Approve the PHYS-04B repair: pure evaluateNegativeProbeSuite with real detections bound to the real LAB-01 evaluator verdict, honest EOCD tamper evidence, and the expected-head law applied before rung-specific validators.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS03_EXECUTORS"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS04B_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-phys01-ladder-runner.contract.test.js",
-      "sha256": "b13684f0c5e0c28791bc970ce2817519d7524ff4f759299d05658459a32c66b4",
-      "approvedBy": "owner-direct:TASK_ID:PHYS03_RUNG_EXECUTORS",
-      "approvedAtUtc": "2026-08-10T08:39:15.967Z",
-      "rationale": "Approve the PHYS-03 scenarios P22-P28 (routing, semantic plan with slice-exact offsets, probe inventory, wave uniqueness, audit plan, script contract, expected-head binding) including the two unmasking amendments.",
+      "sha256": "1dad4ed86d1258431982d4181b192e6443aa0216fac83b697954bf3c7651137b",
+      "approvedBy": "owner-direct:TASK_ID:PHYS04B_NEGATIVE_PROBE_REPAIR",
+      "approvedAtUtc": "2026-08-10T09:25:59.442Z",
+      "rationale": "Approve PHYS01-P29 (pure probe suite pins) plus the head-precedence coverage; the P29 red caught the smoke-dispatch bypass of the expected-head law.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS03_EXECUTORS"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS04B_REPAIR"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_MAC_16_111_3_CARRIER_SURVIVAL_SMOKE_RECEIPT.json",

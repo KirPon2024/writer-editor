@@ -335,6 +335,71 @@ export function evaluateRungCases(rung, cases) {
 
 // Negative probes: every expected detection must fire. A probe that does not
 // detect its anomaly is a failed probe (fail-closed).
+// PHYS-04B: the probe suite computation is a pure function of its inputs so the
+// contract can exercise it hermetically. Receipt probes are built on full
+// synthetic denominators (the smoke seal law requires 12 cases); a partial set
+// can never be smuggled into a receipt.
+export function buildSyntheticPassingCases(rung, count) {
+  return Array.from({ length: count }, (_, i) => ({
+    caseId: `synthetic-${rung.toLowerCase()}-${i + 1}`,
+    wordStatus: 'PASS',
+    openEditSaveCloseReopen: 'PASS',
+    readbackContainsSentinel: true,
+    readbackContainsInsertion: true,
+    wordRevisionCount: 1,
+    sourceDocxSha256: `sha256:${'7'.repeat(63)}${i % 16 === 0 ? '0' : '1'}`,
+    returnedDocxSha256: `sha256:${(8 + i).toString(16).repeat(64).slice(0, 64)}`,
+  }));
+}
+
+export function evaluateNegativeProbeSuite({ carrierDigests, headSha, tamperEvidence, crossBuildJoinRejected }) {
+  const probes = [];
+  const [d1, d2] = Array.isArray(carrierDigests) ? carrierDigests : [];
+  // duplicate-digest-replay: the runner records per-artifact digests and a
+  // replayed artifact collides with the recorded set; genuine runs differ.
+  probes.push({ probeId: 'duplicate-digest-replay', expectedDetection: true, detected: typeof d1 === 'string' && typeof d2 === 'string' && d1 !== d2 });
+  // tampered-package-crc: the caller supplies the EOCD offsets observed before
+  // and after the byte flip; a destroyed signature moves the scan.
+  const tamperOk = isPlainObject(tamperEvidence)
+    && Number.isSafeInteger(tamperEvidence.eocdAtBefore)
+    && tamperEvidence.eocdAtBefore >= 0
+    && tamperEvidence.eocdAtAfter !== tamperEvidence.eocdAtBefore;
+  probes.push({ probeId: 'tampered-package-crc', expectedDetection: true, detected: tamperOk });
+  // stale-head-binding: the validator must reject a receipt bound to another head.
+  const smokePlan = buildRungPlan('CARRIER_SURVIVAL_SMOKE');
+  const staleReceipt = buildRungReceipt(smokePlan, {
+    rung: 'CARRIER_SURVIVAL_SMOKE', headSha: '0'.repeat(40), originMainSha: '0'.repeat(40),
+    wordProfile: {}, cases: buildSyntheticPassingCases('CARRIER_SURVIVAL_SMOKE', smokePlan.caseCount), artifactRoot: '/x',
+  });
+  probes.push({
+    probeId: 'stale-head-binding',
+    expectedDetection: true,
+    detected: validateRungReceipt(smokePlan, staleReceipt, { expectedHeadSha: headSha }).ok === false,
+  });
+  // crash-partial-no-seal: an incomplete case set must not seal.
+  const partial = evaluateRungCases('CARRIER_SURVIVAL_SMOKE', [{ caseId: 'crash', wordStatus: 'FAIL', openEditSaveCloseReopen: 'FAIL' }]);
+  probes.push({ probeId: 'crash-partial-no-seal', expectedDetection: true, detected: partial.ok === false });
+  // cross-profile-receipt: a receipt naming another profile must be rejected.
+  const foreign = JSON.parse(JSON.stringify(staleReceipt));
+  foreign.profileId = 'word-mac-16.111.2-d1';
+  probes.push({ probeId: 'cross-profile-receipt', expectedDetection: true, detected: validateRungReceipt(smokePlan, foreign).ok === false });
+  // counter-tamper: counters lying about cases must be rejected.
+  const tamperedCounters = JSON.parse(JSON.stringify(staleReceipt));
+  tamperedCounters.counters.passed = tamperedCounters.counters.passed - 1;
+  probes.push({ probeId: 'counter-tamper', expectedDetection: true, detected: validateRungReceipt(smokePlan, tamperedCounters).ok === false });
+  // unknown-rung-receipt: an unknown rung plan must be refused.
+  let unknownRefused = false;
+  try { buildRungPlan('WAVE_9999'); } catch { unknownRefused = true; }
+  probes.push({ probeId: 'unknown-rung-receipt', expectedDetection: true, detected: unknownRefused });
+  // cross-build-evidence-join: the caller computes the verdict through the REAL
+  // LAB-01 evaluator; the probe records that law's verdict, never a local
+  // reimplementation.
+  probes.push({ probeId: 'cross-build-evidence-join', expectedDetection: true, detected: crossBuildJoinRejected === true });
+  return evaluateNegativeProbes(probes).ok
+    ? { ok: true, probes }
+    : { ok: false, code: PHYS_CODES.NEGATIVE_PROBE_UNDETECTED, probes, reasons: evaluateNegativeProbes(probes).reasons };
+}
+
 export function evaluateNegativeProbes(probes) {
   const list = Array.isArray(probes) ? probes : [];
   const undetected = list.filter((p) => !p || p.expectedDetection !== true || p.detected !== true);
@@ -761,6 +826,15 @@ export function buildRungReceipt(plan, { rung, headSha, originMainSha, wordProfi
 }
 
 export function validateRungReceipt(plan, receipt, { expectedHeadSha } = {}) {
+  // The expected-head law applies to every rung, before any rung-specific
+  // validator: a receipt bound to another exact head is invalid.
+  if (expectedHeadSha !== undefined && isPlainObject(receipt) && receipt.headSha !== expectedHeadSha) {
+    return {
+      ok: false,
+      code: PHYS_CODES.RECEIPT_INVALID,
+      reasons: [reason(PHYS_CODES.RECEIPT_INVALID, `headSha ${JSON.stringify(receipt.headSha)} is not the expected exact head ${JSON.stringify(expectedHeadSha)}`)],
+    };
+  }
   if (plan.rung === 'CARRIER_SURVIVAL_SMOKE') return validateSmokeReceipt(receipt);
   const reasons = [];
   if (!isPlainObject(receipt)) {
@@ -769,9 +843,6 @@ export function validateRungReceipt(plan, receipt, { expectedHeadSha } = {}) {
   if (receipt.schema !== plan.receiptSchema) reasons.push(reason(PHYS_CODES.RECEIPT_INVALID, 'schema mismatch'));
   if (receipt.profileId !== PHYS_PROFILE_ID) reasons.push(reason(PHYS_CODES.RECEIPT_INVALID, 'profileId mismatch'));
   if (receipt.rung !== plan.rung) reasons.push(reason(PHYS_CODES.RECEIPT_INVALID, 'rung mismatch'));
-  if (expectedHeadSha !== undefined && receipt.headSha !== expectedHeadSha) {
-    reasons.push(reason(PHYS_CODES.RECEIPT_INVALID, `headSha ${JSON.stringify(receipt.headSha)} is not the expected exact head ${JSON.stringify(expectedHeadSha)}`));
-  }
   const cases = Array.isArray(receipt.cases) ? receipt.cases : [];
   const counters = isPlainObject(receipt.counters) ? receipt.counters : {};
   if (counters.total !== cases.length || counters.passed !== cases.filter((c) => c && c.openEditSaveCloseReopen === 'PASS').length) {
@@ -892,58 +963,17 @@ async function runRungPhysical({ plan, artifactRoot, runId }) {
     }
     const [c1, c2] = carrier;
     const headNow = defaultPorts().gitHead();
-    const probes = [];
-    // 1. duplicate-digest-replay: a replayed returned artifact must be detected.
-    const replayedDigest = c1.returnedSha256;
-    const seen = new Set([c1.returnedSha256, c2.returnedSha256]);
-    probes.push({ probeId: 'duplicate-digest-replay', expectedDetection: true, detected: seen.has(replayedDigest) && c1.returnedSha256 !== c2.returnedSha256 });
-    // 2. tampered-package-crc: flipping a byte in the end-of-central-directory
-    // region of a returned copy must destroy the EOCD signature — the runner
-    // verifies the signature scan and the detection is the parse failure.
+    // Tamper artifact: destroy the EOCD signature of a returned copy and keep
+    // the observed offsets as the probe evidence.
     const tamperedPath = `${c1.returnedPath}.tampered.docx`;
     const tamperedBytes = fs.readFileSync(c1.returnedPath);
-    const eocdAt = tamperedBytes.lastIndexOf(Buffer.from([0x50, 0x4b, 0x05, 0x06]));
-    if (eocdAt < 0) throw new Error('RTK_PHYS_FIXTURE_ANCHOR_MISSING:eocd');
-    tamperedBytes[eocdAt] = tamperedBytes[eocdAt] ^ 0xff;
+    const eocdAtBefore = tamperedBytes.lastIndexOf(Buffer.from([0x50, 0x4b, 0x05, 0x06]));
+    if (eocdAtBefore < 0) throw new Error('RTK_PHYS_FIXTURE_ANCHOR_MISSING:eocd');
+    tamperedBytes[eocdAtBefore] = tamperedBytes[eocdAtBefore] ^ 0xff;
     fs.writeFileSync(tamperedPath, tamperedBytes);
-    const tamperedRead = fs.readFileSync(tamperedPath);
-    const eocdScan = tamperedRead.lastIndexOf(Buffer.from([0x50, 0x4b, 0x05, 0x06]));
-    const tamperDetected = eocdScan !== eocdAt; // signature destroyed at its recorded offset
     fs.writeFileSync(path.join(dirs.evidence, 'tampered-package-crc-tampered.docx'), tamperedBytes);
-    probes.push({ probeId: 'tampered-package-crc', expectedDetection: true, detected: tamperDetected === true });
-    // 3. stale-head-binding: a receipt bound to another head must be rejected by validation.
-    const staleReceipt = buildRungReceipt(buildRungPlan('CARRIER_SURVIVAL_SMOKE'), {
-      rung: 'CARRIER_SURVIVAL_SMOKE', headSha: '0'.repeat(40), originMainSha: '0'.repeat(40),
-      wordProfile: {}, cases: carrier.map((c, i) => ({
-        caseId: `stale-${i}`, wordStatus: 'PASS', openEditSaveCloseReopen: 'PASS',
-        readbackContainsSentinel: true, readbackContainsInsertion: true, wordRevisionCount: 1,
-        sourceDocxSha256: `sha256:${'5'.repeat(64)}`, returnedDocxSha256: `sha256:${(6 + i).toString(16).repeat(64).slice(0, 64)}`,
-      })), artifactRoot: '/x',
-    });
-    probes.push({
-      probeId: 'stale-head-binding',
-      expectedDetection: true,
-      detected: validateRungReceipt(buildRungPlan('CARRIER_SURVIVAL_SMOKE'), staleReceipt, { expectedHeadSha: headNow }).ok === false,
-    });
-    // 4. crash-partial-no-seal: an incomplete case must not seal.
-    const partial = evaluateRungCases('CARRIER_SURVIVAL_SMOKE', [{ caseId: 'crash', wordStatus: 'FAIL', openEditSaveCloseReopen: 'FAIL' }]);
-    probes.push({ probeId: 'crash-partial-no-seal', expectedDetection: true, detected: partial.ok === false });
-    // 5. cross-profile-receipt: a receipt naming another profile must be rejected.
-    const foreign = buildRungReceipt(buildRungPlan('CARRIER_SURVIVAL_SMOKE'), {
-      rung: 'CARRIER_SURVIVAL_SMOKE', headSha: headNow, originMainSha: headNow,
-      wordProfile: {}, cases: staleReceipt.cases, artifactRoot: '/x',
-    });
-    foreign.profileId = 'word-mac-16.111.2-d1';
-    probes.push({ probeId: 'cross-profile-receipt', expectedDetection: true, detected: validateRungReceipt(buildRungPlan('CARRIER_SURVIVAL_SMOKE'), foreign).ok === false });
-    // 6. counter-tamper: counters lying about cases must be rejected.
-    const tamperedCounters = JSON.parse(JSON.stringify(staleReceipt));
-    tamperedCounters.counters.passed = tamperedCounters.counters.passed - 1;
-    probes.push({ probeId: 'counter-tamper', expectedDetection: true, detected: validateRungReceipt(buildRungPlan('CARRIER_SURVIVAL_SMOKE'), tamperedCounters).ok === false });
-    // 7. unknown-rung-receipt: an unknown rung plan must be refused.
-    let unknownRefused = false;
-    try { buildRungPlan('WAVE_9999'); } catch { unknownRefused = true; }
-    probes.push({ probeId: 'unknown-rung-receipt', expectedDetection: true, detected: unknownRefused });
-    // 8. cross-build-evidence-join: evidence of another build must not join this profile.
+    const eocdAtAfter = fs.readFileSync(tamperedPath).lastIndexOf(Buffer.from([0x50, 0x4b, 0x05, 0x06]));
+    // The cross-build verdict comes from the REAL LAB-01 evaluator.
     const labModule = await import('./rtk-word-build-profiles-v1.mjs');
     const registry = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'docs/OPS/RTK/WORD_BUILD_PROFILE_REGISTRY_V1.json'), 'utf8'));
     const join = labModule.evaluateEvidenceProfileJoin({
@@ -951,9 +981,15 @@ async function runRungPhysical({ plan, artifactRoot, runId }) {
       profileId: PHYS_PROFILE_ID,
       evidence: { wordVersion: '16.111.2', wordBuild: '16.111.26072617' },
     });
-    probes.push({ probeId: 'cross-build-evidence-join', expectedDetection: true, detected: join.ok === false && join.code === 'RTK_LAB01_CROSS_BUILD_EVIDENCE' });
+    const suite = evaluateNegativeProbeSuite({
+      carrierDigests: [c1.returnedSha256, c2.returnedSha256],
+      headSha: headNow,
+      tamperEvidence: { eocdAtBefore, eocdAtAfter },
+      crossBuildJoinRejected: join.ok === false && join.code === 'RTK_LAB01_CROSS_BUILD_EVIDENCE',
+    });
+    const probes = suite.probes;
+    const verdict = { ok: suite.ok, reasons: suite.reasons || [] };
 
-    const verdict = evaluateNegativeProbes(probes);
     return carrier.map((c, i) => ({
       caseId: c.spec.id,
       ordinal: i + 1,

@@ -553,3 +553,44 @@ test('PHYS01-P28-validator-expected-head-binding', async () => {
   assert.equal(stale.ok, false, 'a receipt bound to another head must be rejected when an expected head is enforced');
   assert.equal(stale.code, 'RTK_PHYS_RECEIPT_INVALID');
 });
+
+// P29 (PHYS-04B): the negative probe suite is a pure evaluator over its inputs;
+// every detection must be real — a replayed digest, an intact EOCD signature,
+// an accepted stale head or an accepted cross-build join must each fail the
+// suite.
+test('PHYS01-P29-negative-probe-suite-pure-evaluator', async () => {
+  const module = await loadModule();
+  const good = module.evaluateNegativeProbeSuite({
+    carrierDigests: [`sha256:${'a'.repeat(64)}`, `sha256:${'b'.repeat(64)}`],
+    headSha: 'f'.repeat(40),
+    tamperEvidence: { eocdAtBefore: 100, eocdAtAfter: -1 },
+    crossBuildJoinRejected: true,
+  });
+  assert.equal(good.ok, true, `honest probe inputs must pass: ${JSON.stringify(good.probes && good.probes.filter((p) => !p.detected))}`);
+  assert.equal(good.probes.length, 8, 'all eight probes recorded');
+
+  const replay = module.evaluateNegativeProbeSuite({
+    carrierDigests: [`sha256:${'a'.repeat(64)}`, `sha256:${'a'.repeat(64)}`],
+    headSha: 'f'.repeat(40),
+    tamperEvidence: { eocdAtBefore: 100, eocdAtAfter: -1 },
+    crossBuildJoinRejected: true,
+  });
+  assert.equal(replay.ok, false, 'identical carrier digests (a replay) must fail the suite');
+  assert.equal(replay.code, 'RTK_PHYS_NEGATIVE_PROBE_UNDETECTED');
+
+  const intactEocd = module.evaluateNegativeProbeSuite({
+    carrierDigests: [`sha256:${'a'.repeat(64)}`, `sha256:${'b'.repeat(64)}`],
+    headSha: 'f'.repeat(40),
+    tamperEvidence: { eocdAtBefore: 100, eocdAtAfter: 100 },
+    crossBuildJoinRejected: true,
+  });
+  assert.equal(intactEocd.ok, false, 'an intact EOCD after the flip must fail the tamper probe');
+
+  const joinAccepted = module.evaluateNegativeProbeSuite({
+    carrierDigests: [`sha256:${'a'.repeat(64)}`, `sha256:${'b'.repeat(64)}`],
+    headSha: 'f'.repeat(40),
+    tamperEvidence: { eocdAtBefore: 100, eocdAtAfter: -1 },
+    crossBuildJoinRejected: false,
+  });
+  assert.equal(joinAccepted.ok, false, 'an accepted cross-build join must fail the suite');
+});

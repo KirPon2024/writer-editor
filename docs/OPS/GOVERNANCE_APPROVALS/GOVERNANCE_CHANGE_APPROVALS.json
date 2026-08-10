@@ -9935,21 +9935,21 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-phys-ladder-16-111-3.mjs",
-      "sha256": "acb2f53d2982b066da3954717774304840760135a1698070e6e79192e0a57996",
-      "approvedBy": "owner-direct:TASK_ID:PHYS04B_NEGATIVE_PROBE_REPAIR",
-      "approvedAtUtc": "2026-08-10T09:25:59.442Z",
-      "rationale": "Approve the PHYS-04B repair: pure evaluateNegativeProbeSuite with real detections bound to the real LAB-01 evaluator verdict, honest EOCD tamper evidence, and the expected-head law applied before rung-specific validators.",
+      "sha256": "e45aa5a2f2af3cc7cab8d56c7ee89fb9a77421315b1d7d59be1ecb89ead9ef68",
+      "approvedBy": "owner-direct:TASK_ID:PHYS04C_NEGATIVE_DENOMINATOR",
+      "approvedAtUtc": "2026-08-10T09:47:29.977Z",
+      "rationale": "Approve the PHYS-04C denominator repair: the negative rung seals on its eight probe cases, each requiring a real detection plus passing physical carriers.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS04B_REPAIR"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS04C_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-phys01-ladder-runner.contract.test.js",
-      "sha256": "1dad4ed86d1258431982d4181b192e6443aa0216fac83b697954bf3c7651137b",
-      "approvedBy": "owner-direct:TASK_ID:PHYS04B_NEGATIVE_PROBE_REPAIR",
-      "approvedAtUtc": "2026-08-10T09:25:59.442Z",
-      "rationale": "Approve PHYS01-P29 (pure probe suite pins) plus the head-precedence coverage; the P29 red caught the smoke-dispatch bypass of the expected-head law.",
+      "sha256": "f03da2d6a0da3afc1c743ce50b9a4953e751ff3c87e85420cbe14bcefd10467a",
+      "approvedBy": "owner-direct:TASK_ID:PHYS04C_NEGATIVE_DENOMINATOR",
+      "approvedAtUtc": "2026-08-10T09:47:29.977Z",
+      "rationale": "Approve PHYS01-P30: the negative denominator law (eight detected probes with passing carriers; count, detection and carrier failures typed).",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS04B_REPAIR"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS04C_REPAIR"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_MAC_16_111_3_CARRIER_SURVIVAL_SMOKE_RECEIPT.json",

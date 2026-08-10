@@ -987,21 +987,23 @@ async function runRungPhysical({ plan, artifactRoot, runId }) {
       tamperEvidence: { eocdAtBefore, eocdAtAfter },
       crossBuildJoinRejected: join.ok === false && join.code === 'RTK_LAB01_CROSS_BUILD_EVIDENCE',
     });
-    const probes = suite.probes;
-    const verdict = { ok: suite.ok, reasons: suite.reasons || [] };
-
-    return carrier.map((c, i) => ({
-      caseId: c.spec.id,
+    // PHYS-04C: the rung's denominator is the eight probes. A probe case seals
+    // only when its detection fired AND both physical carriers passed (the
+    // probes are meaningless without the proven physical context).
+    const carriersOk = c1.wordOk && c2.wordOk;
+    return suite.probes.map((probe, i) => ({
+      caseId: `negative-probe-${String(i + 1).padStart(2, '0')}-${probe.probeId}`,
       ordinal: i + 1,
-      wordStatus: c.wordOk ? 'PASS' : 'FAIL',
-      openEditSaveCloseReopen: c.wordOk ? 'PASS' : 'FAIL',
-      readbackContainsSentinel: c.wordOk,
-      readbackContainsInsertion: c.wordOk,
+      probeId: probe.probeId,
+      detected: probe.detected === true,
+      wordStatus: probe.detected === true && carriersOk ? 'PASS' : 'FAIL',
+      openEditSaveCloseReopen: carriersOk ? 'PASS' : 'FAIL',
+      readbackContainsSentinel: carriersOk,
+      readbackContainsInsertion: carriersOk,
       wordRevisionCount: 1,
-      sourceDocxSha256: sha256File(c.sourcePath),
-      returnedDocxSha256: c.returnedSha256,
-      probes: i === 0 ? probes : undefined,
-      probesAllDetected: verdict.ok,
+      carrierDigests: [c1.returnedSha256, c2.returnedSha256],
+      sourceDocxSha256: sha256File(c1.sourcePath),
+      returnedDocxSha256: c1.returnedSha256,
     }));
   }
 

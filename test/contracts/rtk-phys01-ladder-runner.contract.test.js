@@ -594,3 +594,27 @@ test('PHYS01-P29-negative-probe-suite-pure-evaluator', async () => {
   });
   assert.equal(joinAccepted.ok, false, 'an accepted cross-build join must fail the suite');
 });
+
+// P30 (PHYS-04C): the negative rung's denominator is the eight probes; a probe
+// case seals only when its detection fired and the carriers passed.
+test('PHYS01-P30-negative-denominator-law', async () => {
+  const module = await loadModule();
+  const probeCase = (id, detected, carriersOk) => ({
+    caseId: `negative-probe-${id}`,
+    probeId: id,
+    detected,
+    wordStatus: detected && carriersOk ? 'PASS' : 'FAIL',
+    openEditSaveCloseReopen: carriersOk ? 'PASS' : 'FAIL',
+    readbackContainsSentinel: carriersOk,
+    readbackContainsInsertion: carriersOk,
+    wordRevisionCount: 1,
+  });
+  const ids = ['duplicate-digest-replay', 'tampered-package-crc', 'stale-head-binding', 'crash-partial-no-seal', 'cross-profile-receipt', 'counter-tamper', 'unknown-rung-receipt', 'cross-build-evidence-join'];
+  const full = ids.map((id) => probeCase(id, true, true));
+  assert.equal(module.evaluateRungCases('NEGATIVE_REPLAY_CRASH_SUBSET', full).ok, true, 'eight detected probes with passing carriers seal');
+  assert.equal(module.evaluateRungCases('NEGATIVE_REPLAY_CRASH_SUBSET', full.slice(0, 7)).code, 'RTK_PHYS_CASE_COUNT_MISMATCH', 'seven probes never seal');
+  const undetected = ids.map((id, i) => probeCase(id, i !== 3, true));
+  assert.equal(module.evaluateRungCases('NEGATIVE_REPLAY_CRASH_SUBSET', undetected).code, 'RTK_PHYS_CASE_FAILURES_PRESENT', 'an undetected probe never seals');
+  const carrierDown = ids.map((id) => probeCase(id, true, false));
+  assert.equal(module.evaluateRungCases('NEGATIVE_REPLAY_CRASH_SUBSET', carrierDown).code, 'RTK_PHYS_CASE_FAILURES_PRESENT', 'probes without the physical carrier proof never seal');
+});

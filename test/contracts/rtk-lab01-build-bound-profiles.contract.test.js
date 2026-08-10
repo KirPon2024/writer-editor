@@ -996,18 +996,25 @@ test('LAB02-06-no-rung-inheritance-on-new-build', async () => {
   const earned = registryJson.profiles.find((p) => p.profileId === 'word-mac-16.111.3-26080215').ladder.completedRungs;
   const nextRung = module.LADDER_RUNGS[earned.length];
   const skipRung = module.LADDER_RUNGS[earned.length + 1];
-  const first = module.evaluateLadderAdmission({
-    registry: registryJson,
-    profileId: 'word-mac-16.111.3-26080215',
-    rung: nextRung,
-  });
-  assert.equal(first.ok, true, 'the next rung admission (attempt) must be allowed');
+  if (nextRung !== undefined) {
+    const first = module.evaluateLadderAdmission({
+      registry: registryJson,
+      profileId: 'word-mac-16.111.3-26080215',
+      rung: nextRung,
+    });
+    assert.equal(first.ok, true, 'the next rung admission (attempt) must be allowed');
+  }
+  // PHYS-08 amendment: when the ladder has fewer than two unearned rungs, the
+  // bypass probe needs a fabricated gap — clone the registry and truncate the
+  // earned prefix, then skipping ahead must still bypass-block.
+  const gapRegistry = cloneRegistry(registryJson);
+  gapRegistry.profiles.find((p) => p.profileId === 'word-mac-16.111.3-26080215').ladder.completedRungs = ['CARRIER_SURVIVAL_SMOKE'];
   const bypass = module.evaluateLadderAdmission({
-    registry: registryJson,
+    registry: gapRegistry,
     profileId: 'word-mac-16.111.3-26080215',
-    rung: skipRung,
+    rung: skipRung === undefined ? 'WAVE_40' : skipRung,
   });
-  assert.equal(bypass.ok, false, `skipping ${nextRung} to ${skipRung} must be blocked`);
+  assert.equal(bypass.ok, false, 'skipping ahead of the earned prefix must be blocked');
   assert.equal(bypass.code, 'RTK_LAB01_LADDER_BYPASS');
   const historicalAdmission = module.evaluateLadderAdmission({
     registry: registryJson,

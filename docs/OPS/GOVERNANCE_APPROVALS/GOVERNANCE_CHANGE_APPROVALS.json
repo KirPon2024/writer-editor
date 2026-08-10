@@ -9872,12 +9872,12 @@
     },
     {
       "filePath": "test/contracts/rtk-lab01-build-bound-profiles.contract.test.js",
-      "sha256": "12dd95d862dad2d5f955ec199ec0c45251aadb8a38ab00c3de0a91a4653fc217",
-      "approvedBy": "owner-direct:TASK_ID:PHYS06_WAVE10_EVIDENCE_16_111_3",
-      "approvedAtUtc": "2026-08-10T14:32:19.991Z",
-      "rationale": "Approve the PHYS-06 sanctioned L2-06 amendment: rung-agnostic admission probes (next unearned rung admitted, the rung after it bypass-blocked) plus the L2-01 prefix law.",
+      "sha256": "aff63cfbd5850603516d49960b7d7fb53cbcfdd832199fb05499b7c757a51acd",
+      "approvedBy": "owner-direct:TASK_ID:PHYS08_WAVE100_EVIDENCE_16_111_3",
+      "approvedAtUtc": "2026-08-10T15:20:10.435Z",
+      "rationale": "Approve the PHYS-08 sanctioned L2-06 boundary fix: with fewer than two unearned rungs the bypass probe uses a fabricated gap clone (skipping ahead of the earned prefix still bypass-blocks).",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS06_WAVE10_EVIDENCE"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS08_WAVE100_EVIDENCE"
     },
     {
       "filePath": "docs/OPS/RTK/GOOGLE_BUILD_PROFILE_REGISTRY_V1.json",

@@ -1104,3 +1104,172 @@ test('PHYS01-P36-ordinal-and-counter-binding', async () => {
   assert.equal(r3.ok, false, 'non-array manifest cases must fail typed');
   assert.equal(r3.code, 'RTK_PHYS_AUDIT_MANIFEST_MISMATCH');
 });
+
+// ===========================================================================
+// DIVERSITY-02 — physical family executors: oracle-gated diversity scope
+// stamp, manifest embedding in wave receipts, per-family script builders, and
+// the manifest-replay repeat executor.
+// ===========================================================================
+
+// E01: a wave receipt seals with DIVERSE_FAMILY_WAVE_PROVEN only when the
+// diversity oracle passes over the rung's case specs; append-only specs can
+// never seal.
+test('PHYS01-E01-oracle-gated-scope-stamp', async () => {
+  const module = await loadModule();
+  const plan = module.buildRungPlan('WAVE_10');
+  const diverseSpecs = module.buildDiverseWaveCaseSpecs('WAVE_300').slice(0, 10).map((s, i) => ({ ...s, ordinal: i + 1 }));
+  const cases = diverseSpecs.map((s, i) => ({
+    ...passWaveCase('WAVE_10', i),
+    ordinal: i + 1,
+    family: s.family,
+    operationShape: s.operationShape,
+    contentClass: s.contentClass,
+  }));
+  const receipt = module.buildRungReceipt(plan, {
+    rung: 'WAVE_10', headSha: 'a'.repeat(40), originMainSha: 'a'.repeat(40),
+    wordProfile: {}, cases, artifactRoot: '/x', caseSpecs: diverseSpecs,
+  });
+  assert.equal(receipt.claimScope, 'DIVERSE_FAMILY_WAVE_PROVEN', 'diverse specs earn the diversity-proven scope');
+  assert.ok(receipt.caseManifest && Array.isArray(receipt.caseManifest.cases), 'manifest embedded');
+  assert.ok(/^[0-9a-f]{64}$/u.test(receipt.manifestDigest), 'manifest digest embedded');
+
+  const appendSpecs = Array.from({ length: 10 }, (_, i) => ({ id: `a-${i}`, ordinal: i + 1, family: 'insertion', operationShape: 'paragraph-end', contentClass: 'plain-text' }));
+  const appendCases = appendSpecs.map((s, i) => ({ ...passWaveCase('WAVE_10', i), ordinal: i + 1, family: s.family, operationShape: s.operationShape, contentClass: s.contentClass }));
+  assert.throws(() => module.buildRungReceipt(plan, {
+    rung: 'WAVE_10', headSha: 'a'.repeat(40), originMainSha: 'a'.repeat(40),
+    wordProfile: {}, cases: appendCases, artifactRoot: '/x', caseSpecs: appendSpecs,
+  }), /RTK_PHYS_DIVERSITY_ORACLE_REQUIRED/u, 'append-only specs must never seal a diversity wave');
+
+  // The 300-denominator rung enforces quotas inside the receipt builder: a
+  // quota-violating spec set must throw even with otherwise passing cases.
+  const plan300 = module.buildRungPlan('WAVE_300');
+  // Quota-isolated: comments cases move into UNUSED in-vocabulary combos of
+  // over-quota families (distinctness preserved, only the comments quota
+  // breaks).
+  const generated = module.buildDiverseWaveCaseSpecs('WAVE_300');
+  const usedKeys = new Set(generated.map((s) => `${s.family}|${s.operationShape}|${s.contentClass}`));
+  const spares = [];
+  for (const family of ['formatting', 'insertion', 'deletion', 'replacement']) {
+    for (const shape of module.FAMILY_SHAPES[family]) {
+      for (const cls of ['plain-text', 'unicode', 'rtl', 'cjk', 'mixed', 'nbsp']) {
+        if (!usedKeys.has(`${family}|${shape}|${cls}`)) spares.push({ family, operationShape: shape, contentClass: cls });
+      }
+    }
+  }
+  let spareIdx = 0;
+  const quotaBroken = generated.map((s) => {
+    if (s.family !== 'comments') return s;
+    const spare = spares[spareIdx++];
+    return { ...s, family: spare.family, operationShape: spare.operationShape, contentClass: spare.contentClass };
+  });
+  const cases300 = quotaBroken.map((s, i) => ({ ...passWaveCase('WAVE_300', i), ordinal: i + 1, family: s.family, operationShape: s.operationShape, contentClass: s.contentClass }));
+  assert.throws(() => module.buildRungReceipt(plan300, {
+    rung: 'WAVE_300', headSha: 'a'.repeat(40), originMainSha: 'a'.repeat(40),
+    wordProfile: {}, cases: cases300, artifactRoot: '/x', caseSpecs: quotaBroken,
+  }), /RTK_PHYS_DIVERSITY_ORACLE_REQUIRED/u, 'quota-violating specs must never seal the 300 wave');
+});
+
+// E02: every wave receipt case carries family/shape/class (manifest binding
+// surface for the audit).
+test('PHYS01-E02-receipt-cases-carry-family-fields', async () => {
+  const module = await loadModule();
+  const plan = module.buildRungPlan('WAVE_10');
+  const specs = module.buildDiverseWaveCaseSpecs('WAVE_300').slice(0, 10).map((s, i) => ({ ...s, ordinal: i + 1 }));
+  const cases = specs.map((s, i) => ({ ...passWaveCase('WAVE_10', i), ordinal: i + 1, family: s.family, operationShape: s.operationShape, contentClass: s.contentClass }));
+  const receipt = module.buildRungReceipt(plan, { rung: 'WAVE_10', headSha: 'a'.repeat(40), originMainSha: 'a'.repeat(40), wordProfile: {}, cases, artifactRoot: '/x', caseSpecs: specs });
+  for (const c of receipt.cases) {
+    assert.ok(module.OPERATION_FAMILIES.includes(c.family), `case ${c.caseId} family bound`);
+    assert.ok(typeof c.operationShape === 'string' && typeof c.contentClass === 'string', 'shape/class present');
+  }
+});
+
+// E03: the repeat plan replays the first wave's manifest and verifies the
+// binding before any physical step.
+test('PHYS01-E03-repeat-plan-binds-first-wave-manifest', async () => {
+  const module = await loadModule();
+  const specs = module.buildDiverseWaveCaseSpecs('WAVE_300');
+  const manifest = module.buildCaseManifest(specs);
+  const firstWaveReceipt = { rung: 'WAVE_300', caseManifest: manifest, manifestDigest: manifest.manifestDigest };
+  const plan = module.buildRepeatPlan(firstWaveReceipt);
+  assert.equal(plan.specs.length, 300);
+  assert.equal(plan.manifestDigest, manifest.manifestDigest, 'the repeat plan binds the first wave digest');
+
+  const tampered = JSON.parse(JSON.stringify(firstWaveReceipt));
+  tampered.caseManifest.cases[4] = { ...tampered.caseManifest.cases[4], family: 'crash' };
+  assert.throws(() => module.buildRepeatPlan(tampered), /RTK_PHYS_REPEAT_MANIFEST_MISMATCH/u, 'a tampered first-wave manifest must refuse the repeat plan');
+
+  const noManifest = { rung: 'WAVE_300' };
+  assert.throws(() => module.buildRepeatPlan(noManifest), /RTK_PHYS_REPEAT_MANIFEST_MISMATCH/u, 'a first wave without a manifest refuses the repeat plan');
+});
+
+// E04: per-family script builders embed the family-specific Word operation.
+test('PHYS01-E04-family-script-idioms', async () => {
+  const module = await loadModule();
+  const markers = {
+    replacement: 'set content of (create range',
+    deletion: 'set content of (create range',
+    insertion: 'set content of (create range',
+    'duplicate-anchors': 'set content of (create range',
+    comments: 'make new Word comment',
+    formatting: 'set bold of font object',
+    'structural-boundaries': 'set content of (create range',
+    unicode: 'set content of (create range',
+    rtl: 'set content of (create range',
+    cjk: 'set content of (create range',
+  };
+  for (const family of Object.keys(markers)) {
+    const spec = module.buildDiverseWaveCaseSpecs('WAVE_300').find((s) => s.family === family);
+    const script = module.buildFamilyWordScriptForTest('case.docx', '/tmp/case.docx', spec);
+    assert.ok(script.includes(markers[family]), `family ${family} script must embed ${JSON.stringify(markers[family])}`);
+    assert.ok(!script.includes('set end of content of text object'), `${family} must never emit the invalid statement`);
+    assert.ok(!script.includes('count of content of text object of yDoc'), `${family} must never count the live text object`);
+  }
+  for (const family of ['stale', 'replay', 'tamper', 'crash']) {
+    const spec = module.buildDiverseWaveCaseSpecs('WAVE_300').find((s) => s.family === family);
+    const plan = module.buildProbeCasePlanForTest(spec);
+    assert.equal(plan.requiresWordEdit, false, `${family} is a runner-level probe, not a Word edit`);
+  }
+});
+
+// E05: evaluateSaturationAudit(null) fails typed, never throws (round-4 hygiene).
+test('PHYS01-E05-audit-null-typed', async () => {
+  const module = await loadModule();
+  const r = module.evaluateSaturationAudit(null);
+  assert.equal(r.ok, false);
+  assert.ok(typeof r.code === 'string' && r.code.startsWith('RTK_PHYS_'), 'typed failure on null input');
+});
+
+// E06: the wave-cycle plan carries the diverse specs builder (the append-only
+// generator is no longer the wave source).
+test('PHYS01-E06-wave-cycle-uses-diverse-specs', async () => {
+  const module = await loadModule();
+  const plan = module.buildRungPlan('WAVE_40');
+  assert.equal(plan.executor, 'wave-cycle');
+  const specs = module.buildWaveCaseSpecs('WAVE_40');
+  // Small waves satisfy the quota-free oracle (distinct + vocabulary); the
+  // 300-denominator wave satisfies the full oracle with quotas.
+  const verdict = module.evaluateDiversityOracle(specs, { requireQuotas: false });
+  assert.equal(verdict.ok, true, 'small-wave specs must be distinct in-vocabulary forms by construction');
+  const full = module.evaluateDiversityOracle(module.buildWaveCaseSpecs('WAVE_300'));
+  assert.equal(full.ok, true, 'the 300-wave specs must satisfy the full quota oracle by construction');
+});
+
+// P37 (DIVERSITY-02): a diversity-proven scope without an embedded manifest is
+// an empty assertion and invalid; the repeat accepts either the restricted
+// append scope or the diversity-proven scope.
+test('PHYS01-P37-diverse-scope-requires-manifest', async () => {
+  const module = await loadModule();
+  const plan = module.buildRungPlan('WAVE_40');
+  const specs = module.buildWaveCaseSpecs('WAVE_40');
+  const cases = specs.map((s, i) => ({ ...passWaveCase('WAVE_40', i), ordinal: i + 1, family: s.family, operationShape: s.operationShape, contentClass: s.contentClass }));
+  const receipt = module.buildRungReceipt(plan, { rung: 'WAVE_40', headSha: 'a'.repeat(40), originMainSha: 'a'.repeat(40), wordProfile: {}, cases, artifactRoot: '/x', caseSpecs: specs });
+  assert.equal(receipt.claimScope, 'DIVERSE_FAMILY_WAVE_PROVEN');
+  const valid = module.validateRungReceipt(plan, receipt);
+  assert.equal(valid.ok, true, `diverse receipt with manifest validates: ${JSON.stringify(valid.reasons)}`);
+
+  const stripped = JSON.parse(JSON.stringify(receipt));
+  delete stripped.caseManifest;
+  const invalid = module.validateRungReceipt(plan, stripped);
+  assert.equal(invalid.ok, false, 'diverse scope without the embedded manifest is invalid');
+  assert.equal(invalid.code, 'RTK_PHYS_RECEIPT_INVALID');
+});

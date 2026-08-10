@@ -9836,12 +9836,12 @@
     },
     {
       "filePath": "docs/CONTEXT.md",
-      "sha256": "04f499d5fcf80d9d4b64eeb292c823131a9285269033e66f5479103fca39a235",
-      "approvedBy": "owner-direct:TASK_ID:DIVERSITY01D_AUDIT_REPAIR",
-      "approvedAtUtc": "2026-08-10T20:33:30.352Z",
-      "rationale": "Approve additive docs/CONTEXT.md bytes recording the DIVERSITY-01D repairs.",
+      "sha256": "1bd4d2fe99fa83dd5a8020957b7031e08fb85961c905cbdac1f839bcba7f6c54",
+      "approvedBy": "owner-direct:TASK_ID:DIVERSITY02_FAMILY_EXECUTORS",
+      "approvedAtUtc": "2026-08-10T21:07:33.013Z",
+      "rationale": "Approve additive docs/CONTEXT.md bytes recording the DIVERSITY-02 production wiring; no physical run executed.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_DIVERSITY01D_REPAIR"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_DIVERSITY02_EXECUTORS"
     },
     {
       "filePath": "test/contracts/rtk-multi01-multi-scene-scope-blocked.contract.test.js",
@@ -9935,21 +9935,21 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-phys-ladder-16-111-3.mjs",
-      "sha256": "10930431058e1e1b80c82fa36d2e89004bd7e924fc066b59812908a8080dba05",
-      "approvedBy": "owner-direct:TASK_ID:DIVERSITY01D_AUDIT_REPAIR",
-      "approvedAtUtc": "2026-08-10T20:33:30.352Z",
-      "rationale": "Approve the DIVERSITY-01D repairs: full seal law per rung inside the audit, counters/cases cross-check, ordinal binding, small-wave embedded-manifest law with vocabulary and distinctness, typed non-array manifest entries.",
+      "sha256": "9cf24077fd628c2a2a9b34af5d9d9736de65b47fc43c95eb9b0147a2eca1189c",
+      "approvedBy": "owner-direct:TASK_ID:DIVERSITY02_FAMILY_EXECUTORS",
+      "approvedAtUtc": "2026-08-10T21:28:33.804Z",
+      "rationale": "Approve the DIVERSITY-02 follow-up: per-family dispatch in the wave executor, repeat manifest replay wiring in main(), repeat digest binding at receipt build, and the diverse-scope-requires-manifest validator law with P37.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_DIVERSITY01D_REPAIR"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_DIVERSITY02_EXECUTORS"
     },
     {
       "filePath": "test/contracts/rtk-phys01-ladder-runner.contract.test.js",
-      "sha256": "992fa5f50a853ca32a91b5157478446fa16b0a323ec30e7fe6239ae83482179f",
-      "approvedBy": "owner-direct:TASK_ID:DIVERSITY01D_AUDIT_REPAIR",
-      "approvedAtUtc": "2026-08-10T20:33:30.352Z",
-      "rationale": "Approve the DIVERSITY-01D pins P34-P36 plus the auditReadySet small-wave manifests and ordinal-carrying cases; mutations GM1-GM5 killed.",
+      "sha256": "aef541c66240b9941d9fa2dff2b8dab27200e79eb31514eba4d1f17889cd5efc",
+      "approvedBy": "owner-direct:TASK_ID:DIVERSITY02_FAMILY_EXECUTORS",
+      "approvedAtUtc": "2026-08-10T21:28:33.804Z",
+      "rationale": "Approve the DIVERSITY-02 follow-up: per-family dispatch in the wave executor, repeat manifest replay wiring in main(), repeat digest binding at receipt build, and the diverse-scope-requires-manifest validator law with P37.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_DIVERSITY01D_REPAIR"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_DIVERSITY02_EXECUTORS"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_MAC_16_111_3_CARRIER_SURVIVAL_SMOKE_RECEIPT.json",

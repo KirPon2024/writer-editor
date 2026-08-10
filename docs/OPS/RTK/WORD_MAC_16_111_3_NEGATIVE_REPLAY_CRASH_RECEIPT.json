@@ -1,0 +1,166 @@
+{
+  "schema": "yalken.rtk.word-mac-16-111-3.negative-replay-crash-receipt.v1",
+  "profileId": "word-mac-16.111.3-26080215",
+  "rung": "NEGATIVE_REPLAY_CRASH_SUBSET",
+  "status": "PHYSICAL_NEGATIVE_PROBES_PASS",
+  "headSha": "7e876c84cd8f93b8b283a4015e8244406a3a32e3",
+  "originMainSha": "7e876c84cd8f93b8b283a4015e8244406a3a32e3",
+  "wordProfile": {
+    "appPath": "/Applications/Microsoft Word.app",
+    "versionByBundle": "16.111.3",
+    "buildByBundle": "16.111.26080215",
+    "versionByAppleScript": "16.111.3",
+    "macosVersion": "26.5.2",
+    "macosBuild": "25F84",
+    "locale": "ru_FI"
+  },
+  "artifactRoot": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/phys-16-111-3/phys-negative-replay-crash-subset-20260810T140817",
+  "counters": {
+    "total": 8,
+    "passed": 8,
+    "failed": 0
+  },
+  "cases": [
+    {
+      "caseId": "negative-probe-01-duplicate-digest-replay",
+      "ordinal": 1,
+      "probeId": "duplicate-digest-replay",
+      "detected": true,
+      "wordStatus": "PASS",
+      "openEditSaveCloseReopen": "PASS",
+      "readbackContainsSentinel": true,
+      "readbackContainsInsertion": true,
+      "wordRevisionCount": 1,
+      "carrierDigests": [
+        "sha256:7fc61e664b1d6102404c74486db36de66aa7fa3c8be0f2db090e3b8604ad50c3",
+        "sha256:e3d022f5d5b459641f7d29eeccf0cb8d254975ee85eae7a7fa8c6195169d7768"
+      ],
+      "sourceDocxSha256": "sha256:d126af439333862ff9678de9f75c8954bce9fe75578f15f71e6e14081c1a2e2b",
+      "returnedDocxSha256": "sha256:7fc61e664b1d6102404c74486db36de66aa7fa3c8be0f2db090e3b8604ad50c3"
+    },
+    {
+      "caseId": "negative-probe-02-tampered-package-crc",
+      "ordinal": 2,
+      "probeId": "tampered-package-crc",
+      "detected": true,
+      "wordStatus": "PASS",
+      "openEditSaveCloseReopen": "PASS",
+      "readbackContainsSentinel": true,
+      "readbackContainsInsertion": true,
+      "wordRevisionCount": 1,
+      "carrierDigests": [
+        "sha256:7fc61e664b1d6102404c74486db36de66aa7fa3c8be0f2db090e3b8604ad50c3",
+        "sha256:e3d022f5d5b459641f7d29eeccf0cb8d254975ee85eae7a7fa8c6195169d7768"
+      ],
+      "sourceDocxSha256": "sha256:d126af439333862ff9678de9f75c8954bce9fe75578f15f71e6e14081c1a2e2b",
+      "returnedDocxSha256": "sha256:7fc61e664b1d6102404c74486db36de66aa7fa3c8be0f2db090e3b8604ad50c3"
+    },
+    {
+      "caseId": "negative-probe-03-stale-head-binding",
+      "ordinal": 3,
+      "probeId": "stale-head-binding",
+      "detected": true,
+      "wordStatus": "PASS",
+      "openEditSaveCloseReopen": "PASS",
+      "readbackContainsSentinel": true,
+      "readbackContainsInsertion": true,
+      "wordRevisionCount": 1,
+      "carrierDigests": [
+        "sha256:7fc61e664b1d6102404c74486db36de66aa7fa3c8be0f2db090e3b8604ad50c3",
+        "sha256:e3d022f5d5b459641f7d29eeccf0cb8d254975ee85eae7a7fa8c6195169d7768"
+      ],
+      "sourceDocxSha256": "sha256:d126af439333862ff9678de9f75c8954bce9fe75578f15f71e6e14081c1a2e2b",
+      "returnedDocxSha256": "sha256:7fc61e664b1d6102404c74486db36de66aa7fa3c8be0f2db090e3b8604ad50c3"
+    },
+    {
+      "caseId": "negative-probe-04-crash-partial-no-seal",
+      "ordinal": 4,
+      "probeId": "crash-partial-no-seal",
+      "detected": true,
+      "wordStatus": "PASS",
+      "openEditSaveCloseReopen": "PASS",
+      "readbackContainsSentinel": true,
+      "readbackContainsInsertion": true,
+      "wordRevisionCount": 1,
+      "carrierDigests": [
+        "sha256:7fc61e664b1d6102404c74486db36de66aa7fa3c8be0f2db090e3b8604ad50c3",
+        "sha256:e3d022f5d5b459641f7d29eeccf0cb8d254975ee85eae7a7fa8c6195169d7768"
+      ],
+      "sourceDocxSha256": "sha256:d126af439333862ff9678de9f75c8954bce9fe75578f15f71e6e14081c1a2e2b",
+      "returnedDocxSha256": "sha256:7fc61e664b1d6102404c74486db36de66aa7fa3c8be0f2db090e3b8604ad50c3"
+    },
+    {
+      "caseId": "negative-probe-05-cross-profile-receipt",
+      "ordinal": 5,
+      "probeId": "cross-profile-receipt",
+      "detected": true,
+      "wordStatus": "PASS",
+      "openEditSaveCloseReopen": "PASS",
+      "readbackContainsSentinel": true,
+      "readbackContainsInsertion": true,
+      "wordRevisionCount": 1,
+      "carrierDigests": [
+        "sha256:7fc61e664b1d6102404c74486db36de66aa7fa3c8be0f2db090e3b8604ad50c3",
+        "sha256:e3d022f5d5b459641f7d29eeccf0cb8d254975ee85eae7a7fa8c6195169d7768"
+      ],
+      "sourceDocxSha256": "sha256:d126af439333862ff9678de9f75c8954bce9fe75578f15f71e6e14081c1a2e2b",
+      "returnedDocxSha256": "sha256:7fc61e664b1d6102404c74486db36de66aa7fa3c8be0f2db090e3b8604ad50c3"
+    },
+    {
+      "caseId": "negative-probe-06-counter-tamper",
+      "ordinal": 6,
+      "probeId": "counter-tamper",
+      "detected": true,
+      "wordStatus": "PASS",
+      "openEditSaveCloseReopen": "PASS",
+      "readbackContainsSentinel": true,
+      "readbackContainsInsertion": true,
+      "wordRevisionCount": 1,
+      "carrierDigests": [
+        "sha256:7fc61e664b1d6102404c74486db36de66aa7fa3c8be0f2db090e3b8604ad50c3",
+        "sha256:e3d022f5d5b459641f7d29eeccf0cb8d254975ee85eae7a7fa8c6195169d7768"
+      ],
+      "sourceDocxSha256": "sha256:d126af439333862ff9678de9f75c8954bce9fe75578f15f71e6e14081c1a2e2b",
+      "returnedDocxSha256": "sha256:7fc61e664b1d6102404c74486db36de66aa7fa3c8be0f2db090e3b8604ad50c3"
+    },
+    {
+      "caseId": "negative-probe-07-unknown-rung-receipt",
+      "ordinal": 7,
+      "probeId": "unknown-rung-receipt",
+      "detected": true,
+      "wordStatus": "PASS",
+      "openEditSaveCloseReopen": "PASS",
+      "readbackContainsSentinel": true,
+      "readbackContainsInsertion": true,
+      "wordRevisionCount": 1,
+      "carrierDigests": [
+        "sha256:7fc61e664b1d6102404c74486db36de66aa7fa3c8be0f2db090e3b8604ad50c3",
+        "sha256:e3d022f5d5b459641f7d29eeccf0cb8d254975ee85eae7a7fa8c6195169d7768"
+      ],
+      "sourceDocxSha256": "sha256:d126af439333862ff9678de9f75c8954bce9fe75578f15f71e6e14081c1a2e2b",
+      "returnedDocxSha256": "sha256:7fc61e664b1d6102404c74486db36de66aa7fa3c8be0f2db090e3b8604ad50c3"
+    },
+    {
+      "caseId": "negative-probe-08-cross-build-evidence-join",
+      "ordinal": 8,
+      "probeId": "cross-build-evidence-join",
+      "detected": true,
+      "wordStatus": "PASS",
+      "openEditSaveCloseReopen": "PASS",
+      "readbackContainsSentinel": true,
+      "readbackContainsInsertion": true,
+      "wordRevisionCount": 1,
+      "carrierDigests": [
+        "sha256:7fc61e664b1d6102404c74486db36de66aa7fa3c8be0f2db090e3b8604ad50c3",
+        "sha256:e3d022f5d5b459641f7d29eeccf0cb8d254975ee85eae7a7fa8c6195169d7768"
+      ],
+      "sourceDocxSha256": "sha256:d126af439333862ff9678de9f75c8954bce9fe75578f15f71e6e14081c1a2e2b",
+      "returnedDocxSha256": "sha256:7fc61e664b1d6102404c74486db36de66aa7fa3c8be0f2db090e3b8604ad50c3"
+    }
+  ],
+  "nonClaims": [
+    "This receipt is evidence for the word-mac-16.111.3-26080215 profile only.",
+    "No compatibility with the current Word build is claimed by this rung.",
+    "No saturation, no terminal pass and no user-facing claim follows."
+  ]
+}

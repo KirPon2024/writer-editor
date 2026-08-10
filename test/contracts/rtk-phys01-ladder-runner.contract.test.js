@@ -237,6 +237,10 @@ function sealedWaveReceipt(rung, count, overrides = {}) {
     rung,
     status: 'PHYSICAL_WAVE_PASS',
     headSha: 'a'.repeat(40),
+    // PHYS-10: the audit hard-gates diversity — fixtures for the audit laws
+    // carry the diversity-proven scope by default so P16-P20 isolate their own
+    // dimension (wave-missing / profile / veto / false-saturation).
+    claimScope: 'DIVERSE_FAMILY_WAVE_PROVEN',
     counters: { total: count, passed: count, failed: 0 },
     cases: Array.from({ length: count }, (_, i) => passWaveCase(rung, i)),
     ...overrides,
@@ -617,4 +621,75 @@ test('PHYS01-P30-negative-denominator-law', async () => {
   assert.equal(module.evaluateRungCases('NEGATIVE_REPLAY_CRASH_SUBSET', undetected).code, 'RTK_PHYS_CASE_FAILURES_PRESENT', 'an undetected probe never seals');
   const carrierDown = ids.map((id) => probeCase(id, true, false));
   assert.equal(module.evaluateRungCases('NEGATIVE_REPLAY_CRASH_SUBSET', carrierDown).code, 'RTK_PHYS_CASE_FAILURES_PRESENT', 'probes without the physical carrier proof never seal');
+});
+
+// ===========================================================================
+// PHYS-10 — owner ruling: the completed WAVE_300_REPEAT is append-cycle
+// stability repeat evidence ONLY. It is not semantic diversity, not feature
+// coverage, not saturation and not terminal Word evidence. The repeat receipt
+// must carry the exact claim scope; the saturation audit fail-closes on
+// append-only or scope-missing wave receipts until the diverse-family waves
+// exist (DIVERSITY-01).
+// ===========================================================================
+
+// P31: the repeat receipt is invalid without the exact restricted claim scope.
+test('PHYS01-P31-repeat-scope-enforced', async () => {
+  const module = await loadModule();
+  const plan = module.buildRungPlan('WAVE_300_REPEAT');
+  const cases = Array.from({ length: 300 }, (_, i) => passWaveCase('WAVE_300_REPEAT', i));
+  const receipt = module.buildRungReceipt(plan, {
+    rung: 'WAVE_300_REPEAT',
+    headSha: 'a'.repeat(40),
+    originMainSha: 'a'.repeat(40),
+    wordProfile: {},
+    cases,
+    artifactRoot: '/x',
+  });
+  assert.equal(receipt.claimScope, 'APPEND_CYCLE_STABILITY_REPEAT_ONLY', 'the builder stamps the restricted scope');
+  const valid = module.validateRungReceipt(plan, receipt);
+  assert.equal(valid.ok, true, `scoped repeat receipt validates: ${JSON.stringify(valid.reasons)}`);
+
+  const stripped = JSON.parse(JSON.stringify(receipt));
+  delete stripped.claimScope;
+  const noScope = module.validateRungReceipt(plan, stripped);
+  assert.equal(noScope.ok, false, 'a repeat receipt without claimScope is invalid');
+  assert.equal(noScope.code, 'RTK_PHYS_RECEIPT_INVALID');
+
+  const widened = JSON.parse(JSON.stringify(receipt));
+  widened.claimScope = 'SEMANTIC_DIVERSITY_EVIDENCE';
+  const wrongScope = module.validateRungReceipt(plan, widened);
+  assert.equal(wrongScope.ok, false, 'a wider scope on the repeat receipt is invalid');
+  assert.equal(wrongScope.code, 'RTK_PHYS_RECEIPT_INVALID');
+});
+
+// P32: the saturation audit fail-closes on append-only or scope-missing wave
+// receipts — diversity is a hard gate, not a note.
+test('PHYS01-P32-audit-diversity-gate', async () => {
+  const module = await loadModule();
+  const makeSet = (scope) => {
+    const receipts = {};
+    for (const [rung, count] of [['WAVE_10', 10], ['WAVE_40', 40], ['WAVE_100', 100], ['WAVE_300', 300], ['WAVE_300_REPEAT', 300]]) {
+      receipts[rung] = sealedWaveReceipt(rung, count);
+      if (scope === undefined) delete receipts[rung].claimScope;
+      else receipts[rung].claimScope = scope;
+    }
+    return receipts;
+  };
+  const missing = module.evaluateSaturationAudit({ receiptsByRung: makeSet(undefined) });
+  assert.equal(missing.ok, false, 'scope-missing receipts must fail the audit');
+  assert.equal(missing.code, 'RTK_PHYS_AUDIT_DIVERSITY_MISSING');
+
+  const appendOnly = module.evaluateSaturationAudit({ receiptsByRung: makeSet('APPEND_CYCLE_STABILITY_ONLY') });
+  assert.equal(appendOnly.ok, false, 'append-only receipts must fail the audit');
+  assert.equal(appendOnly.code, 'RTK_PHYS_AUDIT_DIVERSITY_MISSING');
+
+  const repeatScoped = module.evaluateSaturationAudit({ receiptsByRung: makeSet('APPEND_CYCLE_STABILITY_REPEAT_ONLY') });
+  assert.equal(repeatScoped.ok, false, 'repeat-scoped receipts must fail the audit');
+
+  const diverse = makeSet('DIVERSE_FAMILY_WAVE_PROVEN');
+  // The repeat receipt of a diverse set repeats the first wave's manifest — the
+  // audit checks the repeat binds the same manifest digest.
+  const result = module.evaluateSaturationAudit({ receiptsByRung: diverse });
+  assert.equal(result.ok, true, `diversity-proven receipts must audit: ${JSON.stringify(result.reasons)}`);
+  assert.equal(result.status, 'COMPLETE_NOT_SATURATED');
 });

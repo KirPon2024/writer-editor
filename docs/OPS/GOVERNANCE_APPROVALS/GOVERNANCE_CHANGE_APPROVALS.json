@@ -9836,12 +9836,12 @@
     },
     {
       "filePath": "docs/CONTEXT.md",
-      "sha256": "156ea4d3c6220a7f2dc262eb82cd54b5431f5c1d6615dea9674b0644cecdebf8",
-      "approvedBy": "owner-direct:TASK_ID:PHYS09_WAVE300_EVIDENCE_16_111_3",
-      "approvedAtUtc": "2026-08-10T17:33:05.874Z",
-      "rationale": "Approve additive docs/CONTEXT.md bytes recording the PHYS-09 sealed wave-300 including the interrupted first attempt and honest rerun; terminal claim remains NOT_MADE.",
+      "sha256": "fe05f027c983f1b67da693016fd843dc54eca84ad3e2246d4f96f34ffccfb7b1",
+      "approvedBy": "owner-direct:TASK_ID:PHYS10_REPEAT_SCOPE_TYPING",
+      "approvedAtUtc": "2026-08-10T18:31:12.454Z",
+      "rationale": "Approve additive docs/CONTEXT.md bytes recording the PHYS-10 scope typing per the owner diversity ruling; terminal claim remains NOT_MADE.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS09_WAVE300_EVIDENCE"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS10_SCOPE_TYPING"
     },
     {
       "filePath": "test/contracts/rtk-multi01-multi-scene-scope-blocked.contract.test.js",
@@ -9854,30 +9854,30 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_BUILD_PROFILE_REGISTRY_V1.json",
-      "sha256": "672d662e7482703a94c9935963964dadf25e84f6326eb8cbbf79ca3468555bb3",
-      "approvedBy": "owner-direct:TASK_ID:PHYS09_WAVE300_EVIDENCE_16_111_3",
-      "approvedAtUtc": "2026-08-10T17:33:05.874Z",
-      "rationale": "Approve the PHYS-09 evidence attachment: the WAVE_300 receipt head (sha256-pinned) and the WAVE_300 rung earned for word-mac-16.111.3-26080215 after an honest from-scratch rerun on the unchanged head.",
+      "sha256": "f8b0a282550d3364907d68cddee9cef9d0c6535735b3e03e8c4a82f58f5a9c32",
+      "approvedBy": "owner-direct:TASK_ID:PHYS10_REPEAT_SCOPE_TYPING",
+      "approvedAtUtc": "2026-08-10T18:31:12.454Z",
+      "rationale": "Approve the PHYS-10 registry state: the WAVE_300_REPEAT rung attached with claimScope APPEND_CYCLE_STABILITY_REPEAT_ONLY and all append-only wave heads annotated; saturation audit gated on diversity.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS09_WAVE300_EVIDENCE"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS10_SCOPE_TYPING"
     },
     {
       "filePath": "scripts/ops/rtk-word-build-profiles-v1.mjs",
-      "sha256": "7ce6c3bf6a981afc1a335d5a358741bc05f404f286394787458ccf9238c4868e",
-      "approvedBy": "owner-direct:TASK_ID:LAB02_BUILD_MIGRATION_16_111_3",
-      "approvedAtUtc": "2026-08-09T22:20:29.956Z",
-      "rationale": "Approve LAB-02 additions to the build-profiles evaluator: mandatory currentProfileId pointer reconciliation (must resolve, never HISTORICAL) and saturation-inheritance ban on DECLARED/NOT_PROVEN profiles.",
+      "sha256": "078b1696839293084a0aa9d341642ed4509e891cd7b8635ed627a61eb97aa89f",
+      "approvedBy": "owner-direct:TASK_ID:PHYS10_REPEAT_SCOPE_TYPING",
+      "approvedAtUtc": "2026-08-10T18:31:12.454Z",
+      "rationale": "Approve the PHYS-10 ladder vocabulary extension: WAVE_300_REPEAT is the eighth rung; the saturation audit stays an evaluation, not a rung.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_LAB02_BUILD_MIGRATION"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS10_SCOPE_TYPING"
     },
     {
       "filePath": "test/contracts/rtk-lab01-build-bound-profiles.contract.test.js",
-      "sha256": "aff63cfbd5850603516d49960b7d7fb53cbcfdd832199fb05499b7c757a51acd",
-      "approvedBy": "owner-direct:TASK_ID:PHYS08_WAVE100_EVIDENCE_16_111_3",
-      "approvedAtUtc": "2026-08-10T15:20:10.435Z",
-      "rationale": "Approve the PHYS-08 sanctioned L2-06 boundary fix: with fewer than two unearned rungs the bypass probe uses a fabricated gap clone (skipping ahead of the earned prefix still bypass-blocks).",
+      "sha256": "3d2284848fc6fdc236d88b250de7bbef4f4fd5ad5630de675b821b3c77f2e9df",
+      "approvedBy": "owner-direct:TASK_ID:PHYS10_REPEAT_SCOPE_TYPING",
+      "approvedAtUtc": "2026-08-10T18:31:12.454Z",
+      "rationale": "Approve the PHYS-10 ladder vocabulary pin (eight rungs) and the rung-agnostic probe adjustments.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS08_WAVE100_EVIDENCE"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS10_SCOPE_TYPING"
     },
     {
       "filePath": "docs/OPS/RTK/GOOGLE_BUILD_PROFILE_REGISTRY_V1.json",
@@ -9935,21 +9935,21 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-phys-ladder-16-111-3.mjs",
-      "sha256": "e45aa5a2f2af3cc7cab8d56c7ee89fb9a77421315b1d7d59be1ecb89ead9ef68",
-      "approvedBy": "owner-direct:TASK_ID:PHYS04C_NEGATIVE_DENOMINATOR",
-      "approvedAtUtc": "2026-08-10T09:47:29.977Z",
-      "rationale": "Approve the PHYS-04C denominator repair: the negative rung seals on its eight probe cases, each requiring a real detection plus passing physical carriers.",
+      "sha256": "2fa8d016cb96c6fb671797e023a366a68e272333325282da0cd28da9e9cde800",
+      "approvedBy": "owner-direct:TASK_ID:PHYS10_REPEAT_SCOPE_TYPING",
+      "approvedAtUtc": "2026-08-10T18:31:12.454Z",
+      "rationale": "Approve the PHYS-10 scope laws: the repeat receipt builder stamps and the validator enforces APPEND_CYCLE_STABILITY_REPEAT_ONLY; the saturation audit hard-gates diversity (RTK_PHYS_AUDIT_DIVERSITY_MISSING).",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS04C_REPAIR"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS10_SCOPE_TYPING"
     },
     {
       "filePath": "test/contracts/rtk-phys01-ladder-runner.contract.test.js",
-      "sha256": "f03da2d6a0da3afc1c743ce50b9a4953e751ff3c87e85420cbe14bcefd10467a",
-      "approvedBy": "owner-direct:TASK_ID:PHYS04C_NEGATIVE_DENOMINATOR",
-      "approvedAtUtc": "2026-08-10T09:47:29.977Z",
-      "rationale": "Approve PHYS01-P30: the negative denominator law (eight detected probes with passing carriers; count, detection and carrier failures typed).",
+      "sha256": "312fd03b37ea41eafb16c29376eff39bd0ebb2895830107cdf15cad7613c7aa5",
+      "approvedBy": "owner-direct:TASK_ID:PHYS10_REPEAT_SCOPE_TYPING",
+      "approvedAtUtc": "2026-08-10T18:31:12.454Z",
+      "rationale": "Approve PHYS01-P31/P32 (repeat scope enforcement, audit diversity gate) plus the audit fixture scope stamping.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS04C_REPAIR"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS10_SCOPE_TYPING"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_MAC_16_111_3_CARRIER_SURVIVAL_SMOKE_RECEIPT.json",
@@ -10013,6 +10013,15 @@
       "rationale": "Approve the PHYS-09 wave-300 receipt: 300/300 physical cases with readback proof and distinct returned digests on Word 16.111.3 build 16.111.26080215 at exact merged SHA 17305103 (honest rerun after an unsealed sleep interruption).",
       "approved": true,
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS09_WAVE300_EVIDENCE"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_MAC_16_111_3_PHYSICAL_WAVE300_REPEAT_RECEIPT.json",
+      "sha256": "934135ff3d5c2d821ef85b538407d59310308697a3a90e5d84a834bc6d18fdaf",
+      "approvedBy": "owner-direct:TASK_ID:PHYS10_REPEAT_SCOPE_TYPING",
+      "approvedAtUtc": "2026-08-10T18:31:12.454Z",
+      "rationale": "Approve the typed repeat receipt: 300/300 append-cycle repeat cases on Word 16.111.3 build 16.111.26080215 at exact merged SHA df026abc, claimScope APPEND_CYCLE_STABILITY_REPEAT_ONLY — never semantic diversity, coverage, saturation or terminal evidence.",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS10_SCOPE_TYPING"
     }
   ]
 }

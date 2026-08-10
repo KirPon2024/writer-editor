@@ -820,6 +820,17 @@ test('LAB01-20-profile-classes-frozen-vocabulary', async () => {
   ], 'profile class vocabulary must be the frozen five-class list');
   assert.equal(Object.isFrozen(module.PROFILE_CLASSES), true, 'PROFILE_CLASSES must be frozen');
   assert.equal(Object.isFrozen(module.LADDER_RUNGS), true, 'LADDER_RUNGS must be frozen');
+  // PHYS-10: the ladder ends with the stability repeat rung.
+  assert.deepEqual([...module.LADDER_RUNGS], [
+    'CARRIER_SURVIVAL_SMOKE',
+    'SEMANTIC_DIFFERENTIAL_SUBSET',
+    'NEGATIVE_REPLAY_CRASH_SUBSET',
+    'WAVE_10',
+    'WAVE_40',
+    'WAVE_100',
+    'WAVE_300',
+    'WAVE_300_REPEAT',
+  ], 'the ladder vocabulary is the frozen eight-rung list');
 });
 
 // ===========================================================================

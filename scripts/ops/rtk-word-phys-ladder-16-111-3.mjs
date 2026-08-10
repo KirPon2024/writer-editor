@@ -178,7 +178,22 @@ export const PHYS_CODES = Object.freeze({
   AUDIT_VETO_NONZERO: 'RTK_PHYS_AUDIT_VETO_NONZERO',
   AUDIT_PROFILE_MISMATCH: 'RTK_PHYS_AUDIT_PROFILE_MISMATCH',
   AUDIT_FALSE_SATURATION: 'RTK_PHYS_AUDIT_FALSE_SATURATION',
+  // PHYS-10 additions (owner ruling): the repeat is append-cycle stability
+  // repeat evidence only; the audit hard-gates diversity.
+  AUDIT_DIVERSITY_MISSING: 'RTK_PHYS_AUDIT_DIVERSITY_MISSING',
 });
+
+// PHYS-10: claim scopes. The append-only waves prove stability of the append
+// cycle at scale — never semantic diversity, feature coverage, saturation or
+// terminal evidence. The diverse-family waves (DIVERSITY-01) will stamp
+// DIVERSE_FAMILY_WAVE_PROVEN after the normalized diversity oracle passes.
+export const APPEND_ONLY_CLAIM_SCOPES = Object.freeze([
+  'APPEND_CYCLE_STABILITY_ONLY',
+  'APPEND_CYCLE_STABILITY_REPEAT_ONLY',
+]);
+export const DIVERSITY_PROVEN_CLAIM_SCOPES = Object.freeze([
+  'DIVERSE_FAMILY_WAVE_PROVEN',
+]);
 
 function reason(code, message) {
   return { code, message };
@@ -440,6 +455,12 @@ export function evaluateSaturationAudit({ receiptsByRung } = {}) {
   for (const rung of AUDIT_REQUIRED_RUNGS) {
     if (receipts[rung].profileId !== PHYS_PROFILE_ID) {
       return { ok: false, status: 'AUDIT_INCOMPLETE', code: PHYS_CODES.AUDIT_PROFILE_MISMATCH, reasons: [reason(PHYS_CODES.AUDIT_PROFILE_MISMATCH, `wave receipt ${rung} names profile ${JSON.stringify(receipts[rung].profileId)}, not ${PHYS_PROFILE_ID}`)] };
+    }
+  }
+  for (const rung of AUDIT_REQUIRED_RUNGS) {
+    const scope = receipts[rung].claimScope;
+    if (!DIVERSITY_PROVEN_CLAIM_SCOPES.includes(scope)) {
+      return { ok: false, status: 'AUDIT_INCOMPLETE', code: PHYS_CODES.AUDIT_DIVERSITY_MISSING, reasons: [reason(PHYS_CODES.AUDIT_DIVERSITY_MISSING, `wave receipt ${rung} carries claimScope ${JSON.stringify(scope)}; the audit requires ${JSON.stringify([...DIVERSITY_PROVEN_CLAIM_SCOPES])} — append-cycle stability evidence never feeds saturation`)] };
     }
   }
   for (const rung of AUDIT_REQUIRED_RUNGS) {
@@ -806,10 +827,14 @@ export function buildRungReceipt(plan, { rung, headSha, originMainSha, wordProfi
     throw new Error(`${PHYS_CODES.CASE_FAILURES_PRESENT}: cannot seal a ${rung} receipt with failed cases`);
   }
   const passed = cases.filter((c) => c.openEditSaveCloseReopen === 'PASS').length;
+  const claimScope = plan.rung === 'WAVE_300_REPEAT'
+    ? 'APPEND_CYCLE_STABILITY_REPEAT_ONLY'
+    : (plan.kind === 'wave' ? 'APPEND_CYCLE_STABILITY_ONLY' : undefined);
   return {
     schema: plan.receiptSchema,
     profileId: PHYS_PROFILE_ID,
     rung,
+    ...(claimScope ? { claimScope } : {}),
     status: plan.kind === 'wave' ? 'PHYSICAL_WAVE_PASS' : (plan.kind === 'semantic' ? 'PHYSICAL_SEMANTIC_DIFFERENTIAL_PASS' : (plan.kind === 'negative' ? 'PHYSICAL_NEGATIVE_PROBES_PASS' : 'PHYSICAL_CARRIER_SURVIVAL_SMOKE_PASS')),
     headSha,
     originMainSha,
@@ -843,6 +868,9 @@ export function validateRungReceipt(plan, receipt, { expectedHeadSha } = {}) {
   if (receipt.schema !== plan.receiptSchema) reasons.push(reason(PHYS_CODES.RECEIPT_INVALID, 'schema mismatch'));
   if (receipt.profileId !== PHYS_PROFILE_ID) reasons.push(reason(PHYS_CODES.RECEIPT_INVALID, 'profileId mismatch'));
   if (receipt.rung !== plan.rung) reasons.push(reason(PHYS_CODES.RECEIPT_INVALID, 'rung mismatch'));
+  if (plan.rung === 'WAVE_300_REPEAT' && receipt.claimScope !== 'APPEND_CYCLE_STABILITY_REPEAT_ONLY') {
+    reasons.push(reason(PHYS_CODES.RECEIPT_INVALID, `repeat receipt claimScope must be exactly APPEND_CYCLE_STABILITY_REPEAT_ONLY, got ${JSON.stringify(receipt.claimScope)}`));
+  }
   const cases = Array.isArray(receipt.cases) ? receipt.cases : [];
   const counters = isPlainObject(receipt.counters) ? receipt.counters : {};
   if (counters.total !== cases.length || counters.passed !== cases.filter((c) => c && c.openEditSaveCloseReopen === 'PASS').length) {

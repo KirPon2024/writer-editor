@@ -241,9 +241,19 @@ function auditReadySet(module) {
     receipts[rung].headSha = 'a'.repeat(40);
   }
   receipts.WAVE_300.caseManifest = manifest;
-  receipts.WAVE_300_REPEAT.caseManifest = manifest;
+  receipts.WAVE_300_REPEAT.caseManifest = JSON.parse(JSON.stringify(manifest));
   receipts.WAVE_300.manifestDigest = manifest.manifestDigest;
   receipts.WAVE_300_REPEAT.manifestDigest = manifest.manifestDigest;
+  // DIVERSITY-01C: cases bind to the embedded manifest per ordinal by default.
+  for (const rung of ['WAVE_300', 'WAVE_300_REPEAT']) {
+    receipts[rung].cases = manifest.cases.map((c, i) => ({
+      ...passWaveCase(rung, i),
+      ordinal: c.ordinal,
+      family: c.family,
+      operationShape: c.operationShape,
+      contentClass: c.contentClass,
+    }));
+  }
   return receipts;
 }
 
@@ -880,17 +890,7 @@ test('PHYS01-D08-audit-recomputes-embedded-manifests', async () => {
   const module = await loadModule();
   const specs = module.buildDiverseWaveCaseSpecs('WAVE_300');
   const manifest = module.buildCaseManifest(specs);
-  const makeSet = () => {
-    const receipts = {};
-    for (const [rung, count] of [['WAVE_10', 10], ['WAVE_40', 40], ['WAVE_100', 100], ['WAVE_300', 300], ['WAVE_300_REPEAT', 300]]) {
-      receipts[rung] = sealedWaveReceipt(rung, count);
-    }
-    receipts.WAVE_300.caseManifest = manifest;
-    receipts.WAVE_300_REPEAT.caseManifest = manifest;
-    receipts.WAVE_300.manifestDigest = manifest.manifestDigest;
-    receipts.WAVE_300_REPEAT.manifestDigest = manifest.manifestDigest;
-    return receipts;
-  };
+  const makeSet = () => auditReadySet(module);
   const ok = module.evaluateSaturationAudit({ receiptsByRung: makeSet() });
   assert.equal(ok.ok, true, `embedded manifests pass: ${JSON.stringify(ok.reasons)}`);
 
@@ -915,18 +915,7 @@ test('PHYS01-D09-audit-cross-checks', async () => {
   const module = await loadModule();
   const specs = module.buildDiverseWaveCaseSpecs('WAVE_300');
   const manifest = module.buildCaseManifest(specs);
-  const makeSet = () => {
-    const receipts = {};
-    for (const [rung, count] of [['WAVE_10', 10], ['WAVE_40', 40], ['WAVE_100', 100], ['WAVE_300', 300], ['WAVE_300_REPEAT', 300]]) {
-      receipts[rung] = sealedWaveReceipt(rung, count);
-      receipts[rung].headSha = 'a'.repeat(40);
-    }
-    receipts.WAVE_300.caseManifest = manifest;
-    receipts.WAVE_300_REPEAT.caseManifest = manifest;
-    receipts.WAVE_300.manifestDigest = manifest.manifestDigest;
-    receipts.WAVE_300_REPEAT.manifestDigest = manifest.manifestDigest;
-    return receipts;
-  };
+  const makeSet = () => auditReadySet(module);
   const ok = module.evaluateSaturationAudit({ receiptsByRung: makeSet() });
   assert.equal(ok.ok, true, `cross-checked set passes: ${JSON.stringify(ok.reasons)}`);
 
@@ -952,16 +941,7 @@ test('PHYS01-D09-audit-cross-checks', async () => {
 test('PHYS01-D10-false-saturation-filter-hardened', async () => {
   const module = await loadModule();
   for (const status of ['saturated', 'Saturated', 'SATURATED', 'NOT_SATURATED;SATURATED', 'SATURATED_NOT']) {
-    const receipts = {};
-    for (const [rung, count] of [['WAVE_10', 10], ['WAVE_40', 40], ['WAVE_100', 100], ['WAVE_300', 300], ['WAVE_300_REPEAT', 300]]) {
-      receipts[rung] = sealedWaveReceipt(rung, count);
-      receipts[rung].headSha = 'a'.repeat(40);
-    }
-    const manifest = module.buildCaseManifest(module.buildDiverseWaveCaseSpecs('WAVE_300'));
-    receipts.WAVE_300.caseManifest = manifest;
-    receipts.WAVE_300_REPEAT.caseManifest = manifest;
-    receipts.WAVE_300.manifestDigest = manifest.manifestDigest;
-    receipts.WAVE_300_REPEAT.manifestDigest = manifest.manifestDigest;
+    const receipts = auditReadySet(module);
     receipts.WAVE_300.status = status;
     const r = module.evaluateSaturationAudit({ receiptsByRung: receipts });
     assert.equal(r.ok, false, `status ${JSON.stringify(status)} must be refused`);
@@ -982,4 +962,64 @@ test('PHYS01-D11-oracle-typed-malformed-and-vocabulary', async () => {
   const r = module.evaluateDiversityOracle(badVocab);
   assert.equal(r.ok, false, 'out-of-vocabulary shape must fail');
   assert.equal(r.code, 'RTK_PHYS_DIVERSITY_VOCABULARY_INVALID');
+});
+
+// ===========================================================================
+// DIVERSITY-01C — second independent audit repairs:
+// 1. the audit re-runs the diversity oracle over the embedded first-wave
+//    manifest (a self-consistent garbage manifest can no longer pass);
+// 2. receipt cases are bound to the embedded manifest per ordinal (family,
+//    shape, class must agree);
+// 3. malformed (null) manifest entries fail typed, never a raw throw.
+// ===========================================================================
+
+test('PHYS01-D12-audit-reruns-oracle-over-manifest', async () => {
+  const module = await loadModule();
+  const set = (() => {
+    const receipts = auditReadySet(module);
+    // Garbage but self-consistent manifest: 300 tamper cases, honest digests.
+    const garbageSpecs = Array.from({ length: 300 }, (_, i) => ({
+      id: `g-${i}`, ordinal: i + 1, family: 'tamper', operationShape: 'tamper-crc-reject', contentClass: 'plain-text',
+    }));
+    const garbage = module.buildCaseManifest(garbageSpecs);
+    receipts.WAVE_300.caseManifest = garbage;
+    receipts.WAVE_300_REPEAT.caseManifest = JSON.parse(JSON.stringify(garbage));
+    receipts.WAVE_300.manifestDigest = garbage.manifestDigest;
+    receipts.WAVE_300_REPEAT.manifestDigest = garbage.manifestDigest;
+    // cases bound to the garbage manifest so only the oracle dimension differs.
+    receipts.WAVE_300.cases = garbage.cases.map((c, i) => ({ ...passWaveCase('WAVE_300', i), ordinal: c.ordinal, family: c.family, operationShape: c.operationShape, contentClass: c.contentClass }));
+    receipts.WAVE_300_REPEAT.cases = garbage.cases.map((c, i) => ({ ...passWaveCase('WAVE_300_REPEAT', i), ordinal: c.ordinal, family: c.family, operationShape: c.operationShape, contentClass: c.contentClass }));
+    return receipts;
+  })();
+  const r = module.evaluateSaturationAudit({ receiptsByRung: set });
+  assert.equal(r.ok, false, 'a quota-violating manifest must fail even with honest digests');
+  assert.equal(r.code, 'RTK_PHYS_AUDIT_DIVERSITY_MISSING');
+});
+
+test('PHYS01-D13-cases-bound-to-manifest', async () => {
+  const module = await loadModule();
+  const receipts = auditReadySet(module);
+  // Rebind the cases of WAVE_300 to its manifest (honest state).
+  const manifest = receipts.WAVE_300.caseManifest;
+  receipts.WAVE_300.cases = manifest.cases.map((c, i) => ({ ...passWaveCase('WAVE_300', i), ordinal: c.ordinal, family: c.family, operationShape: c.operationShape, contentClass: c.contentClass }));
+  receipts.WAVE_300_REPEAT.cases = manifest.cases.map((c, i) => ({ ...passWaveCase('WAVE_300_REPEAT', i), ordinal: c.ordinal, family: c.family, operationShape: c.operationShape, contentClass: c.contentClass }));
+  const ok = module.evaluateSaturationAudit({ receiptsByRung: receipts });
+  assert.equal(ok.ok, true, `bound cases pass: ${JSON.stringify(ok.reasons)}`);
+
+  const lying = JSON.parse(JSON.stringify(receipts));
+  lying.WAVE_300.cases[0] = { ...lying.WAVE_300.cases[0], family: 'crash' };
+  const bad = module.evaluateSaturationAudit({ receiptsByRung: lying });
+  assert.equal(bad.ok, false, 'a case lying about its family against the manifest must fail');
+  assert.equal(bad.code, 'RTK_PHYS_AUDIT_MANIFEST_MISMATCH');
+});
+
+test('PHYS01-D14-null-manifest-entry-typed', async () => {
+  const module = await loadModule();
+  const receipts = auditReadySet(module);
+  const tampered = JSON.parse(JSON.stringify(receipts.WAVE_300_REPEAT.caseManifest));
+  tampered.cases[5] = null;
+  receipts.WAVE_300_REPEAT.caseManifest = tampered;
+  const r = module.evaluateSaturationAudit({ receiptsByRung: receipts });
+  assert.equal(r.ok, false, 'a null manifest entry must fail typed');
+  assert.equal(r.code, 'RTK_PHYS_AUDIT_MANIFEST_MISMATCH');
 });

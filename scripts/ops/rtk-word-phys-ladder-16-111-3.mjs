@@ -484,13 +484,16 @@ export function evaluateSaturationAudit({ receiptsByRung } = {}) {
   };
   const firstRecomputed = recomputeTop(firstManifest);
   const repeatRecomputed = recomputeTop(repeatManifest);
-  const repeatSpecs = (repeatManifest && repeatManifest.cases || []).map((c, i) => ({
+  const repeatManifestCases = (repeatManifest && repeatManifest.cases) || [];
+  const manifestEntriesValid = (m) => Array.isArray(m && m.cases) && m.cases.every((c) => isPlainObject(c)
+    && isVocabString(c.family) && isVocabString(c.operationShape) && isVocabString(c.contentClass));
+  const repeatSpecs = repeatManifestCases.map((c, i) => ({
     ordinal: i + 1,
-    family: c.family,
-    operationShape: c.operationShape,
-    contentClass: c.contentClass,
+    family: c && c.family,
+    operationShape: c && c.operationShape,
+    contentClass: c && c.contentClass,
   }));
-  const binding = firstRecomputed && repeatRecomputed
+  const binding = firstRecomputed && repeatRecomputed && manifestEntriesValid(firstManifest) && manifestEntriesValid(repeatManifest)
     ? evaluateRepeatManifestBinding({ manifest: firstManifest, repeatSpecs })
     : { ok: false };
   if (firstRecomputed === null || repeatRecomputed === null
@@ -499,6 +502,35 @@ export function evaluateSaturationAudit({ receiptsByRung } = {}) {
     || firstRecomputed !== repeatRecomputed
     || binding.ok !== true) {
     return { ok: false, status: 'AUDIT_INCOMPLETE', code: PHYS_CODES.AUDIT_MANIFEST_MISMATCH, reasons: [reason(PHYS_CODES.AUDIT_MANIFEST_MISMATCH, 'wave manifests missing, malformed, divergent or not one-to-one bound')] };
+  }
+
+  // DIVERSITY-01C: the audit re-runs the diversity oracle over the embedded
+  // first-wave manifest — a self-consistent garbage manifest cannot pass.
+  const manifestSpecs = firstManifest.cases.map((c, i) => ({
+    id: `manifest-case-${i + 1}`,
+    ordinal: i + 1,
+    family: c.family,
+    operationShape: c.operationShape,
+    contentClass: c.contentClass,
+  }));
+  const oracleVerdict = evaluateDiversityOracle(manifestSpecs);
+  if (!oracleVerdict.ok) {
+    return { ok: false, status: 'AUDIT_INCOMPLETE', code: PHYS_CODES.AUDIT_DIVERSITY_MISSING, reasons: [reason(PHYS_CODES.AUDIT_DIVERSITY_MISSING, `embedded manifest fails the diversity oracle: ${oracleVerdict.code}`)] };
+  }
+
+  // DIVERSITY-01C: receipt cases bind to the embedded manifest per ordinal
+  // (family/shape/class must agree) for both manifest-carrying rungs.
+  for (const rung of ['WAVE_300', 'WAVE_300_REPEAT']) {
+    const receipt = receipts[rung];
+    const manifestCases = rung === 'WAVE_300' ? firstManifest.cases : repeatManifest.cases;
+    const receiptCases = Array.isArray(receipt.cases) ? receipt.cases : [];
+    const bound = receiptCases.length === manifestCases.length && receiptCases.every((c, i) => {
+      const m = manifestCases[i];
+      return isPlainObject(c) && c.family === m.family && c.operationShape === m.operationShape && c.contentClass === m.contentClass;
+    });
+    if (!bound) {
+      return { ok: false, status: 'AUDIT_INCOMPLETE', code: PHYS_CODES.AUDIT_MANIFEST_MISMATCH, reasons: [reason(PHYS_CODES.AUDIT_MANIFEST_MISMATCH, `receipt ${rung} cases do not bind to the embedded manifest per ordinal`)] };
+    }
   }
   for (const rung of AUDIT_REQUIRED_RUNGS) {
     const scope = receipts[rung].claimScope;

@@ -9836,12 +9836,12 @@
     },
     {
       "filePath": "docs/CONTEXT.md",
-      "sha256": "a9288dd911fcdc62cf38064cf10ffb3d7ff1e4e8bda4485df9e4218bdd1bae28",
-      "approvedBy": "owner-direct:TASK_ID:PHYS08_WAVE100_EVIDENCE_16_111_3",
-      "approvedAtUtc": "2026-08-10T15:18:26.831Z",
-      "rationale": "Approve additive docs/CONTEXT.md bytes recording the PHYS-08 sealed wave-100; terminal claim remains NOT_MADE.",
+      "sha256": "156ea4d3c6220a7f2dc262eb82cd54b5431f5c1d6615dea9674b0644cecdebf8",
+      "approvedBy": "owner-direct:TASK_ID:PHYS09_WAVE300_EVIDENCE_16_111_3",
+      "approvedAtUtc": "2026-08-10T17:33:05.874Z",
+      "rationale": "Approve additive docs/CONTEXT.md bytes recording the PHYS-09 sealed wave-300 including the interrupted first attempt and honest rerun; terminal claim remains NOT_MADE.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS08_WAVE100_EVIDENCE"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS09_WAVE300_EVIDENCE"
     },
     {
       "filePath": "test/contracts/rtk-multi01-multi-scene-scope-blocked.contract.test.js",
@@ -9854,12 +9854,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_BUILD_PROFILE_REGISTRY_V1.json",
-      "sha256": "d65bd5c00129195db65dea99f06f56338a03cf9bcb74c1299078561944aeff3c",
-      "approvedBy": "owner-direct:TASK_ID:PHYS08_WAVE100_EVIDENCE_16_111_3",
-      "approvedAtUtc": "2026-08-10T15:18:26.831Z",
-      "rationale": "Approve the PHYS-08 evidence attachment: the WAVE_100 receipt head (sha256-pinned) and the WAVE_100 rung earned for word-mac-16.111.3-26080215.",
+      "sha256": "672d662e7482703a94c9935963964dadf25e84f6326eb8cbbf79ca3468555bb3",
+      "approvedBy": "owner-direct:TASK_ID:PHYS09_WAVE300_EVIDENCE_16_111_3",
+      "approvedAtUtc": "2026-08-10T17:33:05.874Z",
+      "rationale": "Approve the PHYS-09 evidence attachment: the WAVE_300 receipt head (sha256-pinned) and the WAVE_300 rung earned for word-mac-16.111.3-26080215 after an honest from-scratch rerun on the unchanged head.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS08_WAVE100_EVIDENCE"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS09_WAVE300_EVIDENCE"
     },
     {
       "filePath": "scripts/ops/rtk-word-build-profiles-v1.mjs",
@@ -10004,6 +10004,15 @@
       "rationale": "Approve the PHYS-08 wave-100 receipt: 100/100 physical cases with readback proof and distinct returned digests on Word 16.111.3 build 16.111.26080215 at exact merged SHA 19081471.",
       "approved": true,
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS08_WAVE100_EVIDENCE"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_MAC_16_111_3_PHYSICAL_WAVE300_RECEIPT.json",
+      "sha256": "ac759bd7ce80de80423810fb98bccdc3ee58fef765717bbbcf9c7a19e3546fa4",
+      "approvedBy": "owner-direct:TASK_ID:PHYS09_WAVE300_EVIDENCE_16_111_3",
+      "approvedAtUtc": "2026-08-10T17:33:05.874Z",
+      "rationale": "Approve the PHYS-09 wave-300 receipt: 300/300 physical cases with readback proof and distinct returned digests on Word 16.111.3 build 16.111.26080215 at exact merged SHA 17305103 (honest rerun after an unsealed sleep interruption).",
+      "approved": true,
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS09_WAVE300_EVIDENCE"
     }
   ]
 }

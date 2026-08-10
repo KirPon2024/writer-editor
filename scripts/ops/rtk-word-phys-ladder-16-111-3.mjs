@@ -468,6 +468,10 @@ function appleLiteral(value) {
   return `"${String(value).replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`;
 }
 
+export function buildSmokeWordScriptForTest(expectedName, returnedPath, sentinel, insertion) {
+  return buildSmokeWordScript(expectedName, returnedPath, sentinel, insertion);
+}
+
 function buildSmokeWordScript(expectedName, returnedPath, sentinel, insertion) {
   const returnedPathLiteral = appleLiteral(returnedPath);
   return [
@@ -500,8 +504,9 @@ function buildSmokeWordScript(expectedName, returnedPath, sentinel, insertion) {
     `  if yInitialText does not contain ${appleLiteral(sentinel)} then error "PHYS_OPEN_CONTENT_MISMATCH" number 9701`,
     '  set track revisions of yDoc to true',
     '  set show revisions of yDoc to true',
-    `  set end of content of text object of yDoc to (count of content of text object of yDoc)`,
-    `  set content of (create range yDoc start ((count of content of text object of yDoc) - 1) end (count of content of text object of yDoc)) to (content of (create range yDoc start ((count of content of text object of yDoc) - 1) end (count of content of text object of yDoc))) & ${appleLiteral(insertion)}`,
+    '  set yTextLen to count of content of text object of yDoc',
+    '  set yTail to content of (create range yDoc start (yTextLen - 1) end yTextLen)',
+    `  set content of (create range yDoc start (yTextLen - 1) end yTextLen) to (yTail & ${appleLiteral(insertion)})`,
     '  save yDoc',
     '  close yDoc saving yes',
     '  set yDocWasOpened to false',

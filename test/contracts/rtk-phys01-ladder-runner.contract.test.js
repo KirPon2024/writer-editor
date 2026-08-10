@@ -404,3 +404,22 @@ test('PHYS01-P20-audit-false-saturation', async () => {
   assert.equal(result.ok, false);
   assert.equal(result.code, 'RTK_PHYS_AUDIT_FALSE_SATURATION');
 });
+
+// ===========================================================================
+// PHYS-01C — physical execution found a defect the hermetic tests could not:
+// the first smoke run on Word 16.111.3 failed all 12 cases with AppleScript
+// error -10006 because the generated script contained an invalid
+// `set end of content of text object ...` statement. The fix uses the proven
+// create-range append idiom. This scenario pins the generated-script contract
+// so the invalid statement can never return.
+// ===========================================================================
+
+test('PHYS01-P21-generated-word-script-contract', async () => {
+  const module = await loadModule();
+  assert.equal(typeof module.buildSmokeWordScriptForTest, 'function', 'the script builder must be exposed for the contract');
+  const script = module.buildSmokeWordScriptForTest('case.docx', '/tmp/case.docx', 'SENTINEL_X', ' INSERT_Y');
+  assert.ok(!script.includes('set end of content of text object'), 'invalid set-end-of statement must never be generated');
+  assert.ok(script.includes('create range yDoc start (yTextLen - 1) end yTextLen'), 'append must use the proven create-range idiom');
+  assert.ok(script.includes('set yTextLen to count of content of text object of yDoc'), 'append must measure the text length once');
+  assert.ok(script.includes('SENTINEL_X') && script.includes('INSERT_Y'), 'sentinel and insertion literals must be embedded');
+});

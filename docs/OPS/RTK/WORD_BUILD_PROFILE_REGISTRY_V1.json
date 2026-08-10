@@ -321,6 +321,16 @@
           "rungs": [
             "SEMANTIC_DIFFERENTIAL_SUBSET"
           ]
+        },
+        {
+          "path": "docs/OPS/RTK/WORD_MAC_16_111_3_NEGATIVE_REPLAY_CRASH_RECEIPT.json",
+          "sha256": "sha256:66152a1e4a4eb10300834aecea21ca265f09263b795d271a47d982560d7c524c",
+          "wordVersion": "16.111.3",
+          "wordBuild": "16.111.26080215",
+          "sealedAtUtc": "2026-08-10T14:09:01.878Z",
+          "rungs": [
+            "NEGATIVE_REPLAY_CRASH_SUBSET"
+          ]
         }
       ],
       "freshnessPolicy": {
@@ -329,11 +339,12 @@
       "ladder": {
         "completedRungs": [
           "CARRIER_SURVIVAL_SMOKE",
-          "SEMANTIC_DIFFERENTIAL_SUBSET"
+          "SEMANTIC_DIFFERENTIAL_SUBSET",
+          "NEGATIVE_REPLAY_CRASH_SUBSET"
         ]
       },
-      "competingNote": "Physical evidence on 16.111.3: CARRIER_SURVIVAL_SMOKE 12/12 (SHA 197ba60f) and SEMANTIC_DIFFERENTIAL_SUBSET 24/24 (SHA c277aa9f, exact tracked-replacement differentials with readback proof, 24 distinct returned digests). Later rungs unearned; saturation not claimed.",
-      "profileDigest": "sha256:7d60d0f56ab3e4ca003077bad24f96d69ee2c57d795fdcad93f8553217112d73"
+      "competingNote": "Physical evidence on 16.111.3: CARRIER_SURVIVAL_SMOKE 12/12 (197ba60f), SEMANTIC_DIFFERENTIAL_SUBSET 24/24 (c277aa9f), NEGATIVE_REPLAY_CRASH_SUBSET 8/8 (7e876c84 — all eight probes with real detections on physical carriers). Waves unearned; saturation not claimed.",
+      "profileDigest": "sha256:e25246f1da6e01aceba0d9b948ebc1d5ce7dbbea72490092fb672e070fd20bfe"
     }
   ],
   "currentProfileId": "word-mac-16.111.3-26080215"

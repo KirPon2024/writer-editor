@@ -9836,12 +9836,12 @@
     },
     {
       "filePath": "docs/CONTEXT.md",
-      "sha256": "1bd4d2fe99fa83dd5a8020957b7031e08fb85961c905cbdac1f839bcba7f6c54",
-      "approvedBy": "owner-direct:TASK_ID:DIVERSITY02_FAMILY_EXECUTORS",
-      "approvedAtUtc": "2026-08-10T21:07:33.013Z",
-      "rationale": "Approve additive docs/CONTEXT.md bytes recording the DIVERSITY-02 production wiring; no physical run executed.",
+      "sha256": "592cb43898d8530036df0e2e9c9ec3997c28cf23cc9d608a278bd566fe6a34aa",
+      "approvedBy": "owner-direct:TASK_ID:PHYS11_DIVERSE_WAVE300_EVIDENCE",
+      "approvedAtUtc": "2026-08-11T00:16:24.085Z",
+      "rationale": "Approve additive docs/CONTEXT.md bytes recording the PHYS-11 diverse wave-300 seal; terminal claim remains NOT_MADE.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_DIVERSITY02_EXECUTORS"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS11_DIVERSE_WAVE300"
     },
     {
       "filePath": "test/contracts/rtk-multi01-multi-scene-scope-blocked.contract.test.js",
@@ -9854,12 +9854,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_BUILD_PROFILE_REGISTRY_V1.json",
-      "sha256": "f8b0a282550d3364907d68cddee9cef9d0c6535735b3e03e8c4a82f58f5a9c32",
-      "approvedBy": "owner-direct:TASK_ID:PHYS10_REPEAT_SCOPE_TYPING",
-      "approvedAtUtc": "2026-08-10T18:31:12.454Z",
-      "rationale": "Approve the PHYS-10 registry state: the WAVE_300_REPEAT rung attached with claimScope APPEND_CYCLE_STABILITY_REPEAT_ONLY and all append-only wave heads annotated; saturation audit gated on diversity.",
+      "sha256": "3d08013988cced04017521502c84ccd54d5bf6de86a42317ae033c7c1cd2486e",
+      "approvedBy": "owner-direct:TASK_ID:PHYS11_DIVERSE_WAVE300_EVIDENCE",
+      "approvedAtUtc": "2026-08-11T00:16:24.085Z",
+      "rationale": "Approve the PHYS-11 registry state: the WAVE_300 head rebound to the diverse receipt with claimScope DIVERSE_FAMILY_WAVE_PROVEN.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS10_SCOPE_TYPING"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS11_DIVERSE_WAVE300"
     },
     {
       "filePath": "scripts/ops/rtk-word-build-profiles-v1.mjs",
@@ -10007,12 +10007,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_MAC_16_111_3_PHYSICAL_WAVE300_RECEIPT.json",
-      "sha256": "ac759bd7ce80de80423810fb98bccdc3ee58fef765717bbbcf9c7a19e3546fa4",
-      "approvedBy": "owner-direct:TASK_ID:PHYS09_WAVE300_EVIDENCE_16_111_3",
-      "approvedAtUtc": "2026-08-10T17:33:05.874Z",
-      "rationale": "Approve the PHYS-09 wave-300 receipt: 300/300 physical cases with readback proof and distinct returned digests on Word 16.111.3 build 16.111.26080215 at exact merged SHA 17305103 (honest rerun after an unsealed sleep interruption).",
+      "sha256": "924c27a1e0543175d4fc28e7a5346cc4ceba9d230a5b33bb5cba52fe4e9b6a43",
+      "approvedBy": "owner-direct:TASK_ID:PHYS11_DIVERSE_WAVE300_EVIDENCE",
+      "approvedAtUtc": "2026-08-11T00:16:24.085Z",
+      "rationale": "Approve the diverse-family WAVE_300 receipt: 300/300 across 14 operation families with the embedded case manifest, oracle-green, claimScope DIVERSE_FAMILY_WAVE_PROVEN, sealed on Word 16.111.3 build 16.111.26080215 at exact merged SHA 88b8eb96; supersedes the append-cycle wave-300 receipt retained in git history.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS09_WAVE300_EVIDENCE"
+      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS11_DIVERSE_WAVE300"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_MAC_16_111_3_PHYSICAL_WAVE300_REPEAT_RECEIPT.json",

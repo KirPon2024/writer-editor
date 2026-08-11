@@ -367,14 +367,15 @@
         },
         {
           "path": "docs/OPS/RTK/WORD_MAC_16_111_3_PHYSICAL_WAVE300_RECEIPT.json",
-          "sha256": "sha256:ac759bd7ce80de80423810fb98bccdc3ee58fef765717bbbcf9c7a19e3546fa4",
+          "sha256": "sha256:924c27a1e0543175d4fc28e7a5346cc4ceba9d230a5b33bb5cba52fe4e9b6a43",
           "wordVersion": "16.111.3",
           "wordBuild": "16.111.26080215",
-          "sealedAtUtc": "2026-08-10T17:32:38.900Z",
+          "sealedAtUtc": "2026-08-11T00:15:55.904Z",
           "rungs": [
             "WAVE_300"
           ],
-          "claimScope": "APPEND_CYCLE_STABILITY_ONLY"
+          "claimScope": "DIVERSE_FAMILY_WAVE_PROVEN",
+          "note": "Diverse-family wave-300 (14 operation families, 300 distinct normalized cases, manifest-embedded) sealed at 88b8eb96; supersedes the append-cycle stability wave-300 receipt (git history)."
         },
         {
           "path": "docs/OPS/RTK/WORD_MAC_16_111_3_PHYSICAL_WAVE300_REPEAT_RECEIPT.json",
@@ -403,8 +404,8 @@
           "WAVE_300_REPEAT"
         ]
       },
-      "competingNote": "Physical evidence on 16.111.3: smoke 12/12 (197ba60f), semantic 24/24 (c277aa9f), negative 8/8 (7e876c84), waves 10/40/100/300 and wave-300 repeat (df026abc) — ALL WAVE EVIDENCE IS APPEND-CYCLE STABILITY ONLY per owner ruling 2026-08-10: case uniqueness was ID-based, not semantic diversity. The saturation audit is gated on diverse-family waves (DIVERSITY-01). Saturation not claimed.",
-      "profileDigest": "sha256:8add43ba0c3bd8cd796c528a8069d165ecee2f620498a589b76eaf50a20c5f00"
+      "competingNote": "Physical evidence on 16.111.3: smoke 12/12 (197ba60f), semantic 24/24 (c277aa9f), negative 8/8 (7e876c84), append-cycle waves 10/40/100 (stability-only scopes) and the DIVERSE-family wave-300 300/300 (88b8eb96, DIVERSE_FAMILY_WAVE_PROVEN, manifest a8eed3ac). The manifest-bound repeat and the saturation audit remain; saturation not claimed.",
+      "profileDigest": "sha256:a300eb19e4e65ca49a046a1ec8700f334d316df62d12fe9ae9814a91c23fe649"
     }
   ],
   "currentProfileId": "word-mac-16.111.3-26080215"

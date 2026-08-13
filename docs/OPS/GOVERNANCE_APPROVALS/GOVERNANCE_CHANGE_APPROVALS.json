@@ -10061,10 +10061,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_BUILD_PROFILE_REGISTRY_V1.json",
-      "sha256": "23252d9e6945becbf38bb11388f6d920571fd3dd4d27652371104bc09ed226f5",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE40_V1",
-      "approvedAtUtc": "2026-08-13T14:28:00Z",
-      "rationale": "Approve factual Word 16.112 profile registry update binding WAVE_40 as the fifth completed build-bound ladder rung with 40/40 executable diversity-bound synthetic cases while preserving COMPETING_NOT_SATURATED and blocking WAVE_100/WAVE_300/WAVE_300_REPEAT/saturation/terminal PASS.",
+      "sha256": "28ff73e31794fbd52d870d9832cbdf091001248ea7663650e7f02cd4a76630e9",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE100_V1",
+      "approvedAtUtc": "2026-08-13T15:27:42Z",
+      "rationale": "Approve factual Word 16.112 profile registry update binding WAVE_100 as the sixth completed build-bound ladder rung with 100/100 executable diversity-bound synthetic cases while preserving COMPETING_NOT_SATURATED and blocking WAVE_300/WAVE_300_REPEAT/saturation/terminal PASS.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },
@@ -10087,11 +10087,20 @@
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },
     {
+      "filePath": "docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE100_RECEIPT.json",
+      "sha256": "3dcb596472e93136495b19fba764e7203837889e9909f518a7d10914a05ac53a",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE100_V1",
+      "approvedAtUtc": "2026-08-13T15:27:42Z",
+      "rationale": "Approve factual WAVE_100 physical receipt for disposable synthetic fixtures only on exact signed Word 16.112 build 16.112.26081010: 100/100 pass, all 10 executable Word-edit families, 6 content classes, 100 unique fixture/script/oracle/execution digests, open documents after run 0 by independent post-run check, and explicit non-claims for saturation/terminal compatibility.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
+    },
+    {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "ee7d901c3ef92239e6f338a66135ae9c12f211918938213becad3894d12865b5",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE40_V1",
-      "approvedAtUtc": "2026-08-13T14:28:00Z",
-      "rationale": "Approve terminal claim registry factual note/digest update: current Word 16.112 has WAVE_40 evidence but remains NOT_CLAIMED_BLOCKED/NOT_MADE_WORD_TERMINAL_PASS_REQUIRED because saturation, later waves, Windows, Online, Google and blocked rows remain unresolved.",
+      "sha256": "fffcd5918f8016e8ce536ea27615716a606494a7ced720e54b78141409f060f4",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE100_V1",
+      "approvedAtUtc": "2026-08-13T15:27:42Z",
+      "rationale": "Approve terminal claim registry factual note/digest update: current Word 16.112 has WAVE_100 evidence but remains NOT_CLAIMED_BLOCKED/NOT_MADE_WORD_TERMINAL_PASS_REQUIRED because saturation, later waves, Windows, Online, Google and blocked rows remain unresolved.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },
@@ -10106,28 +10115,28 @@
     },
     {
       "filePath": "test/contracts/rtk-lab01-build-bound-profiles.contract.test.js",
-      "sha256": "718aed35a427290f5fa5a1262edc5066be0c76cda67e2a7beaa43d1c50fab6b2",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE40_V1",
-      "approvedAtUtc": "2026-08-13T14:28:00Z",
-      "rationale": "Approve LAB01 contracts for Word 16.112 WAVE_40 binding: WAVE_40 is completed, WAVE_100 is the next admissible rung, historical evidence remains non-transferable, harness evidence remains non-ladder, and profile remains not saturated.",
+      "sha256": "01b6d11f56e43d10b33bb89f6d94cdf6abe980bfa2764fcb54cfee56da70beab",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE100_V1",
+      "approvedAtUtc": "2026-08-13T15:27:42Z",
+      "rationale": "Approve LAB01 contracts for Word 16.112 WAVE_100 binding: WAVE_100 is completed, WAVE_300 is the next admissible rung, historical evidence remains non-transferable, harness evidence remains non-ladder, and profile remains not saturated.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },
     {
       "filePath": "test/contracts/rtk-phys01-ladder-runner.contract.test.js",
-      "sha256": "1d6b9217ef25183b6464334b51ca7546e26f73001daf60f6f9303f62d6e332fa",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE40_V1",
-      "approvedAtUtc": "2026-08-13T14:28:00Z",
-      "rationale": "Approve PHYS01 contract requiring the real Word 16.112 WAVE_40 receipt to validate executable manifest binding, 40/40 cases, all required families/content classes, 40 unique execution/fixture/script/oracle digests, and no saturation/terminal claim.",
+      "sha256": "d508b0fe4365c1767ed3a6a2535abebe294ecf4d309d0b596c78947dc9ffec82",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE100_V1",
+      "approvedAtUtc": "2026-08-13T15:27:42Z",
+      "rationale": "Approve PHYS01 contract requiring the real Word 16.112 WAVE_100 receipt to validate executable manifest binding, 100/100 cases, all required families/content classes, 100 unique execution/fixture/script/oracle digests, and no saturation/terminal claim.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },
     {
       "filePath": "test/contracts/rtk-release01-terminal-claims.contract.test.js",
-      "sha256": "15c085c47260137ded7ce7b5e5cd90f785d1dd887f5afe5483ca4a51c83b6958",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE40_V1",
-      "approvedAtUtc": "2026-08-13T14:28:00Z",
-      "rationale": "Approve RELEASE01 terminal rollup contracts recognizing Word 16.112 WAVE_40 as evidence while keeping current Word compatibility NOT_CLAIMED_BLOCKED and terminal PASS blocked by unsaturated profile and other unresolved blockers.",
+      "sha256": "b0ae4c4e89c66a12b41c55c140c79f0fc6bb49dd56262a851c516fd110a26ebc",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE100_V1",
+      "approvedAtUtc": "2026-08-13T15:27:42Z",
+      "rationale": "Approve RELEASE01 terminal rollup contracts recognizing Word 16.112 WAVE_100 as evidence while keeping current Word compatibility NOT_CLAIMED_BLOCKED and terminal PASS blocked by unsaturated profile and other unresolved blockers.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     }

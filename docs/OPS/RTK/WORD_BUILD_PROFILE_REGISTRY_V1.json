@@ -502,6 +502,28 @@
           "denominator": "executable-diversity-bound-wave10-only-not-saturation",
           "manifestDigest": "656ec82b80012593be324b347f2aeaf181e8fbb4b2aec78f958e2e521c40e420",
           "executableManifestDigest": "c5c66dd9ed5f75f9af43da3fb3749f104fa43590ca02884755044a6652a87076"
+        },
+        {
+          "path": "docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE40_RECEIPT.json",
+          "sha256": "sha256:5d11fb46e3db1b2510e8faaef4f3827142dafb2e91376dc5bfb248155b80d05b",
+          "wordVersion": "16.112",
+          "wordBuild": "16.112.26081010",
+          "sealedAtUtc": "2026-08-13T14:15:34Z",
+          "rungs": [
+            "WAVE_40"
+          ],
+          "claimScope": "DIVERSE_FAMILY_WAVE_PROVEN",
+          "status": "PHYSICAL_WAVE_PASS",
+          "headSha": "c1a56e5659376bf72fe3dfb792fcd33781bcd9bd",
+          "originMainSha": "235ce6376770caaa38b7dba388e4a5d0784454ce",
+          "bundleIdentifier": "com.microsoft.Word",
+          "teamIdentifier": "UBF8T346G9",
+          "signatureValid": true,
+          "casesTotal": 40,
+          "casesPassed": 40,
+          "denominator": "executable-diversity-bound-wave40-only-not-saturation",
+          "manifestDigest": "5fde7b826f91bd57c25bd55fe875fe583dc131c6d2fb53b6704a587283033b11",
+          "executableManifestDigest": "2a763d31f9818164a90fcdf2f5a72fbab582c84d73a5439c5c28b77752670d16"
         }
       ],
       "harnessEvidenceHeads": [
@@ -532,11 +554,12 @@
           "CARRIER_SURVIVAL_SMOKE",
           "SEMANTIC_DIFFERENTIAL_SUBSET",
           "NEGATIVE_REPLAY_CRASH_SUBSET",
-          "WAVE_10"
+          "WAVE_10",
+          "WAVE_40"
         ]
       },
-      "profileDigest": "sha256:707ed810377f127b0ad74166eb94894773b0ff9c0531334403375f36f83908ec",
-      "competingNote": "Physical evidence on Word 16.112 build 16.112.26081010: CARRIER_SURVIVAL_SMOKE 12/12 synthetic cases sealed at local prephysical candidate head 0379cea3 with origin/main base 574f2777, SEMANTIC_DIFFERENTIAL_SUBSET 24/24 synthetic cases sealed at local prephysical candidate head f087f5e7 with origin/main base ccb36021, NEGATIVE_REPLAY_CRASH_SUBSET 8/8 synthetic negative probes sealed at local prephysical candidate head 7de2bc7f with origin/main base 54eafa76, PHYSICAL_DIVERSITY_HARNESS_SELECTED_MATRIX_ONLY 14/14 harness-honesty cases sealed at local candidate head a66a6361 with origin/main base 85dd0877, and WAVE_10 10/10 executable diversity-bound synthetic cases sealed at local candidate head 78ec65b0 with origin/main base 43f01a09. This proves only the first four build-bound ladder rungs plus a non-ladder harness honesty repair; no WAVE_40/WAVE_100/WAVE_300/WAVE_300_REPEAT/saturation/terminal PASS is claimed, stale/replay/tamper/crash stay out of the Word physical-diversity denominator, and no historical 16.111.3 evidence is inherited."
+      "profileDigest": "sha256:3a1d50e2a6551a9d7be15f14d926cac0446b5fdfd20da6bffc07ef72be9a7b06",
+      "competingNote": "Physical evidence on Word 16.112 build 16.112.26081010: CARRIER_SURVIVAL_SMOKE 12/12 synthetic cases sealed at local prephysical candidate head 0379cea3 with origin/main base 574f2777, SEMANTIC_DIFFERENTIAL_SUBSET 24/24 synthetic cases sealed at local prephysical candidate head f087f5e7 with origin/main base ccb36021, NEGATIVE_REPLAY_CRASH_SUBSET 8/8 synthetic negative probes sealed at local prephysical candidate head 7de2bc7f with origin/main base 54eafa76, PHYSICAL_DIVERSITY_HARNESS_SELECTED_MATRIX_ONLY 14/14 harness-honesty cases sealed at local candidate head a66a6361 with origin/main base 85dd0877, WAVE_10 10/10 executable diversity-bound synthetic cases sealed at local candidate head 78ec65b0 with origin/main base 43f01a09, and WAVE_40 40/40 executable diversity-bound synthetic cases sealed at local candidate head c1a56e56 with origin/main base 235ce637. This proves only the first five build-bound ladder rungs plus a non-ladder harness honesty repair; no WAVE_100/WAVE_300/WAVE_300_REPEAT/saturation/terminal PASS is claimed, stale/replay/tamper/crash stay out of the Word physical-diversity denominator, and no historical 16.111.3 evidence is inherited."
     }
   ],
   "currentProfileId": "word-mac-16.112-26081010"

@@ -33,6 +33,8 @@ const SEMANTIC_RECEIPT_REF = 'docs/OPS/RTK/WORD_MAC_16_112_SEMANTIC_DIFFERENTIAL
 const SEMANTIC_RECEIPT_PATH = path.join(REPO_ROOT, SEMANTIC_RECEIPT_REF);
 const NEGATIVE_RECEIPT_REF = 'docs/OPS/RTK/WORD_MAC_16_112_NEGATIVE_REPLAY_CRASH_RECEIPT.json';
 const NEGATIVE_RECEIPT_PATH = path.join(REPO_ROOT, NEGATIVE_RECEIPT_REF);
+const WAVE10_RECEIPT_REF = 'docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE10_RECEIPT.json';
+const WAVE10_RECEIPT_PATH = path.join(REPO_ROOT, WAVE10_RECEIPT_REF);
 
 async function loadModule() {
   return import(pathToFileURL(MODULE_PATH).href);
@@ -637,6 +639,26 @@ test('PHYS01-P25-wave-case-uniqueness', async () => {
   const w40 = module.buildWaveCaseSpecs('WAVE_40');
   const overlap = w10.filter((a) => w40.some((b) => b.insertion === a.insertion));
   assert.equal(overlap.length, 0, 'insertions never repeat across rungs');
+});
+
+test('PHYS01-P25B-wave10-is-orthogonal-family-seed-not-prefix-of-one-family', async () => {
+  const module = await loadModule();
+  const specs = module.buildWaveCaseSpecs('WAVE_10');
+  assert.equal(specs.length, 10, 'WAVE_10 keeps the bounded 10-case denominator');
+  assert.deepEqual(new Set(specs.map((s) => s.family)), new Set(module.WORD_PHYSICAL_DIVERSITY_FAMILIES),
+    'WAVE_10 must exercise each executable Word-edit family exactly once');
+  assert.equal(new Set(specs.map((s) => JSON.stringify({
+    family: s.family,
+    operationShape: s.operationShape,
+    contentClass: s.contentClass,
+  }))).size, 10, 'WAVE_10 must contain ten distinct normalized executable cases');
+  assert.ok(new Set(specs.map((s) => s.contentClass)).size >= module.CONTENT_CLASSES.length,
+    'WAVE_10 must span the closed content-class vocabulary');
+  const executableManifest = module.buildExecutableDiversityManifestForTest(
+    specs.map((spec) => module.buildExecutableDiversityCaseSpecForTest(spec)),
+  );
+  const verdict = module.evaluateExecutableDiversityManifestForTest(executableManifest);
+  assert.equal(verdict.ok, true, `WAVE_10 executable seed must validate: ${JSON.stringify(verdict.reasons)}`);
 });
 
 // P26: the audit plan binds exactly the five wave receipt refs of this profile.
@@ -1547,6 +1569,47 @@ test('PHYS01-F04-wave-receipt-embeds-closed-executable-manifest', async () => {
   const invalid = module.validateRungReceipt(plan, stripped);
   assert.equal(invalid.ok, false, 'diverse wave receipt without executable manifest is invalid');
   assert.equal(invalid.code, 'RTK_PHYS_RECEIPT_INVALID');
+});
+
+test('PHYS01-G01-real-16-112-wave10-receipt-validates-executable-diversity-seal', async () => {
+  const module = await loadModule();
+  assert.equal(fs.existsSync(WAVE10_RECEIPT_PATH), true, '16.112 WAVE_10 physical receipt must exist');
+  const receipt = JSON.parse(fs.readFileSync(WAVE10_RECEIPT_PATH, 'utf8'));
+  const plan = module.buildRungPlan('WAVE_10');
+  assert.equal(plan.receiptRef, WAVE10_RECEIPT_REF);
+  assert.equal(receipt.profileId, 'word-mac-16.112-26081010');
+  assert.equal(receipt.rung, 'WAVE_10');
+  assert.equal(receipt.status, 'PHYSICAL_WAVE_PASS');
+  assert.equal(receipt.claimScope, 'DIVERSE_FAMILY_WAVE_PROVEN');
+  assert.deepEqual(receipt.counters, { total: 10, passed: 10, failed: 0 });
+  assert.equal(receipt.wordProfile.versionByBundle, '16.112');
+  assert.equal(receipt.wordProfile.buildByBundle, '16.112.26081010');
+  assert.equal(receipt.wordProfile.bundleId, 'com.microsoft.Word');
+  assert.equal(receipt.wordProfile.teamIdentifier, 'UBF8T346G9');
+  assert.ok(receipt.caseManifest && /^[0-9a-f]{64}$/u.test(receipt.manifestDigest),
+    'diverse wave receipt must bind the normalized manifest digest');
+  assert.ok(receipt.executableCaseManifest && /^[0-9a-f]{64}$/u.test(receipt.executableManifestDigest),
+    'diverse wave receipt must bind executable fixture/script/oracle manifest digest');
+  assert.equal(receipt.executableCaseManifest.manifestDigest, receipt.executableManifestDigest);
+  assert.equal(module.evaluateDiversityOracle(receipt.cases, { requireQuotas: false }).ok, true,
+    'normalized case manifest must satisfy the diversity oracle');
+  assert.equal(module.evaluateExecutableDiversityManifestForTest(receipt.executableCaseManifest).ok, true,
+    'executable case manifest must satisfy the harness-honesty oracle');
+  const executionDigests = new Set(receipt.cases.map((entry) => entry.executionDigest));
+  const fixtureDigests = new Set(receipt.cases.map((entry) => entry.fixtureDigest));
+  const scriptDigests = new Set(receipt.cases.map((entry) => entry.scriptDigest));
+  const oracleDigests = new Set(receipt.cases.map((entry) => entry.oracleDigest));
+  const families = new Set(receipt.cases.map((entry) => entry.family));
+  assert.equal(executionDigests.size, 10, 'WAVE_10 cases must not reuse execution digests');
+  assert.equal(fixtureDigests.size, 10, 'WAVE_10 cases must not reuse fixture digests');
+  assert.equal(scriptDigests.size, 10, 'WAVE_10 cases must not reuse script digests');
+  assert.equal(oracleDigests.size, 10, 'WAVE_10 cases must not reuse oracle digests');
+  assert.deepEqual(families, new Set(module.WORD_PHYSICAL_DIVERSITY_FAMILIES),
+    'real WAVE_10 receipt must physically exercise all executable Word-edit families');
+  const validation = module.validateRungReceipt(plan, receipt, { expectedHeadSha: receipt.headSha });
+  assert.equal(validation.ok, true, `real WAVE_10 receipt must validate: ${JSON.stringify(validation.reasons)}`);
+  assert.ok((receipt.nonClaims || []).some((line) => String(line).includes('No saturation')),
+    'WAVE_10 receipt must explicitly deny saturation/terminal promotion');
 });
 
 // ===========================================================================

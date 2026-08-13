@@ -1729,12 +1729,28 @@ function buildSemanticWordScript(expectedName, returnedPath, spec) {
 export function buildWaveCaseSpecs(rung) {
   const def = RUNG_DEFINITIONS[rung];
   if (!def || def.kind !== 'wave') throw new Error(`${PHYS_CODES.RUNG_UNKNOWN}:wave:${JSON.stringify(rung)}`);
-  // DIVERSITY-02: wave cases come from the diverse generator. Small waves take
-  // prefix slices of the 300-manifest (distinct normalized forms by
-  // construction); WAVE_300 uses the full set. WAVE_300_REPEAT never
-  // generates fresh cases — it replays the first wave's manifest (see
-  // buildRepeatPlan).
-  const full = buildDiverseWaveCaseSpecs('WAVE_300');
+  // DIVERSITY-03: small waves are not prefix slices of a quota-grouped
+  // WAVE_300 manifest. A prefix would collapse WAVE_10 to one operation
+  // family. Instead, small waves use an orthogonal round-robin seed over the
+  // executable family vocabulary and content classes. The quota-bound WAVE_300
+  // still uses the full diverse generator, and WAVE_300_REPEAT never generates
+  // fresh cases — it replays the first wave's manifest (see buildRepeatPlan).
+  const full = def.caseCount >= 300
+    ? buildDiverseWaveCaseSpecs('WAVE_300')
+    : Array.from({ length: def.caseCount }, (_, i) => {
+      const familyIndex = i % OPERATION_FAMILIES.length;
+      const round = Math.floor(i / OPERATION_FAMILIES.length);
+      const family = OPERATION_FAMILIES[familyIndex];
+      const shapes = FAMILY_SHAPES[family];
+      const operationShape = shapes[round % shapes.length];
+      const contentClass = CONTENT_CLASSES[(round + familyIndex) % CONTENT_CLASSES.length];
+      return {
+        family,
+        operationShape,
+        contentClass,
+        title: `${rung} ${family}/${operationShape}/${contentClass} case ${round + 1}`,
+      };
+    });
   const specs = full.slice(0, def.caseCount).map((spec, i) => ({
     ...spec,
     id: `phys-16-112-${rung.toLowerCase().replace(/_/g, '-')}-${String(i + 1).padStart(3, '0')}`,

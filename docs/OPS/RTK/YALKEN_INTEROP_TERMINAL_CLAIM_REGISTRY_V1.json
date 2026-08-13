@@ -335,8 +335,8 @@
       },
       "evidenceScope": "CURRENT_BUILD_COMPATIBILITY",
       "blockedRowRef": null,
-      "note": "Compatibility of Yalken DOCX interop with the CURRENT Word build (16.112, build 16.112.26081010) is NOT claimed: CARRIER_SURVIVAL_SMOKE 12/12, SEMANTIC_DIFFERENTIAL_SUBSET 24/24, NEGATIVE_REPLAY_CRASH_SUBSET 8/8, WAVE_10 10/10, WAVE_40 40/40, WAVE_100 100/100 and WAVE_300 300/300 executable diversity-bound synthetic cases have been physically earned on the exact signed provider; a prior WAVE_300 attempt failed 292/300 and remains preserved as non-promoted failure evidence. Historical 16.111.3 evidence is preserved as non-transferable historical scope only; installed 16.109.1 was rejected and never promoted; WAVE_300_REPEAT, saturation and terminal PASS remain blocked.",
-      "claimDigest": "sha256:c1fecbd410a60b26774850b8765c80943b321c388610902407af7b449be1e20b"
+      "note": "Compatibility of Yalken DOCX interop with the CURRENT Word build (16.112, build 16.112.26081010) is NOT claimed: CARRIER_SURVIVAL_SMOKE 12/12, SEMANTIC_DIFFERENTIAL_SUBSET 24/24, NEGATIVE_REPLAY_CRASH_SUBSET 8/8, WAVE_10 10/10, WAVE_40 40/40, WAVE_100 100/100, WAVE_300 300/300 and WAVE_300_REPEAT 300/300 executable diversity-bound synthetic cases have been physically earned on the exact signed provider; the repeat replays the WAVE_300 manifest one-to-one, and a prior WAVE_300 attempt failed 292/300 and remains preserved as non-promoted failure evidence. Historical 16.111.3 evidence is preserved as non-transferable historical scope only; installed 16.109.1 was rejected and never promoted; saturation and terminal PASS remain blocked.",
+      "claimDigest": "sha256:161342a2725ac9949df30e873037466a9794bcdf3f7b7963b0869c0de935973e"
     }
   ],
   "bannedWordingPatterns": [
@@ -398,6 +398,6 @@
       "WORD_PROFILE_NOT_SATURATED:word-mac-16.112-26081010",
       "WORD_PROFILE_UNPROVEN:word-windows-current"
     ],
-    "blockerBinding": "deterministic-strict-rollup-v2: recorded blockers equal the set computed by evaluateTerminalRollupStrict from the live registries (current pointer word-mac-16.112-26081010), terminal acceptance matrix, veto inventory and claim inventory; state remains NOT_MADE_WORD_TERMINAL_PASS_REQUIRED; 16.112 has CARRIER_SURVIVAL_SMOKE, SEMANTIC_DIFFERENTIAL_SUBSET, NEGATIVE_REPLAY_CRASH_SUBSET, WAVE_10, WAVE_40, WAVE_100 and WAVE_300 evidence but is not saturated; 16.111.3 evidence is historical and non-transferable"
+    "blockerBinding": "deterministic-strict-rollup-v2: recorded blockers equal the set computed by evaluateTerminalRollupStrict from the live registries (current pointer word-mac-16.112-26081010), terminal acceptance matrix, veto inventory and claim inventory; state remains NOT_MADE_WORD_TERMINAL_PASS_REQUIRED; 16.112 has CARRIER_SURVIVAL_SMOKE, SEMANTIC_DIFFERENTIAL_SUBSET, NEGATIVE_REPLAY_CRASH_SUBSET, WAVE_10, WAVE_40, WAVE_100, WAVE_300 and WAVE_300_REPEAT evidence but is not saturated; 16.111.3 evidence is historical and non-transferable"
   }
 }

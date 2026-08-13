@@ -41,6 +41,8 @@ const WAVE100_RECEIPT_REF = 'docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE100_RECEI
 const WAVE100_RECEIPT_PATH = path.join(REPO_ROOT, WAVE100_RECEIPT_REF);
 const WAVE300_RECEIPT_REF = 'docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE300_RECEIPT.json';
 const WAVE300_RECEIPT_PATH = path.join(REPO_ROOT, WAVE300_RECEIPT_REF);
+const WAVE300_REPEAT_RECEIPT_REF = 'docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE300_REPEAT_RECEIPT.json';
+const WAVE300_REPEAT_RECEIPT_PATH = path.join(REPO_ROOT, WAVE300_REPEAT_RECEIPT_REF);
 
 async function loadModule() {
   return import(pathToFileURL(MODULE_PATH).href);
@@ -1880,4 +1882,36 @@ test('PHYS02-03-prephysical-local-candidate-head-is-explicitly-bound', async () 
   });
   assert.equal(wrongBase.ok, false, 'local candidate evidence must also bind the exact origin/main base');
   assert.equal(wrongBase.code, 'RTK_PHYS_SHA_MISMATCH');
+});
+
+test('PHYS01-G05-real-16-112-wave300-repeat-receipt-validates-executable-repeat-seal', async () => {
+  const module = await loadModule();
+  const plan = module.buildRungPlan('WAVE_300_REPEAT');
+  assert.equal(plan.receiptRef, WAVE300_REPEAT_RECEIPT_REF, 'WAVE_300_REPEAT must write the 16.112 repeat receipt path');
+  assert.equal(fs.existsSync(WAVE300_REPEAT_RECEIPT_PATH), true,
+    `WAVE_300_REPEAT receipt must exist before the rung can be claimed: ${WAVE300_REPEAT_RECEIPT_REF}`);
+
+  const firstWave = JSON.parse(fs.readFileSync(WAVE300_RECEIPT_PATH, 'utf8'));
+  const repeat = JSON.parse(fs.readFileSync(WAVE300_REPEAT_RECEIPT_PATH, 'utf8'));
+  assert.equal(repeat.profileId, 'word-mac-16.112-26081010');
+  assert.equal(repeat.rung, 'WAVE_300_REPEAT');
+  assert.equal(repeat.status, 'PHYSICAL_WAVE_PASS');
+  assert.equal(repeat.claimScope, 'DIVERSE_FAMILY_WAVE_PROVEN',
+    'repeat proof re-executes the bound diverse-family manifest; it is still not saturation or terminal evidence');
+  assert.deepEqual(repeat.counters, { total: 300, passed: 300, failed: 0 });
+  assert.equal(repeat.manifestDigest, firstWave.manifestDigest,
+    'repeat manifest digest must be exactly the first WAVE_300 manifest digest');
+  assert.deepEqual(repeat.caseManifest, firstWave.caseManifest,
+    'repeat receipt must embed the same first-wave manifest, not a self-authored digest-only claim');
+  assert.ok(repeat.executableCaseManifest, 'repeat receipt must carry executable case manifest');
+  assert.ok(repeat.executableManifestDigest, 'repeat receipt must carry executable manifest digest');
+  const validation = module.validateRungReceipt(plan, repeat);
+  assert.equal(validation.ok, true, `repeat receipt must validate: ${JSON.stringify(validation.reasons)}`);
+  const binding = module.evaluateRepeatManifestBinding({
+    manifest: firstWave.caseManifest,
+    repeatSpecs: module.buildRepeatCaseSpecs(repeat.caseManifest),
+  });
+  assert.equal(binding.ok, true, `repeat manifest binding must pass: ${JSON.stringify(binding.reasons)}`);
+  assert.ok((repeat.nonClaims || []).some((line) => String(line).includes('No saturation')),
+    'repeat receipt must explicitly deny saturation/terminal promotion');
 });

@@ -10096,15 +10096,6 @@
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },
     {
-      "filePath": "docs/OPS/RTK/WORD_BUILD_PROFILE_REGISTRY_V1.json",
-      "sha256": "5f1eabf97a81c2a5ab2e333f936845efd65aac7d57810e00f24efc4c5d5a15d8",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE300_V1",
-      "approvedAtUtc": "2026-08-13T17:10:17Z",
-      "rationale": "Approve factual Word 16.112 profile registry update binding WAVE_300 as the seventh completed build-bound ladder rung with 300/300 executable diversity-bound synthetic cases while preserving COMPETING_NOT_SATURATED and blocking WAVE_300_REPEAT/saturation/terminal PASS; prior failed WAVE_300 attempt remains non-promoted failure evidence.",
-      "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
-    },
-    {
       "filePath": "docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE300_RECEIPT.json",
       "sha256": "f5079e873165ad516c8ff91faee37796226a99ac8d77074523b5c9a5c2869e5f",
       "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE300_V1",
@@ -10114,38 +10105,56 @@
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },
     {
+      "filePath": "docs/OPS/RTK/WORD_BUILD_PROFILE_REGISTRY_V1.json",
+      "sha256": "1d9e6da85cb69ede81426a0e6509908c9536b78ce3a04879881835a98b21404a",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE300_REPEAT_V1",
+      "approvedAtUtc": "2026-08-13T18:28:00Z",
+      "rationale": "Approve factual Word 16.112 profile registry update binding WAVE_300_REPEAT as the eighth completed build-bound ladder rung with 300/300 executable diversity-bound synthetic repeat cases replaying the WAVE_300 manifest one-to-one while preserving COMPETING_NOT_SATURATED and blocking saturation/terminal PASS.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE300_REPEAT_RECEIPT.json",
+      "sha256": "13d8c070421496341193685628ff9c6deb1e8891e71c642b82b92e8eddad5f4b",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE300_REPEAT_V1",
+      "approvedAtUtc": "2026-08-13T18:28:00Z",
+      "rationale": "Approve factual WAVE_300_REPEAT physical receipt for disposable synthetic fixtures only on exact signed Word 16.112 build 16.112.26081010: 300/300 pass, repeat manifest exactly bound to the WAVE_300 manifest, open documents after run 0 by independent post-run check, and explicit non-claims for saturation/terminal compatibility.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
+    },
+    {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "06a01c70d7a56ba480dbfb58def70644fefef6a3c54d93bef9c6070dc8c202ea",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE300_V1",
-      "approvedAtUtc": "2026-08-13T17:10:17Z",
-      "rationale": "Approve terminal claim registry factual note/digest update: current Word 16.112 has WAVE_300 evidence but remains NOT_CLAIMED_BLOCKED/NOT_MADE_WORD_TERMINAL_PASS_REQUIRED because WAVE_300_REPEAT, saturation, Windows, Online, Google and blocked rows remain unresolved.",
+      "sha256": "9d1f5343f61305d6977ddd57aa85dcd834fad034fc2657c9b0d3e34426f8d374",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE300_REPEAT_V1",
+      "approvedAtUtc": "2026-08-13T18:28:00Z",
+      "rationale": "Approve terminal claim registry factual note/digest update: current Word 16.112 has WAVE_300_REPEAT evidence but remains NOT_CLAIMED_BLOCKED/NOT_MADE_WORD_TERMINAL_PASS_REQUIRED because saturation, Windows, Online, Google and blocked rows remain unresolved.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },
     {
       "filePath": "test/contracts/rtk-lab01-build-bound-profiles.contract.test.js",
-      "sha256": "603c6fd7557f55d40c94c968842d120541fe332e22ebbcdcabcf5bb8a4d87ff0",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE300_V1",
-      "approvedAtUtc": "2026-08-13T17:10:17Z",
-      "rationale": "Approve LAB01 contracts for Word 16.112 WAVE_300 binding: WAVE_300 is completed, WAVE_300_REPEAT is the next admissible rung, historical evidence remains non-transferable, harness evidence remains non-ladder, and profile remains not saturated.",
+      "sha256": "4016ab254277a463bc74670d61b493a751e4bbdc0f509a06d3e4a9bea48f3663",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE300_REPEAT_V1",
+      "approvedAtUtc": "2026-08-13T18:28:00Z",
+      "rationale": "Approve LAB01 contracts for Word 16.112 WAVE_300_REPEAT binding: WAVE_300_REPEAT is completed as the eighth rung, historical evidence remains non-transferable, harness evidence remains non-ladder, and profile remains not saturated.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },
     {
       "filePath": "test/contracts/rtk-phys01-ladder-runner.contract.test.js",
-      "sha256": "d8e15d70c22fe47dbcf922505180f46c82f092ee75fd72947b95ac35f551326f",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE300_V1",
-      "approvedAtUtc": "2026-08-13T17:10:17Z",
-      "rationale": "Approve PHYS01 contract requiring the real Word 16.112 WAVE_300 receipt to validate executable manifest binding, 300/300 cases, all required families/content classes, 300 unique execution/fixture/script/oracle digests, and no saturation/terminal claim.",
+      "sha256": "38f949186b87b01490d7d93558d632f4556d459c602d3dc73b5c1cefc2681f95",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE300_REPEAT_V1",
+      "approvedAtUtc": "2026-08-13T18:28:00Z",
+      "rationale": "Approve PHYS01 contract requiring the real Word 16.112 WAVE_300_REPEAT receipt to validate executable repeat seal, 300/300 cases, one-to-one WAVE_300 manifest binding, and no saturation/terminal claim.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },
     {
       "filePath": "test/contracts/rtk-release01-terminal-claims.contract.test.js",
-      "sha256": "6a118df4bd33528e489eaff1cecdd5bbc45244714eaee5a81daec4968c699092",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE300_V1",
-      "approvedAtUtc": "2026-08-13T17:10:17Z",
-      "rationale": "Approve RELEASE01 terminal rollup contracts recognizing Word 16.112 WAVE_300 as evidence while keeping current Word compatibility NOT_CLAIMED_BLOCKED and terminal PASS blocked by unsaturated profile and other unresolved blockers.",
+      "sha256": "88e857aed3df9037da38050a8aac0248c4d12190c56b5f31c40f0e5d5d8e8b62",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE300_REPEAT_V1",
+      "approvedAtUtc": "2026-08-13T18:28:00Z",
+      "rationale": "Approve RELEASE01 terminal rollup contracts recognizing Word 16.112 WAVE_300_REPEAT as evidence while keeping current Word compatibility NOT_CLAIMED_BLOCKED and terminal PASS blocked by unsaturated profile and other unresolved blockers.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     }

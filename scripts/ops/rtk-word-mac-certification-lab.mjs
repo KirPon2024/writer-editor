@@ -45,6 +45,70 @@ function sha256Text(text) {
   return sha256Buffer(Buffer.from(String(text), 'utf8'));
 }
 
+function sha256Signed(text) {
+  return `sha256:${sha256Text(text)}`;
+}
+
+function sourceFenceToken(source) {
+  const payload = {
+    schemaVersion: 'yalken.sourceFence.token.v1',
+    purpose: 'WRITE_SOURCE',
+    projectId: source.projectId,
+    rootId: source.rootId,
+    documentId: source.documentId,
+    canonicalRevision: source.canonicalRevision,
+    workingRevision: source.workingRevision,
+    sourceDigest: source.sourceDigest,
+  };
+  return { ...payload, fenceDigest: sha256Signed(stableJson(payload)) };
+}
+
+function sourceFenceBinding({ commandId, projectId, documentId, sourceHash, rawHash }) {
+  const source = {
+    projectId,
+    rootId: 'root-word-mac-lab',
+    documentId,
+    canonicalRevision: sourceHash,
+    workingRevision: sourceHash,
+    sourceDigest: rawHash,
+  };
+  const request = {
+    schemaVersion: 'yalken.sourceFence.request.v1',
+    purpose: 'WRITE_SOURCE',
+    expected: source,
+    current: { ...source, dirtyState: 'CLEAN' },
+    dirtyPolicy: 'REQUIRE_CLEAN',
+    authority: {
+      decision: 'ALLOW',
+      mayWrite: true,
+      commandId,
+    },
+    fence: sourceFenceToken(source),
+  };
+  return {
+    schemaVersion: 'yalken.rtk.round-authority-source-fence.v1',
+    request,
+    result: {
+      schemaVersion: 'yalken.sourceFence.result.v1',
+      ok: true,
+      decision: 'ALLOW',
+      code: 'YALKEN_SOURCE_FENCE_ALLOWED',
+      reasons: [],
+      observed: {
+        purpose: 'WRITE_SOURCE',
+        projectId,
+        rootId: 'root-word-mac-lab',
+        documentId,
+        canonicalRevision: sourceHash,
+        workingRevision: sourceHash,
+        sourceDigest: rawHash,
+        dirtyState: 'CLEAN',
+        dirtyPolicy: 'REQUIRE_CLEAN',
+      },
+    },
+  };
+}
+
 function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, 'utf8'));
 }
@@ -553,12 +617,15 @@ async function runRound(seed, modules, dirs) {
         };
       });
     if (reviewItems.length > 0) {
+      const commandId = `${seed.id}-cmd`;
+      const projectId = `${seed.id}-project`;
+      const documentId = 'scene-1';
       const envelopeInput = {
         callerRole: 'main',
         commandAuthority: {
           issuer: 'main',
           intent: 'rtk.exactApply',
-          commandId: `${seed.id}-cmd`,
+          commandId,
         },
         roundId: seed.id,
         requestId: `${seed.id}-request`,
@@ -575,23 +642,34 @@ async function runRound(seed, modules, dirs) {
         sourceIdentity: {
           sourceTokenDomain: 'SOURCE_TOKEN_DOMAIN_V1',
           writerTextDomain: 'WRITER_TEXT_DOMAIN_V1',
+          projectId,
+          rootId: 'root-word-mac-lab',
+          documentId,
+          canonicalRevision: sourceHash,
+          workingRevision: sourceHash,
           revisionSha256: sourceHash,
           rawBytesSha256: rawHash,
         },
         currentIdentity: {
+          projectId,
+          rootId: 'root-word-mac-lab',
+          documentId,
+          canonicalRevision: sourceHash,
+          workingRevision: sourceHash,
           revisionSha256: sourceHash,
           rawBytesSha256: rawHash,
         },
+        sourceFence: sourceFenceBinding({ commandId, projectId, documentId, sourceHash, rawHash }),
         commentLane: [],
         writerInput: {
           projectRoot,
           projectSnapshot: {
-            projectId: `${seed.id}-project`,
+            projectId,
             baselineHash: `${seed.id}-baseline`,
             scenes: [{ sceneId: 'scene-1', text: seed.sourceText }],
           },
           revisionSession: {
-            projectId: `${seed.id}-project`,
+            projectId,
             baselineHash: `${seed.id}-baseline`,
             sessionId: `${seed.id}-session`,
             status: 'open',

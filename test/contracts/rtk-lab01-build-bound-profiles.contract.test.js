@@ -1167,3 +1167,48 @@ test('LAB03-04-real-registry-binds-16-112-negative-replay-crash-rung', async () 
   });
   assert.equal(next.ok, true, `WAVE_10 must be the next admissible rung: ${JSON.stringify(next.reasons)}`);
 });
+
+test('LAB03-05-real-registry-binds-16-112-physical-diversity-harness-as-non-ladder-evidence', async () => {
+  const module = await loadModule();
+  const registryJson = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
+  const current = registryJson.profiles.find((p) => p.profileId === 'word-mac-16.112-26081010');
+  assert.ok(current, '16.112 current profile must exist');
+  assert.equal(current.class, 'COMPETING_NOT_SATURATED');
+  assert.deepEqual(current.ladder.completedRungs, ['CARRIER_SURVIVAL_SMOKE', 'SEMANTIC_DIFFERENTIAL_SUBSET', 'NEGATIVE_REPLAY_CRASH_SUBSET'],
+    'harness honesty receipt must not complete WAVE_10, WAVE_300, saturation or terminal rungs');
+  assert.equal((current.evidenceHeads || []).length, 3,
+    'ladder evidence heads remain exactly smoke, semantic differential and negative replay/crash');
+
+  const harnessHeads = current.harnessEvidenceHeads || [];
+  assert.equal(harnessHeads.length, 1, '16.112 must bind exactly one non-ladder physical-diversity harness receipt');
+  const harnessHead = harnessHeads[0];
+  assert.equal(harnessHead.path, 'docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_DIVERSITY_HARNESS_RECEIPT.json');
+  assert.equal(harnessHead.wordVersion, '16.112');
+  assert.equal(harnessHead.wordBuild, '16.112.26081010');
+  assert.deepEqual(harnessHead.rungs, [], 'physical-diversity harness evidence must justify no ladder rungs');
+  assert.equal(harnessHead.claimScope, 'PHYSICAL_DIVERSITY_HARNESS_SELECTED_MATRIX_ONLY');
+  assert.equal(harnessHead.status, 'PHYSICAL_SELECTED_MATRIX_PASS_NOT_SATURATION');
+  assert.equal(harnessHead.casesTotal, 14);
+  assert.equal(harnessHead.casesPassed, 14);
+  assert.equal(harnessHead.denominator, 'selected-executable-word-edit-matrix-only-not-wave-not-saturation');
+
+  const harnessAbs = path.join(REPO_ROOT, harnessHead.path);
+  assert.equal(fs.existsSync(harnessAbs), true, `harness receipt must exist: ${harnessHead.path}`);
+  assert.equal(sha256File(harnessAbs), harnessHead.sha256, 'harness receipt sha256 must match registry non-ladder binding');
+
+  const receipt = JSON.parse(fs.readFileSync(harnessAbs, 'utf8'));
+  assert.equal(receipt.status, 'PHYSICAL_SELECTED_MATRIX_PASS_NOT_SATURATION');
+  assert.equal(receipt.counters.total, 14);
+  assert.equal(receipt.counters.passed, 14);
+  assert.equal(receipt.counters.failed, 0);
+  assert.equal(receipt.openWordDocumentsAfter, 0);
+  assert.ok((receipt.nonClaims || []).some((line) => String(line).includes('not WAVE_10')),
+    'receipt must explicitly deny wave/saturation/terminal promotion');
+
+  const next = module.evaluateLadderAdmission({
+    registry: registryJson,
+    profileId: 'word-mac-16.112-26081010',
+    rung: 'WAVE_10',
+  });
+  assert.equal(next.ok, true, 'WAVE_10 remains only the next admissible rung, not a completed result');
+});

@@ -10025,12 +10025,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_BUILD_PROFILE_REGISTRY_V1.json",
-      "sha256": "733d640738f5392db24837d66f65d6716ad6700c4ca3fdb95ab8cec08f60e1b7",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_NEGATIVE_REPLAY_CRASH_V1",
-      "approvedAtUtc": "2026-08-13T11:20:42Z",
-      "rationale": "Approve the bounded Word 16.112 negative replay/crash registry update: the current profile adds exactly NEGATIVE_REPLAY_CRASH_SUBSET 8/8 disposable synthetic negative-probe evidence on the exact signed provider, remains COMPETING_NOT_SATURATED, inherits no historical 16.111.3 evidence and does not create terminal PASS.",
+      "sha256": "59095d638c4f299f37ca440304a31d5a750f04ded5bd6fbe52d75436961744ef",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_PHYSICAL_DIVERSITY_V1",
+      "approvedAtUtc": "2026-08-13T12:20:35Z",
+      "rationale": "Approve the Word 16.112 build-profile registry status binding for the physical-diversity harness repair: adds one harnessEvidenceHeads entry with rungs [], preserves completedRungs as smoke/semantic/negative only, keeps class COMPETING_NOT_SATURATED and denies WAVE_10, WAVE_300, saturation and terminal PASS claims.",
       "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2_WORD_PHYSICAL_DIVERSITY_V1"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_MAC_16_112_CARRIER_SURVIVAL_SMOKE_RECEIPT.json",
@@ -10052,30 +10052,30 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-phys-ladder-16-111-3.mjs",
-      "sha256": "01803dedb52ba78fc0a0383018ec1fcea8319efff47f6fec8af7c9eb641985a1",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_PROVIDER_MIGRATION_16_112_V1",
-      "approvedAtUtc": "2026-08-13T08:35:40Z",
-      "rationale": "Approve the physical ladder runner migration to exact Word 16.112 provider identity, including bundle/team/signature/source checks and local clean candidate head mode for prephysical synthetic smoke only.",
+      "sha256": "3de87b6c42a14e9808c4d071c33ddc49efaba8332a1afcafde46d60a156ec6a4",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_PHYSICAL_DIVERSITY_V1",
+      "approvedAtUtc": "2026-08-13T12:20:35Z",
+      "rationale": "Approve the bounded Word physical-diversity harness honesty implementation: executable case specs now bind fixture, plan/script and oracle digests to operationShape/contentClass, reject metadata swaps and digest reuse, and exclude stale/replay/tamper/crash from the physical-diversity denominator unless a later typed adverse contour proves them.",
       "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_F2_WORD_PROVIDER_MIGRATION_16_112_V1"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2_WORD_PHYSICAL_DIVERSITY_V1"
     },
     {
       "filePath": "test/contracts/rtk-lab01-build-bound-profiles.contract.test.js",
-      "sha256": "8c417a46f3eeee5b0ac7b4b8b811517c43599dd775829386a521608d5ad2e02c",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_NEGATIVE_REPLAY_CRASH_V1",
-      "approvedAtUtc": "2026-08-13T11:20:42Z",
-      "rationale": "Approve LAB01 contract coverage requiring exact Word 16.112 negative replay/crash evidence binding, ordered ladder admission to WAVE_10 and bypass rejection for later waves.",
+      "sha256": "3f645bf37314e1364bf79ecb3f2f47aee80d0ad450ee08a5feb0652a5b49789a",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_PHYSICAL_DIVERSITY_V1",
+      "approvedAtUtc": "2026-08-13T12:20:35Z",
+      "rationale": "Approve LAB01 registry coverage binding the Word 16.112 physical-diversity harness receipt as non-ladder evidence only: the current profile remains COMPETING_NOT_SATURATED with exactly the first three completed rungs and no WAVE_10, saturation or terminal PASS promotion.",
       "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2_WORD_PHYSICAL_DIVERSITY_V1"
     },
     {
       "filePath": "test/contracts/rtk-phys01-ladder-runner.contract.test.js",
-      "sha256": "a81e2929548f4a36a9749c84dafa6facaac0bf5ef3b855abbcdb26eccc8896b6",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_NEGATIVE_REPLAY_CRASH_V1",
-      "approvedAtUtc": "2026-08-13T11:20:42Z",
-      "rationale": "Approve PHYS01 contract coverage requiring the real Word 16.112 negative replay/crash receipt to validate 8/8 disposable synthetic negative probes with exact provider, bundle, team, signature and physical carrier bindings.",
+      "sha256": "95af7ffdb813f78ef392a1c9a378472813436fab86037029409bc63b67f3bc0f",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_PHYSICAL_DIVERSITY_V1",
+      "approvedAtUtc": "2026-08-13T12:20:35Z",
+      "rationale": "Approve PHYS01 contract coverage for the owner review false-diversity finding: red-first guards require operationShape/contentClass to change executable bytes and digests, reject duplicate execution digests under different normalized rows, preserve a closed executable manifest, and keep adverse probe families out of Word physical-diversity claims.",
       "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2_WORD_PHYSICAL_DIVERSITY_V1"
     },
     {
       "filePath": "test/contracts/rtk-release01-terminal-claims.contract.test.js",
@@ -10103,6 +10103,15 @@
       "rationale": "Approve the factual NEGATIVE_REPLAY_CRASH_SUBSET physical receipt for disposable synthetic fixtures only on exact Word 16.112 build 16.112.26081010, sealed 8/8 at local candidate head 7de2bc7f with origin/main 54eafa76, bundle/team/signature binding, physical carrier proof and no compatibility saturation promotion.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_DIVERSITY_HARNESS_RECEIPT.json",
+      "sha256": "2512e0451bc9727163bc5b6a864f76603ca86a526f85f25beb2c96e4db53b343",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_PHYSICAL_DIVERSITY_V1",
+      "approvedAtUtc": "2026-08-13T12:20:35Z",
+      "rationale": "Approve the factual Word 16.112 physical-diversity harness receipt: 14/14 disposable synthetic selected executable edit cases, open documents after run 0, exact signed provider binding, full artifact receipt sha256 4b2c912612a0fdf94d27daef461af2e8e227f40a9898181d6f3257b2d04946f8, and explicit non-claims for WAVE_10/WAVE_300/saturation/terminal PASS.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2_WORD_PHYSICAL_DIVERSITY_V1"
     }
   ]
 }

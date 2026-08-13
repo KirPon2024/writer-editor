@@ -335,8 +335,8 @@
       },
       "evidenceScope": "CURRENT_BUILD_COMPATIBILITY",
       "blockedRowRef": null,
-      "note": "Compatibility of Yalken DOCX interop with the CURRENT Word build (16.112, build 16.112.26081010) is NOT claimed: only CARRIER_SURVIVAL_SMOKE 12/12 has been physically earned on the exact signed provider. Historical 16.111.3 evidence is preserved as non-transferable historical scope only; installed 16.109.1 was rejected and never promoted.",
-      "claimDigest": "sha256:ee6643eb08bedb1f71501f289574df992519b22410e29816560b845257e7203a"
+      "note": "Compatibility of Yalken DOCX interop with the CURRENT Word build (16.112, build 16.112.26081010) is NOT claimed: only CARRIER_SURVIVAL_SMOKE 12/12 and SEMANTIC_DIFFERENTIAL_SUBSET 24/24 have been physically earned on the exact signed provider. Historical 16.111.3 evidence is preserved as non-transferable historical scope only; installed 16.109.1 was rejected and never promoted; saturation and terminal PASS remain blocked.",
+      "claimDigest": "sha256:de382e56f46a6296b6f81a17ba1c66780bcec76c169c2f965dc180be9875ce80"
     }
   ],
   "bannedWordingPatterns": [
@@ -398,6 +398,6 @@
       "WORD_PROFILE_NOT_SATURATED:word-mac-16.112-26081010",
       "WORD_PROFILE_UNPROVEN:word-windows-current"
     ],
-    "blockerBinding": "deterministic-strict-rollup-v2: recorded blockers equal the set computed by evaluateTerminalRollupStrict from the live registries (current pointer word-mac-16.112-26081010), terminal acceptance matrix, veto inventory and claim inventory; state remains NOT_MADE_WORD_TERMINAL_PASS_REQUIRED; 16.112 has only CARRIER_SURVIVAL_SMOKE evidence and is not saturated; 16.111.3 evidence is historical and non-transferable"
+    "blockerBinding": "deterministic-strict-rollup-v2: recorded blockers equal the set computed by evaluateTerminalRollupStrict from the live registries (current pointer word-mac-16.112-26081010), terminal acceptance matrix, veto inventory and claim inventory; state remains NOT_MADE_WORD_TERMINAL_PASS_REQUIRED; 16.112 has CARRIER_SURVIVAL_SMOKE and SEMANTIC_DIFFERENTIAL_SUBSET evidence but is not saturated; 16.111.3 evidence is historical and non-transferable"
   }
 }

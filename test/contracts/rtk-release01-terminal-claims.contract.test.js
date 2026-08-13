@@ -1268,7 +1268,7 @@ test('RELEASE01-S06-real-registry-scope-and-pointer-integration', async () => {
 // S07: provider migration to Word 16.112 rewires only the current-build claim
 // and roll-up pointer. The old 16.111.3 profile remains historical, its
 // receipts stay non-transferable, and terminal PASS remains blocked until the
-// new 16.112 profile earns physical evidence and saturation.
+// new 16.112 profile earns every required physical rung and saturation.
 test('RELEASE01-S07-real-registry-word-16-112-migration-fail-closed', async () => {
   const module = await loadModule();
   const registry = module.loadTerminalClaimRegistry(REGISTRY_PATH).registry;
@@ -1281,13 +1281,23 @@ test('RELEASE01-S07-real-registry-word-16-112-migration-fail-closed', async () =
   assert.equal(prior.class, 'HISTORICAL_BUILD_BOUND');
   assert.equal(prior.supersededBy, 'word-mac-16.112-26081010');
   assert.equal(current.class, 'COMPETING_NOT_SATURATED');
-  assert.deepEqual(current.ladder.completedRungs, ['CARRIER_SURVIVAL_SMOKE']);
-  assert.equal((current.evidenceHeads || []).length, 1, '16.112 must carry only its own smoke receipt so far');
-  assert.equal(current.evidenceHeads[0].path, 'docs/OPS/RTK/WORD_MAC_16_112_CARRIER_SURVIVAL_SMOKE_RECEIPT.json');
-  assert.equal(current.evidenceHeads[0].wordVersion, '16.112');
-  assert.equal(current.evidenceHeads[0].wordBuild, '16.112.26081010');
-  assert.equal(String(current.evidenceHeads[0].path).includes('16_111_3'), false,
-    '16.112 evidence path must not reuse 16.111.3 receipt path');
+  assert.deepEqual(current.ladder.completedRungs, ['CARRIER_SURVIVAL_SMOKE', 'SEMANTIC_DIFFERENTIAL_SUBSET']);
+  assert.equal((current.evidenceHeads || []).length, 2, '16.112 must carry its smoke and semantic differential receipts');
+  const smokeHead = current.evidenceHeads.find((h) =>
+    h.path === 'docs/OPS/RTK/WORD_MAC_16_112_CARRIER_SURVIVAL_SMOKE_RECEIPT.json');
+  const semanticHead = current.evidenceHeads.find((h) =>
+    h.path === 'docs/OPS/RTK/WORD_MAC_16_112_SEMANTIC_DIFFERENTIAL_RECEIPT.json');
+  for (const head of [smokeHead, semanticHead]) {
+    assert.ok(head, 'expected 16.112 evidence head must be present');
+    assert.equal(head.wordVersion, '16.112');
+    assert.equal(head.wordBuild, '16.112.26081010');
+    assert.equal(String(head.path).includes('16_111_3'), false,
+      '16.112 evidence path must not reuse 16.111.3 receipt path');
+    assert.equal(sha256File(path.join(REPO_ROOT, head.path)), head.sha256,
+      `16.112 evidence sha256 must verify: ${head.path}`);
+  }
+  assert.deepEqual(smokeHead.rungs, ['CARRIER_SURVIVAL_SMOKE']);
+  assert.deepEqual(semanticHead.rungs, ['SEMANTIC_DIFFERENTIAL_SUBSET']);
 
   const compat = registry.claims.find((c) => c.claimId === 'claim-current-word-compatibility');
   assert.ok(compat, 'the current-word-compatibility claim must exist');

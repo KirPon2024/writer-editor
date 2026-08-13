@@ -10025,12 +10025,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_BUILD_PROFILE_REGISTRY_V1.json",
-      "sha256": "359b28f73e4f9d7c1ad752b6323099f162532aca7ae36ffcb996a4cedfe8abd9",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_PROVIDER_MIGRATION_16_112_V1",
-      "approvedAtUtc": "2026-08-13T09:45:00Z",
-      "rationale": "Approve the bounded F2 Word provider profile migration registry update after fresh physical replay: Word 16.111.3 remains historical and non-transferable, Word 16.112 build 16.112.26081010 is current but not saturated, smoke evidence is bound to local candidate head 0379cea3 and origin/main 574f2777, and no terminal PASS is created.",
+      "sha256": "d76106055a7aa3f1e34a11ce347e652557058f1dc60e99d6ad105003aab220a4",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_SEMANTIC_DIFFERENTIAL_V1",
+      "approvedAtUtc": "2026-08-13T10:34:26Z",
+      "rationale": "Approve the bounded Word 16.112 semantic differential registry update: the current profile adds exactly SEMANTIC_DIFFERENTIAL_SUBSET 24/24 evidence on the exact signed provider, remains COMPETING_NOT_SATURATED, inherits no historical 16.111.3 evidence and does not create terminal PASS.",
       "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_F2_WORD_PROVIDER_MIGRATION_16_112_V1"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_MAC_16_112_CARRIER_SURVIVAL_SMOKE_RECEIPT.json",
@@ -10043,12 +10043,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "1c30896ce88f66904b4a7887db6ac7450987e6bebb8a9fd78c26aae8935eb911",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_PROVIDER_MIGRATION_16_112_V1",
-      "approvedAtUtc": "2026-08-13T08:35:40Z",
-      "rationale": "Approve the terminal claim registry rebinding to Word 16.112 while preserving fail-closed terminal status: unresolved blockers, provider gaps, unknowns and non-saturation cannot aggregate to PASS.",
+      "sha256": "917ff11fa20c51211a1b7469f754edde0ddef2b7800eb27e5972a7c8d7f8d059",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_SEMANTIC_DIFFERENTIAL_V1",
+      "approvedAtUtc": "2026-08-13T10:34:26Z",
+      "rationale": "Approve the terminal claim registry factual update recording that the current Word 16.112 profile has smoke plus semantic evidence while preserving NOT_MADE_WORD_TERMINAL_PASS_REQUIRED, all blockers, historical non-transferability and fail-closed terminal compilation.",
       "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_F2_WORD_PROVIDER_MIGRATION_16_112_V1"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },
     {
       "filePath": "scripts/ops/rtk-word-phys-ladder-16-111-3.mjs",
@@ -10061,30 +10061,39 @@
     },
     {
       "filePath": "test/contracts/rtk-lab01-build-bound-profiles.contract.test.js",
-      "sha256": "d0e2179432788aac4fd71bd45615300a941358ab59c9efa2496bd68a93dbecfd",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_PROVIDER_MIGRATION_16_112_V1",
-      "approvedAtUtc": "2026-08-13T08:35:40Z",
-      "rationale": "Approve the LAB01 build-profile contract coverage for explicit 16.111.3 historical separation, 16.112 current profile binding, no inherited evidence and fail-closed mismatch behavior.",
+      "sha256": "67d115345554dcc90da538d984089e16466c87e9daebfe3e9c3d88203d5118c4",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_SEMANTIC_DIFFERENTIAL_V1",
+      "approvedAtUtc": "2026-08-13T10:34:26Z",
+      "rationale": "Approve LAB01 contract coverage requiring exact Word 16.112 semantic differential evidence binding, ordered ladder admission to the negative replay/crash rung and bypass rejection for later waves.",
       "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_F2_WORD_PROVIDER_MIGRATION_16_112_V1"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },
     {
       "filePath": "test/contracts/rtk-phys01-ladder-runner.contract.test.js",
-      "sha256": "f95f33a663fb21932df3be8693a621426d60fab690002fd47c1560e3790853d4",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_PROVIDER_MIGRATION_16_112_V1",
-      "approvedAtUtc": "2026-08-13T08:35:40Z",
-      "rationale": "Approve the PHYS01 runner contract coverage for exact 16.112 provider checks, wrong build/bundle/team/signature rejection and prephysical local-candidate head gating.",
+      "sha256": "0b70fdc37f474277ce5d217b0051bd31a0e5d690af88292cc634d0891e209ffe",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_SEMANTIC_DIFFERENTIAL_V1",
+      "approvedAtUtc": "2026-08-13T10:34:26Z",
+      "rationale": "Approve PHYS01 contract coverage requiring the real Word 16.112 semantic differential receipt to validate 24/24 disposable synthetic open-edit-save-close-reopen cases with exact provider, bundle, team and signature bindings.",
       "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_F2_WORD_PROVIDER_MIGRATION_16_112_V1"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },
     {
       "filePath": "test/contracts/rtk-release01-terminal-claims.contract.test.js",
-      "sha256": "65862d1033b9c3e4c8527242d234e9889128650be29fd9384806e98f1310f31b",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_PROVIDER_MIGRATION_16_112_V1",
-      "approvedAtUtc": "2026-08-13T08:35:40Z",
-      "rationale": "Approve the RELEASE01 terminal-claims contract coverage proving the 16.112 provider migration remains blocked and cannot launder historical, unknown, blocked or unsaturated evidence into terminal PASS.",
+      "sha256": "3bfa25157e981930f13519d4b6d256b8d285e8c6c7f8ab64d81c762973c4bc70",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_SEMANTIC_DIFFERENTIAL_V1",
+      "approvedAtUtc": "2026-08-13T10:34:26Z",
+      "rationale": "Approve RELEASE01 terminal-claim coverage proving smoke plus semantic Word 16.112 evidence remains non-saturated and cannot aggregate into terminal PASS while Windows, Online, Google, blocked rows and not-claimed blockers remain unresolved.",
       "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_F2_WORD_PROVIDER_MIGRATION_16_112_V1"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_MAC_16_112_SEMANTIC_DIFFERENTIAL_RECEIPT.json",
+      "sha256": "5183acde7f22ae477e5e337d828222bd2a7cb66080bd65a3be52e4a141f85c06",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_SEMANTIC_DIFFERENTIAL_V1",
+      "approvedAtUtc": "2026-08-13T10:34:26Z",
+      "rationale": "Approve the factual SEMANTIC_DIFFERENTIAL_SUBSET physical receipt for disposable synthetic fixtures only on exact Word 16.112 build 16.112.26081010, sealed 24/24 at local candidate head f087f5e7 with origin/main ccb36021, bundle/team/signature binding and no compatibility saturation promotion.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     }
   ]
 }

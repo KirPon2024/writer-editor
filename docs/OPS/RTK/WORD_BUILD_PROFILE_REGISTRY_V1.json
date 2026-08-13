@@ -546,6 +546,28 @@
           "denominator": "executable-diversity-bound-wave100-only-not-saturation",
           "manifestDigest": "41df2b4d988f9a3f0a6bb76b7b9ce33255536c5efc1e6b1a237ce7a342c785c5",
           "executableManifestDigest": "e5dd2aaf1dd988e100d58677be9acb58443a0896bdd67305e4cf179afd64f672"
+        },
+        {
+          "path": "docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE300_RECEIPT.json",
+          "sha256": "sha256:f5079e873165ad516c8ff91faee37796226a99ac8d77074523b5c9a5c2869e5f",
+          "wordVersion": "16.112",
+          "wordBuild": "16.112.26081010",
+          "sealedAtUtc": "2026-08-13T16:50:20Z",
+          "rungs": [
+            "WAVE_300"
+          ],
+          "claimScope": "DIVERSE_FAMILY_WAVE_PROVEN",
+          "status": "PHYSICAL_WAVE_PASS",
+          "headSha": "705f33bca38ae0822b3f13cb097fb48bf1a2fa2e",
+          "originMainSha": "25e2b2d5e6a4a145dc4a46c52e920d4234cec3aa",
+          "bundleIdentifier": "com.microsoft.Word",
+          "teamIdentifier": "UBF8T346G9",
+          "signatureValid": true,
+          "casesTotal": 300,
+          "casesPassed": 300,
+          "denominator": "executable-diversity-bound-wave300-only-not-saturation",
+          "manifestDigest": "23675f520abc9dd40c93f1a816b8d65b89c682f2ee05418af6e607a74028516a",
+          "executableManifestDigest": "113b1487bd2ec44a5e61924cdf53963ea48a2be1376bab4487e6938c82fc3e3f"
         }
       ],
       "harnessEvidenceHeads": [
@@ -578,11 +600,12 @@
           "NEGATIVE_REPLAY_CRASH_SUBSET",
           "WAVE_10",
           "WAVE_40",
-          "WAVE_100"
+          "WAVE_100",
+          "WAVE_300"
         ]
       },
-      "profileDigest": "sha256:6d7a40617b5c14540172580741e1d4452f3a95997c9e1dfcd18cfdcadc0f5d3a",
-      "competingNote": "Physical evidence on Word 16.112 build 16.112.26081010: CARRIER_SURVIVAL_SMOKE 12/12 synthetic cases sealed at local prephysical candidate head 0379cea3 with origin/main base 574f2777, SEMANTIC_DIFFERENTIAL_SUBSET 24/24 synthetic cases sealed at local prephysical candidate head f087f5e7 with origin/main base ccb36021, NEGATIVE_REPLAY_CRASH_SUBSET 8/8 synthetic negative probes sealed at local candidate head 7de2bc7f with origin/main base 54eafa76, PHYSICAL_DIVERSITY_HARNESS_SELECTED_MATRIX_ONLY 14/14 harness-honesty cases sealed at local candidate head a66a6361 with origin/main base 85dd0877, WAVE_10 10/10 executable diversity-bound synthetic cases sealed at local candidate head 78ec65b0 with origin/main base 43f01a09, WAVE_40 40/40 executable diversity-bound synthetic cases sealed at local candidate head c1a56e56 with origin/main base 235ce637, and WAVE_100 100/100 executable diversity-bound synthetic cases sealed at local candidate head dce52d5e with origin/main base e1a6fd29. This proves only the first six build-bound ladder rungs plus a non-ladder harness honesty repair; no WAVE_300/WAVE_300_REPEAT/saturation/terminal PASS is claimed, stale/replay/tamper/crash stay out of the Word physical-diversity denominator, and no historical 16.111.3 evidence is inherited."
+      "profileDigest": "sha256:9d19c9c1d23473e3a627cf045eb58fe950f70f563ebe63ecc4995935ac677f4a",
+      "competingNote": "Physical evidence on Word 16.112 build 16.112.26081010: CARRIER_SURVIVAL_SMOKE 12/12 synthetic cases sealed at local prephysical candidate head 0379cea3 with origin/main base 574f2777, SEMANTIC_DIFFERENTIAL_SUBSET 24/24 synthetic cases sealed at local prephysical candidate head f087f5e7 with origin/main base ccb36021, NEGATIVE_REPLAY_CRASH_SUBSET 8/8 synthetic negative probes sealed at local candidate head 7de2bc7f with origin/main base 54eafa76, PHYSICAL_DIVERSITY_HARNESS_SELECTED_MATRIX_ONLY 14/14 harness-honesty cases sealed at local candidate head a66a6361 with origin/main base 85dd0877, WAVE_10 10/10 executable diversity-bound synthetic cases sealed at local candidate head 78ec65b0 with origin/main base 43f01a09, WAVE_40 40/40 executable diversity-bound synthetic cases sealed at local candidate head c1a56e56 with origin/main base 235ce637, WAVE_100 100/100 executable diversity-bound synthetic cases sealed at local candidate head dce52d5e with origin/main base e1a6fd29, and WAVE_300 300/300 executable diversity-bound synthetic cases sealed at local candidate head 705f33bc with origin/main base 25e2b2d5 after a prior WAVE_300 attempt failed 292/300 with eight insertion cases lacking proof. This proves only the first seven build-bound ladder rungs plus a non-ladder harness honesty repair; no WAVE_300_REPEAT/saturation/terminal PASS is claimed, stale/replay/tamper/crash stay out of the Word physical-diversity denominator, and no historical 16.111.3 evidence is inherited."
     }
   ],
   "currentProfileId": "word-mac-16.112-26081010"

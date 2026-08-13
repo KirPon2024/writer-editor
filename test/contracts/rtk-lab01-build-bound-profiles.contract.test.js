@@ -46,6 +46,17 @@ const CURRENT_16_112_COMPLETED_RUNGS_AFTER_WAVE300 = Object.freeze([
   'WAVE_300',
 ]);
 const CURRENT_16_112_EVIDENCE_HEAD_COUNT_AFTER_WAVE300 = 7;
+const CURRENT_16_112_COMPLETED_RUNGS_AFTER_WAVE300_REPEAT = Object.freeze([
+  'CARRIER_SURVIVAL_SMOKE',
+  'SEMANTIC_DIFFERENTIAL_SUBSET',
+  'NEGATIVE_REPLAY_CRASH_SUBSET',
+  'WAVE_10',
+  'WAVE_40',
+  'WAVE_100',
+  'WAVE_300',
+  'WAVE_300_REPEAT',
+]);
+const CURRENT_16_112_EVIDENCE_HEAD_COUNT_AFTER_WAVE300_REPEAT = 8;
 
 // ---------------------------------------------------------------------------
 // Shared helpers (mirror the rtk-multi01 / rtk-round01 harness style).
@@ -1376,4 +1387,47 @@ test('LAB03-09-real-registry-binds-16-112-wave300-without-saturation-or-terminal
     rung: 'WAVE_300_REPEAT',
   });
   assert.equal(repeat.ok, true, `WAVE_300_REPEAT must become the next admissible rung only after WAVE_300: ${JSON.stringify(repeat.reasons)}`);
+});
+
+test('LAB03-10-real-registry-binds-16-112-wave300-repeat-without-saturation-or-terminal-promotion', async () => {
+  const module = await loadModule();
+  const registryJson = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
+  const loaded = module.loadBuildProfileRegistry(registryJson);
+  assert.equal(loaded.ok, true, `registry with WAVE_300_REPEAT must load: ${JSON.stringify(loaded.reasons)}`);
+  const reconciliation = module.evaluateRegistryReconciliation(registryJson);
+  assert.equal(reconciliation.ok, true, `registry with WAVE_300_REPEAT must reconcile: ${JSON.stringify(reconciliation.reasons)}`);
+
+  const current = registryJson.profiles.find((p) => p.profileId === 'word-mac-16.112-26081010');
+  assert.ok(current, '16.112 current profile must exist');
+  assert.equal(current.class, 'COMPETING_NOT_SATURATED');
+  assert.deepEqual(current.ladder.completedRungs, CURRENT_16_112_COMPLETED_RUNGS_AFTER_WAVE300_REPEAT);
+  assert.equal((current.evidenceHeads || []).length, CURRENT_16_112_EVIDENCE_HEAD_COUNT_AFTER_WAVE300_REPEAT,
+    'WAVE_300_REPEAT must become the eighth ladder evidence head, without SATURATED profile promotion');
+
+  const repeatHead = current.evidenceHeads.find((h) =>
+    h.path === 'docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE300_REPEAT_RECEIPT.json');
+  assert.ok(repeatHead, 'WAVE_300_REPEAT receipt head must be registered');
+  assert.equal(repeatHead.wordVersion, '16.112');
+  assert.equal(repeatHead.wordBuild, '16.112.26081010');
+  assert.deepEqual(repeatHead.rungs, ['WAVE_300_REPEAT']);
+  assert.equal(repeatHead.claimScope, 'DIVERSE_FAMILY_WAVE_PROVEN');
+  assert.equal(repeatHead.casesTotal, 300);
+  assert.equal(repeatHead.casesPassed, 300);
+  assert.equal(repeatHead.denominator, 'executable-diversity-bound-wave300-repeat-only-not-saturation');
+  const repeatAbs = path.join(REPO_ROOT, repeatHead.path);
+  assert.equal(fs.existsSync(repeatAbs), true, `WAVE_300_REPEAT receipt must exist: ${repeatHead.path}`);
+  assert.equal(sha256File(repeatAbs), repeatHead.sha256, 'WAVE_300_REPEAT receipt sha256 must match registry binding');
+
+  const receipt = JSON.parse(fs.readFileSync(repeatAbs, 'utf8'));
+  const firstWave = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE300_RECEIPT.json'), 'utf8'));
+  assert.equal(receipt.status, 'PHYSICAL_WAVE_PASS');
+  assert.equal(receipt.claimScope, 'DIVERSE_FAMILY_WAVE_PROVEN');
+  assert.deepEqual(receipt.counters, { total: 300, passed: 300, failed: 0 });
+  assert.equal(receipt.manifestDigest, firstWave.manifestDigest,
+    'repeat receipt must bind the first WAVE_300 manifest digest exactly');
+  assert.deepEqual(receipt.caseManifest, firstWave.caseManifest,
+    'repeat receipt must embed the same manifest as the first WAVE_300 run');
+  assert.ok(receipt.executableCaseManifest, 'WAVE_300_REPEAT receipt must carry executable case manifest');
+  assert.ok((receipt.nonClaims || []).some((line) => String(line).includes('No saturation')),
+    'WAVE_300_REPEAT receipt must explicitly deny saturation/terminal promotion');
 });

@@ -72,6 +72,17 @@ const CURRENT_16_112_COMPLETED_RUNGS_AFTER_WAVE300 = Object.freeze([
   'WAVE_300',
 ]);
 const CURRENT_16_112_EVIDENCE_HEAD_COUNT_AFTER_WAVE300 = 7;
+const CURRENT_16_112_COMPLETED_RUNGS_AFTER_WAVE300_REPEAT = Object.freeze([
+  'CARRIER_SURVIVAL_SMOKE',
+  'SEMANTIC_DIFFERENTIAL_SUBSET',
+  'NEGATIVE_REPLAY_CRASH_SUBSET',
+  'WAVE_10',
+  'WAVE_40',
+  'WAVE_100',
+  'WAVE_300',
+  'WAVE_300_REPEAT',
+]);
+const CURRENT_16_112_EVIDENCE_HEAD_COUNT_AFTER_WAVE300_REPEAT = 8;
 
 // ---------------------------------------------------------------------------
 // Shared helpers (mirror the rtk-lab01 / rtk-google01 harness style).
@@ -1552,6 +1563,65 @@ test('RELEASE01-S10-real-registry-word-16-112-wave300-still-fail-closed', async 
     `computed blockers must keep the unsaturated 16.112 profile: ${JSON.stringify(result.blockers)}`);
   assert.ok(result.blockers.includes('BLOCKED_CLAIM:claim-current-word-compatibility'),
     'current Word compatibility claim remains explicitly NOT_CLAIMED_BLOCKED after WAVE_300');
+  assert.equal(result.blockers.includes('WORD_PROFILE_NOT_SATURATED:word-mac-16.111.3-26080215'), false,
+    'the roll-up must not fall back to historical 16.111.3 as current evidence');
+});
+
+// S11: WAVE_300_REPEAT is an independent repeat of the executable-diversity
+// denominator, not a saturation or terminal release proof. Current Word
+// compatibility remains NOT_CLAIMED_BLOCKED until a separate saturation and
+// terminal claim contour closes on exact evidence.
+test('RELEASE01-S11-real-registry-word-16-112-wave300-repeat-still-fail-closed', async () => {
+  const module = await loadModule();
+  const registry = module.loadTerminalClaimRegistry(REGISTRY_PATH).registry;
+  const wordRegistry = JSON.parse(fs.readFileSync(WORD_REGISTRY_PATH, 'utf8'));
+  const current = wordRegistry.profiles.find((p) => p.profileId === 'word-mac-16.112-26081010');
+  assert.ok(current, 'current 16.112 profile must exist');
+  assert.equal(current.class, 'COMPETING_NOT_SATURATED');
+  assert.deepEqual(current.ladder.completedRungs, CURRENT_16_112_COMPLETED_RUNGS_AFTER_WAVE300_REPEAT);
+  assert.equal((current.evidenceHeads || []).length, CURRENT_16_112_EVIDENCE_HEAD_COUNT_AFTER_WAVE300_REPEAT,
+    '16.112 must carry its eight ladder evidence heads through WAVE_300_REPEAT only');
+  const repeatHead = current.evidenceHeads.find((h) =>
+    h.path === 'docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE300_REPEAT_RECEIPT.json');
+  assert.ok(repeatHead, 'WAVE_300_REPEAT evidence head must be present');
+  assert.equal(repeatHead.wordVersion, '16.112');
+  assert.equal(repeatHead.wordBuild, '16.112.26081010');
+  assert.deepEqual(repeatHead.rungs, ['WAVE_300_REPEAT']);
+  assert.equal(repeatHead.claimScope, 'DIVERSE_FAMILY_WAVE_PROVEN');
+  assert.equal(repeatHead.casesTotal, 300);
+  assert.equal(repeatHead.casesPassed, 300);
+  assert.equal(repeatHead.denominator, 'executable-diversity-bound-wave300-repeat-only-not-saturation');
+  assert.equal(sha256File(path.join(REPO_ROOT, repeatHead.path)), repeatHead.sha256,
+    `16.112 WAVE_300_REPEAT evidence sha256 must verify: ${repeatHead.path}`);
+
+  const compat = registry.claims.find((c) => c.claimId === 'claim-current-word-compatibility');
+  assert.ok(compat, 'the current-word-compatibility claim must exist');
+  assert.equal(compat.claimClass, 'NOT_CLAIMED_BLOCKED');
+  assert.equal(compat.evidenceScope, 'CURRENT_BUILD_COMPATIBILITY');
+  assert.equal(compat.evidenceBinding.profileId, 'word-mac-16.112-26081010');
+
+  const googleRegistry = JSON.parse(fs.readFileSync(GOOGLE_REGISTRY_PATH, 'utf8'));
+  const matrix = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'docs', 'OPS', 'STATUS', 'YALKEN_WORD_C5V2_TERMINAL_ACCEPTANCE_MATRIX_V1.json'), 'utf8'));
+  const v4Profile = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json'), 'utf8'));
+  const vetoCounters = {};
+  for (const key of VETO_KNOWN_KEYS) vetoCounters[key] = v4Profile.capabilityClaimPolicy[key];
+  const result = module.evaluateTerminalRollupStrict({
+    registry,
+    context: {
+      currentProfileId: wordRegistry.currentProfileId,
+      wordProfiles: wordRegistry.profiles,
+      googleProfiles: googleRegistry.profiles,
+      terminalMatrix: matrix,
+      vetoCounters,
+      claims: registry.claims,
+    },
+  });
+  assert.equal(result.ok, true, `16.112 WAVE_300_REPEAT blocked roll-up must match recorded registry: ${JSON.stringify(result.reasons)}`);
+  assert.equal(result.terminalClaim, 'NOT_MADE_WORD_TERMINAL_PASS_REQUIRED');
+  assert.ok(result.blockers.includes('WORD_PROFILE_NOT_SATURATED:word-mac-16.112-26081010'),
+    `computed blockers must keep the unsaturated 16.112 profile: ${JSON.stringify(result.blockers)}`);
+  assert.ok(result.blockers.includes('BLOCKED_CLAIM:claim-current-word-compatibility'),
+    'current Word compatibility claim remains explicitly NOT_CLAIMED_BLOCKED after WAVE_300_REPEAT');
   assert.equal(result.blockers.includes('WORD_PROFILE_NOT_SATURATED:word-mac-16.111.3-26080215'), false,
     'the roll-up must not fall back to historical 16.111.3 as current evidence');
 });

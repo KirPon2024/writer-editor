@@ -9980,21 +9980,21 @@
     },
     {
       "filePath": "scripts/ops/source-fence-v1-model.mjs",
-      "sha256": "7f67717c1b74b29df9e6e8f0010e9316ba42993ad1f0ca7f36742b5cae13d63c",
-      "approvedBy": "owner-direct:TASK_ID:YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1",
-      "approvedAtUtc": "2026-08-13T06:26:08Z",
-      "rationale": "Approve the independent finite model/oracle for S0 source fence v1: 192 finite cases, 16 hostile cases, and 9 semantic mutation killers, with UNKNOWN/ABSTAIN/CONFLICTING never aggregating to PASS.",
+      "sha256": "d84785be2b9eb90a9b9e66fcf3007f2da16aa1b87f9115664566599a9b10904f",
+      "approvedBy": "owner-direct:TASK_ID:F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1",
+      "approvedAtUtc": "2026-08-13T21:03:40Z",
+      "rationale": "Approve independent S0 source fence model update for least-privilege read authority: 192 finite cases, 17 hostile cases, 9 semantic mutants, zero disagreements/failures/survivors/skips.",
       "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_S0"
+      "authority": "OWNER_CORRECTION_GATE_F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1"
     },
     {
       "filePath": "test/contracts/source-fence-v1.contract.test.js",
-      "sha256": "3037f48608184326602e888135c680a1ca4c175bd80476d27515fc9102f8f134",
-      "approvedBy": "owner-direct:TASK_ID:YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1",
-      "approvedAtUtc": "2026-08-13T06:26:08Z",
-      "rationale": "Approve the S0 source fence v1 contract tests covering exact keys, stale revisions, dirty source policy, wrong project/root/document, replay/transplant, lost-update interleavings, restart-visible fence, and UNKNOWN/ABSTAIN/CONFLICTING fail-closed behavior.",
+      "sha256": "ac359e83a652285ece040801effa9928e7eeda7e9ea76724251c3186dd778093",
+      "approvedBy": "owner-direct:TASK_ID:F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1",
+      "approvedAtUtc": "2026-08-13T21:03:40Z",
+      "rationale": "Approve source fence contract tests proving READ_SOURCE_SNAPSHOT passes with mayWrite=false, rejects mayWrite=true as wrong authority class, and WRITE_SOURCE still rejects mayWrite=false.",
       "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_S0"
+      "authority": "OWNER_CORRECTION_GATE_F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1"
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_F1_MULTILINGUAL_EVIDENCE_V1_RECEIPT.json",
@@ -10007,21 +10007,21 @@
     },
     {
       "filePath": "scripts/ops/multilingual-evidence-v1-model.mjs",
-      "sha256": "41f39e7c3e04b33c677c9b99b9cd6f2c966eb5f1d334c11017d1a008276ca270",
-      "approvedBy": "owner-direct:TASK_ID:YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1",
-      "approvedAtUtc": "2026-08-13T06:52:40Z",
-      "rationale": "Approve the independent F1 multilingual evidence finite model/oracle: 24 finite cases, 12 hostile Unicode/source-fence cases, and 10 semantic mutation killers with zero disagreements, failures, survivors or skips.",
+      "sha256": "b1a2a8ca4db26305e5368d99ca26e21a09f504328f980414bd127c63fb585309",
+      "approvedBy": "owner-direct:TASK_ID:F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1",
+      "approvedAtUtc": "2026-08-13T21:03:40Z",
+      "rationale": "Approve independent F1 multilingual sourceSnapshot model/oracle update: 24 finite cases, 18 hostile authority/digest/revision/generation cases, 15 semantic mutation killers, zero disagreements/failures/survivors/skips.",
       "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F1"
+      "authority": "OWNER_CORRECTION_GATE_F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1"
     },
     {
       "filePath": "test/contracts/multilingual-evidence-v1.contract.test.js",
-      "sha256": "9ebc80648642667cec51011279e23314e5ce8af0aea077bcf077da521ff8c216",
-      "approvedBy": "owner-direct:TASK_ID:YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1",
-      "approvedAtUtc": "2026-08-13T06:52:40Z",
-      "rationale": "Approve the F1 multilingual evidence contract tests covering default-off no-write feature flag, exact schemas/keysets, source fence stale/transplant rejection, Unicode NFC/casefold/grapheme/token boundaries, search boundary safety, unknown-language abstention and no-silent-drop accounting.",
+      "sha256": "ca7d2fb6cfb1785760aa27773ffc35a9a02841132c1bf0d09bdb00c0b85fb3a4",
+      "approvedBy": "owner-direct:TASK_ID:F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1",
+      "approvedAtUtc": "2026-08-13T21:03:40Z",
+      "rationale": "Approve F1 multilingual contract tests proving trusted Product Core sourceSnapshot binding, forged ALLOW rejection, text/digest mismatch rejection, stale revision/generation rejection, transplant/replay rejection and UNKNOWN/ABSTAIN/CONFLICTING non-PASS behavior.",
       "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F1"
+      "authority": "OWNER_CORRECTION_GATE_F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_MAC_16_112_CARRIER_SURVIVAL_SMOKE_RECEIPT.json",
@@ -10175,6 +10175,33 @@
       "rationale": "Approve factual TYPED_ADVERSE_SCHEDULES receipt for disposable synthetic evidence only on exact signed Word 16.112 build 16.112.26081010: 16/16 stale/replay/tamper/crash fail-closed schedules, bound adverse manifest digest 85180f4e836b2c3a8bd175688b107b1b980cd38e2c44805943a6dc87001987a1 and explicit non-claims for saturation/terminal compatibility.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
+    },
+    {
+      "filePath": "src/product/sourceFenceV1.mjs",
+      "sha256": "078a485624eb2041b30e64866db84ec0f78cef47fab064cde640dc1a0e4bdfa3",
+      "approvedBy": "owner-direct:TASK_ID:F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1",
+      "approvedAtUtc": "2026-08-13T21:03:40Z",
+      "rationale": "Approve S0 source fence purpose-aware authority hardening: READ_SOURCE_SNAPSHOT now requires least-privilege ALLOW with mayWrite=false, while WRITE_SOURCE remains fail-closed without mayWrite=true; no runtime writer wiring, UI, dependency or migration change.",
+      "approved": true,
+      "authority": "OWNER_CORRECTION_GATE_F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1"
+    },
+    {
+      "filePath": "src/product/multilingualEvidenceV1.mjs",
+      "sha256": "806492df92c8fd507898d4b9da8a8a2ce67f701e3f3da7aceb5618f27c1d4844",
+      "approvedBy": "owner-direct:TASK_ID:F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1",
+      "approvedAtUtc": "2026-08-13T21:03:40Z",
+      "rationale": "Approve F1 multilingual evidence source snapshot authority hardening: index requests bind one trusted Product Core sourceSnapshot with recomputed source/text digest, project/root/document identity, canonical+working revision and generation; forged caller ALLOW/text, stale, transplant, replay and UNKNOWN/ABSTAIN/CONFLICTING cases fail closed.",
+      "approved": true,
+      "authority": "OWNER_CORRECTION_GATE_F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1_RECEIPT.json",
+      "sha256": "e9ad2af381715295bb116a904c156585a6994e954adabdf0ae42e06966c7d18f",
+      "approvedBy": "owner-direct:TASK_ID:F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1",
+      "approvedAtUtc": "2026-08-13T21:13:44Z",
+      "rationale": "Approve factual F1 source snapshot authority hardening receipt: red-first reproduced two authority gaps, focused 15/15, affected 54/54, deterministic replay 2/2 identical, source fence model 192/17/9 and multilingual model 24/18/15 all zero failure/skip/survivor, dev:fast/guardrails/oss/audit/npm test local gates green; no UI, runtime writer wiring, migration, dependency, Word/DOCX or Black Box scope.",
+      "approved": true,
+      "authority": "OWNER_CORRECTION_GATE_F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1"
     }
   ]
 }

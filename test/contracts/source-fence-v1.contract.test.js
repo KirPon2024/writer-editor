@@ -227,6 +227,41 @@ test('S0 source fence v1 rejects replay/transplant fences and lost-update interl
   );
 });
 
+test('S0 source fence v1 distinguishes least-privilege read snapshot authority from write authority', async () => {
+  const module = await loadModule();
+  const { SOURCE_FENCE_V1_CODES: CODES } = module;
+
+  const readOnly = module.evaluateSourceFenceV1(buildRequest(module, {
+    purpose: 'READ_SOURCE_SNAPSHOT',
+    authority: withAuthority({
+      mayWrite: false,
+      commandId: 'query-source-snapshot',
+    }),
+  }));
+  assert.equal(readOnly.ok, true);
+  assert.equal(readOnly.code, CODES.ALLOWED);
+  assert.equal(readOnly.observed.purpose, 'READ_SOURCE_SNAPSHOT');
+
+  assertReason(
+    module.evaluateSourceFenceV1(buildRequest(module, {
+      purpose: 'READ_SOURCE_SNAPSHOT',
+      authority: withAuthority({
+        mayWrite: true,
+        commandId: 'query-source-snapshot',
+      }),
+    })),
+    CODES.AUTHORITY_NOT_GRANTED,
+  );
+
+  assertReason(
+    module.evaluateSourceFenceV1(buildRequest(module, {
+      purpose: 'WRITE_SOURCE',
+      authority: withAuthority({ mayWrite: false }),
+    })),
+    CODES.AUTHORITY_NOT_GRANTED,
+  );
+});
+
 test('S0 source fence v1 preserves a restart-visible fence but invalidates it after source changes', async () => {
   const module = await loadModule();
   const { SOURCE_FENCE_V1_CODES: CODES } = module;
@@ -275,7 +310,7 @@ test('S0 source fence v1 generated finite model, hostile corpus and independent 
   assert.equal(stableJson(first), stableJson(second));
   assert.equal(first.cases.disagreements, 0);
   assert.equal(first.cases.total, 192);
-  assert.equal(first.hostile.total, 16);
+  assert.equal(first.hostile.total, 17);
   assert.equal(first.hostile.failures, 0);
   assert.equal(first.mutations.total, 9);
   assert.equal(first.mutations.survivors, 0);
@@ -283,7 +318,7 @@ test('S0 source fence v1 generated finite model, hostile corpus and independent 
   assert.deepEqual(first.resourceCeilings, {
     algorithm: 'O_1_PER_REQUEST_NO_IO',
     maxFiniteCases: 192,
-    hostileCases: 16,
+    hostileCases: 17,
     semanticMutants: 9,
     productSlo: 'NOT_CLAIMED_LAB_ONLY',
   });

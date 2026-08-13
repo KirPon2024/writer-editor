@@ -219,7 +219,7 @@ function validateFence(reasons, fence) {
   }
 }
 
-function validateAuthority(reasons, authority) {
+function validateAuthority(reasons, authority, purpose) {
   if (!isPlainObject(authority)) {
     addKeysetReason(reasons, 'authority', authority, AUTHORITY_KEYS);
     return;
@@ -228,7 +228,10 @@ function validateAuthority(reasons, authority) {
   if (!AUTHORITY_DECISIONS.includes(authority.decision)) {
     reasons.push(reason(SOURCE_FENCE_V1_CODES.AUTHORITY_NOT_GRANTED, 'authority.decision', AUTHORITY_DECISIONS, authority.decision));
   }
-  if (authority.decision !== 'ALLOW' || authority.mayWrite !== true) {
+  const mayUseAuthority = purpose === 'READ_SOURCE_SNAPSHOT'
+    ? authority.decision === 'ALLOW' && authority.mayWrite === false
+    : authority.decision === 'ALLOW' && authority.mayWrite === true;
+  if (!mayUseAuthority) {
     reasons.push(reason(SOURCE_FENCE_V1_CODES.AUTHORITY_NOT_GRANTED, 'authority'));
   }
   if (!normalizeIdentityValue(authority.commandId)) {
@@ -316,7 +319,7 @@ export function evaluateSourceFenceV1(request) {
   validateSourceFields(reasons, 'expected', request.expected);
   validateSourceFields(reasons, 'current', request.current, { current: true });
   validateFence(reasons, request.fence);
-  validateAuthority(reasons, request.authority);
+  validateAuthority(reasons, request.authority, request.purpose);
 
   if (hasBlockingValidation(reasons)) {
     return finish(false, reasons[0].code, reasons, request);

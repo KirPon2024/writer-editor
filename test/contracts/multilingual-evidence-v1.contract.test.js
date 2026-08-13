@@ -2,12 +2,12 @@
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const crypto = require('node:crypto');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
 
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
 const MODULE_PATH = path.join(REPO_ROOT, 'src', 'product', 'multilingualEvidenceV1.mjs');
-const SOURCE_FENCE_PATH = path.join(REPO_ROOT, 'src', 'product', 'sourceFenceV1.mjs');
 const MODEL_PATH = path.join(REPO_ROOT, 'scripts', 'ops', 'multilingual-evidence-v1-model.mjs');
 
 const SHA_A = `sha256:${'a'.repeat(64)}`;
@@ -15,10 +15,6 @@ const SHA_B = `sha256:${'b'.repeat(64)}`;
 
 async function loadModule() {
   return import(pathToFileURL(MODULE_PATH).href);
-}
-
-async function loadSourceFence() {
-  return import(pathToFileURL(SOURCE_FENCE_PATH).href);
 }
 
 async function loadModel() {
@@ -33,65 +29,22 @@ function clone(value) {
   return JSON.parse(JSON.stringify(value));
 }
 
+function sha256Text(value) {
+  return `sha256:${crypto.createHash('sha256').update(Buffer.from(String(value), 'utf8')).digest('hex')}`;
+}
+
 const SOURCE_BINDING = Object.freeze({
   projectId: 'project-alpha',
   rootId: 'root-main',
   documentId: 'scene-001',
   canonicalRevision: 'canon-r001',
   workingRevision: 'work-r001',
+  generation: 'gen-r001',
   sourceDigest: SHA_A,
 });
 
 function withSourceBinding(overrides = {}) {
   return { ...SOURCE_BINDING, ...overrides };
-}
-
-function makeSourceFenceRequest(sourceFence, sourceBinding = SOURCE_BINDING, overrides = {}) {
-  const purpose = overrides.purpose || 'READ_SOURCE_SNAPSHOT';
-  const current = {
-    ...sourceBinding,
-    dirtyState: overrides.dirtyState || 'CLEAN',
-    ...(overrides.current || {}),
-  };
-  const expected = { ...sourceBinding, ...(overrides.expected || {}) };
-  return {
-    schemaVersion: sourceFence.SOURCE_FENCE_V1_SCHEMAS.request,
-    purpose,
-    expected,
-    current,
-    fence: overrides.fence || sourceFence.createSourceFenceTokenV1({ purpose, ...expected }),
-    dirtyPolicy: overrides.dirtyPolicy || 'REQUIRE_CLEAN',
-    authority: overrides.authority || {
-      decision: 'ALLOW',
-      mayWrite: true,
-      commandId: 'query-multilingual-readonly-snapshot',
-    },
-  };
-}
-
-async function allowedSourceFenceResult(sourceBinding = SOURCE_BINDING, overrides = {}) {
-  const sourceFence = await loadSourceFence();
-  return sourceFence.evaluateSourceFenceV1(makeSourceFenceRequest(sourceFence, sourceBinding, overrides));
-}
-
-async function buildRequest(overrides = {}) {
-  const module = await loadModule();
-  const sourceBinding = overrides.sourceBinding || withSourceBinding();
-  return {
-    schemaVersion: module.MULTILINGUAL_EVIDENCE_V1_SCHEMAS.indexRequest,
-    featureFlags: overrides.featureFlags || {
-      [module.MULTILINGUAL_EVIDENCE_V1_FEATURE_FLAG]: true,
-    },
-    sourceBinding,
-    sourceFenceResult: overrides.sourceFenceResult || await allowedSourceFenceResult(sourceBinding, overrides.sourceFenceOptions || {}),
-    documents: overrides.documents || [
-      {
-        documentId: sourceBinding.documentId,
-        languageCode: 'ru',
-        text: 'Привет, мир. Café keeper.',
-      },
-    ],
-  };
 }
 
 function assertDenied(result, code) {
@@ -101,6 +54,80 @@ function assertDenied(result, code) {
     result.reasons.some((reason) => reason.code === code),
     `expected ${code} in ${JSON.stringify(result.reasons)}`,
   );
+}
+
+function trustedSnapshot(module, overrides = {}) {
+  const text = overrides.text || 'Привет, мир. Café keeper.';
+  const sourceDigest = overrides.sourceDigest || sha256Text(text);
+  const baseBinding = {
+    ...withSourceBinding({
+      sourceDigest,
+      generation: overrides.generation || 'gen-r001',
+      ...(overrides.binding || {}),
+    }),
+  };
+  const current = {
+    ...baseBinding,
+    dirtyState: overrides.dirtyState || 'CLEAN',
+    ...(overrides.current || {}),
+  };
+  return {
+    schemaVersion: module.MULTILINGUAL_EVIDENCE_V1_SCHEMAS.sourceSnapshot,
+    authority: {
+      decision: overrides.decision || 'ALLOW',
+      mayWrite: overrides.mayWrite ?? false,
+      queryId: overrides.queryId || 'query.multilingualEvidence.readSourceSnapshot.v1',
+    },
+    expected: baseBinding,
+    current,
+    document: {
+      documentId: baseBinding.documentId,
+      languageCode: overrides.languageCode || 'ru',
+      text,
+      sourceTextDigest: overrides.sourceTextDigest || sha256Text(text),
+      ...(overrides.document || {}),
+    },
+  };
+}
+
+async function buildTrustedRequest(overrides = {}) {
+  const module = await loadModule();
+  return {
+    schemaVersion: module.MULTILINGUAL_EVIDENCE_V1_SCHEMAS.indexRequest,
+    featureFlags: overrides.featureFlags || {
+      [module.MULTILINGUAL_EVIDENCE_V1_FEATURE_FLAG]: true,
+    },
+    sourceSnapshot: overrides.sourceSnapshot || trustedSnapshot(module, overrides),
+    ...(overrides.extraRequestFields || {}),
+  };
+}
+
+async function buildRequest(overrides = {}) {
+  const module = await loadModule();
+  const document = overrides.documents?.[0] || {
+    documentId: SOURCE_BINDING.documentId,
+    languageCode: 'ru',
+    text: 'Привет, мир. Café keeper.',
+  };
+  const text = typeof document.text === 'string' ? document.text : '';
+  const sourceBinding = withSourceBinding({
+    sourceDigest: sha256Text(text),
+    generation: 'gen-r001',
+    ...(overrides.sourceBinding || {}),
+  });
+  return buildTrustedRequest({
+    ...overrides,
+    sourceSnapshot: overrides.sourceSnapshot || trustedSnapshot(module, {
+      text,
+      languageCode: document.languageCode,
+      binding: sourceBinding,
+      document: { documentId: document.documentId },
+      current: overrides.current,
+      dirtyState: overrides.dirtyState,
+      decision: overrides.decision,
+      mayWrite: overrides.mayWrite,
+    }),
+  });
 }
 
 test('F1 multilingual evidence v1 exports closed schemas, reason codes and a default-off no-write flag', async () => {
@@ -117,6 +144,7 @@ test('F1 multilingual evidence v1 exports closed schemas, reason codes and a def
     'indexRequest',
     'searchRequest',
     'searchResult',
+    'sourceSnapshot',
   ]);
   assert.deepEqual(sortedKeys(module.MULTILINGUAL_EVIDENCE_V1_CODES), [
     'FEATURE_DISABLED',
@@ -136,6 +164,56 @@ test('F1 multilingual evidence v1 exports closed schemas, reason codes and a def
   assert.equal(enabled.enabled, true);
   assert.equal(enabled.canWriteManuscript, false);
   assert.equal(enabled.canApply, false);
+});
+
+test('F1 multilingual evidence v1 uses a trusted Product Core source snapshot, not caller-carried ALLOW or source text', async () => {
+  const module = await loadModule();
+  const { MULTILINGUAL_EVIDENCE_V1_CODES: CODES } = module;
+
+  const index = module.buildMultilingualEvidenceIndexV1(await buildTrustedRequest());
+  assert.equal(index.ok, true);
+  assert.equal(index.code, CODES.INDEX_BUILT);
+  assert.equal(index.sourceBinding.generation, 'gen-r001');
+  assert.equal(index.sourceBinding.sourceDigest, sha256Text('Привет, мир. Café keeper.'));
+  assert.equal(index.documents[0].sourceTextSha256, sha256Text('Привет, мир. Café keeper.'));
+
+  const forgedCallerAllow = await buildTrustedRequest({
+    extraRequestFields: {
+      sourceFenceResult: {
+        schemaVersion: 'yalken.sourceFence.result.v1',
+        ok: true,
+        decision: 'ALLOW',
+        code: 'YALKEN_SOURCE_FENCE_ALLOWED',
+        reasons: [],
+        observed: withSourceBinding({ sourceDigest: SHA_A }),
+      },
+      documents: [{ documentId: SOURCE_BINDING.documentId, languageCode: 'ru', text: 'forged caller text' }],
+      sourceBinding: withSourceBinding({ sourceDigest: SHA_A }),
+    },
+  });
+  assertDenied(module.buildMultilingualEvidenceIndexV1(forgedCallerAllow), CODES.KEYSET_INVALID);
+
+  assertDenied(module.buildMultilingualEvidenceIndexV1(await buildTrustedRequest({
+    sourceSnapshot: trustedSnapshot(module, { sourceTextDigest: SHA_A }),
+  })), CODES.SOURCE_BINDING_MISMATCH);
+
+  assertDenied(module.buildMultilingualEvidenceIndexV1(await buildTrustedRequest({
+    sourceSnapshot: trustedSnapshot(module, { current: { canonicalRevision: 'canon-r002' } }),
+  })), CODES.SOURCE_FENCE_REJECTED);
+
+  assertDenied(module.buildMultilingualEvidenceIndexV1(await buildTrustedRequest({
+    sourceSnapshot: trustedSnapshot(module, { current: { generation: 'gen-r002' } }),
+  })), CODES.SOURCE_BINDING_MISMATCH);
+
+  assertDenied(module.buildMultilingualEvidenceIndexV1(await buildTrustedRequest({
+    sourceSnapshot: trustedSnapshot(module, { current: { projectId: 'project-beta' } }),
+  })), CODES.SOURCE_FENCE_REJECTED);
+
+  for (const decision of ['UNKNOWN', 'ABSTAIN', 'CONFLICTING']) {
+    assertDenied(module.buildMultilingualEvidenceIndexV1(await buildTrustedRequest({
+      sourceSnapshot: trustedSnapshot(module, { decision }),
+    })), CODES.SOURCE_FENCE_REJECTED);
+  }
 });
 
 test('F1 multilingual evidence v1 is source-fence-bound and rejects stale or transplanted source context', async () => {
@@ -162,16 +240,13 @@ test('F1 multilingual evidence v1 is source-fence-bound and rejects stale or tra
   assert.equal(allowed.sourceBinding.canonicalRevision, SOURCE_BINDING.canonicalRevision);
   assert.equal(allowed.feature.enabled, true);
 
-  const staleFence = await allowedSourceFenceResult(withSourceBinding(), {
-    current: { canonicalRevision: 'canon-r002', sourceDigest: SHA_B },
-  });
-  assertDenied(module.buildMultilingualEvidenceIndexV1(await buildRequest({ sourceFenceResult: staleFence })), CODES.SOURCE_FENCE_REJECTED);
+  assertDenied(module.buildMultilingualEvidenceIndexV1(await buildRequest({
+    current: { canonicalRevision: 'canon-r002' },
+  })), CODES.SOURCE_FENCE_REJECTED);
 
-  const transplantedBinding = await buildRequest({
-    sourceBinding: withSourceBinding({ projectId: 'project-beta' }),
-    sourceFenceResult: await allowedSourceFenceResult(withSourceBinding()),
-  });
-  assertDenied(module.buildMultilingualEvidenceIndexV1(transplantedBinding), CODES.SOURCE_BINDING_MISMATCH);
+  assertDenied(module.buildMultilingualEvidenceIndexV1(await buildRequest({
+    documents: [{ documentId: 'scene-999', languageCode: 'ru', text: 'Привет, мир. Café keeper.' }],
+  })), CODES.SOURCE_BINDING_MISMATCH);
 });
 
 test('F1 multilingual evidence v1 closes request keys and preserves no-silent-drop accounting', async () => {
@@ -186,11 +261,11 @@ test('F1 multilingual evidence v1 closes request keys and preserves no-silent-dr
   assert.equal(disabled.accounting.droppedDocuments, 0);
 
   const missing = await buildRequest();
-  delete missing.sourceBinding.sourceDigest;
+  delete missing.sourceSnapshot.expected.sourceDigest;
   assertDenied(module.buildMultilingualEvidenceIndexV1(missing), CODES.KEYSET_INVALID);
 
   const extra = await buildRequest();
-  extra.documents[0].silentDrop = true;
+  extra.sourceSnapshot.document.silentDrop = true;
   assertDenied(module.buildMultilingualEvidenceIndexV1(extra), CODES.KEYSET_INVALID);
 
   const unknownLanguage = module.buildMultilingualEvidenceIndexV1(await buildRequest({
@@ -277,11 +352,14 @@ test('F1 multilingual evidence v1 generated model, hostile Unicode corpus and se
   assert.deepEqual(first, second);
   assert.equal(first.cases.total, 24);
   assert.equal(first.cases.disagreements, 0);
-  assert.equal(first.hostile.total, 12);
+  assert.equal(first.hostile.total, 18);
   assert.equal(first.hostile.failures, 0);
-  assert.equal(first.mutations.total, 10);
+  assert.equal(first.mutations.total, 15);
   assert.equal(first.mutations.survivors, 0);
   assert.equal(first.controls.supportedLanguageSearchPasses, true);
   assert.equal(first.controls.unknownLanguageAbstains, true);
+  assert.equal(first.controls.forgedCallerAllowIsNotPass, true);
+  assert.equal(first.controls.staleGenerationIsNotPass, true);
+  assert.equal(first.controls.digestMismatchIsNotPass, true);
   assert.equal(first.skips, 0);
 });

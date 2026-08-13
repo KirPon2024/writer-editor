@@ -1,6 +1,8 @@
 import crypto from 'node:crypto';
 
 import {
+  createSourceFenceTokenV1,
+  evaluateSourceFenceV1,
   SOURCE_FENCE_V1_CODES,
   SOURCE_FENCE_V1_SCHEMAS,
 } from './sourceFenceV1.mjs';
@@ -10,6 +12,7 @@ export const MULTILINGUAL_EVIDENCE_V1_FEATURE_FLAG = 'yalken.multilingualEvidenc
 export const MULTILINGUAL_EVIDENCE_V1_SCHEMAS = Object.freeze({
   featureFlag: 'yalken.multilingualEvidence.featureFlag.v1',
   indexRequest: 'yalken.multilingualEvidence.indexRequest.v1',
+  sourceSnapshot: 'yalken.multilingualEvidence.sourceSnapshot.v1',
   index: 'yalken.multilingualEvidence.index.v1',
   searchRequest: 'yalken.multilingualEvidence.searchRequest.v1',
   searchResult: 'yalken.multilingualEvidence.searchResult.v1',
@@ -29,24 +32,43 @@ export const MULTILINGUAL_EVIDENCE_V1_CODES = Object.freeze({
 });
 
 const INDEX_REQUEST_KEYS = Object.freeze([
-  'documents',
   'featureFlags',
   'schemaVersion',
-  'sourceBinding',
-  'sourceFenceResult',
+  'sourceSnapshot',
 ]);
+const SOURCE_SNAPSHOT_KEYS = Object.freeze([
+  'authority',
+  'current',
+  'document',
+  'expected',
+  'schemaVersion',
+]);
+const SOURCE_SNAPSHOT_AUTHORITY_KEYS = Object.freeze(['decision', 'mayWrite', 'queryId']);
 const SOURCE_BINDING_KEYS = Object.freeze([
   'canonicalRevision',
   'documentId',
+  'generation',
   'projectId',
   'rootId',
   'sourceDigest',
   'workingRevision',
 ]);
-const DOCUMENT_KEYS = Object.freeze(['documentId', 'languageCode', 'text']);
+const SOURCE_CURRENT_KEYS = Object.freeze([
+  'canonicalRevision',
+  'dirtyState',
+  'documentId',
+  'generation',
+  'projectId',
+  'rootId',
+  'sourceDigest',
+  'workingRevision',
+]);
+const DOCUMENT_KEYS = Object.freeze(['documentId', 'languageCode', 'sourceTextDigest', 'text']);
 const SEARCH_REQUEST_KEYS = Object.freeze(['index', 'query', 'schemaVersion']);
 const SEARCH_QUERY_KEYS = Object.freeze(['languageCode', 'text']);
 const SUPPORTED_LANGUAGE_PROFILES = Object.freeze(['de', 'en', 'es', 'fr', 'pl', 'ru']);
+const SOURCE_SNAPSHOT_AUTHORITY_DECISIONS = Object.freeze(['ALLOW', 'DENY', 'UNKNOWN', 'ABSTAIN', 'CONFLICTING']);
+const DIRTY_STATES = Object.freeze(['CLEAN', 'DIRTY', 'UNKNOWN', 'ABSTAIN', 'CONFLICTING']);
 const DIGEST_PATTERN = /^sha256:[a-f0-9]{64}$/u;
 
 function isPlainObject(value) {
@@ -272,86 +294,186 @@ function normalizeSourceBinding(sourceBinding) {
     documentId: typeof sourceBinding.documentId === 'string' ? sourceBinding.documentId : '',
     canonicalRevision: typeof sourceBinding.canonicalRevision === 'string' ? sourceBinding.canonicalRevision : '',
     workingRevision: typeof sourceBinding.workingRevision === 'string' ? sourceBinding.workingRevision : '',
+    generation: typeof sourceBinding.generation === 'string' ? sourceBinding.generation : '',
     sourceDigest: typeof sourceBinding.sourceDigest === 'string' ? sourceBinding.sourceDigest : '',
   };
 }
 
-function validateSourceBinding(reasons, sourceBinding) {
+function validateSourceBinding(reasons, field, sourceBinding, { current = false } = {}) {
+  const keys = current ? SOURCE_CURRENT_KEYS : SOURCE_BINDING_KEYS;
   if (!isPlainObject(sourceBinding)) {
-    addKeysetReason(reasons, 'sourceBinding', sourceBinding, SOURCE_BINDING_KEYS);
+    addKeysetReason(reasons, field, sourceBinding, keys);
     return;
   }
-  if (!sameKeys(sourceBinding, SOURCE_BINDING_KEYS)) {
-    addKeysetReason(reasons, 'sourceBinding', sourceBinding, SOURCE_BINDING_KEYS);
+  if (!sameKeys(sourceBinding, keys)) {
+    addKeysetReason(reasons, field, sourceBinding, keys);
   }
   for (const key of ['projectId', 'rootId', 'documentId']) {
     if (!normalizeIdentifier(sourceBinding[key])) {
-      reasons.push(reason(MULTILINGUAL_EVIDENCE_V1_CODES.FIELD_INVALID, `sourceBinding.${key}`));
+      reasons.push(reason(MULTILINGUAL_EVIDENCE_V1_CODES.FIELD_INVALID, `${field}.${key}`));
     }
   }
-  for (const key of ['canonicalRevision', 'workingRevision']) {
+  for (const key of ['canonicalRevision', 'workingRevision', 'generation']) {
     if (!normalizeRevision(sourceBinding[key])) {
-      reasons.push(reason(MULTILINGUAL_EVIDENCE_V1_CODES.FIELD_INVALID, `sourceBinding.${key}`));
+      reasons.push(reason(MULTILINGUAL_EVIDENCE_V1_CODES.FIELD_INVALID, `${field}.${key}`));
     }
   }
   if (typeof sourceBinding.sourceDigest !== 'string' || !DIGEST_PATTERN.test(sourceBinding.sourceDigest)) {
-    reasons.push(reason(MULTILINGUAL_EVIDENCE_V1_CODES.FIELD_INVALID, 'sourceBinding.sourceDigest'));
+    reasons.push(reason(MULTILINGUAL_EVIDENCE_V1_CODES.FIELD_INVALID, `${field}.sourceDigest`));
+  }
+  if (current && !DIRTY_STATES.includes(sourceBinding.dirtyState)) {
+    reasons.push(reason(MULTILINGUAL_EVIDENCE_V1_CODES.SOURCE_FENCE_REJECTED, `${field}.dirtyState`, DIRTY_STATES, sourceBinding.dirtyState));
   }
 }
 
-function validateSourceFence(reasons, request) {
-  const fenceResult = request.sourceFenceResult;
-  if (!isPlainObject(fenceResult)
-    || fenceResult.schemaVersion !== SOURCE_FENCE_V1_SCHEMAS.result
-    || fenceResult.ok !== true
-    || fenceResult.decision !== 'ALLOW'
-    || fenceResult.code !== SOURCE_FENCE_V1_CODES.ALLOWED
-    || !isPlainObject(fenceResult.observed)
-    || fenceResult.observed.purpose !== 'READ_SOURCE_SNAPSHOT') {
-    reasons.push(reason(MULTILINGUAL_EVIDENCE_V1_CODES.SOURCE_FENCE_REJECTED, 'sourceFenceResult'));
+function fenceSourceFromBinding(binding) {
+  const normalized = normalizeSourceBinding(binding) || {};
+  return {
+    projectId: normalized.projectId || '',
+    rootId: normalized.rootId || '',
+    documentId: normalized.documentId || '',
+    canonicalRevision: normalized.canonicalRevision || '',
+    workingRevision: normalized.workingRevision || '',
+    sourceDigest: normalized.sourceDigest || '',
+  };
+}
+
+function validateSnapshotAuthority(reasons, authority) {
+  if (!isPlainObject(authority)) {
+    addKeysetReason(reasons, 'sourceSnapshot.authority', authority, SOURCE_SNAPSHOT_AUTHORITY_KEYS);
     return;
   }
-  const observed = fenceResult.observed;
-  for (const key of SOURCE_BINDING_KEYS) {
-    if (request.sourceBinding?.[key] !== observed[key]) {
-      reasons.push(reason(
-        MULTILINGUAL_EVIDENCE_V1_CODES.SOURCE_BINDING_MISMATCH,
-        `sourceFenceResult.observed.${key}`,
-        request.sourceBinding?.[key],
-        observed[key],
-      ));
-    }
+  if (!sameKeys(authority, SOURCE_SNAPSHOT_AUTHORITY_KEYS)) {
+    addKeysetReason(reasons, 'sourceSnapshot.authority', authority, SOURCE_SNAPSHOT_AUTHORITY_KEYS);
+  }
+  if (!SOURCE_SNAPSHOT_AUTHORITY_DECISIONS.includes(authority.decision)) {
+    reasons.push(reason(MULTILINGUAL_EVIDENCE_V1_CODES.SOURCE_FENCE_REJECTED, 'sourceSnapshot.authority.decision'));
+  }
+  if (authority.decision !== 'ALLOW' || authority.mayWrite !== false) {
+    reasons.push(reason(MULTILINGUAL_EVIDENCE_V1_CODES.SOURCE_FENCE_REJECTED, 'sourceSnapshot.authority'));
+  }
+  if (!normalizeIdentifier(authority.queryId)) {
+    reasons.push(reason(MULTILINGUAL_EVIDENCE_V1_CODES.FIELD_INVALID, 'sourceSnapshot.authority.queryId'));
   }
 }
 
-function validateDocuments(reasons, documents, sourceBinding) {
-  if (!Array.isArray(documents) || documents.length !== 1) {
-    reasons.push(reason(MULTILINGUAL_EVIDENCE_V1_CODES.FIELD_INVALID, 'documents', 'ONE_DOCUMENT_V1'));
+function validateSnapshotDocument(reasons, document, sourceBinding) {
+  if (!isPlainObject(document)) {
+    addKeysetReason(reasons, 'sourceSnapshot.document', document, DOCUMENT_KEYS);
     return;
   }
-  for (let index = 0; index < documents.length; index += 1) {
-    const document = documents[index];
-    if (!isPlainObject(document)) {
-      addKeysetReason(reasons, `documents[${index}]`, document, DOCUMENT_KEYS);
-      continue;
-    }
-    if (!sameKeys(document, DOCUMENT_KEYS)) {
-      addKeysetReason(reasons, `documents[${index}]`, document, DOCUMENT_KEYS);
-    }
-    if (document.documentId !== sourceBinding?.documentId) {
+  if (!sameKeys(document, DOCUMENT_KEYS)) {
+    addKeysetReason(reasons, 'sourceSnapshot.document', document, DOCUMENT_KEYS);
+  }
+  if (document.documentId !== sourceBinding?.documentId) {
+    reasons.push(reason(
+      MULTILINGUAL_EVIDENCE_V1_CODES.SOURCE_BINDING_MISMATCH,
+      'sourceSnapshot.document.documentId',
+      sourceBinding?.documentId,
+      document.documentId,
+    ));
+  }
+  if (!normalizeLanguageCode(document.languageCode)) {
+    reasons.push(reason(MULTILINGUAL_EVIDENCE_V1_CODES.FIELD_INVALID, 'sourceSnapshot.document.languageCode'));
+  }
+  if (typeof document.text !== 'string') {
+    reasons.push(reason(MULTILINGUAL_EVIDENCE_V1_CODES.FIELD_INVALID, 'sourceSnapshot.document.text'));
+  }
+  if (typeof document.sourceTextDigest !== 'string' || !DIGEST_PATTERN.test(document.sourceTextDigest)) {
+    reasons.push(reason(MULTILINGUAL_EVIDENCE_V1_CODES.FIELD_INVALID, 'sourceSnapshot.document.sourceTextDigest'));
+  }
+}
+
+function evaluateSnapshotFence(snapshot) {
+  const expected = fenceSourceFromBinding(snapshot.expected);
+  const current = {
+    ...fenceSourceFromBinding(snapshot.current),
+    dirtyState: snapshot.current?.dirtyState,
+  };
+  try {
+    return evaluateSourceFenceV1({
+      schemaVersion: SOURCE_FENCE_V1_SCHEMAS.request,
+      purpose: 'READ_SOURCE_SNAPSHOT',
+      expected,
+      current,
+      fence: createSourceFenceTokenV1({ purpose: 'READ_SOURCE_SNAPSHOT', ...expected }),
+      dirtyPolicy: 'REQUIRE_CLEAN',
+      authority: {
+        decision: snapshot.authority?.decision,
+        mayWrite: snapshot.authority?.mayWrite,
+        commandId: snapshot.authority?.queryId,
+      },
+    });
+  } catch {
+    return {
+      ok: false,
+      code: SOURCE_FENCE_V1_CODES.FIELD_INVALID,
+      reasons: [],
+    };
+  }
+}
+
+function validateSourceSnapshot(reasons, sourceSnapshot) {
+  if (!isPlainObject(sourceSnapshot)) {
+    addKeysetReason(reasons, 'sourceSnapshot', sourceSnapshot, SOURCE_SNAPSHOT_KEYS);
+    return;
+  }
+  if (!sameKeys(sourceSnapshot, SOURCE_SNAPSHOT_KEYS)) {
+    addKeysetReason(reasons, 'sourceSnapshot', sourceSnapshot, SOURCE_SNAPSHOT_KEYS);
+  }
+  if (sourceSnapshot.schemaVersion !== MULTILINGUAL_EVIDENCE_V1_SCHEMAS.sourceSnapshot) {
+    reasons.push(reason(MULTILINGUAL_EVIDENCE_V1_CODES.FIELD_INVALID, 'sourceSnapshot.schemaVersion'));
+  }
+
+  validateSnapshotAuthority(reasons, sourceSnapshot.authority);
+  validateSourceBinding(reasons, 'sourceSnapshot.expected', sourceSnapshot.expected);
+  validateSourceBinding(reasons, 'sourceSnapshot.current', sourceSnapshot.current, { current: true });
+  validateSnapshotDocument(reasons, sourceSnapshot.document, sourceSnapshot.expected);
+
+  if (!isPlainObject(sourceSnapshot.expected) || !isPlainObject(sourceSnapshot.current) || !isPlainObject(sourceSnapshot.document)) {
+    return;
+  }
+
+  if (sourceSnapshot.expected.generation !== sourceSnapshot.current.generation) {
+    reasons.push(reason(
+      MULTILINGUAL_EVIDENCE_V1_CODES.SOURCE_BINDING_MISMATCH,
+      'sourceSnapshot.current.generation',
+      sourceSnapshot.expected.generation,
+      sourceSnapshot.current.generation,
+    ));
+  }
+
+  if (typeof sourceSnapshot.document.text === 'string') {
+    const computedTextDigest = sha256Text(sourceSnapshot.document.text);
+    if (sourceSnapshot.document.sourceTextDigest !== computedTextDigest) {
       reasons.push(reason(
         MULTILINGUAL_EVIDENCE_V1_CODES.SOURCE_BINDING_MISMATCH,
-        `documents[${index}].documentId`,
-        sourceBinding?.documentId,
-        document.documentId,
+        'sourceSnapshot.document.sourceTextDigest',
+        computedTextDigest,
+        sourceSnapshot.document.sourceTextDigest,
       ));
     }
-    if (!normalizeLanguageCode(document.languageCode)) {
-      reasons.push(reason(MULTILINGUAL_EVIDENCE_V1_CODES.FIELD_INVALID, `documents[${index}].languageCode`));
+    if (sourceSnapshot.expected.sourceDigest !== computedTextDigest) {
+      reasons.push(reason(
+        MULTILINGUAL_EVIDENCE_V1_CODES.SOURCE_BINDING_MISMATCH,
+        'sourceSnapshot.expected.sourceDigest',
+        computedTextDigest,
+        sourceSnapshot.expected.sourceDigest,
+      ));
     }
-    if (typeof document.text !== 'string') {
-      reasons.push(reason(MULTILINGUAL_EVIDENCE_V1_CODES.FIELD_INVALID, `documents[${index}].text`));
+    if (sourceSnapshot.current.sourceDigest !== computedTextDigest) {
+      reasons.push(reason(
+        MULTILINGUAL_EVIDENCE_V1_CODES.SOURCE_BINDING_MISMATCH,
+        'sourceSnapshot.current.sourceDigest',
+        computedTextDigest,
+        sourceSnapshot.current.sourceDigest,
+      ));
     }
+  }
+
+  const fenceResult = evaluateSnapshotFence(sourceSnapshot);
+  if (fenceResult.ok !== true || fenceResult.code !== SOURCE_FENCE_V1_CODES.ALLOWED) {
+    reasons.push(reason(MULTILINGUAL_EVIDENCE_V1_CODES.SOURCE_FENCE_REJECTED, 'sourceSnapshot.sourceFence', SOURCE_FENCE_V1_CODES.ALLOWED, fenceResult.code));
   }
 }
 
@@ -375,15 +497,16 @@ function expectedIndexDigest(index) {
 }
 
 function finishIndex(ok, code, reasons, request, overrides = {}) {
-  const sourceBinding = normalizeSourceBinding(request?.sourceBinding) || {
+  const sourceBinding = normalizeSourceBinding(request?.sourceSnapshot?.expected) || {
     projectId: '',
     rootId: '',
     documentId: '',
     canonicalRevision: '',
     workingRevision: '',
+    generation: '',
     sourceDigest: '',
   };
-  const totalDocuments = Array.isArray(request?.documents) ? request.documents.length : 0;
+  const totalDocuments = isPlainObject(request?.sourceSnapshot?.document) ? 1 : 0;
   const base = {
     schemaVersion: MULTILINGUAL_EVIDENCE_V1_SCHEMAS.index,
     ok,
@@ -416,6 +539,7 @@ function finishSearch(ok, code, reasons, request, overrides = {}) {
       documentId: '',
       canonicalRevision: '',
       workingRevision: '',
+      generation: '',
       sourceDigest: '',
     },
     query: isPlainObject(request?.query) ? {
@@ -453,8 +577,7 @@ export function buildMultilingualEvidenceIndexV1(request = {}) {
   if (request.schemaVersion !== MULTILINGUAL_EVIDENCE_V1_SCHEMAS.indexRequest) {
     reasons.push(reason(MULTILINGUAL_EVIDENCE_V1_CODES.FIELD_INVALID, 'schemaVersion'));
   }
-  validateSourceBinding(reasons, request.sourceBinding);
-  validateDocuments(reasons, request.documents, request.sourceBinding);
+  validateSourceSnapshot(reasons, request.sourceSnapshot);
 
   const feature = featureFromFlags(request.featureFlags);
   if (!feature.enabled) {
@@ -464,49 +587,43 @@ export function buildMultilingualEvidenceIndexV1(request = {}) {
     ], request);
   }
 
-  validateSourceFence(reasons, request);
   if (reasons.length > 0) {
     return finishIndex(false, reasons[0].code, reasons, request);
   }
 
+  const document = request.sourceSnapshot.document;
   const documents = [];
   const tokens = [];
-  const accounting = emptyAccounting(request.documents.length);
-  for (const document of request.documents) {
-    const languageCode = normalizeLanguageCode(document.languageCode);
-    if (!supportedLanguage(languageCode)) {
-      accounting.abstainedDocuments += 1;
-      documents.push({
-        documentId: document.documentId,
-        languageCode,
-        status: 'ABSTAIN_UNKNOWN_LANGUAGE',
-        reason: MULTILINGUAL_EVIDENCE_V1_CODES.LANGUAGE_ABSTAINED,
-        sourceTextSha256: sha256Text(document.text),
-        originalTextPreserved: true,
-        tokenCount: 0,
-      });
-      continue;
-    }
-    const documentTokens = collectTokenRuns(document);
-    accounting.indexedDocuments += 1;
-    accounting.totalTokens += documentTokens.length;
+  const accounting = emptyAccounting(1);
+  const languageCode = normalizeLanguageCode(document.languageCode);
+  if (!supportedLanguage(languageCode)) {
+    accounting.abstainedDocuments += 1;
     documents.push({
       documentId: document.documentId,
       languageCode,
-      status: 'INDEXED',
-      reason: '',
+      status: 'ABSTAIN_UNKNOWN_LANGUAGE',
+      reason: MULTILINGUAL_EVIDENCE_V1_CODES.LANGUAGE_ABSTAINED,
       sourceTextSha256: sha256Text(document.text),
-      originalTextPreserved: document.text === String(document.text),
-      tokenCount: documentTokens.length,
+      originalTextPreserved: true,
+      tokenCount: 0,
     });
-    tokens.push(...documentTokens);
-  }
-
-  if (accounting.abstainedDocuments > 0) {
     return finishIndex(false, MULTILINGUAL_EVIDENCE_V1_CODES.LANGUAGE_ABSTAINED, [
       reason(MULTILINGUAL_EVIDENCE_V1_CODES.LANGUAGE_ABSTAINED, 'documents.languageCode'),
     ], request, { accounting, documents, tokens });
   }
+  const documentTokens = collectTokenRuns(document);
+  accounting.indexedDocuments += 1;
+  accounting.totalTokens += documentTokens.length;
+  documents.push({
+    documentId: document.documentId,
+    languageCode,
+    status: 'INDEXED',
+    reason: '',
+    sourceTextSha256: sha256Text(document.text),
+    originalTextPreserved: document.text === String(document.text),
+    tokenCount: documentTokens.length,
+  });
+  tokens.push(...documentTokens);
 
   return finishIndex(true, MULTILINGUAL_EVIDENCE_V1_CODES.INDEX_BUILT, [], request, { accounting, documents, tokens });
 }
@@ -582,6 +699,7 @@ export function searchMultilingualEvidenceIndexV1(request = {}) {
       sourceDigest: request.index.sourceBinding.sourceDigest,
       canonicalRevision: request.index.sourceBinding.canonicalRevision,
       workingRevision: request.index.sourceBinding.workingRevision,
+      generation: request.index.sourceBinding.generation,
     }));
   return finishSearch(true, MULTILINGUAL_EVIDENCE_V1_CODES.SEARCH_COMPLETE, [], request, { matches });
 }

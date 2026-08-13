@@ -154,7 +154,8 @@ function independentOracle(request, options = {}) {
     if (['UNKNOWN', 'ABSTAIN', 'CONFLICTING'].includes(request.current.dirtyState)) codes.push(CODES.DIRTY_STATE_UNKNOWN);
     if (request.dirtyPolicy === 'REQUIRE_CLEAN' && request.current.dirtyState === 'DIRTY') codes.push(CODES.DIRTY_DOCUMENT_REJECTED);
   }
-  if (!skip.has('authority') && (request.authority.decision !== 'ALLOW' || request.authority.mayWrite !== true)) {
+  const requiredMayWrite = request.purpose === 'READ_SOURCE_SNAPSHOT' ? false : true;
+  if (!skip.has('authority') && (request.authority.decision !== 'ALLOW' || request.authority.mayWrite !== requiredMayWrite)) {
     codes.push(CODES.AUTHORITY_NOT_GRANTED);
   }
 
@@ -219,6 +220,13 @@ const HOSTILE_BUILDERS = Object.freeze([
   })],
   ['authority-conflicting', () => ({
     request: buildRequest({ authority: withAuthority({ decision: 'CONFLICTING' }) }),
+    expectedCode: CODES.AUTHORITY_NOT_GRANTED,
+  })],
+  ['read-snapshot-with-write-authority', () => ({
+    request: buildRequest({
+      purpose: 'READ_SOURCE_SNAPSHOT',
+      authority: withAuthority({ mayWrite: true, commandId: 'query-source-snapshot' }),
+    }),
     expectedCode: CODES.AUTHORITY_NOT_GRANTED,
   })],
   ['fence-project-transplant', () => ({
@@ -381,11 +389,19 @@ export function runSourceFenceV1FiniteModel(module) {
         ...buildRequest(),
         fence: JSON.parse(JSON.stringify(buildRequest().fence)),
       }).ok === true,
+      readSnapshotLeastPrivilegeAllowed: module.evaluateSourceFenceV1(buildRequest({
+        purpose: 'READ_SOURCE_SNAPSHOT',
+        authority: withAuthority({ mayWrite: false, commandId: 'query-source-snapshot' }),
+      })).ok === true,
+      readSnapshotWriteAuthorityDenied: module.evaluateSourceFenceV1(buildRequest({
+        purpose: 'READ_SOURCE_SNAPSHOT',
+        authority: withAuthority({ mayWrite: true, commandId: 'query-source-snapshot' }),
+      })).ok === false,
     },
     resourceCeilings: {
       algorithm: 'O_1_PER_REQUEST_NO_IO',
       maxFiniteCases: 192,
-      hostileCases: 16,
+      hostileCases: 17,
       semanticMutants: 9,
       productSlo: 'NOT_CLAIMED_LAB_ONLY',
     },

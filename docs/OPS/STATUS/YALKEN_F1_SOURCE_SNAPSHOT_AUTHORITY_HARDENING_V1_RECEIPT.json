@@ -1,0 +1,243 @@
+{
+  "schemaVersion": "yalken.f1.sourceSnapshotAuthorityHardening.receipt.v1",
+  "taskId": "F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1",
+  "createdAtUtc": "2026-08-13T21:03:40Z",
+  "updatedAtUtc": "2026-08-13T21:13:44Z",
+  "verdict": "READY_FOR_DELIVERY_CHAIN",
+  "status": "LOCAL_CANDIDATE_GREEN_PENDING_COMMIT_PUSH_PR_CI_MERGE_POSTMERGE",
+  "baseline": {
+    "branch": "codex/yalken-f1-source-snapshot-authority-hardening-v1",
+    "headSha": "36db096a3ac8c0d1accfc323d6ff0347e47ba1f5",
+    "treeSha": "96b705a9d47c4ab34fae323708bd54952cfd78d3",
+    "originMainBinding": "36db096a3ac8c0d1accfc323d6ff0347e47ba1f5"
+  },
+  "toolchain": {
+    "node": "v22.22.2",
+    "npm": "10.9.7",
+    "source": "T7_LOCAL_HERMETIC_NODE_22_22_2",
+    "systemInstallChanged": false
+  },
+  "scope": {
+    "changedFiles": [
+      "docs/OPS/STATUS/YALKEN_F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1_RECEIPT.json",
+      "scripts/ops/multilingual-evidence-v1-model.mjs",
+      "scripts/ops/source-fence-v1-model.mjs",
+      "src/product/multilingualEvidenceV1.mjs",
+      "src/product/sourceFenceV1.mjs",
+      "test/contracts/multilingual-evidence-v1.contract.test.js",
+      "test/contracts/source-fence-v1.contract.test.js",
+      "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+    ],
+    "productRuntimeWrites": false,
+    "dataMigration": false,
+    "dependencyChange": false,
+    "uiChange": false,
+    "wordOrDocxScope": false,
+    "blackBoxScope": false
+  },
+  "featureIntegrationDelta": {
+    "featureId": "yalken.multilingualEvidence.readonlyV1",
+    "contractChange": "The index request now accepts one closed Product Core sourceSnapshot query result instead of caller-carried sourceBinding, sourceFenceResult and documents.",
+    "sourceSnapshotAuthority": {
+      "operationKind": "QUERY",
+      "purpose": "READ_SOURCE_SNAPSHOT",
+      "requiredDecision": "ALLOW",
+      "requiredMayWrite": false,
+      "trustedFields": [
+        "projectId",
+        "rootId",
+        "documentId",
+        "canonicalRevision",
+        "workingRevision",
+        "generation",
+        "sourceDigest",
+        "sourceTextDigest",
+        "text"
+      ],
+      "recomputedInsideModule": [
+        "sourceTextDigest",
+        "sourceDigest",
+        "source fence token/result"
+      ]
+    },
+    "writeAuthorityBoundary": "WRITE_SOURCE remains fail-closed without mayWrite=true; READ_SOURCE_SNAPSHOT rejects mayWrite=true as wrong authority class.",
+    "fallbacks": [
+      "forged caller ALLOW is rejected by exact request keyset",
+      "text/digest mismatch is DENY",
+      "stale canonical or working revision is DENY",
+      "stale generation is DENY",
+      "project/root/document transplant or replay is DENY",
+      "UNKNOWN/ABSTAIN/CONFLICTING never aggregate to PASS"
+    ],
+    "currentReality": "Pure product contract/test/model hardening only; no UI, no renderer, no IPC, no storage writer, no runtime product command wiring."
+  },
+  "redFirst": {
+    "command": "node --test test/contracts/source-fence-v1.contract.test.js test/contracts/multilingual-evidence-v1.contract.test.js",
+    "result": "RED_EXPECTED",
+    "tests": 15,
+    "pass": 13,
+    "fail": 2,
+    "skip": 0,
+    "todo": 0,
+    "primaryFailures": [
+      "READ_SOURCE_SNAPSHOT with mayWrite=false was denied",
+      "multilingualEvidenceV1 trusted sourceSnapshot request was denied because implementation still expected caller-carried sourceBinding/sourceFenceResult/documents"
+    ]
+  },
+  "focusedProof": {
+    "command": "node --test test/contracts/source-fence-v1.contract.test.js test/contracts/multilingual-evidence-v1.contract.test.js",
+    "tests": 15,
+    "pass": 15,
+    "fail": 0,
+    "skip": 0,
+    "todo": 0
+  },
+  "modelAndOracle": {
+    "sourceFenceV1": {
+      "command": "node scripts/ops/source-fence-v1-model.mjs",
+      "result": "PASS",
+      "finiteCases": 192,
+      "finiteDisagreements": 0,
+      "hostileCases": 17,
+      "hostileFailures": 0,
+      "semanticMutants": 9,
+      "semanticMutationSurvivors": 0,
+      "skips": 0
+    },
+    "multilingualEvidenceV1": {
+      "command": "node scripts/ops/multilingual-evidence-v1-model.mjs",
+      "result": "PASS",
+      "finiteCases": 24,
+      "finiteDisagreements": 0,
+      "hostileCases": 18,
+      "hostileFailures": 0,
+      "semanticMutants": 15,
+      "semanticMutationSurvivors": 0,
+      "skips": 0
+    }
+  },
+  "affectedProof": {
+    "command": "node --test source-fence + multilingualEvidence + Atlas multilingual/language + cross-platform normalization contract set",
+    "tests": 54,
+    "pass": 54,
+    "fail": 0,
+    "skip": 0,
+    "todo": 0
+  },
+  "deterministicReplay": {
+    "runs": 2,
+    "focusedProofEachRun": {
+      "tests": 15,
+      "pass": 15,
+      "fail": 0,
+      "skip": 0,
+      "todo": 0
+    },
+    "sourceFenceModelOutputSha256": [
+      "9ed11ddcaf0e01136db22bbdb1c58b995c88780c6514bb48df5b3da6f100e2a7",
+      "9ed11ddcaf0e01136db22bbdb1c58b995c88780c6514bb48df5b3da6f100e2a7"
+    ],
+    "multilingualEvidenceModelOutputSha256": [
+      "2e4611b3e95ad94b4330bce54cfd75206f18462294654ad5649df39b8bbe6b14",
+      "2e4611b3e95ad94b4330bce54cfd75206f18462294654ad5649df39b8bbe6b14"
+    ],
+    "identical": true
+  },
+  "deliveryGateEvidence": {
+    "governanceApprovalVerifier": {
+      "command": "node scripts/ops/governance-approval-state.mjs",
+      "result": "PASS",
+      "registryValid": true,
+      "approvalsCount": 1380
+    },
+    "devFast": {
+      "command": "npm run dev:fast",
+      "result": "PASS"
+    },
+    "guardrails": {
+      "command": "npm run agent:guardrails",
+      "result": "PASS"
+    },
+    "ossPolicy": {
+      "command": "npm run oss:policy",
+      "result": "PASS"
+    },
+    "npmAuditProductionHigh": {
+      "command": "npm audit --omit=dev --audit-level=high",
+      "result": "PASS",
+      "vulnerabilities": 0
+    },
+    "baseline": {
+      "command": "npm test",
+      "result": "PASS",
+      "opsStrict": {
+        "tests": 3,
+        "pass": 3,
+        "fail": 0,
+        "skip": 0,
+        "todo": 0
+      },
+      "mainSuite": {
+        "tests": 802,
+        "pass": 738,
+        "fail": 0,
+        "skip": 64,
+        "todo": 0
+      },
+      "collabSuite": {
+        "tests": 20,
+        "pass": 20,
+        "fail": 0,
+        "skip": 0,
+        "todo": 0
+      },
+      "perfBaseline": "PASS",
+      "skipInterpretation": "The full repository suite still contains 64 declared skips outside this contour; focused and affected F1 suites have 0 skips and 0 todo."
+    }
+  },
+  "artifactSha256BeforeReceiptSeal": {
+    "src/product/sourceFenceV1.mjs": "078a485624eb2041b30e64866db84ec0f78cef47fab064cde640dc1a0e4bdfa3",
+    "src/product/multilingualEvidenceV1.mjs": "806492df92c8fd507898d4b9da8a8a2ce67f701e3f3da7aceb5618f27c1d4844",
+    "scripts/ops/source-fence-v1-model.mjs": "d84785be2b9eb90a9b9e66fcf3007f2da16aa1b87f9115664566599a9b10904f",
+    "scripts/ops/multilingual-evidence-v1-model.mjs": "b1a2a8ca4db26305e5368d99ca26e21a09f504328f980414bd127c63fb585309",
+    "test/contracts/source-fence-v1.contract.test.js": "ac359e83a652285ece040801effa9928e7eeda7e9ea76724251c3186dd778093",
+    "test/contracts/multilingual-evidence-v1.contract.test.js": "ca7d2fb6cfb1785760aa27773ffc35a9a02841132c1bf0d09bdb00c0b85fb3a4"
+  },
+  "postReceiptDeliveryGates": {
+    "observedLocal": [
+      "governance approval verifier pass",
+      "focused deterministic replay twice",
+      "affected replay",
+      "dev:fast pass",
+      "agent:guardrails pass",
+      "oss:policy pass",
+      "npm audit production high pass",
+      "npm test pass"
+    ],
+    "pending": [
+      "commit",
+      "push",
+      "PR CI pass",
+      "merge",
+      "postmerge exact-head verification pass"
+    ]
+  },
+  "authority": {
+    "ownerAuthority": "OWNER_CORRECTION_GATE_F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1",
+    "commitPushPrCiMerge": "ALLOW_AFTER_FULL_GREEN_ACCORDING_TO_REPO_GOVERNANCE",
+    "externalSecretsOrPaidDependencies": "DENY",
+    "destructiveOperations": "DENY",
+    "protectedGovernanceBypass": "DENY"
+  },
+  "rollback": {
+    "plan": "Revert the single F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1 PR; no data migration, runtime writer wiring, UI, dependency or user data change is introduced.",
+    "compatibility": "Old caller-carried multilingualEvidenceV1 request shape is intentionally rejected fail-closed; F1 remains default-off and not product-runtime-wired."
+  },
+  "limitations": [
+    "This is not DOCX or Word multilingual integration.",
+    "This is not automatic language detection or deep NLP.",
+    "This is not canonical manuscript mutation.",
+    "This is not Black Box capsule indexing.",
+    "This is not final lab-to-product traceability closure."
+  ]
+}

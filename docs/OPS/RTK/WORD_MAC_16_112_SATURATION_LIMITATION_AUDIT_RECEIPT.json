@@ -1,0 +1,25 @@
+{
+  "schema": "yalken.rtk.word-mac-16-112.saturation-limitation-audit-receipt.v1",
+  "profileId": "word-mac-16.112-26081010",
+  "rung": "SATURATION_LIMITATION_AUDIT",
+  "status": "COMPLETE_NOT_SATURATED",
+  "headSha": "48e92c1fa2c9231645a0dcab768204b885b30bbf",
+  "audit": {
+    "ok": true,
+    "status": "COMPLETE_NOT_SATURATED",
+    "code": "RTK_PHYS_GATES_OK",
+    "reasons": [
+      {
+        "code": "RTK_PHYS_GATES_OK",
+        "message": "all required waves sealed for this profile; saturation is NOT claimed"
+      }
+    ]
+  },
+  "auditedReceipts": [
+    "docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE10_RECEIPT.json",
+    "docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE40_RECEIPT.json",
+    "docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE100_RECEIPT.json",
+    "docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE300_RECEIPT.json",
+    "docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE300_REPEAT_RECEIPT.json"
+  ]
+}

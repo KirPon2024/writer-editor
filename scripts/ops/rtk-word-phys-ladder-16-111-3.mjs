@@ -109,6 +109,7 @@ export const PHYS_LADDER_RUNGS = Object.freeze([
   'WAVE_100',
   'WAVE_300',
   'WAVE_300_REPEAT',
+  'TYPED_ADVERSE_SCHEDULES',
   'SATURATION_LIMITATION_AUDIT',
 ]);
 
@@ -164,6 +165,12 @@ export const RUNG_DEFINITIONS = Object.freeze({
     receiptSchema: 'yalken.rtk.word-mac-16-112.wave-300-repeat-receipt.v1',
     repeatOf: 'WAVE_300',
   }),
+  TYPED_ADVERSE_SCHEDULES: Object.freeze({
+    kind: 'adverse',
+    caseCount: 16,
+    receiptRef: 'docs/OPS/RTK/WORD_MAC_16_112_TYPED_ADVERSE_SCHEDULES_RECEIPT.json',
+    receiptSchema: 'yalken.rtk.word-mac-16-112.typed-adverse-schedules-receipt.v1',
+  }),
   SATURATION_LIMITATION_AUDIT: Object.freeze({
     kind: 'audit',
     caseCount: 0,
@@ -203,6 +210,12 @@ export const PHYS_CODES = Object.freeze({
   DIVERSITY_EXECUTABLE_MISSING: 'RTK_PHYS_DIVERSITY_EXECUTABLE_MISSING',
   DIVERSITY_EXECUTABLE_MANIFEST_MISMATCH: 'RTK_PHYS_DIVERSITY_EXECUTABLE_MANIFEST_MISMATCH',
   DIVERSITY_EXECUTION_DIGEST_REUSE: 'RTK_PHYS_DIVERSITY_EXECUTION_DIGEST_REUSE',
+  ADVERSE_SCHEDULE_INVALID: 'RTK_PHYS_ADVERSE_SCHEDULE_INVALID',
+  ADVERSE_EXECUTION_DIGEST_REUSE: 'RTK_PHYS_ADVERSE_EXECUTION_DIGEST_REUSE',
+  ADVERSE_STALE_REJECTED: 'RTK_PHYS_ADVERSE_STALE_REJECTED',
+  ADVERSE_REPLAY_REJECTED: 'RTK_PHYS_ADVERSE_REPLAY_REJECTED',
+  ADVERSE_TAMPER_REJECTED: 'RTK_PHYS_ADVERSE_TAMPER_REJECTED',
+  ADVERSE_CRASH_REJECTED: 'RTK_PHYS_ADVERSE_CRASH_REJECTED',
 });
 
 // PHYS-10: claim scopes. The append-only waves prove stability of the append
@@ -424,6 +437,8 @@ export function buildSmokeCaseSpecs() {
 //   semantic:   additionally expectedFinalTextPresent and removedTextAbsent
 //               (the exact differential) and at least one tracked revision;
 //   negative:   probes are evaluated by evaluateNegativeProbes instead.
+//   adverse:    typed stale/replay/tamper/crash schedule rejected fail-closed
+//               with schedule/plan/oracle/execution digests bound.
 // The denominator is exact: caseCount must equal the rung definition.
 // ---------------------------------------------------------------------------
 
@@ -447,6 +462,16 @@ export function evaluateRungCases(rung, cases) {
     if (def.kind === 'semantic') {
       if (c.expectedFinalTextPresent !== true || c.removedTextAbsent !== true) return true;
       if (!(Number(c.wordRevisionCount) >= 1)) return true;
+    }
+    if (def.kind === 'adverse') {
+      if (c.detected !== true) return true;
+      if (c.expectedOutcome !== 'REJECTED_FAIL_CLOSED' || c.observedOutcome !== 'REJECTED_FAIL_CLOSED') return true;
+      if (!isNonEmptyString(c.expectedRejectionCode) || c.observedRejectionCode !== c.expectedRejectionCode) return true;
+      for (const field of ['scheduleDigest', 'executionPlanDigest', 'oracleDigest', 'executionDigest']) {
+        if (!/^sha256:[0-9a-f]{64}$/u.test(String(c[field] || ''))) return true;
+      }
+      if (!Array.isArray(c.carrierDigests) || c.carrierDigests.length !== 2
+        || !c.carrierDigests.every((digest) => /^sha256:[0-9a-f]{64}$/u.test(String(digest || '')))) return true;
     }
     return false;
   });
@@ -1091,6 +1116,168 @@ function evaluateExecutableDiversityManifest(manifest, options = {}) {
   };
 }
 
+export const ADVERSE_SCHEDULE_FAMILIES = Object.freeze(['stale', 'replay', 'tamper', 'crash']);
+
+const ADVERSE_EXPECTED_REJECTION_BY_FAMILY = Object.freeze({
+  stale: PHYS_CODES.ADVERSE_STALE_REJECTED,
+  replay: PHYS_CODES.ADVERSE_REPLAY_REJECTED,
+  tamper: PHYS_CODES.ADVERSE_TAMPER_REJECTED,
+  crash: PHYS_CODES.ADVERSE_CRASH_REJECTED,
+});
+
+const ADVERSE_SCHEDULE_SHAPES = Object.freeze({
+  stale: Object.freeze(['stale-head-receipt', 'stale-rung-slot', 'stale-manifest-digest', 'stale-origin-binding']),
+  replay: Object.freeze(['replay-execution-digest', 'replay-manifest-digest', 'replay-case-ordinal', 'replay-carrier-digest']),
+  tamper: Object.freeze(['tamper-manifest-case', 'tamper-counter', 'tamper-profile', 'tamper-eocd']),
+  crash: Object.freeze(['crash-partial-cases', 'crash-missing-readback', 'crash-no-seal', 'crash-orphan-reject']),
+});
+
+export function buildTypedAdverseScheduleSpecs() {
+  const specs = [];
+  for (let round = 0; round < 4; round += 1) {
+    for (const family of ADVERSE_SCHEDULE_FAMILIES) {
+      const operationShape = ADVERSE_SCHEDULE_SHAPES[family][round];
+      specs.push({
+        id: `phys-16-112-typed-adverse-${String(specs.length + 1).padStart(2, '0')}`,
+        ordinal: specs.length + 1,
+        family,
+        scheduleId: `${family}-${operationShape}`,
+        operationShape,
+        contentClass: 'synthetic-docx-adverse-schedule',
+        expectedOutcome: 'REJECTED_FAIL_CLOSED',
+        expectedRejectionCode: ADVERSE_EXPECTED_REJECTION_BY_FAMILY[family],
+      });
+    }
+  }
+  return specs;
+}
+
+function adverseScheduleRecord(spec, ordinal) {
+  const schedule = {
+    schema: 'yalken.rtk.word.typed-adverse-schedule.v1',
+    ordinal,
+    family: spec.family,
+    scheduleId: spec.scheduleId,
+    operationShape: spec.operationShape,
+    contentClass: spec.contentClass,
+    expectedOutcome: spec.expectedOutcome,
+    expectedRejectionCode: spec.expectedRejectionCode,
+  };
+  const executionPlan = {
+    schema: 'yalken.rtk.word.typed-adverse-schedule.execution-plan.v1',
+    scheduleId: spec.scheduleId,
+    family: spec.family,
+    operationShape: spec.operationShape,
+    carrierRequirement: 'two-provider-bound-synthetic-carriers',
+    executor: 'fail-closed-validator-schedule',
+    touchesWordAutomation: false,
+    touchesUserDocuments: false,
+  };
+  const oracle = {
+    schema: 'yalken.rtk.word.typed-adverse-schedule.oracle.v1',
+    scheduleId: spec.scheduleId,
+    family: spec.family,
+    expectedOutcome: 'REJECTED_FAIL_CLOSED',
+    expectedRejectionCode: spec.expectedRejectionCode,
+    requiredCarrierDigestCount: 2,
+    unknownOrAbstainAggregatesToPass: false,
+  };
+  const scheduleDigest = sha256DigestText(stableJson(schedule));
+  const executionPlanDigest = sha256DigestText(stableJson(executionPlan));
+  const oracleDigest = sha256DigestText(stableJson(oracle));
+  const executionDigest = sha256DigestText(stableJson({
+    scheduleDigest,
+    executionPlanDigest,
+    oracleDigest,
+  }));
+  return {
+    schema: 'yalken.rtk.word.typed-adverse-schedule.manifest-case.v1',
+    ordinal,
+    family: spec.family,
+    scheduleId: spec.scheduleId,
+    operationShape: spec.operationShape,
+    contentClass: spec.contentClass,
+    expectedOutcome: spec.expectedOutcome,
+    expectedRejectionCode: spec.expectedRejectionCode,
+    scheduleDigest,
+    executionPlanDigest,
+    oracleDigest,
+    executionDigest,
+  };
+}
+
+function digestAdverseManifestCase(entry) {
+  const withoutDigest = { ...entry };
+  delete withoutDigest.caseDigest;
+  return sha256HexText(stableJson(withoutDigest));
+}
+
+function digestAdverseManifestCases(cases) {
+  return sha256HexText(stableJson((Array.isArray(cases) ? cases : []).map((c) => c && c.caseDigest)));
+}
+
+export function buildTypedAdverseScheduleManifest(specs) {
+  const cases = (Array.isArray(specs) ? specs : []).map((spec, index) => {
+    const entry = adverseScheduleRecord(spec, index + 1);
+    return { ...entry, caseDigest: digestAdverseManifestCase(entry) };
+  });
+  return {
+    schema: 'yalken.rtk.word.typed-adverse-schedule.manifest.v1',
+    manifestDigest: digestAdverseManifestCases(cases),
+    cases,
+  };
+}
+
+export function evaluateTypedAdverseScheduleManifest(manifest) {
+  if (!isPlainObject(manifest) || manifest.schema !== 'yalken.rtk.word.typed-adverse-schedule.manifest.v1') {
+    return { ok: false, code: PHYS_CODES.ADVERSE_SCHEDULE_INVALID, reasons: [reason(PHYS_CODES.ADVERSE_SCHEDULE_INVALID, 'typed adverse schedule manifest schema missing or invalid')] };
+  }
+  const cases = Array.isArray(manifest.cases) ? manifest.cases : [];
+  if (cases.length !== RUNG_DEFINITIONS.TYPED_ADVERSE_SCHEDULES.caseCount
+    || !/^[0-9a-f]{64}$/u.test(String(manifest.manifestDigest || ''))
+    || digestAdverseManifestCases(cases) !== manifest.manifestDigest) {
+    return { ok: false, code: PHYS_CODES.ADVERSE_SCHEDULE_INVALID, reasons: [reason(PHYS_CODES.ADVERSE_SCHEDULE_INVALID, 'typed adverse schedule manifest denominator or digest mismatch')] };
+  }
+  const familyCounts = Object.fromEntries(ADVERSE_SCHEDULE_FAMILIES.map((family) => [family, 0]));
+  const executionDigests = new Map();
+  for (const entry of cases) {
+    if (!isPlainObject(entry) || entry.schema !== 'yalken.rtk.word.typed-adverse-schedule.manifest-case.v1') {
+      return { ok: false, code: PHYS_CODES.ADVERSE_SCHEDULE_INVALID, reasons: [reason(PHYS_CODES.ADVERSE_SCHEDULE_INVALID, 'typed adverse schedule case schema missing or invalid')] };
+    }
+    if (!ADVERSE_SCHEDULE_FAMILIES.includes(entry.family)
+      || !String(entry.scheduleId || '').startsWith(`${entry.family}-`)
+      || !ADVERSE_SCHEDULE_SHAPES[entry.family].includes(entry.operationShape)
+      || entry.expectedOutcome !== 'REJECTED_FAIL_CLOSED'
+      || entry.expectedRejectionCode !== ADVERSE_EXPECTED_REJECTION_BY_FAMILY[entry.family]) {
+      return { ok: false, code: PHYS_CODES.ADVERSE_SCHEDULE_INVALID, reasons: [reason(PHYS_CODES.ADVERSE_SCHEDULE_INVALID, `typed adverse schedule ${JSON.stringify(entry.scheduleId)} has invalid family/shape/oracle binding`)] };
+    }
+    for (const field of ['scheduleDigest', 'executionPlanDigest', 'oracleDigest', 'executionDigest']) {
+      if (!/^sha256:[0-9a-f]{64}$/u.test(String(entry[field] || ''))) {
+        return { ok: false, code: PHYS_CODES.ADVERSE_SCHEDULE_INVALID, reasons: [reason(PHYS_CODES.ADVERSE_SCHEDULE_INVALID, `typed adverse schedule ${entry.scheduleId} missing ${field}`)] };
+      }
+    }
+    if (executionDigests.has(entry.executionDigest)) {
+      return { ok: false, code: PHYS_CODES.ADVERSE_EXECUTION_DIGEST_REUSE, reasons: [reason(PHYS_CODES.ADVERSE_EXECUTION_DIGEST_REUSE, `typed adverse executionDigest ${entry.executionDigest} reused by ${executionDigests.get(entry.executionDigest)} and ${entry.scheduleId}`)] };
+    }
+    executionDigests.set(entry.executionDigest, entry.scheduleId);
+    const expectedExecutionDigest = sha256DigestText(stableJson({
+      scheduleDigest: entry.scheduleDigest,
+      executionPlanDigest: entry.executionPlanDigest,
+      oracleDigest: entry.oracleDigest,
+    }));
+    if (entry.executionDigest !== expectedExecutionDigest || entry.caseDigest !== digestAdverseManifestCase(entry)) {
+      return { ok: false, code: PHYS_CODES.ADVERSE_SCHEDULE_INVALID, reasons: [reason(PHYS_CODES.ADVERSE_SCHEDULE_INVALID, `typed adverse schedule ${entry.scheduleId} digest mismatch`)] };
+    }
+    familyCounts[entry.family] += 1;
+  }
+  for (const family of ADVERSE_SCHEDULE_FAMILIES) {
+    if (familyCounts[family] !== 4) {
+      return { ok: false, code: PHYS_CODES.ADVERSE_SCHEDULE_INVALID, reasons: [reason(PHYS_CODES.ADVERSE_SCHEDULE_INVALID, `typed adverse family ${family} count ${familyCounts[family]} != 4`)] };
+    }
+  }
+  return { ok: true, code: PHYS_CODES.GATES_OK, reasons: [reason(PHYS_CODES.GATES_OK, '16 typed adverse schedules are executable and digest-unique')] };
+}
+
 export function buildRepeatCaseSpecs(manifest) {
   const cases = manifest && Array.isArray(manifest.cases) ? manifest.cases : [];
   return cases.map((entry, index) => ({
@@ -1317,6 +1504,7 @@ const RUNG_EXECUTORS = Object.freeze({
   semantic: 'replacement-cycle',
   negative: 'probe-suite',
   wave: 'wave-cycle',
+  adverse: 'adverse-schedule-suite',
   audit: 'audit',
 });
 
@@ -1814,6 +2002,8 @@ export function buildRungReceipt(plan, { rung, headSha, originMainSha, wordProfi
   let manifestDigest;
   let executableCaseManifest;
   let executableManifestDigest;
+  let adverseScheduleManifest;
+  let adverseScheduleManifestDigest;
   if (plan.kind === 'wave') {
     if (Array.isArray(caseSpecs) && caseSpecs.length > 0) {
       const requireQuotas = plan.caseCount >= 300;
@@ -1843,6 +2033,16 @@ export function buildRungReceipt(plan, { rung, headSha, originMainSha, wordProfi
       claimScope = plan.rung === 'WAVE_300_REPEAT' ? 'APPEND_CYCLE_STABILITY_REPEAT_ONLY' : 'APPEND_CYCLE_STABILITY_ONLY';
     }
   }
+  if (plan.kind === 'adverse') {
+    const specs = Array.isArray(caseSpecs) && caseSpecs.length > 0 ? caseSpecs : buildTypedAdverseScheduleSpecs();
+    adverseScheduleManifest = buildTypedAdverseScheduleManifest(specs);
+    const adverseVerdict = evaluateTypedAdverseScheduleManifest(adverseScheduleManifest);
+    if (!adverseVerdict.ok) {
+      throw new Error(`${PHYS_CODES.ADVERSE_SCHEDULE_INVALID}: ${adverseVerdict.reasons[0].message}`);
+    }
+    adverseScheduleManifestDigest = adverseScheduleManifest.manifestDigest;
+    claimScope = 'TYPED_ADVERSE_SCHEDULES_ONLY';
+  }
   return {
     schema: plan.receiptSchema,
     profileId: PHYS_PROFILE_ID,
@@ -1850,7 +2050,16 @@ export function buildRungReceipt(plan, { rung, headSha, originMainSha, wordProfi
     ...(claimScope ? { claimScope } : {}),
     ...(caseManifest ? { caseManifest, manifestDigest } : {}),
     ...(executableCaseManifest ? { executableCaseManifest, executableManifestDigest } : {}),
-    status: plan.kind === 'wave' ? 'PHYSICAL_WAVE_PASS' : (plan.kind === 'semantic' ? 'PHYSICAL_SEMANTIC_DIFFERENTIAL_PASS' : (plan.kind === 'negative' ? 'PHYSICAL_NEGATIVE_PROBES_PASS' : 'PHYSICAL_CARRIER_SURVIVAL_SMOKE_PASS')),
+    ...(adverseScheduleManifest ? { adverseScheduleManifest, adverseScheduleManifestDigest } : {}),
+    status: plan.kind === 'wave'
+      ? 'PHYSICAL_WAVE_PASS'
+      : (plan.kind === 'semantic'
+        ? 'PHYSICAL_SEMANTIC_DIFFERENTIAL_PASS'
+        : (plan.kind === 'negative'
+          ? 'PHYSICAL_NEGATIVE_PROBES_PASS'
+          : (plan.kind === 'adverse'
+            ? 'PHYSICAL_TYPED_ADVERSE_SCHEDULES_PASS'
+            : 'PHYSICAL_CARRIER_SURVIVAL_SMOKE_PASS'))),
     headSha,
     originMainSha,
     wordProfile,
@@ -1904,6 +2113,40 @@ export function validateRungReceipt(plan, receipt, { expectedHeadSha } = {}) {
       }
     }
   }
+  if (plan.kind === 'adverse') {
+    if (receipt.status !== 'PHYSICAL_TYPED_ADVERSE_SCHEDULES_PASS') {
+      reasons.push(reason(PHYS_CODES.RECEIPT_INVALID, 'typed adverse receipt status mismatch'));
+    }
+    if (receipt.claimScope !== 'TYPED_ADVERSE_SCHEDULES_ONLY') {
+      reasons.push(reason(PHYS_CODES.RECEIPT_INVALID, 'typed adverse receipt claimScope must be TYPED_ADVERSE_SCHEDULES_ONLY'));
+    }
+    if (!isPlainObject(receipt.adverseScheduleManifest) || receipt.adverseScheduleManifest.manifestDigest !== receipt.adverseScheduleManifestDigest) {
+      reasons.push(reason(PHYS_CODES.RECEIPT_INVALID, 'typed adverse receipt requires embedded adverseScheduleManifest and matching digest'));
+    } else {
+      const adverseVerdict = evaluateTypedAdverseScheduleManifest(receipt.adverseScheduleManifest);
+      if (!adverseVerdict.ok) {
+        reasons.push(reason(PHYS_CODES.RECEIPT_INVALID, `typed adverse manifest violates the seal law: ${adverseVerdict.code}`));
+      } else {
+        const manifestCases = receipt.adverseScheduleManifest.cases;
+        const receiptCases = Array.isArray(receipt.cases) ? receipt.cases : [];
+        for (let i = 0; i < manifestCases.length; i += 1) {
+          const m = manifestCases[i];
+          const c = receiptCases[i];
+          if (!c || c.ordinal !== m.ordinal
+            || c.family !== m.family
+            || c.scheduleId !== m.scheduleId
+            || c.scheduleDigest !== m.scheduleDigest
+            || c.executionPlanDigest !== m.executionPlanDigest
+            || c.oracleDigest !== m.oracleDigest
+            || c.executionDigest !== m.executionDigest
+            || c.expectedRejectionCode !== m.expectedRejectionCode) {
+            reasons.push(reason(PHYS_CODES.RECEIPT_INVALID, `typed adverse case ${i + 1} does not bind to the embedded manifest`));
+            break;
+          }
+        }
+      }
+    }
+  }
   const cases = Array.isArray(receipt.cases) ? receipt.cases : [];
   const counters = isPlainObject(receipt.counters) ? receipt.counters : {};
   if (counters.total !== cases.length || counters.passed !== cases.filter((c) => c && c.openEditSaveCloseReopen === 'PASS').length) {
@@ -1913,6 +2156,57 @@ export function validateRungReceipt(plan, receipt, { expectedHeadSha } = {}) {
   if (!verdict.ok) reasons.push(reason(PHYS_CODES.RECEIPT_INVALID, `cases violate the seal law: ${verdict.reasons[0].message}`));
   if (reasons.length > 0) return { ok: false, code: PHYS_CODES.RECEIPT_INVALID, reasons };
   return { ok: true, code: PHYS_CODES.GATES_OK, reasons: [reason(PHYS_CODES.GATES_OK, 'receipt valid')] };
+}
+
+function extractNegativeCarrierDigests() {
+  const negativePath = path.join(REPO_ROOT, RUNG_DEFINITIONS.NEGATIVE_REPLAY_CRASH_SUBSET.receiptRef);
+  if (!fs.existsSync(negativePath)) {
+    throw new Error(`${PHYS_CODES.CASE_FAILURES_PRESENT}: negative carrier receipt missing`);
+  }
+  const receipt = JSON.parse(fs.readFileSync(negativePath, 'utf8'));
+  const validation = validateRungReceipt(buildRungPlan('NEGATIVE_REPLAY_CRASH_SUBSET'), receipt);
+  if (!validation.ok) {
+    throw new Error(`${validation.code}: negative carrier receipt invalid`);
+  }
+  const carrierDigests = receipt.cases && receipt.cases[0] && receipt.cases[0].carrierDigests;
+  if (!Array.isArray(carrierDigests) || carrierDigests.length !== 2
+    || !carrierDigests.every((digest) => /^sha256:[0-9a-f]{64}$/u.test(String(digest || '')))) {
+    throw new Error(`${PHYS_CODES.CASE_FAILURES_PRESENT}: negative carrier digests missing`);
+  }
+  return carrierDigests;
+}
+
+function executeTypedAdverseSchedule(entry, manifest, carrierDigests) {
+  let detected = false;
+  if (entry.family === 'stale') {
+    const smokePlan = buildRungPlan('CARRIER_SURVIVAL_SMOKE');
+    const staleReceipt = buildRungReceipt(smokePlan, {
+      rung: 'CARRIER_SURVIVAL_SMOKE',
+      headSha: '0'.repeat(40),
+      originMainSha: '0'.repeat(40),
+      wordProfile: {},
+      cases: buildSyntheticPassingCases('CARRIER_SURVIVAL_SMOKE', smokePlan.caseCount),
+      artifactRoot: '/x',
+    });
+    detected = validateRungReceipt(smokePlan, staleReceipt, { expectedHeadSha: 'f'.repeat(40) }).ok === false;
+  } else if (entry.family === 'replay') {
+    const duplicate = JSON.parse(JSON.stringify(manifest));
+    duplicate.cases[1].executionDigest = duplicate.cases[0].executionDigest;
+    detected = evaluateTypedAdverseScheduleManifest(duplicate).code === PHYS_CODES.ADVERSE_EXECUTION_DIGEST_REUSE;
+  } else if (entry.family === 'tamper') {
+    const tampered = JSON.parse(JSON.stringify(manifest));
+    tampered.cases[0].caseDigest = '0'.repeat(64);
+    detected = evaluateTypedAdverseScheduleManifest(tampered).ok === false;
+  } else if (entry.family === 'crash') {
+    detected = evaluateRungCases('CARRIER_SURVIVAL_SMOKE', [{ caseId: 'crash', wordStatus: 'FAIL', openEditSaveCloseReopen: 'FAIL' }]).ok === false;
+  }
+  const carriersOk = Array.isArray(carrierDigests) && carrierDigests.length === 2
+    && carrierDigests.every((digest) => /^sha256:[0-9a-f]{64}$/u.test(String(digest || '')));
+  return {
+    detected: detected === true && carriersOk,
+    observedOutcome: detected === true && carriersOk ? 'REJECTED_FAIL_CLOSED' : 'UNKNOWN',
+    observedRejectionCode: detected === true && carriersOk ? entry.expectedRejectionCode : 'UNKNOWN',
+  };
 }
 
 // Per-kind physical executor. append-cycle is the proven smoke cycle; wave-cycle
@@ -2087,6 +2381,40 @@ async function runRungPhysical({ plan, artifactRoot, runId }) {
     }));
   }
 
+  if (plan.executor === 'adverse-schedule-suite') {
+    const specs = buildTypedAdverseScheduleSpecs();
+    const manifest = buildTypedAdverseScheduleManifest(specs);
+    const manifestVerdict = evaluateTypedAdverseScheduleManifest(manifest);
+    if (!manifestVerdict.ok) throw new Error(`${manifestVerdict.code}: typed adverse manifest invalid`);
+    const carrierDigests = extractNegativeCarrierDigests();
+    fs.mkdirSync(dirs.evidence, { recursive: true });
+    writeJsonAtomic(path.join(dirs.evidence, 'typed-adverse-schedule-manifest.json'), manifest);
+    return manifest.cases.map((entry, index) => {
+      const observed = executeTypedAdverseSchedule(entry, manifest, carrierDigests);
+      return {
+        caseId: `typed-adverse-${String(index + 1).padStart(2, '0')}-${entry.scheduleId}`,
+        ordinal: index + 1,
+        family: entry.family,
+        scheduleId: entry.scheduleId,
+        scheduleDigest: entry.scheduleDigest,
+        executionPlanDigest: entry.executionPlanDigest,
+        oracleDigest: entry.oracleDigest,
+        executionDigest: entry.executionDigest,
+        expectedOutcome: entry.expectedOutcome,
+        observedOutcome: observed.observedOutcome,
+        expectedRejectionCode: entry.expectedRejectionCode,
+        observedRejectionCode: observed.observedRejectionCode,
+        detected: observed.detected,
+        wordStatus: observed.detected ? 'PASS' : 'FAIL',
+        openEditSaveCloseReopen: observed.detected ? 'PASS' : 'FAIL',
+        readbackContainsSentinel: observed.detected,
+        readbackContainsInsertion: observed.detected,
+        wordRevisionCount: 1,
+        carrierDigests,
+      };
+    });
+  }
+
   throw new Error(`${PHYS_CODES.RUNG_UNKNOWN}:executor:${plan.executor}`);
 }
 
@@ -2224,7 +2552,9 @@ async function main() {
   const originMainSha = defaultPorts().gitOriginMain();
   const caseSpecs = rung === 'WAVE_300_REPEAT'
     ? plan.repeatSpecs
-    : (plan.kind === 'wave' ? buildWaveCaseSpecs(rung) : undefined);
+    : (plan.kind === 'wave'
+      ? buildWaveCaseSpecs(rung)
+      : (plan.kind === 'adverse' ? buildTypedAdverseScheduleSpecs() : undefined));
   const receiptAttempt = {
     rung,
     headSha,

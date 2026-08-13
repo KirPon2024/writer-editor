@@ -648,6 +648,35 @@
           "denominator": "five-bound-wave-receipts-audit-only-not-saturation"
         }
       ],
+      "adverseEvidenceHeads": [
+        {
+          "path": "docs/OPS/RTK/WORD_MAC_16_112_TYPED_ADVERSE_SCHEDULES_RECEIPT.json",
+          "sha256": "sha256:5225bdf3db7e6a944d2a671cdaada5a9f119cf765f40676fab05a5c2cd8d047f",
+          "wordVersion": "16.112",
+          "wordBuild": "16.112.26081010",
+          "observedAtUtc": "2026-08-13T20:07:44Z",
+          "rung": "TYPED_ADVERSE_SCHEDULES",
+          "rungs": [],
+          "claimScope": "TYPED_ADVERSE_SCHEDULES_ONLY",
+          "status": "PHYSICAL_TYPED_ADVERSE_SCHEDULES_PASS",
+          "headSha": "2f33479c3b56e4b4521af242d9fb855276957a5c",
+          "originMainSha": "0c3c7bcdad3926917cd98876864fdf1dbeaa5614",
+          "bundleIdentifier": "com.microsoft.Word",
+          "teamIdentifier": "UBF8T346G9",
+          "signatureValid": true,
+          "casesTotal": 16,
+          "casesPassed": 16,
+          "families": [
+            "stale",
+            "replay",
+            "tamper",
+            "crash"
+          ],
+          "saturated": false,
+          "denominator": "typed-adverse-schedules-16-only-not-diversity-not-saturation",
+          "manifestDigest": "85180f4e836b2c3a8bd175688b107b1b980cd38e2c44805943a6dc87001987a1"
+        }
+      ],
       "freshnessPolicy": {
         "maxEvidenceAgeDays": 90
       },
@@ -663,8 +692,8 @@
           "WAVE_300_REPEAT"
         ]
       },
-      "profileDigest": "sha256:89bc53fd15c873b640329a5298293ae34c442443eff2248bc160a667bb7c7e6a",
-      "competingNote": "Physical evidence on Word 16.112 build 16.112.26081010: CARRIER_SURVIVAL_SMOKE 12/12 synthetic cases sealed at local prephysical candidate head 0379cea3 with origin/main base 574f2777, SEMANTIC_DIFFERENTIAL_SUBSET 24/24 synthetic cases sealed at local prephysical candidate head f087f5e7 with origin/main base ccb36021, NEGATIVE_REPLAY_CRASH_SUBSET 8/8 synthetic negative probes sealed at local candidate head 7de2bc7f with origin/main base 54eafa76, PHYSICAL_DIVERSITY_HARNESS_SELECTED_MATRIX_ONLY 14/14 harness-honesty cases sealed at local candidate head a66a6361 with origin/main base 85dd0877, WAVE_10 10/10 executable diversity-bound synthetic cases sealed at local candidate head 78ec65b0 with origin/main base 43f01a09, WAVE_40 40/40 executable diversity-bound synthetic cases sealed at local candidate head c1a56e56 with origin/main base 235ce637, WAVE_100 100/100 executable diversity-bound synthetic cases sealed at local candidate head dce52d5e with origin/main base e1a6fd29, WAVE_300 300/300 executable diversity-bound synthetic cases sealed at local candidate head 705f33bc with origin/main base 25e2b2d5 after a prior WAVE_300 attempt failed 292/300 with eight insertion cases lacking proof, and WAVE_300_REPEAT 300/300 executable diversity-bound synthetic repeat cases sealed at local candidate head 003d4c7c with origin/main base d7df01e7, replaying the WAVE_300 manifest one-to-one. SATURATION_LIMITATION_AUDIT COMPLETE_NOT_SATURATED at local candidate head 48e92c1f with origin/main base e02ef5dd audits the five wave/repeat receipts and confirms saturation=false. This proves only the first eight build-bound ladder rungs plus a non-ladder harness honesty repair and one non-ladder limitation audit; no saturation/terminal PASS/current Word compatibility is claimed, stale/replay/tamper/crash stay out of the Word physical-diversity denominator, and no historical 16.111.3 evidence is inherited."
+      "profileDigest": "sha256:bfb99795bb3e7b08fd025222db38f49c8c533d0ab0a2c295bc369c0128bb0c59",
+      "competingNote": "Physical evidence on Word 16.112 build 16.112.26081010: CARRIER_SURVIVAL_SMOKE 12/12 synthetic cases sealed at local prephysical candidate head 0379cea3 with origin/main base 574f2777, SEMANTIC_DIFFERENTIAL_SUBSET 24/24 synthetic cases sealed at local prephysical candidate head f087f5e7 with origin/main base ccb36021, NEGATIVE_REPLAY_CRASH_SUBSET 8/8 synthetic negative probes sealed at local candidate head 7de2bc7f with origin/main base 54eafa76, PHYSICAL_DIVERSITY_HARNESS_SELECTED_MATRIX_ONLY 14/14 harness-honesty cases sealed at local candidate head a66a6361 with origin/main base 85dd0877, WAVE_10 10/10 executable diversity-bound synthetic cases sealed at local candidate head 78ec65b0 with origin/main base 43f01a09, WAVE_40 40/40 executable diversity-bound synthetic cases sealed at local candidate head c1a56e56 with origin/main base 235ce637, WAVE_100 100/100 executable diversity-bound synthetic cases sealed at local candidate head dce52d5e with origin/main base e1a6fd29, WAVE_300 300/300 executable diversity-bound synthetic cases sealed at local candidate head 705f33bc with origin/main base 25e2b2d5 after a prior WAVE_300 attempt failed 292/300 with eight insertion cases lacking proof, and WAVE_300_REPEAT 300/300 executable diversity-bound synthetic repeat cases sealed at local candidate head 003d4c7c with origin/main base d7df01e7, replaying the WAVE_300 manifest one-to-one. SATURATION_LIMITATION_AUDIT COMPLETE_NOT_SATURATED at local candidate head 48e92c1f with origin/main base e02ef5dd audits the five wave/repeat receipts and confirms saturation=false. TYPED_ADVERSE_SCHEDULES 16/16 typed fail-closed stale/replay/tamper/crash schedules sealed at local candidate head 2f33479c with origin/main base 0c3c7bcd; this evidence is adverse-schedule-only, not an executable diversity rung and not saturation. This proves only the first eight build-bound ladder rungs plus a non-ladder harness honesty repair, one non-ladder limitation audit and one non-ladder typed adverse schedule receipt; no saturation/terminal PASS/current Word compatibility is claimed, stale/replay/tamper/crash stay out of the Word physical-diversity denominator, and no historical 16.111.3 evidence is inherited."
     }
   ],
   "currentProfileId": "word-mac-16.112-26081010"

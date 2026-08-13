@@ -1,0 +1,208 @@
+{
+  "schemaVersion": "yalken.s0.revisionSourceFence.receipt.v1",
+  "taskId": "YALKEN_S0_REVISION_SOURCE_FENCE_V1_DELIVERY",
+  "createdAtUtc": "2026-08-13T06:26:08Z",
+  "verdict": "READY_FOR_DELIVERY_CHAIN",
+  "status": "CANDIDATE_GREEN_PENDING_COMMIT_PUSH_PR_CI_MERGE",
+  "modelBinding": {
+    "requested": "GPT-5.5/xhigh",
+    "runtimeAttestation": "NOT_EXPOSED_BY_CODEX_RUNTIME",
+    "handling": "CONTINUED_ON_SYSTEM_ASSIGNED_MODEL_PER_OWNER_INSTRUCTION"
+  },
+  "checkpoint": {
+    "programCheckpointFile": "PHASE0_CHECKPOINT_20260812T220743Z.json",
+    "programCheckpointSha256": "1c8a3cc9ca7acb6315fe854f37ad1b44692779e43ad517c46dc4692433a6a538",
+    "s0StopAcceptedReceipt": "STOP_ACCEPTED_NO_DELIVERY_20260813T060107Z.json",
+    "s0StopAcceptedReceiptSha256": "5c333f663ce33643f92dad2406f3a2f693b1e974c62ee96deb1c8fdb259fcc01",
+    "restoredCandidateSource": "paused-candidate-20260812T222900Z",
+    "restoredCandidateStatus": "BYTE_EXACT_RESTORED_FOR_CODE_MODEL_AND_CONTRACT"
+  },
+  "baseline": {
+    "branch": "codex/yalken-s0-revision-source-fence-v1-delivery",
+    "headSha": "5db1bf5524002b3249b2653484825fe1737b2d77",
+    "treeSha": "45cfb480c5c89fd79f933d90e1d55052bf689c62",
+    "originMainBinding": "5db1bf5524002b3249b2653484825fe1737b2d77",
+    "fixtureRepairMerge": {
+      "taskId": "YALKEN_PROJECT_TREE_IDENTITY_FIXTURE_REPAIR_V1",
+      "prNumber": 1499,
+      "commitSha": "b78b42443c65f60950395d19feaa22180a06a355",
+      "mergeCommitSha": "5db1bf5524002b3249b2653484825fe1737b2d77",
+      "postMergeFocused": "PASS_1_OF_1",
+      "postMergeDevFast": "PASS_EXIT_0",
+      "postMergeGuardrails": "PASS"
+    }
+  },
+  "toolchain": {
+    "node": "v22.22.2",
+    "npm": "10.9.7",
+    "source": "T7_LOCAL_HERMETIC_NODE_22_22_2",
+    "systemInstallChanged": false
+  },
+  "scope": {
+    "changedFiles": [
+      "docs/OPS/STATUS/YALKEN_S0_REVISION_SOURCE_FENCE_V1_RECEIPT.json",
+      "scripts/ops/source-fence-v1-model.mjs",
+      "src/product/sourceFenceV1.mjs",
+      "test/contracts/source-fence-v1.contract.test.js",
+      "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+    ],
+    "nonGoals": [
+      "NO_UI_CHANGE",
+      "NO_RUNTIME_WRITER_REWIRING",
+      "NO_MULTILINGUAL_FEATURE_BEHAVIOR",
+      "NO_WORD_DOCX_FEATURE_BEHAVIOR",
+      "NO_BLACK_BOX_CAPSULE_BEHAVIOR",
+      "NO_KEYS_OR_CRYPTO_CHANGE",
+      "NO_GENERIC_PUBLISHER_OR_UNIVERSAL_COMMAND_SPEC",
+      "NO_UNIVERSAL_COMMAND_SPEC",
+      "NO_DURABLE_WRITER_DIALECT"
+    ],
+    "productRuntimeWrites": false,
+    "dataMigration": false,
+    "dependencyChange": false
+  },
+  "contract": {
+    "schemas": [
+      "yalken.sourceFence.observation.v1",
+      "yalken.sourceFence.request.v1",
+      "yalken.sourceFence.token.v1",
+      "yalken.sourceFence.result.v1"
+    ],
+    "minimality": "PURE_REQUEST_RESULT_EVALUATOR_ONLY",
+    "requestContract": [
+      "schemaVersion",
+      "purpose",
+      "expected",
+      "current",
+      "fence",
+      "dirtyPolicy",
+      "authority"
+    ],
+    "resultContract": [
+      "schemaVersion",
+      "ok",
+      "decision",
+      "code",
+      "reasons",
+      "observed"
+    ],
+    "authorityBoundary": "DENY_ON_UNKNOWN_ABSTAIN_CONFLICTING_MISSING_EXTRA_STALE_DIRTY_WRONG_IDENTITY_REPLAY_TRANSPLANT",
+    "currentSourceInvalidation": "CANONICAL_REVISION_WORKING_REVISION_SOURCE_DIGEST_AND_DIRTY_STATE_MUST_MATCH_POLICY",
+    "casBoundary": "FENCE_DIGEST_BINDS_PROJECT_ROOT_DOCUMENT_PURPOSE_CANONICAL_REVISION_WORKING_REVISION_AND_SOURCE_DIGEST",
+    "migrations": false
+  },
+  "hypotheses": {
+    "H0": "A source write or source-bound snapshot can still be falsely accepted with stale, dirty, wrong-identity, replayed, transplanted, unknown or conflicting evidence.",
+    "H1": "The minimal v1 seam rejects every stale, dirty, wrong-identity, replay, transplant, unknown and conflicting case while preserving a fully closed synthetic pass control.",
+    "falsifiers": [
+      "Any UNKNOWN_ABSTAIN_CONFLICTING aggregates to PASS",
+      "Any missing or extra key is ignored",
+      "Any wrong project root document revision digest or purpose is accepted",
+      "Any semantic mutant survives",
+      "Any required affected or baseline gate fails"
+    ]
+  },
+  "redFirst": {
+    "command": "node --test test/contracts/source-fence-v1.contract.test.js",
+    "baselineSha": "cc49a24b7c384e21cdba617004c4a7a500e6023d",
+    "result": "RED_EXPECTED_BEFORE_S0_SEAM",
+    "tests": 7,
+    "pass": 0,
+    "fail": 7,
+    "skip": 0,
+    "todo": 0,
+    "primaryFailure": "ERR_MODULE_NOT_FOUND src/product/sourceFenceV1.mjs"
+  },
+  "proofsExecutedOnFreshBaselineBeforeReceiptSeal": {
+    "focused": {
+      "command": "node --test test/contracts/source-fence-v1.contract.test.js",
+      "tests": 7,
+      "pass": 7,
+      "fail": 0,
+      "skip": 0,
+      "todo": 0
+    },
+    "modelAndOracle": {
+      "command": "node scripts/ops/source-fence-v1-model.mjs",
+      "result": "PASS",
+      "finiteCases": 192,
+      "finiteDisagreements": 0,
+      "hostileCases": 16,
+      "hostileFailures": 0,
+      "semanticMutants": 9,
+      "semanticMutationSurvivors": 0,
+      "resourceCeiling": "O_1_PER_REQUEST_NO_IO",
+      "productSloClaim": "NOT_CLAIMED_LAB_ONLY",
+      "skips": 0
+    },
+    "affected": {
+      "projectTreeIdentityMain": {
+        "command": "node --test test/unit/project-tree-identity-main.test.js",
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "skip": 0,
+        "todo": 0
+      },
+      "concurrencyLocking": {
+        "command": "node --test test/contracts/concurrency-locking.contract.test.js",
+        "tests": 5,
+        "pass": 5,
+        "fail": 0,
+        "skip": 0,
+        "todo": 0
+      },
+      "atlasV6ProductionNegative": {
+        "command": "node --test test/contracts/yalken-atlas-v6-production-negative.contract.test.js",
+        "tests": 6,
+        "pass": 6,
+        "fail": 0,
+        "skip": 0,
+        "todo": 0
+      },
+      "release01TerminalClaims": {
+        "command": "npm run -s test:rtk-release01",
+        "tests": 39,
+        "pass": 39,
+        "fail": 0,
+        "skip": 0,
+        "todo": 0
+      }
+    }
+  },
+  "postReceiptDeliveryGates": {
+    "reason": "dev:fast and final guardrails are intentionally validated after companion governance approvals bind this exact receipt hash; this avoids self-referential receipt hash recursion.",
+    "required": [
+      "governance change detection strict pass",
+      "dev:fast pass",
+      "agent:guardrails pass",
+      "deterministic replay twice",
+      "diff check pass",
+      "skip/todo scan pass",
+      "PR CI pass",
+      "postmerge exact-head verification pass"
+    ]
+  },
+  "artifactSha256BeforeReceiptSeal": {
+    "scripts/ops/source-fence-v1-model.mjs": "7f67717c1b74b29df9e6e8f0010e9316ba42993ad1f0ca7f36742b5cae13d63c",
+    "src/product/sourceFenceV1.mjs": "d664d922c1e3f41e3a6b138c81a6b3f56b36daf8703b249cc94f1f0fa7b85509",
+    "test/contracts/source-fence-v1.contract.test.js": "3037f48608184326602e888135c680a1ca4c175bd80476d27515fc9102f8f134"
+  },
+  "rollback": {
+    "type": "CODE_AND_GOVERNANCE_RECEIPT_ONLY",
+    "action": "Revert the single S0 delivery PR containing sourceFenceV1, its contract/model/receipt, and companion governance approval entries; no data migration, runtime writer wiring, dependency, or system toolchain change is introduced."
+  },
+  "authority": {
+    "ownerAuthority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1",
+    "commitPushPrCiMerge": "ALLOW_AFTER_FULL_GREEN_ACCORDING_TO_REPO_GOVERNANCE",
+    "externalSecretsOrPaidDependencies": "DENY",
+    "destructiveOperations": "DENY",
+    "protectedGovernanceBypass": "DENY"
+  },
+  "limitations": [
+    "This is a minimal pure seam and does not prove ordinary save, manifest, notes, history, or whole-CORE transaction atomicity.",
+    "Restart-visible fence is process-level deterministic evidence, not physical power-loss proof.",
+    "Performance numbers are lab evidence only and not a product SLO."
+  ],
+  "nextStep": "Bind this exact receipt and changed governance-sensitive artifacts in GOVERNANCE_CHANGE_APPROVALS.json, run baseline and deterministic delivery gates, then commit/push/PR/CI/merge if green."
+}

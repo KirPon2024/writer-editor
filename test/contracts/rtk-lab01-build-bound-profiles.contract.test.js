@@ -37,6 +37,7 @@ const REPO_ROOT = path.resolve(__dirname, '..', '..');
 const MODULE_PATH = path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-build-profiles-v1.mjs');
 const REGISTRY_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_BUILD_PROFILE_REGISTRY_V1.json');
 const SATURATION_LIMITATION_AUDIT_RECEIPT_REF = 'docs/OPS/RTK/WORD_MAC_16_112_SATURATION_LIMITATION_AUDIT_RECEIPT.json';
+const TYPED_ADVERSE_SCHEDULES_RECEIPT_REF = 'docs/OPS/RTK/WORD_MAC_16_112_TYPED_ADVERSE_SCHEDULES_RECEIPT.json';
 const CURRENT_16_112_COMPLETED_RUNGS_AFTER_WAVE300 = Object.freeze([
   'CARRIER_SURVIVAL_SMOKE',
   'SEMANTIC_DIFFERENTIAL_SUBSET',
@@ -1468,4 +1469,51 @@ test('LAB03-11-real-registry-binds-16-112-saturation-limitation-audit-without-sa
   assert.equal(receipt.audit.status, 'COMPLETE_NOT_SATURATED');
   assert.notEqual(receipt.status, 'SATURATED', 'limitation audit receipt must not claim SATURATED');
   assert.notEqual(receipt.audit.status, 'SATURATED', 'limitation audit verdict must not claim SATURATED');
+});
+
+test('LAB03-12-real-registry-binds-16-112-typed-adverse-schedules-without-ladder-saturation-or-terminal-promotion', async () => {
+  const module = await loadModule();
+  const registryJson = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
+  const loaded = module.loadBuildProfileRegistry(registryJson);
+  assert.equal(loaded.ok, true, `registry with typed adverse schedules must load: ${JSON.stringify(loaded.reasons)}`);
+  const reconciliation = module.evaluateRegistryReconciliation(registryJson);
+  assert.equal(reconciliation.ok, true, `registry with typed adverse schedules must reconcile: ${JSON.stringify(reconciliation.reasons)}`);
+
+  const current = registryJson.profiles.find((p) => p.profileId === 'word-mac-16.112-26081010');
+  assert.ok(current, '16.112 current profile must exist');
+  assert.equal(current.class, 'COMPETING_NOT_SATURATED');
+  assert.equal(current.saturationStatus, 'COMPLETE_NOT_SATURATED');
+  assert.deepEqual(current.ladder.completedRungs, CURRENT_16_112_COMPLETED_RUNGS_AFTER_WAVE300_REPEAT,
+    'typed adverse schedules are not an executable edit-diversity ladder rung');
+  assert.equal((current.evidenceHeads || []).length, CURRENT_16_112_EVIDENCE_HEAD_COUNT_AFTER_WAVE300_REPEAT,
+    'typed adverse schedules must not inflate executable ladder evidence heads');
+  assert.equal((current.auditEvidenceHeads || []).length, 1,
+    'saturation limitation audit binding remains exactly one audit head');
+
+  const adverseHeads = current.adverseEvidenceHeads || [];
+  assert.equal(adverseHeads.length, 1, '16.112 must bind exactly one typed adverse schedule evidence head');
+  const adverseHead = adverseHeads[0];
+  assert.equal(adverseHead.path, TYPED_ADVERSE_SCHEDULES_RECEIPT_REF);
+  assert.equal(adverseHead.wordVersion, '16.112');
+  assert.equal(adverseHead.wordBuild, '16.112.26081010');
+  assert.equal(adverseHead.rung, 'TYPED_ADVERSE_SCHEDULES');
+  assert.deepEqual(adverseHead.rungs, [], 'typed adverse schedules prove no executable edit-diversity ladder rung');
+  assert.equal(adverseHead.status, 'PHYSICAL_TYPED_ADVERSE_SCHEDULES_PASS');
+  assert.equal(adverseHead.claimScope, 'TYPED_ADVERSE_SCHEDULES_ONLY');
+  assert.equal(adverseHead.casesTotal, 16);
+  assert.equal(adverseHead.casesPassed, 16);
+  assert.deepEqual(adverseHead.families, ['stale', 'replay', 'tamper', 'crash']);
+  assert.equal(adverseHead.denominator, 'typed-adverse-schedules-16-only-not-diversity-not-saturation');
+  assert.equal(adverseHead.saturated, false);
+  const adverseAbs = path.join(REPO_ROOT, adverseHead.path);
+  assert.equal(fs.existsSync(adverseAbs), true, `typed adverse schedule receipt must exist: ${adverseHead.path}`);
+  assert.equal(sha256File(adverseAbs), adverseHead.sha256, 'typed adverse schedule receipt sha256 must match registry binding');
+
+  const receipt = JSON.parse(fs.readFileSync(adverseAbs, 'utf8'));
+  assert.equal(receipt.status, 'PHYSICAL_TYPED_ADVERSE_SCHEDULES_PASS');
+  assert.equal(receipt.claimScope, 'TYPED_ADVERSE_SCHEDULES_ONLY');
+  assert.deepEqual(receipt.counters, { total: 16, passed: 16, failed: 0 });
+  assert.equal(receipt.adverseScheduleManifest.manifestDigest, receipt.adverseScheduleManifestDigest);
+  assert.ok((receipt.nonClaims || []).some((line) => String(line).includes('No saturation')),
+    'typed adverse receipt must explicitly deny saturation/terminal promotion');
 });

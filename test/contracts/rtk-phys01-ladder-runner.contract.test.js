@@ -45,6 +45,8 @@ const WAVE300_REPEAT_RECEIPT_REF = 'docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE30
 const WAVE300_REPEAT_RECEIPT_PATH = path.join(REPO_ROOT, WAVE300_REPEAT_RECEIPT_REF);
 const SATURATION_LIMITATION_AUDIT_RECEIPT_REF = 'docs/OPS/RTK/WORD_MAC_16_112_SATURATION_LIMITATION_AUDIT_RECEIPT.json';
 const SATURATION_LIMITATION_AUDIT_RECEIPT_PATH = path.join(REPO_ROOT, SATURATION_LIMITATION_AUDIT_RECEIPT_REF);
+const TYPED_ADVERSE_SCHEDULES_RECEIPT_REF = 'docs/OPS/RTK/WORD_MAC_16_112_TYPED_ADVERSE_SCHEDULES_RECEIPT.json';
+const TYPED_ADVERSE_SCHEDULES_RECEIPT_PATH = path.join(REPO_ROOT, TYPED_ADVERSE_SCHEDULES_RECEIPT_REF);
 
 async function loadModule() {
   return import(pathToFileURL(MODULE_PATH).href);
@@ -330,11 +332,11 @@ function sealedWaveReceipt(rung, count, overrides = {}) {
   };
 }
 
-// P11: all nine rungs are known to the gate evaluator.
-test('PHYS01-P11-all-nine-rungs-known', async () => {
+// P11: all runner rungs are known to the gate evaluator.
+test('PHYS01-P11-all-runner-rungs-known', async () => {
   const module = await loadModule();
-  const expected = ['CARRIER_SURVIVAL_SMOKE', 'SEMANTIC_DIFFERENTIAL_SUBSET', 'NEGATIVE_REPLAY_CRASH_SUBSET', 'WAVE_10', 'WAVE_40', 'WAVE_100', 'WAVE_300', 'WAVE_300_REPEAT', 'SATURATION_LIMITATION_AUDIT'];
-  assert.deepEqual([...module.PHYS_LADDER_RUNGS], expected, 'the nine ladder rungs in order');
+  const expected = ['CARRIER_SURVIVAL_SMOKE', 'SEMANTIC_DIFFERENTIAL_SUBSET', 'NEGATIVE_REPLAY_CRASH_SUBSET', 'WAVE_10', 'WAVE_40', 'WAVE_100', 'WAVE_300', 'WAVE_300_REPEAT', 'TYPED_ADVERSE_SCHEDULES', 'SATURATION_LIMITATION_AUDIT'];
+  assert.deepEqual([...module.PHYS_LADDER_RUNGS], expected, 'the runner rungs in order');
   for (const rung of expected) {
     const r = module.evaluatePhysGates({ ...baseGateInput(), rung });
     assert.equal(r.ok, true, `rung ${rung} must be known: ${JSON.stringify(r.reasons)}`);
@@ -354,6 +356,7 @@ test('PHYS01-P12-rung-definitions-pinned', async () => {
     WAVE_100: 100,
     WAVE_300: 300,
     WAVE_300_REPEAT: 300,
+    TYPED_ADVERSE_SCHEDULES: 16,
   };
   for (const [rung, count] of Object.entries(expectedCounts)) {
     assert.equal(defs[rung].caseCount, count, `${rung} case count`);
@@ -850,6 +853,146 @@ test('PHYS01-P32-audit-diversity-gate', async () => {
   const result = module.evaluateSaturationAudit({ receiptsByRung: diverse });
   assert.equal(result.ok, true, `diversity-proven receipts must audit: ${JSON.stringify(result.reasons)}`);
   assert.equal(result.status, 'COMPLETE_NOT_SATURATED');
+});
+
+// ===========================================================================
+// ADV-01 — typed adverse schedules. These are intentionally not Word edit
+// diversity rows and not saturation evidence. The closed denominator binds four
+// stale, four replay, four tamper and four crash schedules to executable
+// schedule/oracle digests; duplicate executable digests under different
+// normalized rows are rejected.
+// ===========================================================================
+
+test('PHYS01-ADV01-typed-adverse-rung-and-specs-closed', async () => {
+  const module = await loadModule();
+  assert.ok(module.PHYS_LADDER_RUNGS.includes('TYPED_ADVERSE_SCHEDULES'),
+    'the physical runner must know the non-saturation typed adverse schedule rung');
+  const plan = module.buildRungPlan('TYPED_ADVERSE_SCHEDULES');
+  assert.equal(plan.kind, 'adverse');
+  assert.equal(plan.executor, 'adverse-schedule-suite');
+  assert.equal(plan.caseCount, 16);
+  assert.equal(plan.receiptRef, TYPED_ADVERSE_SCHEDULES_RECEIPT_REF);
+
+  assert.deepEqual([...module.ADVERSE_SCHEDULE_FAMILIES], ['stale', 'replay', 'tamper', 'crash']);
+  const specs = module.buildTypedAdverseScheduleSpecs();
+  assert.equal(specs.length, 16, 'exactly four typed schedules per family');
+  assert.deepEqual(Object.fromEntries(module.ADVERSE_SCHEDULE_FAMILIES.map((family) => [
+    family,
+    specs.filter((spec) => spec.family === family).length,
+  ])), { stale: 4, replay: 4, tamper: 4, crash: 4 });
+  assert.equal(new Set(specs.map((spec) => spec.scheduleId)).size, 16, 'schedule ids are unique');
+  assert.equal(specs.every((spec) =>
+    typeof spec.expectedRejectionCode === 'string'
+    && spec.expectedRejectionCode.startsWith('RTK_PHYS_')
+    && spec.expectedOutcome === 'REJECTED_FAIL_CLOSED'), true,
+  'every typed adverse schedule must name the expected fail-closed code');
+});
+
+test('PHYS01-ADV02-typed-adverse-executable-digests-are-bound-and-unique', async () => {
+  const module = await loadModule();
+  const specs = module.buildTypedAdverseScheduleSpecs();
+  const manifest = module.buildTypedAdverseScheduleManifest(specs);
+  assert.match(manifest.manifestDigest, /^[a-f0-9]{64}$/u);
+  assert.equal(manifest.cases.length, 16);
+  for (const entry of manifest.cases) {
+    assert.match(entry.scheduleDigest, /^sha256:[a-f0-9]{64}$/u, `${entry.scheduleId} scheduleDigest`);
+    assert.match(entry.executionPlanDigest, /^sha256:[a-f0-9]{64}$/u, `${entry.scheduleId} executionPlanDigest`);
+    assert.match(entry.oracleDigest, /^sha256:[a-f0-9]{64}$/u, `${entry.scheduleId} oracleDigest`);
+    assert.match(entry.executionDigest, /^sha256:[a-f0-9]{64}$/u, `${entry.scheduleId} executionDigest`);
+  }
+  assert.equal(new Set(manifest.cases.map((entry) => entry.executionDigest)).size, 16,
+    'different typed adverse schedules must not collapse to the same executable digest');
+
+  const swapped = specs.map((spec, index) => (index === 1 ? { ...spec, family: 'stale' } : spec));
+  const badVocab = module.evaluateTypedAdverseScheduleManifest(module.buildTypedAdverseScheduleManifest(swapped));
+  assert.equal(badVocab.ok, false, 'family/id mismatch must fail the executable manifest');
+  assert.equal(badVocab.code, 'RTK_PHYS_ADVERSE_SCHEDULE_INVALID');
+
+  const reusedDigest = JSON.parse(JSON.stringify(manifest));
+  reusedDigest.cases[4].executionDigest = reusedDigest.cases[0].executionDigest;
+  const badDigest = module.evaluateTypedAdverseScheduleManifest(reusedDigest);
+  assert.equal(badDigest.ok, false, 'execution digest reuse under different rows must be rejected');
+  assert.equal(badDigest.code, 'RTK_PHYS_ADVERSE_EXECUTION_DIGEST_REUSE');
+});
+
+test('PHYS01-ADV03-typed-adverse-case-seal-law', async () => {
+  const module = await loadModule();
+  const specs = module.buildTypedAdverseScheduleSpecs();
+  const manifest = module.buildTypedAdverseScheduleManifest(specs);
+  const cases = manifest.cases.map((entry, index) => ({
+    caseId: `typed-adverse-${String(index + 1).padStart(2, '0')}-${entry.scheduleId}`,
+    ordinal: index + 1,
+    family: entry.family,
+    scheduleId: entry.scheduleId,
+    scheduleDigest: entry.scheduleDigest,
+    executionPlanDigest: entry.executionPlanDigest,
+    oracleDigest: entry.oracleDigest,
+    executionDigest: entry.executionDigest,
+    expectedRejectionCode: entry.expectedRejectionCode,
+    observedRejectionCode: entry.expectedRejectionCode,
+    expectedOutcome: 'REJECTED_FAIL_CLOSED',
+    observedOutcome: 'REJECTED_FAIL_CLOSED',
+    detected: true,
+    wordStatus: 'PASS',
+    openEditSaveCloseReopen: 'PASS',
+    readbackContainsSentinel: true,
+    readbackContainsInsertion: true,
+    carrierDigests: [`sha256:${'a'.repeat(64)}`, `sha256:${'b'.repeat(64)}`],
+  }));
+  const ok = module.evaluateRungCases('TYPED_ADVERSE_SCHEDULES', cases);
+  assert.equal(ok.ok, true, `typed adverse schedules must seal: ${JSON.stringify(ok.reasons)}`);
+
+  const missing = module.evaluateRungCases('TYPED_ADVERSE_SCHEDULES', cases.slice(0, 15));
+  assert.equal(missing.ok, false, 'short denominator must fail');
+  assert.equal(missing.code, 'RTK_PHYS_CASE_COUNT_MISMATCH');
+
+  const abstain = cases.map((c, i) => (i === 2 ? { ...c, observedOutcome: 'ABSTAIN' } : c));
+  const badOutcome = module.evaluateRungCases('TYPED_ADVERSE_SCHEDULES', abstain);
+  assert.equal(badOutcome.ok, false, 'ABSTAIN must never aggregate into PASS');
+  assert.equal(badOutcome.code, 'RTK_PHYS_CASE_FAILURES_PRESENT');
+
+  const wrongCode = cases.map((c, i) => (i === 6 ? { ...c, observedRejectionCode: 'RTK_PHYS_OTHER_CODE' } : c));
+  const badCode = module.evaluateRungCases('TYPED_ADVERSE_SCHEDULES', wrongCode);
+  assert.equal(badCode.ok, false, 'wrong rejection code must fail the oracle');
+  assert.equal(badCode.code, 'RTK_PHYS_CASE_FAILURES_PRESENT');
+});
+
+test('PHYS01-ADV04-real-16-112-typed-adverse-schedules-receipt-sealed', async () => {
+  const module = await loadModule();
+  assert.equal(fs.existsSync(TYPED_ADVERSE_SCHEDULES_RECEIPT_PATH), true,
+    `${TYPED_ADVERSE_SCHEDULES_RECEIPT_REF} must exist after the typed adverse schedule rung is physically sealed`);
+
+  const receipt = JSON.parse(fs.readFileSync(TYPED_ADVERSE_SCHEDULES_RECEIPT_PATH, 'utf8'));
+  const plan = module.buildRungPlan('TYPED_ADVERSE_SCHEDULES');
+  const validation = module.validateRungReceipt(plan, receipt);
+  assert.equal(validation.ok, true, `typed adverse schedule receipt must validate: ${JSON.stringify(validation.reasons)}`);
+
+  assert.equal(receipt.schema, 'yalken.rtk.word-mac-16-112.typed-adverse-schedules-receipt.v1');
+  assert.equal(receipt.profileId, 'word-mac-16.112-26081010');
+  assert.equal(receipt.rung, 'TYPED_ADVERSE_SCHEDULES');
+  assert.equal(receipt.status, 'PHYSICAL_TYPED_ADVERSE_SCHEDULES_PASS');
+  assert.equal(receipt.claimScope, 'TYPED_ADVERSE_SCHEDULES_ONLY');
+  assert.match(receipt.headSha, /^[a-f0-9]{40}$/u);
+  assert.match(receipt.originMainSha, /^[a-f0-9]{40}$/u);
+  assert.equal(receipt.wordProfile.versionByBundle, '16.112');
+  assert.equal(receipt.wordProfile.buildByBundle, '16.112.26081010');
+  assert.equal(receipt.wordProfile.bundleId, 'com.microsoft.Word');
+  assert.equal(receipt.wordProfile.teamIdentifier, 'UBF8T346G9');
+  assert.equal(receipt.wordProfile.signatureValid, true);
+  assert.deepEqual(receipt.counters, { total: 16, passed: 16, failed: 0 });
+  assert.ok(receipt.adverseScheduleManifest, 'receipt must embed the typed schedule manifest');
+  assert.equal(receipt.adverseScheduleManifest.manifestDigest, receipt.adverseScheduleManifestDigest);
+  assert.equal(receipt.cases.every((c) =>
+    c.detected === true
+    && c.expectedOutcome === 'REJECTED_FAIL_CLOSED'
+    && c.observedOutcome === 'REJECTED_FAIL_CLOSED'
+    && c.observedRejectionCode === c.expectedRejectionCode
+    && Array.isArray(c.carrierDigests)
+    && c.carrierDigests.length === 2), true,
+  'every adverse schedule must prove fail-closed rejection in a physical carrier context');
+  assert.ok((receipt.nonClaims || []).some((line) => String(line).includes('No saturation')),
+    'typed adverse receipt must explicitly deny saturation/terminal promotion');
+  assert.match(sha256File(TYPED_ADVERSE_SCHEDULES_RECEIPT_PATH), /^sha256:[a-f0-9]{64}$/u);
 });
 
 // ===========================================================================

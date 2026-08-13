@@ -10088,10 +10088,10 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-phys-ladder-16-111-3.mjs",
-      "sha256": "725b7c34754f1ad1dd8d4ef20a26590bd222b7eaae04010a1ded40473248bed1",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE10_V1",
-      "approvedAtUtc": "2026-08-13T13:23:18Z",
-      "rationale": "Approve harness generator correction preventing small-wave false diversity: WAVE_10/WAVE_40/WAVE_100 use orthogonal round-robin executable family/content seeds instead of prefixing one grouped WAVE_300 family; WAVE_300 quota generator and repeat binding remain intact.",
+      "sha256": "6cb7a127a54fa1b7e6ca30750af61c176d51a5280001ec29b3f90fba99024c1a",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_TYPED_ADVERSE_SCHEDULES_V1",
+      "approvedAtUtc": "2026-08-13T20:14:00Z",
+      "rationale": "Approve PHYS01 runner extension adding TYPED_ADVERSE_SCHEDULES as a separate adverse-schedule-only rung: 16 closed stale/replay/tamper/crash fail-closed schedules with bound schedule/execution/oracle digests, explicit execution digest reuse rejection and no executable diversity/saturation/terminal promotion.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },
@@ -10106,10 +10106,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_BUILD_PROFILE_REGISTRY_V1.json",
-      "sha256": "8f9ad868b294a1cf0aa80cdc15d245f8fd8597aab42f84a8e4b8d5159275754f",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_SATURATION_LIMITATION_AUDIT_V1",
-      "approvedAtUtc": "2026-08-13T19:15:09Z",
-      "rationale": "Approve factual Word 16.112 profile registry update binding SATURATION_LIMITATION_AUDIT as a separate non-ladder audit head: COMPLETE_NOT_SATURATED over WAVE_10/WAVE_40/WAVE_100/WAVE_300/WAVE_300_REPEAT receipts, preserving COMPETING_NOT_SATURATED, eight executable ladder rungs and blocked saturation/terminal/current compatibility claims.",
+      "sha256": "a77ed4e974151a6ff50913dec7cf9534879a18032be31c9e4cdab1ed5b7da192",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_TYPED_ADVERSE_SCHEDULES_V1",
+      "approvedAtUtc": "2026-08-13T20:14:00Z",
+      "rationale": "Approve factual Word 16.112 profile registry update binding TYPED_ADVERSE_SCHEDULES as exactly one adverseEvidenceHeads entry: 16/16 stale/replay/tamper/crash schedules, no executable ladder evidence inflation, no saturation evidence and no terminal/current compatibility promotion.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },
@@ -10133,37 +10133,46 @@
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "ebfe58cc7a5202b0009603bd6aaaf8d84f5b661e24f8ad9d72f5334deaf64453",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_SATURATION_LIMITATION_AUDIT_V1",
-      "approvedAtUtc": "2026-08-13T19:15:09Z",
-      "rationale": "Approve terminal claim registry factual note/digest update: current Word 16.112 has a COMPLETE_NOT_SATURATED limitation audit but current Word compatibility, saturation and terminal PASS remain NOT_CLAIMED_BLOCKED/NOT_MADE_WORD_TERMINAL_PASS_REQUIRED because the profile is still COMPETING_NOT_SATURATED and other blockers remain unresolved.",
+      "sha256": "56f60ff0fe363925786f9b85936a5b5d4c35b4065b52eac224b436f8bd9fa4dc",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_TYPED_ADVERSE_SCHEDULES_V1",
+      "approvedAtUtc": "2026-08-13T20:14:00Z",
+      "rationale": "Approve terminal claim registry factual note/digest update: TYPED_ADVERSE_SCHEDULES 16/16 is acknowledged as adverse-schedule-only evidence while current Word compatibility, saturation and terminal PASS remain NOT_CLAIMED_BLOCKED/NOT_MADE_WORD_TERMINAL_PASS_REQUIRED.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },
     {
       "filePath": "test/contracts/rtk-lab01-build-bound-profiles.contract.test.js",
-      "sha256": "21efcda3742ebd2d4af0353bf386f524c1f66c569ad716ecdc139472a9328c90",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_SATURATION_LIMITATION_AUDIT_V1",
-      "approvedAtUtc": "2026-08-13T19:15:09Z",
-      "rationale": "Approve LAB01 contract requiring Word 16.112 SATURATION_LIMITATION_AUDIT to bind as a separate auditEvidenceHeads entry with status COMPLETE_NOT_SATURATED, no executable ladder-denominator inflation and no SATURATED/terminal promotion.",
+      "sha256": "7d8d769f85bd8843f4d580c7431052b334af381266268849c827d28691731237",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_TYPED_ADVERSE_SCHEDULES_V1",
+      "approvedAtUtc": "2026-08-13T20:14:00Z",
+      "rationale": "Approve LAB01 contract requiring Word 16.112 TYPED_ADVERSE_SCHEDULES to bind as adverseEvidenceHeads only, with 16/16 typed schedules, no executable ladder-denominator inflation and no saturation/terminal promotion.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },
     {
       "filePath": "test/contracts/rtk-phys01-ladder-runner.contract.test.js",
-      "sha256": "b907ebf53b799ac55c51d411aa26f9349ea2118ea40ff265efbb82acd435f8a4",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_SATURATION_LIMITATION_AUDIT_V1",
-      "approvedAtUtc": "2026-08-13T19:15:09Z",
-      "rationale": "Approve PHYS01 contract requiring the real Word 16.112 SATURATION_LIMITATION_AUDIT receipt to validate COMPLETE_NOT_SATURATED over exactly five committed wave/repeat receipts and no terminal PASS/saturation promotion.",
+      "sha256": "820124f423db6c6869d2a6a1f30afff5d996f85f2b50764b652f676813e90885",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_TYPED_ADVERSE_SCHEDULES_V1",
+      "approvedAtUtc": "2026-08-13T20:14:00Z",
+      "rationale": "Approve PHYS01 contract requiring the typed adverse schedule rung/spec/manifest/oracle laws and the real Word 16.112 TYPED_ADVERSE_SCHEDULES receipt to validate 16/16 fail-closed adverse schedules with explicit non-claims.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },
     {
       "filePath": "test/contracts/rtk-release01-terminal-claims.contract.test.js",
-      "sha256": "7fafb5402f890b02a17008856ed59384783317caa96e054f6772bf2e57ab5219",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_SATURATION_LIMITATION_AUDIT_V1",
-      "approvedAtUtc": "2026-08-13T19:15:09Z",
-      "rationale": "Approve RELEASE01 terminal rollup contract recognizing the Word 16.112 SATURATION_LIMITATION_AUDIT as COMPLETE_NOT_SATURATED while preserving NOT_CLAIMED_BLOCKED current compatibility/saturation claims and WORD_PROFILE_NOT_SATURATED terminal blocker.",
+      "sha256": "d7e8b20b789fd1db2c88caefde50e602c07ca3e6784501459ec5703f382282bb",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_TYPED_ADVERSE_SCHEDULES_V1",
+      "approvedAtUtc": "2026-08-13T20:14:00Z",
+      "rationale": "Approve RELEASE01 terminal rollup contract recognizing Word 16.112 TYPED_ADVERSE_SCHEDULES as adverse-only evidence while preserving NOT_CLAIMED_BLOCKED current compatibility/saturation claims and WORD_PROFILE_NOT_SATURATED terminal blocker.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_MAC_16_112_TYPED_ADVERSE_SCHEDULES_RECEIPT.json",
+      "sha256": "5225bdf3db7e6a944d2a671cdaada5a9f119cf765f40676fab05a5c2cd8d047f",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_TYPED_ADVERSE_SCHEDULES_V1",
+      "approvedAtUtc": "2026-08-13T20:14:00Z",
+      "rationale": "Approve factual TYPED_ADVERSE_SCHEDULES receipt for disposable synthetic evidence only on exact signed Word 16.112 build 16.112.26081010: 16/16 stale/replay/tamper/crash fail-closed schedules, bound adverse manifest digest 85180f4e836b2c3a8bd175688b107b1b980cd38e2c44805943a6dc87001987a1 and explicit non-claims for saturation/terminal compatibility.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     }

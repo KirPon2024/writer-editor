@@ -63,6 +63,7 @@ const WORD_REGISTRY_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_BUIL
 const GOOGLE_REGISTRY_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'GOOGLE_BUILD_PROFILE_REGISTRY_V1.json');
 const CAPABILITY_MATRIX_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'STATUS', 'CAPABILITY_MATRIX.json');
 const SATURATION_LIMITATION_AUDIT_RECEIPT_REF = 'docs/OPS/RTK/WORD_MAC_16_112_SATURATION_LIMITATION_AUDIT_RECEIPT.json';
+const TYPED_ADVERSE_SCHEDULES_RECEIPT_REF = 'docs/OPS/RTK/WORD_MAC_16_112_TYPED_ADVERSE_SCHEDULES_RECEIPT.json';
 const CURRENT_16_112_COMPLETED_RUNGS_AFTER_WAVE300 = Object.freeze([
   'CARRIER_SURVIVAL_SMOKE',
   'SEMANTIC_DIFFERENTIAL_SUBSET',
@@ -1681,6 +1682,71 @@ test('RELEASE01-S12-real-registry-word-16-112-saturation-limitation-audit-still-
     'current Word compatibility claim remains explicitly NOT_CLAIMED_BLOCKED after the limitation audit');
   assert.ok(result.blockers.includes('BLOCKED_CLAIM:claim-word-saturated'),
     'saturation claim remains explicitly NOT_CLAIMED_BLOCKED after the limitation audit');
+});
+
+// S13: TYPED_ADVERSE_SCHEDULES proves a separate stale/replay/tamper/crash
+// negative schedule denominator. It does not promote Word saturation or current
+// compatibility, and terminal blockers remain identical in kind.
+test('RELEASE01-S13-real-registry-word-16-112-typed-adverse-schedules-still-fail-closed', async () => {
+  const module = await loadModule();
+  const registry = module.loadTerminalClaimRegistry(REGISTRY_PATH).registry;
+  const wordRegistry = JSON.parse(fs.readFileSync(WORD_REGISTRY_PATH, 'utf8'));
+  const current = wordRegistry.profiles.find((p) => p.profileId === 'word-mac-16.112-26081010');
+  assert.ok(current, 'current 16.112 profile must exist');
+  assert.equal(current.class, 'COMPETING_NOT_SATURATED');
+  assert.equal(current.saturationStatus, 'COMPLETE_NOT_SATURATED');
+  assert.deepEqual(current.ladder.completedRungs, CURRENT_16_112_COMPLETED_RUNGS_AFTER_WAVE300_REPEAT,
+    'typed adverse schedules do not add a ninth executable edit-diversity rung');
+  assert.equal((current.evidenceHeads || []).length, CURRENT_16_112_EVIDENCE_HEAD_COUNT_AFTER_WAVE300_REPEAT,
+    'typed adverse schedules must not inflate executable evidence heads');
+
+  const adverseHeads = current.adverseEvidenceHeads || [];
+  assert.equal(adverseHeads.length, 1, 'current profile must bind one typed adverse schedule evidence head');
+  const adverseHead = adverseHeads[0];
+  assert.equal(adverseHead.path, TYPED_ADVERSE_SCHEDULES_RECEIPT_REF);
+  assert.equal(adverseHead.status, 'PHYSICAL_TYPED_ADVERSE_SCHEDULES_PASS');
+  assert.equal(adverseHead.claimScope, 'TYPED_ADVERSE_SCHEDULES_ONLY');
+  assert.equal(adverseHead.casesTotal, 16);
+  assert.equal(adverseHead.casesPassed, 16);
+  assert.deepEqual(adverseHead.families, ['stale', 'replay', 'tamper', 'crash']);
+  assert.equal(adverseHead.saturated, false);
+  assert.equal(sha256File(path.join(REPO_ROOT, adverseHead.path)), adverseHead.sha256,
+    `typed adverse schedule evidence sha256 must verify: ${adverseHead.path}`);
+
+  const compat = registry.claims.find((c) => c.claimId === 'claim-current-word-compatibility');
+  const saturated = registry.claims.find((c) => c.claimId === 'claim-word-saturated');
+  assert.ok(compat, 'the current-word-compatibility claim must exist');
+  assert.ok(saturated, 'the word-saturated claim must exist');
+  assert.equal(compat.claimClass, 'NOT_CLAIMED_BLOCKED');
+  assert.equal(saturated.claimClass, 'NOT_CLAIMED_BLOCKED');
+  assert.match(compat.note, /TYPED_ADVERSE_SCHEDULES 16\/16/u,
+    'current compatibility note must mention the typed adverse schedule denominator');
+  assert.match(compat.note, /saturation and terminal PASS remain blocked/u);
+
+  const googleRegistry = JSON.parse(fs.readFileSync(GOOGLE_REGISTRY_PATH, 'utf8'));
+  const matrix = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'docs', 'OPS', 'STATUS', 'YALKEN_WORD_C5V2_TERMINAL_ACCEPTANCE_MATRIX_V1.json'), 'utf8'));
+  const v4Profile = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json'), 'utf8'));
+  const vetoCounters = {};
+  for (const key of VETO_KNOWN_KEYS) vetoCounters[key] = v4Profile.capabilityClaimPolicy[key];
+  const result = module.evaluateTerminalRollupStrict({
+    registry,
+    context: {
+      currentProfileId: wordRegistry.currentProfileId,
+      wordProfiles: wordRegistry.profiles,
+      googleProfiles: googleRegistry.profiles,
+      terminalMatrix: matrix,
+      vetoCounters,
+      claims: registry.claims,
+    },
+  });
+  assert.equal(result.ok, true, `16.112 typed-adverse blocked roll-up must match recorded registry: ${JSON.stringify(result.reasons)}`);
+  assert.equal(result.terminalClaim, 'NOT_MADE_WORD_TERMINAL_PASS_REQUIRED');
+  assert.ok(result.blockers.includes('WORD_PROFILE_NOT_SATURATED:word-mac-16.112-26081010'),
+    `computed blockers must keep the unsaturated 16.112 profile: ${JSON.stringify(result.blockers)}`);
+  assert.ok(result.blockers.includes('BLOCKED_CLAIM:claim-current-word-compatibility'),
+    'current Word compatibility claim remains explicitly NOT_CLAIMED_BLOCKED after typed adverse schedules');
+  assert.ok(result.blockers.includes('BLOCKED_CLAIM:claim-word-saturated'),
+    'saturation claim remains explicitly NOT_CLAIMED_BLOCKED after typed adverse schedules');
 });
 
 // Keep stableJson referenced for fixture symmetry with sibling contracts.

@@ -506,11 +506,9 @@ function validateDocxImportPreviewPlan(plan) {
   const expectedSceneId = typeof plan.source.sourceArtifactSha256 === 'string'
     && /^[a-f0-9]{64}$/u.test(plan.source.sourceArtifactSha256)
     ? `docx-import-scene-${plan.source.sourceArtifactSha256.slice(0, 8)}`
-    : `docx-import-scene-${docxStableHash(docxCanonicalJson({
-      sourceTextHash: entry.source.textHash,
-      contentTextHash: entry.contentTextHash,
-      paragraphCount: entry.source.paragraphCount,
-    }))}`;
+    : `docx-import-scene-${docxStableHash(
+      `${entry.source.textHash}:${entry.contentTextHash}:${entry.source.paragraphCount}`,
+    )}`;
   if (entry.sceneId !== expectedSceneId) {
     return buildError(
       'DOCX_SAFE_CREATE_PREVIEW_TAMPERED',

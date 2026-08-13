@@ -87,6 +87,7 @@ test('project tree query exposes derived counters from scene files without path 
   fileManager.getDocumentsPath = () => documentsRoot;
   t.after(() => { fileManager.getDocumentsPath = originalGetDocumentsPath; });
 
+  await main.buildProjectTreeRootsWithIdentities('Роман');
   const result = await main.handleWorkspaceProjectTreeQuery({ tab: 'roman' });
   assert.equal(result.ok, true);
   const imported = findNode(result.root, (node) => node.kind === 'chapter-folder' && node.label === 'Imported');
@@ -102,4 +103,3 @@ test('project tree query exposes derived counters from scene files without path 
   assert.equal(Object.prototype.hasOwnProperty.call(alpha, 'path'), false);
   assert.equal(fs.existsSync(path.join(projectRoot, 'project.craftsman.json')), true);
 });
-

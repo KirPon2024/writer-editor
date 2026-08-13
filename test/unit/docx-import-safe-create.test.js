@@ -1,12 +1,13 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const crypto = require('node:crypto');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
 
 const {
-  DOCX_IMPORT_SAFE_CREATE_RECEIPT_SCHEMA,
+  DOCX_IMPORT_RECEIPT_V2_SCHEMA,
   DOCX_IMPORT_SAFE_CREATE_READY_REASON,
   applyDocxImportSafeCreate,
   rememberDocxImportPreviewPlanAdmission,
@@ -43,6 +44,24 @@ function docxCanonicalJson(value) {
     )).join(',')}}`;
   }
   return 'null';
+}
+
+function stableSort(value) {
+  if (Array.isArray(value)) return value.map((item) => stableSort(item));
+  if (!value || typeof value !== 'object') return value;
+  const out = {};
+  for (const key of Object.keys(value).sort((left, right) => left.localeCompare(right))) {
+    out[key] = stableSort(value[key]);
+  }
+  return out;
+}
+
+function stableStringify(value) {
+  return JSON.stringify(stableSort(value));
+}
+
+function sha256Text(value) {
+  return crypto.createHash('sha256').update(normalizeText(value), 'utf8').digest('hex');
 }
 
 function rehashPreviewPlan(plan) {
@@ -132,9 +151,44 @@ function makeProjectRoot(prefix) {
   return fs.mkdtempSync(path.join(os.tmpdir(), prefix));
 }
 
-function expectedScenePath(romanRoot, plan) {
+function expectedImportOperationId(plan, projectId = '') {
   const entry = plan.candidateCreatePlan.entries[0];
-  return path.join(romanRoot, 'Imported', `${entry.title} ${entry.contentTextHash}.txt`);
+  const operationCanonical = {
+    projectId,
+    sourceArtifactSha256: typeof plan.source.sourceArtifactSha256 === 'string'
+      ? plan.source.sourceArtifactSha256 : '',
+    candidateContentSha256: typeof entry.candidateContentSha256 === 'string'
+      ? entry.candidateContentSha256 : '',
+    previewHash: typeof plan.previewHash === 'string' ? plan.previewHash : '',
+    sceneId: typeof entry.sceneId === 'string' ? entry.sceneId : '',
+  };
+  const operationHash = sha256Text(stableStringify(operationCanonical));
+  return `docx-import-op-${operationHash.slice(0, 12)}`;
+}
+
+function expectedScenePath(romanRoot, plan, projectId = '') {
+  const entry = plan.candidateCreatePlan.entries[0];
+  const importOperationId = expectedImportOperationId(plan, projectId);
+  return path.join(
+    romanRoot,
+    'Imported',
+    `${entry.title} ${importOperationId.replace(/^docx-import-op-/u, '').slice(0, 8)}.txt`,
+  );
+}
+
+function listFilesRecursive(root) {
+  if (!fs.existsSync(root)) return [];
+  const out = [];
+  for (const name of fs.readdirSync(root)) {
+    const fullPath = path.join(root, name);
+    const stat = fs.lstatSync(fullPath);
+    if (stat.isDirectory()) {
+      out.push(...listFilesRecursive(fullPath));
+    } else {
+      out.push(fullPath);
+    }
+  }
+  return out.sort();
 }
 
 function collectKeys(value, pathParts = []) {
@@ -172,7 +226,7 @@ test('DOCX import safe create: valid preview creates one new scene and returns p
   const projectRoot = makeProjectRoot('docx-import-safe-create-ok-');
   const romanRoot = path.join(projectRoot, 'roman');
   const plan = admitPreviewPlan(await buildPreviewPlan(['Alpha', 'Bravo']));
-  const scenePath = expectedScenePath(romanRoot, plan);
+  const scenePath = expectedScenePath(romanRoot, plan, 'project-docx-safe-create');
 
   const result = await applyDocxImportSafeCreate(
     { docxImportPreviewPlan: plan },
@@ -189,9 +243,10 @@ test('DOCX import safe create: valid preview creates one new scene and returns p
   assert.deepEqual(fs.readdirSync(path.join(projectRoot, '.flow-batch')), []);
 
   const receipt = result.value.receipt;
-  assert.equal(receipt.schemaVersion, DOCX_IMPORT_SAFE_CREATE_RECEIPT_SCHEMA);
+  assert.equal(receipt.schemaVersion, DOCX_IMPORT_RECEIPT_V2_SCHEMA);
   assert.equal(receipt.reason, DOCX_IMPORT_SAFE_CREATE_READY_REASON);
   assert.equal(receipt.projectId, 'project-docx-safe-create');
+  assert.equal(receipt.importOperationId, expectedImportOperationId(plan, 'project-docx-safe-create'));
   assert.equal(receipt.sourcePreviewHash, plan.previewHash);
   assert.match(receipt.inputHash, /^[a-f0-9]{64}$/u);
   assert.match(receipt.outputHash, /^[a-f0-9]{64}$/u);
@@ -207,7 +262,7 @@ test('DOCX import safe create: valid preview creates one new scene and returns p
   }
 });
 
-test('DOCX import safe create: reapply and existing target are blocked without mutation', async () => {
+test('DOCX import safe create: reapply returns durable idempotent receipt without mutation', async () => {
   const projectRoot = makeProjectRoot('docx-import-safe-create-reapply-');
   const romanRoot = path.join(projectRoot, 'roman');
   const plan = admitPreviewPlan(await buildPreviewPlan(['First']));
@@ -218,9 +273,26 @@ test('DOCX import safe create: reapply and existing target are blocked without m
   assert.equal(fs.readFileSync(scenePath, 'utf8'), 'First');
 
   const second = await applyDocxImportSafeCreate({ docxImportPreviewPlan: plan }, { projectRoot, romanRoot });
-  assert.equal(second.ok, false);
-  assert.equal(second.error.code, 'DOCX_SAFE_CREATE_EXISTING_SCENE_BLOCKED');
+  assert.equal(second.ok, true);
+  assert.equal(second.value.created, false);
+  assert.equal(second.value.idempotent, true);
+  assert.equal(second.value.importOperationId, first.value.importOperationId);
+  assert.deepEqual(second.value.receipt, first.value.receipt);
   assert.equal(fs.readFileSync(scenePath, 'utf8'), 'First');
+});
+
+test('DOCX import safe create: existing target without durable receipt is blocked without mutation', async () => {
+  const projectRoot = makeProjectRoot('docx-import-safe-create-existing-target-');
+  const romanRoot = path.join(projectRoot, 'roman');
+  const plan = admitPreviewPlan(await buildPreviewPlan(['Existing target']));
+  const scenePath = expectedScenePath(romanRoot, plan);
+  fs.mkdirSync(path.dirname(scenePath), { recursive: true });
+  fs.writeFileSync(scenePath, 'Original', 'utf8');
+
+  const result = await applyDocxImportSafeCreate({ docxImportPreviewPlan: plan }, { projectRoot, romanRoot });
+  assert.equal(result.ok, false);
+  assert.equal(result.error.code, 'DOCX_SAFE_CREATE_EXISTING_SCENE_BLOCKED');
+  assert.equal(fs.readFileSync(scenePath, 'utf8'), 'Original');
 });
 
 test('DOCX import safe create: self-consistent but unadmitted preview is rejected before writes', async () => {
@@ -235,7 +307,7 @@ test('DOCX import safe create: self-consistent but unadmitted preview is rejecte
 
   assert.equal(result.ok, false);
   assert.equal(result.error.code, 'DOCX_SAFE_CREATE_PREVIEW_NOT_ADMITTED');
-  assert.equal(fs.existsSync(expectedScenePath(romanRoot, plan)), false);
+  assert.deepEqual(listFilesRecursive(path.join(romanRoot, 'Imported')), []);
 });
 
 test('DOCX import safe create: symlinked roman root cannot escape project authority', async (t) => {
@@ -259,6 +331,7 @@ test('DOCX import safe create: symlinked roman root cannot escape project author
   assert.equal(result.ok, false);
   assert.equal(result.error.code, 'DOCX_SAFE_CREATE_ROOT_INVALID');
   assert.equal(fs.existsSync(externalScenePath), false);
+  assert.deepEqual(listFilesRecursive(path.join(externalRoot, 'Imported')), []);
 });
 
 test('DOCX import safe create: stale marker failure keeps public error details pathless', async () => {
@@ -280,7 +353,7 @@ test('DOCX import safe create: stale marker failure keeps public error details p
   assert.equal(result.error.details.staleMarkerCount, 1);
   assert.equal(Object.prototype.hasOwnProperty.call(result.error.details, 'staleMarkers'), false);
   assert.equal(Object.prototype.hasOwnProperty.call(result.error.details, 'markerPath'), false);
-  assert.equal(fs.existsSync(expectedScenePath(romanRoot, plan)), false);
+  assert.deepEqual(listFilesRecursive(path.join(romanRoot, 'Imported')), []);
 });
 
 test('DOCX import safe create: tampered hashes and forged candidate shapes fail closed', async () => {
@@ -392,7 +465,7 @@ test('DOCX import safe create: trusted write failure is rewrapped and does not c
   assert.equal(result.error.details.staleMarkerCount, 1);
   assert.equal(Object.prototype.hasOwnProperty.call(result.error.details, 'markerPath'), false);
   assert.equal(Object.prototype.hasOwnProperty.call(result.error.details, 'staleMarkers'), false);
-  assert.equal(fs.existsSync(expectedScenePath(romanRoot, plan)), false);
+  assert.deepEqual(listFilesRecursive(path.join(romanRoot, 'Imported')), []);
 });
 
 test('DOCX import safe create: thrown write error messageCode cannot carry an absolute path', async () => {
@@ -416,5 +489,5 @@ test('DOCX import safe create: thrown write error messageCode cannot carry an ab
   assert.equal(result.error.code, 'DOCX_SAFE_CREATE_WRITE_FAIL');
   assert.equal(result.error.details.messageCode, 'WRITE_EXCEPTION');
   assert.equal(JSON.stringify(result.error.details).includes(leakedPath), false);
-  assert.equal(fs.existsSync(expectedScenePath(romanRoot, plan)), false);
+  assert.deepEqual(listFilesRecursive(path.join(romanRoot, 'Imported')), []);
 });

@@ -91,6 +91,7 @@ async function createHarness(t, fileName, text) {
   fileManager.getDocumentsPath = () => documentsRoot;
   t.after(() => { fileManager.getDocumentsPath = originalGetDocumentsPath; });
 
+  await main.buildProjectTreeRootsWithIdentities('Роман');
   const tree = await main.handleWorkspaceProjectTreeQuery({ tab: 'roman' });
   assert.equal(tree.ok, true);
   const scene = findNode(tree.root, (node) => node.kind === 'scene' && node.label);

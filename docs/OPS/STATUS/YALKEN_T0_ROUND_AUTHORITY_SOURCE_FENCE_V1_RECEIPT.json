@@ -2,8 +2,8 @@
   "schemaVersion": "yalken.t0RoundAuthoritySourceFence.receipt.v1",
   "taskId": "T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
   "createdAtUtc": "2026-08-14T00:00:00Z",
-  "status": "LOCAL_CANDIDATE_NEEDS_FINAL_GATE_REPLAY",
-  "verdict": "NEEDS_FINAL_GATE_REPLAY_BEFORE_DELIVERY",
+  "status": "LOCAL_DELIVERY_GREEN_READY_FOR_PR",
+  "verdict": "READY_FOR_PR_WITH_PREEXISTING_RTK_RED_DISCLOSED",
   "baseline": {
     "headSha": "0c4e84dfc40d724aed868de683af10e2badd3d8a",
     "treeSha": "172cd2c80f28a88f7eedaedd2199f21e9b5eb8e2",
@@ -133,6 +133,69 @@
       "baselineFail": 123,
       "candidateOnlyFailures": 0,
       "verdict": "NOT_A_PASS_PREEXISTING_RTK_RED_PRESERVED_NO_T0_REGRESSION"
+    },
+    "finalGateReplay": {
+      "preflight": {
+        "command": "npm run agent:preflight -- --declaration T0_ROUND_AUTHORITY_SOURCE_FENCE_V1.json",
+        "result": "PASS",
+        "headSha": "5046fbf9d2db1cd9e5eb00f75f354ded3d18d173"
+      },
+      "focused": {
+        "tests": 60,
+        "pass": 60,
+        "fail": 0,
+        "skip": 0,
+        "todo": 0
+      },
+      "affected": {
+        "tests": 109,
+        "pass": 109,
+        "fail": 0,
+        "skip": 0,
+        "todo": 0
+      },
+      "governance": {
+        "result": "PASS",
+        "approvalsCount": 1388
+      },
+      "traceabilityLedger": {
+        "result": "PASS",
+        "materialDispositions": 24,
+        "externalPins": 3
+      },
+      "devFast": {
+        "result": "PASS",
+        "exit": 0
+      },
+      "guardrails": {
+        "result": "PASS",
+        "exit": 0
+      },
+      "npmTest": {
+        "result": "PASS",
+        "exit": 0
+      },
+      "ossPolicy": {
+        "result": "PASS",
+        "exit": 0
+      },
+      "npmAuditProductionHigh": {
+        "result": "PASS",
+        "vulnerabilities": 0
+      }
+    },
+    "deterministicReplay": {
+      "focusedRuns": 2,
+      "focusedSummaryEqual": true,
+      "focused": {
+        "tests": 60,
+        "pass": 60,
+        "fail": 0,
+        "skip": 0,
+        "todo": 0
+      },
+      "t0ModelHash": "7924bc2aa7a066e01409e9467963b67cfc55905e44a6c570d52c11c78dbec63d",
+      "sourceFenceModelHash": "15e1828c3a5142a4ef378cfb05b0224bf1e63db1b1de7eb236cb9ae21bf917cc"
     }
   },
   "artifactSha256": {
@@ -168,8 +231,8 @@
     "dataMigrationRequired": false
   },
   "candidate": {
-    "sha": "f54e6872d3c9084a7edd9c55b3d9af2173d8522d",
-    "treeSha": "1a9dfbc29cd5906a9090109a8dd968a3638d0790",
+    "sha": "5046fbf9d2db1cd9e5eb00f75f354ded3d18d173",
+    "treeSha": "1b93185b2ce616c791de66af34402e8940556104",
     "scope": "T0 exact-apply sourceFence admission plus nested document identity compatibility for existing RTK writer consumers."
   },
   "compatibilityRepair": {

@@ -1281,8 +1281,8 @@ test('RELEASE01-S07-real-registry-word-16-112-migration-fail-closed', async () =
   assert.equal(prior.class, 'HISTORICAL_BUILD_BOUND');
   assert.equal(prior.supersededBy, 'word-mac-16.112-26081010');
   assert.equal(current.class, 'COMPETING_NOT_SATURATED');
-  assert.deepEqual(current.ladder.completedRungs, ['CARRIER_SURVIVAL_SMOKE', 'SEMANTIC_DIFFERENTIAL_SUBSET', 'NEGATIVE_REPLAY_CRASH_SUBSET', 'WAVE_10', 'WAVE_40']);
-  assert.equal((current.evidenceHeads || []).length, 5, '16.112 must carry its smoke, semantic differential, negative replay/crash, WAVE_10 and WAVE_40 receipts');
+  assert.deepEqual(current.ladder.completedRungs, ['CARRIER_SURVIVAL_SMOKE', 'SEMANTIC_DIFFERENTIAL_SUBSET', 'NEGATIVE_REPLAY_CRASH_SUBSET', 'WAVE_10', 'WAVE_40', 'WAVE_100']);
+  assert.equal((current.evidenceHeads || []).length, 6, '16.112 must carry its smoke, semantic differential, negative replay/crash, WAVE_10, WAVE_40 and WAVE_100 receipts');
   const smokeHead = current.evidenceHeads.find((h) =>
     h.path === 'docs/OPS/RTK/WORD_MAC_16_112_CARRIER_SURVIVAL_SMOKE_RECEIPT.json');
   const semanticHead = current.evidenceHeads.find((h) =>
@@ -1293,7 +1293,9 @@ test('RELEASE01-S07-real-registry-word-16-112-migration-fail-closed', async () =
     h.path === 'docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE10_RECEIPT.json');
   const wave40Head = current.evidenceHeads.find((h) =>
     h.path === 'docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE40_RECEIPT.json');
-  for (const head of [smokeHead, semanticHead, negativeHead, wave10Head, wave40Head]) {
+  const wave100Head = current.evidenceHeads.find((h) =>
+    h.path === 'docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE100_RECEIPT.json');
+  for (const head of [smokeHead, semanticHead, negativeHead, wave10Head, wave40Head, wave100Head]) {
     assert.ok(head, 'expected 16.112 evidence head must be present');
     assert.equal(head.wordVersion, '16.112');
     assert.equal(head.wordBuild, '16.112.26081010');
@@ -1315,6 +1317,11 @@ test('RELEASE01-S07-real-registry-word-16-112-migration-fail-closed', async () =
   assert.equal(wave40Head.casesTotal, 40);
   assert.equal(wave40Head.casesPassed, 40);
   assert.equal(wave40Head.denominator, 'executable-diversity-bound-wave40-only-not-saturation');
+  assert.deepEqual(wave100Head.rungs, ['WAVE_100']);
+  assert.equal(wave100Head.claimScope, 'DIVERSE_FAMILY_WAVE_PROVEN');
+  assert.equal(wave100Head.casesTotal, 100);
+  assert.equal(wave100Head.casesPassed, 100);
+  assert.equal(wave100Head.denominator, 'executable-diversity-bound-wave100-only-not-saturation');
 
   const compat = registry.claims.find((c) => c.claimId === 'claim-current-word-compatibility');
   assert.ok(compat, 'the current-word-compatibility claim must exist');
@@ -1365,9 +1372,10 @@ test('RELEASE01-S08-real-registry-word-16-112-wave40-still-fail-closed', async (
     'NEGATIVE_REPLAY_CRASH_SUBSET',
     'WAVE_10',
     'WAVE_40',
+    'WAVE_100',
   ]);
-  assert.equal((current.evidenceHeads || []).length, 5,
-    '16.112 must carry its smoke, semantic differential, negative replay/crash, WAVE_10 and WAVE_40 receipts');
+  assert.equal((current.evidenceHeads || []).length, 6,
+    '16.112 must carry its smoke, semantic differential, negative replay/crash, WAVE_10, WAVE_40 and WAVE_100 receipts');
   const wave40Head = current.evidenceHeads.find((h) =>
     h.path === 'docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE40_RECEIPT.json');
   assert.ok(wave40Head, 'WAVE_40 evidence head must be present');

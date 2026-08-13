@@ -999,24 +999,25 @@ test('LAB02-05-declared-16-111-3-rejects-green', async () => {
   assert.equal(rejoin.ok, true, `re-joining the registered smoke head is a read: ${JSON.stringify(rejoin.reasons)}`);
 });
 
-// L2-06: no rung inheritance — the current profile admits only the first rung
-// while the superseded 16.111.3 profile admits no new rungs.
+// L2-06: no rung inheritance — the current profile admits only the next
+// unearned rung while the superseded 16.111.3 profile admits no new rungs.
 test('LAB02-06-no-rung-inheritance-on-new-build', async () => {
   const module = await loadModule();
   const registryJson = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
   const currentProfileId = registryJson.currentProfileId;
   const earned = registryJson.profiles.find((p) => p.profileId === currentProfileId).ladder.completedRungs;
-  assert.deepEqual(earned, ['CARRIER_SURVIVAL_SMOKE'], 'current profile has earned only the smoke rung');
+  assert.deepEqual(earned, ['CARRIER_SURVIVAL_SMOKE', 'SEMANTIC_DIFFERENTIAL_SUBSET'],
+    'current profile has earned exactly smoke plus semantic differential');
   const next = module.evaluateLadderAdmission({
     registry: registryJson,
     profileId: currentProfileId,
-    rung: 'SEMANTIC_DIFFERENTIAL_SUBSET',
+    rung: 'NEGATIVE_REPLAY_CRASH_SUBSET',
   });
   assert.equal(next.ok, true, 'the next rung admission (attempt) must be allowed');
   const bypass = module.evaluateLadderAdmission({
     registry: registryJson,
     profileId: currentProfileId,
-    rung: 'WAVE_40',
+    rung: 'WAVE_10',
   });
   assert.equal(bypass.ok, false, 'skipping ahead of the empty earned prefix must be blocked');
   assert.equal(bypass.code, 'RTK_LAB01_LADDER_BYPASS');
@@ -1100,4 +1101,41 @@ test('LAB03-02-16-112-rejects-16-111-3-and-16-109-evidence', async () => {
     assert.equal(result.ok, false, `${evidence.wordVersion} evidence must not join to 16.112`);
     assert.equal(result.code, 'RTK_LAB01_CROSS_BUILD_EVIDENCE');
   }
+});
+
+test('LAB03-03-real-registry-binds-16-112-semantic-differential-rung', async () => {
+  const module = await loadModule();
+  const registryJson = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
+  const current = registryJson.profiles.find((p) => p.profileId === 'word-mac-16.112-26081010');
+  assert.ok(current, '16.112 current profile must exist');
+  assert.equal(current.class, 'COMPETING_NOT_SATURATED');
+  assert.deepEqual(current.ladder.completedRungs, ['CARRIER_SURVIVAL_SMOKE', 'SEMANTIC_DIFFERENTIAL_SUBSET']);
+  assert.equal((current.evidenceHeads || []).length, 2, '16.112 must carry smoke and semantic differential heads');
+
+  const semanticHead = current.evidenceHeads.find((h) =>
+    h.path === 'docs/OPS/RTK/WORD_MAC_16_112_SEMANTIC_DIFFERENTIAL_RECEIPT.json');
+  assert.ok(semanticHead, 'semantic differential receipt head must be registered');
+  assert.equal(semanticHead.wordVersion, '16.112');
+  assert.equal(semanticHead.wordBuild, '16.112.26081010');
+  assert.equal(String(semanticHead.path).includes('16_111_3'), false,
+    '16.112 semantic evidence path must not reuse 16.111.3 receipt path');
+  const semanticAbs = path.join(REPO_ROOT, semanticHead.path);
+  assert.equal(fs.existsSync(semanticAbs), true, `semantic receipt must exist: ${semanticHead.path}`);
+  assert.equal(sha256File(semanticAbs), semanticHead.sha256, 'semantic receipt sha256 must match registry head');
+  assert.deepEqual(semanticHead.rungs, ['SEMANTIC_DIFFERENTIAL_SUBSET'],
+    'semantic head must justify only the semantic differential rung');
+
+  const next = module.evaluateLadderAdmission({
+    registry: registryJson,
+    profileId: 'word-mac-16.112-26081010',
+    rung: 'NEGATIVE_REPLAY_CRASH_SUBSET',
+  });
+  assert.equal(next.ok, true, `next post-semantic rung must be admissible: ${JSON.stringify(next.reasons)}`);
+  const bypass = module.evaluateLadderAdmission({
+    registry: registryJson,
+    profileId: 'word-mac-16.112-26081010',
+    rung: 'WAVE_10',
+  });
+  assert.equal(bypass.ok, false, 'WAVE_10 remains a bypass before negative replay/crash');
+  assert.equal(bypass.code, 'RTK_LAB01_LADDER_BYPASS');
 });

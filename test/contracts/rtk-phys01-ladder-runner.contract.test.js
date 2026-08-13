@@ -22,14 +22,22 @@
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const crypto = require('node:crypto');
+const fs = require('node:fs');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
 
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
 const MODULE_PATH = path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-phys-ladder-16-111-3.mjs');
+const SEMANTIC_RECEIPT_REF = 'docs/OPS/RTK/WORD_MAC_16_112_SEMANTIC_DIFFERENTIAL_RECEIPT.json';
+const SEMANTIC_RECEIPT_PATH = path.join(REPO_ROOT, SEMANTIC_RECEIPT_REF);
 
 async function loadModule() {
   return import(pathToFileURL(MODULE_PATH).href);
+}
+
+function sha256File(absPath) {
+  return `sha256:${crypto.createHash('sha256').update(fs.readFileSync(absPath)).digest('hex')}`;
 }
 
 const SHA = 'a'.repeat(40);
@@ -360,6 +368,39 @@ test('PHYS01-P13-semantic-differential-law', async () => {
   const wrongCount = module.evaluateRungCases('SEMANTIC_DIFFERENTIAL_SUBSET', cases.slice(0, 23));
   assert.equal(wrongCount.ok, false, 'a short denominator must fail');
   assert.equal(wrongCount.code, 'RTK_PHYS_CASE_COUNT_MISMATCH');
+});
+
+// P13B: the current Word 16.112 profile earns the semantic differential rung
+// only through a real, build-bound receipt sealed by the physical runner. This
+// is intentionally red before F2_WORD_16_112_SEMANTIC_DIFFERENTIAL_V1 executes
+// the disposable synthetic physical cases.
+test('PHYS01-P13B-real-16-112-semantic-differential-receipt-sealed', async () => {
+  const module = await loadModule();
+  assert.equal(fs.existsSync(SEMANTIC_RECEIPT_PATH), true, `${SEMANTIC_RECEIPT_REF} must exist after the semantic differential rung is physically sealed`);
+
+  const receipt = JSON.parse(fs.readFileSync(SEMANTIC_RECEIPT_PATH, 'utf8'));
+  const plan = module.buildRungPlan('SEMANTIC_DIFFERENTIAL_SUBSET');
+  const validation = module.validateRungReceipt(plan, receipt);
+  assert.equal(validation.ok, true, `semantic receipt must validate: ${JSON.stringify(validation.reasons)}`);
+
+  assert.equal(receipt.schema, 'yalken.rtk.word-mac-16-112.semantic-differential-receipt.v1');
+  assert.equal(receipt.profileId, 'word-mac-16.112-26081010');
+  assert.equal(receipt.rung, 'SEMANTIC_DIFFERENTIAL_SUBSET');
+  assert.equal(receipt.status, 'PHYSICAL_SEMANTIC_DIFFERENTIAL_PASS');
+  assert.match(receipt.headSha, /^[a-f0-9]{40}$/u, 'receipt binds an exact prephysical clean head');
+  assert.match(receipt.originMainSha, /^[a-f0-9]{40}$/u, 'receipt binds an exact origin/main baseline');
+  assert.equal(receipt.wordProfile.versionByBundle, '16.112');
+  assert.equal(receipt.wordProfile.buildByBundle, '16.112.26081010');
+  assert.equal(receipt.wordProfile.bundleId, 'com.microsoft.Word');
+  assert.equal(receipt.wordProfile.teamIdentifier, 'UBF8T346G9');
+  assert.equal(receipt.wordProfile.signatureValid, true);
+  assert.equal(receipt.counters.total, 24);
+  assert.equal(receipt.counters.passed, 24);
+  assert.equal(receipt.counters.failed, 0);
+  assert.equal(new Set(receipt.cases.map((c) => c.caseId)).size, 24, 'case ids must be unique');
+  assert.equal(receipt.cases.every((c) => c.openEditSaveCloseReopen === 'PASS' && c.expectedFinalTextPresent === true && c.removedTextAbsent === true), true,
+    'every semantic case must prove final text present and removed text absent');
+  assert.match(sha256File(SEMANTIC_RECEIPT_PATH), /^sha256:[a-f0-9]{64}$/u);
 });
 
 // P14: negative probes must detect every expected anomaly.

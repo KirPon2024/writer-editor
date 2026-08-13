@@ -200,6 +200,9 @@ export const PHYS_CODES = Object.freeze({
   // PHYS-10 additions (owner ruling): the repeat is append-cycle stability
   // repeat evidence only; the audit hard-gates diversity.
   AUDIT_DIVERSITY_MISSING: 'RTK_PHYS_AUDIT_DIVERSITY_MISSING',
+  DIVERSITY_EXECUTABLE_MISSING: 'RTK_PHYS_DIVERSITY_EXECUTABLE_MISSING',
+  DIVERSITY_EXECUTABLE_MANIFEST_MISMATCH: 'RTK_PHYS_DIVERSITY_EXECUTABLE_MANIFEST_MISMATCH',
+  DIVERSITY_EXECUTION_DIGEST_REUSE: 'RTK_PHYS_DIVERSITY_EXECUTION_DIGEST_REUSE',
 });
 
 // PHYS-10: claim scopes. The append-only waves prove stability of the append
@@ -229,6 +232,18 @@ function stableJson(value) {
     return `{${keys.map((key) => `${JSON.stringify(key)}:${stableJson(value[key])}`).join(',')}}`;
   }
   return JSON.stringify(value);
+}
+
+function sha256HexText(value) {
+  return crypto.createHash('sha256').update(String(value ?? ''), 'utf8').digest('hex');
+}
+
+function sha256DigestText(value) {
+  return `sha256:${sha256HexText(value)}`;
+}
+
+function sha256DigestBuffer(buffer) {
+  return `sha256:${crypto.createHash('sha256').update(buffer).digest('hex')}`;
 }
 
 function isPlainObject(value) {
@@ -704,7 +719,7 @@ export function evaluateSaturationAudit(input = {}) {
 // normalized cases never grow the coverage denominator.
 // ---------------------------------------------------------------------------
 
-export const OPERATION_FAMILIES = Object.freeze([
+export const WORD_PHYSICAL_DIVERSITY_FAMILIES = Object.freeze([
   'replacement',
   'deletion',
   'insertion',
@@ -715,11 +730,20 @@ export const OPERATION_FAMILIES = Object.freeze([
   'unicode',
   'rtl',
   'cjk',
+]);
+
+export const ADVERSE_PROBE_FAMILIES = Object.freeze([
   'stale',
   'replay',
   'tamper',
   'crash',
 ]);
+
+// F2_WORD_PHYSICAL_DIVERSITY_V1 owner finding: stale/replay/tamper/crash are
+// not Word edit shapes. They stay proven by NEGATIVE_REPLAY_CRASH_SUBSET and do
+// not grow the Word physical-diversity denominator unless a later contour adds
+// real typed adverse schedules for them.
+export const OPERATION_FAMILIES = WORD_PHYSICAL_DIVERSITY_FAMILIES;
 
 export const FAMILY_QUOTAS = Object.freeze({
   replacement: 40,
@@ -732,10 +756,6 @@ export const FAMILY_QUOTAS = Object.freeze({
   unicode: 20,
   rtl: 10,
   cjk: 10,
-  stale: 8,
-  replay: 8,
-  tamper: 4,
-  crash: 4,
 });
 
 export const FAMILY_SHAPES = Object.freeze({
@@ -898,6 +918,177 @@ export function buildCaseManifest(specs) {
   });
   const manifestDigest = crypto.createHash('sha256').update(stableJson(cases.map((c) => c.caseDigest)), 'utf8').digest('hex');
   return { manifestDigest, cases };
+}
+
+function buildExecutableDiversityCaseSpec(spec) {
+  const executionPlan = buildWordEditExecutionPlan(spec);
+  const fixtureBuffer = buildB06SyntheticDocxBuffer(executionPlan.fixtureSpec);
+  const script = buildFamilyWordScript(path.basename(`${spec.id}.docx`), `/tmp/${spec.id}.docx`, spec);
+  const oracle = {
+    schema: 'yalken.rtk.word.physical-diversity.oracle.v1',
+    normalized: executionPlan.normalized,
+    operationKind: executionPlan.operationKind,
+    anchor: executionPlan.anchor,
+    anchorOccurrence: executionPlan.anchorOccurrence,
+    expectedText: executionPlan.expectedText,
+    removedText: executionPlan.removedText,
+    expectedPostconditions: [
+      'sentinel-visible-after-reopen',
+      'operation-specific-readback-visible',
+      executionPlan.operationKind === 'comment-range' ? 'word-comment-count-at-least-one' : 'word-revision-count-at-least-one-where-word-reports-text-revisions',
+      'pre-source-docx-digest-bound',
+      'post-returned-docx-digest-recorded',
+    ],
+    sourceOoxmlStructuralProbe: sha256DigestText(stableJson({
+      fixtureSpec: executionPlan.fixtureSpec,
+      normalized: executionPlan.normalized,
+      anchor: executionPlan.anchor,
+      contentPayload: executionPlan.contentPayload,
+    })),
+  };
+  const executionPlanDigest = sha256DigestText(stableJson({
+    ...executionPlan,
+    operationLines: undefined,
+    verifyLines: undefined,
+  }));
+  const scriptDigest = sha256DigestText(script);
+  const oracleDigest = sha256DigestText(stableJson(oracle));
+  const fixtureDigest = sha256DigestBuffer(fixtureBuffer);
+  const executionDigest = sha256DigestText(stableJson({
+    fixtureDigest,
+    executionPlanDigest,
+    scriptDigest,
+    oracleDigest,
+  }));
+  return {
+    schema: 'yalken.rtk.word.physical-diversity.executable-case.v1',
+    id: spec.id,
+    ordinal: spec.ordinal,
+    family: executionPlan.normalized.family,
+    operationShape: executionPlan.normalized.operationShape,
+    contentClass: executionPlan.normalized.contentClass,
+    normalized: executionPlan.normalized,
+    executionKind: executionPlan.executionKind,
+    fixtureDigest,
+    executionPlanDigest,
+    scriptDigest,
+    oracleDigest,
+    executionDigest,
+    fixtureBytes: fixtureBuffer.length,
+    executionPlan,
+    oracle,
+    script,
+  };
+}
+
+export function buildExecutableDiversityCaseSpecForTest(spec) {
+  return buildExecutableDiversityCaseSpec(spec);
+}
+
+function executableManifestEntry(record, ordinal) {
+  const normalized = normalizeCaseForDiversity(record);
+  return {
+    schema: 'yalken.rtk.word.physical-diversity.executable-manifest-case.v1',
+    ordinal,
+    family: normalized.family,
+    operationShape: normalized.operationShape,
+    contentClass: normalized.contentClass,
+    fixtureDigest: record.fixtureDigest,
+    executionPlanDigest: record.executionPlanDigest,
+    scriptDigest: record.scriptDigest,
+    oracleDigest: record.oracleDigest,
+    executionDigest: record.executionDigest,
+  };
+}
+
+function digestExecutableManifestCase(entry) {
+  const withoutDigest = { ...entry };
+  delete withoutDigest.caseDigest;
+  return sha256HexText(stableJson(withoutDigest));
+}
+
+function digestExecutableManifestCases(cases) {
+  return sha256HexText(stableJson((Array.isArray(cases) ? cases : []).map((c) => c && c.caseDigest)));
+}
+
+export function digestExecutableManifestCaseForTest(entry) {
+  return digestExecutableManifestCase(entry);
+}
+
+export function digestExecutableManifestCasesForTest(cases) {
+  return digestExecutableManifestCases(cases);
+}
+
+function buildExecutableDiversityManifest(executableRecords) {
+  const cases = (Array.isArray(executableRecords) ? executableRecords : []).map((record, index) => {
+    const entry = executableManifestEntry(record, index + 1);
+    return { ...entry, caseDigest: digestExecutableManifestCase(entry) };
+  });
+  return {
+    schema: 'yalken.rtk.word.physical-diversity.executable-manifest.v1',
+    manifestDigest: digestExecutableManifestCases(cases),
+    cases,
+  };
+}
+
+export function buildExecutableDiversityManifestForTest(executableRecords) {
+  return buildExecutableDiversityManifest(executableRecords);
+}
+
+export function evaluateExecutableDiversityManifestForTest(manifest) {
+  return evaluateExecutableDiversityManifest(manifest);
+}
+
+function evaluateExecutableDiversityManifest(manifest, options = {}) {
+  if (!isPlainObject(manifest) || manifest.schema !== 'yalken.rtk.word.physical-diversity.executable-manifest.v1') {
+    return { ok: false, code: PHYS_CODES.DIVERSITY_EXECUTABLE_MANIFEST_MISMATCH, coverageDenominator: 0, reasons: [reason(PHYS_CODES.DIVERSITY_EXECUTABLE_MANIFEST_MISMATCH, 'executable manifest schema missing or invalid')] };
+  }
+  const cases = Array.isArray(manifest.cases) ? manifest.cases : [];
+  if (cases.length === 0 || !/^[0-9a-f]{64}$/u.test(String(manifest.manifestDigest || '')) || digestExecutableManifestCases(cases) !== manifest.manifestDigest) {
+    return { ok: false, code: PHYS_CODES.DIVERSITY_EXECUTABLE_MANIFEST_MISMATCH, coverageDenominator: 0, reasons: [reason(PHYS_CODES.DIVERSITY_EXECUTABLE_MANIFEST_MISMATCH, 'manifestDigest missing or not recomputed from case digests')] };
+  }
+  const digestFields = ['fixtureDigest', 'executionPlanDigest', 'scriptDigest', 'oracleDigest', 'executionDigest'];
+  for (const entry of cases) {
+    if (!isPlainObject(entry) || entry.schema !== 'yalken.rtk.word.physical-diversity.executable-manifest-case.v1') {
+      return { ok: false, code: PHYS_CODES.DIVERSITY_EXECUTABLE_MANIFEST_MISMATCH, coverageDenominator: 0, reasons: [reason(PHYS_CODES.DIVERSITY_EXECUTABLE_MANIFEST_MISMATCH, 'case schema missing or invalid')] };
+    }
+    for (const field of digestFields) {
+      if (!/^sha256:[0-9a-f]{64}$/u.test(String(entry[field] || ''))) {
+        return { ok: false, code: PHYS_CODES.DIVERSITY_EXECUTABLE_MISSING, coverageDenominator: 0, reasons: [reason(PHYS_CODES.DIVERSITY_EXECUTABLE_MISSING, `case ${entry.ordinal} missing ${field}`)] };
+      }
+    }
+    const expectedExecutionDigest = sha256DigestText(stableJson({
+      fixtureDigest: entry.fixtureDigest,
+      executionPlanDigest: entry.executionPlanDigest,
+      scriptDigest: entry.scriptDigest,
+      oracleDigest: entry.oracleDigest,
+    }));
+    if (entry.executionDigest !== expectedExecutionDigest || entry.caseDigest !== digestExecutableManifestCase(entry)) {
+      return { ok: false, code: PHYS_CODES.DIVERSITY_EXECUTABLE_MANIFEST_MISMATCH, coverageDenominator: 0, reasons: [reason(PHYS_CODES.DIVERSITY_EXECUTABLE_MANIFEST_MISMATCH, `case ${entry.ordinal} digest mismatch`)] };
+    }
+  }
+  const byExecutionDigest = new Map();
+  for (const entry of cases) {
+    const normalized = stableJson(normalizeCaseForDiversity(entry));
+    const prior = byExecutionDigest.get(entry.executionDigest);
+    if (prior && prior.normalized !== normalized) {
+      return {
+        ok: false,
+        code: PHYS_CODES.DIVERSITY_EXECUTION_DIGEST_REUSE,
+        coverageDenominator: new Set(cases.map((c) => stableJson(normalizeCaseForDiversity(c)))).size,
+        reasons: [reason(PHYS_CODES.DIVERSITY_EXECUTION_DIGEST_REUSE, `executionDigest ${entry.executionDigest} reused for ${prior.normalized} and ${normalized}`)],
+      };
+    }
+    byExecutionDigest.set(entry.executionDigest, { normalized });
+  }
+  const diversity = evaluateDiversityOracle(cases, { requireQuotas: options.requireQuotas === true });
+  if (!diversity.ok) return diversity;
+  return {
+    ok: true,
+    code: PHYS_CODES.GATES_OK,
+    coverageDenominator: diversity.coverageDenominator,
+    reasons: [reason(PHYS_CODES.GATES_OK, `${diversity.coverageDenominator} executable-diverse cases bound to fixture/script/oracle digests`)],
+  };
 }
 
 export function buildRepeatCaseSpecs(manifest) {
@@ -1149,11 +1340,175 @@ const FAMILY_ANCHORS = Object.freeze({
   cjk: '\u77ed\u6587',  // exact CJK token from the lab fixture text
 });
 
-function anchorOffsets(spec, anchor) {
-  const text = fixtureTextFor({ id: spec.id, title: spec.title || `${spec.family} case` });
-  const index = text.indexOf(anchor);
+const CONTENT_CLASS_PAYLOADS = Object.freeze({
+  'plain-text': 'plain alpha beta',
+  unicode: 'cafe\u0301 rocket \u{1f680}\ufe0f emoji',
+  rtl: 'hebrew \u05e9\u05dc\u05d5\u05dd arabic \u0645\u0631\u062d\u0628\u0627',
+  cjk: '\u77ed\u6587 \u4eee\u540d \uff21\uff22\uff23',
+  mixed: 'mix cafe\u0301 \u05e9\u05dc\u05d5\u05dd \u77ed\u6587 \u{1f469}\u200d\u{1f4bb}',
+  nbsp: 'NBSP\u00a0run soft\u00adhyphen',
+});
+
+function safeToken(value) {
+  return String(value || '').replace(/[^A-Za-z0-9]+/gu, '_').replace(/^_+|_+$/gu, '').toUpperCase();
+}
+
+function contentPayloadFor(spec) {
+  const payload = CONTENT_CLASS_PAYLOADS[spec.contentClass];
+  if (!payload) throw new Error(`RTK_PHYS_DIVERSITY_VOCABULARY_INVALID:contentClass:${JSON.stringify(spec.contentClass)}`);
+  return payload;
+}
+
+function diversityToken(spec, prefix = 'DIV') {
+  return [
+    prefix,
+    safeToken(spec.family),
+    safeToken(spec.operationShape),
+    safeToken(spec.contentClass),
+    String(spec.ordinal || 0).padStart(3, '0'),
+  ].join('_');
+}
+
+function buildDiversityFixtureSpec(spec) {
+  return {
+    id: spec.id,
+    title: `${spec.title || `${spec.family} case`} EXEC_FAMILY=${spec.family} EXEC_SHAPE=${spec.operationShape} EXEC_CLASS=${spec.contentClass} EXEC_PAYLOAD=${contentPayloadFor(spec)}`,
+  };
+}
+
+function nthIndexOf(text, needle, occurrence = 1) {
+  let from = 0;
+  for (let count = 1; count <= occurrence; count += 1) {
+    const index = text.indexOf(needle, from);
+    if (index < 0) return -1;
+    if (count === occurrence) return index;
+    from = index + needle.length;
+  }
+  return -1;
+}
+
+function anchorOccurrenceFor(spec) {
+  if (['second-occurrence', 'adjacent-pair', 'cross-paragraph', 'cross-scene-boundary', 'duplicate-anchor', 'multi-anchor', 'adjacent-anchor'].includes(spec.operationShape)) return 2;
+  return 1;
+}
+
+function anchorOffsets(spec, anchor, occurrence = 1, fixtureSpec = spec) {
+  const text = fixtureTextFor(fixtureSpec);
+  const index = nthIndexOf(text, anchor, occurrence);
   if (index < 0) throw new Error(`RTK_PHYS_FIXTURE_ANCHOR_MISSING:${anchor}`);
   return { start: index + 1, end: index + anchor.length };
+}
+
+function buildFormattingOperation(spec, start, end) {
+  const range = `(create range yDoc start ${start} end ${end})`;
+  if (spec.operationShape.startsWith('italic')) {
+    return {
+      operationLines: [`  set italic of font object of ${range} to true`],
+      verifyLines: [`  set yExpectedOk to (italic of font object of ${range})`, '  set yRemovedOk to true'],
+    };
+  }
+  if (spec.operationShape.startsWith('underline')) {
+    return {
+      operationLines: [`  set underline of font object of ${range} to true`],
+      verifyLines: [`  set yExpectedOk to (underline of font object of ${range}) is not underline none`, '  set yRemovedOk to true'],
+    };
+  }
+  if (spec.operationShape === 'mixed-range' || spec.operationShape === 'paragraph-level') {
+    return {
+      operationLines: [
+        `  set bold of font object of ${range} to true`,
+        `  set italic of font object of ${range} to true`,
+      ],
+      verifyLines: [`  set yExpectedOk to ((bold of font object of ${range}) and (italic of font object of ${range}))`, '  set yRemovedOk to true'],
+    };
+  }
+  return {
+    operationLines: [`  set bold of font object of ${range} to true`],
+    verifyLines: [`  set yExpectedOk to (bold of font object of ${range})`, '  set yRemovedOk to true'],
+  };
+}
+
+function buildWordEditExecutionPlan(spec) {
+  const normalized = normalizeCaseForDiversity(spec);
+  const shapes = FAMILY_SHAPES[normalized.family];
+  if (!OPERATION_FAMILIES.includes(normalized.family) || !shapes || !shapes.includes(normalized.operationShape) || !CONTENT_CLASSES.includes(normalized.contentClass)) {
+    throw new Error(`RTK_PHYS_DIVERSITY_VOCABULARY_INVALID:${stableJson(normalized)}`);
+  }
+  const fixtureSpec = buildDiversityFixtureSpec(spec);
+  let anchor = FAMILY_ANCHORS[normalized.family];
+  if (normalized.family === 'replacement' && normalized.operationShape === 'multi-word') {
+    anchor = 'OLD_WORD and insert target INSERT_HERE';
+  } else if (normalized.family === 'deletion' && normalized.operationShape === 'sentence') {
+    anchor = 'Replacement target OLD_WORD and insert target INSERT_HERE live in this paragraph.';
+  }
+  const occurrence = anchorOccurrenceFor(normalized);
+  const { start, end } = anchorOffsets(spec, anchor, occurrence, fixtureSpec);
+  const token = diversityToken(spec, 'EXEC');
+  const payload = contentPayloadFor(normalized);
+  const expectedText = `${token} ${payload}`;
+  const range = `(create range yDoc start ${start} end ${end})`;
+  let operationKind = 'replace-range';
+  let operationLines;
+  let verifyLines;
+  let removedText = anchor;
+
+  if (normalized.family === 'comments') {
+    operationKind = 'comment-range';
+    operationLines = [`  make new Word comment at ${range} with properties {comment text:${appleLiteral(expectedText)}}`];
+    verifyLines = [
+      '  set yExpectedOk to (count of Word comments of yDoc) >= 1',
+      '  set yRemovedOk to true',
+    ];
+    removedText = '';
+  } else if (normalized.family === 'formatting') {
+    operationKind = 'format-range';
+    const formatting = buildFormattingOperation(normalized, start, end);
+    operationLines = formatting.operationLines;
+    verifyLines = formatting.verifyLines;
+    removedText = '';
+  } else {
+    let replacement = expectedText;
+    if (normalized.family === 'deletion') replacement = '';
+    else if (normalized.family === 'insertion') replacement = `${anchor} ${expectedText}`;
+    else if (normalized.family === 'structural-boundaries' && normalized.operationShape === 'paragraph-split') replacement = `${token}_PART_A\r${payload} ${token}_PART_B`;
+    else if (normalized.family === 'structural-boundaries' && normalized.operationShape === 'paragraph-merge') replacement = `${token}_MERGED ${payload}`;
+    operationLines = [`  set content of ${range} to ${appleLiteral(replacement)}`];
+    if (normalized.family === 'deletion') {
+      verifyLines = [
+        '  set yExpectedOk to true',
+        `  set yRemovedOk to not (yReadback contains ${appleLiteral(anchor)})`,
+      ];
+    } else if (normalized.family === 'structural-boundaries' && normalized.operationShape === 'paragraph-split') {
+      verifyLines = [
+        `  set yExpectedOk to (yReadback contains ${appleLiteral(`${token}_PART_A`)}) and (yReadback contains ${appleLiteral(`${token}_PART_B`)})`,
+        '  set yRemovedOk to true',
+      ];
+    } else {
+      const expectedProbe = replacement.replace('\r', '');
+      verifyLines = [
+        `  set yExpectedOk to yReadback contains ${appleLiteral(expectedProbe)}`,
+        '  set yRemovedOk to true',
+      ];
+    }
+  }
+
+  return {
+    schema: 'yalken.rtk.word.physical-diversity.execution-plan.v1',
+    executionKind: 'word-edit',
+    normalized,
+    fixtureSpec,
+    operationKind,
+    anchor,
+    anchorOccurrence: occurrence,
+    range: { start, end },
+    operationShape: normalized.operationShape,
+    contentClass: normalized.contentClass,
+    contentPayload: payload,
+    expectedText,
+    removedText,
+    operationLines,
+    verifyLines,
+  };
 }
 
 export function buildFamilyWordScriptForTest(expectedName, returnedPath, spec) {
@@ -1175,49 +1530,12 @@ export function buildProbeCasePlanForTest(spec) {
 }
 
 function buildFamilyWordScript(expectedName, returnedPath, spec) {
-  const family = spec.family;
-  if (['stale', 'replay', 'tamper', 'crash'].includes(family)) {
-    throw new Error(`RTK_PHYS_RUNG_UNKNOWN:word-edit:${family} is a runner-level probe family`);
+  if (ADVERSE_PROBE_FAMILIES.includes(spec.family)) {
+    throw new Error(`RTK_PHYS_RUNG_UNKNOWN:word-edit:${spec.family} is a runner-level probe family`);
   }
-  const anchor = FAMILY_ANCHORS[family];
-  if (!anchor) throw new Error(`RTK_PHYS_RUNG_UNKNOWN:family:${JSON.stringify(family)}`);
-  const { start, end } = anchorOffsets(spec, anchor);
+  const plan = buildWordEditExecutionPlan(spec);
   const returnedPathLiteral = appleLiteral(returnedPath);
   const sentinel = `YALKEN_B06_CASE ${spec.id}`;
-
-  let operationLines;
-  let verifyLines;
-  if (family === 'comments') {
-    operationLines = [`  make new Word comment at (create range yDoc start ${start} end ${end}) with properties {comment text:${appleLiteral(`${spec.id} wave comment`)}}`];
-    verifyLines = [
-      '  set yExpectedOk to (count of Word comments of yDoc) >= 1',
-      '  set yRemovedOk to true',
-    ];
-  } else if (family === 'formatting') {
-    operationLines = [`  set bold of font object of (create range yDoc start ${start} end ${end}) to true`];
-    verifyLines = [
-      `  set yExpectedOk to (bold of font object of (create range yDoc start ${start} end ${end}))`,
-      '  set yRemovedOk to true',
-    ];
-  } else {
-    let replacement;
-    if (family === 'deletion') replacement = '';
-    else if (family === 'insertion') replacement = `${anchor}_${spec.ordinal}_INS`;
-    else if (family === 'structural-boundaries') replacement = `PART_A_${spec.ordinal}\rPART_B_${spec.ordinal}`;
-    else replacement = `${anchor}_${spec.ordinal}_X`;
-    operationLines = [`  set content of (create range yDoc start ${start} end ${end}) to ${appleLiteral(replacement)}`];
-    if (family === 'deletion') {
-      verifyLines = [
-        '  set yExpectedOk to true',
-        `  set yRemovedOk to not (yReadback contains ${appleLiteral(anchor)})`,
-      ];
-    } else {
-      verifyLines = [
-        `  set yExpectedOk to yReadback contains ${appleLiteral(replacement.replace('\\r', ''))}`,
-        '  set yRemovedOk to true',
-      ];
-    }
-  }
 
   return [
     'on yOpenExpectedDoc(yPosixPath, yExpectedFullName, yExpectedName)',
@@ -1247,10 +1565,10 @@ function buildFamilyWordScript(expectedName, returnedPath, spec) {
     '  set yDocWasOpened to true',
     '  set yInitialText to content of text object of yDoc',
     `  if yInitialText does not contain ${appleLiteral(sentinel)} then error "PHYS_OPEN_CONTENT_MISMATCH" number 9701`,
-    `  if yInitialText does not contain ${appleLiteral(anchor)} then error "PHYS_ANCHOR_MISSING" number 9705`,
+    `  if yInitialText does not contain ${appleLiteral(plan.anchor)} then error "PHYS_ANCHOR_MISSING" number 9705`,
     '  set track revisions of yDoc to true',
     '  set show revisions of yDoc to true',
-    ...operationLines,
+    ...plan.operationLines,
     '  save yDoc',
     '  close yDoc saving yes',
     '  set yDocWasOpened to false',
@@ -1259,7 +1577,7 @@ function buildFamilyWordScript(expectedName, returnedPath, spec) {
     '  set yDocWasOpened to true',
     '  set yReadback to content of text object of yDoc',
     '  set ySentinelOk to yReadback contains ' + appleLiteral(sentinel),
-    ...verifyLines,
+    ...plan.verifyLines,
     '  set yRevisionCount to count of revisions of yDoc',
     '  close yDoc saving no',
     '  set yDocWasOpened to false',
@@ -1478,6 +1796,8 @@ export function buildRungReceipt(plan, { rung, headSha, originMainSha, wordProfi
   let claimScope;
   let caseManifest;
   let manifestDigest;
+  let executableCaseManifest;
+  let executableManifestDigest;
   if (plan.kind === 'wave') {
     if (Array.isArray(caseSpecs) && caseSpecs.length > 0) {
       const requireQuotas = plan.caseCount >= 300;
@@ -1485,9 +1805,16 @@ export function buildRungReceipt(plan, { rung, headSha, originMainSha, wordProfi
       if (!oracle.ok) {
         throw new Error(`RTK_PHYS_DIVERSITY_ORACLE_REQUIRED: ${rung} case specs fail the diversity oracle (${oracle.code}); a wave receipt cannot seal without diversity`);
       }
+      const executableSpecs = caseSpecs.map((spec) => buildExecutableDiversityCaseSpec(spec));
+      executableCaseManifest = buildExecutableDiversityManifest(executableSpecs);
+      const executableVerdict = evaluateExecutableDiversityManifest(executableCaseManifest, { requireQuotas });
+      if (!executableVerdict.ok) {
+        throw new Error(`RTK_PHYS_DIVERSITY_EXECUTABLE_REQUIRED: ${rung} executable specs fail (${executableVerdict.code}); a diverse wave receipt cannot seal on metadata labels only`);
+      }
       claimScope = 'DIVERSE_FAMILY_WAVE_PROVEN';
       caseManifest = buildCaseManifest(caseSpecs);
       manifestDigest = caseManifest.manifestDigest;
+      executableManifestDigest = executableCaseManifest.manifestDigest;
       if (plan.rung === 'WAVE_300_REPEAT') {
         // The repeat binds the first wave's manifest digest; a divergent
         // digest refuses the receipt.
@@ -1506,6 +1833,7 @@ export function buildRungReceipt(plan, { rung, headSha, originMainSha, wordProfi
     rung,
     ...(claimScope ? { claimScope } : {}),
     ...(caseManifest ? { caseManifest, manifestDigest } : {}),
+    ...(executableCaseManifest ? { executableCaseManifest, executableManifestDigest } : {}),
     status: plan.kind === 'wave' ? 'PHYSICAL_WAVE_PASS' : (plan.kind === 'semantic' ? 'PHYSICAL_SEMANTIC_DIFFERENTIAL_PASS' : (plan.kind === 'negative' ? 'PHYSICAL_NEGATIVE_PROBES_PASS' : 'PHYSICAL_CARRIER_SURVIVAL_SMOKE_PASS')),
     headSha,
     originMainSha,
@@ -1547,6 +1875,18 @@ export function validateRungReceipt(plan, receipt, { expectedHeadSha } = {}) {
   if (receipt.claimScope === 'DIVERSE_FAMILY_WAVE_PROVEN'
     && (!isPlainObject(receipt.caseManifest) || !/^[0-9a-f]{64}$/u.test(String(receipt.manifestDigest || '')))) {
     reasons.push(reason(PHYS_CODES.RECEIPT_INVALID, 'DIVERSE_FAMILY_WAVE_PROVEN requires the embedded caseManifest and hex-64 manifestDigest'));
+  }
+  if (receipt.claimScope === 'DIVERSE_FAMILY_WAVE_PROVEN') {
+    if (!isPlainObject(receipt.executableCaseManifest) || !/^[0-9a-f]{64}$/u.test(String(receipt.executableManifestDigest || ''))) {
+      reasons.push(reason(PHYS_CODES.RECEIPT_INVALID, 'DIVERSE_FAMILY_WAVE_PROVEN requires the embedded executableCaseManifest and hex-64 executableManifestDigest'));
+    } else if (receipt.executableCaseManifest.manifestDigest !== receipt.executableManifestDigest) {
+      reasons.push(reason(PHYS_CODES.RECEIPT_INVALID, 'executableManifestDigest does not match executableCaseManifest.manifestDigest'));
+    } else {
+      const executableVerdict = evaluateExecutableDiversityManifest(receipt.executableCaseManifest, { requireQuotas: plan.caseCount >= 300 });
+      if (!executableVerdict.ok) {
+        reasons.push(reason(PHYS_CODES.RECEIPT_INVALID, `executable manifest violates the seal law: ${executableVerdict.code}`));
+      }
+    }
   }
   const cases = Array.isArray(receipt.cases) ? receipt.cases : [];
   const counters = isPlainObject(receipt.counters) ? receipt.counters : {};
@@ -1619,16 +1959,14 @@ async function runRungPhysical({ plan, artifactRoot, runId }) {
       : buildWaveCaseSpecs(plan.rung);
     const cases = [];
     for (const spec of specs) {
+      const executable = buildExecutableDiversityCaseSpec(spec);
       const sentinel = `YALKEN_B06_CASE ${spec.id}`;
       const sourcePath = path.join(dirs.wordSources, `${spec.id}-source.docx`);
       const returnedPath = path.join(dirs.wordReturns, `${spec.id}-returned.docx`);
-      const buffer = buildB06SyntheticDocxBuffer({ id: spec.id, title: spec.title });
+      const buffer = buildB06SyntheticDocxBuffer(executable.executionPlan.fixtureSpec);
       fs.writeFileSync(sourcePath, buffer);
       fs.copyFileSync(sourcePath, returnedPath);
-      const isProbeFamily = ['stale', 'replay', 'tamper', 'crash'].includes(spec.family);
-      const script = isProbeFamily
-        ? buildSmokeWordScript(path.basename(returnedPath), returnedPath, sentinel, ` PHYS_16_112_${spec.family.toUpperCase()}_PROBE_${spec.ordinal}`)
-        : buildFamilyWordScript(path.basename(returnedPath), returnedPath, spec);
+      const script = buildFamilyWordScript(path.basename(returnedPath), returnedPath, spec);
       const scriptPath = path.join(dirs.evidence, `${spec.id}.applescript`);
       fs.writeFileSync(scriptPath, script);
       const output = shell('osascript', [scriptPath], { timeout: 120_000 });
@@ -1649,6 +1987,11 @@ async function runRungPhysical({ plan, artifactRoot, runId }) {
         expectedFinalTextPresent: kv.EXPECTED_PRESENT_OK === undefined ? undefined : kv.EXPECTED_PRESENT_OK === 'true',
         removedTextAbsent: kv.REMOVED_ABSENT_OK === undefined ? undefined : kv.REMOVED_ABSENT_OK === 'true',
         wordRevisionCount: Number(kv.REVISION_COUNT || 0),
+        fixtureDigest: executable.fixtureDigest,
+        executionPlanDigest: executable.executionPlanDigest,
+        scriptDigest: executable.scriptDigest,
+        oracleDigest: executable.oracleDigest,
+        executionDigest: executable.executionDigest,
         sourceDocxSha256: sha256File(sourcePath),
         returnedDocxSha256: sha256File(returnedPath),
         error: kv.ERR ? `${kv.ERRNO || ''}:${kv.ERR}` : '',

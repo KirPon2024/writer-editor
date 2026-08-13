@@ -823,7 +823,8 @@ test('PHYS01-P32-audit-diversity-gate', async () => {
 // ===========================================================================
 // DIVERSITY-01 — owner spec: normalized diversity oracle (case ID, path and
 // sentinel stripped before comparison; duplicate normalized cases never grow
-// the coverage denominator), fourteen operation families with minimum quotas,
+// the coverage denominator), executable Word-edit operation families with
+// minimum quotas (stale/replay/tamper/crash stay in the negative-probe rung),
 // and the manifest-bound repeat (one-to-one manifest replay with original
 // case digest verification).
 // ===========================================================================
@@ -847,8 +848,8 @@ test('PHYS01-D01-diverse-wave-passes-oracle', async () => {
   assert.equal(specs.length, 300, 'exactly 300 cases');
   assert.deepEqual([...module.OPERATION_FAMILIES], [
     'replacement', 'deletion', 'insertion', 'duplicate-anchors', 'comments', 'formatting',
-    'structural-boundaries', 'unicode', 'rtl', 'cjk', 'stale', 'replay', 'tamper', 'crash',
-  ], 'the fourteen operation families are pinned literally');
+    'structural-boundaries', 'unicode', 'rtl', 'cjk',
+  ], 'the executable Word-edit operation families are pinned literally');
   const verdict = module.evaluateDiversityOracle(specs);
   assert.equal(verdict.ok, true, `generated wave must pass the oracle: ${JSON.stringify(verdict)}`);
   assert.equal(verdict.coverageDenominator, 300, 'full coverage denominator');
@@ -1247,7 +1248,7 @@ test('PHYS01-E01-oracle-gated-scope-stamp', async () => {
   const generated = module.buildDiverseWaveCaseSpecs('WAVE_300');
   const usedKeys = new Set(generated.map((s) => `${s.family}|${s.operationShape}|${s.contentClass}`));
   const spares = [];
-  for (const family of ['formatting', 'insertion', 'deletion', 'replacement']) {
+  for (const family of module.OPERATION_FAMILIES.filter((item) => item !== 'comments')) {
     for (const shape of module.FAMILY_SHAPES[family]) {
       for (const cls of ['plain-text', 'unicode', 'rtl', 'cjk', 'mixed', 'nbsp']) {
         if (!usedKeys.has(`${family}|${shape}|${cls}`)) spares.push({ family, operationShape: shape, contentClass: cls });
@@ -1323,9 +1324,9 @@ test('PHYS01-E04-family-script-idioms', async () => {
     assert.ok(!script.includes('count of content of text object of yDoc'), `${family} must never count the live text object`);
   }
   for (const family of ['stale', 'replay', 'tamper', 'crash']) {
-    const spec = module.buildDiverseWaveCaseSpecs('WAVE_300').find((s) => s.family === family);
-    const plan = module.buildProbeCasePlanForTest(spec);
+    const plan = module.buildProbeCasePlanForTest({ family, operationShape: `${family}-shape` });
     assert.equal(plan.requiresWordEdit, false, `${family} is a runner-level probe, not a Word edit`);
+    assert.ok(!module.OPERATION_FAMILIES.includes(family), `${family} is excluded from the Word physical-diversity denominator`);
   }
 });
 

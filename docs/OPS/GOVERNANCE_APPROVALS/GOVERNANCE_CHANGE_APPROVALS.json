@@ -10049,6 +10049,33 @@
       "rationale": "Approve the S0 source fence v1 contract tests covering exact keys, stale revisions, dirty source policy, wrong project/root/document, replay/transplant, lost-update interleavings, restart-visible fence, and UNKNOWN/ABSTAIN/CONFLICTING fail-closed behavior.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_S0"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_F1_MULTILINGUAL_EVIDENCE_V1_RECEIPT.json",
+      "sha256": "556a475722ec41d8b4b06d1cb337343cf988dd0f4327f03d4f3013db69f8bb3f",
+      "approvedBy": "owner-direct:TASK_ID:YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1",
+      "approvedAtUtc": "2026-08-13T06:52:40Z",
+      "rationale": "Approve the F1 read-only multilingual evidence receipt on exact origin/main eeebc253: default-off feature flag, source-fence-bound snapshot/index/search contract, no-silent-drop accounting, unknown-language abstention, no UI, no writer wiring, no DOCX/Word and no Black Box behavior.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F1"
+    },
+    {
+      "filePath": "scripts/ops/multilingual-evidence-v1-model.mjs",
+      "sha256": "41f39e7c3e04b33c677c9b99b9cd6f2c966eb5f1d334c11017d1a008276ca270",
+      "approvedBy": "owner-direct:TASK_ID:YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1",
+      "approvedAtUtc": "2026-08-13T06:52:40Z",
+      "rationale": "Approve the independent F1 multilingual evidence finite model/oracle: 24 finite cases, 12 hostile Unicode/source-fence cases, and 10 semantic mutation killers with zero disagreements, failures, survivors or skips.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F1"
+    },
+    {
+      "filePath": "test/contracts/multilingual-evidence-v1.contract.test.js",
+      "sha256": "9ebc80648642667cec51011279e23314e5ce8af0aea077bcf077da521ff8c216",
+      "approvedBy": "owner-direct:TASK_ID:YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1",
+      "approvedAtUtc": "2026-08-13T06:52:40Z",
+      "rationale": "Approve the F1 multilingual evidence contract tests covering default-off no-write feature flag, exact schemas/keysets, source fence stale/transplant rejection, Unicode NFC/casefold/grapheme/token boundaries, search boundary safety, unknown-language abstention and no-silent-drop accounting.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F1"
     }
   ]
 }

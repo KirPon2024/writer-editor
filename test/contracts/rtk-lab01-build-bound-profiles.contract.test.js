@@ -36,6 +36,7 @@ const { pathToFileURL } = require('node:url');
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
 const MODULE_PATH = path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-build-profiles-v1.mjs');
 const REGISTRY_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_BUILD_PROFILE_REGISTRY_V1.json');
+const SATURATION_LIMITATION_AUDIT_RECEIPT_REF = 'docs/OPS/RTK/WORD_MAC_16_112_SATURATION_LIMITATION_AUDIT_RECEIPT.json';
 const CURRENT_16_112_COMPLETED_RUNGS_AFTER_WAVE300 = Object.freeze([
   'CARRIER_SURVIVAL_SMOKE',
   'SEMANTIC_DIFFERENTIAL_SUBSET',
@@ -1422,4 +1423,49 @@ test('LAB03-10-real-registry-binds-16-112-wave300-repeat-without-saturation-or-t
   assert.ok(receipt.executableCaseManifest, 'WAVE_300_REPEAT receipt must carry executable case manifest');
   assert.ok((receipt.nonClaims || []).some((line) => String(line).includes('No saturation')),
     'WAVE_300_REPEAT receipt must explicitly deny saturation/terminal promotion');
+});
+
+test('LAB03-11-real-registry-binds-16-112-saturation-limitation-audit-without-saturation-or-terminal-promotion', async () => {
+  const module = await loadModule();
+  const registryJson = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
+  const loaded = module.loadBuildProfileRegistry(registryJson);
+  assert.equal(loaded.ok, true, `registry with limitation audit must load: ${JSON.stringify(loaded.reasons)}`);
+  const reconciliation = module.evaluateRegistryReconciliation(registryJson);
+  assert.equal(reconciliation.ok, true, `registry with limitation audit must reconcile: ${JSON.stringify(reconciliation.reasons)}`);
+
+  const current = registryJson.profiles.find((p) => p.profileId === 'word-mac-16.112-26081010');
+  assert.ok(current, '16.112 current profile must exist');
+  assert.equal(current.class, 'COMPETING_NOT_SATURATED',
+    'limitation audit must not promote the current profile to SATURATED');
+  assert.equal(current.saturationStatus, 'COMPLETE_NOT_SATURATED');
+  assert.match(current.saturationNote, /SATURATION_LIMITATION_AUDIT COMPLETE_NOT_SATURATED/u,
+    'profile note must say the audit completed but did not saturate the build');
+  assert.deepEqual(current.ladder.completedRungs, CURRENT_16_112_COMPLETED_RUNGS_AFTER_WAVE300_REPEAT,
+    'audit evidence is not a ninth executable ladder rung');
+  assert.equal((current.evidenceHeads || []).length, CURRENT_16_112_EVIDENCE_HEAD_COUNT_AFTER_WAVE300_REPEAT,
+    'audit evidence must not inflate the executable ladder denominator');
+
+  const auditHeads = current.auditEvidenceHeads || [];
+  assert.equal(auditHeads.length, 1, '16.112 must bind exactly one saturation limitation audit receipt');
+  const auditHead = auditHeads[0];
+  assert.equal(auditHead.path, SATURATION_LIMITATION_AUDIT_RECEIPT_REF);
+  assert.equal(auditHead.wordVersion, '16.112');
+  assert.equal(auditHead.wordBuild, '16.112.26081010');
+  assert.equal(auditHead.rung, 'SATURATION_LIMITATION_AUDIT');
+  assert.deepEqual(auditHead.rungs, [], 'limitation audit proves no executable ladder rung');
+  assert.equal(auditHead.status, 'COMPLETE_NOT_SATURATED');
+  assert.equal(auditHead.claimScope, 'SATURATION_LIMITATION_AUDIT_COMPLETE_NOT_SATURATED');
+  assert.equal(auditHead.denominator, 'five-bound-wave-receipts-audit-only-not-saturation');
+  assert.deepEqual(auditHead.auditedRungs, ['WAVE_10', 'WAVE_40', 'WAVE_100', 'WAVE_300', 'WAVE_300_REPEAT']);
+  assert.equal(auditHead.saturated, false);
+  const auditAbs = path.join(REPO_ROOT, auditHead.path);
+  assert.equal(fs.existsSync(auditAbs), true, `limitation audit receipt must exist: ${auditHead.path}`);
+  assert.equal(sha256File(auditAbs), auditHead.sha256, 'limitation audit receipt sha256 must match registry binding');
+
+  const receipt = JSON.parse(fs.readFileSync(auditAbs, 'utf8'));
+  assert.equal(receipt.status, 'COMPLETE_NOT_SATURATED');
+  assert.equal(receipt.audit.ok, true);
+  assert.equal(receipt.audit.status, 'COMPLETE_NOT_SATURATED');
+  assert.notEqual(receipt.status, 'SATURATED', 'limitation audit receipt must not claim SATURATED');
+  assert.notEqual(receipt.audit.status, 'SATURATED', 'limitation audit verdict must not claim SATURATED');
 });

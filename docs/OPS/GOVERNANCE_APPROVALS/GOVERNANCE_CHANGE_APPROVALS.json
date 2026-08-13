@@ -10106,10 +10106,19 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_BUILD_PROFILE_REGISTRY_V1.json",
-      "sha256": "1d9e6da85cb69ede81426a0e6509908c9536b78ce3a04879881835a98b21404a",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE300_REPEAT_V1",
-      "approvedAtUtc": "2026-08-13T18:28:00Z",
-      "rationale": "Approve factual Word 16.112 profile registry update binding WAVE_300_REPEAT as the eighth completed build-bound ladder rung with 300/300 executable diversity-bound synthetic repeat cases replaying the WAVE_300 manifest one-to-one while preserving COMPETING_NOT_SATURATED and blocking saturation/terminal PASS.",
+      "sha256": "8f9ad868b294a1cf0aa80cdc15d245f8fd8597aab42f84a8e4b8d5159275754f",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_SATURATION_LIMITATION_AUDIT_V1",
+      "approvedAtUtc": "2026-08-13T19:15:09Z",
+      "rationale": "Approve factual Word 16.112 profile registry update binding SATURATION_LIMITATION_AUDIT as a separate non-ladder audit head: COMPLETE_NOT_SATURATED over WAVE_10/WAVE_40/WAVE_100/WAVE_300/WAVE_300_REPEAT receipts, preserving COMPETING_NOT_SATURATED, eight executable ladder rungs and blocked saturation/terminal/current compatibility claims.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_MAC_16_112_SATURATION_LIMITATION_AUDIT_RECEIPT.json",
+      "sha256": "3e1376a3d323c77455f17005100b2edde319ecb63bceff12133b40132804cc44",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_SATURATION_LIMITATION_AUDIT_V1",
+      "approvedAtUtc": "2026-08-13T19:15:09Z",
+      "rationale": "Approve factual SATURATION_LIMITATION_AUDIT receipt for Word 16.112 build 16.112.26081010: audit PASS status COMPLETE_NOT_SATURATED at local candidate head 48e92c1f with origin/main e02ef5dd, binding exactly the five committed wave/repeat receipts and making no saturation or terminal PASS claim.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },
@@ -10124,37 +10133,37 @@
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "9d1f5343f61305d6977ddd57aa85dcd834fad034fc2657c9b0d3e34426f8d374",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE300_REPEAT_V1",
-      "approvedAtUtc": "2026-08-13T18:28:00Z",
-      "rationale": "Approve terminal claim registry factual note/digest update: current Word 16.112 has WAVE_300_REPEAT evidence but remains NOT_CLAIMED_BLOCKED/NOT_MADE_WORD_TERMINAL_PASS_REQUIRED because saturation, Windows, Online, Google and blocked rows remain unresolved.",
+      "sha256": "ebfe58cc7a5202b0009603bd6aaaf8d84f5b661e24f8ad9d72f5334deaf64453",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_SATURATION_LIMITATION_AUDIT_V1",
+      "approvedAtUtc": "2026-08-13T19:15:09Z",
+      "rationale": "Approve terminal claim registry factual note/digest update: current Word 16.112 has a COMPLETE_NOT_SATURATED limitation audit but current Word compatibility, saturation and terminal PASS remain NOT_CLAIMED_BLOCKED/NOT_MADE_WORD_TERMINAL_PASS_REQUIRED because the profile is still COMPETING_NOT_SATURATED and other blockers remain unresolved.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },
     {
       "filePath": "test/contracts/rtk-lab01-build-bound-profiles.contract.test.js",
-      "sha256": "4016ab254277a463bc74670d61b493a751e4bbdc0f509a06d3e4a9bea48f3663",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE300_REPEAT_V1",
-      "approvedAtUtc": "2026-08-13T18:28:00Z",
-      "rationale": "Approve LAB01 contracts for Word 16.112 WAVE_300_REPEAT binding: WAVE_300_REPEAT is completed as the eighth rung, historical evidence remains non-transferable, harness evidence remains non-ladder, and profile remains not saturated.",
+      "sha256": "21efcda3742ebd2d4af0353bf386f524c1f66c569ad716ecdc139472a9328c90",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_SATURATION_LIMITATION_AUDIT_V1",
+      "approvedAtUtc": "2026-08-13T19:15:09Z",
+      "rationale": "Approve LAB01 contract requiring Word 16.112 SATURATION_LIMITATION_AUDIT to bind as a separate auditEvidenceHeads entry with status COMPLETE_NOT_SATURATED, no executable ladder-denominator inflation and no SATURATED/terminal promotion.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },
     {
       "filePath": "test/contracts/rtk-phys01-ladder-runner.contract.test.js",
-      "sha256": "38f949186b87b01490d7d93558d632f4556d459c602d3dc73b5c1cefc2681f95",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE300_REPEAT_V1",
-      "approvedAtUtc": "2026-08-13T18:28:00Z",
-      "rationale": "Approve PHYS01 contract requiring the real Word 16.112 WAVE_300_REPEAT receipt to validate executable repeat seal, 300/300 cases, one-to-one WAVE_300 manifest binding, and no saturation/terminal claim.",
+      "sha256": "b907ebf53b799ac55c51d411aa26f9349ea2118ea40ff265efbb82acd435f8a4",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_SATURATION_LIMITATION_AUDIT_V1",
+      "approvedAtUtc": "2026-08-13T19:15:09Z",
+      "rationale": "Approve PHYS01 contract requiring the real Word 16.112 SATURATION_LIMITATION_AUDIT receipt to validate COMPLETE_NOT_SATURATED over exactly five committed wave/repeat receipts and no terminal PASS/saturation promotion.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },
     {
       "filePath": "test/contracts/rtk-release01-terminal-claims.contract.test.js",
-      "sha256": "88e857aed3df9037da38050a8aac0248c4d12190c56b5f31c40f0e5d5d8e8b62",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE300_REPEAT_V1",
-      "approvedAtUtc": "2026-08-13T18:28:00Z",
-      "rationale": "Approve RELEASE01 terminal rollup contracts recognizing Word 16.112 WAVE_300_REPEAT as evidence while keeping current Word compatibility NOT_CLAIMED_BLOCKED and terminal PASS blocked by unsaturated profile and other unresolved blockers.",
+      "sha256": "7fafb5402f890b02a17008856ed59384783317caa96e054f6772bf2e57ab5219",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_SATURATION_LIMITATION_AUDIT_V1",
+      "approvedAtUtc": "2026-08-13T19:15:09Z",
+      "rationale": "Approve RELEASE01 terminal rollup contract recognizing the Word 16.112 SATURATION_LIMITATION_AUDIT as COMPLETE_NOT_SATURATED while preserving NOT_CLAIMED_BLOCKED current compatibility/saturation claims and WORD_PROFILE_NOT_SATURATED terminal blocker.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     }

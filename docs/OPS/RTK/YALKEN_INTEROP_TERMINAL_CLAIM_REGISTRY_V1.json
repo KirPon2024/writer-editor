@@ -323,7 +323,8 @@
       },
       "blockedRowRef": null,
       "evidenceScope": "CURRENT_BUILD_COMPATIBILITY",
-      "claimDigest": "sha256:5a167b79997cfdfc3cd28f4b7a607be022586a03881e05472b62a7ba77e47f6e"
+      "note": "Word saturation is NOT claimed for current profile word-mac-16.112-26081010: SATURATION_LIMITATION_AUDIT COMPLETE_NOT_SATURATED audited the five wave/repeat receipts and explicitly preserves saturation=false.",
+      "claimDigest": "sha256:6cd04ddcd6e161a65bc49080cec3048b4963a5e6cfe5d08a74d590047b7f4655"
     },
     {
       "claimId": "claim-current-word-compatibility",
@@ -335,8 +336,8 @@
       },
       "evidenceScope": "CURRENT_BUILD_COMPATIBILITY",
       "blockedRowRef": null,
-      "note": "Compatibility of Yalken DOCX interop with the CURRENT Word build (16.112, build 16.112.26081010) is NOT claimed: CARRIER_SURVIVAL_SMOKE 12/12, SEMANTIC_DIFFERENTIAL_SUBSET 24/24, NEGATIVE_REPLAY_CRASH_SUBSET 8/8, WAVE_10 10/10, WAVE_40 40/40, WAVE_100 100/100, WAVE_300 300/300 and WAVE_300_REPEAT 300/300 executable diversity-bound synthetic cases have been physically earned on the exact signed provider; the repeat replays the WAVE_300 manifest one-to-one, and a prior WAVE_300 attempt failed 292/300 and remains preserved as non-promoted failure evidence. Historical 16.111.3 evidence is preserved as non-transferable historical scope only; installed 16.109.1 was rejected and never promoted; saturation and terminal PASS remain blocked.",
-      "claimDigest": "sha256:161342a2725ac9949df30e873037466a9794bcdf3f7b7963b0869c0de935973e"
+      "note": "Compatibility of Yalken DOCX interop with the CURRENT Word build (16.112, build 16.112.26081010) is NOT claimed: CARRIER_SURVIVAL_SMOKE 12/12, SEMANTIC_DIFFERENTIAL_SUBSET 24/24, NEGATIVE_REPLAY_CRASH_SUBSET 8/8, WAVE_10 10/10, WAVE_40 40/40, WAVE_100 100/100, WAVE_300 300/300 and WAVE_300_REPEAT 300/300 executable diversity-bound synthetic cases have been physically earned on the exact signed provider; the repeat replays the WAVE_300 manifest one-to-one, and a prior WAVE_300 attempt failed 292/300 and remains preserved as non-promoted failure evidence. SATURATION_LIMITATION_AUDIT COMPLETE_NOT_SATURATED audited the five wave/repeat receipts and preserves saturation=false, so current compatibility, saturation and terminal PASS remain blocked. Historical 16.111.3 evidence is preserved as non-transferable historical scope only; installed 16.109.1 was rejected and never promoted.",
+      "claimDigest": "sha256:c72642d6ff3f82a2ba5bf2c8584ace49b283c53aa135d5ec58308ec53e50125f"
     }
   ],
   "bannedWordingPatterns": [

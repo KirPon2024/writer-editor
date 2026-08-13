@@ -9809,10 +9809,10 @@
     },
     {
       "filePath": "src/utils/docxImportSafeCreate.js",
-      "sha256": "82de7f717202255705edf37ebd511eb763d4cd5420b1550a8513e745d6fcbb2c",
-      "approvedBy": "owner-direct:TASK_ID:GENERIC-01_CREATE_ONLY_IMPORT",
-      "approvedAtUtc": "2026-08-09T06:25:17.945Z",
-      "rationale": "Approve GENERIC-01 durable idempotent receipt store with main-owned importOperationId, duplicate-returns-same-receipt with zero writes, Core-allocated tree identity, manifest-authority transaction port, instance-identity target paths, and persisted typed LossLedger.",
+      "sha256": "d7300b6c87ac440f9bc472609d5b62d9c6e415ef4640bc9cbd59ffa092811abc",
+      "approvedBy": "owner-direct:TASK_ID:BASELINE_UNRED_PREREQ_V1",
+      "approvedAtUtc": "2026-08-13T09:52:00Z",
+      "rationale": "Approve the merged baseline prerequisite DOCX safe-create hash after receipt/idempotency parity repair; product runtime scope remains the already-approved create-only import path, with no Word provider claim or release promotion.",
       "approved": true,
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_GENERIC01_CREATE_ONLY_IMPORT"
     },

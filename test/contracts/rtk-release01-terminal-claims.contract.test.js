@@ -1281,8 +1281,8 @@ test('RELEASE01-S07-real-registry-word-16-112-migration-fail-closed', async () =
   assert.equal(prior.class, 'HISTORICAL_BUILD_BOUND');
   assert.equal(prior.supersededBy, 'word-mac-16.112-26081010');
   assert.equal(current.class, 'COMPETING_NOT_SATURATED');
-  assert.deepEqual(current.ladder.completedRungs, ['CARRIER_SURVIVAL_SMOKE', 'SEMANTIC_DIFFERENTIAL_SUBSET', 'NEGATIVE_REPLAY_CRASH_SUBSET', 'WAVE_10']);
-  assert.equal((current.evidenceHeads || []).length, 4, '16.112 must carry its smoke, semantic differential, negative replay/crash and WAVE_10 receipts');
+  assert.deepEqual(current.ladder.completedRungs, ['CARRIER_SURVIVAL_SMOKE', 'SEMANTIC_DIFFERENTIAL_SUBSET', 'NEGATIVE_REPLAY_CRASH_SUBSET', 'WAVE_10', 'WAVE_40']);
+  assert.equal((current.evidenceHeads || []).length, 5, '16.112 must carry its smoke, semantic differential, negative replay/crash, WAVE_10 and WAVE_40 receipts');
   const smokeHead = current.evidenceHeads.find((h) =>
     h.path === 'docs/OPS/RTK/WORD_MAC_16_112_CARRIER_SURVIVAL_SMOKE_RECEIPT.json');
   const semanticHead = current.evidenceHeads.find((h) =>
@@ -1291,7 +1291,9 @@ test('RELEASE01-S07-real-registry-word-16-112-migration-fail-closed', async () =
     h.path === 'docs/OPS/RTK/WORD_MAC_16_112_NEGATIVE_REPLAY_CRASH_RECEIPT.json');
   const wave10Head = current.evidenceHeads.find((h) =>
     h.path === 'docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE10_RECEIPT.json');
-  for (const head of [smokeHead, semanticHead, negativeHead, wave10Head]) {
+  const wave40Head = current.evidenceHeads.find((h) =>
+    h.path === 'docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE40_RECEIPT.json');
+  for (const head of [smokeHead, semanticHead, negativeHead, wave10Head, wave40Head]) {
     assert.ok(head, 'expected 16.112 evidence head must be present');
     assert.equal(head.wordVersion, '16.112');
     assert.equal(head.wordBuild, '16.112.26081010');
@@ -1308,6 +1310,11 @@ test('RELEASE01-S07-real-registry-word-16-112-migration-fail-closed', async () =
   assert.equal(wave10Head.casesTotal, 10);
   assert.equal(wave10Head.casesPassed, 10);
   assert.equal(wave10Head.denominator, 'executable-diversity-bound-wave10-only-not-saturation');
+  assert.deepEqual(wave40Head.rungs, ['WAVE_40']);
+  assert.equal(wave40Head.claimScope, 'DIVERSE_FAMILY_WAVE_PROVEN');
+  assert.equal(wave40Head.casesTotal, 40);
+  assert.equal(wave40Head.casesPassed, 40);
+  assert.equal(wave40Head.denominator, 'executable-diversity-bound-wave40-only-not-saturation');
 
   const compat = registry.claims.find((c) => c.claimId === 'claim-current-word-compatibility');
   assert.ok(compat, 'the current-word-compatibility claim must exist');

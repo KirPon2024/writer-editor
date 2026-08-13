@@ -1,0 +1,188 @@
+{
+  "schema": "yalken.rtk.word-mac-16-112.carrier-survival-smoke-receipt.v1",
+  "profileId": "word-mac-16.112-26081010",
+  "rung": "CARRIER_SURVIVAL_SMOKE",
+  "status": "PHYSICAL_CARRIER_SURVIVAL_SMOKE_PASS",
+  "headSha": "fe7bc6320e8cb6a9d30e613726300a39cb94bb51",
+  "originMainSha": "a090702982ff1b29ac2e34778ae39613dac98425",
+  "wordProfile": {
+    "appPath": "/Applications/Microsoft Word.app",
+    "versionByBundle": "16.112",
+    "buildByBundle": "16.112.26081010",
+    "bundleId": "com.microsoft.Word",
+    "teamIdentifier": "UBF8T346G9",
+    "signatureAuthorities": [
+      "Developer ID Application: Microsoft Corporation (UBF8T346G9)",
+      "Developer ID Certification Authority",
+      "Apple Root CA"
+    ],
+    "signatureValid": true,
+    "providerSourceBinding": {
+      "microsoftLearnCurrentReleaseDate": "2026-08-11",
+      "microsoftLearnCurrentVersion": "16.112",
+      "microsoftLearnCurrentBuild": "26081010",
+      "wordUpdatePackageSha256": "sha256:BAC312145A1733B904F36CF0D7DE2CF93E15AEBBC1F0D5665A72D887EB7C5997"
+    },
+    "versionByAppleScript": "16.112",
+    "macosVersion": "26.6.1",
+    "macosBuild": "25G76",
+    "locale": "ru_FI"
+  },
+  "artifactRoot": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/phys-16-112/phys-carrier-survival-smoke-20260813T082605",
+  "counters": {
+    "total": 12,
+    "passed": 12,
+    "failed": 0
+  },
+  "cases": [
+    {
+      "caseId": "phys-16-112-smoke-01",
+      "ordinal": 1,
+      "wordStatus": "PASS",
+      "openEditSaveCloseReopen": "PASS",
+      "readbackContainsSentinel": true,
+      "readbackContainsInsertion": true,
+      "wordRevisionCount": 2,
+      "sourceDocxSha256": "sha256:1ae92f219578eca3be4c6f7c87b2dddc8bab2fa342fb238959955d540498be32",
+      "returnedDocxSha256": "sha256:27927b7c704248592f1bed618dc07176d139d8a0c057584550044e84a9073901",
+      "error": ""
+    },
+    {
+      "caseId": "phys-16-112-smoke-02",
+      "ordinal": 2,
+      "wordStatus": "PASS",
+      "openEditSaveCloseReopen": "PASS",
+      "readbackContainsSentinel": true,
+      "readbackContainsInsertion": true,
+      "wordRevisionCount": 2,
+      "sourceDocxSha256": "sha256:54be27bb54e491032618b80ceb5de2de0c0a57b7f45ce19b487845d563d878d5",
+      "returnedDocxSha256": "sha256:0c16bf133e58b1ca2ba715f553e5b4d2b199a65f271b87bf17c77175ec2b0840",
+      "error": ""
+    },
+    {
+      "caseId": "phys-16-112-smoke-03",
+      "ordinal": 3,
+      "wordStatus": "PASS",
+      "openEditSaveCloseReopen": "PASS",
+      "readbackContainsSentinel": true,
+      "readbackContainsInsertion": true,
+      "wordRevisionCount": 2,
+      "sourceDocxSha256": "sha256:77784a4b91a79eedca791c122943c2fcb56d6ea42da66c765f4e930485b90636",
+      "returnedDocxSha256": "sha256:6c2b188d5d669489c04d4d2f17e046dcdaa1bea73354993ddb4b98a78c73a165",
+      "error": ""
+    },
+    {
+      "caseId": "phys-16-112-smoke-04",
+      "ordinal": 4,
+      "wordStatus": "PASS",
+      "openEditSaveCloseReopen": "PASS",
+      "readbackContainsSentinel": true,
+      "readbackContainsInsertion": true,
+      "wordRevisionCount": 2,
+      "sourceDocxSha256": "sha256:4cfe3ae7905e3f808d1df97ff799b482cf53a7a28352e2a1e61ae390c6ad915e",
+      "returnedDocxSha256": "sha256:d45cec87564092b12bd99570171bb42d6578d00a072c83da0237516b3eb062f2",
+      "error": ""
+    },
+    {
+      "caseId": "phys-16-112-smoke-05",
+      "ordinal": 5,
+      "wordStatus": "PASS",
+      "openEditSaveCloseReopen": "PASS",
+      "readbackContainsSentinel": true,
+      "readbackContainsInsertion": true,
+      "wordRevisionCount": 2,
+      "sourceDocxSha256": "sha256:cb54e8d5c97ac1fbd5247fc2c2e8810b4c942d3c56eb259d3e42de6a0c018be6",
+      "returnedDocxSha256": "sha256:01954ab18b4d30f33989369b7ecfb22e6822f177646ba25c8b3ed275a0e2ecc9",
+      "error": ""
+    },
+    {
+      "caseId": "phys-16-112-smoke-06",
+      "ordinal": 6,
+      "wordStatus": "PASS",
+      "openEditSaveCloseReopen": "PASS",
+      "readbackContainsSentinel": true,
+      "readbackContainsInsertion": true,
+      "wordRevisionCount": 2,
+      "sourceDocxSha256": "sha256:9d1d228162d1588e95d97fd7faf175d66cb813e355cfe9fd2829d10aab2a63d3",
+      "returnedDocxSha256": "sha256:9e1f14e6edaa7d1f384ae9f8938258197a60627bce1ae56981db280d69a0f546",
+      "error": ""
+    },
+    {
+      "caseId": "phys-16-112-smoke-07",
+      "ordinal": 7,
+      "wordStatus": "PASS",
+      "openEditSaveCloseReopen": "PASS",
+      "readbackContainsSentinel": true,
+      "readbackContainsInsertion": true,
+      "wordRevisionCount": 2,
+      "sourceDocxSha256": "sha256:e0462b75c3f7ef0c88f885e7f9738c0e0f762fe8dca1e126b19bcdb458206fe2",
+      "returnedDocxSha256": "sha256:1d41b5fb22b5d68792342508e07875f76ae102771a4ab540fa8113350ce0d37d",
+      "error": ""
+    },
+    {
+      "caseId": "phys-16-112-smoke-08",
+      "ordinal": 8,
+      "wordStatus": "PASS",
+      "openEditSaveCloseReopen": "PASS",
+      "readbackContainsSentinel": true,
+      "readbackContainsInsertion": true,
+      "wordRevisionCount": 2,
+      "sourceDocxSha256": "sha256:3c8d68f2181f26f9a8f8562b6fad7e096e86b21110fbf7098093a20c53e0ff7a",
+      "returnedDocxSha256": "sha256:defd66df2b65bf29c1003c0f6b3a6ab45bb06bc56898559e4dca2e14ae577f67",
+      "error": ""
+    },
+    {
+      "caseId": "phys-16-112-smoke-09",
+      "ordinal": 9,
+      "wordStatus": "PASS",
+      "openEditSaveCloseReopen": "PASS",
+      "readbackContainsSentinel": true,
+      "readbackContainsInsertion": true,
+      "wordRevisionCount": 2,
+      "sourceDocxSha256": "sha256:10d35267ddae12ef2fe198531526f7732de40eeeb988e4bd896cf43aa081851f",
+      "returnedDocxSha256": "sha256:168c17b89e35cfea7ea9464da051dea126c697f744359675c86c65dc7a2ef043",
+      "error": ""
+    },
+    {
+      "caseId": "phys-16-112-smoke-10",
+      "ordinal": 10,
+      "wordStatus": "PASS",
+      "openEditSaveCloseReopen": "PASS",
+      "readbackContainsSentinel": true,
+      "readbackContainsInsertion": true,
+      "wordRevisionCount": 2,
+      "sourceDocxSha256": "sha256:fa0d5c15d680b860b14caae4a11cb3fbbd0f614569d0e14df94b195702bfab36",
+      "returnedDocxSha256": "sha256:65b0d8202b4a972a169bf7b7be8144a9b4ba229a40a1a676fb2a34afb8bfef10",
+      "error": ""
+    },
+    {
+      "caseId": "phys-16-112-smoke-11",
+      "ordinal": 11,
+      "wordStatus": "PASS",
+      "openEditSaveCloseReopen": "PASS",
+      "readbackContainsSentinel": true,
+      "readbackContainsInsertion": true,
+      "wordRevisionCount": 2,
+      "sourceDocxSha256": "sha256:a910d3cf491855464f1b918ab7875b86e7f82651951f8501bbb7b9313d5bcf18",
+      "returnedDocxSha256": "sha256:b3d5e654ec87e5cced90b7f3bd3e865c50f82b6a8fda6449f8404636138af187",
+      "error": ""
+    },
+    {
+      "caseId": "phys-16-112-smoke-12",
+      "ordinal": 12,
+      "wordStatus": "PASS",
+      "openEditSaveCloseReopen": "PASS",
+      "readbackContainsSentinel": true,
+      "readbackContainsInsertion": true,
+      "wordRevisionCount": 2,
+      "sourceDocxSha256": "sha256:4d323c29fca7b4e9060409c609d084c0c983dad4fc28b24956bd781d88ada8f5",
+      "returnedDocxSha256": "sha256:a815fc22e4a38a5bf83c6514a467d3a270f6e297179b34158001c99d300c5598",
+      "error": ""
+    }
+  ],
+  "nonClaims": [
+    "This receipt is evidence for the word-mac-16.112-26081010 profile only.",
+    "No compatibility with the current Word build is claimed by this rung.",
+    "No saturation, no terminal pass and no user-facing claim follows."
+  ]
+}

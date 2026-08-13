@@ -9853,29 +9853,11 @@
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MULTI01_MULTI_SCENE_SCOPE_BLOCKED"
     },
     {
-      "filePath": "docs/OPS/RTK/WORD_BUILD_PROFILE_REGISTRY_V1.json",
-      "sha256": "3d08013988cced04017521502c84ccd54d5bf6de86a42317ae033c7c1cd2486e",
-      "approvedBy": "owner-direct:TASK_ID:PHYS11_DIVERSE_WAVE300_EVIDENCE",
-      "approvedAtUtc": "2026-08-11T00:16:24.085Z",
-      "rationale": "Approve the PHYS-11 registry state: the WAVE_300 head rebound to the diverse receipt with claimScope DIVERSE_FAMILY_WAVE_PROVEN.",
-      "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS11_DIVERSE_WAVE300"
-    },
-    {
       "filePath": "scripts/ops/rtk-word-build-profiles-v1.mjs",
       "sha256": "078b1696839293084a0aa9d341642ed4509e891cd7b8635ed627a61eb97aa89f",
       "approvedBy": "owner-direct:TASK_ID:PHYS10_REPEAT_SCOPE_TYPING",
       "approvedAtUtc": "2026-08-10T18:31:12.454Z",
       "rationale": "Approve the PHYS-10 ladder vocabulary extension: WAVE_300_REPEAT is the eighth rung; the saturation audit stays an evaluation, not a rung.",
-      "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS10_SCOPE_TYPING"
-    },
-    {
-      "filePath": "test/contracts/rtk-lab01-build-bound-profiles.contract.test.js",
-      "sha256": "3d2284848fc6fdc236d88b250de7bbef4f4fd5ad5630de675b821b3c77f2e9df",
-      "approvedBy": "owner-direct:TASK_ID:PHYS10_REPEAT_SCOPE_TYPING",
-      "approvedAtUtc": "2026-08-10T18:31:12.454Z",
-      "rationale": "Approve the PHYS-10 ladder vocabulary pin (eight rungs) and the rung-agnostic probe adjustments.",
       "approved": true,
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS10_SCOPE_TYPING"
     },
@@ -9907,15 +9889,6 @@
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_GOOGLE01_PROVIDER_PROFILES"
     },
     {
-      "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "856adfdd1c65c79931b1dbf1624298045b1e67eb580e7a94b91d5776908936ee",
-      "approvedBy": "owner-direct:TASK_ID:PHYS02_CARRIER_SMOKE_EVIDENCE_16_111_3",
-      "approvedAtUtc": "2026-08-10T08:09:12.817Z",
-      "rationale": "Approve the PHYS-02 terminal blocker rebind: the DECLARED blocker for 16.111.3 is replaced by the not-saturated blocker; all other blockers unchanged; terminal claim remains NOT_MADE.",
-      "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS02_SMOKE_EVIDENCE"
-    },
-    {
       "filePath": "scripts/ops/rtk-interop-terminal-claims-v1.mjs",
       "sha256": "4929d67618c65d762528c6bc634c825a3e251286c2e5ae31853e577e0901641f",
       "approvedBy": "owner-direct:TASK_ID:LAB02_BUILD_MIGRATION_16_111_3",
@@ -9923,33 +9896,6 @@
       "rationale": "Approve LAB-02 claim evidenceScope law (BUILD_INDEPENDENT_PRODUCT_FUNCTION vs CURRENT_BUILD_COMPATIBILITY; historical evidence backs historical scope only) and the pointer-driven strict roll-up (context.currentProfileId replaces the hardcoded required profile).",
       "approved": true,
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_LAB02_BUILD_MIGRATION"
-    },
-    {
-      "filePath": "test/contracts/rtk-release01-terminal-claims.contract.test.js",
-      "sha256": "d127a8e841f0f0cec195d6550511cfd9a4332fff8ca92aa8a582e4009cb587a9",
-      "approvedBy": "owner-direct:TASK_ID:PHYS02_CARRIER_SMOKE_EVIDENCE_16_111_3",
-      "approvedAtUtc": "2026-08-10T08:09:12.817Z",
-      "rationale": "Approve the PHYS-02 sanctioned S06 amendment: the current-build blocker assertion follows the class transition (NOT_SATURATED blocker).",
-      "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS02_SMOKE_EVIDENCE"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-phys-ladder-16-111-3.mjs",
-      "sha256": "22ff8f1d40aab7fbdf322297813969b74cea8166009da8d99da0ad99224b02dd",
-      "approvedBy": "owner-direct:TASK_ID:PHYS11A_CJK_ANCHOR_REPAIR",
-      "approvedAtUtc": "2026-08-10T22:49:24.648Z",
-      "rationale": "Approve the CJK anchor repair found by the first diverse wave run (13/13 CJK cases anchor-missing): the runner fixture copy and anchors now match the lab fixture bytes (短文), pinned by E07 against the real fixture buffer.",
-      "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS11A_CJK"
-    },
-    {
-      "filePath": "test/contracts/rtk-phys01-ladder-runner.contract.test.js",
-      "sha256": "73894c507b9507dea50abaf43029b8d3033f9e2ddae8a8952b055ec24262481e",
-      "approvedBy": "owner-direct:TASK_ID:PHYS11A_CJK_ANCHOR_REPAIR",
-      "approvedAtUtc": "2026-08-10T22:49:24.648Z",
-      "rationale": "Approve the CJK anchor repair found by the first diverse wave run (13/13 CJK cases anchor-missing): the runner fixture copy and anchors now match the lab fixture bytes (短文), pinned by E07 against the real fixture buffer.",
-      "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS11A_CJK"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_MAC_16_111_3_CARRIER_SURVIVAL_SMOKE_RECEIPT.json",
@@ -10076,6 +10022,69 @@
       "rationale": "Approve the F1 multilingual evidence contract tests covering default-off no-write feature flag, exact schemas/keysets, source fence stale/transplant rejection, Unicode NFC/casefold/grapheme/token boundaries, search boundary safety, unknown-language abstention and no-silent-drop accounting.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F1"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_BUILD_PROFILE_REGISTRY_V1.json",
+      "sha256": "2c3eff40141b81405ee0b2536fdeeabce678c96278b286cb0cf08abcb549956a",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_PROVIDER_MIGRATION_16_112_V1",
+      "approvedAtUtc": "2026-08-13T08:35:40Z",
+      "rationale": "Approve the bounded F2 Word provider profile migration registry update: Word 16.111.3 remains historical and non-transferable, Word 16.112 build 16.112.26081010 is current but not saturated, and no terminal PASS is created.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_F2_WORD_PROVIDER_MIGRATION_16_112_V1"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_MAC_16_112_CARRIER_SURVIVAL_SMOKE_RECEIPT.json",
+      "sha256": "99d0d4fc1e01d8c1a09d0a66bf47ae793ac742172a36daf8f7c77a07e72ed0b3",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_PROVIDER_MIGRATION_16_112_V1",
+      "approvedAtUtc": "2026-08-13T08:35:40Z",
+      "rationale": "Approve the factual CARRIER_SURVIVAL_SMOKE physical receipt for disposable synthetic fixtures only on exact Word 16.112 build 16.112.26081010, with bundle/team/signature binding and without promoting compatibility saturation.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_F2_WORD_PROVIDER_MIGRATION_16_112_V1"
+    },
+    {
+      "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+      "sha256": "1c30896ce88f66904b4a7887db6ac7450987e6bebb8a9fd78c26aae8935eb911",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_PROVIDER_MIGRATION_16_112_V1",
+      "approvedAtUtc": "2026-08-13T08:35:40Z",
+      "rationale": "Approve the terminal claim registry rebinding to Word 16.112 while preserving fail-closed terminal status: unresolved blockers, provider gaps, unknowns and non-saturation cannot aggregate to PASS.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_F2_WORD_PROVIDER_MIGRATION_16_112_V1"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-phys-ladder-16-111-3.mjs",
+      "sha256": "01803dedb52ba78fc0a0383018ec1fcea8319efff47f6fec8af7c9eb641985a1",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_PROVIDER_MIGRATION_16_112_V1",
+      "approvedAtUtc": "2026-08-13T08:35:40Z",
+      "rationale": "Approve the physical ladder runner migration to exact Word 16.112 provider identity, including bundle/team/signature/source checks and local clean candidate head mode for prephysical synthetic smoke only.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_F2_WORD_PROVIDER_MIGRATION_16_112_V1"
+    },
+    {
+      "filePath": "test/contracts/rtk-lab01-build-bound-profiles.contract.test.js",
+      "sha256": "d0e2179432788aac4fd71bd45615300a941358ab59c9efa2496bd68a93dbecfd",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_PROVIDER_MIGRATION_16_112_V1",
+      "approvedAtUtc": "2026-08-13T08:35:40Z",
+      "rationale": "Approve the LAB01 build-profile contract coverage for explicit 16.111.3 historical separation, 16.112 current profile binding, no inherited evidence and fail-closed mismatch behavior.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_F2_WORD_PROVIDER_MIGRATION_16_112_V1"
+    },
+    {
+      "filePath": "test/contracts/rtk-phys01-ladder-runner.contract.test.js",
+      "sha256": "f95f33a663fb21932df3be8693a621426d60fab690002fd47c1560e3790853d4",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_PROVIDER_MIGRATION_16_112_V1",
+      "approvedAtUtc": "2026-08-13T08:35:40Z",
+      "rationale": "Approve the PHYS01 runner contract coverage for exact 16.112 provider checks, wrong build/bundle/team/signature rejection and prephysical local-candidate head gating.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_F2_WORD_PROVIDER_MIGRATION_16_112_V1"
+    },
+    {
+      "filePath": "test/contracts/rtk-release01-terminal-claims.contract.test.js",
+      "sha256": "65862d1033b9c3e4c8527242d234e9889128650be29fd9384806e98f1310f31b",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_PROVIDER_MIGRATION_16_112_V1",
+      "approvedAtUtc": "2026-08-13T08:35:40Z",
+      "rationale": "Approve the RELEASE01 terminal-claims contract coverage proving the 16.112 provider migration remains blocked and cannot launder historical, unknown, blocked or unsaturated evidence into terminal PASS.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_F2_WORD_PROVIDER_MIGRATION_16_112_V1"
     }
   ]
 }

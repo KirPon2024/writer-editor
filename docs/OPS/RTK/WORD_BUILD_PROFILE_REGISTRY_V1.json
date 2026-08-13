@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word-build-profile-registry.v1",
   "registryId": "word-build-profile-registry-v1",
-  "purpose": "Machine-readable build-bound Word provider profiles for the LAB-01 Proof-Carrying Interop V2 §36 no-inheritance contract. Every evidenceHead path is a real committed file; every sha256 is the exact file sha256 at registry authoring time. This registry is read-only evidence; it grants no product write authority and never changes Word saturation status.",
+  "purpose": "Machine-readable build-bound Word provider profiles for the LAB-01 Proof-Carrying Interop V2 §36 no-inheritance contract. Every evidenceHead path is a real committed file; every sha256 is the exact file sha256 at registry authoring time. This registry is read-only evidence; it grants no product write authority, never transfers physical evidence across Word builds, and never changes Word saturation status.",
   "classVocabulary": [
     "HISTORICAL_BUILD_BOUND",
     "COMPETING_NOT_SATURATED",
@@ -16,7 +16,8 @@
     "WAVE_10",
     "WAVE_40",
     "WAVE_100",
-    "WAVE_300"
+    "WAVE_300",
+    "WAVE_300_REPEAT"
   ],
   "profiles": [
     {
@@ -290,7 +291,7 @@
     },
     {
       "profileId": "word-mac-16.111.3-26080215",
-      "class": "COMPETING_NOT_SATURATED",
+      "class": "HISTORICAL_BUILD_BOUND",
       "platform": "word-mac",
       "wordVersion": "16.111.3",
       "wordBuild": "16.111.26080215",
@@ -404,9 +405,62 @@
           "WAVE_300_REPEAT"
         ]
       },
-      "competingNote": "Physical evidence on 16.111.3: smoke 12/12 (197ba60f), semantic 24/24 (c277aa9f), negative 8/8 (7e876c84), append-cycle waves 10/40/100 (stability-only scopes) and the DIVERSE-family wave-300 300/300 (88b8eb96, DIVERSE_FAMILY_WAVE_PROVEN, manifest a8eed3ac). The manifest-bound repeat and the saturation audit remain; saturation not claimed.",
-      "profileDigest": "sha256:a300eb19e4e65ca49a046a1ec8700f334d316df62d12fe9ae9814a91c23fe649"
+      "competingNote": "Historical 16.111.3 physical evidence remains intact only for its frozen build-bound profile: smoke 12/12, semantic 24/24, negative 8/8, waves 10/40/100, diverse-family wave-300 300/300 and wave-300 repeat 300/300. It is not evidence for Word 16.112 and does not back any current-build compatibility claim.",
+      "profileDigest": "sha256:d0f9de830f3123fd832316aad497c2984b1a4f40848271d29dd1f4cad42f497f",
+      "supersededBy": "word-mac-16.112-26081010",
+      "frozenNote": "Superseded 2026-08-13 by owner-authorized F2_WORD_PROVIDER_MIGRATION_16_112_V1: Word 16.112 build 16.112.26081010 is the new current provider. All 16.111.3 evidence heads remain historical and non-transferable; this profile admits no new evidence heads and no new ladder rungs."
+    },
+    {
+      "profileId": "word-mac-16.112-26081010",
+      "class": "COMPETING_NOT_SATURATED",
+      "platform": "word-mac",
+      "wordVersion": "16.112",
+      "wordBuild": "16.112.26081010",
+      "os": {
+        "macosVersion": "26.6.1",
+        "macosBuild": "25G76"
+      },
+      "locale": "ru_FI",
+      "controllerVersion": "rtk-word-v4",
+      "supersedes": "word-mac-16.111.3-26080215",
+      "sourceBinding": {
+        "microsoftLearnCurrentReleaseDate": "2026-08-11",
+        "microsoftLearnCurrentVersion": "16.112",
+        "microsoftLearnCurrentBuild": "26081010",
+        "wordUpdatePackageSha256": "sha256:BAC312145A1733B904F36CF0D7DE2CF93E15AEBBC1F0D5665A72D887EB7C5997",
+        "bundleIdentifier": "com.microsoft.Word",
+        "teamIdentifier": "UBF8T346G9",
+        "signatureAuthority": "Developer ID Application: Microsoft Corporation (UBF8T346G9)"
+      },
+      "evidenceHeads": [
+        {
+          "path": "docs/OPS/RTK/WORD_MAC_16_112_CARRIER_SURVIVAL_SMOKE_RECEIPT.json",
+          "sha256": "sha256:99d0d4fc1e01d8c1a09d0a66bf47ae793ac742172a36daf8f7c77a07e72ed0b3",
+          "wordVersion": "16.112",
+          "wordBuild": "16.112.26081010",
+          "sealedAtUtc": "2026-08-13T08:27:02.535Z",
+          "rungs": [
+            "CARRIER_SURVIVAL_SMOKE"
+          ],
+          "claimScope": "CARRIER_SURVIVAL_SMOKE_ONLY",
+          "headSha": "fe7bc6320e8cb6a9d30e613726300a39cb94bb51",
+          "originMainSha": "a090702982ff1b29ac2e34778ae39613dac98425",
+          "bundleIdentifier": "com.microsoft.Word",
+          "teamIdentifier": "UBF8T346G9",
+          "signatureValid": true
+        }
+      ],
+      "freshnessPolicy": {
+        "maxEvidenceAgeDays": 90
+      },
+      "ladder": {
+        "completedRungs": [
+          "CARRIER_SURVIVAL_SMOKE"
+        ]
+      },
+      "profileDigest": "sha256:85e5e0f28a4fc3e13e22ecb02a87af089a608d9ca611d0dec02a5cc65c0c70b6",
+      "competingNote": "Physical evidence on Word 16.112 build 16.112.26081010: CARRIER_SURVIVAL_SMOKE 12/12 synthetic cases sealed at local prephysical candidate head fe7bc632 with origin/main base a0907029. This proves only the carrier-survival smoke rung for the exact signed Microsoft provider; no historical 16.111.3 evidence is inherited, no saturation is claimed, and terminal PASS remains blocked."
     }
   ],
-  "currentProfileId": "word-mac-16.111.3-26080215"
+  "currentProfileId": "word-mac-16.112-26081010"
 }

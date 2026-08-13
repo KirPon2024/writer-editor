@@ -1,7 +1,7 @@
 'use strict';
 
 /*
- * PHYS-01 — build-bound physical ladder runner for word-mac-16.111.3-26080215.
+ * PHYS-01 — build-bound physical ladder runner for word-mac-16.112-26081010.
  *
  * RED-FIRST: the module scripts/ops/rtk-word-phys-ladder-16-111-3.mjs does not
  * exist on CURRENT, so every scenario fails at the dynamic import. The runner
@@ -10,8 +10,9 @@
  * network) and pins the gate law and the receipt law.
  *
  * Gates (order load-bearing): RUNG_UNKNOWN -> SHA_MISMATCH -> DIRTY_WORKTREE ->
- * WORD_VERSION_MISMATCH -> WORD_BUILD_MISMATCH -> ARTIFACT_ROOT_INVALID ->
- * WORD_SESSION_NOT_CLEAN.
+ * WORD_VERSION_MISMATCH -> WORD_BUILD_MISMATCH -> BUNDLE_ID_MISMATCH ->
+ * TEAM_IDENTIFIER_MISMATCH -> SIGNATURE_AUTHORITY_MISMATCH ->
+ * ARTIFACT_ROOT_INVALID -> WORD_SESSION_NOT_CLEAN.
  *
  * Receipt law: a rung receipt seals only when every case passes
  * open-edit-save-close-reopen with readback proof; a failed case makes the
@@ -32,13 +33,25 @@ async function loadModule() {
 }
 
 const SHA = 'a'.repeat(40);
+const CANDIDATE_SHA = 'b'.repeat(40);
 
 function greenPorts(overrides = {}) {
   return {
     gitHead: () => SHA,
     gitOriginMain: () => SHA,
     gitDirty: () => false,
-    probeWordPlist: () => ({ version: '16.111.3', build: '16.111.26080215' }),
+    probeWordPlist: () => ({
+      version: '16.112',
+      build: '16.112.26081010',
+      bundleId: 'com.microsoft.Word',
+      teamIdentifier: 'UBF8T346G9',
+      signatureValid: true,
+      signatureAuthorities: [
+        'Developer ID Application: Microsoft Corporation (UBF8T346G9)',
+        'Developer ID Certification Authority',
+        'Apple Root CA',
+      ],
+    }),
     verifyArtifactRoot: () => ({ ok: true }),
     countOpenWordDocuments: () => 0,
     ...overrides,
@@ -49,9 +62,9 @@ function baseGateInput(portOverrides = {}) {
   return {
     rung: 'CARRIER_SURVIVAL_SMOKE',
     expectedSha: SHA,
-    expectedWordVersion: '16.111.3',
-    expectedWordBuild: '16.111.26080215',
-    artifactRoot: '/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/phys-16-111-3',
+    expectedWordVersion: '16.112',
+    expectedWordBuild: '16.112.26081010',
+    artifactRoot: '/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/phys-16-112',
     ports: greenPorts(portOverrides),
   };
 }
@@ -108,13 +121,13 @@ test('PHYS01-P04-dirty-worktree-blocked', async () => {
   assert.equal(result.code, 'RTK_PHYS_DIRTY_WORKTREE');
 });
 
-// P05: Word version/build probe mismatch refuses (the 16.111.2 -> 16.111.3 law).
+// P05: Word version/build probe mismatch refuses (the 16.111.3 -> 16.112 law).
 test('PHYS01-P05-word-build-mismatch-blocked', async () => {
   const module = await loadModule();
-  const version = module.evaluatePhysGates(baseGateInput({ probeWordPlist: () => ({ version: '16.111.2', build: '16.111.26080215' }) }));
+  const version = module.evaluatePhysGates(baseGateInput({ probeWordPlist: () => ({ version: '16.111.3', build: '16.112.26081010' }) }));
   assert.equal(version.ok, false);
   assert.equal(version.code, 'RTK_PHYS_WORD_VERSION_MISMATCH');
-  const build = module.evaluatePhysGates(baseGateInput({ probeWordPlist: () => ({ version: '16.111.3', build: '16.111.26072617' }) }));
+  const build = module.evaluatePhysGates(baseGateInput({ probeWordPlist: () => ({ version: '16.112', build: '16.111.26080215' }) }));
   assert.equal(build.ok, false);
   assert.equal(build.code, 'RTK_PHYS_WORD_BUILD_MISMATCH');
 });
@@ -163,13 +176,13 @@ test('PHYS01-P09-receipt-validation', async () => {
     rung: 'CARRIER_SURVIVAL_SMOKE',
     headSha: SHA,
     originMainSha: SHA,
-    wordProfile: { versionByBundle: '16.111.3', buildByBundle: '16.111.26080215', macosVersion: '26.5.2', macosBuild: '25F84', locale: 'ru_FI' },
+    wordProfile: { versionByBundle: '16.112', buildByBundle: '16.112.26081010', macosVersion: '26.5.2', macosBuild: '25F84', locale: 'ru_FI' },
     cases,
-    artifactRoot: '/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/phys-16-111-3',
+    artifactRoot: '/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/phys-16-112',
   });
   const valid = module.validateSmokeReceipt(receipt);
   assert.equal(valid.ok, true, `honest receipt must validate: ${JSON.stringify(valid.reasons)}`);
-  assert.equal(receipt.profileId, 'word-mac-16.111.3-26080215');
+  assert.equal(receipt.profileId, 'word-mac-16.112-26081010');
   assert.equal(receipt.rung, 'CARRIER_SURVIVAL_SMOKE');
   assert.equal(receipt.counters.passed, 12);
   assert.equal(receipt.counters.total, 12);
@@ -181,7 +194,7 @@ test('PHYS01-P09-receipt-validation', async () => {
   assert.equal(invalid.code, 'RTK_PHYS_RECEIPT_INVALID');
 
   const wrongProfile = JSON.parse(JSON.stringify(receipt));
-  wrongProfile.profileId = 'word-mac-16.111.2-d1';
+  wrongProfile.profileId = 'word-mac-16.111.3-26080215';
   const invalidProfile = module.validateSmokeReceipt(wrongProfile);
   assert.equal(invalidProfile.ok, false, 'a receipt naming the superseded profile must be invalid');
   assert.equal(invalidProfile.code, 'RTK_PHYS_RECEIPT_INVALID');
@@ -197,7 +210,7 @@ test('PHYS01-P10-no-seal-on-failure', async () => {
     rung: 'CARRIER_SURVIVAL_SMOKE',
     headSha: SHA,
     originMainSha: SHA,
-    wordProfile: { versionByBundle: '16.111.3', buildByBundle: '16.111.26080215' },
+    wordProfile: { versionByBundle: '16.112', buildByBundle: '16.112.26081010' },
     cases,
     artifactRoot: '/Volumes/T7-Secure/x',
   }), /RTK_PHYS_CASE_FAILURES_PRESENT/u, 'buildSmokeReceipt must refuse to seal a failed run');
@@ -277,8 +290,8 @@ function auditReadySet(module) {
 
 function sealedWaveReceipt(rung, count, overrides = {}) {
   return {
-    schema: `yalken.rtk.word-mac-16-111-3.${rung.toLowerCase().replace(/_/g, '-')}-receipt.v1`,
-    profileId: 'word-mac-16.111.3-26080215',
+    schema: `yalken.rtk.word-mac-16-112.${rung.toLowerCase().replace(/_/g, '-')}-receipt.v1`,
+    profileId: 'word-mac-16.112-26081010',
     rung,
     status: 'PHYSICAL_WAVE_PASS',
     headSha: 'a'.repeat(40),
@@ -322,12 +335,12 @@ test('PHYS01-P12-rung-definitions-pinned', async () => {
   };
   for (const [rung, count] of Object.entries(expectedCounts)) {
     assert.equal(defs[rung].caseCount, count, `${rung} case count`);
-    assert.ok(defs[rung].receiptRef.includes('16_111_3'), `${rung} receipt path must be build-bound`);
+    assert.ok(defs[rung].receiptRef.includes('16_112'), `${rung} receipt path must be build-bound`);
   }
   const refs = Object.values(defs).filter((d) => d.receiptRef).map((d) => d.receiptRef);
   assert.equal(new Set(refs).size, refs.length, 'receipt paths must be distinct (no cross-rung overwrite)');
   for (const ref of refs) {
-    assert.ok(!ref.includes('WAVE40_RECEIPT') || ref.includes('16_111_3'), 'never the 16.111.2-bound receipt path');
+  assert.ok(!ref.includes('WAVE40_RECEIPT') || ref.includes('16_112'), 'never the 16.111.2-bound receipt path');
     assert.ok(!/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE(40|100|300)/u.test(ref), `receipt path must not collide with 16.111.2 evidence: ${ref}`);
   }
 });
@@ -547,7 +560,7 @@ test('PHYS01-P26-audit-plan-binding', async () => {
   const plan = module.buildAuditPlan();
   assert.deepEqual(plan.requiredRungs, ['WAVE_10', 'WAVE_40', 'WAVE_100', 'WAVE_300', 'WAVE_300_REPEAT']);
   for (const ref of plan.receiptRefs) {
-    assert.ok(ref.includes('16_111_3'), `audit receipt ref must be build-bound: ${ref}`);
+    assert.ok(ref.includes('16_112'), `audit receipt ref must be build-bound: ${ref}`);
   }
   assert.equal(new Set(plan.receiptRefs).size, 5, 'five distinct wave receipts');
 });
@@ -1293,4 +1306,121 @@ test('PHYS01-E07-anchors-present-in-lab-fixture-bytes', async () => {
     const script = module.buildFamilyWordScriptForTest('case.docx', '/tmp/case.docx', spec);
     assert.ok(script.length > 100, `${family} script builds against the runner fixture copy`);
   }
+});
+
+// ===========================================================================
+// PHYS-02 — owner-authorized provider migration to Word 16.112 build
+// 16.112.26081010. This is repo-only/synthetic until the owner closes Word and
+// installs the exact provider. Historical 16.111.3 receipts are not physical
+// evidence for the 16.112 profile.
+// ===========================================================================
+
+test('PHYS02-01-provider-binding-migrated-to-16-112', async () => {
+  const module = await loadModule();
+  assert.equal(module.PHYS_PROFILE_ID, 'word-mac-16.112-26081010');
+  assert.equal(module.PHYS_EXPECTED_WORD_VERSION, '16.112');
+  assert.equal(module.PHYS_EXPECTED_WORD_BUILD, '16.112.26081010');
+  assert.equal(module.PHYS_EXPECTED_BUNDLE_ID, 'com.microsoft.Word');
+  assert.equal(module.PHYS_EXPECTED_TEAM_IDENTIFIER, 'UBF8T346G9');
+  assert.ok(Object.isFrozen(module.PHYS_EXPECTED_SIGNATURE_AUTHORITIES), 'signature authority list must be exported frozen');
+  assert.ok(module.PHYS_EXPECTED_SIGNATURE_AUTHORITIES.includes('Developer ID Application: Microsoft Corporation (UBF8T346G9)'));
+  assert.equal(module.PHYS_PROVIDER_SOURCE_BINDING.microsoftLearnCurrentReleaseDate, '2026-08-11');
+  assert.equal(module.PHYS_PROVIDER_SOURCE_BINDING.microsoftLearnCurrentVersion, '16.112');
+  assert.equal(module.PHYS_PROVIDER_SOURCE_BINDING.microsoftLearnCurrentBuild, '26081010');
+  assert.equal(module.PHYS_PROVIDER_SOURCE_BINDING.wordUpdatePackageSha256,
+    'sha256:BAC312145A1733B904F36CF0D7DE2CF93E15AEBBC1F0D5665A72D887EB7C5997');
+  assert.equal(module.SMOKE_RECEIPT_REF.includes('WORD_MAC_16_112_'), true,
+    'new receipts must use 16.112 paths and never overwrite 16.111.3 evidence');
+});
+
+test('PHYS02-02-provider-identity-mismatch-fail-closed', async () => {
+  const module = await loadModule();
+  const wrongInstalledVersion = module.evaluatePhysGates(baseGateInput({
+    probeWordPlist: () => ({
+      version: '16.109.1',
+      build: '16.109.26051717',
+      bundleId: 'com.microsoft.Word',
+      teamIdentifier: 'UBF8T346G9',
+      signatureAuthorities: ['Developer ID Application: Microsoft Corporation (UBF8T346G9)'],
+    }),
+  }));
+  assert.equal(wrongInstalledVersion.ok, false);
+  assert.equal(wrongInstalledVersion.code, 'RTK_PHYS_WORD_VERSION_MISMATCH',
+    'installed 16.109.1 must never satisfy the 16.112 physical gate');
+
+  const historicalBuild = module.evaluatePhysGates(baseGateInput({
+    probeWordPlist: () => ({
+      version: '16.111.3',
+      build: '16.111.26080215',
+      bundleId: 'com.microsoft.Word',
+      teamIdentifier: 'UBF8T346G9',
+      signatureAuthorities: ['Developer ID Application: Microsoft Corporation (UBF8T346G9)'],
+    }),
+  }));
+  assert.equal(historicalBuild.ok, false);
+  assert.equal(historicalBuild.code, 'RTK_PHYS_WORD_VERSION_MISMATCH',
+    'historical 16.111.3 physical evidence is non-transferable to 16.112');
+
+  const wrongBundle = module.evaluatePhysGates(baseGateInput({
+    probeWordPlist: () => ({
+      version: '16.112',
+      build: '16.112.26081010',
+      bundleId: 'com.example.Word',
+      teamIdentifier: 'UBF8T346G9',
+      signatureAuthorities: ['Developer ID Application: Microsoft Corporation (UBF8T346G9)'],
+    }),
+  }));
+  assert.equal(wrongBundle.ok, false);
+  assert.equal(wrongBundle.code, 'RTK_PHYS_BUNDLE_ID_MISMATCH');
+
+  const wrongTeam = module.evaluatePhysGates(baseGateInput({
+    probeWordPlist: () => ({
+      version: '16.112',
+      build: '16.112.26081010',
+      bundleId: 'com.microsoft.Word',
+      teamIdentifier: 'NOT_MICROSOFT',
+      signatureAuthorities: ['Developer ID Application: Microsoft Corporation (UBF8T346G9)'],
+    }),
+  }));
+  assert.equal(wrongTeam.ok, false);
+  assert.equal(wrongTeam.code, 'RTK_PHYS_TEAM_IDENTIFIER_MISMATCH');
+
+  const wrongSignature = module.evaluatePhysGates(baseGateInput({
+    probeWordPlist: () => ({
+      version: '16.112',
+      build: '16.112.26081010',
+      bundleId: 'com.microsoft.Word',
+      teamIdentifier: 'UBF8T346G9',
+      signatureAuthorities: ['Developer ID Application: Example Corp (NOTMICROSOFT)'],
+    }),
+  }));
+  assert.equal(wrongSignature.ok, false);
+  assert.equal(wrongSignature.code, 'RTK_PHYS_SIGNATURE_AUTHORITY_MISMATCH');
+});
+
+test('PHYS02-03-prephysical-local-candidate-head-is-explicitly-bound', async () => {
+  const module = await loadModule();
+  const defaultStrict = module.evaluatePhysGates({
+    ...baseGateInput({ gitHead: () => CANDIDATE_SHA, gitOriginMain: () => SHA }),
+    expectedSha: CANDIDATE_SHA,
+  });
+  assert.equal(defaultStrict.ok, false, 'default physical evidence still requires merged HEAD == origin/main');
+  assert.equal(defaultStrict.code, 'RTK_PHYS_SHA_MISMATCH');
+
+  const allowedCandidate = module.evaluatePhysGates({
+    ...baseGateInput({ gitHead: () => CANDIDATE_SHA, gitOriginMain: () => SHA }),
+    expectedSha: CANDIDATE_SHA,
+    expectedOriginMainSha: SHA,
+    allowLocalCandidateHead: true,
+  });
+  assert.equal(allowedCandidate.ok, true, `explicit local candidate binding should pass: ${JSON.stringify(allowedCandidate.reasons)}`);
+
+  const wrongBase = module.evaluatePhysGates({
+    ...baseGateInput({ gitHead: () => CANDIDATE_SHA, gitOriginMain: () => 'c'.repeat(40) }),
+    expectedSha: CANDIDATE_SHA,
+    expectedOriginMainSha: SHA,
+    allowLocalCandidateHead: true,
+  });
+  assert.equal(wrongBase.ok, false, 'local candidate evidence must also bind the exact origin/main base');
+  assert.equal(wrongBase.code, 'RTK_PHYS_SHA_MISMATCH');
 });

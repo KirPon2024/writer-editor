@@ -857,8 +857,9 @@ const LAB02_CODES = {
   SATURATION_INHERITANCE: 'RTK_LAB01_SATURATION_INHERITANCE',
 };
 
-// L2-01: the real migrated registry — 16.111.2 frozen historical, 16.111.3
-// DECLARED current with an empty ladder, pointer at 16.111.3.
+// L2-01: the real migrated registry — 16.111.2 frozen historical, and the
+// previously current 16.111.3 profile remains as historical build-bound
+// evidence after the later 16.112 provider migration.
 test('LAB02-01-real-registry-migrated-honestly', async () => {
   const module = await loadModule();
   const registryJson = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
@@ -869,34 +870,38 @@ test('LAB02-01-real-registry-migrated-honestly', async () => {
 
   const profiles = registryJson.profiles;
   const old = profiles.find((p) => p.profileId === 'word-mac-16.111.2-d1');
-  const current = profiles.find((p) => p.profileId === 'word-mac-16.111.3-26080215');
+  const migrated = profiles.find((p) => p.profileId === 'word-mac-16.111.3-26080215');
   assert.equal(old.class, 'HISTORICAL_BUILD_BOUND', '16.111.2 must freeze as HISTORICAL_BUILD_BOUND');
   assert.equal(old.supersededBy, 'word-mac-16.111.3-26080215', '16.111.2 must name its superseding build');
-  assert.ok(current, '16.111.3 profile must exist');
+  assert.ok(migrated, '16.111.3 profile must exist as historical evidence');
   // PHYS-02 amendment: the CARRIER_SURVIVAL_SMOKE rung was physically earned on
   // 2026-08-10 (12/12 sealed on merged SHA 197ba60f). The profile is now
   // COMPETING_NOT_SATURATED with exactly one head and exactly one rung; every
   // later rung remains unearned.
-  assert.equal(current.class, 'COMPETING_NOT_SATURATED', '16.111.3 is COMPETING while rungs are earned and saturation is not claimed');
-  assert.equal(current.wordVersion, '16.111.3');
-  assert.equal(current.wordBuild, '16.111.26080215');
+  assert.equal(migrated.class, 'HISTORICAL_BUILD_BOUND', '16.111.3 must freeze as historical after 16.112 migration');
+  assert.equal(migrated.supersededBy, 'word-mac-16.112-26081010', '16.111.3 must name its 16.112 successor');
+  assert.equal(migrated.wordVersion, '16.111.3');
+  assert.equal(migrated.wordBuild, '16.111.26080215');
   // PHYS-04 amendment (rung-count-agnostic law): the earned ladder is always an
   // exact ordered PREFIX of LADDER_RUNGS, every earned rung is justified by at
   // least one on-build head, and every head sha256 verifies against disk. This
   // law holds for every future rung without further amendments.
-  const rungs = current.ladder.completedRungs;
+  const rungs = migrated.ladder.completedRungs;
   const idx = module.LADDER_RUNGS.indexOf(rungs[rungs.length - 1]);
   assert.deepEqual(rungs, module.LADDER_RUNGS.slice(0, idx + 1), 'earned rungs must be an exact ordered prefix of the ladder');
   assert.ok(rungs.length >= 1, 'at least the smoke rung is earned');
-  const justified = new Set(current.evidenceHeads.flatMap((h) => h.rungs || []));
+  const justified = new Set(migrated.evidenceHeads.flatMap((h) => h.rungs || []));
   for (const rung of rungs) assert.ok(justified.has(rung), `rung ${rung} must have a justifying head`);
-  for (const head of current.evidenceHeads) {
+  for (const head of migrated.evidenceHeads) {
     const abs = path.join(REPO_ROOT, head.path);
     assert.equal(fs.existsSync(abs), true, `head must exist: ${head.path}`);
     assert.equal(sha256File(abs), head.sha256, `head sha must verify: ${head.path}`);
     assert.equal(head.wordBuild, '16.111.26080215', 'head must be on-build');
   }
-  assert.equal(registryJson.currentProfileId, 'word-mac-16.111.3-26080215', 'pointer must name the current build profile');
+  const current = profiles.find((p) => p.profileId === registryJson.currentProfileId);
+  assert.ok(current, 'current pointer must resolve');
+  assert.notEqual(registryJson.currentProfileId, 'word-mac-16.111.3-26080215', '16.111.3 is no longer the current pointer');
+  assert.notEqual(current.class, 'HISTORICAL_BUILD_BOUND', 'current pointer must not aim at a historical profile');
 });
 
 // L2-02: pointer validation — unresolvable, historical-targeted and missing
@@ -994,47 +999,105 @@ test('LAB02-05-declared-16-111-3-rejects-green', async () => {
   assert.equal(rejoin.ok, true, `re-joining the registered smoke head is a read: ${JSON.stringify(rejoin.reasons)}`);
 });
 
-// L2-06: no rung inheritance — 16.111.3 admits only the first rung (an attempt,
-// not a completion) and bypass attempts fail.
+// L2-06: no rung inheritance — the current profile admits only the first rung
+// while the superseded 16.111.3 profile admits no new rungs.
 test('LAB02-06-no-rung-inheritance-on-new-build', async () => {
   const module = await loadModule();
   const registryJson = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
-  // PHYS-02 amendment: CARRIER_SURVIVAL_SMOKE is earned; the next admission is
-  // SEMANTIC_DIFFERENTIAL_SUBSET, and re-admission of the earned rung stays an
-  // idempotent read.
-  // PHYS-06 amendment (rung-agnostic): the admitted rung is always the first
-  // unearned rung; the bypass probe is the rung after it.
-  const earned = registryJson.profiles.find((p) => p.profileId === 'word-mac-16.111.3-26080215').ladder.completedRungs;
-  const nextRung = module.LADDER_RUNGS[earned.length];
-  const skipRung = module.LADDER_RUNGS[earned.length + 1];
-  if (nextRung !== undefined) {
-    const first = module.evaluateLadderAdmission({
-      registry: registryJson,
-      profileId: 'word-mac-16.111.3-26080215',
-      rung: nextRung,
-    });
-    assert.equal(first.ok, true, 'the next rung admission (attempt) must be allowed');
-  }
-  // PHYS-08 amendment: when the ladder has fewer than two unearned rungs, the
-  // bypass probe needs a fabricated gap — clone the registry and truncate the
-  // earned prefix, then skipping ahead must still bypass-block.
-  const gapRegistry = cloneRegistry(registryJson);
-  gapRegistry.profiles.find((p) => p.profileId === 'word-mac-16.111.3-26080215').ladder.completedRungs = ['CARRIER_SURVIVAL_SMOKE'];
-  const bypass = module.evaluateLadderAdmission({
-    registry: gapRegistry,
-    profileId: 'word-mac-16.111.3-26080215',
-    rung: skipRung === undefined ? 'WAVE_40' : skipRung,
+  const currentProfileId = registryJson.currentProfileId;
+  const earned = registryJson.profiles.find((p) => p.profileId === currentProfileId).ladder.completedRungs;
+  assert.deepEqual(earned, ['CARRIER_SURVIVAL_SMOKE'], 'current profile has earned only the smoke rung');
+  const next = module.evaluateLadderAdmission({
+    registry: registryJson,
+    profileId: currentProfileId,
+    rung: 'SEMANTIC_DIFFERENTIAL_SUBSET',
   });
-  assert.equal(bypass.ok, false, 'skipping ahead of the earned prefix must be blocked');
+  assert.equal(next.ok, true, 'the next rung admission (attempt) must be allowed');
+  const bypass = module.evaluateLadderAdmission({
+    registry: registryJson,
+    profileId: currentProfileId,
+    rung: 'WAVE_40',
+  });
+  assert.equal(bypass.ok, false, 'skipping ahead of the empty earned prefix must be blocked');
   assert.equal(bypass.code, 'RTK_LAB01_LADDER_BYPASS');
   const historicalAdmission = module.evaluateLadderAdmission({
     registry: registryJson,
-    profileId: 'word-mac-16.111.2-d1',
+    profileId: 'word-mac-16.111.3-26080215',
     rung: 'WAVE_300',
   });
-  assert.equal(historicalAdmission.ok, false, 'frozen historical profile admits no rungs');
+  assert.equal(historicalAdmission.ok, false, 'superseded historical profile admits no rungs');
   assert.equal(historicalAdmission.code, 'RTK_LAB01_HISTORICAL_PROFILE_MUTATION');
 });
 
 // Keep cryptoPort referenced for fixture symmetry with sibling contracts.
 void cryptoPort;
+
+// ===========================================================================
+// LAB-03 — provider migration 16.111.3 -> 16.112 (owner-authorized contour).
+//
+// Word 16.111.3 evidence stays historical and non-transferable. The current
+// provider pointer moves only to a newly registered 16.112 profile whose
+// evidence heads, if any, must be on-build 16.112 heads. No 16.111.3 receipt can
+// satisfy a 16.112 rung or current-build compatibility claim.
+// ===========================================================================
+
+test('LAB03-01-real-registry-migrated-to-16-112-without-evidence-inheritance', async () => {
+  const module = await loadModule();
+  const registryJson = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
+  const loaded = module.loadBuildProfileRegistry(registryJson);
+  assert.equal(loaded.ok, true, `16.112 registry must load: ${JSON.stringify(loaded.reasons)}`);
+  const reconciliation = module.evaluateRegistryReconciliation(registryJson);
+  assert.equal(reconciliation.ok, true, `16.112 registry must reconcile: ${JSON.stringify(reconciliation.reasons)}`);
+
+  const prior = registryJson.profiles.find((p) => p.profileId === 'word-mac-16.111.3-26080215');
+  const current = registryJson.profiles.find((p) => p.profileId === 'word-mac-16.112-26081010');
+
+  assert.ok(prior, '16.111.3 historical profile must remain present');
+  assert.ok(current, '16.112 current profile must exist');
+  assert.equal(registryJson.currentProfileId, 'word-mac-16.112-26081010');
+  assert.equal(prior.class, 'HISTORICAL_BUILD_BOUND', '16.111.3 must be frozen as historical after migration');
+  assert.equal(prior.supersededBy, 'word-mac-16.112-26081010', '16.111.3 must name its 16.112 successor');
+  assert.equal(current.supersedes, 'word-mac-16.111.3-26080215');
+  assert.equal(current.wordVersion, '16.112');
+  assert.equal(current.wordBuild, '16.112.26081010');
+  assert.ok(['DECLARED', 'COMPETING_NOT_SATURATED'].includes(current.class),
+    `16.112 current profile must start non-saturated, got ${current.class}`);
+
+  const currentHeads = current.evidenceHeads || [];
+  for (const head of currentHeads) {
+    assert.equal(head.wordVersion, '16.112', `16.112 head must not inherit another version: ${head.path}`);
+    assert.equal(head.wordBuild, '16.112.26081010', `16.112 head must be on-build: ${head.path}`);
+    assert.equal(String(head.path).includes('16_111_3'), false, `16.112 head path must not reuse 16.111.3 receipt path: ${head.path}`);
+  }
+
+  if (current.class === 'DECLARED') {
+    assert.deepEqual(currentHeads, [], 'DECLARED 16.112 starts with no evidence heads');
+    assert.deepEqual(current.ladder?.completedRungs || [], [], 'DECLARED 16.112 starts with no completed rungs');
+    assert.equal(Object.prototype.hasOwnProperty.call(current, 'saturationStatus'), false, 'DECLARED 16.112 carries no saturation');
+  }
+});
+
+test('LAB03-02-16-112-rejects-16-111-3-and-16-109-evidence', async () => {
+  const module = await loadModule();
+  const registryJson = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
+  for (const evidence of [
+    {
+      wordVersion: '16.111.3',
+      wordBuild: '16.111.26080215',
+      evidenceHeadPath: 'docs/OPS/RTK/WORD_MAC_16_111_3_PHYSICAL_WAVE300_REPEAT_RECEIPT.json',
+    },
+    {
+      wordVersion: '16.109.1',
+      wordBuild: '16.109.26051717',
+      evidenceHeadPath: 'docs/OPS/RTK/FABRICATED_WORD_16_109_1_RECEIPT.json',
+    },
+  ]) {
+    const result = module.evaluateEvidenceProfileJoin({
+      registry: registryJson,
+      profileId: 'word-mac-16.112-26081010',
+      evidence,
+    });
+    assert.equal(result.ok, false, `${evidence.wordVersion} evidence must not join to 16.112`);
+    assert.equal(result.code, 'RTK_LAB01_CROSS_BUILD_EVIDENCE');
+  }
+});

@@ -823,7 +823,8 @@ test('PHYS01-P32-audit-diversity-gate', async () => {
 // ===========================================================================
 // DIVERSITY-01 — owner spec: normalized diversity oracle (case ID, path and
 // sentinel stripped before comparison; duplicate normalized cases never grow
-// the coverage denominator), fourteen operation families with minimum quotas,
+// the coverage denominator), executable Word-edit operation families with
+// minimum quotas (stale/replay/tamper/crash stay in the negative-probe rung),
 // and the manifest-bound repeat (one-to-one manifest replay with original
 // case digest verification).
 // ===========================================================================
@@ -847,8 +848,8 @@ test('PHYS01-D01-diverse-wave-passes-oracle', async () => {
   assert.equal(specs.length, 300, 'exactly 300 cases');
   assert.deepEqual([...module.OPERATION_FAMILIES], [
     'replacement', 'deletion', 'insertion', 'duplicate-anchors', 'comments', 'formatting',
-    'structural-boundaries', 'unicode', 'rtl', 'cjk', 'stale', 'replay', 'tamper', 'crash',
-  ], 'the fourteen operation families are pinned literally');
+    'structural-boundaries', 'unicode', 'rtl', 'cjk',
+  ], 'the executable Word-edit operation families are pinned literally');
   const verdict = module.evaluateDiversityOracle(specs);
   assert.equal(verdict.ok, true, `generated wave must pass the oracle: ${JSON.stringify(verdict)}`);
   assert.equal(verdict.coverageDenominator, 300, 'full coverage denominator');
@@ -1247,7 +1248,7 @@ test('PHYS01-E01-oracle-gated-scope-stamp', async () => {
   const generated = module.buildDiverseWaveCaseSpecs('WAVE_300');
   const usedKeys = new Set(generated.map((s) => `${s.family}|${s.operationShape}|${s.contentClass}`));
   const spares = [];
-  for (const family of ['formatting', 'insertion', 'deletion', 'replacement']) {
+  for (const family of module.OPERATION_FAMILIES.filter((item) => item !== 'comments')) {
     for (const shape of module.FAMILY_SHAPES[family]) {
       for (const cls of ['plain-text', 'unicode', 'rtl', 'cjk', 'mixed', 'nbsp']) {
         if (!usedKeys.has(`${family}|${shape}|${cls}`)) spares.push({ family, operationShape: shape, contentClass: cls });
@@ -1323,9 +1324,9 @@ test('PHYS01-E04-family-script-idioms', async () => {
     assert.ok(!script.includes('count of content of text object of yDoc'), `${family} must never count the live text object`);
   }
   for (const family of ['stale', 'replay', 'tamper', 'crash']) {
-    const spec = module.buildDiverseWaveCaseSpecs('WAVE_300').find((s) => s.family === family);
-    const plan = module.buildProbeCasePlanForTest(spec);
+    const plan = module.buildProbeCasePlanForTest({ family, operationShape: `${family}-shape` });
     assert.equal(plan.requiresWordEdit, false, `${family} is a runner-level probe, not a Word edit`);
+    assert.ok(!module.OPERATION_FAMILIES.includes(family), `${family} is excluded from the Word physical-diversity denominator`);
   }
 });
 
@@ -1391,6 +1392,161 @@ test('PHYS01-E07-anchors-present-in-lab-fixture-bytes', async () => {
     const script = module.buildFamilyWordScriptForTest('case.docx', '/tmp/case.docx', spec);
     assert.ok(script.length > 100, `${family} script builds against the runner fixture copy`);
   }
+});
+
+// ===========================================================================
+// PHYS-11 — owner review finding F2_WORD_PHYSICAL_DIVERSITY_V1:
+// metadata rows are not executable diversity. The harness must bind each
+// advertised normalized case to fixture bytes, a physical script or typed
+// adverse execution plan, and an independent oracle digest. A repeated
+// executable digest under different normalized rows is a false-diversity
+// blocker, even when IDs/titles/sentinels differ.
+// ===========================================================================
+
+function execDiversitySpec(id, family, operationShape, contentClass, ordinal = 1) {
+  return {
+    id,
+    ordinal,
+    family,
+    operationShape,
+    contentClass,
+    title: `executable diversity ${id}`,
+  };
+}
+
+test('PHYS01-F01-shape-and-content-class-change-executable-digests', async () => {
+  const module = await loadModule();
+  assert.equal(typeof module.buildExecutableDiversityCaseSpecForTest, 'function',
+    'closed executable case builder must be exported for the contract');
+
+  const base = execDiversitySpec('same-case', 'replacement', 'single-word', 'plain-text');
+  const shapeChanged = { ...base, operationShape: 'multi-word' };
+  const classChanged = { ...base, contentClass: 'unicode' };
+
+  const baseExec = module.buildExecutableDiversityCaseSpecForTest(base);
+  const shapeExec = module.buildExecutableDiversityCaseSpecForTest(shapeChanged);
+  const classExec = module.buildExecutableDiversityCaseSpecForTest(classChanged);
+
+  for (const record of [baseExec, shapeExec, classExec]) {
+    assert.equal(record.schema, 'yalken.rtk.word.physical-diversity.executable-case.v1');
+    assert.match(record.fixtureDigest, /^sha256:[0-9a-f]{64}$/u, 'fixtureDigest is bound');
+    assert.match(record.executionPlanDigest, /^sha256:[0-9a-f]{64}$/u, 'executionPlanDigest is bound');
+    assert.match(record.scriptDigest, /^sha256:[0-9a-f]{64}$/u, 'scriptDigest is bound');
+    assert.match(record.oracleDigest, /^sha256:[0-9a-f]{64}$/u, 'oracleDigest is bound');
+    assert.match(record.executionDigest, /^sha256:[0-9a-f]{64}$/u, 'executionDigest is bound');
+  }
+
+  assert.notEqual(shapeExec.fixtureDigest, baseExec.fixtureDigest, 'operationShape must change fixture bytes, not just metadata');
+  assert.notEqual(shapeExec.executionPlanDigest, baseExec.executionPlanDigest, 'operationShape must change the physical plan');
+  assert.notEqual(shapeExec.scriptDigest, baseExec.scriptDigest, 'operationShape must change the AppleScript');
+  assert.notEqual(shapeExec.oracleDigest, baseExec.oracleDigest, 'operationShape must change the oracle');
+
+  assert.notEqual(classExec.fixtureDigest, baseExec.fixtureDigest, 'contentClass must change fixture bytes');
+  assert.notEqual(classExec.executionPlanDigest, baseExec.executionPlanDigest, 'contentClass must change the physical plan');
+  assert.notEqual(classExec.scriptDigest, baseExec.scriptDigest, 'contentClass must change the AppleScript');
+  assert.notEqual(classExec.oracleDigest, baseExec.oracleDigest, 'contentClass must change the oracle');
+});
+
+test('PHYS01-F02-executable-manifest-rejects-metadata-swap-and-digest-reuse', async () => {
+  const module = await loadModule();
+  assert.equal(typeof module.buildExecutableDiversityManifestForTest, 'function',
+    'closed executable manifest builder must be exported');
+  assert.equal(typeof module.evaluateExecutableDiversityManifestForTest, 'function',
+    'closed executable manifest validator must be exported');
+
+  const specs = [
+    execDiversitySpec('replacement-a', 'replacement', 'single-word', 'plain-text', 1),
+    execDiversitySpec('replacement-b', 'replacement', 'multi-word', 'unicode', 2),
+    execDiversitySpec('deletion-a', 'deletion', 'sentence', 'rtl', 3),
+    execDiversitySpec('comment-a', 'comments', 'unicode-anchor', 'mixed', 4),
+    execDiversitySpec('format-a', 'formatting', 'underline-word', 'nbsp', 5),
+  ];
+  const executable = specs.map((spec) => module.buildExecutableDiversityCaseSpecForTest(spec));
+  const manifest = module.buildExecutableDiversityManifestForTest(executable);
+  const ok = module.evaluateExecutableDiversityManifestForTest(manifest);
+  assert.equal(ok.ok, true, `honest executable manifest must pass: ${JSON.stringify(ok.reasons)}`);
+  assert.equal(ok.coverageDenominator, executable.length);
+
+  for (const entry of manifest.cases) {
+    assert.match(entry.fixtureDigest, /^sha256:[0-9a-f]{64}$/u, 'fixtureDigest persisted in manifest');
+    assert.match(entry.executionPlanDigest, /^sha256:[0-9a-f]{64}$/u, 'executionPlanDigest persisted in manifest');
+    assert.match(entry.scriptDigest, /^sha256:[0-9a-f]{64}$/u, 'scriptDigest persisted in manifest');
+    assert.match(entry.oracleDigest, /^sha256:[0-9a-f]{64}$/u, 'oracleDigest persisted in manifest');
+    assert.match(entry.executionDigest, /^sha256:[0-9a-f]{64}$/u, 'executionDigest persisted in manifest');
+  }
+
+  const swapped = JSON.parse(JSON.stringify(manifest));
+  swapped.cases[1].operationShape = swapped.cases[0].operationShape;
+  const swapResult = module.evaluateExecutableDiversityManifestForTest(swapped);
+  assert.equal(swapResult.ok, false, 'metadata swap must be rejected against the caseDigest');
+  assert.equal(swapResult.code, 'RTK_PHYS_DIVERSITY_EXECUTABLE_MANIFEST_MISMATCH');
+
+  const reuse = JSON.parse(JSON.stringify(manifest));
+  reuse.cases[1].fixtureDigest = reuse.cases[0].fixtureDigest;
+  reuse.cases[1].executionPlanDigest = reuse.cases[0].executionPlanDigest;
+  reuse.cases[1].scriptDigest = reuse.cases[0].scriptDigest;
+  reuse.cases[1].oracleDigest = reuse.cases[0].oracleDigest;
+  reuse.cases[1].executionDigest = reuse.cases[0].executionDigest;
+  reuse.cases[1].caseDigest = module.digestExecutableManifestCaseForTest(reuse.cases[1]);
+  reuse.manifestDigest = module.digestExecutableManifestCasesForTest(reuse.cases);
+  const reuseResult = module.evaluateExecutableDiversityManifestForTest(reuse);
+  assert.equal(reuseResult.ok, false, 'same executable digest under different normalized rows must reject');
+  assert.equal(reuseResult.code, 'RTK_PHYS_DIVERSITY_EXECUTION_DIGEST_REUSE');
+});
+
+test('PHYS01-F03-word-physical-diversity-vocabulary-excludes-adverse-probe-families', async () => {
+  const module = await loadModule();
+  assert.deepEqual([...module.WORD_PHYSICAL_DIVERSITY_FAMILIES], [
+    'replacement',
+    'deletion',
+    'insertion',
+    'duplicate-anchors',
+    'comments',
+    'formatting',
+    'structural-boundaries',
+    'unicode',
+    'rtl',
+    'cjk',
+  ], 'Word physical diversity denominator contains only executable Word-edit families');
+  for (const family of ['stale', 'replay', 'tamper', 'crash']) {
+    assert.ok(!module.WORD_PHYSICAL_DIVERSITY_FAMILIES.includes(family),
+      `${family} is covered by NEGATIVE_REPLAY_CRASH_SUBSET, not by the Word physical-diversity denominator`);
+  }
+});
+
+test('PHYS01-F04-wave-receipt-embeds-closed-executable-manifest', async () => {
+  const module = await loadModule();
+  const plan = module.buildRungPlan('WAVE_10');
+  const specs = module.buildWaveCaseSpecs('WAVE_10');
+  const cases = specs.map((s, i) => ({
+    ...passWaveCase('WAVE_10', i),
+    ordinal: i + 1,
+    family: s.family,
+    operationShape: s.operationShape,
+    contentClass: s.contentClass,
+  }));
+  const receipt = module.buildRungReceipt(plan, {
+    rung: 'WAVE_10',
+    headSha: 'a'.repeat(40),
+    originMainSha: 'a'.repeat(40),
+    wordProfile: {},
+    cases,
+    artifactRoot: '/x',
+    caseSpecs: specs,
+  });
+
+  assert.equal(receipt.claimScope, 'DIVERSE_FAMILY_WAVE_PROVEN');
+  assert.ok(receipt.executableCaseManifest, 'diverse wave receipt must embed the executable manifest');
+  assert.match(receipt.executableManifestDigest, /^[0-9a-f]{64}$/u, 'executable manifest digest is recorded');
+  assert.equal(module.evaluateExecutableDiversityManifestForTest(receipt.executableCaseManifest).ok, true,
+    'the embedded executable manifest validates independently');
+  assert.equal(module.validateRungReceipt(plan, receipt).ok, true, 'receipt with executable manifest validates');
+
+  const stripped = JSON.parse(JSON.stringify(receipt));
+  delete stripped.executableCaseManifest;
+  const invalid = module.validateRungReceipt(plan, stripped);
+  assert.equal(invalid.ok, false, 'diverse wave receipt without executable manifest is invalid');
+  assert.equal(invalid.code, 'RTK_PHYS_RECEIPT_INVALID');
 });
 
 // ===========================================================================

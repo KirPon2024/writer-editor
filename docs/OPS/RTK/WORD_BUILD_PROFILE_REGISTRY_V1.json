@@ -482,6 +482,26 @@
           "signatureValid": true
         }
       ],
+      "harnessEvidenceHeads": [
+        {
+          "path": "docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_DIVERSITY_HARNESS_RECEIPT.json",
+          "sha256": "sha256:2512e0451bc9727163bc5b6a864f76603ca86a526f85f25beb2c96e4db53b343",
+          "wordVersion": "16.112",
+          "wordBuild": "16.112.26081010",
+          "observedAtUtc": "2026-08-13T12:17:42Z",
+          "rungs": [],
+          "claimScope": "PHYSICAL_DIVERSITY_HARNESS_SELECTED_MATRIX_ONLY",
+          "status": "PHYSICAL_SELECTED_MATRIX_PASS_NOT_SATURATION",
+          "headSha": "a66a6361bb1bcc769b707cff3012d1e442b20f5b",
+          "originMainSha": "85dd087769774f8fd5e322aa94def59e9f6ba1ee",
+          "bundleIdentifier": "com.microsoft.Word",
+          "teamIdentifier": "UBF8T346G9",
+          "signatureValid": true,
+          "casesTotal": 14,
+          "casesPassed": 14,
+          "denominator": "selected-executable-word-edit-matrix-only-not-wave-not-saturation"
+        }
+      ],
       "freshnessPolicy": {
         "maxEvidenceAgeDays": 90
       },
@@ -492,8 +512,8 @@
           "NEGATIVE_REPLAY_CRASH_SUBSET"
         ]
       },
-      "profileDigest": "sha256:235280e783c20c56fec80b436dfab3870525ad03633e5279a7e9c0e6aa18edbd",
-      "competingNote": "Physical evidence on Word 16.112 build 16.112.26081010: CARRIER_SURVIVAL_SMOKE 12/12 synthetic cases sealed at local prephysical candidate head 0379cea3 with origin/main base 574f2777, SEMANTIC_DIFFERENTIAL_SUBSET 24/24 synthetic cases sealed at local prephysical candidate head f087f5e7 with origin/main base ccb36021, and NEGATIVE_REPLAY_CRASH_SUBSET 8/8 synthetic negative probes sealed at local prephysical candidate head 7de2bc7f with origin/main base 54eafa76. This proves only the first three build-bound ladder rungs for the exact signed Microsoft provider; no historical 16.111.3 evidence is inherited, no saturation is claimed, and terminal PASS remains blocked."
+      "profileDigest": "sha256:5e980387a003bd277365bd8f913984f9bcdcc2ab69c9b93d1c59940c32a2b725",
+      "competingNote": "Physical evidence on Word 16.112 build 16.112.26081010: CARRIER_SURVIVAL_SMOKE 12/12 synthetic cases sealed at local prephysical candidate head 0379cea3 with origin/main base 574f2777, SEMANTIC_DIFFERENTIAL_SUBSET 24/24 synthetic cases sealed at local prephysical candidate head f087f5e7 with origin/main base ccb36021, NEGATIVE_REPLAY_CRASH_SUBSET 8/8 synthetic negative probes sealed at local prephysical candidate head 7de2bc7f with origin/main base 54eafa76, and PHYSICAL_DIVERSITY_HARNESS_SELECTED_MATRIX_ONLY 14/14 harness-honesty cases sealed at local candidate head a66a6361 with origin/main base 85dd0877. This proves only the first three build-bound ladder rungs plus a non-ladder harness honesty repair for executable diversity binding; no WAVE_10/WAVE_300/saturation/terminal PASS is claimed, stale/replay/tamper/crash stay out of the Word physical-diversity denominator, and no historical 16.111.3 evidence is inherited."
     }
   ],
   "currentProfileId": "word-mac-16.112-26081010"

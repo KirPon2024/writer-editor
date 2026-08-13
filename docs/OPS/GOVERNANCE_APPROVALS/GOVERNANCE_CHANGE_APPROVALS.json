@@ -2670,12 +2670,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "7637514b745b51575f66cbb294b1e931bc66220c0e4c1d3a311dfe576ef696ac",
-      "approvedBy": "owner-direct:TASK_ID:PHYS01_LADDER_RUNNER_16_111_3",
-      "approvedAtUtc": "2026-08-09T22:52:34.352Z",
-      "rationale": "Approve additive catalog bytes adding the PHYS-01 ladder runner contract test file; supersedes the RELEASE-01-era catalog byte approval retained in git history.",
+      "sha256": "b9ff39d07792ffce079c2bf0c408a89ec0d7a17f7db49beb2972c8aee95a522f",
+      "approvedBy": "owner:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
+      "approvedAtUtc": "2026-08-14T00:00:00.000Z",
+      "rationale": "Approve additive RTK graph catalog binding for the T0 Round Authority source-fence contract; no product runtime, UI, provider, dependency, or external behavior is changed.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS01_LADDER_RUNNER"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_T0_ROUND_AUTHORITY_SOURCE_FENCE"
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",

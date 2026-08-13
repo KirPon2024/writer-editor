@@ -1027,8 +1027,8 @@ test('LAB02-06-no-rung-inheritance-on-new-build', async () => {
   const registryJson = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
   const currentProfileId = registryJson.currentProfileId;
   const earned = registryJson.profiles.find((p) => p.profileId === currentProfileId).ladder.completedRungs;
-  assert.deepEqual(earned, CURRENT_16_112_COMPLETED_RUNGS_AFTER_WAVE300,
-    'current profile has earned exactly smoke, semantic differential, negative replay/crash, WAVE_10, WAVE_40, WAVE_100 and WAVE_300');
+  assert.deepEqual(earned, CURRENT_16_112_COMPLETED_RUNGS_AFTER_WAVE300_REPEAT,
+    'current profile has earned exactly smoke, semantic differential, negative replay/crash, WAVE_10, WAVE_40, WAVE_100, WAVE_300 and WAVE_300_REPEAT');
   const next = module.evaluateLadderAdmission({
     registry: registryJson,
     profileId: currentProfileId,
@@ -1123,9 +1123,9 @@ test('LAB03-03-real-registry-binds-16-112-semantic-and-negative-rungs', async ()
   const current = registryJson.profiles.find((p) => p.profileId === 'word-mac-16.112-26081010');
   assert.ok(current, '16.112 current profile must exist');
   assert.equal(current.class, 'COMPETING_NOT_SATURATED');
-  assert.deepEqual(current.ladder.completedRungs, CURRENT_16_112_COMPLETED_RUNGS_AFTER_WAVE300);
-  assert.equal((current.evidenceHeads || []).length, CURRENT_16_112_EVIDENCE_HEAD_COUNT_AFTER_WAVE300,
-    '16.112 must carry smoke, semantic differential, negative replay/crash, WAVE_10, WAVE_40, WAVE_100 and WAVE_300 heads');
+  assert.deepEqual(current.ladder.completedRungs, CURRENT_16_112_COMPLETED_RUNGS_AFTER_WAVE300_REPEAT);
+  assert.equal((current.evidenceHeads || []).length, CURRENT_16_112_EVIDENCE_HEAD_COUNT_AFTER_WAVE300_REPEAT,
+    '16.112 must carry smoke, semantic differential, negative replay/crash, WAVE_10, WAVE_40, WAVE_100, WAVE_300 and WAVE_300_REPEAT heads');
 
   const semanticHead = current.evidenceHeads.find((h) =>
     h.path === 'docs/OPS/RTK/WORD_MAC_16_112_SEMANTIC_DIFFERENTIAL_RECEIPT.json');
@@ -1182,10 +1182,10 @@ test('LAB03-05-real-registry-binds-16-112-physical-diversity-harness-as-non-ladd
   const current = registryJson.profiles.find((p) => p.profileId === 'word-mac-16.112-26081010');
   assert.ok(current, '16.112 current profile must exist');
   assert.equal(current.class, 'COMPETING_NOT_SATURATED');
-  assert.deepEqual(current.ladder.completedRungs, CURRENT_16_112_COMPLETED_RUNGS_AFTER_WAVE300,
-    'harness honesty receipt must remain non-ladder while WAVE_300 is earned only by its dedicated wave receipt');
-  assert.equal((current.evidenceHeads || []).length, CURRENT_16_112_EVIDENCE_HEAD_COUNT_AFTER_WAVE300,
-    'ladder evidence heads remain exactly smoke, semantic differential, negative replay/crash, WAVE_10, WAVE_40, WAVE_100 and WAVE_300');
+  assert.deepEqual(current.ladder.completedRungs, CURRENT_16_112_COMPLETED_RUNGS_AFTER_WAVE300_REPEAT,
+    'harness honesty receipt must remain non-ladder while WAVE_300_REPEAT is earned only by its dedicated repeat receipt');
+  assert.equal((current.evidenceHeads || []).length, CURRENT_16_112_EVIDENCE_HEAD_COUNT_AFTER_WAVE300_REPEAT,
+    'ladder evidence heads remain exactly smoke, semantic differential, negative replay/crash, WAVE_10, WAVE_40, WAVE_100, WAVE_300 and WAVE_300_REPEAT');
 
   const harnessHeads = current.harnessEvidenceHeads || [];
   assert.equal(harnessHeads.length, 1, '16.112 must bind exactly one non-ladder physical-diversity harness receipt');
@@ -1227,9 +1227,9 @@ test('LAB03-06-real-registry-binds-16-112-wave10-without-saturation-or-terminal-
   const current = registryJson.profiles.find((p) => p.profileId === 'word-mac-16.112-26081010');
   assert.ok(current, '16.112 current profile must exist');
   assert.equal(current.class, 'COMPETING_NOT_SATURATED');
-  assert.deepEqual(current.ladder.completedRungs, CURRENT_16_112_COMPLETED_RUNGS_AFTER_WAVE300);
-  assert.equal((current.evidenceHeads || []).length, CURRENT_16_112_EVIDENCE_HEAD_COUNT_AFTER_WAVE300,
-    'WAVE_10, WAVE_40, WAVE_100 and WAVE_300 must be ladder evidence heads, while harness evidence remains non-ladder');
+  assert.deepEqual(current.ladder.completedRungs, CURRENT_16_112_COMPLETED_RUNGS_AFTER_WAVE300_REPEAT);
+  assert.equal((current.evidenceHeads || []).length, CURRENT_16_112_EVIDENCE_HEAD_COUNT_AFTER_WAVE300_REPEAT,
+    'WAVE_10, WAVE_40, WAVE_100, WAVE_300 and WAVE_300_REPEAT must be ladder evidence heads, while harness evidence remains non-ladder');
 
   const wave10Head = current.evidenceHeads.find((h) =>
     h.path === 'docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE10_RECEIPT.json');
@@ -1267,9 +1267,9 @@ test('LAB03-07-real-registry-binds-16-112-wave40-without-saturation-or-terminal-
   const current = registryJson.profiles.find((p) => p.profileId === 'word-mac-16.112-26081010');
   assert.ok(current, '16.112 current profile must exist');
   assert.equal(current.class, 'COMPETING_NOT_SATURATED');
-  assert.deepEqual(current.ladder.completedRungs, CURRENT_16_112_COMPLETED_RUNGS_AFTER_WAVE300);
-  assert.equal((current.evidenceHeads || []).length, CURRENT_16_112_EVIDENCE_HEAD_COUNT_AFTER_WAVE300,
-    'WAVE_300 must become the seventh ladder evidence head, while harness evidence remains non-ladder');
+  assert.deepEqual(current.ladder.completedRungs, CURRENT_16_112_COMPLETED_RUNGS_AFTER_WAVE300_REPEAT);
+  assert.equal((current.evidenceHeads || []).length, CURRENT_16_112_EVIDENCE_HEAD_COUNT_AFTER_WAVE300_REPEAT,
+    'WAVE_300 remains the seventh ladder evidence head and WAVE_300_REPEAT is now the eighth, while harness evidence remains non-ladder');
 
   const wave40Head = current.evidenceHeads.find((h) =>
     h.path === 'docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE40_RECEIPT.json');
@@ -1307,9 +1307,9 @@ test('LAB03-08-real-registry-binds-16-112-wave100-without-saturation-or-terminal
   const current = registryJson.profiles.find((p) => p.profileId === 'word-mac-16.112-26081010');
   assert.ok(current, '16.112 current profile must exist');
   assert.equal(current.class, 'COMPETING_NOT_SATURATED');
-  assert.deepEqual(current.ladder.completedRungs, CURRENT_16_112_COMPLETED_RUNGS_AFTER_WAVE300);
-  assert.equal((current.evidenceHeads || []).length, CURRENT_16_112_EVIDENCE_HEAD_COUNT_AFTER_WAVE300,
-    'WAVE_300 must become the seventh ladder evidence head, while harness evidence remains non-ladder');
+  assert.deepEqual(current.ladder.completedRungs, CURRENT_16_112_COMPLETED_RUNGS_AFTER_WAVE300_REPEAT);
+  assert.equal((current.evidenceHeads || []).length, CURRENT_16_112_EVIDENCE_HEAD_COUNT_AFTER_WAVE300_REPEAT,
+    'WAVE_300 remains the seventh ladder evidence head and WAVE_300_REPEAT is now the eighth, while harness evidence remains non-ladder');
 
   const wave100Head = current.evidenceHeads.find((h) =>
     h.path === 'docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE100_RECEIPT.json');
@@ -1347,17 +1347,9 @@ test('LAB03-09-real-registry-binds-16-112-wave300-without-saturation-or-terminal
   const current = registryJson.profiles.find((p) => p.profileId === 'word-mac-16.112-26081010');
   assert.ok(current, '16.112 current profile must exist');
   assert.equal(current.class, 'COMPETING_NOT_SATURATED');
-  assert.deepEqual(current.ladder.completedRungs, [
-    'CARRIER_SURVIVAL_SMOKE',
-    'SEMANTIC_DIFFERENTIAL_SUBSET',
-    'NEGATIVE_REPLAY_CRASH_SUBSET',
-    'WAVE_10',
-    'WAVE_40',
-    'WAVE_100',
-    'WAVE_300',
-  ]);
-  assert.equal((current.evidenceHeads || []).length, 7,
-    'WAVE_300 must become the seventh ladder evidence head, while WAVE_300_REPEAT/saturation/terminal remain absent');
+  assert.deepEqual(current.ladder.completedRungs, CURRENT_16_112_COMPLETED_RUNGS_AFTER_WAVE300_REPEAT);
+  assert.equal((current.evidenceHeads || []).length, CURRENT_16_112_EVIDENCE_HEAD_COUNT_AFTER_WAVE300_REPEAT,
+    'WAVE_300 remains the seventh ladder evidence head and WAVE_300_REPEAT is now the eighth; saturation/terminal remain absent');
 
   const wave300Head = current.evidenceHeads.find((h) =>
     h.path === 'docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE300_RECEIPT.json');

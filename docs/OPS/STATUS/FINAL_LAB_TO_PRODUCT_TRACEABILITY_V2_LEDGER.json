@@ -1,0 +1,621 @@
+{
+  "schemaVersion": "yalken.finalLabToProductTraceability.ledger.v2",
+  "documentClass": "FACTUAL_STATUS",
+  "status": "LIVING_LEDGER_CURRENT_NOT_FINAL_PROGRAM_VERDICT",
+  "claimBoundary": "Maps material lab findings and post-20260811 program deltas to typed product dispositions. This ledger is not product/runtime authority, does not modify frozen source packages, and does not claim all lab work is integrated.",
+  "generatedAtUtc": "2026-08-13T21:44:52Z",
+  "exactHead": "1cd98056dc091a74b9b7f0fe30356a456b6acfc4",
+  "programPhaseSequence": [
+    "S0",
+    "F1",
+    "F2",
+    "F0R_T0",
+    "F3"
+  ],
+  "claimControls": {
+    "allLabWorkIntegratedClaimAllowed": false,
+    "finalProgramVerdict": "NOT_CLAIMED",
+    "reason": "F0R/T0 and F3 product lines remain deferred; several lab receipts are provenance-only and cannot substitute for product/runtime evidence."
+  },
+  "sourcePackagePolicy": {
+    "sealedPackagesImmutable": true,
+    "labEvidenceCreatesProductAuthority": false,
+    "frozenHistoricalPackages": [
+      "Yalken — объединённый научный пакет трёх фич — 2026-08-11",
+      "Multilingual V4 external receipt package",
+      "Round Authority external receipt package",
+      "Black Box final lab external receipt package"
+    ]
+  },
+  "currentF2Provider": {
+    "provider": "Microsoft Word for Mac",
+    "version": "16.112",
+    "build": "16.112.26081010",
+    "bundleIdentifier": "com.microsoft.Word",
+    "teamIdentifier": "UBF8T346G9",
+    "signatureRequirement": "valid Microsoft Developer ID and notarized source",
+    "mainExecutableSha256": "fe9a5330976088b2228c20119dc05b3c9a4a83ffdd69bcf28545b2fdab7bbe9f",
+    "evidenceTransferFromEarlierBuilds": "DENY"
+  },
+  "nonTransferableHistoricalProfiles": [
+    {
+      "provider": "Microsoft Word for Mac",
+      "version": "16.111.3",
+      "build": "16.111.26080215",
+      "evidenceTransfer": "DENY",
+      "reason": "Historical provider requirement and receipts are preserved but cannot certify Word 16.112 physical behavior."
+    },
+    {
+      "provider": "Microsoft Word for Mac",
+      "version": "16.109.1",
+      "build": "16.109.26051717",
+      "evidenceTransfer": "DENY",
+      "reason": "Installed migration observation was explicitly not promoted and was superseded by exact Word 16.112 contour."
+    }
+  ],
+  "externalReceiptPins": [
+    {
+      "id": "MULTILINGUAL_V4_INPUT_EXTERNAL_RECEIPT",
+      "digest": "sha256:bebdc6ba2ec3b9bb991593d6081c1b16a441a26076710edf1814d0d950dad132",
+      "role": "F1 lab input provenance pin",
+      "productAuthority": "PROVENANCE_ONLY_NOT_RELEASE_AUTHORITY"
+    },
+    {
+      "id": "ROUND_AUTHORITY_INPUT_EXTERNAL_RECEIPT",
+      "digest": "sha256:f54ba18e8ad7d3a6109b4b7b24aa4780391d81a915d6192e1f18785325a27de6",
+      "role": "F2/F0R/T0 round-authority lab input provenance pin",
+      "productAuthority": "PROVENANCE_ONLY_NOT_RELEASE_AUTHORITY"
+    },
+    {
+      "id": "BLACK_BOX_FINAL_LAB_EXTERNAL_RECEIPT",
+      "digest": "sha256:c6179e59d57ea7ddea0802769619390a274c1bb22c39ae45a1540f8f7f3be863",
+      "role": "F3 Black Box final lab provenance pin including P0A/P0B/P0C/resource/external-audit lessons",
+      "productAuthority": "PROVENANCE_ONLY_NOT_RELEASE_AUTHORITY"
+    }
+  ],
+  "materialDispositions": [
+    {
+      "materialId": "S0_REVISION_SOURCE_FENCE_V1",
+      "programPhase": "S0",
+      "summary": "Minimal shared safety seam for source fence/CAS, identity, revision observation, dirty-state policy and replay/transplant rejection.",
+      "sourcePins": [],
+      "disposition": "ADOPTED_PRODUCT",
+      "productBindings": [
+        {
+          "commitSha": "eeebc25360da37d2138511d09e3e0b6716bbf094",
+          "prNumber": 1500,
+          "files": [
+            "src/product/sourceFenceV1.mjs",
+            "scripts/ops/source-fence-v1-model.mjs",
+            "test/contracts/source-fence-v1.contract.test.js"
+          ],
+          "tests": [
+            "node --test test/contracts/source-fence-v1.contract.test.js",
+            "node scripts/ops/source-fence-v1-model.mjs"
+          ],
+          "receipt": {
+            "path": "docs/OPS/STATUS/YALKEN_S0_REVISION_SOURCE_FENCE_V1_RECEIPT.json",
+            "sha256": "b6fc51443812d2c712fdead0c659948f6ca078abc67bdfa0d1b34a0fdfbd1632"
+          }
+        }
+      ]
+    },
+    {
+      "materialId": "S0_REJECTED_SIX_PORT_FOUNDATION",
+      "programPhase": "S0",
+      "summary": "Rejected speculative six-port/foundation platform and generic publisher/key abstractions until a real second consumer proves need.",
+      "sourcePins": [],
+      "disposition": "REJECTED_UNSAFE",
+      "rationale": "Would create a second governance plane and big-bang architecture before product consumers require it.",
+      "preservedNegativeEvidence": "Owner master program and S0 receipts require only minimal shared safety seams; no UniversalCommandSpec, generic publisher, generic key abstraction, or feature behavior was admitted in S0."
+    },
+    {
+      "materialId": "CROSS_FEATURE_INDEPENDENT_AUDITS",
+      "programPhase": "S0",
+      "summary": "Cross-feature independent audits and meta-synthesis remain required as evidence mapping inputs, not direct product authority.",
+      "sourcePins": [],
+      "disposition": "LAB_EVIDENCE_ONLY",
+      "productAuthority": "DENY_PRODUCT_AUTHORITY",
+      "preservedProvenance": "Cross-feature independent audits and meta-synthesis are retained as provenance; product adoption still requires exact bounded contour, PR, CI, merge and postmerge evidence."
+    },
+    {
+      "materialId": "F1_MULTILINGUAL_V4_LAB_INPUT_PIN",
+      "programPhase": "F1",
+      "summary": "Multilingual V4 lab package is pinned as input provenance for language/Unicode lessons.",
+      "sourcePins": [
+        "MULTILINGUAL_V4_INPUT_EXTERNAL_RECEIPT"
+      ],
+      "disposition": "LAB_EVIDENCE_ONLY",
+      "productAuthority": "DENY_PRODUCT_AUTHORITY",
+      "preservedProvenance": "External receipt sha256:bebdc6ba2ec3b9bb991593d6081c1b16a441a26076710edf1814d0d950dad132 is preserved; it does not certify product runtime behavior."
+    },
+    {
+      "materialId": "F1_MULTILINGUAL_EVIDENCE_READONLY_V1",
+      "programPhase": "F1",
+      "summary": "Read-only multilingual evidence/index/search contour adopted as independently useful product value, default-off and without canonical mutation.",
+      "sourcePins": [
+        "MULTILINGUAL_V4_INPUT_EXTERNAL_RECEIPT"
+      ],
+      "disposition": "ADAPTED_PRODUCT",
+      "productBindings": [
+        {
+          "commitSha": "a090702982ff1b29ac2e34778ae39613dac98425",
+          "prNumber": 1501,
+          "files": [
+            "src/product/multilingualEvidenceV1.mjs",
+            "scripts/ops/multilingual-evidence-v1-model.mjs",
+            "test/contracts/multilingual-evidence-v1.contract.test.js"
+          ],
+          "tests": [
+            "node --test test/contracts/multilingual-evidence-v1.contract.test.js",
+            "node scripts/ops/multilingual-evidence-v1-model.mjs"
+          ],
+          "receipt": {
+            "path": "docs/OPS/STATUS/YALKEN_F1_MULTILINGUAL_EVIDENCE_V1_RECEIPT.json",
+            "sha256": "556a475722ec41d8b4b06d1cb337343cf988dd0f4327f03d4f3013db69f8bb3f"
+          }
+        }
+      ]
+    },
+    {
+      "materialId": "F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1",
+      "programPhase": "F1",
+      "summary": "Exact-head F1 hardening: READ_SOURCE_SNAPSHOT is least-privilege mayWrite=false; multilingualEvidenceV1 consumes a trusted Product Core sourceSnapshot with recomputed digest/revision/generation binding.",
+      "sourcePins": [
+        "MULTILINGUAL_V4_INPUT_EXTERNAL_RECEIPT"
+      ],
+      "disposition": "ENFORCED_TEST_GATE",
+      "productBindings": [
+        {
+          "commitSha": "1cd98056dc091a74b9b7f0fe30356a456b6acfc4",
+          "prNumber": 1514,
+          "files": [
+            "src/product/sourceFenceV1.mjs",
+            "src/product/multilingualEvidenceV1.mjs",
+            "scripts/ops/source-fence-v1-model.mjs",
+            "scripts/ops/multilingual-evidence-v1-model.mjs",
+            "test/contracts/source-fence-v1.contract.test.js",
+            "test/contracts/multilingual-evidence-v1.contract.test.js"
+          ],
+          "tests": [
+            "node --test test/contracts/source-fence-v1.contract.test.js test/contracts/multilingual-evidence-v1.contract.test.js",
+            "node scripts/ops/source-fence-v1-model.mjs",
+            "node scripts/ops/multilingual-evidence-v1-model.mjs"
+          ],
+          "receipt": {
+            "path": "docs/OPS/STATUS/YALKEN_F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1_RECEIPT.json",
+            "sha256": "e9ad2af381715295bb116a904c156585a6994e954adabdf0ae42e06966c7d18f"
+          }
+        }
+      ]
+    },
+    {
+      "materialId": "F2_ROUND_AUTHORITY_INPUT_PIN",
+      "programPhase": "F2",
+      "summary": "Round Authority lab input is preserved as provenance for proof-carrying interop and later F0R/T0 planning.",
+      "sourcePins": [
+        "ROUND_AUTHORITY_INPUT_EXTERNAL_RECEIPT"
+      ],
+      "disposition": "LAB_EVIDENCE_ONLY",
+      "productAuthority": "DENY_PRODUCT_AUTHORITY",
+      "preservedProvenance": "External receipt sha256:f54ba18e8ad7d3a6109b4b7b24aa4780391d81a915d6192e1f18785325a27de6 is pinned and not promoted to product support."
+    },
+    {
+      "materialId": "F2_WORD_16_112_PROVIDER_MIGRATION",
+      "programPhase": "F2",
+      "summary": "Provider profile migrated from frozen Word 16.111.3 target to exact current official Word 16.112 build with historical evidence separation.",
+      "sourcePins": [
+        "ROUND_AUTHORITY_INPUT_EXTERNAL_RECEIPT"
+      ],
+      "disposition": "ADAPTED_PRODUCT",
+      "post20260811Delta": true,
+      "productBindings": [
+        {
+          "commitSha": "ccb360210be3f8247d4f2f83b47e25c017fe0635",
+          "prNumber": 1503,
+          "files": [
+            "docs/OPS/RTK/WORD_BUILD_PROFILE_REGISTRY_V1.json",
+            "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+            "test/contracts/rtk-lab01-build-bound-profiles.contract.test.js",
+            "test/contracts/rtk-phys01-ladder-runner.contract.test.js",
+            "test/contracts/rtk-release01-terminal-claims.contract.test.js"
+          ],
+          "tests": [
+            "node --test test/contracts/rtk-lab01-build-bound-profiles.contract.test.js",
+            "node --test test/contracts/rtk-phys01-ladder-runner.contract.test.js",
+            "node --test test/contracts/rtk-release01-terminal-claims.contract.test.js"
+          ],
+          "receipt": {
+            "path": "docs/OPS/RTK/WORD_MAC_16_112_CARRIER_SURVIVAL_SMOKE_RECEIPT.json",
+            "sha256": "a270b07c45f2d067a198af2fec75c9088909a765690a542d89154fe2a928aa25"
+          }
+        }
+      ]
+    },
+    {
+      "materialId": "F2_WORD_16_112_SMOKE_ONLY_PROVIDER_PROOF",
+      "programPhase": "F2",
+      "summary": "Carrier survival smoke for Word 16.112 is preserved as a narrow smoke proof and explicitly not a diversity/saturation claim.",
+      "sourcePins": [
+        "ROUND_AUTHORITY_INPUT_EXTERNAL_RECEIPT"
+      ],
+      "disposition": "ENFORCED_TEST_GATE",
+      "post20260811Delta": true,
+      "productBindings": [
+        {
+          "commitSha": "ccb360210be3f8247d4f2f83b47e25c017fe0635",
+          "prNumber": 1503,
+          "files": [
+            "docs/OPS/RTK/WORD_MAC_16_112_CARRIER_SURVIVAL_SMOKE_RECEIPT.json",
+            "test/contracts/rtk-phys01-ladder-runner.contract.test.js"
+          ],
+          "tests": [
+            "CARRIER_SURVIVAL_SMOKE disposable synthetic DOCX only",
+            "node --test test/contracts/rtk-phys01-ladder-runner.contract.test.js"
+          ],
+          "receipt": {
+            "path": "docs/OPS/RTK/WORD_MAC_16_112_CARRIER_SURVIVAL_SMOKE_RECEIPT.json",
+            "sha256": "a270b07c45f2d067a198af2fec75c9088909a765690a542d89154fe2a928aa25"
+          }
+        }
+      ]
+    },
+    {
+      "materialId": "F2_WORD_16_112_SEMANTIC_DIFFERENTIAL",
+      "programPhase": "F2",
+      "summary": "Semantic differential rung for exact Word 16.112 provider.",
+      "sourcePins": [
+        "ROUND_AUTHORITY_INPUT_EXTERNAL_RECEIPT"
+      ],
+      "disposition": "ENFORCED_TEST_GATE",
+      "post20260811Delta": true,
+      "productBindings": [
+        {
+          "commitSha": "54eafa76dd5fcee7be8a517532322ba38e7c467c",
+          "prNumber": 1504,
+          "files": [
+            "docs/OPS/RTK/WORD_MAC_16_112_SEMANTIC_DIFFERENTIAL_RECEIPT.json",
+            "test/contracts/rtk-phys01-ladder-runner.contract.test.js",
+            "test/contracts/rtk-release01-terminal-claims.contract.test.js"
+          ],
+          "tests": [
+            "node --test test/contracts/rtk-phys01-ladder-runner.contract.test.js",
+            "node --test test/contracts/rtk-release01-terminal-claims.contract.test.js"
+          ],
+          "receipt": {
+            "path": "docs/OPS/RTK/WORD_MAC_16_112_SEMANTIC_DIFFERENTIAL_RECEIPT.json",
+            "sha256": "5183acde7f22ae477e5e337d828222bd2a7cb66080bd65a3be52e4a141f85c06"
+          }
+        }
+      ]
+    },
+    {
+      "materialId": "F2_WORD_16_112_NEGATIVE_REPLAY_CRASH",
+      "programPhase": "F2",
+      "summary": "Negative replay/crash probes for exact Word 16.112 provider; adverse claims stay bounded to the executed schedules.",
+      "sourcePins": [
+        "ROUND_AUTHORITY_INPUT_EXTERNAL_RECEIPT"
+      ],
+      "disposition": "ENFORCED_TEST_GATE",
+      "post20260811Delta": true,
+      "productBindings": [
+        {
+          "commitSha": "85dd087769774f8fd5e322aa94def59e9f6ba1ee",
+          "prNumber": 1505,
+          "files": [
+            "docs/OPS/RTK/WORD_MAC_16_112_NEGATIVE_REPLAY_CRASH_RECEIPT.json",
+            "test/contracts/rtk-phys01-ladder-runner.contract.test.js",
+            "test/contracts/rtk-release01-terminal-claims.contract.test.js"
+          ],
+          "tests": [
+            "node --test test/contracts/rtk-phys01-ladder-runner.contract.test.js",
+            "node --test test/contracts/rtk-release01-terminal-claims.contract.test.js"
+          ],
+          "receipt": {
+            "path": "docs/OPS/RTK/WORD_MAC_16_112_NEGATIVE_REPLAY_CRASH_RECEIPT.json",
+            "sha256": "c4c2a971f84e539c74ea9dceaa4adaccfbe3f939bfa3b575709e0d4755f3083f"
+          }
+        }
+      ]
+    },
+    {
+      "materialId": "F2_FALSE_DIVERSITY_FINDING",
+      "programPhase": "F2",
+      "summary": "Owner review found false-diversity risk: metadata rows could normalize to diverse cases while executable fixtures/scripts collapsed.",
+      "sourcePins": [
+        "ROUND_AUTHORITY_INPUT_EXTERNAL_RECEIPT"
+      ],
+      "disposition": "SUPERSEDED_WITH_REASON",
+      "post20260811Delta": true,
+      "rationale": "The finding remains preserved negative evidence and is superseded only by executable diversity harness repair, not by increasing row count.",
+      "supersededBy": "F2_WORD_PHYSICAL_DIVERSITY_HARNESS_REPAIR"
+    },
+    {
+      "materialId": "F2_WORD_PHYSICAL_DIVERSITY_HARNESS_REPAIR",
+      "programPhase": "F2",
+      "summary": "Executable physical diversity harness binds fixture digest, execution plan/script digest and oracle digest so advertised shapes must execute or be excluded.",
+      "sourcePins": [
+        "ROUND_AUTHORITY_INPUT_EXTERNAL_RECEIPT"
+      ],
+      "disposition": "ENFORCED_TEST_GATE",
+      "post20260811Delta": true,
+      "productBindings": [
+        {
+          "commitSha": "43f01a09a751a8d8ac975c17d7d2adf9bd739f24",
+          "prNumber": 1506,
+          "files": [
+            "docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_DIVERSITY_HARNESS_RECEIPT.json",
+            "scripts/ops/rtk-word-phys-ladder-16-111-3.mjs",
+            "test/contracts/rtk-phys01-ladder-runner.contract.test.js"
+          ],
+          "tests": [
+            "node --test test/contracts/rtk-phys01-ladder-runner.contract.test.js",
+            "selected executable Word edit matrix randomized disposable synthetic DOCX run"
+          ],
+          "receipt": {
+            "path": "docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_DIVERSITY_HARNESS_RECEIPT.json",
+            "sha256": "2512e0451bc9727163bc5b6a864f76603ca86a526f85f25beb2c96e4db53b343"
+          }
+        }
+      ]
+    },
+    {
+      "materialId": "F2_WORD_16_112_WAVE10",
+      "programPhase": "F2",
+      "summary": "Executable Word 16.112 WAVE10 contour; independent denominator remains 10, not saturation.",
+      "sourcePins": [
+        "ROUND_AUTHORITY_INPUT_EXTERNAL_RECEIPT"
+      ],
+      "disposition": "ENFORCED_TEST_GATE",
+      "post20260811Delta": true,
+      "productBindings": [
+        {
+          "commitSha": "235ce6376770caaa38b7dba388e4a5d0784454ce",
+          "prNumber": 1507,
+          "files": [
+            "docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE10_RECEIPT.json",
+            "test/contracts/rtk-phys01-ladder-runner.contract.test.js"
+          ],
+          "tests": [
+            "node --test test/contracts/rtk-phys01-ladder-runner.contract.test.js",
+            "WAVE10 disposable synthetic DOCX physical run"
+          ],
+          "receipt": {
+            "path": "docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE10_RECEIPT.json",
+            "sha256": "72474408e0e574421c55249c5351cf9c65e614b391205eac8bf29a8aa8e5c358"
+          }
+        }
+      ]
+    },
+    {
+      "materialId": "F2_WORD_16_112_WAVE40",
+      "programPhase": "F2",
+      "summary": "Executable Word 16.112 WAVE40 contour; independent denominator remains 40, not saturation.",
+      "sourcePins": [
+        "ROUND_AUTHORITY_INPUT_EXTERNAL_RECEIPT"
+      ],
+      "disposition": "ENFORCED_TEST_GATE",
+      "post20260811Delta": true,
+      "productBindings": [
+        {
+          "commitSha": "e1a6fd29045c34dfa9b6eda5bcdb0c67ad3827ed",
+          "prNumber": 1508,
+          "files": [
+            "docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE40_RECEIPT.json",
+            "test/contracts/rtk-phys01-ladder-runner.contract.test.js"
+          ],
+          "tests": [
+            "node --test test/contracts/rtk-phys01-ladder-runner.contract.test.js",
+            "WAVE40 disposable synthetic DOCX physical run"
+          ],
+          "receipt": {
+            "path": "docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE40_RECEIPT.json",
+            "sha256": "5d11fb46e3db1b2510e8faaef4f3827142dafb2e91376dc5bfb248155b80d05b"
+          }
+        }
+      ]
+    },
+    {
+      "materialId": "F2_WORD_16_112_WAVE100",
+      "programPhase": "F2",
+      "summary": "Executable Word 16.112 WAVE100 contour; independent denominator remains 100, not saturation.",
+      "sourcePins": [
+        "ROUND_AUTHORITY_INPUT_EXTERNAL_RECEIPT"
+      ],
+      "disposition": "ENFORCED_TEST_GATE",
+      "post20260811Delta": true,
+      "productBindings": [
+        {
+          "commitSha": "25e2b2d5e6a4a145dc4a46c52e920d4234cec3aa",
+          "prNumber": 1509,
+          "files": [
+            "docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE100_RECEIPT.json",
+            "test/contracts/rtk-phys01-ladder-runner.contract.test.js"
+          ],
+          "tests": [
+            "node --test test/contracts/rtk-phys01-ladder-runner.contract.test.js",
+            "WAVE100 disposable synthetic DOCX physical run"
+          ],
+          "receipt": {
+            "path": "docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE100_RECEIPT.json",
+            "sha256": "3dcb596472e93136495b19fba764e7203837889e9909f518a7d10914a05ac53a"
+          }
+        }
+      ]
+    },
+    {
+      "materialId": "F2_WORD_16_112_WAVE300",
+      "programPhase": "F2",
+      "summary": "Executable Word 16.112 WAVE300 contour; independent denominator remains 300 and still is not terminal saturation.",
+      "sourcePins": [
+        "ROUND_AUTHORITY_INPUT_EXTERNAL_RECEIPT"
+      ],
+      "disposition": "ENFORCED_TEST_GATE",
+      "post20260811Delta": true,
+      "productBindings": [
+        {
+          "commitSha": "d7df01e7fa20bed3243dc4bb4e72394404316fdd",
+          "prNumber": 1510,
+          "files": [
+            "docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE300_RECEIPT.json",
+            "test/contracts/rtk-phys01-ladder-runner.contract.test.js"
+          ],
+          "tests": [
+            "node --test test/contracts/rtk-phys01-ladder-runner.contract.test.js",
+            "WAVE300 disposable synthetic DOCX physical run"
+          ],
+          "receipt": {
+            "path": "docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE300_RECEIPT.json",
+            "sha256": "f5079e873165ad516c8ff91faee37796226a99ac8d77074523b5c9a5c2869e5f"
+          }
+        }
+      ]
+    },
+    {
+      "materialId": "F2_WORD_16_112_WAVE300_REPEAT",
+      "programPhase": "F2",
+      "summary": "Executable Word 16.112 WAVE300 repeat contour; independent repeat denominator remains repeat evidence and still is not terminal saturation.",
+      "sourcePins": [
+        "ROUND_AUTHORITY_INPUT_EXTERNAL_RECEIPT"
+      ],
+      "disposition": "ENFORCED_TEST_GATE",
+      "post20260811Delta": true,
+      "productBindings": [
+        {
+          "commitSha": "e02ef5dd74392770ee5204a3afc39f44fb941e63",
+          "prNumber": 1511,
+          "files": [
+            "docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE300_REPEAT_RECEIPT.json",
+            "test/contracts/rtk-phys01-ladder-runner.contract.test.js"
+          ],
+          "tests": [
+            "node --test test/contracts/rtk-phys01-ladder-runner.contract.test.js",
+            "WAVE300 repeat disposable synthetic DOCX physical run"
+          ],
+          "receipt": {
+            "path": "docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE300_REPEAT_RECEIPT.json",
+            "sha256": "13d8c070421496341193685628ff9c6deb1e8891e71c642b82b92e8eddad5f4b"
+          }
+        }
+      ]
+    },
+    {
+      "materialId": "F2_WORD_16_112_SATURATION_LIMITATION_AUDIT",
+      "programPhase": "F2",
+      "summary": "Saturation limitation audit preserves COMPETING_NOT_SATURATED and blocks terminal/saturation/perfection claims after WAVE300 repeat.",
+      "sourcePins": [
+        "ROUND_AUTHORITY_INPUT_EXTERNAL_RECEIPT"
+      ],
+      "disposition": "ENFORCED_TEST_GATE",
+      "post20260811Delta": true,
+      "productBindings": [
+        {
+          "commitSha": "0c3c7bcdad3926917cd98876864fdf1dbeaa5614",
+          "prNumber": 1512,
+          "files": [
+            "docs/OPS/RTK/WORD_MAC_16_112_SATURATION_LIMITATION_AUDIT_RECEIPT.json",
+            "test/contracts/rtk-release01-terminal-claims.contract.test.js"
+          ],
+          "tests": [
+            "node --test test/contracts/rtk-release01-terminal-claims.contract.test.js",
+            "saturation limitation audit verifier"
+          ],
+          "receipt": {
+            "path": "docs/OPS/RTK/WORD_MAC_16_112_SATURATION_LIMITATION_AUDIT_RECEIPT.json",
+            "sha256": "3e1376a3d323c77455f17005100b2edde319ecb63bceff12133b40132804cc44"
+          }
+        }
+      ]
+    },
+    {
+      "materialId": "F2_WORD_16_112_TYPED_ADVERSE_SCHEDULES",
+      "programPhase": "F2",
+      "summary": "Typed adverse schedules for Word 16.112 are bound as executed physical evidence after WAVE contours.",
+      "sourcePins": [
+        "ROUND_AUTHORITY_INPUT_EXTERNAL_RECEIPT"
+      ],
+      "disposition": "ENFORCED_TEST_GATE",
+      "post20260811Delta": true,
+      "productBindings": [
+        {
+          "commitSha": "36db096a3ac8c0d1accfc323d6ff0347e47ba1f5",
+          "prNumber": 1513,
+          "files": [
+            "docs/OPS/RTK/WORD_MAC_16_112_TYPED_ADVERSE_SCHEDULES_RECEIPT.json",
+            "scripts/ops/rtk-word-phys-ladder-16-111-3.mjs",
+            "test/contracts/rtk-phys01-ladder-runner.contract.test.js",
+            "test/contracts/rtk-release01-terminal-claims.contract.test.js"
+          ],
+          "tests": [
+            "node --test test/contracts/rtk-phys01-ladder-runner.contract.test.js",
+            "node --test test/contracts/rtk-release01-terminal-claims.contract.test.js",
+            "typed adverse schedules disposable synthetic DOCX physical run"
+          ],
+          "receipt": {
+            "path": "docs/OPS/RTK/WORD_MAC_16_112_TYPED_ADVERSE_SCHEDULES_RECEIPT.json",
+            "sha256": "5225bdf3db7e6a944d2a671cdaada5a9f119cf765f40676fab05a5c2cd8d047f"
+          }
+        }
+      ]
+    },
+    {
+      "materialId": "F0R_T0_ROUND_AUTHORITY_PRODUCTIZATION",
+      "programPhase": "F0R_T0",
+      "summary": "Round Authority / T0 productization remains a later bounded contour, not silently imported into F2 Word evidence.",
+      "sourcePins": [
+        "ROUND_AUTHORITY_INPUT_EXTERNAL_RECEIPT"
+      ],
+      "disposition": "DEFERRED_WITH_BLOCKER",
+      "deferred": {
+        "prerequisite": "Open a separate F0R/T0 contour with closed command-authority contracts, source fence revalidation, finite model, hostile corpus, mutation catalog and product-runtime evidence.",
+        "owner": "MASTER_PROGRAM_OWNER_OR_CURRENT_OWNER_GRANT_WITHIN_SCOPE",
+        "acceptanceGate": "Exact PR/CI/merge/postmerge evidence proving Round Authority product behavior without laundering lab-only evidence."
+      }
+    },
+    {
+      "materialId": "F3_BLACK_BOX_FINAL_LAB_P0A_P0B_P0C_LESSONS",
+      "programPhase": "F3",
+      "summary": "Black Box final lab package lessons are pinned: P0A source adapter, P0B durable publisher, P0C capsule/recovery, resource ceilings and external audit evidence.",
+      "sourcePins": [
+        "BLACK_BOX_FINAL_LAB_EXTERNAL_RECEIPT"
+      ],
+      "disposition": "LAB_EVIDENCE_ONLY",
+      "productAuthority": "DENY_PRODUCT_AUTHORITY",
+      "preservedProvenance": "External receipt sha256:c6179e59d57ea7ddea0802769619390a274c1bb22c39ae45a1540f8f7f3be863 is preserved as lab provenance; it does not certify product Black Box readiness."
+    },
+    {
+      "materialId": "F3_BLACK_BOX_PRODUCT_V1",
+      "programPhase": "F3",
+      "summary": "Black Box / Manuscript Capsule product V1 remains future product work after F2/F0R gates and must use disposable proof, owner-key boundaries and import-as-new-project recovery.",
+      "sourcePins": [
+        "BLACK_BOX_FINAL_LAB_EXTERNAL_RECEIPT"
+      ],
+      "disposition": "DEFERRED_WITH_BLOCKER",
+      "deferred": {
+        "prerequisite": "Open sequential F3 product contours for P0A source adapter, P0B Darwin durable publisher and P0C strict capsule/recover without live-project overwrite.",
+        "owner": "MASTER_PROGRAM_OWNER_OR_CURRENT_OWNER_GRANT_WITHIN_SCOPE",
+        "acceptanceGate": "Exact bounded PRs with source-fence/accounting, durable writer evidence, strict capsule authentication, quarantine/preview/import-as-new-project proof, independent restore and rollback."
+      }
+    },
+    {
+      "materialId": "PROGRAM_FINAL_HASH_BOUND_TRACEABILITY_RECEIPT",
+      "programPhase": "F3",
+      "summary": "Final hash-bound program traceability receipt must be issued only after S0/F1/F2/F0R-T0/F3 are independently closed or honestly deferred.",
+      "sourcePins": [
+        "MULTILINGUAL_V4_INPUT_EXTERNAL_RECEIPT",
+        "ROUND_AUTHORITY_INPUT_EXTERNAL_RECEIPT",
+        "BLACK_BOX_FINAL_LAB_EXTERNAL_RECEIPT"
+      ],
+      "disposition": "DEFERRED_WITH_BLOCKER",
+      "deferred": {
+        "prerequisite": "Complete remaining product lines or record explicit blockers with exact evidence; rerun ledger verifier at final program head.",
+        "owner": "MASTER_PROGRAM_OWNER",
+        "acceptanceGate": "A final receipt whose hash is externally supplied/verified and whose ledger has no UNMAPPED material findings and no lab-only evidence promoted to product authority."
+      }
+    }
+  ],
+  "rollback": {
+    "plan": "Revert the single ledger/verifier PR. This does not alter product runtime, canonical manuscripts, Word provider state, sealed packages, dependencies or UI.",
+    "currentLimitation": "The ledger is a living reconciliation artifact and not a final program verdict."
+  }
+}

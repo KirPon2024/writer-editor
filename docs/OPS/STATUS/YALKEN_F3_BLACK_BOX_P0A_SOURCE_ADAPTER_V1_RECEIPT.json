@@ -1,0 +1,184 @@
+{
+  "schemaVersion": "yalken.f3BlackBoxP0aSourceAdapter.receipt.v1",
+  "taskId": "F3_BLACK_BOX_P0A_SOURCE_ADAPTER_V1",
+  "createdAtUtc": "2026-08-13T23:33:45Z",
+  "status": "LOCAL_DELIVERY_GREEN_PR_OPEN",
+  "verdict": "READY_FOR_REQUIRED_CI",
+  "baseline": {
+    "headSha": "0f9aa0022c0c9f085c183267b5af1ffcf6a08bd5",
+    "treeSha": "1a8bed7cea4b14e8e3e92609cbb8f6960976791d",
+    "branch": "codex/yalken-f3-black-box-p0a-source-adapter-v1"
+  },
+  "authorityBoundary": {
+    "ownerGrant": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE",
+    "productRuntimeWiringChanged": false,
+    "uiChanged": false,
+    "publisherChanged": false,
+    "capsuleCryptoChanged": false,
+    "recoveryImportChanged": false,
+    "userDocumentsTouched": false,
+    "dependenciesChanged": false,
+    "networkOrCloudRuntimeTruth": false,
+    "sealedLabPackagesModified": false
+  },
+  "contract": {
+    "schema": "yalken.blackBoxCoreSourceAdapter.sourceSet.v1",
+    "featureFlag": "yalken.blackBox.coreSourceAdapter.p0aV1",
+    "defaultEnabled": false,
+    "purpose": "READ_SOURCE_SNAPSHOT",
+    "requiredAuthority": "least-privilege Product Core query authority with ALLOW and mayWrite=false",
+    "sourceIdentity": [
+      "projectId",
+      "rootId",
+      "documentId",
+      "canonicalRevision",
+      "workingRevision",
+      "generation",
+      "sourceDigest"
+    ],
+    "coreAccounting": [
+      "projectManifest",
+      "sceneDocuments",
+      "notesDocuments",
+      "historyDocuments",
+      "totalItems"
+    ],
+    "nonGoals": [
+      "no durable publisher",
+      "no capsule encryption",
+      "no owner key",
+      "no recovery/import",
+      "no exact-byte replication claim",
+      "no Disaster Ready claim",
+      "no UI or runtime command wiring"
+    ]
+  },
+  "redFirst": {
+    "command": "node --test test/contracts/black-box-p0a-source-adapter-v1.contract.test.js",
+    "result": "RED_EXPECTED",
+    "tests": 6,
+    "pass": 0,
+    "fail": 6,
+    "skipped": 0,
+    "todo": 0,
+    "primaryFailure": "ERR_MODULE_NOT_FOUND src/product/blackBoxCoreSourceAdapterV1.mjs"
+  },
+  "focusedProof": {
+    "command": "node --test test/contracts/black-box-p0a-source-adapter-v1.contract.test.js",
+    "tests": 6,
+    "pass": 6,
+    "fail": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "modelOracleMutations": {
+    "command": "node scripts/ops/black-box-p0a-source-adapter-v1-model.mjs",
+    "finiteCases": 32,
+    "disagreements": 0,
+    "hostileCases": 18,
+    "hostileFailures": 0,
+    "semanticMutants": 12,
+    "survivors": 0,
+    "skips": 0,
+    "controls": {
+      "syntheticCorePasses": true,
+      "forgedAllowIsNotPass": true,
+      "digestMismatchIsNotPass": true,
+      "omissionIsNotPass": true,
+      "unknownAuthorityIsNotPass": true
+    }
+  },
+  "affectedProof": {
+    "command": "node --test test/contracts/source-fence-v1.contract.test.js test/contracts/multilingual-evidence-v1.contract.test.js test/contracts/black-box-p0a-source-adapter-v1.contract.test.js",
+    "tests": 22,
+    "pass": 22,
+    "fail": 0,
+    "skipped": 0,
+    "todo": 0,
+    "sourceFenceModel": {
+      "finiteCases": 192,
+      "hostileCases": 20,
+      "semanticMutants": 9,
+      "survivors": 0
+    },
+    "multilingualEvidenceModel": {
+      "finiteCases": 24,
+      "hostileCases": 18,
+      "semanticMutants": 15,
+      "survivors": 0
+    }
+  },
+  "deliveryGates": {
+    "traceabilityLedger": {
+      "command": "node scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
+      "ok": true,
+      "materialDispositions": 25,
+      "externalPins": 3
+    },
+    "governance": {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --approvals-path docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json",
+      "ok": true,
+      "missingApprovals": 0,
+      "approvalRegistryValid": true
+    },
+    "deterministicReplay": {
+      "focusedReplays": 2,
+      "affectedReplays": 2,
+      "modelReplays": 2,
+      "allMatched": true
+    },
+    "devFast": {
+      "command": "npm run dev:fast",
+      "tests": 28,
+      "pass": 28,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "guardrails": {
+      "command": "npm run agent:guardrails",
+      "status": "PASS"
+    },
+    "baseline": {
+      "command": "npm test",
+      "opsTests": 3,
+      "opsPass": 3,
+      "mainRunnerTests": 802,
+      "mainRunnerPass": 738,
+      "mainRunnerFail": 0,
+      "mainRunnerSkipped": 64,
+      "mainRunnerTodo": 0,
+      "atlasEventTests": 20,
+      "atlasEventPass": 20,
+      "perfBaseline": "PASS",
+      "menuAndReleaseCandidateChecks": "PASS"
+    }
+  },
+  "changedFileHashes": {
+    "src/product/blackBoxCoreSourceAdapterV1.mjs": "fefe82d4439357dcf7a9b2c3c6667dd1ee4155b11065056326c5a8410509b3db",
+    "test/contracts/black-box-p0a-source-adapter-v1.contract.test.js": "137064109f4036c52f568f2b55887f0e8d821fce107ea0a04c123918085d0563",
+    "scripts/ops/black-box-p0a-source-adapter-v1-model.mjs": "3be1d60b3a08139360b900caad944d413edb0159250225406642337db60038e7",
+    "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json": "2d2bbbb1fdd364d0ccd1ec7a4da146571b6752d9cfdca53deb0d965c059b59e2"
+  },
+  "resourceCeilings": {
+    "algorithm": "O_TOTAL_CORE_SOURCE_TEXT_PLUS_ITEM_COUNT_NO_IO",
+    "predeclaredSyntheticFixtureCeiling": "p95_under_25ms_for_128_CORE_items_lab_only",
+    "productSlo": "NOT_CLAIMED_LAB_ONLY"
+  },
+  "rollback": {
+    "action": "Revert the single F3 P0A source adapter PR containing the adapter, contract test, model, receipt, ledger and governance bindings.",
+    "dataMigration": false,
+    "runtimeRollback": "No product runtime wiring, publisher, capsule, recovery, dependency or user-data migration is introduced."
+  },
+  "limitations": [
+    "This proves only the P0A read-only source adapter eligibility/accounting seam.",
+    "This does not prove P0B durable publication, P0C capsule encryption/recovery, physical power-loss, exact-byte donor replication, owner-key recovery drill or Disaster Ready.",
+    "Synthetic fixtures are disposable and do not include user manuscripts."
+  ],
+  "implementationCommit": {
+    "sha": "465dc82ead07b88fbe7f085b5887736733ea0d79",
+    "treeSha": "64441bd5d022dac75afb7745455bbe2dd87c5d57",
+    "prNumber": 1517,
+    "scope": "Read-only F3 Black Box P0A source adapter for source-fence-bound whole-CORE eligibility and accounting."
+  }
+}

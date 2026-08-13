@@ -617,6 +617,21 @@
       "preservedProvenance": "External receipt sha256:c6179e59d57ea7ddea0802769619390a274c1bb22c39ae45a1540f8f7f3be863 is preserved as lab provenance; it does not certify product Black Box readiness."
     },
     {
+      "materialId": "F3_BLACK_BOX_P0A_SOURCE_ADAPTER_V1",
+      "programPhase": "F3",
+      "summary": "Black Box P0A source adapter PR candidate: read-only Product Core source snapshot adapter with source-fence-bound whole-CORE eligibility/accounting and no publisher, capsule crypto, recovery, runtime wiring or user-document access.",
+      "sourcePins": [
+        "BLACK_BOX_FINAL_LAB_EXTERNAL_RECEIPT"
+      ],
+      "disposition": "DEFERRED_WITH_BLOCKER",
+      "post20260811Delta": true,
+      "deferred": {
+        "prerequisite": "Required CI and postmerge exact-head verification for PR #1517 from commit 465dc82ead07b88fbe7f085b5887736733ea0d79.",
+        "owner": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE",
+        "acceptanceGate": "Promote this entry to ENFORCED_TEST_GATE only after PR #1517 required CI is green, merge is complete, and postmerge verification repeats focused, model, affected, guardrails and traceability checks on exact origin/main."
+      }
+    },
+    {
       "materialId": "F3_BLACK_BOX_PRODUCT_V1",
       "programPhase": "F3",
       "summary": "Black Box / Manuscript Capsule product V1 remains future product work after F2/F0R gates and must use disposable proof, owner-key boundaries and import-as-new-project recovery.",

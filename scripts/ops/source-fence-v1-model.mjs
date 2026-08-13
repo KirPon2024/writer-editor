@@ -12,6 +12,7 @@ const CODES = Object.freeze({
   DIRTY_STATE_UNKNOWN: 'YALKEN_SOURCE_FENCE_DIRTY_STATE_UNKNOWN',
   DOCUMENT_ID_MISMATCH: 'YALKEN_SOURCE_FENCE_DOCUMENT_ID_MISMATCH',
   FENCE_TRANSPLANT_REJECTED: 'YALKEN_SOURCE_FENCE_TRANSPLANT_REJECTED',
+  FIELD_INVALID: 'YALKEN_SOURCE_FENCE_FIELD_INVALID',
   KEYSET_INVALID: 'YALKEN_SOURCE_FENCE_KEYSET_INVALID',
   PROJECT_ID_MISMATCH: 'YALKEN_SOURCE_FENCE_PROJECT_ID_MISMATCH',
   PURPOSE_MISMATCH: 'YALKEN_SOURCE_FENCE_PURPOSE_MISMATCH',
@@ -113,6 +114,27 @@ function exactKeys(value, keys) {
     && Object.keys(value).sort().join('\u0000') === [...keys].sort().join('\u0000');
 }
 
+function validIdentityValue(value) {
+  return typeof value === 'string'
+    && value.length > 0
+    && value.trim() === value
+    && !/[\\/\u0000-\u001F]/u.test(value);
+}
+
+function validDocumentId(value) {
+  if (typeof value !== 'string' || value.length === 0 || value.trim() !== value) return false;
+  if (/[\\\u0000-\u001F]/u.test(value)) return false;
+  if (value.startsWith('/')) return false;
+  const segments = value.split('/');
+  return segments.every((segment) => segment && segment !== '.' && segment !== '..');
+}
+
+function validateIdentityShape(codes, field, value) {
+  if (!isPlainObject(value)) return;
+  if (!validIdentityValue(value.rootId)) codes.push(CODES.FIELD_INVALID);
+  if (!validDocumentId(value.documentId)) codes.push(CODES.FIELD_INVALID);
+}
+
 function independentOracle(request, options = {}) {
   const skip = new Set(options.skip || []);
   const codes = [];
@@ -136,6 +158,9 @@ function independentOracle(request, options = {}) {
   }
   if (codes.length > 0) return { ok: false, codes };
 
+  validateIdentityShape(codes, 'expected', request.expected);
+  validateIdentityShape(codes, 'current', request.current);
+  validateIdentityShape(codes, 'fence', request.fence);
   if (request.fence.schemaVersion !== SCHEMAS.token) codes.push(CODES.SCHEMA_INVALID);
   if (!skip.has('purpose') && request.purpose !== request.fence.purpose) codes.push(CODES.PURPOSE_MISMATCH);
   const expectedFenceDigest = sha256Stable(tokenDigestPayload(request.fence));
@@ -189,6 +214,30 @@ const HOSTILE_BUILDERS = Object.freeze([
   ['wrong-document', () => ({
     request: buildRequest({ current: withCurrent({ documentId: 'scene-999' }) }),
     expectedCode: CODES.DOCUMENT_ID_MISMATCH,
+  })],
+  ['absolute-document-id-rejected', () => ({
+    request: buildRequest({
+      expected: withSource({ documentId: '/roman/preface.md' }),
+      current: withCurrent({ documentId: '/roman/preface.md' }),
+      fenceSource: withSource({ documentId: '/roman/preface.md' }),
+    }),
+    expectedCode: CODES.FIELD_INVALID,
+  })],
+  ['traversal-document-id-rejected', () => ({
+    request: buildRequest({
+      expected: withSource({ documentId: 'roman/../preface.md' }),
+      current: withCurrent({ documentId: 'roman/../preface.md' }),
+      fenceSource: withSource({ documentId: 'roman/../preface.md' }),
+    }),
+    expectedCode: CODES.FIELD_INVALID,
+  })],
+  ['slash-root-id-rejected', () => ({
+    request: buildRequest({
+      expected: withSource({ rootId: 'root/main' }),
+      current: withCurrent({ rootId: 'root/main' }),
+      fenceSource: withSource({ rootId: 'root/main' }),
+    }),
+    expectedCode: CODES.FIELD_INVALID,
   })],
   ['stale-canonical-revision', () => ({
     request: buildRequest({ current: withCurrent({ canonicalRevision: 'canon-r002' }) }),
@@ -401,7 +450,7 @@ export function runSourceFenceV1FiniteModel(module) {
     resourceCeilings: {
       algorithm: 'O_1_PER_REQUEST_NO_IO',
       maxFiniteCases: 192,
-      hostileCases: 17,
+      hostileCases: HOSTILE_BUILDERS.length,
       semanticMutants: 9,
       productSlo: 'NOT_CLAIMED_LAB_ONLY',
     },

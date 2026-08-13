@@ -134,6 +134,17 @@ function normalizeIdentityValue(value) {
   return value;
 }
 
+function normalizeDocumentId(value) {
+  if (typeof value !== 'string') return '';
+  const trimmed = value.trim();
+  if (!trimmed || trimmed !== value) return '';
+  if (/[\\\u0000-\u001F]/u.test(value)) return '';
+  if (value.startsWith('/')) return '';
+  const segments = value.split('/');
+  if (segments.some((segment) => !segment || segment === '.' || segment === '..')) return '';
+  return value;
+}
+
 function normalizeRevision(value) {
   if (typeof value !== 'string') return '';
   const trimmed = value.trim();
@@ -161,10 +172,11 @@ function validateSourceFields(reasons, field, value, { current = false, validate
   if (!validProjectId(value.projectId)) {
     reasons.push(reason(SOURCE_FENCE_V1_CODES.FIELD_INVALID, `${field}.projectId`));
   }
-  for (const key of ['rootId', 'documentId']) {
-    if (!normalizeIdentityValue(value[key])) {
-      reasons.push(reason(SOURCE_FENCE_V1_CODES.FIELD_INVALID, `${field}.${key}`));
-    }
+  if (!normalizeIdentityValue(value.rootId)) {
+    reasons.push(reason(SOURCE_FENCE_V1_CODES.FIELD_INVALID, `${field}.rootId`));
+  }
+  if (!normalizeDocumentId(value.documentId)) {
+    reasons.push(reason(SOURCE_FENCE_V1_CODES.FIELD_INVALID, `${field}.documentId`));
   }
   for (const key of ['canonicalRevision', 'workingRevision']) {
     if (!normalizeRevision(value[key])) {

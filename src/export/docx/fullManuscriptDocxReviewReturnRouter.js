@@ -39,6 +39,61 @@ function sha256Text(value) {
   return `sha256:${crypto.createHash('sha256').update(String(value || ''), 'utf8').digest('hex')}`;
 }
 
+function sourceFenceToken(source) {
+  const payload = {
+    schemaVersion: 'yalken.sourceFence.token.v1',
+    purpose: 'WRITE_SOURCE',
+    projectId: source.projectId,
+    rootId: source.rootId,
+    documentId: source.documentId,
+    canonicalRevision: source.canonicalRevision,
+    workingRevision: source.workingRevision,
+    sourceDigest: source.sourceDigest,
+  };
+  return {
+    ...payload,
+    fenceDigest: sha256Text(stableJson(payload)),
+  };
+}
+
+function sourceFenceBinding({ commandId, source }) {
+  const request = {
+    schemaVersion: 'yalken.sourceFence.request.v1',
+    purpose: 'WRITE_SOURCE',
+    expected: source,
+    current: { ...source, dirtyState: 'CLEAN' },
+    dirtyPolicy: 'REQUIRE_CLEAN',
+    authority: {
+      decision: 'ALLOW',
+      mayWrite: true,
+      commandId,
+    },
+    fence: sourceFenceToken(source),
+  };
+  return {
+    schemaVersion: 'yalken.rtk.round-authority-source-fence.v1',
+    request,
+    result: {
+      schemaVersion: 'yalken.sourceFence.result.v1',
+      ok: true,
+      decision: 'ALLOW',
+      code: 'YALKEN_SOURCE_FENCE_ALLOWED',
+      reasons: [],
+      observed: {
+        purpose: 'WRITE_SOURCE',
+        projectId: source.projectId,
+        rootId: source.rootId,
+        documentId: source.documentId,
+        canonicalRevision: source.canonicalRevision,
+        workingRevision: source.workingRevision,
+        sourceDigest: source.sourceDigest,
+        dirtyState: 'CLEAN',
+        dirtyPolicy: 'REQUIRE_CLEAN',
+      },
+    },
+  };
+}
+
 function stableJson(value) {
   if (Array.isArray(value)) return `[${value.map(stableJson).join(',')}]`;
   if (isPlainObjectValue(value)) {
@@ -340,6 +395,14 @@ function buildSceneCommand({
     ];
   });
   const sourceIdentityDigest = sha256Text(`full-manuscript-scene-baseline:${sceneId}:${verifiedAuthority.exactAuthority.baselineRawSha256}`);
+  const source = {
+    projectId,
+    rootId: sha256Text(`project-root:${projectId}:${projectRoot}`),
+    documentId: sceneId,
+    canonicalRevision: sourceIdentityDigest,
+    workingRevision: sourceIdentityDigest,
+    sourceDigest: verifiedAuthority.exactAuthority.baselineRawSha256,
+  };
   return {
     sceneId,
     input: {
@@ -362,13 +425,27 @@ function buildSceneCommand({
       sourceIdentity: {
         sourceTokenDomain: 'SOURCE_TOKEN_DOMAIN_V1',
         writerTextDomain: 'WRITER_TEXT_DOMAIN_V1',
+        projectId: source.projectId,
+        rootId: source.rootId,
+        documentId: source.documentId,
+        canonicalRevision: source.canonicalRevision,
+        workingRevision: source.workingRevision,
         revisionSha256: sourceIdentityDigest,
         rawBytesSha256: verifiedAuthority.exactAuthority.baselineRawSha256,
       },
       currentIdentity: {
+        projectId: source.projectId,
+        rootId: source.rootId,
+        documentId: source.documentId,
+        canonicalRevision: source.canonicalRevision,
+        workingRevision: source.workingRevision,
         revisionSha256: sourceIdentityDigest,
         rawBytesSha256: verifiedAuthority.exactAuthority.baselineRawSha256,
       },
+      sourceFence: sourceFenceBinding({
+        commandId: SINGLE_SCENE_TRACKED_REPLACEMENT_COMMAND_ID,
+        source,
+      }),
       exactAuthority: verifiedAuthority.exactAuthority,
       exactAuthorityDigest: verifiedAuthority.authorityDigest,
       authorityCarrier: {

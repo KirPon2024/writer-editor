@@ -194,6 +194,32 @@ test('S0 source fence v1 rejects stale canonical revision, dirty disallowed docu
   );
 });
 
+test('S0 source fence v1 treats nested scene document ids as identity, not path authority', async () => {
+  const module = await loadModule();
+  const { SOURCE_FENCE_V1_CODES: CODES } = module;
+
+  const nestedSceneId = 'roman/preface.md';
+  const allowed = module.evaluateSourceFenceV1(buildRequest(module, {
+    expected: withSource({ documentId: nestedSceneId }),
+    current: withCurrent({ documentId: nestedSceneId }),
+    fenceSource: withSource({ documentId: nestedSceneId }),
+  }));
+  assert.equal(allowed.ok, true);
+  assert.equal(allowed.code, CODES.ALLOWED);
+  assert.equal(allowed.observed.documentId, nestedSceneId);
+
+  for (const documentId of ['/roman/preface.md', 'roman/../preface.md', 'roman//preface.md', 'roman\\preface.md']) {
+    const request = clone(buildRequest(module));
+    request.expected.documentId = documentId;
+    request.current.documentId = documentId;
+    request.fence.documentId = documentId;
+    assertReason(
+      module.evaluateSourceFenceV1(request),
+      CODES.FIELD_INVALID,
+    );
+  }
+});
+
 test('S0 source fence v1 rejects replay/transplant fences and lost-update interleavings', async () => {
   const module = await loadModule();
   const { SOURCE_FENCE_V1_CODES: CODES } = module;
@@ -310,7 +336,7 @@ test('S0 source fence v1 generated finite model, hostile corpus and independent 
   assert.equal(stableJson(first), stableJson(second));
   assert.equal(first.cases.disagreements, 0);
   assert.equal(first.cases.total, 192);
-  assert.equal(first.hostile.total, 17);
+  assert.equal(first.hostile.total, 20);
   assert.equal(first.hostile.failures, 0);
   assert.equal(first.mutations.total, 9);
   assert.equal(first.mutations.survivors, 0);
@@ -318,7 +344,7 @@ test('S0 source fence v1 generated finite model, hostile corpus and independent 
   assert.deepEqual(first.resourceCeilings, {
     algorithm: 'O_1_PER_REQUEST_NO_IO',
     maxFiniteCases: 192,
-    hostileCases: 17,
+    hostileCases: 20,
     semanticMutants: 9,
     productSlo: 'NOT_CLAIMED_LAB_ONLY',
   });

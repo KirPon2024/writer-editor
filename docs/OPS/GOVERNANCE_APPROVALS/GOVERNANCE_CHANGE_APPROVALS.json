@@ -10025,10 +10025,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_BUILD_PROFILE_REGISTRY_V1.json",
-      "sha256": "d76106055a7aa3f1e34a11ce347e652557058f1dc60e99d6ad105003aab220a4",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_SEMANTIC_DIFFERENTIAL_V1",
-      "approvedAtUtc": "2026-08-13T10:34:26Z",
-      "rationale": "Approve the bounded Word 16.112 semantic differential registry update: the current profile adds exactly SEMANTIC_DIFFERENTIAL_SUBSET 24/24 evidence on the exact signed provider, remains COMPETING_NOT_SATURATED, inherits no historical 16.111.3 evidence and does not create terminal PASS.",
+      "sha256": "733d640738f5392db24837d66f65d6716ad6700c4ca3fdb95ab8cec08f60e1b7",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_NEGATIVE_REPLAY_CRASH_V1",
+      "approvedAtUtc": "2026-08-13T11:20:42Z",
+      "rationale": "Approve the bounded Word 16.112 negative replay/crash registry update: the current profile adds exactly NEGATIVE_REPLAY_CRASH_SUBSET 8/8 disposable synthetic negative-probe evidence on the exact signed provider, remains COMPETING_NOT_SATURATED, inherits no historical 16.111.3 evidence and does not create terminal PASS.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },
@@ -10043,10 +10043,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "917ff11fa20c51211a1b7469f754edde0ddef2b7800eb27e5972a7c8d7f8d059",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_SEMANTIC_DIFFERENTIAL_V1",
-      "approvedAtUtc": "2026-08-13T10:34:26Z",
-      "rationale": "Approve the terminal claim registry factual update recording that the current Word 16.112 profile has smoke plus semantic evidence while preserving NOT_MADE_WORD_TERMINAL_PASS_REQUIRED, all blockers, historical non-transferability and fail-closed terminal compilation.",
+      "sha256": "80893e577e0351fe7223725dc8912b1cec1ca87ce3ffda9eb784a8ca3048c93d",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_NEGATIVE_REPLAY_CRASH_V1",
+      "approvedAtUtc": "2026-08-13T11:20:42Z",
+      "rationale": "Approve the terminal claim registry factual update recording that the current Word 16.112 profile has smoke, semantic and negative replay/crash evidence while preserving NOT_MADE_WORD_TERMINAL_PASS_REQUIRED, all blockers, historical non-transferability and fail-closed terminal compilation.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },
@@ -10061,28 +10061,28 @@
     },
     {
       "filePath": "test/contracts/rtk-lab01-build-bound-profiles.contract.test.js",
-      "sha256": "67d115345554dcc90da538d984089e16466c87e9daebfe3e9c3d88203d5118c4",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_SEMANTIC_DIFFERENTIAL_V1",
-      "approvedAtUtc": "2026-08-13T10:34:26Z",
-      "rationale": "Approve LAB01 contract coverage requiring exact Word 16.112 semantic differential evidence binding, ordered ladder admission to the negative replay/crash rung and bypass rejection for later waves.",
+      "sha256": "8c417a46f3eeee5b0ac7b4b8b811517c43599dd775829386a521608d5ad2e02c",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_NEGATIVE_REPLAY_CRASH_V1",
+      "approvedAtUtc": "2026-08-13T11:20:42Z",
+      "rationale": "Approve LAB01 contract coverage requiring exact Word 16.112 negative replay/crash evidence binding, ordered ladder admission to WAVE_10 and bypass rejection for later waves.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },
     {
       "filePath": "test/contracts/rtk-phys01-ladder-runner.contract.test.js",
-      "sha256": "0b70fdc37f474277ce5d217b0051bd31a0e5d690af88292cc634d0891e209ffe",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_SEMANTIC_DIFFERENTIAL_V1",
-      "approvedAtUtc": "2026-08-13T10:34:26Z",
-      "rationale": "Approve PHYS01 contract coverage requiring the real Word 16.112 semantic differential receipt to validate 24/24 disposable synthetic open-edit-save-close-reopen cases with exact provider, bundle, team and signature bindings.",
+      "sha256": "a81e2929548f4a36a9749c84dafa6facaac0bf5ef3b855abbcdb26eccc8896b6",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_NEGATIVE_REPLAY_CRASH_V1",
+      "approvedAtUtc": "2026-08-13T11:20:42Z",
+      "rationale": "Approve PHYS01 contract coverage requiring the real Word 16.112 negative replay/crash receipt to validate 8/8 disposable synthetic negative probes with exact provider, bundle, team, signature and physical carrier bindings.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },
     {
       "filePath": "test/contracts/rtk-release01-terminal-claims.contract.test.js",
-      "sha256": "3bfa25157e981930f13519d4b6d256b8d285e8c6c7f8ab64d81c762973c4bc70",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_SEMANTIC_DIFFERENTIAL_V1",
-      "approvedAtUtc": "2026-08-13T10:34:26Z",
-      "rationale": "Approve RELEASE01 terminal-claim coverage proving smoke plus semantic Word 16.112 evidence remains non-saturated and cannot aggregate into terminal PASS while Windows, Online, Google, blocked rows and not-claimed blockers remain unresolved.",
+      "sha256": "d46955344e861fdc38e4ebe2df0cea790eb640a8f60b09a623166a951c0a3461",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_NEGATIVE_REPLAY_CRASH_V1",
+      "approvedAtUtc": "2026-08-13T11:20:42Z",
+      "rationale": "Approve RELEASE01 terminal-claim coverage proving smoke, semantic and negative replay/crash Word 16.112 evidence remains non-saturated and cannot aggregate into terminal PASS while Windows, Online, Google, blocked rows and not-claimed blockers remain unresolved.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },
@@ -10092,6 +10092,15 @@
       "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_SEMANTIC_DIFFERENTIAL_V1",
       "approvedAtUtc": "2026-08-13T10:34:26Z",
       "rationale": "Approve the factual SEMANTIC_DIFFERENTIAL_SUBSET physical receipt for disposable synthetic fixtures only on exact Word 16.112 build 16.112.26081010, sealed 24/24 at local candidate head f087f5e7 with origin/main ccb36021, bundle/team/signature binding and no compatibility saturation promotion.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_MAC_16_112_NEGATIVE_REPLAY_CRASH_RECEIPT.json",
+      "sha256": "c4c2a971f84e539c74ea9dceaa4adaccfbe3f939bfa3b575709e0d4755f3083f",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_NEGATIVE_REPLAY_CRASH_V1",
+      "approvedAtUtc": "2026-08-13T11:20:42Z",
+      "rationale": "Approve the factual NEGATIVE_REPLAY_CRASH_SUBSET physical receipt for disposable synthetic fixtures only on exact Word 16.112 build 16.112.26081010, sealed 8/8 at local candidate head 7de2bc7f with origin/main 54eafa76, bundle/team/signature binding, physical carrier proof and no compatibility saturation promotion.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     }

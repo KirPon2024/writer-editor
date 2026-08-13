@@ -31,6 +31,8 @@ const REPO_ROOT = path.resolve(__dirname, '..', '..');
 const MODULE_PATH = path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-phys-ladder-16-111-3.mjs');
 const SEMANTIC_RECEIPT_REF = 'docs/OPS/RTK/WORD_MAC_16_112_SEMANTIC_DIFFERENTIAL_RECEIPT.json';
 const SEMANTIC_RECEIPT_PATH = path.join(REPO_ROOT, SEMANTIC_RECEIPT_REF);
+const NEGATIVE_RECEIPT_REF = 'docs/OPS/RTK/WORD_MAC_16_112_NEGATIVE_REPLAY_CRASH_RECEIPT.json';
+const NEGATIVE_RECEIPT_PATH = path.join(REPO_ROOT, NEGATIVE_RECEIPT_REF);
 
 async function loadModule() {
   return import(pathToFileURL(MODULE_PATH).href);
@@ -418,6 +420,48 @@ test('PHYS01-P14-negative-probe-detection-law', async () => {
   const bad = module.evaluateNegativeProbes(missed);
   assert.equal(bad.ok, false, 'an undetected stale-head probe must fail');
   assert.equal(bad.code, 'RTK_PHYS_NEGATIVE_PROBE_UNDETECTED');
+});
+
+// P14B: the current Word 16.112 profile earns the negative replay/crash rung
+// only through a real, build-bound receipt sealed by the physical runner. This
+// is intentionally red before F2_WORD_16_112_NEGATIVE_REPLAY_CRASH_V1 executes
+// the disposable synthetic physical cases.
+test('PHYS01-P14B-real-16-112-negative-replay-crash-receipt-sealed', async () => {
+  const module = await loadModule();
+  assert.equal(fs.existsSync(NEGATIVE_RECEIPT_PATH), true,
+    `${NEGATIVE_RECEIPT_REF} must exist after the negative replay/crash rung is physically sealed`);
+
+  const receipt = JSON.parse(fs.readFileSync(NEGATIVE_RECEIPT_PATH, 'utf8'));
+  const plan = module.buildRungPlan('NEGATIVE_REPLAY_CRASH_SUBSET');
+  const validation = module.validateRungReceipt(plan, receipt);
+  assert.equal(validation.ok, true, `negative receipt must validate: ${JSON.stringify(validation.reasons)}`);
+
+  assert.equal(receipt.schema, 'yalken.rtk.word-mac-16-112.negative-replay-crash-receipt.v1');
+  assert.equal(receipt.profileId, 'word-mac-16.112-26081010');
+  assert.equal(receipt.rung, 'NEGATIVE_REPLAY_CRASH_SUBSET');
+  assert.equal(receipt.status, 'PHYSICAL_NEGATIVE_PROBES_PASS');
+  assert.match(receipt.headSha, /^[a-f0-9]{40}$/u, 'receipt binds an exact prephysical clean head');
+  assert.match(receipt.originMainSha, /^[a-f0-9]{40}$/u, 'receipt binds an exact origin/main baseline');
+  assert.equal(receipt.wordProfile.versionByBundle, '16.112');
+  assert.equal(receipt.wordProfile.buildByBundle, '16.112.26081010');
+  assert.equal(receipt.wordProfile.bundleId, 'com.microsoft.Word');
+  assert.equal(receipt.wordProfile.teamIdentifier, 'UBF8T346G9');
+  assert.equal(receipt.wordProfile.signatureValid, true);
+  assert.equal(receipt.counters.total, 8);
+  assert.equal(receipt.counters.passed, 8);
+  assert.equal(receipt.counters.failed, 0);
+  assert.equal(new Set(receipt.cases.map((c) => c.caseId)).size, 8, 'case ids must be unique');
+  assert.equal(new Set(receipt.cases.map((c) => c.probeId)).size, 8, 'probe ids must be unique');
+  assert.equal(receipt.cases.every((c) =>
+    c.openEditSaveCloseReopen === 'PASS'
+    && c.detected === true
+    && c.readbackContainsSentinel === true
+    && c.readbackContainsInsertion === true
+    && Array.isArray(c.carrierDigests)
+    && c.carrierDigests.length === 2
+    && c.carrierDigests.every((digest) => /^sha256:[a-f0-9]{64}$/u.test(digest))), true,
+  'every negative case must prove physical carrier survival plus fired detection');
+  assert.match(sha256File(NEGATIVE_RECEIPT_PATH), /^sha256:[a-f0-9]{64}$/u);
 });
 
 // P15: wave seal law with exact denominators.

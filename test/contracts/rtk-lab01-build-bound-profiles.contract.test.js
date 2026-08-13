@@ -1006,20 +1006,20 @@ test('LAB02-06-no-rung-inheritance-on-new-build', async () => {
   const registryJson = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
   const currentProfileId = registryJson.currentProfileId;
   const earned = registryJson.profiles.find((p) => p.profileId === currentProfileId).ladder.completedRungs;
-  assert.deepEqual(earned, ['CARRIER_SURVIVAL_SMOKE', 'SEMANTIC_DIFFERENTIAL_SUBSET'],
-    'current profile has earned exactly smoke plus semantic differential');
+  assert.deepEqual(earned, ['CARRIER_SURVIVAL_SMOKE', 'SEMANTIC_DIFFERENTIAL_SUBSET', 'NEGATIVE_REPLAY_CRASH_SUBSET'],
+    'current profile has earned exactly smoke, semantic differential and negative replay/crash');
   const next = module.evaluateLadderAdmission({
-    registry: registryJson,
-    profileId: currentProfileId,
-    rung: 'NEGATIVE_REPLAY_CRASH_SUBSET',
-  });
-  assert.equal(next.ok, true, 'the next rung admission (attempt) must be allowed');
-  const bypass = module.evaluateLadderAdmission({
     registry: registryJson,
     profileId: currentProfileId,
     rung: 'WAVE_10',
   });
-  assert.equal(bypass.ok, false, 'skipping ahead of the empty earned prefix must be blocked');
+  assert.equal(next.ok, true, 'the next post-negative rung admission (attempt) must be allowed');
+  const bypass = module.evaluateLadderAdmission({
+    registry: registryJson,
+    profileId: currentProfileId,
+    rung: 'WAVE_40',
+  });
+  assert.equal(bypass.ok, false, 'skipping ahead of the earned prefix must be blocked');
   assert.equal(bypass.code, 'RTK_LAB01_LADDER_BYPASS');
   const historicalAdmission = module.evaluateLadderAdmission({
     registry: registryJson,
@@ -1103,14 +1103,14 @@ test('LAB03-02-16-112-rejects-16-111-3-and-16-109-evidence', async () => {
   }
 });
 
-test('LAB03-03-real-registry-binds-16-112-semantic-differential-rung', async () => {
+test('LAB03-03-real-registry-binds-16-112-semantic-and-negative-rungs', async () => {
   const module = await loadModule();
   const registryJson = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
   const current = registryJson.profiles.find((p) => p.profileId === 'word-mac-16.112-26081010');
   assert.ok(current, '16.112 current profile must exist');
   assert.equal(current.class, 'COMPETING_NOT_SATURATED');
-  assert.deepEqual(current.ladder.completedRungs, ['CARRIER_SURVIVAL_SMOKE', 'SEMANTIC_DIFFERENTIAL_SUBSET']);
-  assert.equal((current.evidenceHeads || []).length, 2, '16.112 must carry smoke and semantic differential heads');
+  assert.deepEqual(current.ladder.completedRungs, ['CARRIER_SURVIVAL_SMOKE', 'SEMANTIC_DIFFERENTIAL_SUBSET', 'NEGATIVE_REPLAY_CRASH_SUBSET']);
+  assert.equal((current.evidenceHeads || []).length, 3, '16.112 must carry smoke, semantic differential and negative replay/crash heads');
 
   const semanticHead = current.evidenceHeads.find((h) =>
     h.path === 'docs/OPS/RTK/WORD_MAC_16_112_SEMANTIC_DIFFERENTIAL_RECEIPT.json');
@@ -1128,14 +1128,42 @@ test('LAB03-03-real-registry-binds-16-112-semantic-differential-rung', async () 
   const next = module.evaluateLadderAdmission({
     registry: registryJson,
     profileId: 'word-mac-16.112-26081010',
-    rung: 'NEGATIVE_REPLAY_CRASH_SUBSET',
+    rung: 'WAVE_10',
   });
-  assert.equal(next.ok, true, `next post-semantic rung must be admissible: ${JSON.stringify(next.reasons)}`);
+  assert.equal(next.ok, true, `next post-negative rung must be admissible: ${JSON.stringify(next.reasons)}`);
   const bypass = module.evaluateLadderAdmission({
+    registry: registryJson,
+    profileId: 'word-mac-16.112-26081010',
+    rung: 'WAVE_40',
+  });
+  assert.equal(bypass.ok, false, 'WAVE_40 remains a bypass before WAVE_10');
+  assert.equal(bypass.code, 'RTK_LAB01_LADDER_BYPASS');
+});
+
+test('LAB03-04-real-registry-binds-16-112-negative-replay-crash-rung', async () => {
+  const module = await loadModule();
+  const registryJson = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
+  const current = registryJson.profiles.find((p) => p.profileId === 'word-mac-16.112-26081010');
+  assert.ok(current, '16.112 current profile must exist');
+  assert.equal(current.class, 'COMPETING_NOT_SATURATED');
+
+  const negativeHead = current.evidenceHeads.find((h) =>
+    h.path === 'docs/OPS/RTK/WORD_MAC_16_112_NEGATIVE_REPLAY_CRASH_RECEIPT.json');
+  assert.ok(negativeHead, 'negative replay/crash receipt head must be registered');
+  assert.equal(negativeHead.wordVersion, '16.112');
+  assert.equal(negativeHead.wordBuild, '16.112.26081010');
+  assert.equal(String(negativeHead.path).includes('16_111_3'), false,
+    '16.112 negative evidence path must not reuse 16.111.3 receipt path');
+  const negativeAbs = path.join(REPO_ROOT, negativeHead.path);
+  assert.equal(fs.existsSync(negativeAbs), true, `negative replay/crash receipt must exist: ${negativeHead.path}`);
+  assert.equal(sha256File(negativeAbs), negativeHead.sha256, 'negative receipt sha256 must match registry head');
+  assert.deepEqual(negativeHead.rungs, ['NEGATIVE_REPLAY_CRASH_SUBSET'],
+    'negative head must justify only the negative replay/crash rung');
+
+  const next = module.evaluateLadderAdmission({
     registry: registryJson,
     profileId: 'word-mac-16.112-26081010',
     rung: 'WAVE_10',
   });
-  assert.equal(bypass.ok, false, 'WAVE_10 remains a bypass before negative replay/crash');
-  assert.equal(bypass.code, 'RTK_LAB01_LADDER_BYPASS');
+  assert.equal(next.ok, true, `WAVE_10 must be the next admissible rung: ${JSON.stringify(next.reasons)}`);
 });

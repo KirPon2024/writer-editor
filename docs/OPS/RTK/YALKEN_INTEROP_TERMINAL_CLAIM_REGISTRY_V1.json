@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.interop-terminal-claim-registry.v1",
   "registryId": "yalken-interop-terminal-claim-registry-v1",
-  "purpose": "Machine-readable terminal-claim registry for the RELEASE-01 Proof-Carrying Interop V2 §38 contract. This is the terminal layer above the WORD (LAB-01), GOOGLE (GOOGLE-01), MULTI-01 and CAPABILITY_MATRIX contours: it binds every public Word/DOCX product wording string (README.md, package.json description, src/menu/menu-config.v2.json labels, src/renderer/editor.js formatting/status strings) to a typed claim, a profile class and committed evidence, and records NOT_CLAIMED_BLOCKED claims for the Google profiles, Windows Word, Word Online, the MULTI_SCENE_COORDINATOR blocked row and the (not-yet-made) Word saturation claim. The wordingSurfaces sha256 values are the exact file sha256 at registry authoring time; every claimDigest is a stable sorted-keys sha256 over the claim minus its own claimDigest. The terminalNonClaimInventory is the deduplicated union of the real source nonClaim inventories (both Google profiles, CAPABILITY_MATRIX top-level nonClaims, the Word normalized-matrix nonClaims) plus the two terminal non-claims WORD_MAC_16_111_2_COMPLETE_NOT_SATURATED and MULTI_SCENE_ATOMIC_APPLY_BLOCKED_UNTIL_DECISIVE_CRASH_PROOF. The terminal roll-up stays NOT_MADE_WORD_TERMINAL_PASS_REQUIRED: Word 16.111.2-d1 is COMPETING_NOT_SATURATED (not SATURATED), both Google profiles are DECLARED, the MULTI_SCENE_COORDINATOR row remains blocked, and Windows/Online Word are unproven. This registry is read-only evidence; it grants no product write authority and never changes Word or Google saturation status.",
+  "purpose": "Machine-readable terminal-claim registry for the RELEASE-01 Proof-Carrying Interop V2 §38 contract. This is the terminal layer above the WORD (LAB-01), GOOGLE (GOOGLE-01), MULTI-01 and CAPABILITY_MATRIX contours: it binds every public Word/DOCX product wording string to a typed claim, a profile class and committed evidence, and records NOT_CLAIMED_BLOCKED claims for Google profiles, Windows Word, Word Online, the MULTI_SCENE_COORDINATOR blocked row, the not-yet-made Word saturation claim and current Word build compatibility. The Word 16.112 migration preserves 16.111.3 evidence as historical non-transferable evidence; no physical claim is inherited by the current profile. This registry is read-only evidence; it grants no product write authority and never changes Word or Google saturation status.",
   "wordingSurfaces": [
     {
       "surfaceId": "surface-readme",
@@ -319,11 +319,11 @@
       "surfaceId": null,
       "wording": null,
       "evidenceBinding": {
-        "profileId": "word-mac-16.111.3-26080215"
+        "profileId": "word-mac-16.112-26081010"
       },
       "blockedRowRef": null,
       "evidenceScope": "CURRENT_BUILD_COMPATIBILITY",
-      "claimDigest": "sha256:3004560ef7421e61ed7b15d7bad296073840ccf8b99a7e8a0319dbf37f6f92e3"
+      "claimDigest": "sha256:5a167b79997cfdfc3cd28f4b7a607be022586a03881e05472b62a7ba77e47f6e"
     },
     {
       "claimId": "claim-current-word-compatibility",
@@ -331,12 +331,12 @@
       "surfaceId": null,
       "wording": null,
       "evidenceBinding": {
-        "profileId": "word-mac-16.111.3-26080215"
+        "profileId": "word-mac-16.112-26081010"
       },
       "evidenceScope": "CURRENT_BUILD_COMPATIBILITY",
       "blockedRowRef": null,
-      "note": "Compatibility of Yalken DOCX interop with the CURRENT Word build (16.111.3, build 16.111.26080215) is NOT claimed: the profile is DECLARED with an empty ladder and zero evidence heads. Historical 16.111.2 evidence backs historical scope only.",
-      "claimDigest": "sha256:22c2d3e290d9fdfc046855f9be3a46e7dcab1bf3493b433f916911523bce4c5e"
+      "note": "Compatibility of Yalken DOCX interop with the CURRENT Word build (16.112, build 16.112.26081010) is NOT claimed: only CARRIER_SURVIVAL_SMOKE 12/12 has been physically earned on the exact signed provider. Historical 16.111.3 evidence is preserved as non-transferable historical scope only; installed 16.109.1 was rejected and never promoted.",
+      "claimDigest": "sha256:ee6643eb08bedb1f71501f289574df992519b22410e29816560b845257e7203a"
     }
   ],
   "bannedWordingPatterns": [
@@ -371,6 +371,8 @@
     "Mindmap export",
     "Physical Word evidence is not product runtime authority by itself.",
     "WORD_MAC_16_111_2_COMPLETE_NOT_SATURATED",
+    "WORD_MAC_16_111_3_HISTORICAL_NON_TRANSFERABLE",
+    "WORD_MAC_16_112_CURRENT_COMPATIBILITY_NOT_CLAIMED",
     "Word support",
     "cloud sync",
     "cross-platform packaged smoke",
@@ -393,9 +395,9 @@
       "TERMINAL_MATRIX_ROW_BLOCKED:MULTI_SCENE_DELETE_TOMBSTONE",
       "TERMINAL_MATRIX_ROW_BLOCKED:RETURN_NON_OVERLAP_APPLY",
       "WORD_PROFILE_DECLARED:word-online-declared",
-      "WORD_PROFILE_NOT_SATURATED:word-mac-16.111.3-26080215",
+      "WORD_PROFILE_NOT_SATURATED:word-mac-16.112-26081010",
       "WORD_PROFILE_UNPROVEN:word-windows-current"
     ],
-    "blockerBinding": "deterministic-strict-rollup-v2: recorded blockers equal the set computed by evaluateTerminalRollupStrict from the live registries (current pointer word-mac-16.111.3-26080215), terminal acceptance matrix, veto inventory and claim inventory; state remains NOT_MADE_WORD_TERMINAL_PASS_REQUIRED"
+    "blockerBinding": "deterministic-strict-rollup-v2: recorded blockers equal the set computed by evaluateTerminalRollupStrict from the live registries (current pointer word-mac-16.112-26081010), terminal acceptance matrix, veto inventory and claim inventory; state remains NOT_MADE_WORD_TERMINAL_PASS_REQUIRED; 16.112 has only CARRIER_SURVIVAL_SMOKE evidence and is not saturated; 16.111.3 evidence is historical and non-transferable"
   }
 }

@@ -1225,10 +1225,10 @@ test('RELEASE01-S05-rollup-pointer-driven', async () => {
   assert.ok(c.blockers.includes('WORD_PROFILE_NOT_SATURATED:word-mac-16.111.3-26080215'));
 });
 
-// S06: real integration — every registry claim carries evidenceScope; the new
-// current-compatibility claim is NOT_CLAIMED_BLOCKED against the DECLARED
-// 16.111.3 profile; the strict roll-up over the real context agrees with the
-// recorded (rebound) blocker set.
+// S06: real integration — every registry claim carries evidenceScope; the
+// current-compatibility claim is NOT_CLAIMED_BLOCKED against the registry's
+// current Word profile; the strict roll-up over the real context agrees with
+// the recorded blocker set.
 test('RELEASE01-S06-real-registry-scope-and-pointer-integration', async () => {
   const module = await loadModule();
   const registry = module.loadTerminalClaimRegistry(REGISTRY_PATH).registry;
@@ -1238,11 +1238,11 @@ test('RELEASE01-S06-real-registry-scope-and-pointer-integration', async () => {
   }
   const compat = registry.claims.find((c) => c.claimId === 'claim-current-word-compatibility');
   assert.ok(compat, 'the current-word-compatibility claim must exist');
-  assert.equal(compat.claimClass, 'NOT_CLAIMED_BLOCKED', 'current Word compatibility is not claimed while 16.111.3 is DECLARED');
+  assert.equal(compat.claimClass, 'NOT_CLAIMED_BLOCKED', 'current Word compatibility is not claimed until the current profile earns proof');
   assert.equal(compat.evidenceScope, 'CURRENT_BUILD_COMPATIBILITY');
-  assert.equal(compat.evidenceBinding.profileId, 'word-mac-16.111.3-26080215');
 
   const wordRegistry = JSON.parse(fs.readFileSync(WORD_REGISTRY_PATH, 'utf8'));
+  assert.equal(compat.evidenceBinding.profileId, wordRegistry.currentProfileId);
   const googleRegistry = JSON.parse(fs.readFileSync(GOOGLE_REGISTRY_PATH, 'utf8'));
   const matrix = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'docs', 'OPS', 'STATUS', 'YALKEN_WORD_C5V2_TERMINAL_ACCEPTANCE_MATRIX_V1.json'), 'utf8'));
   const v4Profile = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json'), 'utf8'));
@@ -1261,11 +1261,64 @@ test('RELEASE01-S06-real-registry-scope-and-pointer-integration', async () => {
   });
   assert.equal(result.ok, true, `real migrated roll-up must agree: ${JSON.stringify(result.reasons)}`);
   assert.equal(result.terminalClaim, 'NOT_MADE_WORD_TERMINAL_PASS_REQUIRED');
-  // PHYS-02 amendment: after the sealed smoke rung the current build is
-  // COMPETING_NOT_SATURATED, so the DECLARED blocker is replaced by the
-  // not-saturated blocker for the same profile.
-  assert.ok(result.blockers.includes('WORD_PROFILE_NOT_SATURATED:word-mac-16.111.3-26080215'),
+  assert.ok(result.blockers.includes(`WORD_PROFILE_NOT_SATURATED:${wordRegistry.currentProfileId}`),
     `computed blockers must name the unsaturated current build: ${JSON.stringify(result.blockers)}`);
+});
+
+// S07: provider migration to Word 16.112 rewires only the current-build claim
+// and roll-up pointer. The old 16.111.3 profile remains historical, its
+// receipts stay non-transferable, and terminal PASS remains blocked until the
+// new 16.112 profile earns physical evidence and saturation.
+test('RELEASE01-S07-real-registry-word-16-112-migration-fail-closed', async () => {
+  const module = await loadModule();
+  const registry = module.loadTerminalClaimRegistry(REGISTRY_PATH).registry;
+  const wordRegistry = JSON.parse(fs.readFileSync(WORD_REGISTRY_PATH, 'utf8'));
+  const prior = wordRegistry.profiles.find((p) => p.profileId === 'word-mac-16.111.3-26080215');
+  const current = wordRegistry.profiles.find((p) => p.profileId === 'word-mac-16.112-26081010');
+  assert.ok(prior, 'historical 16.111.3 profile must remain in the registry');
+  assert.ok(current, 'current 16.112 profile must exist');
+  assert.equal(wordRegistry.currentProfileId, 'word-mac-16.112-26081010');
+  assert.equal(prior.class, 'HISTORICAL_BUILD_BOUND');
+  assert.equal(prior.supersededBy, 'word-mac-16.112-26081010');
+  assert.equal(current.class, 'COMPETING_NOT_SATURATED');
+  assert.deepEqual(current.ladder.completedRungs, ['CARRIER_SURVIVAL_SMOKE']);
+  assert.equal((current.evidenceHeads || []).length, 1, '16.112 must carry only its own smoke receipt so far');
+  assert.equal(current.evidenceHeads[0].path, 'docs/OPS/RTK/WORD_MAC_16_112_CARRIER_SURVIVAL_SMOKE_RECEIPT.json');
+  assert.equal(current.evidenceHeads[0].wordVersion, '16.112');
+  assert.equal(current.evidenceHeads[0].wordBuild, '16.112.26081010');
+  assert.equal(String(current.evidenceHeads[0].path).includes('16_111_3'), false,
+    '16.112 evidence path must not reuse 16.111.3 receipt path');
+
+  const compat = registry.claims.find((c) => c.claimId === 'claim-current-word-compatibility');
+  assert.ok(compat, 'the current-word-compatibility claim must exist');
+  assert.equal(compat.claimClass, 'NOT_CLAIMED_BLOCKED');
+  assert.equal(compat.evidenceScope, 'CURRENT_BUILD_COMPATIBILITY');
+  assert.equal(compat.evidenceBinding.profileId, 'word-mac-16.112-26081010');
+
+  const googleRegistry = JSON.parse(fs.readFileSync(GOOGLE_REGISTRY_PATH, 'utf8'));
+  const matrix = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'docs', 'OPS', 'STATUS', 'YALKEN_WORD_C5V2_TERMINAL_ACCEPTANCE_MATRIX_V1.json'), 'utf8'));
+  const v4Profile = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json'), 'utf8'));
+  const vetoCounters = {};
+  for (const key of VETO_KNOWN_KEYS) vetoCounters[key] = v4Profile.capabilityClaimPolicy[key];
+  const result = module.evaluateTerminalRollupStrict({
+    registry,
+    context: {
+      currentProfileId: wordRegistry.currentProfileId,
+      wordProfiles: wordRegistry.profiles,
+      googleProfiles: googleRegistry.profiles,
+      terminalMatrix: matrix,
+      vetoCounters,
+      claims: registry.claims,
+    },
+  });
+  assert.equal(result.ok, true, `16.112 blocked roll-up must match the recorded registry: ${JSON.stringify(result.reasons)}`);
+  assert.equal(result.terminalClaim, 'NOT_MADE_WORD_TERMINAL_PASS_REQUIRED');
+  assert.equal(result.blockers.includes('WORD_PROFILE_DECLARED:word-mac-16.112-26081010'), false,
+    'the declared blocker is removed once 16.112 earns smoke evidence');
+  assert.ok(result.blockers.includes('WORD_PROFILE_NOT_SATURATED:word-mac-16.112-26081010'),
+    `computed blockers must name the unsaturated 16.112 profile: ${JSON.stringify(result.blockers)}`);
+  assert.equal(result.blockers.includes('WORD_PROFILE_NOT_SATURATED:word-mac-16.111.3-26080215'), false,
+    'the terminal roll-up must not keep the old profile as the current blocker');
 });
 
 // Keep stableJson referenced for fixture symmetry with sibling contracts.

@@ -1,15 +1,17 @@
 #!/usr/bin/env node
 /*
- * PHYS-01 — build-bound physical ladder runner for word-mac-16.111.3-26080215.
+ * PHYS-01 — build-bound physical ladder runner for word-mac-16.112-26081010.
  *
- * The lab machine moved to Word 16.111.3 (build 16.111.26080215) on
- * 2026-08-10; LAB-02 typed the migration with zero inheritance. This runner
+ * The lab machine moved to Word 16.112 (build 16.112.26081010) on
+ * 2026-08-13; PHYS-02 typed the migration with zero inheritance. This runner
  * executes the migration ladder for the new build under fail-closed gates.
  * It never reuses or overwrites a receipt bound to another build.
  *
  * Gate law (order load-bearing, pinned by rtk-phys01-ladder-runner.contract):
  *   RUNG_UNKNOWN -> SHA_MISMATCH -> DIRTY_WORKTREE -> WORD_VERSION_MISMATCH ->
- *   WORD_BUILD_MISMATCH -> ARTIFACT_ROOT_INVALID -> WORD_SESSION_NOT_CLEAN.
+ *   WORD_BUILD_MISMATCH -> BUNDLE_ID_MISMATCH -> TEAM_IDENTIFIER_MISMATCH ->
+ *   SIGNATURE_AUTHORITY_MISMATCH -> ARTIFACT_ROOT_INVALID ->
+ *   WORD_SESSION_NOT_CLEAN.
  *
  * Receipt law: a rung seals only when every case passes
  * open-edit-save-close-reopen with sentinel AND insertion readback proof.
@@ -82,9 +84,22 @@ export function verifyPhysArtifactRoot({ artifactRoot, diskInfoText } = {}) {
   return { ok: true, rootReal };
 }
 
-export const PHYS_PROFILE_ID = 'word-mac-16.111.3-26080215';
-export const PHYS_EXPECTED_WORD_VERSION = '16.111.3';
-export const PHYS_EXPECTED_WORD_BUILD = '16.111.26080215';
+export const PHYS_PROFILE_ID = 'word-mac-16.112-26081010';
+export const PHYS_EXPECTED_WORD_VERSION = '16.112';
+export const PHYS_EXPECTED_WORD_BUILD = '16.112.26081010';
+export const PHYS_EXPECTED_BUNDLE_ID = 'com.microsoft.Word';
+export const PHYS_EXPECTED_TEAM_IDENTIFIER = 'UBF8T346G9';
+export const PHYS_EXPECTED_SIGNATURE_AUTHORITIES = Object.freeze([
+  'Developer ID Application: Microsoft Corporation (UBF8T346G9)',
+  'Developer ID Certification Authority',
+  'Apple Root CA',
+]);
+export const PHYS_PROVIDER_SOURCE_BINDING = Object.freeze({
+  microsoftLearnCurrentReleaseDate: '2026-08-11',
+  microsoftLearnCurrentVersion: '16.112',
+  microsoftLearnCurrentBuild: '26081010',
+  wordUpdatePackageSha256: 'sha256:BAC312145A1733B904F36CF0D7DE2CF93E15AEBBC1F0D5665A72D887EB7C5997',
+});
 export const PHYS_LADDER_RUNGS = Object.freeze([
   'CARRIER_SURVIVAL_SMOKE',
   'SEMANTIC_DIFFERENTIAL_SUBSET',
@@ -97,67 +112,67 @@ export const PHYS_LADDER_RUNGS = Object.freeze([
   'SATURATION_LIMITATION_AUDIT',
 ]);
 
-// PHYS-01B: per-rung definitions. Every receipt path is bound to the 16.111.3
+// PHYS-01B: per-rung definitions. Every receipt path is bound to the 16.112
 // profile and never collides with a 16.111.2-bound artifact.
 export const RUNG_DEFINITIONS = Object.freeze({
   CARRIER_SURVIVAL_SMOKE: Object.freeze({
     kind: 'smoke',
     caseCount: 12,
-    receiptRef: 'docs/OPS/RTK/WORD_MAC_16_111_3_CARRIER_SURVIVAL_SMOKE_RECEIPT.json',
-    receiptSchema: 'yalken.rtk.word-mac-16-111-3.carrier-survival-smoke-receipt.v1',
+    receiptRef: 'docs/OPS/RTK/WORD_MAC_16_112_CARRIER_SURVIVAL_SMOKE_RECEIPT.json',
+    receiptSchema: 'yalken.rtk.word-mac-16-112.carrier-survival-smoke-receipt.v1',
   }),
   SEMANTIC_DIFFERENTIAL_SUBSET: Object.freeze({
     kind: 'semantic',
     caseCount: 24,
-    receiptRef: 'docs/OPS/RTK/WORD_MAC_16_111_3_SEMANTIC_DIFFERENTIAL_RECEIPT.json',
-    receiptSchema: 'yalken.rtk.word-mac-16-111-3.semantic-differential-receipt.v1',
+    receiptRef: 'docs/OPS/RTK/WORD_MAC_16_112_SEMANTIC_DIFFERENTIAL_RECEIPT.json',
+    receiptSchema: 'yalken.rtk.word-mac-16-112.semantic-differential-receipt.v1',
   }),
   NEGATIVE_REPLAY_CRASH_SUBSET: Object.freeze({
     kind: 'negative',
     caseCount: 8,
-    receiptRef: 'docs/OPS/RTK/WORD_MAC_16_111_3_NEGATIVE_REPLAY_CRASH_RECEIPT.json',
-    receiptSchema: 'yalken.rtk.word-mac-16-111-3.negative-replay-crash-receipt.v1',
+    receiptRef: 'docs/OPS/RTK/WORD_MAC_16_112_NEGATIVE_REPLAY_CRASH_RECEIPT.json',
+    receiptSchema: 'yalken.rtk.word-mac-16-112.negative-replay-crash-receipt.v1',
   }),
   WAVE_10: Object.freeze({
     kind: 'wave',
     caseCount: 10,
-    receiptRef: 'docs/OPS/RTK/WORD_MAC_16_111_3_PHYSICAL_WAVE10_RECEIPT.json',
-    receiptSchema: 'yalken.rtk.word-mac-16-111-3.wave-10-receipt.v1',
+    receiptRef: 'docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE10_RECEIPT.json',
+    receiptSchema: 'yalken.rtk.word-mac-16-112.wave-10-receipt.v1',
   }),
   WAVE_40: Object.freeze({
     kind: 'wave',
     caseCount: 40,
-    receiptRef: 'docs/OPS/RTK/WORD_MAC_16_111_3_PHYSICAL_WAVE40_RECEIPT.json',
-    receiptSchema: 'yalken.rtk.word-mac-16-111-3.wave-40-receipt.v1',
+    receiptRef: 'docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE40_RECEIPT.json',
+    receiptSchema: 'yalken.rtk.word-mac-16-112.wave-40-receipt.v1',
   }),
   WAVE_100: Object.freeze({
     kind: 'wave',
     caseCount: 100,
-    receiptRef: 'docs/OPS/RTK/WORD_MAC_16_111_3_PHYSICAL_WAVE100_RECEIPT.json',
-    receiptSchema: 'yalken.rtk.word-mac-16-111-3.wave-100-receipt.v1',
+    receiptRef: 'docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE100_RECEIPT.json',
+    receiptSchema: 'yalken.rtk.word-mac-16-112.wave-100-receipt.v1',
   }),
   WAVE_300: Object.freeze({
     kind: 'wave',
     caseCount: 300,
-    receiptRef: 'docs/OPS/RTK/WORD_MAC_16_111_3_PHYSICAL_WAVE300_RECEIPT.json',
-    receiptSchema: 'yalken.rtk.word-mac-16-111-3.wave-300-receipt.v1',
+    receiptRef: 'docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE300_RECEIPT.json',
+    receiptSchema: 'yalken.rtk.word-mac-16-112.wave-300-receipt.v1',
   }),
   WAVE_300_REPEAT: Object.freeze({
     kind: 'wave',
     caseCount: 300,
-    receiptRef: 'docs/OPS/RTK/WORD_MAC_16_111_3_PHYSICAL_WAVE300_REPEAT_RECEIPT.json',
-    receiptSchema: 'yalken.rtk.word-mac-16-111-3.wave-300-repeat-receipt.v1',
+    receiptRef: 'docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE300_REPEAT_RECEIPT.json',
+    receiptSchema: 'yalken.rtk.word-mac-16-112.wave-300-repeat-receipt.v1',
     repeatOf: 'WAVE_300',
   }),
   SATURATION_LIMITATION_AUDIT: Object.freeze({
     kind: 'audit',
     caseCount: 0,
-    receiptRef: 'docs/OPS/RTK/WORD_MAC_16_111_3_SATURATION_LIMITATION_AUDIT_RECEIPT.json',
-    receiptSchema: 'yalken.rtk.word-mac-16-111-3.saturation-limitation-audit-receipt.v1',
+    receiptRef: 'docs/OPS/RTK/WORD_MAC_16_112_SATURATION_LIMITATION_AUDIT_RECEIPT.json',
+    receiptSchema: 'yalken.rtk.word-mac-16-112.saturation-limitation-audit-receipt.v1',
   }),
 });
-export const SMOKE_RECEIPT_SCHEMA = 'yalken.rtk.word-mac-16-111-3.carrier-survival-smoke-receipt.v1';
-export const SMOKE_RECEIPT_REF = 'docs/OPS/RTK/WORD_MAC_16_111_3_CARRIER_SURVIVAL_SMOKE_RECEIPT.json';
+export const SMOKE_RECEIPT_SCHEMA = 'yalken.rtk.word-mac-16-112.carrier-survival-smoke-receipt.v1';
+export const SMOKE_RECEIPT_REF = 'docs/OPS/RTK/WORD_MAC_16_112_CARRIER_SURVIVAL_SMOKE_RECEIPT.json';
 export const SMOKE_CASE_COUNT = 12;
 
 export const PHYS_CODES = Object.freeze({
@@ -167,6 +182,9 @@ export const PHYS_CODES = Object.freeze({
   DIRTY_WORKTREE: 'RTK_PHYS_DIRTY_WORKTREE',
   WORD_VERSION_MISMATCH: 'RTK_PHYS_WORD_VERSION_MISMATCH',
   WORD_BUILD_MISMATCH: 'RTK_PHYS_WORD_BUILD_MISMATCH',
+  BUNDLE_ID_MISMATCH: 'RTK_PHYS_BUNDLE_ID_MISMATCH',
+  TEAM_IDENTIFIER_MISMATCH: 'RTK_PHYS_TEAM_IDENTIFIER_MISMATCH',
+  SIGNATURE_AUTHORITY_MISMATCH: 'RTK_PHYS_SIGNATURE_AUTHORITY_MISMATCH',
   ARTIFACT_ROOT_INVALID: 'RTK_PHYS_ARTIFACT_ROOT_INVALID',
   WORD_SESSION_NOT_CLEAN: 'RTK_PHYS_WORD_SESSION_NOT_CLEAN',
   CASE_FAILURES_PRESENT: 'RTK_PHYS_CASE_FAILURES_PRESENT',
@@ -217,6 +235,10 @@ function isPlainObject(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
 
+function isNonEmptyString(value) {
+  return typeof value === 'string' && value.length > 0;
+}
+
 // ---------------------------------------------------------------------------
 // Default ports (the only place process/git/Word are touched; tests inject).
 // ---------------------------------------------------------------------------
@@ -234,15 +256,50 @@ function shell(command, args, options = {}) {
   }
 }
 
+function commandOk(command, args, options = {}) {
+  try {
+    execFileSync(command, args, {
+      cwd: REPO_ROOT,
+      encoding: 'utf8',
+      timeout: options.timeout || 30_000,
+      stdio: ['ignore', 'pipe', 'pipe'],
+    });
+    return true;
+  } catch (_error) {
+    return false;
+  }
+}
+
+function parseCodesignDetails(text) {
+  const out = { teamIdentifier: '', signatureAuthorities: [] };
+  for (const line of String(text || '').split(/\r?\n/)) {
+    const authority = line.match(/^Authority=(.+)$/);
+    if (authority) out.signatureAuthorities.push(authority[1]);
+    const team = line.match(/^TeamIdentifier=(.+)$/);
+    if (team) out.teamIdentifier = team[1];
+  }
+  return out;
+}
+
 function defaultPorts() {
   return {
     gitHead: () => shell('git', ['rev-parse', 'HEAD']),
     gitOriginMain: () => shell('git', ['rev-parse', 'origin/main']),
     gitDirty: () => shell('git', ['status', '--porcelain']) !== '',
-    probeWordPlist: () => ({
-      version: shell('/usr/bin/plutil', ['-extract', 'CFBundleShortVersionString', 'raw', '/Applications/Microsoft Word.app/Contents/Info.plist']),
-      build: shell('/usr/bin/plutil', ['-extract', 'CFBundleVersion', 'raw', '/Applications/Microsoft Word.app/Contents/Info.plist']),
-    }),
+    probeWordPlist: () => {
+      const appPath = '/Applications/Microsoft Word.app';
+      const infoPlist = `${appPath}/Contents/Info.plist`;
+      const codesignText = shell('/bin/sh', ['-lc', "/usr/bin/codesign -dv --verbose=4 '/Applications/Microsoft Word.app' 2>&1"]);
+      const parsedSignature = parseCodesignDetails(codesignText);
+      return {
+        version: shell('/usr/bin/plutil', ['-extract', 'CFBundleShortVersionString', 'raw', infoPlist]),
+        build: shell('/usr/bin/plutil', ['-extract', 'CFBundleVersion', 'raw', infoPlist]),
+        bundleId: shell('/usr/bin/plutil', ['-extract', 'CFBundleIdentifier', 'raw', infoPlist]),
+        teamIdentifier: parsedSignature.teamIdentifier,
+        signatureAuthorities: parsedSignature.signatureAuthorities,
+        signatureValid: commandOk('/usr/bin/codesign', ['--verify', '--deep', '--strict', appPath]),
+      };
+    },
     verifyArtifactRoot: ({ artifactRoot }) => {
       try {
         verifyPhysArtifactRoot({ artifactRoot, diskInfoText: shell('diskutil', ['info', '/Volumes/T7-Secure']) });
@@ -264,7 +321,20 @@ function defaultPorts() {
 // Word. The session check runs only when requireSession is set (physical mode).
 // ---------------------------------------------------------------------------
 
-export function evaluatePhysGates({ rung, expectedSha, expectedWordVersion, expectedWordBuild, artifactRoot, ports, requireSession = true } = {}) {
+export function evaluatePhysGates({
+  rung,
+  expectedSha,
+  expectedOriginMainSha,
+  allowLocalCandidateHead = false,
+  expectedWordVersion = PHYS_EXPECTED_WORD_VERSION,
+  expectedWordBuild = PHYS_EXPECTED_WORD_BUILD,
+  expectedBundleId = PHYS_EXPECTED_BUNDLE_ID,
+  expectedTeamIdentifier = PHYS_EXPECTED_TEAM_IDENTIFIER,
+  expectedSignatureAuthorities = PHYS_EXPECTED_SIGNATURE_AUTHORITIES,
+  artifactRoot,
+  ports,
+  requireSession = true,
+} = {}) {
   const p = ports || defaultPorts();
 
   if (!PHYS_LADDER_RUNGS.includes(rung)) {
@@ -273,8 +343,11 @@ export function evaluatePhysGates({ rung, expectedSha, expectedWordVersion, expe
 
   const head = p.gitHead();
   const originMain = p.gitOriginMain();
-  if (head !== expectedSha || originMain !== expectedSha) {
-    return { ok: false, code: PHYS_CODES.SHA_MISMATCH, reasons: [reason(PHYS_CODES.SHA_MISMATCH, `HEAD ${head} / origin/main ${originMain} != expected ${expectedSha}`)] };
+  const expectedOrigin = allowLocalCandidateHead === true ? expectedOriginMainSha : expectedSha;
+  if (!isNonEmptyString(expectedSha) || !isNonEmptyString(expectedOrigin)
+    || head !== expectedSha || originMain !== expectedOrigin) {
+    const mode = allowLocalCandidateHead === true ? 'local-candidate' : 'merged-head';
+    return { ok: false, code: PHYS_CODES.SHA_MISMATCH, reasons: [reason(PHYS_CODES.SHA_MISMATCH, `mode ${mode}: HEAD ${head} != expected ${expectedSha} or origin/main ${originMain} != expected ${expectedOrigin}`)] };
   }
 
   if (p.gitDirty() === true) {
@@ -287,6 +360,17 @@ export function evaluatePhysGates({ rung, expectedSha, expectedWordVersion, expe
   }
   if (probed.build !== expectedWordBuild) {
     return { ok: false, code: PHYS_CODES.WORD_BUILD_MISMATCH, reasons: [reason(PHYS_CODES.WORD_BUILD_MISMATCH, `Word build ${JSON.stringify(probed.build)} != expected ${JSON.stringify(expectedWordBuild)}`)] };
+  }
+  if (probed.bundleId !== expectedBundleId) {
+    return { ok: false, code: PHYS_CODES.BUNDLE_ID_MISMATCH, reasons: [reason(PHYS_CODES.BUNDLE_ID_MISMATCH, `Word bundle id ${JSON.stringify(probed.bundleId)} != expected ${JSON.stringify(expectedBundleId)}`)] };
+  }
+  if (probed.teamIdentifier !== expectedTeamIdentifier) {
+    return { ok: false, code: PHYS_CODES.TEAM_IDENTIFIER_MISMATCH, reasons: [reason(PHYS_CODES.TEAM_IDENTIFIER_MISMATCH, `Word TeamIdentifier ${JSON.stringify(probed.teamIdentifier)} != expected ${JSON.stringify(expectedTeamIdentifier)}`)] };
+  }
+  const actualAuthorities = Array.isArray(probed.signatureAuthorities) ? probed.signatureAuthorities : [];
+  const missingAuthority = [...expectedSignatureAuthorities].find((authority) => !actualAuthorities.includes(authority));
+  if (probed.signatureValid !== true || missingAuthority !== undefined) {
+    return { ok: false, code: PHYS_CODES.SIGNATURE_AUTHORITY_MISMATCH, reasons: [reason(PHYS_CODES.SIGNATURE_AUTHORITY_MISMATCH, `Word signature valid=${JSON.stringify(probed.signatureValid)} missingAuthority=${JSON.stringify(missingAuthority)}`)] };
   }
 
   const root = p.verifyArtifactRoot({ artifactRoot });
@@ -312,9 +396,9 @@ export function evaluatePhysGates({ rung, expectedSha, expectedWordVersion, expe
 
 export function buildSmokeCaseSpecs() {
   return Array.from({ length: SMOKE_CASE_COUNT }, (_, i) => ({
-    id: `phys-16-111-3-smoke-${String(i + 1).padStart(2, '0')}`,
+    id: `phys-16-112-smoke-${String(i + 1).padStart(2, '0')}`,
     ordinal: i + 1,
-    title: `Carrier survival smoke case ${i + 1} (Word 16.111.3)`,
+    title: `Carrier survival smoke case ${i + 1} (Word 16.112)`,
   }));
 }
 
@@ -786,7 +870,7 @@ export function buildDiverseWaveCaseSpecs(rung) {
       const shape = shapes[i % shapes.length];
       const contentClass = CONTENT_CLASSES[Math.floor(i / shapes.length) % CONTENT_CLASSES.length];
       specs.push({
-        id: `phys-16-111-3-${rung.toLowerCase().replace(/_/g, '-')}-${String(ordinal).padStart(3, '0')}`,
+        id: `phys-16-112-${rung.toLowerCase().replace(/_/g, '-')}-${String(ordinal).padStart(3, '0')}`,
         ordinal,
         family,
         operationShape: shape,
@@ -819,7 +903,7 @@ export function buildCaseManifest(specs) {
 export function buildRepeatCaseSpecs(manifest) {
   const cases = manifest && Array.isArray(manifest.cases) ? manifest.cases : [];
   return cases.map((entry, index) => ({
-    id: `phys-16-111-3-wave-300-repeat-${String(index + 1).padStart(3, '0')}`,
+    id: `phys-16-112-wave-300-repeat-${String(index + 1).padStart(3, '0')}`,
     ordinal: index + 1,
     family: entry.family,
     operationShape: entry.operationShape,
@@ -900,7 +984,7 @@ export function buildSmokeReceipt({ rung, headSha, originMainSha, wordProfile, c
     counters: { total: cases.length, passed, failed: cases.length - passed },
     cases,
     nonClaims: [
-      'This receipt is evidence for the word-mac-16.111.3-26080215 profile only.',
+      'This receipt is evidence for the word-mac-16.112-26081010 profile only.',
       'No compatibility with the current Word build is claimed by this rung.',
       'No saturation, no terminal pass and no user-facing claim follows.',
     ],
@@ -1021,6 +1105,11 @@ function collectPhysWordProfile() {
     appPath: '/Applications/Microsoft Word.app',
     versionByBundle: probed.version,
     buildByBundle: probed.build,
+    bundleId: probed.bundleId,
+    teamIdentifier: probed.teamIdentifier,
+    signatureAuthorities: probed.signatureAuthorities,
+    signatureValid: probed.signatureValid,
+    providerSourceBinding: PHYS_PROVIDER_SOURCE_BINDING,
     versionByAppleScript: shell('osascript', ['-e', 'tell application "Microsoft Word" to return version as text']),
     macosVersion: shell('sw_vers', ['-productVersion']),
     macosBuild: shell('sw_vers', ['-buildVersion']),
@@ -1229,8 +1318,8 @@ export function buildSemanticFixtureTextForTest(spec) {
 
 export function buildSemanticCaseSpecs() {
   return Array.from({ length: RUNG_DEFINITIONS.SEMANTIC_DIFFERENTIAL_SUBSET.caseCount }, (_, i) => {
-    const id = `phys-16-111-3-semantic-${String(i + 1).padStart(2, '0')}`;
-    const probe = { id, title: `Semantic differential case ${i + 1} (Word 16.111.3)` };
+    const id = `phys-16-112-semantic-${String(i + 1).padStart(2, '0')}`;
+    const probe = { id, title: `Semantic differential case ${i + 1} (Word 16.112)` };
     const text = fixtureTextFor(probe);
     const needle = 'OLD_WORD';
     const index = text.indexOf(needle);
@@ -1330,9 +1419,9 @@ export function buildWaveCaseSpecs(rung) {
   const full = buildDiverseWaveCaseSpecs('WAVE_300');
   const specs = full.slice(0, def.caseCount).map((spec, i) => ({
     ...spec,
-    id: `phys-16-111-3-${rung.toLowerCase().replace(/_/g, '-')}-${String(i + 1).padStart(3, '0')}`,
+    id: `phys-16-112-${rung.toLowerCase().replace(/_/g, '-')}-${String(i + 1).padStart(3, '0')}`,
     ordinal: i + 1,
-    insertion: ` PHYS_16_111_3_${rung}_CASE_${String(i + 1).padStart(3, '0')}`,
+    insertion: ` PHYS_16_112_${rung}_CASE_${String(i + 1).padStart(3, '0')}`,
   }));
   return specs;
 }
@@ -1385,7 +1474,7 @@ export function buildRungReceipt(plan, { rung, headSha, originMainSha, wordProfi
   // diversity-proven scope ONLY when the diversity oracle passes over the
   // rung's case specs. Quotas bind at the 300-denominator rungs; small waves
   // require distinct in-vocabulary forms. Without specs the legacy append
-  // scope is kept for the already-sealed 16.111.3 append waves.
+  // scope is kept for the already-sealed 16.112 append waves.
   let claimScope;
   let caseManifest;
   let manifestDigest;
@@ -1425,7 +1514,7 @@ export function buildRungReceipt(plan, { rung, headSha, originMainSha, wordProfi
     counters: { total: cases.length, passed, failed: cases.length - passed },
     cases,
     nonClaims: [
-      'This receipt is evidence for the word-mac-16.111.3-26080215 profile only.',
+      'This receipt is evidence for the word-mac-16.112-26081010 profile only.',
       'No compatibility with the current Word build is claimed by this rung.',
       'No saturation, no terminal pass and no user-facing claim follows.',
     ],
@@ -1478,7 +1567,7 @@ async function runRungPhysical({ plan, artifactRoot, runId }) {
   if (plan.executor === 'append-cycle') {
     return runSmokePhysical({ artifactRoot, runId });
   }
-  const wordWorkRoot = defaultWordSandboxWorkRoot('phys-16-111-3', plan.rung.toLowerCase().replace(/_/g, '-'));
+  const wordWorkRoot = defaultWordSandboxWorkRoot('phys-16-112', plan.rung.toLowerCase().replace(/_/g, '-'));
   assertWordSandboxWorkRoot(wordWorkRoot);
   const dirs = {
     wordSources: path.join(wordWorkRoot, 'sources', runId),
@@ -1538,7 +1627,7 @@ async function runRungPhysical({ plan, artifactRoot, runId }) {
       fs.copyFileSync(sourcePath, returnedPath);
       const isProbeFamily = ['stale', 'replay', 'tamper', 'crash'].includes(spec.family);
       const script = isProbeFamily
-        ? buildSmokeWordScript(path.basename(returnedPath), returnedPath, sentinel, ` PHYS_16_111_3_${spec.family.toUpperCase()}_PROBE_${spec.ordinal}`)
+        ? buildSmokeWordScript(path.basename(returnedPath), returnedPath, sentinel, ` PHYS_16_112_${spec.family.toUpperCase()}_PROBE_${spec.ordinal}`)
         : buildFamilyWordScript(path.basename(returnedPath), returnedPath, spec);
       const scriptPath = path.join(dirs.evidence, `${spec.id}.applescript`);
       fs.writeFileSync(scriptPath, script);
@@ -1573,8 +1662,8 @@ async function runRungPhysical({ plan, artifactRoot, runId }) {
     // and evaluator-level detections around their artifacts.
     const carrier = [];
     for (const spec of [
-      { id: 'phys-16-111-3-negative-carrier-01', title: 'Negative probe carrier 1', insertion: ' PHYS_16_111_3_NEGATIVE_CARRIER_1' },
-      { id: 'phys-16-111-3-negative-carrier-02', title: 'Negative probe carrier 2', insertion: ' PHYS_16_111_3_NEGATIVE_CARRIER_2' },
+      { id: 'phys-16-112-negative-carrier-01', title: 'Negative probe carrier 1', insertion: ' PHYS_16_112_NEGATIVE_CARRIER_1' },
+      { id: 'phys-16-112-negative-carrier-02', title: 'Negative probe carrier 2', insertion: ' PHYS_16_112_NEGATIVE_CARRIER_2' },
     ]) {
       const sentinel = `YALKEN_B06_CASE ${spec.id}`;
       const sourcePath = path.join(dirs.wordSources, `${spec.id}-source.docx`);
@@ -1643,7 +1732,7 @@ async function runRungPhysical({ plan, artifactRoot, runId }) {
 }
 
 async function runSmokePhysical({ artifactRoot, runId }) {
-  const wordWorkRoot = defaultWordSandboxWorkRoot('phys-16-111-3', 'carrier-survival-smoke');
+  const wordWorkRoot = defaultWordSandboxWorkRoot('phys-16-112', 'carrier-survival-smoke');
   assertWordSandboxWorkRoot(wordWorkRoot);
   const dirs = {
     wordSources: path.join(wordWorkRoot, 'sources', runId),
@@ -1655,7 +1744,7 @@ async function runSmokePhysical({ artifactRoot, runId }) {
   const cases = [];
   for (const spec of buildSmokeCaseSpecs()) {
     const sentinel = `YALKEN_B06_CASE ${spec.id}`;
-    const insertion = ` PHYS_16_111_3_CARRIER ${spec.id}`;
+    const insertion = ` PHYS_16_112_CARRIER ${spec.id}`;
     const sourcePath = path.join(dirs.wordSources, `${spec.id}-source.docx`);
     const returnedPath = path.join(dirs.wordReturns, `${spec.id}-returned.docx`);
     const buffer = buildB06SyntheticDocxBuffer(spec);
@@ -1697,13 +1786,18 @@ async function main() {
   const argv = process.argv.slice(2);
   const rung = getArg(argv, '--rung', 'CARRIER_SURVIVAL_SMOKE');
   const expectedSha = getArg(argv, '--expected-sha');
-  const artifactRoot = getArg(argv, '--artifact-root', '/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/phys-16-111-3');
+  const artifactRoot = getArg(argv, '--artifact-root', '/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/phys-16-112');
   const runPhysical = argv.includes('--run-physical');
   const gates = evaluatePhysGates({
     rung,
     expectedSha,
+    expectedOriginMainSha: getArg(argv, '--expected-origin-main-sha', expectedSha),
+    allowLocalCandidateHead: argv.includes('--allow-local-candidate-head'),
     expectedWordVersion: getArg(argv, '--expected-word-version', PHYS_EXPECTED_WORD_VERSION),
     expectedWordBuild: getArg(argv, '--expected-word-build', PHYS_EXPECTED_WORD_BUILD),
+    expectedBundleId: getArg(argv, '--expected-bundle-id', PHYS_EXPECTED_BUNDLE_ID),
+    expectedTeamIdentifier: getArg(argv, '--expected-team-identifier', PHYS_EXPECTED_TEAM_IDENTIFIER),
+    expectedSignatureAuthorities: PHYS_EXPECTED_SIGNATURE_AUTHORITIES,
     artifactRoot,
   });
   if (!gates.ok) {
@@ -1768,13 +1862,14 @@ async function main() {
   const cases = await runRungPhysical({ plan, artifactRoot, runId });
   const verdict = evaluateRungCases(rung, cases);
   const headSha = defaultPorts().gitHead();
+  const originMainSha = defaultPorts().gitOriginMain();
   const caseSpecs = rung === 'WAVE_300_REPEAT'
     ? plan.repeatSpecs
     : (plan.kind === 'wave' ? buildWaveCaseSpecs(rung) : undefined);
   const receiptAttempt = {
     rung,
     headSha,
-    originMainSha: headSha,
+    originMainSha,
     wordProfile: collectPhysWordProfile(),
     cases,
     artifactRoot: path.join(artifactRoot, runId),

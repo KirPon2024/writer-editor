@@ -98,6 +98,7 @@ test('project tree identity migration is atomic, idempotent, and rename-stable',
   fileManager.getDocumentsPath = () => documentsRoot;
   t.after(() => { fileManager.getDocumentsPath = originalGetDocumentsPath; });
 
+  await main.buildProjectTreeRootsWithIdentities('Роман');
   const first = await main.handleWorkspaceProjectTreeQuery({ tab: 'roman' });
   assert.equal(first.ok, true);
   assert.match(first.projectId, /^project-/u);

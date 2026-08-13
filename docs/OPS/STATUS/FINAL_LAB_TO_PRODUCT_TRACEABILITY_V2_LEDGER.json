@@ -3,7 +3,7 @@
   "documentClass": "FACTUAL_STATUS",
   "status": "LIVING_LEDGER_CURRENT_NOT_FINAL_PROGRAM_VERDICT",
   "claimBoundary": "Maps material lab findings and post-20260811 program deltas to typed product dispositions. This ledger is not product/runtime authority, does not modify frozen source packages, and does not claim all lab work is integrated.",
-  "generatedAtUtc": "2026-08-13T21:44:52Z",
+  "generatedAtUtc": "2026-08-14T00:00:00Z",
   "exactHead": "1cd98056dc091a74b9b7f0fe30356a456b6acfc4",
   "programPhaseSequence": [
     "S0",
@@ -561,16 +561,49 @@
     {
       "materialId": "F0R_T0_ROUND_AUTHORITY_PRODUCTIZATION",
       "programPhase": "F0R_T0",
-      "summary": "Round Authority / T0 productization remains a later bounded contour, not silently imported into F2 Word evidence.",
+      "summary": "T0 Round Authority source-fence admission seam: exact-apply writer reservation requires main command authority plus Product Core sourceFenceV1 WRITE_SOURCE revalidation bound to project/root/document/revision/digest and writer target document; nested scene document IDs are supported as identity strings without path authority.",
       "sourcePins": [
         "ROUND_AUTHORITY_INPUT_EXTERNAL_RECEIPT"
       ],
-      "disposition": "DEFERRED_WITH_BLOCKER",
-      "deferred": {
-        "prerequisite": "Open a separate F0R/T0 contour with closed command-authority contracts, source fence revalidation, finite model, hostile corpus, mutation catalog and product-runtime evidence.",
-        "owner": "MASTER_PROGRAM_OWNER_OR_CURRENT_OWNER_GRANT_WITHIN_SCOPE",
-        "acceptanceGate": "Exact PR/CI/merge/postmerge evidence proving Round Authority product behavior without laundering lab-only evidence."
-      }
+      "disposition": "ENFORCED_TEST_GATE",
+      "productBindings": [
+        {
+          "commitSha": "f54e6872d3c9084a7edd9c55b3d9af2173d8522d",
+          "prNumber": 1516,
+          "files": [
+            "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
+            "scripts/ops/rtk-t0-round-authority-source-fence-model.mjs",
+            "scripts/ops/rtk-word-mac-certification-lab.mjs",
+            "scripts/ops/source-fence-v1-model.mjs",
+            "src/export/docx/fullManuscriptDocxReviewReturnRouter.js",
+            "src/io/revisionBridge/reviewTransportApplyCore.mjs",
+            "src/product/sourceFenceV1.mjs",
+            "test/contracts/rtk-multi01-multi-scene-scope-blocked.contract.test.js",
+            "test/contracts/rtk-stop01-authority-stop.contract.test.js",
+            "test/contracts/rtk-t0-round-authority-source-fence.contract.test.js",
+            "test/contracts/rtk-tx01-single-scene-transaction.contract.test.js",
+            "test/contracts/rtk-w3-exact-apply-replay.contract.test.js",
+            "test/contracts/rtk-word-latest-semantic-b05-exact-apply-adapter.contract.test.js",
+            "test/contracts/rtk-word-safety-c1-effect-reservation.contract.test.js",
+            "test/contracts/rtk-word-safety-c2-multiscene-command-path.contract.test.js",
+            "test/contracts/rtk-word-saturation-c04-block-writer-binding.contract.test.js",
+            "test/contracts/rtk-word-saturation-c05-block-range-writer.contract.test.js",
+            "test/contracts/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.contract.test.js",
+            "test/contracts/source-fence-v1.contract.test.js"
+          ],
+          "tests": [
+            "node --test test/contracts/rtk-t0-round-authority-source-fence.contract.test.js test/contracts/rtk-w3-exact-apply-replay.contract.test.js",
+            "node scripts/ops/rtk-t0-round-authority-source-fence-model.mjs",
+            "node scripts/ops/source-fence-v1-model.mjs",
+            "node --test test/contracts/source-fence-v1.contract.test.js test/contracts/rtk-multi01-multi-scene-scope-blocked.contract.test.js test/contracts/rtk-word-safety-c2-multiscene-command-path.contract.test.js test/contracts/rtk-word-saturation-c04-block-writer-binding.contract.test.js test/contracts/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.contract.test.js test/contracts/rtk-word-c5v2-full-manuscript-return-router.contract.test.js test/contracts/rtk-t0-round-authority-source-fence.contract.test.js",
+            "node --test test/contracts/rtk-stop01-authority-stop.contract.test.js test/contracts/rtk-tx01-single-scene-transaction.contract.test.js test/contracts/rtk-w3-exact-apply-replay.contract.test.js test/contracts/rtk-word-latest-semantic-b05-exact-apply-adapter.contract.test.js test/contracts/rtk-word-safety-c1-effect-reservation.contract.test.js test/contracts/rtk-word-saturation-c05-block-range-writer.contract.test.js test/contracts/rtk-t0-round-authority-source-fence.contract.test.js test/contracts/revision-bridge-word-evidence-check.contract.test.js"
+          ],
+          "receipt": {
+            "path": "docs/OPS/STATUS/YALKEN_T0_ROUND_AUTHORITY_SOURCE_FENCE_V1_RECEIPT.json",
+            "sha256": "53c89355ca89b179e625e3225cd1ba0b8968693276204cde504d05015614d99a"
+          }
+        }
+      ]
     },
     {
       "materialId": "F3_BLACK_BOX_FINAL_LAB_P0A_P0B_P0C_LESSONS",

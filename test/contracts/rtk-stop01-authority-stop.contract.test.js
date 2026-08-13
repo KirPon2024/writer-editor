@@ -47,6 +47,66 @@ function sha256Text(text) {
   return `sha256:${crypto.createHash('sha256').update(Buffer.from(text, 'utf8')).digest('hex')}`;
 }
 
+function sourceFenceToken(source) {
+  const payload = {
+    schemaVersion: 'yalken.sourceFence.token.v1',
+    purpose: 'WRITE_SOURCE',
+    projectId: source.projectId,
+    rootId: source.rootId,
+    documentId: source.documentId,
+    canonicalRevision: source.canonicalRevision,
+    workingRevision: source.workingRevision,
+    sourceDigest: source.sourceDigest,
+  };
+  return { ...payload, fenceDigest: sha256Text(stableJson(payload)) };
+}
+
+function sourceFenceBinding({ commandId, sourceHash, rawHash, projectId, documentId }) {
+  const source = {
+    projectId,
+    rootId: 'root-stop01',
+    documentId,
+    canonicalRevision: sourceHash,
+    workingRevision: sourceHash,
+    sourceDigest: rawHash,
+  };
+  const request = {
+    schemaVersion: 'yalken.sourceFence.request.v1',
+    purpose: 'WRITE_SOURCE',
+    expected: source,
+    current: { ...source, dirtyState: 'CLEAN' },
+    dirtyPolicy: 'REQUIRE_CLEAN',
+    authority: {
+      decision: 'ALLOW',
+      mayWrite: true,
+      commandId,
+    },
+    fence: sourceFenceToken(source),
+  };
+  return {
+    schemaVersion: 'yalken.rtk.round-authority-source-fence.v1',
+    request,
+    result: {
+      schemaVersion: 'yalken.sourceFence.result.v1',
+      ok: true,
+      decision: 'ALLOW',
+      code: 'YALKEN_SOURCE_FENCE_ALLOWED',
+      reasons: [],
+      observed: {
+        purpose: 'WRITE_SOURCE',
+        projectId,
+        rootId: 'root-stop01',
+        documentId,
+        canonicalRevision: sourceHash,
+        workingRevision: sourceHash,
+        sourceDigest: rawHash,
+        dirtyState: 'CLEAN',
+        dirtyPolicy: 'REQUIRE_CLEAN',
+      },
+    },
+  };
+}
+
 function makeRtkCryptoPort() {
   const rtk = require(path.join(REPO_ROOT, 'src', 'io', 'revisionBridge', 'reviewTransportExactApply.mjs'));
   return rtk.createNodeRtkCryptoPort();
@@ -114,12 +174,15 @@ function writerInput(project, changes, overrides = {}) {
 function envelopeInput(project, changes, overrides = {}) {
   const sourceHash = sha256Text(`source:${project.sceneText}`);
   const rawHash = sha256Text(`raw:${project.sceneText}`);
+  const commandId = overrides.commandId || 'cmd-stop01';
+  const projectId = 'project-stop01';
+  const documentId = changes[0]?.targetScope?.id || 'scene-1';
   return {
     callerRole: 'main',
     commandAuthority: {
       issuer: 'main',
       intent: 'rtk.exactApply',
-      commandId: overrides.commandId || 'cmd-stop01',
+      commandId,
     },
     roundId: overrides.roundId || 'round-stop01',
     requestId: overrides.requestId || 'request-stop01',
@@ -136,13 +199,24 @@ function envelopeInput(project, changes, overrides = {}) {
     sourceIdentity: {
       sourceTokenDomain: 'SOURCE_TOKEN_DOMAIN_V1',
       writerTextDomain: 'WRITER_TEXT_DOMAIN_V1',
+      projectId,
+      rootId: 'root-stop01',
+      documentId,
+      canonicalRevision: sourceHash,
+      workingRevision: sourceHash,
       revisionSha256: sourceHash,
       rawBytesSha256: rawHash,
     },
     currentIdentity: {
+      projectId,
+      rootId: 'root-stop01',
+      documentId,
+      canonicalRevision: sourceHash,
+      workingRevision: sourceHash,
       revisionSha256: sourceHash,
       rawBytesSha256: rawHash,
     },
+    sourceFence: sourceFenceBinding({ commandId, sourceHash, rawHash, projectId, documentId }),
     writerInput: writerInput(project, changes, overrides),
   };
 }

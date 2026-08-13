@@ -561,35 +561,46 @@
     {
       "materialId": "F0R_T0_ROUND_AUTHORITY_PRODUCTIZATION",
       "programPhase": "F0R_T0",
-      "summary": "T0 Round Authority source-fence admission seam: exact-apply writer reservation requires main command authority plus Product Core sourceFenceV1 WRITE_SOURCE revalidation bound to project/root/document/revision/digest and writer target document.",
+      "summary": "T0 Round Authority source-fence admission seam: exact-apply writer reservation requires main command authority plus Product Core sourceFenceV1 WRITE_SOURCE revalidation bound to project/root/document/revision/digest and writer target document; nested scene document IDs are supported as identity strings without path authority.",
       "sourcePins": [
         "ROUND_AUTHORITY_INPUT_EXTERNAL_RECEIPT"
       ],
       "disposition": "ENFORCED_TEST_GATE",
       "productBindings": [
         {
-          "commitSha": "75a06538823cbdd7d9dd3c3b84622cafda927645",
+          "commitSha": "f54e6872d3c9084a7edd9c55b3d9af2173d8522d",
           "prNumber": 1516,
           "files": [
-            "src/io/revisionBridge/reviewTransportApplyCore.mjs",
+            "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
             "scripts/ops/rtk-t0-round-authority-source-fence-model.mjs",
             "scripts/ops/rtk-word-mac-certification-lab.mjs",
-            "test/contracts/rtk-t0-round-authority-source-fence.contract.test.js",
-            "test/contracts/rtk-w3-exact-apply-replay.contract.test.js",
+            "scripts/ops/source-fence-v1-model.mjs",
+            "src/export/docx/fullManuscriptDocxReviewReturnRouter.js",
+            "src/io/revisionBridge/reviewTransportApplyCore.mjs",
+            "src/product/sourceFenceV1.mjs",
+            "test/contracts/rtk-multi01-multi-scene-scope-blocked.contract.test.js",
             "test/contracts/rtk-stop01-authority-stop.contract.test.js",
+            "test/contracts/rtk-t0-round-authority-source-fence.contract.test.js",
             "test/contracts/rtk-tx01-single-scene-transaction.contract.test.js",
+            "test/contracts/rtk-w3-exact-apply-replay.contract.test.js",
             "test/contracts/rtk-word-latest-semantic-b05-exact-apply-adapter.contract.test.js",
             "test/contracts/rtk-word-safety-c1-effect-reservation.contract.test.js",
-            "test/contracts/rtk-word-saturation-c05-block-range-writer.contract.test.js"
+            "test/contracts/rtk-word-safety-c2-multiscene-command-path.contract.test.js",
+            "test/contracts/rtk-word-saturation-c04-block-writer-binding.contract.test.js",
+            "test/contracts/rtk-word-saturation-c05-block-range-writer.contract.test.js",
+            "test/contracts/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.contract.test.js",
+            "test/contracts/source-fence-v1.contract.test.js"
           ],
           "tests": [
             "node --test test/contracts/rtk-t0-round-authority-source-fence.contract.test.js test/contracts/rtk-w3-exact-apply-replay.contract.test.js",
             "node scripts/ops/rtk-t0-round-authority-source-fence-model.mjs",
-            "node --test test/contracts/rtk-stop01-authority-stop.contract.test.js test/contracts/rtk-tx01-single-scene-transaction.contract.test.js test/contracts/rtk-w3-exact-apply-replay.contract.test.js test/contracts/rtk-word-latest-semantic-b05-exact-apply-adapter.contract.test.js test/contracts/rtk-word-safety-c1-effect-reservation.contract.test.js test/contracts/rtk-word-saturation-c05-block-range-writer.contract.test.js test/contracts/rtk-t0-round-authority-source-fence.contract.test.js"
+            "node scripts/ops/source-fence-v1-model.mjs",
+            "node --test test/contracts/source-fence-v1.contract.test.js test/contracts/rtk-multi01-multi-scene-scope-blocked.contract.test.js test/contracts/rtk-word-safety-c2-multiscene-command-path.contract.test.js test/contracts/rtk-word-saturation-c04-block-writer-binding.contract.test.js test/contracts/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.contract.test.js test/contracts/rtk-word-c5v2-full-manuscript-return-router.contract.test.js test/contracts/rtk-t0-round-authority-source-fence.contract.test.js",
+            "node --test test/contracts/rtk-stop01-authority-stop.contract.test.js test/contracts/rtk-tx01-single-scene-transaction.contract.test.js test/contracts/rtk-w3-exact-apply-replay.contract.test.js test/contracts/rtk-word-latest-semantic-b05-exact-apply-adapter.contract.test.js test/contracts/rtk-word-safety-c1-effect-reservation.contract.test.js test/contracts/rtk-word-saturation-c05-block-range-writer.contract.test.js test/contracts/rtk-t0-round-authority-source-fence.contract.test.js test/contracts/revision-bridge-word-evidence-check.contract.test.js"
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_T0_ROUND_AUTHORITY_SOURCE_FENCE_V1_RECEIPT.json",
-            "sha256": "309279b790dfa29f5efb26b22c550248e404435d81dbd81b6dc85fe2efa4d35b"
+            "sha256": "45fc14815df0fdc246441ea4aea173ba4550c678d7ea3a70d3d2750f5c426d55"
           }
         }
       ]

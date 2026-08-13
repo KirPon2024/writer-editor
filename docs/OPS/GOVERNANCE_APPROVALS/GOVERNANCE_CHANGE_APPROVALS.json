@@ -2669,15 +2669,6 @@
       "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
-      "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "b9ff39d07792ffce079c2bf0c408a89ec0d7a17f7db49beb2972c8aee95a522f",
-      "approvedBy": "owner:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
-      "approvedAtUtc": "2026-08-14T00:00:00.000Z",
-      "rationale": "Approve additive RTK graph catalog binding for the T0 Round Authority source-fence contract; no product runtime, UI, provider, dependency, or external behavior is changed.",
-      "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_T0_ROUND_AUTHORITY_SOURCE_FENCE"
-    },
-    {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
       "sha256": "fee1545e7c163fc4c5db6677a118b836052a9836d23b394a226b40b9f36f5fa8",
       "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W5_RELEASE_HARDENING_AND_CERTIFICATION",
@@ -8245,15 +8236,6 @@
       "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
     },
     {
-      "filePath": "test/contracts/rtk-word-safety-c2-multiscene-command-path.contract.test.js",
-      "sha256": "a3d5afd86d40747e881ccb51010da32ab690015da7c9426069ef9e75ebce8535",
-      "approvedBy": "owner-direct:TASK_ID:MULTI-01_MULTI_SCENE_SCOPE_BLOCKED",
-      "approvedAtUtc": "2026-08-09T08:39:49.233Z",
-      "rationale": "Approve MULTI-01 claim pin migration to typed false in the multiscene command path contract; tests only.",
-      "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MULTI01_MULTI_SCENE_SCOPE_BLOCKED"
-    },
-    {
       "filePath": "test/contracts/rtk-word-safety-c3-parser-resource-envelope.contract.test.js",
       "sha256": "9004099789ba90fb0836489b155e5ffd0bcf0c90781dc7330b74e7977e2c1033",
       "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
@@ -8284,13 +8266,6 @@
       "rationale": "Approve focused C03 contract coverage: proves block-local exact authority from the C02 custom property carrier without global duplicate text authority, classifier exact candidate generation with canApply false, independent comments and formatting lanes, duplicate text and duplicate block blocking, overlapping range blocking, standalone insert blocking, move and structure blocking, cross-scene and stale baseline blocking, receipt nonclaims, and source absence of Node, Buffer, child process, network, regex parser, UI, and writer authority."
     },
     {
-      "filePath": "test/contracts/rtk-word-saturation-c04-block-writer-binding.contract.test.js",
-      "sha256": "7f482b86761f559ae121270f033f2caeeacdbe6151fe6fecab3fdbce061095c2",
-      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C04_BLOCK_EXACT_WRITER_BINDING",
-      "approvedAtUtc": "2026-07-30T17:58:00.000Z",
-      "rationale": "Approve focused C04 contract coverage: proves C03 authority to B05 writer binding, full candidate id one-to-one binding, positive apply and replay, comment and formatting lane independence, parser caller blocking before writer, tampered and missing C03 digest blocking before writer, standalone insert blocking before writer, duplicate scene quote no false exact mutation, crash-before-receipt no false success, repeated request no double mutation, receipt nonclaims, and source absence of renderer, Electron, IPC, and network authority."
-    },
-    {
       "filePath": "test/contracts/rtk-word-v4-a03-c01-comment-shadow-runtime.contract.test.js",
       "sha256": "d8e28bad8361ead19cf8bad976b867f0c6d7fa30328b3ad06e03c572f1f9a617",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
@@ -8298,13 +8273,6 @@
       "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
       "approved": true,
       "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.contract.test.js",
-      "sha256": "a64ad9e0e43fd6b49520268d574f5df35d846ca874efe07b8fb18864bf3eaa38",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-a03-c03-adjacent-range-negative-oracle.contract.test.js",
@@ -9481,15 +9449,6 @@
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EXPORT01_UNIFIED_BOOKMARK"
     },
     {
-      "filePath": "src/export/docx/fullManuscriptDocxReviewReturnRouter.js",
-      "sha256": "9de2d7a01244a628e38d62c72edc9a952d4be30367319e9a619da28a4892625e",
-      "approvedBy": "owner-direct:TASK_ID:MULTI-01_MULTI_SCENE_SCOPE_BLOCKED",
-      "approvedAtUtc": "2026-08-09T08:39:49.233Z",
-      "rationale": "Approve MULTI-01 honest atomicity narrative: staged sequential apply with atomicity blocked until the decisive crash series.",
-      "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MULTI01_MULTI_SCENE_SCOPE_BLOCKED"
-    },
-    {
       "filePath": "test/contracts/rtk-word-c5v2-full-manuscript-return-router.contract.test.js",
       "sha256": "473e94aeb2e00ad4dc5e380f68fb72474e6751fa7a3c7103c3e781ef90b65ec1",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_PHASE_B_PRODUCT_TRUST_CHAIN_V1",
@@ -9787,15 +9746,6 @@
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS11_DIVERSE_WAVE300"
     },
     {
-      "filePath": "test/contracts/rtk-multi01-multi-scene-scope-blocked.contract.test.js",
-      "sha256": "550f7fdc38591a0693c350622a0b573bf38be0522e2787c06aa95bae8ae6dc1d",
-      "approvedBy": "owner-direct:TASK_ID:MULTI-01_MULTI_SCENE_SCOPE_BLOCKED",
-      "approvedAtUtc": "2026-08-09T08:39:49.233Z",
-      "rationale": "Approve MULTI-01 multi-scene scope-blocked contract tests (seam, SIGKILL mixed-state drill, claim typing, overclaim guard, staged controls); tests only.",
-      "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MULTI01_MULTI_SCENE_SCOPE_BLOCKED"
-    },
-    {
       "filePath": "scripts/ops/rtk-word-build-profiles-v1.mjs",
       "sha256": "078b1696839293084a0aa9d341642ed4509e891cd7b8635ed627a61eb97aa89f",
       "approvedBy": "owner-direct:TASK_ID:PHYS10_REPEAT_SCOPE_TYPING",
@@ -9920,24 +9870,6 @@
       "rationale": "Approve the S0 revision/source fence delivery receipt on exact origin/main 5db1bf55 after fixture-repair merge; receipt is bounded to a pure minimal safety seam with no product runtime writer rewiring, no migration, no UI, no multilingual, no DOCX/Word and no Black Box behavior.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_S0"
-    },
-    {
-      "filePath": "scripts/ops/source-fence-v1-model.mjs",
-      "sha256": "d84785be2b9eb90a9b9e66fcf3007f2da16aa1b87f9115664566599a9b10904f",
-      "approvedBy": "owner-direct:TASK_ID:F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1",
-      "approvedAtUtc": "2026-08-13T21:03:40Z",
-      "rationale": "Approve independent S0 source fence model update for least-privilege read authority: 192 finite cases, 17 hostile cases, 9 semantic mutants, zero disagreements/failures/survivors/skips.",
-      "approved": true,
-      "authority": "OWNER_CORRECTION_GATE_F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1"
-    },
-    {
-      "filePath": "test/contracts/source-fence-v1.contract.test.js",
-      "sha256": "ac359e83a652285ece040801effa9928e7eeda7e9ea76724251c3186dd778093",
-      "approvedBy": "owner-direct:TASK_ID:F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1",
-      "approvedAtUtc": "2026-08-13T21:03:40Z",
-      "rationale": "Approve source fence contract tests proving READ_SOURCE_SNAPSHOT passes with mayWrite=false, rejects mayWrite=true as wrong authority class, and WRITE_SOURCE still rejects mayWrite=false.",
-      "approved": true,
-      "authority": "OWNER_CORRECTION_GATE_F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1"
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_F1_MULTILINGUAL_EVIDENCE_V1_RECEIPT.json",
@@ -10120,15 +10052,6 @@
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },
     {
-      "filePath": "src/product/sourceFenceV1.mjs",
-      "sha256": "078a485624eb2041b30e64866db84ec0f78cef47fab064cde640dc1a0e4bdfa3",
-      "approvedBy": "owner-direct:TASK_ID:F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1",
-      "approvedAtUtc": "2026-08-13T21:03:40Z",
-      "rationale": "Approve S0 source fence purpose-aware authority hardening: READ_SOURCE_SNAPSHOT now requires least-privilege ALLOW with mayWrite=false, while WRITE_SOURCE remains fail-closed without mayWrite=true; no runtime writer wiring, UI, dependency or migration change.",
-      "approved": true,
-      "authority": "OWNER_CORRECTION_GATE_F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1"
-    },
-    {
       "filePath": "src/product/multilingualEvidenceV1.mjs",
       "sha256": "806492df92c8fd507898d4b9da8a8a2ce67f701e3f3da7aceb5618f27c1d4844",
       "approvedBy": "owner-direct:TASK_ID:F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1",
@@ -10174,112 +10097,193 @@
       "authority": "OWNER_PROGRAM_REQUIREMENT_FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2"
     },
     {
-      "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "b4e552edf92a4550dba3bb81a23a927bc762d0fcdbbf8296063b25f9d5def698",
-      "approvedBy": "owner-grant:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
+      "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
+      "sha256": "b9ff39d07792ffce079c2bf0c408a89ec0d7a17f7db49beb2972c8aee95a522f",
+      "approvedBy": "owner:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
       "approvedAtUtc": "2026-08-14T00:00:00.000Z",
-      "rationale": "Standing owner grant approves this bounded T0 Round Authority source-fence admission contour: exact-apply writer reservation is hardened with Product Core sourceFenceV1 WRITE_SOURCE revalidation; no UI, Word physical provider, dependency, network, sealed lab package, or user document mutation.",
+      "rationale": "Approve bounded T0 Round Authority source-fence candidate bytes, factual RTK catalog binding, nested document identity compatibility, receipts, and traceability ledger updates under the standing master-program owner grant; no UI, provider physical run, dependency, cloud runtime truth, or user document access.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_BOUNDED_T0_SOURCE_FENCE_CONTOUR"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_T0_ROUND_AUTHORITY_SOURCE_FENCE"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
+      "sha256": "8ccbfcc20abfdaa1a260d4a29cecfde2e690c09a50130fc786d879cbd698570c",
+      "approvedBy": "owner:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
+      "approvedAtUtc": "2026-08-14T00:00:00.000Z",
+      "rationale": "Approve bounded T0 Round Authority source-fence candidate bytes, factual RTK catalog binding, nested document identity compatibility, receipts, and traceability ledger updates under the standing master-program owner grant; no UI, provider physical run, dependency, cloud runtime truth, or user document access.",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_T0_ROUND_AUTHORITY_SOURCE_FENCE"
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_T0_ROUND_AUTHORITY_SOURCE_FENCE_V1_RECEIPT.json",
-      "sha256": "309279b790dfa29f5efb26b22c550248e404435d81dbd81b6dc85fe2efa4d35b",
-      "approvedBy": "owner-grant:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
+      "sha256": "45fc14815df0fdc246441ea4aea173ba4550c678d7ea3a70d3d2750f5c426d55",
+      "approvedBy": "owner:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
       "approvedAtUtc": "2026-08-14T00:00:00.000Z",
-      "rationale": "Standing owner grant approves this bounded T0 Round Authority source-fence admission contour: exact-apply writer reservation is hardened with Product Core sourceFenceV1 WRITE_SOURCE revalidation; no UI, Word physical provider, dependency, network, sealed lab package, or user document mutation.",
+      "rationale": "Approve bounded T0 Round Authority source-fence candidate bytes, factual RTK catalog binding, nested document identity compatibility, receipts, and traceability ledger updates under the standing master-program owner grant; no UI, provider physical run, dependency, cloud runtime truth, or user document access.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_BOUNDED_T0_SOURCE_FENCE_CONTOUR"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_T0_ROUND_AUTHORITY_SOURCE_FENCE"
     },
     {
       "filePath": "scripts/ops/rtk-t0-round-authority-source-fence-model.mjs",
       "sha256": "2ecb26d98a86a311a9f090bc819828f0bda25599e479241e2576b88fca097a2f",
-      "approvedBy": "owner-grant:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
+      "approvedBy": "owner:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
       "approvedAtUtc": "2026-08-14T00:00:00.000Z",
-      "rationale": "Standing owner grant approves this bounded T0 Round Authority source-fence admission contour: exact-apply writer reservation is hardened with Product Core sourceFenceV1 WRITE_SOURCE revalidation; no UI, Word physical provider, dependency, network, sealed lab package, or user document mutation.",
+      "rationale": "Approve bounded T0 Round Authority source-fence candidate bytes, factual RTK catalog binding, nested document identity compatibility, receipts, and traceability ledger updates under the standing master-program owner grant; no UI, provider physical run, dependency, cloud runtime truth, or user document access.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_BOUNDED_T0_SOURCE_FENCE_CONTOUR"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_T0_ROUND_AUTHORITY_SOURCE_FENCE"
     },
     {
       "filePath": "scripts/ops/rtk-word-mac-certification-lab.mjs",
       "sha256": "8c73cc3647f149e0f0714fd29c7d75f4161c00f7a5f222a1c08a4bb05f5660e5",
-      "approvedBy": "owner-grant:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
+      "approvedBy": "owner:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
       "approvedAtUtc": "2026-08-14T00:00:00.000Z",
-      "rationale": "Standing owner grant approves this bounded T0 Round Authority source-fence admission contour: exact-apply writer reservation is hardened with Product Core sourceFenceV1 WRITE_SOURCE revalidation; no UI, Word physical provider, dependency, network, sealed lab package, or user document mutation.",
+      "rationale": "Approve bounded T0 Round Authority source-fence candidate bytes, factual RTK catalog binding, nested document identity compatibility, receipts, and traceability ledger updates under the standing master-program owner grant; no UI, provider physical run, dependency, cloud runtime truth, or user document access.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_BOUNDED_T0_SOURCE_FENCE_CONTOUR"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_T0_ROUND_AUTHORITY_SOURCE_FENCE"
+    },
+    {
+      "filePath": "scripts/ops/source-fence-v1-model.mjs",
+      "sha256": "9ad148e3b6814c23a863ffbb7f2680f7c0ee38011fcc9290b08a8843806625df",
+      "approvedBy": "owner:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
+      "approvedAtUtc": "2026-08-14T00:00:00.000Z",
+      "rationale": "Approve bounded T0 Round Authority source-fence candidate bytes, factual RTK catalog binding, nested document identity compatibility, receipts, and traceability ledger updates under the standing master-program owner grant; no UI, provider physical run, dependency, cloud runtime truth, or user document access.",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_T0_ROUND_AUTHORITY_SOURCE_FENCE"
+    },
+    {
+      "filePath": "src/export/docx/fullManuscriptDocxReviewReturnRouter.js",
+      "sha256": "9f97888c29eb555954433211267f485173bf8f750e47cd9daf4bb6238cdbdd5e",
+      "approvedBy": "owner:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
+      "approvedAtUtc": "2026-08-14T00:00:00.000Z",
+      "rationale": "Approve bounded T0 Round Authority source-fence candidate bytes, factual RTK catalog binding, nested document identity compatibility, receipts, and traceability ledger updates under the standing master-program owner grant; no UI, provider physical run, dependency, cloud runtime truth, or user document access.",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_T0_ROUND_AUTHORITY_SOURCE_FENCE"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportApplyCore.mjs",
       "sha256": "8dd4b036e30412fb71ff39a5ea64eb3e2350544dcd75430cbf179547a00c8a8d",
-      "approvedBy": "owner-grant:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
+      "approvedBy": "owner:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
       "approvedAtUtc": "2026-08-14T00:00:00.000Z",
-      "rationale": "Standing owner grant approves this bounded T0 Round Authority source-fence admission contour: exact-apply writer reservation is hardened with Product Core sourceFenceV1 WRITE_SOURCE revalidation; no UI, Word physical provider, dependency, network, sealed lab package, or user document mutation.",
+      "rationale": "Approve bounded T0 Round Authority source-fence candidate bytes, factual RTK catalog binding, nested document identity compatibility, receipts, and traceability ledger updates under the standing master-program owner grant; no UI, provider physical run, dependency, cloud runtime truth, or user document access.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_BOUNDED_T0_SOURCE_FENCE_CONTOUR"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_T0_ROUND_AUTHORITY_SOURCE_FENCE"
     },
     {
-      "filePath": "test/contracts/rtk-t0-round-authority-source-fence.contract.test.js",
-      "sha256": "329e52a20d6f3f43f3f7a9dbcb9943f44732762e0e3fdf7c22abc949714e0db5",
-      "approvedBy": "owner-grant:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
+      "filePath": "src/product/sourceFenceV1.mjs",
+      "sha256": "f83b28f52c7e7edbfdebc69ccb3b00cf7521145fdcc0291bfa311168dc369d86",
+      "approvedBy": "owner:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
       "approvedAtUtc": "2026-08-14T00:00:00.000Z",
-      "rationale": "Standing owner grant approves this bounded T0 Round Authority source-fence admission contour: exact-apply writer reservation is hardened with Product Core sourceFenceV1 WRITE_SOURCE revalidation; no UI, Word physical provider, dependency, network, sealed lab package, or user document mutation.",
+      "rationale": "Approve bounded T0 Round Authority source-fence candidate bytes, factual RTK catalog binding, nested document identity compatibility, receipts, and traceability ledger updates under the standing master-program owner grant; no UI, provider physical run, dependency, cloud runtime truth, or user document access.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_BOUNDED_T0_SOURCE_FENCE_CONTOUR"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_T0_ROUND_AUTHORITY_SOURCE_FENCE"
     },
     {
-      "filePath": "test/contracts/rtk-w3-exact-apply-replay.contract.test.js",
-      "sha256": "427605447dd4d914d18c8a46ab4ba4b8f643779fad0cd2d14ec608ae7000b84f",
-      "approvedBy": "owner-grant:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
+      "filePath": "test/contracts/rtk-multi01-multi-scene-scope-blocked.contract.test.js",
+      "sha256": "bd532f77f606dbae27cc656dbe30ccbdacd804d42419a1a24c2b838679fdb89b",
+      "approvedBy": "owner:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
       "approvedAtUtc": "2026-08-14T00:00:00.000Z",
-      "rationale": "Standing owner grant approves this bounded T0 Round Authority source-fence admission contour: exact-apply writer reservation is hardened with Product Core sourceFenceV1 WRITE_SOURCE revalidation; no UI, Word physical provider, dependency, network, sealed lab package, or user document mutation.",
+      "rationale": "Approve bounded T0 Round Authority source-fence candidate bytes, factual RTK catalog binding, nested document identity compatibility, receipts, and traceability ledger updates under the standing master-program owner grant; no UI, provider physical run, dependency, cloud runtime truth, or user document access.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_BOUNDED_T0_SOURCE_FENCE_CONTOUR"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_T0_ROUND_AUTHORITY_SOURCE_FENCE"
     },
     {
       "filePath": "test/contracts/rtk-stop01-authority-stop.contract.test.js",
       "sha256": "7bed3897a4af7da663c9332b28430c8dc1d5b58bdbf3f60292e8980a8a831f2c",
-      "approvedBy": "owner-grant:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
+      "approvedBy": "owner:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
       "approvedAtUtc": "2026-08-14T00:00:00.000Z",
-      "rationale": "Standing owner grant approves this bounded T0 Round Authority source-fence admission contour: exact-apply writer reservation is hardened with Product Core sourceFenceV1 WRITE_SOURCE revalidation; no UI, Word physical provider, dependency, network, sealed lab package, or user document mutation.",
+      "rationale": "Approve bounded T0 Round Authority source-fence candidate bytes, factual RTK catalog binding, nested document identity compatibility, receipts, and traceability ledger updates under the standing master-program owner grant; no UI, provider physical run, dependency, cloud runtime truth, or user document access.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_BOUNDED_T0_SOURCE_FENCE_CONTOUR"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_T0_ROUND_AUTHORITY_SOURCE_FENCE"
+    },
+    {
+      "filePath": "test/contracts/rtk-t0-round-authority-source-fence.contract.test.js",
+      "sha256": "329e52a20d6f3f43f3f7a9dbcb9943f44732762e0e3fdf7c22abc949714e0db5",
+      "approvedBy": "owner:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
+      "approvedAtUtc": "2026-08-14T00:00:00.000Z",
+      "rationale": "Approve bounded T0 Round Authority source-fence candidate bytes, factual RTK catalog binding, nested document identity compatibility, receipts, and traceability ledger updates under the standing master-program owner grant; no UI, provider physical run, dependency, cloud runtime truth, or user document access.",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_T0_ROUND_AUTHORITY_SOURCE_FENCE"
     },
     {
       "filePath": "test/contracts/rtk-tx01-single-scene-transaction.contract.test.js",
       "sha256": "be52755f5edbc38b5f07c0639366642792dbefb80c5ccab6308b2cf70f07e6d6",
-      "approvedBy": "owner-grant:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
+      "approvedBy": "owner:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
       "approvedAtUtc": "2026-08-14T00:00:00.000Z",
-      "rationale": "Standing owner grant approves this bounded T0 Round Authority source-fence admission contour: exact-apply writer reservation is hardened with Product Core sourceFenceV1 WRITE_SOURCE revalidation; no UI, Word physical provider, dependency, network, sealed lab package, or user document mutation.",
+      "rationale": "Approve bounded T0 Round Authority source-fence candidate bytes, factual RTK catalog binding, nested document identity compatibility, receipts, and traceability ledger updates under the standing master-program owner grant; no UI, provider physical run, dependency, cloud runtime truth, or user document access.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_BOUNDED_T0_SOURCE_FENCE_CONTOUR"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_T0_ROUND_AUTHORITY_SOURCE_FENCE"
+    },
+    {
+      "filePath": "test/contracts/rtk-w3-exact-apply-replay.contract.test.js",
+      "sha256": "427605447dd4d914d18c8a46ab4ba4b8f643779fad0cd2d14ec608ae7000b84f",
+      "approvedBy": "owner:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
+      "approvedAtUtc": "2026-08-14T00:00:00.000Z",
+      "rationale": "Approve bounded T0 Round Authority source-fence candidate bytes, factual RTK catalog binding, nested document identity compatibility, receipts, and traceability ledger updates under the standing master-program owner grant; no UI, provider physical run, dependency, cloud runtime truth, or user document access.",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_T0_ROUND_AUTHORITY_SOURCE_FENCE"
     },
     {
       "filePath": "test/contracts/rtk-word-latest-semantic-b05-exact-apply-adapter.contract.test.js",
       "sha256": "e41c7bf503e147f8727fe12c589f92f980bd0553ac07e15f03ca9ff6212cf677",
-      "approvedBy": "owner-grant:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
+      "approvedBy": "owner:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
       "approvedAtUtc": "2026-08-14T00:00:00.000Z",
-      "rationale": "Standing owner grant approves this bounded T0 Round Authority source-fence admission contour: exact-apply writer reservation is hardened with Product Core sourceFenceV1 WRITE_SOURCE revalidation; no UI, Word physical provider, dependency, network, sealed lab package, or user document mutation.",
+      "rationale": "Approve bounded T0 Round Authority source-fence candidate bytes, factual RTK catalog binding, nested document identity compatibility, receipts, and traceability ledger updates under the standing master-program owner grant; no UI, provider physical run, dependency, cloud runtime truth, or user document access.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_BOUNDED_T0_SOURCE_FENCE_CONTOUR"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_T0_ROUND_AUTHORITY_SOURCE_FENCE"
     },
     {
       "filePath": "test/contracts/rtk-word-safety-c1-effect-reservation.contract.test.js",
       "sha256": "d496060557ebd9d0265e94d124ab79e343005a0aec86d44ceb5262255e8d0d58",
-      "approvedBy": "owner-grant:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
+      "approvedBy": "owner:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
       "approvedAtUtc": "2026-08-14T00:00:00.000Z",
-      "rationale": "Standing owner grant approves this bounded T0 Round Authority source-fence admission contour: exact-apply writer reservation is hardened with Product Core sourceFenceV1 WRITE_SOURCE revalidation; no UI, Word physical provider, dependency, network, sealed lab package, or user document mutation.",
+      "rationale": "Approve bounded T0 Round Authority source-fence candidate bytes, factual RTK catalog binding, nested document identity compatibility, receipts, and traceability ledger updates under the standing master-program owner grant; no UI, provider physical run, dependency, cloud runtime truth, or user document access.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_BOUNDED_T0_SOURCE_FENCE_CONTOUR"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_T0_ROUND_AUTHORITY_SOURCE_FENCE"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-safety-c2-multiscene-command-path.contract.test.js",
+      "sha256": "42cf3718690822e809040e8d89782cd0e0f84ede077f66b1b6b5d1f50c1d465c",
+      "approvedBy": "owner:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
+      "approvedAtUtc": "2026-08-14T00:00:00.000Z",
+      "rationale": "Approve bounded T0 Round Authority source-fence candidate bytes, factual RTK catalog binding, nested document identity compatibility, receipts, and traceability ledger updates under the standing master-program owner grant; no UI, provider physical run, dependency, cloud runtime truth, or user document access.",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_T0_ROUND_AUTHORITY_SOURCE_FENCE"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-saturation-c04-block-writer-binding.contract.test.js",
+      "sha256": "1b6ccd3bc2e7b7f4e76b091acad65370dfe979813364730cd13c61d8d50b53ac",
+      "approvedBy": "owner:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
+      "approvedAtUtc": "2026-08-14T00:00:00.000Z",
+      "rationale": "Approve bounded T0 Round Authority source-fence candidate bytes, factual RTK catalog binding, nested document identity compatibility, receipts, and traceability ledger updates under the standing master-program owner grant; no UI, provider physical run, dependency, cloud runtime truth, or user document access.",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_T0_ROUND_AUTHORITY_SOURCE_FENCE"
     },
     {
       "filePath": "test/contracts/rtk-word-saturation-c05-block-range-writer.contract.test.js",
       "sha256": "bad5e2b7056283090d0c5f4b990393479ab87e76cb2c0cb675eac177ec9b9178",
-      "approvedBy": "owner-grant:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
+      "approvedBy": "owner:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
       "approvedAtUtc": "2026-08-14T00:00:00.000Z",
-      "rationale": "Standing owner grant approves this bounded T0 Round Authority source-fence admission contour: exact-apply writer reservation is hardened with Product Core sourceFenceV1 WRITE_SOURCE revalidation; no UI, Word physical provider, dependency, network, sealed lab package, or user document mutation.",
+      "rationale": "Approve bounded T0 Round Authority source-fence candidate bytes, factual RTK catalog binding, nested document identity compatibility, receipts, and traceability ledger updates under the standing master-program owner grant; no UI, provider physical run, dependency, cloud runtime truth, or user document access.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_BOUNDED_T0_SOURCE_FENCE_CONTOUR"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_T0_ROUND_AUTHORITY_SOURCE_FENCE"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.contract.test.js",
+      "sha256": "89668de4420db73ecdf5e8b512b25d6e293b0f0709694d7e792dba9d255d89cb",
+      "approvedBy": "owner:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
+      "approvedAtUtc": "2026-08-14T00:00:00.000Z",
+      "rationale": "Approve bounded T0 Round Authority source-fence candidate bytes, factual RTK catalog binding, nested document identity compatibility, receipts, and traceability ledger updates under the standing master-program owner grant; no UI, provider physical run, dependency, cloud runtime truth, or user document access.",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_T0_ROUND_AUTHORITY_SOURCE_FENCE"
+    },
+    {
+      "filePath": "test/contracts/source-fence-v1.contract.test.js",
+      "sha256": "a872bac20dc55c772bfc9dac41777ec7b18d7ec7063f624fe5e1559dbcbafdc2",
+      "approvedBy": "owner:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
+      "approvedAtUtc": "2026-08-14T00:00:00.000Z",
+      "rationale": "Approve bounded T0 Round Authority source-fence candidate bytes, factual RTK catalog binding, nested document identity compatibility, receipts, and traceability ledger updates under the standing master-program owner grant; no UI, provider physical run, dependency, cloud runtime truth, or user document access.",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_T0_ROUND_AUTHORITY_SOURCE_FENCE"
     }
   ]
 }

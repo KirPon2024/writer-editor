@@ -2,8 +2,8 @@
   "schemaVersion": "yalken.t0RoundAuthoritySourceFence.receipt.v1",
   "taskId": "T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
   "createdAtUtc": "2026-08-14T00:00:00Z",
-  "status": "LOCAL_IMPLEMENTATION_GREEN_PENDING_GOVERNANCE_DELIVERY",
-  "verdict": "READY_FOR_DELIVERY_CHAIN_AFTER_FULL_GATES",
+  "status": "LOCAL_CANDIDATE_NEEDS_FINAL_GATE_REPLAY",
+  "verdict": "NEEDS_FINAL_GATE_REPLAY_BEFORE_DELIVERY",
   "baseline": {
     "headSha": "0c4e84dfc40d724aed868de683af10e2badd3d8a",
     "treeSha": "172cd2c80f28a88f7eedaedd2199f21e9b5eb8e2",
@@ -96,27 +96,92 @@
         "node --check scripts/ops/rtk-t0-round-authority-source-fence-model.mjs"
       ],
       "result": "PASS"
+    },
+    "sourceFenceCompatibility": {
+      "command": "node --test test/contracts/source-fence-v1.contract.test.js test/contracts/rtk-multi01-multi-scene-scope-blocked.contract.test.js test/contracts/rtk-word-safety-c2-multiscene-command-path.contract.test.js test/contracts/rtk-word-saturation-c04-block-writer-binding.contract.test.js test/contracts/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.contract.test.js test/contracts/rtk-word-c5v2-full-manuscript-return-router.contract.test.js test/contracts/rtk-t0-round-authority-source-fence.contract.test.js",
+      "tests": 49,
+      "pass": 49,
+      "fail": 0,
+      "skip": 0,
+      "todo": 0
+    },
+    "sourceFenceModelOracleMutations": {
+      "command": "node scripts/ops/source-fence-v1-model.mjs",
+      "finiteCases": 192,
+      "hostileCases": 20,
+      "disagreements": 0,
+      "mutants": 9,
+      "survivors": 0,
+      "controls": {
+        "cleanWriteAllowed": true,
+        "dirtyMatchedWriteAllowed": true,
+        "restartVisibleFenceAllowed": true,
+        "readSnapshotLeastPrivilegeAllowed": true,
+        "readSnapshotWriteAuthorityDenied": true
+      }
+    },
+    "rtkBaselineReconciliation": {
+      "candidateCommand": "npm run test:rtk",
+      "candidateTests": 920,
+      "candidatePass": 797,
+      "candidateFail": 123,
+      "candidateSkip": 0,
+      "candidateTodo": 0,
+      "baselineHead": "0c4e84dfc40d724aed868de683af10e2badd3d8a",
+      "baselineTests": 913,
+      "baselinePass": 790,
+      "baselineFail": 123,
+      "candidateOnlyFailures": 0,
+      "verdict": "NOT_A_PASS_PREEXISTING_RTK_RED_PRESERVED_NO_T0_REGRESSION"
     }
   },
   "artifactSha256": {
-    "src/io/revisionBridge/reviewTransportApplyCore.mjs": "8dd4b036e30412fb71ff39a5ea64eb3e2350544dcd75430cbf179547a00c8a8d",
+    "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json": "b9ff39d07792ffce079c2bf0c408a89ec0d7a17f7db49beb2972c8aee95a522f",
     "scripts/ops/rtk-t0-round-authority-source-fence-model.mjs": "2ecb26d98a86a311a9f090bc819828f0bda25599e479241e2576b88fca097a2f",
     "scripts/ops/rtk-word-mac-certification-lab.mjs": "8c73cc3647f149e0f0714fd29c7d75f4161c00f7a5f222a1c08a4bb05f5660e5",
-    "test/contracts/rtk-t0-round-authority-source-fence.contract.test.js": "329e52a20d6f3f43f3f7a9dbcb9943f44732762e0e3fdf7c22abc949714e0db5",
-    "test/contracts/rtk-w3-exact-apply-replay.contract.test.js": "427605447dd4d914d18c8a46ab4ba4b8f643779fad0cd2d14ec608ae7000b84f",
+    "scripts/ops/source-fence-v1-model.mjs": "9ad148e3b6814c23a863ffbb7f2680f7c0ee38011fcc9290b08a8843806625df",
+    "src/export/docx/fullManuscriptDocxReviewReturnRouter.js": "9f97888c29eb555954433211267f485173bf8f750e47cd9daf4bb6238cdbdd5e",
+    "src/io/revisionBridge/reviewTransportApplyCore.mjs": "8dd4b036e30412fb71ff39a5ea64eb3e2350544dcd75430cbf179547a00c8a8d",
+    "src/product/sourceFenceV1.mjs": "f83b28f52c7e7edbfdebc69ccb3b00cf7521145fdcc0291bfa311168dc369d86",
+    "test/contracts/rtk-multi01-multi-scene-scope-blocked.contract.test.js": "bd532f77f606dbae27cc656dbe30ccbdacd804d42419a1a24c2b838679fdb89b",
     "test/contracts/rtk-stop01-authority-stop.contract.test.js": "7bed3897a4af7da663c9332b28430c8dc1d5b58bdbf3f60292e8980a8a831f2c",
+    "test/contracts/rtk-t0-round-authority-source-fence.contract.test.js": "329e52a20d6f3f43f3f7a9dbcb9943f44732762e0e3fdf7c22abc949714e0db5",
     "test/contracts/rtk-tx01-single-scene-transaction.contract.test.js": "be52755f5edbc38b5f07c0639366642792dbefb80c5ccab6308b2cf70f07e6d6",
+    "test/contracts/rtk-w3-exact-apply-replay.contract.test.js": "427605447dd4d914d18c8a46ab4ba4b8f643779fad0cd2d14ec608ae7000b84f",
     "test/contracts/rtk-word-latest-semantic-b05-exact-apply-adapter.contract.test.js": "e41c7bf503e147f8727fe12c589f92f980bd0553ac07e15f03ca9ff6212cf677",
     "test/contracts/rtk-word-safety-c1-effect-reservation.contract.test.js": "d496060557ebd9d0265e94d124ab79e343005a0aec86d44ceb5262255e8d0d58",
-    "test/contracts/rtk-word-saturation-c05-block-range-writer.contract.test.js": "bad5e2b7056283090d0c5f4b990393479ab87e76cb2c0cb675eac177ec9b9178"
+    "test/contracts/rtk-word-safety-c2-multiscene-command-path.contract.test.js": "42cf3718690822e809040e8d89782cd0e0f84ede077f66b1b6b5d1f50c1d465c",
+    "test/contracts/rtk-word-saturation-c04-block-writer-binding.contract.test.js": "1b6ccd3bc2e7b7f4e76b091acad65370dfe979813364730cd13c61d8d50b53ac",
+    "test/contracts/rtk-word-saturation-c05-block-range-writer.contract.test.js": "bad5e2b7056283090d0c5f4b990393479ab87e76cb2c0cb675eac177ec9b9178",
+    "test/contracts/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.contract.test.js": "89668de4420db73ecdf5e8b512b25d6e293b0f0709694d7e792dba9d255d89cb",
+    "test/contracts/source-fence-v1.contract.test.js": "a872bac20dc55c772bfc9dac41777ec7b18d7ec7063f624fe5e1559dbcbafdc2"
   },
   "limitations": [
     "This contour closes the T0 source-fence admission seam only; it does not claim all F0R/T0 productization or final program readiness.",
     "No Word physical run was performed in this contour.",
-    "No multi-scene atomicity or physical power-loss proof is claimed."
+    "No multi-scene atomicity or physical power-loss proof is claimed.",
+    "Full npm run test:rtk remains RED on exact origin/main with 123 pre-existing failures; this contour records zero candidate-only RTK failures and does not claim RTK graph PASS.",
+    "Nested document IDs are treated only as identity strings; no filesystem path authority is derived from documentId."
   ],
   "rollback": {
     "procedure": "Revert the bounded T0 PR; exact-apply admission returns to the previous commandAuthority plus revision/raw-byte checks and removes only the companion test/model/receipt/governance updates.",
     "dataMigrationRequired": false
+  },
+  "candidate": {
+    "sha": "f54e6872d3c9084a7edd9c55b3d9af2173d8522d",
+    "treeSha": "1a9dfbc29cd5906a9090109a8dd968a3638d0790",
+    "scope": "T0 exact-apply sourceFence admission plus nested document identity compatibility for existing RTK writer consumers."
+  },
+  "compatibilityRepair": {
+    "sha": "f54e6872d3c9084a7edd9c55b3d9af2173d8522d",
+    "scope": "sourceFenceV1 accepts nested scene document IDs as identity strings while rejecting absolute, traversal, empty-segment, backslash and control-character path authority; existing RTK writer fixtures and C5V2 return-router generated commands carry closed sourceFence bindings.",
+    "productRuntimeWiringChanged": false,
+    "writerConsumersRebound": [
+      "multi-scene RTK command fixtures",
+      "C2 multi-scene command path fixtures",
+      "C04 block writer binding fixtures",
+      "A03 C02 tracked replacement runtime fixtures",
+      "C5V2 full-manuscript return-router generated scene commands"
+    ]
   }
 }

@@ -101,6 +101,7 @@ test('project tree move command moves by stable IDs, preserves content, writes r
   fileManager.getDocumentsPath = () => documentsRoot;
   t.after(() => { fileManager.getDocumentsPath = originalGetDocumentsPath; });
 
+  await main.buildProjectTreeRootsWithIdentities('Роман');
   const first = await main.handleWorkspaceProjectTreeQuery({ tab: 'roman' });
   assert.equal(first.ok, true);
   const imported = findNode(first.root, (node) => node.kind === 'chapter-folder' && node.label === 'Imported');

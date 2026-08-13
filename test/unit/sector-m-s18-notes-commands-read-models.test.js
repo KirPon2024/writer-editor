@@ -167,6 +167,7 @@ test('S18 notes attach uses stable scene node ownership and rejects forged proje
   fileManager.getDocumentsPath = () => documentsRoot;
   t.after(() => { fileManager.getDocumentsPath = originalGetDocumentsPath; });
 
+  await main.buildProjectTreeRootsWithIdentities('Роман');
   await main.handleNotesCreateCommand({
     projectId: 'project-alpha',
     noteId: 'note-attach-1',

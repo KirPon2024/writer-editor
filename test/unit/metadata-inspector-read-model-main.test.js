@@ -103,6 +103,7 @@ test('metadata inspector read model exposes active scene metadata without file p
   fileManager.getDocumentsPath = () => documentsRoot;
   t.after(() => { fileManager.getDocumentsPath = originalGetDocumentsPath; });
 
+  await main.buildProjectTreeRootsWithIdentities('Роман');
   const tree = await main.handleWorkspaceProjectTreeQuery({ tab: 'roman' });
   assert.equal(tree.ok, true);
   const alpha = findNode(tree.root, (node) => node.kind === 'scene' && node.label === 'Alpha');
@@ -142,6 +143,7 @@ test('metadata inspector read model exposes legacy manuscript documents without 
   fileManager.getDocumentsPath = () => documentsRoot;
   t.after(() => { fileManager.getDocumentsPath = originalGetDocumentsPath; });
 
+  await main.buildProjectTreeRootsWithIdentities('Роман');
   const empty = await main.handleWorkspaceMetadataInspectorQuery({});
   assert.equal(empty.ok, true);
   assert.equal(empty.state, 'empty');
@@ -204,6 +206,7 @@ test('metadata update command writes only metadata and preserves text plus unkno
   fileManager.getDocumentsPath = () => documentsRoot;
   t.after(() => { fileManager.getDocumentsPath = originalGetDocumentsPath; });
 
+  await main.buildProjectTreeRootsWithIdentities('Роман');
   const tree = await main.handleWorkspaceProjectTreeQuery({ tab: 'roman' });
   const alpha = findNode(tree.root, (node) => node.kind === 'scene' && node.label === 'Alpha');
   assert.ok(alpha);
@@ -261,6 +264,7 @@ test('metadata update command fails closed on stale context and renderer path au
   fileManager.getDocumentsPath = () => documentsRoot;
   t.after(() => { fileManager.getDocumentsPath = originalGetDocumentsPath; });
 
+  await main.buildProjectTreeRootsWithIdentities('Роман');
   const tree = await main.handleWorkspaceProjectTreeQuery({ tab: 'roman' });
   const alpha = findNode(tree.root, (node) => node.kind === 'scene' && node.label === 'Alpha');
   assert.ok(alpha);

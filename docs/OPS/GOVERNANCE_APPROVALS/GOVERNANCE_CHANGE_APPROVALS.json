@@ -10025,19 +10025,19 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_BUILD_PROFILE_REGISTRY_V1.json",
-      "sha256": "2c3eff40141b81405ee0b2536fdeeabce678c96278b286cb0cf08abcb549956a",
+      "sha256": "359b28f73e4f9d7c1ad752b6323099f162532aca7ae36ffcb996a4cedfe8abd9",
       "approvedBy": "owner-direct:TASK_ID:F2_WORD_PROVIDER_MIGRATION_16_112_V1",
-      "approvedAtUtc": "2026-08-13T08:35:40Z",
-      "rationale": "Approve the bounded F2 Word provider profile migration registry update: Word 16.111.3 remains historical and non-transferable, Word 16.112 build 16.112.26081010 is current but not saturated, and no terminal PASS is created.",
+      "approvedAtUtc": "2026-08-13T09:45:00Z",
+      "rationale": "Approve the bounded F2 Word provider profile migration registry update after fresh physical replay: Word 16.111.3 remains historical and non-transferable, Word 16.112 build 16.112.26081010 is current but not saturated, smoke evidence is bound to local candidate head 0379cea3 and origin/main 574f2777, and no terminal PASS is created.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_F2_WORD_PROVIDER_MIGRATION_16_112_V1"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_MAC_16_112_CARRIER_SURVIVAL_SMOKE_RECEIPT.json",
-      "sha256": "99d0d4fc1e01d8c1a09d0a66bf47ae793ac742172a36daf8f7c77a07e72ed0b3",
+      "sha256": "a270b07c45f2d067a198af2fec75c9088909a765690a542d89154fe2a928aa25",
       "approvedBy": "owner-direct:TASK_ID:F2_WORD_PROVIDER_MIGRATION_16_112_V1",
-      "approvedAtUtc": "2026-08-13T08:35:40Z",
-      "rationale": "Approve the factual CARRIER_SURVIVAL_SMOKE physical receipt for disposable synthetic fixtures only on exact Word 16.112 build 16.112.26081010, with bundle/team/signature binding and without promoting compatibility saturation.",
+      "approvedAtUtc": "2026-08-13T09:45:00Z",
+      "rationale": "Approve the factual CARRIER_SURVIVAL_SMOKE physical receipt for disposable synthetic fixtures only on exact Word 16.112 build 16.112.26081010, sealed 12/12 at local candidate head 0379cea3 with origin/main 574f2777, with bundle/team/signature binding and without promoting compatibility saturation.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_F2_WORD_PROVIDER_MIGRATION_16_112_V1"
     },

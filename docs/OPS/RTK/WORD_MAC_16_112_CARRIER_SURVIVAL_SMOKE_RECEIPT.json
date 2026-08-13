@@ -3,8 +3,8 @@
   "profileId": "word-mac-16.112-26081010",
   "rung": "CARRIER_SURVIVAL_SMOKE",
   "status": "PHYSICAL_CARRIER_SURVIVAL_SMOKE_PASS",
-  "headSha": "fe7bc6320e8cb6a9d30e613726300a39cb94bb51",
-  "originMainSha": "a090702982ff1b29ac2e34778ae39613dac98425",
+  "headSha": "0379cea33ca9a25e0fb36676676bb1e9f4088904",
+  "originMainSha": "574f27775eeb86a517fdc77c8ac373400ecec6a0",
   "wordProfile": {
     "appPath": "/Applications/Microsoft Word.app",
     "versionByBundle": "16.112",
@@ -28,7 +28,7 @@
     "macosBuild": "25G76",
     "locale": "ru_FI"
   },
-  "artifactRoot": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/phys-16-112/phys-carrier-survival-smoke-20260813T082605",
+  "artifactRoot": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/phys-16-112/phys-carrier-survival-smoke-20260813T094115",
   "counters": {
     "total": 12,
     "passed": 12,
@@ -44,7 +44,7 @@
       "readbackContainsInsertion": true,
       "wordRevisionCount": 2,
       "sourceDocxSha256": "sha256:1ae92f219578eca3be4c6f7c87b2dddc8bab2fa342fb238959955d540498be32",
-      "returnedDocxSha256": "sha256:27927b7c704248592f1bed618dc07176d139d8a0c057584550044e84a9073901",
+      "returnedDocxSha256": "sha256:51080843820fd059b2b62309d94a84681c8680cad727d1abe389cc62527e7a50",
       "error": ""
     },
     {
@@ -56,7 +56,7 @@
       "readbackContainsInsertion": true,
       "wordRevisionCount": 2,
       "sourceDocxSha256": "sha256:54be27bb54e491032618b80ceb5de2de0c0a57b7f45ce19b487845d563d878d5",
-      "returnedDocxSha256": "sha256:0c16bf133e58b1ca2ba715f553e5b4d2b199a65f271b87bf17c77175ec2b0840",
+      "returnedDocxSha256": "sha256:46f15d1e91716dda97b65027fe7612e4facbc39885aeab906db5818be8354986",
       "error": ""
     },
     {
@@ -68,7 +68,7 @@
       "readbackContainsInsertion": true,
       "wordRevisionCount": 2,
       "sourceDocxSha256": "sha256:77784a4b91a79eedca791c122943c2fcb56d6ea42da66c765f4e930485b90636",
-      "returnedDocxSha256": "sha256:6c2b188d5d669489c04d4d2f17e046dcdaa1bea73354993ddb4b98a78c73a165",
+      "returnedDocxSha256": "sha256:73eccf3c0f5de2f048c682d544838213d5b573693db0c752ab323cc066d495d0",
       "error": ""
     },
     {
@@ -80,7 +80,7 @@
       "readbackContainsInsertion": true,
       "wordRevisionCount": 2,
       "sourceDocxSha256": "sha256:4cfe3ae7905e3f808d1df97ff799b482cf53a7a28352e2a1e61ae390c6ad915e",
-      "returnedDocxSha256": "sha256:d45cec87564092b12bd99570171bb42d6578d00a072c83da0237516b3eb062f2",
+      "returnedDocxSha256": "sha256:8b43f76f64c401d29636136060f70a253bdcf3cde57736e3c933cb79c8456012",
       "error": ""
     },
     {
@@ -92,7 +92,7 @@
       "readbackContainsInsertion": true,
       "wordRevisionCount": 2,
       "sourceDocxSha256": "sha256:cb54e8d5c97ac1fbd5247fc2c2e8810b4c942d3c56eb259d3e42de6a0c018be6",
-      "returnedDocxSha256": "sha256:01954ab18b4d30f33989369b7ecfb22e6822f177646ba25c8b3ed275a0e2ecc9",
+      "returnedDocxSha256": "sha256:08ba7fa29d0caf42b74198fceab8b9c305dd64b6567700550fe9a22d29f8d539",
       "error": ""
     },
     {
@@ -104,7 +104,7 @@
       "readbackContainsInsertion": true,
       "wordRevisionCount": 2,
       "sourceDocxSha256": "sha256:9d1d228162d1588e95d97fd7faf175d66cb813e355cfe9fd2829d10aab2a63d3",
-      "returnedDocxSha256": "sha256:9e1f14e6edaa7d1f384ae9f8938258197a60627bce1ae56981db280d69a0f546",
+      "returnedDocxSha256": "sha256:e4d986bf2ab1b68001e9c8a1be2e6bc1981929d91c0626d92fc8675356084f9c",
       "error": ""
     },
     {
@@ -116,7 +116,7 @@
       "readbackContainsInsertion": true,
       "wordRevisionCount": 2,
       "sourceDocxSha256": "sha256:e0462b75c3f7ef0c88f885e7f9738c0e0f762fe8dca1e126b19bcdb458206fe2",
-      "returnedDocxSha256": "sha256:1d41b5fb22b5d68792342508e07875f76ae102771a4ab540fa8113350ce0d37d",
+      "returnedDocxSha256": "sha256:c700a32bd1efb40cec0a3d0626aff81615334d9b5b2c53cfe9800423cd9327a0",
       "error": ""
     },
     {
@@ -128,7 +128,7 @@
       "readbackContainsInsertion": true,
       "wordRevisionCount": 2,
       "sourceDocxSha256": "sha256:3c8d68f2181f26f9a8f8562b6fad7e096e86b21110fbf7098093a20c53e0ff7a",
-      "returnedDocxSha256": "sha256:defd66df2b65bf29c1003c0f6b3a6ab45bb06bc56898559e4dca2e14ae577f67",
+      "returnedDocxSha256": "sha256:f025e1682ce9b36bb93a2187ed2ddf991935b1ab32878a715eda23a1bd569550",
       "error": ""
     },
     {
@@ -140,7 +140,7 @@
       "readbackContainsInsertion": true,
       "wordRevisionCount": 2,
       "sourceDocxSha256": "sha256:10d35267ddae12ef2fe198531526f7732de40eeeb988e4bd896cf43aa081851f",
-      "returnedDocxSha256": "sha256:168c17b89e35cfea7ea9464da051dea126c697f744359675c86c65dc7a2ef043",
+      "returnedDocxSha256": "sha256:4fdf7a66fb1db5356bc44b577f7ed405425b01a6c24ed10a0ff47c3f886e0fda",
       "error": ""
     },
     {
@@ -152,7 +152,7 @@
       "readbackContainsInsertion": true,
       "wordRevisionCount": 2,
       "sourceDocxSha256": "sha256:fa0d5c15d680b860b14caae4a11cb3fbbd0f614569d0e14df94b195702bfab36",
-      "returnedDocxSha256": "sha256:65b0d8202b4a972a169bf7b7be8144a9b4ba229a40a1a676fb2a34afb8bfef10",
+      "returnedDocxSha256": "sha256:0a0cc62a0d17105d64cb84ca1cb4bfc64c69ca57e8e29a9dc0d9c4c582585d00",
       "error": ""
     },
     {
@@ -164,7 +164,7 @@
       "readbackContainsInsertion": true,
       "wordRevisionCount": 2,
       "sourceDocxSha256": "sha256:a910d3cf491855464f1b918ab7875b86e7f82651951f8501bbb7b9313d5bcf18",
-      "returnedDocxSha256": "sha256:b3d5e654ec87e5cced90b7f3bd3e865c50f82b6a8fda6449f8404636138af187",
+      "returnedDocxSha256": "sha256:7c7e30cab97d549501a4160cacebee179d06432049aa9fade2da1b1ce1426559",
       "error": ""
     },
     {
@@ -176,7 +176,7 @@
       "readbackContainsInsertion": true,
       "wordRevisionCount": 2,
       "sourceDocxSha256": "sha256:4d323c29fca7b4e9060409c609d084c0c983dad4fc28b24956bd781d88ada8f5",
-      "returnedDocxSha256": "sha256:a815fc22e4a38a5bf83c6514a467d3a270f6e297179b34158001c99d300c5598",
+      "returnedDocxSha256": "sha256:00cc15e80ba2453e8c5bbad7548b6b9f4fd2fa472e822ed11a59c6fce73f1435",
       "error": ""
     }
   ],

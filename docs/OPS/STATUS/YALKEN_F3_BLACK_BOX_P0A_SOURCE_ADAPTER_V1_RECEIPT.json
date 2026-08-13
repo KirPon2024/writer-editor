@@ -2,8 +2,8 @@
   "schemaVersion": "yalken.f3BlackBoxP0aSourceAdapter.receipt.v1",
   "taskId": "F3_BLACK_BOX_P0A_SOURCE_ADAPTER_V1",
   "createdAtUtc": "2026-08-13T23:33:45Z",
-  "status": "LOCAL_CANDIDATE_PRE_DELIVERY",
-  "verdict": "READY_FOR_DELIVERY_GATES",
+  "status": "LOCAL_DELIVERY_GREEN_PR_OPEN",
+  "verdict": "READY_FOR_REQUIRED_CI",
   "baseline": {
     "headSha": "0f9aa0022c0c9f085c183267b5af1ffcf6a08bd5",
     "treeSha": "1a8bed7cea4b14e8e3e92609cbb8f6960976791d",
@@ -174,5 +174,11 @@
     "This proves only the P0A read-only source adapter eligibility/accounting seam.",
     "This does not prove P0B durable publication, P0C capsule encryption/recovery, physical power-loss, exact-byte donor replication, owner-key recovery drill or Disaster Ready.",
     "Synthetic fixtures are disposable and do not include user manuscripts."
-  ]
+  ],
+  "implementationCommit": {
+    "sha": "465dc82ead07b88fbe7f085b5887736733ea0d79",
+    "treeSha": "64441bd5d022dac75afb7745455bbe2dd87c5d57",
+    "prNumber": 1517,
+    "scope": "Read-only F3 Black Box P0A source adapter for source-fence-bound whole-CORE eligibility and accounting."
+  }
 }

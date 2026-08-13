@@ -10278,19 +10278,19 @@
     },
     {
       "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "2d2bbbb1fdd364d0ccd1ec7a4da146571b6752d9cfdca53deb0d965c059b59e2",
+      "sha256": "7c94aac1429af9a43b311d346d82e7098f99ac96c25404e5e8af43b69e254ab1",
       "approvedBy": "owner:TASK_ID:F3_BLACK_BOX_P0A_SOURCE_ADAPTER_V1",
       "approvedAtUtc": "2026-08-14T00:00:00.000Z",
-      "rationale": "Approve bounded F3 Black Box P0A source adapter candidate bytes and factual living-ledger binding under the standing master-program owner grant; read-only Product Core source snapshot, source-fence-bound whole-CORE accounting, no UI, publisher, capsule crypto, recovery/import, dependency, cloud runtime truth, or user document access.",
+      "rationale": "Approve bounded F3 Black Box P0A source adapter PR #1517 factual binding under the standing master-program owner grant; read-only Product Core source snapshot, source-fence-bound whole-CORE accounting, no UI, publisher, capsule crypto, recovery/import, dependency, cloud runtime truth, or user document access.",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_F3_BLACK_BOX_P0A_SOURCE_ADAPTER"
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_P0A_SOURCE_ADAPTER_V1_RECEIPT.json",
-      "sha256": "9abb151e7afe8f4c4f7b258537f95ec01232b29fe55bce2c32775294a0ae9824",
+      "sha256": "43c6e8e250511b4f957c395844812c92cc0ae7641b5d6ddae7afcb2f76b9fd6b",
       "approvedBy": "owner:TASK_ID:F3_BLACK_BOX_P0A_SOURCE_ADAPTER_V1",
       "approvedAtUtc": "2026-08-14T00:00:00.000Z",
-      "rationale": "Approve bounded F3 Black Box P0A source adapter candidate bytes and factual living-ledger binding under the standing master-program owner grant; read-only Product Core source snapshot, source-fence-bound whole-CORE accounting, no UI, publisher, capsule crypto, recovery/import, dependency, cloud runtime truth, or user document access.",
+      "rationale": "Approve bounded F3 Black Box P0A source adapter PR #1517 factual binding under the standing master-program owner grant; read-only Product Core source snapshot, source-fence-bound whole-CORE accounting, no UI, publisher, capsule crypto, recovery/import, dependency, cloud runtime truth, or user document access.",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_F3_BLACK_BOX_P0A_SOURCE_ADAPTER"
     },
@@ -10299,7 +10299,7 @@
       "sha256": "3be1d60b3a08139360b900caad944d413edb0159250225406642337db60038e7",
       "approvedBy": "owner:TASK_ID:F3_BLACK_BOX_P0A_SOURCE_ADAPTER_V1",
       "approvedAtUtc": "2026-08-14T00:00:00.000Z",
-      "rationale": "Approve bounded F3 Black Box P0A source adapter candidate bytes and factual living-ledger binding under the standing master-program owner grant; read-only Product Core source snapshot, source-fence-bound whole-CORE accounting, no UI, publisher, capsule crypto, recovery/import, dependency, cloud runtime truth, or user document access.",
+      "rationale": "Approve bounded F3 Black Box P0A source adapter PR #1517 factual binding under the standing master-program owner grant; read-only Product Core source snapshot, source-fence-bound whole-CORE accounting, no UI, publisher, capsule crypto, recovery/import, dependency, cloud runtime truth, or user document access.",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_F3_BLACK_BOX_P0A_SOURCE_ADAPTER"
     },
@@ -10308,7 +10308,7 @@
       "sha256": "137064109f4036c52f568f2b55887f0e8d821fce107ea0a04c123918085d0563",
       "approvedBy": "owner:TASK_ID:F3_BLACK_BOX_P0A_SOURCE_ADAPTER_V1",
       "approvedAtUtc": "2026-08-14T00:00:00.000Z",
-      "rationale": "Approve bounded F3 Black Box P0A source adapter candidate bytes and factual living-ledger binding under the standing master-program owner grant; read-only Product Core source snapshot, source-fence-bound whole-CORE accounting, no UI, publisher, capsule crypto, recovery/import, dependency, cloud runtime truth, or user document access.",
+      "rationale": "Approve bounded F3 Black Box P0A source adapter PR #1517 factual binding under the standing master-program owner grant; read-only Product Core source snapshot, source-fence-bound whole-CORE accounting, no UI, publisher, capsule crypto, recovery/import, dependency, cloud runtime truth, or user document access.",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_F3_BLACK_BOX_P0A_SOURCE_ADAPTER"
     }

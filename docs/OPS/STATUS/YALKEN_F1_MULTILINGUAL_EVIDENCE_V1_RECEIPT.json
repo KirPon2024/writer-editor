@@ -1,0 +1,263 @@
+{
+  "schemaVersion": "yalken.f1.multilingualEvidence.receipt.v1",
+  "taskId": "F1_MULTILINGUAL_EVIDENCE_READONLY_V1",
+  "createdAtUtc": "2026-08-13T06:52:40Z",
+  "verdict": "READY_FOR_DELIVERY_CHAIN",
+  "status": "CANDIDATE_GREEN_PENDING_GOVERNANCE_APPROVAL_COMMIT_PUSH_PR_CI_MERGE",
+  "baseline": {
+    "branch": "codex/yalken-f1-multilingual-evidence-readonly-v1",
+    "headSha": "eeebc25360da37d2138511d09e3e0b6716bbf094",
+    "treeSha": "ac11cc411b695e1f42a3787acfcf8a8103bcf8f5",
+    "originMainBinding": "eeebc25360da37d2138511d09e3e0b6716bbf094"
+  },
+  "toolchain": {
+    "node": "v22.22.2",
+    "npm": "10.9.7",
+    "source": "T7_LOCAL_HERMETIC_NODE_22_22_2",
+    "systemInstallChanged": false
+  },
+  "currentImplementationMatrix": {
+    "mergedFoundation": [
+      "S0 source fence revision seam v1 merged at eeebc253",
+      "Atlas multilingual matcher and language receipts exist for Atlas-specific derived surfaces"
+    ],
+    "newInThisContour": [
+      "standalone F1 read-only multilingual evidence/index/search contract",
+      "default-off feature flag resolver",
+      "source-fence-bound snapshot validation",
+      "no-silent-drop accounting",
+      "unknown-language abstention",
+      "independent finite model/oracle and mutation catalog"
+    ],
+    "notClaimed": [
+      "not DOCX/Word multilingual integration",
+      "not automatic language detection",
+      "not deep semantic NLP",
+      "not canonical manuscript mutation",
+      "not Atlas refactor",
+      "not Black Box capsule indexing"
+    ]
+  },
+  "featureIntegrationManifest": {
+    "schemaVersion": "FEATURE_INTEGRATION_MANIFEST_V1",
+    "featureId": "yalken.multilingualEvidence.readonlyV1",
+    "featureVersion": "1.0.0",
+    "domainOwner": "Product Core derived read model",
+    "authoritativeData": [
+      "source-fence-bound projectId/rootId/documentId/canonicalRevision/workingRevision/sourceDigest",
+      "caller supplied immutable source text for the bound document snapshot"
+    ],
+    "derivedData": [
+      "yalken.multilingualEvidence.index.v1",
+      "yalken.multilingualEvidence.searchResult.v1"
+    ],
+    "commandIds": [
+      "NOT_APPLICABLE_NO_COMMAND_IN_V1"
+    ],
+    "eventTypes": [
+      "NOT_APPLICABLE_NO_EVENT_IN_V1"
+    ],
+    "queryIds": [
+      "query.multilingualEvidence.buildIndex.v1",
+      "query.multilingualEvidence.searchIndex.v1"
+    ],
+    "productProjectionIds": [
+      "projection.multilingualEvidence.index.v1",
+      "projection.multilingualEvidence.searchResult.v1"
+    ],
+    "capabilityIds": [
+      "yalken.multilingualEvidence.readonlyV1"
+    ],
+    "authorityMap": {
+      "productTruth": "Product Core remains source of truth; this feature receives immutable source text and exact source fence evidence only.",
+      "commandAuthority": "No Command is added; future invocation must revalidate through Command Kernel and S0 source fence.",
+      "designAuthority": "Not applicable; no UI surface.",
+      "storageAuthority": "none",
+      "mutationAuthority": "none"
+    },
+    "identityKeys": [
+      "projectId",
+      "rootId",
+      "documentId",
+      "canonicalRevision",
+      "workingRevision",
+      "sourceDigest",
+      "indexDigest"
+    ],
+    "revisionPolicy": "Requires ALLOW source-fence result for READ_SOURCE_SNAPSHOT and exact equality of observed source identity before derived indexing or search.",
+    "writePath": "none; pure in-memory derived result only",
+    "readPath": "src/product/multilingualEvidenceV1.mjs",
+    "requiredProductPorts": [
+      "NONE"
+    ],
+    "requiredDesignOsPorts": [
+      "NOT_APPLICABLE_NO_UI"
+    ],
+    "adapterRequirements": [
+      "no runtime download",
+      "no external provider",
+      "no network",
+      "local Intl.Segmenter if present with deterministic fallback"
+    ],
+    "surfaceManifests": [
+      "NOT_APPLICABLE_NO_NEW_VISUAL_ZONE"
+    ],
+    "slotRequirements": [
+      "NOT_APPLICABLE_NO_UI"
+    ],
+    "supportedWorkspaces": [
+      "WRITE",
+      "PLAN",
+      "REVIEW"
+    ],
+    "platformAvailability": "offline desktop local runtime; no cloud dependency",
+    "accessibilityRequirements": "NOT_APPLICABLE_NO_UI",
+    "fallbacks": [
+      "feature flag default OFF returns DISABLED not PASS",
+      "unsupported or unknown language returns ABSTAIN with accounting not silent drop",
+      "invalid or stale source fence returns DENY",
+      "no English fallback",
+      "no fuzzy matching"
+    ],
+    "stateClasses": [
+      "PROJECT_STATE",
+      "DERIVED_STATE"
+    ],
+    "persistenceClass": "none; regenerable in-memory derived data",
+    "migrations": "none",
+    "recovery": "rebuild from current source-fence-bound snapshot; no canonical data to recover",
+    "rollback": "revert the F1 PR; no data migration or runtime wiring",
+    "performanceBudget": {
+      "labOnly": true,
+      "algorithm": "O_TOTAL_UTF16_TEXT_PLUS_QUERY_NO_IO",
+      "maxFiniteCases": 24,
+      "hostileCases": 12,
+      "semanticMutants": 10
+    },
+    "securityBoundary": "No path, command, secret, network, provider, or write authority is accepted from input.",
+    "lifecycle": "shadow/read-only/default-off",
+    "negativeBypassChecks": [
+      "feature disabled cannot pass",
+      "stale source fence cannot index",
+      "source binding transplant cannot index",
+      "unknown language abstains and is counted",
+      "tampered index digest cannot search",
+      "empty query cannot pass",
+      "casefold and NFC positive controls pass",
+      "token boundary negative control blocks partial word match"
+    ],
+    "evidenceBindings": [
+      "test/contracts/multilingual-evidence-v1.contract.test.js",
+      "scripts/ops/multilingual-evidence-v1-model.mjs",
+      "docs/OPS/STATUS/YALKEN_F1_MULTILINGUAL_EVIDENCE_V1_RECEIPT.json"
+    ],
+    "currentReality": "New standalone pure module only; no runtime registry, no UI surface, no writer or storage integration."
+  },
+  "scope": {
+    "changedFiles": [
+      "docs/OPS/STATUS/YALKEN_F1_MULTILINGUAL_EVIDENCE_V1_RECEIPT.json",
+      "scripts/ops/multilingual-evidence-v1-model.mjs",
+      "src/product/multilingualEvidenceV1.mjs",
+      "test/contracts/multilingual-evidence-v1.contract.test.js",
+      "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+    ],
+    "productRuntimeWrites": false,
+    "dataMigration": false,
+    "dependencyChange": false,
+    "uiChange": false
+  },
+  "redFirst": {
+    "command": "node --test test/contracts/multilingual-evidence-v1.contract.test.js",
+    "result": "RED_EXPECTED",
+    "tests": 6,
+    "pass": 0,
+    "fail": 6,
+    "skip": 0,
+    "todo": 0,
+    "primaryFailure": "ERR_MODULE_NOT_FOUND src/product/multilingualEvidenceV1.mjs"
+  },
+  "focusedProof": {
+    "command": "node --test test/contracts/multilingual-evidence-v1.contract.test.js",
+    "tests": 6,
+    "pass": 6,
+    "fail": 0,
+    "skip": 0,
+    "todo": 0
+  },
+  "modelAndOracle": {
+    "command": "node scripts/ops/multilingual-evidence-v1-model.mjs",
+    "result": "PASS",
+    "finiteCases": 24,
+    "finiteDisagreements": 0,
+    "hostileCases": 12,
+    "hostileFailures": 0,
+    "semanticMutants": 10,
+    "semanticMutationSurvivors": 0,
+    "resourceCeiling": "O_TOTAL_UTF16_TEXT_PLUS_QUERY_NO_IO",
+    "productSloClaim": "NOT_CLAIMED_LAB_ONLY",
+    "skips": 0
+  },
+  "affectedProof": {
+    "sourceFenceV1": {
+      "command": "node --test test/contracts/source-fence-v1.contract.test.js",
+      "tests": 7,
+      "pass": 7,
+      "fail": 0,
+      "skip": 0,
+      "todo": 0
+    },
+    "atlasMultilingualMatcher": {
+      "command": "node --test test/contracts/yalken-atlas-v5-final-audit-p0-06-multilingual-matcher.contract.test.js",
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "skip": 0,
+      "todo": 0
+    },
+    "atlasLanguagePackCertification": {
+      "command": "node --test test/contracts/yalken-atlas-v5-e07-c04-basic-language-packs-en-ru-european-certification.contract.test.js",
+      "tests": 5,
+      "pass": 5,
+      "fail": 0,
+      "skip": 0,
+      "todo": 0
+    },
+    "crossPlatformNormalization": {
+      "command": "node --test test/contracts/cross-platform-normalization.contract.test.js",
+      "tests": 5,
+      "pass": 5,
+      "fail": 0,
+      "skip": 0,
+      "todo": 0
+    }
+  },
+  "deterministicReplay": {
+    "runs": 2,
+    "focusedPerRun": "PASS_6_OF_6_ZERO_SKIP_ZERO_TODO",
+    "modelPerRun": "PASS_24_FINITE_ZERO_DISAGREEMENTS_12_HOSTILE_ZERO_FAILURES_10_MUTANTS_ZERO_SURVIVORS"
+  },
+  "postReceiptDeliveryGates": {
+    "reason": "dev:fast and final guardrails run after governance approval binds this exact receipt hash.",
+    "required": [
+      "governance change detection strict pass",
+      "dev:fast pass",
+      "agent:guardrails pass",
+      "PR CI pass",
+      "postmerge exact-head verification pass"
+    ]
+  },
+  "artifactSha256BeforeReceiptSeal": {
+    "src/product/multilingualEvidenceV1.mjs": "af4b1a0db759d390dbe6e1edce6fef95b5443be820a39a5d47540e4aaf0ce8f7",
+    "scripts/ops/multilingual-evidence-v1-model.mjs": "41f39e7c3e04b33c677c9b99b9cd6f2c966eb5f1d334c11017d1a008276ca270",
+    "test/contracts/multilingual-evidence-v1.contract.test.js": "9ebc80648642667cec51011279e23314e5ce8af0aea077bcf077da521ff8c216"
+  },
+  "authority": {
+    "ownerAuthority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1",
+    "commitPushPrCiMerge": "ALLOW_AFTER_FULL_GREEN_ACCORDING_TO_REPO_GOVERNANCE",
+    "externalSecretsOrPaidDependencies": "DENY",
+    "destructiveOperations": "DENY",
+    "protectedGovernanceBypass": "DENY"
+  },
+  "rollback": "Revert the single F1 PR containing the pure module, contract/model/receipt, and companion governance approval entries.",
+  "nextStep": "Bind governance approvals for this receipt/model/contract, run baseline gates, then commit/push/PR/CI/merge if green."
+}

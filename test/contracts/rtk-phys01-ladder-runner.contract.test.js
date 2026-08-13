@@ -37,6 +37,8 @@ const WAVE10_RECEIPT_REF = 'docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE10_RECEIPT
 const WAVE10_RECEIPT_PATH = path.join(REPO_ROOT, WAVE10_RECEIPT_REF);
 const WAVE40_RECEIPT_REF = 'docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE40_RECEIPT.json';
 const WAVE40_RECEIPT_PATH = path.join(REPO_ROOT, WAVE40_RECEIPT_REF);
+const WAVE100_RECEIPT_REF = 'docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE100_RECEIPT.json';
+const WAVE100_RECEIPT_PATH = path.join(REPO_ROOT, WAVE100_RECEIPT_REF);
 
 async function loadModule() {
   return import(pathToFileURL(MODULE_PATH).href);
@@ -1659,6 +1661,56 @@ test('PHYS01-G02-real-16-112-wave40-receipt-validates-executable-diversity-seal'
   assert.equal(validation.ok, true, `real WAVE_40 receipt must validate: ${JSON.stringify(validation.reasons)}`);
   assert.ok((receipt.nonClaims || []).some((line) => String(line).includes('No saturation')),
     'WAVE_40 receipt must explicitly deny saturation/terminal promotion');
+});
+
+test('PHYS01-G03-real-16-112-wave100-receipt-validates-executable-diversity-seal', async () => {
+  const module = await loadModule();
+  assert.equal(fs.existsSync(WAVE100_RECEIPT_PATH), true, '16.112 WAVE_100 physical receipt must exist');
+  const receipt = JSON.parse(fs.readFileSync(WAVE100_RECEIPT_PATH, 'utf8'));
+  const plan = module.buildRungPlan('WAVE_100');
+  assert.equal(plan.receiptRef, WAVE100_RECEIPT_REF);
+  assert.equal(receipt.profileId, 'word-mac-16.112-26081010');
+  assert.equal(receipt.rung, 'WAVE_100');
+  assert.equal(receipt.status, 'PHYSICAL_WAVE_PASS');
+  assert.equal(receipt.claimScope, 'DIVERSE_FAMILY_WAVE_PROVEN');
+  assert.deepEqual(receipt.counters, { total: 100, passed: 100, failed: 0 });
+  assert.equal(receipt.wordProfile.versionByBundle, '16.112');
+  assert.equal(receipt.wordProfile.buildByBundle, '16.112.26081010');
+  assert.equal(receipt.wordProfile.bundleId, 'com.microsoft.Word');
+  assert.equal(receipt.wordProfile.teamIdentifier, 'UBF8T346G9');
+  assert.ok(receipt.caseManifest && /^[0-9a-f]{64}$/u.test(receipt.manifestDigest),
+    'WAVE_100 receipt must bind the normalized manifest digest');
+  assert.ok(receipt.executableCaseManifest && /^[0-9a-f]{64}$/u.test(receipt.executableManifestDigest),
+    'WAVE_100 receipt must bind executable fixture/script/oracle manifest digest');
+  assert.equal(receipt.executableCaseManifest.manifestDigest, receipt.executableManifestDigest);
+  assert.equal(module.evaluateDiversityOracle(receipt.cases, { requireQuotas: false }).ok, true,
+    'WAVE_100 normalized case manifest must satisfy the diversity oracle without 300-wave quotas');
+  assert.equal(module.evaluateExecutableDiversityManifestForTest(receipt.executableCaseManifest).ok, true,
+    'WAVE_100 executable case manifest must satisfy the harness-honesty oracle');
+  const executionDigests = new Set(receipt.cases.map((entry) => entry.executionDigest));
+  const fixtureDigests = new Set(receipt.cases.map((entry) => entry.fixtureDigest));
+  const scriptDigests = new Set(receipt.cases.map((entry) => entry.scriptDigest));
+  const oracleDigests = new Set(receipt.cases.map((entry) => entry.oracleDigest));
+  const families = new Set(receipt.cases.map((entry) => entry.family));
+  const contentClasses = new Set(receipt.cases.map((entry) => entry.contentClass));
+  const normalizedRows = new Set(receipt.cases.map((entry) => JSON.stringify({
+    family: entry.family,
+    operationShape: entry.operationShape,
+    contentClass: entry.contentClass,
+  })));
+  assert.equal(executionDigests.size, 100, 'WAVE_100 cases must not reuse execution digests');
+  assert.equal(fixtureDigests.size, 100, 'WAVE_100 cases must not reuse fixture digests');
+  assert.equal(scriptDigests.size, 100, 'WAVE_100 cases must not reuse script digests');
+  assert.equal(oracleDigests.size, 100, 'WAVE_100 cases must not reuse oracle digests');
+  assert.equal(normalizedRows.size, 100, 'WAVE_100 denominator is 100 distinct executable normalized rows');
+  assert.deepEqual(families, new Set(module.WORD_PHYSICAL_DIVERSITY_FAMILIES),
+    'real WAVE_100 receipt must physically exercise all executable Word-edit families');
+  assert.deepEqual(contentClasses, new Set(module.CONTENT_CLASSES),
+    'real WAVE_100 receipt must physically exercise every executable content class');
+  const validation = module.validateRungReceipt(plan, receipt, { expectedHeadSha: receipt.headSha });
+  assert.equal(validation.ok, true, `real WAVE_100 receipt must validate: ${JSON.stringify(validation.reasons)}`);
+  assert.ok((receipt.nonClaims || []).some((line) => String(line).includes('No saturation')),
+    'WAVE_100 receipt must explicitly deny saturation/terminal promotion');
 });
 
 // ===========================================================================

@@ -448,6 +448,22 @@
           "bundleIdentifier": "com.microsoft.Word",
           "teamIdentifier": "UBF8T346G9",
           "signatureValid": true
+        },
+        {
+          "path": "docs/OPS/RTK/WORD_MAC_16_112_SEMANTIC_DIFFERENTIAL_RECEIPT.json",
+          "sha256": "sha256:5183acde7f22ae477e5e337d828222bd2a7cb66080bd65a3be52e4a141f85c06",
+          "wordVersion": "16.112",
+          "wordBuild": "16.112.26081010",
+          "sealedAtUtc": "2026-08-13T10:32:04Z",
+          "rungs": [
+            "SEMANTIC_DIFFERENTIAL_SUBSET"
+          ],
+          "claimScope": "SEMANTIC_DIFFERENTIAL_SUBSET_ONLY",
+          "headSha": "f087f5e7c6e66389b6e7b0855088da1af6eb322f",
+          "originMainSha": "ccb360210be3f8247d4f2f83b47e25c017fe0635",
+          "bundleIdentifier": "com.microsoft.Word",
+          "teamIdentifier": "UBF8T346G9",
+          "signatureValid": true
         }
       ],
       "freshnessPolicy": {
@@ -455,11 +471,12 @@
       },
       "ladder": {
         "completedRungs": [
-          "CARRIER_SURVIVAL_SMOKE"
+          "CARRIER_SURVIVAL_SMOKE",
+          "SEMANTIC_DIFFERENTIAL_SUBSET"
         ]
       },
-      "profileDigest": "sha256:6467da9b705bcea2b8643b9c85491c4ff91fda802addbc0e15b102f27e873a42",
-      "competingNote": "Physical evidence on Word 16.112 build 16.112.26081010: CARRIER_SURVIVAL_SMOKE 12/12 synthetic cases sealed at local prephysical candidate head 0379cea3 with origin/main base 574f2777. This proves only the carrier-survival smoke rung for the exact signed Microsoft provider; no historical 16.111.3 evidence is inherited, no saturation is claimed, and terminal PASS remains blocked."
+      "profileDigest": "sha256:4ca31d9280d98de0b2f000d6d1fe227d93ad654f3f2b95c12bfb7c5427b589ac",
+      "competingNote": "Physical evidence on Word 16.112 build 16.112.26081010: CARRIER_SURVIVAL_SMOKE 12/12 synthetic cases sealed at local prephysical candidate head 0379cea3 with origin/main base 574f2777, and SEMANTIC_DIFFERENTIAL_SUBSET 24/24 synthetic cases sealed at local prephysical candidate head f087f5e7 with origin/main base ccb36021. This proves only the first two build-bound ladder rungs for the exact signed Microsoft provider; no historical 16.111.3 evidence is inherited, no saturation is claimed, and terminal PASS remains blocked."
     }
   ],
   "currentProfileId": "word-mac-16.112-26081010"

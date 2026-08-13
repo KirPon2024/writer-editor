@@ -1212,3 +1212,55 @@ test('LAB03-05-real-registry-binds-16-112-physical-diversity-harness-as-non-ladd
   });
   assert.equal(next.ok, true, 'WAVE_10 remains only the next admissible rung, not a completed result');
 });
+
+test('LAB03-06-real-registry-binds-16-112-wave10-without-saturation-or-terminal-promotion', async () => {
+  const module = await loadModule();
+  const registryJson = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
+  const current = registryJson.profiles.find((p) => p.profileId === 'word-mac-16.112-26081010');
+  assert.ok(current, '16.112 current profile must exist');
+  assert.equal(current.class, 'COMPETING_NOT_SATURATED');
+  assert.deepEqual(current.ladder.completedRungs, [
+    'CARRIER_SURVIVAL_SMOKE',
+    'SEMANTIC_DIFFERENTIAL_SUBSET',
+    'NEGATIVE_REPLAY_CRASH_SUBSET',
+    'WAVE_10',
+  ]);
+  assert.equal((current.evidenceHeads || []).length, 4,
+    'WAVE_10 must be the fourth ladder evidence head, while harness evidence remains non-ladder');
+
+  const wave10Head = current.evidenceHeads.find((h) =>
+    h.path === 'docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE10_RECEIPT.json');
+  assert.ok(wave10Head, 'WAVE_10 receipt head must be registered');
+  assert.equal(wave10Head.wordVersion, '16.112');
+  assert.equal(wave10Head.wordBuild, '16.112.26081010');
+  assert.deepEqual(wave10Head.rungs, ['WAVE_10']);
+  assert.equal(wave10Head.claimScope, 'DIVERSE_FAMILY_WAVE_PROVEN');
+  assert.equal(wave10Head.casesTotal, 10);
+  assert.equal(wave10Head.casesPassed, 10);
+  assert.equal(wave10Head.denominator, 'executable-diversity-bound-wave10-only-not-saturation');
+  const wave10Abs = path.join(REPO_ROOT, wave10Head.path);
+  assert.equal(fs.existsSync(wave10Abs), true, `WAVE_10 receipt must exist: ${wave10Head.path}`);
+  assert.equal(sha256File(wave10Abs), wave10Head.sha256, 'WAVE_10 receipt sha256 must match registry binding');
+
+  const receipt = JSON.parse(fs.readFileSync(wave10Abs, 'utf8'));
+  assert.equal(receipt.status, 'PHYSICAL_WAVE_PASS');
+  assert.equal(receipt.claimScope, 'DIVERSE_FAMILY_WAVE_PROVEN');
+  assert.deepEqual(receipt.counters, { total: 10, passed: 10, failed: 0 });
+  assert.ok(receipt.executableCaseManifest, 'WAVE_10 receipt must carry executable case manifest');
+  assert.ok((receipt.nonClaims || []).some((line) => String(line).includes('No saturation')),
+    'WAVE_10 receipt must explicitly deny saturation/terminal promotion');
+
+  const next = module.evaluateLadderAdmission({
+    registry: registryJson,
+    profileId: 'word-mac-16.112-26081010',
+    rung: 'WAVE_40',
+  });
+  assert.equal(next.ok, true, `WAVE_40 must be next only after WAVE_10: ${JSON.stringify(next.reasons)}`);
+  const bypass = module.evaluateLadderAdmission({
+    registry: registryJson,
+    profileId: 'word-mac-16.112-26081010',
+    rung: 'WAVE_100',
+  });
+  assert.equal(bypass.ok, false, 'WAVE_100 remains a bypass before WAVE_40');
+  assert.equal(bypass.code, 'RTK_LAB01_LADDER_BYPASS');
+});

@@ -10024,15 +10024,6 @@
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F1"
     },
     {
-      "filePath": "docs/OPS/RTK/WORD_BUILD_PROFILE_REGISTRY_V1.json",
-      "sha256": "59095d638c4f299f37ca440304a31d5a750f04ded5bd6fbe52d75436961744ef",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_PHYSICAL_DIVERSITY_V1",
-      "approvedAtUtc": "2026-08-13T12:20:35Z",
-      "rationale": "Approve the Word 16.112 build-profile registry status binding for the physical-diversity harness repair: adds one harnessEvidenceHeads entry with rungs [], preserves completedRungs as smoke/semantic/negative only, keeps class COMPETING_NOT_SATURATED and denies WAVE_10, WAVE_300, saturation and terminal PASS claims.",
-      "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2_WORD_PHYSICAL_DIVERSITY_V1"
-    },
-    {
       "filePath": "docs/OPS/RTK/WORD_MAC_16_112_CARRIER_SURVIVAL_SMOKE_RECEIPT.json",
       "sha256": "a270b07c45f2d067a198af2fec75c9088909a765690a542d89154fe2a928aa25",
       "approvedBy": "owner-direct:TASK_ID:F2_WORD_PROVIDER_MIGRATION_16_112_V1",
@@ -10040,51 +10031,6 @@
       "rationale": "Approve the factual CARRIER_SURVIVAL_SMOKE physical receipt for disposable synthetic fixtures only on exact Word 16.112 build 16.112.26081010, sealed 12/12 at local candidate head 0379cea3 with origin/main 574f2777, with bundle/team/signature binding and without promoting compatibility saturation.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_F2_WORD_PROVIDER_MIGRATION_16_112_V1"
-    },
-    {
-      "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "80893e577e0351fe7223725dc8912b1cec1ca87ce3ffda9eb784a8ca3048c93d",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_NEGATIVE_REPLAY_CRASH_V1",
-      "approvedAtUtc": "2026-08-13T11:20:42Z",
-      "rationale": "Approve the terminal claim registry factual update recording that the current Word 16.112 profile has smoke, semantic and negative replay/crash evidence while preserving NOT_MADE_WORD_TERMINAL_PASS_REQUIRED, all blockers, historical non-transferability and fail-closed terminal compilation.",
-      "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-phys-ladder-16-111-3.mjs",
-      "sha256": "3de87b6c42a14e9808c4d071c33ddc49efaba8332a1afcafde46d60a156ec6a4",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_PHYSICAL_DIVERSITY_V1",
-      "approvedAtUtc": "2026-08-13T12:20:35Z",
-      "rationale": "Approve the bounded Word physical-diversity harness honesty implementation: executable case specs now bind fixture, plan/script and oracle digests to operationShape/contentClass, reject metadata swaps and digest reuse, and exclude stale/replay/tamper/crash from the physical-diversity denominator unless a later typed adverse contour proves them.",
-      "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2_WORD_PHYSICAL_DIVERSITY_V1"
-    },
-    {
-      "filePath": "test/contracts/rtk-lab01-build-bound-profiles.contract.test.js",
-      "sha256": "3f645bf37314e1364bf79ecb3f2f47aee80d0ad450ee08a5feb0652a5b49789a",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_PHYSICAL_DIVERSITY_V1",
-      "approvedAtUtc": "2026-08-13T12:20:35Z",
-      "rationale": "Approve LAB01 registry coverage binding the Word 16.112 physical-diversity harness receipt as non-ladder evidence only: the current profile remains COMPETING_NOT_SATURATED with exactly the first three completed rungs and no WAVE_10, saturation or terminal PASS promotion.",
-      "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2_WORD_PHYSICAL_DIVERSITY_V1"
-    },
-    {
-      "filePath": "test/contracts/rtk-phys01-ladder-runner.contract.test.js",
-      "sha256": "95af7ffdb813f78ef392a1c9a378472813436fab86037029409bc63b67f3bc0f",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_PHYSICAL_DIVERSITY_V1",
-      "approvedAtUtc": "2026-08-13T12:20:35Z",
-      "rationale": "Approve PHYS01 contract coverage for the owner review false-diversity finding: red-first guards require operationShape/contentClass to change executable bytes and digests, reject duplicate execution digests under different normalized rows, preserve a closed executable manifest, and keep adverse probe families out of Word physical-diversity claims.",
-      "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2_WORD_PHYSICAL_DIVERSITY_V1"
-    },
-    {
-      "filePath": "test/contracts/rtk-release01-terminal-claims.contract.test.js",
-      "sha256": "d46955344e861fdc38e4ebe2df0cea790eb640a8f60b09a623166a951c0a3461",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_NEGATIVE_REPLAY_CRASH_V1",
-      "approvedAtUtc": "2026-08-13T11:20:42Z",
-      "rationale": "Approve RELEASE01 terminal-claim coverage proving smoke, semantic and negative replay/crash Word 16.112 evidence remains non-saturated and cannot aggregate into terminal PASS while Windows, Online, Google, blocked rows and not-claimed blockers remain unresolved.",
-      "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_MAC_16_112_SEMANTIC_DIFFERENTIAL_RECEIPT.json",
@@ -10112,6 +10058,69 @@
       "rationale": "Approve the factual Word 16.112 physical-diversity harness receipt: 14/14 disposable synthetic selected executable edit cases, open documents after run 0, exact signed provider binding, full artifact receipt sha256 4b2c912612a0fdf94d27daef461af2e8e227f40a9898181d6f3257b2d04946f8, and explicit non-claims for WAVE_10/WAVE_300/saturation/terminal PASS.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2_WORD_PHYSICAL_DIVERSITY_V1"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_BUILD_PROFILE_REGISTRY_V1.json",
+      "sha256": "d84516e163a36230afd90493f20c22d542c404511e97a0be21a51514d2a9087a",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE10_V1",
+      "approvedAtUtc": "2026-08-13T13:23:18Z",
+      "rationale": "Approve factual Word 16.112 profile registry update binding WAVE_10 as the fourth completed build-bound ladder rung with 10/10 executable diversity-bound synthetic cases while preserving COMPETING_NOT_SATURATED and blocking WAVE_40/WAVE_100/WAVE_300/WAVE_300_REPEAT/saturation/terminal PASS.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE10_RECEIPT.json",
+      "sha256": "72474408e0e574421c55249c5351cf9c65e614b391205eac8bf29a8aa8e5c358",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE10_V1",
+      "approvedAtUtc": "2026-08-13T13:23:18Z",
+      "rationale": "Approve factual WAVE_10 physical receipt for disposable synthetic fixtures only on exact signed Word 16.112 build 16.112.26081010: 10/10 pass, all 10 executable Word-edit families, 6 content classes, unique fixture/script/oracle/execution digests, open documents after run 0, and explicit non-claims for saturation/terminal compatibility.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
+    },
+    {
+      "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+      "sha256": "0a50e48909abf04f3f81dbfcbefd5b67099b03c653e08b6f7e337189a8d528b0",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE10_V1",
+      "approvedAtUtc": "2026-08-13T13:23:18Z",
+      "rationale": "Approve terminal claim registry factual note/digest update: current Word 16.112 has WAVE_10 evidence but remains NOT_CLAIMED_BLOCKED/NOT_MADE_WORD_TERMINAL_PASS_REQUIRED because saturation, later waves, Windows, Online, Google and blocked rows remain unresolved.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-phys-ladder-16-111-3.mjs",
+      "sha256": "725b7c34754f1ad1dd8d4ef20a26590bd222b7eaae04010a1ded40473248bed1",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE10_V1",
+      "approvedAtUtc": "2026-08-13T13:23:18Z",
+      "rationale": "Approve harness generator correction preventing small-wave false diversity: WAVE_10/WAVE_40/WAVE_100 use orthogonal round-robin executable family/content seeds instead of prefixing one grouped WAVE_300 family; WAVE_300 quota generator and repeat binding remain intact.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
+    },
+    {
+      "filePath": "test/contracts/rtk-lab01-build-bound-profiles.contract.test.js",
+      "sha256": "91d453088325b42d4f5e8458a81776aa180bc464fe025dd098873787767efd67",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE10_V1",
+      "approvedAtUtc": "2026-08-13T13:23:18Z",
+      "rationale": "Approve LAB01 contracts for Word 16.112 WAVE_10 binding: WAVE_10 is completed, WAVE_40 is the next admissible rung, historical evidence remains non-transferable, harness evidence remains non-ladder, and profile remains not saturated.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
+    },
+    {
+      "filePath": "test/contracts/rtk-phys01-ladder-runner.contract.test.js",
+      "sha256": "45e2e895377fd65c00e9855e7086b54a3a0a99b23d99063eafc0a863c93a8210",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE10_V1",
+      "approvedAtUtc": "2026-08-13T13:23:18Z",
+      "rationale": "Approve PHYS01 contracts requiring WAVE_10 orthogonal family seed and validating the real Word 16.112 WAVE_10 receipt with executable manifest, unique execution/fixture/script/oracle digests, and no saturation/terminal claim.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
+    },
+    {
+      "filePath": "test/contracts/rtk-release01-terminal-claims.contract.test.js",
+      "sha256": "cd3b7704e5a90a07d7a70df5517326a0931c1d2ece089846c2ffa93afcb65b1f",
+      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_EXECUTABLE_WAVE10_V1",
+      "approvedAtUtc": "2026-08-13T13:23:18Z",
+      "rationale": "Approve RELEASE01 terminal rollup contracts recognizing Word 16.112 WAVE_10 as evidence while keeping current Word compatibility NOT_CLAIMED_BLOCKED and terminal PASS blocked by unsaturated profile and other unresolved blockers.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     }
   ]
 }

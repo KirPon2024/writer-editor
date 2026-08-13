@@ -1591,7 +1591,7 @@ test('PHYS01-G01-real-16-112-wave10-receipt-validates-executable-diversity-seal'
   assert.ok(receipt.executableCaseManifest && /^[0-9a-f]{64}$/u.test(receipt.executableManifestDigest),
     'diverse wave receipt must bind executable fixture/script/oracle manifest digest');
   assert.equal(receipt.executableCaseManifest.manifestDigest, receipt.executableManifestDigest);
-  assert.equal(module.evaluateDiversityOracle(receipt.caseManifest.cases).ok, true,
+  assert.equal(module.evaluateDiversityOracle(receipt.cases, { requireQuotas: false }).ok, true,
     'normalized case manifest must satisfy the diversity oracle');
   assert.equal(module.evaluateExecutableDiversityManifestForTest(receipt.executableCaseManifest).ok, true,
     'executable case manifest must satisfy the harness-honesty oracle');

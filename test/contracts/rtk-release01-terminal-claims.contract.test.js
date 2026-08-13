@@ -62,6 +62,7 @@ const REGISTRY_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'YALKEN_INTEROP
 const WORD_REGISTRY_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_BUILD_PROFILE_REGISTRY_V1.json');
 const GOOGLE_REGISTRY_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'GOOGLE_BUILD_PROFILE_REGISTRY_V1.json');
 const CAPABILITY_MATRIX_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'STATUS', 'CAPABILITY_MATRIX.json');
+const SATURATION_LIMITATION_AUDIT_RECEIPT_REF = 'docs/OPS/RTK/WORD_MAC_16_112_SATURATION_LIMITATION_AUDIT_RECEIPT.json';
 const CURRENT_16_112_COMPLETED_RUNGS_AFTER_WAVE300 = Object.freeze([
   'CARRIER_SURVIVAL_SMOKE',
   'SEMANTIC_DIFFERENTIAL_SUBSET',
@@ -1616,6 +1617,70 @@ test('RELEASE01-S11-real-registry-word-16-112-wave300-repeat-still-fail-closed',
     'current Word compatibility claim remains explicitly NOT_CLAIMED_BLOCKED after WAVE_300_REPEAT');
   assert.equal(result.blockers.includes('WORD_PROFILE_NOT_SATURATED:word-mac-16.111.3-26080215'), false,
     'the roll-up must not fall back to historical 16.111.3 as current evidence');
+});
+
+// S12: SATURATION_LIMITATION_AUDIT completes the limitation audit, not
+// saturation. The audit must be visible in the current profile and the current
+// compatibility note, but the profile class, explicit blocked claims and
+// terminal roll-up must remain fail-closed.
+test('RELEASE01-S12-real-registry-word-16-112-saturation-limitation-audit-still-fail-closed', async () => {
+  const module = await loadModule();
+  const registry = module.loadTerminalClaimRegistry(REGISTRY_PATH).registry;
+  const wordRegistry = JSON.parse(fs.readFileSync(WORD_REGISTRY_PATH, 'utf8'));
+  const current = wordRegistry.profiles.find((p) => p.profileId === 'word-mac-16.112-26081010');
+  assert.ok(current, 'current 16.112 profile must exist');
+  assert.equal(current.class, 'COMPETING_NOT_SATURATED');
+  assert.equal(current.saturationStatus, 'COMPLETE_NOT_SATURATED');
+  assert.notEqual(current.class, 'SATURATED', 'limitation audit must not promote the profile to SATURATED');
+  assert.deepEqual(current.ladder.completedRungs, CURRENT_16_112_COMPLETED_RUNGS_AFTER_WAVE300_REPEAT,
+    'limitation audit is not an executable ladder rung');
+  assert.equal((current.evidenceHeads || []).length, CURRENT_16_112_EVIDENCE_HEAD_COUNT_AFTER_WAVE300_REPEAT,
+    'limitation audit must not inflate executable evidence heads');
+
+  const auditHeads = current.auditEvidenceHeads || [];
+  assert.equal(auditHeads.length, 1, 'current profile must bind one audit evidence head');
+  const auditHead = auditHeads[0];
+  assert.equal(auditHead.path, SATURATION_LIMITATION_AUDIT_RECEIPT_REF);
+  assert.equal(auditHead.status, 'COMPLETE_NOT_SATURATED');
+  assert.equal(auditHead.saturated, false);
+  assert.deepEqual(auditHead.auditedRungs, ['WAVE_10', 'WAVE_40', 'WAVE_100', 'WAVE_300', 'WAVE_300_REPEAT']);
+  assert.equal(sha256File(path.join(REPO_ROOT, auditHead.path)), auditHead.sha256,
+    `audit evidence sha256 must verify: ${auditHead.path}`);
+
+  const compat = registry.claims.find((c) => c.claimId === 'claim-current-word-compatibility');
+  const saturated = registry.claims.find((c) => c.claimId === 'claim-word-saturated');
+  assert.ok(compat, 'the current-word-compatibility claim must exist');
+  assert.ok(saturated, 'the word-saturated claim must exist');
+  assert.equal(compat.claimClass, 'NOT_CLAIMED_BLOCKED');
+  assert.equal(saturated.claimClass, 'NOT_CLAIMED_BLOCKED');
+  assert.match(compat.note, /SATURATION_LIMITATION_AUDIT COMPLETE_NOT_SATURATED/u,
+    'current compatibility note must mention the completed non-saturation audit');
+  assert.match(compat.note, /terminal PASS remain blocked/u);
+
+  const googleRegistry = JSON.parse(fs.readFileSync(GOOGLE_REGISTRY_PATH, 'utf8'));
+  const matrix = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'docs', 'OPS', 'STATUS', 'YALKEN_WORD_C5V2_TERMINAL_ACCEPTANCE_MATRIX_V1.json'), 'utf8'));
+  const v4Profile = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json'), 'utf8'));
+  const vetoCounters = {};
+  for (const key of VETO_KNOWN_KEYS) vetoCounters[key] = v4Profile.capabilityClaimPolicy[key];
+  const result = module.evaluateTerminalRollupStrict({
+    registry,
+    context: {
+      currentProfileId: wordRegistry.currentProfileId,
+      wordProfiles: wordRegistry.profiles,
+      googleProfiles: googleRegistry.profiles,
+      terminalMatrix: matrix,
+      vetoCounters,
+      claims: registry.claims,
+    },
+  });
+  assert.equal(result.ok, true, `16.112 limitation-audit blocked roll-up must match recorded registry: ${JSON.stringify(result.reasons)}`);
+  assert.equal(result.terminalClaim, 'NOT_MADE_WORD_TERMINAL_PASS_REQUIRED');
+  assert.ok(result.blockers.includes('WORD_PROFILE_NOT_SATURATED:word-mac-16.112-26081010'),
+    `computed blockers must keep the unsaturated 16.112 profile: ${JSON.stringify(result.blockers)}`);
+  assert.ok(result.blockers.includes('BLOCKED_CLAIM:claim-current-word-compatibility'),
+    'current Word compatibility claim remains explicitly NOT_CLAIMED_BLOCKED after the limitation audit');
+  assert.ok(result.blockers.includes('BLOCKED_CLAIM:claim-word-saturated'),
+    'saturation claim remains explicitly NOT_CLAIMED_BLOCKED after the limitation audit');
 });
 
 // Keep stableJson referenced for fixture symmetry with sibling contracts.

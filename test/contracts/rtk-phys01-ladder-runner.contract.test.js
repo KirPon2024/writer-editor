@@ -43,6 +43,8 @@ const WAVE300_RECEIPT_REF = 'docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE300_RECEI
 const WAVE300_RECEIPT_PATH = path.join(REPO_ROOT, WAVE300_RECEIPT_REF);
 const WAVE300_REPEAT_RECEIPT_REF = 'docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE300_REPEAT_RECEIPT.json';
 const WAVE300_REPEAT_RECEIPT_PATH = path.join(REPO_ROOT, WAVE300_REPEAT_RECEIPT_REF);
+const SATURATION_LIMITATION_AUDIT_RECEIPT_REF = 'docs/OPS/RTK/WORD_MAC_16_112_SATURATION_LIMITATION_AUDIT_RECEIPT.json';
+const SATURATION_LIMITATION_AUDIT_RECEIPT_PATH = path.join(REPO_ROOT, SATURATION_LIMITATION_AUDIT_RECEIPT_REF);
 
 async function loadModule() {
   return import(pathToFileURL(MODULE_PATH).href);
@@ -1914,4 +1916,33 @@ test('PHYS01-G05-real-16-112-wave300-repeat-receipt-validates-executable-repeat-
   assert.equal(binding.ok, true, `repeat manifest binding must pass: ${JSON.stringify(binding.reasons)}`);
   assert.ok((repeat.nonClaims || []).some((line) => String(line).includes('No saturation')),
     'repeat receipt must explicitly deny saturation/terminal promotion');
+});
+
+test('PHYS01-G06-real-16-112-saturation-limitation-audit-receipt-validates-complete-not-saturated', async () => {
+  const module = await loadModule();
+  const plan = module.buildRungPlan('SATURATION_LIMITATION_AUDIT');
+  assert.equal(plan.receiptRef, SATURATION_LIMITATION_AUDIT_RECEIPT_REF,
+    'SATURATION_LIMITATION_AUDIT must write the 16.112 limitation-audit receipt path');
+  assert.equal(fs.existsSync(SATURATION_LIMITATION_AUDIT_RECEIPT_PATH), true,
+    `SATURATION_LIMITATION_AUDIT receipt must exist before the audit can be claimed: ${SATURATION_LIMITATION_AUDIT_RECEIPT_REF}`);
+
+  const receipt = JSON.parse(fs.readFileSync(SATURATION_LIMITATION_AUDIT_RECEIPT_PATH, 'utf8'));
+  assert.equal(receipt.schema, 'yalken.rtk.word-mac-16-112.saturation-limitation-audit-receipt.v1');
+  assert.equal(receipt.profileId, 'word-mac-16.112-26081010');
+  assert.equal(receipt.rung, 'SATURATION_LIMITATION_AUDIT');
+  assert.equal(receipt.status, 'COMPLETE_NOT_SATURATED');
+  assert.match(receipt.headSha, /^[a-f0-9]{40}$/u, 'audit receipt binds an exact clean candidate head');
+  assert.deepEqual(receipt.auditedReceipts, [
+    WAVE10_RECEIPT_REF,
+    WAVE40_RECEIPT_REF,
+    WAVE100_RECEIPT_REF,
+    WAVE300_RECEIPT_REF,
+    WAVE300_REPEAT_RECEIPT_REF,
+  ], 'audit must bind exactly the five committed wave/repeat receipts');
+  assert.equal(receipt.audit.ok, true, `audit verdict must be green: ${JSON.stringify(receipt.audit.reasons)}`);
+  assert.equal(receipt.audit.status, 'COMPLETE_NOT_SATURATED');
+  assert.ok(receipt.audit.status !== 'SATURATED', 'the audit receipt can never promote the profile to SATURATED');
+  assert.equal(JSON.stringify(receipt).includes('WORD_TERMINAL_PASS_ACHIEVED'), false,
+    'limitation audit receipt must not contain a terminal PASS claim');
+  assert.match(sha256File(SATURATION_LIMITATION_AUDIT_RECEIPT_PATH), /^sha256:[a-f0-9]{64}$/u);
 });

@@ -1,0 +1,147 @@
+{
+  "schemaVersion": "yalken.f3BlackBoxManualCoreCapsuleKit.receipt.v1",
+  "taskId": "F3_BLACK_BOX_MANUAL_CORE_CAPSULE_KIT_V1",
+  "createdAtUtc": "2026-08-14T04:58:28Z",
+  "status": "LOCAL_CANDIDATE_FULL_GREEN_PRE_DELIVERY",
+  "verdict": "READY_FOR_CLEAN_CANDIDATE_COMMIT_THEN_DELIVERY_REBIND",
+  "baseline": {
+    "headSha": "d96a26a157aaa0d6aa196f8c8cfa9d01b12805ac",
+    "treeSha": "534919bbaa64832022f814fab9a355f0a95f33ad",
+    "branch": "codex/yalken-f3-black-box-manual-core-capsule-kit-v1"
+  },
+  "authorityBoundary": {
+    "ownerGrant": "OWNER_AUTHORITY_GRANT_F3_P0C_STANDARD_AGE_V1_PROVIDER_OPTION_A_AND_STANDING_MASTER_PROGRAM_GRANT",
+    "productRuntimeWiringChanged": false,
+    "commandKernelWiringChanged": false,
+    "uiChanged": false,
+    "canonicalProjectMutation": false,
+    "liveProjectOverwrite": false,
+    "userDocumentsTouched": false,
+    "sealedLabPackagesModified": false,
+    "systemWideInstall": false,
+    "dependenciesChanged": false,
+    "networkRuntimeTruth": false
+  },
+  "contract": {
+    "schema": "yalken.blackBoxManualCoreCapsuleKit.result.v1",
+    "featureFlag": "yalken.blackBox.manualCoreCapsuleKit.v1",
+    "defaultEnabled": false,
+    "integrationMode": "EXISTING_SEAM",
+    "composition": [
+      "P0A whole-CORE source adapter",
+      "P0C strict standard age v1 X25519 capsule builder",
+      "P0B Darwin create-only durable artifact publisher"
+    ],
+    "semantics": [
+      "trusted Product Core source snapshot is revalidated through P0A",
+      "P0C source fence is generated from P0A sourceSetDigest with mayWrite=false",
+      "provider pin is rechecked before capsule build",
+      "artifact is written only through P0B no-replace/nofollow/fdatasync/readback contract",
+      "result returns recovery-kit metadata and receipts only"
+    ],
+    "nonGoals": [
+      "no UI surface",
+      "no Command Kernel public command",
+      "no live project restore or overwrite",
+      "no user manuscript",
+      "no real owner-key drill",
+      "no exact-byte FINAL_COMPLETE donor replication claim",
+      "no Disaster Ready claim",
+      "no physical power-loss proof claim"
+    ]
+  },
+  "redFirst": {
+    "command": "node --test test/contracts/black-box-manual-core-capsule-kit-v1.contract.test.js",
+    "result": "RED_EXPECTED",
+    "tests": 8,
+    "pass": 0,
+    "fail": 8,
+    "skipped": 0,
+    "todo": 0,
+    "primaryFailure": "ERR_MODULE_NOT_FOUND src/product/blackBoxManualCoreCapsuleKitV1.mjs and scripts/ops/black-box-manual-core-capsule-kit-v1-model.mjs"
+  },
+  "focusedProof": {
+    "command": "node --test test/contracts/black-box-manual-core-capsule-kit-v1.contract.test.js",
+    "tests": 8,
+    "pass": 8,
+    "fail": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "modelOracleMutations": {
+    "command": "node scripts/ops/black-box-manual-core-capsule-kit-v1-model.mjs",
+    "finiteCases": 48,
+    "hostileCases": 16,
+    "semanticMutants": 12,
+    "survivors": 0,
+    "failures": 0,
+    "skips": 0
+  },
+  "physicalProviderEvidence": {
+    "command": "node scripts/ops/black-box-manual-core-capsule-kit-v1-physical.mjs",
+    "path": "/Volumes/T7-Secure/storage/yalken/evidence/f3-manual-core-capsule-kit-v1/20260814T050350Z/physical-evidence.json",
+    "sha256": "sha256:2699fb1bb9118eb992affeaaba3bd69a6f745b300daab1e2293307acc78ed40e",
+    "provider": "official age CLI v1.3.1 darwin-arm64",
+    "positiveBuild": true,
+    "positiveRecover": true,
+    "artifactSha256": "sha256:999854421fb3d69aef9efd32c9577692ff3e83320ffde346ba9186f65d565930",
+    "negativeCases": 4,
+    "negativeFailures": 0,
+    "leakageDetected": false,
+    "cleanupOk": true,
+    "elapsedMs": 228.845917,
+    "claimBoundary": "Disposable synthetic CORE capsule only; no user documents, no private manuscript, no live project overwrite, no Disaster Ready claim."
+  },
+  "affectedProof": {
+    "command": "node --test test/contracts/source-fence-v1.contract.test.js test/contracts/multilingual-evidence-v1.contract.test.js test/contracts/black-box-p0a-source-adapter-v1.contract.test.js test/contracts/black-box-p0b-darwin-durable-publisher-v1.contract.test.js test/contracts/black-box-p0c-strict-capsule-recover-v1.contract.test.js test/contracts/black-box-manual-core-capsule-kit-v1.contract.test.js",
+    "tests": 43,
+    "pass": 43,
+    "fail": 0,
+    "skipped": 0,
+    "todo": 0,
+    "models": {
+      "sourceFence": "192 finite, 20 hostile, 9 mutants, 0 survivors",
+      "multilingualEvidence": "24 finite, 18 hostile, 15 mutants, 0 survivors",
+      "blackBoxP0a": "32 finite, 18 hostile, 12 mutants, 0 survivors",
+      "blackBoxP0b": "65 finite, 18 hostile, 12 mutants, 0 survivors",
+      "blackBoxP0c": "64 finite, 18 hostile, 12 mutants, 0 survivors",
+      "manualCoreCapsuleKit": "48 finite, 16 hostile, 12 mutants, 0 survivors"
+    }
+  },
+  "deterministicReplay": {
+    "command": "node --test test/contracts/black-box-manual-core-capsule-kit-v1.contract.test.js && node scripts/ops/black-box-manual-core-capsule-kit-v1-model.mjs",
+    "runs": 2,
+    "focusedTestsPerRun": "8/8",
+    "modelPerRun": "48 finite, 16 hostile, 12 mutants, 0 survivors",
+    "failures": 0,
+    "skips": 0,
+    "todo": 0
+  },
+  "resourceCeilings": {
+    "maxCorePayloadBytes": 67108864,
+    "focusedSyntheticRunSeconds": 30,
+    "rssBytes": 536870912,
+    "typingHotPath": "NOT_APPLICABLE"
+  },
+  "deliveryGates": {
+    "affectedProof": "PASS",
+    "traceabilityLedger": "PASS_28_DISPOSITIONS_3_EXTERNAL_PINS",
+    "governanceChangeDetection": "PASS_NO_MISSING_APPROVALS",
+    "devFast": "PASS_28_OF_28",
+    "guardrails": "PASS",
+    "fullBaseline": "PASS_ops_3_of_3_core_802_total_738_pass_64_skip_0_fail_0_todo_atlas_20_of_20_perf_menu_release_PASS",
+    "requiredCi": "PENDING",
+    "postMergeVerification": "PENDING"
+  },
+  "rollback": {
+    "plan": "Revert the bounded manual CORE capsule kit seam, contract/model, receipt, ledger and governance entries. No migration rollback is needed because no canonical project data is mutated.",
+    "artifactCleanup": "Only disposable synthetic test artifacts are created."
+  },
+  "limitations": {
+    "manualKitProductValue": "Local create-only CORE capsule kit seam only, default off.",
+    "fullBlackBoxProductV1": "DEFERRED_WITH_BLOCKER",
+    "ownerKeyRecoveryDrill": "NOT_CLAIMED",
+    "independentOffHostRestore": "NOT_CLAIMED",
+    "disasterReady": "NOT_CLAIMED"
+  }
+}

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.f3.blackBoxProductCommandExportManualCore.receipt.v1",
   "taskId": "F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
-  "status": "LOCAL_CANDIDATE_FULL_LOCAL_GATES_GREEN_PENDING_COMMIT_PR_CI_MERGE_POSTMERGE_NOT_FULL_BLACK_BOX_PRODUCT_V1",
+  "status": "LOCAL_CANDIDATE_COMMITTED_FULL_LOCAL_GATES_GREEN_PENDING_PUSH_PR_CI_MERGE_POSTMERGE_NOT_FULL_BLACK_BOX_PRODUCT_V1",
   "verdict": "READY_FOR_DELIVERY_CHAIN_NOT_FULL_BLACK_BOX_PRODUCT_V1",
   "createdAtUtc": "2026-08-14T11:45:00Z",
   "baseline": {
@@ -917,7 +917,7 @@
   },
   "productUiDefaultFlagPath": {
     "taskId": "F3_BLACK_BOX_PRODUCT_UI_DEFAULT_FLAG_PATH_V1",
-    "status": "LOCAL_CANDIDATE_FULL_LOCAL_GATES_GREEN_PENDING_COMMIT_PR_CI_MERGE_POSTMERGE",
+    "status": "LOCAL_CANDIDATE_COMMITTED_FULL_LOCAL_GATES_GREEN_PENDING_PUSH_PR_CI_MERGE_POSTMERGE",
     "baselineSha": "59ed787fb75769222d880cb9d5769e02ed614b0e",
     "baselineTreeSha": "7da57f229773666c5d8910abe68bfa5316a047e8",
     "scope": "Bind the existing Black Box manual CORE capsule product command into the existing default-off File export menu, export modal and command-palette/runtime-command UI path. This adds discoverability only; product runtime, storage, command meaning, provider, target selection and capsule semantics are unchanged.",
@@ -1018,12 +1018,13 @@
     },
     "rollback": "Revert this bounded UI/default path PR: src/menu menu rows, generated menu artifact/snapshot/lock, renderer export modal/router, new contract/model and factual receipt/ledger/governance entries. No data migration or canonical project-data rollback is required.",
     "delivery": {
-      "commitSha": "PENDING_CLEAN_CANDIDATE_COMMIT",
-      "push": "PENDING_AFTER_COMMIT",
-      "pr": "PENDING_AFTER_PUSH",
-      "requiredCi": "PENDING_AFTER_PR",
-      "merge": "PENDING_AFTER_REQUIRED_CI",
-      "postmerge": "PENDING_AFTER_MERGE"
+      "candidateCommitSha": "bcbdcedb742e3ae43a02fea910d7d0d7e7c65aed",
+      "candidateTreeSha": "1a281fff1f89248d3521f4dbbba9336ecb518f98",
+      "push": "PENDING",
+      "pr": "PENDING",
+      "requiredCi": "PENDING",
+      "merge": "PENDING",
+      "postmerge": "PENDING"
     }
   }
 }

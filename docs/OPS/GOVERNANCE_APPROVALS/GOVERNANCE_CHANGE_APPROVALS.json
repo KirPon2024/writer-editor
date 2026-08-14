@@ -10368,12 +10368,48 @@
     },
     {
       "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "6b16234621578d22d6dd8c910d8510bcac0a6a779a3b2ecab9444d143834d0a6",
-      "rationale": "Approve factual ledger promotion of F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1 from deferred local candidate to ENFORCED_TEST_GATE after PR #1519 required CI, merge and postmerge exact-head verification; full Black Box product V1 remains deferred for separate productization, independent restore, owner-key drill, FINAL_COMPLETE donor and no-live-overwrite gates.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_P0C_POSTMERGE_TRACEABILITY_REBIND_V1",
-      "approvedAtUtc": "2026-08-14T04:19:23.000Z",
+      "sha256": "fad86e4e4429a5130755cc4a3ef99f33ea70981f27238ede96a7e11f7152928b",
+      "rationale": "Approve pre-delivery factual ledger addition for active F3_BLACK_BOX_MANUAL_CORE_CAPSULE_KIT_V1 as DEFERRED_WITH_BLOCKER until reachable candidate commit, PR, required CI, merge and postmerge verification; full Black Box product V1 remains deferred and no lab evidence is promoted to release authority.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_MANUAL_CORE_CAPSULE_KIT_V1",
+      "approvedAtUtc": "2026-08-14T04:59:00.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_P0C_POSTMERGE_TRACEABILITY_REBIND"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_MANUAL_CORE_CAPSULE_KIT"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_MANUAL_CORE_CAPSULE_KIT_V1_RECEIPT.json",
+      "sha256": "bd4040ddef16e49c1765855e318a63e8f18e09c19370f3ca2a429c97230b4fdf",
+      "rationale": "Approve local full-green pre-delivery F3 manual CORE capsule kit receipt: red-first, focused, affected, model/oracle, disposable official age physical runner, deterministic replay, traceability, governance, dev:fast, guardrails and full baseline passed; no UI, Command Kernel wiring, user documents, live overwrite, owner-key drill, FINAL_COMPLETE donor or Disaster Ready claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_MANUAL_CORE_CAPSULE_KIT_V1",
+      "approvedAtUtc": "2026-08-14T05:06:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_MANUAL_CORE_CAPSULE_KIT"
+    },
+    {
+      "filePath": "scripts/ops/black-box-manual-core-capsule-kit-v1-model.mjs",
+      "sha256": "f518a6fc7c80284918d2785220529f07f18a28517d0f57d6a862b1e5d431537b",
+      "rationale": "Approve F3 manual CORE capsule kit finite/oracle/hostile/mutation model: 48 finite cases, 16 hostile cases and 12 semantic mutants with zero survivors, scoped to no UI/runtime wiring, no user documents and no new dependency.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_MANUAL_CORE_CAPSULE_KIT_V1",
+      "approvedAtUtc": "2026-08-14T04:59:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_MANUAL_CORE_CAPSULE_KIT"
+    },
+    {
+      "filePath": "scripts/ops/black-box-manual-core-capsule-kit-v1-physical.mjs",
+      "sha256": "bc9223c3aa79d6682fedf34ae0e1c4741230f09620e1192aefad537537864870",
+      "rationale": "Approve F3 manual CORE capsule kit disposable physical runner using the already-pinned official age v1.3.1 provider to prove synthetic build, recover preview, stale source, provider mismatch, wrong identity, publish conflict, cleanup and no receipt leakage; no user documents, no system install, no UI/runtime wiring and no Disaster Ready claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_MANUAL_CORE_CAPSULE_KIT_V1",
+      "approvedAtUtc": "2026-08-14T05:04:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_MANUAL_CORE_CAPSULE_KIT"
+    },
+    {
+      "filePath": "test/contracts/black-box-manual-core-capsule-kit-v1.contract.test.js",
+      "sha256": "b6c8d03b06bfefdafc65e50293d950ad0b275289c8bbf9d5d07d48299b33ea98",
+      "rationale": "Approve F3 manual CORE capsule kit contract tests for red-first missing seam, closed schema/default-off flag, P0A/P0C/P0B composition, stale/dirty/UNKNOWN/ABSTAIN/provider/publish hostile denials, create-only no-overwrite and no plaintext/key leakage in receipts.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_MANUAL_CORE_CAPSULE_KIT_V1",
+      "approvedAtUtc": "2026-08-14T04:59:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_MANUAL_CORE_CAPSULE_KIT"
     }
   ]
 }

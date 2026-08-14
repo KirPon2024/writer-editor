@@ -559,6 +559,10 @@
       "capabilityId": "cap.manualMap.edit"
     },
     {
+      "commandId": "cmd.project.blackBox.exportManualCoreCapsuleKitV1",
+      "capabilityId": "cap.blackBox.manualCoreCapsule.export"
+    },
+    {
       "commandId": "cmd.comments.importStablePacket",
       "capabilityId": "cap.stage10.comments.local"
     },

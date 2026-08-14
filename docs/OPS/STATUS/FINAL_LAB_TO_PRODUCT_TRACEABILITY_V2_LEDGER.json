@@ -1140,15 +1140,43 @@
       }
     },
     {
+      "materialId": "F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
+      "programPhase": "F3",
+      "summary": "Black Box manual CORE capsule export is admitted as one runtime-backed Product Command Kernel route: the command accepts only schema/requestId/public recipient input, obtains feature flags/provider/audit identity/source snapshot/create-only target through trusted ports, recomputes source authority through the trusted snapshot seam, returns sanitized artifact metadata only, and keeps default runtime execution fail-closed until later provider/audit/owner-key drill wiring.",
+      "sourcePins": [
+        "BLACK_BOX_FINAL_LAB_EXTERNAL_RECEIPT"
+      ],
+      "disposition": "DEFERRED_WITH_BLOCKER",
+      "post20260811Delta": true,
+      "deferred": {
+        "prerequisite": "Local candidate is implemented and test-green, but product traceability binding requires a real commitSha and PR number. Rebind this row to ADAPTED_PRODUCT inside the same bounded contour after the clean candidate commit and PR are created.",
+        "owner": "MASTER_PROGRAM_OWNER_OR_CURRENT_OWNER_GRANT_WITHIN_SCOPE",
+        "acceptanceGate": "Exact product binding with reachable commit SHA, PR number, file list, test list and receipt hash after delivery metadata exists; required CI, merge and postmerge exact-head verification must still pass."
+      },
+      "localCandidateVerification": {
+        "baselineSha": "2cc598271bfdab6764401216e08cb952d4c49ba6",
+        "redFirst": "6 tests, 0 pass, 6 fail: missing product command module and model",
+        "focusedTests": "6/6",
+        "affectedCommandAndBlackBoxTests": "50/50",
+        "mainCommandBridgeAffected": "18/18",
+        "modelOracleMutations": "36 finite, 18 hostile, 12 mutants, 0 survivors",
+        "productRuntimeWiringChanged": true,
+        "commandKernelWiringChanged": true,
+        "uiChanged": false,
+        "userDocumentsTouched": false,
+        "claimBoundary": "Local candidate only until delivery, required CI, merge and postmerge exact-head verification complete. This does not claim product UI, project-library registration, owner-key drill, off-host restore, exact-byte FINAL_COMPLETE donor replication, Disaster Ready or full Black Box product V1."
+      }
+    },
+    {
       "materialId": "F3_BLACK_BOX_PRODUCT_V1",
       "programPhase": "F3",
-      "summary": "Black Box / Manuscript Capsule product V1 remains future product work after P0A/P0B/P0C, manual CORE capsule kit, import-as-new recovery plan, ephemeral recovered CORE payload sink and import-as-new project writer seams and must still complete product wiring, independent restore and owner-key/recovery drills without live-project overwrite.",
+      "summary": "Black Box / Manuscript Capsule product V1 remains future product work after P0A/P0B/P0C, manual CORE capsule kit, import-as-new recovery plan, ephemeral recovered CORE payload sink, import-as-new project writer, synthetic independent restore drill, trusted source snapshot and manual CORE export command seams and must still complete product UI/default flag/provider-audit/owner-key drills without live-project overwrite.",
       "sourcePins": [
         "BLACK_BOX_FINAL_LAB_EXTERNAL_RECEIPT"
       ],
       "disposition": "DEFERRED_WITH_BLOCKER",
       "deferred": {
-        "prerequisite": "P0A, P0B, P0C, manual CORE capsule kit, import-as-new recovery plan, P0C ephemeral recovered CORE payload sink, import-as-new project writer and synthetic independent restore drill seams are merged and postmerge verified. Remaining productization must still prove real owner-key recovery drill where required, exact-byte donor replication only from verified FINAL_COMPLETE donor, explicit product UI/Command Kernel wiring contours, project-library registration if required, and no live-project overwrite.",
+        "prerequisite": "P0A, P0B, P0C, manual CORE capsule kit, import-as-new recovery plan, P0C ephemeral recovered CORE payload sink, import-as-new project writer, synthetic independent restore drill, trusted source snapshot and manual CORE export command seams are merged and postmerge verified or in delivery. Remaining productization must still prove product UI/default feature flag path, trusted provider/audit identity binding, real owner-key recovery drill where required, exact-byte donor replication only from verified FINAL_COMPLETE donor, project-library registration if required, independent off-host restore and no live-project overwrite.",
         "owner": "MASTER_PROGRAM_OWNER_OR_CURRENT_OWNER_GRANT_WITHIN_SCOPE",
         "acceptanceGate": "Exact bounded PRs with source-fence/accounting, durable writer evidence, strict capsule authentication, quarantine/preview/import-as-new-project proof, independent restore, owner-key drill, rollback, and no live-project overwrite."
       }

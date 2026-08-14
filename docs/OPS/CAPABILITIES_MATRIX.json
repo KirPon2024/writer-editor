@@ -249,6 +249,7 @@
         "cap.ui.fontSize.set": true,
         "cap.atlas.mention.confirm": true,
         "cap.manualMap.edit": true,
+        "cap.blackBox.manualCoreCapsule.export": true,
         "cap.stage10.comments.local": true,
         "cap.stage10.conflicts.local": true,
         "cap.stage10.operationExchange.local": true,
@@ -379,6 +380,7 @@
         "cap.ui.fontSize.set": false,
         "cap.atlas.mention.confirm": false,
         "cap.manualMap.edit": false,
+        "cap.blackBox.manualCoreCapsule.export": false,
         "cap.stage10.comments.local": false,
         "cap.stage10.conflicts.local": false,
         "cap.stage10.operationExchange.local": false,
@@ -399,6 +401,7 @@
         "cap.meaning.edit": false
       },
       "disabledCommands": [
+        "cmd.project.blackBox.exportManualCoreCapsuleKitV1",
         "cmd.project.document.open",
         "cmd.project.docx.importSafeCreate",
         "cmd.project.docx.previewImportPlan",
@@ -574,6 +577,7 @@
         "cap.ui.fontSize.set": false,
         "cap.atlas.mention.confirm": false,
         "cap.manualMap.edit": false,
+        "cap.blackBox.manualCoreCapsule.export": false,
         "cap.stage10.comments.local": false,
         "cap.stage10.conflicts.local": false,
         "cap.stage10.operationExchange.local": false,
@@ -594,6 +598,7 @@
         "cap.meaning.edit": false
       },
       "disabledCommands": [
+        "cmd.project.blackBox.exportManualCoreCapsuleKitV1",
         "cmd.project.document.open",
         "cmd.project.docx.importSafeCreate",
         "cmd.project.docx.previewImportPlan",

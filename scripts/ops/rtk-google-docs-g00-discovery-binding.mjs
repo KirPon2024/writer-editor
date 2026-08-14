@@ -11,41 +11,39 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
 
-const TASK_ID = 'YALKEN_GOOGLE_DOCS_G00_DISCOVERY_BINDING';
-const STATUS = 'REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION';
-const WORD_CLOSURE_STATUS = 'WORD_ACCEPTANCE_REVOKED_BY_SOURCE_BOUND_EVIDENCE';
-const NEXT_STAGE = 'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION';
-const CREATED_AT_UTC = '2026-08-01T16:05:00.000Z';
-const WORD_AUDIT_THREAD = '019fbd7d-f375-7a72-836f-81301bd6eda9';
-const AUDITED_SHA = 'e17f732b4ab38cb70a5c8cb6a7f3fd81d1c712fb';
+const TASK_ID = 'GOOGLE_DOCS_LOCAL_COMPATIBILITY_G00_REBIND_V1';
+const STATUS = 'LOCAL_COMPATIBILITY_REBOUND_NEEDS_REAL_ACCOUNT_E2E';
+const RESULT = 'LOCAL_COMPATIBILITY_NEEDS_MORE_EVIDENCE';
+const CREATED_AT_UTC = '2026-08-15T00:00:00.000Z';
+const WORD_PROFILE_ID = 'word-mac-16.112-26081010';
+const WORD_SCOPE_STATUS = 'COMPLETE_NOT_SATURATED';
+const NEXT_LOCAL_CONTOUR = 'GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1';
+const REAL_ACCOUNT_E2E_BOUNDARY = 'WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE';
 
-const PROGRAM_REF = 'docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json';
-const PROFILE_REF = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json';
-const LEDGER_REF = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json';
-const WORD_SCALE_REF = 'docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_SCALE_ENVELOPE_TERMINAL_RECEIPT.json';
-const WORD_MATRIX_REF = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_V1.json';
+const GOOGLE_PROFILE_REGISTRY_REF = 'docs/OPS/RTK/GOOGLE_BUILD_PROFILE_REGISTRY_V1.json';
 const GOOGLE_EVIDENCE_STATUS_REF = 'docs/OPS/STATUS/REVIEW_BRIDGE_GOOGLE_DOCS_EVIDENCE_CLAIM_BINDING_001_STATUS.json';
-const GOOGLE_EVIDENCE_CONTRACT_REF = 'test/contracts/review-bridge-google-docs-evidence-claim-binding.contract.test.js';
+const GOOGLE_EVIDENCE_CLAIM_CONTRACT_REF = 'test/contracts/review-bridge-google-docs-evidence-claim-binding.contract.test.js';
 const GOOGLE_GATE_CONTRACT_REF = 'test/contracts/revision-bridge-google-docs-evidence-check.contract.test.js';
-const REVISION_BRIDGE_INDEX_REF = 'src/io/revisionBridge/index.mjs';
-const WORD_CLOSURE_RECEIPT_REF = 'docs/OPS/RTK/WORD_FOR_MAC_STAGE_FORMAL_CLOSURE_RECEIPT.json';
 const GOOGLE_MATRIX_REF = 'docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json';
 const GOOGLE_RECEIPT_REF = 'docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json';
+const TERMINAL_CLAIM_REGISTRY_REF = 'docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json';
+const WORD_SATURATION_AUDIT_REF = 'docs/OPS/RTK/WORD_MAC_16_112_SATURATION_LIMITATION_AUDIT_RECEIPT.json';
+const WORD_TYPED_ADVERSE_REF = 'docs/OPS/RTK/WORD_MAC_16_112_TYPED_ADVERSE_SCHEDULES_RECEIPT.json';
 const SCRIPT_REF = 'scripts/ops/rtk-google-docs-g00-discovery-binding.mjs';
+const MODEL_REF = 'scripts/ops/rtk-google-docs-g00-rebind-model.mjs';
 const CONTRACT_REF = 'test/contracts/rtk-google-docs-g00-discovery-binding.contract.test.js';
+const GOOGLE_EVIDENCE_GATE_CONTRACT_TEST_REF = 'test/contracts/revision-bridge-google-docs-evidence-check.contract.test.js';
 const GOVERNANCE_REF = 'docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json';
 
-const GOVERNED_PATHS = [
-  PROGRAM_REF,
-  PROFILE_REF,
-  LEDGER_REF,
-  WORD_CLOSURE_RECEIPT_REF,
+const GOVERNED_PATHS = Object.freeze([
+  GOOGLE_PROFILE_REGISTRY_REF,
   GOOGLE_MATRIX_REF,
   GOOGLE_RECEIPT_REF,
   SCRIPT_REF,
+  MODEL_REF,
   CONTRACT_REF,
-  GOOGLE_GATE_CONTRACT_REF,
-];
+  GOOGLE_EVIDENCE_GATE_CONTRACT_TEST_REF,
+]);
 
 const GOOGLE_SUPPORT_CELLS = Object.freeze([
   {
@@ -67,7 +65,7 @@ const GOOGLE_SUPPORT_CELLS = Object.freeze([
     userFacingAuthority: 'NO_PRODUCT_AUTHORITY',
     physicalEvidence: false,
     reasonCode: 'G00_GOOGLE_SESSION_NOT_BOUND_IN_THIS_CONTOUR',
-    requiredNextContour: NEXT_STAGE,
+    requiredNextContour: 'GOOGLE_DOCS_REAL_ACCOUNT_E2E_AUTHORITY_BOUNDARY',
     blocksGoogleStage: true,
   },
   {
@@ -78,7 +76,7 @@ const GOOGLE_SUPPORT_CELLS = Object.freeze([
     userFacingAuthority: 'NO_GOOGLE_EXPORT_CLAIM',
     physicalEvidence: false,
     reasonCode: 'G00_NO_GOOGLE_PRODUCT_EXPORT_PATH',
-    requiredNextContour: 'GOOGLE_G01_PRODUCT_EXPORT_PACKET_DESIGN',
+    requiredNextContour: NEXT_LOCAL_CONTOUR,
     blocksGoogleStage: true,
   },
   {
@@ -89,7 +87,7 @@ const GOOGLE_SUPPORT_CELLS = Object.freeze([
     userFacingAuthority: 'NO_GOOGLE_ROUNDTRIP_CLAIM',
     physicalEvidence: false,
     reasonCode: 'G00_NO_PHYSICAL_OFFICE_MODE_ROUNDTRIP',
-    requiredNextContour: NEXT_STAGE,
+    requiredNextContour: 'GOOGLE_DOCS_REAL_ACCOUNT_E2E_AUTHORITY_BOUNDARY',
     blocksGoogleStage: true,
   },
   {
@@ -100,7 +98,7 @@ const GOOGLE_SUPPORT_CELLS = Object.freeze([
     userFacingAuthority: 'NO_NATIVE_CONVERSION_CLAIM',
     physicalEvidence: false,
     reasonCode: 'G00_NATIVE_CONVERSION_DEFAULTS_LOSSY_UNTIL_EVIDENCE',
-    requiredNextContour: 'GOOGLE_G02_NATIVE_CONVERSION_PHYSICAL_DISCOVERY',
+    requiredNextContour: 'GOOGLE_DOCS_REAL_ACCOUNT_E2E_AUTHORITY_BOUNDARY',
     blocksGoogleStage: true,
   },
   {
@@ -111,7 +109,7 @@ const GOOGLE_SUPPORT_CELLS = Object.freeze([
     userFacingAuthority: 'NO_RETURN_INTAKE_AUTHORITY',
     physicalEvidence: false,
     reasonCode: 'G00_NO_GOOGLE_RETURN_INTAKE',
-    requiredNextContour: 'GOOGLE_G03_RETURN_INTAKE_AND_QUARANTINE',
+    requiredNextContour: 'GOOGLE_DOCS_LOCAL_RETURN_INTAKE_QUARANTINE_V1',
     blocksGoogleStage: true,
   },
   {
@@ -122,7 +120,7 @@ const GOOGLE_SUPPORT_CELLS = Object.freeze([
     userFacingAuthority: 'NO_SUGGESTION_APPLY_AUTHORITY',
     physicalEvidence: false,
     reasonCode: 'G00_SUGGESTIONS_NOT_PARSED_OR_CLASSIFIED',
-    requiredNextContour: 'GOOGLE_G04_SUGGESTIONS_IR_AND_CLASSIFIER',
+    requiredNextContour: 'GOOGLE_DOCS_LOCAL_SUGGESTIONS_IR_ABSTAIN_V1',
     blocksGoogleStage: true,
   },
   {
@@ -133,7 +131,7 @@ const GOOGLE_SUPPORT_CELLS = Object.freeze([
     userFacingAuthority: 'NO_COMMENT_IMPORT_CLAIM',
     physicalEvidence: false,
     reasonCode: 'G00_DRIVE_COMMENTS_NOT_IMPORTED',
-    requiredNextContour: 'GOOGLE_G05_COMMENTS_REPLIES_STATUS_LANE',
+    requiredNextContour: 'GOOGLE_DOCS_LOCAL_COMMENTS_LIMITATION_V1',
     blocksGoogleStage: true,
   },
   {
@@ -144,7 +142,7 @@ const GOOGLE_SUPPORT_CELLS = Object.freeze([
     userFacingAuthority: 'NO_FORMATTING_TRANSFER_CLAIM',
     physicalEvidence: false,
     reasonCode: 'G00_FORMATTING_UNMEASURED',
-    requiredNextContour: 'GOOGLE_G06_FORMATTING_STRUCTURE_UNICODE_MATRIX',
+    requiredNextContour: 'GOOGLE_DOCS_LOCAL_FORMAT_STRUCTURE_MATRIX_V1',
     blocksGoogleStage: true,
   },
   {
@@ -155,7 +153,7 @@ const GOOGLE_SUPPORT_CELLS = Object.freeze([
     userFacingAuthority: 'NO_STRUCTURE_TRANSFER_CLAIM',
     physicalEvidence: false,
     reasonCode: 'G00_STRUCTURE_UNMEASURED',
-    requiredNextContour: 'GOOGLE_G06_FORMATTING_STRUCTURE_UNICODE_MATRIX',
+    requiredNextContour: 'GOOGLE_DOCS_LOCAL_FORMAT_STRUCTURE_MATRIX_V1',
     blocksGoogleStage: true,
   },
   {
@@ -166,7 +164,7 @@ const GOOGLE_SUPPORT_CELLS = Object.freeze([
     userFacingAuthority: 'NO_APPLY_AUTHORITY',
     physicalEvidence: false,
     reasonCode: 'G00_NO_GOOGLE_PREVIEW_OR_COMMAND_APPLY',
-    requiredNextContour: 'GOOGLE_G07_PREVIEW_EXPLICIT_DECISION_COMMAND_KERNEL',
+    requiredNextContour: 'GOOGLE_DOCS_LOCAL_PREVIEW_ONLY_NO_APPLY_V1',
     blocksGoogleStage: true,
   },
   {
@@ -177,7 +175,7 @@ const GOOGLE_SUPPORT_CELLS = Object.freeze([
     userFacingAuthority: 'NO_RECOVERY_REPLAY_CLAIM',
     physicalEvidence: false,
     reasonCode: 'G00_NO_GOOGLE_RECOVERY_OR_REPLAY_LEDGER',
-    requiredNextContour: 'GOOGLE_G08_RECOVERY_REOPEN_REPLAY',
+    requiredNextContour: 'GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1',
     blocksGoogleStage: true,
   },
   {
@@ -188,7 +186,7 @@ const GOOGLE_SUPPORT_CELLS = Object.freeze([
     userFacingAuthority: 'NO_GOOGLE_SCALE_ENVELOPE',
     physicalEvidence: false,
     reasonCode: 'G00_SCALE_UNMEASURED',
-    requiredNextContour: 'GOOGLE_G09_SCALE_ENVELOPE',
+    requiredNextContour: 'GOOGLE_DOCS_REAL_ACCOUNT_E2E_AUTHORITY_BOUNDARY',
     blocksGoogleStage: true,
   },
 ]);
@@ -209,8 +207,20 @@ function sha256File(relativePath) {
   return crypto.createHash('sha256').update(fs.readFileSync(abs(relativePath))).digest('hex');
 }
 
+function sha256WritableJson(value) {
+  return crypto.createHash('sha256').update(Buffer.from(`${JSON.stringify(value, null, 2)}\n`, 'utf8')).digest('hex');
+}
+
 function git(ref) {
   return execFileSync('git', ['rev-parse', ref], { cwd: REPO_ROOT, encoding: 'utf8' }).trim();
+}
+
+function branchName() {
+  return execFileSync('git', ['branch', '--show-current'], { cwd: REPO_ROOT, encoding: 'utf8' }).trim();
+}
+
+function allZero(object) {
+  return Object.values(object || {}).every((value) => Number(value) === 0);
 }
 
 function sourceBinding(id, relativePath) {
@@ -222,82 +232,83 @@ function sourceBinding(id, relativePath) {
   };
 }
 
-function allZero(object) {
-  return Object.values(object || {}).every((value) => Number(value) === 0);
+function summarizeGoogleProfiles(registry) {
+  const profiles = list(registry?.profiles);
+  return profiles.map((profile) => ({
+    profileId: profile.profileId,
+    class: profile.class,
+    provider: profile.provider,
+    editorMode: profile.editorMode,
+    conversionBoundary: profile.conversionBoundary,
+    evidenceHeads: list(profile.evidenceHeads).length,
+    completedRungs: list(profile.ladder?.completedRungs).length,
+  }));
 }
 
-function buildWordClosureReceipt() {
-  const scale = readJson(WORD_SCALE_REF);
-  const matrix = readJson(WORD_MATRIX_REF);
+function currentWordBoundary(terminal, saturationAudit) {
+  const blockers = list(terminal?.terminalRollup?.blockers);
   return {
-    schemaVersion: 'yalken.rtk.word-for-mac.formal-stage-closure-receipt.v1',
-    taskId: 'YALKEN_WORD_STAGE_FORMAL_CLOSURE',
-    status: WORD_CLOSURE_STATUS,
-    result: 'PASS',
-    createdAtUtc: CREATED_AT_UTC,
-    controllerAcceptance: {
-      independentAuditThread: WORD_AUDIT_THREAD,
-      auditedSha: AUDITED_SHA,
-      auditVerdict: 'PASS',
-      zeroOpenP0: true,
-      zeroOpenP1: true,
-      zeroOpenP2: true,
-      wordStageAccepted: true,
-      wordSaturationAccepted: 'TRUE_DECLARED_SUPPORT_ENVELOPE_ONLY',
-      googleDocsStageEligibility: 'CONFIRMED',
-    },
-    sourceBindings: [
-      sourceBinding('WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT', WORD_SCALE_REF),
-      sourceBinding('WORD_NORMALIZED_CAPABILITY_MATRIX', WORD_MATRIX_REF),
-      sourceBinding('POST_D1_PORTABILITY_PROGRAM', PROGRAM_REF),
-      sourceBinding('WORD_CAPABILITY_PROFILE', PROFILE_REF),
-      sourceBinding('WORD_SATURATION_LEDGER', LEDGER_REF),
-    ],
-    acceptedEnvelope: {
-      profile: 'Microsoft Word for Mac 16.111.2',
-      scope: 'DECLARED_SUPPORT_ENVELOPE_ONLY',
-      supportedExplicitUserTrackedReplacementWordsMax: scale.supportEnvelope?.supportedTrackedReplacementApply?.maxCertifiedManuscriptWords,
-      aboveEnvelopeBoundaryWords: scale.supportEnvelope?.attemptedBoundaryWords,
-      aboveEnvelopeDisposition: scale.supportEnvelope?.aboveEnvelopeDisposition,
-      automaticApplyCertified: false,
-      broadAutomaticApplyCertified: false,
-      googleDocsOpenedDuringWordStage: false,
-      programDone: false,
-    },
-    preservedTypedLimitations: {
-      modernReplies: 'TYPED_WORD_OOXML_LIMITATION',
-      resolveReopen: 'TYPED_WORD_OOXML_LIMITATION',
-      formattingApply: 'DIAGNOSTIC_ONLY_TYPED_LIMITATION',
-      structuralApply: 'MANUAL_OR_BLOCKED_TYPED_LIMITATION',
-      scale150k300k500k: 'MANUAL_RESOURCE_LIMIT',
-    },
-    vetoMetrics: {
-      falseExact: 0,
-      wrongSceneRouting: 0,
-      silentApply: 0,
-      replayFailure: 0,
-      silentCommentLoss: 0,
-      productNetwork: 0,
-    },
-    matrixBinding: {
-      totalCells: matrix.counts?.totalCells,
-      blocksWordSaturation: matrix.counts?.blocksWordSaturation,
-      productRuntimeWired: matrix.counts?.productRuntimeWired,
-      physicalWordEvidence: matrix.counts?.physicalWordEvidence,
-      automaticApplyCertified: matrix.counts?.automaticApplyCertified,
-    },
-    nextStage: 'GOOGLE_DOCS_G00_DISCOVERY_BINDING',
-    nonClaims: [
-      'Word corpus growth is closed unless new source-bound evidence reopens it.',
-      'Word typed limitations remain typed limitations.',
-      'Program DONE is not claimed.',
-      'Google Docs support is not claimed by Word closure.',
-    ],
+    profileId: WORD_PROFILE_ID,
+    status: saturationAudit?.status || WORD_SCOPE_STATUS,
+    currentCompatibilityClaimClass: 'NOT_CLAIMED_BLOCKED',
+    wordScopeReady: saturationAudit?.status === WORD_SCOPE_STATUS,
+    wordSaturated: false,
+    terminalRollupState: terminal?.terminalRollup?.state || 'UNKNOWN',
+    terminalPassClaimed: false,
+    blockersStillPresent: blockers.filter((blocker) => [
+      `WORD_PROFILE_NOT_SATURATED:${WORD_PROFILE_ID}`,
+      'BLOCKED_CLAIM:claim-current-word-compatibility',
+      'BLOCKED_CLAIM:claim-google-office-mode',
+      'BLOCKED_CLAIM:claim-google-native-conversion',
+    ].includes(blocker)),
+    evidenceTransferToGoogleDocs: 'DENY',
   };
 }
 
-function buildGoogleMatrix() {
-  const evidenceStatus = readJson(GOOGLE_EVIDENCE_STATUS_REF);
+function buildCurrentRealityAudit() {
+  return {
+    realAdapterExists: false,
+    existingFlow: 'EVIDENCE_CLAIM_GATE_ONLY',
+    exactInputs: [
+      'revision-bridge.google-docs-evidence-packet.v1 claim packet',
+      'Google Docs provider profile declarations',
+    ],
+    exactOutputs: [
+      'typed evidence-claim PASS/FAIL only',
+      'report-only compatibility matrix',
+      'no project mutation',
+    ],
+    transportCandidates: {
+      officeMode: 'DOCX edited in Google Docs without conversion; DECLARED only',
+      nativeConversion: 'DOCX to Google native to DOCX; DECLARED and lossy by default until evidence',
+      odt: 'ABSTAIN_NO_REPO_ADAPTER',
+      html: 'ABSTAIN_NO_REPO_ADAPTER',
+      googleApi: 'ABSTAIN_NO_AUTHORITY_NO_RUNTIME_DEPENDENCY',
+    },
+    ownership: 'Review Bridge evidence claim boundary only; no Google product writer.',
+    identityRevisionFence: 'NOT_ADMITTED_FOR_GOOGLE_RUNTIME',
+    quarantine: 'NOT_WIRED',
+    accessibilityFallback: 'Typed limitation and no support claim; no Google UI surface is changed.',
+    localCompatibilityVerdict: RESULT,
+    realAccountE2E: REAL_ACCOUNT_E2E_BOUNDARY,
+    roundtripLossMatrix: {
+      officeMode: 'ABSTAIN_NO_SIGNED_IN_E2E',
+      nativeConversion: 'ABSTAIN_LOSSY_BY_DEFAULT_UNTIL_EVIDENCE',
+      suggestions: 'ABSTAIN_NO_PARSER_OR_E2E',
+      comments: 'ABSTAIN_NO_DRIVE_COMMENTS_IMPORT',
+      footnotes: 'ABSTAIN_UNMEASURED',
+      tables: 'ABSTAIN_UNMEASURED',
+      media: 'ABSTAIN_UNMEASURED',
+      ids: 'ABSTAIN_NO_IDENTITY_FENCE',
+    },
+  };
+}
+
+function buildGoogleMatrix(input = {}) {
+  const evidenceStatus = input.googleEvidenceStatus || readJson(GOOGLE_EVIDENCE_STATUS_REF);
+  const googleProfiles = input.googleProfiles || readJson(GOOGLE_PROFILE_REGISTRY_REF);
+  const terminal = input.terminal || readJson(TERMINAL_CLAIM_REGISTRY_REF);
+  const saturationAudit = input.saturationAudit || readJson(WORD_SATURATION_AUDIT_REF);
   const rows = GOOGLE_SUPPORT_CELLS.map((row) => ({ ...row }));
   const counts = {
     totalCells: rows.length,
@@ -308,10 +319,12 @@ function buildGoogleMatrix() {
     blocksGoogleStage: rows.filter((row) => row.blocksGoogleStage === true).length,
     externalActivationRequired: rows.filter((row) => row.currentTerminalClass === 'EXTERNAL_ACTIVATION_REQUIRED').length,
   };
+
   return {
     schemaVersion: 'yalken.rtk.google-docs.safe-roundtrip.g00-capability-matrix.v1',
     taskId: TASK_ID,
     status: STATUS,
+    result: RESULT,
     createdAtUtc: CREATED_AT_UTC,
     originMainSha: git('origin/main'),
     localHeadSha: git('HEAD'),
@@ -319,11 +332,8 @@ function buildGoogleMatrix() {
       'google-docs-office-mode-post-d1-v1',
       'google-docs-native-conversion-post-d1-v1',
     ],
-    acceptedWordClosure: {
-      status: WORD_CLOSURE_STATUS,
-      receiptPath: WORD_CLOSURE_RECEIPT_REF,
-      saturationScope: 'DECLARED_SUPPORT_ENVELOPE_ONLY',
-    },
+    currentWordBoundary: currentWordBoundary(terminal, saturationAudit),
+    googleProfileSummary: summarizeGoogleProfiles(googleProfiles),
     existingGoogleTruth: {
       evidenceClaimStatusPath: GOOGLE_EVIDENCE_STATUS_REF,
       evidenceClaimStatus: evidenceStatus.status,
@@ -341,17 +351,18 @@ function buildGoogleMatrix() {
       noPayment: true,
       noAccountCreation: true,
       syntheticArtifactsOnly: true,
-      alreadyAuthorizedSessionOnly: true,
+      alreadyAuthorizedSessionOnly: false,
       productNetworkForbiddenOutsideExplicitGoogleAdapterBoundary: true,
-      unavailableLiveCloudOutcome: 'EXTERNAL_ACTIVATION_REQUIRED_CONTINUE_LOCAL_ADAPTER_CONTRACTS',
+      unavailableLiveCloudOutcome: REAL_ACCOUNT_E2E_BOUNDARY,
     },
+    currentRealityAudit: buildCurrentRealityAudit(),
     requiredProductRoute: [
-      'UI export',
-      'physical Google Docs edit',
+      'export packet design',
+      'physical Google Docs edit under separately authorized account/session',
       'authenticated quarantined intake',
       'visible preview',
       'explicit decision',
-      'Command Kernel apply',
+      'Command Kernel apply only after a future contour',
       'atomic recovery',
       'reopen readback',
       'replay',
@@ -360,16 +371,12 @@ function buildGoogleMatrix() {
     counts,
     nextEngineeringOrder: [
       {
-        contour: NEXT_STAGE,
-        goal: 'Bind an already-authorized synthetic Google Docs session or record the exact external activation boundary; no credentials, no private documents, no support claim.',
+        contour: NEXT_LOCAL_CONTOUR,
+        goal: 'Design and test only an offline/synthetic Google transport packet plus quarantine contract; no Google account, no runtime network, no support claim.',
       },
       {
-        contour: 'GOOGLE_G01_PRODUCT_EXPORT_PACKET_DESIGN',
-        goal: 'Design Google transport packet through existing Review DOCX and RTK architecture without runtime network dependency.',
-      },
-      {
-        contour: 'GOOGLE_G03_RETURN_INTAKE_AND_QUARANTINE',
-        goal: 'Parse returned Google artifact only after quarantine and typed package/security gate.',
+        contour: 'GOOGLE_DOCS_REAL_ACCOUNT_E2E_AUTHORITY_BOUNDARY',
+        goal: 'If real signed-in Google Docs evidence is required, request exact owner account/network/session authority and run disposable synthetic documents only.',
       },
     ],
     vetoMetrics: {
@@ -391,44 +398,50 @@ function buildGoogleMatrix() {
       'No Google Drive integration is introduced.',
       'No automatic apply is certified.',
       'No Google stage DONE is claimed.',
+      'Word 16.112 evidence is non-transferable to Google Docs.',
+      'Real signed-in Google Docs E2E requires separate owner/account authority.',
     ],
   };
 }
 
-function buildGoogleReceipt(wordClosure, matrix) {
+function buildGoogleReceipt(matrix) {
   return {
     schemaVersion: 'yalken.rtk.google-docs.safe-roundtrip.g00-discovery-receipt.v1',
     taskId: TASK_ID,
     status: STATUS,
-    result: 'PASS',
+    result: RESULT,
     createdAtUtc: CREATED_AT_UTC,
     headBinding: {
       originMainSha: git('origin/main'),
       localHeadSha: git('HEAD'),
-      branch: execFileSync('git', ['branch', '--show-current'], { cwd: REPO_ROOT, encoding: 'utf8' }).trim(),
+      branch: branchName(),
     },
     sourceBindings: [
-      sourceBinding('WORD_STAGE_FORMAL_CLOSURE', WORD_CLOSURE_RECEIPT_REF),
+      sourceBinding('WORD_MAC_16_112_SATURATION_LIMITATION_AUDIT', WORD_SATURATION_AUDIT_REF),
+      sourceBinding('WORD_MAC_16_112_TYPED_ADVERSE_SCHEDULES', WORD_TYPED_ADVERSE_REF),
+      sourceBinding('INTEROP_TERMINAL_CLAIM_REGISTRY', TERMINAL_CLAIM_REGISTRY_REF),
       sourceBinding('GOOGLE_G00_MATRIX', GOOGLE_MATRIX_REF),
       sourceBinding('GOOGLE_EVIDENCE_CLAIM_BINDING_STATUS', GOOGLE_EVIDENCE_STATUS_REF),
-      sourceBinding('GOOGLE_EVIDENCE_CLAIM_CONTRACT', GOOGLE_EVIDENCE_CONTRACT_REF),
+      sourceBinding('GOOGLE_EVIDENCE_CLAIM_CONTRACT', GOOGLE_EVIDENCE_CLAIM_CONTRACT_REF),
       sourceBinding('GOOGLE_EVIDENCE_GATE_CONTRACT', GOOGLE_GATE_CONTRACT_REF),
-      sourceBinding('REVISION_BRIDGE_INDEX', REVISION_BRIDGE_INDEX_REF),
     ],
-    wordClosure: {
-      status: wordClosure.status,
-      auditVerdict: wordClosure.controllerAcceptance.auditVerdict,
-      supportedExplicitUserTrackedReplacementWordsMax: wordClosure.acceptedEnvelope.supportedExplicitUserTrackedReplacementWordsMax,
-      aboveEnvelopeDisposition: wordClosure.acceptedEnvelope.aboveEnvelopeDisposition,
-      automaticApplyCertified: wordClosure.acceptedEnvelope.automaticApplyCertified,
-    },
+    wordCurrentScope: matrix.currentWordBoundary,
     googleCurrentState: {
       existingEvidenceClaimGateOnly: true,
+      supportClaimed: false,
+      importClaimed: false,
+      roundtripClaimed: false,
+      googleApiIntegrationClaimed: false,
+      networkAccessAdded: false,
+      applyAuthorityClaimed: false,
       physicalGoogleEvidence: matrix.counts.physicalGoogleEvidence,
       productRuntimeWired: matrix.counts.productRuntimeWired,
       automaticApplyCertified: matrix.counts.automaticApplyCertified,
       blockers: matrix.counts.blocksGoogleStage,
-      nextStage: NEXT_STAGE,
+      googleStageDone: false,
+      localCompatibilityVerdict: RESULT,
+      realAccountE2E: REAL_ACCOUNT_E2E_BOUNDARY,
+      nextLocalContour: NEXT_LOCAL_CONTOUR,
     },
     gapMap: matrix.rows.map((row) => ({
       cellId: row.cellId,
@@ -449,225 +462,169 @@ function buildGoogleReceipt(wordClosure, matrix) {
       noFalseExact: true,
       noWrongSceneRouting: true,
       noReplayFailure: true,
+      noWordEvidenceInheritance: true,
     },
-    nextStage: NEXT_STAGE,
+    currentRealityAudit: matrix.currentRealityAudit,
+    nextLocalContour: NEXT_LOCAL_CONTOUR,
+    realAccountE2E: REAL_ACCOUNT_E2E_BOUNDARY,
     nonClaims: matrix.nonClaims,
   };
 }
 
+function validateDeclaredEmptyProfiles(googleProfiles, issues) {
+  const profiles = list(googleProfiles?.profiles);
+  const expected = new Set(['google-docs-office-mode-post-d1-v1', 'google-docs-native-conversion-post-d1-v1']);
+  if (profiles.length !== 2) {
+    issues.push({ code: 'GOOGLE_G00_PROFILE_SET_INVALID', field: 'googleProfiles.profiles', message: 'Google G00 must have exactly two declared profiles.' });
+    return;
+  }
+  for (const profile of profiles) {
+    if (!expected.has(profile.profileId)
+      || profile.provider !== 'google-docs'
+      || profile.class !== 'DECLARED'
+      || list(profile.evidenceHeads).length !== 0
+      || list(profile.ladder?.completedRungs).length !== 0) {
+      issues.push({
+        code: 'GOOGLE_G00_PROFILE_NOT_DECLARED_EMPTY',
+        field: `googleProfiles.profiles.${profile.profileId || 'unknown'}`,
+        message: 'Google profile must remain DECLARED with no evidence heads and no ladder rungs in G00.',
+      });
+    }
+  }
+}
+
 function evaluateGoogleDocsG00DiscoveryBinding(input = {}) {
-  const wordClosure = input.wordClosure || readJson(WORD_CLOSURE_RECEIPT_REF);
   const matrix = input.matrix || readJson(GOOGLE_MATRIX_REF);
   const receipt = input.receipt || readJson(GOOGLE_RECEIPT_REF);
-  const program = input.program || readJson(PROGRAM_REF);
-  const profile = input.profile || readJson(PROFILE_REF);
-  const ledger = input.ledger || readJson(LEDGER_REF);
+  const googleProfiles = input.googleProfiles || readJson(GOOGLE_PROFILE_REGISTRY_REF);
+  const googleEvidenceStatus = input.googleEvidenceStatus || readJson(GOOGLE_EVIDENCE_STATUS_REF);
+  const terminal = input.terminal || readJson(TERMINAL_CLAIM_REGISTRY_REF);
   const issues = [];
   const add = (code, field, message) => issues.push({ code, field, message });
 
-  if (wordClosure.status !== WORD_CLOSURE_STATUS || wordClosure.revocation?.wordSaturated !== false) {
-    add('GOOGLE_G00_WORD_CLOSURE_INVALID', 'wordClosure.status', 'Word closure receipt must bind revoked Word acceptance before Google can resume.');
+  validateDeclaredEmptyProfiles(googleProfiles, issues);
+
+  if (matrix.status !== STATUS || matrix.result !== RESULT) {
+    add('GOOGLE_G00_MATRIX_STATUS_INVALID', 'matrix.status', 'G00 matrix must be rebound to the current local compatibility verdict.');
   }
-  if (wordClosure.controllerAcceptance?.auditedSha !== AUDITED_SHA
-    || wordClosure.controllerAcceptance?.auditVerdict !== 'PASS'
-    || wordClosure.controllerAcceptance?.zeroOpenP0 !== true
-    || wordClosure.controllerAcceptance?.zeroOpenP1 !== true
-    || wordClosure.controllerAcceptance?.zeroOpenP2 !== true
-    || wordClosure.controllerAcceptance?.wordStageAccepted !== false) {
-    add('GOOGLE_G00_WORD_AUDIT_BINDING_INVALID', 'wordClosure.controllerAcceptance', 'Word closure must preserve the prior audit facts while binding current acceptance revocation.');
+  if (matrix.currentWordBoundary?.profileId !== WORD_PROFILE_ID
+    || matrix.currentWordBoundary?.evidenceTransferToGoogleDocs !== 'DENY'
+    || matrix.currentWordBoundary?.terminalPassClaimed !== false
+    || matrix.currentWordBoundary?.wordScopeReady !== true) {
+    add('GOOGLE_G00_WORD_INHERITANCE_ATTEMPT', 'matrix.currentWordBoundary', 'Word 16.112 scope must be non-transferable to Google Docs.');
   }
-  if (wordClosure.acceptedEnvelope?.supportedExplicitUserTrackedReplacementWordsMax !== 100000
-    || JSON.stringify(wordClosure.acceptedEnvelope?.aboveEnvelopeBoundaryWords) !== JSON.stringify([150000, 300000, 500000])
-    || wordClosure.acceptedEnvelope?.aboveEnvelopeDisposition !== 'MANUAL_RESOURCE_LIMIT'
-    || wordClosure.acceptedEnvelope?.automaticApplyCertified !== false) {
-    add('GOOGLE_G00_WORD_ENVELOPE_OVERCLAIM', 'wordClosure.acceptedEnvelope', 'Word closure must preserve the accepted envelope and typed scale limits.');
-  }
-  if (!allZero(wordClosure.vetoMetrics)) {
-    add('GOOGLE_G00_WORD_VETO_NONZERO', 'wordClosure.vetoMetrics', 'Word closure veto metrics must remain zero.');
-  }
-  if (matrix.status !== STATUS
-    || matrix.counts?.totalCells !== GOOGLE_SUPPORT_CELLS.length
+  if (matrix.counts?.totalCells !== GOOGLE_SUPPORT_CELLS.length
     || matrix.counts?.componentProven !== 1
     || matrix.counts?.physicalGoogleEvidence !== 0
     || matrix.counts?.productRuntimeWired !== 0
     || matrix.counts?.automaticApplyCertified !== 0
-    || matrix.counts?.blocksGoogleStage < 1) {
-    add('GOOGLE_G00_MATRIX_COUNTS_INVALID', 'matrix.counts', 'G00 matrix must show only existing component evidence and no Google product capability.');
+    || matrix.counts?.blocksGoogleStage !== 12
+    || matrix.counts?.externalActivationRequired !== 1) {
+    add('GOOGLE_G00_MATRIX_COUNTS_INVALID', 'matrix.counts', 'G00 matrix must show only evidence-claim component proof and no Google product/runtime/physical evidence.');
   }
   if (!matrix.rows?.some((row) => row.cellId === 'google.g00.externalActivationBoundary' && row.currentTerminalClass === 'EXTERNAL_ACTIVATION_REQUIRED')) {
-    add('GOOGLE_G00_EXTERNAL_BOUNDARY_MISSING', 'matrix.rows', 'G00 must include the exact external activation boundary.');
+    add('GOOGLE_G00_EXTERNAL_BOUNDARY_MISSING', 'matrix.rows', 'G00 must include the exact real-account/session activation boundary.');
   }
-  if (matrix.existingGoogleTruth?.supportClaimed !== false
+  if (matrix.existingGoogleTruth?.evidenceClaimStatus !== googleEvidenceStatus.status
+    || matrix.existingGoogleTruth?.supportClaimed !== false
+    || matrix.existingGoogleTruth?.importClaimed !== false
     || matrix.existingGoogleTruth?.roundtripClaimed !== false
     || matrix.existingGoogleTruth?.googleApiIntegrationClaimed !== false
+    || matrix.existingGoogleTruth?.networkAccessAdded !== false
     || matrix.existingGoogleTruth?.applyAuthorityClaimed !== false) {
     add('GOOGLE_G00_FALSE_SUPPORT_CLAIM', 'matrix.existingGoogleTruth', 'Existing Google truth must remain evidence-claim only.');
   }
   if (!allZero(matrix.vetoMetrics)) {
     add('GOOGLE_G00_MATRIX_VETO_NONZERO', 'matrix.vetoMetrics', 'G00 veto counters must remain zero.');
   }
+  if (matrix.currentRealityAudit?.realAdapterExists !== false
+    || matrix.currentRealityAudit?.existingFlow !== 'EVIDENCE_CLAIM_GATE_ONLY'
+    || matrix.currentRealityAudit?.identityRevisionFence !== 'NOT_ADMITTED_FOR_GOOGLE_RUNTIME'
+    || matrix.currentRealityAudit?.quarantine !== 'NOT_WIRED'
+    || matrix.currentRealityAudit?.localCompatibilityVerdict !== RESULT
+    || matrix.currentRealityAudit?.realAccountE2E !== REAL_ACCOUNT_E2E_BOUNDARY
+    || matrix.currentRealityAudit?.roundtripLossMatrix?.officeMode !== 'ABSTAIN_NO_SIGNED_IN_E2E'
+    || matrix.currentRealityAudit?.roundtripLossMatrix?.nativeConversion !== 'ABSTAIN_LOSSY_BY_DEFAULT_UNTIL_EVIDENCE') {
+    add('GOOGLE_G00_CURRENT_REALITY_AUDIT_INVALID', 'matrix.currentRealityAudit', 'G00 current-reality audit must be explicit ABSTAIN/NEEDS_MORE_EVIDENCE, not PASS.');
+  }
   if (receipt.status !== STATUS
-    || receipt.result !== 'REPORT_ONLY_BLOCKED'
+    || receipt.result !== RESULT
     || receipt.googleCurrentState?.existingEvidenceClaimGateOnly !== true
+    || receipt.googleCurrentState?.supportClaimed !== false
+    || receipt.googleCurrentState?.importClaimed !== false
+    || receipt.googleCurrentState?.roundtripClaimed !== false
+    || receipt.googleCurrentState?.applyAuthorityClaimed !== false
     || receipt.googleCurrentState?.physicalGoogleEvidence !== 0
     || receipt.googleCurrentState?.productRuntimeWired !== 0
     || receipt.googleCurrentState?.automaticApplyCertified !== 0
-    || receipt.nextStage !== NEXT_STAGE) {
-    add('GOOGLE_G00_RECEIPT_INVALID', 'receipt', 'G00 receipt must keep Google report-only blocked until Word safety remediation C5.');
+    || receipt.googleCurrentState?.googleStageDone !== false
+    || receipt.googleCurrentState?.realAccountE2E !== REAL_ACCOUNT_E2E_BOUNDARY) {
+    add('GOOGLE_G00_RECEIPT_INVALID', 'receipt', 'G00 receipt must keep Google as local compatibility NEEDS_MORE_EVIDENCE with real-account E2E blocked.');
   }
-  if (program.googleDocsStage?.status !== STATUS
-    || program.googleDocsStage?.nextStage !== NEXT_STAGE
-    || program.googleDocsStage?.supportClaimed !== false
-    || program.googleDocsStage?.physicalGoogleEvidence !== 0
-    || program.googleDocsStage?.automaticApplyCertified !== false) {
-    add('GOOGLE_G00_PROGRAM_STATE_INVALID', 'program.googleDocsStage', 'Program must keep Google blocked without support or apply claims.');
+  const googleClaims = list(terminal?.claims).filter((claim) => String(claim?.evidenceBinding?.profileId || '').startsWith('google-docs-'));
+  if (googleClaims.length !== 2 || googleClaims.some((claim) => claim.claimClass !== 'NOT_CLAIMED_BLOCKED')) {
+    add('GOOGLE_G00_TERMINAL_CLAIM_ESCALATION', 'terminal.claims', 'Terminal Google claims must remain NOT_CLAIMED_BLOCKED.');
   }
-  if (program.wordStageClosure?.status !== WORD_CLOSURE_STATUS
-    || program.wordStageClosure?.acceptedDeclaredSupportEnvelopeOnly !== false) {
-    add('GOOGLE_G00_PROGRAM_WORD_CLOSURE_MISSING', 'program.wordStageClosure', 'Program must bind revoked Word acceptance.');
-  }
-  if (profile.formalWordStageClosure?.status !== WORD_CLOSURE_STATUS
-    || ledger.formalWordStageClosure?.status !== WORD_CLOSURE_STATUS) {
-    add('GOOGLE_G00_PROFILE_LEDGER_WORD_CLOSURE_MISSING', 'profile/ledger.formalWordStageClosure', 'Word profile and ledger must bind the formal closure without changing typed limitations.');
-  }
-  if (ledger.googleDocsStage?.status !== STATUS
-    || ledger.googleDocsStage?.productRuntimeWired !== 0
-    || ledger.googleDocsStage?.physicalGoogleEvidence !== 0
-    || ledger.googleDocsStage?.googleStageDone !== false) {
-    add('GOOGLE_G00_LEDGER_STATE_INVALID', 'ledger.googleDocsStage', 'Ledger must bind Google stage as open but not done.');
+  const terminalBlockers = list(terminal?.terminalRollup?.blockers);
+  for (const blocker of [
+    'GOOGLE_PROFILE_DECLARED:google-docs-native-conversion-post-d1-v1',
+    'GOOGLE_PROFILE_DECLARED:google-docs-office-mode-post-d1-v1',
+  ]) {
+    if (!terminalBlockers.includes(blocker)) {
+      add('GOOGLE_G00_TERMINAL_BLOCKER_MISSING', 'terminal.terminalRollup.blockers', `Missing ${blocker}.`);
+    }
   }
 
   return {
     ok: issues.length === 0,
     status: issues.length === 0 ? 'PASS' : 'FAIL',
     issues,
-    wordClosureStatus: wordClosure.status,
     googleMatrixCells: matrix.counts?.totalCells || 0,
     googleBlockers: matrix.counts?.blocksGoogleStage || 0,
     physicalGoogleEvidence: matrix.counts?.physicalGoogleEvidence || 0,
     productRuntimeWired: matrix.counts?.productRuntimeWired || 0,
-    nextStage: receipt.nextStage || '',
+    localCompatibilityVerdict: matrix.currentRealityAudit?.localCompatibilityVerdict || null,
+    realAccountE2E: matrix.currentRealityAudit?.realAccountE2E || null,
+    nextLocalContour: receipt.nextLocalContour || '',
   };
 }
 
-function applyState(wordClosure, matrix, receipt) {
-  const program = readJson(PROGRAM_REF);
-  program.status = STATUS;
-  program.nextStep = NEXT_STAGE;
-  program.wordStageClosure = {
-    status: WORD_CLOSURE_STATUS,
-    receiptPath: WORD_CLOSURE_RECEIPT_REF,
-    independentAuditThread: WORD_AUDIT_THREAD,
-    auditedSha: AUDITED_SHA,
-    acceptedDeclaredSupportEnvelopeOnly: true,
-    supportedExplicitUserTrackedReplacementWordsMax: 100000,
-    aboveEnvelopeDisposition: 'MANUAL_RESOURCE_LIMIT',
-    automaticApplyCertified: false,
-    vetoMetrics: wordClosure.vetoMetrics,
-  };
-  program.googleDocsStage = {
-    status: STATUS,
-    currentStage: 'GOOGLE_DOCS_G00_DISCOVERY_BINDING',
-    nextStage: NEXT_STAGE,
-    matrixPath: GOOGLE_MATRIX_REF,
-    receiptPath: GOOGLE_RECEIPT_REF,
-    supportClaimed: false,
-    importClaimed: false,
-    roundtripClaimed: false,
-    physicalGoogleEvidence: matrix.counts.physicalGoogleEvidence,
-    productRuntimeWired: matrix.counts.productRuntimeWired,
-    automaticApplyCertified: false,
-    googleStageDone: false,
-    blockers: matrix.counts.blocksGoogleStage,
-    externalActivationBoundary: 'ALREADY_AUTHORIZED_SESSION_REQUIRED_FOR_PHYSICAL_G01',
-  };
-  program.v4ExecutionState = {
-    ...(program.v4ExecutionState || {}),
-    status: STATUS,
-    currentStage: 'GOOGLE_DOCS_G00_DISCOVERY_BINDING',
-    nextStage: NEXT_STAGE,
-    latestReceiptPath: GOOGLE_RECEIPT_REF,
-    wordStageClosed: true,
-    wordSaturated: true,
-    wordSaturationScope: 'DECLARED_SUPPORT_ENVELOPE_ONLY',
-    googleDocsOpened: true,
-    googleDocsStageDone: false,
-    googleDocsSupportClaimed: false,
-    googleDocsPhysicalEvidence: 0,
-    googleDocsProductRuntimeWired: 0,
-    automaticApplyCertified: false,
-    programDone: false,
-  };
-  writeJsonAtomic(abs(PROGRAM_REF), program);
-
-  const profile = readJson(PROFILE_REF);
-  profile.formalWordStageClosure = {
-    status: WORD_CLOSURE_STATUS,
-    receiptPath: WORD_CLOSURE_RECEIPT_REF,
-    acceptedDeclaredSupportEnvelopeOnly: true,
-    supportedExplicitUserTrackedReplacementWordsMax: 100000,
-    aboveEnvelopeDisposition: 'MANUAL_RESOURCE_LIMIT',
-    automaticApplyCertified: false,
-  };
-  profile.nextEditorStage = {
-    stage: 'GOOGLE_DOCS_G00_DISCOVERY_BINDING',
-    status: STATUS,
-    matrixPath: GOOGLE_MATRIX_REF,
-    supportClaimed: false,
-    physicalEvidence: 0,
-    productRuntimeWired: 0,
-    automaticApplyCertified: false,
-  };
-  writeJsonAtomic(abs(PROFILE_REF), profile);
-
-  const ledger = readJson(LEDGER_REF);
-  ledger.formalWordStageClosure = {
-    status: WORD_CLOSURE_STATUS,
-    receiptPath: WORD_CLOSURE_RECEIPT_REF,
-    independentAuditThread: WORD_AUDIT_THREAD,
-    auditedSha: AUDITED_SHA,
-    acceptedDeclaredSupportEnvelopeOnly: true,
-    automaticApplyCertified: false,
-  };
-  ledger.googleDocsStage = {
-    status: STATUS,
-    receiptPath: GOOGLE_RECEIPT_REF,
-    matrixPath: GOOGLE_MATRIX_REF,
-    existingEvidenceClaimGateOnly: true,
-    physicalGoogleEvidence: matrix.counts.physicalGoogleEvidence,
-    productRuntimeWired: matrix.counts.productRuntimeWired,
-    automaticApplyCertified: false,
-    blockers: matrix.counts.blocksGoogleStage,
-    googleStageDone: false,
-    nextStage: NEXT_STAGE,
-  };
-  ledger.coverageLedger = {
-    ...(ledger.coverageLedger || {}),
-    googleDocsG00DiscoveryBinding: {
-      status: 'BOUND_DISCOVERY_ONLY_READY_FOR_G01',
-      sourceEvidence: 'GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT',
-      physicalGoogleEvidence: matrix.counts.physicalGoogleEvidence,
-      productRuntimeWired: matrix.counts.productRuntimeWired,
-      automaticApplyCertified: false,
-      blockers: matrix.counts.blocksGoogleStage,
-      nextStage: NEXT_STAGE,
-    },
-  };
-  writeJsonAtomic(abs(LEDGER_REF), ledger);
+function updateGoogleProfileRegistryDiscoveryHeads(matrix, receipt) {
+  const registry = readJson(GOOGLE_PROFILE_REGISTRY_REF);
+  registry.purpose = 'Machine-readable google-docs provider profiles for the GOOGLE-01 no-inheritance contract. Google Docs has two distinct editor modes (OFFICE_MODE and NATIVE_CONVERSION) with separate evidence heads. On the current exact-head local compatibility audit both profiles remain DECLARED with empty evidence heads and empty ladders. Word 16.112 evidence is non-transferable to Google Docs; no Google support/import/roundtrip/API/apply authority is claimed.';
+  const heads = new Map(list(registry.discoveryHeads).map((entry) => [entry.path, { ...entry }]));
+  heads.set(GOOGLE_MATRIX_REF, {
+    path: GOOGLE_MATRIX_REF,
+    sha256: `sha256:${sha256WritableJson(matrix)}`,
+    note: 'G00 current local compatibility matrix — discovery/program evidence, NOT profile evidence. It cannot certify either Google profile.',
+  });
+  heads.set(GOOGLE_RECEIPT_REF, {
+    path: GOOGLE_RECEIPT_REF,
+    sha256: `sha256:${sha256WritableJson(receipt)}`,
+    note: 'G00 current local compatibility receipt — discovery/program evidence, NOT profile evidence. It cannot certify either Google profile.',
+  });
+  heads.set(GOOGLE_EVIDENCE_STATUS_REF, {
+    path: GOOGLE_EVIDENCE_STATUS_REF,
+    sha256: `sha256:${sha256File(GOOGLE_EVIDENCE_STATUS_REF)}`,
+    note: 'Review-bridge claim-binding status — evidence-claim gate only, not Google support/import/roundtrip authority.',
+  });
+  registry.discoveryHeads = [...heads.values()].sort((a, b) => a.path.localeCompare(b.path));
+  return registry;
 }
 
 function updateGovernanceApprovals() {
   const registry = readJson(GOVERNANCE_REF);
-  const touched = new Set(GOVERNED_PATHS);
+  const touched = new Set([...GOVERNED_PATHS, GOVERNANCE_REF]);
   registry.approvals = list(registry.approvals).filter((entry) => !touched.has(entry.filePath));
-  const rationale = 'Approve G00 Google Docs discovery binding: Word for Mac stage is formally closed on accepted declared support envelope, Google Docs stage opens with evidence-claim-only current truth, no support/import/roundtrip/API/apply claim, and next physical work gated on already-authorized synthetic session.';
+  const rationale = 'Owner-approved Google Docs G00 local compatibility rebind after Word 16.112 closure: no Google account, no runtime network, no user documents, no support/import/roundtrip/API/apply claim, Word evidence transfer DENY.';
   for (const filePath of GOVERNED_PATHS) {
     registry.approvals.push({
       filePath,
       sha256: sha256File(filePath),
-      approvedBy: 'owner:FINAL_CONTROLLER_ACCEPTANCE_AND_NEXT_STAGE_GO',
+      approvedBy: 'owner:LEGACY_FEATURE_PROGRAM_GOOGLE_DOCS_LOCAL_COMPATIBILITY_G00_REBIND_V1',
       approvedAtUtc: CREATED_AT_UTC,
       rationale,
+      authority: 'OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE',
     });
   }
   writeJsonAtomic(abs(GOVERNANCE_REF), registry);
@@ -678,13 +635,12 @@ async function main() {
   const write = args.has('--write');
   const json = args.has('--json');
   if (write) {
-    const wordClosure = buildWordClosureReceipt();
-    writeJsonAtomic(abs(WORD_CLOSURE_RECEIPT_REF), wordClosure);
     const matrix = buildGoogleMatrix();
     writeJsonAtomic(abs(GOOGLE_MATRIX_REF), matrix);
-    const receipt = buildGoogleReceipt(wordClosure, matrix);
+    const receipt = buildGoogleReceipt(matrix);
     writeJsonAtomic(abs(GOOGLE_RECEIPT_REF), receipt);
-    applyState(wordClosure, matrix, receipt);
+    const googleProfileRegistry = updateGoogleProfileRegistryDiscoveryHeads(matrix, receipt);
+    writeJsonAtomic(abs(GOOGLE_PROFILE_REGISTRY_REF), googleProfileRegistry);
     updateGovernanceApprovals();
   }
   const result = evaluateGoogleDocsG00DiscoveryBinding();
@@ -695,8 +651,8 @@ async function main() {
 export {
   buildGoogleMatrix,
   buildGoogleReceipt,
-  buildWordClosureReceipt,
   evaluateGoogleDocsG00DiscoveryBinding,
+  updateGoogleProfileRegistryDiscoveryHeads,
 };
 
 if (process.argv[1] && path.resolve(process.argv[1]) === __filename) {

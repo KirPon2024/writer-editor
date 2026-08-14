@@ -2617,24 +2617,6 @@
       "rationale": "Approve bounded G0C exact-safety receipt required by the owner-approved RTK V6 contract; it records local verification evidence only and introduces no runtime wiring, product behavior, dependency, network, cloud, storage, export, or UI capability."
     },
     {
-      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
-      "sha256": "53e31b720f54b51fe11e268ad045171ba70f2abdc7a87a8d67381ad0e3695d9f",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
-      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
-      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
-    },
-    {
-      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json",
-      "sha256": "ba2313ff407257d1f09f11d5ec8c42a2b5447ad6fee78768aa12e8d533782831",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
-      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
-      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
-    },
-    {
       "filePath": "docs/OPS/RTK/POST_D1_A00_RECONCILIATION_RECEIPT.json",
       "sha256": "99558f5aeb27b96980bd36b130e3d81cc6b8a3dbeb3bbbe0d2c8a4525ba9fcd3",
       "approvedBy": "ticket:YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
@@ -5603,15 +5585,6 @@
       "rationale": "Approve bounded G0A assurance evaluator required by the owner-approved RTK V6 contract; it is an offline governance verifier using Node built-ins only and adds no product runtime wiring, dependency, network, cloud, storage, export, or UI capability."
     },
     {
-      "filePath": "scripts/ops/rtk-google-docs-g00-discovery-binding.mjs",
-      "sha256": "3014e5e97ab34efcd37cb254cada42e873662bfb9b7eea36f2a29e1d61b59908",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
-      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
-      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
-    },
-    {
       "filePath": "scripts/ops/rtk-post-d1-editor-lab-harness.mjs",
       "sha256": "9047143608aec9ad6ae2f465e3f20b3dd53ac34b6df60859d71a9ebcee49253e",
       "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
@@ -7641,13 +7614,6 @@
       "rationale": "Approve bounded format matrix contract allowlist sync for the release claim dossier binding contour; the existing 12A kernel proof remains unchanged and no runtime code, import, export, apply, storage, dependency, UI, release readiness, full fidelity, layout parity, user-facing release, or format support claim is introduced."
     },
     {
-      "filePath": "test/contracts/revision-bridge-google-docs-evidence-check.contract.test.js",
-      "sha256": "9390d84376107e1994b8629e6f1b20cb70a78e4968918ed359d72cbb36a8ff51",
-      "approvedBy": "owner:FINAL_CONTROLLER_ACCEPTANCE_AND_NEXT_STAGE_GO",
-      "approvedAtUtc": "2026-08-01T16:05:00.000Z",
-      "rationale": "Approve G00 Google Docs discovery binding: Word for Mac stage is formally closed on accepted declared support envelope, Google Docs stage opens with evidence-claim-only current truth, no support/import/roundtrip/API/apply claim, and next physical work gated on already-authorized synthetic session."
-    },
-    {
       "filePath": "test/contracts/revision-bridge-inline-range-anchor-contract.contract.test.js",
       "sha256": "33a12cc509245f915ffcb65659392424672bdec8f585b0aeee5c3e49a30b86b9",
       "approvedBy": "ticket:EDITORIAL_STRESS_ARTIFACT_REBIND_001",
@@ -7825,15 +7791,6 @@
       "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0C_EXISTING_EXACT_SAFETY_REPAIR",
       "approvedAtUtc": "2026-07-29T13:02:36.000Z",
       "rationale": "Approve bounded G0C exact-safety regression contract required by the owner-approved RTK V6 contract; it proves overlapping occurrence counting, immutable-baseline batch ranges, duplicate id and overlap blocking, permutation-stable disjoint output, no chained authority, stable typed reasons, and zero writes for negative cases without adding runtime wiring, dependency, network, cloud, storage, export, or UI capability."
-    },
-    {
-      "filePath": "test/contracts/rtk-google-docs-g00-discovery-binding.contract.test.js",
-      "sha256": "a4f1b8fca734c1b8fee604a3a2fa7aa38afecbf7be4d549e1939afdfe156ebfe",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
-      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
-      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "test/contracts/rtk-post-d1-portability-program.contract.test.js",
@@ -9703,15 +9660,6 @@
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS10_SCOPE_TYPING"
     },
     {
-      "filePath": "docs/OPS/RTK/GOOGLE_BUILD_PROFILE_REGISTRY_V1.json",
-      "sha256": "23bbf9ea035a4b677e3225642e53ed82d9c5b9d9751681bb1b64b91edc69c4f7",
-      "approvedBy": "owner-direct:TASK_ID:GOOGLE01_PROVIDER_PROFILES",
-      "approvedAtUtc": "2026-08-09T10:24:58.894Z",
-      "rationale": "Approve the GOOGLE-01 machine-readable google-docs provider profile registry: office-mode and native-conversion as separate DECLARED profiles with empty ladders/heads, sha256-pinned G00 discovery heads, and explicit non-claims; read-only evidence, no product write authority, Google execution stays BLOCKED.",
-      "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_GOOGLE01_PROVIDER_PROFILES"
-    },
-    {
       "filePath": "scripts/ops/rtk-google-build-profiles-v1.mjs",
       "sha256": "d4b425c45c1af7e592cc9979b894ed2ca83e6db636dd622f7c973c7b482d519b",
       "approvedBy": "owner-direct:TASK_ID:GOOGLE01_PROVIDER_PROFILES",
@@ -10136,12 +10084,12 @@
     },
     {
       "filePath": "test/contracts/rtk-word-safety-c1-effect-reservation.contract.test.js",
-      "sha256": "d496060557ebd9d0265e94d124ab79e343005a0aec86d44ceb5262255e8d0d58",
-      "approvedBy": "owner:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
-      "approvedAtUtc": "2026-08-14T00:00:00.000Z",
-      "rationale": "Approve bounded T0 Round Authority source-fence candidate bytes, factual RTK catalog binding, nested document identity compatibility, receipts, and traceability ledger updates under the standing master-program owner grant; no UI, provider physical run, dependency, cloud runtime truth, or user document access.",
+      "sha256": "775d6cd26038a2f64cf7d8574a7d955d2122fb379fc13fce6dcc20beadce2432",
+      "approvedBy": "owner:LEGACY_FEATURE_PROGRAM_GOOGLE_DOCS_LOCAL_COMPATIBILITY_G00_REBIND_V1",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Owner-approved affected Word C1 contract rebind so the historical C1 program/profile/ledger context remains explicit while the exact current Google G00 matrix and receipt assert local compatibility NEEDS_MORE_EVIDENCE, real-account E2E WAIT_AUTHORITY, and Word evidence transfer DENY.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_T0_ROUND_AUTHORITY_SOURCE_FENCE"
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
     },
     {
       "filePath": "test/contracts/rtk-word-safety-c2-multiscene-command-path.contract.test.js",
@@ -10664,6 +10612,69 @@
       "rationale": "Approve traceability contract tests for PROGRAM_FINAL_TRACEABILITY_VERDICT_REBIND_V1: exact-head/status/verdict assertions plus hostile mutations for final READY with deferred work and stale F3 UI local-candidate blocker, preserving zero skip/todo focused proof.",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_PROGRAM_FINAL_TRACEABILITY_VERDICT_REBIND"
+    },
+    {
+      "filePath": "docs/OPS/RTK/GOOGLE_BUILD_PROFILE_REGISTRY_V1.json",
+      "sha256": "39dfc61fe328929cfa08e0f7e1259e0cee0d6a79b09fe972e38f85012130defe",
+      "approvedBy": "owner:LEGACY_FEATURE_PROGRAM_GOOGLE_DOCS_LOCAL_COMPATIBILITY_G00_REBIND_V1",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Owner-approved Google Docs G00 local compatibility rebind after Word 16.112 closure: no Google account, no runtime network, no user documents, no support/import/roundtrip/API/apply claim, Word evidence transfer DENY.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
+      "sha256": "36956c13ce405615672bf56a406d809f40a3ce90f3ede6c0febc42e01103e6a7",
+      "approvedBy": "owner:LEGACY_FEATURE_PROGRAM_GOOGLE_DOCS_LOCAL_COMPATIBILITY_G00_REBIND_V1",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Owner-approved Google Docs G00 local compatibility rebind after Word 16.112 closure: no Google account, no runtime network, no user documents, no support/import/roundtrip/API/apply claim, Word evidence transfer DENY.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json",
+      "sha256": "9b826b7aeff401e00dd32b5ad2d7675abcef557faabdc6c08a6175b4e45abd5b",
+      "approvedBy": "owner:LEGACY_FEATURE_PROGRAM_GOOGLE_DOCS_LOCAL_COMPATIBILITY_G00_REBIND_V1",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Owner-approved Google Docs G00 local compatibility rebind after Word 16.112 closure: no Google account, no runtime network, no user documents, no support/import/roundtrip/API/apply claim, Word evidence transfer DENY.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "scripts/ops/rtk-google-docs-g00-discovery-binding.mjs",
+      "sha256": "e8d4871fcd37095d9cf014c7ad31a867dea24964920ee714073e95bcd1357c33",
+      "approvedBy": "owner:LEGACY_FEATURE_PROGRAM_GOOGLE_DOCS_LOCAL_COMPATIBILITY_G00_REBIND_V1",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Owner-approved Google Docs G00 local compatibility rebind after Word 16.112 closure: no Google account, no runtime network, no user documents, no support/import/roundtrip/API/apply claim, Word evidence transfer DENY.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "scripts/ops/rtk-google-docs-g00-rebind-model.mjs",
+      "sha256": "b475a56a6abe24e80297715890a8b9497e0c8add500f624e11e27e060510e71f",
+      "approvedBy": "owner:LEGACY_FEATURE_PROGRAM_GOOGLE_DOCS_LOCAL_COMPATIBILITY_G00_REBIND_V1",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Owner-approved Google Docs G00 local compatibility rebind after Word 16.112 closure: no Google account, no runtime network, no user documents, no support/import/roundtrip/API/apply claim, Word evidence transfer DENY.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "test/contracts/rtk-google-docs-g00-discovery-binding.contract.test.js",
+      "sha256": "a6fd14621600ee3c2d505fc9de873459bdb54c7f643ac0e2cdfaae034d773c39",
+      "approvedBy": "owner:LEGACY_FEATURE_PROGRAM_GOOGLE_DOCS_LOCAL_COMPATIBILITY_G00_REBIND_V1",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Owner-approved Google Docs G00 local compatibility rebind after Word 16.112 closure: no Google account, no runtime network, no user documents, no support/import/roundtrip/API/apply claim, Word evidence transfer DENY.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "test/contracts/revision-bridge-google-docs-evidence-check.contract.test.js",
+      "sha256": "62ae3510359dd7eac352f70c549a95ec905b50a1f8dfa8c0a1f77a5573d57d6c",
+      "approvedBy": "owner:LEGACY_FEATURE_PROGRAM_GOOGLE_DOCS_LOCAL_COMPATIBILITY_G00_REBIND_V1",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Owner-approved Google Docs G00 local compatibility rebind after Word 16.112 closure: no Google account, no runtime network, no user documents, no support/import/roundtrip/API/apply claim, Word evidence transfer DENY.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
     }
   ]
 }

@@ -20,6 +20,8 @@ const C5_STATUS = 'WORD_SAFETY_REMEDIATION_V1_C5_LOCAL_VERIFIED_READY_FOR_DELIVE
 const C4_TEST_GRAPH_STATUS = 'WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_LOCAL_VERIFIED';
 const ACTIVE_REMEDIATION_STATUSES = new Set([C1_STATUS, C2_STATUS, C3_STATUS, C4_STATUS, C5_STATUS, C4_TEST_GRAPH_STATUS]);
 const GOOGLE_BLOCKED_STATUS = 'REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION';
+const GOOGLE_G00_REBOUND_STATUS = 'LOCAL_COMPATIBILITY_REBOUND_NEEDS_REAL_ACCOUNT_E2E';
+const GOOGLE_G00_REBOUND_RESULT = 'LOCAL_COMPATIBILITY_NEEDS_MORE_EVIDENCE';
 const WORD_REVOKED_STATUS = 'WORD_ACCEPTANCE_REVOKED_BY_SOURCE_BOUND_EVIDENCE';
 
 async function loadModule(relativePath) {
@@ -284,14 +286,19 @@ test('C1 active program truth parks Google and revokes Word acceptance pending C
   assert.equal(ledger.wordAcceptanceRevocation.status, WORD_REVOKED_STATUS);
   assert.equal(ledger.googleDocsStage.status, GOOGLE_BLOCKED_STATUS);
 
-  assert.equal(googleMatrix.status, GOOGLE_BLOCKED_STATUS);
-  assert.equal(googleMatrix.result, 'REPORT_ONLY_BLOCKED');
-  assert.equal(googleMatrix.wordSafetyRemediation.status, C4_TEST_GRAPH_STATUS);
-  assert.equal(googleMatrix.wordSafetyRemediation.wordAcceptanceRevoked, true);
-  assert.equal(googleReceipt.status, GOOGLE_BLOCKED_STATUS);
-  assert.equal(googleReceipt.result, 'REPORT_ONLY_BLOCKED');
-  assert.equal(googleReceipt.wordSafetyRemediation.status, C4_TEST_GRAPH_STATUS);
-  assert.equal(googleReceipt.wordSafetyRemediation.wordAcceptanceRevoked, true);
+  assert.equal(googleMatrix.status, GOOGLE_G00_REBOUND_STATUS);
+  assert.equal(googleMatrix.result, GOOGLE_G00_REBOUND_RESULT);
+  assert.equal(googleMatrix.currentWordBoundary.profileId, 'word-mac-16.112-26081010');
+  assert.equal(googleMatrix.currentWordBoundary.wordScopeReady, true);
+  assert.equal(googleMatrix.currentWordBoundary.evidenceTransferToGoogleDocs, 'DENY');
+  assert.equal(googleMatrix.counts.physicalGoogleEvidence, 0);
+  assert.equal(googleMatrix.counts.productRuntimeWired, 0);
+  assert.equal(googleMatrix.currentRealityAudit.realAdapterExists, false);
+  assert.equal(googleMatrix.currentRealityAudit.realAccountE2E, 'WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE');
+  assert.equal(googleReceipt.status, GOOGLE_G00_REBOUND_STATUS);
+  assert.equal(googleReceipt.result, GOOGLE_G00_REBOUND_RESULT);
+  assert.equal(googleReceipt.currentRealityAudit.realAdapterExists, false);
+  assert.equal(googleReceipt.currentRealityAudit.realAccountE2E, 'WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE');
 });
 
 test('C1 same-round effect with different requestKey mutates once and replays by effect index', async () => {

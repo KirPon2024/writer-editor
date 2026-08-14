@@ -1,25 +1,37 @@
 {
   "schemaVersion": "yalken.rtk.google-docs.safe-roundtrip.g00-discovery-receipt.v1",
-  "taskId": "YALKEN_GOOGLE_DOCS_G00_DISCOVERY_BINDING",
-  "status": "REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION",
-  "result": "REPORT_ONLY_BLOCKED",
-  "createdAtUtc": "2026-08-01T16:05:00.000Z",
+  "taskId": "GOOGLE_DOCS_LOCAL_COMPATIBILITY_G00_REBIND_V1",
+  "status": "LOCAL_COMPATIBILITY_REBOUND_NEEDS_REAL_ACCOUNT_E2E",
+  "result": "LOCAL_COMPATIBILITY_NEEDS_MORE_EVIDENCE",
+  "createdAtUtc": "2026-08-15T00:00:00.000Z",
   "headBinding": {
-    "originMainSha": "e17f732b4ab38cb70a5c8cb6a7f3fd81d1c712fb",
-    "localHeadSha": "e17f732b4ab38cb70a5c8cb6a7f3fd81d1c712fb",
-    "branch": "codex/rtk-google-g00-discovery-binding"
+    "originMainSha": "87e64679aaf5633100aa1ccc9d081e82da529424",
+    "localHeadSha": "999a972be3778f371384cd972a57f63fbc443310",
+    "branch": "codex/google-docs-local-compatibility-g00-rebind-v1"
   },
   "sourceBindings": [
     {
-      "id": "WORD_STAGE_FORMAL_CLOSURE",
-      "path": "docs/OPS/RTK/WORD_FOR_MAC_STAGE_FORMAL_CLOSURE_RECEIPT.json",
-      "sha256": "0c26cf0a3665f0587e152f6bc89f676c825bcbf5f8b332db794829e9c8420b05",
+      "id": "WORD_MAC_16_112_SATURATION_LIMITATION_AUDIT",
+      "path": "docs/OPS/RTK/WORD_MAC_16_112_SATURATION_LIMITATION_AUDIT_RECEIPT.json",
+      "sha256": "3e1376a3d323c77455f17005100b2edde319ecb63bceff12133b40132804cc44",
+      "status": "BOUND"
+    },
+    {
+      "id": "WORD_MAC_16_112_TYPED_ADVERSE_SCHEDULES",
+      "path": "docs/OPS/RTK/WORD_MAC_16_112_TYPED_ADVERSE_SCHEDULES_RECEIPT.json",
+      "sha256": "5225bdf3db7e6a944d2a671cdaada5a9f119cf765f40676fab05a5c2cd8d047f",
+      "status": "BOUND"
+    },
+    {
+      "id": "INTEROP_TERMINAL_CLAIM_REGISTRY",
+      "path": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+      "sha256": "ccb3615b763c7cffcf83cb71e9f13c71d20fa3ce15cd95a96465eff361be7cea",
       "status": "BOUND"
     },
     {
       "id": "GOOGLE_G00_MATRIX",
       "path": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
-      "sha256": "4bf89840755d10b71dd0be43107ccdb0cc04ac0788f44e61cd636c2e29be358c",
+      "sha256": "36956c13ce405615672bf56a406d809f40a3ce90f3ede6c0febc42e01103e6a7",
       "status": "BOUND"
     },
     {
@@ -37,31 +49,42 @@
     {
       "id": "GOOGLE_EVIDENCE_GATE_CONTRACT",
       "path": "test/contracts/revision-bridge-google-docs-evidence-check.contract.test.js",
-      "sha256": "9390d84376107e1994b8629e6f1b20cb70a78e4968918ed359d72cbb36a8ff51",
-      "status": "BOUND"
-    },
-    {
-      "id": "REVISION_BRIDGE_INDEX",
-      "path": "src/io/revisionBridge/index.mjs",
-      "sha256": "717ae0f559158cad8d1d74025120d80c6e72793cc65b7d026702265ca5e03cf5",
+      "sha256": "62ae3510359dd7eac352f70c549a95ec905b50a1f8dfa8c0a1f77a5573d57d6c",
       "status": "BOUND"
     }
   ],
-  "wordClosure": {
-    "status": "WORD_ACCEPTANCE_REVOKED_BY_SOURCE_BOUND_EVIDENCE",
-    "auditVerdict": "PASS",
-    "supportedExplicitUserTrackedReplacementWordsMax": 100000,
-    "aboveEnvelopeDisposition": "MANUAL_RESOURCE_LIMIT",
-    "automaticApplyCertified": false,
-    "acceptedDeclaredSupportEnvelopeOnly": false
+  "wordCurrentScope": {
+    "profileId": "word-mac-16.112-26081010",
+    "status": "COMPLETE_NOT_SATURATED",
+    "currentCompatibilityClaimClass": "NOT_CLAIMED_BLOCKED",
+    "wordScopeReady": true,
+    "wordSaturated": false,
+    "terminalRollupState": "NOT_MADE_WORD_TERMINAL_PASS_REQUIRED",
+    "terminalPassClaimed": false,
+    "blockersStillPresent": [
+      "BLOCKED_CLAIM:claim-current-word-compatibility",
+      "BLOCKED_CLAIM:claim-google-native-conversion",
+      "BLOCKED_CLAIM:claim-google-office-mode",
+      "WORD_PROFILE_NOT_SATURATED:word-mac-16.112-26081010"
+    ],
+    "evidenceTransferToGoogleDocs": "DENY"
   },
   "googleCurrentState": {
     "existingEvidenceClaimGateOnly": true,
+    "supportClaimed": false,
+    "importClaimed": false,
+    "roundtripClaimed": false,
+    "googleApiIntegrationClaimed": false,
+    "networkAccessAdded": false,
+    "applyAuthorityClaimed": false,
     "physicalGoogleEvidence": 0,
     "productRuntimeWired": 0,
     "automaticApplyCertified": 0,
     "blockers": 12,
-    "nextStage": "WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION"
+    "googleStageDone": false,
+    "localCompatibilityVerdict": "LOCAL_COMPATIBILITY_NEEDS_MORE_EVIDENCE",
+    "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE",
+    "nextLocalContour": "GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1"
   },
   "gapMap": [
     {
@@ -77,7 +100,7 @@
       "currentTerminalClass": "EXTERNAL_ACTIVATION_REQUIRED",
       "userFacingAuthority": "NO_PRODUCT_AUTHORITY",
       "reasonCode": "G00_GOOGLE_SESSION_NOT_BOUND_IN_THIS_CONTOUR",
-      "requiredNextContour": "GOOGLE_DOCS_G01_OFFICE_MODE_PHYSICAL_DISCOVERY_OR_EXTERNAL_ACTIVATION_BOUNDARY",
+      "requiredNextContour": "GOOGLE_DOCS_REAL_ACCOUNT_E2E_AUTHORITY_BOUNDARY",
       "blocksGoogleStage": true
     },
     {
@@ -85,7 +108,7 @@
       "currentTerminalClass": "UNTESTED",
       "userFacingAuthority": "NO_GOOGLE_EXPORT_CLAIM",
       "reasonCode": "G00_NO_GOOGLE_PRODUCT_EXPORT_PATH",
-      "requiredNextContour": "GOOGLE_G01_PRODUCT_EXPORT_PACKET_DESIGN",
+      "requiredNextContour": "GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1",
       "blocksGoogleStage": true
     },
     {
@@ -93,7 +116,7 @@
       "currentTerminalClass": "UNTESTED",
       "userFacingAuthority": "NO_GOOGLE_ROUNDTRIP_CLAIM",
       "reasonCode": "G00_NO_PHYSICAL_OFFICE_MODE_ROUNDTRIP",
-      "requiredNextContour": "GOOGLE_DOCS_G01_OFFICE_MODE_PHYSICAL_DISCOVERY_OR_EXTERNAL_ACTIVATION_BOUNDARY",
+      "requiredNextContour": "GOOGLE_DOCS_REAL_ACCOUNT_E2E_AUTHORITY_BOUNDARY",
       "blocksGoogleStage": true
     },
     {
@@ -101,7 +124,7 @@
       "currentTerminalClass": "UNTESTED_MANUAL_LOSSY_BY_DEFAULT",
       "userFacingAuthority": "NO_NATIVE_CONVERSION_CLAIM",
       "reasonCode": "G00_NATIVE_CONVERSION_DEFAULTS_LOSSY_UNTIL_EVIDENCE",
-      "requiredNextContour": "GOOGLE_G02_NATIVE_CONVERSION_PHYSICAL_DISCOVERY",
+      "requiredNextContour": "GOOGLE_DOCS_REAL_ACCOUNT_E2E_AUTHORITY_BOUNDARY",
       "blocksGoogleStage": true
     },
     {
@@ -109,7 +132,7 @@
       "currentTerminalClass": "UNTESTED",
       "userFacingAuthority": "NO_RETURN_INTAKE_AUTHORITY",
       "reasonCode": "G00_NO_GOOGLE_RETURN_INTAKE",
-      "requiredNextContour": "GOOGLE_G03_RETURN_INTAKE_AND_QUARANTINE",
+      "requiredNextContour": "GOOGLE_DOCS_LOCAL_RETURN_INTAKE_QUARANTINE_V1",
       "blocksGoogleStage": true
     },
     {
@@ -117,7 +140,7 @@
       "currentTerminalClass": "UNTESTED",
       "userFacingAuthority": "NO_SUGGESTION_APPLY_AUTHORITY",
       "reasonCode": "G00_SUGGESTIONS_NOT_PARSED_OR_CLASSIFIED",
-      "requiredNextContour": "GOOGLE_G04_SUGGESTIONS_IR_AND_CLASSIFIER",
+      "requiredNextContour": "GOOGLE_DOCS_LOCAL_SUGGESTIONS_IR_ABSTAIN_V1",
       "blocksGoogleStage": true
     },
     {
@@ -125,7 +148,7 @@
       "currentTerminalClass": "UNTESTED",
       "userFacingAuthority": "NO_COMMENT_IMPORT_CLAIM",
       "reasonCode": "G00_DRIVE_COMMENTS_NOT_IMPORTED",
-      "requiredNextContour": "GOOGLE_G05_COMMENTS_REPLIES_STATUS_LANE",
+      "requiredNextContour": "GOOGLE_DOCS_LOCAL_COMMENTS_LIMITATION_V1",
       "blocksGoogleStage": true
     },
     {
@@ -133,7 +156,7 @@
       "currentTerminalClass": "UNTESTED",
       "userFacingAuthority": "NO_FORMATTING_TRANSFER_CLAIM",
       "reasonCode": "G00_FORMATTING_UNMEASURED",
-      "requiredNextContour": "GOOGLE_G06_FORMATTING_STRUCTURE_UNICODE_MATRIX",
+      "requiredNextContour": "GOOGLE_DOCS_LOCAL_FORMAT_STRUCTURE_MATRIX_V1",
       "blocksGoogleStage": true
     },
     {
@@ -141,7 +164,7 @@
       "currentTerminalClass": "UNTESTED",
       "userFacingAuthority": "NO_STRUCTURE_TRANSFER_CLAIM",
       "reasonCode": "G00_STRUCTURE_UNMEASURED",
-      "requiredNextContour": "GOOGLE_G06_FORMATTING_STRUCTURE_UNICODE_MATRIX",
+      "requiredNextContour": "GOOGLE_DOCS_LOCAL_FORMAT_STRUCTURE_MATRIX_V1",
       "blocksGoogleStage": true
     },
     {
@@ -149,7 +172,7 @@
       "currentTerminalClass": "UNTESTED",
       "userFacingAuthority": "NO_APPLY_AUTHORITY",
       "reasonCode": "G00_NO_GOOGLE_PREVIEW_OR_COMMAND_APPLY",
-      "requiredNextContour": "GOOGLE_G07_PREVIEW_EXPLICIT_DECISION_COMMAND_KERNEL",
+      "requiredNextContour": "GOOGLE_DOCS_LOCAL_PREVIEW_ONLY_NO_APPLY_V1",
       "blocksGoogleStage": true
     },
     {
@@ -157,7 +180,7 @@
       "currentTerminalClass": "UNTESTED",
       "userFacingAuthority": "NO_RECOVERY_REPLAY_CLAIM",
       "reasonCode": "G00_NO_GOOGLE_RECOVERY_OR_REPLAY_LEDGER",
-      "requiredNextContour": "GOOGLE_G08_RECOVERY_REOPEN_REPLAY",
+      "requiredNextContour": "GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1",
       "blocksGoogleStage": true
     },
     {
@@ -165,7 +188,7 @@
       "currentTerminalClass": "UNTESTED",
       "userFacingAuthority": "NO_GOOGLE_SCALE_ENVELOPE",
       "reasonCode": "G00_SCALE_UNMEASURED",
-      "requiredNextContour": "GOOGLE_G09_SCALE_ENVELOPE",
+      "requiredNextContour": "GOOGLE_DOCS_REAL_ACCOUNT_E2E_AUTHORITY_BOUNDARY",
       "blocksGoogleStage": true
     }
   ],
@@ -179,9 +202,47 @@
     "noSilentLoss": true,
     "noFalseExact": true,
     "noWrongSceneRouting": true,
-    "noReplayFailure": true
+    "noReplayFailure": true,
+    "noWordEvidenceInheritance": true
   },
-  "nextStage": "WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION",
+  "currentRealityAudit": {
+    "realAdapterExists": false,
+    "existingFlow": "EVIDENCE_CLAIM_GATE_ONLY",
+    "exactInputs": [
+      "revision-bridge.google-docs-evidence-packet.v1 claim packet",
+      "Google Docs provider profile declarations"
+    ],
+    "exactOutputs": [
+      "typed evidence-claim PASS/FAIL only",
+      "report-only compatibility matrix",
+      "no project mutation"
+    ],
+    "transportCandidates": {
+      "officeMode": "DOCX edited in Google Docs without conversion; DECLARED only",
+      "nativeConversion": "DOCX to Google native to DOCX; DECLARED and lossy by default until evidence",
+      "odt": "ABSTAIN_NO_REPO_ADAPTER",
+      "html": "ABSTAIN_NO_REPO_ADAPTER",
+      "googleApi": "ABSTAIN_NO_AUTHORITY_NO_RUNTIME_DEPENDENCY"
+    },
+    "ownership": "Review Bridge evidence claim boundary only; no Google product writer.",
+    "identityRevisionFence": "NOT_ADMITTED_FOR_GOOGLE_RUNTIME",
+    "quarantine": "NOT_WIRED",
+    "accessibilityFallback": "Typed limitation and no support claim; no Google UI surface is changed.",
+    "localCompatibilityVerdict": "LOCAL_COMPATIBILITY_NEEDS_MORE_EVIDENCE",
+    "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE",
+    "roundtripLossMatrix": {
+      "officeMode": "ABSTAIN_NO_SIGNED_IN_E2E",
+      "nativeConversion": "ABSTAIN_LOSSY_BY_DEFAULT_UNTIL_EVIDENCE",
+      "suggestions": "ABSTAIN_NO_PARSER_OR_E2E",
+      "comments": "ABSTAIN_NO_DRIVE_COMMENTS_IMPORT",
+      "footnotes": "ABSTAIN_UNMEASURED",
+      "tables": "ABSTAIN_UNMEASURED",
+      "media": "ABSTAIN_UNMEASURED",
+      "ids": "ABSTAIN_NO_IDENTITY_FENCE"
+    }
+  },
+  "nextLocalContour": "GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1",
+  "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE",
   "nonClaims": [
     "No Google Docs support is claimed.",
     "No Google Docs import is claimed.",
@@ -189,42 +250,8 @@
     "No Google API runtime dependency is introduced.",
     "No Google Drive integration is introduced.",
     "No automatic apply is certified.",
-    "No Google stage DONE is claimed."
-  ],
-  "blockedBy": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C2_MULTI_SCENE_COMMAND_PATH_RECEIPT.json",
-  "previousStatus": "GOOGLE_DOCS_G00_DISCOVERY_BOUND_READY_FOR_G01",
-  "wordSafetyRemediation": {
-    "status": "WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_LOCAL_VERIFIED",
-    "nextStage": "WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION",
-    "wordAcceptanceRevoked": true
-  },
-  "wordSafetyRemediationV1": {
-    "status": "WORD_SAFETY_REMEDIATION_V1_C3_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
-    "receiptPath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C3_XML_RESOURCE_ENVELOPE_RECEIPT.json",
-    "currentContour": "C3_XML_CORRECTNESS_AND_RESOURCE_ENVELOPE",
-    "resumeCondition": "C1_C5_PASS_AND_WORD_REACCEPTED_BY_FRESH_INDEPENDENT_AUDIT",
-    "c2FullLocalVerified": true,
-    "c2FullLocalVerifiedAtUtc": "2026-08-01T15:01:51.259Z",
-    "c2FullLocalSuite": {
-      "command": "node scripts/run-tests.js",
-      "total": 799,
-      "pass": 735,
-      "skip": 64,
-      "fail": 0
-    },
-    "previousContour": "C2_CANONICAL_MULTI_SCENE_COMMAND_PATH",
-    "nextStage": "WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_AND_CI_TRUTH",
-    "wordAcceptanceRevoked": true,
-    "googleStage": "REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION",
-    "c1Delivered": true,
-    "c2Delivered": true,
-    "c3LocalVerified": true,
-    "c3LocalVerifiedAtUtc": "2026-08-01T15:14:14.554Z",
-    "c3FocusedParserSuite": {
-      "command": "node --test rtk-word-safety-c3-parser-resource-envelope.contract.test.js rtk-word-latest-semantic-b02-package-parser.contract.test.js rtk-word-latest-semantic-b03-modern-comments.contract.test.js rtk-word-latest-semantic-b04-classifier.contract.test.js",
-      "total": 22,
-      "pass": 22,
-      "fail": 0
-    }
-  }
+    "No Google stage DONE is claimed.",
+    "Word 16.112 evidence is non-transferable to Google Docs.",
+    "Real signed-in Google Docs E2E requires separate owner/account authority."
+  ]
 }

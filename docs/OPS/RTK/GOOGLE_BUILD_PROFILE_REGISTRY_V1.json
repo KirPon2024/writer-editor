@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.google-build-profile-registry.v1",
   "registryId": "google-build-profile-registry-v1",
-  "purpose": "Machine-readable google-docs provider profiles for the GOOGLE-01 Proof-Carrying Interop V2 §37 no-inheritance contract. Google Docs has TWO distinct editor modes (OFFICE_MODE and NATIVE_CONVERSION) that are TWO separate provider profiles with separate evidence heads; green NEVER carries between modes or between providers. Both profiles are DECLARED with empty evidence heads and empty ladders, mirroring the honest current UNTESTED state of Google Docs (Google execution is BLOCKED in CONTEXT.md). This registry is read-only evidence; it grants no product write authority and never changes Google saturation status.",
+  "purpose": "Machine-readable google-docs provider profiles for the GOOGLE-01 no-inheritance contract. Google Docs has two distinct editor modes (OFFICE_MODE and NATIVE_CONVERSION) with separate evidence heads. On the current exact-head local compatibility audit both profiles remain DECLARED with empty evidence heads and empty ladders. Word 16.112 evidence is non-transferable to Google Docs; no Google support/import/roundtrip/API/apply authority is claimed.",
   "classVocabulary": [
     "HISTORICAL_BUILD_BOUND",
     "COMPETING_NOT_SATURATED",
@@ -29,18 +29,18 @@
   "discoveryHeads": [
     {
       "path": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
-      "sha256": "sha256:53e31b720f54b51fe11e268ad045171ba70f2abdc7a87a8d67381ad0e3695d9f",
-      "note": "G00 capability matrix — discovery/program evidence, NOT a profile evidence head. Pinned here so a profile may never silently inherit this artifact as its own proof (anti-inheritance law)."
+      "sha256": "sha256:36956c13ce405615672bf56a406d809f40a3ce90f3ede6c0febc42e01103e6a7",
+      "note": "G00 current local compatibility matrix — discovery/program evidence, NOT profile evidence. It cannot certify either Google profile."
     },
     {
       "path": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json",
-      "sha256": "sha256:ba2313ff407257d1f09f11d5ec8c42a2b5447ad6fee78768aa12e8d533782831",
-      "note": "G00 discovery receipt — discovery/program evidence, NOT a profile evidence head. Pinned here so a profile may never silently inherit this artifact as its own proof (anti-inheritance law)."
+      "sha256": "sha256:9b826b7aeff401e00dd32b5ad2d7675abcef557faabdc6c08a6175b4e45abd5b",
+      "note": "G00 current local compatibility receipt — discovery/program evidence, NOT profile evidence. It cannot certify either Google profile."
     },
     {
       "path": "docs/OPS/STATUS/REVIEW_BRIDGE_GOOGLE_DOCS_EVIDENCE_CLAIM_BINDING_001_STATUS.json",
       "sha256": "sha256:0afd161f9a66604e22a1bd722e099034324cfc0dfd04d9458b8b226325c1bc97",
-      "note": "Review-bridge claim-binding status — discovery/program evidence, NOT a profile evidence head. Pinned here so a profile may never silently inherit this artifact as its own proof (anti-inheritance law)."
+      "note": "Review-bridge claim-binding status — evidence-claim gate only, not Google support/import/roundtrip authority."
     }
   ],
   "profiles": [

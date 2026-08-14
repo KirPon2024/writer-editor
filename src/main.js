@@ -54,6 +54,9 @@ const {
 const {
   createBlackBoxRuntimeSourceRevisionBindingV1,
 } = require('./main/blackBoxRuntimeSourceRevisionBindingV1.cjs');
+const {
+  createBlackBoxRuntimeCreateOnlyTargetBindingV1,
+} = require('./main/blackBoxRuntimeCreateOnlyTargetBindingV1.cjs');
 const { buildDocxMinBuffer: buildDocxMinBufferCore } = require('./export/docx/docxMinBuilder');
 const { runDocxMinExport } = require('./export/docx/docxMinExportHandler');
 const { buildDocxReviewPacketBuffer: buildDocxReviewPacketBufferCore, deriveWordBookmarkNameV1: deriveWordBookmarkNameV1Cjs } = require('./export/docx/docxReviewPacketBuilder');
@@ -29082,6 +29085,17 @@ async function dispatchBlackBoxProductCommandBridge(commandId, payload = {}, rec
     }
     return runtimeSourceRevisionBindingPromise;
   }
+  let runtimeCreateOnlyTargetBinding = null;
+  function getRuntimeCreateOnlyTargetBinding() {
+    if (!runtimeCreateOnlyTargetBinding) {
+      runtimeCreateOnlyTargetBinding = createBlackBoxRuntimeCreateOnlyTargetBindingV1({
+        env: process.env,
+        projectRoot: getProjectRootPath(),
+        platform: process.platform,
+      });
+    }
+    return runtimeCreateOnlyTargetBinding;
+  }
 
   return blackBoxModule.executeBlackBoxProductCommandExportManualCoreV1(payload, {
     ports: {
@@ -29098,11 +29112,7 @@ async function dispatchBlackBoxProductCommandBridge(commandId, payload = {}, rec
       getAuditRecipient: async () => (await getRuntimeProviderAuditBinding()).auditRecipient,
       getAuditIdentity: async () => (await getRuntimeProviderAuditBinding()).auditIdentity,
       getAgeProvider: async () => (await getRuntimeProviderAuditBinding()).ageProvider,
-      selectCreateOnlyTarget: async () => ({
-        ok: false,
-        code: 'YALKEN_BLACK_BOX_PRODUCT_COMMAND_EXPORT_TARGET_PORT_NOT_CONFIGURED',
-        reason: 'BLACK_BOX_PRODUCT_COMMAND_TARGET_PORT_NOT_CONFIGURED',
-      }),
+      selectCreateOnlyTarget: async (context) => (await getRuntimeCreateOnlyTargetBinding()).selectCreateOnlyTarget(context),
     },
   });
 }

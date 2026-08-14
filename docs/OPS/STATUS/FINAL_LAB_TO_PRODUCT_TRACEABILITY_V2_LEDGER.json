@@ -1239,7 +1239,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "e3394efb8e90b25f5f3b7f07e38a4c778299dc09e3a3eb94b7a2e3b3b00f921b"
+            "sha256": "5335b3232ea6788f2ff4e2b88da49a5bfb35631cc786bf6d1c44794d7771e761"
           }
         }
       ],
@@ -1260,39 +1260,54 @@
     {
       "materialId": "F3_BLACK_BOX_PRODUCT_COMMAND_AUDIT_RECIPIENT_RUNTIME_BINDING_V1",
       "programPhase": "F3",
-      "summary": "Black Box manual CORE export Product Command local candidate: trusted getAuditRecipient port is required, caller-carried auditRecipient remains rejected, owner and audit recipients must be distinct, auditIdentity must match auditRecipient, and the real manual CORE capsule kit request receives both recipients. No new command, UI, user documents, project-library registration, owner-key drill, off-host restore, Disaster Ready or full Black Box Product V1 claim.",
+      "summary": "Black Box manual CORE export Product Command is adapted and postmerge verified: trusted getAuditRecipient port is required, caller-carried auditRecipient remains rejected, owner and audit recipients must be distinct, auditIdentity must match auditRecipient, and the real manual CORE capsule kit request receives both recipients. No new command, UI, user documents, project-library registration, owner-key drill, off-host restore, Disaster Ready or full Black Box Product V1 claim.",
       "sourcePins": [
         "BLACK_BOX_FINAL_LAB_EXTERNAL_RECEIPT"
       ],
-      "disposition": "DEFERRED_WITH_BLOCKER",
+      "disposition": "ADAPTED_PRODUCT",
       "post20260811Delta": true,
-      "deferred": {
-        "prerequisite": "Complete required CI, merge and postmerge exact-head verification for F3_BLACK_BOX_PRODUCT_COMMAND_AUDIT_RECIPIENT_RUNTIME_BINDING_V1 PR #1537.",
-        "owner": "standing-owner-grant:YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1",
-        "acceptanceGate": "Rebind this row to ADAPTED_PRODUCT or ENFORCED_TEST_GATE with exact commitSha, prNumber, receipt hash and postmerge verification after full delivery green."
-      },
-      "localCandidateEvidence": {
-        "baselineSha": "d7875a88f82048d650c239a9b6f22e947cdffbba",
-        "candidateCommitSha": "a9a762f3f34b4ea694fe762b92474b3ab180403f",
-        "prNumber": 1537,
-        "deliveryStatus": "PR_OPEN_REQUIRED_CI_PENDING",
-        "redFirst": "6 tests, 4 pass, 2 fail: trusted getAuditRecipient port not called and missing audit recipient port not fail-closed",
+      "productBindings": [
+        {
+          "commitSha": "9471afd93479c6ac02f53b1e7845f48b01940648",
+          "featureCommitSha": "a9a762f3f34b4ea694fe762b92474b3ab180403f",
+          "prNumber": 1537,
+          "mergeCommitSha": "086d13bfbbd7c6f2b6a3e8889a4ff88516366a78",
+          "files": [
+            "src/product/blackBoxProductCommandExportManualCoreV1.mjs",
+            "test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+            "scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs",
+            "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json"
+          ],
+          "tests": [
+            "node --test test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+            "node --test test/contracts/source-fence-v1.contract.test.js test/contracts/multilingual-evidence-v1.contract.test.js test/contracts/black-box-p0a-source-adapter-v1.contract.test.js test/contracts/black-box-p0b-darwin-durable-publisher-v1.contract.test.js test/contracts/black-box-p0c-strict-capsule-recover-v1.contract.test.js test/contracts/black-box-import-as-new-recovery-plan-v1.contract.test.js test/contracts/black-box-import-as-new-project-writer-v1.contract.test.js test/contracts/black-box-manual-core-capsule-kit-v1.contract.test.js test/contracts/black-box-synthetic-independent-restore-drill-v1.contract.test.js test/contracts/black-box-trusted-source-snapshot-v1.contract.test.js test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+            "node scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs",
+            "node scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
+            "node scripts/ops/governance-change-detection.mjs --json --approvals-path docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json",
+            "npm run dev:fast",
+            "npm run agent:guardrails"
+          ],
+          "receipt": {
+            "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
+            "sha256": "5335b3232ea6788f2ff4e2b88da49a5bfb35631cc786bf6d1c44794d7771e761"
+          }
+        }
+      ],
+      "postMergeVerification": {
+        "mergeCommitSha": "086d13bfbbd7c6f2b6a3e8889a4ff88516366a78",
+        "requiredCi": "PASS",
         "focusedTests": "6/6",
         "affectedTests": "73/73",
-        "modelOracleMutations": "Product command 39 finite, 20 hostile, 15 mutants, 0 survivors; affected S0/F1/P0A/P0B/P0C/import-plan/import-writer/manual-kit/trusted-source/product-command models all 0 survivors",
-        "receipt": {
-          "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-          "sha256": "e3394efb8e90b25f5f3b7f07e38a4c778299dc09e3a3eb94b7a2e3b3b00f921b"
-        },
-        "traceabilityLedger": "PENDING",
-        "governanceChangeDetection": "PENDING",
-        "devFast": "PENDING",
-        "guardrails": "PENDING",
+        "modelOracleMutations": "Product command 39 finite, 20 hostile, 15 mutants, 0 survivors",
+        "traceabilityLedger": "PASS",
+        "governanceChangeDetection": "PASS",
+        "devFast": "28/28",
+        "guardrails": "PASS",
         "productRuntimeWiringChanged": true,
         "commandKernelWiringChanged": false,
         "uiChanged": false,
         "userDocumentsTouched": false,
-        "claimBoundary": "Local candidate evidence only until delivery is complete; no full Black Box product V1, owner-key drill, off-host restore or Disaster Ready claim."
+        "claimBoundary": "Merged and postmerge verified for the bounded audit-recipient product command binding only. This does not claim product UI, project-library registration, owner-key drill, off-host restore, Disaster Ready or full Black Box Product V1."
       }
     },
     {

@@ -10449,10 +10449,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "d4ec169abf9db04a4d3fbd87a5f59bac7681201d117bb02c78581ef405406264",
-      "rationale": "Approve local candidate traceability row for F3_BLACK_BOX_PRODUCT_COMMAND_AUDIT_RECIPIENT_RUNTIME_BINDING_V1 as DEFERRED_WITH_BLOCKER after PR #1537 was opened from commit a9a762f3f34b4ea694fe762b92474b3ab180403f; records red-first 6 tests with 2 expected failures, focused 6/6, affected 73/73, product command model 39 finite/20 hostile/15 mutants/0 survivors and no UI, user documents, owner-key drill or Disaster Ready claim while required CI, merge and postmerge remain pending.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_AUDIT_RECIPIENT_RUNTIME_BINDING_V1",
-      "approvedAtUtc": "2026-08-14T14:05:00.000Z",
+      "sha256": "cfb3ebe805c6e90b935b42d4e1606d52eafbd110b1fc0f1e173005650be6253d",
+      "rationale": "Approve final traceability rebind for F3_BLACK_BOX_PRODUCT_COMMAND_AUDIT_RECIPIENT_RUNTIME_BINDING_V1 as ADAPTED_PRODUCT after PR #1537 merge commit 086d13bfbbd7c6f2b6a3e8889a4ff88516366a78 and exact postmerge focused 6/6, affected 73/73, product command model 39 finite/20 hostile/15 mutants/0 survivors, dev:fast 28/28 and guardrails PASS; no UI, user documents, owner-key drill, off-host restore, Disaster Ready or full Black Box Product V1 claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_AUDIT_RECIPIENT_POSTMERGE_TRACEABILITY_REBIND_V1",
+      "approvedAtUtc": "2026-08-14T14:25:00.000Z",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },
@@ -10620,10 +10620,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-      "sha256": "e3394efb8e90b25f5f3b7f07e38a4c778299dc09e3a3eb94b7a2e3b3b00f921b",
-      "rationale": "Approve factual local candidate receipt section for F3_BLACK_BOX_PRODUCT_COMMAND_AUDIT_RECIPIENT_RUNTIME_BINDING_V1 PR #1537 commit a9a762f3f34b4ea694fe762b92474b3ab180403f: red-first 6 tests with 2 expected failures, focused 6/6, affected 73/73, product command model 39 finite/20 hostile/15 mutants/0 survivors, and exact changed file hashes; required CI, merge and postmerge remain pending with no UI, user documents, owner-key drill or Disaster Ready claim.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_AUDIT_RECIPIENT_RUNTIME_BINDING_V1",
-      "approvedAtUtc": "2026-08-14T14:05:00.000Z",
+      "sha256": "5335b3232ea6788f2ff4e2b88da49a5bfb35631cc786bf6d1c44794d7771e761",
+      "rationale": "Approve factual postmerge receipt rebind for F3_BLACK_BOX_PRODUCT_COMMAND_AUDIT_RECIPIENT_RUNTIME_BINDING_V1 PR #1537: feature commit a9a762f3f34b4ea694fe762b92474b3ab180403f, PR head 9471afd93479c6ac02f53b1e7845f48b01940648, merge commit 086d13bfbbd7c6f2b6a3e8889a4ff88516366a78, required CI all SUCCESS, postmerge focused 6/6, affected 73/73, product command model 39 finite/20 hostile/15 mutants/0 survivors, dev:fast 28/28 and guardrails PASS; no UI, user documents, owner-key drill, off-host restore, Disaster Ready or full Black Box Product V1 claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_AUDIT_RECIPIENT_POSTMERGE_TRACEABILITY_REBIND_V1",
+      "approvedAtUtc": "2026-08-14T14:25:00.000Z",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     }

@@ -1,0 +1,207 @@
+{
+  "schemaVersion": "yalken.f3BlackBoxP0cStrictCapsuleRecover.receipt.v1",
+  "taskId": "F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1",
+  "createdAtUtc": "2026-08-14T03:50:00Z",
+  "status": "LOCAL_CONTRACT_MODEL_PHYSICAL_GREEN_GOVERNANCE_BINDING_PENDING",
+  "verdict": "READY_FOR_GOVERNANCE_BINDING_AND_BASELINE",
+  "baseline": {
+    "headSha": "696674adfd2eb4a4b52a21c6de75e4aace3c13b1",
+    "treeSha": "f8c19c6710fec01f305790f73fec10ca0bd95cfe",
+    "branch": "codex/yalken-f3-black-box-p0c-strict-capsule-recover-v1"
+  },
+  "authorityBoundary": {
+    "ownerGrant": "OWNER_AUTHORITY_GRANT_F3_P0C_STANDARD_AGE_V1_PROVIDER_OPTION_A",
+    "productRuntimeWiringChanged": false,
+    "uiChanged": false,
+    "sourceAdapterChanged": false,
+    "durablePublisherChanged": false,
+    "userDocumentsTouched": false,
+    "sealedLabPackagesModified": false,
+    "systemWideInstall": false,
+    "rawNodeCryptoAgeImplementation": false,
+    "productNetworkRuntimeTruth": false,
+    "dependenciesChanged": false
+  },
+  "providerPin": {
+    "provider": "FiloSottile/age",
+    "version": "v1.3.1",
+    "platform": "darwin-arm64",
+    "releaseUrl": "https://github.com/FiloSottile/age/releases/tag/v1.3.1",
+    "artifactUrl": "https://github.com/FiloSottile/age/releases/download/v1.3.1/age-v1.3.1-darwin-arm64.tar.gz",
+    "artifactSha256": "sha256:01120ea2cbf0463d4c6bd767f99f3271bbed1cdc8a9aa718a76ba1fe4f01998b",
+    "proofSha256": "sha256:e53545de98acd8fb17aca18ab4940e46edd032418df352b7387be4bc5379a0ac",
+    "sigsumVerified": true,
+    "sigsumPolicy": "sigsum-generic-2025-1",
+    "sigsumKeyDigest": "sha256:ca60c0504ac65cc43ef180a34579ce6ed8f909b9136afef0ca42c88280f42cdc",
+    "providerPinDigest": "sha256:d00f8f56992249d4946330076562924f4a90ac32f20c9b7ddaa601f6cf1c4749",
+    "ageExecutableSha256": "sha256:0e3ea0b1bed2b30aa2dc46eef4e1723864d626c80f37319c20d9b73ca045f56f",
+    "ageKeygenExecutableSha256": "sha256:37c4b509d86f233d8dd065f5a905e11d2e1d5549d59445a9bc52da9235a622ad",
+    "ageInspectExecutableSha256": "sha256:84695985ec630eaa88343b27b99d0478bb7fbfb27bbc0e43abd81a897ee7535f",
+    "taskLocalCacheOnly": true,
+    "systemWideInstall": false
+  },
+  "contract": {
+    "schema": "yalken.blackBoxStrictCapsuleRecover.result.v1",
+    "featureFlag": "yalken.blackBox.strictCapsuleRecover.p0cV1",
+    "defaultEnabled": false,
+    "providerBoundary": "exact pinned official age CLI provider, version/build/digest/proof checked before PASS",
+    "cryptoBoundary": "standard age v1 X25519 provider only; no raw Node crypto implementation",
+    "buildSemantics": [
+      "source-fence-bound read snapshot using mayWrite=false",
+      "synthetic per-build audit decryption required",
+      "ciphertext-bound manifest digest",
+      "provider digest and Sigsum proof binding",
+      "no plaintext or key material in receipts"
+    ],
+    "recoverSemantics": [
+      "exact provider revalidation",
+      "age decrypt authenticated readback",
+      "manifest/source/recipient/ciphertext digest revalidation",
+      "quarantine preview only",
+      "IMPORT_AS_NEW_PROJECT_ONLY",
+      "live project overwrite denied"
+    ],
+    "nonGoals": [
+      "no product runtime command wiring",
+      "no UI surface",
+      "no user manuscript",
+      "no real owner-key recovery drill",
+      "no exact-byte donor replication claim",
+      "no Disaster Ready claim",
+      "no process-crash or physical power-loss proof claim",
+      "no cloud or account dependency"
+    ]
+  },
+  "redFirst": {
+    "command": "node --test test/contracts/black-box-p0c-strict-capsule-recover-v1.contract.test.js",
+    "result": "RED_EXPECTED",
+    "tests": 7,
+    "pass": 0,
+    "fail": 7,
+    "skipped": 0,
+    "todo": 0,
+    "primaryFailure": "ERR_MODULE_NOT_FOUND src/product/blackBoxStrictCapsuleRecoverV1.mjs"
+  },
+  "focusedProof": {
+    "command": "node --test test/contracts/black-box-p0c-strict-capsule-recover-v1.contract.test.js",
+    "tests": 7,
+    "pass": 7,
+    "fail": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "modelOracleMutations": {
+    "command": "node scripts/ops/black-box-p0c-strict-capsule-recover-v1-model.mjs",
+    "finiteCases": 64,
+    "disagreements": 0,
+    "hostileCases": 18,
+    "hostileFailures": 0,
+    "semanticMutants": 12,
+    "survivors": 0,
+    "skips": 0
+  },
+  "physicalProviderEvidence": {
+    "run1": {
+      "path": "/Volumes/T7-Secure/storage/yalken/evidence/f3-p0c-strict-capsule-recover-v1/20260814T034642Z/physical-evidence.json",
+      "sha256": "sha256:c5abc7eef1925a948108f04aba4b3397260acdb196b0d532d98d5c69150a3355",
+      "positiveBuild": true,
+      "positiveRecover": true,
+      "negativeCases": 6,
+      "negativeFailures": 0,
+      "cleanupOk": true,
+      "elapsedMs": 67.76545800000001
+    },
+    "run2": {
+      "path": "/Volumes/T7-Secure/storage/yalken/evidence/f3-p0c-strict-capsule-recover-v1/20260814T034848Z/physical-evidence.json",
+      "sha256": "sha256:9097ecc6d117f012561a1271fd1f5aa242becf1a9aa20aaad9ad1d9a4fd9e8b6",
+      "positiveBuild": true,
+      "positiveRecover": true,
+      "negativeCases": 6,
+      "negativeFailures": 0,
+      "cleanupOk": true,
+      "elapsedMs": 63.495084
+    },
+    "claimBoundary": "Disposable synthetic capsules and keys only; no user documents, no private manuscripts, no owner-key recovery drill and no product runtime wiring."
+  },
+  "affectedProof": {
+    "command": "node --test test/contracts/source-fence-v1.contract.test.js test/contracts/multilingual-evidence-v1.contract.test.js test/contracts/black-box-p0a-source-adapter-v1.contract.test.js test/contracts/black-box-p0b-darwin-durable-publisher-v1.contract.test.js test/contracts/black-box-p0c-strict-capsule-recover-v1.contract.test.js",
+    "tests": 35,
+    "pass": 35,
+    "fail": 0,
+    "skipped": 0,
+    "todo": 0,
+    "sourceFenceModel": {
+      "finiteCases": 192,
+      "hostileCases": 20,
+      "semanticMutants": 9,
+      "survivors": 0
+    },
+    "multilingualEvidenceModel": {
+      "finiteCases": 24,
+      "hostileCases": 18,
+      "semanticMutants": 15,
+      "survivors": 0
+    },
+    "blackBoxP0aModel": {
+      "finiteCases": 32,
+      "hostileCases": 18,
+      "semanticMutants": 12,
+      "survivors": 0
+    },
+    "blackBoxP0bModel": {
+      "finiteCases": 65,
+      "hostileCases": 18,
+      "semanticMutants": 12,
+      "survivors": 0
+    }
+  },
+  "deliveryGates": {
+    "traceabilityLedger": {
+      "command": "node scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
+      "status": "PENDING_FINAL_HASH_BINDING"
+    },
+    "governance": {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --approvals-path docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json",
+      "status": "PENDING_FINAL_HASH_BINDING"
+    },
+    "devFast": {
+      "command": "npm run dev:fast",
+      "status": "INITIAL_FAIL_EXPECTED_GOVERNANCE_CHANGE_APPROVAL_REQUIRED_BEFORE_APPROVAL_BINDING"
+    },
+    "guardrails": {
+      "command": "npm run agent:guardrails",
+      "status": "PENDING_FINAL_HASH_BINDING"
+    },
+    "baseline": {
+      "command": "npm test",
+      "status": "PENDING_FINAL_HASH_BINDING"
+    }
+  },
+  "changedFileHashes": {
+    "src/product/blackBoxStrictCapsuleRecoverV1.mjs": "77b013d2380c3cbcac846d14e84d21c4ec0a2444bdb25609b19a4d0d8785372e",
+    "test/contracts/black-box-p0c-strict-capsule-recover-v1.contract.test.js": "98578ac10be5e6c9fbdd5d8ce4e5bcbb376e9dc64117d510a37b73457b723991",
+    "scripts/ops/black-box-p0c-strict-capsule-recover-v1-model.mjs": "a65d8719d5b5f068e1beacea51235240154ecfde840c12a79aedafbc26577655",
+    "scripts/ops/black-box-p0c-age-provider-physical-v1.mjs": "80e447ef8ace85ab9b67014de2101bd71a2fb63b635f223147bb0c524fec9cfe"
+  },
+  "resourceCeilings": {
+    "algorithm": "O_CORE_PAYLOAD_BYTES_PLUS_AGE_PROVIDER_STREAMING_IO",
+    "predeclaredSyntheticFixtureCeiling": "1_MiB_synthetic_CORE_capsule_encrypt_decrypt_p95_under_2000ms_memory_delta_under_128MiB_lab_only",
+    "observedPhysicalRunsMs": [
+      67.76545800000001,
+      63.495084
+    ],
+    "productSlo": "NOT_CLAIMED_LAB_ONLY"
+  },
+  "rollback": {
+    "action": "Revert the single F3 P0C PR containing the isolated module, contract test, model, physical runner, receipt, ledger and governance bindings; remove or ignore the task-local T7 age provider cache.",
+    "dataMigration": false,
+    "runtimeRollback": "No product runtime wiring, UI, user data migration, cloud dependency or system installation is introduced."
+  },
+  "limitations": [
+    "This proves only a bounded provider-bound strict capsule/recover seam with official age CLI on disposable synthetic fixtures.",
+    "This does not wire Black Box into product UI or Command Kernel.",
+    "This does not prove a real owner-key recovery drill, exact-byte replication from a FINAL_COMPLETE donor, Disaster Ready, process-crash proof or physical power-loss proof.",
+    "The task-local age CLI is a test/provider artifact and is not a silent product runtime dependency."
+  ],
+  "updatedAtUtc": "2026-08-14T03:50:00Z"
+}

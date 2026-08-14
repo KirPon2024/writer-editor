@@ -10304,15 +10304,6 @@
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_F3_BLACK_BOX_P0A_SOURCE_ADAPTER"
     },
     {
-      "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "1c1617bc668e066cbca4e7f3b65010b8fac6c8db821bf1b2ee87d3075a737eb0",
-      "rationale": "Approve exact living traceability ledger bytes that promote merged P0A factual status and record P0B local green candidate evidence while keeping P0B deferred until PR/CI/merge/postmerge; no product runtime, UI, dependency, network, capsule crypto or release-ready claim change.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_P0B_DARWIN_DURABLE_PUBLISHER_V1",
-      "approvedAtUtc": "2026-08-14T00:44:00.000Z",
-      "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_P0B_BOUNDED_CONTOUR"
-    },
-    {
       "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_P0B_DARWIN_DURABLE_PUBLISHER_V1_RECEIPT.json",
       "sha256": "effabe9f6fef5d2661ca5bbd75e680c2f7aacf31db0b7acad8e35eac8d33a1ab",
       "rationale": "Approve exact P0B local-green receipt binding red-first, focused, affected, replay, dev:fast, guardrails, full baseline, model/oracle, mutation and disposable T7 synthetic physical evidence while explicitly denying process-crash, physical power-loss, Disaster Ready, capsule crypto and runtime wiring claims.",
@@ -10338,6 +10329,51 @@
       "approvedAtUtc": "2026-08-14T00:44:00.000Z",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_P0B_BOUNDED_CONTOUR"
+    },
+    {
+      "filePath": "test/contracts/black-box-p0c-strict-capsule-recover-v1.contract.test.js",
+      "sha256": "98578ac10be5e6c9fbdd5d8ce4e5bcbb376e9dc64117d510a37b73457b723991",
+      "rationale": "Approve bounded F3 P0C strict capsule/recover candidate bytes under OWNER_AUTHORITY_GRANT_F3_P0C_STANDARD_AGE_V1_PROVIDER_OPTION_A: exact pinned official age v1.3.1 darwin-arm64 provider, Sigsum verified artifact, source-fence-bound synthetic capsule build, quarantine preview/import-as-new-only recover, hostile/mutation/physical provider evidence, no UI/runtime wiring, no user documents, no system install, no raw Node age crypto, no owner-key recovery drill or Disaster Ready claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1",
+      "approvedAtUtc": "2026-08-14T03:52:00.000Z",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_F3_P0C_STANDARD_AGE_V1_PROVIDER_OPTION_A"
+    },
+    {
+      "filePath": "scripts/ops/black-box-p0c-strict-capsule-recover-v1-model.mjs",
+      "sha256": "a65d8719d5b5f068e1beacea51235240154ecfde840c12a79aedafbc26577655",
+      "rationale": "Approve bounded F3 P0C strict capsule/recover candidate bytes under OWNER_AUTHORITY_GRANT_F3_P0C_STANDARD_AGE_V1_PROVIDER_OPTION_A: exact pinned official age v1.3.1 darwin-arm64 provider, Sigsum verified artifact, source-fence-bound synthetic capsule build, quarantine preview/import-as-new-only recover, hostile/mutation/physical provider evidence, no UI/runtime wiring, no user documents, no system install, no raw Node age crypto, no owner-key recovery drill or Disaster Ready claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1",
+      "approvedAtUtc": "2026-08-14T03:52:00.000Z",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_F3_P0C_STANDARD_AGE_V1_PROVIDER_OPTION_A"
+    },
+    {
+      "filePath": "scripts/ops/black-box-p0c-age-provider-physical-v1.mjs",
+      "sha256": "80e447ef8ace85ab9b67014de2101bd71a2fb63b635f223147bb0c524fec9cfe",
+      "rationale": "Approve bounded F3 P0C strict capsule/recover candidate bytes under OWNER_AUTHORITY_GRANT_F3_P0C_STANDARD_AGE_V1_PROVIDER_OPTION_A: exact pinned official age v1.3.1 darwin-arm64 provider, Sigsum verified artifact, source-fence-bound synthetic capsule build, quarantine preview/import-as-new-only recover, hostile/mutation/physical provider evidence, no UI/runtime wiring, no user documents, no system install, no raw Node age crypto, no owner-key recovery drill or Disaster Ready claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1",
+      "approvedAtUtc": "2026-08-14T03:52:00.000Z",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_F3_P0C_STANDARD_AGE_V1_PROVIDER_OPTION_A"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1_RECEIPT.json",
+      "sha256": "81c7664103ec3e580063ac84ac330fa164087651ee9fcec2a951b18405124f96",
+      "rationale": "Approve bounded F3 P0C strict capsule/recover candidate bytes under OWNER_AUTHORITY_GRANT_F3_P0C_STANDARD_AGE_V1_PROVIDER_OPTION_A: exact pinned official age v1.3.1 darwin-arm64 provider, Sigsum verified artifact, source-fence-bound synthetic capsule build, quarantine preview/import-as-new-only recover, hostile/mutation/physical provider evidence, no UI/runtime wiring, no user documents, no system install, no raw Node age crypto, no owner-key recovery drill or Disaster Ready claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1",
+      "approvedAtUtc": "2026-08-14T03:52:00.000Z",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_F3_P0C_STANDARD_AGE_V1_PROVIDER_OPTION_A"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
+      "sha256": "2d85d1c759ff01919e01e991fd1ee14d3c9332b8953bc8bcc257da1c703a7446",
+      "rationale": "Approve bounded F3 P0C strict capsule/recover candidate bytes under OWNER_AUTHORITY_GRANT_F3_P0C_STANDARD_AGE_V1_PROVIDER_OPTION_A: exact pinned official age v1.3.1 darwin-arm64 provider, Sigsum verified artifact, source-fence-bound synthetic capsule build, quarantine preview/import-as-new-only recover, hostile/mutation/physical provider evidence, no UI/runtime wiring, no user documents, no system install, no raw Node age crypto, no owner-key recovery drill or Disaster Ready claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1",
+      "approvedAtUtc": "2026-08-14T03:52:00.000Z",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_F3_P0C_STANDARD_AGE_V1_PROVIDER_OPTION_A"
     }
   ]
 }

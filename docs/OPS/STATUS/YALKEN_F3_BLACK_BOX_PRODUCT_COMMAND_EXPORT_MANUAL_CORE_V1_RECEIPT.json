@@ -917,7 +917,7 @@
   },
   "productUiDefaultFlagPath": {
     "taskId": "F3_BLACK_BOX_PRODUCT_UI_DEFAULT_FLAG_PATH_V1",
-    "status": "LOCAL_CANDIDATE_COMMITTED_FULL_LOCAL_GATES_GREEN_PENDING_PUSH_PR_CI_MERGE_POSTMERGE",
+    "status": "MERGED_POSTMERGE_VERIFIED_NOT_FULL_BLACK_BOX_PRODUCT_V1",
     "baselineSha": "59ed787fb75769222d880cb9d5769e02ed614b0e",
     "baselineTreeSha": "7da57f229773666c5d8910abe68bfa5316a047e8",
     "scope": "Bind the existing Black Box manual CORE capsule product command into the existing default-off File export menu, export modal and command-palette/runtime-command UI path. This adds discoverability only; product runtime, storage, command meaning, provider, target selection and capsule semantics are unchanged.",
@@ -977,19 +977,19 @@
       "runtimeEquivalentPromotion": "PASS"
     },
     "affectedProof": {
-      "command": "node --test black-box-ui/product-command/menu/command affected contracts",
-      "tests": 74,
-      "pass": 74,
+      "command": "node --test focused UI/default path, RELEASE01 terminal claims, product command and menu affected contracts",
+      "tests": 120,
+      "pass": 120,
       "fail": 0,
       "skipped": 0,
       "todo": 0
     },
     "localGates": {
       "governanceChangeDetection": "PASS_MISSING_APPROVALS_0",
-      "traceabilityLedger": "PASS_40_DISPOSITIONS_3_EXTERNAL_PINS",
+      "traceabilityLedger": "PASS_40_DISPOSITIONS_3_EXTERNAL_PINS_PREMERGE",
       "devFast": "28/28",
       "guardrails": "PASS",
-      "deterministicReplay": "PASS_2_OF_2_AFFECTED_74_MODEL_20_16_12_0_MENU_ARTIFACT_TRACEABILITY_GOVERNANCE"
+      "deterministicReplay": "PASS_2_OF_2_AFFECTED_RELEASE01_120_MODEL_20_16_12_0_MENU_ARTIFACT_TRACEABILITY_GOVERNANCE"
     },
     "changedFileHashes": {
       "src/menu/menu-config.v2.json": "b04c0fb6132559695b8478d2520036419c0a975c2902047ffeab417ff14e3e3e",
@@ -1004,7 +1004,7 @@
       "test/contracts/black-box-product-ui-default-flag-path-v1.contract.test.js": "46dd708b9092a64a0337a1ccdd40c8d669355340c78b35b06a2e1c93ecf09d6a"
     },
     "claimBoundary": {
-      "productUiDefaultFlagPath": "LOCAL_CANDIDATE_BOUND_TO_EXISTING_COMMAND_AND_DEFAULT_OFF_RUNTIME_FLAG",
+      "productUiDefaultFlagPath": "MERGED_POSTMERGE_VERIFIED_BOUND_TO_EXISTING_COMMAND_AND_DEFAULT_OFF_RUNTIME_FLAG",
       "productRuntimeChanged": false,
       "commandKernelChanged": false,
       "storageChanged": false,
@@ -1018,13 +1018,70 @@
     },
     "rollback": "Revert this bounded UI/default path PR: src/menu menu rows, generated menu artifact/snapshot/lock, renderer export modal/router, new contract/model and factual receipt/ledger/governance entries. No data migration or canonical project-data rollback is required.",
     "delivery": {
-      "candidateCommitSha": "4d454d7a3a8b6a89a7f5a384c08abaa107c0cbb4",
-      "candidateTreeSha": "38701b6fce9a04322b82295e8a47510b062450de",
-      "push": "PENDING",
-      "pr": "OPEN_1547",
-      "requiredCi": "RERUN_PENDING_AFTER_RELEASE01_WORDING_SURFACE_REBIND",
-      "merge": "PENDING",
-      "postmerge": "PENDING"
+      "candidateCommitSha": "2ff8bd5ef644053ffb78c34f4787d6867b490649",
+      "candidateTreeSha": "89b84dde38a89636b23031fa928fa60fba4c3939",
+      "release01WordingSurfaceRepairCommitSha": "4d454d7a3a8b6a89a7f5a384c08abaa107c0cbb4",
+      "release01WordingSurfaceRepairTreeSha": "38701b6fce9a04322b82295e8a47510b062450de",
+      "push": "PASS",
+      "pr": "MERGED_1547",
+      "requiredCi": {
+        "oss-policy": "PASS",
+        "rtk-required": "PASS",
+        "x1-runtime-parity-ubuntu-latest": "PASS",
+        "x1-runtime-parity-windows-latest": "PASS"
+      },
+      "merge": "PASS",
+      "mergeCommitSha": "0a8ca2a8217b62196ab073c5d0e259afefd2c11e",
+      "mergeTreeSha": "89b84dde38a89636b23031fa928fa60fba4c3939",
+      "postmerge": "PASS",
+      "postmergeWorktree": "f3-black-box-product-ui-default-flag-path-v1-postmerge-0a8ca2a8"
+    },
+    "postmergeProof": {
+      "headSha": "0a8ca2a8217b62196ab073c5d0e259afefd2c11e",
+      "treeSha": "89b84dde38a89636b23031fa928fa60fba4c3939",
+      "bootstrap": "PASS",
+      "focusedAffectedRelease01": {
+        "command": "node --test test/contracts/black-box-product-ui-default-flag-path-v1.contract.test.js test/contracts/rtk-release01-terminal-claims.contract.test.js test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js test/contracts/command-catalog.contract.test.js test/contracts/capability-command-coverage.contract.test.js test/contracts/command-visibility-matrix.contract.test.js test/contracts/command-surface-bus-only.contract.test.js test/contracts/menu-config-v2.contract.test.js test/contracts/menu-locale.contract.test.js test/contracts/menu-config-normalization.contract.test.js test/contracts/menu-runtime-artifact-first-and-equivalence.contract.test.js test/contracts/menu-artifact-export-and-runtime-verify.contract.test.js test/contracts/menu-snapshot-freeze-promotion.contract.test.js",
+        "tests": 120,
+        "pass": 120,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "modelOracleMutations": {
+        "finiteCases": 20,
+        "hostileCases": 16,
+        "semanticMutants": 12,
+        "survivors": 0,
+        "skips": 0
+      },
+      "menuArtifactProof": {
+        "snapshotCheck": "PASS",
+        "artifactLockCheck": "PASS",
+        "runtimeEquivalentPromotion": "PASS",
+        "normalizedHashSha256": "cd9ecb9dbc6f2a7d1a6f42b6fcfc4dcabc6c2688e4a893193a1d20940b5f6569",
+        "artifactBytesSha256": "75cbf2c86ca2a7505bb2faa13fcae20a3c2de8c786f04aec203e7dbcf11b6047"
+      },
+      "traceabilityLedger": "PASS_WITH_PRE_REBIND_LIMITATION_EXACT_HEAD_FIELD_SUPERSEDED_BY_THIS_REBIND_CONTOUR",
+      "governanceChangeDetection": "PASS_MISSING_APPROVALS_0",
+      "devFast": {
+        "tests": 28,
+        "pass": 28,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "guardrails": "PASS",
+      "fullRtk": {
+        "command": "npm run -s test:rtk",
+        "tests": 920,
+        "pass": 920,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "worktreeClean": true,
+      "userDocumentsTouched": false
     }
   }
 }

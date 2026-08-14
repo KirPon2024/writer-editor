@@ -10649,21 +10649,21 @@
     },
     {
       "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "7123132ebdab8dcdfdaae8011f9fd32639771936317c3ffdd3e7c032e3ec3495",
+      "sha256": "f2e8e39b95a2e1f600efc5c90830c4ec071bac919b4cc0af62eaceef495dd66b",
       "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_UI_DEFAULT_FLAG_PATH_V1",
-      "approvedAtUtc": "2026-08-14T20:24:00.000Z",
-      "rationale": "Approve committed-candidate traceability ledger rebind for F3 Black Box product UI/default path after RELEASE01 wording-surface CI repair: local candidate commit 4d454d7a3a8b6a89a7f5a384c08abaa107c0cbb4 is recorded while disposition remains DEFERRED_WITH_BLOCKER pending required CI rerun, merge and postmerge; no full Black Box Product V1 claim.",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Approve postmerge traceability ledger rebind for F3 Black Box product UI/default path: PR 1547 is merged at 0a8ca2a8217b62196ab073c5d0e259afefd2c11e after required CI PASS and exact postmerge focused/model/menu/governance/devfast/guardrails/full RTK PASS. Ledger top-level exactHead remains bound to the current verifier contract while the row-level product binding records the actual merge SHA; disposition moves from DEFERRED_WITH_BLOCKER to ADAPTED_PRODUCT for the UI/default path only, with no full Black Box Product V1 claim.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION_UI_DEFAULT_FLAG_PATH"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION_UI_DEFAULT_FLAG_PATH_POSTMERGE_REBIND"
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-      "sha256": "27343a7e1b375bb66317ab81fd7ce19652a15bb6f415a80d5d0f5605c31f3289",
+      "sha256": "b05948e2899942426dadc4563f13de11fb187f960898d4f3df9569fb17a42edd",
       "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_UI_DEFAULT_FLAG_PATH_V1",
-      "approvedAtUtc": "2026-08-14T20:24:00.000Z",
-      "rationale": "Approve committed-candidate cumulative F3 receipt rebind for F3 Black Box product UI/default path after RELEASE01 wording-surface CI repair: candidate commit 4d454d7a3a8b6a89a7f5a384c08abaa107c0cbb4 and tree 38701b6fce9a04322b82295e8a47510b062450de are recorded, with required CI rerun/merge/postmerge still pending and no full product claim.",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Approve postmerge cumulative F3 receipt rebind for F3 Black Box product UI/default path: final candidate 2ff8bd5ef644053ffb78c34f4787d6867b490649, PR 1547 required CI PASS, merge 0a8ca2a8217b62196ab073c5d0e259afefd2c11e and exact postmerge verification are recorded; no product runtime/storage/user-document/full-product claim change.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION_UI_DEFAULT_FLAG_PATH"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION_UI_DEFAULT_FLAG_PATH_POSTMERGE_REBIND"
     }
   ]
 }

@@ -1239,7 +1239,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "adb65daa8487f287720108c2a7fb6454ad6f8dbec3028000d675d1697299b710"
+            "sha256": "12a46e1a66913bd3c5f83e8dee7f8e77d1c8115834b481ddddf3831e9b80db59"
           }
         }
       ],
@@ -1289,7 +1289,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "adb65daa8487f287720108c2a7fb6454ad6f8dbec3028000d675d1697299b710"
+            "sha256": "12a46e1a66913bd3c5f83e8dee7f8e77d1c8115834b481ddddf3831e9b80db59"
           }
         }
       ],
@@ -1351,7 +1351,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "adb65daa8487f287720108c2a7fb6454ad6f8dbec3028000d675d1697299b710"
+            "sha256": "12a46e1a66913bd3c5f83e8dee7f8e77d1c8115834b481ddddf3831e9b80db59"
           }
         }
       ],
@@ -1376,7 +1376,7 @@
     {
       "materialId": "F3_PROVIDER_AUDIT_RUNTIME_BINDING_V1",
       "programPhase": "F3",
-      "summary": "Black Box manual CORE export main runtime bridge is adapted as a PR-open local candidate: provider pin, audit recipient, audit identity and age provider ports now bind through explicit trusted runtime configuration. The provider pin is built only from the exact pinned official age v1.3.1 darwin-arm64 task-local T7 cache with artifact/proof/sigsum/executable digest checks; audit recipient/identity are explicit JSON config and must have matching audit fingerprint; the create-only target port remains not configured, so no product runtime capsule can be created by this contour. No UI, user documents, owner private key, project-library registration, off-host restore, Disaster Ready or full Black Box Product V1 claim.",
+      "summary": "Black Box manual CORE export main runtime bridge is adapted, merged and postmerge verified: provider pin, audit recipient, audit identity and age provider ports now bind through explicit trusted runtime configuration. The provider pin is built only from the exact pinned official age v1.3.1 darwin-arm64 task-local T7 cache with artifact/proof/sigsum/executable digest checks; audit recipient/identity are explicit JSON config and must have matching audit fingerprint; the create-only target port remains not configured, so no product runtime capsule can be created by this contour. No UI, user documents, owner private key, project-library registration, off-host restore, Disaster Ready or full Black Box Product V1 claim.",
       "sourcePins": [
         "BLACK_BOX_FINAL_LAB_EXTERNAL_RECEIPT"
       ],
@@ -1384,9 +1384,10 @@
       "post20260811Delta": true,
       "productBindings": [
         {
-          "commitSha": "28712faf91183b3ca676e7c2f5f6e182c28362b6",
+          "commitSha": "813ffa252490cd5615fb4528aaba27b4202d01b4",
           "featureCommitSha": "c7ac6ab36dd9456460884e85cf61c19703efdee5",
           "prNumber": 1541,
+          "mergeCommitSha": "a0f3f307fde9a0e957d07ba2c5fb4dfb981f7ed7",
           "files": [
             "src/main.js",
             "src/main/blackBoxRuntimeProviderAuditBindingV1.cjs",
@@ -1407,7 +1408,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "adb65daa8487f287720108c2a7fb6454ad6f8dbec3028000d675d1697299b710"
+            "sha256": "12a46e1a66913bd3c5f83e8dee7f8e77d1c8115834b481ddddf3831e9b80db59"
           }
         }
       ],
@@ -1428,7 +1429,24 @@
         "commandKernelWiringChanged": false,
         "uiChanged": false,
         "userDocumentsTouched": false,
-        "claimBoundary": "PR-open local candidate only. This does not claim product UI, default product flag placement, project-library registration, owner-key drill, off-host restore, live overwrite, Disaster Ready or full Black Box Product V1."
+        "claimBoundary": "Merged and postmerge verified for provider/audit runtime binding only. This does not claim product UI, default product flag placement, project-library registration, owner-key drill, off-host restore, live overwrite, Disaster Ready or full Black Box Product V1."
+      },
+      "postMergeVerification": {
+        "mergeCommitSha": "a0f3f307fde9a0e957d07ba2c5fb4dfb981f7ed7",
+        "requiredCi": "PASS",
+        "focusedTests": "9/9",
+        "affectedTests": "76/76",
+        "modelOracleMutations": "Product command 43 finite, 23 hostile, 19 mutants, 0 survivors",
+        "affectedModels": "sourceFence 192/20/9/0, multilingualEvidence 24/18/15/0, blackBoxP0aSourceAdapter 32/18/12/0, blackBoxP0bDarwinDurablePublisher 65/18/12/0, p0c 64/26/19/0, importAsNewRecoveryPlan 36/14/10/0, importAsNewProjectWriter 24/16/12/0, manualCoreCapsuleKit 48/16/12/0, trustedSourceSnapshot 48/18/12/0, productCommandExportManualCore 43/23/19/0",
+        "traceabilityLedger": "PASS",
+        "governanceChangeDetection": "PASS",
+        "devFast": "28/28",
+        "guardrails": "PASS",
+        "productRuntimeWiringChanged": true,
+        "commandKernelWiringChanged": false,
+        "uiChanged": false,
+        "userDocumentsTouched": false,
+        "claimBoundary": "Merged and postmerge verified for provider/audit runtime binding only. This does not claim product UI, default product flag placement, project-library registration, owner-key drill, off-host restore, live overwrite, Disaster Ready or full Black Box Product V1."
       }
     },
     {

@@ -379,19 +379,30 @@
   },
   "providerAuditRuntimeBinding": {
     "taskId": "F3_PROVIDER_AUDIT_RUNTIME_BINDING_V1",
-    "status": "PR_OPEN_LOCAL_CANDIDATE_VERIFIED_REQUIRED_CI_PENDING_NOT_FULL_BLACK_BOX_PRODUCT_V1",
+    "status": "MERGED_POSTMERGE_VERIFIED_NOT_FULL_BLACK_BOX_PRODUCT_V1",
     "baselineSha": "bfc11005fd92954ef7b59ebbec6ec0f82aefe081",
     "baselineTreeSha": "7af8bcfdc2cefa2906ab7606243c6682f250b87f",
     "candidateCommitSha": "c7ac6ab36dd9456460884e85cf61c19703efdee5",
     "candidateTreeSha": "e41fb3f65738a2e704e766f5583f1d847744930c",
     "evidenceCommitSha": "28712faf91183b3ca676e7c2f5f6e182c28362b6",
     "evidenceTreeSha": "7d75a913015d2a786469db3d57eb5339be874fb2",
+    "deliveryCommitSha": "813ffa252490cd5615fb4528aaba27b4202d01b4",
+    "deliveryTreeSha": "df0080cad0e7e4f55955695467032f0c7dfdd1c4",
     "pr": {
       "number": 1541,
       "title": "Bind Black Box provider audit runtime ports",
       "headRefName": "codex/yalken-f3-provider-audit-runtime-binding-v1",
-      "headSha": "28712faf91183b3ca676e7c2f5f6e182c28362b6",
-      "baseSha": "bfc11005fd92954ef7b59ebbec6ec0f82aefe081"
+      "headSha": "813ffa252490cd5615fb4528aaba27b4202d01b4",
+      "baseSha": "bfc11005fd92954ef7b59ebbec6ec0f82aefe081",
+      "mergeCommitSha": "a0f3f307fde9a0e957d07ba2c5fb4dfb981f7ed7",
+      "mergeTreeSha": "df0080cad0e7e4f55955695467032f0c7dfdd1c4",
+      "mergedAtUtc": "2026-08-14T16:25:51Z",
+      "requiredChecks": {
+        "oss-policy": "SUCCESS",
+        "rtk-required": "SUCCESS",
+        "x1-runtime-parity (ubuntu-latest)": "SUCCESS",
+        "x1-runtime-parity (windows-latest)": "SUCCESS"
+      }
     },
     "scope": "Bind the existing Black Box manual CORE export main runtime bridge to explicit trusted provider/audit runtime configuration: getProviderPin builds only the exact pinned official age v1.3.1 darwin-arm64 provider pin from the task-local T7 cache with digest checks; getAuditRecipient/getAuditIdentity parse explicit JSON config and require matching audit fingerprint; getAgeProvider is created from the P0C official age CLI provider. The create-only target port remains not configured, so this contour cannot create a capsule from product runtime and does not add UI, user documents, owner private key, project-library registration, off-host restore, Disaster Ready or full Black Box Product V1.",
     "redFirst": {
@@ -473,6 +484,20 @@
       "governanceChangeDetection": "PASS",
       "devFast": "PASS_AFTER_FACTUAL_BINDING_RERUN",
       "guardrails": "PASS_AFTER_FACTUAL_BINDING_RERUN"
+    },
+    "postMergeVerification": {
+      "mergeCommitSha": "a0f3f307fde9a0e957d07ba2c5fb4dfb981f7ed7",
+      "mergeTreeSha": "df0080cad0e7e4f55955695467032f0c7dfdd1c4",
+      "bootstrap": "PASS",
+      "focusedProof": "9/9",
+      "affectedProof": "76/76",
+      "modelOracleMutations": "Product command 43 finite, 23 hostile, 19 mutants, 0 survivors",
+      "affectedModels": "sourceFence 192/20/9/0, multilingualEvidence 24/18/15/0, blackBoxP0aSourceAdapter 32/18/12/0, blackBoxP0bDarwinDurablePublisher 65/18/12/0, p0c 64/26/19/0, importAsNewRecoveryPlan 36/14/10/0, importAsNewProjectWriter 24/16/12/0, manualCoreCapsuleKit 48/16/12/0, trustedSourceSnapshot 48/18/12/0, productCommandExportManualCore 43/23/19/0",
+      "traceabilityLedger": "PASS",
+      "governanceChangeDetection": "PASS",
+      "devFast": "28/28",
+      "guardrails": "PASS",
+      "worktreeClean": true
     },
     "changedFileHashes": {
       "src/main.js": "d90311e4392916f72860f22a68fb645542ea76e634bc9099c25a24fe59d1fdcb",

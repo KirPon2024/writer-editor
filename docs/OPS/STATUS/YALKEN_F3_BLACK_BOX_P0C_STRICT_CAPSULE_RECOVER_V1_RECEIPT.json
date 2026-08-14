@@ -2,8 +2,8 @@
   "schemaVersion": "yalken.f3BlackBoxP0cStrictCapsuleRecover.receipt.v1",
   "taskId": "F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1",
   "createdAtUtc": "2026-08-14T03:50:00Z",
-  "status": "MERGED_POSTMERGE_VERIFIED",
-  "verdict": "READY_FOR_NEXT_BOUNDED_F3_CONTOUR",
+  "status": "MERGED_POSTMERGE_VERIFIED_WITH_FOLLOW_ON_CANDIDATE_PENDING_DELIVERY",
+  "verdict": "READY_FOR_FOLLOW_ON_DELIVERY_GATES_NOT_PRODUCT_RELEASE",
   "baseline": {
     "headSha": "696674adfd2eb4a4b52a21c6de75e4aace3c13b1",
     "treeSha": "f8c19c6710fec01f305790f73fec10ca0bd95cfe",
@@ -37,6 +37,75 @@
       "devFast": "28/28",
       "guardrails": "PASS"
     }
+  },
+  "followOnCandidate": {
+    "taskId": "F3_P0C_EPHEMERAL_CORE_PAYLOAD_SINK_V1",
+    "baseline": {
+      "headSha": "7ad53fd8cc9c6079f893e06140ac82009ae70433",
+      "treeSha": "f80b9d443cd305b30e0e65da7917a67bd04384f1",
+      "branch": "codex/yalken-f3-p0c-ephemeral-core-payload-sink-v1"
+    },
+    "scope": "Add an internal P0C recovered CORE payload sink for future import-as-new writer work; no filesystem writer, UI, Command Kernel wiring, user documents, live overwrite, owner-key drill, FINAL_COMPLETE donor or Disaster Ready claim.",
+    "redFirst": {
+      "command": "node --test test/contracts/black-box-p0c-strict-capsule-recover-v1.contract.test.js",
+      "result": "RED_EXPECTED",
+      "tests": 9,
+      "pass": 7,
+      "fail": 2,
+      "skipped": 0,
+      "todo": 0,
+      "primaryFailures": [
+        "ephemeral sink not invoked",
+        "sink rejection did not fail closed"
+      ]
+    },
+    "focusedProof": {
+      "command": "node --test test/contracts/black-box-p0c-strict-capsule-recover-v1.contract.test.js",
+      "tests": 9,
+      "pass": 9,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "modelOracleMutations": {
+      "command": "node scripts/ops/black-box-p0c-strict-capsule-recover-v1-model.mjs",
+      "finiteCases": 64,
+      "disagreements": 0,
+      "hostileCases": 22,
+      "hostileFailures": 0,
+      "semanticMutants": 16,
+      "survivors": 0,
+      "skips": 0
+    },
+    "affectedProof": {
+      "tests": 23,
+      "pass": 23,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "affectedModels": {
+      "p0c": "64 finite, 22 hostile, 16 mutants, 0 survivors",
+      "importAsNewRecoveryPlan": "36 finite, 14 hostile, 10 mutants, 0 survivors",
+      "manualCoreCapsuleKit": "48 finite, 16 hostile, 12 mutants, 0 survivors"
+    },
+    "physicalProviderEvidenceSha256": "sha256:7a0b6dbbb744511cd5f35db25149cab1f8ac533a2c337964028574e52de438ac",
+    "physicalProviderNegativeCases": 6,
+    "physicalProviderNegativeFailures": 0,
+    "changedFileHashes": {
+      "src/product/blackBoxStrictCapsuleRecoverV1.mjs": "27199efc30ad9f3fbce6b48e96a19f004ba577053ff2fcb4912b5770b6133f4b",
+      "test/contracts/black-box-p0c-strict-capsule-recover-v1.contract.test.js": "8592c42d863f5e2c9267f451cbcccc650e88d6dd623c8a93fd2855bba47a51b9",
+      "scripts/ops/black-box-p0c-strict-capsule-recover-v1-model.mjs": "fbad318030f98b54e8e05d8b8c4f9e5233fe60d6cb3147555497b82b47b17289"
+    },
+    "deliveryGates": {
+      "requiredCi": "PENDING_PR",
+      "traceabilityLedger": "PENDING_REBIND_VALIDATION",
+      "governanceChangeDetection": "PENDING_REBIND_VALIDATION",
+      "devFast": "PENDING",
+      "guardrails": "PENDING",
+      "postMergeVerification": "PENDING_MERGE"
+    },
+    "claimBoundary": "The sink receives verified decrypted CORE bytes only in-process through a caller-supplied callback. Result/receipt/log surfaces remain sanitized and contain no bytesBase64, sourceText, AGE secret key or BLACK_BOX_CORE_GENOME_V1 payload."
   },
   "authorityBoundary": {
     "ownerGrant": "OWNER_AUTHORITY_GRANT_F3_P0C_STANDARD_AGE_V1_PROVIDER_OPTION_A",
@@ -87,12 +156,15 @@
       "age decrypt authenticated readback",
       "manifest/source/recipient/ciphertext digest revalidation",
       "quarantine preview only",
+      "optional internal ephemeral recovered CORE payload sink for future import-as-new writer work",
+      "sink rejection, throw or digest mismatch fails closed without leaking sink details",
       "IMPORT_AS_NEW_PROJECT_ONLY",
       "live project overwrite denied"
     ],
     "nonGoals": [
       "no product runtime command wiring",
       "no UI surface",
+      "no filesystem import-as-new writer",
       "no user manuscript",
       "no real owner-key recovery drill",
       "no exact-byte donor replication claim",

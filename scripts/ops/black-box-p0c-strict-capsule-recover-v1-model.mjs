@@ -254,6 +254,26 @@ for (const feature of bools) {
 
 const baseline = await buildBlackBoxStrictCapsuleV1(makeBuildRequest(), { ageProvider: makeProvider() });
 if (!baseline.ok) throw new Error(`BASELINE_BUILD_FAILED:${baseline.code}`);
+let sinkDeliveries = 0;
+const baselineSinkRecover = await recoverBlackBoxStrictCapsuleV1(makeRecoverRequest(baseline.capsule), {
+  ageProvider: makeProvider(),
+  recoveredCorePayloadSink: async (payload) => {
+    sinkDeliveries += 1;
+    if (payload.schemaVersion !== BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_SCHEMAS.ephemeralCorePayload) {
+      return { ok: false, code: 'MODEL_SINK_SCHEMA_MISMATCH' };
+    }
+    if (!Buffer.isBuffer(payload.coreBytes) || payload.coreBytes.toString('utf8') !== '{"synthetic":"core","ordinal":1}') {
+      return { ok: false, code: 'MODEL_SINK_BYTES_MISMATCH' };
+    }
+    return {
+      ok: true,
+      sinkId: 'model-ephemeral-sink',
+      corePayloadSha256: payload.corePayload.sha256,
+    };
+  },
+});
+if (!baselineSinkRecover.ok) throw new Error(`BASELINE_SINK_RECOVER_FAILED:${baselineSinkRecover.code}`);
+const sinkResultLeakFree = !/AGE-SECRET-KEY|bytesBase64|"synthetic"|BLACK_BOX_CORE_GENOME_V1/iu.test(JSON.stringify(baselineSinkRecover));
 
 const hostileCases = [
   ['feature-disabled', () => buildBlackBoxStrictCapsuleV1(makeBuildRequest({ featureFlags: {} }), { ageProvider: makeProvider() })],
@@ -274,6 +294,10 @@ const hostileCases = [
   ['wrong-identity', () => recoverBlackBoxStrictCapsuleV1(makeRecoverRequest(baseline.capsule, { identity: { ...identity, fingerprint: `sha256:${'3'.repeat(64)}` } }), { ageProvider: makeProvider() })],
   ['tamper-ciphertext', () => recoverBlackBoxStrictCapsuleV1(makeRecoverRequest({ ...baseline.capsule, ciphertext: { ...baseline.capsule.ciphertext, bytesBase64: toBase64('tampered'), byteLength: Buffer.byteLength('tampered'), sha256: sha256Buffer(Buffer.from('tampered')) } }), { ageProvider: makeProvider() })],
   ['overwrite-policy', () => recoverBlackBoxStrictCapsuleV1(makeRecoverRequest(baseline.capsule, { expectations: { ...expectations, liveProjectOverwrite: true } }), { ageProvider: makeProvider() })],
+  ['sink-rejects', () => recoverBlackBoxStrictCapsuleV1(makeRecoverRequest(baseline.capsule), { ageProvider: makeProvider(), recoveredCorePayloadSink: async () => ({ ok: false, code: 'MODEL_SINK_DENY' }) })],
+  ['sink-throws', () => recoverBlackBoxStrictCapsuleV1(makeRecoverRequest(baseline.capsule), { ageProvider: makeProvider(), recoveredCorePayloadSink: async () => { throw new Error('MODEL_SINK_THROW'); } })],
+  ['sink-digest-mismatch', () => recoverBlackBoxStrictCapsuleV1(makeRecoverRequest(baseline.capsule), { ageProvider: makeProvider(), recoveredCorePayloadSink: async () => ({ ok: true, sinkId: 'bad-digest', corePayloadSha256: `sha256:${'9'.repeat(64)}` }) })],
+  ['caller-carried-core-payload', () => recoverBlackBoxStrictCapsuleV1(makeRecoverRequest(baseline.capsule, { extraRequestFields: { corePayload } }), { ageProvider: makeProvider() })],
 ];
 
 let hostileFailures = 0;
@@ -298,6 +322,10 @@ const semanticMutants = [
   ['allow-live-overwrite', () => recoverBlackBoxStrictCapsuleV1(makeRecoverRequest(baseline.capsule, { expectations: { ...expectations, liveProjectOverwrite: true } }), { ageProvider: makeProvider() })],
   ['allow-unknown-keyset', () => buildBlackBoxStrictCapsuleV1(makeBuildRequest({ extraRequestFields: { extra: true } }), { ageProvider: makeProvider() })],
   ['allow-corrupt-provider-output', () => buildBlackBoxStrictCapsuleV1(makeBuildRequest(), { ageProvider: makeProvider({ encrypt: async () => ({ ok: true, ciphertextBytes: Buffer.from('not-a-valid-ciphertext') }) }) })],
+  ['ignore-sink-rejection', () => recoverBlackBoxStrictCapsuleV1(makeRecoverRequest(baseline.capsule), { ageProvider: makeProvider(), recoveredCorePayloadSink: async () => ({ ok: false, code: 'MODEL_SINK_DENY' }) })],
+  ['ignore-sink-throw', () => recoverBlackBoxStrictCapsuleV1(makeRecoverRequest(baseline.capsule), { ageProvider: makeProvider(), recoveredCorePayloadSink: async () => { throw new Error('MODEL_SINK_THROW'); } })],
+  ['ignore-sink-digest-mismatch', () => recoverBlackBoxStrictCapsuleV1(makeRecoverRequest(baseline.capsule), { ageProvider: makeProvider(), recoveredCorePayloadSink: async () => ({ ok: true, sinkId: 'bad-digest', corePayloadSha256: `sha256:${'9'.repeat(64)}` }) })],
+  ['trust-caller-carried-core-payload', () => recoverBlackBoxStrictCapsuleV1(makeRecoverRequest(baseline.capsule, { extraRequestFields: { corePayload } }), { ageProvider: makeProvider() })],
 ];
 
 let survivors = 0;
@@ -326,8 +354,12 @@ const report = {
     tamperIsNotPass: true,
     wrongIdentityIsNotPass: true,
     unknownOrAbstainIsNotPass: true,
+    ephemeralSinkDelivered: baselineSinkRecover.ephemeralSink?.delivered === true && sinkDeliveries === 1,
+    ephemeralSinkResultLeakFree: sinkResultLeakFree,
+    sinkRejectIsNotPass: true,
+    callerCarriedCorePayloadIsNotPass: true,
   },
 };
 
 console.log(JSON.stringify(report, null, 2));
-if (disagreements !== 0 || hostileFailures !== 0 || survivors !== 0) process.exitCode = 1;
+if (disagreements !== 0 || hostileFailures !== 0 || survivors !== 0 || !sinkResultLeakFree || sinkDeliveries !== 1) process.exitCode = 1;

@@ -737,7 +737,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1_RECEIPT.json",
-            "sha256": "ce994d50b42d7fb3220e9d1b095c3d6f56a401a9d5a9d35ba2b897433e68d641"
+            "sha256": "10b18ca44eb8e023dc097e787015b9fdc28b38fcfc972b0144f0f8536e4e5015"
           }
         }
       ],
@@ -758,6 +758,24 @@
         "uiChanged": false,
         "userDocumentsTouched": false,
         "claimBoundary": "P0C is an enforced provider-bound test/product seam only; full Black Box product V1, product command/UI wiring, real owner-key drill, exact-byte FINAL_COMPLETE donor replication and Disaster Ready remain deferred."
+      },
+      "followOnCandidateVerification": {
+        "taskId": "F3_P0C_EPHEMERAL_CORE_PAYLOAD_SINK_V1",
+        "baselineSha": "7ad53fd8cc9c6079f893e06140ac82009ae70433",
+        "disposition": "ENFORCED_TEST_GATE",
+        "purpose": "Provide a verified in-process recovered CORE payload sink so the future filesystem import-as-new writer does not depend on caller-carried plaintext or proof.",
+        "redFirst": "9 tests, 7 pass, 2 fail: sink not invoked and sink rejection not fail-closed",
+        "focusedTests": "9/9",
+        "affectedTests": "23/23",
+        "modelOracleMutations": "64 finite, 22 hostile, 16 mutants, 0 survivors; import-plan and manual-kit affected models all 0 survivors",
+        "physicalProviderEvidenceSha256": "sha256:7a0b6dbbb744511cd5f35db25149cab1f8ac533a2c337964028574e52de438ac",
+        "physicalProviderNegativeCases": 6,
+        "physicalProviderNegativeFailures": 0,
+        "productRuntimeWiringChanged": false,
+        "uiChanged": false,
+        "userDocumentsTouched": false,
+        "filesystemImportWriterChanged": false,
+        "claimBoundary": "Ephemeral sink only; result and receipt remain sanitized, no bytesBase64/sourceText/AGE secret key/BLACK_BOX_CORE_GENOME_V1 leaks, no live project overwrite and no Disaster Ready claim."
       }
     },
     {
@@ -890,7 +908,7 @@
       ],
       "disposition": "DEFERRED_WITH_BLOCKER",
       "deferred": {
-        "prerequisite": "P0A, P0B, P0C, manual CORE capsule kit and import-as-new recovery plan seams are merged and postmerge verified; remaining productization must still prove a filesystem import-as-new writer, independent restore, real owner-key recovery drill where required, exact-byte donor replication only from verified FINAL_COMPLETE donor, and explicit product UI/Command Kernel wiring contours.",
+        "prerequisite": "P0A, P0B, P0C, manual CORE capsule kit and import-as-new recovery plan seams are merged and postmerge verified; the P0C ephemeral recovered CORE payload sink must merge and postmerge verify before a filesystem import-as-new writer can safely consume decrypted CORE bytes; remaining productization must still prove that writer, independent restore, real owner-key recovery drill where required, exact-byte donor replication only from verified FINAL_COMPLETE donor, and explicit product UI/Command Kernel wiring contours.",
         "owner": "MASTER_PROGRAM_OWNER_OR_CURRENT_OWNER_GRANT_WITHIN_SCOPE",
         "acceptanceGate": "Exact bounded PRs with source-fence/accounting, durable writer evidence, strict capsule authentication, quarantine/preview/import-as-new-project proof, independent restore, owner-key drill, rollback, and no live-project overwrite."
       }

@@ -173,7 +173,7 @@
   },
   "auditRecipientRuntimeBinding": {
     "taskId": "F3_BLACK_BOX_PRODUCT_COMMAND_AUDIT_RECIPIENT_RUNTIME_BINDING_V1",
-    "status": "LOCAL_CANDIDATE_GREEN_DELIVERY_PENDING",
+    "status": "MERGED_POSTMERGE_VERIFIED_NOT_FULL_BLACK_BOX_PRODUCT_V1",
     "baselineSha": "d7875a88f82048d650c239a9b6f22e947cdffbba",
     "scope": "Bind the existing Black Box manual CORE export Product Command to a trusted getAuditRecipient port, require owner/audit recipient separation, require auditIdentity fingerprint to match auditRecipient, and pass both distinct recipients to the manual CORE capsule kit. No new command, UI, user documents, system-wide provider install, project-library registration, owner-key drill, off-host restore, Disaster Ready or full Black Box Product V1 claim.",
     "redFirst": {
@@ -232,10 +232,30 @@
     },
     "delivery": {
       "commitSha": "a9a762f3f34b4ea694fe762b92474b3ab180403f",
+      "headSha": "9471afd93479c6ac02f53b1e7845f48b01940648",
       "prNumber": 1537,
-      "requiredCi": "PENDING",
-      "mergeCommitSha": "PENDING",
-      "postMergeVerification": "PENDING"
+      "requiredCi": {
+        "oss-policy": "PASS",
+        "rtk-required": "PASS",
+        "x1-runtime-parity-ubuntu-latest": "PASS",
+        "x1-runtime-parity-windows-latest": "PASS"
+      },
+      "mergeCommitSha": "086d13bfbbd7c6f2b6a3e8889a4ff88516366a78",
+      "mergeTreeSha": "2295902373fb68c057bd8b45a847a8e99db5da15",
+      "postMergeVerification": {
+        "headSha": "086d13bfbbd7c6f2b6a3e8889a4ff88516366a78",
+        "treeSha": "2295902373fb68c057bd8b45a847a8e99db5da15",
+        "worktreeClean": true,
+        "bootstrap": "PASS",
+        "focusedProof": "6/6",
+        "affectedProof": "73/73",
+        "modelOracleMutations": "product command 39 finite, 20 hostile, 15 mutants, 0 survivors",
+        "traceabilityLedger": "PASS",
+        "governanceChangeDetection": "PASS",
+        "devFast": "28/28",
+        "guardrails": "PASS",
+        "claimBoundary": "Merged and postmerge verified for the bounded audit-recipient product command binding only. This does not claim product UI, project-library registration, owner-key drill, off-host restore, Disaster Ready or full Black Box Product V1."
+      }
     },
     "localGates": {
       "traceabilityLedger": "PASS",

@@ -2,12 +2,25 @@
   "schemaVersion": "yalken.f3BlackBoxManualCoreCapsuleKit.receipt.v1",
   "taskId": "F3_BLACK_BOX_MANUAL_CORE_CAPSULE_KIT_V1",
   "createdAtUtc": "2026-08-14T04:58:28Z",
-  "status": "LOCAL_CANDIDATE_FULL_GREEN_PRE_DELIVERY",
-  "verdict": "READY_FOR_CLEAN_CANDIDATE_COMMIT_THEN_DELIVERY_REBIND",
+  "status": "MERGED_POSTMERGE_VERIFIED",
+  "verdict": "READY_FOR_NEXT_BOUNDED_F3_CONTOUR",
   "baseline": {
     "headSha": "d96a26a157aaa0d6aa196f8c8cfa9d01b12805ac",
     "treeSha": "534919bbaa64832022f814fab9a355f0a95f33ad",
     "branch": "codex/yalken-f3-black-box-manual-core-capsule-kit-v1"
+  },
+  "delivery": {
+    "prNumber": 1521,
+    "featureCommitSha": "b3c1f8d241b876c185b8d7d03d75d72ad8af2cff",
+    "mergeCommitSha": "71f1e5101aa88cebb4020c9e09a245a4c191c333",
+    "mergeTreeSha": "3b2687e7bffe4eb1917601e7b70c394aa06e2335",
+    "mergedAtUtc": "2026-08-14T05:28:26Z",
+    "requiredCi": {
+      "ossPolicy": "PASS",
+      "rtkRequired": "PASS_16m55s",
+      "x1RuntimeParityUbuntuLatest": "PASS",
+      "x1RuntimeParityWindowsLatest": "PASS"
+    }
   },
   "authorityBoundary": {
     "ownerGrant": "OWNER_AUTHORITY_GRANT_F3_P0C_STANDARD_AGE_V1_PROVIDER_OPTION_A_AND_STANDING_MASTER_PROGRAM_GRANT",
@@ -130,8 +143,47 @@
     "devFast": "PASS_28_OF_28",
     "guardrails": "PASS",
     "fullBaseline": "PASS_ops_3_of_3_core_802_total_738_pass_64_skip_0_fail_0_todo_atlas_20_of_20_perf_menu_release_PASS",
-    "requiredCi": "PENDING",
-    "postMergeVerification": "PENDING"
+    "requiredCi": "PASS_PR_1521_ALL_REQUIRED_CHECKS",
+    "postMergeVerification": "PASS_EXACT_HEAD_71f1e5101aa88cebb4020c9e09a245a4c191c333"
+  },
+  "postMergeVerification": {
+    "headSha": "71f1e5101aa88cebb4020c9e09a245a4c191c333",
+    "treeSha": "3b2687e7bffe4eb1917601e7b70c394aa06e2335",
+    "bootstrap": "PASS_DETACHED_CLEAN_ORIGIN_MAIN_BOUND",
+    "focusedProof": "PASS_8_OF_8_0_FAIL_0_SKIP_0_TODO",
+    "modelOracleMutations": "PASS_48_FINITE_16_HOSTILE_12_MUTANTS_0_SURVIVORS",
+    "physicalProviderEvidence": {
+      "command": "node scripts/ops/black-box-manual-core-capsule-kit-v1-physical.mjs",
+      "path": "/Volumes/T7-Secure/storage/yalken/evidence/f3-manual-core-capsule-kit-v1/20260814T052929Z/physical-evidence.json",
+      "sha256": "sha256:5ba2fd07c72084db68a53604a9daff0be6bcd4c94378f2148937425722632546",
+      "positiveBuild": true,
+      "positiveRecover": true,
+      "artifactSha256": "sha256:f273cd82c7cbbced3d6f5d0d5b10aa88a2acb116d9613f0bdb74b4848213a84f",
+      "negativeCases": 4,
+      "negativeFailures": 0,
+      "leakageDetected": false,
+      "cleanupOk": true,
+      "elapsedMs": 221.778208
+    },
+    "affectedContracts": "PASS_43_OF_43_0_FAIL_0_SKIP_0_TODO",
+    "affectedModels": {
+      "sourceFence": "192 finite, 20 hostile, 9 mutants, 0 survivors",
+      "multilingualEvidence": "24 finite, 18 hostile, 15 mutants, 0 survivors",
+      "blackBoxP0a": "32 finite, 18 hostile, 12 mutants, 0 survivors",
+      "blackBoxP0b": "65 finite, 18 hostile, 12 mutants, 0 survivors",
+      "blackBoxP0c": "64 finite, 18 hostile, 12 mutants, 0 survivors",
+      "manualCoreCapsuleKit": "48 finite, 16 hostile, 12 mutants, 0 survivors"
+    },
+    "traceabilityLedger": "PASS_28_DISPOSITIONS_3_EXTERNAL_PINS",
+    "governanceChangeDetection": "PASS_NO_MISSING_APPROVALS",
+    "devFast": "PASS_28_OF_28",
+    "guardrails": "PASS",
+    "fullBaseline": "PASS_ops_3_of_3_core_802_total_738_pass_64_skip_0_fail_0_todo_atlas_20_of_20_perf_menu_release_PASS",
+    "productRuntimeWiringChanged": false,
+    "commandKernelWiringChanged": false,
+    "uiChanged": false,
+    "userDocumentsTouched": false,
+    "claimBoundary": "Manual CORE capsule kit is an enforced default-off product seam only; full Black Box product V1, product command/UI wiring, real owner-key drill, exact-byte FINAL_COMPLETE donor replication, independent off-host restore and Disaster Ready remain deferred."
   },
   "rollback": {
     "plan": "Revert the bounded manual CORE capsule kit seam, contract/model, receipt, ledger and governance entries. No migration rollback is needed because no canonical project data is mutated.",

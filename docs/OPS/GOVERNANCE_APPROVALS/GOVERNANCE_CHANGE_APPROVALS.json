@@ -10368,21 +10368,21 @@
     },
     {
       "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "fad86e4e4429a5130755cc4a3ef99f33ea70981f27238ede96a7e11f7152928b",
-      "rationale": "Approve pre-delivery factual ledger addition for active F3_BLACK_BOX_MANUAL_CORE_CAPSULE_KIT_V1 as DEFERRED_WITH_BLOCKER until reachable candidate commit, PR, required CI, merge and postmerge verification; full Black Box product V1 remains deferred and no lab evidence is promoted to release authority.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_MANUAL_CORE_CAPSULE_KIT_V1",
-      "approvedAtUtc": "2026-08-14T04:59:00.000Z",
+      "sha256": "882d8608e7902c8268d58085fd998bafb7681d87b4b14e4ab8e41c687770abfd",
+      "rationale": "Approve factual ledger rebind for F3_BLACK_BOX_MANUAL_CORE_CAPSULE_KIT_V1 from pre-delivery DEFERRED_WITH_BLOCKER to ENFORCED_TEST_GATE after PR #1521 merged at 71f1e5101aa88cebb4020c9e09a245a4c191c333 with required CI PASS and exact postmerge focused, affected, model, disposable physical, traceability, governance, dev:fast, guardrails and full baseline PASS; full Black Box product V1 remains deferred and no lab evidence is promoted to release authority.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_MANUAL_CORE_CAPSULE_KIT_POSTMERGE_TRACEABILITY_REBIND_V1",
+      "approvedAtUtc": "2026-08-14T05:40:00.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_MANUAL_CORE_CAPSULE_KIT"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_MANUAL_CORE_CAPSULE_KIT_POSTMERGE_TRACEABILITY_REBIND"
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_MANUAL_CORE_CAPSULE_KIT_V1_RECEIPT.json",
-      "sha256": "bd4040ddef16e49c1765855e318a63e8f18e09c19370f3ca2a429c97230b4fdf",
-      "rationale": "Approve local full-green pre-delivery F3 manual CORE capsule kit receipt: red-first, focused, affected, model/oracle, disposable official age physical runner, deterministic replay, traceability, governance, dev:fast, guardrails and full baseline passed; no UI, Command Kernel wiring, user documents, live overwrite, owner-key drill, FINAL_COMPLETE donor or Disaster Ready claim.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_MANUAL_CORE_CAPSULE_KIT_V1",
-      "approvedAtUtc": "2026-08-14T05:06:00.000Z",
+      "sha256": "ace13b64a0b2e114ee3abe97bc017fd52c109bdd50c7c7de2446a1c058b9ec4c",
+      "rationale": "Approve factual postmerge receipt rebind for F3 manual CORE capsule kit: PR #1521 feature commit b3c1f8d241b876c185b8d7d03d75d72ad8af2cff merged at 71f1e5101aa88cebb4020c9e09a245a4c191c333 with all required CI PASS and exact postmerge focused 8/8, affected 43/43, model 48 finite/16 hostile/12 mutants/0 survivors, disposable physical evidence sha256:5ba2fd07c72084db68a53604a9daff0be6bcd4c94378f2148937425722632546, dev:fast, guardrails and full baseline PASS; no UI, Command Kernel wiring, user documents, live overwrite, owner-key drill, FINAL_COMPLETE donor or Disaster Ready claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_MANUAL_CORE_CAPSULE_KIT_POSTMERGE_TRACEABILITY_REBIND_V1",
+      "approvedAtUtc": "2026-08-14T05:40:00.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_MANUAL_CORE_CAPSULE_KIT"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_MANUAL_CORE_CAPSULE_KIT_POSTMERGE_TRACEABILITY_REBIND"
     },
     {
       "filePath": "scripts/ops/black-box-manual-core-capsule-kit-v1-model.mjs",

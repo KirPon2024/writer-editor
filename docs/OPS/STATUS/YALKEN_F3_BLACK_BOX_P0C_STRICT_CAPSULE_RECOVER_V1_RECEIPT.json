@@ -2,12 +2,41 @@
   "schemaVersion": "yalken.f3BlackBoxP0cStrictCapsuleRecover.receipt.v1",
   "taskId": "F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1",
   "createdAtUtc": "2026-08-14T03:50:00Z",
-  "status": "LOCAL_CONTRACT_MODEL_PHYSICAL_GREEN_GOVERNANCE_BINDING_PENDING",
-  "verdict": "READY_FOR_GOVERNANCE_BINDING_AND_BASELINE",
+  "status": "MERGED_POSTMERGE_VERIFIED",
+  "verdict": "READY_FOR_NEXT_BOUNDED_F3_CONTOUR",
   "baseline": {
     "headSha": "696674adfd2eb4a4b52a21c6de75e4aace3c13b1",
     "treeSha": "f8c19c6710fec01f305790f73fec10ca0bd95cfe",
     "branch": "codex/yalken-f3-black-box-p0c-strict-capsule-recover-v1"
+  },
+  "delivery": {
+    "prNumber": 1519,
+    "featureCommitSha": "7fba341df263454c34918f132c74d938fb9f3ff7",
+    "featureTreeSha": "0c9436311b5d6a0e7a7b3c25a0a3183de6f073ab",
+    "mergeCommitSha": "722661fac9e7b839dd1f8a2d3f4420e1c172bfb7",
+    "mergeTreeSha": "0c9436311b5d6a0e7a7b3c25a0a3183de6f073ab",
+    "requiredCi": {
+      "oss-policy": "PASS",
+      "rtk-required": "PASS",
+      "x1-runtime-parity-ubuntu-latest": "PASS",
+      "x1-runtime-parity-windows-latest": "PASS"
+    },
+    "postMergeVerification": {
+      "headSha": "722661fac9e7b839dd1f8a2d3f4420e1c172bfb7",
+      "treeSha": "0c9436311b5d6a0e7a7b3c25a0a3183de6f073ab",
+      "worktreeClean": true,
+      "bootstrap": "PASS",
+      "focusedProof": "7/7",
+      "modelOracleMutations": "64 finite, 18 hostile, 12 mutants, 0 survivors",
+      "affectedProof": "35/35",
+      "physicalProviderEvidenceSha256": "sha256:bfff0fe3f06492218578b154af41c8bacda9a6c0a1213d0c4a8c6540f6be564b",
+      "physicalProviderNegativeCases": 6,
+      "physicalProviderNegativeFailures": 0,
+      "traceabilityLedger": "PASS",
+      "governanceChangeDetection": "PASS",
+      "devFast": "28/28",
+      "guardrails": "PASS"
+    }
   },
   "authorityBoundary": {
     "ownerGrant": "OWNER_AUTHORITY_GRANT_F3_P0C_STANDARD_AGE_V1_PROVIDER_OPTION_A",
@@ -121,6 +150,16 @@
       "cleanupOk": true,
       "elapsedMs": 63.495084
     },
+    "postMergeRun": {
+      "path": "/Volumes/T7-Secure/storage/yalken/evidence/f3-p0c-strict-capsule-recover-v1/20260814T041616Z/physical-evidence.json",
+      "sha256": "sha256:bfff0fe3f06492218578b154af41c8bacda9a6c0a1213d0c4a8c6540f6be564b",
+      "positiveBuild": true,
+      "positiveRecover": true,
+      "negativeCases": 6,
+      "negativeFailures": 0,
+      "cleanupOk": true,
+      "elapsedMs": 80.31175
+    },
     "claimBoundary": "Disposable synthetic capsules and keys only; no user documents, no private manuscripts, no owner-key recovery drill and no product runtime wiring."
   },
   "affectedProof": {
@@ -156,25 +195,45 @@
     }
   },
   "deliveryGates": {
+    "requiredCi": {
+      "status": "PASS",
+      "checks": {
+        "oss-policy": "SUCCESS",
+        "rtk-required": "SUCCESS",
+        "x1-runtime-parity (ubuntu-latest)": "SUCCESS",
+        "x1-runtime-parity (windows-latest)": "SUCCESS"
+      }
+    },
     "traceabilityLedger": {
       "command": "node scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
-      "status": "PENDING_FINAL_HASH_BINDING"
+      "status": "PASS",
+      "materialDispositions": 27,
+      "externalPins": 3
     },
     "governance": {
       "command": "node scripts/ops/governance-change-detection.mjs --json --approvals-path docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json",
-      "status": "PENDING_FINAL_HASH_BINDING"
+      "status": "PASS",
+      "missingApprovals": 0
     },
     "devFast": {
       "command": "npm run dev:fast",
-      "status": "INITIAL_FAIL_EXPECTED_GOVERNANCE_CHANGE_APPROVAL_REQUIRED_BEFORE_APPROVAL_BINDING"
+      "status": "PASS",
+      "tests": 28,
+      "pass": 28,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
     },
     "guardrails": {
       "command": "npm run agent:guardrails",
-      "status": "PENDING_FINAL_HASH_BINDING"
+      "status": "PASS"
     },
     "baseline": {
       "command": "npm test",
-      "status": "PENDING_FINAL_HASH_BINDING"
+      "status": "PASS",
+      "coreRunner": "802 tests, 738 pass, 64 skipped, 0 fail, 0 todo",
+      "atlasEvent": "20 tests, 20 pass, 0 fail, 0 skipped, 0 todo",
+      "releaseChecks": "perf/menu/release checks PASS"
     }
   },
   "changedFileHashes": {
@@ -203,5 +262,5 @@
     "This does not prove a real owner-key recovery drill, exact-byte replication from a FINAL_COMPLETE donor, Disaster Ready, process-crash proof or physical power-loss proof.",
     "The task-local age CLI is a test/provider artifact and is not a silent product runtime dependency."
   ],
-  "updatedAtUtc": "2026-08-14T03:50:00Z"
+  "updatedAtUtc": "2026-08-14T04:19:23Z"
 }

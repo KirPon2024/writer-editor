@@ -707,33 +707,57 @@
     {
       "materialId": "F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1",
       "programPhase": "F3",
-      "summary": "Black Box P0C strict capsule/recover candidate: provider-bound standard age v1 X25519 capsule and quarantine preview/import-as-new-only recovery seam using exact pinned official age CLI on disposable synthetic fixtures; no UI/runtime wiring, no user documents, no owner-key recovery drill and no Disaster Ready claim.",
+      "summary": "Black Box P0C strict capsule/recover is merged and postmerge verified: provider-bound standard age v1 X25519 capsule and quarantine preview/import-as-new-only recovery seam using exact pinned official age CLI on disposable synthetic fixtures; no UI/runtime wiring, no user documents, no owner-key recovery drill and no Disaster Ready claim.",
       "sourcePins": [
         "BLACK_BOX_FINAL_LAB_EXTERNAL_RECEIPT"
       ],
-      "disposition": "DEFERRED_WITH_BLOCKER",
+      "disposition": "ENFORCED_TEST_GATE",
       "post20260811Delta": true,
-      "deferred": {
-        "prerequisite": "Required CI, merge, and postmerge exact-head verification for the P0C PR containing codex/yalken-f3-black-box-p0c-strict-capsule-recover-v1.",
-        "owner": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE",
-        "acceptanceGate": "Promote to ENFORCED_TEST_GATE only after required CI is green, merge is complete, and postmerge verification repeats focused, model, affected, provider/receipt, dev:fast, guardrails, traceability and governance checks on exact origin/main."
-      },
-      "localCandidateEvidence": {
-        "baselineSha": "696674adfd2eb4a4b52a21c6de75e4aace3c13b1",
-        "receiptPath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1_RECEIPT.json",
-        "receiptSha256": "81c7664103ec3e580063ac84ac330fa164087651ee9fcec2a951b18405124f96",
+      "productBindings": [
+        {
+          "commitSha": "722661fac9e7b839dd1f8a2d3f4420e1c172bfb7",
+          "prNumber": 1519,
+          "files": [
+            "src/product/blackBoxStrictCapsuleRecoverV1.mjs",
+            "test/contracts/black-box-p0c-strict-capsule-recover-v1.contract.test.js",
+            "scripts/ops/black-box-p0c-strict-capsule-recover-v1-model.mjs",
+            "scripts/ops/black-box-p0c-age-provider-physical-v1.mjs",
+            "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1_RECEIPT.json"
+          ],
+          "tests": [
+            "node --test test/contracts/black-box-p0c-strict-capsule-recover-v1.contract.test.js",
+            "node scripts/ops/black-box-p0c-strict-capsule-recover-v1-model.mjs",
+            "node scripts/ops/black-box-p0c-age-provider-physical-v1.mjs",
+            "node --test test/contracts/source-fence-v1.contract.test.js test/contracts/multilingual-evidence-v1.contract.test.js test/contracts/black-box-p0a-source-adapter-v1.contract.test.js test/contracts/black-box-p0b-darwin-durable-publisher-v1.contract.test.js test/contracts/black-box-p0c-strict-capsule-recover-v1.contract.test.js",
+            "node scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
+            "node scripts/ops/governance-change-detection.mjs --json --approvals-path docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json",
+            "npm run dev:fast",
+            "npm run agent:guardrails",
+            "npm test"
+          ],
+          "receipt": {
+            "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1_RECEIPT.json",
+            "sha256": "ce994d50b42d7fb3220e9d1b095c3d6f56a401a9d5a9d35ba2b897433e68d641"
+          }
+        }
+      ],
+      "postMergeVerification": {
+        "mergeCommitSha": "722661fac9e7b839dd1f8a2d3f4420e1c172bfb7",
+        "requiredCi": "PASS",
         "focusedTests": "7/7",
         "affectedTests": "35/35",
-        "finiteCases": 64,
-        "hostileCases": 18,
-        "semanticMutants": 12,
-        "survivors": 0,
-        "physicalProviderEvidenceSha256": [
-          "sha256:c5abc7eef1925a948108f04aba4b3397260acdb196b0d532d98d5c69150a3355",
-          "sha256:9097ecc6d117f012561a1271fd1f5aa242becf1a9aa20aaad9ad1d9a4fd9e8b6"
-        ],
-        "providerPinDigest": "sha256:d00f8f56992249d4946330076562924f4a90ac32f20c9b7ddaa601f6cf1c4749",
-        "claimBoundary": "Local candidate only until PR/CI/merge/postmerge; no product runtime/UI wiring, user documents, real owner-key recovery drill, exact-byte donor replication or Disaster Ready claim."
+        "modelOracleMutations": "64 finite, 18 hostile, 12 mutants, 0 survivors",
+        "physicalProviderEvidenceSha256": "sha256:bfff0fe3f06492218578b154af41c8bacda9a6c0a1213d0c4a8c6540f6be564b",
+        "physicalProviderNegativeCases": 6,
+        "physicalProviderNegativeFailures": 0,
+        "traceabilityLedger": "PASS",
+        "governanceChangeDetection": "PASS",
+        "devFast": "28/28",
+        "guardrails": "PASS",
+        "productRuntimeWiringChanged": false,
+        "uiChanged": false,
+        "userDocumentsTouched": false,
+        "claimBoundary": "P0C is an enforced provider-bound test/product seam only; full Black Box product V1, product command/UI wiring, real owner-key drill, exact-byte FINAL_COMPLETE donor replication and Disaster Ready remain deferred."
       }
     },
     {
@@ -745,7 +769,7 @@
       ],
       "disposition": "DEFERRED_WITH_BLOCKER",
       "deferred": {
-        "prerequisite": "Complete P0C required CI/merge/postmerge rebind, then finish remaining productization: independent restore, real owner-key recovery drill where required, exact-byte donor replication only from verified FINAL_COMPLETE donor, and explicit product UI/Command Kernel wiring contours.",
+        "prerequisite": "P0A, P0B and P0C seams are merged and postmerge verified; remaining productization must still prove independent restore, real owner-key recovery drill where required, exact-byte donor replication only from verified FINAL_COMPLETE donor, and explicit product UI/Command Kernel wiring contours.",
         "owner": "MASTER_PROGRAM_OWNER_OR_CURRENT_OWNER_GRANT_WITHIN_SCOPE",
         "acceptanceGate": "Exact bounded PRs with source-fence/accounting, durable writer evidence, strict capsule authentication, quarantine/preview/import-as-new-project proof, independent restore, owner-key drill, rollback, and no live-project overwrite."
       }

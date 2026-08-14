@@ -10449,12 +10449,12 @@
     },
     {
       "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "ddbb62bc4582f579cd85e31c78a5f6c60a95c1b9432d02c6a5b88aed4c040e55",
-      "rationale": "Approve factual living-ledger candidate row for F3_BLACK_BOX_TRUSTED_SOURCE_SNAPSHOT_QUERY_V1 as DEFERRED_WITH_BLOCKER until PR, required CI, merge and postmerge rebind; records harness commit a2e88a20587c4feeaef4290a8a7646fab49b9e33, focused 7/7, affected 30/30 and model 48 finite/18 hostile/12 mutants/0 survivors without promoting it to product release authority, while preserving the previous F3 synthetic independent restore drill postmerge binding.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_TRUSTED_SOURCE_SNAPSHOT_QUERY_V1",
-      "approvedAtUtc": "2026-08-14T10:52:00.000Z",
+      "sha256": "509b30e9cf950f437561711ad41bbf7c647812157078244dd664f3e8245d87ec",
+      "rationale": "Approve factual living-ledger postmerge rebind for F3_BLACK_BOX_TRUSTED_SOURCE_SNAPSHOT_QUERY_V1: promotes the row to ENFORCED_TEST_GATE for PR #1531 merge commit ab6cbecbc674c30326e786079fe792fa7d9e8100 with receipt sha256:87f0000eeb55ac200a9d328f1b86c01e051a1d625e956de68e480fb751547012, required CI all SUCCESS, exact postmerge focused 7/7, affected 30/30, model 48 finite/18 hostile/12 mutants/0 survivors, ledger/governance/dev:fast/guardrails PASS, no user documents, no live overwrite, no product runtime/UI/Command Kernel/project-library registration, and preserved full Black Box product V1 blockers.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_TRUSTED_SOURCE_SNAPSHOT_POSTMERGE_REBIND_V1",
+      "approvedAtUtc": "2026-08-14T11:08:00.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_POSTMERGE_TRACEABILITY_REBIND"
     },
     {
       "filePath": "src/product/blackBoxImportAsNewProjectWriterV1.mjs",
@@ -10566,12 +10566,12 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_TRUSTED_SOURCE_SNAPSHOT_V1_RECEIPT.json",
-      "sha256": "f77f3343fe09e70f6ddc17f88028f8b49422684ffd5ff688d8bb34ce16c125d7",
-      "rationale": "Approve factual local-green candidate receipt for F3 trusted source snapshot query: red-first 0/7 missing module/model, focused 7/7 twice, affected P0A/manual-kit/source-fence 30/30, model 48 finite/18 hostile/12 mutants/0 survivors twice, governance and ledger PASS, dev:fast 28/28, npm test exit 0 with 802 total, 738 pass, 64 repo-declared skips, 0 fail, 0 todo plus Atlas 20/20 and perf PASS, exact harness commit a2e88a20587c4feeaef4290a8a7646fab49b9e33, and explicit no product runtime/UI/Command Kernel/project-library registration, user documents, live overwrite, crypto/provider change or Disaster Ready claim.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_TRUSTED_SOURCE_SNAPSHOT_QUERY_V1",
-      "approvedAtUtc": "2026-08-14T10:52:00.000Z",
+      "sha256": "87f0000eeb55ac200a9d328f1b86c01e051a1d625e956de68e480fb751547012",
+      "rationale": "Approve factual postmerge verified receipt for F3 trusted source snapshot query PR #1531: branch head 22995bfa697a8c3937e757c135bf7edadb8d9de9, merge commit ab6cbecbc674c30326e786079fe792fa7d9e8100, required CI all SUCCESS including rtk-required, postmerge exact-head focused 7/7, affected 30/30, model 48 finite/18 hostile/12 mutants/0 survivors, dev:fast 28/28 and guardrails PASS; no product release, UI, Command Kernel, project-library registration, user-document access, live overwrite, crypto/provider change, owner-key drill, off-host restore or Disaster Ready claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_TRUSTED_SOURCE_SNAPSHOT_POSTMERGE_REBIND_V1",
+      "approvedAtUtc": "2026-08-14T11:08:00.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_POSTMERGE_TRACEABILITY_REBIND"
     }
   ]
 }

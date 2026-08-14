@@ -2,8 +2,8 @@
   "schemaVersion": "yalken.f3BlackBoxTrustedSourceSnapshot.receipt.v1",
   "taskId": "F3_BLACK_BOX_TRUSTED_SOURCE_SNAPSHOT_QUERY_V1",
   "createdAtUtc": "2026-08-14T10:52:00Z",
-  "status": "LOCAL_GREEN_DELIVERY_CANDIDATE",
-  "verdict": "READY_FOR_PR_CI_MERGE_NOT_PRODUCT_RELEASE",
+  "status": "POSTMERGE_GREEN",
+  "verdict": "READY_NOT_PRODUCT_RELEASE",
   "baseline": {
     "headSha": "a772e890de291f93a60c81ace4d394ac5e0fca1d",
     "treeSha": "c5e0d706af230efd53228f6853bc8177a5eb3be0",
@@ -12,6 +12,8 @@
   "candidate": {
     "harnessCommitSha": "a2e88a20587c4feeaef4290a8a7646fab49b9e33",
     "harnessTreeSha": "c514825a0996df6d7e3c2e94200e8cc10dbcb870",
+    "evidenceBindingCommitSha": "22995bfa697a8c3937e757c135bf7edadb8d9de9",
+    "evidenceBindingTreeSha": "977a28ec2cce18c1a2e22624e7f396c997e4c729",
     "changedFiles": [
       "src/product/blackBoxTrustedSourceSnapshotV1.mjs",
       "test/contracts/black-box-trusted-source-snapshot-v1.contract.test.js",
@@ -24,6 +26,22 @@
       "src/product/blackBoxTrustedSourceSnapshotV1.mjs": "61e14217d430f80450ec2024ad29a72455726178833ed721e232c91f43f40a0b",
       "test/contracts/black-box-trusted-source-snapshot-v1.contract.test.js": "79ee343d4952ed691b76e707cbcb4d5b5977eb144e6030f169423feca6df90cc",
       "scripts/ops/black-box-trusted-source-snapshot-v1-model.mjs": "2182df17f960cf1ab8cfeb6b002201a452db943abb9e880717939675216f1b1e"
+    }
+  },
+  "branchDelivery": {
+    "prNumber": 1531,
+    "branch": "codex/yalken-f3-black-box-trusted-source-snapshot-v1",
+    "baseRef": "main",
+    "baseSha": "a772e890de291f93a60c81ace4d394ac5e0fca1d",
+    "headSha": "22995bfa697a8c3937e757c135bf7edadb8d9de9",
+    "mergeCommitSha": "ab6cbecbc674c30326e786079fe792fa7d9e8100",
+    "mergeTreeSha": "977a28ec2cce18c1a2e22624e7f396c997e4c729",
+    "mergedAtUtc": "2026-08-14T11:05:00Z",
+    "requiredCi": {
+      "oss-policy": "PASS",
+      "rtk-required": "PASS_COMPLETED_2026_08_14T11_04_12Z",
+      "x1-runtime-parity-ubuntu-latest": "PASS",
+      "x1-runtime-parity-windows-latest": "PASS"
     }
   },
   "authorityBoundary": {
@@ -112,8 +130,27 @@
     "devFast": "PASS_28_OF_28_EXIT_0",
     "baseline": "PASS_NPM_TEST_EXIT_0_MAIN_802_TOTAL_738_PASS_64_SKIP_0_FAIL_0_TODO_PLUS_ATLAS_20_OF_20_AND_PERF_PASS",
     "guardrails": "PASS",
-    "requiredCi": "PENDING_PR",
-    "postMergeVerification": "PENDING_MERGE"
+    "requiredCi": "PASS_PR_1531_ALL_REQUIRED_CHECKS",
+    "postMergeVerification": "PASS_EXACT_HEAD_AB6CBECB"
+  },
+  "postMergeVerification": {
+    "headSha": "ab6cbecbc674c30326e786079fe792fa7d9e8100",
+    "treeSha": "977a28ec2cce18c1a2e22624e7f396c997e4c729",
+    "bootstrap": "PASS",
+    "focusedTests": "7/7",
+    "affectedTests": "30/30",
+    "modelOracleMutations": "48 finite, 18 hostile, 12 mutants, 0 survivors",
+    "traceabilityLedger": "PASS_32_DISPOSITIONS_3_EXTERNAL_PINS",
+    "governanceChangeDetection": "PASS_NO_CHANGED_GOVERNANCE_FILES",
+    "devFast": "28/28",
+    "guardrails": "PASS",
+    "worktreeClean": true,
+    "productRuntimeWiringChanged": false,
+    "commandKernelWiringChanged": false,
+    "productUiWiringChanged": false,
+    "projectLibraryRegistrationChanged": false,
+    "userDocumentsTouched": false,
+    "claimBoundary": "Merged and postmerge-verified trusted source snapshot evidence gate only; no full Black Box product V1, product runtime/UI/Command Kernel wiring, project-library registration, owner-key drill, off-host restore or Disaster Ready claim."
   },
   "rollback": {
     "plan": "Revert the trusted source snapshot query, its contract/model, receipt, ledger entry and governance approvals. No migration rollback is needed because no product runtime, canonical project data or user documents are mutated.",

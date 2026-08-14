@@ -2,8 +2,8 @@
   "schemaVersion": "yalken.f3BlackBoxP0cStrictCapsuleRecover.receipt.v1",
   "taskId": "F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1",
   "createdAtUtc": "2026-08-14T03:50:00Z",
-  "status": "MERGED_POSTMERGE_VERIFIED_WITH_FOLLOW_ON_CANDIDATE_PENDING_DELIVERY",
-  "verdict": "READY_FOR_FOLLOW_ON_DELIVERY_GATES_NOT_PRODUCT_RELEASE",
+  "status": "MERGED_POSTMERGE_VERIFIED_WITH_EPHEMERAL_SINK_DELIVERED_NOT_PRODUCT_RELEASE",
+  "verdict": "READY_FOR_NEXT_BOUNDED_F3_CONTOUR_NOT_PRODUCT_RELEASE",
   "baseline": {
     "headSha": "696674adfd2eb4a4b52a21c6de75e4aace3c13b1",
     "treeSha": "f8c19c6710fec01f305790f73fec10ca0bd95cfe",
@@ -38,12 +38,41 @@
       "guardrails": "PASS"
     }
   },
-  "followOnCandidate": {
+  "followOnDelivery": {
     "taskId": "F3_P0C_EPHEMERAL_CORE_PAYLOAD_SINK_V1",
     "baseline": {
       "headSha": "7ad53fd8cc9c6079f893e06140ac82009ae70433",
       "treeSha": "f80b9d443cd305b30e0e65da7917a67bd04384f1",
       "branch": "codex/yalken-f3-p0c-ephemeral-core-payload-sink-v1"
+    },
+    "delivery": {
+      "prNumber": 1525,
+      "featureCommitSha": "48c6257fba9a0f6357d6a45a70b67cde9278d634",
+      "featureTreeSha": "c737fd26e19e6829f8f8cadd46a66a9999491ec5",
+      "mergeCommitSha": "ef3a3d03370fdc19d2eba46e9f3202bbc6a490e4",
+      "mergeTreeSha": "c737fd26e19e6829f8f8cadd46a66a9999491ec5",
+      "requiredCi": {
+        "oss-policy": "PASS",
+        "rtk-required": "PASS",
+        "x1-runtime-parity-ubuntu-latest": "PASS",
+        "x1-runtime-parity-windows-latest": "PASS"
+      },
+      "postMergeVerification": {
+        "headSha": "ef3a3d03370fdc19d2eba46e9f3202bbc6a490e4",
+        "treeSha": "c737fd26e19e6829f8f8cadd46a66a9999491ec5",
+        "worktreeClean": true,
+        "bootstrap": "PASS",
+        "focusedProof": "9/9",
+        "affectedProof": "35/35",
+        "modelOracleMutations": "64 finite, 22 hostile, 16 mutants, 0 survivors",
+        "physicalProviderEvidenceSha256": "sha256:3d8ee885dc1a61d8403547d5c436c04bcc7ffd882ba6ac644cc6da7f23e712e4",
+        "physicalProviderNegativeCases": 6,
+        "physicalProviderNegativeFailures": 0,
+        "traceabilityLedger": "PASS",
+        "governanceChangeDetection": "PASS",
+        "devFast": "28/28",
+        "guardrails": "PASS"
+      }
     },
     "scope": "Add an internal P0C recovered CORE payload sink for future import-as-new writer work; no filesystem writer, UI, Command Kernel wiring, user documents, live overwrite, owner-key drill, FINAL_COMPLETE donor or Disaster Ready claim.",
     "redFirst": {
@@ -78,13 +107,17 @@
       "skips": 0
     },
     "affectedProof": {
-      "tests": 23,
-      "pass": 23,
+      "tests": 51,
+      "pass": 51,
       "fail": 0,
       "skipped": 0,
       "todo": 0
     },
     "affectedModels": {
+      "sourceFence": "192 finite, 20 hostile, 9 mutants, 0 survivors",
+      "multilingualEvidence": "24 finite, 18 hostile, 15 mutants, 0 survivors",
+      "blackBoxP0aSourceAdapter": "32 finite, 18 hostile, 12 mutants, 0 survivors",
+      "blackBoxP0bDarwinDurablePublisher": "65 finite, 18 hostile, 12 mutants, 0 survivors",
       "p0c": "64 finite, 22 hostile, 16 mutants, 0 survivors",
       "importAsNewRecoveryPlan": "36 finite, 14 hostile, 10 mutants, 0 survivors",
       "manualCoreCapsuleKit": "48 finite, 16 hostile, 12 mutants, 0 survivors"
@@ -98,12 +131,12 @@
       "scripts/ops/black-box-p0c-strict-capsule-recover-v1-model.mjs": "fbad318030f98b54e8e05d8b8c4f9e5233fe60d6cb3147555497b82b47b17289"
     },
     "deliveryGates": {
-      "requiredCi": "PENDING_PR",
-      "traceabilityLedger": "PENDING_REBIND_VALIDATION",
-      "governanceChangeDetection": "PENDING_REBIND_VALIDATION",
-      "devFast": "PENDING",
-      "guardrails": "PENDING",
-      "postMergeVerification": "PENDING_MERGE"
+      "requiredCi": "PASS",
+      "traceabilityLedger": "PASS",
+      "governanceChangeDetection": "PASS",
+      "devFast": "PASS",
+      "guardrails": "PASS",
+      "postMergeVerification": "PASS"
     },
     "claimBoundary": "The sink receives verified decrypted CORE bytes only in-process through a caller-supplied callback. Result/receipt/log surfaces remain sanitized and contain no bytesBase64, sourceText, AGE secret key or BLACK_BOX_CORE_GENOME_V1 payload."
   },
@@ -334,5 +367,5 @@
     "This does not prove a real owner-key recovery drill, exact-byte replication from a FINAL_COMPLETE donor, Disaster Ready, process-crash proof or physical power-loss proof.",
     "The task-local age CLI is a test/provider artifact and is not a silent product runtime dependency."
   ],
-  "updatedAtUtc": "2026-08-14T04:19:23Z"
+  "updatedAtUtc": "2026-08-14T07:47:02Z"
 }

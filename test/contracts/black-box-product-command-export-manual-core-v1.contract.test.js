@@ -12,6 +12,7 @@ const MODEL_PATH = path.join(REPO_ROOT, 'scripts', 'ops', 'black-box-product-com
 const MAIN_PATH = path.join(REPO_ROOT, 'src', 'main.js');
 const RUNTIME_BINDING_PATH = path.join(REPO_ROOT, 'src', 'main', 'blackBoxRuntimeProviderAuditBindingV1.cjs');
 const RUNTIME_SOURCE_BINDING_PATH = path.join(REPO_ROOT, 'src', 'main', 'blackBoxRuntimeSourceRevisionBindingV1.cjs');
+const RUNTIME_TARGET_BINDING_PATH = path.join(REPO_ROOT, 'src', 'main', 'blackBoxRuntimeCreateOnlyTargetBindingV1.cjs');
 const COMMAND_ID = 'cmd.project.blackBox.exportManualCoreCapsuleKitV1';
 const CAPABILITY_ID = 'cap.blackBox.manualCoreCapsule.export';
 
@@ -409,19 +410,22 @@ test('F3 Black Box product command v1 main runtime bridge keeps complete trusted
   }
   assert.match(mainSource, /blackBoxRuntimeProviderAuditBindingV1\.cjs/u);
   assert.match(mainSource, /blackBoxRuntimeSourceRevisionBindingV1\.cjs/u);
+  assert.match(mainSource, /blackBoxRuntimeCreateOnlyTargetBindingV1\.cjs/u);
   assert.match(bridgeSource, /getRuntimeProviderAuditBinding/u);
   assert.match(bridgeSource, /getRuntimeSourceRevisionBinding/u);
+  assert.match(bridgeSource, /getRuntimeCreateOnlyTargetBinding/u);
   assert.match(bridgeSource, /getProviderPin:\s*async\s*\(\)\s*=>\s*\(await\s+getRuntimeProviderAuditBinding\(\)\)\.providerPin/u);
   assert.match(bridgeSource, /getAuditRecipient:\s*async\s*\(\)\s*=>\s*\(await\s+getRuntimeProviderAuditBinding\(\)\)\.auditRecipient/u);
   assert.match(bridgeSource, /getAuditIdentity:\s*async\s*\(\)\s*=>\s*\(await\s+getRuntimeProviderAuditBinding\(\)\)\.auditIdentity/u);
   assert.match(bridgeSource, /getAgeProvider:\s*async\s*\(\)\s*=>\s*\(await\s+getRuntimeProviderAuditBinding\(\)\)\.ageProvider/u);
+  assert.match(bridgeSource, /selectCreateOnlyTarget:\s*async\s*\(context\)\s*=>\s*\(await\s+getRuntimeCreateOnlyTargetBinding\(\)\)\.selectCreateOnlyTarget\(context\)/u);
   assert.doesNotMatch(bridgeSource, /black-box-product-command-runtime-provider-not-configured/u);
   assert.doesNotMatch(bridgeSource, /dirtyState:\s*'UNKNOWN'/u);
   assert.doesNotMatch(bridgeSource, /getProviderPin:\s*async\s*\(\)\s*=>\s*null/u);
   assert.doesNotMatch(bridgeSource, /getAuditRecipient:\s*async\s*\(\)\s*=>\s*null/u);
   assert.doesNotMatch(bridgeSource, /getAuditIdentity:\s*async\s*\(\)\s*=>\s*null/u);
   assert.doesNotMatch(bridgeSource, /getAgeProvider:\s*async\s*\(\)\s*=>\s*null/u);
-  assert.match(bridgeSource, /YALKEN_BLACK_BOX_PRODUCT_COMMAND_EXPORT_TARGET_PORT_NOT_CONFIGURED/u);
+  assert.doesNotMatch(bridgeSource, /BLACK_BOX_PRODUCT_COMMAND_TARGET_PORT_NOT_CONFIGURED/u);
   assert.doesNotMatch(bridgeSource, /secretKeyBase64\s*:/u);
   assert.doesNotMatch(bridgeSource, /dialog\.showSaveDialog/u);
   assert.doesNotMatch(bridgeSource, /writeFileAtomic/u);
@@ -508,6 +512,85 @@ test('F3 Black Box runtime source revision binding v1 denies dirty, missing mani
     assert.equal(unsafe.observeRevision({ phase: 'before', expected: unsafe.expected }).authority.decision, 'UNKNOWN');
   } finally {
     traversal.cleanup();
+  }
+});
+
+test('F3 Black Box runtime create-only target binding v1 enforces explicit safe target policy', () => {
+  assert.ok(fs.existsSync(RUNTIME_TARGET_BINDING_PATH), 'runtime create-only target binding helper must exist');
+  const targetBinding = require(RUNTIME_TARGET_BINDING_PATH);
+  assert.equal(typeof targetBinding.createBlackBoxRuntimeCreateOnlyTargetBindingV1, 'function');
+
+  const envKeys = targetBinding.BLACK_BOX_RUNTIME_CREATE_ONLY_TARGET_BINDING_V1_ENV;
+  assert.deepEqual(Object.keys(envKeys).sort(), ['allowedRoot', 'targetDir']);
+
+  const fixtureRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-runtime-target-binding-'));
+  const allowedRoot = path.join(fixtureRoot, 'allowed');
+  const targetDir = path.join(allowedRoot, 'exports');
+  const projectRoot = path.join(fixtureRoot, 'project');
+  fs.mkdirSync(targetDir, { recursive: true });
+  fs.mkdirSync(projectRoot, { recursive: true });
+
+  const makeBinding = (envOverrides = {}, options = {}) => targetBinding.createBlackBoxRuntimeCreateOnlyTargetBindingV1({
+    env: {
+      [envKeys.allowedRoot]: allowedRoot,
+      [envKeys.targetDir]: targetDir,
+      ...envOverrides,
+    },
+    projectRoot,
+    platform: 'darwin',
+    ...options,
+  });
+  const context = (requestId) => ({
+    commandId: COMMAND_ID,
+    requestId,
+    defaultFileName: 'manual-core.yalken-capsule',
+    sourceSetDigest: digest('7'),
+    recipientFingerprint: digest('1'),
+  });
+
+  try {
+    const valid = makeBinding().selectCreateOnlyTarget(context('runtime-target-request-001'));
+    assert.equal(valid.schemaVersion, 'yalken.blackBoxDarwinDurablePublisher.target.v1');
+    assert.equal(valid.platform, 'darwin');
+    assert.equal(valid.directoryPath, fs.realpathSync(targetDir));
+    assert.match(valid.fileName, /^manual-core-runtime-target-request-001-[a-f0-9]{12}\.yalken-capsule$/u);
+    assert.equal(valid.fileName.includes('/'), false);
+    assert.equal(valid.fileName.includes('\\'), false);
+
+    const missing = makeBinding({ [envKeys.targetDir]: '' }).selectCreateOnlyTarget(context('missing-target'));
+    assert.equal(missing.ok, false);
+    assert.equal(missing.code, 'YALKEN_BLACK_BOX_PRODUCT_COMMAND_EXPORT_TARGET_PORT_NOT_CONFIGURED');
+
+    const outside = makeBinding({ [envKeys.targetDir]: os.tmpdir() }).selectCreateOnlyTarget(context('outside-root'));
+    assert.equal(outside.ok, false);
+    assert.equal(outside.code, 'YALKEN_BLACK_BOX_PRODUCT_COMMAND_EXPORT_TARGET_REJECTED');
+
+    const projectChild = path.join(projectRoot, 'exports');
+    fs.mkdirSync(projectChild, { recursive: true });
+    const insideProject = makeBinding({
+      [envKeys.allowedRoot]: projectRoot,
+      [envKeys.targetDir]: projectChild,
+    }).selectCreateOnlyTarget(context('inside-project'));
+    assert.equal(insideProject.ok, false);
+    assert.equal(insideProject.code, 'YALKEN_BLACK_BOX_PRODUCT_COMMAND_EXPORT_TARGET_REJECTED');
+
+    const symlinkDir = path.join(allowedRoot, 'linked-exports');
+    try {
+      fs.symlinkSync(targetDir, symlinkDir, 'dir');
+      const symlink = makeBinding({ [envKeys.targetDir]: symlinkDir }).selectCreateOnlyTarget(context('symlink-target'));
+      assert.equal(symlink.ok, false);
+      assert.equal(symlink.code, 'YALKEN_BLACK_BOX_PRODUCT_COMMAND_EXPORT_TARGET_REJECTED');
+    } catch (error) {
+      if (error?.code !== 'EPERM' && error?.code !== 'EEXIST') throw error;
+    }
+
+    const collision = makeBinding().selectCreateOnlyTarget(context('runtime-target-request-001'));
+    fs.writeFileSync(path.join(targetDir, collision.fileName), 'existing');
+    const existing = makeBinding().selectCreateOnlyTarget(context('runtime-target-request-001'));
+    assert.equal(existing.ok, false);
+    assert.equal(existing.code, 'YALKEN_BLACK_BOX_PRODUCT_COMMAND_EXPORT_TARGET_REJECTED');
+  } finally {
+    fs.rmSync(fixtureRoot, { recursive: true, force: true });
   }
 });
 
@@ -770,9 +853,9 @@ test('F3 Black Box product command v1 model/oracle rejects UNKNOWN and all seman
   const result = model.evaluateBlackBoxProductCommandExportManualCoreV1Model();
 
   assert.equal(result.ok, true, JSON.stringify(result, null, 2));
-  assert.equal(result.finiteCases, 47);
-  assert.equal(result.hostileCases, 26);
-  assert.equal(result.semanticMutants, 22);
+  assert.equal(result.finiteCases, 53);
+  assert.equal(result.hostileCases, 30);
+  assert.equal(result.semanticMutants, 26);
   assert.equal(result.survivors, 0);
   assert.deepEqual(result.survivorNames, []);
   assert.equal(result.skips, 0);

@@ -690,6 +690,129 @@
       "guardrails": "PASS"
     }
   },
+  "runtimeCreateOnlyTargetBinding": {
+    "taskId": "F3_BLACK_BOX_CREATE_ONLY_TARGET_RUNTIME_BINDING_V1",
+    "status": "LOCAL_CANDIDATE_GREEN_PENDING_COMMIT_PUSH_PR_CI_MERGE_POSTMERGE",
+    "baselineSha": "884dd511604a697b88e5258225f37e5c66852ee7",
+    "baselineTreeSha": "439d2b688c02bf702e10530fb2e44aba05f0c3b2",
+    "scope": "Bind the existing Black Box manual CORE export main runtime bridge to an explicit create-only target selection seam. The seam is read-only until P0B writes through the already existing durable publisher, requires both allowedRoot and targetDir environment bindings, resolves real paths, rejects targets outside the allowed root, inside the live project root, symlink targets, existing output filenames and non-darwin platforms, and returns only a deterministic safe filename plus directory target. No product UI, default flag placement, user documents, owner private key, live project overwrite, project-library registration, off-host restore, Disaster Ready or full Black Box Product V1 claim is added.",
+    "redFirst": {
+      "command": "node --test test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js; node scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs",
+      "contracts": {
+        "tests": 12,
+        "pass": 9,
+        "fail": 3,
+        "skipped": 0,
+        "todo": 0,
+        "primaryFailures": [
+          "main runtime bridge did not require blackBoxRuntimeCreateOnlyTargetBindingV1.cjs",
+          "runtime create-only target binding helper module was missing",
+          "product command model denominator did not include runtime target binding cases"
+        ]
+      },
+      "modelOracleMutations": {
+        "finiteCases": 53,
+        "hostileCases": 30,
+        "semanticMutants": 26,
+        "survivors": 0,
+        "skips": 0
+      }
+    },
+    "focusedProof": {
+      "command": "node --test test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js; node scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs",
+      "contracts": {
+        "tests": 12,
+        "pass": 12,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "modelOracleMutations": {
+        "finiteCases": 53,
+        "hostileCases": 30,
+        "semanticMutants": 26,
+        "survivors": 0,
+        "skips": 0,
+        "newControls": [
+          "mainRuntimeCreateOnlyTargetValid",
+          "mainRuntimeTargetEnvMissingIsNotPass",
+          "mainRuntimeTargetOutsideAllowedRootIsNotPass",
+          "mainRuntimeTargetInsideProjectRootIsNotPass",
+          "mainRuntimeTargetSymlinkDirIsNotPass",
+          "mainRuntimeTargetFileExistsIsNotPass"
+        ]
+      }
+    },
+    "affectedProof": {
+      "command": "node --test test/contracts/source-fence-v1.contract.test.js test/contracts/multilingual-evidence-v1.contract.test.js test/contracts/black-box-p0a-source-adapter-v1.contract.test.js test/contracts/black-box-p0b-darwin-durable-publisher-v1.contract.test.js test/contracts/black-box-p0c-strict-capsule-recover-v1.contract.test.js test/contracts/black-box-import-as-new-recovery-plan-v1.contract.test.js test/contracts/black-box-import-as-new-project-writer-v1.contract.test.js test/contracts/black-box-manual-core-capsule-kit-v1.contract.test.js test/contracts/black-box-synthetic-independent-restore-drill-v1.contract.test.js test/contracts/black-box-trusted-source-snapshot-v1.contract.test.js test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+      "tests": 79,
+      "pass": 79,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "affectedModels": {
+      "sourceFence": "192 finite, 20 hostile, 9 mutants, 0 survivors",
+      "multilingualEvidence": "24 finite, 18 hostile, 15 mutants, 0 survivors",
+      "blackBoxP0aSourceAdapter": "32 finite, 18 hostile, 12 mutants, 0 survivors",
+      "blackBoxP0bDarwinDurablePublisher": "65 finite, 18 hostile, 12 mutants, 0 survivors",
+      "p0c": "64 finite, 26 hostile, 19 mutants, 0 survivors",
+      "importAsNewRecoveryPlan": "36 finite, 14 hostile, 10 mutants, 0 survivors",
+      "importAsNewProjectWriter": "24 finite, 16 hostile, 12 mutants, 0 survivors",
+      "manualCoreCapsuleKit": "48 finite, 16 hostile, 12 mutants, 0 survivors",
+      "trustedSourceSnapshot": "48 finite, 18 hostile, 12 mutants, 0 survivors",
+      "productCommandExportManualCore": "53 finite, 30 hostile, 26 mutants, 0 survivors"
+    },
+    "runtimeBindingContract": {
+      "schemaVersion": "yalken.blackBoxRuntimeCreateOnlyTargetBinding.v1",
+      "targetSchemaVersion": "yalken.blackBoxDarwinDurablePublisher.target.v1",
+      "env": {
+        "allowedRoot": "YALKEN_BLACK_BOX_MANUAL_CORE_CAPSULE_TARGET_ALLOWED_ROOT_V1",
+        "targetDir": "YALKEN_BLACK_BOX_MANUAL_CORE_CAPSULE_TARGET_DIR_V1"
+      },
+      "failClosedInputs": [
+        "missing allowedRoot or targetDir",
+        "relative or control-character env path",
+        "non-directory allowedRoot or targetDir",
+        "targetDir outside allowedRoot",
+        "targetDir inside current project root",
+        "targetDir symlink",
+        "non-darwin platform",
+        "pre-existing computed target file"
+      ],
+      "safeFileName": "manual-core-${requestIdSegment}-${sha256(boundContext).slice(0, 12)}.yalken-capsule",
+      "writesBeforeP0BPublisher": false
+    },
+    "changedFileHashes": {
+      "src/main.js": "d3d737e8ec29d0c30028d09836f20ed8265a14d6253b764c04ebb346c85bbde3",
+      "src/main/blackBoxRuntimeCreateOnlyTargetBindingV1.cjs": "a920aed5a28ce8cb34b48a7bc51e6e6741875ef49abeaef47a741d5fea3ad8c4",
+      "test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js": "b2e8313566b37aa3fa4463f17cf094688a341562e807af6617375a98312d8ed3",
+      "scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs": "67b0b0d2b002abaf51a996f2ee4888f2560a212c05a02e617cd1fcbd81e5a87e"
+    },
+    "claimBoundary": {
+      "productRuntimeCreateOnlyTarget": "BOUND_TO_EXPLICIT_SAFE_LOCAL_TARGET_ENV_AND_FAIL_CLOSED_BY_DEFAULT",
+      "defaultWithoutEnv": "DENY_TARGET_PORT_NOT_CONFIGURED",
+      "productUiWiring": "NOT_CLAIMED",
+      "defaultFlagPlacement": "NOT_CLAIMED",
+      "projectLibraryRegistration": "NOT_CLAIMED",
+      "offHostRestore": "NOT_CLAIMED",
+      "disasterReady": "NOT_CLAIMED",
+      "userDocumentsTouched": false,
+      "privateManuscriptsTouched": false,
+      "fullBlackBoxProductV1": "NOT_CLAIMED"
+    },
+    "rollback": "Revert the single bounded F3_BLACK_BOX_CREATE_ONLY_TARGET_RUNTIME_BINDING_V1 PR; feature remains default-off, target env remains optional/fail-closed, and no canonical/user data migration exists.",
+    "localGates": {
+      "focusedProof": "PASS",
+      "affectedProof": "79/79",
+      "affectedModels": "PASS_10_OF_10_ZERO_SURVIVORS",
+      "traceabilityLedger": "PASS_39_DISPOSITIONS_3_EXTERNAL_PINS",
+      "governanceChangeDetection": "PASS_MISSING_APPROVALS_0",
+      "devFast": "28/28",
+      "guardrails": "PASS",
+      "deterministicReplay": "PASS_2_OF_2_AFFECTED_79_PRODUCT_COMMAND_53_30_26_0_TRACEABILITY_GOVERNANCE"
+    }
+  },
   "changedFileHashes": {
     "src/product/blackBoxProductCommandExportManualCoreV1.mjs": "302b9df995277197bfa4162e003e0be0ab1dce709c21ea2d709ff41b8187fdb8",
     "test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js": "154d9f03a21c3fb5995b90c9c0acb801f1844b155ccafb7d69557447c0cad6d2",

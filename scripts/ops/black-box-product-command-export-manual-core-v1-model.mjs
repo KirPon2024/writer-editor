@@ -48,6 +48,12 @@ const FINITE_CASES = Object.freeze([
   ['main-runtime-source-revision-drift', 'DENY'],
   ['main-runtime-source-revision-dirty', 'DENY'],
   ['main-runtime-source-revision-missing-manifest', 'DENY'],
+  ['main-runtime-create-only-target-valid', 'PASS'],
+  ['main-runtime-target-env-missing', 'DENY'],
+  ['main-runtime-target-outside-allowed-root', 'DENY'],
+  ['main-runtime-target-inside-project-root', 'DENY'],
+  ['main-runtime-target-symlink-dir', 'DENY'],
+  ['main-runtime-target-file-exists', 'DENY'],
 ]);
 
 const HOSTILE_CASES = Object.freeze([
@@ -77,6 +83,10 @@ const HOSTILE_CASES = Object.freeze([
   'main-runtime-placeholder-revision',
   'main-runtime-source-revision-path-traversal',
   'main-runtime-source-revision-drift-to-pass',
+  'main-runtime-target-env-transplant',
+  'main-runtime-target-project-root-overwrite',
+  'main-runtime-target-path-traversal',
+  'main-runtime-target-file-reuse-to-pass',
 ]);
 
 const SEMANTIC_MUTANTS = Object.freeze([
@@ -102,10 +112,14 @@ const SEMANTIC_MUTANTS = Object.freeze([
   'M20_KEEP_PLACEHOLDER_RUNTIME_SOURCE_REVISION',
   'M21_ACCEPT_RUNTIME_DIRTY_SOURCE',
   'M22_ACCEPT_RUNTIME_SOURCE_REVISION_DRIFT',
+  'M23_ACCEPT_UNCONFIGURED_RUNTIME_TARGET',
+  'M24_ALLOW_RUNTIME_TARGET_OUTSIDE_ALLOWED_ROOT',
+  'M25_ALLOW_RUNTIME_TARGET_INSIDE_PROJECT_ROOT',
+  'M26_ALLOW_RUNTIME_TARGET_REUSE',
 ]);
 
 function oracle(caseName, expected) {
-  if (caseName === 'valid' || caseName === 'node-capability-allowed') return expected === 'PASS';
+  if (caseName === 'valid' || caseName === 'node-capability-allowed' || caseName === 'main-runtime-create-only-target-valid') return expected === 'PASS';
   return expected === 'DENY';
 }
 
@@ -160,6 +174,19 @@ function mutantKilled(mutant) {
     case 'M22_ACCEPT_RUNTIME_SOURCE_REVISION_DRIFT':
       return HOSTILE_CASES.includes('main-runtime-source-revision-drift-to-pass')
         && FINITE_CASES.some(([name, expected]) => name === 'main-runtime-source-revision-drift' && expected === 'DENY');
+    case 'M23_ACCEPT_UNCONFIGURED_RUNTIME_TARGET':
+      return FINITE_CASES.some(([name, expected]) => name === 'main-runtime-target-env-missing' && expected === 'DENY')
+        && FINITE_CASES.some(([name, expected]) => name === 'main-runtime-source-revision-clean-target-not-configured' && expected === 'DENY');
+    case 'M24_ALLOW_RUNTIME_TARGET_OUTSIDE_ALLOWED_ROOT':
+      return HOSTILE_CASES.includes('main-runtime-target-env-transplant')
+        && FINITE_CASES.some(([name, expected]) => name === 'main-runtime-target-outside-allowed-root' && expected === 'DENY');
+    case 'M25_ALLOW_RUNTIME_TARGET_INSIDE_PROJECT_ROOT':
+      return HOSTILE_CASES.includes('main-runtime-target-project-root-overwrite')
+        && HOSTILE_CASES.includes('main-runtime-target-path-traversal')
+        && FINITE_CASES.some(([name, expected]) => name === 'main-runtime-target-inside-project-root' && expected === 'DENY');
+    case 'M26_ALLOW_RUNTIME_TARGET_REUSE':
+      return HOSTILE_CASES.includes('main-runtime-target-file-reuse-to-pass')
+        && FINITE_CASES.some(([name, expected]) => name === 'main-runtime-target-file-exists' && expected === 'DENY');
     default:
       return false;
   }

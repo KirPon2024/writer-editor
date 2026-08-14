@@ -1,8 +1,8 @@
 {
   "schemaVersion": "yalken.f3.blackBoxProductCommandExportManualCore.receipt.v1",
   "taskId": "F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
-  "status": "LOCAL_CANDIDATE_COMMITTED_FULL_LOCAL_GATES_GREEN_PENDING_PUSH_PR_CI_MERGE_POSTMERGE_NOT_FULL_BLACK_BOX_PRODUCT_V1",
-  "verdict": "READY_FOR_DELIVERY_CHAIN_NOT_FULL_BLACK_BOX_PRODUCT_V1",
+  "status": "MERGED_POSTMERGE_VERIFIED_NOT_FULL_BLACK_BOX_PRODUCT_V1_WITH_UI_DEFAULT_PATH_AND_FINAL_TRACEABILITY_VERDICT_REBIND",
+  "verdict": "READY_FOR_BOUNDED_PRODUCT_COMMAND_AND_UI_PATH_NEEDS_MORE_EVIDENCE_FOR_FULL_BLACK_BOX_PRODUCT_V1",
   "createdAtUtc": "2026-08-14T11:45:00Z",
   "baseline": {
     "headSha": "2cc598271bfdab6764401216e08cb952d4c49ba6",
@@ -1083,5 +1083,26 @@
       "worktreeClean": true,
       "userDocumentsTouched": false
     }
+  },
+  "finalTraceabilityVerdictRebind": {
+    "taskId": "PROGRAM_FINAL_TRACEABILITY_VERDICT_REBIND_V1",
+    "status": "LOCAL_CANDIDATE_FACTUAL_REBIND_PENDING_DELIVERY_CHAIN",
+    "baselineSha": "b37385f17762eab70b2fe03010457b640893b96d",
+    "baselineTreeSha": "538d4bf36b78ff98d20c46da5f2afc893fbe8001",
+    "productUiDefaultFlagPath": "MERGED_POSTMERGE_VERIFIED_IN_PR_1547_AND_REBOUND_IN_PR_1548",
+    "finalProgramVerdict": "NEEDS_MORE_EVIDENCE",
+    "fullBlackBoxProductV1": "DEFERRED_WITH_BLOCKER",
+    "remainingBlockers": [
+      "real owner-key recovery drill where required",
+      "independent off-host restore evidence",
+      "exact-byte donor replication only from verified FINAL_COMPLETE donor",
+      "project-library registration decision if required",
+      "no live-project overwrite proof for any future full-product path"
+    ],
+    "userDocumentsTouched": false,
+    "runtimeChanged": false,
+    "uiChanged": false,
+    "sealedPackagesModified": false,
+    "claimBoundary": "Factual traceability/status rebind only; does not claim full Black Box Product V1, Disaster Ready, owner-key recovery or off-host restore."
   }
 }

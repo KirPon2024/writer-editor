@@ -9,6 +9,12 @@ export const LEDGER_PATH = 'docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2
 
 export const LEDGER_SCHEMA_VERSION = 'yalken.finalLabToProductTraceability.ledger.v2';
 
+export const LEDGER_EXACT_HEAD_SHA = 'b37385f17762eab70b2fe03010457b640893b96d';
+
+export const LEDGER_STATUS = 'LIVING_LEDGER_CURRENT_FINAL_PROGRAM_VERDICT_NEEDS_MORE_EVIDENCE';
+
+export const FINAL_PROGRAM_VERDICT = 'NEEDS_MORE_EVIDENCE';
+
 export const ALLOWED_DISPOSITIONS = Object.freeze([
   'ADOPTED_PRODUCT',
   'ADAPTED_PRODUCT',
@@ -207,6 +213,7 @@ function validateMaterialDispositions(repoRoot, ledger, errors) {
   const seenPins = new Set();
   let previousPhaseIndex = -1;
   let hasDeferredOrLabOnly = false;
+  let f3BlackBoxProductRow = null;
 
   for (const entry of ledger.materialDispositions) {
     if (!isObject(entry)) {
@@ -216,6 +223,9 @@ function validateMaterialDispositions(repoRoot, ledger, errors) {
     requireString(entry.materialId, 'materialDispositions.materialId', errors);
     if (seen.has(entry.materialId)) errors.push(`materialDispositions:DUPLICATE_MATERIAL_ID:${entry.materialId}`);
     seen.add(entry.materialId);
+    if (entry.materialId === 'F3_BLACK_BOX_PRODUCT_V1') {
+      f3BlackBoxProductRow = entry;
+    }
 
     const phaseIndex = PROGRAM_PHASE_SEQUENCE.indexOf(entry.programPhase);
     if (phaseIndex === -1) {
@@ -292,6 +302,21 @@ function validateMaterialDispositions(repoRoot, ledger, errors) {
   if (hasDeferredOrLabOnly && ledger.claimControls?.allLabWorkIntegratedClaimAllowed !== false) {
     errors.push('claimControls:FINAL_INTEGRATION_CLAIM_ALLOWED_WITH_DEFERRED_OR_LAB_ONLY');
   }
+  if (hasDeferredOrLabOnly && ledger.claimControls?.finalProgramVerdict === 'READY') {
+    errors.push('claimControls:FINAL_READY_CLAIM_WITH_DEFERRED_OR_LAB_ONLY');
+  }
+  if (!f3BlackBoxProductRow) {
+    errors.push('materialDispositions:F3_BLACK_BOX_PRODUCT_V1:MISSING');
+  } else {
+    const f3Text = [
+      f3BlackBoxProductRow.summary,
+      f3BlackBoxProductRow.deferred?.prerequisite,
+      f3BlackBoxProductRow.deferred?.acceptanceGate,
+    ].filter(Boolean).join('\n');
+    if (/local-candidate product UI|UI\/default feature flag path is local-candidate|must still complete delivery\/postmerge for the UI\/default path/i.test(f3Text)) {
+      errors.push('materialDispositions:F3_BLACK_BOX_PRODUCT_V1:STALE_UI_DEFAULT_PATH_BLOCKER');
+    }
+  }
 }
 
 export function validateFinalLabTraceabilityLedger(ledger, options = {}) {
@@ -301,8 +326,8 @@ export function validateFinalLabTraceabilityLedger(ledger, options = {}) {
   exactKeys(ledger, EXACT_LEDGER_KEYS, 'ledger', errors);
   if (ledger.schemaVersion !== LEDGER_SCHEMA_VERSION) errors.push('schemaVersion:INVALID');
   if (ledger.documentClass !== 'FACTUAL_STATUS') errors.push('documentClass:INVALID');
-  if (ledger.status !== 'LIVING_LEDGER_CURRENT_NOT_FINAL_PROGRAM_VERDICT') errors.push('status:INVALID');
-  if (ledger.exactHead !== '1cd98056dc091a74b9b7f0fe30356a456b6acfc4') errors.push('exactHead:INVALID');
+  if (ledger.status !== LEDGER_STATUS) errors.push('status:INVALID');
+  if (ledger.exactHead !== LEDGER_EXACT_HEAD_SHA) errors.push('exactHead:INVALID');
   if (JSON.stringify(ledger.programPhaseSequence) !== JSON.stringify(PROGRAM_PHASE_SEQUENCE)) {
     errors.push('programPhaseSequence:INVALID');
   }
@@ -312,8 +337,8 @@ export function validateFinalLabTraceabilityLedger(ledger, options = {}) {
     if (ledger.claimControls.allLabWorkIntegratedClaimAllowed !== false) {
       errors.push('claimControls:ALL_LAB_WORK_INTEGRATED_MUST_BE_FALSE');
     }
-    if (ledger.claimControls.finalProgramVerdict !== 'NOT_CLAIMED') {
-      errors.push('claimControls:FINAL_PROGRAM_VERDICT_MUST_BE_NOT_CLAIMED');
+    if (ledger.claimControls.finalProgramVerdict !== FINAL_PROGRAM_VERDICT) {
+      errors.push('claimControls:FINAL_PROGRAM_VERDICT_MUST_BE_NEEDS_MORE_EVIDENCE');
     }
   }
   if (!isObject(ledger.sourcePackagePolicy) || ledger.sourcePackagePolicy.sealedPackagesImmutable !== true || ledger.sourcePackagePolicy.labEvidenceCreatesProductAuthority !== false) {

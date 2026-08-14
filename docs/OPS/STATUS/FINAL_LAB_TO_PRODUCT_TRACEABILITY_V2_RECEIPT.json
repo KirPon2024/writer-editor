@@ -1,13 +1,13 @@
 {
   "schemaVersion": "yalken.finalLabToProductTraceability.receipt.v2",
-  "taskId": "FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER_V1",
-  "createdAtUtc": "2026-08-13T21:44:52Z",
-  "status": "LOCAL_CANDIDATE_GREEN_PENDING_COMMIT_PUSH_PR_CI_MERGE_POSTMERGE",
-  "verdict": "READY_FOR_DELIVERY_CHAIN",
+  "taskId": "PROGRAM_FINAL_TRACEABILITY_VERDICT_REBIND_V1",
+  "createdAtUtc": "2026-08-14T21:43:07Z",
+  "status": "FINAL_PROGRAM_VERDICT_RECORDED_NEEDS_MORE_EVIDENCE_LOCAL_CANDIDATE_PENDING_DELIVERY_CHAIN",
+  "verdict": "NEEDS_MORE_EVIDENCE",
   "baseline": {
-    "headSha": "1cd98056dc091a74b9b7f0fe30356a456b6acfc4",
-    "treeSha": "34f1cf4dfc9ee9ca7ba66bdbd63ceb50a81f8c74",
-    "branch": "codex/yalken-final-lab-to-product-traceability-v2-ledger-v2"
+    "headSha": "b37385f17762eab70b2fe03010457b640893b96d",
+    "treeSha": "538d4bf36b78ff98d20c46da5f2afc893fbe8001",
+    "branch": "codex/yalken-program-final-traceability-verdict-rebind-v1"
   },
   "scope": {
     "productRuntimeChanged": false,
@@ -19,21 +19,22 @@
     "changedFiles": [
       "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
       "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_RECEIPT.json",
+      "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
       "scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
       "test/contracts/final-lab-to-product-traceability-v2.contract.test.js",
       "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
     ]
   },
   "redFirst": {
-    "command": "node --test test/contracts/final-lab-to-product-traceability-v2.contract.test.js && node scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
+    "command": "node inline invariant over FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json and FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_RECEIPT.json",
     "result": "RED_EXPECTED",
-    "tests": 3,
+    "tests": 4,
     "pass": 0,
-    "fail": 3,
+    "fail": 1,
     "skip": 0,
     "todo": 0,
-    "verifierError": "LEDGER_READ_OR_PARSE_FAILED",
-    "rootCause": "FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json did not exist."
+    "verifierError": "F3 umbrella still claimed UI/default path local-candidate; final traceability receipt still recorded old local-candidate status and stale 24-material denominator.",
+    "rootCause": "Postmerge F3 UI/default path evidence was row-bound, but umbrella F3 product and final traceability receipt surfaces were not yet rebound."
   },
   "focusedProof": {
     "contractTest": {
@@ -47,7 +48,7 @@
     "verifier": {
       "command": "node scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
       "ok": true,
-      "materialDispositions": 24,
+      "materialDispositions": 40,
       "externalPins": 3,
       "errors": 0
     }
@@ -58,7 +59,7 @@
     "BLACK_BOX_FINAL_LAB_EXTERNAL_RECEIPT": "sha256:c6179e59d57ea7ddea0802769619390a274c1bb22c39ae45a1540f8f7f3be863"
   },
   "hostileMutationProof": {
-    "mutations": 9,
+    "mutations": 11,
     "survivors": 0,
     "rejectedClasses": [
       "UNMAPPED disposition",
@@ -69,72 +70,53 @@
       "adopted/gate entry without product binding",
       "duplicate material id",
       "final integrated claim while deferred/lab-only remains",
+      "final READY verdict while deferred/lab-only remains",
+      "stale F3 UI local-candidate blocker text",
       "historical Word 16.111.3 evidence transfer"
     ]
   },
   "deliveryGateEvidence": {
-    "governanceApprovalVerifier": {
-      "command": "node scripts/ops/governance-approval-state.mjs",
+    "governanceChangeDetection": {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --approvals-path docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json",
       "result": "PASS",
-      "registryValid": true,
-      "approvalsCount": 1384
+      "changedGovernanceFiles": 6,
+      "missingApprovals": 0,
+      "approvalRegistryValid": true
     },
     "devFast": {
       "command": "npm run dev:fast",
-      "result": "PASS"
+      "result": "PASS",
+      "tests": 28,
+      "pass": 28,
+      "fail": 0,
+      "skip": 0,
+      "todo": 0
     },
     "guardrails": {
       "command": "npm run agent:guardrails",
       "result": "PASS"
     },
-    "ossPolicy": {
-      "command": "npm run oss:policy",
-      "result": "PASS"
-    },
-    "npmAuditProductionHigh": {
-      "command": "npm audit --omit=dev --audit-level=high",
-      "result": "PASS",
-      "vulnerabilities": 0
-    },
     "deterministicReplay": {
       "runs": 2,
       "verifierOutputSha256": [
-        "4ea815a2925f27b78272ea99ce69c85344df594ae46864e89f9d828fa8026719",
-        "4ea815a2925f27b78272ea99ce69c85344df594ae46864e89f9d828fa8026719"
+        "b23dcaf1a28d0dbf802f7faf5d36325a2e8927fe028383015a84629c97fcd071",
+        "b23dcaf1a28d0dbf802f7faf5d36325a2e8927fe028383015a84629c97fcd071"
+      ],
+      "governanceOutputSha256": [
+        "ea55cba4342aaabbe2cb05e220cbb9f0d2a76a3e4b0b9fa089cd3ba80df1f7fd",
+        "ea55cba4342aaabbe2cb05e220cbb9f0d2a76a3e4b0b9fa089cd3ba80df1f7fd"
       ],
       "verifierOutputIdentical": true,
+      "governanceOutputIdentical": true,
       "tapOutputDiffersOnlyByRuntimeDurations": true
     },
     "baseline": {
-      "command": "npm test",
-      "result": "PASS",
-      "opsStrict": {
-        "tests": 3,
-        "pass": 3,
-        "fail": 0,
-        "skip": 0,
-        "todo": 0
-      },
-      "mainSuite": {
-        "tests": 802,
-        "pass": 738,
-        "fail": 0,
-        "skip": 64,
-        "todo": 0
-      },
-      "collabSuite": {
-        "tests": 20,
-        "pass": 20,
-        "fail": 0,
-        "skip": 0,
-        "todo": 0
-      },
-      "perfBaseline": "PASS",
-      "skipInterpretation": "The full repository suite contains 64 declared historical skips outside this contour; focused traceability tests have 0 skips and 0 todo."
+      "command": "npm run -s test:rtk",
+      "result": "PENDING_CLEAN_CANDIDATE_HEAD"
     }
   },
   "ledgerSummary": {
-    "materialDispositions": 24,
+    "materialDispositions": 40,
     "externalPins": 3,
     "programPhaseSequence": [
       "S0",
@@ -145,41 +127,43 @@
     ],
     "claimControls": {
       "allLabWorkIntegratedClaimAllowed": false,
-      "finalProgramVerdict": "NOT_CLAIMED"
+      "finalProgramVerdict": "NEEDS_MORE_EVIDENCE"
     },
     "dispositionCounts": {
       "ADOPTED_PRODUCT": 1,
-      "ADAPTED_PRODUCT": 2,
-      "ENFORCED_TEST_GATE": 12,
-      "DEFERRED_WITH_BLOCKER": 3,
       "REJECTED_UNSAFE": 1,
+      "LAB_EVIDENCE_ONLY": 4,
+      "ADAPTED_PRODUCT": 9,
+      "ENFORCED_TEST_GATE": 22,
       "SUPERSEDED_WITH_REASON": 1,
-      "LAB_EVIDENCE_ONLY": 4
+      "DEFERRED_WITH_BLOCKER": 2
     }
   },
   "artifactSha256": {
-    "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json": "3e313fc9ceda242325fea348dd29475a224e047711c4e9c06adb9dd3c8949987",
-    "scripts/ops/final-lab-to-product-traceability-v2-verify.mjs": "f8bebbb9ea8d96d430919cc133b98a198f818f9d792797310193fe4d4d76a485",
-    "test/contracts/final-lab-to-product-traceability-v2.contract.test.js": "4502932225a85ea4f56e37ed345fbf770dda6298cd2d5016e8a839c36d4ac190"
+    "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json": "2f9616fc444de2d2ec7f290472fc9a81d43c24a86b5f872b8b2587de8a66afbe",
+    "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json": "be35face4e7bbebeecb0eb09609531ac914b9d675754c857004fa410acbb7b3c",
+    "scripts/ops/final-lab-to-product-traceability-v2-verify.mjs": "63802175f3bc1a76dd35a4492ba800d42a82e5dd9b293b142d529d05093d6457",
+    "test/contracts/final-lab-to-product-traceability-v2.contract.test.js": "af409491e5385744469fed049bdb67d9340fef06d4a365ae50e0165638f4917c"
   },
   "observedLocalDeliveryGates": [
-    "governance approval verifier",
-    "dev:fast",
-    "agent:guardrails",
-    "oss:policy",
-    "npm audit production high",
-    "deterministic replay",
-    "npm test"
+    "red-first stale umbrella/final receipt invariant",
+    "focused traceability contract tests 3/3",
+    "traceability ledger verifier 40 material dispositions and 3 external pins",
+    "governance change detection PASS missing approvals 0",
+    "dev:fast 28/28",
+    "agent:guardrails PASS",
+    "deterministic replay 2/2 verifier and governance byte-identical"
   ],
   "pendingDeliveryGates": [
-    "commit",
+    "clean candidate commit",
+    "full RTK on clean candidate",
     "push",
     "PR CI",
     "merge",
     "postmerge exact-head verification"
   ],
   "rollback": {
-    "plan": "Revert the single ledger/verifier PR. No product runtime, UI, dependency, Word provider, sealed package, or user data change is introduced.",
-    "finalProgramClaim": "NOT_CLAIMED"
+    "plan": "Revert the single traceability verdict rebind PR. No product runtime, UI, dependency, Word provider, sealed package, user document, or canonical project data change is introduced.",
+    "finalProgramClaim": "NEEDS_MORE_EVIDENCE_NOT_READY"
   }
 }

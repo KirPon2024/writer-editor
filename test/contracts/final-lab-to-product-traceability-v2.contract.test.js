@@ -17,10 +17,14 @@ async function validLedgerFixture() {
 }
 
 test('FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2 ledger is valid on exact head and blocks final integrated claim', async () => {
-  const { verifyFinalLabTraceabilityLedger } = await loadVerifier();
+  const { FINAL_PROGRAM_VERDICT, LEDGER_EXACT_HEAD_SHA, LEDGER_STATUS, verifyFinalLabTraceabilityLedger, readLedger } = await loadVerifier();
   const report = verifyFinalLabTraceabilityLedger();
   assert.equal(report.ok, true, report.errors.join('\n'));
-  assert.equal(report.exactHead, '1cd98056dc091a74b9b7f0fe30356a456b6acfc4');
+  assert.equal(report.exactHead, LEDGER_EXACT_HEAD_SHA);
+  const ledger = readLedger();
+  assert.equal(ledger.status, LEDGER_STATUS);
+  assert.equal(ledger.claimControls.finalProgramVerdict, FINAL_PROGRAM_VERDICT);
+  assert.equal(ledger.claimControls.allLabWorkIntegratedClaimAllowed, false);
 });
 
 test('FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2 ledger maps every required external receipt pin and material finding', async () => {
@@ -107,6 +111,21 @@ test('FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2 hostile mutations are rejected fail-c
         ledger.claimControls.allLabWorkIntegratedClaimAllowed = true;
       },
       error: 'ALL_LAB_WORK_INTEGRATED_MUST_BE_FALSE',
+    },
+    {
+      name: 'final-ready-with-deferred-work',
+      mutate(ledger) {
+        ledger.claimControls.finalProgramVerdict = 'READY';
+      },
+      error: 'FINAL_READY_CLAIM_WITH_DEFERRED_OR_LAB_ONLY',
+    },
+    {
+      name: 'stale-f3-ui-local-candidate-blocker',
+      mutate(ledger) {
+        const entry = ledger.materialDispositions.find((row) => row.materialId === 'F3_BLACK_BOX_PRODUCT_V1');
+        entry.summary += ' Product UI/default feature flag path is local-candidate only until commit/PR/CI/merge/postmerge verification.';
+      },
+      error: 'STALE_UI_DEFAULT_PATH_BLOCKER',
     },
     {
       name: 'historical-word-evidence-transfer',

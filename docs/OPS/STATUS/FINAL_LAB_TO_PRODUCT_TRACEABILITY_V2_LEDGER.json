@@ -737,7 +737,34 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1_RECEIPT.json",
-            "sha256": "10b18ca44eb8e023dc097e787015b9fdc28b38fcfc972b0144f0f8536e4e5015"
+            "sha256": "2b4c7fbfe7278d3122de161e4a6be04c2bcd952c1607191fc2b1ba0e95655a4c"
+          }
+        },
+        {
+          "commitSha": "48c6257fba9a0f6357d6a45a70b67cde9278d634",
+          "prNumber": 1525,
+          "mergeCommitSha": "ef3a3d03370fdc19d2eba46e9f3202bbc6a490e4",
+          "featureCommitSha": "48c6257fba9a0f6357d6a45a70b67cde9278d634",
+          "files": [
+            "src/product/blackBoxStrictCapsuleRecoverV1.mjs",
+            "test/contracts/black-box-p0c-strict-capsule-recover-v1.contract.test.js",
+            "scripts/ops/black-box-p0c-strict-capsule-recover-v1-model.mjs",
+            "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1_RECEIPT.json"
+          ],
+          "tests": [
+            "node --test test/contracts/black-box-p0c-strict-capsule-recover-v1.contract.test.js",
+            "node scripts/ops/black-box-p0c-strict-capsule-recover-v1-model.mjs",
+            "node scripts/ops/black-box-p0c-age-provider-physical-v1.mjs",
+            "node --test test/contracts/source-fence-v1.contract.test.js test/contracts/multilingual-evidence-v1.contract.test.js test/contracts/black-box-p0a-source-adapter-v1.contract.test.js test/contracts/black-box-p0b-darwin-durable-publisher-v1.contract.test.js test/contracts/black-box-p0c-strict-capsule-recover-v1.contract.test.js test/contracts/black-box-import-as-new-recovery-plan-v1.contract.test.js test/contracts/black-box-manual-core-capsule-kit-v1.contract.test.js",
+            "node scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
+            "node scripts/ops/governance-change-detection.mjs --json --approvals-path docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json",
+            "npm run dev:fast",
+            "npm run agent:guardrails",
+            "npm test"
+          ],
+          "receipt": {
+            "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1_RECEIPT.json",
+            "sha256": "2b4c7fbfe7278d3122de161e4a6be04c2bcd952c1607191fc2b1ba0e95655a4c"
           }
         }
       ],
@@ -759,18 +786,27 @@
         "userDocumentsTouched": false,
         "claimBoundary": "P0C is an enforced provider-bound test/product seam only; full Black Box product V1, product command/UI wiring, real owner-key drill, exact-byte FINAL_COMPLETE donor replication and Disaster Ready remain deferred."
       },
-      "followOnCandidateVerification": {
+      "followOnDeliveryVerification": {
         "taskId": "F3_P0C_EPHEMERAL_CORE_PAYLOAD_SINK_V1",
         "baselineSha": "7ad53fd8cc9c6079f893e06140ac82009ae70433",
+        "commitSha": "48c6257fba9a0f6357d6a45a70b67cde9278d634",
+        "prNumber": 1525,
+        "mergeCommitSha": "ef3a3d03370fdc19d2eba46e9f3202bbc6a490e4",
         "disposition": "ENFORCED_TEST_GATE",
         "purpose": "Provide a verified in-process recovered CORE payload sink so the future filesystem import-as-new writer does not depend on caller-carried plaintext or proof.",
         "redFirst": "9 tests, 7 pass, 2 fail: sink not invoked and sink rejection not fail-closed",
         "focusedTests": "9/9",
-        "affectedTests": "23/23",
-        "modelOracleMutations": "64 finite, 22 hostile, 16 mutants, 0 survivors; import-plan and manual-kit affected models all 0 survivors",
-        "physicalProviderEvidenceSha256": "sha256:7a0b6dbbb744511cd5f35db25149cab1f8ac533a2c337964028574e52de438ac",
+        "affectedTests": "51/51 premerge, 35/35 postmerge",
+        "modelOracleMutations": "64 finite, 22 hostile, 16 mutants, 0 survivors; affected S0/F1/P0A/P0B/P0C/import-plan/manual-kit models all 0 survivors",
+        "physicalProviderEvidenceSha256": "sha256:3d8ee885dc1a61d8403547d5c436c04bcc7ffd882ba6ac644cc6da7f23e712e4",
         "physicalProviderNegativeCases": 6,
         "physicalProviderNegativeFailures": 0,
+        "requiredCi": "PASS",
+        "postMergeVerification": "PASS",
+        "traceabilityLedger": "PASS",
+        "governanceChangeDetection": "PASS",
+        "devFast": "28/28",
+        "guardrails": "PASS",
         "productRuntimeWiringChanged": false,
         "uiChanged": false,
         "userDocumentsTouched": false,
@@ -908,7 +944,7 @@
       ],
       "disposition": "DEFERRED_WITH_BLOCKER",
       "deferred": {
-        "prerequisite": "P0A, P0B, P0C, manual CORE capsule kit and import-as-new recovery plan seams are merged and postmerge verified; the P0C ephemeral recovered CORE payload sink must merge and postmerge verify before a filesystem import-as-new writer can safely consume decrypted CORE bytes; remaining productization must still prove that writer, independent restore, real owner-key recovery drill where required, exact-byte donor replication only from verified FINAL_COMPLETE donor, and explicit product UI/Command Kernel wiring contours.",
+        "prerequisite": "P0A, P0B, P0C, manual CORE capsule kit, import-as-new recovery plan and P0C ephemeral recovered CORE payload sink seams are merged and postmerge verified; remaining productization must still prove the filesystem import-as-new writer, independent restore, real owner-key recovery drill where required, exact-byte donor replication only from verified FINAL_COMPLETE donor, and explicit product UI/Command Kernel wiring contours.",
         "owner": "MASTER_PROGRAM_OWNER_OR_CURRENT_OWNER_GRANT_WITHIN_SCOPE",
         "acceptanceGate": "Exact bounded PRs with source-fence/accounting, durable writer evidence, strict capsule authentication, quarantine/preview/import-as-new-project proof, independent restore, owner-key drill, rollback, and no live-project overwrite."
       }

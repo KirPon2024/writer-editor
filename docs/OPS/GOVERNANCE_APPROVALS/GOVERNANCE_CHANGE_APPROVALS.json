@@ -10368,12 +10368,12 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1_RECEIPT.json",
-      "sha256": "10b18ca44eb8e023dc097e787015b9fdc28b38fcfc972b0144f0f8536e4e5015",
-      "rationale": "Approve F3 P0C receipt follow-on candidate binding for F3_P0C_EPHEMERAL_CORE_PAYLOAD_SINK_V1: red-first 9 tests with 2 expected failures, focused 9/9, affected 23/23, P0C model 64 finite/22 hostile/16 mutants/0 survivors, import-plan/manual affected models 0 survivors, physical provider evidence sha256:7a0b6dbbb744511cd5f35db25149cab1f8ac533a2c337964028574e52de438ac, no filesystem writer/UI/Command Kernel wiring/user documents/live overwrite/owner-key drill/FINAL_COMPLETE donor/Disaster Ready claim.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_P0C_EPHEMERAL_CORE_PAYLOAD_SINK_V1",
-      "approvedAtUtc": "2026-08-14T07:20:00.000Z",
+      "sha256": "2b4c7fbfe7278d3122de161e4a6be04c2bcd952c1607191fc2b1ba0e95655a4c",
+      "rationale": "Approve factual postmerge receipt rebind for F3_P0C_EPHEMERAL_CORE_PAYLOAD_SINK_V1: PR 1525 merge ef3a3d03370fdc19d2eba46e9f3202bbc6a490e4, required CI all SUCCESS, exact postmerge focused 9/9, affected 35/35, P0C model 64 finite/22 hostile/16 mutants/0 survivors, physical provider evidence sha256:3d8ee885dc1a61d8403547d5c436c04bcc7ffd882ba6ac644cc6da7f23e712e4, ledger/governance/dev:fast/guardrails PASS, no filesystem writer/UI/Command Kernel wiring/user documents/live overwrite/owner-key drill/FINAL_COMPLETE donor/Disaster Ready claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_P0C_EPHEMERAL_CORE_PAYLOAD_SINK_POSTMERGE_REBIND_V1",
+      "approvedAtUtc": "2026-08-14T07:47:02.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_P0C_EPHEMERAL_CORE_PAYLOAD_SINK"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_POSTMERGE_TRACEABILITY_REBIND"
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_MANUAL_CORE_CAPSULE_KIT_V1_RECEIPT.json",
@@ -10449,12 +10449,12 @@
     },
     {
       "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "0adebf023c9d03899352bb5d0f7792af9f53d32f11fc5709c918ad56f1651d94",
-      "rationale": "Approve factual ledger candidate binding for F3_P0C_EPHEMERAL_CORE_PAYLOAD_SINK_V1 as ENFORCED_TEST_GATE under P0C with exact receipt hash 10b18ca44eb8e023dc097e787015b9fdc28b38fcfc972b0144f0f8536e4e5015, with import-as-new project writer explicitly blocked until this sink is merged and postmerge verified; no product runtime/UI/user document/live overwrite/owner-key drill/FINAL_COMPLETE donor/Disaster Ready claim is promoted.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_P0C_EPHEMERAL_CORE_PAYLOAD_SINK_V1",
-      "approvedAtUtc": "2026-08-14T07:20:00.000Z",
+      "sha256": "cbab734bf6d6009f00e1cdfe1b53c299208ea44524d08f76a8a11f9e14cfecf2",
+      "rationale": "Approve factual ledger postmerge rebind for F3_P0C_EPHEMERAL_CORE_PAYLOAD_SINK_V1 as ENFORCED_TEST_GATE under P0C with exact receipt hash 2b4c7fbfe7278d3122de161e4a6be04c2bcd952c1607191fc2b1ba0e95655a4c and PR 1525 merge ef3a3d03370fdc19d2eba46e9f3202bbc6a490e4; filesystem import-as-new writer, product runtime/UI/user document/live overwrite/owner-key drill/FINAL_COMPLETE donor/Disaster Ready claims remain future bounded gates.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_P0C_EPHEMERAL_CORE_PAYLOAD_SINK_POSTMERGE_REBIND_V1",
+      "approvedAtUtc": "2026-08-14T07:47:02.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_P0C_EPHEMERAL_CORE_PAYLOAD_SINK"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_POSTMERGE_TRACEABILITY_REBIND"
     }
   ]
 }

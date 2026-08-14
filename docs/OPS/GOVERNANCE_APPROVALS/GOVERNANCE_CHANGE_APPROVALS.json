@@ -10449,12 +10449,12 @@
     },
     {
       "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "b0d6ad39c77ce6f6c755710e31c3a68b53ecf8c1541232ed4f5fe53b5f5e2e37",
-      "rationale": "Approve factual living-ledger postmerge rebind after F3 import-as-new project writer PR #1527 merge commit 01921cf7b812b1bc9030edb92eaa7e636a44bbab: promotes F3_IMPORT_AS_NEW_PROJECT_WRITER_V1 to ENFORCED_TEST_GATE with exact receipt sha256:2ce25ef1fe7339cc9c614381f1e0900b108f4d469982982ba4601fa99675a362, required CI all SUCCESS, postmerge focused 6/6, model 24 finite/16 hostile/12 mutants/0 survivors, disposable synthetic physical evidence sha256:7d4feea1ce67406f3d72138d1a67f84f6bbd7bbb8df80613df9dc51d24f24ac2, dev:fast/guardrails PASS, no user documents, no live overwrite and no product runtime/UI/Command Kernel/project-library registration claim; full Black Box product V1 remains DEFERRED_WITH_BLOCKER.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_IMPORT_AS_NEW_PROJECT_WRITER_POSTMERGE_TRACEABILITY_REBIND_V1",
-      "approvedAtUtc": "2026-08-14T09:03:25.000Z",
+      "sha256": "59bcac9426a0906dca001e408c6d1a49b788d288ef8912a109efa9f064f5c394",
+      "rationale": "Approve factual living-ledger candidate binding after F3 synthetic independent restore drill local green candidate: preserves F3_IMPORT_AS_NEW_PROJECT_WRITER_V1 as ENFORCED_TEST_GATE, adds F3_BLACK_BOX_SYNTHETIC_INDEPENDENT_RESTORE_DRILL_V1 as DEFERRED_WITH_BLOCKER until branch delivery, exact PR binding, required CI, merge and postmerge verification, records local candidate 373fdeb4a7cf17906ed3e68af6bb7b51b06f03e6 and receipt sha256:870cd50163597e41b72f6f33789e24013ce9e34bc9cb9431667421759abfb547, binds physical replay sha256:3cc648863f0282f2703290700759839fcba63d9ca4a9511e4e4103d46fcc46cf, and preserves full Black Box product V1 blockers.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_SYNTHETIC_INDEPENDENT_RESTORE_DRILL_V1",
+      "approvedAtUtc": "2026-08-14T09:33:23.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_POSTMERGE_TRACEABILITY_REBIND"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_SYNTHETIC_INDEPENDENT_RESTORE_DRILL"
     },
     {
       "filePath": "src/product/blackBoxImportAsNewProjectWriterV1.mjs",
@@ -10500,6 +10500,42 @@
       "approvedAtUtc": "2026-08-14T09:03:25.000Z",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_POSTMERGE_TRACEABILITY_REBIND"
+    },
+    {
+      "filePath": "test/contracts/black-box-synthetic-independent-restore-drill-v1.contract.test.js",
+      "sha256": "b5d0a505b735ac51ef83986379dfa9256320ac09735ffc12312c7b5f0f5bc6f2",
+      "rationale": "Approve F3 synthetic independent restore drill contract tests for red-first missing harness, closed model/oracle requirements, physical harness disposable/user-document-forbidden checks, no live overwrite and no destructive command tokens.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_SYNTHETIC_INDEPENDENT_RESTORE_DRILL_V1",
+      "approvedAtUtc": "2026-08-14T09:33:23.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_SYNTHETIC_INDEPENDENT_RESTORE_DRILL"
+    },
+    {
+      "filePath": "scripts/ops/black-box-synthetic-independent-restore-drill-v1-model.mjs",
+      "sha256": "bcf92146a54dab58ec5e220b035cd6aee0806fc5bfe390f41f1b6688fcc090a8",
+      "rationale": "Approve F3 synthetic independent restore drill finite/oracle/hostile/mutation model: 36 finite cases, 18 hostile cases and 12 semantic mutants with zero survivors, ensuring wrong/open contracts, provider mismatch, manual UNKNOWN, artifact digest swap, wrong key, stale/transplant/replay, target collision, import ABSTAIN, readback mismatch, leakage and cleanup failures never aggregate to PASS.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_SYNTHETIC_INDEPENDENT_RESTORE_DRILL_V1",
+      "approvedAtUtc": "2026-08-14T09:33:23.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_SYNTHETIC_INDEPENDENT_RESTORE_DRILL"
+    },
+    {
+      "filePath": "scripts/ops/black-box-synthetic-independent-restore-drill-v1-physical.mjs",
+      "sha256": "97c9d17576dbf1846fe3b38bc542aa049c47e14c03e9ba2eb1dd6c7b96cfb872",
+      "rationale": "Approve F3 synthetic independent restore drill disposable physical runner using the already-pinned official age v1.3.1 provider to prove manual kit artifact publication, independent artifact reread, import-as-new project writer readback, wrong identity, stale source, target collision, tampered artifact and path traversal negatives, cleanup and no receipt leakage; no user documents, system install, UI/runtime wiring, project-library registration, real owner-key drill, off-host restore or Disaster Ready claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_SYNTHETIC_INDEPENDENT_RESTORE_DRILL_V1",
+      "approvedAtUtc": "2026-08-14T09:33:23.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_SYNTHETIC_INDEPENDENT_RESTORE_DRILL"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_SYNTHETIC_INDEPENDENT_RESTORE_DRILL_V1_RECEIPT.json",
+      "sha256": "870cd50163597e41b72f6f33789e24013ce9e34bc9cb9431667421759abfb547",
+      "rationale": "Approve factual local green candidate receipt for F3 synthetic independent restore drill: harness commit 373fdeb4a7cf17906ed3e68af6bb7b51b06f03e6, red-first 2/2 fail then focused 2/2 pass, model 36 finite/18 hostile/12 mutants/0 survivors, physical evidence sha256:e290d725f7b00ebc41dc35ef8eaef21e5d01d426733cca8c433396414e50df9c and replay sha256:3cc648863f0282f2703290700759839fcba63d9ca4a9511e4e4103d46fcc46cf with positive manual kit/import writer, 4 imported files, 5/5 negatives, no leakage and cleanup PASS, ledger/governance/dev:fast/guardrails PASS, explicit branch-delivery/CI/merge/postmerge pending and no product release, UI, Command Kernel, project-library, user-document, live-overwrite, owner-key drill, off-host restore or Disaster Ready claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_SYNTHETIC_INDEPENDENT_RESTORE_DRILL_V1",
+      "approvedAtUtc": "2026-08-14T09:33:23.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_SYNTHETIC_INDEPENDENT_RESTORE_DRILL"
     }
   ]
 }

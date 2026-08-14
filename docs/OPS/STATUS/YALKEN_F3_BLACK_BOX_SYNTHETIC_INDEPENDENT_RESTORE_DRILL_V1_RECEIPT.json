@@ -1,0 +1,153 @@
+{
+  "schemaVersion": "yalken.f3BlackBoxSyntheticIndependentRestoreDrill.receipt.v1",
+  "taskId": "F3_BLACK_BOX_SYNTHETIC_INDEPENDENT_RESTORE_DRILL_V1",
+  "createdAtUtc": "2026-08-14T09:33:23Z",
+  "status": "LOCAL_CANDIDATE_FULL_GREEN_CI_AND_MERGE_PENDING",
+  "verdict": "READY_FOR_PUSH_PR_REQUIRED_CI_NOT_PRODUCT_RELEASE",
+  "baseline": {
+    "headSha": "373adfdf3f2be74529656027c8cc7b8c4dfc521b",
+    "treeSha": "ffd726ebae55c25d4cf87dde745e6569a685ef52",
+    "branch": "codex/yalken-f3-synthetic-independent-restore-drill-v1"
+  },
+  "candidate": {
+    "harnessCommitSha": "373fdeb4a7cf17906ed3e68af6bb7b51b06f03e6",
+    "harnessTreeSha": "b917d6c3d431765fe400e60b401f757209da8b5f",
+    "changedFiles": [
+      "test/contracts/black-box-synthetic-independent-restore-drill-v1.contract.test.js",
+      "scripts/ops/black-box-synthetic-independent-restore-drill-v1-model.mjs",
+      "scripts/ops/black-box-synthetic-independent-restore-drill-v1-physical.mjs",
+      "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_SYNTHETIC_INDEPENDENT_RESTORE_DRILL_V1_RECEIPT.json",
+      "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
+      "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+    ],
+    "fileSha256": {
+      "test/contracts/black-box-synthetic-independent-restore-drill-v1.contract.test.js": "b5d0a505b735ac51ef83986379dfa9256320ac09735ffc12312c7b5f0f5bc6f2",
+      "scripts/ops/black-box-synthetic-independent-restore-drill-v1-model.mjs": "bcf92146a54dab58ec5e220b035cd6aee0806fc5bfe390f41f1b6688fcc090a8",
+      "scripts/ops/black-box-synthetic-independent-restore-drill-v1-physical.mjs": "97c9d17576dbf1846fe3b38bc542aa049c47e14c03e9ba2eb1dd6c7b96cfb872"
+    }
+  },
+  "authorityBoundary": {
+    "ownerGrant": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION",
+    "productRuntimeWiringChanged": false,
+    "commandKernelWiringChanged": false,
+    "productUiWiringChanged": false,
+    "projectLibraryRegistrationChanged": false,
+    "canonicalProjectMutation": false,
+    "liveProjectOverwrite": false,
+    "userDocumentsTouched": false,
+    "sealedLabPackagesModified": false,
+    "systemWideInstall": false,
+    "dependenciesChanged": false,
+    "networkRuntimeTruth": false
+  },
+  "contract": {
+    "schema": "yalken.blackBoxSyntheticIndependentRestoreDrill.physicalEvidence.v1",
+    "integrationMode": "DISPOSABLE_SYNTHETIC_E2E_EVIDENCE_HARNESS",
+    "composition": [
+      "manual CORE capsule kit builds and publishes one create-only capsule artifact",
+      "the artifact is independently reread from disk and fed into the import-as-new project writer",
+      "the writer executes P0C recovery through the ephemeral sink and creates one absent synthetic project directory",
+      "readback verifies manifest, scene files and sanitized receipt by digest"
+    ],
+    "semantics": [
+      "wrong identity/key must deny",
+      "stale source snapshot must deny",
+      "target collision must deny without overwrite",
+      "tampered artifact digest must deny",
+      "path traversal recovered CORE must deny before PASS",
+      "UNKNOWN/ABSTAIN/CONFLICTING cannot aggregate into PASS by model oracle",
+      "receipt/evidence must not contain age secret key, bytesBase64, core genome plaintext or sourceText"
+    ],
+    "nonGoals": [
+      "no UI surface",
+      "no Command Kernel command",
+      "no product runtime wiring",
+      "no project library registration",
+      "no user manuscript",
+      "no live project restore or overwrite",
+      "no real owner-key drill",
+      "no independent off-host restore",
+      "no Disaster Ready claim"
+    ]
+  },
+  "redFirst": {
+    "command": "node --test test/contracts/black-box-synthetic-independent-restore-drill-v1.contract.test.js",
+    "result": "RED_EXPECTED",
+    "tests": 2,
+    "pass": 0,
+    "fail": 2,
+    "skipped": 0,
+    "todo": 0,
+    "primaryFailure": "ERR_MODULE_NOT_FOUND scripts/ops/black-box-synthetic-independent-restore-drill-v1-model.mjs and ENOENT scripts/ops/black-box-synthetic-independent-restore-drill-v1-physical.mjs"
+  },
+  "focusedProof": {
+    "command": "node --test test/contracts/black-box-synthetic-independent-restore-drill-v1.contract.test.js",
+    "tests": 2,
+    "pass": 2,
+    "fail": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "modelOracleMutations": {
+    "command": "node scripts/ops/black-box-synthetic-independent-restore-drill-v1-model.mjs",
+    "finiteCases": 36,
+    "hostileCases": 18,
+    "semanticMutants": 12,
+    "survivors": 0,
+    "failures": 0,
+    "skips": 0
+  },
+  "physicalProviderEvidence": {
+    "command": "node scripts/ops/black-box-synthetic-independent-restore-drill-v1-physical.mjs",
+    "path": "/Volumes/T7-Secure/storage/yalken/evidence/f3-synthetic-independent-restore-drill-v1/20260814T093323Z/physical-evidence.json",
+    "sha256": "sha256:e290d725f7b00ebc41dc35ef8eaef21e5d01d426733cca8c433396414e50df9c",
+    "provider": "official age CLI v1.3.1 darwin-arm64",
+    "positiveManualKit": true,
+    "positiveImportWriter": true,
+    "importedProjectFileCount": 4,
+    "negativeCases": 5,
+    "negativeFailures": 0,
+    "leakageDetected": false,
+    "cleanupOk": true,
+    "userDocumentsTouched": false,
+    "claimBoundary": "Disposable synthetic independent restore drill only; no user documents, no private manuscript, no live project overwrite, no product command or UI wiring, no real owner-key drill, no off-host restore and no Disaster Ready claim."
+  },
+  "deterministicReplay": {
+    "focusedAndModelRuns": 2,
+    "focusedTestsPerRun": "2/2",
+    "modelPerRun": "36 finite, 18 hostile, 12 mutants, 0 survivors",
+    "physicalReplayRuns": 2,
+    "primaryPhysicalEvidenceSha256": "sha256:e290d725f7b00ebc41dc35ef8eaef21e5d01d426733cca8c433396414e50df9c",
+    "replayPhysicalEvidenceSha256": "sha256:3cc648863f0282f2703290700759839fcba63d9ca4a9511e4e4103d46fcc46cf",
+    "physicalReplayOutcome": "PASS_2_OF_2_SYNTHETIC_DISPOSABLE_RUNS",
+    "failures": 0,
+    "skips": 0,
+    "todo": 0
+  },
+  "resourceCeilings": {
+    "singleSyntheticDrillSeconds": 60,
+    "rssBytes": 536870912,
+    "typingHotPath": "NOT_APPLICABLE"
+  },
+  "deliveryGates": {
+    "deterministicReplay": "PASS_FOCUSED_MODEL_2X_PHYSICAL_2X",
+    "traceabilityLedger": "PASS_31_DISPOSITIONS_3_EXTERNAL_PINS",
+    "governanceChangeDetection": "PASS_NO_MISSING_APPROVALS",
+    "devFast": "PASS_28_OF_28_EXIT_0",
+    "guardrails": "PASS",
+    "requiredCi": "PENDING_BRANCH_DELIVERY",
+    "postMergeVerification": "PENDING_BRANCH_DELIVERY"
+  },
+  "rollback": {
+    "plan": "Revert the synthetic independent restore drill contract/model/physical runner, receipt, ledger and governance entries. No migration rollback is needed because no product runtime, canonical project data or user documents are mutated.",
+    "artifactCleanup": "Physical runner removes its disposable working directory; retained evidence JSON is synthetic and may be deleted with the evidence run directory if desired."
+  },
+  "limitations": {
+    "fullBlackBoxProductV1": "DEFERRED_WITH_BLOCKER",
+    "productRuntimeCommand": "NOT_CLAIMED",
+    "projectLibraryRegistration": "NOT_CLAIMED",
+    "ownerKeyRecoveryDrill": "NOT_CLAIMED",
+    "independentOffHostRestore": "NOT_CLAIMED",
+    "disasterReady": "NOT_CLAIMED"
+  }
+}

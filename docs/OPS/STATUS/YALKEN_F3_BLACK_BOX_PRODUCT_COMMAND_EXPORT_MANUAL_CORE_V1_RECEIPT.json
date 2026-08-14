@@ -692,7 +692,7 @@
   },
   "runtimeCreateOnlyTargetBinding": {
     "taskId": "F3_BLACK_BOX_CREATE_ONLY_TARGET_RUNTIME_BINDING_V1",
-    "status": "LOCAL_CANDIDATE_GREEN_PENDING_COMMIT_PUSH_PR_CI_MERGE_POSTMERGE",
+    "status": "MERGED_POSTMERGE_VERIFIED_NOT_FULL_BLACK_BOX_PRODUCT_V1",
     "baselineSha": "884dd511604a697b88e5258225f37e5c66852ee7",
     "baselineTreeSha": "439d2b688c02bf702e10530fb2e44aba05f0c3b2",
     "scope": "Bind the existing Black Box manual CORE export main runtime bridge to an explicit create-only target selection seam. The seam is read-only until P0B writes through the already existing durable publisher, requires both allowedRoot and targetDir environment bindings, resolves real paths, rejects targets outside the allowed root, inside the live project root, symlink targets, existing output filenames and non-darwin platforms, and returns only a deterministic safe filename plus directory target. No product UI, default flag placement, user documents, owner private key, live project overwrite, project-library registration, off-host restore, Disaster Ready or full Black Box Product V1 claim is added.",
@@ -811,6 +811,71 @@
       "devFast": "28/28",
       "guardrails": "PASS",
       "deterministicReplay": "PASS_2_OF_2_AFFECTED_79_PRODUCT_COMMAND_53_30_26_0_TRACEABILITY_GOVERNANCE"
+    },
+    "candidateCommitSha": "32b99bb1e9b1df83139e922a0f9892237cee29eb",
+    "candidateTreeSha": "35a8e6ebeba06c697763d1d0583d47a16b471356",
+    "pr": {
+      "number": 1545,
+      "title": "Bind Black Box create-only target runtime",
+      "headRefName": "codex/yalken-f3-black-box-create-only-target-runtime-binding-v1",
+      "initialHeadSha": "32b99bb1e9b1df83139e922a0f9892237cee29eb",
+      "headSha": "32b99bb1e9b1df83139e922a0f9892237cee29eb",
+      "baseSha": "884dd511604a697b88e5258225f37e5c66852ee7",
+      "mergeCommitSha": "acfe4565b1a0316459c80f67e0efbbe7852a03cf",
+      "mergeTreeSha": "35a8e6ebeba06c697763d1d0583d47a16b471356",
+      "mergedAtUtc": "2026-08-14T18:23:12Z",
+      "requiredCi": {
+        "status": "PASS",
+        "checks": {
+          "oss-policy": "SUCCESS",
+          "rtk-required": "SUCCESS",
+          "x1-runtime-parity (ubuntu-latest)": "SUCCESS",
+          "x1-runtime-parity (windows-latest)": "SUCCESS"
+        }
+      },
+      "merge": "PASS",
+      "postmerge": "PASS"
+    },
+    "postMergeVerification": {
+      "mergeCommitSha": "acfe4565b1a0316459c80f67e0efbbe7852a03cf",
+      "mergeTreeSha": "35a8e6ebeba06c697763d1d0583d47a16b471356",
+      "worktree": "postmerge-f3-target-binding-1545",
+      "bootstrap": "PASS",
+      "requiredCi": "PASS",
+      "focusedProof": {
+        "contracts": "12/12",
+        "tests": 12,
+        "pass": 12,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "affectedProof": {
+        "tests": 79,
+        "pass": 79,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "modelOracleMutations": "Product command 53 finite, 30 hostile, 26 mutants, 0 survivors",
+      "affectedModels": {
+        "sourceFence": "192 finite, 20 hostile, 9 mutants, 0 survivors",
+        "multilingualEvidence": "24 finite, 18 hostile, 15 mutants, 0 survivors",
+        "blackBoxP0aSourceAdapter": "32 finite, 18 hostile, 12 mutants, 0 survivors",
+        "blackBoxP0bDarwinDurablePublisher": "65 finite, 18 hostile, 12 mutants, 0 survivors",
+        "p0c": "64 finite, 26 hostile, 19 mutants, 0 survivors",
+        "importAsNewRecoveryPlan": "36 finite, 14 hostile, 10 mutants, 0 survivors",
+        "importAsNewProjectWriter": "24 finite, 16 hostile, 12 mutants, 0 survivors",
+        "manualCoreCapsuleKit": "48 finite, 16 hostile, 12 mutants, 0 survivors",
+        "trustedSourceSnapshot": "48 finite, 18 hostile, 12 mutants, 0 survivors",
+        "productCommandExportManualCore": "53 finite, 30 hostile, 26 mutants, 0 survivors"
+      },
+      "traceabilityLedger": "PASS",
+      "governanceChangeDetection": "PASS",
+      "devFast": "28/28",
+      "guardrails": "PASS",
+      "worktreeClean": true,
+      "claimBoundary": "Merged and postmerge verified for the bounded create-only target runtime binding only. This does not claim product UI/default flag placement, project-library registration, owner-key drill, off-host restore, Disaster Ready or full Black Box Product V1."
     }
   },
   "changedFileHashes": {

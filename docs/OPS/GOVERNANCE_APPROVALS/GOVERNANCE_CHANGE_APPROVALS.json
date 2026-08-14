@@ -10449,10 +10449,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "e3c7ed31e6d479a0eae04da724a02e892d74b3faecad56ff5ba54b0632e4e281",
-      "rationale": "Approve factual ledger update adding F3 runtime source revision binding as DEFERRED_WITH_BLOCKER local-green pending delivery with PR #1543 open, rebinding the current product-command receipt sha256 and preserving the full Black Box Product V1 blocker until CI/merge/postmerge and remaining product gates are complete.",
+      "sha256": "53d955de0eeb9a6a862cddc17dda3dab498063a19817105d946d228a4d8726ce",
+      "rationale": "Approve factual ledger postmerge rebind for F3 runtime source revision binding: material disposition moves from DEFERRED_WITH_BLOCKER local-green to ADAPTED_PRODUCT only after PR #1543 required CI, merge and clean exact-head postmerge verification; full Black Box Product V1 remains deferred for remaining product gates.",
       "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_RUNTIME_SOURCE_REVISION_BINDING_V1",
-      "approvedAtUtc": "2026-08-14T17:05:00.000Z",
+      "approvedAtUtc": "2026-08-14T17:29:30Z",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },
@@ -10620,10 +10620,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-      "sha256": "adc93353335f5ae38692b4e20a16fabee05eea98ede9225421cc9cbaeda08810",
-      "rationale": "Approve factual PR-open receipt update for F3 runtime source revision binding PR #1543: candidate commit 2d848bf314ba6b8b6878808a95bbd91f7f4eb395, red-first 11 tests/8 pass/3 fail, focused 11/11, affected 78/78, product command model 47 finite/26 hostile/22 mutants/0 survivors, source observation bound to current manifest and CORE source bytes with dirty/path traversal/missing manifest fail-closed behavior; target remains not configured and no UI/user-document/full Black Box Product V1 claim is made.",
+      "sha256": "320d97b5e9b032fcb2a9925574b08413735e2989f140bbf880fdafded98b11cc",
+      "rationale": "Approve factual postmerge receipt rebind for F3 runtime source revision binding PR #1543: required CI PASS, merge commit 38303776c7884473db7fda822cf03c09b22b29a2, postmerge focused 11/11, affected 78/78, product command model 47 finite/26 hostile/22 mutants/0 survivors, traceability/governance/dev:fast/guardrails PASS; target remains not configured and no UI/user-document/full Black Box Product V1 claim is made.",
       "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_RUNTIME_SOURCE_REVISION_BINDING_V1",
-      "approvedAtUtc": "2026-08-14T17:05:00.000Z",
+      "approvedAtUtc": "2026-08-14T17:29:30Z",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },

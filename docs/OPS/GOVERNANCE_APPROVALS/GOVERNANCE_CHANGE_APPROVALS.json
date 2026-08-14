@@ -10431,21 +10431,21 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN_V1_RECEIPT.json",
-      "sha256": "d723d09ad797a4b8dd066becdbe1cf28bdc2727bb5dd88699942f6ab4c6c947a",
-      "rationale": "Approve F3 import-as-new recovery plan local candidate receipt binding feature commit a5a344e99e05fa97edf9be0793e6c5f6c1f63636 and PR #1523, focused 6/6, affected 56/56, model 36 finite/14 hostile/10 mutants/0 survivors, affected models all zero survivors, disposable physical evidence sha256:2c70610cb849ea8e4c6db344e2c2ee85747f5b70c895bf59652efcb3d2a002bf plus replay sha256:bf5bea05c49b95f20e9fb765af079e6b09f3b00ff365cd8adaec21174f2dbccf, dev:fast/guardrails/full baseline PASS, with no UI, Command Kernel wiring, user documents, live overwrite, owner-key drill, FINAL_COMPLETE donor, live import writer or Disaster Ready claim.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN_V1",
-      "approvedAtUtc": "2026-08-14T06:11:00.000Z",
+      "sha256": "9f888df381eba631279b3ee4a3eddf8ccf8249d8b0a72ba71ec698fd36ab26d0",
+      "rationale": "Approve F3 import-as-new recovery plan postmerge receipt rebind for PR #1523 merge commit 0129448a32fbdf47faac87ca71a278272f283dfa: required CI all SUCCESS, exact postmerge focused 6/6, affected 56/56, affected models all zero survivors, disposable synthetic physical evidence sha256:e8e3fdb2e2769d2bbbb3075579cb9e69a7e3c3b0212b0f344a66a52a82ae295a, ledger/governance/dev:fast/guardrails PASS, with no UI, Command Kernel wiring, user documents, live overwrite, owner-key drill, FINAL_COMPLETE donor, live import writer or Disaster Ready claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_IMPORT_AS_NEW_RECOVERY_PLAN_POSTMERGE_REBIND_V1",
+      "approvedAtUtc": "2026-08-14T06:50:00.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_POSTMERGE_TRACEABILITY_REBIND"
     },
     {
       "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "5dbe8f9b39b385763c4da11b3e08063191503c803ef0e3588f8a7e38285e95df",
-      "rationale": "Approve factual ledger binding for F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN_V1 as ENFORCED_TEST_GATE with PR #1523 candidate evidence, exact receipt hash, focused/affected/model/physical/dev:fast/guardrails/full baseline PASS, while keeping full Black Box product V1 DEFERRED_WITH_BLOCKER and denying live import writer, UI/Command Kernel wiring, user documents, owner-key drill, FINAL_COMPLETE donor and Disaster Ready claims.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN_V1",
-      "approvedAtUtc": "2026-08-14T06:16:00.000Z",
+      "sha256": "0e07339e25cbb1506854ba83687214bb092fc2e55d2c67722909259f70bc489a",
+      "rationale": "Approve factual ledger postmerge rebind for F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN_V1 as ENFORCED_TEST_GATE with PR #1523 merge commit 0129448a32fbdf47faac87ca71a278272f283dfa, exact receipt hash 9f888df381eba631279b3ee4a3eddf8ccf8249d8b0a72ba71ec698fd36ab26d0, focused/affected/model/physical/dev:fast/guardrails/required CI PASS, while keeping full Black Box product V1 DEFERRED_WITH_BLOCKER and denying live import writer, UI/Command Kernel wiring, user documents, owner-key drill, FINAL_COMPLETE donor and Disaster Ready claims.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_IMPORT_AS_NEW_RECOVERY_PLAN_POSTMERGE_REBIND_V1",
+      "approvedAtUtc": "2026-08-14T06:50:00.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_POSTMERGE_TRACEABILITY_REBIND"
     }
   ]
 }

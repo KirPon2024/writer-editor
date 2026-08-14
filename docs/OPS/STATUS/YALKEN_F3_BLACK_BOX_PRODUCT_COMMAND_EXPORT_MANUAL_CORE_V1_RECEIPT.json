@@ -273,10 +273,31 @@
   },
   "runtimePortInventoryDefaultOff": {
     "taskId": "F3_BLACK_BOX_RUNTIME_PORT_INVENTORY_DEFAULT_OFF_V1",
-    "status": "LOCAL_CANDIDATE_COMMITTED_PENDING_PR_NOT_FULL_BLACK_BOX_PRODUCT_V1",
+    "status": "MERGED_POSTMERGE_VERIFIED_NOT_FULL_BLACK_BOX_PRODUCT_V1",
     "baselineSha": "c5675e92d3ecddd42581853500d14b7a09c7e230",
     "candidateCommitSha": "e0b56b3bc0f94a2ec2884b33d7523c0505bf59c9",
     "candidateTreeSha": "c6445baacfeecd6409700b04528d616191969b40",
+    "evidenceCommitSha": "fbd69633ff5ed957c435cc6053e5de0e5efd3bd9",
+    "evidenceTreeSha": "00b0b2cab8e55e7f9d6c742a26cb68eef70b6c35",
+    "pr": {
+      "number": 1539,
+      "title": "Bind Black Box runtime port inventory default-off",
+      "headRefName": "codex/yalken-f3-black-box-runtime-port-inventory-default-off-v1",
+      "headSha": "fbd69633ff5ed957c435cc6053e5de0e5efd3bd9",
+      "baseSha": "c5675e92d3ecddd42581853500d14b7a09c7e230",
+      "mergeCommitSha": "70ec2e1cb7e60bda554f8a730bc917daabab69d5",
+      "mergeTreeSha": "00b0b2cab8e55e7f9d6c742a26cb68eef70b6c35",
+      "mergedAtUtc": "2026-08-14T15:21:32Z"
+    },
+    "requiredCi": {
+      "status": "PASS",
+      "checks": {
+        "oss-policy": "SUCCESS",
+        "x1-runtime-parity (ubuntu-latest)": "SUCCESS",
+        "x1-runtime-parity (windows-latest)": "SUCCESS",
+        "rtk-required": "SUCCESS"
+      }
+    },
     "scope": "Bind the existing main runtime bridge for cmd.project.blackBox.exportManualCoreCapsuleKitV1 to the complete trusted port inventory after audit-recipient separation by adding the missing getAuditRecipient port stub while preserving feature-flag default-off, provider/audit/target unconfigured DENY behavior, no product UI placement, no user documents, no owner private key, no system-wide provider install and no live project overwrite.",
     "redFirst": {
       "command": "node --test test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
@@ -334,6 +355,20 @@
       "governanceChangeDetection": "PASS",
       "devFast": "28/28",
       "guardrails": "PASS"
+    },
+    "postMergeVerification": {
+      "mergeCommitSha": "70ec2e1cb7e60bda554f8a730bc917daabab69d5",
+      "mergeTreeSha": "00b0b2cab8e55e7f9d6c742a26cb68eef70b6c35",
+      "bootstrap": "PASS",
+      "focusedProof": "7/7",
+      "affectedProof": "74/74",
+      "modelOracleMutations": "Product command 40 finite, 21 hostile, 16 mutants, 0 survivors",
+      "affectedModels": "sourceFence 192/20/9/0, multilingualEvidence 24/18/15/0, blackBoxP0aSourceAdapter 32/18/12/0, blackBoxP0bDarwinDurablePublisher 65/18/12/0, p0c 64/26/19/0, importAsNewRecoveryPlan 36/14/10/0, importAsNewProjectWriter 24/16/12/0, manualCoreCapsuleKit 48/16/12/0, trustedSourceSnapshot 48/18/12/0, productCommandExportManualCore 40/21/16/0",
+      "traceabilityLedger": "PASS",
+      "governanceChangeDetection": "PASS",
+      "devFast": "28/28",
+      "guardrails": "PASS",
+      "worktreeClean": true
     },
     "changedFileHashes": {
       "src/main.js": "a5ed53aab8e13d4804baf43481168ff4d51cb76ca4ada47c719d8980b1503a45",

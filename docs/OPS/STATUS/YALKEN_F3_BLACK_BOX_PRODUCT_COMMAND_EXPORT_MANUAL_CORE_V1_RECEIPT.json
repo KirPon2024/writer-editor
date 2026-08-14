@@ -509,7 +509,7 @@
   },
   "runtimeSourceRevisionBinding": {
     "taskId": "F3_BLACK_BOX_RUNTIME_SOURCE_REVISION_BINDING_V1",
-    "status": "PR_OPEN_LOCAL_CANDIDATE_GREEN_PENDING_REQUIRED_CI_MERGE_POSTMERGE",
+    "status": "MERGED_POSTMERGE_VERIFIED_NOT_FULL_BLACK_BOX_PRODUCT_V1",
     "baselineSha": "40d3d8fd20babaa72aa8afde4acfdc57ed0171b5",
     "baselineTreeSha": "edaf7dce448d17c600cfb2c3274fd09c9d844283",
     "candidateCommitSha": "2d848bf314ba6b8b6878808a95bbd91f7f4eb395",
@@ -519,10 +519,22 @@
       "title": "Bind Black Box runtime source revision",
       "headRefName": "codex/yalken-f3-black-box-runtime-source-revision-binding-v1",
       "initialHeadSha": "2d848bf314ba6b8b6878808a95bbd91f7f4eb395",
+      "headSha": "1e2018846cea7471ed20d8efdbf4a7bc330e00f7",
       "baseSha": "40d3d8fd20babaa72aa8afde4acfdc57ed0171b5",
-      "requiredCi": "PENDING",
-      "merge": "PENDING",
-      "postmerge": "PENDING"
+      "mergeCommitSha": "38303776c7884473db7fda822cf03c09b22b29a2",
+      "mergeTreeSha": "b223fe236413d0465de4cc458795446afb6c8a8d",
+      "mergedAtUtc": "2026-08-14T17:23:10Z",
+      "requiredCi": {
+        "status": "PASS",
+        "checks": {
+          "oss-policy": "SUCCESS",
+          "rtk-required": "SUCCESS",
+          "x1-runtime-parity (ubuntu-latest)": "SUCCESS",
+          "x1-runtime-parity (windows-latest)": "SUCCESS"
+        }
+      },
+      "merge": "PASS",
+      "postmerge": "PASS"
     },
     "scope": "Bind the existing Black Box manual CORE export main runtime bridge to a read-only runtime source revision observation seam. The seam computes projectId/rootId/documentId plus canonicalRevision, workingRevision and generation from current project manifest and CORE source bytes, uses least-privilege READ_SOURCE_SNAPSHOT authority with mayWrite=false, rejects dirty/autosave state, missing manifest and path traversal as non-PASS, and leaves the create-only target port not configured. No product UI, user documents, owner private key, provider behavior, live project overwrite, Disaster Ready or full Black Box Product V1 claim is added.",
     "redFirst": {
@@ -629,7 +641,54 @@
       "privateManuscriptsTouched": false,
       "fullBlackBoxProductV1": "NOT_CLAIMED"
     },
-    "rollback": "Revert the single bounded F3_BLACK_BOX_RUNTIME_SOURCE_REVISION_BINDING_V1 PR; feature remains default-off, target remains not configured, and no canonical/user data migration exists."
+    "rollback": "Revert the single bounded F3_BLACK_BOX_RUNTIME_SOURCE_REVISION_BINDING_V1 PR; feature remains default-off, target remains not configured, and no canonical/user data migration exists.",
+    "postMergeVerification": {
+      "mergeCommitSha": "38303776c7884473db7fda822cf03c09b22b29a2",
+      "mergeTreeSha": "b223fe236413d0465de4cc458795446afb6c8a8d",
+      "worktree": "postmerge-f3-runtime-source-revision-binding-1543",
+      "bootstrap": "PASS",
+      "requiredCi": "PASS",
+      "focusedProof": {
+        "contracts": "11/11",
+        "tests": 11,
+        "pass": 11,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "affectedProof": {
+        "tests": 78,
+        "pass": 78,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "modelOracleMutations": "Product command 47 finite, 26 hostile, 22 mutants, 0 survivors",
+      "affectedModels": {
+        "sourceFence": "192 finite, 20 hostile, 9 mutants, 0 survivors",
+        "multilingualEvidence": "24 finite, 18 hostile, 15 mutants, 0 survivors",
+        "blackBoxP0aSourceAdapter": "32 finite, 18 hostile, 12 mutants, 0 survivors",
+        "blackBoxP0bDarwinDurablePublisher": "65 finite, 18 hostile, 12 mutants, 0 survivors",
+        "p0c": "64 finite, 26 hostile, 19 mutants, 0 survivors",
+        "importAsNewRecoveryPlan": "36 finite, 14 hostile, 10 mutants, 0 survivors",
+        "importAsNewProjectWriter": "24 finite, 16 hostile, 12 mutants, 0 survivors",
+        "manualCoreCapsuleKit": "48 finite, 16 hostile, 12 mutants, 0 survivors",
+        "trustedSourceSnapshot": "48 finite, 18 hostile, 12 mutants, 0 survivors",
+        "productCommandExportManualCore": "47 finite, 26 hostile, 22 mutants, 0 survivors"
+      },
+      "traceabilityLedger": "PASS",
+      "governanceChangeDetection": "PASS",
+      "devFast": "28/28",
+      "guardrails": "PASS",
+      "worktreeClean": true,
+      "claimBoundary": "Merged and postmerge verified for the bounded runtime source revision binding only. This does not claim product UI, create-only target port configuration, owner-key drill, off-host restore, Disaster Ready or full Black Box Product V1."
+    },
+    "localGates": {
+      "traceabilityLedger": "PASS",
+      "governanceChangeDetection": "PASS",
+      "devFast": "28/28",
+      "guardrails": "PASS"
+    }
   },
   "changedFileHashes": {
     "src/product/blackBoxProductCommandExportManualCoreV1.mjs": "302b9df995277197bfa4162e003e0be0ab1dce709c21ea2d709ff41b8187fdb8",

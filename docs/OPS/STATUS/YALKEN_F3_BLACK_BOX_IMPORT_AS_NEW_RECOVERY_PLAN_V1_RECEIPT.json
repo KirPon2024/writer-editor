@@ -1,0 +1,140 @@
+{
+  "schemaVersion": "yalken.f3BlackBoxImportAsNewRecoveryPlan.receipt.v1",
+  "taskId": "F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN_V1",
+  "createdAtUtc": "2026-08-14T06:10:48Z",
+  "status": "LOCAL_CANDIDATE_VERIFIED_PENDING_DELIVERY",
+  "verdict": "READY_FOR_DELIVERY_GATES_NOT_PRODUCT_RELEASE",
+  "baseline": {
+    "headSha": "212483737b3dc3722caec8b81ebd9ad76edcca04",
+    "treeSha": "83c1c762c8451dfdf54a984dd1691dd672c5e76a",
+    "branch": "codex/yalken-f3-black-box-import-as-new-recovery-plan-v1"
+  },
+  "candidate": {
+    "featureCommitSha": "a5a344e99e05fa97edf9be0793e6c5f6c1f63636",
+    "featureTreeSha": "cc0197830fe8de611743634a2527e81b8d89a016",
+    "changedFiles": [
+      "src/product/blackBoxImportAsNewRecoveryPlanV1.mjs",
+      "test/contracts/black-box-import-as-new-recovery-plan-v1.contract.test.js",
+      "scripts/ops/black-box-import-as-new-recovery-plan-v1-model.mjs",
+      "scripts/ops/black-box-import-as-new-recovery-plan-v1-physical.mjs",
+      "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN_V1_RECEIPT.json",
+      "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
+      "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json",
+      "scripts/ops/final-lab-to-product-traceability-v2-verify.mjs"
+    ],
+    "fileSha256": {
+      "src/product/blackBoxImportAsNewRecoveryPlanV1.mjs": "6fb54aaea8e0227bc45e144baef3e8da865fd29e2d4fc519b4e88111b4865a3a",
+      "test/contracts/black-box-import-as-new-recovery-plan-v1.contract.test.js": "4ee83abc77b5452999637dcc809e437ef0fc1e7361d9d598792d9b2c58ae5f32",
+      "scripts/ops/black-box-import-as-new-recovery-plan-v1-model.mjs": "644f107c531108902f5f6cefc20ee849d53d3c4f044527c6cca0fe3548b886bb",
+      "scripts/ops/black-box-import-as-new-recovery-plan-v1-physical.mjs": "3a0f0a6aa0ba4d971962159c35ce4349d9bfb924bfeebb1f75652e919bec4850"
+    }
+  },
+  "authorityBoundary": {
+    "ownerGrant": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION",
+    "productRuntimeWiringChanged": false,
+    "commandKernelWiringChanged": false,
+    "uiChanged": false,
+    "canonicalProjectMutation": false,
+    "liveProjectOverwrite": false,
+    "userDocumentsTouched": false,
+    "sealedLabPackagesModified": false,
+    "systemWideInstall": false,
+    "dependenciesChanged": false,
+    "networkRuntimeTruth": false
+  },
+  "contract": {
+    "schema": "yalken.blackBoxImportAsNewRecoveryPlan.result.v1",
+    "featureFlag": "yalken.blackBox.importAsNewRecoveryPlan.v1",
+    "defaultEnabled": false,
+    "integrationMode": "READ_ONLY_PRODUCT_SEAM",
+    "composition": [
+      "P0C strict standard age v1 X25519 recover preview",
+      "wrapper-owned import-as-new policy validation",
+      "sanitized recovery plan and receipt projection"
+    ],
+    "semantics": [
+      "caller-carried recoverPlan, p0cRecoverResult or receipt is rejected by closed keyset",
+      "P0C recover is executed internally against the supplied capsule, provider pin and identity",
+      "provider/source/identity/tamper/replay/transplant denials propagate as non-PASS",
+      "UNKNOWN, ABSTAIN and CONFLICTING upstream decisions are never aggregated into PASS",
+      "output is read-only quarantine preview metadata only"
+    ],
+    "nonGoals": [
+      "no UI surface",
+      "no Command Kernel public command",
+      "no filesystem import writer",
+      "no live project restore or overwrite",
+      "no user manuscript",
+      "no real owner-key drill",
+      "no exact-byte FINAL_COMPLETE donor replication claim",
+      "no Disaster Ready claim",
+      "no physical power-loss proof claim"
+    ]
+  },
+  "redFirst": {
+    "command": "node --test test/contracts/black-box-import-as-new-recovery-plan-v1.contract.test.js",
+    "result": "RED_EXPECTED",
+    "tests": 6,
+    "pass": 0,
+    "fail": 6,
+    "skipped": 0,
+    "todo": 0,
+    "primaryFailure": "ERR_MODULE_NOT_FOUND src/product/blackBoxImportAsNewRecoveryPlanV1.mjs and scripts/ops/black-box-import-as-new-recovery-plan-v1-model.mjs"
+  },
+  "focusedProof": {
+    "command": "node --test test/contracts/black-box-import-as-new-recovery-plan-v1.contract.test.js",
+    "tests": 6,
+    "pass": 6,
+    "fail": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "modelOracleMutations": {
+    "command": "node scripts/ops/black-box-import-as-new-recovery-plan-v1-model.mjs",
+    "finiteCases": 36,
+    "hostileCases": 14,
+    "semanticMutants": 10,
+    "survivors": 0,
+    "failures": 0,
+    "skips": 0
+  },
+  "physicalProviderEvidence": {
+    "command": "node scripts/ops/black-box-import-as-new-recovery-plan-v1-physical.mjs",
+    "path": "/Volumes/T7-Secure/storage/yalken/evidence/f3-import-as-new-recovery-plan-v1/20260814T060926Z/physical-evidence.json",
+    "sha256": "sha256:2c70610cb849ea8e4c6db344e2c2ee85747f5b70c895bf59652efcb3d2a002bf",
+    "provider": "official age CLI v1.3.1 darwin-arm64",
+    "positiveCases": 1,
+    "negativeCases": 4,
+    "negativeFailures": 0,
+    "leakageDetected": false,
+    "claimBoundary": "Disposable synthetic import-as-new recovery plan only; no user documents, no private manuscript, no live project overwrite, no live project import writer and no Disaster Ready claim."
+  },
+  "deliveryGates": {
+    "affectedProof": "PENDING",
+    "traceabilityLedger": "PENDING",
+    "governanceChangeDetection": "PENDING",
+    "devFast": "PENDING",
+    "guardrails": "PENDING",
+    "fullBaseline": "PENDING",
+    "requiredCi": "PENDING_PR",
+    "postMergeVerification": "PENDING_MERGE"
+  },
+  "resourceCeilings": {
+    "maxSyntheticCorePayloadBytes": 1048576,
+    "focusedSyntheticRunSeconds": 30,
+    "rssBytes": 536870912,
+    "typingHotPath": "NOT_APPLICABLE"
+  },
+  "rollback": {
+    "plan": "Revert the bounded import-as-new recovery plan seam, contract/model/physical runner, receipt, ledger/verifier and governance entries. No migration rollback is needed because no canonical project data is mutated.",
+    "artifactCleanup": "Only disposable synthetic test artifacts are created."
+  },
+  "limitations": {
+    "productValue": "Read-only import-as-new recovery plan seam only, default off.",
+    "fullBlackBoxProductV1": "DEFERRED_WITH_BLOCKER",
+    "liveProjectImportWriter": "NOT_CLAIMED",
+    "ownerKeyRecoveryDrill": "NOT_CLAIMED",
+    "independentOffHostRestore": "NOT_CLAIMED",
+    "disasterReady": "NOT_CLAIMED"
+  }
+}

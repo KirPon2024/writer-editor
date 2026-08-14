@@ -10410,6 +10410,42 @@
       "approvedAtUtc": "2026-08-14T04:59:00.000Z",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_MANUAL_CORE_CAPSULE_KIT"
+    },
+    {
+      "filePath": "test/contracts/black-box-import-as-new-recovery-plan-v1.contract.test.js",
+      "sha256": "4ee83abc77b5452999637dcc809e437ef0fc1e7361d9d598792d9b2c58ae5f32",
+      "rationale": "Approve F3 import-as-new recovery plan contract tests for red-first missing seam/model, closed default-off schema, internal P0C recover execution, caller-carried proof rejection, provider/source/identity/tamper/replay fail-closed negatives, UNKNOWN/ABSTAIN/CONFLICTING not PASS, and no plaintext/key leakage; no UI, runtime writer or user documents.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN_V1",
+      "approvedAtUtc": "2026-08-14T06:11:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN"
+    },
+    {
+      "filePath": "scripts/ops/black-box-import-as-new-recovery-plan-v1-model.mjs",
+      "sha256": "644f107c531108902f5f6cefc20ee849d53d3c4f044527c6cca0fe3548b886bb",
+      "rationale": "Approve F3 import-as-new recovery plan finite/oracle/hostile/mutation model: 36 finite cases, 14 hostile cases and 10 semantic mutants with zero survivors, scoped to read-only recovery preview plan only.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN_V1",
+      "approvedAtUtc": "2026-08-14T06:11:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN"
+    },
+    {
+      "filePath": "scripts/ops/black-box-import-as-new-recovery-plan-v1-physical.mjs",
+      "sha256": "3a0f0a6aa0ba4d971962159c35ce4349d9bfb924bfeebb1f75652e919bec4850",
+      "rationale": "Approve F3 import-as-new recovery plan disposable physical runner using the already-pinned official age v1.3.1 provider to prove synthetic positive plan, wrong identity, stale replay, live overwrite policy, caller-carried proof rejection, and no receipt leakage; no user documents, system install, UI/runtime writer or Disaster Ready claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN_V1",
+      "approvedAtUtc": "2026-08-14T06:11:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN_V1_RECEIPT.json",
+      "sha256": "de59b3f1b2bca75f58e76f883d895f11cf343011c616678e80f06bdf20c047cd",
+      "rationale": "Approve F3 import-as-new recovery plan local candidate receipt binding feature commit a5a344e99e05fa97edf9be0793e6c5f6c1f63636, focused 6/6, model 36 finite/14 hostile/10 mutants/0 survivors, disposable physical evidence sha256:2c70610cb849ea8e4c6db344e2c2ee85747f5b70c895bf59652efcb3d2a002bf, with no UI, Command Kernel wiring, user documents, live overwrite, owner-key drill, FINAL_COMPLETE donor, live import writer or Disaster Ready claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN_V1",
+      "approvedAtUtc": "2026-08-14T06:11:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN"
     }
   ]
 }

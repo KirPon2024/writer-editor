@@ -1239,7 +1239,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "502d49f7479c67851279adab6b76a83cffad5ecdb479d9f25219a5de99193266"
+            "sha256": "27343a7e1b375bb66317ab81fd7ce19652a15bb6f415a80d5d0f5605c31f3289"
           }
         }
       ],
@@ -1289,7 +1289,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "502d49f7479c67851279adab6b76a83cffad5ecdb479d9f25219a5de99193266"
+            "sha256": "27343a7e1b375bb66317ab81fd7ce19652a15bb6f415a80d5d0f5605c31f3289"
           }
         }
       ],
@@ -1351,7 +1351,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "502d49f7479c67851279adab6b76a83cffad5ecdb479d9f25219a5de99193266"
+            "sha256": "27343a7e1b375bb66317ab81fd7ce19652a15bb6f415a80d5d0f5605c31f3289"
           }
         }
       ],
@@ -1408,7 +1408,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "502d49f7479c67851279adab6b76a83cffad5ecdb479d9f25219a5de99193266"
+            "sha256": "27343a7e1b375bb66317ab81fd7ce19652a15bb6f415a80d5d0f5605c31f3289"
           }
         }
       ],
@@ -1510,7 +1510,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "502d49f7479c67851279adab6b76a83cffad5ecdb479d9f25219a5de99193266"
+            "sha256": "27343a7e1b375bb66317ab81fd7ce19652a15bb6f415a80d5d0f5605c31f3289"
           }
         }
       ],
@@ -1596,7 +1596,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "502d49f7479c67851279adab6b76a83cffad5ecdb479d9f25219a5de99193266"
+            "sha256": "27343a7e1b375bb66317ab81fd7ce19652a15bb6f415a80d5d0f5605c31f3289"
           }
         }
       ],
@@ -1678,13 +1678,13 @@
         "claimBoundary": "Local candidate only; UI/default path is bound to existing command and runtime default-off flag. No full Black Box Product V1, owner-key drill, off-host restore, project-library registration, exact-byte donor replication or Disaster Ready claim.",
         "traceabilityLedger": "PASS_40_DISPOSITIONS_3_EXTERNAL_PINS",
         "deterministicReplay": "PASS_2_OF_2_AFFECTED_74_MODEL_20_16_12_0_MENU_ARTIFACT_TRACEABILITY_GOVERNANCE",
-        "candidateCommitSha": "bcbdcedb742e3ae43a02fea910d7d0d7e7c65aed",
-        "candidateTreeSha": "1a281fff1f89248d3521f4dbbba9336ecb518f98"
+        "candidateCommitSha": "4d454d7a3a8b6a89a7f5a384c08abaa107c0cbb4",
+        "candidateTreeSha": "38701b6fce9a04322b82295e8a47510b062450de"
       },
       "productBindings": [],
       "rollback": "Revert the bounded UI/default path PR. No canonical project data or migration rollback is required.",
       "deferred": {
-        "prerequisite": "Local candidate commit bcbdcedb742e3ae43a02fea910d7d0d7e7c65aed has full local gates green and still requires push, PR, required CI, merge and exact-head postmerge verification before it becomes product evidence.",
+        "prerequisite": "Local candidate commit 4d454d7a3a8b6a89a7f5a384c08abaa107c0cbb4 has focused F3 plus RELEASE01 wording-surface repair green and still requires push, required CI rerun, merge and exact-head postmerge verification before it becomes product evidence.",
         "owner": "MASTER_PROGRAM_OWNER_OR_CURRENT_OWNER_GRANT_WITHIN_SCOPE",
         "acceptanceGate": "Push, PR required CI PASS, merge and exact-head postmerge verification with no full Black Box Product V1, owner-key, off-host restore or live-project overwrite claim."
       }

@@ -10649,19 +10649,19 @@
     },
     {
       "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "50aed4515f00869afb990328879046bb6099b533701b37b09b0b63991615fc18",
+      "sha256": "7123132ebdab8dcdfdaae8011f9fd32639771936317c3ffdd3e7c032e3ec3495",
       "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_UI_DEFAULT_FLAG_PATH_V1",
-      "approvedAtUtc": "2026-08-14T20:06:00.000Z",
-      "rationale": "Approve committed-candidate traceability ledger rebind for F3 Black Box product UI/default path: local candidate commit bcbdcedb742e3ae43a02fea910d7d0d7e7c65aed is recorded while disposition remains DEFERRED_WITH_BLOCKER pending PR/CI/merge/postmerge; no full Black Box Product V1 claim.",
+      "approvedAtUtc": "2026-08-14T20:24:00.000Z",
+      "rationale": "Approve committed-candidate traceability ledger rebind for F3 Black Box product UI/default path after RELEASE01 wording-surface CI repair: local candidate commit 4d454d7a3a8b6a89a7f5a384c08abaa107c0cbb4 is recorded while disposition remains DEFERRED_WITH_BLOCKER pending required CI rerun, merge and postmerge; no full Black Box Product V1 claim.",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION_UI_DEFAULT_FLAG_PATH"
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-      "sha256": "502d49f7479c67851279adab6b76a83cffad5ecdb479d9f25219a5de99193266",
+      "sha256": "27343a7e1b375bb66317ab81fd7ce19652a15bb6f415a80d5d0f5605c31f3289",
       "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_UI_DEFAULT_FLAG_PATH_V1",
-      "approvedAtUtc": "2026-08-14T20:06:00.000Z",
-      "rationale": "Approve committed-candidate cumulative F3 receipt rebind for F3 Black Box product UI/default path: candidate commit bcbdcedb742e3ae43a02fea910d7d0d7e7c65aed and tree 1a281fff1f89248d3521f4dbbba9336ecb518f98 are recorded, with push/PR/CI/merge/postmerge still pending and no full product claim.",
+      "approvedAtUtc": "2026-08-14T20:24:00.000Z",
+      "rationale": "Approve committed-candidate cumulative F3 receipt rebind for F3 Black Box product UI/default path after RELEASE01 wording-surface CI repair: candidate commit 4d454d7a3a8b6a89a7f5a384c08abaa107c0cbb4 and tree 38701b6fce9a04322b82295e8a47510b062450de are recorded, with required CI rerun/merge/postmerge still pending and no full product claim.",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION_UI_DEFAULT_FLAG_PATH"
     }

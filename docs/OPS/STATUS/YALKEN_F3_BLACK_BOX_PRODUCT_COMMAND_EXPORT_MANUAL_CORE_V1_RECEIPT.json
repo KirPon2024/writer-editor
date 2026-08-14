@@ -1018,11 +1018,11 @@
     },
     "rollback": "Revert this bounded UI/default path PR: src/menu menu rows, generated menu artifact/snapshot/lock, renderer export modal/router, new contract/model and factual receipt/ledger/governance entries. No data migration or canonical project-data rollback is required.",
     "delivery": {
-      "candidateCommitSha": "bcbdcedb742e3ae43a02fea910d7d0d7e7c65aed",
-      "candidateTreeSha": "1a281fff1f89248d3521f4dbbba9336ecb518f98",
+      "candidateCommitSha": "4d454d7a3a8b6a89a7f5a384c08abaa107c0cbb4",
+      "candidateTreeSha": "38701b6fce9a04322b82295e8a47510b062450de",
       "push": "PENDING",
-      "pr": "PENDING",
-      "requiredCi": "PENDING",
+      "pr": "OPEN_1547",
+      "requiredCi": "RERUN_PENDING_AFTER_RELEASE01_WORDING_SURFACE_REBIND",
       "merge": "PENDING",
       "postmerge": "PENDING"
     }

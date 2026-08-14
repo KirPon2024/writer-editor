@@ -737,7 +737,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1_RECEIPT.json",
-            "sha256": "9d821868270344812f40f1bf171630bdfa572c0906bb607d0c5a0c7b290c292d"
+            "sha256": "69768efdf68e91f8e1ace0993935ec494e2fb9edece6608b0acf203959b5fd99"
           }
         },
         {
@@ -764,7 +764,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1_RECEIPT.json",
-            "sha256": "9d821868270344812f40f1bf171630bdfa572c0906bb607d0c5a0c7b290c292d"
+            "sha256": "69768efdf68e91f8e1ace0993935ec494e2fb9edece6608b0acf203959b5fd99"
           }
         }
       ],
@@ -817,24 +817,49 @@
     {
       "materialId": "F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1",
       "programPhase": "F3",
-      "summary": "P0C audit-recipient separation local candidate: owner recovery recipient remains the capsule recovery authority, while a distinct per-build audit recipient/identity proves provider roundtrip without requiring the owner private key inside Builder; manual CORE capsule kit is migrated to pass the separated audit recipient. No product UI, Command Kernel/runtime port wiring, user documents, real owner-key drill, self-written crypto, cloud dependency or Disaster Ready claim.",
+      "summary": "P0C audit-recipient separation is merged and postmerge verified: owner recovery recipient remains the capsule recovery authority, while a distinct per-build audit recipient/identity proves provider roundtrip without requiring the owner private key inside Builder; manual CORE capsule kit is migrated to pass the separated audit recipient. No product UI, Command Kernel/runtime port wiring, user documents, real owner-key drill, self-written crypto, cloud dependency or Disaster Ready claim.",
       "sourcePins": [
         "BLACK_BOX_FINAL_LAB_EXTERNAL_RECEIPT"
       ],
-      "disposition": "DEFERRED_WITH_BLOCKER",
+      "disposition": "ENFORCED_TEST_GATE",
       "post20260811Delta": true,
-      "deferred": {
-        "prerequisite": "Complete required CI, merge and postmerge exact-head verification for F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1 PR #1535.",
-        "owner": "standing-owner-grant:YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1",
-        "acceptanceGate": "Rebind this row to ENFORCED_TEST_GATE with exact commitSha, prNumber, receipt hash and postmerge verification after full delivery green."
-      },
-      "localCandidateEvidence": {
-        "baselineSha": "1bfc15ca4d3541be6a84e05952051ad4f2c72ea0",
-        "candidateCommitSha": "817704ccb258a2603312a871107105880140ca4e",
-        "prNumber": 1535,
-        "deliveryStatus": "PR_OPEN_REQUIRED_CI_PENDING",
-        "redFirst": "10 tests, 9 pass, 1 fail: distinct owner/audit recipient invariant missing",
-        "focusedTests": "P0C 10/10; manual CORE capsule kit 8/8; product command export contract 6/6",
+      "productBindings": [
+        {
+          "commitSha": "e68e1199721a2fd2ebf0edd70630587c15227516",
+          "featureCommitSha": "817704ccb258a2603312a871107105880140ca4e",
+          "prNumber": 1535,
+          "mergeCommitSha": "e9733baa6ac7b51ea84ff128fc6f4fe46b5409a8",
+          "files": [
+            "src/product/blackBoxStrictCapsuleRecoverV1.mjs",
+            "src/product/blackBoxManualCoreCapsuleKitV1.mjs",
+            "test/contracts/black-box-p0c-strict-capsule-recover-v1.contract.test.js",
+            "test/contracts/black-box-manual-core-capsule-kit-v1.contract.test.js",
+            "test/contracts/black-box-import-as-new-recovery-plan-v1.contract.test.js",
+            "test/contracts/black-box-import-as-new-project-writer-v1.contract.test.js",
+            "scripts/ops/black-box-p0c-strict-capsule-recover-v1-model.mjs",
+            "scripts/ops/black-box-p0c-age-provider-physical-v1.mjs",
+            "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1_RECEIPT.json"
+          ],
+          "tests": [
+            "node --test test/contracts/black-box-p0c-strict-capsule-recover-v1.contract.test.js test/contracts/black-box-manual-core-capsule-kit-v1.contract.test.js test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+            "node --test test/contracts/source-fence-v1.contract.test.js test/contracts/multilingual-evidence-v1.contract.test.js test/contracts/black-box-p0a-source-adapter-v1.contract.test.js test/contracts/black-box-p0b-darwin-durable-publisher-v1.contract.test.js test/contracts/black-box-p0c-strict-capsule-recover-v1.contract.test.js test/contracts/black-box-import-as-new-recovery-plan-v1.contract.test.js test/contracts/black-box-import-as-new-project-writer-v1.contract.test.js test/contracts/black-box-manual-core-capsule-kit-v1.contract.test.js test/contracts/black-box-synthetic-independent-restore-drill-v1.contract.test.js test/contracts/black-box-trusted-source-snapshot-v1.contract.test.js test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+            "node scripts/ops/black-box-p0c-strict-capsule-recover-v1-model.mjs",
+            "node scripts/ops/black-box-p0c-age-provider-physical-v1.mjs",
+            "node scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
+            "node scripts/ops/governance-change-detection.mjs --json --approvals-path docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json",
+            "npm run dev:fast",
+            "npm run agent:guardrails"
+          ],
+          "receipt": {
+            "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1_RECEIPT.json",
+            "sha256": "69768efdf68e91f8e1ace0993935ec494e2fb9edece6608b0acf203959b5fd99"
+          }
+        }
+      ],
+      "postMergeVerification": {
+        "mergeCommitSha": "e9733baa6ac7b51ea84ff128fc6f4fe46b5409a8",
+        "requiredCi": "PASS",
+        "focusedTests": "24/24",
         "affectedTests": "73/73",
         "modelOracleMutations": "P0C 64 finite, 26 hostile, 19 mutants, 0 survivors; affected S0/F1/P0A/P0B/P0C/import-plan/import-writer/manual-kit/trusted-source/product-command models all 0 survivors",
         "physicalProviderEvidenceSha256": "sha256:f3285da301c9a08805d6ca35470f95722cb2a824465c88ecddf23c00a42b5954",
@@ -844,9 +869,10 @@
         "governanceChangeDetection": "PASS",
         "devFast": "28/28",
         "guardrails": "PASS",
-        "userDocumentsTouched": false,
         "productRuntimeWiringChanged": false,
-        "claimBoundary": "Local candidate evidence only until delivery is complete; no full Black Box product V1, owner-key drill or Disaster Ready claim."
+        "uiChanged": false,
+        "userDocumentsTouched": false,
+        "claimBoundary": "Merged and postmerge verified for the bounded P0C audit-recipient separation gate only. This does not claim full Black Box product V1, product UI, project-library registration, real owner-key drill, off-host restore or Disaster Ready."
       }
     },
     {

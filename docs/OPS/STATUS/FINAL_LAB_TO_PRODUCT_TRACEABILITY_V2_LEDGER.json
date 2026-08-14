@@ -1000,6 +1000,48 @@
       }
     },
     {
+      "materialId": "F3_BLACK_BOX_SYNTHETIC_INDEPENDENT_RESTORE_DRILL_V1",
+      "programPhase": "F3",
+      "summary": "Synthetic independent restore drill is a disposable end-to-end F3 evidence subgate: it uses the manual CORE capsule kit to publish one create-only capsule artifact, rereads that artifact from disk, feeds it through the import-as-new project writer, verifies manifest/scene/receipt readback, and proves wrong identity, stale source, target collision, tampered artifact and path traversal negatives without user documents, live overwrite, product runtime wiring or UI.",
+      "sourcePins": [
+        "BLACK_BOX_FINAL_LAB_EXTERNAL_RECEIPT"
+      ],
+      "disposition": "DEFERRED_WITH_BLOCKER",
+      "post20260811Delta": true,
+      "deferred": {
+        "prerequisite": "Local candidate 373fdeb4a7cf17906ed3e68af6bb7b51b06f03e6 has red-first/focused/model/physical/replay/ledger/governance/devfast/guardrails green evidence and receipt sha256:870cd50163597e41b72f6f33789e24013ce9e34bc9cb9431667421759abfb547; it must still complete branch delivery, exact PR binding, required CI, merge and postmerge exact-head verification before it can be promoted to ENFORCED_TEST_GATE.",
+        "owner": "MASTER_PROGRAM_OWNER_OR_CURRENT_OWNER_GRANT_WITHIN_SCOPE",
+        "acceptanceGate": "Exact PR/merge/postmerge receipt binding with focused, model/oracle/mutation, physical synthetic independent restore drill, ledger, governance, dev:fast, guardrails and required CI green; no user documents, no live project overwrite, no product runtime/UI/Command Kernel wiring, no real owner-key drill, no off-host restore and no Disaster Ready claim."
+      },
+      "localCandidateVerification": {
+        "baselineSha": "373adfdf3f2be74529656027c8cc7b8c4dfc521b",
+        "harnessCommitSha": "373fdeb4a7cf17906ed3e68af6bb7b51b06f03e6",
+        "files": [
+          "test/contracts/black-box-synthetic-independent-restore-drill-v1.contract.test.js",
+          "scripts/ops/black-box-synthetic-independent-restore-drill-v1-model.mjs",
+          "scripts/ops/black-box-synthetic-independent-restore-drill-v1-physical.mjs",
+          "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_SYNTHETIC_INDEPENDENT_RESTORE_DRILL_V1_RECEIPT.json"
+        ],
+        "receipt": {
+          "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_SYNTHETIC_INDEPENDENT_RESTORE_DRILL_V1_RECEIPT.json",
+          "sha256": "870cd50163597e41b72f6f33789e24013ce9e34bc9cb9431667421759abfb547"
+        },
+        "redFirst": "2 tests, 0 pass, 2 fail: missing model and physical harness",
+        "focusedTests": "2/2",
+        "modelOracleMutations": "36 finite, 18 hostile, 12 mutants, 0 survivors",
+        "physicalProviderEvidenceSha256": "sha256:e290d725f7b00ebc41dc35ef8eaef21e5d01d426733cca8c433396414e50df9c",
+        "physicalProviderReplayEvidenceSha256": "sha256:3cc648863f0282f2703290700759839fcba63d9ca4a9511e4e4103d46fcc46cf",
+        "physicalProviderNegativeCases": 5,
+        "physicalProviderNegativeFailures": 0,
+        "cleanupOk": true,
+        "productRuntimeWiringChanged": false,
+        "commandKernelWiringChanged": false,
+        "uiChanged": false,
+        "userDocumentsTouched": false,
+        "claimBoundary": "Local candidate only until branch delivery, required CI, merge and postmerge exact-head verification complete; no full Black Box product V1, product command/UI wiring, project library registration, real owner-key drill, off-host restore or Disaster Ready claim."
+      }
+    },
+    {
       "materialId": "F3_BLACK_BOX_PRODUCT_V1",
       "programPhase": "F3",
       "summary": "Black Box / Manuscript Capsule product V1 remains future product work after P0A/P0B/P0C, manual CORE capsule kit, import-as-new recovery plan, ephemeral recovered CORE payload sink and import-as-new project writer seams and must still complete product wiring, independent restore and owner-key/recovery drills without live-project overwrite.",
@@ -1008,7 +1050,7 @@
       ],
       "disposition": "DEFERRED_WITH_BLOCKER",
       "deferred": {
-        "prerequisite": "P0A, P0B, P0C, manual CORE capsule kit, import-as-new recovery plan, P0C ephemeral recovered CORE payload sink and import-as-new project writer seams are merged and postmerge verified. Remaining productization must still prove independent restore, real owner-key recovery drill where required, exact-byte donor replication only from verified FINAL_COMPLETE donor, and explicit product UI/Command Kernel wiring contours.",
+        "prerequisite": "P0A, P0B, P0C, manual CORE capsule kit, import-as-new recovery plan, P0C ephemeral recovered CORE payload sink and import-as-new project writer seams are merged and postmerge verified; synthetic independent restore drill has a local candidate and must still complete branch delivery, required CI, merge and postmerge verification. Remaining productization after that must still prove real owner-key recovery drill where required, exact-byte donor replication only from verified FINAL_COMPLETE donor, and explicit product UI/Command Kernel wiring contours.",
         "owner": "MASTER_PROGRAM_OWNER_OR_CURRENT_OWNER_GRANT_WITHIN_SCOPE",
         "acceptanceGate": "Exact bounded PRs with source-fence/accounting, durable writer evidence, strict capsule authentication, quarantine/preview/import-as-new-project proof, independent restore, owner-key drill, rollback, and no live-project overwrite."
       }

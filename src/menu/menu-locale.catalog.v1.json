@@ -52,6 +52,11 @@
       "ru": "Экспорт полного архива проекта...",
       "en": "Export Full Project Archive..."
     },
+    "menu.file.exportBlackBoxManualCoreCapsule": {
+      "base": "Export Black Box Manual CORE Capsule...",
+      "ru": "Экспорт Black Box CORE Capsule...",
+      "en": "Export Black Box Manual CORE Capsule..."
+    },
     "menu.file.exportMarkdown": {
       "base": "Export Markdown...",
       "ru": "Экспорт Markdown...",

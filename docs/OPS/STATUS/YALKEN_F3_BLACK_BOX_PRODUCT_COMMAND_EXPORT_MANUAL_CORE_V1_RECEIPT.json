@@ -1,8 +1,8 @@
 {
   "schemaVersion": "yalken.f3.blackBoxProductCommandExportManualCore.receipt.v1",
   "taskId": "F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
-  "status": "MERGED_POSTMERGE_VERIFIED",
-  "verdict": "READY_FOR_NEXT_BOUNDED_F3_CONTOUR_NOT_FULL_BLACK_BOX_PRODUCT_V1",
+  "status": "LOCAL_CANDIDATE_COMMITTED_FULL_LOCAL_GATES_GREEN_PENDING_PUSH_PR_CI_MERGE_POSTMERGE_NOT_FULL_BLACK_BOX_PRODUCT_V1",
+  "verdict": "READY_FOR_DELIVERY_CHAIN_NOT_FULL_BLACK_BOX_PRODUCT_V1",
   "createdAtUtc": "2026-08-14T11:45:00Z",
   "baseline": {
     "headSha": "2cc598271bfdab6764401216e08cb952d4c49ba6",
@@ -887,13 +887,22 @@
     "src/command/commandSurfaceKernel.js": "235a9d5294e967f34bc993482f16e80a75f714fa4968a3e15db7e1e8ede80f92",
     "src/main.js": "64c5c3b39d6f84cff7e188eca190a9a86dd68c360f8889bf335810b2e311861f",
     "docs/OPS/CAPABILITIES_MATRIX.json": "ef8023acebdfd48f46c336872142b6202d7767ade9e89d34fc450a46e2a4401f",
-    "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json": "3378555dbdad34d61986fff0ae3d4654702606d6076f1ac75204494fb174d687"
+    "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json": "3378555dbdad34d61986fff0ae3d4654702606d6076f1ac75204494fb174d687",
+    "src/menu/menu-config.v2.json": "b04c0fb6132559695b8478d2520036419c0a975c2902047ffeab417ff14e3e3e",
+    "src/menu/menu-locale.catalog.v1.json": "66577411586324da7170387e37295d9fc08a70ba43d5d6e9a0a05eb8f80df290",
+    "docs/OPS/ARTIFACTS/menu/menu.normalized.json": "75cbf2c86ca2a7505bb2faa13fcae20a3c2de8c786f04aec203e7dbcf11b6047",
+    "docs/OPS/LOCKS/MENU_ARTIFACT_LOCK.json": "ed0222fcfa8004ec0ae11be7d6ffa4b13e2621703817f4b9feaea1febd0c1797",
+    "docs/OPS/STATUS/MENU_SNAPSHOT_REGISTRY.json": "6955ea7b72501296e5235181d8d226fefc1d6ae299e776b1f9adca9bab6f3ce0",
+    "src/renderer/index.html": "177172a705d2ba95077a93da2b2428e0054737c55f07aa310200298b0e8d04b8",
+    "src/renderer/editor.js": "6e0b2a259ce7df5ef3b55e87947afb01d5d3768af7c4d7fac218833b806dc100",
+    "src/renderer/editor.bundle.js": "e0182f22c98761bf60df484b09728556fc57952e7087a7729867bc51ca5695d7",
+    "scripts/ops/black-box-product-ui-default-flag-path-v1-model.mjs": "5633dcef6019ef48c55a78d67b78077779122a15f1394b7af91345e8d09ee1ff",
+    "test/contracts/black-box-product-ui-default-flag-path-v1.contract.test.js": "46dd708b9092a64a0337a1ccdd40c8d669355340c78b35b06a2e1c93ecf09d6a"
   },
   "claimBoundary": {
-    "productValue": "Command Kernel admitted create-only manual CORE capsule export command with trusted-port contract and sanitized public result; default runtime flag remains off until provider/audit/owner-key drill wiring.",
+    "productValue": "Local candidate exposes the existing create-only manual CORE capsule export command through the existing File export menu, export modal and command-palette/runtime command path while preserving default-off runtime feature flag and Command Kernel revalidation.",
     "notClaimed": [
       "full Black Box product V1",
-      "product UI surface",
       "project-library registration",
       "real owner-key recovery drill",
       "off-host restore",
@@ -905,5 +914,117 @@
   "rollback": {
     "plan": "Revert the bounded product command module, registry/capability/main route, contract/model, receipt, ledger and governance entries. No data migration rollback is required because canonical project data is not changed by this merge.",
     "safe": true
+  },
+  "productUiDefaultFlagPath": {
+    "taskId": "F3_BLACK_BOX_PRODUCT_UI_DEFAULT_FLAG_PATH_V1",
+    "status": "LOCAL_CANDIDATE_COMMITTED_FULL_LOCAL_GATES_GREEN_PENDING_PUSH_PR_CI_MERGE_POSTMERGE",
+    "baselineSha": "59ed787fb75769222d880cb9d5769e02ed614b0e",
+    "baselineTreeSha": "7da57f229773666c5d8910abe68bfa5316a047e8",
+    "scope": "Bind the existing Black Box manual CORE capsule product command into the existing default-off File export menu, export modal and command-palette/runtime-command UI path. This adds discoverability only; product runtime, storage, command meaning, provider, target selection and capsule semantics are unchanged.",
+    "lazywebEvidence": {
+      "route": "UNAVAILABLE_WITHOUT_INSTALL",
+      "installPerformed": false,
+      "fallback": "REPO_NATIVE_APPROVED_EXPORT_MENU_COMMAND_PALETTE_PATTERNS_AND_CURRENT_RECEIPTS",
+      "reason": "Owner follow-up allowed repo-native evidence when Lazyweb route was unavailable and no dependency install was allowed."
+    },
+    "redFirst": {
+      "command": "node --test test/contracts/black-box-product-ui-default-flag-path-v1.contract.test.js",
+      "tests": 6,
+      "pass": 1,
+      "fail": 5,
+      "skipped": 0,
+      "todo": 0,
+      "primaryFailures": [
+        "File export menu missing cmd.project.blackBox.exportManualCoreCapsuleKitV1",
+        "export modal missing black-box-manual-core option and existing command id binding",
+        "renderer command palette/runtime handler did not open the export surface for the Black Box command",
+        "independent model observed missing finite UI binding cases"
+      ],
+      "note": "One red-first assertion was corrected from an expected unsupported code to the existing fail-closed E_CAPABILITY_DISABLED_FOR_COMMAND web result before product edits."
+    },
+    "focusedProof": {
+      "command": "node --test test/contracts/black-box-product-ui-default-flag-path-v1.contract.test.js",
+      "tests": 6,
+      "pass": 6,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "modelOracleMutations": {
+      "command": "node scripts/ops/black-box-product-ui-default-flag-path-v1-model.mjs",
+      "finiteCases": 20,
+      "hostileCases": 16,
+      "semanticMutants": 12,
+      "survivors": 0,
+      "skips": 0,
+      "controls": [
+        "source menu command row exactness",
+        "runtime menu artifact row exactness",
+        "source-artifact promotion equivalence",
+        "node capability allow and web/mobile deny",
+        "renderer uses existing command bridge only",
+        "no renderer feature-flag authority",
+        "no direct Black Box IPC bypass",
+        "full product claim remains deferred"
+      ]
+    },
+    "menuArtifactProof": {
+      "snapshotId": "menu-default-desktop-minimal",
+      "normalizedHashSha256": "cd9ecb9dbc6f2a7d1a6f42b6fcfc4dcabc6c2688e4a893193a1d20940b5f6569",
+      "artifactBytesSha256": "75cbf2c86ca2a7505bb2faa13fcae20a3c2de8c786f04aec203e7dbcf11b6047",
+      "snapshotCheck": "PASS",
+      "artifactLockCheck": "PASS",
+      "runtimeEquivalentPromotion": "PASS"
+    },
+    "affectedProof": {
+      "command": "node --test black-box-ui/product-command/menu/command affected contracts",
+      "tests": 74,
+      "pass": 74,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "localGates": {
+      "governanceChangeDetection": "PASS_MISSING_APPROVALS_0",
+      "traceabilityLedger": "PASS_40_DISPOSITIONS_3_EXTERNAL_PINS",
+      "devFast": "28/28",
+      "guardrails": "PASS",
+      "deterministicReplay": "PASS_2_OF_2_AFFECTED_74_MODEL_20_16_12_0_MENU_ARTIFACT_TRACEABILITY_GOVERNANCE"
+    },
+    "changedFileHashes": {
+      "src/menu/menu-config.v2.json": "b04c0fb6132559695b8478d2520036419c0a975c2902047ffeab417ff14e3e3e",
+      "src/menu/menu-locale.catalog.v1.json": "66577411586324da7170387e37295d9fc08a70ba43d5d6e9a0a05eb8f80df290",
+      "docs/OPS/ARTIFACTS/menu/menu.normalized.json": "75cbf2c86ca2a7505bb2faa13fcae20a3c2de8c786f04aec203e7dbcf11b6047",
+      "docs/OPS/LOCKS/MENU_ARTIFACT_LOCK.json": "ed0222fcfa8004ec0ae11be7d6ffa4b13e2621703817f4b9feaea1febd0c1797",
+      "docs/OPS/STATUS/MENU_SNAPSHOT_REGISTRY.json": "6955ea7b72501296e5235181d8d226fefc1d6ae299e776b1f9adca9bab6f3ce0",
+      "src/renderer/index.html": "177172a705d2ba95077a93da2b2428e0054737c55f07aa310200298b0e8d04b8",
+      "src/renderer/editor.js": "6e0b2a259ce7df5ef3b55e87947afb01d5d3768af7c4d7fac218833b806dc100",
+      "src/renderer/editor.bundle.js": "e0182f22c98761bf60df484b09728556fc57952e7087a7729867bc51ca5695d7",
+      "scripts/ops/black-box-product-ui-default-flag-path-v1-model.mjs": "5633dcef6019ef48c55a78d67b78077779122a15f1394b7af91345e8d09ee1ff",
+      "test/contracts/black-box-product-ui-default-flag-path-v1.contract.test.js": "46dd708b9092a64a0337a1ccdd40c8d669355340c78b35b06a2e1c93ecf09d6a"
+    },
+    "claimBoundary": {
+      "productUiDefaultFlagPath": "LOCAL_CANDIDATE_BOUND_TO_EXISTING_COMMAND_AND_DEFAULT_OFF_RUNTIME_FLAG",
+      "productRuntimeChanged": false,
+      "commandKernelChanged": false,
+      "storageChanged": false,
+      "featureFlagDefault": "OFF_IN_PRODUCT_RUNTIME_ENV_UNLESS_EXPLICITLY_ENABLED",
+      "userDocumentsTouched": false,
+      "privateManuscriptsTouched": false,
+      "fullBlackBoxProductV1": "NOT_CLAIMED",
+      "ownerKeyDrill": "NOT_CLAIMED",
+      "offHostRestore": "NOT_CLAIMED",
+      "disasterReady": "NOT_CLAIMED"
+    },
+    "rollback": "Revert this bounded UI/default path PR: src/menu menu rows, generated menu artifact/snapshot/lock, renderer export modal/router, new contract/model and factual receipt/ledger/governance entries. No data migration or canonical project-data rollback is required.",
+    "delivery": {
+      "candidateCommitSha": "4d454d7a3a8b6a89a7f5a384c08abaa107c0cbb4",
+      "candidateTreeSha": "38701b6fce9a04322b82295e8a47510b062450de",
+      "push": "PENDING",
+      "pr": "OPEN_1547",
+      "requiredCi": "RERUN_PENDING_AFTER_RELEASE01_WORDING_SURFACE_REBIND",
+      "merge": "PENDING",
+      "postmerge": "PENDING"
+    }
   }
 }

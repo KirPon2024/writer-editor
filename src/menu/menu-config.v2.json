@@ -145,6 +145,19 @@
           }
         },
         {
+          "id": "file-export-black-box-manual-core-capsule",
+          "label": "Export Black Box Manual CORE Capsule...",
+          "labelKey": "menu.file.exportBlackBoxManualCoreCapsule",
+          "command": "cmd.project.blackBox.exportManualCoreCapsuleKitV1",
+          "mode": ["offline"],
+          "profile": ["minimal", "pro", "guru"],
+          "stage": ["X1", "X2", "X3", "X4"],
+          "enabledWhen": {
+            "op": "flag",
+            "name": "hasDocument"
+          }
+        },
+        {
           "id": "file-export-markdown",
           "label": "Export Markdown...",
           "labelKey": "menu.file.exportMarkdown",

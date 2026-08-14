@@ -48,6 +48,14 @@ function validPayload(overrides = {}) {
   };
 }
 
+function auditRecipient(overrides = {}) {
+  return recipient({
+    publicKey: 'age1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqaudit',
+    fingerprint: digest('a'),
+    ...overrides,
+  });
+}
+
 function providerPin() {
   return {
     schemaVersion: 'yalken.blackBoxStrictCapsuleRecover.providerPin.v1',
@@ -132,6 +140,7 @@ function manualKitPass(overrides = {}) {
       sourceSetDigest: digest('7'),
       providerPinDigest: digest('a'),
       recipientFingerprint: digest('1'),
+      auditRecipientFingerprint: digest('a'),
       corePayloadSha256: digest('b'),
       capsuleManifestDigest: digest('c'),
       capsuleCiphertextSha256: digest('d'),
@@ -153,6 +162,7 @@ function manualKitPass(overrides = {}) {
       sourceSetDigest: digest('7'),
       providerPinDigest: digest('a'),
       recipientFingerprint: digest('1'),
+      auditRecipientFingerprint: digest('a'),
       publishedArtifactSha256: digest('e'),
       claims: {
         wholeCoreSourceAccounted: 'PASS',
@@ -173,6 +183,7 @@ function makePorts(overrides = {}) {
     trustedSnapshot: [],
     providerPin: 0,
     auditIdentity: 0,
+    auditRecipient: 0,
     target: [],
     manualKit: [],
   };
@@ -202,13 +213,17 @@ function makePorts(overrides = {}) {
         calls.providerPin += 1;
         return providerPin();
       },
+      getAuditRecipient: async () => {
+        calls.auditRecipient += 1;
+        return auditRecipient();
+      },
       getAuditIdentity: async () => {
         calls.auditIdentity += 1;
         return {
           schemaVersion: 'yalken.blackBoxStrictCapsuleRecover.identity.v1',
           type: 'AGE_X25519_IDENTITY',
           secretKeyBase64: Buffer.from('synthetic-audit-identity').toString('base64'),
-          fingerprint: digest('1'),
+          fingerprint: digest('a'),
         };
       },
       getAgeProvider: async () => ({ synthetic: true }),
@@ -312,6 +327,7 @@ test('F3 Black Box product command v1 executes via trusted ports and returns onl
   assert.equal(calls.featureFlags, 1);
   assert.equal(calls.expectedSource, 1);
   assert.equal(calls.providerPin, 1);
+  assert.equal(calls.auditRecipient, 1);
   assert.equal(calls.auditIdentity, 1);
   assert.equal(calls.target.length, 1);
   assert.equal(calls.manualKit.length, 1);
@@ -320,6 +336,9 @@ test('F3 Black Box product command v1 executes via trusted ports and returns onl
   assert.equal(calls.trustedSnapshot[0].request.featureFlags['yalken.blackBox.coreSourceAdapter.p0aV1'], true);
   assert.equal(calls.manualKit[0].request.providerPin.providerId, 'filosottile-age-v1.3.1-darwin-arm64');
   assert.equal(calls.manualKit[0].request.recipient.fingerprint, digest('1'));
+  assert.equal(calls.manualKit[0].request.auditRecipient.fingerprint, digest('a'));
+  assert.equal(calls.manualKit[0].request.auditIdentity.fingerprint, digest('a'));
+  assert.notEqual(calls.manualKit[0].request.auditRecipient.fingerprint, calls.manualKit[0].request.recipient.fingerprint);
   assert.equal(calls.manualKit[0].request.target.fileName, 'manual-core.yalken-capsule');
 });
 
@@ -331,6 +350,7 @@ test('F3 Black Box product command v1 rejects caller-carried proof, provider, ta
     target: { directoryPath: '/tmp/forged', fileName: 'forged.yalken-capsule' },
     featureFlags: { 'yalken.blackBox.manualCoreCapsuleKit.v1': true },
     auditIdentity: { secretKeyBase64: 'forged' },
+    auditRecipient: auditRecipient(),
   };
 
   for (const [field, value] of Object.entries(forged)) {
@@ -378,6 +398,32 @@ test('F3 Black Box product command v1 fails closed before target selection on so
       code: 'YALKEN_BLACK_BOX_PRODUCT_COMMAND_EXPORT_PROVIDER_PIN_REQUIRED',
     },
     {
+      name: 'audit-recipient-port-missing',
+      overrides: {
+        getAuditRecipient: undefined,
+      },
+      code: 'YALKEN_BLACK_BOX_PRODUCT_COMMAND_EXPORT_AUDIT_RECIPIENT_REQUIRED',
+    },
+    {
+      name: 'audit-recipient-equals-owner',
+      overrides: {
+        getAuditRecipient: async () => recipient(),
+      },
+      code: 'YALKEN_BLACK_BOX_PRODUCT_COMMAND_EXPORT_AUDIT_RECIPIENT_REQUIRED',
+    },
+    {
+      name: 'audit-identity-mismatch',
+      overrides: {
+        getAuditIdentity: async () => ({
+          schemaVersion: 'yalken.blackBoxStrictCapsuleRecover.identity.v1',
+          type: 'AGE_X25519_IDENTITY',
+          secretKeyBase64: Buffer.from('synthetic-wrong-audit-identity').toString('base64'),
+          fingerprint: digest('b'),
+        }),
+      },
+      code: 'YALKEN_BLACK_BOX_PRODUCT_COMMAND_EXPORT_AUDIT_IDENTITY_REQUIRED',
+    },
+    {
       name: 'target-collision',
       overrides: {
         selectCreateOnlyTarget: async () => ({
@@ -408,7 +454,7 @@ test('F3 Black Box product command v1 fails closed before target selection on so
     assert.equal(result.ok, false, item.name);
     assert.equal(result.decision, 'DENY', item.name);
     assert.equal(result.code, item.code, item.name);
-    if (item.name !== 'target-collision' && item.name !== 'manual-kit-deny') {
+    if (!['target-collision', 'manual-kit-deny'].includes(item.name)) {
       assert.equal(calls.target.length, 0, item.name);
     }
     if (item.name !== 'manual-kit-deny') {
@@ -423,9 +469,9 @@ test('F3 Black Box product command v1 model/oracle rejects UNKNOWN and all seman
   const result = model.evaluateBlackBoxProductCommandExportManualCoreV1Model();
 
   assert.equal(result.ok, true, JSON.stringify(result, null, 2));
-  assert.equal(result.finiteCases, 36);
-  assert.equal(result.hostileCases, 18);
-  assert.equal(result.semanticMutants, 12);
+  assert.equal(result.finiteCases, 39);
+  assert.equal(result.hostileCases, 20);
+  assert.equal(result.semanticMutants, 15);
   assert.equal(result.survivors, 0);
   assert.deepEqual(result.survivorNames, []);
   assert.equal(result.skips, 0);

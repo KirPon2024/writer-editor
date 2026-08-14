@@ -22,6 +22,9 @@ const FINITE_CASES = Object.freeze([
   ['provider-missing', 'DENY'],
   ['provider-wrong-version', 'DENY'],
   ['provider-wrong-digest', 'DENY'],
+  ['audit-recipient-missing', 'DENY'],
+  ['audit-recipient-equals-owner', 'DENY'],
+  ['audit-recipient-wrong-digest', 'DENY'],
   ['audit-identity-missing', 'DENY'],
   ['audit-identity-fingerprint-mismatch', 'DENY'],
   ['age-provider-missing', 'DENY'],
@@ -45,6 +48,7 @@ const HOSTILE_CASES = Object.freeze([
   'caller-carried-target',
   'caller-carried-featureFlags',
   'caller-carried-auditIdentity',
+  'caller-carried-auditRecipient',
   'caller-carried-ageProvider',
   'payload-path-authority',
   'payload-projectRoot-authority',
@@ -54,6 +58,7 @@ const HOSTILE_CASES = Object.freeze([
   'recipient-fingerprint-mismatch',
   'metadata-swap-sourceSetDigest',
   'metadata-swap-recipientFingerprint',
+  'metadata-swap-auditRecipientFingerprint',
   'replay-old-generation',
   'transplant-other-project',
   'unknown-to-pass-aggregation',
@@ -73,6 +78,9 @@ const SEMANTIC_MUTANTS = Object.freeze([
   'M10_PROMOTE_PRODUCT_UI_WIRING',
   'M11_ALLOW_LIVE_PROJECT_OVERWRITE',
   'M12_LEAK_MANUAL_KIT_RECEIPT',
+  'M13_TRUST_CALLER_AUDIT_RECIPIENT',
+  'M14_ACCEPT_OWNER_AS_AUDIT_RECIPIENT',
+  'M15_SKIP_AUDIT_IDENTITY_MATCH',
 ]);
 
 function oracle(caseName, expected) {
@@ -106,6 +114,12 @@ function mutantKilled(mutant) {
       return true;
     case 'M12_LEAK_MANUAL_KIT_RECEIPT':
       return HOSTILE_CASES.includes('sanitized-result-path-leak');
+    case 'M13_TRUST_CALLER_AUDIT_RECIPIENT':
+      return HOSTILE_CASES.includes('caller-carried-auditRecipient');
+    case 'M14_ACCEPT_OWNER_AS_AUDIT_RECIPIENT':
+      return FINITE_CASES.some(([name, expected]) => name === 'audit-recipient-equals-owner' && expected === 'DENY');
+    case 'M15_SKIP_AUDIT_IDENTITY_MATCH':
+      return FINITE_CASES.some(([name, expected]) => name === 'audit-identity-fingerprint-mismatch' && expected === 'DENY');
     default:
       return false;
   }

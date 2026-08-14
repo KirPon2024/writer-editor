@@ -10449,10 +10449,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "22b24e0ddd55926b141aa23957ddca0c204b0d1abd02db6f4fef0a5054de3ca9",
-      "rationale": "Approve final traceability rebind for F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1 as ENFORCED_TEST_GATE after PR #1535 merge commit e9733baa6ac7b51ea84ff128fc6f4fe46b5409a8 and exact postmerge focused/affected/model/devfast/guardrails proof; preserves lab provenance as non-release authority and makes no full Black Box product, owner-key drill or Disaster Ready claim.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_P0C_AUDIT_RECIPIENT_SEPARATION_POSTMERGE_TRACEABILITY_REBIND_V1",
-      "approvedAtUtc": "2026-08-14T13:36:00.000Z",
+      "sha256": "d4ec169abf9db04a4d3fbd87a5f59bac7681201d117bb02c78581ef405406264",
+      "rationale": "Approve local candidate traceability row for F3_BLACK_BOX_PRODUCT_COMMAND_AUDIT_RECIPIENT_RUNTIME_BINDING_V1 as DEFERRED_WITH_BLOCKER after PR #1537 was opened from commit a9a762f3f34b4ea694fe762b92474b3ab180403f; records red-first 6 tests with 2 expected failures, focused 6/6, affected 73/73, product command model 39 finite/20 hostile/15 mutants/0 survivors and no UI, user documents, owner-key drill or Disaster Ready claim while required CI, merge and postmerge remain pending.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_AUDIT_RECIPIENT_RUNTIME_BINDING_V1",
+      "approvedAtUtc": "2026-08-14T14:05:00.000Z",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },
@@ -10575,10 +10575,10 @@
     },
     {
       "filePath": "src/product/blackBoxProductCommandExportManualCoreV1.mjs",
-      "sha256": "302b9df995277197bfa4162e003e0be0ab1dce709c21ea2d709ff41b8187fdb8",
-      "rationale": "Approve F3 Black Box product command export module: one create-only manual CORE capsule command contract, trusted ports for feature flags/source/provider/audit/target, sanitized public result, canonical state-class declaration, default fail-closed runtime behavior and no UI, user documents, live overwrite, new dependency or Disaster Ready claim.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
-      "approvedAtUtc": "2026-08-14T11:45:00.000Z",
+      "sha256": "f2a7c972ade9b2a4c33ad51b9c38720e560dc758ed74b6ae0b39928098d60792",
+      "rationale": "Approve product command audit-recipient runtime binding: existing manual CORE export command now requires trusted getAuditRecipient, rejects missing/invalid/same-as-owner audit recipient, requires auditIdentity fingerprint to match auditRecipient, passes auditRecipient to manual CORE kit and keeps UI/user documents/live overwrite/owner-key drill/Disaster Ready out of scope.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_AUDIT_RECIPIENT_RUNTIME_BINDING_V1",
+      "approvedAtUtc": "2026-08-14T14:05:00.000Z",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },
@@ -10602,28 +10602,28 @@
     },
     {
       "filePath": "test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
-      "sha256": "154d9f03a21c3fb5995b90c9c0acb801f1844b155ccafb7d69557447c0cad6d2",
-      "rationale": "Approve F3 Black Box product command contract tests for red-first missing module/model, closed schemas, registry/capability admission, trusted-port execution, caller-carried proof/provider/target/feature/audit rejection, source/provider/target/manual-kit fail-closed negatives, sanitized public result and model invocation.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
-      "approvedAtUtc": "2026-08-14T11:45:00.000Z",
+      "sha256": "9409014b3e245e0a3bdcffdfccd0e65206215cbe91b50685f9bbdab415e867cf",
+      "rationale": "Approve product command audit-recipient contract tests: red-first proves getAuditRecipient is not called and missing trusted audit recipient can false-green; green tests prove caller-carried auditRecipient rejection, distinct owner/audit recipients, auditIdentity matching, manual-kit request binding and fail-closed negatives before target selection.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_AUDIT_RECIPIENT_RUNTIME_BINDING_V1",
+      "approvedAtUtc": "2026-08-14T14:05:00.000Z",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },
     {
       "filePath": "scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs",
-      "sha256": "849bb2b417fba662e32104a98cd2b0e0eb4a37397ab80108ed80991352b7fb01",
-      "rationale": "Approve F3 Black Box product command finite/oracle/hostile/mutation model: 36 finite cases, 18 hostile cases and 12 semantic mutants with zero survivors, covering UNKNOWN/ABSTAIN/non-PASS, forged caller authority, target/provider/kit failures and leakage mutants.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
-      "approvedAtUtc": "2026-08-14T11:45:00.000Z",
+      "sha256": "940dc5ee7e5e6ce701b26111e2ac86f0bd8876bd19cabe08757757cbd3a4b4a4",
+      "rationale": "Approve product command audit-recipient finite/oracle/hostile/mutation model: 39 finite cases, 20 hostile cases and 15 semantic mutants with zero survivors, adding auditRecipient missing/equal-owner, caller-carried auditRecipient, audit metadata swap and auditIdentity mismatch controls.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_AUDIT_RECIPIENT_RUNTIME_BINDING_V1",
+      "approvedAtUtc": "2026-08-14T14:05:00.000Z",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-      "sha256": "504df02e35ffd6b2e41a1b7db9ccda7c278dda4ff396c7b559ea62d8180021ec",
-      "rationale": "Approve factual postmerge receipt for F3 Black Box product command export manual CORE contour: PR #1533 merged as 17f03909b623d2b0a8a573920110bc1d078af8ff, required CI all SUCCESS, postmerge focused 6/6, model 36 finite/18 hostile/12 mutants/0 survivors, affected 50/50, main command bridge affected 18/18, governance and traceability ledger verifiers PASS, dev:fast 28/28 and guardrails PASS, with no UI, user documents, live overwrite, owner-key drill, off-host restore or Disaster Ready claim.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
-      "approvedAtUtc": "2026-08-14T11:45:00.000Z",
+      "sha256": "e3394efb8e90b25f5f3b7f07e38a4c778299dc09e3a3eb94b7a2e3b3b00f921b",
+      "rationale": "Approve factual local candidate receipt section for F3_BLACK_BOX_PRODUCT_COMMAND_AUDIT_RECIPIENT_RUNTIME_BINDING_V1 PR #1537 commit a9a762f3f34b4ea694fe762b92474b3ab180403f: red-first 6 tests with 2 expected failures, focused 6/6, affected 73/73, product command model 39 finite/20 hostile/15 mutants/0 survivors, and exact changed file hashes; required CI, merge and postmerge remain pending with no UI, user documents, owner-key drill or Disaster Ready claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_AUDIT_RECIPIENT_RUNTIME_BINDING_V1",
+      "approvedAtUtc": "2026-08-14T14:05:00.000Z",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     }

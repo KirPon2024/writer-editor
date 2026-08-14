@@ -377,6 +377,102 @@
     },
     "rollback": "Revert the single bounded F3_BLACK_BOX_RUNTIME_PORT_INVENTORY_DEFAULT_OFF_V1 PR; default-off runtime remains denied and no user data migration or provider install exists."
   },
+  "providerAuditRuntimeBinding": {
+    "taskId": "F3_PROVIDER_AUDIT_RUNTIME_BINDING_V1",
+    "status": "LOCAL_CANDIDATE_VERIFIED_PENDING_DELIVERY_NOT_FULL_BLACK_BOX_PRODUCT_V1",
+    "baselineSha": "bfc11005fd92954ef7b59ebbec6ec0f82aefe081",
+    "baselineTreeSha": "7af8bcfdc2cefa2906ab7606243c6682f250b87f",
+    "candidateCommitSha": "c7ac6ab36dd9456460884e85cf61c19703efdee5",
+    "candidateTreeSha": "e41fb3f65738a2e704e766f5583f1d847744930c",
+    "scope": "Bind the existing Black Box manual CORE export main runtime bridge to explicit trusted provider/audit runtime configuration: getProviderPin builds only the exact pinned official age v1.3.1 darwin-arm64 provider pin from the task-local T7 cache with digest checks; getAuditRecipient/getAuditIdentity parse explicit JSON config and require matching audit fingerprint; getAgeProvider is created from the P0C official age CLI provider. The create-only target port remains not configured, so this contour cannot create a capsule from product runtime and does not add UI, user documents, owner private key, project-library registration, off-host restore, Disaster Ready or full Black Box Product V1.",
+    "redFirst": {
+      "command": "node --test test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+      "tests": 9,
+      "pass": 5,
+      "fail": 4,
+      "skipped": 0,
+      "todo": 0,
+      "primaryFailures": [
+        "main runtime bridge did not require blackBoxRuntimeProviderAuditBindingV1.cjs",
+        "runtime provider/audit binding helper module was missing",
+        "product-command model denominator was stale at 40 finite cases"
+      ]
+    },
+    "focusedProof": {
+      "command": "node --test test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+      "tests": 9,
+      "pass": 9,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "affectedProof": {
+      "command": "node --test test/contracts/source-fence-v1.contract.test.js test/contracts/multilingual-evidence-v1.contract.test.js test/contracts/black-box-p0a-source-adapter-v1.contract.test.js test/contracts/black-box-p0b-darwin-durable-publisher-v1.contract.test.js test/contracts/black-box-p0c-strict-capsule-recover-v1.contract.test.js test/contracts/black-box-import-as-new-recovery-plan-v1.contract.test.js test/contracts/black-box-import-as-new-project-writer-v1.contract.test.js test/contracts/black-box-manual-core-capsule-kit-v1.contract.test.js test/contracts/black-box-synthetic-independent-restore-drill-v1.contract.test.js test/contracts/black-box-trusted-source-snapshot-v1.contract.test.js test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+      "tests": 76,
+      "pass": 76,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "modelOracleMutations": {
+      "command": "node scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs",
+      "finiteCases": 43,
+      "hostileCases": 23,
+      "semanticMutants": 19,
+      "survivors": 0,
+      "skips": 0,
+      "newControls": [
+        "runtimeProviderAuditBindingValidStillTargetNotConfigured",
+        "runtimeProviderDigestMismatchIsNotPass",
+        "runtimeAuditIdentityMismatchIsNotPass",
+        "runtimeProviderAuditSecretLeakIsHostile"
+      ]
+    },
+    "affectedModels": {
+      "sourceFence": "192 finite, 20 hostile, 9 mutants, 0 survivors",
+      "multilingualEvidence": "24 finite, 18 hostile, 15 mutants, 0 survivors",
+      "blackBoxP0aSourceAdapter": "32 finite, 18 hostile, 12 mutants, 0 survivors",
+      "blackBoxP0bDarwinDurablePublisher": "65 finite, 18 hostile, 12 mutants, 0 survivors",
+      "p0c": "64 finite, 26 hostile, 19 mutants, 0 survivors",
+      "importAsNewRecoveryPlan": "36 finite, 14 hostile, 10 mutants, 0 survivors",
+      "importAsNewProjectWriter": "24 finite, 16 hostile, 12 mutants, 0 survivors",
+      "manualCoreCapsuleKit": "48 finite, 16 hostile, 12 mutants, 0 survivors",
+      "trustedSourceSnapshot": "48 finite, 18 hostile, 12 mutants, 0 survivors",
+      "productCommandExportManualCore": "43 finite, 23 hostile, 19 mutants, 0 survivors"
+    },
+    "physicalRuntimeBindingSmoke": {
+      "providerRoot": "/Volumes/T7-Secure/storage/yalken/toolchains/age-v1.3.1-darwin-arm64",
+      "evidencePath": "/Volumes/T7-Secure/storage/yalken/evidence/f3-provider-audit-runtime-binding-v1/F3_PROVIDER_AUDIT_RUNTIME_BINDING_20260814T155435Z/physical-evidence.json",
+      "evidenceSha256": "sha256:ec7881c015bbe9208939a5491794f27eed832061b9f67961ed3ea871ae68ec47",
+      "providerPinDigest": "sha256:d00f8f56992249d4946330076562924f4a90ac32f20c9b7ddaa601f6cf1c4749",
+      "providerVersion": "v1.3.1",
+      "artifactSha256": "sha256:01120ea2cbf0463d4c6bd767f99f3271bbed1cdc8a9aa718a76ba1fe4f01998b",
+      "proofSha256": "sha256:e53545de98acd8fb17aca18ab4940e46edd032418df352b7387be4bc5379a0ac",
+      "ageSha256": "sha256:0e3ea0b1bed2b30aa2dc46eef4e1723864d626c80f37319c20d9b73ca045f56f",
+      "ageInspectSha256": "sha256:84695985ec630eaa88343b27b99d0478bb7fbfb27bbc0e43abd81a897ee7535f",
+      "sigsumVerified": true,
+      "probeOk": true,
+      "syntheticOwnerAuditRecipientsDistinct": true,
+      "auditIdentityFingerprintMatchesRecipient": true,
+      "productCommandReachedTargetRejected": true,
+      "artifactCreated": false,
+      "userDocumentsTouched": false,
+      "privateKeyMaterialWrittenToEvidence": false
+    },
+    "localGates": {
+      "traceabilityLedger": "PASS_EXISTING_LEDGER_RECEIPT_HASH_REBIND; PR-numbered material row pending until PR exists",
+      "governanceChangeDetection": "PASS",
+      "devFast": "PASS_AFTER_FACTUAL_BINDING_RERUN",
+      "guardrails": "PASS_AFTER_FACTUAL_BINDING_RERUN"
+    },
+    "changedFileHashes": {
+      "src/main.js": "d90311e4392916f72860f22a68fb645542ea76e634bc9099c25a24fe59d1fdcb",
+      "src/main/blackBoxRuntimeProviderAuditBindingV1.cjs": "a1d0e290ab597a31d0dae928595ae34dbfcde596ab485ba83ac0547a549e1aba",
+      "test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js": "0ed9154b25569cbbc5748b7cc6d60da3b04637805933f26258ef1bc597d85d52",
+      "scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs": "5c42609359e7d4342dcee1f394c16990b55a4ec298217cd35380338c087b186d"
+    },
+    "rollback": "Revert the single bounded F3_PROVIDER_AUDIT_RUNTIME_BINDING_V1 PR; feature remains default-off, target remains not configured, and no canonical/user data migration or provider install exists."
+  },
   "changedFileHashes": {
     "src/product/blackBoxProductCommandExportManualCoreV1.mjs": "302b9df995277197bfa4162e003e0be0ab1dce709c21ea2d709ff41b8187fdb8",
     "test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js": "154d9f03a21c3fb5995b90c9c0acb801f1844b155ccafb7d69557447c0cad6d2",

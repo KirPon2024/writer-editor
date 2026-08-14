@@ -1,0 +1,208 @@
+{
+  "schemaVersion": "yalken.f3BlackBoxP0bDarwinDurablePublisher.receipt.v1",
+  "taskId": "F3_BLACK_BOX_P0B_DARWIN_DURABLE_PUBLISHER_V1",
+  "createdAtUtc": "2026-08-14T00:31:00Z",
+  "status": "LOCAL_DELIVERY_GREEN_READY_FOR_REQUIRED_CI",
+  "verdict": "READY_FOR_PR_CI_MERGE_AFTER_CLEAN_COMMIT",
+  "baseline": {
+    "headSha": "29e9206a2e5f3b1dc35c6a70f7fdd70bb61f516f",
+    "treeSha": "13d2745f3cfc8b79b2cb51da9f81780e169a9fef",
+    "branch": "codex/yalken-f3-black-box-p0b-darwin-durable-publisher-v1"
+  },
+  "authorityBoundary": {
+    "ownerGrant": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE",
+    "productRuntimeWiringChanged": false,
+    "uiChanged": false,
+    "sourceAdapterChanged": false,
+    "capsuleCryptoChanged": false,
+    "recoveryImportChanged": false,
+    "userDocumentsTouched": false,
+    "dependenciesChanged": false,
+    "networkOrCloudRuntimeTruth": false,
+    "sealedLabPackagesModified": false
+  },
+  "contract": {
+    "schema": "yalken.blackBoxDarwinDurablePublisher.receipt.v1",
+    "featureFlag": "yalken.blackBox.darwinDurablePublisher.p0bV1",
+    "defaultEnabled": false,
+    "durableDialect": "DARWIN_CREATE_ONLY_FILE_DIRECTORY_FSYNC_REOPEN_REREAD_V1",
+    "targetSemantics": [
+      "existing target rejected before write",
+      "symlink target rejected",
+      "safe basename only",
+      "no replace",
+      "O_EXCL requested",
+      "O_NOFOLLOW requested",
+      "0600 mode",
+      "file sync required",
+      "directory sync required",
+      "final reopen/full reread required"
+    ],
+    "sourceBinding": [
+      "projectId",
+      "rootId",
+      "documentId",
+      "canonicalRevision",
+      "workingRevision",
+      "generation",
+      "sourceSetDigest"
+    ],
+    "nonGoals": [
+      "no capsule encryption",
+      "no owner key",
+      "no recovery/import",
+      "no exact-byte replication claim",
+      "no Disaster Ready claim",
+      "no process-crash proof claim",
+      "no physical power-loss proof claim",
+      "no UI or runtime command wiring"
+    ]
+  },
+  "redFirst": {
+    "command": "node --test test/contracts/black-box-p0b-darwin-durable-publisher-v1.contract.test.js",
+    "result": "RED_EXPECTED",
+    "tests": 6,
+    "pass": 0,
+    "fail": 6,
+    "skipped": 0,
+    "todo": 0,
+    "primaryFailure": "ERR_MODULE_NOT_FOUND src/product/blackBoxDarwinDurablePublisherV1.mjs"
+  },
+  "focusedProof": {
+    "command": "node --test test/contracts/black-box-p0b-darwin-durable-publisher-v1.contract.test.js",
+    "tests": 6,
+    "pass": 6,
+    "fail": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "modelOracleMutations": {
+    "command": "node scripts/ops/black-box-p0b-darwin-durable-publisher-v1-model.mjs",
+    "finiteCases": 65,
+    "disagreements": 0,
+    "hostileCases": 18,
+    "hostileFailures": 0,
+    "semanticMutants": 12,
+    "survivors": 0,
+    "skips": 0,
+    "controls": {
+      "syntheticCreateOnlyPasses": true,
+      "existingTargetIsNotPass": true,
+      "symlinkIsNotPass": true,
+      "readbackMismatchIsNotPass": true,
+      "unknownClaimIsNotPass": true
+    }
+  },
+  "affectedProof": {
+    "command": "node --test test/contracts/source-fence-v1.contract.test.js test/contracts/multilingual-evidence-v1.contract.test.js test/contracts/black-box-p0a-source-adapter-v1.contract.test.js test/contracts/black-box-p0b-darwin-durable-publisher-v1.contract.test.js",
+    "tests": 28,
+    "pass": 28,
+    "fail": 0,
+    "skipped": 0,
+    "todo": 0,
+    "sourceFenceModel": {
+      "finiteCases": 192,
+      "hostileCases": 20,
+      "semanticMutants": 9,
+      "survivors": 0
+    },
+    "multilingualEvidenceModel": {
+      "finiteCases": 24,
+      "hostileCases": 18,
+      "semanticMutants": 15,
+      "survivors": 0
+    },
+    "blackBoxP0aModel": {
+      "finiteCases": 32,
+      "hostileCases": 18,
+      "semanticMutants": 12,
+      "survivors": 0
+    }
+  },
+  "physicalSyntheticEvidence": {
+    "path": "/Volumes/T7-Secure/storage/yalken/evidence/f3-p0b-darwin-durable-publisher-v1/20260814T002800Z/physical-synthetic-default-fs-evidence.json",
+    "sha256": "6c6f002b7d3209cdfb3bb4faff81ef9a14cd6b242e694632ba81213340a57157",
+    "artifactSha256": "sha256:2fe67621a925be96038319fc5ed8cdd516f7789260de32c79a5f96362e90f7ec",
+    "readbackSha256": "sha256:2fe67621a925be96038319fc5ed8cdd516f7789260de32c79a5f96362e90f7ec",
+    "bytes": 94,
+    "exactBytesMatch": true,
+    "volume": {
+      "mount": "/Volumes/T7-Secure",
+      "uuid": "D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2",
+      "filesystem": "APFS",
+      "fileVault": "Yes"
+    },
+    "claimBoundary": "Disposable synthetic local filesystem evidence only; not a user manuscript, not process-crash proof, not physical power-loss proof."
+  },
+  "deliveryGates": {
+    "traceabilityLedger": {
+      "command": "node scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
+      "ok": true,
+      "materialDispositions": 26,
+      "externalPins": 3
+    },
+    "governance": {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --approvals-path docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json",
+      "ok": true,
+      "missingApprovals": 0,
+      "approvalRegistryValid": true
+    },
+    "deterministicReplay": {
+      "focusedReplays": 2,
+      "affectedReplays": 2,
+      "modelReplays": 2,
+      "traceabilityReplays": 2,
+      "governanceReplays": 2,
+      "allMatched": true
+    },
+    "devFast": {
+      "command": "npm run dev:fast",
+      "tests": 28,
+      "pass": 28,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "guardrails": {
+      "command": "npm run agent:guardrails",
+      "status": "PASS"
+    },
+    "baseline": {
+      "command": "npm test",
+      "opsTests": 3,
+      "opsPass": 3,
+      "mainRunnerTests": 802,
+      "mainRunnerPass": 738,
+      "mainRunnerFail": 0,
+      "mainRunnerSkipped": 64,
+      "mainRunnerTodo": 0,
+      "atlasEventTests": 20,
+      "atlasEventPass": 20,
+      "perfBaseline": "PASS",
+      "menuAndReleaseCandidateChecks": "PASS"
+    }
+  },
+  "changedFileHashes": {
+    "src/product/blackBoxDarwinDurablePublisherV1.mjs": "a169972c43af484ad1b6c7f9bbc9e2b10a4110087fc09a200d528e7d31dc13ea",
+    "test/contracts/black-box-p0b-darwin-durable-publisher-v1.contract.test.js": "c0662aaec5de9d68e26fe2727ea9417600f6ff42e3b7daec127a79acdc3b20cb",
+    "scripts/ops/black-box-p0b-darwin-durable-publisher-v1-model.mjs": "5d40adf9556abc221350f20b7e999f5cc26f89545b8b366c9ecbb64ac03d2519",
+    "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json": "12e7ec1748b9cad777275148a4e91f4cac462e2703ab5fa517a47e6333eb8d6f"
+  },
+  "resourceCeilings": {
+    "algorithm": "O_ARTIFACT_BYTES_PLUS_CONSTANT_FILESYSTEM_OPERATIONS",
+    "predeclaredSyntheticFixtureCeiling": "1_MiB_artifact_p95_under_250ms_lab_only",
+    "productSlo": "NOT_CLAIMED_LAB_ONLY"
+  },
+  "rollback": {
+    "action": "Revert the single F3 P0B durable publisher PR containing the isolated module, contract test, model, receipt, ledger and governance bindings.",
+    "dataMigration": false,
+    "runtimeRollback": "No product runtime wiring, capsule crypto, recovery import, dependency, cloud or user-data migration is introduced."
+  },
+  "limitations": [
+    "This proves only the P0B create-only durable publisher seam for Black Box synthetic artifacts.",
+    "This does not prove P0C capsule encryption/recovery, exact-byte donor replication, owner-key recovery drill or Disaster Ready.",
+    "The physical synthetic evidence is a default filesystem publish/reread on T7; it is not a process-crash or physical power-loss proof.",
+    "The module is not wired to UI, Command Kernel or product runtime publication."
+  ],
+  "updatedAtUtc": "2026-08-14T00:42:00Z"
+}

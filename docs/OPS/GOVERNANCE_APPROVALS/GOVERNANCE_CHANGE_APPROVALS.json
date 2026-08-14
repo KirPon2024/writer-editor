@@ -10449,8 +10449,8 @@
     },
     {
       "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "87a51da7daef5f9d8204473f27075353abb02c955fb242f4bb5db863c4623915",
-      "rationale": "Approve traceability ledger update adding F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1 as ADAPTED_PRODUCT bound to candidate commit 51b99bb578a31b097e0e2a3b82947546fca9d0e0 and PR #1533 while preserving full Black Box Product V1 deferred gates for UI/default flag/provider-audit/owner-key/off-host/final donor work.",
+      "sha256": "4e5fe6f290a94e77ffe17bc51d9b3f3036b5b6aa4c660d29f26bb508bbc66eac",
+      "rationale": "Approve traceability ledger update binding F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1 to PR #1533 merge commit 17f03909b623d2b0a8a573920110bc1d078af8ff with postmerge evidence while preserving full Black Box Product V1 deferred gates for UI/default flag/provider-audit/owner-key/off-host/final donor work.",
       "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
       "approvedAtUtc": "2026-08-14T11:45:00.000Z",
       "approved": true,
@@ -10620,8 +10620,8 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-      "sha256": "182f35459554e1b66ed6126600b546be99b055e7baf1bb2f49b0686fbecedca1",
-      "rationale": "Approve factual local candidate receipt for F3 Black Box product command export manual CORE contour: red-first 0/6, focused 6/6, model 36 finite/18 hostile/12 mutants/0 survivors, affected 50/50, main command bridge affected 18/18, governance and traceability ledger verifiers PASS, dev:fast 28/28 and guardrails PASS, with no UI, user documents, live overwrite, owner-key drill, off-host restore or Disaster Ready claim.",
+      "sha256": "504df02e35ffd6b2e41a1b7db9ccda7c278dda4ff396c7b559ea62d8180021ec",
+      "rationale": "Approve factual postmerge receipt for F3 Black Box product command export manual CORE contour: PR #1533 merged as 17f03909b623d2b0a8a573920110bc1d078af8ff, required CI all SUCCESS, postmerge focused 6/6, model 36 finite/18 hostile/12 mutants/0 survivors, affected 50/50, main command bridge affected 18/18, governance and traceability ledger verifiers PASS, dev:fast 28/28 and guardrails PASS, with no UI, user documents, live overwrite, owner-key drill, off-host restore or Disaster Ready claim.",
       "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
       "approvedAtUtc": "2026-08-14T11:45:00.000Z",
       "approved": true,

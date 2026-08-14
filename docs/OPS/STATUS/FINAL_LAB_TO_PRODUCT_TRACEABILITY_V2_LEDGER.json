@@ -1150,7 +1150,7 @@
       "post20260811Delta": true,
       "productBindings": [
         {
-          "commitSha": "51b99bb578a31b097e0e2a3b82947546fca9d0e0",
+          "commitSha": "17f03909b623d2b0a8a573920110bc1d078af8ff",
           "prNumber": 1533,
           "files": [
             "src/product/blackBoxProductCommandExportManualCoreV1.mjs",
@@ -1178,7 +1178,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "182f35459554e1b66ed6126600b546be99b055e7baf1bb2f49b0686fbecedca1"
+            "sha256": "504df02e35ffd6b2e41a1b7db9ccda7c278dda4ff396c7b559ea62d8180021ec"
           }
         }
       ],
@@ -1193,7 +1193,7 @@
         "commandKernelWiringChanged": true,
         "uiChanged": false,
         "userDocumentsTouched": false,
-        "claimBoundary": "Local candidate only until delivery, required CI, merge and postmerge exact-head verification complete. This does not claim product UI, project-library registration, owner-key drill, off-host restore, exact-byte FINAL_COMPLETE donor replication, Disaster Ready or full Black Box product V1."
+        "claimBoundary": "Merged and postmerge verified for the bounded manual CORE export command only. This does not claim product UI, project-library registration, owner-key drill, off-host restore, exact-byte FINAL_COMPLETE donor replication, Disaster Ready or full Black Box product V1."
       }
     },
     {
@@ -1205,7 +1205,7 @@
       ],
       "disposition": "DEFERRED_WITH_BLOCKER",
       "deferred": {
-        "prerequisite": "P0A, P0B, P0C, manual CORE capsule kit, import-as-new recovery plan, P0C ephemeral recovered CORE payload sink, import-as-new project writer, synthetic independent restore drill, trusted source snapshot and manual CORE export command seams are merged and postmerge verified or in delivery. Remaining productization must still prove product UI/default feature flag path, trusted provider/audit identity binding, real owner-key recovery drill where required, exact-byte donor replication only from verified FINAL_COMPLETE donor, project-library registration if required, independent off-host restore and no live-project overwrite.",
+        "prerequisite": "P0A, P0B, P0C, manual CORE capsule kit, import-as-new recovery plan, P0C ephemeral recovered CORE payload sink, import-as-new project writer, synthetic independent restore drill, trusted source snapshot and manual CORE export command seams are merged and postmerge verified. Remaining productization must still prove product UI/default feature flag path, trusted provider/audit identity binding, real owner-key recovery drill where required, exact-byte donor replication only from verified FINAL_COMPLETE donor, project-library registration if required, independent off-host restore and no live-project overwrite.",
         "owner": "MASTER_PROGRAM_OWNER_OR_CURRENT_OWNER_GRANT_WITHIN_SCOPE",
         "acceptanceGate": "Exact bounded PRs with source-fence/accounting, durable writer evidence, strict capsule authentication, quarantine/preview/import-as-new-project proof, independent restore, owner-key drill, rollback, and no live-project overwrite."
       }

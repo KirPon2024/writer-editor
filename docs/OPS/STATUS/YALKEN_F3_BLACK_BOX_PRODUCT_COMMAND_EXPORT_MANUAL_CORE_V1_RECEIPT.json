@@ -9,6 +9,15 @@
     "treeSha": "8811456ce7e7f7572628527c87b49f82b92cabaa",
     "branch": "codex/yalken-f3-black-box-product-command-export-manual-core-v1"
   },
+  "delivery": {
+    "candidateCommitSha": "51b99bb578a31b097e0e2a3b82947546fca9d0e0",
+    "candidateTreeSha": "8ce61bee96eba31e7a453bcb69264a7919174524",
+    "prNumber": 1533,
+    "push": "PASS",
+    "ci": "PENDING",
+    "merge": "PENDING",
+    "postmerge": "PENDING"
+  },
   "authority": {
     "ownerGrant": "OWNER_CONTINUATION_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1",
     "scope": "ordinary bounded F3 product command/runtime wiring contour",
@@ -93,7 +102,7 @@
       "materialDispositions": 33,
       "externalPins": 3,
       "errors": 0,
-      "candidateDisposition": "DEFERRED_WITH_BLOCKER_UNTIL_REAL_COMMIT_AND_PR_EXIST"
+      "candidateDisposition": "ADAPTED_PRODUCT_AFTER_PR_REBIND"
     },
     "devFast": {
       "command": "REMOTE_BINDING_OK=1 PRE_UI_OPS_CONTOUR_CLOSED_OK=1 npm run dev:fast",
@@ -117,8 +126,7 @@
     "src/command/commandSurfaceKernel.js": "235a9d5294e967f34bc993482f16e80a75f714fa4968a3e15db7e1e8ede80f92",
     "src/main.js": "64c5c3b39d6f84cff7e188eca190a9a86dd68c360f8889bf335810b2e311861f",
     "docs/OPS/CAPABILITIES_MATRIX.json": "ef8023acebdfd48f46c336872142b6202d7767ade9e89d34fc450a46e2a4401f",
-    "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json": "3378555dbdad34d61986fff0ae3d4654702606d6076f1ac75204494fb174d687",
-    "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json": "fc777aa4df8267ee650c876e50ab6d6ba71fe33a02db4663eaadbd8f9c1ba3b0"
+    "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json": "3378555dbdad34d61986fff0ae3d4654702606d6076f1ac75204494fb174d687"
   },
   "claimBoundary": {
     "productValue": "Command Kernel admitted create-only manual CORE capsule export command with trusted-port contract and sanitized public result; default runtime flag remains off until provider/audit/owner-key drill wiring.",

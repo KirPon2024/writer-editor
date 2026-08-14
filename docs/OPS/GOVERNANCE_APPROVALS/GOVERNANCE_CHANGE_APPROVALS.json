@@ -10449,8 +10449,8 @@
     },
     {
       "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "fc777aa4df8267ee650c876e50ab6d6ba71fe33a02db4663eaadbd8f9c1ba3b0",
-      "rationale": "Approve traceability ledger update adding F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1 as an honest deferred local candidate until real commitSha and PR number exist, while preserving full Black Box Product V1 deferred gates for UI/default flag/provider-audit/owner-key/off-host/final donor work.",
+      "sha256": "87a51da7daef5f9d8204473f27075353abb02c955fb242f4bb5db863c4623915",
+      "rationale": "Approve traceability ledger update adding F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1 as ADAPTED_PRODUCT bound to candidate commit 51b99bb578a31b097e0e2a3b82947546fca9d0e0 and PR #1533 while preserving full Black Box Product V1 deferred gates for UI/default flag/provider-audit/owner-key/off-host/final donor work.",
       "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
       "approvedAtUtc": "2026-08-14T11:45:00.000Z",
       "approved": true,
@@ -10620,7 +10620,7 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-      "sha256": "af932bc953c913fb9119a3f20762caa158c1aecc3c6382155ac63aa8b243c0d2",
+      "sha256": "182f35459554e1b66ed6126600b546be99b055e7baf1bb2f49b0686fbecedca1",
       "rationale": "Approve factual local candidate receipt for F3 Black Box product command export manual CORE contour: red-first 0/6, focused 6/6, model 36 finite/18 hostile/12 mutants/0 survivors, affected 50/50, main command bridge affected 18/18, governance and traceability ledger verifiers PASS, dev:fast 28/28 and guardrails PASS, with no UI, user documents, live overwrite, owner-key drill, off-host restore or Disaster Ready claim.",
       "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
       "approvedAtUtc": "2026-08-14T11:45:00.000Z",

@@ -1146,13 +1146,42 @@
       "sourcePins": [
         "BLACK_BOX_FINAL_LAB_EXTERNAL_RECEIPT"
       ],
-      "disposition": "DEFERRED_WITH_BLOCKER",
+      "disposition": "ADAPTED_PRODUCT",
       "post20260811Delta": true,
-      "deferred": {
-        "prerequisite": "Local candidate is implemented and test-green, but product traceability binding requires a real commitSha and PR number. Rebind this row to ADAPTED_PRODUCT inside the same bounded contour after the clean candidate commit and PR are created.",
-        "owner": "MASTER_PROGRAM_OWNER_OR_CURRENT_OWNER_GRANT_WITHIN_SCOPE",
-        "acceptanceGate": "Exact product binding with reachable commit SHA, PR number, file list, test list and receipt hash after delivery metadata exists; required CI, merge and postmerge exact-head verification must still pass."
-      },
+      "productBindings": [
+        {
+          "commitSha": "51b99bb578a31b097e0e2a3b82947546fca9d0e0",
+          "prNumber": 1533,
+          "files": [
+            "src/product/blackBoxProductCommandExportManualCoreV1.mjs",
+            "src/shared/productCommandRegistry.cjs",
+            "src/renderer/commands/capabilityPolicy.mjs",
+            "src/command/commandSurfaceKernel.js",
+            "src/main.js",
+            "docs/OPS/CAPABILITIES_MATRIX.json",
+            "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json",
+            "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json",
+            "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
+            "test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+            "scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs",
+            "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json"
+          ],
+          "tests": [
+            "node --test test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+            "node scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs",
+            "node --test test/contracts/command-catalog.contract.test.js test/contracts/capability-command-coverage.contract.test.js test/contracts/command-surface-bus-only.contract.test.js test/contracts/command-surface-single-entry.contract.test.js test/contracts/black-box-trusted-source-snapshot-v1.contract.test.js test/contracts/black-box-manual-core-capsule-kit-v1.contract.test.js test/contracts/source-fence-v1.contract.test.js",
+            "node --test test/unit/sector-m-preload-ui-command-bridge.test.js test/unit/live-command-wiring.test.js test/unit/sector-m-m5-command-path.test.js test/unit/sector-u-u1-command-layer.test.js",
+            "node scripts/ops/governance-change-detection.mjs",
+            "node scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
+            "REMOTE_BINDING_OK=1 PRE_UI_OPS_CONTOUR_CLOSED_OK=1 npm run dev:fast",
+            "npm run agent:guardrails"
+          ],
+          "receipt": {
+            "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
+            "sha256": "182f35459554e1b66ed6126600b546be99b055e7baf1bb2f49b0686fbecedca1"
+          }
+        }
+      ],
       "localCandidateVerification": {
         "baselineSha": "2cc598271bfdab6764401216e08cb952d4c49ba6",
         "redFirst": "6 tests, 0 pass, 6 fail: missing product command module and model",

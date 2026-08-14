@@ -10449,12 +10449,12 @@
     },
     {
       "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "d8701b6cae3cce5fa4abf3bcea3bf8640198e2d70671e7c72ab392f358f0617e",
-      "rationale": "Approve factual ledger local-candidate entry for F3 create-only target runtime binding: the new material row remains DEFERRED_WITH_BLOCKER until commit/PR/CI/merge/postmerge rebind, records focused 12/12, affected 79/79, product-command model 53 finite/30 hostile/26 mutants/0 survivors, traceability/governance/dev:fast/guardrails/replay PASS, rebinds all living product-command receipt references to the current receipt hash, and preserves full Black Box Product V1 as deferred.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_CREATE_ONLY_TARGET_RUNTIME_BINDING_V1",
-      "approvedAtUtc": "2026-08-14T18:02:14Z",
+      "sha256": "9d5cb338eaaea4e2f4153a4d184e2fc3afd155fc5d2f027f971567cd03448be7",
+      "rationale": "Approve factual ledger postmerge rebind for F3 create-only target runtime binding: material disposition moves from DEFERRED_WITH_BLOCKER local-green to ADAPTED_PRODUCT only after PR #1545 required CI, merge and clean exact-head postmerge verification; full Black Box Product V1 remains deferred for remaining product gates.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_CREATE_ONLY_TARGET_RUNTIME_BINDING_POSTMERGE_REBIND_V1",
+      "approvedAtUtc": "2026-08-14T18:26:30Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_POSTMERGE_TRACEABILITY_REBIND"
     },
     {
       "filePath": "src/product/blackBoxImportAsNewProjectWriterV1.mjs",
@@ -10620,12 +10620,12 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-      "sha256": "fa275172e8c08d6acc0cfe0a424ec906e421766521064df21ddf0255b3931c69",
-      "rationale": "Approve factual local-candidate receipt for F3 create-only target runtime binding: focused 12/12, affected 79/79, product-command model 53 finite/30 hostile/26 mutants/0 survivors, traceability/governance/dev:fast/guardrails/replay PASS, target env default fail-closed, no UI/user-document/full Black Box Product V1 claim, pending delivery and postmerge rebind.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_CREATE_ONLY_TARGET_RUNTIME_BINDING_V1",
-      "approvedAtUtc": "2026-08-14T18:02:14Z",
+      "sha256": "8f0cadbb3d1c1d141b5e3252f132c209d733434ae86c7af8d90c5f68ac4c0112",
+      "rationale": "Approve factual postmerge receipt rebind for F3 create-only target runtime binding PR #1545: required CI PASS, merge commit acfe4565b1a0316459c80f67e0efbbe7852a03cf, postmerge focused 12/12, affected 79/79, product command model 53 finite/30 hostile/26 mutants/0 survivors, traceability/governance/dev:fast/guardrails PASS; target binding remains explicit-env fail-closed by default and no UI/user-document/full Black Box Product V1 claim is made.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_CREATE_ONLY_TARGET_RUNTIME_BINDING_POSTMERGE_REBIND_V1",
+      "approvedAtUtc": "2026-08-14T18:26:30Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_POSTMERGE_TRACEABILITY_REBIND"
     },
     {
       "filePath": "src/main/blackBoxRuntimeCreateOnlyTargetBindingV1.cjs",

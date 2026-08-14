@@ -1239,7 +1239,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "fa275172e8c08d6acc0cfe0a424ec906e421766521064df21ddf0255b3931c69"
+            "sha256": "8f0cadbb3d1c1d141b5e3252f132c209d733434ae86c7af8d90c5f68ac4c0112"
           }
         }
       ],
@@ -1289,7 +1289,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "fa275172e8c08d6acc0cfe0a424ec906e421766521064df21ddf0255b3931c69"
+            "sha256": "8f0cadbb3d1c1d141b5e3252f132c209d733434ae86c7af8d90c5f68ac4c0112"
           }
         }
       ],
@@ -1351,7 +1351,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "fa275172e8c08d6acc0cfe0a424ec906e421766521064df21ddf0255b3931c69"
+            "sha256": "8f0cadbb3d1c1d141b5e3252f132c209d733434ae86c7af8d90c5f68ac4c0112"
           }
         }
       ],
@@ -1408,7 +1408,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "fa275172e8c08d6acc0cfe0a424ec906e421766521064df21ddf0255b3931c69"
+            "sha256": "8f0cadbb3d1c1d141b5e3252f132c209d733434ae86c7af8d90c5f68ac4c0112"
           }
         }
       ],
@@ -1510,7 +1510,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "fa275172e8c08d6acc0cfe0a424ec906e421766521064df21ddf0255b3931c69"
+            "sha256": "8f0cadbb3d1c1d141b5e3252f132c209d733434ae86c7af8d90c5f68ac4c0112"
           }
         }
       ],
@@ -1536,11 +1536,11 @@
     {
       "materialId": "F3_BLACK_BOX_CREATE_ONLY_TARGET_RUNTIME_BINDING_V1",
       "programPhase": "F3",
-      "summary": "Black Box manual CORE export main runtime create-only target binding is local-candidate green pending delivery: the runtime bridge now has tests-first coverage for explicit allowedRoot/targetDir environment binding, realpath containment, project-root exclusion, symlink denial, target-collision denial and deterministic safe filename selection. This row is intentionally deferred until commit, PR, required CI, merge and exact-head postmerge verification bind the candidate bytes.",
+      "summary": "Black Box manual CORE export main runtime create-only target binding is merged and postmerge verified: the runtime bridge now selects create-only targets only through explicit allowedRoot/targetDir environment binding, realpath containment, project-root exclusion, symlink denial, target-collision denial and deterministic safe filename selection. No product UI, default flag placement, user documents, owner private key, live-project overwrite, project-library registration, off-host restore, Disaster Ready or full Black Box Product V1 claim is added.",
       "sourcePins": [
         "BLACK_BOX_FINAL_LAB_EXTERNAL_RECEIPT"
       ],
-      "disposition": "DEFERRED_WITH_BLOCKER",
+      "disposition": "ADAPTED_PRODUCT",
       "post20260811Delta": true,
       "localCandidateVerification": {
         "baselineSha": "884dd511604a697b88e5258225f37e5c66852ee7",
@@ -1561,22 +1561,75 @@
         "userDocumentsTouched": false,
         "claimBoundary": "Local candidate only; target selection requires explicit safe env binding and otherwise remains fail-closed, feature remains default-off, no product UI, no owner-key drill, no off-host restore and no full Black Box Product V1 claim."
       },
-      "deferred": {
-        "prerequisite": "Commit the bounded candidate, push/open PR, receive required CI green, merge through repo governance, then perform clean exact-head postmerge verification and factual traceability rebind before changing this row to ADAPTED_PRODUCT.",
-        "owner": "MASTER_PROGRAM_OWNER_OR_CURRENT_OWNER_GRANT_WITHIN_SCOPE",
-        "acceptanceGate": "Exact PR with focused 12/12, affected 79/79, product-command model 53 finite/30 hostile/26 mutants/0 survivors, affected models all zero survivors, traceability, governance, dev:fast, guardrails, required CI and postmerge verification; no user documents and no live-project overwrite."
+      "productBindings": [
+        {
+          "commitSha": "acfe4565b1a0316459c80f67e0efbbe7852a03cf",
+          "featureCommitSha": "32b99bb1e9b1df83139e922a0f9892237cee29eb",
+          "prNumber": 1545,
+          "mergeCommitSha": "acfe4565b1a0316459c80f67e0efbbe7852a03cf",
+          "files": [
+            "src/main.js",
+            "src/main/blackBoxRuntimeCreateOnlyTargetBindingV1.cjs",
+            "test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+            "scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs",
+            "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
+            "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
+            "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+          ],
+          "tests": [
+            "node --test test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+            "node scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs",
+            "node --test test/contracts/source-fence-v1.contract.test.js test/contracts/multilingual-evidence-v1.contract.test.js test/contracts/black-box-p0a-source-adapter-v1.contract.test.js test/contracts/black-box-p0b-darwin-durable-publisher-v1.contract.test.js test/contracts/black-box-p0c-strict-capsule-recover-v1.contract.test.js test/contracts/black-box-import-as-new-recovery-plan-v1.contract.test.js test/contracts/black-box-import-as-new-project-writer-v1.contract.test.js test/contracts/black-box-manual-core-capsule-kit-v1.contract.test.js test/contracts/black-box-synthetic-independent-restore-drill-v1.contract.test.js test/contracts/black-box-trusted-source-snapshot-v1.contract.test.js test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+            "node scripts/ops/source-fence-v1-model.mjs",
+            "node scripts/ops/multilingual-evidence-v1-model.mjs",
+            "node scripts/ops/black-box-p0a-source-adapter-v1-model.mjs",
+            "node scripts/ops/black-box-p0b-darwin-durable-publisher-v1-model.mjs",
+            "node scripts/ops/black-box-p0c-strict-capsule-recover-v1-model.mjs",
+            "node scripts/ops/black-box-import-as-new-recovery-plan-v1-model.mjs",
+            "node scripts/ops/black-box-import-as-new-project-writer-v1-model.mjs",
+            "node scripts/ops/black-box-manual-core-capsule-kit-v1-model.mjs",
+            "node scripts/ops/black-box-trusted-source-snapshot-v1-model.mjs",
+            "node scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
+            "node scripts/ops/governance-change-detection.mjs --json --approvals-path docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json",
+            "REMOTE_BINDING_OK=1 PRE_UI_OPS_CONTOUR_CLOSED_OK=1 npm run dev:fast",
+            "npm run agent:guardrails"
+          ],
+          "receipt": {
+            "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
+            "sha256": "8f0cadbb3d1c1d141b5e3252f132c209d733434ae86c7af8d90c5f68ac4c0112"
+          }
+        }
+      ],
+      "postMergeVerification": {
+        "mergeCommitSha": "acfe4565b1a0316459c80f67e0efbbe7852a03cf",
+        "mergeTreeSha": "35a8e6ebeba06c697763d1d0583d47a16b471356",
+        "requiredCi": "PASS",
+        "focusedTests": "12/12",
+        "affectedTests": "79/79",
+        "modelOracleMutations": "Product command 53 finite, 30 hostile, 26 mutants, 0 survivors",
+        "affectedModels": "sourceFence 192/20/9/0, multilingualEvidence 24/18/15/0, blackBoxP0aSourceAdapter 32/18/12/0, blackBoxP0bDarwinDurablePublisher 65/18/12/0, p0c 64/26/19/0, importAsNewRecoveryPlan 36/14/10/0, importAsNewProjectWriter 24/16/12/0, manualCoreCapsuleKit 48/16/12/0, trustedSourceSnapshot 48/18/12/0, productCommandExportManualCore 53/30/26/0",
+        "traceabilityLedger": "PASS",
+        "governanceChangeDetection": "PASS",
+        "devFast": "28/28",
+        "guardrails": "PASS",
+        "productRuntimeWiringChanged": true,
+        "commandKernelWiringChanged": false,
+        "uiChanged": false,
+        "targetPortChanged": true,
+        "userDocumentsTouched": false,
+        "claimBoundary": "Merged and postmerge verified for the bounded create-only target runtime binding only. This does not claim product UI/default flag placement, project-library registration, owner-key drill, off-host restore, Disaster Ready or full Black Box Product V1."
       }
     },
     {
       "materialId": "F3_BLACK_BOX_PRODUCT_V1",
       "programPhase": "F3",
-      "summary": "Black Box / Manuscript Capsule product V1 remains future product work after P0A/P0B/P0C, manual CORE capsule kit, import-as-new recovery plan, ephemeral recovered CORE payload sink, import-as-new project writer, synthetic independent restore drill, trusted source snapshot, manual CORE export command, audit-recipient runtime binding, default-off runtime port inventory, provider/audit runtime binding and runtime source revision binding seams; create-only target runtime binding is currently local-candidate pending delivery, and product V1 must still complete product UI/default flag path and owner-key/off-host drills without live-project overwrite.",
+      "summary": "Black Box / Manuscript Capsule product V1 remains future product work after P0A/P0B/P0C, manual CORE capsule kit, import-as-new recovery plan, ephemeral recovered CORE payload sink, import-as-new project writer, synthetic independent restore drill, trusted source snapshot, manual CORE export command, audit-recipient runtime binding, default-off runtime port inventory, provider/audit runtime binding, runtime source revision binding and create-only target runtime binding seams; product V1 must still complete product UI/default flag path and owner-key/off-host drills without live-project overwrite.",
       "sourcePins": [
         "BLACK_BOX_FINAL_LAB_EXTERNAL_RECEIPT"
       ],
       "disposition": "DEFERRED_WITH_BLOCKER",
       "deferred": {
-        "prerequisite": "P0A, P0B, P0C, manual CORE capsule kit, import-as-new recovery plan, P0C ephemeral recovered CORE payload sink, import-as-new project writer, synthetic independent restore drill, trusted source snapshot, manual CORE export command, audit-recipient runtime binding, default-off runtime port inventory, provider/audit runtime binding and runtime source revision binding seams are merged/postmerge verified as recorded. Create-only target runtime binding is local-candidate green pending commit/PR/CI/merge/postmerge rebind. Remaining productization must still prove product UI/default feature flag path, real owner-key recovery drill where required, exact-byte donor replication only from verified FINAL_COMPLETE donor, project-library registration if required, independent off-host restore and no live-project overwrite.",
+        "prerequisite": "P0A, P0B, P0C, manual CORE capsule kit, import-as-new recovery plan, P0C ephemeral recovered CORE payload sink, import-as-new project writer, synthetic independent restore drill, trusted source snapshot, manual CORE export command, audit-recipient runtime binding, default-off runtime port inventory, provider/audit runtime binding, runtime source revision binding and create-only target runtime binding seams are merged/postmerge verified as recorded. Remaining productization must still prove product UI/default feature flag path, real owner-key recovery drill where required, exact-byte donor replication only from verified FINAL_COMPLETE donor, project-library registration if required, independent off-host restore and no live-project overwrite.",
         "owner": "MASTER_PROGRAM_OWNER_OR_CURRENT_OWNER_GRANT_WITHIN_SCOPE",
         "acceptanceGate": "Exact bounded PRs with source-fence/accounting, durable writer evidence, strict capsule authentication, quarantine/preview/import-as-new-project proof, independent restore, owner-key drill, rollback, and no live-project overwrite."
       }

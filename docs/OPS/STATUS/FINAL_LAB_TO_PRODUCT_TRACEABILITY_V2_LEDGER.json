@@ -831,6 +831,7 @@
         {
           "commitSha": "a5a344e99e05fa97edf9be0793e6c5f6c1f63636",
           "prNumber": 1523,
+          "mergeCommitSha": "0129448a32fbdf47faac87ca71a278272f283dfa",
           "featureCommitSha": "a5a344e99e05fa97edf9be0793e6c5f6c1f63636",
           "files": [
             "src/product/blackBoxImportAsNewRecoveryPlanV1.mjs",
@@ -854,24 +855,26 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN_V1_RECEIPT.json",
-            "sha256": "d723d09ad797a4b8dd066becdbe1cf28bdc2727bb5dd88699942f6ab4c6c947a"
+            "sha256": "9f888df381eba631279b3ee4a3eddf8ccf8249d8b0a72ba71ec698fd36ab26d0"
           }
         }
       ],
-      "candidateVerification": {
-        "requiredCi": "PENDING_PR_1523",
+      "postMergeVerification": {
+        "mergeCommitSha": "0129448a32fbdf47faac87ca71a278272f283dfa",
+        "mergeTreeSha": "3e11d96e3623a926dc671b768eda1d4a092e78c2",
+        "requiredCi": "PASS",
         "focusedTests": "6/6",
         "affectedTests": "56/56",
         "modelOracleMutations": "36 finite, 14 hostile, 10 mutants, 0 survivors; affected S0/F1/T0/P0A/P0B/P0C/manual/import-plan all 0 survivors",
-        "physicalProviderEvidenceSha256": "sha256:2c70610cb849ea8e4c6db344e2c2ee85747f5b70c895bf59652efcb3d2a002bf",
+        "physicalProviderEvidenceSha256": "sha256:e8e3fdb2e2769d2bbbb3075579cb9e69a7e3c3b0212b0f344a66a52a82ae295a",
         "physicalProviderReplayEvidenceSha256": "sha256:bf5bea05c49b95f20e9fb765af079e6b09f3b00ff365cd8adaec21174f2dbccf",
         "physicalProviderNegativeCases": 4,
         "physicalProviderNegativeFailures": 0,
-        "traceabilityLedger": "PASS_28_DISPOSITIONS_3_EXTERNAL_PINS_BEFORE_PR_NUMBER_REBIND",
+        "traceabilityLedger": "PASS_29_DISPOSITIONS_3_EXTERNAL_PINS",
         "governanceChangeDetection": "PASS",
         "devFast": "28/28",
         "guardrails": "PASS",
-        "fullBaseline": "PASS_ops_3_of_3_core_802_total_738_pass_64_skip_0_fail_0_todo_atlas_20_of_20_perf_menu_release_PASS",
+        "fullBaseline": "PASS_PREMERGE_FULL_BASELINE_AND_POSTMERGE_REQUIRED_CI_RTK_REQUIRED_PASS",
         "productRuntimeWiringChanged": false,
         "uiChanged": false,
         "userDocumentsTouched": false,
@@ -887,7 +890,7 @@
       ],
       "disposition": "DEFERRED_WITH_BLOCKER",
       "deferred": {
-        "prerequisite": "P0A, P0B, P0C, manual CORE capsule kit and import-as-new recovery plan seams must be merged and postmerge verified; remaining productization must still prove a filesystem import-as-new writer, independent restore, real owner-key recovery drill where required, exact-byte donor replication only from verified FINAL_COMPLETE donor, and explicit product UI/Command Kernel wiring contours.",
+        "prerequisite": "P0A, P0B, P0C, manual CORE capsule kit and import-as-new recovery plan seams are merged and postmerge verified; remaining productization must still prove a filesystem import-as-new writer, independent restore, real owner-key recovery drill where required, exact-byte donor replication only from verified FINAL_COMPLETE donor, and explicit product UI/Command Kernel wiring contours.",
         "owner": "MASTER_PROGRAM_OWNER_OR_CURRENT_OWNER_GRANT_WITHIN_SCOPE",
         "acceptanceGate": "Exact bounded PRs with source-fence/accounting, durable writer evidence, strict capsule authentication, quarantine/preview/import-as-new-project proof, independent restore, owner-key drill, rollback, and no live-project overwrite."
       }

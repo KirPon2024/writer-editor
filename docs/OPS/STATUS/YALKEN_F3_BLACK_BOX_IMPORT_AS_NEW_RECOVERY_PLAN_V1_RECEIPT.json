@@ -2,8 +2,8 @@
   "schemaVersion": "yalken.f3BlackBoxImportAsNewRecoveryPlan.receipt.v1",
   "taskId": "F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN_V1",
   "createdAtUtc": "2026-08-14T06:10:48Z",
-  "status": "LOCAL_CANDIDATE_VERIFIED_PENDING_DELIVERY",
-  "verdict": "READY_FOR_DELIVERY_GATES_NOT_PRODUCT_RELEASE",
+  "status": "MERGED_POSTMERGE_VERIFIED",
+  "verdict": "READY_NOT_PRODUCT_RELEASE",
   "baseline": {
     "headSha": "212483737b3dc3722caec8b81ebd9ad76edcca04",
     "treeSha": "83c1c762c8451dfdf54a984dd1691dd672c5e76a",
@@ -113,13 +113,64 @@
   "deliveryGates": {
     "affectedProof": "PASS_56_OF_56_0_FAIL_0_SKIP_0_TODO",
     "affectedModels": "PASS_S0_192_20_9_F1_24_18_15_T0_20_19_17_P0A_32_18_12_P0B_65_18_12_P0C_64_18_12_MANUAL_48_16_12_IMPORT_PLAN_36_14_10_ALL_ZERO_SURVIVORS",
-    "traceabilityLedger": "PASS_28_DISPOSITIONS_3_EXTERNAL_PINS_BEFORE_PR_NUMBER_REBIND",
+    "traceabilityLedger": "PASS_29_DISPOSITIONS_3_EXTERNAL_PINS_POSTMERGE_REBIND",
     "governanceChangeDetection": "PASS_NO_MISSING_APPROVALS",
     "devFast": "PASS_28_OF_28",
     "guardrails": "PASS",
     "fullBaseline": "PASS_ops_3_of_3_core_802_total_738_pass_64_skip_0_fail_0_todo_atlas_20_of_20_perf_menu_release_PASS",
-    "requiredCi": "PENDING_PR_1523",
-    "postMergeVerification": "PENDING_MERGE"
+    "requiredCi": "PASS_PR_1523_OSS_POLICY_RTK_REQUIRED_X1_RUNTIME_PARITY_UBUNTU_WINDOWS_OPS_VECTOR_CLOSE",
+    "postMergeVerification": "PASS_HEAD_0129448a32fbdf47faac87ca71a278272f283dfa_TREE_3e11d96e3623a926dc671b768eda1d4a092e78c2"
+  },
+  "postMergeVerification": {
+    "prNumber": 1523,
+    "mergedAtUtc": "2026-08-14T06:38:59Z",
+    "mergeCommitSha": "0129448a32fbdf47faac87ca71a278272f283dfa",
+    "mergeTreeSha": "3e11d96e3623a926dc671b768eda1d4a092e78c2",
+    "originMainSha": "0129448a32fbdf47faac87ca71a278272f283dfa",
+    "worktreeClean": true,
+    "requiredChecks": {
+      "ossPolicy": "SUCCESS",
+      "rtkRequired": "SUCCESS",
+      "x1RuntimeParityUbuntu": "SUCCESS",
+      "x1RuntimeParityWindows": "SUCCESS",
+      "opsVectorClose": "SUCCESS"
+    },
+    "focusedProof": {
+      "command": "node --test test/contracts/black-box-import-as-new-recovery-plan-v1.contract.test.js",
+      "tests": 6,
+      "pass": 6,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "affectedProof": {
+      "tests": 56,
+      "pass": 56,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "affectedModels": {
+      "sourceFence": "192 finite, 20 hostile, 9 mutants, 0 survivors",
+      "multilingual": "24 finite, 18 hostile, 15 mutants, 0 survivors",
+      "t0RoundAuthoritySourceFence": "20 finite, 19 hostile, 17 mutants, 0 survivors",
+      "blackBoxP0a": "32 finite, 18 hostile, 12 mutants, 0 survivors",
+      "blackBoxP0b": "65 finite, 18 hostile, 12 mutants, 0 survivors",
+      "blackBoxP0c": "64 finite, 18 hostile, 12 mutants, 0 survivors",
+      "manualCoreCapsuleKit": "48 finite, 16 hostile, 12 mutants, 0 survivors",
+      "importAsNewRecoveryPlan": "36 finite, 14 hostile, 10 mutants, 0 survivors"
+    },
+    "physicalProviderEvidence": {
+      "sha256": "sha256:e8e3fdb2e2769d2bbbb3075579cb9e69a7e3c3b0212b0f344a66a52a82ae295a",
+      "positiveCases": 1,
+      "negativeCases": 4,
+      "negativeFailures": 0,
+      "leakageDetected": false
+    },
+    "traceabilityLedger": "PASS_29_DISPOSITIONS_3_EXTERNAL_PINS",
+    "governanceChangeDetection": "PASS_NO_MISSING_OR_STALE_APPROVALS",
+    "devFast": "PASS_28_OF_28",
+    "guardrails": "PASS"
   },
   "resourceCeilings": {
     "maxSyntheticCorePayloadBytes": 1048576,

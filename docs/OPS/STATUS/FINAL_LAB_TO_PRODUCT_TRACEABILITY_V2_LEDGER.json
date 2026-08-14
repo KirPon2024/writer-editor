@@ -763,16 +763,59 @@
     {
       "materialId": "F3_BLACK_BOX_MANUAL_CORE_CAPSULE_KIT_V1",
       "programPhase": "F3",
-      "summary": "Manual CORE capsule kit contour is active as a local candidate: it composes P0A whole-CORE source adapter, P0C strict age capsule builder and P0B create-only durable publisher into one default-off product seam without UI, Command Kernel exposure, live-project overwrite, user documents, owner-key drill or Disaster Ready claim.",
+      "summary": "Manual CORE capsule kit is merged and postmerge verified: it composes P0A whole-CORE source adapter, P0C strict age capsule builder and P0B create-only durable publisher into one default-off product seam without UI, Command Kernel exposure, live-project overwrite, user documents, owner-key drill, exact-byte FINAL_COMPLETE donor replication or Disaster Ready claim.",
       "sourcePins": [
         "BLACK_BOX_FINAL_LAB_EXTERNAL_RECEIPT"
       ],
-      "disposition": "DEFERRED_WITH_BLOCKER",
+      "disposition": "ENFORCED_TEST_GATE",
       "post20260811Delta": true,
-      "deferred": {
-        "prerequisite": "Complete affected/baseline/dev:fast/guardrails/governance gates, create a reachable candidate commit, rebind this row to exact commit/PR/receipt/hash evidence, then pass required CI/merge/postmerge verification.",
-        "owner": "MASTER_PROGRAM_OWNER_OR_CURRENT_OWNER_GRANT_WITHIN_SCOPE",
-        "acceptanceGate": "No PASS unless source snapshot/P0A, P0C provider pin, P0B create-only publish and no-leak checks are all green; unknown/abstain/stale/dirty/transplant/replay/provider/publish failures remain DENY."
+      "productBindings": [
+        {
+          "commitSha": "71f1e5101aa88cebb4020c9e09a245a4c191c333",
+          "prNumber": 1521,
+          "featureCommitSha": "b3c1f8d241b876c185b8d7d03d75d72ad8af2cff",
+          "files": [
+            "src/product/blackBoxManualCoreCapsuleKitV1.mjs",
+            "test/contracts/black-box-manual-core-capsule-kit-v1.contract.test.js",
+            "scripts/ops/black-box-manual-core-capsule-kit-v1-model.mjs",
+            "scripts/ops/black-box-manual-core-capsule-kit-v1-physical.mjs",
+            "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_MANUAL_CORE_CAPSULE_KIT_V1_RECEIPT.json"
+          ],
+          "tests": [
+            "node --test test/contracts/black-box-manual-core-capsule-kit-v1.contract.test.js",
+            "node scripts/ops/black-box-manual-core-capsule-kit-v1-model.mjs",
+            "node scripts/ops/black-box-manual-core-capsule-kit-v1-physical.mjs",
+            "node --test test/contracts/source-fence-v1.contract.test.js test/contracts/multilingual-evidence-v1.contract.test.js test/contracts/black-box-p0a-source-adapter-v1.contract.test.js test/contracts/black-box-p0b-darwin-durable-publisher-v1.contract.test.js test/contracts/black-box-p0c-strict-capsule-recover-v1.contract.test.js test/contracts/black-box-manual-core-capsule-kit-v1.contract.test.js",
+            "node scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
+            "node scripts/ops/governance-change-detection.mjs --json --approvals-path docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json",
+            "npm run dev:fast",
+            "npm run agent:guardrails",
+            "npm test"
+          ],
+          "receipt": {
+            "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_MANUAL_CORE_CAPSULE_KIT_V1_RECEIPT.json",
+            "sha256": "ace13b64a0b2e114ee3abe97bc017fd52c109bdd50c7c7de2446a1c058b9ec4c"
+          }
+        }
+      ],
+      "postMergeVerification": {
+        "mergeCommitSha": "71f1e5101aa88cebb4020c9e09a245a4c191c333",
+        "requiredCi": "PASS",
+        "focusedTests": "8/8",
+        "affectedTests": "43/43",
+        "modelOracleMutations": "48 finite, 16 hostile, 12 mutants, 0 survivors",
+        "physicalProviderEvidenceSha256": "sha256:5ba2fd07c72084db68a53604a9daff0be6bcd4c94378f2148937425722632546",
+        "physicalProviderNegativeCases": 4,
+        "physicalProviderNegativeFailures": 0,
+        "traceabilityLedger": "PASS",
+        "governanceChangeDetection": "PASS",
+        "devFast": "28/28",
+        "guardrails": "PASS",
+        "fullBaseline": "PASS_ops_3_of_3_core_802_total_738_pass_64_skip_0_fail_0_todo_atlas_20_of_20_perf_menu_release_PASS",
+        "productRuntimeWiringChanged": false,
+        "uiChanged": false,
+        "userDocumentsTouched": false,
+        "claimBoundary": "Manual kit is an enforced default-off product seam only; full Black Box product V1, product command/UI wiring, real owner-key drill, exact-byte FINAL_COMPLETE donor replication, independent off-host restore and Disaster Ready remain deferred."
       }
     },
     {

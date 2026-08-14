@@ -737,7 +737,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1_RECEIPT.json",
-            "sha256": "8f9e44552d4f2dbe81ef7637f14fe97c5dcfaa1682376745a76738f791d59bd2"
+            "sha256": "9d821868270344812f40f1bf171630bdfa572c0906bb607d0c5a0c7b290c292d"
           }
         },
         {
@@ -764,7 +764,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1_RECEIPT.json",
-            "sha256": "8f9e44552d4f2dbe81ef7637f14fe97c5dcfaa1682376745a76738f791d59bd2"
+            "sha256": "9d821868270344812f40f1bf171630bdfa572c0906bb607d0c5a0c7b290c292d"
           }
         }
       ],
@@ -824,12 +824,15 @@
       "disposition": "DEFERRED_WITH_BLOCKER",
       "post20260811Delta": true,
       "deferred": {
-        "prerequisite": "Complete candidate commit, PR, required CI, merge and postmerge exact-head verification for F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1.",
+        "prerequisite": "Complete required CI, merge and postmerge exact-head verification for F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1 PR #1535.",
         "owner": "standing-owner-grant:YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1",
         "acceptanceGate": "Rebind this row to ENFORCED_TEST_GATE with exact commitSha, prNumber, receipt hash and postmerge verification after full delivery green."
       },
       "localCandidateEvidence": {
         "baselineSha": "1bfc15ca4d3541be6a84e05952051ad4f2c72ea0",
+        "candidateCommitSha": "817704ccb258a2603312a871107105880140ca4e",
+        "prNumber": 1535,
+        "deliveryStatus": "PR_OPEN_REQUIRED_CI_PENDING",
         "redFirst": "10 tests, 9 pass, 1 fail: distinct owner/audit recipient invariant missing",
         "focusedTests": "P0C 10/10; manual CORE capsule kit 8/8; product command export contract 6/6",
         "affectedTests": "73/73",

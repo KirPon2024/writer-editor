@@ -10368,8 +10368,8 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1_RECEIPT.json",
-      "sha256": "8f9e44552d4f2dbe81ef7637f14fe97c5dcfaa1682376745a76738f791d59bd2",
-      "rationale": "Approve factual P0C receipt update for F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1 local candidate: distinct owner recovery and audit recipients, focused P0C 10/10, manual kit 8/8, product command contract 6/6, model 64 finite/26 hostile/19 mutants/0 survivors and physical age provider evidence sha256:f3285da301c9a08805d6ca35470f95722cb2a824465c88ecddf23c00a42b5954 with seven negative cases and no user documents.",
+      "sha256": "9d821868270344812f40f1bf171630bdfa572c0906bb607d0c5a0c7b290c292d",
+      "rationale": "Approve factual P0C receipt update for F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1 PR #1535 candidate commit 817704ccb258a2603312a871107105880140ca4e: distinct owner recovery and audit recipients, focused P0C 10/10, manual kit 8/8, product command contract 6/6, model 64 finite/26 hostile/19 mutants/0 survivors and physical age provider evidence sha256:f3285da301c9a08805d6ca35470f95722cb2a824465c88ecddf23c00a42b5954 with seven negative cases and no user documents; required CI, merge and postmerge remain pending.",
       "approvedBy": "owner-standing-grant:TASK_ID:F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1",
       "approvedAtUtc": "2026-08-14T12:51:30.000Z",
       "approved": true,
@@ -10449,8 +10449,8 @@
     },
     {
       "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "f23a9bfdc6a6448c372d08595e032359d891bb581dc5945fe085f2d5e080efbf",
-      "rationale": "Approve local candidate traceability row for F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1 as DEFERRED_WITH_BLOCKER until commit/PR/CI/merge/postmerge are real; preserves lab provenance as non-release authority and records exact local focused/model/physical evidence without claiming full Black Box product, owner-key drill or Disaster Ready.",
+      "sha256": "4ad591b80953fb60997f89ad5f44bc88c0384e933c0f50d3c0367ef44fa2d09d",
+      "rationale": "Approve local candidate traceability row for F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1 as DEFERRED_WITH_BLOCKER after PR #1535 was opened from commit 817704ccb258a2603312a871107105880140ca4e; preserves lab provenance as non-release authority and records exact local focused/model/physical evidence without claiming full Black Box product, owner-key drill or Disaster Ready while required CI, merge and postmerge remain pending.",
       "approvedBy": "owner-standing-grant:TASK_ID:F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1",
       "approvedAtUtc": "2026-08-14T12:51:30.000Z",
       "approved": true,

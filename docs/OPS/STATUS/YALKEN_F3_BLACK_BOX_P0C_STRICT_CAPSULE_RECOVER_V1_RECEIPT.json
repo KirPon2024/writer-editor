@@ -269,7 +269,7 @@
   },
   "auditRecipientSeparation": {
     "taskId": "F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1",
-    "status": "LOCAL_CANDIDATE_GREEN_DELIVERY_PENDING",
+    "status": "PR_OPEN_REQUIRED_CI_PENDING",
     "baselineSha": "1bfc15ca4d3541be6a84e05952051ad4f2c72ea0",
     "scope": "Require a distinct per-build audit recipient for P0C build proof while preserving the owner recipient as the only recovery authority accepted by the recover API; propagate the request shape through the manual CORE capsule kit. No product UI, Command Kernel/runtime port wiring, user documents, real owner-key drill, self-written crypto, cloud dependency or Disaster Ready claim.",
     "redFirst": {
@@ -336,8 +336,8 @@
       "claimBoundary": "Disposable synthetic age identities only; the synthetic owner key is used only for positive recovery proof and is not a real owner-key drill."
     },
     "delivery": {
-      "commitSha": "PENDING",
-      "prNumber": "PENDING",
+      "commitSha": "817704ccb258a2603312a871107105880140ca4e",
+      "prNumber": 1535,
       "requiredCi": "PENDING",
       "mergeCommitSha": "PENDING",
       "postMergeVerification": "PENDING"

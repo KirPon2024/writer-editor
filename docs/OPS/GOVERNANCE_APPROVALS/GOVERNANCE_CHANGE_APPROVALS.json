@@ -10449,10 +10449,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "34bf1008c3e10f42b3dcd5e9d39698e8b385e077a386446dc04153b70216d2b2",
-      "rationale": "Approve traceability ledger receipt-hash rebind to the augmented F3 Black Box product command receipt for the runtime port inventory default-off local candidate after focused 7/7, affected 74/74, model 40 finite/21 hostile/16 mutants/0 survivors, traceability verifier, governance, dev:fast 28/28 and guardrails PASS. This does not promote full Black Box Product V1 and keeps product UI, provider-bound runtime execution, owner-key drill, off-host restore and Disaster Ready deferred.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_RUNTIME_PORT_INVENTORY_DEFAULT_OFF_V1",
-      "approvedAtUtc": "2026-08-14T15:02:00.000Z",
+      "sha256": "e1f8150fe4f277083124f352318babceb5d9982fe64adf44969ea287e580e47b",
+      "rationale": "Approve final traceability ledger postmerge rebind for F3_BLACK_BOX_RUNTIME_PORT_INVENTORY_DEFAULT_OFF_V1 after PR #1539 merge commit 70ec2e1cb7e60bda554f8a730bc917daabab69d5, required CI all SUCCESS, postmerge focused 7/7, affected 74/74, product command model 40 finite/21 hostile/16 mutants/0 survivors, affected models all zero survivors, traceability verifier, governance, dev:fast 28/28 and guardrails PASS. This does not promote full Black Box Product V1 and keeps product UI, provider-bound runtime execution, owner-key drill, off-host restore and Disaster Ready deferred.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_RUNTIME_PORT_INVENTORY_POSTMERGE_REBIND_V1",
+      "approvedAtUtc": "2026-08-14T15:28:00.000Z",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },
@@ -10620,10 +10620,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-      "sha256": "c776a8f5e731388c5c5ffb6895f4adbd0139163b1ef8bc600fa7c489c1b8ad2c",
-      "rationale": "Approve local candidate receipt binding for F3_BLACK_BOX_RUNTIME_PORT_INVENTORY_DEFAULT_OFF_V1: baseline c5675e92d3ecddd42581853500d14b7a09c7e230, candidate commit e0b56b3bc0f94a2ec2884b33d7523c0505bf59c9, red-first 7 tests/6 pass/1 fail missing getAuditRecipient, focused 7/7, affected 74/74, model 40 finite/21 hostile/16 mutants/0 survivors, traceability verifier, governance, dev:fast 28/28 and guardrails PASS; no UI, user documents, owner-key drill, provider install, live overwrite, off-host restore or Disaster Ready claim.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_RUNTIME_PORT_INVENTORY_DEFAULT_OFF_V1",
-      "approvedAtUtc": "2026-08-14T15:02:00.000Z",
+      "sha256": "2ed49f08b426f8202267a033c3c30dc628751ad5a22c3d0fc7184852e488fb35",
+      "rationale": "Approve factual postmerge receipt binding for F3_BLACK_BOX_RUNTIME_PORT_INVENTORY_DEFAULT_OFF_V1: baseline c5675e92d3ecddd42581853500d14b7a09c7e230, feature commit e0b56b3bc0f94a2ec2884b33d7523c0505bf59c9, PR head fbd69633ff5ed957c435cc6053e5de0e5efd3bd9, merge commit 70ec2e1cb7e60bda554f8a730bc917daabab69d5, required CI all SUCCESS, postmerge focused 7/7, affected 74/74, model 40 finite/21 hostile/16 mutants/0 survivors, traceability verifier, governance, dev:fast 28/28 and guardrails PASS; no UI, user documents, owner-key drill, provider install, live overwrite, off-host restore or Disaster Ready claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_RUNTIME_PORT_INVENTORY_POSTMERGE_REBIND_V1",
+      "approvedAtUtc": "2026-08-14T15:28:00.000Z",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     }

@@ -12,6 +12,7 @@
   "candidate": {
     "featureCommitSha": "a5a344e99e05fa97edf9be0793e6c5f6c1f63636",
     "featureTreeSha": "cc0197830fe8de611743634a2527e81b8d89a016",
+    "prNumber": 1523,
     "changedFiles": [
       "src/product/blackBoxImportAsNewRecoveryPlanV1.mjs",
       "test/contracts/black-box-import-as-new-recovery-plan-v1.contract.test.js",
@@ -110,13 +111,14 @@
     "claimBoundary": "Disposable synthetic import-as-new recovery plan only; no user documents, no private manuscript, no live project overwrite, no live project import writer and no Disaster Ready claim."
   },
   "deliveryGates": {
-    "affectedProof": "PENDING",
-    "traceabilityLedger": "PENDING",
-    "governanceChangeDetection": "PENDING",
-    "devFast": "PENDING",
-    "guardrails": "PENDING",
-    "fullBaseline": "PENDING",
-    "requiredCi": "PENDING_PR",
+    "affectedProof": "PASS_56_OF_56_0_FAIL_0_SKIP_0_TODO",
+    "affectedModels": "PASS_S0_192_20_9_F1_24_18_15_T0_20_19_17_P0A_32_18_12_P0B_65_18_12_P0C_64_18_12_MANUAL_48_16_12_IMPORT_PLAN_36_14_10_ALL_ZERO_SURVIVORS",
+    "traceabilityLedger": "PASS_28_DISPOSITIONS_3_EXTERNAL_PINS_BEFORE_PR_NUMBER_REBIND",
+    "governanceChangeDetection": "PASS_NO_MISSING_APPROVALS",
+    "devFast": "PASS_28_OF_28",
+    "guardrails": "PASS",
+    "fullBaseline": "PASS_ops_3_of_3_core_802_total_738_pass_64_skip_0_fail_0_todo_atlas_20_of_20_perf_menu_release_PASS",
+    "requiredCi": "PENDING_PR_1523",
     "postMergeVerification": "PENDING_MERGE"
   },
   "resourceCeilings": {

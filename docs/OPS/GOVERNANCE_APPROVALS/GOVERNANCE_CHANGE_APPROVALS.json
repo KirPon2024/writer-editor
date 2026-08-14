@@ -10359,21 +10359,21 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1_RECEIPT.json",
-      "sha256": "81c7664103ec3e580063ac84ac330fa164087651ee9fcec2a951b18405124f96",
-      "rationale": "Approve bounded F3 P0C strict capsule/recover candidate bytes under OWNER_AUTHORITY_GRANT_F3_P0C_STANDARD_AGE_V1_PROVIDER_OPTION_A: exact pinned official age v1.3.1 darwin-arm64 provider, Sigsum verified artifact, source-fence-bound synthetic capsule build, quarantine preview/import-as-new-only recover, hostile/mutation/physical provider evidence, no UI/runtime wiring, no user documents, no system install, no raw Node age crypto, no owner-key recovery drill or Disaster Ready claim.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1",
-      "approvedAtUtc": "2026-08-14T03:52:00.000Z",
+      "sha256": "ce994d50b42d7fb3220e9d1b095c3d6f56a401a9d5a9d35ba2b897433e68d641",
+      "rationale": "Approve factual P0C postmerge receipt rebind under the master-program standing owner grant: PR #1519 merged at 722661fac9e7b839dd1f8a2d3f4420e1c172bfb7 with required CI PASS and exact postmerge focused, model, affected, physical provider, traceability, governance, dev:fast and guardrails PASS; no runtime, UI, dependency, user document, owner-key drill, FINAL_COMPLETE donor or Disaster Ready claim is promoted.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_P0C_POSTMERGE_TRACEABILITY_REBIND_V1",
+      "approvedAtUtc": "2026-08-14T04:19:23.000Z",
       "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_F3_P0C_STANDARD_AGE_V1_PROVIDER_OPTION_A"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_P0C_POSTMERGE_TRACEABILITY_REBIND"
     },
     {
       "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "2d85d1c759ff01919e01e991fd1ee14d3c9332b8953bc8bcc257da1c703a7446",
-      "rationale": "Approve bounded F3 P0C strict capsule/recover candidate bytes under OWNER_AUTHORITY_GRANT_F3_P0C_STANDARD_AGE_V1_PROVIDER_OPTION_A: exact pinned official age v1.3.1 darwin-arm64 provider, Sigsum verified artifact, source-fence-bound synthetic capsule build, quarantine preview/import-as-new-only recover, hostile/mutation/physical provider evidence, no UI/runtime wiring, no user documents, no system install, no raw Node age crypto, no owner-key recovery drill or Disaster Ready claim.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1",
-      "approvedAtUtc": "2026-08-14T03:52:00.000Z",
+      "sha256": "6b16234621578d22d6dd8c910d8510bcac0a6a779a3b2ecab9444d143834d0a6",
+      "rationale": "Approve factual ledger promotion of F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1 from deferred local candidate to ENFORCED_TEST_GATE after PR #1519 required CI, merge and postmerge exact-head verification; full Black Box product V1 remains deferred for separate productization, independent restore, owner-key drill, FINAL_COMPLETE donor and no-live-overwrite gates.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_P0C_POSTMERGE_TRACEABILITY_REBIND_V1",
+      "approvedAtUtc": "2026-08-14T04:19:23.000Z",
       "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_F3_P0C_STANDARD_AGE_V1_PROVIDER_OPTION_A"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_P0C_POSTMERGE_TRACEABILITY_REBIND"
     }
   ]
 }

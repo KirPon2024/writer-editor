@@ -267,6 +267,89 @@
     },
     "claimBoundary": "Disposable synthetic capsules and keys only; no user documents, no private manuscripts, no owner-key recovery drill and no product runtime wiring."
   },
+  "auditRecipientSeparation": {
+    "taskId": "F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1",
+    "status": "PR_OPEN_REQUIRED_CI_PENDING",
+    "baselineSha": "1bfc15ca4d3541be6a84e05952051ad4f2c72ea0",
+    "scope": "Require a distinct per-build audit recipient for P0C build proof while preserving the owner recipient as the only recovery authority accepted by the recover API; propagate the request shape through the manual CORE capsule kit. No product UI, Command Kernel/runtime port wiring, user documents, real owner-key drill, self-written crypto, cloud dependency or Disaster Ready claim.",
+    "redFirst": {
+      "command": "node --test test/contracts/black-box-p0c-strict-capsule-recover-v1.contract.test.js",
+      "tests": 10,
+      "pass": 9,
+      "fail": 1,
+      "skipped": 0,
+      "todo": 0,
+      "primaryFailure": "distinct owner recovery and per-build audit recipients were not accepted or encrypted as a bound recipient list"
+    },
+    "focusedProof": {
+      "p0c": "10/10",
+      "manualCoreCapsuleKit": "8/8",
+      "productCommandExportContract": "6/6"
+    },
+    "affectedProof": {
+      "contracts": "73/73",
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "affectedFixtureRepairs": [
+        "black-box-import-as-new-recovery-plan-v1.contract.test.js",
+        "black-box-import-as-new-project-writer-v1.contract.test.js"
+      ]
+    },
+    "affectedModels": {
+      "sourceFence": "192 finite, 20 hostile, 9 mutants, 0 survivors",
+      "multilingualEvidence": "24 finite, 18 hostile, 15 mutants, 0 survivors",
+      "blackBoxP0aSourceAdapter": "32 finite, 18 hostile, 12 mutants, 0 survivors",
+      "blackBoxP0bDarwinDurablePublisher": "65 finite, 18 hostile, 12 mutants, 0 survivors",
+      "p0c": "64 finite, 26 hostile, 19 mutants, 0 survivors",
+      "importAsNewRecoveryPlan": "36 finite, 14 hostile, 10 mutants, 0 survivors",
+      "importAsNewProjectWriter": "24 finite, 16 hostile, 12 mutants, 0 survivors",
+      "manualCoreCapsuleKit": "48 finite, 16 hostile, 12 mutants, 0 survivors",
+      "trustedSourceSnapshot": "48 finite, 18 hostile, 12 mutants, 0 survivors",
+      "productCommandExportManualCore": "36 finite, 18 hostile, 12 mutants, 0 survivors"
+    },
+    "modelOracleMutations": {
+      "command": "node scripts/ops/black-box-p0c-strict-capsule-recover-v1-model.mjs",
+      "finiteCases": 64,
+      "disagreements": 0,
+      "hostileCases": 26,
+      "hostileFailures": 0,
+      "semanticMutants": 19,
+      "survivors": 0,
+      "skips": 0,
+      "newControls": [
+        "ownerRecipientPreserved",
+        "auditRecipientBound",
+        "providerRecipientListBound",
+        "auditIdentityNotRecoveryAuthority"
+      ]
+    },
+    "physicalProviderEvidence": {
+      "path": "/Volumes/T7-Secure/storage/yalken/evidence/f3-p0c-strict-capsule-recover-v1/F3_AUDIT_RECIPIENT_SEPARATION_PHYSICAL_20260814T125139Z/physical-evidence.json",
+      "sha256": "sha256:f3285da301c9a08805d6ca35470f95722cb2a824465c88ecddf23c00a42b5954",
+      "positiveBuild": true,
+      "positiveRecover": true,
+      "negativeCases": 7,
+      "negativeFailures": 0,
+      "cleanupOk": true,
+      "elapsedMs": 51.959584,
+      "claimBoundary": "Disposable synthetic age identities only; the synthetic owner key is used only for positive recovery proof and is not a real owner-key drill."
+    },
+    "delivery": {
+      "commitSha": "817704ccb258a2603312a871107105880140ca4e",
+      "prNumber": 1535,
+      "requiredCi": "PENDING",
+      "mergeCommitSha": "PENDING",
+      "postMergeVerification": "PENDING"
+    },
+    "localGates": {
+      "traceabilityLedger": "PASS",
+      "governanceChangeDetection": "PASS",
+      "devFast": "28/28",
+      "guardrails": "PASS"
+    },
+    "rollback": "Revert the single bounded F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1 PR; feature remains default-off and no user data migration or system-wide provider install exists."
+  },
   "affectedProof": {
     "command": "node --test test/contracts/source-fence-v1.contract.test.js test/contracts/multilingual-evidence-v1.contract.test.js test/contracts/black-box-p0a-source-adapter-v1.contract.test.js test/contracts/black-box-p0b-darwin-durable-publisher-v1.contract.test.js test/contracts/black-box-p0c-strict-capsule-recover-v1.contract.test.js",
     "tests": 35,
@@ -342,10 +425,14 @@
     }
   },
   "changedFileHashes": {
-    "src/product/blackBoxStrictCapsuleRecoverV1.mjs": "77b013d2380c3cbcac846d14e84d21c4ec0a2444bdb25609b19a4d0d8785372e",
-    "test/contracts/black-box-p0c-strict-capsule-recover-v1.contract.test.js": "98578ac10be5e6c9fbdd5d8ce4e5bcbb376e9dc64117d510a37b73457b723991",
-    "scripts/ops/black-box-p0c-strict-capsule-recover-v1-model.mjs": "a65d8719d5b5f068e1beacea51235240154ecfde840c12a79aedafbc26577655",
-    "scripts/ops/black-box-p0c-age-provider-physical-v1.mjs": "80e447ef8ace85ab9b67014de2101bd71a2fb63b635f223147bb0c524fec9cfe"
+    "src/product/blackBoxStrictCapsuleRecoverV1.mjs": "f400ba867eaba54059a679fb9c0c94afc2b06d8d4596f3f5904c4832736ce357",
+    "src/product/blackBoxManualCoreCapsuleKitV1.mjs": "2daa2cf28acc744f88a27f7fa3e361e3368abf30ed589100f0b76c0ea474f333",
+    "test/contracts/black-box-p0c-strict-capsule-recover-v1.contract.test.js": "0c40d42f585b98dc2ce1d079d915e36c621e287b494ce4be7617eb2e17c2352f",
+    "test/contracts/black-box-manual-core-capsule-kit-v1.contract.test.js": "6b56ac6297e6f354fd3779d5f21b31ee2c4f2683a40456d5535ec888d0a55549",
+    "test/contracts/black-box-import-as-new-recovery-plan-v1.contract.test.js": "d134b11ba786c6f6562881063bc9ef7c33fec434481bd5543d4e041cefe96933",
+    "test/contracts/black-box-import-as-new-project-writer-v1.contract.test.js": "d8bac6fbb7c69597f07fac6eecdbea5249328596bfa4368958f7a1036ed45ffd",
+    "scripts/ops/black-box-p0c-strict-capsule-recover-v1-model.mjs": "b02f7850a5774cd0060f79d0fa5dae020ff14eedcbb29ffe56b99b81d3b0dc0d",
+    "scripts/ops/black-box-p0c-age-provider-physical-v1.mjs": "b80155ad552914a222684b556d9090214e7f2bb7f88e4fd9f69ea87750a9d25f"
   },
   "resourceCeilings": {
     "algorithm": "O_CORE_PAYLOAD_BYTES_PLUS_AGE_PROVIDER_STREAMING_IO",
@@ -367,5 +454,5 @@
     "This does not prove a real owner-key recovery drill, exact-byte replication from a FINAL_COMPLETE donor, Disaster Ready, process-crash proof or physical power-loss proof.",
     "The task-local age CLI is a test/provider artifact and is not a silent product runtime dependency."
   ],
-  "updatedAtUtc": "2026-08-14T07:47:02Z"
+  "updatedAtUtc": "2026-08-14T12:51:30Z"
 }

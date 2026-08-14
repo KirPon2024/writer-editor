@@ -3,7 +3,7 @@
   "documentClass": "FACTUAL_STATUS",
   "status": "LIVING_LEDGER_CURRENT_NOT_FINAL_PROGRAM_VERDICT",
   "claimBoundary": "Maps material lab findings and post-20260811 program deltas to typed product dispositions. This ledger is not product/runtime authority, does not modify frozen source packages, and does not claim all lab work is integrated.",
-  "generatedAtUtc": "2026-08-14T04:58:28Z",
+  "generatedAtUtc": "2026-08-14T12:51:30Z",
   "exactHead": "1cd98056dc091a74b9b7f0fe30356a456b6acfc4",
   "programPhaseSequence": [
     "S0",
@@ -737,7 +737,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1_RECEIPT.json",
-            "sha256": "2b4c7fbfe7278d3122de161e4a6be04c2bcd952c1607191fc2b1ba0e95655a4c"
+            "sha256": "9d821868270344812f40f1bf171630bdfa572c0906bb607d0c5a0c7b290c292d"
           }
         },
         {
@@ -764,7 +764,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1_RECEIPT.json",
-            "sha256": "2b4c7fbfe7278d3122de161e4a6be04c2bcd952c1607191fc2b1ba0e95655a4c"
+            "sha256": "9d821868270344812f40f1bf171630bdfa572c0906bb607d0c5a0c7b290c292d"
           }
         }
       ],
@@ -812,6 +812,41 @@
         "userDocumentsTouched": false,
         "filesystemImportWriterChanged": false,
         "claimBoundary": "Ephemeral sink only; result and receipt remain sanitized, no bytesBase64/sourceText/AGE secret key/BLACK_BOX_CORE_GENOME_V1 leaks, no live project overwrite and no Disaster Ready claim."
+      }
+    },
+    {
+      "materialId": "F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1",
+      "programPhase": "F3",
+      "summary": "P0C audit-recipient separation local candidate: owner recovery recipient remains the capsule recovery authority, while a distinct per-build audit recipient/identity proves provider roundtrip without requiring the owner private key inside Builder; manual CORE capsule kit is migrated to pass the separated audit recipient. No product UI, Command Kernel/runtime port wiring, user documents, real owner-key drill, self-written crypto, cloud dependency or Disaster Ready claim.",
+      "sourcePins": [
+        "BLACK_BOX_FINAL_LAB_EXTERNAL_RECEIPT"
+      ],
+      "disposition": "DEFERRED_WITH_BLOCKER",
+      "post20260811Delta": true,
+      "deferred": {
+        "prerequisite": "Complete required CI, merge and postmerge exact-head verification for F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1 PR #1535.",
+        "owner": "standing-owner-grant:YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1",
+        "acceptanceGate": "Rebind this row to ENFORCED_TEST_GATE with exact commitSha, prNumber, receipt hash and postmerge verification after full delivery green."
+      },
+      "localCandidateEvidence": {
+        "baselineSha": "1bfc15ca4d3541be6a84e05952051ad4f2c72ea0",
+        "candidateCommitSha": "817704ccb258a2603312a871107105880140ca4e",
+        "prNumber": 1535,
+        "deliveryStatus": "PR_OPEN_REQUIRED_CI_PENDING",
+        "redFirst": "10 tests, 9 pass, 1 fail: distinct owner/audit recipient invariant missing",
+        "focusedTests": "P0C 10/10; manual CORE capsule kit 8/8; product command export contract 6/6",
+        "affectedTests": "73/73",
+        "modelOracleMutations": "P0C 64 finite, 26 hostile, 19 mutants, 0 survivors; affected S0/F1/P0A/P0B/P0C/import-plan/import-writer/manual-kit/trusted-source/product-command models all 0 survivors",
+        "physicalProviderEvidenceSha256": "sha256:f3285da301c9a08805d6ca35470f95722cb2a824465c88ecddf23c00a42b5954",
+        "physicalProviderNegativeCases": 7,
+        "physicalProviderNegativeFailures": 0,
+        "traceabilityLedger": "PASS",
+        "governanceChangeDetection": "PASS",
+        "devFast": "28/28",
+        "guardrails": "PASS",
+        "userDocumentsTouched": false,
+        "productRuntimeWiringChanged": false,
+        "claimBoundary": "Local candidate evidence only until delivery is complete; no full Black Box product V1, owner-key drill or Disaster Ready claim."
       }
     },
     {

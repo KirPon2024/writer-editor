@@ -51,6 +51,7 @@ export const BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES = Object.freeze({
 
 const BUILD_REQUEST_KEYS = Object.freeze([
   'auditIdentity',
+  'auditRecipient',
   'corePayload',
   'expectations',
   'featureFlags',
@@ -119,6 +120,7 @@ const CAPSULE_PROVIDER_KEYS = Object.freeze([
   'version',
 ]);
 const MANIFEST_KEYS = Object.freeze([
+  'auditRecipientFingerprint',
   'ciphertextSha256',
   'corePayloadSha256',
   'importMode',
@@ -309,16 +311,16 @@ function validateSourceBinding(reasons, field, sourceBinding) {
   if (!validDigest(sourceBinding.sourceSetDigest)) reasons.push(reason(BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.FIELD_INVALID, `${field}.sourceSetDigest`));
 }
 
-function validateRecipient(reasons, recipient) {
+function validateRecipient(reasons, field, recipient) {
   if (!isPlainObject(recipient)) {
-    addKeysetReason(reasons, 'recipient', recipient, RECIPIENT_KEYS);
+    addKeysetReason(reasons, field, recipient, RECIPIENT_KEYS);
     return;
   }
-  if (!sameKeys(recipient, RECIPIENT_KEYS)) addKeysetReason(reasons, 'recipient', recipient, RECIPIENT_KEYS);
-  if (recipient.schemaVersion !== BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_SCHEMAS.recipient) reasons.push(reason(BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.FIELD_INVALID, 'recipient.schemaVersion'));
-  if (recipient.type !== RECIPIENT_TYPE) reasons.push(reason(BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.FIELD_INVALID, 'recipient.type'));
-  if (typeof recipient.publicKey !== 'string' || !recipient.publicKey.startsWith('age1') || /[\u0000-\u001F]/u.test(recipient.publicKey)) reasons.push(reason(BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.FIELD_INVALID, 'recipient.publicKey'));
-  if (!validDigest(recipient.fingerprint)) reasons.push(reason(BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.FIELD_INVALID, 'recipient.fingerprint'));
+  if (!sameKeys(recipient, RECIPIENT_KEYS)) addKeysetReason(reasons, field, recipient, RECIPIENT_KEYS);
+  if (recipient.schemaVersion !== BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_SCHEMAS.recipient) reasons.push(reason(BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.FIELD_INVALID, `${field}.schemaVersion`));
+  if (recipient.type !== RECIPIENT_TYPE) reasons.push(reason(BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.FIELD_INVALID, `${field}.type`));
+  if (typeof recipient.publicKey !== 'string' || !recipient.publicKey.startsWith('age1') || /[\u0000-\u001F]/u.test(recipient.publicKey)) reasons.push(reason(BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.FIELD_INVALID, `${field}.publicKey`));
+  if (!validDigest(recipient.fingerprint)) reasons.push(reason(BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.FIELD_INVALID, `${field}.fingerprint`));
 }
 
 function validateIdentity(reasons, field, identity) {
@@ -464,12 +466,16 @@ function validateBuildRequest(request) {
   validateProviderPin(reasons, request.providerPin);
   validateSourceBinding(reasons, 'sourceBinding', request.sourceBinding);
   validateSourceFenceEnvelope(reasons, request.sourceFence);
-  validateRecipient(reasons, request.recipient);
+  validateRecipient(reasons, 'recipient', request.recipient);
+  validateRecipient(reasons, 'auditRecipient', request.auditRecipient);
   const auditIdentityBytes = validateIdentity(reasons, 'auditIdentity', request.auditIdentity);
   const coreBytes = validateCorePayload(reasons, request.corePayload, request.sourceBinding);
   validateExpectations(reasons, request.expectations);
-  if (isPlainObject(request.auditIdentity) && isPlainObject(request.recipient) && request.auditIdentity.fingerprint !== request.recipient.fingerprint) {
-    reasons.push(reason(BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.FIELD_INVALID, 'auditIdentity.fingerprint', request.recipient.fingerprint, request.auditIdentity.fingerprint));
+  if (isPlainObject(request.recipient) && isPlainObject(request.auditRecipient) && request.recipient.fingerprint === request.auditRecipient.fingerprint) {
+    reasons.push(reason(BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.FIELD_INVALID, 'auditRecipient.fingerprint', 'distinct-from-recipient', request.auditRecipient.fingerprint));
+  }
+  if (isPlainObject(request.auditIdentity) && isPlainObject(request.auditRecipient) && request.auditIdentity.fingerprint !== request.auditRecipient.fingerprint) {
+    reasons.push(reason(BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.FIELD_INVALID, 'auditIdentity.fingerprint', request.auditRecipient.fingerprint, request.auditIdentity.fingerprint));
   }
   if (reasons.length > 0) return { ok: false, code: primaryCode(reasons), reasons };
   const fenceDeny = evaluateP0cFence(request.sourceBinding, request.sourceFence);
@@ -491,6 +497,9 @@ function validateRecoverRequest(request) {
   validateExpectations(reasons, request.expectations);
   const capsuleValidation = validateCapsule(request.capsule);
   if (!capsuleValidation.ok) reasons.push(...capsuleValidation.reasons);
+  if (isPlainObject(request.identity) && capsuleValidation.ok && request.identity.fingerprint !== request.capsule.recipient.fingerprint) {
+    reasons.push(reason(BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.FIELD_INVALID, 'identity.fingerprint', request.capsule.recipient.fingerprint, request.identity.fingerprint));
+  }
   if (reasons.length > 0) return { ok: false, code: primaryCode(reasons), reasons };
   if (sha256Stable(request.expectedSourceBinding) !== sha256Stable(request.capsule.sourceBinding)) {
     return { ok: false, code: BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.SOURCE_BINDING_MISMATCH, reasons: [reason(BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.SOURCE_BINDING_MISMATCH, 'expectedSourceBinding')] };
@@ -501,6 +510,7 @@ function validateRecoverRequest(request) {
 function manifestDigestInput(manifest) {
   return {
     schemaVersion: manifest.schemaVersion,
+    auditRecipientFingerprint: manifest.auditRecipientFingerprint,
     providerPinDigest: manifest.providerPinDigest,
     sourceBindingDigest: manifest.sourceBindingDigest,
     recipientFingerprint: manifest.recipientFingerprint,
@@ -511,9 +521,10 @@ function manifestDigestInput(manifest) {
   };
 }
 
-function buildManifest({ providerPinDigest, sourceBindingDigest, recipientFingerprint, corePayloadSha256, plaintextSha256, ciphertextSha256 }) {
+function buildManifest({ providerPinDigest, sourceBindingDigest, recipientFingerprint, auditRecipientFingerprint, corePayloadSha256, plaintextSha256, ciphertextSha256 }) {
   const manifest = {
     schemaVersion: BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_SCHEMAS.manifest,
+    auditRecipientFingerprint,
     providerPinDigest,
     sourceBindingDigest,
     recipientFingerprint,
@@ -536,7 +547,7 @@ function validateCapsule(capsule) {
   if (capsule.schemaVersion !== BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_SCHEMAS.capsule) reasons.push(reason(BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.FIELD_INVALID, 'capsule.schemaVersion'));
   if (capsule.type !== CAPSULE_TYPE) reasons.push(reason(BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.FIELD_INVALID, 'capsule.type'));
   validateSourceBinding(reasons, 'capsule.sourceBinding', capsule.sourceBinding);
-  validateRecipient(reasons, capsule.recipient);
+  validateRecipient(reasons, 'capsule.recipient', capsule.recipient);
   if (!isPlainObject(capsule.provider)) addKeysetReason(reasons, 'capsule.provider', capsule.provider, CAPSULE_PROVIDER_KEYS);
   else {
     if (!sameKeys(capsule.provider, CAPSULE_PROVIDER_KEYS)) addKeysetReason(reasons, 'capsule.provider', capsule.provider, CAPSULE_PROVIDER_KEYS);
@@ -549,7 +560,7 @@ function validateCapsule(capsule) {
   else {
     if (!sameKeys(capsule.manifest, MANIFEST_KEYS)) addKeysetReason(reasons, 'capsule.manifest', capsule.manifest, MANIFEST_KEYS);
     if (capsule.manifest.schemaVersion !== BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_SCHEMAS.manifest) reasons.push(reason(BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.FIELD_INVALID, 'capsule.manifest.schemaVersion'));
-    for (const key of ['providerPinDigest', 'sourceBindingDigest', 'recipientFingerprint', 'corePayloadSha256', 'plaintextSha256', 'ciphertextSha256', 'manifestDigest']) {
+    for (const key of ['auditRecipientFingerprint', 'providerPinDigest', 'sourceBindingDigest', 'recipientFingerprint', 'corePayloadSha256', 'plaintextSha256', 'ciphertextSha256', 'manifestDigest']) {
       if (!validDigest(capsule.manifest[key])) reasons.push(reason(BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.FIELD_INVALID, `capsule.manifest.${key}`));
     }
     if (capsule.manifest.importMode !== IMPORT_AS_NEW) reasons.push(reason(BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.FIELD_INVALID, 'capsule.manifest.importMode'));
@@ -771,6 +782,7 @@ function buildReceipt({ code, providerPinDigest, sourceBinding, recipient, manif
     providerPinDigest,
     sourceBindingDigest: sha256Stable(sourceBinding),
     recipientFingerprint: recipient.fingerprint,
+    auditRecipientFingerprint: manifest.auditRecipientFingerprint,
     manifestDigest: manifest.manifestDigest,
     ciphertextSha256: manifest.ciphertextSha256,
     plaintextSha256: manifest.plaintextSha256,
@@ -797,7 +809,11 @@ export async function buildBlackBoxStrictCapsuleV1(request, options = {}) {
   const plaintextSha256 = sha256Buffer(plaintextBytes);
   let encrypted;
   try {
-    encrypted = await options.ageProvider.encrypt({ plaintextBytes, recipient: request.recipient, providerPin: request.providerPin });
+    encrypted = await options.ageProvider.encrypt({
+      plaintextBytes,
+      recipients: [request.recipient, request.auditRecipient],
+      providerPin: request.providerPin,
+    });
   } catch {
     return deny(BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.PROVIDER_ENCRYPT_FAILED);
   }
@@ -825,6 +841,7 @@ export async function buildBlackBoxStrictCapsuleV1(request, options = {}) {
     providerPinDigest: provider.providerPinDigest,
     sourceBindingDigest,
     recipientFingerprint: request.recipient.fingerprint,
+    auditRecipientFingerprint: request.auditRecipient.fingerprint,
     corePayloadSha256: request.corePayload.sha256,
     plaintextSha256,
     ciphertextSha256,
@@ -1014,8 +1031,13 @@ export function createBlackBoxP0cAgeCliProviderV1(providerPin, options = {}) {
         usesPostQuantum: false,
       };
     },
-    async encrypt({ plaintextBytes, recipient }) {
-      const result = await runCli(providerPin.executables.agePath, ['-r', recipient.publicKey], plaintextBytes);
+    async encrypt({ plaintextBytes, recipients }) {
+      if (!Array.isArray(recipients) || recipients.length < 1) {
+        return { ok: false, code: 'AGE_RECIPIENTS_MISSING' };
+      }
+      const recipientArgs = [];
+      for (const recipient of recipients) recipientArgs.push('-r', recipient.publicKey);
+      const result = await runCli(providerPin.executables.agePath, recipientArgs, plaintextBytes);
       return result.status === 0
         ? { ok: true, ciphertextBytes: result.stdout }
         : { ok: false, code: 'AGE_ENCRYPT_FAILED' };

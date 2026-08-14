@@ -10071,10 +10071,10 @@
     },
     {
       "filePath": "scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
-      "sha256": "f8bebbb9ea8d96d430919cc133b98a198f818f9d792797310193fe4d4d76a485",
+      "sha256": "b94bb8e55598ba6f0d26c161d1c4c6cb8e1a106ac0e19a2afda74d36656a5bb3",
       "approvedBy": "owner-direct:TASK_ID:FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER_V1",
       "approvedAtUtc": "2026-08-13T21:44:52Z",
-      "rationale": "Approve ledger verifier: fail-closed checks required external pins, exact program phase order, supported disposition enum only, no UNMAPPED material finding, no lab evidence promoted to product binding, exact receipt SHA-256 matches, reachable merge commits, and Word 16.111.3 evidence transfer DENY.",
+      "rationale": "Approve ledger verifier current bytes: fail-closed checks required external pins, exact program phase order, supported disposition enum only, no UNMAPPED material finding, no lab evidence promoted to product binding, exact receipt SHA-256 matches, reachable commits, Word evidence transfer DENY, and F3 import-as-new recovery plan required material mapping.",
       "approved": true,
       "authority": "OWNER_PROGRAM_REQUIREMENT_FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2"
     },
@@ -10367,15 +10367,6 @@
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_P0C_POSTMERGE_TRACEABILITY_REBIND"
     },
     {
-      "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "882d8608e7902c8268d58085fd998bafb7681d87b4b14e4ab8e41c687770abfd",
-      "rationale": "Approve factual ledger rebind for F3_BLACK_BOX_MANUAL_CORE_CAPSULE_KIT_V1 from pre-delivery DEFERRED_WITH_BLOCKER to ENFORCED_TEST_GATE after PR #1521 merged at 71f1e5101aa88cebb4020c9e09a245a4c191c333 with required CI PASS and exact postmerge focused, affected, model, disposable physical, traceability, governance, dev:fast, guardrails and full baseline PASS; full Black Box product V1 remains deferred and no lab evidence is promoted to release authority.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_MANUAL_CORE_CAPSULE_KIT_POSTMERGE_TRACEABILITY_REBIND_V1",
-      "approvedAtUtc": "2026-08-14T05:40:00.000Z",
-      "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_MANUAL_CORE_CAPSULE_KIT_POSTMERGE_TRACEABILITY_REBIND"
-    },
-    {
       "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_MANUAL_CORE_CAPSULE_KIT_V1_RECEIPT.json",
       "sha256": "ace13b64a0b2e114ee3abe97bc017fd52c109bdd50c7c7de2446a1c058b9ec4c",
       "rationale": "Approve factual postmerge receipt rebind for F3 manual CORE capsule kit: PR #1521 feature commit b3c1f8d241b876c185b8d7d03d75d72ad8af2cff merged at 71f1e5101aa88cebb4020c9e09a245a4c191c333 with all required CI PASS and exact postmerge focused 8/8, affected 43/43, model 48 finite/16 hostile/12 mutants/0 survivors, disposable physical evidence sha256:5ba2fd07c72084db68a53604a9daff0be6bcd4c94378f2148937425722632546, dev:fast, guardrails and full baseline PASS; no UI, Command Kernel wiring, user documents, live overwrite, owner-key drill, FINAL_COMPLETE donor or Disaster Ready claim.",
@@ -10410,6 +10401,51 @@
       "approvedAtUtc": "2026-08-14T04:59:00.000Z",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_MANUAL_CORE_CAPSULE_KIT"
+    },
+    {
+      "filePath": "test/contracts/black-box-import-as-new-recovery-plan-v1.contract.test.js",
+      "sha256": "4ee83abc77b5452999637dcc809e437ef0fc1e7361d9d598792d9b2c58ae5f32",
+      "rationale": "Approve F3 import-as-new recovery plan contract tests for red-first missing seam/model, closed default-off schema, internal P0C recover execution, caller-carried proof rejection, provider/source/identity/tamper/replay fail-closed negatives, UNKNOWN/ABSTAIN/CONFLICTING not PASS, and no plaintext/key leakage; no UI, runtime writer or user documents.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN_V1",
+      "approvedAtUtc": "2026-08-14T06:11:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN"
+    },
+    {
+      "filePath": "scripts/ops/black-box-import-as-new-recovery-plan-v1-model.mjs",
+      "sha256": "644f107c531108902f5f6cefc20ee849d53d3c4f044527c6cca0fe3548b886bb",
+      "rationale": "Approve F3 import-as-new recovery plan finite/oracle/hostile/mutation model: 36 finite cases, 14 hostile cases and 10 semantic mutants with zero survivors, scoped to read-only recovery preview plan only.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN_V1",
+      "approvedAtUtc": "2026-08-14T06:11:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN"
+    },
+    {
+      "filePath": "scripts/ops/black-box-import-as-new-recovery-plan-v1-physical.mjs",
+      "sha256": "3a0f0a6aa0ba4d971962159c35ce4349d9bfb924bfeebb1f75652e919bec4850",
+      "rationale": "Approve F3 import-as-new recovery plan disposable physical runner using the already-pinned official age v1.3.1 provider to prove synthetic positive plan, wrong identity, stale replay, live overwrite policy, caller-carried proof rejection, and no receipt leakage; no user documents, system install, UI/runtime writer or Disaster Ready claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN_V1",
+      "approvedAtUtc": "2026-08-14T06:11:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN_V1_RECEIPT.json",
+      "sha256": "d723d09ad797a4b8dd066becdbe1cf28bdc2727bb5dd88699942f6ab4c6c947a",
+      "rationale": "Approve F3 import-as-new recovery plan local candidate receipt binding feature commit a5a344e99e05fa97edf9be0793e6c5f6c1f63636 and PR #1523, focused 6/6, affected 56/56, model 36 finite/14 hostile/10 mutants/0 survivors, affected models all zero survivors, disposable physical evidence sha256:2c70610cb849ea8e4c6db344e2c2ee85747f5b70c895bf59652efcb3d2a002bf plus replay sha256:bf5bea05c49b95f20e9fb765af079e6b09f3b00ff365cd8adaec21174f2dbccf, dev:fast/guardrails/full baseline PASS, with no UI, Command Kernel wiring, user documents, live overwrite, owner-key drill, FINAL_COMPLETE donor, live import writer or Disaster Ready claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN_V1",
+      "approvedAtUtc": "2026-08-14T06:11:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
+      "sha256": "5dbe8f9b39b385763c4da11b3e08063191503c803ef0e3588f8a7e38285e95df",
+      "rationale": "Approve factual ledger binding for F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN_V1 as ENFORCED_TEST_GATE with PR #1523 candidate evidence, exact receipt hash, focused/affected/model/physical/dev:fast/guardrails/full baseline PASS, while keeping full Black Box product V1 DEFERRED_WITH_BLOCKER and denying live import writer, UI/Command Kernel wiring, user documents, owner-key drill, FINAL_COMPLETE donor and Disaster Ready claims.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN_V1",
+      "approvedAtUtc": "2026-08-14T06:16:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN"
     }
   ]
 }

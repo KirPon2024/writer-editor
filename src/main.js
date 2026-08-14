@@ -51,6 +51,9 @@ const {
 const {
   createBlackBoxRuntimeProviderAuditBindingV1,
 } = require('./main/blackBoxRuntimeProviderAuditBindingV1.cjs');
+const {
+  createBlackBoxRuntimeSourceRevisionBindingV1,
+} = require('./main/blackBoxRuntimeSourceRevisionBindingV1.cjs');
 const { buildDocxMinBuffer: buildDocxMinBufferCore } = require('./export/docx/docxMinBuilder');
 const { runDocxMinExport } = require('./export/docx/docxMinExportHandler');
 const { buildDocxReviewPacketBuffer: buildDocxReviewPacketBufferCore, deriveWordBookmarkNameV1: deriveWordBookmarkNameV1Cjs } = require('./export/docx/docxReviewPacketBuilder');
@@ -29060,6 +29063,25 @@ async function dispatchBlackBoxProductCommandBridge(commandId, payload = {}, rec
     }
     return runtimeProviderAuditBindingPromise;
   }
+  let runtimeSourceRevisionBindingPromise = null;
+  async function getRuntimeSourceRevisionBinding() {
+    if (!runtimeSourceRevisionBindingPromise) {
+      runtimeSourceRevisionBindingPromise = buildProjectTreeRootsWithIdentitiesReadOnly()
+        .then((projectTree) => createBlackBoxRuntimeSourceRevisionBindingV1({
+          projectRoot: getProjectRootPath(),
+          projectTree,
+          isDirty: () => Boolean(isDirty),
+          autoSaveInProgress: () => Boolean(autoSaveInProgress),
+        }))
+        .catch(() => createBlackBoxRuntimeSourceRevisionBindingV1({
+          projectRoot: getProjectRootPath(),
+          projectTree: null,
+          isDirty: true,
+          autoSaveInProgress: true,
+        }));
+    }
+    return runtimeSourceRevisionBindingPromise;
+  }
 
   return blackBoxModule.executeBlackBoxProductCommandExportManualCoreV1(payload, {
     ports: {
@@ -29069,34 +29091,9 @@ async function dispatchBlackBoxProductCommandBridge(commandId, payload = {}, rec
         'yalken.blackBox.strictCapsuleRecover.p0cV1': productFlagEnabled,
         'yalken.blackBox.manualCoreCapsuleKit.v1': productFlagEnabled,
       }),
-      getExpectedSourceIdentity: async () => {
-        const { projectId, roots } = await buildProjectTreeRootsWithIdentitiesReadOnly();
-        const root = Array.isArray(roots) && roots.length > 0 ? roots[0] : {};
-        return {
-          projectId,
-          rootId: typeof root.rootId === 'string' && root.rootId ? root.rootId : 'project-root',
-          documentId: 'manuscript/core',
-          canonicalRevision: 'black-box-product-command-runtime-provider-not-configured',
-          workingRevision: 'black-box-product-command-runtime-provider-not-configured',
-          generation: 'black-box-product-command-runtime-provider-not-configured',
-        };
-      },
+      getExpectedSourceIdentity: async () => (await getRuntimeSourceRevisionBinding()).expected,
       getProjectRoot: async () => getProjectRootPath(),
-      observeRevision: async (_phase, _request, expected) => ({
-        schemaVersion: 'yalken.blackBoxTrustedSourceSnapshot.revisionObservation.v1',
-        authority: {
-          decision: 'ALLOW',
-          mayWrite: false,
-          queryId: 'query.blackBoxProductCommandExportManualCore.readSourceSnapshot.v1',
-        },
-        projectId: expected.projectId,
-        rootId: expected.rootId,
-        documentId: expected.documentId,
-        canonicalRevision: expected.canonicalRevision,
-        workingRevision: expected.workingRevision,
-        generation: expected.generation,
-        dirtyState: 'UNKNOWN',
-      }),
+      observeRevision: async (input) => (await getRuntimeSourceRevisionBinding()).observeRevision(input),
       getProviderPin: async () => (await getRuntimeProviderAuditBinding()).providerPin,
       getAuditRecipient: async () => (await getRuntimeProviderAuditBinding()).auditRecipient,
       getAuditIdentity: async () => (await getRuntimeProviderAuditBinding()).auditIdentity,

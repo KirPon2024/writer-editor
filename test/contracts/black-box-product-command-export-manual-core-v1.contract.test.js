@@ -1,5 +1,8 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const crypto = require('node:crypto');
+const fs = require('node:fs');
+const os = require('node:os');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
 
@@ -7,6 +10,7 @@ const REPO_ROOT = process.cwd();
 const MODULE_PATH = path.join(REPO_ROOT, 'src', 'product', 'blackBoxProductCommandExportManualCoreV1.mjs');
 const MODEL_PATH = path.join(REPO_ROOT, 'scripts', 'ops', 'black-box-product-command-export-manual-core-v1-model.mjs');
 const MAIN_PATH = path.join(REPO_ROOT, 'src', 'main.js');
+const RUNTIME_BINDING_PATH = path.join(REPO_ROOT, 'src', 'main', 'blackBoxRuntimeProviderAuditBindingV1.cjs');
 const COMMAND_ID = 'cmd.project.blackBox.exportManualCoreCapsuleKitV1';
 const CAPABILITY_ID = 'cap.blackBox.manualCoreCapsule.export';
 
@@ -28,6 +32,49 @@ function cloneJson(value) {
 
 function digest(char) {
   return `sha256:${char.repeat(64)}`;
+}
+
+function sha256Bytes(bytes) {
+  return `sha256:${crypto.createHash('sha256').update(Buffer.from(bytes)).digest('hex')}`;
+}
+
+function makeRuntimeProviderFixture() {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-runtime-provider-binding-'));
+  const downloads = path.join(root, 'downloads');
+  const provenance = path.join(root, 'provenance');
+  const binDir = path.join(root, 'bin-pinned-test');
+  fs.mkdirSync(downloads, { recursive: true });
+  fs.mkdirSync(provenance, { recursive: true });
+  fs.mkdirSync(binDir, { recursive: true });
+
+  const artifactBytes = Buffer.from('synthetic-official-age-artifact');
+  const proofBytes = Buffer.from('synthetic-sigsum-proof');
+  const sigsumKeyBytes = Buffer.from('synthetic-sigsum-key');
+  const ageBytes = Buffer.from('#!/bin/sh\nprintf v1.3.1\\n');
+  const ageInspectBytes = Buffer.from('#!/bin/sh\nprintf v1.3.1\\n');
+  const agePath = path.join(binDir, 'age');
+  const ageInspectPath = path.join(binDir, 'age-inspect');
+
+  fs.writeFileSync(path.join(downloads, 'age-v1.3.1-darwin-arm64.tar.gz'), artifactBytes);
+  fs.writeFileSync(path.join(downloads, 'age-v1.3.1-darwin-arm64.tar.gz.proof'), proofBytes);
+  fs.writeFileSync(path.join(provenance, 'age-sigsum-key.pub'), sigsumKeyBytes);
+  fs.writeFileSync(path.join(provenance, 'provider-bin-dir.txt'), `${binDir}\n`);
+  fs.writeFileSync(agePath, ageBytes, { mode: 0o755 });
+  fs.writeFileSync(ageInspectPath, ageInspectBytes, { mode: 0o755 });
+
+  return {
+    root,
+    binDir,
+    expectedProvider: {
+      allowedRoot: root,
+      artifactSha256: sha256Bytes(artifactBytes),
+      proofSha256: sha256Bytes(proofBytes),
+      sigsumKeyDigest: sha256Bytes(sigsumKeyBytes),
+      ageSha256: sha256Bytes(ageBytes),
+      ageInspectSha256: sha256Bytes(ageInspectBytes),
+    },
+    cleanup: () => fs.rmSync(root, { recursive: true, force: true }),
+  };
 }
 
 function recipient(overrides = {}) {
@@ -326,14 +373,114 @@ test('F3 Black Box product command v1 main runtime bridge keeps complete trusted
   ]) {
     assert.match(bridgeSource, new RegExp(`\\b${portName}\\s*:`, 'u'), `missing trusted runtime port ${portName}`);
   }
-  assert.match(bridgeSource, /getProviderPin:\s*async\s*\(\)\s*=>\s*null/u);
-  assert.match(bridgeSource, /getAuditRecipient:\s*async\s*\(\)\s*=>\s*null/u);
-  assert.match(bridgeSource, /getAuditIdentity:\s*async\s*\(\)\s*=>\s*null/u);
-  assert.match(bridgeSource, /getAgeProvider:\s*async\s*\(\)\s*=>\s*null/u);
+  assert.match(mainSource, /blackBoxRuntimeProviderAuditBindingV1\.cjs/u);
+  assert.match(bridgeSource, /getRuntimeProviderAuditBinding/u);
+  assert.match(bridgeSource, /getProviderPin:\s*async\s*\(\)\s*=>\s*\(await\s+getRuntimeProviderAuditBinding\(\)\)\.providerPin/u);
+  assert.match(bridgeSource, /getAuditRecipient:\s*async\s*\(\)\s*=>\s*\(await\s+getRuntimeProviderAuditBinding\(\)\)\.auditRecipient/u);
+  assert.match(bridgeSource, /getAuditIdentity:\s*async\s*\(\)\s*=>\s*\(await\s+getRuntimeProviderAuditBinding\(\)\)\.auditIdentity/u);
+  assert.match(bridgeSource, /getAgeProvider:\s*async\s*\(\)\s*=>\s*\(await\s+getRuntimeProviderAuditBinding\(\)\)\.ageProvider/u);
+  assert.doesNotMatch(bridgeSource, /getProviderPin:\s*async\s*\(\)\s*=>\s*null/u);
+  assert.doesNotMatch(bridgeSource, /getAuditRecipient:\s*async\s*\(\)\s*=>\s*null/u);
+  assert.doesNotMatch(bridgeSource, /getAuditIdentity:\s*async\s*\(\)\s*=>\s*null/u);
+  assert.doesNotMatch(bridgeSource, /getAgeProvider:\s*async\s*\(\)\s*=>\s*null/u);
   assert.match(bridgeSource, /YALKEN_BLACK_BOX_PRODUCT_COMMAND_EXPORT_TARGET_PORT_NOT_CONFIGURED/u);
   assert.doesNotMatch(bridgeSource, /secretKeyBase64\s*:/u);
   assert.doesNotMatch(bridgeSource, /dialog\.showSaveDialog/u);
   assert.doesNotMatch(bridgeSource, /writeFileAtomic/u);
+});
+
+test('F3 Black Box runtime provider/audit binding v1 builds exact trusted ports from explicit synthetic config', async () => {
+  const runtimeBinding = require(RUNTIME_BINDING_PATH);
+  const fixture = makeRuntimeProviderFixture();
+  const ageProvider = { syntheticAgeProvider: true };
+  const providerCalls = [];
+  try {
+    const result = await runtimeBinding.createBlackBoxRuntimeProviderAuditBindingV1({
+      env: {
+        YALKEN_BLACK_BOX_MANUAL_CORE_PROVIDER_ROOT_V1: fixture.root,
+        YALKEN_BLACK_BOX_MANUAL_CORE_AUDIT_RECIPIENT_JSON_V1: JSON.stringify(auditRecipient()),
+        YALKEN_BLACK_BOX_MANUAL_CORE_AUDIT_IDENTITY_JSON_V1: JSON.stringify({
+          schemaVersion: 'yalken.blackBoxStrictCapsuleRecover.identity.v1',
+          type: 'AGE_X25519_IDENTITY',
+          secretKeyBase64: Buffer.from('synthetic-audit-identity').toString('base64'),
+          fingerprint: digest('a'),
+        }),
+      },
+      expectedProvider: fixture.expectedProvider,
+      strictCapsuleRecoverModule: {
+        createBlackBoxP0cAgeCliProviderV1(providerPin, options) {
+          providerCalls.push({ providerPin, options });
+          return ageProvider;
+        },
+      },
+      tempRoot: fixture.root,
+    });
+
+    assert.equal(result.providerPin.schemaVersion, 'yalken.blackBoxStrictCapsuleRecover.providerPin.v1');
+    assert.equal(result.providerPin.kind, 'OFFICIAL_AGE_CLI');
+    assert.equal(result.providerPin.version, 'v1.3.1');
+    assert.equal(result.providerPin.platform, 'darwin-arm64');
+    assert.equal(result.providerPin.artifactSha256, fixture.expectedProvider.artifactSha256);
+    assert.equal(result.providerPin.proofSha256, fixture.expectedProvider.proofSha256);
+    assert.equal(result.providerPin.sigsum.verified, true);
+    assert.equal(result.providerPin.sigsum.keyDigest, fixture.expectedProvider.sigsumKeyDigest);
+    assert.equal(result.providerPin.executables.agePath, path.join(fixture.binDir, 'age'));
+    assert.equal(result.providerPin.executables.ageSha256, fixture.expectedProvider.ageSha256);
+    assert.equal(result.providerPin.executables.ageInspectPath, path.join(fixture.binDir, 'age-inspect'));
+    assert.equal(result.providerPin.executables.ageInspectSha256, fixture.expectedProvider.ageInspectSha256);
+    assert.equal(result.auditRecipient.fingerprint, digest('a'));
+    assert.equal(result.auditIdentity.fingerprint, result.auditRecipient.fingerprint);
+    assert.equal(result.ageProvider, ageProvider);
+    assert.equal(providerCalls.length, 1);
+    assert.equal(providerCalls[0].options.tempRoot, fixture.root);
+    assert.equal(JSON.stringify(result.providerPin).includes('secretKeyBase64'), false);
+  } finally {
+    fixture.cleanup();
+  }
+});
+
+test('F3 Black Box runtime provider/audit binding v1 fails closed on missing, mismatched or forged config', async () => {
+  const runtimeBinding = require(RUNTIME_BINDING_PATH);
+  assert.equal(runtimeBinding.buildBlackBoxRuntimeProviderPinV1({ env: {} }), null);
+  assert.equal(runtimeBinding.buildBlackBoxRuntimeAuditBindingV1({ env: {} }), null);
+
+  const fixture = makeRuntimeProviderFixture();
+  try {
+    const env = {
+      YALKEN_BLACK_BOX_MANUAL_CORE_PROVIDER_ROOT_V1: fixture.root,
+      YALKEN_BLACK_BOX_MANUAL_CORE_AUDIT_RECIPIENT_JSON_V1: JSON.stringify(auditRecipient()),
+      YALKEN_BLACK_BOX_MANUAL_CORE_AUDIT_IDENTITY_JSON_V1: JSON.stringify({
+        schemaVersion: 'yalken.blackBoxStrictCapsuleRecover.identity.v1',
+        type: 'AGE_X25519_IDENTITY',
+        secretKeyBase64: Buffer.from('synthetic-audit-identity').toString('base64'),
+        fingerprint: digest('b'),
+      }),
+    };
+    assert.equal(runtimeBinding.buildBlackBoxRuntimeProviderPinV1({
+      env,
+      expectedProvider: {
+        ...fixture.expectedProvider,
+        artifactSha256: digest('f'),
+      },
+    }), null);
+    assert.equal(runtimeBinding.buildBlackBoxRuntimeAuditBindingV1({ env }), null);
+    assert.deepEqual(await runtimeBinding.createBlackBoxRuntimeProviderAuditBindingV1({
+      env,
+      expectedProvider: fixture.expectedProvider,
+      strictCapsuleRecoverModule: {
+        createBlackBoxP0cAgeCliProviderV1() {
+          throw new Error('must not create provider for forged audit config');
+        },
+      },
+    }), {
+      providerPin: null,
+      auditRecipient: null,
+      auditIdentity: null,
+      ageProvider: null,
+    });
+  } finally {
+    fixture.cleanup();
+  }
 });
 
 test('F3 Black Box product command v1 executes via trusted ports and returns only sanitized capsule metadata', async () => {
@@ -501,9 +648,9 @@ test('F3 Black Box product command v1 model/oracle rejects UNKNOWN and all seman
   const result = model.evaluateBlackBoxProductCommandExportManualCoreV1Model();
 
   assert.equal(result.ok, true, JSON.stringify(result, null, 2));
-  assert.equal(result.finiteCases, 40);
-  assert.equal(result.hostileCases, 21);
-  assert.equal(result.semanticMutants, 16);
+  assert.equal(result.finiteCases, 43);
+  assert.equal(result.hostileCases, 23);
+  assert.equal(result.semanticMutants, 19);
   assert.equal(result.survivors, 0);
   assert.deepEqual(result.survivorNames, []);
   assert.equal(result.skips, 0);

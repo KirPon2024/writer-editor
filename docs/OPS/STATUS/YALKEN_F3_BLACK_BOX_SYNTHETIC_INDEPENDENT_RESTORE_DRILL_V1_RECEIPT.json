@@ -2,8 +2,8 @@
   "schemaVersion": "yalken.f3BlackBoxSyntheticIndependentRestoreDrill.receipt.v1",
   "taskId": "F3_BLACK_BOX_SYNTHETIC_INDEPENDENT_RESTORE_DRILL_V1",
   "createdAtUtc": "2026-08-14T09:33:23Z",
-  "status": "LOCAL_CANDIDATE_FULL_GREEN_CI_AND_MERGE_PENDING",
-  "verdict": "READY_FOR_PUSH_PR_REQUIRED_CI_NOT_PRODUCT_RELEASE",
+  "status": "POSTMERGE_GREEN",
+  "verdict": "READY_NOT_PRODUCT_RELEASE",
   "baseline": {
     "headSha": "373adfdf3f2be74529656027c8cc7b8c4dfc521b",
     "treeSha": "ffd726ebae55c25d4cf87dde745e6569a685ef52",
@@ -12,6 +12,8 @@
   "candidate": {
     "harnessCommitSha": "373fdeb4a7cf17906ed3e68af6bb7b51b06f03e6",
     "harnessTreeSha": "b917d6c3d431765fe400e60b401f757209da8b5f",
+    "evidenceBindingCommitSha": "eed99cd075a7a16efbf31cf3e40327ff08b5150a",
+    "evidenceBindingTreeSha": "8ecea25d3fff6db45a88f89da47d5b5e45f4c568",
     "changedFiles": [
       "test/contracts/black-box-synthetic-independent-restore-drill-v1.contract.test.js",
       "scripts/ops/black-box-synthetic-independent-restore-drill-v1-model.mjs",
@@ -24,6 +26,21 @@
       "test/contracts/black-box-synthetic-independent-restore-drill-v1.contract.test.js": "b5d0a505b735ac51ef83986379dfa9256320ac09735ffc12312c7b5f0f5bc6f2",
       "scripts/ops/black-box-synthetic-independent-restore-drill-v1-model.mjs": "bcf92146a54dab58ec5e220b035cd6aee0806fc5bfe390f41f1b6688fcc090a8",
       "scripts/ops/black-box-synthetic-independent-restore-drill-v1-physical.mjs": "97c9d17576dbf1846fe3b38bc542aa049c47e14c03e9ba2eb1dd6c7b96cfb872"
+    }
+  },
+  "branchDelivery": {
+    "prNumber": 1529,
+    "branch": "codex/yalken-f3-synthetic-independent-restore-drill-v1",
+    "baseRef": "main",
+    "baseSha": "373adfdf3f2be74529656027c8cc7b8c4dfc521b",
+    "headSha": "eed99cd075a7a16efbf31cf3e40327ff08b5150a",
+    "mergeCommitSha": "958558f8986ebebee6687d10815e0330f5e5c1cb",
+    "mergeTreeSha": "8ecea25d3fff6db45a88f89da47d5b5e45f4c568",
+    "requiredCi": {
+      "oss-policy": "PASS",
+      "rtk-required": "PASS_16M53S",
+      "x1-runtime-parity-ubuntu-latest": "PASS",
+      "x1-runtime-parity-windows-latest": "PASS"
     }
   },
   "authorityBoundary": {
@@ -135,8 +152,30 @@
     "governanceChangeDetection": "PASS_NO_MISSING_APPROVALS",
     "devFast": "PASS_28_OF_28_EXIT_0",
     "guardrails": "PASS",
-    "requiredCi": "PENDING_BRANCH_DELIVERY",
-    "postMergeVerification": "PENDING_BRANCH_DELIVERY"
+    "requiredCi": "PASS_PR_1529_ALL_REQUIRED_CHECKS",
+    "postMergeVerification": "PASS_EXACT_HEAD_958558F8"
+  },
+  "postMergeVerification": {
+    "headSha": "958558f8986ebebee6687d10815e0330f5e5c1cb",
+    "treeSha": "8ecea25d3fff6db45a88f89da47d5b5e45f4c568",
+    "bootstrap": "PASS",
+    "focusedTests": "2/2",
+    "modelOracleMutations": "36 finite, 18 hostile, 12 mutants, 0 survivors",
+    "physicalProviderEvidenceSha256": "sha256:634787a3634a7b7c372dd67328b5ae578cd0db6416d35030f8f2d48cb5987231",
+    "physicalProviderNegativeCases": 5,
+    "physicalProviderNegativeFailures": 0,
+    "traceabilityLedger": "PASS_31_DISPOSITIONS_3_EXTERNAL_PINS",
+    "governanceChangeDetection": "PASS_NO_CHANGED_GOVERNANCE_FILES",
+    "devFast": "28/28",
+    "guardrails": "PASS",
+    "diffCheck": "PASS",
+    "worktreeClean": true,
+    "productRuntimeWiringChanged": false,
+    "commandKernelWiringChanged": false,
+    "productUiWiringChanged": false,
+    "projectLibraryRegistrationChanged": false,
+    "userDocumentsTouched": false,
+    "claimBoundary": "Merged and postmerge-verified synthetic evidence subgate only; no full Black Box product V1, product runtime/UI/Command Kernel wiring, project-library registration, real owner-key drill, off-host restore or Disaster Ready claim."
   },
   "rollback": {
     "plan": "Revert the synthetic independent restore drill contract/model/physical runner, receipt, ledger and governance entries. No migration rollback is needed because no product runtime, canonical project data or user documents are mutated.",

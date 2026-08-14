@@ -7802,15 +7802,6 @@
       "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
-      "filePath": "test/contracts/rtk-test-graph-catalog.contract.test.js",
-      "sha256": "0759ea2c3e04d3d57a6dd9b73a63004731010634d26470a74ad5e3faebd44dea",
-      "approvedBy": "owner-direct:STANDING_DEFAULT_AUTHORIZATION:YALKEN_RTK_OWNED_TMPDIR_HYGIENE_V1_P1_REPAIR",
-      "approvedAtUtc": "2026-08-06T09:21:26.826Z",
-      "rationale": "Approve exact RTK catalog contract bytes that add executable hygiene regressions for runner-owned TMPDIR cleanup, inherited TMPDIR isolation, symlink no-follow cleanup, cleanup-failure fail-closed behavior, and unreadable traversal residue reporting; no production runtime, Word, UI, dependency, network, Google, or long-campaign change.",
-      "approved": true,
-      "authority": "OWNER_STANDING_DEFAULT_AUTHORIZATION_FOR_ROUTINE_IN_SCOPE_EXACT_GOVERNANCE_RECORDS"
-    },
-    {
       "filePath": "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",
       "sha256": "7a9735f8ffa0151481f5d64ccc7eac5b89da3e5ac74f4bb0e55a0ce2fd3561f6",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO:LEDGER_IDENTITY_ANCHOR_REPAIR",
@@ -9966,15 +9957,6 @@
       "authority": "OWNER_CORRECTION_GATE_F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1"
     },
     {
-      "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "b9ff39d07792ffce079c2bf0c408a89ec0d7a17f7db49beb2972c8aee95a522f",
-      "approvedBy": "owner:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
-      "approvedAtUtc": "2026-08-14T00:00:00.000Z",
-      "rationale": "Approve bounded T0 Round Authority source-fence candidate bytes, factual RTK catalog binding, nested document identity compatibility, receipts, and traceability ledger updates under the standing master-program owner grant; no UI, provider physical run, dependency, cloud runtime truth, or user document access.",
-      "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_T0_ROUND_AUTHORITY_SOURCE_FENCE"
-    },
-    {
       "filePath": "scripts/ops/rtk-t0-round-authority-source-fence-model.mjs",
       "sha256": "2ecb26d98a86a311a9f090bc819828f0bda25599e479241e2576b88fca097a2f",
       "approvedBy": "owner:TASK_ID:T0_ROUND_AUTHORITY_SOURCE_FENCE_V1",
@@ -10614,33 +10596,6 @@
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_PROGRAM_FINAL_TRACEABILITY_VERDICT_REBIND"
     },
     {
-      "filePath": "docs/OPS/RTK/GOOGLE_BUILD_PROFILE_REGISTRY_V1.json",
-      "sha256": "39dfc61fe328929cfa08e0f7e1259e0cee0d6a79b09fe972e38f85012130defe",
-      "approvedBy": "owner:LEGACY_FEATURE_PROGRAM_GOOGLE_DOCS_LOCAL_COMPATIBILITY_G00_REBIND_V1",
-      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
-      "rationale": "Owner-approved Google Docs G00 local compatibility rebind after Word 16.112 closure: no Google account, no runtime network, no user documents, no support/import/roundtrip/API/apply claim, Word evidence transfer DENY.",
-      "approved": true,
-      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
-    },
-    {
-      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
-      "sha256": "36956c13ce405615672bf56a406d809f40a3ce90f3ede6c0febc42e01103e6a7",
-      "approvedBy": "owner:LEGACY_FEATURE_PROGRAM_GOOGLE_DOCS_LOCAL_COMPATIBILITY_G00_REBIND_V1",
-      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
-      "rationale": "Owner-approved Google Docs G00 local compatibility rebind after Word 16.112 closure: no Google account, no runtime network, no user documents, no support/import/roundtrip/API/apply claim, Word evidence transfer DENY.",
-      "approved": true,
-      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
-    },
-    {
-      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json",
-      "sha256": "9b826b7aeff401e00dd32b5ad2d7675abcef557faabdc6c08a6175b4e45abd5b",
-      "approvedBy": "owner:LEGACY_FEATURE_PROGRAM_GOOGLE_DOCS_LOCAL_COMPATIBILITY_G00_REBIND_V1",
-      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
-      "rationale": "Owner-approved Google Docs G00 local compatibility rebind after Word 16.112 closure: no Google account, no runtime network, no user documents, no support/import/roundtrip/API/apply claim, Word evidence transfer DENY.",
-      "approved": true,
-      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
-    },
-    {
       "filePath": "scripts/ops/rtk-google-docs-g00-discovery-binding.mjs",
       "sha256": "e8d4871fcd37095d9cf014c7ad31a867dea24964920ee714073e95bcd1357c33",
       "approvedBy": "owner:LEGACY_FEATURE_PROGRAM_GOOGLE_DOCS_LOCAL_COMPATIBILITY_G00_REBIND_V1",
@@ -10668,11 +10623,92 @@
       "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
     },
     {
-      "filePath": "test/contracts/revision-bridge-google-docs-evidence-check.contract.test.js",
-      "sha256": "62ae3510359dd7eac352f70c549a95ec905b50a1f8dfa8c0a1f77a5573d57d6c",
-      "approvedBy": "owner:LEGACY_FEATURE_PROGRAM_GOOGLE_DOCS_LOCAL_COMPATIBILITY_G00_REBIND_V1",
+      "filePath": "scripts/ops/rtk-google-docs-local-export-packet-quarantine-model.mjs",
+      "sha256": "bd8a49c64eedc5b4278232d71a33b2fc260d1df160ecb1508650613b4cb54dc7",
+      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1",
       "approvedAtUtc": "2026-08-15T00:00:00.000Z",
-      "rationale": "Owner-approved Google Docs G00 local compatibility rebind after Word 16.112 closure: no Google account, no runtime network, no user documents, no support/import/roundtrip/API/apply claim, Word evidence transfer DENY.",
+      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: quarantine-only synthetic local export packet evidence, no Google account, no user documents, no runtime network, no support/import/roundtrip/apply/product mutation claim.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "scripts/ops/rtk-google-docs-local-export-packet-quarantine-v1.mjs",
+      "sha256": "2b0bac277b43584c9e6b35910c49c850ef0377d83c8f54036bef311b7892e2db",
+      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: quarantine-only synthetic local export packet evidence, no Google account, no user documents, no runtime network, no support/import/roundtrip/apply/product mutation claim.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "docs/OPS/RTK/GOOGLE_BUILD_PROFILE_REGISTRY_V1.json",
+      "sha256": "c41b8b1b86421e6e79829a39aa4a7792a591473c1f1d0473e78f08cb41f54ce3",
+      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: quarantine-only synthetic local export packet evidence, no Google account, no user documents, no runtime network, no support/import/roundtrip/apply/product mutation claim.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1_RECEIPT.json",
+      "sha256": "5167e35f8b1153d1e869f4bc8e0078cfa4d9435b0bbf6d661410cf2586a08f0b",
+      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: quarantine-only synthetic local export packet evidence, no Google account, no user documents, no runtime network, no support/import/roundtrip/apply/product mutation claim.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
+      "sha256": "23dc4d4d4661fb878b521802942353229e4485817b111fae90922da0d579d187",
+      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: quarantine-only synthetic local export packet evidence, no Google account, no user documents, no runtime network, no support/import/roundtrip/apply/product mutation claim.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json",
+      "sha256": "02a310352af203247218197ceab2fc0e973e9927702d07c3fcf0bba98b233868",
+      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: quarantine-only synthetic local export packet evidence, no Google account, no user documents, no runtime network, no support/import/roundtrip/apply/product mutation claim.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "test/contracts/rtk-google-docs-local-export-packet-quarantine.contract.test.js",
+      "sha256": "316f2e337ec660380a832febb4441a0b6a5b7cfd70c8e7a723a78c21b8e33154",
+      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: quarantine-only synthetic local export packet evidence, no Google account, no user documents, no runtime network, no support/import/roundtrip/apply/product mutation claim.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
+      "sha256": "1469ef501440e26c9afbb804d9e4a9605a0c0c3dca51569a7cbd8b56b0e3c641",
+      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: quarantine-only synthetic local export packet evidence, no Google account, no user documents, no runtime network, no support/import/roundtrip/apply/product mutation claim; RTK graph catalog includes the new fail-closed local quarantine contract.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "test/contracts/revision-bridge-google-docs-evidence-check.contract.test.js",
+      "sha256": "8fdb533d452d1a3c32527d3b4b022253f91f9c12c9585848cc3ecc32f31843d2",
+      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: quarantine-only synthetic local export packet evidence, no Google account, no user documents, no runtime network, no support/import/roundtrip/apply/product mutation claim; RTK graph catalog includes the new fail-closed local quarantine contract.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "test/contracts/rtk-test-graph-catalog.contract.test.js",
+      "sha256": "1cae084478bbba315922e613d260d23b70a3fd7c1ccfb90f92b69662472b893b",
+      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: quarantine-only synthetic local export packet evidence, no Google account, no user documents, no runtime network, no support/import/roundtrip/apply/product mutation claim; RTK graph catalog includes the new fail-closed local quarantine contract.",
       "approved": true,
       "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
     }

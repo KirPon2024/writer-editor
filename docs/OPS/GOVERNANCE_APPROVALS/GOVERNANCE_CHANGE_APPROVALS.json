@@ -10449,12 +10449,12 @@
     },
     {
       "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "d453f327038017f787da5786a116e468167f54c90fe5703b29a22202b4fa66f3",
-      "rationale": "Approve factual living-ledger candidate binding after F3 import-as-new project writer local full-green candidate: preserves F3_P0C_EPHEMERAL_CORE_PAYLOAD_SINK_V1 as ENFORCED_TEST_GATE under P0C, adds F3_IMPORT_AS_NEW_PROJECT_WRITER_V1 as DEFERRED_WITH_BLOCKER until branch delivery, exact PR binding, required CI, merge and postmerge verification, records local candidate f37459d900c90f76e206230bbcd2f0983d093931 and receipt sha256:4aadfb4480169c9e4be759f55a9c4c93da79caa2e0d974e996471edb1d80763e, and preserves full Black Box product V1 blockers.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_IMPORT_AS_NEW_PROJECT_WRITER_V1",
-      "approvedAtUtc": "2026-08-14T08:26:45.000Z",
+      "sha256": "b0d6ad39c77ce6f6c755710e31c3a68b53ecf8c1541232ed4f5fe53b5f5e2e37",
+      "rationale": "Approve factual living-ledger postmerge rebind after F3 import-as-new project writer PR #1527 merge commit 01921cf7b812b1bc9030edb92eaa7e636a44bbab: promotes F3_IMPORT_AS_NEW_PROJECT_WRITER_V1 to ENFORCED_TEST_GATE with exact receipt sha256:2ce25ef1fe7339cc9c614381f1e0900b108f4d469982982ba4601fa99675a362, required CI all SUCCESS, postmerge focused 6/6, model 24 finite/16 hostile/12 mutants/0 survivors, disposable synthetic physical evidence sha256:7d4feea1ce67406f3d72138d1a67f84f6bbd7bbb8df80613df9dc51d24f24ac2, dev:fast/guardrails PASS, no user documents, no live overwrite and no product runtime/UI/Command Kernel/project-library registration claim; full Black Box product V1 remains DEFERRED_WITH_BLOCKER.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_IMPORT_AS_NEW_PROJECT_WRITER_POSTMERGE_TRACEABILITY_REBIND_V1",
+      "approvedAtUtc": "2026-08-14T09:03:25.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_IMPORT_AS_NEW_PROJECT_WRITER"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_POSTMERGE_TRACEABILITY_REBIND"
     },
     {
       "filePath": "src/product/blackBoxImportAsNewProjectWriterV1.mjs",
@@ -10494,12 +10494,12 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_IMPORT_AS_NEW_PROJECT_WRITER_V1_RECEIPT.json",
-      "sha256": "4aadfb4480169c9e4be759f55a9c4c93da79caa2e0d974e996471edb1d80763e",
-      "rationale": "Approve factual local full-green candidate receipt for F3 import-as-new project writer: feature commit f37459d900c90f76e206230bbcd2f0983d093931, focused 6/6, affected 64/64, model 24 finite/16 hostile/12 mutants/0 survivors, affected models all zero survivors, disposable physical evidence sha256:c59c83ace5e49893d51887432e146df7ffbf3d56ffcae54e56341d8a2fa2f57e with 2/2 negatives, deterministic replay 2x, dev:fast/full baseline/guardrails PASS, explicit branch-delivery/CI/merge/postmerge pending and no product release, UI, Command Kernel, project-library, user-document, live-overwrite, owner-key drill or Disaster Ready claim.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_IMPORT_AS_NEW_PROJECT_WRITER_V1",
-      "approvedAtUtc": "2026-08-14T08:26:45.000Z",
+      "sha256": "2ce25ef1fe7339cc9c614381f1e0900b108f4d469982982ba4601fa99675a362",
+      "rationale": "Approve factual postmerge verified receipt for F3 import-as-new project writer PR #1527: branch head 3d53ba7cef4ad5bcb150501e4f784646034440e2, merge commit 01921cf7b812b1bc9030edb92eaa7e636a44bbab, required CI all SUCCESS, postmerge exact-head focused 6/6, model 24 finite/16 hostile/12 mutants/0 survivors, disposable synthetic physical evidence sha256:7d4feea1ce67406f3d72138d1a67f84f6bbd7bbb8df80613df9dc51d24f24ac2 with 2/2 negatives, dev:fast 28/28 and guardrails PASS; no product release, UI, Command Kernel, project-library registration, user-document access, live overwrite, owner-key drill or Disaster Ready claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_IMPORT_AS_NEW_PROJECT_WRITER_POSTMERGE_TRACEABILITY_REBIND_V1",
+      "approvedAtUtc": "2026-08-14T09:03:25.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_IMPORT_AS_NEW_PROJECT_WRITER"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_POSTMERGE_TRACEABILITY_REBIND"
     }
   ]
 }

@@ -254,6 +254,74 @@ test('builds and recovers one ciphertext-bound synthetic age X25519 capsule with
   assert.doesNotMatch(JSON.stringify(recovered.receipt), /AGE-SECRET-KEY|bytesBase64|"synthetic"|BLACK_BOX_CORE_GENOME_V1/iu);
 });
 
+test('delivers verified recovered CORE bytes only to an ephemeral sink and never to result or receipt', async () => {
+  const module = await loadModule();
+  const fixture = makeFixture(module);
+  const built = await module.buildBlackBoxStrictCapsuleV1(fixture.makeBuildRequest(), { ageProvider: fixture.makeProvider() });
+  assert.equal(built.ok, true);
+
+  const deliveries = [];
+  const recovered = await module.recoverBlackBoxStrictCapsuleV1(fixture.makeRecoverRequest(built.capsule), {
+    ageProvider: fixture.makeProvider(),
+    recoveredCorePayloadSink: async (payload) => {
+      deliveries.push(payload);
+      assert.equal(payload.schemaVersion, module.BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_SCHEMAS.ephemeralCorePayload);
+      assert.equal(payload.corePayload.schemaVersion, module.BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_SCHEMAS.corePayload);
+      assert.equal(payload.corePayload.sha256, fixture.corePayload.sha256);
+      assert.equal(payload.corePayload.sourceSetDigest, fixture.sourceBinding.sourceSetDigest);
+      assert.equal(Buffer.isBuffer(payload.coreBytes), true);
+      assert.equal(payload.coreBytes.toString('utf8'), '{"synthetic":"core","ordinal":1}');
+      assert.equal(payload.sourceBinding.projectId, fixture.sourceBinding.projectId);
+      assert.equal(payload.capsuleManifestDigest, built.capsule.manifest.manifestDigest);
+      return {
+        ok: true,
+        sinkId: 'synthetic-import-as-new-writer',
+        corePayloadSha256: payload.corePayload.sha256,
+      };
+    },
+  });
+
+  assert.equal(recovered.ok, true);
+  assert.equal(recovered.decision, 'PASS');
+  assert.equal(deliveries.length, 1);
+  assert.deepEqual(recovered.ephemeralSink, {
+    delivered: true,
+    sinkId: 'synthetic-import-as-new-writer',
+    corePayloadSha256: fixture.corePayload.sha256,
+  });
+  assert.doesNotMatch(JSON.stringify(recovered), /AGE-SECRET-KEY|bytesBase64|"synthetic"|BLACK_BOX_CORE_GENOME_V1/iu);
+  assert.doesNotMatch(JSON.stringify(recovered.receipt), /AGE-SECRET-KEY|bytesBase64|"synthetic"|BLACK_BOX_CORE_GENOME_V1/iu);
+});
+
+test('fails closed when ephemeral recovered CORE sink throws or rejects', async () => {
+  const module = await loadModule();
+  const fixture = makeFixture(module);
+  const built = await module.buildBlackBoxStrictCapsuleV1(fixture.makeBuildRequest(), { ageProvider: fixture.makeProvider() });
+  assert.equal(built.ok, true);
+
+  const rejected = await module.recoverBlackBoxStrictCapsuleV1(fixture.makeRecoverRequest(built.capsule), {
+    ageProvider: fixture.makeProvider(),
+    recoveredCorePayloadSink: async () => ({
+      ok: false,
+      code: 'SYNTHETIC_WRITER_DENIED',
+    }),
+  });
+  assert.equal(rejected.ok, false);
+  assert.equal(rejected.decision, 'DENY');
+  assert.equal(rejected.code, module.BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.EPHEMERAL_SINK_REJECTED);
+  assert.doesNotMatch(JSON.stringify(rejected), /AGE-SECRET-KEY|bytesBase64|"synthetic"|BLACK_BOX_CORE_GENOME_V1/iu);
+
+  const thrown = await module.recoverBlackBoxStrictCapsuleV1(fixture.makeRecoverRequest(built.capsule), {
+    ageProvider: fixture.makeProvider(),
+    recoveredCorePayloadSink: async () => {
+      throw new Error('sink exploded with forbidden internal detail');
+    },
+  });
+  assert.equal(thrown.ok, false);
+  assert.equal(thrown.code, module.BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.EPHEMERAL_SINK_REJECTED);
+  assert.doesNotMatch(JSON.stringify(thrown), /forbidden internal detail|AGE-SECRET-KEY|bytesBase64|"synthetic"|BLACK_BOX_CORE_GENOME_V1/iu);
+});
+
 test('fails closed when disabled, provider missing, wrong provider version/digest, or unverified provenance is supplied', async () => {
   const module = await loadModule();
   const fixture = makeFixture(module);
@@ -408,4 +476,10 @@ test('uses closed request/capsule keysets and exact provider pin digest', async 
   }), { ageProvider: fixture.makeProvider() });
   assert.equal(unknownCapsuleKey.ok, false);
   assert.equal(unknownCapsuleKey.code, module.BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.KEYSET_INVALID);
+
+  const callerCarriedCore = await module.recoverBlackBoxStrictCapsuleV1(fixture.makeRecoverRequest(built.capsule, {
+    corePayload: fixture.corePayload,
+  }), { ageProvider: fixture.makeProvider() });
+  assert.equal(callerCarriedCore.ok, false);
+  assert.equal(callerCarriedCore.code, module.BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.KEYSET_INVALID);
 });

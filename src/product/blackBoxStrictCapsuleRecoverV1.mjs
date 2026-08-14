@@ -17,6 +17,7 @@ export const BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_SCHEMAS = Object.freeze({
   capsule: 'yalken.blackBoxStrictCapsuleRecover.capsule.v1',
   ciphertext: 'yalken.blackBoxStrictCapsuleRecover.ciphertext.v1',
   corePayload: 'yalken.blackBoxStrictCapsuleRecover.corePayload.v1',
+  ephemeralCorePayload: 'yalken.blackBoxStrictCapsuleRecover.ephemeralCorePayload.v1',
   featureFlag: 'yalken.blackBoxStrictCapsuleRecover.featureFlag.v1',
   identity: 'yalken.blackBoxStrictCapsuleRecover.identity.v1',
   manifest: 'yalken.blackBoxStrictCapsuleRecover.manifest.v1',
@@ -33,6 +34,7 @@ export const BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_SCHEMAS = Object.freeze({
 export const BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES = Object.freeze({
   CAPSULE_BUILT: 'YALKEN_BLACK_BOX_P0C_CAPSULE_BUILT',
   CAPSULE_MANIFEST_MISMATCH: 'YALKEN_BLACK_BOX_P0C_CAPSULE_MANIFEST_MISMATCH',
+  EPHEMERAL_SINK_REJECTED: 'YALKEN_BLACK_BOX_P0C_EPHEMERAL_SINK_REJECTED',
   FEATURE_DISABLED: 'YALKEN_BLACK_BOX_P0C_FEATURE_DISABLED',
   FIELD_INVALID: 'YALKEN_BLACK_BOX_P0C_FIELD_INVALID',
   KEYSET_INVALID: 'YALKEN_BLACK_BOX_P0C_KEYSET_INVALID',
@@ -635,6 +637,65 @@ function validateInspectResult(result) {
   return null;
 }
 
+async function deliverRecoveredCorePayloadToSink({
+  sink,
+  plaintext,
+  plaintextValidation,
+  request,
+  providerPinDigest,
+}) {
+  if (typeof sink !== 'function') return { ok: true, delivered: false };
+  const corePayload = plaintext.corePayload;
+  const coreBytes = Buffer.from(plaintextValidation.coreBytes);
+  const payload = {
+    schemaVersion: BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_SCHEMAS.ephemeralCorePayload,
+    corePayload: deepFreeze(JSON.parse(JSON.stringify(corePayload))),
+    coreBytes,
+    sourceBinding: deepFreeze(JSON.parse(JSON.stringify(request.capsule.sourceBinding))),
+    providerPinDigest,
+    sourceBindingDigest: request.capsule.manifest.sourceBindingDigest,
+    capsuleManifestDigest: request.capsule.manifest.manifestDigest,
+    capsuleCiphertextSha256: request.capsule.manifest.ciphertextSha256,
+    plaintextSha256: request.capsule.manifest.plaintextSha256,
+    recipientFingerprint: request.capsule.recipient.fingerprint,
+  };
+  Object.freeze(payload);
+  let result;
+  try {
+    result = await sink(payload);
+  } catch {
+    return {
+      ok: false,
+      code: BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.EPHEMERAL_SINK_REJECTED,
+      reasons: [reason(BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.EPHEMERAL_SINK_REJECTED, 'recoveredCorePayloadSink')],
+    };
+  }
+  if (!isPlainObject(result) || result.ok !== true) {
+    return {
+      ok: false,
+      code: BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.EPHEMERAL_SINK_REJECTED,
+      reasons: [reason(BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.EPHEMERAL_SINK_REJECTED, 'recoveredCorePayloadSink')],
+    };
+  }
+  if (typeof result.corePayloadSha256 === 'string' && result.corePayloadSha256 !== corePayload.sha256) {
+    return {
+      ok: false,
+      code: BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.EPHEMERAL_SINK_REJECTED,
+      reasons: [reason(BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.EPHEMERAL_SINK_REJECTED, 'recoveredCorePayloadSink.corePayloadSha256')],
+    };
+  }
+  const sinkId = normalizeIdentifier(result.sinkId) || 'ephemeral-core-payload-sink';
+  return {
+    ok: true,
+    delivered: true,
+    ephemeralSink: {
+      delivered: true,
+      sinkId,
+      corePayloadSha256: corePayload.sha256,
+    },
+  };
+}
+
 function providerAvailable(ageProvider) {
   return isPlainObject(ageProvider)
     && typeof ageProvider.probe === 'function'
@@ -839,6 +900,14 @@ export async function recoverBlackBoxStrictCapsuleV1(request, options = {}) {
   const plaintext = parsePlaintext(decrypted.plaintextBytes);
   const plaintextValidation = validatePlaintextPayload(plaintext, request.capsule);
   if (!plaintextValidation.ok) return deny(plaintextValidation.code, plaintextValidation.reasons);
+  const sinkDelivery = await deliverRecoveredCorePayloadToSink({
+    sink: options.recoveredCorePayloadSink,
+    plaintext,
+    plaintextValidation,
+    request,
+    providerPinDigest: provider.providerPinDigest,
+  });
+  if (!sinkDelivery.ok) return deny(sinkDelivery.code, sinkDelivery.reasons);
   const recoverPlan = {
     schemaVersion: BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_SCHEMAS.recoverPlan,
     importMode: IMPORT_AS_NEW,
@@ -873,7 +942,11 @@ export async function recoverBlackBoxStrictCapsuleV1(request, options = {}) {
       ownerKeyRecoveryDrill: 'NOT_CLAIMED',
     },
   });
-  return pass(BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.RECOVER_PREVIEW_READY, { recoverPlan, receipt });
+  return pass(BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.RECOVER_PREVIEW_READY, {
+    recoverPlan,
+    receipt,
+    ...(sinkDelivery.delivered ? { ephemeralSink: sinkDelivery.ephemeralSink } : {}),
+  });
 }
 
 async function sha256File(fullPath) {

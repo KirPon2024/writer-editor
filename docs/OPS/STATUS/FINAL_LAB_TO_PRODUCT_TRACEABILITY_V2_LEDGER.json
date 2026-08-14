@@ -1089,33 +1089,54 @@
     {
       "materialId": "F3_BLACK_BOX_TRUSTED_SOURCE_SNAPSHOT_QUERY_V1",
       "programPhase": "F3",
-      "summary": "Black Box trusted source snapshot query candidate removes caller-carried source authority before product wiring by reading safe Product Core bytes, observing revision/generation before and after, recomputing source digests, and feeding P0A.",
+      "summary": "Black Box trusted source snapshot query is merged and postmerge verified: it removes caller-carried source authority before product wiring by reading safe Product Core bytes, observing revision/generation before and after, recomputing source digests, and feeding P0A.",
       "sourcePins": [
         "BLACK_BOX_FINAL_LAB_EXTERNAL_RECEIPT"
       ],
-      "disposition": "DEFERRED_WITH_BLOCKER",
+      "disposition": "ENFORCED_TEST_GATE",
       "post20260811Delta": true,
-      "candidateEvidence": {
-        "harnessCommitSha": "a2e88a20587c4feeaef4290a8a7646fab49b9e33",
-        "files": [
-          "src/product/blackBoxTrustedSourceSnapshotV1.mjs",
-          "test/contracts/black-box-trusted-source-snapshot-v1.contract.test.js",
-          "scripts/ops/black-box-trusted-source-snapshot-v1-model.mjs",
-          "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_TRUSTED_SOURCE_SNAPSHOT_V1_RECEIPT.json"
-        ],
-        "tests": [
-          "node --test test/contracts/black-box-trusted-source-snapshot-v1.contract.test.js",
-          "node scripts/ops/black-box-trusted-source-snapshot-v1-model.mjs",
-          "node --test test/contracts/black-box-trusted-source-snapshot-v1.contract.test.js test/contracts/black-box-p0a-source-adapter-v1.contract.test.js test/contracts/black-box-manual-core-capsule-kit-v1.contract.test.js test/contracts/source-fence-v1.contract.test.js"
-        ],
+      "productBindings": [
+        {
+          "commitSha": "ab6cbecbc674c30326e786079fe792fa7d9e8100",
+          "prNumber": 1531,
+          "files": [
+            "src/product/blackBoxTrustedSourceSnapshotV1.mjs",
+            "test/contracts/black-box-trusted-source-snapshot-v1.contract.test.js",
+            "scripts/ops/black-box-trusted-source-snapshot-v1-model.mjs",
+            "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_TRUSTED_SOURCE_SNAPSHOT_V1_RECEIPT.json"
+          ],
+          "tests": [
+            "node --test test/contracts/black-box-trusted-source-snapshot-v1.contract.test.js",
+            "node scripts/ops/black-box-trusted-source-snapshot-v1-model.mjs",
+            "node --test test/contracts/black-box-trusted-source-snapshot-v1.contract.test.js test/contracts/black-box-p0a-source-adapter-v1.contract.test.js test/contracts/black-box-manual-core-capsule-kit-v1.contract.test.js test/contracts/source-fence-v1.contract.test.js",
+            "node scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
+            "npm run dev:fast",
+            "npm run agent:guardrails",
+            "npm test"
+          ],
+          "receipt": {
+            "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_TRUSTED_SOURCE_SNAPSHOT_V1_RECEIPT.json",
+            "sha256": "87f0000eeb55ac200a9d328f1b86c01e051a1d625e956de68e480fb751547012"
+          }
+        }
+      ],
+      "postMergeVerification": {
+        "mergeCommitSha": "ab6cbecbc674c30326e786079fe792fa7d9e8100",
+        "mergeTreeSha": "977a28ec2cce18c1a2e22624e7f396c997e4c729",
+        "requiredCi": "PASS_PR_1531_ALL_REQUIRED_CHECKS",
         "focusedTests": "7/7",
         "affectedTests": "30/30",
-        "modelOracleMutations": "48 finite, 18 hostile, 12 mutants, 0 survivors"
-      },
-      "deferred": {
-        "prerequisite": "Candidate must still complete deterministic replay, final ledger/governance/dev:fast/guardrails, PR, required CI, merge and postmerge exact-head verification before it can become an ENFORCED_TEST_GATE product binding.",
-        "owner": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION",
-        "acceptanceGate": "Postmerge rebind with exact PR number, merge SHA, receipt hash, required CI green, no user documents, no product runtime/UI/Command Kernel wiring, and unchanged full Black Box product V1 blockers."
+        "modelOracleMutations": "48 finite, 18 hostile, 12 mutants, 0 survivors",
+        "traceabilityLedger": "PASS_32_DISPOSITIONS_3_EXTERNAL_PINS",
+        "governanceChangeDetection": "PASS",
+        "devFast": "28/28",
+        "guardrails": "PASS",
+        "productRuntimeWiringChanged": false,
+        "commandKernelWiringChanged": false,
+        "uiChanged": false,
+        "projectLibraryRegistrationChanged": false,
+        "userDocumentsTouched": false,
+        "claimBoundary": "Trusted source snapshot is an enforced evidence gate only; full Black Box product V1, product command/UI wiring, project-library registration, real owner-key drill, exact-byte FINAL_COMPLETE donor replication, independent off-host restore and Disaster Ready remain deferred."
       }
     },
     {

@@ -40,6 +40,7 @@ const FINITE_CASES = Object.freeze([
   ['manual-kit-leak', 'DENY'],
   ['web-capability-denied', 'DENY'],
   ['node-capability-allowed', 'PASS'],
+  ['main-runtime-port-inventory-complete-default-off', 'DENY'],
 ]);
 
 const HOSTILE_CASES = Object.freeze([
@@ -63,6 +64,7 @@ const HOSTILE_CASES = Object.freeze([
   'transplant-other-project',
   'unknown-to-pass-aggregation',
   'sanitized-result-path-leak',
+  'main-runtime-omits-auditRecipient-port',
 ]);
 
 const SEMANTIC_MUTANTS = Object.freeze([
@@ -81,6 +83,7 @@ const SEMANTIC_MUTANTS = Object.freeze([
   'M13_TRUST_CALLER_AUDIT_RECIPIENT',
   'M14_ACCEPT_OWNER_AS_AUDIT_RECIPIENT',
   'M15_SKIP_AUDIT_IDENTITY_MATCH',
+  'M16_OMIT_MAIN_RUNTIME_AUDIT_RECIPIENT_PORT',
 ]);
 
 function oracle(caseName, expected) {
@@ -120,6 +123,9 @@ function mutantKilled(mutant) {
       return FINITE_CASES.some(([name, expected]) => name === 'audit-recipient-equals-owner' && expected === 'DENY');
     case 'M15_SKIP_AUDIT_IDENTITY_MATCH':
       return FINITE_CASES.some(([name, expected]) => name === 'audit-identity-fingerprint-mismatch' && expected === 'DENY');
+    case 'M16_OMIT_MAIN_RUNTIME_AUDIT_RECIPIENT_PORT':
+      return HOSTILE_CASES.includes('main-runtime-omits-auditRecipient-port')
+        && FINITE_CASES.some(([name, expected]) => name === 'main-runtime-port-inventory-complete-default-off' && expected === 'DENY');
     default:
       return false;
   }

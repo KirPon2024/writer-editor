@@ -6749,10 +6749,10 @@
     },
     {
       "filePath": "src/main.js",
-      "sha256": "64c5c3b39d6f84cff7e188eca190a9a86dd68c360f8889bf335810b2e311861f",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
-      "approvedAtUtc": "2026-08-14T11:45:00.000Z",
-      "rationale": "Approve minimal main-process bridge for blackBox product domain: dynamic-load product command module, route through existing product command bridge after capability revalidation, keep feature/provider/audit/target ports fail-closed by default, and do not open dialogs or touch user documents on disabled execution.",
+      "sha256": "a5ed53aab8e13d4804baf43481168ff4d51cb76ca4ada47c719d8980b1503a45",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_RUNTIME_PORT_INVENTORY_DEFAULT_OFF_V1",
+      "approvedAtUtc": "2026-08-14T15:02:00.000Z",
+      "rationale": "Approve main-process Black Box product command bridge port inventory update: existing default-off bridge now includes getAuditRecipient alongside provider/auditIdentity/ageProvider/target fail-closed stubs after audit-recipient separation; no visible UI, dialog target selection, user documents, owner private key, provider install, file write, live overwrite or Disaster Ready claim.",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },
@@ -10449,10 +10449,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "cfb3ebe805c6e90b935b42d4e1606d52eafbd110b1fc0f1e173005650be6253d",
-      "rationale": "Approve final traceability rebind for F3_BLACK_BOX_PRODUCT_COMMAND_AUDIT_RECIPIENT_RUNTIME_BINDING_V1 as ADAPTED_PRODUCT after PR #1537 merge commit 086d13bfbbd7c6f2b6a3e8889a4ff88516366a78 and exact postmerge focused 6/6, affected 73/73, product command model 39 finite/20 hostile/15 mutants/0 survivors, dev:fast 28/28 and guardrails PASS; no UI, user documents, owner-key drill, off-host restore, Disaster Ready or full Black Box Product V1 claim.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_AUDIT_RECIPIENT_POSTMERGE_TRACEABILITY_REBIND_V1",
-      "approvedAtUtc": "2026-08-14T14:25:00.000Z",
+      "sha256": "34bf1008c3e10f42b3dcd5e9d39698e8b385e077a386446dc04153b70216d2b2",
+      "rationale": "Approve traceability ledger receipt-hash rebind to the augmented F3 Black Box product command receipt for the runtime port inventory default-off local candidate after focused 7/7, affected 74/74, model 40 finite/21 hostile/16 mutants/0 survivors, traceability verifier, governance, dev:fast 28/28 and guardrails PASS. This does not promote full Black Box Product V1 and keeps product UI, provider-bound runtime execution, owner-key drill, off-host restore and Disaster Ready deferred.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_RUNTIME_PORT_INVENTORY_DEFAULT_OFF_V1",
+      "approvedAtUtc": "2026-08-14T15:02:00.000Z",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },
@@ -10602,28 +10602,28 @@
     },
     {
       "filePath": "test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
-      "sha256": "9409014b3e245e0a3bdcffdfccd0e65206215cbe91b50685f9bbdab415e867cf",
-      "rationale": "Approve product command audit-recipient contract tests: red-first proves getAuditRecipient is not called and missing trusted audit recipient can false-green; green tests prove caller-carried auditRecipient rejection, distinct owner/audit recipients, auditIdentity matching, manual-kit request binding and fail-closed negatives before target selection.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_AUDIT_RECIPIENT_RUNTIME_BINDING_V1",
-      "approvedAtUtc": "2026-08-14T14:05:00.000Z",
+      "sha256": "b7eabefe2efc0441b8574dd1608c0f4b1b8951d46ab7bf670ea2937e843af336",
+      "rationale": "Approve F3 runtime port inventory default-off contract test: red-first proves main runtime bridge omitted the trusted getAuditRecipient port after audit-recipient separation; green test proves complete trusted port inventory, env-gated default-off behavior, provider/audit/target unconfigured DENY, and no secretKeyBase64, dialog target selection or file write in this contour.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_RUNTIME_PORT_INVENTORY_DEFAULT_OFF_V1",
+      "approvedAtUtc": "2026-08-14T15:02:00.000Z",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },
     {
       "filePath": "scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs",
-      "sha256": "940dc5ee7e5e6ce701b26111e2ac86f0bd8876bd19cabe08757757cbd3a4b4a4",
-      "rationale": "Approve product command audit-recipient finite/oracle/hostile/mutation model: 39 finite cases, 20 hostile cases and 15 semantic mutants with zero survivors, adding auditRecipient missing/equal-owner, caller-carried auditRecipient, audit metadata swap and auditIdentity mismatch controls.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_AUDIT_RECIPIENT_RUNTIME_BINDING_V1",
-      "approvedAtUtc": "2026-08-14T14:05:00.000Z",
+      "sha256": "538fd4d4d174ec88fd2f02e639314bc56011623a59288ab0cb746eeea84a5d9b",
+      "rationale": "Approve F3 runtime port inventory model/catalog update: product command model expands to 40 finite cases, 21 hostile cases and 16 semantic mutants with zero survivors, adding default-off main runtime port inventory and omitted audit-recipient port controls.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_RUNTIME_PORT_INVENTORY_DEFAULT_OFF_V1",
+      "approvedAtUtc": "2026-08-14T15:02:00.000Z",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-      "sha256": "5335b3232ea6788f2ff4e2b88da49a5bfb35631cc786bf6d1c44794d7771e761",
-      "rationale": "Approve factual postmerge receipt rebind for F3_BLACK_BOX_PRODUCT_COMMAND_AUDIT_RECIPIENT_RUNTIME_BINDING_V1 PR #1537: feature commit a9a762f3f34b4ea694fe762b92474b3ab180403f, PR head 9471afd93479c6ac02f53b1e7845f48b01940648, merge commit 086d13bfbbd7c6f2b6a3e8889a4ff88516366a78, required CI all SUCCESS, postmerge focused 6/6, affected 73/73, product command model 39 finite/20 hostile/15 mutants/0 survivors, dev:fast 28/28 and guardrails PASS; no UI, user documents, owner-key drill, off-host restore, Disaster Ready or full Black Box Product V1 claim.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_AUDIT_RECIPIENT_POSTMERGE_TRACEABILITY_REBIND_V1",
-      "approvedAtUtc": "2026-08-14T14:25:00.000Z",
+      "sha256": "c776a8f5e731388c5c5ffb6895f4adbd0139163b1ef8bc600fa7c489c1b8ad2c",
+      "rationale": "Approve local candidate receipt binding for F3_BLACK_BOX_RUNTIME_PORT_INVENTORY_DEFAULT_OFF_V1: baseline c5675e92d3ecddd42581853500d14b7a09c7e230, candidate commit e0b56b3bc0f94a2ec2884b33d7523c0505bf59c9, red-first 7 tests/6 pass/1 fail missing getAuditRecipient, focused 7/7, affected 74/74, model 40 finite/21 hostile/16 mutants/0 survivors, traceability verifier, governance, dev:fast 28/28 and guardrails PASS; no UI, user documents, owner-key drill, provider install, live overwrite, off-host restore or Disaster Ready claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_RUNTIME_PORT_INVENTORY_DEFAULT_OFF_V1",
+      "approvedAtUtc": "2026-08-14T15:02:00.000Z",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     }

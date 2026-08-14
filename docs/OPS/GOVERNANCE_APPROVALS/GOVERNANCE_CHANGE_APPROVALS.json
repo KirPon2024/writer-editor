@@ -10368,10 +10368,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1_RECEIPT.json",
-      "sha256": "9d821868270344812f40f1bf171630bdfa572c0906bb607d0c5a0c7b290c292d",
-      "rationale": "Approve factual P0C receipt update for F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1 PR #1535 candidate commit 817704ccb258a2603312a871107105880140ca4e: distinct owner recovery and audit recipients, focused P0C 10/10, manual kit 8/8, product command contract 6/6, model 64 finite/26 hostile/19 mutants/0 survivors and physical age provider evidence sha256:f3285da301c9a08805d6ca35470f95722cb2a824465c88ecddf23c00a42b5954 with seven negative cases and no user documents; required CI, merge and postmerge remain pending.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1",
-      "approvedAtUtc": "2026-08-14T12:51:30.000Z",
+      "sha256": "69768efdf68e91f8e1ace0993935ec494e2fb9edece6608b0acf203959b5fd99",
+      "rationale": "Approve factual postmerge verified P0C receipt rebind for F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1 PR #1535: feature commit 817704ccb258a2603312a871107105880140ca4e, PR head e68e1199721a2fd2ebf0edd70630587c15227516, merge commit e9733baa6ac7b51ea84ff128fc6f4fe46b5409a8, required CI all SUCCESS, postmerge exact-head focused 24/24, affected 73/73, affected models all 0 survivors, disposable synthetic physical evidence sha256:f3285da301c9a08805d6ca35470f95722cb2a824465c88ecddf23c00a42b5954 with seven negative cases, dev:fast 28/28 and guardrails PASS; no product release, UI, user documents, owner-key drill, off-host restore or Disaster Ready claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_P0C_AUDIT_RECIPIENT_SEPARATION_POSTMERGE_TRACEABILITY_REBIND_V1",
+      "approvedAtUtc": "2026-08-14T13:36:00.000Z",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },
@@ -10449,10 +10449,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "4ad591b80953fb60997f89ad5f44bc88c0384e933c0f50d3c0367ef44fa2d09d",
-      "rationale": "Approve local candidate traceability row for F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1 as DEFERRED_WITH_BLOCKER after PR #1535 was opened from commit 817704ccb258a2603312a871107105880140ca4e; preserves lab provenance as non-release authority and records exact local focused/model/physical evidence without claiming full Black Box product, owner-key drill or Disaster Ready while required CI, merge and postmerge remain pending.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1",
-      "approvedAtUtc": "2026-08-14T12:51:30.000Z",
+      "sha256": "22b24e0ddd55926b141aa23957ddca0c204b0d1abd02db6f4fef0a5054de3ca9",
+      "rationale": "Approve final traceability rebind for F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1 as ENFORCED_TEST_GATE after PR #1535 merge commit e9733baa6ac7b51ea84ff128fc6f4fe46b5409a8 and exact postmerge focused/affected/model/devfast/guardrails proof; preserves lab provenance as non-release authority and makes no full Black Box product, owner-key drill or Disaster Ready claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_P0C_AUDIT_RECIPIENT_SEPARATION_POSTMERGE_TRACEABILITY_REBIND_V1",
+      "approvedAtUtc": "2026-08-14T13:36:00.000Z",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },

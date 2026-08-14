@@ -269,7 +269,7 @@
   },
   "auditRecipientSeparation": {
     "taskId": "F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1",
-    "status": "PR_OPEN_REQUIRED_CI_PENDING",
+    "status": "MERGED_POSTMERGE_VERIFIED_NOT_PRODUCT_RELEASE",
     "baselineSha": "1bfc15ca4d3541be6a84e05952051ad4f2c72ea0",
     "scope": "Require a distinct per-build audit recipient for P0C build proof while preserving the owner recipient as the only recovery authority accepted by the recover API; propagate the request shape through the manual CORE capsule kit. No product UI, Command Kernel/runtime port wiring, user documents, real owner-key drill, self-written crypto, cloud dependency or Disaster Ready claim.",
     "redFirst": {
@@ -337,10 +337,33 @@
     },
     "delivery": {
       "commitSha": "817704ccb258a2603312a871107105880140ca4e",
+      "headSha": "e68e1199721a2fd2ebf0edd70630587c15227516",
       "prNumber": 1535,
-      "requiredCi": "PENDING",
-      "mergeCommitSha": "PENDING",
-      "postMergeVerification": "PENDING"
+      "requiredCi": {
+        "oss-policy": "PASS",
+        "rtk-required": "PASS",
+        "x1-runtime-parity-ubuntu-latest": "PASS",
+        "x1-runtime-parity-windows-latest": "PASS"
+      },
+      "mergeCommitSha": "e9733baa6ac7b51ea84ff128fc6f4fe46b5409a8",
+      "mergeTreeSha": "c5907f23c15dc79d12cd06201641f0d545f260b7",
+      "postMergeVerification": {
+        "headSha": "e9733baa6ac7b51ea84ff128fc6f4fe46b5409a8",
+        "treeSha": "c5907f23c15dc79d12cd06201641f0d545f260b7",
+        "worktreeClean": true,
+        "bootstrap": "PASS",
+        "focusedProof": "24/24",
+        "affectedProof": "73/73",
+        "modelOracleMutations": "affected S0/F1/P0A/P0B/P0C/import-plan/import-writer/manual-kit/trusted-source/product-command models all PASS with 0 survivors; P0C 64 finite, 26 hostile, 19 mutants, 0 survivors",
+        "physicalProviderEvidenceSha256": "sha256:f3285da301c9a08805d6ca35470f95722cb2a824465c88ecddf23c00a42b5954",
+        "physicalProviderNegativeCases": 7,
+        "physicalProviderNegativeFailures": 0,
+        "traceabilityLedger": "PASS",
+        "governanceChangeDetection": "PASS",
+        "devFast": "28/28",
+        "guardrails": "PASS",
+        "claimBoundary": "Merged and postmerge-verified P0C audit-recipient separation evidence gate only; no full Black Box product V1, product UI, project-library registration, real owner-key drill, off-host restore or Disaster Ready claim."
+      }
     },
     "localGates": {
       "traceabilityLedger": "PASS",

@@ -9956,10 +9956,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "56f60ff0fe363925786f9b85936a5b5d4c35b4065b52eac224b436f8bd9fa4dc",
-      "approvedBy": "owner-direct:TASK_ID:F2_WORD_16_112_TYPED_ADVERSE_SCHEDULES_V1",
-      "approvedAtUtc": "2026-08-13T20:14:00Z",
-      "rationale": "Approve terminal claim registry factual note/digest update: TYPED_ADVERSE_SCHEDULES 16/16 is acknowledged as adverse-schedule-only evidence while current Word compatibility, saturation and terminal PASS remain NOT_CLAIMED_BLOCKED/NOT_MADE_WORD_TERMINAL_PASS_REQUIRED.",
+      "sha256": "ccb3615b763c7cffcf83cb71e9f13c71d20fa3ce15cd95a96465eff361be7cea",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_UI_DEFAULT_FLAG_PATH_V1",
+      "approvedAtUtc": "2026-08-14T20:21:00.000Z",
+      "rationale": "Approve terminal claim registry wording-surface rebind for F3 Black Box UI/default path: src/menu/menu-config.v2.json and src/renderer/editor.js hashes are updated to the exact scoped UI/menu bytes, preserving RELEASE01 terminal rollup fail-closed state and making no Word/DOCX terminal PASS or product runtime claim.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
     },

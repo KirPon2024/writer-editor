@@ -16,12 +16,12 @@
     {
       "surfaceId": "surface-menu-config",
       "path": "src/menu/menu-config.v2.json",
-      "sha256": "sha256:b69dc2a3dfed941c1d7e2405aec501635cc96e72450658c92abd9dd583dee2d7"
+      "sha256": "sha256:b04c0fb6132559695b8478d2520036419c0a975c2902047ffeab417ff14e3e3e"
     },
     {
       "surfaceId": "surface-editor-js",
       "path": "src/renderer/editor.js",
-      "sha256": "sha256:9f172a5a6fc7bd0a402ad6b569050444550811624988aae188c96b1fb05b19b1"
+      "sha256": "sha256:6e0b2a259ce7df5ef3b55e87947afb01d5d3768af7c4d7fac218833b806dc100"
     }
   ],
   "claims": [

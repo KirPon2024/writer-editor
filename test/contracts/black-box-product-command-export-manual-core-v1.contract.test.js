@@ -6,6 +6,7 @@ const { pathToFileURL } = require('node:url');
 const REPO_ROOT = process.cwd();
 const MODULE_PATH = path.join(REPO_ROOT, 'src', 'product', 'blackBoxProductCommandExportManualCoreV1.mjs');
 const MODEL_PATH = path.join(REPO_ROOT, 'scripts', 'ops', 'black-box-product-command-export-manual-core-v1-model.mjs');
+const MAIN_PATH = path.join(REPO_ROOT, 'src', 'main.js');
 const COMMAND_ID = 'cmd.project.blackBox.exportManualCoreCapsuleKitV1';
 const CAPABILITY_ID = 'cap.blackBox.manualCoreCapsule.export';
 
@@ -304,6 +305,37 @@ test('F3 Black Box product command v1 is admitted through the existing command r
   assert.equal(commandSurface.ALLOWED_COMMAND_IDS.includes(COMMAND_ID), true);
 });
 
+test('F3 Black Box product command v1 main runtime bridge keeps complete trusted port inventory while default-off', () => {
+  const mainSource = require('node:fs').readFileSync(MAIN_PATH, 'utf8');
+  const start = mainSource.indexOf('async function dispatchBlackBoxProductCommandBridge');
+  const end = mainSource.indexOf('async function dispatchProductCommandBridge', start + 1);
+  assert.ok(start > 0 && end > start, 'black box main runtime bridge must be source-isolated');
+  const bridgeSource = mainSource.slice(start, end);
+
+  assert.match(bridgeSource, /YALKEN_ENABLE_BLACK_BOX_MANUAL_CORE_CAPSULE_COMMAND_V1\s*===\s*'1'/u);
+  for (const portName of [
+    'getFeatureFlags',
+    'getExpectedSourceIdentity',
+    'getProjectRoot',
+    'observeRevision',
+    'getProviderPin',
+    'getAuditRecipient',
+    'getAuditIdentity',
+    'getAgeProvider',
+    'selectCreateOnlyTarget',
+  ]) {
+    assert.match(bridgeSource, new RegExp(`\\b${portName}\\s*:`, 'u'), `missing trusted runtime port ${portName}`);
+  }
+  assert.match(bridgeSource, /getProviderPin:\s*async\s*\(\)\s*=>\s*null/u);
+  assert.match(bridgeSource, /getAuditRecipient:\s*async\s*\(\)\s*=>\s*null/u);
+  assert.match(bridgeSource, /getAuditIdentity:\s*async\s*\(\)\s*=>\s*null/u);
+  assert.match(bridgeSource, /getAgeProvider:\s*async\s*\(\)\s*=>\s*null/u);
+  assert.match(bridgeSource, /YALKEN_BLACK_BOX_PRODUCT_COMMAND_EXPORT_TARGET_PORT_NOT_CONFIGURED/u);
+  assert.doesNotMatch(bridgeSource, /secretKeyBase64\s*:/u);
+  assert.doesNotMatch(bridgeSource, /dialog\.showSaveDialog/u);
+  assert.doesNotMatch(bridgeSource, /writeFileAtomic/u);
+});
+
 test('F3 Black Box product command v1 executes via trusted ports and returns only sanitized capsule metadata', async () => {
   const productCommand = await loadProductModule();
   const { calls, ports } = makePorts();
@@ -469,9 +501,9 @@ test('F3 Black Box product command v1 model/oracle rejects UNKNOWN and all seman
   const result = model.evaluateBlackBoxProductCommandExportManualCoreV1Model();
 
   assert.equal(result.ok, true, JSON.stringify(result, null, 2));
-  assert.equal(result.finiteCases, 39);
-  assert.equal(result.hostileCases, 20);
-  assert.equal(result.semanticMutants, 15);
+  assert.equal(result.finiteCases, 40);
+  assert.equal(result.hostileCases, 21);
+  assert.equal(result.semanticMutants, 16);
   assert.equal(result.survivors, 0);
   assert.deepEqual(result.survivorNames, []);
   assert.equal(result.skips, 0);

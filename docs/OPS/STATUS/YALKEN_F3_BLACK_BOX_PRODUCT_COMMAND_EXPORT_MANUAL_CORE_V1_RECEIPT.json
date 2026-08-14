@@ -50,6 +50,7 @@
       "project root",
       "trusted source snapshot",
       "provider pin",
+      "audit recipient",
       "audit identity",
       "age provider",
       "create-only target"
@@ -269,6 +270,75 @@
       "scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs": "940dc5ee7e5e6ce701b26111e2ac86f0bd8876bd19cabe08757757cbd3a4b4a4"
     },
     "rollback": "Revert the single bounded F3_BLACK_BOX_PRODUCT_COMMAND_AUDIT_RECIPIENT_RUNTIME_BINDING_V1 PR; command remains default-off and no user data migration or system-wide provider install exists."
+  },
+  "runtimePortInventoryDefaultOff": {
+    "taskId": "F3_BLACK_BOX_RUNTIME_PORT_INVENTORY_DEFAULT_OFF_V1",
+    "status": "LOCAL_CANDIDATE_NOT_MERGED_NOT_FULL_BLACK_BOX_PRODUCT_V1",
+    "baselineSha": "c5675e92d3ecddd42581853500d14b7a09c7e230",
+    "scope": "Bind the existing main runtime bridge for cmd.project.blackBox.exportManualCoreCapsuleKitV1 to the complete trusted port inventory after audit-recipient separation by adding the missing getAuditRecipient port stub while preserving feature-flag default-off, provider/audit/target unconfigured DENY behavior, no product UI placement, no user documents, no owner private key, no system-wide provider install and no live project overwrite.",
+    "redFirst": {
+      "command": "node --test test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+      "tests": 7,
+      "pass": 6,
+      "fail": 1,
+      "skipped": 0,
+      "todo": 0,
+      "primaryFailures": [
+        "missing trusted runtime port getAuditRecipient"
+      ]
+    },
+    "focusedProof": {
+      "command": "node --test test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+      "tests": 7,
+      "pass": 7,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "affectedProof": {
+      "command": "node --test test/contracts/source-fence-v1.contract.test.js test/contracts/multilingual-evidence-v1.contract.test.js test/contracts/black-box-p0a-source-adapter-v1.contract.test.js test/contracts/black-box-p0b-darwin-durable-publisher-v1.contract.test.js test/contracts/black-box-p0c-strict-capsule-recover-v1.contract.test.js test/contracts/black-box-import-as-new-recovery-plan-v1.contract.test.js test/contracts/black-box-import-as-new-project-writer-v1.contract.test.js test/contracts/black-box-manual-core-capsule-kit-v1.contract.test.js test/contracts/black-box-synthetic-independent-restore-drill-v1.contract.test.js test/contracts/black-box-trusted-source-snapshot-v1.contract.test.js test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+      "tests": 74,
+      "pass": 74,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "modelOracleMutations": {
+      "command": "node scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs",
+      "finiteCases": 40,
+      "hostileCases": 21,
+      "semanticMutants": 16,
+      "survivors": 0,
+      "skips": 0,
+      "newControls": [
+        "mainRuntimePortInventoryCompleteDefaultOff",
+        "mainRuntimeOmittedAuditRecipientPortIsNotAccepted"
+      ]
+    },
+    "affectedModels": {
+      "sourceFence": "192 finite, 20 hostile, 9 mutants, 0 survivors",
+      "multilingualEvidence": "24 finite, 18 hostile, 15 mutants, 0 survivors",
+      "blackBoxP0aSourceAdapter": "32 finite, 18 hostile, 12 mutants, 0 survivors",
+      "blackBoxP0bDarwinDurablePublisher": "65 finite, 18 hostile, 12 mutants, 0 survivors",
+      "p0c": "64 finite, 26 hostile, 19 mutants, 0 survivors",
+      "importAsNewRecoveryPlan": "36 finite, 14 hostile, 10 mutants, 0 survivors",
+      "importAsNewProjectWriter": "24 finite, 16 hostile, 12 mutants, 0 survivors",
+      "manualCoreCapsuleKit": "48 finite, 16 hostile, 12 mutants, 0 survivors",
+      "trustedSourceSnapshot": "48 finite, 18 hostile, 12 mutants, 0 survivors",
+      "productCommandExportManualCore": "40 finite, 21 hostile, 16 mutants, 0 survivors"
+    },
+    "localGates": {
+      "traceabilityLedger": "PENDING",
+      "governanceChangeDetection": "PENDING",
+      "devFast": "PENDING",
+      "guardrails": "PENDING"
+    },
+    "changedFileHashes": {
+      "src/main.js": "a5ed53aab8e13d4804baf43481168ff4d51cb76ca4ada47c719d8980b1503a45",
+      "test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js": "b7eabefe2efc0441b8574dd1608c0f4b1b8951d46ab7bf670ea2937e843af336",
+      "scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs": "538fd4d4d174ec88fd2f02e639314bc56011623a59288ab0cb746eeea84a5d9b"
+    },
+    "rollback": "Revert the single bounded F3_BLACK_BOX_RUNTIME_PORT_INVENTORY_DEFAULT_OFF_V1 PR; default-off runtime remains denied and no user data migration or provider install exists."
   },
   "changedFileHashes": {
     "src/product/blackBoxProductCommandExportManualCoreV1.mjs": "302b9df995277197bfa4162e003e0be0ab1dce709c21ea2d709ff41b8187fdb8",

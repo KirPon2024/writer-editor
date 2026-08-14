@@ -29064,6 +29064,7 @@ async function dispatchBlackBoxProductCommandBridge(commandId, payload = {}, rec
         dirtyState: 'UNKNOWN',
       }),
       getProviderPin: async () => null,
+      getAuditRecipient: async () => null,
       getAuditIdentity: async () => null,
       getAgeProvider: async () => null,
       selectCreateOnlyTarget: async () => ({

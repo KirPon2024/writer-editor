@@ -10449,8 +10449,8 @@
     },
     {
       "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "28f54c279817ca888352ef98132f36177c436761474051af1c52971ea35ecd88",
-      "rationale": "Approve traceability ledger receipt-hash rebind required by F3_PROVIDER_AUDIT_RUNTIME_BINDING_V1 local candidate receipt bytes. This only updates existing product-command receipt hashes to 31bbf46e49de8a5b7e704f1088a39529fff1954b2e6055b9765b81416335b0fb so the living ledger verifier remains exact; the new PR-numbered provider/audit material row remains pending until PR exists and full Black Box Product V1 remains deferred.",
+      "sha256": "87084577c19597437ffba2714b446a48506fc0af7ce17ed14667dc00f4065502",
+      "rationale": "Approve traceability ledger PR-numbered rebind for F3_PROVIDER_AUDIT_RUNTIME_BINDING_V1 PR #1541: adds the adapted provider/audit runtime binding material row with commit 28712faf91183b3ca676e7c2f5f6e182c28362b6, receipt sha256 adb65daa8487f287720108c2a7fb6454ad6f8dbec3028000d675d1697299b710, red-first/focused/affected/model/T7 physical smoke/dev:fast/guardrails evidence, and narrows full Black Box Product V1 blockers without promoting UI, owner-key drill, off-host restore, live overwrite or Disaster Ready.",
       "approvedBy": "owner-standing-grant:TASK_ID:F3_PROVIDER_AUDIT_RUNTIME_BINDING_V1",
       "approvedAtUtc": "2026-08-14T15:56:00.000Z",
       "approved": true,
@@ -10620,8 +10620,8 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-      "sha256": "31bbf46e49de8a5b7e704f1088a39529fff1954b2e6055b9765b81416335b0fb",
-      "rationale": "Approve factual local candidate receipt binding for F3_PROVIDER_AUDIT_RUNTIME_BINDING_V1: baseline bfc11005fd92954ef7b59ebbec6ec0f82aefe081, candidate commit c7ac6ab36dd9456460884e85cf61c19703efdee5, red-first 9 tests/5 pass/4 fail, focused 9/9, affected 76/76, model 43 finite/23 hostile/19 mutants/0 survivors, T7 physical provider/audit binding smoke sha256:ec7881c015bbe9208939a5491794f27eed832061b9f67961ed3ea871ae68ec47, governance/dev:fast/guardrails factual rerun required; target port remains not configured and no UI, user documents, owner-key drill, live overwrite, off-host restore or Disaster Ready claim.",
+      "sha256": "adb65daa8487f287720108c2a7fb6454ad6f8dbec3028000d675d1697299b710",
+      "rationale": "Approve factual PR-open receipt binding for F3_PROVIDER_AUDIT_RUNTIME_BINDING_V1 PR #1541: baseline bfc11005fd92954ef7b59ebbec6ec0f82aefe081, candidate commit c7ac6ab36dd9456460884e85cf61c19703efdee5, evidence commit 28712faf91183b3ca676e7c2f5f6e182c28362b6, red-first 9 tests/5 pass/4 fail, focused 9/9, affected 76/76, model 43 finite/23 hostile/19 mutants/0 survivors, T7 physical provider/audit binding smoke sha256:ec7881c015bbe9208939a5491794f27eed832061b9f67961ed3ea871ae68ec47; target port remains not configured and no UI, user documents, owner-key drill, live overwrite, off-host restore or Disaster Ready claim.",
       "approvedBy": "owner-standing-grant:TASK_ID:F3_PROVIDER_AUDIT_RUNTIME_BINDING_V1",
       "approvedAtUtc": "2026-08-14T15:55:00.000Z",
       "approved": true,

@@ -379,11 +379,20 @@
   },
   "providerAuditRuntimeBinding": {
     "taskId": "F3_PROVIDER_AUDIT_RUNTIME_BINDING_V1",
-    "status": "LOCAL_CANDIDATE_VERIFIED_PENDING_DELIVERY_NOT_FULL_BLACK_BOX_PRODUCT_V1",
+    "status": "PR_OPEN_LOCAL_CANDIDATE_VERIFIED_REQUIRED_CI_PENDING_NOT_FULL_BLACK_BOX_PRODUCT_V1",
     "baselineSha": "bfc11005fd92954ef7b59ebbec6ec0f82aefe081",
     "baselineTreeSha": "7af8bcfdc2cefa2906ab7606243c6682f250b87f",
     "candidateCommitSha": "c7ac6ab36dd9456460884e85cf61c19703efdee5",
     "candidateTreeSha": "e41fb3f65738a2e704e766f5583f1d847744930c",
+    "evidenceCommitSha": "28712faf91183b3ca676e7c2f5f6e182c28362b6",
+    "evidenceTreeSha": "7d75a913015d2a786469db3d57eb5339be874fb2",
+    "pr": {
+      "number": 1541,
+      "title": "Bind Black Box provider audit runtime ports",
+      "headRefName": "codex/yalken-f3-provider-audit-runtime-binding-v1",
+      "headSha": "28712faf91183b3ca676e7c2f5f6e182c28362b6",
+      "baseSha": "bfc11005fd92954ef7b59ebbec6ec0f82aefe081"
+    },
     "scope": "Bind the existing Black Box manual CORE export main runtime bridge to explicit trusted provider/audit runtime configuration: getProviderPin builds only the exact pinned official age v1.3.1 darwin-arm64 provider pin from the task-local T7 cache with digest checks; getAuditRecipient/getAuditIdentity parse explicit JSON config and require matching audit fingerprint; getAgeProvider is created from the P0C official age CLI provider. The create-only target port remains not configured, so this contour cannot create a capsule from product runtime and does not add UI, user documents, owner private key, project-library registration, off-host restore, Disaster Ready or full Black Box Product V1.",
     "redFirst": {
       "command": "node --test test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
@@ -460,7 +469,7 @@
       "privateKeyMaterialWrittenToEvidence": false
     },
     "localGates": {
-      "traceabilityLedger": "PASS_EXISTING_LEDGER_RECEIPT_HASH_REBIND; PR-numbered material row pending until PR exists",
+      "traceabilityLedger": "PASS_PR_NUMBERED_MATERIAL_ROW_REBIND",
       "governanceChangeDetection": "PASS",
       "devFast": "PASS_AFTER_FACTUAL_BINDING_RERUN",
       "guardrails": "PASS_AFTER_FACTUAL_BINDING_RERUN"

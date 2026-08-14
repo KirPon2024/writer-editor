@@ -39,6 +39,7 @@ export const BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_CODES = Object.free
   PORT_REQUIRED: 'YALKEN_BLACK_BOX_PRODUCT_COMMAND_EXPORT_TRUSTED_PORT_REQUIRED',
   SOURCE_REJECTED: 'YALKEN_BLACK_BOX_PRODUCT_COMMAND_EXPORT_SOURCE_REJECTED',
   PROVIDER_PIN_REQUIRED: 'YALKEN_BLACK_BOX_PRODUCT_COMMAND_EXPORT_PROVIDER_PIN_REQUIRED',
+  AUDIT_RECIPIENT_REQUIRED: 'YALKEN_BLACK_BOX_PRODUCT_COMMAND_EXPORT_AUDIT_RECIPIENT_REQUIRED',
   AUDIT_IDENTITY_REQUIRED: 'YALKEN_BLACK_BOX_PRODUCT_COMMAND_EXPORT_AUDIT_IDENTITY_REQUIRED',
   AGE_PROVIDER_REQUIRED: 'YALKEN_BLACK_BOX_PRODUCT_COMMAND_EXPORT_AGE_PROVIDER_REQUIRED',
   TARGET_REJECTED: 'YALKEN_BLACK_BOX_PRODUCT_COMMAND_EXPORT_TARGET_REJECTED',
@@ -140,24 +141,25 @@ function pass(details) {
   });
 }
 
-function validateRecipient(value, reasons) {
+function validateRecipient(value, reasons, field = 'recipient') {
+  const before = reasons.length;
   if (!isPlainObject(value) || !sameKeys(value, RECIPIENT_KEYS)) {
-    reasons.push(reason(BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_CODES.KEYSET_INVALID, 'recipient', RECIPIENT_KEYS, sortedKeys(value)));
+    reasons.push(reason(BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_CODES.KEYSET_INVALID, field, RECIPIENT_KEYS, sortedKeys(value)));
     return false;
   }
   if (value.schemaVersion !== BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_SCHEMAS.recipient) {
-    reasons.push(reason(BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_CODES.FIELD_INVALID, 'recipient.schemaVersion'));
+    reasons.push(reason(BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_CODES.FIELD_INVALID, `${field}.schemaVersion`));
   }
   if (value.type !== 'AGE_X25519_RECIPIENT') {
-    reasons.push(reason(BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_CODES.FIELD_INVALID, 'recipient.type'));
+    reasons.push(reason(BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_CODES.FIELD_INVALID, `${field}.type`));
   }
   if (typeof value.publicKey !== 'string' || !value.publicKey.startsWith('age1') || /[\u0000-\u001F]/u.test(value.publicKey)) {
-    reasons.push(reason(BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_CODES.FIELD_INVALID, 'recipient.publicKey'));
+    reasons.push(reason(BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_CODES.FIELD_INVALID, `${field}.publicKey`));
   }
   if (typeof value.fingerprint !== 'string' || !DIGEST_PATTERN.test(value.fingerprint)) {
-    reasons.push(reason(BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_CODES.FIELD_INVALID, 'recipient.fingerprint'));
+    reasons.push(reason(BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_CODES.FIELD_INVALID, `${field}.fingerprint`));
   }
-  return reasons.length === 0;
+  return reasons.length === before;
 }
 
 function validatePayload(payload) {
@@ -242,6 +244,7 @@ function recoveryFromKit(kit) {
     quarantineRequired: recoveryKit.quarantineRequired === true,
     ownerKeyOutsideBuilder: recoveryKit.ownerKeyOutsideBuilder !== false,
     recipientFingerprint: typeof recoveryKit.recipientFingerprint === 'string' ? recoveryKit.recipientFingerprint : '',
+    auditRecipientFingerprint: typeof recoveryKit.auditRecipientFingerprint === 'string' ? recoveryKit.auditRecipientFingerprint : '',
     sourceSetDigest: typeof recoveryKit.sourceSetDigest === 'string' ? recoveryKit.sourceSetDigest : '',
     providerPinDigest: typeof recoveryKit.providerPinDigest === 'string' ? recoveryKit.providerPinDigest : '',
   };
@@ -292,12 +295,41 @@ export async function executeBlackBoxProductCommandExportManualCoreV1(payload = 
     );
   }
 
+  const getAuditRecipient = trustedPort(ports, 'getAuditRecipient');
+  if (!getAuditRecipient) {
+    return deny(
+      BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_CODES.AUDIT_RECIPIENT_REQUIRED,
+      [reason(BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_CODES.AUDIT_RECIPIENT_REQUIRED, 'ports.getAuditRecipient')],
+    );
+  }
+  const auditRecipientResult = { value: await getAuditRecipient() };
+  const auditRecipientReasons = [];
+  const auditRecipient = auditRecipientResult.value;
+  validateRecipient(auditRecipient, auditRecipientReasons, 'auditRecipient');
+  if (
+    auditRecipientReasons.length > 0
+    || auditRecipient?.fingerprint === payload.recipient.fingerprint
+  ) {
+    const reasons = auditRecipientReasons.length > 0
+      ? auditRecipientReasons
+      : [reason(BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_CODES.AUDIT_RECIPIENT_REQUIRED, 'auditRecipient.fingerprint', 'distinct-from-owner-recipient', auditRecipient?.fingerprint)];
+    return deny(
+      BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_CODES.AUDIT_RECIPIENT_REQUIRED,
+      reasons,
+    );
+  }
+
   const auditIdentityResult = await callRequiredPort(ports, 'getAuditIdentity');
   if (!auditIdentityResult.ok) return auditIdentityResult.error;
-  if (!isPlainObject(auditIdentityResult.value)) {
+  if (
+    !isPlainObject(auditIdentityResult.value)
+    || auditIdentityResult.value.schemaVersion !== BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_SCHEMAS.identity
+    || auditIdentityResult.value.type !== 'AGE_X25519_IDENTITY'
+    || auditIdentityResult.value.fingerprint !== auditRecipient.fingerprint
+  ) {
     return deny(
       BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_CODES.AUDIT_IDENTITY_REQUIRED,
-      [reason(BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_CODES.AUDIT_IDENTITY_REQUIRED, 'auditIdentity')],
+      [reason(BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_CODES.AUDIT_IDENTITY_REQUIRED, 'auditIdentity.fingerprint', auditRecipient.fingerprint, auditIdentityResult.value?.fingerprint)],
     );
   }
 
@@ -334,6 +366,7 @@ export async function executeBlackBoxProductCommandExportManualCoreV1(payload = 
     sourceSnapshot: trustedSource.sourceSnapshot,
     providerPin: providerPinResult.value,
     recipient: payload.recipient,
+    auditRecipient,
     auditIdentity: auditIdentityResult.value,
     target: selectedTarget.target,
   }, {
@@ -382,6 +415,7 @@ export const BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_INTEGRATION_MANIFES
     payloadAuthority: 'recipient public key and requestId only',
     sourceAuthority: 'trusted Product Core snapshot port recomputes bytes/revision/generation',
     providerAuthority: 'trusted provider pin port only',
+    auditAuthority: 'trusted audit recipient and matching audit identity ports only',
     targetAuthority: 'trusted create-only target port only',
     liveProjectOverwrite: 'DENIED',
     productUiWiring: 'NOT_CLAIMED',

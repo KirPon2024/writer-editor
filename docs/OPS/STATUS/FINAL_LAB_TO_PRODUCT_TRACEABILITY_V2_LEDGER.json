@@ -1239,7 +1239,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "2ed49f08b426f8202267a033c3c30dc628751ad5a22c3d0fc7184852e488fb35"
+            "sha256": "adb65daa8487f287720108c2a7fb6454ad6f8dbec3028000d675d1697299b710"
           }
         }
       ],
@@ -1289,7 +1289,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "2ed49f08b426f8202267a033c3c30dc628751ad5a22c3d0fc7184852e488fb35"
+            "sha256": "adb65daa8487f287720108c2a7fb6454ad6f8dbec3028000d675d1697299b710"
           }
         }
       ],
@@ -1351,7 +1351,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "2ed49f08b426f8202267a033c3c30dc628751ad5a22c3d0fc7184852e488fb35"
+            "sha256": "adb65daa8487f287720108c2a7fb6454ad6f8dbec3028000d675d1697299b710"
           }
         }
       ],
@@ -1374,15 +1374,73 @@
       }
     },
     {
+      "materialId": "F3_PROVIDER_AUDIT_RUNTIME_BINDING_V1",
+      "programPhase": "F3",
+      "summary": "Black Box manual CORE export main runtime bridge is adapted as a PR-open local candidate: provider pin, audit recipient, audit identity and age provider ports now bind through explicit trusted runtime configuration. The provider pin is built only from the exact pinned official age v1.3.1 darwin-arm64 task-local T7 cache with artifact/proof/sigsum/executable digest checks; audit recipient/identity are explicit JSON config and must have matching audit fingerprint; the create-only target port remains not configured, so no product runtime capsule can be created by this contour. No UI, user documents, owner private key, project-library registration, off-host restore, Disaster Ready or full Black Box Product V1 claim.",
+      "sourcePins": [
+        "BLACK_BOX_FINAL_LAB_EXTERNAL_RECEIPT"
+      ],
+      "disposition": "ADAPTED_PRODUCT",
+      "post20260811Delta": true,
+      "productBindings": [
+        {
+          "commitSha": "28712faf91183b3ca676e7c2f5f6e182c28362b6",
+          "featureCommitSha": "c7ac6ab36dd9456460884e85cf61c19703efdee5",
+          "prNumber": 1541,
+          "files": [
+            "src/main.js",
+            "src/main/blackBoxRuntimeProviderAuditBindingV1.cjs",
+            "test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+            "scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs",
+            "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
+            "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
+            "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+          ],
+          "tests": [
+            "node --test test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+            "node scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs",
+            "node --test test/contracts/source-fence-v1.contract.test.js test/contracts/multilingual-evidence-v1.contract.test.js test/contracts/black-box-p0a-source-adapter-v1.contract.test.js test/contracts/black-box-p0b-darwin-durable-publisher-v1.contract.test.js test/contracts/black-box-p0c-strict-capsule-recover-v1.contract.test.js test/contracts/black-box-import-as-new-recovery-plan-v1.contract.test.js test/contracts/black-box-import-as-new-project-writer-v1.contract.test.js test/contracts/black-box-manual-core-capsule-kit-v1.contract.test.js test/contracts/black-box-synthetic-independent-restore-drill-v1.contract.test.js test/contracts/black-box-trusted-source-snapshot-v1.contract.test.js test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+            "node scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
+            "node scripts/ops/governance-change-detection.mjs --json --approvals-path docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json",
+            "REMOTE_BINDING_OK=1 PRE_UI_OPS_CONTOUR_CLOSED_OK=1 npm run dev:fast",
+            "npm run agent:guardrails"
+          ],
+          "receipt": {
+            "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
+            "sha256": "adb65daa8487f287720108c2a7fb6454ad6f8dbec3028000d675d1697299b710"
+          }
+        }
+      ],
+      "localCandidateVerification": {
+        "baselineSha": "bfc11005fd92954ef7b59ebbec6ec0f82aefe081",
+        "headSha": "28712faf91183b3ca676e7c2f5f6e182c28362b6",
+        "redFirst": "9 tests, 5 pass, 4 fail: bridge missing runtime binding helper, helper module missing, model denominator stale",
+        "focusedTests": "9/9",
+        "affectedTests": "76/76",
+        "modelOracleMutations": "43 finite, 23 hostile, 19 mutants, 0 survivors",
+        "affectedModels": "10/10 affected model scripts PASS; product command model 43 finite, 23 hostile, 19 mutants, 0 survivors",
+        "physicalRuntimeBindingSmoke": "T7 pinned official age provider probe PASS, providerPinDigest sha256:d00f8f56992249d4946330076562924f4a90ac32f20c9b7ddaa601f6cf1c4749, evidence sha256:ec7881c015bbe9208939a5491794f27eed832061b9f67961ed3ea871ae68ec47, product command reached TARGET_REJECTED, artifactCreated=false",
+        "traceabilityLedger": "PASS",
+        "governanceChangeDetection": "PASS",
+        "devFast": "28/28",
+        "guardrails": "PASS",
+        "productRuntimeWiringChanged": true,
+        "commandKernelWiringChanged": false,
+        "uiChanged": false,
+        "userDocumentsTouched": false,
+        "claimBoundary": "PR-open local candidate only. This does not claim product UI, default product flag placement, project-library registration, owner-key drill, off-host restore, live overwrite, Disaster Ready or full Black Box Product V1."
+      }
+    },
+    {
       "materialId": "F3_BLACK_BOX_PRODUCT_V1",
       "programPhase": "F3",
-      "summary": "Black Box / Manuscript Capsule product V1 remains future product work after P0A/P0B/P0C, manual CORE capsule kit, import-as-new recovery plan, ephemeral recovered CORE payload sink, import-as-new project writer, synthetic independent restore drill, trusted source snapshot, manual CORE export command, audit-recipient runtime binding and default-off runtime port inventory seams and must still complete product UI/default flag/provider-audit/owner-key drills without live-project overwrite.",
+      "summary": "Black Box / Manuscript Capsule product V1 remains future product work after P0A/P0B/P0C, manual CORE capsule kit, import-as-new recovery plan, ephemeral recovered CORE payload sink, import-as-new project writer, synthetic independent restore drill, trusted source snapshot, manual CORE export command, audit-recipient runtime binding, default-off runtime port inventory and provider/audit runtime binding seams and must still complete product UI/default flag path and owner-key/off-host drills without live-project overwrite.",
       "sourcePins": [
         "BLACK_BOX_FINAL_LAB_EXTERNAL_RECEIPT"
       ],
       "disposition": "DEFERRED_WITH_BLOCKER",
       "deferred": {
-        "prerequisite": "P0A, P0B, P0C, manual CORE capsule kit, import-as-new recovery plan, P0C ephemeral recovered CORE payload sink, import-as-new project writer, synthetic independent restore drill, trusted source snapshot, manual CORE export command, audit-recipient runtime binding and default-off runtime port inventory seams are merged and postmerge verified. Remaining productization must still prove product UI/default feature flag path, trusted provider/audit identity binding, real owner-key recovery drill where required, exact-byte donor replication only from verified FINAL_COMPLETE donor, project-library registration if required, independent off-host restore and no live-project overwrite.",
+        "prerequisite": "P0A, P0B, P0C, manual CORE capsule kit, import-as-new recovery plan, P0C ephemeral recovered CORE payload sink, import-as-new project writer, synthetic independent restore drill, trusted source snapshot, manual CORE export command, audit-recipient runtime binding, default-off runtime port inventory and provider/audit runtime binding seams are merged/postmerge verified or PR-open local-green as recorded. Remaining productization must still prove product UI/default feature flag path, real owner-key recovery drill where required, exact-byte donor replication only from verified FINAL_COMPLETE donor, project-library registration if required, independent off-host restore and no live-project overwrite.",
         "owner": "MASTER_PROGRAM_OWNER_OR_CURRENT_OWNER_GRANT_WITHIN_SCOPE",
         "acceptanceGate": "Exact bounded PRs with source-fence/accounting, durable writer evidence, strict capsule authentication, quarantine/preview/import-as-new-project proof, independent restore, owner-key drill, rollback, and no live-project overwrite."
       }

@@ -41,6 +41,9 @@ const FINITE_CASES = Object.freeze([
   ['web-capability-denied', 'DENY'],
   ['node-capability-allowed', 'PASS'],
   ['main-runtime-port-inventory-complete-default-off', 'DENY'],
+  ['main-runtime-provider-audit-binding-valid-target-not-configured', 'DENY'],
+  ['main-runtime-provider-digest-mismatch', 'DENY'],
+  ['main-runtime-audit-identity-mismatch', 'DENY'],
 ]);
 
 const HOSTILE_CASES = Object.freeze([
@@ -65,6 +68,8 @@ const HOSTILE_CASES = Object.freeze([
   'unknown-to-pass-aggregation',
   'sanitized-result-path-leak',
   'main-runtime-omits-auditRecipient-port',
+  'main-runtime-forged-provider-root',
+  'main-runtime-provider-audit-secret-leak',
 ]);
 
 const SEMANTIC_MUTANTS = Object.freeze([
@@ -84,6 +89,9 @@ const SEMANTIC_MUTANTS = Object.freeze([
   'M14_ACCEPT_OWNER_AS_AUDIT_RECIPIENT',
   'M15_SKIP_AUDIT_IDENTITY_MATCH',
   'M16_OMIT_MAIN_RUNTIME_AUDIT_RECIPIENT_PORT',
+  'M17_TRUST_UNVERIFIED_RUNTIME_PROVIDER_ROOT',
+  'M18_ACCEPT_RUNTIME_AUDIT_IDENTITY_MISMATCH',
+  'M19_PROMOTE_RUNTIME_BINDING_TO_FULL_EXPORT',
 ]);
 
 function oracle(caseName, expected) {
@@ -126,6 +134,14 @@ function mutantKilled(mutant) {
     case 'M16_OMIT_MAIN_RUNTIME_AUDIT_RECIPIENT_PORT':
       return HOSTILE_CASES.includes('main-runtime-omits-auditRecipient-port')
         && FINITE_CASES.some(([name, expected]) => name === 'main-runtime-port-inventory-complete-default-off' && expected === 'DENY');
+    case 'M17_TRUST_UNVERIFIED_RUNTIME_PROVIDER_ROOT':
+      return HOSTILE_CASES.includes('main-runtime-forged-provider-root')
+        && FINITE_CASES.some(([name, expected]) => name === 'main-runtime-provider-digest-mismatch' && expected === 'DENY');
+    case 'M18_ACCEPT_RUNTIME_AUDIT_IDENTITY_MISMATCH':
+      return FINITE_CASES.some(([name, expected]) => name === 'main-runtime-audit-identity-mismatch' && expected === 'DENY');
+    case 'M19_PROMOTE_RUNTIME_BINDING_TO_FULL_EXPORT':
+      return FINITE_CASES.some(([name, expected]) => name === 'main-runtime-provider-audit-binding-valid-target-not-configured' && expected === 'DENY')
+        && HOSTILE_CASES.includes('main-runtime-provider-audit-secret-leak');
     default:
       return false;
   }

@@ -48,6 +48,9 @@ const {
   createDocxActivationRequestDigestGuard,
   verifyFullManuscriptCurrentSceneBindings,
 } = require('./main/rtkDocxActivationGuards.cjs');
+const {
+  createBlackBoxRuntimeProviderAuditBindingV1,
+} = require('./main/blackBoxRuntimeProviderAuditBindingV1.cjs');
 const { buildDocxMinBuffer: buildDocxMinBufferCore } = require('./export/docx/docxMinBuilder');
 const { runDocxMinExport } = require('./export/docx/docxMinExportHandler');
 const { buildDocxReviewPacketBuffer: buildDocxReviewPacketBufferCore, deriveWordBookmarkNameV1: deriveWordBookmarkNameV1Cjs } = require('./export/docx/docxReviewPacketBuilder');
@@ -11973,6 +11976,18 @@ function loadBlackBoxProductCommandModule() {
     });
   }
   return blackBoxProductCommandModulePromise;
+}
+
+let blackBoxStrictCapsuleRecoverModulePromise = null;
+function loadBlackBoxStrictCapsuleRecoverModule() {
+  if (!blackBoxStrictCapsuleRecoverModulePromise) {
+    const modulePath = pathToFileURL(path.join(__dirname, 'product', 'blackBoxStrictCapsuleRecoverV1.mjs')).href;
+    blackBoxStrictCapsuleRecoverModulePromise = import(modulePath).catch((error) => {
+      blackBoxStrictCapsuleRecoverModulePromise = null;
+      throw error;
+    });
+  }
+  return blackBoxStrictCapsuleRecoverModulePromise;
 }
 
 let projectionInspectorModulePromise = null;
@@ -29027,6 +29042,25 @@ async function dispatchBlackBoxProductCommandBridge(commandId, payload = {}, rec
   }
 
   const productFlagEnabled = process.env.YALKEN_ENABLE_BLACK_BOX_MANUAL_CORE_CAPSULE_COMMAND_V1 === '1';
+  let runtimeProviderAuditBindingPromise = null;
+  async function getRuntimeProviderAuditBinding() {
+    if (!runtimeProviderAuditBindingPromise) {
+      runtimeProviderAuditBindingPromise = loadBlackBoxStrictCapsuleRecoverModule()
+        .then((strictCapsuleRecoverModule) => createBlackBoxRuntimeProviderAuditBindingV1({
+          env: process.env,
+          strictCapsuleRecoverModule,
+          tempRoot: os.tmpdir(),
+        }))
+        .catch(() => ({
+          providerPin: null,
+          auditRecipient: null,
+          auditIdentity: null,
+          ageProvider: null,
+        }));
+    }
+    return runtimeProviderAuditBindingPromise;
+  }
+
   return blackBoxModule.executeBlackBoxProductCommandExportManualCoreV1(payload, {
     ports: {
       getFeatureFlags: async () => ({
@@ -29063,10 +29097,10 @@ async function dispatchBlackBoxProductCommandBridge(commandId, payload = {}, rec
         generation: expected.generation,
         dirtyState: 'UNKNOWN',
       }),
-      getProviderPin: async () => null,
-      getAuditRecipient: async () => null,
-      getAuditIdentity: async () => null,
-      getAgeProvider: async () => null,
+      getProviderPin: async () => (await getRuntimeProviderAuditBinding()).providerPin,
+      getAuditRecipient: async () => (await getRuntimeProviderAuditBinding()).auditRecipient,
+      getAuditIdentity: async () => (await getRuntimeProviderAuditBinding()).auditIdentity,
+      getAgeProvider: async () => (await getRuntimeProviderAuditBinding()).ageProvider,
       selectCreateOnlyTarget: async () => ({
         ok: false,
         code: 'YALKEN_BLACK_BOX_PRODUCT_COMMAND_EXPORT_TARGET_PORT_NOT_CONFIGURED',

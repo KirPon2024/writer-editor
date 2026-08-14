@@ -10449,12 +10449,12 @@
     },
     {
       "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "87bdac0570926f79b484180d0980f22a31442a5113ca16c4c344ebfadc07c19d",
-      "rationale": "Approve factual living-ledger postmerge rebind after F3 synthetic independent restore drill PR #1529 merge commit 958558f8986ebebee6687d10815e0330f5e5c1cb: promotes F3_BLACK_BOX_SYNTHETIC_INDEPENDENT_RESTORE_DRILL_V1 to ENFORCED_TEST_GATE with receipt sha256:a37f0c765045c8c5444e0ae039b0dd253c821251ca14179eeb863fb6b76110c3, required CI all SUCCESS including rtk-required, exact postmerge focused 2/2, model 36 finite/18 hostile/12 mutants/0 survivors, disposable synthetic physical evidence sha256:634787a3634a7b7c372dd67328b5ae578cd0db6416d35030f8f2d48cb5987231, ledger/governance/dev:fast/guardrails PASS, no user documents, no live overwrite, no product runtime/UI/Command Kernel/project-library registration, and preserves full Black Box product V1 blockers.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_SYNTHETIC_INDEPENDENT_RESTORE_DRILL_POSTMERGE_TRACEABILITY_REBIND_V1",
-      "approvedAtUtc": "2026-08-14T10:00:27.000Z",
+      "sha256": "ddbb62bc4582f579cd85e31c78a5f6c60a95c1b9432d02c6a5b88aed4c040e55",
+      "rationale": "Approve factual living-ledger candidate row for F3_BLACK_BOX_TRUSTED_SOURCE_SNAPSHOT_QUERY_V1 as DEFERRED_WITH_BLOCKER until PR, required CI, merge and postmerge rebind; records harness commit a2e88a20587c4feeaef4290a8a7646fab49b9e33, focused 7/7, affected 30/30 and model 48 finite/18 hostile/12 mutants/0 survivors without promoting it to product release authority, while preserving the previous F3 synthetic independent restore drill postmerge binding.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_TRUSTED_SOURCE_SNAPSHOT_QUERY_V1",
+      "approvedAtUtc": "2026-08-14T10:52:00.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_POSTMERGE_TRACEABILITY_REBIND"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },
     {
       "filePath": "src/product/blackBoxImportAsNewProjectWriterV1.mjs",
@@ -10536,6 +10536,42 @@
       "approvedAtUtc": "2026-08-14T10:00:27.000Z",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_POSTMERGE_TRACEABILITY_REBIND"
+    },
+    {
+      "filePath": "src/product/blackBoxTrustedSourceSnapshotV1.mjs",
+      "sha256": "61e14217d430f80450ec2024ad29a72455726178833ed721e232c91f43f40a0b",
+      "rationale": "Approve F3 trusted source snapshot candidate seam bytes: read-only F3-specific Product Core snapshot query rejects caller-carried sourceSnapshot/sourceDigest/ALLOW, observes revision/generation before and after, requires ALLOW with mayWrite=false and CLEAN dirty state, reads only safe file bindings under project root, recomputes source digests from bytes, validates through P0A, and adds no UI, Command Kernel wiring, product runtime command, crypto/provider change, user documents or Disaster Ready claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_TRUSTED_SOURCE_SNAPSHOT_QUERY_V1",
+      "approvedAtUtc": "2026-08-14T10:52:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
+    },
+    {
+      "filePath": "test/contracts/black-box-trusted-source-snapshot-v1.contract.test.js",
+      "sha256": "79ee343d4952ed691b76e707cbcb4d5b5977eb144e6030f169423feca6df90cc",
+      "rationale": "Approve F3 trusted source snapshot contract tests for red-first missing seam/model, closed schemas, default-off P0A flag reuse, P0A-consumable synthetic snapshot, forged ALLOW and caller digest rejection, stale revision/generation, dirty/UNKNOWN/ABSTAIN/CONFLICTING, transplant/replay manifest, path traversal, missing files, unsupported declared sources, recomputed digest and P0A tamper rejection.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_TRUSTED_SOURCE_SNAPSHOT_QUERY_V1",
+      "approvedAtUtc": "2026-08-14T10:52:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
+    },
+    {
+      "filePath": "scripts/ops/black-box-trusted-source-snapshot-v1-model.mjs",
+      "sha256": "2182df17f960cf1ab8cfeb6b002201a452db943abb9e880717939675216f1b1e",
+      "rationale": "Approve F3 trusted source snapshot finite/oracle/hostile/mutation model: 48 finite cases, 18 hostile cases and 12 semantic mutants with zero survivors, ensuring keyset, feature flag, observer, unknown authority, mayWrite, dirty state, stale revision/generation, path traversal and caller digest trust failures never aggregate to PASS.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_TRUSTED_SOURCE_SNAPSHOT_QUERY_V1",
+      "approvedAtUtc": "2026-08-14T10:52:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_TRUSTED_SOURCE_SNAPSHOT_V1_RECEIPT.json",
+      "sha256": "f77f3343fe09e70f6ddc17f88028f8b49422684ffd5ff688d8bb34ce16c125d7",
+      "rationale": "Approve factual local-green candidate receipt for F3 trusted source snapshot query: red-first 0/7 missing module/model, focused 7/7 twice, affected P0A/manual-kit/source-fence 30/30, model 48 finite/18 hostile/12 mutants/0 survivors twice, governance and ledger PASS, dev:fast 28/28, npm test exit 0 with 802 total, 738 pass, 64 repo-declared skips, 0 fail, 0 todo plus Atlas 20/20 and perf PASS, exact harness commit a2e88a20587c4feeaef4290a8a7646fab49b9e33, and explicit no product runtime/UI/Command Kernel/project-library registration, user documents, live overwrite, crypto/provider change or Disaster Ready claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_TRUSTED_SOURCE_SNAPSHOT_QUERY_V1",
+      "approvedAtUtc": "2026-08-14T10:52:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     }
   ]
 }

@@ -1,0 +1,130 @@
+{
+  "schemaVersion": "yalken.f3BlackBoxTrustedSourceSnapshot.receipt.v1",
+  "taskId": "F3_BLACK_BOX_TRUSTED_SOURCE_SNAPSHOT_QUERY_V1",
+  "createdAtUtc": "2026-08-14T10:52:00Z",
+  "status": "LOCAL_GREEN_DELIVERY_CANDIDATE",
+  "verdict": "READY_FOR_PR_CI_MERGE_NOT_PRODUCT_RELEASE",
+  "baseline": {
+    "headSha": "a772e890de291f93a60c81ace4d394ac5e0fca1d",
+    "treeSha": "c5e0d706af230efd53228f6853bc8177a5eb3be0",
+    "branch": "codex/yalken-f3-black-box-trusted-source-snapshot-v1"
+  },
+  "candidate": {
+    "harnessCommitSha": "a2e88a20587c4feeaef4290a8a7646fab49b9e33",
+    "harnessTreeSha": "c514825a0996df6d7e3c2e94200e8cc10dbcb870",
+    "changedFiles": [
+      "src/product/blackBoxTrustedSourceSnapshotV1.mjs",
+      "test/contracts/black-box-trusted-source-snapshot-v1.contract.test.js",
+      "scripts/ops/black-box-trusted-source-snapshot-v1-model.mjs",
+      "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_TRUSTED_SOURCE_SNAPSHOT_V1_RECEIPT.json",
+      "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
+      "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+    ],
+    "fileSha256": {
+      "src/product/blackBoxTrustedSourceSnapshotV1.mjs": "61e14217d430f80450ec2024ad29a72455726178833ed721e232c91f43f40a0b",
+      "test/contracts/black-box-trusted-source-snapshot-v1.contract.test.js": "79ee343d4952ed691b76e707cbcb4d5b5977eb144e6030f169423feca6df90cc",
+      "scripts/ops/black-box-trusted-source-snapshot-v1-model.mjs": "2182df17f960cf1ab8cfeb6b002201a452db943abb9e880717939675216f1b1e"
+    }
+  },
+  "authorityBoundary": {
+    "ownerGrant": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION",
+    "productRuntimeWiringChanged": false,
+    "commandKernelWiringChanged": false,
+    "productUiWiringChanged": false,
+    "projectLibraryRegistrationChanged": false,
+    "canonicalProjectMutation": false,
+    "liveProjectOverwrite": false,
+    "userDocumentsTouched": false,
+    "sealedLabPackagesModified": false,
+    "systemWideInstall": false,
+    "dependenciesChanged": false,
+    "networkRuntimeTruth": false
+  },
+  "contract": {
+    "schema": "yalken.blackBoxTrustedSourceSnapshot.result.v1",
+    "integrationMode": "F3_SPECIFIC_READ_ONLY_PRODUCT_CORE_SOURCE_SNAPSHOT_QUERY",
+    "semantics": [
+      "request is closed and cannot include caller-carried sourceSnapshot, sourceFenceResult, sourceBinding or sourceDigest",
+      "feature flag reuses the existing default-off P0A flag and grants no write, publish or recover authority",
+      "trusted observer must return ALLOW with mayWrite=false before and after byte reads",
+      "projectId, rootId, documentId, canonicalRevision, workingRevision and generation must match request and stay stable",
+      "dirty, UNKNOWN, ABSTAIN and CONFLICTING never aggregate into PASS",
+      "manifest, scene, notes and history source bytes are read from safe file bindings under the project root with symlink/traversal rejection",
+      "sourceTextDigest and sourceDigest are recomputed from actual bytes and validated by P0A before the result is returned"
+    ],
+    "nonGoals": [
+      "no UI surface",
+      "no Command Kernel command",
+      "no product runtime wiring",
+      "no project library registration",
+      "no user manuscript",
+      "no live project restore or overwrite",
+      "no capsule crypto/provider change",
+      "no Disaster Ready claim",
+      "no generic cross-feature snapshot platform"
+    ]
+  },
+  "redFirst": {
+    "command": "node --test test/contracts/black-box-trusted-source-snapshot-v1.contract.test.js",
+    "result": "RED_EXPECTED",
+    "tests": 7,
+    "pass": 0,
+    "fail": 7,
+    "skipped": 0,
+    "todo": 0,
+    "primaryFailure": "ERR_MODULE_NOT_FOUND src/product/blackBoxTrustedSourceSnapshotV1.mjs and scripts/ops/black-box-trusted-source-snapshot-v1-model.mjs"
+  },
+  "focusedProof": {
+    "command": "node --test test/contracts/black-box-trusted-source-snapshot-v1.contract.test.js",
+    "tests": 7,
+    "pass": 7,
+    "fail": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "affectedProof": {
+    "command": "node --test test/contracts/black-box-trusted-source-snapshot-v1.contract.test.js test/contracts/black-box-p0a-source-adapter-v1.contract.test.js test/contracts/black-box-manual-core-capsule-kit-v1.contract.test.js test/contracts/source-fence-v1.contract.test.js",
+    "tests": 30,
+    "pass": 30,
+    "fail": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "modelOracleMutations": {
+    "command": "node scripts/ops/black-box-trusted-source-snapshot-v1-model.mjs",
+    "finiteCases": 48,
+    "hostileCases": 18,
+    "semanticMutants": 12,
+    "survivors": 0,
+    "failures": 0,
+    "skips": 0
+  },
+  "resourceCeilings": {
+    "smallSyntheticFixtureMilliseconds": 1000,
+    "rssDeltaBytes": 67108864,
+    "typingHotPath": "NOT_APPLICABLE"
+  },
+  "deliveryGates": {
+    "deterministicReplay": "PASS_FOCUSED_MODEL_2X_AFFECTED_1X",
+    "traceabilityLedger": "PASS_32_DISPOSITIONS_3_EXTERNAL_PINS",
+    "governanceApprovalRegistry": "PASS_1420_APPROVALS",
+    "governanceChangeDetection": "PASS_NO_MISSING_APPROVALS",
+    "devFast": "PASS_28_OF_28_EXIT_0",
+    "baseline": "PASS_NPM_TEST_EXIT_0_MAIN_802_TOTAL_738_PASS_64_SKIP_0_FAIL_0_TODO_PLUS_ATLAS_20_OF_20_AND_PERF_PASS",
+    "guardrails": "PASS",
+    "requiredCi": "PENDING_PR",
+    "postMergeVerification": "PENDING_MERGE"
+  },
+  "rollback": {
+    "plan": "Revert the trusted source snapshot query, its contract/model, receipt, ledger entry and governance approvals. No migration rollback is needed because no product runtime, canonical project data or user documents are mutated.",
+    "artifactCleanup": "Only disposable synthetic test directories under the system temporary directory are created and removed by tests."
+  },
+  "limitations": {
+    "fullBlackBoxProductV1": "DEFERRED_WITH_BLOCKER",
+    "productRuntimeCommand": "NOT_CLAIMED",
+    "projectLibraryRegistration": "NOT_CLAIMED",
+    "ownerKeyRecoveryDrill": "NOT_CLAIMED",
+    "independentOffHostRestore": "NOT_CLAIMED",
+    "disasterReady": "NOT_CLAIMED"
+  }
+}

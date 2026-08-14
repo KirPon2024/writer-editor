@@ -1087,6 +1087,38 @@
       }
     },
     {
+      "materialId": "F3_BLACK_BOX_TRUSTED_SOURCE_SNAPSHOT_QUERY_V1",
+      "programPhase": "F3",
+      "summary": "Black Box trusted source snapshot query candidate removes caller-carried source authority before product wiring by reading safe Product Core bytes, observing revision/generation before and after, recomputing source digests, and feeding P0A.",
+      "sourcePins": [
+        "BLACK_BOX_FINAL_LAB_EXTERNAL_RECEIPT"
+      ],
+      "disposition": "DEFERRED_WITH_BLOCKER",
+      "post20260811Delta": true,
+      "candidateEvidence": {
+        "harnessCommitSha": "a2e88a20587c4feeaef4290a8a7646fab49b9e33",
+        "files": [
+          "src/product/blackBoxTrustedSourceSnapshotV1.mjs",
+          "test/contracts/black-box-trusted-source-snapshot-v1.contract.test.js",
+          "scripts/ops/black-box-trusted-source-snapshot-v1-model.mjs",
+          "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_TRUSTED_SOURCE_SNAPSHOT_V1_RECEIPT.json"
+        ],
+        "tests": [
+          "node --test test/contracts/black-box-trusted-source-snapshot-v1.contract.test.js",
+          "node scripts/ops/black-box-trusted-source-snapshot-v1-model.mjs",
+          "node --test test/contracts/black-box-trusted-source-snapshot-v1.contract.test.js test/contracts/black-box-p0a-source-adapter-v1.contract.test.js test/contracts/black-box-manual-core-capsule-kit-v1.contract.test.js test/contracts/source-fence-v1.contract.test.js"
+        ],
+        "focusedTests": "7/7",
+        "affectedTests": "30/30",
+        "modelOracleMutations": "48 finite, 18 hostile, 12 mutants, 0 survivors"
+      },
+      "deferred": {
+        "prerequisite": "Candidate must still complete deterministic replay, final ledger/governance/dev:fast/guardrails, PR, required CI, merge and postmerge exact-head verification before it can become an ENFORCED_TEST_GATE product binding.",
+        "owner": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION",
+        "acceptanceGate": "Postmerge rebind with exact PR number, merge SHA, receipt hash, required CI green, no user documents, no product runtime/UI/Command Kernel wiring, and unchanged full Black Box product V1 blockers."
+      }
+    },
+    {
       "materialId": "F3_BLACK_BOX_PRODUCT_V1",
       "programPhase": "F3",
       "summary": "Black Box / Manuscript Capsule product V1 remains future product work after P0A/P0B/P0C, manual CORE capsule kit, import-as-new recovery plan, ephemeral recovered CORE payload sink and import-as-new project writer seams and must still complete product wiring, independent restore and owner-key/recovery drills without live-project overwrite.",

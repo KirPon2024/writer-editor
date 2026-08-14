@@ -1,8 +1,8 @@
 {
   "schemaVersion": "yalken.f3.blackBoxProductCommandExportManualCore.receipt.v1",
   "taskId": "F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
-  "status": "LOCAL_GREEN_CANDIDATE",
-  "verdict": "READY_FOR_DELIVERY_GATES_NOT_FULL_BLACK_BOX_PRODUCT_V1",
+  "status": "MERGED_POSTMERGE_VERIFIED",
+  "verdict": "READY_FOR_NEXT_BOUNDED_F3_CONTOUR_NOT_FULL_BLACK_BOX_PRODUCT_V1",
   "createdAtUtc": "2026-08-14T11:45:00Z",
   "baseline": {
     "headSha": "2cc598271bfdab6764401216e08cb952d4c49ba6",
@@ -12,11 +12,21 @@
   "delivery": {
     "candidateCommitSha": "51b99bb578a31b097e0e2a3b82947546fca9d0e0",
     "candidateTreeSha": "8ce61bee96eba31e7a453bcb69264a7919174524",
+    "traceabilityRebindCommitSha": "ad2893560ba05689fd926c2d3aba46df5748f795",
     "prNumber": 1533,
     "push": "PASS",
-    "ci": "PENDING",
-    "merge": "PENDING",
-    "postmerge": "PENDING"
+    "ci": "PASS",
+    "requiredChecks": [
+      "oss-policy",
+      "rtk-required",
+      "x1-runtime-parity (ubuntu-latest)",
+      "x1-runtime-parity (windows-latest)"
+    ],
+    "merge": "PASS",
+    "mergeCommitSha": "17f03909b623d2b0a8a573920110bc1d078af8ff",
+    "mergeTreeSha": "31b8fb23e7dc7a388f4e94cd91177ffe7f337742",
+    "postmerge": "PASS",
+    "postmergeWorktree": "postmerge-f3-product-command-export-manual-core-v1-20260814T1217Z"
   },
   "authority": {
     "ownerGrant": "OWNER_CONTINUATION_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1",
@@ -116,6 +126,50 @@
       "command": "npm run agent:guardrails",
       "status": "PASS"
     }
+  },
+  "postmergeProof": {
+    "headSha": "17f03909b623d2b0a8a573920110bc1d078af8ff",
+    "treeSha": "31b8fb23e7dc7a388f4e94cd91177ffe7f337742",
+    "bootstrap": "PASS",
+    "focused": {
+      "tests": 6,
+      "pass": 6,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "modelOracleMutations": {
+      "finiteCases": 36,
+      "hostileCases": 18,
+      "semanticMutants": 12,
+      "survivors": 0,
+      "skips": 0
+    },
+    "affected": {
+      "tests": 50,
+      "pass": 50,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "mainCommandBridgeAffected": {
+      "tests": 18,
+      "pass": 18,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "governance": "PASS",
+    "traceabilityLedger": "PASS",
+    "devFast": {
+      "tests": 28,
+      "pass": 28,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "guardrails": "PASS",
+    "worktreeClean": true
   },
   "changedFileHashes": {
     "src/product/blackBoxProductCommandExportManualCoreV1.mjs": "302b9df995277197bfa4162e003e0be0ab1dce709c21ea2d709ff41b8187fdb8",

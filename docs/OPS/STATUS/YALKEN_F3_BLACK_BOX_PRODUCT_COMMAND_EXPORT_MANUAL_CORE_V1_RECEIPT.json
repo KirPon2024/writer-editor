@@ -231,8 +231,8 @@
       "productCommandExportManualCore": "39 finite, 20 hostile, 15 mutants, 0 survivors"
     },
     "delivery": {
-      "commitSha": "PENDING",
-      "prNumber": "PENDING",
+      "commitSha": "a9a762f3f34b4ea694fe762b92474b3ab180403f",
+      "prNumber": 1537,
       "requiredCi": "PENDING",
       "mergeCommitSha": "PENDING",
       "postMergeVerification": "PENDING"

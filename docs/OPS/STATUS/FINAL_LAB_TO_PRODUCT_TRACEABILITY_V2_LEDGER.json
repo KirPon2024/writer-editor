@@ -1239,7 +1239,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "bfc3d3029b3c97f8714a9537b275da42bc5cfc5c3ef625ab34704802063d1ca6"
+            "sha256": "e3394efb8e90b25f5f3b7f07e38a4c778299dc09e3a3eb94b7a2e3b3b00f921b"
           }
         }
       ],
@@ -1267,19 +1267,22 @@
       "disposition": "DEFERRED_WITH_BLOCKER",
       "post20260811Delta": true,
       "deferred": {
-        "prerequisite": "Complete candidate commit, PR, required CI, merge and postmerge exact-head verification for F3_BLACK_BOX_PRODUCT_COMMAND_AUDIT_RECIPIENT_RUNTIME_BINDING_V1.",
+        "prerequisite": "Complete required CI, merge and postmerge exact-head verification for F3_BLACK_BOX_PRODUCT_COMMAND_AUDIT_RECIPIENT_RUNTIME_BINDING_V1 PR #1537.",
         "owner": "standing-owner-grant:YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1",
         "acceptanceGate": "Rebind this row to ADAPTED_PRODUCT or ENFORCED_TEST_GATE with exact commitSha, prNumber, receipt hash and postmerge verification after full delivery green."
       },
       "localCandidateEvidence": {
         "baselineSha": "d7875a88f82048d650c239a9b6f22e947cdffbba",
+        "candidateCommitSha": "a9a762f3f34b4ea694fe762b92474b3ab180403f",
+        "prNumber": 1537,
+        "deliveryStatus": "PR_OPEN_REQUIRED_CI_PENDING",
         "redFirst": "6 tests, 4 pass, 2 fail: trusted getAuditRecipient port not called and missing audit recipient port not fail-closed",
         "focusedTests": "6/6",
         "affectedTests": "73/73",
         "modelOracleMutations": "Product command 39 finite, 20 hostile, 15 mutants, 0 survivors; affected S0/F1/P0A/P0B/P0C/import-plan/import-writer/manual-kit/trusted-source/product-command models all 0 survivors",
         "receipt": {
           "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-          "sha256": "bfc3d3029b3c97f8714a9537b275da42bc5cfc5c3ef625ab34704802063d1ca6"
+          "sha256": "e3394efb8e90b25f5f3b7f07e38a4c778299dc09e3a3eb94b7a2e3b3b00f921b"
         },
         "traceabilityLedger": "PENDING",
         "governanceChangeDetection": "PENDING",

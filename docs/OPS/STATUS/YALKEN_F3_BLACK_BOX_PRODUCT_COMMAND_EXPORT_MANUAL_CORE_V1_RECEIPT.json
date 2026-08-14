@@ -1,0 +1,148 @@
+{
+  "schemaVersion": "yalken.f3.blackBoxProductCommandExportManualCore.receipt.v1",
+  "taskId": "F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
+  "status": "LOCAL_GREEN_CANDIDATE",
+  "verdict": "READY_FOR_DELIVERY_GATES_NOT_FULL_BLACK_BOX_PRODUCT_V1",
+  "createdAtUtc": "2026-08-14T11:45:00Z",
+  "baseline": {
+    "headSha": "2cc598271bfdab6764401216e08cb952d4c49ba6",
+    "treeSha": "8811456ce7e7f7572628527c87b49f82b92cabaa",
+    "branch": "codex/yalken-f3-black-box-product-command-export-manual-core-v1"
+  },
+  "delivery": {
+    "candidateCommitSha": "51b99bb578a31b097e0e2a3b82947546fca9d0e0",
+    "candidateTreeSha": "8ce61bee96eba31e7a453bcb69264a7919174524",
+    "prNumber": 1533,
+    "push": "PASS",
+    "ci": "PENDING",
+    "merge": "PENDING",
+    "postmerge": "PENDING"
+  },
+  "authority": {
+    "ownerGrant": "OWNER_CONTINUATION_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1",
+    "scope": "ordinary bounded F3 product command/runtime wiring contour",
+    "userDocumentsTouched": false,
+    "privateManuscriptsTouched": false,
+    "newDependencies": false,
+    "networkRuntime": false,
+    "selfWrittenCryptography": false,
+    "sealedLabPackagesModified": false
+  },
+  "architecture": {
+    "commandId": "cmd.project.blackBox.exportManualCoreCapsuleKitV1",
+    "capabilityId": "cap.blackBox.manualCoreCapsule.export",
+    "featureFlag": "yalken.blackBox.manualCoreCapsuleKit.v1",
+    "integrationMode": "EXISTING_COMMAND_KERNEL_AND_PRODUCT_BRIDGE",
+    "payloadAuthority": "schema/requestId/recipient public key only",
+    "trustedPorts": [
+      "feature flags",
+      "expected source identity",
+      "project root",
+      "trusted source snapshot",
+      "provider pin",
+      "audit identity",
+      "age provider",
+      "create-only target"
+    ],
+    "defaultRuntimeBehavior": "feature flag off and provider/audit/target ports fail closed until later owner-key/provider drill contour",
+    "noSecondGovernancePlane": true,
+    "noNewUiSurface": true
+  },
+  "redFirst": {
+    "command": "node --test test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+    "tests": 6,
+    "pass": 0,
+    "fail": 6,
+    "primaryFailures": [
+      "ERR_MODULE_NOT_FOUND src/product/blackBoxProductCommandExportManualCoreV1.mjs",
+      "ERR_MODULE_NOT_FOUND scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs"
+    ]
+  },
+  "localProof": {
+    "focused": {
+      "command": "node --test test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+      "tests": 6,
+      "pass": 6,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "modelOracleMutations": {
+      "command": "node scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs",
+      "finiteCases": 36,
+      "hostileCases": 18,
+      "semanticMutants": 12,
+      "survivors": 0,
+      "skips": 0
+    },
+    "affected": {
+      "command": "node --test test/contracts/command-catalog.contract.test.js test/contracts/capability-command-coverage.contract.test.js test/contracts/command-surface-bus-only.contract.test.js test/contracts/command-surface-single-entry.contract.test.js test/contracts/black-box-trusted-source-snapshot-v1.contract.test.js test/contracts/black-box-manual-core-capsule-kit-v1.contract.test.js test/contracts/source-fence-v1.contract.test.js",
+      "tests": 50,
+      "pass": 50,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "mainCommandBridgeAffected": {
+      "command": "node --test test/unit/sector-m-preload-ui-command-bridge.test.js test/unit/live-command-wiring.test.js test/unit/sector-m-m5-command-path.test.js test/unit/sector-u-u1-command-layer.test.js",
+      "tests": 18,
+      "pass": 18,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "governance": {
+      "command": "node scripts/ops/governance-change-detection.mjs",
+      "ok": true,
+      "missingApprovals": 0
+    },
+    "traceabilityLedger": {
+      "command": "node scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
+      "ok": true,
+      "materialDispositions": 33,
+      "externalPins": 3,
+      "errors": 0,
+      "candidateDisposition": "ADAPTED_PRODUCT_AFTER_PR_REBIND"
+    },
+    "devFast": {
+      "command": "REMOTE_BINDING_OK=1 PRE_UI_OPS_CONTOUR_CLOSED_OK=1 npm run dev:fast",
+      "tests": 28,
+      "pass": 28,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "guardrails": {
+      "command": "npm run agent:guardrails",
+      "status": "PASS"
+    }
+  },
+  "changedFileHashes": {
+    "src/product/blackBoxProductCommandExportManualCoreV1.mjs": "302b9df995277197bfa4162e003e0be0ab1dce709c21ea2d709ff41b8187fdb8",
+    "test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js": "154d9f03a21c3fb5995b90c9c0acb801f1844b155ccafb7d69557447c0cad6d2",
+    "scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs": "849bb2b417fba662e32104a98cd2b0e0eb4a37397ab80108ed80991352b7fb01",
+    "src/shared/productCommandRegistry.cjs": "3d6fcc76788c4a5d5599e671caa3965d6fb957bde1785ef18baa47a9d8602227",
+    "src/renderer/commands/capabilityPolicy.mjs": "76fffd86b4e3bbe74bd92fe0c3debbb26c581e3bf3cfcd1f22f7a76961ea6222",
+    "src/command/commandSurfaceKernel.js": "235a9d5294e967f34bc993482f16e80a75f714fa4968a3e15db7e1e8ede80f92",
+    "src/main.js": "64c5c3b39d6f84cff7e188eca190a9a86dd68c360f8889bf335810b2e311861f",
+    "docs/OPS/CAPABILITIES_MATRIX.json": "ef8023acebdfd48f46c336872142b6202d7767ade9e89d34fc450a46e2a4401f",
+    "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json": "3378555dbdad34d61986fff0ae3d4654702606d6076f1ac75204494fb174d687"
+  },
+  "claimBoundary": {
+    "productValue": "Command Kernel admitted create-only manual CORE capsule export command with trusted-port contract and sanitized public result; default runtime flag remains off until provider/audit/owner-key drill wiring.",
+    "notClaimed": [
+      "full Black Box product V1",
+      "product UI surface",
+      "project-library registration",
+      "real owner-key recovery drill",
+      "off-host restore",
+      "exact-byte FINAL_COMPLETE donor replication",
+      "Disaster Ready",
+      "live project overwrite"
+    ]
+  },
+  "rollback": {
+    "plan": "Revert the bounded product command module, registry/capability/main route, contract/model, receipt, ledger and governance entries. No data migration rollback is required because canonical project data is not changed by this merge.",
+    "safe": true
+  }
+}

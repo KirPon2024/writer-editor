@@ -44,12 +44,12 @@
     },
     {
       "filePath": "docs/OPS/CAPABILITIES_MATRIX.json",
-      "sha256": "75efe933988f2646edb435ed5e0a718da522a17928ab11b110614150d6c889b3",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_B",
-      "approvedAtUtc": "2026-08-02T09:48:14.000Z",
-      "rationale": "Approve the exact OPS platform capability projection for the already runtime-bound full-manuscript Word command discovered by the R1-B full promotion gate; no Word runtime or UI change.",
+      "sha256": "ef8023acebdfd48f46c336872142b6202d7767ade9e89d34fc450a46e2a4401f",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
+      "approvedAtUtc": "2026-08-14T11:45:00.000Z",
+      "rationale": "Approve exact capability matrix update for cap.blackBox.manualCoreCapsule.export: node admitted, web/mobile denied and disabled command rows explicit; no cloud or mobile support claim.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_R1_B_REPAIR"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },
     {
       "filePath": "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
@@ -3287,12 +3287,12 @@
     },
     {
       "filePath": "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json",
-      "sha256": "b7d186af98a89f8f48a0f7f1a4bc100fec24fb998388a7f3126a5c55d9080d8f",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:R1_B",
-      "approvedAtUtc": "2026-08-02T09:48:14.000Z",
-      "rationale": "Approve the exact OPS command-to-capability projection for the already runtime-bound full-manuscript Word command discovered by the R1-B full promotion gate; no Word runtime or UI change.",
+      "sha256": "3378555dbdad34d61986fff0ae3d4654702606d6076f1ac75204494fb174d687",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
+      "approvedAtUtc": "2026-08-14T11:45:00.000Z",
+      "rationale": "Approve exact command-capability binding row for cmd.project.blackBox.exportManualCoreCapsuleKitV1 to cap.blackBox.manualCoreCapsule.export.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_R1_B_REPAIR"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },
     {
       "filePath": "docs/OPS/STATUS/COMMAND_ID_COMPAT_MAP_V1.json",
@@ -6371,12 +6371,12 @@
     },
     {
       "filePath": "src/command/commandSurfaceKernel.js",
-      "sha256": "cccea8fdadcfae093caa7a0ba23e7716b744733c58848176545b658ed07ecc73",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_RTK_WORD_N3_FORMATTING_RETURN_V1",
-      "approvedAtUtc": "2026-08-02T10:57:50.000Z",
-      "rationale": "Approve the exact Command Surface Kernel bytes adding the bounded N3 formatting-return command to the existing main-owned typed allowlist; no alternate bus, renderer writer, network, dependency, or terminal certification claim.",
+      "sha256": "235a9d5294e967f34bc993482f16e80a75f714fa4968a3e15db7e1e8ede80f92",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
+      "approvedAtUtc": "2026-08-14T11:45:00.000Z",
+      "rationale": "Approve adding the bounded Black Box export command id to the existing command surface allowlist while preserving command-bus bypass negatives and no private command kernel.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_N3_FORMATTING_RETURN"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },
     {
       "filePath": "src/derived/atlas/atlasGraphLayoutWorker.mjs",
@@ -6749,12 +6749,12 @@
     },
     {
       "filePath": "src/main.js",
-      "sha256": "72147667f01a1d7b155566b1b9606c6ee53a72d5fb76e363fb93d97730d2fdcc",
-      "approvedBy": "owner-direct:TASK_ID:GENERIC-01_CREATE_ONLY_IMPORT",
-      "approvedAtUtc": "2026-08-09T06:25:17.945Z",
-      "rationale": "Approve GENERIC-01 transactionAuthority port wiring into the safe-create handler and idempotent command results (created false on re-apply).",
+      "sha256": "64c5c3b39d6f84cff7e188eca190a9a86dd68c360f8889bf335810b2e311861f",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
+      "approvedAtUtc": "2026-08-14T11:45:00.000Z",
+      "rationale": "Approve minimal main-process bridge for blackBox product domain: dynamic-load product command module, route through existing product command bridge after capability revalidation, keep feature/provider/audit/target ports fail-closed by default, and do not open dialogs or touch user documents on disabled execution.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_GENERIC01_CREATE_ONLY_IMPORT"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },
     {
       "filePath": "src/main/rtkDocxReturnIntakeWorker.cjs",
@@ -10449,12 +10449,12 @@
     },
     {
       "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "509b30e9cf950f437561711ad41bbf7c647812157078244dd664f3e8245d87ec",
-      "rationale": "Approve factual living-ledger postmerge rebind for F3_BLACK_BOX_TRUSTED_SOURCE_SNAPSHOT_QUERY_V1: promotes the row to ENFORCED_TEST_GATE for PR #1531 merge commit ab6cbecbc674c30326e786079fe792fa7d9e8100 with receipt sha256:87f0000eeb55ac200a9d328f1b86c01e051a1d625e956de68e480fb751547012, required CI all SUCCESS, exact postmerge focused 7/7, affected 30/30, model 48 finite/18 hostile/12 mutants/0 survivors, ledger/governance/dev:fast/guardrails PASS, no user documents, no live overwrite, no product runtime/UI/Command Kernel/project-library registration, and preserved full Black Box product V1 blockers.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_TRUSTED_SOURCE_SNAPSHOT_POSTMERGE_REBIND_V1",
-      "approvedAtUtc": "2026-08-14T11:08:00.000Z",
+      "sha256": "87a51da7daef5f9d8204473f27075353abb02c955fb242f4bb5db863c4623915",
+      "rationale": "Approve traceability ledger update adding F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1 as ADAPTED_PRODUCT bound to candidate commit 51b99bb578a31b097e0e2a3b82947546fca9d0e0 and PR #1533 while preserving full Black Box Product V1 deferred gates for UI/default flag/provider-audit/owner-key/off-host/final donor work.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
+      "approvedAtUtc": "2026-08-14T11:45:00.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_POSTMERGE_TRACEABILITY_REBIND"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },
     {
       "filePath": "src/product/blackBoxImportAsNewProjectWriterV1.mjs",
@@ -10572,6 +10572,60 @@
       "approvedAtUtc": "2026-08-14T11:08:00.000Z",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_POSTMERGE_TRACEABILITY_REBIND"
+    },
+    {
+      "filePath": "src/product/blackBoxProductCommandExportManualCoreV1.mjs",
+      "sha256": "302b9df995277197bfa4162e003e0be0ab1dce709c21ea2d709ff41b8187fdb8",
+      "rationale": "Approve F3 Black Box product command export module: one create-only manual CORE capsule command contract, trusted ports for feature flags/source/provider/audit/target, sanitized public result, canonical state-class declaration, default fail-closed runtime behavior and no UI, user documents, live overwrite, new dependency or Disaster Ready claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
+      "approvedAtUtc": "2026-08-14T11:45:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
+    },
+    {
+      "filePath": "src/shared/productCommandRegistry.cjs",
+      "sha256": "3d6fcc76788c4a5d5599e671caa3965d6fb957bde1785ef18baa47a9d8602227",
+      "rationale": "Approve adding only cmd.project.blackBox.exportManualCoreCapsuleKitV1 to the existing product command registry with Command Kernel authority and cap.blackBox.manualCoreCapsule.export binding; no private bus or second governance plane.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
+      "approvedAtUtc": "2026-08-14T11:45:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
+    },
+    {
+      "filePath": "src/renderer/commands/capabilityPolicy.mjs",
+      "sha256": "76fffd86b4e3bbe74bd92fe0c3debbb26c581e3bf3cfcd1f22f7a76961ea6222",
+      "rationale": "Approve runtime capability policy binding for cap.blackBox.manualCoreCapsule.export: node true, web/mobile false, matching product registry and docs capability matrix.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
+      "approvedAtUtc": "2026-08-14T11:45:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
+    },
+    {
+      "filePath": "test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+      "sha256": "154d9f03a21c3fb5995b90c9c0acb801f1844b155ccafb7d69557447c0cad6d2",
+      "rationale": "Approve F3 Black Box product command contract tests for red-first missing module/model, closed schemas, registry/capability admission, trusted-port execution, caller-carried proof/provider/target/feature/audit rejection, source/provider/target/manual-kit fail-closed negatives, sanitized public result and model invocation.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
+      "approvedAtUtc": "2026-08-14T11:45:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
+    },
+    {
+      "filePath": "scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs",
+      "sha256": "849bb2b417fba662e32104a98cd2b0e0eb4a37397ab80108ed80991352b7fb01",
+      "rationale": "Approve F3 Black Box product command finite/oracle/hostile/mutation model: 36 finite cases, 18 hostile cases and 12 semantic mutants with zero survivors, covering UNKNOWN/ABSTAIN/non-PASS, forged caller authority, target/provider/kit failures and leakage mutants.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
+      "approvedAtUtc": "2026-08-14T11:45:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
+      "sha256": "182f35459554e1b66ed6126600b546be99b055e7baf1bb2f49b0686fbecedca1",
+      "rationale": "Approve factual local candidate receipt for F3 Black Box product command export manual CORE contour: red-first 0/6, focused 6/6, model 36 finite/18 hostile/12 mutants/0 survivors, affected 50/50, main command bridge affected 18/18, governance and traceability ledger verifiers PASS, dev:fast 28/28 and guardrails PASS, with no UI, user documents, live overwrite, owner-key drill, off-host restore or Disaster Ready claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
+      "approvedAtUtc": "2026-08-14T11:45:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     }
   ]
 }

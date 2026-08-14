@@ -22,6 +22,7 @@ const ALLOWED_COMMAND_IDS = Object.freeze([
   'cmd.rtk.review.applyCommentLifecycleReturn',
   'cmd.rtk.review.applyMultiSceneFormattingReturn',
   'cmd.rtk.review.applyMultiSceneStructuralReturn',
+  'cmd.project.blackBox.exportManualCoreCapsuleKitV1',
 ]);
 
 const ALLOWED_COMMAND_ID_SET = new Set(ALLOWED_COMMAND_IDS);

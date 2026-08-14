@@ -11963,6 +11963,18 @@ function loadManualMapImportModule() {
   return manualMapImportModulePromise;
 }
 
+let blackBoxProductCommandModulePromise = null;
+function loadBlackBoxProductCommandModule() {
+  if (!blackBoxProductCommandModulePromise) {
+    const modulePath = pathToFileURL(path.join(__dirname, 'product', 'blackBoxProductCommandExportManualCoreV1.mjs')).href;
+    blackBoxProductCommandModulePromise = import(modulePath).catch((error) => {
+      blackBoxProductCommandModulePromise = null;
+      throw error;
+    });
+  }
+  return blackBoxProductCommandModulePromise;
+}
+
 let projectionInspectorModulePromise = null;
 function loadProjectionInspectorModule() {
   if (!projectionInspectorModulePromise) {
@@ -28997,6 +29009,72 @@ async function deriveManualMapGraphForProductCommand(binding, payload, commandId
   return { ok: true, value: { mapId, graph: derived.value } };
 }
 
+async function dispatchBlackBoxProductCommandBridge(commandId, payload = {}, record = null) {
+  const blackBoxModule = await loadBlackBoxProductCommandModule();
+  if (commandId !== blackBoxModule.BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_COMMAND_ID) {
+    return makeProductCommandBridgeError(
+      commandId,
+      'E_BLACK_BOX_PRODUCT_COMMAND_NOT_REGISTERED',
+      'BLACK_BOX_PRODUCT_COMMAND_NOT_REGISTERED',
+      {
+        commandAuthority: record?.commandAuthority || 'CommandKernel',
+        capabilityId: record?.capabilityId || '',
+        domain: record?.domain || 'blackBox',
+        mutationApplied: false,
+        storageWritten: false,
+      },
+    );
+  }
+
+  const productFlagEnabled = process.env.YALKEN_ENABLE_BLACK_BOX_MANUAL_CORE_CAPSULE_COMMAND_V1 === '1';
+  return blackBoxModule.executeBlackBoxProductCommandExportManualCoreV1(payload, {
+    ports: {
+      getFeatureFlags: async () => ({
+        'yalken.blackBox.coreSourceAdapter.p0aV1': productFlagEnabled,
+        'yalken.blackBox.darwinDurablePublisher.p0bV1': productFlagEnabled,
+        'yalken.blackBox.strictCapsuleRecover.p0cV1': productFlagEnabled,
+        'yalken.blackBox.manualCoreCapsuleKit.v1': productFlagEnabled,
+      }),
+      getExpectedSourceIdentity: async () => {
+        const { projectId, roots } = await buildProjectTreeRootsWithIdentitiesReadOnly();
+        const root = Array.isArray(roots) && roots.length > 0 ? roots[0] : {};
+        return {
+          projectId,
+          rootId: typeof root.rootId === 'string' && root.rootId ? root.rootId : 'project-root',
+          documentId: 'manuscript/core',
+          canonicalRevision: 'black-box-product-command-runtime-provider-not-configured',
+          workingRevision: 'black-box-product-command-runtime-provider-not-configured',
+          generation: 'black-box-product-command-runtime-provider-not-configured',
+        };
+      },
+      getProjectRoot: async () => getProjectRootPath(),
+      observeRevision: async (_phase, _request, expected) => ({
+        schemaVersion: 'yalken.blackBoxTrustedSourceSnapshot.revisionObservation.v1',
+        authority: {
+          decision: 'ALLOW',
+          mayWrite: false,
+          queryId: 'query.blackBoxProductCommandExportManualCore.readSourceSnapshot.v1',
+        },
+        projectId: expected.projectId,
+        rootId: expected.rootId,
+        documentId: expected.documentId,
+        canonicalRevision: expected.canonicalRevision,
+        workingRevision: expected.workingRevision,
+        generation: expected.generation,
+        dirtyState: 'UNKNOWN',
+      }),
+      getProviderPin: async () => null,
+      getAuditIdentity: async () => null,
+      getAgeProvider: async () => null,
+      selectCreateOnlyTarget: async () => ({
+        ok: false,
+        code: 'YALKEN_BLACK_BOX_PRODUCT_COMMAND_EXPORT_TARGET_PORT_NOT_CONFIGURED',
+        reason: 'BLACK_BOX_PRODUCT_COMMAND_TARGET_PORT_NOT_CONFIGURED',
+      }),
+    },
+  });
+}
+
 async function dispatchProductCommandBridge(commandId, payload = {}) {
   const record = getProductCommandRecord(commandId);
   if (!record) {
@@ -29045,6 +29123,10 @@ async function dispatchProductCommandBridge(commandId, payload = {}) {
         capabilityError: capability.error || null,
       },
     );
+  }
+
+  if (record.domain === 'blackBox') {
+    return dispatchBlackBoxProductCommandBridge(commandId, payload, record);
   }
 
   const canonicalAuthorCommand = Object.prototype.hasOwnProperty.call(PRODUCT_AUTHOR_DOMAIN_SCHEMAS, record.domain);

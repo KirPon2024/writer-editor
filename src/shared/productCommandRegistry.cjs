@@ -344,6 +344,15 @@ const PRODUCT_COMMAND_ROWS = Object.freeze([
     capabilityId: 'cap.stage10.collabApply.local',
     surface: ['review', 'product'],
   },
+  {
+    key: 'BLACK_BOX_EXPORT_MANUAL_CORE_CAPSULE_KIT',
+    id: 'cmd.project.blackBox.exportManualCoreCapsuleKitV1',
+    label: 'Export Black Box Manual CORE Capsule Kit',
+    group: 'blackBox',
+    domain: 'blackBox',
+    capabilityId: 'cap.blackBox.manualCoreCapsule.export',
+    surface: ['palette', 'product'],
+  },
 ].map((row) => Object.freeze({
   ...row,
   surface: Object.freeze(Array.isArray(row.surface) ? row.surface : ['palette', 'product']),
@@ -378,6 +387,7 @@ const PRODUCT_COMMAND_DOMAIN_STATUS = Object.freeze({
   idea: Object.freeze({ domain: 'idea', status: 'runtime-backed', commandIds: Object.freeze(PRODUCT_COMMAND_ID_LIST.filter((id) => id.startsWith('idea.'))) }),
   meaning: Object.freeze({ domain: 'meaning', status: 'runtime-backed', commandIds: Object.freeze(PRODUCT_COMMAND_ID_LIST.filter((id) => id.startsWith('meaning.'))) }),
   stage10: Object.freeze({ domain: 'stage10', status: 'runtime-backed', commandIds: Object.freeze(PRODUCT_COMMAND_ID_LIST.filter((id) => id.startsWith('cmd.comments.') || id.startsWith('cmd.collab.'))) }),
+  blackBox: Object.freeze({ domain: 'blackBox', status: 'runtime-backed-create-only-capsule', commandIds: Object.freeze(PRODUCT_COMMAND_ID_LIST.filter((id) => id.startsWith('cmd.project.blackBox.'))) }),
   plot: Object.freeze({
     domain: 'plot',
     status: 'degraded-no-runtime-mutating-command',

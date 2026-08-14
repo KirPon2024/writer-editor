@@ -11,6 +11,7 @@ const MODULE_PATH = path.join(REPO_ROOT, 'src', 'product', 'blackBoxProductComma
 const MODEL_PATH = path.join(REPO_ROOT, 'scripts', 'ops', 'black-box-product-command-export-manual-core-v1-model.mjs');
 const MAIN_PATH = path.join(REPO_ROOT, 'src', 'main.js');
 const RUNTIME_BINDING_PATH = path.join(REPO_ROOT, 'src', 'main', 'blackBoxRuntimeProviderAuditBindingV1.cjs');
+const RUNTIME_SOURCE_BINDING_PATH = path.join(REPO_ROOT, 'src', 'main', 'blackBoxRuntimeSourceRevisionBindingV1.cjs');
 const COMMAND_ID = 'cmd.project.blackBox.exportManualCoreCapsuleKitV1';
 const CAPABILITY_ID = 'cap.blackBox.manualCoreCapsule.export';
 
@@ -36,6 +37,39 @@ function digest(char) {
 
 function sha256Bytes(bytes) {
   return `sha256:${crypto.createHash('sha256').update(Buffer.from(bytes)).digest('hex')}`;
+}
+
+function makeRuntimeSourceProjectFixture() {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-runtime-source-revision-'));
+  fs.mkdirSync(path.join(root, 'scenes'), { recursive: true });
+  const manifest = {
+    schemaVersion: 'yalken.syntheticProjectManifest.v1',
+    projectId: 'project-runtime-source',
+    rootId: 'root-runtime-source',
+    sceneOrder: ['scene-001', 'scene-002'],
+    scenes: {
+      'scene-001': { title: 'Opening', bindingKey: 'file:scenes/scene-001.txt' },
+      'scene-002': { title: 'Turn', bindingKey: 'file:scenes/scene-002.txt' },
+    },
+    notesOrder: ['project-notes'],
+    notes: {
+      'project-notes': { title: 'Notes', bindingKey: 'file:notes.craftsman.json' },
+    },
+    historyOrder: [],
+  };
+  fs.writeFileSync(path.join(root, 'project.craftsman.json'), JSON.stringify(manifest, null, 2), 'utf8');
+  fs.writeFileSync(path.join(root, 'scenes', 'scene-001.txt'), 'Opening line.\nSecond line.', 'utf8');
+  fs.writeFileSync(path.join(root, 'scenes', 'scene-002.txt'), 'A later scene.', 'utf8');
+  fs.writeFileSync(path.join(root, 'notes.craftsman.json'), '{"notes":[{"body":"Keep the signal."}]}', 'utf8');
+  return {
+    root,
+    manifest,
+    projectTree: {
+      projectId: manifest.projectId,
+      roots: [{ rootId: manifest.rootId }],
+    },
+    cleanup: () => fs.rmSync(root, { recursive: true, force: true }),
+  };
 }
 
 function makeRuntimeProviderFixture() {
@@ -374,11 +408,15 @@ test('F3 Black Box product command v1 main runtime bridge keeps complete trusted
     assert.match(bridgeSource, new RegExp(`\\b${portName}\\s*:`, 'u'), `missing trusted runtime port ${portName}`);
   }
   assert.match(mainSource, /blackBoxRuntimeProviderAuditBindingV1\.cjs/u);
+  assert.match(mainSource, /blackBoxRuntimeSourceRevisionBindingV1\.cjs/u);
   assert.match(bridgeSource, /getRuntimeProviderAuditBinding/u);
+  assert.match(bridgeSource, /getRuntimeSourceRevisionBinding/u);
   assert.match(bridgeSource, /getProviderPin:\s*async\s*\(\)\s*=>\s*\(await\s+getRuntimeProviderAuditBinding\(\)\)\.providerPin/u);
   assert.match(bridgeSource, /getAuditRecipient:\s*async\s*\(\)\s*=>\s*\(await\s+getRuntimeProviderAuditBinding\(\)\)\.auditRecipient/u);
   assert.match(bridgeSource, /getAuditIdentity:\s*async\s*\(\)\s*=>\s*\(await\s+getRuntimeProviderAuditBinding\(\)\)\.auditIdentity/u);
   assert.match(bridgeSource, /getAgeProvider:\s*async\s*\(\)\s*=>\s*\(await\s+getRuntimeProviderAuditBinding\(\)\)\.ageProvider/u);
+  assert.doesNotMatch(bridgeSource, /black-box-product-command-runtime-provider-not-configured/u);
+  assert.doesNotMatch(bridgeSource, /dirtyState:\s*'UNKNOWN'/u);
   assert.doesNotMatch(bridgeSource, /getProviderPin:\s*async\s*\(\)\s*=>\s*null/u);
   assert.doesNotMatch(bridgeSource, /getAuditRecipient:\s*async\s*\(\)\s*=>\s*null/u);
   assert.doesNotMatch(bridgeSource, /getAuditIdentity:\s*async\s*\(\)\s*=>\s*null/u);
@@ -387,6 +425,90 @@ test('F3 Black Box product command v1 main runtime bridge keeps complete trusted
   assert.doesNotMatch(bridgeSource, /secretKeyBase64\s*:/u);
   assert.doesNotMatch(bridgeSource, /dialog\.showSaveDialog/u);
   assert.doesNotMatch(bridgeSource, /writeFileAtomic/u);
+});
+
+test('F3 Black Box runtime source revision binding v1 computes exact clean source observations and rejects drift', () => {
+  const sourceBinding = require(RUNTIME_SOURCE_BINDING_PATH);
+  const fixture = makeRuntimeSourceProjectFixture();
+  try {
+    const clean = sourceBinding.createBlackBoxRuntimeSourceRevisionBindingV1({
+      projectRoot: fixture.root,
+      projectTree: fixture.projectTree,
+      isDirty: false,
+      autoSaveInProgress: false,
+    });
+    assert.equal(clean.ok, true);
+    assert.equal(clean.expected.projectId, fixture.manifest.projectId);
+    assert.equal(clean.expected.rootId, fixture.manifest.rootId);
+    assert.equal(clean.expected.documentId, 'black-box-core');
+    assert.match(clean.expected.canonicalRevision, /^sha256:[a-f0-9]{64}$/u);
+    assert.equal(clean.expected.canonicalRevision, clean.expected.workingRevision);
+    assert.equal(clean.expected.canonicalRevision, clean.expected.generation);
+
+    const before = clean.observeRevision({ phase: 'before', expected: clean.expected });
+    assert.equal(before.authority.decision, 'ALLOW');
+    assert.equal(before.authority.mayWrite, false);
+    assert.equal(before.dirtyState, 'CLEAN');
+    assert.equal(before.canonicalRevision, clean.expected.canonicalRevision);
+
+    fs.writeFileSync(path.join(fixture.root, 'scenes', 'scene-002.txt'), 'A changed later scene.', 'utf8');
+    const after = clean.observeRevision({ phase: 'after', expected: clean.expected });
+    assert.equal(after.dirtyState, 'CLEAN');
+    assert.notEqual(after.canonicalRevision, clean.expected.canonicalRevision);
+  } finally {
+    fixture.cleanup();
+  }
+});
+
+test('F3 Black Box runtime source revision binding v1 denies dirty, missing manifest and path traversal source', () => {
+  const sourceBinding = require(RUNTIME_SOURCE_BINDING_PATH);
+  const dirtyFixture = makeRuntimeSourceProjectFixture();
+  try {
+    const dirty = sourceBinding.createBlackBoxRuntimeSourceRevisionBindingV1({
+      projectRoot: dirtyFixture.root,
+      projectTree: dirtyFixture.projectTree,
+      isDirty: true,
+      autoSaveInProgress: false,
+    });
+    assert.equal(dirty.ok, false);
+    assert.equal(dirty.observeRevision({ phase: 'before', expected: dirty.expected }).dirtyState, 'DIRTY');
+  } finally {
+    dirtyFixture.cleanup();
+  }
+
+  const missingManifest = makeRuntimeSourceProjectFixture();
+  try {
+    fs.rmSync(path.join(missingManifest.root, 'project.craftsman.json'));
+    const missing = sourceBinding.createBlackBoxRuntimeSourceRevisionBindingV1({
+      projectRoot: missingManifest.root,
+      projectTree: missingManifest.projectTree,
+    });
+    assert.equal(missing.ok, false);
+    assert.equal(missing.observeRevision({ phase: 'before', expected: missing.expected }).authority.decision, 'UNKNOWN');
+    assert.equal(missing.observeRevision({ phase: 'before', expected: missing.expected }).dirtyState, 'UNKNOWN');
+  } finally {
+    missingManifest.cleanup();
+  }
+
+  const traversal = makeRuntimeSourceProjectFixture();
+  try {
+    const manifest = {
+      ...traversal.manifest,
+      scenes: {
+        ...traversal.manifest.scenes,
+        'scene-001': { title: 'Traversal', bindingKey: 'file:../outside.txt' },
+      },
+    };
+    fs.writeFileSync(path.join(traversal.root, 'project.craftsman.json'), JSON.stringify(manifest, null, 2), 'utf8');
+    const unsafe = sourceBinding.createBlackBoxRuntimeSourceRevisionBindingV1({
+      projectRoot: traversal.root,
+      projectTree: traversal.projectTree,
+    });
+    assert.equal(unsafe.ok, false);
+    assert.equal(unsafe.observeRevision({ phase: 'before', expected: unsafe.expected }).authority.decision, 'UNKNOWN');
+  } finally {
+    traversal.cleanup();
+  }
 });
 
 test('F3 Black Box runtime provider/audit binding v1 builds exact trusted ports from explicit synthetic config', async () => {
@@ -648,9 +770,9 @@ test('F3 Black Box product command v1 model/oracle rejects UNKNOWN and all seman
   const result = model.evaluateBlackBoxProductCommandExportManualCoreV1Model();
 
   assert.equal(result.ok, true, JSON.stringify(result, null, 2));
-  assert.equal(result.finiteCases, 43);
-  assert.equal(result.hostileCases, 23);
-  assert.equal(result.semanticMutants, 19);
+  assert.equal(result.finiteCases, 47);
+  assert.equal(result.hostileCases, 26);
+  assert.equal(result.semanticMutants, 22);
   assert.equal(result.survivors, 0);
   assert.deepEqual(result.survivorNames, []);
   assert.equal(result.skips, 0);

@@ -44,6 +44,10 @@ const FINITE_CASES = Object.freeze([
   ['main-runtime-provider-audit-binding-valid-target-not-configured', 'DENY'],
   ['main-runtime-provider-digest-mismatch', 'DENY'],
   ['main-runtime-audit-identity-mismatch', 'DENY'],
+  ['main-runtime-source-revision-clean-target-not-configured', 'DENY'],
+  ['main-runtime-source-revision-drift', 'DENY'],
+  ['main-runtime-source-revision-dirty', 'DENY'],
+  ['main-runtime-source-revision-missing-manifest', 'DENY'],
 ]);
 
 const HOSTILE_CASES = Object.freeze([
@@ -70,6 +74,9 @@ const HOSTILE_CASES = Object.freeze([
   'main-runtime-omits-auditRecipient-port',
   'main-runtime-forged-provider-root',
   'main-runtime-provider-audit-secret-leak',
+  'main-runtime-placeholder-revision',
+  'main-runtime-source-revision-path-traversal',
+  'main-runtime-source-revision-drift-to-pass',
 ]);
 
 const SEMANTIC_MUTANTS = Object.freeze([
@@ -92,6 +99,9 @@ const SEMANTIC_MUTANTS = Object.freeze([
   'M17_TRUST_UNVERIFIED_RUNTIME_PROVIDER_ROOT',
   'M18_ACCEPT_RUNTIME_AUDIT_IDENTITY_MISMATCH',
   'M19_PROMOTE_RUNTIME_BINDING_TO_FULL_EXPORT',
+  'M20_KEEP_PLACEHOLDER_RUNTIME_SOURCE_REVISION',
+  'M21_ACCEPT_RUNTIME_DIRTY_SOURCE',
+  'M22_ACCEPT_RUNTIME_SOURCE_REVISION_DRIFT',
 ]);
 
 function oracle(caseName, expected) {
@@ -142,6 +152,14 @@ function mutantKilled(mutant) {
     case 'M19_PROMOTE_RUNTIME_BINDING_TO_FULL_EXPORT':
       return FINITE_CASES.some(([name, expected]) => name === 'main-runtime-provider-audit-binding-valid-target-not-configured' && expected === 'DENY')
         && HOSTILE_CASES.includes('main-runtime-provider-audit-secret-leak');
+    case 'M20_KEEP_PLACEHOLDER_RUNTIME_SOURCE_REVISION':
+      return HOSTILE_CASES.includes('main-runtime-placeholder-revision')
+        && FINITE_CASES.some(([name, expected]) => name === 'main-runtime-source-revision-clean-target-not-configured' && expected === 'DENY');
+    case 'M21_ACCEPT_RUNTIME_DIRTY_SOURCE':
+      return FINITE_CASES.some(([name, expected]) => name === 'main-runtime-source-revision-dirty' && expected === 'DENY');
+    case 'M22_ACCEPT_RUNTIME_SOURCE_REVISION_DRIFT':
+      return HOSTILE_CASES.includes('main-runtime-source-revision-drift-to-pass')
+        && FINITE_CASES.some(([name, expected]) => name === 'main-runtime-source-revision-drift' && expected === 'DENY');
     default:
       return false;
   }

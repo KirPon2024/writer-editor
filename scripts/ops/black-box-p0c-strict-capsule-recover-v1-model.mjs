@@ -85,6 +85,20 @@ const identity = Object.freeze({
   fingerprint: recipient.fingerprint,
 });
 
+const auditRecipient = Object.freeze({
+  schemaVersion: BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_SCHEMAS.recipient,
+  type: 'AGE_X25519_RECIPIENT',
+  publicKey: 'age1auditqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqv24tsp',
+  fingerprint: `sha256:${'5'.repeat(64)}`,
+});
+
+const auditIdentity = Object.freeze({
+  schemaVersion: BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_SCHEMAS.identity,
+  type: 'AGE_X25519_IDENTITY',
+  secretKeyBase64: toBase64('AGE-SECRET-KEY-1AUDITQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQVGX9A'),
+  fingerprint: auditRecipient.fingerprint,
+});
+
 const corePayload = Object.freeze({
   schemaVersion: BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_SCHEMAS.corePayload,
   type: 'BLACK_BOX_CORE_GENOME_V1',
@@ -143,15 +157,15 @@ function makeProvider(overrides = {}) {
   };
   return {
     probe: async () => observation,
-    encrypt: async ({ plaintextBytes }) => {
-      if (overrides.encrypt) return overrides.encrypt({ plaintextBytes });
+    encrypt: async ({ plaintextBytes, recipient: suppliedRecipient, recipients }) => {
+      if (overrides.encrypt) return overrides.encrypt({ plaintextBytes, recipient: suppliedRecipient, recipients });
       const body = Buffer.concat([Buffer.from('AGE-FAKE-X25519:'), Buffer.from(plaintextBytes)]);
       const tag = crypto.createHash('sha256').update(body).digest('hex');
       return { ok: true, ciphertextBytes: Buffer.concat([body, Buffer.from(`:${tag}`)]) };
     },
     decrypt: async ({ ciphertextBytes, identity: suppliedIdentity }) => {
       if (overrides.decrypt) return overrides.decrypt({ ciphertextBytes, identity: suppliedIdentity });
-      if (suppliedIdentity.fingerprint !== recipient.fingerprint) return { ok: false, code: 'FAKE_NO_MATCH' };
+      if (![recipient.fingerprint, auditRecipient.fingerprint].includes(suppliedIdentity.fingerprint)) return { ok: false, code: 'FAKE_NO_MATCH' };
       const text = Buffer.from(ciphertextBytes).toString('utf8');
       if (!text.startsWith('AGE-FAKE-X25519:')) return { ok: false, code: 'FAKE_HEADER' };
       const split = text.lastIndexOf(':');
@@ -172,18 +186,21 @@ function makeProvider(overrides = {}) {
 
 function makeBuildRequest(overrides = {}) {
   const binding = overrides.sourceBinding || sourceBinding;
-  return {
+  const request = {
     schemaVersion: BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_SCHEMAS.buildRequest,
     featureFlags: overrides.featureFlags ?? { [BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_FEATURE_FLAG]: true },
     providerPin: overrides.providerPin || providerPin,
     sourceBinding: binding,
     sourceFence: overrides.sourceFence || makeFence(binding, overrides.currentSourceBinding || currentSourceBinding, overrides.authority),
-    auditIdentity: overrides.auditIdentity || identity,
+    auditIdentity: overrides.auditIdentity || auditIdentity,
+    auditRecipient: overrides.auditRecipient || auditRecipient,
     recipient: overrides.recipient || recipient,
     corePayload: overrides.corePayload || corePayload,
     expectations: overrides.expectations || expectations,
     ...(overrides.extraRequestFields || {}),
   };
+  if (overrides.omitAuditRecipient) delete request.auditRecipient;
+  return request;
 }
 
 function makeRecoverRequest(capsule, overrides = {}) {
@@ -254,6 +271,23 @@ for (const feature of bools) {
 
 const baseline = await buildBlackBoxStrictCapsuleV1(makeBuildRequest(), { ageProvider: makeProvider() });
 if (!baseline.ok) throw new Error(`BASELINE_BUILD_FAILED:${baseline.code}`);
+if (baseline.capsule.manifest.recipientFingerprint !== recipient.fingerprint) throw new Error('BASELINE_OWNER_RECIPIENT_NOT_PRESERVED');
+if (baseline.capsule.manifest.auditRecipientFingerprint !== auditRecipient.fingerprint) throw new Error('BASELINE_AUDIT_RECIPIENT_NOT_BOUND');
+let observedRecipientList = '';
+const recipientListBound = await buildBlackBoxStrictCapsuleV1(makeBuildRequest(), {
+  ageProvider: makeProvider({
+    encrypt: async ({ plaintextBytes, recipients }) => {
+      observedRecipientList = Array.isArray(recipients) ? recipients.map((item) => item.fingerprint).join('|') : '';
+      if (observedRecipientList !== `${recipient.fingerprint}|${auditRecipient.fingerprint}`) {
+        return { ok: false, code: 'MODEL_RECIPIENT_LIST_NOT_BOUND' };
+      }
+      const body = Buffer.concat([Buffer.from('AGE-FAKE-X25519:'), Buffer.from(plaintextBytes)]);
+      const tag = crypto.createHash('sha256').update(body).digest('hex');
+      return { ok: true, ciphertextBytes: Buffer.concat([body, Buffer.from(`:${tag}`)]) };
+    },
+  }),
+});
+if (!recipientListBound.ok) throw new Error(`RECIPIENT_LIST_BINDING_FAILED:${recipientListBound.code}:${observedRecipientList}`);
 let sinkDeliveries = 0;
 const baselineSinkRecover = await recoverBlackBoxStrictCapsuleV1(makeRecoverRequest(baseline.capsule), {
   ageProvider: makeProvider(),
@@ -289,9 +323,13 @@ const hostileCases = [
   ['authority-abstain', () => buildBlackBoxStrictCapsuleV1(makeBuildRequest({ authority: { commandId: 'read-source-snapshot-black-box-p0c', decision: 'ABSTAIN', mayWrite: false } }), { ageProvider: makeProvider() })],
   ['authority-maywrite', () => buildBlackBoxStrictCapsuleV1(makeBuildRequest({ authority: { commandId: 'read-source-snapshot-black-box-p0c', decision: 'ALLOW', mayWrite: true } }), { ageProvider: makeProvider() })],
   ['unknown-key', () => buildBlackBoxStrictCapsuleV1(makeBuildRequest({ extraRequestFields: { extra: true } }), { ageProvider: makeProvider() })],
+  ['missing-audit-recipient', () => buildBlackBoxStrictCapsuleV1(makeBuildRequest({ omitAuditRecipient: true }), { ageProvider: makeProvider() })],
+  ['same-owner-audit-recipient', () => buildBlackBoxStrictCapsuleV1(makeBuildRequest({ auditRecipient: recipient, auditIdentity: identity }), { ageProvider: makeProvider() })],
+  ['audit-identity-mismatch', () => buildBlackBoxStrictCapsuleV1(makeBuildRequest({ auditIdentity: { ...auditIdentity, fingerprint: `sha256:${'6'.repeat(64)}` } }), { ageProvider: makeProvider() })],
   ['transplant', () => recoverBlackBoxStrictCapsuleV1(makeRecoverRequest({ ...baseline.capsule, sourceBinding: { ...baseline.capsule.sourceBinding, rootId: 'other-root' } }), { ageProvider: makeProvider() })],
   ['replay', () => recoverBlackBoxStrictCapsuleV1(makeRecoverRequest(baseline.capsule, { expectedSourceBinding: { ...sourceBinding, workingRevision: 'work-replayed' } }), { ageProvider: makeProvider() })],
   ['wrong-identity', () => recoverBlackBoxStrictCapsuleV1(makeRecoverRequest(baseline.capsule, { identity: { ...identity, fingerprint: `sha256:${'3'.repeat(64)}` } }), { ageProvider: makeProvider() })],
+  ['audit-identity-not-recovery-authority', () => recoverBlackBoxStrictCapsuleV1(makeRecoverRequest(baseline.capsule, { identity: auditIdentity }), { ageProvider: makeProvider() })],
   ['tamper-ciphertext', () => recoverBlackBoxStrictCapsuleV1(makeRecoverRequest({ ...baseline.capsule, ciphertext: { ...baseline.capsule.ciphertext, bytesBase64: toBase64('tampered'), byteLength: Buffer.byteLength('tampered'), sha256: sha256Buffer(Buffer.from('tampered')) } }), { ageProvider: makeProvider() })],
   ['overwrite-policy', () => recoverBlackBoxStrictCapsuleV1(makeRecoverRequest(baseline.capsule, { expectations: { ...expectations, liveProjectOverwrite: true } }), { ageProvider: makeProvider() })],
   ['sink-rejects', () => recoverBlackBoxStrictCapsuleV1(makeRecoverRequest(baseline.capsule), { ageProvider: makeProvider(), recoveredCorePayloadSink: async () => ({ ok: false, code: 'MODEL_SINK_DENY' }) })],
@@ -316,6 +354,9 @@ const semanticMutants = [
   ['omit-generation', () => buildBlackBoxStrictCapsuleV1(makeBuildRequest({ currentSourceBinding: { ...currentSourceBinding, generation: 'stale' } }), { ageProvider: makeProvider() })],
   ['omit-authority-maywrite', () => buildBlackBoxStrictCapsuleV1(makeBuildRequest({ authority: { commandId: 'read-source-snapshot-black-box-p0c', decision: 'ALLOW', mayWrite: true } }), { ageProvider: makeProvider() })],
   ['omit-dirty-policy', () => buildBlackBoxStrictCapsuleV1(makeBuildRequest({ currentSourceBinding: { ...currentSourceBinding, dirtyState: 'DIRTY' } }), { ageProvider: makeProvider() })],
+  ['omit-audit-recipient-required', () => buildBlackBoxStrictCapsuleV1(makeBuildRequest({ omitAuditRecipient: true }), { ageProvider: makeProvider() })],
+  ['allow-owner-audit-recipient-collapse', () => buildBlackBoxStrictCapsuleV1(makeBuildRequest({ auditRecipient: recipient, auditIdentity: identity }), { ageProvider: makeProvider() })],
+  ['allow-audit-identity-recovery', () => recoverBlackBoxStrictCapsuleV1(makeRecoverRequest(baseline.capsule, { identity: auditIdentity }), { ageProvider: makeProvider() })],
   ['omit-manifest-source-binding', () => recoverBlackBoxStrictCapsuleV1(makeRecoverRequest({ ...baseline.capsule, sourceBinding: { ...baseline.capsule.sourceBinding, documentId: 'other/core' } }), { ageProvider: makeProvider() })],
   ['omit-manifest-ciphertext', () => recoverBlackBoxStrictCapsuleV1(makeRecoverRequest({ ...baseline.capsule, ciphertext: { ...baseline.capsule.ciphertext, bytesBase64: toBase64('tampered'), byteLength: Buffer.byteLength('tampered'), sha256: sha256Buffer(Buffer.from('tampered')) } }), { ageProvider: makeProvider() })],
   ['omit-identity-check', () => recoverBlackBoxStrictCapsuleV1(makeRecoverRequest(baseline.capsule, { identity: { ...identity, fingerprint: `sha256:${'4'.repeat(64)}` } }), { ageProvider: makeProvider() })],
@@ -349,6 +390,10 @@ const report = {
   skips: 0,
   controls: {
     validBuildAndRecoverPasses: baseline.ok === true,
+    ownerRecipientPreserved: baseline.capsule.manifest.recipientFingerprint === recipient.fingerprint,
+    auditRecipientBound: baseline.capsule.manifest.auditRecipientFingerprint === auditRecipient.fingerprint,
+    providerRecipientListBound: recipientListBound.ok === true,
+    auditIdentityNotRecoveryAuthority: true,
     providerMismatchIsNotPass: true,
     staleSourceIsNotPass: true,
     tamperIsNotPass: true,

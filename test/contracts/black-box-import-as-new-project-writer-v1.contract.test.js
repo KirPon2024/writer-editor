@@ -70,7 +70,7 @@ function makeProviderPin(p0c) {
   });
 }
 
-function makeProvider(providerPin, recipient, overrides = {}) {
+function makeProvider(providerPin, recipients, overrides = {}) {
   const calls = { probe: 0, encrypt: 0, decrypt: 0, inspect: 0 };
   return {
     calls,
@@ -95,8 +95,9 @@ function makeProvider(providerPin, recipient, overrides = {}) {
         ...(overrides.observation || {}),
       };
     },
-    encrypt: async ({ plaintextBytes }) => {
+    encrypt: async ({ plaintextBytes, recipient, recipients: suppliedRecipients }) => {
       calls.encrypt += 1;
+      if (overrides.encrypt) return overrides.encrypt({ plaintextBytes, recipient, recipients: suppliedRecipients });
       const body = Buffer.concat([Buffer.from('AGE-FAKE-X25519:'), Buffer.from(plaintextBytes)]);
       const tag = crypto.createHash('sha256').update(body).digest('hex');
       return { ok: true, ciphertextBytes: Buffer.concat([body, Buffer.from(`:${tag}`)]) };
@@ -104,7 +105,7 @@ function makeProvider(providerPin, recipient, overrides = {}) {
     decrypt: async ({ ciphertextBytes, identity }) => {
       calls.decrypt += 1;
       if (overrides.decrypt) return overrides.decrypt({ ciphertextBytes, identity });
-      if (identity.fingerprint !== recipient.fingerprint) return { ok: false, code: 'FAKE_NO_MATCH' };
+      if (!recipients.some((item) => item.fingerprint === identity.fingerprint)) return { ok: false, code: 'FAKE_NO_MATCH' };
       const text = Buffer.from(ciphertextBytes).toString('utf8');
       if (!text.startsWith('AGE-FAKE-X25519:')) return { ok: false, code: 'FAKE_HEADER_TAMPERED' };
       const split = text.lastIndexOf(':');
@@ -205,6 +206,18 @@ async function makeFixture(writer, p0c, overrides = {}) {
     secretKeyBase64: toBase64('AGE-SECRET-KEY-1QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQVXH5Q'),
     fingerprint: recipient.fingerprint,
   });
+  const auditRecipient = Object.freeze({
+    schemaVersion: p0c.BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_SCHEMAS.recipient,
+    type: 'AGE_X25519_RECIPIENT',
+    publicKey: 'age1auditqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqv24tsp',
+    fingerprint: 'sha256:5555555555555555555555555555555555555555555555555555555555555555',
+  });
+  const auditIdentity = Object.freeze({
+    schemaVersion: p0c.BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_SCHEMAS.identity,
+    type: 'AGE_X25519_IDENTITY',
+    secretKeyBase64: toBase64('AGE-SECRET-KEY-1AUDITQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQVGX9A'),
+    fingerprint: auditRecipient.fingerprint,
+  });
   const genome = makeCoreGenome(sourceBinding, overrides.genomeOverrides || {});
   const genomeBytes = Buffer.from(stableJson(genome), 'utf8');
   const corePayload = Object.freeze({
@@ -242,14 +255,15 @@ async function makeFixture(writer, p0c, overrides = {}) {
     },
     fence: p0c.createBlackBoxP0cSourceFenceTokenV1(sourceBinding),
   };
-  const buildProvider = makeProvider(providerPin, recipient);
+  const buildProvider = makeProvider(providerPin, [recipient, auditRecipient]);
   const built = await p0c.buildBlackBoxStrictCapsuleV1({
     schemaVersion: p0c.BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_SCHEMAS.buildRequest,
     featureFlags: { [p0c.BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_FEATURE_FLAG]: true },
     providerPin,
     sourceBinding,
     sourceFence,
-    auditIdentity: identity,
+    auditIdentity,
+    auditRecipient,
     recipient,
     corePayload,
     expectations: {
@@ -314,8 +328,10 @@ async function makeFixture(writer, p0c, overrides = {}) {
     built,
     corePayload,
     genome,
+    auditIdentity,
+    auditRecipient,
     identity,
-    makeProvider: (providerOverrides = {}) => makeProvider(providerPin, recipient, providerOverrides),
+    makeProvider: (providerOverrides = {}) => makeProvider(providerPin, [recipient, auditRecipient], providerOverrides),
     makeRequest,
     providerPin,
     recipient,

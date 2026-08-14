@@ -88,6 +88,18 @@ function makeFixture(module) {
     secretKeyBase64: toBase64('AGE-SECRET-KEY-1QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQVXH5Q'),
     fingerprint: recipient.fingerprint,
   });
+  const auditRecipient = Object.freeze({
+    schemaVersion: module.BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_SCHEMAS.recipient,
+    type: 'AGE_X25519_RECIPIENT',
+    publicKey: 'age1auditqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqv24tsp',
+    fingerprint: 'sha256:5555555555555555555555555555555555555555555555555555555555555555',
+  });
+  const auditIdentity = Object.freeze({
+    schemaVersion: module.BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_SCHEMAS.identity,
+    type: 'AGE_X25519_IDENTITY',
+    secretKeyBase64: toBase64('AGE-SECRET-KEY-1AUDITQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQVGX9A'),
+    fingerprint: auditRecipient.fingerprint,
+  });
   const corePayload = Object.freeze({
     schemaVersion: module.BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_SCHEMAS.corePayload,
     type: 'BLACK_BOX_CORE_GENOME_V1',
@@ -146,15 +158,15 @@ function makeFixture(module) {
     };
     return {
       probe: async () => observation,
-      encrypt: async ({ plaintextBytes }) => {
-        if (overrides.encrypt) return overrides.encrypt({ plaintextBytes });
+      encrypt: async ({ plaintextBytes, recipient: suppliedRecipient, recipients }) => {
+        if (overrides.encrypt) return overrides.encrypt({ plaintextBytes, recipient: suppliedRecipient, recipients });
         const body = Buffer.concat([Buffer.from('AGE-FAKE-X25519:'), Buffer.from(plaintextBytes)]);
         const tag = crypto.createHash('sha256').update(body).digest('hex');
         return { ok: true, ciphertextBytes: Buffer.concat([body, Buffer.from(`:${tag}`)]) };
       },
       decrypt: async ({ ciphertextBytes, identity: suppliedIdentity }) => {
         if (overrides.decrypt) return overrides.decrypt({ ciphertextBytes, identity: suppliedIdentity });
-        if (suppliedIdentity.fingerprint !== recipient.fingerprint) {
+        if (![recipient.fingerprint, auditRecipient.fingerprint].includes(suppliedIdentity.fingerprint)) {
           return { ok: false, code: 'FAKE_NO_MATCH' };
         }
         const text = Buffer.from(ciphertextBytes).toString('utf8');
@@ -184,7 +196,8 @@ function makeFixture(module) {
       providerPin,
       sourceBinding: binding,
       sourceFence: makeFence(binding, overrides.currentSourceBinding || currentSourceBinding, overrides.authority),
-      auditIdentity: identity,
+      auditIdentity: overrides.auditIdentity || auditIdentity,
+      auditRecipient: overrides.auditRecipient || auditRecipient,
       recipient,
       corePayload,
       expectations: overrides.expectations || expectations,
@@ -208,6 +221,8 @@ function makeFixture(module) {
   return {
     corePayload,
     currentSourceBinding,
+    auditIdentity,
+    auditRecipient,
     expectations,
     identity,
     makeBuildRequest,
@@ -236,6 +251,7 @@ test('builds and recovers one ciphertext-bound synthetic age X25519 capsule with
     providerPinDigest: built.capsule.manifest.providerPinDigest,
     sourceBindingDigest: built.capsule.manifest.sourceBindingDigest,
     recipientFingerprint: built.capsule.manifest.recipientFingerprint,
+    auditRecipientFingerprint: built.capsule.manifest.auditRecipientFingerprint,
     corePayloadSha256: built.capsule.manifest.corePayloadSha256,
     plaintextSha256: built.capsule.manifest.plaintextSha256,
     ciphertextSha256: built.capsule.manifest.ciphertextSha256,
@@ -252,6 +268,51 @@ test('builds and recovers one ciphertext-bound synthetic age X25519 capsule with
   assert.equal(recovered.recoverPlan.quarantine.status, 'QUARANTINED_PREVIEW_READY');
   assert.equal(recovered.recoverPlan.sourceBinding.sourceSetDigest, fixture.sourceBinding.sourceSetDigest);
   assert.doesNotMatch(JSON.stringify(recovered.receipt), /AGE-SECRET-KEY|bytesBase64|"synthetic"|BLACK_BOX_CORE_GENOME_V1/iu);
+});
+
+test('encrypts each build capsule to distinct owner recovery and per-build audit recipients without requiring the owner private key inside Builder', async () => {
+  const module = await loadModule();
+  const fixture = makeFixture(module);
+  const encryptedRecipients = [];
+  const decryptedIdentities = [];
+  const built = await module.buildBlackBoxStrictCapsuleV1(fixture.makeBuildRequest({
+    auditRecipient: fixture.auditRecipient,
+    auditIdentity: fixture.auditIdentity,
+  }), {
+    ageProvider: fixture.makeProvider({
+      encrypt: async ({ plaintextBytes, recipient, recipients }) => {
+        assert.equal(recipient, undefined);
+        assert.deepEqual(recipients.map((item) => item.fingerprint), [
+          fixture.recipient.fingerprint,
+          fixture.auditRecipient.fingerprint,
+        ]);
+        encryptedRecipients.push(...recipients.map((item) => item.fingerprint));
+        const body = Buffer.concat([Buffer.from(`AGE-FAKE-X25519:${recipients.map((item) => item.fingerprint).join(',')}:`), Buffer.from(plaintextBytes)]);
+        const tag = crypto.createHash('sha256').update(body).digest('hex');
+        return { ok: true, ciphertextBytes: Buffer.concat([body, Buffer.from(`:${tag}`)]) };
+      },
+      decrypt: async ({ ciphertextBytes, identity }) => {
+        decryptedIdentities.push(identity.fingerprint);
+        assert.equal(identity.fingerprint, fixture.auditRecipient.fingerprint);
+        const text = Buffer.from(ciphertextBytes).toString('utf8');
+        assert.match(text, new RegExp(fixture.recipient.fingerprint.replace('sha256:', 'sha256:'), 'u'));
+        assert.match(text, new RegExp(fixture.auditRecipient.fingerprint.replace('sha256:', 'sha256:'), 'u'));
+        const split = text.lastIndexOf(':');
+        return { ok: true, plaintextBytes: Buffer.from(text.slice(text.indexOf(':{') + 1, split), 'utf8') };
+      },
+    }),
+  });
+
+  assert.equal(built.ok, true);
+  assert.equal(built.decision, 'PASS');
+  assert.deepEqual(encryptedRecipients, [fixture.recipient.fingerprint, fixture.auditRecipient.fingerprint]);
+  assert.deepEqual(decryptedIdentities, [fixture.auditRecipient.fingerprint]);
+  assert.equal(built.capsule.recipient.fingerprint, fixture.recipient.fingerprint);
+  assert.equal(built.capsule.manifest.recipientFingerprint, fixture.recipient.fingerprint);
+  assert.equal(built.capsule.manifest.auditRecipientFingerprint, fixture.auditRecipient.fingerprint);
+  assert.equal(built.receipt.recipientFingerprint, fixture.recipient.fingerprint);
+  assert.equal(built.receipt.auditRecipientFingerprint, fixture.auditRecipient.fingerprint);
+  assert.doesNotMatch(JSON.stringify(built.receipt), /AGE-SECRET-KEY|bytesBase64|"synthetic"|BLACK_BOX_CORE_GENOME_V1/iu);
 });
 
 test('delivers verified recovered CORE bytes only to an ephemeral sink and never to result or receipt', async () => {
@@ -447,7 +508,13 @@ test('rejects wrong identity key during recover and keeps recovery import-as-new
     identity: { ...fixture.identity, fingerprint: 'sha256:3333333333333333333333333333333333333333333333333333333333333333' },
   }), { ageProvider: fixture.makeProvider() });
   assert.equal(wrong.ok, false);
-  assert.equal(wrong.code, module.BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.PROVIDER_DECRYPT_FAILED);
+  assert.equal(wrong.code, module.BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.FIELD_INVALID);
+
+  const auditIdentityAsRecovery = await module.recoverBlackBoxStrictCapsuleV1(fixture.makeRecoverRequest(built.capsule, {
+    identity: fixture.auditIdentity,
+  }), { ageProvider: fixture.makeProvider() });
+  assert.equal(auditIdentityAsRecovery.ok, false);
+  assert.equal(auditIdentityAsRecovery.code, module.BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.FIELD_INVALID);
 
   const overwrite = await module.recoverBlackBoxStrictCapsuleV1(fixture.makeRecoverRequest(built.capsule, {
     expectations: { ...fixture.expectations, liveProjectOverwrite: true },

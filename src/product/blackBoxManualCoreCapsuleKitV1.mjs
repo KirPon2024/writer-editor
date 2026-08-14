@@ -42,6 +42,7 @@ export const BLACK_BOX_MANUAL_CORE_CAPSULE_KIT_V1_CODES = Object.freeze({
 
 const REQUEST_KEYS = Object.freeze([
   'auditIdentity',
+  'auditRecipient',
   'featureFlags',
   'providerPin',
   'recipient',
@@ -316,6 +317,7 @@ function safeReceiptFrom({ sourceSet, sourceBindingDigest, providerPinDigest, co
     sourceSetDigest: sourceSet.sourceSetDigest,
     providerPinDigest,
     recipientFingerprint: capsuleBuild.receipt.recipientFingerprint,
+    auditRecipientFingerprint: capsuleBuild.receipt.auditRecipientFingerprint,
     corePayloadSha256: corePayload.sha256,
     capsuleManifestDigest: capsuleBuild.capsule.manifest.manifestDigest,
     capsuleCiphertextSha256: capsuleBuild.capsule.manifest.ciphertextSha256,
@@ -356,6 +358,7 @@ function recoveryKitFrom({ sourceSet, p0cSourceBinding, sourceBindingDigest, pro
     sourceSetDigest: sourceSet.sourceSetDigest,
     providerPinDigest,
     recipientFingerprint: capsuleBuild.receipt.recipientFingerprint,
+    auditRecipientFingerprint: capsuleBuild.receipt.auditRecipientFingerprint,
     corePayloadSha256: corePayload.sha256,
     capsuleManifestDigest: capsuleBuild.capsule.manifest.manifestDigest,
     capsuleCiphertextSha256: capsuleBuild.capsule.manifest.ciphertextSha256,
@@ -405,6 +408,7 @@ export async function buildBlackBoxManualCoreCapsuleKitV1(request = {}, options 
     sourceBinding: p0cSourceBinding,
     sourceFence: sourceFenceFrom(p0cSourceBinding),
     auditIdentity: request.auditIdentity,
+    auditRecipient: request.auditRecipient,
     recipient: request.recipient,
     corePayload,
     expectations: p0cExpectations(),

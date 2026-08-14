@@ -207,10 +207,22 @@ function makeRecipientAndIdentity(p0c) {
       secretKeyBase64: toBase64('AGE-SECRET-KEY-1QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQVXH5Q'),
       fingerprint: recipient.fingerprint,
     },
+    auditRecipient: {
+      schemaVersion: p0c.BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_SCHEMAS.recipient,
+      type: 'AGE_X25519_RECIPIENT',
+      publicKey: 'age1auditqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqv24tsp',
+      fingerprint: 'sha256:5555555555555555555555555555555555555555555555555555555555555555',
+    },
+    auditIdentity: {
+      schemaVersion: p0c.BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_SCHEMAS.identity,
+      type: 'AGE_X25519_IDENTITY',
+      secretKeyBase64: toBase64('AGE-SECRET-KEY-1AUDITQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQVGX9A'),
+      fingerprint: 'sha256:5555555555555555555555555555555555555555555555555555555555555555',
+    },
   };
 }
 
-function makeProvider(providerPin, recipient, overrides = {}) {
+function makeProvider(providerPin, recipients, overrides = {}) {
   const observation = {
     ok: true,
     kind: providerPin.kind,
@@ -231,15 +243,15 @@ function makeProvider(providerPin, recipient, overrides = {}) {
   };
   return {
     probe: async () => observation,
-    encrypt: async ({ plaintextBytes }) => {
-      if (overrides.encrypt) return overrides.encrypt({ plaintextBytes });
+    encrypt: async ({ plaintextBytes, recipient, recipients: suppliedRecipients }) => {
+      if (overrides.encrypt) return overrides.encrypt({ plaintextBytes, recipient, recipients: suppliedRecipients });
       const body = Buffer.concat([Buffer.from('AGE-FAKE-X25519:'), Buffer.from(plaintextBytes)]);
       const tag = crypto.createHash('sha256').update(body).digest('hex');
       return { ok: true, ciphertextBytes: Buffer.concat([body, Buffer.from(`:${tag}`)]) };
     },
     decrypt: async ({ ciphertextBytes, identity }) => {
       if (overrides.decrypt) return overrides.decrypt({ ciphertextBytes, identity });
-      if (identity.fingerprint !== recipient.fingerprint) return { ok: false, code: 'FAKE_NO_MATCH' };
+      if (!recipients.some((item) => item.fingerprint === identity.fingerprint)) return { ok: false, code: 'FAKE_NO_MATCH' };
       const text = Buffer.from(ciphertextBytes).toString('utf8');
       if (!text.startsWith('AGE-FAKE-X25519:')) return { ok: false, code: 'FAKE_HEADER_TAMPERED' };
       const split = text.lastIndexOf(':');
@@ -263,7 +275,7 @@ async function makeFixture(overrides = {}) {
   const [kit, p0a, p0b, p0c] = await Promise.all([loadKit(), loadP0a(), loadP0b(), loadP0c()]);
   const tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), 'yalken-manual-kit-contract-'));
   const providerPin = makeProviderPin(p0c);
-  const { recipient, identity } = makeRecipientAndIdentity(p0c);
+  const { recipient, identity, auditRecipient, auditIdentity } = makeRecipientAndIdentity(p0c);
   const sourceSnapshot = overrides.sourceSnapshot || await trustedSnapshot(p0a, overrides.sourceOverrides || {});
   const featureFlags = {
     [kit.BLACK_BOX_MANUAL_CORE_CAPSULE_KIT_V1_FEATURE_FLAG]: true,
@@ -284,12 +296,15 @@ async function makeFixture(overrides = {}) {
     sourceSnapshot,
     providerPin,
     recipient,
-    auditIdentity: overrides.auditIdentity || identity,
+    auditRecipient: overrides.auditRecipient || auditRecipient,
+    auditIdentity: overrides.auditIdentity || auditIdentity,
     target,
     ...(overrides.extraRequestFields || {}),
   };
   return {
     identity,
+    auditIdentity,
+    auditRecipient,
     kit,
     p0a,
     p0b,
@@ -300,7 +315,7 @@ async function makeFixture(overrides = {}) {
     sourceSnapshot,
     target,
     tempRoot,
-    ageProvider: makeProvider(providerPin, recipient, overrides.providerOverrides || {}),
+    ageProvider: makeProvider(providerPin, [recipient, auditRecipient], overrides.providerOverrides || {}),
   };
 }
 

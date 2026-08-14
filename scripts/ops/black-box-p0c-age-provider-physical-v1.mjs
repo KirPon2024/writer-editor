@@ -198,14 +198,15 @@ function expectations(overrides = {}) {
   };
 }
 
-function makeBuildRequest({ providerPin, sourceBinding, recipient, identity, overrides = {} }) {
+function makeBuildRequest({ providerPin, sourceBinding, recipient, auditRecipient, auditIdentity, overrides = {} }) {
   return {
     schemaVersion: BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_SCHEMAS.buildRequest,
     featureFlags: { [BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_FEATURE_FLAG]: true },
     providerPin,
     sourceBinding,
     sourceFence: makeFence(sourceBinding),
-    auditIdentity: identity,
+    auditIdentity,
+    auditRecipient,
     recipient,
     corePayload: makeCorePayload(sourceBinding),
     expectations: expectations(),
@@ -263,6 +264,7 @@ async function main() {
     const providerPin = await buildProviderPin(ageRoot);
     const provider = createBlackBoxP0cAgeCliProviderV1(providerPin, { tempRoot: tempDir });
     const primary = await generateSyntheticIdentity(path.join(await readTrim(path.join(ageRoot, 'provenance', 'provider-bin-dir.txt')), 'age-keygen'), tempDir, 'primary');
+    const audit = await generateSyntheticIdentity(path.join(await readTrim(path.join(ageRoot, 'provenance', 'provider-bin-dir.txt')), 'age-keygen'), tempDir, 'audit');
     const wrong = await generateSyntheticIdentity(path.join(await readTrim(path.join(ageRoot, 'provenance', 'provider-bin-dir.txt')), 'age-keygen'), tempDir, 'wrong');
     const sourceBinding = makeSourceBinding();
     const started = performance.now();
@@ -270,7 +272,8 @@ async function main() {
       providerPin,
       sourceBinding,
       recipient: primary.recipient,
-      identity: primary.identity,
+      auditRecipient: audit.recipient,
+      auditIdentity: audit.identity,
     }), { ageProvider: provider });
     const recover = build.ok
       ? await recoverBlackBoxStrictCapsuleV1(makeRecoverRequest({
@@ -291,6 +294,14 @@ async function main() {
         identity: wrong.identity,
       }), { ageProvider: provider });
       negativeCases.push({ id: 'wrong-identity', pass: wrongIdentity.ok !== true, result: redactedResult(wrongIdentity) });
+
+      const auditIdentityAsRecovery = await recoverBlackBoxStrictCapsuleV1(makeRecoverRequest({
+        providerPin,
+        sourceBinding,
+        capsule: build.capsule,
+        identity: audit.identity,
+      }), { ageProvider: provider });
+      negativeCases.push({ id: 'audit-identity-not-recovery-authority', pass: auditIdentityAsRecovery.ok !== true && auditIdentityAsRecovery.code === BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.FIELD_INVALID, result: redactedResult(auditIdentityAsRecovery) });
 
       const ciphertext = Buffer.from(build.capsule.ciphertext.bytesBase64, 'base64');
       const tamperedBytes = Buffer.from(ciphertext);
@@ -337,7 +348,8 @@ async function main() {
       },
       sourceBinding,
       recipient: primary.recipient,
-      identity: primary.identity,
+      auditRecipient: audit.recipient,
+      auditIdentity: audit.identity,
     }), { ageProvider: provider });
     negativeCases.push({ id: 'provider-digest-mismatch', pass: wrongDigest.ok !== true && wrongDigest.code === BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.PROVIDER_PIN_MISMATCH, result: redactedResult(wrongDigest) });
 
@@ -345,7 +357,8 @@ async function main() {
       providerPin,
       sourceBinding,
       recipient: primary.recipient,
-      identity: primary.identity,
+      auditRecipient: audit.recipient,
+      auditIdentity: audit.identity,
       overrides: { sourceFence: makeFence(sourceBinding, makeCurrent(sourceBinding, { generation: 'gen-stale' })) },
     }), { ageProvider: provider });
     negativeCases.push({ id: 'stale-generation', pass: stale.ok !== true && stale.code === BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.SOURCE_BINDING_MISMATCH, result: redactedResult(stale) });
@@ -354,7 +367,8 @@ async function main() {
       providerPin,
       sourceBinding,
       recipient: primary.recipient,
-      identity: primary.identity,
+      auditRecipient: audit.recipient,
+      auditIdentity: audit.identity,
       overrides: { sourceFence: makeFence(sourceBinding, makeCurrent(sourceBinding), { commandId: 'read-source-snapshot-black-box-p0c-physical', decision: 'UNKNOWN', mayWrite: false }) },
     }), { ageProvider: provider });
     negativeCases.push({ id: 'unknown-authority', pass: unknown.ok !== true && unknown.code === BLACK_BOX_STRICT_CAPSULE_RECOVER_V1_CODES.SOURCE_FENCE_REJECTED, result: redactedResult(unknown) });
@@ -380,6 +394,14 @@ async function main() {
       positive: {
         build: redactedResult(build),
         recover: recover ? redactedResult(recover) : null,
+        recipientSeparation: {
+          ownerRecipientFingerprint: primary.recipient.fingerprint,
+          auditRecipientFingerprint: audit.recipient.fingerprint,
+          distinct: primary.recipient.fingerprint !== audit.recipient.fingerprint,
+          ownerRecipientPreserved: build.capsule?.manifest?.recipientFingerprint === primary.recipient.fingerprint,
+          auditRecipientManifestBound: build.capsule?.manifest?.auditRecipientFingerprint === audit.recipient.fingerprint,
+          auditIdentityRejectedAsRecovery: negativeCases.some((item) => item.id === 'audit-identity-not-recovery-authority' && item.pass === true),
+        },
       },
       negativeCases,
       resourceCeilings: {

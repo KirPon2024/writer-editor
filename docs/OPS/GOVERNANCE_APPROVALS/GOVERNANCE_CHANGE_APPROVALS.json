@@ -10332,48 +10332,48 @@
     },
     {
       "filePath": "src/product/blackBoxStrictCapsuleRecoverV1.mjs",
-      "sha256": "27199efc30ad9f3fbce6b48e96a19f004ba577053ff2fcb4912b5770b6133f4b",
-      "rationale": "Approve F3 P0C ephemeral recovered CORE payload sink bytes: P0C still validates provider/source/capsule before PASS, delivers decrypted CORE only to an in-process sink callback, keeps result/receipt sanitized, and fail-closes on sink rejection, throw, digest mismatch or caller-carried core payload; no filesystem import writer, UI, Command Kernel wiring, user documents, live overwrite, dependency, owner-key drill, FINAL_COMPLETE donor or Disaster Ready claim.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_P0C_EPHEMERAL_CORE_PAYLOAD_SINK_V1",
-      "approvedAtUtc": "2026-08-14T07:20:00.000Z",
+      "sha256": "f400ba867eaba54059a679fb9c0c94afc2b06d8d4596f3f5904c4832736ce357",
+      "rationale": "Approve P0C source migration for audit-recipient separation: closed build request now requires distinct auditRecipient, provider encrypt receives owner and audit recipients, auditIdentity must match auditRecipient, recover identity must match owner recipient, manifest/receipt bind auditRecipientFingerprint, and no UI/runtime/user-document/owner-key-drill/Disaster Ready claim is added.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1",
+      "approvedAtUtc": "2026-08-14T12:51:30.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_P0C_EPHEMERAL_CORE_PAYLOAD_SINK"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },
     {
       "filePath": "test/contracts/black-box-p0c-strict-capsule-recover-v1.contract.test.js",
-      "sha256": "8592c42d863f5e2c9267f451cbcccc650e88d6dd623c8a93fd2855bba47a51b9",
-      "rationale": "Approve F3 P0C ephemeral sink contract tests: red-first proves sink was not invoked and sink rejection did not fail closed; green proves sink delivery of verified core bytes, sanitized result/receipt, sink rejection/throw fail-closed, and caller-carried core payload rejected by closed keyset.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_P0C_EPHEMERAL_CORE_PAYLOAD_SINK_V1",
-      "approvedAtUtc": "2026-08-14T07:20:00.000Z",
+      "sha256": "0c40d42f585b98dc2ce1d079d915e36c621e287b494ce4be7617eb2e17c2352f",
+      "rationale": "Approve P0C contract tests for distinct owner recovery and per-build audit recipients, provider recipient-list execution, audit identity rejection as recovery authority, manifest/receipt auditRecipientFingerprint binding and preserved hostile source/provider/tamper/UNKNOWN fail-closed behavior.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1",
+      "approvedAtUtc": "2026-08-14T12:51:30.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_P0C_EPHEMERAL_CORE_PAYLOAD_SINK"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },
     {
       "filePath": "scripts/ops/black-box-p0c-strict-capsule-recover-v1-model.mjs",
-      "sha256": "fbad318030f98b54e8e05d8b8c4f9e5233fe60d6cb3147555497b82b47b17289",
-      "rationale": "Approve F3 P0C ephemeral sink model update: 64 finite cases, 22 hostile cases, 16 semantic mutants, 0 survivors, explicit controls for one sink delivery, leak-free result, sink rejection non-PASS and caller-carried core payload non-PASS.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_P0C_EPHEMERAL_CORE_PAYLOAD_SINK_V1",
-      "approvedAtUtc": "2026-08-14T07:20:00.000Z",
+      "sha256": "b02f7850a5774cd0060f79d0fa5dae020ff14eedcbb29ffe56b99b81d3b0dc0d",
+      "rationale": "Approve P0C model/oracle expansion for audit-recipient separation: owner recipient preservation, audit recipient binding, provider recipient-list binding, audit identity not recovery authority, 64 finite cases, 26 hostile cases and 19 semantic mutants with zero survivors.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1",
+      "approvedAtUtc": "2026-08-14T12:51:30.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_P0C_EPHEMERAL_CORE_PAYLOAD_SINK"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },
     {
       "filePath": "scripts/ops/black-box-p0c-age-provider-physical-v1.mjs",
-      "sha256": "80e447ef8ace85ab9b67014de2101bd71a2fb63b635f223147bb0c524fec9cfe",
-      "rationale": "Approve bounded F3 P0C strict capsule/recover candidate bytes under OWNER_AUTHORITY_GRANT_F3_P0C_STANDARD_AGE_V1_PROVIDER_OPTION_A: exact pinned official age v1.3.1 darwin-arm64 provider, Sigsum verified artifact, source-fence-bound synthetic capsule build, quarantine preview/import-as-new-only recover, hostile/mutation/physical provider evidence, no UI/runtime wiring, no user documents, no system install, no raw Node age crypto, no owner-key recovery drill or Disaster Ready claim.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1",
-      "approvedAtUtc": "2026-08-14T03:52:00.000Z",
+      "sha256": "b80155ad552914a222684b556d9090214e7f2bb7f88e4fd9f69ea87750a9d25f",
+      "rationale": "Approve physical harness migration to generate separate disposable synthetic owner and audit age identities, build with audit recipient, recover only with owner identity, reject audit identity as recovery authority, and record non-secret recipient separation facts; no user documents or system-wide provider install.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1",
+      "approvedAtUtc": "2026-08-14T12:51:30.000Z",
       "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_F3_P0C_STANDARD_AGE_V1_PROVIDER_OPTION_A"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_P0C_STRICT_CAPSULE_RECOVER_V1_RECEIPT.json",
-      "sha256": "2b4c7fbfe7278d3122de161e4a6be04c2bcd952c1607191fc2b1ba0e95655a4c",
-      "rationale": "Approve factual postmerge receipt rebind for F3_P0C_EPHEMERAL_CORE_PAYLOAD_SINK_V1: PR 1525 merge ef3a3d03370fdc19d2eba46e9f3202bbc6a490e4, required CI all SUCCESS, exact postmerge focused 9/9, affected 35/35, P0C model 64 finite/22 hostile/16 mutants/0 survivors, physical provider evidence sha256:3d8ee885dc1a61d8403547d5c436c04bcc7ffd882ba6ac644cc6da7f23e712e4, ledger/governance/dev:fast/guardrails PASS, no filesystem writer/UI/Command Kernel wiring/user documents/live overwrite/owner-key drill/FINAL_COMPLETE donor/Disaster Ready claim.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_P0C_EPHEMERAL_CORE_PAYLOAD_SINK_POSTMERGE_REBIND_V1",
-      "approvedAtUtc": "2026-08-14T07:47:02.000Z",
+      "sha256": "8f9e44552d4f2dbe81ef7637f14fe97c5dcfaa1682376745a76738f791d59bd2",
+      "rationale": "Approve factual P0C receipt update for F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1 local candidate: distinct owner recovery and audit recipients, focused P0C 10/10, manual kit 8/8, product command contract 6/6, model 64 finite/26 hostile/19 mutants/0 survivors and physical age provider evidence sha256:f3285da301c9a08805d6ca35470f95722cb2a824465c88ecddf23c00a42b5954 with seven negative cases and no user documents.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1",
+      "approvedAtUtc": "2026-08-14T12:51:30.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_POSTMERGE_TRACEABILITY_REBIND"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_MANUAL_CORE_CAPSULE_KIT_V1_RECEIPT.json",
@@ -10404,21 +10404,21 @@
     },
     {
       "filePath": "test/contracts/black-box-manual-core-capsule-kit-v1.contract.test.js",
-      "sha256": "b6c8d03b06bfefdafc65e50293d950ad0b275289c8bbf9d5d07d48299b33ea98",
-      "rationale": "Approve F3 manual CORE capsule kit contract tests for red-first missing seam, closed schema/default-off flag, P0A/P0C/P0B composition, stale/dirty/UNKNOWN/ABSTAIN/provider/publish hostile denials, create-only no-overwrite and no plaintext/key leakage in receipts.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_MANUAL_CORE_CAPSULE_KIT_V1",
-      "approvedAtUtc": "2026-08-14T04:59:00.000Z",
+      "sha256": "6b56ac6297e6f354fd3779d5f21b31ee2c4f2683a40456d5535ec888d0a55549",
+      "rationale": "Approve manual CORE capsule kit contract fixture migration to pass distinct auditRecipient and auditIdentity into P0C while preserving owner recipient recovery, create-only publication, source-fence failure propagation and no plaintext/key leakage.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1",
+      "approvedAtUtc": "2026-08-14T12:51:30.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_MANUAL_CORE_CAPSULE_KIT"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },
     {
       "filePath": "test/contracts/black-box-import-as-new-recovery-plan-v1.contract.test.js",
-      "sha256": "4ee83abc77b5452999637dcc809e437ef0fc1e7361d9d598792d9b2c58ae5f32",
-      "rationale": "Approve F3 import-as-new recovery plan contract tests for red-first missing seam/model, closed default-off schema, internal P0C recover execution, caller-carried proof rejection, provider/source/identity/tamper/replay fail-closed negatives, UNKNOWN/ABSTAIN/CONFLICTING not PASS, and no plaintext/key leakage; no UI, runtime writer or user documents.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN_V1",
-      "approvedAtUtc": "2026-08-14T06:11:00.000Z",
+      "sha256": "d134b11ba786c6f6562881063bc9ef7c33fec434481bd5543d4e041cefe96933",
+      "rationale": "Approve import-as-new recovery plan affected fixture migration for P0C audit-recipient separation: synthetic capsule build now supplies distinct auditRecipient/auditIdentity while recovery remains owner-recipient based; preserves caller-carried proof, provider/source/identity/tamper/replay and UNKNOWN/ABSTAIN/CONFLICTING fail-closed coverage.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1",
+      "approvedAtUtc": "2026-08-14T12:51:30.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_IMPORT_AS_NEW_RECOVERY_PLAN"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },
     {
       "filePath": "scripts/ops/black-box-import-as-new-recovery-plan-v1-model.mjs",
@@ -10449,10 +10449,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "4e5fe6f290a94e77ffe17bc51d9b3f3036b5b6aa4c660d29f26bb508bbc66eac",
-      "rationale": "Approve traceability ledger update binding F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1 to PR #1533 merge commit 17f03909b623d2b0a8a573920110bc1d078af8ff with postmerge evidence while preserving full Black Box Product V1 deferred gates for UI/default flag/provider-audit/owner-key/off-host/final donor work.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
-      "approvedAtUtc": "2026-08-14T11:45:00.000Z",
+      "sha256": "f23a9bfdc6a6448c372d08595e032359d891bb581dc5945fe085f2d5e080efbf",
+      "rationale": "Approve local candidate traceability row for F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1 as DEFERRED_WITH_BLOCKER until commit/PR/CI/merge/postmerge are real; preserves lab provenance as non-release authority and records exact local focused/model/physical evidence without claiming full Black Box product, owner-key drill or Disaster Ready.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1",
+      "approvedAtUtc": "2026-08-14T12:51:30.000Z",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },
@@ -10467,12 +10467,12 @@
     },
     {
       "filePath": "test/contracts/black-box-import-as-new-project-writer-v1.contract.test.js",
-      "sha256": "f139b7c450878296098cd3ffbc1bab4797028a9a8fb92a4905bb4664ce10a3c1",
-      "rationale": "Approve F3 import-as-new project writer contract tests for red-first missing seam/model, closed default-off schema, verified P0C sink bytes only, caller-carried proof/core/sink rejection, target collision and path traversal denial, UNKNOWN and missing sink non-PASS, and model mutation killer invocation.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_IMPORT_AS_NEW_PROJECT_WRITER_V1",
-      "approvedAtUtc": "2026-08-14T08:26:45.000Z",
+      "sha256": "d8bac6fbb7c69597f07fac6eecdbea5249328596bfa4368958f7a1036ed45ffd",
+      "rationale": "Approve import-as-new project writer affected fixture migration for P0C audit-recipient separation: synthetic capsule build now supplies distinct auditRecipient/auditIdentity while writer recovery uses owner identity; preserves verified P0C sink bytes only, caller-carried proof/core/sink rejection, target collision/path traversal and UNKNOWN/missing sink non-PASS coverage.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_P0C_AUDIT_RECIPIENT_SEPARATION_V1",
+      "approvedAtUtc": "2026-08-14T12:51:30.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_IMPORT_AS_NEW_PROJECT_WRITER"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },
     {
       "filePath": "scripts/ops/black-box-import-as-new-project-writer-v1-model.mjs",

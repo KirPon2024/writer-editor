@@ -273,8 +273,10 @@
   },
   "runtimePortInventoryDefaultOff": {
     "taskId": "F3_BLACK_BOX_RUNTIME_PORT_INVENTORY_DEFAULT_OFF_V1",
-    "status": "LOCAL_CANDIDATE_NOT_MERGED_NOT_FULL_BLACK_BOX_PRODUCT_V1",
+    "status": "LOCAL_CANDIDATE_COMMITTED_PENDING_PR_NOT_FULL_BLACK_BOX_PRODUCT_V1",
     "baselineSha": "c5675e92d3ecddd42581853500d14b7a09c7e230",
+    "candidateCommitSha": "e0b56b3bc0f94a2ec2884b33d7523c0505bf59c9",
+    "candidateTreeSha": "c6445baacfeecd6409700b04528d616191969b40",
     "scope": "Bind the existing main runtime bridge for cmd.project.blackBox.exportManualCoreCapsuleKitV1 to the complete trusted port inventory after audit-recipient separation by adding the missing getAuditRecipient port stub while preserving feature-flag default-off, provider/audit/target unconfigured DENY behavior, no product UI placement, no user documents, no owner private key, no system-wide provider install and no live project overwrite.",
     "redFirst": {
       "command": "node --test test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
@@ -328,10 +330,10 @@
       "productCommandExportManualCore": "40 finite, 21 hostile, 16 mutants, 0 survivors"
     },
     "localGates": {
-      "traceabilityLedger": "PENDING",
-      "governanceChangeDetection": "PENDING",
-      "devFast": "PENDING",
-      "guardrails": "PENDING"
+      "traceabilityLedger": "PASS",
+      "governanceChangeDetection": "PASS",
+      "devFast": "28/28",
+      "guardrails": "PASS"
     },
     "changedFileHashes": {
       "src/main.js": "a5ed53aab8e13d4804baf43481168ff4d51cb76ca4ada47c719d8980b1503a45",

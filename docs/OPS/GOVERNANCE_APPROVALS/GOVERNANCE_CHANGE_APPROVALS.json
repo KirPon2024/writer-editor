@@ -10449,12 +10449,57 @@
     },
     {
       "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "cbab734bf6d6009f00e1cdfe1b53c299208ea44524d08f76a8a11f9e14cfecf2",
-      "rationale": "Approve factual ledger postmerge rebind for F3_P0C_EPHEMERAL_CORE_PAYLOAD_SINK_V1 as ENFORCED_TEST_GATE under P0C with exact receipt hash 2b4c7fbfe7278d3122de161e4a6be04c2bcd952c1607191fc2b1ba0e95655a4c and PR 1525 merge ef3a3d03370fdc19d2eba46e9f3202bbc6a490e4; filesystem import-as-new writer, product runtime/UI/user document/live overwrite/owner-key drill/FINAL_COMPLETE donor/Disaster Ready claims remain future bounded gates.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_P0C_EPHEMERAL_CORE_PAYLOAD_SINK_POSTMERGE_REBIND_V1",
-      "approvedAtUtc": "2026-08-14T07:47:02.000Z",
+      "sha256": "d453f327038017f787da5786a116e468167f54c90fe5703b29a22202b4fa66f3",
+      "rationale": "Approve factual living-ledger candidate binding after F3 import-as-new project writer local full-green candidate: preserves F3_P0C_EPHEMERAL_CORE_PAYLOAD_SINK_V1 as ENFORCED_TEST_GATE under P0C, adds F3_IMPORT_AS_NEW_PROJECT_WRITER_V1 as DEFERRED_WITH_BLOCKER until branch delivery, exact PR binding, required CI, merge and postmerge verification, records local candidate f37459d900c90f76e206230bbcd2f0983d093931 and receipt sha256:4aadfb4480169c9e4be759f55a9c4c93da79caa2e0d974e996471edb1d80763e, and preserves full Black Box product V1 blockers.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_IMPORT_AS_NEW_PROJECT_WRITER_V1",
+      "approvedAtUtc": "2026-08-14T08:26:45.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_POSTMERGE_TRACEABILITY_REBIND"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_IMPORT_AS_NEW_PROJECT_WRITER"
+    },
+    {
+      "filePath": "src/product/blackBoxImportAsNewProjectWriterV1.mjs",
+      "sha256": "b9e9146a9e5af846160336b636c513840659b626e38e745022490e7309b89481",
+      "rationale": "Approve F3 import-as-new project writer candidate seam bytes: default-off isolated create-only filesystem writer consumes only verified P0C ephemeral recovered CORE bytes, rejects caller-carried proof/core/sink, target collision, traversal, missing sink and UNKNOWN/ABSTAIN/CONFLICTING upstream decisions, readback-verifies synthetic project files and sanitized receipt, and does not add UI, Command Kernel wiring, project-library registration, user documents or live-project overwrite.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_IMPORT_AS_NEW_PROJECT_WRITER_V1",
+      "approvedAtUtc": "2026-08-14T08:26:45.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_IMPORT_AS_NEW_PROJECT_WRITER"
+    },
+    {
+      "filePath": "test/contracts/black-box-import-as-new-project-writer-v1.contract.test.js",
+      "sha256": "f139b7c450878296098cd3ffbc1bab4797028a9a8fb92a4905bb4664ce10a3c1",
+      "rationale": "Approve F3 import-as-new project writer contract tests for red-first missing seam/model, closed default-off schema, verified P0C sink bytes only, caller-carried proof/core/sink rejection, target collision and path traversal denial, UNKNOWN and missing sink non-PASS, and model mutation killer invocation.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_IMPORT_AS_NEW_PROJECT_WRITER_V1",
+      "approvedAtUtc": "2026-08-14T08:26:45.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_IMPORT_AS_NEW_PROJECT_WRITER"
+    },
+    {
+      "filePath": "scripts/ops/black-box-import-as-new-project-writer-v1-model.mjs",
+      "sha256": "0bc3d2b8eb281f4733d264a88b0c2153353998b661398313aae929c6e2c0aeaf",
+      "rationale": "Approve F3 import-as-new project writer finite/oracle/hostile/mutation model: 24 finite cases, 16 hostile cases and 12 semantic mutants with zero survivors, scoped to isolated create-only synthetic writer behavior only.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_IMPORT_AS_NEW_PROJECT_WRITER_V1",
+      "approvedAtUtc": "2026-08-14T08:26:45.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_IMPORT_AS_NEW_PROJECT_WRITER"
+    },
+    {
+      "filePath": "scripts/ops/black-box-import-as-new-project-writer-v1-physical.mjs",
+      "sha256": "9f34de022f9994ea73a8d89c0ba89c58afbfb99ec9c8b0b02cc65e75e6d28e2f",
+      "rationale": "Approve F3 import-as-new project writer disposable physical runner using the already-pinned official age v1.3.1 provider to prove synthetic write/readback, target-exists denial, path-traversal denial, cleanup and no receipt leakage; no user documents, system install, UI/runtime wiring, project-library registration or Disaster Ready claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_IMPORT_AS_NEW_PROJECT_WRITER_V1",
+      "approvedAtUtc": "2026-08-14T08:26:45.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_IMPORT_AS_NEW_PROJECT_WRITER"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_IMPORT_AS_NEW_PROJECT_WRITER_V1_RECEIPT.json",
+      "sha256": "4aadfb4480169c9e4be759f55a9c4c93da79caa2e0d974e996471edb1d80763e",
+      "rationale": "Approve factual local full-green candidate receipt for F3 import-as-new project writer: feature commit f37459d900c90f76e206230bbcd2f0983d093931, focused 6/6, affected 64/64, model 24 finite/16 hostile/12 mutants/0 survivors, affected models all zero survivors, disposable physical evidence sha256:c59c83ace5e49893d51887432e146df7ffbf3d56ffcae54e56341d8a2fa2f57e with 2/2 negatives, deterministic replay 2x, dev:fast/full baseline/guardrails PASS, explicit branch-delivery/CI/merge/postmerge pending and no product release, UI, Command Kernel, project-library, user-document, live-overwrite, owner-key drill or Disaster Ready claim.",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_IMPORT_AS_NEW_PROJECT_WRITER_V1",
+      "approvedAtUtc": "2026-08-14T08:26:45.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_IMPORT_AS_NEW_PROJECT_WRITER"
     }
   ]
 }

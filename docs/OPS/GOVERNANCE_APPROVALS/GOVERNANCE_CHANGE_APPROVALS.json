@@ -27,15 +27,6 @@
       "rationale": "Approve safe-automerge profile push-step hook metadata for workflow-scope autofix."
     },
     {
-      "filePath": "docs/OPS/ARTIFACTS/menu/menu.normalized.json",
-      "sha256": "8a2da1efdd15e00c4c19c1253045728b57e0f863351efbacde7c7ef156302873",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
-      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
-      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
-      "approved": true,
-      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
-    },
-    {
       "filePath": "docs/OPS/BASELINE/OPS_GOVERNANCE_BASELINE_v1.0.json",
       "sha256": "055515c2dec5f4544243b7436d35c8ba180298255d0cd4feab0b13036e9c9b4e",
       "approvedBy": "ticket:RECOVERY_READABILITY_CENTRAL_BINDING_001",
@@ -2563,15 +2554,6 @@
       "rationale": "EDITORIAL_SHEET_STRESS_LANE_REBIND_004_GOVERNANCE_HYGIENE approves the already-committed config hash lock refresh so strict governance validation no longer relies on a stale hash entry when contour 04 changes governed proof-lane files."
     },
     {
-      "filePath": "docs/OPS/LOCKS/MENU_ARTIFACT_LOCK.json",
-      "sha256": "d0bd3c5ae612bf21a9bc8f68df866aa09b67d638a3b3b7422292223fed6098bb",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
-      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
-      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
-      "approved": true,
-      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
-    },
-    {
       "filePath": "docs/OPS/PROOFHOOKS/PROOFHOOK_INTEGRITY_LOCK.json",
       "sha256": "8acc036a0534ad67455101f03c7c7470e59709fe2a00d49366d1a90f20e70df8",
       "approvedBy": "ticket:EDITORIAL_SHEET_STRESS_LANE_REBIND_004_GOVERNANCE_HYGIENE",
@@ -3629,15 +3611,6 @@
       "approvedBy": "ticket:MENU_HIDE_SHOW_REORDER_001",
       "approvedAtUtc": "2026-04-10T21:16:30.000Z",
       "rationale": "MENU_HIDE_SHOW_REORDER_001 governance rebind for normalization spec shape update."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/MENU_SNAPSHOT_REGISTRY.json",
-      "sha256": "30e624460027f844805603fbe69b8d086c48df804c83a2b16d4d592360597569",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
-      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
-      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
-      "approved": true,
-      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
     },
     {
       "filePath": "docs/OPS/STATUS/MODE_MATRIX_SINGLE_AUTHORITY_v3.json",
@@ -6798,31 +6771,6 @@
       "rationale": "Approve exact Design OS resolver bytes that fail closed without the live product command catalog, exact provider catalog and independent slot catalog; behavioral binding only, with no visual redesign or manifest self-certification.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_V6_AUDIT_HOLD_REPAIR"
-    },
-    {
-      "filePath": "src/renderer/editor.bundle.js",
-      "sha256": "b54e292a5b0ac89d0e5a160695368e58dcdae73ff68b98d8d6717681529031ba",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T21:05:27.922Z",
-      "rationale": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
-    },
-    {
-      "filePath": "src/renderer/editor.js",
-      "sha256": "9f172a5a6fc7bd0a402ad6b569050444550811624988aae188c96b1fb05b19b1",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T21:05:27.922Z",
-      "rationale": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
-    },
-    {
-      "filePath": "src/renderer/index.html",
-      "sha256": "eb120716e8d7fb73d4f3c2faf6c655915d5234c635436fd57231d3ef3ff98e5c",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03_CURRENT_STATE_REBIND",
-      "approvedAtUtc": "2026-07-31T18:48:00.000Z",
-      "rationale": "Current-state governance registry rebind after origin/main drift reconciliation and R2 C03 renderer rebuild: approval hash now matches current repo bytes; no new runtime authority, dependency, network, product truth, or Program DoD readiness claim is introduced."
     },
     {
       "filePath": "src/renderer/styles.css",
@@ -10448,15 +10396,6 @@
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_POSTMERGE_TRACEABILITY_REBIND"
     },
     {
-      "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "9d5cb338eaaea4e2f4153a4d184e2fc3afd155fc5d2f027f971567cd03448be7",
-      "rationale": "Approve factual ledger postmerge rebind for F3 create-only target runtime binding: material disposition moves from DEFERRED_WITH_BLOCKER local-green to ADAPTED_PRODUCT only after PR #1545 required CI, merge and clean exact-head postmerge verification; full Black Box Product V1 remains deferred for remaining product gates.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_CREATE_ONLY_TARGET_RUNTIME_BINDING_POSTMERGE_REBIND_V1",
-      "approvedAtUtc": "2026-08-14T18:26:30Z",
-      "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_POSTMERGE_TRACEABILITY_REBIND"
-    },
-    {
       "filePath": "src/product/blackBoxImportAsNewProjectWriterV1.mjs",
       "sha256": "b9e9146a9e5af846160336b636c513840659b626e38e745022490e7309b89481",
       "rationale": "Approve F3 import-as-new project writer candidate seam bytes: default-off isolated create-only filesystem writer consumes only verified P0C ephemeral recovered CORE bytes, rejects caller-carried proof/core/sink, target collision, traversal, missing sink and UNKNOWN/ABSTAIN/CONFLICTING upstream decisions, readback-verifies synthetic project files and sanitized receipt, and does not add UI, Command Kernel wiring, project-library registration, user documents or live-project overwrite.",
@@ -10619,15 +10558,6 @@
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },
     {
-      "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-      "sha256": "8f0cadbb3d1c1d141b5e3252f132c209d733434ae86c7af8d90c5f68ac4c0112",
-      "rationale": "Approve factual postmerge receipt rebind for F3 create-only target runtime binding PR #1545: required CI PASS, merge commit acfe4565b1a0316459c80f67e0efbbe7852a03cf, postmerge focused 12/12, affected 79/79, product command model 53 finite/30 hostile/26 mutants/0 survivors, traceability/governance/dev:fast/guardrails PASS; target binding remains explicit-env fail-closed by default and no UI/user-document/full Black Box Product V1 claim is made.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_CREATE_ONLY_TARGET_RUNTIME_BINDING_POSTMERGE_REBIND_V1",
-      "approvedAtUtc": "2026-08-14T18:26:30Z",
-      "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_POSTMERGE_TRACEABILITY_REBIND"
-    },
-    {
       "filePath": "src/main/blackBoxRuntimeCreateOnlyTargetBindingV1.cjs",
       "sha256": "a920aed5a28ce8cb34b48a7bc51e6e6741875ef49abeaef47a741d5fea3ad8c4",
       "rationale": "Approve isolated F3 runtime create-only target helper: it reads only explicit allowedRoot/targetDir env bindings, resolves realpaths, rejects outside-root, live-project-root, symlink, non-directory, non-darwin and pre-existing target cases, computes a safe deterministic filename, performs no write, and adds no UI, user documents, owner private key, live overwrite, off-host restore or Disaster Ready claim.",
@@ -10644,6 +10574,96 @@
       "approvedAtUtc": "2026-08-14T15:55:00.000Z",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
+    },
+    {
+      "filePath": "docs/OPS/ARTIFACTS/menu/menu.normalized.json",
+      "sha256": "75cbf2c86ca2a7505bb2faa13fcae20a3c2de8c786f04aec203e7dbcf11b6047",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_UI_DEFAULT_FLAG_PATH_V1",
+      "approvedAtUtc": "2026-08-14T19:54:00.000Z",
+      "rationale": "Approve generated menu runtime artifact rebind for F3 Black Box UI/default path: File export menu includes only the existing cmd.project.blackBox.exportManualCoreCapsuleKitV1 row, source-artifact runtime equivalence promotion PASS, snapshot hash cd9ecb9dbc6f2a7d1a6f42b6fcfc4dcabc6c2688e4a893193a1d20940b5f6569, and no product runtime/storage/user-document/full-product claim change.",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION_UI_DEFAULT_FLAG_PATH"
+    },
+    {
+      "filePath": "docs/OPS/LOCKS/MENU_ARTIFACT_LOCK.json",
+      "sha256": "ed0222fcfa8004ec0ae11be7d6ffa4b13e2621703817f4b9feaea1febd0c1797",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_UI_DEFAULT_FLAG_PATH_V1",
+      "approvedAtUtc": "2026-08-14T19:54:00.000Z",
+      "rationale": "Approve generated menu artifact lock rebind for F3 Black Box UI/default path: artifact bytes hash 75cbf2c86ca2a7505bb2faa13fcae20a3c2de8c786f04aec203e7dbcf11b6047 and normalized hash cd9ecb9dbc6f2a7d1a6f42b6fcfc4dcabc6c2688e4a893193a1d20940b5f6569 are locked after repo-native snapshot-create/export-artifact flow.",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION_UI_DEFAULT_FLAG_PATH"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/MENU_SNAPSHOT_REGISTRY.json",
+      "sha256": "6955ea7b72501296e5235181d8d226fefc1d6ae299e776b1f9adca9bab6f3ce0",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_UI_DEFAULT_FLAG_PATH_V1",
+      "approvedAtUtc": "2026-08-14T19:54:00.000Z",
+      "rationale": "Approve generated menu snapshot registry rebind for F3 Black Box UI/default path: menu-default-desktop-minimal snapshot now pins normalized hash cd9ecb9dbc6f2a7d1a6f42b6fcfc4dcabc6c2688e4a893193a1d20940b5f6569 for runtime artifact visibility.",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION_UI_DEFAULT_FLAG_PATH"
+    },
+    {
+      "filePath": "scripts/ops/black-box-product-ui-default-flag-path-v1-model.mjs",
+      "sha256": "5633dcef6019ef48c55a78d67b78077779122a15f1394b7af91345e8d09ee1ff",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_UI_DEFAULT_FLAG_PATH_V1",
+      "approvedAtUtc": "2026-08-14T19:54:00.000Z",
+      "rationale": "Approve independent model/oracle for F3 Black Box UI/default path: 20 finite cases, 16 hostile cases and 12 semantic mutants with zero survivors covering menu row, runtime artifact equivalence, capability deny/allow, renderer bridge-only routing, no renderer feature-flag authority and no direct Black Box IPC bypass.",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION_UI_DEFAULT_FLAG_PATH"
+    },
+    {
+      "filePath": "test/contracts/black-box-product-ui-default-flag-path-v1.contract.test.js",
+      "sha256": "46dd708b9092a64a0337a1ccdd40c8d669355340c78b35b06a2e1c93ecf09d6a",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_UI_DEFAULT_FLAG_PATH_V1",
+      "approvedAtUtc": "2026-08-14T19:54:00.000Z",
+      "rationale": "Approve F3 Black Box UI/default path contract tests: red-first missing UI routing, then focused 6/6 proving existing product command catalog truth, desktop-only fail-closed capability, File menu/runtime artifact binding, default-off export modal option and renderer Command Kernel bridge-only routing.",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION_UI_DEFAULT_FLAG_PATH"
+    },
+    {
+      "filePath": "src/renderer/editor.bundle.js",
+      "sha256": "e0182f22c98761bf60df484b09728556fc57952e7087a7729867bc51ca5695d7",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_UI_DEFAULT_FLAG_PATH_V1",
+      "approvedAtUtc": "2026-08-14T19:56:00.000Z",
+      "rationale": "Approve generated renderer bundle for F3 Black Box UI/default path, built from the approved renderer source with npm run build:renderer after task-local npm ci --ignore-scripts; no source dependency changes or product runtime semantics are introduced.",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION_UI_DEFAULT_FLAG_PATH"
+    },
+    {
+      "filePath": "src/renderer/editor.js",
+      "sha256": "6e0b2a259ce7df5ef3b55e87947afb01d5d3768af7c4d7fac218833b806dc100",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_UI_DEFAULT_FLAG_PATH_V1",
+      "approvedAtUtc": "2026-08-14T19:56:00.000Z",
+      "rationale": "Approve F3 Black Box UI/default path renderer source binding: existing command-palette/runtime command handler opens the existing export surface and the black-box-manual-core export option dispatches only cmd.project.blackBox.exportManualCoreCapsuleKitV1 through the existing Command Kernel bridge; no direct IPC, feature-flag authority, product runtime or user-document access is added.",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION_UI_DEFAULT_FLAG_PATH"
+    },
+    {
+      "filePath": "src/renderer/index.html",
+      "sha256": "177172a705d2ba95077a93da2b2428e0054737c55f07aa310200298b0e8d04b8",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_UI_DEFAULT_FLAG_PATH_V1",
+      "approvedAtUtc": "2026-08-14T19:56:00.000Z",
+      "rationale": "Approve F3 Black Box UI/default path export modal markup: adds a default-off protected Black Box CORE Capsule option bound to existing cmd.project.blackBox.exportManualCoreCapsuleKitV1 and safe-target copy; no user document or full product readiness claim.",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION_UI_DEFAULT_FLAG_PATH"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
+      "sha256": "95c62f2574bce63f3d05473ef48adede23328960d6df6672ef0c2a235750bce2",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_UI_DEFAULT_FLAG_PATH_V1",
+      "approvedAtUtc": "2026-08-14T20:01:00.000Z",
+      "rationale": "Approve final local-gates-green traceability ledger rebind for F3 Black Box product UI/default path: disposition remains DEFERRED_WITH_BLOCKER until delivery, but focused 6/6, affected 74/74, model 20/16/12/0, governance, dev:fast, guardrails and deterministic replay 2/2 are recorded; no full Black Box Product V1 claim.",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION_UI_DEFAULT_FLAG_PATH"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
+      "sha256": "5e1377453cd34cf7ab7acd9d15a7ca1a4605c593f0a544f9f336abaadfef53fb",
+      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_UI_DEFAULT_FLAG_PATH_V1",
+      "approvedAtUtc": "2026-08-14T20:01:00.000Z",
+      "rationale": "Approve final local-gates-green cumulative F3 receipt rebind for F3 Black Box product UI/default path: all local gates green, delivery still pending commit/PR/CI/merge/postmerge, product runtime feature flag remains default-off and full Black Box Product V1 remains not claimed.",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION_UI_DEFAULT_FLAG_PATH"
     }
   ]
 }

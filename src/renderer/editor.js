@@ -7173,6 +7173,8 @@ const MARKDOWN_EXPORT_SAVE_FAILED_STATUS_MESSAGE = 'Export Markdown save failed'
 const MARKDOWN_IMPORT_LOCAL_FILE_PREVIEW_COMMAND_ID = 'cmd.project.markdown.previewLocalFile';
 const MARKDOWN_IMPORT_LOCAL_FILE_ACCEPT_COMMAND_ID = 'cmd.project.markdown.acceptLocalPreview';
 const MARKDOWN_EXPORT_LOCAL_FILE_COMMAND_ID = 'cmd.project.markdown.exportLocalFile';
+const BLACK_BOX_EXPORT_MANUAL_CORE_COMMAND_ID = 'cmd.project.blackBox.exportManualCoreCapsuleKitV1';
+const BLACK_BOX_EXPORT_MANUAL_CORE_FORMAT = 'black-box-manual-core';
 const SELECTED_SCENES_TXT_EXPORT_SCOPE_QUERY_ID = WORKSPACE_QUERY_IDS.SELECTED_SCENES_TXT_EXPORT_SCOPE;
 const LINK_PROMPT_TITLE = 'Insert link';
 const FLOW_OPEN_ERROR_MESSAGE = 'Flow mode unavailable';
@@ -17806,15 +17808,20 @@ function openExportSurfaceModal(commandId = '') {
         ? 'Project Archive'
         : (normalizedCommandId === COMMAND_IDS.PROJECT_EXPORT_MARKDOWN_V1
           ? 'Markdown'
-          : (normalizedCommandId === EXTRA_COMMAND_IDS.PROJECT_EXPORT_SELECTED_SCENES_TXT
-            ? 'TXT Selected Scenes'
-            : (normalizedCommandId === EXTRA_COMMAND_IDS.PROJECT_EXPORT_CURRENT_SCENE_TXT
-              ? 'TXT Current Scene'
-              : (normalizedCommandId === EXTRA_COMMAND_IDS.PROJECT_EXPORT_ALL_SCENES_TXT ? 'TXT All Scenes' : ''))))));
+          : (normalizedCommandId === BLACK_BOX_EXPORT_MANUAL_CORE_COMMAND_ID
+            ? 'Black Box CORE Capsule'
+            : (normalizedCommandId === EXTRA_COMMAND_IDS.PROJECT_EXPORT_SELECTED_SCENES_TXT
+              ? 'TXT Selected Scenes'
+              : (normalizedCommandId === EXTRA_COMMAND_IDS.PROJECT_EXPORT_CURRENT_SCENE_TXT
+                ? 'TXT Current Scene'
+                : (normalizedCommandId === EXTRA_COMMAND_IDS.PROJECT_EXPORT_ALL_SCENES_TXT ? 'TXT All Scenes' : '')))))));
   const prefix = currentFormat ? `${currentFormat} selected. ` : '';
+  const detail = normalizedCommandId === BLACK_BOX_EXPORT_MANUAL_CORE_COMMAND_ID
+    ? 'Black Box CORE capsule export remains default-off; Command Kernel revalidates saved CORE truth, provider, source fence, and safe target before writing.'
+    : 'Target picking, loss reports, and unsupported fidelity stay owned by the selected export command.';
   setExportSurfaceStatus(
     `${prefix}Choose an existing export lane; project text is read from saved truth.`,
-    'Target picking, loss reports, and unsupported fidelity stay owned by the selected export command.',
+    detail,
   );
   openSimpleModal(exportSurfaceModal);
 }
@@ -17908,6 +17915,13 @@ function runExportSurfaceFormat(format) {
       'Project archive',
     );
   }
+  if (normalizedFormat === BLACK_BOX_EXPORT_MANUAL_CORE_FORMAT) {
+    return runExportSurfaceBridgeCommand(
+      BLACK_BOX_EXPORT_MANUAL_CORE_COMMAND_ID,
+      'black-box-manual-core-capsule',
+      'Black Box CORE capsule',
+    );
+  }
   if (normalizedFormat === 'markdown') {
     return handleMarkdownExportUiPath();
   }
@@ -17966,6 +17980,9 @@ function runCommandPaletteAction(commandId) {
     return openExportSurfaceModal(normalizedCommandId);
   }
   if (normalizedCommandId === exportMarkdownCommandId) {
+    return openExportSurfaceModal(normalizedCommandId);
+  }
+  if (normalizedCommandId === BLACK_BOX_EXPORT_MANUAL_CORE_COMMAND_ID) {
     return openExportSurfaceModal(normalizedCommandId);
   }
   return dispatchUiCommand(commandId.trim());
@@ -21537,6 +21554,10 @@ if (window.electronAPI) {
       return true;
     }
     if (commandId === EXTRA_COMMAND_IDS.PROJECT_EXPORT_ALL_SCENES_TXT) {
+      openExportSurfaceModal(commandId);
+      return true;
+    }
+    if (commandId === BLACK_BOX_EXPORT_MANUAL_CORE_COMMAND_ID) {
       openExportSurfaceModal(commandId);
       return true;
     }

@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "snapshotId": "menu-default-desktop-minimal",
-  "normalizedHashSha256": "b2340164e3fbb2614cf0146909e55373a18dd087ab7c921d7028ee51a64d4c67",
-  "generatedAt": "2026-08-01T21:31:21.656Z",
-  "generatedFromCommit": "a55a86e3f7c51c4d1dad6533fcdbe0e6208a54b9",
+  "normalizedHashSha256": "cd9ecb9dbc6f2a7d1a6f42b6fcfc4dcabc6c2688e4a893193a1d20940b5f6569",
+  "generatedAt": "2026-08-14T19:46:40.725Z",
+  "generatedFromCommit": "59ed787fb75769222d880cb9d5769e02ed614b0e",
   "context": {
     "contextHashSha256": "0b9f41c629bef3558dc79abcbc0afcffdad95ff97ccb70bfb3d1ebf8ad9b9290",
     "contextRef": "test/fixtures/menu/context.default.json"
@@ -24,6 +24,11 @@
         "base": "Экспорт TXT всех сцен",
         "en": "Export All Scenes TXT",
         "ru": "Экспорт TXT всех сцен"
+      },
+      "menu.file.exportBlackBoxManualCoreCapsule": {
+        "base": "Export Black Box Manual CORE Capsule...",
+        "en": "Export Black Box Manual CORE Capsule...",
+        "ru": "Экспорт Black Box CORE Capsule..."
       },
       "menu.file.exportCurrentSceneTxt": {
         "base": "Экспорт TXT текущей сцены",
@@ -308,6 +313,7 @@
     "src/menu/menu-locale.catalog.v1.json"
   ],
   "commands": [
+    "cmd.project.blackBox.exportManualCoreCapsuleKitV1",
     "cmd.project.export.docxMin",
     "cmd.project.exportAllScenesTxtV1",
     "cmd.project.exportCurrentSceneTxtV1",
@@ -607,6 +613,36 @@
           "id": "file-export-full-archive",
           "label": "Export Full Project Archive...",
           "labelKey": "menu.file.exportFullArchive",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": "cmd.project.blackBox.exportManualCoreCapsuleKitV1",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "name": "hasDocument",
+            "op": "flag"
+          },
+          "id": "file-export-black-box-manual-core-capsule",
+          "label": "Export Black Box Manual CORE Capsule...",
+          "labelKey": "menu.file.exportBlackBoxManualCoreCapsule",
           "mode": [
             "offline"
           ],

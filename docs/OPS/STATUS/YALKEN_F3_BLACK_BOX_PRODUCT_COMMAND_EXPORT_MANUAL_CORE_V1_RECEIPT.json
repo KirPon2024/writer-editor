@@ -509,9 +509,21 @@
   },
   "runtimeSourceRevisionBinding": {
     "taskId": "F3_BLACK_BOX_RUNTIME_SOURCE_REVISION_BINDING_V1",
-    "status": "LOCAL_CANDIDATE_GREEN_PENDING_DELIVERY",
+    "status": "PR_OPEN_LOCAL_CANDIDATE_GREEN_PENDING_REQUIRED_CI_MERGE_POSTMERGE",
     "baselineSha": "40d3d8fd20babaa72aa8afde4acfdc57ed0171b5",
     "baselineTreeSha": "edaf7dce448d17c600cfb2c3274fd09c9d844283",
+    "candidateCommitSha": "2d848bf314ba6b8b6878808a95bbd91f7f4eb395",
+    "candidateTreeSha": "4ef08ad43224c0f111cbb57ec1c0f7b0fead2c32",
+    "pr": {
+      "number": 1543,
+      "title": "Bind Black Box runtime source revision",
+      "headRefName": "codex/yalken-f3-black-box-runtime-source-revision-binding-v1",
+      "initialHeadSha": "2d848bf314ba6b8b6878808a95bbd91f7f4eb395",
+      "baseSha": "40d3d8fd20babaa72aa8afde4acfdc57ed0171b5",
+      "requiredCi": "PENDING",
+      "merge": "PENDING",
+      "postmerge": "PENDING"
+    },
     "scope": "Bind the existing Black Box manual CORE export main runtime bridge to a read-only runtime source revision observation seam. The seam computes projectId/rootId/documentId plus canonicalRevision, workingRevision and generation from current project manifest and CORE source bytes, uses least-privilege READ_SOURCE_SNAPSHOT authority with mayWrite=false, rejects dirty/autosave state, missing manifest and path traversal as non-PASS, and leaves the create-only target port not configured. No product UI, user documents, owner private key, provider behavior, live project overwrite, Disaster Ready or full Black Box Product V1 claim is added.",
     "redFirst": {
       "command": "node --test test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js; node scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs",

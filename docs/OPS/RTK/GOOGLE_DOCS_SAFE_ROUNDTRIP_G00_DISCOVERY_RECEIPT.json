@@ -84,7 +84,7 @@
     "googleStageDone": false,
     "localCompatibilityVerdict": "LOCAL_COMPATIBILITY_NEEDS_MORE_EVIDENCE",
     "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE",
-    "nextLocalContour": "GOOGLE_DOCS_LOCAL_PREVIEW_ONLY_NO_APPLY_V1"
+    "nextLocalContour": "GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1"
   },
   "gapMap": [
     {
@@ -244,9 +244,10 @@
       "media": "ABSTAIN_TYPED_LOCAL_NO_GOOGLE_STRUCTURE_E2E",
       "ids": "ABSTAIN_TYPED_LOCAL_NO_GOOGLE_IDENTITY_E2E",
       "formatting": "ABSTAIN_TYPED_LOCAL_NO_GOOGLE_FORMATTING_E2E"
-    }
+    },
+    "preview": "LOCAL_SYNTHETIC_PREVIEW_ONLY_NOT_RUNTIME_WIRED"
   },
-  "nextLocalContour": "GOOGLE_DOCS_LOCAL_PREVIEW_ONLY_NO_APPLY_V1",
+  "nextLocalContour": "GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1",
   "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE",
   "nonClaims": [
     "No Google Docs support is claimed.",
@@ -342,6 +343,23 @@
     "importClaimed": false,
     "roundtripClaimed": false,
     "returnIntakeTrusted": false,
+    "applyAuthority": false,
+    "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE"
+  },
+  "localPreviewOnlyNoApply": {
+    "status": "GOOGLE_DOCS_LOCAL_PREVIEW_ONLY_NO_APPLY_V1_LOCAL_VERIFIED",
+    "result": "PREVIEW_ONLY_NO_APPLY_NEEDS_REAL_GOOGLE_E2E",
+    "receiptPath": "docs/OPS/RTK/GOOGLE_DOCS_LOCAL_PREVIEW_ONLY_NO_APPLY_V1_RECEIPT.json",
+    "receiptSha256": "sha256:7df6da03411b65dab0264e4aa29ea558c4aef5e36019ea140dbc590fc9e89b84",
+    "localPreviewOnly": true,
+    "noProductMutation": true,
+    "physicalGoogleEvidence": 0,
+    "productRuntimeWired": 0,
+    "supportClaimed": false,
+    "importClaimed": false,
+    "roundtripClaimed": false,
+    "returnIntakeTrusted": false,
+    "previewDecisionTrusted": false,
     "applyAuthority": false,
     "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE"
   }

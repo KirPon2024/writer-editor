@@ -1,0 +1,184 @@
+{
+  "schemaVersion": "yalken.googleDocs.localPreviewOnlyNoApply.receipt.v1",
+  "taskId": "GOOGLE_DOCS_LOCAL_PREVIEW_ONLY_NO_APPLY_V1",
+  "status": "GOOGLE_DOCS_LOCAL_PREVIEW_ONLY_NO_APPLY_V1_LOCAL_VERIFIED",
+  "result": "PREVIEW_ONLY_NO_APPLY_NEEDS_REAL_GOOGLE_E2E",
+  "createdAtUtc": "2026-08-15T00:00:00.000Z",
+  "originMainSha": "076198427a1df1453cf65a0ed137a4a8d354ef6b",
+  "localHeadSha": "076198427a1df1453cf65a0ed137a4a8d354ef6b",
+  "localPreviewOnly": true,
+  "noProductMutation": true,
+  "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE",
+  "resourceCeilings": {
+    "maxReturnedArtifacts": 8,
+    "maxAggregatePayloadBytes": 65536,
+    "maxPreviewChars": 4096,
+    "userDocumentsAllowed": false,
+    "googleAccountAllowed": false,
+    "networkRuntimeAllowed": false
+  },
+  "nonClaims": {
+    "googleDocsReady": false,
+    "supportProven": false,
+    "importProven": false,
+    "roundtripProven": false,
+    "returnIntakeTrusted": false,
+    "previewDecisionTrusted": false,
+    "applyAuthority": false,
+    "physicalGoogleEvidence": false,
+    "productRuntimeWired": false,
+    "userDocumentsUsed": false,
+    "googleAccountUsed": false,
+    "networkRuntimeUsed": false,
+    "wordEvidenceTransferred": false
+  },
+  "samplePacket": {
+    "packet": {
+      "schemaVersion": "yalken.googleDocs.localPreviewDecision.v1",
+      "packetId": "synthetic-google-docs-preview-office-mode-docx-v1",
+      "sourceKind": "DISPOSABLE_SYNTHETIC_GOOGLE_PREVIEW_FIXTURE",
+      "provider": "google-docs",
+      "profileId": "google-docs-office-mode-post-d1-v1",
+      "previewMode": "LOCAL_SYNTHETIC_PREVIEW_ONLY",
+      "localOnly": true,
+      "userDocument": false,
+      "googleAccountUsed": false,
+      "networkRuntimeUsed": false,
+      "productRuntimeWired": false,
+      "physicalGoogleEvidence": false,
+      "inheritedEvidenceProfileId": "",
+      "claims": {
+        "supportProven": false,
+        "importProven": false,
+        "roundtripProven": false,
+        "returnIntakeTrusted": false,
+        "previewDecisionTrusted": false,
+        "applyAuthority": false,
+        "productMutationAuthority": false
+      },
+      "sourceBinding": {
+        "projectId": "synthetic-google-docs-project",
+        "rootId": "synthetic-google-docs-root",
+        "documentId": "synthetic-google-docs-document",
+        "canonicalRevision": "sha256:6d446104e737c754924c062db340d99fcbb71aeca2a12eacb2f2c133bbb68c8b",
+        "workingRevision": "sha256:b1dd8ca52ba8054dfeb4ec41974157dab8d5264858856a1d10f7046b62dfbdf8",
+        "generation": 1,
+        "sourceFence": "sha256:c0346daa1148baf10e145936675169bb60a597182e234a1f66f83afe26d479b4"
+      },
+      "returnedArtifacts": [
+        {
+          "artifactId": "google-docs-preview-returned-office-mode-docx",
+          "fileName": "synthetic-google-docs-preview-returned-office-mode.docx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "payloadText": "Yalken Google Docs local preview synthetic returned artifact.\nDisposable only. No user document. No Google account.\nThis payload can be previewed locally but cannot be imported or applied.",
+          "payloadSha256": "sha256:77fa6b7ad3caee9e888e7427ed18b9b1409c864f7b2713171928a2008f3738ef",
+          "sizeBytes": 188,
+          "contentClasses": [
+            "plainText",
+            "paragraphBreaks"
+          ]
+        }
+      ],
+      "previewManifest": {
+        "manifestId": "synthetic-google-docs-preview-manifest-v1",
+        "sourceBindingSha256": "sha256:820e76ab6979808a56b5a0289687cef48c5b6edccad1f9c97b330e5a5036d680",
+        "artifactBindings": [
+          {
+            "artifactId": "google-docs-preview-returned-office-mode-docx",
+            "mediaType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            "payloadSha256": "sha256:77fa6b7ad3caee9e888e7427ed18b9b1409c864f7b2713171928a2008f3738ef",
+            "sizeBytes": 188
+          }
+        ],
+        "aggregatePayloadSha256": "sha256:4826eed12d17d43bfa4760a3049ca4fff402697165bde9706071cb7e95179ef5",
+        "previewClass": "LOCAL_PREVIEW_ONLY_NO_APPLY",
+        "manifestSha256": "sha256:1a95f4b35243bfc3fd2b0f3c61810d42b291013cd79aaa6a9655c5d6d54ba7c2"
+      },
+      "previewCandidates": [
+        {
+          "candidateId": "google-docs-preview-candidate-1",
+          "sourceBindingSha256": "sha256:820e76ab6979808a56b5a0289687cef48c5b6edccad1f9c97b330e5a5036d680",
+          "artifactId": "google-docs-preview-returned-office-mode-docx",
+          "artifactSha256": "sha256:77fa6b7ad3caee9e888e7427ed18b9b1409c864f7b2713171928a2008f3738ef",
+          "previewText": "Yalken Google Docs local preview synthetic returned artifact.\nDisposable only. No user document. No Google account.\nThis payload can be previewed locally but cannot be imported or applied.",
+          "previewTextSha256": "sha256:77fa6b7ad3caee9e888e7427ed18b9b1409c864f7b2713171928a2008f3738ef",
+          "decision": "PREVIEW_ONLY",
+          "applyAuthority": "DENY",
+          "candidateSha256": "sha256:7463075ec35646e87473fc6c35d501321ede1d8a7bc7a7017235d46f58c514bd"
+        }
+      ],
+      "previewOracle": {
+        "oracleId": "synthetic-google-docs-preview-only-oracle-v1",
+        "expectedAction": "PREVIEW_ONLY",
+        "expectedPreviewCandidates": 1,
+        "expectedApplyAdmitted": 0,
+        "expectedProductMutations": 0,
+        "manifestSha256": "sha256:1a95f4b35243bfc3fd2b0f3c61810d42b291013cd79aaa6a9655c5d6d54ba7c2",
+        "candidateSha256s": [
+          "sha256:7463075ec35646e87473fc6c35d501321ede1d8a7bc7a7017235d46f58c514bd"
+        ],
+        "artifactSha256s": [
+          "sha256:77fa6b7ad3caee9e888e7427ed18b9b1409c864f7b2713171928a2008f3738ef"
+        ],
+        "oracleSha256": "sha256:8138c6861871b717cbca1be315cd7f7f7ba4f29216ff5f5e12e5a7abf64a7d1b"
+      },
+      "limitations": [
+        "NO_REAL_GOOGLE_ACCOUNT_E2E",
+        "LOCAL_PREVIEW_ONLY",
+        "NO_GOOGLE_RETURN_IMPORT_AUTHORITY",
+        "NO_GOOGLE_RETURN_APPLY_AUTHORITY",
+        "NO_PRODUCT_MUTATION_AUTHORITY"
+      ],
+      "upstreamLocalReturnIntake": {
+        "status": "GOOGLE_DOCS_LOCAL_RETURN_INTAKE_QUARANTINE_V1_LOCAL_VERIFIED",
+        "result": "RETURN_INTAKE_QUARANTINE_ONLY_NEEDS_REAL_GOOGLE_E2E",
+        "action": "QUARANTINE_ONLY",
+        "applyAuthority": "DENY"
+      }
+    },
+    "result": {
+      "ok": true,
+      "status": "GOOGLE_DOCS_LOCAL_PREVIEW_ONLY_NO_APPLY_V1_LOCAL_VERIFIED",
+      "result": "PREVIEW_ONLY_NO_APPLY_NEEDS_REAL_GOOGLE_E2E",
+      "code": "GOOGLE_PREVIEW_ONLY_NO_APPLY_DECISION",
+      "action": "PREVIEW_ONLY",
+      "provider": "google-docs",
+      "profileId": "google-docs-office-mode-post-d1-v1",
+      "previewMode": "LOCAL_SYNTHETIC_PREVIEW_ONLY",
+      "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE",
+      "localPreviewOnly": true,
+      "noProductMutation": true,
+      "supportClaimed": false,
+      "importClaimed": false,
+      "roundtripClaimed": false,
+      "returnIntakeTrusted": false,
+      "previewDecisionTrusted": false,
+      "applyAuthority": "DENY",
+      "packetDigest": "sha256:8e634333d0aa27528d9f3b362872d3449c6d814309a709961d6756c8e4aad73e",
+      "manifestDigest": "sha256:1a95f4b35243bfc3fd2b0f3c61810d42b291013cd79aaa6a9655c5d6d54ba7c2",
+      "oracleDigest": "sha256:8138c6861871b717cbca1be315cd7f7f7ba4f29216ff5f5e12e5a7abf64a7d1b",
+      "counts": {
+        "returnedArtifacts": 1,
+        "previewCandidates": 1,
+        "trustedProviderCases": 0,
+        "applyAdmitted": 0,
+        "productMutations": 0
+      }
+    }
+  },
+  "profileBoundary": {
+    "acceptedProfiles": [
+      "google-docs-office-mode-post-d1-v1",
+      "google-docs-native-conversion-post-d1-v1"
+    ],
+    "wordEvidenceTransferToGoogleDocs": "DENY",
+    "unsupportedFormatsRemain": "ABSTAIN_TYPED_LIMITATION_NOT_PASS",
+    "previewTrust": "DENY_UNTIL_REAL_GOOGLE_PROVIDER_E2E_AND_COMMAND_KERNEL_CONTOUR",
+    "applyAuthority": "DENY"
+  },
+  "rollback": {
+    "type": "REVERT_THIS_CONTOUR_ONLY",
+    "preservesPreviousG00Verdict": "LOCAL_COMPATIBILITY_NEEDS_MORE_EVIDENCE",
+    "restoresNextLocalContour": "GOOGLE_DOCS_LOCAL_PREVIEW_ONLY_NO_APPLY_V1"
+  }
+}

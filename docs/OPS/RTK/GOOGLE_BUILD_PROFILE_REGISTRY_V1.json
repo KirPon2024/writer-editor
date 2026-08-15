@@ -43,6 +43,11 @@
       "note": "G04 local format/structure typed limitation receipt — digest-bound synthetic local matrix only, not Google support/import/roundtrip/apply evidence."
     },
     {
+      "path": "docs/OPS/RTK/GOOGLE_DOCS_LOCAL_PREVIEW_ONLY_NO_APPLY_V1_RECEIPT.json",
+      "sha256": "sha256:7df6da03411b65dab0264e4aa29ea558c4aef5e36019ea140dbc590fc9e89b84",
+      "note": "Local returned-artifact preview-only receipt — synthetic preview evidence only, not Google support/import/roundtrip/apply evidence."
+    },
+    {
       "path": "docs/OPS/RTK/GOOGLE_DOCS_LOCAL_RETURN_INTAKE_QUARANTINE_V1_RECEIPT.json",
       "sha256": "sha256:f9c941f02b0415e406960d307cb6e72dc3f5e4e460ff9bb6c2bd0b93a8c2381e",
       "note": "Local returned-artifact intake quarantine receipt — synthetic quarantine evidence only, not Google support/import/roundtrip/apply evidence."
@@ -54,13 +59,13 @@
     },
     {
       "path": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
-      "sha256": "sha256:6d23daf2c530627caa8a3bd37014cbb5c0117713572be0f090d7e725cdee59be",
-      "note": "G00 Google Docs local compatibility matrix rebound with local return intake quarantine binding."
+      "sha256": "sha256:a141b4591dae219ab39b4be45c612b0d81ef7547d5a809335b6d18bf02e4fe1c",
+      "note": "G00 Google Docs local compatibility matrix rebound with local preview-only no-apply binding."
     },
     {
       "path": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json",
-      "sha256": "sha256:16f7d229d34ae13c285344927f7d7fd0d1e57c7016f0b59ab68ee4b9b7622c72",
-      "note": "G00 Google Docs discovery receipt rebound with local return intake quarantine binding."
+      "sha256": "sha256:e52e84780d084cc6ccb2c1ce2be9d3cae3a45c70e8a0cbd82870ae5dbd7b65ab",
+      "note": "G00 Google Docs discovery receipt rebound with local preview-only no-apply binding."
     },
     {
       "path": "docs/OPS/STATUS/REVIEW_BRIDGE_GOOGLE_DOCS_EVIDENCE_CLAIM_BINDING_001_STATUS.json",

@@ -1,0 +1,235 @@
+{
+  "schemaVersion": "yalken.googleDocs.localRecoveryReplay.receipt.v1",
+  "taskId": "GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1",
+  "status": "GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1_LOCAL_VERIFIED",
+  "result": "RECOVERY_REPLAY_CONTRACT_LOCAL_ONLY_NEEDS_REAL_GOOGLE_E2E",
+  "createdAtUtc": "2026-08-15T00:00:00.000Z",
+  "originMainSha": "c08c9639baf64ac721d9636a66a02b6e0ca3bde2",
+  "localHeadSha": "c08c9639baf64ac721d9636a66a02b6e0ca3bde2",
+  "localRecoveryReplayOnly": true,
+  "noProductMutation": true,
+  "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE",
+  "resourceCeilings": {
+    "maxReturnedArtifacts": 8,
+    "maxAggregatePayloadBytes": 65536,
+    "expectedRecoveryEvents": 3,
+    "writerCallsAllowed": 0,
+    "userDocumentsAllowed": false,
+    "googleAccountAllowed": false,
+    "networkRuntimeAllowed": false
+  },
+  "nonClaims": {
+    "googleDocsReady": false,
+    "supportProven": false,
+    "importProven": false,
+    "roundtripProven": false,
+    "returnIntakeTrusted": false,
+    "previewDecisionTrusted": false,
+    "recoveryTrusted": false,
+    "applyAuthority": false,
+    "physicalGoogleEvidence": false,
+    "productRuntimeWired": false,
+    "userDocumentsUsed": false,
+    "googleAccountUsed": false,
+    "networkRuntimeUsed": false,
+    "wordEvidenceTransferred": false
+  },
+  "samplePacket": {
+    "packet": {
+      "schemaVersion": "yalken.googleDocs.localRecoveryReplay.v1",
+      "packetId": "synthetic-google-docs-recovery-replay-office-mode-docx-v1",
+      "sourceKind": "DISPOSABLE_SYNTHETIC_GOOGLE_RECOVERY_REPLAY_FIXTURE",
+      "provider": "google-docs",
+      "profileId": "google-docs-office-mode-post-d1-v1",
+      "recoveryMode": "LOCAL_SYNTHETIC_RECOVERY_REPLAY_ONLY",
+      "localOnly": true,
+      "userDocument": false,
+      "googleAccountUsed": false,
+      "networkRuntimeUsed": false,
+      "productRuntimeWired": false,
+      "physicalGoogleEvidence": false,
+      "inheritedEvidenceProfileId": "",
+      "claims": {
+        "supportProven": false,
+        "importProven": false,
+        "roundtripProven": false,
+        "returnIntakeTrusted": false,
+        "previewDecisionTrusted": false,
+        "recoveryTrusted": false,
+        "applyAuthority": false,
+        "productMutationAuthority": false
+      },
+      "sourceBinding": {
+        "projectId": "synthetic-google-docs-project",
+        "rootId": "synthetic-google-docs-root",
+        "documentId": "synthetic-google-docs-document",
+        "canonicalRevision": "sha256:6d446104e737c754924c062db340d99fcbb71aeca2a12eacb2f2c133bbb68c8b",
+        "workingRevision": "sha256:b1dd8ca52ba8054dfeb4ec41974157dab8d5264858856a1d10f7046b62dfbdf8",
+        "generation": 1,
+        "sourceFence": "sha256:3d3fd87aa74f2fcdd095901f08abe0a906443d85ae1ede4fa5569da4e53773cb"
+      },
+      "returnedArtifacts": [
+        {
+          "artifactId": "google-docs-recovery-replay-returned-office-mode-docx",
+          "fileName": "synthetic-google-docs-recovery-replay-returned-office-mode.docx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "payloadText": "Yalken Google Docs local recovery replay synthetic returned artifact.\nDisposable only. No user document. No Google account.\nThis payload may be recovered or replayed only as quarantined preview evidence.",
+          "payloadSha256": "sha256:960bd9de3b6db8e9c800c59526447737bfdde4d1e2434a8d03da4d3fba6a2f83",
+          "sizeBytes": 203,
+          "contentClasses": [
+            "plainText",
+            "paragraphBreaks"
+          ]
+        }
+      ],
+      "recoveryManifest": {
+        "manifestId": "synthetic-google-docs-recovery-replay-manifest-v1",
+        "sourceBindingSha256": "sha256:bae021d6c855a11acf8df5ed104340b2c85c87cd2d99e942326d3245c842e999",
+        "artifactBindings": [
+          {
+            "artifactId": "google-docs-recovery-replay-returned-office-mode-docx",
+            "mediaType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            "payloadSha256": "sha256:960bd9de3b6db8e9c800c59526447737bfdde4d1e2434a8d03da4d3fba6a2f83",
+            "sizeBytes": 203
+          }
+        ],
+        "aggregatePayloadSha256": "sha256:69313685e8024d94c4510a33f187e0a35ebb24d3ebcb70f08a3417557909efc1",
+        "recoveryClass": "LOCAL_QUARANTINE_RECOVERY_REPLAY_ONLY",
+        "manifestSha256": "sha256:ffa8e76cbd883b290602c7f71b87fd551ae0a76a6395dd2c08c418283c1a69f3"
+      },
+      "recoveryLog": {
+        "logId": "synthetic-google-docs-recovery-replay-log-v1",
+        "sourceBindingSha256": "sha256:bae021d6c855a11acf8df5ed104340b2c85c87cd2d99e942326d3245c842e999",
+        "manifestSha256": "sha256:ffa8e76cbd883b290602c7f71b87fd551ae0a76a6395dd2c08c418283c1a69f3",
+        "artifactSha256s": [
+          "sha256:960bd9de3b6db8e9c800c59526447737bfdde4d1e2434a8d03da4d3fba6a2f83"
+        ],
+        "events": [
+          {
+            "eventId": "google-recovery-event-1",
+            "eventType": "QUARANTINE_MANIFEST_OBSERVED",
+            "sourceBindingSha256": "sha256:bae021d6c855a11acf8df5ed104340b2c85c87cd2d99e942326d3245c842e999",
+            "artifactSha256s": [
+              "sha256:960bd9de3b6db8e9c800c59526447737bfdde4d1e2434a8d03da4d3fba6a2f83"
+            ],
+            "manifestSha256": "sha256:ffa8e76cbd883b290602c7f71b87fd551ae0a76a6395dd2c08c418283c1a69f3",
+            "eventSha256": "sha256:1c7b32eeb28ba85a7ced607a4aab1b39541232d92592b7303df4af1103843b0a"
+          },
+          {
+            "eventId": "google-recovery-event-2",
+            "eventType": "RECOVERY_RECONCILED_WITHOUT_WRITE",
+            "sourceBindingSha256": "sha256:bae021d6c855a11acf8df5ed104340b2c85c87cd2d99e942326d3245c842e999",
+            "artifactSha256s": [
+              "sha256:960bd9de3b6db8e9c800c59526447737bfdde4d1e2434a8d03da4d3fba6a2f83"
+            ],
+            "manifestSha256": "sha256:ffa8e76cbd883b290602c7f71b87fd551ae0a76a6395dd2c08c418283c1a69f3",
+            "writerCalls": 0,
+            "eventSha256": "sha256:1feb03071cb3981370e4de26cf61a07a994256781863e18936be7d8267b1299f"
+          },
+          {
+            "eventId": "google-recovery-event-3",
+            "eventType": "REPLAY_DETECTED_IDEMPOTENT_NO_WRITE",
+            "sourceBindingSha256": "sha256:bae021d6c855a11acf8df5ed104340b2c85c87cd2d99e942326d3245c842e999",
+            "artifactSha256s": [
+              "sha256:960bd9de3b6db8e9c800c59526447737bfdde4d1e2434a8d03da4d3fba6a2f83"
+            ],
+            "manifestSha256": "sha256:ffa8e76cbd883b290602c7f71b87fd551ae0a76a6395dd2c08c418283c1a69f3",
+            "writerCalls": 0,
+            "eventSha256": "sha256:acb41c7e6309b7b4d6bcefbae691f0f4d840b435b7500e3b4a41179d6b7d735e"
+          }
+        ],
+        "logSha256": "sha256:7c36bb2987d0b0cfba64193a77fa77268c600b87adcd2a8047377abc7b8dc9d7"
+      },
+      "replayReceipt": {
+        "replayId": "synthetic-google-docs-recovery-replay-receipt-v1",
+        "sourceBindingSha256": "sha256:bae021d6c855a11acf8df5ed104340b2c85c87cd2d99e942326d3245c842e999",
+        "logSha256": "sha256:7c36bb2987d0b0cfba64193a77fa77268c600b87adcd2a8047377abc7b8dc9d7",
+        "artifactSha256s": [
+          "sha256:960bd9de3b6db8e9c800c59526447737bfdde4d1e2434a8d03da4d3fba6a2f83"
+        ],
+        "replayStatus": "IDEMPOTENT_REPLAY_NO_WRITE",
+        "recoveredArtifacts": 1,
+        "writerCalls": 0,
+        "applyAdmitted": 0,
+        "productMutations": 0,
+        "outputClass": "QUARANTINE_PREVIEW_ONLY",
+        "replaySha256": "sha256:8fc1d4c22328ff9cf4cfb4a5d37b9cbd9a436cdb2b1b4e9c94433110c774a5ae"
+      },
+      "recoveryOracle": {
+        "oracleId": "synthetic-google-docs-recovery-replay-oracle-v1",
+        "expectedAction": "RECOVER_OR_REPLAY_QUARANTINE_ONLY",
+        "expectedRecoveryEvents": 3,
+        "expectedIdempotentReplays": 1,
+        "expectedWriterCalls": 0,
+        "expectedApplyAdmitted": 0,
+        "expectedProductMutations": 0,
+        "expectedArtifactCount": 1,
+        "manifestSha256": "sha256:ffa8e76cbd883b290602c7f71b87fd551ae0a76a6395dd2c08c418283c1a69f3",
+        "logSha256": "sha256:7c36bb2987d0b0cfba64193a77fa77268c600b87adcd2a8047377abc7b8dc9d7",
+        "replaySha256": "sha256:8fc1d4c22328ff9cf4cfb4a5d37b9cbd9a436cdb2b1b4e9c94433110c774a5ae",
+        "oracleSha256": "sha256:a21a067ff60f9ac00db595b7b6575d6a2ce520da1f858c7bb33cfa0d68167cec"
+      },
+      "limitations": [
+        "NO_REAL_GOOGLE_ACCOUNT_E2E",
+        "LOCAL_RECOVERY_REPLAY_CONTRACT_ONLY",
+        "NO_GOOGLE_RETURN_IMPORT_AUTHORITY",
+        "NO_GOOGLE_RETURN_APPLY_AUTHORITY",
+        "NO_PRODUCT_MUTATION_AUTHORITY"
+      ],
+      "upstreamLocalPreviewOnlyNoApply": {
+        "status": "GOOGLE_DOCS_LOCAL_PREVIEW_ONLY_NO_APPLY_V1_LOCAL_VERIFIED",
+        "result": "PREVIEW_ONLY_NO_APPLY_NEEDS_REAL_GOOGLE_E2E",
+        "action": "PREVIEW_ONLY",
+        "applyAuthority": "DENY"
+      }
+    },
+    "result": {
+      "ok": true,
+      "status": "GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1_LOCAL_VERIFIED",
+      "result": "RECOVERY_REPLAY_CONTRACT_LOCAL_ONLY_NEEDS_REAL_GOOGLE_E2E",
+      "code": "GOOGLE_RECOVERY_REPLAY_LOCAL_NO_APPLY_DECISION",
+      "action": "RECOVER_OR_REPLAY_QUARANTINE_ONLY",
+      "provider": "google-docs",
+      "profileId": "google-docs-office-mode-post-d1-v1",
+      "recoveryMode": "LOCAL_SYNTHETIC_RECOVERY_REPLAY_ONLY",
+      "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE",
+      "localRecoveryReplayOnly": true,
+      "noProductMutation": true,
+      "supportClaimed": false,
+      "importClaimed": false,
+      "roundtripClaimed": false,
+      "returnIntakeTrusted": false,
+      "previewDecisionTrusted": false,
+      "recoveryTrusted": false,
+      "applyAuthority": "DENY",
+      "packetDigest": "sha256:e16dc8a0084e861531cd88d7c72aaea1842b38a504e3e36777a9e9f9b19a468b",
+      "manifestDigest": "sha256:ffa8e76cbd883b290602c7f71b87fd551ae0a76a6395dd2c08c418283c1a69f3",
+      "logDigest": "sha256:7c36bb2987d0b0cfba64193a77fa77268c600b87adcd2a8047377abc7b8dc9d7",
+      "replayDigest": "sha256:8fc1d4c22328ff9cf4cfb4a5d37b9cbd9a436cdb2b1b4e9c94433110c774a5ae",
+      "oracleDigest": "sha256:a21a067ff60f9ac00db595b7b6575d6a2ce520da1f858c7bb33cfa0d68167cec",
+      "counts": {
+        "returnedArtifacts": 1,
+        "recoveryEvents": 3,
+        "idempotentReplays": 1,
+        "writerCalls": 0,
+        "applyAdmitted": 0,
+        "productMutations": 0
+      }
+    }
+  },
+  "profileBoundary": {
+    "acceptedProfiles": [
+      "google-docs-office-mode-post-d1-v1",
+      "google-docs-native-conversion-post-d1-v1"
+    ],
+    "wordEvidenceTransferToGoogleDocs": "DENY",
+    "recoveryTrust": "DENY_UNTIL_REAL_GOOGLE_PROVIDER_E2E_AND_COMMAND_KERNEL_CONTOUR",
+    "replayOutcome": "IDEMPOTENT_QUARANTINE_REPLAY_WITH_ZERO_WRITER_CALLS",
+    "applyAuthority": "DENY"
+  },
+  "rollback": {
+    "type": "REVERT_THIS_CONTOUR_ONLY",
+    "preservesPreviousG00Verdict": "LOCAL_COMPATIBILITY_NEEDS_MORE_EVIDENCE",
+    "restoresNextLocalContour": "GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1"
+  }
+}

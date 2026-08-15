@@ -3,8 +3,8 @@
   "documentClass": "FACTUAL_STATUS",
   "status": "LIVING_LEDGER_CURRENT_FINAL_PROGRAM_VERDICT_NEEDS_MORE_EVIDENCE",
   "claimBoundary": "Maps material lab findings and post-20260811 program deltas to typed product dispositions. This ledger is not product/runtime authority, does not modify frozen source packages, and does not claim all lab work is integrated.",
-  "generatedAtUtc": "2026-08-14T21:43:07Z",
-  "exactHead": "b37385f17762eab70b2fe03010457b640893b96d",
+  "generatedAtUtc": "2026-08-15T00:25:29Z",
+  "exactHead": "1cb32601a4e426dfbeb9286cb8f7a289f509e431",
   "programPhaseSequence": [
     "S0",
     "F1",
@@ -15,7 +15,7 @@
   "claimControls": {
     "allLabWorkIntegratedClaimAllowed": false,
     "finalProgramVerdict": "NEEDS_MORE_EVIDENCE",
-    "reason": "S0, F1, F2 and F0R/T0 are closed by exact product/test evidence recorded below, and F3 has multiple merged/postmerge product seams including the UI/default path. Full Black Box Product V1 remains honestly deferred because real owner-key recovery, independent off-host restore, exact-byte FINAL_COMPLETE donor replication and any project-library registration choice are not product-proven in this repo head. Lab receipts remain provenance-only and cannot substitute for product/runtime evidence."
+    "reason": "S0, F1, F2 and F0R/T0 are closed by exact product/test evidence recorded below, Google Docs remains local quarantine only, and F3 has merged/postmerge software seams plus an in-flight architecture manifest hardening candidate. Full Black Box Product V1 remains honestly deferred because real owner-key recovery, independent off-host restore, exact-byte FINAL_COMPLETE donor replication and any project-library registration choice are not product-proven in this repo head."
   },
   "sourcePackagePolicy": {
     "sealedPackagesImmutable": true,
@@ -1239,7 +1239,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "be35face4e7bbebeecb0eb09609531ac914b9d675754c857004fa410acbb7b3c"
+            "sha256": "6f4b5211098066290ef028f43ec03431897cb1ae6effb50254e55a59cee86444"
           }
         }
       ],
@@ -1289,7 +1289,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "be35face4e7bbebeecb0eb09609531ac914b9d675754c857004fa410acbb7b3c"
+            "sha256": "6f4b5211098066290ef028f43ec03431897cb1ae6effb50254e55a59cee86444"
           }
         }
       ],
@@ -1351,7 +1351,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "be35face4e7bbebeecb0eb09609531ac914b9d675754c857004fa410acbb7b3c"
+            "sha256": "6f4b5211098066290ef028f43ec03431897cb1ae6effb50254e55a59cee86444"
           }
         }
       ],
@@ -1408,7 +1408,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "be35face4e7bbebeecb0eb09609531ac914b9d675754c857004fa410acbb7b3c"
+            "sha256": "6f4b5211098066290ef028f43ec03431897cb1ae6effb50254e55a59cee86444"
           }
         }
       ],
@@ -1510,7 +1510,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "be35face4e7bbebeecb0eb09609531ac914b9d675754c857004fa410acbb7b3c"
+            "sha256": "6f4b5211098066290ef028f43ec03431897cb1ae6effb50254e55a59cee86444"
           }
         }
       ],
@@ -1596,7 +1596,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "be35face4e7bbebeecb0eb09609531ac914b9d675754c857004fa410acbb7b3c"
+            "sha256": "6f4b5211098066290ef028f43ec03431897cb1ae6effb50254e55a59cee86444"
           }
         }
       ],
@@ -1722,11 +1722,51 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "be35face4e7bbebeecb0eb09609531ac914b9d675754c857004fa410acbb7b3c"
+            "sha256": "6f4b5211098066290ef028f43ec03431897cb1ae6effb50254e55a59cee86444"
           }
         }
       ],
       "rollback": "Revert the bounded UI/default path PR. No canonical project data or migration rollback is required."
+    },
+    {
+      "materialId": "F3_BLACK_BOX_ARCHITECTURE_MANIFEST_HARDENING_V1",
+      "programPhase": "F3",
+      "summary": "Black Box product-command architecture manifest hardening is enforced in the PR candidate: FEATURE_INTEGRATION_MANIFEST_V1 explicitly binds the existing command path to all five state classes, no-loss authoring duty, platform availability/fallback, current/target separation, Tier C no-data-migration boundary and revert-only rollback. This is a software/test gate only and does not promote full Black Box Product V1 or physical owner/off-host claims.",
+      "sourcePins": [
+        "BLACK_BOX_FINAL_LAB_EXTERNAL_RECEIPT"
+      ],
+      "disposition": "ENFORCED_TEST_GATE",
+      "productBindings": [
+        {
+          "commitSha": "f8ce349fc3d33bbdd45d0cab903a03fdae6e74ce",
+          "prNumber": 1552,
+          "files": [
+            "src/product/blackBoxProductCommandExportManualCoreV1.mjs",
+            "test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+            "scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs",
+            "scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
+            "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
+            "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
+            "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_RECEIPT.json",
+            "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+          ],
+          "tests": [
+            "node --test test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+            "node scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs",
+            "node --test test/contracts/final-lab-to-product-traceability-v2.contract.test.js",
+            "node scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
+            "node --test affected F3/S0/F1/T0/Google contracts",
+            "node affected F3/S0/F1/T0/Google finite models and mutation oracles",
+            "REMOTE_BINDING_OK=1 PRE_UI_OPS_CONTOUR_CLOSED_OK=1 npm run dev:fast",
+            "npm run agent:guardrails",
+            "npm run -s test:rtk"
+          ],
+          "receipt": {
+            "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
+            "sha256": "6f4b5211098066290ef028f43ec03431897cb1ae6effb50254e55a59cee86444"
+          }
+        }
+      ]
     }
   ],
   "rollback": {

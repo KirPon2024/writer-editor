@@ -1239,7 +1239,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "513e678753fb5e3e9df0a7ccfdf73dbe896841bf22c55e7950a3b61128773110"
+            "sha256": "5d2b583ef2e02fead59584dfb9e160a9c4cc89ed8e1c28ecfa7dda4d5c55ac04"
           }
         }
       ],
@@ -1289,7 +1289,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "513e678753fb5e3e9df0a7ccfdf73dbe896841bf22c55e7950a3b61128773110"
+            "sha256": "5d2b583ef2e02fead59584dfb9e160a9c4cc89ed8e1c28ecfa7dda4d5c55ac04"
           }
         }
       ],
@@ -1351,7 +1351,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "513e678753fb5e3e9df0a7ccfdf73dbe896841bf22c55e7950a3b61128773110"
+            "sha256": "5d2b583ef2e02fead59584dfb9e160a9c4cc89ed8e1c28ecfa7dda4d5c55ac04"
           }
         }
       ],
@@ -1408,7 +1408,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "513e678753fb5e3e9df0a7ccfdf73dbe896841bf22c55e7950a3b61128773110"
+            "sha256": "5d2b583ef2e02fead59584dfb9e160a9c4cc89ed8e1c28ecfa7dda4d5c55ac04"
           }
         }
       ],
@@ -1463,7 +1463,8 @@
         "candidateCommitSha": "2d848bf314ba6b8b6878808a95bbd91f7f4eb395",
         "candidateTreeSha": "4ef08ad43224c0f111cbb57ec1c0f7b0fead2c32",
         "prNumber": 1543,
-        "prStatus": "OPEN_PENDING_REQUIRED_CI_MERGE_POSTMERGE",
+        "prStatus": "MERGED_POSTMERGE_VERIFIED_IN_PR_1543",
+        "mergeCommitSha": "38303776c7884473db7fda822cf03c09b22b29a2",
         "redFirst": "11 tests, 8 pass, 3 fail: main bridge still used placeholder revisions/UNKNOWN dirty state and helper module was missing",
         "focusedTests": "11/11",
         "affectedTests": "78/78",
@@ -1473,7 +1474,7 @@
         "uiChanged": false,
         "targetPortChanged": false,
         "userDocumentsTouched": false,
-        "claimBoundary": "Local candidate only; create-only target remains not configured, feature remains default-off, no product UI, no owner-key drill, no off-host restore and no full Black Box Product V1 claim."
+        "claimBoundary": "Merged and postmerge verified for runtime source revision binding only; create-only target remains separately scoped, feature remains default-off, no product UI, no owner-key drill, no off-host restore and no full Black Box Product V1 claim."
       },
       "productBindings": [
         {
@@ -1510,7 +1511,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "513e678753fb5e3e9df0a7ccfdf73dbe896841bf22c55e7950a3b61128773110"
+            "sha256": "5d2b583ef2e02fead59584dfb9e160a9c4cc89ed8e1c28ecfa7dda4d5c55ac04"
           }
         }
       ],
@@ -1596,7 +1597,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "513e678753fb5e3e9df0a7ccfdf73dbe896841bf22c55e7950a3b61128773110"
+            "sha256": "5d2b583ef2e02fead59584dfb9e160a9c4cc89ed8e1c28ecfa7dda4d5c55ac04"
           }
         }
       ],
@@ -1722,7 +1723,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "513e678753fb5e3e9df0a7ccfdf73dbe896841bf22c55e7950a3b61128773110"
+            "sha256": "5d2b583ef2e02fead59584dfb9e160a9c4cc89ed8e1c28ecfa7dda4d5c55ac04"
           }
         }
       ],
@@ -1765,7 +1766,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "513e678753fb5e3e9df0a7ccfdf73dbe896841bf22c55e7950a3b61128773110"
+            "sha256": "5d2b583ef2e02fead59584dfb9e160a9c4cc89ed8e1c28ecfa7dda4d5c55ac04"
           },
           "featureCommitSha": "f8ce349fc3d33bbdd45d0cab903a03fdae6e74ce",
           "deliveryRebindCommitSha": "d8cb13ad64b16ee09b94e7931e01cc5c69fa2386"

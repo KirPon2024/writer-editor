@@ -1087,9 +1087,12 @@
   },
   "finalTraceabilityVerdictRebind": {
     "taskId": "PROGRAM_FINAL_TRACEABILITY_VERDICT_REBIND_V1",
-    "status": "LOCAL_CANDIDATE_FACTUAL_REBIND_PENDING_DELIVERY_CHAIN",
+    "status": "MERGED_POSTMERGE_VERIFIED_IN_PR_1548",
     "baselineSha": "b37385f17762eab70b2fe03010457b640893b96d",
     "baselineTreeSha": "538d4bf36b78ff98d20c46da5f2afc893fbe8001",
+    "prNumber": 1548,
+    "mergeCommitSha": "b37385f17762eab70b2fe03010457b640893b96d",
+    "mergedAtUtc": "2026-08-14T21:27:13Z",
     "productUiDefaultFlagPath": "MERGED_POSTMERGE_VERIFIED_IN_PR_1547_AND_REBOUND_IN_PR_1548",
     "finalProgramVerdict": "NEEDS_MORE_EVIDENCE",
     "fullBlackBoxProductV1": "DEFERRED_WITH_BLOCKER",
@@ -1205,9 +1208,9 @@
       "src/product/blackBoxProductCommandExportManualCoreV1.mjs": "4d270f42603ffacb8372da343eb40eb2e1b1f81ffc923275b1cc9e39f7187e17",
       "test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js": "7f4d0ca7c93a1c9e2f690eaa9bbe73bd3e02b9bd1ccf95312c96332f57367ab0",
       "scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs": "421f8f718fc0da4e8c9db8fb270b187428196685b4cdc6e8e84429d7154a953a",
-      "scripts/ops/final-lab-to-product-traceability-v2-verify.mjs": "4cf8a68c438a47ddc2d2f3a11ef9bb3eeefd2b99c348533119a34e45a20d08ac",
+      "scripts/ops/final-lab-to-product-traceability-v2-verify.mjs": "ae8bd325a013c07907064e39198085a64fe68749a7587478f51e9301a6f32e9b",
       "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json": "95384ebf668c1b5b99e498c0146668e594a13ff90be1e6e5234963db3b669f6e",
-      "test/contracts/final-lab-to-product-traceability-v2.contract.test.js": "a3089d8ebfa5dfb2ebaa9482fe298a8c72db6398e2e29c019aedfc9242324f58"
+      "test/contracts/final-lab-to-product-traceability-v2.contract.test.js": "bf8ba40774e960bbd515923264821b8dd7b09f6b2f0ce18448a67ec4f6a72453"
     },
     "rollback": "Revert this bounded manifest/test/model/receipt/ledger/governance PR; no project data or runtime behavior rollback is required.",
     "affectedProof": {
@@ -1257,8 +1260,13 @@
     "postmergeTreeSha": "674138dfd1230c8235edc464150566f096814313",
     "postmergeRebind": {
       "taskId": "F3_BLACK_BOX_ARCHITECTURE_MANIFEST_POSTMERGE_REBIND_V1",
-      "status": "IN_PROGRESS_LOCAL_CANDIDATE",
+      "status": "MERGED_POSTMERGE_VERIFIED_IN_PR_1553",
       "baselineSha": "ba62fb9fb4d1646ced37542b75370ec0226e1079",
+      "candidateCommitSha": "8da5d7320fbc2daa97a6f0c3c3f01a60642cf315",
+      "mergeCommitSha": "359114eaad8a2cfa782bfc3ee4685cc9edc4fde6",
+      "mergedAtUtc": "2026-08-15T01:37:22Z",
+      "requiredCi": "PASS oss-policy, rtk-required, x1-runtime-parity ubuntu-latest, x1-runtime-parity windows-latest",
+      "postmergeExactHeadVerification": "PASS bootstrap, focused traceability 3/3, verifier PASS, governance PASS, dev:fast 28/28, guardrails PASS, full RTK 923/923",
       "redFirst": "validator accepted stale postmerge PR-candidate wording while report.ok=true; after verifier hardening stale wording must be rejected",
       "claimBoundary": "Factual receipt/ledger rebind only; no runtime behavior, UI, provider, user document, product network or full Black Box Product V1 claim."
     }

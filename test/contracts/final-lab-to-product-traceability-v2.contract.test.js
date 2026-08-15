@@ -137,6 +137,22 @@ test('FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2 hostile mutations are rejected fail-c
       error: 'STALE_POSTMERGE_DELIVERY_STATE',
     },
     {
+      name: 'stale-runtime-source-revision-local-candidate-pr-status',
+      mutate(ledger) {
+        const entry = ledger.materialDispositions.find((row) => row.materialId === 'F3_BLACK_BOX_RUNTIME_SOURCE_REVISION_BINDING_V1');
+        entry.localCandidateVerification.prStatus = 'OPEN_PENDING_REQUIRED_CI_MERGE_POSTMERGE';
+      },
+      error: 'STALE_LOCAL_CANDIDATE_DELIVERY_STATE',
+    },
+    {
+      name: 'stale-bound-receipt-local-candidate-status',
+      mutate(ledger) {
+        const entry = ledger.materialDispositions.find((row) => row.materialId === 'F3_BLACK_BOX_ARCHITECTURE_MANIFEST_HARDENING_V1');
+        entry.productBindings[0].deliveryStatus = 'PENDING_CI';
+      },
+      error: 'STALE_LOCAL_CANDIDATE_DELIVERY_STATE',
+    },
+    {
       name: 'historical-word-evidence-transfer',
       mutate(ledger) {
         ledger.nonTransferableHistoricalProfiles = [];

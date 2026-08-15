@@ -1,8 +1,8 @@
 {
   "schemaVersion": "yalken.finalLabToProductTraceability.receipt.v2",
   "taskId": "PROGRAM_FINAL_TRACEABILITY_VERDICT_REBIND_V1",
-  "createdAtUtc": "2026-08-15T01:05:00Z",
-  "status": "FINAL_PROGRAM_VERDICT_RECORDED_NEEDS_MORE_EVIDENCE_WITH_F3_ARCHITECTURE_MANIFEST_HARDENING_MERGED_POSTMERGE_VERIFIED",
+  "createdAtUtc": "2026-08-15T01:47:17Z",
+  "status": "FINAL_PROGRAM_VERDICT_RECORDED_NEEDS_MORE_EVIDENCE_WITH_F3_ARCHITECTURE_MANIFEST_HARDENING_MERGED_POSTMERGE_VERIFIED_AND_STALE_DELIVERY_MARKERS_FAIL_CLOSED",
   "verdict": "NEEDS_MORE_EVIDENCE",
   "baseline": {
     "headSha": "ba62fb9fb4d1646ced37542b75370ec0226e1079",
@@ -39,8 +39,8 @@
     "fail": 2,
     "skip": 0,
     "todo": 0,
-    "verifierError": "exactHead:INVALID and materialDispositions:F3_BLACK_BOX_ARCHITECTURE_MANIFEST_HARDENING_V1:STALE_POSTMERGE_DELIVERY_STATE",
-    "rootCause": "PR #1552 was merged and postmerge verified, but ledger/receipts still recorded PR-open/pending-CI wording and the verifier did not yet reject that stale delivery state."
+    "verifierError": "exactHead:INVALID, materialDispositions:F3_BLACK_BOX_ARCHITECTURE_MANIFEST_HARDENING_V1:STALE_POSTMERGE_DELIVERY_STATE and stale structured delivery markers accepted before this repair",
+    "rootCause": "Merged/postmerge-verified F3 rows had enough productBindings evidence, but structured local delivery fields could still contain stale delivery markers and the verifier did not reject all of them."
   },
   "focusedProof": {
     "contractTest": {
@@ -66,7 +66,7 @@
     "BLACK_BOX_FINAL_LAB_EXTERNAL_RECEIPT": "sha256:c6179e59d57ea7ddea0802769619390a274c1bb22c39ae45a1540f8f7f3be863"
   },
   "hostileMutationProof": {
-    "mutations": 12,
+    "mutations": 14,
     "survivors": 0,
     "rejectedClasses": [
       "UNMAPPED disposition",
@@ -80,7 +80,9 @@
       "final READY verdict while deferred/lab-only remains",
       "stale F3 UI local-candidate blocker text",
       "historical Word 16.111.3 evidence transfer",
-      "stale F3 architecture manifest PR-candidate delivery state"
+      "stale F3 architecture manifest PR-candidate delivery state",
+      "stale runtime source revision local delivery state",
+      "stale bound receipt delivery state"
     ]
   },
   "deliveryGateEvidence": {
@@ -182,10 +184,10 @@
     }
   },
   "artifactSha256": {
-    "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json": "75b0137b1f9e468f1a8666a1e934c7432f0406eed24e0e7b9a003c435e553eed",
-    "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json": "513e678753fb5e3e9df0a7ccfdf73dbe896841bf22c55e7950a3b61128773110",
-    "scripts/ops/final-lab-to-product-traceability-v2-verify.mjs": "4cf8a68c438a47ddc2d2f3a11ef9bb3eeefd2b99c348533119a34e45a20d08ac",
-    "test/contracts/final-lab-to-product-traceability-v2.contract.test.js": "a3089d8ebfa5dfb2ebaa9482fe298a8c72db6398e2e29c019aedfc9242324f58",
+    "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json": "402d81e6a7109e9ea54fe45379e3f4d604c4ec61f74a429667fa72717d166a26",
+    "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json": "5d2b583ef2e02fead59584dfb9e160a9c4cc89ed8e1c28ecfa7dda4d5c55ac04",
+    "scripts/ops/final-lab-to-product-traceability-v2-verify.mjs": "ae8bd325a013c07907064e39198085a64fe68749a7587478f51e9301a6f32e9b",
+    "test/contracts/final-lab-to-product-traceability-v2.contract.test.js": "bf8ba40774e960bbd515923264821b8dd7b09f6b2f0ce18448a67ec4f6a72453",
     "src/product/blackBoxProductCommandExportManualCoreV1.mjs": "4d270f42603ffacb8372da343eb40eb2e1b1f81ffc923275b1cc9e39f7187e17",
     "test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js": "7f4d0ca7c93a1c9e2f690eaa9bbe73bd3e02b9bd1ccf95312c96332f57367ab0",
     "scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs": "421f8f718fc0da4e8c9db8fb270b187428196685b4cdc6e8e84429d7154a953a"
@@ -209,7 +211,9 @@
     "PR #1552 merged at ba62fb9fb4d1646ced37542b75370ec0226e1079",
     "postmerge exact-head focused 15/15",
     "postmerge full RTK 923/923 pass, 0 fail, 0 skip, 0 todo",
-    "stale architecture manifest PR-candidate wording now rejected fail-closed"
+    "stale architecture manifest PR-candidate wording now rejected fail-closed",
+    "stale runtime source revision delivery marker now rejected fail-closed",
+    "stale F3 product receipt delivery marker now rejected fail-closed"
   ],
   "pendingDeliveryGates": [
     "NO_LOCAL_DELIVERY_GATES_PENDING_FOR_F3_BLACK_BOX_ARCHITECTURE_MANIFEST_POSTMERGE_REBIND_V1",

@@ -5757,12 +5757,12 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-release-audit-p0-product-comments-mixed-multiscene.mjs",
-      "sha256": "086a3e20de3a0776300f75ebc50e2304500e3210abc797eef1bf860d60ecf896",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
-      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
-      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
+      "sha256": "09e717185eb7b3a0c69b0d015dfce50cf593437b7fd31a1e0cf6e322b1c3ef19",
+      "approvedBy": "owner-standing-grant:TASK_ID:FULL_RTK_RED_RECONCILIATION_AFTER_GOOGLE_WHOLE_BOOK_V1",
+      "approvedAtUtc": "2026-08-15T14:05:00.000Z",
+      "rationale": "Approve exact lazy Electron resolution repair for the Word P0 product comments mixed multi-scene helper: hermetic contract imports no longer require node_modules/electron, while physical spawn semantics remain fail-closed and unchanged. No product runtime, UI, dependency, user-document access, Word saturation, or terminal claim expansion.",
       "approved": true,
-      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_FULL_RTK_RECONCILIATION"
     },
     {
       "filePath": "scripts/ops/rtk-word-release-audit-p0-product-originated-smoke-wave12.mjs",
@@ -9337,12 +9337,12 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "6d44ee1f92b934d8b21ba569a43ba27eebd41c2c5f96209419ed7650748c48af",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_PHASE_C_NATIVE_LIFECYCLE_V1",
-      "approvedAtUtc": "2026-08-06T04:07:00.000Z",
-      "rationale": "Approve exact Phase C native lifecycle bytes after native reply/state/delete/resolve-reopen verification and typed-limit false-green coverage passed. No physical Word run, no Google work, no long campaign, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
+      "sha256": "17060e7634009c47f9a718bbc231014e6e033b56b765c685d1da99066039a0f9",
+      "approvedBy": "owner-standing-grant:TASK_ID:FULL_RTK_RED_RECONCILIATION_AFTER_GOOGLE_WHOLE_BOOK_V1",
+      "approvedAtUtc": "2026-08-15T14:05:00.000Z",
+      "rationale": "Approve exact lazy Electron resolution repair for the C5V2 physical canary/orchestrator helper: pure oracle, ledger, lifecycle, orchestrator, and mutation contract imports no longer require node_modules/electron; Electron is resolved only at real physical child spawn. No product runtime, UI, dependency, user-document access, Word saturation, or terminal claim expansion.",
       "approved": true,
-      "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_PHASE_C_NATIVE_LIFECYCLE"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_FULL_RTK_RECONCILIATION"
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-terminal-orchestrator.mjs",

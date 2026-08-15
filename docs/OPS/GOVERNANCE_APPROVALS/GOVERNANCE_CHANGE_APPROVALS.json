@@ -11058,30 +11058,30 @@
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_CHAIN_MATRIX_V1.json",
-      "sha256": "72464de95cdcc2df69a49efc4f8e1eb16c6d1fa42caa4455c69381f0f33550bf",
-      "approvedBy": "owner-standing-grant:TASK_ID:INTEROP_CHAIN_MATRIX_LINEAGE_REGISTRATION_V1",
-      "approvedAtUtc": "2026-08-15T11:58:00.000Z",
-      "rationale": "Approve new machine-readable C1-C8 route denominator matrix: all routes require full canonical synthetic book, independent route-specific evidence, exact hop/source/revision bindings, typed loss accounting, FALSE_AUTO_APPLY_COUNT=0, no user documents, and no inherited provider PASS.",
+      "sha256": "f61aa5231510df3b8e89ab803f95e8fc2cb5a7c92b56ad7f09ef323ab151e060",
+      "approvedBy": "owner-standing-grant:TASK_ID:C1_WORD_RETURN_AUTHORITY_AND_PROFILE_BINDING_REPAIR_V1",
+      "approvedAtUtc": "2026-08-15T14:30:00.000Z",
+      "rationale": "Approve CI-compatible exact-head rebind of the existing C1-C8 route denominator matrix to the current PR base while preserving BLOCKED/NEEDS_MORE_EVIDENCE semantics, full-book denominator, no user documents, no route PASS, no inherited provider PASS, and no product apply authority.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_MATRIX_LINEAGE_REGISTRATION"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_C1_REPAIR"
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_MULTI_ROUND_LINEAGE_RECEIPT_V1.json",
-      "sha256": "4ccb6e1d2787d6fda6af4b32179c1a1dfeea5ec01f6a8ff398aa2e300dde2521",
-      "approvedBy": "owner-standing-grant:TASK_ID:INTEROP_CHAIN_MATRIX_LINEAGE_REGISTRATION_V1",
-      "approvedAtUtc": "2026-08-15T11:58:00.000Z",
-      "rationale": "Approve lineage receipt binding the chain matrix hash and multi-round closure rules; records Google whole-book evidence as scoped input only, keeps route lineage NOT_STARTED_DENOMINATOR_REGISTERED, and denies saturation, parity, byte identity, product apply, and provider-evidence transfer claims.",
+      "sha256": "960866de48845d4a1b11a11324f5d58b9d6f749b710e51072c146f25a46b29dd",
+      "approvedBy": "owner-standing-grant:TASK_ID:C1_WORD_RETURN_AUTHORITY_AND_PROFILE_BINDING_REPAIR_V1",
+      "approvedAtUtc": "2026-08-15T14:30:00.000Z",
+      "rationale": "Approve lineage receipt rebind to the current chain matrix hash and current PR base while keeping route lineage NOT_STARTED_DENOMINATOR_REGISTERED and denying saturation, parity, byte identity, product apply, and provider-evidence transfer claims.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_MATRIX_LINEAGE_REGISTRATION"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_C1_REPAIR"
     },
     {
       "filePath": "scripts/ops/rtk-interop-chain-matrix-v1.mjs",
-      "sha256": "d920cba393148a64908ac8afac35d5a4671380bd56d79df475428ab6be865bd2",
-      "approvedBy": "owner-standing-grant:TASK_ID:INTEROP_CHAIN_MATRIX_LINEAGE_REGISTRATION_V1",
-      "approvedAtUtc": "2026-08-15T12:20:00.000Z",
-      "rationale": "Approve verifier for closed C1-C8 route set and fail-closed hostile checks: missing/extra route, PASS without evidence, UNKNOWN/ABSTAIN/CONFLICTING as PASS, false auto-apply, provider evidence inheritance, sampling, user documents, stale head, parity/byte identity overclaim, and shallow GitHub PR base-sha binding without widening route claims.",
+      "sha256": "dc31f8744fd3b3c41b20fbec480e642628eba32b657d5e2657a2bd534a75b439",
+      "approvedBy": "owner-standing-grant:TASK_ID:C1_WORD_RETURN_AUTHORITY_AND_PROFILE_BINDING_REPAIR_V1",
+      "approvedAtUtc": "2026-08-15T14:30:00.000Z",
+      "rationale": "Approve verifier exact-head constant rebind to the current PR base so shallow GitHub CI can validate the same fail-closed C1-C8 route matrix without weakening hostile checks, route denominator closure rules, or no-PASS semantics.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_MATRIX_LINEAGE_REGISTRATION"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_C1_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-interop-chain-matrix.contract.test.js",
@@ -11094,21 +11094,21 @@
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1.json",
-      "sha256": "4d93baea013096e4c73fc3aab059eb55e0412ee2c10d4df7c6ad1b9d526178bc",
-      "approvedBy": "owner-standing-grant:TASK_ID:C1_YALKEN_WORD_YALKEN_FULL_BOOK_ROUTE_V1",
-      "approvedAtUtc": "2026-08-15T13:25:00.000Z",
-      "rationale": "Approve fail-closed C1 full-book Word route blocker receipt: physical synthetic DOCX evidence is recorded as BLOCKED/NEEDS_MORE_EVIDENCE, not PASS; no user documents, product runtime wiring, chain saturation, parity, byte identity, or import/apply authority is claimed.",
+      "sha256": "e0d81337e7bb26fa10024c9a095e3cf4862d39094b236339a56c4c538b2966c9",
+      "approvedBy": "owner-standing-grant:TASK_ID:C1_WORD_RETURN_AUTHORITY_AND_PROFILE_BINDING_REPAIR_V1",
+      "approvedAtUtc": "2026-08-15T14:30:00.000Z",
+      "rationale": "Approve current-PR-base exact-head rebind of the fail-closed C1 full-book Word route blocker receipt: physical synthetic DOCX evidence remains BLOCKED/NEEDS_MORE_EVIDENCE, not PASS; no user documents, product runtime wiring, chain saturation, parity, byte identity, or import/apply authority is claimed.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_C1_RECONCILIATION"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_C1_REPAIR"
     },
     {
       "filePath": "scripts/ops/rtk-interop-c1-word-fullbook-route-v1.mjs",
-      "sha256": "952682ded31e8d4d6170aed93175b380d7d791fae29e57a822613b7b24b41ba0",
-      "approvedBy": "owner-standing-grant:TASK_ID:C1_YALKEN_WORD_YALKEN_FULL_BOOK_ROUTE_V1",
-      "approvedAtUtc": "2026-08-15T13:25:00.000Z",
-      "rationale": "Approve C1 verifier enforcing BLOCKED receipt semantics, exact full-book denominator, Word 16.112 profile binding, physical blocker facts, hostile corpus, mutation catalog, and no PASS laundering.",
+      "sha256": "23089105175de47fd7863dd4553313ce9ca6e3817ce5af81a64003e2db86b8df",
+      "approvedBy": "owner-standing-grant:TASK_ID:C1_WORD_RETURN_AUTHORITY_AND_PROFILE_BINDING_REPAIR_V1",
+      "approvedAtUtc": "2026-08-15T14:30:00.000Z",
+      "rationale": "Approve C1 verifier exact-head constant rebind to the current PR base while still enforcing BLOCKED receipt semantics, exact full-book denominator, Word 16.112 profile binding, physical blocker facts, hostile corpus, mutation catalog, and no PASS laundering.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_C1_RECONCILIATION"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_C1_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-interop-c1-word-fullbook-route.contract.test.js",

@@ -13,7 +13,7 @@ export const CONTRACT_BASENAME = 'rtk-interop-chain-matrix.contract.test.js';
 
 export const MATRIX_SCHEMA_VERSION = 'yalken.interopChain.matrix.v1';
 export const LINEAGE_SCHEMA_VERSION = 'yalken.interopChain.multiRoundLineage.receipt.v1';
-export const INTEROP_CHAIN_EXACT_HEAD_SHA = '9c095ea89425e52da669ad5bfe9b2bfc727d7db6';
+export const INTEROP_CHAIN_EXACT_HEAD_SHA = '6e211f3d5762b2cad0224998991313f4835e5444';
 export const MATRIX_STATUS = 'INTEROP_CHAIN_C1_C8_DENOMINATOR_REGISTERED_NEEDS_MORE_EVIDENCE';
 
 export const EXPECTED_ROUTE_IDS = Object.freeze(['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8']);

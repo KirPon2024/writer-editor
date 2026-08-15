@@ -3,8 +3,8 @@
   "documentClass": "EVIDENCE_STATUS",
   "status": "INTEROP_CHAIN_C1_C8_DENOMINATOR_REGISTERED_NEEDS_MORE_EVIDENCE",
   "claimBoundary": "Registers the frozen C1-C8 full-book interop route denominator and fail-closed closure rules only. It does not prove any route, saturation, platform parity, byte identity, product runtime support, import/apply authority, or live user-document workflow.",
-  "generatedAtUtc": "2026-08-15T13:21:00.000Z",
-  "exactHead": "9c095ea89425e52da669ad5bfe9b2bfc727d7db6",
+  "generatedAtUtc": "2026-08-15T14:30:00.000Z",
+  "exactHead": "6e211f3d5762b2cad0224998991313f4835e5444",
   "programVerdict": "NEEDS_MORE_EVIDENCE",
   "sourceEvidence": {
     "googleWholeBookReceipt": {
@@ -26,7 +26,7 @@
     },
     "c1WordFullBookRouteReceipt": {
       "path": "docs/OPS/RTK/YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1.json",
-      "sha256": "sha256:4d93baea013096e4c73fc3aab059eb55e0412ee2c10d4df7c6ad1b9d526178bc",
+      "sha256": "sha256:e0d81337e7bb26fa10024c9a095e3cf4862d39094b236339a56c4c538b2966c9",
       "status": "C1_YALKEN_WORD_YALKEN_FULL_BOOK_ROUTE_V1_EXECUTED_BLOCKED_FAIL_CLOSED",
       "routeVerdict": "BLOCKED",
       "chainClosureAuthority": "DENY"

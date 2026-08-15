@@ -1,0 +1,154 @@
+{
+  "schemaVersion": "yalken.googleDocs.localReturnIntakeQuarantine.receipt.v1",
+  "taskId": "GOOGLE_DOCS_LOCAL_RETURN_INTAKE_QUARANTINE_V1",
+  "status": "GOOGLE_DOCS_LOCAL_RETURN_INTAKE_QUARANTINE_V1_LOCAL_VERIFIED",
+  "result": "RETURN_INTAKE_QUARANTINE_ONLY_NEEDS_REAL_GOOGLE_E2E",
+  "createdAtUtc": "2026-08-15T00:00:00.000Z",
+  "originMainSha": "a9b16775d8abf0bbbed1f2026f8fc7d265b02143",
+  "localHeadSha": "a9b16775d8abf0bbbed1f2026f8fc7d265b02143",
+  "localQuarantineOnly": true,
+  "noProductMutation": true,
+  "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE",
+  "resourceCeilings": {
+    "maxReturnedArtifacts": 8,
+    "maxAggregatePayloadBytes": 65536,
+    "userDocumentsAllowed": false,
+    "googleAccountAllowed": false,
+    "networkRuntimeAllowed": false
+  },
+  "nonClaims": {
+    "googleDocsReady": false,
+    "supportProven": false,
+    "importProven": false,
+    "roundtripProven": false,
+    "returnIntakeTrusted": false,
+    "applyAuthority": false,
+    "physicalGoogleEvidence": false,
+    "productRuntimeWired": false,
+    "userDocumentsUsed": false,
+    "googleAccountUsed": false,
+    "networkRuntimeUsed": false,
+    "wordEvidenceTransferred": false
+  },
+  "samplePacket": {
+    "packet": {
+      "schemaVersion": "yalken.googleDocs.localReturnIntake.v1",
+      "packetId": "synthetic-google-docs-return-intake-office-mode-docx-v1",
+      "sourceKind": "DISPOSABLE_SYNTHETIC_GOOGLE_RETURN_FIXTURE",
+      "provider": "google-docs",
+      "profileId": "google-docs-office-mode-post-d1-v1",
+      "returnMode": "LOCAL_SYNTHETIC_RETURNED_DOCX",
+      "localOnly": true,
+      "userDocument": false,
+      "googleAccountUsed": false,
+      "networkRuntimeUsed": false,
+      "productRuntimeWired": false,
+      "physicalGoogleEvidence": false,
+      "inheritedEvidenceProfileId": "",
+      "claims": {
+        "supportProven": false,
+        "importProven": false,
+        "roundtripProven": false,
+        "returnIntakeTrusted": false,
+        "applyAuthority": false,
+        "productMutationAuthority": false
+      },
+      "sourceBinding": {
+        "projectId": "synthetic-google-docs-project",
+        "rootId": "synthetic-google-docs-root",
+        "documentId": "synthetic-google-docs-document",
+        "canonicalRevision": "sha256:6d446104e737c754924c062db340d99fcbb71aeca2a12eacb2f2c133bbb68c8b",
+        "workingRevision": "sha256:b1dd8ca52ba8054dfeb4ec41974157dab8d5264858856a1d10f7046b62dfbdf8",
+        "generation": 1,
+        "sourceFence": "sha256:8c418fea35f5f658575103c100e899421cc611acb5ea18452d8d3ebc1569588b"
+      },
+      "returnedArtifacts": [
+        {
+          "artifactId": "google-docs-returned-office-mode-docx",
+          "fileName": "synthetic-google-docs-returned-office-mode.docx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "payloadText": "Yalken Google Docs local returned-artifact synthetic fixture.\nDisposable only. No user document. No Google account.\nThis payload is quarantined and never imported or applied.",
+          "payloadSha256": "sha256:1e1ad7cfc93bc1c6e12bc5fe8a12faad4d0fbbb29a8eb2193eb576f055c2b984",
+          "sizeBytes": 174,
+          "returnedContentClasses": [
+            "plainText",
+            "paragraphBreaks"
+          ]
+        }
+      ],
+      "quarantineManifest": {
+        "manifestId": "synthetic-google-docs-return-intake-manifest-v1",
+        "sourceBindingSha256": "sha256:11063151545d6634c8abcbe228e3e7116b511ea39be7850ab03e9cf35d2b98a5",
+        "artifactBindings": [
+          {
+            "artifactId": "google-docs-returned-office-mode-docx",
+            "mediaType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            "payloadSha256": "sha256:1e1ad7cfc93bc1c6e12bc5fe8a12faad4d0fbbb29a8eb2193eb576f055c2b984",
+            "sizeBytes": 174
+          }
+        ],
+        "aggregatePayloadSha256": "sha256:92c44149d4a4a6c2ab7129984f0d61c30c3cc8f50039674cce80405006ed1917",
+        "quarantineClass": "LOCAL_RETURN_INTAKE_QUARANTINE_ONLY",
+        "manifestSha256": "sha256:14ceb9cb8327da9aea0c96e739a7a0651583ca6a343381a7e8979746ae45b522"
+      },
+      "quarantineOracle": {
+        "oracleId": "synthetic-google-docs-return-intake-oracle-v1",
+        "expectedAction": "QUARANTINE_ONLY",
+        "expectedTrustedProviderCases": 0,
+        "expectedApplyAdmitted": 0,
+        "expectedProductMutations": 0,
+        "expectedArtifactCount": 1,
+        "manifestSha256": "sha256:14ceb9cb8327da9aea0c96e739a7a0651583ca6a343381a7e8979746ae45b522",
+        "oracleSha256": "sha256:f9c62df0be5d2e8b0cc98835a83267007cb5ef48f9d94e73668317ddf3027b29"
+      },
+      "limitations": [
+        "NO_REAL_GOOGLE_ACCOUNT_E2E",
+        "RETURN_INTAKE_LOCAL_QUARANTINE_ONLY",
+        "NO_GOOGLE_RETURN_IMPORT_AUTHORITY",
+        "NO_GOOGLE_RETURN_APPLY_AUTHORITY",
+        "NO_ROUNDTRIP_SUPPORT_CLAIM"
+      ]
+    },
+    "result": {
+      "ok": true,
+      "status": "GOOGLE_DOCS_LOCAL_RETURN_INTAKE_QUARANTINE_V1_LOCAL_VERIFIED",
+      "result": "RETURN_INTAKE_QUARANTINE_ONLY_NEEDS_REAL_GOOGLE_E2E",
+      "code": "GOOGLE_RETURN_INTAKE_QUARANTINED",
+      "action": "QUARANTINE_ONLY",
+      "provider": "google-docs",
+      "profileId": "google-docs-office-mode-post-d1-v1",
+      "returnMode": "LOCAL_SYNTHETIC_RETURNED_DOCX",
+      "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE",
+      "localQuarantineOnly": true,
+      "noProductMutation": true,
+      "supportClaimed": false,
+      "importClaimed": false,
+      "roundtripClaimed": false,
+      "returnIntakeTrusted": false,
+      "applyAuthority": "DENY",
+      "packetDigest": "sha256:1a736b6f7a1a2d09ef231caead190218df640f1b8ce1a830a461e2d65219fd00",
+      "manifestDigest": "sha256:14ceb9cb8327da9aea0c96e739a7a0651583ca6a343381a7e8979746ae45b522",
+      "oracleDigest": "sha256:f9c62df0be5d2e8b0cc98835a83267007cb5ef48f9d94e73668317ddf3027b29",
+      "counts": {
+        "returnedArtifacts": 1,
+        "quarantinedArtifacts": 1,
+        "trustedProviderCases": 0,
+        "applyAdmitted": 0,
+        "productMutations": 0
+      }
+    }
+  },
+  "profileBoundary": {
+    "acceptedProfiles": [
+      "google-docs-office-mode-post-d1-v1",
+      "google-docs-native-conversion-post-d1-v1"
+    ],
+    "wordEvidenceTransferToGoogleDocs": "DENY",
+    "unsupportedFormatsRemain": "ABSTAIN_TYPED_LIMITATION_NOT_PASS",
+    "returnIntakeTrust": "DENY_UNTIL_REAL_GOOGLE_PROVIDER_E2E"
+  },
+  "rollback": {
+    "type": "REVERT_THIS_CONTOUR_ONLY",
+    "preservesPreviousG00Verdict": "LOCAL_COMPATIBILITY_NEEDS_MORE_EVIDENCE"
+  }
+}

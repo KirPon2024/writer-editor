@@ -84,7 +84,7 @@
     "googleStageDone": false,
     "localCompatibilityVerdict": "LOCAL_COMPATIBILITY_NEEDS_MORE_EVIDENCE",
     "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE",
-    "nextLocalContour": "GOOGLE_DOCS_LOCAL_RETURN_INTAKE_QUARANTINE_V1"
+    "nextLocalContour": "GOOGLE_DOCS_LOCAL_PREVIEW_ONLY_NO_APPLY_V1"
   },
   "gapMap": [
     {
@@ -246,7 +246,7 @@
       "formatting": "ABSTAIN_TYPED_LOCAL_NO_GOOGLE_FORMATTING_E2E"
     }
   },
-  "nextLocalContour": "GOOGLE_DOCS_LOCAL_RETURN_INTAKE_QUARANTINE_V1",
+  "nextLocalContour": "GOOGLE_DOCS_LOCAL_PREVIEW_ONLY_NO_APPLY_V1",
   "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE",
   "nonClaims": [
     "No Google Docs support is claimed.",
@@ -328,5 +328,21 @@
     "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE",
     "formatCases": 6,
     "structureCases": 4
+  },
+  "localReturnIntakeQuarantine": {
+    "status": "GOOGLE_DOCS_LOCAL_RETURN_INTAKE_QUARANTINE_V1_LOCAL_VERIFIED",
+    "result": "RETURN_INTAKE_QUARANTINE_ONLY_NEEDS_REAL_GOOGLE_E2E",
+    "receiptPath": "docs/OPS/RTK/GOOGLE_DOCS_LOCAL_RETURN_INTAKE_QUARANTINE_V1_RECEIPT.json",
+    "receiptSha256": "sha256:f9c941f02b0415e406960d307cb6e72dc3f5e4e460ff9bb6c2bd0b93a8c2381e",
+    "localQuarantineOnly": true,
+    "noProductMutation": true,
+    "physicalGoogleEvidence": 0,
+    "productRuntimeWired": 0,
+    "supportClaimed": false,
+    "importClaimed": false,
+    "roundtripClaimed": false,
+    "returnIntakeTrusted": false,
+    "applyAuthority": false,
+    "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE"
   }
 }

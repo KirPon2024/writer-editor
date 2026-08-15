@@ -13,13 +13,17 @@ export const CONTRACT_BASENAME = 'rtk-interop-chain-matrix.contract.test.js';
 
 export const MATRIX_SCHEMA_VERSION = 'yalken.interopChain.matrix.v1';
 export const LINEAGE_SCHEMA_VERSION = 'yalken.interopChain.multiRoundLineage.receipt.v1';
-export const INTEROP_CHAIN_EXACT_HEAD_SHA = '6c253b2614986baf31bdb7f31a729f8bc763c6ca';
+export const INTEROP_CHAIN_EXACT_HEAD_SHA = '9c095ea89425e52da669ad5bfe9b2bfc727d7db6';
 export const MATRIX_STATUS = 'INTEROP_CHAIN_C1_C8_DENOMINATOR_REGISTERED_NEEDS_MORE_EVIDENCE';
 
 export const EXPECTED_ROUTE_IDS = Object.freeze(['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8']);
 export const ALLOWED_ROUTE_VERDICTS = Object.freeze(['NEEDS_MORE_EVIDENCE', 'UNSUPPORTED', 'BLOCKED', 'PASS']);
 export const NON_PASS_ROUTE_VERDICTS = Object.freeze(['NEEDS_MORE_EVIDENCE', 'UNSUPPORTED', 'BLOCKED']);
 export const BLOCKED_ACCOUNTING_STATES = Object.freeze(['UNKNOWN', 'ABSTAIN', 'CONFLICTING']);
+export const NON_PROVEN_FULL_BOOK_ACCOUNTING_STATES = Object.freeze([
+  'REQUIRED_NOT_YET_PROVEN_FOR_ROUTE',
+  'FULL_BOOK_ATTEMPTED_WORD_RETURN_BLOCKED_NOT_PROVEN',
+]);
 
 const MATRIX_EXACT_KEYS = Object.freeze([
   'schemaVersion',
@@ -150,8 +154,22 @@ function validateRoute(route, errors) {
   if (route.routeVerdict !== 'PASS' && !NON_PASS_ROUTE_VERDICTS.includes(route.routeVerdict)) {
     errors.push(`routeDenominator:${route.routeId}:NON_PASS_ROUTE_VERDICT_INVALID`);
   }
-  if (route.fullBookAccounting !== 'REQUIRED_NOT_YET_PROVEN_FOR_ROUTE') {
+  if (!NON_PROVEN_FULL_BOOK_ACCOUNTING_STATES.includes(route.fullBookAccounting)) {
+    errors.push(`routeDenominator:${route.routeId}:FULL_BOOK_ACCOUNTING_MUST_REMAIN_NON_PROVEN`);
+  }
+  if (route.routeId !== 'C1' && route.fullBookAccounting !== 'REQUIRED_NOT_YET_PROVEN_FOR_ROUTE') {
     errors.push(`routeDenominator:${route.routeId}:FULL_BOOK_ACCOUNTING_MUST_REMAIN_REQUIRED`);
+  }
+  if (route.routeId === 'C1') {
+    if (route.routeVerdict !== 'BLOCKED') errors.push('routeDenominator:C1:BLOCKED_ROUTE_VERDICT_REQUIRED');
+    if (route.accountingStatus !== 'FULL_BOOK_ATTEMPTED_BLOCKED') errors.push('routeDenominator:C1:ACCOUNTING_STATUS_INVALID');
+    if (route.fullBookAccounting !== 'FULL_BOOK_ATTEMPTED_WORD_RETURN_BLOCKED_NOT_PROVEN') errors.push('routeDenominator:C1:FULL_BOOK_BLOCKER_ACCOUNTING_INVALID');
+    if (!Array.isArray(route.blockerEvidenceRefs) || !route.blockerEvidenceRefs.includes('YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1')) {
+      errors.push('routeDenominator:C1:BLOCKER_EVIDENCE_REF_MISSING');
+    }
+    if (Array.isArray(route.executedFullRouteEvidence) && route.executedFullRouteEvidence.length !== 0) {
+      errors.push('routeDenominator:C1:EXECUTED_FULL_ROUTE_EVIDENCE_MUST_REMAIN_EMPTY_WHEN_BLOCKED');
+    }
   }
   for (const field of ['semanticOracle', 'structureOracle', 'commentsOracle', 'suggestionsOracle', 'formatOracle', 'recoveryOracle', 'cleanupOracle']) {
     if (!isObject(route.requiredOracles?.[field])) {
@@ -216,7 +234,7 @@ export function validateInteropChainMatrix(matrix, options = {}) {
   if (Array.isArray(matrix.routeDenominator)) {
     for (const route of matrix.routeDenominator) validateRoute(route, errors);
   }
-  if (matrix.nextSequentialContour !== 'C1_YALKEN_WORD_YALKEN_FULL_BOOK_ROUTE_V1') {
+  if (matrix.nextSequentialContour !== 'C1_WORD_RETURN_AUTHORITY_AND_PROFILE_BINDING_REPAIR_V1') {
     errors.push('nextSequentialContour:INVALID');
   }
 

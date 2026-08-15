@@ -7771,7 +7771,7 @@ async function mainCumulative(options) {
             evidenceDir: round.roundDir,
             onChunkProgress: (progress) => positiveStageProgress.recordRoundChunk({
               roundIndex,
-              roundId,
+              roundId: round.roundId,
               ...progress,
               emitHeartbeat: (detail) => emitOrchestratedHeartbeat(options, 'word-chunk', detail),
             }),
@@ -7787,7 +7787,7 @@ async function mainCumulative(options) {
           );
       positiveStageProgress.finishRound({
         roundIndex,
-        roundId,
+        roundId: round.roundId,
         operationCount: Array.isArray(ledger?.operations) ? ledger.operations.length : 0,
       });
       fs.writeFileSync(path.join(round.roundDir, 'word-output.txt'), wordOutput, 'utf8');

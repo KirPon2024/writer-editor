@@ -1,0 +1,249 @@
+{
+  "schemaVersion": "yalken.interopChain.c1WordFullBookRoute.receipt.v1",
+  "taskId": "C1_YALKEN_WORD_YALKEN_FULL_BOOK_ROUTE_V1",
+  "status": "C1_YALKEN_WORD_YALKEN_FULL_BOOK_ROUTE_V1_EXECUTED_BLOCKED_FAIL_CLOSED",
+  "verdict": "NEEDS_MORE_EVIDENCE",
+  "programVerdict": "NEEDS_MORE_EVIDENCE",
+  "exactHead": "9c095ea89425e52da669ad5bfe9b2bfc727d7db6",
+  "generatedAtUtc": "2026-08-15T13:20:00.000Z",
+  "route": {
+    "routeId": "C1",
+    "title": "Yalken to Word to Yalken",
+    "routeVerdict": "BLOCKED",
+    "chainSaturationVerdict": "NEEDS_MORE_EVIDENCE",
+    "c2ToC8ClosureAuthority": "DENY",
+    "universalParityClaim": "DENY",
+    "byteIdentityClaim": "DENY",
+    "productMutationAuthority": "DENY"
+  },
+  "provider": {
+    "word": {
+      "path": "/Applications/Microsoft Word.app",
+      "version": "16.112",
+      "build": "16.112.26081010",
+      "bundleId": "com.microsoft.Word",
+      "teamIdentifier": "UBF8T346G9",
+      "signature": "VALID_MICROSOFT_NOTARIZED_DEVELOPER_ID",
+      "mainExecutableSha256": "sha256:fe9a5330976088b2228c20119dc05b3c9a4a83ffdd69bcf28545b2fdab7bbe9f",
+      "processBeforeRun": "NOT_RUNNING",
+      "processAfterCleanup": "NOT_RUNNING"
+    }
+  },
+  "denominator": {
+    "fullBook": {
+      "corpusId": "YALKEN_WHOLE_BOOK_CANONICAL_SYNTHETIC_V1_20260815T000001Z",
+      "generator": "scripts/ops/rtk-word-c5v2-portfolio-corpus.mjs",
+      "generatorMode": "near-supported-limit",
+      "targetWords": 42000,
+      "sceneCount": 21,
+      "titleHeadingCount": 1,
+      "chapterHeadingCount": 21,
+      "sourceParagraphCount": 357,
+      "styleSentinelCount": 21,
+      "adverseParagraphCount": 3,
+      "paragraphCount": 381,
+      "charCount": 312996,
+      "utf8Bytes": 312996,
+      "htmlBytes": 318752,
+      "scenesSha256": "sha256:7b6900d6861c75411b17b57669606324cbec46e9badd7bbc7f009f6c305bbabc",
+      "inputManifestSha256": "sha256:5d9250722062c61cbb341efa9d436b846486c0dac3ae4ddccad16a6bc71ce484",
+      "inputHtmlSha256": "sha256:ce523b19e05fa6b4b2ef87949933c8e8662891c2385843c3706e97ce38420a97",
+      "plainOracleSha256": "sha256:9c83a184149ef3b0e5ac8490aac6c3e8ddf93804a5ff895836124f7f563fe1c7",
+      "normalizedOracleSha256": "sha256:9c83a184149ef3b0e5ac8490aac6c3e8ddf93804a5ff895836124f7f563fe1c7",
+      "noSampling": true,
+      "fullDocumentRequired": true,
+      "excerptOrSmokeEvidenceAdmitted": false
+    },
+    "route": {
+      "expectedRouteCount": 1,
+      "actualRouteCount": 0,
+      "fullBookProcessed": false,
+      "reason": "Word returned DOCX evidence exists, but the C1 route did not complete authenticated Yalken return intake, exact apply, recovery, replay, or cleanup oracles."
+    }
+  },
+  "physicalEvidence": {
+    "syntheticDisposableDocxOnly": true,
+    "userDocumentsTouched": false,
+    "artifactRoot": "/Volumes/T7-Secure/storage/yalken/interop-chain/current/c1-yalken-word-yalken-fullbook-route-v1/physical",
+    "runId": "c1-word-fullbook-20260815T124929Z",
+    "previousRedRunId": "c1-word-fullbook-20260815T124554Z",
+    "corpusDigest": "sha256:7deee02ea61593d0278f2c397031a5b22add26dadf78d72e4e0502f8d11f9a37",
+    "corpusManifestSha256": "sha256:616fd7d788cdc3dcd8ec01d1526e8e414b340485130cb580755f89399f73e24e",
+    "canaryScriptSha256": "sha256:cd9eadeb2d24d147ef440096afa26daf60a218862611c915932ea2014887168d",
+    "resultSha256": "sha256:8a2610e00b7518e8fb5eb6494bbb6153ba4f01156a1d4f641703075d37c90f31",
+    "sourceDocxSha256": "sha256:a272fe63daac0ff9b32148b02e5d6ddc003a00b89e2ffa9bafe2b95f222f7ff6",
+    "returnedDocxSha256": "sha256:bd51eb973048336937a2772b286b94d78d885dc788f64c398b12e09d2c043873",
+    "resultStatus": {
+      "attemptedOperations": 200,
+      "reportedOperations": 15,
+      "wordStatus": "FAIL",
+      "electronOk": false,
+      "nativeLifecycleOk": false,
+      "productReturnApplyOk": false,
+      "roundOracleGateOk": false,
+      "terminalOperationAggregatePresent": false,
+      "returnIntakeAuthenticated": false,
+      "returnIntakeStatus": "legacy-unbound-review-preview",
+      "falseAutoApplyCount": 0,
+      "wrapperError": "C5V2_CUMULATIVE_WORD_ROUND_FAILED:round-01:C5V2_WORD_CHUNK_FAILED:word-chunk-004:WORD_STATUS=FAIL:ERR=MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE"
+    },
+    "returnedPackageObservation": {
+      "zipOk": true,
+      "modernMode15Ready": true,
+      "commentTagCount": 30,
+      "revisionTagCount": 145,
+      "customDocumentPropertyCarrierSurvived": true,
+      "customXmlCarrierSurvived": false
+    },
+    "independentParserProbe": {
+      "ok": true,
+      "status": "review-ir-ready",
+      "sourceMode": "TRACKED",
+      "canApply": false,
+      "canWriteManuscript": false,
+      "selectedCarrier": "customDocumentProperty:YRTK_C01_AUTH",
+      "authorityVerified": false,
+      "authorityReason": "RTK_MANUAL_DEGRADED_LOCATOR",
+      "payloadProfileId": "word-mac-latest-observed-16.111.x-product-review-export-c5v2-full-manuscript",
+      "payloadProfileIdStale": true,
+      "payloadScope": "full-manuscript",
+      "payloadSceneCount": 21,
+      "reviewCounts": {
+        "textRevisions": 145,
+        "commentThreads": 30,
+        "formattingDeltas": 67,
+        "structuralChanges": 0,
+        "opaqueUnsupported": 3
+      }
+    }
+  },
+  "failureClassification": [
+    {
+      "id": "ORCHESTRATOR_PROGRESS_ROUND_ID_DEFECT_REPAIRED",
+      "class": "orchestrator",
+      "disposition": "REPAIRED_IN_SCOPE",
+      "evidence": "The first physical run failed with roundId is not defined in chunked cumulative progress reporting; the harness now binds roundId to round.roundId."
+    },
+    {
+      "id": "WORD_PHYSICAL_AX_WINDOW_BLOCKER",
+      "class": "word_physical",
+      "disposition": "BLOCKED",
+      "evidence": "The second physical run failed at word-chunk-004 with MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE after three chunk checkpoints."
+    },
+    {
+      "id": "C5_RETURN_AUTHORITY_BLOCKER",
+      "class": "c5_return_intake",
+      "disposition": "BLOCKED",
+      "evidence": "Product return activation remained legacy-unbound-review-preview; exact text candidate count 0; productReturnApplyOk false; returnIntakeAuthenticated false."
+    },
+    {
+      "id": "C5_STALE_PROVIDER_PROFILE_BINDING",
+      "class": "c5_profile_binding",
+      "disposition": "BLOCKED",
+      "evidence": "Returned authority carrier payload profileId still names word-mac-latest-observed-16.111.x while the exact provider for this contour is Word 16.112 build 16.112.26081010."
+    },
+    {
+      "id": "N2_NOT_REPAIRED_IN_THIS_CONTOUR",
+      "class": "n2",
+      "disposition": "NOT_IN_SCOPE_NO_PASS_CLAIM",
+      "evidence": "No N2 product/runtime repair was made in this C1 reconciliation contour; any N2 failures remain separate affected-chain evidence, not C1 route PASS evidence."
+    }
+  ],
+  "oracles": {
+    "semanticOracle": {
+      "status": "BLOCKED_RETURN_AUTHORITY",
+      "reason": "No authenticated exact text apply or full route readback occurred."
+    },
+    "structureOracle": {
+      "status": "BLOCKED_RETURN_AUTHORITY",
+      "reason": "Returned DOCX structure was parsed, but route-level Yalken apply/readback did not complete."
+    },
+    "commentsOracle": {
+      "status": "PARTIAL_OBSERVED_NO_APPLY_AUTHORITY",
+      "reason": "30 Word comments were observed in returned DOCX, but no product comment apply authority was proven."
+    },
+    "suggestionsOracle": {
+      "status": "NOT_CLAIMED_WORD_TRACKED_CHANGES_PROFILE_PENDING",
+      "reason": "Word tracked changes are present as review IR; route-level suggestion preservation is not claimed."
+    },
+    "formatOracle": {
+      "status": "BLOCKED_RETURN_AUTHORITY",
+      "reason": "67 formatting deltas were parsed, but no shipped product formatting apply/readback route completed."
+    },
+    "recoveryOracle": {
+      "status": "BLOCKED_BEFORE_APPLY",
+      "reason": "Recovery and replay oracles require an authenticated apply route that did not occur."
+    },
+    "cleanupOracle": {
+      "status": "NO_ROUTE_PASS_WORD_PROCESS_CLEANED",
+      "reason": "The orphan Word process had zero documents and was closed after evidence capture; cleanup is not promoted to route PASS."
+    }
+  },
+  "authority": {
+    "userDocumentsAllowed": false,
+    "userDocumentsRead": 0,
+    "userDocumentsMutated": 0,
+    "syntheticArtifactsOnly": true,
+    "productRuntimeWiringChanged": false,
+    "productNetworkRuntimeUsed": false,
+    "commitPushPrMergeAuthority": "DENY_UNTIL_FAIL_CLOSED_RECONCILIATION_GATES_GREEN"
+  },
+  "failureCounters": {
+    "unknownAsPass": 0,
+    "abstainAsPass": 0,
+    "conflictingAsPass": 0,
+    "silentLoss": 0,
+    "falseAutoApplyCount": 0,
+    "userDocumentReads": 0,
+    "userDocumentWrites": 0
+  },
+  "hostileCorpus": {
+    "total": 16,
+    "killed": 16,
+    "survivors": 0,
+    "coverage": [
+      "route pass laundering",
+      "chain pass laundering",
+      "wrong Word build",
+      "smoke or excerpt admission",
+      "partial run as full route",
+      "Word status false PASS",
+      "product apply false PASS",
+      "terminal aggregate false presence",
+      "unauthenticated return intake laundering",
+      "oracle PASS while route blocked",
+      "UNKNOWN as PASS",
+      "user document read",
+      "missing parser probe",
+      "stale profile not recorded",
+      "false auto apply",
+      "wrong next contour"
+    ]
+  },
+  "semanticMutations": {
+    "total": 12,
+    "killed": 12,
+    "survivors": 0,
+    "coverage": [
+      "partial run full-book promotion",
+      "reported operation inflation",
+      "parser write authority laundering",
+      "text revision count tamper",
+      "carrier authority laundering",
+      "product network laundering",
+      "product runtime wiring laundering",
+      "provider signature laundering",
+      "process cleanup laundering",
+      "comment oracle pass laundering",
+      "mutation survivor laundering",
+      "hostile corpus survivor laundering"
+    ]
+  },
+  "rollback": {
+    "repo": "Revert the bounded C1 blocker receipt, verifier, contract, matrix/catalog/governance bindings, and the one-line roundId harness repair.",
+    "productDataMigrationRequired": false,
+    "runtimeRollbackRequired": false,
+    "userDataTouched": false
+  },
+  "nextSequentialContour": "C1_WORD_RETURN_AUTHORITY_AND_PROFILE_BINDING_REPAIR_V1"
+}

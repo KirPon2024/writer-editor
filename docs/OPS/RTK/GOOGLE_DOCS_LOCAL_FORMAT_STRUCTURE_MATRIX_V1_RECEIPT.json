@@ -1,0 +1,277 @@
+{
+  "schemaVersion": "yalken.googleDocs.localFormatStructureMatrix.receipt.v1",
+  "taskId": "GOOGLE_DOCS_LOCAL_FORMAT_STRUCTURE_MATRIX_V1",
+  "status": "GOOGLE_DOCS_LOCAL_FORMAT_STRUCTURE_MATRIX_V1_LOCAL_VERIFIED",
+  "result": "FORMAT_STRUCTURE_MATRIX_ABSTAIN_NEEDS_REAL_GOOGLE_E2E",
+  "createdAtUtc": "2026-08-15T04:45:00.000Z",
+  "originMainSha": "524473e00608530dc95af2a8510cadb834ffb78e",
+  "localHeadSha": "524473e00608530dc95af2a8510cadb834ffb78e",
+  "localAbstainOnly": true,
+  "noProductMutation": true,
+  "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE",
+  "nonClaims": {
+    "googleDocsReady": false,
+    "supportProven": false,
+    "importProven": false,
+    "roundtripProven": false,
+    "formattingParsed": false,
+    "formattingTrusted": false,
+    "structureParsed": false,
+    "structureTrusted": false,
+    "applyAuthority": false,
+    "physicalGoogleEvidence": false,
+    "productRuntimeWired": false,
+    "userDocumentsUsed": false,
+    "googleAccountUsed": false,
+    "networkRuntimeUsed": false,
+    "wordEvidenceTransferred": false
+  },
+  "samplePacket": {
+    "packet": {
+      "schemaVersion": "yalken.googleDocs.localFormatStructureMatrix.v1",
+      "packetId": "synthetic-google-docs-format-structure-matrix-v1",
+      "sourceKind": "DISPOSABLE_SYNTHETIC_GOOGLE_FORMAT_STRUCTURE_FIXTURE",
+      "provider": "google-docs",
+      "profileId": "google-docs-office-mode-post-d1-v1",
+      "editorMode": "OFFICE_MODE",
+      "localOnly": true,
+      "userDocument": false,
+      "googleAccountUsed": false,
+      "networkRuntimeUsed": false,
+      "productRuntimeWired": false,
+      "physicalGoogleEvidence": false,
+      "inheritedEvidenceProfileId": "",
+      "sourceBinding": {
+        "projectId": "synthetic-google-docs-project",
+        "rootId": "synthetic-google-docs-root",
+        "documentId": "synthetic-google-docs-document",
+        "canonicalRevision": "sha256:6d446104e737c754924c062db340d99fcbb71aeca2a12eacb2f2c133bbb68c8b",
+        "workingRevision": "sha256:b1dd8ca52ba8054dfeb4ec41974157dab8d5264858856a1d10f7046b62dfbdf8",
+        "generation": 1
+      },
+      "fixture": {
+        "mediaType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "payloadText": "case:fmt-bold-001\nlane:formatting\nkind:bold\nanchor:paragraph-1/run-1\nexpected:bold marker retained in local synthetic OOXML label\ndisposable synthetic local packet only\n---\ncase:fmt-italic-001\nlane:formatting\nkind:italic\nanchor:paragraph-1/run-2\nexpected:italic marker retained in local synthetic OOXML label\ndisposable synthetic local packet only\n---\ncase:fmt-underline-001\nlane:formatting\nkind:underline\nanchor:paragraph-2/run-1\nexpected:underline marker retained in local synthetic OOXML label\ndisposable synthetic local packet only\n---\ncase:fmt-heading-001\nlane:formatting\nkind:heading\nanchor:heading-1\nexpected:heading style label retained locally\ndisposable synthetic local packet only\n---\ncase:fmt-list-001\nlane:formatting\nkind:list\nanchor:list-1/item-1\nexpected:list style label retained locally\ndisposable synthetic local packet only\n---\ncase:fmt-link-001\nlane:formatting\nkind:link\nanchor:paragraph-3/link-1\nexpected:link relationship label retained locally\ndisposable synthetic local packet only\n---\ncase:struct-footnote-001\nlane:structure\nkind:footnote\nanchor:paragraph-2/footnote-1\nexpected:footnote reference label observed locally\ndisposable synthetic local packet only\n---\ncase:struct-table-001\nlane:structure\nkind:table\nanchor:table-1/cell-1-1\nexpected:table cell label observed locally\ndisposable synthetic local packet only\n---\ncase:struct-media-001\nlane:structure\nkind:media\nanchor:media-1\nexpected:media placeholder label observed locally\ndisposable synthetic local packet only\n---\ncase:struct-id-001\nlane:structure\nkind:stableId\nanchor:synthetic-node-id-1\nexpected:synthetic id label observed locally\ndisposable synthetic local packet only",
+        "payloadSha256": "sha256:b658fcad5a102949f94fe1e0b683b938092ea679aefab292d759c0e5fd833f3e",
+        "sizeBytes": 1660
+      },
+      "advertisedFormatCaseCount": 6,
+      "advertisedStructureCaseCount": 4,
+      "cases": [
+        {
+          "caseId": "fmt-bold-001",
+          "lane": "formatting",
+          "kind": "bold",
+          "anchor": "paragraph-1/run-1",
+          "payloadText": "case:fmt-bold-001\nlane:formatting\nkind:bold\nanchor:paragraph-1/run-1\nexpected:bold marker retained in local synthetic OOXML label\ndisposable synthetic local packet only",
+          "payloadSha256": "sha256:99640026bb39272356665889cb35fa2f17f05123acdd0ce52821128d17d8616a",
+          "sizeBytes": 168,
+          "expectedText": "bold marker retained in local synthetic OOXML label",
+          "expectedSha256": "sha256:30e85d781456defeb1486580f04a415ea86b6a54631e6d3a54bece546c5d8aca",
+          "localDisposition": "LOCAL_OBSERVED_UNTRUSTED"
+        },
+        {
+          "caseId": "fmt-italic-001",
+          "lane": "formatting",
+          "kind": "italic",
+          "anchor": "paragraph-1/run-2",
+          "payloadText": "case:fmt-italic-001\nlane:formatting\nkind:italic\nanchor:paragraph-1/run-2\nexpected:italic marker retained in local synthetic OOXML label\ndisposable synthetic local packet only",
+          "payloadSha256": "sha256:5f0917ee7a8befceb540a9e6533aea83deac1ed1e2faba26c9dd311679f12d5e",
+          "sizeBytes": 174,
+          "expectedText": "italic marker retained in local synthetic OOXML label",
+          "expectedSha256": "sha256:caddb5bac0229baa400b86e67e1b40ca77cfce0506efe520f874dc55a8c4fbb6",
+          "localDisposition": "LOCAL_OBSERVED_UNTRUSTED"
+        },
+        {
+          "caseId": "fmt-underline-001",
+          "lane": "formatting",
+          "kind": "underline",
+          "anchor": "paragraph-2/run-1",
+          "payloadText": "case:fmt-underline-001\nlane:formatting\nkind:underline\nanchor:paragraph-2/run-1\nexpected:underline marker retained in local synthetic OOXML label\ndisposable synthetic local packet only",
+          "payloadSha256": "sha256:14d6b2ee757066038465d012df5915e98eb9d453e76cd6e9ac5a93765dddda19",
+          "sizeBytes": 183,
+          "expectedText": "underline marker retained in local synthetic OOXML label",
+          "expectedSha256": "sha256:6cc2fbfe55548d855139acf74f73ddbd5cef326ba1ca8e068838e10b9bd2bbe3",
+          "localDisposition": "LOCAL_OBSERVED_UNTRUSTED"
+        },
+        {
+          "caseId": "fmt-heading-001",
+          "lane": "formatting",
+          "kind": "heading",
+          "anchor": "heading-1",
+          "payloadText": "case:fmt-heading-001\nlane:formatting\nkind:heading\nanchor:heading-1\nexpected:heading style label retained locally\ndisposable synthetic local packet only",
+          "payloadSha256": "sha256:f5164d9a5aea10c5ad54e0a2474d11052343b2d547a9d822ef0f8512451f246e",
+          "sizeBytes": 151,
+          "expectedText": "heading style label retained locally",
+          "expectedSha256": "sha256:23b8d4f461dd62a8ec74646a9a2efedde82e72e5ac00aba84a7f9c1a94314b45",
+          "localDisposition": "LOCAL_OBSERVED_UNTRUSTED"
+        },
+        {
+          "caseId": "fmt-list-001",
+          "lane": "formatting",
+          "kind": "list",
+          "anchor": "list-1/item-1",
+          "payloadText": "case:fmt-list-001\nlane:formatting\nkind:list\nanchor:list-1/item-1\nexpected:list style label retained locally\ndisposable synthetic local packet only",
+          "payloadSha256": "sha256:f055c3074161e6be15cd7bb55e76eecf5351b532488e1a5d899fed15543330bd",
+          "sizeBytes": 146,
+          "expectedText": "list style label retained locally",
+          "expectedSha256": "sha256:a4f150ba519ac2a84b0ca5c6c15f67ad44dee5a2b96aec68e6fb41b5e79f7b99",
+          "localDisposition": "LOCAL_OBSERVED_UNTRUSTED"
+        },
+        {
+          "caseId": "fmt-link-001",
+          "lane": "formatting",
+          "kind": "link",
+          "anchor": "paragraph-3/link-1",
+          "payloadText": "case:fmt-link-001\nlane:formatting\nkind:link\nanchor:paragraph-3/link-1\nexpected:link relationship label retained locally\ndisposable synthetic local packet only",
+          "payloadSha256": "sha256:a94dd1622429647bf78480917ae3dbf129db76de5f923fda6d97174ed198b07e",
+          "sizeBytes": 158,
+          "expectedText": "link relationship label retained locally",
+          "expectedSha256": "sha256:ae5181ffd2096628462c3d9204158e37a735d7f276c1c0839abb0c24933f9075",
+          "localDisposition": "LOCAL_OBSERVED_UNTRUSTED"
+        },
+        {
+          "caseId": "struct-footnote-001",
+          "lane": "structure",
+          "kind": "footnote",
+          "anchor": "paragraph-2/footnote-1",
+          "payloadText": "case:struct-footnote-001\nlane:structure\nkind:footnote\nanchor:paragraph-2/footnote-1\nexpected:footnote reference label observed locally\ndisposable synthetic local packet only",
+          "payloadSha256": "sha256:4b6058da3297a81ca02d194da40b78497f9a5a577c14e15bf79bb6e9ceefc2b8",
+          "sizeBytes": 173,
+          "expectedText": "footnote reference label observed locally",
+          "expectedSha256": "sha256:4d86bb8472ad965466a2b1cf3bbdbde1cc707316234af7f414b76b19e405ab3b",
+          "localDisposition": "LOCAL_OBSERVED_UNTRUSTED"
+        },
+        {
+          "caseId": "struct-table-001",
+          "lane": "structure",
+          "kind": "table",
+          "anchor": "table-1/cell-1-1",
+          "payloadText": "case:struct-table-001\nlane:structure\nkind:table\nanchor:table-1/cell-1-1\nexpected:table cell label observed locally\ndisposable synthetic local packet only",
+          "payloadSha256": "sha256:4fd2f4ba544d588889b1ce8af7ae8c461e77422b5626349d7c6a1b6fcff56ebe",
+          "sizeBytes": 153,
+          "expectedText": "table cell label observed locally",
+          "expectedSha256": "sha256:d9c6589c36b84d1998918b2c9b63c852df14ccbdc20f24f4cae52462194a0bc4",
+          "localDisposition": "LOCAL_OBSERVED_UNTRUSTED"
+        },
+        {
+          "caseId": "struct-media-001",
+          "lane": "structure",
+          "kind": "media",
+          "anchor": "media-1",
+          "payloadText": "case:struct-media-001\nlane:structure\nkind:media\nanchor:media-1\nexpected:media placeholder label observed locally\ndisposable synthetic local packet only",
+          "payloadSha256": "sha256:b46bb92e36c93d1b408a0d972d89977d55c8712846158ec5371006dd47888509",
+          "sizeBytes": 151,
+          "expectedText": "media placeholder label observed locally",
+          "expectedSha256": "sha256:161979affd71fd6047401fb9322da9feec99bb27f75715d453789cedfc32a208",
+          "localDisposition": "LOCAL_OBSERVED_UNTRUSTED"
+        },
+        {
+          "caseId": "struct-id-001",
+          "lane": "structure",
+          "kind": "stableId",
+          "anchor": "synthetic-node-id-1",
+          "payloadText": "case:struct-id-001\nlane:structure\nkind:stableId\nanchor:synthetic-node-id-1\nexpected:synthetic id label observed locally\ndisposable synthetic local packet only",
+          "payloadSha256": "sha256:39ee54f9c465e67539339090e42dc669b62981b04608799b7a52b951ed58b5c9",
+          "sizeBytes": 158,
+          "expectedText": "synthetic id label observed locally",
+          "expectedSha256": "sha256:88c8b2c26a5bf8b314642c7b173b8c96e0e239cbbc6ec3bb3d17c93b57d3de97",
+          "localDisposition": "LOCAL_OBSERVED_UNTRUSTED"
+        }
+      ],
+      "claims": {
+        "supportProven": false,
+        "importProven": false,
+        "roundtripProven": false,
+        "formattingParsed": false,
+        "formattingTrusted": false,
+        "structureParsed": false,
+        "structureTrusted": false,
+        "applyAuthority": false,
+        "productMutationAuthority": false
+      },
+      "limitations": [
+        "NO_REAL_GOOGLE_ACCOUNT_E2E",
+        "NO_TRUSTED_GOOGLE_FORMATTING_IR",
+        "NO_TRUSTED_GOOGLE_STRUCTURE_IR",
+        "NO_FORMAT_OR_STRUCTURE_APPLY_AUTHORITY",
+        "FORMAT_STRUCTURE_TYPED_ABSTAIN_LOCAL_ONLY"
+      ]
+    },
+    "result": {
+      "ok": true,
+      "status": "GOOGLE_DOCS_LOCAL_FORMAT_STRUCTURE_MATRIX_V1_LOCAL_VERIFIED",
+      "result": "FORMAT_STRUCTURE_MATRIX_ABSTAIN_NEEDS_REAL_GOOGLE_E2E",
+      "code": "GOOGLE_FORMAT_STRUCTURE_LANES_ABSTAINED",
+      "action": "ABSTAIN_ONLY",
+      "provider": "google-docs",
+      "profileId": "google-docs-office-mode-post-d1-v1",
+      "editorMode": "OFFICE_MODE",
+      "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE",
+      "localAbstainOnly": true,
+      "noProductMutation": true,
+      "supportClaimed": false,
+      "importClaimed": false,
+      "roundtripClaimed": false,
+      "formattingTrusted": false,
+      "structureTrusted": false,
+      "applyAuthority": "DENY",
+      "packetDigest": "sha256:bc549b51056236453caf44ffb12d3f0d92270597526628dbfc5947aa422b4c3b",
+      "matrixDigest": "sha256:cefe4dc986ebd8226d2718c355b0579bd8699911f3053415451f8c94c4c3442f",
+      "counts": {
+        "formatCasesAdvertised": 6,
+        "formatCasesObserved": 6,
+        "structureCasesAdvertised": 4,
+        "structureCasesObserved": 4,
+        "trustedCases": 0,
+        "applyAdmitted": 0,
+        "productMutations": 0
+      }
+    }
+  },
+  "localMatrix": {
+    "formatCases": 6,
+    "structureCases": 4,
+    "formatKinds": [
+      "bold",
+      "heading",
+      "italic",
+      "link",
+      "list",
+      "underline"
+    ],
+    "structureKinds": [
+      "footnote",
+      "media",
+      "stableId",
+      "table"
+    ],
+    "uniqueFixtureDigests": 10,
+    "uniqueOracleDigests": 10,
+    "trustedProviderCases": 0
+  },
+  "hostileProof": {
+    "finiteCases": 1,
+    "hostileCases": 26,
+    "semanticMutants": 17,
+    "survivors": 0,
+    "requiredFailures": [
+      "support/import/roundtrip overclaim",
+      "formatting/structure trust overclaim",
+      "Google account/network/runtime/user-document/physical overclaim",
+      "Word evidence inheritance",
+      "stale fixture digest",
+      "source transplant or stale generation",
+      "case count mismatch",
+      "duplicate case id",
+      "unsupported kind",
+      "case digest reuse",
+      "case payload or oracle digest mismatch",
+      "UNKNOWN/ABSTAIN as PASS"
+    ]
+  },
+  "rollback": {
+    "type": "REVERT_THIS_CONTOUR_ONLY",
+    "preservesPreviousG00Verdict": "LOCAL_COMPATIBILITY_NEEDS_MORE_EVIDENCE"
+  }
+}

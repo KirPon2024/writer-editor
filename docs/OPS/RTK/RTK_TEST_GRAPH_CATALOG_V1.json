@@ -23,6 +23,7 @@
     "rtk-google-docs-g00-discovery-binding.contract.test.js",
     "rtk-google-docs-local-comments-limitation.contract.test.js",
     "rtk-google-docs-local-export-packet-quarantine.contract.test.js",
+    "rtk-google-docs-local-format-structure-matrix.contract.test.js",
     "rtk-google-docs-local-suggestions-ir-abstain.contract.test.js",
     "rtk-google01-provider-profiles.contract.test.js",
     "rtk-lab01-build-bound-profiles.contract.test.js",
@@ -130,6 +131,7 @@
     "googleStage": "LOCAL_COMPATIBILITY_REBOUND_NEEDS_REAL_ACCOUNT_E2E",
     "nextWordStage": "WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION",
     "googleLocalSuggestionsIrAbstain": "GOOGLE_DOCS_LOCAL_SUGGESTIONS_IR_ABSTAIN_V1_LOCAL_VERIFIED",
-    "googleLocalCommentsLimitation": "GOOGLE_DOCS_LOCAL_COMMENTS_LIMITATION_V1_LOCAL_VERIFIED"
+    "googleLocalCommentsLimitation": "GOOGLE_DOCS_LOCAL_COMMENTS_LIMITATION_V1_LOCAL_VERIFIED",
+    "googleLocalFormatStructureMatrix": "GOOGLE_DOCS_LOCAL_FORMAT_STRUCTURE_MATRIX_V1_LOCAL_VERIFIED"
   }
 }

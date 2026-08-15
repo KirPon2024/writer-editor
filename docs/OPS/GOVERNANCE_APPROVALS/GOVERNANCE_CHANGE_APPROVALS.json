@@ -10966,12 +10966,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "45e8c082f86701853dd9d42b75fec8e47d6baf7740c26db379a88fcc71c945d1",
-      "approvedBy": "owner-standing-grant:TASK_ID:GOOGLE_DOCS_REAL_ACCOUNT_WHOLE_BOOK_E2E_V1",
-      "approvedAtUtc": "2026-08-15T10:30:00.000Z",
-      "rationale": "Approve RTK graph catalog rebind adding the Google Docs whole-book real-account contract and scoped truth binding while preserving NEEDS_MORE_EVIDENCE and denying Google product runtime, import/apply, platform saturation, and Word-to-Google evidence transfer.",
+      "sha256": "4ca356b6aa16e0ae79881f06c809a896bb950a2766d9ee65533b4b8e85965229",
+      "approvedBy": "owner-standing-grant:TASK_ID:INTEROP_CHAIN_MATRIX_LINEAGE_REGISTRATION_V1",
+      "approvedAtUtc": "2026-08-15T11:58:00.000Z",
+      "rationale": "Approve RTK graph catalog rebind for bounded C1-C8 interop chain denominator registration while preserving Google whole-book scoped evidence only, NEEDS_MORE_EVIDENCE, and denying route saturation, terminal Google Docs PASS, universal Word/Google parity, byte identity, product runtime, and import/apply authority claims.",
       "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_GOOGLE_DOCS_REAL_ACCOUNT_E2E_V1"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_MATRIX_LINEAGE_REGISTRATION"
     },
     {
       "filePath": "scripts/ops/google-docs-real-account-e2e-v1.mjs",
@@ -11053,6 +11053,42 @@
       "rationale": "Approve ZIP01 governed-file allowlist update for the bounded Google Docs whole-book receipt/verifier/test/governance-binding files only; no product runtime, UI, import/apply authority, or user document path is introduced.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_GOOGLE_DOCS_REAL_ACCOUNT_E2E_V1"
+    },
+    {
+      "filePath": "docs/OPS/RTK/YALKEN_INTEROP_CHAIN_MATRIX_V1.json",
+      "sha256": "099123fb63e6885f40c54570f4790c7e8e8c678cd394cb25bb08c998880f3cab",
+      "approvedBy": "owner-standing-grant:TASK_ID:INTEROP_CHAIN_MATRIX_LINEAGE_REGISTRATION_V1",
+      "approvedAtUtc": "2026-08-15T11:58:00.000Z",
+      "rationale": "Approve new machine-readable C1-C8 route denominator matrix: all routes require full canonical synthetic book, independent route-specific evidence, exact hop/source/revision bindings, typed loss accounting, FALSE_AUTO_APPLY_COUNT=0, no user documents, and no inherited provider PASS.",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_MATRIX_LINEAGE_REGISTRATION"
+    },
+    {
+      "filePath": "docs/OPS/RTK/YALKEN_INTEROP_MULTI_ROUND_LINEAGE_RECEIPT_V1.json",
+      "sha256": "e000aed13878c888531be306e7b1302be50407870ae33d5795296d8a385cded7",
+      "approvedBy": "owner-standing-grant:TASK_ID:INTEROP_CHAIN_MATRIX_LINEAGE_REGISTRATION_V1",
+      "approvedAtUtc": "2026-08-15T11:58:00.000Z",
+      "rationale": "Approve lineage receipt binding the chain matrix hash and multi-round closure rules; records Google whole-book evidence as scoped input only, keeps route lineage NOT_STARTED_DENOMINATOR_REGISTERED, and denies saturation, parity, byte identity, product apply, and provider-evidence transfer claims.",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_MATRIX_LINEAGE_REGISTRATION"
+    },
+    {
+      "filePath": "scripts/ops/rtk-interop-chain-matrix-v1.mjs",
+      "sha256": "74fdce2ca043bed5efd5fbd3bec00ba4a8fac35973ddb5b81940cffa8497a684",
+      "approvedBy": "owner-standing-grant:TASK_ID:INTEROP_CHAIN_MATRIX_LINEAGE_REGISTRATION_V1",
+      "approvedAtUtc": "2026-08-15T11:58:00.000Z",
+      "rationale": "Approve verifier for closed C1-C8 route set and fail-closed hostile checks: missing/extra route, PASS without evidence, UNKNOWN/ABSTAIN/CONFLICTING as PASS, false auto-apply, provider evidence inheritance, sampling, user documents, stale head, and parity/byte identity overclaim.",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_MATRIX_LINEAGE_REGISTRATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-interop-chain-matrix.contract.test.js",
+      "sha256": "52c0f948e1e5278d37227e1e2fcfa7ae920decccc7582c71d7cd953aeeba3781",
+      "approvedBy": "owner-standing-grant:TASK_ID:INTEROP_CHAIN_MATRIX_LINEAGE_REGISTRATION_V1",
+      "approvedAtUtc": "2026-08-15T11:58:00.000Z",
+      "rationale": "Approve RTK contract tests for the interop chain matrix and lineage receipt: exact C1-C8 denominator, scoped Google whole-book non-closure, maintained graph admission, and hostile mutation rejection with no product runtime, UI, user document, provider execution, or import/apply authority.",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_MATRIX_LINEAGE_REGISTRATION"
     }
   ]
 }

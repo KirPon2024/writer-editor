@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "yalken.interopChain.multiRoundLineage.receipt.v1",
+  "documentClass": "EVIDENCE_RECEIPT",
+  "status": "INTEROP_CHAIN_LINEAGE_DENOMINATOR_REGISTERED_NEEDS_MORE_EVIDENCE",
+  "claimBoundary": "This receipt binds the C1-C8 route matrix and multi-round lineage closure rules only. It is not route execution evidence, not chain saturation, not universal Word/Google parity, not byte identity, and not product import/apply authority.",
+  "generatedAtUtc": "2026-08-15T11:56:00.000Z",
+  "exactHead": "6c253b2614986baf31bdb7f31a729f8bc763c6ca",
+  "matrixPath": "docs/OPS/RTK/YALKEN_INTEROP_CHAIN_MATRIX_V1.json",
+  "matrixSha256": "sha256:099123fb63e6885f40c54570f4790c7e8e8c678cd394cb25bb08c998880f3cab",
+  "routeIds": ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8"],
+  "lineageStatus": "NOT_STARTED_DENOMINATOR_REGISTERED",
+  "googleWholeBookInput": {
+    "status": "SCOPED_EVIDENCE_ONLY_NOT_CHAIN_CLOSURE",
+    "receiptPath": "docs/OPS/RTK/GOOGLE_DOCS_REAL_ACCOUNT_WHOLE_BOOK_E2E_V1_RECEIPT.json",
+    "receiptSha256": "sha256:f7bae7bbda3dba6978500933eb6eb8f4f17cff924580335d9d37ea87570e7f81",
+    "programVerdict": "NEEDS_MORE_EVIDENCE",
+    "interopChainPending": true,
+    "fullBookReadbackVerified": true,
+    "noSampling": true,
+    "falseAutoApplyCount": 0,
+    "chainClosureAuthority": "DENY"
+  },
+  "multiRoundLineageRequirements": [
+    "Every route contour must use the full canonical synthetic book denominator, never excerpt/smoke evidence for final PASS.",
+    "Every hop must bind exact Yalken SHA, provider build/profile, document id, round id, effect/apply id, source revision, target revision, and provider revision when available.",
+    "Every route must compare before/after semantic text, structure, comments, suggestions, formatting, recovery, and cleanup through independent oracles.",
+    "C3 and every repeated route must use fresh round/effect/apply ids and must prove replay, cross-round transplant, stale revision, and idempotency negatives cannot mutate.",
+    "Provider conversion loss must be typed as MANUAL, BLOCKED, or LOSS with no silent omission and no promotion to universal parity.",
+    "FALSE_AUTO_APPLY_COUNT must remain 0 for any route-level PASS.",
+    "UNKNOWN, ABSTAIN, or CONFLICTING can never aggregate to PASS.",
+    "No route may inherit Word evidence into Google, Google evidence into Word, or local synthetic evidence into real provider claims."
+  ],
+  "routeClosurePolicy": {
+    "fullBookRequired": true,
+    "samplingAllowed": false,
+    "smokeCanCloseRoute": false,
+    "unknownAbstainConflictingCanPass": false,
+    "providerLossMustBeAccounted": true,
+    "manualBlockedLossAreAllowedOnlyAsTypedOutcomes": true,
+    "unaccountedLossBlocksRoute": true,
+    "falseAutoApplyCountMustBeZero": true,
+    "userDocumentsAllowed": false,
+    "permanentDeleteAllowed": false
+  },
+  "deniedClaims": [
+    "DIVERSE_OR_SATURATED_CHAIN_CLAIM",
+    "TERMINAL_GOOGLE_DOCS_PASS",
+    "UNIVERSAL_WORD_GOOGLE_PARITY",
+    "UNIVERSAL_BYTE_IDENTITY",
+    "PRODUCT_IMPORT_APPLY_AUTHORITY",
+    "LIVE_USER_DOCUMENT_WORKFLOW",
+    "WORD_EVIDENCE_TRANSFER_TO_GOOGLE",
+    "GOOGLE_EVIDENCE_TRANSFER_TO_WORD"
+  ],
+  "rollback": {
+    "repo": "revert bounded chain matrix, lineage receipt, verifier, catalog, and governance binding commit",
+    "productDataMigrationRequired": false,
+    "runtimeRollbackRequired": false
+  }
+}

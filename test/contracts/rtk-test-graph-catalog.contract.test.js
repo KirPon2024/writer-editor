@@ -75,6 +75,7 @@ test('C4 RTK catalog deterministically covers every maintained rtk contract', ()
   assert.equal(catalog.currentTruthBinding.googleRealAccountE2E, 'GOOGLE_DOCS_REAL_ACCOUNT_E2E_V1_SCOPED_VERIFIED');
   assert.equal(catalog.currentTruthBinding.googleRealAccountWholeBookE2E, 'GOOGLE_DOCS_REAL_ACCOUNT_WHOLE_BOOK_E2E_V1_SCOPED_VERIFIED');
   assert.equal(catalog.currentTruthBinding.googleRealAccountE2EProgramVerdict, 'NEEDS_MORE_EVIDENCE');
+  assert.equal(catalog.currentTruthBinding.interopC1WordFullBookRoute, 'C1_YALKEN_WORD_YALKEN_FULL_BOOK_ROUTE_V1_EXECUTED_BLOCKED_FAIL_CLOSED');
   assert.equal(catalog.currentTruthBinding.googleLocalFinalCompatibilityVerdict, 'GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1_LOCAL_VERIFIED');
 });
 

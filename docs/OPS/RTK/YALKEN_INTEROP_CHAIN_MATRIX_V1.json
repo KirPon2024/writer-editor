@@ -3,8 +3,8 @@
   "documentClass": "EVIDENCE_STATUS",
   "status": "INTEROP_CHAIN_C1_C8_DENOMINATOR_REGISTERED_NEEDS_MORE_EVIDENCE",
   "claimBoundary": "Registers the frozen C1-C8 full-book interop route denominator and fail-closed closure rules only. It does not prove any route, saturation, platform parity, byte identity, product runtime support, import/apply authority, or live user-document workflow.",
-  "generatedAtUtc": "2026-08-15T11:55:00.000Z",
-  "exactHead": "6c253b2614986baf31bdb7f31a729f8bc763c6ca",
+  "generatedAtUtc": "2026-08-15T13:21:00.000Z",
+  "exactHead": "9c095ea89425e52da669ad5bfe9b2bfc727d7db6",
   "programVerdict": "NEEDS_MORE_EVIDENCE",
   "sourceEvidence": {
     "googleWholeBookReceipt": {
@@ -23,6 +23,13 @@
       "path": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
       "sha256": "sha256:c4b099d1aa3221ab060303fc4d09ac7607cfa1613049b08723f45ebc90487619",
       "status": "LIVING_LEDGER_CURRENT_FINAL_PROGRAM_VERDICT_NEEDS_MORE_EVIDENCE"
+    },
+    "c1WordFullBookRouteReceipt": {
+      "path": "docs/OPS/RTK/YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1.json",
+      "sha256": "sha256:4d93baea013096e4c73fc3aab059eb55e0412ee2c10d4df7c6ad1b9d526178bc",
+      "status": "C1_YALKEN_WORD_YALKEN_FULL_BOOK_ROUTE_V1_EXECUTED_BLOCKED_FAIL_CLOSED",
+      "routeVerdict": "BLOCKED",
+      "chainClosureAuthority": "DENY"
     }
   },
   "canonicalFullBookDenominator": {
@@ -68,25 +75,26 @@
       "routeId": "C1",
       "title": "Yalken to Word to Yalken",
       "hops": ["YALKEN_EXPORT", "WORD_MAC_16_112", "YALKEN_RETURN_INTAKE"],
-      "routeVerdict": "NEEDS_MORE_EVIDENCE",
-      "accountingStatus": "NOT_STARTED",
+      "routeVerdict": "BLOCKED",
+      "accountingStatus": "FULL_BOOK_ATTEMPTED_BLOCKED",
       "fullCanonicalSyntheticBookRequired": true,
-      "fullBookAccounting": "REQUIRED_NOT_YET_PROVEN_FOR_ROUTE",
+      "fullBookAccounting": "FULL_BOOK_ATTEMPTED_WORD_RETURN_BLOCKED_NOT_PROVEN",
       "userDocumentsAllowed": false,
       "productMutationAuthority": "DENY_UNTIL_ROUTE_CONTOUR_PROVES_APPLY_AUTHORITY",
-      "fullBookEvidenceRefs": ["WORD_SAFETY_REMEDIATION_V1_C5_FULLBOOK_CERTIFICATION_RECEIPT"],
+      "fullBookEvidenceRefs": ["WORD_SAFETY_REMEDIATION_V1_C5_FULLBOOK_CERTIFICATION_RECEIPT", "YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1"],
       "executedFullRouteEvidence": [],
+      "blockerEvidenceRefs": ["YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1"],
       "requiredBindings": ["yalkenSha", "wordBuildProfile", "documentId", "roundId", "sourceRevision", "targetRevision", "corpusManifest", "beforeAfterOracles", "cleanup"],
       "requiredOracles": {
-        "semanticOracle": {"status": "REQUIRED_NOT_EXECUTED"},
-        "structureOracle": {"status": "REQUIRED_NOT_EXECUTED"},
-        "commentsOracle": {"status": "REQUIRED_NOT_EXECUTED"},
-        "suggestionsOracle": {"status": "REQUIRED_NOT_EXECUTED"},
-        "formatOracle": {"status": "REQUIRED_NOT_EXECUTED"},
-        "recoveryOracle": {"status": "REQUIRED_NOT_EXECUTED"},
-        "cleanupOracle": {"status": "REQUIRED_NOT_EXECUTED"}
+        "semanticOracle": {"status": "BLOCKED_RETURN_AUTHORITY"},
+        "structureOracle": {"status": "BLOCKED_RETURN_AUTHORITY"},
+        "commentsOracle": {"status": "PARTIAL_OBSERVED_NO_APPLY_AUTHORITY"},
+        "suggestionsOracle": {"status": "NOT_CLAIMED_WORD_TRACKED_CHANGES_PROFILE_PENDING"},
+        "formatOracle": {"status": "BLOCKED_RETURN_AUTHORITY"},
+        "recoveryOracle": {"status": "BLOCKED_BEFORE_APPLY"},
+        "cleanupOracle": {"status": "NO_ROUTE_PASS_WORD_PROCESS_CLEANED"}
       },
-      "nextContour": "C1_YALKEN_WORD_YALKEN_FULL_BOOK_ROUTE_V1"
+      "nextContour": "C1_WORD_RETURN_AUTHORITY_AND_PROFILE_BINDING_REPAIR_V1"
     },
     {
       "routeId": "C2",
@@ -257,7 +265,7 @@
       "nextContour": "AFTER_C7"
     }
   ],
-  "nextSequentialContour": "C1_YALKEN_WORD_YALKEN_FULL_BOOK_ROUTE_V1",
+  "nextSequentialContour": "C1_WORD_RETURN_AUTHORITY_AND_PROFILE_BINDING_REPAIR_V1",
   "rollback": {
     "repo": "revert bounded chain matrix, lineage receipt, verifier, catalog, and governance binding commit",
     "productDataMigrationRequired": false,

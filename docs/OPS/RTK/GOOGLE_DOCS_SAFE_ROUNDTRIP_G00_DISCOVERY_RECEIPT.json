@@ -253,5 +253,20 @@
     "No Google stage DONE is claimed.",
     "Word 16.112 evidence is non-transferable to Google Docs.",
     "Real signed-in Google Docs E2E requires separate owner/account authority."
-  ]
+  ],
+  "localExportPacketQuarantine": {
+    "status": "GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1_LOCAL_VERIFIED",
+    "result": "QUARANTINE_ONLY_NEEDS_REAL_GOOGLE_E2E",
+    "receiptPath": "docs/OPS/RTK/GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1_RECEIPT.json",
+    "receiptSha256": "sha256:5167e35f8b1153d1e869f4bc8e0078cfa4d9435b0bbf6d661410cf2586a08f0b",
+    "localQuarantineOnly": true,
+    "noProductMutation": true,
+    "physicalGoogleEvidence": 0,
+    "productRuntimeWired": 0,
+    "supportClaimed": false,
+    "importClaimed": false,
+    "roundtripClaimed": false,
+    "applyAuthority": false,
+    "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE"
+  }
 }

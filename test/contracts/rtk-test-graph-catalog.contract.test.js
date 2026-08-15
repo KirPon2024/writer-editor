@@ -71,7 +71,7 @@ test('C4 RTK catalog deterministically covers every maintained rtk contract', ()
   assert.deepEqual([...catalog.contractBasenames].sort(), actual);
   assert.equal(catalog.currentTruthBinding.wordAcceptanceRevoked, true);
   assert.equal(catalog.currentTruthBinding.wordSaturated, false);
-  assert.equal(catalog.currentTruthBinding.googleStage, 'REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION');
+  assert.equal(catalog.currentTruthBinding.googleStage, 'LOCAL_COMPATIBILITY_REBOUND_NEEDS_REAL_ACCOUNT_E2E');
 });
 
 test('C4 test:rtk command and promotion wiring are local deterministic gates', () => {

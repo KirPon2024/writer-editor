@@ -9,7 +9,7 @@
   "scopeNotes": [
     "The graph is deterministic and fail-closed on missing or extra rtk-* contract files.",
     "Review bridge contracts remain covered by default and focused runners, but are not silently folded into the maintained RTK graph.",
-    "Google Docs remains report-only blocked until Word safety remediation C1-C5 and independent audit complete."
+    "Google Docs remains local-compatibility-only and blocked on real signed-in Google Docs E2E authority; Word 16.112 evidence is non-transferable and no Google support/import/roundtrip/apply claim is made."
   ],
   "contractBasenames": [
     "rtk-admit01-accountable-lanes.contract.test.js",
@@ -21,6 +21,7 @@
     "rtk-g0b-feasibility.contract.test.js",
     "rtk-g0c-exact-safety.contract.test.js",
     "rtk-google-docs-g00-discovery-binding.contract.test.js",
+    "rtk-google-docs-local-export-packet-quarantine.contract.test.js",
     "rtk-google01-provider-profiles.contract.test.js",
     "rtk-lab01-build-bound-profiles.contract.test.js",
     "rtk-match01-placement-proof.contract.test.js",
@@ -124,7 +125,7 @@
   "currentTruthBinding": {
     "wordAcceptanceRevoked": true,
     "wordSaturated": false,
-    "googleStage": "REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION",
+    "googleStage": "LOCAL_COMPATIBILITY_REBOUND_NEEDS_REAL_ACCOUNT_E2E",
     "nextWordStage": "WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION"
   }
 }

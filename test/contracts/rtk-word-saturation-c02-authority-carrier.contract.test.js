@@ -186,6 +186,55 @@ test('C02 parser rejects stale local baseline and duplicate carrier ambiguity be
   assert.equal(duplicate.exactAuthority.validSignedLocator, false);
 });
 
+test('C02 parser rejects profile transplant even when HMAC and baseline bytes match', async () => {
+  const parser = await load(PARSER_PATH);
+  const matching = parser.parseReviewTransportPackageV2({
+    parts: parts(),
+    hmacSecret: SECRET,
+    expectedAuthority: {
+      ...expectedAuthority,
+      profileId: 'word-mac-latest-observed-16.111.x-semantic-v2-c02',
+    },
+  }, { cryptoPort });
+  const transplanted = parser.parseReviewTransportPackageV2({
+    parts: parts(),
+    hmacSecret: SECRET,
+    expectedAuthority: {
+      ...expectedAuthority,
+      profileId: 'word-mac-16.112-26081010',
+    },
+  }, { cryptoPort });
+
+  assert.equal(matching.authorityCarrier.status, 'verified-baseline-bound');
+  assert.equal(matching.exactAuthority.validSignedLocator, true);
+  assert.equal(matching.authorityCarrier.selectedCarrier.baselineBinding.profileIdMatches, true);
+  assert.equal(transplanted.authorityCarrier.status, 'present-not-authoritative');
+  assert.equal(transplanted.exactAuthority.validSignedLocator, false);
+  assert.equal(transplanted.authorityCarrier.selectedCarrier.baselineBinding.profileIdMatches, false);
+  assert.equal(transplanted.reasons.some((reason) => (
+    reason.code === 'RTK_BLOCKED_PROFILE_MISMATCH'
+    && reason.field === 'authorityCarrier.expectedAuthority.profileId'
+  )), true);
+  const mainSideVerify = parser.verifyAuthorityCarrierSignatureWithSecret(
+    matching.authorityCarrier.selectedCarrier,
+    {
+      hmacSecret: SECRET,
+      expectedAuthority: {
+        ...expectedAuthority,
+        profileId: 'word-mac-16.112-26081010',
+      },
+    },
+    cryptoPort,
+  );
+  assert.equal(mainSideVerify.verified, false);
+  assert.equal(mainSideVerify.validSignedLocator, false);
+  assert.equal(mainSideVerify.baselineBinding.profileIdMatches, false);
+  assert.equal(mainSideVerify.reasons.some((reason) => (
+    reason.code === 'RTK_BLOCKED_PROFILE_MISMATCH'
+    && reason.field === 'authorityCarrier.expectedAuthority.profileId'
+  )), true);
+});
+
 test('C02 public export receipt and core boundaries preserve local-first no-writer authority', async () => {
   const bridge = await load(INDEX_PATH);
   const receipt = JSON.parse(fs.readFileSync(path.join(process.cwd(), RECEIPT_PATH), 'utf8'));

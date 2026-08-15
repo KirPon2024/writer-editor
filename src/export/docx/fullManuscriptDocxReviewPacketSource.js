@@ -5,7 +5,7 @@ const { buildDocxReviewPacketBuffer } = require('./docxReviewPacketBuilder');
 
 const FULL_MANUSCRIPT_REVIEW_DOCX_COMMAND_ID = 'cmd.project.review.exportFullManuscriptDocxReviewPacket';
 const FULL_MANUSCRIPT_REVIEW_DOCX_CAPABILITY_ID = 'cap.project.review.exportFullManuscriptDocxReviewPacket';
-const FULL_MANUSCRIPT_REVIEW_DOCX_PROFILE_ID = 'word-mac-latest-observed-16.111.x-product-review-export-c5v2-full-manuscript';
+const FULL_MANUSCRIPT_REVIEW_DOCX_PROFILE_ID = 'word-mac-16.112-26081010-product-review-export-c5v2-full-manuscript';
 const REVIEW_DOCX_PACKET_AUTH_PROPERTY_NAME = 'YRTK_C01_AUTH';
 const REVIEW_DOCX_PACKET_YRTK2_PROPERTY_NAME = 'YRTK2_TOKEN';
 const REVIEW_DOCX_PACKET_CORE_DIGEST_PROPERTY_NAME = 'YRTK_CORE_DIGEST';
@@ -832,6 +832,10 @@ function buildFullManuscriptDocxReviewPacketSource(input = {}, deps = {}) {
     orderedSceneIds,
   });
   const capabilityManifestDigest = cryptoPort.sha256Json(capabilityManifest);
+  const parserProfileDigest = cryptoPort.sha256Json({
+    parser: 'parseReviewTransportPackageV2',
+    profile: FULL_MANUSCRIPT_REVIEW_DOCX_PROFILE_ID,
+  });
   const provisionalBuffer = buildDocxReviewPacketBuffer({
     sceneText: scenes.map((scene) => scene.text).join('\n\n'),
     blocks,
@@ -882,7 +886,7 @@ function buildFullManuscriptDocxReviewPacketSource(input = {}, deps = {}) {
     createdAtUtc,
     compileIrDigest: cryptoPort.sha256Json({ scope: 'full-manuscript', orderedSceneIds, blocks: blocks.map((block) => block.blockId) }),
     actualBaselineDigest: fullBookRawSha256,
-    parserProfileDigest: cryptoPort.sha256Json({ parser: 'parseReviewTransportPackageV2', profile: FULL_MANUSCRIPT_REVIEW_DOCX_PROFILE_ID }),
+    parserProfileDigest,
     capabilityProfileDigest: capabilityManifestDigest,
     artifactIdentities: {
       provisionalDocxSha256,
@@ -947,6 +951,7 @@ function buildFullManuscriptDocxReviewPacketSource(input = {}, deps = {}) {
   const exportCapsule = {
     schemaVersion: 'yalken.rtk.word.product-review-docx-export.v1',
     projectId,
+    profileId: FULL_MANUSCRIPT_REVIEW_DOCX_PROFILE_ID,
     scope: 'full-manuscript',
     fullManuscript: true,
     sceneCount: scenes.length,
@@ -981,6 +986,7 @@ function buildFullManuscriptDocxReviewPacketSource(input = {}, deps = {}) {
     schemaVersion: 'yalken.rtk.word.product-review-docx-export.local-authority.v1',
     projectRoot,
     manifestPath,
+    profileId: FULL_MANUSCRIPT_REVIEW_DOCX_PROFILE_ID,
     scope: 'full-manuscript',
     scenePathBySceneId,
     baselineFinalTextBySceneId,
@@ -996,6 +1002,7 @@ function buildFullManuscriptDocxReviewPacketSource(input = {}, deps = {}) {
     lifecycleState: 'ALLOCATED',
     recordVersion: 1,
     expectedAuthority: {
+      profileId: FULL_MANUSCRIPT_REVIEW_DOCX_PROFILE_ID,
       scope: 'full-manuscript',
       sceneCount: scenes.length,
       orderedSceneIds,
@@ -1008,6 +1015,7 @@ function buildFullManuscriptDocxReviewPacketSource(input = {}, deps = {}) {
     exportIdentity: exportId,
     manifestDigest: transportManifestResult.manifest.payloadDigest,
     coreManifestDigest: coreManifestResult.coreManifestDigest,
+    parserProfileDigest,
     yrtk2: {
       schemaVersion: yrtk2Result.schemaVersion,
       tokenDigest: cryptoPort.sha256Text(yrtk2Result.token),

@@ -1231,6 +1231,9 @@ function validateAuthorityPayload(payload, expected = {}) {
       reasons.push(reason('RTK_MANUAL_DEGRADED_LOCATOR', `authorityCarrier.payload.${key}`, 'Authority carrier payload field is required.'));
     }
   }
+  if (rawString(expected?.profileId) && !rawString(payload?.profileId)) {
+    reasons.push(reason('RTK_MANUAL_DEGRADED_LOCATOR', 'authorityCarrier.payload.profileId', 'Authority carrier payload profileId is required when local authority is profile-bound.'));
+  }
   if (fullManuscript) {
     if (rawString(payload?.scope) !== 'full-manuscript') {
       reasons.push(reason('RTK_MANUAL_DEGRADED_LOCATOR', 'authorityCarrier.payload.scope', 'Full-manuscript authority carrier scope is required.'));
@@ -1242,6 +1245,20 @@ function validateAuthorityPayload(payload, expected = {}) {
     reasons.push(reason('RTK_MANUAL_DEGRADED_LOCATOR', 'authorityCarrier.payload.rawSha256', 'Authority carrier raw hash must be a full lowercase sha256 digest.'));
   }
   return reasons;
+}
+
+function expectedAuthorityBindingKeys(fullManuscript, expected = {}) {
+  const keys = fullManuscript
+    ? ['scope', 'fullBookRawSha256', 'roundId', 'exportId', 'capabilityManifestDigest']
+    : ['sceneId', 'sceneRevision', 'rawSha256', 'blockId', 'roundId', 'exportId'];
+  return rawString(expected?.profileId) ? ['profileId', ...keys] : keys;
+}
+
+function authorityBindingMismatchReasonCode(key) {
+  if (key === 'profileId') return 'RTK_BLOCKED_PROFILE_MISMATCH';
+  if (key === 'sceneRevision') return 'RTK_BLOCKED_STALE_REVISION';
+  if (key === 'rawSha256') return 'RTK_BLOCKED_STALE_BYTES';
+  return 'RTK_MANUAL_DEGRADED_LOCATOR';
 }
 
 function verifyAuthorityCandidate(candidate, input, cryptoPort, hmacSecret) {
@@ -1294,9 +1311,7 @@ function verifyAuthorityCandidate(candidate, input, cryptoPort, hmacSecret) {
       reasons.push(reason('RTK_MANUAL_DEGRADED_LOCATOR', 'authorityCarrier.signature', 'Authority carrier HMAC mismatch.'));
     }
   }
-  const expectedKeys = fullManuscript
-    ? ['scope', 'fullBookRawSha256', 'roundId', 'exportId', 'capabilityManifestDigest']
-    : ['sceneId', 'sceneRevision', 'rawSha256', 'blockId', 'roundId', 'exportId'];
+  const expectedKeys = expectedAuthorityBindingKeys(fullManuscript, expected);
   const baselineBinding = Object.fromEntries(expectedKeys.map((key) => {
     const expectedValue = rawString(expected[key]);
     return [`${key}Matches`, Boolean(expectedValue) && rawString(payload[key]) === expectedValue];
@@ -1304,9 +1319,7 @@ function verifyAuthorityCandidate(candidate, input, cryptoPort, hmacSecret) {
   for (const key of expectedKeys) {
     const expectedValue = rawString(expected[key]);
     if (expectedValue && rawString(payload[key]) !== expectedValue) {
-      const code = key === 'sceneRevision'
-        ? 'RTK_BLOCKED_STALE_REVISION'
-        : (key === 'rawSha256' ? 'RTK_BLOCKED_STALE_BYTES' : 'RTK_MANUAL_DEGRADED_LOCATOR');
+      const code = authorityBindingMismatchReasonCode(key);
       reasons.push(reason(code, `authorityCarrier.expectedAuthority.${key}`, 'Authority carrier does not match the expected local baseline.', {
         expected: expectedValue,
         actual: rawString(payload[key]),
@@ -3011,9 +3024,7 @@ export function verifyAuthorityCarrierSignatureWithSecret(selectedCarrier, input
   if (rawString(envelope?.signature) !== expectedHmac) {
     reasons.push({ code: 'RTK_MANUAL_DEGRADED_LOCATOR', field: 'authorityCarrier.signature', message: 'Authority carrier HMAC mismatch.' });
   }
-  const expectedKeys = fullManuscript
-    ? ['scope', 'fullBookRawSha256', 'roundId', 'exportId', 'capabilityManifestDigest']
-    : ['sceneId', 'sceneRevision', 'rawSha256', 'blockId', 'roundId', 'exportId'];
+  const expectedKeys = expectedAuthorityBindingKeys(fullManuscript, expected);
   const baselineBinding = Object.fromEntries(expectedKeys.map((key) => {
     const expectedValue = rawString(expected[key]);
     return [`${key}Matches`, Boolean(expectedValue) && rawString(payload[key]) === expectedValue];
@@ -3021,7 +3032,7 @@ export function verifyAuthorityCarrierSignatureWithSecret(selectedCarrier, input
   for (const key of expectedKeys) {
     const expectedValue = rawString(expected[key]);
     if (expectedValue && rawString(payload[key]) !== expectedValue) {
-      reasons.push({ code: 'RTK_MANUAL_DEGRADED_LOCATOR', field: `authorityCarrier.expectedAuthority.${key}`, message: 'Authority carrier does not match the expected local baseline.' });
+      reasons.push({ code: authorityBindingMismatchReasonCode(key), field: `authorityCarrier.expectedAuthority.${key}`, message: 'Authority carrier does not match the expected local baseline.' });
     }
   }
   const allExpectedPresent = expectedKeys.every((key) => rawString(expected[key]));

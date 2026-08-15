@@ -10,6 +10,7 @@ const path = require('node:path');
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
 const COMMAND_ID = 'cmd.project.review.exportFullManuscriptDocxReviewPacket';
 const CAPABILITY_ID = 'cap.project.review.exportFullManuscriptDocxReviewPacket';
+const C5V2_WORD_16_112_FULL_MANUSCRIPT_PROFILE_ID = 'word-mac-16.112-26081010-product-review-export-c5v2-full-manuscript';
 
 function readText(relativePath) {
   return fs.readFileSync(path.join(REPO_ROOT, relativePath), 'utf8');
@@ -41,6 +42,12 @@ function makeScenes() {
   ];
 }
 
+function decodeAuthorityEnvelope(encoded) {
+  const token = String(encoded || '').replace(/^YRTK1\./u, '');
+  const padded = token + '='.repeat((4 - (token.length % 4)) % 4);
+  return JSON.parse(Buffer.from(padded.replaceAll('-', '+').replaceAll('_', '/'), 'base64').toString('utf8'));
+}
+
 test('C5V2 full-manuscript source builds one ordered multi-scene product review packet without synthetic positive anchors', () => {
   const {
     buildFullManuscriptDocxReviewPacketSource,
@@ -61,6 +68,7 @@ test('C5V2 full-manuscript source builds one ordered multi-scene product review 
   });
 
   assert.equal(source.exportCapsule.scope, 'full-manuscript');
+  assert.equal(source.exportCapsule.profileId, C5V2_WORD_16_112_FULL_MANUSCRIPT_PROFILE_ID);
   assert.equal(source.exportCapsule.fullManuscript, true);
   assert.equal(source.exportCapsule.sceneCount, 3);
   assert.deepEqual(source.exportCapsule.orderedSceneIds, ['roman/preface.md', 'roman/chapter-01.md', 'roman/chapter-02.md']);
@@ -85,6 +93,15 @@ test('C5V2 full-manuscript source builds one ordered multi-scene product review 
   assert.equal(JSON.stringify(source.exportCapsule).includes('local-secret-for-test-only'), false);
   assert.equal(JSON.stringify(source.advisoryManifest).includes('local-secret-for-test-only'), false);
   assert.equal(source.localAuthorityCapsule.hmacSecret, 'local-secret-for-test-only');
+  assert.equal(source.localAuthorityCapsule.profileId, C5V2_WORD_16_112_FULL_MANUSCRIPT_PROFILE_ID);
+  assert.equal(source.localAuthorityCapsule.expectedAuthority.profileId, C5V2_WORD_16_112_FULL_MANUSCRIPT_PROFILE_ID);
+  assert.equal(source.localAuthorityCapsule.exportMap.profileId, C5V2_WORD_16_112_FULL_MANUSCRIPT_PROFILE_ID);
+  assert.equal(source.advisoryManifest.coreManifest.profileId, C5V2_WORD_16_112_FULL_MANUSCRIPT_PROFILE_ID);
+  assert.equal(source.advisoryManifest.transportManifest.profileId, C5V2_WORD_16_112_FULL_MANUSCRIPT_PROFILE_ID);
+  assert.equal(source.advisoryManifest.coreManifest.parserProfileDigest, source.localAuthorityCapsule.parserProfileDigest);
+  const authorityEnvelope = decodeAuthorityEnvelope(source.customProperties.find((item) => item.name === 'YRTK_C01_AUTH').value);
+  assert.equal(authorityEnvelope.payload.profileId, C5V2_WORD_16_112_FULL_MANUSCRIPT_PROFILE_ID);
+  assert.equal(JSON.stringify(source).includes('word-mac-latest-observed-16.111.x-product-review-export-c5v2-full-manuscript'), false);
   assert.equal(Buffer.isBuffer(source.provisionalSelfParseArtifact.bytes), true);
   assert.equal(
     `sha256:${crypto.createHash('sha256').update(source.provisionalSelfParseArtifact.bytes).digest('hex')}`,

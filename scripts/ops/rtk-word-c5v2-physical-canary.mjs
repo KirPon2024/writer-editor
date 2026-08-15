@@ -1484,6 +1484,69 @@ async function waitForCondition(predicate, label, timeoutMs = 30_000, intervalMs
   throw new Error(`WAIT_TIMEOUT:${label}`);
 }
 
+export function evaluateC5V2ReturnedDocxReadyForProductIntake({
+  returnedReady = null,
+  returnedPath = '',
+  returnedPathExists = false,
+  returnedPathSha256 = '',
+} = {}) {
+  if (!returnedReady || typeof returnedReady !== 'object' || Array.isArray(returnedReady)) {
+    return {
+      ok: false,
+      code: 'RETURNED_DOCX_READY_RECORD_INVALID',
+      reason: 'ready record missing or not an object',
+    };
+  }
+  const readyReturnedPath = typeof returnedReady.returnedPath === 'string' ? returnedReady.returnedPath : '';
+  const expectedPath = typeof returnedPath === 'string' ? returnedPath : '';
+  if (expectedPath && readyReturnedPath && readyReturnedPath !== expectedPath) {
+    return {
+      ok: false,
+      code: 'RETURNED_DOCX_READY_PATH_MISMATCH',
+      expectedPath,
+      readyReturnedPath,
+    };
+  }
+  if (returnedReady.ready !== true) {
+    return {
+      ok: false,
+      code: 'RETURNED_DOCX_NOT_READY_FOR_PRODUCT_INTAKE',
+      error: typeof returnedReady.error === 'string' ? returnedReady.error : '',
+      reason: typeof returnedReady.reason === 'string' ? returnedReady.reason : '',
+    };
+  }
+  if (returnedPathExists !== true) {
+    return {
+      ok: false,
+      code: 'RETURNED_DOCX_FILE_FOR_PRODUCT_INTAKE_MISSING',
+      returnedPath: expectedPath || readyReturnedPath,
+    };
+  }
+  const expectedSha256 = typeof returnedReady.returnedSha256 === 'string' ? returnedReady.returnedSha256 : '';
+  const actualSha256 = typeof returnedPathSha256 === 'string' ? returnedPathSha256 : '';
+  if (expectedSha256 && actualSha256 && expectedSha256 !== actualSha256) {
+    return {
+      ok: false,
+      code: 'RETURNED_DOCX_READY_DIGEST_MISMATCH',
+      expectedSha256,
+      actualSha256,
+    };
+  }
+  if (!actualSha256) {
+    return {
+      ok: false,
+      code: 'RETURNED_DOCX_FILE_DIGEST_MISSING',
+      returnedPath: expectedPath || readyReturnedPath,
+    };
+  }
+  return {
+    ok: true,
+    code: 'RETURNED_DOCX_READY_FOR_PRODUCT_INTAKE',
+    returnedPath: expectedPath || readyReturnedPath,
+    returnedSha256: actualSha256,
+  };
+}
+
 function appleText(value) {
   return `"${String(value || '')
     .replaceAll('\\', '\\\\')
@@ -2735,6 +2798,7 @@ const deriveC5V2CommentLaneMaturity = ${deriveC5V2CommentLaneMaturity.toString()
 const deriveC5V2ReturnLanePlan = ${deriveC5V2ReturnLanePlan.toString()};
 const bindC5V2ExpectedExactTextCandidates = ${bindC5V2ExpectedExactTextCandidates.toString()};
 const buildC5V2CompletedRoundReuseReturnApply = ${buildC5V2CompletedRoundReuseReturnApply.toString()};
+const evaluateC5V2ReturnedDocxReadyForProductIntake = ${evaluateC5V2ReturnedDocxReadyForProductIntake.toString()};
 const { app, BrowserWindow, dialog, Menu, session } = require('electron');
 const rootDir = ${JSON.stringify(REPO_ROOT)};
 const tempRoot = ${JSON.stringify(tempRoot)};
@@ -3227,8 +3291,29 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
   const requestPrefix = typeof round.roundId === 'string' && round.roundId
     ? round.roundId.replace(/[^a-z0-9_-]/giu, '-')
     : 'round';
-  await waitUntil(() => returnedReadyPath && fs.existsSync(returnedReadyPath), 'RETURNED_DOCX_READY_FOR_PRODUCT_INTAKE', 3_600_000);
-  await waitUntil(() => returnedPath && fs.existsSync(returnedPath), 'RETURNED_DOCX_FILE_FOR_PRODUCT_INTAKE', 30000);
+  const returnedReady = await waitUntil(() => {
+    if (!returnedReadyPath || !fs.existsSync(returnedReadyPath)) return null;
+    try {
+      return JSON.parse(fs.readFileSync(returnedReadyPath, 'utf8'));
+    } catch {
+      return null;
+    }
+  }, 'RETURNED_DOCX_READY_FOR_PRODUCT_INTAKE', 3_600_000);
+  if (returnedReady.ready === true && returnedPath && !fs.existsSync(returnedPath)) {
+    await waitUntil(() => returnedPath && fs.existsSync(returnedPath), 'RETURNED_DOCX_FILE_FOR_PRODUCT_INTAKE', 30000);
+  }
+  const returnedPathExists = Boolean(returnedPath && fs.existsSync(returnedPath));
+  const returnedPathSha256 = returnedPathExists ? sha256ChildFile(returnedPath) : '';
+  const readiness = evaluateC5V2ReturnedDocxReadyForProductIntake({
+    returnedReady,
+    returnedPath,
+    returnedPathExists,
+    returnedPathSha256,
+  });
+  if (readiness.ok !== true) {
+    const detail = readiness.error || readiness.reason || readiness.expectedSha256 || readiness.returnedPath || '';
+    throw new Error(readiness.code + (detail ? ':' + detail : ''));
+  }
   const expectedLedgerPath = path.join(path.dirname(returnedPath), 'canary-ledger.json');
   await waitUntil(() => fs.existsSync(expectedLedgerPath), 'EXPECTED_CANARY_LEDGER_NOT_DURABLY_VISIBLE', 30000);
   const expectedLedger = JSON.parse(fs.readFileSync(expectedLedgerPath, 'utf8'));
@@ -5029,7 +5114,6 @@ export function buildWordScript({
     '  end tell',
     '  set yDiagnostics to "DOCUMENT_COUNT:" & yDocumentCount & ":WINDOW_COUNT:" & yWindowCount & ":FRONT_DOCUMENT:" & yFrontDocument',
     '  if yDocumentCount < 1 then return "WORD_OBJECT_MODEL_DOCUMENT_MISSING|" & yDiagnostics',
-    '  if yWindowCount < 1 then return "WORD_OBJECT_MODEL_WINDOW_UNAVAILABLE|" & yDiagnostics',
     '  if yFrontDocument is not yExpectedFullName then return "WORD_OBJECT_MODEL_FRONT_DOCUMENT_MISMATCH|" & yDiagnostics',
     '  return "WORD_OBJECT_MODEL_PREFLIGHT_READY|" & yDiagnostics',
     'end yWordObjectModelPreflight',

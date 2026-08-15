@@ -10,7 +10,7 @@ export const TASK_ID = 'C1_YALKEN_WORD_YALKEN_FULL_BOOK_ROUTE_V1';
 export const STATUS = 'C1_YALKEN_WORD_YALKEN_FULL_BOOK_ROUTE_V1_EXECUTED_BLOCKED_FAIL_CLOSED';
 export const VERDICT = 'NEEDS_MORE_EVIDENCE';
 export const PROGRAM_VERDICT = 'NEEDS_MORE_EVIDENCE';
-export const EXACT_HEAD = '7785ef6ea33c79e7c1a566cfb8fe05cc945c7484';
+export const EXACT_HEAD = '1b8a23441ba29b6cac79a62a3b18ece031654e62';
 export const RECEIPT_PATH = 'docs/OPS/RTK/YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1.json';
 export const MATRIX_PATH = 'docs/OPS/RTK/YALKEN_INTEROP_CHAIN_MATRIX_V1.json';
 export const CATALOG_PATH = 'docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json';
@@ -188,22 +188,23 @@ function validatePhysicalEvidence(evidence, errors) {
   failIf(evidence.syntheticDisposableDocxOnly !== true, errors, 'PHYSICAL_EVIDENCE_INVALID:DISPOSABLE_ONLY_REQUIRED');
   failIf(evidence.userDocumentsTouched !== false, errors, 'USER_DOCUMENT_COUNTER_NONZERO');
   failIf(evidence.resultStatus?.attemptedOperations !== 200, errors, 'PHYSICAL_RESULT_INVALID:ATTEMPTED_OPERATIONS');
-  failIf(evidence.resultStatus?.reportedOperations !== 0, errors, 'PHYSICAL_RESULT_INVALID:REPORTED_OPERATIONS');
-  failIf(evidence.resultStatus?.wordStatus !== 'FAIL', errors, 'PHYSICAL_RESULT_INVALID:WORD_STATUS_MUST_REMAIN_FAIL');
+  failIf(evidence.resultStatus?.reportedOperations !== 200, errors, 'PHYSICAL_RESULT_INVALID:REPORTED_OPERATIONS');
+  failIf(evidence.resultStatus?.wordStatus !== 'PASS', errors, 'PHYSICAL_RESULT_INVALID:WORD_STATUS_MUST_BE_PASS_AFTER_ARTIFACT_REPAIR');
   failIf(evidence.resultStatus?.sourceExportOk !== true, errors, 'PHYSICAL_RESULT_INVALID:SOURCE_EXPORT_REQUIRED');
   failIf(evidence.resultStatus?.electronOk !== false, errors, 'PHYSICAL_RESULT_INVALID:ELECTRON_OK_MUST_REMAIN_FALSE');
   failIf(evidence.resultStatus?.productReturnApplyOk !== false, errors, 'PHYSICAL_RESULT_INVALID:PRODUCT_RETURN_APPLY_MUST_REMAIN_FALSE');
   failIf(evidence.resultStatus?.terminalOperationAggregatePresent !== false, errors, 'PHYSICAL_RESULT_INVALID:TERMINAL_AGGREGATE_MUST_BE_ABSENT');
   failIf(evidence.resultStatus?.returnIntakeAuthenticated !== false, errors, 'PHYSICAL_RESULT_INVALID:RETURN_INTAKE_MUST_REMAIN_UNAUTHENTICATED');
-  failIf(evidence.resultStatus?.returnIntakeStatus !== 'not-started-returned-docx-timeout', errors, 'PHYSICAL_RESULT_INVALID:RETURN_INTAKE_STATUS');
+  failIf(evidence.resultStatus?.returnIntakeStatus !== 'legacy-unbound-review-preview', errors, 'PHYSICAL_RESULT_INVALID:RETURN_INTAKE_STATUS');
   failIf(evidence.resultStatus?.falseAutoApplyCount !== 0, errors, 'FALSE_AUTO_APPLY_COUNT_NONZERO');
-  failIf(evidence.returnedArtifactPresent !== false, errors, 'PHYSICAL_RESULT_INVALID:RETURNED_ARTIFACT_MUST_BE_MISSING_WHEN_BLOCKED');
+  failIf(evidence.returnedArtifactPresent !== true, errors, 'PHYSICAL_RESULT_INVALID:RETURNED_ARTIFACT_MUST_BE_PRESENT_AFTER_REPAIR');
+  failIf(evidence.returnedArtifactSha256 !== evidence.returnedDocxSha256, errors, 'PHYSICAL_RESULT_INVALID:RETURNED_ARTIFACT_DIGEST_MISMATCH');
   failIf(evidence.independentParserProbe?.ok !== true, errors, 'INDEPENDENT_PARSER_PROBE_INVALID:OK');
-  failIf(evidence.independentParserProbe?.status !== 'source-authority-current-profile-bound', errors, 'INDEPENDENT_PARSER_PROBE_INVALID:STATUS');
-  failIf(evidence.independentParserProbe?.sourceMode !== 'CLEAN_EXPORT_SOURCE', errors, 'INDEPENDENT_PARSER_PROBE_INVALID:SOURCE_MODE');
+  failIf(evidence.independentParserProbe?.status !== 'returned-artifact-current-profile-bound-unauthenticated', errors, 'INDEPENDENT_PARSER_PROBE_INVALID:STATUS');
+  failIf(evidence.independentParserProbe?.sourceMode !== 'RETURNED_WORD_ARTIFACT', errors, 'INDEPENDENT_PARSER_PROBE_INVALID:SOURCE_MODE');
   failIf(evidence.independentParserProbe?.canWriteManuscript !== false, errors, 'INDEPENDENT_PARSER_PROBE_INVALID:WRITE_AUTHORITY');
-  failIf(evidence.independentParserProbe?.reviewCounts?.textRevisions !== 0, errors, 'INDEPENDENT_PARSER_PROBE_INVALID:TEXT_REVISION_COUNT');
-  failIf(evidence.independentParserProbe?.reviewCounts?.commentThreads !== 0, errors, 'INDEPENDENT_PARSER_PROBE_INVALID:COMMENT_COUNT');
+  failIf(evidence.independentParserProbe?.reviewCounts?.textRevisions !== 119, errors, 'INDEPENDENT_PARSER_PROBE_INVALID:TEXT_REVISION_COUNT');
+  failIf(evidence.independentParserProbe?.reviewCounts?.commentThreads !== 30, errors, 'INDEPENDENT_PARSER_PROBE_INVALID:COMMENT_COUNT');
   failIf(evidence.independentParserProbe?.reviewCounts?.formattingDeltas !== 0, errors, 'INDEPENDENT_PARSER_PROBE_INVALID:FORMATTING_COUNT');
   failIf(evidence.independentParserProbe?.selectedCarrier !== 'customDocumentProperty:YRTK_C01_AUTH', errors, 'INDEPENDENT_PARSER_PROBE_INVALID:CARRIER');
   failIf(evidence.independentParserProbe?.authorityVerified !== false, errors, 'INDEPENDENT_PARSER_PROBE_INVALID:AUTHORITY_VERIFIED');
@@ -218,8 +219,10 @@ function validateClassifications(classifications, errors) {
   }
   const byId = new Map(classifications.map((item) => [item.id, item]));
   for (const required of [
-    'WORD_PHYSICAL_AX_WINDOW_BLOCKER',
-    'C5_RETURN_ARTIFACT_PUBLICATION_BLOCKER',
+    'WORD_OBJECT_MODEL_WINDOW_REQUIREMENT_REPAIRED',
+    'C5_RETURN_ARTIFACT_PUBLICATION_BLOCKER_REPAIRED',
+    'C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_BLOCKER',
+    'WORD_NATIVE_LIFECYCLE_REPLY_STATE_BLOCKER',
     'C5_STALE_PROVIDER_PROFILE_BINDING',
     'ORCHESTRATOR_PROGRESS_ROUND_ID_DEFECT_REPAIRED',
     'N2_NOT_REPAIRED_IN_THIS_CONTOUR',
@@ -287,7 +290,7 @@ export function validateC1Receipt(receipt) {
   failIf(receipt.hostileCorpus?.survivors !== 0, errors, 'HOSTILE_CORPUS_SURVIVORS_NONZERO');
   failIf(receipt.semanticMutations?.total < 12, errors, 'SEMANTIC_MUTATION_CATALOG_INCOMPLETE');
   failIf(receipt.semanticMutations?.survivors !== 0, errors, 'SEMANTIC_MUTATION_SURVIVORS_NONZERO');
-  failIf(receipt.nextSequentialContour !== 'C1_WORD_WINDOW_ARTIFACT_PUBLICATION_BLOCKER_REPAIR_V1', errors, 'NEXT_CONTOUR_INVALID');
+  failIf(receipt.nextSequentialContour !== 'C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1', errors, 'NEXT_CONTOUR_INVALID');
   return { ok: errors.length === 0, errors };
 }
 
@@ -302,7 +305,7 @@ export function validateC1MatrixBinding(matrix, receipt) {
   }
   failIf(c1.routeVerdict !== 'BLOCKED', errors, 'MATRIX_C1_ROUTE_VERDICT_MUST_BE_BLOCKED');
   failIf(c1.accountingStatus !== 'FULL_BOOK_ATTEMPTED_BLOCKED', errors, 'MATRIX_C1_ACCOUNTING_STATUS_INVALID');
-  failIf(c1.fullBookAccounting !== 'FULL_BOOK_ATTEMPTED_WORD_WINDOW_ARTIFACT_PUBLICATION_BLOCKED_NOT_PROVEN', errors, 'MATRIX_C1_FULL_BOOK_ACCOUNTING_INVALID');
+  failIf(c1.fullBookAccounting !== 'FULL_BOOK_ATTEMPTED_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_BLOCKED_NOT_PROVEN', errors, 'MATRIX_C1_FULL_BOOK_ACCOUNTING_INVALID');
   failIf(!Array.isArray(c1.blockerEvidenceRefs) || !c1.blockerEvidenceRefs.includes('YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1'), errors, 'MATRIX_C1_BLOCKER_EVIDENCE_REF_MISSING');
   failIf(Array.isArray(c1.executedFullRouteEvidence) && c1.executedFullRouteEvidence.length !== 0, errors, 'MATRIX_C1_EXECUTED_FULL_ROUTE_EVIDENCE_MUST_REMAIN_EMPTY');
   failIf(c1.productMutationAuthority !== 'DENY_UNTIL_ROUTE_CONTOUR_PROVES_APPLY_AUTHORITY', errors, 'MATRIX_C1_PRODUCT_AUTHORITY_ESCALATION');
@@ -379,7 +382,7 @@ export function runC1HostileCorpus() {
     ['word-build-launder', (r) => { r.provider.word.build = '16.111.26080215'; }, 'WORD_PROFILE_MISMATCH'],
     ['smoke-admitted', (r) => { r.denominator.fullBook.excerptOrSmokeEvidenceAdmitted = true; }, 'SMOKE_OR_EXCERPT_ADMITTED'],
     ['actual-route-count-launder', (r) => { r.denominator.route.actualRouteCount = 1; }, 'ACTUAL_ROUTE_MUST_REMAIN_ZERO'],
-    ['word-status-pass', (r) => { r.physicalEvidence.resultStatus.wordStatus = 'PASS'; }, 'WORD_STATUS_MUST_REMAIN_FAIL'],
+    ['word-status-failure-launder', (r) => { r.physicalEvidence.resultStatus.wordStatus = 'FAIL'; }, 'WORD_STATUS_MUST_BE_PASS_AFTER_ARTIFACT_REPAIR'],
     ['product-return-apply-pass', (r) => { r.physicalEvidence.resultStatus.productReturnApplyOk = true; }, 'PRODUCT_RETURN_APPLY_MUST_REMAIN_FALSE'],
     ['terminal-aggregate-present', (r) => { r.physicalEvidence.resultStatus.terminalOperationAggregatePresent = true; }, 'TERMINAL_AGGREGATE_MUST_BE_ABSENT'],
     ['return-intake-authenticated', (r) => { r.physicalEvidence.resultStatus.returnIntakeAuthenticated = true; }, 'RETURN_INTAKE_MUST_REMAIN_UNAUTHENTICATED'],
@@ -390,6 +393,7 @@ export function runC1HostileCorpus() {
     ['current-profile-not-recorded', (r) => { r.physicalEvidence.independentParserProbe.payloadProfileId = 'word-mac-latest-observed-16.111.x-product-review-export-c5v2-full-manuscript'; }, 'CURRENT_PROFILE_BINDING_NOT_RECORDED'],
     ['false-auto-apply', (r) => { r.physicalEvidence.resultStatus.falseAutoApplyCount = 1; }, 'FALSE_AUTO_APPLY_COUNT_NONZERO'],
     ['wrong-next-contour', (r) => { r.nextSequentialContour = 'C2_YALKEN_WORD_YALKEN_APPLY_WORD_FULL_REVERSE_CYCLE_V1'; }, 'NEXT_CONTOUR_INVALID'],
+    ['returned-artifact-missing-after-repair', (r) => { r.physicalEvidence.returnedArtifactPresent = false; }, 'RETURNED_ARTIFACT_MUST_BE_PRESENT_AFTER_REPAIR'],
   ];
   let killed = 0;
   const survivors = [];
@@ -413,7 +417,7 @@ export function runC1SemanticMutationCatalog() {
   const base = readC1Receipt();
   const cases = [
     ['partial-run-as-full-book', (r) => { r.denominator.route.fullBookProcessed = true; }, 'FULL_ROUTE_NOT_PROVEN'],
-    ['reported-operations-inflated', (r) => { r.physicalEvidence.resultStatus.reportedOperations = 200; }, 'REPORTED_OPERATIONS'],
+    ['reported-operations-deflated', (r) => { r.physicalEvidence.resultStatus.reportedOperations = 0; }, 'REPORTED_OPERATIONS'],
     ['parser-write-authority-launder', (r) => { r.physicalEvidence.independentParserProbe.canWriteManuscript = true; }, 'WRITE_AUTHORITY'],
     ['source-authority-profile-tamper', (r) => { r.physicalEvidence.independentParserProbe.payloadProfileIdStale = true; }, 'STALE_PROFILE_BINDING_STILL_RECORDED'],
     ['carrier-authority-launder', (r) => { r.physicalEvidence.independentParserProbe.authorityVerified = true; }, 'AUTHORITY_VERIFIED'],

@@ -28,6 +28,11 @@
   ],
   "discoveryHeads": [
     {
+      "path": "docs/OPS/RTK/GOOGLE_DOCS_LOCAL_COMMENTS_LIMITATION_V1_RECEIPT.json",
+      "sha256": "sha256:6d4719411c0bc8fc372e2bd84bc6e288a338ed49288a9fc58bd4919de48fc966",
+      "note": "G03 local comments typed limitation receipt — local synthetic abstain evidence only, not Google support/import/roundtrip/apply evidence."
+    },
+    {
       "path": "docs/OPS/RTK/GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1_RECEIPT.json",
       "sha256": "sha256:5167e35f8b1153d1e869f4bc8e0078cfa4d9435b0bbf6d661410cf2586a08f0b",
       "note": "G01 local export packet quarantine receipt — local synthetic quarantine evidence only, not Google support/import/roundtrip/apply evidence."
@@ -39,13 +44,13 @@
     },
     {
       "path": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
-      "sha256": "sha256:c28afe8ea89468fbe90cc737a98424cfc3bca6e55d4ad24aad243db4d6487bd7",
-      "note": "G00 Google Docs local compatibility matrix rebound with G02 local suggestions typed limitation binding."
+      "sha256": "sha256:627e525973dea122864183c423ff6ccc3f331b41a777e9169d4308afd94ce1d2",
+      "note": "G00 Google Docs local compatibility matrix rebound with G03 local comments typed limitation binding."
     },
     {
       "path": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json",
-      "sha256": "sha256:226adc61d4fb62e9ab8be2d3761d3fe57634d8172fb127e63c7c19c1e7a12d18",
-      "note": "G00 Google Docs discovery receipt rebound with G02 local suggestions typed limitation binding."
+      "sha256": "sha256:16178b96c5395ae3cd2acb85e5968b11f4c8a8ddba3f47b027be8959faf1ede8",
+      "note": "G00 Google Docs discovery receipt rebound with G03 local comments typed limitation binding."
     },
     {
       "path": "docs/OPS/STATUS/REVIEW_BRIDGE_GOOGLE_DOCS_EVIDENCE_CLAIM_BINDING_001_STATUS.json",

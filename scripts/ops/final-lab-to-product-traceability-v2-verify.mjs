@@ -146,6 +146,33 @@ function gitAncestor(repoRoot, ancestor, descendant) {
   return result.status === 0;
 }
 
+const STALE_DELIVERY_STATE_RE = /(?:LOCAL_CANDIDATE|IN_PROGRESS_LOCAL_CANDIDATE|OPEN_PENDING|PR_OPEN|PENDING_CI|PENDING_REQUIRED_CI|PENDING_MERGE|PENDING_REQUIRED|PR candidate|pending required CI|pending merge)/i;
+const DELIVERY_STATE_FIELD_RE = /^(status|prStatus|deliveryStatus|mergeStatus|ciStatus|postmergeStatus)$/;
+
+function collectStaleDeliveryStateFindings(value, label, findings = []) {
+  if (Array.isArray(value)) {
+    value.forEach((item, index) => collectStaleDeliveryStateFindings(item, `${label}.${index}`, findings));
+    return findings;
+  }
+  if (!isObject(value)) return findings;
+  for (const [key, child] of Object.entries(value)) {
+    const childLabel = `${label}.${key}`;
+    if (typeof child === 'string' && DELIVERY_STATE_FIELD_RE.test(key) && STALE_DELIVERY_STATE_RE.test(child)) {
+      findings.push(childLabel);
+      continue;
+    }
+    collectStaleDeliveryStateFindings(child, childLabel, findings);
+  }
+  return findings;
+}
+
+function validateNoStaleDeliveryState(value, label, errorCode, errors) {
+  const findings = collectStaleDeliveryStateFindings(value, label);
+  for (const finding of findings) {
+    errors.push(`${errorCode}:${finding}`);
+  }
+}
+
 function validateExternalPins(ledger, errors) {
   if (!requireArray(ledger.externalReceiptPins, 'externalReceiptPins', errors)) return;
   const byId = new Map();
@@ -203,6 +230,20 @@ function validateBinding(repoRoot, materialId, binding, errors) {
   if (actual !== binding.receipt.sha256) {
     errors.push(`materialDispositions:${materialId}:RECEIPT_SHA256_MISMATCH`);
   }
+  if (binding.receipt.path === 'docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json') {
+    try {
+      const receipt = JSON.parse(fs.readFileSync(receiptPath, 'utf8'));
+      validateNoStaleDeliveryState(
+        receipt,
+        `materialDispositions:${materialId}:receipt:${binding.receipt.path}`,
+        `materialDispositions:${materialId}:STALE_BOUND_RECEIPT_DELIVERY_STATE`,
+        errors,
+      );
+    } catch {
+      // Receipt parse failures are already covered by SHA/path binding here and by
+      // receipt-specific contract tests; do not mask them as delivery-state drift.
+    }
+  }
   if (isCommitSha(binding.commitSha) && !gitAncestor(repoRoot, binding.commitSha, 'HEAD')) {
     errors.push(`materialDispositions:${materialId}:COMMIT_NOT_REACHABLE_FROM_HEAD`);
   }
@@ -250,6 +291,12 @@ function validateMaterialDispositions(repoRoot, ledger, errors) {
     if (Array.isArray(entry.sourcePins)) {
       for (const pinId of entry.sourcePins) seenPins.add(pinId);
     }
+    validateNoStaleDeliveryState(
+      entry,
+      `materialDispositions:${entry.materialId}`,
+      `materialDispositions:${entry.materialId}:STALE_LOCAL_CANDIDATE_DELIVERY_STATE`,
+      errors,
+    );
 
     if (['ADOPTED_PRODUCT', 'ADAPTED_PRODUCT', 'ENFORCED_TEST_GATE'].includes(entry.disposition)) {
       if (!requireArray(entry.productBindings, `materialDispositions:${entry.materialId}:productBindings`, errors)) {

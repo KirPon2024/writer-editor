@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.f3.blackBoxProductCommandExportManualCore.receipt.v1",
   "taskId": "F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
-  "status": "MERGED_POSTMERGE_VERIFIED_NOT_FULL_BLACK_BOX_PRODUCT_V1_WITH_UI_DEFAULT_PATH_AND_ARCHITECTURE_MANIFEST_HARDENING_LOCAL_CANDIDATE",
+  "status": "MERGED_POSTMERGE_VERIFIED_NOT_FULL_BLACK_BOX_PRODUCT_V1_WITH_UI_DEFAULT_PATH_AND_ARCHITECTURE_MANIFEST_HARDENING_PR_OPEN_FULL_RTK_GREEN_PENDING_CI",
   "verdict": "READY_FOR_BOUNDED_PRODUCT_COMMAND_UI_AND_ARCHITECTURE_MANIFEST_NEEDS_MORE_EVIDENCE_FOR_FULL_BLACK_BOX_PRODUCT_V1",
   "createdAtUtc": "2026-08-14T11:45:00Z",
   "baseline": {
@@ -1108,8 +1108,12 @@
   },
   "architectureManifestHardening": {
     "taskId": "F3_BLACK_BOX_ARCHITECTURE_MANIFEST_HARDENING_V1",
-    "status": "LOCAL_CANDIDATE_PENDING_DELIVERY_CHAIN",
+    "status": "PR_OPEN_FULL_RTK_GREEN_PENDING_REQUIRED_CI_AND_MERGE",
     "baselineSha": "1cb32601a4e426dfbeb9286cb8f7a289f509e431",
+    "candidateCommitSha": "f8ce349fc3d33bbdd45d0cab903a03fdae6e74ce",
+    "candidateTreeSha": "95664a20a9d553d0e2669786af58cd58eebd4943",
+    "branch": "codex/yalken-f3-black-box-architecture-manifest-hardening-v1",
+    "prNumber": 1552,
     "scope": "Harden the existing Black Box product command integration manifest and traceability proof for FEATURE_INTEGRATION_MANIFEST_V1 completeness, five state classes, no-loss authoring duty, platform availability/fallback, current/target separation, Tier C no-data-migration boundary and revert-only rollback. No runtime behavior, UI, provider, user document, canonical project data or product V1 readiness claim is changed.",
     "redFirst": {
       "productCommandContract": {
@@ -1234,7 +1238,15 @@
       "governanceChangeDetection": "PASS_MISSING_APPROVALS_0_APPROVAL_REGISTRY_VALID_1",
       "devFast": "28/28",
       "guardrails": "PASS",
+      "fullRtk": "923/923 pass, 0 fail, 0 skipped, 0 todo on clean candidate f8ce349fc3d33bbdd45d0cab903a03fdae6e74ce",
       "dependencies": "npm ci used existing package-lock with task-local cache; no dependency file changes"
+    },
+    "deliveryGates": {
+      "push": "PASS origin/codex/yalken-f3-black-box-architecture-manifest-hardening-v1",
+      "pullRequest": "OPEN #1552",
+      "requiredCi": "PENDING",
+      "merge": "PENDING_REQUIRED_CI",
+      "postmergeExactHeadVerification": "PENDING_MERGE"
     }
   }
 }

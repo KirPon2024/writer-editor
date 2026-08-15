@@ -1239,7 +1239,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "7dfe08a5ed4551db4860000ea1280f4d4c748a702161df4aabc06481874ae055"
+            "sha256": "6f4b5211098066290ef028f43ec03431897cb1ae6effb50254e55a59cee86444"
           }
         }
       ],
@@ -1289,7 +1289,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "7dfe08a5ed4551db4860000ea1280f4d4c748a702161df4aabc06481874ae055"
+            "sha256": "6f4b5211098066290ef028f43ec03431897cb1ae6effb50254e55a59cee86444"
           }
         }
       ],
@@ -1351,7 +1351,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "7dfe08a5ed4551db4860000ea1280f4d4c748a702161df4aabc06481874ae055"
+            "sha256": "6f4b5211098066290ef028f43ec03431897cb1ae6effb50254e55a59cee86444"
           }
         }
       ],
@@ -1408,7 +1408,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "7dfe08a5ed4551db4860000ea1280f4d4c748a702161df4aabc06481874ae055"
+            "sha256": "6f4b5211098066290ef028f43ec03431897cb1ae6effb50254e55a59cee86444"
           }
         }
       ],
@@ -1510,7 +1510,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "7dfe08a5ed4551db4860000ea1280f4d4c748a702161df4aabc06481874ae055"
+            "sha256": "6f4b5211098066290ef028f43ec03431897cb1ae6effb50254e55a59cee86444"
           }
         }
       ],
@@ -1596,7 +1596,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "7dfe08a5ed4551db4860000ea1280f4d4c748a702161df4aabc06481874ae055"
+            "sha256": "6f4b5211098066290ef028f43ec03431897cb1ae6effb50254e55a59cee86444"
           }
         }
       ],
@@ -1722,7 +1722,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "7dfe08a5ed4551db4860000ea1280f4d4c748a702161df4aabc06481874ae055"
+            "sha256": "6f4b5211098066290ef028f43ec03431897cb1ae6effb50254e55a59cee86444"
           }
         }
       ],
@@ -1731,16 +1731,42 @@
     {
       "materialId": "F3_BLACK_BOX_ARCHITECTURE_MANIFEST_HARDENING_V1",
       "programPhase": "F3",
-      "summary": "Black Box product-command architecture manifest hardening is in local candidate: FEATURE_INTEGRATION_MANIFEST_V1 now explicitly binds the existing command path to all five state classes, no-loss authoring duty, platform availability/fallback, current/target separation, Tier C no-data-migration boundary and revert-only rollback. This row is not product READY until delivery chain completes.",
+      "summary": "Black Box product-command architecture manifest hardening is enforced in the PR candidate: FEATURE_INTEGRATION_MANIFEST_V1 explicitly binds the existing command path to all five state classes, no-loss authoring duty, platform availability/fallback, current/target separation, Tier C no-data-migration boundary and revert-only rollback. This is a software/test gate only and does not promote full Black Box Product V1 or physical owner/off-host claims.",
       "sourcePins": [
         "BLACK_BOX_FINAL_LAB_EXTERNAL_RECEIPT"
       ],
-      "disposition": "DEFERRED_WITH_BLOCKER",
-      "deferred": {
-        "prerequisite": "Complete clean candidate commit, push, PR, required CI, merge and postmerge exact-head verification for F3_BLACK_BOX_ARCHITECTURE_MANIFEST_HARDENING_V1.",
-        "owner": "MASTER_PROGRAM_OWNER_OR_CURRENT_OWNER_GRANT_WITHIN_SCOPE",
-        "acceptanceGate": "After delivery, rebind this row to exact commit/PR/files/tests/receipt/hash with 12/12 focused, 58 finite, 35 hostile, 31 mutants, 0 survivors, traceability verifier PASS, governance PASS, dev:fast, guardrails and required CI."
-      }
+      "disposition": "ENFORCED_TEST_GATE",
+      "productBindings": [
+        {
+          "commitSha": "f8ce349fc3d33bbdd45d0cab903a03fdae6e74ce",
+          "prNumber": 1552,
+          "files": [
+            "src/product/blackBoxProductCommandExportManualCoreV1.mjs",
+            "test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+            "scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs",
+            "scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
+            "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
+            "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
+            "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_RECEIPT.json",
+            "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+          ],
+          "tests": [
+            "node --test test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+            "node scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs",
+            "node --test test/contracts/final-lab-to-product-traceability-v2.contract.test.js",
+            "node scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
+            "node --test affected F3/S0/F1/T0/Google contracts",
+            "node affected F3/S0/F1/T0/Google finite models and mutation oracles",
+            "REMOTE_BINDING_OK=1 PRE_UI_OPS_CONTOUR_CLOSED_OK=1 npm run dev:fast",
+            "npm run agent:guardrails",
+            "npm run -s test:rtk"
+          ],
+          "receipt": {
+            "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
+            "sha256": "6f4b5211098066290ef028f43ec03431897cb1ae6effb50254e55a59cee86444"
+          }
+        }
+      ]
     }
   ],
   "rollback": {

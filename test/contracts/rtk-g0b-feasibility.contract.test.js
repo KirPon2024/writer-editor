@@ -76,6 +76,7 @@ const C4_ALLOWLIST = [
   'test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js',
   'test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js',
   'test/contracts/rtk-zip01-budget-crc-evidence.contract.test.js',
+  'test/contracts/rtk-word-c5v2-noop-baseline.contract.test.js',
   'test/contracts/rtk-word-normalized-capability-matrix.contract.test.js',
   'test/contracts/rtk-word-p0-multi-round-ledger-reconciliation.contract.test.js',
   'test/contracts/rtk-word-p0-scale-envelope-terminal-audit.contract.test.js',

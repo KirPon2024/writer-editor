@@ -380,3 +380,80 @@ test('C5V2 expected reopened text follows canonical boundary trimming after an e
   assert.equal(result.ok, true);
   assert.equal(result.paragraphs[0], 'this boundary while internal  spacing remains.');
 });
+
+test('C5V2 object-model Word preflight does not require a UI window for non-UI operations', async () => {
+  const canary = await import(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs'));
+  const script = canary.buildWordScript({
+    sourcePath: '/tmp/yalken-c5v2-source.docx',
+    returnedPath: '/tmp/yalken-c5v2-returned.docx',
+    artifactReturnedPath: '/tmp/yalken-c5v2-artifact.docx',
+    ledger: { operations: [] },
+  });
+  const preflightStart = script.indexOf('on yWordObjectModelPreflight');
+  const preflightEnd = script.indexOf('end yWordObjectModelPreflight', preflightStart);
+  assert.notEqual(preflightStart, -1);
+  assert.notEqual(preflightEnd, -1);
+  const objectModelPreflight = script.slice(preflightStart, preflightEnd);
+  assert.match(objectModelPreflight, /WORD_OBJECT_MODEL_DOCUMENT_MISSING/u);
+  assert.match(objectModelPreflight, /WORD_OBJECT_MODEL_FRONT_DOCUMENT_MISMATCH/u);
+  assert.doesNotMatch(objectModelPreflight, /WORD_OBJECT_MODEL_WINDOW_UNAVAILABLE/u);
+  assert.match(script, /MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE/u);
+});
+
+test('C5V2 returned-ready gate fails closed without laundering Word failure into artifact timeout', async () => {
+  const canary = await import(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs'));
+  assert.equal(typeof canary.evaluateC5V2ReturnedDocxReadyForProductIntake, 'function');
+
+  const notReady = canary.evaluateC5V2ReturnedDocxReadyForProductIntake({
+    returnedReady: {
+      ready: false,
+      returnedPath: '/tmp/yalken-c5v2-returned.docx',
+      error: 'Command failed: /usr/bin/osascript synthetic.applescript',
+    },
+    returnedPath: '/tmp/yalken-c5v2-returned.docx',
+    returnedPathExists: false,
+    returnedPathSha256: '',
+  });
+  assert.equal(notReady.ok, false);
+  assert.equal(notReady.code, 'RETURNED_DOCX_NOT_READY_FOR_PRODUCT_INTAKE');
+  assert.match(notReady.error, /osascript/u);
+
+  const missing = canary.evaluateC5V2ReturnedDocxReadyForProductIntake({
+    returnedReady: {
+      ready: true,
+      returnedPath: '/tmp/yalken-c5v2-returned.docx',
+      returnedSha256: 'sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    },
+    returnedPath: '/tmp/yalken-c5v2-returned.docx',
+    returnedPathExists: false,
+    returnedPathSha256: '',
+  });
+  assert.equal(missing.ok, false);
+  assert.equal(missing.code, 'RETURNED_DOCX_FILE_FOR_PRODUCT_INTAKE_MISSING');
+
+  const mismatch = canary.evaluateC5V2ReturnedDocxReadyForProductIntake({
+    returnedReady: {
+      ready: true,
+      returnedPath: '/tmp/yalken-c5v2-returned.docx',
+      returnedSha256: 'sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    },
+    returnedPath: '/tmp/yalken-c5v2-returned.docx',
+    returnedPathExists: true,
+    returnedPathSha256: 'sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+  });
+  assert.equal(mismatch.ok, false);
+  assert.equal(mismatch.code, 'RETURNED_DOCX_READY_DIGEST_MISMATCH');
+
+  const green = canary.evaluateC5V2ReturnedDocxReadyForProductIntake({
+    returnedReady: {
+      ready: true,
+      returnedPath: '/tmp/yalken-c5v2-returned.docx',
+      returnedSha256: 'sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    },
+    returnedPath: '/tmp/yalken-c5v2-returned.docx',
+    returnedPathExists: true,
+    returnedPathSha256: 'sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+  });
+  assert.equal(green.ok, true);
+  assert.equal(green.code, 'RETURNED_DOCX_READY_FOR_PRODUCT_INTAKE');
+});

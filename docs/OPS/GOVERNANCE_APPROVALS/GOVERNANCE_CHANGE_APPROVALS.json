@@ -10524,15 +10524,6 @@
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION_UI_DEFAULT_FLAG_PATH"
     },
     {
-      "filePath": "test/contracts/final-lab-to-product-traceability-v2.contract.test.js",
-      "sha256": "af409491e5385744469fed049bdb67d9340fef06d4a365ae50e0165638f4917c",
-      "approvedBy": "owner-standing-grant:TASK_ID:PROGRAM_FINAL_TRACEABILITY_VERDICT_REBIND_V1",
-      "approvedAtUtc": "2026-08-14T21:43:07Z",
-      "rationale": "Approve traceability contract tests for PROGRAM_FINAL_TRACEABILITY_VERDICT_REBIND_V1: exact-head/status/verdict assertions plus hostile mutations for final READY with deferred work and stale F3 UI local-candidate blocker, preserving zero skip/todo focused proof.",
-      "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_PROGRAM_FINAL_TRACEABILITY_VERDICT_REBIND"
-    },
-    {
       "filePath": "scripts/ops/rtk-google-docs-g00-discovery-binding.mjs",
       "sha256": "e8d4871fcd37095d9cf014c7ad31a867dea24964920ee714073e95bcd1357c33",
       "approvedBy": "owner:LEGACY_FEATURE_PROGRAM_GOOGLE_DOCS_LOCAL_COMPATIBILITY_G00_REBIND_V1",
@@ -10677,38 +10668,47 @@
       "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
     },
     {
-      "filePath": "scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
-      "sha256": "d71143f39a5d9d26548bf244abe8cd423a2635556fcc564adb856272d1db2785",
-      "approvedBy": "owner:F3_BLACK_BOX_ARCHITECTURE_MANIFEST_HARDENING_V1",
-      "approvedAtUtc": "2026-08-15T00:25:29.000Z",
-      "rationale": "Owner-approved legacy F3 Black Box architecture manifest hardening: FEATURE_INTEGRATION_MANIFEST_V1 exactness, all five state classes, no-loss authoring duty, platform fallback/current-target separation, Tier C no-data-migration and revert-only rollback; no runtime behavior, user documents, credentials, provider install, product network or full Black Box Product V1 claim.",
-      "approved": true,
-      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
-    },
-    {
-      "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-      "sha256": "6f4b5211098066290ef028f43ec03431897cb1ae6effb50254e55a59cee86444",
-      "approvedBy": "owner:F3_BLACK_BOX_ARCHITECTURE_MANIFEST_HARDENING_V1",
-      "approvedAtUtc": "2026-08-15T00:25:29.000Z",
-      "rationale": "Owner-approved legacy F3 Black Box architecture manifest hardening: FEATURE_INTEGRATION_MANIFEST_V1 exactness, all five state classes, no-loss authoring duty, platform fallback/current-target separation, Tier C no-data-migration and revert-only rollback; no runtime behavior, user documents, credentials, provider install, product network or full Black Box Product V1 claim.",
-      "approved": true,
-      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
-    },
-    {
       "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "37e038336d1f9d2b7124d50f4045da49c9a4050b25857303fd72f9aeff756b09",
-      "approvedBy": "owner:F3_BLACK_BOX_ARCHITECTURE_MANIFEST_HARDENING_V1",
-      "approvedAtUtc": "2026-08-15T00:25:29.000Z",
-      "rationale": "Owner-approved legacy F3 Black Box architecture manifest hardening: FEATURE_INTEGRATION_MANIFEST_V1 exactness, all five state classes, no-loss authoring duty, platform fallback/current-target separation, Tier C no-data-migration and revert-only rollback; no runtime behavior, user documents, credentials, provider install, product network or full Black Box Product V1 claim.",
+      "sha256": "75b0137b1f9e468f1a8666a1e934c7432f0406eed24e0e7b9a003c435e553eed",
+      "approvedBy": "owner:F3_BLACK_BOX_ARCHITECTURE_MANIFEST_POSTMERGE_REBIND_V1",
+      "approvedAtUtc": "2026-08-15T01:05:00.000Z",
+      "rationale": "Owner-approved legacy F3 factual postmerge traceability rebind: PR #1552 merged at ba62fb9fb4d1646ced37542b75370ec0226e1079 and postmerge focused/devfast/guardrails/full RTK passed; stale PR-candidate/pending-CI wording now fails closed; no runtime behavior, UI, provider, user documents, credentials, product network or full Black Box Product V1 claim.",
       "approved": true,
       "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
     },
     {
       "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_RECEIPT.json",
-      "sha256": "5f5f67a2459f7663a350877f31ea5dbf7cabf79084568ff4d4f2720e402baff2",
-      "approvedBy": "owner:F3_BLACK_BOX_ARCHITECTURE_MANIFEST_HARDENING_V1",
-      "approvedAtUtc": "2026-08-15T00:25:29.000Z",
-      "rationale": "Owner-approved legacy F3 Black Box architecture manifest hardening: FEATURE_INTEGRATION_MANIFEST_V1 exactness, all five state classes, no-loss authoring duty, platform fallback/current-target separation, Tier C no-data-migration and revert-only rollback; no runtime behavior, user documents, credentials, provider install, product network or full Black Box Product V1 claim.",
+      "sha256": "1b8f6d5b70a44f5809a6029f0e840b700659acdb9751cc6cc00cc0770eec159b",
+      "approvedBy": "owner:F3_BLACK_BOX_ARCHITECTURE_MANIFEST_POSTMERGE_REBIND_V1",
+      "approvedAtUtc": "2026-08-15T01:05:00.000Z",
+      "rationale": "Owner-approved legacy F3 factual postmerge traceability rebind: PR #1552 merged at ba62fb9fb4d1646ced37542b75370ec0226e1079 and postmerge focused/devfast/guardrails/full RTK passed; stale PR-candidate/pending-CI wording now fails closed; no runtime behavior, UI, provider, user documents, credentials, product network or full Black Box Product V1 claim.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
+      "sha256": "513e678753fb5e3e9df0a7ccfdf73dbe896841bf22c55e7950a3b61128773110",
+      "approvedBy": "owner:F3_BLACK_BOX_ARCHITECTURE_MANIFEST_POSTMERGE_REBIND_V1",
+      "approvedAtUtc": "2026-08-15T01:05:00.000Z",
+      "rationale": "Owner-approved legacy F3 factual postmerge traceability rebind: PR #1552 merged at ba62fb9fb4d1646ced37542b75370ec0226e1079 and postmerge focused/devfast/guardrails/full RTK passed; stale PR-candidate/pending-CI wording now fails closed; no runtime behavior, UI, provider, user documents, credentials, product network or full Black Box Product V1 claim.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
+      "sha256": "4cf8a68c438a47ddc2d2f3a11ef9bb3eeefd2b99c348533119a34e45a20d08ac",
+      "approvedBy": "owner:F3_BLACK_BOX_ARCHITECTURE_MANIFEST_POSTMERGE_REBIND_V1",
+      "approvedAtUtc": "2026-08-15T01:05:00.000Z",
+      "rationale": "Owner-approved legacy F3 factual postmerge traceability rebind: PR #1552 merged at ba62fb9fb4d1646ced37542b75370ec0226e1079 and postmerge focused/devfast/guardrails/full RTK passed; stale PR-candidate/pending-CI wording now fails closed; no runtime behavior, UI, provider, user documents, credentials, product network or full Black Box Product V1 claim.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "test/contracts/final-lab-to-product-traceability-v2.contract.test.js",
+      "sha256": "a3089d8ebfa5dfb2ebaa9482fe298a8c72db6398e2e29c019aedfc9242324f58",
+      "approvedBy": "owner:F3_BLACK_BOX_ARCHITECTURE_MANIFEST_POSTMERGE_REBIND_V1",
+      "approvedAtUtc": "2026-08-15T01:05:00.000Z",
+      "rationale": "Owner-approved legacy F3 factual postmerge traceability rebind: PR #1552 merged at ba62fb9fb4d1646ced37542b75370ec0226e1079 and postmerge focused/devfast/guardrails/full RTK passed; stale PR-candidate/pending-CI wording now fails closed; no runtime behavior, UI, provider, user documents, credentials, product network or full Black Box Product V1 claim.",
       "approved": true,
       "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
     }

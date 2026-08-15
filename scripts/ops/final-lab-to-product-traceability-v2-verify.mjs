@@ -9,7 +9,7 @@ export const LEDGER_PATH = 'docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2
 
 export const LEDGER_SCHEMA_VERSION = 'yalken.finalLabToProductTraceability.ledger.v2';
 
-export const LEDGER_EXACT_HEAD_SHA = '1cb32601a4e426dfbeb9286cb8f7a289f509e431';
+export const LEDGER_EXACT_HEAD_SHA = 'ba62fb9fb4d1646ced37542b75370ec0226e1079';
 
 export const LEDGER_STATUS = 'LIVING_LEDGER_CURRENT_FINAL_PROGRAM_VERDICT_NEEDS_MORE_EVIDENCE';
 
@@ -215,6 +215,7 @@ function validateMaterialDispositions(repoRoot, ledger, errors) {
   let previousPhaseIndex = -1;
   let hasDeferredOrLabOnly = false;
   let f3BlackBoxProductRow = null;
+  let f3ArchitectureManifestHardeningRow = null;
 
   for (const entry of ledger.materialDispositions) {
     if (!isObject(entry)) {
@@ -226,6 +227,9 @@ function validateMaterialDispositions(repoRoot, ledger, errors) {
     seen.add(entry.materialId);
     if (entry.materialId === 'F3_BLACK_BOX_PRODUCT_V1') {
       f3BlackBoxProductRow = entry;
+    }
+    if (entry.materialId === 'F3_BLACK_BOX_ARCHITECTURE_MANIFEST_HARDENING_V1') {
+      f3ArchitectureManifestHardeningRow = entry;
     }
 
     const phaseIndex = PROGRAM_PHASE_SEQUENCE.indexOf(entry.programPhase);
@@ -316,6 +320,25 @@ function validateMaterialDispositions(repoRoot, ledger, errors) {
     ].filter(Boolean).join('\n');
     if (/local-candidate product UI|UI\/default feature flag path is local-candidate|must still complete delivery\/postmerge for the UI\/default path/i.test(f3Text)) {
       errors.push('materialDispositions:F3_BLACK_BOX_PRODUCT_V1:STALE_UI_DEFAULT_PATH_BLOCKER');
+    }
+  }
+  if (!f3ArchitectureManifestHardeningRow) {
+    errors.push('materialDispositions:F3_BLACK_BOX_ARCHITECTURE_MANIFEST_HARDENING_V1:MISSING');
+  } else {
+    const f3ArchitectureText = [
+      ledger.claimControls?.reason,
+      f3ArchitectureManifestHardeningRow.summary,
+      f3ArchitectureManifestHardeningRow.deferred?.prerequisite,
+      f3ArchitectureManifestHardeningRow.deferred?.acceptanceGate,
+      ...(Array.isArray(f3ArchitectureManifestHardeningRow.productBindings)
+        ? f3ArchitectureManifestHardeningRow.productBindings.flatMap((binding) => [
+            binding.deliveryStatus,
+            ...(Array.isArray(binding.tests) ? binding.tests : []),
+          ])
+        : []),
+    ].filter(Boolean).join('\n');
+    if (/in-flight architecture manifest hardening candidate|PR candidate|PR_OPEN|PENDING_CI|pending required CI|pending merge|PENDING_MERGE|PENDING_REQUIRED_CI/i.test(f3ArchitectureText)) {
+      errors.push('materialDispositions:F3_BLACK_BOX_ARCHITECTURE_MANIFEST_HARDENING_V1:STALE_POSTMERGE_DELIVERY_STATE');
     }
   }
 }

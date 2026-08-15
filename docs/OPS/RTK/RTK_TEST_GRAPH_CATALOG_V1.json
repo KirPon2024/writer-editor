@@ -16,12 +16,13 @@
     "rtk-canon01-ordered-projections.contract.test.js",
     "rtk-evid01-return-evidence-packet.contract.test.js",
     "rtk-export01-unified-bookmark.contract.test.js",
-    "rtk-generic01-create-only-import.contract.test.js",
     "rtk-g0a-assurance.contract.test.js",
     "rtk-g0b-feasibility.contract.test.js",
     "rtk-g0c-exact-safety.contract.test.js",
+    "rtk-generic01-create-only-import.contract.test.js",
     "rtk-google-docs-g00-discovery-binding.contract.test.js",
     "rtk-google-docs-local-export-packet-quarantine.contract.test.js",
+    "rtk-google-docs-local-suggestions-ir-abstain.contract.test.js",
     "rtk-google01-provider-profiles.contract.test.js",
     "rtk-lab01-build-bound-profiles.contract.test.js",
     "rtk-match01-placement-proof.contract.test.js",
@@ -30,9 +31,9 @@
     "rtk-phys01-ladder-runner.contract.test.js",
     "rtk-post-d1-portability-program.contract.test.js",
     "rtk-release01-terminal-claims.contract.test.js",
-    "rtk-runner-v2-cert01.contract.test.js",
-    "rtk-runner-v2-cert01-crash-resume.contract.test.js",
     "rtk-round01-round-record-v3.contract.test.js",
+    "rtk-runner-v2-cert01-crash-resume.contract.test.js",
+    "rtk-runner-v2-cert01.contract.test.js",
     "rtk-stop01-authority-stop.contract.test.js",
     "rtk-t0-round-authority-source-fence.contract.test.js",
     "rtk-test-graph-catalog.contract.test.js",
@@ -126,6 +127,7 @@
     "wordAcceptanceRevoked": true,
     "wordSaturated": false,
     "googleStage": "LOCAL_COMPATIBILITY_REBOUND_NEEDS_REAL_ACCOUNT_E2E",
-    "nextWordStage": "WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION"
+    "nextWordStage": "WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION",
+    "googleLocalSuggestionsIrAbstain": "GOOGLE_DOCS_LOCAL_SUGGESTIONS_IR_ABSTAIN_V1_LOCAL_VERIFIED"
   }
 }

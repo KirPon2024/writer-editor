@@ -84,7 +84,7 @@
     "googleStageDone": false,
     "localCompatibilityVerdict": "LOCAL_COMPATIBILITY_NEEDS_MORE_EVIDENCE",
     "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE",
-    "nextLocalContour": "GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1"
+    "nextLocalContour": "GOOGLE_DOCS_LOCAL_COMMENTS_LIMITATION_V1"
   },
   "gapMap": [
     {
@@ -137,11 +137,12 @@
     },
     {
       "cellId": "google.suggestionsLane",
-      "currentTerminalClass": "UNTESTED",
+      "currentTerminalClass": "TYPED_ABSTAIN_LOCAL_ONLY",
       "userFacingAuthority": "NO_SUGGESTION_APPLY_AUTHORITY",
-      "reasonCode": "G00_SUGGESTIONS_NOT_PARSED_OR_CLASSIFIED",
-      "requiredNextContour": "GOOGLE_DOCS_LOCAL_SUGGESTIONS_IR_ABSTAIN_V1",
-      "blocksGoogleStage": true
+      "reasonCode": "GOOGLE_SUGGESTIONS_IR_ABSTAIN_NO_TRUSTED_PROVIDER_OR_E2E",
+      "requiredNextContour": "GOOGLE_DOCS_REAL_ACCOUNT_E2E_AUTHORITY_BOUNDARY",
+      "blocksGoogleStage": true,
+      "physicalEvidence": false
     },
     {
       "cellId": "google.commentsLane",
@@ -233,7 +234,7 @@
     "roundtripLossMatrix": {
       "officeMode": "ABSTAIN_NO_SIGNED_IN_E2E",
       "nativeConversion": "ABSTAIN_LOSSY_BY_DEFAULT_UNTIL_EVIDENCE",
-      "suggestions": "ABSTAIN_NO_PARSER_OR_E2E",
+      "suggestions": "ABSTAIN_TYPED_LOCAL_NO_TRUSTED_IR",
       "comments": "ABSTAIN_NO_DRIVE_COMMENTS_IMPORT",
       "footnotes": "ABSTAIN_UNMEASURED",
       "tables": "ABSTAIN_UNMEASURED",
@@ -241,7 +242,7 @@
       "ids": "ABSTAIN_NO_IDENTITY_FENCE"
     }
   },
-  "nextLocalContour": "GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1",
+  "nextLocalContour": "GOOGLE_DOCS_LOCAL_COMMENTS_LIMITATION_V1",
   "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE",
   "nonClaims": [
     "No Google Docs support is claimed.",
@@ -266,6 +267,23 @@
     "supportClaimed": false,
     "importClaimed": false,
     "roundtripClaimed": false,
+    "applyAuthority": false,
+    "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE"
+  },
+  "localSuggestionsIrAbstain": {
+    "status": "GOOGLE_DOCS_LOCAL_SUGGESTIONS_IR_ABSTAIN_V1_LOCAL_VERIFIED",
+    "result": "SUGGESTIONS_IR_ABSTAIN_NEEDS_REAL_GOOGLE_E2E",
+    "receiptPath": "docs/OPS/RTK/GOOGLE_DOCS_LOCAL_SUGGESTIONS_IR_ABSTAIN_V1_RECEIPT.json",
+    "receiptSha256": "sha256:43b5b4c2f08f590ad69ec52459534b4ad94acfbf9989c158954444928cd257ef",
+    "localAbstainOnly": true,
+    "noProductMutation": true,
+    "physicalGoogleEvidence": 0,
+    "productRuntimeWired": 0,
+    "supportClaimed": false,
+    "importClaimed": false,
+    "roundtripClaimed": false,
+    "suggestionsParsed": false,
+    "suggestionsIrTrusted": false,
     "applyAuthority": false,
     "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE"
   }

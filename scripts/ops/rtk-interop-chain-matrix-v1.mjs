@@ -13,7 +13,7 @@ export const CONTRACT_BASENAME = 'rtk-interop-chain-matrix.contract.test.js';
 
 export const MATRIX_SCHEMA_VERSION = 'yalken.interopChain.matrix.v1';
 export const LINEAGE_SCHEMA_VERSION = 'yalken.interopChain.multiRoundLineage.receipt.v1';
-export const INTEROP_CHAIN_EXACT_HEAD_SHA = '6e211f3d5762b2cad0224998991313f4835e5444';
+export const INTEROP_CHAIN_EXACT_HEAD_SHA = '7785ef6ea33c79e7c1a566cfb8fe05cc945c7484';
 export const MATRIX_STATUS = 'INTEROP_CHAIN_C1_C8_DENOMINATOR_REGISTERED_NEEDS_MORE_EVIDENCE';
 
 export const EXPECTED_ROUTE_IDS = Object.freeze(['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8']);
@@ -22,7 +22,7 @@ export const NON_PASS_ROUTE_VERDICTS = Object.freeze(['NEEDS_MORE_EVIDENCE', 'UN
 export const BLOCKED_ACCOUNTING_STATES = Object.freeze(['UNKNOWN', 'ABSTAIN', 'CONFLICTING']);
 export const NON_PROVEN_FULL_BOOK_ACCOUNTING_STATES = Object.freeze([
   'REQUIRED_NOT_YET_PROVEN_FOR_ROUTE',
-  'FULL_BOOK_ATTEMPTED_WORD_RETURN_BLOCKED_NOT_PROVEN',
+  'FULL_BOOK_ATTEMPTED_WORD_WINDOW_ARTIFACT_PUBLICATION_BLOCKED_NOT_PROVEN',
 ]);
 
 const MATRIX_EXACT_KEYS = Object.freeze([
@@ -163,7 +163,7 @@ function validateRoute(route, errors) {
   if (route.routeId === 'C1') {
     if (route.routeVerdict !== 'BLOCKED') errors.push('routeDenominator:C1:BLOCKED_ROUTE_VERDICT_REQUIRED');
     if (route.accountingStatus !== 'FULL_BOOK_ATTEMPTED_BLOCKED') errors.push('routeDenominator:C1:ACCOUNTING_STATUS_INVALID');
-    if (route.fullBookAccounting !== 'FULL_BOOK_ATTEMPTED_WORD_RETURN_BLOCKED_NOT_PROVEN') errors.push('routeDenominator:C1:FULL_BOOK_BLOCKER_ACCOUNTING_INVALID');
+    if (route.fullBookAccounting !== 'FULL_BOOK_ATTEMPTED_WORD_WINDOW_ARTIFACT_PUBLICATION_BLOCKED_NOT_PROVEN') errors.push('routeDenominator:C1:FULL_BOOK_BLOCKER_ACCOUNTING_INVALID');
     if (!Array.isArray(route.blockerEvidenceRefs) || !route.blockerEvidenceRefs.includes('YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1')) {
       errors.push('routeDenominator:C1:BLOCKER_EVIDENCE_REF_MISSING');
     }
@@ -234,7 +234,7 @@ export function validateInteropChainMatrix(matrix, options = {}) {
   if (Array.isArray(matrix.routeDenominator)) {
     for (const route of matrix.routeDenominator) validateRoute(route, errors);
   }
-  if (matrix.nextSequentialContour !== 'C1_WORD_RETURN_AUTHORITY_AND_PROFILE_BINDING_REPAIR_V1') {
+  if (matrix.nextSequentialContour !== 'C1_WORD_WINDOW_ARTIFACT_PUBLICATION_BLOCKER_REPAIR_V1') {
     errors.push('nextSequentialContour:INVALID');
   }
 

@@ -3,8 +3,8 @@
   "documentClass": "EVIDENCE_STATUS",
   "status": "INTEROP_CHAIN_C1_C8_DENOMINATOR_REGISTERED_NEEDS_MORE_EVIDENCE",
   "claimBoundary": "Registers the frozen C1-C8 full-book interop route denominator and fail-closed closure rules only. It does not prove any route, saturation, platform parity, byte identity, product runtime support, import/apply authority, or live user-document workflow.",
-  "generatedAtUtc": "2026-08-15T14:30:00.000Z",
-  "exactHead": "6e211f3d5762b2cad0224998991313f4835e5444",
+  "generatedAtUtc": "2026-08-15T15:20:00.000Z",
+  "exactHead": "7785ef6ea33c79e7c1a566cfb8fe05cc945c7484",
   "programVerdict": "NEEDS_MORE_EVIDENCE",
   "sourceEvidence": {
     "googleWholeBookReceipt": {
@@ -26,7 +26,7 @@
     },
     "c1WordFullBookRouteReceipt": {
       "path": "docs/OPS/RTK/YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1.json",
-      "sha256": "sha256:e0d81337e7bb26fa10024c9a095e3cf4862d39094b236339a56c4c538b2966c9",
+      "sha256": "sha256:592309cbe10f61877b409fed9d6caed5665fd27d43201300d2b1991da4a4ee5c",
       "status": "C1_YALKEN_WORD_YALKEN_FULL_BOOK_ROUTE_V1_EXECUTED_BLOCKED_FAIL_CLOSED",
       "routeVerdict": "BLOCKED",
       "chainClosureAuthority": "DENY"
@@ -78,7 +78,7 @@
       "routeVerdict": "BLOCKED",
       "accountingStatus": "FULL_BOOK_ATTEMPTED_BLOCKED",
       "fullCanonicalSyntheticBookRequired": true,
-      "fullBookAccounting": "FULL_BOOK_ATTEMPTED_WORD_RETURN_BLOCKED_NOT_PROVEN",
+      "fullBookAccounting": "FULL_BOOK_ATTEMPTED_WORD_WINDOW_ARTIFACT_PUBLICATION_BLOCKED_NOT_PROVEN",
       "userDocumentsAllowed": false,
       "productMutationAuthority": "DENY_UNTIL_ROUTE_CONTOUR_PROVES_APPLY_AUTHORITY",
       "fullBookEvidenceRefs": ["WORD_SAFETY_REMEDIATION_V1_C5_FULLBOOK_CERTIFICATION_RECEIPT", "YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1"],
@@ -86,15 +86,15 @@
       "blockerEvidenceRefs": ["YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1"],
       "requiredBindings": ["yalkenSha", "wordBuildProfile", "documentId", "roundId", "sourceRevision", "targetRevision", "corpusManifest", "beforeAfterOracles", "cleanup"],
       "requiredOracles": {
-        "semanticOracle": {"status": "BLOCKED_RETURN_AUTHORITY"},
-        "structureOracle": {"status": "BLOCKED_RETURN_AUTHORITY"},
-        "commentsOracle": {"status": "PARTIAL_OBSERVED_NO_APPLY_AUTHORITY"},
-        "suggestionsOracle": {"status": "NOT_CLAIMED_WORD_TRACKED_CHANGES_PROFILE_PENDING"},
-        "formatOracle": {"status": "BLOCKED_RETURN_AUTHORITY"},
+        "semanticOracle": {"status": "BLOCKED_RETURN_ARTIFACT"},
+        "structureOracle": {"status": "BLOCKED_RETURN_ARTIFACT"},
+        "commentsOracle": {"status": "BLOCKED_RETURN_ARTIFACT"},
+        "suggestionsOracle": {"status": "BLOCKED_RETURN_ARTIFACT"},
+        "formatOracle": {"status": "BLOCKED_RETURN_ARTIFACT"},
         "recoveryOracle": {"status": "BLOCKED_BEFORE_APPLY"},
         "cleanupOracle": {"status": "NO_ROUTE_PASS_WORD_PROCESS_CLEANED"}
       },
-      "nextContour": "C1_WORD_RETURN_AUTHORITY_AND_PROFILE_BINDING_REPAIR_V1"
+      "nextContour": "C1_WORD_WINDOW_ARTIFACT_PUBLICATION_BLOCKER_REPAIR_V1"
     },
     {
       "routeId": "C2",
@@ -265,7 +265,7 @@
       "nextContour": "AFTER_C7"
     }
   ],
-  "nextSequentialContour": "C1_WORD_RETURN_AUTHORITY_AND_PROFILE_BINDING_REPAIR_V1",
+  "nextSequentialContour": "C1_WORD_WINDOW_ARTIFACT_PUBLICATION_BLOCKER_REPAIR_V1",
   "rollback": {
     "repo": "revert bounded chain matrix, lineage receipt, verifier, catalog, and governance binding commit",
     "productDataMigrationRequired": false,

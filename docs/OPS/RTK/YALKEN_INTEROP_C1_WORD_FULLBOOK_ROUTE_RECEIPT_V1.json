@@ -4,8 +4,8 @@
   "status": "C1_YALKEN_WORD_YALKEN_FULL_BOOK_ROUTE_V1_EXECUTED_BLOCKED_FAIL_CLOSED",
   "verdict": "NEEDS_MORE_EVIDENCE",
   "programVerdict": "NEEDS_MORE_EVIDENCE",
-  "exactHead": "6e211f3d5762b2cad0224998991313f4835e5444",
-  "generatedAtUtc": "2026-08-15T14:30:00.000Z",
+  "exactHead": "7785ef6ea33c79e7c1a566cfb8fe05cc945c7484",
+  "generatedAtUtc": "2026-08-15T15:20:00.000Z",
   "route": {
     "routeId": "C1",
     "title": "Yalken to Word to Yalken",
@@ -58,62 +58,71 @@
       "expectedRouteCount": 1,
       "actualRouteCount": 0,
       "fullBookProcessed": false,
-      "reason": "Word returned DOCX evidence exists, but the C1 route did not complete authenticated Yalken return intake, exact apply, recovery, replay, or cleanup oracles."
+      "reason": "Current-profile full-book source DOCX evidence exists and is bound to Word 16.112, but Word produced no T7 returned artifact for product intake; authenticated Yalken return intake, exact apply, recovery, replay, and route oracles did not execute."
     }
   },
   "physicalEvidence": {
     "syntheticDisposableDocxOnly": true,
     "userDocumentsTouched": false,
-    "artifactRoot": "/Volumes/T7-Secure/storage/yalken/interop-chain/current/c1-yalken-word-yalken-fullbook-route-v1/physical",
-    "runId": "c1-word-fullbook-20260815T124929Z",
-    "previousRedRunId": "c1-word-fullbook-20260815T124554Z",
-    "corpusDigest": "sha256:7deee02ea61593d0278f2c397031a5b22add26dadf78d72e4e0502f8d11f9a37",
-    "corpusManifestSha256": "sha256:616fd7d788cdc3dcd8ec01d1526e8e414b340485130cb580755f89399f73e24e",
+    "artifactRoot": "/Volumes/T7-Secure/storage/yalken/interop-chain/current/c1-word-fullbook-current-profile-route-replay-v1/physical",
+    "runId": "c1-word-fullbook-current-profile-20260815T150402Z",
+    "previousRedRunId": "c1-word-fullbook-20260815T124929Z",
+    "corpusDigest": "sha256:fc2d723d552cf457caa19fb7d8b18165b3cb6a72e4e8f133d67eb71fe6f686f0",
+    "corpusManifestSha256": "sha256:bb12915b361f6ee9928df636345602e1074cd80c290126c2e4b36a64108c8da6",
     "canaryScriptSha256": "sha256:cd9eadeb2d24d147ef440096afa26daf60a218862611c915932ea2014887168d",
-    "resultSha256": "sha256:8a2610e00b7518e8fb5eb6494bbb6153ba4f01156a1d4f641703075d37c90f31",
-    "sourceDocxSha256": "sha256:a272fe63daac0ff9b32148b02e5d6ddc003a00b89e2ffa9bafe2b95f222f7ff6",
-    "returnedDocxSha256": "sha256:bd51eb973048336937a2772b286b94d78d885dc788f64c398b12e09d2c043873",
+    "resultSha256": "sha256:06f1d5a8e2bef2635ef1f9f1d2b678fc7e96de3fbec5b3c273c0e2df905df469",
+    "sourceDocxSha256": "sha256:891059a65d38abf1d51372fb16716a758fe7240445588d022ee1979b9639af0b",
+    "returnedDocxSha256": "sha256:891059a65d38abf1d51372fb16716a758fe7240445588d022ee1979b9639af0b",
+    "returnedDocxPathRole": "WORD_LOCAL_CACHE_ONLY_NOT_T7_ROUTE_ARTIFACT",
+    "returnedArtifactPresent": false,
+    "returnedArtifactSha256": "",
     "resultStatus": {
       "attemptedOperations": 200,
-      "reportedOperations": 15,
+      "reportedOperations": 0,
       "wordStatus": "FAIL",
+      "sourceExportOk": true,
       "electronOk": false,
       "nativeLifecycleOk": false,
       "productReturnApplyOk": false,
       "roundOracleGateOk": false,
       "terminalOperationAggregatePresent": false,
       "returnIntakeAuthenticated": false,
-      "returnIntakeStatus": "legacy-unbound-review-preview",
+      "returnIntakeStatus": "not-started-returned-docx-timeout",
       "falseAutoApplyCount": 0,
-      "wrapperError": "C5V2_CUMULATIVE_WORD_ROUND_FAILED:round-01:C5V2_WORD_CHUNK_FAILED:word-chunk-004:WORD_STATUS=FAIL:ERR=MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE"
+      "wrapperError": "WAIT_TIMEOUT:RETURNED_DOCX_FILE_FOR_PRODUCT_INTAKE",
+      "wordWindowDiagnostics": "LEGACY_UI_ELEMENTS_ENABLED:false:PROCESS_EXISTS:true:WORD_FRONTMOST:false:WINDOW_COUNT:0:AX_MENU_COUNT:11:AX_WINDOW_SUBTREE_COUNT:0:AX_ERROR_NUMBER:0:AX_ERROR_MESSAGE",
+      "wordError": "Command failed: /usr/bin/osascript word-canary.applescript"
     },
     "returnedPackageObservation": {
       "zipOk": true,
       "modernMode15Ready": true,
-      "commentTagCount": 30,
-      "revisionTagCount": 145,
+      "commentTagCount": 0,
+      "revisionTagCount": 0,
       "customDocumentPropertyCarrierSurvived": true,
-      "customXmlCarrierSurvived": false
+      "customXmlCarrierSurvived": false,
+      "observationRole": "source-and-word-local-cache-only-returned-artifact-missing"
     },
     "independentParserProbe": {
       "ok": true,
-      "status": "review-ir-ready",
-      "sourceMode": "TRACKED",
+      "status": "source-authority-current-profile-bound",
+      "sourceMode": "CLEAN_EXPORT_SOURCE",
       "canApply": false,
       "canWriteManuscript": false,
       "selectedCarrier": "customDocumentProperty:YRTK_C01_AUTH",
       "authorityVerified": false,
-      "authorityReason": "RTK_MANUAL_DEGRADED_LOCATOR",
-      "payloadProfileId": "word-mac-latest-observed-16.111.x-product-review-export-c5v2-full-manuscript",
-      "payloadProfileIdStale": true,
+      "authorityReason": "SOURCE_AUTHORITY_PROFILE_OBSERVED_NO_RETURN_APPLY_AUTHORITY",
+      "payloadProfileId": "word-mac-16.112-26081010-product-review-export-c5v2-full-manuscript",
+      "payloadProfileIdStale": false,
       "payloadScope": "full-manuscript",
       "payloadSceneCount": 21,
+      "payloadOrderedSceneCount": 21,
+      "payloadDigest": "sha256:0081fb1dafa16bf7f17935c50c74f548c14e448fd5f525d0abe4981f8988cd0e",
       "reviewCounts": {
-        "textRevisions": 145,
-        "commentThreads": 30,
-        "formattingDeltas": 67,
+        "textRevisions": 0,
+        "commentThreads": 0,
+        "formattingDeltas": 0,
         "structuralChanges": 0,
-        "opaqueUnsupported": 3
+        "opaqueUnsupported": 0
       }
     }
   },
@@ -128,55 +137,55 @@
       "id": "WORD_PHYSICAL_AX_WINDOW_BLOCKER",
       "class": "word_physical",
       "disposition": "BLOCKED",
-      "evidence": "The second physical run failed at word-chunk-004 with MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE after three chunk checkpoints."
+      "evidence": "The current-profile replay opened the synthetic Word cache document, but macOS Accessibility observed PROCESS_EXISTS:true, WINDOW_COUNT:0 and AX_WINDOW_SUBTREE_COUNT:0, so no visible Word window was available for physical operations."
     },
     {
-      "id": "C5_RETURN_AUTHORITY_BLOCKER",
+      "id": "C5_RETURN_ARTIFACT_PUBLICATION_BLOCKER",
       "class": "c5_return_intake",
       "disposition": "BLOCKED",
-      "evidence": "Product return activation remained legacy-unbound-review-preview; exact text candidate count 0; productReturnApplyOk false; returnIntakeAuthenticated false."
+      "evidence": "The current-profile replay exported a full-book source DOCX and Word saved a local synthetic cache copy, but no T7 returned DOCX artifact appeared; Electron timed out waiting for RETURNED_DOCX_FILE_FOR_PRODUCT_INTAKE, so productReturnApplyOk false and returnIntakeAuthenticated false."
     },
     {
       "id": "C5_STALE_PROVIDER_PROFILE_BINDING",
       "class": "c5_profile_binding",
-      "disposition": "BLOCKED",
-      "evidence": "Returned authority carrier payload profileId still names word-mac-latest-observed-16.111.x while the exact provider for this contour is Word 16.112 build 16.112.26081010."
+      "disposition": "REPAIRED_IN_CURRENT_PROFILE_REPLAY",
+      "evidence": "The current-profile source DOCX authority carrier payload profileId is word-mac-16.112-26081010-product-review-export-c5v2-full-manuscript with scope full-manuscript and 21 ordered scenes; stale 16.111.x profile evidence is historical only."
     },
     {
       "id": "N2_NOT_REPAIRED_IN_THIS_CONTOUR",
       "class": "n2",
       "disposition": "NOT_IN_SCOPE_NO_PASS_CLAIM",
-      "evidence": "No N2 product/runtime repair was made in this C1 reconciliation contour; any N2 failures remain separate affected-chain evidence, not C1 route PASS evidence."
+      "evidence": "No N2 product/runtime repair was made in this C1 current-profile replay contour; any N2 failures remain separate affected-chain evidence, not C1 route PASS evidence."
     }
   ],
   "oracles": {
     "semanticOracle": {
-      "status": "BLOCKED_RETURN_AUTHORITY",
-      "reason": "No authenticated exact text apply or full route readback occurred."
+      "status": "BLOCKED_RETURN_ARTIFACT",
+      "reason": "No T7 returned DOCX artifact reached product intake, so semantic apply/readback did not execute."
     },
     "structureOracle": {
-      "status": "BLOCKED_RETURN_AUTHORITY",
-      "reason": "Returned DOCX structure was parsed, but route-level Yalken apply/readback did not complete."
+      "status": "BLOCKED_RETURN_ARTIFACT",
+      "reason": "No T7 returned DOCX artifact reached product intake, so structure apply/readback did not execute."
     },
     "commentsOracle": {
-      "status": "PARTIAL_OBSERVED_NO_APPLY_AUTHORITY",
-      "reason": "30 Word comments were observed in returned DOCX, but no product comment apply authority was proven."
+      "status": "BLOCKED_RETURN_ARTIFACT",
+      "reason": "No returned artifact was published for comment parsing or product comment apply."
     },
     "suggestionsOracle": {
-      "status": "NOT_CLAIMED_WORD_TRACKED_CHANGES_PROFILE_PENDING",
-      "reason": "Word tracked changes are present as review IR; route-level suggestion preservation is not claimed."
+      "status": "BLOCKED_RETURN_ARTIFACT",
+      "reason": "Word tracked changes were not produced in the current-profile replay because physical operations did not execute."
     },
     "formatOracle": {
-      "status": "BLOCKED_RETURN_AUTHORITY",
-      "reason": "67 formatting deltas were parsed, but no shipped product formatting apply/readback route completed."
+      "status": "BLOCKED_RETURN_ARTIFACT",
+      "reason": "Formatting operations did not execute and no returned artifact reached product intake."
     },
     "recoveryOracle": {
       "status": "BLOCKED_BEFORE_APPLY",
-      "reason": "Recovery and replay oracles require an authenticated apply route that did not occur."
+      "reason": "Recovery and replay oracles require a returned artifact and authenticated apply route that did not occur."
     },
     "cleanupOracle": {
       "status": "NO_ROUTE_PASS_WORD_PROCESS_CLEANED",
-      "reason": "The orphan Word process had zero documents and was closed after evidence capture; cleanup is not promoted to route PASS."
+      "reason": "The synthetic Word document was closed and Word quit after evidence capture; cleanup is not promoted to route PASS."
     }
   },
   "authority": {
@@ -215,7 +224,7 @@
       "UNKNOWN as PASS",
       "user document read",
       "missing parser probe",
-      "stale profile not recorded",
+      "current profile not recorded",
       "false auto apply",
       "wrong next contour"
     ]
@@ -228,7 +237,7 @@
       "partial run full-book promotion",
       "reported operation inflation",
       "parser write authority laundering",
-      "text revision count tamper",
+      "source-authority profile tamper",
       "carrier authority laundering",
       "product network laundering",
       "product runtime wiring laundering",
@@ -240,10 +249,10 @@
     ]
   },
   "rollback": {
-    "repo": "Revert the bounded C1 blocker receipt, verifier, contract, matrix/catalog/governance bindings, and the one-line roundId harness repair.",
+    "repo": "Revert the bounded C1 current-profile replay receipt, verifier, contract, matrix/catalog/governance bindings, and factual evidence rebind.",
     "productDataMigrationRequired": false,
     "runtimeRollbackRequired": false,
     "userDataTouched": false
   },
-  "nextSequentialContour": "C1_WORD_RETURN_AUTHORITY_AND_PROFILE_BINDING_REPAIR_V1"
+  "nextSequentialContour": "C1_WORD_WINDOW_ARTIFACT_PUBLICATION_BLOCKER_REPAIR_V1"
 }

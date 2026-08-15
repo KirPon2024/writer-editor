@@ -10569,35 +10569,8 @@
       "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
     },
     {
-      "filePath": "docs/OPS/RTK/GOOGLE_BUILD_PROFILE_REGISTRY_V1.json",
-      "sha256": "c41b8b1b86421e6e79829a39aa4a7792a591473c1f1d0473e78f08cb41f54ce3",
-      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1",
-      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
-      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: quarantine-only synthetic local export packet evidence, no Google account, no user documents, no runtime network, no support/import/roundtrip/apply/product mutation claim.",
-      "approved": true,
-      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
-    },
-    {
       "filePath": "docs/OPS/RTK/GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1_RECEIPT.json",
       "sha256": "5167e35f8b1153d1e869f4bc8e0078cfa4d9435b0bbf6d661410cf2586a08f0b",
-      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1",
-      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
-      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: quarantine-only synthetic local export packet evidence, no Google account, no user documents, no runtime network, no support/import/roundtrip/apply/product mutation claim.",
-      "approved": true,
-      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
-    },
-    {
-      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
-      "sha256": "23dc4d4d4661fb878b521802942353229e4485817b111fae90922da0d579d187",
-      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1",
-      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
-      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: quarantine-only synthetic local export packet evidence, no Google account, no user documents, no runtime network, no support/import/roundtrip/apply/product mutation claim.",
-      "approved": true,
-      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
-    },
-    {
-      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json",
-      "sha256": "02a310352af203247218197ceab2fc0e973e9927702d07c3fcf0bba98b233868",
       "approvedBy": "owner:GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1",
       "approvedAtUtc": "2026-08-15T00:00:00.000Z",
       "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: quarantine-only synthetic local export packet evidence, no Google account, no user documents, no runtime network, no support/import/roundtrip/apply/product mutation claim.",
@@ -10610,15 +10583,6 @@
       "approvedBy": "owner:GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1",
       "approvedAtUtc": "2026-08-15T00:00:00.000Z",
       "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: quarantine-only synthetic local export packet evidence, no Google account, no user documents, no runtime network, no support/import/roundtrip/apply/product mutation claim.",
-      "approved": true,
-      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
-    },
-    {
-      "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "1469ef501440e26c9afbb804d9e4a9605a0c0c3dca51569a7cbd8b56b0e3c641",
-      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1",
-      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
-      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: quarantine-only synthetic local export packet evidence, no Google account, no user documents, no runtime network, no support/import/roundtrip/apply/product mutation claim; RTK graph catalog includes the new fail-closed local quarantine contract.",
       "approved": true,
       "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
     },
@@ -10709,6 +10673,78 @@
       "approvedBy": "owner:F3_RUNTIME_SOURCE_REVISION_TRACEABILITY_POSTMERGE_REBIND_V1",
       "approvedAtUtc": "2026-08-15T01:47:17.000Z",
       "rationale": "Owner-approved legacy F3 factual traceability rebind: stale structured delivery markers in already-merged F3 rows and bound F3 product receipt now fail closed; PR #1543, #1548 and #1553 merged facts are recorded without runtime behavior, UI, provider, user documents, credentials, product network or full Black Box Product V1 claim.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "scripts/ops/rtk-google-docs-local-suggestions-ir-abstain-v1.mjs",
+      "sha256": "bb89f7d92ebfeb4a5a1d66c8ad2588228e168f8dfaa5bbcd8e26299d3678b3cd",
+      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_SUGGESTIONS_IR_ABSTAIN_V1",
+      "approvedAtUtc": "2026-08-15T02:25:00.000Z",
+      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: local synthetic suggestions IR typed ABSTAIN only; no Google account, user documents, runtime network, support/import/roundtrip/apply/product mutation claim, or Word evidence transfer.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "scripts/ops/rtk-google-docs-local-suggestions-ir-abstain-model.mjs",
+      "sha256": "5639b94adeb0f429bf72856b6e39534d624a980e09e529ff552f7451fd734a54",
+      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_SUGGESTIONS_IR_ABSTAIN_V1",
+      "approvedAtUtc": "2026-08-15T02:25:00.000Z",
+      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: local synthetic suggestions IR typed ABSTAIN only; no Google account, user documents, runtime network, support/import/roundtrip/apply/product mutation claim, or Word evidence transfer.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "test/contracts/rtk-google-docs-local-suggestions-ir-abstain.contract.test.js",
+      "sha256": "13aeb063145c1cb95a7692a21957420538d868a228ec34d2f82de60c3e691933",
+      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_SUGGESTIONS_IR_ABSTAIN_V1",
+      "approvedAtUtc": "2026-08-15T02:25:00.000Z",
+      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: local synthetic suggestions IR typed ABSTAIN only; no Google account, user documents, runtime network, support/import/roundtrip/apply/product mutation claim, or Word evidence transfer.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_LOCAL_SUGGESTIONS_IR_ABSTAIN_V1_RECEIPT.json",
+      "sha256": "43b5b4c2f08f590ad69ec52459534b4ad94acfbf9989c158954444928cd257ef",
+      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_SUGGESTIONS_IR_ABSTAIN_V1",
+      "approvedAtUtc": "2026-08-15T02:25:00.000Z",
+      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: local synthetic suggestions IR typed ABSTAIN only; no Google account, user documents, runtime network, support/import/roundtrip/apply/product mutation claim, or Word evidence transfer.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "docs/OPS/RTK/GOOGLE_BUILD_PROFILE_REGISTRY_V1.json",
+      "sha256": "05ea539c16e0a585ec37c31c7754c14dd9b67c782b58d97d0666cf3b94c8206b",
+      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_SUGGESTIONS_IR_ABSTAIN_V1",
+      "approvedAtUtc": "2026-08-15T02:25:00.000Z",
+      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: local synthetic suggestions IR typed ABSTAIN only; no Google account, user documents, runtime network, support/import/roundtrip/apply/product mutation claim, or Word evidence transfer.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
+      "sha256": "c28afe8ea89468fbe90cc737a98424cfc3bca6e55d4ad24aad243db4d6487bd7",
+      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_SUGGESTIONS_IR_ABSTAIN_V1",
+      "approvedAtUtc": "2026-08-15T02:25:00.000Z",
+      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: local synthetic suggestions IR typed ABSTAIN only; no Google account, user documents, runtime network, support/import/roundtrip/apply/product mutation claim, or Word evidence transfer.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json",
+      "sha256": "226adc61d4fb62e9ab8be2d3761d3fe57634d8172fb127e63c7c19c1e7a12d18",
+      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_SUGGESTIONS_IR_ABSTAIN_V1",
+      "approvedAtUtc": "2026-08-15T02:25:00.000Z",
+      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: local synthetic suggestions IR typed ABSTAIN only; no Google account, user documents, runtime network, support/import/roundtrip/apply/product mutation claim, or Word evidence transfer.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
+      "sha256": "862bfa493a2820f79296a92091000479f1648a737d771d3faea50efe5f579e00",
+      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_SUGGESTIONS_IR_ABSTAIN_V1",
+      "approvedAtUtc": "2026-08-15T02:25:00.000Z",
+      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: local synthetic suggestions IR typed ABSTAIN only; no Google account, user documents, runtime network, support/import/roundtrip/apply/product mutation claim, or Word evidence transfer.",
       "approved": true,
       "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
     }

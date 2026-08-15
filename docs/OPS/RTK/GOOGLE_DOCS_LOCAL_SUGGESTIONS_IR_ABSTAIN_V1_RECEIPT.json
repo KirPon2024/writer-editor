@@ -1,0 +1,146 @@
+{
+  "schemaVersion": "yalken.googleDocs.localSuggestionsIrAbstain.receipt.v1",
+  "taskId": "GOOGLE_DOCS_LOCAL_SUGGESTIONS_IR_ABSTAIN_V1",
+  "status": "GOOGLE_DOCS_LOCAL_SUGGESTIONS_IR_ABSTAIN_V1_LOCAL_VERIFIED",
+  "result": "SUGGESTIONS_IR_ABSTAIN_NEEDS_REAL_GOOGLE_E2E",
+  "createdAtUtc": "2026-08-15T02:25:00.000Z",
+  "originMainSha": "52756d148fb0a29858e4ad526e57ceef9747f686",
+  "localHeadSha": "52756d148fb0a29858e4ad526e57ceef9747f686",
+  "localAbstainOnly": true,
+  "noProductMutation": true,
+  "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE",
+  "nonClaims": {
+    "googleDocsReady": false,
+    "supportProven": false,
+    "importProven": false,
+    "roundtripProven": false,
+    "suggestionsParsed": false,
+    "suggestionsIrTrusted": false,
+    "applyAuthority": false,
+    "physicalGoogleEvidence": false,
+    "productRuntimeWired": false,
+    "userDocumentsUsed": false,
+    "googleAccountUsed": false,
+    "networkRuntimeUsed": false,
+    "wordEvidenceTransferred": false
+  },
+  "samplePacket": {
+    "packet": {
+      "schemaVersion": "yalken.googleDocs.localSuggestionsIrAbstain.v1",
+      "packetId": "synthetic-google-docs-suggestions-ir-abstain-v1",
+      "sourceKind": "DISPOSABLE_SYNTHETIC_GOOGLE_SUGGESTIONS_FIXTURE",
+      "provider": "google-docs",
+      "profileId": "google-docs-office-mode-post-d1-v1",
+      "editorMode": "OFFICE_MODE",
+      "localOnly": true,
+      "userDocument": false,
+      "googleAccountUsed": false,
+      "networkRuntimeUsed": false,
+      "productRuntimeWired": false,
+      "physicalGoogleEvidence": false,
+      "inheritedEvidenceProfileId": "",
+      "sourceBinding": {
+        "projectId": "synthetic-google-docs-project",
+        "rootId": "synthetic-google-docs-root",
+        "documentId": "synthetic-google-docs-document",
+        "canonicalRevision": "sha256:6d446104e737c754924c062db340d99fcbb71aeca2a12eacb2f2c133bbb68c8b",
+        "workingRevision": "sha256:b1dd8ca52ba8054dfeb4ec41974157dab8d5264858856a1d10f7046b62dfbdf8",
+        "generation": 1
+      },
+      "fixture": {
+        "mediaType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "payloadText": "Yalken Google Docs local suggestions synthetic fixture.\nDisposable only. No Google account, no network, no user document.\nContains labels that resemble insertion/deletion/replacement suggestions but are not trusted Google provider evidence.",
+        "payloadSha256": "sha256:28cbe33807c30fa8a6c9f425d3b66c71c0684b6e0d61f79a2035a275695eb3d1",
+        "sizeBytes": 240
+      },
+      "advertisedSuggestionCount": 4,
+      "suggestions": [
+        {
+          "suggestionId": "sug-insert-001",
+          "kind": "suggestedInsertion",
+          "anchor": "paragraph-1",
+          "payloadText": "inserted text"
+        },
+        {
+          "suggestionId": "sug-delete-001",
+          "kind": "suggestedDeletion",
+          "anchor": "paragraph-1",
+          "payloadText": "deleted text"
+        },
+        {
+          "suggestionId": "sug-replace-001",
+          "kind": "suggestedReplacement",
+          "anchor": "paragraph-2",
+          "payloadText": "old → new"
+        },
+        {
+          "suggestionId": "sug-comment-001",
+          "kind": "suggestionCommentAssociation",
+          "anchor": "paragraph-2",
+          "payloadText": "comment on suggestion"
+        }
+      ],
+      "claims": {
+        "supportProven": false,
+        "importProven": false,
+        "roundtripProven": false,
+        "suggestionsParsed": false,
+        "suggestionsIrTrusted": false,
+        "suggestionsApplyAuthority": false,
+        "applyAuthority": false,
+        "productMutationAuthority": false
+      },
+      "limitations": [
+        "NO_REAL_GOOGLE_ACCOUNT_E2E",
+        "NO_TRUSTED_GOOGLE_SUGGESTIONS_IR",
+        "NO_SUGGESTION_APPLY_AUTHORITY",
+        "SUGGESTIONS_TYPED_ABSTAIN_LOCAL_ONLY"
+      ]
+    },
+    "result": {
+      "ok": true,
+      "status": "GOOGLE_DOCS_LOCAL_SUGGESTIONS_IR_ABSTAIN_V1_LOCAL_VERIFIED",
+      "result": "SUGGESTIONS_IR_ABSTAIN_NEEDS_REAL_GOOGLE_E2E",
+      "code": "GOOGLE_SUGGESTIONS_IR_ABSTAINED",
+      "action": "ABSTAIN_ONLY",
+      "provider": "google-docs",
+      "profileId": "google-docs-office-mode-post-d1-v1",
+      "editorMode": "OFFICE_MODE",
+      "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE",
+      "localAbstainOnly": true,
+      "noProductMutation": true,
+      "supportClaimed": false,
+      "importClaimed": false,
+      "roundtripClaimed": false,
+      "suggestionsIrTrusted": false,
+      "applyAuthority": "DENY",
+      "packetDigest": "sha256:b7d0f93f2611dd9bebbae5159a3fbf614f664c34513043c511ba3a63752d3935",
+      "counts": {
+        "suggestionsAdvertised": 4,
+        "suggestionsObserved": 4,
+        "suggestionsTrusted": 0,
+        "applyAdmitted": 0,
+        "productMutations": 0
+      }
+    }
+  },
+  "hostileProof": {
+    "finiteCases": 1,
+    "hostileCases": 16,
+    "semanticMutants": 11,
+    "survivors": 0,
+    "requiredFailures": [
+      "support/import/roundtrip overclaim",
+      "Google account/network/runtime/user-document overclaim",
+      "Word evidence inheritance",
+      "stale fixture digest",
+      "source transplant",
+      "silent suggestion count mismatch",
+      "UNKNOWN/ABSTAIN as PASS"
+    ]
+  },
+  "rollback": {
+    "type": "REVERT_THIS_CONTOUR_ONLY",
+    "preservesPreviousG00Verdict": "LOCAL_COMPATIBILITY_NEEDS_MORE_EVIDENCE"
+  }
+}

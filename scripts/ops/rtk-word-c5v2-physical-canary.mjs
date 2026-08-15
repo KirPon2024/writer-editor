@@ -26,7 +26,6 @@ import { resolveWordHostLocalQaWorkRoot } from './rtk-word-sandbox-work-root.mjs
 import { parseObservablePayload } from '../../src/renderer/documentContentEnvelope.mjs';
 
 const require = createRequire(import.meta.url);
-const electronBinary = require('electron');
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
@@ -47,6 +46,15 @@ const C5V2_OPERATION_STATUS_POLICY = Object.freeze({
   expectedOutcomeMustMatchNativeReadbackStatus: true,
   blockedOperationCannotBeCreditedAsExact: true,
 });
+
+function resolveC5V2ElectronBinary() {
+  try {
+    return require('electron');
+  } catch (error) {
+    const message = String(error && error.message ? error.message : error).replace(/\s+/gu, ' ').slice(0, 200);
+    throw new Error(`C5V2_ELECTRON_BINARY_UNAVAILABLE:${message}`);
+  }
+}
 
 export function sha256Bytes(bytes) {
   return crypto.createHash('sha256').update(bytes).digest('hex');
@@ -4343,7 +4351,7 @@ async function runElectronFullManuscriptRoundtrip({
     exited = true;
     exitState = { code, signal, eventName };
   };
-  const child = spawn(electronBinary, [childPath], {
+  const child = spawn(resolveC5V2ElectronBinary(), [childPath], {
     cwd: REPO_ROOT,
     env: { ...process.env, ELECTRON_ENABLE_SECURITY_WARNINGS: 'false' },
     stdio: ['ignore', 'pipe', 'pipe'],
@@ -4484,7 +4492,7 @@ async function runElectronCumulativeFullManuscriptRoundtrip({
   let bufferedStdout = '';
   let exited = false;
   let exitState = null;
-  const child = spawn(electronBinary, [childPath], {
+  const child = spawn(resolveC5V2ElectronBinary(), [childPath], {
     cwd: REPO_ROOT,
     env: { ...process.env, ELECTRON_ENABLE_SECURITY_WARNINGS: 'false' },
     stdio: ['ignore', 'pipe', 'pipe'],

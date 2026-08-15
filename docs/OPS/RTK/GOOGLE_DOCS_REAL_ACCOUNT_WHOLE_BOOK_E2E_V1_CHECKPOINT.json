@@ -1,0 +1,132 @@
+{
+  "schema": "YALKEN_GOOGLE_DOCS_REAL_ACCOUNT_WHOLE_BOOK_E2E_CHECKPOINT_V1",
+  "taskId": "GOOGLE_DOCS_REAL_ACCOUNT_WHOLE_BOOK_E2E_V1",
+  "recordedAt": "2026-08-15T10:04:29Z",
+  "status": "WAIT_CLEANUP_ACTION_TIME_CONFIRMATION",
+  "verdict": "NEEDS_MORE_EVIDENCE",
+  "baseline": {
+    "head": "b3663e35246cdcbc99b21659b97d6ca9a8f00679",
+    "tree": "4afcd7d01ec5a6628f7153900cab9816c2c4941d",
+    "branch": "codex/yalken-google-docs-real-account-e2e-v1"
+  },
+  "authority": {
+    "connectedGoogleAccountAllowed": true,
+    "networkAllowed": true,
+    "userDocumentsReadOrMutated": false,
+    "existingDriveSearchOrListUsed": false,
+    "browserUiAutomationScope": "ONLY_CURRENT_RUN_SYNTHETIC_DOC_BY_EXACT_ID",
+    "permanentDeleteAllowed": false,
+    "cleanupRequired": "MOVE_CURRENT_RUN_SYNTHETIC_DOC_TO_TRASH_ONLY",
+    "cleanupBlockedBy": "BROWSER_SAFETY_POLICY_REQUIRES_ACTION_TIME_CONFIRMATION_FOR_CLOUD_DELETE_OR_TRASH"
+  },
+  "syntheticDocument": {
+    "documentId": "1T5C3xoTThpiPXNMVsR2jYKH6sf016e624-34aBgA5bs",
+    "title": "YALKEN_DISPOSABLE_GOOGLE_DOCS_WHOLE_BOOK_E2E_V1_20260815T000001Z",
+    "mimeType": "application/vnd.google-apps.document",
+    "createdTime": "2026-08-15T09:50:49.859Z",
+    "modifiedTimeBeforeSuggestion": "2026-08-15T09:52:04.428Z",
+    "latestObservedRevisionId": "AIroW37-JboreE3yKI5mflVI28RiIogvMQeLC1edaqhg0JCUGZpg1i7aRdaf8Fe0wnBbNaFi8nbYC-jtEDwWURZYZUc0lPSnjfC0Ys7a2lk",
+    "cleanupState": "NOT_TRASHED_PENDING_ACTION_TIME_CONFIRMATION"
+  },
+  "syntheticBook": {
+    "generator": "rtk-word-c5v2-portfolio-corpus.mjs",
+    "corpus": "near-supported-limit",
+    "sceneCount": 21,
+    "chapterHeadingCount": 21,
+    "sourceParagraphCount": 357,
+    "paragraphCount": 381,
+    "styleSentinelCount": 21,
+    "plainTextChars": 312996,
+    "plainTextBytes": 312996,
+    "htmlBytes": 318752,
+    "plainTextSha256": "sha256:9c83a184149ef3b0e5ac8490aac6c3e8ddf93804a5ff895836124f7f563fe1c7",
+    "htmlSha256": "sha256:ce523b19e05fa6b4b2ef87949933c8e8662891c2385843c3706e97ce38420a97",
+    "manifestSha256": "sha256:5d9250722062c61cbb341efa9d436b846486c0dac3ae4ddccad16a6bc71ce484"
+  },
+  "connectorEvidence": {
+    "importNativeGoogleDoc": "PASS",
+    "metadataIdentity": "PASS",
+    "rangeFirstChapter": {
+      "startIndex": 48,
+      "endIndex": 92
+    },
+    "rangeChapter21": {
+      "startIndex": 297674,
+      "endIndex": 297718
+    },
+    "rangeFinalSentinel": {
+      "startIndex": 312890,
+      "endIndex": 312939
+    },
+    "fullTailReadbackNoSampling": true,
+    "commentLifecycle": {
+      "createdCommentId": "AAACFlsNw88",
+      "resolvedReplyId": "AAACFlsNw9A",
+      "resolved": true,
+      "quotedText": "WHOLE_BOOK_COMMENT_TARGET_SCENE_11_CENTER_ANCHOR"
+    },
+    "staleWriteRejected": {
+      "status": "PASS",
+      "errorCode": "INVALID_ARGUMENT",
+      "rejectedTextAbsent": "SHOULD_NOT_WRITE_STALE_WHOLE_BOOK"
+    },
+    "fieldMaskQuirk": "DOCUMENTS_GET_REJECTS_TABS_AND_LEGACY_BODY_FIELDS_TOGETHER"
+  },
+  "exportEvidence": {
+    "acceptedTextBeforeSuggestion": {
+      "bytes": 313400,
+      "sha256": "sha256:770971587084ed418757114e12dcdbfe42991fd896ed590ccb8b27787397f405",
+      "normalizedSha256": "sha256:52339c39368e8c623a829b283f43c51394ffdb7a5d741d9b73543dae7b61c10b",
+      "matchesOracleIgnoringSingleTrailingLf": true
+    },
+    "docxBeforeSuggestion": {
+      "bytes": 24171,
+      "sha256": "sha256:fa1051afb22cdb36bc302dc8930b6e1fae06493c59ddfeab4a4717f719bb3dc6",
+      "documentXmlSha256": "sha256:92296ac05735113ceacbe88d6af3017bf177e0bde85e34c0753e988bccfbbcb3",
+      "headingMarkerCount": 21,
+      "styleSentinelCount": 21,
+      "boldCount": 21,
+      "italicCount": 21,
+      "underlineSingleCount": 21,
+      "blueColorCount": 21,
+      "exactContinuousTextMatch": true
+    },
+    "acceptedTextAfterSuggestion": {
+      "bytes": 313400,
+      "sha256": "sha256:770971587084ed418757114e12dcdbfe42991fd896ed590ccb8b27787397f405",
+      "sameAsBeforeSuggestion": true
+    },
+    "docxAfterSuggestion": {
+      "bytes": 24360,
+      "sha256": "sha256:5a7dd0fa4802a0db7f9fcb35a7deb56a84d4e1cbad2d08f0b6a117fddec554c2",
+      "documentXmlSha256": "sha256:d640727304efbc3fc3efcd1586879dcde9edff5b45f1b55fb9655937d23a0b86",
+      "trackedInsertionCount": 1,
+      "trackedDeletionCount": 1,
+      "replacementInInsertion": true,
+      "originalInDeletion": true,
+      "falseAutoApplyCount": 0
+    },
+    "htmlExportLocalBytes": "NOT_MATERIALIZED",
+    "htmlExportStatus": "OPTIONAL_NOT_CLAIMED"
+  },
+  "pendingGates": [
+    {
+      "gate": "CLEANUP_MOVE_SYNTHETIC_DOC_TO_TRASH",
+      "status": "WAIT_ACTION_TIME_CONFIRMATION",
+      "exactDocumentId": "1T5C3xoTThpiPXNMVsR2jYKH6sf016e624-34aBgA5bs",
+      "permanentDeleteForbidden": true
+    },
+    {
+      "gate": "WRITE_WHOLE_BOOK_VERIFIER_AND_RECEIPT",
+      "status": "PENDING_AFTER_CLEANUP"
+    },
+    {
+      "gate": "FOCUSED_AFFECTED_GUARDRAILS_DELIVERY",
+      "status": "PENDING_AFTER_VERIFIER"
+    },
+    {
+      "gate": "REGISTER_INTEROP_CHAIN_SATURATION_MATRIX_C1_TO_C8",
+      "status": "PENDING_AFTER_CURRENT_CONTOUR"
+    }
+  ]
+}

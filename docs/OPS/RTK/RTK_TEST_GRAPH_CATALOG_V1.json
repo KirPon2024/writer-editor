@@ -9,7 +9,8 @@
   "scopeNotes": [
     "The graph is deterministic and fail-closed on missing or extra rtk-* contract files.",
     "Review bridge contracts remain covered by default and focused runners, but are not silently folded into the maintained RTK graph.",
-    "Google Docs remains local-compatibility-only and blocked on real signed-in Google Docs E2E authority; Word 16.112 evidence is non-transferable and no Google support/import/roundtrip/apply claim is made."
+    "Google Docs has scoped real connected-account E2E evidence for the explicitly tested synthetic primitives only; Word 16.112 evidence remains non-transferable and no Google import/apply/product-runtime/platform-saturation claim is made.",
+    "Google Docs whole-book evidence covers the frozen canonical synthetic book denominator only; it is not chain saturation, not universal parity, and not a terminal Google Docs platform PASS."
   ],
   "contractBasenames": [
     "rtk-admit01-accountable-lanes.contract.test.js",
@@ -29,6 +30,8 @@
     "rtk-google-docs-local-recovery-replay-contract.contract.test.js",
     "rtk-google-docs-local-return-intake-quarantine.contract.test.js",
     "rtk-google-docs-local-suggestions-ir-abstain.contract.test.js",
+    "rtk-google-docs-real-account-e2e.contract.test.js",
+    "rtk-google-docs-real-account-whole-book-e2e.contract.test.js",
     "rtk-google01-provider-profiles.contract.test.js",
     "rtk-lab01-build-bound-profiles.contract.test.js",
     "rtk-match01-placement-proof.contract.test.js",
@@ -132,7 +135,10 @@
   "currentTruthBinding": {
     "wordAcceptanceRevoked": true,
     "wordSaturated": false,
-    "googleStage": "LOCAL_COMPATIBILITY_VERDICT_NEEDS_REAL_ACCOUNT_E2E",
+    "googleStage": "REAL_ACCOUNT_WHOLE_BOOK_E2E_SCOPED_VERIFIED_WITH_LIMITATIONS",
+    "googleRealAccountE2E": "GOOGLE_DOCS_REAL_ACCOUNT_E2E_V1_SCOPED_VERIFIED",
+    "googleRealAccountWholeBookE2E": "GOOGLE_DOCS_REAL_ACCOUNT_WHOLE_BOOK_E2E_V1_SCOPED_VERIFIED",
+    "googleRealAccountE2EProgramVerdict": "NEEDS_MORE_EVIDENCE",
     "nextWordStage": "WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION",
     "googleLocalSuggestionsIrAbstain": "GOOGLE_DOCS_LOCAL_SUGGESTIONS_IR_ABSTAIN_V1_LOCAL_VERIFIED",
     "googleLocalCommentsLimitation": "GOOGLE_DOCS_LOCAL_COMMENTS_LIMITATION_V1_LOCAL_VERIFIED",

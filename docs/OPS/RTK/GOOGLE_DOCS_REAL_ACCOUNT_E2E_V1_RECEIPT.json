@@ -1,0 +1,210 @@
+{
+  "schemaVersion": "yalken.googleDocs.realAccountE2E.receipt.v1",
+  "taskId": "GOOGLE_DOCS_REAL_ACCOUNT_E2E_V1",
+  "status": "GOOGLE_DOCS_REAL_ACCOUNT_E2E_V1_SCOPED_VERIFIED",
+  "verdict": "SCOPED_REAL_GOOGLE_DOCS_E2E_PASS_WITH_LIMITATIONS",
+  "programVerdict": "NEEDS_MORE_EVIDENCE",
+  "baselineSha": "b3663e35246cdcbc99b21659b97d6ca9a8f00679",
+  "worktreeBranch": "codex/yalken-google-docs-real-account-e2e-v1",
+  "provider": "google-docs",
+  "evidenceClass": "REAL_CONNECTED_ACCOUNT_E2E_SYNTHETIC_ONLY",
+  "connector": "official-connected-google-drive-docs-tools",
+  "browserFallback": {
+    "used": true,
+    "reason": "CONNECTOR_CANNOT_CREATE_NATIVE_SUGGESTIONS_OR_MOVE_TO_TRASH",
+    "browser": "Chrome extension session",
+    "navigationBoundary": "EXACT_SYNTHETIC_DOC_URL_ONLY"
+  },
+  "authority": {
+    "network": "OWNER_AUTHORIZED_CONNECTED_ACCOUNT_SYNTHETIC_ONLY",
+    "userDocumentsForbidden": true,
+    "existingDriveDiscoveryForbidden": true,
+    "permanentDeleteForbidden": true,
+    "productRuntimeWiringForbidden": true
+  },
+  "safetyCounters": {
+    "existingDriveDocumentsSearched": 0,
+    "existingDriveDocumentsListed": 0,
+    "existingDriveDocumentsFetched": 0,
+    "existingDriveDocumentsRead": 0,
+    "userDocumentsRead": 0,
+    "userDocumentsMutated": 0,
+    "permanentDeletes": 0,
+    "productMutations": 0
+  },
+  "createdArtifacts": [
+    {
+      "artifactRole": "primarySyntheticGoogleDoc",
+      "fileId": "13kydI5m1GL4gwTwrdI0zqQSp66hQ9pTykA922rd-4uI",
+      "title": "YALKEN_DISPOSABLE_GOOGLE_DOCS_REAL_E2E_V1_20260815T000001Z",
+      "mimeType": "application/vnd.google-apps.document",
+      "source": "current-run-create-file-result",
+      "url": "https://docs.google.com/document/d/13kydI5m1GL4gwTwrdI0zqQSp66hQ9pTykA922rd-4uI/edit?usp=drivesdk",
+      "cleanupState": "MOVED_TO_TRASH_BY_SCOPED_UI_AUTOMATION",
+      "cleanupEvidence": {
+        "uiAlertTitle": "Файл перемещен в корзину",
+        "uiAlertTextIncludesTitle": true,
+        "permanentDeleteUsed": false,
+        "connectorTrashPrimitiveAvailable": false
+      }
+    }
+  ],
+  "connectorCapabilities": {
+    "nativeDocCreate": "PASS",
+    "documentReadback": "PASS",
+    "requiredRevisionIdWriteControl": "PASS",
+    "formattingReadback": "PASS",
+    "commentsCreateReadbackResolve": "PASS",
+    "exportDocxFileReference": "PASS",
+    "exportPlainTextReference": "PASS",
+    "fetchTextReadback": "PASS",
+    "revisionHistory": "PASS",
+    "createNativeSuggestion": "UNAVAILABLE_BY_TOOL_SCHEMA",
+    "safeMoveToTrash": "UNAVAILABLE_BY_TOOL_SCHEMA"
+  },
+  "providerObservations": {
+    "initialReadback": {
+      "documentId": "13kydI5m1GL4gwTwrdI0zqQSp66hQ9pTykA922rd-4uI",
+      "titleMatched": true,
+      "tabId": "t.0",
+      "suggestionsViewMode": "SUGGESTIONS_INLINE",
+      "revisionId": "AIroW37xj2eW0aqzd57xi00d8xz-x1-IO4_icZXSLMDsj4MGRN_g5v-UCnq5aaVIeWfNBRfzMdTxFFe9dsTBn1db-V8Vy61zL6g63AdOsGw"
+    },
+    "contentWrite": {
+      "usedRequiredRevisionId": "AIroW37xj2eW0aqzd57xi00d8xz-x1-IO4_icZXSLMDsj4MGRN_g5v-UCnq5aaVIeWfNBRfzMdTxFFe9dsTBn1db-V8Vy61zL6g63AdOsGw",
+      "returnedRevisionId": "AIroW35HKPqED72J8gr-T5xV-n4D8YfyIjscTcAniPNHZ1CbTKLj2z3WVBzhW3oaAkCo94XpbyksmHXpQJ4nbkMLGGtMZH-o_2pmns9jmBo",
+      "sentinel": "YALKEN_E2E_SENTINEL_ALPHA_20260815"
+    },
+    "formattingWrite": {
+      "matchedText": "bold italic underline blue phrase",
+      "range": {
+        "tabId": "t.0",
+        "startIndex": 114,
+        "endIndex": 147
+      },
+      "usedRequiredRevisionId": "AIroW35HKPqED72J8gr-T5xV-n4D8YfyIjscTcAniPNHZ1CbTKLj2z3WVBzhW3oaAkCo94XpbyksmHXpQJ4nbkMLGGtMZH-o_2pmns9jmBo",
+      "returnedRevisionId": "AIroW37b5ExKvQo7Icxvpm29vcBCLqS20zWOtKLApYREjR3XV6iqQpr7uYirDZ2vQAqVjqTdZ7GQIp5stP8U8yd5bsNlyKWnyiI5T-rYnCA",
+      "readback": {
+        "bold": true,
+        "italic": true,
+        "underline": true,
+        "foregroundColorRgbApprox": {
+          "red": 0.050980393,
+          "green": 0.2,
+          "blue": 0.7490196
+        }
+      }
+    },
+    "commentsLifecycle": {
+      "createdCommentId": "AAACFgzl42E",
+      "quotedText": "Sentinel: YALKEN_E2E_SENTINEL_ALPHA_20260815.",
+      "createdReadbackResolved": false,
+      "resolveReplyId": "AAACFgzl42I",
+      "finalReadbackResolved": true
+    },
+    "nativeSuggestion": {
+      "createdByConnector": false,
+      "createdByScopedUiAutomation": true,
+      "uiModeBeforeMutation": "Советовать",
+      "suggestionId": "suggest.eztm1x58rb18",
+      "insertionText": "SUGGESTION_ACCEPTED_MARKER",
+      "deletionText": "QUICK_BROWN_FOX",
+      "connectorReadbackObservedInsertionId": true,
+      "connectorReadbackObservedDeletionId": true,
+      "finalRevisionId": "AIroW37sEKcBhTL7wyLTbEhG0jVMydhQ4VjBERh9cegmOJ3lMUVvnOylLvVZ9eCQ3KebSuIUnR2Vsvd2iAv_q7MMJ7uitJWIyCTyo0d_ZF8"
+    },
+    "staleRevisionNegative": {
+      "attemptedRequiredRevisionId": "AIroW35HKPqED72J8gr-T5xV-n4D8YfyIjscTcAniPNHZ1CbTKLj2z3WVBzhW3oaAkCo94XpbyksmHXpQJ4nbkMLGGtMZH-o_2pmns9jmBo",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "providerStatus": "INVALID_ARGUMENT",
+      "providerMessageClass": "required revision ID does not match latest revision"
+    },
+    "exportAndReadback": {
+      "docxExport": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "size": 6808,
+        "fileReferenceMaterializedForImport": false,
+        "nativeReimportAttempt": "FAILED_NO_LOCAL_FILE_MATERIALIZATION"
+      },
+      "plainTextExport": {
+        "mimeType": "text/plain",
+        "size": 310
+      },
+      "fetchReadback": {
+        "mimeType": "text/plain",
+        "sentinelPreserved": true,
+        "roundtripSentencePreserved": true,
+        "humanSuggestionTargetPreserved": true
+      }
+    },
+    "revisionHistory": {
+      "currentRevisionIdBeforeSuggestion": "3",
+      "previousRevisionId": "1",
+      "observedRevisionCountBeforeSuggestion": 2
+    },
+    "permissionObservation": {
+      "observedAnyoneWriterPermissionBeforeTrash": true,
+      "allowFileDiscovery": false,
+      "mitigation": "MOVED_TO_TRASH_BY_SCOPED_UI_AUTOMATION"
+    }
+  },
+  "denominators": {
+    "createdSyntheticArtifacts": 1,
+    "trashedSyntheticArtifacts": 1,
+    "connectorCreatedNativeDocs": 1,
+    "revisionGuardedContentWrites": 1,
+    "revisionGuardedFormattingWrites": 1,
+    "connectorCommentThreadsCreated": 1,
+    "connectorCommentThreadsResolved": 1,
+    "nativeSuggestionsObserved": 1,
+    "staleRevisionNegatives": 1,
+    "exportsAttempted": 2,
+    "exportReadbacksPreserved": 1,
+    "nativeReimportAttempts": 1,
+    "nativeReimportPasses": 0,
+    "userDocumentsRead": 0,
+    "userDocumentsMutated": 0,
+    "permanentDeletes": 0,
+    "productMutations": 0
+  },
+  "applyAuthority": "DENY",
+  "productRuntimeWired": false,
+  "nativeSuggestionCreatedByConnector": false,
+  "nativeSuggestionObserved": true,
+  "scopedPasses": [
+    "native-doc-create",
+    "revision-guarded-content-write",
+    "revision-guarded-formatting-write",
+    "formatting-readback",
+    "comment-create-readback-resolve",
+    "native-suggestion-ui-create-connector-readback",
+    "stale-revision-reject",
+    "export-reference-and-text-readback",
+    "ui-trash-current-run-synthetic-artifact"
+  ],
+  "limitations": [
+    "CONNECTOR_CANNOT_CREATE_NATIVE_SUGGESTIONS",
+    "CONNECTOR_CANNOT_MOVE_TO_TRASH_WITH_NONDESTRUCTIVE_TRASH_PRIMITIVE",
+    "DOCX_EXPORT_FILE_REFERENCE_COULD_NOT_BE_REIMPORTED_BY_IMPORT_TOOL",
+    "ANYONE_WRITER_PERMISSION_WAS_OBSERVED_ON_SYNTHETIC_ARTIFACT_BEFORE_TRASH",
+    "NO_GOOGLE_DOCS_PRODUCT_RUNTIME_SUPPORT_CLAIM",
+    "NO_IMPORT_APPLY_AUTHORITY",
+    "F3_PHYSICAL_OWNER_OFF_HOST_GATES_REMAIN_OPEN"
+  ],
+  "nonClaims": [
+    "No existing Drive documents were searched, listed, fetched, read, or changed.",
+    "No user manuscript or user document evidence is used.",
+    "No permanent delete was used.",
+    "No Google Docs product runtime support, import/apply authority, or platform saturation is claimed.",
+    "Word 16.112 evidence remains non-transferable to Google Docs.",
+    "Overall legacy program verdict remains NEEDS_MORE_EVIDENCE because F3 physical/off-host evidence remains open."
+  ],
+  "preSuggestionCheckpointSha256": "sha256:195270c9c04744147b8b3de5cb8fa3da2d73b245d6a231242ccfad3393e4d8c9",
+  "rollback": {
+    "repo": "revert bounded receipt/verifier/test commit",
+    "provider": "current-run disposable synthetic artifact moved to trash; restore only if owner explicitly requests audit recovery",
+    "productDataMigrationRequired": false,
+    "productRuntimeRollbackRequired": false
+  }
+}

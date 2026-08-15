@@ -33,7 +33,6 @@ import {
 } from './rtk-word-release-audit-p0-product-vertical-tracked-edit.mjs';
 
 const require = createRequire(import.meta.url);
-const electronBinary = require('electron');
 const { buildStoredZip } = require('../../src/export/docx/docxMinBuilder.js');
 
 const __filename = fileURLToPath(import.meta.url);
@@ -75,6 +74,15 @@ const GOVERNED_PATHS = [
   'scripts/ops/rtk-word-release-audit-p0-product-vertical-tracked-edit.mjs',
   'test/contracts/rtk-word-release-audit-p0-product-comments-mixed-multiscene.contract.test.js',
 ];
+
+function resolveProductCommentsMixedElectronBinary() {
+  try {
+    return require('electron');
+  } catch (error) {
+    const message = String(error && error.message ? error.message : error).replace(/\s+/gu, ' ').slice(0, 200);
+    throw new Error(`PRODUCT_COMMENTS_MIXED_ELECTRON_BINARY_UNAVAILABLE:${message}`);
+  }
+}
 
 function readText(filePath) {
   return fs.readFileSync(filePath, 'utf8');
@@ -1314,7 +1322,7 @@ async function runElectronUiExportClickProof({ runDir }) {
   await fsPromises.writeFile(childPath, createUiClickChildSource(tempRoot, outPath), 'utf8');
   const stdoutChunks = [];
   const stderrChunks = [];
-  const child = spawn(electronBinary, [childPath], {
+  const child = spawn(resolveProductCommentsMixedElectronBinary(), [childPath], {
     cwd: REPO_ROOT,
     env: {
       ...process.env,

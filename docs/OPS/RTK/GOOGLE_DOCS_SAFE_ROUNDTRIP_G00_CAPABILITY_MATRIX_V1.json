@@ -103,7 +103,8 @@
       "ids": "ABSTAIN_TYPED_LOCAL_NO_GOOGLE_IDENTITY_E2E",
       "formatting": "ABSTAIN_TYPED_LOCAL_NO_GOOGLE_FORMATTING_E2E"
     },
-    "preview": "LOCAL_SYNTHETIC_PREVIEW_ONLY_NOT_RUNTIME_WIRED"
+    "preview": "LOCAL_SYNTHETIC_PREVIEW_ONLY_NOT_RUNTIME_WIRED",
+    "recoveryReplay": "LOCAL_SYNTHETIC_RECOVERY_REPLAY_ONLY_NOT_RUNTIME_WIRED"
   },
   "requiredProductRoute": [
     "export packet design",
@@ -235,18 +236,18 @@
       "userFacingAuthority": "LOCAL_PREVIEW_ONLY_NO_APPLY_AUTHORITY",
       "physicalEvidence": false,
       "reasonCode": "GOOGLE_PREVIEW_ONLY_NO_APPLY_LOCAL_ONLY_NO_REAL_GOOGLE_E2E",
-      "requiredNextContour": "GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1",
+      "requiredNextContour": "GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1",
       "blocksGoogleStage": true
     },
     {
       "cellId": "google.recoveryReopenReplay",
       "family": "recovery",
       "intendedTerminalClass": "PRODUCT_RUNTIME_WIRED",
-      "currentTerminalClass": "UNTESTED",
-      "userFacingAuthority": "NO_RECOVERY_REPLAY_CLAIM",
+      "currentTerminalClass": "TYPED_RECOVERY_REPLAY_LOCAL_NO_APPLY",
+      "userFacingAuthority": "LOCAL_RECOVERY_REPLAY_NO_APPLY_AUTHORITY",
       "physicalEvidence": false,
-      "reasonCode": "G00_NO_GOOGLE_RECOVERY_OR_REPLAY_LEDGER",
-      "requiredNextContour": "GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1",
+      "reasonCode": "GOOGLE_RECOVERY_REPLAY_LOCAL_ONLY_NO_REAL_GOOGLE_E2E",
+      "requiredNextContour": "GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1",
       "blocksGoogleStage": true
     },
     {
@@ -351,7 +352,7 @@
     "applyAuthority": false,
     "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE"
   },
-  "nextLocalContour": "GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1",
+  "nextLocalContour": "GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1",
   "googleCurrentState": {
     "supportClaimed": false,
     "importClaimed": false,
@@ -362,7 +363,7 @@
     "googleStageDone": false,
     "localCompatibilityVerdict": "LOCAL_COMPATIBILITY_NEEDS_MORE_EVIDENCE",
     "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE",
-    "nextLocalContour": "GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1"
+    "nextLocalContour": "GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1"
   },
   "localFormatStructureMatrix": {
     "status": "GOOGLE_DOCS_LOCAL_FORMAT_STRUCTURE_MATRIX_V1_LOCAL_VERIFIED",
@@ -416,6 +417,25 @@
     "returnIntakeTrusted": false,
     "previewDecisionTrusted": false,
     "applyAuthority": false,
+    "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE"
+  },
+  "localRecoveryReplayContract": {
+    "status": "GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1_LOCAL_VERIFIED",
+    "result": "RECOVERY_REPLAY_CONTRACT_LOCAL_ONLY_NEEDS_REAL_GOOGLE_E2E",
+    "receiptPath": "docs/OPS/RTK/GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1_RECEIPT.json",
+    "receiptSha256": "sha256:1e32fe3680c53b3c441ccd35d5a43daf3d6f047948c84c34ac0c220c6ac5b001",
+    "localRecoveryReplayOnly": true,
+    "noProductMutation": true,
+    "physicalGoogleEvidence": 0,
+    "productRuntimeWired": 0,
+    "supportClaimed": false,
+    "importClaimed": false,
+    "roundtripClaimed": false,
+    "returnIntakeTrusted": false,
+    "previewDecisionTrusted": false,
+    "recoveryTrusted": false,
+    "applyAuthority": false,
+    "writerCalls": 0,
     "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE"
   }
 }

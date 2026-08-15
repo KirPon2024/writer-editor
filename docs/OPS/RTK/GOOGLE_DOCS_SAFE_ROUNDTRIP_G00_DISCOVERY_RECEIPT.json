@@ -84,7 +84,7 @@
     "googleStageDone": false,
     "localCompatibilityVerdict": "LOCAL_COMPATIBILITY_NEEDS_MORE_EVIDENCE",
     "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE",
-    "nextLocalContour": "GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1"
+    "nextLocalContour": "GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1"
   },
   "gapMap": [
     {
@@ -245,9 +245,10 @@
       "ids": "ABSTAIN_TYPED_LOCAL_NO_GOOGLE_IDENTITY_E2E",
       "formatting": "ABSTAIN_TYPED_LOCAL_NO_GOOGLE_FORMATTING_E2E"
     },
-    "preview": "LOCAL_SYNTHETIC_PREVIEW_ONLY_NOT_RUNTIME_WIRED"
+    "preview": "LOCAL_SYNTHETIC_PREVIEW_ONLY_NOT_RUNTIME_WIRED",
+    "recoveryReplay": "LOCAL_SYNTHETIC_RECOVERY_REPLAY_ONLY_NOT_RUNTIME_WIRED"
   },
-  "nextLocalContour": "GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1",
+  "nextLocalContour": "GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1",
   "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE",
   "nonClaims": [
     "No Google Docs support is claimed.",
@@ -361,6 +362,25 @@
     "returnIntakeTrusted": false,
     "previewDecisionTrusted": false,
     "applyAuthority": false,
+    "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE"
+  },
+  "localRecoveryReplayContract": {
+    "status": "GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1_LOCAL_VERIFIED",
+    "result": "RECOVERY_REPLAY_CONTRACT_LOCAL_ONLY_NEEDS_REAL_GOOGLE_E2E",
+    "receiptPath": "docs/OPS/RTK/GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1_RECEIPT.json",
+    "receiptSha256": "sha256:1e32fe3680c53b3c441ccd35d5a43daf3d6f047948c84c34ac0c220c6ac5b001",
+    "localRecoveryReplayOnly": true,
+    "noProductMutation": true,
+    "physicalGoogleEvidence": 0,
+    "productRuntimeWired": 0,
+    "supportClaimed": false,
+    "importClaimed": false,
+    "roundtripClaimed": false,
+    "returnIntakeTrusted": false,
+    "previewDecisionTrusted": false,
+    "recoveryTrusted": false,
+    "applyAuthority": false,
+    "writerCalls": 0,
     "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE"
   }
 }

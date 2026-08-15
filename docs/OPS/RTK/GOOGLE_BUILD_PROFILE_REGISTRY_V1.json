@@ -53,6 +53,11 @@
       "note": "Local recovery/replay receipt — synthetic idempotent quarantine replay only, not Google support/import/roundtrip/apply evidence."
     },
     {
+      "path": "docs/OPS/RTK/GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1_RECEIPT.json",
+      "sha256": "sha256:46dcc36d8a8268303342966c2e9d36a60aa5fecc3aea6b62cf4b5217a8813c6c",
+      "note": "Final local Google Docs compatibility verdict — local synthetic evidence aggregate only; still NEEDS_MORE_EVIDENCE and blocked on real signed-in Google Docs E2E authority."
+    },
+    {
       "path": "docs/OPS/RTK/GOOGLE_DOCS_LOCAL_RETURN_INTAKE_QUARANTINE_V1_RECEIPT.json",
       "sha256": "sha256:f9c941f02b0415e406960d307cb6e72dc3f5e4e460ff9bb6c2bd0b93a8c2381e",
       "note": "Local returned-artifact intake quarantine receipt — synthetic quarantine evidence only, not Google support/import/roundtrip/apply evidence."
@@ -64,12 +69,12 @@
     },
     {
       "path": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
-      "sha256": "sha256:b5aab7e075cb7d026849b44b2d307496e2bccc87feae6a4206c9c58fbf70ef4c",
+      "sha256": "sha256:2c595bf5a9f1119020382c59d08cd994a86444dafd1f5c841b91bcc8119f534e",
       "note": "G00 Google Docs local compatibility matrix rebound with local recovery/replay no-apply binding."
     },
     {
       "path": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json",
-      "sha256": "sha256:afacc784eded7250f97d111cfca21b0ee1d6ebd9ff79bc7d042daddca9cc3442",
+      "sha256": "sha256:06468980d69f89e24b9a96f9d37111d6c22b6847093c527ca943740a4aeed534",
       "note": "G00 Google Docs discovery receipt rebound with local recovery/replay no-apply binding."
     },
     {

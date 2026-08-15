@@ -10524,33 +10524,6 @@
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION_UI_DEFAULT_FLAG_PATH"
     },
     {
-      "filePath": "scripts/ops/rtk-google-docs-g00-discovery-binding.mjs",
-      "sha256": "e8d4871fcd37095d9cf014c7ad31a867dea24964920ee714073e95bcd1357c33",
-      "approvedBy": "owner:LEGACY_FEATURE_PROGRAM_GOOGLE_DOCS_LOCAL_COMPATIBILITY_G00_REBIND_V1",
-      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
-      "rationale": "Owner-approved Google Docs G00 local compatibility rebind after Word 16.112 closure: no Google account, no runtime network, no user documents, no support/import/roundtrip/API/apply claim, Word evidence transfer DENY.",
-      "approved": true,
-      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
-    },
-    {
-      "filePath": "scripts/ops/rtk-google-docs-g00-rebind-model.mjs",
-      "sha256": "b475a56a6abe24e80297715890a8b9497e0c8add500f624e11e27e060510e71f",
-      "approvedBy": "owner:LEGACY_FEATURE_PROGRAM_GOOGLE_DOCS_LOCAL_COMPATIBILITY_G00_REBIND_V1",
-      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
-      "rationale": "Owner-approved Google Docs G00 local compatibility rebind after Word 16.112 closure: no Google account, no runtime network, no user documents, no support/import/roundtrip/API/apply claim, Word evidence transfer DENY.",
-      "approved": true,
-      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
-    },
-    {
-      "filePath": "test/contracts/rtk-google-docs-g00-discovery-binding.contract.test.js",
-      "sha256": "a6fd14621600ee3c2d505fc9de873459bdb54c7f643ac0e2cdfaae034d773c39",
-      "approvedBy": "owner:LEGACY_FEATURE_PROGRAM_GOOGLE_DOCS_LOCAL_COMPATIBILITY_G00_REBIND_V1",
-      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
-      "rationale": "Owner-approved Google Docs G00 local compatibility rebind after Word 16.112 closure: no Google account, no runtime network, no user documents, no support/import/roundtrip/API/apply claim, Word evidence transfer DENY.",
-      "approved": true,
-      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
-    },
-    {
       "filePath": "scripts/ops/rtk-google-docs-local-export-packet-quarantine-model.mjs",
       "sha256": "bd8a49c64eedc5b4278232d71a33b2fc260d1df160ecb1508650613b4cb54dc7",
       "approvedBy": "owner:GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1",
@@ -10583,15 +10556,6 @@
       "approvedBy": "owner:GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1",
       "approvedAtUtc": "2026-08-15T00:00:00.000Z",
       "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: quarantine-only synthetic local export packet evidence, no Google account, no user documents, no runtime network, no support/import/roundtrip/apply/product mutation claim.",
-      "approved": true,
-      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
-    },
-    {
-      "filePath": "test/contracts/rtk-test-graph-catalog.contract.test.js",
-      "sha256": "1cae084478bbba315922e613d260d23b70a3fd7c1ccfb90f92b69662472b893b",
-      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1",
-      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
-      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: quarantine-only synthetic local export packet evidence, no Google account, no user documents, no runtime network, no support/import/roundtrip/apply/product mutation claim; RTK graph catalog includes the new fail-closed local quarantine contract.",
       "approved": true,
       "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
     },
@@ -10848,44 +10812,8 @@
       "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
     },
     {
-      "filePath": "docs/OPS/RTK/GOOGLE_BUILD_PROFILE_REGISTRY_V1.json",
-      "sha256": "13be2fe553c42516286bd1024e964c69e4610ed42a7b0fb7b0a7b0f789c75c54",
-      "approvedBy": "owner-standing-grant:TASK_ID:GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1",
-      "approvedAtUtc": "2026-08-15T05:25:00.000Z",
-      "rationale": "GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1 approves exact local synthetic Google Docs recovery/replay no-apply evidence binding; no user documents, Google account, network runtime, product mutation, UI/runtime wiring, import/apply authority, Word evidence inheritance, or Google Docs READY claim.",
-      "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_GOOGLE_DOCS_LOCAL_COMPATIBILITY"
-    },
-    {
       "filePath": "docs/OPS/RTK/GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1_RECEIPT.json",
       "sha256": "1e32fe3680c53b3c441ccd35d5a43daf3d6f047948c84c34ac0c220c6ac5b001",
-      "approvedBy": "owner-standing-grant:TASK_ID:GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1",
-      "approvedAtUtc": "2026-08-15T05:25:00.000Z",
-      "rationale": "GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1 approves exact local synthetic Google Docs recovery/replay no-apply evidence binding; no user documents, Google account, network runtime, product mutation, UI/runtime wiring, import/apply authority, Word evidence inheritance, or Google Docs READY claim.",
-      "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_GOOGLE_DOCS_LOCAL_COMPATIBILITY"
-    },
-    {
-      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
-      "sha256": "b5aab7e075cb7d026849b44b2d307496e2bccc87feae6a4206c9c58fbf70ef4c",
-      "approvedBy": "owner-standing-grant:TASK_ID:GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1",
-      "approvedAtUtc": "2026-08-15T05:25:00.000Z",
-      "rationale": "GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1 approves exact local synthetic Google Docs recovery/replay no-apply evidence binding; no user documents, Google account, network runtime, product mutation, UI/runtime wiring, import/apply authority, Word evidence inheritance, or Google Docs READY claim.",
-      "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_GOOGLE_DOCS_LOCAL_COMPATIBILITY"
-    },
-    {
-      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json",
-      "sha256": "afacc784eded7250f97d111cfca21b0ee1d6ebd9ff79bc7d042daddca9cc3442",
-      "approvedBy": "owner-standing-grant:TASK_ID:GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1",
-      "approvedAtUtc": "2026-08-15T05:25:00.000Z",
-      "rationale": "GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1 approves exact local synthetic Google Docs recovery/replay no-apply evidence binding; no user documents, Google account, network runtime, product mutation, UI/runtime wiring, import/apply authority, Word evidence inheritance, or Google Docs READY claim.",
-      "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_GOOGLE_DOCS_LOCAL_COMPATIBILITY"
-    },
-    {
-      "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "68dc3e5179d03264850305cdbe91e571598b0c1e7e9c20e6c0aa469e7848b9ed",
       "approvedBy": "owner-standing-grant:TASK_ID:GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1",
       "approvedAtUtc": "2026-08-15T05:25:00.000Z",
       "rationale": "GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1 approves exact local synthetic Google Docs recovery/replay no-apply evidence binding; no user documents, Google account, network runtime, product mutation, UI/runtime wiring, import/apply authority, Word evidence inheritance, or Google Docs READY claim.",
@@ -10911,15 +10839,6 @@
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_GOOGLE_DOCS_LOCAL_COMPATIBILITY"
     },
     {
-      "filePath": "test/contracts/revision-bridge-google-docs-evidence-check.contract.test.js",
-      "sha256": "d92ecce7ebf2168445526c8cf7565865ae224cc0ec0a07ef8b60ebcf2eb63de0",
-      "approvedBy": "owner-standing-grant:TASK_ID:GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1",
-      "approvedAtUtc": "2026-08-15T05:25:00.000Z",
-      "rationale": "GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1 approves exact local synthetic Google Docs recovery/replay no-apply evidence binding; no user documents, Google account, network runtime, product mutation, UI/runtime wiring, import/apply authority, Word evidence inheritance, or Google Docs READY claim.",
-      "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_GOOGLE_DOCS_LOCAL_COMPATIBILITY"
-    },
-    {
       "filePath": "test/contracts/rtk-google-docs-local-recovery-replay-contract.contract.test.js",
       "sha256": "4f57b456f8b538881b71a613061c78f91094479256925f8d4e3b4823dfb3c577",
       "approvedBy": "owner-standing-grant:TASK_ID:GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1",
@@ -10927,6 +10846,123 @@
       "rationale": "GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1 approves exact local synthetic Google Docs recovery/replay no-apply evidence binding; no user documents, Google account, network runtime, product mutation, UI/runtime wiring, import/apply authority, Word evidence inheritance, or Google Docs READY claim.",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_GOOGLE_DOCS_LOCAL_COMPATIBILITY"
+    },
+    {
+      "filePath": "docs/OPS/RTK/GOOGLE_BUILD_PROFILE_REGISTRY_V1.json",
+      "sha256": "3ab00ab1ba96b5d0aff0f18b7425350f261782b324c062cbc511c73316875dd4",
+      "approvedBy": "owner:OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Approve exact bounded Google Docs local final compatibility verdict bytes: local synthetic evidence aggregation only, NEEDS_MORE_EVIDENCE, real signed-in Google E2E remains WAIT_AUTHORITY, no support/import/roundtrip/apply/product mutation authority.",
+      "approved": true,
+      "authority": "OWNER_CONTINUATION_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1"
+    },
+    {
+      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1_RECEIPT.json",
+      "sha256": "46dcc36d8a8268303342966c2e9d36a60aa5fecc3aea6b62cf4b5217a8813c6c",
+      "approvedBy": "owner:OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Approve exact bounded Google Docs local final compatibility verdict bytes: local synthetic evidence aggregation only, NEEDS_MORE_EVIDENCE, real signed-in Google E2E remains WAIT_AUTHORITY, no support/import/roundtrip/apply/product mutation authority.",
+      "approved": true,
+      "authority": "OWNER_CONTINUATION_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1"
+    },
+    {
+      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
+      "sha256": "2c595bf5a9f1119020382c59d08cd994a86444dafd1f5c841b91bcc8119f534e",
+      "approvedBy": "owner:OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Approve exact bounded Google Docs local final compatibility verdict bytes: local synthetic evidence aggregation only, NEEDS_MORE_EVIDENCE, real signed-in Google E2E remains WAIT_AUTHORITY, no support/import/roundtrip/apply/product mutation authority.",
+      "approved": true,
+      "authority": "OWNER_CONTINUATION_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1"
+    },
+    {
+      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json",
+      "sha256": "06468980d69f89e24b9a96f9d37111d6c22b6847093c527ca943740a4aeed534",
+      "approvedBy": "owner:OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Approve exact bounded Google Docs local final compatibility verdict bytes: local synthetic evidence aggregation only, NEEDS_MORE_EVIDENCE, real signed-in Google E2E remains WAIT_AUTHORITY, no support/import/roundtrip/apply/product mutation authority.",
+      "approved": true,
+      "authority": "OWNER_CONTINUATION_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1"
+    },
+    {
+      "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
+      "sha256": "18f97ad8ba31daff9999f13b672950e207787a039fb18d6e57233eaf7dda0e96",
+      "approvedBy": "owner:OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Approve exact bounded Google Docs local final compatibility verdict bytes: local synthetic evidence aggregation only, NEEDS_MORE_EVIDENCE, real signed-in Google E2E remains WAIT_AUTHORITY, no support/import/roundtrip/apply/product mutation authority.",
+      "approved": true,
+      "authority": "OWNER_CONTINUATION_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1"
+    },
+    {
+      "filePath": "scripts/ops/rtk-google-docs-g00-discovery-binding.mjs",
+      "sha256": "808e17b0f66e041fc33124af0d7a2890397b0a36661fde909ed9b7e2c3fc944f",
+      "approvedBy": "owner:OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Approve exact bounded Google Docs local final compatibility verdict bytes: local synthetic evidence aggregation only, NEEDS_MORE_EVIDENCE, real signed-in Google E2E remains WAIT_AUTHORITY, no support/import/roundtrip/apply/product mutation authority.",
+      "approved": true,
+      "authority": "OWNER_CONTINUATION_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1"
+    },
+    {
+      "filePath": "scripts/ops/rtk-google-docs-g00-rebind-model.mjs",
+      "sha256": "13fd6c7aa669d899723a475f2e6a96907a83f89e0f28cb6e0dc690cab47e2a7a",
+      "approvedBy": "owner:OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Approve exact bounded Google Docs local final compatibility verdict bytes: local synthetic evidence aggregation only, NEEDS_MORE_EVIDENCE, real signed-in Google E2E remains WAIT_AUTHORITY, no support/import/roundtrip/apply/product mutation authority.",
+      "approved": true,
+      "authority": "OWNER_CONTINUATION_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1"
+    },
+    {
+      "filePath": "scripts/ops/rtk-google-docs-local-final-compatibility-verdict-model.mjs",
+      "sha256": "fb4aecadb13af0c748e0b753405f980aed87284deed3d449393acd415ae16256",
+      "approvedBy": "owner:OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Approve exact bounded Google Docs local final compatibility verdict bytes: local synthetic evidence aggregation only, NEEDS_MORE_EVIDENCE, real signed-in Google E2E remains WAIT_AUTHORITY, no support/import/roundtrip/apply/product mutation authority.",
+      "approved": true,
+      "authority": "OWNER_CONTINUATION_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1"
+    },
+    {
+      "filePath": "scripts/ops/rtk-google-docs-local-final-compatibility-verdict-v1.mjs",
+      "sha256": "14ef535aceba9e23c42bd12c21903e52a8ced19e08020d8c384dba8025f160a7",
+      "approvedBy": "owner:OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Approve exact bounded Google Docs local final compatibility verdict bytes: local synthetic evidence aggregation only, NEEDS_MORE_EVIDENCE, real signed-in Google E2E remains WAIT_AUTHORITY, no support/import/roundtrip/apply/product mutation authority.",
+      "approved": true,
+      "authority": "OWNER_CONTINUATION_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1"
+    },
+    {
+      "filePath": "test/contracts/revision-bridge-google-docs-evidence-check.contract.test.js",
+      "sha256": "fe7001f4478f3d83554c92ee27c98eb588f0b28b4cedef56d51054540af94ef6",
+      "approvedBy": "owner:OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Approve exact bounded Google Docs local final compatibility verdict bytes: local synthetic evidence aggregation only, NEEDS_MORE_EVIDENCE, real signed-in Google E2E remains WAIT_AUTHORITY, no support/import/roundtrip/apply/product mutation authority.",
+      "approved": true,
+      "authority": "OWNER_CONTINUATION_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1"
+    },
+    {
+      "filePath": "test/contracts/rtk-google-docs-g00-discovery-binding.contract.test.js",
+      "sha256": "ba86bff52e4185fdc8d70f0342434ea2f629ef4b4889a67939e9d75e235c31fa",
+      "approvedBy": "owner:OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Approve exact bounded Google Docs local final compatibility verdict bytes: local synthetic evidence aggregation only, NEEDS_MORE_EVIDENCE, real signed-in Google E2E remains WAIT_AUTHORITY, no support/import/roundtrip/apply/product mutation authority.",
+      "approved": true,
+      "authority": "OWNER_CONTINUATION_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1"
+    },
+    {
+      "filePath": "test/contracts/rtk-google-docs-local-final-compatibility-verdict.contract.test.js",
+      "sha256": "9e3fbf4e90383aac289cf54bfc45d091430ce4148da626e0e9dd03080bb97f63",
+      "approvedBy": "owner:OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Approve exact bounded Google Docs local final compatibility verdict bytes: local synthetic evidence aggregation only, NEEDS_MORE_EVIDENCE, real signed-in Google E2E remains WAIT_AUTHORITY, no support/import/roundtrip/apply/product mutation authority.",
+      "approved": true,
+      "authority": "OWNER_CONTINUATION_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1"
+    },
+    {
+      "filePath": "test/contracts/rtk-test-graph-catalog.contract.test.js",
+      "sha256": "4d526c0ead2ee699bcfefa57e27c30e11a89bc9c3241fff549b2638c2f618576",
+      "approvedBy": "owner:OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE",
+      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
+      "rationale": "Approve exact bounded Google Docs local final compatibility verdict bytes: local synthetic evidence aggregation only, NEEDS_MORE_EVIDENCE, real signed-in Google E2E remains WAIT_AUTHORITY, no support/import/roundtrip/apply/product mutation authority.",
+      "approved": true,
+      "authority": "OWNER_CONTINUATION_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1"
     }
   ]
 }

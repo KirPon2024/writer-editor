@@ -14,6 +14,7 @@ const TERMINAL_CLAIM_REGISTRY_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 
 
 const STATUS = 'LOCAL_COMPATIBILITY_REBOUND_NEEDS_REAL_ACCOUNT_E2E';
 const RESULT = 'LOCAL_COMPATIBILITY_NEEDS_MORE_EVIDENCE';
+const FINAL_LOCAL_RESULT = 'LOCAL_COMPATIBILITY_NEEDS_REAL_GOOGLE_E2E';
 const WORD_PROFILE_ID = 'word-mac-16.112-26081010';
 
 function readJson(filePath) {
@@ -58,7 +59,7 @@ test('G00 rebinds Google Docs current reality without inheriting Word 16.112 PAS
   assert.equal(matrix.currentRealityAudit.existingFlow, 'EVIDENCE_CLAIM_GATE_ONLY');
   assert.equal(matrix.currentRealityAudit.identityRevisionFence, 'NOT_ADMITTED_FOR_GOOGLE_RUNTIME');
   assert.equal(matrix.currentRealityAudit.quarantine, 'NOT_WIRED');
-  assert.equal(matrix.currentRealityAudit.localCompatibilityVerdict, RESULT);
+  assert.equal(matrix.currentRealityAudit.localCompatibilityVerdict, FINAL_LOCAL_RESULT);
   assert.equal(matrix.currentRealityAudit.realAccountE2E, 'WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE');
   assert.equal(matrix.currentRealityAudit.roundtripLossMatrix.officeMode, 'ABSTAIN_NO_SIGNED_IN_E2E');
   assert.equal(matrix.currentRealityAudit.roundtripLossMatrix.nativeConversion, 'ABSTAIN_LOSSY_BY_DEFAULT_UNTIL_EVIDENCE');
@@ -70,6 +71,7 @@ test('G00 rebinds Google Docs current reality without inheriting Word 16.112 PAS
   assert.equal(receipt.googleCurrentState.roundtripClaimed, false);
   assert.equal(receipt.googleCurrentState.applyAuthorityClaimed, false);
   assert.equal(receipt.googleCurrentState.googleStageDone, false);
+  assert.equal(receipt.googleCurrentState.localCompatibilityVerdict, FINAL_LOCAL_RESULT);
   assert.equal(receipt.googleCurrentState.realAccountE2E, 'WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE');
 
   assert.equal(googleProfiles.profiles.length, 2);

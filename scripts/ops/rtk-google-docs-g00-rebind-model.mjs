@@ -16,6 +16,7 @@ const EVALUATOR_REF = 'scripts/ops/rtk-google-docs-g00-discovery-binding.mjs';
 
 const STATUS = 'LOCAL_COMPATIBILITY_REBOUND_NEEDS_REAL_ACCOUNT_E2E';
 const RESULT = 'LOCAL_COMPATIBILITY_NEEDS_MORE_EVIDENCE';
+const FINAL_LOCAL_RESULT = 'LOCAL_COMPATIBILITY_NEEDS_REAL_GOOGLE_E2E';
 const REAL_ACCOUNT_E2E = 'WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE';
 const GOOGLE_BLOCKERS = Object.freeze([
   'GOOGLE_PROFILE_DECLARED:google-docs-native-conversion-post-d1-v1',
@@ -73,7 +74,7 @@ function independentOracle({ matrix, receipt, googleProfiles, googleEvidenceStat
     || matrix.existingGoogleTruth?.applyAuthorityClaimed !== false) {
     add('ORACLE_GOOGLE_CLAIM_ESCALATED');
   }
-  if (matrix.currentRealityAudit?.localCompatibilityVerdict !== RESULT
+  if (![RESULT, FINAL_LOCAL_RESULT].includes(matrix.currentRealityAudit?.localCompatibilityVerdict)
     || matrix.currentRealityAudit?.realAdapterExists !== false
     || matrix.currentRealityAudit?.identityRevisionFence !== 'NOT_ADMITTED_FOR_GOOGLE_RUNTIME'
     || matrix.currentRealityAudit?.quarantine !== 'NOT_WIRED'
@@ -91,6 +92,7 @@ function independentOracle({ matrix, receipt, googleProfiles, googleEvidenceStat
     || receipt.googleCurrentState?.physicalGoogleEvidence !== 0
     || receipt.googleCurrentState?.productRuntimeWired !== 0
     || receipt.googleCurrentState?.googleStageDone !== false
+    || ![RESULT, FINAL_LOCAL_RESULT].includes(receipt.googleCurrentState?.localCompatibilityVerdict)
     || receipt.googleCurrentState?.realAccountE2E !== REAL_ACCOUNT_E2E) {
     add('ORACLE_RECEIPT_ESCALATED');
   }

@@ -1,0 +1,242 @@
+{
+  "schemaVersion": "yalken.legacyLocalReleaseCandidateFinalQualification.receipt.v1",
+  "taskId": "LEGACY_LOCAL_RELEASE_CANDIDATE_FINAL_QUALIFICATION_V1",
+  "generatedAtUtc": "2026-08-15T07:21:09Z",
+  "status": "LOCAL_SOFTWARE_RC_QUALIFIED_PENDING_EXTERNAL_PHYSICAL_GATES_RECORDED",
+  "qualifiedBaselineSha": "c60f99346f35eced83930643adee3f3bd20a2bcf",
+  "qualifiedBaselineTreeSha": "719fa1a71694fd48fbcf3dae8abcdd5358a99a75",
+  "localReleaseCandidate": "LOCAL_SOFTWARE_RC_QUALIFIED_PENDING_EXTERNAL_PHYSICAL_GATES",
+  "verdict": "NEEDS_MORE_EVIDENCE",
+  "overallLegacyProgramVerdict": "NEEDS_MORE_EVIDENCE",
+  "claimBoundary": "Honest local/repo release-candidate qualification for the old S0/F1/F2/F3 plus Google Docs local-compatibility program only. This receipt does not claim full release readiness, Google Docs real-account E2E, platform saturation, F3 Disaster Ready, owner-key recovery, off-host restore, exact-byte FINAL_COMPLETE donor replication, or live-project overwrite safety.",
+  "sourceBindings": [
+    {
+      "id": "FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER",
+      "path": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
+      "sha256": "sha256:c4b099d1aa3221ab060303fc4d09ac7607cfa1613049b08723f45ebc90487619",
+      "role": "live traceability ledger with Google local final and physical blockers bound"
+    },
+    {
+      "id": "FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_RECEIPT",
+      "path": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_RECEIPT.json",
+      "sha256": "sha256:36c09df53195c037d5a5f02ab78ca97ffd8f3d1636904432c71cabb5dca8da74",
+      "role": "traceability rebind receipt"
+    },
+    {
+      "id": "YALKEN_S0_REVISION_SOURCE_FENCE_V1",
+      "path": "docs/OPS/STATUS/YALKEN_S0_REVISION_SOURCE_FENCE_V1_RECEIPT.json",
+      "sha256": "sha256:b6fc51443812d2c712fdead0c659948f6ca078abc67bdfa0d1b34a0fdfbd1632",
+      "role": "S0 revision/source-fence seam receipt"
+    },
+    {
+      "id": "F1_MULTILINGUAL_EVIDENCE_V1",
+      "path": "docs/OPS/STATUS/YALKEN_F1_MULTILINGUAL_EVIDENCE_V1_RECEIPT.json",
+      "sha256": "sha256:556a475722ec41d8b4b06d1cb337343cf988dd0f4327f03d4f3013db69f8bb3f",
+      "role": "F1 multilingual evidence receipt"
+    },
+    {
+      "id": "F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1",
+      "path": "docs/OPS/STATUS/YALKEN_F1_SOURCE_SNAPSHOT_AUTHORITY_HARDENING_V1_RECEIPT.json",
+      "sha256": "sha256:e9ad2af381715295bb116a904c156585a6994e954adabdf0ae42e06966c7d18f",
+      "role": "F1 trusted source snapshot authority hardening receipt"
+    },
+    {
+      "id": "WORD_MAC_16_112_PHYSICAL_WAVE300_REPEAT",
+      "path": "docs/OPS/RTK/WORD_MAC_16_112_PHYSICAL_WAVE300_REPEAT_RECEIPT.json",
+      "sha256": "sha256:13d8c070421496341193685628ff9c6deb1e8891e71c642b82b92e8eddad5f4b",
+      "role": "F2 Word 16.112 repeat denominator receipt"
+    },
+    {
+      "id": "WORD_MAC_16_112_TYPED_ADVERSE_SCHEDULES",
+      "path": "docs/OPS/RTK/WORD_MAC_16_112_TYPED_ADVERSE_SCHEDULES_RECEIPT.json",
+      "sha256": "sha256:5225bdf3db7e6a944d2a671cdaada5a9f119cf765f40676fab05a5c2cd8d047f",
+      "role": "F2 Word 16.112 stale/replay/tamper/crash adverse receipt"
+    },
+    {
+      "id": "WORD_MAC_16_112_SATURATION_LIMITATION_AUDIT",
+      "path": "docs/OPS/RTK/WORD_MAC_16_112_SATURATION_LIMITATION_AUDIT_RECEIPT.json",
+      "sha256": "sha256:3e1376a3d323c77455f17005100b2edde319ecb63bceff12133b40132804cc44",
+      "role": "F2 Word 16.112 complete-not-saturated limitation receipt"
+    },
+    {
+      "id": "GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1",
+      "path": "docs/OPS/RTK/GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1_RECEIPT.json",
+      "sha256": "sha256:46dcc36d8a8268303342966c2e9d36a60aa5fecc3aea6b62cf4b5217a8813c6c",
+      "role": "Google Docs local synthetic compatibility verdict receipt"
+    },
+    {
+      "id": "F3_BLACK_BOX_MANUAL_CORE_CAPSULE_KIT_V1",
+      "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_MANUAL_CORE_CAPSULE_KIT_V1_RECEIPT.json",
+      "sha256": "sha256:ace13b64a0b2e114ee3abe97bc017fd52c109bdd50c7c7de2446a1c058b9ec4c",
+      "role": "F3 manual CORE capsule kit local software receipt"
+    }
+  ],
+  "providerBindings": {
+    "word": {
+      "provider": "Microsoft Word for Mac",
+      "version": "16.112",
+      "build": "16.112.26081010",
+      "bundleIdentifier": "com.microsoft.Word",
+      "teamIdentifier": "UBF8T346G9",
+      "profileId": "word-mac-16.112-26081010",
+      "scope": "F2_WORD_ONLY_NON_TRANSFERABLE"
+    },
+    "googleDocs": {
+      "profile": "LOCAL_SYNTHETIC_COMPATIBILITY_ONLY",
+      "realAccountE2E": "WAIT_AUTHORITY_REQUIRED",
+      "oauthCredentialsUsed": false,
+      "networkRuntimeUsed": false,
+      "productMutationAuthority": "DENY",
+      "applyAuthority": "DENY"
+    },
+    "f3AgeProvider": {
+      "provider": "official upstream age CLI",
+      "version": "v1.3.1",
+      "scope": "DISPOSABLE_SYNTHETIC_CAPSULES_ONLY_NON_TRANSFERABLE_TO_OWNER_DRILL"
+    }
+  },
+  "featureVerdicts": {
+    "S0": {
+      "verdict": "READY",
+      "claimScope": "minimal revision observation/source-fence seam only"
+    },
+    "F1_MULTILINGUAL": {
+      "verdict": "READY",
+      "claimScope": "read-only multilingual evidence contour with trusted snapshot binding"
+    },
+    "F2_WORD_16_112": {
+      "verdict": "READY",
+      "claimScope": "Microsoft Word for Mac 16.112 build 16.112.26081010 only; complete-not-saturated, non-transferable to Google Docs or other platforms"
+    },
+    "GOOGLE_DOCS_LOCAL_COMPATIBILITY": {
+      "verdict": "NEEDS_MORE_EVIDENCE",
+      "claimScope": "local synthetic compatibility/quarantine/no-apply evidence only"
+    },
+    "GOOGLE_DOCS_REAL_ACCOUNT_E2E": {
+      "verdict": "WAIT_AUTHORITY",
+      "claimScope": "requires explicit Google account/OAuth/network E2E authority and disposable synthetic account/session"
+    },
+    "F3_LOCAL_SOFTWARE": {
+      "verdict": "LOCAL_SOFTWARE_READY_FOR_PHYSICAL_GATES",
+      "claimScope": "local P0A/P0B/P0C/manual kit/import-as-new software seams only"
+    },
+    "F3_PHYSICAL_OWNER_OFF_HOST": {
+      "verdict": "NEEDS_MORE_EVIDENCE",
+      "claimScope": "real owner-key drill, removable off-host restore, exact-byte FINAL_COMPLETE donor replication, project-library decision, and no-live-overwrite proof remain unproven"
+    }
+  },
+  "denominators": {
+    "featureVerdictRows": {
+      "completed": 7,
+      "required": 7
+    },
+    "googleDocsLocalContours": {
+      "completed": 7,
+      "required": 7
+    },
+    "googleDocsRealAccountE2E": {
+      "completed": 0,
+      "required": 1
+    },
+    "f3PhysicalOwnerOffHostGates": {
+      "completed": 0,
+      "required": 5
+    },
+    "unknownAbstainPassAdmissions": 0,
+    "userDocumentsUsed": 0,
+    "productRuntimeChangesInThisContour": 0,
+    "fullReleaseReadyClaims": 0,
+    "platformSaturationClaims": 0
+  },
+  "releaseClaims": {
+    "fullReleaseReady": false,
+    "platformSaturationClaimed": false,
+    "googleDocsSupportClaimed": false,
+    "wordEvidenceTransferredToGoogleDocs": false,
+    "f3DisasterReadyClaimed": false
+  },
+  "openBlockers": [
+    {
+      "blockerId": "GOOGLE_DOCS_REAL_ACCOUNT_E2E_AUTHORITY_REQUIRED",
+      "status": "WAIT_AUTHORITY",
+      "ownerActionRequired": "Provide explicit Google account/OAuth/network E2E authority and disposable synthetic account/session.",
+      "acceptanceGate": "Signed-in Google Docs provider E2E on disposable synthetic fixtures with no user documents, no silent loss, and no automatic apply authority."
+    },
+    {
+      "blockerId": "F3_REAL_OWNER_KEY_RECOVERY_DRILL_REQUIRED",
+      "status": "DEFERRED_WITH_BLOCKER",
+      "ownerActionRequired": "Run a real owner-key recovery drill separate from per-build audit decryption.",
+      "acceptanceGate": "Recover a disposable but owner-key-bound CORE capsule using the owner recovery material without exposing keys in logs or receipts."
+    },
+    {
+      "blockerId": "F3_OFF_HOST_REMOVABLE_MEDIA_RESTORE_REQUIRED",
+      "status": "DEFERRED_WITH_BLOCKER",
+      "ownerActionRequired": "Provide an offline off-host removable-media restore environment.",
+      "acceptanceGate": "Independent restore from removable media with fresh rereads and detached/off-host evidence."
+    },
+    {
+      "blockerId": "F3_FINAL_COMPLETE_DONOR_EXACT_BYTE_REPLICATION_REQUIRED",
+      "status": "DEFERRED_WITH_BLOCKER",
+      "ownerActionRequired": "Provide or designate a verified FINAL_COMPLETE donor package for exact-byte replication proof.",
+      "acceptanceGate": "Exact-byte replication from verified FINAL_COMPLETE donor and independent restored-readback digest match."
+    },
+    {
+      "blockerId": "F3_PROJECT_LIBRARY_DECISION_REQUIRED",
+      "status": "DEFERRED_WITH_BLOCKER",
+      "ownerActionRequired": "Decide whether restored/imported Black Box artifacts enter a project library/catalog product surface.",
+      "acceptanceGate": "One owner-selected product behavior with migration, rollback, UI/fallback and no-loss semantics."
+    },
+    {
+      "blockerId": "F3_NO_LIVE_PROJECT_OVERWRITE_PHYSICAL_PROOF_REQUIRED",
+      "status": "DEFERRED_WITH_BLOCKER",
+      "ownerActionRequired": "Run physical recovery/import proof that never overwrites a live project.",
+      "acceptanceGate": "Import-as-new only, explicit quarantine/preview/apply boundary, and no live-project overwrite under replay/transplant/stale/corrupt inputs."
+    }
+  ],
+  "qualificationEvidence": {
+    "traceabilityRebindPostmerge": {
+      "mergeSha": "c60f99346f35eced83930643adee3f3bd20a2bcf",
+      "rtkRequired": "PASS_951_OF_951_0_FAIL_0_SKIP_0_TODO",
+      "devFast": "PASS_28_OF_28",
+      "guardrails": "PASS",
+      "ossPolicy": "PASS"
+    },
+    "thisContour": {
+      "redFirst": "RECORDED_FAIL_4_OF_4_MISSING_VERIFIER_RECEIPT",
+      "firstFullRtkAttempt": "FAIL_824_OF_951_DUE_TO_FRESH_WORKTREE_MISSING_ELECTRON_AND_UNCOMMITTED_CLEAN_HEAD_ALLOWLIST_NOT_PRODUCT_RUNTIME_FAILURE",
+      "focused": "PASS_4_OF_4_0_FAIL_0_SKIP_0_TODO",
+      "affectedTraceabilityGoogle": "PASS_12_OF_12_0_FAIL_0_SKIP_0_TODO",
+      "affectedS0F1F3": "PASS_83_OF_83_0_FAIL_0_SKIP_0_TODO",
+      "modelOracleMutations": {
+        "sourceFence": "PASS_192_FINITE_20_HOSTILE_9_MUTANTS_0_SURVIVORS",
+        "multilingualEvidence": "PASS_24_FINITE_18_HOSTILE_15_MUTANTS_0_SURVIVORS",
+        "googleDocsLocalFinal": "PASS_1_FINITE_40_HOSTILE_28_MUTANTS_0_SURVIVORS",
+        "blackBoxP0A": "PASS_32_FINITE_18_HOSTILE_12_MUTANTS_0_SURVIVORS",
+        "blackBoxP0B": "PASS_65_FINITE_18_HOSTILE_12_MUTANTS_0_SURVIVORS",
+        "blackBoxP0C": "PASS_64_FINITE_26_HOSTILE_19_MUTANTS_0_SURVIVORS",
+        "blackBoxTrustedSourceSnapshot": "PASS_48_FINITE_18_HOSTILE_12_MUTANTS_0_SURVIVORS",
+        "blackBoxManualCoreCapsuleKit": "PASS_48_FINITE_16_HOSTILE_12_MUTANTS_0_SURVIVORS",
+        "blackBoxProductCommandExportManualCore": "PASS_58_FINITE_35_HOSTILE_31_MUTANTS_0_SURVIVORS",
+        "blackBoxImportAsNewRecoveryPlan": "PASS_36_FINITE_14_HOSTILE_10_MUTANTS_0_SURVIVORS",
+        "blackBoxImportAsNewProjectWriter": "PASS_24_FINITE_16_HOSTILE_12_MUTANTS_0_SURVIVORS",
+        "blackBoxSyntheticIndependentRestoreDrill": "PASS_36_FINITE_18_HOSTILE_12_MUTANTS_0_SURVIVORS"
+      },
+      "fullRtk": "PASS_951_OF_951_0_FAIL_0_SKIP_0_TODO_CLEAN_HEAD_AFTER_NPM_CI",
+      "devFast": "PASS_28_OF_28",
+      "guardrails": "PASS",
+      "ossPolicy": "PASS",
+      "deterministicReplay": "PASS_2_OF_2"
+    }
+  },
+  "rollback": {
+    "type": "REVERT_BOUNDED_PR",
+    "productDataMigrationRequired": false,
+    "productRuntimeRollbackRequired": false,
+    "files": [
+      "LEGACY_LOCAL_RELEASE_CANDIDATE_FINAL_QUALIFICATION_V1_RECEIPT.json",
+      "legacy-local-release-candidate-final-qualification-v1.mjs",
+      "legacy-local-release-candidate-final-qualification-v1.contract.test.js",
+      "GOVERNANCE_CHANGE_APPROVALS.json"
+    ]
+  }
+}

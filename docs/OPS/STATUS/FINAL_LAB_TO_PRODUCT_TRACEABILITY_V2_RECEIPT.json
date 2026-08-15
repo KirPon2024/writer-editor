@@ -1,52 +1,53 @@
 {
   "schemaVersion": "yalken.finalLabToProductTraceability.receipt.v2",
-  "taskId": "PROGRAM_FINAL_TRACEABILITY_VERDICT_REBIND_V1",
-  "createdAtUtc": "2026-08-15T01:47:17Z",
-  "status": "FINAL_PROGRAM_VERDICT_RECORDED_NEEDS_MORE_EVIDENCE_WITH_F3_ARCHITECTURE_MANIFEST_HARDENING_MERGED_POSTMERGE_VERIFIED_AND_STALE_DELIVERY_MARKERS_FAIL_CLOSED",
+  "taskId": "LEGACY_LOCAL_RELEASE_CANDIDATE_TRACEABILITY_REBIND_V1",
+  "createdAtUtc": "2026-08-15T09:55:00Z",
+  "status": "LEGACY_LOCAL_RELEASE_CANDIDATE_TRACEABILITY_REBIND_RECORDED_NEEDS_MORE_EVIDENCE_WITH_GOOGLE_LOCAL_FINAL_AND_F3_PHYSICAL_BLOCKERS_BOUND",
   "verdict": "NEEDS_MORE_EVIDENCE",
   "baseline": {
-    "headSha": "ba62fb9fb4d1646ced37542b75370ec0226e1079",
-    "treeSha": "674138dfd1230c8235edc464150566f096814313",
-    "candidateCommitSha": "d8cb13ad64b16ee09b94e7931e01cc5c69fa2386",
-    "featureCommitSha": "f8ce349fc3d33bbdd45d0cab903a03fdae6e74ce",
-    "branch": "codex/yalken-f3-architecture-manifest-postmerge-rebind-v1",
-    "previousPrNumber": 1552,
-    "previousMergeCommitSha": "ba62fb9fb4d1646ced37542b75370ec0226e1079"
+    "headSha": "0fa20906911b5ed410e058bc8264408bdf9b884b",
+    "treeSha": "1ed3b54599f44b7891ebe440bb079332f9f95e45",
+    "previousTraceabilityExactHead": "ba62fb9fb4d1646ced37542b75370ec0226e1079",
+    "previousTraceabilityReceiptSha256": "83b57c7545c9210102ab5f23380ca4ff96062e218469e5c6d9ae82c1caa6a143",
+    "googleDocsLocalFinalMergeSha": "0fa20906911b5ed410e058bc8264408bdf9b884b",
+    "googleDocsLocalFinalPrNumber": 1561
   },
   "scope": {
     "productRuntimeChanged": false,
     "uiChanged": false,
     "wordAutomationRun": false,
+    "googleAccountUsed": false,
+    "googleNetworkRuntimeChanged": false,
     "userDocumentsTouched": false,
     "sealedSourcePackagesModified": false,
     "dependenciesChanged": false,
     "changedFiles": [
-      "src/product/blackBoxProductCommandExportManualCoreV1.mjs",
-      "test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
-      "scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs",
       "scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
-      "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
+      "test/contracts/final-lab-to-product-traceability-v2.contract.test.js",
       "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
       "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_RECEIPT.json",
       "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
     ]
   },
   "redFirst": {
-    "command": "node inline invariant plus patched final-lab-to-product-traceability-v2 verifier over current ledger",
+    "command": "node --test test/contracts/final-lab-to-product-traceability-v2.contract.test.js",
     "result": "RED_EXPECTED",
-    "tests": 3,
+    "tests": 4,
     "pass": 1,
-    "fail": 2,
+    "fail": 3,
     "skip": 0,
     "todo": 0,
-    "verifierError": "exactHead:INVALID, materialDispositions:F3_BLACK_BOX_ARCHITECTURE_MANIFEST_HARDENING_V1:STALE_POSTMERGE_DELIVERY_STATE and stale structured delivery markers accepted before this repair",
-    "rootCause": "Merged/postmerge-verified F3 rows had enough productBindings evidence, but structured local delivery fields could still contain stale delivery markers and the verifier did not reject all of them."
+    "failures": [
+      "previous ledger exactHead ba62fb9fb4d1646ced37542b75370ec0226e1079 was stale relative to Google final baseline 0fa20906911b5ed410e058bc8264408bdf9b884b",
+      "F2_GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1 row missing",
+      "F2_GOOGLE_DOCS_REAL_ACCOUNT_E2E_AUTHORITY_BOUNDARY row missing and hostile missing-row mutation survived"
+    ]
   },
   "focusedProof": {
     "contractTest": {
       "command": "node --test test/contracts/final-lab-to-product-traceability-v2.contract.test.js",
-      "tests": 3,
-      "pass": 3,
+      "tests": 4,
+      "pass": 4,
       "fail": 0,
       "skip": 0,
       "todo": 0
@@ -54,173 +55,69 @@
     "verifier": {
       "command": "node scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
       "ok": true,
-      "materialDispositions": 41,
+      "materialDispositions": 43,
       "externalPins": 3,
       "errors": 0,
-      "exactHead": "ba62fb9fb4d1646ced37542b75370ec0226e1079"
-    }
-  },
-  "requiredPins": {
-    "MULTILINGUAL_V4_INPUT_EXTERNAL_RECEIPT": "sha256:bebdc6ba2ec3b9bb991593d6081c1b16a441a26076710edf1814d0d950dad132",
-    "ROUND_AUTHORITY_INPUT_EXTERNAL_RECEIPT": "sha256:f54ba18e8ad7d3a6109b4b7b24aa4780391d81a915d6192e1f18785325a27de6",
-    "BLACK_BOX_FINAL_LAB_EXTERNAL_RECEIPT": "sha256:c6179e59d57ea7ddea0802769619390a274c1bb22c39ae45a1540f8f7f3be863"
-  },
-  "hostileMutationProof": {
-    "mutations": 14,
-    "survivors": 0,
-    "rejectedClasses": [
-      "UNMAPPED disposition",
-      "missing required external pin",
-      "receipt hash mismatch",
-      "lab evidence promoted to product binding",
-      "phase sequence drift",
-      "adopted/gate entry without product binding",
-      "duplicate material id",
-      "final integrated claim while deferred/lab-only remains",
-      "final READY verdict while deferred/lab-only remains",
-      "stale F3 UI local-candidate blocker text",
-      "historical Word 16.111.3 evidence transfer",
-      "stale F3 architecture manifest PR-candidate delivery state",
-      "stale runtime source revision local delivery state",
-      "stale bound receipt delivery state"
-    ]
-  },
-  "deliveryGateEvidence": {
-    "governanceChangeDetection": {
-      "command": "node scripts/ops/governance-change-detection.mjs --json --approvals-path docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json",
-      "result": "PASS",
-      "changedGovernanceFiles": 7,
-      "missingApprovals": 0,
-      "approvalRegistryValid": true
+      "exactHead": "0fa20906911b5ed410e058bc8264408bdf9b884b"
     },
-    "devFast": {
-      "command": "REMOTE_BINDING_OK=1 PRE_UI_OPS_CONTOUR_CLOSED_OK=1 npm run dev:fast",
-      "result": "PASS",
-      "tests": 28,
-      "pass": 28,
-      "fail": 0,
-      "skip": 0,
-      "todo": 0
-    },
-    "guardrails": {
-      "command": "npm run agent:guardrails",
-      "result": "PASS"
-    },
-    "deterministicReplay": {
-      "runs": 2,
-      "verifierOutputSha256": [
-        "b23dcaf1a28d0dbf802f7faf5d36325a2e8927fe028383015a84629c97fcd071",
-        "b23dcaf1a28d0dbf802f7faf5d36325a2e8927fe028383015a84629c97fcd071"
-      ],
-      "governanceOutputSha256": [
-        "ea55cba4342aaabbe2cb05e220cbb9f0d2a76a3e4b0b9fa089cd3ba80df1f7fd",
-        "ea55cba4342aaabbe2cb05e220cbb9f0d2a76a3e4b0b9fa089cd3ba80df1f7fd"
-      ],
-      "verifierOutputIdentical": true,
-      "governanceOutputIdentical": true,
-      "tapOutputDiffersOnlyByRuntimeDurations": true
-    },
-    "baseline": {
-      "command": "npm run -s test:rtk",
-      "result": "PASS",
-      "tests": 923,
-      "pass": 923,
-      "fail": 0,
-      "skip": 0,
-      "todo": 0,
-      "candidateCommitSha": "d8cb13ad64b16ee09b94e7931e01cc5c69fa2386"
-    },
-    "requiredCi": {
-      "prNumber": 1552,
-      "result": "PASS",
-      "checks": [
-        "oss-policy",
-        "rtk-required",
-        "x1-runtime-parity (ubuntu-latest)",
-        "x1-runtime-parity (windows-latest)"
+    "hostileMutationProof": {
+      "mutations": 18,
+      "survivors": 0,
+      "rejectedClasses": [
+        "UNMAPPED disposition",
+        "missing required external pin",
+        "receipt hash mismatch",
+        "lab evidence promoted to product binding",
+        "phase sequence drift",
+        "adopted/gate entry without product binding",
+        "duplicate material id",
+        "final integrated claim while deferred/lab-only remains",
+        "final READY verdict while deferred/lab-only remains",
+        "stale F3 UI local-candidate blocker text",
+        "historical Word 16.111.3 evidence transfer",
+        "stale F3 architecture manifest PR-candidate delivery state",
+        "stale runtime source revision local delivery state",
+        "stale bound receipt delivery state",
+        "missing Google local final row",
+        "Google local compatibility READY laundering",
+        "Google real E2E product-binding laundering",
+        "final release READY over Google/F3 blockers"
       ]
-    },
-    "merge": {
-      "result": "PASS",
-      "mergeCommitSha": "ba62fb9fb4d1646ced37542b75370ec0226e1079",
-      "mergeTreeSha": "674138dfd1230c8235edc464150566f096814313"
-    },
-    "postmergeExactHead": {
-      "result": "PASS",
-      "headSha": "ba62fb9fb4d1646ced37542b75370ec0226e1079",
-      "treeSha": "674138dfd1230c8235edc464150566f096814313",
-      "bootstrap": "PASS",
-      "focusedContracts": "15/15",
-      "productCommandModel": "58 finite, 35 hostile, 31 mutants, 0 survivors",
-      "traceabilityVerifier": "PASS 41 rows/3 pins/errors 0",
-      "governance": "PASS changed files 0 missing approvals 0",
-      "devFast": "28/28",
-      "guardrails": "PASS",
-      "fullRtk": "923/923 pass, 0 fail, 0 skip, 0 todo"
     }
   },
-  "ledgerSummary": {
-    "materialDispositions": 41,
+  "denominators": {
+    "materialDispositions": 43,
     "externalPins": 3,
-    "programPhaseSequence": [
-      "S0",
-      "F1",
-      "F2",
-      "F0R_T0",
-      "F3"
-    ],
-    "claimControls": {
-      "allLabWorkIntegratedClaimAllowed": false,
-      "finalProgramVerdict": "NEEDS_MORE_EVIDENCE"
-    },
-    "dispositionCounts": {
-      "ADOPTED_PRODUCT": 1,
-      "REJECTED_UNSAFE": 1,
-      "LAB_EVIDENCE_ONLY": 4,
-      "ADAPTED_PRODUCT": 9,
-      "ENFORCED_TEST_GATE": 23,
-      "SUPERSEDED_WITH_REASON": 1,
-      "DEFERRED_WITH_BLOCKER": 2
-    }
+    "googleLocalContoursIncluded": 7,
+    "googleRealE2ECompleted": 0,
+    "f3PhysicalOwnerOffHostGatesCompleted": 0
+  },
+  "dispositionCounts": {
+    "ADOPTED_PRODUCT": 1,
+    "REJECTED_UNSAFE": 1,
+    "LAB_EVIDENCE_ONLY": 4,
+    "ADAPTED_PRODUCT": 9,
+    "ENFORCED_TEST_GATE": 24,
+    "SUPERSEDED_WITH_REASON": 1,
+    "DEFERRED_WITH_BLOCKER": 3
+  },
+  "blockerSummary": {
+    "googleDocsRealAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE",
+    "f3OwnerKeyRecoveryDrill": "NEEDS_MORE_EVIDENCE_PHYSICAL_OWNER_GATE",
+    "f3IndependentOffHostRestore": "NEEDS_MORE_EVIDENCE_PHYSICAL_OFF_HOST_GATE",
+    "f3FinalCompleteDonorReplication": "NEEDS_MORE_EVIDENCE_EXACT_DONOR_GATE",
+    "f3ProjectLibraryDecision": "NEEDS_MORE_EVIDENCE_PRODUCT_DECISION_IF_REQUIRED",
+    "f3NoLiveProjectOverwritePhysicalProof": "NEEDS_MORE_EVIDENCE_PHYSICAL_OWNER_GATE"
   },
   "artifactSha256": {
-    "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json": "402d81e6a7109e9ea54fe45379e3f4d604c4ec61f74a429667fa72717d166a26",
-    "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json": "5d2b583ef2e02fead59584dfb9e160a9c4cc89ed8e1c28ecfa7dda4d5c55ac04",
-    "scripts/ops/final-lab-to-product-traceability-v2-verify.mjs": "ae8bd325a013c07907064e39198085a64fe68749a7587478f51e9301a6f32e9b",
-    "test/contracts/final-lab-to-product-traceability-v2.contract.test.js": "bf8ba40774e960bbd515923264821b8dd7b09f6b2f0ce18448a67ec4f6a72453",
-    "src/product/blackBoxProductCommandExportManualCoreV1.mjs": "4d270f42603ffacb8372da343eb40eb2e1b1f81ffc923275b1cc9e39f7187e17",
-    "test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js": "7f4d0ca7c93a1c9e2f690eaa9bbe73bd3e02b9bd1ccf95312c96332f57367ab0",
-    "scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs": "421f8f718fc0da4e8c9db8fb270b187428196685b4cdc6e8e84429d7154a953a"
+    "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json": "c4b099d1aa3221ab060303fc4d09ac7607cfa1613049b08723f45ebc90487619",
+    "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_RECEIPT.json": "SELF_HASH_NOT_EMBEDDED",
+    "docs/OPS/RTK/GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1_RECEIPT.json": "46dcc36d8a8268303342966c2e9d36a60aa5fecc3aea6b62cf4b5217a8813c6c",
+    "scripts/ops/final-lab-to-product-traceability-v2-verify.mjs": "e540c3bf1a17bed263e54bf2b4c2dae1e18e9c73888b486539642a8f7809d7db",
+    "test/contracts/final-lab-to-product-traceability-v2.contract.test.js": "55f0e6f54d2bcebb3fdbde9ec119452a3066300e265efbd384e3f57a8e03c087"
   },
-  "observedLocalDeliveryGates": [
-    "red-first manifest missing field 11/12",
-    "red-first traceability exactHead/material row 0/3",
-    "focused product command contract 12/12",
-    "product command model 58 finite, 35 hostile, 31 mutants, 0 survivors",
-    "affected contracts 98/98",
-    "affected models all 0 survivors",
-    "traceability contract 3/3 and verifier PASS 41 rows/3 pins",
-    "governance change detection PASS missing approvals 0",
-    "dev:fast 28/28",
-    "agent:guardrails PASS",
-    "clean candidate commit f8ce349fc3d33bbdd45d0cab903a03fdae6e74ce",
-    "full RTK 923/923 pass, 0 fail, 0 skip, 0 todo",
-    "push PASS origin/codex/yalken-f3-black-box-architecture-manifest-hardening-v1",
-    "PR #1552 OPEN",
-    "PR #1552 required CI all SUCCESS",
-    "PR #1552 merged at ba62fb9fb4d1646ced37542b75370ec0226e1079",
-    "postmerge exact-head focused 15/15",
-    "postmerge full RTK 923/923 pass, 0 fail, 0 skip, 0 todo",
-    "stale architecture manifest PR-candidate wording now rejected fail-closed",
-    "stale runtime source revision delivery marker now rejected fail-closed",
-    "stale F3 product receipt delivery marker now rejected fail-closed"
-  ],
-  "pendingDeliveryGates": [
-    "NO_LOCAL_DELIVERY_GATES_PENDING_FOR_F3_BLACK_BOX_ARCHITECTURE_MANIFEST_POSTMERGE_REBIND_V1",
-    "F3_PRODUCT_V1_PHYSICAL_OWNER_KEY_OFF_HOST_FINAL_COMPLETE_DONOR_PROJECT_LIBRARY_NO_LIVE_OVERWRITE_GATES_REMAIN_PRODUCT_BLOCKERS_NOT_DELIVERY_GATES"
-  ],
   "rollback": {
-    "plan": "Revert the single traceability verdict rebind PR. No product runtime, UI, dependency, Word provider, sealed package, user document, or canonical project data change is introduced.",
+    "plan": "Revert the single OPS traceability rebind PR. No product runtime, UI, dependency, provider, sealed package, user document, or canonical project data change is introduced.",
     "finalProgramClaim": "NEEDS_MORE_EVIDENCE_NOT_READY"
   }
 }

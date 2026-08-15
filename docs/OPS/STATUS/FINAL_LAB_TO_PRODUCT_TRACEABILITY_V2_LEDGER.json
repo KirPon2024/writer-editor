@@ -3,8 +3,8 @@
   "documentClass": "FACTUAL_STATUS",
   "status": "LIVING_LEDGER_CURRENT_FINAL_PROGRAM_VERDICT_NEEDS_MORE_EVIDENCE",
   "claimBoundary": "Maps material lab findings and post-20260811 program deltas to typed product dispositions. This ledger is not product/runtime authority, does not modify frozen source packages, and does not claim all lab work is integrated.",
-  "generatedAtUtc": "2026-08-15T01:05:00Z",
-  "exactHead": "ba62fb9fb4d1646ced37542b75370ec0226e1079",
+  "generatedAtUtc": "2026-08-15T09:55:00Z",
+  "exactHead": "0fa20906911b5ed410e058bc8264408bdf9b884b",
   "programPhaseSequence": [
     "S0",
     "F1",
@@ -15,7 +15,7 @@
   "claimControls": {
     "allLabWorkIntegratedClaimAllowed": false,
     "finalProgramVerdict": "NEEDS_MORE_EVIDENCE",
-    "reason": "S0, F1, F2 and F0R/T0 are closed by exact product/test evidence recorded below, Google Docs remains local quarantine only, and F3 has merged/postmerge software seams including architecture manifest hardening at PR #1552 merge ba62fb9fb4d1646ced37542b75370ec0226e1079. Full Black Box Product V1 remains honestly deferred because real owner-key recovery, independent off-host restore, exact-byte FINAL_COMPLETE donor replication and any project-library registration choice are not product-proven in this repo head."
+    "reason": "S0, F1, F2 Word 16.112, F0R/T0 and F3 local software seams are recorded with exact bounded evidence; Google Docs local compatibility is now rebound as local-only NEEDS_MORE_EVIDENCE after PR #1561 merge 0fa20906911b5ed410e058bc8264408bdf9b884b, with real signed-in Google Docs E2E held at explicit WAIT_AUTHORITY. Full Black Box Product V1 remains honestly deferred because real owner-key recovery, independent off-host restore, exact-byte FINAL_COMPLETE donor replication, project-library registration choice if required, and physical proof no live-project overwrite are not product-proven in this repo head."
   },
   "sourcePackagePolicy": {
     "sealedPackagesImmutable": true,
@@ -557,6 +557,92 @@
           }
         }
       ]
+    },
+    {
+      "materialId": "F2_GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1",
+      "programPhase": "F2",
+      "summary": "Google Docs local compatibility profile is rebound as local-only synthetic evidence: seven repo-native contours are included, support/import/roundtrip/apply/product mutation claims remain denied, and real signed-in Google Docs provider E2E is explicitly not executed or inherited from Word.",
+      "sourcePins": [
+        "ROUND_AUTHORITY_INPUT_EXTERNAL_RECEIPT"
+      ],
+      "disposition": "ENFORCED_TEST_GATE",
+      "post20260811Delta": true,
+      "localCompatibilityVerdict": "LOCAL_COMPATIBILITY_NEEDS_REAL_GOOGLE_E2E",
+      "realGoogleE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE",
+      "productSupportClaim": "DENY",
+      "productMutationAuthority": "DENY",
+      "denominators": {
+        "requiredLocalContours": 7,
+        "includedLocalContours": 7,
+        "realGoogleE2ERequired": 1,
+        "realGoogleE2ECompleted": 0,
+        "supportClaims": 0,
+        "importClaims": 0,
+        "roundtripClaims": 0,
+        "applyAdmissions": 0,
+        "productMutations": 0
+      },
+      "productBindings": [
+        {
+          "commitSha": "0fa20906911b5ed410e058bc8264408bdf9b884b",
+          "featureCommitSha": "6aba1d9b22906cc02e5002a022e7a8ce41f63416",
+          "prNumber": 1561,
+          "files": [
+            "scripts/ops/rtk-google-docs-local-final-compatibility-verdict-v1.mjs",
+            "scripts/ops/rtk-google-docs-local-final-compatibility-verdict-model.mjs",
+            "test/contracts/rtk-google-docs-local-final-compatibility-verdict.contract.test.js",
+            "docs/OPS/RTK/GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1_RECEIPT.json",
+            "docs/OPS/RTK/GOOGLE_BUILD_PROFILE_REGISTRY_V1.json",
+            "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
+            "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json",
+            "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
+            "scripts/ops/rtk-google-docs-g00-discovery-binding.mjs",
+            "scripts/ops/rtk-google-docs-g00-rebind-model.mjs",
+            "test/contracts/revision-bridge-google-docs-evidence-check.contract.test.js",
+            "test/contracts/rtk-google-docs-g00-discovery-binding.contract.test.js",
+            "test/contracts/rtk-test-graph-catalog.contract.test.js",
+            "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+          ],
+          "tests": [
+            "node --test test/contracts/rtk-google-docs-local-final-compatibility-verdict.contract.test.js",
+            "node scripts/ops/rtk-google-docs-local-final-compatibility-verdict-v1.mjs --check",
+            "node scripts/ops/rtk-google-docs-local-final-compatibility-verdict-model.mjs",
+            "node --test affected Google registry/catalog contracts 75/75",
+            "node scripts/ops/governance-change-detection.mjs --json --approvals-path docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json",
+            "REMOTE_BINDING_OK=1 PRE_UI_OPS_CONTOUR_CLOSED_OK=1 npm run dev:fast",
+            "npm run agent:guardrails",
+            "npm run oss:policy",
+            "npm run -s test:rtk",
+            "PR #1561 required CI all SUCCESS: oss-policy, rtk-required, x1-runtime-parity ubuntu-latest, x1-runtime-parity windows-latest",
+            "postmerge exact-head verification on 0fa20906911b5ed410e058bc8264408bdf9b884b: bootstrap PASS, focused PASS, model 0 survivors, governance PASS, dev:fast 28/28, guardrails PASS, oss PASS, full RTK 951/951"
+          ],
+          "receipt": {
+            "path": "docs/OPS/RTK/GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1_RECEIPT.json",
+            "sha256": "46dcc36d8a8268303342966c2e9d36a60aa5fecc3aea6b62cf4b5217a8813c6c"
+          }
+        }
+      ],
+      "limitations": [
+        "REAL_GOOGLE_ACCOUNT_E2E_NOT_AUTHORIZED_OR_EXECUTED",
+        "GOOGLE_WEB_CLIENT_BUILD_NOT_PINNED",
+        "OFFICE_MODE_AND_NATIVE_CONVERSION_REMAIN_DECLARED_ONLY",
+        "FORMAT_STRUCTURE_COMMENTS_SUGGESTIONS_IDS_MEDIA_REMAIN_TYPED_LIMITATIONS_WITHOUT_REAL_PROVIDER_E2E"
+      ]
+    },
+    {
+      "materialId": "F2_GOOGLE_DOCS_REAL_ACCOUNT_E2E_AUTHORITY_BOUNDARY",
+      "programPhase": "F2",
+      "summary": "Real signed-in Google Docs provider E2E remains unexecuted and cannot be inferred from local synthetic fixtures or Word 16.112 evidence.",
+      "sourcePins": [
+        "ROUND_AUTHORITY_INPUT_EXTERNAL_RECEIPT"
+      ],
+      "disposition": "DEFERRED_WITH_BLOCKER",
+      "post20260811Delta": true,
+      "deferred": {
+        "prerequisite": "Explicit Google account/OAuth/network E2E authority and a disposable synthetic account/session, with no user documents and no product-network runtime dependency.",
+        "owner": "MASTER_PROGRAM_OWNER_GOOGLE_ACCOUNT_NETWORK_AUTHORITY",
+        "acceptanceGate": "Signed-in Google Docs provider E2E on disposable synthetic fixtures covering open/export/import/roundtrip evidence and hostile malformed/stale/transplant/replay/corruption negatives; unsupported capabilities must remain typed limitation or ABSTAIN, never silent PASS."
+      }
     },
     {
       "materialId": "F0R_T0_ROUND_AUTHORITY_PRODUCTIZATION",
@@ -1638,7 +1724,7 @@
     {
       "materialId": "PROGRAM_FINAL_HASH_BOUND_TRACEABILITY_RECEIPT",
       "programPhase": "F3",
-      "summary": "Final hash-bound program traceability receipt records an honest NEEDS_MORE_EVIDENCE verdict only after S0/F1/F2/F0R-T0/F3 are independently closed or explicitly deferred with exact blockers.",
+      "summary": "Final hash-bound program traceability receipt records an honest local release-candidate NEEDS_MORE_EVIDENCE verdict after S0/F1/F2 Word/F0R-T0/F3 software seams and Google Docs local compatibility are independently closed or explicitly deferred with exact blockers.",
       "sourcePins": [
         "MULTILINGUAL_V4_INPUT_EXTERNAL_RECEIPT",
         "ROUND_AUTHORITY_INPUT_EXTERNAL_RECEIPT",
@@ -1646,9 +1732,9 @@
       ],
       "disposition": "DEFERRED_WITH_BLOCKER",
       "deferred": {
-        "prerequisite": "Program READY remains blocked until F3_BLACK_BOX_PRODUCT_V1 blockers close. Current final-program receipt may record NEEDS_MORE_EVIDENCE with exact blockers, but must not claim all lab work integrated or full Black Box Product V1 readiness.",
+        "prerequisite": "Program READY remains blocked until F3_BLACK_BOX_PRODUCT_V1 blockers and real Google Docs account/provider E2E authority boundary close. Current final-program receipt may record a local release candidate with NEEDS_MORE_EVIDENCE and exact blockers, but must not claim all lab work integrated, real Google Docs support, or full Black Box Product V1 readiness.",
         "owner": "MASTER_PROGRAM_OWNER",
-        "acceptanceGate": "For READY: a final receipt whose hash is externally supplied/verified and whose ledger has no UNMAPPED material findings, no unresolved product blockers and no lab-only evidence promoted to product authority. For NEEDS_MORE_EVIDENCE: exact blocker rows, verifier PASS, governance PASS and no stale local-candidate/pending delivery claims."
+        "acceptanceGate": "For READY: a final receipt whose hash is externally supplied/verified and whose ledger has no UNMAPPED material findings, no unresolved Google real-account or F3 physical/product blockers, and no lab-only evidence promoted to product authority. For NEEDS_MORE_EVIDENCE local release candidate: exact blocker rows, verifier PASS, governance PASS and no stale local-candidate/pending delivery claims."
       }
     },
     {
@@ -1775,7 +1861,7 @@
     }
   ],
   "rollback": {
-    "plan": "Revert the single ledger/verifier PR. This does not alter product runtime, canonical manuscripts, Word provider state, sealed packages, dependencies or UI.",
-    "currentLimitation": "The ledger is a living reconciliation artifact whose current final program verdict is NEEDS_MORE_EVIDENCE, not READY."
+    "plan": "Revert the single legacy local release-candidate traceability rebind PR. This does not alter product runtime, canonical manuscripts, Google/Word provider state, sealed packages, dependencies or UI.",
+    "currentLimitation": "The ledger is a living reconciliation artifact whose current legacy program verdict is NEEDS_MORE_EVIDENCE: local software evidence is bound, while Google real-account E2E and F3 physical owner/off-host gates remain deferred."
   }
 }

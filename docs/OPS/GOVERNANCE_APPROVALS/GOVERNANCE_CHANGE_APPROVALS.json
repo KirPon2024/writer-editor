@@ -10587,44 +10587,8 @@
       "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
     },
     {
-      "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "402d81e6a7109e9ea54fe45379e3f4d604c4ec61f74a429667fa72717d166a26",
-      "approvedBy": "owner:F3_RUNTIME_SOURCE_REVISION_TRACEABILITY_POSTMERGE_REBIND_V1",
-      "approvedAtUtc": "2026-08-15T01:47:17.000Z",
-      "rationale": "Owner-approved legacy F3 factual traceability rebind: stale structured delivery markers in already-merged F3 rows and bound F3 product receipt now fail closed; PR #1543, #1548 and #1553 merged facts are recorded without runtime behavior, UI, provider, user documents, credentials, product network or full Black Box Product V1 claim.",
-      "approved": true,
-      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
-    },
-    {
-      "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_RECEIPT.json",
-      "sha256": "83b57c7545c9210102ab5f23380ca4ff96062e218469e5c6d9ae82c1caa6a143",
-      "approvedBy": "owner:F3_RUNTIME_SOURCE_REVISION_TRACEABILITY_POSTMERGE_REBIND_V1",
-      "approvedAtUtc": "2026-08-15T01:47:17.000Z",
-      "rationale": "Owner-approved legacy F3 factual traceability rebind: stale structured delivery markers in already-merged F3 rows and bound F3 product receipt now fail closed; PR #1543, #1548 and #1553 merged facts are recorded without runtime behavior, UI, provider, user documents, credentials, product network or full Black Box Product V1 claim.",
-      "approved": true,
-      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
-    },
-    {
       "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
       "sha256": "5d2b583ef2e02fead59584dfb9e160a9c4cc89ed8e1c28ecfa7dda4d5c55ac04",
-      "approvedBy": "owner:F3_RUNTIME_SOURCE_REVISION_TRACEABILITY_POSTMERGE_REBIND_V1",
-      "approvedAtUtc": "2026-08-15T01:47:17.000Z",
-      "rationale": "Owner-approved legacy F3 factual traceability rebind: stale structured delivery markers in already-merged F3 rows and bound F3 product receipt now fail closed; PR #1543, #1548 and #1553 merged facts are recorded without runtime behavior, UI, provider, user documents, credentials, product network or full Black Box Product V1 claim.",
-      "approved": true,
-      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
-    },
-    {
-      "filePath": "scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
-      "sha256": "ae8bd325a013c07907064e39198085a64fe68749a7587478f51e9301a6f32e9b",
-      "approvedBy": "owner:F3_RUNTIME_SOURCE_REVISION_TRACEABILITY_POSTMERGE_REBIND_V1",
-      "approvedAtUtc": "2026-08-15T01:47:17.000Z",
-      "rationale": "Owner-approved legacy F3 factual traceability rebind: stale structured delivery markers in already-merged F3 rows and bound F3 product receipt now fail closed; PR #1543, #1548 and #1553 merged facts are recorded without runtime behavior, UI, provider, user documents, credentials, product network or full Black Box Product V1 claim.",
-      "approved": true,
-      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
-    },
-    {
-      "filePath": "test/contracts/final-lab-to-product-traceability-v2.contract.test.js",
-      "sha256": "bf8ba40774e960bbd515923264821b8dd7b09f6b2f0ce18448a67ec4f6a72453",
       "approvedBy": "owner:F3_RUNTIME_SOURCE_REVISION_TRACEABILITY_POSTMERGE_REBIND_V1",
       "approvedAtUtc": "2026-08-15T01:47:17.000Z",
       "rationale": "Owner-approved legacy F3 factual traceability rebind: stale structured delivery markers in already-merged F3 rows and bound F3 product receipt now fail closed; PR #1543, #1548 and #1553 merged facts are recorded without runtime behavior, UI, provider, user documents, credentials, product network or full Black Box Product V1 claim.",
@@ -10963,6 +10927,42 @@
       "rationale": "Approve exact bounded Google Docs local final compatibility verdict bytes: local synthetic evidence aggregation only, NEEDS_MORE_EVIDENCE, real signed-in Google E2E remains WAIT_AUTHORITY, no support/import/roundtrip/apply/product mutation authority.",
       "approved": true,
       "authority": "OWNER_CONTINUATION_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
+      "sha256": "c4b099d1aa3221ab060303fc4d09ac7607cfa1613049b08723f45ebc90487619",
+      "approvedBy": "owner-standing-grant:TASK_ID:LEGACY_LOCAL_RELEASE_CANDIDATE_TRACEABILITY_REBIND_V1",
+      "approvedAtUtc": "2026-08-15T10:01:00.000Z",
+      "rationale": "Approve bounded legacy local release-candidate traceability rebind on exact Google-final baseline: replaces stale governed hashes, adds Google Docs local final compatibility row, keeps real Google account E2E as WAIT_AUTHORITY, preserves F3 physical blockers, updates verifier hostile checks, and changes no product runtime, UI, provider, user document, dependency, sealed package, or canonical project data.",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_LEGACY_LOCAL_RELEASE_CANDIDATE_TRACEABILITY_REBIND"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_RECEIPT.json",
+      "sha256": "36c09df53195c037d5a5f02ab78ca97ffd8f3d1636904432c71cabb5dca8da74",
+      "approvedBy": "owner-standing-grant:TASK_ID:LEGACY_LOCAL_RELEASE_CANDIDATE_TRACEABILITY_REBIND_V1",
+      "approvedAtUtc": "2026-08-15T10:01:00.000Z",
+      "rationale": "Approve bounded legacy local release-candidate traceability rebind on exact Google-final baseline: replaces stale governed hashes, adds Google Docs local final compatibility row, keeps real Google account E2E as WAIT_AUTHORITY, preserves F3 physical blockers, updates verifier hostile checks, and changes no product runtime, UI, provider, user document, dependency, sealed package, or canonical project data.",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_LEGACY_LOCAL_RELEASE_CANDIDATE_TRACEABILITY_REBIND"
+    },
+    {
+      "filePath": "scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
+      "sha256": "e540c3bf1a17bed263e54bf2b4c2dae1e18e9c73888b486539642a8f7809d7db",
+      "approvedBy": "owner-standing-grant:TASK_ID:LEGACY_LOCAL_RELEASE_CANDIDATE_TRACEABILITY_REBIND_V1",
+      "approvedAtUtc": "2026-08-15T10:01:00.000Z",
+      "rationale": "Approve bounded legacy local release-candidate traceability rebind on exact Google-final baseline: replaces stale governed hashes, adds Google Docs local final compatibility row, keeps real Google account E2E as WAIT_AUTHORITY, preserves F3 physical blockers, updates verifier hostile checks, and changes no product runtime, UI, provider, user document, dependency, sealed package, or canonical project data.",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_LEGACY_LOCAL_RELEASE_CANDIDATE_TRACEABILITY_REBIND"
+    },
+    {
+      "filePath": "test/contracts/final-lab-to-product-traceability-v2.contract.test.js",
+      "sha256": "55f0e6f54d2bcebb3fdbde9ec119452a3066300e265efbd384e3f57a8e03c087",
+      "approvedBy": "owner-standing-grant:TASK_ID:LEGACY_LOCAL_RELEASE_CANDIDATE_TRACEABILITY_REBIND_V1",
+      "approvedAtUtc": "2026-08-15T10:01:00.000Z",
+      "rationale": "Approve bounded legacy local release-candidate traceability rebind on exact Google-final baseline: replaces stale governed hashes, adds Google Docs local final compatibility row, keeps real Google account E2E as WAIT_AUTHORITY, preserves F3 physical blockers, updates verifier hostile checks, and changes no product runtime, UI, provider, user document, dependency, sealed package, or canonical project data.",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_LEGACY_LOCAL_RELEASE_CANDIDATE_TRACEABILITY_REBIND"
     }
   ]
 }

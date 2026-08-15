@@ -10,7 +10,8 @@
     "The graph is deterministic and fail-closed on missing or extra rtk-* contract files.",
     "Review bridge contracts remain covered by default and focused runners, but are not silently folded into the maintained RTK graph.",
     "Google Docs has scoped real connected-account E2E evidence for the explicitly tested synthetic primitives only; Word 16.112 evidence remains non-transferable and no Google import/apply/product-runtime/platform-saturation claim is made.",
-    "Google Docs whole-book evidence covers the frozen canonical synthetic book denominator only; it is not chain saturation, not universal parity, and not a terminal Google Docs platform PASS."
+    "Google Docs whole-book evidence covers the frozen canonical synthetic book denominator only; it is not chain saturation, not universal parity, and not a terminal Google Docs platform PASS.",
+    "Interop chain C1-C8 is registered as a full-book route denominator with lineage closure rules only; every route remains NEEDS_MORE_EVIDENCE until its own sequential contour executes the complete route."
   ],
   "contractBasenames": [
     "rtk-admit01-accountable-lanes.contract.test.js",
@@ -33,6 +34,7 @@
     "rtk-google-docs-real-account-e2e.contract.test.js",
     "rtk-google-docs-real-account-whole-book-e2e.contract.test.js",
     "rtk-google01-provider-profiles.contract.test.js",
+    "rtk-interop-chain-matrix.contract.test.js",
     "rtk-lab01-build-bound-profiles.contract.test.js",
     "rtk-match01-placement-proof.contract.test.js",
     "rtk-multi01-multi-scene-scope-blocked.contract.test.js",
@@ -139,6 +141,8 @@
     "googleRealAccountE2E": "GOOGLE_DOCS_REAL_ACCOUNT_E2E_V1_SCOPED_VERIFIED",
     "googleRealAccountWholeBookE2E": "GOOGLE_DOCS_REAL_ACCOUNT_WHOLE_BOOK_E2E_V1_SCOPED_VERIFIED",
     "googleRealAccountE2EProgramVerdict": "NEEDS_MORE_EVIDENCE",
+    "interopChainMatrix": "INTEROP_CHAIN_C1_C8_DENOMINATOR_REGISTERED_NEEDS_MORE_EVIDENCE",
+    "interopChainSaturationVerdict": "NEEDS_MORE_EVIDENCE",
     "nextWordStage": "WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION",
     "googleLocalSuggestionsIrAbstain": "GOOGLE_DOCS_LOCAL_SUGGESTIONS_IR_ABSTAIN_V1_LOCAL_VERIFIED",
     "googleLocalCommentsLimitation": "GOOGLE_DOCS_LOCAL_COMMENTS_LIMITATION_V1_LOCAL_VERIFIED",

@@ -1,8 +1,8 @@
 {
   "schemaVersion": "yalken.f3.blackBoxProductCommandExportManualCore.receipt.v1",
   "taskId": "F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
-  "status": "MERGED_POSTMERGE_VERIFIED_NOT_FULL_BLACK_BOX_PRODUCT_V1_WITH_UI_DEFAULT_PATH_AND_FINAL_TRACEABILITY_VERDICT_REBIND",
-  "verdict": "READY_FOR_BOUNDED_PRODUCT_COMMAND_AND_UI_PATH_NEEDS_MORE_EVIDENCE_FOR_FULL_BLACK_BOX_PRODUCT_V1",
+  "status": "MERGED_POSTMERGE_VERIFIED_NOT_FULL_BLACK_BOX_PRODUCT_V1_WITH_UI_DEFAULT_PATH_AND_ARCHITECTURE_MANIFEST_HARDENING_LOCAL_CANDIDATE",
+  "verdict": "READY_FOR_BOUNDED_PRODUCT_COMMAND_UI_AND_ARCHITECTURE_MANIFEST_NEEDS_MORE_EVIDENCE_FOR_FULL_BLACK_BOX_PRODUCT_V1",
   "createdAtUtc": "2026-08-14T11:45:00Z",
   "baseline": {
     "headSha": "2cc598271bfdab6764401216e08cb952d4c49ba6",
@@ -879,9 +879,9 @@
     }
   },
   "changedFileHashes": {
-    "src/product/blackBoxProductCommandExportManualCoreV1.mjs": "302b9df995277197bfa4162e003e0be0ab1dce709c21ea2d709ff41b8187fdb8",
-    "test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js": "154d9f03a21c3fb5995b90c9c0acb801f1844b155ccafb7d69557447c0cad6d2",
-    "scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs": "849bb2b417fba662e32104a98cd2b0e0eb4a37397ab80108ed80991352b7fb01",
+    "src/product/blackBoxProductCommandExportManualCoreV1.mjs": "4d270f42603ffacb8372da343eb40eb2e1b1f81ffc923275b1cc9e39f7187e17",
+    "test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js": "7f4d0ca7c93a1c9e2f690eaa9bbe73bd3e02b9bd1ccf95312c96332f57367ab0",
+    "scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs": "421f8f718fc0da4e8c9db8fb270b187428196685b4cdc6e8e84429d7154a953a",
     "src/shared/productCommandRegistry.cjs": "3d6fcc76788c4a5d5599e671caa3965d6fb957bde1785ef18baa47a9d8602227",
     "src/renderer/commands/capabilityPolicy.mjs": "76fffd86b4e3bbe74bd92fe0c3debbb26c581e3bf3cfcd1f22f7a76961ea6222",
     "src/command/commandSurfaceKernel.js": "235a9d5294e967f34bc993482f16e80a75f714fa4968a3e15db7e1e8ede80f92",
@@ -897,7 +897,8 @@
     "src/renderer/editor.js": "6e0b2a259ce7df5ef3b55e87947afb01d5d3768af7c4d7fac218833b806dc100",
     "src/renderer/editor.bundle.js": "e0182f22c98761bf60df484b09728556fc57952e7087a7729867bc51ca5695d7",
     "scripts/ops/black-box-product-ui-default-flag-path-v1-model.mjs": "5633dcef6019ef48c55a78d67b78077779122a15f1394b7af91345e8d09ee1ff",
-    "test/contracts/black-box-product-ui-default-flag-path-v1.contract.test.js": "46dd708b9092a64a0337a1ccdd40c8d669355340c78b35b06a2e1c93ecf09d6a"
+    "test/contracts/black-box-product-ui-default-flag-path-v1.contract.test.js": "46dd708b9092a64a0337a1ccdd40c8d669355340c78b35b06a2e1c93ecf09d6a",
+    "scripts/ops/final-lab-to-product-traceability-v2-verify.mjs": "d71143f39a5d9d26548bf244abe8cd423a2635556fcc564adb856272d1db2785"
   },
   "claimBoundary": {
     "productValue": "Local candidate exposes the existing create-only manual CORE capsule export command through the existing File export menu, export modal and command-palette/runtime command path while preserving default-off runtime feature flag and Command Kernel revalidation.",
@@ -1104,5 +1105,136 @@
     "uiChanged": false,
     "sealedPackagesModified": false,
     "claimBoundary": "Factual traceability/status rebind only; does not claim full Black Box Product V1, Disaster Ready, owner-key recovery or off-host restore."
+  },
+  "architectureManifestHardening": {
+    "taskId": "F3_BLACK_BOX_ARCHITECTURE_MANIFEST_HARDENING_V1",
+    "status": "LOCAL_CANDIDATE_PENDING_DELIVERY_CHAIN",
+    "baselineSha": "1cb32601a4e426dfbeb9286cb8f7a289f509e431",
+    "scope": "Harden the existing Black Box product command integration manifest and traceability proof for FEATURE_INTEGRATION_MANIFEST_V1 completeness, five state classes, no-loss authoring duty, platform availability/fallback, current/target separation, Tier C no-data-migration boundary and revert-only rollback. No runtime behavior, UI, provider, user document, canonical project data or product V1 readiness claim is changed.",
+    "redFirst": {
+      "productCommandContract": {
+        "command": "node --test test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+        "tests": 12,
+        "pass": 11,
+        "fail": 1,
+        "skipped": 0,
+        "todo": 0,
+        "primaryFailures": [
+          "manifestStandard missing before hardening"
+        ]
+      },
+      "traceabilityContract": {
+        "command": "node --test test/contracts/final-lab-to-product-traceability-v2.contract.test.js && node scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
+        "tests": 3,
+        "pass": 0,
+        "fail": 3,
+        "skipped": 0,
+        "todo": 0,
+        "primaryFailures": [
+          "exactHead:INVALID",
+          "materialDispositions:MISSING_REQUIRED:F3_BLACK_BOX_ARCHITECTURE_MANIFEST_HARDENING_V1"
+        ]
+      }
+    },
+    "focusedProof": {
+      "productCommandContract": {
+        "command": "node --test test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+        "tests": 12,
+        "pass": 12,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "modelOracleMutations": {
+        "command": "node scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs",
+        "finiteCases": 58,
+        "hostileCases": 35,
+        "semanticMutants": 31,
+        "survivors": 0,
+        "skips": 0,
+        "newControls": [
+          "manifestAllFiveStateClasses",
+          "manifestNoLossDutyProtected",
+          "manifestPlatformFallbackDeniesGoogleInheritance",
+          "manifestTierAMigrationRollbackBoundary",
+          "manifestCurrentTargetSeparation"
+        ]
+      },
+      "traceability": {
+        "command": "node --test test/contracts/final-lab-to-product-traceability-v2.contract.test.js && node scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
+        "tests": 3,
+        "pass": 3,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0,
+        "materialDispositions": 41,
+        "externalPins": 3,
+        "exactHead": "1cb32601a4e426dfbeb9286cb8f7a289f509e431"
+      }
+    },
+    "architectureBoundary": {
+      "manifestStandard": "FEATURE_INTEGRATION_MANIFEST_V1",
+      "stateClasses": [
+        "PROJECT_STATE",
+        "AUTHORING_WORKING_STATE",
+        "DERIVED_STATE",
+        "SHELL_STATE",
+        "TRANSIENT_STATE"
+      ],
+      "authoringWorkingStateNoLossDuty": "PROTECTED_NOT_TRANSIENT_AND_EXPORT_BLOCKS_ON_DIRTY_AUTOSAVE",
+      "currentVsTarget": "CURRENT_COMMAND_UI_LOCAL_SOFTWARE_SEAMS_BOUND_FULL_BLACK_BOX_PRODUCT_V1_NOT_READY",
+      "platformFallback": "node/darwin scoped; web/windows/googleDocs denied or abstain without inherited evidence",
+      "migrationTier": "Tier C no project format or canonical data migration",
+      "rollback": "revert-only no canonical project data rollback"
+    },
+    "claimBoundary": {
+      "fullBlackBoxProductV1": "NOT_CLAIMED",
+      "ownerKeyDrill": "NOT_CLAIMED",
+      "offHostRestore": "NOT_CLAIMED",
+      "exactByteFinalCompleteDonorReplication": "NOT_CLAIMED",
+      "projectLibraryRegistration": "NOT_CLAIMED",
+      "googleDocsEvidenceInheritance": "DENIED",
+      "userDocumentsTouched": false,
+      "productRuntimeBehaviorChanged": false
+    },
+    "changedFileHashes": {
+      "src/product/blackBoxProductCommandExportManualCoreV1.mjs": "4d270f42603ffacb8372da343eb40eb2e1b1f81ffc923275b1cc9e39f7187e17",
+      "test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js": "7f4d0ca7c93a1c9e2f690eaa9bbe73bd3e02b9bd1ccf95312c96332f57367ab0",
+      "scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs": "421f8f718fc0da4e8c9db8fb270b187428196685b4cdc6e8e84429d7154a953a",
+      "scripts/ops/final-lab-to-product-traceability-v2-verify.mjs": "d71143f39a5d9d26548bf244abe8cd423a2635556fcc564adb856272d1db2785",
+      "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json": "95384ebf668c1b5b99e498c0146668e594a13ff90be1e6e5234963db3b669f6e"
+    },
+    "rollback": "Revert this bounded manifest/test/model/receipt/ledger/governance PR; no project data or runtime behavior rollback is required.",
+    "affectedProof": {
+      "command": "node --test F3/S0/F1/T0/Google affected contracts plus affected models",
+      "contracts": {
+        "tests": 98,
+        "pass": 98,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "models": {
+        "sourceFence": "192 finite, 20 hostile, 9 mutants, 0 survivors",
+        "multilingualEvidence": "24 finite, 18 hostile, 15 mutants, 0 survivors",
+        "t0RoundAuthoritySourceFence": "20 finite, 19 hostile, 17 mutants, 0 survivors",
+        "blackBoxP0aSourceAdapter": "32 finite, 18 hostile, 12 mutants, 0 survivors",
+        "blackBoxP0bDarwinDurablePublisher": "65 finite, 18 hostile, 12 mutants, 0 survivors",
+        "blackBoxP0cStrictCapsuleRecover": "64 finite, 26 hostile, 19 mutants, 0 survivors",
+        "importAsNewRecoveryPlan": "36 finite, 14 hostile, 10 mutants, 0 survivors",
+        "importAsNewProjectWriter": "24 finite, 16 hostile, 12 mutants, 0 survivors",
+        "manualCoreCapsuleKit": "48 finite, 16 hostile, 12 mutants, 0 survivors",
+        "syntheticIndependentRestoreDrill": "36 finite, 18 hostile, 12 mutants, 0 survivors",
+        "trustedSourceSnapshot": "48 finite, 18 hostile, 12 mutants, 0 survivors",
+        "productUiDefaultFlagPath": "20 finite, 16 hostile, 12 mutants, 0 survivors",
+        "productCommandExportManualCore": "58 finite, 35 hostile, 31 mutants, 0 survivors"
+      }
+    },
+    "localGates": {
+      "governanceChangeDetection": "PASS_MISSING_APPROVALS_0_APPROVAL_REGISTRY_VALID_1",
+      "devFast": "28/28",
+      "guardrails": "PASS",
+      "dependencies": "npm ci used existing package-lock with task-local cache; no dependency file changes"
+    }
   }
 }

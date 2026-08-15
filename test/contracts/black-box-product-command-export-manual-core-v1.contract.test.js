@@ -346,6 +346,7 @@ function assertPublicResultSanitized(result) {
 
 test('F3 Black Box product command v1 exports a closed command contract and manifest', async () => {
   const productCommand = await loadProductModule();
+  const manifest = productCommand.BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_INTEGRATION_MANIFEST;
 
   assert.equal(productCommand.BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_COMMAND_ID, COMMAND_ID);
   assert.equal(productCommand.BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_CAPABILITY_ID, CAPABILITY_ID);
@@ -356,13 +357,47 @@ test('F3 Black Box product command v1 exports a closed command contract and mani
     'result',
   ]);
   assert.equal(
-    productCommand.BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_INTEGRATION_MANIFEST.featureId,
+    manifest.featureId,
     'yalken.blackBox.productCommand.exportManualCoreCapsule',
   );
-  assert.deepEqual(
-    productCommand.BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_INTEGRATION_MANIFEST.commandIds,
-    [COMMAND_ID],
-  );
+  assert.deepEqual(manifest.commandIds, [COMMAND_ID]);
+  assert.equal(manifest.manifestStandard, 'FEATURE_INTEGRATION_MANIFEST_V1');
+  assert.equal(manifest.currentReality.runtimeWired, true);
+  assert.equal(manifest.currentReality.fullBlackBoxProductV1, false);
+  assert.equal(manifest.currentReality.googleDocsEvidenceInherited, false);
+  assert.deepEqual(manifest.stateClasses, [
+    'PROJECT_STATE',
+    'AUTHORING_WORKING_STATE',
+    'DERIVED_STATE',
+    'SHELL_STATE',
+    'TRANSIENT_STATE',
+  ]);
+  assert.equal(manifest.stateClassPolicy.PROJECT_STATE.owner, 'Product Core');
+  assert.equal(manifest.stateClassPolicy.PROJECT_STATE.mutation, 'NONE_READ_ONLY_SOURCE_PLUS_EXTERNAL_CREATE_ONLY_ARTIFACT');
+  assert.equal(manifest.stateClassPolicy.AUTHORING_WORKING_STATE.noLossDuty, 'PROTECTED_NOT_CLASSIFIED_AS_TRANSIENT');
+  assert.equal(manifest.stateClassPolicy.AUTHORING_WORKING_STATE.mutation, 'DENIED');
+  assert.equal(manifest.stateClassPolicy.DERIVED_STATE.rebuildable, true);
+  assert.equal(manifest.stateClassPolicy.SHELL_STATE.projectTruthAuthority, false);
+  assert.equal(manifest.stateClassPolicy.TRANSIENT_STATE.persistedAsTruth, false);
+  assert.equal(manifest.revisionPolicy.sourceSnapshot, 'TRUSTED_PRODUCT_CORE_QUERY_RECOMPUTES_PROJECT_ROOT_DOCUMENT_CANONICAL_WORKING_GENERATION_AND_DIGEST');
+  assert.equal(manifest.revisionPolicy.dirtyPolicy, 'CLEAN_ONLY_DIRTY_OR_AUTOSAVE_DENY');
+  assert.equal(manifest.writePath.canonicalProjectMutation, 'NONE');
+  assert.equal(manifest.writePath.externalEffect, 'CREATE_ONLY_CAPSULE_ARTIFACT_THROUGH_TRUSTED_TARGET_PORT');
+  assert.equal(manifest.persistenceClass, 'NO_PROJECT_DATA_MIGRATION_EXTERNAL_CREATE_ONLY_ARTIFACT');
+  assert.equal(manifest.migrations.required, false);
+  assert.equal(manifest.rollback.mode, 'REVERT_ONLY_NO_CANONICAL_PROJECT_DATA_ROLLBACK');
+  assert.deepEqual(manifest.platformAvailability.node.capability, 'AVAILABLE_WHEN_FLAG_PROVIDER_AUDIT_SOURCE_AND_TARGET_PORTS_PASS');
+  assert.deepEqual(manifest.platformAvailability.web.capability, 'DENIED_NO_PLATFORM_ADAPTER');
+  assert.deepEqual(manifest.platformAvailability.googleDocs.capability, 'NOT_INHERITED_SEPARATE_PROFILE');
+  assert.equal(manifest.surfaceManifests.length, 3);
+  assert.deepEqual(manifest.surfaceManifests.map((surface) => surface.surfaceId).sort(), [
+    'surface.commandPalette.blackBoxManualCoreCapsule.v1',
+    'surface.exportModal.blackBoxManualCoreCapsule.v1',
+    'surface.menu.fileExport.blackBoxManualCoreCapsule.v1',
+  ]);
+  assert.equal(manifest.surfaceManifests.every((surface) => surface.commandRepresentations.includes(COMMAND_ID)), true);
+  assert.equal(manifest.negativeBypassChecks.includes('TARGET_ARCHITECTURE_MUST_NOT_BE_REPORTED_AS_CURRENT_READY'), true);
+  assert.equal(manifest.negativeBypassChecks.includes('GOOGLE_DOCS_OR_WORD_EVIDENCE_MUST_NOT_TRANSFER_TO_BLACK_BOX_PRODUCT_V1'), true);
 });
 
 test('F3 Black Box product command v1 is admitted through the existing command registry and capability docs', async () => {
@@ -853,9 +888,9 @@ test('F3 Black Box product command v1 model/oracle rejects UNKNOWN and all seman
   const result = model.evaluateBlackBoxProductCommandExportManualCoreV1Model();
 
   assert.equal(result.ok, true, JSON.stringify(result, null, 2));
-  assert.equal(result.finiteCases, 53);
-  assert.equal(result.hostileCases, 30);
-  assert.equal(result.semanticMutants, 26);
+  assert.equal(result.finiteCases, 58);
+  assert.equal(result.hostileCases, 35);
+  assert.equal(result.semanticMutants, 31);
   assert.equal(result.survivors, 0);
   assert.deepEqual(result.survivorNames, []);
   assert.equal(result.skips, 0);

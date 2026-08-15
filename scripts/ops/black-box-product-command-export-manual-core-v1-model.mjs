@@ -54,6 +54,11 @@ const FINITE_CASES = Object.freeze([
   ['main-runtime-target-inside-project-root', 'DENY'],
   ['main-runtime-target-symlink-dir', 'DENY'],
   ['main-runtime-target-file-exists', 'DENY'],
+  ['manifest-all-five-state-classes', 'PASS'],
+  ['manifest-no-loss-duty-protected', 'PASS'],
+  ['manifest-platform-fallback-denies-google-inheritance', 'PASS'],
+  ['manifest-tier-a-migration-rollback-boundary', 'PASS'],
+  ['manifest-current-target-separation', 'PASS'],
 ]);
 
 const HOSTILE_CASES = Object.freeze([
@@ -87,6 +92,11 @@ const HOSTILE_CASES = Object.freeze([
   'main-runtime-target-project-root-overwrite',
   'main-runtime-target-path-traversal',
   'main-runtime-target-file-reuse-to-pass',
+  'manifest-omits-authoring-working-state',
+  'manifest-classifies-unsaved-text-as-transient',
+  'manifest-claims-google-docs-by-word-inheritance',
+  'manifest-promotes-target-to-current-ready',
+  'manifest-missing-rollback-boundary',
 ]);
 
 const SEMANTIC_MUTANTS = Object.freeze([
@@ -116,10 +126,20 @@ const SEMANTIC_MUTANTS = Object.freeze([
   'M24_ALLOW_RUNTIME_TARGET_OUTSIDE_ALLOWED_ROOT',
   'M25_ALLOW_RUNTIME_TARGET_INSIDE_PROJECT_ROOT',
   'M26_ALLOW_RUNTIME_TARGET_REUSE',
+  'M27_DROP_AUTHORING_WORKING_STATE_FROM_MANIFEST',
+  'M28_TREAT_NO_LOSS_AS_TRANSIENT',
+  'M29_INHERIT_GOOGLE_DOCS_OR_WORD_EVIDENCE',
+  'M30_LAUNDER_FULL_BLACK_BOX_PRODUCT_READY',
+  'M31_OMIT_REVERT_ONLY_ROLLBACK',
 ]);
 
 function oracle(caseName, expected) {
-  if (caseName === 'valid' || caseName === 'node-capability-allowed' || caseName === 'main-runtime-create-only-target-valid') return expected === 'PASS';
+  if (
+    caseName === 'valid'
+    || caseName === 'node-capability-allowed'
+    || caseName === 'main-runtime-create-only-target-valid'
+    || caseName.startsWith('manifest-')
+  ) return expected === 'PASS';
   return expected === 'DENY';
 }
 
@@ -187,6 +207,21 @@ function mutantKilled(mutant) {
     case 'M26_ALLOW_RUNTIME_TARGET_REUSE':
       return HOSTILE_CASES.includes('main-runtime-target-file-reuse-to-pass')
         && FINITE_CASES.some(([name, expected]) => name === 'main-runtime-target-file-exists' && expected === 'DENY');
+    case 'M27_DROP_AUTHORING_WORKING_STATE_FROM_MANIFEST':
+      return FINITE_CASES.some(([name, expected]) => name === 'manifest-all-five-state-classes' && expected === 'PASS')
+        && HOSTILE_CASES.includes('manifest-omits-authoring-working-state');
+    case 'M28_TREAT_NO_LOSS_AS_TRANSIENT':
+      return FINITE_CASES.some(([name, expected]) => name === 'manifest-no-loss-duty-protected' && expected === 'PASS')
+        && HOSTILE_CASES.includes('manifest-classifies-unsaved-text-as-transient');
+    case 'M29_INHERIT_GOOGLE_DOCS_OR_WORD_EVIDENCE':
+      return FINITE_CASES.some(([name, expected]) => name === 'manifest-platform-fallback-denies-google-inheritance' && expected === 'PASS')
+        && HOSTILE_CASES.includes('manifest-claims-google-docs-by-word-inheritance');
+    case 'M30_LAUNDER_FULL_BLACK_BOX_PRODUCT_READY':
+      return FINITE_CASES.some(([name, expected]) => name === 'manifest-current-target-separation' && expected === 'PASS')
+        && HOSTILE_CASES.includes('manifest-promotes-target-to-current-ready');
+    case 'M31_OMIT_REVERT_ONLY_ROLLBACK':
+      return FINITE_CASES.some(([name, expected]) => name === 'manifest-tier-a-migration-rollback-boundary' && expected === 'PASS')
+        && HOSTILE_CASES.includes('manifest-missing-rollback-boundary');
     default:
       return false;
   }

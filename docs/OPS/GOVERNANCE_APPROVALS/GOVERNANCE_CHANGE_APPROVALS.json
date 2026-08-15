@@ -10416,15 +10416,6 @@
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_POSTMERGE_TRACEABILITY_REBIND"
     },
     {
-      "filePath": "src/product/blackBoxProductCommandExportManualCoreV1.mjs",
-      "sha256": "f2a7c972ade9b2a4c33ad51b9c38720e560dc758ed74b6ae0b39928098d60792",
-      "rationale": "Approve product command audit-recipient runtime binding: existing manual CORE export command now requires trusted getAuditRecipient, rejects missing/invalid/same-as-owner audit recipient, requires auditIdentity fingerprint to match auditRecipient, passes auditRecipient to manual CORE kit and keeps UI/user documents/live overwrite/owner-key drill/Disaster Ready out of scope.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_AUDIT_RECIPIENT_RUNTIME_BINDING_V1",
-      "approvedAtUtc": "2026-08-14T14:05:00.000Z",
-      "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
-    },
-    {
       "filePath": "src/shared/productCommandRegistry.cjs",
       "sha256": "3d6fcc76788c4a5d5599e671caa3965d6fb957bde1785ef18baa47a9d8602227",
       "rationale": "Approve adding only cmd.project.blackBox.exportManualCoreCapsuleKitV1 to the existing product command registry with Command Kernel authority and cap.blackBox.manualCoreCapsule.export binding; no private bus or second governance plane.",
@@ -10439,24 +10430,6 @@
       "rationale": "Approve runtime capability policy binding for cap.blackBox.manualCoreCapsule.export: node true, web/mobile false, matching product registry and docs capability matrix.",
       "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
       "approvedAtUtc": "2026-08-14T11:45:00.000Z",
-      "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
-    },
-    {
-      "filePath": "test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
-      "sha256": "b2e8313566b37aa3fa4463f17cf094688a341562e807af6617375a98312d8ed3",
-      "rationale": "Approve F3 create-only target runtime binding contract tests: red-first proves the main bridge lacked the runtime target helper and model denominator, while green tests prove explicit allowedRoot/targetDir binding, realpath containment, project-root exclusion, symlink denial, target-collision denial, safe filename selection, fail-closed default behavior and no user documents.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_CREATE_ONLY_TARGET_RUNTIME_BINDING_V1",
-      "approvedAtUtc": "2026-08-14T18:02:14Z",
-      "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
-    },
-    {
-      "filePath": "scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs",
-      "sha256": "67b0b0d2b002abaf51a996f2ee4888f2560a212c05a02e617cd1fcbd81e5a87e",
-      "rationale": "Approve F3 create-only target runtime binding model expansion: product command denominator expands to 53 finite cases, 30 hostile cases and 26 semantic mutants with zero survivors, adding env-missing, target transplant, project-root overwrite, path traversal, symlink and file-reuse controls that never aggregate to PASS.",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_CREATE_ONLY_TARGET_RUNTIME_BINDING_V1",
-      "approvedAtUtc": "2026-08-14T18:02:14Z",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION"
     },
@@ -10549,42 +10522,6 @@
       "rationale": "Approve F3 Black Box UI/default path export modal markup: adds a default-off protected Black Box CORE Capsule option bound to existing cmd.project.blackBox.exportManualCoreCapsuleKitV1 and safe-target copy; no user document or full product readiness claim.",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION_UI_DEFAULT_FLAG_PATH"
-    },
-    {
-      "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "sha256": "2f9616fc444de2d2ec7f290472fc9a81d43c24a86b5f872b8b2587de8a66afbe",
-      "approvedBy": "owner-standing-grant:TASK_ID:PROGRAM_FINAL_TRACEABILITY_VERDICT_REBIND_V1",
-      "approvedAtUtc": "2026-08-14T21:43:07Z",
-      "rationale": "Approve final traceability ledger verdict rebind at exact product head b37385f17762eab70b2fe03010457b640893b96d: F3 UI/default path is no longer a local-candidate blocker after PR 1547/1548 postmerge verification, final program verdict is NEEDS_MORE_EVIDENCE rather than READY, all lab receipts remain provenance-only, and full Black Box Product V1 remains deferred for owner-key/off-host/donor/project-library evidence without live-project overwrite.",
-      "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_PROGRAM_FINAL_TRACEABILITY_VERDICT_REBIND"
-    },
-    {
-      "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_RECEIPT.json",
-      "sha256": "26480289dad2b3808cfc9f339b5b5bfd0901c5bf515f1bc04fead138bae50205",
-      "approvedBy": "owner-standing-grant:TASK_ID:PROGRAM_FINAL_TRACEABILITY_VERDICT_REBIND_V1",
-      "approvedAtUtc": "2026-08-14T21:43:07Z",
-      "rationale": "Approve factual final traceability receipt candidate for PROGRAM_FINAL_TRACEABILITY_VERDICT_REBIND_V1: records red-first stale umbrella/final receipt failure, focused verifier 40 material dispositions/3 external pins PASS, 11 hostile mutation classes with zero survivors, governance PASS missing approvals 0, dev:fast 28/28, guardrails PASS, deterministic replay 2/2 for verifier/governance, and pending clean-candidate/full-RTK/delivery gates without claiming READY or full Black Box Product V1.",
-      "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_PROGRAM_FINAL_TRACEABILITY_VERDICT_REBIND"
-    },
-    {
-      "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-      "sha256": "be35face4e7bbebeecb0eb09609531ac914b9d675754c857004fa410acbb7b3c",
-      "approvedBy": "owner-standing-grant:TASK_ID:PROGRAM_FINAL_TRACEABILITY_VERDICT_REBIND_V1",
-      "approvedAtUtc": "2026-08-14T21:43:07Z",
-      "rationale": "Approve cumulative F3 product command receipt top-level rebind: previous nested UI/default path evidence remains merged/postmerge verified, top-level status no longer says old local candidate, and final traceability verdict is NEEDS_MORE_EVIDENCE for full Black Box Product V1 blockers only; no product runtime/UI/user-document change.",
-      "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_PROGRAM_FINAL_TRACEABILITY_VERDICT_REBIND"
-    },
-    {
-      "filePath": "scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
-      "sha256": "63802175f3bc1a76dd35a4492ba800d42a82e5dd9b293b142d529d05093d6457",
-      "approvedBy": "owner-standing-grant:TASK_ID:PROGRAM_FINAL_TRACEABILITY_VERDICT_REBIND_V1",
-      "approvedAtUtc": "2026-08-14T21:43:07Z",
-      "rationale": "Approve verifier hardening for final program traceability verdict: binds exact head b37385f17762eab70b2fe03010457b640893b96d, requires NEEDS_MORE_EVIDENCE final verdict, rejects READY when deferred/lab-only rows remain, and rejects stale F3 UI local-candidate blocker text.",
-      "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_PROGRAM_FINAL_TRACEABILITY_VERDICT_REBIND"
     },
     {
       "filePath": "test/contracts/final-lab-to-product-traceability-v2.contract.test.js",
@@ -10709,6 +10646,69 @@
       "approvedBy": "owner:GOOGLE_DOCS_LOCAL_EXPORT_PACKET_QUARANTINE_V1",
       "approvedAtUtc": "2026-08-15T00:00:00.000Z",
       "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: quarantine-only synthetic local export packet evidence, no Google account, no user documents, no runtime network, no support/import/roundtrip/apply/product mutation claim; RTK graph catalog includes the new fail-closed local quarantine contract.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "src/product/blackBoxProductCommandExportManualCoreV1.mjs",
+      "sha256": "4d270f42603ffacb8372da343eb40eb2e1b1f81ffc923275b1cc9e39f7187e17",
+      "approvedBy": "owner:F3_BLACK_BOX_ARCHITECTURE_MANIFEST_HARDENING_V1",
+      "approvedAtUtc": "2026-08-15T00:25:29.000Z",
+      "rationale": "Owner-approved legacy F3 Black Box architecture manifest hardening: FEATURE_INTEGRATION_MANIFEST_V1 exactness, all five state classes, no-loss authoring duty, platform fallback/current-target separation, Tier C no-data-migration and revert-only rollback; no runtime behavior, user documents, credentials, provider install, product network or full Black Box Product V1 claim.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+      "sha256": "7f4d0ca7c93a1c9e2f690eaa9bbe73bd3e02b9bd1ccf95312c96332f57367ab0",
+      "approvedBy": "owner:F3_BLACK_BOX_ARCHITECTURE_MANIFEST_HARDENING_V1",
+      "approvedAtUtc": "2026-08-15T00:25:29.000Z",
+      "rationale": "Owner-approved legacy F3 Black Box architecture manifest hardening: FEATURE_INTEGRATION_MANIFEST_V1 exactness, all five state classes, no-loss authoring duty, platform fallback/current-target separation, Tier C no-data-migration and revert-only rollback; no runtime behavior, user documents, credentials, provider install, product network or full Black Box Product V1 claim.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs",
+      "sha256": "421f8f718fc0da4e8c9db8fb270b187428196685b4cdc6e8e84429d7154a953a",
+      "approvedBy": "owner:F3_BLACK_BOX_ARCHITECTURE_MANIFEST_HARDENING_V1",
+      "approvedAtUtc": "2026-08-15T00:25:29.000Z",
+      "rationale": "Owner-approved legacy F3 Black Box architecture manifest hardening: FEATURE_INTEGRATION_MANIFEST_V1 exactness, all five state classes, no-loss authoring duty, platform fallback/current-target separation, Tier C no-data-migration and revert-only rollback; no runtime behavior, user documents, credentials, provider install, product network or full Black Box Product V1 claim.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
+      "sha256": "d71143f39a5d9d26548bf244abe8cd423a2635556fcc564adb856272d1db2785",
+      "approvedBy": "owner:F3_BLACK_BOX_ARCHITECTURE_MANIFEST_HARDENING_V1",
+      "approvedAtUtc": "2026-08-15T00:25:29.000Z",
+      "rationale": "Owner-approved legacy F3 Black Box architecture manifest hardening: FEATURE_INTEGRATION_MANIFEST_V1 exactness, all five state classes, no-loss authoring duty, platform fallback/current-target separation, Tier C no-data-migration and revert-only rollback; no runtime behavior, user documents, credentials, provider install, product network or full Black Box Product V1 claim.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
+      "sha256": "7dfe08a5ed4551db4860000ea1280f4d4c748a702161df4aabc06481874ae055",
+      "approvedBy": "owner:F3_BLACK_BOX_ARCHITECTURE_MANIFEST_HARDENING_V1",
+      "approvedAtUtc": "2026-08-15T00:25:29.000Z",
+      "rationale": "Owner-approved legacy F3 Black Box architecture manifest hardening: FEATURE_INTEGRATION_MANIFEST_V1 exactness, all five state classes, no-loss authoring duty, platform fallback/current-target separation, Tier C no-data-migration and revert-only rollback; no runtime behavior, user documents, credentials, provider install, product network or full Black Box Product V1 claim.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
+      "sha256": "0ec2f8c1a8355c9233090f0ce23e4f481582cba60bce13ff1a2bc83172275b8d",
+      "approvedBy": "owner:F3_BLACK_BOX_ARCHITECTURE_MANIFEST_HARDENING_V1",
+      "approvedAtUtc": "2026-08-15T00:25:29.000Z",
+      "rationale": "Owner-approved legacy F3 Black Box architecture manifest hardening: FEATURE_INTEGRATION_MANIFEST_V1 exactness, all five state classes, no-loss authoring duty, platform fallback/current-target separation, Tier C no-data-migration and revert-only rollback; no runtime behavior, user documents, credentials, provider install, product network or full Black Box Product V1 claim.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_RECEIPT.json",
+      "sha256": "f0c9e17cff8a87446169305194c985a7465125dfd8a6cef79b24417f2ce89ab7",
+      "approvedBy": "owner:F3_BLACK_BOX_ARCHITECTURE_MANIFEST_HARDENING_V1",
+      "approvedAtUtc": "2026-08-15T00:25:29.000Z",
+      "rationale": "Owner-approved legacy F3 Black Box architecture manifest hardening: FEATURE_INTEGRATION_MANIFEST_V1 exactness, all five state classes, no-loss authoring duty, platform fallback/current-target separation, Tier C no-data-migration and revert-only rollback; no runtime behavior, user documents, credentials, provider install, product network or full Black Box Product V1 claim.",
       "approved": true,
       "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
     }

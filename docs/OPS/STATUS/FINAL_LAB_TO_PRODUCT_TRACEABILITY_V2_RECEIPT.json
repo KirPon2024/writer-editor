@@ -1,13 +1,13 @@
 {
   "schemaVersion": "yalken.finalLabToProductTraceability.receipt.v2",
   "taskId": "PROGRAM_FINAL_TRACEABILITY_VERDICT_REBIND_V1",
-  "createdAtUtc": "2026-08-14T21:43:07Z",
-  "status": "FINAL_PROGRAM_VERDICT_RECORDED_NEEDS_MORE_EVIDENCE_LOCAL_CANDIDATE_PENDING_DELIVERY_CHAIN",
+  "createdAtUtc": "2026-08-15T00:25:29Z",
+  "status": "FINAL_PROGRAM_VERDICT_RECORDED_NEEDS_MORE_EVIDENCE_WITH_F3_ARCHITECTURE_MANIFEST_HARDENING_LOCAL_CANDIDATE",
   "verdict": "NEEDS_MORE_EVIDENCE",
   "baseline": {
-    "headSha": "b37385f17762eab70b2fe03010457b640893b96d",
-    "treeSha": "538d4bf36b78ff98d20c46da5f2afc893fbe8001",
-    "branch": "codex/yalken-program-final-traceability-verdict-rebind-v1"
+    "headSha": "1cb32601a4e426dfbeb9286cb8f7a289f509e431",
+    "treeSha": "PENDING_CLEAN_CANDIDATE_TREE",
+    "branch": "codex/yalken-f3-black-box-architecture-manifest-hardening-v1"
   },
   "scope": {
     "productRuntimeChanged": false,
@@ -17,11 +17,12 @@
     "sealedSourcePackagesModified": false,
     "dependenciesChanged": false,
     "changedFiles": [
-      "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
-      "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_RECEIPT.json",
-      "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
+      "src/product/blackBoxProductCommandExportManualCoreV1.mjs",
+      "test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js",
+      "scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs",
       "scripts/ops/final-lab-to-product-traceability-v2-verify.mjs",
-      "test/contracts/final-lab-to-product-traceability-v2.contract.test.js",
+      "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
+      "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json",
       "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
     ]
   },
@@ -79,12 +80,12 @@
     "governanceChangeDetection": {
       "command": "node scripts/ops/governance-change-detection.mjs --json --approvals-path docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json",
       "result": "PASS",
-      "changedGovernanceFiles": 6,
+      "changedGovernanceFiles": 7,
       "missingApprovals": 0,
       "approvalRegistryValid": true
     },
     "devFast": {
-      "command": "npm run dev:fast",
+      "command": "REMOTE_BINDING_OK=1 PRE_UI_OPS_CONTOUR_CLOSED_OK=1 npm run dev:fast",
       "result": "PASS",
       "tests": 28,
       "pass": 28,
@@ -116,7 +117,7 @@
     }
   },
   "ledgerSummary": {
-    "materialDispositions": 40,
+    "materialDispositions": 41,
     "externalPins": 3,
     "programPhaseSequence": [
       "S0",
@@ -136,25 +137,32 @@
       "ADAPTED_PRODUCT": 9,
       "ENFORCED_TEST_GATE": 22,
       "SUPERSEDED_WITH_REASON": 1,
-      "DEFERRED_WITH_BLOCKER": 2
+      "DEFERRED_WITH_BLOCKER": 3
     }
   },
   "artifactSha256": {
-    "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json": "2f9616fc444de2d2ec7f290472fc9a81d43c24a86b5f872b8b2587de8a66afbe",
-    "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json": "be35face4e7bbebeecb0eb09609531ac914b9d675754c857004fa410acbb7b3c",
-    "scripts/ops/final-lab-to-product-traceability-v2-verify.mjs": "63802175f3bc1a76dd35a4492ba800d42a82e5dd9b293b142d529d05093d6457",
-    "test/contracts/final-lab-to-product-traceability-v2.contract.test.js": "af409491e5385744469fed049bdb67d9340fef06d4a365ae50e0165638f4917c"
+    "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json": "0ec2f8c1a8355c9233090f0ce23e4f481582cba60bce13ff1a2bc83172275b8d",
+    "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json": "7dfe08a5ed4551db4860000ea1280f4d4c748a702161df4aabc06481874ae055",
+    "scripts/ops/final-lab-to-product-traceability-v2-verify.mjs": "d71143f39a5d9d26548bf244abe8cd423a2635556fcc564adb856272d1db2785",
+    "test/contracts/final-lab-to-product-traceability-v2.contract.test.js": "af409491e5385744469fed049bdb67d9340fef06d4a365ae50e0165638f4917c",
+    "src/product/blackBoxProductCommandExportManualCoreV1.mjs": "4d270f42603ffacb8372da343eb40eb2e1b1f81ffc923275b1cc9e39f7187e17",
+    "test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js": "7f4d0ca7c93a1c9e2f690eaa9bbe73bd3e02b9bd1ccf95312c96332f57367ab0",
+    "scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs": "421f8f718fc0da4e8c9db8fb270b187428196685b4cdc6e8e84429d7154a953a"
   },
   "observedLocalDeliveryGates": [
-    "red-first stale umbrella/final receipt invariant",
-    "focused traceability contract tests 3/3",
-    "traceability ledger verifier 40 material dispositions and 3 external pins",
+    "red-first manifest missing field 11/12",
+    "red-first traceability exactHead/material row 0/3",
+    "focused product command contract 12/12",
+    "product command model 58 finite, 35 hostile, 31 mutants, 0 survivors",
+    "affected contracts 98/98",
+    "affected models all 0 survivors",
+    "traceability contract 3/3 and verifier PASS 41 rows/3 pins",
     "governance change detection PASS missing approvals 0",
     "dev:fast 28/28",
-    "agent:guardrails PASS",
-    "deterministic replay 2/2 verifier and governance byte-identical"
+    "agent:guardrails PASS"
   ],
   "pendingDeliveryGates": [
+    "deterministic replay 2/2",
     "clean candidate commit",
     "full RTK on clean candidate",
     "push",

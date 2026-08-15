@@ -4,8 +4,8 @@
   "status": "C1_YALKEN_WORD_YALKEN_FULL_BOOK_ROUTE_V1_EXECUTED_BLOCKED_FAIL_CLOSED",
   "verdict": "NEEDS_MORE_EVIDENCE",
   "programVerdict": "NEEDS_MORE_EVIDENCE",
-  "exactHead": "9c095ea89425e52da669ad5bfe9b2bfc727d7db6",
-  "generatedAtUtc": "2026-08-15T13:20:00.000Z",
+  "exactHead": "6e211f3d5762b2cad0224998991313f4835e5444",
+  "generatedAtUtc": "2026-08-15T14:30:00.000Z",
   "route": {
     "routeId": "C1",
     "title": "Yalken to Word to Yalken",

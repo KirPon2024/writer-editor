@@ -7777,15 +7777,6 @@
       "rationale": "Approve bounded G0A assurance contract tests required by the owner-approved RTK V6 contract; they verify fail-closed registry behavior and introduce no product runtime wiring, dependency, network, cloud, storage, export, or UI capability."
     },
     {
-      "filePath": "test/contracts/rtk-g0b-feasibility.contract.test.js",
-      "sha256": "4391f0b29d6b2ea82b72342044612a2112ffc4705638b2b18833ad6569721f0b",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO:LEDGER_IDENTITY_ANCHOR_REPAIR",
-      "approvedAtUtc": "2026-08-03T18:48:12.000Z",
-      "rationale": "Approve exact G0B stage-scope guard bytes admitting the maintained C5V2 PR1414 audit-hold repair contract alongside the existing C5V2 round checkpoint contract and physical canary harness script for the bounded ledger identity anchor repair. This is a narrow contract-scope binding only, preserves Google blocked, adds no product network path, and makes no broad Word certification claim.",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_C5V2_LEDGER_IDENTITY_ANCHOR_REPAIR"
-    },
-    {
       "filePath": "test/contracts/rtk-g0c-exact-safety.contract.test.js",
       "sha256": "8a0b250eee1c72300bbd2d68846b92c89f79b949b25bfda5b6dec6e47587916c",
       "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0C_EXISTING_EXACT_SAFETY_REPAIR",
@@ -7800,24 +7791,6 @@
       "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
-    },
-    {
-      "filePath": "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",
-      "sha256": "7a9735f8ffa0151481f5d64ccc7eac5b89da3e5ac74f4bb0e55a0ce2fd3561f6",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO:LEDGER_IDENTITY_ANCHOR_REPAIR",
-      "approvedAtUtc": "2026-08-03T18:48:12.000Z",
-      "rationale": "Approve exact W1 stage-scope guard bytes admitting the maintained C5V2 PR1414 audit-hold repair contract alongside the existing C5V2 round checkpoint contract and physical canary harness script for the bounded ledger identity anchor repair. This is a narrow contract-scope binding only, preserves Google blocked, adds no product network path, and makes no broad Word certification claim.",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_C5V2_LEDGER_IDENTITY_ANCHOR_REPAIR"
-    },
-    {
-      "filePath": "test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js",
-      "sha256": "67d72b47c4c202db7e5f6710df9434bed819d263dbc4944be4df0d3743a68ce8",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_DORIAN_AND_PORTFOLIO:LEDGER_IDENTITY_ANCHOR_REPAIR",
-      "approvedAtUtc": "2026-08-03T18:48:12.000Z",
-      "rationale": "Approve exact W2 stage-scope guard bytes admitting the maintained C5V2 PR1414 audit-hold repair contract alongside the existing C5V2 round checkpoint contract and physical canary harness script for the bounded ledger identity anchor repair. This is a narrow contract-scope binding only, preserves Google blocked, adds no product network path, and makes no broad Word certification claim.",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_C5V2_LEDGER_IDENTITY_ANCHOR_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-w5-release-hardening-certification.contract.test.js",
@@ -9480,15 +9453,6 @@
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_ZIP01_BUDGET_CRC_EVIDENCE"
     },
     {
-      "filePath": "test/contracts/rtk-zip01-budget-crc-evidence.contract.test.js",
-      "sha256": "76cb29111cfdef7ef9fa83c6183d9402e67d7b8e30d4d4fa5e7f9f39adebe0ac",
-      "approvedBy": "owner-direct:TASK_ID:MULTI-01_MULTI_SCENE_SCOPE_BLOCKED",
-      "approvedAtUtc": "2026-08-09T08:39:49.233Z",
-      "rationale": "Approve MULTI-01 contour allowlist extension in the ZIP-01 evidence contract; tests only.",
-      "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_MULTI01_MULTI_SCENE_SCOPE_BLOCKED"
-    },
-    {
       "filePath": "test/contracts/rtk-canon01-ordered-projections.contract.test.js",
       "sha256": "ed21fe75c4084fdb9b528c87e401f43a2739456afd818a07f0e5fbb11f936920",
       "approvedBy": "owner-direct:TASK_ID:CANON-01_ORDERED_PROJECTIONS",
@@ -10848,15 +10812,6 @@
       "authority": "OWNER_CONTINUATION_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1"
     },
     {
-      "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "18f97ad8ba31daff9999f13b672950e207787a039fb18d6e57233eaf7dda0e96",
-      "approvedBy": "owner:OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE",
-      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
-      "rationale": "Approve exact bounded Google Docs local final compatibility verdict bytes: local synthetic evidence aggregation only, NEEDS_MORE_EVIDENCE, real signed-in Google E2E remains WAIT_AUTHORITY, no support/import/roundtrip/apply/product mutation authority.",
-      "approved": true,
-      "authority": "OWNER_CONTINUATION_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1"
-    },
-    {
       "filePath": "scripts/ops/rtk-google-docs-g00-discovery-binding.mjs",
       "sha256": "808e17b0f66e041fc33124af0d7a2890397b0a36661fde909ed9b7e2c3fc944f",
       "approvedBy": "owner:OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE",
@@ -10913,15 +10868,6 @@
     {
       "filePath": "test/contracts/rtk-google-docs-local-final-compatibility-verdict.contract.test.js",
       "sha256": "9e3fbf4e90383aac289cf54bfc45d091430ce4148da626e0e9dd03080bb97f63",
-      "approvedBy": "owner:OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE",
-      "approvedAtUtc": "2026-08-15T00:00:00.000Z",
-      "rationale": "Approve exact bounded Google Docs local final compatibility verdict bytes: local synthetic evidence aggregation only, NEEDS_MORE_EVIDENCE, real signed-in Google E2E remains WAIT_AUTHORITY, no support/import/roundtrip/apply/product mutation authority.",
-      "approved": true,
-      "authority": "OWNER_CONTINUATION_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1"
-    },
-    {
-      "filePath": "test/contracts/rtk-test-graph-catalog.contract.test.js",
-      "sha256": "4d526c0ead2ee699bcfefa57e27c30e11a89bc9c3241fff549b2638c2f618576",
       "approvedBy": "owner:OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE",
       "approvedAtUtc": "2026-08-15T00:00:00.000Z",
       "rationale": "Approve exact bounded Google Docs local final compatibility verdict bytes: local synthetic evidence aggregation only, NEEDS_MORE_EVIDENCE, real signed-in Google E2E remains WAIT_AUTHORITY, no support/import/roundtrip/apply/product mutation authority.",
@@ -10990,6 +10936,123 @@
       "rationale": "Approve exact docs-only final legacy local release-candidate qualification contract test: verifies honest per-feature verdict separation, exact source hashes, local/real-provider separation, F3 physical blockers, and hostile rejection of overclaims without changing product runtime.",
       "approved": true,
       "authority": "OWNER_CONTINUATION_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1"
+    },
+    {
+      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_REAL_ACCOUNT_E2E_V1_RECEIPT.json",
+      "sha256": "8287fd53c0344aa1692de2e19d0780859bb80a92737a3041ff88b2673f87e709",
+      "approvedBy": "owner-standing-grant:TASK_ID:GOOGLE_DOCS_REAL_ACCOUNT_WHOLE_BOOK_E2E_V1",
+      "approvedAtUtc": "2026-08-15T10:30:00.000Z",
+      "rationale": "Approve bounded Google Docs real-account smoke receipt bytes preserved as non-whole-book preliminary evidence only: disposable synthetic artifact, no user document access, no permanent delete, no import/apply/product runtime/platform saturation claim.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_GOOGLE_DOCS_REAL_ACCOUNT_E2E_V1"
+    },
+    {
+      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_REAL_ACCOUNT_WHOLE_BOOK_E2E_V1_CHECKPOINT.json",
+      "sha256": "adba3b7027a8ff6b4778200b8b1841fd19777c3056923dcafa12471db1ec36a1",
+      "approvedBy": "owner-standing-grant:TASK_ID:GOOGLE_DOCS_REAL_ACCOUNT_WHOLE_BOOK_E2E_V1",
+      "approvedAtUtc": "2026-08-15T10:30:00.000Z",
+      "rationale": "Approve bounded whole-book Google Docs checkpoint receipt: exact synthetic current-run document identity, provider evidence paused before cleanup, no user document access, no product runtime mutation, superseded by the final whole-book receipt.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_GOOGLE_DOCS_REAL_ACCOUNT_E2E_V1"
+    },
+    {
+      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_REAL_ACCOUNT_WHOLE_BOOK_E2E_V1_RECEIPT.json",
+      "sha256": "f7bae7bbda3dba6978500933eb6eb8f4f17cff924580335d9d37ea87570e7f81",
+      "approvedBy": "owner-standing-grant:TASK_ID:GOOGLE_DOCS_REAL_ACCOUNT_WHOLE_BOOK_E2E_V1",
+      "approvedAtUtc": "2026-08-15T10:30:00.000Z",
+      "rationale": "Approve exact Google Docs whole-book real-account E2E receipt: full canonical synthetic book denominator, real comment/suggestion/export/stale-revision evidence, current-run artifact trashed, no user documents, no permanent delete, no import/apply/product runtime/platform saturation claim.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_GOOGLE_DOCS_REAL_ACCOUNT_E2E_V1"
+    },
+    {
+      "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
+      "sha256": "45e8c082f86701853dd9d42b75fec8e47d6baf7740c26db379a88fcc71c945d1",
+      "approvedBy": "owner-standing-grant:TASK_ID:GOOGLE_DOCS_REAL_ACCOUNT_WHOLE_BOOK_E2E_V1",
+      "approvedAtUtc": "2026-08-15T10:30:00.000Z",
+      "rationale": "Approve RTK graph catalog rebind adding the Google Docs whole-book real-account contract and scoped truth binding while preserving NEEDS_MORE_EVIDENCE and denying Google product runtime, import/apply, platform saturation, and Word-to-Google evidence transfer.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_GOOGLE_DOCS_REAL_ACCOUNT_E2E_V1"
+    },
+    {
+      "filePath": "scripts/ops/google-docs-real-account-e2e-v1.mjs",
+      "sha256": "1d52b450e5289f5d843cc296d2aaa7015445cc5cc627c0d1e44ebcd865207337",
+      "approvedBy": "owner-standing-grant:TASK_ID:GOOGLE_DOCS_REAL_ACCOUNT_WHOLE_BOOK_E2E_V1",
+      "approvedAtUtc": "2026-08-15T10:30:00.000Z",
+      "rationale": "Approve bounded Google Docs smoke verifier bytes retained as preliminary synthetic evidence only, with hostile rejection of user-document access, permanent delete, suggestion laundering, stale revision overclaim, import/apply, and product runtime claims.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_GOOGLE_DOCS_REAL_ACCOUNT_E2E_V1"
+    },
+    {
+      "filePath": "scripts/ops/google-docs-real-account-whole-book-e2e-v1.mjs",
+      "sha256": "8cadf0333d3cdba5ab0cf5d34014bcaf4090f5c6d9f315b8e3002071430a1aa1",
+      "approvedBy": "owner-standing-grant:TASK_ID:GOOGLE_DOCS_REAL_ACCOUNT_WHOLE_BOOK_E2E_V1",
+      "approvedAtUtc": "2026-08-15T10:30:00.000Z",
+      "rationale": "Approve exact whole-book Google Docs verifier: fail-closed receipt schema, full-corpus denominator, stale/wrong scope/user-doc/permanent-delete/import-apply/product-runtime overclaim rejection, hostile corpus 34/34 and semantic mutation catalog 25/25.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_GOOGLE_DOCS_REAL_ACCOUNT_E2E_V1"
+    },
+    {
+      "filePath": "test/contracts/rtk-g0b-feasibility.contract.test.js",
+      "sha256": "3640161a7aa0dc8b81f1403a641d75e515ebd78519ec0f757d9a880ed824940b",
+      "approvedBy": "owner-standing-grant:TASK_ID:GOOGLE_DOCS_REAL_ACCOUNT_WHOLE_BOOK_E2E_V1",
+      "approvedAtUtc": "2026-08-15T10:30:00.000Z",
+      "rationale": "Approve G0B governed-file allowlist update for the bounded Google Docs whole-book receipt/verifier/test/governance-binding files only; no product runtime, UI, import/apply authority, or user document path is introduced.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_GOOGLE_DOCS_REAL_ACCOUNT_E2E_V1"
+    },
+    {
+      "filePath": "test/contracts/rtk-google-docs-real-account-e2e.contract.test.js",
+      "sha256": "ab6358c797f6092ee8a5439db0ff206f8dd50c68e0823c5db9bba8c78b84b4a8",
+      "approvedBy": "owner-standing-grant:TASK_ID:GOOGLE_DOCS_REAL_ACCOUNT_WHOLE_BOOK_E2E_V1",
+      "approvedAtUtc": "2026-08-15T10:30:00.000Z",
+      "rationale": "Approve existing Google Docs real-account smoke contract bytes as preliminary scoped synthetic evidence only, separate from and not substituting for whole-book proof.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_GOOGLE_DOCS_REAL_ACCOUNT_E2E_V1"
+    },
+    {
+      "filePath": "test/contracts/rtk-google-docs-real-account-whole-book-e2e.contract.test.js",
+      "sha256": "fdaf4115f64da8b8375d60aa20369c9d975fe476925849dbc18ef9870027ad37",
+      "approvedBy": "owner-standing-grant:TASK_ID:GOOGLE_DOCS_REAL_ACCOUNT_WHOLE_BOOK_E2E_V1",
+      "approvedAtUtc": "2026-08-15T10:30:00.000Z",
+      "rationale": "Approve whole-book Google Docs contract test: rejects excerpt/smoke overclaim, missing full readback, structure/text hash mismatch, untrashed artifacts, user documents, permanent delete, UNKNOWN/ABSTAIN, apply, and product runtime claims.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_GOOGLE_DOCS_REAL_ACCOUNT_E2E_V1"
+    },
+    {
+      "filePath": "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",
+      "sha256": "f46432845d4fa319089359f1283336b4d83aa350d3df09bef9cab0d59b79a5bf",
+      "approvedBy": "owner-standing-grant:TASK_ID:GOOGLE_DOCS_REAL_ACCOUNT_WHOLE_BOOK_E2E_V1",
+      "approvedAtUtc": "2026-08-15T10:30:00.000Z",
+      "rationale": "Approve W1 governed-file allowlist sync for bounded Google Docs whole-book receipt/verifier/test/governance files only; preserves no-write vertical slice semantics and introduces no product runtime, UI, import/apply authority, or user document path.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_GOOGLE_DOCS_REAL_ACCOUNT_E2E_V1"
+    },
+    {
+      "filePath": "test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js",
+      "sha256": "8862f9207225f5d35943b84b57ceaaf8b6ea8abd10934f9fb5f0a4ee747cd935",
+      "approvedBy": "owner-standing-grant:TASK_ID:GOOGLE_DOCS_REAL_ACCOUNT_WHOLE_BOOK_E2E_V1",
+      "approvedAtUtc": "2026-08-15T10:30:00.000Z",
+      "rationale": "Approve W2 governed-file allowlist sync for bounded Google Docs whole-book receipt/verifier/test/governance files only; preserves parser review IR boundaries and introduces no product runtime, UI, import/apply authority, or user document path.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_GOOGLE_DOCS_REAL_ACCOUNT_E2E_V1"
+    },
+    {
+      "filePath": "test/contracts/rtk-test-graph-catalog.contract.test.js",
+      "sha256": "778193453db5743be151cbeab14a747c9cb72acef20dd4cd9d5c555458b34671",
+      "approvedBy": "owner-standing-grant:TASK_ID:GOOGLE_DOCS_REAL_ACCOUNT_WHOLE_BOOK_E2E_V1",
+      "approvedAtUtc": "2026-08-15T10:30:00.000Z",
+      "rationale": "Approve RTK catalog contract rebind for the Google Docs whole-book scoped truth binding while preserving NEEDS_MORE_EVIDENCE and denying terminal/platform saturation claims.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_GOOGLE_DOCS_REAL_ACCOUNT_E2E_V1"
+    },
+    {
+      "filePath": "test/contracts/rtk-zip01-budget-crc-evidence.contract.test.js",
+      "sha256": "e55d1f1c23b5c001585dd10a0bb341b3e25d3b411af47321adf598efa4aca340",
+      "approvedBy": "owner-standing-grant:TASK_ID:GOOGLE_DOCS_REAL_ACCOUNT_WHOLE_BOOK_E2E_V1",
+      "approvedAtUtc": "2026-08-15T10:30:00.000Z",
+      "rationale": "Approve ZIP01 governed-file allowlist update for the bounded Google Docs whole-book receipt/verifier/test/governance-binding files only; no product runtime, UI, import/apply authority, or user document path is introduced.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_GOOGLE_DOCS_REAL_ACCOUNT_E2E_V1"
     }
   ]
 }

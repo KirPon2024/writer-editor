@@ -1,0 +1,331 @@
+{
+  "schemaVersion": "yalken.googleDocs.realAccountWholeBookE2E.receipt.v1",
+  "taskId": "GOOGLE_DOCS_REAL_ACCOUNT_WHOLE_BOOK_E2E_V1",
+  "status": "GOOGLE_DOCS_REAL_ACCOUNT_WHOLE_BOOK_E2E_V1_SCOPED_VERIFIED",
+  "verdict": "SCOPED_REAL_GOOGLE_DOCS_WHOLE_BOOK_E2E_PASS_WITH_LIMITATIONS",
+  "programVerdict": "NEEDS_MORE_EVIDENCE",
+  "baselineSha": "b3663e35246cdcbc99b21659b97d6ca9a8f00679",
+  "worktreeBranch": "codex/yalken-google-docs-real-account-e2e-v1",
+  "provider": "google-docs",
+  "evidenceClass": "REAL_CONNECTED_ACCOUNT_E2E_SYNTHETIC_WHOLE_BOOK_ONLY",
+  "connector": "official-connected-google-drive-docs-tools",
+  "browserFallback": {
+    "used": true,
+    "reason": "CONNECTOR_CANNOT_CREATE_NATIVE_SUGGESTIONS_OR_MOVE_TO_TRASH",
+    "browser": "Chrome extension session",
+    "navigationBoundary": "EXACT_SYNTHETIC_DOC_URL_ONLY",
+    "forbiddenNavigation": [
+      "Drive home",
+      "Docs home",
+      "recent files",
+      "search results",
+      "existing user documents"
+    ]
+  },
+  "authority": {
+    "network": "OWNER_AUTHORIZED_CONNECTED_ACCOUNT_SYNTHETIC_ONLY",
+    "userDocumentsForbidden": true,
+    "existingDriveDiscoveryForbidden": true,
+    "permanentDeleteForbidden": true,
+    "productRuntimeWiringForbidden": true
+  },
+  "safetyCounters": {
+    "existingDriveDocumentsSearched": 0,
+    "existingDriveDocumentsListed": 0,
+    "existingDriveDocumentsFetched": 0,
+    "existingDriveDocumentsRead": 0,
+    "userDocumentsRead": 0,
+    "userDocumentsMutated": 0,
+    "permanentDeletes": 0,
+    "productMutations": 0
+  },
+  "syntheticBook": {
+    "corpusId": "YALKEN_WHOLE_BOOK_CANONICAL_SYNTHETIC_V1_20260815T000001Z",
+    "generator": "scripts/ops/rtk-word-c5v2-portfolio-corpus.mjs",
+    "generatorMode": "near-supported-limit",
+    "targetWords": 42000,
+    "sceneCount": 21,
+    "titleHeadingCount": 1,
+    "chapterHeadingCount": 21,
+    "sourceParagraphCount": 357,
+    "styleSentinelCount": 21,
+    "adverseParagraphCount": 3,
+    "paragraphCount": 381,
+    "charCount": 312996,
+    "utf8Bytes": 312996,
+    "htmlBytes": 318752,
+    "scenesSha256": "sha256:7b6900d6861c75411b17b57669606324cbec46e9badd7bbc7f009f6c305bbabc",
+    "inputManifestSha256": "sha256:5d9250722062c61cbb341efa9d436b846486c0dac3ae4ddccad16a6bc71ce484",
+    "inputHtmlSha256": "sha256:ce523b19e05fa6b4b2ef87949933c8e8662891c2385843c3706e97ce38420a97",
+    "plainOracleSha256": "sha256:9c83a184149ef3b0e5ac8490aac6c3e8ddf93804a5ff895836124f7f563fe1c7",
+    "normalizedOracleSha256": "sha256:9c83a184149ef3b0e5ac8490aac6c3e8ddf93804a5ff895836124f7f563fe1c7",
+    "markers": {
+      "firstChapter": "YALKEN_WHOLE_BOOK_CHAPTER_01: Limit Relay 01",
+      "middleChapter": "YALKEN_WHOLE_BOOK_CHAPTER_11: Limit Relay 11",
+      "lastChapter": "YALKEN_WHOLE_BOOK_CHAPTER_21: Limit Relay 21",
+      "commentTarget": "WHOLE_BOOK_COMMENT_TARGET_SCENE_11_CENTER_ANCHOR",
+      "suggestionOriginal": "WHOLE_BOOK_SUGGESTION_TARGET_SCENE_17_ORIGINAL",
+      "suggestionReplacement": "WHOLE_BOOK_SUGGESTION_TARGET_SCENE_17_REPLACEMENT",
+      "finalSentinel": "YALKEN_WHOLE_BOOK_FINAL_SENTINEL_20260815T000001Z"
+    },
+    "noSampling": true,
+    "fullDocumentRequired": true,
+    "excerptOrSmokeEvidenceAdmitted": false
+  },
+  "sourceFiles": {
+    "inputManifest": {
+      "bytes": 17955,
+      "sha256": "sha256:5d9250722062c61cbb341efa9d436b846486c0dac3ae4ddccad16a6bc71ce484"
+    },
+    "inputHtml": {
+      "bytes": 318752,
+      "sha256": "sha256:ce523b19e05fa6b4b2ef87949933c8e8662891c2385843c3706e97ce38420a97"
+    },
+    "plainOracle": {
+      "bytes": 312996,
+      "sha256": "sha256:9c83a184149ef3b0e5ac8490aac6c3e8ddf93804a5ff895836124f7f563fe1c7"
+    },
+    "normalizedOracle": {
+      "bytes": 312996,
+      "sha256": "sha256:9c83a184149ef3b0e5ac8490aac6c3e8ddf93804a5ff895836124f7f563fe1c7"
+    }
+  },
+  "createdArtifacts": [
+    {
+      "artifactRole": "primarySyntheticGoogleDoc",
+      "fileId": "1T5C3xoTThpiPXNMVsR2jYKH6sf016e624-34aBgA5bs",
+      "title": "YALKEN_DISPOSABLE_GOOGLE_DOCS_WHOLE_BOOK_E2E_V1_20260815T000001Z",
+      "mimeType": "application/vnd.google-apps.document",
+      "createdTime": "2026-08-15T09:50:49.859Z",
+      "source": "current-run-create-file-result",
+      "url": "https://docs.google.com/document/d/1T5C3xoTThpiPXNMVsR2jYKH6sf016e624-34aBgA5bs/edit?usp=drivesdk",
+      "cleanupState": "MOVED_TO_TRASH_BY_SCOPED_UI_AUTOMATION",
+      "cleanupEvidence": {
+        "uiAlertTitle": "Файл перемещен в корзину",
+        "uiAlertTextIncludesTitle": true,
+        "uiAlertRestoreButtonObserved": true,
+        "permanentDeleteUsed": false,
+        "connectorTrashPrimitiveAvailable": false,
+        "metadataTrashedFieldExposed": false
+      }
+    }
+  ],
+  "connectorCapabilities": {
+    "nativeDocCreateFromLocalHtml": "PASS",
+    "documentReadback": "PASS",
+    "rangeBoundTextReadback": "PASS",
+    "requiredRevisionIdWriteControl": "PASS",
+    "commentsCreateReadbackResolve": "PASS",
+    "exportDocxMaterialized": "PASS",
+    "exportPlainTextMaterialized": "PASS",
+    "fullTextOracle": "PASS_WITH_SINGLE_TERMINAL_LF_NORMALIZATION",
+    "docxStructuralOracle": "PASS",
+    "createNativeSuggestion": "UNAVAILABLE_BY_TOOL_SCHEMA",
+    "safeMoveToTrash": "UNAVAILABLE_BY_TOOL_SCHEMA",
+    "htmlLocalExport": "OPTIONAL_NOT_MATERIALIZED_NOT_CLAIMED"
+  },
+  "providerObservations": {
+    "importReadback": {
+      "documentId": "1T5C3xoTThpiPXNMVsR2jYKH6sf016e624-34aBgA5bs",
+      "titleMatched": true,
+      "nativeGoogleDoc": true,
+      "mixedTabsAndBodyFieldMask": "DOCUMENTS_GET_REJECTS_TABS_AND_LEGACY_BODY_FIELDS_TOGETHER",
+      "modifiedTimeBeforeSuggestion": "2026-08-15T09:50:49.859Z"
+    },
+    "rangeReadback": {
+      "fullReadbackVerified": true,
+      "noSampling": true,
+      "firstChapter": {
+        "marker": "YALKEN_WHOLE_BOOK_CHAPTER_01: Limit Relay 01",
+        "startIndex": 48,
+        "endIndex": 92,
+        "observed": true
+      },
+      "middleChapter": {
+        "marker": "YALKEN_WHOLE_BOOK_CHAPTER_11: Limit Relay 11",
+        "observed": true
+      },
+      "lastChapter": {
+        "marker": "YALKEN_WHOLE_BOOK_CHAPTER_21: Limit Relay 21",
+        "startIndex": 297674,
+        "endIndex": 297718,
+        "observed": true
+      },
+      "finalSentinel": {
+        "marker": "YALKEN_WHOLE_BOOK_FINAL_SENTINEL_20260815T000001Z",
+        "startIndex": 312890,
+        "endIndex": 312939,
+        "observed": true
+      }
+    },
+    "textOracle": {
+      "oracleSha256": "sha256:9c83a184149ef3b0e5ac8490aac6c3e8ddf93804a5ff895836124f7f563fe1c7",
+      "exportBeforeSha256": "sha256:770971587084ed418757114e12dcdbfe42991fd896ed590ccb8b27787397f405",
+      "exportAfterSuggestionSha256": "sha256:770971587084ed418757114e12dcdbfe42991fd896ed590ccb8b27787397f405",
+      "exportBeforeBytes": 313400,
+      "exportAfterBytes": 313400,
+      "normalizedExportSha256": "sha256:52339c39368e8c623a829b283f43c51394ffdb7a5d741d9b73543dae7b61c10b",
+      "matchIgnoringSingleTrailingLf": true,
+      "silentTruncationObserved": false,
+      "acceptedTextExportUnchangedByPendingSuggestion": true
+    },
+    "docxStructuralOracle": {
+      "beforeSuggestion": {
+        "fileSha256": "sha256:fa1051afb22cdb36bc302dc8930b6e1fae06493c59ddfeab4a4717f719bb3dc6",
+        "documentXmlSha256": "sha256:92296ac05735113ceacbe88d6af3017bf177e0bde85e34c0753e988bccfbbcb3",
+        "documentXmlBytes": 570817,
+        "paragraphTagCount": 403,
+        "headingMarkerCount": 21,
+        "styleSentinelCount": 21,
+        "boldCount": 21,
+        "italicCount": 21,
+        "underlineSingleCount": 21,
+        "blueColorCount": 21,
+        "continuousTextMatchesOracle": true,
+        "firstMiddleLastAndFinalSentinelPresent": true
+      },
+      "afterSuggestion": {
+        "fileSha256": "sha256:5a7dd0fa4802a0db7f9fcb35a7deb56a84d4e1cbad2d08f0b6a117fddec554c2",
+        "documentXmlSha256": "sha256:d640727304efbc3fc3efcd1586879dcde9edff5b45f1b55fb9655937d23a0b86",
+        "insCount": 1,
+        "delCount": 1,
+        "delTextCount": 1,
+        "replacementInInsertion": true,
+        "originalInDeletion": true,
+        "deletedTextHasOriginal": true
+      }
+    },
+    "commentsLifecycle": {
+      "createdCommentId": "AAACFlsNw88",
+      "quotedText": "WHOLE_BOOK_COMMENT_TARGET_SCENE_11_CENTER_ANCHOR",
+      "createdReadbackResolved": false,
+      "resolveReplyId": "AAACFlsNw9A",
+      "finalReadbackResolved": true
+    },
+    "nativeSuggestion": {
+      "createdByConnector": false,
+      "createdByScopedUiAutomation": true,
+      "uiModeBeforeMutation": "Советовать",
+      "sidebarReplacementStatementObserved": true,
+      "insertionText": "WHOLE_BOOK_SUGGESTION_TARGET_SCENE_17_REPLACEMENT",
+      "deletionText": "WHOLE_BOOK_SUGGESTION_TARGET_SCENE_17_ORIGINAL",
+      "connectorReadbackCompositeTextObserved": true,
+      "docxTrackedInsertionCount": 1,
+      "docxTrackedDeletionCount": 1,
+      "replacementInInsertion": true,
+      "originalInDeletion": true,
+      "falseAutoApplyCount": 0,
+      "finalRevisionId": "AIroW37-JboreE3yKI5mflVI28RiIogvMQeLC1edaqhg0JCUGZpg1i7aRdaf8Fe0wnBbNaFi8nbYC-jtEDwWURZYZUc0lPSnjfC0Ys7a2lk",
+      "providerTimestamp": "2026-08-15T10:02:38Z"
+    },
+    "staleRevisionNegative": {
+      "attemptedRequiredRevisionId": "AIroW37Y6UtK4TJ0mYWhKGBF9gRCOTLO_pQ0qdFkYNUgq_Zf8qXD5zmXeg9EZCko0hSYlAA10oTWjNCFw7PwW5dikyMVfMWj2mWHoKoAVqk",
+      "attemptedText": "SHOULD_NOT_WRITE_STALE_WHOLE_BOOK",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "providerStatus": "INVALID_ARGUMENT",
+      "providerMessageClass": "required revision ID does not match latest revision",
+      "rejectedTextAbsentAfterReadback": true
+    },
+    "exports": {
+      "htmlLocalExport": "OPTIONAL_NOT_MATERIALIZED_NOT_CLAIMED",
+      "materialized": [
+        {
+          "role": "plain-text-before-suggestion",
+          "bytes": 313400,
+          "sha256": "sha256:770971587084ed418757114e12dcdbfe42991fd896ed590ccb8b27787397f405"
+        },
+        {
+          "role": "docx-before-suggestion",
+          "bytes": 24171,
+          "sha256": "sha256:fa1051afb22cdb36bc302dc8930b6e1fae06493c59ddfeab4a4717f719bb3dc6"
+        },
+        {
+          "role": "plain-text-after-suggestion",
+          "bytes": 313400,
+          "sha256": "sha256:770971587084ed418757114e12dcdbfe42991fd896ed590ccb8b27787397f405"
+        },
+        {
+          "role": "docx-after-suggestion",
+          "bytes": 24360,
+          "sha256": "sha256:5a7dd0fa4802a0db7f9fcb35a7deb56a84d4e1cbad2d08f0b6a117fddec554c2"
+        }
+      ]
+    },
+    "cleanup": {
+      "exactDocumentIdVerifiedBeforeTrash": true,
+      "exactTitleVerifiedBeforeTrash": true,
+      "uiTrashAlertObserved": true,
+      "uiAlertTitle": "Файл перемещен в корзину",
+      "uiAlertTextIncludedExactTitle": true,
+      "restoreButtonObserved": true,
+      "permanentDeleteUsed": false
+    }
+  },
+  "denominators": {
+    "createdSyntheticArtifacts": 1,
+    "trashedSyntheticArtifacts": 1,
+    "nativeGoogleDocsImports": 1,
+    "fullBookSceneCount": 21,
+    "fullBookParagraphCount": 381,
+    "fullBookCharCount": 312996,
+    "fullBookRangeReadbacks": 4,
+    "tailSentinelReadbacks": 1,
+    "connectorCommentThreadsCreated": 1,
+    "connectorCommentThreadsResolved": 1,
+    "nativeSuggestionsObserved": 1,
+    "staleRevisionNegatives": 1,
+    "textExportsMaterialized": 2,
+    "docxExportsMaterialized": 2,
+    "docxStructuralOracles": 2,
+    "textOracles": 2,
+    "htmlLocalExportsClaimed": 0,
+    "userDocumentsRead": 0,
+    "userDocumentsMutated": 0,
+    "permanentDeletes": 0,
+    "productMutations": 0
+  },
+  "fullReadbackVerified": true,
+  "noSampling": true,
+  "applyAuthority": "DENY",
+  "productRuntimeWired": false,
+  "falseAutoApplyCount": 0,
+  "scopedPasses": [
+    "native-html-import-to-synthetic-google-doc",
+    "exact-id-and-title-readback",
+    "full-book-tail-and-range-readback",
+    "single-current-run-comment-create-readback-resolve",
+    "stale-required-revision-reject-and-absence-readback",
+    "scoped-ui-native-suggestion-create-on-exact-synthetic-doc",
+    "accepted-text-export-unchanged-by-pending-suggestion",
+    "docx-track-change-structural-oracle",
+    "plain-text-whole-book-oracle-with-single-terminal-lf-normalization",
+    "exact-current-run-ui-trash-without-permanent-delete"
+  ],
+  "limitations": [
+    "GOOGLE_DOCS_PROFILE_ONLY",
+    "NO_GOOGLE_DOCS_PRODUCT_RUNTIME_SUPPORT_CLAIM",
+    "NO_IMPORT_APPLY_AUTHORITY",
+    "NO_CHAIN_SATURATION_CLAIM",
+    "NO_UNIVERSAL_WORD_GOOGLE_PARITY_CLAIM",
+    "HTML_LOCAL_EXPORT_NOT_MATERIALIZED_AND_NOT_CLAIMED",
+    "TEXT_EXPORT_DIFFERS_FROM_ORACLE_BY_ONE_PROVIDER_TERMINAL_LF_ONLY",
+    "F3_PHYSICAL_OWNER_OFF_HOST_GATES_REMAIN_OPEN",
+    "INTEROP_CHAIN_C1_TO_C8_REMAINS_PENDING"
+  ],
+  "nonClaims": [
+    "No existing Drive documents were searched, listed, fetched, read, or changed.",
+    "No user manuscript or user document evidence is used.",
+    "No permanent delete was used.",
+    "No Google Docs import/apply/product mutation authority is claimed.",
+    "No saturation, terminal Google Docs PASS, or Word/Google parity is claimed.",
+    "Overall legacy program verdict remains NEEDS_MORE_EVIDENCE."
+  ],
+  "checkpointSha256": "sha256:adba3b7027a8ff6b4778200b8b1841fd19777c3056923dcafa12471db1ec36a1",
+  "rollback": {
+    "repo": "revert bounded receipt/verifier/test commit",
+    "provider": "current-run disposable synthetic artifact moved to trash; restore only if owner explicitly requests audit recovery",
+    "productDataMigrationRequired": false,
+    "productRuntimeRollbackRequired": false
+  }
+}

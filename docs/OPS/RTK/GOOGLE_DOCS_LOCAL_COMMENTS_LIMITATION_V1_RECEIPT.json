@@ -1,0 +1,143 @@
+{
+  "schemaVersion": "yalken.googleDocs.localCommentsLimitation.receipt.v1",
+  "taskId": "GOOGLE_DOCS_LOCAL_COMMENTS_LIMITATION_V1",
+  "status": "GOOGLE_DOCS_LOCAL_COMMENTS_LIMITATION_V1_LOCAL_VERIFIED",
+  "result": "COMMENTS_LANE_ABSTAIN_NEEDS_REAL_GOOGLE_E2E",
+  "createdAtUtc": "2026-08-15T03:10:00.000Z",
+  "originMainSha": "8b93c821867d0eb0d5d023390b8b358bfb6cff99",
+  "localHeadSha": "8b93c821867d0eb0d5d023390b8b358bfb6cff99",
+  "localAbstainOnly": true,
+  "noProductMutation": true,
+  "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE",
+  "nonClaims": {
+    "googleDocsReady": false,
+    "supportProven": false,
+    "importProven": false,
+    "roundtripProven": false,
+    "commentsParsed": false,
+    "commentsIrTrusted": false,
+    "applyAuthority": false,
+    "physicalGoogleEvidence": false,
+    "productRuntimeWired": false,
+    "userDocumentsUsed": false,
+    "googleAccountUsed": false,
+    "networkRuntimeUsed": false,
+    "wordEvidenceTransferred": false
+  },
+  "samplePacket": {
+    "packet": {
+      "schemaVersion": "yalken.googleDocs.localCommentsLimitation.v1",
+      "packetId": "synthetic-google-docs-comments-limitation-v1",
+      "sourceKind": "DISPOSABLE_SYNTHETIC_GOOGLE_COMMENTS_FIXTURE",
+      "provider": "google-docs",
+      "profileId": "google-docs-office-mode-post-d1-v1",
+      "editorMode": "OFFICE_MODE",
+      "localOnly": true,
+      "userDocument": false,
+      "googleAccountUsed": false,
+      "networkRuntimeUsed": false,
+      "productRuntimeWired": false,
+      "physicalGoogleEvidence": false,
+      "inheritedEvidenceProfileId": "",
+      "sourceBinding": {
+        "projectId": "synthetic-google-docs-project",
+        "rootId": "synthetic-google-docs-root",
+        "documentId": "synthetic-google-docs-document",
+        "canonicalRevision": "sha256:6d446104e737c754924c062db340d99fcbb71aeca2a12eacb2f2c133bbb68c8b",
+        "workingRevision": "sha256:b1dd8ca52ba8054dfeb4ec41974157dab8d5264858856a1d10f7046b62dfbdf8",
+        "generation": 1
+      },
+      "fixture": {
+        "mediaType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "payloadText": "Yalken Google Docs local comments synthetic fixture.\nDisposable only. No Google account, no network, no user document.\nContains comment-like labels, but no trusted Drive comments import or apply authority.",
+        "payloadSha256": "sha256:6ade9ee77d7000ce2a8ff5c86cef8d7c6a22c6465250efe19c433456b6895d20",
+        "sizeBytes": 205
+      },
+      "advertisedCommentCount": 3,
+      "comments": [
+        {
+          "commentId": "com-root-001",
+          "kind": "driveCommentRoot",
+          "anchor": "paragraph-1",
+          "body": "Root comment label."
+        },
+        {
+          "commentId": "com-reply-001",
+          "kind": "driveCommentReply",
+          "anchor": "paragraph-1",
+          "parentCommentId": "com-root-001",
+          "body": "Reply label."
+        },
+        {
+          "commentId": "com-resolved-001",
+          "kind": "driveCommentResolved",
+          "anchor": "paragraph-2",
+          "body": "Resolved label."
+        }
+      ],
+      "claims": {
+        "supportProven": false,
+        "importProven": false,
+        "roundtripProven": false,
+        "commentsParsed": false,
+        "commentsIrTrusted": false,
+        "commentsApplyAuthority": false,
+        "applyAuthority": false,
+        "productMutationAuthority": false
+      },
+      "limitations": [
+        "NO_REAL_GOOGLE_ACCOUNT_E2E",
+        "NO_DRIVE_COMMENTS_IMPORT",
+        "NO_TRUSTED_GOOGLE_COMMENTS_IR",
+        "NO_COMMENT_APPLY_AUTHORITY",
+        "COMMENTS_TYPED_ABSTAIN_LOCAL_ONLY"
+      ]
+    },
+    "result": {
+      "ok": true,
+      "status": "GOOGLE_DOCS_LOCAL_COMMENTS_LIMITATION_V1_LOCAL_VERIFIED",
+      "result": "COMMENTS_LANE_ABSTAIN_NEEDS_REAL_GOOGLE_E2E",
+      "code": "GOOGLE_COMMENTS_LANE_ABSTAINED",
+      "action": "ABSTAIN_ONLY",
+      "provider": "google-docs",
+      "profileId": "google-docs-office-mode-post-d1-v1",
+      "editorMode": "OFFICE_MODE",
+      "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE",
+      "localAbstainOnly": true,
+      "noProductMutation": true,
+      "supportClaimed": false,
+      "importClaimed": false,
+      "roundtripClaimed": false,
+      "commentsIrTrusted": false,
+      "applyAuthority": "DENY",
+      "packetDigest": "sha256:11aebb162a53f3831e4314779c2cbe422bbbed93f996f9c2cb82c3d7b968d4b6",
+      "counts": {
+        "commentsAdvertised": 3,
+        "commentsObserved": 3,
+        "commentsTrusted": 0,
+        "applyAdmitted": 0,
+        "productMutations": 0
+      }
+    }
+  },
+  "hostileProof": {
+    "finiteCases": 1,
+    "hostileCases": 17,
+    "semanticMutants": 12,
+    "survivors": 0,
+    "requiredFailures": [
+      "support/import/roundtrip overclaim",
+      "Google account/network/runtime/user-document overclaim",
+      "Word evidence inheritance",
+      "stale fixture digest",
+      "source transplant",
+      "silent comment count mismatch",
+      "duplicate comment id",
+      "UNKNOWN/ABSTAIN as PASS"
+    ]
+  },
+  "rollback": {
+    "type": "REVERT_THIS_CONTOUR_ONLY",
+    "preservesPreviousG00Verdict": "LOCAL_COMPATIBILITY_NEEDS_MORE_EVIDENCE"
+  }
+}

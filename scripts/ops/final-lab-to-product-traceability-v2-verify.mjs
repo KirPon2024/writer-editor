@@ -9,7 +9,7 @@ export const LEDGER_PATH = 'docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2
 
 export const LEDGER_SCHEMA_VERSION = 'yalken.finalLabToProductTraceability.ledger.v2';
 
-export const LEDGER_EXACT_HEAD_SHA = 'ba62fb9fb4d1646ced37542b75370ec0226e1079';
+export const LEDGER_EXACT_HEAD_SHA = '0fa20906911b5ed410e058bc8264408bdf9b884b';
 
 export const LEDGER_STATUS = 'LIVING_LEDGER_CURRENT_FINAL_PROGRAM_VERDICT_NEEDS_MORE_EVIDENCE';
 
@@ -59,6 +59,8 @@ export const REQUIRED_MATERIAL_IDS = Object.freeze([
   'F2_WORD_16_112_WAVE300_REPEAT',
   'F2_WORD_16_112_SATURATION_LIMITATION_AUDIT',
   'F2_WORD_16_112_TYPED_ADVERSE_SCHEDULES',
+  'F2_GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1',
+  'F2_GOOGLE_DOCS_REAL_ACCOUNT_E2E_AUTHORITY_BOUNDARY',
   'CROSS_FEATURE_INDEPENDENT_AUDITS',
   'F0R_T0_ROUND_AUTHORITY_PRODUCTIZATION',
   'F3_BLACK_BOX_FINAL_LAB_P0A_P0B_P0C_LESSONS',
@@ -257,6 +259,8 @@ function validateMaterialDispositions(repoRoot, ledger, errors) {
   let hasDeferredOrLabOnly = false;
   let f3BlackBoxProductRow = null;
   let f3ArchitectureManifestHardeningRow = null;
+  let googleDocsLocalFinalRow = null;
+  let googleDocsRealE2eRow = null;
 
   for (const entry of ledger.materialDispositions) {
     if (!isObject(entry)) {
@@ -271,6 +275,12 @@ function validateMaterialDispositions(repoRoot, ledger, errors) {
     }
     if (entry.materialId === 'F3_BLACK_BOX_ARCHITECTURE_MANIFEST_HARDENING_V1') {
       f3ArchitectureManifestHardeningRow = entry;
+    }
+    if (entry.materialId === 'F2_GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1') {
+      googleDocsLocalFinalRow = entry;
+    }
+    if (entry.materialId === 'F2_GOOGLE_DOCS_REAL_ACCOUNT_E2E_AUTHORITY_BOUNDARY') {
+      googleDocsRealE2eRow = entry;
     }
 
     const phaseIndex = PROGRAM_PHASE_SEQUENCE.indexOf(entry.programPhase);
@@ -386,6 +396,45 @@ function validateMaterialDispositions(repoRoot, ledger, errors) {
     ].filter(Boolean).join('\n');
     if (/in-flight architecture manifest hardening candidate|PR candidate|PR_OPEN|PENDING_CI|pending required CI|pending merge|PENDING_MERGE|PENDING_REQUIRED_CI/i.test(f3ArchitectureText)) {
       errors.push('materialDispositions:F3_BLACK_BOX_ARCHITECTURE_MANIFEST_HARDENING_V1:STALE_POSTMERGE_DELIVERY_STATE');
+    }
+  }
+  if (!googleDocsLocalFinalRow) {
+    errors.push('materialDispositions:F2_GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1:MISSING');
+  } else {
+    if (googleDocsLocalFinalRow.programPhase !== 'F2') {
+      errors.push('materialDispositions:F2_GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1:PROGRAM_PHASE_INVALID');
+    }
+    if (googleDocsLocalFinalRow.disposition !== 'ENFORCED_TEST_GATE') {
+      errors.push('materialDispositions:F2_GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1:DISPOSITION_INVALID');
+    }
+    if (googleDocsLocalFinalRow.localCompatibilityVerdict !== 'LOCAL_COMPATIBILITY_NEEDS_REAL_GOOGLE_E2E') {
+      errors.push('materialDispositions:F2_GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1:GOOGLE_LOCAL_COMPATIBILITY_VERDICT_ESCALATION');
+    }
+    if (googleDocsLocalFinalRow.realGoogleE2E !== 'WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE') {
+      errors.push('materialDispositions:F2_GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1:GOOGLE_REAL_E2E_FALSE_GREEN');
+    }
+    if (googleDocsLocalFinalRow.productSupportClaim !== 'DENY' || googleDocsLocalFinalRow.productMutationAuthority !== 'DENY') {
+      errors.push('materialDispositions:F2_GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1:GOOGLE_PRODUCT_AUTHORITY_ESCALATION');
+    }
+    const binding = Array.isArray(googleDocsLocalFinalRow.productBindings) ? googleDocsLocalFinalRow.productBindings[0] : null;
+    if (binding?.receipt?.path !== 'docs/OPS/RTK/GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1_RECEIPT.json') {
+      errors.push('materialDispositions:F2_GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1:GOOGLE_LOCAL_RECEIPT_BINDING_INVALID');
+    }
+  }
+  if (!googleDocsRealE2eRow) {
+    errors.push('materialDispositions:F2_GOOGLE_DOCS_REAL_ACCOUNT_E2E_AUTHORITY_BOUNDARY:MISSING');
+  } else {
+    if (googleDocsRealE2eRow.programPhase !== 'F2') {
+      errors.push('materialDispositions:F2_GOOGLE_DOCS_REAL_ACCOUNT_E2E_AUTHORITY_BOUNDARY:PROGRAM_PHASE_INVALID');
+    }
+    if (googleDocsRealE2eRow.disposition !== 'DEFERRED_WITH_BLOCKER') {
+      errors.push('materialDispositions:F2_GOOGLE_DOCS_REAL_ACCOUNT_E2E_AUTHORITY_BOUNDARY:GOOGLE_REAL_E2E_MUST_REMAIN_DEFERRED');
+    }
+    if (Array.isArray(googleDocsRealE2eRow.productBindings) && googleDocsRealE2eRow.productBindings.length > 0) {
+      errors.push('materialDispositions:F2_GOOGLE_DOCS_REAL_ACCOUNT_E2E_AUTHORITY_BOUNDARY:GOOGLE_REAL_E2E_HAS_PRODUCT_BINDING');
+    }
+    if (googleDocsRealE2eRow.deferred?.owner !== 'MASTER_PROGRAM_OWNER_GOOGLE_ACCOUNT_NETWORK_AUTHORITY') {
+      errors.push('materialDispositions:F2_GOOGLE_DOCS_REAL_ACCOUNT_E2E_AUTHORITY_BOUNDARY:OWNER_AUTHORITY_BOUNDARY_INVALID');
     }
   }
 }

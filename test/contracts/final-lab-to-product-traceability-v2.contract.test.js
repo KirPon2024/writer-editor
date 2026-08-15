@@ -1,5 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const { execFileSync } = require('node:child_process');
 
 async function loadVerifier() {
   return import('../../scripts/ops/final-lab-to-product-traceability-v2-verify.mjs');
@@ -21,6 +22,7 @@ test('FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2 ledger is valid on exact head and blo
   const report = verifyFinalLabTraceabilityLedger();
   assert.equal(report.ok, true, report.errors.join('\n'));
   assert.equal(report.exactHead, LEDGER_EXACT_HEAD_SHA);
+  execFileSync('git', ['merge-base', '--is-ancestor', LEDGER_EXACT_HEAD_SHA, 'HEAD'], { stdio: 'ignore' });
   const ledger = readLedger();
   assert.equal(ledger.status, LEDGER_STATUS);
   assert.equal(ledger.claimControls.finalProgramVerdict, FINAL_PROGRAM_VERDICT);
@@ -46,6 +48,31 @@ test('FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2 ledger maps every required external r
   for (const materialId of REQUIRED_MATERIAL_IDS) {
     assert.equal(materialIds.has(materialId), true, `missing ${materialId}`);
   }
+});
+
+test('FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2 maps Google Docs local compatibility separately from real-account E2E', async () => {
+  const { readLedger } = await loadVerifier();
+  const ledger = readLedger();
+  const localRow = ledger.materialDispositions.find((row) => row.materialId === 'F2_GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1');
+  const realRow = ledger.materialDispositions.find((row) => row.materialId === 'F2_GOOGLE_DOCS_REAL_ACCOUNT_E2E_AUTHORITY_BOUNDARY');
+
+  assert.equal(localRow?.programPhase, 'F2');
+  assert.equal(localRow?.disposition, 'ENFORCED_TEST_GATE');
+  assert.equal(localRow?.localCompatibilityVerdict, 'LOCAL_COMPATIBILITY_NEEDS_REAL_GOOGLE_E2E');
+  assert.equal(localRow?.realGoogleE2E, 'WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE');
+  assert.equal(localRow?.productSupportClaim, 'DENY');
+  assert.equal(localRow?.productMutationAuthority, 'DENY');
+  assert.equal(localRow?.productBindings?.[0]?.prNumber, 1561);
+  assert.equal(
+    localRow?.productBindings?.[0]?.receipt?.path,
+    'docs/OPS/RTK/GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1_RECEIPT.json',
+  );
+
+  assert.equal(realRow?.programPhase, 'F2');
+  assert.equal(realRow?.disposition, 'DEFERRED_WITH_BLOCKER');
+  assert.equal(realRow?.deferred?.owner, 'MASTER_PROGRAM_OWNER_GOOGLE_ACCOUNT_NETWORK_AUTHORITY');
+  assert.equal(Array.isArray(realRow?.productBindings), false);
+  assert.match(realRow?.deferred?.acceptanceGate || '', /signed-in Google Docs provider E2E/i);
 });
 
 test('FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2 hostile mutations are rejected fail-closed', async () => {
@@ -158,6 +185,37 @@ test('FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2 hostile mutations are rejected fail-c
         ledger.nonTransferableHistoricalProfiles = [];
       },
       error: 'WORD_16_111_3_DENY_MISSING',
+    },
+    {
+      name: 'missing-google-local-final-row',
+      mutate(ledger) {
+        ledger.materialDispositions = ledger.materialDispositions.filter((row) => row.materialId !== 'F2_GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1');
+      },
+      error: 'MISSING_REQUIRED:F2_GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1',
+    },
+    {
+      name: 'google-local-overclaimed-as-ready',
+      mutate(ledger) {
+        const entry = ledger.materialDispositions.find((row) => row.materialId === 'F2_GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1');
+        entry.localCompatibilityVerdict = 'READY';
+      },
+      error: 'GOOGLE_LOCAL_COMPATIBILITY_VERDICT_ESCALATION',
+    },
+    {
+      name: 'google-real-e2e-promoted-without-authority',
+      mutate(ledger) {
+        const entry = ledger.materialDispositions.find((row) => row.materialId === 'F2_GOOGLE_DOCS_REAL_ACCOUNT_E2E_AUTHORITY_BOUNDARY');
+        entry.disposition = 'ENFORCED_TEST_GATE';
+        entry.productBindings = [clone(ledger.materialDispositions.find((row) => row.productBindings?.length).productBindings[0])];
+      },
+      error: 'GOOGLE_REAL_E2E_MUST_REMAIN_DEFERRED',
+    },
+    {
+      name: 'final-release-ready-over-google-and-f3-blockers',
+      mutate(ledger) {
+        ledger.status = 'READY';
+      },
+      error: 'status:INVALID',
     },
   ];
 

@@ -175,11 +175,11 @@
       "cellId": "google.authenticatedReturnIntakeQuarantine",
       "family": "intake",
       "intendedTerminalClass": "PRODUCT_RUNTIME_WIRED",
-      "currentTerminalClass": "UNTESTED",
-      "userFacingAuthority": "NO_RETURN_INTAKE_AUTHORITY",
+      "currentTerminalClass": "TYPED_QUARANTINE_LOCAL_ONLY",
+      "userFacingAuthority": "NO_RETURN_IMPORT_OR_APPLY_AUTHORITY",
       "physicalEvidence": false,
-      "reasonCode": "G00_NO_GOOGLE_RETURN_INTAKE",
-      "requiredNextContour": "GOOGLE_DOCS_LOCAL_RETURN_INTAKE_QUARANTINE_V1",
+      "reasonCode": "GOOGLE_RETURN_INTAKE_QUARANTINE_LOCAL_ONLY_NO_REAL_GOOGLE_E2E",
+      "requiredNextContour": "GOOGLE_DOCS_LOCAL_PREVIEW_ONLY_NO_APPLY_V1",
       "blocksGoogleStage": true
     },
     {
@@ -350,7 +350,7 @@
     "applyAuthority": false,
     "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE"
   },
-  "nextLocalContour": "GOOGLE_DOCS_LOCAL_RETURN_INTAKE_QUARANTINE_V1",
+  "nextLocalContour": "GOOGLE_DOCS_LOCAL_PREVIEW_ONLY_NO_APPLY_V1",
   "googleCurrentState": {
     "supportClaimed": false,
     "importClaimed": false,
@@ -361,7 +361,7 @@
     "googleStageDone": false,
     "localCompatibilityVerdict": "LOCAL_COMPATIBILITY_NEEDS_MORE_EVIDENCE",
     "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE",
-    "nextLocalContour": "GOOGLE_DOCS_LOCAL_RETURN_INTAKE_QUARANTINE_V1"
+    "nextLocalContour": "GOOGLE_DOCS_LOCAL_PREVIEW_ONLY_NO_APPLY_V1"
   },
   "localFormatStructureMatrix": {
     "status": "GOOGLE_DOCS_LOCAL_FORMAT_STRUCTURE_MATRIX_V1_LOCAL_VERIFIED",
@@ -383,5 +383,21 @@
     "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE",
     "formatCases": 6,
     "structureCases": 4
+  },
+  "localReturnIntakeQuarantine": {
+    "status": "GOOGLE_DOCS_LOCAL_RETURN_INTAKE_QUARANTINE_V1_LOCAL_VERIFIED",
+    "result": "RETURN_INTAKE_QUARANTINE_ONLY_NEEDS_REAL_GOOGLE_E2E",
+    "receiptPath": "docs/OPS/RTK/GOOGLE_DOCS_LOCAL_RETURN_INTAKE_QUARANTINE_V1_RECEIPT.json",
+    "receiptSha256": "sha256:f9c941f02b0415e406960d307cb6e72dc3f5e4e460ff9bb6c2bd0b93a8c2381e",
+    "localQuarantineOnly": true,
+    "noProductMutation": true,
+    "physicalGoogleEvidence": 0,
+    "productRuntimeWired": 0,
+    "supportClaimed": false,
+    "importClaimed": false,
+    "roundtripClaimed": false,
+    "returnIntakeTrusted": false,
+    "applyAuthority": false,
+    "realAccountE2E": "WAIT_AUTHORITY_REQUIRED_FOR_REAL_PROVIDER_EVIDENCE"
   }
 }

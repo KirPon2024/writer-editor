@@ -11074,19 +11074,19 @@
     },
     {
       "filePath": "scripts/ops/rtk-interop-chain-matrix-v1.mjs",
-      "sha256": "74fdce2ca043bed5efd5fbd3bec00ba4a8fac35973ddb5b81940cffa8497a684",
+      "sha256": "47444c0c62f6cde5cad43bc32272e91657378bf03f0b12186a9d36cf1bf53c7c",
       "approvedBy": "owner-standing-grant:TASK_ID:INTEROP_CHAIN_MATRIX_LINEAGE_REGISTRATION_V1",
-      "approvedAtUtc": "2026-08-15T11:58:00.000Z",
-      "rationale": "Approve verifier for closed C1-C8 route set and fail-closed hostile checks: missing/extra route, PASS without evidence, UNKNOWN/ABSTAIN/CONFLICTING as PASS, false auto-apply, provider evidence inheritance, sampling, user documents, stale head, and parity/byte identity overclaim.",
+      "approvedAtUtc": "2026-08-15T12:20:00.000Z",
+      "rationale": "Approve verifier for closed C1-C8 route set and fail-closed hostile checks: missing/extra route, PASS without evidence, UNKNOWN/ABSTAIN/CONFLICTING as PASS, false auto-apply, provider evidence inheritance, sampling, user documents, stale head, parity/byte identity overclaim, and shallow GitHub PR base-sha binding without widening route claims.",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_MATRIX_LINEAGE_REGISTRATION"
     },
     {
       "filePath": "test/contracts/rtk-interop-chain-matrix.contract.test.js",
-      "sha256": "52c0f948e1e5278d37227e1e2fcfa7ae920decccc7582c71d7cd953aeeba3781",
+      "sha256": "4a9a39ec345e583958c2eaaf776c839f60bc31e22b77d54f7161e976e8651be1",
       "approvedBy": "owner-standing-grant:TASK_ID:INTEROP_CHAIN_MATRIX_LINEAGE_REGISTRATION_V1",
-      "approvedAtUtc": "2026-08-15T11:58:00.000Z",
-      "rationale": "Approve RTK contract tests for the interop chain matrix and lineage receipt: exact C1-C8 denominator, scoped Google whole-book non-closure, maintained graph admission, and hostile mutation rejection with no product runtime, UI, user document, provider execution, or import/apply authority.",
+      "approvedAtUtc": "2026-08-15T12:20:00.000Z",
+      "rationale": "Approve RTK contract tests for the interop chain matrix and lineage receipt: exact C1-C8 denominator, scoped Google whole-book non-closure, maintained graph admission, hostile mutation rejection, and GitHub shallow-checkout base-sha mismatch rejection with no product runtime, UI, user document, provider execution, or import/apply authority.",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_MATRIX_LINEAGE_REGISTRATION"
     }

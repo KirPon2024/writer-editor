@@ -1,5 +1,8 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
 
 async function loadVerifier() {
   return import('../../scripts/ops/rtk-interop-chain-matrix-v1.mjs');
@@ -28,6 +31,7 @@ test('Interop chain matrix registers the exact C1-C8 full-book denominator witho
   const report = verifyInteropChainMatrix();
   assert.equal(report.ok, true, report.errors.join('\n'));
   assert.equal(report.exactHead, INTEROP_CHAIN_EXACT_HEAD_SHA);
+  assert.match(report.exactHeadBinding.status, /^(REACHABLE_FROM_CURRENT_HEAD|MATCHES_PULL_REQUEST_BASE_SHA_IN_SHALLOW_CHECKOUT)$/u);
 
   const matrix = readChainMatrix();
   assert.equal(matrix.status, MATRIX_STATUS);
@@ -47,6 +51,30 @@ test('Interop chain matrix registers the exact C1-C8 full-book denominator witho
     assert.notEqual(route.routeVerdict, 'PASS', route.routeId);
     assert.match(route.routeVerdict, /^(NEEDS_MORE_EVIDENCE|UNSUPPORTED|BLOCKED)$/u, route.routeId);
   }
+});
+
+test('Interop chain exact-head binding accepts only matching GitHub PR base metadata when local graph is shallow', async () => {
+  const { INTEROP_CHAIN_EXACT_HEAD_SHA, resolveExactHeadBinding } = await loadVerifier();
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-chain-pr-event-'));
+  const eventPath = path.join(tempDir, 'event.json');
+  fs.writeFileSync(eventPath, JSON.stringify({ pull_request: { base: { sha: INTEROP_CHAIN_EXACT_HEAD_SHA } } }), 'utf8');
+
+  const accepted = resolveExactHeadBinding('/definitely/not/a/git/repo', {
+    GITHUB_ACTIONS: 'true',
+    GITHUB_EVENT_NAME: 'pull_request',
+    GITHUB_EVENT_PATH: eventPath,
+  });
+  assert.equal(accepted.ok, true);
+  assert.equal(accepted.status, 'MATCHES_PULL_REQUEST_BASE_SHA_IN_SHALLOW_CHECKOUT');
+
+  fs.writeFileSync(eventPath, JSON.stringify({ pull_request: { base: { sha: '0'.repeat(40) } } }), 'utf8');
+  const rejected = resolveExactHeadBinding('/definitely/not/a/git/repo', {
+    GITHUB_ACTIONS: 'true',
+    GITHUB_EVENT_NAME: 'pull_request',
+    GITHUB_EVENT_PATH: eventPath,
+  });
+  assert.equal(rejected.ok, false);
+  assert.equal(rejected.status, 'PULL_REQUEST_BASE_SHA_MISMATCH');
 });
 
 test('Interop chain matrix binds Google whole-book evidence as scoped input, not chain closure', async () => {

@@ -72,6 +72,14 @@ function readJsonAt(repoRoot, repoRelativePath) {
   return JSON.parse(fs.readFileSync(path.join(repoRoot, repoRelativePath), 'utf8'));
 }
 
+function tryReadJson(filePath) {
+  try {
+    return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  } catch {
+    return null;
+  }
+}
+
 export function readChainMatrix(repoRoot = repoRootFromHere()) {
   return readJsonAt(repoRoot, MATRIX_PATH);
 }
@@ -252,6 +260,44 @@ export function validateLineageReceipt(receipt, matrix, matrixSha256, googleRece
   if (matrix.claimControls.chainSaturationVerdict !== 'NEEDS_MORE_EVIDENCE') errors.push('lineageReceipt:MATRIX_CHAIN_VERDICT_ESCALATED');
 }
 
+export function resolveExactHeadBinding(repoRoot = repoRootFromHere(), env = process.env) {
+  const git = spawnSync('git', ['merge-base', '--is-ancestor', INTEROP_CHAIN_EXACT_HEAD_SHA, 'HEAD'], {
+    cwd: repoRoot,
+    stdio: ['ignore', 'ignore', 'ignore'],
+  });
+  if (git.status === 0) {
+    return {
+      ok: true,
+      status: 'REACHABLE_FROM_CURRENT_HEAD',
+      source: 'LOCAL_GIT_GRAPH',
+    };
+  }
+
+  if (env.GITHUB_ACTIONS === 'true' && env.GITHUB_EVENT_NAME === 'pull_request' && env.GITHUB_EVENT_PATH) {
+    const event = tryReadJson(env.GITHUB_EVENT_PATH);
+    const baseSha = event?.pull_request?.base?.sha;
+    if (baseSha === INTEROP_CHAIN_EXACT_HEAD_SHA) {
+      return {
+        ok: true,
+        status: 'MATCHES_PULL_REQUEST_BASE_SHA_IN_SHALLOW_CHECKOUT',
+        source: 'GITHUB_PULL_REQUEST_EVENT',
+      };
+    }
+    return {
+      ok: false,
+      status: 'PULL_REQUEST_BASE_SHA_MISMATCH',
+      source: 'GITHUB_PULL_REQUEST_EVENT',
+      observedBaseSha: baseSha || 'MISSING',
+    };
+  }
+
+  return {
+    ok: false,
+    status: 'NOT_REACHABLE_FROM_CURRENT_HEAD',
+    source: 'LOCAL_GIT_GRAPH',
+  };
+}
+
 export function verifyInteropChainMatrix(options = {}) {
   const repoRoot = options.repoRoot || repoRootFromHere();
   const errors = [];
@@ -271,16 +317,14 @@ export function verifyInteropChainMatrix(options = {}) {
     if (catalog.currentTruthBinding?.interopChainMatrix !== MATRIX_STATUS) errors.push('catalog:INTEROP_CHAIN_BINDING_MISSING');
   }
 
-  const git = spawnSync('git', ['merge-base', '--is-ancestor', INTEROP_CHAIN_EXACT_HEAD_SHA, 'HEAD'], {
-    cwd: repoRoot,
-    stdio: ['ignore', 'ignore', 'ignore'],
-  });
-  if (git.status !== 0) errors.push('EXACT_HEAD_NOT_REACHABLE_FROM_CURRENT_HEAD');
+  const exactHeadBinding = resolveExactHeadBinding(repoRoot, options.env || process.env);
+  if (!exactHeadBinding.ok) errors.push(`EXACT_HEAD_BINDING_INVALID:${exactHeadBinding.status}`);
 
   return {
     ok: errors.length === 0,
     errors,
     exactHead: INTEROP_CHAIN_EXACT_HEAD_SHA,
+    exactHeadBinding,
     matrixSha256,
     catalogIncludesContract,
   };

@@ -77,7 +77,7 @@ test('C1 Word full-book route receipt is fail-closed blocker evidence, not route
   assert.equal(receipt.failureCounters.conflictingAsPass, 0);
   assert.equal(receipt.failureCounters.silentLoss, 0);
   assert.equal(receipt.failureCounters.falseAutoApplyCount, 0);
-  assert.equal(receipt.nextSequentialContour, 'C1_WORD_RETURN_AUTHORITY_AND_PROFILE_BINDING_REPAIR_V1');
+  assert.equal(receipt.nextSequentialContour, 'C1_WORD_WINDOW_ARTIFACT_PUBLICATION_BLOCKER_REPAIR_V1');
 });
 
 test('C1 Word full-book physical evidence binds exact blocker facts and no terminal aggregate', async () => {
@@ -94,28 +94,31 @@ test('C1 Word full-book physical evidence binds exact blocker facts and no termi
   assert.match(receipt.physicalEvidence.sourceDocxSha256, /^sha256:[0-9a-f]{64}$/u);
   assert.match(receipt.physicalEvidence.returnedDocxSha256, /^sha256:[0-9a-f]{64}$/u);
   assert.equal(receipt.physicalEvidence.resultStatus.attemptedOperations, 200);
-  assert.equal(receipt.physicalEvidence.resultStatus.reportedOperations, 15);
+  assert.equal(receipt.physicalEvidence.resultStatus.reportedOperations, 0);
   assert.equal(receipt.physicalEvidence.resultStatus.wordStatus, 'FAIL');
+  assert.equal(receipt.physicalEvidence.resultStatus.sourceExportOk, true);
   assert.equal(receipt.physicalEvidence.resultStatus.electronOk, false);
   assert.equal(receipt.physicalEvidence.resultStatus.nativeLifecycleOk, false);
   assert.equal(receipt.physicalEvidence.resultStatus.productReturnApplyOk, false);
   assert.equal(receipt.physicalEvidence.resultStatus.roundOracleGateOk, false);
   assert.equal(receipt.physicalEvidence.resultStatus.terminalOperationAggregatePresent, false);
   assert.equal(receipt.physicalEvidence.resultStatus.returnIntakeAuthenticated, false);
-  assert.equal(receipt.physicalEvidence.resultStatus.returnIntakeStatus, 'legacy-unbound-review-preview');
+  assert.equal(receipt.physicalEvidence.resultStatus.returnIntakeStatus, 'not-started-returned-docx-timeout');
   assert.equal(receipt.physicalEvidence.resultStatus.falseAutoApplyCount, 0);
+  assert.equal(receipt.physicalEvidence.returnedArtifactPresent, false);
   assert.equal(receipt.physicalEvidence.returnedPackageObservation.customDocumentPropertyCarrierSurvived, true);
   assert.equal(receipt.physicalEvidence.returnedPackageObservation.customXmlCarrierSurvived, false);
   assert.equal(receipt.physicalEvidence.independentParserProbe.ok, true);
-  assert.equal(receipt.physicalEvidence.independentParserProbe.status, 'review-ir-ready');
-  assert.equal(receipt.physicalEvidence.independentParserProbe.sourceMode, 'TRACKED');
+  assert.equal(receipt.physicalEvidence.independentParserProbe.status, 'source-authority-current-profile-bound');
+  assert.equal(receipt.physicalEvidence.independentParserProbe.sourceMode, 'CLEAN_EXPORT_SOURCE');
   assert.equal(receipt.physicalEvidence.independentParserProbe.canWriteManuscript, false);
   assert.equal(receipt.physicalEvidence.independentParserProbe.selectedCarrier, 'customDocumentProperty:YRTK_C01_AUTH');
   assert.equal(receipt.physicalEvidence.independentParserProbe.authorityVerified, false);
-  assert.equal(receipt.physicalEvidence.independentParserProbe.payloadProfileIdStale, true);
-  assert.equal(receipt.physicalEvidence.independentParserProbe.reviewCounts.textRevisions, 145);
-  assert.equal(receipt.physicalEvidence.independentParserProbe.reviewCounts.commentThreads, 30);
-  assert.equal(receipt.physicalEvidence.independentParserProbe.reviewCounts.formattingDeltas, 67);
+  assert.equal(receipt.physicalEvidence.independentParserProbe.payloadProfileId, 'word-mac-16.112-26081010-product-review-export-c5v2-full-manuscript');
+  assert.equal(receipt.physicalEvidence.independentParserProbe.payloadProfileIdStale, false);
+  assert.equal(receipt.physicalEvidence.independentParserProbe.reviewCounts.textRevisions, 0);
+  assert.equal(receipt.physicalEvidence.independentParserProbe.reviewCounts.commentThreads, 0);
+  assert.equal(receipt.physicalEvidence.independentParserProbe.reviewCounts.formattingDeltas, 0);
 
   for (const oracleName of Object.keys(receipt.oracles)) {
     assert.notEqual(receipt.oracles[oracleName].status, 'PASS', oracleName);
@@ -132,7 +135,7 @@ test('C1 Word full-book route updates only C1 as blocked in the chain matrix and
   const c1 = matrix.routeDenominator.find((route) => route.routeId === 'C1');
   assert.equal(c1.routeVerdict, 'BLOCKED');
   assert.equal(c1.accountingStatus, 'FULL_BOOK_ATTEMPTED_BLOCKED');
-  assert.equal(c1.fullBookAccounting, 'FULL_BOOK_ATTEMPTED_WORD_RETURN_BLOCKED_NOT_PROVEN');
+  assert.equal(c1.fullBookAccounting, 'FULL_BOOK_ATTEMPTED_WORD_WINDOW_ARTIFACT_PUBLICATION_BLOCKED_NOT_PROVEN');
   assert.deepEqual(c1.executedFullRouteEvidence, []);
   assert.deepEqual(c1.blockerEvidenceRefs, ['YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1']);
   assert.equal(c1.productMutationAuthority, 'DENY_UNTIL_ROUTE_CONTOUR_PROVES_APPLY_AUTHORITY');
@@ -177,7 +180,7 @@ test('C1 Word full-book route hostile receipt mutations are rejected fail-closed
     ['chain-saturation', (r) => { r.route.chainSaturationVerdict = 'PASS'; }, 'CHAIN_SATURATION_ESCALATION'],
     ['oracle-pass', (r) => { r.oracles.semanticOracle.status = 'PASS'; }, 'ORACLE_NOT_PASS_WHEN_ROUTE_BLOCKED'],
     ['terminal-aggregate-present', (r) => { r.physicalEvidence.resultStatus.terminalOperationAggregatePresent = true; }, 'TERMINAL_AGGREGATE_MUST_BE_ABSENT'],
-    ['stale-profile-not-recorded', (r) => { r.physicalEvidence.independentParserProbe.payloadProfileIdStale = false; }, 'STALE_PROFILE_BINDING_NOT_RECORDED'],
+    ['current-profile-not-recorded', (r) => { r.physicalEvidence.independentParserProbe.payloadProfileId = 'word-mac-latest-observed-16.111.x-product-review-export-c5v2-full-manuscript'; }, 'CURRENT_PROFILE_BINDING_NOT_RECORDED'],
   ];
 
   for (const [name, mutate, expected] of cases) {

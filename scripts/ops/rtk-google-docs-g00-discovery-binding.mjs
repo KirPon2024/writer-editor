@@ -14,6 +14,7 @@ const REPO_ROOT = path.resolve(__dirname, '..', '..');
 const TASK_ID = 'GOOGLE_DOCS_LOCAL_COMPATIBILITY_G00_REBIND_V1';
 const STATUS = 'LOCAL_COMPATIBILITY_REBOUND_NEEDS_REAL_ACCOUNT_E2E';
 const RESULT = 'LOCAL_COMPATIBILITY_NEEDS_MORE_EVIDENCE';
+const FINAL_LOCAL_RESULT = 'LOCAL_COMPATIBILITY_NEEDS_REAL_GOOGLE_E2E';
 const CREATED_AT_UTC = '2026-08-15T00:00:00.000Z';
 const WORD_PROFILE_ID = 'word-mac-16.112-26081010';
 const WORD_SCOPE_STATUS = 'COMPLETE_NOT_SATURATED';
@@ -541,7 +542,7 @@ function evaluateGoogleDocsG00DiscoveryBinding(input = {}) {
     || matrix.currentRealityAudit?.existingFlow !== 'EVIDENCE_CLAIM_GATE_ONLY'
     || matrix.currentRealityAudit?.identityRevisionFence !== 'NOT_ADMITTED_FOR_GOOGLE_RUNTIME'
     || matrix.currentRealityAudit?.quarantine !== 'NOT_WIRED'
-    || matrix.currentRealityAudit?.localCompatibilityVerdict !== RESULT
+    || ![RESULT, FINAL_LOCAL_RESULT].includes(matrix.currentRealityAudit?.localCompatibilityVerdict)
     || matrix.currentRealityAudit?.realAccountE2E !== REAL_ACCOUNT_E2E_BOUNDARY
     || matrix.currentRealityAudit?.roundtripLossMatrix?.officeMode !== 'ABSTAIN_NO_SIGNED_IN_E2E'
     || matrix.currentRealityAudit?.roundtripLossMatrix?.nativeConversion !== 'ABSTAIN_LOSSY_BY_DEFAULT_UNTIL_EVIDENCE') {
@@ -558,6 +559,7 @@ function evaluateGoogleDocsG00DiscoveryBinding(input = {}) {
     || receipt.googleCurrentState?.productRuntimeWired !== 0
     || receipt.googleCurrentState?.automaticApplyCertified !== 0
     || receipt.googleCurrentState?.googleStageDone !== false
+    || ![RESULT, FINAL_LOCAL_RESULT].includes(receipt.googleCurrentState?.localCompatibilityVerdict)
     || receipt.googleCurrentState?.realAccountE2E !== REAL_ACCOUNT_E2E_BOUNDARY) {
     add('GOOGLE_G00_RECEIPT_INVALID', 'receipt', 'G00 receipt must keep Google as local compatibility NEEDS_MORE_EVIDENCE with real-account E2E blocked.');
   }

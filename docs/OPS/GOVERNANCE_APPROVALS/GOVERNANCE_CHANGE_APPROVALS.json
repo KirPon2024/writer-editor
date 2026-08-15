@@ -10704,44 +10704,8 @@
       "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
     },
     {
-      "filePath": "docs/OPS/RTK/GOOGLE_BUILD_PROFILE_REGISTRY_V1.json",
-      "sha256": "4b266cbd07860e1f26d5e2d81d13378f420c6636d812229a83e36666865f1612",
-      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_COMMENTS_LIMITATION_V1",
-      "approvedAtUtc": "2026-08-15T03:10:00.000Z",
-      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: local synthetic comments lane typed ABSTAIN only; no Google account, user documents, runtime network, support/import/roundtrip/apply/product mutation claim, Word evidence transfer, or runtime bridge semantic change.",
-      "approved": true,
-      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
-    },
-    {
       "filePath": "docs/OPS/RTK/GOOGLE_DOCS_LOCAL_COMMENTS_LIMITATION_V1_RECEIPT.json",
       "sha256": "6d4719411c0bc8fc372e2bd84bc6e288a338ed49288a9fc58bd4919de48fc966",
-      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_COMMENTS_LIMITATION_V1",
-      "approvedAtUtc": "2026-08-15T03:10:00.000Z",
-      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: local synthetic comments lane typed ABSTAIN only; no Google account, user documents, runtime network, support/import/roundtrip/apply/product mutation claim, Word evidence transfer, or runtime bridge semantic change.",
-      "approved": true,
-      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
-    },
-    {
-      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
-      "sha256": "627e525973dea122864183c423ff6ccc3f331b41a777e9169d4308afd94ce1d2",
-      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_COMMENTS_LIMITATION_V1",
-      "approvedAtUtc": "2026-08-15T03:10:00.000Z",
-      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: local synthetic comments lane typed ABSTAIN only; no Google account, user documents, runtime network, support/import/roundtrip/apply/product mutation claim, Word evidence transfer, or runtime bridge semantic change.",
-      "approved": true,
-      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
-    },
-    {
-      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json",
-      "sha256": "16178b96c5395ae3cd2acb85e5968b11f4c8a8ddba3f47b027be8959faf1ede8",
-      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_COMMENTS_LIMITATION_V1",
-      "approvedAtUtc": "2026-08-15T03:10:00.000Z",
-      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: local synthetic comments lane typed ABSTAIN only; no Google account, user documents, runtime network, support/import/roundtrip/apply/product mutation claim, Word evidence transfer, or runtime bridge semantic change.",
-      "approved": true,
-      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
-    },
-    {
-      "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "97030c8a018b75b00d24b7d17be4f692d3c86e17bedb2cfe9f1a2fe0c6e80500",
       "approvedBy": "owner:GOOGLE_DOCS_LOCAL_COMMENTS_LIMITATION_V1",
       "approvedAtUtc": "2026-08-15T03:10:00.000Z",
       "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: local synthetic comments lane typed ABSTAIN only; no Google account, user documents, runtime network, support/import/roundtrip/apply/product mutation claim, Word evidence transfer, or runtime bridge semantic change.",
@@ -10767,8 +10731,8 @@
       "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
     },
     {
-      "filePath": "test/contracts/revision-bridge-google-docs-evidence-check.contract.test.js",
-      "sha256": "eb3382b1f459daf3a52270f18fdfb4b3682555f03cb30d0d6ea905e0eb4f0ed2",
+      "filePath": "test/contracts/rtk-google-docs-local-comments-limitation.contract.test.js",
+      "sha256": "d9860aac3480aeaffe50ea640cb16df42baf0ae0a14b709cbc313bf4e3725d04",
       "approvedBy": "owner:GOOGLE_DOCS_LOCAL_COMMENTS_LIMITATION_V1",
       "approvedAtUtc": "2026-08-15T03:10:00.000Z",
       "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: local synthetic comments lane typed ABSTAIN only; no Google account, user documents, runtime network, support/import/roundtrip/apply/product mutation claim, Word evidence transfer, or runtime bridge semantic change.",
@@ -10776,11 +10740,83 @@
       "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
     },
     {
-      "filePath": "test/contracts/rtk-google-docs-local-comments-limitation.contract.test.js",
-      "sha256": "d9860aac3480aeaffe50ea640cb16df42baf0ae0a14b709cbc313bf4e3725d04",
-      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_COMMENTS_LIMITATION_V1",
-      "approvedAtUtc": "2026-08-15T03:10:00.000Z",
-      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: local synthetic comments lane typed ABSTAIN only; no Google account, user documents, runtime network, support/import/roundtrip/apply/product mutation claim, Word evidence transfer, or runtime bridge semantic change.",
+      "filePath": "docs/OPS/RTK/GOOGLE_BUILD_PROFILE_REGISTRY_V1.json",
+      "sha256": "2809dbcfb052ccf8a3786e3bd739b1423401ff9bd9ed5eaa6fd8c9f7e0a5ffe5",
+      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_FORMAT_STRUCTURE_MATRIX_V1",
+      "approvedAtUtc": "2026-08-15T04:45:00.000Z",
+      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: local synthetic formatting and structure matrix typed ABSTAIN only; no Google account, user documents, runtime network, support/import/roundtrip/apply/product mutation claim, Word evidence transfer, or runtime bridge semantic change.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_LOCAL_FORMAT_STRUCTURE_MATRIX_V1_RECEIPT.json",
+      "sha256": "f9ae1df6307b5a1f76b3b88e5543f05504101670a524b8172d0f25ef2ca01e8d",
+      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_FORMAT_STRUCTURE_MATRIX_V1",
+      "approvedAtUtc": "2026-08-15T04:45:00.000Z",
+      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: local synthetic formatting and structure matrix typed ABSTAIN only; no Google account, user documents, runtime network, support/import/roundtrip/apply/product mutation claim, Word evidence transfer, or runtime bridge semantic change.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
+      "sha256": "106ae54c00bd7c1e94637f35e44e0407c5b11222b7d87b2e177f7dddd1813c99",
+      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_FORMAT_STRUCTURE_MATRIX_V1",
+      "approvedAtUtc": "2026-08-15T04:45:00.000Z",
+      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: local synthetic formatting and structure matrix typed ABSTAIN only; no Google account, user documents, runtime network, support/import/roundtrip/apply/product mutation claim, Word evidence transfer, or runtime bridge semantic change.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json",
+      "sha256": "104bba54c9374a3f2fb347803e729c9a4a4ec817a3be2c9a47f2e4bd66613aa6",
+      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_FORMAT_STRUCTURE_MATRIX_V1",
+      "approvedAtUtc": "2026-08-15T04:45:00.000Z",
+      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: local synthetic formatting and structure matrix typed ABSTAIN only; no Google account, user documents, runtime network, support/import/roundtrip/apply/product mutation claim, Word evidence transfer, or runtime bridge semantic change.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
+      "sha256": "801ebed7d47bbfc176283e27958edae25d94eb6271c1329df91508c98959df20",
+      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_FORMAT_STRUCTURE_MATRIX_V1",
+      "approvedAtUtc": "2026-08-15T04:45:00.000Z",
+      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: local synthetic formatting and structure matrix typed ABSTAIN only; no Google account, user documents, runtime network, support/import/roundtrip/apply/product mutation claim, Word evidence transfer, or runtime bridge semantic change.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "scripts/ops/rtk-google-docs-local-format-structure-matrix-model.mjs",
+      "sha256": "d4036aa16be11f538c462aa1cb98d01d00f15255d095aeb52e7cab383140a23f",
+      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_FORMAT_STRUCTURE_MATRIX_V1",
+      "approvedAtUtc": "2026-08-15T04:45:00.000Z",
+      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: local synthetic formatting and structure matrix typed ABSTAIN only; no Google account, user documents, runtime network, support/import/roundtrip/apply/product mutation claim, Word evidence transfer, or runtime bridge semantic change.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "scripts/ops/rtk-google-docs-local-format-structure-matrix-v1.mjs",
+      "sha256": "2e5ad836fa7d92543356ae82e7e2077e3ff05f9db7a99a36fb97e406362db163",
+      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_FORMAT_STRUCTURE_MATRIX_V1",
+      "approvedAtUtc": "2026-08-15T04:45:00.000Z",
+      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: local synthetic formatting and structure matrix typed ABSTAIN only; no Google account, user documents, runtime network, support/import/roundtrip/apply/product mutation claim, Word evidence transfer, or runtime bridge semantic change.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "test/contracts/revision-bridge-google-docs-evidence-check.contract.test.js",
+      "sha256": "7a1b1d431a240567d68df73293d1f3aab2211b76c41ff53f4c207dea2d28d7a2",
+      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_FORMAT_STRUCTURE_MATRIX_V1",
+      "approvedAtUtc": "2026-08-15T04:45:00.000Z",
+      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: local synthetic formatting and structure matrix typed ABSTAIN only; no Google account, user documents, runtime network, support/import/roundtrip/apply/product mutation claim, Word evidence transfer, or runtime bridge semantic change.",
+      "approved": true,
+      "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
+    },
+    {
+      "filePath": "test/contracts/rtk-google-docs-local-format-structure-matrix.contract.test.js",
+      "sha256": "bfb9514c230d536ff2809a7d76f5393b5cd0ac38a41f1afe8719967776319ca8",
+      "approvedBy": "owner:GOOGLE_DOCS_LOCAL_FORMAT_STRUCTURE_MATRIX_V1",
+      "approvedAtUtc": "2026-08-15T04:45:00.000Z",
+      "rationale": "Owner-approved legacy Google Docs local compatibility follow-up: local synthetic formatting and structure matrix typed ABSTAIN only; no Google account, user documents, runtime network, support/import/roundtrip/apply/product mutation claim, Word evidence transfer, or runtime bridge semantic change.",
       "approved": true,
       "authority": "OWNER_BRIEF_2026_08_15_LEGACY_FEATURE_PROGRAM_LOCAL_RELEASE_CANDIDATE"
     }

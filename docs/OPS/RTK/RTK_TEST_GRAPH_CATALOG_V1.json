@@ -24,6 +24,7 @@
     "rtk-google-docs-local-comments-limitation.contract.test.js",
     "rtk-google-docs-local-export-packet-quarantine.contract.test.js",
     "rtk-google-docs-local-format-structure-matrix.contract.test.js",
+    "rtk-google-docs-local-preview-only-no-apply.contract.test.js",
     "rtk-google-docs-local-return-intake-quarantine.contract.test.js",
     "rtk-google-docs-local-suggestions-ir-abstain.contract.test.js",
     "rtk-google01-provider-profiles.contract.test.js",
@@ -134,6 +135,7 @@
     "googleLocalSuggestionsIrAbstain": "GOOGLE_DOCS_LOCAL_SUGGESTIONS_IR_ABSTAIN_V1_LOCAL_VERIFIED",
     "googleLocalCommentsLimitation": "GOOGLE_DOCS_LOCAL_COMMENTS_LIMITATION_V1_LOCAL_VERIFIED",
     "googleLocalFormatStructureMatrix": "GOOGLE_DOCS_LOCAL_FORMAT_STRUCTURE_MATRIX_V1_LOCAL_VERIFIED",
-    "googleLocalReturnIntakeQuarantine": "GOOGLE_DOCS_LOCAL_RETURN_INTAKE_QUARANTINE_V1_LOCAL_VERIFIED"
+    "googleLocalReturnIntakeQuarantine": "GOOGLE_DOCS_LOCAL_RETURN_INTAKE_QUARANTINE_V1_LOCAL_VERIFIED",
+    "googleLocalPreviewOnlyNoApply": "GOOGLE_DOCS_LOCAL_PREVIEW_ONLY_NO_APPLY_V1_LOCAL_VERIFIED"
   }
 }

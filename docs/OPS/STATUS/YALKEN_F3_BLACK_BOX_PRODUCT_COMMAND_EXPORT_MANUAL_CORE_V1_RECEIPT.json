@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.f3.blackBoxProductCommandExportManualCore.receipt.v1",
   "taskId": "F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1",
-  "status": "MERGED_POSTMERGE_VERIFIED_NOT_FULL_BLACK_BOX_PRODUCT_V1_WITH_UI_DEFAULT_PATH_AND_ARCHITECTURE_MANIFEST_HARDENING_PR_OPEN_FULL_RTK_GREEN_PENDING_CI",
+  "status": "MERGED_POSTMERGE_VERIFIED_NOT_FULL_BLACK_BOX_PRODUCT_V1_WITH_UI_DEFAULT_PATH_AND_ARCHITECTURE_MANIFEST_HARDENING_MERGED_POSTMERGE_VERIFIED",
   "verdict": "READY_FOR_BOUNDED_PRODUCT_COMMAND_UI_AND_ARCHITECTURE_MANIFEST_NEEDS_MORE_EVIDENCE_FOR_FULL_BLACK_BOX_PRODUCT_V1",
   "createdAtUtc": "2026-08-14T11:45:00Z",
   "baseline": {
@@ -1108,10 +1108,10 @@
   },
   "architectureManifestHardening": {
     "taskId": "F3_BLACK_BOX_ARCHITECTURE_MANIFEST_HARDENING_V1",
-    "status": "PR_OPEN_FULL_RTK_GREEN_PENDING_REQUIRED_CI_AND_MERGE",
+    "status": "MERGED_POSTMERGE_VERIFIED",
     "baselineSha": "1cb32601a4e426dfbeb9286cb8f7a289f509e431",
-    "candidateCommitSha": "f8ce349fc3d33bbdd45d0cab903a03fdae6e74ce",
-    "candidateTreeSha": "95664a20a9d553d0e2669786af58cd58eebd4943",
+    "candidateCommitSha": "d8cb13ad64b16ee09b94e7931e01cc5c69fa2386",
+    "candidateTreeSha": "674138dfd1230c8235edc464150566f096814313",
     "branch": "codex/yalken-f3-black-box-architecture-manifest-hardening-v1",
     "prNumber": 1552,
     "scope": "Harden the existing Black Box product command integration manifest and traceability proof for FEATURE_INTEGRATION_MANIFEST_V1 completeness, five state classes, no-loss authoring duty, platform availability/fallback, current/target separation, Tier C no-data-migration boundary and revert-only rollback. No runtime behavior, UI, provider, user document, canonical project data or product V1 readiness claim is changed.",
@@ -1173,7 +1173,7 @@
         "todo": 0,
         "materialDispositions": 41,
         "externalPins": 3,
-        "exactHead": "1cb32601a4e426dfbeb9286cb8f7a289f509e431"
+        "exactHead": "ba62fb9fb4d1646ced37542b75370ec0226e1079"
       }
     },
     "architectureBoundary": {
@@ -1205,8 +1205,9 @@
       "src/product/blackBoxProductCommandExportManualCoreV1.mjs": "4d270f42603ffacb8372da343eb40eb2e1b1f81ffc923275b1cc9e39f7187e17",
       "test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js": "7f4d0ca7c93a1c9e2f690eaa9bbe73bd3e02b9bd1ccf95312c96332f57367ab0",
       "scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs": "421f8f718fc0da4e8c9db8fb270b187428196685b4cdc6e8e84429d7154a953a",
-      "scripts/ops/final-lab-to-product-traceability-v2-verify.mjs": "d71143f39a5d9d26548bf244abe8cd423a2635556fcc564adb856272d1db2785",
-      "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json": "95384ebf668c1b5b99e498c0146668e594a13ff90be1e6e5234963db3b669f6e"
+      "scripts/ops/final-lab-to-product-traceability-v2-verify.mjs": "4cf8a68c438a47ddc2d2f3a11ef9bb3eeefd2b99c348533119a34e45a20d08ac",
+      "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json": "95384ebf668c1b5b99e498c0146668e594a13ff90be1e6e5234963db3b669f6e",
+      "test/contracts/final-lab-to-product-traceability-v2.contract.test.js": "a3089d8ebfa5dfb2ebaa9482fe298a8c72db6398e2e29c019aedfc9242324f58"
     },
     "rollback": "Revert this bounded manifest/test/model/receipt/ledger/governance PR; no project data or runtime behavior rollback is required.",
     "affectedProof": {
@@ -1238,15 +1239,28 @@
       "governanceChangeDetection": "PASS_MISSING_APPROVALS_0_APPROVAL_REGISTRY_VALID_1",
       "devFast": "28/28",
       "guardrails": "PASS",
-      "fullRtk": "923/923 pass, 0 fail, 0 skipped, 0 todo on clean candidate f8ce349fc3d33bbdd45d0cab903a03fdae6e74ce",
+      "fullRtk": "923/923 pass, 0 fail, 0 skipped, 0 todo on clean PR head d8cb13ad64b16ee09b94e7931e01cc5c69fa2386; repeated postmerge on ba62fb9fb4d1646ced37542b75370ec0226e1079",
       "dependencies": "npm ci used existing package-lock with task-local cache; no dependency file changes"
     },
     "deliveryGates": {
       "push": "PASS origin/codex/yalken-f3-black-box-architecture-manifest-hardening-v1",
-      "pullRequest": "OPEN #1552",
-      "requiredCi": "PENDING",
-      "merge": "PENDING_REQUIRED_CI",
-      "postmergeExactHeadVerification": "PENDING_MERGE"
+      "pullRequest": "MERGED #1552",
+      "requiredCi": "PASS oss-policy, rtk-required, x1-runtime-parity ubuntu-latest, x1-runtime-parity windows-latest",
+      "merge": "PASS ba62fb9fb4d1646ced37542b75370ec0226e1079",
+      "postmergeExactHeadVerification": "PASS bootstrap, focused 15/15, model 58 finite/35 hostile/31 mutants/0 survivors, traceability verifier PASS, governance PASS, dev:fast 28/28, guardrails PASS, full RTK 923/923"
+    },
+    "featureCommitSha": "f8ce349fc3d33bbdd45d0cab903a03fdae6e74ce",
+    "featureTreeSha": "95664a20a9d553d0e2669786af58cd58eebd4943",
+    "mergeCommitSha": "ba62fb9fb4d1646ced37542b75370ec0226e1079",
+    "mergeTreeSha": "674138dfd1230c8235edc464150566f096814313",
+    "postmergeHeadSha": "ba62fb9fb4d1646ced37542b75370ec0226e1079",
+    "postmergeTreeSha": "674138dfd1230c8235edc464150566f096814313",
+    "postmergeRebind": {
+      "taskId": "F3_BLACK_BOX_ARCHITECTURE_MANIFEST_POSTMERGE_REBIND_V1",
+      "status": "IN_PROGRESS_LOCAL_CANDIDATE",
+      "baselineSha": "ba62fb9fb4d1646ced37542b75370ec0226e1079",
+      "redFirst": "validator accepted stale postmerge PR-candidate wording while report.ok=true; after verifier hardening stale wording must be rejected",
+      "claimBoundary": "Factual receipt/ledger rebind only; no runtime behavior, UI, provider, user document, product network or full Black Box Product V1 claim."
     }
   }
 }

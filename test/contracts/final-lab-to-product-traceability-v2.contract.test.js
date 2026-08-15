@@ -128,6 +128,15 @@ test('FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2 hostile mutations are rejected fail-c
       error: 'STALE_UI_DEFAULT_PATH_BLOCKER',
     },
     {
+      name: 'stale-f3-architecture-manifest-pr-candidate-state',
+      mutate(ledger) {
+        ledger.claimControls.reason += ' F3 has an in-flight architecture manifest hardening candidate.';
+        const entry = ledger.materialDispositions.find((row) => row.materialId === 'F3_BLACK_BOX_ARCHITECTURE_MANIFEST_HARDENING_V1');
+        entry.summary += ' PR candidate remains PENDING_CI.';
+      },
+      error: 'STALE_POSTMERGE_DELIVERY_STATE',
+    },
+    {
       name: 'historical-word-evidence-transfer',
       mutate(ledger) {
         ledger.nonTransferableHistoricalProfiles = [];

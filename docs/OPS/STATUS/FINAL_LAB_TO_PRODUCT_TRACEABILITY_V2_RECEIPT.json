@@ -1,15 +1,17 @@
 {
   "schemaVersion": "yalken.finalLabToProductTraceability.receipt.v2",
   "taskId": "PROGRAM_FINAL_TRACEABILITY_VERDICT_REBIND_V1",
-  "createdAtUtc": "2026-08-15T00:25:29Z",
-  "status": "FINAL_PROGRAM_VERDICT_RECORDED_NEEDS_MORE_EVIDENCE_WITH_F3_ARCHITECTURE_MANIFEST_HARDENING_PR_OPEN_FULL_RTK_GREEN_PENDING_CI",
+  "createdAtUtc": "2026-08-15T01:05:00Z",
+  "status": "FINAL_PROGRAM_VERDICT_RECORDED_NEEDS_MORE_EVIDENCE_WITH_F3_ARCHITECTURE_MANIFEST_HARDENING_MERGED_POSTMERGE_VERIFIED",
   "verdict": "NEEDS_MORE_EVIDENCE",
   "baseline": {
-    "headSha": "1cb32601a4e426dfbeb9286cb8f7a289f509e431",
-    "treeSha": "95664a20a9d553d0e2669786af58cd58eebd4943",
-    "candidateCommitSha": "f8ce349fc3d33bbdd45d0cab903a03fdae6e74ce",
-    "branch": "codex/yalken-f3-black-box-architecture-manifest-hardening-v1",
-    "prNumber": 1552
+    "headSha": "ba62fb9fb4d1646ced37542b75370ec0226e1079",
+    "treeSha": "674138dfd1230c8235edc464150566f096814313",
+    "candidateCommitSha": "d8cb13ad64b16ee09b94e7931e01cc5c69fa2386",
+    "featureCommitSha": "f8ce349fc3d33bbdd45d0cab903a03fdae6e74ce",
+    "branch": "codex/yalken-f3-architecture-manifest-postmerge-rebind-v1",
+    "previousPrNumber": 1552,
+    "previousMergeCommitSha": "ba62fb9fb4d1646ced37542b75370ec0226e1079"
   },
   "scope": {
     "productRuntimeChanged": false,
@@ -30,15 +32,15 @@
     ]
   },
   "redFirst": {
-    "command": "node inline invariant over FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json and FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_RECEIPT.json",
+    "command": "node inline invariant plus patched final-lab-to-product-traceability-v2 verifier over current ledger",
     "result": "RED_EXPECTED",
-    "tests": 4,
-    "pass": 0,
-    "fail": 1,
+    "tests": 3,
+    "pass": 1,
+    "fail": 2,
     "skip": 0,
     "todo": 0,
-    "verifierError": "F3 umbrella still claimed UI/default path local-candidate; final traceability receipt still recorded old local-candidate status and stale 24-material denominator.",
-    "rootCause": "Postmerge F3 UI/default path evidence was row-bound, but umbrella F3 product and final traceability receipt surfaces were not yet rebound."
+    "verifierError": "exactHead:INVALID and materialDispositions:F3_BLACK_BOX_ARCHITECTURE_MANIFEST_HARDENING_V1:STALE_POSTMERGE_DELIVERY_STATE",
+    "rootCause": "PR #1552 was merged and postmerge verified, but ledger/receipts still recorded PR-open/pending-CI wording and the verifier did not yet reject that stale delivery state."
   },
   "focusedProof": {
     "contractTest": {
@@ -54,7 +56,8 @@
       "ok": true,
       "materialDispositions": 41,
       "externalPins": 3,
-      "errors": 0
+      "errors": 0,
+      "exactHead": "ba62fb9fb4d1646ced37542b75370ec0226e1079"
     }
   },
   "requiredPins": {
@@ -63,7 +66,7 @@
     "BLACK_BOX_FINAL_LAB_EXTERNAL_RECEIPT": "sha256:c6179e59d57ea7ddea0802769619390a274c1bb22c39ae45a1540f8f7f3be863"
   },
   "hostileMutationProof": {
-    "mutations": 11,
+    "mutations": 12,
     "survivors": 0,
     "rejectedClasses": [
       "UNMAPPED disposition",
@@ -76,7 +79,8 @@
       "final integrated claim while deferred/lab-only remains",
       "final READY verdict while deferred/lab-only remains",
       "stale F3 UI local-candidate blocker text",
-      "historical Word 16.111.3 evidence transfer"
+      "historical Word 16.111.3 evidence transfer",
+      "stale F3 architecture manifest PR-candidate delivery state"
     ]
   },
   "deliveryGateEvidence": {
@@ -122,7 +126,35 @@
       "fail": 0,
       "skip": 0,
       "todo": 0,
-      "candidateCommitSha": "f8ce349fc3d33bbdd45d0cab903a03fdae6e74ce"
+      "candidateCommitSha": "d8cb13ad64b16ee09b94e7931e01cc5c69fa2386"
+    },
+    "requiredCi": {
+      "prNumber": 1552,
+      "result": "PASS",
+      "checks": [
+        "oss-policy",
+        "rtk-required",
+        "x1-runtime-parity (ubuntu-latest)",
+        "x1-runtime-parity (windows-latest)"
+      ]
+    },
+    "merge": {
+      "result": "PASS",
+      "mergeCommitSha": "ba62fb9fb4d1646ced37542b75370ec0226e1079",
+      "mergeTreeSha": "674138dfd1230c8235edc464150566f096814313"
+    },
+    "postmergeExactHead": {
+      "result": "PASS",
+      "headSha": "ba62fb9fb4d1646ced37542b75370ec0226e1079",
+      "treeSha": "674138dfd1230c8235edc464150566f096814313",
+      "bootstrap": "PASS",
+      "focusedContracts": "15/15",
+      "productCommandModel": "58 finite, 35 hostile, 31 mutants, 0 survivors",
+      "traceabilityVerifier": "PASS 41 rows/3 pins/errors 0",
+      "governance": "PASS changed files 0 missing approvals 0",
+      "devFast": "28/28",
+      "guardrails": "PASS",
+      "fullRtk": "923/923 pass, 0 fail, 0 skip, 0 todo"
     }
   },
   "ledgerSummary": {
@@ -150,10 +182,10 @@
     }
   },
   "artifactSha256": {
-    "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json": "37e038336d1f9d2b7124d50f4045da49c9a4050b25857303fd72f9aeff756b09",
-    "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json": "6f4b5211098066290ef028f43ec03431897cb1ae6effb50254e55a59cee86444",
-    "scripts/ops/final-lab-to-product-traceability-v2-verify.mjs": "d71143f39a5d9d26548bf244abe8cd423a2635556fcc564adb856272d1db2785",
-    "test/contracts/final-lab-to-product-traceability-v2.contract.test.js": "af409491e5385744469fed049bdb67d9340fef06d4a365ae50e0165638f4917c",
+    "docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json": "75b0137b1f9e468f1a8666a1e934c7432f0406eed24e0e7b9a003c435e553eed",
+    "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json": "513e678753fb5e3e9df0a7ccfdf73dbe896841bf22c55e7950a3b61128773110",
+    "scripts/ops/final-lab-to-product-traceability-v2-verify.mjs": "4cf8a68c438a47ddc2d2f3a11ef9bb3eeefd2b99c348533119a34e45a20d08ac",
+    "test/contracts/final-lab-to-product-traceability-v2.contract.test.js": "a3089d8ebfa5dfb2ebaa9482fe298a8c72db6398e2e29c019aedfc9242324f58",
     "src/product/blackBoxProductCommandExportManualCoreV1.mjs": "4d270f42603ffacb8372da343eb40eb2e1b1f81ffc923275b1cc9e39f7187e17",
     "test/contracts/black-box-product-command-export-manual-core-v1.contract.test.js": "7f4d0ca7c93a1c9e2f690eaa9bbe73bd3e02b9bd1ccf95312c96332f57367ab0",
     "scripts/ops/black-box-product-command-export-manual-core-v1-model.mjs": "421f8f718fc0da4e8c9db8fb270b187428196685b4cdc6e8e84429d7154a953a"
@@ -172,12 +204,16 @@
     "clean candidate commit f8ce349fc3d33bbdd45d0cab903a03fdae6e74ce",
     "full RTK 923/923 pass, 0 fail, 0 skip, 0 todo",
     "push PASS origin/codex/yalken-f3-black-box-architecture-manifest-hardening-v1",
-    "PR #1552 OPEN"
+    "PR #1552 OPEN",
+    "PR #1552 required CI all SUCCESS",
+    "PR #1552 merged at ba62fb9fb4d1646ced37542b75370ec0226e1079",
+    "postmerge exact-head focused 15/15",
+    "postmerge full RTK 923/923 pass, 0 fail, 0 skip, 0 todo",
+    "stale architecture manifest PR-candidate wording now rejected fail-closed"
   ],
   "pendingDeliveryGates": [
-    "required CI",
-    "merge",
-    "postmerge exact-head verification"
+    "NO_LOCAL_DELIVERY_GATES_PENDING_FOR_F3_BLACK_BOX_ARCHITECTURE_MANIFEST_POSTMERGE_REBIND_V1",
+    "F3_PRODUCT_V1_PHYSICAL_OWNER_KEY_OFF_HOST_FINAL_COMPLETE_DONOR_PROJECT_LIBRARY_NO_LIVE_OVERWRITE_GATES_REMAIN_PRODUCT_BLOCKERS_NOT_DELIVERY_GATES"
   ],
   "rollback": {
     "plan": "Revert the single traceability verdict rebind PR. No product runtime, UI, dependency, Word provider, sealed package, user document, or canonical project data change is introduced.",

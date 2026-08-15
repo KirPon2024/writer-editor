@@ -3,8 +3,8 @@
   "documentClass": "FACTUAL_STATUS",
   "status": "LIVING_LEDGER_CURRENT_FINAL_PROGRAM_VERDICT_NEEDS_MORE_EVIDENCE",
   "claimBoundary": "Maps material lab findings and post-20260811 program deltas to typed product dispositions. This ledger is not product/runtime authority, does not modify frozen source packages, and does not claim all lab work is integrated.",
-  "generatedAtUtc": "2026-08-15T00:25:29Z",
-  "exactHead": "1cb32601a4e426dfbeb9286cb8f7a289f509e431",
+  "generatedAtUtc": "2026-08-15T01:05:00Z",
+  "exactHead": "ba62fb9fb4d1646ced37542b75370ec0226e1079",
   "programPhaseSequence": [
     "S0",
     "F1",
@@ -15,7 +15,7 @@
   "claimControls": {
     "allLabWorkIntegratedClaimAllowed": false,
     "finalProgramVerdict": "NEEDS_MORE_EVIDENCE",
-    "reason": "S0, F1, F2 and F0R/T0 are closed by exact product/test evidence recorded below, Google Docs remains local quarantine only, and F3 has merged/postmerge software seams plus an in-flight architecture manifest hardening candidate. Full Black Box Product V1 remains honestly deferred because real owner-key recovery, independent off-host restore, exact-byte FINAL_COMPLETE donor replication and any project-library registration choice are not product-proven in this repo head."
+    "reason": "S0, F1, F2 and F0R/T0 are closed by exact product/test evidence recorded below, Google Docs remains local quarantine only, and F3 has merged/postmerge software seams including architecture manifest hardening at PR #1552 merge ba62fb9fb4d1646ced37542b75370ec0226e1079. Full Black Box Product V1 remains honestly deferred because real owner-key recovery, independent off-host restore, exact-byte FINAL_COMPLETE donor replication and any project-library registration choice are not product-proven in this repo head."
   },
   "sourcePackagePolicy": {
     "sealedPackagesImmutable": true,
@@ -1239,7 +1239,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "6f4b5211098066290ef028f43ec03431897cb1ae6effb50254e55a59cee86444"
+            "sha256": "513e678753fb5e3e9df0a7ccfdf73dbe896841bf22c55e7950a3b61128773110"
           }
         }
       ],
@@ -1289,7 +1289,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "6f4b5211098066290ef028f43ec03431897cb1ae6effb50254e55a59cee86444"
+            "sha256": "513e678753fb5e3e9df0a7ccfdf73dbe896841bf22c55e7950a3b61128773110"
           }
         }
       ],
@@ -1351,7 +1351,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "6f4b5211098066290ef028f43ec03431897cb1ae6effb50254e55a59cee86444"
+            "sha256": "513e678753fb5e3e9df0a7ccfdf73dbe896841bf22c55e7950a3b61128773110"
           }
         }
       ],
@@ -1408,7 +1408,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "6f4b5211098066290ef028f43ec03431897cb1ae6effb50254e55a59cee86444"
+            "sha256": "513e678753fb5e3e9df0a7ccfdf73dbe896841bf22c55e7950a3b61128773110"
           }
         }
       ],
@@ -1510,7 +1510,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "6f4b5211098066290ef028f43ec03431897cb1ae6effb50254e55a59cee86444"
+            "sha256": "513e678753fb5e3e9df0a7ccfdf73dbe896841bf22c55e7950a3b61128773110"
           }
         }
       ],
@@ -1596,7 +1596,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "6f4b5211098066290ef028f43ec03431897cb1ae6effb50254e55a59cee86444"
+            "sha256": "513e678753fb5e3e9df0a7ccfdf73dbe896841bf22c55e7950a3b61128773110"
           }
         }
       ],
@@ -1623,13 +1623,13 @@
     {
       "materialId": "F3_BLACK_BOX_PRODUCT_V1",
       "programPhase": "F3",
-      "summary": "Black Box / Manuscript Capsule product V1 remains future product work after P0A/P0B/P0C, manual CORE capsule kit, import-as-new recovery plan, ephemeral recovered CORE payload sink, import-as-new project writer, synthetic independent restore drill, trusted source snapshot, manual CORE export command, audit-recipient runtime binding, default-off runtime port inventory, provider/audit runtime binding, runtime source revision binding, create-only target runtime binding and merged/postmerge verified product UI/default flag path; product V1 must still prove the remaining owner-key/off-host/donor/project-library gates without live-project overwrite.",
+      "summary": "Black Box / Manuscript Capsule product V1 remains future product work after P0A/P0B/P0C, manual CORE capsule kit, import-as-new recovery plan, ephemeral recovered CORE payload sink, import-as-new project writer, synthetic independent restore drill, trusted source snapshot, manual CORE export command, audit-recipient runtime binding, default-off runtime port inventory, provider/audit runtime binding, runtime source revision binding, create-only target runtime binding, merged/postmerge verified product UI/default flag path and merged/postmerge verified architecture manifest hardening; product V1 must still prove the remaining owner-key/off-host/donor/project-library gates without live-project overwrite.",
       "sourcePins": [
         "BLACK_BOX_FINAL_LAB_EXTERNAL_RECEIPT"
       ],
       "disposition": "DEFERRED_WITH_BLOCKER",
       "deferred": {
-        "prerequisite": "P0A, P0B, P0C, manual CORE capsule kit, import-as-new recovery plan, P0C ephemeral recovered CORE payload sink, import-as-new project writer, synthetic independent restore drill, trusted source snapshot, manual CORE export command, audit-recipient runtime binding, default-off runtime port inventory, provider/audit runtime binding, runtime source revision binding, create-only target runtime binding and product UI/default flag path seams are merged/postmerge verified as recorded. Remaining productization must still prove real owner-key recovery drill where required, exact-byte donor replication only from verified FINAL_COMPLETE donor, project-library registration if required, independent off-host restore and no live-project overwrite.",
+        "prerequisite": "P0A, P0B, P0C, manual CORE capsule kit, import-as-new recovery plan, P0C ephemeral recovered CORE payload sink, import-as-new project writer, synthetic independent restore drill, trusted source snapshot, manual CORE export command, audit-recipient runtime binding, default-off runtime port inventory, provider/audit runtime binding, runtime source revision binding, create-only target runtime binding, product UI/default flag path and architecture manifest hardening seams are merged/postmerge verified as recorded. Remaining productization must still prove real owner-key recovery drill where required, exact-byte donor replication only from verified FINAL_COMPLETE donor, project-library registration if required, independent off-host restore and no live-project overwrite.",
         "owner": "MASTER_PROGRAM_OWNER_OR_CURRENT_OWNER_GRANT_WITHIN_SCOPE",
         "acceptanceGate": "Exact bounded PRs or externally verifiable owner evidence for independent restore, owner-key drill, exact-byte FINAL_COMPLETE donor replication, any project-library registration decision, rollback, and no live-project overwrite. Synthetic or lab-only evidence must remain labeled and cannot promote this row to READY."
       }
@@ -1722,7 +1722,7 @@
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "6f4b5211098066290ef028f43ec03431897cb1ae6effb50254e55a59cee86444"
+            "sha256": "513e678753fb5e3e9df0a7ccfdf73dbe896841bf22c55e7950a3b61128773110"
           }
         }
       ],
@@ -1731,14 +1731,14 @@
     {
       "materialId": "F3_BLACK_BOX_ARCHITECTURE_MANIFEST_HARDENING_V1",
       "programPhase": "F3",
-      "summary": "Black Box product-command architecture manifest hardening is enforced in the PR candidate: FEATURE_INTEGRATION_MANIFEST_V1 explicitly binds the existing command path to all five state classes, no-loss authoring duty, platform availability/fallback, current/target separation, Tier C no-data-migration boundary and revert-only rollback. This is a software/test gate only and does not promote full Black Box Product V1 or physical owner/off-host claims.",
+      "summary": "Black Box product-command architecture manifest hardening is merged and postmerge verified: FEATURE_INTEGRATION_MANIFEST_V1 explicitly binds the existing command path to all five state classes, no-loss authoring duty, platform availability/fallback, current/target separation, Tier C no-data-migration boundary and revert-only rollback. This is a software/test gate only and does not promote full Black Box Product V1 or physical owner/off-host claims.",
       "sourcePins": [
         "BLACK_BOX_FINAL_LAB_EXTERNAL_RECEIPT"
       ],
       "disposition": "ENFORCED_TEST_GATE",
       "productBindings": [
         {
-          "commitSha": "f8ce349fc3d33bbdd45d0cab903a03fdae6e74ce",
+          "commitSha": "ba62fb9fb4d1646ced37542b75370ec0226e1079",
           "prNumber": 1552,
           "files": [
             "src/product/blackBoxProductCommandExportManualCoreV1.mjs",
@@ -1759,12 +1759,16 @@
             "node affected F3/S0/F1/T0/Google finite models and mutation oracles",
             "REMOTE_BINDING_OK=1 PRE_UI_OPS_CONTOUR_CLOSED_OK=1 npm run dev:fast",
             "npm run agent:guardrails",
-            "npm run -s test:rtk"
+            "npm run -s test:rtk",
+            "PR #1552 required CI all SUCCESS: oss-policy, rtk-required, x1-runtime-parity ubuntu-latest, x1-runtime-parity windows-latest",
+            "postmerge exact-head verification on ba62fb9fb4d1646ced37542b75370ec0226e1079: bootstrap PASS, focused 15/15, model 0 survivors, traceability verifier PASS, governance PASS, dev:fast 28/28, guardrails PASS, full RTK 923/923"
           ],
           "receipt": {
             "path": "docs/OPS/STATUS/YALKEN_F3_BLACK_BOX_PRODUCT_COMMAND_EXPORT_MANUAL_CORE_V1_RECEIPT.json",
-            "sha256": "6f4b5211098066290ef028f43ec03431897cb1ae6effb50254e55a59cee86444"
-          }
+            "sha256": "513e678753fb5e3e9df0a7ccfdf73dbe896841bf22c55e7950a3b61128773110"
+          },
+          "featureCommitSha": "f8ce349fc3d33bbdd45d0cab903a03fdae6e74ce",
+          "deliveryRebindCommitSha": "d8cb13ad64b16ee09b94e7931e01cc5c69fa2386"
         }
       ]
     }

@@ -195,7 +195,7 @@ test('C1 Word full-book route hostile receipt mutations are rejected fail-closed
 });
 
 test('C1 Word full-book route rejects stale GitHub shallow base binding and CLI is deterministic', async () => {
-  const { EXACT_HEAD, resolveExactHeadBinding } = await loadVerifier();
+  const { EXACT_HEAD, RECOVERY_PARENT_HEAD, resolveExactHeadBinding } = await loadVerifier();
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-c1-pr-event-'));
   const eventPath = path.join(tempDir, 'event.json');
   fs.writeFileSync(eventPath, JSON.stringify({ pull_request: { base: { sha: EXACT_HEAD } } }), 'utf8');
@@ -206,6 +206,16 @@ test('C1 Word full-book route rejects stale GitHub shallow base binding and CLI 
     GITHUB_EVENT_PATH: eventPath,
   });
   assert.equal(accepted.ok, true);
+
+  fs.writeFileSync(eventPath, JSON.stringify({ pull_request: { base: { sha: RECOVERY_PARENT_HEAD } } }), 'utf8');
+  const recoveredParent = resolveExactHeadBinding('/definitely/not/a/git/repo', {
+    GITHUB_ACTIONS: 'true',
+    GITHUB_EVENT_NAME: 'pull_request',
+    GITHUB_EVENT_PATH: eventPath,
+  });
+  assert.equal(recoveredParent.ok, true);
+  assert.equal(recoveredParent.status, 'MATCHES_RECOVERY_PARENT_SHA_IN_SHALLOW_CHECKOUT');
+  assert.equal(recoveredParent.historicalExactHead, EXACT_HEAD);
 
   fs.writeFileSync(eventPath, JSON.stringify({ pull_request: { base: { sha: '0'.repeat(40) } } }), 'utf8');
   const rejected = resolveExactHeadBinding('/definitely/not/a/git/repo', {

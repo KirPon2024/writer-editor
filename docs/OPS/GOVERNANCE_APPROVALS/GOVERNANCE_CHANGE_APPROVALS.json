@@ -11058,21 +11058,21 @@
     },
     {
       "filePath": "scripts/ops/rtk-interop-chain-matrix-v1.mjs",
-      "sha256": "cab3b31b4b5b738ed216d0ce5b3d1376b11a9092e8cacda8fda184285aa8bd0c",
-      "approvedBy": "owner-standing-grant:TASK_ID:C1_WORD_WINDOW_ARTIFACT_PUBLICATION_BLOCKER_REPAIR_V1",
-      "approvedAtUtc": "2026-08-15T16:05:00.000Z",
-      "rationale": "Approve matrix verifier rebind for the C1 return-intake authority-carrier blocker while preserving the exact C1-C8 route set, no-PASS semantics, full-book denominator, and no evidence transfer between providers.",
+      "sha256": "5f196606865bf98954ea1256b30c01d92d6bf0ee553971453f6982b01f5ba361",
+      "rationale": "Approve chain matrix verifier CI repair: shallow PR base may equal the exact recovered parent 2cb6 while historical chain evidence remains bound to 1b8a; C1-C8 denominator and no-saturation claims remain unchanged.",
+      "approvedBy": "owner-standing-grant:TASK_ID:C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1:CI_SHALLOW_RECOVERY_PARENT_BINDING",
+      "approvedAtUtc": "2026-08-16T13:35:00.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_C1_REPAIR"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_C1_DELIVERY_CI_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-interop-chain-matrix.contract.test.js",
-      "sha256": "4a9a39ec345e583958c2eaaf776c839f60bc31e22b77d54f7161e976e8651be1",
-      "approvedBy": "owner-standing-grant:TASK_ID:INTEROP_CHAIN_MATRIX_LINEAGE_REGISTRATION_V1",
-      "approvedAtUtc": "2026-08-15T12:20:00.000Z",
-      "rationale": "Approve RTK contract tests for the interop chain matrix and lineage receipt: exact C1-C8 denominator, scoped Google whole-book non-closure, maintained graph admission, hostile mutation rejection, and GitHub shallow-checkout base-sha mismatch rejection with no product runtime, UI, user document, provider execution, or import/apply authority.",
+      "sha256": "6b0c2d9b0b1da76cf2309e3c38ea1fa169ecd5c1590ac8912f77014cc13d2053",
+      "rationale": "Approve focused interop chain matrix contract repair proving recovered-parent shallow CI binding passes, stale base still fails closed, and chain saturation remains NEEDS_MORE_EVIDENCE.",
+      "approvedBy": "owner-standing-grant:TASK_ID:C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1:CI_SHALLOW_RECOVERY_PARENT_BINDING",
+      "approvedAtUtc": "2026-08-16T13:35:00.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_MATRIX_LINEAGE_REGISTRATION"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_C1_DELIVERY_CI_REPAIR"
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1.json",
@@ -11085,30 +11085,30 @@
     },
     {
       "filePath": "scripts/ops/rtk-interop-c1-word-fullbook-route-v1.mjs",
-      "sha256": "cb8b049a48f549f6ef451be15b93d1e8f4919850310e5e17d818bf115ab7faa0",
-      "approvedBy": "owner-standing-grant:TASK_ID:C1_WORD_WINDOW_ARTIFACT_PUBLICATION_BLOCKER_REPAIR_V1",
-      "approvedAtUtc": "2026-08-15T16:05:00.000Z",
-      "rationale": "Approve C1 verifier rebind enforcing repaired artifact publication and new unauthenticated return-intake blocker: Word PASS and returned artifact are required, while Product apply, terminal aggregate, and route PASS remain denied.",
+      "sha256": "43f9fa781f370f8573aeb3ba313005952ae93a3879b3bb6ca79c576deb0a33a0",
+      "rationale": "Approve C1 verifier CI repair: GitHub shallow pull_request base may equal the exact recovered parent 2cb6 while historical C1 evidence remains bound to 1b8a; stale/unknown bases still fail closed and route PASS remains denied.",
+      "approvedBy": "owner-standing-grant:TASK_ID:C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1:CI_SHALLOW_RECOVERY_PARENT_BINDING",
+      "approvedAtUtc": "2026-08-16T13:35:00.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_C1_REPAIR"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_C1_DELIVERY_CI_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-interop-c1-word-fullbook-route.contract.test.js",
-      "sha256": "e57069c3ebdf5f63deb40ff7ba95490ec5284f345a4b1877a80c177398a6879b",
-      "approvedBy": "owner-standing-grant:TASK_ID:C1_WORD_WINDOW_ARTIFACT_PUBLICATION_BLOCKER_REPAIR_V1",
-      "approvedAtUtc": "2026-08-15T16:05:00.000Z",
-      "rationale": "Approve C1 contract rebind proving the repaired returned-artifact path remains fail-closed at unauthenticated Product return intake, with updated hostile/mutation checks and no route saturation or user-document authority.",
+      "sha256": "de0f95b555b13d8dd3e56d7db26ba350dbd3f160e3b185562ba10558a1765b97",
+      "rationale": "Approve focused C1 route contract repair proving recovered-parent shallow CI binding passes, stale base still fails closed, and C1 remains BLOCKED with no route PASS.",
+      "approvedBy": "owner-standing-grant:TASK_ID:C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1:CI_SHALLOW_RECOVERY_PARENT_BINDING",
+      "approvedAtUtc": "2026-08-16T13:35:00.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_C1_REPAIR"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_C1_DELIVERY_CI_REPAIR"
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
       "sha256": "de353862b40fb1ea8989c4684e9cb845d126879930ebae2ec58cbe68607e92c0",
-      "approvedBy": "owner-standing-grant:TASK_ID:C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1",
-      "approvedAtUtc": "2026-08-16T00:48:42.000Z",
-      "rationale": "Approve red-first contract/fixture rebind for C1 return-intake hardening: missing encoded carrier proof and missing verifier fail closed, synthetic positive controls bind opaque keyRef/lifecycle/sourceFence and exact HMAC carrier fields, and legacy no-carrier preview remains non-authoritative. Tests only; no user-document or terminal C1 PASS claim.",
+      "rationale": "Approve preserved command-surface contract bytes from the recovered C1 return-intake authority carrier repair: encoded carrier proof and verifier presence are required before Product intake authority.",
+      "approvedBy": "owner-standing-grant:TASK_ID:C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1:CI_SHALLOW_RECOVERY_PARENT_BINDING",
+      "approvedAtUtc": "2026-08-16T13:35:00.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_C1_REPAIR"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_C1_DELIVERY_CI_REPAIR"
     }
   ]
 }

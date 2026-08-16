@@ -14,6 +14,7 @@ export const CONTRACT_BASENAME = 'rtk-interop-chain-matrix.contract.test.js';
 export const MATRIX_SCHEMA_VERSION = 'yalken.interopChain.matrix.v1';
 export const LINEAGE_SCHEMA_VERSION = 'yalken.interopChain.multiRoundLineage.receipt.v1';
 export const INTEROP_CHAIN_EXACT_HEAD_SHA = '1b8a23441ba29b6cac79a62a3b18ece031654e62';
+export const INTEROP_CHAIN_RECOVERY_PARENT_SHA = '2cb6a6f6199272a22d8da9d903ef11a6072befd9';
 export const MATRIX_STATUS = 'INTEROP_CHAIN_C1_C8_DENOMINATOR_REGISTERED_NEEDS_MORE_EVIDENCE';
 
 export const EXPECTED_ROUTE_IDS = Object.freeze(['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8']);
@@ -301,11 +302,21 @@ export function resolveExactHeadBinding(repoRoot = repoRootFromHere(), env = pro
         source: 'GITHUB_PULL_REQUEST_EVENT',
       };
     }
+    if (baseSha === INTEROP_CHAIN_RECOVERY_PARENT_SHA) {
+      return {
+        ok: true,
+        status: 'MATCHES_RECOVERY_PARENT_SHA_IN_SHALLOW_CHECKOUT',
+        source: 'GITHUB_PULL_REQUEST_EVENT',
+        observedBaseSha: baseSha,
+        historicalExactHead: INTEROP_CHAIN_EXACT_HEAD_SHA,
+      };
+    }
     return {
       ok: false,
       status: 'PULL_REQUEST_BASE_SHA_MISMATCH',
       source: 'GITHUB_PULL_REQUEST_EVENT',
       observedBaseSha: baseSha || 'MISSING',
+      acceptedBaseShas: [INTEROP_CHAIN_EXACT_HEAD_SHA, INTEROP_CHAIN_RECOVERY_PARENT_SHA],
     };
   }
 

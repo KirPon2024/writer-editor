@@ -31,7 +31,7 @@ test('Interop chain matrix registers the exact C1-C8 full-book denominator witho
   const report = verifyInteropChainMatrix();
   assert.equal(report.ok, true, report.errors.join('\n'));
   assert.equal(report.exactHead, INTEROP_CHAIN_EXACT_HEAD_SHA);
-  assert.match(report.exactHeadBinding.status, /^(REACHABLE_FROM_CURRENT_HEAD|MATCHES_PULL_REQUEST_BASE_SHA_IN_SHALLOW_CHECKOUT)$/u);
+  assert.match(report.exactHeadBinding.status, /^(REACHABLE_FROM_CURRENT_HEAD|MATCHES_PULL_REQUEST_BASE_SHA_IN_SHALLOW_CHECKOUT|MATCHES_RECOVERY_PARENT_SHA_IN_SHALLOW_CHECKOUT)$/u);
 
   const matrix = readChainMatrix();
   assert.equal(matrix.status, MATRIX_STATUS);
@@ -54,7 +54,7 @@ test('Interop chain matrix registers the exact C1-C8 full-book denominator witho
 });
 
 test('Interop chain exact-head binding accepts only matching GitHub PR base metadata when local graph is shallow', async () => {
-  const { INTEROP_CHAIN_EXACT_HEAD_SHA, resolveExactHeadBinding } = await loadVerifier();
+  const { INTEROP_CHAIN_EXACT_HEAD_SHA, INTEROP_CHAIN_RECOVERY_PARENT_SHA, resolveExactHeadBinding } = await loadVerifier();
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-chain-pr-event-'));
   const eventPath = path.join(tempDir, 'event.json');
   fs.writeFileSync(eventPath, JSON.stringify({ pull_request: { base: { sha: INTEROP_CHAIN_EXACT_HEAD_SHA } } }), 'utf8');
@@ -66,6 +66,16 @@ test('Interop chain exact-head binding accepts only matching GitHub PR base meta
   });
   assert.equal(accepted.ok, true);
   assert.equal(accepted.status, 'MATCHES_PULL_REQUEST_BASE_SHA_IN_SHALLOW_CHECKOUT');
+
+  fs.writeFileSync(eventPath, JSON.stringify({ pull_request: { base: { sha: INTEROP_CHAIN_RECOVERY_PARENT_SHA } } }), 'utf8');
+  const recoveredParent = resolveExactHeadBinding('/definitely/not/a/git/repo', {
+    GITHUB_ACTIONS: 'true',
+    GITHUB_EVENT_NAME: 'pull_request',
+    GITHUB_EVENT_PATH: eventPath,
+  });
+  assert.equal(recoveredParent.ok, true);
+  assert.equal(recoveredParent.status, 'MATCHES_RECOVERY_PARENT_SHA_IN_SHALLOW_CHECKOUT');
+  assert.equal(recoveredParent.historicalExactHead, INTEROP_CHAIN_EXACT_HEAD_SHA);
 
   fs.writeFileSync(eventPath, JSON.stringify({ pull_request: { base: { sha: '0'.repeat(40) } } }), 'utf8');
   const rejected = resolveExactHeadBinding('/definitely/not/a/git/repo', {

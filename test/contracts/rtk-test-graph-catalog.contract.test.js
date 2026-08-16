@@ -102,6 +102,14 @@ test('C4 required CI runs the deterministic RTK graph without product network', 
   assert.doesNotMatch(workflow, /password|secret|google|drive|network/iu);
 });
 
+test('C4 required CI fetches full history so exact-head ancestry checks do not fall back to rolling PR-base allowlists', () => {
+  const workflow = fs.readFileSync(WORKFLOW_PATH, 'utf8');
+  const checkoutStep = workflow.match(/- name: Checkout[\s\S]*?(?=\n\s*- name:|\n\s*$)/u)?.[0] || '';
+  assert.match(checkoutStep, /uses:\s*actions\/checkout@v4/u);
+  assert.match(checkoutStep, /with:\s*\n(?:\s+[^\n]*\n)*\s+fetch-depth:\s*0\b/u);
+  assert.doesNotMatch(workflow, /PULL_REQUEST_BASE_SHA_MISMATCH.*5c16e0ee|5c16e0ee.*PULL_REQUEST_BASE_SHA_MISMATCH/u);
+});
+
 test('C4 RTK runner rejects hidden skip todo incomplete and zero-test TAP false greens', async () => {
   const runner = await import(RUNNER_PATH);
   const valid = [

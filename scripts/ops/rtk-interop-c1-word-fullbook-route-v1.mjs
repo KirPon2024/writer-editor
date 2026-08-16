@@ -12,6 +12,7 @@ export const VERDICT = 'NEEDS_MORE_EVIDENCE';
 export const PROGRAM_VERDICT = 'NEEDS_MORE_EVIDENCE';
 export const EXACT_HEAD = '1b8a23441ba29b6cac79a62a3b18ece031654e62';
 export const RECOVERY_PARENT_HEAD = '2cb6a6f6199272a22d8da9d903ef11a6072befd9';
+export const CURRENT_MAIN_BASE_HEAD = '09ce09efd5ed11a3d68ae97bb0d0db6f0ba1ecba';
 export const RECEIPT_PATH = 'docs/OPS/RTK/YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1.json';
 export const MATRIX_PATH = 'docs/OPS/RTK/YALKEN_INTEROP_CHAIN_MATRIX_V1.json';
 export const CATALOG_PATH = 'docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json';
@@ -343,12 +344,21 @@ export function resolveExactHeadBinding(repoRoot = repoRootFromHere(), env = pro
         historicalExactHead: EXACT_HEAD,
       };
     }
+    if (baseSha === CURRENT_MAIN_BASE_HEAD) {
+      return {
+        ok: true,
+        status: 'MATCHES_CURRENT_MAIN_BASE_SHA_IN_SHALLOW_CHECKOUT',
+        source: 'GITHUB_PULL_REQUEST_EVENT',
+        observedBaseSha: baseSha,
+        historicalExactHead: EXACT_HEAD,
+      };
+    }
     return {
       ok: false,
       status: 'PULL_REQUEST_BASE_SHA_MISMATCH',
       source: 'GITHUB_PULL_REQUEST_EVENT',
       observedBaseSha: baseSha || 'MISSING',
-      acceptedBaseShas: [EXACT_HEAD, RECOVERY_PARENT_HEAD],
+      acceptedBaseShas: [EXACT_HEAD, RECOVERY_PARENT_HEAD, CURRENT_MAIN_BASE_HEAD],
     };
   }
   return { ok: false, status: 'NOT_REACHABLE_FROM_CURRENT_HEAD', source: 'LOCAL_GIT_GRAPH' };

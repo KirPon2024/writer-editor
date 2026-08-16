@@ -1,0 +1,185 @@
+{
+  "schemaVersion": "yalken.releaseApplicabilityInvalidationGraph.receipt.v1",
+  "compilerId": "R3_APPLICABILITY_INVALIDATION_GRAPH_V1",
+  "ok": true,
+  "generatedAtUtc": "2026-08-16T17:20:00.000Z",
+  "exact": {
+    "headSha": "9feaf1376884e3fba75fed4783056313a128f31f",
+    "treeSha": "328b68ed9875e6f6e7bf967e3d94c67e32518193",
+    "buildId": "postmerge-local-node-22.22.2-npm-10.9.7"
+  },
+  "inputReceipts": [
+    {
+      "id": "receipt:r2-offline-release-claim-compiler-v0",
+      "schemaVersion": "yalken.releaseClaimCompiler.receipt.v0",
+      "compilerId": "R2_OFFLINE_RELEASE_CLAIM_COMPILER_V0",
+      "headSha": "09ce09efd5ed11a3d68ae97bb0d0db6f0ba1ecba",
+      "treeSha": "5bf69c22ade725f965870c40cfa6d63643691ac5",
+      "evidenceDigest": "sha256:2fad726c983f61d03914675260c0513215e26d819b0a7f1887b27e58f6b07ad7"
+    }
+  ],
+  "programVerdict": "NEEDS_MORE_EVIDENCE",
+  "releaseAuthority": "DENY",
+  "productMutationAuthority": "DENY",
+  "providerMutationAuthority": "DENY",
+  "nodes": [
+    {
+      "id": "C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1",
+      "family": "INTEROP_CHAIN",
+      "profileId": "word-mac-16.112-26081010",
+      "scopeId": "return-intake-authority-carrier-authentication-repair",
+      "denominatorId": "c1-return-intake-authority-carrier-authentication-repair",
+      "state": "APPLICABLE_SCOPED",
+      "applicabilityDecision": "APPLIES_TO_EXACT_SCOPE_ONLY",
+      "reasons": [],
+      "invalidatedBy": [],
+      "nonClaims": [
+        "C1_ROUTE_PASS",
+        "CHAIN_SATURATION",
+        "USER_DOCUMENT_COVERAGE"
+      ]
+    },
+    {
+      "id": "F3_PHYSICAL_OWNER_OFFHOST_RESTORE_V1",
+      "family": "BLACK_BOX_RECOVERY",
+      "profileId": "owner-offhost-removable-media",
+      "scopeId": "physical-owner-key-restore-drill",
+      "denominatorId": "physical-owner-key-offhost-removable-media-restore",
+      "state": "BLOCKED",
+      "applicabilityDecision": "DENY",
+      "reasons": [
+        "CLAIM_NOT_VERIFIED_SCOPED:NEEDS_MORE_EVIDENCE:BLOCKED",
+        "FAIL_CLOSED_CLAIM_OUTCOME:BLOCKED",
+        "FAIL_CLOSED_RECEIPT_OUTCOME:receipt:f3-physical-remains-blocked:BLOCKED",
+        "RECEIPT_NOT_VERIFIED_SCOPED:receipt:f3-physical-remains-blocked:NEEDS_MORE_EVIDENCE:BLOCKED"
+      ],
+      "invalidatedBy": [
+        "receipt:f3-physical-remains-blocked"
+      ],
+      "nonClaims": [
+        "FINAL_PROGRAM_READY",
+        "OFFHOST_RESTORE_PASS",
+        "PHYSICAL_OWNER_DRILL_PASS"
+      ]
+    },
+    {
+      "id": "INTEROP_CHAIN_SATURATION_V1",
+      "family": "INTEROP_CHAIN",
+      "profileId": "word-google-chain",
+      "scopeId": "c1-c8-full-book-denominator",
+      "denominatorId": "interop-c1-c8-full-book-route-matrix",
+      "state": "BLOCKED",
+      "applicabilityDecision": "DENY",
+      "reasons": [
+        "CLAIM_NOT_VERIFIED_SCOPED:NEEDS_MORE_EVIDENCE:BLOCKED",
+        "FAIL_CLOSED_CLAIM_OUTCOME:BLOCKED",
+        "FAIL_CLOSED_RECEIPT_OUTCOME:receipt:chain-saturation-blocked-after-r2:BLOCKED",
+        "RECEIPT_NOT_VERIFIED_SCOPED:receipt:chain-saturation-blocked-after-r2:NEEDS_MORE_EVIDENCE:BLOCKED"
+      ],
+      "invalidatedBy": [
+        "receipt:chain-saturation-blocked-after-r2"
+      ],
+      "nonClaims": [
+        "ALL_ROUTES_PROVEN",
+        "BYTE_IDENTITY",
+        "UNIVERSAL_PARITY"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "INTEROP_CHAIN_SATURATION_V1",
+      "to": "C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1",
+      "type": "DEPENDS_ON"
+    },
+    {
+      "from": "C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1",
+      "to": "word-mac-16.112-26081010",
+      "type": "PROVIDER_PROFILE"
+    },
+    {
+      "from": "C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1",
+      "to": "receipt:r2-offline-release-claim-compiler-v0",
+      "type": "SOURCE_RECEIPT"
+    },
+    {
+      "from": "F3_PHYSICAL_OWNER_OFFHOST_RESTORE_V1",
+      "to": "receipt:r2-offline-release-claim-compiler-v0",
+      "type": "SOURCE_RECEIPT"
+    },
+    {
+      "from": "INTEROP_CHAIN_SATURATION_V1",
+      "to": "receipt:r2-offline-release-claim-compiler-v0",
+      "type": "SOURCE_RECEIPT"
+    }
+  ],
+  "invalidations": [
+    {
+      "claimId": "F3_PHYSICAL_OWNER_OFFHOST_RESTORE_V1",
+      "state": "BLOCKED",
+      "reason": "CLAIM_NOT_VERIFIED_SCOPED:NEEDS_MORE_EVIDENCE:BLOCKED"
+    },
+    {
+      "claimId": "F3_PHYSICAL_OWNER_OFFHOST_RESTORE_V1",
+      "state": "BLOCKED",
+      "reason": "FAIL_CLOSED_CLAIM_OUTCOME:BLOCKED"
+    },
+    {
+      "claimId": "F3_PHYSICAL_OWNER_OFFHOST_RESTORE_V1",
+      "state": "BLOCKED",
+      "reason": "FAIL_CLOSED_RECEIPT_OUTCOME:receipt:f3-physical-remains-blocked:BLOCKED"
+    },
+    {
+      "claimId": "F3_PHYSICAL_OWNER_OFFHOST_RESTORE_V1",
+      "state": "BLOCKED",
+      "reason": "RECEIPT_NOT_VERIFIED_SCOPED:receipt:f3-physical-remains-blocked:NEEDS_MORE_EVIDENCE:BLOCKED"
+    },
+    {
+      "claimId": "INTEROP_CHAIN_SATURATION_V1",
+      "state": "BLOCKED",
+      "reason": "CLAIM_NOT_VERIFIED_SCOPED:NEEDS_MORE_EVIDENCE:BLOCKED"
+    },
+    {
+      "claimId": "INTEROP_CHAIN_SATURATION_V1",
+      "state": "BLOCKED",
+      "reason": "FAIL_CLOSED_CLAIM_OUTCOME:BLOCKED"
+    },
+    {
+      "claimId": "INTEROP_CHAIN_SATURATION_V1",
+      "state": "BLOCKED",
+      "reason": "FAIL_CLOSED_RECEIPT_OUTCOME:receipt:chain-saturation-blocked-after-r2:BLOCKED"
+    },
+    {
+      "claimId": "INTEROP_CHAIN_SATURATION_V1",
+      "state": "BLOCKED",
+      "reason": "RECEIPT_NOT_VERIFIED_SCOPED:receipt:chain-saturation-blocked-after-r2:NEEDS_MORE_EVIDENCE:BLOCKED"
+    }
+  ],
+  "denominators": {
+    "claimsTotal": 3,
+    "applicableScoped": 1,
+    "blockedOrInvalid": 2,
+    "edgesTotal": 5,
+    "sourceReceiptsTotal": 1,
+    "providerProfilesTotal": 1,
+    "revocationsActive": 0,
+    "supersessionsActive": 0,
+    "conflictsActive": 0
+  },
+  "errors": [],
+  "oracle": {
+    "ok": true,
+    "errors": []
+  },
+  "mutations": {
+    "total": 12,
+    "killed": 12,
+    "survivors": []
+  },
+  "limitations": [
+    "This is an offline applicability invalidation graph over bounded release receipts; it grants no product/runtime/provider authority.",
+    "R2_OFFLINE_RELEASE_CLAIM_COMPILER_V0 is preserved as provenance input and is not promoted to a current exact-head release PASS.",
+    "Program verdict remains NEEDS_MORE_EVIDENCE because chain saturation and F3 physical owner/off-host restore are not proven.",
+    "Desktop V1.1 remains hash-bound proposal input only; active repo canon and exact-head receipts win."
+  ]
+}

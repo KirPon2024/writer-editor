@@ -31,7 +31,7 @@ test('Interop chain matrix registers the exact C1-C8 full-book denominator witho
   const report = verifyInteropChainMatrix();
   assert.equal(report.ok, true, report.errors.join('\n'));
   assert.equal(report.exactHead, INTEROP_CHAIN_EXACT_HEAD_SHA);
-  assert.match(report.exactHeadBinding.status, /^(REACHABLE_FROM_CURRENT_HEAD|MATCHES_PULL_REQUEST_BASE_SHA_IN_SHALLOW_CHECKOUT|MATCHES_RECOVERY_PARENT_SHA_IN_SHALLOW_CHECKOUT|MATCHES_CURRENT_MAIN_BASE_SHA_IN_SHALLOW_CHECKOUT)$/u);
+  assert.match(report.exactHeadBinding.status, /^(REACHABLE_FROM_CURRENT_HEAD|MATCHES_PULL_REQUEST_BASE_SHA_IN_SHALLOW_CHECKOUT|MATCHES_RECOVERY_PARENT_SHA_IN_SHALLOW_CHECKOUT|MATCHES_CURRENT_MAIN_BASE_SHA_IN_SHALLOW_CHECKOUT|MATCHES_RELEASE_TRUTH_BASE_SHA_IN_SHALLOW_CHECKOUT)$/u);
 
   const matrix = readChainMatrix();
   assert.equal(matrix.status, MATRIX_STATUS);
@@ -86,6 +86,16 @@ test('Interop chain exact-head binding accepts only matching GitHub PR base meta
   assert.equal(currentMergedBase.ok, true);
   assert.equal(currentMergedBase.status, 'MATCHES_CURRENT_MAIN_BASE_SHA_IN_SHALLOW_CHECKOUT');
   assert.equal(currentMergedBase.historicalExactHead, INTEROP_CHAIN_EXACT_HEAD_SHA);
+
+  fs.writeFileSync(eventPath, JSON.stringify({ pull_request: { base: { sha: '9feaf1376884e3fba75fed4783056313a128f31f' } } }), 'utf8');
+  const releaseTruthBase = resolveExactHeadBinding('/definitely/not/a/git/repo', {
+    GITHUB_ACTIONS: 'true',
+    GITHUB_EVENT_NAME: 'pull_request',
+    GITHUB_EVENT_PATH: eventPath,
+  });
+  assert.equal(releaseTruthBase.ok, true);
+  assert.equal(releaseTruthBase.status, 'MATCHES_RELEASE_TRUTH_BASE_SHA_IN_SHALLOW_CHECKOUT');
+  assert.equal(releaseTruthBase.historicalExactHead, INTEROP_CHAIN_EXACT_HEAD_SHA);
 
   fs.writeFileSync(eventPath, JSON.stringify({ pull_request: { base: { sha: '0'.repeat(40) } } }), 'utf8');
   const rejected = resolveExactHeadBinding('/definitely/not/a/git/repo', {

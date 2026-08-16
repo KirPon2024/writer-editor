@@ -11,7 +11,8 @@
     "Review bridge contracts remain covered by default and focused runners, but are not silently folded into the maintained RTK graph.",
     "Google Docs has scoped real connected-account E2E evidence for the explicitly tested synthetic primitives only; Word 16.112 evidence remains non-transferable and no Google import/apply/product-runtime/platform-saturation claim is made.",
     "Google Docs whole-book evidence covers the frozen canonical synthetic book denominator only; it is not chain saturation, not universal parity, and not a terminal Google Docs platform PASS.",
-    "Interop chain C1-C8 is registered as a full-book route denominator with lineage closure rules only; every route remains NEEDS_MORE_EVIDENCE until its own sequential contour executes the complete route."
+    "Interop chain C1-C8 is registered as a full-book route denominator with lineage closure rules only; every route remains NEEDS_MORE_EVIDENCE until its own sequential contour executes the complete route.",
+    "R4 exact-head release-claim publication emits a scoped non-release aggregate only; blocked claims remain denied and program verdict remains NEEDS_MORE_EVIDENCE."
   ],
   "contractBasenames": [
     "rtk-admit01-accountable-lanes.contract.test.js",
@@ -44,6 +45,7 @@
     "rtk-post-d1-portability-program.contract.test.js",
     "rtk-release-applicability-invalidation-graph-v1.contract.test.js",
     "rtk-release-claim-compiler-v0.contract.test.js",
+    "rtk-release-claim-publication-v1.contract.test.js",
     "rtk-release01-terminal-claims.contract.test.js",
     "rtk-round01-round-record-v3.contract.test.js",
     "rtk-runner-v2-cert01-crash-resume.contract.test.js",
@@ -154,6 +156,7 @@
     "googleLocalReturnIntakeQuarantine": "GOOGLE_DOCS_LOCAL_RETURN_INTAKE_QUARANTINE_V1_LOCAL_VERIFIED",
     "googleLocalPreviewOnlyNoApply": "GOOGLE_DOCS_LOCAL_PREVIEW_ONLY_NO_APPLY_V1_LOCAL_VERIFIED",
     "googleLocalRecoveryReplayContract": "GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1_LOCAL_VERIFIED",
-    "googleLocalFinalCompatibilityVerdict": "GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1_LOCAL_VERIFIED"
+    "googleLocalFinalCompatibilityVerdict": "GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1_LOCAL_VERIFIED",
+    "releaseClaimPublication": "R4_EXACT_HEAD_CLAIM_PUBLICATION_V1_SCOPED_NON_RELEASE_AGGREGATE_NEEDS_MORE_EVIDENCE"
   }
 }

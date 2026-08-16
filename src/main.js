@@ -5529,19 +5529,127 @@ function buildDocxReviewPreviewSessionIdentityShaPair(context, authorityCapsule)
     || (docxReviewPreviewSessionDetailString(context.baselineHash)
       ? `sha256:${docxReviewPreviewSessionDetailString(context.baselineHash)}`
       : '');
+  const projectId = docxReviewPreviewSessionDetailString(explicitSource.projectId)
+    || docxReviewPreviewSessionDetailString(authorityCapsule.projectId)
+    || docxReviewPreviewSessionDetailString(expectedAuthority.projectId)
+    || docxReviewPreviewSessionDetailString(context.projectId);
+  const rootId = docxReviewPreviewSessionDetailString(explicitSource.rootId)
+    || docxReviewPreviewSessionDetailString(authorityCapsule.rootId)
+    || docxReviewPreviewSessionDetailString(expectedAuthority.rootId)
+    || docxReviewPreviewSessionDetailString(context.rootId)
+    || (projectId ? `root-${projectId}` : '');
+  const documentId = docxReviewPreviewSessionDetailString(explicitSource.documentId)
+    || docxReviewPreviewSessionDetailString(expectedAuthority.documentId)
+    || docxReviewPreviewSessionDetailString(expectedAuthority.sceneId)
+    || docxReviewPreviewSessionDetailString(context.targetScope?.id);
+  const sourceRevision = docxReviewPreviewSessionDetailString(explicitSource.canonicalRevision)
+    || docxReviewPreviewSessionDetailString(explicitSource.revisionSha256)
+    || fallbackRaw;
+  const sourceWorkingRevision = docxReviewPreviewSessionDetailString(explicitSource.workingRevision)
+    || sourceRevision;
+  const currentRevision = docxReviewPreviewSessionDetailString(explicitCurrent.canonicalRevision)
+    || docxReviewPreviewSessionDetailString(explicitCurrent.revisionSha256)
+    || sourceRevision;
+  const currentWorkingRevision = docxReviewPreviewSessionDetailString(explicitCurrent.workingRevision)
+    || currentRevision;
   const sourceIdentity = {
     sourceTokenDomain: 'SOURCE_TOKEN_DOMAIN_V1',
     writerTextDomain: 'WRITER_TEXT_DOMAIN_V1',
-    revisionSha256: docxReviewPreviewSessionDetailString(explicitSource.revisionSha256) || fallbackRaw,
+    projectId,
+    rootId,
+    documentId,
+    canonicalRevision: sourceRevision,
+    workingRevision: sourceWorkingRevision,
+    revisionSha256: docxReviewPreviewSessionDetailString(explicitSource.revisionSha256) || sourceRevision,
     rawBytesSha256: docxReviewPreviewSessionDetailString(explicitSource.rawBytesSha256) || fallbackRaw,
   };
   const currentIdentity = {
+    projectId: docxReviewPreviewSessionDetailString(explicitCurrent.projectId) || projectId,
+    rootId: docxReviewPreviewSessionDetailString(explicitCurrent.rootId) || rootId,
+    documentId: docxReviewPreviewSessionDetailString(explicitCurrent.documentId) || documentId,
+    canonicalRevision: currentRevision,
+    workingRevision: currentWorkingRevision,
     revisionSha256: docxReviewPreviewSessionDetailString(explicitCurrent.revisionSha256)
-      || sourceIdentity.revisionSha256,
+      || currentRevision,
     rawBytesSha256: docxReviewPreviewSessionDetailString(explicitCurrent.rawBytesSha256)
       || sourceIdentity.rawBytesSha256,
   };
   return { sourceIdentity, currentIdentity };
+}
+
+function buildDocxReviewPreviewSessionSourceFenceBinding(commandId, identity = {}) {
+  const sourceIdentity = isPlainObjectValue(identity.sourceIdentity) ? identity.sourceIdentity : {};
+  const currentIdentity = isPlainObjectValue(identity.currentIdentity) ? identity.currentIdentity : {};
+  const source = {
+    projectId: docxReviewPreviewSessionDetailString(sourceIdentity.projectId),
+    rootId: docxReviewPreviewSessionDetailString(sourceIdentity.rootId),
+    documentId: docxReviewPreviewSessionDetailString(sourceIdentity.documentId),
+    canonicalRevision: docxReviewPreviewSessionDetailString(sourceIdentity.canonicalRevision),
+    workingRevision: docxReviewPreviewSessionDetailString(sourceIdentity.workingRevision),
+    sourceDigest: docxReviewPreviewSessionDetailString(sourceIdentity.rawBytesSha256),
+  };
+  if (!source.projectId || !source.rootId || !source.documentId || !source.canonicalRevision || !source.workingRevision || !source.sourceDigest) {
+    return null;
+  }
+  const current = {
+    ...source,
+    projectId: docxReviewPreviewSessionDetailString(currentIdentity.projectId) || source.projectId,
+    rootId: docxReviewPreviewSessionDetailString(currentIdentity.rootId) || source.rootId,
+    documentId: docxReviewPreviewSessionDetailString(currentIdentity.documentId) || source.documentId,
+    canonicalRevision: docxReviewPreviewSessionDetailString(currentIdentity.canonicalRevision) || source.canonicalRevision,
+    workingRevision: docxReviewPreviewSessionDetailString(currentIdentity.workingRevision) || source.workingRevision,
+    sourceDigest: docxReviewPreviewSessionDetailString(currentIdentity.rawBytesSha256) || source.sourceDigest,
+    dirtyState: 'CLEAN',
+  };
+  const tokenPayload = {
+    schemaVersion: 'yalken.sourceFence.token.v1',
+    purpose: 'WRITE_SOURCE',
+    projectId: source.projectId,
+    rootId: source.rootId,
+    documentId: source.documentId,
+    canonicalRevision: source.canonicalRevision,
+    workingRevision: source.workingRevision,
+    sourceDigest: source.sourceDigest,
+  };
+  const fence = {
+    ...tokenPayload,
+    fenceDigest: `sha256:${computeHash(stableJsonString(tokenPayload))}`,
+  };
+  const request = {
+    schemaVersion: 'yalken.sourceFence.request.v1',
+    purpose: 'WRITE_SOURCE',
+    expected: source,
+    current,
+    dirtyPolicy: 'REQUIRE_CLEAN',
+    authority: {
+      decision: 'ALLOW',
+      mayWrite: true,
+      commandId,
+    },
+    fence,
+  };
+  return {
+    schemaVersion: 'yalken.rtk.round-authority-source-fence.v1',
+    request,
+    result: {
+      schemaVersion: 'yalken.sourceFence.result.v1',
+      ok: true,
+      decision: 'ALLOW',
+      code: 'YALKEN_SOURCE_FENCE_ALLOWED',
+      reasons: [],
+      observed: {
+        purpose: 'WRITE_SOURCE',
+        projectId: source.projectId,
+        rootId: source.rootId,
+        documentId: source.documentId,
+        canonicalRevision: source.canonicalRevision,
+        workingRevision: source.workingRevision,
+        sourceDigest: source.sourceDigest,
+        dirtyState: 'CLEAN',
+        dirtyPolicy: 'REQUIRE_CLEAN',
+      },
+    },
+  };
 }
 
 async function buildDocxReviewPreviewSessionDefaultRtkApplyInput({
@@ -5667,13 +5775,15 @@ async function buildDocxReviewPreviewSessionDefaultRtkApplyInput({
   const localBaseline = buildDocxReviewPreviewSessionLocalBaseline(context, authorityCapsule);
   const writerContext = buildDocxReviewPreviewSessionWriterContext(context, authorityCapsule);
   const identity = buildDocxReviewPreviewSessionIdentityShaPair(context, authorityCapsule);
+  const commandId = 'cmd.rtk.review.applyNonOverlapTrackedReplacements';
+  const sourceFence = buildDocxReviewPreviewSessionSourceFenceBinding(commandId, identity);
   const baseInput = {
-    commandId: 'cmd.rtk.review.applyNonOverlapTrackedReplacements',
+    commandId,
     callerRole: 'main',
     commandAuthority: {
       issuer: 'main',
       intent: 'rtk.exactApply',
-      commandId: 'cmd.rtk.review.applyNonOverlapTrackedReplacements',
+      commandId,
     },
     roundId: docxReviewPreviewSessionDetailString(authorityCapsule.roundId)
       || docxReviewPreviewSessionDetailString(expectedAuthority.roundId),
@@ -5687,6 +5797,7 @@ async function buildDocxReviewPreviewSessionDefaultRtkApplyInput({
     returnLifecycleState: 'RETURN_ANALYZED',
     sourceIdentity: identity.sourceIdentity,
     currentIdentity: identity.currentIdentity,
+    ...(sourceFence ? { sourceFence } : {}),
     exactAuthority: cloneJsonSafe(analysis.exactAuthority) || {},
     authorityCarrier: cloneJsonSafe(analysis.authorityCarrier) || {},
     reviewIr: cloneJsonSafe(analysis.reviewIr) || {},
@@ -7576,24 +7687,25 @@ function upgradePacketToVerifiedParserResult(packet, {
   const hmacBinding = isPlainObjectValue(carrierHmacVerify?.baselineBinding)
     ? cloneJsonSafe(carrierHmacVerify.baselineBinding)
     : null;
-  const baselineBinding = hmacBinding
-    || (isPlainObjectValue(selectedCarrier.baselineBinding) ? cloneJsonSafe(selectedCarrier.baselineBinding) : {});
-  baselineBinding.allExpectedMatched = carrierHmacVerify?.validSignedLocator === true
-    || baselineBinding.allExpectedMatched !== false;
+  const baselineBinding = hmacBinding || {};
+  baselineBinding.allExpectedMatched = carrierHmacVerify?.validSignedLocator === true;
   baselineBinding.yrtk2Verified = yrtk2Verification?.ok === true;
   baselineBinding.carrierHmacVerified = carrierHmacVerify?.verified === true;
+  const carrierVerified = yrtk2Verification?.ok === true
+    && carrierHmacVerify?.verified === true
+    && carrierHmacVerify?.validSignedLocator === true;
   const verifiedSelectedCarrier = {
     ...cloneJsonSafe(selectedCarrier) || {},
-    verified: true,
-    validSignedLocator: true,
+    verified: carrierVerified,
+    validSignedLocator: carrierVerified,
     baselineBinding,
   };
   const verifiedCarrier = {
     ...cloneJsonSafe(carrier) || {},
-    status: 'verified-baseline-bound',
+    status: carrierVerified ? 'verified-baseline-bound' : 'present-not-authoritative',
     selectedCarrier: verifiedSelectedCarrier,
     exactAuthority: {
-      validSignedLocator: true,
+      validSignedLocator: carrierVerified,
       sceneRevisionUnchanged: baselineBinding.sceneRevisionMatches === true
         || baselineBinding.fullBookRawSha256Matches === true,
       rawSha256Unchanged: baselineBinding.rawSha256Matches === true
@@ -7767,24 +7879,32 @@ async function inspectDocxReviewReturnIntakeV2({
   if (!yrtk2Verification.ok) return yrtk2Verification;
   // EVID-01 (V2 security): the worker emitted unverifiedCarrierEvidence. Main
   // re-verifies the carrier HMAC signature with the local secret (the worker
-  // never had it) BEFORE upgrading to verified-baseline-bound. A tampered
-  // signature is rejected with RTK_RETURN_INTAKE_AUTHORITY_NOT_VERIFIED. The
-  // verify runs only when the packet carries the raw carrier encoding (the
-  // production worker always emits it); minimal spy fixtures without encoded
-  // skip this check and rely on the YRTK2 binding + downstream capsule checks.
+  // never had it) BEFORE upgrading to verified-baseline-bound. Missing raw
+  // carrier encoding, missing verifier capability, tampering, or locator
+  // mismatch all fail closed before any product import/apply authority.
   const carrierEncoded = docxReviewPreviewSessionDetailString(selectedCarrier?.encoded);
-  const carrierHmacVerify = carrierEncoded && typeof revisionBridge.verifyAuthorityCarrierSignatureWithSecret === 'function'
-    ? revisionBridge.verifyAuthorityCarrierSignatureWithSecret(
-      selectedCarrier,
-      { hmacSecret, expectedAuthority },
-      createRtkReviewTransportCryptoPort(),
-    )
-    : null;
-  if (carrierHmacVerify && (!carrierHmacVerify.verified || !carrierHmacVerify.validSignedLocator)) {
+  if (!carrierEncoded) {
+    return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_AUTHORITY_CARRIER_ENCODED_REQUIRED', {
+      roundId,
+      carrierStatus,
+    });
+  }
+  if (typeof revisionBridge.verifyAuthorityCarrierSignatureWithSecret !== 'function') {
+    return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_AUTHORITY_CARRIER_VERIFIER_REQUIRED', {
+      roundId,
+      carrierStatus,
+    });
+  }
+  const carrierHmacVerify = revisionBridge.verifyAuthorityCarrierSignatureWithSecret(
+    selectedCarrier,
+    { hmacSecret, expectedAuthority },
+    createRtkReviewTransportCryptoPort(),
+  );
+  if (!carrierHmacVerify || !carrierHmacVerify.verified || !carrierHmacVerify.validSignedLocator) {
     return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_AUTHORITY_NOT_VERIFIED', {
-      carrierHmacVerified: carrierHmacVerify.verified === true,
-      carrierHmacValidSignedLocator: carrierHmacVerify.validSignedLocator === true,
-      carrierReasons: Array.isArray(carrierHmacVerify.reasons) ? carrierHmacVerify.reasons.slice(0, 8) : [],
+      carrierHmacVerified: carrierHmacVerify?.verified === true,
+      carrierHmacValidSignedLocator: carrierHmacVerify?.validSignedLocator === true,
+      carrierReasons: Array.isArray(carrierHmacVerify?.reasons) ? carrierHmacVerify.reasons.slice(0, 8) : [],
     });
   }
   // EVID-01 (V2): the worker emitted unverifiedCarrierEvidence. Main now

@@ -468,6 +468,61 @@ function c05Sha256Text(value) {
   return `sha256:${c05CryptoPort.sha256Text(value)}`;
 }
 
+function c05SourceFenceToken(source) {
+  const payload = {
+    schemaVersion: 'yalken.sourceFence.token.v1',
+    purpose: 'WRITE_SOURCE',
+    projectId: source.projectId,
+    rootId: source.rootId,
+    documentId: source.documentId,
+    canonicalRevision: source.canonicalRevision,
+    workingRevision: source.workingRevision,
+    sourceDigest: source.sourceDigest,
+  };
+  return {
+    ...payload,
+    fenceDigest: c05Sha256Text(stableJson(payload)),
+  };
+}
+
+function c05SourceFenceBinding({ commandId, source }) {
+  const request = {
+    schemaVersion: 'yalken.sourceFence.request.v1',
+    purpose: 'WRITE_SOURCE',
+    expected: source,
+    current: { ...source, dirtyState: 'CLEAN' },
+    dirtyPolicy: 'REQUIRE_CLEAN',
+    authority: {
+      decision: 'ALLOW',
+      mayWrite: true,
+      commandId,
+    },
+    fence: c05SourceFenceToken(source),
+  };
+  return {
+    schemaVersion: 'yalken.rtk.round-authority-source-fence.v1',
+    request,
+    result: {
+      schemaVersion: 'yalken.sourceFence.result.v1',
+      ok: true,
+      decision: 'ALLOW',
+      code: 'YALKEN_SOURCE_FENCE_ALLOWED',
+      reasons: [],
+      observed: {
+        purpose: 'WRITE_SOURCE',
+        projectId: source.projectId,
+        rootId: source.rootId,
+        documentId: source.documentId,
+        canonicalRevision: source.canonicalRevision,
+        workingRevision: source.workingRevision,
+        sourceDigest: source.sourceDigest,
+        dirtyState: 'CLEAN',
+        dirtyPolicy: 'REQUIRE_CLEAN',
+      },
+    },
+  };
+}
+
 function base64UrlText(value) {
   return Buffer.from(String(value || ''), 'utf8')
     .toString('base64')
@@ -574,6 +629,16 @@ function productAuthorityEnvelope(payload, secret, overrides = {}) {
 function customPropertyFromSource(source, name) {
   return (Array.isArray(source?.customProperties) ? source.customProperties : [])
     .find((property) => property?.name === name)?.value || '';
+}
+
+function importTestRoundKeyRef(roundId, secret) {
+  const { createRequire: createNodeRequire } = require('node:module');
+  const bridge = createNodeRequire(__filename)('../../src/io/revisionBridge/index.mjs');
+  const result = bridge.importRoundKey({ roundId, secret });
+  if (!result || result.ok !== true || typeof result.keyRef !== 'string' || !result.keyRef) {
+    throw new Error('TEST_ROUND_KEY_IMPORT_FAILED');
+  }
+  return result.keyRef;
 }
 
 function productReviewDocxWithAnchoredComment({
@@ -734,8 +799,10 @@ function productAuthorityStoreFromDocx(docx, overrides = {}) {
         schemaVersion: 'yalken.rtk.word.product-review-docx-export.local-authority.v1',
         projectRoot: '/project',
         scenePath: '/project/roman/imported/scene-1.txt',
-        baselineFinalText: 'Anchored text',
+        baselineFinalText: typeof docx.sceneText === 'string' ? docx.sceneText : 'Anchored text',
         hmacSecret: docx.secret,
+        keyRef: importTestRoundKeyRef(docx.payload.roundId, docx.secret),
+        lifecycleState: 'PUBLISHED_ACTIVE',
         expectedAuthority: {
           sceneId: docx.payload.sceneId,
           sceneRevision: docx.payload.sceneRevision,
@@ -909,13 +976,22 @@ function c05ProductApplyInput({
 } = {}) {
   const sourceRevisionSha256 = c05Sha256Text(`revision:${sceneText}`);
   const sourceRawBytesSha256 = c05Sha256Text(`raw:${sceneText}`);
+  const commandId = 'cmd.rtk.review.applyNonOverlapTrackedReplacements';
+  const source = {
+    projectId: 'project-1',
+    rootId: 'root-c05',
+    documentId: sceneId,
+    canonicalRevision: sourceRevisionSha256,
+    workingRevision: sourceRevisionSha256,
+    sourceDigest: sourceRawBytesSha256,
+  };
   return {
-    commandId: 'cmd.rtk.review.applyNonOverlapTrackedReplacements',
+    commandId,
     callerRole: 'main',
     commandAuthority: {
       issuer: 'main',
       intent: 'rtk.exactApply',
-      commandId: 'cmd.rtk.review.applyNonOverlapTrackedReplacements',
+      commandId,
     },
     roundId: 'round-c05',
     requestId: 'request-c05-1',
@@ -927,13 +1003,24 @@ function c05ProductApplyInput({
     sourceIdentity: {
       sourceTokenDomain: 'SOURCE_TOKEN_DOMAIN_V1',
       writerTextDomain: 'WRITER_TEXT_DOMAIN_V1',
+      projectId: source.projectId,
+      rootId: source.rootId,
+      documentId: source.documentId,
+      canonicalRevision: source.canonicalRevision,
+      workingRevision: source.workingRevision,
       revisionSha256: sourceRevisionSha256,
       rawBytesSha256: sourceRawBytesSha256,
     },
     currentIdentity: {
+      projectId: source.projectId,
+      rootId: source.rootId,
+      documentId: source.documentId,
+      canonicalRevision: source.canonicalRevision,
+      workingRevision: source.workingRevision,
       revisionSha256: sourceRevisionSha256,
       rawBytesSha256: sourceRawBytesSha256,
     },
+    sourceFence: c05SourceFenceBinding({ commandId, source }),
     exactAuthority: c05ExactAuthority(),
     authorityCarrier: c05AuthorityCarrier(sceneId, blockId),
     reviewIr: c05ReviewIr(),
@@ -1213,7 +1300,7 @@ test('DOCX review preview session command: non-overlap tracked replacements reac
   assert.equal(result.canAutoApply, false);
   assert.equal(result.canImportMutate, false);
   assert.equal(result.canWriteStorage, false);
-  assert.equal(result.nonOverlapTrackedReplacementProductPath.prepared, true);
+  assert.equal(result.nonOverlapTrackedReplacementProductPath.prepared, true, JSON.stringify(result.nonOverlapTrackedReplacementProductPath, null, 2));
   assert.equal(result.nonOverlapTrackedReplacementProductPath.status, 'preview-ready');
   assert.equal(result.nonOverlapTrackedReplacementProductPath.writerCalled, false);
   assert.equal(result.nonOverlapTrackedReplacementProductPath.rendererAuthority, false);
@@ -1282,6 +1369,11 @@ test('DOCX review preview session command: full-manuscript return exposes only e
     cryptoPort: c05CryptoPort,
     revisionBridge,
   });
+  fullSource.localAuthorityCapsule.keyRef = importTestRoundKeyRef(
+    fullSource.localAuthorityCapsule.roundId,
+    fullSource.localAuthorityCapsule.hmacSecret,
+  );
+  fullSource.localAuthorityCapsule.lifecycleState = 'PUBLISHED_ACTIVE';
   const returnedAuthority = {
     scope: 'full-manuscript',
     projectId: 'project-c5v2-product-route',
@@ -1369,7 +1461,11 @@ test('DOCX review preview session command: full-manuscript return exposes only e
     ok: true,
     authorityCarrier: {
       status: 'verified-baseline-bound',
-      selectedCarrier: { payload: returnedAuthority, baselineBinding: { allExpectedMatched: true } },
+      selectedCarrier: {
+        encoded: customPropertyFromSource(fullSource, 'YRTK_C01_AUTH'),
+        payload: returnedAuthority,
+        baselineBinding: { allExpectedMatched: true },
+      },
     },
     exactAuthority: { validSignedLocator: true, sceneRevisionUnchanged: true, rawSha256Unchanged: true },
     parserProfileDigest: c05Sha256Text('parser-full-route'),
@@ -1422,7 +1518,7 @@ test('DOCX review preview session command: full-manuscript return exposes only e
   );
 
   assert.equal(result.ok, true, JSON.stringify(result, null, 2));
-  assert.equal(result.nonOverlapTrackedReplacementProductPath.prepared, true);
+  assert.equal(result.nonOverlapTrackedReplacementProductPath.prepared, true, JSON.stringify(result.nonOverlapTrackedReplacementProductPath, null, 2));
   assert.equal(result.nonOverlapTrackedReplacementProductPath.reason, 'RTK_FULL_MANUSCRIPT_EXACT_PRODUCT_PATH_READY');
   assert.equal(result.nonOverlapTrackedReplacementProductPath.writerCalled, false);
   assert.equal(result.nonOverlapTrackedReplacementProductPath.rendererAuthority, false);
@@ -1499,7 +1595,7 @@ test('DOCX review preview session command: authenticated return IR drives visibl
   assert.equal(result.ok, true, JSON.stringify(result, null, 2));
   assert.equal(result.returnIntake.authenticated, true);
   assert.equal(result.returnIntake.status, 'authenticated-return-ir-ready');
-  assert.equal(result.nonOverlapTrackedReplacementProductPath.prepared, true);
+  assert.equal(result.nonOverlapTrackedReplacementProductPath.prepared, true, JSON.stringify(result.nonOverlapTrackedReplacementProductPath, null, 2));
   assert.equal(result.reviewSurface.rtkNonOverlapTrackedReplacementProductPath.productRuntimeWired, true);
   assert.equal(result.reviewSurface.rtkNonOverlapTrackedReplacementProductPath.automaticApplyCertified, false);
   assert.equal(fs.readFileSync(scenePath, 'utf8'), docx.sceneText);
@@ -1705,10 +1801,12 @@ test('DOCX review preview session command: full-manuscript active authority stor
   const exportId = 'export-full-manuscript-authority-transport';
   const payload = {
     scope: 'full-manuscript', projectId: 'project-1', sceneCount: 1, orderedSceneIds: [sceneId],
+    caseId: 'full-manuscript-authority-transport',
     fullBookRawSha256: c05Sha256Text(sceneText), roundId, exportId,
     semanticReturnId: 'semantic-full-manuscript-authority-transport',
     coreManifestDigest: c05Sha256Text('core-full-manuscript-authority-transport'),
     transportManifestDigest: c05Sha256Text('transport-full-manuscript-authority-transport'),
+    capabilityManifestDigest: c05Sha256Text('capability-full-manuscript-authority-transport'),
   };
   const yrtk2 = makeTestYrtk2({
     keyIdHex: '55555555555555555555555555555555',
@@ -1716,11 +1814,12 @@ test('DOCX review preview session command: full-manuscript active authority stor
     coreManifestDigest: payload.coreManifestDigest,
     secret: 'main-owned-local-secret',
   });
+  const authority = productAuthorityEnvelope(payload, 'main-owned-local-secret');
   const parserResult = {
     ok: true,
     authorityCarrier: {
       status: 'verified-baseline-bound',
-      selectedCarrier: { payload, baselineBinding: { allExpectedMatched: true } },
+      selectedCarrier: { encoded: authority, payload, baselineBinding: { allExpectedMatched: true } },
     },
     exactAuthority: { validSignedLocator: true, sceneRevisionUnchanged: true, rawSha256Unchanged: true },
     parserProfileDigest: c05Sha256Text('parser'), analysisDigest: c05Sha256Text('analysis'), sourceMode: 'TRACKED',
@@ -1753,7 +1852,7 @@ test('DOCX review preview session command: full-manuscript active authority stor
       name: 'docProps/custom.xml',
       method: 8,
       body: customPropertiesXml([
-        { name: 'YRTK_C01_AUTH', value: productAuthorityEnvelope(payload, 'main-owned-local-secret') },
+        { name: 'YRTK_C01_AUTH', value: authority },
         { name: 'YRTK2_TOKEN', value: yrtk2.token },
         { name: 'YRTK_CORE_DIGEST', value: payload.coreManifestDigest },
       ]),
@@ -1766,9 +1865,12 @@ test('DOCX review preview session command: full-manuscript active authority stor
     scenePathBySceneId: { [sceneId]: scenePath },
     baselineFinalTextBySceneId: { [sceneId]: sceneText },
     hmacSecret: 'main-owned-local-secret',
+    keyRef: importTestRoundKeyRef(roundId, 'main-owned-local-secret'),
+    lifecycleState: 'PUBLISHED_ACTIVE',
     expectedAuthority: {
       scope: 'full-manuscript', sceneCount: 1, orderedSceneIds: [sceneId],
       fullBookRawSha256: payload.fullBookRawSha256, roundId, exportId,
+      capabilityManifestDigest: payload.capabilityManifestDigest,
     },
     roundId, exportIdentity: exportId,
     manifestDigest: payload.transportManifestDigest,
@@ -1861,10 +1963,12 @@ test('DOCX review preview session command: explicit full-manuscript comment appl
   });
   const payload = {
     scope: 'full-manuscript', projectId: 'project-1', sceneCount: 1, orderedSceneIds: [sceneId],
+    caseId: 'full-manuscript-comment-explicit',
     fullBookRawSha256: c05Sha256Text(sceneText), roundId, exportId,
     semanticReturnId: 'semantic-full-manuscript-comment-explicit',
     coreManifestDigest,
     transportManifestDigest: c05Sha256Text('transport-full-manuscript-comment-explicit'),
+    capabilityManifestDigest: c05Sha256Text('capability-full-manuscript-comment-explicit'),
     yrtk2TokenDigest: yrtk2.tokenDigest,
   };
   const authority = productAuthorityEnvelope(payload, 'main-owned-local-secret');
@@ -1872,7 +1976,7 @@ test('DOCX review preview session command: explicit full-manuscript comment appl
     ok: true,
     authorityCarrier: {
       status: 'verified-baseline-bound',
-      selectedCarrier: { payload, baselineBinding: { allExpectedMatched: true } },
+      selectedCarrier: { encoded: authority, payload, baselineBinding: { allExpectedMatched: true } },
     },
     exactAuthority: { validSignedLocator: true, sceneRevisionUnchanged: true, rawSha256Unchanged: true },
     parserProfileDigest: c05Sha256Text('parser-explicit'),
@@ -1923,9 +2027,12 @@ test('DOCX review preview session command: explicit full-manuscript comment appl
     scenePathBySceneId: { [sceneId]: scenePath },
     baselineFinalTextBySceneId: { [sceneId]: sceneText },
     hmacSecret: 'main-owned-local-secret',
+    keyRef: importTestRoundKeyRef(roundId, 'main-owned-local-secret'),
+    lifecycleState: 'PUBLISHED_ACTIVE',
     expectedAuthority: {
       scope: 'full-manuscript', sceneCount: 1, orderedSceneIds: [sceneId],
       fullBookRawSha256: payload.fullBookRawSha256, roundId, exportId,
+      capabilityManifestDigest: payload.capabilityManifestDigest,
     },
     roundId,
     exportIdentity: exportId,
@@ -2012,16 +2119,20 @@ test('DOCX review preview session command: authenticated full-manuscript missing
   });
   const payload = {
     scope: 'full-manuscript', roundId, exportId: 'export-map-negatives', orderedSceneIds: ['scene-a'],
+    caseId: 'full-manuscript-map-negatives',
+    fullBookRawSha256: c05Sha256Text('scene-a'),
+    capabilityManifestDigest: c05Sha256Text('capability-map-negatives'),
     coreManifestDigest: yrtk2.coreManifestDigest,
     transportManifestDigest: c05Sha256Text('transport-map-negatives'),
     yrtk2TokenDigest: yrtk2.tokenDigest,
   };
+  const authority = productAuthorityEnvelope(payload, 'main-owned-local-secret');
   const bytes = docxWithAnchoredComment('', [
     {
       name: 'docProps/custom.xml',
       method: 8,
       body: customPropertiesXml([
-        { name: 'YRTK_C01_AUTH', value: productAuthorityEnvelope(payload, 'main-owned-local-secret') },
+        { name: 'YRTK_C01_AUTH', value: authority },
         { name: 'YRTK2_TOKEN', value: yrtk2.token },
         { name: 'YRTK_CORE_DIGEST', value: yrtk2.coreManifestDigest },
       ]),
@@ -2029,7 +2140,7 @@ test('DOCX review preview session command: authenticated full-manuscript missing
   ]);
   const parserResult = {
     ok: true,
-    authorityCarrier: { status: 'verified-baseline-bound', selectedCarrier: { payload, baselineBinding: { allExpectedMatched: true } } },
+    authorityCarrier: { status: 'verified-baseline-bound', selectedCarrier: { encoded: authority, payload, baselineBinding: { allExpectedMatched: true } } },
     exactAuthority: { validSignedLocator: true }, reviewIr: { commentThreads: [], commentPlacements: [] },
   };
   for (const [name, exportMap, expectedReason] of [
@@ -2040,7 +2151,14 @@ test('DOCX review preview session command: authenticated full-manuscript missing
     const port = instantiateDocxReviewPreviewSessionPort({ dispatchCommandSurfaceKernel: async () => { dispatchCount += 1; } });
     const localAuthority = {
       scope: 'full-manuscript', hmacSecret: 'main-owned-local-secret', roundId,
-      expectedAuthority: { scope: 'full-manuscript', orderedSceneIds: ['scene-a'], roundId },
+      keyRef: importTestRoundKeyRef(roundId, 'main-owned-local-secret'),
+      lifecycleState: 'PUBLISHED_ACTIVE',
+      expectedAuthority: {
+        scope: 'full-manuscript', orderedSceneIds: ['scene-a'], roundId,
+        exportId: payload.exportId,
+        fullBookRawSha256: payload.fullBookRawSha256,
+        capabilityManifestDigest: payload.capabilityManifestDigest,
+      },
       coreManifestDigest: yrtk2.coreManifestDigest,
       yrtk2: {
         tokenDigest: yrtk2.tokenDigest,
@@ -2115,6 +2233,82 @@ test('DOCX review preview session command: tampered product carrier HMAC cannot 
   assert.equal(result.ok, false);
   assert.equal(result.error.code, 'E_DOCX_REVIEW_PREVIEW_SESSION_RETURN_INTAKE_BLOCKED');
   assert.equal(result.error.reason, 'RTK_RETURN_INTAKE_AUTHORITY_NOT_VERIFIED');
+  assert.equal(port.getState().activeReviewSessionLifecycle, 'passive');
+});
+
+
+test('DOCX review preview session command: product carrier packet without encoded HMAC proof cannot open a session', async () => {
+  const docx = productReviewDocxWithAnchoredComment();
+  let dispatchCount = 0;
+  const port = instantiateDocxReviewPreviewSessionPort({
+    dispatchCommandSurfaceKernel: async () => { dispatchCount += 1; },
+  });
+  const parserResult = {
+    ok: true,
+    status: 'review-ir-ready',
+    authorityCarrier: {
+      status: 'verified-baseline-bound',
+      selectedCarrier: {
+        payload: docx.payload,
+        baselineBinding: { allExpectedMatched: true },
+      },
+    },
+    exactAuthority: { validSignedLocator: true },
+    parserProfileDigest: c05Sha256Text('parser-missing-carrier-encoded'),
+    analysisDigest: c05Sha256Text('analysis-missing-carrier-encoded'),
+    sourceMode: 'TRACKED',
+    reviewIr: { commentThreads: [], commentPlacements: [], textRevisions: [] },
+  };
+  const result = await port.handleDocxReviewPreviewSessionActivationCommandSurface(
+    toPayload(docx.bytes),
+    {
+      activeReviewDocxExportAuthorityStore: productAuthorityStoreFromDocx(docx),
+      runDocxReviewReturnIntakeInUtilityProcess: async (input) => wrapParserResultAsPacketResult(parserResult, {
+        returnedArtifactSha256: input?.returnedArtifactSha256,
+        yrtk2Token: docx.yrtk2.token,
+        coreManifestDigest: docx.yrtk2.coreManifestDigest,
+      }),
+      buildMainReviewContext: async () => reviewContext({
+        scenePath: '/project/roman/imported/scene-1.txt',
+        sceneText: 'Anchored text',
+      }),
+    },
+  );
+
+  assert.equal(result.ok, false, JSON.stringify(result, null, 2));
+  assert.equal(result.error.code, 'E_DOCX_REVIEW_PREVIEW_SESSION_RETURN_INTAKE_BLOCKED');
+  assert.equal(result.error.reason, 'RTK_RETURN_INTAKE_AUTHORITY_CARRIER_ENCODED_REQUIRED');
+  assert.equal(dispatchCount, 0);
+  assert.equal(port.getState().activeReviewSessionLifecycle, 'passive');
+});
+
+test('DOCX review preview session command: product carrier verifier absence fails closed before import', async () => {
+  const docx = productReviewDocxWithAnchoredComment();
+  let dispatchCount = 0;
+  const port = instantiateDocxReviewPreviewSessionPort({
+    dispatchCommandSurfaceKernel: async () => { dispatchCount += 1; },
+    loadRevisionBridgeModule: async () => {
+      const bridge = await loadBridge();
+      return Object.fromEntries(
+        Object.entries(bridge).filter(([name]) => name !== 'verifyAuthorityCarrierSignatureWithSecret'),
+      );
+    },
+  });
+  const result = await port.handleDocxReviewPreviewSessionActivationCommandSurface(
+    toPayload(docx.bytes),
+    {
+      activeReviewDocxExportAuthorityStore: productAuthorityStoreFromDocx(docx),
+      buildMainReviewContext: async () => reviewContext({
+        scenePath: '/project/roman/imported/scene-1.txt',
+        sceneText: 'Anchored text',
+      }),
+    },
+  );
+
+  assert.equal(result.ok, false, JSON.stringify(result, null, 2));
+  assert.equal(result.error.code, 'E_DOCX_REVIEW_PREVIEW_SESSION_RETURN_INTAKE_BLOCKED');
+  assert.equal(result.error.reason, 'RTK_RETURN_INTAKE_AUTHORITY_CARRIER_VERIFIER_REQUIRED');
+  assert.equal(dispatchCount, 0);
   assert.equal(port.getState().activeReviewSessionLifecycle, 'passive');
 });
 

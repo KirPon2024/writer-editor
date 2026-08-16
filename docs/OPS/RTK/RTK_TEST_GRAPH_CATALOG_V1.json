@@ -42,6 +42,7 @@
     "rtk-parser01-namespace-atoms.contract.test.js",
     "rtk-phys01-ladder-runner.contract.test.js",
     "rtk-post-d1-portability-program.contract.test.js",
+    "rtk-release-applicability-invalidation-graph-v1.contract.test.js",
     "rtk-release-claim-compiler-v0.contract.test.js",
     "rtk-release01-terminal-claims.contract.test.js",
     "rtk-round01-round-record-v3.contract.test.js",

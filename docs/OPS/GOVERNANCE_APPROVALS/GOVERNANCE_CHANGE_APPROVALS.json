@@ -10950,12 +10950,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "fe0c40be445c433c9667b071cbb886411cfb7900a22611dc67a6e07ef41b14dc",
-      "approvedBy": "owner-standing-grant:TASK_ID:INTEROP_CHAIN_MATRIX_LINEAGE_REGISTRATION_V1",
-      "approvedAtUtc": "2026-08-15T11:58:00.000Z",
-      "rationale": "Approve RTK graph catalog rebind for bounded C1-C8 interop chain denominator registration while preserving Google whole-book scoped evidence only, NEEDS_MORE_EVIDENCE, and denying route saturation, terminal Google Docs PASS, universal Word/Google parity, byte identity, product runtime, and import/apply authority claims.",
+      "sha256": "178e5c1946f113fc0abff50d202b3c9fcb5606a2321655a96bee32384088e838",
+      "approvedBy": "owner-standing-grant:TASK_ID:R2_OFFLINE_RELEASE_CLAIM_COMPILER_V0",
+      "approvedAtUtc": "2026-08-16T15:40:00.000Z",
+      "rationale": "Approve maintained RTK graph catalog rebind for R2 offline release-claim compiler admission while preserving C1-C8 denominator registration, Google whole-book scoped evidence only, NEEDS_MORE_EVIDENCE, and denying route saturation, terminal Google Docs PASS, universal Word/Google parity, byte identity, product runtime, and import/apply authority claims.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_MATRIX_LINEAGE_REGISTRATION"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_COMPILER"
     },
     {
       "filePath": "scripts/ops/google-docs-real-account-e2e-v1.mjs",
@@ -10977,12 +10977,12 @@
     },
     {
       "filePath": "test/contracts/rtk-g0b-feasibility.contract.test.js",
-      "sha256": "8a73a827bbf23e73a8730b78a19b44ba640ae24c767fde6221bf6b7cdd6bba38",
-      "approvedBy": "owner-standing-grant:TASK_ID:C1_WORD_WINDOW_ARTIFACT_PUBLICATION_BLOCKER_REPAIR_V1",
-      "approvedAtUtc": "2026-08-15T16:20:00.000Z",
-      "rationale": "Approve G0B changed-file allowlist rebind for the bounded C1 Word window/artifact repair write-set only: admits rtk-word-c5v2-noop-baseline contract as a scoped harness test, with no product runtime/UI/user document/write authority or route PASS introduced.",
+      "sha256": "737549611a10ddf0007e5d9999b383ef25b00cafeef10222b3d9e52d8693fa64",
+      "approvedBy": "owner-standing-grant:TASK_ID:R2_OFFLINE_RELEASE_CLAIM_COMPILER_V0",
+      "approvedAtUtc": "2026-08-16T15:40:00.000Z",
+      "rationale": "Approve R2 allowlist rebind only: G0B dirty-tree scope guard admits the three exact offline release-claim compiler artifacts while preserving outside-path negative checks, NEEDS_MORE_EVIDENCE, and denying product runtime, provider, UI, import/apply, or route saturation authority.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_C1_REPAIR"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_COMPILER"
     },
     {
       "filePath": "test/contracts/rtk-google-docs-real-account-e2e.contract.test.js",
@@ -11004,21 +11004,21 @@
     },
     {
       "filePath": "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",
-      "sha256": "7e2004ce232128d9b6c085cddaa0e2543976001f7ff29a789c1470b6b0f3b31f",
-      "approvedBy": "owner-standing-grant:TASK_ID:C1_WORD_WINDOW_ARTIFACT_PUBLICATION_BLOCKER_REPAIR_V1",
-      "approvedAtUtc": "2026-08-15T16:20:00.000Z",
-      "rationale": "Approve W1 changed-file allowlist rebind for the bounded C1 Word window/artifact repair write-set only; admits the scoped no-op baseline harness test and preserves no-write vertical slice semantics with no product runtime, UI, import/apply authority, route PASS, or user document path.",
+      "sha256": "147fd1f3f543c6cd1c685ab4c2eb9a5f91df833b38df907ac1c01b72677041b9",
+      "approvedBy": "owner-standing-grant:TASK_ID:R2_OFFLINE_RELEASE_CLAIM_COMPILER_V0",
+      "approvedAtUtc": "2026-08-16T15:40:00.000Z",
+      "rationale": "Approve R2 allowlist rebind only: W1 dirty-tree scope guard admits the three exact offline release-claim compiler artifacts while preserving no-write vertical slice semantics, outside-path negative checks, NEEDS_MORE_EVIDENCE, and denying product runtime, UI, import/apply, or route saturation authority.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_C1_REPAIR"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_COMPILER"
     },
     {
       "filePath": "test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js",
-      "sha256": "b28f42dcd3a946b4d87c857cc9e44346c8d4c874a829e1308408f2933eed9bb6",
-      "approvedBy": "owner-standing-grant:TASK_ID:C1_WORD_WINDOW_ARTIFACT_PUBLICATION_BLOCKER_REPAIR_V1",
-      "approvedAtUtc": "2026-08-15T16:20:00.000Z",
-      "rationale": "Approve W2 changed-file allowlist rebind for the bounded C1 Word window/artifact repair write-set only; admits the scoped no-op baseline harness test and preserves parser ReviewIR boundaries with no product runtime, UI, import/apply authority, route PASS, or user document path.",
+      "sha256": "fb8448ac88278ac3d3e4e9a0a0d9dda414aeb2931087978baadeb03f96751459",
+      "approvedBy": "owner-standing-grant:TASK_ID:R2_OFFLINE_RELEASE_CLAIM_COMPILER_V0",
+      "approvedAtUtc": "2026-08-16T15:40:00.000Z",
+      "rationale": "Approve R2 allowlist rebind only: W2 dirty-tree scope guard admits the three exact offline release-claim compiler artifacts while preserving parser ReviewIR boundaries, outside-path negative checks, NEEDS_MORE_EVIDENCE, and denying product runtime, UI, import/apply, or route saturation authority.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_C1_REPAIR"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_COMPILER"
     },
     {
       "filePath": "test/contracts/rtk-test-graph-catalog.contract.test.js",
@@ -11031,12 +11031,12 @@
     },
     {
       "filePath": "test/contracts/rtk-zip01-budget-crc-evidence.contract.test.js",
-      "sha256": "e0ff4a7f347c846a9ed9f4cb0c32dc3c69169325935baef69b4a509b4380c293",
-      "approvedBy": "owner-standing-grant:TASK_ID:C1_WORD_WINDOW_ARTIFACT_PUBLICATION_BLOCKER_REPAIR_V1",
-      "approvedAtUtc": "2026-08-15T16:20:00.000Z",
-      "rationale": "Approve ZIP01 changed-file allowlist rebind for the bounded C1 Word window/artifact repair write-set only: admits the scoped no-op baseline harness contract alongside C1 receipt/verifier/matrix updates; ZIP CRC semantics and outside-path rejection remain unchanged.",
+      "sha256": "a82a4dabad33c1c724d24afcaefc0b84389f59b4b13e778efe9717a621d106cf",
+      "approvedBy": "owner-standing-grant:TASK_ID:R2_OFFLINE_RELEASE_CLAIM_COMPILER_V0",
+      "approvedAtUtc": "2026-08-16T15:40:00.000Z",
+      "rationale": "Approve R2 allowlist rebind only: ZIP01 dirty-tree scope guard admits the three exact offline release-claim compiler artifacts while preserving ZIP CRC semantics, outside-path negative checks, NEEDS_MORE_EVIDENCE, and denying product runtime, UI, import/apply, provider, or route saturation authority.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_C1_REPAIR"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_COMPILER"
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_CHAIN_MATRIX_V1.json",
@@ -11109,6 +11109,33 @@
       "approvedAtUtc": "2026-08-16T13:35:00.000Z",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_C1_DELIVERY_CI_REPAIR"
+    },
+    {
+      "filePath": "scripts/ops/rtk-release-claim-compiler-v0.mjs",
+      "sha256": "11214f96099268dd4560d36c240f65dfe667dfd49f46db53371d72f1df50bbe9",
+      "rationale": "Approve R2 offline release-claim compiler v0: finite exact-head receipt/check projection only, fail-closed on missing stale conflicting revoked unknown or unverifiable evidence, with no product runtime, provider, import/apply, UI, dependency, or universal release authority.",
+      "approvedBy": "owner-standing-grant:TASK_ID:R2_OFFLINE_RELEASE_CLAIM_COMPILER_V0",
+      "approvedAtUtc": "2026-08-16T15:40:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_COMPILER"
+    },
+    {
+      "filePath": "test/contracts/rtk-release-claim-compiler-v0.contract.test.js",
+      "sha256": "0111c72f09baf591795ae89a38fbf8dd097e17a54e704cc4efd8abe95c50fd41",
+      "rationale": "Approve R2 compiler contract tests covering scoped current report, wrong head/tree/build, missing checks, stale/superseded/transplanted/scope-forged receipts, revocation, provider conflict, expiry, UNKNOWN/ABSTAIN/STALE/CONFLICT non-PASS, independent oracle, and 9 semantic mutation killers.",
+      "approvedBy": "owner-standing-grant:TASK_ID:R2_OFFLINE_RELEASE_CLAIM_COMPILER_V0",
+      "approvedAtUtc": "2026-08-16T15:40:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_COMPILER"
+    },
+    {
+      "filePath": "docs/OPS/RTK/YALKEN_OFFLINE_RELEASE_CLAIM_COMPILER_V0_RECEIPT.json",
+      "sha256": "2fad726c983f61d03914675260c0513215e26d819b0a7f1887b27e58f6b07ad7",
+      "rationale": "Approve exact R2 compiler receipt for merged head 09ce09e/tree 5bf69c2: compiler ok, oracle ok, 9/9 mutations killed, C1 repair scoped verified, chain saturation and F3 physical owner/off-host restore remain BLOCKED, program verdict NEEDS_MORE_EVIDENCE.",
+      "approvedBy": "owner-standing-grant:TASK_ID:R2_OFFLINE_RELEASE_CLAIM_COMPILER_V0",
+      "approvedAtUtc": "2026-08-16T15:40:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_COMPILER"
     }
   ]
 }

@@ -227,6 +227,16 @@ test('C1 Word full-book route rejects stale GitHub shallow base binding and CLI 
   assert.equal(currentMergedBase.status, 'MATCHES_CURRENT_MAIN_BASE_SHA_IN_SHALLOW_CHECKOUT');
   assert.equal(currentMergedBase.historicalExactHead, EXACT_HEAD);
 
+  fs.writeFileSync(eventPath, JSON.stringify({ pull_request: { base: { sha: '9feaf1376884e3fba75fed4783056313a128f31f' } } }), 'utf8');
+  const releaseTruthBase = resolveExactHeadBinding('/definitely/not/a/git/repo', {
+    GITHUB_ACTIONS: 'true',
+    GITHUB_EVENT_NAME: 'pull_request',
+    GITHUB_EVENT_PATH: eventPath,
+  });
+  assert.equal(releaseTruthBase.ok, true);
+  assert.equal(releaseTruthBase.status, 'MATCHES_RELEASE_TRUTH_BASE_SHA_IN_SHALLOW_CHECKOUT');
+  assert.equal(releaseTruthBase.historicalExactHead, EXACT_HEAD);
+
   fs.writeFileSync(eventPath, JSON.stringify({ pull_request: { base: { sha: '0'.repeat(40) } } }), 'utf8');
   const rejected = resolveExactHeadBinding('/definitely/not/a/git/repo', {
     GITHUB_ACTIONS: 'true',

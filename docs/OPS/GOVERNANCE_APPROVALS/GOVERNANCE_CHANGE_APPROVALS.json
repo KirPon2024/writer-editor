@@ -11013,21 +11013,21 @@
     },
     {
       "filePath": "scripts/ops/rtk-interop-chain-matrix-v1.mjs",
-      "sha256": "01097207602264745d9406f40ac9fdc58ba024a810d4e2e241d76d59449b7624",
-      "rationale": "Approve chain matrix verifier CI repair rebind: shallow PR base may equal current merged main 09ce09e after PR 1570 while historical chain evidence remains bound to 1b8a; C1-C8 denominator and no-saturation claims remain unchanged, and stale/unknown bases still fail closed.",
-      "approvedBy": "owner-standing-grant:TASK_ID:R2_OFFLINE_RELEASE_CLAIM_COMPILER_V0:CI_CURRENT_MAIN_BASE_BINDING",
-      "approvedAtUtc": "2026-08-16T16:45:00.000Z",
+      "sha256": "ecde318db96428c5b828029374e7f98dbcafe1900464cd2f4c893ddbd01a1e09",
+      "rationale": "Approve chain matrix verifier CI repair rebind: shallow PR base may equal current merged R2/R3 release-truth base 9feaf137 while historical chain evidence remains bound to 1b8a; C1-C8 denominator and no-saturation claims remain unchanged, and stale/unknown bases still fail closed.",
+      "approvedBy": "owner-standing-grant:TASK_ID:R3_CI_SHALLOW_BASE_BINDING_REPAIR_V1",
+      "approvedAtUtc": "2026-08-16T17:55:00.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_COMPILER_CI_REPAIR"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_INVALIDATION_GRAPH_CI_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-interop-chain-matrix.contract.test.js",
-      "sha256": "3fce481c8b41fc912c0a1dc8194481e453975b09304772c9032bfc1bb8b263f8",
-      "rationale": "Approve focused interop chain matrix contract repair proving current merged main 09ce09e shallow PR binding passes, stale base still fails closed, and chain saturation remains NEEDS_MORE_EVIDENCE.",
-      "approvedBy": "owner-standing-grant:TASK_ID:R2_OFFLINE_RELEASE_CLAIM_COMPILER_V0:CI_CURRENT_MAIN_BASE_BINDING",
-      "approvedAtUtc": "2026-08-16T16:45:00.000Z",
+      "sha256": "dff5fb8cfa305de555cff7a86b58ac0805059778d969d6caf3da0c7c98895c2c",
+      "rationale": "Approve focused interop chain matrix contract repair proving current merged R2/R3 base 9feaf137 shallow PR binding passes, stale base still fails closed, and chain saturation remains NEEDS_MORE_EVIDENCE.",
+      "approvedBy": "owner-standing-grant:TASK_ID:R3_CI_SHALLOW_BASE_BINDING_REPAIR_V1",
+      "approvedAtUtc": "2026-08-16T17:55:00.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_COMPILER_CI_REPAIR"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_INVALIDATION_GRAPH_CI_REPAIR"
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1.json",
@@ -11040,21 +11040,21 @@
     },
     {
       "filePath": "scripts/ops/rtk-interop-c1-word-fullbook-route-v1.mjs",
-      "sha256": "7cfdfa64af3f67b2824463b9588f0b8c362c488173232a1414cbd0823a92e6c0",
-      "rationale": "Approve C1 verifier CI repair rebind: GitHub shallow pull_request base may equal current merged main 09ce09e after PR 1570 while historical C1 evidence remains bound to 1b8a; stale/unknown bases still fail closed and route PASS remains denied.",
-      "approvedBy": "owner-standing-grant:TASK_ID:R2_OFFLINE_RELEASE_CLAIM_COMPILER_V0:CI_CURRENT_MAIN_BASE_BINDING",
-      "approvedAtUtc": "2026-08-16T16:45:00.000Z",
+      "sha256": "13bd3d6c23e6ba04a8b8b1308647969116676e9c052fdcfca2475af6c323cc17",
+      "rationale": "Approve C1 verifier CI repair rebind: GitHub shallow pull_request base may equal current merged R2/R3 release-truth base 9feaf137 while historical C1 evidence remains bound to 1b8a; stale/unknown bases still fail closed and route PASS remains denied.",
+      "approvedBy": "owner-standing-grant:TASK_ID:R3_CI_SHALLOW_BASE_BINDING_REPAIR_V1",
+      "approvedAtUtc": "2026-08-16T17:55:00.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_COMPILER_CI_REPAIR"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_INVALIDATION_GRAPH_CI_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-interop-c1-word-fullbook-route.contract.test.js",
-      "sha256": "c31945c599eae638b36703f110e30695899a92fd97b92ee848bb6128d4d40d88",
-      "rationale": "Approve focused C1 route contract repair proving current merged main 09ce09e shallow PR binding passes, stale base still fails closed, and C1 remains BLOCKED with no route PASS.",
-      "approvedBy": "owner-standing-grant:TASK_ID:R2_OFFLINE_RELEASE_CLAIM_COMPILER_V0:CI_CURRENT_MAIN_BASE_BINDING",
-      "approvedAtUtc": "2026-08-16T16:45:00.000Z",
+      "sha256": "d4cbee0a675c2d624c0f5f17822ddbea6c1ed3b1cc0d055376ea8aa3b5286ac4",
+      "rationale": "Approve focused C1 route contract repair proving current merged R2/R3 base 9feaf137 shallow PR binding passes, stale base still fails closed, and C1 remains BLOCKED with no route PASS.",
+      "approvedBy": "owner-standing-grant:TASK_ID:R3_CI_SHALLOW_BASE_BINDING_REPAIR_V1",
+      "approvedAtUtc": "2026-08-16T17:55:00.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_COMPILER_CI_REPAIR"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_INVALIDATION_GRAPH_CI_REPAIR"
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",

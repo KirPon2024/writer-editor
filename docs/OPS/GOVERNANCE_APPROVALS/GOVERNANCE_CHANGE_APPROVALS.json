@@ -11093,15 +11093,6 @@
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_COMPILER"
     },
     {
-      "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "048a5198f457f00eeaf22dac53c668a2995bec648ba311e172ba97b6c4d2fecf",
-      "rationale": "Approve maintained RTK graph catalog rebind for R3 applicability invalidation graph admission while preserving NEEDS_MORE_EVIDENCE and denying release, product runtime, provider, UI, import/apply, route saturation, universal parity, or byte-identity claims.",
-      "approvedBy": "owner-standing-grant:TASK_ID:R3_APPLICABILITY_INVALIDATION_GRAPH_V1",
-      "approvedAtUtc": "2026-08-16T17:20:00.000Z",
-      "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_INVALIDATION_GRAPH"
-    },
-    {
       "filePath": "docs/OPS/RTK/YALKEN_RELEASE_APPLICABILITY_INVALIDATION_GRAPH_V1_RECEIPT.json",
       "sha256": "fc8c82d70e0d740f86d4e39d8075c2032e5e9c52a62da46f45185682622fa1aa",
       "rationale": "Approve exact R3 applicability invalidation graph receipt for merged head 9feaf137/tree 328b68e: compiler ok, oracle ok, 12/12 mutations killed, C1 repair applicable only to exact scope, chain saturation and F3 physical owner/off-host restore remain BLOCKED, program verdict NEEDS_MORE_EVIDENCE.",
@@ -11120,15 +11111,6 @@
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_INVALIDATION_GRAPH"
     },
     {
-      "filePath": "test/contracts/rtk-g0b-feasibility.contract.test.js",
-      "sha256": "ad1822c00592dd13d0dbc6e0ee596c75edac9974e3bdaee9057c77b242cbd3d3",
-      "rationale": "Approve R3 allowlist rebind only: G0B dirty-tree scope guard admits the three exact applicability invalidation graph artifacts while preserving outside-path negative checks, NEEDS_MORE_EVIDENCE, and denying product runtime, provider, UI, import/apply, release, or route saturation authority.",
-      "approvedBy": "owner-standing-grant:TASK_ID:R3_APPLICABILITY_INVALIDATION_GRAPH_V1",
-      "approvedAtUtc": "2026-08-16T17:20:00.000Z",
-      "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_INVALIDATION_GRAPH"
-    },
-    {
       "filePath": "test/contracts/rtk-release-applicability-invalidation-graph-v1.contract.test.js",
       "sha256": "8d78fd7f5b2822d8aff075e1ba4cc8e20914aab849b32840790429ebd5abf487",
       "rationale": "Approve R3 compiler contract tests covering exact-head graph, blocked claim non-upgrade, wrong binding, stale source receipts, revocation, supersession, provider expiry, conflict, transplant, replay, scope laundering, UNKNOWN/ABSTAIN non-applicability, independent oracle, and 12 semantic mutation killers.",
@@ -11138,31 +11120,76 @@
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_INVALIDATION_GRAPH"
     },
     {
-      "filePath": "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",
-      "sha256": "1d5bb1beec68792bff6afd352bae616105ca845ab39088dacaa929ae66d225d1",
-      "rationale": "Approve R3 allowlist rebind only: W1 dirty-tree scope guard admits the three exact applicability invalidation graph artifacts while preserving no-write vertical slice semantics, outside-path negative checks, NEEDS_MORE_EVIDENCE, and denying product runtime, UI, import/apply, release, or route saturation authority.",
-      "approvedBy": "owner-standing-grant:TASK_ID:R3_APPLICABILITY_INVALIDATION_GRAPH_V1",
-      "approvedAtUtc": "2026-08-16T17:20:00.000Z",
+      "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
+      "sha256": "ed2c189856af0ba891d95d199490d7418b488d12afc3c2ed1a84c418c4a57390",
+      "rationale": "Approve R4 catalog/truth-binding rebind only: admits the exact-head release-claim publication contract and scoped non-release aggregate while preserving NEEDS_MORE_EVIDENCE, blocked claim denial, and no product runtime, UI, provider, import/apply, release READY, or route-saturation authority.",
+      "approvedBy": "owner-standing-grant:TASK_ID:R4_EXACT_HEAD_CLAIM_PUBLICATION_V1",
+      "approvedAtUtc": "2026-08-16T19:20:00.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_INVALIDATION_GRAPH"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_PUBLICATION"
+    },
+    {
+      "filePath": "docs/OPS/RTK/YALKEN_RELEASE_CLAIM_PUBLICATION_V1_RECEIPT.json",
+      "sha256": "589f5870ba4b7e9806916e4d7b25c6f3bd580ed272067dbafa767f5dab25fdd8",
+      "rationale": "Approve R4 exact-head publication receipt: 3 claims accounted, 1 scoped non-release claim published, 2 claims blocked/not-published, required checks bound, active vetoes 0, independent oracle PASS, semantic mutations 12/12 killed, and program verdict remains NEEDS_MORE_EVIDENCE.",
+      "approvedBy": "owner-standing-grant:TASK_ID:R4_EXACT_HEAD_CLAIM_PUBLICATION_V1",
+      "approvedAtUtc": "2026-08-16T19:20:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_PUBLICATION"
+    },
+    {
+      "filePath": "scripts/ops/rtk-release-claim-publication-v1.mjs",
+      "sha256": "190355a10aeab5ec5a032ba5df489fb0294e9a9d03f6cd75f89b1c106125bbf9",
+      "rationale": "Approve R4 offline exact-head claim publication compiler only: fail-closed on wrong head/tree, stale source receipt, missing required checks, unknown/abstain/conflict/stale/revoked/active vetoes, with all mutation/runtime/provider/UI authorities DENY.",
+      "approvedBy": "owner-standing-grant:TASK_ID:R4_EXACT_HEAD_CLAIM_PUBLICATION_V1",
+      "approvedAtUtc": "2026-08-16T19:20:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_PUBLICATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-release-claim-publication-v1.contract.test.js",
+      "sha256": "fd45ab77269e5300a977d79109e9cdaf3d7a026d457c166da2de980d4d1d5592",
+      "rationale": "Approve R4 contract tests covering scoped non-release publication, no program READY upgrade, wrong head/tree rejection, stale R3 receipt rejection, missing required checks, unknown/abstain/stale/conflict/active-veto non-PASS behavior, independent oracle, and 12/12 killed semantic mutants.",
+      "approvedBy": "owner-standing-grant:TASK_ID:R4_EXACT_HEAD_CLAIM_PUBLICATION_V1",
+      "approvedAtUtc": "2026-08-16T19:20:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_PUBLICATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-g0b-feasibility.contract.test.js",
+      "sha256": "ffbb65b6a056d846f40df479a9b961b7fdf83278e50284980c8169b3b65d5814",
+      "rationale": "Approve R4 allowlist rebind only: G0B dirty-tree scope guard admits the exact release-claim publication artifacts while preserving feasibility boundaries, outside-path negative checks, NEEDS_MORE_EVIDENCE, and denying runtime/UI/provider/import/apply/release authority.",
+      "approvedBy": "owner-standing-grant:TASK_ID:R4_EXACT_HEAD_CLAIM_PUBLICATION_V1",
+      "approvedAtUtc": "2026-08-16T19:20:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_PUBLICATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",
+      "sha256": "89e2030f4a7d3c97542ac828ce3db4d567bcec4f57220e80a99fd12bd6943249",
+      "rationale": "Approve R4 allowlist rebind only: W1 dirty-tree scope guard admits the exact release-claim publication artifacts while preserving no-write vertical slice semantics, outside-path negative checks, NEEDS_MORE_EVIDENCE, and denying runtime/UI/provider/import/apply/release authority.",
+      "approvedBy": "owner-standing-grant:TASK_ID:R4_EXACT_HEAD_CLAIM_PUBLICATION_V1",
+      "approvedAtUtc": "2026-08-16T19:20:00.000Z",
+      "approved": true,
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_PUBLICATION"
     },
     {
       "filePath": "test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js",
-      "sha256": "55f134042427e4726986f58b941e7439fae8962b3b41a709040c0282e3590851",
-      "rationale": "Approve R3 allowlist rebind only: W2 dirty-tree scope guard admits the three exact applicability invalidation graph artifacts while preserving parser ReviewIR boundaries, outside-path negative checks, NEEDS_MORE_EVIDENCE, and denying product runtime, UI, import/apply, release, or route saturation authority.",
-      "approvedBy": "owner-standing-grant:TASK_ID:R3_APPLICABILITY_INVALIDATION_GRAPH_V1",
-      "approvedAtUtc": "2026-08-16T17:20:00.000Z",
+      "sha256": "f02ecf719b4a18220c746bb9012b8a7746b8c6310ef6547b342cfa32257c19dc",
+      "rationale": "Approve R4 allowlist rebind only: W2 dirty-tree scope guard admits the exact release-claim publication artifacts while preserving parser ReviewIR boundaries, outside-path negative checks, NEEDS_MORE_EVIDENCE, and denying runtime/UI/provider/import/apply/release authority.",
+      "approvedBy": "owner-standing-grant:TASK_ID:R4_EXACT_HEAD_CLAIM_PUBLICATION_V1",
+      "approvedAtUtc": "2026-08-16T19:20:00.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_INVALIDATION_GRAPH"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_PUBLICATION"
     },
     {
       "filePath": "test/contracts/rtk-zip01-budget-crc-evidence.contract.test.js",
-      "sha256": "46c2052c9352f3c4725a9af7ffa1d53105188bf00175cafec5e3b86c364513af",
-      "rationale": "Approve R3 allowlist rebind only: ZIP01 dirty-tree scope guard admits the three exact applicability invalidation graph artifacts while preserving ZIP CRC semantics, outside-path negative checks, NEEDS_MORE_EVIDENCE, and denying product runtime, UI, import/apply, provider, release, or route saturation authority.",
-      "approvedBy": "owner-standing-grant:TASK_ID:R3_APPLICABILITY_INVALIDATION_GRAPH_V1",
-      "approvedAtUtc": "2026-08-16T17:20:00.000Z",
+      "sha256": "875fa1b8e4ced4d8d104e2a93948d0a1abb383c8ce02584dac1de57cced056b7",
+      "rationale": "Approve R4 allowlist rebind only: ZIP01 dirty-tree scope guard admits the exact release-claim publication artifacts while preserving ZIP CRC semantics, outside-path negative checks, NEEDS_MORE_EVIDENCE, and denying runtime/UI/provider/import/apply/release authority.",
+      "approvedBy": "owner-standing-grant:TASK_ID:R4_EXACT_HEAD_CLAIM_PUBLICATION_V1",
+      "approvedAtUtc": "2026-08-16T19:20:00.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_INVALIDATION_GRAPH"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_PUBLICATION"
     }
   ]
 }

@@ -1,0 +1,175 @@
+{
+  "schemaVersion": "yalken.releaseClaimPublication.receipt.v1",
+  "publisherId": "R4_EXACT_HEAD_CLAIM_PUBLICATION_V1",
+  "ok": true,
+  "generatedAtUtc": "2026-08-16T19:20:00.000Z",
+  "exact": {
+    "headSha": "5c16e0ee5fc260143506d465c6dcd0711db347d8",
+    "treeSha": "c8ca6786fabc5beecd1f871167001860889c1984",
+    "buildId": "postmerge-local-node-22.22.2-npm-10.9.7"
+  },
+  "inputReceipts": [
+    {
+      "id": "receipt:r3-applicability-invalidation-graph-v1",
+      "schemaVersion": "yalken.releaseApplicabilityInvalidationGraph.receipt.v1",
+      "compilerId": "R3_APPLICABILITY_INVALIDATION_GRAPH_V1",
+      "headSha": "9feaf1376884e3fba75fed4783056313a128f31f",
+      "treeSha": "328b68ed9875e6f6e7bf967e3d94c67e32518193",
+      "evidenceDigest": "sha256:fc8c82d70e0d740f86d4e39d8075c2032e5e9c52a62da46f45185682622fa1aa"
+    }
+  ],
+  "requiredChecks": [
+    {
+      "name": "oss-policy",
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "5c16e0ee5fc260143506d465c6dcd0711db347d8"
+    },
+    {
+      "name": "rtk-required",
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "5c16e0ee5fc260143506d465c6dcd0711db347d8"
+    },
+    {
+      "name": "x1-runtime-parity (ubuntu-latest)",
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "5c16e0ee5fc260143506d465c6dcd0711db347d8"
+    },
+    {
+      "name": "x1-runtime-parity (windows-latest)",
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "5c16e0ee5fc260143506d465c6dcd0711db347d8"
+    },
+    {
+      "name": "postmerge-full-rtk",
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "5c16e0ee5fc260143506d465c6dcd0711db347d8"
+    }
+  ],
+  "programVerdict": "NEEDS_MORE_EVIDENCE",
+  "publicationDecision": "PUBLISH_SCOPED_NON_RELEASE_AGGREGATE",
+  "releaseAuthority": "DENY",
+  "productMutationAuthority": "DENY",
+  "providerMutationAuthority": "DENY",
+  "claims": [
+    {
+      "id": "C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1",
+      "family": "INTEROP_CHAIN",
+      "profileId": "word-mac-16.112-26081010",
+      "scopeId": "return-intake-authority-carrier-authentication-repair",
+      "denominatorId": "c1-return-intake-authority-carrier-authentication-repair",
+      "sourceState": "APPLICABLE_SCOPED",
+      "publicationState": "PUBLISHED_SCOPED",
+      "publicationDecision": "PUBLISH_SCOPED_ONLY",
+      "reasons": [],
+      "invalidatedBy": [],
+      "nonClaims": [
+        "C1_ROUTE_PASS",
+        "CHAIN_SATURATION",
+        "USER_DOCUMENT_COVERAGE"
+      ]
+    },
+    {
+      "id": "F3_PHYSICAL_OWNER_OFFHOST_RESTORE_V1",
+      "family": "BLACK_BOX_RECOVERY",
+      "profileId": "owner-offhost-removable-media",
+      "scopeId": "physical-owner-key-restore-drill",
+      "denominatorId": "physical-owner-key-offhost-removable-media-restore",
+      "sourceState": "BLOCKED",
+      "publicationState": "BLOCKED_NOT_PUBLISHED",
+      "publicationDecision": "DENY",
+      "reasons": [
+        "CLAIM_NOT_VERIFIED_SCOPED:NEEDS_MORE_EVIDENCE:BLOCKED",
+        "FAIL_CLOSED_CLAIM_OUTCOME:BLOCKED",
+        "FAIL_CLOSED_RECEIPT_OUTCOME:receipt:f3-physical-remains-blocked:BLOCKED",
+        "RECEIPT_NOT_VERIFIED_SCOPED:receipt:f3-physical-remains-blocked:NEEDS_MORE_EVIDENCE:BLOCKED",
+        "SOURCE_STATE_NOT_PUBLISHABLE:BLOCKED"
+      ],
+      "invalidatedBy": [
+        "receipt:f3-physical-remains-blocked"
+      ],
+      "nonClaims": [
+        "FINAL_PROGRAM_READY",
+        "OFFHOST_RESTORE_PASS",
+        "PHYSICAL_OWNER_DRILL_PASS"
+      ]
+    },
+    {
+      "id": "INTEROP_CHAIN_SATURATION_V1",
+      "family": "INTEROP_CHAIN",
+      "profileId": "word-google-chain",
+      "scopeId": "c1-c8-full-book-denominator",
+      "denominatorId": "interop-c1-c8-full-book-route-matrix",
+      "sourceState": "BLOCKED",
+      "publicationState": "BLOCKED_NOT_PUBLISHED",
+      "publicationDecision": "DENY",
+      "reasons": [
+        "CLAIM_NOT_VERIFIED_SCOPED:NEEDS_MORE_EVIDENCE:BLOCKED",
+        "FAIL_CLOSED_CLAIM_OUTCOME:BLOCKED",
+        "FAIL_CLOSED_RECEIPT_OUTCOME:receipt:chain-saturation-blocked-after-r2:BLOCKED",
+        "RECEIPT_NOT_VERIFIED_SCOPED:receipt:chain-saturation-blocked-after-r2:NEEDS_MORE_EVIDENCE:BLOCKED",
+        "SOURCE_STATE_NOT_PUBLISHABLE:BLOCKED"
+      ],
+      "invalidatedBy": [
+        "receipt:chain-saturation-blocked-after-r2"
+      ],
+      "nonClaims": [
+        "ALL_ROUTES_PROVEN",
+        "BYTE_IDENTITY",
+        "UNIVERSAL_PARITY"
+      ]
+    }
+  ],
+  "blockedClaims": [
+    {
+      "id": "F3_PHYSICAL_OWNER_OFFHOST_RESTORE_V1",
+      "sourceState": "BLOCKED",
+      "reasons": [
+        "CLAIM_NOT_VERIFIED_SCOPED:NEEDS_MORE_EVIDENCE:BLOCKED",
+        "FAIL_CLOSED_CLAIM_OUTCOME:BLOCKED",
+        "FAIL_CLOSED_RECEIPT_OUTCOME:receipt:f3-physical-remains-blocked:BLOCKED",
+        "RECEIPT_NOT_VERIFIED_SCOPED:receipt:f3-physical-remains-blocked:NEEDS_MORE_EVIDENCE:BLOCKED",
+        "SOURCE_STATE_NOT_PUBLISHABLE:BLOCKED"
+      ]
+    },
+    {
+      "id": "INTEROP_CHAIN_SATURATION_V1",
+      "sourceState": "BLOCKED",
+      "reasons": [
+        "CLAIM_NOT_VERIFIED_SCOPED:NEEDS_MORE_EVIDENCE:BLOCKED",
+        "FAIL_CLOSED_CLAIM_OUTCOME:BLOCKED",
+        "FAIL_CLOSED_RECEIPT_OUTCOME:receipt:chain-saturation-blocked-after-r2:BLOCKED",
+        "RECEIPT_NOT_VERIFIED_SCOPED:receipt:chain-saturation-blocked-after-r2:NEEDS_MORE_EVIDENCE:BLOCKED",
+        "SOURCE_STATE_NOT_PUBLISHABLE:BLOCKED"
+      ]
+    }
+  ],
+  "denominators": {
+    "claimsTotal": 3,
+    "publishedScoped": 1,
+    "blockedNotPublished": 2,
+    "requiredChecksTotal": 5,
+    "activeVetoes": 0,
+    "sourceReceiptsTotal": 1
+  },
+  "errors": [],
+  "oracle": {
+    "ok": true,
+    "errors": []
+  },
+  "mutations": {
+    "total": 12,
+    "killed": 12,
+    "survivors": []
+  },
+  "limitations": [
+    "This is an offline exact-head release-claim publication aggregate; it grants no product/runtime/provider authority.",
+    "Only APPLICABLE_SCOPED R3 nodes without reasons are published as scoped evidence; blocked, stale, unknown, conflict, revoked, or abstain nodes remain denied.",
+    "Program verdict remains NEEDS_MORE_EVIDENCE because interop chain saturation and F3 physical owner/off-host restore remain unproven.",
+    "Desktop V1.1 remains hash-bound proposal input only; active repo canon and exact-head receipts win."
+  ]
+}

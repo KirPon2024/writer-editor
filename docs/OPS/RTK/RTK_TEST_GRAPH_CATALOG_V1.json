@@ -12,7 +12,8 @@
     "Google Docs has scoped real connected-account E2E evidence for the explicitly tested synthetic primitives only; Word 16.112 evidence remains non-transferable and no Google import/apply/product-runtime/platform-saturation claim is made.",
     "Google Docs whole-book evidence covers the frozen canonical synthetic book denominator only; it is not chain saturation, not universal parity, and not a terminal Google Docs platform PASS.",
     "Interop chain C1-C8 is registered as a full-book route denominator with lineage closure rules only; every route remains NEEDS_MORE_EVIDENCE until its own sequential contour executes the complete route.",
-    "R4 exact-head release-claim publication emits a scoped non-release aggregate only; blocked claims remain denied and program verdict remains NEEDS_MORE_EVIDENCE."
+    "R4 exact-head release-claim publication emits a scoped non-release aggregate only; blocked claims remain denied and program verdict remains NEEDS_MORE_EVIDENCE.",
+    "RTK execution requires explicit streamed TAP, progress heartbeats, hard deadlines, deterministic owned cleanup, and complete verified process-inspection capability; hidden or indeterminate PID visibility, timeout, orphan, duplicate, or cleanup uncertainty fails closed."
   ],
   "contractBasenames": [
     "rtk-admit01-accountable-lanes.contract.test.js",
@@ -157,6 +158,8 @@
     "googleLocalPreviewOnlyNoApply": "GOOGLE_DOCS_LOCAL_PREVIEW_ONLY_NO_APPLY_V1_LOCAL_VERIFIED",
     "googleLocalRecoveryReplayContract": "GOOGLE_DOCS_LOCAL_RECOVERY_REPLAY_CONTRACT_V1_LOCAL_VERIFIED",
     "googleLocalFinalCompatibilityVerdict": "GOOGLE_DOCS_LOCAL_FINAL_COMPATIBILITY_VERDICT_V1_LOCAL_VERIFIED",
-    "releaseClaimPublication": "R4_EXACT_HEAD_CLAIM_PUBLICATION_V1_SCOPED_NON_RELEASE_AGGREGATE_NEEDS_MORE_EVIDENCE"
+    "releaseClaimPublication": "R4_EXACT_HEAD_CLAIM_PUBLICATION_V1_SCOPED_NON_RELEASE_AGGREGATE_NEEDS_MORE_EVIDENCE",
+    "r4PostmergeVerification": "R4_POSTMERGE_REQUIRED_CI_GREEN_SCOPE_UNCHANGED",
+    "rtkExecutionProcessEvidence": "RTK_STREAMING_HARD_DEADLINES_EXPLICIT_PROCESS_INSPECTION_V1_REQUIRED"
   }
 }

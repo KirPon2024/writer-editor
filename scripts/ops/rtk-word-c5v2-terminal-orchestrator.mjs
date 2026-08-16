@@ -20,6 +20,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { spawn, spawnSync, execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { performance } from 'node:perf_hooks';
 import zlib from 'node:zlib';
 import {
   C5V2_LEDGER_SCHEMA,
@@ -43,6 +44,38 @@ export const STAGE_SEAL_SCHEMA = 'yalken.rtk.word.c5v2.orchestrated-stage-seal.v
 export const HEARTBEAT_SCHEMA = 'yalken.rtk.word.c5v2.orchestrated-heartbeat.v1';
 export const CHAIN_IDS = Object.freeze(['W06', 'REP1', 'REP2', 'REP3']);
 export const STAGES = Object.freeze(['POSITIVE', 'NEGATIVE', 'AGGREGATE']);
+const ORCH_PROCESS_PROBE_TIMEOUT_MS = 1000;
+const ORCH_PROCESS_PROBE_MAX_BUFFER_BYTES = 512 * 1024;
+
+function defaultMonotonicNow() {
+  return performance.now();
+}
+
+function createMonotonicReader(source = defaultMonotonicNow) {
+  let initialized = false;
+  let last = 0;
+  return () => {
+    let candidate;
+    try {
+      candidate = Number(source());
+    } catch {
+      candidate = Number.NaN;
+    }
+    if (!Number.isFinite(candidate)) candidate = initialized ? last : defaultMonotonicNow();
+    candidate = Math.max(0, candidate);
+    if (!initialized || candidate > last) last = candidate;
+    initialized = true;
+    return last;
+  };
+}
+
+function boundedProcessProbeOptions() {
+  return {
+    encoding: 'utf8',
+    timeout: ORCH_PROCESS_PROBE_TIMEOUT_MS,
+    maxBuffer: ORCH_PROCESS_PROBE_MAX_BUFFER_BYTES,
+  };
+}
 export const TERMINAL_CAMPAIGN_PROFILE = 'C5V2_DORIAN_TERMINAL';
 const SECURE_VOLUME_UUID = 'D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2';
 const IDENTITY_RE = /^[A-Za-z0-9._-]{1,64}$/u;
@@ -640,46 +673,125 @@ export function checkOrchestratorLockAbsence({ lockRoot, allowedRoot = '' }) {
 // Owned stage process with process-group watchdog
 // ---------------------------------------------------------------------------
 
-function listOwnedDescendants(rootPid) {
-  const childPids = (parentPid) => {
-    const result = spawnSync('pgrep', ['-P', String(parentPid)], { encoding: 'utf8' });
-    if (result.status === 0) {
-      return String(result.stdout || '').trim().split('\n').filter(Boolean).map(Number);
-    }
-    const ps = spawnSync('ps', ['-axo', 'pid=,ppid='], { encoding: 'utf8' });
-    if (ps.status !== 0) return [];
-    return String(ps.stdout || '').split('\n').map((line) => {
-      const [pidText, ppidText] = line.trim().split(/\s+/u);
-      return { pid: Number(pidText), ppid: Number(ppidText) };
-    }).filter((row) => row.ppid === parentPid && Number.isSafeInteger(row.pid)).map((row) => row.pid);
+function processInspectionResult({ capability, strategy, status, rows = [], reasons = [], code = '' }) {
+  const complete = status === 'AVAILABLE' || status === 'DEGRADED';
+  const ok = complete && reasons.length === 0;
+  return {
+    ok,
+    complete,
+    status: ok ? status : 'INDETERMINATE',
+    capability,
+    strategy,
+    code: ok ? (code || `ORCH_PROCESS_INSPECTION_${status}:${capability}:${strategy}`) : (code || `ORCH_PROCESS_INSPECTION_INDETERMINATE:${capability}:${reasons.join(',')}`),
+    rows,
+    reasons,
   };
-  const direct = childPids(rootPid);
-  const all = new Set(direct);
-  const queue = [...direct];
-  while (queue.length > 0) {
-    const parent = queue.shift();
-    const children = childPids(parent);
-    for (const child of children) {
-      if (!all.has(child)) {
-        all.add(child);
-        queue.push(child);
-      }
-    }
-  }
-  return [...all].filter((pid) => Number.isSafeInteger(pid) && pid > 0);
 }
 
-function listProcessGroupMembers(pgid) {
-  const result = spawnSync('ps', ['-axo', 'pid=,pgid='], { encoding: 'utf8' });
-  if (result.status !== 0) return [];
-  return String(result.stdout || '').split('\n').map((line) => {
-    const [pidText, pgidText] = line.trim().split(/\s+/u);
-    return { pid: Number(pidText), pgid: Number(pgidText) };
-  }).filter((row) => row.pgid === pgid && Number.isSafeInteger(row.pid) && row.pid > 0).map((row) => row.pid);
+function strictPidRows(text, fields, label) {
+  const rows = [];
+  const reasons = [];
+  for (const line of String(text || '').split('\n').map((value) => value.trim()).filter(Boolean)) {
+    const parts = line.split(/\s+/u);
+    if (parts.length !== fields.length || parts.some((part) => !/^\d+$/u.test(part))) {
+      reasons.push(`${label}_MALFORMED:${line.slice(0, 120)}`);
+      continue;
+    }
+    const row = Object.fromEntries(fields.map((field, index) => [field, Number(parts[index])]));
+    if (!Number.isSafeInteger(row.pid) || row.pid <= 0 || Object.entries(row).some(([field, value]) => field !== 'pid' && (!Number.isSafeInteger(value) || value < 0))) {
+      reasons.push(`${label}_MALFORMED:${line.slice(0, 120)}`);
+      continue;
+    }
+    rows.push(row);
+  }
+  const duplicatePids = rows.filter((row, index) => rows.findIndex((candidate) => candidate.pid === row.pid) !== index).map((row) => row.pid);
+  if (duplicatePids.length > 0) reasons.push(`${label}_DUPLICATE_PID:${[...new Set(duplicatePids)].join(',')}`);
+  return { rows, reasons };
+}
+
+export function listOwnedDescendants(rootPid, options = {}) {
+  const spawnSyncImpl = options.spawnSyncImpl || spawnSync;
+  const reasons = [];
+  let pgrep;
+  try {
+    pgrep = spawnSyncImpl('pgrep', ['-P', String(rootPid)], boundedProcessProbeOptions());
+  } catch (error) {
+    pgrep = { status: null, stdout: '', stderr: '', error };
+  }
+  const pgrepAvailable = [0, 1].includes(pgrep?.status) && !(pgrep?.status === 1 && String(pgrep?.stderr || '').trim());
+  if (pgrep?.error || ![0, 1].includes(pgrep?.status) || (pgrep?.status === 1 && String(pgrep?.stderr || '').trim())) {
+    reasons.push(`ORCH_DESCENDANTS_PGREP_INDETERMINATE:${pgrep?.error?.code || pgrep?.error?.message || pgrep?.status || 'UNKNOWN'}:${String(pgrep?.stderr || '').trim().slice(0, 120)}`);
+  }
+  let ps;
+  try {
+    ps = spawnSyncImpl('ps', ['-axo', 'pid=,ppid='], boundedProcessProbeOptions());
+  } catch (error) {
+    ps = { status: null, stdout: '', stderr: '', error };
+  }
+  if (ps?.status !== 0) reasons.push(`ORCH_DESCENDANTS_INSPECTION_DENIED:${ps?.error?.code || ps?.error?.message || ps?.status || 'UNKNOWN'}:${String(ps?.stderr || '').trim().slice(0, 120)}`);
+  const parsed = ps?.status === 0 ? strictPidRows(ps.stdout, ['pid', 'ppid'], 'ORCH_DESCENDANTS_PS') : { rows: [], reasons: [] };
+  reasons.push(...parsed.reasons);
+  if (!parsed.rows.some((row) => row.pid === process.pid)) reasons.push(`ORCH_DESCENDANTS_PS_SELF_SENTINEL_MISSING:${process.pid}`);
+  const all = new Set();
+  const queue = [Number(rootPid)];
+  while (queue.length > 0) {
+    const parentPid = queue.shift();
+    for (const row of parsed.rows.filter((candidate) => candidate.ppid === parentPid)) {
+      if (all.has(row.pid)) continue;
+      all.add(row.pid);
+      queue.push(row.pid);
+    }
+  }
+  return processInspectionResult({
+    capability: 'OPS_PROCESS_INSPECTION_DESCENDANTS',
+    strategy: pgrepAvailable ? 'pgrep+ps-complete-table' : 'ps-complete-table-alternate',
+    status: reasons.length > 0 ? 'INDETERMINATE' : (pgrepAvailable ? 'AVAILABLE' : 'DEGRADED'),
+    rows: [...all].sort((left, right) => left - right).map((pid) => ({ pid })),
+    reasons,
+  });
+}
+
+export function listProcessGroupMembers(pgid, options = {}) {
+  const spawnSyncImpl = options.spawnSyncImpl || spawnSync;
+  let result;
+  try {
+    result = spawnSyncImpl('ps', ['-axo', 'pid=,pgid='], boundedProcessProbeOptions());
+  } catch (error) {
+    result = { status: null, stdout: '', stderr: '', error };
+  }
+  if (result?.status !== 0) {
+    return processInspectionResult({
+      capability: 'OPS_PROCESS_INSPECTION_PROCESS_GROUP',
+      strategy: 'ps',
+      status: 'INDETERMINATE',
+      reasons: [`ORCH_PROCESS_GROUP_INSPECTION_DENIED:${result?.error?.code || result?.error?.message || result?.status || 'UNKNOWN'}:${String(result?.stderr || '').trim().slice(0, 120)}`],
+    });
+  }
+  const parsed = strictPidRows(result.stdout, ['pid', 'pgid'], 'ORCH_PROCESS_GROUP_PS');
+  if (!parsed.rows.some((row) => row.pid === process.pid)) parsed.reasons.push(`ORCH_PROCESS_GROUP_PS_SELF_SENTINEL_MISSING:${process.pid}`);
+  return processInspectionResult({
+    capability: 'OPS_PROCESS_INSPECTION_PROCESS_GROUP',
+    strategy: 'ps',
+    status: parsed.reasons.length > 0 ? 'INDETERMINATE' : 'AVAILABLE',
+    rows: parsed.rows.filter((row) => row.pgid === Number(pgid)).map((row) => ({ pid: row.pid, pgid: row.pgid })),
+    reasons: parsed.reasons,
+  });
+}
+
+export function inspectProcessLiveness(pid, options = {}) {
+  const killFn = options.killFn || ((targetPid, signal) => process.kill(targetPid, signal));
+  try {
+    killFn(pid, 0);
+    return { ok: true, complete: true, status: 'AVAILABLE', code: `ORCH_PROCESS_LIVENESS_ALIVE:${pid}`, alive: true };
+  } catch (error) {
+    if (error?.code === 'ESRCH') return { ok: true, complete: true, status: 'AVAILABLE', code: `ORCH_PROCESS_LIVENESS_ABSENT:${pid}`, alive: false };
+    return { ok: false, complete: false, status: 'INDETERMINATE', code: `ORCH_PROCESS_LIVENESS_INDETERMINATE:${pid}:${error?.code || error?.message || String(error)}`, alive: null };
+  }
 }
 
 function processAlive(pid) {
-  try { process.kill(pid, 0); return true; } catch { return false; }
+  const observation = inspectProcessLiveness(pid);
+  return observation.ok === true ? observation.alive : true;
 }
 
 function safeRealpathMaybe(targetPath) {
@@ -698,41 +810,111 @@ function isCanonicalDescendantOrSelf(rootPath, candidatePath) {
   return relative === '' || (relative.length > 0 && !relative.startsWith('..') && !path.isAbsolute(relative));
 }
 
-function listProcessCwdsFromLsof(root) {
-  const result = spawnSync('lsof', ['-n', '-Fpcn', '-a', '-d', 'cwd', '+D', root], { encoding: 'utf8', timeout: 1000 });
-  if (result.status !== 0 && !String(result.stdout || '').trim()) return [];
-  const rows = [];
-  let current = null;
-  for (const line of String(result.stdout || '').split('\n')) {
-    if (!line) continue;
-    const tag = line[0];
-    const value = line.slice(1);
-    if (tag === 'p') {
-      if (current?.pid) rows.push(current);
-      current = { pid: Number(value), command: '', cwd: '' };
-    } else if (tag === 'c' && current) {
-      current.command = value;
-    } else if (tag === 'n' && current) {
-      current.cwd = value;
+function listProcessCwdsFromLsof(root, options = {}) {
+  const spawnSyncImpl = options.spawnSyncImpl || spawnSync;
+  const selfPid = Number.isSafeInteger(options.selfPid) && options.selfPid > 0 ? options.selfPid : process.pid;
+  const run = (args) => spawnSyncImpl('lsof', args, { encoding: 'utf8', timeout: 1000, maxBuffer: 8 * 1024 * 1024 });
+  const parse = (result, label, { allowStatusOne = false } = {}) => {
+    const stderrText = String(result?.stderr || '').trim();
+    const acceptedStatusOne = allowStatusOne && result?.status === 1 && !stderrText && !result?.error;
+    if ((result?.status !== 0 && !acceptedStatusOne) || result?.error || stderrText) {
+      return {
+        ok: false,
+        rows: [],
+        reasons: [`${label}_DENIED:${result?.error?.code || result?.status || 'UNKNOWN'}:${stderrText.slice(0, 120)}`],
+      };
     }
+    const rows = [];
+    const reasons = [];
+    let current = null;
+    for (const line of String(result?.stdout || '').split('\n')) {
+      if (!line) continue;
+      const tag = line[0];
+      const value = line.slice(1);
+      if (tag === 'p') {
+        if (current?.pid) rows.push(current);
+        current = /^\d+$/u.test(value) ? { pid: Number(value), command: '', cwd: '' } : null;
+        if (!current) reasons.push(`${label}_MALFORMED_PID:${value.slice(0, 80)}`);
+      } else if (tag === 'c' && current) {
+        current.command = value;
+      } else if (tag === 'n' && current) {
+        current.cwd = value;
+      }
+    }
+    if (current?.pid) rows.push(current);
+    if (rows.some((row) => !row.cwd)) reasons.push(`${label}_MALFORMED:CWD_MISSING`);
+    return { ok: reasons.length === 0, rows, reasons };
+  };
+  const selfProbe = parse(
+    run(['-n', '-Fpcn', '-a', '-p', String(selfPid), '-d', 'cwd']),
+    'ORCH_PROCESS_CWD_LSOF_SELF',
+  );
+  if (!selfProbe.ok || !selfProbe.rows.some((row) => row.pid === selfPid && row.cwd)) {
+    return processInspectionResult({
+      capability: 'OPS_PROCESS_INSPECTION_CWD',
+      strategy: 'lsof-scoped',
+      status: 'INDETERMINATE',
+      reasons: [...selfProbe.reasons, `ORCH_PROCESS_CWD_LSOF_SELF_SENTINEL_MISSING:${selfPid}`],
+    });
   }
-  if (current?.pid) rows.push(current);
-  return rows;
+  const inventory = parse(
+    run(['-n', '-Fpcn', '-a', '-d', 'cwd', '+D', root]),
+    'ORCH_PROCESS_CWD_LSOF_INVENTORY',
+    { allowStatusOne: true },
+  );
+  return processInspectionResult({
+    capability: 'OPS_PROCESS_INSPECTION_CWD',
+    strategy: 'lsof-scoped',
+    status: inventory.ok ? 'AVAILABLE' : 'INDETERMINATE',
+    rows: inventory.rows,
+    reasons: inventory.reasons,
+  });
 }
 
 function listProcessCwdsFromProc(root, options = {}) {
   const procRoot = typeof options.procRoot === 'string' && options.procRoot.trim()
     ? options.procRoot.trim()
     : '/proc';
-  if (!fs.existsSync(procRoot)) return [];
+  const existsImpl = options.existsImpl || fs.existsSync;
+  const readdirImpl = options.readdirImpl || fs.readdirSync;
+  const readlinkImpl = options.readlinkImpl || fs.readlinkSync;
+  const readFileImpl = options.readFileImpl || fs.readFileSync;
+  if (!existsImpl(procRoot)) {
+    return {
+      ok: false,
+      complete: false,
+      status: 'UNAVAILABLE',
+      capability: 'OPS_PROCESS_INSPECTION_CWD',
+      strategy: 'proc',
+      code: `ORCH_PROCESS_CWD_PROC_UNAVAILABLE:${procRoot}`,
+      rows: [],
+      reasons: [`ORCH_PROCESS_CWD_PROC_UNAVAILABLE:${procRoot}`],
+    };
+  }
   let entries;
   try {
-    entries = fs.readdirSync(procRoot, { withFileTypes: true });
-  } catch {
-    return [];
+    entries = readdirImpl(procRoot, { withFileTypes: true });
+  } catch (error) {
+    return processInspectionResult({
+      capability: 'OPS_PROCESS_INSPECTION_CWD',
+      strategy: 'proc',
+      status: 'INDETERMINATE',
+      reasons: [`ORCH_PROCESS_CWD_PROC_READDIR_DENIED:${error?.code || error?.message || String(error)}`],
+    });
   }
   const selfPid = Number.isSafeInteger(options.selfPid) && options.selfPid > 0 ? options.selfPid : process.pid;
   const rows = [];
+  const reasons = [];
+  const selfEntry = entries.find((entry) => entry.isDirectory() && entry.name === String(selfPid));
+  if (!selfEntry) {
+    reasons.push(`ORCH_PROCESS_CWD_PROC_SELF_SENTINEL_MISSING:${selfPid}`);
+  } else {
+    try {
+      readlinkImpl(path.join(procRoot, String(selfPid), 'cwd'));
+    } catch (error) {
+      reasons.push(`ORCH_PROCESS_CWD_PROC_SELF_SENTINEL_HIDDEN:${selfPid}:${error?.code || error?.message || String(error)}`);
+    }
+  }
   for (const entry of entries) {
     if (!entry.isDirectory() || !/^\d+$/u.test(entry.name)) continue;
     const pid = Number(entry.name);
@@ -740,68 +922,159 @@ function listProcessCwdsFromProc(root, options = {}) {
     const cwdLink = path.join(procRoot, entry.name, 'cwd');
     let cwd;
     try {
-      cwd = fs.readlinkSync(cwdLink);
-    } catch {
+      cwd = readlinkImpl(cwdLink);
+    } catch (error) {
+      if (error?.code !== 'ENOENT') reasons.push(`ORCH_PROCESS_CWD_PROC_PID_HIDDEN:${pid}:${error?.code || error?.message || String(error)}`);
       continue;
     }
     if (!cwd || !isCanonicalDescendantOrSelf(root, cwd)) continue;
     let command = '';
     try {
-      command = fs.readFileSync(path.join(procRoot, entry.name, 'comm'), 'utf8').trim();
+      command = readFileImpl(path.join(procRoot, entry.name, 'comm'), 'utf8').trim();
     } catch {
       command = '';
     }
     rows.push({ pid, command, cwd });
   }
-  return rows;
+  return processInspectionResult({
+    capability: 'OPS_PROCESS_INSPECTION_CWD',
+    strategy: 'proc',
+    status: reasons.length > 0 ? 'INDETERMINATE' : 'AVAILABLE',
+    rows,
+    reasons,
+  });
 }
 
-export function listProcessCwdsUnder(rootPath, options = {}) {
-  if (!rootPath || !fs.existsSync(rootPath)) return [];
-  const root = fs.realpathSync(rootPath);
-  const rows = [
-    ...(options.includeLsof === false ? [] : listProcessCwdsFromLsof(root)),
-    ...listProcessCwdsFromProc(root, options),
-  ];
-  const deduped = new Map();
-  for (const row of rows) {
-    if (!Number.isSafeInteger(row.pid) || row.pid <= 0 || !row.cwd) continue;
-    if (!isCanonicalDescendantOrSelf(root, row.cwd)) continue;
-    if (!deduped.has(row.pid)) {
-      deduped.set(row.pid, {
+export function mergeProcessInspectionObservations({ capability, rootPath, observations = [] } = {}) {
+  const root = safeRealpathMaybe(rootPath);
+  if (!root) return processInspectionResult({ capability, strategy: 'none', status: 'INDETERMINATE', reasons: ['ORCH_PROCESS_INSPECTION_ROOT_UNAVAILABLE'] });
+  const usable = observations.filter((observation) => observation?.ok === true && observation?.complete === true);
+  if (usable.length === 0) {
+    return processInspectionResult({
+      capability,
+      strategy: 'none',
+      status: 'INDETERMINATE',
+      reasons: observations.flatMap((observation) => observation?.reasons || [observation?.code || 'ORCH_PROCESS_INSPECTION_UNAVAILABLE']),
+    });
+  }
+  const byPid = new Map();
+  const reasons = [];
+  for (const observation of usable) {
+    const sourcePids = new Set();
+    for (const row of observation.rows || []) {
+      if (!Number.isSafeInteger(row?.pid) || row.pid <= 0 || !row.cwd) {
+        reasons.push(`ORCH_PROCESS_INSPECTION_MALFORMED_ROW:${observation.strategy}`);
+        continue;
+      }
+      if (sourcePids.has(row.pid)) {
+        reasons.push(`ORCH_PROCESS_INSPECTION_DUPLICATE_ROW:${observation.strategy}:${row.pid}`);
+        continue;
+      }
+      sourcePids.add(row.pid);
+      const cwd = safeRealpathMaybe(row.cwd);
+      if (!cwd || !isCanonicalDescendantOrSelf(root, cwd)) continue;
+      const previous = byPid.get(row.pid);
+      if (previous && previous.cwd !== cwd) {
+        reasons.push(`ORCH_PROCESS_INSPECTION_CONFLICTING_ROW:${row.pid}:${previous.cwd}:${cwd}`);
+        continue;
+      }
+      byPid.set(row.pid, {
         pid: row.pid,
-        command: String(row.command || ''),
-        cwd: safeRealpathMaybe(row.cwd),
+        command: String(previous?.command || row.command || ''),
+        cwd,
+        strategies: [...new Set([...(previous?.strategies || []), observation.strategy])],
       });
     }
   }
-  return [...deduped.values()];
+  const degraded = observations.some((observation) => observation?.ok !== true || observation?.complete !== true);
+  return processInspectionResult({
+    capability,
+    strategy: usable.map((observation) => observation.strategy).join('+'),
+    status: reasons.length > 0 ? 'INDETERMINATE' : (degraded ? 'DEGRADED' : 'AVAILABLE'),
+    rows: [...byPid.values()].sort((left, right) => left.pid - right.pid),
+    reasons,
+    code: reasons[0] || '',
+  });
+}
+
+export function listProcessCwdsUnder(rootPath, options = {}) {
+  if (!rootPath || !fs.existsSync(rootPath)) {
+    return processInspectionResult({
+      capability: 'OPS_PROCESS_INSPECTION_CWD',
+      strategy: 'none',
+      status: 'INDETERMINATE',
+      reasons: [`ORCH_PROCESS_CWD_ROOT_UNAVAILABLE:${rootPath || ''}`],
+    });
+  }
+  const root = fs.realpathSync(rootPath);
+  const observations = [];
+  if (options.includeLsof !== false) observations.push(listProcessCwdsFromLsof(root, options));
+  observations.push(listProcessCwdsFromProc(root, options));
+  return mergeProcessInspectionObservations({ capability: 'OPS_PROCESS_INSPECTION_CWD', rootPath: root, observations });
 }
 
 export async function waitForProcessCwdsUnder(rootPath, options = {}) {
   const timeoutMs = Number.isFinite(Number(options.timeoutMs)) ? Math.max(0, Number(options.timeoutMs)) : 0;
   const intervalMs = Number.isFinite(Number(options.intervalMs)) ? Math.max(10, Number(options.intervalMs)) : 50;
-  const deadline = Date.now() + timeoutMs;
+  const now = createMonotonicReader(options.monotonicNow || defaultMonotonicNow);
+  const deadline = now() + timeoutMs;
   while (true) {
-    const rows = listProcessCwdsUnder(rootPath, options);
-    if (rows.length > 0 || Date.now() >= deadline) return rows;
+    const inspection = listProcessCwdsUnder(rootPath, options);
+    if (inspection.ok !== true || inspection.rows.length > 0 || now() >= deadline) return inspection;
     await new Promise((resolve) => setTimeout(resolve, intervalMs));
   }
 }
 
-export function readProcessIdentity(pid) {
+export function readProcessIdentity(pid, options = {}) {
   const parsedPid = Number(pid);
-  if (!Number.isSafeInteger(parsedPid) || parsedPid <= 0) return null;
-  const result = spawnSync('ps', ['-p', String(parsedPid), '-o', 'pid=', '-o', 'pgid=', '-o', 'lstart=', '-o', 'comm='], { encoding: 'utf8' });
-  if (result.status !== 0 || !String(result.stdout || '').trim()) return null;
+  if (!Number.isSafeInteger(parsedPid) || parsedPid <= 0) {
+    return { ok: false, complete: false, status: 'INDETERMINATE', code: 'ORCH_PROCESS_IDENTITY_PID_INVALID', identity: null, reasons: ['ORCH_PROCESS_IDENTITY_PID_INVALID'] };
+  }
+  const spawnSyncImpl = options.spawnSyncImpl || spawnSync;
+  let result;
+  try {
+    result = spawnSyncImpl('ps', ['-p', String(parsedPid), '-o', 'pid=', '-o', 'pgid=', '-o', 'lstart=', '-o', 'comm='], boundedProcessProbeOptions());
+  } catch (error) {
+    result = { status: null, stdout: '', stderr: '', error };
+  }
+  if (result?.status !== 0 || !String(result?.stdout || '').trim()) {
+    const livenessProbe = options.livenessProbe || inspectProcessLiveness;
+    const liveness = livenessProbe(parsedPid);
+    const absent = result?.status === 1 && !String(result?.stderr || '').trim() && liveness?.ok === true && liveness.alive === false;
+    const inspectionFailure = result?.error?.code || result?.error?.message || liveness?.code || result?.status || 'UNKNOWN';
+    return {
+      ok: absent,
+      complete: absent,
+      status: absent ? 'AVAILABLE' : 'INDETERMINATE',
+      code: absent ? `ORCH_PROCESS_IDENTITY_ABSENT:${parsedPid}` : `ORCH_PROCESS_IDENTITY_INSPECTION_INDETERMINATE:${parsedPid}:${inspectionFailure}`,
+      identity: null,
+      reasons: absent ? [] : [`ORCH_PROCESS_IDENTITY_INSPECTION_DENIED:${String(result?.stderr || '').trim().slice(0, 120)}`],
+    };
+  }
   const parts = String(result.stdout || '').trim().split(/\s+/u);
-  if (parts.length < 8) return null;
+  if (parts.length < 8) return { ok: false, complete: false, status: 'INDETERMINATE', code: `ORCH_PROCESS_IDENTITY_MALFORMED:${parsedPid}`, identity: null, reasons: ['ORCH_PROCESS_IDENTITY_MALFORMED'] };
   const actualPid = Number(parts[0]);
   const pgid = Number(parts[1]);
   const startIdentity = parts.slice(2, 7).join(' ');
   const executable = parts.slice(7).join(' ');
-  if (actualPid !== parsedPid || !Number.isSafeInteger(pgid)) return null;
-  return { pid: actualPid, pgid, startIdentity, executable };
+  if (actualPid !== parsedPid || !Number.isSafeInteger(pgid)) return { ok: false, complete: false, status: 'INDETERMINATE', code: `ORCH_PROCESS_IDENTITY_MALFORMED:${parsedPid}`, identity: null, reasons: ['ORCH_PROCESS_IDENTITY_MALFORMED'] };
+  return { ok: true, complete: true, status: 'AVAILABLE', code: `ORCH_PROCESS_IDENTITY_AVAILABLE:${parsedPid}`, identity: { pid: actualPid, pgid, startIdentity, executable }, reasons: [] };
+}
+
+function normalizeIdentityObservation(value, pid) {
+  if (value && typeof value === 'object' && Object.hasOwn(value, 'status')) return value;
+  if (value && Number(value.pid) === Number(pid)) {
+    return { ok: true, complete: true, status: 'AVAILABLE', code: `ORCH_PROCESS_IDENTITY_AVAILABLE:${pid}`, identity: value, reasons: [] };
+  }
+  return { ok: true, complete: true, status: 'AVAILABLE', code: `ORCH_PROCESS_IDENTITY_ABSENT:${pid}`, identity: null, reasons: [] };
+}
+
+function normalizePidInspection(value, capability) {
+  if (Array.isArray(value)) {
+    return { ok: true, complete: true, status: 'AVAILABLE', capability, code: `ORCH_PROCESS_INSPECTION_AVAILABLE:${capability}:legacy-injection`, rows: value.map((pid) => ({ pid })), reasons: [] };
+  }
+  if (value && typeof value === 'object') return value;
+  return { ok: false, complete: false, status: 'INDETERMINATE', capability, code: `ORCH_PROCESS_INSPECTION_INDETERMINATE:${capability}:MALFORMED_RESULT`, rows: [], reasons: ['MALFORMED_RESULT'] };
 }
 
 export function sameProcessIdentity(expectedIdentity, observedIdentity) {
@@ -823,15 +1096,20 @@ export async function waitForStableProcessIdentity({
   intervalMs = 20,
   identityProbe = readProcessIdentity,
   aliveProbe = processAlive,
+  monotonicNow = defaultMonotonicNow,
 } = {}) {
   const parsedPid = Number(pid);
   if (!Number.isSafeInteger(parsedPid) || parsedPid <= 0) {
     return { ok: false, code: 'ORCH_PROCESS_IDENTITY_PID_INVALID', observedIdentity: null, exited: false };
   }
-  const deadline = Date.now() + Math.max(1, Number(timeoutMs) || 1);
+  const now = createMonotonicReader(monotonicNow);
+  const deadline = now() + Math.max(1, Number(timeoutMs) || 1);
   let lastObserved = null;
-  while (Date.now() <= deadline) {
-    const observed = identityProbe(parsedPid);
+  let lastInspectionFailure = '';
+  while (now() <= deadline) {
+    const observation = normalizeIdentityObservation(identityProbe(parsedPid), parsedPid);
+    if (observation.ok !== true || observation.complete !== true) lastInspectionFailure = observation.code;
+    const observed = observation.ok === true ? observation.identity : null;
     if (observed) {
       lastObserved = observed;
       if (!requireGroupLeader || Number(observed.pgid) === parsedPid) {
@@ -844,7 +1122,7 @@ export async function waitForStableProcessIdentity({
   }
   return {
     ok: false,
-    code: `ORCH_PROCESS_IDENTITY_UNSTABLE:${parsedPid}`,
+    code: lastInspectionFailure || `ORCH_PROCESS_IDENTITY_UNSTABLE:${parsedPid}`,
     observedIdentity: lastObserved,
     exited: !aliveProbe(parsedPid),
   };
@@ -857,7 +1135,11 @@ export function signalOwnedPidIfIdentityMatches({
   identityProbe = readProcessIdentity,
   signalFn = (targetPid, targetSignal) => process.kill(targetPid, targetSignal),
 }) {
-  const observed = identityProbe(pid);
+  const observation = normalizeIdentityObservation(identityProbe(pid), pid);
+  if (observation.ok !== true || observation.complete !== true) {
+    return { ok: false, code: observation.code || `ORCH_PROCESS_IDENTITY_INSPECTION_INDETERMINATE:${pid}`, observedIdentity: null };
+  }
+  const observed = observation.identity;
   if (!observed && !processAlive(pid)) {
     return { ok: true, code: `ORCH_PROCESS_ALREADY_EXITED:${pid}` };
   }
@@ -881,9 +1163,26 @@ export function signalOwnedProcessGroupIfLeaderMatches({
   groupMembersProbe = listProcessGroupMembers,
   signalFn = (target, targetSignal) => process.kill(target, targetSignal),
 }) {
-  const observed = identityProbe(pgid);
-  if (!observed && groupMembersProbe(pgid).length === 0) {
+  const identityObservation = normalizeIdentityObservation(identityProbe(pgid), pgid);
+  const groupObservation = normalizePidInspection(groupMembersProbe(pgid), 'OPS_PROCESS_INSPECTION_PROCESS_GROUP');
+  if (identityObservation.ok !== true || identityObservation.complete !== true) {
+    return { ok: false, code: identityObservation.code || `ORCH_PROCESS_IDENTITY_INSPECTION_INDETERMINATE:${pgid}`, observedIdentity: null };
+  }
+  if (groupObservation.ok !== true || groupObservation.complete !== true) {
+    return { ok: false, code: groupObservation.code || `ORCH_PROCESS_INSPECTION_INDETERMINATE:OPS_PROCESS_INSPECTION_PROCESS_GROUP`, observedIdentity: identityObservation.identity };
+  }
+  const observed = identityObservation.identity;
+  if (!observed && groupObservation.rows.length === 0) {
     return { ok: true, code: `ORCH_PROCESS_GROUP_ALREADY_EXITED:${pgid}` };
+  }
+  if (!observed) {
+    return {
+      ok: false,
+      code: `ORCH_PROCESS_GROUP_LEADER_EXITED_MEMBERS_REMAIN:${pgid}`,
+      fallbackToExactPids: true,
+      observedIdentity: null,
+      memberPids: groupObservation.rows.map((row) => row.pid),
+    };
   }
   if (!sameProcessIdentity(expectedLeaderIdentity, observed)) {
     return {
@@ -911,25 +1210,45 @@ export async function runOwnedStageProcess({
   progressTimeoutMs,
   killGraceMs,
   control = null,
+  processInspection = {},
+  monotonicNow = defaultMonotonicNow,
 }) {
   fs.mkdirSync(logDir, { recursive: true });
   const stdoutPath = path.join(logDir, `${stage.toLowerCase()}.stdout.log`);
   const stderrPath = path.join(logDir, `${stage.toLowerCase()}.stderr.log`);
   const stdoutFd = fs.openSync(stdoutPath, 'a');
   const stderrFd = fs.openSync(stderrPath, 'a');
-  const startedAt = Date.now();
+  const now = createMonotonicReader(monotonicNow);
+  const startedAt = now();
   const startedAtUtc = nowIso();
   const capturedOwnedPids = new Set();
   const capturedOwnedIdentities = new Map();
   const unregisteredOwnedPids = new Set();
   const identityMismatches = [];
+  const inspectionFailures = new Map();
+  const descendantsProbe = processInspection.listOwnedDescendants || listOwnedDescendants;
+  const groupMembersProbe = processInspection.listProcessGroupMembers || listProcessGroupMembers;
+  const cwdProbe = processInspection.waitForProcessCwdsUnder || waitForProcessCwdsUnder;
+  const identityProbe = processInspection.readProcessIdentity || readProcessIdentity;
+  const recordInspection = (observation, fallbackCapability) => {
+    const normalizedObservation = normalizePidInspection(observation, fallbackCapability);
+    if (normalizedObservation.ok !== true || normalizedObservation.complete !== true) {
+      inspectionFailures.set(normalizedObservation.code || `ORCH_PROCESS_INSPECTION_INDETERMINATE:${fallbackCapability}`, normalizedObservation);
+    }
+    return normalizedObservation;
+  };
+  const identityValue = (pid) => {
+    const observation = normalizeIdentityObservation(identityProbe(pid), pid);
+    if (observation.ok !== true || observation.complete !== true) inspectionFailures.set(observation.code, observation);
+    return observation.ok === true ? observation.identity : null;
+  };
   const result = await new Promise((resolve) => {
     let settled = false;
     let watchdogState = 'STARTING';
     let abortCode = '';
     let abortStartedAt = 0;
     let killSentAt = 0;
-    let lastProgressAt = Date.now();
+    let lastProgressAt = startedAt;
     let lastHeartbeatSequence = 0;
     let lastHeartbeatProgress = -1;
     let lastHeartbeatOperationId = '';
@@ -965,22 +1284,27 @@ export async function runOwnedStageProcess({
       if (!Number.isSafeInteger(pid) || pid <= 0) return;
       capturedOwnedPids.add(pid);
       if (!capturedOwnedIdentities.has(pid)) {
-        const identity = readProcessIdentity(pid);
+        const identity = identityValue(pid);
         if (identity) capturedOwnedIdentities.set(pid, identity);
       }
     };
     const captureOwned = () => {
-      if (child.pid) rememberPid(child.pid);
-      for (const pid of listOwnedDescendants(child.pid)) rememberPid(pid);
-      for (const pid of listProcessGroupMembers(pgid)) rememberPid(pid);
+      if (!Number.isSafeInteger(child.pid) || child.pid <= 0) return;
+      rememberPid(child.pid);
+      const descendants = recordInspection(descendantsProbe(child.pid), 'OPS_PROCESS_INSPECTION_DESCENDANTS');
+      const groupMembers = recordInspection(groupMembersProbe(pgid), 'OPS_PROCESS_INSPECTION_PROCESS_GROUP');
+      for (const row of descendants.rows || []) rememberPid(row.pid);
+      for (const row of groupMembers.rows || []) rememberPid(row.pid);
     };
     const signalGroup = (signal) => {
       const signaled = signalOwnedProcessGroupIfLeaderMatches({
         pgid,
         expectedLeaderIdentity: capturedOwnedIdentities.get(pgid),
         signal,
+        identityProbe,
+        groupMembersProbe,
       });
-      if (signaled.ok !== true) identityMismatches.push(signaled);
+      if (signaled.ok !== true && signaled.fallbackToExactPids !== true) identityMismatches.push(signaled);
       return signaled;
     };
     const signalCapturedPid = (pid, signal) => {
@@ -988,19 +1312,21 @@ export async function runOwnedStageProcess({
         pid,
         expectedIdentity: capturedOwnedIdentities.get(pid),
         signal,
+        identityProbe,
       });
       if (signaled.ok !== true) identityMismatches.push(signaled);
       return signaled;
     };
     const signalOwned = (signal) => {
       captureOwned();
-      const groupMembers = new Set(listProcessGroupMembers(pgid));
+      const groupInspection = recordInspection(groupMembersProbe(pgid), 'OPS_PROCESS_INSPECTION_PROCESS_GROUP');
+      const groupMembers = new Set((groupInspection.rows || []).map((row) => row.pid));
       const groupSignal = (() => {
         try { return signalGroup(signal); } catch { return null; }
       })();
       if (signal === 'SIGTERM' && groupSignal?.ok === true) return;
       for (const pid of capturedOwnedPids) {
-        if (groupMembers.has(pid)) continue;
+        if (groupMembers.has(pid) && groupSignal?.ok === true) continue;
         try { signalCapturedPid(pid, signal); } catch { /* noop */ }
       }
     };
@@ -1013,7 +1339,7 @@ export async function runOwnedStageProcess({
     const abortOwnedProcessGroup = (code) => {
       if (abortCode) return;
       abortCode = code;
-      abortStartedAt = Date.now();
+      abortStartedAt = now();
       watchdogState = 'TERM_SENT';
       signalOwned('SIGTERM');
     };
@@ -1059,7 +1385,7 @@ export async function runOwnedStageProcess({
         pgid,
         startedAtUtc,
         finishedAtUtc: nowIso(),
-        durationMs: Date.now() - startedAt,
+        durationMs: Math.max(0, now() - startedAt),
         stdoutPath,
         stderrPath,
         ...outcome,
@@ -1124,7 +1450,7 @@ export async function runOwnedStageProcess({
         }
         lastHeartbeatOperationId = operationId;
         lastHeartbeatProgress = progressValue;
-        lastProgressAt = Date.now();
+        lastProgressAt = now();
       }
     };
     const startWatchdog = () => {
@@ -1134,25 +1460,25 @@ export async function runOwnedStageProcess({
       captureOwned();
       readHeartbeat();
       if (settled) return;
-      const now = Date.now();
+      const watchdogAt = now();
       if (watchdogState === 'RUNNING') {
-        if (now - startedAt > stageTimeoutMs) {
+        if (watchdogAt - startedAt > stageTimeoutMs) {
           abortOwnedProcessGroup(`ORCH_STAGE_TIMEOUT:${stage}:${stageTimeoutMs}`);
           return;
         }
-        if (now - lastProgressAt > progressTimeoutMs) {
+        if (watchdogAt - lastProgressAt > progressTimeoutMs) {
           abortOwnedProcessGroup(`ORCH_PROGRESS_TIMEOUT:${stage}:${progressTimeoutMs}`);
           return;
         }
       } else if (watchdogState === 'TERM_SENT') {
-        if (now - abortStartedAt > killGraceMs) {
+        if (watchdogAt - abortStartedAt > killGraceMs) {
           watchdogState = 'KILL_SENT';
-          killSentAt = now;
+          killSentAt = watchdogAt;
           signalOwned('SIGKILL');
         }
       } else if (watchdogState === 'KILL_SENT') {
         const stillAlive = [...capturedOwnedPids].filter(processAlive);
-        if (stillAlive.length > 0 && now - killSentAt > killGraceMs) {
+        if (stillAlive.length > 0 && watchdogAt - killSentAt > killGraceMs) {
           finish({
             ok: false,
             code: `ORCH_OWNED_PROCESSES_UNKILLABLE:${stillAlive.join(',')}`,
@@ -1192,7 +1518,7 @@ export async function runOwnedStageProcess({
       }
       if (exitCode === 0 && signal === null) {
         const fastSilentProtocollessExit = path.resolve(cwd || '') !== REPO_ROOT
-          && Date.now() - startedAt < Math.max(100, Math.min(killGraceMs, 1000))
+          && now() - startedAt < Math.max(100, Math.min(killGraceMs, 1000))
           && lastHeartbeatSequence === 0
           && sawStdout === false
           && sawStderr === false;
@@ -1217,13 +1543,15 @@ export async function runOwnedStageProcess({
         requireGroupLeader: true,
         timeoutMs: Math.max(100, Math.min(killGraceMs, 1000)),
         intervalMs: 20,
+        identityProbe,
+        monotonicNow: now,
       }).then((identityResult) => {
         if (settled) return;
         if (identityResult.ok === true) {
           capturedOwnedPids.add(child.pid);
           capturedOwnedIdentities.set(child.pid, identityResult.observedIdentity);
           watchdogState = 'RUNNING';
-          lastProgressAt = Date.now();
+          lastProgressAt = now();
           captureOwned();
           startWatchdog();
           return;
@@ -1251,20 +1579,31 @@ export async function runOwnedStageProcess({
     const discoveryWindowMs = result.ok === true || result.quarantined === true
       ? Math.max(100, Math.min(killGraceMs, 1000))
       : 0;
-    for (const row of await waitForProcessCwdsUnder(cwd, { timeoutMs: discoveryWindowMs, intervalMs: 25 })) {
+    const cwdInspection = recordInspection(await cwdProbe(cwd, { timeoutMs: discoveryWindowMs, intervalMs: 25, monotonicNow: now }), 'OPS_PROCESS_INSPECTION_CWD');
+    for (const row of cwdInspection.rows || []) {
       if (row.pid !== process.pid) {
         if (!capturedOwnedPids.has(row.pid)) unregisteredOwnedPids.add(row.pid);
         capturedOwnedPids.add(row.pid);
         if (!capturedOwnedIdentities.has(row.pid)) {
-          const identity = readProcessIdentity(row.pid);
+          const identity = identityValue(row.pid);
           if (identity) capturedOwnedIdentities.set(row.pid, identity);
         }
       }
     }
   }
+  const inspectableResultProcess = Number.isSafeInteger(result.pid) && result.pid > 0 && Number.isSafeInteger(result.pgid) && result.pgid > 0;
+  const finalDescendants = inspectableResultProcess
+    ? recordInspection(descendantsProbe(result.pid), 'OPS_PROCESS_INSPECTION_DESCENDANTS')
+    : { rows: [] };
+  const finalGroup = inspectableResultProcess
+    ? recordInspection(groupMembersProbe(result.pgid), 'OPS_PROCESS_INSPECTION_PROCESS_GROUP')
+    : { rows: [] };
+  for (const row of [...(finalDescendants.rows || []), ...(finalGroup.rows || [])]) {
+    if (row.pid !== process.pid) capturedOwnedPids.add(row.pid);
+  }
   const waitForOwnedExit = async () => {
-    const deadline = Date.now() + killGraceMs;
-    while (Date.now() < deadline) {
+    const deadline = now() + killGraceMs;
+    while (now() < deadline) {
       const alive = [...capturedOwnedPids].filter(processAlive);
       if (alive.length === 0) return [];
       await new Promise((resolve) => setTimeout(resolve, 100));
@@ -1275,17 +1614,24 @@ export async function runOwnedStageProcess({
   if (survivors.length > 0) {
     for (const pid of survivors) {
       try {
-        const inGroup = listProcessGroupMembers(result.pgid).includes(pid);
+        const groupInspection = recordInspection(groupMembersProbe(result.pgid), 'OPS_PROCESS_INSPECTION_PROCESS_GROUP');
+        const inGroup = (groupInspection.rows || []).some((row) => row.pid === pid);
         if (inGroup) {
           const signaled = signalOwnedProcessGroupIfLeaderMatches({
             pgid: result.pgid,
             expectedLeaderIdentity: capturedOwnedIdentities.get(result.pgid),
             signal: 'SIGTERM',
+            identityProbe,
+            groupMembersProbe,
           });
-          if (signaled.ok !== true) identityMismatches.push(signaled);
+          if (signaled.ok !== true && signaled.fallbackToExactPids !== true) identityMismatches.push(signaled);
+          if (signaled.ok !== true) {
+            const fallback = signalOwnedPidIfIdentityMatches({ pid, expectedIdentity: capturedOwnedIdentities.get(pid), signal: 'SIGTERM', identityProbe });
+            if (fallback.ok !== true) identityMismatches.push(fallback);
+          }
         }
         else {
-          const signaled = signalOwnedPidIfIdentityMatches({ pid, expectedIdentity: capturedOwnedIdentities.get(pid), signal: 'SIGTERM' });
+          const signaled = signalOwnedPidIfIdentityMatches({ pid, expectedIdentity: capturedOwnedIdentities.get(pid), signal: 'SIGTERM', identityProbe });
           if (signaled.ok !== true) identityMismatches.push(signaled);
         }
       } catch { /* noop */ }
@@ -1296,17 +1642,24 @@ export async function runOwnedStageProcess({
   if (survivors.length > 0) {
     for (const pid of survivors) {
       try {
-        const inGroup = listProcessGroupMembers(result.pgid).includes(pid);
+        const groupInspection = recordInspection(groupMembersProbe(result.pgid), 'OPS_PROCESS_INSPECTION_PROCESS_GROUP');
+        const inGroup = (groupInspection.rows || []).some((row) => row.pid === pid);
         if (inGroup) {
           const signaled = signalOwnedProcessGroupIfLeaderMatches({
             pgid: result.pgid,
             expectedLeaderIdentity: capturedOwnedIdentities.get(result.pgid),
             signal: 'SIGKILL',
+            identityProbe,
+            groupMembersProbe,
           });
-          if (signaled.ok !== true) identityMismatches.push(signaled);
+          if (signaled.ok !== true && signaled.fallbackToExactPids !== true) identityMismatches.push(signaled);
+          if (signaled.ok !== true) {
+            const fallback = signalOwnedPidIfIdentityMatches({ pid, expectedIdentity: capturedOwnedIdentities.get(pid), signal: 'SIGKILL', identityProbe });
+            if (fallback.ok !== true) identityMismatches.push(fallback);
+          }
         }
         else {
-          const signaled = signalOwnedPidIfIdentityMatches({ pid, expectedIdentity: capturedOwnedIdentities.get(pid), signal: 'SIGKILL' });
+          const signaled = signalOwnedPidIfIdentityMatches({ pid, expectedIdentity: capturedOwnedIdentities.get(pid), signal: 'SIGKILL', identityProbe });
           if (signaled.ok !== true) identityMismatches.push(signaled);
         }
       } catch { /* noop */ }
@@ -1317,6 +1670,11 @@ export async function runOwnedStageProcess({
   const survivingDescendants = survivors.filter((pid) => pid !== result.pid);
   result.survivingDescendants = survivingDescendants;
   result.survivingOwnedPids = survivors;
+  result.processInspection = {
+    ok: inspectionFailures.size === 0,
+    status: inspectionFailures.size === 0 ? 'AVAILABLE' : 'INDETERMINATE',
+    failures: [...inspectionFailures.keys()],
+  };
   if (unregisteredOwnedPids.size > 0) {
     const unregisteredCode = `ORCH_UNREGISTERED_OWNED_PROCESS_DETECTED:${[...unregisteredOwnedPids].sort((a, b) => a - b).join(',')}`;
     if (result.ok === true) {
@@ -1327,6 +1685,13 @@ export async function runOwnedStageProcess({
     }
     result.quarantined = true;
     result.unregisteredOwnedPids = [...unregisteredOwnedPids].sort((a, b) => a - b);
+  } else if (inspectionFailures.size > 0) {
+    result.ok = false;
+    const inspectionCode = `ORCH_PROCESS_INSPECTION_INDETERMINATE:${[...inspectionFailures.keys()].join(',')}`;
+    result.code = result.code && result.code !== 'ORCH_STAGE_CHILD_EXIT_ZERO'
+      ? `${result.code}|${inspectionCode}`
+      : inspectionCode;
+    result.quarantined = true;
   } else if (identityMismatches.length > 0) {
     result.ok = false;
     result.code = `ORCH_PROCESS_IDENTITY_AMBIGUOUS:${identityMismatches.map((entry) => entry.code).join(',')}`;

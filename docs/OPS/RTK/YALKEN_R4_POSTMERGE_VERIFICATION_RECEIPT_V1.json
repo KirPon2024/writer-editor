@@ -1,0 +1,138 @@
+{
+  "schemaVersion": "yalken.r4PostmergeVerification.receipt.v1",
+  "taskId": "R4_EXACT_HEAD_CLAIM_PUBLICATION_V1_POSTMERGE_VERIFICATION",
+  "createdAtUtc": "2026-08-16T21:37:04Z",
+  "status": "MERGED_POSTMERGE_VERIFIED",
+  "verdict": "R4_POSTMERGE_REQUIRED_CI_GREEN_SCOPE_UNCHANGED",
+  "repositoryIdentity": {
+    "origin": "https://github.com/KirPonomarev/writer-editor.git",
+    "defaultBranch": "main",
+    "fullHistory": true,
+    "fsckFullStrict": "PASS"
+  },
+  "pullRequest": {
+    "number": 1573,
+    "state": "MERGED",
+    "draftAtMerge": false,
+    "baseRef": "main",
+    "baseSha": "5c16e0ee5fc260143506d465c6dcd0711db347d8",
+    "headRef": "codex/r4-exact-head-claim-publication-v1-20260816T1912Z",
+    "headSha": "1eb86b5f0b5c58e4e6240cdc1a7d0524e7808ddb",
+    "mergeSha": "62df8ac34b2980a6f12934cafb4f5b478fef33d4",
+    "mergeTreeSha": "46cae5b878a6934c56917d213a341ec479ca50c9",
+    "mergeParents": [
+      "5c16e0ee5fc260143506d465c6dcd0711db347d8",
+      "1eb86b5f0b5c58e4e6240cdc1a7d0524e7808ddb"
+    ],
+    "mergedAtUtc": "2026-08-16T21:03:28Z"
+  },
+  "premergeRequiredChecks": [
+    {
+      "name": "oss-policy",
+      "conclusion": "SUCCESS"
+    },
+    {
+      "name": "rtk-required",
+      "conclusion": "SUCCESS"
+    },
+    {
+      "name": "x1-runtime-parity (ubuntu-latest)",
+      "conclusion": "SUCCESS"
+    },
+    {
+      "name": "x1-runtime-parity (windows-latest)",
+      "conclusion": "SUCCESS"
+    }
+  ],
+  "postmergeActionsRuns": [
+    {
+      "databaseId": 31972356473,
+      "workflowName": "OSS policy",
+      "event": "push",
+      "headBranch": "main",
+      "headSha": "62df8ac34b2980a6f12934cafb4f5b478fef33d4",
+      "status": "completed",
+      "conclusion": "success",
+      "createdAtUtc": "2026-08-16T21:03:30Z",
+      "completedAtUtc": "2026-08-16T21:03:51Z"
+    },
+    {
+      "databaseId": 31972356485,
+      "jobDatabaseId": 95226614888,
+      "workflowName": "rtk-required",
+      "jobName": "rtk-required",
+      "event": "push",
+      "headBranch": "main",
+      "headSha": "62df8ac34b2980a6f12934cafb4f5b478fef33d4",
+      "status": "completed",
+      "conclusion": "success",
+      "createdAtUtc": "2026-08-16T21:03:30Z",
+      "startedAtUtc": "2026-08-16T21:03:33Z",
+      "completedAtUtc": "2026-08-16T21:19:17Z",
+      "terminalJobStepAtUtc": "2026-08-16T21:19:15Z"
+    }
+  ],
+  "postmergeRtkSteps": [
+    {
+      "name": "Checkout",
+      "conclusion": "success",
+      "fullHistoryRequired": true
+    },
+    {
+      "name": "Setup Node.js",
+      "conclusion": "success",
+      "nodeMajor": 20
+    },
+    {
+      "name": "Install dependencies",
+      "conclusion": "success"
+    },
+    {
+      "name": "Run maintained RTK graph",
+      "conclusion": "success",
+      "startedAtUtc": "2026-08-16T21:03:52Z",
+      "completedAtUtc": "2026-08-16T21:18:38Z"
+    },
+    {
+      "name": "Run maintained Atlas event contract graph",
+      "conclusion": "success"
+    },
+    {
+      "name": "Run maintained Atlas release truth graph",
+      "conclusion": "success"
+    },
+    {
+      "name": "Run Atlas V6 production evidence coverage guard",
+      "conclusion": "success"
+    },
+    {
+      "name": "Run Atlas V6 production negative matrix",
+      "conclusion": "success"
+    }
+  ],
+  "exactHeadVerification": {
+    "localMainSha": "62df8ac34b2980a6f12934cafb4f5b478fef33d4",
+    "originMainSha": "62df8ac34b2980a6f12934cafb4f5b478fef33d4",
+    "treeSha": "46cae5b878a6934c56917d213a341ec479ca50c9",
+    "mergeContainsExactPrHead": true,
+    "postmergeRunsTargetExactMergeSha": true,
+    "postmergeOssPolicyGreen": true,
+    "postmergeRtkRequiredGreen": true
+  },
+  "authorityBoundary": {
+    "r4PublicationScopeChanged": false,
+    "programVerdict": "NEEDS_MORE_EVIDENCE",
+    "releaseAuthority": "DENY",
+    "productMutationAuthority": "DENY",
+    "providerMutationAuthority": "DENY",
+    "desktopV11Canonized": false,
+    "googleDriveOpened": false,
+    "userDocumentsTouched": false
+  },
+  "limitations": [
+    "This receipt proves only exact R4 merge identity and terminal successful postmerge OSS and maintained RTK workflows.",
+    "It does not repair buffered RTK output, add runner deadlines, prove hidden-PID inspection, or close any later program denominator.",
+    "R4 remains a scoped non-release aggregate and the program verdict remains NEEDS_MORE_EVIDENCE."
+  ],
+  "nextRequiredContour": "RTK_STREAMING_AND_ORCH_PROCESS_CAPABILITY_REPAIR_V1"
+}

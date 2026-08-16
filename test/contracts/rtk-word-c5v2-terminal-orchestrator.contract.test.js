@@ -1197,6 +1197,7 @@ leaseTest('ORCH_TEST_10: owned stage success, non-zero exit and spawn error clas
   });
   assert.equal(okResult.ok, true);
   assert.equal(okResult.exitCode, 0);
+  assert.equal(okResult.processInspection.ok, true, JSON.stringify(okResult.processInspection));
   const failChild = writeSleepChild(dir, 'fail.cjs', 'process.exit(9);');
   const failResult = await orch.runOwnedStageProcess({
     stage: 'POSITIVE', command: process.execPath, args: [failChild], cwd: dir, logDir: path.join(dir, 'logs'),
@@ -1229,6 +1230,7 @@ setInterval(()=>{},500);
   assert.equal(result.ok, false);
   assert.match(result.code, /ORCH_STAGE_TIMEOUT/u);
   assert.equal(result.signal, 'SIGKILL');
+  assert.equal(result.processInspection.ok, true, JSON.stringify(result.processInspection));
   const signals = fs.existsSync(signalLog) ? fs.readFileSync(signalLog, 'utf8').trim().split('\n').filter(Boolean) : [];
   assert.deepEqual(signals, ['TERM']);
 });
@@ -1487,10 +1489,14 @@ leaseTest('ORCH_TEST_14G: Linux proc cwd inventory finds contained detached proc
   writeProc(3333, inside, 'self-node');
   fs.mkdirSync(path.join(procRoot, 'not-a-pid'), { recursive: true });
 
-  const rows = orch.listProcessCwdsUnder(root, { includeLsof: false, procRoot, selfPid: 3333 });
-  assert.deepEqual(rows.map((row) => row.pid), [1111]);
-  assert.equal(rows[0].command, 'fixture-node');
-  assert.equal(rows[0].cwd, fs.realpathSync(inside));
+  const inspection = orch.listProcessCwdsUnder(root, { includeLsof: false, procRoot, selfPid: 3333 });
+  assert.equal(inspection.ok, true, JSON.stringify(inspection));
+  assert.equal(inspection.complete, true);
+  assert.equal(inspection.capability, 'OPS_PROCESS_INSPECTION_CWD');
+  assert.match(inspection.status, /AVAILABLE|DEGRADED/u);
+  assert.deepEqual(inspection.rows.map((row) => row.pid), [1111]);
+  assert.equal(inspection.rows[0].command, 'fixture-node');
+  assert.equal(inspection.rows[0].cwd, fs.realpathSync(inside));
 });
 
 leaseTest('ORCH_TEST_14H: cwd inventory waits for delayed proc visibility before allowing success', async () => {
@@ -1500,8 +1506,13 @@ leaseTest('ORCH_TEST_14H: cwd inventory waits for delayed proc visibility before
   const root = path.join(dir, 'root');
   const inside = path.join(root, 'nested');
   const procRoot = path.join(dir, 'proc');
+  const selfCwd = path.join(dir, 'self-cwd');
   fs.mkdirSync(inside, { recursive: true });
   fs.mkdirSync(procRoot, { recursive: true });
+  fs.mkdirSync(selfCwd, { recursive: true });
+  fs.mkdirSync(path.join(procRoot, '9999'));
+  fs.symlinkSync(selfCwd, path.join(procRoot, '9999', 'cwd'));
+  fs.writeFileSync(path.join(procRoot, '9999', 'comm'), 'self-node\n', 'utf8');
 
   setTimeout(() => {
     const pidDir = path.join(procRoot, '4444');
@@ -1510,16 +1521,283 @@ leaseTest('ORCH_TEST_14H: cwd inventory waits for delayed proc visibility before
     fs.writeFileSync(path.join(pidDir, 'comm'), 'delayed-node\n', 'utf8');
   }, 50);
 
-  const rows = await orch.waitForProcessCwdsUnder(root, {
+  const inspection = await orch.waitForProcessCwdsUnder(root, {
     includeLsof: false,
     procRoot,
     selfPid: 9999,
     timeoutMs: 500,
     intervalMs: 10,
   });
-  assert.deepEqual(rows.map((row) => row.pid), [4444]);
-  assert.equal(rows[0].command, 'delayed-node');
-  assert.equal(rows[0].cwd, fs.realpathSync(inside));
+  assert.equal(inspection.ok, true, JSON.stringify(inspection));
+  assert.deepEqual(inspection.rows.map((row) => row.pid), [4444]);
+  assert.equal(inspection.rows[0].command, 'delayed-node');
+  assert.equal(inspection.rows[0].cwd, fs.realpathSync(inside));
+});
+
+leaseTest('ORCH_TEST_14I: hidden denied and malformed PID inspection is explicit INDETERMINATE', async () => {
+  const orch = await loadOrchestrator();
+  const dir = tmpDir('c5v2-orch-process-hidden-');
+  const root = path.join(dir, 'root');
+  const procRoot = path.join(dir, 'proc');
+  fs.mkdirSync(root, { recursive: true });
+  fs.mkdirSync(path.join(procRoot, '5555'), { recursive: true });
+
+  const denied = orch.listProcessCwdsUnder(root, {
+    includeLsof: false,
+    procRoot,
+    readlinkImpl: () => {
+      const error = new Error('sandbox hides pid cwd');
+      error.code = 'EACCES';
+      throw error;
+    },
+  });
+  assert.equal(denied.ok, false);
+  assert.equal(denied.status, 'INDETERMINATE');
+  assert.match(denied.code, /ORCH_PROCESS_INSPECTION_INDETERMINATE/u);
+  assert.equal(denied.reasons.some((reason) => /EACCES/u.test(reason)), true);
+
+  const malformed = orch.listProcessCwdsUnder(root, {
+    procRoot: path.join(dir, 'missing-proc'),
+    spawnSyncImpl: () => ({ status: 0, stdout: `pnot-a-pid\nn${root}\n`, stderr: '' }),
+  });
+  assert.equal(malformed.ok, false);
+  assert.equal(malformed.status, 'INDETERMINATE');
+  assert.equal(malformed.reasons.some((reason) => /MALFORMED/u.test(reason)), true);
+
+  const hiddenIdentity = orch.readProcessIdentity(5555, {
+    spawnSyncImpl: () => ({ status: 1, stdout: '', stderr: 'operation not permitted' }),
+  });
+  assert.equal(hiddenIdentity.ok, false);
+  assert.equal(hiddenIdentity.status, 'INDETERMINATE');
+  assert.match(hiddenIdentity.code, /ORCH_PROCESS_IDENTITY_INSPECTION_INDETERMINATE/u);
+
+  const silentHiddenIdentity = orch.readProcessIdentity(5555, {
+    spawnSyncImpl: () => ({ status: 1, stdout: '', stderr: '' }),
+    livenessProbe: () => ({ ok: true, complete: true, status: 'AVAILABLE', alive: true, code: 'TEST_PID_ALIVE' }),
+  });
+  assert.equal(silentHiddenIdentity.ok, false);
+  assert.match(silentHiddenIdentity.code, /ORCH_PROCESS_IDENTITY_INSPECTION_INDETERMINATE/u);
+
+  const hiddenTableSpawn = (command) => command === 'pgrep'
+    ? { status: 1, stdout: '', stderr: '' }
+    : { status: 0, stdout: '', stderr: '' };
+  const hiddenDescendants = orch.listOwnedDescendants(5555, { spawnSyncImpl: hiddenTableSpawn });
+  assert.equal(hiddenDescendants.ok, false);
+  assert.equal(hiddenDescendants.reasons.some((reason) => /SELF_SENTINEL_MISSING/u.test(reason)), true);
+  const hiddenGroup = orch.listProcessGroupMembers(5555, { spawnSyncImpl: hiddenTableSpawn });
+  assert.equal(hiddenGroup.ok, false);
+  assert.equal(hiddenGroup.reasons.some((reason) => /SELF_SENTINEL_MISSING/u.test(reason)), true);
+
+  const silentCwdTable = orch.listProcessCwdsUnder(root, {
+    procRoot: path.join(dir, 'missing-silent-proc'),
+    spawnSyncImpl: () => ({ status: 1, stdout: '', stderr: '' }),
+  });
+  assert.equal(silentCwdTable.ok, false, JSON.stringify(silentCwdTable));
+  assert.equal(silentCwdTable.status, 'INDETERMINATE');
+
+  const emptyProcRoot = path.join(dir, 'empty-proc');
+  fs.mkdirSync(emptyProcRoot);
+  const silentProcTable = orch.listProcessCwdsUnder(root, {
+    includeLsof: false,
+    procRoot: emptyProcRoot,
+    selfPid: 9999,
+  });
+  assert.equal(silentProcTable.ok, false, JSON.stringify(silentProcTable));
+  assert.equal(silentProcTable.reasons.some((reason) => /SELF_SENTINEL_MISSING/u.test(reason)), true);
+});
+
+leaseTest('ORCH_TEST_14M: lsof probes are scoped to self sentinel and exact owned root inventory', async () => {
+  const orch = await loadOrchestrator();
+  const dir = tmpDir('c5v2-orch-lsof-scope-');
+  const root = path.join(dir, 'owned-root');
+  const selfCwd = path.join(dir, 'self-cwd');
+  fs.mkdirSync(root);
+  fs.mkdirSync(selfCwd);
+  const selfPid = 7777;
+  const calls = [];
+  const inspection = orch.listProcessCwdsUnder(root, {
+    selfPid,
+    procRoot: path.join(dir, 'missing-proc'),
+    spawnSyncImpl: (command, args) => {
+      assert.equal(command, 'lsof');
+      calls.push([...args]);
+      if (args.includes('-p')) {
+        return { status: 0, stdout: `p${selfPid}\ncnode\nn${selfCwd}\n`, stderr: '' };
+      }
+      if (args.includes('+D')) return { status: 1, stdout: '', stderr: '' };
+      return { status: 2, stdout: '', stderr: 'UNSCOPED_LSOF_FORBIDDEN' };
+    },
+  });
+  assert.deepEqual(calls, [
+    ['-n', '-Fpcn', '-a', '-p', String(selfPid), '-d', 'cwd'],
+    ['-n', '-Fpcn', '-a', '-d', 'cwd', '+D', fs.realpathSync(root)],
+  ]);
+  assert.equal(calls.some((args) => args.join(' ') === '-n -Fpcn -d cwd'), false);
+  assert.equal(inspection.ok, true, JSON.stringify(inspection));
+  assert.equal(inspection.complete, true);
+  assert.deepEqual(inspection.rows, []);
+});
+
+leaseTest('ORCH_TEST_14N: process inspection commands are bounded and ETIMEDOUT is explicit', async () => {
+  const orch = await loadOrchestrator();
+  const timeoutError = Object.assign(new Error('probe timed out'), { code: 'ETIMEDOUT' });
+  const optionsSeen = [];
+  const descendants = orch.listOwnedDescendants(5555, {
+    spawnSyncImpl: (command, _args, options) => {
+      optionsSeen.push({ command, options });
+      if (command === 'pgrep') return { status: null, stdout: '', stderr: '', error: timeoutError };
+      return { status: 0, stdout: `${process.pid} 0\n`, stderr: '' };
+    },
+  });
+  assert.equal(descendants.ok, false, JSON.stringify(descendants));
+  assert.match(descendants.reasons.join(','), /ETIMEDOUT/u);
+  const group = orch.listProcessGroupMembers(5555, {
+    spawnSyncImpl: (command, _args, options) => {
+      optionsSeen.push({ command, options });
+      return { status: null, stdout: '', stderr: '', error: timeoutError };
+    },
+  });
+  const identity = orch.readProcessIdentity(5555, {
+    spawnSyncImpl: (command, _args, options) => {
+      optionsSeen.push({ command, options });
+      return { status: null, stdout: '', stderr: '', error: timeoutError };
+    },
+  });
+  assert.equal(group.ok, false);
+  assert.equal(identity.ok, false);
+  assert.match(`${group.code}|${identity.code}`, /ETIMEDOUT/u);
+  assert.equal(optionsSeen.every(({ options }) => options.timeout > 0 && options.timeout <= 2000), true);
+  assert.equal(optionsSeen.every(({ options }) => options.maxBuffer > 0 && options.maxBuffer <= 1024 * 1024), true);
+
+  const thrown = orch.listProcessGroupMembers(5555, {
+    spawnSyncImpl: () => { throw new Error('INJECTED_PS_PROBE_THROW'); },
+  });
+  assert.equal(thrown.ok, false);
+  assert.equal(thrown.status, 'INDETERMINATE');
+  assert.match(thrown.code, /INJECTED_PS_PROBE_THROW/u);
+});
+
+leaseTest('ORCH_TEST_14O: stage wall and progress watchdogs use injected monotonic time under wall-clock skew', async () => {
+  const orch = await loadOrchestrator();
+  const dir = tmpDir('c5v2-orch-monotonic-');
+  const originalDateNow = Date.now;
+  try {
+    let forwardWallReads = 0;
+    Date.now = () => (forwardWallReads++ === 0 ? 1000 : 10 ** 12);
+    const normal = writeSleepChild(dir, 'monotonic-normal.cjs', "process.stdout.write('visible\\n');setTimeout(()=>process.exit(0),400);");
+    const normalResult = await orch.runOwnedStageProcess({
+      stage: 'POSITIVE', command: process.execPath, args: [normal], cwd: REPO_ROOT, logDir: path.join(dir, 'normal-logs'),
+      heartbeatPath: path.join(dir, 'normal-hb.jsonl'), campaignId: 'c', chainId: 'W06', stageTimeoutMs: 2000, progressTimeoutMs: 2000, killGraceMs: 300,
+      monotonicNow: () => performance.now(),
+    });
+    assert.equal(normalResult.ok, true, JSON.stringify(normalResult));
+    assert.equal(Number.isFinite(normalResult.durationMs) && normalResult.durationMs >= 0, true);
+
+    let reversedWall = 10 ** 12;
+    Date.now = () => reversedWall--;
+    const stalled = writeSleepChild(dir, 'monotonic-stalled.cjs', "process.stdout.write('boot\\n');setTimeout(()=>process.exit(0),1200);setInterval(()=>{},500);");
+    const stalledResult = await orch.runOwnedStageProcess({
+      stage: 'POSITIVE', command: process.execPath, args: [stalled], cwd: REPO_ROOT, logDir: path.join(dir, 'stalled-logs'),
+      heartbeatPath: path.join(dir, 'stalled-hb.jsonl'), campaignId: 'c', chainId: 'W06', stageTimeoutMs: 2000, progressTimeoutMs: 400, killGraceMs: 300,
+      monotonicNow: () => performance.now(),
+    });
+    assert.equal(stalledResult.ok, false, JSON.stringify(stalledResult));
+    assert.match(stalledResult.code, /ORCH_PROGRESS_TIMEOUT/u);
+    assert.equal(Number.isFinite(stalledResult.durationMs) && stalledResult.durationMs >= 0, true);
+  } finally {
+    Date.now = originalDateNow;
+  }
+});
+
+leaseTest('ORCH_TEST_14J: duplicate and conflicting process rows fail closed instead of deduping to PASS', async () => {
+  const orch = await loadOrchestrator();
+  assert.equal(typeof orch.mergeProcessInspectionObservations, 'function');
+  const dir = tmpDir('c5v2-orch-process-duplicate-');
+  const root = path.join(dir, 'root');
+  const one = path.join(root, 'one');
+  const two = path.join(root, 'two');
+  fs.mkdirSync(one, { recursive: true });
+  fs.mkdirSync(two, { recursive: true });
+  const available = (strategy, rows) => ({
+    ok: true,
+    complete: true,
+    status: 'AVAILABLE',
+    strategy,
+    rows,
+    reasons: [],
+  });
+  const duplicate = orch.mergeProcessInspectionObservations({
+    capability: 'OPS_PROCESS_INSPECTION_CWD',
+    rootPath: root,
+    observations: [available('proc', [
+      { pid: 7777, command: 'node', cwd: one },
+      { pid: 7777, command: 'node', cwd: one },
+    ])],
+  });
+  assert.equal(duplicate.ok, false);
+  assert.match(duplicate.code, /ORCH_PROCESS_INSPECTION_DUPLICATE_ROW/u);
+
+  const conflict = orch.mergeProcessInspectionObservations({
+    capability: 'OPS_PROCESS_INSPECTION_CWD',
+    rootPath: root,
+    observations: [
+      available('lsof', [{ pid: 8888, command: 'node', cwd: one }]),
+      available('proc', [{ pid: 8888, command: 'node', cwd: two }]),
+    ],
+  });
+  assert.equal(conflict.ok, false);
+  assert.match(conflict.code, /ORCH_PROCESS_INSPECTION_CONFLICTING_ROW/u);
+});
+
+leaseTest('ORCH_TEST_14K: hidden cwd capability cannot turn zero visible survivors into stage PASS', async () => {
+  const orch = await loadOrchestrator();
+  const dir = tmpDir('c5v2-orch-hidden-no-pass-');
+  const child = writeSleepChild(dir, 'quick-visible.cjs', "process.stdout.write('visible\\n');setTimeout(()=>process.exit(0),100);");
+  const result = await orch.runOwnedStageProcess({
+    stage: 'POSITIVE', command: process.execPath, args: [child], cwd: dir, logDir: path.join(dir, 'logs'),
+    heartbeatPath: path.join(dir, 'hb.jsonl'), campaignId: 'c', chainId: 'W06', stageTimeoutMs: 5000, progressTimeoutMs: 2000, killGraceMs: 300,
+    processInspection: {
+      waitForProcessCwdsUnder: async () => ({
+        ok: false,
+        complete: false,
+        status: 'INDETERMINATE',
+        capability: 'OPS_PROCESS_INSPECTION_CWD',
+        code: 'ORCH_PROCESS_INSPECTION_INDETERMINATE:SANDBOX_HIDDEN_PID',
+        rows: [],
+        reasons: ['SANDBOX_HIDDEN_PID'],
+      }),
+    },
+  });
+  assert.equal(result.ok, false, JSON.stringify(result));
+  assert.equal(result.quarantined, true);
+  assert.match(result.code, /ORCH_PROCESS_INSPECTION_INDETERMINATE/u);
+});
+
+leaseTest('ORCH_TEST_14L: same-group orphan is identity-revalidated and removed after its leader exits cleanly', async (t) => {
+  const orch = await loadOrchestrator();
+  const dir = tmpDir('c5v2-orch-clean-orphan-');
+  const pidLog = path.join(dir, 'orphan.pid');
+  t.after(async () => {
+    await cleanupExactTestPids(pidLog);
+  });
+  const orphan = writeSleepChild(dir, 'clean-orphan.cjs', 'setInterval(()=>{},500);');
+  const parent = writeSleepChild(dir, 'clean-orphan-parent.cjs', `
+const fs = require('fs');
+const { spawn } = require('child_process');
+const child = spawn(process.execPath, [${JSON.stringify(orphan)}], { stdio: 'ignore' });
+fs.writeFileSync(${JSON.stringify(pidLog)}, String(child.pid));
+child.unref();
+process.stdout.write('owned child started\\n');
+setTimeout(() => process.exit(0), 700);
+`);
+  const result = await orch.runOwnedStageProcess({
+    stage: 'POSITIVE', command: process.execPath, args: [parent], cwd: dir, logDir: path.join(dir, 'logs'),
+    heartbeatPath: path.join(dir, 'hb.jsonl'), campaignId: 'c', chainId: 'W06', stageTimeoutMs: 5000, progressTimeoutMs: 3000, killGraceMs: 400,
+  });
+  const orphanPid = Number(fs.readFileSync(pidLog, 'utf8').trim());
+  assert.deepEqual(result.survivingOwnedPids, [], JSON.stringify(result));
+  assert.equal(pidAlive(orphanPid), false, `ORCH_SAME_GROUP_ORPHAN_SURVIVED:${orphanPid}`);
+  assert.equal(result.processInspection.ok, true, JSON.stringify(result.processInspection));
 });
 
 leaseTest('ORCH_TEST_14F: leader identity waits through pre-setsid race and timeout cleanup leaves zero survivors', async () => {

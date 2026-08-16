@@ -12,6 +12,7 @@ permissions:
 jobs:
   rtk-required:
     runs-on: ubuntu-latest
+    timeout-minutes: 40
     steps:
       - name: Checkout
         uses: actions/checkout@v4

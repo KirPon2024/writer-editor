@@ -3,11 +3,20 @@
   "documentClass": "EVIDENCE_RECEIPT",
   "status": "INTEROP_CHAIN_LINEAGE_DENOMINATOR_REGISTERED_NEEDS_MORE_EVIDENCE",
   "claimBoundary": "This receipt binds the C1-C8 route matrix and multi-round lineage closure rules only. It is not route execution evidence, not chain saturation, not universal Word/Google parity, not byte identity, and not product import/apply authority.",
-  "generatedAtUtc": "2026-08-17T08:18:49.000Z",
-  "exactHead": "9453e232a65b6cf92ceb802adf2d2f776fd3ee33",
+  "generatedAtUtc": "2026-08-17T10:31:37.000Z",
+  "exactHead": "834f37a8cb5ba3eb854f6407e2dc4e7e14606d88",
   "matrixPath": "docs/OPS/RTK/YALKEN_INTEROP_CHAIN_MATRIX_V1.json",
-  "matrixSha256": "sha256:5cc247c83dc13cecdb74c9e78a4336b1de5a278c6d5f5659dc9f3aa6630a3841",
-  "routeIds": ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8"],
+  "matrixSha256": "sha256:0cc29adf2e683c9686bbb1fcd40704c467a58fa3e7f478cc51b07f9727a7dd01",
+  "routeIds": [
+    "C1",
+    "C2",
+    "C3",
+    "C4",
+    "C5",
+    "C6",
+    "C7",
+    "C8"
+  ],
   "lineageStatus": "NOT_STARTED_DENOMINATOR_REGISTERED",
   "googleWholeBookInput": {
     "status": "SCOPED_EVIDENCE_ONLY_NOT_CHAIN_CLOSURE",
@@ -55,6 +64,9 @@
   "rollback": {
     "repo": "revert bounded chain matrix, lineage receipt, verifier, catalog, and governance binding commit",
     "productDataMigrationRequired": false,
-    "runtimeRollbackRequired": false
+    "runtimeRollbackRequired": false,
+    "previousMatrixSha256": "sha256:5cc247c83dc13cecdb74a4336b1de5a278c6d5f5659dc9f3aa6630a3841",
+    "currentMatrixSha256": "sha256:0cc29adf2e683c9686bbb1fcd40704c467a58fa3e7f478cc51b07f9727a7dd01",
+    "reason": "C1 full-book route replay evidence rebound from repaired window-unavailable blocker to native materialization root-count blocker."
   }
 }

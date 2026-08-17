@@ -80,6 +80,7 @@ export const TERMINAL_CAMPAIGN_PROFILE = 'C5V2_DORIAN_TERMINAL';
 const SECURE_VOLUME_UUID = 'D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2';
 const IDENTITY_RE = /^[A-Za-z0-9._-]{1,64}$/u;
 const SHA256_DIGEST_RE = /^sha256:[0-9a-f]{64}$/u;
+const WORD_VERSION_RE = /^\d+\.\d+(?:\.\d+)?$/u;
 const CANONICAL_SCRIPT_HASH_KEYS = Object.freeze(['orchestrator', 'physicalCanary']);
 
 const THIS_FILE = fileURLToPath(import.meta.url);
@@ -326,7 +327,7 @@ export function parseOrchestratorArgs(argv = []) {
     if (!options[entry.key]) throw new Error(`ORCH_ARG_REQUIRED:${flag}`);
   }
   if (!/^[0-9a-f]{40}$/u.test(options.expectedSha)) throw new Error(`ORCH_ARG_INVALID:--expected-sha:${options.expectedSha}`);
-  if (!/^\d+\.\d+\.\d+$/u.test(options.expectedWordVersion)) throw new Error(`ORCH_ARG_INVALID:--expected-word-version:${options.expectedWordVersion}`);
+  if (!WORD_VERSION_RE.test(options.expectedWordVersion)) throw new Error(`ORCH_ARG_INVALID:--expected-word-version:${options.expectedWordVersion}`);
   if (!/^\d+\.\d+\.\d+$/u.test(options.expectedWordBuild)) throw new Error(`ORCH_ARG_INVALID:--expected-word-build:${options.expectedWordBuild}`);
   if (!SHA256_DIGEST_RE.test(options.expectedCorpusDigest)) throw new Error(`ORCH_ARG_INVALID:--expected-corpus-digest:${options.expectedCorpusDigest}`);
   if (options.corpusManifestPath && !path.isAbsolute(String(options.corpusManifestPath))) throw new Error(`ORCH_ARG_INVALID:--corpus-manifest:${options.corpusManifestPath}`);
@@ -3293,7 +3294,7 @@ export function buildTerminalPortfolioManifest({
   if (!IDENTITY_RE.test(String(portfolioId || ''))) throw new Error(`ORCH_PORTFOLIO_ID_INVALID:${portfolioId}`);
   if (!path.isAbsolute(String(artifactRoot || ''))) throw new Error('ORCH_PORTFOLIO_ARTIFACT_ROOT_NOT_ABSOLUTE');
   if (!/^[0-9a-f]{40}$/u.test(String(expectedSha || ''))) throw new Error(`ORCH_PORTFOLIO_SHA_INVALID:${expectedSha}`);
-  if (!/^\d+\.\d+\.\d+$/u.test(String(expectedWordVersion || ''))) throw new Error(`ORCH_PORTFOLIO_WORD_VERSION_INVALID:${expectedWordVersion}`);
+  if (!WORD_VERSION_RE.test(String(expectedWordVersion || ''))) throw new Error(`ORCH_PORTFOLIO_WORD_VERSION_INVALID:${expectedWordVersion}`);
   if (!/^\d+\.\d+\.\d+$/u.test(String(expectedWordBuild || ''))) throw new Error(`ORCH_PORTFOLIO_WORD_BUILD_INVALID:${expectedWordBuild}`);
   if (!SHA256_DIGEST_RE.test(String(corpusDigest || ''))) throw new Error(`ORCH_PORTFOLIO_CORPUS_DIGEST_INVALID:${corpusDigest}`);
   if (!path.isAbsolute(String(corpusManifestPath || ''))) throw new Error('ORCH_PORTFOLIO_CORPUS_MANIFEST_NOT_ABSOLUTE');
@@ -3344,7 +3345,7 @@ function validateTerminalPortfolioManifest(manifest) {
   if (manifest?.schemaVersion !== TERMINAL_PORTFOLIO_SCHEMA) failures.push(`ORCH_PORTFOLIO_SCHEMA:${manifest?.schemaVersion}`);
   if (!IDENTITY_RE.test(String(manifest?.portfolioId || ''))) failures.push(`ORCH_PORTFOLIO_ID_INVALID:${manifest?.portfolioId}`);
   if (!/^[0-9a-f]{40}$/u.test(String(manifest?.expectedSha || ''))) failures.push(`ORCH_PORTFOLIO_SHA_INVALID:${manifest?.expectedSha}`);
-  if (!/^\d+\.\d+\.\d+$/u.test(String(manifest?.expectedWordVersion || ''))) failures.push(`ORCH_PORTFOLIO_WORD_VERSION_INVALID:${manifest?.expectedWordVersion}`);
+  if (!WORD_VERSION_RE.test(String(manifest?.expectedWordVersion || ''))) failures.push(`ORCH_PORTFOLIO_WORD_VERSION_INVALID:${manifest?.expectedWordVersion}`);
   if (!/^\d+\.\d+\.\d+$/u.test(String(manifest?.expectedWordBuild || ''))) failures.push(`ORCH_PORTFOLIO_WORD_BUILD_INVALID:${manifest?.expectedWordBuild}`);
   if (!SHA256_DIGEST_RE.test(String(manifest?.corpusDigest || ''))) failures.push(`ORCH_PORTFOLIO_CORPUS_DIGEST_INVALID:${manifest?.corpusDigest}`);
   if (!path.isAbsolute(String(manifest?.corpusManifestPath || ''))) failures.push('ORCH_PORTFOLIO_CORPUS_MANIFEST_NOT_ABSOLUTE');

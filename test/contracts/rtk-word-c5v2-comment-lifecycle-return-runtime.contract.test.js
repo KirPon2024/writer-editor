@@ -984,6 +984,14 @@ test('N2 macOS Accessibility preflight classifies environment blockers before UI
   assert.equal(wrongDocument.code, 'MACOS_ACCESSIBILITY_FRONT_DOCUMENT_MISMATCH');
   const inaccessibleWindow = canary.evaluateMacosAccessibilityPreflight({ ...base, axWindowSubtreeItemCount: 0 });
   assert.equal(inaccessibleWindow.code, 'MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE');
+  const zeroWindowAfterRevival = canary.evaluateMacosAccessibilityPreflight({
+    ...base,
+    wordFrontmost: false,
+    wordWindowCount: 0,
+    axWindowSubtreeItemCount: 0,
+  });
+  assert.equal(zeroWindowAfterRevival.ok, false);
+  assert.equal(zeroWindowAfterRevival.code, 'MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE');
   const standalone = canary.evaluateMacosAccessibilityPreflight({
     ...base,
     requireOpenDocument: false,
@@ -1001,9 +1009,17 @@ test('N2 macOS Accessibility preflight classifies environment blockers before UI
     sourcePath: 'source.docx', returnedPath: 'returned.docx',
     ledger: { operations: [{ id: 'root-1', family: 'root_comment', quote: 'anchor', wordRange: { start: 0, end: 6 } }] },
   });
+  assert.match(physicalScript, /on yReviveExpectedWordWindow/u);
   const gateIndex = physicalScript.indexOf('set yAccessibilityPreflight to my yMacosAccessibilityPreflight');
   const mutationIndex = physicalScript.indexOf('make new Word comment at yRange');
   assert.ok(gateIndex > 0 && mutationIndex > gateIndex);
+  const preflightStart = physicalScript.indexOf('on yMacosAccessibilityPreflight');
+  const preflightReviveIndex = physicalScript.indexOf('set yWindowReviveDiagnostics to my yReviveExpectedWordWindow', preflightStart);
+  const preflightZeroWindowIndex = physicalScript.indexOf('if yWindowCount < 1 then return "MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE', preflightStart);
+  assert.ok(preflightReviveIndex > preflightStart);
+  assert.ok(preflightZeroWindowIndex > preflightReviveIndex);
+  assert.match(physicalScript, /:WINDOW_REVIVE:/u);
+  assert.match(physicalScript, /AX_REVIVE_SYSTEM_EVENTS_ERROR/u);
   assert.match(physicalScript, /MACOS_ACCESSIBILITY_PERMISSION_REQUIRED/u);
 });
 
@@ -1028,10 +1044,15 @@ test('N2 AX route has bounded traversal timeout and durable killed-process phase
   const trackedCreationIndex = orderedScript.indexOf('set content of yRange to "new"');
   const materializationCallIndex = orderedScript.indexOf('set yMaterializationHash to my yMaterializeNativeCommentBoundary');
   const lifecyclePrepareCallIndex = orderedScript.indexOf('set yUiPreparation to my yPrepareCommentsUi');
+  const prepareStart = orderedScript.indexOf('on yPrepareCommentsUi');
+  const prepareReviveIndex = orderedScript.indexOf('set yWindowReviveDiagnostics to my yReviveExpectedWordWindow', prepareStart);
+  const prepareZeroWindowIndex = orderedScript.indexOf('WINDOW_COUNT:0:WINDOW_REVIVE:', prepareStart);
   assert.ok(rootCreationIndex >= 0);
   assert.ok(trackedCreationIndex > rootCreationIndex);
   assert.ok(materializationCallIndex > trackedCreationIndex);
   assert.ok(lifecyclePrepareCallIndex > materializationCallIndex);
+  assert.ok(prepareReviveIndex > prepareStart);
+  assert.ok(prepareZeroWindowIndex > prepareReviveIndex);
   const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-c5v2-phase-checkpoint-'));
   const returnedPath = path.join(tempRoot, 'synthetic-return.docx');
   fs.writeFileSync(`${returnedPath}.phase.log`, 'CANARY_PHASE_LOG_V1\nPREFLIGHT_AFTER|READY\nroot-1:ROOT_CREATE_AFTER|\n');

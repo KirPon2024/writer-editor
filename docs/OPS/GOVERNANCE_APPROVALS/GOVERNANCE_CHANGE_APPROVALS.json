@@ -9312,12 +9312,12 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "0a9612afe0229124af33a4b5160481693bec9f3169e8b56914584bc41432ab00",
-      "approvedBy": "owner-standing-grant:TASK_ID:C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T02:21:21.000Z",
-      "rationale": "Approve C1 return-intake authority carrier repair: physical canary binds authenticated exact-text candidates across corpus/product scene id aliases and preserves fail-closed authority behavior for hidden or unbound carriers.",
+      "sha256": "7120d6afd9a2ca6e154d44dedfc066e8912760b889caa616d7f61b125eb86aac",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_WINDOW_VISIBILITY_STABILITY_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T09:23:41.000Z",
+      "rationale": "Approve bounded Word window revival diagnostics inside the C5V2 physical canary: reactivate and raise the expected Microsoft Word document before AX window checks while preserving hidden zero-window and System Events error paths as fail-closed non-PASS evidence.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_C1_RETURN_INTAKE_AUTHORITY_REPAIR"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_WINDOW_VISIBILITY_STABILITY_REPAIR_V1"
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-terminal-orchestrator.mjs",
@@ -9330,12 +9330,12 @@
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-comment-lifecycle-return-runtime.contract.test.js",
-      "sha256": "d314fba14d69e0b7a23997945121c6476d233e052bef0a6dcb30b561b2ceb944",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_PHASE_C_NATIVE_LIFECYCLE_V1",
-      "approvedAtUtc": "2026-08-06T04:07:00.000Z",
-      "rationale": "Approve exact Phase C lifecycle runtime contract bytes proving native lifecycle coverage and typed-limit false-green rejection. No physical Word run, no Google work, no long campaign, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
+      "sha256": "c15bcceb2535e32da753e0946b43bc5f7f27ec717d38054253bc6c9aafceb5b2",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_WINDOW_VISIBILITY_STABILITY_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T09:23:41.000Z",
+      "rationale": "Approve focused C5V2 lifecycle contract coverage that requires the generated Word script to attempt bounded window revival before zero-window failure and to retain typed diagnostics without converting hidden Word windows into readiness or apply authority.",
       "approved": true,
-      "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_PHASE_C_NATIVE_LIFECYCLE"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_WINDOW_VISIBILITY_STABILITY_REPAIR_V1"
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-ledger-distribution.contract.test.js",
@@ -11031,12 +11031,12 @@
     },
     {
       "filePath": "test/contracts/rtk-zip01-budget-crc-evidence.contract.test.js",
-      "sha256": "a1ac9144957ab61f4c8db0772b91aa57be2d5ae6ba9462719375e990757445aa",
-      "rationale": "Approve post-C1 ZIP01 ActionEnvelope rebind admitting only the RTK streaming/process-capability repair receipt alongside existing R2/R3/R4 evidence files; ZIP CRC semantics and no product/runtime/UI/provider/release authority remain unchanged.",
-      "approvedBy": "owner-delegated:TASK_ID:POST_C1_RTK_AND_RELEASE_EVIDENCE_REBIND_V1",
-      "approvedAtUtc": "2026-08-17T03:19:05.000Z",
+      "sha256": "f3ad4d09835f3eeec33bf05a5a905939df8e856a278c8a9187b6d4b3f16b4842",
+      "rationale": "Approve bounded C1 Word window visibility contour dirty-tree allowlist repair admitting the in-scope C5V2 comment lifecycle contract while preserving ZIP CRC semantics and no product/runtime/UI/provider/release/apply authority expansion.",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_WINDOW_VISIBILITY_STABILITY_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T09:23:41.000Z",
       "approved": true,
-      "authority": "OWNER_DELEGATED_POST_C1_RTK_RELEASE_EVIDENCE_REBIND"
+      "authority": "OWNER_DELEGATED_C1_WORD_WINDOW_VISIBILITY_STABILITY_REPAIR_V1"
     },
     {
       "filePath": ".github/workflows/rtk-required.yml",

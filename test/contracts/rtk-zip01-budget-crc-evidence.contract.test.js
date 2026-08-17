@@ -53,6 +53,7 @@ const ALLOWLIST = [
   'test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js',
   'test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js',
   'test/contracts/rtk-word-c5v2-noop-baseline.contract.test.js',
+  'test/contracts/rtk-word-c5v2-comment-lifecycle-return-runtime.contract.test.js',
   // ZIP-01 Pass 2 write-set (7 implementation files + materializer contract).
   'src/io/revisionBridge/reviewTransportZipEvidenceV1.mjs',
   'src/io/revisionBridge/index.mjs',

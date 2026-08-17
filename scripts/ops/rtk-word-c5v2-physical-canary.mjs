@@ -40,6 +40,9 @@ const C5V2_COMPLETED_ROUND_REUSE_BINDING_VERSION = 'yalken.rtk.word.c5v2.complet
 const C5V2_RETURN_APPLY_CANDIDATE_AUTHORITY_VERSION = 'yalken.rtk.word.c5v2.return-apply-candidate-authority.v1';
 const C5V2_RETURN_APPLY_CANDIDATE_AUTHORITY_ANCHOR_VERSION = 'yalken.rtk.word.c5v2.return-apply-candidate-authority-anchor.v2';
 const C5V2_RETURN_APPLY_CANDIDATE_AUTHORITY_KEY_BYTES = 32;
+const C5V2_WORD_REVISION_AUTHOR_BASE = 'Yalken C5V2 Canary';
+const C5V2_WORD_REVISION_OPERATION_AUTHOR_PREFIX = 'Yalken C5V2 OP ';
+const C5V2_OPERATION_ID_PATTERN = /^[a-z0-9][a-z0-9_-]{0,127}$/iu;
 const C5V2_OPERATION_STATUS_POLICY_VERSION = 'yalken.rtk.word.c5v2.recorded-operation-status-policy.v1';
 const C5V2_OPERATION_STATUS_POLICY = Object.freeze({
   expectedOutcomeMustMatchRecordedOperationStatus: true,
@@ -70,6 +73,16 @@ export function sha256File(filePath) {
 
 export function nowStamp() {
   return new Date().toISOString().replace(/[-:]/gu, '').replace(/\.\d{3}Z$/u, 'Z');
+}
+
+function normalizeC5V2OperationId(value) {
+  const operationId = String(value || '').trim();
+  return C5V2_OPERATION_ID_PATTERN.test(operationId) ? operationId : '';
+}
+
+function c5v2WordRevisionOperationAuthor(operationId) {
+  const normalized = normalizeC5V2OperationId(operationId);
+  return normalized ? `${C5V2_WORD_REVISION_OPERATION_AUTHOR_PREFIX}${normalized}` : C5V2_WORD_REVISION_AUTHOR_BASE;
 }
 
 function escapeRegExp(value) {
@@ -714,6 +727,7 @@ function c5v2CandidateAuthorityTupleDigest(authority = {}) {
   const candidates = Array.isArray(authority?.candidates) ? authority.candidates : [];
   return sha256Text(stableCanonicalJson(candidates.map((candidate) => ({
     changeId: String(candidate?.changeId || ''),
+    operationId: normalizeC5V2OperationId(candidate?.operationId),
     sceneId: String(candidate?.sceneId || '').replace(/\\/gu, '/'),
     matchKind: String(candidate?.matchKind || ''),
     quoteSha256: String(candidate?.quoteSha256 || ''),
@@ -900,6 +914,7 @@ export function buildC5V2ReturnApplyCandidateAuthority({ roundId = '', returnApp
     candidateCount: diagnostics.length,
     candidates: diagnostics.map((diagnostic) => ({
       changeId: String(diagnostic?.changeId || ''),
+      operationId: normalizeC5V2OperationId(diagnostic?.operationId),
       sceneId: String(diagnostic?.targetScope?.id || '').replace(/\\/gu, '/'),
       matchKind: String(diagnostic?.matchKind || ''),
       quoteSha256: String(diagnostic?.quoteSha256 || ''),
@@ -940,6 +955,7 @@ export function validateC5V2ReturnApplyCandidateAuthority(
   const seenChangeIds = new Set();
   for (const candidate of candidates) {
     const changeId = String(candidate?.changeId || '');
+    const operationId = String(candidate?.operationId || '');
     const sceneId = String(candidate?.sceneId || '');
     const normalizedSceneId = sceneId.replace(/\\/gu, '/');
     const matchKind = String(candidate?.matchKind || '');
@@ -951,6 +967,7 @@ export function validateC5V2ReturnApplyCandidateAuthority(
       || sceneId !== normalizedSceneId
       || !matchKind
       || seenChangeIds.has(changeId)
+      || (operationId && !normalizeC5V2OperationId(operationId))
       || (quoteSha256 && !sha256Pattern.test(quoteSha256))
       || (replacementSha256 && !sha256Pattern.test(replacementSha256))
     ) {
@@ -971,6 +988,7 @@ export function validateC5V2ReturnApplyCandidateAuthority(
       exactApplyTextChangeIdsByScene,
       textChangeScopeDiagnostics: candidates.map((candidate) => ({
         changeId: candidate?.changeId || '',
+        operationId: normalizeC5V2OperationId(candidate?.operationId),
         targetScope: { id: candidate?.sceneId || '' },
         matchKind: candidate?.matchKind || '',
         quoteSha256: candidate?.quoteSha256 || '',
@@ -2596,7 +2614,10 @@ export function bindC5V2ExpectedExactTextCandidates(input = {}) {
     hashText(replacementText),
   ].join('|');
   const expectedBySignature = new Map();
+  const expectedByOperationId = new Map();
   for (const operation of expectedOperations) {
+    const operationId = normalizeC5V2OperationId(operation.id);
+    if (operationId) expectedByOperationId.set(operationId, operation);
     const key = signature({
       sceneId: operation.sceneId,
       quote: operation.quote,
@@ -2626,6 +2647,11 @@ export function bindC5V2ExpectedExactTextCandidates(input = {}) {
   const duplicateCandidateBindingIds = [];
   const excludedCandidateIds = [];
   const missingDiagnosticCandidateIds = [];
+  const missingOperationIdCandidateIds = [];
+  const unknownOperationIdCandidateIds = [];
+  const operationIdSceneMismatchCandidateIds = [];
+  const hashMismatchOperationIds = [];
+  let hashMatchedOperationCount = 0;
   for (const [sceneId, changeIds] of Object.entries(candidateIdsByScene)) {
     for (const changeId of (Array.isArray(changeIds) ? changeIds : [])) {
       const diagnostic = diagnosticsByChangeId.get(changeId);
@@ -2633,23 +2659,45 @@ export function bindC5V2ExpectedExactTextCandidates(input = {}) {
         missingDiagnosticCandidateIds.push(changeId);
         continue;
       }
-      const key = [
-        canonicalSceneId(diagnostic.targetScope?.id || sceneId),
-        String(diagnostic.quoteSha256 || ''),
-        String(diagnostic.replacementSha256 || ''),
-      ].join('|');
-      const expected = expectedBySignature.get(key) || [];
-      if (diagnostic.matchKind !== 'exact' || expected.length !== 1) {
+      const candidateSceneId = canonicalSceneId(diagnostic.targetScope?.id || sceneId);
+      const operationId = normalizeC5V2OperationId(diagnostic.operationId);
+      if (diagnostic.matchKind !== 'exact') {
         excludedCandidateIds.push(changeId);
         continue;
       }
-      const operation = expected[0];
+      if (!operationId) {
+        missingOperationIdCandidateIds.push(changeId);
+        excludedCandidateIds.push(changeId);
+        continue;
+      }
+      const operation = expectedByOperationId.get(operationId);
+      if (!operation) {
+        unknownOperationIdCandidateIds.push(changeId);
+        excludedCandidateIds.push(changeId);
+        continue;
+      }
+      const normalizedSceneId = canonicalSceneId(operation.sceneId);
+      if (candidateSceneId !== normalizedSceneId) {
+        operationIdSceneMismatchCandidateIds.push(changeId);
+        excludedCandidateIds.push(changeId);
+        continue;
+      }
       if (matchedOperationIds.has(operation.id)) {
         duplicateCandidateBindingIds.push(changeId);
         continue;
       }
+      const key = [
+        candidateSceneId,
+        String(diagnostic.quoteSha256 || ''),
+        String(diagnostic.replacementSha256 || ''),
+      ].join('|');
+      const expected = expectedBySignature.get(key) || [];
+      if (expected.length === 1 && expected[0].id === operation.id) {
+        hashMatchedOperationCount += 1;
+      } else {
+        hashMismatchOperationIds.push(operation.id);
+      }
       matchedOperationIds.add(operation.id);
-      const normalizedSceneId = canonicalSceneId(operation.sceneId);
       if (!exactApplyTextChangeIdsByScene[normalizedSceneId]) exactApplyTextChangeIdsByScene[normalizedSceneId] = [];
       exactApplyTextChangeIdsByScene[normalizedSceneId].push(changeId);
       exactOperationBindings.push({
@@ -2674,12 +2722,18 @@ export function bindC5V2ExpectedExactTextCandidates(input = {}) {
     matchedOperationCount: matchedOperationIds.size,
     matchedChangeCount,
     excludedCandidateCount: excludedCandidateIds.length,
+    identityBindingMode: 'operationId',
+    hashMatchedOperationCount,
+    hashMismatchOperationIds,
     exactApplyTextChangeIdsByScene,
     exactOperationBindings,
     unmatchedExpectedOperationIds,
     duplicateExpectedSignatureOperationIds,
     duplicateCandidateBindingIds,
     missingDiagnosticCandidateIds,
+    missingOperationIdCandidateIds,
+    unknownOperationIdCandidateIds,
+    operationIdSceneMismatchCandidateIds,
   };
 }
 
@@ -3342,6 +3396,7 @@ function summarizeActivation(result) {
     }, {}),
     textChangeScopeDiagnostics: textChanges.map((change) => ({
       changeId: change && typeof change.changeId === 'string' ? change.changeId : '',
+      operationId: change && typeof change.operationId === 'string' ? normalizeC5V2OperationId(change.operationId) : '',
       targetScope: change && change.targetScope ? change.targetScope : null,
       matchKind: change && change.match && typeof change.match.kind === 'string' ? change.match.kind : '',
       quoteSha256: change && change.match && typeof change.match.quote === 'string' ? sha256ChildText(change.match.quote) : '',
@@ -4941,11 +4996,19 @@ function wordOperationLines(ledger, returnedPath, materializationExpectations = 
     lines.push('try');
     lines.push(`  my yRequireBudget(yCheckpointPath, ${appleText(`${id}:START`)})`);
     lines.push(`  my yCheckpoint(yCheckpointPath, ${appleText(`${id}:START`)}, ${appleText(operation.family)})`);
+    lines.push(`  set user name to ${appleText(isTrackedTextOperation ? c5v2WordRevisionOperationAuthor(id) : C5V2_WORD_REVISION_AUTHOR_BASE)}`);
+    lines.push('  set user initials to "C5V2"');
     if (operation.physicalAction === 'typed-limit') {
       lines.push(`  set yLimitations to yLimitations & ${appleText(`${operation.family}|${id}|${operation.expectedOutcome}|PHYSICALLY_UNSUPPORTED_TYPED_OUTCOME`)} & linefeed`);
       lines.push(markLine(id, operation.expectedOutcome));
+      lines.push(`  set user name to ${appleText(C5V2_WORD_REVISION_AUTHOR_BASE)}`);
+      lines.push('  set user initials to "C5V2"');
       lines.push('on error errMsg number errNo');
       lines.push('  set yLimitations to yLimitations & "TYPED_LIMIT_ERROR|' + id.replaceAll('"', '') + '|" & errNo & "|" & errMsg & linefeed');
+      lines.push('  try');
+      lines.push(`    set user name to ${appleText(C5V2_WORD_REVISION_AUTHOR_BASE)}`);
+      lines.push('    set user initials to "C5V2"');
+      lines.push('  end try');
       lines.push(markLine(id, 'BLOCKED'));
       lines.push('end try');
       continue;
@@ -5055,8 +5118,14 @@ function wordOperationLines(ledger, returnedPath, materializationExpectations = 
       else lines.push('  set outline level of paragraph format of yRange to outline level2');
       lines.push(markLine(id, operation.expectedOutcome || 'SAFE_APPLY'));
     }
+    lines.push(`  set user name to ${appleText(C5V2_WORD_REVISION_AUTHOR_BASE)}`);
+    lines.push('  set user initials to "C5V2"');
     lines.push('on error errMsg number errNo');
     lines.push('  set yLimitations to yLimitations & "OP_ERROR|' + id.replaceAll('"', '') + '|" & errNo & "|" & errMsg & linefeed');
+    lines.push('  try');
+    lines.push(`    set user name to ${appleText(C5V2_WORD_REVISION_AUTHOR_BASE)}`);
+    lines.push('    set user initials to "C5V2"');
+    lines.push('  end try');
     lines.push(markLine(id, 'BLOCKED'));
     lines.push('end try');
   }
@@ -5739,7 +5808,7 @@ export function buildWordScript({
     'set oldUserInitials to user initials',
     'try',
     '  set display alerts to alerts none',
-    `  set user name to ${appleText('Yalken C5V2 Canary')}`,
+    `  set user name to ${appleText(C5V2_WORD_REVISION_AUTHOR_BASE)}`,
     `  set user initials to ${appleText('C5V2')}`,
     `  set ySourceFile to POSIX file ${appleText(sourcePath)} as alias`,
     `  set yReturnedPath to ${appleText(returnedPath)}`,

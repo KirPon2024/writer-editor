@@ -583,12 +583,18 @@ function exactLedgerBindingForTest(operations) {
     matchedOperationCount: exactOperations.length,
     matchedChangeCount: exactOperations.length,
     excludedCandidateCount: 0,
+    identityBindingMode: 'operationId',
+    hashMatchedOperationCount: exactOperations.length,
+    hashMismatchOperationIds: [],
     exactApplyTextChangeIdsByScene,
     exactOperationBindings,
     unmatchedExpectedOperationIds: [],
     duplicateExpectedSignatureOperationIds: [],
     duplicateCandidateBindingIds: [],
     missingDiagnosticCandidateIds: [],
+    missingOperationIdCandidateIds: [],
+    unknownOperationIdCandidateIds: [],
+    operationIdSceneMismatchCandidateIds: [],
   };
 }
 
@@ -2212,6 +2218,7 @@ function writePositiveRoundGateEvidence({ options, runRoot, ledger, ledgerDigest
     && operation.expectedOutcome === 'EXACT'
   )).map((operation) => ({
     changeId: operation.id,
+    operationId: operation.id,
     targetScope: { id: operation.sceneId },
     matchKind: 'exact',
     quoteSha256: sha256Text(operation.quote),
@@ -2285,6 +2292,7 @@ function writePositiveRoundGateEvidence({ options, runRoot, ledger, ledgerDigest
   writeJson(returnApplyPath, returnApply);
   const candidates = exactDiagnostics.map((diagnostic) => ({
     changeId: diagnostic.changeId,
+    operationId: diagnostic.operationId,
     sceneId: diagnostic.targetScope.id,
     matchKind: diagnostic.matchKind,
     quoteSha256: diagnostic.quoteSha256,
@@ -2302,6 +2310,7 @@ function writePositiveRoundGateEvidence({ options, runRoot, ledger, ledgerDigest
   writeJson(candidateAuthorityPath, candidateAuthority);
   const candidateTupleDigest = digestOf(candidates.map((candidate) => ({
     changeId: candidate.changeId,
+    operationId: candidate.operationId,
     sceneId: candidate.sceneId,
     matchKind: candidate.matchKind,
     quoteSha256: candidate.quoteSha256,

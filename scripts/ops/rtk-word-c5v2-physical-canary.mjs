@@ -2504,6 +2504,46 @@ export function deriveC5V2ReturnLanePlan(activationSummary = {}) {
   };
 }
 
+function normalizeC5V2SceneId(value) {
+  return String(value || '').replace(/\\/gu, '/').replace(/^\/+/u, '');
+}
+
+function c5v2SceneBasename(value) {
+  const normalized = normalizeC5V2SceneId(value);
+  return normalized.split('/').filter(Boolean).at(-1) || normalized;
+}
+
+function c5v2SceneStem(value) {
+  return c5v2SceneBasename(value).replace(/\.[^.]+$/u, '');
+}
+
+export function buildC5V2ProductSceneIdAliases(productSceneContexts = []) {
+  const aliases = {};
+  const addAlias = (source, target) => {
+    const key = normalizeC5V2SceneId(source);
+    const value = normalizeC5V2SceneId(target);
+    if (!key || !value) return;
+    aliases[key] = value;
+  };
+  for (const context of Array.isArray(productSceneContexts) ? productSceneContexts : []) {
+    const target = normalizeC5V2SceneId(context?.relativePath || context?.sceneId);
+    if (!target) continue;
+    const keys = [
+      target,
+      context?.relativePath,
+      context?.sceneId,
+      context?.sourceFile,
+      c5v2SceneBasename(context?.sourceFile),
+      c5v2SceneStem(context?.sourceFile),
+      c5v2SceneBasename(target),
+      c5v2SceneStem(target),
+      c5v2SceneStem(target).replace(/^\d+[_-]/u, ''),
+    ];
+    for (const key of keys) addAlias(key, target);
+  }
+  return aliases;
+}
+
 export function bindC5V2ExpectedExactTextCandidates(input = {}) {
   const expectedOperations = (Array.isArray(input.expectedOperations) ? input.expectedOperations : [])
     .filter((operation) => (
@@ -2514,9 +2554,31 @@ export function bindC5V2ExpectedExactTextCandidates(input = {}) {
     ? input.activationSummary
     : {};
   const hashText = typeof input.hashText === 'function' ? input.hashText : () => '';
-  const normalizeSceneId = (value) => String(value || '').replace(/\\/gu, '/');
+  const sceneIdAliases = input.sceneIdAliases instanceof Map
+    ? input.sceneIdAliases
+    : new Map(Object.entries(
+      input.sceneIdAliases && typeof input.sceneIdAliases === 'object'
+        ? input.sceneIdAliases
+        : {},
+    ).map(([key, value]) => [normalizeC5V2SceneId(key), normalizeC5V2SceneId(value)]));
+  const canonicalSceneId = (value) => {
+    const normalized = normalizeC5V2SceneId(value);
+    const basename = c5v2SceneBasename(normalized);
+    const stem = c5v2SceneStem(normalized);
+    const candidates = [
+      normalized,
+      basename,
+      stem,
+      stem.replace(/^\d+[_-]/u, ''),
+    ].filter(Boolean);
+    for (const candidate of candidates) {
+      const alias = sceneIdAliases.get(candidate);
+      if (alias) return alias;
+    }
+    return normalized;
+  };
   const signature = ({ sceneId = '', quote = '', replacementText = '' } = {}) => [
-    normalizeSceneId(sceneId),
+    canonicalSceneId(sceneId),
     hashText(quote),
     hashText(replacementText),
   ].join('|');
@@ -2559,7 +2621,7 @@ export function bindC5V2ExpectedExactTextCandidates(input = {}) {
         continue;
       }
       const key = [
-        normalizeSceneId(diagnostic.targetScope?.id || sceneId),
+        canonicalSceneId(diagnostic.targetScope?.id || sceneId),
         String(diagnostic.quoteSha256 || ''),
         String(diagnostic.replacementSha256 || ''),
       ].join('|');
@@ -2574,7 +2636,7 @@ export function bindC5V2ExpectedExactTextCandidates(input = {}) {
         continue;
       }
       matchedOperationIds.add(operation.id);
-      const normalizedSceneId = normalizeSceneId(operation.sceneId);
+      const normalizedSceneId = canonicalSceneId(operation.sceneId);
       if (!exactApplyTextChangeIdsByScene[normalizedSceneId]) exactApplyTextChangeIdsByScene[normalizedSceneId] = [];
       exactApplyTextChangeIdsByScene[normalizedSceneId].push(changeId);
       exactOperationBindings.push({
@@ -2796,6 +2858,10 @@ const fs = require('fs');
 const path = require('path');
 const deriveC5V2CommentLaneMaturity = ${deriveC5V2CommentLaneMaturity.toString()};
 const deriveC5V2ReturnLanePlan = ${deriveC5V2ReturnLanePlan.toString()};
+const normalizeC5V2SceneId = ${normalizeC5V2SceneId.toString()};
+const c5v2SceneBasename = ${c5v2SceneBasename.toString()};
+const c5v2SceneStem = ${c5v2SceneStem.toString()};
+const buildC5V2ProductSceneIdAliases = ${buildC5V2ProductSceneIdAliases.toString()};
 const bindC5V2ExpectedExactTextCandidates = ${bindC5V2ExpectedExactTextCandidates.toString()};
 const buildC5V2CompletedRoundReuseReturnApply = ${buildC5V2CompletedRoundReuseReturnApply.toString()};
 const evaluateC5V2ReturnedDocxReadyForProductIntake = ${evaluateC5V2ReturnedDocxReadyForProductIntake.toString()};
@@ -3347,6 +3413,7 @@ async function activateApplyAndReplayReturnedDocx(win, roundContext) {
     expectedOperations,
     activationSummary,
     hashText: sha256ChildText,
+    sceneIdAliases: buildC5V2ProductSceneIdAliases(global.productSceneContexts || []),
   });
   const lanePlan = deriveC5V2ReturnLanePlan({
     ...activationSummary,

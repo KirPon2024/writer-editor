@@ -363,6 +363,100 @@ test('DOCX review preview session candidate: full manuscript paragraph signals r
   assertNoStorageOrApplyAuthority(result);
 });
 
+test('DOCX review preview session candidate: evidence packet full manuscript paragraph index exposes exact lane', async () => {
+  const bridge = await loadBridge();
+  const result = bridge.buildDocxReviewPreviewSessionCandidateFromEvidence({
+    returnedProjection: {
+      schemaVersion: 'yalken.rtk.review-ir.v2',
+      sourceMode: 'TRACKED',
+      textRevisions: [
+        {
+          operation: 'delete',
+          nativeRevisionId: 'del-current-profile-1',
+          paragraphIndex: 7,
+          text: 'original bounded phrase',
+        },
+        {
+          operation: 'insert',
+          nativeRevisionId: 'ins-current-profile-1',
+          paragraphIndex: 7,
+          text: 'replacement bounded phrase',
+        },
+      ],
+      commentThreads: [],
+      commentPlacements: [],
+      structureChanges: [],
+      formattingDeltas: [],
+    },
+    diagnostics: [],
+  }, {
+    targetScope: { type: 'scene', id: 'roman/currently-open.txt' },
+    fullManuscriptExportMap: {
+      scenes: [
+        {
+          sceneId: 'roman/chapter-07.txt',
+          blocks: [
+            {
+              blockId: 'scene-07-block-0008',
+              documentParagraphIndex: 7,
+              wordSignals: [],
+            },
+          ],
+        },
+      ],
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.status, 'ready');
+  assert.equal(result.reviewPacket.textChanges.length, 1);
+  assert.deepEqual(result.reviewPacket.textChanges[0].targetScope, { type: 'scene', id: 'roman/chapter-07.txt' });
+  assert.equal(result.reviewPacket.textChanges[0].match.kind, 'exact');
+  assert.equal(result.reviewPacket.textChanges[0].match.quote, 'original bounded phrase');
+  assert.equal(result.reviewPacket.textChanges[0].replacementText, 'replacement bounded phrase');
+  assert.equal(result.reviewPacket.textChanges[0].sourceAuthority, 'full-manuscript-export-map-paragraph-signal');
+  assertNoStorageOrApplyAuthority(result);
+});
+
+test('DOCX review preview session candidate: evidence packet without authenticated map remains manual-only', async () => {
+  const bridge = await loadBridge();
+  const result = bridge.buildDocxReviewPreviewSessionCandidateFromEvidence({
+    returnedProjection: {
+      schemaVersion: 'yalken.rtk.review-ir.v2',
+      sourceMode: 'TRACKED',
+      textRevisions: [
+        {
+          operation: 'delete',
+          nativeRevisionId: 'del-legacy-1',
+          paragraphIndex: 7,
+          text: 'legacy bounded phrase',
+        },
+        {
+          operation: 'insert',
+          nativeRevisionId: 'ins-legacy-1',
+          paragraphIndex: 7,
+          text: 'legacy replacement phrase',
+        },
+      ],
+      commentThreads: [],
+      commentPlacements: [],
+      structureChanges: [],
+      formattingDeltas: [],
+    },
+    diagnostics: [],
+  }, {
+    targetScope: { type: 'scene', id: 'roman/currently-open.txt' },
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.status, 'ready');
+  assert.equal(result.reviewPacket.textChanges.length, 1);
+  assert.deepEqual(result.reviewPacket.textChanges[0].targetScope, { type: 'scene', id: 'roman/currently-open.txt' });
+  assert.equal(result.reviewPacket.textChanges[0].match.kind, 'manual');
+  assert.equal(result.reviewPacket.textChanges[0].sourceAuthority, undefined);
+  assertNoStorageOrApplyAuthority(result);
+});
+
 test('DOCX review preview session candidate: authenticated paragraph signals route comments to scenes without quote heuristics', async () => {
   const bridge = await loadBridge();
   const bytes = docxWithCommentAndBody([

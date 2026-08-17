@@ -203,6 +203,35 @@ test('C5V2 product apply binds only ledger-authorized EXACT candidates and delet
   assert.equal(binding.excludedCandidateCount, 1);
   assert.deepEqual(binding.exactApplyTextChangeIdsByScene, { [sceneId]: ['change-1', 'change-2'] });
 
+  const aliasedProductSceneId = 'roman/01_dorian-00-preface.txt';
+  const aliasBinding = canary.bindC5V2ExpectedExactTextCandidates({
+    expectedOperations: [{
+      id: 'aliased-replace-exact',
+      family: 'tracked_replace',
+      expectedOutcome: 'EXACT',
+      sceneId: 'dorian-00-preface',
+      quote: 'aliased old phrase',
+      replacementText: 'aliased new phrase',
+    }],
+    activationSummary: {
+      exactApplyTextChangeIdsByScene: { [aliasedProductSceneId]: ['aliased-change-1'] },
+      textChangeScopeDiagnostics: [{
+        changeId: 'aliased-change-1',
+        targetScope: { id: aliasedProductSceneId, type: 'scene' },
+        matchKind: 'exact',
+        quoteSha256: canary.sha256Text('aliased old phrase'),
+        replacementSha256: canary.sha256Text('aliased new phrase'),
+      }],
+    },
+    hashText: canary.sha256Text,
+    sceneIdAliases: canary.buildC5V2ProductSceneIdAliases([{
+      sourceFile: 'dorian-00-preface.txt',
+      relativePath: aliasedProductSceneId,
+    }]),
+  });
+  assert.equal(aliasBinding.ok, true);
+  assert.deepEqual(aliasBinding.exactApplyTextChangeIdsByScene, { [aliasedProductSceneId]: ['aliased-change-1'] });
+
   const duplicate = canary.bindC5V2ExpectedExactTextCandidates({
     expectedOperations,
     activationSummary: {

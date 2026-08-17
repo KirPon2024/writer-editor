@@ -3422,6 +3422,7 @@ function docxReviewPreviewSessionBuildFullManuscriptBlockScopeResolver(exportMap
   const byParaId = new Map();
   const byTextId = new Map();
   const byBookmarkName = new Map();
+  const byDocumentParagraphIndex = new Map();
   const scenes = Array.isArray(exportMap?.scenes) ? exportMap.scenes : [];
   // EXPORT-01 (P0-20): no synthesis. The resolver admits ONLY declared signals
   // (w14ParaIdTextId and bookmarkName wordSignals). A DOCX bookmark that does
@@ -3433,6 +3434,9 @@ function docxReviewPreviewSessionBuildFullManuscriptBlockScopeResolver(exportMap
     const blocks = Array.isArray(scene?.blocks) ? scene.blocks : [];
     for (const block of blocks) {
       const targetScope = { type: 'scene', id: sceneId };
+      if (Number.isSafeInteger(block?.documentParagraphIndex) && block.documentParagraphIndex >= 0) {
+        byDocumentParagraphIndex.set(block.documentParagraphIndex, targetScope);
+      }
       const signals = Array.isArray(block?.wordSignals) ? block.wordSignals : [];
       for (const signal of signals) {
         if (!isPlainObject(signal)) continue;
@@ -3454,10 +3458,16 @@ function docxReviewPreviewSessionBuildFullManuscriptBlockScopeResolver(exportMap
     const bookmarkNames = Array.isArray(signal.bookmarkNames)
       ? signal.bookmarkNames.map((name) => normalizeString(name).toLowerCase()).filter(Boolean)
       : [];
+    const documentParagraphIndex = Number.isSafeInteger(signal.documentParagraphIndex)
+      ? signal.documentParagraphIndex
+      : (Number.isSafeInteger(signal.paragraphIndex) ? signal.paragraphIndex : null);
     if (paraId && byParaId.has(paraId)) return byParaId.get(paraId);
     if (textId && byTextId.has(textId)) return byTextId.get(textId);
     for (const bookmarkName of bookmarkNames) {
       if (byBookmarkName.has(bookmarkName)) return byBookmarkName.get(bookmarkName);
+    }
+    if (documentParagraphIndex !== null && byDocumentParagraphIndex.has(documentParagraphIndex)) {
+      return byDocumentParagraphIndex.get(documentParagraphIndex);
     }
     return null;
   };
@@ -5192,6 +5202,44 @@ function docxReviewPreviewSessionTargetScopeOrDefault(targetScope) {
   return docxReviewPreviewSessionTargetScope(targetScope);
 }
 
+function returnEvidenceRevisionParagraphSignal(revision) {
+  const anchorLocator = isPlainObject(revision?.anchorLocator) ? revision.anchorLocator : {};
+  const paragraphSignal = isPlainObject(revision?.paragraphSignal) ? revision.paragraphSignal : {};
+  const bookmarkNames = [
+    ...(Array.isArray(anchorLocator.bookmarkNames) ? anchorLocator.bookmarkNames : []),
+    ...(Array.isArray(paragraphSignal.bookmarkNames) ? paragraphSignal.bookmarkNames : []),
+    ...(Array.isArray(revision?.bookmarkNames) ? revision.bookmarkNames : []),
+  ].map(normalizeString).filter(Boolean);
+  const documentParagraphIndex = Number.isSafeInteger(revision?.documentParagraphIndex)
+    ? revision.documentParagraphIndex
+    : (Number.isSafeInteger(revision?.paragraphIndex) ? revision.paragraphIndex : null);
+  return {
+    paraId: normalizeString(anchorLocator.paraId || paragraphSignal.paraId || revision?.paraId),
+    textId: normalizeString(anchorLocator.textId || paragraphSignal.textId || revision?.textId),
+    bookmarkNames,
+    documentParagraphIndex,
+    paragraphIndex: documentParagraphIndex,
+  };
+}
+
+function returnEvidenceFullManuscriptRevisionAuthority(revision, fallbackTargetScope, options = {}) {
+  const revisionTargetScope = isPlainObject(revision?.targetScope)
+    ? revision.targetScope
+    : fallbackTargetScope;
+  const targetScope = docxReviewPreviewSessionTargetScopeOrDefault(revisionTargetScope);
+  if (!isPlainObject(options.fullManuscriptExportMap) || typeof options.fullManuscriptScopeResolver !== 'function') {
+    return { targetScope, resolved: false };
+  }
+  const resolvedTargetScope = options.fullManuscriptScopeResolver(returnEvidenceRevisionParagraphSignal(revision));
+  if (!resolvedTargetScope || resolvedTargetScope.type !== 'scene' || !normalizeString(resolvedTargetScope.id)) {
+    return { targetScope, resolved: false };
+  }
+  return {
+    targetScope: docxReviewPreviewSessionTargetScopeOrDefault(resolvedTargetScope),
+    resolved: true,
+  };
+}
+
 // Map a parser TextRevision (namespace-aware, from the packet projection) to
 // the candidate reviewPacket.textChanges shape consumed by the preview session
 // + the non-overlap tracked-replacement product path. This is the parity
@@ -5199,9 +5247,8 @@ function docxReviewPreviewSessionTargetScopeOrDefault(targetScope) {
 // legacy literal-w tokenizer produced, without a second parse.
 function returnEvidenceTextChangeFromRevision(revision, options = {}) {
   const fallbackTargetScope = docxReviewPreviewSessionTargetScopeOrDefault(options.targetScope);
-  const targetScope = docxReviewPreviewSessionTargetScopeOrDefault(
-    isPlainObject(revision?.targetScope) ? revision.targetScope : fallbackTargetScope,
-  );
+  const authority = returnEvidenceFullManuscriptRevisionAuthority(revision, fallbackTargetScope, options);
+  const targetScope = authority.targetScope;
   const operation = normalizeString(revision?.operation);
   const kind = operation === 'insert' ? 'insert' : (operation === 'delete' ? 'delete' : 'replace');
   const text = normalizeString(revision?.text);
@@ -5232,6 +5279,17 @@ function returnEvidenceTextChangeFromRevision(revision, options = {}) {
 function returnEvidenceTextChangesFromProjection(projection, options = {}) {
   const revisions = Array.isArray(projection?.textRevisions) ? projection.textRevisions : [];
   const fallbackTargetScope = docxReviewPreviewSessionTargetScopeOrDefault(options.targetScope);
+  const fullManuscriptExportMap = isPlainObject(options.fullManuscriptExportMap)
+    ? options.fullManuscriptExportMap
+    : null;
+  const fullManuscriptScopeResolver = fullManuscriptExportMap
+    ? docxReviewPreviewSessionBuildFullManuscriptBlockScopeResolver(fullManuscriptExportMap)
+    : null;
+  const authorityOptions = {
+    ...options,
+    fullManuscriptExportMap,
+    fullManuscriptScopeResolver,
+  };
   const textChanges = [];
   for (let index = 0; index < revisions.length; index += 1) {
     const current = revisions[index];
@@ -5247,9 +5305,27 @@ function returnEvidenceTextChangesFromProjection(projection, options = {}) {
     if (isReplacementPair) {
       const deletedText = currentOp === 'delete' ? normalizeString(current.text) : normalizeString(next.text);
       const insertedText = currentOp === 'insert' ? normalizeString(current.text) : normalizeString(next.text);
-      const targetScope = docxReviewPreviewSessionTargetScopeOrDefault(
-        isPlainObject(current?.targetScope) ? current.targetScope : fallbackTargetScope,
+      const currentAuthority = returnEvidenceFullManuscriptRevisionAuthority(
+        current,
+        fallbackTargetScope,
+        authorityOptions,
       );
+      const nextAuthority = returnEvidenceFullManuscriptRevisionAuthority(
+        next,
+        fallbackTargetScope,
+        authorityOptions,
+      );
+      const sameResolvedScope = currentAuthority.resolved === true
+        && nextAuthority.resolved === true
+        && currentAuthority.targetScope.type === nextAuthority.targetScope.type
+        && currentAuthority.targetScope.id === nextAuthority.targetScope.id;
+      const fullManuscriptSceneBound = sameResolvedScope
+        && currentAuthority.targetScope.type === 'scene'
+        && Boolean(currentAuthority.targetScope.id)
+        && Boolean(deletedText)
+        && Boolean(insertedText)
+        && !insertedText.includes(deletedText);
+      const targetScope = currentAuthority.targetScope;
       const createdAt = normalizeString(current?.date || next?.date || options.createdAt);
       const changeHash = revisionBlockHash({
         kind: 'replace',
@@ -5262,14 +5338,20 @@ function returnEvidenceTextChangesFromProjection(projection, options = {}) {
       textChanges.push({
         changeId: `docx-tracked-replace-${changeHash.slice(0, 16)}`,
         targetScope,
-        match: { kind: 'manual', quote: deletedText, prefix: '', suffix: '' },
+        match: { kind: fullManuscriptSceneBound ? 'exact' : 'manual', quote: deletedText, prefix: '', suffix: '' },
         replacementText: insertedText,
         createdAt,
+        ...(fullManuscriptSceneBound
+          ? {
+              sourceAuthority: 'full-manuscript-export-map-paragraph-signal',
+              typedUnsupportedSiblingsRemainPending: true,
+            }
+          : {}),
       });
       index += 1;
       continue;
     }
-    textChanges.push(returnEvidenceTextChangeFromRevision(current, options));
+    textChanges.push(returnEvidenceTextChangeFromRevision(current, authorityOptions));
   }
   return textChanges;
 }
@@ -5331,7 +5413,14 @@ export function buildDocxReviewPreviewSessionCandidateFromEvidence(packet, optio
   const targetScope = docxReviewPreviewSessionTargetScopeOrDefault(options.targetScope);
   const createdAt = normalizeString(options.createdAt);
   const projection = isPlainObject(packet?.returnedProjection) ? packet.returnedProjection : {};
-  const textChanges = returnEvidenceTextChangesFromProjection(projection, { targetScope, createdAt });
+  const fullManuscriptExportMap = isPlainObject(options.fullManuscriptExportMap)
+    ? options.fullManuscriptExportMap
+    : null;
+  const textChanges = returnEvidenceTextChangesFromProjection(projection, {
+    targetScope,
+    createdAt,
+    fullManuscriptExportMap,
+  });
   const commentThreads = returnEvidenceCommentThreadsFromProjection(projection);
   const structuralChanges = Array.isArray(projection?.structureChanges)
     ? projection.structureChanges.map((change) => {
@@ -5444,9 +5533,6 @@ export function buildDocxReviewPreviewSessionCandidateFromEvidence(packet, optio
   const hasReviewGraphCandidate = commentThreads.length > 0
     || textChanges.length > 0
     || structuralChanges.length > 0;
-  const fullManuscriptExportMap = isPlainObject(options.fullManuscriptExportMap)
-    ? options.fullManuscriptExportMap
-    : null;
   if (!hasReviewGraphCandidate) {
     const diagnosticOnlyReviewPacket = diagnostics.length > 0
       ? docxReviewPreviewSessionEmptyReviewPacket()
@@ -5632,7 +5718,6 @@ export function buildDocxReviewPreviewSessionCandidateFromEvidence(packet, optio
   reviewPacket.textChanges = textChanges;
   reviewPacket.structuralChanges = structuralChanges;
   reviewPacket.diagnosticItems = diagnostics;
-  void fullManuscriptExportMap;
   const sourceHash = revisionBlockHash({
     schemaVersion: DOCX_REVIEW_PREVIEW_SESSION_CANDIDATE_SCHEMA,
     reviewPacket,

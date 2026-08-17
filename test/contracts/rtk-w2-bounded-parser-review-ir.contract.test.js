@@ -123,6 +123,8 @@ const ALLOWLIST = [
   'src/export/docx/fullManuscriptDocxReviewPacketSource.js',
   'src/io/revisionBridge/reviewTransportPackageParserV2.mjs',
   'test/contracts/rtk-g0b-feasibility.contract.test.js',
+  'test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js',
+  'test/contracts/revision-bridge-docx-review-preview-session.contract.test.js',
   'test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js',
   TEST_PATH,
   'test/contracts/rtk-w3-exact-apply-replay.contract.test.js',

@@ -6486,12 +6486,12 @@
     },
     {
       "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "bebe66a31b9ef39bd34dfe3c13a6bf4548b176f21a85a333a7e69b441da99ed4",
-      "approvedBy": "owner-direct:TASK_ID:GENERIC-01_CREATE_ONLY_IMPORT",
-      "approvedAtUtc": "2026-08-09T06:25:17.945Z",
-      "rationale": "Approve GENERIC-01 raw-bytes SHA-256 artifact identity, bounded custom-properties extraction, and explicit YRTK2 carrier-ignored classification with typed reason on the generic route.",
+      "sha256": "610636e738a94d7f8eb4988b78b86279eec603c8e0fbb50d20aabc94979976e2",
+      "approvedBy": "owner-standing-grant:TASK_ID:C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T02:21:21.000Z",
+      "rationale": "Approve C1 bridge runtime repair: authenticated full-book return carriers bind exact replacements to product authority, while unbound or legacy preview paths stay fail-closed and cannot become safe apply authority.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_GENERIC01_CREATE_ONLY_IMPORT"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_C1_RETURN_INTAKE_AUTHORITY_REPAIR"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportApplyStore.mjs",
@@ -7533,12 +7533,12 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-review-preview-session.contract.test.js",
-      "sha256": "5cbe4495bd6526d9ab78a1fe13bbc4127ee03d5084cb81f011f1c7d41e20a128",
-      "approvedBy": "owner-direct:TASK_ID:EXPORT-01_UNIFIED_BOOKMARK",
-      "approvedAtUtc": "2026-08-08T18:47:22.199Z",
-      "rationale": "Approve EXPORT-01 resolver name re-pin to the unified declared bookmark signal in the preview-session contract; tests only.",
+      "sha256": "07e0c1b82e9140ff101696648c16f9a54329faba646f9956c21c27d41f0fa6b2",
+      "approvedBy": "owner-standing-grant:TASK_ID:C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T02:21:21.000Z",
+      "rationale": "Approve C1 bridge-session regression coverage: exact replacement authority is admitted only from authenticated full-book carriers and legacy preview fallback cannot impersonate safe product apply.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EXPORT01_UNIFIED_BOOKMARK"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_C1_RETURN_INTAKE_AUTHORITY_REPAIR"
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-zip-inventory-materializer.contract.test.js",
@@ -7792,21 +7792,21 @@
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-full-manuscript-product-export.contract.test.js",
-      "sha256": "ad8afb8f27339f13bd20f7069a389d64255ab2e94283d2611c6567bb3a027c1a",
-      "approvedBy": "owner-standing-grant:TASK_ID:C1_WORD_RETURN_AUTHORITY_AND_PROFILE_BINDING_REPAIR_V1",
-      "approvedAtUtc": "2026-08-15T13:48:00.000Z",
-      "rationale": "Approve bounded full-book Word product-export contract hardening: Word 16.112 provider profile is recorded in export, local authority, expected authority, manifests, parser profile digest, and C01 payload; the historical 16.111.x product profile is explicitly not carried forward.",
+      "sha256": "c503a976b1f340087e4788c1751f7a5f06ef5393db137f9f78c0630d3a992463",
+      "approvedBy": "owner-standing-grant:TASK_ID:C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T02:21:21.000Z",
+      "rationale": "Approve C1 full-manuscript regression coverage: review-round activation must publish with the bridge-store CAS digest and fail closed if the pending round cannot transition to active.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_C1_REPAIR"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_C1_RETURN_INTAKE_AUTHORITY_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-noop-baseline.contract.test.js",
-      "sha256": "c9fbe6c1d3e77eb9e7685971bbce7726d4fd1860bebb081b6b72ade4ab8c6e2e",
-      "approvedBy": "owner-standing-grant:TASK_ID:C1_WORD_WINDOW_ARTIFACT_PUBLICATION_BLOCKER_REPAIR_V1",
-      "approvedAtUtc": "2026-08-15T16:05:00.000Z",
-      "rationale": "Approve red-first contract coverage for the C1 Word window/artifact repair: object-model preflight may run without may-open UI window, returned-ready false fails closed, and missing artifact errors cannot be laundered into PASS.",
+      "sha256": "6eada8d95d5a27dab6eb0f6c3d04dd7b794a78afe8a8ba6d51c6fd328877f9f7",
+      "approvedBy": "owner-standing-grant:TASK_ID:C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T02:21:21.000Z",
+      "rationale": "Approve C1 noop-baseline regression coverage: corpus scene identifiers bind to canonical product scene paths without weakening quote or replacement hash requirements.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_C1_REPAIR"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_C1_RETURN_INTAKE_AUTHORITY_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-root-comment-return-runtime.contract.test.js",
@@ -9312,12 +9312,12 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "cbf1240f37b1d3d2dc5f5940e0f02663c5737cb427aec679b3b6b6ad0871e34b",
-      "approvedBy": "owner-standing-grant:TASK_ID:C1_WORD_WINDOW_ARTIFACT_PUBLICATION_BLOCKER_REPAIR_V1",
-      "approvedAtUtc": "2026-08-15T16:05:00.000Z",
-      "rationale": "Approve bounded harness repair: non-UI Word object-model preflight no longer requires a visible UI window, returned-ready evaluation fails closed before artifact timeout laundering, and product/runtime/UI semantics remain unchanged.",
+      "sha256": "0a9612afe0229124af33a4b5160481693bec9f3169e8b56914584bc41432ab00",
+      "approvedBy": "owner-standing-grant:TASK_ID:C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T02:21:21.000Z",
+      "rationale": "Approve C1 return-intake authority carrier repair: physical canary binds authenticated exact-text candidates across corpus/product scene id aliases and preserves fail-closed authority behavior for hidden or unbound carriers.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_C1_REPAIR"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_C1_RETURN_INTAKE_AUTHORITY_REPAIR"
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-terminal-orchestrator.mjs",
@@ -11040,12 +11040,12 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
-      "sha256": "de353862b40fb1ea8989c4684e9cb845d126879930ebae2ec58cbe68607e92c0",
-      "rationale": "Approve preserved command-surface contract bytes from the recovered C1 return-intake authority carrier repair: encoded carrier proof and verifier presence are required before Product intake authority.",
-      "approvedBy": "owner-standing-grant:TASK_ID:C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1:CI_SHALLOW_RECOVERY_PARENT_BINDING",
-      "approvedAtUtc": "2026-08-16T13:35:00.000Z",
+      "sha256": "8cdb86e758bd1000eda98df9b73d5634eaac2e4a487a75039608b747ac35c97d",
+      "rationale": "Approve C1 command-surface regression coverage: authenticated return intake remains bound to exact replacements while unbound, hidden, timeout, and legacy fallback paths stay fail-closed.",
+      "approvedBy": "owner-standing-grant:TASK_ID:C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T02:21:21.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_C1_DELIVERY_CI_REPAIR"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_C1_RETURN_INTAKE_AUTHORITY_REPAIR"
     },
     {
       "filePath": "scripts/ops/rtk-release-claim-compiler-v0.mjs",
@@ -11141,39 +11141,39 @@
     },
     {
       "filePath": "test/contracts/rtk-g0b-feasibility.contract.test.js",
-      "sha256": "ffbb65b6a056d846f40df479a9b961b7fdf83278e50284980c8169b3b65d5814",
-      "rationale": "Approve R4 allowlist rebind only: G0B dirty-tree scope guard admits the exact release-claim publication artifacts while preserving feasibility boundaries, outside-path negative checks, NEEDS_MORE_EVIDENCE, and denying runtime/UI/provider/import/apply/release authority.",
-      "approvedBy": "owner-standing-grant:TASK_ID:R4_EXACT_HEAD_CLAIM_PUBLICATION_V1",
-      "approvedAtUtc": "2026-08-16T19:20:00.000Z",
+      "sha256": "4c52059426a9a814075198d29ea2779e0a48aa9b9b857875d4de7d676c58ca77",
+      "rationale": "Approve C1 allowlist rebind only: G0B dirty-tree scope guard admits the exact review-preview proof-carrier contract files required for return-intake authority authentication while preserving feasibility boundaries, outside-path negative checks, NEEDS_MORE_EVIDENCE, and denying runtime/UI/provider/import/apply/release authority.",
+      "approvedBy": "owner-standing-grant:TASK_ID:C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T02:21:21.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_PUBLICATION"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_C1_RETURN_INTAKE_AUTHORITY_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",
-      "sha256": "89e2030f4a7d3c97542ac828ce3db4d567bcec4f57220e80a99fd12bd6943249",
-      "rationale": "Approve R4 allowlist rebind only: W1 dirty-tree scope guard admits the exact release-claim publication artifacts while preserving no-write vertical slice semantics, outside-path negative checks, NEEDS_MORE_EVIDENCE, and denying runtime/UI/provider/import/apply/release authority.",
-      "approvedBy": "owner-standing-grant:TASK_ID:R4_EXACT_HEAD_CLAIM_PUBLICATION_V1",
-      "approvedAtUtc": "2026-08-16T19:20:00.000Z",
+      "sha256": "1524ab6b61bd1173727ab45c07f867977fdd50a976e8a068abb6d84204080ae4",
+      "rationale": "Approve C1 allowlist rebind only: W1 dirty-tree scope guard admits the exact review-preview proof-carrier contract files required for return-intake authority authentication while preserving no-write vertical slice semantics, outside-path negative checks, NEEDS_MORE_EVIDENCE, and denying runtime/UI/provider/import/apply/release authority.",
+      "approvedBy": "owner-standing-grant:TASK_ID:C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T02:31:14.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_PUBLICATION"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_C1_RETURN_INTAKE_AUTHORITY_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js",
-      "sha256": "f02ecf719b4a18220c746bb9012b8a7746b8c6310ef6547b342cfa32257c19dc",
-      "rationale": "Approve R4 allowlist rebind only: W2 dirty-tree scope guard admits the exact release-claim publication artifacts while preserving parser ReviewIR boundaries, outside-path negative checks, NEEDS_MORE_EVIDENCE, and denying runtime/UI/provider/import/apply/release authority.",
-      "approvedBy": "owner-standing-grant:TASK_ID:R4_EXACT_HEAD_CLAIM_PUBLICATION_V1",
-      "approvedAtUtc": "2026-08-16T19:20:00.000Z",
+      "sha256": "f6fe95965b2ea54c0a534eb95ad673ad0bcabb7d2a487e2d9343c1e1a0b45e5b",
+      "rationale": "Approve C1 allowlist rebind only: W2 dirty-tree scope guard admits the exact review-preview proof-carrier contract files required for return-intake authority authentication while preserving parser ReviewIR boundaries, outside-path negative checks, NEEDS_MORE_EVIDENCE, and denying runtime/UI/provider/import/apply/release authority.",
+      "approvedBy": "owner-standing-grant:TASK_ID:C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T02:31:14.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_PUBLICATION"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_C1_RETURN_INTAKE_AUTHORITY_REPAIR"
     },
     {
       "filePath": "test/contracts/rtk-zip01-budget-crc-evidence.contract.test.js",
-      "sha256": "875fa1b8e4ced4d8d104e2a93948d0a1abb383c8ce02584dac1de57cced056b7",
-      "rationale": "Approve R4 allowlist rebind only: ZIP01 dirty-tree scope guard admits the exact release-claim publication artifacts while preserving ZIP CRC semantics, outside-path negative checks, NEEDS_MORE_EVIDENCE, and denying runtime/UI/provider/import/apply/release authority.",
-      "approvedBy": "owner-standing-grant:TASK_ID:R4_EXACT_HEAD_CLAIM_PUBLICATION_V1",
-      "approvedAtUtc": "2026-08-16T19:20:00.000Z",
+      "sha256": "f32658d3039161b6c0f6a7aa498f4691e2b0976a644553c4507bc124e5ea46bc",
+      "rationale": "Approve C1 allowlist rebind only: ZIP01 dirty-tree scope guard admits the exact review-preview proof-carrier contract files required for return-intake authority authentication while preserving ZIP CRC semantics, outside-path negative checks, NEEDS_MORE_EVIDENCE, and denying runtime/UI/provider/import/apply/release authority.",
+      "approvedBy": "owner-standing-grant:TASK_ID:C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T02:31:14.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_PUBLICATION"
+      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_C1_RETURN_INTAKE_AUTHORITY_REPAIR"
     },
     {
       "filePath": ".github/workflows/rtk-required.yml",

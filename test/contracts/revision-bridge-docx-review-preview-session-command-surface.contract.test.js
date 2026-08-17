@@ -1555,6 +1555,112 @@ test('DOCX review preview session command: full-manuscript return exposes only e
   assert.match(capabilitySource, /cmd\.project\.review\.applyFullManuscriptExactTextReturn/u);
 });
 
+test('DOCX review preview session command: current-profile YRTK carrier authenticates full-manuscript packet and exposes exact lane', async () => {
+  const {
+    buildFullManuscriptDocxReviewPacketSource,
+  } = require(path.join(REPO_ROOT, 'src', 'export', 'docx', 'fullManuscriptDocxReviewPacketSource.js'));
+  const revisionBridge = await loadBridge();
+  const sceneId = 'roman/current-profile-c1.txt';
+  const sceneText = 'Alpha beta gamma.';
+  const fullSource = buildFullManuscriptDocxReviewPacketSource({
+    projectId: 'project-c1-current-profile',
+    projectRoot: '/project',
+    manifestPath: '/project/manifest.json',
+    scenes: [
+      {
+        sceneId,
+        scenePath: `/project/${sceneId}`,
+        text: sceneText,
+        order: 0,
+      },
+    ],
+  }, {
+    roundIdHex: 'c1000000000000000000000000000001',
+    keyIdHex: 'c1000000000000000000000000000002',
+    hmacSecret: 'local-secret-for-c1-current-profile',
+    cryptoPort: c05CryptoPort,
+    revisionBridge,
+  });
+  fullSource.localAuthorityCapsule.keyRef = importTestRoundKeyRef(
+    fullSource.localAuthorityCapsule.roundId,
+    fullSource.localAuthorityCapsule.hmacSecret,
+  );
+  fullSource.localAuthorityCapsule.lifecycleState = 'PUBLISHED_ACTIVE';
+  const returnedBytes = cleanDocxZip([
+    '<w:p>',
+    '<w:r><w:t>Alpha </w:t></w:r>',
+    '<w:del w:id="1"><w:r><w:delText>beta</w:delText></w:r></w:del>',
+    '<w:ins w:id="2"><w:r><w:t>delta</w:t></w:r></w:ins>',
+    '<w:r><w:t> gamma.</w:t></w:r>',
+    '</w:p>',
+  ].join(''), [
+    {
+      name: '[Content_Types].xml',
+      method: 8,
+      body: productContentTypesXml({ includeComments: false }),
+    },
+    {
+      name: '_rels/.rels',
+      method: 8,
+      body: productRootRelsXml(),
+    },
+    {
+      name: 'docProps/custom.xml',
+      method: 8,
+      body: customPropertiesXml([
+        { name: 'YRTK_C01_AUTH', value: customPropertyFromSource(fullSource, 'YRTK_C01_AUTH') },
+        { name: 'YRTK2_TOKEN', value: customPropertyFromSource(fullSource, 'YRTK2_TOKEN') },
+        { name: 'YRTK_CORE_DIGEST', value: fullSource.localAuthorityCapsule.coreManifestDigest },
+      ]),
+    },
+  ]);
+  const port = instantiateDocxReviewPreviewSessionPort({
+    dispatchCommandSurfaceKernel: async () => {
+      throw new Error('current-profile intake preview must not dispatch without explicit apply');
+    },
+  });
+
+  const result = await port.handleDocxReviewPreviewSessionActivationCommandSurface(
+    toPayload(returnedBytes),
+    {
+      activeReviewDocxExportAuthorityStore: {
+        schemaVersion: 'yalken.rtk.word.product-review-docx-export.authority-store.v1',
+        scope: 'full-manuscript',
+        lastRoundId: fullSource.localAuthorityCapsule.roundId,
+        roundsById: {
+          [fullSource.localAuthorityCapsule.roundId]: fullSource.localAuthorityCapsule,
+        },
+        secretExposedToRenderer: false,
+      },
+      buildMainReviewContext: async () => reviewContext({
+        projectId: 'project-c1-current-profile',
+        projectRoot: '/project',
+        scenePath: `/project/${sceneId}`,
+        sceneText,
+        targetScope: { type: 'scene', id: sceneId },
+      }),
+      buildRtkNonOverlapTrackedReplacementApplyInput: async () => null,
+    },
+  );
+
+  assert.equal(result.ok, true, JSON.stringify(result, null, 2));
+  assert.equal(result.returnIntake.authenticated, true);
+  assert.equal(result.returnIntake.status, 'authenticated-return-ir-ready');
+  assert.equal(result.returnIntake.authorityCarrierStatus, 'verified-baseline-bound');
+  assert.equal(result.returnIntake.fullManuscriptExportMapTransport.present, true);
+  assert.equal(result.returnIntake.fullManuscriptExportMapTransport.returnedArtifactExportMapAccepted, false);
+  assert.equal(result.returnIntake.counts.textRevisions, 2);
+  const textChanges = result.reviewSurface.revisionSession.reviewGraph.textChanges;
+  assert.equal(textChanges.length, 1);
+  assert.deepEqual(textChanges[0].targetScope, { type: 'scene', id: sceneId });
+  assert.equal(textChanges[0].match.kind, 'exact');
+  assert.equal(textChanges[0].match.quote, 'beta');
+  assert.equal(textChanges[0].replacementText, 'delta');
+  assert.equal(result.canAutoApply, false);
+  assert.equal(result.canImportMutate, false);
+  assert.equal(result.canWriteStorage, false);
+});
+
 test('DOCX review preview session command: authenticated return IR drives visible preview explicit apply and replay', async () => {
   const docx = productReviewDocxWithTrackedReplacement();
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-rtk-p0-return-loop-'));
@@ -2205,6 +2311,48 @@ test('DOCX review preview session command: product carrier without local round s
   assert.equal(result.ok, false);
   assert.equal(result.error.code, 'E_DOCX_REVIEW_PREVIEW_SESSION_RETURN_INTAKE_BLOCKED');
   assert.equal(result.error.reason, 'RTK_RETURN_INTAKE_FOREIGN_OR_EXPIRED_ROUND');
+  assert.equal(port.getState().activeReviewSessionLifecycle, 'passive');
+});
+
+test('DOCX review preview session command: typed worker failure does not downgrade product carrier to legacy preview', async () => {
+  const docx = productReviewDocxWithAnchoredComment();
+  let dispatchCount = 0;
+  const port = instantiateDocxReviewPreviewSessionPort({
+    dispatchCommandSurfaceKernel: async () => {
+      dispatchCount += 1;
+      return { ok: false, code: 'UNEXPECTED_DISPATCH' };
+    },
+  });
+  const result = await port.handleDocxReviewPreviewSessionActivationCommandSurface(
+    toPayload(docx.bytes),
+    {
+      activeReviewDocxExportAuthorityStore: productAuthorityStoreFromDocx(docx),
+      runDocxReviewReturnIntakeInUtilityProcess: async () => ({
+        ok: false,
+        status: 'blocked',
+        code: 'RTK_RETURN_INTAKE_UTILITY_PROCESS_TIMEOUT',
+        reason: 'RTK_RETURN_INTAKE_UTILITY_PROCESS_TIMEOUT',
+        canOpenReviewSession: false,
+        canAutoApply: false,
+        canImportMutate: false,
+        canWriteStorage: false,
+        utilityProcess: {
+          requiredForProduct: true,
+          attempted: true,
+          mode: 'electron-utility-process',
+        },
+      }),
+      buildMainReviewContext: async () => reviewContext({
+        scenePath: '/project/roman/imported/scene-1.txt',
+        sceneText: 'Anchored text',
+      }),
+    },
+  );
+
+  assert.equal(result.ok, false, JSON.stringify(result, null, 2));
+  assert.equal(result.error.code, 'E_DOCX_REVIEW_PREVIEW_SESSION_RETURN_INTAKE_BLOCKED');
+  assert.equal(result.error.reason, 'RTK_RETURN_INTAKE_UTILITY_PROCESS_TIMEOUT');
+  assert.equal(dispatchCount, 0);
   assert.equal(port.getState().activeReviewSessionLifecycle, 'passive');
 });
 

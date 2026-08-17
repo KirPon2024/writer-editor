@@ -114,6 +114,7 @@ const C4_ALLOWLIST = [
 ];
 const N4_STRUCTURAL_RETURN_ALLOWLIST = [
   'scripts/ops/rtk-word-c5v2-physical-canary.mjs',
+  'scripts/ops/rtk-word-c5v2-terminal-orchestrator.mjs',
   'src/command/commandSurfaceKernel.js',
   'src/io/revisionBridge/index.mjs',
   'src/io/revisionBridge/reviewTransportStructuralReturnRuntime.mjs',
@@ -123,6 +124,7 @@ const N4_STRUCTURAL_RETURN_ALLOWLIST = [
   'test/contracts/rtk-word-c5v2-comment-lifecycle-return-runtime.contract.test.js',
   'test/contracts/rtk-word-c5v2-pr1414-audit-hold-repair.contract.test.js',
   'test/contracts/rtk-word-c5v2-round-checkpoint.contract.test.js',
+  'test/contracts/rtk-word-c5v2-terminal-orchestrator.contract.test.js',
   'test/contracts/rtk-word-n3-formatting-return.contract.test.js',
   'test/contracts/rtk-word-n4-structural-return.contract.test.js',
 ];

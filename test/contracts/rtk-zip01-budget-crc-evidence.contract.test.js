@@ -39,6 +39,7 @@ const ALLOWLIST = [
   'scripts/ops/rtk-release-claim-compiler-v0.mjs',
   'src/export/docx/fullManuscriptDocxReviewPacketSource.js',
   'scripts/ops/rtk-word-c5v2-physical-canary.mjs',
+  'scripts/ops/rtk-word-c5v2-terminal-orchestrator.mjs',
   'test/contracts/rtk-google-docs-real-account-e2e.contract.test.js',
   'test/contracts/rtk-google-docs-real-account-whole-book-e2e.contract.test.js',
   'test/contracts/rtk-release-applicability-invalidation-graph-v1.contract.test.js',
@@ -54,6 +55,9 @@ const ALLOWLIST = [
   'test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js',
   'test/contracts/rtk-word-c5v2-noop-baseline.contract.test.js',
   'test/contracts/rtk-word-c5v2-comment-lifecycle-return-runtime.contract.test.js',
+  'test/contracts/rtk-word-c5v2-pr1414-audit-hold-repair.contract.test.js',
+  'test/contracts/rtk-word-c5v2-round-checkpoint.contract.test.js',
+  'test/contracts/rtk-word-c5v2-terminal-orchestrator.contract.test.js',
   // ZIP-01 Pass 2 write-set (7 implementation files + materializer contract).
   'src/io/revisionBridge/reviewTransportZipEvidenceV1.mjs',
   'src/io/revisionBridge/index.mjs',

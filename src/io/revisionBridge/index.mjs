@@ -4563,6 +4563,7 @@ function docxReviewPreviewSessionTrackedTextChange(kind, revisions, options = {}
   const createdAt = revisions
     .map((revision) => normalizeString(revision.createdAt))
     .find(Boolean) || normalizeString(options.createdAt);
+  const operationId = docxReviewPreviewSessionOperationIdFromRevisions(revisions);
   const deletedText = revisions
     .filter((revision) => revision.kind === 'delete')
     .map((revision) => revision.text)
@@ -4597,11 +4598,36 @@ function docxReviewPreviewSessionTrackedTextChange(kind, revisions, options = {}
     replacementText: insertedText,
     createdAt,
   };
+  if (operationId) change.operationId = operationId;
   if (fullManuscriptSceneBound) {
     change.sourceAuthority = 'full-manuscript-export-map-paragraph-signal';
     change.typedUnsupportedSiblingsRemainPending = true;
   }
   return change;
+}
+
+const DOCX_REVIEW_PREVIEW_OPERATION_AUTHOR_PREFIX = 'Yalken C5V2 OP ';
+const DOCX_REVIEW_PREVIEW_OPERATION_ID_PATTERN = /^[a-z0-9][a-z0-9_-]{0,127}$/iu;
+
+function docxReviewPreviewSessionOperationIdFromAuthor(author) {
+  const value = normalizeString(author);
+  if (!value.startsWith(DOCX_REVIEW_PREVIEW_OPERATION_AUTHOR_PREFIX)) return '';
+  const operationId = value.slice(DOCX_REVIEW_PREVIEW_OPERATION_AUTHOR_PREFIX.length).trim();
+  return DOCX_REVIEW_PREVIEW_OPERATION_ID_PATTERN.test(operationId) ? operationId : '';
+}
+
+function docxReviewPreviewSessionOperationIdFromRevision(revision) {
+  if (!isPlainObject(revision)) return '';
+  const author = normalizeString(revision.author || revision.authorId || revision.authorPersonIdentity?.author);
+  return docxReviewPreviewSessionOperationIdFromAuthor(author);
+}
+
+function docxReviewPreviewSessionOperationIdFromRevisions(revisions) {
+  const ids = (Array.isArray(revisions) ? revisions : [])
+    .map((revision) => docxReviewPreviewSessionOperationIdFromRevision(revision));
+  if (ids.length === 0 || ids.some((id) => !id)) return '';
+  const uniqueIds = [...new Set(ids)];
+  return uniqueIds.length === 1 ? uniqueIds[0] : '';
 }
 
 function docxReviewPreviewSessionTrackedStructuralChange(kind, summary, options = {}) {
@@ -5276,6 +5302,8 @@ function returnEvidenceTextChangeFromRevision(revision, options = {}) {
     replacementText: kind === 'delete' ? '' : text,
     createdAt,
   };
+  const operationId = docxReviewPreviewSessionOperationIdFromRevision(revision);
+  if (operationId) change.operationId = operationId;
   if (fullManuscriptSceneBound) {
     change.sourceAuthority = 'full-manuscript-export-map-paragraph-signal';
     change.typedUnsupportedSiblingsRemainPending = true;
@@ -5337,6 +5365,7 @@ function returnEvidenceTextChangesFromProjection(projection, options = {}) {
         && !insertedText.includes(deletedText);
       const targetScope = currentAuthority.targetScope;
       const createdAt = normalizeString(current?.date || next?.date || options.createdAt);
+      const operationId = docxReviewPreviewSessionOperationIdFromRevisions([current, next]);
       const changeHash = revisionBlockHash({
         kind: 'replace',
         paragraphIndex: current?.paragraphIndex,
@@ -5351,6 +5380,7 @@ function returnEvidenceTextChangesFromProjection(projection, options = {}) {
         match: { kind: fullManuscriptSceneBound ? 'exact' : 'manual', quote: deletedText, prefix: '', suffix: '' },
         replacementText: insertedText,
         createdAt,
+        ...(operationId ? { operationId } : {}),
         ...(fullManuscriptSceneBound
           ? {
               sourceAuthority: 'full-manuscript-export-map-paragraph-signal',

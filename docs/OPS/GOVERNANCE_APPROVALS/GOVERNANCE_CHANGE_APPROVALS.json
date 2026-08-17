@@ -6476,15 +6476,6 @@
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_TX01_SINGLE_SCENE_TRANSACTION"
     },
     {
-      "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "06faf97629e57c7aaa5a9c6827c189170311f71635090eb897c555724f38c932",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T16:25:00.000Z",
-      "rationale": "Approve bounded C1 full-manuscript packet parser repair: authenticated scene-bound standalone delete revisions become exact empty-replacement candidates, while unbound legacy inserts/deletes remain manual and cannot impersonate safe product apply authority.",
-      "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_REPAIR_V1"
-    },
-    {
       "filePath": "src/io/revisionBridge/reviewTransportApplyStore.mjs",
       "sha256": "da803df58b4b61d5747006244439b4da501963bd83733c98ab405736f3130935",
       "approvedBy": "owner-direct:TASK_ID:STOP-01_AUTHORITY_STOP",
@@ -7521,15 +7512,6 @@
       "approvedBy": "ticket:REVIEW_BRIDGE_DOCX_PREFLIGHT_001",
       "approvedAtUtc": "2026-07-01T20:35:39.000Z",
       "rationale": "Approve bounded contract proof for DOCX review preflight diagnostic-only report preserving no review session, apply, receipt, recovery, project truth write, importDocxV1 routing, dependency, network, UI, release, Word parity, or full DOCX review import claim."
-    },
-    {
-      "filePath": "test/contracts/revision-bridge-docx-review-preview-session.contract.test.js",
-      "sha256": "f45b39d74afd4f12f55b51e53e1861a508bb69a04be77623c32379a88db60c85",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T16:25:00.000Z",
-      "rationale": "Approve focused regression coverage for authenticated full-manuscript standalone delete exactness with empty replacement text while preserving no storage/apply authority and manual-only behavior without authenticated export-map binding.",
-      "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_REPAIR_V1"
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-zip-inventory-materializer.contract.test.js",
@@ -9284,15 +9266,6 @@
       "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_PHASE_C_NATIVE_LIFECYCLE"
     },
     {
-      "filePath": "scripts/ops/rtk-word-c5v2-terminal-orchestrator.mjs",
-      "sha256": "65357bcd9d4e37ec0eeb18b741b038090b8aa2d032ecae7623ce8323411838fd",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_AUTH_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T08:18:49.000Z",
-      "rationale": "Approve current C5V2 terminal orchestrator bytes after PR 1581 accepted live Word app version 16.112 while keeping build validation strict and preserving fail-closed process/orchestrator behavior; no C1 route PASS or product authority claim.",
-      "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_AUTH_REPAIR_V1"
-    },
-    {
       "filePath": "test/contracts/rtk-word-c5v2-comment-lifecycle-return-runtime.contract.test.js",
       "sha256": "c15bcceb2535e32da753e0946b43bc5f7f27ec717d38054253bc6c9aafceb5b2",
       "approvedBy": "owner-delegated:TASK_ID:C1_WORD_WINDOW_VISIBILITY_STABILITY_REPAIR_V1",
@@ -9318,24 +9291,6 @@
       "rationale": "Approve exact Phase C portfolio corpus contract bytes verifying corpus-to-native-lifecycle adapter expectations. No physical Word run, no Google work, no long campaign, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
       "approved": true,
       "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_PHASE_C_NATIVE_LIFECYCLE"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-c5v2-pr1414-audit-hold-repair.contract.test.js",
-      "sha256": "07a849508bd035c80f72e10b25ec4352c53cdaece9516e70fdc44f8ff3f1b5d2",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_PHASE_C_NATIVE_LIFECYCLE_V1",
-      "approvedAtUtc": "2026-08-06T04:07:00.000Z",
-      "rationale": "Approve exact Phase C PR1414 compatibility fixture bytes preserving deep completed-round reuse while native lifecycle inputs remain mandatory. No physical Word run, no Google work, no long campaign, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_PHASE_C_NATIVE_LIFECYCLE"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-c5v2-terminal-orchestrator.contract.test.js",
-      "sha256": "74766ff9d65f743223ded6b32702dc287a1fe1e7d2945aa3698d8890cb9c2d36",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_AUTH_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T08:18:49.000Z",
-      "rationale": "Approve current terminal orchestrator contract bytes covering two-part Word app versions, malformed version rejection, and preserved build/profile strictness after PR 1581; no production runtime semantics or route PASS claim.",
-      "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_AUTH_REPAIR_V1"
     },
     {
       "filePath": "scripts/ops/rtk-runner-v2.mjs",
@@ -10967,42 +10922,6 @@
       "authority": "OWNER_EXPLICIT_RTK_STREAMING_AND_PROCESS_CAPABILITY_REPAIR"
     },
     {
-      "filePath": "test/contracts/rtk-g0b-feasibility.contract.test.js",
-      "sha256": "117904e3581582e4d4768db378dad7a82472c30e65e8b90749749c6364a423df",
-      "rationale": "Approve post-C1 G0B ActionEnvelope rebind admitting only the RTK streaming/process-capability repair receipt alongside existing R2/R3/R4 evidence files; feasibility boundaries and no product/runtime/UI/provider/release authority remain unchanged.",
-      "approvedBy": "owner-delegated:TASK_ID:POST_C1_RTK_AND_RELEASE_EVIDENCE_REBIND_V1",
-      "approvedAtUtc": "2026-08-17T03:19:05.000Z",
-      "approved": true,
-      "authority": "OWNER_DELEGATED_POST_C1_RTK_RELEASE_EVIDENCE_REBIND"
-    },
-    {
-      "filePath": "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",
-      "sha256": "1fcf306b59b29c2e3de10eb00254aee23db84ef2a5d819ec4f4d6094b2614b38",
-      "rationale": "Approve post-C1 W1 ActionEnvelope rebind admitting only the RTK streaming/process-capability repair receipt alongside existing R2/R3/R4 evidence files; no-write vertical slice semantics and no product/runtime/UI/provider/release authority remain unchanged.",
-      "approvedBy": "owner-delegated:TASK_ID:POST_C1_RTK_AND_RELEASE_EVIDENCE_REBIND_V1",
-      "approvedAtUtc": "2026-08-17T03:19:05.000Z",
-      "approved": true,
-      "authority": "OWNER_DELEGATED_POST_C1_RTK_RELEASE_EVIDENCE_REBIND"
-    },
-    {
-      "filePath": "test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js",
-      "sha256": "73141941a0ce5ed639f38202cf50a21d736f446134557ed658190306a4680db2",
-      "rationale": "Approve post-C1 W2 ActionEnvelope rebind admitting only the RTK streaming/process-capability repair receipt alongside existing R2/R3/R4 evidence files; parser ReviewIR boundaries and no product/runtime/UI/provider/release authority remain unchanged.",
-      "approvedBy": "owner-delegated:TASK_ID:POST_C1_RTK_AND_RELEASE_EVIDENCE_REBIND_V1",
-      "approvedAtUtc": "2026-08-17T03:19:05.000Z",
-      "approved": true,
-      "authority": "OWNER_DELEGATED_POST_C1_RTK_RELEASE_EVIDENCE_REBIND"
-    },
-    {
-      "filePath": "test/contracts/rtk-zip01-budget-crc-evidence.contract.test.js",
-      "sha256": "f3ad4d09835f3eeec33bf05a5a905939df8e856a278c8a9187b6d4b3f16b4842",
-      "rationale": "Approve bounded C1 Word window visibility contour dirty-tree allowlist repair admitting the in-scope C5V2 comment lifecycle contract while preserving ZIP CRC semantics and no product/runtime/UI/provider/release/apply authority expansion.",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_WINDOW_VISIBILITY_STABILITY_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T09:23:41.000Z",
-      "approved": true,
-      "authority": "OWNER_DELEGATED_C1_WORD_WINDOW_VISIBILITY_STABILITY_REPAIR_V1"
-    },
-    {
       "filePath": ".github/workflows/rtk-required.yml",
       "sha256": "668cb579609aa6aea6193f7097eb40a51e81a5ff13227bc37b14a25dd04f5bb8",
       "rationale": "Approve narrow R4 CI correction: rtk-required checkout fetch-depth is set to 0 so exact-head ancestry verification can use Git history in PR CI instead of rolling PR-base SHA allowlists; no product runtime, provider, UI, secret, network-truth, or release authority change.",
@@ -11111,35 +11030,8 @@
       "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_RELEASE_EVIDENCE_LIVE_UPSTREAM_CHAIN_V1"
     },
     {
-      "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "c85e8f4b82b23572366ed519888c7747d9c0a18d027ba9792d6c1ce8c377a659",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T13:38:28.000Z",
-      "rationale": "Approve bounded C1 Word round-01 oracle outcome mismatch repair: source-specific blocked outcome accounting, non-green return-apply gate sealing, raw non-green candidate-authority anchor evidence, focused RED/GREEN and terminal/reuse contracts; no route PASS, no reusable authority, no UI, no dependency, no network, no user document claim.",
-      "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_REPAIR_V1"
-    },
-    {
       "filePath": "scripts/ops/rtk-word-c5v2-semantic-oracle.mjs",
       "sha256": "d177c225080b608a81300da9588b1da074ce253ce9e85437d44001942f13a5ad",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T13:38:28.000Z",
-      "rationale": "Approve bounded C1 Word round-01 oracle outcome mismatch repair: source-specific blocked outcome accounting, non-green return-apply gate sealing, raw non-green candidate-authority anchor evidence, focused RED/GREEN and terminal/reuse contracts; no route PASS, no reusable authority, no UI, no dependency, no network, no user document claim.",
-      "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_REPAIR_V1"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-c5v2-noop-baseline.contract.test.js",
-      "sha256": "6c31bab3b6403206d2c40fffefce76ba2302f978b6e19cd5571368a7aea31cc5",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T13:38:28.000Z",
-      "rationale": "Approve bounded C1 Word round-01 oracle outcome mismatch repair: source-specific blocked outcome accounting, non-green return-apply gate sealing, raw non-green candidate-authority anchor evidence, focused RED/GREEN and terminal/reuse contracts; no route PASS, no reusable authority, no UI, no dependency, no network, no user document claim.",
-      "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_REPAIR_V1"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-c5v2-round-checkpoint.contract.test.js",
-      "sha256": "814441af376210f5e8905e1419c436e33de0beac61bc74ca664706e8e3228f2d",
       "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_REPAIR_V1",
       "approvedAtUtc": "2026-08-17T13:38:28.000Z",
       "rationale": "Approve bounded C1 Word round-01 oracle outcome mismatch repair: source-specific blocked outcome accounting, non-green return-apply gate sealing, raw non-green candidate-authority anchor evidence, focused RED/GREEN and terminal/reuse contracts; no route PASS, no reusable authority, no UI, no dependency, no network, no user document claim.",
@@ -11208,6 +11100,114 @@
       "rationale": "Approve interop chain matrix focused contract update for the C1 exact-ledger blocker, apply/lifecycle/reuse blocker references, source-evidence exact binding counts, and next-contour rebinding without saturation or parity escalation.",
       "approved": true,
       "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_REUSE_GATE_REPAIR_V1"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
+      "sha256": "ccf8fd8e0132dd123bb51b3bf7058440eab494c6cffbb18c61a7a06dd3837393",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T19:23:26.000Z",
+      "rationale": "Approve C5V2 physical Word canary operation-author stamping and operationId-bound exact-ledger matching that prevents anonymous hash-only candidates from satisfying expected exact operations.",
+      "approved": true,
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-c5v2-terminal-orchestrator.mjs",
+      "sha256": "87f367f397ae0e554e9a0faf3b53cbbd71e1e4f2f954efa2778f8d6f5638062a",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T19:23:26.000Z",
+      "rationale": "Approve terminal-orchestrator candidate-authority tuple digest expansion to include operationId while preserving exact-head, clean-tree, survivor, and process-visibility gates.",
+      "approved": true,
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1"
+    },
+    {
+      "filePath": "src/io/revisionBridge/index.mjs",
+      "sha256": "4aee4031e16220accced2f157bc8eb5c2a35ba54794b6211c92bd89b13119fcb",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T19:23:26.000Z",
+      "rationale": "Approve DOCX review preview evidence extraction of bounded operationId from synthetic Word revision author markers only, without creating storage, path, apply, or command authority.",
+      "approved": true,
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1"
+    },
+    {
+      "filePath": "test/contracts/revision-bridge-docx-review-preview-session.contract.test.js",
+      "sha256": "27e56575e71ec895d9d86a5a08de0849d05304889d6d3a868a29fcc6870b2ccc",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T19:23:26.000Z",
+      "rationale": "Approve DOCX review preview operation-author marker contract coverage for valid, mismatched, invalid, and direct-field-only operation identity evidence.",
+      "approved": true,
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-c5v2-noop-baseline.contract.test.js",
+      "sha256": "8009e42f118662d75eca7216f6999679dd11a35c762944ea60bdc863145c11a1",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T19:23:26.000Z",
+      "rationale": "Approve C5V2 noop baseline contract updates proving operationId-bound ledger matching, hash mismatch reporting, and anonymous exact candidate fail-closed behavior.",
+      "approved": true,
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-c5v2-pr1414-audit-hold-repair.contract.test.js",
+      "sha256": "9e2b18a972307850494aec9e0f5fdadddd141c988989b12ffa2d28714523727b",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T19:23:26.000Z",
+      "rationale": "Approve audit-hold and reuse-binding contract updates proving same-count operation identity mutations fail candidate-authority reconstruction before stale completed-round reuse can become green.",
+      "approved": true,
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-c5v2-terminal-orchestrator.contract.test.js",
+      "sha256": "2d84961f3f2974fe76cbf2f604eace7b1defecb5142a19fdd2d11377442d7289",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T19:23:26.000Z",
+      "rationale": "Approve terminal-orchestrator contract fixture updates binding candidate-authority tuple digests to operationId while preserving process visibility, timeout, survivor, hidden-PID, and fail-closed behaviors.",
+      "approved": true,
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1"
+    },
+    {
+      "filePath": "test/contracts/rtk-g0b-feasibility.contract.test.js",
+      "sha256": "6005ab9ebe8ca40d8917c7d2cf94ae6a532cd80a72bc67eca67df741e28a26ac",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T19:23:26.000Z",
+      "rationale": "Approve G0B frozen allowlist companion entries for the C1 operationId ledger-binding terminal-orchestrator files.",
+      "approved": true,
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1"
+    },
+    {
+      "filePath": "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",
+      "sha256": "4ecfbca036638a52316b0637755d4dcf0ec405271c816c68a85464ad51f2dc44",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T19:23:26.000Z",
+      "rationale": "Approve W1 frozen allowlist companion entries for the C1 operationId ledger-binding terminal-orchestrator files.",
+      "approved": true,
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1"
+    },
+    {
+      "filePath": "test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js",
+      "sha256": "32be80bda07e3975b85a2c44601d44d33459cb42dcb7ca3906131a41dde04f59",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T19:23:26.000Z",
+      "rationale": "Approve W2 frozen allowlist companion entries for the C1 operationId ledger-binding terminal-orchestrator files.",
+      "approved": true,
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-c5v2-round-checkpoint.contract.test.js",
+      "sha256": "a995856684053d9ffeeaa153f9d7e29535fa99fee6c5b691467b5aa764544074",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T19:23:26.000Z",
+      "rationale": "Approve C5V2 round checkpoint fixture update to the operationId exact-ledger binding shape required by the completed-round oracle gate.",
+      "approved": true,
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1"
+    },
+    {
+      "filePath": "test/contracts/rtk-zip01-budget-crc-evidence.contract.test.js",
+      "sha256": "c90f4f9223d7ac3198b4cec246be139ed3c0ba88b71eb011429aff95840cba70",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T19:23:48.000Z",
+      "rationale": "Approve ZIP01 exact write-set allowlist companion entries for C1 operationId ledger-binding contracts and terminal orchestrator.",
+      "approved": true,
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1"
     }
   ]
 }

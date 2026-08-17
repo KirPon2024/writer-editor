@@ -297,6 +297,9 @@ function createBoundCompletedRound(canary, overrides = {}) {
     matchedOperationCount: exactOperations.length,
     matchedChangeCount: exactOperations.length,
     excludedCandidateCount: 0,
+    identityBindingMode: 'operationId',
+    hashMatchedOperationCount: exactOperations.length,
+    hashMismatchOperationIds: [],
     exactApplyTextChangeIdsByScene: exactOperations.reduce((byScene, operation) => {
       if (!byScene[operation.sceneId]) byScene[operation.sceneId] = [];
       byScene[operation.sceneId].push(changeIdByOperationId[operation.id]);
@@ -311,6 +314,9 @@ function createBoundCompletedRound(canary, overrides = {}) {
     duplicateExpectedSignatureOperationIds: [],
     duplicateCandidateBindingIds: [],
     missingDiagnosticCandidateIds: [],
+    missingOperationIdCandidateIds: [],
+    unknownOperationIdCandidateIds: [],
+    operationIdSceneMismatchCandidateIds: [],
   };
   const files = {
     ledger: path.join(roundDir, 'canary-ledger.json'),
@@ -420,6 +426,7 @@ function createBoundCompletedRound(canary, overrides = {}) {
       ok: true,
       textChangeScopeDiagnostics: exactOperations.map((operation) => ({
         changeId: changeIdByOperationId[operation.id],
+        operationId: operation.id,
         targetScope: { id: operation.sceneId },
         matchKind: 'exact',
         quoteSha256: canary.sha256Text(operation.quote),
@@ -884,14 +891,19 @@ test('C5V2 v6 keyed anchor rejects same-count operation id and tracked-family mu
     )),
   };
   const authority = JSON.parse(fs.readFileSync(fixture.files.candidateAuthority, 'utf8'));
-  assert.equal(canary.validateC5V2ExactLedgerBindingAgainstLedger(
+  const refreshedValidation = canary.validateC5V2ExactLedgerBindingAgainstLedger(
     refreshedExactLedgerBinding,
     fixture.ledger,
     {
       candidateAuthority: authority,
       roundId: fixture.context.roundId,
     },
-  ).ok, true, 'ordinary ledger and candidate evidence are internally consistent after refresh');
+  );
+  assert.equal(refreshedValidation.ok, false, 'operationId-bound candidate authority rejects the same-count ledger rebound before anchor validation');
+  assert.equal(
+    refreshedValidation.failures.includes('C5V2_RETURN_APPLY_CANDIDATE_AUTHORITY_LEDGER_RECONSTRUCTION_FAILED'),
+    true,
+  );
   rewriteBoundGate(canary, fixture, {
     ledgerContentDigest: refreshedLedgerContentDigest,
     wordOutputSha256: canary.sha256File(fixture.files.wordOutput),
@@ -1143,6 +1155,9 @@ test('C5V2 completed round reuse accepts MANUAL-expected Word-blocked designed o
     matchedOperationCount: 1,
     matchedChangeCount: 1,
     excludedCandidateCount: 0,
+    identityBindingMode: 'operationId',
+    hashMatchedOperationCount: 1,
+    hashMismatchOperationIds: [],
     exactApplyTextChangeIdsByScene: { 'roman/chapter-01.txt': ['change-exact-001'] },
     exactOperationBindings: [{
       operationId: 'op-exact-001',

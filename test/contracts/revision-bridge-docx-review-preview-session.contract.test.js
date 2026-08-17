@@ -305,6 +305,80 @@ test('DOCX review preview session candidate: adjacent delete and insert become o
   assertNoStorageOrApplyAuthority(result);
 });
 
+test('DOCX review preview session candidate: operation author marker exposes evidence identity only', async () => {
+  const bridge = await loadBridge();
+  const operationAuthor = 'Yalken C5V2 OP c5v2-tracked_text_edit-0023';
+  const result = bridge.buildDocxReviewPreviewSessionCandidateFromZipBytes(cleanDocxZip([
+    '<w:p>',
+    '<w:r><w:t>Alpha </w:t></w:r>',
+    `<w:del w:id="1" w:author="${operationAuthor}"><w:r><w:delText>beta</w:delText></w:r></w:del>`,
+    `<w:ins w:id="2" w:author="${operationAuthor}"><w:r><w:t>delta</w:t></w:r></w:ins>`,
+    '<w:r><w:t> gamma.</w:t></w:r>',
+    '</w:p>',
+  ].join('')), {
+    targetScope: TARGET_SCOPE,
+    createdAt: '2026-04-24T08:00:00.000Z',
+  });
+  const mismatched = bridge.buildDocxReviewPreviewSessionCandidateFromZipBytes(cleanDocxZip([
+    '<w:p>',
+    '<w:del w:id="1" w:author="Yalken C5V2 OP op-one"><w:r><w:delText>beta</w:delText></w:r></w:del>',
+    '<w:ins w:id="2" w:author="Yalken C5V2 OP op-two"><w:r><w:t>delta</w:t></w:r></w:ins>',
+    '</w:p>',
+  ].join('')), {
+    targetScope: TARGET_SCOPE,
+    createdAt: '2026-04-24T08:00:00.000Z',
+  });
+  const invalid = bridge.buildDocxReviewPreviewSessionCandidateFromZipBytes(cleanDocxZip([
+    '<w:p>',
+    '<w:del w:id="1" w:author="Yalken C5V2 OP ../escape"><w:r><w:delText>beta</w:delText></w:r></w:del>',
+    '<w:ins w:id="2" w:author="Yalken C5V2 OP ../escape"><w:r><w:t>delta</w:t></w:r></w:ins>',
+    '</w:p>',
+  ].join('')), {
+    targetScope: TARGET_SCOPE,
+    createdAt: '2026-04-24T08:00:00.000Z',
+  });
+  const directOnly = bridge.buildDocxReviewPreviewSessionCandidateFromEvidence({
+    returnedProjection: {
+      schemaVersion: 'yalken.rtk.review-ir.v2',
+      sourceMode: 'TRACKED',
+      textRevisions: [
+        {
+          operation: 'delete',
+          operationId: 'direct-field-must-not-bind',
+          nativeRevisionId: 'del-direct-1',
+          paragraphIndex: 1,
+          text: 'beta',
+        },
+        {
+          operation: 'insert',
+          operationId: 'direct-field-must-not-bind',
+          nativeRevisionId: 'ins-direct-1',
+          paragraphIndex: 1,
+          text: 'delta',
+        },
+      ],
+      commentThreads: [],
+      commentPlacements: [],
+      structureChanges: [],
+      formattingDeltas: [],
+    },
+    diagnostics: [],
+  }, {
+    targetScope: TARGET_SCOPE,
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.reviewPacket.textChanges.length, 1);
+  assert.equal(result.reviewPacket.textChanges[0].operationId, 'c5v2-tracked_text_edit-0023');
+  assert.equal(result.reviewPacket.textChanges[0].match.quote, 'beta');
+  assert.equal(result.reviewPacket.textChanges[0].replacementText, 'delta');
+  assert.equal(mismatched.reviewPacket.textChanges[0].operationId, undefined);
+  assert.equal(invalid.reviewPacket.textChanges[0].operationId, undefined);
+  assert.equal(directOnly.reviewPacket.textChanges[0].operationId, undefined);
+  assertNoStorageOrApplyAuthority(result);
+  assertNoStorageOrApplyAuthority(directOnly);
+});
+
 test('DOCX review preview session candidate: full manuscript paragraph signals route tracked text to scenes', async () => {
   const bridge = await loadBridge();
   const result = bridge.buildDocxReviewPreviewSessionCandidateFromZipBytes(cleanDocxZip([

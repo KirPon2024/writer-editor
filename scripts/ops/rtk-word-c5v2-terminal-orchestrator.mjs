@@ -1913,6 +1913,7 @@ function candidateAuthorityTupleDigest(authority = {}) {
   const candidates = Array.isArray(authority?.candidates) ? authority.candidates : [];
   return digestOf(candidates.map((candidate) => ({
     changeId: String(candidate?.changeId || ''),
+    operationId: String(candidate?.operationId || ''),
     sceneId: String(candidate?.sceneId || '').replace(/\\/gu, '/'),
     matchKind: String(candidate?.matchKind || ''),
     quoteSha256: String(candidate?.quoteSha256 || ''),

@@ -2,10 +2,10 @@
   "schemaVersion": "yalken.releaseClaimCompiler.receipt.v0",
   "compilerId": "R2_OFFLINE_RELEASE_CLAIM_COMPILER_V0",
   "ok": true,
-  "generatedAtUtc": "2026-08-17T03:19:05.000Z",
+  "generatedAtUtc": "2026-08-17T04:11:14.000Z",
   "exact": {
-    "headSha": "1e426888608608472530bafeee65a438a87f3128",
-    "treeSha": "8db09733574644e8092077a10414b6e51b0d9349",
+    "headSha": "a668fd01fc44146738263e50cba2608d9785c91b",
+    "treeSha": "a5564c34c70013e0c35e11eecb402d2f4677e42c",
     "buildId": "postmerge-local-node-22.22.2-npm-10.9.7"
   },
   "programVerdict": "NEEDS_MORE_EVIDENCE",

@@ -8,10 +8,10 @@ import { spawnSync } from 'node:child_process';
 export const INPUT_SCHEMA_VERSION = 'yalken.releaseClaimPublication.input.v1';
 export const RECEIPT_SCHEMA_VERSION = 'yalken.releaseClaimPublication.receipt.v1';
 export const PUBLISHER_ID = 'R4_EXACT_HEAD_CLAIM_PUBLICATION_V1';
-export const CURRENT_HEAD = '1e426888608608472530bafeee65a438a87f3128';
-export const CURRENT_TREE = '8db09733574644e8092077a10414b6e51b0d9349';
-export const R3_RECEIPT_HEAD = '1e426888608608472530bafeee65a438a87f3128';
-export const R3_RECEIPT_TREE = '8db09733574644e8092077a10414b6e51b0d9349';
+export const CURRENT_HEAD = 'a668fd01fc44146738263e50cba2608d9785c91b';
+export const CURRENT_TREE = 'a5564c34c70013e0c35e11eecb402d2f4677e42c';
+export const R3_RECEIPT_HEAD = 'a668fd01fc44146738263e50cba2608d9785c91b';
+export const R3_RECEIPT_TREE = 'a5564c34c70013e0c35e11eecb402d2f4677e42c';
 export const DEFAULT_RECEIPT_PATH = 'docs/OPS/RTK/YALKEN_RELEASE_CLAIM_PUBLICATION_V1_RECEIPT.json';
 
 const SHA40_RE = /^[0-9a-f]{40}$/u;
@@ -308,7 +308,7 @@ export function buildCurrentPublicationInput(repoRoot = repoRootFromHere()) {
   return {
     schemaVersion: INPUT_SCHEMA_VERSION,
     publisherId: PUBLISHER_ID,
-    generatedAtUtc: '2026-08-17T03:19:05.000Z',
+    generatedAtUtc: '2026-08-17T04:11:14.000Z',
     exact: {
       headSha,
       treeSha,

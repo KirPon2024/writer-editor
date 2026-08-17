@@ -8,10 +8,6 @@ import { spawnSync } from 'node:child_process';
 export const INPUT_SCHEMA_VERSION = 'yalken.releaseClaimPublication.input.v1';
 export const RECEIPT_SCHEMA_VERSION = 'yalken.releaseClaimPublication.receipt.v1';
 export const PUBLISHER_ID = 'R4_EXACT_HEAD_CLAIM_PUBLICATION_V1';
-export const CURRENT_HEAD = 'a668fd01fc44146738263e50cba2608d9785c91b';
-export const CURRENT_TREE = 'a5564c34c70013e0c35e11eecb402d2f4677e42c';
-export const R3_RECEIPT_HEAD = 'a668fd01fc44146738263e50cba2608d9785c91b';
-export const R3_RECEIPT_TREE = 'a5564c34c70013e0c35e11eecb402d2f4677e42c';
 export const DEFAULT_RECEIPT_PATH = 'docs/OPS/RTK/YALKEN_RELEASE_CLAIM_PUBLICATION_V1_RECEIPT.json';
 
 const SHA40_RE = /^[0-9a-f]{40}$/u;
@@ -63,11 +59,23 @@ function validateCurrentExact(input, errors) {
   const headSha = input?.exact?.headSha || '';
   const treeSha = input?.exact?.treeSha || '';
   const buildId = input?.exact?.buildId || '';
+  const expected = input?.expectedExact;
   if (!SHA40_RE.test(headSha)) errors.push('EXACT_HEAD_INVALID');
   if (!SHA40_RE.test(treeSha)) errors.push('EXACT_TREE_INVALID');
   if (typeof buildId !== 'string' || buildId.trim() === '') errors.push('EXACT_BUILD_ID_MISSING');
-  if (headSha !== CURRENT_HEAD) errors.push(`EXACT_HEAD_MISMATCH:${headSha || 'MISSING'}`);
-  if (treeSha !== CURRENT_TREE) errors.push(`EXACT_TREE_MISMATCH:${treeSha || 'MISSING'}`);
+  if (!expected || typeof expected !== 'object') {
+    errors.push('EXPECTED_EXACT_BINDING_MISSING');
+    return;
+  }
+  const expectedHeadSha = expected.headSha || '';
+  const expectedTreeSha = expected.treeSha || '';
+  const expectedBuildId = expected.buildId || '';
+  if (!SHA40_RE.test(expectedHeadSha)) errors.push('EXPECTED_EXACT_HEAD_INVALID');
+  if (!SHA40_RE.test(expectedTreeSha)) errors.push('EXPECTED_EXACT_TREE_INVALID');
+  if (typeof expectedBuildId !== 'string' || expectedBuildId.trim() === '') errors.push('EXPECTED_EXACT_BUILD_ID_MISSING');
+  if (headSha !== expectedHeadSha) errors.push(`EXACT_HEAD_MISMATCH:${headSha || 'MISSING'}`);
+  if (treeSha !== expectedTreeSha) errors.push(`EXACT_TREE_MISMATCH:${treeSha || 'MISSING'}`);
+  if (buildId !== expectedBuildId) errors.push(`EXACT_BUILD_ID_MISMATCH:${buildId || 'MISSING'}`);
 }
 
 function validateChecks(input, errors) {
@@ -87,7 +95,7 @@ function validateChecks(input, errors) {
   }
 }
 
-function validateR3Receipt(receipt, errors) {
+function validateR3Receipt(input, receipt, errors) {
   if (!receipt || typeof receipt !== 'object') {
     errors.push('R3_RECEIPT_MISSING');
     return;
@@ -99,10 +107,10 @@ function validateR3Receipt(receipt, errors) {
     errors.push(`R3_RECEIPT_COMPILER_INVALID:${receipt.compilerId || 'MISSING'}`);
   }
   if (receipt.ok !== true) errors.push('R3_RECEIPT_NOT_OK');
-  if (receipt?.exact?.headSha !== R3_RECEIPT_HEAD) {
+  if (receipt?.exact?.headSha !== input?.exact?.headSha) {
     errors.push(`R3_RECEIPT_HEAD_MISMATCH:${receipt?.exact?.headSha || 'MISSING'}`);
   }
-  if (receipt?.exact?.treeSha !== R3_RECEIPT_TREE) {
+  if (receipt?.exact?.treeSha !== input?.exact?.treeSha) {
     errors.push(`R3_RECEIPT_TREE_MISMATCH:${receipt?.exact?.treeSha || 'MISSING'}`);
   }
   if (receipt.releaseAuthority !== 'DENY') errors.push('R3_RELEASE_AUTHORITY_NOT_DENY');
@@ -150,7 +158,7 @@ export function publishExactHeadClaims(input = {}) {
   if (!input.exact || typeof input.exact !== 'object') errors.push('EXACT_BINDING_MISSING');
   else validateCurrentExact(input, errors);
   validateChecks(input, errors);
-  validateR3Receipt(input.r3Receipt, errors);
+  validateR3Receipt(input, input.r3Receipt, errors);
   errors.push(...activeVetoErrors(input.activeVetoes));
 
   const claims = (Array.isArray(input?.r3Receipt?.nodes) ? input.r3Receipt.nodes : [])
@@ -310,6 +318,11 @@ export function buildCurrentPublicationInput(repoRoot = repoRootFromHere()) {
     publisherId: PUBLISHER_ID,
     generatedAtUtc: '2026-08-17T04:11:14.000Z',
     exact: {
+      headSha,
+      treeSha,
+      buildId: 'postmerge-local-node-22.22.2-npm-10.9.7',
+    },
+    expectedExact: {
       headSha,
       treeSha,
       buildId: 'postmerge-local-node-22.22.2-npm-10.9.7',

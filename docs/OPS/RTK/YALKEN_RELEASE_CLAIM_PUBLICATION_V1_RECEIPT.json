@@ -4,8 +4,8 @@
   "ok": true,
   "generatedAtUtc": "2026-08-17T04:11:14.000Z",
   "exact": {
-    "headSha": "a668fd01fc44146738263e50cba2608d9785c91b",
-    "treeSha": "a5564c34c70013e0c35e11eecb402d2f4677e42c",
+    "headSha": "dcb38b3295bccd675b82c3bc837ecc345887978b",
+    "treeSha": "955fa8f7585f5be0b9a8fc2af5db324e6d225332",
     "buildId": "postmerge-local-node-22.22.2-npm-10.9.7"
   },
   "inputReceipts": [
@@ -13,9 +13,9 @@
       "id": "receipt:r3-applicability-invalidation-graph-v1",
       "schemaVersion": "yalken.releaseApplicabilityInvalidationGraph.receipt.v1",
       "compilerId": "R3_APPLICABILITY_INVALIDATION_GRAPH_V1",
-      "headSha": "a668fd01fc44146738263e50cba2608d9785c91b",
-      "treeSha": "a5564c34c70013e0c35e11eecb402d2f4677e42c",
-      "evidenceDigest": "sha256:1751b6db8462fd6e6da642c9ffd858fd906054b9b78a3f1cbd81a7fa3e751072"
+      "headSha": "dcb38b3295bccd675b82c3bc837ecc345887978b",
+      "treeSha": "955fa8f7585f5be0b9a8fc2af5db324e6d225332",
+      "evidenceDigest": "sha256:31cb498c00ef5961afb2ec9baac046350b1d20594bf5076c05c8dda423bc218f"
     }
   ],
   "requiredChecks": [
@@ -23,31 +23,31 @@
       "name": "oss-policy",
       "status": "completed",
       "conclusion": "success",
-      "headSha": "a668fd01fc44146738263e50cba2608d9785c91b"
+      "headSha": "dcb38b3295bccd675b82c3bc837ecc345887978b"
     },
     {
       "name": "rtk-required",
       "status": "completed",
       "conclusion": "success",
-      "headSha": "a668fd01fc44146738263e50cba2608d9785c91b"
+      "headSha": "dcb38b3295bccd675b82c3bc837ecc345887978b"
     },
     {
       "name": "x1-runtime-parity (ubuntu-latest)",
       "status": "completed",
       "conclusion": "success",
-      "headSha": "a668fd01fc44146738263e50cba2608d9785c91b"
+      "headSha": "dcb38b3295bccd675b82c3bc837ecc345887978b"
     },
     {
       "name": "x1-runtime-parity (windows-latest)",
       "status": "completed",
       "conclusion": "success",
-      "headSha": "a668fd01fc44146738263e50cba2608d9785c91b"
+      "headSha": "dcb38b3295bccd675b82c3bc837ecc345887978b"
     },
     {
       "name": "postmerge-full-rtk",
       "status": "completed",
       "conclusion": "success",
-      "headSha": "a668fd01fc44146738263e50cba2608d9785c91b"
+      "headSha": "dcb38b3295bccd675b82c3bc837ecc345887978b"
     }
   ],
   "programVerdict": "NEEDS_MORE_EVIDENCE",

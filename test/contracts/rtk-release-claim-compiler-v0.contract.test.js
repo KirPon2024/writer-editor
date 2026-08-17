@@ -1,8 +1,8 @@
 const assert = require('node:assert/strict');
 const test = require('node:test');
 
-const CURRENT_HEAD = 'a668fd01fc44146738263e50cba2608d9785c91b';
-const CURRENT_TREE = 'a5564c34c70013e0c35e11eecb402d2f4677e42c';
+const CURRENT_HEAD = 'dcb38b3295bccd675b82c3bc837ecc345887978b';
+const CURRENT_TREE = '955fa8f7585f5be0b9a8fc2af5db324e6d225332';
 
 async function loadCompiler() {
   return import('../../scripts/ops/rtk-release-claim-compiler-v0.mjs');
@@ -43,6 +43,11 @@ function baseInput(overrides = {}) {
     generatedAtUtc: '2026-08-16T15:40:00.000Z',
     nowUtc: '2026-08-16T15:40:00.000Z',
     exact: {
+      headSha: CURRENT_HEAD,
+      treeSha: CURRENT_TREE,
+      buildId: 'postmerge-local-node-22.22.2',
+    },
+    expectedExact: {
       headSha: CURRENT_HEAD,
       treeSha: CURRENT_TREE,
       buildId: 'postmerge-local-node-22.22.2',
@@ -133,12 +138,25 @@ test('R2 compiler fails closed for wrong head tree build or missing required che
     exact: { headSha: '0'.repeat(40), treeSha: CURRENT_TREE, buildId: 'postmerge-local-node-22.22.2' },
   }));
   assert.equal(wrongHead.ok, false);
+  assert.match(wrongHead.errors.join('\n'), /EXACT_HEAD_MISMATCH/);
   assert.equal(stateFor(wrongHead, 'C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1').state, 'STALE');
 
   const wrongTree = compileReleaseClaims(baseInput({
     exact: { headSha: CURRENT_HEAD, treeSha: '1'.repeat(40), buildId: 'postmerge-local-node-22.22.2' },
   }));
+  assert.equal(wrongTree.ok, false);
+  assert.match(wrongTree.errors.join('\n'), /EXACT_TREE_MISMATCH/);
   assert.equal(stateFor(wrongTree, 'C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1').state, 'STALE');
+
+  const missingExpected = compileReleaseClaims(baseInput({ expectedExact: undefined }));
+  assert.equal(missingExpected.ok, false);
+  assert.match(missingExpected.errors.join('\n'), /EXPECTED_EXACT_BINDING_MISSING/);
+
+  const forgedExpected = compileReleaseClaims(baseInput({
+    expectedExact: { headSha: '2'.repeat(40), treeSha: CURRENT_TREE, buildId: 'postmerge-local-node-22.22.2' },
+  }));
+  assert.equal(forgedExpected.ok, false);
+  assert.match(forgedExpected.errors.join('\n'), /EXACT_HEAD_MISMATCH/);
 
   const missingCheck = compileReleaseClaims(baseInput({
     requiredChecks: [greenCheck('OSS policy'), greenCheck('x1-runtime-parity')],

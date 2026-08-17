@@ -8,10 +8,6 @@ import { spawnSync } from 'node:child_process';
 export const INPUT_SCHEMA_VERSION = 'yalken.releaseApplicabilityInvalidationGraph.input.v1';
 export const RECEIPT_SCHEMA_VERSION = 'yalken.releaseApplicabilityInvalidationGraph.receipt.v1';
 export const COMPILER_ID = 'R3_APPLICABILITY_INVALIDATION_GRAPH_V1';
-export const CURRENT_HEAD = 'a668fd01fc44146738263e50cba2608d9785c91b';
-export const CURRENT_TREE = 'a5564c34c70013e0c35e11eecb402d2f4677e42c';
-export const R2_RECEIPT_HEAD = 'a668fd01fc44146738263e50cba2608d9785c91b';
-export const R2_RECEIPT_TREE = 'a5564c34c70013e0c35e11eecb402d2f4677e42c';
 export const DEFAULT_RECEIPT_PATH = 'docs/OPS/RTK/YALKEN_RELEASE_APPLICABILITY_INVALIDATION_GRAPH_V1_RECEIPT.json';
 
 const SHA40_RE = /^[0-9a-f]{40}$/u;
@@ -90,11 +86,23 @@ function exactBindingOk(input, errors) {
   const headSha = input?.exact?.headSha || '';
   const treeSha = input?.exact?.treeSha || '';
   const buildId = input?.exact?.buildId || '';
+  const expected = input?.expectedExact;
   if (!SHA40_RE.test(headSha)) errors.push('EXACT_HEAD_INVALID');
   if (!SHA40_RE.test(treeSha)) errors.push('EXACT_TREE_INVALID');
   if (typeof buildId !== 'string' || buildId.trim() === '') errors.push('EXACT_BUILD_ID_MISSING');
-  if (headSha !== CURRENT_HEAD) errors.push(`EXACT_HEAD_MISMATCH:${headSha || 'MISSING'}`);
-  if (treeSha !== CURRENT_TREE) errors.push(`EXACT_TREE_MISMATCH:${treeSha || 'MISSING'}`);
+  if (!expected || typeof expected !== 'object') {
+    errors.push('EXPECTED_EXACT_BINDING_MISSING');
+    return false;
+  }
+  const expectedHeadSha = expected.headSha || '';
+  const expectedTreeSha = expected.treeSha || '';
+  const expectedBuildId = expected.buildId || '';
+  if (!SHA40_RE.test(expectedHeadSha)) errors.push('EXPECTED_EXACT_HEAD_INVALID');
+  if (!SHA40_RE.test(expectedTreeSha)) errors.push('EXPECTED_EXACT_TREE_INVALID');
+  if (typeof expectedBuildId !== 'string' || expectedBuildId.trim() === '') errors.push('EXPECTED_EXACT_BUILD_ID_MISSING');
+  if (headSha !== expectedHeadSha) errors.push(`EXACT_HEAD_MISMATCH:${headSha || 'MISSING'}`);
+  if (treeSha !== expectedTreeSha) errors.push(`EXACT_TREE_MISMATCH:${treeSha || 'MISSING'}`);
+  if (buildId !== expectedBuildId) errors.push(`EXACT_BUILD_ID_MISMATCH:${buildId || 'MISSING'}`);
   return errors.length === 0;
 }
 
@@ -119,7 +127,7 @@ function applyReason(node, state, reason, invalidatedBy = '') {
   if (invalidatedBy) node.invalidatedBy.push(invalidatedBy);
 }
 
-function classifySourceReceipts({ claim, node, sourceReceiptMap }) {
+function classifySourceReceipts({ claim, node, sourceReceiptMap, input }) {
   const ids = Array.isArray(claim.sourceReceiptIds) ? claim.sourceReceiptIds : [];
   if (ids.length === 0) {
     applyReason(node, 'UNKNOWN', 'SOURCE_RECEIPT_IDS_MISSING');
@@ -133,6 +141,12 @@ function classifySourceReceipts({ claim, node, sourceReceiptMap }) {
     }
     if (!SHA40_RE.test(String(receipt.headSha || '')) || !SHA40_RE.test(String(receipt.treeSha || ''))) {
       applyReason(node, 'UNKNOWN', `SOURCE_RECEIPT_EXACT_INVALID:${id}`, id);
+    }
+    if (receipt.headSha !== input?.exact?.headSha) {
+      applyReason(node, 'STALE', `SOURCE_RECEIPT_HEAD_STALE:${id}:${receipt.headSha || 'MISSING'}`, id);
+    }
+    if (receipt.treeSha !== input?.exact?.treeSha) {
+      applyReason(node, 'STALE', `SOURCE_RECEIPT_TREE_STALE:${id}:${receipt.treeSha || 'MISSING'}`, id);
     }
     if (!SHA256_RE.test(String(receipt.evidenceDigest || ''))) {
       applyReason(node, 'UNKNOWN', `SOURCE_RECEIPT_DIGEST_INVALID:${id}`, id);
@@ -248,7 +262,7 @@ function classifyOneClaim({
     applyReason(node, 'STALE', `CLAIM_TREE_STALE:${claim.exactTreeSha || 'MISSING'}`);
   }
 
-  classifySourceReceipts({ claim, node, sourceReceiptMap });
+  classifySourceReceipts({ claim, node, sourceReceiptMap, input });
   classifyProvider({ claim, node, providerProfileMap, nowMs });
   classifyClaimReceiptRefs({ claim, node, input });
   classifyClaimOutcomes({ claim, node });
@@ -529,6 +543,8 @@ export function runApplicabilityMutationCatalog(input) {
 export function buildCurrentApplicabilityGraphInput(repoRoot = repoRootFromHere()) {
   const headSha = runGit(repoRoot, ['rev-parse', 'HEAD']);
   const treeSha = runGit(repoRoot, ['rev-parse', 'HEAD^{tree}']);
+  const r2ReceiptPath = 'docs/OPS/RTK/YALKEN_OFFLINE_RELEASE_CLAIM_COMPILER_V0_RECEIPT.json';
+  const r2Receipt = JSON.parse(fs.readFileSync(path.join(repoRoot, r2ReceiptPath), 'utf8'));
   return {
     schemaVersion: INPUT_SCHEMA_VERSION,
     compilerId: COMPILER_ID,
@@ -539,16 +555,21 @@ export function buildCurrentApplicabilityGraphInput(repoRoot = repoRootFromHere(
       treeSha,
       buildId: 'postmerge-local-node-22.22.2-npm-10.9.7',
     },
+    expectedExact: {
+      headSha,
+      treeSha,
+      buildId: 'postmerge-local-node-22.22.2-npm-10.9.7',
+    },
     sourceReceipts: [
       {
         id: 'receipt:r2-offline-release-claim-compiler-v0',
         schemaVersion: 'yalken.releaseClaimCompiler.receipt.v0',
         compilerId: 'R2_OFFLINE_RELEASE_CLAIM_COMPILER_V0',
-        headSha: R2_RECEIPT_HEAD,
-        treeSha: R2_RECEIPT_TREE,
-        evidenceDigest: sha256File(repoRoot, 'docs/OPS/RTK/YALKEN_OFFLINE_RELEASE_CLAIM_COMPILER_V0_RECEIPT.json'),
-        status: 'PASS',
-        verdict: 'VERIFIED_SCOPED',
+        headSha: r2Receipt?.exact?.headSha || 'MISSING',
+        treeSha: r2Receipt?.exact?.treeSha || 'MISSING',
+        evidenceDigest: sha256File(repoRoot, r2ReceiptPath),
+        status: r2Receipt?.ok === true ? 'PASS' : 'NEEDS_MORE_EVIDENCE',
+        verdict: r2Receipt?.ok === true ? 'VERIFIED_SCOPED' : 'BLOCKED',
         supersededBy: null,
       },
     ],

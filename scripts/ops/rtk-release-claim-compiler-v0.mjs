@@ -8,8 +8,6 @@ import { spawnSync } from 'node:child_process';
 export const INPUT_SCHEMA_VERSION = 'yalken.releaseClaimCompiler.input.v0';
 export const RECEIPT_SCHEMA_VERSION = 'yalken.releaseClaimCompiler.receipt.v0';
 export const COMPILER_ID = 'R2_OFFLINE_RELEASE_CLAIM_COMPILER_V0';
-export const CURRENT_HEAD = 'a668fd01fc44146738263e50cba2608d9785c91b';
-export const CURRENT_TREE = 'a5564c34c70013e0c35e11eecb402d2f4677e42c';
 export const DEFAULT_RECEIPT_PATH = 'docs/OPS/RTK/YALKEN_OFFLINE_RELEASE_CLAIM_COMPILER_V0_RECEIPT.json';
 
 const FAIL_CLOSED_OUTCOMES = new Set(['UNKNOWN', 'ABSTAIN', 'STALE', 'CONFLICT']);
@@ -76,11 +74,23 @@ function validateExactBinding(input, errors) {
   const headSha = input?.exact?.headSha || '';
   const treeSha = input?.exact?.treeSha || '';
   const buildId = input?.exact?.buildId || '';
+  const expected = input?.expectedExact;
   if (!SHA40_RE.test(headSha)) errors.push('EXACT_HEAD_INVALID');
   if (!SHA40_RE.test(treeSha)) errors.push('EXACT_TREE_INVALID');
   if (typeof buildId !== 'string' || buildId.trim() === '') errors.push('EXACT_BUILD_ID_MISSING');
-  if (headSha !== CURRENT_HEAD) errors.push(`EXACT_HEAD_MISMATCH:${headSha || 'MISSING'}`);
-  if (treeSha !== CURRENT_TREE) errors.push(`EXACT_TREE_MISMATCH:${treeSha || 'MISSING'}`);
+  if (!expected || typeof expected !== 'object') {
+    errors.push('EXPECTED_EXACT_BINDING_MISSING');
+    return false;
+  }
+  const expectedHeadSha = expected.headSha || '';
+  const expectedTreeSha = expected.treeSha || '';
+  const expectedBuildId = expected.buildId || '';
+  if (!SHA40_RE.test(expectedHeadSha)) errors.push('EXPECTED_EXACT_HEAD_INVALID');
+  if (!SHA40_RE.test(expectedTreeSha)) errors.push('EXPECTED_EXACT_TREE_INVALID');
+  if (typeof expectedBuildId !== 'string' || expectedBuildId.trim() === '') errors.push('EXPECTED_EXACT_BUILD_ID_MISSING');
+  if (headSha !== expectedHeadSha) errors.push(`EXACT_HEAD_MISMATCH:${headSha || 'MISSING'}`);
+  if (treeSha !== expectedTreeSha) errors.push(`EXACT_TREE_MISMATCH:${treeSha || 'MISSING'}`);
+  if (buildId !== expectedBuildId) errors.push(`EXACT_BUILD_ID_MISMATCH:${buildId || 'MISSING'}`);
   return errors.length === 0;
 }
 
@@ -346,6 +356,11 @@ export function buildCurrentReleaseClaimCompilerInput(repoRoot = repoRootFromHer
     generatedAtUtc: '2026-08-17T04:11:14.000Z',
     nowUtc: '2026-08-17T04:11:14.000Z',
     exact: {
+      headSha,
+      treeSha,
+      buildId: 'postmerge-local-node-22.22.2-npm-10.9.7',
+    },
+    expectedExact: {
       headSha,
       treeSha,
       buildId: 'postmerge-local-node-22.22.2-npm-10.9.7',

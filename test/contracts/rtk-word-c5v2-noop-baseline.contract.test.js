@@ -394,6 +394,32 @@ test('C5V2 product apply binds only ledger-authorized EXACT candidates and delet
   });
 });
 
+test('C5V2 cumulative child source includes exact-ledger helper dependencies before binding', async () => {
+  const canary = await import(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs'));
+  const source = canary.createFullManuscriptExportChildSource({
+    tempRoot: path.join(os.tmpdir(), 'c5v2-child-source-contract'),
+    outPath: path.join(os.tmpdir(), 'c5v2-source.docx'),
+    returnedPath: path.join(os.tmpdir(), 'c5v2-returned.docx'),
+    returnedReadyPath: path.join(os.tmpdir(), 'c5v2-returned-ready.json'),
+    scenes: [{ file: 'dorian-00-preface.txt', text: 'Scene text' }],
+    rounds: [{
+      roundIndex: 0,
+      roundId: 'round-01',
+      outPath: path.join(os.tmpdir(), 'c5v2-source.docx'),
+      returnedPath: path.join(os.tmpdir(), 'c5v2-returned.docx'),
+      returnedReadyPath: path.join(os.tmpdir(), 'c5v2-returned-ready.json'),
+      oracleGatePath: path.join(os.tmpdir(), 'complete-round-oracle-gate.json'),
+    }],
+  });
+
+  const patternIndex = source.indexOf('const C5V2_OPERATION_ID_PATTERN = /^[a-z0-9][a-z0-9_-]{0,127}$/iu;');
+  const normalizerIndex = source.indexOf('const normalizeC5V2OperationId = function normalizeC5V2OperationId(value)');
+  const bindingIndex = source.indexOf('const bindC5V2ExpectedExactTextCandidates = function bindC5V2ExpectedExactTextCandidates(input = {})');
+  assert.ok(patternIndex >= 0, 'child source must define the operation-id pattern');
+  assert.ok(normalizerIndex > patternIndex, 'child source must define normalizeC5V2OperationId after its pattern');
+  assert.ok(bindingIndex > normalizerIndex, 'exact-ledger binding must be emitted after its helper dependencies');
+});
+
 test('C5V2 rich reopened scenes retain complete topology while exposing stable nonempty logical paragraph ordinals', async () => {
   const canary = await import(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs'));
   const envelope = await import(path.join(REPO_ROOT, 'src', 'renderer', 'documentContentEnvelope.mjs'));

@@ -11103,12 +11103,12 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "d742e658e992bd3a9b036cb6e9500874ecca6bc4e54aa816e31732af381126c1",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_LIFECYCLE_VISIBILITY_FAILCLOSED_V1",
-      "approvedAtUtc": "2026-08-17T20:34:46.000Z",
-      "rationale": "Approve C5V2 physical canary lifecycle evidence repair so missing per-operation native snapshots and hidden or indeterminate Word UI remain MANUAL_OR_BLOCKED instead of becoming safe readback, root-missing misdiagnosis, or oracle PASS.",
+      "sha256": "b71241b4477b19459203e9d7834bd4daddb5b2b66d82e61b739215fb6036fe3d",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_V1",
+      "approvedAtUtc": "2026-08-17T21:45:10.000Z",
+      "rationale": "Approve generated Electron child dependency binding for the operation-id normalizer so return activation reaches exact-ledger and apply-authority gates instead of crashing with ReferenceError, without route, pass, apply, or user-document claim widening.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_LIFECYCLE_VISIBILITY_FAILCLOSED_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_V1"
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-terminal-orchestrator.mjs",
@@ -11139,12 +11139,12 @@
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-noop-baseline.contract.test.js",
-      "sha256": "8009e42f118662d75eca7216f6999679dd11a35c762944ea60bdc863145c11a1",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T19:23:26.000Z",
-      "rationale": "Approve C5V2 noop baseline contract updates proving operationId-bound ledger matching, hash mismatch reporting, and anonymous exact candidate fail-closed behavior.",
+      "sha256": "d92e6e7346524e9596065394e40dd77cc776f52be6cfd8589016f8634772c72f",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_V1",
+      "approvedAtUtc": "2026-08-17T21:45:10.000Z",
+      "rationale": "Approve contract coverage requiring cumulative child source emission of the operation-id pattern and normalizer before exact-ledger binding helper execution.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_V1"
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-pr1414-audit-hold-repair.contract.test.js",

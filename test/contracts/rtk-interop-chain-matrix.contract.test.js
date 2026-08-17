@@ -51,11 +51,12 @@ test('Interop chain matrix registers the exact C1-C8 full-book denominator witho
   assert.equal(c1.fullBookAccounting, POST_AUTH_REPAIR_FULL_BOOK_ACCOUNTING);
   assert.deepEqual(c1.blockerEvidenceRefs, [
     'YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1',
-    'C1_WORD_WINDOW_VISIBILITY_STABILITY_BLOCKER',
+    'C1_WORD_NATIVE_MATERIALIZATION_ROOT_COUNT_BLOCKER',
   ]);
   assert.equal(c1.nextContour, NEXT_SEQUENTIAL_CONTOUR);
-  assert.equal(matrix.sourceEvidence.c1FreshWordVisibilityBlockedReplay.failureCode, 'MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE');
-  assert.equal(matrix.sourceEvidence.c1FreshWordVisibilityBlockedReplay.returnedDocxReady, false);
+  assert.equal(matrix.sourceEvidence.c1FreshNativeMaterializationBlockedReplay.failureCode, 'NATIVE_MATERIALIZATION_ROOT_COUNT_MISMATCH');
+  assert.equal(matrix.sourceEvidence.c1FreshNativeMaterializationBlockedReplay.returnedDocxReady, false);
+  assert.match(matrix.sourceEvidence.c1FreshNativeMaterializationBlockedReplay.wordWindowDiagnostics, /WINDOW_REVIVE/u);
 
   for (const route of matrix.routeDenominator) {
     assert.equal(route.fullCanonicalSyntheticBookRequired, true, route.routeId);

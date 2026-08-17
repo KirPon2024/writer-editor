@@ -10,11 +10,12 @@ export const TASK_ID = 'C1_YALKEN_WORD_YALKEN_FULL_BOOK_ROUTE_V1';
 export const STATUS = 'C1_YALKEN_WORD_YALKEN_FULL_BOOK_ROUTE_V1_EXECUTED_BLOCKED_FAIL_CLOSED';
 export const VERDICT = 'NEEDS_MORE_EVIDENCE';
 export const PROGRAM_VERDICT = 'NEEDS_MORE_EVIDENCE';
-export const EXACT_HEAD = '9453e232a65b6cf92ceb802adf2d2f776fd3ee33';
+export const EXACT_HEAD = '834f37a8cb5ba3eb854f6407e2dc4e7e14606d88';
 export const PRE_AUTH_REPAIR_ROUTE_HEAD = '1b8a23441ba29b6cac79a62a3b18ece031654e62';
 export const PRE_VISIBILITY_REPLAY_ROUTE_HEAD = '5ebb75f4110bb1a287ad9a9109cebdeb373642ba';
-export const NEXT_SEQUENTIAL_CONTOUR = 'C1_WORD_WINDOW_VISIBILITY_STABILITY_REPAIR_V1';
-export const POST_AUTH_REPAIR_FULL_BOOK_ACCOUNTING = 'FULL_BOOK_ATTEMPTED_POST_AUTH_REPAIR_WORD_VISIBILITY_BLOCKED_NOT_PROVEN';
+export const PRE_WINDOW_REPAIR_ROUTE_HEAD = '9453e232a65b6cf92ceb802adf2d2f776fd3ee33';
+export const NEXT_SEQUENTIAL_CONTOUR = 'C1_WORD_NATIVE_MATERIALIZATION_ROOT_COUNT_REPAIR_V1';
+export const POST_AUTH_REPAIR_FULL_BOOK_ACCOUNTING = 'FULL_BOOK_ATTEMPTED_POST_WINDOW_REPAIR_NATIVE_MATERIALIZATION_BLOCKED_NOT_PROVEN';
 export const RECEIPT_PATH = 'docs/OPS/RTK/YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1.json';
 export const MATRIX_PATH = 'docs/OPS/RTK/YALKEN_INTEROP_CHAIN_MATRIX_V1.json';
 export const CATALOG_PATH = 'docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json';
@@ -149,7 +150,8 @@ function validateDenominator(denominator, errors) {
   failIf(denominator.route?.actualRouteCount !== 0, errors, 'ROUTE_DENOMINATOR_INVALID:ACTUAL_ROUTE_MUST_REMAIN_ZERO_WHEN_BLOCKED');
   failIf(denominator.route?.fullBookProcessed !== false, errors, 'ROUTE_DENOMINATOR_INVALID:FULL_ROUTE_NOT_PROVEN');
   failIf(!String(denominator.route?.reason || '').includes('Word 16.112 / 16.112.26081010'), errors, 'ROUTE_DENOMINATOR_INVALID:FRESH_WORD_PROFILE_MISSING');
-  failIf(!String(denominator.route?.reason || '').includes('chunk 008'), errors, 'ROUTE_DENOMINATOR_INVALID:WORD_VISIBILITY_BLOCKER_NOT_RECORDED');
+  failIf(!String(denominator.route?.reason || '').includes('chunk 008'), errors, 'ROUTE_DENOMINATOR_INVALID:NATIVE_MATERIALIZATION_BLOCKER_NOT_RECORDED');
+  failIf(!String(denominator.route?.reason || '').includes('NATIVE_MATERIALIZATION_ROOT_COUNT_MISMATCH'), errors, 'ROUTE_DENOMINATOR_INVALID:NATIVE_MATERIALIZATION_BLOCKER_NOT_RECORDED');
 }
 
 function validateProvider(provider, errors) {
@@ -193,7 +195,8 @@ function validatePhysicalEvidence(evidence, errors) {
   }
   failIf(evidence.syntheticDisposableDocxOnly !== true, errors, 'PHYSICAL_EVIDENCE_INVALID:DISPOSABLE_ONLY_REQUIRED');
   failIf(evidence.userDocumentsTouched !== false, errors, 'USER_DOCUMENT_COUNTER_NONZERO');
-  failIf(evidence.runId !== 'c1-fullbook-auth-repair-w06-r3-20260817', errors, 'PHYSICAL_RESULT_INVALID:FRESH_REPLAY_RUN_ID');
+  failIf(evidence.runId !== 'c1-window-visibility-repair-w06-r1-20260817', errors, 'PHYSICAL_RESULT_INVALID:FRESH_REPLAY_RUN_ID');
+  failIf(evidence.previousRedRunId !== 'c1-fullbook-auth-repair-w06-r3-20260817', errors, 'PHYSICAL_RESULT_INVALID:PREVIOUS_VISIBILITY_REPLAY_NOT_RECORDED');
   failIf(evidence.previousInterruptedRunId !== 'c1-fullbook-auth-repair-w06-r2-20260817', errors, 'PHYSICAL_RESULT_INVALID:INTERRUPTED_REPLAY_NOT_RECORDED');
   failIf(evidence.corpusId !== 'dorian-gray-pg174-cleaned-internal-qa', errors, 'PHYSICAL_RESULT_INVALID:CORPUS_ID');
   failIf(!isSha256(evidence.orchestratorScriptSha256), errors, 'PHYSICAL_DIGEST_INVALID:orchestratorScriptSha256');
@@ -209,7 +212,8 @@ function validatePhysicalEvidence(evidence, errors) {
   failIf(evidence.round01?.completedCheckpointOperationCount !== 336, errors, 'PHYSICAL_RESULT_INVALID:ROUND01_COMPLETED_CHECKPOINT_OPERATIONS');
   failIf(evidence.round01?.failedChunk !== 'word-chunk-008', errors, 'PHYSICAL_RESULT_INVALID:FAILED_CHUNK');
   failIf(evidence.round01?.returnedReady !== false, errors, 'PHYSICAL_RESULT_INVALID:RETURNED_READY_MUST_BE_FALSE');
-  failIf(evidence.round01?.failureCode !== 'MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE', errors, 'PHYSICAL_RESULT_INVALID:WORD_VISIBILITY_FAILURE_CODE');
+  failIf(evidence.round01?.failureCode !== 'NATIVE_MATERIALIZATION_ROOT_COUNT_MISMATCH', errors, 'PHYSICAL_RESULT_INVALID:NATIVE_MATERIALIZATION_FAILURE_CODE');
+  failIf(!String(evidence.round01?.failureError || '').includes('NATIVE_MATERIALIZATION_ROOT_COUNT_MISMATCH:1:0'), errors, 'PHYSICAL_RESULT_INVALID:NATIVE_MATERIALIZATION_FAILURE_DETAIL');
   failIf(evidence.resultStatus?.plannedOperations !== 2000, errors, 'PHYSICAL_RESULT_INVALID:PLANNED_OPERATIONS');
   failIf(evidence.resultStatus?.positiveOperationCount !== 1960, errors, 'PHYSICAL_RESULT_INVALID:POSITIVE_OPERATIONS');
   failIf(evidence.resultStatus?.round01PlannedOperations !== 379, errors, 'PHYSICAL_RESULT_INVALID:ROUND01_RESULT_COUNT');
@@ -226,8 +230,12 @@ function validatePhysicalEvidence(evidence, errors) {
   failIf(evidence.resultStatus?.falseAutoApplyCount !== 0, errors, 'FALSE_AUTO_APPLY_COUNT_NONZERO');
   failIf(evidence.returnedArtifactPresent !== true, errors, 'PHYSICAL_RESULT_INVALID:RETURNED_ARTIFACT_MUST_BE_PRESENT_AFTER_REPAIR');
   failIf(evidence.returnedArtifactSha256 !== evidence.returnedDocxSha256, errors, 'PHYSICAL_RESULT_INVALID:RETURNED_ARTIFACT_DIGEST_MISMATCH');
-  failIf(!String(evidence.resultStatus?.wordWindowDiagnostics || '').includes('WINDOW_COUNT:0'), errors, 'PHYSICAL_RESULT_INVALID:WINDOW_COUNT_ZERO_NOT_RECORDED');
+  const wordWindowDiagnostics = String(evidence.resultStatus?.wordWindowDiagnostics || '');
+  failIf(!wordWindowDiagnostics.includes('MACOS_ACCESSIBILITY_PREFLIGHT_READY'), errors, 'PHYSICAL_RESULT_INVALID:ACCESSIBILITY_READY_NOT_RECORDED');
+  failIf(!wordWindowDiagnostics.includes('WINDOW_COUNT:1'), errors, 'PHYSICAL_RESULT_INVALID:WINDOW_COUNT_ONE_NOT_RECORDED');
+  failIf(!wordWindowDiagnostics.includes('WINDOW_REVIVE'), errors, 'PHYSICAL_RESULT_INVALID:WINDOW_REVIVE_NOT_RECORDED');
   failIf(!String(evidence.resultStatus?.wrapperError || '').includes('RETURNED_DOCX_NOT_READY_FOR_PRODUCT_INTAKE'), errors, 'PHYSICAL_RESULT_INVALID:READY_GATE_ERROR_NOT_RECORDED');
+  failIf(!String(evidence.resultStatus?.wrapperError || '').includes('NATIVE_MATERIALIZATION_ROOT_COUNT_MISMATCH'), errors, 'PHYSICAL_RESULT_INVALID:NATIVE_MATERIALIZATION_ERROR_NOT_RECORDED');
   failIf(evidence.returnedPackageObservation?.modernMode15Ready !== false, errors, 'RETURNED_PACKAGE_OBSERVATION_INVALID:READY_MUST_BE_FALSE');
   failIf(evidence.returnedPackageObservation?.customDocumentPropertyCarrierSurvived !== false, errors, 'RETURNED_PACKAGE_OBSERVATION_INVALID:CARRIER_MUST_NOT_BE_CLAIMED');
   failIf(evidence.independentParserProbe?.ok !== false, errors, 'INDEPENDENT_PARSER_PROBE_INVALID:OK_MUST_BE_FALSE_WHEN_NOT_READY');
@@ -256,7 +264,8 @@ function validateClassifications(classifications, errors) {
     'C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_BLOCKER',
     'C1_AUTH_REPAIR_PUBLISHED_SCOPED_ROUTE_REPLAY_REQUIRED',
     'C1_POST_AUTH_REPAIR_FULLBOOK_REPLAY_ATTEMPTED',
-    'WORD_ACCESSIBILITY_WINDOW_LOST_DURING_CHUNK_008',
+    'WORD_ACCESSIBILITY_WINDOW_REVIVED_DURING_CHUNK_008',
+    'WORD_NATIVE_MATERIALIZATION_ROOT_COUNT_BLOCKER',
     'RETURNED_DOCX_NOT_READY_FOR_PRODUCT_INTAKE',
     'WORD_NATIVE_LIFECYCLE_REPLY_STATE_BLOCKER',
     'C5_STALE_PROVIDER_PROFILE_BINDING',
@@ -267,9 +276,10 @@ function validateClassifications(classifications, errors) {
   }
   failIf(byId.get('ORCHESTRATOR_PROGRESS_ROUND_ID_DEFECT_REPAIRED')?.disposition !== 'REPAIRED_IN_SCOPE', errors, 'ORCHESTRATOR_FIX_NOT_RECORDED');
   failIf(byId.get('C5_STALE_PROVIDER_PROFILE_BINDING')?.disposition !== 'REPAIRED_IN_CURRENT_PROFILE_REPLAY', errors, 'STALE_PROFILE_REPAIR_NOT_RECORDED');
-  failIf(byId.get('C1_AUTH_REPAIR_PUBLISHED_SCOPED_ROUTE_REPLAY_REQUIRED')?.disposition !== 'REPLAY_ATTEMPTED_BLOCKED_BY_WORD_VISIBILITY', errors, 'C1_AUTH_REPAIR_REPLAY_ATTEMPT_NOT_RECORDED');
+  failIf(byId.get('C1_AUTH_REPAIR_PUBLISHED_SCOPED_ROUTE_REPLAY_REQUIRED')?.disposition !== 'REPLAY_ATTEMPTED_BLOCKED_BY_NATIVE_MATERIALIZATION_ROOT_COUNT', errors, 'C1_AUTH_REPAIR_REPLAY_ATTEMPT_NOT_RECORDED');
   failIf(byId.get('C1_POST_AUTH_REPAIR_FULLBOOK_REPLAY_ATTEMPTED')?.disposition !== 'EXECUTED_FAIL_CLOSED_NOT_ROUTE_PASS', errors, 'C1_FRESH_REPLAY_ATTEMPT_NOT_RECORDED');
-  failIf(byId.get('WORD_ACCESSIBILITY_WINDOW_LOST_DURING_CHUNK_008')?.disposition !== 'ACTIVE_BLOCKER_NOT_ROUTE_PASS', errors, 'WORD_VISIBILITY_BLOCKER_NOT_RECORDED');
+  failIf(byId.get('WORD_ACCESSIBILITY_WINDOW_REVIVED_DURING_CHUNK_008')?.disposition !== 'REPAIRED_CONFIRMED_NOT_ROUTE_PASS', errors, 'WORD_WINDOW_REVIVE_CONFIRMATION_NOT_RECORDED');
+  failIf(byId.get('WORD_NATIVE_MATERIALIZATION_ROOT_COUNT_BLOCKER')?.disposition !== 'ACTIVE_BLOCKER_NOT_ROUTE_PASS', errors, 'NATIVE_MATERIALIZATION_BLOCKER_NOT_RECORDED');
   failIf(byId.get('RETURNED_DOCX_NOT_READY_FOR_PRODUCT_INTAKE')?.disposition !== 'FAIL_CLOSED_AUTHORITY_DENIED', errors, 'RETURNED_DOCX_READY_GATE_NOT_RECORDED');
   for (const [id, item] of byId) {
     if (item.disposition === 'PASS') errors.push(`FAILURE_CLASSIFICATION_FALSE_PASS:${id}`);
@@ -347,7 +357,7 @@ export function validateC1MatrixBinding(matrix, receipt) {
   failIf(c1.accountingStatus !== 'FULL_BOOK_ATTEMPTED_BLOCKED', errors, 'MATRIX_C1_ACCOUNTING_STATUS_INVALID');
   failIf(c1.fullBookAccounting !== POST_AUTH_REPAIR_FULL_BOOK_ACCOUNTING, errors, 'MATRIX_C1_FULL_BOOK_ACCOUNTING_INVALID');
   failIf(!Array.isArray(c1.blockerEvidenceRefs) || !c1.blockerEvidenceRefs.includes('YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1'), errors, 'MATRIX_C1_BLOCKER_EVIDENCE_REF_MISSING');
-  failIf(!Array.isArray(c1.blockerEvidenceRefs) || !c1.blockerEvidenceRefs.includes('C1_WORD_WINDOW_VISIBILITY_STABILITY_BLOCKER'), errors, 'MATRIX_C1_VISIBILITY_BLOCKER_REF_MISSING');
+  failIf(!Array.isArray(c1.blockerEvidenceRefs) || !c1.blockerEvidenceRefs.includes('C1_WORD_NATIVE_MATERIALIZATION_ROOT_COUNT_BLOCKER'), errors, 'MATRIX_C1_NATIVE_MATERIALIZATION_BLOCKER_REF_MISSING');
   failIf(Array.isArray(c1.executedFullRouteEvidence) && c1.executedFullRouteEvidence.length !== 0, errors, 'MATRIX_C1_EXECUTED_FULL_ROUTE_EVIDENCE_MUST_REMAIN_EMPTY');
   failIf(c1.productMutationAuthority !== 'DENY_UNTIL_ROUTE_CONTOUR_PROVES_APPLY_AUTHORITY', errors, 'MATRIX_C1_PRODUCT_AUTHORITY_ESCALATION');
   failIf(matrix?.claimControls?.chainSaturationVerdict !== receipt.route.chainSaturationVerdict, errors, 'MATRIX_CHAIN_SATURATION_MISMATCH');
@@ -380,7 +390,7 @@ export function resolveExactHeadBinding(repoRoot = repoRootFromHere(), env = pro
       source: 'GITHUB_PULL_REQUEST_EVENT',
       observedBaseSha: baseSha || 'MISSING',
       acceptedBaseShas: [EXACT_HEAD],
-      staleRejectedBaseShas: [PRE_AUTH_REPAIR_ROUTE_HEAD, PRE_VISIBILITY_REPLAY_ROUTE_HEAD],
+      staleRejectedBaseShas: [PRE_AUTH_REPAIR_ROUTE_HEAD, PRE_VISIBILITY_REPLAY_ROUTE_HEAD, PRE_WINDOW_REPAIR_ROUTE_HEAD],
     };
   }
   return { ok: false, status: 'NOT_REACHABLE_FROM_CURRENT_HEAD', source: 'LOCAL_GIT_GRAPH' };
@@ -443,7 +453,7 @@ export function runC1HostileCorpus() {
     ['wrong-next-contour', (r) => { r.nextSequentialContour = 'C2_YALKEN_WORD_YALKEN_APPLY_WORD_FULL_REVERSE_CYCLE_V1'; }, 'NEXT_CONTOUR_INVALID'],
     ['returned-artifact-missing-after-repair', (r) => { r.physicalEvidence.returnedArtifactPresent = false; }, 'RETURNED_ARTIFACT_MUST_BE_PRESENT_AFTER_REPAIR'],
     ['returned-ready-launder', (r) => { r.physicalEvidence.resultStatus.returnedDocxReady = true; }, 'RETURNED_DOCX_READY_MUST_BE_FALSE'],
-    ['visibility-window-launder', (r) => { r.physicalEvidence.resultStatus.wordWindowDiagnostics = 'MACOS_ACCESSIBILITY_PREFLIGHT_READY|WINDOW_COUNT:1'; }, 'WINDOW_COUNT_ZERO_NOT_RECORDED'],
+    ['window-revive-missing-launder', (r) => { r.physicalEvidence.resultStatus.wordWindowDiagnostics = 'MACOS_ACCESSIBILITY_PREFLIGHT_READY|WINDOW_COUNT:1'; }, 'WINDOW_REVIVE_NOT_RECORDED'],
   ];
   let killed = 0;
   const survivors = [];

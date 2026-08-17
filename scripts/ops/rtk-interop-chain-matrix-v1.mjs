@@ -13,12 +13,13 @@ export const CONTRACT_BASENAME = 'rtk-interop-chain-matrix.contract.test.js';
 
 export const MATRIX_SCHEMA_VERSION = 'yalken.interopChain.matrix.v1';
 export const LINEAGE_SCHEMA_VERSION = 'yalken.interopChain.multiRoundLineage.receipt.v1';
-export const INTEROP_CHAIN_EXACT_HEAD_SHA = '9453e232a65b6cf92ceb802adf2d2f776fd3ee33';
+export const INTEROP_CHAIN_EXACT_HEAD_SHA = '834f37a8cb5ba3eb854f6407e2dc4e7e14606d88';
 export const INTEROP_CHAIN_PRE_AUTH_REPAIR_ROUTE_SHA = '1b8a23441ba29b6cac79a62a3b18ece031654e62';
 export const INTEROP_CHAIN_PRE_VISIBILITY_REPLAY_SHA = '5ebb75f4110bb1a287ad9a9109cebdeb373642ba';
+export const INTEROP_CHAIN_PRE_WINDOW_REPAIR_REPLAY_SHA = '9453e232a65b6cf92ceb802adf2d2f776fd3ee33';
 export const MATRIX_STATUS = 'INTEROP_CHAIN_C1_C8_DENOMINATOR_REGISTERED_NEEDS_MORE_EVIDENCE';
-export const NEXT_SEQUENTIAL_CONTOUR = 'C1_WORD_WINDOW_VISIBILITY_STABILITY_REPAIR_V1';
-export const POST_AUTH_REPAIR_FULL_BOOK_ACCOUNTING = 'FULL_BOOK_ATTEMPTED_POST_AUTH_REPAIR_WORD_VISIBILITY_BLOCKED_NOT_PROVEN';
+export const NEXT_SEQUENTIAL_CONTOUR = 'C1_WORD_NATIVE_MATERIALIZATION_ROOT_COUNT_REPAIR_V1';
+export const POST_AUTH_REPAIR_FULL_BOOK_ACCOUNTING = 'FULL_BOOK_ATTEMPTED_POST_WINDOW_REPAIR_NATIVE_MATERIALIZATION_BLOCKED_NOT_PROVEN';
 
 export const EXPECTED_ROUTE_IDS = Object.freeze(['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8']);
 export const ALLOWED_ROUTE_VERDICTS = Object.freeze(['NEEDS_MORE_EVIDENCE', 'UNSUPPORTED', 'BLOCKED', 'PASS']);
@@ -171,8 +172,8 @@ function validateRoute(route, errors) {
     if (!Array.isArray(route.blockerEvidenceRefs) || !route.blockerEvidenceRefs.includes('YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1')) {
       errors.push('routeDenominator:C1:BLOCKER_EVIDENCE_REF_MISSING');
     }
-    if (!Array.isArray(route.blockerEvidenceRefs) || !route.blockerEvidenceRefs.includes('C1_WORD_WINDOW_VISIBILITY_STABILITY_BLOCKER')) {
-      errors.push('routeDenominator:C1:WORD_VISIBILITY_BLOCKER_REF_MISSING');
+    if (!Array.isArray(route.blockerEvidenceRefs) || !route.blockerEvidenceRefs.includes('C1_WORD_NATIVE_MATERIALIZATION_ROOT_COUNT_BLOCKER')) {
+      errors.push('routeDenominator:C1:NATIVE_MATERIALIZATION_BLOCKER_REF_MISSING');
     }
     if (Array.isArray(route.executedFullRouteEvidence) && route.executedFullRouteEvidence.length !== 0) {
       errors.push('routeDenominator:C1:EXECUTED_FULL_ROUTE_EVIDENCE_MUST_REMAIN_EMPTY_WHEN_BLOCKED');
@@ -241,14 +242,18 @@ export function validateInteropChainMatrix(matrix, options = {}) {
   if (Array.isArray(matrix.routeDenominator)) {
     for (const route of matrix.routeDenominator) validateRoute(route, errors);
   }
-  if (matrix.sourceEvidence?.c1FreshWordVisibilityBlockedReplay?.exactHead !== INTEROP_CHAIN_EXACT_HEAD_SHA) {
+  if (matrix.sourceEvidence?.c1FreshNativeMaterializationBlockedReplay?.exactHead !== INTEROP_CHAIN_EXACT_HEAD_SHA) {
     errors.push('sourceEvidence:C1_FRESH_REPLAY_EXACT_HEAD_MISMATCH');
   }
-  if (matrix.sourceEvidence?.c1FreshWordVisibilityBlockedReplay?.failureCode !== 'MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE') {
+  if (matrix.sourceEvidence?.c1FreshNativeMaterializationBlockedReplay?.failureCode !== 'NATIVE_MATERIALIZATION_ROOT_COUNT_MISMATCH') {
     errors.push('sourceEvidence:C1_FRESH_REPLAY_FAILURE_CODE_MISSING');
   }
-  if (matrix.sourceEvidence?.c1FreshWordVisibilityBlockedReplay?.returnedDocxReady !== false) {
+  if (matrix.sourceEvidence?.c1FreshNativeMaterializationBlockedReplay?.returnedDocxReady !== false) {
     errors.push('sourceEvidence:C1_FRESH_REPLAY_READY_GATE_NOT_FAIL_CLOSED');
+  }
+  const diagnostics = String(matrix.sourceEvidence?.c1FreshNativeMaterializationBlockedReplay?.wordWindowDiagnostics || '');
+  if (!diagnostics.includes('MACOS_ACCESSIBILITY_PREFLIGHT_READY') || !diagnostics.includes('WINDOW_COUNT:1') || !diagnostics.includes('WINDOW_REVIVE')) {
+    errors.push('sourceEvidence:C1_FRESH_REPLAY_WINDOW_REVIVE_NOT_RECORDED');
   }
   if (matrix.nextSequentialContour !== NEXT_SEQUENTIAL_CONTOUR) {
     errors.push('nextSequentialContour:INVALID');
@@ -323,7 +328,11 @@ export function resolveExactHeadBinding(repoRoot = repoRootFromHere(), env = pro
       source: 'GITHUB_PULL_REQUEST_EVENT',
       observedBaseSha: baseSha || 'MISSING',
       acceptedBaseShas: [INTEROP_CHAIN_EXACT_HEAD_SHA],
-      staleRejectedBaseShas: [INTEROP_CHAIN_PRE_AUTH_REPAIR_ROUTE_SHA, INTEROP_CHAIN_PRE_VISIBILITY_REPLAY_SHA],
+      staleRejectedBaseShas: [
+        INTEROP_CHAIN_PRE_AUTH_REPAIR_ROUTE_SHA,
+        INTEROP_CHAIN_PRE_VISIBILITY_REPLAY_SHA,
+        INTEROP_CHAIN_PRE_WINDOW_REPAIR_REPLAY_SHA,
+      ],
     };
   }
 

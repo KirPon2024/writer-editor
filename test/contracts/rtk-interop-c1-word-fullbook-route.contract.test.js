@@ -95,8 +95,9 @@ test('C1 Word full-book physical evidence binds exact blocker facts and no termi
   assert.match(receipt.physicalEvidence.resultSha256, /^sha256:[0-9a-f]{64}$/u);
   assert.match(receipt.physicalEvidence.sourceDocxSha256, /^sha256:[0-9a-f]{64}$/u);
   assert.match(receipt.physicalEvidence.returnedDocxSha256, /^sha256:[0-9a-f]{64}$/u);
-  assert.equal(receipt.physicalEvidence.runId, 'c1-fullbook-auth-repair-w06-r3-20260817');
-  assert.equal(receipt.physicalEvidence.stageResult.headSha, '9453e232a65b6cf92ceb802adf2d2f776fd3ee33');
+  assert.equal(receipt.physicalEvidence.runId, 'c1-window-visibility-repair-w06-r1-20260817');
+  assert.equal(receipt.physicalEvidence.previousRedRunId, 'c1-fullbook-auth-repair-w06-r3-20260817');
+  assert.equal(receipt.physicalEvidence.stageResult.headSha, '834f37a8cb5ba3eb854f6407e2dc4e7e14606d88');
   assert.equal(receipt.physicalEvidence.stageResult.operationCount, 2000);
   assert.equal(receipt.physicalEvidence.stageResult.roundGreen, false);
   assert.equal(receipt.physicalEvidence.masterLedger.ledgerDigest, 'sha256:e075c4942b590d2622bf6202a4db1f33259f97367e2612a78673c7a54adf2d71');
@@ -105,7 +106,8 @@ test('C1 Word full-book physical evidence binds exact blocker facts and no termi
   assert.equal(receipt.physicalEvidence.round01.completedCheckpointOperationCount, 336);
   assert.equal(receipt.physicalEvidence.round01.failedChunk, 'word-chunk-008');
   assert.equal(receipt.physicalEvidence.round01.returnedReady, false);
-  assert.equal(receipt.physicalEvidence.round01.failureCode, 'MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE');
+  assert.equal(receipt.physicalEvidence.round01.failureCode, 'NATIVE_MATERIALIZATION_ROOT_COUNT_MISMATCH');
+  assert.match(receipt.physicalEvidence.round01.failureError, /NATIVE_MATERIALIZATION_ROOT_COUNT_MISMATCH:1:0/u);
   assert.equal(receipt.physicalEvidence.resultStatus.plannedOperations, 2000);
   assert.equal(receipt.physicalEvidence.resultStatus.attemptedOperations, 379);
   assert.equal(receipt.physicalEvidence.resultStatus.reportedOperations, 336);
@@ -119,7 +121,10 @@ test('C1 Word full-book physical evidence binds exact blocker facts and no termi
   assert.equal(receipt.physicalEvidence.resultStatus.returnIntakeAuthenticated, false);
   assert.equal(receipt.physicalEvidence.resultStatus.returnIntakeStatus, 'not-started-returned-docx-not-ready');
   assert.equal(receipt.physicalEvidence.resultStatus.returnedDocxReady, false);
-  assert.match(receipt.physicalEvidence.resultStatus.wordWindowDiagnostics, /WINDOW_COUNT:0/u);
+  assert.match(receipt.physicalEvidence.resultStatus.wordWindowDiagnostics, /MACOS_ACCESSIBILITY_PREFLIGHT_READY/u);
+  assert.match(receipt.physicalEvidence.resultStatus.wordWindowDiagnostics, /WINDOW_COUNT:1/u);
+  assert.match(receipt.physicalEvidence.resultStatus.wordWindowDiagnostics, /WINDOW_REVIVE/u);
+  assert.match(receipt.physicalEvidence.resultStatus.wrapperError, /NATIVE_MATERIALIZATION_ROOT_COUNT_MISMATCH/u);
   assert.equal(receipt.physicalEvidence.resultStatus.falseAutoApplyCount, 0);
   assert.equal(receipt.physicalEvidence.returnedArtifactPresent, true);
   assert.equal(receipt.physicalEvidence.returnedArtifactSha256, receipt.physicalEvidence.returnedDocxSha256);
@@ -159,7 +164,7 @@ test('C1 Word full-book route updates only C1 as blocked in the chain matrix and
   assert.deepEqual(c1.executedFullRouteEvidence, []);
   assert.deepEqual(c1.blockerEvidenceRefs, [
     'YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1',
-    'C1_WORD_WINDOW_VISIBILITY_STABILITY_BLOCKER',
+    'C1_WORD_NATIVE_MATERIALIZATION_ROOT_COUNT_BLOCKER',
   ]);
   assert.equal(c1.productMutationAuthority, 'DENY_UNTIL_ROUTE_CONTOUR_PROVES_APPLY_AUTHORITY');
   assert.notEqual(c1.requiredOracles.semanticOracle.status, 'PASS');
@@ -206,7 +211,8 @@ test('C1 Word full-book route hostile receipt mutations are rejected fail-closed
     ['returned-ready-launder', (r) => { r.physicalEvidence.resultStatus.returnedDocxReady = true; }, 'RETURNED_DOCX_READY_MUST_BE_FALSE'],
     ['current-profile-launder', (r) => { r.physicalEvidence.independentParserProbe.payloadProfileId = 'word-mac-16.112-26081010-product-review-export-c5v2-full-manuscript'; }, 'CURRENT_PROFILE_MUST_NOT_BE_CLAIMED_WHEN_NOT_READY'],
     ['returned-artifact-missing-after-repair', (r) => { r.physicalEvidence.returnedArtifactPresent = false; }, 'RETURNED_ARTIFACT_MUST_BE_PRESENT_AFTER_REPAIR'],
-    ['word-visibility-launder', (r) => { r.physicalEvidence.resultStatus.wordWindowDiagnostics = 'MACOS_ACCESSIBILITY_PREFLIGHT_READY|WINDOW_COUNT:1'; }, 'WINDOW_COUNT_ZERO_NOT_RECORDED'],
+    ['window-revive-missing-launder', (r) => { r.physicalEvidence.resultStatus.wordWindowDiagnostics = 'MACOS_ACCESSIBILITY_PREFLIGHT_READY|WINDOW_COUNT:1'; }, 'WINDOW_REVIVE_NOT_RECORDED'],
+    ['native-materialization-failure-launder', (r) => { r.physicalEvidence.round01.failureCode = 'MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE'; }, 'NATIVE_MATERIALIZATION_FAILURE_CODE'],
   ];
 
   for (const [name, mutate, expected] of cases) {

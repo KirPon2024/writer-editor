@@ -4,8 +4,8 @@
   "status": "C1_YALKEN_WORD_YALKEN_FULL_BOOK_ROUTE_V1_EXECUTED_BLOCKED_FAIL_CLOSED",
   "verdict": "NEEDS_MORE_EVIDENCE",
   "programVerdict": "NEEDS_MORE_EVIDENCE",
-  "exactHead": "1b8a23441ba29b6cac79a62a3b18ece031654e62",
-  "generatedAtUtc": "2026-08-15T16:05:00.000Z",
+  "exactHead": "5ebb75f4110bb1a287ad9a9109cebdeb373642ba",
+  "generatedAtUtc": "2026-08-17T06:18:20.000Z",
   "route": {
     "routeId": "C1",
     "title": "Yalken to Word to Yalken",
@@ -58,7 +58,7 @@
       "expectedRouteCount": 1,
       "actualRouteCount": 0,
       "fullBookProcessed": false,
-      "reason": "Current-profile full-book source DOCX evidence exists and is bound to Word 16.112; the repaired physical runner published a T7 returned DOCX artifact, but Product return intake classified it as legacy-unbound-review-preview and did not authenticate carrier authority, so exact apply, recovery, replay, and route oracles did not execute."
+      "reason": "Historical full-book C1 physical evidence remains fail-closed: a Word 16.112 returned DOCX artifact exists, but the route was attempted before the merged auth-carrier repair and has not been replayed through authenticated Product return intake. Exact apply, recovery, replay, and route oracles remain unexecuted for PASS."
     }
   },
   "physicalEvidence": {
@@ -154,8 +154,8 @@
     {
       "id": "C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_BLOCKER",
       "class": "c1_return_intake",
-      "disposition": "BLOCKED",
-      "evidence": "The returned DOCX artifact contains Word revisions/comments and the YRTK custom document property carrier survived, but Product return intake reported authenticated:false, status:legacy-unbound-review-preview, authorityCarrierStatus empty, and did not produce exact text, formatting, structural, replay, recovery, or write-authority apply results."
+      "disposition": "HISTORICAL_BLOCKED_REPLAY_REQUIRED_AFTER_REPAIR",
+      "evidence": "The historical returned DOCX artifact contains Word revisions/comments and the YRTK custom document property carrier survived, but that run predated the merged auth-carrier repair and Product return intake reported authenticated:false. The repair is now scoped-published by current release evidence, but this C1 route receipt remains blocked until a fresh full-book replay proves authenticated intake and route oracles."
     },
     {
       "id": "WORD_NATIVE_LIFECYCLE_REPLY_STATE_BLOCKER",
@@ -174,6 +174,12 @@
       "class": "n2",
       "disposition": "NOT_IN_SCOPE_NO_PASS_CLAIM",
       "evidence": "No N2 product/runtime repair was made in this C1 current-profile replay contour; any N2 failures remain separate affected-chain evidence, not C1 route PASS evidence."
+    },
+    {
+      "id": "C1_AUTH_REPAIR_PUBLISHED_SCOPED_ROUTE_REPLAY_REQUIRED",
+      "class": "c1_return_intake",
+      "disposition": "REPLAY_REQUIRED_NOT_ROUTE_PASS",
+      "evidence": "Current exact-head release publication marks C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1 as PUBLISHED_SCOPED with nonClaims C1_ROUTE_PASS, CHAIN_SATURATION, and USER_DOCUMENT_COVERAGE. The next evidence contour is a fresh full-book C1 route replay on the repaired path."
     }
   ],
   "oracles": {
@@ -273,5 +279,5 @@
     "runtimeRollbackRequired": false,
     "userDataTouched": false
   },
-  "nextSequentialContour": "C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1"
+  "nextSequentialContour": "C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_AUTH_REPAIR_V1"
 }

@@ -10,10 +10,10 @@ export const TASK_ID = 'C1_YALKEN_WORD_YALKEN_FULL_BOOK_ROUTE_V1';
 export const STATUS = 'C1_YALKEN_WORD_YALKEN_FULL_BOOK_ROUTE_V1_EXECUTED_BLOCKED_FAIL_CLOSED';
 export const VERDICT = 'NEEDS_MORE_EVIDENCE';
 export const PROGRAM_VERDICT = 'NEEDS_MORE_EVIDENCE';
-export const EXACT_HEAD = '1b8a23441ba29b6cac79a62a3b18ece031654e62';
-export const RECOVERY_PARENT_HEAD = '2cb6a6f6199272a22d8da9d903ef11a6072befd9';
-export const CURRENT_MAIN_BASE_HEAD = '09ce09efd5ed11a3d68ae97bb0d0db6f0ba1ecba';
-export const RELEASE_TRUTH_BASE_HEAD = '9feaf1376884e3fba75fed4783056313a128f31f';
+export const EXACT_HEAD = '5ebb75f4110bb1a287ad9a9109cebdeb373642ba';
+export const PRE_AUTH_REPAIR_ROUTE_HEAD = '1b8a23441ba29b6cac79a62a3b18ece031654e62';
+export const NEXT_SEQUENTIAL_CONTOUR = 'C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_AUTH_REPAIR_V1';
+export const POST_AUTH_REPAIR_FULL_BOOK_ACCOUNTING = 'FULL_BOOK_ATTEMPTED_PRE_AUTH_REPAIR_REPLAY_REQUIRED_NOT_PROVEN';
 export const RECEIPT_PATH = 'docs/OPS/RTK/YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1.json';
 export const MATRIX_PATH = 'docs/OPS/RTK/YALKEN_INTEROP_CHAIN_MATRIX_V1.json';
 export const CATALOG_PATH = 'docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json';
@@ -225,6 +225,7 @@ function validateClassifications(classifications, errors) {
     'WORD_OBJECT_MODEL_WINDOW_REQUIREMENT_REPAIRED',
     'C5_RETURN_ARTIFACT_PUBLICATION_BLOCKER_REPAIRED',
     'C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_BLOCKER',
+    'C1_AUTH_REPAIR_PUBLISHED_SCOPED_ROUTE_REPLAY_REQUIRED',
     'WORD_NATIVE_LIFECYCLE_REPLY_STATE_BLOCKER',
     'C5_STALE_PROVIDER_PROFILE_BINDING',
     'ORCHESTRATOR_PROGRESS_ROUND_ID_DEFECT_REPAIRED',
@@ -234,6 +235,7 @@ function validateClassifications(classifications, errors) {
   }
   failIf(byId.get('ORCHESTRATOR_PROGRESS_ROUND_ID_DEFECT_REPAIRED')?.disposition !== 'REPAIRED_IN_SCOPE', errors, 'ORCHESTRATOR_FIX_NOT_RECORDED');
   failIf(byId.get('C5_STALE_PROVIDER_PROFILE_BINDING')?.disposition !== 'REPAIRED_IN_CURRENT_PROFILE_REPLAY', errors, 'STALE_PROFILE_REPAIR_NOT_RECORDED');
+  failIf(byId.get('C1_AUTH_REPAIR_PUBLISHED_SCOPED_ROUTE_REPLAY_REQUIRED')?.disposition !== 'REPLAY_REQUIRED_NOT_ROUTE_PASS', errors, 'C1_AUTH_REPAIR_REPLAY_REQUIREMENT_NOT_RECORDED');
   for (const [id, item] of byId) {
     if (item.disposition === 'PASS') errors.push(`FAILURE_CLASSIFICATION_FALSE_PASS:${id}`);
   }
@@ -293,7 +295,7 @@ export function validateC1Receipt(receipt) {
   failIf(receipt.hostileCorpus?.survivors !== 0, errors, 'HOSTILE_CORPUS_SURVIVORS_NONZERO');
   failIf(receipt.semanticMutations?.total < 12, errors, 'SEMANTIC_MUTATION_CATALOG_INCOMPLETE');
   failIf(receipt.semanticMutations?.survivors !== 0, errors, 'SEMANTIC_MUTATION_SURVIVORS_NONZERO');
-  failIf(receipt.nextSequentialContour !== 'C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1', errors, 'NEXT_CONTOUR_INVALID');
+  failIf(receipt.nextSequentialContour !== NEXT_SEQUENTIAL_CONTOUR, errors, 'NEXT_CONTOUR_INVALID');
   return { ok: errors.length === 0, errors };
 }
 
@@ -308,8 +310,9 @@ export function validateC1MatrixBinding(matrix, receipt) {
   }
   failIf(c1.routeVerdict !== 'BLOCKED', errors, 'MATRIX_C1_ROUTE_VERDICT_MUST_BE_BLOCKED');
   failIf(c1.accountingStatus !== 'FULL_BOOK_ATTEMPTED_BLOCKED', errors, 'MATRIX_C1_ACCOUNTING_STATUS_INVALID');
-  failIf(c1.fullBookAccounting !== 'FULL_BOOK_ATTEMPTED_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_BLOCKED_NOT_PROVEN', errors, 'MATRIX_C1_FULL_BOOK_ACCOUNTING_INVALID');
+  failIf(c1.fullBookAccounting !== POST_AUTH_REPAIR_FULL_BOOK_ACCOUNTING, errors, 'MATRIX_C1_FULL_BOOK_ACCOUNTING_INVALID');
   failIf(!Array.isArray(c1.blockerEvidenceRefs) || !c1.blockerEvidenceRefs.includes('YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1'), errors, 'MATRIX_C1_BLOCKER_EVIDENCE_REF_MISSING');
+  failIf(!Array.isArray(c1.blockerEvidenceRefs) || !c1.blockerEvidenceRefs.includes('C1_AUTH_REPAIR_PUBLISHED_SCOPED_ROUTE_REPLAY_REQUIRED'), errors, 'MATRIX_C1_REPLAY_REQUIREMENT_REF_MISSING');
   failIf(Array.isArray(c1.executedFullRouteEvidence) && c1.executedFullRouteEvidence.length !== 0, errors, 'MATRIX_C1_EXECUTED_FULL_ROUTE_EVIDENCE_MUST_REMAIN_EMPTY');
   failIf(c1.productMutationAuthority !== 'DENY_UNTIL_ROUTE_CONTOUR_PROVES_APPLY_AUTHORITY', errors, 'MATRIX_C1_PRODUCT_AUTHORITY_ESCALATION');
   failIf(matrix?.claimControls?.chainSaturationVerdict !== receipt.route.chainSaturationVerdict, errors, 'MATRIX_CHAIN_SATURATION_MISMATCH');
@@ -336,39 +339,13 @@ export function resolveExactHeadBinding(repoRoot = repoRootFromHere(), env = pro
     const event = tryReadJson(env.GITHUB_EVENT_PATH);
     const baseSha = event?.pull_request?.base?.sha;
     if (baseSha === EXACT_HEAD) return { ok: true, status: 'MATCHES_PULL_REQUEST_BASE_SHA_IN_SHALLOW_CHECKOUT', source: 'GITHUB_PULL_REQUEST_EVENT' };
-    if (baseSha === RECOVERY_PARENT_HEAD) {
-      return {
-        ok: true,
-        status: 'MATCHES_RECOVERY_PARENT_SHA_IN_SHALLOW_CHECKOUT',
-        source: 'GITHUB_PULL_REQUEST_EVENT',
-        observedBaseSha: baseSha,
-        historicalExactHead: EXACT_HEAD,
-      };
-    }
-    if (baseSha === CURRENT_MAIN_BASE_HEAD) {
-      return {
-        ok: true,
-        status: 'MATCHES_CURRENT_MAIN_BASE_SHA_IN_SHALLOW_CHECKOUT',
-        source: 'GITHUB_PULL_REQUEST_EVENT',
-        observedBaseSha: baseSha,
-        historicalExactHead: EXACT_HEAD,
-      };
-    }
-    if (baseSha === RELEASE_TRUTH_BASE_HEAD) {
-      return {
-        ok: true,
-        status: 'MATCHES_RELEASE_TRUTH_BASE_SHA_IN_SHALLOW_CHECKOUT',
-        source: 'GITHUB_PULL_REQUEST_EVENT',
-        observedBaseSha: baseSha,
-        historicalExactHead: EXACT_HEAD,
-      };
-    }
     return {
       ok: false,
       status: 'PULL_REQUEST_BASE_SHA_MISMATCH',
       source: 'GITHUB_PULL_REQUEST_EVENT',
       observedBaseSha: baseSha || 'MISSING',
-      acceptedBaseShas: [EXACT_HEAD, RECOVERY_PARENT_HEAD, CURRENT_MAIN_BASE_HEAD, RELEASE_TRUTH_BASE_HEAD],
+      acceptedBaseShas: [EXACT_HEAD],
+      staleRejectedBaseShas: [PRE_AUTH_REPAIR_ROUTE_HEAD],
     };
   }
   return { ok: false, status: 'NOT_REACHABLE_FROM_CURRENT_HEAD', source: 'LOCAL_GIT_GRAPH' };

@@ -3,10 +3,10 @@
   "documentClass": "EVIDENCE_RECEIPT",
   "status": "INTEROP_CHAIN_LINEAGE_DENOMINATOR_REGISTERED_NEEDS_MORE_EVIDENCE",
   "claimBoundary": "This receipt binds the C1-C8 route matrix and multi-round lineage closure rules only. It is not route execution evidence, not chain saturation, not universal Word/Google parity, not byte identity, and not product import/apply authority.",
-  "generatedAtUtc": "2026-08-15T16:05:00.000Z",
-  "exactHead": "1b8a23441ba29b6cac79a62a3b18ece031654e62",
+  "generatedAtUtc": "2026-08-17T06:18:20.000Z",
+  "exactHead": "5ebb75f4110bb1a287ad9a9109cebdeb373642ba",
   "matrixPath": "docs/OPS/RTK/YALKEN_INTEROP_CHAIN_MATRIX_V1.json",
-  "matrixSha256": "sha256:6db8bbed7370b0a70b5a2e82b54e1193f1b896b8e5747e2af51a035bf7e73c30",
+  "matrixSha256": "sha256:ddc56043948998cf49fd5c4d9ad2be0974e5b777314f9afd3cd16f352686c156",
   "routeIds": ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8"],
   "lineageStatus": "NOT_STARTED_DENOMINATOR_REGISTERED",
   "googleWholeBookInput": {

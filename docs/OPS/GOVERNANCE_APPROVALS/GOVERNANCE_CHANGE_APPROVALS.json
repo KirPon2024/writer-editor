@@ -7819,12 +7819,12 @@
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-round-checkpoint.contract.test.js",
-      "sha256": "85cb7f245aa999dbbca654e3cc7bb6eed10ca4c472a1781b37a1a1e07de134bf",
-      "rationale": "Approve exact Phase A round-checkpoint contract fixture alignment bytes for hardened completed-round binding construction; test evidence alignment only, no production compatibility shim.",
-      "approvedBy": "owner-direct:TASK_ID:PHASE_A_CLOSEOUT_DIRECTIVE",
-      "approvedAtUtc": "2026-08-05T20:51:35.256Z",
+      "sha256": "f443c560da41cc7a5b89324025faf1c2b20f14009b08414c55803b8f8016ab4e",
+      "rationale": "Approve cumulative chunk contract proving continuation materialization carries prior root markers and cumulative revision floors instead of treating preserved prior root comments as unexpected current-chunk roots.",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_NATIVE_MATERIALIZATION_ROOT_COUNT_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T11:08:00.000Z",
       "approved": true,
-      "authority": "EXPLICIT_OWNER_APPROVAL_PHASE_A_EXACT_FIVE_FROZEN_GOVERNANCE_RECORDS"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_NATIVE_MATERIALIZATION_ROOT_COUNT_REPAIR_V1"
     },
     {
       "filePath": "test/contracts/rtk-word-latest-semantic-b00.contract.test.js",
@@ -9312,12 +9312,12 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "7120d6afd9a2ca6e154d44dedfc066e8912760b889caa616d7f61b125eb86aac",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_WINDOW_VISIBILITY_STABILITY_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T09:23:41.000Z",
-      "rationale": "Approve bounded Word window revival diagnostics inside the C5V2 physical canary: reactivate and raise the expected Microsoft Word document before AX window checks while preserving hidden zero-window and System Events error paths as fail-closed non-PASS evidence.",
+      "sha256": "b5c9a9535ec185856f87a53503bb0e2ff9ddac714f68f530b289ba297dc9e576",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_NATIVE_MATERIALIZATION_ROOT_COUNT_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T11:08:00.000Z",
+      "rationale": "Approve physical canary repair that passes cumulative expected revision and root-marker identities into the native materialization boundary, preserving fail-closed root count, marker, identity, compatibility, and hash checks while avoiding stale current-chunk-only expectations.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_WINDOW_VISIBILITY_STABILITY_REPAIR_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_NATIVE_MATERIALIZATION_ROOT_COUNT_REPAIR_V1"
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-terminal-orchestrator.mjs",

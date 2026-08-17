@@ -996,6 +996,7 @@ leaseTest('ORCH_TEST_2: CLI rejects unknown, duplicate and value-missing args', 
 leaseTest('ORCH_TEST_3: CLI rejects invalid sha, build, timeout, campaign and chain identities', async () => {
   const orch = await loadOrchestrator();
   assert.throws(() => orch.parseOrchestratorArgs(withArg('--expected-sha', 'zz')), /ORCH_ARG_INVALID:--expected-sha/u);
+  assert.throws(() => orch.parseOrchestratorArgs(withArg('--expected-word-version', '16.112-beta')), /ORCH_ARG_INVALID:--expected-word-version/u);
   assert.throws(() => orch.parseOrchestratorArgs(withArg('--expected-word-build', 'x.y')), /ORCH_ARG_INVALID:--expected-word-build/u);
   assert.throws(() => orch.parseOrchestratorArgs([...BASE_ARGS, '--stage-timeout-ms', '-5']), /ORCH_ARG_INVALID:--stage-timeout-ms/u);
   assert.throws(() => orch.parseOrchestratorArgs([...BASE_ARGS, '--stage-timeout-ms', '99999999999999999999']), /ORCH_ARG_INVALID:--stage-timeout-ms/u);
@@ -1005,6 +1006,7 @@ leaseTest('ORCH_TEST_3: CLI rejects invalid sha, build, timeout, campaign and ch
   const parsed = orch.parseOrchestratorArgs(BASE_ARGS);
   assert.equal(parsed.chainId, 'W06');
   assert.equal(parsed.campaignRoot, path.join('/tmp/c5v2-orch-args', 'test-campaign-001'));
+  assert.equal(orch.parseOrchestratorArgs(withArg('--expected-word-version', '16.112')).expectedWordVersion, '16.112');
 });
 
 leaseTest('ORCH_TEST_4: path authority rejects escape, symlink component and collision', async () => {
@@ -4188,8 +4190,8 @@ leaseTest('ORCH_PORTFOLIO_1: dry-run portfolio binds W06 REP1 REP2 REP3 order, i
       portfolioId,
       artifactRoot: root,
       expectedSha: 'a'.repeat(40),
-      expectedWordVersion: '16.111.3',
-      expectedWordBuild: '16.111.26080215',
+      expectedWordVersion: '16.112',
+      expectedWordBuild: '16.112.26081010',
       corpusDigest: 'sha256:' + 'b'.repeat(64),
       corpusManifestPath,
       masterLedgerDigest: ledger.ledgerDigest,

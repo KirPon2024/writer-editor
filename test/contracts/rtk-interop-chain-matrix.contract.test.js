@@ -59,13 +59,13 @@ test('Interop chain matrix registers the exact C1-C8 full-book denominator witho
   assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.returnedDocxReady, true);
   assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.completeRoundOracleGreen, true);
   assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.productReturnApplyGreen, false);
-  assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.nativeLifecycleVerifiedCount, 5);
-  assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.nativeLifecycleBlockedCount, 33);
-  assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.exactTextBindingMatched, 60);
+  assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.nativeLifecycleVerifiedCount, 0);
+  assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.nativeLifecycleBlockedCount, 38);
+  assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.exactTextBindingMatched, 0);
   assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.exactTextBindingExpected, 105);
-  assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.exactTextBindingUnmatched, 45);
-  assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.exactTextBindingFailure, 'C5V2_EXACT_SUMMARY_LEDGER_BINDING_REQUIRED');
-  assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.exactTextBindingFirstUnmatched[0], 'c5v2-tracked_text_edit-0023');
+  assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.exactTextBindingUnmatched, 105);
+  assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.exactTextBindingFailure, 'NO_EXACT_TEXT_CANDIDATE_OPERATION_ID_BINDING_FAILED');
+  assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.exactTextBindingFirstUnmatched[0], 'c5v2-tracked_text_edit-0003');
   assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.formattingApplyCode, 'RTK_FORMATTING_OPERATION_UNKNOWN_KEY');
   assert.deepEqual(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.gateFailures, [
     'PRODUCT_RETURN_APPLY_NOT_GREEN',
@@ -75,7 +75,7 @@ test('Interop chain matrix registers the exact C1-C8 full-book denominator witho
   ]);
   assert.match(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.wordWindowDiagnostics, /COMPLETE_ROUND_ORACLE_GREEN_TRUE/u);
   assert.match(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.wordWindowDiagnostics, /APPLY_LIFECYCLE_REUSE_GATE_FAILED/u);
-  assert.match(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.wordWindowDiagnostics, /EXACT_LEDGER_BINDING_60_OF_105/u);
+  assert.match(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.wordWindowDiagnostics, /EXACT_LEDGER_BINDING_0_OF_105/u);
 
   for (const route of matrix.routeDenominator) {
     assert.equal(route.fullCanonicalSyntheticBookRequired, true, route.routeId);

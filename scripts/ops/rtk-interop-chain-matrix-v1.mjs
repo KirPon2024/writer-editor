@@ -13,16 +13,19 @@ export const CONTRACT_BASENAME = 'rtk-interop-chain-matrix.contract.test.js';
 
 export const MATRIX_SCHEMA_VERSION = 'yalken.interopChain.matrix.v1';
 export const LINEAGE_SCHEMA_VERSION = 'yalken.interopChain.multiRoundLineage.receipt.v1';
-export const INTEROP_CHAIN_EXACT_HEAD_SHA = '5a5b34210bad80eaf1851efcf5a64426484f3f2a';
+export const INTEROP_CHAIN_EXACT_HEAD_SHA = '8504d5fa8db9af9456cc6a6d0ec8b1aa8ad4d81a';
 export const INTEROP_CHAIN_PRE_AUTH_REPAIR_ROUTE_SHA = '1b8a23441ba29b6cac79a62a3b18ece031654e62';
 export const INTEROP_CHAIN_PRE_VISIBILITY_REPLAY_SHA = '5ebb75f4110bb1a287ad9a9109cebdeb373642ba';
 export const INTEROP_CHAIN_PRE_WINDOW_REPAIR_REPLAY_SHA = '9453e232a65b6cf92ceb802adf2d2f776fd3ee33';
 export const INTEROP_CHAIN_PRE_NATIVE_MATERIALIZATION_REPLAY_SHA = '834f37a8cb5ba3eb854f6407e2dc4e7e14606d88';
 export const INTEROP_CHAIN_PRE_ORACLE_OUTCOME_MISMATCH_REPAIR_SHA = '279dde31d1bcf4c6a7cc80f6acfd034f9bdd600b';
 export const INTEROP_CHAIN_PRE_APPLY_LIFECYCLE_REUSE_GATE_REPAIR_SHA = '6aee73c0770357cd0b84bf5e8388cee38071c798';
+export const INTEROP_CHAIN_PRE_REUSE_GATE_REPLAY_SHA = '5a5b34210bad80eaf1851efcf5a64426484f3f2a';
+export const INTEROP_CHAIN_PRE_STDOUT_DRAIN_REPAIR_SHA = '77bbf5c24459d5a16dd8e20a51de0987235eab13';
 export const MATRIX_STATUS = 'INTEROP_CHAIN_C1_C8_DENOMINATOR_REGISTERED_NEEDS_MORE_EVIDENCE';
 export const NEXT_SEQUENTIAL_CONTOUR = 'C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1';
-export const POST_REUSE_GATE_REPAIR_FULL_BOOK_ACCOUNTING = 'FULL_BOOK_ATTEMPTED_POST_REUSE_GATE_REPAIR_EXACT_LEDGER_BINDING_BLOCKED_NOT_PROVEN';
+export const POST_FAILCLOSED_REPLAY_FULL_BOOK_ACCOUNTING = 'FULL_BOOK_ATTEMPTED_POST_FAILCLOSED_REPLAY_EXACT_LEDGER_BINDING_BLOCKED_NOT_PROVEN';
+export const POST_REUSE_GATE_REPAIR_FULL_BOOK_ACCOUNTING = POST_FAILCLOSED_REPLAY_FULL_BOOK_ACCOUNTING;
 export const POST_AUTH_REPAIR_FULL_BOOK_ACCOUNTING = POST_REUSE_GATE_REPAIR_FULL_BOOK_ACCOUNTING;
 
 export const EXPECTED_ROUTE_IDS = Object.freeze(['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8']);
@@ -265,25 +268,25 @@ export function validateInteropChainMatrix(matrix, options = {}) {
   if (c1FreshReplay?.productReturnApplyGreen !== false) {
     errors.push('sourceEvidence:C1_FRESH_REPLAY_PRODUCT_RETURN_APPLY_BLOCKER_MISSING');
   }
-  if (c1FreshReplay?.nativeLifecycleVerifiedCount !== 5) {
+  if (c1FreshReplay?.nativeLifecycleVerifiedCount !== 0) {
     errors.push('sourceEvidence:C1_FRESH_REPLAY_NATIVE_LIFECYCLE_VERIFIED_COUNT_MISSING');
   }
-  if (c1FreshReplay?.nativeLifecycleBlockedCount !== 33) {
+  if (c1FreshReplay?.nativeLifecycleBlockedCount !== 38) {
     errors.push('sourceEvidence:C1_FRESH_REPLAY_NATIVE_LIFECYCLE_BLOCKED_COUNT_MISSING');
   }
-  if (c1FreshReplay?.exactTextBindingMatched !== 60) {
+  if (c1FreshReplay?.exactTextBindingMatched !== 0) {
     errors.push('sourceEvidence:C1_FRESH_REPLAY_EXACT_LEDGER_MATCHED_COUNT_MISSING');
   }
   if (c1FreshReplay?.exactTextBindingExpected !== 105) {
     errors.push('sourceEvidence:C1_FRESH_REPLAY_EXACT_LEDGER_EXPECTED_COUNT_MISSING');
   }
-  if (c1FreshReplay?.exactTextBindingUnmatched !== 45) {
+  if (c1FreshReplay?.exactTextBindingUnmatched !== 105) {
     errors.push('sourceEvidence:C1_FRESH_REPLAY_EXACT_LEDGER_UNMATCHED_COUNT_MISSING');
   }
-  if (c1FreshReplay?.exactTextBindingFailure !== 'C5V2_EXACT_SUMMARY_LEDGER_BINDING_REQUIRED') {
+  if (c1FreshReplay?.exactTextBindingFailure !== 'NO_EXACT_TEXT_CANDIDATE_OPERATION_ID_BINDING_FAILED') {
     errors.push('sourceEvidence:C1_FRESH_REPLAY_EXACT_LEDGER_FAILURE_NOT_RECORDED');
   }
-  if (!Array.isArray(c1FreshReplay?.exactTextBindingFirstUnmatched) || c1FreshReplay.exactTextBindingFirstUnmatched[0] !== 'c5v2-tracked_text_edit-0023') {
+  if (!Array.isArray(c1FreshReplay?.exactTextBindingFirstUnmatched) || c1FreshReplay.exactTextBindingFirstUnmatched[0] !== 'c5v2-tracked_text_edit-0003') {
     errors.push('sourceEvidence:C1_FRESH_REPLAY_EXACT_LEDGER_FIRST_UNMATCHED_NOT_RECORDED');
   }
   if (c1FreshReplay?.formattingApplyCode !== 'RTK_FORMATTING_OPERATION_UNKNOWN_KEY') {
@@ -299,7 +302,7 @@ export function validateInteropChainMatrix(matrix, options = {}) {
     errors.push('sourceEvidence:C1_FRESH_REPLAY_GATE_FAILURES_NOT_RECORDED');
   }
   const diagnostics = String(c1FreshReplay?.wordWindowDiagnostics || '');
-  if (!diagnostics.includes('COMPLETE_ROUND_ORACLE_GREEN_TRUE') || !diagnostics.includes('APPLY_LIFECYCLE_REUSE_GATE_FAILED') || !diagnostics.includes('EXACT_LEDGER_BINDING_60_OF_105')) {
+  if (!diagnostics.includes('COMPLETE_ROUND_ORACLE_GREEN_TRUE') || !diagnostics.includes('APPLY_LIFECYCLE_REUSE_GATE_FAILED') || !diagnostics.includes('EXACT_LEDGER_BINDING_0_OF_105')) {
     errors.push('sourceEvidence:C1_FRESH_REPLAY_GATE_BLOCKER_DIAGNOSTICS_NOT_RECORDED');
   }
   if (matrix.nextSequentialContour !== NEXT_SEQUENTIAL_CONTOUR) {
@@ -382,6 +385,8 @@ export function resolveExactHeadBinding(repoRoot = repoRootFromHere(), env = pro
         INTEROP_CHAIN_PRE_NATIVE_MATERIALIZATION_REPLAY_SHA,
         INTEROP_CHAIN_PRE_ORACLE_OUTCOME_MISMATCH_REPAIR_SHA,
         INTEROP_CHAIN_PRE_APPLY_LIFECYCLE_REUSE_GATE_REPAIR_SHA,
+        INTEROP_CHAIN_PRE_REUSE_GATE_REPLAY_SHA,
+        INTEROP_CHAIN_PRE_STDOUT_DRAIN_REPAIR_SHA,
       ],
     };
   }

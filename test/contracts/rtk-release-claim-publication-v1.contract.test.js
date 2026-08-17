@@ -251,3 +251,19 @@ test('R4 independent oracle and mutation catalog are closed with zero survivors'
   assert.equal(mutations.killed, 12);
   assert.deepEqual(mutations.survivors, []);
 });
+
+test('R4 current input builds its R3 receipt from live exact head in memory', async () => {
+  const {
+    buildCurrentPublicationInput,
+    publishExactHeadClaims,
+  } = await loadPublisher();
+
+  const input = buildCurrentPublicationInput();
+  assert.equal(input.r3Receipt.exact.headSha, input.exact.headSha);
+  assert.equal(input.r3Receipt.exact.treeSha, input.exact.treeSha);
+  assert.match(input.r3ReceiptDigest, /^sha256:[0-9a-f]{64}$/u);
+
+  const publication = publishExactHeadClaims(input);
+  assert.equal(publication.ok, true, publication.errors.join('\n'));
+  assert.equal(claimFor(publication, 'C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1').publicationState, 'PUBLISHED_SCOPED');
+});

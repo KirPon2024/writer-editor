@@ -257,3 +257,18 @@ test('R2 compiler never aggregates UNKNOWN ABSTAIN STALE or CONFLICT into PASS a
   assert.equal(mutations.killed, 9);
   assert.deepEqual(mutations.survivors, []);
 });
+
+test('R2 current receipt builder emits a live exact-head receipt without granting authority', async () => {
+  const { buildCurrentReleaseClaimCompilerReceipt } = await loadCompiler();
+  const receipt = buildCurrentReleaseClaimCompilerReceipt();
+
+  assert.equal(receipt.ok, true, receipt.errors.join('\n'));
+  assert.match(receipt.exact.headSha, /^[0-9a-f]{40}$/u);
+  assert.match(receipt.exact.treeSha, /^[0-9a-f]{40}$/u);
+  assert.equal(receipt.oracle.ok, true, receipt.oracle.errors.join('\n'));
+  assert.equal(receipt.mutations.killed, receipt.mutations.total);
+  assert.deepEqual(receipt.mutations.survivors, []);
+  assert.equal(receipt.releaseAuthority, 'DENY');
+  assert.equal(receipt.productMutationAuthority, 'DENY');
+  assert.equal(receipt.providerMutationAuthority, 'DENY');
+});

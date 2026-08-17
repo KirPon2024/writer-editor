@@ -11157,57 +11157,57 @@
     },
     {
       "filePath": "scripts/ops/rtk-release-applicability-invalidation-graph-v1.mjs",
-      "sha256": "044552506a90539f0ba7d2fe943f00b94a2ce71f72bb3023b22f77478f6d64a6",
-      "approvedBy": "owner-delegated:TASK_ID:RELEASE_EVIDENCE_LIVE_EXACT_BINDING_V1",
-      "approvedAtUtc": "2026-08-17T04:58:32.000Z",
-      "rationale": "Approve R3 graph contract change replacing stale hardcoded current/R2 exact constants with live expectedExact validation and source receipt exact matching against current input, preserving stale-source fail-closed behavior and DENY authorities.",
+      "sha256": "8e2a4abde78dbc32d4174d757ceb850a560f0396424b9d83cdbee8f238a4adee",
+      "approvedBy": "owner-delegated:TASK_ID:RELEASE_EVIDENCE_LIVE_UPSTREAM_CHAIN_V1",
+      "approvedAtUtc": "2026-08-17T05:24:00.000Z",
+      "rationale": "Approve R3 applicability compiler live-upstream repair: build the R2 source receipt in memory from current git exact identity and digest that generated receipt, while preserving stale external source receipt fail-closed behavior and DENY authorities.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_RELEASE_EVIDENCE_LIVE_EXACT_BINDING_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_RELEASE_EVIDENCE_LIVE_UPSTREAM_CHAIN_V1"
     },
     {
       "filePath": "scripts/ops/rtk-release-claim-compiler-v0.mjs",
-      "sha256": "ef13df63dc37cd30f87e9a155f3311f2876b2bf3109a9536ea486bc573cd0363",
-      "approvedBy": "owner-delegated:TASK_ID:RELEASE_EVIDENCE_LIVE_EXACT_BINDING_V1",
-      "approvedAtUtc": "2026-08-17T04:58:32.000Z",
-      "rationale": "Approve R2 compiler contract change replacing stale hardcoded current HEAD/tree constants with input expectedExact validation generated from live git, preserving fail-closed wrong/missing exact behavior and DENY authorities.",
+      "sha256": "b896567d24277253ed6e545469ed5c684b692072689611271629a943f015b2c4",
+      "approvedBy": "owner-delegated:TASK_ID:RELEASE_EVIDENCE_LIVE_UPSTREAM_CHAIN_V1",
+      "approvedAtUtc": "2026-08-17T05:24:00.000Z",
+      "rationale": "Approve R2 release-claim compiler extraction of a reusable current receipt builder so downstream evidence compilers can consume a live exact-head receipt without granting release/product/provider authority.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_RELEASE_EVIDENCE_LIVE_EXACT_BINDING_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_RELEASE_EVIDENCE_LIVE_UPSTREAM_CHAIN_V1"
     },
     {
       "filePath": "scripts/ops/rtk-release-claim-publication-v1.mjs",
-      "sha256": "9941f93b40df6c020438498ae15dbc1083a5c0bdfb8d8fe895df9b4d83246c53",
-      "approvedBy": "owner-delegated:TASK_ID:RELEASE_EVIDENCE_LIVE_EXACT_BINDING_V1",
-      "approvedAtUtc": "2026-08-17T04:58:32.000Z",
-      "rationale": "Approve R4 publication contract change replacing stale hardcoded current/R3 exact constants with live expectedExact validation and R3 receipt matching against current input, preserving upstream stale fail-closed behavior and DENY authorities.",
+      "sha256": "e959de02d8e04be92b33b19258d87ae9747a3a94ee7bf27b217f524b9fbeee13",
+      "approvedBy": "owner-delegated:TASK_ID:RELEASE_EVIDENCE_LIVE_UPSTREAM_CHAIN_V1",
+      "approvedAtUtc": "2026-08-17T05:24:00.000Z",
+      "rationale": "Approve R4 publication compiler live-upstream repair: build the R3 receipt in memory from current git exact identity and digest that generated receipt, so committed stale snapshots cannot block current-head publication validation; authorities remain DENY and program verdict remains NEEDS_MORE_EVIDENCE.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_RELEASE_EVIDENCE_LIVE_EXACT_BINDING_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_RELEASE_EVIDENCE_LIVE_UPSTREAM_CHAIN_V1"
     },
     {
       "filePath": "test/contracts/rtk-release-applicability-invalidation-graph-v1.contract.test.js",
-      "sha256": "5936f3ed2b099d5d1eb3ed6c523911f3867de24d75b463750a59971a09032532",
-      "approvedBy": "owner-delegated:TASK_ID:RELEASE_EVIDENCE_LIVE_EXACT_BINDING_V1",
-      "approvedAtUtc": "2026-08-17T04:58:32.000Z",
-      "rationale": "Approve focused R3 contract tests rebinding fixtures to merged main dcb38b3295bccd675b82c3bc837ecc345887978b and asserting missing/forged expectedExact plus stale source receipt fail-closed behavior.",
+      "sha256": "26e83c715e0ac8c8d11e0c3983ae74c3e28017446725c75b98412062511f2ae6",
+      "approvedBy": "owner-delegated:TASK_ID:RELEASE_EVIDENCE_LIVE_UPSTREAM_CHAIN_V1",
+      "approvedAtUtc": "2026-08-17T05:24:00.000Z",
+      "rationale": "Approve focused R3 contract coverage proving buildCurrentApplicabilityGraphInput uses an in-memory R2 receipt whose head/tree match the current exact input.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_RELEASE_EVIDENCE_LIVE_EXACT_BINDING_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_RELEASE_EVIDENCE_LIVE_UPSTREAM_CHAIN_V1"
     },
     {
       "filePath": "test/contracts/rtk-release-claim-compiler-v0.contract.test.js",
-      "sha256": "b5cff8477460c7dabc9f3f29b07f89fd32e77312654098495b536fb3308e856f",
-      "approvedBy": "owner-delegated:TASK_ID:RELEASE_EVIDENCE_LIVE_EXACT_BINDING_V1",
-      "approvedAtUtc": "2026-08-17T04:58:32.000Z",
-      "rationale": "Approve focused R2 contract tests rebinding fixtures to merged main dcb38b3295bccd675b82c3bc837ecc345887978b and adding missing/forged expectedExact fail-closed assertions.",
+      "sha256": "0b517c5aa821cd4fb7e8f87d1fad51afe6cd6fdd41be3e39c1cd90e63d12e7c9",
+      "approvedBy": "owner-delegated:TASK_ID:RELEASE_EVIDENCE_LIVE_UPSTREAM_CHAIN_V1",
+      "approvedAtUtc": "2026-08-17T05:24:00.000Z",
+      "rationale": "Approve focused R2 contract coverage for the current receipt builder, including live exact SHA shape, oracle pass, mutation closure, and DENY authorities.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_RELEASE_EVIDENCE_LIVE_EXACT_BINDING_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_RELEASE_EVIDENCE_LIVE_UPSTREAM_CHAIN_V1"
     },
     {
       "filePath": "test/contracts/rtk-release-claim-publication-v1.contract.test.js",
-      "sha256": "aae2c7d3dde11f9d753c0263e6aae599707087e38ecbbccf076a44e8374abfdc",
-      "approvedBy": "owner-delegated:TASK_ID:RELEASE_EVIDENCE_LIVE_EXACT_BINDING_V1",
-      "approvedAtUtc": "2026-08-17T04:58:32.000Z",
-      "rationale": "Approve focused R4 contract tests rebinding fixtures to merged main dcb38b3295bccd675b82c3bc837ecc345887978b and asserting missing/forged expectedExact plus stale R3 receipt fail-closed behavior.",
+      "sha256": "6c239507f1335f2509d799b47dc08f380b4918f156552a097b812bcbc8ce1b93",
+      "approvedBy": "owner-delegated:TASK_ID:RELEASE_EVIDENCE_LIVE_UPSTREAM_CHAIN_V1",
+      "approvedAtUtc": "2026-08-17T05:24:00.000Z",
+      "rationale": "Approve focused R4 contract coverage proving buildCurrentPublicationInput uses an in-memory R3 receipt whose head/tree match the current exact input and publishes only scoped non-release aggregate evidence.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_RELEASE_EVIDENCE_LIVE_EXACT_BINDING_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_RELEASE_EVIDENCE_LIVE_UPSTREAM_CHAIN_V1"
     }
   ]
 }

@@ -472,13 +472,12 @@ export function buildCurrentReleaseClaimCompilerInput(repoRoot = repoRootFromHer
   };
 }
 
-function main() {
-  const repoRoot = repoRootFromHere();
+export function buildCurrentReleaseClaimCompilerReceipt(repoRoot = repoRootFromHere()) {
   const input = buildCurrentReleaseClaimCompilerInput(repoRoot);
   const report = compileReleaseClaims(input);
   const oracle = runIndependentReleaseClaimOracle(input, report);
   const mutations = runSemanticMutationCatalog(input);
-  const receipt = {
+  return {
     ...report,
     oracle,
     mutations,
@@ -488,13 +487,18 @@ function main() {
       'Desktop V1.1 is treated as hash-bound proposal input, not active repository canon.',
     ],
   };
+}
+
+function main() {
+  const repoRoot = repoRootFromHere();
+  const receipt = buildCurrentReleaseClaimCompilerReceipt(repoRoot);
   const args = new Set(process.argv.slice(2));
   if (args.has('--write-receipt')) {
     const target = path.join(repoRoot, DEFAULT_RECEIPT_PATH);
     fs.writeFileSync(target, `${JSON.stringify(receipt, null, 2)}\n`, 'utf8');
   }
   process.stdout.write(`${JSON.stringify(receipt, null, 2)}\n`);
-  if (!report.ok || !oracle.ok || mutations.survivors.length > 0) process.exitCode = 1;
+  if (!receipt.ok || !receipt.oracle.ok || receipt.mutations.survivors.length > 0) process.exitCode = 1;
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

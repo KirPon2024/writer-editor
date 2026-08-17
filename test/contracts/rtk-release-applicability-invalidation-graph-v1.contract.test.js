@@ -356,3 +356,20 @@ test('R3 never aggregates UNKNOWN ABSTAIN STALE or CONFLICT into applicability a
   assert.equal(mutations.killed, 12);
   assert.deepEqual(mutations.survivors, []);
 });
+
+test('R3 current input builds its R2 source receipt from live exact head in memory', async () => {
+  const {
+    buildCurrentApplicabilityGraphInput,
+    compileApplicabilityInvalidationGraph,
+  } = await loadGraphCompiler();
+
+  const input = buildCurrentApplicabilityGraphInput();
+  assert.equal(input.sourceReceipts.length, 1);
+  assert.equal(input.sourceReceipts[0].headSha, input.exact.headSha);
+  assert.equal(input.sourceReceipts[0].treeSha, input.exact.treeSha);
+  assert.match(input.sourceReceipts[0].evidenceDigest, /^sha256:[0-9a-f]{64}$/u);
+
+  const graph = compileApplicabilityInvalidationGraph(input);
+  assert.equal(graph.ok, true, graph.errors.join('\n'));
+  assert.equal(nodeFor(graph, 'C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1').state, 'APPLICABLE_SCOPED');
+});

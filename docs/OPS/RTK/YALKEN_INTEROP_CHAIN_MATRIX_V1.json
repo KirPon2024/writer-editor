@@ -3,8 +3,8 @@
   "documentClass": "EVIDENCE_STATUS",
   "status": "INTEROP_CHAIN_C1_C8_DENOMINATOR_REGISTERED_NEEDS_MORE_EVIDENCE",
   "claimBoundary": "Registers the frozen C1-C8 full-book interop route denominator and fail-closed closure rules only. It does not prove any route, saturation, platform parity, byte identity, product runtime support, import/apply authority, or live user-document workflow.",
-  "generatedAtUtc": "2026-08-17T10:31:37.000Z",
-  "exactHead": "834f37a8cb5ba3eb854f6407e2dc4e7e14606d88",
+  "generatedAtUtc": "2026-08-17T11:58:45.000Z",
+  "exactHead": "279dde31d1bcf4c6a7cc80f6acfd034f9bdd600b",
   "programVerdict": "NEEDS_MORE_EVIDENCE",
   "sourceEvidence": {
     "googleWholeBookReceipt": {
@@ -45,16 +45,24 @@
       "chainClosureAuthority": "DENY"
     },
     "c1FreshNativeMaterializationBlockedReplay": {
-      "path": "docs/OPS/RTK/YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1.json",
-      "exactHead": "834f37a8cb5ba3eb854f6407e2dc4e7e14606d88",
-      "campaignId": "c1-window-visibility-repair-w06-r1-20260817",
-      "stage": "POSITIVE",
-      "status": "SEALED_FAIL_CLOSED",
-      "failureCode": "NATIVE_MATERIALIZATION_ROOT_COUNT_MISMATCH",
-      "failureDetail": "NATIVE_MATERIALIZATION_ROOT_COUNT_MISMATCH:1:0",
-      "returnedDocxReady": false,
-      "wordWindowDiagnostics": "PREFLIGHT_AFTER|MACOS_ACCESSIBILITY_PREFLIGHT_READY|LEGACY_UI_ELEMENTS_ENABLED:false:PROCESS_EXISTS:true:WORD_FRONTMOST:true:WINDOW_COUNT:1:AX_MENU_COUNT:11:AX_WINDOW_SUBTREE_COUNT:7:AX_ERROR_NUMBER:0:AX_ERROR_MESSAGE::WINDOW_REVIVE::WORD_WINDOW_STATE_NORMAL:WORD_SELECTION_PING:AX_PROCESS_VISIBLE_TRUE:AX_PROCESS_FRONTMOST_TRUE:AX_WINDOW_RAISE_ATTEMPTED:FRONT_DOCUMENT:Macintosh HD:Users:kirillponomarev:Library:Caches:YalkenWordLab:c5v2-physical-canary:MAIN:round-01:c5v2-cumulative-returned-word-native.docx",
-      "chainClosureAuthority": "DENY"
+      "exactHead": "279dde31d1bcf4c6a7cc80f6acfd034f9bdd600b",
+      "artifactRoot": "/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c1-word-native-materialization-root-count-repair-v1/c1-native-root-count-repair-w06-r1-20260817",
+      "runId": "c1-native-root-count-repair-w06-r1-20260817",
+      "stageResultSha256": "sha256:d879ec14fdf5ca95229e8e817c1572dc53bb3c8a1017cac9fd3783a69a2c6dfb",
+      "readyMarkerSha256": "sha256:c1322f631bcede5487b92cdb97169665bc51f974a722be24d62d9bbba94bb7f9",
+      "completeRoundOracleSha256": "sha256:bb34203eeb1178e5e3d4c787372f7e00cacfa5eb0d13eba6c0631291fcb752e7",
+      "returnedDocxSha256": "sha256:242d0593b0f55d87593b3272eaf4fa13cbbf8f94776d7630a7557ed5a9d59dbf",
+      "returnedDocxReady": true,
+      "roundOperationCount": 379,
+      "wordStatusCount": 379,
+      "nativeWordReadbackCount": 379,
+      "reopenedYalkenSceneCount": 21,
+      "failureCode": "C5V2_COMPLETE_ROUND_ORACLE_FAILED",
+      "failureDetail": "C5V2_COMPLETE_ROUND_ORACLE_FAILED:367:C5V2_ORACLE_YALKEN_OUTCOME_MISMATCH=334:C5V2_ORACLE_WORD_OUTCOME_MISMATCH=33",
+      "oracleFailureCount": 367,
+      "yalkenOutcomeMismatchCount": 334,
+      "wordOutcomeMismatchCount": 33,
+      "wordWindowDiagnostics": "ROOT_COUNT_REPAIR_CONFIRMED;RETURNED_DOCX_READY_TRUE;COMPLETE_ROUND_ORACLE_FAILED"
     }
   },
   "canonicalFullBookDenominator": {
@@ -107,7 +115,7 @@
       "routeVerdict": "BLOCKED",
       "accountingStatus": "FULL_BOOK_ATTEMPTED_BLOCKED",
       "fullCanonicalSyntheticBookRequired": true,
-      "fullBookAccounting": "FULL_BOOK_ATTEMPTED_POST_WINDOW_REPAIR_NATIVE_MATERIALIZATION_BLOCKED_NOT_PROVEN",
+      "fullBookAccounting": "FULL_BOOK_ATTEMPTED_POST_NATIVE_MATERIALIZATION_REPAIR_ORACLE_BLOCKED_NOT_PROVEN",
       "userDocumentsAllowed": false,
       "productMutationAuthority": "DENY_UNTIL_ROUTE_CONTOUR_PROVES_APPLY_AUTHORITY",
       "fullBookEvidenceRefs": [
@@ -121,7 +129,7 @@
       "executedFullRouteEvidence": [],
       "blockerEvidenceRefs": [
         "YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1",
-        "C1_WORD_NATIVE_MATERIALIZATION_ROOT_COUNT_BLOCKER"
+        "C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_BLOCKER"
       ],
       "requiredBindings": [
         "yalkenSha",
@@ -136,28 +144,35 @@
       ],
       "requiredOracles": {
         "semanticOracle": {
-          "status": "BLOCKED_RETURN_DOCX_NOT_READY_NATIVE_MATERIALIZATION_ROOT_COUNT"
+          "status": "BLOCKED_COMPLETE_ROUND_ORACLE_OUTCOME_MISMATCH",
+          "reason": "Fresh C1 replay reached ready returned DOCX and failed complete-round oracle outcome verification."
         },
         "structureOracle": {
-          "status": "BLOCKED_RETURN_DOCX_NOT_READY_NATIVE_MATERIALIZATION_ROOT_COUNT"
+          "status": "BLOCKED_COMPLETE_ROUND_ORACLE_OUTCOME_MISMATCH",
+          "reason": "Fresh C1 replay reached ready returned DOCX and failed complete-round oracle outcome verification."
         },
         "commentsOracle": {
-          "status": "BLOCKED_RETURN_DOCX_NOT_READY_NATIVE_MATERIALIZATION_ROOT_COUNT"
+          "status": "BLOCKED_COMPLETE_ROUND_ORACLE_OUTCOME_MISMATCH",
+          "reason": "Fresh C1 replay reached ready returned DOCX and failed complete-round oracle outcome verification."
         },
         "suggestionsOracle": {
-          "status": "BLOCKED_RETURN_DOCX_NOT_READY_NATIVE_MATERIALIZATION_ROOT_COUNT"
+          "status": "BLOCKED_COMPLETE_ROUND_ORACLE_OUTCOME_MISMATCH",
+          "reason": "Fresh C1 replay reached ready returned DOCX and failed complete-round oracle outcome verification."
         },
         "formatOracle": {
-          "status": "BLOCKED_RETURN_DOCX_NOT_READY_NATIVE_MATERIALIZATION_ROOT_COUNT"
+          "status": "BLOCKED_COMPLETE_ROUND_ORACLE_OUTCOME_MISMATCH",
+          "reason": "Fresh C1 replay reached ready returned DOCX and failed complete-round oracle outcome verification."
         },
         "recoveryOracle": {
-          "status": "BLOCKED_BEFORE_AUTHENTICATED_APPLY"
+          "status": "BLOCKED_COMPLETE_ROUND_ORACLE_OUTCOME_MISMATCH",
+          "reason": "Fresh C1 replay reached ready returned DOCX and failed complete-round oracle outcome verification."
         },
         "cleanupOracle": {
-          "status": "NO_ROUTE_PASS_WORD_PROCESS_CLEANED"
+          "status": "NO_ROUTE_PASS_WORD_PROCESS_CLEANED",
+          "reason": "Synthetic process cleanup succeeded but is not route PASS evidence."
         }
       },
-      "nextContour": "C1_WORD_NATIVE_MATERIALIZATION_ROOT_COUNT_REPAIR_V1"
+      "nextContour": "C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_REPAIR_V1"
     },
     {
       "routeId": "C2",
@@ -525,14 +540,14 @@
       "nextContour": "AFTER_C7"
     }
   ],
-  "nextSequentialContour": "C1_WORD_NATIVE_MATERIALIZATION_ROOT_COUNT_REPAIR_V1",
+  "nextSequentialContour": "C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_REPAIR_V1",
   "rollback": {
     "repo": "revert bounded chain matrix, lineage receipt, verifier, catalog, and governance binding commit",
     "productDataMigrationRequired": false,
     "runtimeRollbackRequired": false,
-    "previousMatrixExactHead": "9453e232a65b6cf92ceb802adf2d2f776fd3ee33",
-    "previousBlocker": "MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE",
-    "currentBlocker": "NATIVE_MATERIALIZATION_ROOT_COUNT_MISMATCH",
-    "revertPlan": "Revert this evidence/DAG rebind commit to restore the prior visibility-blocker chain matrix."
+    "previousMatrixExactHead": "834f37a8cb5ba3eb854f6407e2dc4e7e14606d88",
+    "previousBlocker": "NATIVE_MATERIALIZATION_ROOT_COUNT_MISMATCH",
+    "currentBlocker": "C5V2_COMPLETE_ROUND_ORACLE_FAILED",
+    "revertPlan": "Revert this evidence/DAG rebind commit to restore the native materialization root-count blocker chain matrix."
   }
 }

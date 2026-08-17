@@ -13,11 +13,11 @@ export const CONTRACT_BASENAME = 'rtk-interop-chain-matrix.contract.test.js';
 
 export const MATRIX_SCHEMA_VERSION = 'yalken.interopChain.matrix.v1';
 export const LINEAGE_SCHEMA_VERSION = 'yalken.interopChain.multiRoundLineage.receipt.v1';
-export const INTEROP_CHAIN_EXACT_HEAD_SHA = '1b8a23441ba29b6cac79a62a3b18ece031654e62';
-export const INTEROP_CHAIN_RECOVERY_PARENT_SHA = '2cb6a6f6199272a22d8da9d903ef11a6072befd9';
-export const INTEROP_CHAIN_CURRENT_MAIN_BASE_SHA = '09ce09efd5ed11a3d68ae97bb0d0db6f0ba1ecba';
-export const INTEROP_CHAIN_RELEASE_TRUTH_BASE_SHA = '9feaf1376884e3fba75fed4783056313a128f31f';
+export const INTEROP_CHAIN_EXACT_HEAD_SHA = '5ebb75f4110bb1a287ad9a9109cebdeb373642ba';
+export const INTEROP_CHAIN_PRE_AUTH_REPAIR_ROUTE_SHA = '1b8a23441ba29b6cac79a62a3b18ece031654e62';
 export const MATRIX_STATUS = 'INTEROP_CHAIN_C1_C8_DENOMINATOR_REGISTERED_NEEDS_MORE_EVIDENCE';
+export const NEXT_SEQUENTIAL_CONTOUR = 'C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_AUTH_REPAIR_V1';
+export const POST_AUTH_REPAIR_FULL_BOOK_ACCOUNTING = 'FULL_BOOK_ATTEMPTED_PRE_AUTH_REPAIR_REPLAY_REQUIRED_NOT_PROVEN';
 
 export const EXPECTED_ROUTE_IDS = Object.freeze(['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8']);
 export const ALLOWED_ROUTE_VERDICTS = Object.freeze(['NEEDS_MORE_EVIDENCE', 'UNSUPPORTED', 'BLOCKED', 'PASS']);
@@ -25,7 +25,7 @@ export const NON_PASS_ROUTE_VERDICTS = Object.freeze(['NEEDS_MORE_EVIDENCE', 'UN
 export const BLOCKED_ACCOUNTING_STATES = Object.freeze(['UNKNOWN', 'ABSTAIN', 'CONFLICTING']);
 export const NON_PROVEN_FULL_BOOK_ACCOUNTING_STATES = Object.freeze([
   'REQUIRED_NOT_YET_PROVEN_FOR_ROUTE',
-  'FULL_BOOK_ATTEMPTED_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_BLOCKED_NOT_PROVEN',
+  POST_AUTH_REPAIR_FULL_BOOK_ACCOUNTING,
 ]);
 
 const MATRIX_EXACT_KEYS = Object.freeze([
@@ -166,9 +166,12 @@ function validateRoute(route, errors) {
   if (route.routeId === 'C1') {
     if (route.routeVerdict !== 'BLOCKED') errors.push('routeDenominator:C1:BLOCKED_ROUTE_VERDICT_REQUIRED');
     if (route.accountingStatus !== 'FULL_BOOK_ATTEMPTED_BLOCKED') errors.push('routeDenominator:C1:ACCOUNTING_STATUS_INVALID');
-    if (route.fullBookAccounting !== 'FULL_BOOK_ATTEMPTED_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_BLOCKED_NOT_PROVEN') errors.push('routeDenominator:C1:FULL_BOOK_BLOCKER_ACCOUNTING_INVALID');
+    if (route.fullBookAccounting !== POST_AUTH_REPAIR_FULL_BOOK_ACCOUNTING) errors.push('routeDenominator:C1:FULL_BOOK_BLOCKER_ACCOUNTING_INVALID');
     if (!Array.isArray(route.blockerEvidenceRefs) || !route.blockerEvidenceRefs.includes('YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1')) {
       errors.push('routeDenominator:C1:BLOCKER_EVIDENCE_REF_MISSING');
+    }
+    if (!Array.isArray(route.blockerEvidenceRefs) || !route.blockerEvidenceRefs.includes('C1_AUTH_REPAIR_PUBLISHED_SCOPED_ROUTE_REPLAY_REQUIRED')) {
+      errors.push('routeDenominator:C1:REPLAY_REQUIREMENT_REF_MISSING');
     }
     if (Array.isArray(route.executedFullRouteEvidence) && route.executedFullRouteEvidence.length !== 0) {
       errors.push('routeDenominator:C1:EXECUTED_FULL_ROUTE_EVIDENCE_MUST_REMAIN_EMPTY_WHEN_BLOCKED');
@@ -237,7 +240,7 @@ export function validateInteropChainMatrix(matrix, options = {}) {
   if (Array.isArray(matrix.routeDenominator)) {
     for (const route of matrix.routeDenominator) validateRoute(route, errors);
   }
-  if (matrix.nextSequentialContour !== 'C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1') {
+  if (matrix.nextSequentialContour !== NEXT_SEQUENTIAL_CONTOUR) {
     errors.push('nextSequentialContour:INVALID');
   }
 
@@ -304,39 +307,13 @@ export function resolveExactHeadBinding(repoRoot = repoRootFromHere(), env = pro
         source: 'GITHUB_PULL_REQUEST_EVENT',
       };
     }
-    if (baseSha === INTEROP_CHAIN_RECOVERY_PARENT_SHA) {
-      return {
-        ok: true,
-        status: 'MATCHES_RECOVERY_PARENT_SHA_IN_SHALLOW_CHECKOUT',
-        source: 'GITHUB_PULL_REQUEST_EVENT',
-        observedBaseSha: baseSha,
-        historicalExactHead: INTEROP_CHAIN_EXACT_HEAD_SHA,
-      };
-    }
-    if (baseSha === INTEROP_CHAIN_CURRENT_MAIN_BASE_SHA) {
-      return {
-        ok: true,
-        status: 'MATCHES_CURRENT_MAIN_BASE_SHA_IN_SHALLOW_CHECKOUT',
-        source: 'GITHUB_PULL_REQUEST_EVENT',
-        observedBaseSha: baseSha,
-        historicalExactHead: INTEROP_CHAIN_EXACT_HEAD_SHA,
-      };
-    }
-    if (baseSha === INTEROP_CHAIN_RELEASE_TRUTH_BASE_SHA) {
-      return {
-        ok: true,
-        status: 'MATCHES_RELEASE_TRUTH_BASE_SHA_IN_SHALLOW_CHECKOUT',
-        source: 'GITHUB_PULL_REQUEST_EVENT',
-        observedBaseSha: baseSha,
-        historicalExactHead: INTEROP_CHAIN_EXACT_HEAD_SHA,
-      };
-    }
     return {
       ok: false,
       status: 'PULL_REQUEST_BASE_SHA_MISMATCH',
       source: 'GITHUB_PULL_REQUEST_EVENT',
       observedBaseSha: baseSha || 'MISSING',
-      acceptedBaseShas: [INTEROP_CHAIN_EXACT_HEAD_SHA, INTEROP_CHAIN_RECOVERY_PARENT_SHA, INTEROP_CHAIN_CURRENT_MAIN_BASE_SHA, INTEROP_CHAIN_RELEASE_TRUTH_BASE_SHA],
+      acceptedBaseShas: [INTEROP_CHAIN_EXACT_HEAD_SHA],
+      staleRejectedBaseShas: [INTEROP_CHAIN_PRE_AUTH_REPAIR_ROUTE_SHA],
     };
   }
 

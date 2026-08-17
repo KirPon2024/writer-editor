@@ -30,6 +30,7 @@ test('C1 Word full-book route receipt is fail-closed blocker evidence, not route
     EXACT_HEAD,
     EXPECTED_DENOMINATOR,
     EXPECTED_WORD_PROFILE,
+    NEXT_SEQUENTIAL_CONTOUR,
     STATUS,
     TASK_ID,
     readC1Receipt,
@@ -77,7 +78,7 @@ test('C1 Word full-book route receipt is fail-closed blocker evidence, not route
   assert.equal(receipt.failureCounters.conflictingAsPass, 0);
   assert.equal(receipt.failureCounters.silentLoss, 0);
   assert.equal(receipt.failureCounters.falseAutoApplyCount, 0);
-  assert.equal(receipt.nextSequentialContour, 'C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1');
+  assert.equal(receipt.nextSequentialContour, NEXT_SEQUENTIAL_CONTOUR);
 });
 
 test('C1 Word full-book physical evidence binds exact blocker facts and no terminal aggregate', async () => {
@@ -128,6 +129,7 @@ test('C1 Word full-book physical evidence binds exact blocker facts and no termi
 
 test('C1 Word full-book route updates only C1 as blocked in the chain matrix and does not launder other routes', async () => {
   const { readChainMatrix, verifyC1Route } = await loadVerifier();
+  const { POST_AUTH_REPAIR_FULL_BOOK_ACCOUNTING } = await loadVerifier();
   const report = verifyC1Route({ checkCatalog: true });
   assert.equal(report.ok, true, report.errors.join('\n'));
   assert.equal(report.catalogIncludesContract, true);
@@ -136,9 +138,12 @@ test('C1 Word full-book route updates only C1 as blocked in the chain matrix and
   const c1 = matrix.routeDenominator.find((route) => route.routeId === 'C1');
   assert.equal(c1.routeVerdict, 'BLOCKED');
   assert.equal(c1.accountingStatus, 'FULL_BOOK_ATTEMPTED_BLOCKED');
-  assert.equal(c1.fullBookAccounting, 'FULL_BOOK_ATTEMPTED_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_BLOCKED_NOT_PROVEN');
+  assert.equal(c1.fullBookAccounting, POST_AUTH_REPAIR_FULL_BOOK_ACCOUNTING);
   assert.deepEqual(c1.executedFullRouteEvidence, []);
-  assert.deepEqual(c1.blockerEvidenceRefs, ['YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1']);
+  assert.deepEqual(c1.blockerEvidenceRefs, [
+    'YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1',
+    'C1_AUTH_REPAIR_PUBLISHED_SCOPED_ROUTE_REPLAY_REQUIRED',
+  ]);
   assert.equal(c1.productMutationAuthority, 'DENY_UNTIL_ROUTE_CONTOUR_PROVES_APPLY_AUTHORITY');
   assert.notEqual(c1.requiredOracles.semanticOracle.status, 'PASS');
 
@@ -195,7 +200,7 @@ test('C1 Word full-book route hostile receipt mutations are rejected fail-closed
 });
 
 test('C1 Word full-book route rejects stale GitHub shallow base binding and CLI is deterministic', async () => {
-  const { EXACT_HEAD, RECOVERY_PARENT_HEAD, resolveExactHeadBinding } = await loadVerifier();
+  const { EXACT_HEAD, PRE_AUTH_REPAIR_ROUTE_HEAD, resolveExactHeadBinding } = await loadVerifier();
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-c1-pr-event-'));
   const eventPath = path.join(tempDir, 'event.json');
   fs.writeFileSync(eventPath, JSON.stringify({ pull_request: { base: { sha: EXACT_HEAD } } }), 'utf8');
@@ -207,35 +212,16 @@ test('C1 Word full-book route rejects stale GitHub shallow base binding and CLI 
   });
   assert.equal(accepted.ok, true);
 
-  fs.writeFileSync(eventPath, JSON.stringify({ pull_request: { base: { sha: RECOVERY_PARENT_HEAD } } }), 'utf8');
-  const recoveredParent = resolveExactHeadBinding('/definitely/not/a/git/repo', {
+  fs.writeFileSync(eventPath, JSON.stringify({ pull_request: { base: { sha: PRE_AUTH_REPAIR_ROUTE_HEAD } } }), 'utf8');
+  const stalePreRepairBase = resolveExactHeadBinding('/definitely/not/a/git/repo', {
     GITHUB_ACTIONS: 'true',
     GITHUB_EVENT_NAME: 'pull_request',
     GITHUB_EVENT_PATH: eventPath,
   });
-  assert.equal(recoveredParent.ok, true);
-  assert.equal(recoveredParent.status, 'MATCHES_RECOVERY_PARENT_SHA_IN_SHALLOW_CHECKOUT');
-  assert.equal(recoveredParent.historicalExactHead, EXACT_HEAD);
-
-  fs.writeFileSync(eventPath, JSON.stringify({ pull_request: { base: { sha: '09ce09efd5ed11a3d68ae97bb0d0db6f0ba1ecba' } } }), 'utf8');
-  const currentMergedBase = resolveExactHeadBinding('/definitely/not/a/git/repo', {
-    GITHUB_ACTIONS: 'true',
-    GITHUB_EVENT_NAME: 'pull_request',
-    GITHUB_EVENT_PATH: eventPath,
-  });
-  assert.equal(currentMergedBase.ok, true);
-  assert.equal(currentMergedBase.status, 'MATCHES_CURRENT_MAIN_BASE_SHA_IN_SHALLOW_CHECKOUT');
-  assert.equal(currentMergedBase.historicalExactHead, EXACT_HEAD);
-
-  fs.writeFileSync(eventPath, JSON.stringify({ pull_request: { base: { sha: '9feaf1376884e3fba75fed4783056313a128f31f' } } }), 'utf8');
-  const releaseTruthBase = resolveExactHeadBinding('/definitely/not/a/git/repo', {
-    GITHUB_ACTIONS: 'true',
-    GITHUB_EVENT_NAME: 'pull_request',
-    GITHUB_EVENT_PATH: eventPath,
-  });
-  assert.equal(releaseTruthBase.ok, true);
-  assert.equal(releaseTruthBase.status, 'MATCHES_RELEASE_TRUTH_BASE_SHA_IN_SHALLOW_CHECKOUT');
-  assert.equal(releaseTruthBase.historicalExactHead, EXACT_HEAD);
+  assert.equal(stalePreRepairBase.ok, false);
+  assert.equal(stalePreRepairBase.status, 'PULL_REQUEST_BASE_SHA_MISMATCH');
+  assert.deepEqual(stalePreRepairBase.acceptedBaseShas, [EXACT_HEAD]);
+  assert.deepEqual(stalePreRepairBase.staleRejectedBaseShas, [PRE_AUTH_REPAIR_ROUTE_HEAD]);
 
   fs.writeFileSync(eventPath, JSON.stringify({ pull_request: { base: { sha: '0'.repeat(40) } } }), 'utf8');
   const rejected = resolveExactHeadBinding('/definitely/not/a/git/repo', {

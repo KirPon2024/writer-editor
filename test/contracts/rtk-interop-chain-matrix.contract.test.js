@@ -24,6 +24,8 @@ test('Interop chain matrix registers the exact C1-C8 full-book denominator witho
     EXPECTED_ROUTE_IDS,
     INTEROP_CHAIN_EXACT_HEAD_SHA,
     MATRIX_STATUS,
+    NEXT_SEQUENTIAL_CONTOUR,
+    POST_AUTH_REPAIR_FULL_BOOK_ACCOUNTING,
     readChainMatrix,
     verifyInteropChainMatrix,
   } = await loadVerifier();
@@ -31,7 +33,7 @@ test('Interop chain matrix registers the exact C1-C8 full-book denominator witho
   const report = verifyInteropChainMatrix();
   assert.equal(report.ok, true, report.errors.join('\n'));
   assert.equal(report.exactHead, INTEROP_CHAIN_EXACT_HEAD_SHA);
-  assert.match(report.exactHeadBinding.status, /^(REACHABLE_FROM_CURRENT_HEAD|MATCHES_PULL_REQUEST_BASE_SHA_IN_SHALLOW_CHECKOUT|MATCHES_RECOVERY_PARENT_SHA_IN_SHALLOW_CHECKOUT|MATCHES_CURRENT_MAIN_BASE_SHA_IN_SHALLOW_CHECKOUT|MATCHES_RELEASE_TRUTH_BASE_SHA_IN_SHALLOW_CHECKOUT)$/u);
+  assert.match(report.exactHeadBinding.status, /^(REACHABLE_FROM_CURRENT_HEAD|MATCHES_PULL_REQUEST_BASE_SHA_IN_SHALLOW_CHECKOUT)$/u);
 
   const matrix = readChainMatrix();
   assert.equal(matrix.status, MATRIX_STATUS);
@@ -43,6 +45,15 @@ test('Interop chain matrix registers the exact C1-C8 full-book denominator witho
   assert.equal(matrix.claimControls.googleEvidenceTransferToWord, 'DENY');
   assert.equal(matrix.claimControls.universalParityClaim, 'DENY');
   assert.equal(matrix.claimControls.byteIdentityClaim, 'DENY');
+  assert.equal(matrix.nextSequentialContour, NEXT_SEQUENTIAL_CONTOUR);
+
+  const c1 = matrix.routeDenominator.find((route) => route.routeId === 'C1');
+  assert.equal(c1.fullBookAccounting, POST_AUTH_REPAIR_FULL_BOOK_ACCOUNTING);
+  assert.deepEqual(c1.blockerEvidenceRefs, [
+    'YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1',
+    'C1_AUTH_REPAIR_PUBLISHED_SCOPED_ROUTE_REPLAY_REQUIRED',
+  ]);
+  assert.equal(c1.nextContour, NEXT_SEQUENTIAL_CONTOUR);
 
   for (const route of matrix.routeDenominator) {
     assert.equal(route.fullCanonicalSyntheticBookRequired, true, route.routeId);
@@ -54,7 +65,7 @@ test('Interop chain matrix registers the exact C1-C8 full-book denominator witho
 });
 
 test('Interop chain exact-head binding accepts only matching GitHub PR base metadata when local graph is shallow', async () => {
-  const { INTEROP_CHAIN_EXACT_HEAD_SHA, INTEROP_CHAIN_RECOVERY_PARENT_SHA, resolveExactHeadBinding } = await loadVerifier();
+  const { INTEROP_CHAIN_EXACT_HEAD_SHA, INTEROP_CHAIN_PRE_AUTH_REPAIR_ROUTE_SHA, resolveExactHeadBinding } = await loadVerifier();
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-chain-pr-event-'));
   const eventPath = path.join(tempDir, 'event.json');
   fs.writeFileSync(eventPath, JSON.stringify({ pull_request: { base: { sha: INTEROP_CHAIN_EXACT_HEAD_SHA } } }), 'utf8');
@@ -67,35 +78,16 @@ test('Interop chain exact-head binding accepts only matching GitHub PR base meta
   assert.equal(accepted.ok, true);
   assert.equal(accepted.status, 'MATCHES_PULL_REQUEST_BASE_SHA_IN_SHALLOW_CHECKOUT');
 
-  fs.writeFileSync(eventPath, JSON.stringify({ pull_request: { base: { sha: INTEROP_CHAIN_RECOVERY_PARENT_SHA } } }), 'utf8');
-  const recoveredParent = resolveExactHeadBinding('/definitely/not/a/git/repo', {
+  fs.writeFileSync(eventPath, JSON.stringify({ pull_request: { base: { sha: INTEROP_CHAIN_PRE_AUTH_REPAIR_ROUTE_SHA } } }), 'utf8');
+  const stalePreRepairBase = resolveExactHeadBinding('/definitely/not/a/git/repo', {
     GITHUB_ACTIONS: 'true',
     GITHUB_EVENT_NAME: 'pull_request',
     GITHUB_EVENT_PATH: eventPath,
   });
-  assert.equal(recoveredParent.ok, true);
-  assert.equal(recoveredParent.status, 'MATCHES_RECOVERY_PARENT_SHA_IN_SHALLOW_CHECKOUT');
-  assert.equal(recoveredParent.historicalExactHead, INTEROP_CHAIN_EXACT_HEAD_SHA);
-
-  fs.writeFileSync(eventPath, JSON.stringify({ pull_request: { base: { sha: '09ce09efd5ed11a3d68ae97bb0d0db6f0ba1ecba' } } }), 'utf8');
-  const currentMergedBase = resolveExactHeadBinding('/definitely/not/a/git/repo', {
-    GITHUB_ACTIONS: 'true',
-    GITHUB_EVENT_NAME: 'pull_request',
-    GITHUB_EVENT_PATH: eventPath,
-  });
-  assert.equal(currentMergedBase.ok, true);
-  assert.equal(currentMergedBase.status, 'MATCHES_CURRENT_MAIN_BASE_SHA_IN_SHALLOW_CHECKOUT');
-  assert.equal(currentMergedBase.historicalExactHead, INTEROP_CHAIN_EXACT_HEAD_SHA);
-
-  fs.writeFileSync(eventPath, JSON.stringify({ pull_request: { base: { sha: '9feaf1376884e3fba75fed4783056313a128f31f' } } }), 'utf8');
-  const releaseTruthBase = resolveExactHeadBinding('/definitely/not/a/git/repo', {
-    GITHUB_ACTIONS: 'true',
-    GITHUB_EVENT_NAME: 'pull_request',
-    GITHUB_EVENT_PATH: eventPath,
-  });
-  assert.equal(releaseTruthBase.ok, true);
-  assert.equal(releaseTruthBase.status, 'MATCHES_RELEASE_TRUTH_BASE_SHA_IN_SHALLOW_CHECKOUT');
-  assert.equal(releaseTruthBase.historicalExactHead, INTEROP_CHAIN_EXACT_HEAD_SHA);
+  assert.equal(stalePreRepairBase.ok, false);
+  assert.equal(stalePreRepairBase.status, 'PULL_REQUEST_BASE_SHA_MISMATCH');
+  assert.deepEqual(stalePreRepairBase.acceptedBaseShas, [INTEROP_CHAIN_EXACT_HEAD_SHA]);
+  assert.deepEqual(stalePreRepairBase.staleRejectedBaseShas, [INTEROP_CHAIN_PRE_AUTH_REPAIR_ROUTE_SHA]);
 
   fs.writeFileSync(eventPath, JSON.stringify({ pull_request: { base: { sha: '0'.repeat(40) } } }), 'utf8');
   const rejected = resolveExactHeadBinding('/definitely/not/a/git/repo', {

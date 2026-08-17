@@ -10977,66 +10977,66 @@
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_CHAIN_MATRIX_V1.json",
-      "sha256": "6db8bbed7370b0a70b5a2e82b54e1193f1b896b8e5747e2af51a035bf7e73c30",
-      "approvedBy": "owner-standing-grant:TASK_ID:C1_WORD_WINDOW_ARTIFACT_PUBLICATION_BLOCKER_REPAIR_V1",
-      "approvedAtUtc": "2026-08-15T16:05:00.000Z",
-      "rationale": "Approve chain matrix rebind from artifact-publication blocker to return-intake authority-carrier authentication blocker while keeping C1 BLOCKED, C2-C8 unexecuted, chain saturation denied, and full-book denominator intact.",
+      "sha256": "ddc56043948998cf49fd5c4d9ad2be0974e5b777314f9afd3cd16f352686c156",
+      "approvedBy": "owner-delegated:TASK_ID:INTEROP_C1_POST_AUTH_REPAIR_REBIND_V1",
+      "approvedAtUtc": "2026-08-17T06:18:20.000Z",
+      "rationale": "Approve post-auth-repair C1 interop evidence rebind: current release publication scopes the C1 auth-carrier repair, C1 route remains BLOCKED, chain saturation remains NEEDS_MORE_EVIDENCE, product/provider/user-document authority remains DENY, and the next evidence contour is a fresh full-book C1 route replay rather than a route PASS claim.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_C1_REPAIR"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_INTEROP_C1_POST_AUTH_REPAIR_REBIND_V1"
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_MULTI_ROUND_LINEAGE_RECEIPT_V1.json",
-      "sha256": "f0f3d523a0c87f33d4fbd118679a49eb1f18579934177ff75235568b18cc06bf",
-      "approvedBy": "owner-standing-grant:TASK_ID:C1_WORD_WINDOW_ARTIFACT_PUBLICATION_BLOCKER_REPAIR_V1",
-      "approvedAtUtc": "2026-08-15T16:05:00.000Z",
-      "rationale": "Approve lineage receipt rebind to the updated chain matrix hash; lineage remains NOT_STARTED_DENOMINATOR_REGISTERED and denies route saturation, parity, byte identity, and product apply authority.",
+      "sha256": "60c50329b0dcb7c79300af51189ada5b0e542ecda58f790d2da3bcb68688c542",
+      "approvedBy": "owner-delegated:TASK_ID:INTEROP_C1_POST_AUTH_REPAIR_REBIND_V1",
+      "approvedAtUtc": "2026-08-17T06:18:20.000Z",
+      "rationale": "Approve post-auth-repair C1 interop evidence rebind: current release publication scopes the C1 auth-carrier repair, C1 route remains BLOCKED, chain saturation remains NEEDS_MORE_EVIDENCE, product/provider/user-document authority remains DENY, and the next evidence contour is a fresh full-book C1 route replay rather than a route PASS claim.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_C1_REPAIR"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_INTEROP_C1_POST_AUTH_REPAIR_REBIND_V1"
     },
     {
       "filePath": "scripts/ops/rtk-interop-chain-matrix-v1.mjs",
-      "sha256": "ecde318db96428c5b828029374e7f98dbcafe1900464cd2f4c893ddbd01a1e09",
-      "rationale": "Approve chain matrix verifier CI repair rebind: shallow PR base may equal current merged R2/R3 release-truth base 9feaf137 while historical chain evidence remains bound to 1b8a; C1-C8 denominator and no-saturation claims remain unchanged, and stale/unknown bases still fail closed.",
-      "approvedBy": "owner-standing-grant:TASK_ID:R3_CI_SHALLOW_BASE_BINDING_REPAIR_V1",
-      "approvedAtUtc": "2026-08-16T17:55:00.000Z",
+      "sha256": "7265ae88156d263adb7319209bf0ced1bce68e076fd8f5393b58ae03205b3f8d",
+      "rationale": "Approve post-auth-repair C1 interop evidence rebind: current release publication scopes the C1 auth-carrier repair, C1 route remains BLOCKED, chain saturation remains NEEDS_MORE_EVIDENCE, product/provider/user-document authority remains DENY, and the next evidence contour is a fresh full-book C1 route replay rather than a route PASS claim.",
+      "approvedBy": "owner-delegated:TASK_ID:INTEROP_C1_POST_AUTH_REPAIR_REBIND_V1",
+      "approvedAtUtc": "2026-08-17T06:18:20.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_INVALIDATION_GRAPH_CI_REPAIR"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_INTEROP_C1_POST_AUTH_REPAIR_REBIND_V1"
     },
     {
       "filePath": "test/contracts/rtk-interop-chain-matrix.contract.test.js",
-      "sha256": "dff5fb8cfa305de555cff7a86b58ac0805059778d969d6caf3da0c7c98895c2c",
-      "rationale": "Approve focused interop chain matrix contract repair proving current merged R2/R3 base 9feaf137 shallow PR binding passes, stale base still fails closed, and chain saturation remains NEEDS_MORE_EVIDENCE.",
-      "approvedBy": "owner-standing-grant:TASK_ID:R3_CI_SHALLOW_BASE_BINDING_REPAIR_V1",
-      "approvedAtUtc": "2026-08-16T17:55:00.000Z",
+      "sha256": "b379662ac0091ed7b05002490d115cb03c9d6ed9991998f933f2f707fbac2f83",
+      "rationale": "Approve post-auth-repair C1 interop evidence rebind: current release publication scopes the C1 auth-carrier repair, C1 route remains BLOCKED, chain saturation remains NEEDS_MORE_EVIDENCE, product/provider/user-document authority remains DENY, and the next evidence contour is a fresh full-book C1 route replay rather than a route PASS claim.",
+      "approvedBy": "owner-delegated:TASK_ID:INTEROP_C1_POST_AUTH_REPAIR_REBIND_V1",
+      "approvedAtUtc": "2026-08-17T06:18:20.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_INVALIDATION_GRAPH_CI_REPAIR"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_INTEROP_C1_POST_AUTH_REPAIR_REBIND_V1"
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1.json",
-      "sha256": "b99e304aabbc00e72a8fe5bb087a07106b817290464fc489e8480e72e2b4f800",
-      "approvedBy": "owner-standing-grant:TASK_ID:C1_WORD_WINDOW_ARTIFACT_PUBLICATION_BLOCKER_REPAIR_V1",
-      "approvedAtUtc": "2026-08-15T16:05:00.000Z",
-      "rationale": "Approve fail-closed C1 receipt rebind: the old T7 artifact-publication blocker is repaired and evidenced by a returned DOCX artifact, but Product intake remains unauthenticated with legacy-unbound-review-preview, so C1 stays BLOCKED and no route PASS/import/apply authority is claimed.",
+      "sha256": "4bb8b0e92393577888fb77c19ddab88dd58e463e2304484cebafdb4ab20f9434",
+      "approvedBy": "owner-delegated:TASK_ID:INTEROP_C1_POST_AUTH_REPAIR_REBIND_V1",
+      "approvedAtUtc": "2026-08-17T06:18:20.000Z",
+      "rationale": "Approve post-auth-repair C1 interop evidence rebind: current release publication scopes the C1 auth-carrier repair, C1 route remains BLOCKED, chain saturation remains NEEDS_MORE_EVIDENCE, product/provider/user-document authority remains DENY, and the next evidence contour is a fresh full-book C1 route replay rather than a route PASS claim.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_INTEROP_CHAIN_C1_REPAIR"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_INTEROP_C1_POST_AUTH_REPAIR_REBIND_V1"
     },
     {
       "filePath": "scripts/ops/rtk-interop-c1-word-fullbook-route-v1.mjs",
-      "sha256": "13bd3d6c23e6ba04a8b8b1308647969116676e9c052fdcfca2475af6c323cc17",
-      "rationale": "Approve C1 verifier CI repair rebind: GitHub shallow pull_request base may equal current merged R2/R3 release-truth base 9feaf137 while historical C1 evidence remains bound to 1b8a; stale/unknown bases still fail closed and route PASS remains denied.",
-      "approvedBy": "owner-standing-grant:TASK_ID:R3_CI_SHALLOW_BASE_BINDING_REPAIR_V1",
-      "approvedAtUtc": "2026-08-16T17:55:00.000Z",
+      "sha256": "ddee6bd3b8eb521f31be28f0a92e666027975427ef84ad9abc5f076bddf8b45a",
+      "rationale": "Approve post-auth-repair C1 interop evidence rebind: current release publication scopes the C1 auth-carrier repair, C1 route remains BLOCKED, chain saturation remains NEEDS_MORE_EVIDENCE, product/provider/user-document authority remains DENY, and the next evidence contour is a fresh full-book C1 route replay rather than a route PASS claim.",
+      "approvedBy": "owner-delegated:TASK_ID:INTEROP_C1_POST_AUTH_REPAIR_REBIND_V1",
+      "approvedAtUtc": "2026-08-17T06:18:20.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_INVALIDATION_GRAPH_CI_REPAIR"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_INTEROP_C1_POST_AUTH_REPAIR_REBIND_V1"
     },
     {
       "filePath": "test/contracts/rtk-interop-c1-word-fullbook-route.contract.test.js",
-      "sha256": "d4cbee0a675c2d624c0f5f17822ddbea6c1ed3b1cc0d055376ea8aa3b5286ac4",
-      "rationale": "Approve focused C1 route contract repair proving current merged R2/R3 base 9feaf137 shallow PR binding passes, stale base still fails closed, and C1 remains BLOCKED with no route PASS.",
-      "approvedBy": "owner-standing-grant:TASK_ID:R3_CI_SHALLOW_BASE_BINDING_REPAIR_V1",
-      "approvedAtUtc": "2026-08-16T17:55:00.000Z",
+      "sha256": "a92ee8eb5c7d10ebe1685c4e1b464f49e069738a61773061dde24bab104dcd2e",
+      "rationale": "Approve post-auth-repair C1 interop evidence rebind: current release publication scopes the C1 auth-carrier repair, C1 route remains BLOCKED, chain saturation remains NEEDS_MORE_EVIDENCE, product/provider/user-document authority remains DENY, and the next evidence contour is a fresh full-book C1 route replay rather than a route PASS claim.",
+      "approvedBy": "owner-delegated:TASK_ID:INTEROP_C1_POST_AUTH_REPAIR_REBIND_V1",
+      "approvedAtUtc": "2026-08-17T06:18:20.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_INVALIDATION_GRAPH_CI_REPAIR"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_INTEROP_C1_POST_AUTH_REPAIR_REBIND_V1"
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",

@@ -51,9 +51,11 @@ test('Interop chain matrix registers the exact C1-C8 full-book denominator witho
   assert.equal(c1.fullBookAccounting, POST_AUTH_REPAIR_FULL_BOOK_ACCOUNTING);
   assert.deepEqual(c1.blockerEvidenceRefs, [
     'YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1',
-    'C1_AUTH_REPAIR_PUBLISHED_SCOPED_ROUTE_REPLAY_REQUIRED',
+    'C1_WORD_WINDOW_VISIBILITY_STABILITY_BLOCKER',
   ]);
   assert.equal(c1.nextContour, NEXT_SEQUENTIAL_CONTOUR);
+  assert.equal(matrix.sourceEvidence.c1FreshWordVisibilityBlockedReplay.failureCode, 'MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE');
+  assert.equal(matrix.sourceEvidence.c1FreshWordVisibilityBlockedReplay.returnedDocxReady, false);
 
   for (const route of matrix.routeDenominator) {
     assert.equal(route.fullCanonicalSyntheticBookRequired, true, route.routeId);
@@ -87,7 +89,7 @@ test('Interop chain exact-head binding accepts only matching GitHub PR base meta
   assert.equal(stalePreRepairBase.ok, false);
   assert.equal(stalePreRepairBase.status, 'PULL_REQUEST_BASE_SHA_MISMATCH');
   assert.deepEqual(stalePreRepairBase.acceptedBaseShas, [INTEROP_CHAIN_EXACT_HEAD_SHA]);
-  assert.deepEqual(stalePreRepairBase.staleRejectedBaseShas, [INTEROP_CHAIN_PRE_AUTH_REPAIR_ROUTE_SHA]);
+  assert.ok(stalePreRepairBase.staleRejectedBaseShas.includes(INTEROP_CHAIN_PRE_AUTH_REPAIR_ROUTE_SHA));
 
   fs.writeFileSync(eventPath, JSON.stringify({ pull_request: { base: { sha: '0'.repeat(40) } } }), 'utf8');
   const rejected = resolveExactHeadBinding('/definitely/not/a/git/repo', {

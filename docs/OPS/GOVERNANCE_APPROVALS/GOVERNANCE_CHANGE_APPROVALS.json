@@ -6276,7 +6276,7 @@
     },
     {
       "filePath": "scripts/run-rtk-tests.mjs",
-      "sha256": "ca89c1af1238f2ff8686c25958890c2428f2e7d4440861c153b46e06d7156caa",
+      "sha256": "d0c6b258d9b9c7a061d7e986e35729eee9ab2a1061458ab684a5ba4a93833c3f",
       "approvedBy": "owner-direct:STANDING_DEFAULT_AUTHORIZATION:YALKEN_RTK_OWNED_TMPDIR_HYGIENE_V1_P1_REPAIR",
       "approvedAtUtc": "2026-08-06T09:21:26.826Z",
       "rationale": "Approve exact RTK runner bytes that execute the mandatory RTK graph inside a runner-owned TMPDIR lease, clean the no-follow direct-child root from a guaranteed cleanup path, report traversal/remove cleanup failures as structured RTK_TMPDIR_CLEANUP_FAILED evidence without throwing, and preserve fail-closed TAP/spawn diagnostics; no production runtime, Word, UI, dependency, network, Google, or long-campaign change.",

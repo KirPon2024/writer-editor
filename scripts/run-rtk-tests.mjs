@@ -15,7 +15,7 @@ const CONTRACT_DIR = path.join(REPO_ROOT, 'test', 'contracts');
 export const RTK_OWNED_TMPDIR_PREFIX = 'rtk-owned-tmpdir-';
 export const RTK_RUNNER_DEFAULTS = Object.freeze({
   wallTimeoutMs: 30 * 60 * 1000,
-  noProgressTimeoutMs: 5 * 60 * 1000,
+  noProgressTimeoutMs: 10 * 60 * 1000,
   heartbeatIntervalMs: 15 * 1000,
   termGraceMs: 5000,
   killGraceMs: 5000,

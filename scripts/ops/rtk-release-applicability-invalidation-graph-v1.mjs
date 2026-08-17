@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
+import { buildCurrentReleaseClaimCompilerReceipt } from './rtk-release-claim-compiler-v0.mjs';
 
 export const INPUT_SCHEMA_VERSION = 'yalken.releaseApplicabilityInvalidationGraph.input.v1';
 export const RECEIPT_SCHEMA_VERSION = 'yalken.releaseApplicabilityInvalidationGraph.receipt.v1';
@@ -47,6 +48,13 @@ function sha256File(repoRoot, relativePath) {
   return 'sha256:' + crypto
     .createHash('sha256')
     .update(fs.readFileSync(path.join(repoRoot, relativePath)))
+    .digest('hex');
+}
+
+function sha256Json(value) {
+  return 'sha256:' + crypto
+    .createHash('sha256')
+    .update(`${JSON.stringify(value, null, 2)}\n`)
     .digest('hex');
 }
 
@@ -543,8 +551,7 @@ export function runApplicabilityMutationCatalog(input) {
 export function buildCurrentApplicabilityGraphInput(repoRoot = repoRootFromHere()) {
   const headSha = runGit(repoRoot, ['rev-parse', 'HEAD']);
   const treeSha = runGit(repoRoot, ['rev-parse', 'HEAD^{tree}']);
-  const r2ReceiptPath = 'docs/OPS/RTK/YALKEN_OFFLINE_RELEASE_CLAIM_COMPILER_V0_RECEIPT.json';
-  const r2Receipt = JSON.parse(fs.readFileSync(path.join(repoRoot, r2ReceiptPath), 'utf8'));
+  const r2Receipt = buildCurrentReleaseClaimCompilerReceipt(repoRoot);
   return {
     schemaVersion: INPUT_SCHEMA_VERSION,
     compilerId: COMPILER_ID,
@@ -567,7 +574,7 @@ export function buildCurrentApplicabilityGraphInput(repoRoot = repoRootFromHere(
         compilerId: 'R2_OFFLINE_RELEASE_CLAIM_COMPILER_V0',
         headSha: r2Receipt?.exact?.headSha || 'MISSING',
         treeSha: r2Receipt?.exact?.treeSha || 'MISSING',
-        evidenceDigest: sha256File(repoRoot, r2ReceiptPath),
+        evidenceDigest: sha256Json(r2Receipt),
         status: r2Receipt?.ok === true ? 'PASS' : 'NEEDS_MORE_EVIDENCE',
         verdict: r2Receipt?.ok === true ? 'VERIFIED_SCOPED' : 'BLOCKED',
         supersededBy: null,
@@ -691,13 +698,12 @@ export function buildCurrentApplicabilityGraphInput(repoRoot = repoRootFromHere(
   };
 }
 
-function main() {
-  const repoRoot = repoRootFromHere();
+export function buildCurrentApplicabilityInvalidationGraphReceipt(repoRoot = repoRootFromHere()) {
   const input = buildCurrentApplicabilityGraphInput(repoRoot);
   const graph = compileApplicabilityInvalidationGraph(input);
   const oracle = runIndependentApplicabilityGraphOracle(input, graph);
   const mutations = runApplicabilityMutationCatalog(input);
-  const receipt = {
+  return {
     ...graph,
     oracle,
     mutations,
@@ -708,13 +714,18 @@ function main() {
       'Desktop V1.1 remains hash-bound proposal input only; active repo canon and exact-head receipts win.',
     ],
   };
+}
+
+function main() {
+  const repoRoot = repoRootFromHere();
+  const receipt = buildCurrentApplicabilityInvalidationGraphReceipt(repoRoot);
   const args = new Set(process.argv.slice(2));
   if (args.has('--write-receipt')) {
     const target = path.join(repoRoot, DEFAULT_RECEIPT_PATH);
     fs.writeFileSync(target, `${JSON.stringify(receipt, null, 2)}\n`, 'utf8');
   }
   process.stdout.write(`${JSON.stringify(receipt, null, 2)}\n`);
-  if (!graph.ok || !oracle.ok || mutations.survivors.length > 0) process.exitCode = 1;
+  if (!receipt.ok || !receipt.oracle.ok || receipt.mutations.survivors.length > 0) process.exitCode = 1;
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
+import { buildCurrentApplicabilityInvalidationGraphReceipt } from './rtk-release-applicability-invalidation-graph-v1.mjs';
 
 export const INPUT_SCHEMA_VERSION = 'yalken.releaseClaimPublication.input.v1';
 export const RECEIPT_SCHEMA_VERSION = 'yalken.releaseClaimPublication.receipt.v1';
@@ -39,8 +40,8 @@ function runGit(repoRoot, args) {
   return String(result.stdout || '').trim();
 }
 
-function sha256File(repoRoot, relativePath) {
-  return `sha256:${crypto.createHash('sha256').update(fs.readFileSync(path.join(repoRoot, relativePath))).digest('hex')}`;
+function sha256Json(value) {
+  return `sha256:${crypto.createHash('sha256').update(`${JSON.stringify(value, null, 2)}\n`).digest('hex')}`;
 }
 
 function uniqueSorted(list = []) {
@@ -311,8 +312,7 @@ export function runSemanticMutationCatalog(input) {
 export function buildCurrentPublicationInput(repoRoot = repoRootFromHere()) {
   const headSha = runGit(repoRoot, ['rev-parse', 'HEAD']);
   const treeSha = runGit(repoRoot, ['rev-parse', 'HEAD^{tree}']);
-  const r3ReceiptPath = 'docs/OPS/RTK/YALKEN_RELEASE_APPLICABILITY_INVALIDATION_GRAPH_V1_RECEIPT.json';
-  const r3Receipt = JSON.parse(fs.readFileSync(path.join(repoRoot, r3ReceiptPath), 'utf8'));
+  const r3Receipt = buildCurrentApplicabilityInvalidationGraphReceipt(repoRoot);
   return {
     schemaVersion: INPUT_SCHEMA_VERSION,
     publisherId: PUBLISHER_ID,
@@ -334,18 +334,17 @@ export function buildCurrentPublicationInput(repoRoot = repoRootFromHere()) {
       headSha,
     })),
     r3Receipt,
-    r3ReceiptDigest: sha256File(repoRoot, r3ReceiptPath),
+    r3ReceiptDigest: sha256Json(r3Receipt),
     activeVetoes: [],
   };
 }
 
-function main() {
-  const repoRoot = repoRootFromHere();
+export function buildCurrentPublicationReceipt(repoRoot = repoRootFromHere()) {
   const input = buildCurrentPublicationInput(repoRoot);
   const publication = publishExactHeadClaims(input);
   const oracle = runIndependentPublicationOracle(input, publication);
   const mutations = runSemanticMutationCatalog(input);
-  const receipt = {
+  return {
     ...publication,
     oracle,
     mutations,
@@ -356,12 +355,17 @@ function main() {
       'Desktop V1.1 remains hash-bound proposal input only; active repo canon and exact-head receipts win.',
     ],
   };
+}
+
+function main() {
+  const repoRoot = repoRootFromHere();
+  const receipt = buildCurrentPublicationReceipt(repoRoot);
   const args = new Set(process.argv.slice(2));
   if (args.has('--write-receipt')) {
     fs.writeFileSync(path.join(repoRoot, DEFAULT_RECEIPT_PATH), `${JSON.stringify(receipt, null, 2)}\n`, 'utf8');
   }
   process.stdout.write(`${JSON.stringify(receipt, null, 2)}\n`);
-  if (!publication.ok || !oracle.ok || mutations.survivors.length > 0) process.exitCode = 1;
+  if (!receipt.ok || !receipt.oracle.ok || receipt.mutations.survivors.length > 0) process.exitCode = 1;
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

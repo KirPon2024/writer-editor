@@ -3,10 +3,10 @@
   "documentClass": "EVIDENCE_RECEIPT",
   "status": "INTEROP_CHAIN_LINEAGE_DENOMINATOR_REGISTERED_NEEDS_MORE_EVIDENCE",
   "claimBoundary": "This receipt binds the C1-C8 route matrix and multi-round lineage closure rules only. It is not route execution evidence, not chain saturation, not universal Word/Google parity, not byte identity, and not product import/apply authority.",
-  "generatedAtUtc": "2026-08-17T11:59:00.000Z",
-  "exactHead": "279dde31d1bcf4c6a7cc80f6acfd034f9bdd600b",
+  "generatedAtUtc": "2026-08-17T15:05:30.000Z",
+  "exactHead": "6aee73c0770357cd0b84bf5e8388cee38071c798",
   "matrixPath": "docs/OPS/RTK/YALKEN_INTEROP_CHAIN_MATRIX_V1.json",
-  "matrixSha256": "sha256:d0a4748722e0ec16ae48785ffab1c96aefacf56be1792d91173194453c91ab62",
+  "matrixSha256": "sha256:fb633f2747ecfaa1343b48a831d062d738967d769ebe68f68e8691181b3790f3",
   "routeIds": [
     "C1",
     "C2",
@@ -65,8 +65,8 @@
     "repo": "revert bounded chain matrix, lineage receipt, verifier, catalog, and governance binding commit",
     "productDataMigrationRequired": false,
     "runtimeRollbackRequired": false,
-    "previousMatrixSha256": "sha256:0cc29adf2e683c9686bbb1fcd40704c467a58fa3e7f478cc51b07f9727a7dd01",
-    "currentMatrixSha256": "sha256:d0a4748722e0ec16ae48785ffab1c96aefacf56be1792d91173194453c91ab62",
-    "reason": "C1 full-book route replay evidence rebound from repaired native materialization root-count blocker to complete-round oracle outcome mismatch blocker."
+    "previousMatrixSha256": "sha256:d0a4748722e0ec16ae48785ffab1c96aefacf56be1792d91173194453c91ab62",
+    "currentMatrixSha256": "sha256:fb633f2747ecfaa1343b48a831d062d738967d769ebe68f68e8691181b3790f3",
+    "reason": "C1 full-book route replay evidence rebound from repaired complete-round oracle outcome mismatch to the active apply/lifecycle/reuse gate blocker."
   }
 }

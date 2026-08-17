@@ -3,8 +3,8 @@
   "documentClass": "EVIDENCE_STATUS",
   "status": "INTEROP_CHAIN_C1_C8_DENOMINATOR_REGISTERED_NEEDS_MORE_EVIDENCE",
   "claimBoundary": "Registers the frozen C1-C8 full-book interop route denominator and fail-closed closure rules only. It does not prove any route, saturation, platform parity, byte identity, product runtime support, import/apply authority, or live user-document workflow.",
-  "generatedAtUtc": "2026-08-17T11:58:45.000Z",
-  "exactHead": "279dde31d1bcf4c6a7cc80f6acfd034f9bdd600b",
+  "generatedAtUtc": "2026-08-17T15:05:15.000Z",
+  "exactHead": "6aee73c0770357cd0b84bf5e8388cee38071c798",
   "programVerdict": "NEEDS_MORE_EVIDENCE",
   "sourceEvidence": {
     "googleWholeBookReceipt": {
@@ -26,7 +26,7 @@
     },
     "c1WordFullBookRouteReceipt": {
       "path": "docs/OPS/RTK/YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1.json",
-      "sha256": "sha256:14150258821961b7293942231a973a7b97e7d6ae5c224114c883b9845d077bf3",
+      "sha256": "sha256:6e51ddd9ed4c4903481402aec90824de5631ea2a0fd21ba3e3ba021372c6fee9",
       "status": "C1_YALKEN_WORD_YALKEN_FULL_BOOK_ROUTE_V1_EXECUTED_BLOCKED_FAIL_CLOSED",
       "routeVerdict": "BLOCKED",
       "chainClosureAuthority": "DENY"
@@ -44,25 +44,37 @@
       ],
       "chainClosureAuthority": "DENY"
     },
-    "c1FreshNativeMaterializationBlockedReplay": {
-      "exactHead": "279dde31d1bcf4c6a7cc80f6acfd034f9bdd600b",
-      "artifactRoot": "/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c1-word-native-materialization-root-count-repair-v1/c1-native-root-count-repair-w06-r1-20260817",
-      "runId": "c1-native-root-count-repair-w06-r1-20260817",
-      "stageResultSha256": "sha256:d879ec14fdf5ca95229e8e817c1572dc53bb3c8a1017cac9fd3783a69a2c6dfb",
-      "readyMarkerSha256": "sha256:c1322f631bcede5487b92cdb97169665bc51f974a722be24d62d9bbba94bb7f9",
-      "completeRoundOracleSha256": "sha256:bb34203eeb1178e5e3d4c787372f7e00cacfa5eb0d13eba6c0631291fcb752e7",
-      "returnedDocxSha256": "sha256:242d0593b0f55d87593b3272eaf4fa13cbbf8f94776d7630a7557ed5a9d59dbf",
+    "c1FreshApplyLifecycleGateBlockedReplay": {
+      "exactHead": "6aee73c0770357cd0b84bf5e8388cee38071c798",
+      "artifactRoot": "/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c1-word-round01-oracle-mismatch-repair-v1/c1-round01-oracle-repair-w06-20260817",
+      "runId": "c1-round01-oracle-repair-w06-20260817",
+      "stageResultSha256": "sha256:51e5b00fe5f13c4e6aa0cce22c354120a7085f743dce37be96bafb9211537659",
+      "readyMarkerSha256": "sha256:a60f2531c9744fd7c4788b299d800675840613d6e04dd1a24c7218e52b03fce9",
+      "completeRoundOracleSha256": "sha256:9d1a4cad2234f4586a21189cd221acca81102cdbab6fe7f3604dfc7dc4d9d2bf",
+      "completeRoundOracleGateSha256": "sha256:99fd7790c1955338e5207c0854a12b95963ee773c910b1e7ae490f991acc3198",
+      "productReturnApplySha256": "sha256:3929803ab6827dd38897bfbce53a0e29d953a42dda8963c99e01c08fc46749bc",
+      "nativeLifecycleVerificationSha256": "sha256:613a89aa2361fb996433df6d9fa2abb81fcd11843e3193a97725ef9fc953390b",
+      "returnedDocxSha256": "sha256:c202622e753ff0598161db3f0499489f631f920cf61c254fc8cc38796410ba20",
       "returnedDocxReady": true,
       "roundOperationCount": 379,
       "wordStatusCount": 379,
       "nativeWordReadbackCount": 379,
       "reopenedYalkenSceneCount": 21,
-      "failureCode": "C5V2_COMPLETE_ROUND_ORACLE_FAILED",
-      "failureDetail": "C5V2_COMPLETE_ROUND_ORACLE_FAILED:367:C5V2_ORACLE_YALKEN_OUTCOME_MISMATCH=334:C5V2_ORACLE_WORD_OUTCOME_MISMATCH=33",
-      "oracleFailureCount": 367,
-      "yalkenOutcomeMismatchCount": 334,
-      "wordOutcomeMismatchCount": 33,
-      "wordWindowDiagnostics": "ROOT_COUNT_REPAIR_CONFIRMED;RETURNED_DOCX_READY_TRUE;COMPLETE_ROUND_ORACLE_FAILED"
+      "completeRoundOracleGreen": true,
+      "productReturnApplyGreen": false,
+      "nativeLifecycleVerifiedCount": 5,
+      "nativeLifecycleBlockedCount": 33,
+      "failureCode": "C5V2_COMPLETE_ROUND_ORACLE_GATE_FAILED",
+      "gateFailures": [
+        "PRODUCT_RETURN_APPLY_NOT_GREEN",
+        "NATIVE_LIFECYCLE_VERIFICATION_NOT_GREEN",
+        "NATIVE_LIFECYCLE_COVERAGE_NOT_GREEN",
+        "COMPLETED_ROUND_REUSE_BINDING_NOT_GREEN"
+      ],
+      "exactTextBindingMatched": 35,
+      "exactTextBindingExpected": 105,
+      "formattingApplyCode": "RTK_FORMATTING_OPERATION_UNKNOWN_KEY",
+      "wordWindowDiagnostics": "RETURNED_DOCX_READY_TRUE;COMPLETE_ROUND_ORACLE_GREEN_TRUE;APPLY_LIFECYCLE_REUSE_GATE_FAILED"
     }
   },
   "canonicalFullBookDenominator": {
@@ -115,7 +127,7 @@
       "routeVerdict": "BLOCKED",
       "accountingStatus": "FULL_BOOK_ATTEMPTED_BLOCKED",
       "fullCanonicalSyntheticBookRequired": true,
-      "fullBookAccounting": "FULL_BOOK_ATTEMPTED_POST_NATIVE_MATERIALIZATION_REPAIR_ORACLE_BLOCKED_NOT_PROVEN",
+      "fullBookAccounting": "FULL_BOOK_ATTEMPTED_POST_ORACLE_ACCOUNTING_REPAIR_APPLY_LIFECYCLE_REUSE_GATE_BLOCKED_NOT_PROVEN",
       "userDocumentsAllowed": false,
       "productMutationAuthority": "DENY_UNTIL_ROUTE_CONTOUR_PROVES_APPLY_AUTHORITY",
       "fullBookEvidenceRefs": [
@@ -124,12 +136,14 @@
         "C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1_SCOPED_PUBLICATION",
         "C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_AUTH_REPAIR_V1_FAIL_CLOSED",
         "C1_WORD_WINDOW_VISIBILITY_REPAIR_CONFIRMED",
-        "C1_WORD_NATIVE_MATERIALIZATION_ROOT_COUNT_BLOCKER"
+        "C1_WORD_NATIVE_MATERIALIZATION_ROOT_COUNT_BLOCKER",
+        "C1_WORD_ROUND01_COMPLETE_ROUND_ORACLE_OUTCOME_MISMATCH_REPAIRED",
+        "C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER"
       ],
       "executedFullRouteEvidence": [],
       "blockerEvidenceRefs": [
         "YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1",
-        "C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_BLOCKER"
+        "C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER"
       ],
       "requiredBindings": [
         "yalkenSha",
@@ -144,35 +158,35 @@
       ],
       "requiredOracles": {
         "semanticOracle": {
-          "status": "BLOCKED_COMPLETE_ROUND_ORACLE_OUTCOME_MISMATCH",
-          "reason": "Fresh C1 replay reached ready returned DOCX and failed complete-round oracle outcome verification."
+          "status": "BLOCKED_APPLY_LIFECYCLE_REUSE_GATE",
+          "reason": "Complete-round semantic oracle is green, but strict product return apply, native lifecycle coverage, and completed-round reuse binding gates are not green."
         },
         "structureOracle": {
-          "status": "BLOCKED_COMPLETE_ROUND_ORACLE_OUTCOME_MISMATCH",
-          "reason": "Fresh C1 replay reached ready returned DOCX and failed complete-round oracle outcome verification."
+          "status": "BLOCKED_APPLY_LIFECYCLE_REUSE_GATE",
+          "reason": "Complete-round semantic oracle is green, but strict product return apply, native lifecycle coverage, and completed-round reuse binding gates are not green."
         },
         "commentsOracle": {
-          "status": "BLOCKED_COMPLETE_ROUND_ORACLE_OUTCOME_MISMATCH",
-          "reason": "Fresh C1 replay reached ready returned DOCX and failed complete-round oracle outcome verification."
+          "status": "BLOCKED_APPLY_LIFECYCLE_REUSE_GATE",
+          "reason": "Complete-round semantic oracle is green, but strict product return apply, native lifecycle coverage, and completed-round reuse binding gates are not green."
         },
         "suggestionsOracle": {
-          "status": "BLOCKED_COMPLETE_ROUND_ORACLE_OUTCOME_MISMATCH",
-          "reason": "Fresh C1 replay reached ready returned DOCX and failed complete-round oracle outcome verification."
+          "status": "BLOCKED_APPLY_LIFECYCLE_REUSE_GATE",
+          "reason": "Complete-round semantic oracle is green, but strict product return apply, native lifecycle coverage, and completed-round reuse binding gates are not green."
         },
         "formatOracle": {
-          "status": "BLOCKED_COMPLETE_ROUND_ORACLE_OUTCOME_MISMATCH",
-          "reason": "Fresh C1 replay reached ready returned DOCX and failed complete-round oracle outcome verification."
+          "status": "BLOCKED_APPLY_LIFECYCLE_REUSE_GATE",
+          "reason": "Complete-round semantic oracle is green, but strict product return apply, native lifecycle coverage, and completed-round reuse binding gates are not green."
         },
         "recoveryOracle": {
-          "status": "BLOCKED_COMPLETE_ROUND_ORACLE_OUTCOME_MISMATCH",
-          "reason": "Fresh C1 replay reached ready returned DOCX and failed complete-round oracle outcome verification."
+          "status": "BLOCKED_APPLY_LIFECYCLE_REUSE_GATE",
+          "reason": "Complete-round semantic oracle is green, but strict product return apply, native lifecycle coverage, and completed-round reuse binding gates are not green."
         },
         "cleanupOracle": {
           "status": "NO_ROUTE_PASS_WORD_PROCESS_CLEANED",
           "reason": "Synthetic process cleanup succeeded but is not route PASS evidence."
         }
       },
-      "nextContour": "C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_REPAIR_V1"
+      "nextContour": "C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_REPAIR_V1"
     },
     {
       "routeId": "C2",
@@ -540,14 +554,14 @@
       "nextContour": "AFTER_C7"
     }
   ],
-  "nextSequentialContour": "C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_REPAIR_V1",
+  "nextSequentialContour": "C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_REPAIR_V1",
   "rollback": {
     "repo": "revert bounded chain matrix, lineage receipt, verifier, catalog, and governance binding commit",
     "productDataMigrationRequired": false,
     "runtimeRollbackRequired": false,
-    "previousMatrixExactHead": "834f37a8cb5ba3eb854f6407e2dc4e7e14606d88",
-    "previousBlocker": "NATIVE_MATERIALIZATION_ROOT_COUNT_MISMATCH",
-    "currentBlocker": "C5V2_COMPLETE_ROUND_ORACLE_FAILED",
-    "revertPlan": "Revert this evidence/DAG rebind commit to restore the native materialization root-count blocker chain matrix."
+    "previousMatrixExactHead": "279dde31d1bcf4c6a7cc80f6acfd034f9bdd600b",
+    "previousBlocker": "C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_BLOCKER",
+    "currentBlocker": "C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER",
+    "revertPlan": "Revert this evidence/DAG rebind commit to restore the complete-round oracle outcome mismatch blocker chain matrix."
   }
 }

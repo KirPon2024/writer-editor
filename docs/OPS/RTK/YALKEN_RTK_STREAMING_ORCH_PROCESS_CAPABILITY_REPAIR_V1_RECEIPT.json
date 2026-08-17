@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "yalken.rtk.streamingOrchProcessCapabilityRepair.receipt.v1",
+  "taskId": "RTK_STREAMING_AND_ORCH_PROCESS_CAPABILITY_REPAIR_V1",
+  "createdAtUtc": "2026-08-17T00:12:44Z",
+  "status": "LOCAL_GREEN_PENDING_DELIVERY",
+  "repo": {
+    "headSha": "22bdd475f9bc2957aa6d3f5bbce50af347f2c93b",
+    "headTree": "b64d48e96978c121c09e15b65fd31423230d27fa",
+    "baseSha": "62df8ac34b2980a6f12934cafb4f5b478fef33d4",
+    "baseTree": "46cae5b878a6934c56917d213a341ec479ca50c9"
+  },
+  "scope": {
+    "changedBasenames": ["rtk-required.yml", "RTK_TEST_GRAPH_CATALOG_V1.json", "YALKEN_R4_POSTMERGE_VERIFICATION_RECEIPT_V1.json", "YALKEN_RTK_STREAMING_ORCH_PROCESS_CAPABILITY_REPAIR_V1_RECEIPT.json", "2026-08-17--rtk-streaming-orch-process-capability-repair-v1.md", "rtk-word-c5v2-terminal-orchestrator.mjs", "run-rtk-tests.mjs", "rtk-test-graph-catalog.contract.test.js", "rtk-word-c5v2-terminal-orchestrator.contract.test.js"],
+    "designToolRouter": "NOT_APPLICABLE",
+    "productRuntimeChanged": false,
+    "uiChanged": false,
+    "dependencyChanged": false,
+    "networkRuntimeChanged": false
+  },
+  "executedEvidence": {
+    "agentBootstrap": { "exitCode": 0, "status": "READY_FOR_READ_AND_DECLARATION" },
+    "agentPreflight": { "exitCode": 0, "bindingBaseSha": "22bdd475f9bc2957aa6d3f5bbce50af347f2c93b", "scopeInCount": 10, "scopeOutCount": 15 },
+    "opsGate": { "exitCode": 0 },
+    "focusedContracts": { "exitCode": 0, "tests": 91, "pass": 91, "fail": 0, "cancelled": 0, "skipped": 0, "todo": 0, "durationMs": 237702.776541 },
+    "fixtureSurvivorCleanup": { "verifiedFixtureProcesses": 19, "verifiedProcessGroups": 15, "remainingFixtureProcesses": 0, "removedTempRoots": 8, "remainingTempRoots": 0 },
+    "maintainedRtk": { "exitCode": 0, "fileCount": 121, "tests": 1003, "pass": 1003, "fail": 0, "cancelled": 0, "skipped": 0, "todo": 0, "durationMs": 243538.57875, "progressHeartbeatsObserved": true, "processGroupCleanup": "RTK_PROCESS_GROUP_CLEAN", "leaseCleanupOk": true },
+    "postRtkResidue": { "matchingProcesses": 0, "matchingTempRoots": 0 }
+  },
+  "acceptance": {
+    "injectableMonotonicDeadlinesTerminateFrozenStalledJumpingClocks": true,
+    "processProbesIndependentlyBoundAndTypedFailClosed": true,
+    "hiddenPidTimeoutThrowIndeterminateNeverSafeEmpty": true,
+    "normalSuccessFullAccessProcessEnvironmentGreen": true
+  },
+  "nonClaims": [
+    "Local evidence is not a PR, CI, merge, postmerge, release, Desktop V1.1, or final program verdict.",
+    "R4 scope remains unchanged and the program verdict remains NEEDS_MORE_EVIDENCE.",
+    "No user Drive files, product runtime data, provider data, UI, dependency, or network runtime was touched."
+  ],
+  "nextRequiredStep": "PUSH_PR_REQUIRED_CI_EXPECTED_HEAD_MERGE_POSTMERGE_GATES"
+}

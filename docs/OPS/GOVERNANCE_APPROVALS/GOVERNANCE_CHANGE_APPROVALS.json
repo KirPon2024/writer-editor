@@ -6276,7 +6276,7 @@
     },
     {
       "filePath": "scripts/run-rtk-tests.mjs",
-      "sha256": "8c075a30933b11421bf851f9f64b94c4e0ed3c34e6fcba48f7f281aab52a214d",
+      "sha256": "d0c6b258d9b9c7a061d7e986e35729eee9ab2a1061458ab684a5ba4a93833c3f",
       "approvedBy": "owner-direct:STANDING_DEFAULT_AUTHORIZATION:YALKEN_RTK_OWNED_TMPDIR_HYGIENE_V1_P1_REPAIR",
       "approvedAtUtc": "2026-08-06T09:21:26.826Z",
       "rationale": "Approve exact RTK runner bytes that execute the mandatory RTK graph inside a runner-owned TMPDIR lease, clean the no-follow direct-child root from a guaranteed cleanup path, report traversal/remove cleanup failures as structured RTK_TMPDIR_CLEANUP_FAILED evidence without throwing, and preserve fail-closed TAP/spawn diagnostics; no production runtime, Word, UI, dependency, network, Google, or long-campaign change.",
@@ -9321,7 +9321,7 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-terminal-orchestrator.mjs",
-      "sha256": "db4e4543273d0bb06cd8ea3cd434f63989d3cfee0aa36c283a1d37a1d87b1831",
+      "sha256": "f72f816a3e5725dbd645c91bcf8514ffe334106edad43f174605b91e418bd208",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_PHASE_C_NATIVE_LIFECYCLE_V1",
       "approvedAtUtc": "2026-08-06T04:07:00.000Z",
       "rationale": "Approve exact Phase C parent-oracle native lifecycle coverage binding after terminal orchestrator contract 60/60 passed with deep semantic and portfolio gates. No physical Word run, no Google work, no long campaign, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
@@ -9366,7 +9366,7 @@
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-terminal-orchestrator.contract.test.js",
-      "sha256": "423049792791b1c541f4d73dce321c1136c1acc7a2f89ff20e5fbb1f47ef2a9f",
+      "sha256": "bfd52bac5d6f76d29fe3e493f03a095686afb7957b811e24256f9299424de8a8",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_TEMP_LEASE_HYGIENE_V1",
       "approvedAtUtc": "2026-08-06T07:05:57.000Z",
       "rationale": "Approve exact test-only C5V2 terminal orchestrator contract bytes adding TempLease fixture cleanup, lazy validOptions allocation, per-test registered-root cleanup after PID/FD test cleanup, CI-safe suite-owned residue accounting without broad os.tmpdir namespace scans, and canonical-ledger fixture construction without throwaway deep artifacts. No production runtime semantics, no Word operation, no full local RTK claim while Word Container remains platform-blocked, no Google work, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
@@ -11103,13 +11103,15 @@
     },
     {
       "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "ed2c189856af0ba891d95d199490d7418b488d12afc3c2ed1a84c418c4a57390",
+      "sha256": "c687da237bac5bebe743c4233eca703aa69b2c9bca7a5f7c4b6eb63c0e6bbae4",
       "rationale": "Approve R4 catalog/truth-binding rebind only: admits the exact-head release-claim publication contract and scoped non-release aggregate while preserving NEEDS_MORE_EVIDENCE, blocked claim denial, and no product runtime, UI, provider, import/apply, release READY, or route-saturation authority.",
       "approvedBy": "owner-standing-grant:TASK_ID:R4_EXACT_HEAD_CLAIM_PUBLICATION_V1",
       "approvedAtUtc": "2026-08-16T19:20:00.000Z",
       "approved": true,
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_PUBLICATION"
     },
+    {"filePath":"docs/OPS/RTK/YALKEN_R4_POSTMERGE_VERIFICATION_RECEIPT_V1.json","sha256":"ab2c38b27edaf74962ba1d54374defe42ec641d5ad9ea3a7c300e70d4096e69c","rationale":"Approve exact R4 postmerge receipt import for RTK process-capability repair scope; no product runtime, UI, provider, release, Desktop V1.1, or program-verdict change.","approvedBy":"owner-direct:TASK_ID:RTK_STREAMING_AND_ORCH_PROCESS_CAPABILITY_REPAIR_V1","approvedAtUtc":"2026-08-17T00:12:44.000Z","approved":true,"authority":"OWNER_EXPLICIT_RTK_STREAMING_AND_PROCESS_CAPABILITY_REPAIR"},
+    {"filePath":"docs/OPS/RTK/YALKEN_RTK_STREAMING_ORCH_PROCESS_CAPABILITY_REPAIR_V1_RECEIPT.json","sha256":"588991fd3a4576bb351ea2264f8c4faaebc5704c4f3a69cfdfea94039512222e","rationale":"Approve exact local repair receipt for RTK streaming deadlines and process-capability evidence; no product runtime, UI, provider, release, Desktop V1.1, or program-verdict change.","approvedBy":"owner-direct:TASK_ID:RTK_STREAMING_AND_ORCH_PROCESS_CAPABILITY_REPAIR_V1","approvedAtUtc":"2026-08-17T00:12:44.000Z","approved":true,"authority":"OWNER_EXPLICIT_RTK_STREAMING_AND_PROCESS_CAPABILITY_REPAIR"},
     {
       "filePath": "docs/OPS/RTK/YALKEN_RELEASE_CLAIM_PUBLICATION_V1_RECEIPT.json",
       "sha256": "589f5870ba4b7e9806916e4d7b25c6f3bd580ed272067dbafa767f5dab25fdd8",
@@ -11175,7 +11177,7 @@
     },
     {
       "filePath": ".github/workflows/rtk-required.yml",
-      "sha256": "06c725d1d8218a70920c0090f723b089d55284de64f5ba3bac2f97a64b64f438",
+      "sha256": "668cb579609aa6aea6193f7097eb40a51e81a5ff13227bc37b14a25dd04f5bb8",
       "rationale": "Approve narrow R4 CI correction: rtk-required checkout fetch-depth is set to 0 so exact-head ancestry verification can use Git history in PR CI instead of rolling PR-base SHA allowlists; no product runtime, provider, UI, secret, network-truth, or release authority change.",
       "approvedBy": "owner-standing-grant:TASK_ID:R4_EXACT_HEAD_CLAIM_PUBLICATION_V1_CI_SHALLOW_HISTORY_REPAIR",
       "approvedAtUtc": "2026-08-16T20:40:00.000Z",
@@ -11184,7 +11186,7 @@
     },
     {
       "filePath": "test/contracts/rtk-test-graph-catalog.contract.test.js",
-      "sha256": "17036e1049e233924b83d8996e69f99e3c17c05938e9d5b9f2caf921c501e680",
+      "sha256": "5e055320c1b94db7aaebfffa79836eaecc6877ccf02c3011d35ba47af81810bb",
       "rationale": "Approve narrow R4 workflow contract hardening: required CI must fetch full history for exact-head ancestry checks and must not add one-off PULL_REQUEST_BASE_SHA_MISMATCH SHA allowlist entries; historical exact-head denial semantics remain fail-closed.",
       "approvedBy": "owner-standing-grant:TASK_ID:R4_EXACT_HEAD_CLAIM_PUBLICATION_V1_CI_SHALLOW_HISTORY_REPAIR",
       "approvedAtUtc": "2026-08-16T20:40:00.000Z",

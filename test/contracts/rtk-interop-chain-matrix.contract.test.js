@@ -51,6 +51,7 @@ test('Interop chain matrix registers the exact C1-C8 full-book denominator witho
   assert.equal(c1.fullBookAccounting, POST_AUTH_REPAIR_FULL_BOOK_ACCOUNTING);
   assert.deepEqual(c1.blockerEvidenceRefs, [
     'YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1',
+    'C1_WORD_ROUND01_EXACT_LEDGER_BINDING_BLOCKER',
     'C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER',
   ]);
   assert.equal(c1.nextContour, NEXT_SEQUENTIAL_CONTOUR);
@@ -60,6 +61,12 @@ test('Interop chain matrix registers the exact C1-C8 full-book denominator witho
   assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.productReturnApplyGreen, false);
   assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.nativeLifecycleVerifiedCount, 5);
   assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.nativeLifecycleBlockedCount, 33);
+  assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.exactTextBindingMatched, 60);
+  assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.exactTextBindingExpected, 105);
+  assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.exactTextBindingUnmatched, 45);
+  assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.exactTextBindingFailure, 'C5V2_EXACT_SUMMARY_LEDGER_BINDING_REQUIRED');
+  assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.exactTextBindingFirstUnmatched[0], 'c5v2-tracked_text_edit-0023');
+  assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.formattingApplyCode, 'RTK_FORMATTING_OPERATION_UNKNOWN_KEY');
   assert.deepEqual(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.gateFailures, [
     'PRODUCT_RETURN_APPLY_NOT_GREEN',
     'NATIVE_LIFECYCLE_VERIFICATION_NOT_GREEN',
@@ -68,6 +75,7 @@ test('Interop chain matrix registers the exact C1-C8 full-book denominator witho
   ]);
   assert.match(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.wordWindowDiagnostics, /COMPLETE_ROUND_ORACLE_GREEN_TRUE/u);
   assert.match(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.wordWindowDiagnostics, /APPLY_LIFECYCLE_REUSE_GATE_FAILED/u);
+  assert.match(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.wordWindowDiagnostics, /EXACT_LEDGER_BINDING_60_OF_105/u);
 
   for (const route of matrix.routeDenominator) {
     assert.equal(route.fullCanonicalSyntheticBookRequired, true, route.routeId);
@@ -79,7 +87,12 @@ test('Interop chain matrix registers the exact C1-C8 full-book denominator witho
 });
 
 test('Interop chain exact-head binding accepts only matching GitHub PR base metadata when local graph is shallow', async () => {
-  const { INTEROP_CHAIN_EXACT_HEAD_SHA, INTEROP_CHAIN_PRE_AUTH_REPAIR_ROUTE_SHA, resolveExactHeadBinding } = await loadVerifier();
+  const {
+    INTEROP_CHAIN_EXACT_HEAD_SHA,
+    INTEROP_CHAIN_PRE_APPLY_LIFECYCLE_REUSE_GATE_REPAIR_SHA,
+    INTEROP_CHAIN_PRE_AUTH_REPAIR_ROUTE_SHA,
+    resolveExactHeadBinding,
+  } = await loadVerifier();
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-chain-pr-event-'));
   const eventPath = path.join(tempDir, 'event.json');
   fs.writeFileSync(eventPath, JSON.stringify({ pull_request: { base: { sha: INTEROP_CHAIN_EXACT_HEAD_SHA } } }), 'utf8');
@@ -102,6 +115,7 @@ test('Interop chain exact-head binding accepts only matching GitHub PR base meta
   assert.equal(stalePreRepairBase.status, 'PULL_REQUEST_BASE_SHA_MISMATCH');
   assert.deepEqual(stalePreRepairBase.acceptedBaseShas, [INTEROP_CHAIN_EXACT_HEAD_SHA]);
   assert.ok(stalePreRepairBase.staleRejectedBaseShas.includes(INTEROP_CHAIN_PRE_AUTH_REPAIR_ROUTE_SHA));
+  assert.ok(stalePreRepairBase.staleRejectedBaseShas.includes(INTEROP_CHAIN_PRE_APPLY_LIFECYCLE_REUSE_GATE_REPAIR_SHA));
 
   fs.writeFileSync(eventPath, JSON.stringify({ pull_request: { base: { sha: '0'.repeat(40) } } }), 'utf8');
   const rejected = resolveExactHeadBinding('/definitely/not/a/git/repo', {

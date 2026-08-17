@@ -10,14 +10,16 @@ export const TASK_ID = 'C1_YALKEN_WORD_YALKEN_FULL_BOOK_ROUTE_V1';
 export const STATUS = 'C1_YALKEN_WORD_YALKEN_FULL_BOOK_ROUTE_V1_EXECUTED_BLOCKED_FAIL_CLOSED';
 export const VERDICT = 'NEEDS_MORE_EVIDENCE';
 export const PROGRAM_VERDICT = 'NEEDS_MORE_EVIDENCE';
-export const EXACT_HEAD = '6aee73c0770357cd0b84bf5e8388cee38071c798';
+export const EXACT_HEAD = '5a5b34210bad80eaf1851efcf5a64426484f3f2a';
 export const PRE_AUTH_REPAIR_ROUTE_HEAD = '1b8a23441ba29b6cac79a62a3b18ece031654e62';
 export const PRE_VISIBILITY_REPLAY_ROUTE_HEAD = '5ebb75f4110bb1a287ad9a9109cebdeb373642ba';
 export const PRE_WINDOW_REPAIR_ROUTE_HEAD = '9453e232a65b6cf92ceb802adf2d2f776fd3ee33';
 export const PRE_NATIVE_MATERIALIZATION_REPLAY_ROUTE_HEAD = '834f37a8cb5ba3eb854f6407e2dc4e7e14606d88';
 export const PRE_ORACLE_OUTCOME_MISMATCH_REPAIR_ROUTE_HEAD = '279dde31d1bcf4c6a7cc80f6acfd034f9bdd600b';
-export const NEXT_SEQUENTIAL_CONTOUR = 'C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_REPAIR_V1';
-export const POST_AUTH_REPAIR_FULL_BOOK_ACCOUNTING = 'FULL_BOOK_ATTEMPTED_POST_ORACLE_ACCOUNTING_REPAIR_APPLY_LIFECYCLE_REUSE_GATE_BLOCKED_NOT_PROVEN';
+export const PRE_APPLY_LIFECYCLE_REUSE_GATE_REPAIR_ROUTE_HEAD = '6aee73c0770357cd0b84bf5e8388cee38071c798';
+export const NEXT_SEQUENTIAL_CONTOUR = 'C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1';
+export const POST_REUSE_GATE_REPAIR_FULL_BOOK_ACCOUNTING = 'FULL_BOOK_ATTEMPTED_POST_REUSE_GATE_REPAIR_EXACT_LEDGER_BINDING_BLOCKED_NOT_PROVEN';
+export const POST_AUTH_REPAIR_FULL_BOOK_ACCOUNTING = POST_REUSE_GATE_REPAIR_FULL_BOOK_ACCOUNTING;
 export const RECEIPT_PATH = 'docs/OPS/RTK/YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1.json';
 export const MATRIX_PATH = 'docs/OPS/RTK/YALKEN_INTEROP_CHAIN_MATRIX_V1.json';
 export const CATALOG_PATH = 'docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json';
@@ -156,6 +158,9 @@ function validateDenominator(denominator, errors) {
   failIf(!String(denominator.route?.reason || '').includes('PRODUCT_RETURN_APPLY_NOT_GREEN'), errors, 'ROUTE_DENOMINATOR_INVALID:PRODUCT_RETURN_APPLY_BLOCKER_NOT_RECORDED');
   failIf(!String(denominator.route?.reason || '').includes('NATIVE_LIFECYCLE_VERIFICATION_NOT_GREEN'), errors, 'ROUTE_DENOMINATOR_INVALID:NATIVE_LIFECYCLE_BLOCKER_NOT_RECORDED');
   failIf(!String(denominator.route?.reason || '').includes('COMPLETED_ROUND_REUSE_BINDING_NOT_GREEN'), errors, 'ROUTE_DENOMINATOR_INVALID:REUSE_BINDING_BLOCKER_NOT_RECORDED');
+  failIf(!String(denominator.route?.reason || '').includes('60 of 105'), errors, 'ROUTE_DENOMINATOR_INVALID:EXACT_LEDGER_60_OF_105_NOT_RECORDED');
+  failIf(!String(denominator.route?.reason || '').includes('C5V2_EXACT_SUMMARY_LEDGER_BINDING_REQUIRED'), errors, 'ROUTE_DENOMINATOR_INVALID:EXACT_LEDGER_BLOCKER_NOT_RECORDED');
+  failIf(!String(denominator.route?.reason || '').includes('RTK_FORMATTING_OPERATION_UNKNOWN_KEY'), errors, 'ROUTE_DENOMINATOR_INVALID:FORMATTING_BLOCKER_NOT_RECORDED');
 }
 
 function validateProvider(provider, errors) {
@@ -199,8 +204,8 @@ function validatePhysicalEvidence(evidence, errors) {
   }
   failIf(evidence.syntheticDisposableDocxOnly !== true, errors, 'PHYSICAL_EVIDENCE_INVALID:DISPOSABLE_ONLY_REQUIRED');
   failIf(evidence.userDocumentsTouched !== false, errors, 'USER_DOCUMENT_COUNTER_NONZERO');
-  failIf(evidence.runId !== 'c1-round01-oracle-repair-w06-20260817', errors, 'PHYSICAL_RESULT_INVALID:FRESH_REPLAY_RUN_ID');
-  failIf(evidence.previousRedRunId !== 'c1-native-root-count-repair-w06-r1-20260817', errors, 'PHYSICAL_RESULT_INVALID:PREVIOUS_ORACLE_MISMATCH_REPLAY_NOT_RECORDED');
+  failIf(evidence.runId !== 'c1-route-reuse-gate-repair-w06-r1-20260817', errors, 'PHYSICAL_RESULT_INVALID:FRESH_REPLAY_RUN_ID');
+  failIf(evidence.previousRedRunId !== 'c1-round01-oracle-repair-w06-20260817', errors, 'PHYSICAL_RESULT_INVALID:PREVIOUS_ORACLE_MISMATCH_REPLAY_NOT_RECORDED');
   failIf(evidence.previousInterruptedRunId !== 'c1-fullbook-auth-repair-w06-r2-20260817', errors, 'PHYSICAL_RESULT_INVALID:INTERRUPTED_REPLAY_NOT_RECORDED');
   failIf(evidence.previousNativeMaterializationBlockedRunId !== 'c1-window-visibility-repair-w06-r1-20260817', errors, 'PHYSICAL_RESULT_INVALID:PREVIOUS_NATIVE_MATERIALIZATION_REPLAY_NOT_RECORDED');
   failIf(evidence.corpusId !== 'dorian-gray-pg174-cleaned-internal-qa', errors, 'PHYSICAL_RESULT_INVALID:CORPUS_ID');
@@ -234,6 +239,34 @@ function validatePhysicalEvidence(evidence, errors) {
   failIf(evidence.round01?.nativeLifecycleCoverage?.expectedOperationIdsDigest !== 'sha256:2910478186c15430136050fbfc0c19ff19555538c25e701e5b0b288bea7c45ca', errors, 'PHYSICAL_RESULT_INVALID:NATIVE_LIFECYCLE_EXPECTED_DIGEST');
   failIf(evidence.round01?.nativeLifecycleCoverage?.resultOperationIdsDigest !== 'sha256:2910478186c15430136050fbfc0c19ff19555538c25e701e5b0b288bea7c45ca', errors, 'PHYSICAL_RESULT_INVALID:NATIVE_LIFECYCLE_RESULT_DIGEST');
   failIf(evidence.round01?.completedRoundReuseBindingOk !== false, errors, 'PHYSICAL_RESULT_INVALID:COMPLETED_ROUND_REUSE_BINDING_MUST_BE_FALSE');
+  const productReturnApply = evidence.round01?.productReturnApply;
+  if (!isObject(productReturnApply)) {
+    errors.push('PHYSICAL_RESULT_INVALID:PRODUCT_RETURN_APPLY_MISSING');
+  } else {
+    failIf(productReturnApply.ok !== false, errors, 'PHYSICAL_RESULT_INVALID:PRODUCT_RETURN_APPLY_MUST_REMAIN_FALSE');
+    failIf(productReturnApply.activationOk !== true, errors, 'PHYSICAL_RESULT_INVALID:PRODUCT_RETURN_APPLY_ACTIVATION_NOT_RECORDED');
+    failIf(productReturnApply.returnIntakeAuthenticated !== true, errors, 'PHYSICAL_RESULT_INVALID:PRODUCT_RETURN_APPLY_AUTH_NOT_RECORDED');
+    failIf(productReturnApply.returnIntakeStatus !== 'authenticated-return-ir-ready', errors, 'PHYSICAL_RESULT_INVALID:PRODUCT_RETURN_APPLY_AUTH_STATUS');
+    failIf(productReturnApply.textRevisions !== 398, errors, 'PHYSICAL_RESULT_INVALID:PRODUCT_RETURN_APPLY_TEXT_REVISIONS');
+    failIf(productReturnApply.commentThreads !== 54, errors, 'PHYSICAL_RESULT_INVALID:PRODUCT_RETURN_APPLY_COMMENT_THREADS');
+    failIf(productReturnApply.formattingDeltas !== 224, errors, 'PHYSICAL_RESULT_INVALID:PRODUCT_RETURN_APPLY_FORMATTING_DELTAS');
+    failIf(productReturnApply.opaqueUnsupported !== 9, errors, 'PHYSICAL_RESULT_INVALID:PRODUCT_RETURN_APPLY_OPAQUE_UNSUPPORTED');
+    failIf(productReturnApply.exactTextBindingOk !== false, errors, 'PHYSICAL_RESULT_INVALID:EXACT_LEDGER_BINDING_MUST_REMAIN_FALSE');
+    failIf(productReturnApply.expectedOperationCount !== 105, errors, 'PHYSICAL_RESULT_INVALID:EXACT_LEDGER_EXPECTED_COUNT');
+    failIf(productReturnApply.matchedOperationCount !== 60, errors, 'PHYSICAL_RESULT_INVALID:EXACT_LEDGER_MATCHED_COUNT');
+    failIf(productReturnApply.matchedChangeCount !== 60, errors, 'PHYSICAL_RESULT_INVALID:EXACT_LEDGER_MATCHED_CHANGE_COUNT');
+    failIf(productReturnApply.excludedCandidateCount !== 101, errors, 'PHYSICAL_RESULT_INVALID:EXACT_LEDGER_EXCLUDED_CANDIDATE_COUNT');
+    failIf(productReturnApply.unmatchedExpectedOperationCount !== 45, errors, 'PHYSICAL_RESULT_INVALID:EXACT_LEDGER_UNMATCHED_COUNT');
+    failIf(!Array.isArray(productReturnApply.firstUnmatchedExpectedOperationIds) || productReturnApply.firstUnmatchedExpectedOperationIds[0] !== 'c5v2-tracked_text_edit-0023', errors, 'PHYSICAL_RESULT_INVALID:EXACT_LEDGER_FIRST_UNMATCHED');
+    failIf(productReturnApply.formattingApplyOk !== false, errors, 'PHYSICAL_RESULT_INVALID:FORMATTING_APPLY_MUST_REMAIN_FALSE');
+    failIf(productReturnApply.formattingApplyCode !== 'RTK_FORMATTING_OPERATION_UNKNOWN_KEY', errors, 'PHYSICAL_RESULT_INVALID:FORMATTING_APPLY_CODE');
+    failIf(productReturnApply.formattingPreviewCode !== 'RTK_FORMATTING_RETURN_USER_DECISION_READY', errors, 'PHYSICAL_RESULT_INVALID:FORMATTING_PREVIEW_CODE');
+    failIf(productReturnApply.formattingPreviewOperationCount !== 224, errors, 'PHYSICAL_RESULT_INVALID:FORMATTING_PREVIEW_OPERATION_COUNT');
+    failIf(productReturnApply.applyResultsCount !== 10, errors, 'PHYSICAL_RESULT_INVALID:APPLY_RESULTS_COUNT');
+    failIf(productReturnApply.replayResultsCount !== 10, errors, 'PHYSICAL_RESULT_INVALID:REPLAY_RESULTS_COUNT');
+    failIf(productReturnApply.staleRetryBlockedCount !== 10, errors, 'PHYSICAL_RESULT_INVALID:STALE_RETRY_BLOCKED_COUNT');
+    failIf(productReturnApply.nonOverlapReason !== 'FULL_MANUSCRIPT_EXACT_AUTHORITY_QUOTE_NOT_UNIQUE', errors, 'PHYSICAL_RESULT_INVALID:NON_OVERLAP_REASON');
+  }
   failIf(evidence.round01?.nativeMaterializationRootCountRepairObserved !== true, errors, 'PHYSICAL_RESULT_INVALID:NATIVE_MATERIALIZATION_REPAIR_NOT_OBSERVED');
   failIf(evidence.resultStatus?.plannedOperations !== 2000, errors, 'PHYSICAL_RESULT_INVALID:PLANNED_OPERATIONS');
   failIf(evidence.resultStatus?.positiveOperationCount !== 1960, errors, 'PHYSICAL_RESULT_INVALID:POSITIVE_OPERATIONS');
@@ -259,6 +292,7 @@ function validatePhysicalEvidence(evidence, errors) {
   const wordWindowDiagnostics = String(evidence.resultStatus?.wordWindowDiagnostics || '');
   failIf(!wordWindowDiagnostics.includes('RETURNED_READY_TRUE'), errors, 'PHYSICAL_RESULT_INVALID:RETURNED_READY_DIAGNOSTIC_NOT_RECORDED');
   failIf(!wordWindowDiagnostics.includes('COMPLETE_ROUND_ORACLE_GREEN_TRUE'), errors, 'PHYSICAL_RESULT_INVALID:COMPLETE_ROUND_ORACLE_GREEN_DIAGNOSTIC_NOT_RECORDED');
+  failIf(!wordWindowDiagnostics.includes('EXACT_LEDGER_BINDING_60_OF_105'), errors, 'PHYSICAL_RESULT_INVALID:EXACT_LEDGER_DIAGNOSTIC_NOT_RECORDED');
   failIf(!String(evidence.resultStatus?.wrapperError || '').includes('C5V2_COMPLETE_ROUND_ORACLE_GATE_FAILED'), errors, 'PHYSICAL_RESULT_INVALID:COMPLETE_ROUND_ORACLE_GATE_ERROR_NOT_RECORDED');
   failIf(!String(evidence.resultStatus?.wrapperError || '').includes('PRODUCT_RETURN_APPLY_NOT_GREEN'), errors, 'PHYSICAL_RESULT_INVALID:WRAPPER_PRODUCT_APPLY_GATE_NOT_RECORDED');
   failIf(!String(evidence.resultStatus?.wrapperError || '').includes('NATIVE_LIFECYCLE_VERIFICATION_NOT_GREEN'), errors, 'PHYSICAL_RESULT_INVALID:WRAPPER_NATIVE_LIFECYCLE_GATE_NOT_RECORDED');
@@ -272,7 +306,7 @@ function validatePhysicalEvidence(evidence, errors) {
   failIf(evidence.independentParserProbe?.canWriteManuscript !== false, errors, 'INDEPENDENT_PARSER_PROBE_INVALID:WRITE_AUTHORITY');
   failIf(evidence.independentParserProbe?.reviewCounts?.textRevisions !== 398, errors, 'INDEPENDENT_PARSER_PROBE_INVALID:TEXT_REVISION_COUNT');
   failIf(evidence.independentParserProbe?.reviewCounts?.commentThreads !== 54, errors, 'INDEPENDENT_PARSER_PROBE_INVALID:COMMENT_COUNT');
-  failIf(evidence.independentParserProbe?.reviewCounts?.formattingDeltas !== 304, errors, 'INDEPENDENT_PARSER_PROBE_INVALID:FORMATTING_COUNT');
+  failIf(evidence.independentParserProbe?.reviewCounts?.formattingDeltas !== 224, errors, 'INDEPENDENT_PARSER_PROBE_INVALID:FORMATTING_COUNT');
   failIf(evidence.independentParserProbe?.selectedCarrier !== 'RETURNED_READY_APPLY_LIFECYCLE_REUSE_GATE_BLOCKED_NOT_ROUTE_PASS', errors, 'INDEPENDENT_PARSER_PROBE_INVALID:CARRIER_MUST_REMAIN_NON_AUTHORITY_MARKER');
   failIf(evidence.independentParserProbe?.authorityVerified !== false, errors, 'INDEPENDENT_PARSER_PROBE_INVALID:AUTHORITY_VERIFIED');
   failIf(evidence.independentParserProbe?.authorityReason !== 'APPLY_LIFECYCLE_REUSE_GATE_FAILED', errors, 'INDEPENDENT_PARSER_PROBE_INVALID:AUTHORITY_REASON');
@@ -291,14 +325,15 @@ function validateClassifications(classifications, errors) {
     'C5_RETURN_ARTIFACT_PUBLICATION_BLOCKER_REPAIRED',
     'C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_BLOCKER',
     'C1_AUTH_REPAIR_PUBLISHED_SCOPED_ROUTE_REPLAY_REQUIRED',
-    'C1_POST_AUTH_REPAIR_FULLBOOK_REPLAY_ATTEMPTED',
+    'C1_POST_REUSE_GATE_REPAIR_FULLBOOK_REPLAY_ATTEMPTED',
     'WORD_ACCESSIBILITY_WINDOW_REVIVED_DURING_CHUNK_008',
     'WORD_NATIVE_MATERIALIZATION_ROOT_COUNT_BLOCKER',
     'C1_WORD_ROUND01_COMPLETE_ROUND_ORACLE_OUTCOME_MISMATCH_REPAIRED',
-    'C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER',
+    'C1_WORD_ROUND01_EXACT_LEDGER_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER',
     'RETURNED_DOCX_READY_BUT_APPLY_LIFECYCLE_REUSE_GATE_FAILED',
     'WORD_NATIVE_LIFECYCLE_REPLY_STATE_BLOCKER',
     'C5_STALE_PROVIDER_PROFILE_BINDING',
+    'C1_WORD_ROUND01_EXACT_LEDGER_BINDING_BLOCKER',
     'ORCHESTRATOR_PROGRESS_ROUND_ID_DEFECT_REPAIRED',
     'N2_NOT_REPAIRED_IN_THIS_CONTOUR',
   ]) {
@@ -307,12 +342,13 @@ function validateClassifications(classifications, errors) {
   failIf(byId.get('ORCHESTRATOR_PROGRESS_ROUND_ID_DEFECT_REPAIRED')?.disposition !== 'REPAIRED_IN_SCOPE', errors, 'ORCHESTRATOR_FIX_NOT_RECORDED');
   failIf(byId.get('C5_STALE_PROVIDER_PROFILE_BINDING')?.disposition !== 'REPAIRED_IN_CURRENT_PROFILE_REPLAY', errors, 'STALE_PROFILE_REPAIR_NOT_RECORDED');
   failIf(byId.get('C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_BLOCKER')?.disposition !== 'REACHED_AUTHENTICATED_RETURN_BUT_APPLY_LIFECYCLE_REUSE_GATE_FAILED', errors, 'RETURN_INTAKE_AUTHENTICATION_REACHED_GATE_FAILED_NOT_RECORDED');
-  failIf(byId.get('C1_AUTH_REPAIR_PUBLISHED_SCOPED_ROUTE_REPLAY_REQUIRED')?.disposition !== 'REPLAY_ATTEMPTED_BLOCKED_BY_APPLY_LIFECYCLE_REUSE_GATE', errors, 'C1_AUTH_REPAIR_REPLAY_ATTEMPT_NOT_RECORDED');
-  failIf(byId.get('C1_POST_AUTH_REPAIR_FULLBOOK_REPLAY_ATTEMPTED')?.disposition !== 'EXECUTED_FAIL_CLOSED_NOT_ROUTE_PASS', errors, 'C1_FRESH_REPLAY_ATTEMPT_NOT_RECORDED');
+  failIf(byId.get('C1_AUTH_REPAIR_PUBLISHED_SCOPED_ROUTE_REPLAY_REQUIRED')?.disposition !== 'SUPERSEDED_BY_POST_REUSE_GATE_REPLAY', errors, 'C1_AUTH_REPAIR_REPLAY_ATTEMPT_NOT_RECORDED');
+  failIf(byId.get('C1_POST_REUSE_GATE_REPAIR_FULLBOOK_REPLAY_ATTEMPTED')?.disposition !== 'EXECUTED_FAIL_CLOSED_NOT_ROUTE_PASS', errors, 'C1_FRESH_REPLAY_ATTEMPT_NOT_RECORDED');
   failIf(byId.get('WORD_ACCESSIBILITY_WINDOW_REVIVED_DURING_CHUNK_008')?.disposition !== 'SUPERSEDED_BY_READY_RETURN_NOT_ROUTE_PASS', errors, 'WORD_WINDOW_REVIVE_CONFIRMATION_NOT_RECORDED');
   failIf(byId.get('WORD_NATIVE_MATERIALIZATION_ROOT_COUNT_BLOCKER')?.disposition !== 'REPAIRED_CONFIRMED_NOT_ROUTE_PASS', errors, 'NATIVE_MATERIALIZATION_REPAIR_NOT_RECORDED');
   failIf(byId.get('C1_WORD_ROUND01_COMPLETE_ROUND_ORACLE_OUTCOME_MISMATCH_REPAIRED')?.disposition !== 'REPAIRED_CONFIRMED_NOT_ROUTE_PASS', errors, 'ROUND01_ORACLE_OUTCOME_REPAIR_NOT_RECORDED');
-  failIf(byId.get('C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER')?.disposition !== 'ACTIVE_BLOCKER_NOT_ROUTE_PASS', errors, 'ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER_NOT_RECORDED');
+  failIf(byId.get('C1_WORD_ROUND01_EXACT_LEDGER_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER')?.disposition !== 'ACTIVE_BLOCKER_NOT_ROUTE_PASS', errors, 'ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER_NOT_RECORDED');
+  failIf(byId.get('C1_WORD_ROUND01_EXACT_LEDGER_BINDING_BLOCKER')?.disposition !== 'ACTIVE_BLOCKER_NOT_ROUTE_PASS', errors, 'ROUND01_EXACT_LEDGER_BINDING_BLOCKER_NOT_RECORDED');
   failIf(byId.get('RETURNED_DOCX_READY_BUT_APPLY_LIFECYCLE_REUSE_GATE_FAILED')?.disposition !== 'FAIL_CLOSED_AUTHORITY_DENIED', errors, 'RETURNED_DOCX_READY_GATE_FAILURE_NOT_RECORDED');
   for (const [id, item] of byId) {
     if (item.disposition === 'PASS') errors.push(`FAILURE_CLASSIFICATION_FALSE_PASS:${id}`);
@@ -390,6 +426,7 @@ export function validateC1MatrixBinding(matrix, receipt) {
   failIf(c1.accountingStatus !== 'FULL_BOOK_ATTEMPTED_BLOCKED', errors, 'MATRIX_C1_ACCOUNTING_STATUS_INVALID');
   failIf(c1.fullBookAccounting !== POST_AUTH_REPAIR_FULL_BOOK_ACCOUNTING, errors, 'MATRIX_C1_FULL_BOOK_ACCOUNTING_INVALID');
   failIf(!Array.isArray(c1.blockerEvidenceRefs) || !c1.blockerEvidenceRefs.includes('YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1'), errors, 'MATRIX_C1_BLOCKER_EVIDENCE_REF_MISSING');
+  failIf(!Array.isArray(c1.blockerEvidenceRefs) || !c1.blockerEvidenceRefs.includes('C1_WORD_ROUND01_EXACT_LEDGER_BINDING_BLOCKER'), errors, 'MATRIX_C1_EXACT_LEDGER_BINDING_BLOCKER_REF_MISSING');
   failIf(!Array.isArray(c1.blockerEvidenceRefs) || !c1.blockerEvidenceRefs.includes('C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER'), errors, 'MATRIX_C1_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER_REF_MISSING');
   failIf(Array.isArray(c1.executedFullRouteEvidence) && c1.executedFullRouteEvidence.length !== 0, errors, 'MATRIX_C1_EXECUTED_FULL_ROUTE_EVIDENCE_MUST_REMAIN_EMPTY');
   failIf(c1.productMutationAuthority !== 'DENY_UNTIL_ROUTE_CONTOUR_PROVES_APPLY_AUTHORITY', errors, 'MATRIX_C1_PRODUCT_AUTHORITY_ESCALATION');
@@ -429,6 +466,7 @@ export function resolveExactHeadBinding(repoRoot = repoRootFromHere(), env = pro
         PRE_WINDOW_REPAIR_ROUTE_HEAD,
         PRE_NATIVE_MATERIALIZATION_REPLAY_ROUTE_HEAD,
         PRE_ORACLE_OUTCOME_MISMATCH_REPAIR_ROUTE_HEAD,
+        PRE_APPLY_LIFECYCLE_REUSE_GATE_REPAIR_ROUTE_HEAD,
       ],
     };
   }
@@ -493,6 +531,7 @@ export function runC1HostileCorpus() {
     ['returned-artifact-missing-after-repair', (r) => { r.physicalEvidence.returnedArtifactPresent = false; }, 'RETURNED_ARTIFACT_MUST_BE_PRESENT_AFTER_REPAIR'],
     ['returned-ready-false-launder', (r) => { r.physicalEvidence.resultStatus.returnedDocxReady = false; }, 'RETURNED_DOCX_READY_MUST_BE_TRUE_FOR_ORACLE_FAILURE'],
     ['complete-oracle-regression-launder', (r) => { r.physicalEvidence.round01.completeRoundOracleGreen = false; }, 'COMPLETE_ROUND_ORACLE_MUST_BE_GREEN_FOR_THIS_BLOCKER'],
+    ['exact-ledger-binding-false-pass', (r) => { r.physicalEvidence.round01.productReturnApply.exactTextBindingOk = true; }, 'EXACT_LEDGER_BINDING_MUST_REMAIN_FALSE'],
   ];
   let killed = 0;
   const survivors = [];

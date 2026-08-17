@@ -310,6 +310,46 @@ test('C5V2 physical Word chunks preserve root-first and descending-range authori
   assert.match(continuation, /NATIVE_READBACK_REPORTED_STATUS_MISMATCH:insert-mid:/u);
   assert.match(continuation, /if yOpsDone does not contain \("OP\|insert-mid\|EXACT" & linefeed\) then error/u);
   assert.doesNotMatch(continuation, /offset of yQuote/u);
+
+  const lifecycleLedger = {
+    ...ledger,
+    operations: [
+      { id: 'root-live', family: 'root_comment', quote: 'root anchor', wordRange: { start: 90, end: 101 } },
+      { id: 'delete-live', family: 'tracked_delete', quote: 'delete anchor', wordRange: { start: 70, end: 83 } },
+      { id: 'reply-live', family: 'reply_attempt', quote: 'reply anchor', targetRootOperationId: 'root-live', wordRange: { start: 40, end: 52 } },
+    ],
+  };
+  const lifecyclePlan = buildWordLedgerChunkPlan(lifecycleLedger, 2);
+  assert.deepEqual(lifecyclePlan.map((chunk) => chunk.operations.map((operation) => operation.id)), [
+    ['root-live', 'delete-live'],
+    ['reply-live'],
+  ]);
+  assert.deepEqual(lifecyclePlan.map((chunk) => chunk.expectedNativeRevisionCount), [1, 1]);
+  assert.deepEqual(lifecyclePlan.map((chunk) => chunk.minimumNativeRevisionCount), [1, 1]);
+  assert.deepEqual(lifecyclePlan.map((chunk) => chunk.expectedRootMarkers), [
+    ['C5V2 root root-live'],
+    ['C5V2 root root-live'],
+  ]);
+  const lifecycleContinuation = buildWordScript({
+    sourcePath: '/generated-evidence/source.docx',
+    returnedPath: '/generated-word-work/returned.docx',
+    artifactReturnedPath: '/generated-evidence/returned.docx',
+    ledger: { ...lifecycleLedger, operations: lifecyclePlan[1].operations },
+    initializeFromSource: false,
+    resetCheckpoint: false,
+    expectedNativeRevisionCount: lifecyclePlan[1].expectedNativeRevisionCount,
+    minimumNativeRevisionCount: lifecyclePlan[1].minimumNativeRevisionCount,
+    expectedRootMarkers: lifecyclePlan[1].expectedRootMarkers,
+    chunkId: lifecyclePlan[1].chunkId,
+  });
+  assert.match(
+    lifecycleContinuation,
+    /set yMaterializationHash to my yMaterializeNativeCommentBoundary\(yCheckpointPath, yReturnedPath, yExpectedFullName, yExpectedName, 1, 1, 1, \{"C5V2 root root-live"\}\)/u,
+  );
+  assert.doesNotMatch(
+    lifecycleContinuation,
+    /set yMaterializationHash to my yMaterializeNativeCommentBoundary\(yCheckpointPath, yReturnedPath, yExpectedFullName, yExpectedName, 0, 0, 0, \{\}\)/u,
+  );
 });
 
 test('C5V2 cumulative controller blocks the next export until the complete round oracle gate is green', async () => {

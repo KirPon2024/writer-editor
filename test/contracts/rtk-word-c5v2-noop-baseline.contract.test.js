@@ -153,6 +153,97 @@ test('C5V2 no-op oracle requires authenticated byte-exact Word return and exact 
   assert.equal(blocked.failures.includes('exactSceneReadback'), true);
 });
 
+test('C5V2 semantic oracle accounts explicit source-specific fail-closed outcomes', async () => {
+  const oracle = await import(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-semantic-oracle.mjs'));
+  const anchor = {
+    sceneId: 'roman/chapter-01.txt',
+    paragraphId: 'p-001',
+    selectedText: 'format me',
+    contextBefore: 'before',
+    contextAfter: 'after',
+    baselineHash: 'sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    graphemeStart: 1,
+    graphemeEnd: 8,
+  };
+  const operation = {
+    id: 'op-formatting-blocked-001',
+    family: 'formatting',
+    expectedOutcome: 'SAFE_APPLY',
+    wordExpectedOutcomes: ['SAFE_APPLY'],
+    yalkenExpectedOutcomes: ['BLOCKED'],
+    anchor,
+    semanticIntent: { kind: 'bold' },
+  };
+  const wordRecord = {
+    outcome: 'SAFE_APPLY',
+    anchor,
+    formattingSemantics: { kind: 'bold' },
+  };
+  const yalkenBlockedRecord = {
+    outcome: 'BLOCKED',
+    anchor,
+    formattingSemantics: { kind: 'bold' },
+  };
+  const accepted = oracle.validateC5V2SemanticOracle({
+    operations: [operation],
+    wordReadback: {
+      sourceKind: 'raw-ooxml',
+      countsOnly: false,
+      operationsById: { [operation.id]: wordRecord },
+    },
+    yalkenTruth: {
+      sourceKind: 'reopened-yalken-project',
+      countsOnly: false,
+      operationsById: { [operation.id]: yalkenBlockedRecord },
+    },
+  });
+  assert.equal(accepted.ok, true);
+  assert.deepEqual(accepted.failures, []);
+
+  const undeclaredSafeEmpty = oracle.validateC5V2SemanticOracle({
+    operations: [{ ...operation, yalkenExpectedOutcomes: undefined }],
+    wordReadback: {
+      sourceKind: 'raw-ooxml',
+      countsOnly: false,
+      operationsById: { [operation.id]: wordRecord },
+    },
+    yalkenTruth: {
+      sourceKind: 'reopened-yalken-project',
+      countsOnly: false,
+      operationsById: { [operation.id]: yalkenBlockedRecord },
+    },
+  });
+  assert.equal(undeclaredSafeEmpty.ok, false);
+  assert.equal(
+    undeclaredSafeEmpty.failures.some((failure) => failure.code === 'C5V2_ORACLE_YALKEN_OUTCOME_MISMATCH'),
+    true,
+  );
+
+  const wrongBlockedAccounting = oracle.validateC5V2SemanticOracle({
+    operations: [operation],
+    wordReadback: {
+      sourceKind: 'raw-ooxml',
+      countsOnly: false,
+      operationsById: { [operation.id]: wordRecord },
+    },
+    yalkenTruth: {
+      sourceKind: 'reopened-yalken-project',
+      countsOnly: false,
+      operationsById: {
+        [operation.id]: {
+          ...yalkenBlockedRecord,
+          outcome: 'SAFE_APPLY',
+        },
+      },
+    },
+  });
+  assert.equal(wrongBlockedAccounting.ok, false);
+  assert.equal(
+    wrongBlockedAccounting.failures.some((failure) => failure.code === 'C5V2_ORACLE_YALKEN_OUTCOME_MISMATCH'),
+    true,
+  );
+});
+
 test('C5V2 product apply binds only ledger-authorized EXACT candidates and deletes carry empty replacement text', async () => {
   const canary = await import(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs'));
   const sceneId = 'roman/01_dorian.txt';

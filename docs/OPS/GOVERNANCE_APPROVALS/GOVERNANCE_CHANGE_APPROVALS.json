@@ -5610,15 +5610,6 @@
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
     },
     {
-      "filePath": "scripts/ops/rtk-word-c5v2-semantic-oracle.mjs",
-      "sha256": "afbdb3c6c02d98c2036229bae3a862766c3094e8a60202ddffd2b359f5a6b8e7",
-      "approvedBy": "owner-controller:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
-      "approvedAtUtc": "2026-08-04T20:45:00.000Z",
-      "rationale": "Approve Word C5V2 semantic oracle outcome mismatch tolerance for MANUAL-expected tracked operations with BLOCKED outcome (Word correctly refused to apply non-unique quote); BLOCKED outcome for MANUAL-expected op is no longer counted as C5V2_ORACLE_WORD_OUTCOME_MISMATCH; verified by 30/30 contract tests.",
-      "approved": true,
-      "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
-    },
-    {
       "filePath": "scripts/ops/rtk-word-latest-physical-certification-lab.mjs",
       "sha256": "d788c84f5496d060c5960ef4335e748561d44b40a89b31ba2eadd4ca7ae542be",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE100",
@@ -7800,15 +7791,6 @@
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_C1_RETURN_INTAKE_AUTHORITY_REPAIR"
     },
     {
-      "filePath": "test/contracts/rtk-word-c5v2-noop-baseline.contract.test.js",
-      "sha256": "6eada8d95d5a27dab6eb0f6c3d04dd7b794a78afe8a8ba6d51c6fd328877f9f7",
-      "approvedBy": "owner-standing-grant:TASK_ID:C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T02:21:21.000Z",
-      "rationale": "Approve C1 noop-baseline regression coverage: corpus scene identifiers bind to canonical product scene paths without weakening quote or replacement hash requirements.",
-      "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_C1_RETURN_INTAKE_AUTHORITY_REPAIR"
-    },
-    {
       "filePath": "test/contracts/rtk-word-c5v2-root-comment-return-runtime.contract.test.js",
       "sha256": "fab5a0e2ff34106605db974e8b3c8f023582a439a2214fa2b329e67c7a7fb894",
       "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
@@ -7816,15 +7798,6 @@
       "rationale": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-c5v2-round-checkpoint.contract.test.js",
-      "sha256": "f443c560da41cc7a5b89324025faf1c2b20f14009b08414c55803b8f8016ab4e",
-      "rationale": "Approve cumulative chunk contract proving continuation materialization carries prior root markers and cumulative revision floors instead of treating preserved prior root comments as unexpected current-chunk roots.",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_NATIVE_MATERIALIZATION_ROOT_COUNT_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T11:08:00.000Z",
-      "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_NATIVE_MATERIALIZATION_ROOT_COUNT_REPAIR_V1"
     },
     {
       "filePath": "test/contracts/rtk-word-latest-semantic-b00.contract.test.js",
@@ -9309,15 +9282,6 @@
       "rationale": "Approve exact Phase C native lifecycle bytes after focused lifecycle, ledger, portfolio, PR1414, checkpoint and terminal contracts passed; reply/state lifecycle rows are native SAFE_APPLY rather than typed-limit. No physical Word run, no Google work, no long campaign, and no PRE_LONG_RUN_READY or Word terminal PASS claim.",
       "approved": true,
       "authority": "STANDING_OWNER_AUTHORIZATION_EXACT_BYTES_PHASE_C_NATIVE_LIFECYCLE"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "b5c9a9535ec185856f87a53503bb0e2ff9ddac714f68f530b289ba297dc9e576",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_NATIVE_MATERIALIZATION_ROOT_COUNT_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T11:08:00.000Z",
-      "rationale": "Approve physical canary repair that passes cumulative expected revision and root-marker identities into the native materialization boundary, preserving fail-closed root count, marker, identity, compatibility, and hash checks while avoiding stale current-chunk-only expectations.",
-      "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_NATIVE_MATERIALIZATION_ROOT_COUNT_REPAIR_V1"
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-terminal-orchestrator.mjs",
@@ -11208,6 +11172,42 @@
       "rationale": "Approve interop chain matrix focused contract update for C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_BLOCKER evidence and next-contour rebinding without saturation or parity escalation.",
       "approved": true,
       "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_REBIND_V1"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
+      "sha256": "c85e8f4b82b23572366ed519888c7747d9c0a18d027ba9792d6c1ce8c377a659",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T13:38:28.000Z",
+      "rationale": "Approve bounded C1 Word round-01 oracle outcome mismatch repair: source-specific blocked outcome accounting, non-green return-apply gate sealing, raw non-green candidate-authority anchor evidence, focused RED/GREEN and terminal/reuse contracts; no route PASS, no reusable authority, no UI, no dependency, no network, no user document claim.",
+      "approved": true,
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_REPAIR_V1"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-c5v2-semantic-oracle.mjs",
+      "sha256": "d177c225080b608a81300da9588b1da074ce253ce9e85437d44001942f13a5ad",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T13:38:28.000Z",
+      "rationale": "Approve bounded C1 Word round-01 oracle outcome mismatch repair: source-specific blocked outcome accounting, non-green return-apply gate sealing, raw non-green candidate-authority anchor evidence, focused RED/GREEN and terminal/reuse contracts; no route PASS, no reusable authority, no UI, no dependency, no network, no user document claim.",
+      "approved": true,
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_REPAIR_V1"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-c5v2-noop-baseline.contract.test.js",
+      "sha256": "6c31bab3b6403206d2c40fffefce76ba2302f978b6e19cd5571368a7aea31cc5",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T13:38:28.000Z",
+      "rationale": "Approve bounded C1 Word round-01 oracle outcome mismatch repair: source-specific blocked outcome accounting, non-green return-apply gate sealing, raw non-green candidate-authority anchor evidence, focused RED/GREEN and terminal/reuse contracts; no route PASS, no reusable authority, no UI, no dependency, no network, no user document claim.",
+      "approved": true,
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_REPAIR_V1"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-c5v2-round-checkpoint.contract.test.js",
+      "sha256": "814441af376210f5e8905e1419c436e33de0beac61bc74ca664706e8e3228f2d",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T13:38:28.000Z",
+      "rationale": "Approve bounded C1 Word round-01 oracle outcome mismatch repair: source-specific blocked outcome accounting, non-green return-apply gate sealing, raw non-green candidate-authority anchor evidence, focused RED/GREEN and terminal/reuse contracts; no route PASS, no reusable authority, no UI, no dependency, no network, no user document claim.",
+      "approved": true,
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_REPAIR_V1"
     }
   ]
 }

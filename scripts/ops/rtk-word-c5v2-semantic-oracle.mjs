@@ -221,6 +221,37 @@ function verifyFamilySemantics(operation, wordRecord, yalkenRecord, failures) {
   }
 }
 
+function normalizedOutcomeList(value) {
+  const values = Array.isArray(value)
+    ? value
+    : typeof value === 'string'
+      ? [value]
+      : [];
+  const seen = new Set();
+  const outcomes = [];
+  for (const item of values) {
+    const normalized = normalizeString(item);
+    if (!normalized || seen.has(normalized)) continue;
+    seen.add(normalized);
+    outcomes.push(normalized);
+  }
+  return outcomes;
+}
+
+function expectedOutcomesFor(operation, sourceName) {
+  const sourcePlural = sourceName === 'word'
+    ? operation.wordExpectedOutcomes
+    : operation.yalkenExpectedOutcomes;
+  const sourceSingular = sourceName === 'word'
+    ? operation.wordExpectedOutcome
+    : operation.yalkenExpectedOutcome;
+  const pluralOutcomes = normalizedOutcomeList(sourcePlural);
+  if (pluralOutcomes.length > 0) return pluralOutcomes;
+  const singularOutcomes = normalizedOutcomeList(sourceSingular);
+  if (singularOutcomes.length > 0) return singularOutcomes;
+  return normalizedOutcomeList(operation.expectedOutcome || 'SAFE_APPLY');
+}
+
 export function validateC5V2SemanticOracle(input = {}) {
   const operations = list(input.operations);
   const failures = [];
@@ -256,18 +287,27 @@ export function validateC5V2SemanticOracle(input = {}) {
       failures.push({ code: 'C5V2_ORACLE_YALKEN_OPERATION_MISSING', operationId: opId });
       continue;
     }
+    const wordExpectedOutcomes = expectedOutcomesFor(operation, 'word');
+    const yalkenExpectedOutcomes = expectedOutcomesFor(operation, 'yalken');
     // Word's exact-match-then-replace correctly classifies a MANUAL-expected tracked
     // operation as BLOCKED when the quote is not unique in the scene. BLOCKED is the
     // correct outcome for a manual candidate with a non-unique quote and must not
     // count as an outcome mismatch in the semantic oracle.
-    const wordOutcomeExpected = normalizeString(operation.expectedOutcome || 'SAFE_APPLY');
-    const wordOutcomeBlockedAsDesigned = wordOutcomeExpected === 'MANUAL'
+    const wordOutcomeBlockedAsDesigned = wordExpectedOutcomes.includes('MANUAL')
       && normalizeString(wordRecord.outcome || '') === 'BLOCKED';
-    if (!wordOutcomeBlockedAsDesigned && normalizeString(wordRecord.outcome) !== wordOutcomeExpected) {
-      failures.push({ code: 'C5V2_ORACLE_WORD_OUTCOME_MISMATCH', operationId: opId });
+    if (!wordOutcomeBlockedAsDesigned && !wordExpectedOutcomes.includes(normalizeString(wordRecord.outcome))) {
+      failures.push({
+        code: 'C5V2_ORACLE_WORD_OUTCOME_MISMATCH',
+        operationId: opId,
+        expectedOutcomes: wordExpectedOutcomes,
+      });
     }
-    if (normalizeString(yalkenRecord.outcome) !== normalizeString(operation.expectedOutcome || 'SAFE_APPLY')) {
-      failures.push({ code: 'C5V2_ORACLE_YALKEN_OUTCOME_MISMATCH', operationId: opId });
+    if (!yalkenExpectedOutcomes.includes(normalizeString(yalkenRecord.outcome))) {
+      failures.push({
+        code: 'C5V2_ORACLE_YALKEN_OUTCOME_MISMATCH',
+        operationId: opId,
+        expectedOutcomes: yalkenExpectedOutcomes,
+      });
     }
     compareAnchor(operation, wordRecord, 'word', failures);
     compareAnchor(operation, yalkenRecord, 'yalken', failures);

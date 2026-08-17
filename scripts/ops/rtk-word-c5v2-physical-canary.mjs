@@ -4847,7 +4847,7 @@ function orderWordOperations(operations) {
   ];
 }
 
-function wordOperationLines(ledger, returnedPath) {
+function wordOperationLines(ledger, returnedPath, materializationExpectations = {}) {
   const lines = [];
   lines.push('set yOpsDone to ""');
   lines.push('set yLimitations to ""');
@@ -4866,12 +4866,21 @@ function wordOperationLines(ledger, returnedPath) {
   const trackedOperationsForFloor = ledger.operations.filter((operation) => (
     ['tracked_replace', 'tracked_insert', 'tracked_delete'].includes(operation.family)
   ));
-  const materializationMinimumRevisionCount = new Set(trackedOperationsForFloor.map((operation) => {
+  const currentChunkMaterializationMinimumRevisionCount = new Set(trackedOperationsForFloor.map((operation) => {
     const anchor = operation.masterAnchor || {};
     if (anchor.paragraphId) return `${operation.sceneId}|${anchor.paragraphId}`;
     return `${operation.sceneId || ''}|${operation.wordRange?.start || operation.id}`;
   })).size;
   const expectedRootMarkers = rootOperations.map((operation) => `C5V2 root ${operation.id}`);
+  const materializationExpectedNativeRevisionCount = Number.isSafeInteger(materializationExpectations.expectedNativeRevisionCount)
+    ? materializationExpectations.expectedNativeRevisionCount
+    : expectedNativeRevisionCount;
+  const materializationMinimumRevisionCount = Number.isSafeInteger(materializationExpectations.minimumNativeRevisionCount)
+    ? materializationExpectations.minimumNativeRevisionCount
+    : currentChunkMaterializationMinimumRevisionCount;
+  const materializationExpectedRootMarkers = Array.isArray(materializationExpectations.expectedRootMarkers)
+    ? materializationExpectations.expectedRootMarkers
+    : expectedRootMarkers;
   let materializationBoundaryWritten = false;
   const lifecycleCheckpointLines = (operation) => {
     const snapshotPath = `${returnedPath}.${operation.id.replace(/[^a-z0-9_-]/giu, '_')}.native-readback.docx`;
@@ -4895,7 +4904,7 @@ function wordOperationLines(ledger, returnedPath) {
   };
   for (const operation of orderedOperations) {
     if (['reply_attempt', 'state_attempt'].includes(operation.family) && operation.physicalAction !== 'typed-limit' && !materializationBoundaryWritten) {
-      lines.push(`set yMaterializationHash to my yMaterializeNativeCommentBoundary(yCheckpointPath, yReturnedPath, yExpectedFullName, yExpectedName, ${expectedNativeRevisionCount}, ${materializationMinimumRevisionCount}, ${rootOperations.length}, ${appleList(expectedRootMarkers)})`);
+      lines.push(`set yMaterializationHash to my yMaterializeNativeCommentBoundary(yCheckpointPath, yReturnedPath, yExpectedFullName, yExpectedName, ${materializationExpectedNativeRevisionCount}, ${materializationMinimumRevisionCount}, ${materializationExpectedRootMarkers.length}, ${appleList(materializationExpectedRootMarkers)})`);
       lines.push('set yDoc to active document');
       lines.push('set yDocWasOpened to true');
       materializationBoundaryWritten = true;
@@ -5745,7 +5754,11 @@ export function buildWordScript({
     '  set remove personal information of yDoc to false',
     '  set remove date and time of yDoc to false',
     '  set show revisions of yDoc to true',
-    wordOperationLines(ledger, artifactReturnedPath),
+    wordOperationLines(ledger, artifactReturnedPath, {
+      expectedNativeRevisionCount,
+      minimumNativeRevisionCount,
+      expectedRootMarkers,
+    }),
     '  save yDoc',
     '  my yCheckpoint(yCheckpointPath, "FINAL_SAVE_AFTER", "")',
     '  close yDoc saving yes',

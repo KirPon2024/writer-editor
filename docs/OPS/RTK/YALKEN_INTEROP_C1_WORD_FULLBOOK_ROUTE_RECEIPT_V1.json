@@ -4,8 +4,8 @@
   "status": "C1_YALKEN_WORD_YALKEN_FULL_BOOK_ROUTE_V1_EXECUTED_BLOCKED_FAIL_CLOSED",
   "verdict": "NEEDS_MORE_EVIDENCE",
   "programVerdict": "NEEDS_MORE_EVIDENCE",
-  "exactHead": "6aee73c0770357cd0b84bf5e8388cee38071c798",
-  "generatedAtUtc": "2026-08-17T15:05:00.000Z",
+  "exactHead": "5a5b34210bad80eaf1851efcf5a64426484f3f2a",
+  "generatedAtUtc": "2026-08-17T17:26:00.000Z",
   "route": {
     "routeId": "C1",
     "title": "Yalken to Word to Yalken",
@@ -58,52 +58,52 @@
       "expectedRouteCount": 1,
       "actualRouteCount": 0,
       "fullBookProcessed": false,
-      "reason": "Fresh post-oracle-accounting-repair C1 full-book replay ran on exact merged main 6aee73c0770357cd0b84bf5e8388cee38071c798 under Word 16.112 / 16.112.26081010. The replay processed the full synthetic 2000-operation ledger through 379 round-01 operations, produced a ready returned DOCX, authenticated return intake, and complete-round semantic oracle passed. The strict route gate failed closed with PRODUCT_RETURN_APPLY_NOT_GREEN, NATIVE_LIFECYCLE_VERIFICATION_NOT_GREEN, NATIVE_LIFECYCLE_COVERAGE_NOT_GREEN, COMPLETED_ROUND_REUSE_BINDING_NOT_GREEN; native lifecycle coverage was 5 verified and 33 blocked with no missing or extra lifecycle ids, exact text binding matched 35 of 105 expected operations, and formatting apply remained blocked on RTK_FORMATTING_OPERATION_UNKNOWN_KEY. The route remains blocked; no route PASS, universal parity, automatic apply, user-document workflow, or C2-C8 closure authority is created."
+      "reason": "Fresh post-apply-lifecycle-reuse-gate-repair C1 full-book replay ran on exact merged main 5a5b34210bad80eaf1851efcf5a64426484f3f2a under Word 16.112 / 16.112.26081010. The replay processed the full synthetic 2000-operation ledger through 379 round-01 operations, produced a ready returned DOCX, authenticated return intake, and complete-round semantic oracle passed. The strict route gate failed closed with PRODUCT_RETURN_APPLY_NOT_GREEN, NATIVE_LIFECYCLE_VERIFICATION_NOT_GREEN, NATIVE_LIFECYCLE_COVERAGE_NOT_GREEN, COMPLETED_ROUND_REUSE_BINDING_NOT_GREEN; exact ledger binding improved from the prior 35 of 105 to 60 of 105 expected operations but remains non-green with C5V2_EXACT_SUMMARY_LEDGER_BINDING_REQUIRED and exact ledger operation mapping mismatches, native lifecycle coverage stayed 5 verified and 33 blocked with no missing or extra lifecycle ids, and formatting apply remained blocked on RTK_FORMATTING_OPERATION_UNKNOWN_KEY. The route remains blocked; no route PASS, universal parity, automatic apply, user-document workflow, or C2-C8 closure authority is created."
     }
   },
   "physicalEvidence": {
     "syntheticDisposableDocxOnly": true,
     "userDocumentsTouched": false,
-    "artifactRoot": "/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c1-word-round01-oracle-mismatch-repair-v1/c1-round01-oracle-repair-w06-20260817",
-    "runId": "c1-round01-oracle-repair-w06-20260817",
-    "previousRedRunId": "c1-native-root-count-repair-w06-r1-20260817",
+    "artifactRoot": "/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c1-word-fullbook-route-replay-after-reuse-gate-repair-v1/c1-route-reuse-gate-repair-w06-r1-20260817",
+    "runId": "c1-route-reuse-gate-repair-w06-r1-20260817",
+    "previousRedRunId": "c1-round01-oracle-repair-w06-20260817",
     "previousInterruptedRunId": "c1-fullbook-auth-repair-w06-r2-20260817",
     "corpusId": "dorian-gray-pg174-cleaned-internal-qa",
     "corpusDigest": "sha256:86075e6a06aec0998b2d87b05806c93315cdca5efc78a98488d3cbf07b57c1e9",
     "corpusManifestSha256": "sha256:2370488f0b19c3d2bd5eab2b59fb4cab5fb567553470faca5fb2aa11e5d48877",
     "canaryScriptSha256": "sha256:c85e8f4b82b23572366ed519888c7747d9c0a18d027ba9792d6c1ce8c377a659",
     "orchestratorScriptSha256": "sha256:65357bcd9d4e37ec0eeb18b741b038090b8aa2d032ecae7623ce8323411838fd",
-    "resultSha256": "sha256:51e5b00fe5f13c4e6aa0cce22c354120a7085f743dce37be96bafb9211537659",
-    "sourceDocxSha256": "sha256:a6c9edc0a86e73f06203ae2a58b4bc707aebe360a9a5f1cb5a9ae66406916a4c",
-    "returnedDocxSha256": "sha256:c202622e753ff0598161db3f0499489f631f920cf61c254fc8cc38796410ba20",
+    "resultSha256": "sha256:d5862637fe896d8fd3174424f2277269bbf24a07f6df005309bb3b01af7550d9",
+    "sourceDocxSha256": "sha256:86bc972d0554fb101415fcfb922d454a77d322d0b6d4c8861c19d589c1665d06",
+    "returnedDocxSha256": "sha256:2e8df9896b4a0d92b90f980e861f3433b4520d0003585622eadf1d55820ef85a",
     "returnedDocxPathRole": "READY_RETURNED_ARTIFACT_APPLY_LIFECYCLE_REUSE_GATE_FAILED",
     "returnedArtifactPresent": true,
-    "returnedArtifactSha256": "sha256:c202622e753ff0598161db3f0499489f631f920cf61c254fc8cc38796410ba20",
+    "returnedArtifactSha256": "sha256:2e8df9896b4a0d92b90f980e861f3433b4520d0003585622eadf1d55820ef85a",
     "stageResult": {
-      "path": "/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c1-word-round01-oracle-mismatch-repair-v1/c1-round01-oracle-repair-w06-20260817/ORCHESTRATOR/positive-stage-result.json",
-      "sha256": "sha256:51e5b00fe5f13c4e6aa0cce22c354120a7085f743dce37be96bafb9211537659",
+      "path": "/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c1-word-fullbook-route-replay-after-reuse-gate-repair-v1/c1-route-reuse-gate-repair-w06-r1-20260817/ORCHESTRATOR/positive-stage-result.json",
+      "sha256": "sha256:d5862637fe896d8fd3174424f2277269bbf24a07f6df005309bb3b01af7550d9",
       "status": "SEALED",
       "stage": "POSITIVE",
-      "headSha": "6aee73c0770357cd0b84bf5e8388cee38071c798",
-      "originMainSha": "6aee73c0770357cd0b84bf5e8388cee38071c798",
+      "headSha": "5a5b34210bad80eaf1851efcf5a64426484f3f2a",
+      "originMainSha": "5a5b34210bad80eaf1851efcf5a64426484f3f2a",
       "operationCount": 2000,
       "positiveOperationCount": 1960,
       "negativeOperationCount": 40,
       "roundGateCount": 5,
       "roundGreen": false,
-      "finishedAtUtc": "2026-08-17T14:43:52.857Z",
-      "failureMarkerSha256": "sha256:51e5b00fe5f13c4e6aa0cce22c354120a7085f743dce37be96bafb9211537659",
+      "finishedAtUtc": "2026-08-17T17:25:35.641Z",
+      "failureMarkerSha256": "sha256:d5862637fe896d8fd3174424f2277269bbf24a07f6df005309bb3b01af7550d9",
       "failureMarkerCode": "ORCH_CHILD_EXIT_NONZERO:1:none",
       "survivingDescendants": [],
       "survivingOwnedPids": []
     },
     "masterLedger": {
-      "path": "/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c1-word-round01-oracle-mismatch-repair-v1/c1-round01-oracle-repair-w06-20260817/MAIN/c5v2-master-ledger.json",
-      "artifactSha256": "sha256:423843e078ca36d90ec0fcf8a97019ab6e362a91b44462d35c157a5d16db6fff",
+      "path": "/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c1-word-fullbook-route-replay-after-reuse-gate-repair-v1/c1-route-reuse-gate-repair-w06-r1-20260817/MAIN/c5v2-master-ledger.json",
+      "artifactSha256": "sha256:25b40c66ac99a0f6764606791e5e034771d9d1a8d56d919a49d3d2d40057ba19",
       "ledgerDigest": "sha256:e075c4942b590d2622bf6202a4db1f33259f97367e2612a78673c7a54adf2d71",
       "operationIdSetDigest": "sha256:efd614ddf59d445f06da9a3f491053004ba7019246a97ad35515aaa29b773f32",
       "corpusDigest": "sha256:86075e6a06aec0998b2d87b05806c93315cdca5efc78a98488d3cbf07b57c1e9",
-      "roundInventoryDigest": "sha256:4f119a5a150da4bb0d3e2ceba86cec44f09ebdd5b847be2117c5b70a44b63143",
+      "roundInventoryDigest": "sha256:ab8635bb272a1a4c80c988adf2329b4d5638eef2574c6a900ce8b2945e691dab",
       "operationCount": 2000,
       "positiveOperationCount": 1960,
       "negativeOperationCount": 40,
@@ -116,17 +116,17 @@
       "completedCheckpointOperationCount": 379,
       "lastCompletedCheckpoint": "word-chunk-008",
       "failedChunk": "complete-round-oracle",
-      "checkpointSha256": "sha256:bc5db1b440596247c26649b15827100d540d3791e6235cfd42af00768e4c911b",
-      "readyMarkerSha256": "sha256:a60f2531c9744fd7c4788b299d800675840613d6e04dd1a24c7218e52b03fce9",
-      "oracleSha256": "sha256:9d1a4cad2234f4586a21189cd221acca81102cdbab6fe7f3604dfc7dc4d9d2bf",
-      "oracleGateSha256": "sha256:99fd7790c1955338e5207c0854a12b95963ee773c910b1e7ae490f991acc3198",
-      "productReturnApplySha256": "sha256:3929803ab6827dd38897bfbce53a0e29d953a42dda8963c99e01c08fc46749bc",
+      "checkpointSha256": "sha256:5aebdb9458cfad34383ebefd2a541769667bc17f5efc5b0b3d262bb2b305f30d",
+      "readyMarkerSha256": "sha256:9c9f9d163fc6c7880010e9c5e1970e7d5c71bc38bfd2335aecb4fdcc263f46fa",
+      "oracleSha256": "sha256:aab60ae06c5ca0fa90c8e5b2d80e83bf7489a38f799fe86fa93a0c13df8b92ee",
+      "oracleGateSha256": "sha256:52ad4994a90a749069425d3541f201118cf6f72be31571403841f8ca88c01a63",
+      "productReturnApplySha256": "sha256:a376d1a005a2e41ae1e2cdbeb5f15a6777d0d64e5bbc3a4c639d1593c824e3ab",
       "nativeLifecycleVerificationSha256": "sha256:613a89aa2361fb996433df6d9fa2abb81fcd11843e3193a97725ef9fc953390b",
-      "returnApplyCandidateAuthoritySha256": "sha256:9337485c03abeebfe67c1dd8149603af0b6d923eb9d0f91caa500758782e671c",
+      "returnApplyCandidateAuthoritySha256": "sha256:0d6889e8ae7b493e63b673746bedb509c96a95213adfd2a81b108c6da47f9030",
       "sourceDocxBytes": 8038902,
-      "returnedDocxBytes": 338412,
-      "sourceDocxSha256": "sha256:a6c9edc0a86e73f06203ae2a58b4bc707aebe360a9a5f1cb5a9ae66406916a4c",
-      "returnedDocxSha256": "sha256:c202622e753ff0598161db3f0499489f631f920cf61c254fc8cc38796410ba20",
+      "returnedDocxBytes": 337297,
+      "sourceDocxSha256": "sha256:86bc972d0554fb101415fcfb922d454a77d322d0b6d4c8861c19d589c1665d06",
+      "returnedDocxSha256": "sha256:2e8df9896b4a0d92b90f980e861f3433b4520d0003585622eadf1d55820ef85a",
       "returnedReady": true,
       "failureCode": "C5V2_COMPLETE_ROUND_ORACLE_GATE_FAILED",
       "failureError": "C5V2_COMPLETE_ROUND_ORACLE_GATE_FAILED:PRODUCT_RETURN_APPLY_NOT_GREEN:NATIVE_LIFECYCLE_VERIFICATION_NOT_GREEN:NATIVE_LIFECYCLE_COVERAGE_NOT_GREEN:COMPLETED_ROUND_REUSE_BINDING_NOT_GREEN",
@@ -158,39 +158,40 @@
         "returnIntakeStatus": "authenticated-return-ir-ready",
         "textRevisions": 398,
         "commentThreads": 54,
-        "formattingDeltas": 304,
+        "formattingDeltas": 224,
         "opaqueUnsupported": 9,
         "exactTextBindingOk": false,
         "expectedOperationCount": 105,
-        "matchedOperationCount": 35,
-        "matchedChangeCount": 35,
-        "excludedCandidateCount": 50,
-        "unmatchedExpectedOperationCount": 70,
+        "matchedOperationCount": 60,
+        "matchedChangeCount": 60,
+        "excludedCandidateCount": 101,
+        "unmatchedExpectedOperationCount": 45,
         "firstUnmatchedExpectedOperationIds": [
           "c5v2-tracked_text_edit-0023",
-          "c5v2-tracked_text_edit-0029",
-          "c5v2-tracked_text_edit-0035",
-          "c5v2-tracked_text_edit-0044",
           "c5v2-tracked_text_edit-0047",
           "c5v2-tracked_text_edit-0050",
           "c5v2-tracked_text_edit-0063",
           "c5v2-tracked_text_edit-0068",
           "c5v2-tracked_text_edit-0329",
-          "c5v2-tracked_text_edit-0332",
-          "c5v2-tracked_text_edit-0338",
-          "c5v2-tracked_text_edit-0344"
+          "c5v2-tracked_text_edit-0344",
+          "c5v2-tracked_text_edit-0348",
+          "c5v2-tracked_text_edit-0372",
+          "c5v2-tracked_text_edit-0383",
+          "c5v2-tracked_text_edit-0389",
+          "c5v2-tracked_text_edit-0650"
         ],
         "formattingApplyOk": false,
         "formattingApplyCode": "RTK_FORMATTING_OPERATION_UNKNOWN_KEY",
         "formattingPreviewCode": "RTK_FORMATTING_RETURN_USER_DECISION_READY",
-        "formattingPreviewOperationCount": 304,
+        "formattingPreviewOperationCount": 224,
         "formattingPreviewSceneCount": 1,
         "formattingWriterCalled": false,
         "formattingApplied": false,
         "formattingReplayVerified": false,
-        "applyResultsCount": 9,
-        "replayResultsCount": 9,
-        "staleRetryBlockedCount": 9
+        "applyResultsCount": 10,
+        "replayResultsCount": 10,
+        "staleRetryBlockedCount": 10,
+        "nonOverlapReason": "FULL_MANUSCRIPT_EXACT_AUTHORITY_QUOTE_NOT_UNIQUE"
       },
       "nativeMaterializationRootCountRepairObserved": true
     },
@@ -212,7 +213,7 @@
       "returnedDocxReady": true,
       "falseAutoApplyCount": 0,
       "wrapperError": "C5V2_COMPLETE_ROUND_ORACLE_GATE_FAILED:PRODUCT_RETURN_APPLY_NOT_GREEN:NATIVE_LIFECYCLE_VERIFICATION_NOT_GREEN:NATIVE_LIFECYCLE_COVERAGE_NOT_GREEN:COMPLETED_ROUND_REUSE_BINDING_NOT_GREEN",
-      "wordWindowDiagnostics": "RETURNED_READY_TRUE;COMPLETE_ROUND_ORACLE_GREEN_TRUE;APPLY_LIFECYCLE_REUSE_GATE_FAILED;NATIVE_LIFECYCLE_VERIFIED_5_BLOCKED_33",
+      "wordWindowDiagnostics": "RETURNED_READY_TRUE;COMPLETE_ROUND_ORACLE_GREEN_TRUE;APPLY_LIFECYCLE_REUSE_GATE_FAILED;NATIVE_LIFECYCLE_VERIFIED_5_BLOCKED_33;EXACT_LEDGER_BINDING_60_OF_105",
       "wordError": "WORD_STATUS_PASS_APPLY_LIFECYCLE_REUSE_GATE_FAILED",
       "completeRoundOracleGreen": true,
       "productReturnApplyFailure": "PRODUCT_RETURN_APPLY_NOT_GREEN",
@@ -220,6 +221,8 @@
       "commentCount": 54,
       "textChangeCount": 238,
       "commentThreadCount": 54,
+      "formattingDeltaCount": 224,
+      "opaqueUnsupportedCount": 9,
       "nativeLifecycleVerifiedCount": 5,
       "nativeLifecycleBlockedCount": 33
     },
@@ -237,7 +240,7 @@
       "reviewCounts": {
         "textRevisions": 398,
         "commentThreads": 54,
-        "formattingDeltas": 304
+        "formattingDeltas": 224
       },
       "selectedCarrier": "RETURNED_READY_APPLY_LIFECYCLE_REUSE_GATE_BLOCKED_NOT_ROUTE_PASS",
       "authorityVerified": false,
@@ -261,7 +264,7 @@
     {
       "id": "C5_RETURN_ARTIFACT_PUBLICATION_BLOCKER_REPAIRED",
       "disposition": "REPAIRED_IN_CURRENT_PROFILE_REPLAY",
-      "evidence": "c5v2-cumulative-returned-ready.json recorded ready:true with returned sha256:c202622e753ff0598161db3f0499489f631f920cf61c254fc8cc38796410ba20."
+      "evidence": "c5v2-cumulative-returned-ready.json recorded ready:true with returned sha256:2e8df9896b4a0d92b90f980e861f3433b4520d0003585622eadf1d55820ef85a."
     },
     {
       "id": "WORD_NATIVE_MATERIALIZATION_ROOT_COUNT_BLOCKER",
@@ -275,13 +278,13 @@
     },
     {
       "id": "C1_AUTH_REPAIR_PUBLISHED_SCOPED_ROUTE_REPLAY_REQUIRED",
-      "disposition": "REPLAY_ATTEMPTED_BLOCKED_BY_APPLY_LIFECYCLE_REUSE_GATE",
-      "evidence": "The scoped auth repair publication was exercised by a full-book replay at exact head 6aee73c0770357cd0b84bf5e8388cee38071c798; it did not create route pass authority."
+      "disposition": "SUPERSEDED_BY_POST_REUSE_GATE_REPLAY",
+      "evidence": "The earlier auth-repair replay at 6aee73c0770357cd0b84bf5e8388cee38071c798 is now superseded by repaired-head replay 5a5b34210bad80eaf1851efcf5a64426484f3f2a; it did not create route pass authority."
     },
     {
-      "id": "C1_POST_AUTH_REPAIR_FULLBOOK_REPLAY_ATTEMPTED",
+      "id": "C1_POST_REUSE_GATE_REPAIR_FULLBOOK_REPLAY_ATTEMPTED",
       "disposition": "EXECUTED_FAIL_CLOSED_NOT_ROUTE_PASS",
-      "evidence": "Campaign c1-round01-oracle-repair-w06-20260817 ran the 2000-operation full-book ledger and failed closed at the round-01 apply/lifecycle/reuse gate."
+      "evidence": "Campaign c1-route-reuse-gate-repair-w06-r1-20260817 ran the 2000-operation full-book ledger at 5a5b34210bad80eaf1851efcf5a64426484f3f2a and failed closed at the round-01 exact-ledger/apply/lifecycle/reuse gate."
     },
     {
       "id": "WORD_ACCESSIBILITY_WINDOW_REVIVED_DURING_CHUNK_008",
@@ -294,14 +297,14 @@
       "evidence": "complete-round-oracle.json is ok:true with 379 word statuses, 379 native readbacks, and 21 reopened Yalken scenes."
     },
     {
-      "id": "C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER",
+      "id": "C1_WORD_ROUND01_EXACT_LEDGER_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER",
       "disposition": "ACTIVE_BLOCKER_NOT_ROUTE_PASS",
-      "evidence": "complete-round-oracle-gate.json is ok:false with PRODUCT_RETURN_APPLY_NOT_GREEN, NATIVE_LIFECYCLE_VERIFICATION_NOT_GREEN, NATIVE_LIFECYCLE_COVERAGE_NOT_GREEN, COMPLETED_ROUND_REUSE_BINDING_NOT_GREEN."
+      "evidence": "complete-round-oracle-gate.json is ok:false with PRODUCT_RETURN_APPLY_NOT_GREEN, exact ledger binding 60/105 not green, NATIVE_LIFECYCLE_VERIFICATION_NOT_GREEN, NATIVE_LIFECYCLE_COVERAGE_NOT_GREEN, and COMPLETED_ROUND_REUSE_BINDING_NOT_GREEN."
     },
     {
       "id": "RETURNED_DOCX_READY_BUT_APPLY_LIFECYCLE_REUSE_GATE_FAILED",
       "disposition": "FAIL_CLOSED_AUTHORITY_DENIED",
-      "evidence": "The returned DOCX and authenticated intake are retained as evidence only; automatic apply, import mutation, storage write, route PASS, and C2-C8 closure remain denied."
+      "evidence": "The returned DOCX and authenticated intake are retained as evidence only; exact text apply, formatting apply, automatic apply, import mutation, storage write, route PASS, and C2-C8 closure remain denied."
     },
     {
       "id": "WORD_NATIVE_LIFECYCLE_REPLY_STATE_BLOCKER",
@@ -317,32 +320,37 @@
       "id": "N2_NOT_REPAIRED_IN_THIS_CONTOUR",
       "disposition": "NOT_IN_SCOPE_NO_PASS_CLAIM",
       "evidence": "N2 Google route closure and user-document workflow evidence remain outside this C1 Word replay contour."
+    },
+    {
+      "id": "C1_WORD_ROUND01_EXACT_LEDGER_BINDING_BLOCKER",
+      "disposition": "ACTIVE_BLOCKER_NOT_ROUTE_PASS",
+      "evidence": "completed-round reuse binding exactLedgerBinding is ok:false with 60 of 105 expected operations matched and 45 unmatched expected operations; C5V2_EXACT_SUMMARY_LEDGER_BINDING_REQUIRED remains fail-closed."
     }
   ],
   "oracles": {
     "semanticOracle": {
-      "status": "BLOCKED_APPLY_LIFECYCLE_REUSE_GATE",
-      "reason": "Complete-round semantic oracle is green, but strict product return apply, native lifecycle coverage, and completed-round reuse binding gates are not green."
+      "status": "BLOCKED_EXACT_LEDGER_APPLY_LIFECYCLE_REUSE_GATE",
+      "reason": "Complete-round semantic oracle is green, but strict product return apply, exact ledger reuse binding, native lifecycle coverage, and completed-round reuse binding gates are not green."
     },
     "structureOracle": {
-      "status": "BLOCKED_APPLY_LIFECYCLE_REUSE_GATE",
-      "reason": "Complete-round semantic oracle is green, but strict product return apply, native lifecycle coverage, and completed-round reuse binding gates are not green."
+      "status": "BLOCKED_EXACT_LEDGER_APPLY_LIFECYCLE_REUSE_GATE",
+      "reason": "Complete-round semantic oracle is green, but strict product return apply, exact ledger reuse binding, native lifecycle coverage, and completed-round reuse binding gates are not green."
     },
     "commentsOracle": {
-      "status": "BLOCKED_APPLY_LIFECYCLE_REUSE_GATE",
-      "reason": "Complete-round semantic oracle is green, but strict product return apply, native lifecycle coverage, and completed-round reuse binding gates are not green."
+      "status": "BLOCKED_EXACT_LEDGER_APPLY_LIFECYCLE_REUSE_GATE",
+      "reason": "Complete-round semantic oracle is green, but strict product return apply, exact ledger reuse binding, native lifecycle coverage, and completed-round reuse binding gates are not green."
     },
     "suggestionsOracle": {
-      "status": "BLOCKED_APPLY_LIFECYCLE_REUSE_GATE",
-      "reason": "Complete-round semantic oracle is green, but strict product return apply, native lifecycle coverage, and completed-round reuse binding gates are not green."
+      "status": "BLOCKED_EXACT_LEDGER_APPLY_LIFECYCLE_REUSE_GATE",
+      "reason": "Complete-round semantic oracle is green, but strict product return apply, exact ledger reuse binding, native lifecycle coverage, and completed-round reuse binding gates are not green."
     },
     "formatOracle": {
-      "status": "BLOCKED_APPLY_LIFECYCLE_REUSE_GATE",
-      "reason": "Complete-round semantic oracle is green, but strict product return apply, native lifecycle coverage, and completed-round reuse binding gates are not green."
+      "status": "BLOCKED_EXACT_LEDGER_APPLY_LIFECYCLE_REUSE_GATE",
+      "reason": "Complete-round semantic oracle is green, but strict product return apply, exact ledger reuse binding, native lifecycle coverage, and completed-round reuse binding gates are not green."
     },
     "recoveryOracle": {
-      "status": "BLOCKED_APPLY_LIFECYCLE_REUSE_GATE",
-      "reason": "Complete-round semantic oracle is green, but strict product return apply, native lifecycle coverage, and completed-round reuse binding gates are not green."
+      "status": "BLOCKED_EXACT_LEDGER_APPLY_LIFECYCLE_REUSE_GATE",
+      "reason": "Complete-round semantic oracle is green, but strict product return apply, exact ledger reuse binding, native lifecycle coverage, and completed-round reuse binding gates are not green."
     },
     "cleanupOracle": {
       "status": "NO_ROUTE_PASS_WORD_PROCESS_CLEANED",
@@ -417,10 +425,10 @@
     "productDataMigrationRequired": false,
     "runtimeRollbackRequired": false,
     "userDataTouched": false,
-    "previousReceiptExactHead": "279dde31d1bcf4c6a7cc80f6acfd034f9bdd600b",
-    "previousBlocker": "C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_BLOCKER",
-    "currentBlocker": "C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER",
-    "revertPlan": "Revert this evidence/DAG rebind commit to restore the complete-round oracle outcome mismatch blocker receipt and matrix."
+    "previousReceiptExactHead": "6aee73c0770357cd0b84bf5e8388cee38071c798",
+    "previousBlocker": "C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER",
+    "currentBlocker": "C1_WORD_ROUND01_EXACT_LEDGER_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER",
+    "revertPlan": "Revert this evidence/DAG rebind commit to restore the prior apply/lifecycle/reuse gate blocker receipt and matrix."
   },
-  "nextSequentialContour": "C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_REPAIR_V1"
+  "nextSequentialContour": "C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1"
 }

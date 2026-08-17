@@ -98,10 +98,10 @@ test('C1 Word full-book physical evidence binds exact blocker facts and no termi
   assert.match(receipt.physicalEvidence.resultSha256, /^sha256:[0-9a-f]{64}$/u);
   assert.match(receipt.physicalEvidence.sourceDocxSha256, /^sha256:[0-9a-f]{64}$/u);
   assert.match(receipt.physicalEvidence.returnedDocxSha256, /^sha256:[0-9a-f]{64}$/u);
-  assert.equal(receipt.physicalEvidence.runId, 'c1-round01-oracle-repair-w06-20260817');
-  assert.equal(receipt.physicalEvidence.previousRedRunId, 'c1-native-root-count-repair-w06-r1-20260817');
+  assert.equal(receipt.physicalEvidence.runId, 'c1-route-reuse-gate-repair-w06-r1-20260817');
+  assert.equal(receipt.physicalEvidence.previousRedRunId, 'c1-round01-oracle-repair-w06-20260817');
   assert.equal(receipt.physicalEvidence.previousNativeMaterializationBlockedRunId, 'c1-window-visibility-repair-w06-r1-20260817');
-  assert.equal(receipt.physicalEvidence.stageResult.headSha, '6aee73c0770357cd0b84bf5e8388cee38071c798');
+  assert.equal(receipt.physicalEvidence.stageResult.headSha, '5a5b34210bad80eaf1851efcf5a64426484f3f2a');
   assert.equal(receipt.physicalEvidence.stageResult.operationCount, 2000);
   assert.equal(receipt.physicalEvidence.stageResult.roundGreen, false);
   assert.equal(receipt.physicalEvidence.stageResult.roundGateCount, 5);
@@ -126,6 +126,29 @@ test('C1 Word full-book physical evidence binds exact blocker facts and no termi
   assert.equal(receipt.physicalEvidence.round01.nativeLifecycleCoverage.blockedCount, 33);
   assert.equal(receipt.physicalEvidence.round01.completedRoundReuseBindingOk, false);
   assert.equal(receipt.physicalEvidence.round01.nativeMaterializationRootCountRepairObserved, true);
+  assert.equal(receipt.physicalEvidence.round01.productReturnApply.ok, false);
+  assert.equal(receipt.physicalEvidence.round01.productReturnApply.activationOk, true);
+  assert.equal(receipt.physicalEvidence.round01.productReturnApply.returnIntakeAuthenticated, true);
+  assert.equal(receipt.physicalEvidence.round01.productReturnApply.returnIntakeStatus, 'authenticated-return-ir-ready');
+  assert.equal(receipt.physicalEvidence.round01.productReturnApply.textRevisions, 398);
+  assert.equal(receipt.physicalEvidence.round01.productReturnApply.commentThreads, 54);
+  assert.equal(receipt.physicalEvidence.round01.productReturnApply.formattingDeltas, 224);
+  assert.equal(receipt.physicalEvidence.round01.productReturnApply.opaqueUnsupported, 9);
+  assert.equal(receipt.physicalEvidence.round01.productReturnApply.exactTextBindingOk, false);
+  assert.equal(receipt.physicalEvidence.round01.productReturnApply.expectedOperationCount, 105);
+  assert.equal(receipt.physicalEvidence.round01.productReturnApply.matchedOperationCount, 60);
+  assert.equal(receipt.physicalEvidence.round01.productReturnApply.matchedChangeCount, 60);
+  assert.equal(receipt.physicalEvidence.round01.productReturnApply.excludedCandidateCount, 101);
+  assert.equal(receipt.physicalEvidence.round01.productReturnApply.unmatchedExpectedOperationCount, 45);
+  assert.equal(receipt.physicalEvidence.round01.productReturnApply.firstUnmatchedExpectedOperationIds[0], 'c5v2-tracked_text_edit-0023');
+  assert.equal(receipt.physicalEvidence.round01.productReturnApply.formattingApplyOk, false);
+  assert.equal(receipt.physicalEvidence.round01.productReturnApply.formattingApplyCode, 'RTK_FORMATTING_OPERATION_UNKNOWN_KEY');
+  assert.equal(receipt.physicalEvidence.round01.productReturnApply.formattingPreviewCode, 'RTK_FORMATTING_RETURN_USER_DECISION_READY');
+  assert.equal(receipt.physicalEvidence.round01.productReturnApply.formattingPreviewOperationCount, 224);
+  assert.equal(receipt.physicalEvidence.round01.productReturnApply.applyResultsCount, 10);
+  assert.equal(receipt.physicalEvidence.round01.productReturnApply.replayResultsCount, 10);
+  assert.equal(receipt.physicalEvidence.round01.productReturnApply.staleRetryBlockedCount, 10);
+  assert.equal(receipt.physicalEvidence.round01.productReturnApply.nonOverlapReason, 'FULL_MANUSCRIPT_EXACT_AUTHORITY_QUOTE_NOT_UNIQUE');
   assert.equal(receipt.physicalEvidence.resultStatus.plannedOperations, 2000);
   assert.equal(receipt.physicalEvidence.resultStatus.attemptedOperations, 379);
   assert.equal(receipt.physicalEvidence.resultStatus.reportedOperations, 379);
@@ -141,6 +164,7 @@ test('C1 Word full-book physical evidence binds exact blocker facts and no termi
   assert.equal(receipt.physicalEvidence.resultStatus.returnedDocxReady, true);
   assert.match(receipt.physicalEvidence.resultStatus.wordWindowDiagnostics, /RETURNED_READY_TRUE/u);
   assert.match(receipt.physicalEvidence.resultStatus.wordWindowDiagnostics, /COMPLETE_ROUND_ORACLE_GREEN_TRUE/u);
+  assert.match(receipt.physicalEvidence.resultStatus.wordWindowDiagnostics, /EXACT_LEDGER_BINDING_60_OF_105/u);
   assert.match(receipt.physicalEvidence.resultStatus.wrapperError, /C5V2_COMPLETE_ROUND_ORACLE_GATE_FAILED/u);
   assert.equal(receipt.physicalEvidence.resultStatus.productReturnApplyFailure, 'PRODUCT_RETURN_APPLY_NOT_GREEN');
   assert.equal(receipt.physicalEvidence.resultStatus.nativeLifecycleVerifiedCount, 5);
@@ -163,7 +187,7 @@ test('C1 Word full-book physical evidence binds exact blocker facts and no termi
   assert.equal(receipt.physicalEvidence.independentParserProbe.payloadProfileIdStale, false);
   assert.equal(receipt.physicalEvidence.independentParserProbe.reviewCounts.textRevisions, 398);
   assert.equal(receipt.physicalEvidence.independentParserProbe.reviewCounts.commentThreads, 54);
-  assert.equal(receipt.physicalEvidence.independentParserProbe.reviewCounts.formattingDeltas, 304);
+  assert.equal(receipt.physicalEvidence.independentParserProbe.reviewCounts.formattingDeltas, 224);
 
   for (const oracleName of Object.keys(receipt.oracles)) {
     assert.notEqual(receipt.oracles[oracleName].status, 'PASS', oracleName);
@@ -185,6 +209,7 @@ test('C1 Word full-book route updates only C1 as blocked in the chain matrix and
   assert.deepEqual(c1.executedFullRouteEvidence, []);
   assert.deepEqual(c1.blockerEvidenceRefs, [
     'YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1',
+    'C1_WORD_ROUND01_EXACT_LEDGER_BINDING_BLOCKER',
     'C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER',
   ]);
   assert.equal(c1.productMutationAuthority, 'DENY_UNTIL_ROUTE_CONTOUR_PROVES_APPLY_AUTHORITY');
@@ -214,7 +239,7 @@ test('C1 Word full-book route hostile receipt mutations are rejected fail-closed
 
   const hostile = runC1HostileCorpus();
   const mutations = runC1SemanticMutationCatalog();
-  assert.equal(hostile.total, 19);
+  assert.equal(hostile.total, 20);
   assert.equal(hostile.survivors, 0, JSON.stringify(hostile.survivorDetails, null, 2));
   assert.equal(mutations.total, 12);
   assert.equal(mutations.survivors, 0, JSON.stringify(mutations.survivorDetails, null, 2));
@@ -233,6 +258,7 @@ test('C1 Word full-book route hostile receipt mutations are rejected fail-closed
     ['current-profile-launder', (r) => { r.physicalEvidence.independentParserProbe.payloadProfileId = 'word-mac-16.112-26081010-product-review-export-c5v2-full-manuscript'; }, 'CURRENT_PROFILE_MUST_NOT_BE_CLAIMED_AFTER_ORACLE_FAILURE'],
     ['returned-artifact-missing-after-repair', (r) => { r.physicalEvidence.returnedArtifactPresent = false; }, 'RETURNED_ARTIFACT_MUST_BE_PRESENT_AFTER_REPAIR'],
     ['complete-oracle-regression-launder', (r) => { r.physicalEvidence.round01.completeRoundOracleGreen = false; }, 'COMPLETE_ROUND_ORACLE_MUST_BE_GREEN_FOR_THIS_BLOCKER'],
+    ['exact-ledger-binding-false-pass', (r) => { r.physicalEvidence.round01.productReturnApply.exactTextBindingOk = true; }, 'EXACT_LEDGER_BINDING_MUST_REMAIN_FALSE'],
     ['native-materialization-failure-launder', (r) => { r.physicalEvidence.round01.failureCode = 'NATIVE_MATERIALIZATION_ROOT_COUNT_MISMATCH'; }, 'COMPLETE_ROUND_ORACLE_GATE_FAILURE_CODE'],
   ];
 
@@ -246,7 +272,7 @@ test('C1 Word full-book route hostile receipt mutations are rejected fail-closed
 });
 
 test('C1 Word full-book route rejects stale GitHub shallow base binding and CLI is deterministic', async () => {
-  const { EXACT_HEAD, PRE_AUTH_REPAIR_ROUTE_HEAD, resolveExactHeadBinding } = await loadVerifier();
+  const { EXACT_HEAD, PRE_APPLY_LIFECYCLE_REUSE_GATE_REPAIR_ROUTE_HEAD, PRE_AUTH_REPAIR_ROUTE_HEAD, resolveExactHeadBinding } = await loadVerifier();
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-c1-pr-event-'));
   const eventPath = path.join(tempDir, 'event.json');
   fs.writeFileSync(eventPath, JSON.stringify({ pull_request: { base: { sha: EXACT_HEAD } } }), 'utf8');
@@ -268,6 +294,7 @@ test('C1 Word full-book route rejects stale GitHub shallow base binding and CLI 
   assert.equal(stalePreRepairBase.status, 'PULL_REQUEST_BASE_SHA_MISMATCH');
   assert.deepEqual(stalePreRepairBase.acceptedBaseShas, [EXACT_HEAD]);
   assert.ok(stalePreRepairBase.staleRejectedBaseShas.includes(PRE_AUTH_REPAIR_ROUTE_HEAD));
+  assert.ok(stalePreRepairBase.staleRejectedBaseShas.includes(PRE_APPLY_LIFECYCLE_REUSE_GATE_REPAIR_ROUTE_HEAD));
 
   fs.writeFileSync(eventPath, JSON.stringify({ pull_request: { base: { sha: '0'.repeat(40) } } }), 'utf8');
   const rejected = resolveExactHeadBinding('/definitely/not/a/git/repo', {

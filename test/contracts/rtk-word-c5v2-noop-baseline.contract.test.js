@@ -420,6 +420,36 @@ test('C5V2 cumulative child source includes exact-ledger helper dependencies bef
   assert.ok(bindingIndex > normalizerIndex, 'exact-ledger binding must be emitted after its helper dependencies');
 });
 
+test('C5V2 cumulative parent waits drain emitted child payloads before exit failure', () => {
+  const source = fs.readFileSync(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs'), 'utf8');
+  const cumulativeStart = source.indexOf('async function runElectronCumulativeFullManuscriptRoundtrip');
+  const cumulativeEnd = source.indexOf('\nfunction orderWordOperations', cumulativeStart);
+  assert.notEqual(cumulativeStart, -1);
+  assert.notEqual(cumulativeEnd, -1);
+  const cumulative = source.slice(cumulativeStart, cumulativeEnd);
+
+  const exitDeclarationIndex = cumulative.indexOf('let exitObservedAt = 0;');
+  const exitHandlerIndex = cumulative.indexOf("child.once('exit', (code, signal) => {");
+  const exitTimestampIndex = cumulative.indexOf('exitObservedAt = Date.now();', exitHandlerIndex);
+  assert.ok(exitDeclarationIndex >= 0, 'cumulative parent must track observed child exit time');
+  assert.ok(exitHandlerIndex > exitDeclarationIndex, 'exit handler must follow exit time declaration');
+  assert.ok(exitTimestampIndex > exitHandlerIndex, 'exit handler must stamp observed child exit time');
+
+  const exportWaitIndex = cumulative.indexOf('const exportPayload = await waitForCondition(() => {');
+  const exportFoundIndex = cumulative.indexOf("const found = resultLines.find((line) => line.phase === 'export'", exportWaitIndex);
+  const exportExitIndex = cumulative.indexOf('if (exited && Date.now() - exitObservedAt > 1000)', exportWaitIndex);
+  assert.ok(exportWaitIndex >= 0, 'export wait predicate must exist');
+  assert.ok(exportFoundIndex > exportWaitIndex, 'export payload lookup must happen inside export wait');
+  assert.ok(exportExitIndex > exportFoundIndex, 'export payload lookup must precede delayed exit failure');
+
+  const returnWaitIndex = cumulative.indexOf('const returnApplyPayload = await waitForCondition(() => {');
+  const returnFoundIndex = cumulative.indexOf("const found = resultLines.find((line) => line.phase === 'return-apply'", returnWaitIndex);
+  const returnExitIndex = cumulative.indexOf('if (exited && Date.now() - exitObservedAt > 1000)', returnWaitIndex);
+  assert.ok(returnWaitIndex >= 0, 'return-apply wait predicate must exist');
+  assert.ok(returnFoundIndex > returnWaitIndex, 'return-apply payload lookup must happen inside return wait');
+  assert.ok(returnExitIndex > returnFoundIndex, 'return-apply payload lookup must precede delayed exit failure');
+});
+
 test('C5V2 rich reopened scenes retain complete topology while exposing stable nonempty logical paragraph ordinals', async () => {
   const canary = await import(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs'));
   const envelope = await import(path.join(REPO_ROOT, 'src', 'renderer', 'documentContentEnvelope.mjs'));

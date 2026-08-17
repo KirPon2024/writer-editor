@@ -11103,10 +11103,10 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "b71241b4477b19459203e9d7834bd4daddb5b2b66d82e61b739215fb6036fe3d",
+      "sha256": "5385e3ffcd3481b4fbe2b61ae5bac94bbbfb456cdc356f1c70a079a7bcc3aafb",
       "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_V1",
-      "approvedAtUtc": "2026-08-17T21:45:10.000Z",
-      "rationale": "Approve generated Electron child dependency binding for the operation-id normalizer so return activation reaches exact-ledger and apply-authority gates instead of crashing with ReferenceError, without route, pass, apply, or user-document claim widening.",
+      "approvedAtUtc": "2026-08-17T22:37:26.000Z",
+      "rationale": "Approve cumulative Electron parent stdout-drain repair so already-emitted export and return-apply payloads are recorded before delayed child-exit failure, preserving fail-closed non-green evidence without route, pass, apply, or user-document claim widening.",
       "approved": true,
       "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_V1"
     },
@@ -11139,10 +11139,10 @@
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-noop-baseline.contract.test.js",
-      "sha256": "d92e6e7346524e9596065394e40dd77cc776f52be6cfd8589016f8634772c72f",
+      "sha256": "95f0990d48e3ccffd7a62c7a74884379cc08c26e93bc483cf4bd04e6bc9763fa",
       "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_V1",
-      "approvedAtUtc": "2026-08-17T21:45:10.000Z",
-      "rationale": "Approve contract coverage requiring cumulative child source emission of the operation-id pattern and normalizer before exact-ledger binding helper execution.",
+      "approvedAtUtc": "2026-08-17T22:37:26.000Z",
+      "rationale": "Approve contract coverage requiring cumulative parent export and return-apply wait predicates to accept emitted payloads before declaring delayed child-exit failure.",
       "approved": true,
       "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_V1"
     },

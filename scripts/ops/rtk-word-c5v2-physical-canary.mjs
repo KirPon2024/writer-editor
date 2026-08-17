@@ -4714,6 +4714,7 @@ async function runElectronCumulativeFullManuscriptRoundtrip({
   let bufferedStdout = '';
   let exited = false;
   let exitState = null;
+  let exitObservedAt = 0;
   const child = spawn(resolveC5V2ElectronBinary(), [childPath], {
     cwd: REPO_ROOT,
     env: { ...process.env, ELECTRON_ENABLE_SECURITY_WARNINGS: 'false' },
@@ -4734,6 +4735,7 @@ async function runElectronCumulativeFullManuscriptRoundtrip({
   child.stderr.on('data', (chunk) => stderrChunks.push(chunk));
   child.once('exit', (code, signal) => {
     exited = true;
+    exitObservedAt = Date.now();
     exitState = { code, signal };
   });
   let timedOut = false;
@@ -4750,11 +4752,12 @@ async function runElectronCumulativeFullManuscriptRoundtrip({
     for (let roundIndex = 0; roundIndex < rounds.length; roundIndex += 1) {
       const round = rounds[roundIndex];
       const exportPayload = await waitForCondition(() => {
-        if (exited) {
+        const found = resultLines.find((line) => line.phase === 'export' && line.ok === 1 && line.roundIndex === roundIndex);
+        if (found) return found;
+        if (exited && Date.now() - exitObservedAt > 1000) {
           throw new Error(`ELECTRON_CUMULATIVE_EXIT_BEFORE_EXPORT:${round.roundId}:${exitState?.eventName || 'unknown'}:${exitState?.code ?? 'null'}:${exitState?.signal || 'null'}`);
         }
-        const found = resultLines.find((line) => line.phase === 'export' && line.ok === 1 && line.roundIndex === roundIndex);
-        return found || null;
+        return null;
       }, `ELECTRON_CUMULATIVE_EXPORT_PHASE_NOT_EMITTED:${round.roundId}`, 180_000);
       if (!fs.existsSync(round.sourcePath)) throw new Error(`C5V2_CUMULATIVE_SOURCE_DOCX_MISSING:${round.roundId}`);
       const sourcePackage = packageSummary(round.sourcePath);
@@ -4801,11 +4804,12 @@ async function runElectronCumulativeFullManuscriptRoundtrip({
         }
       }
       const returnApplyPayload = await waitForCondition(() => {
-        if (exited) {
+        const found = resultLines.find((line) => line.phase === 'return-apply' && line.roundIndex === roundIndex);
+        if (found) return found;
+        if (exited && Date.now() - exitObservedAt > 1000) {
           throw new Error(`ELECTRON_CUMULATIVE_EXIT_BEFORE_RETURN_APPLY:${round.roundId}:${exitState?.eventName || 'unknown'}:${exitState?.code ?? 'null'}:${exitState?.signal || 'null'}`);
         }
-        const found = resultLines.find((line) => line.phase === 'return-apply' && line.roundIndex === roundIndex);
-        return found || null;
+        return null;
       }, `ELECTRON_CUMULATIVE_RETURN_APPLY_NOT_EMITTED:${round.roundId}`, 1_800_000);
       const returnApplyGreen = returnApplyPayload.ok === 1
         && returnApplyPayload.returnApply?.ok === true;

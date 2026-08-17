@@ -8,8 +8,8 @@ import { spawnSync } from 'node:child_process';
 export const INPUT_SCHEMA_VERSION = 'yalken.releaseClaimCompiler.input.v0';
 export const RECEIPT_SCHEMA_VERSION = 'yalken.releaseClaimCompiler.receipt.v0';
 export const COMPILER_ID = 'R2_OFFLINE_RELEASE_CLAIM_COMPILER_V0';
-export const CURRENT_HEAD = '09ce09efd5ed11a3d68ae97bb0d0db6f0ba1ecba';
-export const CURRENT_TREE = '5bf69c22ade725f965870c40cfa6d63643691ac5';
+export const CURRENT_HEAD = '1e426888608608472530bafeee65a438a87f3128';
+export const CURRENT_TREE = '8db09733574644e8092077a10414b6e51b0d9349';
 export const DEFAULT_RECEIPT_PATH = 'docs/OPS/RTK/YALKEN_OFFLINE_RELEASE_CLAIM_COMPILER_V0_RECEIPT.json';
 
 const FAIL_CLOSED_OUTCOMES = new Set(['UNKNOWN', 'ABSTAIN', 'STALE', 'CONFLICT']);
@@ -343,8 +343,8 @@ export function buildCurrentReleaseClaimCompilerInput(repoRoot = repoRootFromHer
   return {
     schemaVersion: INPUT_SCHEMA_VERSION,
     compilerId: COMPILER_ID,
-    generatedAtUtc: '2026-08-16T15:40:00.000Z',
-    nowUtc: '2026-08-16T15:40:00.000Z',
+    generatedAtUtc: '2026-08-17T03:19:05.000Z',
+    nowUtc: '2026-08-17T03:19:05.000Z',
     exact: {
       headSha,
       treeSha,
@@ -372,7 +372,7 @@ export function buildCurrentReleaseClaimCompilerInput(repoRoot = repoRootFromHer
         nonClaims: ['C1_ROUTE_PASS', 'CHAIN_SATURATION', 'AUTO_APPLY', 'USER_DOCUMENT_COVERAGE'],
         receipts: [
           {
-            id: 'receipt:pr1570-postmerge-c1-return-intake-authentication-repair',
+            id: 'receipt:pr1575-postmerge-c1-return-intake-authentication-repair',
             claimId: 'C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1',
             status: 'PASS',
             verdict: 'VERIFIED_SCOPED',
@@ -383,7 +383,7 @@ export function buildCurrentReleaseClaimCompilerInput(repoRoot = repoRootFromHer
             machineCheckIds: ['rtk-required', 'OSS policy', 'x1-runtime-parity', 'postmerge-focused-c1-chain', 'postmerge-agent-guardrails', 'postmerge-dev-fast', 'postmerge-maintained-rtk'],
             evidenceDigest: sha256File(repoRoot, 'test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js'),
             outcomes: ['PASS'],
-            expiresAtUtc: '2026-09-15T00:00:00.000Z',
+            expiresAtUtc: '2026-09-16T00:00:00.000Z',
             supersededBy: null,
           },
         ],
@@ -406,7 +406,7 @@ export function buildCurrentReleaseClaimCompilerInput(repoRoot = repoRootFromHer
         nonClaims: ['UNIVERSAL_PARITY', 'BYTE_IDENTITY', 'ALL_ROUTES_PROVEN'],
         receipts: [
           {
-            id: 'receipt:c1-route-remains-blocked-after-pr1570',
+            id: 'receipt:c1-route-remains-blocked-after-pr1575',
             claimId: 'INTEROP_CHAIN_SATURATION_V1',
             status: 'NEEDS_MORE_EVIDENCE',
             verdict: 'BLOCKED',
@@ -417,7 +417,7 @@ export function buildCurrentReleaseClaimCompilerInput(repoRoot = repoRootFromHer
             machineCheckIds: ['postmerge-maintained-rtk'],
             evidenceDigest: sha256File(repoRoot, 'docs/OPS/RTK/YALKEN_INTEROP_CHAIN_MATRIX_V1.json'),
             outcomes: ['BLOCKED'],
-            expiresAtUtc: '2026-09-15T00:00:00.000Z',
+            expiresAtUtc: '2026-09-16T00:00:00.000Z',
             supersededBy: null,
           },
         ],
@@ -446,7 +446,7 @@ export function buildCurrentReleaseClaimCompilerInput(repoRoot = repoRootFromHer
             machineCheckIds: ['postmerge-maintained-rtk'],
             evidenceDigest: sha256File(repoRoot, 'docs/OPS/STATUS/FINAL_LAB_TO_PRODUCT_TRACEABILITY_V2_LEDGER.json'),
             outcomes: ['BLOCKED'],
-            expiresAtUtc: '2026-09-15T00:00:00.000Z',
+            expiresAtUtc: '2026-09-16T00:00:00.000Z',
             supersededBy: null,
           },
         ],

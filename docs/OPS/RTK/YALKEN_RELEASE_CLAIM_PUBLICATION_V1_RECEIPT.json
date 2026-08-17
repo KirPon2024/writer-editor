@@ -2,10 +2,10 @@
   "schemaVersion": "yalken.releaseClaimPublication.receipt.v1",
   "publisherId": "R4_EXACT_HEAD_CLAIM_PUBLICATION_V1",
   "ok": true,
-  "generatedAtUtc": "2026-08-16T19:20:00.000Z",
+  "generatedAtUtc": "2026-08-17T03:19:05.000Z",
   "exact": {
-    "headSha": "5c16e0ee5fc260143506d465c6dcd0711db347d8",
-    "treeSha": "c8ca6786fabc5beecd1f871167001860889c1984",
+    "headSha": "1e426888608608472530bafeee65a438a87f3128",
+    "treeSha": "8db09733574644e8092077a10414b6e51b0d9349",
     "buildId": "postmerge-local-node-22.22.2-npm-10.9.7"
   },
   "inputReceipts": [
@@ -13,9 +13,9 @@
       "id": "receipt:r3-applicability-invalidation-graph-v1",
       "schemaVersion": "yalken.releaseApplicabilityInvalidationGraph.receipt.v1",
       "compilerId": "R3_APPLICABILITY_INVALIDATION_GRAPH_V1",
-      "headSha": "9feaf1376884e3fba75fed4783056313a128f31f",
-      "treeSha": "328b68ed9875e6f6e7bf967e3d94c67e32518193",
-      "evidenceDigest": "sha256:fc8c82d70e0d740f86d4e39d8075c2032e5e9c52a62da46f45185682622fa1aa"
+      "headSha": "1e426888608608472530bafeee65a438a87f3128",
+      "treeSha": "8db09733574644e8092077a10414b6e51b0d9349",
+      "evidenceDigest": "sha256:1935f3dfa9416135a77033982e03be99328ca1f4aefea651564b10307b24885b"
     }
   ],
   "requiredChecks": [
@@ -23,31 +23,31 @@
       "name": "oss-policy",
       "status": "completed",
       "conclusion": "success",
-      "headSha": "5c16e0ee5fc260143506d465c6dcd0711db347d8"
+      "headSha": "1e426888608608472530bafeee65a438a87f3128"
     },
     {
       "name": "rtk-required",
       "status": "completed",
       "conclusion": "success",
-      "headSha": "5c16e0ee5fc260143506d465c6dcd0711db347d8"
+      "headSha": "1e426888608608472530bafeee65a438a87f3128"
     },
     {
       "name": "x1-runtime-parity (ubuntu-latest)",
       "status": "completed",
       "conclusion": "success",
-      "headSha": "5c16e0ee5fc260143506d465c6dcd0711db347d8"
+      "headSha": "1e426888608608472530bafeee65a438a87f3128"
     },
     {
       "name": "x1-runtime-parity (windows-latest)",
       "status": "completed",
       "conclusion": "success",
-      "headSha": "5c16e0ee5fc260143506d465c6dcd0711db347d8"
+      "headSha": "1e426888608608472530bafeee65a438a87f3128"
     },
     {
       "name": "postmerge-full-rtk",
       "status": "completed",
       "conclusion": "success",
-      "headSha": "5c16e0ee5fc260143506d465c6dcd0711db347d8"
+      "headSha": "1e426888608608472530bafeee65a438a87f3128"
     }
   ],
   "programVerdict": "NEEDS_MORE_EVIDENCE",

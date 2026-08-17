@@ -1,10 +1,10 @@
 const assert = require('node:assert/strict');
 const test = require('node:test');
 
-const CURRENT_HEAD = '9feaf1376884e3fba75fed4783056313a128f31f';
-const CURRENT_TREE = '328b68ed9875e6f6e7bf967e3d94c67e32518193';
-const R2_RECEIPT_HEAD = '09ce09efd5ed11a3d68ae97bb0d0db6f0ba1ecba';
-const R2_RECEIPT_TREE = '5bf69c22ade725f965870c40cfa6d63643691ac5';
+const CURRENT_HEAD = '1e426888608608472530bafeee65a438a87f3128';
+const CURRENT_TREE = '8db09733574644e8092077a10414b6e51b0d9349';
+const R2_RECEIPT_HEAD = '1e426888608608472530bafeee65a438a87f3128';
+const R2_RECEIPT_TREE = '8db09733574644e8092077a10414b6e51b0d9349';
 
 async function loadGraphCompiler() {
   return import('../../scripts/ops/rtk-release-applicability-invalidation-graph-v1.mjs');
@@ -59,7 +59,7 @@ function claim(overrides = {}) {
     outcomes: ['PASS'],
     receiptRefs: [
       {
-        id: 'receipt:pr1570-postmerge-c1-return-intake-authentication-repair',
+        id: 'receipt:pr1575-postmerge-c1-return-intake-authentication-repair',
         claimId: 'C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1',
         profileId: 'word-mac-16.112-26081010',
         scopeId: 'return-intake-authority-carrier-authentication-repair',
@@ -284,7 +284,7 @@ test('R3 rejects expired providers conflicts transplants replays and scope laund
         receiptRefs: [
           {
             ...claim().receiptRefs[0],
-            headSha: R2_RECEIPT_HEAD,
+            headSha: '3'.repeat(40),
             treeSha: R2_RECEIPT_TREE,
           },
         ],

@@ -1,10 +1,10 @@
 const assert = require('node:assert/strict');
 const test = require('node:test');
 
-const CURRENT_HEAD = '5c16e0ee5fc260143506d465c6dcd0711db347d8';
-const CURRENT_TREE = 'c8ca6786fabc5beecd1f871167001860889c1984';
-const R3_HEAD = '9feaf1376884e3fba75fed4783056313a128f31f';
-const R3_TREE = '328b68ed9875e6f6e7bf967e3d94c67e32518193';
+const CURRENT_HEAD = '1e426888608608472530bafeee65a438a87f3128';
+const CURRENT_TREE = '8db09733574644e8092077a10414b6e51b0d9349';
+const R3_HEAD = '1e426888608608472530bafeee65a438a87f3128';
+const R3_TREE = '8db09733574644e8092077a10414b6e51b0d9349';
 
 async function loadPublisher() {
   return import('../../scripts/ops/rtk-release-claim-publication-v1.mjs');
@@ -26,8 +26,8 @@ function baseR3Receipt(overrides = {}) {
         id: 'receipt:r2-offline-release-claim-compiler-v0',
         schemaVersion: 'yalken.releaseClaimCompiler.receipt.v0',
         compilerId: 'R2_OFFLINE_RELEASE_CLAIM_COMPILER_V0',
-        headSha: '09ce09efd5ed11a3d68ae97bb0d0db6f0ba1ecba',
-        treeSha: '5bf69c22ade725f965870c40cfa6d63643691ac5',
+        headSha: '1e426888608608472530bafeee65a438a87f3128',
+        treeSha: '8db09733574644e8092077a10414b6e51b0d9349',
         evidenceDigest: `sha256:${'2'.repeat(64)}`,
       },
     ],

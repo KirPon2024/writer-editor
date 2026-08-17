@@ -8,8 +8,8 @@ import { spawnSync } from 'node:child_process';
 export const INPUT_SCHEMA_VERSION = 'yalken.releaseClaimCompiler.input.v0';
 export const RECEIPT_SCHEMA_VERSION = 'yalken.releaseClaimCompiler.receipt.v0';
 export const COMPILER_ID = 'R2_OFFLINE_RELEASE_CLAIM_COMPILER_V0';
-export const CURRENT_HEAD = '1e426888608608472530bafeee65a438a87f3128';
-export const CURRENT_TREE = '8db09733574644e8092077a10414b6e51b0d9349';
+export const CURRENT_HEAD = 'a668fd01fc44146738263e50cba2608d9785c91b';
+export const CURRENT_TREE = 'a5564c34c70013e0c35e11eecb402d2f4677e42c';
 export const DEFAULT_RECEIPT_PATH = 'docs/OPS/RTK/YALKEN_OFFLINE_RELEASE_CLAIM_COMPILER_V0_RECEIPT.json';
 
 const FAIL_CLOSED_OUTCOMES = new Set(['UNKNOWN', 'ABSTAIN', 'STALE', 'CONFLICT']);
@@ -343,8 +343,8 @@ export function buildCurrentReleaseClaimCompilerInput(repoRoot = repoRootFromHer
   return {
     schemaVersion: INPUT_SCHEMA_VERSION,
     compilerId: COMPILER_ID,
-    generatedAtUtc: '2026-08-17T03:19:05.000Z',
-    nowUtc: '2026-08-17T03:19:05.000Z',
+    generatedAtUtc: '2026-08-17T04:11:14.000Z',
+    nowUtc: '2026-08-17T04:11:14.000Z',
     exact: {
       headSha,
       treeSha,

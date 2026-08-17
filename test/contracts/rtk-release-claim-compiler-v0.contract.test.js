@@ -1,8 +1,8 @@
 const assert = require('node:assert/strict');
 const test = require('node:test');
 
-const CURRENT_HEAD = '1e426888608608472530bafeee65a438a87f3128';
-const CURRENT_TREE = '8db09733574644e8092077a10414b6e51b0d9349';
+const CURRENT_HEAD = 'a668fd01fc44146738263e50cba2608d9785c91b';
+const CURRENT_TREE = 'a5564c34c70013e0c35e11eecb402d2f4677e42c';
 
 async function loadCompiler() {
   return import('../../scripts/ops/rtk-release-claim-compiler-v0.mjs');

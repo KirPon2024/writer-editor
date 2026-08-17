@@ -816,6 +816,7 @@ export function writeC5V2ReturnApplyCandidateAuthorityAnchor({
   ledger = {},
   candidateAuthority = {},
   candidateAuthorityPath = '',
+  allowNonGreenCandidateAuthority = false,
 } = {}) {
   const paths = c5v2CandidateAuthorityPaths(authorityRoot, roundId);
   const key = readC5V2CandidateAuthoritySecret(paths.root, { createIfMissing: false });
@@ -824,14 +825,26 @@ export function writeC5V2ReturnApplyCandidateAuthorityAnchor({
     { roundId, ledger },
   );
   if (
-    authorityValidation.ok !== true
-    || !campaignId
+    !campaignId
     || !exactHead
     || !corpusDigest
     || !candidateAuthorityPath
     || !fs.existsSync(candidateAuthorityPath)
   ) {
     throw new Error(`C5V2_RETURN_APPLY_CANDIDATE_AUTHORITY_ANCHOR_INPUT_INVALID:${authorityValidation.failures.join(',')}`);
+  }
+  if (authorityValidation.ok !== true && allowNonGreenCandidateAuthority !== true) {
+    throw new Error(`C5V2_RETURN_APPLY_CANDIDATE_AUTHORITY_ANCHOR_INPUT_INVALID:${authorityValidation.failures.join(',')}`);
+  }
+  if (
+    authorityValidation.ok !== true
+    && (
+      typeof candidateAuthority?.schemaVersion !== 'string'
+      || typeof candidateAuthority?.contentDigest !== 'string'
+      || !Number.isInteger(candidateAuthority?.candidateCount)
+    )
+  ) {
+    throw new Error(`C5V2_RETURN_APPLY_CANDIDATE_AUTHORITY_ANCHOR_NON_GREEN_EVIDENCE_INVALID:${authorityValidation.failures.join(',')}`);
   }
   ensureC5V2SecureDirectory(paths.anchorsRoot);
   const body = {
@@ -4737,7 +4750,9 @@ async function runElectronCumulativeFullManuscriptRoundtrip({
         const found = resultLines.find((line) => line.phase === 'return-apply' && line.roundIndex === roundIndex);
         return found || null;
       }, `ELECTRON_CUMULATIVE_RETURN_APPLY_NOT_EMITTED:${round.roundId}`, 1_800_000);
-      if (returnApplyPayload.ok !== 1 || returnApplyPayload.returnApply?.ok !== true) {
+      const returnApplyGreen = returnApplyPayload.ok === 1
+        && returnApplyPayload.returnApply?.ok === true;
+      if (round.resumeCompletedRound === true && returnApplyGreen !== true) {
         throw new Error(`C5V2_CUMULATIVE_RETURN_APPLY_FAILED:${round.roundId}:${returnApplyPayload.returnApply?.code || returnApplyPayload.returnApply?.reason || 'NON_GREEN'}`);
       }
       if (round.resumeCompletedRound === true) {
@@ -4790,6 +4805,9 @@ async function runElectronCumulativeFullManuscriptRoundtrip({
         if (roundOracleGate?.ok !== true) {
           throw new Error(`C5V2_CUMULATIVE_COMPLETE_ROUND_ORACLE_FAILED:${round.roundId}:${JSON.stringify(roundOracleGate?.failures || [])}`);
         }
+      }
+      if (returnApplyGreen !== true) {
+        throw new Error(`C5V2_CUMULATIVE_RETURN_APPLY_FAILED:${round.roundId}:${returnApplyPayload.returnApply?.code || returnApplyPayload.returnApply?.reason || 'NON_GREEN'}`);
       }
     }
     await waitForCondition(() => (exited ? exitState : null), 'ELECTRON_CUMULATIVE_EXIT_NOT_OBSERVED', 120_000);
@@ -6882,6 +6900,44 @@ export function bindC5V2CanonicalRootCommentEvidence({
   };
 }
 
+function c5v2NormalizedOutcomeList(value) {
+  const rawValues = Array.isArray(value)
+    ? value
+    : typeof value === 'string'
+      ? [value]
+      : [];
+  const seen = new Set();
+  const outcomes = [];
+  for (const rawValue of rawValues) {
+    const outcome = typeof rawValue === 'string' ? rawValue.trim() : '';
+    if (!outcome || seen.has(outcome)) continue;
+    seen.add(outcome);
+    outcomes.push(outcome);
+  }
+  return outcomes;
+}
+
+function c5v2ExpectedOutcomesForLane(expectedOutcome, laneGreen) {
+  return laneGreen === true ? [expectedOutcome || 'SAFE_APPLY'] : ['BLOCKED'];
+}
+
+function c5v2OutcomeAllowed(outcome, expectedOutcomes) {
+  const normalized = typeof outcome === 'string' ? outcome.trim() : '';
+  return c5v2NormalizedOutcomeList(expectedOutcomes).includes(normalized);
+}
+
+function c5v2ReturnApplyTypedLanes(returnApply = {}) {
+  return returnApply?.typedPendingLanes && typeof returnApply.typedPendingLanes === 'object'
+    ? returnApply.typedPendingLanes
+    : {};
+}
+
+function c5v2LaneGreen(typedLanes, key, greenStatuses, returnApplyGreen) {
+  const status = typeof typedLanes?.[key] === 'string' ? typedLanes[key] : '';
+  if (greenStatuses.includes(status)) return true;
+  return !status && returnApplyGreen === true;
+}
+
 export function buildOracleProbe({
   ledger,
   wordParsed,
@@ -6942,6 +6998,42 @@ export function buildOracleProbe({
   const commentPath = activation.commentProductPath || {};
   const applyReceipts = Array.isArray(commentPath.applyReceipts) ? commentPath.applyReceipts : [];
   const replayReceipts = Array.isArray(commentPath.replayReceipts) ? commentPath.replayReceipts : [];
+  const typedLanes = c5v2ReturnApplyTypedLanes(returnApply);
+  const returnApplyGreen = returnApply?.ok === true;
+  const exactTextLaneGreen = c5v2LaneGreen(
+    typedLanes,
+    'exactText',
+    ['CANONICAL_PRODUCT_APPLY_AND_REPLAY_PROVEN'],
+    returnApplyGreen,
+  );
+  const rootCommentLaneGreen = c5v2LaneGreen(
+    typedLanes,
+    'rootCommentsState',
+    ['CANONICAL_ROOT_COMMENT_APPLY_AND_REPLAY_PROVEN'],
+    returnApplyGreen,
+  );
+  const commentLifecycleLaneGreen = c5v2LaneGreen(
+    typedLanes,
+    'commentsRepliesState',
+    ['CANONICAL_PRODUCT_APPLY_AND_REPLAY_PROVEN'],
+    returnApplyGreen,
+  );
+  const commentLifecycleTypedBlocked = [
+    'ROOT_APPLY_PLUS_TYPED_LIFECYCLE_VERIFIED',
+    'PENDING_PRODUCT_APPLY_LANE',
+  ].includes(typedLanes.commentsRepliesState);
+  const formattingLaneGreen = c5v2LaneGreen(
+    typedLanes,
+    'formatting',
+    ['PRODUCT_APPLY_AND_REPLAY_VERIFIED'],
+    returnApplyGreen,
+  );
+  const structuralLaneGreen = c5v2LaneGreen(
+    typedLanes,
+    'structural',
+    ['PRODUCT_APPLY_AND_REPLAY_VERIFIED'],
+    returnApplyGreen,
+  );
   const nativeLifecycleById = new Map((wordParsed?.nativeLifecycleVerification?.results || [])
     .map((result) => [String(result?.operationId || ''), result]));
   const lifecycleOperationCount = operations.filter((operation) => (
@@ -6954,14 +7046,14 @@ export function buildOracleProbe({
   for (const operation of operations) {
     const expectedOutcome = operation.expectedOutcome || 'SAFE_APPLY';
     const anchor = operation.masterAnchor || {};
+    const formalFamily = operation.formalFamily || operation.family;
     const formalOperation = {
       id: operation.id,
-      family: operation.formalFamily || operation.family,
+      family: formalFamily,
       expectedOutcome,
       anchor,
       semanticIntent: operation.semanticIntent || {},
     };
-    formalOperations.push(formalOperation);
     const reportedStatus = statusById.get(operation.id) || '';
     const nativeReadback = readbackById.get(operation.id) || null;
     const expectedReported = isC5V2RecordedOperationStatusGreen({
@@ -6974,19 +7066,25 @@ export function buildOracleProbe({
     let yalkenGreen = productSceneGreenById.get(operation.sceneId) === true;
     let yalkenEvidence = { sceneParagraphsExact: yalkenGreen };
     let commentThreadId = '';
-    if (operation.formalFamily === 'tracked_text_edit') {
+    let wordExpectedOutcomes = [expectedOutcome];
+    let yalkenExpectedOutcomes = [expectedOutcome];
+    let productLaneStatus = {};
+    if (formalFamily === 'tracked_text_edit') {
       const replacementPresent = operation.family === 'tracked_delete' || insertedText.includes(operation.replacementText || '');
       const sourcePresent = operation.family === 'tracked_insert' || deletedText.includes(operation.quote || '');
       const nativeVisibleReplacementPresent = operation.family === 'tracked_delete'
         || nativeVisibleReadback.includes(operation.replacementText || '');
       wordRawGreen = replacementPresent && sourcePresent && nativeVisibleReplacementPresent;
+      yalkenGreen = exactTextLaneGreen && yalkenGreen;
+      yalkenExpectedOutcomes = c5v2ExpectedOutcomesForLane(expectedOutcome, exactTextLaneGreen);
+      productLaneStatus = { exactText: typedLanes.exactText || '' };
       wordEvidence = {
         replacementPresent,
         sourcePresent,
         nativeVisibleReplacementPresent,
         sourceKind: 'raw-ooxml-revisions-plus-word-object-model-visible-snapshot',
       };
-    } else if (operation.formalFamily === 'root_comment') {
+    } else if (formalFamily === 'root_comment') {
       const marker = `C5V2 root ${operation.id}`;
       const nativeComments = comments.filter((comment) => comment.body.includes(marker));
       const nativeComment = nativeComments[0] || null;
@@ -7007,18 +7105,28 @@ export function buildOracleProbe({
         replayReceipts,
       });
       commentThreadId = canonicalBinding.canonicalThreadId;
-      yalkenGreen = yalkenGreen
+      yalkenGreen = rootCommentLaneGreen
         && canonicalCommentStateEvidence.ok
         && canonicalBinding.green;
+      yalkenExpectedOutcomes = c5v2ExpectedOutcomesForLane(expectedOutcome, rootCommentLaneGreen);
+      productLaneStatus = {
+        rootCommentsState: typedLanes.rootCommentsState || '',
+        commentsRepliesState: typedLanes.commentsRepliesState || '',
+      };
       wordEvidence = { marker, nativeCommentCount: nativeComments.length, rangeStartCount, rangeEndCount };
       yalkenEvidence = {
         ...yalkenEvidence,
         canonicalCommentStateGreen: canonicalCommentStateEvidence.ok,
         ...canonicalBinding,
       };
-    } else if (['reply', 'comment_state'].includes(operation.formalFamily)) {
+    } else if (['reply', 'comment_state'].includes(formalFamily)) {
       const nativeLifecycle = nativeLifecycleById.get(operation.id) || null;
       wordRawGreen = nativeLifecycle?.status === 'SAFE_APPLY';
+      wordExpectedOutcomes = wordRawGreen
+        ? [expectedOutcome]
+        : commentLifecycleTypedBlocked
+          ? [expectedOutcome, 'BLOCKED']
+          : [expectedOutcome];
       const lifecycleApplied = Number(commentPath.semanticOracle?.lifecycleApplied || 0);
       const lifecycleApplyReceipts = applyReceipts.filter((receipt) => (
         ['reply', 'comment_state'].includes(receipt?.family)
@@ -7045,8 +7153,13 @@ export function buildOracleProbe({
         && lifecycleApplied >= lifecycleOperationCount
         && lifecycleApplyReceipts.length >= lifecycleOperationCount
         && lifecycleReplayReceipts.length >= lifecycleOperationCount;
-      yalkenGreen = yalkenGreen
-        && productLifecycleGreen;
+      yalkenGreen = commentLifecycleLaneGreen && productLifecycleGreen;
+      yalkenExpectedOutcomes = c5v2ExpectedOutcomesForLane(expectedOutcome, commentLifecycleLaneGreen);
+      productLaneStatus = {
+        repliesState: typedLanes.repliesState || '',
+        commentState: typedLanes.commentState || '',
+        commentsRepliesState: typedLanes.commentsRepliesState || '',
+      };
       wordEvidence = {
         nativeLifecycleStatus: nativeLifecycle?.status || '',
         nativeLifecycleReason: nativeLifecycle?.reason || '',
@@ -7062,7 +7175,7 @@ export function buildOracleProbe({
         commandBusDispatchOnly: commentPath.commandBusDispatchOnly === true,
         directPortDispatch: commentPath.directPortDispatch === false,
       };
-    } else if (operation.formalFamily === 'formatting') {
+    } else if (formalFamily === 'formatting') {
       const formatting = verifyDocxFormattingEvidence(paragraphs, operation);
       wordRawGreen = formatting.ok === true;
       const truth = truthByScene.get(operation.sceneId);
@@ -7073,19 +7186,26 @@ export function buildOracleProbe({
         operation.masterAnchor?.graphemeEnd,
         operation.formattingKind === 'italic' ? 'italic' : 'bold',
       );
-      yalkenGreen = yalkenGreen && richMarkGreen;
+      yalkenGreen = formattingLaneGreen && richMarkGreen;
+      yalkenExpectedOutcomes = c5v2ExpectedOutcomesForLane(expectedOutcome, formattingLaneGreen);
+      productLaneStatus = { formatting: typedLanes.formatting || '' };
       wordEvidence = formatting;
       yalkenEvidence = { ...yalkenEvidence, richMarkGreen };
-    } else if (operation.formalFamily === 'structural') {
+    } else if (formalFamily === 'structural') {
       const structural = verifyDocxStructuralEvidence(paragraphs, operation);
       wordRawGreen = structural.ok === true;
       const truth = truthByScene.get(operation.sceneId);
       const block = truth?.authority?.blocks?.[operation.masterAnchor?.paragraphOrdinal];
       const structureGreen = block?.type === 'heading' && Number(block?.attrs?.level) === Number(operation.headingLevel || 2);
-      yalkenGreen = yalkenGreen && structureGreen;
+      yalkenGreen = structuralLaneGreen && structureGreen;
+      yalkenExpectedOutcomes = c5v2ExpectedOutcomesForLane(expectedOutcome, structuralLaneGreen);
+      productLaneStatus = { structural: typedLanes.structural || '' };
       wordEvidence = structural;
       yalkenEvidence = { ...yalkenEvidence, structureGreen, observedType: block?.type || '', observedLevel: Number(block?.attrs?.level || 0) };
     }
+    formalOperation.wordExpectedOutcomes = wordExpectedOutcomes;
+    formalOperation.yalkenExpectedOutcomes = yalkenExpectedOutcomes;
+    formalOperations.push(formalOperation);
     // Word's exact-match-then-replace correctly classifies a MANUAL-expected tracked
     // operation as BLOCKED when the quote is not unique in the scene (e.g., single
     // character h/g appearing hundreds of times). This is the designed fail-closed
@@ -7105,16 +7225,27 @@ export function buildOracleProbe({
       anchor,
       ...semantics,
     };
+    const wordOutcomeAccounted = expectedManualBlockedAsDesigned
+      || c5v2OutcomeAllowed(wordOperationsById[operation.id].outcome, wordExpectedOutcomes);
+    const yalkenOutcomeAccounted = c5v2OutcomeAllowed(
+      yalkenOperationsById[operation.id].outcome,
+      yalkenExpectedOutcomes,
+    );
     operationResults.push({
       operationId: operation.id,
       family: formalOperation.family,
       expectedOutcome,
+      wordExpectedOutcomes,
+      yalkenExpectedOutcomes,
       reportedStatus,
       nativeReadbackStatus: nativeReadback?.status || '',
       wordGreen,
       yalkenGreen,
+      wordOutcomeAccounted,
+      yalkenOutcomeAccounted,
       wordEvidence,
       yalkenEvidence,
+      productLaneStatus,
     });
   }
   const semanticOracle = validateC5V2SemanticOracle({
@@ -7137,7 +7268,7 @@ export function buildOracleProbe({
       const expectedManualBlockedAsDesigned = result.expectedOutcome === 'MANUAL'
         && result.reportedStatus === 'BLOCKED'
         && result.nativeReadbackStatus === 'BLOCKED';
-      return (result.wordGreen && result.yalkenGreen) || expectedManualBlockedAsDesigned;
+      return (result.wordOutcomeAccounted && result.yalkenOutcomeAccounted) || expectedManualBlockedAsDesigned;
     });
   return {
     schemaVersion: 'yalken.rtk.word.c5v2.complete-round-oracle.v1',
@@ -8068,10 +8199,11 @@ async function mainCumulative(options) {
         ledger: round.ledger || {},
         candidateAuthority: returnApplyCandidateAuthority,
         candidateAuthorityPath: returnApplyCandidateAuthorityPath,
+        allowNonGreenCandidateAuthority: true,
       });
-      if (returnApplyCandidateAuthorityAnchorValidation.ok !== true) {
+      if (!returnApplyCandidateAuthorityAnchorValidation?.anchorArtifact?.path) {
         throw new Error(
-          `C5V2_RETURN_APPLY_CANDIDATE_AUTHORITY_ANCHOR_NOT_GREEN:${round.roundId}:${returnApplyCandidateAuthorityAnchorValidation.failures.join(',')}`,
+          `C5V2_RETURN_APPLY_CANDIDATE_AUTHORITY_ANCHOR_NOT_DURABLY_VISIBLE:${round.roundId}:${returnApplyCandidateAuthorityAnchorValidation?.failures?.join(',') || 'NO_ANCHOR_ARTIFACT'}`,
         );
       }
       const oracleCapture = wordParsed.ops.length > 0 && round.ledger && fs.existsSync(round.returnedPath)

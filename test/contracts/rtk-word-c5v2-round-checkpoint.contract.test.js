@@ -510,6 +510,9 @@ test('C5V2 cumulative controller blocks the next export until the complete round
   assert.match(source, /await validateRound\(roundIndex, round/u);
   assert.match(source, /writeJsonAtomicDurable\(round\.oracleGatePath, roundOracleGate\)/u);
   assert.match(source, /C5V2_CUMULATIVE_COMPLETE_ROUND_ORACLE_FAILED/u);
+  assert.match(source, /const returnApplyGreen = returnApplyPayload\.ok === 1[\s\S]*returnApplyPayload\.returnApply\?\.ok === true/u);
+  assert.match(source, /round\.resumeCompletedRound === true && returnApplyGreen !== true/u);
+  assert.match(source, /allowNonGreenCandidateAuthority:\s*true/u);
   assert.match(source, /captureC5V2CompleteRoundOracle/u);
   assert.match(source, /hasCompletedRoundEvidence/u);
   assert.match(source, /deriveC5V2LedgerBoundExactSummary\(returnApply/u);
@@ -525,6 +528,9 @@ test('C5V2 cumulative controller blocks the next export until the complete round
   const authorityPersistIndex = source.indexOf('returnApplyCandidateAuthorityArtifact = writeJsonAtomicDurable');
   const authorityAnchorIndex = source.indexOf('writeC5V2ReturnApplyCandidateAuthorityAnchor', authorityPersistIndex);
   const completedBindingIndex = source.indexOf('const completedRoundReuseBinding = buildC5V2CompletedRoundReuseBinding', authorityAnchorIndex);
+  const returnApplyGreenIndex = source.indexOf('const returnApplyGreen = returnApplyPayload.ok === 1');
+  const liveValidateRoundIndex = source.indexOf('await validateRound(roundIndex, round', returnApplyGreenIndex);
+  const liveFailReturnApplyIndex = source.indexOf('if (returnApplyGreen !== true)', liveValidateRoundIndex);
   const durableCompletedReplayIndex = source.indexOf("exportTrigger: 'durable-completed-round-replay'");
   const resumedReturnApplyIndex = source.indexOf("phase: 'return-apply'", durableCompletedReplayIndex);
   const resumeRehydrateIndex = source.indexOf("phase: 'resume-rehydrate'", resumedReturnApplyIndex);
@@ -532,6 +538,9 @@ test('C5V2 cumulative controller blocks the next export until the complete round
   assert.ok(authorityPersistIndex > -1, 'raw returnApply candidate authority must be persisted durably');
   assert.ok(authorityAnchorIndex > authorityPersistIndex, 'main-owned keyed anchor must follow raw candidate persistence');
   assert.ok(completedBindingIndex > authorityAnchorIndex, 'keyed anchor persistence must precede completed gate binding');
+  assert.ok(returnApplyGreenIndex > -1, 'returnApply green status must be recorded as a value, not an early throw');
+  assert.ok(liveValidateRoundIndex > returnApplyGreenIndex, 'live failed returnApply must still run validateRound before route stop');
+  assert.ok(liveFailReturnApplyIndex > liveValidateRoundIndex, 'live failed returnApply route stop must happen after durable gate validation');
   assert.ok(durableCompletedReplayIndex > -1, 'resume branch must identify durable completed-round replay');
   assert.ok(resumedReturnApplyIndex > durableCompletedReplayIndex, 'completed replay must rebuild return-apply evidence first');
   assert.ok(resumeRehydrateIndex > resumedReturnApplyIndex, 'completed replay must restore reopened product truth before round gate reuse');

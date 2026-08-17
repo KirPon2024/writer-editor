@@ -11049,57 +11049,57 @@
     },
     {
       "filePath": "scripts/ops/rtk-release-claim-compiler-v0.mjs",
-      "sha256": "11214f96099268dd4560d36c240f65dfe667dfd49f46db53371d72f1df50bbe9",
-      "rationale": "Approve R2 offline release-claim compiler v0: finite exact-head receipt/check projection only, fail-closed on missing stale conflicting revoked unknown or unverifiable evidence, with no product runtime, provider, import/apply, UI, dependency, or universal release authority.",
-      "approvedBy": "owner-standing-grant:TASK_ID:R2_OFFLINE_RELEASE_CLAIM_COMPILER_V0",
-      "approvedAtUtc": "2026-08-16T15:40:00.000Z",
+      "sha256": "55b0827f18db5dd91845d524b4477c52e934595bc59921c3f0347279f18bf3f0",
+      "rationale": "Approve post-C1 exact-head rebind of R2 release-claim compiler constants and receipt provenance to merged main 1e426888/tree 8db0973; fail-closed evidence rules, DENY authorities, and NEEDS_MORE_EVIDENCE program verdict remain unchanged.",
+      "approvedBy": "owner-delegated:TASK_ID:POST_C1_RTK_AND_RELEASE_EVIDENCE_REBIND_V1",
+      "approvedAtUtc": "2026-08-17T03:19:05.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_COMPILER"
+      "authority": "OWNER_DELEGATED_POST_C1_RTK_RELEASE_EVIDENCE_REBIND"
     },
     {
       "filePath": "test/contracts/rtk-release-claim-compiler-v0.contract.test.js",
-      "sha256": "0111c72f09baf591795ae89a38fbf8dd097e17a54e704cc4efd8abe95c50fd41",
-      "rationale": "Approve R2 compiler contract tests covering scoped current report, wrong head/tree/build, missing checks, stale/superseded/transplanted/scope-forged receipts, revocation, provider conflict, expiry, UNKNOWN/ABSTAIN/STALE/CONFLICT non-PASS, independent oracle, and 9 semantic mutation killers.",
-      "approvedBy": "owner-standing-grant:TASK_ID:R2_OFFLINE_RELEASE_CLAIM_COMPILER_V0",
-      "approvedAtUtc": "2026-08-16T15:40:00.000Z",
+      "sha256": "f33c58ae76cd5820a16749ac22b7dd01c3aba092380308d1053d8b8c73581a97",
+      "rationale": "Approve post-C1 R2 contract rebind to merged main 1e426888/tree 8db0973 while preserving wrong-binding, stale, revoked, expired, conflict, UNKNOWN/ABSTAIN/STALE/CONFLICT, oracle, and 9-mutant fail-closed coverage.",
+      "approvedBy": "owner-delegated:TASK_ID:POST_C1_RTK_AND_RELEASE_EVIDENCE_REBIND_V1",
+      "approvedAtUtc": "2026-08-17T03:19:05.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_COMPILER"
+      "authority": "OWNER_DELEGATED_POST_C1_RTK_RELEASE_EVIDENCE_REBIND"
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_OFFLINE_RELEASE_CLAIM_COMPILER_V0_RECEIPT.json",
-      "sha256": "2fad726c983f61d03914675260c0513215e26d819b0a7f1887b27e58f6b07ad7",
-      "rationale": "Approve exact R2 compiler receipt for merged head 09ce09e/tree 5bf69c2: compiler ok, oracle ok, 9/9 mutations killed, C1 repair scoped verified, chain saturation and F3 physical owner/off-host restore remain BLOCKED, program verdict NEEDS_MORE_EVIDENCE.",
-      "approvedBy": "owner-standing-grant:TASK_ID:R2_OFFLINE_RELEASE_CLAIM_COMPILER_V0",
-      "approvedAtUtc": "2026-08-16T15:40:00.000Z",
+      "sha256": "1b489d3f76579c4cd66b30c0dd996b7771b618d554bf866e07e13403068e999c",
+      "rationale": "Approve exact R2 receipt rebind for merged main 1e426888/tree 8db0973: compiler ok, oracle ok, 9/9 mutations killed, one scoped C1 claim verified, chain saturation and F3 remain BLOCKED, program verdict NEEDS_MORE_EVIDENCE.",
+      "approvedBy": "owner-delegated:TASK_ID:POST_C1_RTK_AND_RELEASE_EVIDENCE_REBIND_V1",
+      "approvedAtUtc": "2026-08-17T03:19:05.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_COMPILER"
+      "authority": "OWNER_DELEGATED_POST_C1_RTK_RELEASE_EVIDENCE_REBIND"
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_RELEASE_APPLICABILITY_INVALIDATION_GRAPH_V1_RECEIPT.json",
-      "sha256": "fc8c82d70e0d740f86d4e39d8075c2032e5e9c52a62da46f45185682622fa1aa",
-      "rationale": "Approve exact R3 applicability invalidation graph receipt for merged head 9feaf137/tree 328b68e: compiler ok, oracle ok, 12/12 mutations killed, C1 repair applicable only to exact scope, chain saturation and F3 physical owner/off-host restore remain BLOCKED, program verdict NEEDS_MORE_EVIDENCE.",
-      "approvedBy": "owner-standing-grant:TASK_ID:R3_APPLICABILITY_INVALIDATION_GRAPH_V1",
-      "approvedAtUtc": "2026-08-16T17:20:00.000Z",
+      "sha256": "1935f3dfa9416135a77033982e03be99328ca1f4aefea651564b10307b24885b",
+      "rationale": "Approve exact R3 receipt rebind for merged main 1e426888/tree 8db0973: compiler ok, oracle ok, 12/12 mutations killed, C1 applies only to exact scope, chain saturation and F3 remain BLOCKED, program verdict NEEDS_MORE_EVIDENCE.",
+      "approvedBy": "owner-delegated:TASK_ID:POST_C1_RTK_AND_RELEASE_EVIDENCE_REBIND_V1",
+      "approvedAtUtc": "2026-08-17T03:19:05.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_INVALIDATION_GRAPH"
+      "authority": "OWNER_DELEGATED_POST_C1_RTK_RELEASE_EVIDENCE_REBIND"
     },
     {
       "filePath": "scripts/ops/rtk-release-applicability-invalidation-graph-v1.mjs",
-      "sha256": "c3a4b31ffaa41bae885c302733db5085e1fe71ba9577c1c403f04a44b023f039",
-      "rationale": "Approve R3 offline applicability invalidation graph compiler v1: finite exact-head receipt projection only, fail-closed on stale source receipt, supersession, revocation, provider expiry, conflicts, replay/transplant, UNKNOWN/ABSTAIN, and missing dependency; no product runtime, provider, import/apply, UI, dependency, or release authority.",
-      "approvedBy": "owner-standing-grant:TASK_ID:R3_APPLICABILITY_INVALIDATION_GRAPH_V1",
-      "approvedAtUtc": "2026-08-16T17:20:00.000Z",
+      "sha256": "09b13dedcfd2700ebb08570f3232801f89bf3702e9030d5435446edd93fd5183",
+      "rationale": "Approve post-C1 exact-head rebind of R3 applicability compiler and source receipt binding to merged main 1e426888/tree 8db0973; stale source receipt, conflict, replay, transplant, and fail-closed mutation behavior remain enforced.",
+      "approvedBy": "owner-delegated:TASK_ID:POST_C1_RTK_AND_RELEASE_EVIDENCE_REBIND_V1",
+      "approvedAtUtc": "2026-08-17T03:19:05.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_INVALIDATION_GRAPH"
+      "authority": "OWNER_DELEGATED_POST_C1_RTK_RELEASE_EVIDENCE_REBIND"
     },
     {
       "filePath": "test/contracts/rtk-release-applicability-invalidation-graph-v1.contract.test.js",
-      "sha256": "8d78fd7f5b2822d8aff075e1ba4cc8e20914aab849b32840790429ebd5abf487",
-      "rationale": "Approve R3 compiler contract tests covering exact-head graph, blocked claim non-upgrade, wrong binding, stale source receipts, revocation, supersession, provider expiry, conflict, transplant, replay, scope laundering, UNKNOWN/ABSTAIN non-applicability, independent oracle, and 12 semantic mutation killers.",
-      "approvedBy": "owner-standing-grant:TASK_ID:R3_APPLICABILITY_INVALIDATION_GRAPH_V1",
-      "approvedAtUtc": "2026-08-16T17:20:00.000Z",
+      "sha256": "637ea764c59ba3a0662f323d39df0cfefccf95f8a39f8224aaaba6cc1fa460f7",
+      "rationale": "Approve post-C1 R3 contract rebind to merged main 1e426888/tree 8db0973 while preserving blocked-claim non-upgrade, wrong binding, stale receipt, revocation, supersession, expiry, conflict, replay, scope-laundering, oracle, and 12-mutant coverage.",
+      "approvedBy": "owner-delegated:TASK_ID:POST_C1_RTK_AND_RELEASE_EVIDENCE_REBIND_V1",
+      "approvedAtUtc": "2026-08-17T03:19:05.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_INVALIDATION_GRAPH"
+      "authority": "OWNER_DELEGATED_POST_C1_RTK_RELEASE_EVIDENCE_REBIND"
     },
     {
       "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
@@ -11111,69 +11111,77 @@
       "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_PUBLICATION"
     },
     {"filePath":"docs/OPS/RTK/YALKEN_R4_POSTMERGE_VERIFICATION_RECEIPT_V1.json","sha256":"ab2c38b27edaf74962ba1d54374defe42ec641d5ad9ea3a7c300e70d4096e69c","rationale":"Approve exact R4 postmerge receipt import for RTK process-capability repair scope; no product runtime, UI, provider, release, Desktop V1.1, or program-verdict change.","approvedBy":"owner-direct:TASK_ID:RTK_STREAMING_AND_ORCH_PROCESS_CAPABILITY_REPAIR_V1","approvedAtUtc":"2026-08-17T00:12:44.000Z","approved":true,"authority":"OWNER_EXPLICIT_RTK_STREAMING_AND_PROCESS_CAPABILITY_REPAIR"},
-    {"filePath":"docs/OPS/RTK/YALKEN_RTK_STREAMING_ORCH_PROCESS_CAPABILITY_REPAIR_V1_RECEIPT.json","sha256":"588991fd3a4576bb351ea2264f8c4faaebc5704c4f3a69cfdfea94039512222e","rationale":"Approve exact local repair receipt for RTK streaming deadlines and process-capability evidence; no product runtime, UI, provider, release, Desktop V1.1, or program-verdict change.","approvedBy":"owner-direct:TASK_ID:RTK_STREAMING_AND_ORCH_PROCESS_CAPABILITY_REPAIR_V1","approvedAtUtc":"2026-08-17T00:12:44.000Z","approved":true,"authority":"OWNER_EXPLICIT_RTK_STREAMING_AND_PROCESS_CAPABILITY_REPAIR"},
+    {
+      "filePath": "docs/OPS/RTK/YALKEN_RTK_STREAMING_ORCH_PROCESS_CAPABILITY_REPAIR_V1_RECEIPT.json",
+      "sha256": "16384c8773491fdd86b4c8a1353903f71c2ba3363eaad01ca78f01a0dca1bf83",
+      "rationale": "Approve post-delivery rebind of the RTK streaming and process-capability repair receipt to PR 1574 merge and current post-C1 main 1e426888; delivery is closed, no product runtime, UI, provider, release, Desktop V1.1, or program-verdict change.",
+      "approvedBy": "owner-delegated:TASK_ID:POST_C1_RTK_AND_RELEASE_EVIDENCE_REBIND_V1",
+      "approvedAtUtc": "2026-08-17T03:19:05.000Z",
+      "approved": true,
+      "authority": "OWNER_DELEGATED_POST_C1_RTK_RELEASE_EVIDENCE_REBIND"
+    },
     {
       "filePath": "docs/OPS/RTK/YALKEN_RELEASE_CLAIM_PUBLICATION_V1_RECEIPT.json",
-      "sha256": "589f5870ba4b7e9806916e4d7b25c6f3bd580ed272067dbafa767f5dab25fdd8",
-      "rationale": "Approve R4 exact-head publication receipt: 3 claims accounted, 1 scoped non-release claim published, 2 claims blocked/not-published, required checks bound, active vetoes 0, independent oracle PASS, semantic mutations 12/12 killed, and program verdict remains NEEDS_MORE_EVIDENCE.",
-      "approvedBy": "owner-standing-grant:TASK_ID:R4_EXACT_HEAD_CLAIM_PUBLICATION_V1",
-      "approvedAtUtc": "2026-08-16T19:20:00.000Z",
+      "sha256": "d18217214d46e132b1f586cf47ae8337cc5e6ed5613aa786e0ba2ff7549d2f66",
+      "rationale": "Approve exact R4 publication receipt rebind for merged main 1e426888/tree 8db0973: 3 claims accounted, 1 scoped non-release claim published, 2 blocked/not-published, required checks bound, active vetoes 0, oracle ok, 12/12 mutations killed, program verdict NEEDS_MORE_EVIDENCE.",
+      "approvedBy": "owner-delegated:TASK_ID:POST_C1_RTK_AND_RELEASE_EVIDENCE_REBIND_V1",
+      "approvedAtUtc": "2026-08-17T03:19:05.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_PUBLICATION"
+      "authority": "OWNER_DELEGATED_POST_C1_RTK_RELEASE_EVIDENCE_REBIND"
     },
     {
       "filePath": "scripts/ops/rtk-release-claim-publication-v1.mjs",
-      "sha256": "190355a10aeab5ec5a032ba5df489fb0294e9a9d03f6cd75f89b1c106125bbf9",
-      "rationale": "Approve R4 offline exact-head claim publication compiler only: fail-closed on wrong head/tree, stale source receipt, missing required checks, unknown/abstain/conflict/stale/revoked/active vetoes, with all mutation/runtime/provider/UI authorities DENY.",
-      "approvedBy": "owner-standing-grant:TASK_ID:R4_EXACT_HEAD_CLAIM_PUBLICATION_V1",
-      "approvedAtUtc": "2026-08-16T19:20:00.000Z",
+      "sha256": "29d2b614dd77c4aaf9727335a8084b9e36cd2bf3a224bad061f1958c57af8035",
+      "rationale": "Approve post-C1 exact-head rebind of R4 publication compiler and R3 receipt binding to merged main 1e426888/tree 8db0973; wrong binding, stale receipt, missing check, unknown/abstain/conflict/stale/revoked/veto failure behavior remains enforced.",
+      "approvedBy": "owner-delegated:TASK_ID:POST_C1_RTK_AND_RELEASE_EVIDENCE_REBIND_V1",
+      "approvedAtUtc": "2026-08-17T03:19:05.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_PUBLICATION"
+      "authority": "OWNER_DELEGATED_POST_C1_RTK_RELEASE_EVIDENCE_REBIND"
     },
     {
       "filePath": "test/contracts/rtk-release-claim-publication-v1.contract.test.js",
-      "sha256": "fd45ab77269e5300a977d79109e9cdaf3d7a026d457c166da2de980d4d1d5592",
-      "rationale": "Approve R4 contract tests covering scoped non-release publication, no program READY upgrade, wrong head/tree rejection, stale R3 receipt rejection, missing required checks, unknown/abstain/stale/conflict/active-veto non-PASS behavior, independent oracle, and 12/12 killed semantic mutants.",
-      "approvedBy": "owner-standing-grant:TASK_ID:R4_EXACT_HEAD_CLAIM_PUBLICATION_V1",
-      "approvedAtUtc": "2026-08-16T19:20:00.000Z",
+      "sha256": "05e21d4e24641429134cb1b701c9befc08331ff006273eb686e8a7c3a5fcf46a",
+      "rationale": "Approve post-C1 R4 contract rebind to merged main 1e426888/tree 8db0973 while preserving scoped non-release publication, no READY upgrade, wrong binding, stale R3 receipt, missing checks, unknown/abstain/stale/conflict/veto, oracle, and 12-mutant coverage.",
+      "approvedBy": "owner-delegated:TASK_ID:POST_C1_RTK_AND_RELEASE_EVIDENCE_REBIND_V1",
+      "approvedAtUtc": "2026-08-17T03:19:05.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_RELEASE_TRUTH_PUBLICATION"
+      "authority": "OWNER_DELEGATED_POST_C1_RTK_RELEASE_EVIDENCE_REBIND"
     },
     {
       "filePath": "test/contracts/rtk-g0b-feasibility.contract.test.js",
-      "sha256": "4c52059426a9a814075198d29ea2779e0a48aa9b9b857875d4de7d676c58ca77",
-      "rationale": "Approve C1 allowlist rebind only: G0B dirty-tree scope guard admits the exact review-preview proof-carrier contract files required for return-intake authority authentication while preserving feasibility boundaries, outside-path negative checks, NEEDS_MORE_EVIDENCE, and denying runtime/UI/provider/import/apply/release authority.",
-      "approvedBy": "owner-standing-grant:TASK_ID:C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T02:21:21.000Z",
+      "sha256": "117904e3581582e4d4768db378dad7a82472c30e65e8b90749749c6364a423df",
+      "rationale": "Approve post-C1 G0B ActionEnvelope rebind admitting only the RTK streaming/process-capability repair receipt alongside existing R2/R3/R4 evidence files; feasibility boundaries and no product/runtime/UI/provider/release authority remain unchanged.",
+      "approvedBy": "owner-delegated:TASK_ID:POST_C1_RTK_AND_RELEASE_EVIDENCE_REBIND_V1",
+      "approvedAtUtc": "2026-08-17T03:19:05.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_C1_RETURN_INTAKE_AUTHORITY_REPAIR"
+      "authority": "OWNER_DELEGATED_POST_C1_RTK_RELEASE_EVIDENCE_REBIND"
     },
     {
       "filePath": "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",
-      "sha256": "1524ab6b61bd1173727ab45c07f867977fdd50a976e8a068abb6d84204080ae4",
-      "rationale": "Approve C1 allowlist rebind only: W1 dirty-tree scope guard admits the exact review-preview proof-carrier contract files required for return-intake authority authentication while preserving no-write vertical slice semantics, outside-path negative checks, NEEDS_MORE_EVIDENCE, and denying runtime/UI/provider/import/apply/release authority.",
-      "approvedBy": "owner-standing-grant:TASK_ID:C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T02:31:14.000Z",
+      "sha256": "1fcf306b59b29c2e3de10eb00254aee23db84ef2a5d819ec4f4d6094b2614b38",
+      "rationale": "Approve post-C1 W1 ActionEnvelope rebind admitting only the RTK streaming/process-capability repair receipt alongside existing R2/R3/R4 evidence files; no-write vertical slice semantics and no product/runtime/UI/provider/release authority remain unchanged.",
+      "approvedBy": "owner-delegated:TASK_ID:POST_C1_RTK_AND_RELEASE_EVIDENCE_REBIND_V1",
+      "approvedAtUtc": "2026-08-17T03:19:05.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_C1_RETURN_INTAKE_AUTHORITY_REPAIR"
+      "authority": "OWNER_DELEGATED_POST_C1_RTK_RELEASE_EVIDENCE_REBIND"
     },
     {
       "filePath": "test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js",
-      "sha256": "f6fe95965b2ea54c0a534eb95ad673ad0bcabb7d2a487e2d9343c1e1a0b45e5b",
-      "rationale": "Approve C1 allowlist rebind only: W2 dirty-tree scope guard admits the exact review-preview proof-carrier contract files required for return-intake authority authentication while preserving parser ReviewIR boundaries, outside-path negative checks, NEEDS_MORE_EVIDENCE, and denying runtime/UI/provider/import/apply/release authority.",
-      "approvedBy": "owner-standing-grant:TASK_ID:C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T02:31:14.000Z",
+      "sha256": "73141941a0ce5ed639f38202cf50a21d736f446134557ed658190306a4680db2",
+      "rationale": "Approve post-C1 W2 ActionEnvelope rebind admitting only the RTK streaming/process-capability repair receipt alongside existing R2/R3/R4 evidence files; parser ReviewIR boundaries and no product/runtime/UI/provider/release authority remain unchanged.",
+      "approvedBy": "owner-delegated:TASK_ID:POST_C1_RTK_AND_RELEASE_EVIDENCE_REBIND_V1",
+      "approvedAtUtc": "2026-08-17T03:19:05.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_C1_RETURN_INTAKE_AUTHORITY_REPAIR"
+      "authority": "OWNER_DELEGATED_POST_C1_RTK_RELEASE_EVIDENCE_REBIND"
     },
     {
       "filePath": "test/contracts/rtk-zip01-budget-crc-evidence.contract.test.js",
-      "sha256": "f32658d3039161b6c0f6a7aa498f4691e2b0976a644553c4507bc124e5ea46bc",
-      "rationale": "Approve C1 allowlist rebind only: ZIP01 dirty-tree scope guard admits the exact review-preview proof-carrier contract files required for return-intake authority authentication while preserving ZIP CRC semantics, outside-path negative checks, NEEDS_MORE_EVIDENCE, and denying runtime/UI/provider/import/apply/release authority.",
-      "approvedBy": "owner-standing-grant:TASK_ID:C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T02:31:14.000Z",
+      "sha256": "a1ac9144957ab61f4c8db0772b91aa57be2d5ae6ba9462719375e990757445aa",
+      "rationale": "Approve post-C1 ZIP01 ActionEnvelope rebind admitting only the RTK streaming/process-capability repair receipt alongside existing R2/R3/R4 evidence files; ZIP CRC semantics and no product/runtime/UI/provider/release authority remain unchanged.",
+      "approvedBy": "owner-delegated:TASK_ID:POST_C1_RTK_AND_RELEASE_EVIDENCE_REBIND_V1",
+      "approvedAtUtc": "2026-08-17T03:19:05.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_C1_RETURN_INTAKE_AUTHORITY_REPAIR"
+      "authority": "OWNER_DELEGATED_POST_C1_RTK_RELEASE_EVIDENCE_REBIND"
     },
     {
       "filePath": ".github/workflows/rtk-required.yml",

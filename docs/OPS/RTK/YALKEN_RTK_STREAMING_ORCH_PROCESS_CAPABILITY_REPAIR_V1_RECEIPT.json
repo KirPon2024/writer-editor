@@ -2,12 +2,19 @@
   "schemaVersion": "yalken.rtk.streamingOrchProcessCapabilityRepair.receipt.v1",
   "taskId": "RTK_STREAMING_AND_ORCH_PROCESS_CAPABILITY_REPAIR_V1",
   "createdAtUtc": "2026-08-17T00:12:44Z",
-  "status": "LOCAL_GREEN_PENDING_DELIVERY",
+  "updatedAtUtc": "2026-08-17T03:19:05Z",
+  "status": "MERGED_POSTMERGE_VERIFIED_CURRENT_MAIN_REBOUND",
   "repo": {
-    "headSha": "22bdd475f9bc2957aa6d3f5bbce50af347f2c93b",
-    "headTree": "b64d48e96978c121c09e15b65fd31423230d27fa",
-    "baseSha": "62df8ac34b2980a6f12934cafb4f5b478fef33d4",
-    "baseTree": "46cae5b878a6934c56917d213a341ec479ca50c9"
+    "currentHeadSha": "1e426888608608472530bafeee65a438a87f3128",
+    "currentHeadTree": "8db09733574644e8092077a10414b6e51b0d9349",
+    "repairMergeSha": "abf89d94e649df0db096dd3a8706d48117d5c575",
+    "repairMergeTree": "d77241d2e479f7170ba5a814a86508d040429070",
+    "repairBaseSha": "62df8ac34b2980a6f12934cafb4f5b478fef33d4",
+    "repairBaseTree": "46cae5b878a6934c56917d213a341ec479ca50c9",
+    "repairHeadSha": "4196d07ee5698f9611d611efd5b8ead6b3cef1f9",
+    "repairHeadTree": "d77241d2e479f7170ba5a814a86508d040429070",
+    "sourceCheckpointSha": "22bdd475f9bc2957aa6d3f5bbce50af347f2c93b",
+    "sourceCheckpointTree": "b64d48e96978c121c09e15b65fd31423230d27fa"
   },
   "scope": {
     "changedBasenames": ["rtk-required.yml", "RTK_TEST_GRAPH_CATALOG_V1.json", "YALKEN_R4_POSTMERGE_VERIFICATION_RECEIPT_V1.json", "YALKEN_RTK_STREAMING_ORCH_PROCESS_CAPABILITY_REPAIR_V1_RECEIPT.json", "2026-08-17--rtk-streaming-orch-process-capability-repair-v1.md", "rtk-word-c5v2-terminal-orchestrator.mjs", "run-rtk-tests.mjs", "rtk-test-graph-catalog.contract.test.js", "rtk-word-c5v2-terminal-orchestrator.contract.test.js"],
@@ -17,6 +24,34 @@
     "dependencyChanged": false,
     "networkRuntimeChanged": false
   },
+  "pullRequestDelivery": {
+    "number": 1574,
+    "state": "MERGED",
+    "draftAtMerge": false,
+    "baseRef": "main",
+    "baseSha": "62df8ac34b2980a6f12934cafb4f5b478fef33d4",
+    "headRef": "codex/rtk-streaming-orch-process-capability-repair-v1-migration-20260817",
+    "headSha": "4196d07ee5698f9611d611efd5b8ead6b3cef1f9",
+    "mergeSha": "abf89d94e649df0db096dd3a8706d48117d5c575",
+    "mergedAtUtc": "2026-08-17T00:59:33Z",
+    "requiredChecks": [
+      {"name": "oss-policy", "status": "COMPLETED", "conclusion": "SUCCESS", "completedAtUtc": "2026-08-17T00:43:31Z"},
+      {"name": "rtk-required", "status": "COMPLETED", "conclusion": "SUCCESS", "completedAtUtc": "2026-08-17T00:58:56Z"},
+      {"name": "x1-runtime-parity (ubuntu-latest)", "status": "COMPLETED", "conclusion": "SUCCESS", "completedAtUtc": "2026-08-17T00:43:40Z"},
+      {"name": "x1-runtime-parity (windows-latest)", "status": "COMPLETED", "conclusion": "SUCCESS", "completedAtUtc": "2026-08-17T00:43:52Z"}
+    ],
+    "postmergeChecks": [
+      {"name": "ops_vector_close", "status": "COMPLETED", "conclusion": "SUCCESS", "completedAtUtc": "2026-08-17T00:59:50Z"}
+    ]
+  },
+  "downstreamCurrentMainRebind": {
+    "currentMainSha": "1e426888608608472530bafeee65a438a87f3128",
+    "currentMainTree": "8db09733574644e8092077a10414b6e51b0d9349",
+    "containsRepairMerge": true,
+    "containsC1ReturnIntakeMerge": true,
+    "currentMainPr": 1575,
+    "currentMainRtkRequired": {"status": "COMPLETED", "conclusion": "SUCCESS", "completedAtUtc": "2026-08-17T02:52:54Z"}
+  },
   "executedEvidence": {
     "agentBootstrap": { "exitCode": 0, "status": "READY_FOR_READ_AND_DECLARATION" },
     "agentPreflight": { "exitCode": 0, "bindingBaseSha": "22bdd475f9bc2957aa6d3f5bbce50af347f2c93b", "scopeInCount": 10, "scopeOutCount": 15 },
@@ -24,18 +59,22 @@
     "focusedContracts": { "exitCode": 0, "tests": 91, "pass": 91, "fail": 0, "cancelled": 0, "skipped": 0, "todo": 0, "durationMs": 237702.776541 },
     "fixtureSurvivorCleanup": { "verifiedFixtureProcesses": 19, "verifiedProcessGroups": 15, "remainingFixtureProcesses": 0, "removedTempRoots": 8, "remainingTempRoots": 0 },
     "maintainedRtk": { "exitCode": 0, "fileCount": 121, "tests": 1003, "pass": 1003, "fail": 0, "cancelled": 0, "skipped": 0, "todo": 0, "durationMs": 243538.57875, "progressHeartbeatsObserved": true, "processGroupCleanup": "RTK_PROCESS_GROUP_CLEAN", "leaseCleanupOk": true },
-    "postRtkResidue": { "matchingProcesses": 0, "matchingTempRoots": 0 }
+    "postRtkResidue": { "matchingProcesses": 0, "matchingTempRoots": 0 },
+    "currentMainPostC1Rtk": { "tests": 1004, "pass": 1004, "fail": 0, "cancelled": 0, "skipped": 0, "todo": 0, "processGroupCleanup": "RTK_PROCESS_GROUP_CLEAN", "leaseCleanupOk": true }
   },
   "acceptance": {
     "injectableMonotonicDeadlinesTerminateFrozenStalledJumpingClocks": true,
     "processProbesIndependentlyBoundAndTypedFailClosed": true,
     "hiddenPidTimeoutThrowIndeterminateNeverSafeEmpty": true,
-    "normalSuccessFullAccessProcessEnvironmentGreen": true
+    "normalSuccessFullAccessProcessEnvironmentGreen": true,
+    "deliveryChainClosedByPrMerge": true,
+    "currentMainReboundAfterC1Merge": true
   },
   "nonClaims": [
-    "Local evidence is not a PR, CI, merge, postmerge, release, Desktop V1.1, or final program verdict.",
+    "This receipt proves only RTK required-test infrastructure delivery and current-main evidence rebinding.",
+    "The source checkpoint remains provenance only and is not green delivery by itself.",
     "R4 scope remains unchanged and the program verdict remains NEEDS_MORE_EVIDENCE.",
-    "No user Drive files, product runtime data, provider data, UI, dependency, or network runtime was touched."
+    "No release readiness, Desktop V1.1 canonization, product runtime data, provider data, UI, dependency, network runtime, user documents, or user Drive files are claimed or touched."
   ],
-  "nextRequiredStep": "PUSH_PR_REQUIRED_CI_EXPECTED_HEAD_MERGE_POSTMERGE_GATES"
+  "nextRequiredStep": "CLOSED_DELIVERED_REBOUND_TO_CURRENT_MAIN_SELECT_EXACTLY_ONE_NEXT_BOUNDED_CONTOUR"
 }

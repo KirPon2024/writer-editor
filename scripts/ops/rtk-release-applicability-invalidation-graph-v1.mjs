@@ -8,10 +8,10 @@ import { spawnSync } from 'node:child_process';
 export const INPUT_SCHEMA_VERSION = 'yalken.releaseApplicabilityInvalidationGraph.input.v1';
 export const RECEIPT_SCHEMA_VERSION = 'yalken.releaseApplicabilityInvalidationGraph.receipt.v1';
 export const COMPILER_ID = 'R3_APPLICABILITY_INVALIDATION_GRAPH_V1';
-export const CURRENT_HEAD = '9feaf1376884e3fba75fed4783056313a128f31f';
-export const CURRENT_TREE = '328b68ed9875e6f6e7bf967e3d94c67e32518193';
-export const R2_RECEIPT_HEAD = '09ce09efd5ed11a3d68ae97bb0d0db6f0ba1ecba';
-export const R2_RECEIPT_TREE = '5bf69c22ade725f965870c40cfa6d63643691ac5';
+export const CURRENT_HEAD = '1e426888608608472530bafeee65a438a87f3128';
+export const CURRENT_TREE = '8db09733574644e8092077a10414b6e51b0d9349';
+export const R2_RECEIPT_HEAD = '1e426888608608472530bafeee65a438a87f3128';
+export const R2_RECEIPT_TREE = '8db09733574644e8092077a10414b6e51b0d9349';
 export const DEFAULT_RECEIPT_PATH = 'docs/OPS/RTK/YALKEN_RELEASE_APPLICABILITY_INVALIDATION_GRAPH_V1_RECEIPT.json';
 
 const SHA40_RE = /^[0-9a-f]{40}$/u;
@@ -500,7 +500,7 @@ export function runApplicabilityMutationCatalog(input) {
   const mutants = [
     ['missing-source-receipt', (data) => { data.sourceReceipts = []; }],
     ['stale-claim-head', (data) => { data.claims[0].exactHeadSha = '1'.repeat(40); }],
-    ['stale-receipt-head', (data) => { data.claims[0].receiptRefs[0].headSha = R2_RECEIPT_HEAD; }],
+    ['stale-receipt-head', (data) => { data.claims[0].receiptRefs[0].headSha = '3'.repeat(40); }],
     ['active-revocation', (data) => { data.revocations = [{ claimId: primaryId, active: true, reason: 'MUTANT_REVOCATION' }]; }],
     ['supersession', (data) => { data.supersessions = [{ fromClaimId: primaryId, toClaimId: `${primaryId}_V2`, active: true, reason: 'MUTANT_SUPERSESSION' }]; }],
     ['expired-provider', (data) => { data.nowUtc = '2026-10-01T00:00:00.000Z'; }],
@@ -532,8 +532,8 @@ export function buildCurrentApplicabilityGraphInput(repoRoot = repoRootFromHere(
   return {
     schemaVersion: INPUT_SCHEMA_VERSION,
     compilerId: COMPILER_ID,
-    generatedAtUtc: '2026-08-16T17:20:00.000Z',
-    nowUtc: '2026-08-16T17:20:00.000Z',
+    generatedAtUtc: '2026-08-17T03:19:05.000Z',
+    nowUtc: '2026-08-17T03:19:05.000Z',
     exact: {
       headSha,
       treeSha,
@@ -562,7 +562,7 @@ export function buildCurrentApplicabilityGraphInput(repoRoot = repoRootFromHere(
         build: '16.112.26081010',
         status: 'CURRENT_VERIFIED',
         observedAtUtc: '2026-08-16T13:13:00.000Z',
-        expiresAtUtc: '2026-09-15T00:00:00.000Z',
+        expiresAtUtc: '2026-09-16T00:00:00.000Z',
         evidenceDigest: sha256File(repoRoot, 'docs/OPS/RTK/WORD_BUILD_PROFILE_REGISTRY_V1.json'),
       },
     ],
@@ -588,7 +588,7 @@ export function buildCurrentApplicabilityGraphInput(repoRoot = repoRootFromHere(
         outcomes: ['PASS'],
         receiptRefs: [
           {
-            id: 'receipt:pr1570-postmerge-c1-return-intake-authentication-repair',
+            id: 'receipt:pr1575-postmerge-c1-return-intake-authentication-repair',
             claimId: 'C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1',
             profileId: 'word-mac-16.112-26081010',
             scopeId: 'return-intake-authority-carrier-authentication-repair',

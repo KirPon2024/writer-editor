@@ -136,6 +136,8 @@ const ALLOWLIST = [
   TEST_PATH,
   'test/contracts/rtk-word-c5v2-full-manuscript-product-export.contract.test.js',
   'test/contracts/rtk-word-saturation-c02-authority-carrier.contract.test.js',
+  'test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js',
+  'test/contracts/revision-bridge-docx-review-preview-session.contract.test.js',
   W1_TEST_PATH,
   W2_TEST_PATH,
   W3_APPLY_CORE_PATH,

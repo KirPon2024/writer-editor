@@ -15,6 +15,7 @@ const CATALOG_PATH = 'docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json';
 const ALLOWLIST = [
   // ZIP-01 Pass 2c fixture repair (real CRC32 in builder headers).
   'test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js',
+  'test/contracts/revision-bridge-docx-review-preview-session.contract.test.js',
   TEST_PATH,
   'package.json',
   CATALOG_PATH,

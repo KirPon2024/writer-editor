@@ -176,6 +176,20 @@ test('C5V2 manuscript source supports one scene and rejects duplicate, reordered
   });
 });
 
+test('C5V2 full-manuscript export activation uses bridge CAS digest and fails closed on round transition failure', () => {
+  const mainText = readText('src/main.js');
+  const helperStart = mainText.indexOf('async function transitionPendingDocxReviewRoundToPublishedActive');
+  const helperEnd = mainText.indexOf('async function handleReviewDocxExportPacketCommandSurface', helperStart);
+  assert.notEqual(helperStart, -1);
+  assert.notEqual(helperEnd, -1);
+  const helperText = mainText.slice(helperStart, helperEnd);
+
+  assert.match(helperText, /buildDocxReviewRoundV3BridgeStoreDigest\(bridgeStore\)/u);
+  assert.doesNotMatch(helperText, /buildRoundRecordV3StoreRecord\(bridgeStore\)/u);
+  assert.match(helperText, /RTK_ROUND_PUBLISH_TRANSITION_FAILED/u);
+  assert.match(helperText, /throw error/u);
+});
+
 test('C5V2 full-manuscript source binds rich paragraph FormatIR and raw observable scene authority', () => {
   const { buildFullManuscriptDocxReviewPacketSource } = require(path.join(
     REPO_ROOT,

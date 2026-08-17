@@ -128,6 +128,8 @@ const ALLOWLIST = [
   'src/export/docx/fullManuscriptDocxReviewPacketSource.js',
   'src/io/revisionBridge/reviewTransportPackageParserV2.mjs',
   G0B_TEST_PATH,
+  'test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js',
+  'test/contracts/revision-bridge-docx-review-preview-session.contract.test.js',
   TEST_PATH,
   'test/contracts/rtk-word-c5v2-full-manuscript-product-export.contract.test.js',
   'test/contracts/rtk-word-saturation-c02-authority-carrier.contract.test.js',

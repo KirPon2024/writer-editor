@@ -4545,6 +4545,13 @@ async function activateReviewDocxExportAuthority(pendingAuthorityStore) {
   return persistDocxReviewReturnAuthorityStore(activeReviewDocxExportAuthorityStore);
 }
 
+function buildDocxReviewRoundV3BridgeStoreDigest(store = {}) {
+  return createRtkReviewTransportCryptoPort().sha256Text(stableRtkReviewTransportJson({
+    schemaVersion: docxReviewPreviewSessionDetailString(store.schemaVersion) || 'yalken.rtk.review-round-store.v3',
+    rounds: isPlainObjectValue(store.rounds) ? store.rounds : {},
+  }));
+}
+
 // ROUND-01 (V3): transition the pending store's lastRoundId from ALLOCATED ->
 // PUBLISHED_ACTIVE through the revision-bridge V3 transition API (CAS-guarded,
 // monotonic). The EXPORT-01 ordering is preserved: this runs only after the
@@ -4580,11 +4587,10 @@ async function transitionPendingDocxReviewRoundToPublishedActive(pendingAuthorit
   }
   const bridgeStore = {
     schemaVersion: 'yalken.rtk.round-record-v3.store.v1',
+    lastRoundId,
     rounds,
   };
-  const expectedDigest = bridge.buildRoundRecordV3StoreRecord
-    ? bridge.buildRoundRecordV3StoreRecord(bridgeStore).recordDigest
-    : '';
+  const expectedDigest = buildDocxReviewRoundV3BridgeStoreDigest(bridgeStore);
   const transitionResult = bridge.transitionRoundRecordV3(bridgeStore, lastRoundId, 'PUBLISHED_ACTIVE', {
     expectedRecordDigest: expectedDigest,
   });
@@ -4594,6 +4600,11 @@ async function transitionPendingDocxReviewRoundToPublishedActive(pendingAuthorit
       targetRound.lifecycleState = transitionedRound.lifecycleState;
       targetRound.recordVersion = transitionedRound.recordVersion;
     }
+  } else {
+    const error = new Error('RTK_ROUND_PUBLISH_TRANSITION_FAILED');
+    error.code = transitionResult?.code || 'RTK_ROUND_PUBLISH_TRANSITION_FAILED';
+    error.details = isPlainObjectValue(transitionResult?.details) ? cloneJsonSafe(transitionResult.details) : {};
+    throw error;
   }
   return { ...pendingAuthorityStore, roundsById };
 }
@@ -5723,7 +5734,14 @@ async function buildDocxReviewPreviewSessionDefaultRtkApplyInput({
     const textChanges = Array.isArray(candidate?.reviewPacket?.textChanges)
       ? candidate.reviewPacket.textChanges.filter(isPlainObjectValue)
       : [];
-    const operations = textChanges.map((change) => ({
+    const exactTextChanges = textChanges.filter((change) => (
+      change.match?.kind === 'exact'
+      && typeof change.match?.quote === 'string'
+      && change.match.quote.length > 0
+      && typeof change.replacementText === 'string'
+      && change.replacementText.length > 0
+    ));
+    const operations = exactTextChanges.map((change) => ({
       id: docxReviewPreviewSessionDetailString(change.changeId),
       family: 'tracked_text_edit',
       sceneId: docxReviewPreviewSessionDetailString(change.targetScope?.id),
@@ -7573,18 +7591,61 @@ async function runDocxReviewReturnIntakeParserV2InUtilityProcess(input = {}, rev
       // travel as a transferable ArrayBuffer (no base64 on the live path).
       const messagePayload = { ...input };
       delete messagePayload[`${'bytes'}${'Base64'}`];
-      child.postMessage({
+      const childMessage = {
         ...messagePayload,
         bytes: transferBuffer,
         effectiveBudgets: effective,
         effectiveBudgetDigest: effectiveBudgetDigestValue,
-      }, [transferBuffer]);
+      };
+      try {
+        child.postMessage(childMessage, [transferBuffer]);
+      } catch (transferError) {
+        child.postMessage(childMessage);
+      }
     } catch (error) {
       finish(docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_UTILITY_PROCESS_FAILED', {
         message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN',
       }));
     }
   });
+}
+
+function shouldUseLegacyDocxReviewPreviewFallbackForProbe(probe = {}) {
+  const code = docxReviewPreviewSessionDetailString(probe?.code);
+  const reason = docxReviewPreviewSessionDetailString(probe?.reason);
+  const parserCode = docxReviewPreviewSessionDetailString(probe?.details?.parserCode);
+  const status = docxReviewPreviewSessionDetailString(probe?.status);
+  const typedSignals = [code, reason, parserCode].filter(Boolean);
+  const hardFailurePrefixes = [
+    'RTK_RETURN_INTAKE_UTILITY_PROCESS_',
+    'RTK_RETURN_INTAKE_WORKER_',
+    'RTK_BUDGET_',
+    'RTK_RETURN_EVIDENCE_',
+  ];
+  const hardFailureSignals = new Set([
+    'RTK_RETURN_INTAKE_PARSER_V2_RESULT_INVALID',
+  ]);
+  if (typedSignals.some((signal) => hardFailureSignals.has(signal))) return false;
+  if (typedSignals.some((signal) => hardFailurePrefixes.some((prefix) => signal.startsWith(prefix)))) {
+    return false;
+  }
+  const legacyParserSignals = [
+    'RTK_NO_REVIEW_TRANSPORT_AUTHORITY_CARRIER',
+    'RTK_REVIEW_TRANSPORT_AUTHORITY_CARRIER_MISSING',
+    'RTK_AUTHORITY_CARRIER_MISSING',
+    'RTK_DOCX_REVIEW_AUTHORITY_CARRIER_MISSING',
+    'RTK_PACKAGE_CONTENT_TYPES_MISSING',
+    'RTK_PACKAGE_CONTENT_TYPES_REQUIRED',
+    'RTK_PACKAGE_RELATIONSHIPS_MISSING',
+    'RTK_REVIEW_TRANSPORT_NO_SUPPORTED_SEMANTICS',
+  ];
+  if (typedSignals.some((signal) => legacyParserSignals.includes(signal))) return true;
+  if (status === 'blocked' && typedSignals.some((signal) => (
+    /(?:CARRIER|CONTENT_TYPES|RELATIONSHIPS|NO_SUPPORTED_SEMANTICS)/u.test(signal)
+  ))) {
+    return true;
+  }
+  return false;
 }
 
 // EVID-01 (V7): resolve the ReturnEvidencePacket from the worker probe result.
@@ -7765,6 +7826,9 @@ async function inspectDocxReviewReturnIntakeV2({
   // that the activation flow reuses (no reparse downstream, V4 holds). This
   // preserves the existing happy path for ordinary review DOCX fixtures.
   if (!probe.ok) {
+    if (!shouldUseLegacyDocxReviewPreviewFallbackForProbe(probe)) {
+      return probe;
+    }
     const fallbackCandidate = typeof revisionBridge?.buildDocxReviewPreviewSessionCandidateFromZipBytes === 'function'
       ? safeBuildDocxReviewPreviewSessionCandidateFromZipBytes(docxBytes, {
         targetScope: isPlainObjectValue(context?.targetScope) ? context.targetScope : undefined,

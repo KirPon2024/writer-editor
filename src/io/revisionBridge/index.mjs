@@ -5253,17 +5253,22 @@ function returnEvidenceTextChangeFromRevision(revision, options = {}) {
   const kind = operation === 'insert' ? 'insert' : (operation === 'delete' ? 'delete' : 'replace');
   const text = normalizeString(revision?.text);
   const createdAt = normalizeString(revision?.date || options.createdAt);
+  const fullManuscriptSceneBound = authority.resolved === true
+    && targetScope.type === 'scene'
+    && Boolean(targetScope.id)
+    && kind === 'delete'
+    && Boolean(text);
   const changeHash = revisionBlockHash({
     kind,
     nativeRevisionId: normalizeString(revision?.nativeRevisionId),
     textDigest: normalizeString(revision?.textDigest),
     targetScope,
   });
-  return {
+  const change = {
     changeId: `docx-tracked-${kind}-${changeHash.slice(0, 16)}`,
     targetScope,
     match: {
-      kind: 'manual',
+      kind: fullManuscriptSceneBound ? 'exact' : 'manual',
       quote: kind === 'insert' ? '' : text,
       prefix: '',
       suffix: '',
@@ -5271,6 +5276,11 @@ function returnEvidenceTextChangeFromRevision(revision, options = {}) {
     replacementText: kind === 'delete' ? '' : text,
     createdAt,
   };
+  if (fullManuscriptSceneBound) {
+    change.sourceAuthority = 'full-manuscript-export-map-paragraph-signal';
+    change.typedUnsupportedSiblingsRemainPending = true;
+  }
+  return change;
 }
 
 // Build replacement-grouped textChanges from parser textRevisions the same way

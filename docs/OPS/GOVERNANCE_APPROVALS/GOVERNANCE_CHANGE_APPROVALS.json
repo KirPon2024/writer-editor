@@ -9267,12 +9267,12 @@
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-comment-lifecycle-return-runtime.contract.test.js",
-      "sha256": "c15bcceb2535e32da753e0946b43bc5f7f27ec717d38054253bc6c9aafceb5b2",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_WINDOW_VISIBILITY_STABILITY_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T09:23:41.000Z",
-      "rationale": "Approve focused C5V2 lifecycle contract coverage that requires the generated Word script to attempt bounded window revival before zero-window failure and to retain typed diagnostics without converting hidden Word windows into readiness or apply authority.",
+      "sha256": "8e894e8cf9e76163f26b9bd29c0ea65791a10b126c0ade183f3b0c60fc871a32",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_LIFECYCLE_VISIBILITY_FAILCLOSED_V1",
+      "approvedAtUtc": "2026-08-17T20:34:46.000Z",
+      "rationale": "Approve focused lifecycle contract coverage proving missing per-operation snapshot evidence fails closed and raw Word READBACK SAFE_APPLY rows cannot override native lifecycle verification failure.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_WINDOW_VISIBILITY_STABILITY_REPAIR_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_LIFECYCLE_VISIBILITY_FAILCLOSED_V1"
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-ledger-distribution.contract.test.js",
@@ -11103,12 +11103,12 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "ccf8fd8e0132dd123bb51b3bf7058440eab494c6cffbb18c61a7a06dd3837393",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T19:23:26.000Z",
-      "rationale": "Approve C5V2 physical Word canary operation-author stamping and operationId-bound exact-ledger matching that prevents anonymous hash-only candidates from satisfying expected exact operations.",
+      "sha256": "d742e658e992bd3a9b036cb6e9500874ecca6bc4e54aa816e31732af381126c1",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_LIFECYCLE_VISIBILITY_FAILCLOSED_V1",
+      "approvedAtUtc": "2026-08-17T20:34:46.000Z",
+      "rationale": "Approve C5V2 physical canary lifecycle evidence repair so missing per-operation native snapshots and hidden or indeterminate Word UI remain MANUAL_OR_BLOCKED instead of becoming safe readback, root-missing misdiagnosis, or oracle PASS.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_LIFECYCLE_VISIBILITY_FAILCLOSED_V1"
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-terminal-orchestrator.mjs",

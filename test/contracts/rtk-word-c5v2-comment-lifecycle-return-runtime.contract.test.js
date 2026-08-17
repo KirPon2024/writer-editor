@@ -623,6 +623,43 @@ test('N2 native lifecycle proof requires reopened parent and requested done sema
   }
 });
 
+test('N2 native lifecycle proof fails closed when per-operation snapshot evidence is missing', async () => {
+  const canary = await import(CANARY_PATH);
+  const ledger = {
+    operations: [
+      { id: 'reply-missing', family: 'reply_attempt', targetRootOperationId: 'root-missing' },
+      { id: 'state-missing', family: 'state_attempt', targetRootOperationId: 'root-missing', requestedState: 'resolved' },
+    ],
+  };
+  const result = canary.verifyNativeCommentLifecycleSemantics({
+    ledger,
+    snapshotXmlByOperationId: {},
+  });
+
+  assert.equal(result.ok, false);
+  assert.equal(result.verifiedCount, 0);
+  assert.equal(result.blockedCount, 2);
+  assert.deepEqual(result.results.map((item) => item.reason), [
+    'NATIVE_LIFECYCLE_SNAPSHOT_MISSING',
+    'NATIVE_LIFECYCLE_SNAPSHOT_MISSING',
+  ]);
+  assert.deepEqual(result.results.map((item) => item.status), [
+    'MANUAL_OR_BLOCKED',
+    'MANUAL_OR_BLOCKED',
+  ]);
+
+  const parsed = canary.parseWordOutput([
+    'OP|reply-missing|MANUAL_OR_BLOCKED',
+    'READBACK|reply-missing|SAFE_APPLY|WORD_OBJECT_MODEL_REOPENED',
+  ].join('\n'));
+  const verified = canary.applyNativeLifecycleVerification(parsed, result);
+  assert.deepEqual(verified.ops.filter((item) => item.id === 'reply-missing'), [{
+    id: 'reply-missing',
+    status: 'MANUAL_OR_BLOCKED',
+    reason: 'NATIVE_LIFECYCLE_SNAPSHOT_MISSING',
+  }]);
+});
+
 test('N2 native lifecycle proof covers delete and resolve-reopen without typed-limit fallback', async () => {
   const canary = await import(CANARY_PATH);
   const ledger = {

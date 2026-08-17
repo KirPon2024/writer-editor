@@ -6270,11 +6270,22 @@ export function verifyNativeCommentLifecycleSemantics({ ledger, snapshotXmlByOpe
   }
   const results = [...typedResults];
   for (const operation of lifecycleOperations) {
+    const requestedState = operation.requestedState === 'reopened' ? 'reopen' : operation.requestedState;
+    const snapshotPresent = Object.prototype.hasOwnProperty.call(snapshotXmlByOperationId, operation.id);
+    if (!snapshotPresent) {
+      results.push({
+        operationId: operation.id,
+        status: 'MANUAL_OR_BLOCKED',
+        reason: 'NATIVE_LIFECYCLE_SNAPSHOT_MISSING',
+        requestedState,
+        targetRootOperationId: operation.targetRootOperationId || '',
+      });
+      continue;
+    }
     const snapshot = snapshotXmlByOperationId[operation.id] || {};
     const graph = inspectNativeCommentLifecycleXml(snapshot);
     const rootBody = `C5V2 root ${operation.targetRootOperationId || ''}`;
     const roots = graph.comments.filter((comment) => comment.body.includes(rootBody));
-    const requestedState = operation.requestedState === 'reopened' ? 'reopen' : operation.requestedState;
     if (operation.family === 'state_attempt' && requestedState === 'delete') {
       results.push({
         operationId: operation.id,
@@ -6351,7 +6362,11 @@ export function applyNativeLifecycleVerification(wordParsed, verification) {
     ...(wordParsed || {}),
     ops: [
       ...nonLifecycleOps,
-      ...[...lifecycleById.values()].map((result) => ({ id: result.operationId, status: result.status })),
+      ...[...lifecycleById.values()].map((result) => ({
+        id: result.operationId,
+        status: result.status,
+        reason: result.reason || '',
+      })),
     ],
     nativeLifecycleVerification: verification,
   };
@@ -7125,11 +7140,7 @@ export function buildOracleProbe({
     };
     const reportedStatus = statusById.get(operation.id) || '';
     const nativeReadback = readbackById.get(operation.id) || null;
-    const expectedReported = isC5V2RecordedOperationStatusGreen({
-      expectedOutcome,
-      reportedStatus,
-      nativeReadbackStatus: nativeReadback?.status || '',
-    });
+    let effectiveNativeReadbackStatus = nativeReadback?.status || '';
     let wordRawGreen = false;
     let wordEvidence = {};
     let yalkenGreen = productSceneGreenById.get(operation.sceneId) === true;
@@ -7190,6 +7201,7 @@ export function buildOracleProbe({
       };
     } else if (['reply', 'comment_state'].includes(formalFamily)) {
       const nativeLifecycle = nativeLifecycleById.get(operation.id) || null;
+      effectiveNativeReadbackStatus = nativeLifecycle?.status || '';
       wordRawGreen = nativeLifecycle?.status === 'SAFE_APPLY';
       wordExpectedOutcomes = wordRawGreen
         ? [expectedOutcome]
@@ -7281,7 +7293,12 @@ export function buildOracleProbe({
     // behavior for a manual candidate and must not fail the oracle.
     const expectedManualBlockedAsDesigned = expectedOutcome === 'MANUAL'
       && reportedStatus === 'BLOCKED'
-      && nativeReadback?.status === 'BLOCKED';
+      && effectiveNativeReadbackStatus === 'BLOCKED';
+    const expectedReported = isC5V2RecordedOperationStatusGreen({
+      expectedOutcome,
+      reportedStatus,
+      nativeReadbackStatus: effectiveNativeReadbackStatus,
+    });
     const wordGreen = (expectedReported && wordRawGreen) || expectedManualBlockedAsDesigned;
     const semantics = oracleSemantics(operation, commentThreadId);
     wordOperationsById[operation.id] = {
@@ -7307,7 +7324,7 @@ export function buildOracleProbe({
       wordExpectedOutcomes,
       yalkenExpectedOutcomes,
       reportedStatus,
-      nativeReadbackStatus: nativeReadback?.status || '',
+      nativeReadbackStatus: effectiveNativeReadbackStatus,
       wordGreen,
       yalkenGreen,
       wordOutcomeAccounted,

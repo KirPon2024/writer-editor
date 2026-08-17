@@ -6477,12 +6477,12 @@
     },
     {
       "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "610636e738a94d7f8eb4988b78b86279eec603c8e0fbb50d20aabc94979976e2",
-      "approvedBy": "owner-standing-grant:TASK_ID:C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T02:21:21.000Z",
-      "rationale": "Approve C1 bridge runtime repair: authenticated full-book return carriers bind exact replacements to product authority, while unbound or legacy preview paths stay fail-closed and cannot become safe apply authority.",
+      "sha256": "06faf97629e57c7aaa5a9c6827c189170311f71635090eb897c555724f38c932",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T16:25:00.000Z",
+      "rationale": "Approve bounded C1 full-manuscript packet parser repair: authenticated scene-bound standalone delete revisions become exact empty-replacement candidates, while unbound legacy inserts/deletes remain manual and cannot impersonate safe product apply authority.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_C1_RETURN_INTAKE_AUTHORITY_REPAIR"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_REPAIR_V1"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportApplyStore.mjs",
@@ -7524,12 +7524,12 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-review-preview-session.contract.test.js",
-      "sha256": "07e0c1b82e9140ff101696648c16f9a54329faba646f9956c21c27d41f0fa6b2",
-      "approvedBy": "owner-standing-grant:TASK_ID:C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T02:21:21.000Z",
-      "rationale": "Approve C1 bridge-session regression coverage: exact replacement authority is admitted only from authenticated full-book carriers and legacy preview fallback cannot impersonate safe product apply.",
+      "sha256": "f45b39d74afd4f12f55b51e53e1861a508bb69a04be77623c32379a88db60c85",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_REPAIR_V1",
+      "approvedAtUtc": "2026-08-17T16:25:00.000Z",
+      "rationale": "Approve focused regression coverage for authenticated full-manuscript standalone delete exactness with empty replacement text while preserving no storage/apply authority and manual-only behavior without authenticated export-map binding.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_C1_RETURN_INTAKE_AUTHORITY_REPAIR"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_REPAIR_V1"
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-zip-inventory-materializer.contract.test.js",

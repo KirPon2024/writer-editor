@@ -418,6 +418,55 @@ test('DOCX review preview session candidate: evidence packet full manuscript par
   assertNoStorageOrApplyAuthority(result);
 });
 
+test('DOCX review preview session candidate: evidence packet full manuscript standalone delete exposes exact lane', async () => {
+  const bridge = await loadBridge();
+  const result = bridge.buildDocxReviewPreviewSessionCandidateFromEvidence({
+    returnedProjection: {
+      schemaVersion: 'yalken.rtk.review-ir.v2',
+      sourceMode: 'TRACKED',
+      textRevisions: [
+        {
+          operation: 'delete',
+          nativeRevisionId: 'del-current-profile-standalone-1',
+          paragraphIndex: 11,
+          text: 'obsolete bounded phrase',
+        },
+      ],
+      commentThreads: [],
+      commentPlacements: [],
+      structureChanges: [],
+      formattingDeltas: [],
+    },
+    diagnostics: [],
+  }, {
+    targetScope: { type: 'scene', id: 'roman/currently-open.txt' },
+    fullManuscriptExportMap: {
+      scenes: [
+        {
+          sceneId: 'roman/chapter-11.txt',
+          blocks: [
+            {
+              blockId: 'scene-11-block-0012',
+              documentParagraphIndex: 11,
+              wordSignals: [],
+            },
+          ],
+        },
+      ],
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.status, 'ready');
+  assert.equal(result.reviewPacket.textChanges.length, 1);
+  assert.deepEqual(result.reviewPacket.textChanges[0].targetScope, { type: 'scene', id: 'roman/chapter-11.txt' });
+  assert.equal(result.reviewPacket.textChanges[0].match.kind, 'exact');
+  assert.equal(result.reviewPacket.textChanges[0].match.quote, 'obsolete bounded phrase');
+  assert.equal(result.reviewPacket.textChanges[0].replacementText, '');
+  assert.equal(result.reviewPacket.textChanges[0].sourceAuthority, 'full-manuscript-export-map-paragraph-signal');
+  assertNoStorageOrApplyAuthority(result);
+});
+
 test('DOCX review preview session candidate: evidence packet without authenticated map remains manual-only', async () => {
   const bridge = await loadBridge();
   const result = bridge.buildDocxReviewPreviewSessionCandidateFromEvidence({

@@ -1,10 +1,10 @@
 const assert = require('node:assert/strict');
 const test = require('node:test');
 
-const CURRENT_HEAD = 'a668fd01fc44146738263e50cba2608d9785c91b';
-const CURRENT_TREE = 'a5564c34c70013e0c35e11eecb402d2f4677e42c';
-const R2_RECEIPT_HEAD = 'a668fd01fc44146738263e50cba2608d9785c91b';
-const R2_RECEIPT_TREE = 'a5564c34c70013e0c35e11eecb402d2f4677e42c';
+const CURRENT_HEAD = 'dcb38b3295bccd675b82c3bc837ecc345887978b';
+const CURRENT_TREE = '955fa8f7585f5be0b9a8fc2af5db324e6d225332';
+const R2_RECEIPT_HEAD = 'dcb38b3295bccd675b82c3bc837ecc345887978b';
+const R2_RECEIPT_TREE = '955fa8f7585f5be0b9a8fc2af5db324e6d225332';
 
 async function loadGraphCompiler() {
   return import('../../scripts/ops/rtk-release-applicability-invalidation-graph-v1.mjs');
@@ -83,6 +83,11 @@ function baseInput(overrides = {}) {
     generatedAtUtc: '2026-08-16T17:20:00.000Z',
     nowUtc: '2026-08-16T17:20:00.000Z',
     exact: {
+      headSha: CURRENT_HEAD,
+      treeSha: CURRENT_TREE,
+      buildId: 'postmerge-local-node-22.22.2-npm-10.9.7',
+    },
+    expectedExact: {
       headSha: CURRENT_HEAD,
       treeSha: CURRENT_TREE,
       buildId: 'postmerge-local-node-22.22.2-npm-10.9.7',
@@ -200,13 +205,30 @@ test('R3 compiler fails closed on wrong exact binding and stale source receipts'
     exact: { headSha: '0'.repeat(40), treeSha: CURRENT_TREE, buildId: 'postmerge-local-node-22.22.2-npm-10.9.7' },
   }));
   assert.equal(wrongHead.ok, false);
+  assert.match(wrongHead.errors.join('\n'), /EXACT_HEAD_MISMATCH/);
   assert.equal(nodeFor(wrongHead, 'C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1').state, 'STALE');
+
+  const missingExpected = compileApplicabilityInvalidationGraph(baseInput({ expectedExact: undefined }));
+  assert.equal(missingExpected.ok, false);
+  assert.match(missingExpected.errors.join('\n'), /EXPECTED_EXACT_BINDING_MISSING/);
+
+  const forgedExpected = compileApplicabilityInvalidationGraph(baseInput({
+    expectedExact: { headSha: '2'.repeat(40), treeSha: CURRENT_TREE, buildId: 'postmerge-local-node-22.22.2-npm-10.9.7' },
+  }));
+  assert.equal(forgedExpected.ok, false);
+  assert.match(forgedExpected.errors.join('\n'), /EXACT_HEAD_MISMATCH/);
 
   const missingSource = compileApplicabilityInvalidationGraph(baseInput({
     sourceReceipts: [],
   }));
   assert.equal(nodeFor(missingSource, 'C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1').state, 'BLOCKED');
   assert.match(nodeFor(missingSource, 'C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1').reasons.join('\n'), /SOURCE_RECEIPT_MISSING/);
+
+  const staleSource = compileApplicabilityInvalidationGraph(baseInput({
+    sourceReceipts: [sourceReceipt({ headSha: '3'.repeat(40) })],
+  }));
+  assert.equal(nodeFor(staleSource, 'C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1').state, 'STALE');
+  assert.match(nodeFor(staleSource, 'C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1').reasons.join('\n'), /SOURCE_RECEIPT_HEAD_STALE/);
 });
 
 test('R3 propagates revocation and supersession through dependent claims', async () => {

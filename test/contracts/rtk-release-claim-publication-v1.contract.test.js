@@ -1,10 +1,10 @@
 const assert = require('node:assert/strict');
 const test = require('node:test');
 
-const CURRENT_HEAD = 'a668fd01fc44146738263e50cba2608d9785c91b';
-const CURRENT_TREE = 'a5564c34c70013e0c35e11eecb402d2f4677e42c';
-const R3_HEAD = 'a668fd01fc44146738263e50cba2608d9785c91b';
-const R3_TREE = 'a5564c34c70013e0c35e11eecb402d2f4677e42c';
+const CURRENT_HEAD = 'dcb38b3295bccd675b82c3bc837ecc345887978b';
+const CURRENT_TREE = '955fa8f7585f5be0b9a8fc2af5db324e6d225332';
+const R3_HEAD = 'dcb38b3295bccd675b82c3bc837ecc345887978b';
+const R3_TREE = '955fa8f7585f5be0b9a8fc2af5db324e6d225332';
 
 async function loadPublisher() {
   return import('../../scripts/ops/rtk-release-claim-publication-v1.mjs');
@@ -26,8 +26,8 @@ function baseR3Receipt(overrides = {}) {
         id: 'receipt:r2-offline-release-claim-compiler-v0',
         schemaVersion: 'yalken.releaseClaimCompiler.receipt.v0',
         compilerId: 'R2_OFFLINE_RELEASE_CLAIM_COMPILER_V0',
-        headSha: 'a668fd01fc44146738263e50cba2608d9785c91b',
-        treeSha: 'a5564c34c70013e0c35e11eecb402d2f4677e42c',
+        headSha: CURRENT_HEAD,
+        treeSha: CURRENT_TREE,
         evidenceDigest: `sha256:${'2'.repeat(64)}`,
       },
     ],
@@ -116,6 +116,11 @@ function baseInput(overrides = {}) {
       treeSha: CURRENT_TREE,
       buildId: 'postmerge-local-node-22.22.2-npm-10.9.7',
     },
+    expectedExact: {
+      headSha: CURRENT_HEAD,
+      treeSha: CURRENT_TREE,
+      buildId: 'postmerge-local-node-22.22.2-npm-10.9.7',
+    },
     requiredChecks: [
       { name: 'oss-policy', status: 'completed', conclusion: 'success', headSha: CURRENT_HEAD },
       { name: 'rtk-required', status: 'completed', conclusion: 'success', headSha: CURRENT_HEAD },
@@ -179,6 +184,16 @@ test('R4 fails closed on wrong current head tree stale R3 receipt or missing req
   }));
   assert.equal(wrongTree.ok, false);
   assert.match(wrongTree.errors.join('\n'), /EXACT_TREE_MISMATCH/);
+
+  const missingExpected = publishExactHeadClaims(baseInput({ expectedExact: undefined }));
+  assert.equal(missingExpected.ok, false);
+  assert.match(missingExpected.errors.join('\n'), /EXPECTED_EXACT_BINDING_MISSING/);
+
+  const forgedExpected = publishExactHeadClaims(baseInput({
+    expectedExact: { headSha: '3'.repeat(40), treeSha: CURRENT_TREE, buildId: 'postmerge-local-node-22.22.2-npm-10.9.7' },
+  }));
+  assert.equal(forgedExpected.ok, false);
+  assert.match(forgedExpected.errors.join('\n'), /EXACT_HEAD_MISMATCH/);
 
   const staleR3 = publishExactHeadClaims(baseInput({
     r3Receipt: baseR3Receipt({ exact: { headSha: '2'.repeat(40), treeSha: R3_TREE, buildId: 'old' } }),

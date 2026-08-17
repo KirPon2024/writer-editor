@@ -4,8 +4,8 @@
   "ok": true,
   "generatedAtUtc": "2026-08-17T04:11:14.000Z",
   "exact": {
-    "headSha": "a668fd01fc44146738263e50cba2608d9785c91b",
-    "treeSha": "a5564c34c70013e0c35e11eecb402d2f4677e42c",
+    "headSha": "dcb38b3295bccd675b82c3bc837ecc345887978b",
+    "treeSha": "955fa8f7585f5be0b9a8fc2af5db324e6d225332",
     "buildId": "postmerge-local-node-22.22.2-npm-10.9.7"
   },
   "inputReceipts": [
@@ -13,9 +13,9 @@
       "id": "receipt:r2-offline-release-claim-compiler-v0",
       "schemaVersion": "yalken.releaseClaimCompiler.receipt.v0",
       "compilerId": "R2_OFFLINE_RELEASE_CLAIM_COMPILER_V0",
-      "headSha": "a668fd01fc44146738263e50cba2608d9785c91b",
-      "treeSha": "a5564c34c70013e0c35e11eecb402d2f4677e42c",
-      "evidenceDigest": "sha256:c77e5ebe9eb7c34e5af72ae2cc65f14b0dbdae818eefc1c3837ab8e3cae6f5e1"
+      "headSha": "dcb38b3295bccd675b82c3bc837ecc345887978b",
+      "treeSha": "955fa8f7585f5be0b9a8fc2af5db324e6d225332",
+      "evidenceDigest": "sha256:fc5106dcae33b27ff1f17479a080da9b541bd946ede3a79163f153c89f402851"
     }
   ],
   "programVerdict": "NEEDS_MORE_EVIDENCE",

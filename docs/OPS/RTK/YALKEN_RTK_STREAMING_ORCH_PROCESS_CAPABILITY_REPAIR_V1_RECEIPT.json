@@ -2,11 +2,11 @@
   "schemaVersion": "yalken.rtk.streamingOrchProcessCapabilityRepair.receipt.v1",
   "taskId": "RTK_STREAMING_AND_ORCH_PROCESS_CAPABILITY_REPAIR_V1",
   "createdAtUtc": "2026-08-17T00:12:44Z",
-  "updatedAtUtc": "2026-08-17T04:11:14Z",
-  "status": "MERGED_POSTMERGE_VERIFIED_CURRENT_MAIN_REBOUND",
+  "updatedAtUtc": "2026-08-17T04:58:32Z",
+  "status": "MERGED_POSTMERGE_VERIFIED_CURRENT_MAIN_LIVE_EXACT_BOUND",
   "repo": {
-    "currentHeadSha": "a668fd01fc44146738263e50cba2608d9785c91b",
-    "currentHeadTree": "a5564c34c70013e0c35e11eecb402d2f4677e42c",
+    "currentHeadSha": "dcb38b3295bccd675b82c3bc837ecc345887978b",
+    "currentHeadTree": "955fa8f7585f5be0b9a8fc2af5db324e6d225332",
     "repairMergeSha": "abf89d94e649df0db096dd3a8706d48117d5c575",
     "repairMergeTree": "d77241d2e479f7170ba5a814a86508d040429070",
     "repairBaseSha": "62df8ac34b2980a6f12934cafb4f5b478fef33d4",
@@ -45,13 +45,13 @@
     ]
   },
   "downstreamCurrentMainRebind": {
-    "currentMainSha": "a668fd01fc44146738263e50cba2608d9785c91b",
-    "currentMainTree": "a5564c34c70013e0c35e11eecb402d2f4677e42c",
+    "currentMainSha": "dcb38b3295bccd675b82c3bc837ecc345887978b",
+    "currentMainTree": "955fa8f7585f5be0b9a8fc2af5db324e6d225332",
     "containsRepairMerge": true,
     "containsC1ReturnIntakeMerge": true,
-    "currentMainPr": 1576,
+    "currentMainPr": 1577,
     "containsReleaseEvidenceRebindMerge": true,
-    "currentMainRtkRequired": {"status": "COMPLETED", "conclusion": "SUCCESS", "completedAtUtc": "2026-08-17T04:07:55Z"}
+    "currentMainRtkRequired": {"status": "COMPLETED", "conclusion": "SUCCESS", "completedAtUtc": "2026-08-17T04:52:18Z"}
   },
   "executedEvidence": {
     "agentBootstrap": { "exitCode": 0, "status": "READY_FOR_READ_AND_DECLARATION" },

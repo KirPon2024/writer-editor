@@ -73,9 +73,10 @@ test('C1 Word full-book route receipt is fail-closed blocker evidence, not route
   assert.equal(receipt.denominator.route.expectedRouteCount, 1);
   assert.equal(receipt.denominator.route.actualRouteCount, 0);
   assert.equal(receipt.denominator.route.fullBookProcessed, false);
-  assert.match(receipt.denominator.route.reason, /word-chunk-008 native materialization root-count boundary/u);
-  assert.match(receipt.denominator.route.reason, /complete round oracle/u);
-  assert.match(receipt.denominator.route.reason, /C5V2_ORACLE_YALKEN_OUTCOME_MISMATCH/u);
+  assert.match(receipt.denominator.route.reason, /complete-round semantic oracle passed/u);
+  assert.match(receipt.denominator.route.reason, /PRODUCT_RETURN_APPLY_NOT_GREEN/u);
+  assert.match(receipt.denominator.route.reason, /NATIVE_LIFECYCLE_VERIFICATION_NOT_GREEN/u);
+  assert.match(receipt.denominator.route.reason, /COMPLETED_ROUND_REUSE_BINDING_NOT_GREEN/u);
   assert.equal(receipt.failureCounters.unknownAsPass, 0);
   assert.equal(receipt.failureCounters.abstainAsPass, 0);
   assert.equal(receipt.failureCounters.conflictingAsPass, 0);
@@ -97,15 +98,14 @@ test('C1 Word full-book physical evidence binds exact blocker facts and no termi
   assert.match(receipt.physicalEvidence.resultSha256, /^sha256:[0-9a-f]{64}$/u);
   assert.match(receipt.physicalEvidence.sourceDocxSha256, /^sha256:[0-9a-f]{64}$/u);
   assert.match(receipt.physicalEvidence.returnedDocxSha256, /^sha256:[0-9a-f]{64}$/u);
-  assert.equal(receipt.physicalEvidence.runId, 'c1-native-root-count-repair-w06-r1-20260817');
-  assert.equal(receipt.physicalEvidence.previousRedRunId, 'c1-window-visibility-repair-w06-r1-20260817');
+  assert.equal(receipt.physicalEvidence.runId, 'c1-round01-oracle-repair-w06-20260817');
+  assert.equal(receipt.physicalEvidence.previousRedRunId, 'c1-native-root-count-repair-w06-r1-20260817');
   assert.equal(receipt.physicalEvidence.previousNativeMaterializationBlockedRunId, 'c1-window-visibility-repair-w06-r1-20260817');
-  assert.equal(receipt.physicalEvidence.stageResult.headSha, '279dde31d1bcf4c6a7cc80f6acfd034f9bdd600b');
+  assert.equal(receipt.physicalEvidence.stageResult.headSha, '6aee73c0770357cd0b84bf5e8388cee38071c798');
   assert.equal(receipt.physicalEvidence.stageResult.operationCount, 2000);
   assert.equal(receipt.physicalEvidence.stageResult.roundGreen, false);
-  assert.equal(receipt.physicalEvidence.stageResult.oracleFailureCount, 367);
-  assert.equal(receipt.physicalEvidence.stageResult.yalkenOutcomeMismatchCount, 334);
-  assert.equal(receipt.physicalEvidence.stageResult.wordOutcomeMismatchCount, 33);
+  assert.equal(receipt.physicalEvidence.stageResult.roundGateCount, 5);
+  assert.equal(receipt.physicalEvidence.stageResult.failureMarkerCode, 'ORCH_CHILD_EXIT_NONZERO:1:none');
   assert.equal(receipt.physicalEvidence.masterLedger.ledgerDigest, 'sha256:e075c4942b590d2622bf6202a4db1f33259f97367e2612a78673c7a54adf2d71');
   assert.equal(receipt.physicalEvidence.masterLedger.operationIdSetDigest, 'sha256:efd614ddf59d445f06da9a3f491053004ba7019246a97ad35515aaa29b773f32');
   assert.equal(receipt.physicalEvidence.round01.plannedOperationCount, 379);
@@ -114,13 +114,17 @@ test('C1 Word full-book physical evidence binds exact blocker facts and no termi
   assert.equal(receipt.physicalEvidence.round01.lastCompletedCheckpoint, 'word-chunk-008');
   assert.equal(receipt.physicalEvidence.round01.failedChunk, 'complete-round-oracle');
   assert.equal(receipt.physicalEvidence.round01.returnedReady, true);
-  assert.equal(receipt.physicalEvidence.round01.failureCode, 'C5V2_COMPLETE_ROUND_ORACLE_FAILED');
-  assert.match(receipt.physicalEvidence.round01.failureError, /C5V2_COMPLETE_ROUND_ORACLE_FAILED:367/u);
-  assert.match(receipt.physicalEvidence.round01.failureError, /C5V2_ORACLE_YALKEN_OUTCOME_MISMATCH=334/u);
-  assert.match(receipt.physicalEvidence.round01.failureError, /C5V2_ORACLE_WORD_OUTCOME_MISMATCH=33/u);
-  assert.equal(receipt.physicalEvidence.round01.oracleOutcomeMismatch.failureCount, 367);
-  assert.equal(receipt.physicalEvidence.round01.oracleOutcomeMismatch.yalkenOutcomeMismatchCount, 334);
-  assert.equal(receipt.physicalEvidence.round01.oracleOutcomeMismatch.wordOutcomeMismatchCount, 33);
+  assert.equal(receipt.physicalEvidence.round01.failureCode, 'C5V2_COMPLETE_ROUND_ORACLE_GATE_FAILED');
+  assert.match(receipt.physicalEvidence.round01.failureError, /PRODUCT_RETURN_APPLY_NOT_GREEN/u);
+  assert.match(receipt.physicalEvidence.round01.failureError, /NATIVE_LIFECYCLE_VERIFICATION_NOT_GREEN/u);
+  assert.match(receipt.physicalEvidence.round01.failureError, /COMPLETED_ROUND_REUSE_BINDING_NOT_GREEN/u);
+  assert.equal(receipt.physicalEvidence.round01.completeRoundOracleGreen, true);
+  assert.equal(receipt.physicalEvidence.round01.productReturnApplyGreen, false);
+  assert.equal(receipt.physicalEvidence.round01.nativeLifecycleVerificationGreen, false);
+  assert.equal(receipt.physicalEvidence.round01.nativeLifecycleCoverage.ok, false);
+  assert.equal(receipt.physicalEvidence.round01.nativeLifecycleCoverage.verifiedCount, 5);
+  assert.equal(receipt.physicalEvidence.round01.nativeLifecycleCoverage.blockedCount, 33);
+  assert.equal(receipt.physicalEvidence.round01.completedRoundReuseBindingOk, false);
   assert.equal(receipt.physicalEvidence.round01.nativeMaterializationRootCountRepairObserved, true);
   assert.equal(receipt.physicalEvidence.resultStatus.plannedOperations, 2000);
   assert.equal(receipt.physicalEvidence.resultStatus.attemptedOperations, 379);
@@ -133,33 +137,33 @@ test('C1 Word full-book physical evidence binds exact blocker facts and no termi
   assert.equal(receipt.physicalEvidence.resultStatus.roundOracleGateOk, false);
   assert.equal(receipt.physicalEvidence.resultStatus.terminalOperationAggregatePresent, false);
   assert.equal(receipt.physicalEvidence.resultStatus.returnIntakeAuthenticated, true);
-  assert.equal(receipt.physicalEvidence.resultStatus.returnIntakeStatus, 'authenticated-return-intake-executed-complete-round-oracle-failed');
+  assert.equal(receipt.physicalEvidence.resultStatus.returnIntakeStatus, 'authenticated-return-ir-ready');
   assert.equal(receipt.physicalEvidence.resultStatus.returnedDocxReady, true);
   assert.match(receipt.physicalEvidence.resultStatus.wordWindowDiagnostics, /RETURNED_READY_TRUE/u);
-  assert.match(receipt.physicalEvidence.resultStatus.wordWindowDiagnostics, /REPLY_STATE_NATIVE_UI_TARGET_UNAVAILABLE_OR_AMBIGUOUS_TYPED_LIMITATIONS_RECORDED/u);
-  assert.match(receipt.physicalEvidence.resultStatus.wrapperError, /C5V2_COMPLETE_ROUND_ORACLE_FAILED/u);
-  assert.equal(receipt.physicalEvidence.resultStatus.oracleFailureCount, 367);
-  assert.equal(receipt.physicalEvidence.resultStatus.yalkenOutcomeMismatchCount, 334);
-  assert.equal(receipt.physicalEvidence.resultStatus.wordOutcomeMismatchCount, 33);
+  assert.match(receipt.physicalEvidence.resultStatus.wordWindowDiagnostics, /COMPLETE_ROUND_ORACLE_GREEN_TRUE/u);
+  assert.match(receipt.physicalEvidence.resultStatus.wrapperError, /C5V2_COMPLETE_ROUND_ORACLE_GATE_FAILED/u);
+  assert.equal(receipt.physicalEvidence.resultStatus.productReturnApplyFailure, 'PRODUCT_RETURN_APPLY_NOT_GREEN');
+  assert.equal(receipt.physicalEvidence.resultStatus.nativeLifecycleVerifiedCount, 5);
+  assert.equal(receipt.physicalEvidence.resultStatus.nativeLifecycleBlockedCount, 33);
   assert.equal(receipt.physicalEvidence.resultStatus.falseAutoApplyCount, 0);
   assert.equal(receipt.physicalEvidence.returnedArtifactPresent, true);
   assert.equal(receipt.physicalEvidence.returnedArtifactSha256, receipt.physicalEvidence.returnedDocxSha256);
   assert.equal(receipt.physicalEvidence.returnedPackageObservation.modernMode15Ready, true);
   assert.equal(receipt.physicalEvidence.returnedPackageObservation.customDocumentPropertyCarrierSurvived, true);
   assert.equal(receipt.physicalEvidence.returnedPackageObservation.customXmlCarrierSurvived, true);
-  assert.equal(receipt.physicalEvidence.returnedPackageObservation.authorityReason, 'RETURNED_DOCX_READY_BUT_COMPLETE_ROUND_ORACLE_FAILED');
+  assert.equal(receipt.physicalEvidence.returnedPackageObservation.authorityReason, 'RETURNED_DOCX_READY_BUT_APPLY_LIFECYCLE_REUSE_GATE_FAILED');
   assert.equal(receipt.physicalEvidence.independentParserProbe.ok, false);
-  assert.equal(receipt.physicalEvidence.independentParserProbe.status, 'not-run-complete-round-oracle-failed');
-  assert.equal(receipt.physicalEvidence.independentParserProbe.sourceMode, 'RETURNED_WORD_ARTIFACT_READY_ORACLE_FAILED');
+  assert.equal(receipt.physicalEvidence.independentParserProbe.status, 'not-run-apply-lifecycle-reuse-gate-failed');
+  assert.equal(receipt.physicalEvidence.independentParserProbe.sourceMode, 'RETURNED_WORD_ARTIFACT_READY_GATE_FAILED');
   assert.equal(receipt.physicalEvidence.independentParserProbe.canWriteManuscript, false);
-  assert.equal(receipt.physicalEvidence.independentParserProbe.selectedCarrier, 'RETURNED_READY_MARKER_ONLY_NOT_ROUTE_PASS');
+  assert.equal(receipt.physicalEvidence.independentParserProbe.selectedCarrier, 'RETURNED_READY_APPLY_LIFECYCLE_REUSE_GATE_BLOCKED_NOT_ROUTE_PASS');
   assert.equal(receipt.physicalEvidence.independentParserProbe.authorityVerified, false);
-  assert.equal(receipt.physicalEvidence.independentParserProbe.authorityReason, 'COMPLETE_ROUND_ORACLE_FAILED');
+  assert.equal(receipt.physicalEvidence.independentParserProbe.authorityReason, 'APPLY_LIFECYCLE_REUSE_GATE_FAILED');
   assert.equal(receipt.physicalEvidence.independentParserProbe.payloadProfileId, '');
   assert.equal(receipt.physicalEvidence.independentParserProbe.payloadProfileIdStale, false);
-  assert.equal(receipt.physicalEvidence.independentParserProbe.reviewCounts.textRevisions, 379);
+  assert.equal(receipt.physicalEvidence.independentParserProbe.reviewCounts.textRevisions, 398);
   assert.equal(receipt.physicalEvidence.independentParserProbe.reviewCounts.commentThreads, 54);
-  assert.equal(receipt.physicalEvidence.independentParserProbe.reviewCounts.formattingDeltas, 0);
+  assert.equal(receipt.physicalEvidence.independentParserProbe.reviewCounts.formattingDeltas, 304);
 
   for (const oracleName of Object.keys(receipt.oracles)) {
     assert.notEqual(receipt.oracles[oracleName].status, 'PASS', oracleName);
@@ -181,7 +185,7 @@ test('C1 Word full-book route updates only C1 as blocked in the chain matrix and
   assert.deepEqual(c1.executedFullRouteEvidence, []);
   assert.deepEqual(c1.blockerEvidenceRefs, [
     'YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1',
-    'C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_BLOCKER',
+    'C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER',
   ]);
   assert.equal(c1.productMutationAuthority, 'DENY_UNTIL_ROUTE_CONTOUR_PROVES_APPLY_AUTHORITY');
   assert.notEqual(c1.requiredOracles.semanticOracle.status, 'PASS');
@@ -228,8 +232,8 @@ test('C1 Word full-book route hostile receipt mutations are rejected fail-closed
     ['returned-ready-false-launder', (r) => { r.physicalEvidence.resultStatus.returnedDocxReady = false; }, 'RETURNED_DOCX_READY_MUST_BE_TRUE_FOR_ORACLE_FAILURE'],
     ['current-profile-launder', (r) => { r.physicalEvidence.independentParserProbe.payloadProfileId = 'word-mac-16.112-26081010-product-review-export-c5v2-full-manuscript'; }, 'CURRENT_PROFILE_MUST_NOT_BE_CLAIMED_AFTER_ORACLE_FAILURE'],
     ['returned-artifact-missing-after-repair', (r) => { r.physicalEvidence.returnedArtifactPresent = false; }, 'RETURNED_ARTIFACT_MUST_BE_PRESENT_AFTER_REPAIR'],
-    ['oracle-failure-count-launder', (r) => { r.physicalEvidence.resultStatus.oracleFailureCount = 0; }, 'RESULT_ORACLE_FAILURE_COUNT'],
-    ['native-materialization-failure-launder', (r) => { r.physicalEvidence.round01.failureCode = 'NATIVE_MATERIALIZATION_ROOT_COUNT_MISMATCH'; }, 'COMPLETE_ROUND_ORACLE_FAILURE_CODE'],
+    ['complete-oracle-regression-launder', (r) => { r.physicalEvidence.round01.completeRoundOracleGreen = false; }, 'COMPLETE_ROUND_ORACLE_MUST_BE_GREEN_FOR_THIS_BLOCKER'],
+    ['native-materialization-failure-launder', (r) => { r.physicalEvidence.round01.failureCode = 'NATIVE_MATERIALIZATION_ROOT_COUNT_MISMATCH'; }, 'COMPLETE_ROUND_ORACLE_GATE_FAILURE_CODE'],
   ];
 
   for (const [name, mutate, expected] of cases) {

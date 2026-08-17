@@ -4,8 +4,8 @@
   "status": "C1_YALKEN_WORD_YALKEN_FULL_BOOK_ROUTE_V1_EXECUTED_BLOCKED_FAIL_CLOSED",
   "verdict": "NEEDS_MORE_EVIDENCE",
   "programVerdict": "NEEDS_MORE_EVIDENCE",
-  "exactHead": "279dde31d1bcf4c6a7cc80f6acfd034f9bdd600b",
-  "generatedAtUtc": "2026-08-17T11:58:30.000Z",
+  "exactHead": "6aee73c0770357cd0b84bf5e8388cee38071c798",
+  "generatedAtUtc": "2026-08-17T15:05:00.000Z",
   "route": {
     "routeId": "C1",
     "title": "Yalken to Word to Yalken",
@@ -58,54 +58,52 @@
       "expectedRouteCount": 1,
       "actualRouteCount": 0,
       "fullBookProcessed": false,
-      "reason": "Fresh post-root-count-repair C1 full-book replay ran on exact merged main 279dde31d1bcf4c6a7cc80f6acfd034f9bdd600b under Word 16.112 / 16.112.26081010. The replay passed the prior word-chunk-008 native materialization root-count boundary, produced a ready returned DOCX at 379 round-01 operations, authenticated reopened Yalken scene readback for 21 scenes, then failed closed at the complete round oracle with 367 outcome mismatches: 334 C5V2_ORACLE_YALKEN_OUTCOME_MISMATCH and 33 C5V2_ORACLE_WORD_OUTCOME_MISMATCH. The route remains blocked; no route PASS, universal parity, automatic apply, or C2-C8 closure authority is created."
+      "reason": "Fresh post-oracle-accounting-repair C1 full-book replay ran on exact merged main 6aee73c0770357cd0b84bf5e8388cee38071c798 under Word 16.112 / 16.112.26081010. The replay processed the full synthetic 2000-operation ledger through 379 round-01 operations, produced a ready returned DOCX, authenticated return intake, and complete-round semantic oracle passed. The strict route gate failed closed with PRODUCT_RETURN_APPLY_NOT_GREEN, NATIVE_LIFECYCLE_VERIFICATION_NOT_GREEN, NATIVE_LIFECYCLE_COVERAGE_NOT_GREEN, COMPLETED_ROUND_REUSE_BINDING_NOT_GREEN; native lifecycle coverage was 5 verified and 33 blocked with no missing or extra lifecycle ids, exact text binding matched 35 of 105 expected operations, and formatting apply remained blocked on RTK_FORMATTING_OPERATION_UNKNOWN_KEY. The route remains blocked; no route PASS, universal parity, automatic apply, user-document workflow, or C2-C8 closure authority is created."
     }
   },
   "physicalEvidence": {
     "syntheticDisposableDocxOnly": true,
     "userDocumentsTouched": false,
-    "artifactRoot": "/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c1-word-native-materialization-root-count-repair-v1/c1-native-root-count-repair-w06-r1-20260817",
-    "runId": "c1-native-root-count-repair-w06-r1-20260817",
-    "previousRedRunId": "c1-window-visibility-repair-w06-r1-20260817",
+    "artifactRoot": "/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c1-word-round01-oracle-mismatch-repair-v1/c1-round01-oracle-repair-w06-20260817",
+    "runId": "c1-round01-oracle-repair-w06-20260817",
+    "previousRedRunId": "c1-native-root-count-repair-w06-r1-20260817",
     "previousInterruptedRunId": "c1-fullbook-auth-repair-w06-r2-20260817",
     "corpusId": "dorian-gray-pg174-cleaned-internal-qa",
     "corpusDigest": "sha256:86075e6a06aec0998b2d87b05806c93315cdca5efc78a98488d3cbf07b57c1e9",
     "corpusManifestSha256": "sha256:2370488f0b19c3d2bd5eab2b59fb4cab5fb567553470faca5fb2aa11e5d48877",
-    "canaryScriptSha256": "sha256:b5c9a9535ec185856f87a53503bb0e2ff9ddac714f68f530b289ba297dc9e576",
+    "canaryScriptSha256": "sha256:c85e8f4b82b23572366ed519888c7747d9c0a18d027ba9792d6c1ce8c377a659",
     "orchestratorScriptSha256": "sha256:65357bcd9d4e37ec0eeb18b741b038090b8aa2d032ecae7623ce8323411838fd",
-    "resultSha256": "sha256:d879ec14fdf5ca95229e8e817c1572dc53bb3c8a1017cac9fd3783a69a2c6dfb",
-    "sourceDocxSha256": "sha256:52ab6df4ee816781ea6dd99529451486b23177de5070402a7ba317e9f7562a7e",
-    "returnedDocxSha256": "sha256:242d0593b0f55d87593b3272eaf4fa13cbbf8f94776d7630a7557ed5a9d59dbf",
-    "returnedDocxPathRole": "READY_RETURNED_ARTIFACT_COMPLETE_ROUND_ORACLE_FAILED",
+    "resultSha256": "sha256:51e5b00fe5f13c4e6aa0cce22c354120a7085f743dce37be96bafb9211537659",
+    "sourceDocxSha256": "sha256:a6c9edc0a86e73f06203ae2a58b4bc707aebe360a9a5f1cb5a9ae66406916a4c",
+    "returnedDocxSha256": "sha256:c202622e753ff0598161db3f0499489f631f920cf61c254fc8cc38796410ba20",
+    "returnedDocxPathRole": "READY_RETURNED_ARTIFACT_APPLY_LIFECYCLE_REUSE_GATE_FAILED",
     "returnedArtifactPresent": true,
-    "returnedArtifactSha256": "sha256:242d0593b0f55d87593b3272eaf4fa13cbbf8f94776d7630a7557ed5a9d59dbf",
+    "returnedArtifactSha256": "sha256:c202622e753ff0598161db3f0499489f631f920cf61c254fc8cc38796410ba20",
     "stageResult": {
-      "path": "/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c1-word-native-materialization-root-count-repair-v1/c1-native-root-count-repair-w06-r1-20260817/ORCHESTRATOR/positive-stage-result.json",
-      "sha256": "sha256:d879ec14fdf5ca95229e8e817c1572dc53bb3c8a1017cac9fd3783a69a2c6dfb",
+      "path": "/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c1-word-round01-oracle-mismatch-repair-v1/c1-round01-oracle-repair-w06-20260817/ORCHESTRATOR/positive-stage-result.json",
+      "sha256": "sha256:51e5b00fe5f13c4e6aa0cce22c354120a7085f743dce37be96bafb9211537659",
       "status": "SEALED",
       "stage": "POSITIVE",
-      "headSha": "279dde31d1bcf4c6a7cc80f6acfd034f9bdd600b",
-      "originMainSha": "279dde31d1bcf4c6a7cc80f6acfd034f9bdd600b",
+      "headSha": "6aee73c0770357cd0b84bf5e8388cee38071c798",
+      "originMainSha": "6aee73c0770357cd0b84bf5e8388cee38071c798",
       "operationCount": 2000,
       "positiveOperationCount": 1960,
       "negativeOperationCount": 40,
+      "roundGateCount": 5,
       "roundGreen": false,
-      "finishedAtUtc": "2026-08-17T11:58:00.476Z",
-      "failureMarkerSha256": "sha256:5d4b97b63ed4600a2fc14369dd825b24afadf649323213bc405f879422d678af",
+      "finishedAtUtc": "2026-08-17T14:43:52.857Z",
+      "failureMarkerSha256": "sha256:51e5b00fe5f13c4e6aa0cce22c354120a7085f743dce37be96bafb9211537659",
       "failureMarkerCode": "ORCH_CHILD_EXIT_NONZERO:1:none",
       "survivingDescendants": [],
-      "survivingOwnedPids": [],
-      "oracleFailureCount": 367,
-      "wordOutcomeMismatchCount": 33,
-      "yalkenOutcomeMismatchCount": 334
+      "survivingOwnedPids": []
     },
     "masterLedger": {
-      "path": "/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c1-word-native-materialization-root-count-repair-v1/c1-native-root-count-repair-w06-r1-20260817/MAIN/c5v2-master-ledger.json",
-      "artifactSha256": "sha256:e772f16125a0f9a8c38ff1af329b0cebde12bfa06055095195d82ec76681b41e",
+      "path": "/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c1-word-round01-oracle-mismatch-repair-v1/c1-round01-oracle-repair-w06-20260817/MAIN/c5v2-master-ledger.json",
+      "artifactSha256": "sha256:423843e078ca36d90ec0fcf8a97019ab6e362a91b44462d35c157a5d16db6fff",
       "ledgerDigest": "sha256:e075c4942b590d2622bf6202a4db1f33259f97367e2612a78673c7a54adf2d71",
       "operationIdSetDigest": "sha256:efd614ddf59d445f06da9a3f491053004ba7019246a97ad35515aaa29b773f32",
       "corpusDigest": "sha256:86075e6a06aec0998b2d87b05806c93315cdca5efc78a98488d3cbf07b57c1e9",
-      "roundInventoryDigest": "sha256:5b90d66cf411d7913877f06627b3700f59619d59cef0146db690c4d659d629ea",
+      "roundInventoryDigest": "sha256:4f119a5a150da4bb0d3e2ceba86cec44f09ebdd5b847be2117c5b70a44b63143",
       "operationCount": 2000,
       "positiveOperationCount": 1960,
       "negativeOperationCount": 40,
@@ -118,49 +116,81 @@
       "completedCheckpointOperationCount": 379,
       "lastCompletedCheckpoint": "word-chunk-008",
       "failedChunk": "complete-round-oracle",
-      "checkpointSha256": "sha256:6f6af851311b13a1703e87f79fbe51af6a4307965de4f54e815b47f216f4919b",
-      "readyMarkerSha256": "sha256:c1322f631bcede5487b92cdb97169665bc51f974a722be24d62d9bbba94bb7f9",
-      "oracleSha256": "sha256:bb34203eeb1178e5e3d4c787372f7e00cacfa5eb0d13eba6c0631291fcb752e7",
-      "canaryLedgerSha256": "sha256:f8d6b946f017bac4dd30822c97c636c4f1f7b3e716037698e277ad340c5e5f18",
-      "phaseLogSha256": "sha256:734d08aff4ff195c71780dea79b30a3c1e183f30c4f8f91b00b1432b78248267",
-      "wordOutputSha256": "sha256:26534e9a5b666a6bf291fba71710599ecf003e2ca47ff1e05204ae7f284e6ae7",
+      "checkpointSha256": "sha256:bc5db1b440596247c26649b15827100d540d3791e6235cfd42af00768e4c911b",
+      "readyMarkerSha256": "sha256:a60f2531c9744fd7c4788b299d800675840613d6e04dd1a24c7218e52b03fce9",
+      "oracleSha256": "sha256:9d1a4cad2234f4586a21189cd221acca81102cdbab6fe7f3604dfc7dc4d9d2bf",
+      "oracleGateSha256": "sha256:99fd7790c1955338e5207c0854a12b95963ee773c910b1e7ae490f991acc3198",
+      "productReturnApplySha256": "sha256:3929803ab6827dd38897bfbce53a0e29d953a42dda8963c99e01c08fc46749bc",
+      "nativeLifecycleVerificationSha256": "sha256:613a89aa2361fb996433df6d9fa2abb81fcd11843e3193a97725ef9fc953390b",
+      "returnApplyCandidateAuthoritySha256": "sha256:9337485c03abeebfe67c1dd8149603af0b6d923eb9d0f91caa500758782e671c",
       "sourceDocxBytes": 8038902,
-      "returnedDocxBytes": 338560,
-      "sourceDocxTextSha256": "sha256:6e63deb703092f19352d56619d8a3a9fef72b83f3945f19bf34881b189ae039e",
+      "returnedDocxBytes": 338412,
+      "sourceDocxSha256": "sha256:a6c9edc0a86e73f06203ae2a58b4bc707aebe360a9a5f1cb5a9ae66406916a4c",
+      "returnedDocxSha256": "sha256:c202622e753ff0598161db3f0499489f631f920cf61c254fc8cc38796410ba20",
       "returnedReady": true,
-      "failureCode": "C5V2_COMPLETE_ROUND_ORACLE_FAILED",
-      "failureError": "C5V2_COMPLETE_ROUND_ORACLE_FAILED:367:C5V2_ORACLE_YALKEN_OUTCOME_MISMATCH=334:C5V2_ORACLE_WORD_OUTCOME_MISMATCH=33",
-      "heartbeatSha256": "sha256:290c7e5e42f5952e99b4753302ffc941a8f996339c90dad519eb84cf83f88d9b",
-      "chainJournalSha256": "sha256:14ad8a2aa7983e999abea5f3af867308145f2c41b530d78e169d1be5a468225c",
-      "reopenedTruthSha256": "sha256:cd19c6170328680d46b2e14687b5f239d6ce79436f435c327cc6b8e31c3241f9",
-      "oracleOutcomeMismatch": {
-        "failureCount": 367,
-        "yalkenOutcomeMismatchCount": 334,
-        "wordOutcomeMismatchCount": 33,
-        "firstFailureOperationIds": [
-          "c5v2-tracked_text_edit-0008",
-          "c5v2-tracked_text_edit-0009",
-          "c5v2-tracked_text_edit-0010",
-          "c5v2-tracked_text_edit-0013",
-          "c5v2-tracked_text_edit-0016",
-          "c5v2-tracked_text_edit-0017",
-          "c5v2-tracked_text_edit-0019",
+      "failureCode": "C5V2_COMPLETE_ROUND_ORACLE_GATE_FAILED",
+      "failureError": "C5V2_COMPLETE_ROUND_ORACLE_GATE_FAILED:PRODUCT_RETURN_APPLY_NOT_GREEN:NATIVE_LIFECYCLE_VERIFICATION_NOT_GREEN:NATIVE_LIFECYCLE_COVERAGE_NOT_GREEN:COMPLETED_ROUND_REUSE_BINDING_NOT_GREEN",
+      "completeRoundOracleGreen": true,
+      "oracleOperationCount": 379,
+      "wordStatusCount": 379,
+      "nativeWordReadbackCount": 379,
+      "reopenedYalkenSceneCount": 21,
+      "nativeWordVisibleReadbackPresent": true,
+      "productReturnApplyGreen": false,
+      "nativeLifecycleVerificationGreen": false,
+      "nativeLifecycleCoverage": {
+        "ok": false,
+        "expectedLifecycleCount": 38,
+        "resultCount": 38,
+        "verifiedCount": 5,
+        "blockedCount": 33,
+        "duplicateResultIds": false,
+        "missingOperationIds": [],
+        "extraResultIds": [],
+        "expectedOperationIdsDigest": "sha256:2910478186c15430136050fbfc0c19ff19555538c25e701e5b0b288bea7c45ca",
+        "resultOperationIdsDigest": "sha256:2910478186c15430136050fbfc0c19ff19555538c25e701e5b0b288bea7c45ca"
+      },
+      "completedRoundReuseBindingOk": false,
+      "productReturnApply": {
+        "ok": false,
+        "activationOk": true,
+        "returnIntakeAuthenticated": true,
+        "returnIntakeStatus": "authenticated-return-ir-ready",
+        "textRevisions": 398,
+        "commentThreads": 54,
+        "formattingDeltas": 304,
+        "opaqueUnsupported": 9,
+        "exactTextBindingOk": false,
+        "expectedOperationCount": 105,
+        "matchedOperationCount": 35,
+        "matchedChangeCount": 35,
+        "excludedCandidateCount": 50,
+        "unmatchedExpectedOperationCount": 70,
+        "firstUnmatchedExpectedOperationIds": [
           "c5v2-tracked_text_edit-0023",
-          "c5v2-tracked_text_edit-0026",
-          "c5v2-tracked_text_edit-0027",
           "c5v2-tracked_text_edit-0029",
-          "c5v2-tracked_text_edit-0030"
+          "c5v2-tracked_text_edit-0035",
+          "c5v2-tracked_text_edit-0044",
+          "c5v2-tracked_text_edit-0047",
+          "c5v2-tracked_text_edit-0050",
+          "c5v2-tracked_text_edit-0063",
+          "c5v2-tracked_text_edit-0068",
+          "c5v2-tracked_text_edit-0329",
+          "c5v2-tracked_text_edit-0332",
+          "c5v2-tracked_text_edit-0338",
+          "c5v2-tracked_text_edit-0344"
         ],
-        "lastFailureOperationIds": [
-          "c5v2-comment_state-0085",
-          "c5v2-comment_state-0089",
-          "c5v2-comment_state-0089",
-          "c5v2-comment_state-0090",
-          "c5v2-comment_state-0090",
-          "c5v2-comment_state-0091",
-          "c5v2-comment_state-0092",
-          "c5v2-comment_state-0092"
-        ]
+        "formattingApplyOk": false,
+        "formattingApplyCode": "RTK_FORMATTING_OPERATION_UNKNOWN_KEY",
+        "formattingPreviewCode": "RTK_FORMATTING_RETURN_USER_DECISION_READY",
+        "formattingPreviewOperationCount": 304,
+        "formattingPreviewSceneCount": 1,
+        "formattingWriterCalled": false,
+        "formattingApplied": false,
+        "formattingReplayVerified": false,
+        "applyResultsCount": 9,
+        "replayResultsCount": 9,
+        "staleRetryBlockedCount": 9
       },
       "nativeMaterializationRootCountRepairObserved": true
     },
@@ -178,41 +208,40 @@
       "roundOracleGateOk": false,
       "terminalOperationAggregatePresent": false,
       "returnIntakeAuthenticated": true,
-      "returnIntakeStatus": "authenticated-return-intake-executed-complete-round-oracle-failed",
+      "returnIntakeStatus": "authenticated-return-ir-ready",
       "returnedDocxReady": true,
       "falseAutoApplyCount": 0,
-      "wrapperError": "C5V2_COMPLETE_ROUND_ORACLE_FAILED:367:C5V2_ORACLE_YALKEN_OUTCOME_MISMATCH=334:C5V2_ORACLE_WORD_OUTCOME_MISMATCH=33",
-      "wordWindowDiagnostics": "RETURNED_READY_TRUE;UI_DIAGNOSTICS_SHOW_COMMENTS_CHECKBOX_COUNT:0;REPLY_STATE_NATIVE_UI_TARGET_UNAVAILABLE_OR_AMBIGUOUS_TYPED_LIMITATIONS_RECORDED",
-      "wordError": "WORD_STATUS_PASS_COMPLETE_ROUND_ORACLE_FAILED",
-      "revisionCount": 400,
+      "wrapperError": "C5V2_COMPLETE_ROUND_ORACLE_GATE_FAILED:PRODUCT_RETURN_APPLY_NOT_GREEN:NATIVE_LIFECYCLE_VERIFICATION_NOT_GREEN:NATIVE_LIFECYCLE_COVERAGE_NOT_GREEN:COMPLETED_ROUND_REUSE_BINDING_NOT_GREEN",
+      "wordWindowDiagnostics": "RETURNED_READY_TRUE;COMPLETE_ROUND_ORACLE_GREEN_TRUE;APPLY_LIFECYCLE_REUSE_GATE_FAILED;NATIVE_LIFECYCLE_VERIFIED_5_BLOCKED_33",
+      "wordError": "WORD_STATUS_PASS_APPLY_LIFECYCLE_REUSE_GATE_FAILED",
+      "completeRoundOracleGreen": true,
+      "productReturnApplyFailure": "PRODUCT_RETURN_APPLY_NOT_GREEN",
+      "revisionCount": 398,
       "commentCount": 54,
-      "textChangeCount": 379,
+      "textChangeCount": 238,
       "commentThreadCount": 54,
-      "nativeLifecycleVerifiedCount": 0,
-      "nativeLifecycleBlockedCount": 38,
-      "oracleFailureCount": 367,
-      "yalkenOutcomeMismatchCount": 334,
-      "wordOutcomeMismatchCount": 33
+      "nativeLifecycleVerifiedCount": 5,
+      "nativeLifecycleBlockedCount": 33
     },
     "returnedPackageObservation": {
       "modernMode15Ready": true,
       "customDocumentPropertyCarrierSurvived": true,
       "customXmlCarrierSurvived": true,
-      "authorityReason": "RETURNED_DOCX_READY_BUT_COMPLETE_ROUND_ORACLE_FAILED"
+      "authorityReason": "RETURNED_DOCX_READY_BUT_APPLY_LIFECYCLE_REUSE_GATE_FAILED"
     },
     "independentParserProbe": {
       "ok": false,
-      "status": "not-run-complete-round-oracle-failed",
-      "sourceMode": "RETURNED_WORD_ARTIFACT_READY_ORACLE_FAILED",
+      "status": "not-run-apply-lifecycle-reuse-gate-failed",
+      "sourceMode": "RETURNED_WORD_ARTIFACT_READY_GATE_FAILED",
       "canWriteManuscript": false,
       "reviewCounts": {
-        "textRevisions": 379,
+        "textRevisions": 398,
         "commentThreads": 54,
-        "formattingDeltas": 0
+        "formattingDeltas": 304
       },
-      "selectedCarrier": "RETURNED_READY_MARKER_ONLY_NOT_ROUTE_PASS",
+      "selectedCarrier": "RETURNED_READY_APPLY_LIFECYCLE_REUSE_GATE_BLOCKED_NOT_ROUTE_PASS",
       "authorityVerified": false,
-      "authorityReason": "COMPLETE_ROUND_ORACLE_FAILED",
+      "authorityReason": "APPLY_LIFECYCLE_REUSE_GATE_FAILED",
       "payloadProfileId": "",
       "payloadProfileIdStale": false
     },
@@ -222,97 +251,102 @@
     {
       "id": "ORCHESTRATOR_PROGRESS_ROUND_ID_DEFECT_REPAIRED",
       "disposition": "REPAIRED_IN_SCOPE",
-      "evidence": "Progress reporting remained bound to round.roundId; the fresh replay emitted ordered durable chunk heartbeats through word-chunk-008."
+      "evidence": "Progress reporting remained bound to round.roundId during the fresh replay and emitted ordered durable chunk heartbeats through word-chunk-008."
     },
     {
       "id": "WORD_OBJECT_MODEL_WINDOW_REQUIREMENT_REPAIRED",
       "disposition": "REPAIRED_IN_SCOPE",
-      "evidence": "The previous object-model/window and native materialization root-count blockers were passed by a fresh replay that produced a ready returned DOCX."
+      "evidence": "The replay used real Word 16.112 / 16.112.26081010 process visibility and produced a ready returned DOCX."
     },
     {
       "id": "C5_RETURN_ARTIFACT_PUBLICATION_BLOCKER_REPAIRED",
       "disposition": "REPAIRED_IN_CURRENT_PROFILE_REPLAY",
-      "evidence": "c5v2-cumulative-returned-ready.json recorded ready:true with returned sha256:242d0593b0f55d87593b3272eaf4fa13cbbf8f94776d7630a7557ed5a9d59dbf."
+      "evidence": "c5v2-cumulative-returned-ready.json recorded ready:true with returned sha256:c202622e753ff0598161db3f0499489f631f920cf61c254fc8cc38796410ba20."
     },
     {
       "id": "WORD_NATIVE_MATERIALIZATION_ROOT_COUNT_BLOCKER",
       "disposition": "REPAIRED_CONFIRMED_NOT_ROUTE_PASS",
-      "evidence": "Fresh replay passed word-chunk-008 native materialization root-count accounting and advanced from the old 336-operation wall to 379 round-01 operations."
+      "evidence": "Fresh replay passed word-chunk-008 native materialization accounting and advanced to the complete-round gate."
     },
     {
       "id": "C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_BLOCKER",
-      "disposition": "REACHED_AUTHENTICATED_RETURN_BUT_ORACLE_FAILED",
-      "evidence": "The returned DOCX was ready and reopened Yalken truth covered 21 scenes, but complete-round oracle failed, so route PASS remains denied."
+      "disposition": "REACHED_AUTHENTICATED_RETURN_BUT_APPLY_LIFECYCLE_REUSE_GATE_FAILED",
+      "evidence": "Return intake authenticated the returned artifact and exposed review IR, but product apply and lifecycle/reuse gates remained non-green."
     },
     {
       "id": "C1_AUTH_REPAIR_PUBLISHED_SCOPED_ROUTE_REPLAY_REQUIRED",
-      "disposition": "REPLAY_ATTEMPTED_BLOCKED_BY_ROUND01_ORACLE_OUTCOME_MISMATCH",
-      "evidence": "The scoped auth repair publication and root-count repair were exercised by the fresh full-book route replay; the current blocker is complete-round oracle mismatch."
+      "disposition": "REPLAY_ATTEMPTED_BLOCKED_BY_APPLY_LIFECYCLE_REUSE_GATE",
+      "evidence": "The scoped auth repair publication was exercised by a full-book replay at exact head 6aee73c0770357cd0b84bf5e8388cee38071c798; it did not create route pass authority."
     },
     {
       "id": "C1_POST_AUTH_REPAIR_FULLBOOK_REPLAY_ATTEMPTED",
       "disposition": "EXECUTED_FAIL_CLOSED_NOT_ROUTE_PASS",
-      "evidence": "Campaign c1-native-root-count-repair-w06-r1-20260817 ran at exact head 279dde31d1bcf4c6a7cc80f6acfd034f9bdd600b with a 2000-operation full-book ledger and failed closed in round-01 oracle verification."
+      "evidence": "Campaign c1-round01-oracle-repair-w06-20260817 ran the 2000-operation full-book ledger and failed closed at the round-01 apply/lifecycle/reuse gate."
     },
     {
       "id": "WORD_ACCESSIBILITY_WINDOW_REVIVED_DURING_CHUNK_008",
       "disposition": "SUPERSEDED_BY_READY_RETURN_NOT_ROUTE_PASS",
-      "evidence": "The fresh replay no longer stops on the window or root-count boundary; later native UI reply/state limitations remain typed evidence only."
+      "evidence": "The fresh replay did not stop on the prior window or root-count boundary; later lifecycle limits remain typed blocker evidence."
     },
     {
-      "id": "C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_BLOCKER",
+      "id": "C1_WORD_ROUND01_COMPLETE_ROUND_ORACLE_OUTCOME_MISMATCH_REPAIRED",
+      "disposition": "REPAIRED_CONFIRMED_NOT_ROUTE_PASS",
+      "evidence": "complete-round-oracle.json is ok:true with 379 word statuses, 379 native readbacks, and 21 reopened Yalken scenes."
+    },
+    {
+      "id": "C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER",
       "disposition": "ACTIVE_BLOCKER_NOT_ROUTE_PASS",
-      "evidence": "complete-round-oracle.json recorded 367 failures: 334 Yalken outcome mismatches and 33 Word outcome mismatches."
+      "evidence": "complete-round-oracle-gate.json is ok:false with PRODUCT_RETURN_APPLY_NOT_GREEN, NATIVE_LIFECYCLE_VERIFICATION_NOT_GREEN, NATIVE_LIFECYCLE_COVERAGE_NOT_GREEN, COMPLETED_ROUND_REUSE_BINDING_NOT_GREEN."
     },
     {
-      "id": "RETURNED_DOCX_READY_BUT_COMPLETE_ROUND_ORACLE_FAILED",
+      "id": "RETURNED_DOCX_READY_BUT_APPLY_LIFECYCLE_REUSE_GATE_FAILED",
       "disposition": "FAIL_CLOSED_AUTHORITY_DENIED",
-      "evidence": "Returned DOCX ready marker was true, but complete round oracle failed; no terminal route aggregate, route PASS, or automatic apply authority was created."
+      "evidence": "The returned DOCX and authenticated intake are retained as evidence only; automatic apply, import mutation, storage write, route PASS, and C2-C8 closure remain denied."
     },
     {
       "id": "WORD_NATIVE_LIFECYCLE_REPLY_STATE_BLOCKER",
       "disposition": "TYPED_LIMITATION_NOT_ROUTE_PASS",
-      "evidence": "Reply/state UI attempts reported target unavailable or ambiguous limitations and cannot be promoted to safe apply or route PASS."
+      "evidence": "Native lifecycle verification reported 5 SAFE_APPLY outcomes and 33 MANUAL_OR_BLOCKED NATIVE_ROOT_MISSING outcomes; no hidden limitation was promoted to pass."
     },
     {
       "id": "C5_STALE_PROVIDER_PROFILE_BINDING",
       "disposition": "REPAIRED_IN_CURRENT_PROFILE_REPLAY",
-      "evidence": "The replay is bound to Word 16.112 / 16.112.26081010 and merged main 279dde31; stale 16.111.x evidence remains historical only."
+      "evidence": "Current Word profile and exact head are bound in the replay receipt; stale provider profile remains rejected by hostile mutation coverage."
     },
     {
       "id": "N2_NOT_REPAIRED_IN_THIS_CONTOUR",
       "disposition": "NOT_IN_SCOPE_NO_PASS_CLAIM",
-      "evidence": "No N2 product/runtime repair was made in this evidence rebind contour; affected-chain evidence remains separate and non-PASS."
+      "evidence": "N2 Google route closure and user-document workflow evidence remain outside this C1 Word replay contour."
     }
   ],
   "oracles": {
     "semanticOracle": {
-      "status": "BLOCKED_COMPLETE_ROUND_ORACLE_OUTCOME_MISMATCH",
-      "reason": "Returned DOCX was ready and reopened, but complete-round oracle failed with 367 outcome mismatches; route PASS remains denied."
+      "status": "BLOCKED_APPLY_LIFECYCLE_REUSE_GATE",
+      "reason": "Complete-round semantic oracle is green, but strict product return apply, native lifecycle coverage, and completed-round reuse binding gates are not green."
     },
     "structureOracle": {
-      "status": "BLOCKED_COMPLETE_ROUND_ORACLE_OUTCOME_MISMATCH",
-      "reason": "Returned DOCX was ready and reopened, but complete-round oracle failed with 367 outcome mismatches; route PASS remains denied."
+      "status": "BLOCKED_APPLY_LIFECYCLE_REUSE_GATE",
+      "reason": "Complete-round semantic oracle is green, but strict product return apply, native lifecycle coverage, and completed-round reuse binding gates are not green."
     },
     "commentsOracle": {
-      "status": "BLOCKED_COMPLETE_ROUND_ORACLE_OUTCOME_MISMATCH",
-      "reason": "Returned DOCX was ready and reopened, but complete-round oracle failed with 367 outcome mismatches; route PASS remains denied."
+      "status": "BLOCKED_APPLY_LIFECYCLE_REUSE_GATE",
+      "reason": "Complete-round semantic oracle is green, but strict product return apply, native lifecycle coverage, and completed-round reuse binding gates are not green."
     },
     "suggestionsOracle": {
-      "status": "BLOCKED_COMPLETE_ROUND_ORACLE_OUTCOME_MISMATCH",
-      "reason": "Returned DOCX was ready and reopened, but complete-round oracle failed with 367 outcome mismatches; route PASS remains denied."
+      "status": "BLOCKED_APPLY_LIFECYCLE_REUSE_GATE",
+      "reason": "Complete-round semantic oracle is green, but strict product return apply, native lifecycle coverage, and completed-round reuse binding gates are not green."
     },
     "formatOracle": {
-      "status": "BLOCKED_COMPLETE_ROUND_ORACLE_OUTCOME_MISMATCH",
-      "reason": "Returned DOCX was ready and reopened, but complete-round oracle failed with 367 outcome mismatches; route PASS remains denied."
+      "status": "BLOCKED_APPLY_LIFECYCLE_REUSE_GATE",
+      "reason": "Complete-round semantic oracle is green, but strict product return apply, native lifecycle coverage, and completed-round reuse binding gates are not green."
     },
     "recoveryOracle": {
-      "status": "BLOCKED_AFTER_AUTHENTICATED_RETURN_ORACLE_FAILED",
-      "reason": "Recovery and replay closure require a green complete-round oracle; the fresh replay failed outcome verification."
+      "status": "BLOCKED_APPLY_LIFECYCLE_REUSE_GATE",
+      "reason": "Complete-round semantic oracle is green, but strict product return apply, native lifecycle coverage, and completed-round reuse binding gates are not green."
     },
     "cleanupOracle": {
       "status": "NO_ROUTE_PASS_WORD_PROCESS_CLEANED",
-      "reason": "The synthetic Word app/process was cleaned after evidence capture; cleanup is not promoted to route PASS."
+      "reason": "Synthetic Word process cleanup succeeded and no owned survivors remained, but cleanup is not route PASS evidence."
     }
   },
   "authority": {
@@ -383,10 +417,10 @@
     "productDataMigrationRequired": false,
     "runtimeRollbackRequired": false,
     "userDataTouched": false,
-    "previousReceiptExactHead": "834f37a8cb5ba3eb854f6407e2dc4e7e14606d88",
-    "previousBlocker": "NATIVE_MATERIALIZATION_ROOT_COUNT_MISMATCH",
-    "currentBlocker": "C5V2_COMPLETE_ROUND_ORACLE_FAILED",
-    "revertPlan": "Revert this evidence/DAG rebind commit to restore the native materialization root-count blocker receipt and matrix."
+    "previousReceiptExactHead": "279dde31d1bcf4c6a7cc80f6acfd034f9bdd600b",
+    "previousBlocker": "C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_BLOCKER",
+    "currentBlocker": "C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER",
+    "revertPlan": "Revert this evidence/DAG rebind commit to restore the complete-round oracle outcome mismatch blocker receipt and matrix."
   },
-  "nextSequentialContour": "C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_REPAIR_V1"
+  "nextSequentialContour": "C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_REPAIR_V1"
 }

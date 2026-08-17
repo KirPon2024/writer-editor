@@ -51,16 +51,23 @@ test('Interop chain matrix registers the exact C1-C8 full-book denominator witho
   assert.equal(c1.fullBookAccounting, POST_AUTH_REPAIR_FULL_BOOK_ACCOUNTING);
   assert.deepEqual(c1.blockerEvidenceRefs, [
     'YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1',
-    'C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_BLOCKER',
+    'C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER',
   ]);
   assert.equal(c1.nextContour, NEXT_SEQUENTIAL_CONTOUR);
-  assert.equal(matrix.sourceEvidence.c1FreshNativeMaterializationBlockedReplay.failureCode, 'C5V2_COMPLETE_ROUND_ORACLE_FAILED');
-  assert.equal(matrix.sourceEvidence.c1FreshNativeMaterializationBlockedReplay.returnedDocxReady, true);
-  assert.equal(matrix.sourceEvidence.c1FreshNativeMaterializationBlockedReplay.oracleFailureCount, 367);
-  assert.equal(matrix.sourceEvidence.c1FreshNativeMaterializationBlockedReplay.yalkenOutcomeMismatchCount, 334);
-  assert.equal(matrix.sourceEvidence.c1FreshNativeMaterializationBlockedReplay.wordOutcomeMismatchCount, 33);
-  assert.match(matrix.sourceEvidence.c1FreshNativeMaterializationBlockedReplay.wordWindowDiagnostics, /ROOT_COUNT_REPAIR_CONFIRMED/u);
-  assert.match(matrix.sourceEvidence.c1FreshNativeMaterializationBlockedReplay.wordWindowDiagnostics, /COMPLETE_ROUND_ORACLE_FAILED/u);
+  assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.failureCode, 'C5V2_COMPLETE_ROUND_ORACLE_GATE_FAILED');
+  assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.returnedDocxReady, true);
+  assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.completeRoundOracleGreen, true);
+  assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.productReturnApplyGreen, false);
+  assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.nativeLifecycleVerifiedCount, 5);
+  assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.nativeLifecycleBlockedCount, 33);
+  assert.deepEqual(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.gateFailures, [
+    'PRODUCT_RETURN_APPLY_NOT_GREEN',
+    'NATIVE_LIFECYCLE_VERIFICATION_NOT_GREEN',
+    'NATIVE_LIFECYCLE_COVERAGE_NOT_GREEN',
+    'COMPLETED_ROUND_REUSE_BINDING_NOT_GREEN',
+  ]);
+  assert.match(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.wordWindowDiagnostics, /COMPLETE_ROUND_ORACLE_GREEN_TRUE/u);
+  assert.match(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.wordWindowDiagnostics, /APPLY_LIFECYCLE_REUSE_GATE_FAILED/u);
 
   for (const route of matrix.routeDenominator) {
     assert.equal(route.fullCanonicalSyntheticBookRequired, true, route.routeId);

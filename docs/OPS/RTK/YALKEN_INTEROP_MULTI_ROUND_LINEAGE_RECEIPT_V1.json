@@ -3,10 +3,10 @@
   "documentClass": "EVIDENCE_RECEIPT",
   "status": "INTEROP_CHAIN_LINEAGE_DENOMINATOR_REGISTERED_NEEDS_MORE_EVIDENCE",
   "claimBoundary": "This receipt binds the C1-C8 route matrix and multi-round lineage closure rules only. It is not route execution evidence, not chain saturation, not universal Word/Google parity, not byte identity, and not product import/apply authority.",
-  "generatedAtUtc": "2026-08-17T23:36:48.537Z",
+  "generatedAtUtc": "2026-08-18T02:13:33.862Z",
   "exactHead": "8504d5fa8db9af9456cc6a6d0ec8b1aa8ad4d81a",
   "matrixPath": "docs/OPS/RTK/YALKEN_INTEROP_CHAIN_MATRIX_V1.json",
-  "matrixSha256": "sha256:830a0ae8c3e91f8ebcb4d72c9f1739dd585a461af80b1f7bbae56b66baef52af",
+  "matrixSha256": "sha256:d11c6f255aa637cced6f6036dc5d3860f2d7ad8197907cf8a78a618619e5a09d",
   "routeIds": [
     "C1",
     "C2",
@@ -65,8 +65,8 @@
     "repo": "revert bounded chain matrix, lineage receipt, verifier, catalog, and governance binding commit",
     "productDataMigrationRequired": false,
     "runtimeRollbackRequired": false,
-    "previousMatrixSha256": "sha256:3e90b9dc3e809420d3b4b815486cefd65b1a73fbe71e9fd761df9b0df00881a1",
-    "currentMatrixSha256": "sha256:830a0ae8c3e91f8ebcb4d72c9f1739dd585a461af80b1f7bbae56b66baef52af",
-    "reason": "C1 post-failclosed full-book replay remains blocked by exact operationId binding plus lifecycle/reuse gates; route and chain stay NEEDS_MORE_EVIDENCE."
+    "previousMatrixSha256": "sha256:830a0ae8c3e91f8ebcb4d72c9f1739dd585a461af80b1f7bbae56b66baef52af",
+    "currentMatrixSha256": "sha256:d11c6f255aa637cced6f6036dc5d3860f2d7ad8197907cf8a78a618619e5a09d",
+    "reason": "C1 exact-ledger repair is merged but route replay remains pending until macOS Accessibility permission is restored; lineage and chain saturation stay NEEDS_MORE_EVIDENCE."
   }
 }

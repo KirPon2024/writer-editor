@@ -53,6 +53,8 @@ test('Interop chain matrix registers the exact C1-C8 full-book denominator witho
     'YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1',
     'C1_WORD_ROUND01_EXACT_LEDGER_BINDING_BLOCKER',
     'C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER',
+    'C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_MERGED_NOT_ROUTE_PASS',
+    'C1_WORD_MACOS_ACCESSIBILITY_PERMISSION_REQUIRED_CURRENT_BLOCKER',
   ]);
   assert.equal(c1.nextContour, NEXT_SEQUENTIAL_CONTOUR);
   assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.failureCode, 'C5V2_COMPLETE_ROUND_ORACLE_GATE_FAILED');
@@ -76,6 +78,17 @@ test('Interop chain matrix registers the exact C1-C8 full-book denominator witho
   assert.match(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.wordWindowDiagnostics, /COMPLETE_ROUND_ORACLE_GREEN_TRUE/u);
   assert.match(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.wordWindowDiagnostics, /APPLY_LIFECYCLE_REUSE_GATE_FAILED/u);
   assert.match(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.wordWindowDiagnostics, /EXACT_LEDGER_BINDING_0_OF_105/u);
+  assert.equal(matrix.sourceEvidence.c1ExactLedgerBindingRepairMerged.taskId, 'C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1');
+  assert.equal(matrix.sourceEvidence.c1ExactLedgerBindingRepairMerged.pr, 1596);
+  assert.equal(matrix.sourceEvidence.c1ExactLedgerBindingRepairMerged.prHeadSha, 'f53f80fe21828c270f04ef7766d2fe74bbe2d31f');
+  assert.equal(matrix.sourceEvidence.c1ExactLedgerBindingRepairMerged.mergeSha, '8b3d9cbb3d76c43bd777104bf95cf209062e6d40');
+  assert.equal(matrix.sourceEvidence.c1ExactLedgerBindingRepairMerged.mergeTree, 'c07b18ed3db7fbb859596e224830f371bd698320');
+  assert.equal(matrix.sourceEvidence.c1ExactLedgerBindingRepairMerged.routePassClaim, false);
+  assert.equal(matrix.sourceEvidence.c1ExactLedgerBindingRepairMerged.productApplyAuthority, false);
+  assert.equal(matrix.sourceEvidence.c1CurrentRuntimePrecondition.classification, 'MACOS_ACCESSIBILITY_PERMISSION_REQUIRED');
+  assert.equal(matrix.sourceEvidence.c1CurrentRuntimePrecondition.systemEventsUiElementsEnabled, false);
+  assert.equal(matrix.sourceEvidence.c1CurrentRuntimePrecondition.wordProcessExists, false);
+  assert.equal(matrix.sourceEvidence.c1CurrentRuntimePrecondition.freshPhysicalReplayAuthority, 'DENY_UNTIL_MACOS_ACCESSIBILITY_PERMISSION_RESTORED');
 
   for (const route of matrix.routeDenominator) {
     assert.equal(route.fullCanonicalSyntheticBookRequired, true, route.routeId);
@@ -230,6 +243,20 @@ test('Interop chain matrix hostile mutations are rejected fail-closed', async ()
         matrix.claimControls.universalParityClaim = 'ALLOW';
       },
       error: 'UNIVERSAL_PARITY_OR_BYTE_IDENTITY_CLAIM_DENIED',
+    },
+    {
+      name: 'post-ledger-repair-route-pass-launder',
+      mutate(matrix) {
+        matrix.sourceEvidence.c1ExactLedgerBindingRepairMerged.routePassClaim = true;
+      },
+      error: 'C1_EXACT_LEDGER_REPAIR_ROUTE_PASS_LAUNDER',
+    },
+    {
+      name: 'ax-precondition-ready-launder',
+      mutate(matrix) {
+        matrix.sourceEvidence.c1CurrentRuntimePrecondition.systemEventsUiElementsEnabled = true;
+      },
+      error: 'C1_CURRENT_RUNTIME_PRECONDITION_UI_ELEMENTS_LAUNDER',
     },
   ];
 

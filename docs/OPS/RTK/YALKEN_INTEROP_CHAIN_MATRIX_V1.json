@@ -3,7 +3,7 @@
   "documentClass": "EVIDENCE_STATUS",
   "status": "INTEROP_CHAIN_C1_C8_DENOMINATOR_REGISTERED_NEEDS_MORE_EVIDENCE",
   "claimBoundary": "Registers the frozen C1-C8 full-book interop route denominator and fail-closed closure rules only. It does not prove any route, saturation, platform parity, byte identity, product runtime support, import/apply authority, or live user-document workflow.",
-  "generatedAtUtc": "2026-08-17T23:36:48.537Z",
+  "generatedAtUtc": "2026-08-18T02:13:33.862Z",
   "exactHead": "8504d5fa8db9af9456cc6a6d0ec8b1aa8ad4d81a",
   "programVerdict": "NEEDS_MORE_EVIDENCE",
   "sourceEvidence": {
@@ -26,7 +26,7 @@
     },
     "c1WordFullBookRouteReceipt": {
       "path": "docs/OPS/RTK/YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1.json",
-      "sha256": "sha256:df7b0c3b082f71ebfec6c6dbabbfb5d86e4057fc1047da333e37cd3861e1722f",
+      "sha256": "sha256:166ce5ac5140877c8cf57eebe3d92557609b1dfd9cfc1ee8ad501826419416bd",
       "status": "C1_YALKEN_WORD_YALKEN_FULL_BOOK_ROUTE_V1_EXECUTED_BLOCKED_FAIL_CLOSED",
       "routeVerdict": "BLOCKED",
       "chainClosureAuthority": "DENY"
@@ -92,6 +92,39 @@
       ],
       "exactTextBindingFailure": "NO_EXACT_TEXT_CANDIDATE_OPERATION_ID_BINDING_FAILED",
       "formattingPreviewOperationCount": 304
+    },
+    "c1ExactLedgerBindingRepairMerged": {
+      "taskId": "C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1",
+      "pr": 1596,
+      "prHeadSha": "f53f80fe21828c270f04ef7766d2fe74bbe2d31f",
+      "mergeSha": "8b3d9cbb3d76c43bd777104bf95cf209062e6d40",
+      "mergeTree": "c07b18ed3db7fbb859596e224830f371bd698320",
+      "localFocusedContracts": "PASS_15_OF_15",
+      "affectedOrchestratorContracts": "PASS_119_OF_119",
+      "focusedInteropContracts": "PASS_18_OF_18",
+      "devFast": "PASS_28_OF_28",
+      "guardrails": "PASS",
+      "fullCanonicalRtk": "PASS_1011_OF_1011_NO_SKIPS_NO_TODOS",
+      "requiredPrCi": [
+        "oss-policy:PASS",
+        "rtk-required:PASS",
+        "x1-runtime-parity-ubuntu-latest:PASS",
+        "x1-runtime-parity-windows-latest:PASS"
+      ],
+      "requiredMainCi": [
+        "OSS policy:PASS",
+        "rtk-required:PASS"
+      ],
+      "routePassClaim": false,
+      "productApplyAuthority": false,
+      "claimBoundary": "Merged verifier/process repair only; no fresh post-repair full-route replay and no product apply authority."
+    },
+    "c1CurrentRuntimePrecondition": {
+      "checkedAtUtc": "2026-08-18T02:13:33.862Z",
+      "systemEventsUiElementsEnabled": false,
+      "wordProcessExists": false,
+      "classification": "MACOS_ACCESSIBILITY_PERMISSION_REQUIRED",
+      "freshPhysicalReplayAuthority": "DENY_UNTIL_MACOS_ACCESSIBILITY_PERMISSION_RESTORED"
     }
   },
   "canonicalFullBookDenominator": {
@@ -158,13 +191,17 @@
         "C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER",
         "C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_REUSE_GATE_REPAIR_V1_FAIL_CLOSED",
         "C1_WORD_ROUND01_EXACT_LEDGER_BINDING_BLOCKER",
-        "C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_V1_FAIL_CLOSED"
+        "C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_V1_FAIL_CLOSED",
+        "C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_MERGED_NOT_ROUTE_PASS",
+        "C1_WORD_MACOS_ACCESSIBILITY_PERMISSION_REQUIRED_CURRENT_BLOCKER"
       ],
       "executedFullRouteEvidence": [],
       "blockerEvidenceRefs": [
         "YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1",
         "C1_WORD_ROUND01_EXACT_LEDGER_BINDING_BLOCKER",
-        "C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER"
+        "C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER",
+        "C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_MERGED_NOT_ROUTE_PASS",
+        "C1_WORD_MACOS_ACCESSIBILITY_PERMISSION_REQUIRED_CURRENT_BLOCKER"
       ],
       "requiredBindings": [
         "yalkenSha",
@@ -207,7 +244,7 @@
           "reason": "Synthetic process cleanup succeeded but is not route PASS evidence."
         }
       },
-      "nextContour": "C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1"
+      "nextContour": "C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_MACOS_ACCESSIBILITY_PERMISSION_RESTORED_V1"
     },
     {
       "routeId": "C2",
@@ -575,16 +612,16 @@
       "nextContour": "AFTER_C7"
     }
   ],
-  "nextSequentialContour": "C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1",
+  "nextSequentialContour": "C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_MACOS_ACCESSIBILITY_PERMISSION_RESTORED_V1",
   "rollback": {
     "repo": "revert bounded chain matrix, lineage receipt, verifier, catalog, and governance binding commit",
     "productDataMigrationRequired": false,
     "runtimeRollbackRequired": false,
     "previousMatrixExactHead": "5a5b34210bad80eaf1851efcf5a64426484f3f2a",
-    "previousBlocker": "C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER",
-    "currentBlocker": "C1_WORD_ROUND01_EXACT_LEDGER_BINDING_BLOCKER",
-    "revertPlan": "Revert this evidence/DAG rebind commit to restore the prior apply/lifecycle/reuse gate blocker chain matrix.",
-    "reason": "C1 post-failclosed full-book replay remains blocked by exact operationId binding and native lifecycle snapshot coverage; C1-C8 saturation stays NEEDS_MORE_EVIDENCE.",
+    "previousBlocker": "C1_WORD_ROUND01_EXACT_LEDGER_BINDING_BLOCKER",
+    "currentBlocker": "C1_WORD_MACOS_ACCESSIBILITY_PERMISSION_REQUIRED_CURRENT_BLOCKER",
+    "revertPlan": "Revert this post-exact-ledger repair DAG rebind commit to restore the prior exact-ledger next-contour pointer.",
+    "reason": "C1 exact-ledger repair merged, but no fresh post-repair route replay exists and current macOS Accessibility permission is disabled; C1-C8 saturation stays NEEDS_MORE_EVIDENCE.",
     "currentMatrixExactHead": "8504d5fa8db9af9456cc6a6d0ec8b1aa8ad4d81a"
   }
 }

@@ -101,6 +101,18 @@ test('C1 Word full-book physical evidence binds exact blocker facts and no termi
   assert.equal(receipt.physicalEvidence.runId, 'c1-round01-post-failclosed-w06-r4-20260817t230824z');
   assert.equal(receipt.physicalEvidence.previousRedRunId, 'c1-round01-oracle-repair-w06-20260817');
   assert.equal(receipt.physicalEvidence.previousNativeMaterializationBlockedRunId, 'c1-window-visibility-repair-w06-r1-20260817');
+  assert.equal(receipt.physicalEvidence.postExactLedgerRepairRebind.taskId, 'C1_WORD_POST_EXACT_LEDGER_REPAIR_DAG_REBIND_V1');
+  assert.equal(receipt.physicalEvidence.postExactLedgerRepairRebind.repairPr, 1596);
+  assert.equal(receipt.physicalEvidence.postExactLedgerRepairRebind.repairPrHeadSha, 'f53f80fe21828c270f04ef7766d2fe74bbe2d31f');
+  assert.equal(receipt.physicalEvidence.postExactLedgerRepairRebind.mergedMainSha, '8b3d9cbb3d76c43bd777104bf95cf209062e6d40');
+  assert.equal(receipt.physicalEvidence.postExactLedgerRepairRebind.mergedMainTree, 'c07b18ed3db7fbb859596e224830f371bd698320');
+  assert.equal(receipt.physicalEvidence.postExactLedgerRepairRebind.routePassClaim, false);
+  assert.equal(receipt.physicalEvidence.postExactLedgerRepairRebind.productApplyAuthority, false);
+  assert.equal(receipt.physicalEvidence.postExactLedgerRepairRebind.executedFreshPhysicalReplayAfterRepair, false);
+  assert.equal(receipt.physicalEvidence.postExactLedgerRepairRebind.currentRuntimePrecondition.classification, 'MACOS_ACCESSIBILITY_PERMISSION_REQUIRED');
+  assert.equal(receipt.physicalEvidence.postExactLedgerRepairRebind.currentRuntimePrecondition.systemEventsUiElementsEnabled, false);
+  assert.equal(receipt.physicalEvidence.postExactLedgerRepairRebind.currentRuntimePrecondition.wordProcessExists, false);
+  assert.equal(receipt.physicalEvidence.postExactLedgerRepairRebind.currentRuntimePrecondition.freshPhysicalReplayAuthority, 'DENY_UNTIL_MACOS_ACCESSIBILITY_PERMISSION_RESTORED');
   assert.equal(receipt.physicalEvidence.stageResult.headSha, '8504d5fa8db9af9456cc6a6d0ec8b1aa8ad4d81a');
   assert.equal(receipt.physicalEvidence.stageResult.operationCount, 2000);
   assert.equal(receipt.physicalEvidence.stageResult.roundGreen, false);
@@ -211,7 +223,10 @@ test('C1 Word full-book route updates only C1 as blocked in the chain matrix and
     'YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1',
     'C1_WORD_ROUND01_EXACT_LEDGER_BINDING_BLOCKER',
     'C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER',
+    'C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_MERGED_NOT_ROUTE_PASS',
+    'C1_WORD_MACOS_ACCESSIBILITY_PERMISSION_REQUIRED_CURRENT_BLOCKER',
   ]);
+  assert.equal(c1.nextContour, 'C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_MACOS_ACCESSIBILITY_PERMISSION_RESTORED_V1');
   assert.equal(c1.productMutationAuthority, 'DENY_UNTIL_ROUTE_CONTOUR_PROVES_APPLY_AUTHORITY');
   assert.notEqual(c1.requiredOracles.semanticOracle.status, 'PASS');
 
@@ -239,7 +254,7 @@ test('C1 Word full-book route hostile receipt mutations are rejected fail-closed
 
   const hostile = runC1HostileCorpus();
   const mutations = runC1SemanticMutationCatalog();
-  assert.equal(hostile.total, 20);
+  assert.equal(hostile.total, 22);
   assert.equal(hostile.survivors, 0, JSON.stringify(hostile.survivorDetails, null, 2));
   assert.equal(mutations.total, 12);
   assert.equal(mutations.survivors, 0, JSON.stringify(mutations.survivorDetails, null, 2));
@@ -259,6 +274,8 @@ test('C1 Word full-book route hostile receipt mutations are rejected fail-closed
     ['returned-artifact-missing-after-repair', (r) => { r.physicalEvidence.returnedArtifactPresent = false; }, 'RETURNED_ARTIFACT_MUST_BE_PRESENT_AFTER_REPAIR'],
     ['complete-oracle-regression-launder', (r) => { r.physicalEvidence.round01.completeRoundOracleGreen = false; }, 'COMPLETE_ROUND_ORACLE_MUST_BE_GREEN_FOR_THIS_BLOCKER'],
     ['exact-ledger-binding-false-pass', (r) => { r.physicalEvidence.round01.productReturnApply.exactTextBindingOk = true; }, 'EXACT_LEDGER_BINDING_MUST_REMAIN_FALSE'],
+    ['post-ledger-repair-route-pass-launder', (r) => { r.physicalEvidence.postExactLedgerRepairRebind.routePassClaim = true; }, 'POST_EXACT_LEDGER_REPAIR_ROUTE_PASS_LAUNDER'],
+    ['ax-precondition-ready-launder', (r) => { r.physicalEvidence.postExactLedgerRepairRebind.currentRuntimePrecondition.systemEventsUiElementsEnabled = true; }, 'CURRENT_RUNTIME_PRECONDITION_INVALID:UI_ELEMENTS_ENABLED'],
     ['native-materialization-failure-launder', (r) => { r.physicalEvidence.round01.failureCode = 'NATIVE_MATERIALIZATION_ROOT_COUNT_MISMATCH'; }, 'COMPLETE_ROUND_ORACLE_GATE_FAILURE_CODE'],
   ];
 

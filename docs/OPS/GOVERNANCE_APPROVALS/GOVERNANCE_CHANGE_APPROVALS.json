@@ -11085,12 +11085,12 @@
     },
     {
       "filePath": "test/contracts/rtk-interop-c1-word-fullbook-route.contract.test.js",
-      "sha256": "229cc4cfb25f7fc691010374b3e2c37b40efaf285c008bc12c90e87962d3c849",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_POST_EXACT_LEDGER_REPAIR_DAG_REBIND_V1",
-      "approvedAtUtc": "2026-08-18T02:14:57.796Z",
-      "rationale": "Approve focused C1 route contract coverage for post-exact-ledger repair merge evidence, current macOS Accessibility fail-closed precondition, updated next contour, and hostile laundering rejection while preserving blocked route accounting.",
+      "sha256": "601bcfcfbaea26bcc7258e10d1bb5189ce9909abde55c98235f9194a91d6327a",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_MACOS_ACCESSIBILITY_PERMISSION_RESTORED_V1",
+      "approvedAtUtc": "2026-08-18T03:28:48.000Z",
+      "rationale": "Approve focused C1 contract coverage requiring generated Word AppleScript error handler locals to exist before the top-level try and Accessibility preflight, preventing handler-local visibility faults from replacing typed fail-closed evidence.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_POST_EXACT_LEDGER_REPAIR_DAG_REBIND_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_MACOS_ACCESSIBILITY_PERMISSION_RESTORED_V1"
     },
     {
       "filePath": "test/contracts/rtk-interop-chain-matrix.contract.test.js",
@@ -11103,12 +11103,12 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "7d8c1f43ee853784ea1c4b916d296c33cde39192723d7adfccd948a87ad0becd",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1",
-      "approvedAtUtc": "2026-08-18T01:13:00.000Z",
-      "rationale": "Approve C5V2 physical Word canary AppleScript fail-closed repair: typed error variables preserve real operation/preflight blocker signals, author identity restore remains text-coerced, and AX disabled state is classified as permission-required without route PASS, apply authority, or user-document claim widening.",
+      "sha256": "38cf672d10e1ebe20cc719e24241938a741c0c2d6152638a92dee9d253a5fc0d",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_MACOS_ACCESSIBILITY_PERMISSION_RESTORED_V1",
+      "approvedAtUtc": "2026-08-18T03:28:48.000Z",
+      "rationale": "Approve C1 Word physical canary AppleScript generated-script repair that predeclares handler-local error variables before the guarded Accessibility preflight, preserving typed fail-closed operation and top-level blocker signals without granting route PASS or apply authority.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_MACOS_ACCESSIBILITY_PERMISSION_RESTORED_V1"
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-terminal-orchestrator.mjs",

@@ -1,3 +1,11 @@
+import {
+  assertTextCoordinateIndexMatches,
+  buildTextCoordinateIndex,
+  convertTextCoordinateRange,
+  iterateTextCoordinateSegments,
+  TEXT_COORDINATE_DOMAIN,
+  TextCoordinateError,
+} from '../../core/textCoordinateAlgebra.mjs';
 import { hashCanonicalValue } from '../deriveView.mjs';
 import {
   ATLAS_TEXT_ANCHOR_PACKET_SCHEMA_VERSION,
@@ -7,38 +15,63 @@ import {
 } from './atlasTextAnchorTypes.mjs';
 import { ATLAS_EVIDENCE_ANCHOR_SCHEMA_VERSION } from './atlasMentionTypes.mjs';
 
-function plainString(value) {
-  return typeof value === 'string' ? value : '';
-}
+const ATLAS_OFFSET_DOMAINS = Object.freeze([
+  ATLAS_TEXT_OFFSET_DOMAIN.UTF16_JS_CODE_UNIT,
+  ATLAS_TEXT_OFFSET_DOMAIN.UNICODE_CODE_POINT,
+  ATLAS_TEXT_OFFSET_DOMAIN.GRAPHEME_CLUSTER,
+]);
+const ATLAS_COORDINATE_METADATA = new WeakMap();
 
 function normalizeString(value) {
   return typeof value === 'string' ? value.trim() : '';
 }
 
-function isCombiningMark(char) {
-  return /\p{Mark}/u.test(char);
-}
-
-function isVariationSelector(char) {
-  if (!char) return false;
-  const codePoint = char.codePointAt(0);
-  return (codePoint >= 0xfe00 && codePoint <= 0xfe0f) || (codePoint >= 0xe0100 && codePoint <= 0xe01ef);
-}
-
-function isJoinControl(char) {
-  return char === '\u200d' || char === '\u200c';
-}
-
-function isBidiControl(char) {
-  return /[\u061c\u200e\u200f\u202a-\u202e\u2066-\u2069]/u.test(char);
-}
-
-function shouldAttachToPrevious(char, previousChar) {
-  return isCombiningMark(char)
-    || isVariationSelector(char)
-    || isJoinControl(char)
-    || isBidiControl(char)
-    || isJoinControl(previousChar);
+function readAnchorInput(input) {
+  const requiredFields = ['sceneText', 'startOffset', 'endOffset'];
+  const allowedFields = [
+    'projectId',
+    'sceneId',
+    'entityId',
+    'termId',
+    ...requiredFields,
+    'coordinateIndex',
+    'materializeOffsetMap',
+  ];
+  if (!input || typeof input !== 'object' || Array.isArray(input)) {
+    throw new TextCoordinateError('E_TEXT_COORDINATE_INVALID', 'ANCHOR_INPUT_MUST_BE_PLAIN_DATA_RECORD');
+  }
+  const prototype = Object.getPrototypeOf(input);
+  if (prototype !== Object.prototype && prototype !== null) {
+    throw new TextCoordinateError('E_TEXT_COORDINATE_INVALID', 'ANCHOR_INPUT_PROTOTYPE_INVALID');
+  }
+  const ownKeys = Reflect.ownKeys(input);
+  if (ownKeys.some((key) => typeof key !== 'string' || !allowedFields.includes(key))) {
+    throw new TextCoordinateError('E_TEXT_COORDINATE_INVALID', 'ANCHOR_INPUT_FIELDS_INVALID');
+  }
+  const values = {};
+  for (const key of ownKeys) {
+    const descriptor = Object.getOwnPropertyDescriptor(input, key);
+    if (!descriptor || !Object.hasOwn(descriptor, 'value') || descriptor.enumerable !== true) {
+      throw new TextCoordinateError(
+        'E_TEXT_COORDINATE_INVALID',
+        'ANCHOR_INPUT_FIELD_MUST_BE_ENUMERABLE_DATA_PROPERTY',
+        { field: typeof key === 'string' ? key : '' },
+      );
+    }
+    values[key] = descriptor.value;
+  }
+  for (const field of requiredFields) {
+    if (!Object.hasOwn(values, field)) {
+      throw new TextCoordinateError('E_TEXT_COORDINATE_INVALID', 'ANCHOR_INPUT_FIELD_REQUIRED', { field });
+    }
+  }
+  if (Object.hasOwn(values, 'materializeOffsetMap') && typeof values.materializeOffsetMap !== 'boolean') {
+    throw new TextCoordinateError(
+      'E_TEXT_COORDINATE_INVALID',
+      'ANCHOR_MATERIALIZE_OFFSET_MAP_MUST_BE_BOOLEAN',
+    );
+  }
+  return values;
 }
 
 function codePointHex(char) {
@@ -49,109 +82,113 @@ function codePointHex(char) {
 function buildNormalizationMap(text) {
   const nfc = text.normalize('NFC');
   const nfd = text.normalize('NFD');
-  return {
+  const originalTextHash = hashCanonicalValue(text);
+  return Object.freeze({
     schemaVersion: ATLAS_TEXT_NORMALIZATION_MAP_SCHEMA_VERSION,
-    originalTextHash: hashCanonicalValue(text),
-    nfcHash: hashCanonicalValue(nfc),
-    nfdHash: hashCanonicalValue(nfd),
+    originalTextHash,
+    nfcHash: nfc === text ? originalTextHash : hashCanonicalValue(nfc),
+    nfdHash: nfd === text ? originalTextHash : hashCanonicalValue(nfd),
     changedByNfc: nfc !== text,
     changedByNfd: nfd !== text,
     originalUtf16Length: text.length,
     nfcUtf16Length: nfc.length,
     nfdUtf16Length: nfd.length,
     destructiveNormalizationApplied: false,
-  };
+  });
 }
 
-export function buildAtlasTextOffsetMap(textValue = '') {
-  const text = plainString(textValue);
-  const codePoints = [];
-  let utf16Offset = 0;
-  let codePointIndex = 0;
-  for (const char of text) {
-    const utf16Length = char.length;
-    codePoints.push({
-      codePointIndex,
-      utf16Start: utf16Offset,
-      utf16End: utf16Offset + utf16Length,
-      text: char,
-      codePointHex: codePointHex(char),
-    });
-    utf16Offset += utf16Length;
-    codePointIndex += 1;
-  }
+function coordinateMetadata(text, coordinateIndex) {
+  assertTextCoordinateIndexMatches(coordinateIndex, text);
+  const cached = ATLAS_COORDINATE_METADATA.get(coordinateIndex);
+  if (cached) return cached;
+  const normalizationMap = buildNormalizationMap(text);
+  const metadata = Object.freeze({
+    normalizationMap,
+    sceneTextHash: normalizationMap.originalTextHash,
+  });
+  ATLAS_COORDINATE_METADATA.set(coordinateIndex, metadata);
+  return metadata;
+}
 
-  const graphemes = [];
-  for (const point of codePoints) {
-    const previous = graphemes[graphemes.length - 1] || null;
-    const previousChar = previous?.text ? [...previous.text].at(-1) : '';
-    if (!previous || !shouldAttachToPrevious(point.text, previousChar)) {
-      graphemes.push({
-        graphemeIndex: graphemes.length,
-        utf16Start: point.utf16Start,
-        utf16End: point.utf16End,
-        codePointStart: point.codePointIndex,
-        codePointEnd: point.codePointIndex + 1,
-        text: point.text,
-      });
-      continue;
-    }
-    previous.utf16End = point.utf16End;
-    previous.codePointEnd = point.codePointIndex + 1;
-    previous.text += point.text;
-  }
+function resolveCoordinateIndex(text, candidate) {
+  if (candidate === undefined || candidate === null) return buildTextCoordinateIndex(text);
+  assertTextCoordinateIndexMatches(candidate, text);
+  return candidate;
+}
+
+export function buildAtlasTextCoordinateIndex(textValue) {
+  return buildTextCoordinateIndex(textValue);
+}
+
+export function buildAtlasTextOffsetMap(textValue = '', coordinateIndexValue = null) {
+  const text = textValue;
+  const coordinateIndex = resolveCoordinateIndex(text, coordinateIndexValue);
+  const metadata = coordinateMetadata(text, coordinateIndex);
+  const codePoints = [...iterateTextCoordinateSegments(
+    coordinateIndex,
+    TEXT_COORDINATE_DOMAIN.UNICODE_CODE_POINT,
+  )].map((segment) => ({
+    codePointIndex: segment.index,
+    utf16Start: segment.utf16Start,
+    utf16End: segment.utf16End,
+    text: segment.text,
+    codePointHex: codePointHex(segment.text),
+  }));
+  const graphemes = [...iterateTextCoordinateSegments(
+    coordinateIndex,
+    TEXT_COORDINATE_DOMAIN.GRAPHEME_CLUSTER,
+  )].map((segment) => ({
+    graphemeIndex: segment.index,
+    utf16Start: segment.utf16Start,
+    utf16End: segment.utf16End,
+    codePointStart: segment.codePointStart,
+    codePointEnd: segment.codePointEnd,
+    text: segment.text,
+  }));
 
   return {
     schemaVersion: ATLAS_TEXT_OFFSET_MAP_SCHEMA_VERSION,
-    offsetDomains: [
-      ATLAS_TEXT_OFFSET_DOMAIN.UTF16_JS_CODE_UNIT,
-      ATLAS_TEXT_OFFSET_DOMAIN.UNICODE_CODE_POINT,
-      ATLAS_TEXT_OFFSET_DOMAIN.GRAPHEME_CLUSTER,
-    ],
+    offsetDomains: [...ATLAS_OFFSET_DOMAINS],
     adapterOffsetDomain: ATLAS_TEXT_OFFSET_DOMAIN.UTF16_JS_CODE_UNIT,
-    utf16Length: text.length,
-    codePointLength: codePoints.length,
-    graphemeLength: graphemes.length,
+    utf16Length: coordinateIndex.utf16Length,
+    codePointLength: coordinateIndex.codePointLength,
+    graphemeLength: coordinateIndex.graphemeLength,
     crlfCount: (text.match(/\r\n/gu) || []).length,
     loneLfCount: (text.replace(/\r\n/gu, '').match(/\n/gu) || []).length,
     codePoints,
     graphemes,
-    normalizationMap: buildNormalizationMap(text),
-  };
-}
-
-function rangeFromUtf16(items, startOffset, endOffset, indexKey) {
-  const selected = items.filter((item) => item.utf16Start < endOffset && item.utf16End > startOffset);
-  if (selected.length < 1) {
-    return {
-      start: 0,
-      end: 0,
-      length: 0,
-    };
-  }
-  const start = selected[0][indexKey];
-  const end = selected[selected.length - 1][indexKey] + 1;
-  return {
-    start,
-    end,
-    length: end - start,
+    normalizationMap: metadata.normalizationMap,
   };
 }
 
 export function buildAtlasTextAnchorPacket(input = {}) {
-  const sceneText = plainString(input.sceneText);
-  const startOffset = Math.max(0, Math.min(Number(input.startOffset) || 0, sceneText.length));
-  const endOffset = Math.max(startOffset, Math.min(Number(input.endOffset) || startOffset, sceneText.length));
+  const values = readAnchorInput(input);
+  const sceneText = values.sceneText;
+  const coordinateIndex = resolveCoordinateIndex(sceneText, values.coordinateIndex);
+  const codePointRange = convertTextCoordinateRange({
+    index: coordinateIndex,
+    fromDomain: TEXT_COORDINATE_DOMAIN.UTF16_JS_CODE_UNIT,
+    toDomain: TEXT_COORDINATE_DOMAIN.UNICODE_CODE_POINT,
+    start: values.startOffset,
+    end: values.endOffset,
+  });
+  const graphemeRange = convertTextCoordinateRange({
+    index: coordinateIndex,
+    fromDomain: TEXT_COORDINATE_DOMAIN.UTF16_JS_CODE_UNIT,
+    toDomain: TEXT_COORDINATE_DOMAIN.GRAPHEME_CLUSTER,
+    start: values.startOffset,
+    end: values.endOffset,
+  });
+  const startOffset = values.startOffset;
+  const endOffset = values.endOffset;
   const quote = sceneText.slice(startOffset, endOffset);
-  const offsetMap = buildAtlasTextOffsetMap(sceneText);
-  const codePointRange = rangeFromUtf16(offsetMap.codePoints, startOffset, endOffset, 'codePointIndex');
-  const graphemeRange = rangeFromUtf16(offsetMap.graphemes, startOffset, endOffset, 'graphemeIndex');
-  const projectId = normalizeString(input.projectId);
-  const sceneId = normalizeString(input.sceneId);
-  const entityId = normalizeString(input.entityId);
-  const termId = normalizeString(input.termId);
+  const projectId = normalizeString(values.projectId);
+  const sceneId = normalizeString(values.sceneId);
+  const entityId = normalizeString(values.entityId);
+  const termId = normalizeString(values.termId);
   const quoteHash = hashCanonicalValue(quote);
-  const sceneTextHash = hashCanonicalValue(sceneText);
+  const metadata = coordinateMetadata(sceneText, coordinateIndex);
+  const sceneTextHash = metadata.sceneTextHash;
   const anchorHash = hashCanonicalValue({
     projectId,
     sceneId,
@@ -162,6 +199,9 @@ export function buildAtlasTextAnchorPacket(input = {}) {
     quoteHash,
     sceneTextHash,
   });
+  const offsetMap = values.materializeOffsetMap === false
+    ? null
+    : buildAtlasTextOffsetMap(sceneText, coordinateIndex);
   return {
     schemaVersion: ATLAS_TEXT_ANCHOR_PACKET_SCHEMA_VERSION,
     evidenceAnchor: {
@@ -176,13 +216,13 @@ export function buildAtlasTextAnchorPacket(input = {}) {
       quoteHash,
       sceneTextHash,
       adapterOffsetDomain: ATLAS_TEXT_OFFSET_DOMAIN.UTF16_JS_CODE_UNIT,
-      offsetDomains: offsetMap.offsetDomains,
-      canonicalOffsetDomains: offsetMap.offsetDomains,
+      offsetDomains: [...ATLAS_OFFSET_DOMAINS],
+      canonicalOffsetDomains: [...ATLAS_OFFSET_DOMAINS],
       codePointRange,
       graphemeRange,
       prefixSelector: sceneText.slice(Math.max(0, startOffset - 24), startOffset),
       suffixSelector: sceneText.slice(endOffset, Math.min(sceneText.length, endOffset + 24)),
-      normalizationMap: offsetMap.normalizationMap,
+      normalizationMap: metadata.normalizationMap,
     },
     offsetMap,
     originalQuotePreserved: quote === sceneText.slice(startOffset, endOffset),

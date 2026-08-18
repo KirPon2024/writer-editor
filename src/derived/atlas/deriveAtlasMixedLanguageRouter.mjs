@@ -13,7 +13,10 @@ import {
   sortAtlasLanguageTags,
   sortAtlasMixedLanguageRoutes,
 } from './atlasLanguageTagTypes.mjs';
-import { buildAtlasTextAnchorPacket } from './atlasTextAnchorNormalization.mjs';
+import {
+  buildAtlasTextAnchorPacket,
+  buildAtlasTextCoordinateIndex,
+} from './atlasTextAnchorNormalization.mjs';
 import { requireAtlasSceneOrder } from './atlasSceneOrder.mjs';
 
 const VIEW_ID = 'derived.atlas.mixedLanguageRouter.v1';
@@ -173,7 +176,15 @@ function routePolicy(languageCode) {
   };
 }
 
-function routeForSegment({ projectId, scene, segment, languageCode, sourceTagId, defaultLanguageCode }) {
+function routeForSegment({
+  projectId,
+  scene,
+  segment,
+  languageCode,
+  sourceTagId,
+  defaultLanguageCode,
+  coordinateIndex,
+}) {
   const anchorPacket = buildAtlasTextAnchorPacket({
     projectId,
     sceneId: scene.sceneId,
@@ -182,6 +193,8 @@ function routeForSegment({ projectId, scene, segment, languageCode, sourceTagId,
     startOffset: segment.startOffset,
     endOffset: segment.endOffset,
     sceneText: scene.text,
+    coordinateIndex,
+    materializeOffsetMap: false,
   });
   const policy = routePolicy(languageCode);
   return {
@@ -216,6 +229,7 @@ function routeForSegment({ projectId, scene, segment, languageCode, sourceTagId,
 }
 
 function buildSceneRoutes({ projectId, scene, defaultLanguageCode, tags }) {
+  const coordinateIndex = buildAtlasTextCoordinateIndex(scene.text);
   const ranges = rangeTagsForScene(scene, tags);
   if (scene.text.length === 0) {
     return [routeForSegment({
@@ -225,6 +239,7 @@ function buildSceneRoutes({ projectId, scene, defaultLanguageCode, tags }) {
       languageCode: defaultLanguageCode,
       sourceTagId: '',
       defaultLanguageCode,
+      coordinateIndex,
     })];
   }
   const breakpoints = new Set([0, scene.text.length]);
@@ -245,6 +260,7 @@ function buildSceneRoutes({ projectId, scene, defaultLanguageCode, tags }) {
       languageCode: rangeTag ? rangeTag.languageCode : defaultLanguageCode,
       sourceTagId: rangeTag ? rangeTag.id : '',
       defaultLanguageCode,
+      coordinateIndex,
     }));
   }
   return routes;

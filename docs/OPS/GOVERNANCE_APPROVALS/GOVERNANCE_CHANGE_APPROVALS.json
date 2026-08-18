@@ -11103,12 +11103,12 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "5385e3ffcd3481b4fbe2b61ae5bac94bbbfb456cdc356f1c70a079a7bcc3aafb",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_V1",
-      "approvedAtUtc": "2026-08-17T22:37:26.000Z",
-      "rationale": "Approve cumulative Electron parent stdout-drain repair so already-emitted export and return-apply payloads are recorded before delayed child-exit failure, preserving fail-closed non-green evidence without route, pass, apply, or user-document claim widening.",
+      "sha256": "7d8c1f43ee853784ea1c4b916d296c33cde39192723d7adfccd948a87ad0becd",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1",
+      "approvedAtUtc": "2026-08-18T01:13:00.000Z",
+      "rationale": "Approve C5V2 physical Word canary AppleScript fail-closed repair: typed error variables preserve real operation/preflight blocker signals, author identity restore remains text-coerced, and AX disabled state is classified as permission-required without route PASS, apply authority, or user-document claim widening.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1"
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-terminal-orchestrator.mjs",
@@ -11193,10 +11193,10 @@
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-round-checkpoint.contract.test.js",
-      "sha256": "a995856684053d9ffeeaa153f9d7e29535fa99fee6c5b691467b5aa764544074",
+      "sha256": "93e26348ca4b1428fa68f1e0fa30102ec26e15b24b5c427eb836afbf93bbed8b",
       "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T19:23:26.000Z",
-      "rationale": "Approve C5V2 round checkpoint fixture update to the operationId exact-ledger binding shape required by the completed-round oracle gate.",
+      "approvedAtUtc": "2026-08-18T01:13:00.000Z",
+      "rationale": "Approve focused C5V2 round-checkpoint contract coverage for AppleScript typed fail-closed error variables, text-coerced Word user identity restoration, and permission-required AX preflight classification under C1 exact-ledger binding repair.",
       "approved": true,
       "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1"
     },

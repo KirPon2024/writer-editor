@@ -5009,8 +5009,8 @@ function wordOperationLines(ledger, returnedPath, materializationExpectations = 
       lines.push(markLine(id, operation.expectedOutcome));
       lines.push(`  set user name to ${appleText(C5V2_WORD_REVISION_AUTHOR_BASE)}`);
       lines.push('  set user initials to "C5V2"');
-      lines.push('on error errMsg number errNo');
-      lines.push('  set yLimitations to yLimitations & "TYPED_LIMIT_ERROR|' + id.replaceAll('"', '') + '|" & errNo & "|" & errMsg & linefeed');
+      lines.push('on error yTypedLimitErrMsg number yTypedLimitErrNo');
+      lines.push('  set yLimitations to yLimitations & "TYPED_LIMIT_ERROR|' + id.replaceAll('"', '') + '|" & (yTypedLimitErrNo as text) & "|" & (yTypedLimitErrMsg as text) & linefeed');
       lines.push('  try');
       lines.push(`    set user name to ${appleText(C5V2_WORD_REVISION_AUTHOR_BASE)}`);
       lines.push('    set user initials to "C5V2"');
@@ -5069,8 +5069,8 @@ function wordOperationLines(ledger, returnedPath, materializationExpectations = 
       lines.push(`    my yCheckpoint(yCheckpointPath, ${appleText(`${id}:TEXT_ENTRY_AFTER`)}, "")`);
       lines.push(markLine(id, 'PENDING_NATIVE_READBACK', '    '));
       lines.push(...lifecycleCheckpointLines(operation));
-      lines.push('  on error errMsg number errNo');
-      lines.push('    set yLimitations to yLimitations & "REPLY_ATTEMPT|" & errNo & "|" & errMsg & linefeed');
+      lines.push('  on error yReplyAttemptErrMsg number yReplyAttemptErrNo');
+      lines.push('    set yLimitations to yLimitations & "REPLY_ATTEMPT|" & (yReplyAttemptErrNo as text) & "|" & (yReplyAttemptErrMsg as text) & linefeed');
       lines.push(markLine(id, 'MANUAL_OR_BLOCKED', '    '));
       lines.push('  end try');
     } else if (operation.family === 'state_attempt') {
@@ -5105,8 +5105,8 @@ function wordOperationLines(ledger, returnedPath, materializationExpectations = 
       }
       lines.push(markLine(id, 'PENDING_NATIVE_READBACK', '    '));
       lines.push(...lifecycleCheckpointLines(operation));
-      lines.push('  on error errMsg number errNo');
-      lines.push('    set yLimitations to yLimitations & "STATE_ATTEMPT|" & errNo & "|" & errMsg & linefeed');
+      lines.push('  on error yStateAttemptErrMsg number yStateAttemptErrNo');
+      lines.push('    set yLimitations to yLimitations & "STATE_ATTEMPT|" & (yStateAttemptErrNo as text) & "|" & (yStateAttemptErrMsg as text) & linefeed');
       lines.push(markLine(id, 'MANUAL_OR_BLOCKED', '    '));
       lines.push('  end try');
     } else if (operation.family === 'formatting') {
@@ -5126,8 +5126,8 @@ function wordOperationLines(ledger, returnedPath, materializationExpectations = 
     }
     lines.push(`  set user name to ${appleText(C5V2_WORD_REVISION_AUTHOR_BASE)}`);
     lines.push('  set user initials to "C5V2"');
-    lines.push('on error errMsg number errNo');
-    lines.push('  set yLimitations to yLimitations & "OP_ERROR|' + id.replaceAll('"', '') + '|" & errNo & "|" & errMsg & linefeed');
+    lines.push('on error yOperationErrMsg number yOperationErrNo');
+    lines.push('  set yLimitations to yLimitations & "OP_ERROR|' + id.replaceAll('"', '') + '|" & (yOperationErrNo as text) & "|" & (yOperationErrMsg as text) & linefeed');
     lines.push('  try');
     lines.push(`    set user name to ${appleText(C5V2_WORD_REVISION_AUTHOR_BASE)}`);
     lines.push('    set user initials to "C5V2"');
@@ -5180,8 +5180,8 @@ function wordSemanticReadbackLines(ledger) {
       }
     }
     lines.push(`  set yNativeReadback to yNativeReadback & ${appleText(`READBACK|${id}|${expected}|WORD_OBJECT_MODEL_REOPENED`)} & linefeed`);
-    lines.push('on error errMsg number errNo');
-    lines.push(`  set yNativeReadback to yNativeReadback & ${appleText(`READBACK|${id}|BLOCKED|`)} & (errNo as text) & ":" & errMsg & linefeed`);
+    lines.push('on error yNativeReadbackErrMsg number yNativeReadbackErrNo');
+    lines.push(`  set yNativeReadback to yNativeReadback & ${appleText(`READBACK|${id}|BLOCKED|`)} & (yNativeReadbackErrNo as text) & ":" & (yNativeReadbackErrMsg as text) & linefeed`);
     lines.push('end try');
   }
   return lines.join('\n');
@@ -5321,6 +5321,7 @@ export function buildWordScript({
     '  tell application "System Events"',
     '    set yDiagnostics to "LEGACY_UI_ELEMENTS_ENABLED:" & yUiEnabled & ":PROCESS_EXISTS:" & yProcessExists & ":WORD_FRONTMOST:" & yWordFrontmost & ":WINDOW_COUNT:" & yWindowCount & ":AX_MENU_COUNT:" & yAxMenuCount & ":AX_WINDOW_SUBTREE_COUNT:" & yAxWindowSubtreeCount & ":AX_ERROR_NUMBER:" & yAxErrorNumber & ":AX_ERROR_MESSAGE:" & yAxErrorMessage & ":WINDOW_REVIVE:" & yWindowReviveDiagnostics & ":FRONT_DOCUMENT:" & yFrontDocument',
     '    if yProcessExists is false then return "MACOS_ACCESSIBILITY_WORD_PROCESS_MISSING|" & yDiagnostics',
+    '    if yUiEnabled is false then return "MACOS_ACCESSIBILITY_PERMISSION_REQUIRED|" & yDiagnostics',
     '    if yWindowCount < 1 then return "MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE|" & yDiagnostics',
     '    if yAxQuerySucceeded is false then return "MACOS_ACCESSIBILITY_PERMISSION_REQUIRED|" & yDiagnostics',
     '    if yFrontDocument is not yExpectedFullName then return "MACOS_ACCESSIBILITY_FRONT_DOCUMENT_MISMATCH|" & yDiagnostics',
@@ -5810,8 +5811,8 @@ export function buildWordScript({
     'activate',
     'set yDocWasOpened to false',
     'set oldAlerts to display alerts',
-    'set oldUserName to user name',
-    'set oldUserInitials to user initials',
+    'set oldUserName to user name as text',
+    'set oldUserInitials to user initials as text',
     'try',
     '  set display alerts to alerts none',
     `  set user name to ${appleText(C5V2_WORD_REVISION_AUTHOR_BASE)}`,
@@ -5907,23 +5908,25 @@ export function buildWordScript({
     '  close yDoc saving no',
     '  set yDocWasOpened to false',
     '  my yCheckpoint(yCheckpointPath, "FINAL_REOPEN_CLOSE_AFTER", "")',
-    '  set user name to oldUserName',
-    '  set user initials to oldUserInitials',
+    '  set user name to (oldUserName as text)',
+    '  set user initials to (oldUserInitials as text)',
     '  set display alerts to oldAlerts',
     '  return "WORD_STATUS=PASS" & linefeed & "REVISION_COUNT=" & yRevisionCount & linefeed & "COMMENT_COUNT=" & yCommentCount & linefeed & "READBACK_CHARS=" & (count of yReadback) & linefeed & yOpsDone & yNativeReadback & "UI_DIAGNOSTICS_BEGIN" & linefeed & yUiDiagnostics & "UI_DIAGNOSTICS_END" & linefeed & "LIMITATIONS_BEGIN" & linefeed & yLimitations & "LIMITATIONS_END"',
-    'on error errMsg number errNo',
+    'on error yCanaryErrMsg number yCanaryErrNo',
+    '  set yCanaryErrText to yCanaryErrMsg as text',
+    '  set yCanaryErrNumberText to yCanaryErrNo as text',
     '  try',
-    '    my yCheckpoint(yCheckpointPath, "CANARY_ERROR", (errNo as text) & "|" & errMsg)',
+    '    my yCheckpoint(yCheckpointPath, "CANARY_ERROR", yCanaryErrNumberText & "|" & yCanaryErrText)',
     '  end try',
     '  try',
     '    if yDocWasOpened then close yDoc saving no',
     '  end try',
     '  try',
-    '    set user name to oldUserName',
-    '    set user initials to oldUserInitials',
+    '    set user name to (oldUserName as text)',
+    '    set user initials to (oldUserInitials as text)',
     '    set display alerts to oldAlerts',
     '  end try',
-    '  return "WORD_STATUS=FAIL" & linefeed & "ERRNO=" & errNo & linefeed & "ERR=" & errMsg',
+    '  return "WORD_STATUS=FAIL" & linefeed & "ERRNO=" & yCanaryErrNumberText & linefeed & "ERR=" & yCanaryErrText',
     'end try',
     'end tell',
   ].join('\n');

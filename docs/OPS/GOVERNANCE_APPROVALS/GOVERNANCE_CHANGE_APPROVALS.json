@@ -11040,66 +11040,66 @@
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1.json",
-      "sha256": "9c64f57eecc27c7894a28541d24ccbc2c4287159f995785081bc51e4e2dc0ddb",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_REUSE_GATE_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T17:36:00.000Z",
-      "rationale": "Approve C1 fresh post-apply-lifecycle-reuse-gate-repair full-book Word replay receipt bound to exact merged main 5a5b34210bad80eaf1851efcf5a64426484f3f2a, preserving BLOCKED route verdict after returned-ready authenticated intake and complete-round semantic oracle green while exact ledger binding remains 60 of 105, product return apply, native lifecycle coverage, completed-round reuse binding, and formatting apply gates failed closed.",
+      "sha256": "df7b0c3b082f71ebfec6c6dbabbfb5d86e4057fc1047da333e37cd3861e1722f",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_EVIDENCE_RECEIPT_REBIND_V1",
+      "approvedAtUtc": "2026-08-17T23:38:58.288Z",
+      "rationale": "Approve post-failclosed C1 full-book route receipt rebind to exact merged head 8504d5fa8db9af9456cc6a6d0ec8b1aa8ad4d81a and physical campaign c1-round01-post-failclosed-w06-r4-20260817t230824z: returned-ready and complete-round oracle evidence is recorded while route remains BLOCKED with exact operationId binding 0 of 105, native lifecycle 0 of 38, no route PASS, no apply authority, no user-document claim.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_REUSE_GATE_REPAIR_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_EVIDENCE_RECEIPT_REBIND_V1"
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_CHAIN_MATRIX_V1.json",
-      "sha256": "3e90b9dc3e809420d3b4b815486cefd65b1a73fbe71e9fd761df9b0df00881a1",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_REUSE_GATE_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T17:36:00.000Z",
-      "rationale": "Approve interop chain matrix rebinding to the fresh C1 reuse-gate-repair replay evidence, exact ledger binding blocker, apply/lifecycle/reuse blocker, honest rollback metadata, and next bounded contour C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1 while keeping C1-C8 saturation NEEDS_MORE_EVIDENCE and denying product/provider/user-document authority.",
+      "sha256": "830a0ae8c3e91f8ebcb4d72c9f1739dd585a461af80b1f7bbae56b66baef52af",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_EVIDENCE_RECEIPT_REBIND_V1",
+      "approvedAtUtc": "2026-08-17T23:38:58.288Z",
+      "rationale": "Approve interop chain matrix rebind to the post-failclosed C1 blocked replay evidence, current receipt hash, 0 of 105 exact binding and 0 of 38 native lifecycle accounting, preserving C1-C8 NEEDS_MORE_EVIDENCE and denying product/provider/user-document authority.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_REUSE_GATE_REPAIR_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_EVIDENCE_RECEIPT_REBIND_V1"
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_MULTI_ROUND_LINEAGE_RECEIPT_V1.json",
-      "sha256": "60f11c6e8d0a2f3a017380ccddffefae3094fa8df69d98111fd5cf760d2f9283",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_REUSE_GATE_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T17:36:00.000Z",
-      "rationale": "Approve lineage receipt rebinding to the current interop matrix hash after the C1 exact-ledger blocker replay and rollback metadata correction while preserving NOT_STARTED denominator lineage status, denied chain-closure claims, and no route PASS.",
+      "sha256": "5f6b393a4cc54aca43d25498ef9296f73a1c3b62336d5576e0ce28e94fdda882",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_EVIDENCE_RECEIPT_REBIND_V1",
+      "approvedAtUtc": "2026-08-17T23:38:58.288Z",
+      "rationale": "Approve lineage receipt matrix-hash rebind after the post-failclosed C1 blocked replay update while preserving NOT_STARTED denominator lineage status and denied chain-saturation claims.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_REUSE_GATE_REPAIR_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_EVIDENCE_RECEIPT_REBIND_V1"
     },
     {
       "filePath": "scripts/ops/rtk-interop-c1-word-fullbook-route-v1.mjs",
-      "sha256": "6f05308decd0e1766fc862fc48b7b5ccb6c990b75d83f0aec66efcf92f0cbd63",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_REUSE_GATE_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T17:36:00.000Z",
-      "rationale": "Approve C1 verifier update that binds exact head 5a5b34210bad80eaf1851efcf5a64426484f3f2a, exact replay run IDs, 60 of 105 exact ledger blocker, 224 formatting deltas, 20/20 hostile kills, 12/12 semantic mutation kills, and stale-base rejection without route PASS or apply-authority laundering.",
+      "sha256": "9032bf4b8998fa2d6b5bd77ec5d496703a902f5035428c67db201991f3f638fd",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_EVIDENCE_RECEIPT_REBIND_V1",
+      "approvedAtUtc": "2026-08-17T23:38:58.288Z",
+      "rationale": "Approve C1 route verifier rebind to exact head 8504d5fa8db9af9456cc6a6d0ec8b1aa8ad4d81a, stale-head rejection of previous replay bases, 0 of 105 exact operationId binding, 304 formatting candidates, 0 of 38 native lifecycle coverage, and fail-closed hostile mutations without route PASS or apply-authority laundering.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_REUSE_GATE_REPAIR_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_EVIDENCE_RECEIPT_REBIND_V1"
     },
     {
       "filePath": "scripts/ops/rtk-interop-chain-matrix-v1.mjs",
-      "sha256": "6aafe172338b71b0857d6019bc7f711a2038c8f8c92dea1d7041c7f50da46251",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_REUSE_GATE_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T17:36:00.000Z",
-      "rationale": "Approve chain matrix verifier update that binds exact head 5a5b34210bad80eaf1851efcf5a64426484f3f2a, the post-reuse-gate exact-ledger blocked accounting string, exact text binding 60 of 105, and stale C1 base rejection.",
+      "sha256": "010c5d6c8d0d35cda5f8bd2266c59ed4de9b514c2c8d56b2573aea0bd00fa814",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_EVIDENCE_RECEIPT_REBIND_V1",
+      "approvedAtUtc": "2026-08-17T23:38:58.288Z",
+      "rationale": "Approve chain matrix verifier rebind to exact head 8504d5fa8db9af9456cc6a6d0ec8b1aa8ad4d81a and post-failclosed blocked accounting with 0 of 105 exact binding, 0 of 38 lifecycle coverage, stale-base rejection, and no saturation escalation.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_REUSE_GATE_REPAIR_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_EVIDENCE_RECEIPT_REBIND_V1"
     },
     {
       "filePath": "test/contracts/rtk-interop-c1-word-fullbook-route.contract.test.js",
-      "sha256": "b2b90e7c5cb3400e97a1220be003a8de0494905545133f0ed15d7da8a69cf484",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_REUSE_GATE_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T17:36:00.000Z",
-      "rationale": "Approve C1 focused contract coverage for the fresh full-book replay blocker: returned-ready authenticated intake, complete-round semantic oracle green, exact ledger 60 of 105, denied parser/apply authority, native lifecycle 5/33 coverage, formatting apply blocker, and hostile mutation rejection.",
+      "sha256": "561b5c170332dc767e1e3c1a15abe4ea81966ed260d96fd85e3635f11ba44cf8",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_EVIDENCE_RECEIPT_REBIND_V1",
+      "approvedAtUtc": "2026-08-17T23:38:58.288Z",
+      "rationale": "Approve focused C1 route contract coverage for the post-failclosed blocked replay: exact head, returned-ready authenticated intake, complete-round oracle green, exact binding 0 of 105, formatting 304, lifecycle 0 of 38, and hostile mutation rejection.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_REUSE_GATE_REPAIR_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_EVIDENCE_RECEIPT_REBIND_V1"
     },
     {
       "filePath": "test/contracts/rtk-interop-chain-matrix.contract.test.js",
-      "sha256": "2bbdfcfee2036947e6cb9faf5b6120122b84c3b10decc0569cf06e4dfb0a05c4",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_REUSE_GATE_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T17:36:00.000Z",
-      "rationale": "Approve interop chain matrix focused contract update for the C1 exact-ledger blocker, apply/lifecycle/reuse blocker references, source-evidence exact binding counts, and next-contour rebinding without saturation or parity escalation.",
+      "sha256": "a722a4fce56688c77e27abcc32223424ac12306584cc970320ebeda614641a46",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_EVIDENCE_RECEIPT_REBIND_V1",
+      "approvedAtUtc": "2026-08-17T23:38:58.288Z",
+      "rationale": "Approve focused interop chain matrix contract coverage for the post-failclosed C1 blocked replay source-evidence counts, first unmatched operation id, exact failure reason, stale-base rejection, and no C1-C8 saturation escalation.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_REUSE_GATE_REPAIR_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_EVIDENCE_RECEIPT_REBIND_V1"
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",

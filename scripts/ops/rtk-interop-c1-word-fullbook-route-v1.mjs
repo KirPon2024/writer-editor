@@ -10,15 +10,18 @@ export const TASK_ID = 'C1_YALKEN_WORD_YALKEN_FULL_BOOK_ROUTE_V1';
 export const STATUS = 'C1_YALKEN_WORD_YALKEN_FULL_BOOK_ROUTE_V1_EXECUTED_BLOCKED_FAIL_CLOSED';
 export const VERDICT = 'NEEDS_MORE_EVIDENCE';
 export const PROGRAM_VERDICT = 'NEEDS_MORE_EVIDENCE';
-export const EXACT_HEAD = '5a5b34210bad80eaf1851efcf5a64426484f3f2a';
+export const EXACT_HEAD = '8504d5fa8db9af9456cc6a6d0ec8b1aa8ad4d81a';
 export const PRE_AUTH_REPAIR_ROUTE_HEAD = '1b8a23441ba29b6cac79a62a3b18ece031654e62';
 export const PRE_VISIBILITY_REPLAY_ROUTE_HEAD = '5ebb75f4110bb1a287ad9a9109cebdeb373642ba';
 export const PRE_WINDOW_REPAIR_ROUTE_HEAD = '9453e232a65b6cf92ceb802adf2d2f776fd3ee33';
 export const PRE_NATIVE_MATERIALIZATION_REPLAY_ROUTE_HEAD = '834f37a8cb5ba3eb854f6407e2dc4e7e14606d88';
 export const PRE_ORACLE_OUTCOME_MISMATCH_REPAIR_ROUTE_HEAD = '279dde31d1bcf4c6a7cc80f6acfd034f9bdd600b';
 export const PRE_APPLY_LIFECYCLE_REUSE_GATE_REPAIR_ROUTE_HEAD = '6aee73c0770357cd0b84bf5e8388cee38071c798';
+export const PRE_REUSE_GATE_REPLAY_ROUTE_HEAD = '5a5b34210bad80eaf1851efcf5a64426484f3f2a';
+export const PRE_STDOUT_DRAIN_REPAIR_HEAD = '77bbf5c24459d5a16dd8e20a51de0987235eab13';
 export const NEXT_SEQUENTIAL_CONTOUR = 'C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1';
-export const POST_REUSE_GATE_REPAIR_FULL_BOOK_ACCOUNTING = 'FULL_BOOK_ATTEMPTED_POST_REUSE_GATE_REPAIR_EXACT_LEDGER_BINDING_BLOCKED_NOT_PROVEN';
+export const POST_FAILCLOSED_REPLAY_FULL_BOOK_ACCOUNTING = 'FULL_BOOK_ATTEMPTED_POST_FAILCLOSED_REPLAY_EXACT_LEDGER_BINDING_BLOCKED_NOT_PROVEN';
+export const POST_REUSE_GATE_REPAIR_FULL_BOOK_ACCOUNTING = POST_FAILCLOSED_REPLAY_FULL_BOOK_ACCOUNTING;
 export const POST_AUTH_REPAIR_FULL_BOOK_ACCOUNTING = POST_REUSE_GATE_REPAIR_FULL_BOOK_ACCOUNTING;
 export const RECEIPT_PATH = 'docs/OPS/RTK/YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1.json';
 export const MATRIX_PATH = 'docs/OPS/RTK/YALKEN_INTEROP_CHAIN_MATRIX_V1.json';
@@ -158,8 +161,8 @@ function validateDenominator(denominator, errors) {
   failIf(!String(denominator.route?.reason || '').includes('PRODUCT_RETURN_APPLY_NOT_GREEN'), errors, 'ROUTE_DENOMINATOR_INVALID:PRODUCT_RETURN_APPLY_BLOCKER_NOT_RECORDED');
   failIf(!String(denominator.route?.reason || '').includes('NATIVE_LIFECYCLE_VERIFICATION_NOT_GREEN'), errors, 'ROUTE_DENOMINATOR_INVALID:NATIVE_LIFECYCLE_BLOCKER_NOT_RECORDED');
   failIf(!String(denominator.route?.reason || '').includes('COMPLETED_ROUND_REUSE_BINDING_NOT_GREEN'), errors, 'ROUTE_DENOMINATOR_INVALID:REUSE_BINDING_BLOCKER_NOT_RECORDED');
-  failIf(!String(denominator.route?.reason || '').includes('60 of 105'), errors, 'ROUTE_DENOMINATOR_INVALID:EXACT_LEDGER_60_OF_105_NOT_RECORDED');
-  failIf(!String(denominator.route?.reason || '').includes('C5V2_EXACT_SUMMARY_LEDGER_BINDING_REQUIRED'), errors, 'ROUTE_DENOMINATOR_INVALID:EXACT_LEDGER_BLOCKER_NOT_RECORDED');
+  failIf(!String(denominator.route?.reason || '').includes('0 of 105'), errors, 'ROUTE_DENOMINATOR_INVALID:EXACT_LEDGER_0_OF_105_NOT_RECORDED');
+  failIf(!String(denominator.route?.reason || '').includes('NO_EXACT_TEXT_CANDIDATE_OPERATION_ID_BINDING_FAILED'), errors, 'ROUTE_DENOMINATOR_INVALID:EXACT_LEDGER_BLOCKER_NOT_RECORDED');
   failIf(!String(denominator.route?.reason || '').includes('RTK_FORMATTING_OPERATION_UNKNOWN_KEY'), errors, 'ROUTE_DENOMINATOR_INVALID:FORMATTING_BLOCKER_NOT_RECORDED');
 }
 
@@ -204,7 +207,7 @@ function validatePhysicalEvidence(evidence, errors) {
   }
   failIf(evidence.syntheticDisposableDocxOnly !== true, errors, 'PHYSICAL_EVIDENCE_INVALID:DISPOSABLE_ONLY_REQUIRED');
   failIf(evidence.userDocumentsTouched !== false, errors, 'USER_DOCUMENT_COUNTER_NONZERO');
-  failIf(evidence.runId !== 'c1-route-reuse-gate-repair-w06-r1-20260817', errors, 'PHYSICAL_RESULT_INVALID:FRESH_REPLAY_RUN_ID');
+  failIf(evidence.runId !== 'c1-round01-post-failclosed-w06-r4-20260817t230824z', errors, 'PHYSICAL_RESULT_INVALID:FRESH_REPLAY_RUN_ID');
   failIf(evidence.previousRedRunId !== 'c1-round01-oracle-repair-w06-20260817', errors, 'PHYSICAL_RESULT_INVALID:PREVIOUS_ORACLE_MISMATCH_REPLAY_NOT_RECORDED');
   failIf(evidence.previousInterruptedRunId !== 'c1-fullbook-auth-repair-w06-r2-20260817', errors, 'PHYSICAL_RESULT_INVALID:INTERRUPTED_REPLAY_NOT_RECORDED');
   failIf(evidence.previousNativeMaterializationBlockedRunId !== 'c1-window-visibility-repair-w06-r1-20260817', errors, 'PHYSICAL_RESULT_INVALID:PREVIOUS_NATIVE_MATERIALIZATION_REPLAY_NOT_RECORDED');
@@ -234,8 +237,8 @@ function validatePhysicalEvidence(evidence, errors) {
   failIf(evidence.round01?.productReturnApplyGreen !== false, errors, 'PHYSICAL_RESULT_INVALID:PRODUCT_RETURN_APPLY_MUST_BE_FALSE_FOR_GATE_BLOCKER');
   failIf(evidence.round01?.nativeLifecycleVerificationGreen !== false, errors, 'PHYSICAL_RESULT_INVALID:NATIVE_LIFECYCLE_MUST_BE_FALSE_FOR_GATE_BLOCKER');
   failIf(evidence.round01?.nativeLifecycleCoverage?.ok !== false, errors, 'PHYSICAL_RESULT_INVALID:NATIVE_LIFECYCLE_COVERAGE_MUST_BE_FALSE');
-  failIf(evidence.round01?.nativeLifecycleCoverage?.verifiedCount !== 5, errors, 'PHYSICAL_RESULT_INVALID:NATIVE_LIFECYCLE_VERIFIED_COUNT');
-  failIf(evidence.round01?.nativeLifecycleCoverage?.blockedCount !== 33, errors, 'PHYSICAL_RESULT_INVALID:NATIVE_LIFECYCLE_BLOCKED_COUNT');
+  failIf(evidence.round01?.nativeLifecycleCoverage?.verifiedCount !== 0, errors, 'PHYSICAL_RESULT_INVALID:NATIVE_LIFECYCLE_VERIFIED_COUNT');
+  failIf(evidence.round01?.nativeLifecycleCoverage?.blockedCount !== 38, errors, 'PHYSICAL_RESULT_INVALID:NATIVE_LIFECYCLE_BLOCKED_COUNT');
   failIf(evidence.round01?.nativeLifecycleCoverage?.expectedOperationIdsDigest !== 'sha256:2910478186c15430136050fbfc0c19ff19555538c25e701e5b0b288bea7c45ca', errors, 'PHYSICAL_RESULT_INVALID:NATIVE_LIFECYCLE_EXPECTED_DIGEST');
   failIf(evidence.round01?.nativeLifecycleCoverage?.resultOperationIdsDigest !== 'sha256:2910478186c15430136050fbfc0c19ff19555538c25e701e5b0b288bea7c45ca', errors, 'PHYSICAL_RESULT_INVALID:NATIVE_LIFECYCLE_RESULT_DIGEST');
   failIf(evidence.round01?.completedRoundReuseBindingOk !== false, errors, 'PHYSICAL_RESULT_INVALID:COMPLETED_ROUND_REUSE_BINDING_MUST_BE_FALSE');
@@ -249,23 +252,23 @@ function validatePhysicalEvidence(evidence, errors) {
     failIf(productReturnApply.returnIntakeStatus !== 'authenticated-return-ir-ready', errors, 'PHYSICAL_RESULT_INVALID:PRODUCT_RETURN_APPLY_AUTH_STATUS');
     failIf(productReturnApply.textRevisions !== 398, errors, 'PHYSICAL_RESULT_INVALID:PRODUCT_RETURN_APPLY_TEXT_REVISIONS');
     failIf(productReturnApply.commentThreads !== 54, errors, 'PHYSICAL_RESULT_INVALID:PRODUCT_RETURN_APPLY_COMMENT_THREADS');
-    failIf(productReturnApply.formattingDeltas !== 224, errors, 'PHYSICAL_RESULT_INVALID:PRODUCT_RETURN_APPLY_FORMATTING_DELTAS');
+    failIf(productReturnApply.formattingDeltas !== 304, errors, 'PHYSICAL_RESULT_INVALID:PRODUCT_RETURN_APPLY_FORMATTING_DELTAS');
     failIf(productReturnApply.opaqueUnsupported !== 9, errors, 'PHYSICAL_RESULT_INVALID:PRODUCT_RETURN_APPLY_OPAQUE_UNSUPPORTED');
     failIf(productReturnApply.exactTextBindingOk !== false, errors, 'PHYSICAL_RESULT_INVALID:EXACT_LEDGER_BINDING_MUST_REMAIN_FALSE');
     failIf(productReturnApply.expectedOperationCount !== 105, errors, 'PHYSICAL_RESULT_INVALID:EXACT_LEDGER_EXPECTED_COUNT');
-    failIf(productReturnApply.matchedOperationCount !== 60, errors, 'PHYSICAL_RESULT_INVALID:EXACT_LEDGER_MATCHED_COUNT');
-    failIf(productReturnApply.matchedChangeCount !== 60, errors, 'PHYSICAL_RESULT_INVALID:EXACT_LEDGER_MATCHED_CHANGE_COUNT');
-    failIf(productReturnApply.excludedCandidateCount !== 101, errors, 'PHYSICAL_RESULT_INVALID:EXACT_LEDGER_EXCLUDED_CANDIDATE_COUNT');
-    failIf(productReturnApply.unmatchedExpectedOperationCount !== 45, errors, 'PHYSICAL_RESULT_INVALID:EXACT_LEDGER_UNMATCHED_COUNT');
-    failIf(!Array.isArray(productReturnApply.firstUnmatchedExpectedOperationIds) || productReturnApply.firstUnmatchedExpectedOperationIds[0] !== 'c5v2-tracked_text_edit-0023', errors, 'PHYSICAL_RESULT_INVALID:EXACT_LEDGER_FIRST_UNMATCHED');
+    failIf(productReturnApply.matchedOperationCount !== 0, errors, 'PHYSICAL_RESULT_INVALID:EXACT_LEDGER_MATCHED_COUNT');
+    failIf(productReturnApply.matchedChangeCount !== 0, errors, 'PHYSICAL_RESULT_INVALID:EXACT_LEDGER_MATCHED_CHANGE_COUNT');
+    failIf(productReturnApply.excludedCandidateCount !== 161, errors, 'PHYSICAL_RESULT_INVALID:EXACT_LEDGER_EXCLUDED_CANDIDATE_COUNT');
+    failIf(productReturnApply.unmatchedExpectedOperationCount !== 105, errors, 'PHYSICAL_RESULT_INVALID:EXACT_LEDGER_UNMATCHED_COUNT');
+    failIf(!Array.isArray(productReturnApply.firstUnmatchedExpectedOperationIds) || productReturnApply.firstUnmatchedExpectedOperationIds[0] !== 'c5v2-tracked_text_edit-0003', errors, 'PHYSICAL_RESULT_INVALID:EXACT_LEDGER_FIRST_UNMATCHED');
     failIf(productReturnApply.formattingApplyOk !== false, errors, 'PHYSICAL_RESULT_INVALID:FORMATTING_APPLY_MUST_REMAIN_FALSE');
     failIf(productReturnApply.formattingApplyCode !== 'RTK_FORMATTING_OPERATION_UNKNOWN_KEY', errors, 'PHYSICAL_RESULT_INVALID:FORMATTING_APPLY_CODE');
     failIf(productReturnApply.formattingPreviewCode !== 'RTK_FORMATTING_RETURN_USER_DECISION_READY', errors, 'PHYSICAL_RESULT_INVALID:FORMATTING_PREVIEW_CODE');
-    failIf(productReturnApply.formattingPreviewOperationCount !== 224, errors, 'PHYSICAL_RESULT_INVALID:FORMATTING_PREVIEW_OPERATION_COUNT');
-    failIf(productReturnApply.applyResultsCount !== 10, errors, 'PHYSICAL_RESULT_INVALID:APPLY_RESULTS_COUNT');
-    failIf(productReturnApply.replayResultsCount !== 10, errors, 'PHYSICAL_RESULT_INVALID:REPLAY_RESULTS_COUNT');
-    failIf(productReturnApply.staleRetryBlockedCount !== 10, errors, 'PHYSICAL_RESULT_INVALID:STALE_RETRY_BLOCKED_COUNT');
-    failIf(productReturnApply.nonOverlapReason !== 'FULL_MANUSCRIPT_EXACT_AUTHORITY_QUOTE_NOT_UNIQUE', errors, 'PHYSICAL_RESULT_INVALID:NON_OVERLAP_REASON');
+    failIf(productReturnApply.formattingPreviewOperationCount !== 304, errors, 'PHYSICAL_RESULT_INVALID:FORMATTING_PREVIEW_OPERATION_COUNT');
+    failIf(productReturnApply.applyResultsCount !== 0, errors, 'PHYSICAL_RESULT_INVALID:APPLY_RESULTS_COUNT');
+    failIf(productReturnApply.replayResultsCount !== 0, errors, 'PHYSICAL_RESULT_INVALID:REPLAY_RESULTS_COUNT');
+    failIf(productReturnApply.staleRetryBlockedCount !== 0, errors, 'PHYSICAL_RESULT_INVALID:STALE_RETRY_BLOCKED_COUNT');
+    failIf(productReturnApply.nonOverlapReason !== 'NO_EXACT_TEXT_CANDIDATE_OPERATION_ID_BINDING_FAILED', errors, 'PHYSICAL_RESULT_INVALID:NON_OVERLAP_REASON');
   }
   failIf(evidence.round01?.nativeMaterializationRootCountRepairObserved !== true, errors, 'PHYSICAL_RESULT_INVALID:NATIVE_MATERIALIZATION_REPAIR_NOT_OBSERVED');
   failIf(evidence.resultStatus?.plannedOperations !== 2000, errors, 'PHYSICAL_RESULT_INVALID:PLANNED_OPERATIONS');
@@ -285,14 +288,14 @@ function validatePhysicalEvidence(evidence, errors) {
   failIf(evidence.resultStatus?.falseAutoApplyCount !== 0, errors, 'FALSE_AUTO_APPLY_COUNT_NONZERO');
   failIf(evidence.resultStatus?.productReturnApplyFailure !== 'PRODUCT_RETURN_APPLY_NOT_GREEN', errors, 'PHYSICAL_RESULT_INVALID:PRODUCT_RETURN_APPLY_FAILURE_NOT_RECORDED');
   failIf(evidence.resultStatus?.completeRoundOracleGreen !== true, errors, 'PHYSICAL_RESULT_INVALID:RESULT_COMPLETE_ROUND_ORACLE_MUST_BE_GREEN');
-  failIf(evidence.resultStatus?.nativeLifecycleVerifiedCount !== 5, errors, 'PHYSICAL_RESULT_INVALID:RESULT_NATIVE_LIFECYCLE_VERIFIED_COUNT');
-  failIf(evidence.resultStatus?.nativeLifecycleBlockedCount !== 33, errors, 'PHYSICAL_RESULT_INVALID:RESULT_NATIVE_LIFECYCLE_BLOCKED_COUNT');
+  failIf(evidence.resultStatus?.nativeLifecycleVerifiedCount !== 0, errors, 'PHYSICAL_RESULT_INVALID:RESULT_NATIVE_LIFECYCLE_VERIFIED_COUNT');
+  failIf(evidence.resultStatus?.nativeLifecycleBlockedCount !== 38, errors, 'PHYSICAL_RESULT_INVALID:RESULT_NATIVE_LIFECYCLE_BLOCKED_COUNT');
   failIf(evidence.returnedArtifactPresent !== true, errors, 'PHYSICAL_RESULT_INVALID:RETURNED_ARTIFACT_MUST_BE_PRESENT_AFTER_REPAIR');
   failIf(evidence.returnedArtifactSha256 !== evidence.returnedDocxSha256, errors, 'PHYSICAL_RESULT_INVALID:RETURNED_ARTIFACT_DIGEST_MISMATCH');
   const wordWindowDiagnostics = String(evidence.resultStatus?.wordWindowDiagnostics || '');
   failIf(!wordWindowDiagnostics.includes('RETURNED_READY_TRUE'), errors, 'PHYSICAL_RESULT_INVALID:RETURNED_READY_DIAGNOSTIC_NOT_RECORDED');
   failIf(!wordWindowDiagnostics.includes('COMPLETE_ROUND_ORACLE_GREEN_TRUE'), errors, 'PHYSICAL_RESULT_INVALID:COMPLETE_ROUND_ORACLE_GREEN_DIAGNOSTIC_NOT_RECORDED');
-  failIf(!wordWindowDiagnostics.includes('EXACT_LEDGER_BINDING_60_OF_105'), errors, 'PHYSICAL_RESULT_INVALID:EXACT_LEDGER_DIAGNOSTIC_NOT_RECORDED');
+  failIf(!wordWindowDiagnostics.includes('EXACT_LEDGER_BINDING_0_OF_105'), errors, 'PHYSICAL_RESULT_INVALID:EXACT_LEDGER_DIAGNOSTIC_NOT_RECORDED');
   failIf(!String(evidence.resultStatus?.wrapperError || '').includes('C5V2_COMPLETE_ROUND_ORACLE_GATE_FAILED'), errors, 'PHYSICAL_RESULT_INVALID:COMPLETE_ROUND_ORACLE_GATE_ERROR_NOT_RECORDED');
   failIf(!String(evidence.resultStatus?.wrapperError || '').includes('PRODUCT_RETURN_APPLY_NOT_GREEN'), errors, 'PHYSICAL_RESULT_INVALID:WRAPPER_PRODUCT_APPLY_GATE_NOT_RECORDED');
   failIf(!String(evidence.resultStatus?.wrapperError || '').includes('NATIVE_LIFECYCLE_VERIFICATION_NOT_GREEN'), errors, 'PHYSICAL_RESULT_INVALID:WRAPPER_NATIVE_LIFECYCLE_GATE_NOT_RECORDED');
@@ -306,7 +309,7 @@ function validatePhysicalEvidence(evidence, errors) {
   failIf(evidence.independentParserProbe?.canWriteManuscript !== false, errors, 'INDEPENDENT_PARSER_PROBE_INVALID:WRITE_AUTHORITY');
   failIf(evidence.independentParserProbe?.reviewCounts?.textRevisions !== 398, errors, 'INDEPENDENT_PARSER_PROBE_INVALID:TEXT_REVISION_COUNT');
   failIf(evidence.independentParserProbe?.reviewCounts?.commentThreads !== 54, errors, 'INDEPENDENT_PARSER_PROBE_INVALID:COMMENT_COUNT');
-  failIf(evidence.independentParserProbe?.reviewCounts?.formattingDeltas !== 224, errors, 'INDEPENDENT_PARSER_PROBE_INVALID:FORMATTING_COUNT');
+  failIf(evidence.independentParserProbe?.reviewCounts?.formattingDeltas !== 304, errors, 'INDEPENDENT_PARSER_PROBE_INVALID:FORMATTING_COUNT');
   failIf(evidence.independentParserProbe?.selectedCarrier !== 'RETURNED_READY_APPLY_LIFECYCLE_REUSE_GATE_BLOCKED_NOT_ROUTE_PASS', errors, 'INDEPENDENT_PARSER_PROBE_INVALID:CARRIER_MUST_REMAIN_NON_AUTHORITY_MARKER');
   failIf(evidence.independentParserProbe?.authorityVerified !== false, errors, 'INDEPENDENT_PARSER_PROBE_INVALID:AUTHORITY_VERIFIED');
   failIf(evidence.independentParserProbe?.authorityReason !== 'APPLY_LIFECYCLE_REUSE_GATE_FAILED', errors, 'INDEPENDENT_PARSER_PROBE_INVALID:AUTHORITY_REASON');
@@ -467,6 +470,8 @@ export function resolveExactHeadBinding(repoRoot = repoRootFromHere(), env = pro
         PRE_NATIVE_MATERIALIZATION_REPLAY_ROUTE_HEAD,
         PRE_ORACLE_OUTCOME_MISMATCH_REPAIR_ROUTE_HEAD,
         PRE_APPLY_LIFECYCLE_REUSE_GATE_REPAIR_ROUTE_HEAD,
+        PRE_REUSE_GATE_REPLAY_ROUTE_HEAD,
+        PRE_STDOUT_DRAIN_REPAIR_HEAD,
       ],
     };
   }

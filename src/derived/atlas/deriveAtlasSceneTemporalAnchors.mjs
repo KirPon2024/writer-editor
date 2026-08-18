@@ -4,6 +4,7 @@ import {
   ATLAS_SCENE_TEMPORAL_ANCHORS_SURFACE_MANIFEST_VERSION,
   sortAtlasSceneTemporalAnchors,
 } from './atlasTemporalRangeTypes.mjs';
+import { requireAtlasSceneOrder } from './atlasSceneOrder.mjs';
 
 const VIEW_ID = 'derived.atlas.sceneTemporalAnchors.v1';
 const PROVIDER_ID = 'query.atlasSceneTemporalAnchors';
@@ -21,17 +22,6 @@ function normalizeString(value) {
 function getProject(coreState, projectId) {
   const projects = isPlainObject(coreState?.data?.projects) ? coreState.data.projects : {};
   return isPlainObject(projects[projectId]) ? projects[projectId] : null;
-}
-
-function sceneOrderFromProject(project) {
-  const scenes = isPlainObject(project?.scenes) ? project.scenes : {};
-  return Object.keys(scenes)
-    .sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'variant' }))
-    .map((sceneId, sceneOrdinal) => ({
-      sceneId,
-      sceneOrdinal,
-      sceneTitle: normalizeString(scenes[sceneId]?.title) || sceneId,
-    }));
 }
 
 function isAtlasSceneTemporalAnchorsCapabilityEnabled(snapshot) {
@@ -166,7 +156,7 @@ function countRange(items, axis, kind) {
 }
 
 function buildSceneTemporalAnchorsState({ project, projectId, invalidationKey }) {
-  const sceneOrder = sceneOrderFromProject(project);
+  const sceneOrder = requireAtlasSceneOrder(project, VIEW_ID, { trimSceneTitle: true });
   const anchors = isPlainObject(project.atlas?.sceneTemporalAnchors) ? project.atlas.sceneTemporalAnchors : {};
   const rows = sortAtlasSceneTemporalAnchors(sceneOrder.map((scene) => {
     const anchor = isPlainObject(anchors[scene.sceneId]) ? anchors[scene.sceneId] : null;

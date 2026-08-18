@@ -14,6 +14,7 @@ import {
   sortAtlasMixedLanguageRoutes,
 } from './atlasLanguageTagTypes.mjs';
 import { buildAtlasTextAnchorPacket } from './atlasTextAnchorNormalization.mjs';
+import { requireAtlasSceneOrder } from './atlasSceneOrder.mjs';
 
 const VIEW_ID = 'derived.atlas.mixedLanguageRouter.v1';
 const PROVIDER_ID = 'query.atlasMixedLanguageRouter';
@@ -40,18 +41,6 @@ function normalizeInteger(value) {
 function getProject(coreState, projectId) {
   const projects = isPlainObject(coreState?.data?.projects) ? coreState.data.projects : {};
   return isPlainObject(projects[projectId]) ? projects[projectId] : null;
-}
-
-function sceneOrderFromProject(project) {
-  const scenes = isPlainObject(project?.scenes) ? project.scenes : {};
-  return Object.keys(scenes)
-    .sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'variant' }))
-    .map((sceneId, sceneOrdinal) => ({
-      sceneId,
-      sceneOrdinal,
-      sceneTitle: normalizeString(scenes[sceneId]?.title) || sceneId,
-      text: typeof scenes[sceneId]?.text === 'string' ? scenes[sceneId].text : '',
-    }));
 }
 
 function isCapabilityEnabled(snapshot) {
@@ -264,7 +253,10 @@ function buildSceneRoutes({ projectId, scene, defaultLanguageCode, tags }) {
 function buildRouter({ project, projectId, meta }) {
   const tags = collectTags(project, projectId);
   const defaultLanguageCode = projectDefaultLanguage(project, tags);
-  const scenes = sceneOrderFromProject(project);
+  const scenes = requireAtlasSceneOrder(project, VIEW_ID, {
+    includeText: true,
+    trimSceneTitle: true,
+  });
   const routes = sortAtlasMixedLanguageRoutes(scenes.flatMap((scene) => buildSceneRoutes({
     projectId,
     scene,

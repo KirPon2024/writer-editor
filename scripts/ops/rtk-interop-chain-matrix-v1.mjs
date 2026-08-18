@@ -22,8 +22,12 @@ export const INTEROP_CHAIN_PRE_ORACLE_OUTCOME_MISMATCH_REPAIR_SHA = '279dde31d1b
 export const INTEROP_CHAIN_PRE_APPLY_LIFECYCLE_REUSE_GATE_REPAIR_SHA = '6aee73c0770357cd0b84bf5e8388cee38071c798';
 export const INTEROP_CHAIN_PRE_REUSE_GATE_REPLAY_SHA = '5a5b34210bad80eaf1851efcf5a64426484f3f2a';
 export const INTEROP_CHAIN_PRE_STDOUT_DRAIN_REPAIR_SHA = '77bbf5c24459d5a16dd8e20a51de0987235eab13';
+export const INTEROP_CHAIN_POST_EXACT_LEDGER_REPAIR_PR_HEAD_SHA = 'f53f80fe21828c270f04ef7766d2fe74bbe2d31f';
+export const INTEROP_CHAIN_POST_EXACT_LEDGER_REPAIR_MERGE_SHA = '8b3d9cbb3d76c43bd777104bf95cf209062e6d40';
+export const INTEROP_CHAIN_POST_EXACT_LEDGER_REPAIR_MERGE_TREE = 'c07b18ed3db7fbb859596e224830f371bd698320';
+export const INTEROP_CHAIN_CURRENT_RUNTIME_PRECONDITION = 'MACOS_ACCESSIBILITY_PERMISSION_REQUIRED';
 export const MATRIX_STATUS = 'INTEROP_CHAIN_C1_C8_DENOMINATOR_REGISTERED_NEEDS_MORE_EVIDENCE';
-export const NEXT_SEQUENTIAL_CONTOUR = 'C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1';
+export const NEXT_SEQUENTIAL_CONTOUR = 'C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_MACOS_ACCESSIBILITY_PERMISSION_RESTORED_V1';
 export const POST_FAILCLOSED_REPLAY_FULL_BOOK_ACCOUNTING = 'FULL_BOOK_ATTEMPTED_POST_FAILCLOSED_REPLAY_EXACT_LEDGER_BINDING_BLOCKED_NOT_PROVEN';
 export const POST_REUSE_GATE_REPAIR_FULL_BOOK_ACCOUNTING = POST_FAILCLOSED_REPLAY_FULL_BOOK_ACCOUNTING;
 export const POST_AUTH_REPAIR_FULL_BOOK_ACCOUNTING = POST_REUSE_GATE_REPAIR_FULL_BOOK_ACCOUNTING;
@@ -185,8 +189,17 @@ function validateRoute(route, errors) {
     if (!Array.isArray(route.blockerEvidenceRefs) || !route.blockerEvidenceRefs.includes('C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER')) {
       errors.push('routeDenominator:C1:ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER_REF_MISSING');
     }
+    if (!Array.isArray(route.blockerEvidenceRefs) || !route.blockerEvidenceRefs.includes('C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_MERGED_NOT_ROUTE_PASS')) {
+      errors.push('routeDenominator:C1:EXACT_LEDGER_REPAIR_MERGED_REF_MISSING');
+    }
+    if (!Array.isArray(route.blockerEvidenceRefs) || !route.blockerEvidenceRefs.includes('C1_WORD_MACOS_ACCESSIBILITY_PERMISSION_REQUIRED_CURRENT_BLOCKER')) {
+      errors.push('routeDenominator:C1:MACOS_ACCESSIBILITY_BLOCKER_REF_MISSING');
+    }
     if (Array.isArray(route.executedFullRouteEvidence) && route.executedFullRouteEvidence.length !== 0) {
       errors.push('routeDenominator:C1:EXECUTED_FULL_ROUTE_EVIDENCE_MUST_REMAIN_EMPTY_WHEN_BLOCKED');
+    }
+    if (route.nextContour !== NEXT_SEQUENTIAL_CONTOUR) {
+      errors.push('routeDenominator:C1:NEXT_CONTOUR_INVALID');
     }
   }
   for (const field of ['semanticOracle', 'structureOracle', 'commentsOracle', 'suggestionsOracle', 'formatOracle', 'recoveryOracle', 'cleanupOracle']) {
@@ -304,6 +317,49 @@ export function validateInteropChainMatrix(matrix, options = {}) {
   const diagnostics = String(c1FreshReplay?.wordWindowDiagnostics || '');
   if (!diagnostics.includes('COMPLETE_ROUND_ORACLE_GREEN_TRUE') || !diagnostics.includes('APPLY_LIFECYCLE_REUSE_GATE_FAILED') || !diagnostics.includes('EXACT_LEDGER_BINDING_0_OF_105')) {
     errors.push('sourceEvidence:C1_FRESH_REPLAY_GATE_BLOCKER_DIAGNOSTICS_NOT_RECORDED');
+  }
+  const exactLedgerRepair = matrix.sourceEvidence?.c1ExactLedgerBindingRepairMerged;
+  if (!isObject(exactLedgerRepair)) {
+    errors.push('sourceEvidence:C1_EXACT_LEDGER_REPAIR_MERGE_MISSING');
+  } else {
+    if (exactLedgerRepair.taskId !== 'C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1') {
+      errors.push('sourceEvidence:C1_EXACT_LEDGER_REPAIR_TASK_ID_INVALID');
+    }
+    if (exactLedgerRepair.pr !== 1596) {
+      errors.push('sourceEvidence:C1_EXACT_LEDGER_REPAIR_PR_INVALID');
+    }
+    if (exactLedgerRepair.prHeadSha !== INTEROP_CHAIN_POST_EXACT_LEDGER_REPAIR_PR_HEAD_SHA) {
+      errors.push('sourceEvidence:C1_EXACT_LEDGER_REPAIR_PR_HEAD_INVALID');
+    }
+    if (exactLedgerRepair.mergeSha !== INTEROP_CHAIN_POST_EXACT_LEDGER_REPAIR_MERGE_SHA) {
+      errors.push('sourceEvidence:C1_EXACT_LEDGER_REPAIR_MERGE_SHA_INVALID');
+    }
+    if (exactLedgerRepair.mergeTree !== INTEROP_CHAIN_POST_EXACT_LEDGER_REPAIR_MERGE_TREE) {
+      errors.push('sourceEvidence:C1_EXACT_LEDGER_REPAIR_MERGE_TREE_INVALID');
+    }
+    if (exactLedgerRepair.routePassClaim !== false) {
+      errors.push('sourceEvidence:C1_EXACT_LEDGER_REPAIR_ROUTE_PASS_LAUNDER');
+    }
+    if (exactLedgerRepair.productApplyAuthority !== false) {
+      errors.push('sourceEvidence:C1_EXACT_LEDGER_REPAIR_APPLY_AUTHORITY_LAUNDER');
+    }
+  }
+  const runtimePrecondition = matrix.sourceEvidence?.c1CurrentRuntimePrecondition;
+  if (!isObject(runtimePrecondition)) {
+    errors.push('sourceEvidence:C1_CURRENT_RUNTIME_PRECONDITION_MISSING');
+  } else {
+    if (runtimePrecondition.classification !== INTEROP_CHAIN_CURRENT_RUNTIME_PRECONDITION) {
+      errors.push('sourceEvidence:C1_CURRENT_RUNTIME_PRECONDITION_CLASSIFICATION_INVALID');
+    }
+    if (runtimePrecondition.systemEventsUiElementsEnabled !== false) {
+      errors.push('sourceEvidence:C1_CURRENT_RUNTIME_PRECONDITION_UI_ELEMENTS_LAUNDER');
+    }
+    if (runtimePrecondition.wordProcessExists !== false) {
+      errors.push('sourceEvidence:C1_CURRENT_RUNTIME_PRECONDITION_WORD_PROCESS_LAUNDER');
+    }
+    if (runtimePrecondition.freshPhysicalReplayAuthority !== 'DENY_UNTIL_MACOS_ACCESSIBILITY_PERMISSION_RESTORED') {
+      errors.push('sourceEvidence:C1_CURRENT_RUNTIME_PRECONDITION_REPLAY_AUTHORITY_INVALID');
+    }
   }
   if (matrix.nextSequentialContour !== NEXT_SEQUENTIAL_CONTOUR) {
     errors.push('nextSequentialContour:INVALID');

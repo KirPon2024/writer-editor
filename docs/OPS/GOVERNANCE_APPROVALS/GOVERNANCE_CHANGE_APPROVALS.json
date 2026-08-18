@@ -11040,66 +11040,66 @@
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1.json",
-      "sha256": "df7b0c3b082f71ebfec6c6dbabbfb5d86e4057fc1047da333e37cd3861e1722f",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_EVIDENCE_RECEIPT_REBIND_V1",
-      "approvedAtUtc": "2026-08-17T23:38:58.288Z",
-      "rationale": "Approve post-failclosed C1 full-book route receipt rebind to exact merged head 8504d5fa8db9af9456cc6a6d0ec8b1aa8ad4d81a and physical campaign c1-round01-post-failclosed-w06-r4-20260817t230824z: returned-ready and complete-round oracle evidence is recorded while route remains BLOCKED with exact operationId binding 0 of 105, native lifecycle 0 of 38, no route PASS, no apply authority, no user-document claim.",
+      "sha256": "166ce5ac5140877c8cf57eebe3d92557609b1dfd9cfc1ee8ad501826419416bd",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_POST_EXACT_LEDGER_REPAIR_DAG_REBIND_V1",
+      "approvedAtUtc": "2026-08-18T02:14:57.796Z",
+      "rationale": "Approve C1 route receipt rebind after exact-ledger repair merge: PR 1596 and merged main 8b3d9cbb3d76c43bd777104bf95cf209062e6d40 are recorded as non-route-PASS evidence, current macOS Accessibility disabled precondition is fail-closed, and route PASS, apply authority, user-document access, and C2-C8 closure remain denied.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_EVIDENCE_RECEIPT_REBIND_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_POST_EXACT_LEDGER_REPAIR_DAG_REBIND_V1"
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_CHAIN_MATRIX_V1.json",
-      "sha256": "830a0ae8c3e91f8ebcb4d72c9f1739dd585a461af80b1f7bbae56b66baef52af",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_EVIDENCE_RECEIPT_REBIND_V1",
-      "approvedAtUtc": "2026-08-17T23:38:58.288Z",
-      "rationale": "Approve interop chain matrix rebind to the post-failclosed C1 blocked replay evidence, current receipt hash, 0 of 105 exact binding and 0 of 38 native lifecycle accounting, preserving C1-C8 NEEDS_MORE_EVIDENCE and denying product/provider/user-document authority.",
+      "sha256": "d11c6f255aa637cced6f6036dc5d3860f2d7ad8197907cf8a78a618619e5a09d",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_POST_EXACT_LEDGER_REPAIR_DAG_REBIND_V1",
+      "approvedAtUtc": "2026-08-18T02:14:57.796Z",
+      "rationale": "Approve interop chain matrix DAG rebind from the already-merged exact-ledger repair contour to the next accessibility-restored C1 replay contour, preserving C1 BLOCKED, empty executedFullRouteEvidence, C1-C8 NEEDS_MORE_EVIDENCE, and no product/provider/user-document authority widening.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_EVIDENCE_RECEIPT_REBIND_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_POST_EXACT_LEDGER_REPAIR_DAG_REBIND_V1"
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_MULTI_ROUND_LINEAGE_RECEIPT_V1.json",
-      "sha256": "5f6b393a4cc54aca43d25498ef9296f73a1c3b62336d5576e0ce28e94fdda882",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_EVIDENCE_RECEIPT_REBIND_V1",
-      "approvedAtUtc": "2026-08-17T23:38:58.288Z",
-      "rationale": "Approve lineage receipt matrix-hash rebind after the post-failclosed C1 blocked replay update while preserving NOT_STARTED denominator lineage status and denied chain-saturation claims.",
+      "sha256": "cd6d2c09c34c6827365b779e4744607d4ec51b301d1495fd8ffcfcb66622f849",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_POST_EXACT_LEDGER_REPAIR_DAG_REBIND_V1",
+      "approvedAtUtc": "2026-08-18T02:14:57.796Z",
+      "rationale": "Approve lineage receipt matrix-hash rebind after C1 post-exact-ledger repair DAG update while preserving NOT_STARTED denominator lineage status, denied chain-saturation claims, and no route PASS claim.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_EVIDENCE_RECEIPT_REBIND_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_POST_EXACT_LEDGER_REPAIR_DAG_REBIND_V1"
     },
     {
       "filePath": "scripts/ops/rtk-interop-c1-word-fullbook-route-v1.mjs",
-      "sha256": "9032bf4b8998fa2d6b5bd77ec5d496703a902f5035428c67db201991f3f638fd",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_EVIDENCE_RECEIPT_REBIND_V1",
-      "approvedAtUtc": "2026-08-17T23:38:58.288Z",
-      "rationale": "Approve C1 route verifier rebind to exact head 8504d5fa8db9af9456cc6a6d0ec8b1aa8ad4d81a, stale-head rejection of previous replay bases, 0 of 105 exact operationId binding, 304 formatting candidates, 0 of 38 native lifecycle coverage, and fail-closed hostile mutations without route PASS or apply-authority laundering.",
+      "sha256": "9ea23606713aceb1ab0eb36bfbb98de06050a86ca8d63ff64e6e08733e12c961",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_POST_EXACT_LEDGER_REPAIR_DAG_REBIND_V1",
+      "approvedAtUtc": "2026-08-18T02:14:57.796Z",
+      "rationale": "Approve C1 route verifier rebind to require post-exact-ledger repair merge evidence and macOS Accessibility permission-required runtime precondition as fail-closed non-PASS facts, with hostile mutations rejecting route-PASS and replay-readiness laundering.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_EVIDENCE_RECEIPT_REBIND_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_POST_EXACT_LEDGER_REPAIR_DAG_REBIND_V1"
     },
     {
       "filePath": "scripts/ops/rtk-interop-chain-matrix-v1.mjs",
-      "sha256": "010c5d6c8d0d35cda5f8bd2266c59ed4de9b514c2c8d56b2573aea0bd00fa814",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_EVIDENCE_RECEIPT_REBIND_V1",
-      "approvedAtUtc": "2026-08-17T23:38:58.288Z",
-      "rationale": "Approve chain matrix verifier rebind to exact head 8504d5fa8db9af9456cc6a6d0ec8b1aa8ad4d81a and post-failclosed blocked accounting with 0 of 105 exact binding, 0 of 38 lifecycle coverage, stale-base rejection, and no saturation escalation.",
+      "sha256": "7641759fdd5628ee373fc09d3c7353ff5aee3b0d5df9b61ccbed19157060eeb7",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_POST_EXACT_LEDGER_REPAIR_DAG_REBIND_V1",
+      "approvedAtUtc": "2026-08-18T02:14:57.796Z",
+      "rationale": "Approve chain matrix verifier rebind to require the next contour after accessibility restoration, post-exact-ledger repair merge evidence, current AX-disabled runtime precondition, and blocker refs without saturation, route PASS, or apply-authority escalation.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_EVIDENCE_RECEIPT_REBIND_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_POST_EXACT_LEDGER_REPAIR_DAG_REBIND_V1"
     },
     {
       "filePath": "test/contracts/rtk-interop-c1-word-fullbook-route.contract.test.js",
-      "sha256": "561b5c170332dc767e1e3c1a15abe4ea81966ed260d96fd85e3635f11ba44cf8",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_EVIDENCE_RECEIPT_REBIND_V1",
-      "approvedAtUtc": "2026-08-17T23:38:58.288Z",
-      "rationale": "Approve focused C1 route contract coverage for the post-failclosed blocked replay: exact head, returned-ready authenticated intake, complete-round oracle green, exact binding 0 of 105, formatting 304, lifecycle 0 of 38, and hostile mutation rejection.",
+      "sha256": "229cc4cfb25f7fc691010374b3e2c37b40efaf285c008bc12c90e87962d3c849",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_POST_EXACT_LEDGER_REPAIR_DAG_REBIND_V1",
+      "approvedAtUtc": "2026-08-18T02:14:57.796Z",
+      "rationale": "Approve focused C1 route contract coverage for post-exact-ledger repair merge evidence, current macOS Accessibility fail-closed precondition, updated next contour, and hostile laundering rejection while preserving blocked route accounting.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_EVIDENCE_RECEIPT_REBIND_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_POST_EXACT_LEDGER_REPAIR_DAG_REBIND_V1"
     },
     {
       "filePath": "test/contracts/rtk-interop-chain-matrix.contract.test.js",
-      "sha256": "a722a4fce56688c77e27abcc32223424ac12306584cc970320ebeda614641a46",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_EVIDENCE_RECEIPT_REBIND_V1",
-      "approvedAtUtc": "2026-08-17T23:38:58.288Z",
-      "rationale": "Approve focused interop chain matrix contract coverage for the post-failclosed C1 blocked replay source-evidence counts, first unmatched operation id, exact failure reason, stale-base rejection, and no C1-C8 saturation escalation.",
+      "sha256": "55ef8eda71ee78e624afe77101c0cb96c41033cd5efd70059c00bd4019cbd969",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_POST_EXACT_LEDGER_REPAIR_DAG_REBIND_V1",
+      "approvedAtUtc": "2026-08-18T02:14:57.796Z",
+      "rationale": "Approve focused chain matrix contract coverage for updated C1 blocker refs, accessibility-restored next contour, post-exact-ledger repair source evidence, current runtime precondition, and fail-closed hostile mutations.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_EVIDENCE_RECEIPT_REBIND_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_POST_EXACT_LEDGER_REPAIR_DAG_REBIND_V1"
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",

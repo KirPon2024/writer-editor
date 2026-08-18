@@ -5,7 +5,7 @@
   "verdict": "NEEDS_MORE_EVIDENCE",
   "programVerdict": "NEEDS_MORE_EVIDENCE",
   "exactHead": "8504d5fa8db9af9456cc6a6d0ec8b1aa8ad4d81a",
-  "generatedAtUtc": "2026-08-17T23:36:48.537Z",
+  "generatedAtUtc": "2026-08-18T02:13:33.862Z",
   "route": {
     "routeId": "C1",
     "title": "Yalken to Word to Yalken",
@@ -265,7 +265,41 @@
       "payloadProfileId": "",
       "payloadProfileIdStale": false
     },
-    "previousNativeMaterializationBlockedRunId": "c1-window-visibility-repair-w06-r1-20260817"
+    "previousNativeMaterializationBlockedRunId": "c1-window-visibility-repair-w06-r1-20260817",
+    "postExactLedgerRepairRebind": {
+      "taskId": "C1_WORD_POST_EXACT_LEDGER_REPAIR_DAG_REBIND_V1",
+      "checkedAtUtc": "2026-08-18T02:13:33.862Z",
+      "repairPr": 1596,
+      "repairPrHeadSha": "f53f80fe21828c270f04ef7766d2fe74bbe2d31f",
+      "mergedMainSha": "8b3d9cbb3d76c43bd777104bf95cf209062e6d40",
+      "mergedMainTree": "c07b18ed3db7fbb859596e224830f371bd698320",
+      "localFocusedContracts": "PASS_15_OF_15",
+      "affectedOrchestratorContracts": "PASS_119_OF_119",
+      "focusedInteropContracts": "PASS_18_OF_18",
+      "devFast": "PASS_28_OF_28",
+      "guardrails": "PASS",
+      "fullCanonicalRtk": "PASS_1011_OF_1011_NO_SKIPS_NO_TODOS",
+      "requiredPrCi": [
+        "oss-policy:PASS",
+        "rtk-required:PASS",
+        "x1-runtime-parity-ubuntu-latest:PASS",
+        "x1-runtime-parity-windows-latest:PASS"
+      ],
+      "requiredMainCi": [
+        "OSS policy:PASS",
+        "rtk-required:PASS"
+      ],
+      "routePassClaim": false,
+      "productApplyAuthority": false,
+      "executedFreshPhysicalReplayAfterRepair": false,
+      "currentRuntimePrecondition": {
+        "checkedAtUtc": "2026-08-18T02:13:33.862Z",
+        "systemEventsUiElementsEnabled": false,
+        "wordProcessExists": false,
+        "classification": "MACOS_ACCESSIBILITY_PERMISSION_REQUIRED",
+        "freshPhysicalReplayAuthority": "DENY_UNTIL_MACOS_ACCESSIBILITY_PERMISSION_RESTORED"
+      }
+    }
   },
   "failureClassification": [
     {
@@ -342,6 +376,16 @@
       "id": "C1_WORD_ROUND01_EXACT_LEDGER_BINDING_BLOCKER",
       "disposition": "ACTIVE_BLOCKER_NOT_ROUTE_PASS",
       "evidence": "Exact operationId binding found 0 of 105 expected text operations and 161 candidates without operationId binding, so no exact apply authority exists."
+    },
+    {
+      "id": "C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_MERGED_NOT_ROUTE_PASS",
+      "disposition": "MERGED_REPAIR_NOT_ROUTE_PASS",
+      "evidence": "PR 1596 merged f53f80fe21828c270f04ef7766d2fe74bbe2d31f to main as 8b3d9cbb3d76c43bd777104bf95cf209062e6d40 with required CI and postmerge local gates green, but no fresh post-repair full-route replay was executed and no route PASS or apply authority is created."
+    },
+    {
+      "id": "C1_WORD_MACOS_ACCESSIBILITY_PERMISSION_REQUIRED_CURRENT_BLOCKER",
+      "disposition": "ACTIVE_RUNTIME_PRECONDITION_BLOCKER_NOT_ROUTE_PASS",
+      "evidence": "Current runtime probe found System Events UI elements enabled false and no Microsoft Word process; a fresh physical Word replay is denied until macOS Accessibility permission is restored, preserving fail-closed behavior."
     }
   ],
   "oracles": {
@@ -393,8 +437,8 @@
     "userDocumentWrites": 0
   },
   "hostileCorpus": {
-    "total": 19,
-    "killed": 19,
+    "total": 22,
+    "killed": 22,
     "survivors": 0,
     "coverage": [
       "route pass laundering",
@@ -415,7 +459,9 @@
       "wrong next contour",
       "returned artifact missing after repair",
       "returned DOCX readiness laundering",
-      "Word visibility blocker laundering"
+      "Word visibility blocker laundering",
+      "post exact-ledger repair route PASS laundering",
+      "macOS Accessibility precondition replay-readiness laundering"
     ]
   },
   "semanticMutations": {
@@ -443,12 +489,12 @@
     "runtimeRollbackRequired": false,
     "userDataTouched": false,
     "previousReceiptExactHead": "6aee73c0770357cd0b84bf5e8388cee38071c798",
-    "previousBlocker": "C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER",
-    "currentBlocker": "C1_WORD_ROUND01_EXACT_LEDGER_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER",
-    "revertPlan": "Revert this evidence/DAG rebind commit to restore the prior apply/lifecycle/reuse gate blocker receipt and matrix.",
+    "previousBlocker": "C1_WORD_ROUND01_EXACT_LEDGER_BINDING_BLOCKER",
+    "currentBlocker": "C1_WORD_MACOS_ACCESSIBILITY_PERMISSION_REQUIRED_CURRENT_BLOCKER",
+    "revertPlan": "Revert this post-exact-ledger repair DAG rebind commit to restore the prior exact-ledger next-contour pointer.",
     "previousExactHead": "5a5b34210bad80eaf1851efcf5a64426484f3f2a",
     "currentExactHead": "8504d5fa8db9af9456cc6a6d0ec8b1aa8ad4d81a",
-    "reason": "Post-failclosed stdout-drain repair produced the missing return-apply and lifecycle artifacts, but C1 remains blocked by 0/105 exact operationId binding plus 0/38 native lifecycle snapshot coverage; no route PASS or apply authority is created."
+    "reason": "Exact-ledger repair merged and postmerge gates are green, but no fresh post-repair C1 physical replay has run; current macOS Accessibility permission is disabled, so replay authority remains denied and no route PASS or apply authority is created."
   },
-  "nextSequentialContour": "C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1"
+  "nextSequentialContour": "C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_MACOS_ACCESSIBILITY_PERMISSION_RESTORED_V1"
 }

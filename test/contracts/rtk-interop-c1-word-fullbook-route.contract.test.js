@@ -66,6 +66,56 @@ test('C1 generated Word script predeclares AppleScript error handler locals befo
   assert.ok(topTryIndex < axPreflightIndex, 'top-level try must still guard Accessibility preflight');
 });
 
+test('C1 generated macOS Accessibility preflight normalizes indeterminate AX probe values fail-closed', async () => {
+  const { buildWordScript } = await loadCanary();
+  const script = buildWordScript({
+    sourcePath: '/tmp/c1-source.docx',
+    returnedPath: '/tmp/c1-returned.docx',
+    artifactReturnedPath: '/tmp/c1-returned-artifact.docx',
+    initializeFromSource: false,
+    ledger: {
+      operations: [
+        {
+          id: 'c5v2-root_comment-test',
+          family: 'root_comment',
+          quote: 'unique root quote',
+          locatorQuote: 'unique root quote',
+          expectedOutcome: 'SAFE_APPLY',
+        },
+        {
+          id: 'c5v2-reply-test',
+          family: 'reply_attempt',
+          targetRootOperationId: 'c5v2-root_comment-test',
+          physicalAction: 'native-ui',
+          expectedOutcome: 'SAFE_APPLY',
+        },
+      ],
+    },
+  });
+  assert.ok(script.includes('on yAxIntegerOrMissing(yValue)'), 'AX integer normalizer must be generated');
+  assert.ok(script.includes('if yValue is true then return missing value'), 'boolean true must not become a count');
+  assert.ok(script.includes('if yValue is false then return missing value'), 'boolean false must not become a count');
+  assert.ok(script.includes('on yAxBooleanOrFalse(yValue)'), 'AX boolean normalizer must be generated');
+  assert.ok(script.includes('set yAxProbeIndeterminate to false'), 'indeterminate probe state must be explicit');
+  assert.ok(script.includes('set yWindowCountValue to my yAxIntegerOrMissing(yWindowCountRaw)'), 'window count must be normalized before comparison');
+  assert.ok(script.includes('set yAxMenuCountValue to my yAxIntegerOrMissing(yAxMenuCountRaw)'), 'menu count must be normalized before comparison');
+  assert.ok(script.includes('set yAxWindowSubtreeCountValue to my yAxIntegerOrMissing(yAxWindowSubtreeCountRaw)'), 'window subtree count must be normalized before comparison');
+  assert.ok(script.includes('AX_PROBE_INDETERMINATE:'), 'diagnostics must expose indeterminate probes');
+  assert.ok(
+    script.includes('if yAxProbeIndeterminate is true then return "MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE|" & yDiagnostics'),
+    'indeterminate probes must fail closed with a typed Accessibility outcome',
+  );
+  assert.ok(
+    script.includes('if (yAxQuerySucceeded is true) and (yWordFrontmost is true) and (yWindowCount > 0) and (yAxWindowSubtreeCount > 0) then exit repeat'),
+    'ready condition must keep boolean and numeric operands type-separated',
+  );
+  assert.equal(
+    script.includes('if yAxQuerySucceeded and yWordFrontmost and yWindowCount > 0 and yAxWindowSubtreeCount > 0 then exit repeat'),
+    false,
+    'bare mixed boolean/numeric ready condition must not return',
+  );
+});
+
 test('C1 Word full-book route receipt is fail-closed blocker evidence, not route PASS', async () => {
   const {
     EXACT_HEAD,

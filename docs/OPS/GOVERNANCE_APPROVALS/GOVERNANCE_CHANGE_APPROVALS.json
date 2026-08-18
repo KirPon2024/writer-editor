@@ -11085,12 +11085,12 @@
     },
     {
       "filePath": "test/contracts/rtk-interop-c1-word-fullbook-route.contract.test.js",
-      "sha256": "601bcfcfbaea26bcc7258e10d1bb5189ce9909abde55c98235f9194a91d6327a",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_MACOS_ACCESSIBILITY_PERMISSION_RESTORED_V1",
-      "approvedAtUtc": "2026-08-18T03:28:48.000Z",
-      "rationale": "Approve focused C1 contract coverage requiring generated Word AppleScript error handler locals to exist before the top-level try and Accessibility preflight, preventing handler-local visibility faults from replacing typed fail-closed evidence.",
+      "sha256": "2dc22fc5aca3680da939f4de84a17c6948b42004f2af6ccf1a7c7f9fcab3c7e1",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_FULLBOOK_ROUTE_REPLAY_AX_PREFLIGHT_TYPED_COUNT_COMPANION_V1",
+      "approvedAtUtc": "2026-08-18T04:31:57.000Z",
+      "rationale": "Approve focused C1 contract coverage requiring generated macOS Accessibility preflight to normalize hidden, false, or indeterminate AX probe values before numeric comparison and to preserve typed fail-closed outcomes instead of AppleScript false-to-real crashes.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_MACOS_ACCESSIBILITY_PERMISSION_RESTORED_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_FULLBOOK_ROUTE_REPLAY_AX_PREFLIGHT_TYPED_COUNT_COMPANION_V1"
     },
     {
       "filePath": "test/contracts/rtk-interop-chain-matrix.contract.test.js",
@@ -11103,12 +11103,12 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "38cf672d10e1ebe20cc719e24241938a741c0c2d6152638a92dee9d253a5fc0d",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_MACOS_ACCESSIBILITY_PERMISSION_RESTORED_V1",
-      "approvedAtUtc": "2026-08-18T03:28:48.000Z",
-      "rationale": "Approve C1 Word physical canary AppleScript generated-script repair that predeclares handler-local error variables before the guarded Accessibility preflight, preserving typed fail-closed operation and top-level blocker signals without granting route PASS or apply authority.",
+      "sha256": "55011e6583cf3f448c71855a97de9ab8a4dd8c8288ed300dcc4b811e9e98b140",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_FULLBOOK_ROUTE_REPLAY_AX_PREFLIGHT_TYPED_COUNT_COMPANION_V1",
+      "approvedAtUtc": "2026-08-18T04:31:57.000Z",
+      "rationale": "Approve C1 Word physical canary generated AppleScript repair that type-bounds macOS Accessibility frontmost and count probes, marks indeterminate AX visibility/count values explicitly, and returns typed fail-closed preflight blockers without granting route PASS or apply authority.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_MACOS_ACCESSIBILITY_PERMISSION_RESTORED_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_FULLBOOK_ROUTE_REPLAY_AX_PREFLIGHT_TYPED_COUNT_COMPANION_V1"
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-terminal-orchestrator.mjs",

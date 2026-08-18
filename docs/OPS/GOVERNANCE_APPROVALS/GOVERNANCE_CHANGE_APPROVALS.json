@@ -11085,12 +11085,12 @@
     },
     {
       "filePath": "test/contracts/rtk-interop-c1-word-fullbook-route.contract.test.js",
-      "sha256": "1ad21c16c1fd57e60d9f2f21faf70ba83e6f894a081802d21033209e7e9b56a3",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_AX_PREFLIGHT_TYPED_DIAGNOSTICS_COMPANION_V1",
-      "approvedAtUtc": "2026-08-18T05:42:46.000Z",
-      "rationale": "Approve focused C1 contract coverage requiring generated macOS Accessibility preflight to checkpoint typed diagnostics before rejection and requiring osascript failures to preserve script/status/stdout/stderr evidence without granting route PASS or apply authority.",
+      "sha256": "21e5e291d5d74a8b16085de8ca5ee6a226f5ac7fc97130b67c13ec181ca0b556",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_AX_DIRECT_CAPABILITY_PREFLIGHT_REPAIR_V1",
+      "approvedAtUtc": "2026-08-18T10:45:54.885Z",
+      "rationale": "Approve focused C1 contract coverage requiring generated native-ui preflight direct AX capability proof, legacy UI-elements advisory diagnostics, and fail-closed denied, wrong-document, and ambiguous capability outcomes without granting route PASS or apply authority.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_AX_PREFLIGHT_TYPED_DIAGNOSTICS_COMPANION_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_AX_DIRECT_CAPABILITY_PREFLIGHT_REPAIR_V1"
     },
     {
       "filePath": "test/contracts/rtk-interop-chain-matrix.contract.test.js",
@@ -11103,12 +11103,12 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "f930bd02e0608ec4e316d9441d5812f6dbd952d8c691263bae488561c8da5743",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_AX_PREFLIGHT_TYPED_DIAGNOSTICS_COMPANION_V1",
-      "approvedAtUtc": "2026-08-18T05:42:46.000Z",
-      "rationale": "Approve C1 Word physical canary generated AppleScript repair that type-bounds macOS Accessibility diagnostics, checkpoints preflight outcomes before fail-closed rejection, and preserves bounded osascript stdout/stderr/status evidence without granting route PASS or apply authority.",
+      "sha256": "f1daa6e7d82ef447d7e9d584ae4cc7e11a8b8bd955b7f07581d94bc73cd11753",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_AX_DIRECT_CAPABILITY_PREFLIGHT_REPAIR_V1",
+      "approvedAtUtc": "2026-08-18T10:45:54.885Z",
+      "rationale": "Approve C1 Word physical canary preflight repair that treats the host-global UI-elements scalar as advisory only after bounded direct AX proof of Word frontmost, window, menu, window-subtree, and exact synthetic document identity, while preserving denied, throw, indeterminate, no-window, and wrong-document fail-closed outcomes.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_AX_PREFLIGHT_TYPED_DIAGNOSTICS_COMPANION_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_AX_DIRECT_CAPABILITY_PREFLIGHT_REPAIR_V1"
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-terminal-orchestrator.mjs",
@@ -11193,12 +11193,12 @@
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-round-checkpoint.contract.test.js",
-      "sha256": "93e26348ca4b1428fa68f1e0fa30102ec26e15b24b5c427eb836afbf93bbed8b",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1",
-      "approvedAtUtc": "2026-08-18T01:13:00.000Z",
-      "rationale": "Approve focused C5V2 round-checkpoint contract coverage for AppleScript typed fail-closed error variables, text-coerced Word user identity restoration, and permission-required AX preflight classification under C1 exact-ledger binding repair.",
+      "sha256": "24e198f9884aa359b826ffdd383508eb70e326043a501406c126913153349a69",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_AX_DIRECT_CAPABILITY_PREFLIGHT_REPAIR_V1",
+      "approvedAtUtc": "2026-08-18T10:45:54.885Z",
+      "rationale": "Approve C5V2 round-checkpoint contract update replacing the obsolete standalone UI-elements veto expectation with direct AX proof and explicit fail-closed denied/ambiguous checks.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_AX_DIRECT_CAPABILITY_PREFLIGHT_REPAIR_V1"
     },
     {
       "filePath": "test/contracts/rtk-zip01-budget-crc-evidence.contract.test.js",

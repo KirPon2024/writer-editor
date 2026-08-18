@@ -1,7 +1,10 @@
 import { createDerivedError, deriveView, hashCanonicalValue } from '../deriveView.mjs';
 import { canonicalizeAtlasMentionIndex } from './atlasMentionTypes.mjs';
 import { normalizeAtlasObservationLanguagePolicy } from './atlasObservationTypes.mjs';
-import { buildAtlasTextAnchorPacket } from './atlasTextAnchorNormalization.mjs';
+import {
+  buildAtlasTextAnchorPacket,
+  buildAtlasTextCoordinateIndex,
+} from './atlasTextAnchorNormalization.mjs';
 import atlasMultilingualMatcher from '../../shared/atlasMultilingualMatcher.cjs';
 
 const VIEW_ID = 'derived.atlas.mentionIndex.v1';
@@ -179,7 +182,16 @@ function buildLanguageMatcherSegments({ project, tags, sceneId, sceneText }) {
   return segments;
 }
 
-function buildEvidenceAnchor({ projectId, sceneId, entityId, termId, startOffset, endOffset, sceneText }) {
+function buildEvidenceAnchor({
+  projectId,
+  sceneId,
+  entityId,
+  termId,
+  startOffset,
+  endOffset,
+  sceneText,
+  getCoordinateIndex,
+}) {
   const packet = buildAtlasTextAnchorPacket({
     projectId,
     sceneId,
@@ -188,11 +200,21 @@ function buildEvidenceAnchor({ projectId, sceneId, entityId, termId, startOffset
     startOffset,
     endOffset,
     sceneText,
+    coordinateIndex: getCoordinateIndex(),
+    materializeOffsetMap: false,
   });
   return packet.evidenceAnchor;
 }
 
-function collectTermMentions({ project, projectId, sceneId, sceneText, term, languageTags }) {
+function collectTermMentions({
+  project,
+  projectId,
+  sceneId,
+  sceneText,
+  getCoordinateIndex,
+  term,
+  languageTags,
+}) {
   const out = [];
   if (term.scope === 'scene' && term.sceneId !== sceneId) return out;
   const matcherSegments = buildLanguageMatcherSegments({ project, tags: languageTags, sceneId, sceneText });
@@ -214,6 +236,7 @@ function collectTermMentions({ project, projectId, sceneId, sceneText, term, lan
         startOffset: found,
         endOffset,
         sceneText,
+        getCoordinateIndex,
       });
       const languageRoute = resolveLanguageRouteForMention({
         project,
@@ -263,6 +286,11 @@ function collectTermMentions({ project, projectId, sceneId, sceneText, term, lan
 
 function deriveSceneShard(project, projectId, sceneId, scene, terms, languageTags) {
   const sceneText = typeof scene.text === 'string' ? scene.text : '';
+  let coordinateIndex = null;
+  const getCoordinateIndex = () => {
+    if (!coordinateIndex) coordinateIndex = buildAtlasTextCoordinateIndex(sceneText);
+    return coordinateIndex;
+  };
   const mentions = [];
   for (const term of terms) {
     mentions.push(...collectTermMentions({
@@ -270,6 +298,7 @@ function deriveSceneShard(project, projectId, sceneId, scene, terms, languageTag
       projectId,
       sceneId,
       sceneText,
+      getCoordinateIndex,
       term,
       languageTags,
     }));

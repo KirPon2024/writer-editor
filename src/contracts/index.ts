@@ -10,6 +10,12 @@ export type {
   LongformInlineRangeOffsetUnit,
 } from "./inline-range.contract";
 export type {
+  TextCoordinateDomain,
+  TextCoordinateErrorCode,
+  TextCoordinateIndexDescriptor,
+  TextCoordinateRange,
+} from "./text-coordinate.contract";
+export type {
   LongformBlock,
   LongformBlockType,
 } from "./block.contract";

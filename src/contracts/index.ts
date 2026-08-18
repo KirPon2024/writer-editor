@@ -16,6 +16,20 @@ export type {
   TextCoordinateRange,
 } from "./text-coordinate.contract";
 export type {
+  TextTransformAffinity,
+  TextTransformBoundaryMapResult,
+  TextTransformContentImpact,
+  TextTransformDescriptor,
+  TextTransformDirection,
+  TextTransformErrorCode,
+  TextTransformOperationDescriptor,
+  TextTransformOperationKind,
+  TextTransformPositionMapResult,
+  TextTransformRangeMapResult,
+  TextTransformRouteDescriptor,
+  TextTransformTapeDescriptor,
+} from "./text-transform.contract";
+export type {
   LongformBlock,
   LongformBlockType,
 } from "./block.contract";

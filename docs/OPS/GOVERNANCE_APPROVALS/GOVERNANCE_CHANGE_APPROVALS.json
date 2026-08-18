@@ -11085,12 +11085,12 @@
     },
     {
       "filePath": "test/contracts/rtk-interop-c1-word-fullbook-route.contract.test.js",
-      "sha256": "2dc22fc5aca3680da939f4de84a17c6948b42004f2af6ccf1a7c7f9fcab3c7e1",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_FULLBOOK_ROUTE_REPLAY_AX_PREFLIGHT_TYPED_COUNT_COMPANION_V1",
-      "approvedAtUtc": "2026-08-18T04:31:57.000Z",
-      "rationale": "Approve focused C1 contract coverage requiring generated macOS Accessibility preflight to normalize hidden, false, or indeterminate AX probe values before numeric comparison and to preserve typed fail-closed outcomes instead of AppleScript false-to-real crashes.",
+      "sha256": "1ad21c16c1fd57e60d9f2f21faf70ba83e6f894a081802d21033209e7e9b56a3",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_AX_PREFLIGHT_TYPED_DIAGNOSTICS_COMPANION_V1",
+      "approvedAtUtc": "2026-08-18T05:42:46.000Z",
+      "rationale": "Approve focused C1 contract coverage requiring generated macOS Accessibility preflight to checkpoint typed diagnostics before rejection and requiring osascript failures to preserve script/status/stdout/stderr evidence without granting route PASS or apply authority.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_FULLBOOK_ROUTE_REPLAY_AX_PREFLIGHT_TYPED_COUNT_COMPANION_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_AX_PREFLIGHT_TYPED_DIAGNOSTICS_COMPANION_V1"
     },
     {
       "filePath": "test/contracts/rtk-interop-chain-matrix.contract.test.js",
@@ -11103,12 +11103,12 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "55011e6583cf3f448c71855a97de9ab8a4dd8c8288ed300dcc4b811e9e98b140",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_FULLBOOK_ROUTE_REPLAY_AX_PREFLIGHT_TYPED_COUNT_COMPANION_V1",
-      "approvedAtUtc": "2026-08-18T04:31:57.000Z",
-      "rationale": "Approve C1 Word physical canary generated AppleScript repair that type-bounds macOS Accessibility frontmost and count probes, marks indeterminate AX visibility/count values explicitly, and returns typed fail-closed preflight blockers without granting route PASS or apply authority.",
+      "sha256": "f930bd02e0608ec4e316d9441d5812f6dbd952d8c691263bae488561c8da5743",
+      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_AX_PREFLIGHT_TYPED_DIAGNOSTICS_COMPANION_V1",
+      "approvedAtUtc": "2026-08-18T05:42:46.000Z",
+      "rationale": "Approve C1 Word physical canary generated AppleScript repair that type-bounds macOS Accessibility diagnostics, checkpoints preflight outcomes before fail-closed rejection, and preserves bounded osascript stdout/stderr/status evidence without granting route PASS or apply authority.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_FULLBOOK_ROUTE_REPLAY_AX_PREFLIGHT_TYPED_COUNT_COMPANION_V1"
+      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_AX_PREFLIGHT_TYPED_DIAGNOSTICS_COMPANION_V1"
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-terminal-orchestrator.mjs",

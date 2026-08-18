@@ -116,6 +116,66 @@ test('C1 generated macOS Accessibility preflight normalizes indeterminate AX pro
   );
 });
 
+test('C1 generated macOS Accessibility preflight checkpoints typed fail-closed diagnostics before rejection', async () => {
+  const { buildWordScript, formatAppleScriptExecutionError } = await loadCanary();
+  const script = buildWordScript({
+    sourcePath: '/tmp/c1-source.docx',
+    returnedPath: '/tmp/c1-returned.docx',
+    artifactReturnedPath: '/tmp/c1-returned-artifact.docx',
+    initializeFromSource: false,
+    ledger: {
+      operations: [
+        {
+          id: 'c5v2-root_comment-test',
+          family: 'root_comment',
+          quote: 'unique root quote',
+          locatorQuote: 'unique root quote',
+          expectedOutcome: 'SAFE_APPLY',
+        },
+        {
+          id: 'c5v2-reply-test',
+          family: 'reply_attempt',
+          targetRootOperationId: 'c5v2-root_comment-test',
+          physicalAction: 'native-ui',
+          expectedOutcome: 'SAFE_APPLY',
+        },
+      ],
+    },
+  });
+  assert.ok(
+    script.includes('":PROCESS_EXISTS:" & my yAxDiagnosticText(yProcessExists)'),
+    'AX diagnostics must stringify booleans before text concatenation',
+  );
+  assert.ok(
+    script.includes('":WINDOW_COUNT:" & my yAxDiagnosticText(yWindowCount)'),
+    'AX diagnostics must stringify counts before text concatenation',
+  );
+  assert.equal(
+    script.includes('":PROCESS_EXISTS:" & yProcessExists'),
+    false,
+    'raw boolean diagnostics must not return',
+  );
+
+  const preflightIndex = script.indexOf('set yAccessibilityPreflight to my yMacosAccessibilityPreflight(yExpectedFullName)');
+  const checkpointIndex = script.indexOf('my yCheckpoint(yCheckpointPath, "PREFLIGHT_AFTER", yAccessibilityPreflight)', preflightIndex);
+  const rejectIndex = script.indexOf('if yAccessibilityPreflight does not start with "MACOS_ACCESSIBILITY_PREFLIGHT_READY|"', preflightIndex);
+  assert.ok(preflightIndex > -1, 'native-ui preflight must be generated');
+  assert.ok(checkpointIndex > preflightIndex, 'fail-closed native-ui preflight result must be checkpointed');
+  assert.ok(rejectIndex > checkpointIndex, 'checkpoint must happen before fail-closed rejection');
+
+  const error = new Error('Command failed: /usr/bin/osascript /tmp/word-chunk-008.applescript');
+  error.status = 1;
+  error.signal = null;
+  error.stdout = 'WORD_STATUS=FAIL\nERRNO=9720\nERR=MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE';
+  error.stderr = 'execution error: synthetic AX failure';
+  const message = formatAppleScriptExecutionError(error, '/tmp/word-chunk-008.applescript');
+  assert.match(message, /^C5V2_WORD_APPLESCRIPT_EXEC_FAILED\|/u);
+  assert.match(message, /SCRIPT:word-chunk-008\.applescript/u);
+  assert.match(message, /STATUS:1/u);
+  assert.match(message, /STDOUT:WORD_STATUS=FAIL ERRNO=9720 ERR=MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE/u);
+  assert.match(message, /STDERR:execution error: synthetic AX failure/u);
+});
+
 test('C1 Word full-book route receipt is fail-closed blocker evidence, not route PASS', async () => {
   const {
     EXACT_HEAD,

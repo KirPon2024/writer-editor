@@ -5370,7 +5370,7 @@ export function buildWordScript({
     '    if (yAxQuerySucceeded is true) and (yWordFrontmost is true) and (yWindowCount > 0) and (yAxWindowSubtreeCount > 0) then exit repeat',
     '  end repeat',
     '  tell application "System Events"',
-    '    set yDiagnostics to "LEGACY_UI_ELEMENTS_ENABLED:" & yUiEnabled & ":PROCESS_EXISTS:" & yProcessExists & ":WORD_FRONTMOST:" & yWordFrontmost & ":WINDOW_COUNT:" & yWindowCount & ":AX_MENU_COUNT:" & yAxMenuCount & ":AX_WINDOW_SUBTREE_COUNT:" & yAxWindowSubtreeCount & ":AX_PROBE_INDETERMINATE:" & yAxProbeIndeterminate & ":AX_ERROR_NUMBER:" & yAxErrorNumber & ":AX_ERROR_MESSAGE:" & yAxErrorMessage & ":WINDOW_REVIVE:" & yWindowReviveDiagnostics & ":FRONT_DOCUMENT:" & yFrontDocument',
+    '    set yDiagnostics to "LEGACY_UI_ELEMENTS_ENABLED:" & my yAxDiagnosticText(yUiEnabled) & ":PROCESS_EXISTS:" & my yAxDiagnosticText(yProcessExists) & ":WORD_FRONTMOST:" & my yAxDiagnosticText(yWordFrontmost) & ":WINDOW_COUNT:" & my yAxDiagnosticText(yWindowCount) & ":AX_MENU_COUNT:" & my yAxDiagnosticText(yAxMenuCount) & ":AX_WINDOW_SUBTREE_COUNT:" & my yAxDiagnosticText(yAxWindowSubtreeCount) & ":AX_PROBE_INDETERMINATE:" & my yAxDiagnosticText(yAxProbeIndeterminate) & ":AX_ERROR_NUMBER:" & my yAxDiagnosticText(yAxErrorNumber) & ":AX_ERROR_MESSAGE:" & my yAxDiagnosticText(yAxErrorMessage) & ":WINDOW_REVIVE:" & my yAxDiagnosticText(yWindowReviveDiagnostics) & ":FRONT_DOCUMENT:" & my yAxDiagnosticText(yFrontDocument)',
     '    if yProcessExists is false then return "MACOS_ACCESSIBILITY_WORD_PROCESS_MISSING|" & yDiagnostics',
     '    if yUiEnabled is false then return "MACOS_ACCESSIBILITY_PERMISSION_REQUIRED|" & yDiagnostics',
     '    if yAxProbeIndeterminate is true then return "MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE|" & yDiagnostics',
@@ -5903,12 +5903,13 @@ export function buildWordScript({
     `  set yAccessibilityUiRequired to ${requiresAccessibilityUi ? 'true' : 'false'}`,
     '  if yAccessibilityUiRequired then',
     '    set yAccessibilityPreflight to my yMacosAccessibilityPreflight(yExpectedFullName)',
+    '    my yCheckpoint(yCheckpointPath, "PREFLIGHT_AFTER", yAccessibilityPreflight)',
     '    if yAccessibilityPreflight does not start with "MACOS_ACCESSIBILITY_PREFLIGHT_READY|" then error yAccessibilityPreflight number 9720',
     '  else',
     '    set yAccessibilityPreflight to my yWordObjectModelPreflight(yExpectedFullName)',
+    '    my yCheckpoint(yCheckpointPath, "PREFLIGHT_AFTER", yAccessibilityPreflight)',
     '    if yAccessibilityPreflight does not start with "WORD_OBJECT_MODEL_PREFLIGHT_READY|" then error yAccessibilityPreflight number 9720',
     '  end if',
-    '  my yCheckpoint(yCheckpointPath, "PREFLIGHT_AFTER", yAccessibilityPreflight)',
     '  set remove personal information of yDoc to false',
     '  set remove date and time of yDoc to false',
     '  set show revisions of yDoc to true',
@@ -5996,14 +5997,41 @@ export function buildWordScript({
   ].join('\n');
 }
 
+function compactAppleScriptDiagnostic(value, maxLength = 6000) {
+  const text = String(value || '').replace(/\0/gu, '').replace(/\s+/gu, ' ').trim();
+  if (text.length <= maxLength) return text;
+  return `${text.slice(0, maxLength)}...[truncated:${text.length}]`;
+}
+
+export function formatAppleScriptExecutionError(error, scriptPath) {
+  const status = Number.isInteger(error?.status) ? String(error.status) : '';
+  const signal = typeof error?.signal === 'string' ? error.signal : '';
+  const stdout = compactAppleScriptDiagnostic(error?.stdout || '');
+  const stderr = compactAppleScriptDiagnostic(error?.stderr || '');
+  const message = compactAppleScriptDiagnostic(error?.message || error || '');
+  return [
+    'C5V2_WORD_APPLESCRIPT_EXEC_FAILED',
+    `SCRIPT:${path.basename(scriptPath || '')}`,
+    `STATUS:${status}`,
+    `SIGNAL:${signal}`,
+    `STDOUT:${stdout}`,
+    `STDERR:${stderr}`,
+    `MESSAGE:${message}`,
+  ].join('|');
+}
+
 export function runAppleScript(scriptText, scriptPath) {
   fs.writeFileSync(scriptPath, scriptText, 'utf8');
-  return execFileSync('/usr/bin/osascript', [scriptPath], {
-    cwd: REPO_ROOT,
-    encoding: 'utf8',
-    timeout: 480_000,
-    stdio: ['ignore', 'pipe', 'pipe'],
-  });
+  try {
+    return execFileSync('/usr/bin/osascript', [scriptPath], {
+      cwd: REPO_ROOT,
+      encoding: 'utf8',
+      timeout: 480_000,
+      stdio: ['ignore', 'pipe', 'pipe'],
+    });
+  } catch (error) {
+    throw new Error(formatAppleScriptExecutionError(error, scriptPath));
+  }
 }
 
 function nativeRevisionCountForOperations(operations) {

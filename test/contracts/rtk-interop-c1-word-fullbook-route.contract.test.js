@@ -13,6 +13,10 @@ async function loadVerifier() {
   return import(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-interop-c1-word-fullbook-route-v1.mjs'));
 }
 
+async function loadCanary() {
+  return import(path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-c5v2-physical-canary.mjs'));
+}
+
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
 }
@@ -23,6 +27,43 @@ test('C1 chunked Word runner binds progress to the active round id, never an und
   assert.equal(source.includes('roundIndex,\n          roundId,\n          operationCount'), false);
   assert.match(source, /roundIndex,\n\s+roundId: round\.roundId,\n\s+\.\.\.progress/u);
   assert.match(source, /roundIndex,\n\s+roundId: round\.roundId,\n\s+operationCount/u);
+});
+
+test('C1 generated Word script predeclares AppleScript error handler locals before Accessibility preflight', async () => {
+  const { buildWordScript } = await loadCanary();
+  const script = buildWordScript({
+    sourcePath: '/tmp/c1-source.docx',
+    returnedPath: '/tmp/c1-returned.docx',
+    artifactReturnedPath: '/tmp/c1-returned-artifact.docx',
+    initializeFromSource: false,
+    ledger: {
+      operations: [
+        {
+          id: 'c5v2-root_comment-test',
+          family: 'root_comment',
+          quote: 'unique root quote',
+          locatorQuote: 'unique root quote',
+          expectedOutcome: 'SAFE_APPLY',
+        },
+        {
+          id: 'c5v2-reply-test',
+          family: 'reply_attempt',
+          targetRootOperationId: 'c5v2-root_comment-test',
+          physicalAction: 'native-ui',
+          expectedOutcome: 'SAFE_APPLY',
+        },
+      ],
+    },
+  });
+  const predeclareIndex = script.indexOf('set yOperationErrMsg to ""');
+  const topTryIndex = script.indexOf('\ntry\n  set display alerts to alerts none');
+  const axPreflightIndex = script.indexOf('set yAccessibilityPreflight to my yMacosAccessibilityPreflight');
+  assert.ok(predeclareIndex > -1, 'operation error message default must be generated');
+  assert.ok(script.includes('set yOperationErrNo to 0'), 'operation error number default must be generated');
+  assert.ok(script.includes('set yCanaryErrMsg to ""'), 'top-level canary error default must be generated');
+  assert.ok(script.includes('set yNativeReadbackErrMsg to ""'), 'native readback error default must be generated');
+  assert.ok(predeclareIndex < topTryIndex, 'handler locals must exist before top-level try');
+  assert.ok(topTryIndex < axPreflightIndex, 'top-level try must still guard Accessibility preflight');
 });
 
 test('C1 Word full-book route receipt is fail-closed blocker evidence, not route PASS', async () => {

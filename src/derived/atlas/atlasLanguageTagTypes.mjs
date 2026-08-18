@@ -26,6 +26,8 @@ export function sortAtlasLanguageTags(tags) {
 
 export function sortAtlasMixedLanguageRoutes(routes) {
   return [...(Array.isArray(routes) ? routes : [])].sort((left, right) => {
+    const ordinal = Number(left?.sceneOrdinal || 0) - Number(right?.sceneOrdinal || 0);
+    if (ordinal !== 0) return ordinal;
     const scene = String(left?.sceneId || '').localeCompare(String(right?.sceneId || ''), 'en', { sensitivity: 'variant' });
     if (scene !== 0) return scene;
     const start = Number(left?.startOffset || 0) - Number(right?.startOffset || 0);

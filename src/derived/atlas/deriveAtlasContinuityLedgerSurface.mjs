@@ -1,6 +1,7 @@
 import { createDerivedError, deriveView, hashCanonicalValue } from '../deriveView.mjs';
 import { deriveAtlasContinuityFactLedgers } from './deriveAtlasContinuityFactLedgers.mjs';
 import { deriveAtlasContinuityFindings } from './deriveAtlasContinuityFindings.mjs';
+import { requireAtlasSceneOrder } from './atlasSceneOrder.mjs';
 import {
   ATLAS_CONTINUITY_LEDGER_CORRECTION_ROUTE_SCHEMA_VERSION,
   ATLAS_CONTINUITY_LEDGER_EVIDENCE_ROW_SCHEMA_VERSION,
@@ -38,11 +39,22 @@ function getProject(coreState, projectId) {
   return isPlainObject(projects[projectId]) ? projects[projectId] : null;
 }
 
-function sceneOrdinal(project, sceneId) {
-  const ids = Object.keys(isPlainObject(project?.scenes) ? project.scenes : {})
-    .sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'variant' }));
-  const index = ids.indexOf(sceneId);
-  return index >= 0 ? index : 0;
+function buildSceneOrdinalIndex(project) {
+  return new Map(requireAtlasSceneOrder(project, VIEW_ID)
+    .map((scene) => [scene.sceneId, scene.sceneOrdinal]));
+}
+
+function sceneOrdinal(sceneOrdinalById, sceneId) {
+  const ordinal = sceneOrdinalById.get(sceneId);
+  return Number.isSafeInteger(ordinal) ? ordinal : 0;
+}
+
+function sceneIdsInNarrativeOrder(sceneOrdinalById, values) {
+  return uniqueSorted(values).sort((left, right) => {
+    const ordinal = sceneOrdinal(sceneOrdinalById, left) - sceneOrdinal(sceneOrdinalById, right);
+    if (ordinal !== 0) return ordinal;
+    return left.localeCompare(right, 'en', { sensitivity: 'variant' });
+  });
 }
 
 function isCapabilityEnabled(snapshot) {
@@ -125,7 +137,7 @@ function buildCorrectionRoute(row, factIds) {
   };
 }
 
-function buildEvidenceRow({ rowId, fact, project }) {
+function buildEvidenceRow({ rowId, fact, sceneOrdinalById }) {
   const anchor = isPlainObject(fact?.evidenceAnchor) ? fact.evidenceAnchor : {};
   const startOffset = Number.isSafeInteger(Number(anchor.startOffset)) ? Number(anchor.startOffset) : 0;
   const endOffset = Number.isSafeInteger(Number(anchor.endOffset)) ? Number(anchor.endOffset) : startOffset;
@@ -138,7 +150,7 @@ function buildEvidenceRow({ rowId, fact, project }) {
     ledgerKind: normalizeString(fact.ledgerKind),
     anchorId: normalizeString(anchor.anchorId),
     sceneId,
-    sceneOrdinal: sceneOrdinal(project, sceneId),
+    sceneOrdinal: sceneOrdinal(sceneOrdinalById, sceneId),
     subjectEntityId: normalizeString(fact.subjectEntityId),
     quote,
     startOffset,
@@ -165,13 +177,13 @@ function buildEvidenceRow({ rowId, fact, project }) {
   };
 }
 
-function makeRow({ source, rowKind, project, factsById }) {
+function makeRow({ source, rowKind, sceneOrdinalById, factsById }) {
   const factIds = uniqueSorted(rowKind === 'finding' ? source.factIds : [source.factId]);
   const evidenceRows = sortAtlasContinuityLedgerEvidenceRows(
     factIds
       .map((factId) => factsById.get(factId))
       .filter(isPlainObject)
-      .map((fact) => buildEvidenceRow({ rowId: source.id, fact, project })),
+      .map((fact) => buildEvidenceRow({ rowId: source.id, fact, sceneOrdinalById })),
   );
   const row = {
     schemaVersion: ATLAS_CONTINUITY_LEDGER_ROW_SCHEMA_VERSION,
@@ -184,7 +196,10 @@ function makeRow({ source, rowKind, project, factsById }) {
     status: normalizeString(source.status),
     summary: normalizeString(source.summary),
     factIds,
-    sceneIds: uniqueSorted(source.sceneIds || evidenceRows.map((rowItem) => rowItem.sceneId)),
+    sceneIds: sceneIdsInNarrativeOrder(
+      sceneOrdinalById,
+      source.sceneIds || evidenceRows.map((rowItem) => rowItem.sceneId),
+    ),
     firstSceneOrdinal: Math.min(...(Array.isArray(source.sceneOrdinals) && source.sceneOrdinals.length
       ? source.sceneOrdinals
       : evidenceRows.map((rowItem) => rowItem.sceneOrdinal)), 999999),
@@ -284,12 +299,13 @@ function emptyState(projectId, reason = '') {
 }
 
 function buildState({ project, projectId, findingsResult, factLedgersResult, rowLimit, meta }) {
+  const sceneOrdinalById = buildSceneOrdinalIndex(project);
   const factsById = new Map((Array.isArray(factLedgersResult.value?.facts) ? factLedgersResult.value.facts : [])
     .map((fact) => [normalizeString(fact.id), fact]));
   const findingRows = (Array.isArray(findingsResult.value?.findings) ? findingsResult.value.findings : [])
-    .map((item) => makeRow({ source: item, rowKind: 'finding', project, factsById }));
+    .map((item) => makeRow({ source: item, rowKind: 'finding', sceneOrdinalById, factsById }));
   const outcomeRows = (Array.isArray(findingsResult.value?.outcomes) ? findingsResult.value.outcomes : [])
-    .map((item) => makeRow({ source: item, rowKind: 'outcome', project, factsById }));
+    .map((item) => makeRow({ source: item, rowKind: 'outcome', sceneOrdinalById, factsById }));
   const allRows = sortAtlasContinuityLedgerRows([...findingRows, ...outcomeRows]);
   const visibleRows = allRows.slice(0, rowLimit);
   const omittedRowCount = Math.max(0, allRows.length - visibleRows.length);

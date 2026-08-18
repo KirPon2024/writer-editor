@@ -1,5 +1,6 @@
 import { createDerivedError, deriveView, hashCanonicalValue } from '../deriveView.mjs';
 import { deriveAtlasObservationAggregate } from './deriveAtlasObservationAggregate.mjs';
+import { requireAtlasSceneOrder } from './atlasSceneOrder.mjs';
 import {
   ATLAS_ABSENCE_INTERVAL_SCHEMA_VERSION,
   ATLAS_COOCCURRENCE_SCHEMA_VERSION,
@@ -34,17 +35,6 @@ function uniqueSorted(values) {
 function getProject(coreState, projectId) {
   const projects = isPlainObject(coreState?.data?.projects) ? coreState.data.projects : {};
   return isPlainObject(projects[projectId]) ? projects[projectId] : null;
-}
-
-function sceneOrderFromProject(project) {
-  const scenes = isPlainObject(project?.scenes) ? project.scenes : {};
-  return Object.keys(scenes)
-    .sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'variant' }))
-    .map((sceneId, sceneOrdinal) => ({
-      sceneId,
-      sceneOrdinal,
-      sceneTitle: plainString(scenes[sceneId]?.title) || sceneId,
-    }));
 }
 
 function sceneOrdinalLookup(sceneOrder) {
@@ -357,7 +347,7 @@ export function deriveAtlasTemporalContinuity(input = {}) {
           aggregateResult.error?.details || {},
         );
       }
-      const sceneOrder = sceneOrderFromProject(project);
+      const sceneOrder = requireAtlasSceneOrder(project, VIEW_ID);
       const model = buildAtlasTemporalContinuityFromObservationAggregate({
         aggregate: aggregateResult.value,
         sceneOrder,

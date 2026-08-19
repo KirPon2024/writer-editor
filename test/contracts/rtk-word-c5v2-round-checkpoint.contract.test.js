@@ -298,7 +298,10 @@ test('C5V2 physical Word chunks preserve root-first and descending-range authori
   assert.match(continuation, /set yCanaryErrNumberText to yCanaryErrNo as text/u);
   assert.equal(continuation.includes('CANARY_ERROR", yCanaryErrNumberText & "|" & yCanaryErrText'), true);
   assert.match(continuation, /ERRNO=" & yCanaryErrNumberText & linefeed & "ERR=" & yCanaryErrText/u);
-  assert.match(continuation, /if yUiEnabled is false then return "MACOS_ACCESSIBILITY_PERMISSION_REQUIRED\|"/u);
+  assert.match(continuation, /LEGACY_UI_ELEMENTS_AUTHORITY:ADVISORY_ONLY:DIRECT_AX_CAPABILITY_PROVEN/u);
+  assert.doesNotMatch(continuation, /if yUiEnabled is false then return "MACOS_ACCESSIBILITY_PERMISSION_REQUIRED\|"/u);
+  assert.match(continuation, /if yAxQuerySucceeded is false then return "MACOS_ACCESSIBILITY_PERMISSION_REQUIRED\|"/u);
+  assert.match(continuation, /if yDirectAxCapabilityProven is false then return "MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE\|"/u);
   assert.match(continuation, /on error yOperationErrMsg number yOperationErrNo/u);
   assert.match(continuation, /OP_ERROR\|insert-mid\|" & \(yOperationErrNo as text\) & "\|" & \(yOperationErrMsg as text\)/u);
   assert.match(continuation, /on error yNativeReadbackErrMsg number yNativeReadbackErrNo/u);

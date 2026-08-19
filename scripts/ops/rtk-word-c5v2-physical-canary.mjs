@@ -2817,16 +2817,26 @@ export function evaluateMacosAccessibilityPreflight(input = {}) {
     frontDocumentFullName: String(input.frontDocumentFullName || ''),
     expectedFrontDocumentFullName: String(input.expectedFrontDocumentFullName || ''),
   };
+  diagnostics.directAxCapabilityProven = diagnostics.axQuerySucceeded
+    && diagnostics.wordFrontmost
+    && diagnostics.wordWindowCount > 0
+    && diagnostics.axWindowSubtreeItemCount > 0
+    && (
+      !diagnostics.requireOpenDocument
+      || (
+        Boolean(diagnostics.expectedFrontDocumentFullName)
+        && diagnostics.frontDocumentFullName === diagnostics.expectedFrontDocumentFullName
+      )
+    );
   if (!diagnostics.wordProcessExists) {
     return { ok: false, status: 'environment-blocked', code: 'MACOS_ACCESSIBILITY_WORD_PROCESS_MISSING', diagnostics };
   }
   if (!diagnostics.axQuerySucceeded) {
     return { ok: false, status: 'environment-blocked', code: 'MACOS_ACCESSIBILITY_PERMISSION_REQUIRED', diagnostics };
   }
-  if (!diagnostics.requireOpenDocument) {
-    return { ok: true, status: 'ready', code: 'MACOS_ACCESSIBILITY_PREFLIGHT_READY', diagnostics };
-  }
   if (
+    diagnostics.requireOpenDocument
+    &&
     diagnostics.expectedFrontDocumentFullName
     && diagnostics.frontDocumentFullName !== diagnostics.expectedFrontDocumentFullName
   ) {
@@ -2837,6 +2847,9 @@ export function evaluateMacosAccessibilityPreflight(input = {}) {
     || diagnostics.wordWindowCount < 1
     || diagnostics.axWindowSubtreeItemCount < 1
   ) {
+    return { ok: false, status: 'environment-blocked', code: 'MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE', diagnostics };
+  }
+  if (!diagnostics.directAxCapabilityProven) {
     return { ok: false, status: 'environment-blocked', code: 'MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE', diagnostics };
   }
   return { ok: true, status: 'ready', code: 'MACOS_ACCESSIBILITY_PREFLIGHT_READY', diagnostics };
@@ -2859,6 +2872,8 @@ export function buildMacosAccessibilityPreflightScript(expectedFrontDocumentFull
     '  set yWindowCount to 0',
     '  set yAxQuerySucceeded to false',
     '  set yAxMenuCount to 0',
+    '  set yAxWindowSubtreeCount to 0',
+    '  set yDirectAxCapabilityProven to false',
     '  set yAxErrorNumber to 0',
     '  set yAxErrorMessage to ""',
     '  if yProcessExists then',
@@ -2867,14 +2882,16 @@ export function buildMacosAccessibilityPreflightScript(expectedFrontDocumentFull
     '        set yFrontmost to frontmost',
     '        set yWindowCount to count of windows',
     '        set yAxMenuCount to count of menu bar items of menu bar 1',
+    '        if yWindowCount > 0 then set yAxWindowSubtreeCount to count of UI elements of window 1',
     '        set yAxQuerySucceeded to yAxMenuCount > 0',
+    '        set yDirectAxCapabilityProven to (yAxQuerySucceeded is true) and (yFrontmost is true) and (yWindowCount > 0) and (yAxWindowSubtreeCount > 0)',
     '      on error yErrMsg number yErrNo',
     '        set yAxErrorNumber to yErrNo',
     '        set yAxErrorMessage to yErrMsg',
     '      end try',
     '    end tell',
     '  end if',
-    `  return "LEGACY_UI_ELEMENTS_ENABLED=" & yUiEnabled & linefeed & "WORD_PROCESS_EXISTS=" & yProcessExists & linefeed & "WORD_FRONTMOST=" & yFrontmost & linefeed & "WORD_WINDOW_COUNT=" & yWindowCount & linefeed & "AX_QUERY_SUCCEEDED=" & yAxQuerySucceeded & linefeed & "AX_MENU_BAR_ITEM_COUNT=" & yAxMenuCount & linefeed & "AX_ERROR_NUMBER=" & yAxErrorNumber & linefeed & "AX_ERROR_MESSAGE=" & yAxErrorMessage & linefeed & "FRONT_DOCUMENT_FULL_NAME=" & yFrontDocument & linefeed & "EXPECTED_FRONT_DOCUMENT_FULL_NAME=" & ${appleText(expectedFrontDocumentFullName)}`,
+    `  return "LEGACY_UI_ELEMENTS_ENABLED=" & yUiEnabled & linefeed & "WORD_PROCESS_EXISTS=" & yProcessExists & linefeed & "WORD_FRONTMOST=" & yFrontmost & linefeed & "WORD_WINDOW_COUNT=" & yWindowCount & linefeed & "AX_QUERY_SUCCEEDED=" & yAxQuerySucceeded & linefeed & "AX_MENU_BAR_ITEM_COUNT=" & yAxMenuCount & linefeed & "AX_WINDOW_SUBTREE_ITEM_COUNT=" & yAxWindowSubtreeCount & linefeed & "DIRECT_AX_CAPABILITY_PROVEN=" & yDirectAxCapabilityProven & linefeed & "AX_ERROR_NUMBER=" & yAxErrorNumber & linefeed & "AX_ERROR_MESSAGE=" & yAxErrorMessage & linefeed & "FRONT_DOCUMENT_FULL_NAME=" & yFrontDocument & linefeed & "EXPECTED_FRONT_DOCUMENT_FULL_NAME=" & ${appleText(expectedFrontDocumentFullName)}`,
     'end tell',
   ].join('\n');
 }
@@ -2892,6 +2909,7 @@ export function parseMacosAccessibilityPreflightOutput(output, expectedFrontDocu
     wordWindowCount: Number.parseInt(fields.WORD_WINDOW_COUNT || '0', 10),
     axQuerySucceeded: fields.AX_QUERY_SUCCEEDED === 'true',
     axMenuBarItemCount: Number.parseInt(fields.AX_MENU_BAR_ITEM_COUNT || '0', 10),
+    axWindowSubtreeItemCount: Number.parseInt(fields.AX_WINDOW_SUBTREE_ITEM_COUNT || '0', 10),
     axErrorNumber: Number.parseInt(fields.AX_ERROR_NUMBER || '0', 10),
     axErrorMessage: fields.AX_ERROR_MESSAGE || '',
     requireOpenDocument: Boolean(expectedFrontDocumentFullName),
@@ -5317,6 +5335,7 @@ export function buildWordScript({
     '  set yAxErrorMessage to ""',
     '  set yWindowReviveDiagnostics to ""',
     '  set yAxProbeIndeterminate to false',
+    '  set yDirectAxCapabilityProven to false',
     '  repeat with yAttempt from 1 to 40',
     '    delay 0.25',
     '    if (yAttempt is 1) or (yWindowCount < 1) or (yWordFrontmost is false) then set yWindowReviveDiagnostics to my yReviveExpectedWordWindow(yExpectedFullName)',
@@ -5367,17 +5386,18 @@ export function buildWordScript({
     '        end tell',
     '      end if',
     '    end tell',
-    '    if (yAxQuerySucceeded is true) and (yWordFrontmost is true) and (yWindowCount > 0) and (yAxWindowSubtreeCount > 0) then exit repeat',
+    '    set yDirectAxCapabilityProven to ((yAxQuerySucceeded is true) and (yWordFrontmost is true) and (yWindowCount > 0) and (yAxWindowSubtreeCount > 0) and (yFrontDocument is yExpectedFullName))',
+    '    if yDirectAxCapabilityProven is true then exit repeat',
     '  end repeat',
     '  tell application "System Events"',
-    '    set yDiagnostics to "LEGACY_UI_ELEMENTS_ENABLED:" & my yAxDiagnosticText(yUiEnabled) & ":PROCESS_EXISTS:" & my yAxDiagnosticText(yProcessExists) & ":WORD_FRONTMOST:" & my yAxDiagnosticText(yWordFrontmost) & ":WINDOW_COUNT:" & my yAxDiagnosticText(yWindowCount) & ":AX_MENU_COUNT:" & my yAxDiagnosticText(yAxMenuCount) & ":AX_WINDOW_SUBTREE_COUNT:" & my yAxDiagnosticText(yAxWindowSubtreeCount) & ":AX_PROBE_INDETERMINATE:" & my yAxDiagnosticText(yAxProbeIndeterminate) & ":AX_ERROR_NUMBER:" & my yAxDiagnosticText(yAxErrorNumber) & ":AX_ERROR_MESSAGE:" & my yAxDiagnosticText(yAxErrorMessage) & ":WINDOW_REVIVE:" & my yAxDiagnosticText(yWindowReviveDiagnostics) & ":FRONT_DOCUMENT:" & my yAxDiagnosticText(yFrontDocument)',
+    '    set yDiagnostics to "LEGACY_UI_ELEMENTS_ENABLED:" & my yAxDiagnosticText(yUiEnabled) & ":LEGACY_UI_ELEMENTS_AUTHORITY:ADVISORY_ONLY:DIRECT_AX_CAPABILITY_PROVEN:" & my yAxDiagnosticText(yDirectAxCapabilityProven) & ":PROCESS_EXISTS:" & my yAxDiagnosticText(yProcessExists) & ":WORD_FRONTMOST:" & my yAxDiagnosticText(yWordFrontmost) & ":WINDOW_COUNT:" & my yAxDiagnosticText(yWindowCount) & ":AX_MENU_COUNT:" & my yAxDiagnosticText(yAxMenuCount) & ":AX_WINDOW_SUBTREE_COUNT:" & my yAxDiagnosticText(yAxWindowSubtreeCount) & ":AX_PROBE_INDETERMINATE:" & my yAxDiagnosticText(yAxProbeIndeterminate) & ":AX_ERROR_NUMBER:" & my yAxDiagnosticText(yAxErrorNumber) & ":AX_ERROR_MESSAGE:" & my yAxDiagnosticText(yAxErrorMessage) & ":WINDOW_REVIVE:" & my yAxDiagnosticText(yWindowReviveDiagnostics) & ":FRONT_DOCUMENT:" & my yAxDiagnosticText(yFrontDocument)',
     '    if yProcessExists is false then return "MACOS_ACCESSIBILITY_WORD_PROCESS_MISSING|" & yDiagnostics',
-    '    if yUiEnabled is false then return "MACOS_ACCESSIBILITY_PERMISSION_REQUIRED|" & yDiagnostics',
     '    if yAxProbeIndeterminate is true then return "MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE|" & yDiagnostics',
     '    if yWindowCount < 1 then return "MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE|" & yDiagnostics',
     '    if yAxQuerySucceeded is false then return "MACOS_ACCESSIBILITY_PERMISSION_REQUIRED|" & yDiagnostics',
     '    if yFrontDocument is not yExpectedFullName then return "MACOS_ACCESSIBILITY_FRONT_DOCUMENT_MISMATCH|" & yDiagnostics',
     '    if yWordFrontmost is false or yWindowCount < 1 or yAxWindowSubtreeCount < 1 then return "MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE|" & yDiagnostics',
+    '    if yDirectAxCapabilityProven is false then return "MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE|" & yDiagnostics',
     '    return "MACOS_ACCESSIBILITY_PREFLIGHT_READY|" & yDiagnostics',
     '  end tell',
     'end yMacosAccessibilityPreflight',

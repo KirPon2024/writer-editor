@@ -1037,7 +1037,18 @@ test('N2 macOS Accessibility preflight classifies environment blockers before UI
     frontDocumentFullName: '',
     expectedFrontDocumentFullName: '',
   });
-  assert.equal(standalone.ok, true);
+  assert.equal(standalone.ok, false);
+  assert.equal(standalone.code, 'MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE');
+  assert.equal(standalone.diagnostics.directAxCapabilityProven, false);
+  const standaloneReady = canary.evaluateMacosAccessibilityPreflight({
+    ...base,
+    requireOpenDocument: false,
+    frontDocumentFullName: '',
+    expectedFrontDocumentFullName: '',
+  });
+  assert.equal(standaloneReady.ok, true);
+  assert.equal(standaloneReady.code, 'MACOS_ACCESSIBILITY_PREFLIGHT_READY');
+  assert.equal(standaloneReady.diagnostics.directAxCapabilityProven, true);
   const ready = canary.evaluateMacosAccessibilityPreflight(base);
   assert.equal(ready.ok, true);
   assert.equal(ready.code, 'MACOS_ACCESSIBILITY_PREFLIGHT_READY');

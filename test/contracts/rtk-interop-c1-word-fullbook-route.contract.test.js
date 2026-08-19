@@ -106,13 +106,72 @@ test('C1 generated macOS Accessibility preflight normalizes indeterminate AX pro
     'indeterminate probes must fail closed with a typed Accessibility outcome',
   );
   assert.ok(
-    script.includes('if (yAxQuerySucceeded is true) and (yWordFrontmost is true) and (yWindowCount > 0) and (yAxWindowSubtreeCount > 0) then exit repeat'),
-    'ready condition must keep boolean and numeric operands type-separated',
+    script.includes('set yDirectAxCapabilityProven to ((yAxQuerySucceeded is true) and (yWordFrontmost is true) and (yWindowCount > 0) and (yAxWindowSubtreeCount > 0) and (yFrontDocument is yExpectedFullName))'),
+    'ready condition must keep boolean and numeric operands type-separated while binding exact document identity',
   );
   assert.equal(
     script.includes('if yAxQuerySucceeded and yWordFrontmost and yWindowCount > 0 and yAxWindowSubtreeCount > 0 then exit repeat'),
     false,
     'bare mixed boolean/numeric ready condition must not return',
+  );
+});
+
+test('C1 generated macOS Accessibility preflight treats legacy UI-elements scalar as advisory after direct AX proof', async () => {
+  const { buildWordScript } = await loadCanary();
+  const script = buildWordScript({
+    sourcePath: '/tmp/c1-source.docx',
+    returnedPath: '/tmp/c1-returned.docx',
+    artifactReturnedPath: '/tmp/c1-returned-artifact.docx',
+    initializeFromSource: false,
+    ledger: {
+      operations: [
+        {
+          id: 'c5v2-root_comment-test',
+          family: 'root_comment',
+          quote: 'unique root quote',
+          locatorQuote: 'unique root quote',
+          expectedOutcome: 'SAFE_APPLY',
+        },
+        {
+          id: 'c5v2-reply-test',
+          family: 'reply_attempt',
+          targetRootOperationId: 'c5v2-root_comment-test',
+          physicalAction: 'native-ui',
+          expectedOutcome: 'SAFE_APPLY',
+        },
+      ],
+    },
+  });
+
+  assert.ok(script.includes('set yDirectAxCapabilityProven to false'), 'direct AX proof state must be explicit');
+  assert.ok(
+    script.includes('set yDirectAxCapabilityProven to ((yAxQuerySucceeded is true) and (yWordFrontmost is true) and (yWindowCount > 0) and (yAxWindowSubtreeCount > 0) and (yFrontDocument is yExpectedFullName))'),
+    'direct AX proof must bind query, frontmost, window, subtree, and exact synthetic document identity',
+  );
+  assert.ok(
+    script.includes('if yDirectAxCapabilityProven is true then exit repeat'),
+    'preflight retry may finish only after direct AX capability is proven',
+  );
+  assert.ok(
+    script.includes(':LEGACY_UI_ELEMENTS_AUTHORITY:ADVISORY_ONLY:DIRECT_AX_CAPABILITY_PROVEN:'),
+    'legacy UI-elements scalar must remain diagnostic and non-authoritative',
+  );
+  assert.equal(
+    script.includes('if yUiEnabled is false then return "MACOS_ACCESSIBILITY_PERMISSION_REQUIRED|" & yDiagnostics'),
+    false,
+    'legacy UI-elements scalar must not be a standalone veto after direct AX proof',
+  );
+  assert.ok(
+    script.includes('if yAxQuerySucceeded is false then return "MACOS_ACCESSIBILITY_PERMISSION_REQUIRED|" & yDiagnostics'),
+    'denied or throwing AX queries must still fail closed as permission-required',
+  );
+  assert.ok(
+    script.includes('if yFrontDocument is not yExpectedFullName then return "MACOS_ACCESSIBILITY_FRONT_DOCUMENT_MISMATCH|" & yDiagnostics'),
+    'wrong active document must still fail closed before ready',
+  );
+  assert.ok(
+    script.includes('if yDirectAxCapabilityProven is false then return "MACOS_ACCESSIBILITY_WORD_WINDOW_UNAVAILABLE|" & yDiagnostics'),
+    'ambiguous direct capability must fail closed instead of becoming ready',
   );
 });
 

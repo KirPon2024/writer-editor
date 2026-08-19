@@ -11906,6 +11906,18 @@ function loadSceneHistoryReadModelModule() {
 }
 
 let atlasCurrentSceneDossierModulePromise = null;
+let atlasProductRevisionBridgeModulePromise = null;
+function loadAtlasProductRevisionBridgeModule() {
+  if (!atlasProductRevisionBridgeModulePromise) {
+    const modulePath = pathToFileURL(path.join(__dirname, 'product', 'atlasProductRevisionBridge.mjs')).href;
+    atlasProductRevisionBridgeModulePromise = import(modulePath).catch((error) => {
+      atlasProductRevisionBridgeModulePromise = null;
+      throw error;
+    });
+  }
+  return atlasProductRevisionBridgeModulePromise;
+}
+
 function loadAtlasCurrentSceneDossierModule() {
   if (!atlasCurrentSceneDossierModulePromise) {
     const modulePath = pathToFileURL(path.join(__dirname, 'derived', 'atlas', 'deriveAtlasCurrentSceneDossier.mjs')).href;
@@ -13610,6 +13622,12 @@ function getMeaningAuthorDataForProjection(manifest = {}) {
 }
 
 async function buildAtlasCurrentSceneCoreState(resolvedNode, documentTarget) {
+  if (typeof resolvedNode.manifestRaw !== 'string' || resolvedNode.manifestRaw.length === 0) {
+    throw makeAtlasProductSceneProjectionError(
+      'E_ATLAS_PRODUCT_MANIFEST_REVISION_SOURCE_INVALID',
+      'ATLAS_PRODUCT_MANIFEST_REVISION_SOURCE_INVALID',
+    );
+  }
   const guard = sanitizePayloadWithinProjectRoot(
     { path: documentTarget.filePath },
     ['path'],
@@ -13622,7 +13640,8 @@ async function buildAtlasCurrentSceneCoreState(resolvedNode, documentTarget) {
   }
 
   const filePath = guard.payload.path;
-  const sourceText = await fs.readFile(filePath, 'utf8');
+  const sourceBytes = await fs.readFile(filePath);
+  const sourceText = sourceBytes.toString('utf8');
   const envelopeModule = await loadDocumentContentEnvelopeModule();
   const parsed = envelopeModule.parseObservablePayload(sourceText);
   if (!parsed || parsed.issue) {
@@ -13631,6 +13650,24 @@ async function buildAtlasCurrentSceneCoreState(resolvedNode, documentTarget) {
     throw error;
   }
   const context = getDocumentContextFromPath(filePath);
+  const revisionBridgeModule = await loadAtlasProductRevisionBridgeModule();
+  const revisionBridge = requireAtlasProductRevisionBridgeValue(
+    revisionBridgeModule,
+    {
+      projectId: resolvedNode.projectId,
+      revisionScope: revisionBridgeModule.ATLAS_PRODUCT_REVISION_SCOPES.CURRENT_SCENE,
+      manifestRevision: `sha256:${computeHash(resolvedNode.manifestRaw)}`,
+      sceneOrder: [resolvedNode.nodeId],
+      scenesById: {
+        [resolvedNode.nodeId]: {
+          sceneId: resolvedNode.nodeId,
+          title: context.title,
+          text: parsed.text,
+          sceneRevision: `sha256:${computeHash(sourceBytes)}`,
+        },
+      },
+    },
+  );
   return {
     sceneTitle: context.title,
     coreState: {
@@ -13643,15 +13680,21 @@ async function buildAtlasCurrentSceneCoreState(resolvedNode, documentTarget) {
           [resolvedNode.projectId]: {
             id: resolvedNode.projectId,
             title: resolvedNode.manifest?.projectName || currentProjectName || DEFAULT_PROJECT_NAME,
+            revisionBridgeSchemaVersion: revisionBridge.schemaVersion,
+            revisionScope: revisionBridge.revisionScope,
+            projectRevisionId: revisionBridge.projectRevisionId,
+            manifestRevision: revisionBridge.manifestRevision,
             atlas: getAtlasAuthorDataForProjection(resolvedNode.manifest),
             manualMaps: getManualMapAuthorDataForProjection(resolvedNode.manifest),
             ideas: getIdeaAuthorDataForProjection(resolvedNode.manifest),
             meanings: getMeaningAuthorDataForProjection(resolvedNode.manifest),
+            sceneOrder: [resolvedNode.nodeId],
             scenes: {
               [resolvedNode.nodeId]: {
                 id: resolvedNode.nodeId,
                 title: context.title,
                 text: parsed.text,
+                sceneRevision: revisionBridge.scenesById[resolvedNode.nodeId].sceneRevision,
               },
             },
           },
@@ -13659,6 +13702,19 @@ async function buildAtlasCurrentSceneCoreState(resolvedNode, documentTarget) {
       },
     },
   };
+}
+
+function requireAtlasProductRevisionBridgeValue(revisionBridgeModule, input) {
+  const result = revisionBridgeModule?.buildAtlasProductRevisionBridge?.(input);
+  if (!result || result.ok !== true || !isPlainObjectValue(result.value)) {
+    const error = new Error(result?.error?.reason || 'ATLAS_PRODUCT_REVISION_BRIDGE_INVALID');
+    error.code = result?.error?.code || 'E_ATLAS_PRODUCT_REVISION_BRIDGE_INVALID';
+    error.details = isPlainObjectValue(result?.error?.details)
+      ? cloneJsonSafe(result.error.details)
+      : {};
+    throw error;
+  }
+  return result.value;
 }
 
 function collectAtlasOverviewSceneNodes(roots) {
@@ -13673,11 +13729,32 @@ function collectAtlasOverviewSceneNodes(roots) {
   return nodes;
 }
 
+function makeAtlasProductSceneProjectionError(code, reason, nodeId = '') {
+  const error = new Error(reason);
+  error.code = code;
+  error.details = nodeId ? { nodeId } : {};
+  return error;
+}
+
 async function buildProductCoreStateForCurrentProject() {
-  const { projectId, roots, manifestPath, manifest } = await buildProjectTreeRootsWithIdentitiesReadOnly();
+  const {
+    projectId,
+    roots,
+    manifestPath,
+    manifest,
+    manifestRaw,
+  } = await buildProjectTreeRootsWithIdentitiesReadOnly();
+  if (typeof manifestRaw !== 'string' || manifestRaw.length === 0) {
+    throw makeAtlasProductSceneProjectionError(
+      'E_ATLAS_PRODUCT_MANIFEST_REVISION_SOURCE_INVALID',
+      'ATLAS_PRODUCT_MANIFEST_REVISION_SOURCE_INVALID',
+    );
+  }
   const projectRoot = path.dirname(manifestPath);
   const envelopeModule = await loadDocumentContentEnvelopeModule();
   const scenes = {};
+  const revisionScenesById = {};
+  const sceneOrder = [];
   for (const node of collectAtlasOverviewSceneNodes(roots)) {
     let documentTarget;
     try {
@@ -13690,31 +13767,92 @@ async function buildProductCoreStateForCurrentProject() {
         nodePath: typeof node.nodePath === 'string' ? node.nodePath : node.path,
         kind: node.kind,
       });
-    } catch (error) {
-      logDevError('query.atlasOverview:target', error);
-      continue;
+    } catch {
+      throw makeAtlasProductSceneProjectionError(
+        'E_ATLAS_PRODUCT_SCENE_TARGET_INVALID',
+        'ATLAS_PRODUCT_SCENE_TARGET_INVALID',
+        node.nodeId,
+      );
     }
-    if (!ROMAN_CONTEXT_KINDS.has(documentTarget.kind)) continue;
+    if (!ROMAN_CONTEXT_KINDS.has(documentTarget.kind)) {
+      throw makeAtlasProductSceneProjectionError(
+        'E_ATLAS_PRODUCT_SCENE_KIND_INVALID',
+        'ATLAS_PRODUCT_SCENE_KIND_INVALID',
+        node.nodeId,
+      );
+    }
     const guard = sanitizePayloadWithinProjectRoot(
       { path: documentTarget.filePath },
       ['path'],
       projectRoot,
     );
-    if (!guard.ok || !guard.payload) continue;
-    try {
-      const sourceText = await fs.readFile(guard.payload.path, 'utf8');
-      const parsed = envelopeModule.parseObservablePayload(sourceText);
-      if (!parsed || parsed.issue) continue;
-      const context = getDocumentContextFromPath(guard.payload.path);
-      scenes[node.nodeId] = {
-        id: node.nodeId,
-        title: typeof node.label === 'string' && node.label ? node.label : context.title,
-        text: parsed.text || '',
-      };
-    } catch (error) {
-      if (error && error.code !== 'ENOENT') logDevError('query.atlasOverview:fileRead', error);
+    if (!guard.ok || !guard.payload) {
+      throw makeAtlasProductSceneProjectionError(
+        'E_PATH_BOUNDARY_VIOLATION',
+        'ATLAS_PRODUCT_SCENE_PATH_BOUNDARY_VIOLATION',
+        node.nodeId,
+      );
     }
+    let sourceBytes;
+    try {
+      sourceBytes = await fs.readFile(guard.payload.path);
+    } catch (error) {
+      if (error && error.code === 'ENOENT' && node.kind === 'roman-section') continue;
+      throw makeAtlasProductSceneProjectionError(
+        'E_ATLAS_PRODUCT_SCENE_DOCUMENT_READ_FAILED',
+        'ATLAS_PRODUCT_SCENE_DOCUMENT_READ_FAILED',
+        node.nodeId,
+      );
+    }
+    const sourceText = sourceBytes.toString('utf8');
+    let parsed;
+    try {
+      parsed = envelopeModule.parseObservablePayload(sourceText);
+    } catch {
+      parsed = null;
+    }
+    if (!parsed || parsed.issue) {
+      throw makeAtlasProductSceneProjectionError(
+        'E_ATLAS_PRODUCT_SCENE_DOCUMENT_PAYLOAD_INVALID',
+        'ATLAS_PRODUCT_SCENE_DOCUMENT_PAYLOAD_INVALID',
+        node.nodeId,
+      );
+    }
+    const context = getDocumentContextFromPath(guard.payload.path);
+    revisionScenesById[node.nodeId] = {
+      sceneId: node.nodeId,
+      title: typeof node.label === 'string' && node.label ? node.label : context.title,
+      text: parsed.text || '',
+      sceneRevision: `sha256:${computeHash(sourceBytes)}`,
+    };
+    scenes[node.nodeId] = {
+      id: node.nodeId,
+      title: revisionScenesById[node.nodeId].title,
+      text: revisionScenesById[node.nodeId].text,
+      sceneRevision: revisionScenesById[node.nodeId].sceneRevision,
+    };
+    sceneOrder.push(node.nodeId);
   }
+  if (
+    Object.keys(scenes).length !== sceneOrder.length
+    || new Set(sceneOrder).size !== sceneOrder.length
+  ) {
+    throw makeAtlasProductSceneProjectionError(
+      'E_ATLAS_PRODUCT_SCENE_ORDER_INVALID',
+      'ATLAS_PRODUCT_SCENE_ORDER_EXACT_COVERAGE_REQUIRED',
+    );
+  }
+  const revisionBridgeModule = await loadAtlasProductRevisionBridgeModule();
+  const revisionBridge = requireAtlasProductRevisionBridgeValue(
+    revisionBridgeModule,
+    {
+      projectId,
+      revisionScope: revisionBridgeModule.ATLAS_PRODUCT_REVISION_SCOPES.WHOLE_PROJECT,
+      manifestRevision: `sha256:${computeHash(manifestRaw)}`,
+      sceneOrder,
+      scenesById: revisionScenesById,
+    },
+  );
 
   return {
     projectId,
@@ -13730,10 +13868,15 @@ async function buildProductCoreStateForCurrentProject() {
           [projectId]: {
             id: projectId,
             title: manifest?.projectName || currentProjectName || DEFAULT_PROJECT_NAME,
+            revisionBridgeSchemaVersion: revisionBridge.schemaVersion,
+            revisionScope: revisionBridge.revisionScope,
+            projectRevisionId: revisionBridge.projectRevisionId,
+            manifestRevision: revisionBridge.manifestRevision,
             atlas: getAtlasAuthorDataForCommandBinding(manifest),
             manualMaps: getManualMapAuthorDataForCommandBinding(manifest),
             ideas: getIdeaAuthorDataForCommandBinding(manifest),
             meanings: getMeaningAuthorDataForCommandBinding(manifest),
+            sceneOrder,
             scenes,
           },
         },
@@ -24553,6 +24696,7 @@ async function buildProjectTreeRootsWithIdentitiesReadOnly() {
     roots,
     manifestPath,
     manifest: effectiveManifest,
+    manifestRaw: manifestRecord.raw,
     readOnlyIdentityChanged: result.changed === true,
   };
 }
@@ -24564,7 +24708,7 @@ async function resolveProjectTreeNodeIdentity(nodeId, expectedProjectId = '') {
     error.code = 'E_TREE_NODE_ID_INVALID';
     throw error;
   }
-  const { manifestPath, manifest } = await ensureProjectManifest(DEFAULT_PROJECT_NAME);
+  const { manifestPath, manifest, manifestRaw } = await ensureProjectManifest(DEFAULT_PROJECT_NAME);
   const normalizedExpectedProjectId = typeof expectedProjectId === 'string' ? expectedProjectId.trim() : '';
   if (normalizedExpectedProjectId && normalizedExpectedProjectId !== manifest.projectId) {
     const error = new Error('TREE_NODE_PROJECT_MISMATCH');
@@ -24603,6 +24747,7 @@ async function resolveProjectTreeNodeIdentity(nodeId, expectedProjectId = '') {
     projectRoot,
     manifestPath,
     manifest,
+    manifestRaw,
     nodeId: normalizedNodeId,
     nodePath: pathGuard.payload.path,
     kind: record.kind,

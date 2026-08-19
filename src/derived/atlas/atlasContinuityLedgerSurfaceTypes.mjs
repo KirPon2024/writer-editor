@@ -29,6 +29,8 @@ export function sortAtlasContinuityLedgerRows(items) {
 
 export function sortAtlasContinuityLedgerEvidenceRows(items) {
   return [...(Array.isArray(items) ? items : [])].sort((a, b) => {
+    const ordinal = compareNumber(a.sceneOrdinal, b.sceneOrdinal);
+    if (ordinal !== 0) return ordinal;
     const scene = compareText(a.sceneId, b.sceneId);
     if (scene !== 0) return scene;
     const start = compareNumber(a.startOffset, b.startOffset);

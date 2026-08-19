@@ -1,6 +1,9 @@
 import { createDerivedError, deriveView, hashCanonicalValue } from '../deriveView.mjs';
 import { ATLAS_EVIDENCE_ANCHOR_SCHEMA_VERSION } from './atlasMentionTypes.mjs';
-import { buildAtlasTextAnchorPacket } from './atlasTextAnchorNormalization.mjs';
+import {
+  buildAtlasTextAnchorPacket,
+  buildAtlasTextCoordinateIndex,
+} from './atlasTextAnchorNormalization.mjs';
 import {
   ATLAS_EVIDENCE_REATTACHMENT_CANDIDATE_SCHEMA_VERSION,
   ATLAS_EVIDENCE_REATTACHMENT_INBOX_SCHEMA_VERSION,
@@ -131,17 +134,41 @@ function collectReattachments(project) {
   return bySource;
 }
 
-function anchorMatchesCurrentScene(project, anchor) {
+function anchorMatchesCurrentScene(project, anchor, sceneTextHashesByScene) {
   const sceneText = plainString(project?.scenes?.[anchor.sceneId]?.text);
   const currentQuote = sceneText.slice(anchor.startOffset, anchor.endOffset);
+  if (!sceneTextHashesByScene.has(anchor.sceneId)) {
+    sceneTextHashesByScene.set(anchor.sceneId, hashCanonicalValue(sceneText));
+  }
   return currentQuote === anchor.quote
     && hashCanonicalValue(currentQuote) === anchor.quoteHash
-    && hashCanonicalValue(sceneText) === anchor.sceneTextHash;
+    && sceneTextHashesByScene.get(anchor.sceneId) === anchor.sceneTextHash;
 }
 
-function buildEvidenceAnchor({ projectId, sceneId, entityId, startOffset, endOffset, quote, sceneText, sourceRecordKind, sourceRecordId }) {
-  const quoteHash = hashCanonicalValue(quote);
-  const sceneTextHash = hashCanonicalValue(sceneText);
+function buildEvidenceAnchor({
+  projectId,
+  sceneId,
+  entityId,
+  startOffset,
+  endOffset,
+  quote,
+  sceneText,
+  sourceRecordKind,
+  sourceRecordId,
+  coordinateIndex,
+}) {
+  const anchorPacket = buildAtlasTextAnchorPacket({
+    projectId,
+    sceneId,
+    entityId,
+    startOffset,
+    endOffset,
+    sceneText,
+    coordinateIndex,
+    materializeOffsetMap: false,
+  });
+  const quoteHash = anchorPacket.evidenceAnchor.quoteHash;
+  const sceneTextHash = anchorPacket.evidenceAnchor.sceneTextHash;
   const anchorId = `atlas-anchor:${hashCanonicalValue({
     projectId,
     sceneId,
@@ -153,14 +180,6 @@ function buildEvidenceAnchor({ projectId, sceneId, entityId, startOffset, endOff
     quoteHash,
     sceneTextHash,
   })}`;
-  const anchorPacket = buildAtlasTextAnchorPacket({
-    projectId,
-    sceneId,
-    entityId,
-    startOffset,
-    endOffset,
-    sceneText,
-  });
   return {
     ...anchorPacket.evidenceAnchor,
     schemaVersion: ATLAS_EVIDENCE_ANCHOR_SCHEMA_VERSION,
@@ -176,7 +195,7 @@ function buildEvidenceAnchor({ projectId, sceneId, entityId, startOffset, endOff
   };
 }
 
-function findReattachmentCandidates({ projectId, project, source }) {
+function findReattachmentCandidates({ projectId, project, source, coordinateIndexesByScene }) {
   const quote = source.evidenceAnchor.quote;
   if (!quote) return [];
   const scenes = isPlainObject(project.scenes) ? project.scenes : {};
@@ -188,6 +207,11 @@ function findReattachmentCandidates({ projectId, project, source }) {
       const found = sceneText.indexOf(quote, cursor);
       if (found < 0) break;
       const endOffset = found + quote.length;
+      let coordinateIndex = coordinateIndexesByScene.get(sceneId);
+      if (!coordinateIndex) {
+        coordinateIndex = buildAtlasTextCoordinateIndex(sceneText);
+        coordinateIndexesByScene.set(sceneId, coordinateIndex);
+      }
       const evidenceAnchor = buildEvidenceAnchor({
         projectId,
         sceneId,
@@ -198,6 +222,7 @@ function findReattachmentCandidates({ projectId, project, source }) {
         sceneText,
         sourceRecordKind: source.sourceRecordKind,
         sourceRecordId: source.sourceRecordId,
+        coordinateIndex,
       });
       candidates.push({
         schemaVersion: ATLAS_EVIDENCE_REATTACHMENT_CANDIDATE_SCHEMA_VERSION,
@@ -227,10 +252,17 @@ function buildInbox({ coreState, projectId, meta }) {
     );
   }
   const reattachmentsBySource = collectReattachments(project);
+  const coordinateIndexesByScene = new Map();
+  const sceneTextHashesByScene = new Map();
   const items = collectSourceRecords(project).map((source) => {
     const reattachment = reattachmentsBySource.get(`${source.sourceRecordKind}:${source.sourceRecordId}`) || null;
-    const current = anchorMatchesCurrentScene(project, source.evidenceAnchor);
-    const candidates = current || reattachment ? [] : findReattachmentCandidates({ projectId, project, source });
+    const current = anchorMatchesCurrentScene(project, source.evidenceAnchor, sceneTextHashesByScene);
+    const candidates = current || reattachment ? [] : findReattachmentCandidates({
+      projectId,
+      project,
+      source,
+      coordinateIndexesByScene,
+    });
     const status = reattachment ? 'REATTACHED' : current ? 'CURRENT' : 'REVIEW_REQUIRED';
     return {
       schemaVersion: ATLAS_EVIDENCE_REATTACHMENT_ITEM_SCHEMA_VERSION,

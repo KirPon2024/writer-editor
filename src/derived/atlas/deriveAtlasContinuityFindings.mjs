@@ -1,5 +1,6 @@
 import { createDerivedError, deriveView, hashCanonicalValue } from '../deriveView.mjs';
 import { deriveAtlasContinuityFactLedgers } from './deriveAtlasContinuityFactLedgers.mjs';
+import { requireAtlasSceneOrder } from './atlasSceneOrder.mjs';
 import {
   ATLAS_CONTINUITY_FINDINGS_GENERATION_PROOF_SCHEMA_VERSION,
   ATLAS_CONTINUITY_FINDINGS_SCHEMA_VERSION,
@@ -62,16 +63,28 @@ function severityRank(severity) {
   return '2-info';
 }
 
-function sceneOrdinal(project, sceneId) {
-  const ids = Object.keys(isPlainObject(project?.scenes) ? project.scenes : {}).sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'variant' }));
-  const index = ids.indexOf(sceneId);
-  return index >= 0 ? index : 0;
+function buildSceneOrdinalIndex(project) {
+  return new Map(requireAtlasSceneOrder(project, VIEW_ID)
+    .map((scene) => [scene.sceneId, scene.sceneOrdinal]));
 }
 
-function finding({ findingKind, severity, facts, summary, project }) {
+function sceneOrdinal(sceneOrdinalById, sceneId) {
+  const ordinal = sceneOrdinalById.get(sceneId);
+  return Number.isSafeInteger(ordinal) ? ordinal : 0;
+}
+
+function sceneIdsInNarrativeOrder(sceneOrdinalById, values) {
+  return uniqueSorted(values).sort((left, right) => {
+    const ordinal = sceneOrdinal(sceneOrdinalById, left) - sceneOrdinal(sceneOrdinalById, right);
+    if (ordinal !== 0) return ordinal;
+    return left.localeCompare(right, 'en', { sensitivity: 'variant' });
+  });
+}
+
+function finding({ findingKind, severity, facts, summary, sceneOrdinalById }) {
   const factIds = uniqueSorted(facts.map((fact) => fact.id));
   const evidenceAnchorIds = uniqueSorted(facts.map((fact) => fact.evidenceAnchor?.anchorId));
-  const sceneIds = uniqueSorted(facts.map((fact) => fact.sceneId));
+  const sceneIds = sceneIdsInNarrativeOrder(sceneOrdinalById, facts.map((fact) => fact.sceneId));
   const subjectEntityIds = uniqueSorted(facts.map((fact) => fact.subjectEntityId));
   return {
     schemaVersion: ATLAS_CONTINUITY_FINDING_SCHEMA_VERSION,
@@ -84,13 +97,13 @@ function finding({ findingKind, severity, facts, summary, project }) {
     factIds,
     evidenceAnchorIds,
     sceneIds,
-    sceneOrdinals: sceneIds.map((sceneId) => sceneOrdinal(project, sceneId)),
+    sceneOrdinals: sceneIds.map((sceneId) => sceneOrdinal(sceneOrdinalById, sceneId)),
     subjectEntityIds,
     correctionApplied: false,
   };
 }
 
-function outcome({ outcomeKind, fact, summary, project }) {
+function outcome({ outcomeKind, fact, summary, sceneOrdinalById }) {
   return {
     schemaVersion: ATLAS_CONTINUITY_OUTCOME_SCHEMA_VERSION,
     id: `atlas-continuity-outcome:${hashCanonicalValue({ outcomeKind, factId: fact.id })}`,
@@ -99,7 +112,7 @@ function outcome({ outcomeKind, fact, summary, project }) {
     summary,
     factId: fact.id,
     sceneId: fact.sceneId,
-    sceneOrdinal: sceneOrdinal(project, fact.sceneId),
+    sceneOrdinal: sceneOrdinal(sceneOrdinalById, fact.sceneId),
     subjectEntityId: fact.subjectEntityId,
     evidenceAnchorId: normalizeString(fact.evidenceAnchor?.anchorId),
   };
@@ -115,7 +128,7 @@ function groupFacts(facts, keyFn) {
   return [...groups.values()];
 }
 
-function buildContradictionFindings(facts, project) {
+function buildContradictionFindings(facts, sceneOrdinalById) {
   const source = facts.filter((fact) => ['location', 'knowledge', 'object'].includes(fact.ledgerKind));
   return groupFacts(source, (fact) => [
     fact.ledgerKind,
@@ -130,13 +143,13 @@ function buildContradictionFindings(facts, project) {
       findingKind: `${items[0].ledgerKind.toUpperCase()}_CONTRADICTION`,
       severity: 'warning',
       facts: items,
-      project,
+      sceneOrdinalById,
       summary: `${items[0].ledgerKind} facts disagree for ${items[0].subjectEntityId} in ${items[0].sceneId}.`,
     })];
   });
 }
 
-function buildPromiseFindingsAndOutcomes(facts, project) {
+function buildPromiseFindingsAndOutcomes(facts, sceneOrdinalById) {
   const findings = [];
   const outcomes = [];
   const promises = facts.filter((fact) => fact.ledgerKind === 'promise');
@@ -147,7 +160,7 @@ function buildPromiseFindingsAndOutcomes(facts, project) {
         findingKind: 'PROMISE_CONTRADICTION',
         severity: 'error',
         facts: items,
-        project,
+        sceneOrdinalById,
         summary: `Promise has both fulfilled and broken evidence for ${items[0].subjectEntityId}.`,
       }));
       continue;
@@ -157,7 +170,7 @@ function buildPromiseFindingsAndOutcomes(facts, project) {
         findingKind: 'PROMISE_BROKEN',
         severity: 'warning',
         facts: items,
-        project,
+        sceneOrdinalById,
         summary: `Promise is marked broken for ${items[0].subjectEntityId}.`,
       }));
       continue;
@@ -167,7 +180,7 @@ function buildPromiseFindingsAndOutcomes(facts, project) {
         findingKind: 'PROMISE_FULFILLED',
         severity: 'info',
         facts: items,
-        project,
+        sceneOrdinalById,
         summary: `Promise is marked fulfilled for ${items[0].subjectEntityId}.`,
       }));
       continue;
@@ -176,7 +189,7 @@ function buildPromiseFindingsAndOutcomes(facts, project) {
       outcomes.push(outcome({
         outcomeKind: 'PROMISE_OUTCOME_UNKNOWN',
         fact,
-        project,
+        sceneOrdinalById,
         summary: 'Promise has no fulfilled or broken evidence yet.',
       }));
     }
@@ -189,7 +202,7 @@ function isDisappearanceValue(value) {
   return ['missing', 'absent', 'disappeared', 'unknown location'].includes(normalized);
 }
 
-function buildDisappearanceFindingsAndOutcomes(facts, project) {
+function buildDisappearanceFindingsAndOutcomes(facts, sceneOrdinalById) {
   const findings = [];
   const outcomes = [];
   const locations = facts.filter((fact) => fact.ledgerKind === 'location');
@@ -201,7 +214,7 @@ function buildDisappearanceFindingsAndOutcomes(facts, project) {
         findingKind: 'DISAPPEARANCE_RESOLVED_OR_CONFLICTING',
         severity: 'warning',
         facts: [...missingFacts, ...presentFacts],
-        project,
+        sceneOrdinalById,
         summary: `Location facts report both disappearance and later presence for ${items[0].subjectEntityId}.`,
       }));
       continue;
@@ -211,7 +224,7 @@ function buildDisappearanceFindingsAndOutcomes(facts, project) {
         findingKind: 'DISAPPEARANCE_REPORTED',
         severity: 'warning',
         facts: missingFacts,
-        project,
+        sceneOrdinalById,
         summary: `Location facts report disappearance for ${items[0].subjectEntityId}.`,
       }));
       continue;
@@ -220,7 +233,7 @@ function buildDisappearanceFindingsAndOutcomes(facts, project) {
       outcomes.push(outcome({
         outcomeKind: 'DISAPPEARANCE_INSUFFICIENT_EVIDENCE',
         fact,
-        project,
+        sceneOrdinalById,
         summary: 'Location fact has no disappearance evidence.',
       }));
     }
@@ -281,9 +294,10 @@ function emptyState(projectId, reason = '') {
 
 function buildState({ project, projectId, ledgersResult, meta }) {
   const facts = Array.isArray(ledgersResult.value?.facts) ? ledgersResult.value.facts : [];
-  const contradictionFindings = buildContradictionFindings(facts, project);
-  const promise = buildPromiseFindingsAndOutcomes(facts, project);
-  const disappearance = buildDisappearanceFindingsAndOutcomes(facts, project);
+  const sceneOrdinalById = buildSceneOrdinalIndex(project);
+  const contradictionFindings = buildContradictionFindings(facts, sceneOrdinalById);
+  const promise = buildPromiseFindingsAndOutcomes(facts, sceneOrdinalById);
+  const disappearance = buildDisappearanceFindingsAndOutcomes(facts, sceneOrdinalById);
   const findings = sortAtlasContinuityFindings([
     ...contradictionFindings,
     ...promise.findings,

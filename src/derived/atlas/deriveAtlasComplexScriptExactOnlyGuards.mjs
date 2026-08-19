@@ -9,7 +9,10 @@ import {
   sortAtlasComplexScriptGuardRows,
 } from './atlasComplexScriptGuardTypes.mjs';
 import { ATLAS_OBSERVATION_ANALYZER_ID } from './atlasObservationTypes.mjs';
-import { buildAtlasTextAnchorPacket } from './atlasTextAnchorNormalization.mjs';
+import {
+  buildAtlasTextAnchorPacket,
+  buildAtlasTextCoordinateIndex,
+} from './atlasTextAnchorNormalization.mjs';
 
 const DEFAULT_THRESHOLD = Object.freeze({
   precision: 1,
@@ -237,7 +240,7 @@ function calculateF1(precision, recall) {
   return Number(((2 * precision * recall) / (precision + recall)).toFixed(6));
 }
 
-function buildAnchor({ caseId, languageCode, text, term, offset }) {
+function buildAnchor({ caseId, languageCode, text, term, offset, coordinateIndex }) {
   const packet = buildAtlasTextAnchorPacket({
     projectId: 'atlas-complex-script-guard-fixture',
     sceneId: `${languageCode}:${caseId}`,
@@ -246,6 +249,8 @@ function buildAnchor({ caseId, languageCode, text, term, offset }) {
     startOffset: offset.startOffset,
     endOffset: offset.endOffset,
     sceneText: text,
+    coordinateIndex,
+    materializeOffsetMap: false,
   });
   return packet.evidenceAnchor;
 }
@@ -257,6 +262,7 @@ function evaluateCase(rawCase, threshold) {
   const text = typeof rawCase?.text === 'string' ? rawCase.text : '';
   const terms = normalizeTerms(rawCase?.terms);
   const expectationMap = normalizeExpectations(rawCase?.expectations);
+  const coordinateIndex = buildAtlasTextCoordinateIndex(text);
   let truePositiveCount = 0;
   let falsePositiveCount = 0;
   let falseNegativeCount = 0;
@@ -269,7 +275,14 @@ function evaluateCase(rawCase, threshold) {
     if (actualCount > expectedCount) falsePositiveCount += actualCount - expectedCount;
     if (expectedCount > actualCount) falseNegativeCount += expectedCount - actualCount;
     for (const offset of offsets) {
-      const evidenceAnchor = buildAnchor({ caseId, languageCode, text, term, offset });
+      const evidenceAnchor = buildAnchor({
+        caseId,
+        languageCode,
+        text,
+        term,
+        offset,
+        coordinateIndex,
+      });
       observed.push({
         termId: term.termId,
         matchedText: term.value,

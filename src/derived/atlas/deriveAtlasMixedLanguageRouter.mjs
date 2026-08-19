@@ -13,7 +13,11 @@ import {
   sortAtlasLanguageTags,
   sortAtlasMixedLanguageRoutes,
 } from './atlasLanguageTagTypes.mjs';
-import { buildAtlasTextAnchorPacket } from './atlasTextAnchorNormalization.mjs';
+import {
+  buildAtlasTextAnchorPacket,
+  buildAtlasTextCoordinateIndex,
+} from './atlasTextAnchorNormalization.mjs';
+import { requireAtlasSceneOrder } from './atlasSceneOrder.mjs';
 
 const VIEW_ID = 'derived.atlas.mixedLanguageRouter.v1';
 const PROVIDER_ID = 'query.atlasMixedLanguageRouter';
@@ -40,18 +44,6 @@ function normalizeInteger(value) {
 function getProject(coreState, projectId) {
   const projects = isPlainObject(coreState?.data?.projects) ? coreState.data.projects : {};
   return isPlainObject(projects[projectId]) ? projects[projectId] : null;
-}
-
-function sceneOrderFromProject(project) {
-  const scenes = isPlainObject(project?.scenes) ? project.scenes : {};
-  return Object.keys(scenes)
-    .sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'variant' }))
-    .map((sceneId, sceneOrdinal) => ({
-      sceneId,
-      sceneOrdinal,
-      sceneTitle: normalizeString(scenes[sceneId]?.title) || sceneId,
-      text: typeof scenes[sceneId]?.text === 'string' ? scenes[sceneId].text : '',
-    }));
 }
 
 function isCapabilityEnabled(snapshot) {
@@ -184,7 +176,15 @@ function routePolicy(languageCode) {
   };
 }
 
-function routeForSegment({ projectId, scene, segment, languageCode, sourceTagId, defaultLanguageCode }) {
+function routeForSegment({
+  projectId,
+  scene,
+  segment,
+  languageCode,
+  sourceTagId,
+  defaultLanguageCode,
+  coordinateIndex,
+}) {
   const anchorPacket = buildAtlasTextAnchorPacket({
     projectId,
     sceneId: scene.sceneId,
@@ -193,6 +193,8 @@ function routeForSegment({ projectId, scene, segment, languageCode, sourceTagId,
     startOffset: segment.startOffset,
     endOffset: segment.endOffset,
     sceneText: scene.text,
+    coordinateIndex,
+    materializeOffsetMap: false,
   });
   const policy = routePolicy(languageCode);
   return {
@@ -227,6 +229,7 @@ function routeForSegment({ projectId, scene, segment, languageCode, sourceTagId,
 }
 
 function buildSceneRoutes({ projectId, scene, defaultLanguageCode, tags }) {
+  const coordinateIndex = buildAtlasTextCoordinateIndex(scene.text);
   const ranges = rangeTagsForScene(scene, tags);
   if (scene.text.length === 0) {
     return [routeForSegment({
@@ -236,6 +239,7 @@ function buildSceneRoutes({ projectId, scene, defaultLanguageCode, tags }) {
       languageCode: defaultLanguageCode,
       sourceTagId: '',
       defaultLanguageCode,
+      coordinateIndex,
     })];
   }
   const breakpoints = new Set([0, scene.text.length]);
@@ -256,6 +260,7 @@ function buildSceneRoutes({ projectId, scene, defaultLanguageCode, tags }) {
       languageCode: rangeTag ? rangeTag.languageCode : defaultLanguageCode,
       sourceTagId: rangeTag ? rangeTag.id : '',
       defaultLanguageCode,
+      coordinateIndex,
     }));
   }
   return routes;
@@ -264,7 +269,10 @@ function buildSceneRoutes({ projectId, scene, defaultLanguageCode, tags }) {
 function buildRouter({ project, projectId, meta }) {
   const tags = collectTags(project, projectId);
   const defaultLanguageCode = projectDefaultLanguage(project, tags);
-  const scenes = sceneOrderFromProject(project);
+  const scenes = requireAtlasSceneOrder(project, VIEW_ID, {
+    includeText: true,
+    trimSceneTitle: true,
+  });
   const routes = sortAtlasMixedLanguageRoutes(scenes.flatMap((scene) => buildSceneRoutes({
     projectId,
     scene,

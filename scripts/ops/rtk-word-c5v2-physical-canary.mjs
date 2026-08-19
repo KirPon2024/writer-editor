@@ -2834,10 +2834,9 @@ export function evaluateMacosAccessibilityPreflight(input = {}) {
   if (!diagnostics.axQuerySucceeded) {
     return { ok: false, status: 'environment-blocked', code: 'MACOS_ACCESSIBILITY_PERMISSION_REQUIRED', diagnostics };
   }
-  if (!diagnostics.requireOpenDocument) {
-    return { ok: true, status: 'ready', code: 'MACOS_ACCESSIBILITY_PREFLIGHT_READY', diagnostics };
-  }
   if (
+    diagnostics.requireOpenDocument
+    &&
     diagnostics.expectedFrontDocumentFullName
     && diagnostics.frontDocumentFullName !== diagnostics.expectedFrontDocumentFullName
   ) {

@@ -9267,12 +9267,12 @@
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-comment-lifecycle-return-runtime.contract.test.js",
-      "sha256": "8e894e8cf9e76163f26b9bd29c0ea65791a10b126c0ade183f3b0c60fc871a32",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_LIFECYCLE_VISIBILITY_FAILCLOSED_V1",
-      "approvedAtUtc": "2026-08-17T20:34:46.000Z",
-      "rationale": "Approve focused lifecycle contract coverage proving missing per-operation snapshot evidence fails closed and raw Word READBACK SAFE_APPLY rows cannot override native lifecycle verification failure.",
+      "sha256": "8f25c23a01ac4f9dff4e16bbe70ab54841258377ffedb9608e5e55b25c8fd70f",
+      "approvedBy": "owner-direct:TASK_ID:C1_WORD_AX_DIRECT_CAPABILITY_PREFLIGHT_REPAIR_V1_CORRECTION",
+      "approvedAtUtc": "2026-08-19T09:37:15.000Z",
+      "rationale": "Approve focused fail-closed coverage proving standalone preflight cannot report ready without direct Word AX capability while legacy UI-elements false remains advisory only when frontmost, window, menu and window-subtree capability are directly proven.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_LIFECYCLE_VISIBILITY_FAILCLOSED_V1"
+      "authority": "DIRECT_OWNER_REQUEST_CONSOLIDATE_AUDITS_CORRECT_REPO_AND_PROVE_EACH_CONTRACT"
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-ledger-distribution.contract.test.js",
@@ -11103,12 +11103,12 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "f1daa6e7d82ef447d7e9d584ae4cc7e11a8b8bd955b7f07581d94bc73cd11753",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_AX_DIRECT_CAPABILITY_PREFLIGHT_REPAIR_V1",
-      "approvedAtUtc": "2026-08-18T10:45:54.885Z",
-      "rationale": "Approve C1 Word physical canary preflight repair that treats the host-global UI-elements scalar as advisory only after bounded direct AX proof of Word frontmost, window, menu, window-subtree, and exact synthetic document identity, while preserving denied, throw, indeterminate, no-window, and wrong-document fail-closed outcomes.",
+      "sha256": "cdae4397a7f5a776ea9aa62808a567795c96ee0b91b13e4b58f54a9fd2da6a33",
+      "approvedBy": "owner-direct:TASK_ID:C1_WORD_AX_DIRECT_CAPABILITY_PREFLIGHT_REPAIR_V1_CORRECTION",
+      "approvedAtUtc": "2026-08-19T09:37:15.000Z",
+      "rationale": "Approve removal of the standalone preflight false-green: every ready verdict now requires bounded direct AX proof of Word frontmost, window, menu and window-subtree capability; full replay additionally requires exact synthetic document identity, with denied, throw, indeterminate, no-window and wrong-document outcomes fail-closed.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_AX_DIRECT_CAPABILITY_PREFLIGHT_REPAIR_V1"
+      "authority": "DIRECT_OWNER_REQUEST_CONSOLIDATE_AUDITS_CORRECT_REPO_AND_PROVE_EACH_CONTRACT"
     },
     {
       "filePath": "scripts/ops/rtk-word-c5v2-terminal-orchestrator.mjs",

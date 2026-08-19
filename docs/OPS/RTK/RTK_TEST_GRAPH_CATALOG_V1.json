@@ -136,6 +136,7 @@
     "rtk-word-v4-e12-modern-comment-native-ui-followup.contract.test.js",
     "rtk-word-v4-e12-multi-scene-apply-followup.contract.test.js",
     "rtk-word-v4-e12-saturation-ledger.contract.test.js",
+    "rtk-yalken-scientific-assurance-r1.contract.test.js",
     "rtk-zip01-budget-crc-evidence.contract.test.js"
   ],
   "requiredLocalPromotion": true,

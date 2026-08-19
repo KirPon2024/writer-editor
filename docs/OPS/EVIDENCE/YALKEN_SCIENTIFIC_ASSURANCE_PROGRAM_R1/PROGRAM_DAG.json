@@ -1,0 +1,415 @@
+{
+  "schemaVersion": "yalken.scientific-assurance.program-dag.r1",
+  "programId": "YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1",
+  "bindingBaseSha": "06155f5f7734970e0a8fa059b5134cb02c4aa5d3",
+  "programVerdict": "NEEDS_MORE_EVIDENCE",
+  "executionPolicy": {
+    "maximumConcurrentMutationContours": 1,
+    "selectionRule": "DEPENDENCY_READY_THEN_HIGHEST_SEVERITY_THEN_LOWEST_REVERSIBILITY_COST",
+    "rebindOriginMainBeforeEveryContour": true,
+    "exactHeadEvidenceRequired": true,
+    "staleEvidenceMayNotPromote": true,
+    "contourDoneIsNotProgramDone": true,
+    "optionalStagesDoNotBlockWriterCore": true,
+    "modelOnlyStagesCannotCloseRuntime": true
+  },
+  "profiles": [
+    {
+      "profileId": "SHARED_ASSURANCE",
+      "kind": "FOUNDATION",
+      "mayDependOn": ["SHARED_ASSURANCE"],
+      "currentVerdict": "NEEDS_MORE_EVIDENCE"
+    },
+    {
+      "profileId": "WRITER_CORE",
+      "kind": "PRIMARY_NARROW_PRODUCT",
+      "mayDependOn": ["SHARED_ASSURANCE", "WRITER_CORE"],
+      "currentVerdict": "NEEDS_MORE_EVIDENCE"
+    },
+    {
+      "profileId": "ATLAS_MAPS_DERIVED",
+      "kind": "OPTIONAL_DERIVED_EXTENSION",
+      "mayDependOn": ["SHARED_ASSURANCE", "WRITER_CORE", "ATLAS_MAPS_DERIVED"],
+      "currentVerdict": "NEEDS_MORE_EVIDENCE"
+    },
+    {
+      "profileId": "WORD_ROUNDTRIP",
+      "kind": "OPTIONAL_PHYSICAL_EXTENSION",
+      "mayDependOn": ["SHARED_ASSURANCE", "WRITER_CORE", "WORD_ROUNDTRIP"],
+      "currentVerdict": "BLOCKED"
+    },
+    {
+      "profileId": "PACKAGED_RELEASE_SECURITY",
+      "kind": "RELEASE_PROFILE",
+      "mayDependOn": ["SHARED_ASSURANCE", "WRITER_CORE", "PACKAGED_RELEASE_SECURITY"],
+      "currentVerdict": "NOT_READY"
+    }
+  ],
+  "stages": [
+    {
+      "stageId": "G0_AUTHORITY_CLOSURE",
+      "profile": "SHARED_ASSURANCE",
+      "dependsOn": [],
+      "status": "COMPLETE_BY_THIS_CONTOUR",
+      "mutationAuthority": "OPS_GOVERNANCE_ONLY",
+      "issueIds": ["I01_AUTHORITY_AND_SOURCE_TRUTH", "I16_SCOPE_DISCIPLINE_AND_PLUGIN_RUNTIME"],
+      "requiredEvidence": ["E0_STATIC", "E2_CONTRACT", "E6_INDEPENDENT_EXACT_HEAD"],
+      "objective": "Bind current authority, source digests, profile separation and claim language without changing product runtime.",
+      "claimCeiling": "MODEL_AND_CONTRACT_VERIFIED"
+    },
+    {
+      "stageId": "E0_RUNNER_SAFETY_QUARANTINE",
+      "profile": "SHARED_ASSURANCE",
+      "dependsOn": ["G0_AUTHORITY_CLOSURE"],
+      "status": "READY_NEXT",
+      "mutationAuthority": "OPS_RUNNER_AND_EVIDENCE_ONLY",
+      "issueIds": ["I02_RUNNER_AND_EVIDENCE_TRUTH"],
+      "requiredEvidence": ["E2_CONTRACT", "E3_INTEGRATION", "E6_INDEPENDENT_EXACT_HEAD"],
+      "objective": "Remove destructive or self-mutating validation paths and fail closed on zero, skipped, stale, unnamed or aggregate-only evidence.",
+      "claimCeiling": "RUNNER_TRUTH_SCOPED"
+    },
+    {
+      "stageId": "Q0_TOOLCHAIN_HYGIENE",
+      "profile": "SHARED_ASSURANCE",
+      "dependsOn": ["E0_RUNNER_SAFETY_QUARANTINE"],
+      "status": "PENDING",
+      "mutationAuthority": "TOOLCHAIN_METADATA_AND_CI_ONLY",
+      "issueIds": ["I02_RUNNER_AND_EVIDENCE_TRUTH", "I14_TOOLCHAIN_AND_PACKAGE_SURFACE"],
+      "requiredEvidence": ["E2_CONTRACT", "E3_INTEGRATION", "E6_INDEPENDENT_EXACT_HEAD"],
+      "objective": "Pin supported toolchain law, make verification read-only, and execute required strict gates hermetically.",
+      "claimCeiling": "TOOLCHAIN_PROFILE_SCOPED"
+    },
+    {
+      "stageId": "P0_AUTOSAVE_GENERATION",
+      "profile": "WRITER_CORE",
+      "dependsOn": ["E0_RUNNER_SAFETY_QUARANTINE"],
+      "status": "PENDING_P0",
+      "mutationAuthority": "MINIMAL_AUTHORING_SAVE_LIFECYCLE",
+      "issueIds": ["I03_AUTOSAVE_DIRTY_LIFECYCLE"],
+      "requiredEvidence": ["E2_CONTRACT", "E3_INTEGRATION", "E4_FAULT_INJECTION", "E6_INDEPENDENT_EXACT_HEAD"],
+      "objective": "Bind every autosave capture and acknowledgement to an exact monotonically tracked local edit generation so a stale save cannot clear newer work.",
+      "claimCeiling": "SUPPORTED_CONCURRENCY_ENVELOPE_ONLY"
+    },
+    {
+      "stageId": "P1_DIRTY_ADMISSION_ACK",
+      "profile": "WRITER_CORE",
+      "dependsOn": ["P0_AUTOSAVE_GENERATION"],
+      "status": "PENDING_P0",
+      "mutationAuthority": "AUTHORING_LIFECYCLE_PROTOCOL",
+      "issueIds": ["I03_AUTOSAVE_DIRTY_LIFECYCLE"],
+      "requiredEvidence": ["E2_CONTRACT", "E3_INTEGRATION", "E4_FAULT_INJECTION"],
+      "objective": "Replace renderer boolean truth with exact generation admission and explicit saved/protected/at-risk acknowledgements.",
+      "claimCeiling": "LIFECYCLE_PROTOCOL_SCOPED"
+    },
+    {
+      "stageId": "P2_DURABLE_SAVE_COORDINATOR",
+      "profile": "WRITER_CORE",
+      "dependsOn": ["P1_DIRTY_ADMISSION_ACK"],
+      "status": "PENDING",
+      "mutationAuthority": "SAVE_COORDINATOR_AND_FILE_ADAPTER",
+      "issueIds": ["I04_DURABILITY_AND_PROJECT_TRANSACTION"],
+      "requiredEvidence": ["E1_MODEL", "E2_CONTRACT", "E3_INTEGRATION", "E4_FAULT_INJECTION", "E5_PHYSICAL"],
+      "objective": "Implement exact-revision capture, unique temp, sync, atomic publish, directory sync where applicable, exact readback and phase-bound ACK.",
+      "claimCeiling": "DECLARED_FILESYSTEM_AND_FAULT_PROFILE_ONLY"
+    },
+    {
+      "stageId": "P3_TRANSACTIONAL_PROJECT_COMMIT",
+      "profile": "WRITER_CORE",
+      "dependsOn": ["P2_DURABLE_SAVE_COORDINATOR"],
+      "status": "PENDING",
+      "mutationAuthority": "PROJECT_TEXT_MANIFEST_TRANSACTION",
+      "issueIds": ["I04_DURABILITY_AND_PROJECT_TRANSACTION"],
+      "requiredEvidence": ["E1_MODEL", "E2_CONTRACT", "E3_INTEGRATION", "E4_FAULT_INJECTION"],
+      "objective": "Prevent partial text/manifest publication and prove durable fence monotonicity.",
+      "claimCeiling": "PROJECT_TRANSACTION_SCOPED"
+    },
+    {
+      "stageId": "S0_IPC_CALLER_IDENTITY",
+      "profile": "WRITER_CORE",
+      "dependsOn": ["E0_RUNNER_SAFETY_QUARANTINE"],
+      "status": "PENDING_P1",
+      "mutationAuthority": "IPC_ADMISSION_BOUNDARY",
+      "issueIds": ["I05_IPC_TRUST_BOUNDARY"],
+      "requiredEvidence": ["E2_CONTRACT", "E3_INTEGRATION", "E4_FAULT_INJECTION"],
+      "objective": "Validate event sender, frame, session and origin for every privileged IPC and utility-process intake.",
+      "claimCeiling": "IPC_CALLER_PROFILE_SCOPED"
+    },
+    {
+      "stageId": "S1_IPC_ENVELOPE_BUDGETS",
+      "profile": "WRITER_CORE",
+      "dependsOn": ["S0_IPC_CALLER_IDENTITY"],
+      "status": "PENDING",
+      "mutationAuthority": "IPC_SCHEMA_CORRELATION_AND_BUDGETS",
+      "issueIds": ["I05_IPC_TRUST_BOUNDARY"],
+      "requiredEvidence": ["E2_CONTRACT", "E3_INTEGRATION", "E4_FAULT_INJECTION"],
+      "objective": "Use one versioned envelope with correlation, identity, byte, depth, property, timeout and cancellation limits on both sides.",
+      "claimCeiling": "IPC_ENVELOPE_V2_SCOPED"
+    },
+    {
+      "stageId": "K0_COMMAND_PROTOCOL",
+      "profile": "WRITER_CORE",
+      "dependsOn": ["S1_IPC_ENVELOPE_BUDGETS"],
+      "status": "PENDING",
+      "mutationAuthority": "COMMAND_QUERY_EVENT_EFFECT_PROTOCOL",
+      "issueIds": ["I06_COMMAND_ERROR_RESULT_PROTOCOL"],
+      "requiredEvidence": ["E1_MODEL", "E2_CONTRACT", "E3_INTEGRATION"],
+      "objective": "Unify identities and result/error contracts while preserving distinct command, query, event, effect and background-job classes.",
+      "claimCeiling": "PROTOCOL_CONFORMANCE_SCOPED"
+    },
+    {
+      "stageId": "K1_AUTHORITY_DECOMPOSITION",
+      "profile": "WRITER_CORE",
+      "dependsOn": ["K0_COMMAND_PROTOCOL", "P3_TRANSACTIONAL_PROJECT_COMMIT"],
+      "status": "PENDING",
+      "mutationAuthority": "INCREMENTAL_ARCHITECTURE_SEAMS",
+      "issueIds": ["I07_AUTHORITY_DECOMPOSITION_AND_BOUNDARIES"],
+      "requiredEvidence": ["E2_CONTRACT", "E3_INTEGRATION"],
+      "objective": "Reduce gravity wells through existing product ports and adapters without a big-bang rewrite or second truth.",
+      "claimCeiling": "BOUNDED_SEAM_MIGRATION_ONLY"
+    },
+    {
+      "stageId": "R0_REVISION_ALGEBRA",
+      "profile": "WRITER_CORE",
+      "dependsOn": ["P1_DIRTY_ADMISSION_ACK", "K0_COMMAND_PROTOCOL"],
+      "status": "PENDING",
+      "mutationAuthority": "REVISION_IDENTITY_AND_LINEAGE",
+      "issueIds": ["I10_REVISION_PUBLICATION_SNAPSHOT"],
+      "requiredEvidence": ["E1_MODEL", "E2_CONTRACT", "E3_INTEGRATION"],
+      "objective": "Define project, entity, source and generation identities as a lineage-aware partial order with canonical serialization.",
+      "claimCeiling": "REVISION_ALGEBRA_MODEL_AND_RUNTIME_SCOPED"
+    },
+    {
+      "stageId": "R1_SHADOW_PROJECT_AUTHORITY_CELL",
+      "profile": "WRITER_CORE",
+      "dependsOn": ["R0_REVISION_ALGEBRA", "K0_COMMAND_PROTOCOL"],
+      "status": "PENDING_PROPOSAL",
+      "mutationAuthority": "SHADOW_ONLY_COORDINATOR",
+      "issueIds": ["I10_REVISION_PUBLICATION_SNAPSHOT"],
+      "requiredEvidence": ["E1_MODEL", "E2_CONTRACT", "E3_INTEGRATION"],
+      "objective": "Evaluate one small per-project coordinator in shadow mode; no god object, generic event bus or write authority promotion.",
+      "claimCeiling": "SHADOW_ONLY"
+    },
+    {
+      "stageId": "R2_STORAGE_BAKEOFF",
+      "profile": "WRITER_CORE",
+      "dependsOn": ["P2_DURABLE_SAVE_COORDINATOR", "R1_SHADOW_PROJECT_AUTHORITY_CELL"],
+      "status": "PENDING_PROPOSAL",
+      "mutationAuthority": "DISPOSABLE_SANDBOX_ONLY",
+      "issueIds": ["I04_DURABILITY_AND_PROJECT_TRANSACTION"],
+      "requiredEvidence": ["E1_MODEL", "E2_CONTRACT", "E3_INTEGRATION", "E4_FAULT_INJECTION", "E5_PHYSICAL"],
+      "objective": "Compare atomic-file, append-ledger, SQLite and hybrid candidates only after hard safety filters and without adopting a dependency.",
+      "claimCeiling": "BAKEOFF_RESULT_PROPOSAL_ONLY"
+    },
+    {
+      "stageId": "R3_DURABLE_RECOVERY_LEDGER",
+      "profile": "WRITER_CORE",
+      "dependsOn": ["R2_STORAGE_BAKEOFF"],
+      "status": "PENDING_SELECTION",
+      "mutationAuthority": "SELECTED_DURABLE_RECOVERY_ADAPTER",
+      "issueIds": ["I04_DURABILITY_AND_PROJECT_TRANSACTION"],
+      "requiredEvidence": ["E1_MODEL", "E2_CONTRACT", "E3_INTEGRATION", "E4_FAULT_INJECTION", "E5_PHYSICAL"],
+      "objective": "Implement the selected bounded recovery ledger only after bakeoff and owner-governed dependency law.",
+      "claimCeiling": "SELECTED_FAULT_PROFILE_ONLY"
+    },
+    {
+      "stageId": "R4_TRANSACTIONAL_INBOX_OUTBOX",
+      "profile": "WRITER_CORE",
+      "dependsOn": ["R3_DURABLE_RECOVERY_LEDGER"],
+      "status": "PENDING",
+      "mutationAuthority": "COMMAND_EFFECT_RECOVERY_PROTOCOL",
+      "issueIds": ["I04_DURABILITY_AND_PROJECT_TRANSACTION", "I06_COMMAND_ERROR_RESULT_PROTOCOL"],
+      "requiredEvidence": ["E1_MODEL", "E2_CONTRACT", "E3_INTEGRATION", "E4_FAULT_INJECTION"],
+      "objective": "Bind accepted intent, durable state transition and external effects with idempotency and replay laws.",
+      "claimCeiling": "TRANSACTIONAL_EFFECT_PROFILE_ONLY"
+    },
+    {
+      "stageId": "R5_LIFECYCLE_EXTERNAL_CONFLICT",
+      "profile": "WRITER_CORE",
+      "dependsOn": ["R4_TRANSACTIONAL_INBOX_OUTBOX", "P3_TRANSACTIONAL_PROJECT_COMMIT"],
+      "status": "PENDING",
+      "mutationAuthority": "LIFECYCLE_BARRIER_AND_CONFLICT_PROTOCOL",
+      "issueIds": ["I03_AUTOSAVE_DIRTY_LIFECYCLE", "I04_DURABILITY_AND_PROJECT_TRANSACTION"],
+      "requiredEvidence": ["E2_CONTRACT", "E3_INTEGRATION", "E4_FAULT_INJECTION", "E5_PHYSICAL"],
+      "objective": "Handle quit, suspend, crash, external edits and divergence with typed barriers and recovery choices.",
+      "claimCeiling": "SUPPORTED_LIFECYCLE_PROFILE_ONLY"
+    },
+    {
+      "stageId": "R6_MIGRATION_HISTORY_BACKUP_GC",
+      "profile": "WRITER_CORE",
+      "dependsOn": ["R5_LIFECYCLE_EXTERNAL_CONFLICT"],
+      "status": "PENDING",
+      "mutationAuthority": "MIGRATION_RECOVERY_HISTORY",
+      "issueIds": ["I04_DURABILITY_AND_PROJECT_TRANSACTION"],
+      "requiredEvidence": ["E1_MODEL", "E2_CONTRACT", "E3_INTEGRATION", "E4_FAULT_INJECTION", "E5_PHYSICAL"],
+      "objective": "Prove forward migration, rollback/quarantine, checkpoint retention, backup restore and bounded garbage collection.",
+      "claimCeiling": "MIGRATION_AND_RESTORE_PROFILE_ONLY"
+    },
+    {
+      "stageId": "SEC0_PATH_CAPABILITY",
+      "profile": "WRITER_CORE",
+      "dependsOn": ["S1_IPC_ENVELOPE_BUDGETS", "P2_DURABLE_SAVE_COORDINATOR"],
+      "status": "PENDING",
+      "mutationAuthority": "FILESYSTEM_PATH_BOUNDARY",
+      "issueIds": ["I08_PATH_AND_FILESYSTEM_CAPABILITY"],
+      "requiredEvidence": ["E2_CONTRACT", "E3_INTEGRATION", "E4_FAULT_INJECTION", "E5_PHYSICAL"],
+      "objective": "Prove realpath/no-follow/capability rules against symlink, race, traversal and platform cases.",
+      "claimCeiling": "SUPPORTED_FILESYSTEM_PROFILE_ONLY"
+    },
+    {
+      "stageId": "T0_TEXT_COORDINATE_ALGEBRA",
+      "profile": "WRITER_CORE",
+      "dependsOn": ["R0_REVISION_ALGEBRA", "E0_RUNNER_SAFETY_QUARANTINE"],
+      "status": "PENDING_P1",
+      "mutationAuthority": "TEXT_SEARCH_AND_COORDINATE_KERNEL",
+      "issueIds": ["I09_TEXT_COORDINATE_ALGEBRA"],
+      "requiredEvidence": ["E1_MODEL", "E2_CONTRACT", "E3_INTEGRATION", "E4_FAULT_INJECTION"],
+      "objective": "Use transform tapes for Unicode folds, deterministic locale, grapheme-safe boundaries and typed abstention when segmentation authority is absent.",
+      "claimCeiling": "DECLARED_UNICODE_AND_LOCALE_PROFILE_ONLY"
+    },
+    {
+      "stageId": "ENT0_ENTITLEMENT_CONFORMANCE",
+      "profile": "WRITER_CORE",
+      "dependsOn": ["K0_COMMAND_PROTOCOL"],
+      "status": "PENDING",
+      "mutationAuthority": "PRODUCT_PORT_ENTITLEMENT_BOUNDARY",
+      "issueIds": ["I13_DESIGN_TRUTH_AND_ENTITLEMENT"],
+      "requiredEvidence": ["E1_MODEL", "E2_CONTRACT", "E3_INTEGRATION", "E4_FAULT_INJECTION"],
+      "objective": "Enforce one decision table at authoritative product ports, independent of renderer or menu hints.",
+      "claimCeiling": "ENTITLEMENT_MATRIX_SCOPED"
+    },
+    {
+      "stageId": "F0_WRITER_REFINEMENT_CONFORMANCE",
+      "profile": "WRITER_CORE",
+      "dependsOn": ["K1_AUTHORITY_DECOMPOSITION", "R6_MIGRATION_HISTORY_BACKUP_GC", "SEC0_PATH_CAPABILITY", "T0_TEXT_COORDINATE_ALGEBRA", "ENT0_ENTITLEMENT_CONFORMANCE"],
+      "status": "PENDING",
+      "mutationAuthority": "MODEL_TO_CODE_REFINEMENT_TESTS",
+      "issueIds": ["I03_AUTOSAVE_DIRTY_LIFECYCLE", "I04_DURABILITY_AND_PROJECT_TRANSACTION", "I05_IPC_TRUST_BOUNDARY", "I06_COMMAND_ERROR_RESULT_PROTOCOL", "I07_AUTHORITY_DECOMPOSITION_AND_BOUNDARIES", "I08_PATH_AND_FILESYSTEM_CAPABILITY", "I09_TEXT_COORDINATE_ALGEBRA", "I10_REVISION_PUBLICATION_SNAPSHOT", "I13_DESIGN_TRUTH_AND_ENTITLEMENT"],
+      "requiredEvidence": ["E1_MODEL", "E2_CONTRACT", "E3_INTEGRATION", "E4_FAULT_INJECTION", "E6_INDEPENDENT_EXACT_HEAD"],
+      "objective": "Prove implementation traces refine the accepted model and reject implementation states the model forbids.",
+      "claimCeiling": "WRITER_IMPLEMENTATION_REFINEMENT_SCOPED"
+    },
+    {
+      "stageId": "V0_WRITER_CLAIM_COMPILER",
+      "profile": "WRITER_CORE",
+      "dependsOn": ["F0_WRITER_REFINEMENT_CONFORMANCE"],
+      "status": "PENDING",
+      "mutationAuthority": "WRITER_CLAIM_PROJECTION_ONLY",
+      "issueIds": [],
+      "requiredEvidence": ["E6_INDEPENDENT_EXACT_HEAD"],
+      "objective": "Compute an evidence-bound Writer verdict without importing optional-profile blockers or evidence.",
+      "claimCeiling": "PROFILE_VERDICT_ONLY"
+    },
+    {
+      "stageId": "T1_ANCHOR_LINEAGE",
+      "profile": "WRITER_CORE",
+      "dependsOn": ["T0_TEXT_COORDINATE_ALGEBRA", "R0_REVISION_ALGEBRA"],
+      "status": "PENDING",
+      "mutationAuthority": "ANCHOR_IDENTITY_AND_WITNESS",
+      "issueIds": ["I11_ANCHOR_IDENTITY_AND_VOCABULARY"],
+      "requiredEvidence": ["E1_MODEL", "E2_CONTRACT", "E3_INTEGRATION", "E4_FAULT_INJECTION"],
+      "objective": "Separate durable anchor identity from fallible witnesses and require lineage/ambiguity protocol.",
+      "claimCeiling": "ANCHOR_PROFILE_SCOPED"
+    },
+    {
+      "stageId": "A0_ATLAS_INCREMENTAL_EQUIVALENCE",
+      "profile": "ATLAS_MAPS_DERIVED",
+      "dependsOn": ["T1_ANCHOR_LINEAGE", "R1_SHADOW_PROJECT_AUTHORITY_CELL"],
+      "status": "PENDING",
+      "mutationAuthority": "ATLAS_DERIVED_COMPUTE_AND_SCHEDULER",
+      "issueIds": ["I12_ATLAS_INCREMENTAL_AND_SCHEDULING"],
+      "requiredEvidence": ["E1_MODEL", "E2_CONTRACT", "E3_INTEGRATION", "E4_FAULT_INJECTION", "E5_PHYSICAL"],
+      "objective": "Prove incremental/full observational equivalence using an independent oracle and bounded fairness, deadline and memory laws.",
+      "claimCeiling": "ATLAS_SUPPORTED_SCALE_PROFILE_ONLY"
+    },
+    {
+      "stageId": "A1_OPTIONAL_RELATION_VOCABULARY",
+      "profile": "ATLAS_MAPS_DERIVED",
+      "dependsOn": ["A0_ATLAS_INCREMENTAL_EQUIVALENCE"],
+      "status": "OPTIONAL_NON_BLOCKING",
+      "mutationAuthority": "OPTIONAL_ATLAS_SCHEMA_AND_UI_SEPARATE_APPROVAL_REQUIRED",
+      "issueIds": [],
+      "requiredEvidence": ["E2_CONTRACT", "E3_INTEGRATION"],
+      "objective": "Optionally add relation vocabulary after endpoint identity and migration law; absence remains neutral.",
+      "claimCeiling": "OPTIONAL_FEATURE_ONLY"
+    },
+    {
+      "stageId": "V1_ATLAS_CLAIM_COMPILER",
+      "profile": "ATLAS_MAPS_DERIVED",
+      "dependsOn": ["A0_ATLAS_INCREMENTAL_EQUIVALENCE"],
+      "status": "PENDING",
+      "mutationAuthority": "ATLAS_CLAIM_PROJECTION_ONLY",
+      "issueIds": ["I11_ANCHOR_IDENTITY_AND_VOCABULARY", "I12_ATLAS_INCREMENTAL_AND_SCHEDULING"],
+      "requiredEvidence": ["E6_INDEPENDENT_EXACT_HEAD"],
+      "objective": "Compute the Atlas profile verdict without blocking or promoting Writer core.",
+      "claimCeiling": "PROFILE_VERDICT_ONLY"
+    },
+    {
+      "stageId": "W0_WORD_PHYSICAL_RECERTIFICATION",
+      "profile": "WORD_ROUNDTRIP",
+      "dependsOn": ["P2_DURABLE_SAVE_COORDINATOR", "T1_ANCHOR_LINEAGE"],
+      "status": "BLOCKED_PHYSICAL",
+      "mutationAuthority": "WORD_SANDBOX_AND_PHYSICAL_EVIDENCE_ONLY",
+      "issueIds": ["I15_RELEASE_SECURITY_AND_PHYSICAL_PROOF"],
+      "requiredEvidence": ["E5_PHYSICAL", "E6_INDEPENDENT_EXACT_HEAD"],
+      "objective": "Re-run exact Word apply/lifecycle/reuse authority and hostile matrices without accessing user documents or widening SAFE_APPLY.",
+      "claimCeiling": "WORD_TESTED_DENOMINATOR_ONLY"
+    },
+    {
+      "stageId": "V2_WORD_CLAIM_COMPILER",
+      "profile": "WORD_ROUNDTRIP",
+      "dependsOn": ["W0_WORD_PHYSICAL_RECERTIFICATION"],
+      "status": "BLOCKED",
+      "mutationAuthority": "WORD_CLAIM_PROJECTION_ONLY",
+      "issueIds": [],
+      "requiredEvidence": ["E6_INDEPENDENT_EXACT_HEAD"],
+      "objective": "Compute a Word-only verdict from physical evidence; current blocker remains explicit.",
+      "claimCeiling": "PROFILE_VERDICT_ONLY"
+    },
+    {
+      "stageId": "PK0_PACKAGE_CONTENT_TRUST",
+      "profile": "PACKAGED_RELEASE_SECURITY",
+      "dependsOn": ["Q0_TOOLCHAIN_HYGIENE", "SEC0_PATH_CAPABILITY"],
+      "status": "PENDING",
+      "mutationAuthority": "PACKAGE_MANIFEST_AND_BUILD_EVIDENCE",
+      "issueIds": ["I14_TOOLCHAIN_AND_PACKAGE_SURFACE"],
+      "requiredEvidence": ["E2_CONTRACT", "E3_INTEGRATION", "E5_PHYSICAL"],
+      "objective": "Define runtime files allowlist and prove resolved set is contained in staged and admitted package sets.",
+      "claimCeiling": "PACKAGE_CONTENT_PROFILE_ONLY"
+    },
+    {
+      "stageId": "PK1_RELEASE_SECURITY_PHYSICAL",
+      "profile": "PACKAGED_RELEASE_SECURITY",
+      "dependsOn": ["PK0_PACKAGE_CONTENT_TRUST", "R6_MIGRATION_HISTORY_BACKUP_GC"],
+      "status": "NOT_READY",
+      "mutationAuthority": "PACKAGED_RELEASE_SECURITY_EVIDENCE",
+      "issueIds": ["I15_RELEASE_SECURITY_AND_PHYSICAL_PROOF"],
+      "requiredEvidence": ["E5_PHYSICAL", "E6_INDEPENDENT_EXACT_HEAD"],
+      "objective": "Prove signing, notarization, hardened runtime, fuses, ASAR integrity, packaged recovery and critical journeys on supported targets.",
+      "claimCeiling": "SUPPORTED_RELEASE_TARGETS_ONLY"
+    },
+    {
+      "stageId": "V3_PACKAGE_CLAIM_COMPILER",
+      "profile": "PACKAGED_RELEASE_SECURITY",
+      "dependsOn": ["PK1_RELEASE_SECURITY_PHYSICAL"],
+      "status": "NOT_READY",
+      "mutationAuthority": "PACKAGE_CLAIM_PROJECTION_ONLY",
+      "issueIds": [],
+      "requiredEvidence": ["E6_INDEPENDENT_EXACT_HEAD"],
+      "objective": "Compute package/release-security verdict without promoting Writer, Atlas or Word profiles.",
+      "claimCeiling": "PROFILE_VERDICT_ONLY"
+    }
+  ],
+  "verdictAggregation": {
+    "kind": "PROFILE_VECTOR",
+    "profileOrder": ["WRITER_CORE", "ATLAS_MAPS_DERIVED", "WORD_ROUNDTRIP", "PACKAGED_RELEASE_SECURITY"],
+    "globalScalarPassForbidden": true,
+    "profileEvidenceTransferRequiresExplicitBinding": true,
+    "programCompleteOnlyWhenAllRequiredProfileClaimsAreEvidenceBound": true,
+    "currentVector": {
+      "WRITER_CORE": "NEEDS_MORE_EVIDENCE",
+      "ATLAS_MAPS_DERIVED": "NEEDS_MORE_EVIDENCE",
+      "WORD_ROUNDTRIP": "BLOCKED",
+      "PACKAGED_RELEASE_SECURITY": "NOT_READY"
+    }
+  }
+}

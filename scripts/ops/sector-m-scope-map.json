@@ -127,7 +127,16 @@
     "test/fixtures/simulation-min/S3_COMMENTS_HISTORY.json",
     "test/fixtures/simulation-min/S4_RECOVERY_REPLAY.json",
     "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_REPEAT_RECEIPT.json",
-    "scripts/ops/rtk-word-v4-e12-stability-wave300-repeat.mjs"
+    "scripts/ops/rtk-word-v4-e12-stability-wave300-repeat.mjs",
+    "docs/tasks/YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1.md",
+    "docs/OPS/EVIDENCE/YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1/SOURCE_BINDINGS.json",
+    "docs/OPS/EVIDENCE/YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1/FINDING_MAP.json",
+    "docs/OPS/EVIDENCE/YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1/PROGRAM_DAG.json",
+    "docs/OPS/EVIDENCE/YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1/SCIENTIFIC_CONTRACTS.json",
+    "scripts/ops/yalken-scientific-assurance-r1.mjs",
+    "test/contracts/rtk-yalken-scientific-assurance-r1.contract.test.js",
+    "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
+    "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
   ],
   "allowByPhase": {
     "M0": [

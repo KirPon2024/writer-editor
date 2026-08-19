@@ -1,0 +1,359 @@
+{
+  "schemaVersion": "yalken.scientific-assurance.contracts.r1",
+  "programId": "YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1",
+  "bindingBaseSha": "06155f5f7734970e0a8fa059b5134cb02c4aa5d3",
+  "claimLanguagePolicy": {
+    "maximumDefinition": "PARETO_UNDOMINATED_AMONG_DECLARED_ELIGIBLE_CANDIDATES_WITHIN_EXPLICIT_PROFILE_FAULT_CONSISTENCY_RESOURCE_AND_EVIDENCE_ENVELOPE",
+    "forbiddenClaimPhrases": [
+      "UNIVERSAL_MAXIMUM",
+      "ABSOLUTE_NO_LOSS",
+      "ALL_PLATFORMS_SATURATED",
+      "MODEL_PROVES_RUNTIME",
+      "SAFE=max(K,C)",
+      "PROGRAM_COMPLETE_BY_MODEL"
+    ],
+    "requiredClaimFields": [
+      "profileId",
+      "faultModelId",
+      "consistencyModelId",
+      "resourceEnvelopeId",
+      "minimumEvidenceClass",
+      "currentVerdict"
+    ],
+    "unknownOrUnboundedDisposition": "FAIL_CLOSED_NEEDS_MORE_EVIDENCE"
+  },
+  "evidenceClasses": [
+    {"evidenceClass":"E0_STATIC","rank":0,"supports":["SOURCE_FACT","CONFIG_FACT"]},
+    {"evidenceClass":"E1_MODEL","rank":1,"supports":["FINITE_MODEL_PROPERTY","COUNTEREXAMPLE"]},
+    {"evidenceClass":"E2_CONTRACT","rank":2,"supports":["DETERMINISTIC_CODE_CONTRACT","MUTATION_KILL"]},
+    {"evidenceClass":"E3_INTEGRATION","rank":3,"supports":["REAL_INTEGRATED_PATH_CONTROLLED_ENV"]},
+    {"evidenceClass":"E4_FAULT_INJECTION","rank":4,"supports":["REAL_PATH_CRASH_CORRUPTION_RESOURCE_LIFECYCLE"]},
+    {"evidenceClass":"E5_PHYSICAL","rank":5,"supports":["SUPPORTED_OS_APP_FILESYSTEM_PACKAGE_PHYSICAL_ROW"]},
+    {"evidenceClass":"E6_INDEPENDENT_EXACT_HEAD","rank":6,"supports":["FRESH_INDEPENDENT_EXACT_HEAD_TREE_AND_DIGEST_REPLAY"]}
+  ],
+  "faultModels": [
+    {
+      "faultModelId": "FM_ASSURANCE_CONTROL_PLANE_R1",
+      "profileId": "SHARED_ASSURANCE",
+      "includedFaults": [
+        "ZERO_DENOMINATOR", "SKIP_TODO", "STALE_RECEIPT", "MALFORMED_REPORT", "UNNAMED_AGGREGATE_PASS",
+        "SOURCE_DIGEST_DRIFT", "ENVIRONMENT_FAILURE", "ORACLE_DRIFT", "PROCESS_TIMEOUT", "ORPHAN_PROCESS", "CLEANUP_UNCERTAINTY"
+      ],
+      "excludedFaults": ["PRODUCT_RUNTIME_CORRECTNESS", "PHYSICAL_APPLICATION_BEHAVIOR"]
+    },
+    {
+      "faultModelId": "FM_WRITER_PROCESS_AND_FILESYSTEM_R1",
+      "profileId": "WRITER_CORE",
+      "includedFaults": [
+        "CONCURRENT_EDIT_DURING_SAVE", "STALE_CALLBACK", "DUPLICATE_REQUEST", "REORDERED_RESPONSE", "RENDERER_CRASH",
+        "MAIN_PROCESS_CRASH", "PROCESS_KILL_AT_EACH_DECLARED_SAVE_PHASE", "SHORT_WRITE", "WRITE_ERROR", "RENAME_ERROR",
+        "READBACK_MISMATCH", "ENOSPC", "PERMISSION_DENIED", "TEMP_FILE_SURVIVAL", "EXTERNAL_EDIT", "QUIT_DURING_SAVE"
+      ],
+      "conditionallyIncludedFaults": [
+        "POWER_LOSS_ONLY_WHEN_FILE_AND_DIRECTORY_SYNC_SEMANTICS_ARE_PHYSICALLY_PROVEN_FOR_THE_TARGET"
+      ],
+      "excludedFaults": [
+        "SIMULTANEOUS_DEVICE_LOSS_WITHOUT_INDEPENDENT_BACKUP", "MALICIOUS_KERNEL", "UNDOCUMENTED_FILESYSTEM_SEMANTICS",
+        "UNBOUNDED_MEMORY_CORRUPTION", "UNSUPPORTED_PLATFORM"
+      ],
+      "rpoLaw": "RPO_ZERO_ONLY_FOR_REVISIONS_ACKNOWLEDGED_DURABLE_UNDER_INCLUDED_FAULTS_OTHERWISE_TYPED_RPO_OR_NEEDS_MORE_EVIDENCE"
+    },
+    {
+      "faultModelId": "FM_ATLAS_DERIVED_R1",
+      "profileId": "ATLAS_MAPS_DERIVED",
+      "includedFaults": [
+        "STALE_SOURCE_REVISION", "OUT_OF_ORDER_GENERATION", "WORKER_CRASH", "WORKER_TIMEOUT", "QUEUE_OVERFLOW",
+        "CACHE_COLLISION", "UNICODE_HOSTILE_INPUT", "ANCHOR_AMBIGUITY", "INCREMENTAL_FULL_DIVERGENCE"
+      ],
+      "excludedFaults": ["AUTHORING_MUTATION_BY_DERIVED_PIPELINE", "UNSUPPORTED_NLP_INFERENCE"]
+    },
+    {
+      "faultModelId": "FM_WORD_PHYSICAL_R1",
+      "profileId": "WORD_ROUNDTRIP",
+      "includedFaults": [
+        "ACCESSIBILITY_DENIED", "ACCESSIBILITY_AMBIGUOUS", "WORD_NOT_FRONTMOST", "ZERO_WORD_WINDOWS", "WORD_PROCESS_RESTART",
+        "COMMENT_LIFECYCLE_LIMITATION", "MULTISCENE_AMBIGUITY", "APPLY_REUSE_MISMATCH", "HOSTILE_DOCX", "AUTOMATION_TIMEOUT"
+      ],
+      "excludedFaults": ["EXISTING_USER_DOCUMENT_MUTATION", "GOOGLE_DOCS_EVIDENCE_TRANSFER"]
+    },
+    {
+      "faultModelId": "FM_PACKAGED_RELEASE_R1",
+      "profileId": "PACKAGED_RELEASE_SECURITY",
+      "includedFaults": [
+        "UNEXPECTED_RUNTIME_FILE", "MISSING_RUNTIME_FILE", "SIGNATURE_INVALID", "NOTARIZATION_MISSING", "FUSE_DRIFT",
+        "ASAR_INTEGRITY_FAILURE", "HARDENED_RUNTIME_MISMATCH", "PACKAGED_RECOVERY_FAILURE", "TARGET_ARCH_DRIFT"
+      ],
+      "excludedFaults": ["UNSUPPORTED_RELEASE_TARGET", "COMPROMISED_OS_TRUST_ROOT"]
+    }
+  ],
+  "consistencyModels": [
+    {
+      "consistencyModelId": "CM_ASSURANCE_CURRENT_INVOCATION_R1",
+      "profileId": "SHARED_ASSURANCE",
+      "law": "Only named evidence from the complete current invocation and exact source identity may satisfy a gate."
+    },
+    {
+      "consistencyModelId": "CM_WRITER_PER_ENTITY_LINEARIZABLE_ACK_R1",
+      "profileId": "WRITER_CORE",
+      "law": "Each acknowledged save has one linearization point for one exact entity revision; project clean is universal durable coverage over all authoring entities."
+    },
+    {
+      "consistencyModelId": "CM_ATLAS_MONOTONIC_PUBLICATION_R1",
+      "profileId": "ATLAS_MAPS_DERIVED",
+      "law": "A derived publication is admitted only for its exact project, entity, source revision and generation tuple; stale generations cannot overwrite newer publication."
+    },
+    {
+      "consistencyModelId": "CM_WORD_EXACT_ROUND_LINEAGE_R1",
+      "profileId": "WORD_ROUNDTRIP",
+      "law": "Every export, return, preview and apply row is bound to exact round, source, operation and physical-session lineage."
+    },
+    {
+      "consistencyModelId": "CM_PACKAGE_RESOLVED_STAGED_ADMITTED_SET_R1",
+      "profileId": "PACKAGED_RELEASE_SECURITY",
+      "law": "Runtime-resolved files must be a subset of staged files, which must be a subset of explicitly admitted package files."
+    }
+  ],
+  "resourceEnvelopes": [
+    {
+      "resourceEnvelopeId": "RE_ASSURANCE_SMALL_GRAPH_R1",
+      "profileId": "SHARED_ASSURANCE",
+      "limits": {"maxSources":64,"maxFindings":256,"maxIssues":128,"maxStages":128,"maxModelCases":1000000},
+      "exceedDisposition": "FAIL_CLOSED"
+    },
+    {
+      "resourceEnvelopeId": "RE_WRITER_DECLARED_PROJECT_SCALE_R1",
+      "profileId": "WRITER_CORE",
+      "limits": {"status":"TARGET_REQUIRES_MEASUREMENT","latencyBudgetMs":null,"memoryBudgetBytes":null,"maxProjectBytes":null,"maxEntityCount":null},
+      "exceedDisposition": "NEEDS_MORE_EVIDENCE_NOT_SILENT_FALLBACK"
+    },
+    {
+      "resourceEnvelopeId": "RE_ATLAS_DECLARED_SCALE_R1",
+      "profileId": "ATLAS_MAPS_DERIVED",
+      "limits": {"status":"TARGET_REQUIRES_MEASUREMENT","latencyBudgetMs":null,"memoryBudgetBytes":null,"maxNodeCount":null,"maxEdgeCount":null},
+      "exceedDisposition": "TYPED_DEGRADED_OR_ABSTAIN"
+    },
+    {
+      "resourceEnvelopeId": "RE_WORD_SYNTHETIC_SANDBOX_R1",
+      "profileId": "WORD_ROUNDTRIP",
+      "limits": {"existingUserDocuments":0,"wordInstanceCount":1,"physicalRows":"EXPLICIT_DENOMINATOR_REQUIRED"},
+      "exceedDisposition": "BLOCKED"
+    },
+    {
+      "resourceEnvelopeId": "RE_PACKAGE_SUPPORTED_TARGET_MATRIX_R1",
+      "profileId": "PACKAGED_RELEASE_SECURITY",
+      "limits": {"status":"TARGET_MATRIX_MUST_BE_EXPLICIT","unlistedTargets":"OUT_OF_SCOPE_NOT_PASS"},
+      "exceedDisposition": "NOT_READY"
+    }
+  ],
+  "revisionAlgebra": {
+    "ordering": "PARTIAL_ORDER_BY_VERIFIED_LINEAGE",
+    "identityTuple": ["projectId", "entityId", "entityRevision", "sourceRevision", "generation", "contentDigest"],
+    "coversDefinition": "A covers B only when A equals B or a verified lineage path proves A descends from B for the same identity domain.",
+    "incomparableDisposition": "DIVERGED",
+    "scalarMaximumForbidden": true,
+    "canonicalSerializationRequired": true
+  },
+  "authoringStateAlgebra": {
+    "states": ["SAVED", "PROTECTED", "CAPTURED", "AT_RISK", "DIVERGED", "RECONCILING"],
+    "classificationPriority": ["RECONCILING", "DIVERGED", "SAVED", "PROTECTED", "CAPTURED", "AT_RISK"],
+    "savedLaw": "durableHead covers workingHead and no unresolved divergence",
+    "protectedLaw": "durableHead does not cover workingHead and recoveryHead covers workingHead",
+    "capturedLaw": "neither durableHead nor recoveryHead covers workingHead and an admitted transient capture covers workingHead",
+    "atRiskLaw": "no admitted head covers workingHead",
+    "projectCleanLaw": "every authoring entity is SAVED",
+    "projectProtectedLaw": "every authoring entity is SAVED or PROTECTED",
+    "capturedIsNotProtected": true,
+    "protectedIsNotSaved": true
+  },
+  "admissionAlgebra": {
+    "predicateIds": [
+      "AUTHENTICATED", "SCHEMA_VALID", "IDENTITY_MATCH", "REVISION_MATCH", "LEASE_VALID", "BUDGET_VALID", "CAPABILITY_ALLOWED"
+    ],
+    "operator": "CONJUNCTION",
+    "finiteCaseCount": 128,
+    "expectedAcceptedCaseCount": 1,
+    "minimumSinglePredicateNegativeCount": 7,
+    "interactionNegativesRequired": true,
+    "unknownPredicateDisposition": "REJECT"
+  },
+  "saveProtocol": {
+    "phases": [
+      "CAPTURE_EXACT_REVISION",
+      "WRITE_UNIQUE_TEMP",
+      "SYNC_TEMP_DATA",
+      "ATOMIC_PUBLISH",
+      "SYNC_PARENT_DIRECTORY",
+      "EXACT_READBACK_VERIFY",
+      "COMMIT_DURABLE_HEAD",
+      "ACK_EXACT_REVISION"
+    ],
+    "ackPhase": "ACK_EXACT_REVISION",
+    "ackBeforeDurableHeadForbidden": true,
+    "ackRevisionMustEqualCommittedRevision": true,
+    "everyPhaseIsKillpoint": true,
+    "unknownRecoveryOutcome": "AT_RISK_FAIL_CLOSED",
+    "powerLossClaimRequiresPhysicalSyncEvidence": true
+  },
+  "denominatorAlgebra": {
+    "passLaw": "discovered minus explicit out-of-scope equals executed equals passed and denominator is nonzero and failed skipped todo unknown are zero",
+    "zeroDenominatorDisposition": "FAIL",
+    "skipTodoDisposition": "FAIL",
+    "staleReceiptDisposition": "FAIL",
+    "aggregateExitWithoutNamedEvidenceDisposition": "FAIL",
+    "environmentFailureDisposition": "ENVIRONMENT_FAILURE_NOT_PRODUCT_PASS",
+    "oracleDriftDisposition": "ORACLE_DRIFT_NOT_PRODUCT_PASS"
+  },
+  "storageBakeoff": {
+    "candidateIds": ["ATOMIC_FILE", "APPEND_LEDGER", "SQLITE", "HYBRID"],
+    "status": "PROPOSAL_ONLY_UNTIL_R2",
+    "hardSafetyChecks": [
+      "EXACT_REVISION_ACK", "TOTAL_KILLPOINT_RECOVERY", "CORRUPTION_DETECTION", "BOUNDED_RECOVERY", "DEPENDENCY_LAW",
+      "MIGRATION_AND_ROLLBACK", "BACKUP_RESTORE", "SUPPORTED_PLATFORM_SEMANTICS"
+    ],
+    "rankingAfterHardFilter": true,
+    "weightsMayNotOverrideSafety": true,
+    "noCandidatePreselected": true,
+    "newDependencyRequiresSeparateAuthority": true
+  },
+  "oraclePolicy": {
+    "independentOracleRequiredForDifferentialClaim": true,
+    "selfConsistencyMustBeNamedSelfConsistency": true,
+    "implementationMutationScoreRequiredForImplementationMutationClaim": true,
+    "modelWitnessMustBeNamedModelWitness": true,
+    "formalModelRequiresRuntimeRefinementForRuntimeClaim": true,
+    "oneNegativePerConjunctMinimum": true,
+    "crashOnlyDayRequiredBeforeDurabilityPromotion": true,
+    "backupClaimRequiresRestoreDrill": true
+  },
+  "optionalFeaturePolicy": {
+    "writerCoreBlockingForbidden": true,
+    "acceptedOptionalSlices": [
+      "RELATION_VOCABULARY_AFTER_IDENTITY_AND_MIGRATION",
+      "READER_KNOWLEDGE_PERSPECTIVE_EXPLICIT_FACTS_ONLY",
+      "SCENE_INTENT_NOTE_BOUNDED_PLAIN_TEXT"
+    ],
+    "simplifiedOrRejected": [
+      "UNPLACED_AS_QUERY_NOT_NEW_IDEA_GARDEN",
+      "VOICE_AND_SUBTEXT_LAB",
+      "VARIANT_STUDIO",
+      "REVISION_PASS_COMPOSER",
+      "REWRITE_CAMPAIGN",
+      "EXECUTABLE_PLUGIN_RUNTIME"
+    ],
+    "absenceMustBeNeutral": true,
+    "noNlpAiCloudOrPluginRuntime": true
+  },
+  "claims": [
+    {
+      "claimId": "CLM_ASSURANCE_PROGRAM_R1",
+      "statement": "The imported audit universe is mapped and the execution program is model-and-contract verifiable within the declared assurance envelope.",
+      "profileId": "SHARED_ASSURANCE",
+      "faultModelId": "FM_ASSURANCE_CONTROL_PLANE_R1",
+      "consistencyModelId": "CM_ASSURANCE_CURRENT_INVOCATION_R1",
+      "resourceEnvelopeId": "RE_ASSURANCE_SMALL_GRAPH_R1",
+      "minimumEvidenceClass": "E2_CONTRACT",
+      "currentVerdict": "TARGET_AFTER_THIS_CONTOUR",
+      "cannotPromote": ["PRODUCT_RUNTIME", "PHYSICAL", "RELEASE", "PROGRAM_COMPLETE"]
+    },
+    {
+      "claimId": "CLM_WRITER_AUTHORING_SAFETY",
+      "statement": "Writer authoring safety remains unproven until exact-generation ACK, durability, recovery and refinement evidence close their mapped stages.",
+      "profileId": "WRITER_CORE",
+      "faultModelId": "FM_WRITER_PROCESS_AND_FILESYSTEM_R1",
+      "consistencyModelId": "CM_WRITER_PER_ENTITY_LINEARIZABLE_ACK_R1",
+      "resourceEnvelopeId": "RE_WRITER_DECLARED_PROJECT_SCALE_R1",
+      "minimumEvidenceClass": "E6_INDEPENDENT_EXACT_HEAD",
+      "currentVerdict": "NEEDS_MORE_EVIDENCE",
+      "cannotPromote": ["ABSOLUTE_NO_LOSS", "UNBOUNDED_SCALE", "UNSUPPORTED_PLATFORM"]
+    },
+    {
+      "claimId": "CLM_ATLAS_DERIVED_SAFETY",
+      "statement": "Atlas derived safety remains bounded to its own revision, scheduler, oracle and scale profile.",
+      "profileId": "ATLAS_MAPS_DERIVED",
+      "faultModelId": "FM_ATLAS_DERIVED_R1",
+      "consistencyModelId": "CM_ATLAS_MONOTONIC_PUBLICATION_R1",
+      "resourceEnvelopeId": "RE_ATLAS_DECLARED_SCALE_R1",
+      "minimumEvidenceClass": "E6_INDEPENDENT_EXACT_HEAD",
+      "currentVerdict": "NEEDS_MORE_EVIDENCE",
+      "cannotPromote": ["WRITER_CORE", "WORD_ROUNDTRIP", "UNIVERSAL_SCALE"]
+    },
+    {
+      "claimId": "CLM_WORD_ROUNDTRIP",
+      "statement": "Word roundtrip remains blocked until exact physical apply, lifecycle and reuse authority is independently re-certified.",
+      "profileId": "WORD_ROUNDTRIP",
+      "faultModelId": "FM_WORD_PHYSICAL_R1",
+      "consistencyModelId": "CM_WORD_EXACT_ROUND_LINEAGE_R1",
+      "resourceEnvelopeId": "RE_WORD_SYNTHETIC_SANDBOX_R1",
+      "minimumEvidenceClass": "E6_INDEPENDENT_EXACT_HEAD",
+      "currentVerdict": "BLOCKED",
+      "cannotPromote": ["SAFE_APPLY_WIDENING", "USER_DOCUMENT_ACCESS", "GOOGLE_EVIDENCE_TRANSFER"]
+    },
+    {
+      "claimId": "CLM_PACKAGED_RELEASE_SECURITY",
+      "statement": "Packaged release security remains not ready until the supported target matrix has physical signing, notarization, integrity, recovery and critical-journey evidence.",
+      "profileId": "PACKAGED_RELEASE_SECURITY",
+      "faultModelId": "FM_PACKAGED_RELEASE_R1",
+      "consistencyModelId": "CM_PACKAGE_RESOLVED_STAGED_ADMITTED_SET_R1",
+      "resourceEnvelopeId": "RE_PACKAGE_SUPPORTED_TARGET_MATRIX_R1",
+      "minimumEvidenceClass": "E6_INDEPENDENT_EXACT_HEAD",
+      "currentVerdict": "NOT_READY",
+      "cannotPromote": ["UNLISTED_TARGET", "UNSIGNED_ARTIFACT", "MODEL_ONLY"]
+    }
+  ],
+  "currentRealityProbes": [
+    {
+      "probeId": "PROBE_AUTOSAVE_IN_PROGRESS_RETURNS_TRUE",
+      "repoPath": "src/main.js",
+      "needle": "if (!mainWindow || autoSaveInProgress) {\n    return true;",
+      "expected": "PRESENT",
+      "issueId": "I03_AUTOSAVE_DIRTY_LIFECYCLE"
+    },
+    {
+      "probeId": "PROBE_RENDERER_DIRTY_EDGE_ONLY",
+      "repoPath": "src/renderer/editor.js",
+      "needle": "if (!localDirty) {\n    localDirty = true;",
+      "expected": "PRESENT",
+      "issueId": "I03_AUTOSAVE_DIRTY_LIFECYCLE"
+    },
+    {
+      "probeId": "PROBE_PRIMARY_ATOMIC_WRITE_RENAME_ACK",
+      "repoPath": "src/utils/fileManager.js",
+      "needle": "await fs.rename(tempPath, filePath);\n    return { success: true };",
+      "expected": "PRESENT",
+      "issueId": "I04_DURABILITY_AND_PROJECT_TRANSACTION"
+    },
+    {
+      "probeId": "PROBE_TOKEN_SOURCE_CONFLICT_SKIP_HATCH",
+      "repoPath": "scripts/ops/freeze-rollups-state.mjs",
+      "needle": "TOKEN_SOURCE_CONFLICT_SKIP",
+      "expected": "PRESENT",
+      "issueId": "I02_RUNNER_AND_EVIDENCE_TRUTH"
+    },
+    {
+      "probeId": "PROBE_PACKAGE_MANAGER_UNPINNED",
+      "repoPath": "package.json",
+      "jsonPointer": "/packageManager",
+      "expected": "ABSENT",
+      "issueId": "I14_TOOLCHAIN_AND_PACKAGE_SURFACE"
+    },
+    {
+      "probeId": "PROBE_ENGINES_UNPINNED",
+      "repoPath": "package.json",
+      "jsonPointer": "/engines",
+      "expected": "ABSENT",
+      "issueId": "I14_TOOLCHAIN_AND_PACKAGE_SURFACE"
+    }
+  ],
+  "scientificLabObligations": {
+    "admissionTruthTableCases": 128,
+    "revisionGraphContainsIncomparableBranches": true,
+    "authoringStateCases": 6,
+    "projectVectorCases": 3,
+    "saveKillpointCount": 8,
+    "evidencePromotionNegatives": 4,
+    "storageHardFilterCases": 4,
+    "minimumIntentionalMutants": 18,
+    "zeroSurvivingMutantsRequired": true,
+    "resultEvidenceCeiling": "MODEL_AND_CONTRACT_ONLY"
+  }
+}

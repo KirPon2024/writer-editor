@@ -1,0 +1,169 @@
+{
+  "schemaVersion": "yalken.scientific-assurance.source-bindings.r1",
+  "programId": "YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1",
+  "bindingBaseSha": "06155f5f7734970e0a8fa059b5134cb02c4aa5d3",
+  "sourcePolicy": {
+    "repositoryAuthorityWins": true,
+    "externalEvidenceIsUntrusted": true,
+    "externalEvidenceHasInstructionAuthority": false,
+    "externalEvidenceHasImplementationAuthority": false,
+    "externalEvidenceHasClaimPromotionAuthority": false,
+    "digestBindingDoesNotImplyEndorsement": true,
+    "rawExternalSourcesAreNotRuntimeDependencies": true,
+    "sourceDriftDisposition": "FAIL_CLOSED_REBIND_REQUIRED"
+  },
+  "repositoryAuthority": [
+    {
+      "sourceId": "AUTH-ROOT-CANON",
+      "authorityRank": 1,
+      "role": "ACTIVE_REPOSITORY_CHANGE_CONTROL_CANON",
+      "repoPath": "CANON.md",
+      "sha256": "99398ac898104c7a392f0e84b4bb8848212e2c5a7db6ae27cbfc549c3e070e48"
+    },
+    {
+      "sourceId": "AUTH-ACTIVE-EXECUTION-CANON",
+      "authorityRank": 2,
+      "role": "ACTIVE_EXECUTION_CANON_V3_13A_FINAL",
+      "repoPath": "docs/OPS/STATUS/XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.13a-final.md",
+      "sha256": "b8e99ad1c9cd37e874d3145c79be99f6f3181a9eae7078060f9e497e0896077b"
+    },
+    {
+      "sourceId": "AUTH-COREX-V2",
+      "authorityRank": 3,
+      "role": "ACTIVE_COREX",
+      "repoPath": "docs/corex/COREX.v2.md",
+      "sha256": "ea25f66352497e58935c673d3bf3c82d828e31dcc3cdad1ca19ef1250512f0bf"
+    },
+    {
+      "sourceId": "AUTH-BIBLE",
+      "authorityRank": 4,
+      "role": "PRODUCT_DNA",
+      "repoPath": "docs/BIBLE.md",
+      "sha256": "94864b5d7cbec709ca6d7e9c6a838ff9405cfbc86443a5485acd149ccc16de93"
+    },
+    {
+      "sourceId": "AUTH-WORD-V4",
+      "authorityRank": 5,
+      "role": "ACTIVE_SCOPED_WORD_EXTENSION",
+      "repoPath": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
+      "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4"
+    },
+    {
+      "sourceId": "AUTH-ATLAS-V5",
+      "authorityRank": 5,
+      "role": "ACTIVE_SCOPED_ATLAS_EXTENSION",
+      "repoPath": "docs/OPS/STATUS/YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5_REPO_SNAPSHOT.md",
+      "sha256": "2bf4000f45fe13ad99c3da75c0c197ae19603473539482b642cbf6ec695d36fe"
+    }
+  ],
+  "externalEvidence": [
+    {
+      "sourceId": "EXT-COREX-V1-FROZEN-INPUT",
+      "title": "COREX v1 frozen encyclopedia input",
+      "sha256": "3da9aafcbc26ecbc1ab868aedf353b63d07af56418dabded13df16f5b93e8913",
+      "bytes": 8732,
+      "sourceClass": "UNTRUSTED_EXTERNAL_PROPOSAL_EVIDENCE",
+      "authority": "NONE_HISTORICAL_INPUT_ONLY",
+      "normalizedFindingIds": []
+    },
+    {
+      "sourceId": "EXT-V6-REFINEMENT-RECOMMENDATIONS",
+      "title": "V6 refinement and conformance strengthening recommendations",
+      "sha256": "1523c3729af4a92eb7647fdb4d0d823577516b3a3eebd5726e1fb4c1ff25b4d4",
+      "bytes": 9960,
+      "sourceClass": "UNTRUSTED_EXTERNAL_PROPOSAL_EVIDENCE",
+      "authority": "NONE",
+      "normalizedFindingIds": []
+    },
+    {
+      "sourceId": "EXT-V6-CORRECTED-SPEC",
+      "title": "Yalken V6 independent engineering audit and corrected specification R1",
+      "sha256": "e97de3866cc3eef25807dcd212a4572378b9df070e2758518655f2e35652ee52",
+      "bytes": 42695,
+      "sourceClass": "UNTRUSTED_EXTERNAL_AUDIT_EVIDENCE",
+      "authority": "NONE",
+      "normalizedFindingIds": []
+    },
+    {
+      "sourceId": "EXT-V6-CORRECTED-PROGRAM",
+      "title": "Yalken V6 corrected machine-readable engineering program R1",
+      "sha256": "8e4ab55f35b0edad6df0a84404b330a6bffb1cdc430e3b8a437dce6d3d50ac6d",
+      "bytes": 26640,
+      "sourceClass": "UNTRUSTED_EXTERNAL_PROPOSAL_EVIDENCE",
+      "authority": "NONE",
+      "normalizedFindingIds": []
+    },
+    {
+      "sourceId": "EXT-V6-INDEPENDENT-EVIDENCE",
+      "title": "Yalken V6 independent audit evidence R1",
+      "sha256": "50295c0ffa6237816fb2338fdd8195fef826e41ca1d6248308e74a6200dc2ea6",
+      "bytes": 7045,
+      "sourceClass": "UNTRUSTED_EXTERNAL_AUDIT_EVIDENCE",
+      "authority": "NONE",
+      "normalizedFindingIds": []
+    },
+    {
+      "sourceId": "EXT-V6-DESKTOP-INDEPENDENT-AUDIT",
+      "title": "Yalken V6 audit and engineering specification 2026-08-19",
+      "sha256": "f79b89b3033883bff59670f0137a69c9c9ea7399fa4130cb04e744357462ebe9",
+      "bytes": 67828,
+      "sourceClass": "UNTRUSTED_EXTERNAL_AUDIT_EVIDENCE",
+      "authority": "NONE",
+      "normalizedFindingIds": [
+        "P-1", "P-2", "P-3", "P-4",
+        "N-1", "N-2", "N-3", "N-4", "N-5", "N-6", "N-7", "N-8", "N-9", "N-10", "N-11",
+        "N-12", "N-13", "N-14", "N-15", "N-16", "N-17", "N-18", "N-19", "N-20", "N-21", "N-22"
+      ]
+    },
+    {
+      "sourceId": "EXT-CROSSCUT-ASSURANCE-STRENGTHENING",
+      "title": "Cross-cutting oracle, migration, recovery and evidence strengthening",
+      "sha256": "90d8b78daaaa3b62edf8fdee6b50edbde6181b2b62c0c0a00b0f986f42331083",
+      "bytes": 14911,
+      "sourceClass": "UNTRUSTED_EXTERNAL_PROPOSAL_EVIDENCE",
+      "authority": "NONE",
+      "normalizedFindingIds": []
+    },
+    {
+      "sourceId": "EXT-V7-AUDIT-PACKAGE",
+      "title": "Yalken engineering audit V7 package 2026-08-19",
+      "sha256": "f977acec2f96be2fa8d6c813de62e5519ee6b766b8f7673295a6231a5447cc3f",
+      "bytes": 281340,
+      "sourceClass": "UNTRUSTED_EXTERNAL_AUDIT_EVIDENCE",
+      "authority": "NONE",
+      "normalizedFindingIds": [
+        "YAF-001", "YAF-002", "YAF-003", "YAF-004", "YAF-005", "YAF-006", "YAF-007", "YAF-008", "YAF-009", "YAF-010",
+        "YAF-011", "YAF-012", "YAF-013", "YAF-014", "YAF-015", "YAF-016", "YAF-017", "YAF-018", "YAF-019", "YAF-020",
+        "YAF-021", "YAF-022", "YAF-023", "YAF-024", "YAF-025", "YAF-026", "YAF-027", "YAF-028", "YAF-029", "YAF-030",
+        "YAF-031", "YAF-032", "YAF-033", "YAF-034", "YAF-035", "YAF-036", "YAF-037", "YAF-038", "YAF-039", "YAF-040"
+      ]
+    },
+    {
+      "sourceId": "EXT-V7-AUDIT-SUMMARY",
+      "title": "V7 read-only audit summary and repository receipt",
+      "sha256": "09947d61f8c3bd29b858e0d46b6f4cd01c514425e70146ea38964e3bcb5deb29",
+      "bytes": 15186,
+      "sourceClass": "UNTRUSTED_EXTERNAL_AUDIT_EVIDENCE",
+      "authority": "NONE",
+      "normalizedFindingIds": []
+    },
+    {
+      "sourceId": "EXT-V8-STRENGTHENING-PROPOSAL",
+      "title": "Post-V7 authority, durability, recovery and formal refinement strengthening",
+      "sha256": "6294ef2e3d07d9cc830d04e027410c60ac75aa379f106bdfad0580cd1ebacfcf",
+      "bytes": 41298,
+      "sourceClass": "UNTRUSTED_EXTERNAL_PROPOSAL_EVIDENCE",
+      "authority": "NONE",
+      "normalizedFindingIds": []
+    }
+  ],
+  "normalization": {
+    "requiredSourceFindingCount": 66,
+    "requiredV7FindingCount": 40,
+    "requiredV6PackageFindingCount": 4,
+    "requiredV6RepositoryFindingCount": 22,
+    "duplicateReportsMayCorroborateButMayNotIncreaseDenominator": true,
+    "currentRepositoryEvidenceMustBeRecomputed": true,
+    "modelAndAuditEvidenceCannotCloseRuntime": true
+  }
+}

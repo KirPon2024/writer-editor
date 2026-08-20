@@ -9321,10 +9321,10 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "a4330d5168091412752fe65c7841ead3501c0c35f923786ddb0286f18bbb9b46",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001",
-      "approvedAtUtc": "2026-08-20T07:15:09.000Z",
-      "rationale": "Approve R2.4 E0 package.json change: adds test:r24-e0 script entry only; no dependency, engine, or metadata change.",
+      "sha256": "cdde76d32fd3ab0b6975833d92abf5e953e697e5710fa992a7832bdfd0d11a7e",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-Q0-TOOLCHAIN-HYGIENE-001",
+      "approvedAtUtc": "2026-08-20T08:40:40.000Z",
+      "rationale": "Approve R2.4 Q0 package.json change: adds engines pin (node >=20.19.0 <21.0.0, npm >=10 <11) and test:r24-q0 script; no dependency or metadata change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
@@ -9753,10 +9753,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "513e33b3a1c41a666360b8a0b1c137ba3e59993d45f353c3037dcc1fc7569710",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001",
-      "approvedAtUtc": "2026-08-20T07:13:26.000Z",
-      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 E0 runner safety quarantine: package.json digest updated to the exact bytes gained by adding the test:r24-e0 lane script; no wording, claim, Word/DOCX, Google, saturation or terminal PASS change; registry semantics unchanged.",
+      "sha256": "36fd6ea697a28b1861cc24ef536c08fb7109f42eaae65ef90314a6e372492d43",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-Q0-TOOLCHAIN-HYGIENE-001",
+      "approvedAtUtc": "2026-08-20T08:40:40.000Z",
+      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 Q0 toolchain hygiene: package.json digest updated to the exact bytes gained by adding the engines pin and test:r24-q0 script; no wording, claim, Word/DOCX, Google, saturation or terminal PASS change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
@@ -10923,10 +10923,10 @@
     },
     {
       "filePath": ".github/workflows/rtk-required.yml",
-      "sha256": "c5898a34eb49f64b10e98de62256ce5965aaaaf10d03f16fa39bc66e0a0960db",
-      "rationale": "Approve R2.4 E0 rtk-required.yml change: adds one step running npm run -s test:r24-e0 after the maintained RTK graph; triggers, permissions, matrix and other steps unchanged.",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001",
-      "approvedAtUtc": "2026-08-20T07:15:09.000Z",
+      "sha256": "5a3d719fedf1385ef7a2991da3793bbbc9540acc445b62dc9f90fc90e47b057e",
+      "rationale": "Approve R2.4 Q0 rtk-required.yml change: pins setup-node to 20.19.x per toolchain contract and adds the test:r24-q0 step after the E0 gate; triggers and permissions unchanged.",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-Q0-TOOLCHAIN-HYGIENE-001",
+      "approvedAtUtc": "2026-08-20T08:40:40.000Z",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
@@ -11211,12 +11211,12 @@
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1/FINDING_MAP.json",
-      "sha256": "b26e244fc11417dbe7c10250a18cf7e8e70169447dd410ad24214f35044acc5a",
-      "approvedBy": "owner-direct:TASK_ID:YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1",
-      "approvedAtUtc": "2026-08-19T11:12:56.000Z",
-      "rationale": "Approve the exact 66-of-66 imported finding denominator and 16-issue provenance-preserving normalization; no source finding is removed or closed by this projection.",
+      "sha256": "1567c6f2ce595fda0e0d656dd6a2beeb355ae621a12bb27c0c03a7359348424d",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-Q0-TOOLCHAIN-HYGIENE-001",
+      "approvedAtUtc": "2026-08-20T08:58:30.000Z",
+      "rationale": "Approve R2.4 Q0 issue-state transition: I14_TOOLCHAIN_AND_PACKAGE_SURFACE marked PARTIALLY_REPAIRED_BY_R24_Q0_ENGINES_PIN_PK0_PACKAGE_ALLOWLIST_REMAINS; package content manifest half remains owned by PK0.",
       "approved": true,
-      "authority": "OWNER_EXPLICIT_ALL_AUDITS_SCIENTIFIC_CONSOLIDATION_WITHIN_ACTIVE_CANON"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1/PROGRAM_DAG.json",
@@ -11229,12 +11229,12 @@
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1/SCIENTIFIC_CONTRACTS.json",
-      "sha256": "e6f0bb76f7b9a4b7a809da07a735e49896c9292e18d77debb8bfd5feec86e768",
-      "approvedBy": "owner-direct:TASK_ID:YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1",
-      "approvedAtUtc": "2026-08-19T11:12:56.000Z",
-      "rationale": "Approve bounded fault, consistency, resource, evidence, partial-order revision, authoring-state, admission, killpoint, denominator, storage-bakeoff and optional-feature laws; universal claims remain forbidden.",
+      "sha256": "1a070cb30201c13f6231d6285b8cb40f04e91f9a8b86010688da59cbaf51acad",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-Q0-TOOLCHAIN-HYGIENE-001",
+      "approvedAtUtc": "2026-08-20T08:58:30.000Z",
+      "rationale": "Approve R2.4 Q0 reality-probe rebind: PROBE_ENGINES_UNPINNED now expects PRESENT because package.json carries the pinned engines range after Q0; the probe keeps guarding against regression back to an unpinned toolchain.",
       "approved": true,
-      "authority": "OWNER_EXPLICIT_ALL_AUDITS_SCIENTIFIC_CONSOLIDATION_WITHIN_ACTIVE_CANON"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "scripts/ops/yalken-scientific-assurance-r1.mjs",

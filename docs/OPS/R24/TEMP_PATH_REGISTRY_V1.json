@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "yalken.temp-path-registry.v1",
+  "contour": "Q0_TOOLCHAIN_HYGIENE",
+  "boundBaseSha": "2f0571682d01b4f6e8cf2dc1ee3886fb4cbeb943",
+  "law": "every fixed /tmp literal under scripts/ is registered here with class and justification; unregistered or stale entries fail closed; new runtime temp paths must use os.tmpdir plus unique mkdtemp instead",
+  "entries": [
+    {
+      "literal": "/tmp/writer-editor-ops-state/post_merge_cleanup_streak.json",
+      "pathClass": "LEGACY_STATE",
+      "justification": "shared post-merge cleanup streak state read by doctor and post-merge-verify; pre-existing local ops state path whose migration is deferred debt, registered verbatim",
+      "registeredBy": "YALKEN-R24-Q0-TOOLCHAIN-HYGIENE-001"
+    },
+    {
+      "literal": "/tmp/TIPTAP3_20260314_PREPCLOSE_03/tiptap3-prep/serialization.record.json",
+      "pathClass": "FIXTURE_PATH",
+      "justification": "fixed harness input path for the Tiptap3 parity preparation record fixture",
+      "registeredBy": "YALKEN-R24-Q0-TOOLCHAIN-HYGIENE-001"
+    },
+    {
+      "literal": "/tmp/scene.txt",
+      "pathClass": "FIXTURE_PAYLOAD",
+      "justification": "synthetic payload value inside the Tiptap3 parity harness request fixtures; not a runtime write target",
+      "registeredBy": "YALKEN-R24-Q0-TOOLCHAIN-HYGIENE-001"
+    },
+    {
+      "literal": "/tmp/secret",
+      "pathClass": "NEGATIVE_PROBE",
+      "justification": "hostile payload value that must be rejected by the black-box source adapter keyset validation",
+      "registeredBy": "YALKEN-R24-Q0-TOOLCHAIN-HYGIENE-001"
+    },
+    {
+      "literal": "/tmp/${spec.id}.docx",
+      "pathClass": "FIXTURE_PATH",
+      "justification": "template prefix for disposable synthetic DOCX fixture paths in the Word 16.111.3 physical ladder harness; per-case ids make the concrete path unique",
+      "registeredBy": "YALKEN-R24-Q0-TOOLCHAIN-HYGIENE-001"
+    }
+  ]
+}

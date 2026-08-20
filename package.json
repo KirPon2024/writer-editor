@@ -77,7 +77,8 @@
     "test:rtk-phys01": "node --test test/contracts/rtk-phys01-ladder-runner.contract.test.js",
     "test:r24-q0": "node scripts/ops/r24/run-q0-tests.mjs",
     "test:r24-p0": "node --test test/unit/r24-p0-autosave-generation.test.js test/unit/r24-p0-autosave-integration.test.js test/unit/r24-p0-autosave-mutants.test.js",
-    "test:r24-s0": "node --test test/unit/r24-s0-ipc-caller-identity.test.js test/unit/r24-s0-ipc-integration.test.js test/unit/r24-s0-ipc-mutants.test.js"
+    "test:r24-s0": "node --test test/unit/r24-s0-ipc-caller-identity.test.js test/unit/r24-s0-ipc-integration.test.js test/unit/r24-s0-ipc-mutants.test.js",
+    "test:r24-p1": "node --test test/unit/r24-p1-dirty-admission.test.js test/unit/r24-p1-lifecycle-integration.test.js test/unit/r24-p1-ack-mutants.test.js"
   },
   "keywords": [
     "editor",

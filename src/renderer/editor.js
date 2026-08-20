@@ -7572,6 +7572,7 @@ async function handleFlowModeOpenUiPath() {
   setPlainText(projection.text || composeFlowDocument(scenes));
   updateWordCount();
   localDirty = false;
+  lastAckedGeneration = localEditGeneration;
   await invokeSaveLifecycleSignalBridge('signal.localDirty.set', { state: false });
   showEditorPanelFor('Непрерывно');
   const partialSuffix = projection.partial ? ' · есть недоступные сцены' : '';
@@ -7615,6 +7616,7 @@ async function handleFlowModeSaveUiPath() {
   };
   syncFlowViewModeButtons();
   localDirty = false;
+  lastAckedGeneration = localEditGeneration;
   await invokeSaveLifecycleSignalBridge('signal.localDirty.set', { state: false });
   updateStatusText(buildFlowModeM9KickoffStatus('save', payload.scenes.length, { m8Kickoff: true, m9Kickoff: true }));
 }
@@ -10567,6 +10569,11 @@ let localDirty = false;
 // Every authoring mutation bumps it exactly once; autosave captures and
 // acknowledgements are fenced by it so a stale save cannot clear newer work.
 let localEditGeneration = 0;
+// R2.4 P1: admission coordinate. Dirty truth is derived: the renderer is
+// dirty exactly when localEditGeneration > lastAckedGeneration. A SAVED
+// acknowledgement advances the coordinate only at the exact current
+// generation; stale or unbound acknowledgements never clear newer work.
+let lastAckedGeneration = 0;
 
 if (metaSynopsis) {
   metaSynopsis.addEventListener('input', () => {
@@ -18813,6 +18820,15 @@ function scheduleAutoSave(delay = AUTO_SAVE_DELAY) {
 
   autoSaveTimerId = window.setTimeout(() => {
     invokeSaveLifecycleSignalBridge('signal.autoSave.request')
+      .then((result) => {
+        // R2.4 P1: apply the explicit acknowledgement. Only a SAVED ack at
+        // the exact current generation advances the admission coordinate;
+        // PROTECTED and AT_RISK keep newer work marked and never regress it.
+        const ack = result && typeof result === 'object' ? result.ack : null;
+        if (ack && ack.kind === 'SAVED' && ack.savedGeneration === localEditGeneration) {
+          lastAckedGeneration = ack.savedGeneration;
+        }
+      })
       .catch(() => {})
       .finally(() => {
         autoSaveTimerId = null;
@@ -21383,6 +21399,7 @@ if (window.electronAPI) {
     updateCardsList();
 
     localDirty = false;
+    lastAckedGeneration = localEditGeneration;
     updateWordCount();
     if (!useLargePayloadFastPath) {
       scheduleCentralSheetStripProofRefresh();
@@ -21866,8 +21883,23 @@ if (window.electronAPI) {
     updateInspectorSnapshot();
   });
 
-  window.electronAPI.onSetDirty((state) => {
-    localDirty = state;
+  window.electronAPI.onSetDirty((message) => {
+    // R2.4 P1: the push carries { state, ack }. A SAVED ack clears the dirty
+    // mark only when its generation is the exact current one; anything else
+    // keeps newer work marked. Legacy boolean payloads keep prior behavior.
+    if (message && typeof message === 'object') {
+      const ack = message.ack;
+      if (ack && ack.kind === 'SAVED') {
+        if (ack.savedGeneration === localEditGeneration) {
+          lastAckedGeneration = ack.savedGeneration;
+          localDirty = false;
+        }
+      } else {
+        localDirty = Boolean(message.state);
+      }
+    } else {
+      localDirty = Boolean(message);
+    }
     updateSaveStateText(localDirty ? 'unsaved' : 'saved');
     updateInspectorSnapshot();
   });

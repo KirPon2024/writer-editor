@@ -48,6 +48,10 @@ const {
 const {
   createGuardedIpcRegistration,
 } = require('./core/ipc-caller-identity-v1.cjs');
+const {
+  classifySaveAck,
+  SAVE_ACK_KINDS,
+} = require('./core/dirty-admission-v1.cjs');
 
 // R2.4 S0: every privileged IPC entry point proves its caller before any
 // handler body runs. The expected sender is the single main window's live
@@ -25702,10 +25706,12 @@ function updateStatus(status) {
   }
 }
 
-function setDirtyState(state) {
+function setDirtyState(state, ack = null) {
   isDirty = state;
   if (mainWindow) {
-    mainWindow.webContents.send('set-dirty', state);
+    // R2.4 P1: the push carries the typed acknowledgement so the renderer can
+    // fence dirty clears by exact generation instead of trusting a boolean.
+    mainWindow.webContents.send('set-dirty', { state, ack });
   }
 }
 
@@ -27422,11 +27428,11 @@ async function handleOpen() {
 
 async function autoSave() {
   if (!mainWindow || autoSaveInProgress) {
-    return true;
+    return { ok: true, ack: null };
   }
 
   if (!isDirty) {
-    return true;
+    return { ok: true, ack: null };
   }
 
   autoSaveInProgress = true;
@@ -27434,6 +27440,14 @@ async function autoSave() {
     const snapshot = await requestEditorSnapshot();
     const content = snapshot.content;
     const currentHash = computeHash(content);
+    // R2.4 P1: every autosave acknowledgement is explicit — SAVED, PROTECTED
+    // or AT_RISK — classified from the P0 generation fence and the write.
+    const classify = (writeSucceeded, ackOutcome) => classifySaveAck({
+      writeSucceeded,
+      ackOutcome,
+      savedGeneration: snapshot.generation,
+      latestEditGeneration: lastSignaledEditGeneration,
+    });
 
     if (currentFilePath) {
       if (currentHash !== lastAutosaveHash) {
@@ -27443,7 +27457,7 @@ async function autoSave() {
         );
         if (!saveResult.success) {
           updateStatus('Ошибка сохранения');
-          return false;
+          return { ok: false, ack: classify(false, null) };
         }
         try {
           await persistFreeEditProDataInvalidationForFile(currentFilePath, {
@@ -27456,30 +27470,29 @@ async function autoSave() {
       await persistBookProfileForFile(currentFilePath, snapshot.bookProfile, 'autosave project manifest');
 
       lastAutosaveHash = currentHash;
-      // R2.4 P0: an autosave acknowledgement clears the dirty mark only when
-      // the captured generation equals the latest edit generation; a stale
-      // or unbound acknowledgement can never clear newer work.
-      const fileAck = decideAutosaveAck({
+      const fileDecision = decideAutosaveAck({
         capturedGeneration: snapshot.generation,
         latestEditGeneration: lastSignaledEditGeneration,
       });
-      if (fileAck.outcome === ACK_OUTCOMES.CLEAR_DIRTY) {
-        setDirtyState(false);
+      const fileAck = classify(true, fileDecision.outcome);
+      if (fileAck.kind === SAVE_ACK_KINDS.SAVED) {
+        setDirtyState(false, fileAck);
         updateStatus('Автосохранено');
       }
       await saveLastFile({ selectionRange: snapshot.selectionRange });
-      return true;
+      return { ok: true, ack: fileAck };
     }
 
     if (currentHash === lastAutosaveHash) {
-      const idleAck = decideAutosaveAck({
+      const idleDecision = decideAutosaveAck({
         capturedGeneration: snapshot.generation,
         latestEditGeneration: lastSignaledEditGeneration,
       });
-      if (idleAck.outcome === ACK_OUTCOMES.CLEAR_DIRTY) {
-        setDirtyState(false);
+      const idleAck = classify(true, idleDecision.outcome);
+      if (idleAck.kind === SAVE_ACK_KINDS.SAVED) {
+        setDirtyState(false, idleAck);
       }
-      return true;
+      return { ok: true, ack: idleAck };
     }
 
     const autosaveResult = await queueDiskOperation(
@@ -27488,23 +27501,24 @@ async function autoSave() {
     );
     if (!autosaveResult.success) {
       updateStatus('Ошибка сохранения');
-      return false;
+      return { ok: false, ack: classify(false, null) };
     }
 
     lastAutosaveHash = currentHash;
-    const tempAck = decideAutosaveAck({
+    const tempDecision = decideAutosaveAck({
       capturedGeneration: snapshot.generation,
       latestEditGeneration: lastSignaledEditGeneration,
     });
-    if (tempAck.outcome === ACK_OUTCOMES.CLEAR_DIRTY) {
-      setDirtyState(false);
+    const tempAck = classify(true, tempDecision.outcome);
+    if (tempAck.kind === SAVE_ACK_KINDS.SAVED) {
+      setDirtyState(false, tempAck);
       updateStatus('Автосохранено');
     }
-    return true;
+    return { ok: true, ack: tempAck };
   } catch (error) {
     updateStatus('Ошибка сохранения');
     logDevError('autoSave', error);
-    return false;
+    return { ok: false, ack: { kind: SAVE_ACK_KINDS.AT_RISK, reason: 'EXCEPTION', savedGeneration: null, latestEditGeneration: lastSignaledEditGeneration } };
   } finally {
     autoSaveInProgress = false;
   }
@@ -27724,7 +27738,17 @@ async function confirmDiscardChanges() {
     return true;
   }
 
-  return autoSave();
+  // R2.4 P1: discard proceeds only on an explicit SAVED acknowledgement.
+  // PROTECTED (newer work unsaved) and AT_RISK (write failed or unbound)
+  // block the discard instead of trusting a false-clean boolean.
+  const result = await autoSave();
+  if (!result || result.ok !== true) {
+    return false;
+  }
+  if (result.ack === null) {
+    return true;
+  }
+  return result.ack.kind === SAVE_ACK_KINDS.SAVED;
 }
 
 async function ensureCleanAction(actionFn) {

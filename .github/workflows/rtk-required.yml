@@ -55,6 +55,9 @@ jobs:
       - name: Run R2.4 R0 revision algebra gate
         run: npm run -s test:r24-r0
 
+      - name: Run R2.4 P2 durable save coordinator gate
+        run: npm run -s test:r24-p2
+
       - name: Run maintained Atlas event contract graph
         run: npm run -s test:atlas-event-contract
 

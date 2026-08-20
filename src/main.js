@@ -58,6 +58,9 @@ const {
   classifySaveAck,
   SAVE_ACK_KINDS,
 } = require('./core/dirty-admission-v1.cjs');
+const {
+  durableSaveTransaction,
+} = require('./core/save-coordinator-v1.cjs');
 
 // R2.4 S0: every privileged IPC entry point proves its caller before any
 // handler body runs. The expected sender is the single main window's live
@@ -25707,10 +25710,26 @@ async function deleteAutosaveFile() {
   }
 }
 
-async function writeAutosaveFile(content) {
+async function writeAutosaveFile(content, revision) {
   const autosavePath = getAutosavePath();
   await ensureAutosaveDirectory();
-  return fileManager.writeFileAtomic(autosavePath, content);
+  return durableSaveWithCoordinator(autosavePath, content, revision);
+}
+
+// R2.4 P2: the durable save transaction wrapper used by the autosave
+// lifecycle: exact-revision capture, unique temp, fsync, atomic publish,
+// parent fsync, exact readback and phase-bound ACK.
+async function durableSaveWithCoordinator(filePath, content, revision) {
+  try {
+    return await durableSaveTransaction({ filePath, content, revision });
+  } catch (error) {
+    return {
+      success: false,
+      error: error && typeof error.message === 'string' ? error.message : 'unknown',
+      phase: error && typeof error.phase === 'string' ? error.phase : null,
+      code: error && typeof error.code === 'string' ? error.code : null,
+    };
+  }
 }
 
 function updateStatus(status) {
@@ -27480,7 +27499,7 @@ async function autoSave() {
     if (currentFilePath) {
       if (currentHash !== lastAutosaveHash) {
         const saveResult = await queueDiskOperation(
-          () => fileManager.writeFileAtomic(currentFilePath, content),
+          () => durableSaveWithCoordinator(currentFilePath, content, snapshot.generation),
           'autosave file'
         );
         if (!saveResult.success) {
@@ -27524,7 +27543,7 @@ async function autoSave() {
     }
 
     const autosaveResult = await queueDiskOperation(
-      () => writeAutosaveFile(content),
+      () => writeAutosaveFile(content, snapshot.generation),
       'autosave temporary'
     );
     if (!autosaveResult.success) {

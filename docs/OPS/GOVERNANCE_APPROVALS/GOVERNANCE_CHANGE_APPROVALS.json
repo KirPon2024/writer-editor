@@ -9323,10 +9323,10 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "a0bee2fc8f97155fe178093f5fcd748e189fb23aa80128650e99e90d47de40c0",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-R0-REVISION-ALGEBRA-001",
-      "approvedAtUtc": "2026-08-20T21:37:48.000Z",
-      "rationale": "Approve R2.4 R0 package.json change: adds test:r24-r0 script binding the R0 revision algebra gate into the required CI lane; no dependency change.",
+      "sha256": "12d99bead65d9006303728b851b6e751925fa5a83f8505dfee820eb47b99fc8e",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-P2-DURABLE-SAVE-COORDINATOR-001",
+      "approvedAtUtc": "2026-08-20T22:47:55.000Z",
+      "rationale": "Approve R2.4 P2 package.json change: adds test:r24-p2 script binding the P2 durable save gate into the required CI lane; no dependency change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
@@ -9755,10 +9755,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "972b9c28713a8f3b8c6a86c7e9023a82f61ee788c8adfebf6df5176dd19dded0",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-R0-REVISION-ALGEBRA-001",
-      "approvedAtUtc": "2026-08-20T21:37:48.000Z",
-      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 R0: package.json digest updated to the exact bytes gained by the test:r24-r0 script entry; no wording or claim change.",
+      "sha256": "30098451317d60742ca8fb11a11e47b3c4c6edb12c1391cac90a77bab1afcc83",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-P2-DURABLE-SAVE-COORDINATOR-001",
+      "approvedAtUtc": "2026-08-20T22:47:55.000Z",
+      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 P2: package.json digest updated to the exact bytes gained by the test:r24-p2 script entry; no wording or claim change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
@@ -10925,10 +10925,10 @@
     },
     {
       "filePath": ".github/workflows/rtk-required.yml",
-      "sha256": "38525d18e609cf4caa10389212a58390631649aef68e592edc2bfc22f8f6e61c",
-      "rationale": "Approve R2.4 R0 rtk-required.yml change: adds one step running npm run -s test:r24-r0 after the K0 gate; triggers and permissions unchanged.",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-R0-REVISION-ALGEBRA-001",
-      "approvedAtUtc": "2026-08-20T21:37:48.000Z",
+      "sha256": "7119757f14772bf3d0a30d56acc8f818a209be6220f9d99b5174f776e2509867",
+      "rationale": "Approve R2.4 P2 rtk-required.yml change: adds one step running npm run -s test:r24-p2 after the R0 gate; triggers and permissions unchanged.",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-P2-DURABLE-SAVE-COORDINATOR-001",
+      "approvedAtUtc": "2026-08-20T22:47:55.000Z",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },

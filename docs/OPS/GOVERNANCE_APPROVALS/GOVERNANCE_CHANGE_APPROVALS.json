@@ -6276,12 +6276,12 @@
     },
     {
       "filePath": "scripts/run-tests.js",
-      "sha256": "e4cec097d194712a42277eb7d6aeef8eb692c3db5fc46db39dc4a233b85806f9",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T21:05:27.922Z",
-      "rationale": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR",
+      "sha256": "266973d8dfc2c2b86a9d1799ae1cdb17cbc9d4211c03324212bd30723d51139c",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001",
+      "approvedAtUtc": "2026-08-20T07:15:09.000Z",
+      "rationale": "Approve R2.4 E0 run-tests.js change: self-materializing /tmp synthetic test path removed in favor of committed scripts/ops/ops-synth-negative.test.cjs, fast-lane forbidden segment renamed to match, unit lane captures TAP and fails closed on zero executed denominator with visible skip inventory tokens; no product runtime change.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "scripts/sector-m-run.mjs",
@@ -9321,12 +9321,12 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "d1bd63ea04290c9bae3a2c07afa1e433e42a1281a073f485eacbb3e04f146c76",
-      "approvedBy": "owner-direct:TASK_ID:PHYS01_LADDER_RUNNER_16_111_3",
-      "approvedAtUtc": "2026-08-09T22:52:34.352Z",
-      "rationale": "Approve additive package.json bytes adding the test:rtk-phys01 lane; supersedes the RELEASE-01-era package.json byte approval retained in git history.",
+      "sha256": "a4330d5168091412752fe65c7841ead3501c0c35f923786ddb0286f18bbb9b46",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001",
+      "approvedAtUtc": "2026-08-20T07:15:09.000Z",
+      "rationale": "Approve R2.4 E0 package.json change: adds test:r24-e0 script entry only; no dependency, engine, or metadata change.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_PHYS01_LADDER_RUNNER"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "test/contracts/rtk-admit01-accountable-lanes.contract.test.js",
@@ -9753,12 +9753,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "ccb3615b763c7cffcf83cb71e9f13c71d20fa3ce15cd95a96465eff361be7cea",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_UI_DEFAULT_FLAG_PATH_V1",
-      "approvedAtUtc": "2026-08-14T20:21:00.000Z",
-      "rationale": "Approve terminal claim registry wording-surface rebind for F3 Black Box UI/default path: src/menu/menu-config.v2.json and src/renderer/editor.js hashes are updated to the exact scoped UI/menu bytes, preserving RELEASE01 terminal rollup fail-closed state and making no Word/DOCX terminal PASS or product runtime claim.",
+      "sha256": "513e33b3a1c41a666360b8a0b1c137ba3e59993d45f353c3037dcc1fc7569710",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001",
+      "approvedAtUtc": "2026-08-20T07:13:26.000Z",
+      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 E0 runner safety quarantine: package.json digest updated to the exact bytes gained by adding the test:r24-e0 lane script; no wording, claim, Word/DOCX, Google, saturation or terminal PASS change; registry semantics unchanged.",
       "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "test/contracts/rtk-lab01-build-bound-profiles.contract.test.js",
@@ -10923,12 +10923,12 @@
     },
     {
       "filePath": ".github/workflows/rtk-required.yml",
-      "sha256": "668cb579609aa6aea6193f7097eb40a51e81a5ff13227bc37b14a25dd04f5bb8",
-      "rationale": "Approve narrow R4 CI correction: rtk-required checkout fetch-depth is set to 0 so exact-head ancestry verification can use Git history in PR CI instead of rolling PR-base SHA allowlists; no product runtime, provider, UI, secret, network-truth, or release authority change.",
-      "approvedBy": "owner-standing-grant:TASK_ID:R4_EXACT_HEAD_CLAIM_PUBLICATION_V1_CI_SHALLOW_HISTORY_REPAIR",
-      "approvedAtUtc": "2026-08-16T20:40:00.000Z",
+      "sha256": "c5898a34eb49f64b10e98de62256ce5965aaaaf10d03f16fa39bc66e0a0960db",
+      "rationale": "Approve R2.4 E0 rtk-required.yml change: adds one step running npm run -s test:r24-e0 after the maintained RTK graph; triggers, permissions, matrix and other steps unchanged.",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001",
+      "approvedAtUtc": "2026-08-20T07:15:09.000Z",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_CI_HISTORY_BINDING_REPAIR"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "test/contracts/rtk-test-graph-catalog.contract.test.js",

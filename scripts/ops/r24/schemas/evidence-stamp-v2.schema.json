@@ -1,0 +1,195 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yalken.local/schemas/evidence-stamp-v2.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "stampId",
+    "missionId",
+    "contourId",
+    "attemptId",
+    "authorityEpoch",
+    "profileId",
+    "repo",
+    "claim",
+    "test",
+    "causal",
+    "createdAt"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "EvidenceStampV2"
+    },
+    "stampId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "missionId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "contourId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "attemptId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "authorityEpoch": {
+      "type": "string",
+      "minLength": 1
+    },
+    "profileId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "repo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "canonicalPath",
+        "originUrl",
+        "headSha",
+        "treeSha"
+      ],
+      "properties": {
+        "canonicalPath": {
+          "type": "string",
+          "minLength": 1
+        },
+        "originUrl": {
+          "type": "string",
+          "minLength": 1
+        },
+        "headSha": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "treeSha": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[0-9a-f]{40}$"
+        }
+      }
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "ceiling",
+        "verdict"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ceiling": {
+          "type": "string",
+          "minLength": 1
+        },
+        "verdict": {
+          "enum": [
+            "PASS",
+            "FAIL",
+            "BLOCKED_TYPED",
+            "NEEDS_MORE_EVIDENCE",
+            "NOT_READY"
+          ]
+        }
+      }
+    },
+    "test": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "oracleId",
+        "evidenceClass",
+        "denominator",
+        "passed",
+        "failed",
+        "skipped",
+        "exitCode"
+      ],
+      "properties": {
+        "oracleId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidenceClass": {
+          "enum": [
+            "MODEL",
+            "CONTRACT",
+            "UNIT",
+            "INTEGRATION",
+            "FAULT_INJECTION",
+            "PHYSICAL",
+            "IMPLEMENTATION_MUTANTS",
+            "INDEPENDENT_EXACT_HEAD",
+            "POSTMERGE",
+            "SURVIVOR_AUDIT",
+            "PACKAGE_INTEGRITY"
+          ]
+        },
+        "denominator": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "passed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "failed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "skipped": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "exitCode": {
+          "type": "integer"
+        }
+      }
+    },
+    "causal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "parentStampIds",
+        "predecessorReceiptDigest"
+      ],
+      "properties": {
+        "parentStampIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "predecessorReceiptDigest": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "createdAt": {
+      "type": "string",
+      "minLength": 1
+    },
+    "actor": {
+      "type": "string"
+    },
+    "artifact": {
+      "type": "object"
+    }
+  }
+}

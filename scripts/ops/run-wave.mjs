@@ -115,13 +115,19 @@ function main() {
     emitAndExit(stopOutcome('BOOTSTRAP_STEP_FAILED', 'node scripts/ops/bootstrap-noninteractive.mjs'));
   }
 
+  // R2.4 E0 quarantine: destructive preflight steps (git clean -fd and
+  // git checkout -B main origin/main) are REMOVED from this runner. A
+  // validation path must never delete untracked owner work or move a branch
+  // pointer. Dirty or diverged state now stops closed before any check runs.
   const preflight = [
     { id: 'PREFLIGHT_FETCH', cmd: 'git', args: ['fetch', 'origin'] },
-    { id: 'PREFLIGHT_CLEAN', cmd: 'git', args: ['clean', '-fd'] },
-    { id: 'PREFLIGHT_CHECKOUT', cmd: 'git', args: ['checkout', '-B', 'main', 'origin/main'] },
     { id: 'PREFLIGHT_STATUS', cmd: 'git', args: ['status', '--porcelain', '--untracked-files=all'] },
+    { id: 'PREFLIGHT_HEAD', cmd: 'git', args: ['rev-parse', 'HEAD'] },
+    { id: 'PREFLIGHT_ORIGIN_MAIN', cmd: 'git', args: ['rev-parse', 'origin/main'] },
   ];
 
+  let observedHead = '';
+  let observedOriginMain = '';
   for (const step of preflight) {
     const result = runStep(step, baseEnv);
     if (!result.ok) {
@@ -137,6 +143,12 @@ function main() {
         emitAndExit(stopOutcome('DIRTY_WORKTREE', 'git status --porcelain --untracked-files=all'));
       }
     }
+    if (step.id === 'PREFLIGHT_HEAD') observedHead = String(result.result.stdout || '').trim();
+    if (step.id === 'PREFLIGHT_ORIGIN_MAIN') observedOriginMain = String(result.result.stdout || '').trim();
+  }
+
+  if (observedHead && observedOriginMain && observedHead !== observedOriginMain) {
+    emitAndExit(stopOutcome('BASE_DRIFT_HEAD_NOT_ORIGIN_MAIN', 'git rev-parse HEAD origin/main'));
   }
 
   const checks = [

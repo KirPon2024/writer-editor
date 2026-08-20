@@ -8914,12 +8914,12 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-01-future-schema-loss.contract.test.js",
-      "sha256": "6e6d37d7e687b0f6e5b14c204e85d934bc7a201f88285d3c86a1c0cb207d2038",
-      "approvedBy": "owner-watchdog:TASK_ID:EXECUTE_YALKEN_WORD_C5V2_TO_TERMINAL_100_V1",
-      "approvedAtUtc": "2026-08-04T12:00:00.000Z",
-      "rationale": "Approve exact focused same-process Stage-10 lease regression covering project-tree query, active document identity payload, fresh product create-to-child-scene identity bootstrap, startup-created renderer command child-scene identity bootstrap, lifecycle-open missing-or-stale current-schema identity bootstrap and failed lifecycle-open active-project rollback rebased to genuine E_PROJECT_EMPTY failure after the wrong-project bootstrap defect removal; no UI, network, dependency, Google, Atlas mutation or physical evidence claim change.",
+      "sha256": "d9cf4a549de8e4ad883241aa0d7ec371ff1c04866d5c9dde4ad8228db32d29b9",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-S0-IPC-CALLER-IDENTITY-001",
+      "approvedAtUtc": "2026-08-20T15:12:38.000Z",
+      "rationale": "Approve R2.4 S0 atlas harness alignment: electron stub registers one synthetic shell webContents and command-bridge dispatches use a genuine-shaped caller event through the caller-identity fence instead of null events.",
       "approved": true,
-      "authority": "AUTONOMOUS_SURGICAL_WORD_CONTOUR_OWNER_WATCHDOG_BINDING"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-03-packaged-visible-journey.contract.test.js",

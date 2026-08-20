@@ -14,7 +14,7 @@ class IpcCallerIdentityError extends Error {
 const isObjectRecord = (value) => Boolean(value) && typeof value === 'object' && !Array.isArray(value);
 
 // policy: {
-//   expectedSenderId: () => number|null       — main window webContents id at call time
+//   expectedSenderIds: () => number[]         — live app-shell webContents ids at call time
 //   allowedFrameUrlPrefixes: () => string[]   — exact file:// prefixes of the app shell
 //   expectedSessionId?: () => unknown         — optional session binding
 // }
@@ -23,11 +23,13 @@ function evaluateIpcCallerIdentity(event, policy) {
   if (!policy || typeof policy !== 'object') return { ok: false, code: 'E_IPC_POLICY_MISSING' };
   const sender = event.sender;
   if (!isObjectRecord(sender)) return { ok: false, code: 'E_IPC_SENDER_MISSING' };
-  const expectedId = typeof policy.expectedSenderId === 'function' ? policy.expectedSenderId() : undefined;
-  if (expectedId !== undefined) {
-    if (expectedId === null) return { ok: false, code: 'E_IPC_CALLER_WINDOW_UNAVAILABLE' };
-    if (!Number.isInteger(expectedId)) return { ok: false, code: 'E_IPC_POLICY_SENDER_ID_SHAPE' };
-    if (sender.id !== expectedId) return { ok: false, code: 'E_IPC_SENDER_MISMATCH' };
+  const expectedIds = typeof policy.expectedSenderIds === 'function' ? policy.expectedSenderIds() : undefined;
+  if (expectedIds !== undefined) {
+    if (!Array.isArray(expectedIds) || !expectedIds.every((id) => Number.isInteger(id))) {
+      return { ok: false, code: 'E_IPC_POLICY_SENDER_IDS_SHAPE' };
+    }
+    if (expectedIds.length === 0) return { ok: false, code: 'E_IPC_CALLER_WINDOW_UNAVAILABLE' };
+    if (!expectedIds.includes(sender.id)) return { ok: false, code: 'E_IPC_SENDER_MISMATCH' };
   }
   if (typeof sender.isDestroyed === 'function' && sender.isDestroyed()) {
     return { ok: false, code: 'E_IPC_SENDER_DESTROYED' };

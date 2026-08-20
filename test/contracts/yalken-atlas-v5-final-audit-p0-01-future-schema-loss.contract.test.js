@@ -10,6 +10,19 @@ const { pathToFileURL } = require('node:url');
 const ROOT = path.resolve(__dirname, '..', '..');
 const PROJECT_MANIFEST_FILENAME = 'project.craftsman.json';
 
+// R2.4 S0: the app-shell caller identity used by harness dispatches. The
+// shell URL must equal the fence's file prefix computed from src/main.js.
+const HARNESS_SHELL_URL = pathToFileURL(path.join(ROOT, 'src', 'renderer', 'index.html')).href;
+const syntheticShellWebContents = {
+  id: 1,
+  getURL: () => HARNESS_SHELL_URL,
+  isDestroyed: () => false,
+};
+const harnessCallerEvent = () => ({
+  sender: { id: syntheticShellWebContents.id, isDestroyed: () => false },
+  senderFrame: { url: HARNESS_SHELL_URL },
+});
+
 async function loadRuntimeModule() {
   return import(pathToFileURL(path.join(ROOT, 'src', 'core', 'runtime.mjs')).href);
 }
@@ -60,6 +73,12 @@ async function loadMainWithElectronStub(paths, options = {}) {
     },
     session: {
       defaultSession: { webRequest: { onHeadersReceived: () => {} } },
+    },
+    webContents: {
+      // R2.4 S0: the caller-identity fence resolves legitimate senders from
+      // the live shell webContents registry; the harness registers one
+      // synthetic shell contents so dispatches model a genuine caller.
+      getAllWebContents: () => [syntheticShellWebContents],
     },
   };
 
@@ -169,7 +188,7 @@ test('P0 01: product command bridge fails closed on unsupported future Atlas aut
 
   const commandBridge = harness.ipcHandlers.get('ui:command-bridge');
   assert.equal(typeof commandBridge, 'function');
-  const dispatched = await commandBridge(null, {
+  const dispatched = await commandBridge(harnessCallerEvent(), {
     route: 'command.bus',
     commandId: 'atlas.entity.create',
     payload: {
@@ -222,7 +241,7 @@ test('P0 01: Atlas mutation preserves opaque future Manual Map, Idea and Meaning
   const opened = await harness.main.handleProjectLifecycleOpenCommand({ projectId: manifest.projectId });
   assert.equal(opened.ok, true);
   const commandBridge = harness.ipcHandlers.get('ui:command-bridge');
-  const dispatched = await commandBridge(null, {
+  const dispatched = await commandBridge(harnessCallerEvent(), {
     route: 'command.bus',
     commandId: 'atlas.entity.create',
     payload: {
@@ -320,7 +339,7 @@ test('R1 B: released Atlas mutation advances the canonical Command Kernel event 
   const beforeAuthority = JSON.parse(await fsPromises.readFile(authorityPath, 'utf8'));
 
   const commandBridge = harness.ipcHandlers.get('ui:command-bridge');
-  const dispatched = await commandBridge(null, {
+  const dispatched = await commandBridge(harnessCallerEvent(), {
     route: 'command.bus',
     commandId: 'atlas.entity.create',
     payload: {
@@ -365,7 +384,7 @@ test('R1 B: released Atlas mutation advances the canonical Command Kernel event 
   assert.equal(projectTruthRecovery.projectId, manifest.projectId);
   const recoveredPreviousManifest = JSON.parse(projectTruthRecovery.previousText);
   assert.equal(recoveredPreviousManifest.atlas?.entities?.['entity-command-kernel-authority'], undefined);
-  const duplicate = await commandBridge(null, {
+  const duplicate = await commandBridge(harnessCallerEvent(), {
     route: 'command.bus',
     commandId: 'atlas.entity.create',
     payload: {
@@ -396,7 +415,7 @@ test('R1 B: released Atlas mutation advances the canonical Command Kernel event 
   const registry = registryModule.createCommandRegistry();
   projectCommands.registerProjectCommands(registry, {
     electronAPI: {
-      invokeUiCommandBridge: (request) => commandBridge(null, request),
+      invokeUiCommandBridge: (request) => commandBridge(harnessCallerEvent(), request),
     },
   });
   const alias = await registry.getHandler('atlas.alias.add')({
@@ -612,7 +631,7 @@ test('P0 01: startup-created product project persists tree identity before rende
 
   const commandBridge = harness.ipcHandlers.get('ui:command-bridge');
   assert.equal(typeof commandBridge, 'function');
-  const bridgeResult = await commandBridge(null, {
+  const bridgeResult = await commandBridge(harnessCallerEvent(), {
     route: 'command.bus',
     commandId: 'cmd.project.tree.createNode',
     payload: {
@@ -678,7 +697,7 @@ test('P0 01: lifecycle open bootstraps current-schema missing or stale tree iden
 
       const commandBridge = harness.ipcHandlers.get('ui:command-bridge');
       assert.equal(typeof commandBridge, 'function');
-      const bridgeResult = await commandBridge(null, {
+      const bridgeResult = await commandBridge(harnessCallerEvent(), {
         route: 'command.bus',
         commandId: 'cmd.project.tree.createNode',
         payload: {
@@ -740,7 +759,7 @@ test('P0 01: failed lifecycle open preserves prior active project tree authority
 
   const commandBridge = harness.ipcHandlers.get('ui:command-bridge');
   assert.equal(typeof commandBridge, 'function');
-  const createAfterFailure = await commandBridge(null, {
+  const createAfterFailure = await commandBridge(harnessCallerEvent(), {
     route: 'command.bus',
     commandId: 'cmd.project.tree.createNode',
     payload: {
@@ -802,7 +821,7 @@ test('P0 01: each commanded future author domain fails before recovery or durabl
     await fsPromises.writeFile(manifestPath, sourceRaw, 'utf8');
     assert.equal((await harness.main.handleProjectLifecycleOpenCommand({ projectId: manifest.projectId })).ok, true);
 
-    const dispatched = await harness.ipcHandlers.get('ui:command-bridge')(null, {
+    const dispatched = await harness.ipcHandlers.get('ui:command-bridge')(harnessCallerEvent(), {
       route: 'command.bus',
       commandId: scenario.commandId,
       payload: { projectId: manifest.projectId, ...scenario.payload },

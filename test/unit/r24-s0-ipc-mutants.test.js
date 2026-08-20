@@ -15,7 +15,7 @@ const MODULE_PATH = path.join(__dirname, '..', '..', 'src', 'core', 'ipc-caller-
 const MUTANTS = [
   {
     id: 'sender-mismatch-ignored',
-    find: 'if (sender.id !== expectedId) return { ok: false, code: \'E_IPC_SENDER_MISMATCH\' };',
+    find: "if (!expectedIds.includes(sender.id)) return { ok: false, code: 'E_IPC_SENDER_MISMATCH' };",
     replace: "if (false) return { ok: false, code: 'E_IPC_SENDER_MISMATCH' };",
   },
   {
@@ -59,7 +59,7 @@ function killOracle(module) {
     validateWorkerIntakeEnvelope,
     createGuardedIpcRegistration,
   } = module;
-  const policy = { expectedSenderId: () => 7, allowedFrameUrlPrefixes: () => [SHELL_PREFIX], expectedSessionId: () => 's' };
+  const policy = { expectedSenderIds: () => [7], allowedFrameUrlPrefixes: () => [SHELL_PREFIX], expectedSessionId: () => 's' };
   const genuine = { sender: { id: 7, isDestroyed: () => false, session: 's' }, senderFrame: { url: SHELL_PREFIX } };
   assert.equal(evaluateIpcCallerIdentity(genuine, policy).ok, true);
   const badId = { sender: { id: 9, isDestroyed: () => false, session: 's' }, senderFrame: { url: SHELL_PREFIX } };

@@ -18,7 +18,7 @@ const goodEvent = () => ({
 });
 
 const policy = (overrides = {}) => ({
-  expectedSenderId: () => 7,
+  expectedSenderIds: () => [7],
   allowedFrameUrlPrefixes: () => [SHELL_PREFIX],
   ...overrides,
 });
@@ -40,8 +40,8 @@ test('foreign or unavailable sender identity is refused', () => {
   const foreign = goodEvent();
   foreign.sender.id = 99;
   assert.equal(evaluateIpcCallerIdentity(foreign, policy()).code, 'E_IPC_SENDER_MISMATCH');
-  assert.equal(evaluateIpcCallerIdentity(goodEvent(), policy({ expectedSenderId: () => null })).code, 'E_IPC_CALLER_WINDOW_UNAVAILABLE');
-  assert.equal(evaluateIpcCallerIdentity(goodEvent(), policy({ expectedSenderId: () => 1.5 })).code, 'E_IPC_POLICY_SENDER_ID_SHAPE');
+  assert.equal(evaluateIpcCallerIdentity(goodEvent(), policy({ expectedSenderIds: () => [] })).code, 'E_IPC_CALLER_WINDOW_UNAVAILABLE');
+  assert.equal(evaluateIpcCallerIdentity(goodEvent(), policy({ expectedSenderIds: () => [1.5] })).code, 'E_IPC_POLICY_SENDER_IDS_SHAPE');
 });
 
 test('destroyed sender is refused', () => {

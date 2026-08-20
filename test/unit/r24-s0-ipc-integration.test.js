@@ -31,7 +31,7 @@ function fakeIpcMain() {
 }
 
 const policy = {
-  expectedSenderId: () => 7,
+  expectedSenderIds: () => [7],
   allowedFrameUrlPrefixes: () => [SHELL_PREFIX],
 };
 

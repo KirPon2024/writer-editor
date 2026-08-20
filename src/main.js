@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, dialog, ipcMain, session, utilityProcess } = require('electron');
+const { app, BrowserWindow, Menu, dialog, ipcMain, session, utilityProcess, webContents } = require('electron');
 const { performance } = require('perf_hooks');
 const { spawnSync } = require('child_process');
 const path = require('path');
@@ -54,11 +54,19 @@ const {
 // webContents; the frame origin must be the app-shell file URL. Identity is
 // evaluated from the event at dispatch time, never from payload.
 const IPC_CALLER_IDENTITY_POLICY = {
-  expectedSenderId: () => (
-    mainWindow && !mainWindow.isDestroyed() && mainWindow.webContents && !mainWindow.webContents.isDestroyed()
-      ? mainWindow.webContents.id
-      : null
-  ),
+  // The legitimate sender set is the live registry of app-shell webContents:
+  // exactly those currently showing the bundled shell URL. This covers window
+  // recreation and refuses everything when no shell is alive.
+  expectedSenderIds: () => {
+    if (!webContents || typeof webContents.getAllWebContents !== 'function') return [];
+    const shellPrefix = pathToFileURL(path.join(__dirname, 'renderer', 'index.html')).href;
+    return webContents.getAllWebContents()
+      .filter((wc) => wc && typeof wc.id === 'number'
+        && typeof wc.getURL === 'function'
+        && wc.getURL().startsWith(shellPrefix)
+        && !(typeof wc.isDestroyed === 'function' && wc.isDestroyed()))
+      .map((wc) => wc.id);
+  },
   allowedFrameUrlPrefixes: () => [
     pathToFileURL(path.join(__dirname, 'renderer', 'index.html')).href,
   ],

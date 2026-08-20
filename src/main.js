@@ -52,6 +52,9 @@ const {
   validateIpcEnvelope,
 } = require('./core/ipc-envelope-v1.cjs');
 const {
+  normalizeProtocolResult,
+} = require('./core/command-protocol-v1.cjs');
+const {
   classifySaveAck,
   SAVE_ACK_KINDS,
 } = require('./core/dirty-admission-v1.cjs');
@@ -80,6 +83,13 @@ const IPC_CALLER_IDENTITY_POLICY = {
 };
 
 const { handle: guardedHandle, on: guardedOn } = createGuardedIpcRegistration(ipcMain, IPC_CALLER_IDENTITY_POLICY);
+
+// R2.4 K0: bridge results pass through the unified protocol contract — every
+// refusal carries a canonical machine code while legacy fields stay intact.
+const guardedProtocolHandle = (channel, handler) => guardedHandle(channel, async (event, request) => {
+  const result = await handler(event, request);
+  return normalizeProtocolResult(result);
+});
 const {
   readExternalFileBounded,
   validateExternalWriteTarget,
@@ -25878,7 +25888,7 @@ guardedHandle('ui:get-collab-scope-local', async () => {
   return handleWorkspaceCollabScopeLocalQuery();
 });
 
-guardedHandle('ui:command-bridge', async (_, request) => {
+guardedProtocolHandle('ui:command-bridge', async (_, request) => {
   // R2.4 S1: the versioned envelope is validated before any interpretation.
   const envelopeVerdict = validateIpcEnvelope(request, 'ui:command-bridge');
   if (!envelopeVerdict.ok) {
@@ -25937,7 +25947,7 @@ const WORKSPACE_QUERY_BRIDGE_HANDLERS = new Map([
   [PROJECTION_INSPECTOR_QUERY_ID, handleWorkspaceProjectionInspectorQuery],
 ]);
 
-guardedHandle('ui:workspace-query-bridge', async (_, request) => {
+guardedProtocolHandle('ui:workspace-query-bridge', async (_, request) => {
   // R2.4 S1: the versioned envelope is validated before any interpretation.
   const envelopeVerdict = validateIpcEnvelope(request, 'ui:workspace-query-bridge');
   if (!envelopeVerdict.ok) {
@@ -25964,7 +25974,7 @@ guardedHandle('ui:workspace-query-bridge', async (_, request) => {
     : handler(payload);
 });
 
-guardedHandle('ui:save-lifecycle-signal-bridge', async (_, request) => {
+guardedProtocolHandle('ui:save-lifecycle-signal-bridge', async (_, request) => {
   // R2.4 S1: the versioned envelope is validated before any interpretation.
   const envelopeVerdict = validateIpcEnvelope(request, 'ui:save-lifecycle-signal-bridge');
   if (!envelopeVerdict.ok) {

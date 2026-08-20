@@ -20,7 +20,7 @@ test('preload ui command bridge: preload exposes one typed invoke api for comman
 test('preload ui command bridge: main exposes one handler and enforces route and allowlist', () => {
   const source = read('src/main.js')
 
-  assert.equal((source.match(/guardedHandle\('ui:command-bridge'/g) || []).length, 1)
+  assert.equal((source.match(/guardedProtocolHandle\('ui:command-bridge'/g) || []).length, 1)
   assert.ok(source.includes("if (route !== COMMAND_BUS_ROUTE) {"))
   assert.ok(source.includes("return { ok: false, reason: 'COMMAND_ROUTE_UNSUPPORTED' };"))
   assert.ok(source.includes('UI_COMMAND_BRIDGE_ALLOWED_COMMAND_IDS'))

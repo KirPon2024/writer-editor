@@ -49,6 +49,9 @@ jobs:
       - name: Run R2.4 S1 IPC envelope budgets gate
         run: npm run -s test:r24-s1
 
+      - name: Run R2.4 K0 command protocol gate
+        run: npm run -s test:r24-k0
+
       - name: Run maintained Atlas event contract graph
         run: npm run -s test:atlas-event-contract
 

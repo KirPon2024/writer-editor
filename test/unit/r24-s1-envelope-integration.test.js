@@ -70,7 +70,7 @@ test('full denominator: every preload send to the three bridges is framed by cre
 test('full denominator: all three main-side bridge handlers validate the envelope first', () => {
   const main = fs.readFileSync(path.join(__dirname, '..', '..', 'src', 'main.js'), 'utf8');
   for (const channel of CHANNELS) {
-    const handlerIdx = main.indexOf(`guardedHandle('${channel}'`);
+    const handlerIdx = main.indexOf(`guardedProtocolHandle('${channel}'`);
     assert.ok(handlerIdx !== -1, channel);
     const validateIdx = main.indexOf(`validateIpcEnvelope(request, '${channel}')`, handlerIdx);
     assert.ok(validateIdx !== -1 && validateIdx - handlerIdx < 400, `envelope validation must head the handler: ${channel}`);

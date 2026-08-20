@@ -1,0 +1,171 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yalken.local/schemas/mission-contract-r2_4.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "missionId",
+    "revision",
+    "ownerIntent",
+    "programId",
+    "allowedProfilesBeforeRuntimeApproval",
+    "proposedProfilesAfterApproval",
+    "currentMutationScope",
+    "forbiddenScope",
+    "deliveryIntent",
+    "terminalDefinition",
+    "approvalInvalidatesOnAnyChange",
+    "missionDigest",
+    "ownerIntentRecord",
+    "ownerApproval",
+    "controlPlaneAuthority"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "yalken.program-mission.r2.4"
+    },
+    "missionId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "ownerIntent": {
+      "type": "string",
+      "minLength": 1
+    },
+    "programId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "allowedProfilesBeforeRuntimeApproval": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "proposedProfilesAfterApproval": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "currentMutationScope": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "forbiddenScope": {
+      "type": "array",
+      "minItems": 8,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "deliveryIntent": {
+      "type": "object"
+    },
+    "terminalDefinition": {
+      "type": "string",
+      "minLength": 1
+    },
+    "approvalInvalidatesOnAnyChange": {
+      "const": true
+    },
+    "missionDigest": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "ownerIntentRecord": {
+      "type": "object"
+    },
+    "ownerApproval": {
+      "type": "object",
+      "required": [
+        "status",
+        "approvedDigest",
+        "approvalArtifactRequired",
+        "noSelfApproval"
+      ],
+      "properties": {
+        "status": {
+          "const": "REQUIRED_AT_FRESH_G0"
+        },
+        "approvedDigest": {
+          "type": "null"
+        },
+        "approvalArtifactRequired": {
+          "const": true
+        },
+        "noSelfApproval": {
+          "const": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "controlPlaneAuthority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "runtimeImplemented",
+        "ownerApprovalRequiredAfterAnyChange",
+        "closureDigest",
+        "closureFiles"
+      ],
+      "properties": {
+        "status": {
+          "const": "PACKAGE_LEVEL_CONTROL_PLANE_CLOSED_RUNTIME_UNPROVEN"
+        },
+        "runtimeImplemented": {
+          "const": false
+        },
+        "ownerApprovalRequiredAfterAnyChange": {
+          "const": true
+        },
+        "closureDigest": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "closureFiles": {
+          "type": "array",
+          "minItems": 8,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "path",
+              "sha256"
+            ],
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sha256": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

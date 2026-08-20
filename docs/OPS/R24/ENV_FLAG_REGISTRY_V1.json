@@ -1,0 +1,485 @@
+{
+  "schemaVersion": "yalken.env-flag-registry.v1",
+  "contour": "E0_RUNNER_SAFETY_QUARANTINE",
+  "boundBaseSha": "7b4c89de155567371e1f0a0003b74e3be3abc223",
+  "law": "every process.env flag read under scripts/ is either an individually registered BYPASS entry with semantics or a census entry; unregistered, misclassified, incomplete, duplicate or stale entries fail closed",
+  "flags": [
+    {
+      "name": "CHECK_MODE",
+      "flagClass": "BYPASS",
+      "semantics": "selects release vs promotion check mode in ops guard scripts",
+      "defaultEffect": "unset = release mode",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "DOCTOR_MODE",
+      "flagClass": "BYPASS",
+      "semantics": "selects doctor execution mode (delivery or default)",
+      "defaultEffect": "unset = default doctor mode",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "EFFECTIVE_MODE",
+      "flagClass": "BYPASS",
+      "semantics": "selects STRICT vs default enforcement level for doctor baseline",
+      "defaultEffect": "unset = default enforcement",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "EXECUTION_MODE",
+      "flagClass": "BYPASS",
+      "semantics": "selects execution profile in ops execution scripts",
+      "defaultEffect": "unset = default profile",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "FREEZE_MODE",
+      "flagClass": "BYPASS",
+      "semantics": "selects freeze enforcement mode in freeze guards",
+      "defaultEffect": "unset = default freeze policy",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "GATE_GRAPH_SKIP_CYCLE_CHECK",
+      "flagClass": "BYPASS",
+      "semantics": "skips gate-graph cycle detection; negative-test hook",
+      "defaultEffect": "unset = cycle check enforced",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "GATE_TIER",
+      "flagClass": "BYPASS",
+      "semantics": "selects gate tier (core or release) for execution profile",
+      "defaultEffect": "unset = default tier",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "GOVERNANCE_CHANGE_APPROVED",
+      "flagClass": "BYPASS",
+      "semantics": "marks governance change as approved inside change-detection harnesses",
+      "defaultEffect": "unset = not approved",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "HEAD_STRICT_MODE",
+      "flagClass": "BYPASS",
+      "semantics": "enforces strict head binding in merge-readiness checks",
+      "defaultEffect": "unset = default head policy",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "LIFECYCLE_SKIP_NEGATIVE_CHECKS",
+      "flagClass": "BYPASS",
+      "semantics": "skips lifecycle negative checks; negative-test hook",
+      "defaultEffect": "unset = negative checks enforced",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "LOSSLESS_MAP_ENFORCE",
+      "flagClass": "BYPASS",
+      "semantics": "enforces lossless-map law in law-path canon guard",
+      "defaultEffect": "unset = default enforcement",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "MODE",
+      "flagClass": "BYPASS",
+      "semantics": "generic mode selector in minor ops scripts",
+      "defaultEffect": "unset = default mode",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "OPS_CONTEXT_MODE",
+      "flagClass": "BYPASS",
+      "semantics": "selects ops context in OPS guards",
+      "defaultEffect": "unset = default context",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "OPS_EXEC_MODE",
+      "flagClass": "BYPASS",
+      "semantics": "selects ops execution mode for wave and gate behavior",
+      "defaultEffect": "unset = default execution",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "OPS_GATE_TIER",
+      "flagClass": "BYPASS",
+      "semantics": "selects ops gate tier",
+      "defaultEffect": "unset = default tier",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "OPS_SYNTH_OVERRIDE_ENABLED",
+      "flagClass": "BYPASS",
+      "semantics": "enables synthetic registry override injection into doctor; negative-test only",
+      "defaultEffect": "unset = overrides disabled",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "OPS_SYNTH_OVERRIDE_JSON",
+      "flagClass": "BYPASS",
+      "semantics": "carries the synthetic override payload for doctor negative tests",
+      "defaultEffect": "unset = no override payload",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "PHASE00_CLOSURE_CANDIDATE_FORCE_NEGATIVE",
+      "flagClass": "BYPASS",
+      "semantics": "forces Phase00 closure-candidate gate failure; negative-test hook",
+      "defaultEffect": "unset = normal evaluation",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "PHASE00_IME_COMPOSITION_STATE_FORCE_NEGATIVE",
+      "flagClass": "BYPASS",
+      "semantics": "forces IME composition gate failure; negative-test hook",
+      "defaultEffect": "unset = normal evaluation",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "PHASE00_NO_INPUT_LOSS_ROLLUP_FORCE_NEGATIVE",
+      "flagClass": "BYPASS",
+      "semantics": "forces no-input-loss rollup gate failure; negative-test hook",
+      "defaultEffect": "unset = normal evaluation",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "PHASE00_PRIMARY_PATH_STATE_FORCE_NEGATIVE",
+      "flagClass": "BYPASS",
+      "semantics": "forces primary-path gate failure; negative-test hook",
+      "defaultEffect": "unset = normal evaluation",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "PHASE00_RUNTIME_COMMAND_DELTA_FORCE_NEGATIVE",
+      "flagClass": "BYPASS",
+      "semantics": "forces runtime command-delta gate failure; negative-test hook",
+      "defaultEffect": "unset = normal evaluation",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "PHASE00_TIPTAP_NO_INPUT_LOSS_CORE_FORCE_NEGATIVE",
+      "flagClass": "BYPASS",
+      "semantics": "forces Tiptap no-input-loss core gate failure; negative-test hook",
+      "defaultEffect": "unset = normal evaluation",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "PHASE00_TIPTAP_PERSISTENCE_FORCE_NEGATIVE",
+      "flagClass": "BYPASS",
+      "semantics": "forces Tiptap persistence gate failure; negative-test hook",
+      "defaultEffect": "unset = normal evaluation",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "PROMOTION_MODE",
+      "flagClass": "BYPASS",
+      "semantics": "toggles promotion mode in promotion checks",
+      "defaultEffect": "unset = not promotion",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "RELEASE_GATE_ADVISORY_PROBE_FAIL_SIGNAL_CODE",
+      "flagClass": "BYPASS",
+      "semantics": "selects forced fail-signal in release-gate advisory probe tests",
+      "defaultEffect": "unset = no forced signal",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "RELEASE_GATE_FORCE_FAIL_SIGNAL_CODE",
+      "flagClass": "BYPASS",
+      "semantics": "forces release-gate failure injection; negative-test hook",
+      "defaultEffect": "unset = normal evaluation",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "RELEASE_GATE_FORCE_FAIL_TOKEN_ID",
+      "flagClass": "BYPASS",
+      "semantics": "selects token id for release-gate forced failure injection",
+      "defaultEffect": "unset = normal evaluation",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "RELEASE_GATE_SUPPRESS_FAILURES",
+      "flagClass": "BYPASS",
+      "semantics": "suppresses release-gate failures; must never be set outside negative tests",
+      "defaultEffect": "unset = failures enforced",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "RUN_INPUT_MODE",
+      "flagClass": "BYPASS",
+      "semantics": "selects run input mode for wave runners",
+      "defaultEffect": "unset = default input mode",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "SECTOR_M_FORCE_SCOPE_GUARD",
+      "flagClass": "BYPASS",
+      "semantics": "forces sector-M scope guard failure path; negative-test hook",
+      "defaultEffect": "unset = normal evaluation",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "SECTOR_M_RUN_SKIP_DOCTOR_TEST",
+      "flagClass": "BYPASS",
+      "semantics": "skips embedded doctor test in sector-M runner; test-only",
+      "defaultEffect": "unset = doctor test executed",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "SECTOR_U_RUN_SKIP_TEST",
+      "flagClass": "BYPASS",
+      "semantics": "skips embedded test step in sector-U runner; test-only",
+      "defaultEffect": "unset = test executed",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "SECTOR_W_RUN_SKIP_NPM_TEST",
+      "flagClass": "BYPASS",
+      "semantics": "skips embedded npm test in sector-W runner; test-only",
+      "defaultEffect": "unset = npm test executed",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "TIPTAP3_PREP_SMOKE_FORCE_NEGATIVE",
+      "flagClass": "BYPASS",
+      "semantics": "forces Tiptap3 prep smoke failure; negative-test hook",
+      "defaultEffect": "unset = normal evaluation",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "TOKEN_DECLARATION_SKIP_EMISSION_CHECK",
+      "flagClass": "BYPASS",
+      "semantics": "skips token declaration emission check; negative-test hook",
+      "defaultEffect": "unset = emission check enforced",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "TOKEN_SOURCE_CONFLICT_SKIP",
+      "flagClass": "BYPASS",
+      "semantics": "skips token source-conflict check; negative-test hook",
+      "defaultEffect": "unset = conflict check enforced",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "TTL_ENFORCE_FROM",
+      "flagClass": "BYPASS",
+      "semantics": "sets TTL enforcement anchor for wave freshness policy",
+      "defaultEffect": "unset = default TTL anchor",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "U_DETECT_ONLY_CARVEOUT_PATH",
+      "flagClass": "BYPASS",
+      "semantics": "selects detect-only carveout path in sector-U guard",
+      "defaultEffect": "unset = no carveout",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "WAVE_GATE_TIER",
+      "flagClass": "BYPASS",
+      "semantics": "selects wave gate tier",
+      "defaultEffect": "unset = default tier",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "WAVE_MODE",
+      "flagClass": "BYPASS",
+      "semantics": "selects wave runner mode",
+      "defaultEffect": "unset = default wave mode",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "WAVE_PROMOTION_MODE",
+      "flagClass": "BYPASS",
+      "semantics": "toggles wave promotion mode",
+      "defaultEffect": "unset = not promotion",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "X102_CLEAN_HEAD",
+      "flagClass": "BYPASS",
+      "semantics": "requires clean head for X102 capture harness",
+      "defaultEffect": "unset = default head policy",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "X2_READINESS_REQUIRE_EVIDENCE_FILES",
+      "flagClass": "BYPASS",
+      "semantics": "requires evidence files in X2 readiness checks",
+      "defaultEffect": "unset = default evidence policy",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "X3_RECOVERY_SMOKE_FORCE_FAIL",
+      "flagClass": "BYPASS",
+      "semantics": "forces X3 recovery smoke failure; negative-test hook",
+      "defaultEffect": "unset = normal evaluation",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "YALKEN_WORD_SMOKE_ALLOW_INTERACTIVE_GRANT",
+      "flagClass": "BYPASS",
+      "semantics": "allows interactive OS permission grant in Word smoke harness; manual lab use only",
+      "defaultEffect": "unset = non-interactive fail-closed",
+      "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    }
+  ],
+  "census": [
+    "BASE_SHA",
+    "BINDING_SCHEMA_V1_PATH",
+    "CANON_ENTRYPOINT_POLICY_PATH",
+    "CANON_WORKTREE_POLICY_PATH",
+    "CHECKS_BASELINE_VERSION",
+    "CIRCULAR_DEPENDENCY_BREAK_STATUS_PATH",
+    "CODEX_ALLOWLIST_PATHS_EXACT",
+    "COLLAB_SCOPE_LOCAL",
+    "CONFIG_HASH_LOCK_PATH",
+    "CONFIG_HASH_LOCK_ROOT",
+    "CONTOUR_C_STATUS_PATH",
+    "CRITICAL_CLAIM_MATRIX_PATH",
+    "DECLARED_SET_PATH",
+    "DEPENDENCY_REMEDIATION_POLICY_PATH",
+    "DEV_FAST_LANE",
+    "E2E_CRITICAL_USER_PATH_SCENARIOS_PATH",
+    "E2E_CRITICAL_USER_PATH_STATUS_PATH",
+    "EDITORIAL_SHEET_NODE_MODULES_ROOT",
+    "ELECTRON_BIN",
+    "EXECUTION_PROFILE_PATH",
+    "EXECUTION_PROFILE_SCHEMA_PATH",
+    "E_REMOTE_UNAVAILABLE",
+    "FAILSIGNAL_REGISTRY_PATH",
+    "FREEZE_PROFILE",
+    "FULL_POLICY_NO_DUPLICATION_PATH",
+    "GATE_DEPENDENCY_DECLARATION_V1_PATH",
+    "GH_TOKEN",
+    "GOVERNANCE_APPROVAL_REPO_ROOT",
+    "GOVERNANCE_CHANGE_APPROVALS_PATH",
+    "GOVERNANCE_CHANGE_BASE_REF",
+    "GOVERNANCE_CHANGE_REPO_ROOT",
+    "GOVERNANCE_FREEZE_BASE_REF",
+    "GOVERNANCE_FREEZE_REPO_ROOT",
+    "HOME",
+    "HTTPS_PROXY",
+    "HTTP_PROXY",
+    "LEGACY_VERIFY_GUARDS_DIR",
+    "LEGACY_VERIFY_OPS_DIR",
+    "LIFECYCLE_NEGATIVE_CASES_PATH",
+    "LIFECYCLE_NEGATIVE_TEST_COVERAGE_STATUS_PATH",
+    "LOSSLESS_MAP_STATUS_PATH",
+    "NETWORK_GATE_FIXTURE_JSON",
+    "NEXT_SECTOR_STATUS_PATH",
+    "NODE_PATH",
+    "NODE_TEST_CONTEXT",
+    "NO_PROXY",
+    "OPS_GOVERNANCE_BASELINE_PATH",
+    "OPS_GOVERNANCE_BASELINE_ROOT",
+    "OPS_GOVERNANCE_BASELINE_WRITE",
+    "OPS_STATUS_DIR",
+    "PATH",
+    "PATHEXT",
+    "PHASE00_TIPTAP_NODE_MODULES_ROOT",
+    "PHASE_SWITCH_V1_PATH",
+    "PLAIN_BETA",
+    "POST_MERGE_ORIGIN_AVAILABILITY_FIXTURE_JSON",
+    "POST_MERGE_VERIFY_FIXTURE_JSON",
+    "PRE_UI_CONTOUR_HEAD_SHA",
+    "PRE_UI_CONTOUR_ORIGIN_MAIN_SHA",
+    "PRE_UI_OPS_CONTOUR_CLOSE_PATH",
+    "PRODUCTION_APP_RUNTIME_HARNESS_ELECTRON_BIN",
+    "PROOFHOOK_BRIDGE_MAP_PATH",
+    "PROOFHOOK_INTEGRITY_LOCK_PATH",
+    "PROOFHOOK_INTEGRITY_ROOT",
+    "PR_NUMBER",
+    "RELEASE_GATE_EXIT_NONZERO_STATUS_PATH",
+    "RELEASE_GATE_FAIL_MAP_PATH",
+    "RELEASE_TOKEN_BINDING_STATUS_PATH",
+    "REQUIRED_CHECKS_CONTRACT_PATH",
+    "REQUIRED_CHECKS_PROFILE",
+    "REQUIRED_CHECKS_SYNC_FIXTURE_PATH",
+    "REQUIRED_SET_PHASE_1_PATH",
+    "REQUIRED_SET_PHASE_2_PATH",
+    "REQUIRED_SET_PHASE_3_PATH",
+    "REQUIRED_TOKEN_SET_PATH",
+    "RUN_ID",
+    "SAFE_AUTOMERGE_ELIGIBILITY_FIXTURE_JSON",
+    "SAFE_AUTOMERGE_OPS_ONLY_FIXTURE_JSON",
+    "SAFE_AUTOMERGE_OPS_ONLY_PROFILE_PATH",
+    "SCOPEFLAGS_REGISTRY_PATH",
+    "SCOPE_FLAGS",
+    "SECOND_ENTRYPOINT_PATH",
+    "SECTOR_M_ARTIFACTS_ROOT",
+    "SECTOR_M_CLOSED_LOCK_PATH",
+    "SECTOR_M_CLOSE_REPORT_PATH",
+    "SECTOR_M_STATUS_PATH",
+    "SECTOR_P_STATUS_PATH",
+    "SECTOR_U_ARTIFACTS_ROOT",
+    "SECTOR_U_CLOSED_LOCK_PATH",
+    "SECTOR_U_CLOSE_REPORT_PATH",
+    "SECTOR_U_FAST_DURATION_MS",
+    "SECTOR_U_FAST_RESULT_PATH",
+    "SECTOR_U_STATUS_PATH",
+    "SECTOR_U_TEST_EXPECT_PHASE",
+    "SECTOR_W_ARTIFACTS_ROOT",
+    "SECTOR_W_STATUS_PATH",
+    "STAGE_ENABLED_FLAGS_PATH",
+    "STAGE_PROMOTION_RECORD_PATH",
+    "STAGE_PROMOTION_RECORD_SCHEMA_PATH",
+    "STRICT_RUN_CURRENT",
+    "STRICT_RUN_MAX",
+    "TICKET_ID",
+    "TOKEN_CATALOG_LOCK_PATH",
+    "TOKEN_CATALOG_LOCK_WRITE",
+    "TOKEN_CATALOG_PATH",
+    "TOKEN_DECLARATION_PATH",
+    "TTL_GRACE_DAYS",
+    "VERIFY_CONTOUR_CLAIMS_PATH",
+    "VERIFY_CONTOUR_OPS_DIR",
+    "VERIFY_ORCHESTRATOR_OPS_DIR",
+    "WAVE_CACHE_PATH",
+    "WAVE_FRESHNESS_POLICY_PATH",
+    "WAVE_PROFILE",
+    "WAVE_REUSE_REQUESTED",
+    "WIP_CHECK_FIXTURE_PATH",
+    "X102_CAPTURE_OUT_DIR",
+    "X102_CLEAN_ROOT",
+    "X102_ELECTRON_BIN",
+    "X102_HELPER_LOG_PATH",
+    "X102_RUNTIME_DIR",
+    "X102_RUNTIME_PATH",
+    "X102_STAGE_LOG_PATH",
+    "X2_READINESS_BASELINE_PATH",
+    "X2_READINESS_METRICS_PATH",
+    "X2_READINESS_REPO_ROOT",
+    "X2_READINESS_STRICT_DOCTOR_CMD",
+    "X2_WEB_PARITY_METRICS_PATH",
+    "X2_WEB_PARITY_REPEAT",
+    "X2_WEB_PARITY_REPORT_PATH",
+    "X2_WEB_PARITY_ROLLOUT_PATH",
+    "X3_READINESS_METRICS_PATH",
+    "X3_READINESS_ROLLOUT_PATH",
+    "XPLAT_CONTRACT_PATH",
+    "XPLAT_PARITY_BASELINE_PATH",
+    "XPLAT_ROLLOUT_PLAN_PATH",
+    "XPLAT_SCOPE_FLAGS",
+    "XPLAT_STAGE_METRICS_PATH",
+    "YALKEN_AGE_ROOT",
+    "YALKEN_ATLAS_ER_C06_OUT_DIR",
+    "YALKEN_ATLAS_ER_C07_OUT_DIR",
+    "YALKEN_AUTONOMOUS_FILE_DIALOG_OPEN_MANUAL_MAP_JSON",
+    "YALKEN_AUTONOMOUS_FILE_DIALOG_ROOT",
+    "YALKEN_EVIDENCE_ROOT",
+    "YALKEN_MANUAL_KIT_EVIDENCE_ROOT",
+    "YALKEN_MANUAL_KIT_RUN_ID",
+    "YALKEN_P0C_AGE_ROOT",
+    "YALKEN_P0C_EVIDENCE_ROOT",
+    "YALKEN_P0C_RUN_ID",
+    "YALKEN_SYNTHETIC_RESTORE_EVIDENCE_ROOT",
+    "YALKEN_SYNTHETIC_RESTORE_RUN_ID",
+    "YALKEN_WORD_MAC_LAB_ROOT",
+    "YALKEN_WORD_SANDBOX_WORK_ROOT",
+    "YALKEN_WORD_WORK_ROOT"
+  ]
+}

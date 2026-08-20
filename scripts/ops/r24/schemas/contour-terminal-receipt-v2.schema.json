@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yalken.local/schemas/contour-terminal-receipt-v2.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "receiptId",
+    "missionId",
+    "contourId",
+    "attemptId",
+    "authorityEpoch",
+    "exactHeadSha",
+    "mergeState",
+    "postmergeState",
+    "survivorState",
+    "evidenceStampIds",
+    "nextContourId"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "ContourTerminalReceiptV2"
+    },
+    "receiptId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "missionId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "contourId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "attemptId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "authorityEpoch": {
+      "type": "string",
+      "minLength": 1
+    },
+    "exactHeadSha": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "mergeState": {
+      "enum": [
+        "NOT_REQUESTED",
+        "WAITING",
+        "MERGED"
+      ]
+    },
+    "postmergeState": {
+      "enum": [
+        "NOT_APPLICABLE",
+        "PENDING",
+        "PASS",
+        "FAIL"
+      ]
+    },
+    "survivorState": {
+      "enum": [
+        "PENDING",
+        "PASS",
+        "FAIL"
+      ]
+    },
+    "evidenceStampIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "nextContourId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

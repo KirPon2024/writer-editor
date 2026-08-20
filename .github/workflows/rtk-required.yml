@@ -31,6 +31,9 @@ jobs:
       - name: Run maintained RTK graph
         run: npm run -s test:rtk
 
+      - name: Run R2.4 E0 runner safety quarantine gate
+        run: npm run -s test:r24-e0
+
       - name: Run maintained Atlas event contract graph
         run: npm run -s test:atlas-event-contract
 

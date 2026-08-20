@@ -22,6 +22,7 @@
     "perf:baseline:check": "node scripts/perf/perf-baseline.mjs check",
     "test": "npm run -s test:ops && node scripts/run-tests.js",
     "test:rtk": "node scripts/run-rtk-tests.mjs",
+    "test:r24-e0": "node scripts/ops/r24/run-e0-tests.mjs",
     "test:rtk-runner-v2": "node --test test/contracts/rtk-runner-v2-cert01.contract.test.js test/contracts/rtk-runner-v2-cert01-crash-resume.contract.test.js",
     "test:rtk-admit01": "node --test test/contracts/rtk-admit01-accountable-lanes.contract.test.js",
     "test:rtk-stop01": "node --test test/contracts/rtk-stop01-authority-stop.contract.test.js",

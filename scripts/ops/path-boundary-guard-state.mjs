@@ -20,11 +20,11 @@ const REQUIRED_MAIN_MARKERS = Object.freeze([
   'sanitizePathFields(',
   'isPathInsideBoundary(',
   'E_PATH_BOUNDARY_VIOLATION',
-  "ipcMain.handle('ui:open-document'",
-  "ipcMain.handle('ui:create-node'",
-  "ipcMain.handle('ui:rename-node'",
-  "ipcMain.handle('ui:delete-node'",
-  "ipcMain.handle('ui:reorder-node'",
+  "guardedHandle('ui:open-document'",
+  "guardedHandle('ui:create-node'",
+  "guardedHandle('ui:rename-node'",
+  "guardedHandle('ui:delete-node'",
+  "guardedHandle('ui:reorder-node'",
 ]);
 
 const REQUIRED_GUARD_MARKERS = Object.freeze([

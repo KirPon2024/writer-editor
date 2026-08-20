@@ -3,6 +3,7 @@
 const crypto = require('node:crypto');
 const { pathToFileURL } = require('node:url');
 const path = require('node:path');
+const { validateWorkerIntakeEnvelope } = require('../core/ipc-caller-identity-v1.cjs');
 
 const DEFAULT_MAX_WORKER_OUTPUT_BYTES = 16 * 1024 * 1024;
 
@@ -273,6 +274,18 @@ function unwrapParentPortMessage(message = {}) {
 
 if (process.parentPort && typeof process.parentPort.on === 'function') {
   process.parentPort.on('message', async (message) => {
+    try {
+      // R2.4 S0: utility-process intake proves envelope shape and bounds
+      // before any interpretation of the payload.
+      validateWorkerIntakeEnvelope(message);
+    } catch (error) {
+      process.parentPort.postMessage({
+        result: blocked('RTK_RETURN_INTAKE_ENVELOPE_INVALID', {
+          message: error && typeof error.code === 'string' ? error.code : 'E_WORKER_ENVELOPE',
+        }),
+      });
+      return;
+    }
     const payload = unwrapParentPortMessage(message);
     try {
       const result = await run(payload);

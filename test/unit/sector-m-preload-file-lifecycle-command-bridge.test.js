@@ -66,9 +66,9 @@ test('preload file lifecycle bridge: main reuses existing file lifecycle semanti
   assert.ok(source.includes("'cmd.project.saveAs': async () => {"))
   assert.ok(source.includes('const savedAs = await handleSaveAs();'))
 
-  assert.ok(source.includes("ipcMain.handle('file:open', async (_, payload) => {"))
-  assert.ok(source.includes("ipcMain.handle('file:save', async () => {"))
-  assert.ok(source.includes("ipcMain.handle('file:save-as', async () => {"))
+  assert.ok(source.includes("guardedHandle('file:open', async (_, payload) => {"))
+  assert.ok(source.includes("guardedHandle('file:save', async () => {"))
+  assert.ok(source.includes("guardedHandle('file:save-as', async () => {"))
 })
 
 test('preload file lifecycle bridge: out-of-scope surfaces remain present and compatible', () => {
@@ -79,12 +79,12 @@ test('preload file lifecycle bridge: out-of-scope surfaces remain present and co
   const mainSource = read('src/main.js')
 
   assert.ok(preloadSource.includes('invokeUiCommandBridge: (request) => {'))
-  assert.ok(mainSource.includes("ipcMain.handle('ui:workspace-query-bridge', async (_, request) => {"))
-  assert.ok(mainSource.includes("ipcMain.handle('ui:save-lifecycle-signal-bridge', async (_, request) => {"))
-  assert.ok(mainSource.includes("ipcMain.handle('ui:open-section', async (_, payload) => {"))
-  assert.ok(mainSource.includes("ipcMain.handle(EXPORT_DOCX_MIN_CHANNEL, async (_, payload) => {"))
-  assert.ok(mainSource.includes("ipcMain.handle(IMPORT_MARKDOWN_V1_CHANNEL, async (_, payload) => {"))
-  assert.ok(mainSource.includes("ipcMain.handle(EXPORT_MARKDOWN_V1_CHANNEL, async (_, payload) => {"))
+  assert.ok(mainSource.includes("guardedHandle('ui:workspace-query-bridge', async (_, request) => {"))
+  assert.ok(mainSource.includes("guardedHandle('ui:save-lifecycle-signal-bridge', async (_, request) => {"))
+  assert.ok(mainSource.includes("guardedHandle('ui:open-section', async (_, payload) => {"))
+  assert.ok(mainSource.includes("guardedHandle(EXPORT_DOCX_MIN_CHANNEL, async (_, payload) => {"))
+  assert.ok(mainSource.includes("guardedHandle(IMPORT_MARKDOWN_V1_CHANNEL, async (_, payload) => {"))
+  assert.ok(mainSource.includes("guardedHandle(EXPORT_MARKDOWN_V1_CHANNEL, async (_, payload) => {"))
   assert.ok(capabilitySource.includes("'cmd.project.new': 'cap.project.new'"))
   assert.ok(bindingDoc.includes('"commandId": "cmd.project.new"'))
   assert.ok(namespaceDoc.includes('"cmd.project.new"'))

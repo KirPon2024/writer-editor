@@ -16,8 +16,8 @@ test('M3 IPC wiring exists for markdown import/export channels', () => {
   assert.match(preloadText, /importMarkdownV1:\s*\(payload\)\s*=>\s*{\s*return ipcRenderer\.invoke/);
   assert.match(preloadText, /exportMarkdownV1:\s*\(payload\)\s*=>\s*{\s*return ipcRenderer\.invoke/);
 
-  assert.match(mainText, /ipcMain\.handle\(IMPORT_MARKDOWN_V1_CHANNEL/);
-  assert.match(mainText, /ipcMain\.handle\(EXPORT_MARKDOWN_V1_CHANNEL/);
+  assert.match(mainText, /guardedHandle\(IMPORT_MARKDOWN_V1_CHANNEL/);
+  assert.match(mainText, /guardedHandle\(EXPORT_MARKDOWN_V1_CHANNEL/);
   assert.match(mainText, /handleImportMarkdownV1/);
   assert.match(mainText, /handleExportMarkdownV1/);
 });

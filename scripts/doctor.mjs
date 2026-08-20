@@ -3464,9 +3464,9 @@ function evaluateM3CommandWiringTokens(sectorMStatus) {
   if (mainExists) {
     try {
       const mainText = fs.readFileSync(M3_MAIN_PATH, 'utf8');
-      mainWired = mainText.includes('ipcMain.handle(IMPORT_MARKDOWN_V1_CHANNEL')
-        && mainText.includes('ipcMain.handle(EXPORT_MARKDOWN_V1_CHANNEL')
-        && mainText.includes("ipcMain.handle('ui:command-bridge', async (_, request) => {")
+      mainWired = mainText.includes('guardedHandle(IMPORT_MARKDOWN_V1_CHANNEL')
+        && mainText.includes('guardedHandle(EXPORT_MARKDOWN_V1_CHANNEL')
+        && mainText.includes("guardedHandle('ui:command-bridge', async (_, request) => {")
         && mainText.includes("'cmd.project.importMarkdownV1'")
         && mainText.includes("'cmd.project.exportMarkdownV1'")
         && mainText.includes('function normalizeUiBridgeMenuResult(result) {')
@@ -5033,7 +5033,7 @@ function evaluateU3ExportWiringTokens(sectorUStatus) {
     const mainText = fs.readFileSync(U3_MAIN_PATH, 'utf8');
     const preloadText = fs.readFileSync(U3_PRELOAD_PATH, 'utf8');
     const commandsText = fs.readFileSync(U3_COMMANDS_PATH, 'utf8');
-    const mainHasChannel = mainText.includes(U3_EXPORT_IPC_CHANNEL) && mainText.includes('ipcMain.handle(EXPORT_DOCX_MIN_CHANNEL');
+    const mainHasChannel = mainText.includes(U3_EXPORT_IPC_CHANNEL) && mainText.includes('guardedHandle(EXPORT_DOCX_MIN_CHANNEL');
     const preloadHasChannel = preloadText.includes(U3_EXPORT_IPC_CHANNEL) && preloadText.includes('exportDocxMin:');
     const commandsHasWiring = commandsText.includes("const hasBridgeHook = typeof electronAPI.invokeUiCommandBridge === 'function';")
       && commandsText.includes("const hasLegacyHook = typeof electronAPI.exportDocxMin === 'function';")

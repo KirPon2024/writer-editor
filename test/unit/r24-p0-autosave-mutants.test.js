@@ -16,8 +16,8 @@ const MODULE_PATH = path.join(__dirname, '..', '..', 'src', 'core', 'autosave-ge
 const MUTANTS = [
   {
     id: 'stale-ack-clears',
-    find: 'if (captured === latest) {',
-    replace: 'if (captured <= latest) {',
+    find: 'return Object.freeze({ outcome: ACK_KEEP_DIRTY_STALE, capturedGeneration: captured, latestEditGeneration: latest });',
+    replace: 'return Object.freeze({ outcome: ACK_CLEAR_DIRTY, capturedGeneration: captured, latestEditGeneration: latest });',
   },
   {
     id: 'unbound-ack-clears',
@@ -26,7 +26,7 @@ const MUTANTS = [
   },
   {
     id: 'regression-guard-removed',
-    find: 'if (captured > latest) {',
+    find: 'if (order === REVISION_ORDER.GREATER) {',
     replace: 'if (false) {',
   },
   {
@@ -69,6 +69,12 @@ test('P0 law module: all implementation mutants are executed and killed', () => 
     const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'r24-p0-mutant-'));
     const target = path.join(dir, 'autosave-generation-v1.cjs');
     fs.writeFileSync(target, source.replace(mutant.find, mutant.replace));
+    // R0: the module requires the revision algebra sibling; place it unmutated
+    // alongside so only the oracle can kill the mutant.
+    fs.copyFileSync(
+      path.join(__dirname, '..', '..', 'src', 'core', 'revision-algebra-v1.cjs'),
+      path.join(dir, 'revision-algebra-v1.cjs'),
+    );
     delete require.cache[target];
     let killed = false;
     let detail = '';

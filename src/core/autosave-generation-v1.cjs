@@ -5,6 +5,10 @@
 // acknowledgement can never clear newer work. Pure module, no I/O.
 'use strict';
 
+// R2.4 R0: the scalar generation comparison is routed through the unified
+// revision algebra (single-component coordinates in a fixed local domain).
+const { compareRevisionCoordinates, REVISION_ORDER } = require('./revision-algebra-v1.cjs');
+
 const ACK_CLEAR_DIRTY = 'CLEAR_DIRTY';
 const ACK_KEEP_DIRTY_STALE = 'KEEP_DIRTY_STALE';
 const ACK_KEEP_DIRTY_UNBOUND = 'KEEP_DIRTY_UNBOUND';
@@ -54,6 +58,17 @@ function mergeSignaledGeneration(latest, signaled) {
   return Math.max(latestNorm, signaledNorm);
 }
 
+const EDIT_GENERATION_DOMAIN = Object.freeze({ projectId: 'yalken.local', entityId: 'edit-generation' });
+
+const asCoordinate = (generation) => Object.freeze({
+  domain: EDIT_GENERATION_DOMAIN,
+  projectRevision: 0,
+  entityRevision: 0,
+  sourceRevision: 0,
+  generation,
+  writerEpoch: 0,
+});
+
 function decideAutosaveAck({ capturedGeneration, latestEditGeneration }) {
   const captured = normalizeEditGeneration(capturedGeneration);
   const latest = normalizeEditGeneration(latestEditGeneration);
@@ -61,10 +76,11 @@ function decideAutosaveAck({ capturedGeneration, latestEditGeneration }) {
   if (captured === null) {
     return Object.freeze({ outcome: ACK_KEEP_DIRTY_UNBOUND, capturedGeneration: null, latestEditGeneration: latest });
   }
-  if (captured > latest) {
+  const order = compareRevisionCoordinates(asCoordinate(captured), asCoordinate(latest));
+  if (order === REVISION_ORDER.GREATER) {
     throw new AutosaveGenerationError('E_GENERATION_REGRESSION', `captured=${captured} latest=${latest}`);
   }
-  if (captured === latest) {
+  if (order === REVISION_ORDER.EQUAL) {
     return Object.freeze({ outcome: ACK_CLEAR_DIRTY, capturedGeneration: captured, latestEditGeneration: latest });
   }
   return Object.freeze({ outcome: ACK_KEEP_DIRTY_STALE, capturedGeneration: captured, latestEditGeneration: latest });

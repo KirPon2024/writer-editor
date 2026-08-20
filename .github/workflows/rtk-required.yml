@@ -37,6 +37,9 @@ jobs:
       - name: Run R2.4 Q0 toolchain hygiene gate
         run: npm run -s test:r24-q0
 
+      - name: Run R2.4 P0 autosave generation gate
+        run: npm run -s test:r24-p0
+
       - name: Run maintained Atlas event contract graph
         run: npm run -s test:atlas-event-contract
 

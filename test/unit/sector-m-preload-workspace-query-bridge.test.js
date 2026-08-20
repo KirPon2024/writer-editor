@@ -81,7 +81,7 @@ test('preload workspace query bridge: existing query semantics and out-of-scope 
   assert.ok(mainSource.includes("ipcMain.handle('ui:save-lifecycle-signal-bridge', async (_, request) => {"))
   assert.ok(editorSource.includes('typeof window.electronAPI.invokeSaveLifecycleSignalBridge !=='))
   assert.ok(editorSource.includes("invokeSaveLifecycleSignalBridge('signal.autoSave.request')"))
-  assert.ok(editorSource.includes("void invokeSaveLifecycleSignalBridge('signal.localDirty.set', { state: true });"))
+  assert.ok(editorSource.includes("void invokeSaveLifecycleSignalBridge('signal.localDirty.set', { state: true, generation: localEditGeneration });"))
 })
 
 test('preload workspace query bridge: review surface query reads active session plus main-owned crash reconciliation', () => {

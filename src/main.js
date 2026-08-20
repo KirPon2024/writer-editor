@@ -41,6 +41,11 @@ const {
   sanitizePathFieldsWithinRoot,
 } = require('./core/io/path-boundary');
 const {
+  decideAutosaveAck,
+  mergeSignaledGeneration,
+  ACK_OUTCOMES,
+} = require('./core/autosave-generation-v1.cjs');
+const {
   readExternalFileBounded,
   validateExternalWriteTarget,
 } = require('./utils/externalFileAuthority');
@@ -124,6 +129,7 @@ let editorStartupReadyPromise = Promise.resolve();
 let isDirty = false;
 let isEditorPasteTargetFocused = false;
 let autoSaveInProgress = false;
+let lastSignaledEditGeneration = 0;
 let isQuitting = false;
 let isWindowClosing = false;
 let lastAutosaveHash = null;
@@ -25928,6 +25934,11 @@ ipcMain.handle('ui:save-lifecycle-signal-bridge', async (_, request) => {
     if (typeof payload.state !== 'boolean') {
       return { ok: false, error: 'SIGNAL_PAYLOAD_INVALID' };
     }
+    if (payload.state === true) {
+      // R2.4 P0: a dirty signal carries the renderer's local edit generation;
+      // merge it monotonically so autosave acknowledgements can be fenced.
+      lastSignaledEditGeneration = mergeSignaledGeneration(lastSignaledEditGeneration, payload.generation);
+    }
     isDirty = payload.state;
     return { ok: true };
   }
@@ -27417,14 +27428,29 @@ async function autoSave() {
       await persistBookProfileForFile(currentFilePath, snapshot.bookProfile, 'autosave project manifest');
 
       lastAutosaveHash = currentHash;
-      setDirtyState(false);
-      updateStatus('Автосохранено');
+      // R2.4 P0: an autosave acknowledgement clears the dirty mark only when
+      // the captured generation equals the latest edit generation; a stale
+      // or unbound acknowledgement can never clear newer work.
+      const fileAck = decideAutosaveAck({
+        capturedGeneration: snapshot.generation,
+        latestEditGeneration: lastSignaledEditGeneration,
+      });
+      if (fileAck.outcome === ACK_OUTCOMES.CLEAR_DIRTY) {
+        setDirtyState(false);
+        updateStatus('Автосохранено');
+      }
       await saveLastFile({ selectionRange: snapshot.selectionRange });
       return true;
     }
 
     if (currentHash === lastAutosaveHash) {
-      setDirtyState(false);
+      const idleAck = decideAutosaveAck({
+        capturedGeneration: snapshot.generation,
+        latestEditGeneration: lastSignaledEditGeneration,
+      });
+      if (idleAck.outcome === ACK_OUTCOMES.CLEAR_DIRTY) {
+        setDirtyState(false);
+      }
       return true;
     }
 
@@ -27438,8 +27464,14 @@ async function autoSave() {
     }
 
     lastAutosaveHash = currentHash;
-    setDirtyState(false);
-    updateStatus('Автосохранено');
+    const tempAck = decideAutosaveAck({
+      capturedGeneration: snapshot.generation,
+      latestEditGeneration: lastSignaledEditGeneration,
+    });
+    if (tempAck.outcome === ACK_OUTCOMES.CLEAR_DIRTY) {
+      setDirtyState(false);
+      updateStatus('Автосохранено');
+    }
     return true;
   } catch (error) {
     updateStatus('Ошибка сохранения');

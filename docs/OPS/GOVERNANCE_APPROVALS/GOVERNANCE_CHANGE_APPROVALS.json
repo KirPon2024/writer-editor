@@ -9321,10 +9321,10 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "cdde76d32fd3ab0b6975833d92abf5e953e697e5710fa992a7832bdfd0d11a7e",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-Q0-TOOLCHAIN-HYGIENE-001",
-      "approvedAtUtc": "2026-08-20T08:40:40.000Z",
-      "rationale": "Approve R2.4 Q0 package.json change: adds engines pin (node >=20.19.0 <21.0.0, npm >=10 <11) and test:r24-q0 script; no dependency or metadata change.",
+      "sha256": "5d41ba0c7b9e8b2cea05e64bb2786d8bb085c85bac67f1dd6cad49fc1a6f7667",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-P0-AUTOSAVE-GENERATION-001",
+      "approvedAtUtc": "2026-08-20T10:19:40.000Z",
+      "rationale": "Approve R2.4 P0 package.json change: adds test:r24-p0 script binding the P0 autosave gate into the required CI lane; no dependency change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
@@ -9753,10 +9753,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "36fd6ea697a28b1861cc24ef536c08fb7109f42eaae65ef90314a6e372492d43",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-Q0-TOOLCHAIN-HYGIENE-001",
-      "approvedAtUtc": "2026-08-20T08:40:40.000Z",
-      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 Q0 toolchain hygiene: package.json digest updated to the exact bytes gained by adding the engines pin and test:r24-q0 script; no wording, claim, Word/DOCX, Google, saturation or terminal PASS change.",
+      "sha256": "ce607b5e4701594df403d981b36f4eb5bcd50bf81a71456d80df1721aa84a986",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-P0-AUTOSAVE-GENERATION-001",
+      "approvedAtUtc": "2026-08-20T10:20:51.000Z",
+      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 P0: package.json and src/renderer/editor.js digests updated to the exact bytes after the autosave generation law edit and the test:r24-p0 script entry; no wording, claim, Word/DOCX, Google or terminal PASS change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
@@ -10356,21 +10356,21 @@
     },
     {
       "filePath": "src/renderer/editor.bundle.js",
-      "sha256": "e0182f22c98761bf60df484b09728556fc57952e7087a7729867bc51ca5695d7",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_UI_DEFAULT_FLAG_PATH_V1",
-      "approvedAtUtc": "2026-08-14T19:56:00.000Z",
-      "rationale": "Approve generated renderer bundle for F3 Black Box UI/default path, built from the approved renderer source with npm run build:renderer after task-local npm ci --ignore-scripts; no source dependency changes or product runtime semantics are introduced.",
+      "sha256": "d4a40cdf3039134d43a9d0eb63b25453513302bde04ac6e1c3855a49873ea138",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-P0-AUTOSAVE-GENERATION-001",
+      "approvedAtUtc": "2026-08-20T10:15:58.000Z",
+      "rationale": "Approve R2.4 P0 regenerated committed renderer bundle built from the edited editor.js via scripts/build-renderer.mjs; content follows the source edit exactly.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION_UI_DEFAULT_FLAG_PATH"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "src/renderer/editor.js",
-      "sha256": "6e0b2a259ce7df5ef3b55e87947afb01d5d3768af7c4d7fac218833b806dc100",
-      "approvedBy": "owner-standing-grant:TASK_ID:F3_BLACK_BOX_PRODUCT_UI_DEFAULT_FLAG_PATH_V1",
-      "approvedAtUtc": "2026-08-14T19:56:00.000Z",
-      "rationale": "Approve F3 Black Box UI/default path renderer source binding: existing command-palette/runtime command handler opens the existing export surface and the black-box-manual-core export option dispatches only cmd.project.blackBox.exportManualCoreCapsuleKitV1 through the existing Command Kernel bridge; no direct IPC, feature-flag authority, product runtime or user-document access is added.",
+      "sha256": "aeac246f5ebf5c17b1797e797cda1abb2a81a65f795154467fec208f56b31921",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-P0-AUTOSAVE-GENERATION-001",
+      "approvedAtUtc": "2026-08-20T10:15:58.000Z",
+      "rationale": "Approve R2.4 P0 autosave generation fencing: editor gains the per-session monotonic localEditGeneration counter bumped once per authoring mutation in markAsModified, carries it in the localDirty signal payload and binds it into the editor snapshot; no UI, layout or design change.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_F3_BLACK_BOX_PRODUCTIZATION_UI_DEFAULT_FLAG_PATH"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "src/renderer/index.html",
@@ -10923,10 +10923,10 @@
     },
     {
       "filePath": ".github/workflows/rtk-required.yml",
-      "sha256": "5a3d719fedf1385ef7a2991da3793bbbc9540acc445b62dc9f90fc90e47b057e",
-      "rationale": "Approve R2.4 Q0 rtk-required.yml change: pins setup-node to 20.19.x per toolchain contract and adds the test:r24-q0 step after the E0 gate; triggers and permissions unchanged.",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-Q0-TOOLCHAIN-HYGIENE-001",
-      "approvedAtUtc": "2026-08-20T08:40:40.000Z",
+      "sha256": "e17a31e61904a22ad32a2b6e9058fd6d8f3279e378dc85965e9a3047c1e473cf",
+      "rationale": "Approve R2.4 P0 rtk-required.yml change: adds one step running npm run -s test:r24-p0 after the Q0 gate; triggers and permissions unchanged.",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-P0-AUTOSAVE-GENERATION-001",
+      "approvedAtUtc": "2026-08-20T10:19:40.000Z",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
@@ -11211,10 +11211,10 @@
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1/FINDING_MAP.json",
-      "sha256": "1567c6f2ce595fda0e0d656dd6a2beeb355ae621a12bb27c0c03a7359348424d",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-Q0-TOOLCHAIN-HYGIENE-001",
-      "approvedAtUtc": "2026-08-20T08:58:30.000Z",
-      "rationale": "Approve R2.4 Q0 issue-state transition: I14_TOOLCHAIN_AND_PACKAGE_SURFACE marked PARTIALLY_REPAIRED_BY_R24_Q0_ENGINES_PIN_PK0_PACKAGE_ALLOWLIST_REMAINS; package content manifest half remains owned by PK0.",
+      "sha256": "74e17a68139192477c5d74457c85d6f4e0bc0f00a06f80667fd98a67ce8c6c9a",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-P0-AUTOSAVE-GENERATION-001",
+      "approvedAtUtc": "2026-08-20T10:44:38.000Z",
+      "rationale": "Approve R2.4 P0 issue-state transition: I03_AUTOSAVE_DIRTY_LIFECYCLE marked PARTIALLY_REPAIRED_BY_R24_P0_GENERATION_FENCE_P1_DIRTY_ADMISSION_ACK_REMAINS; closure still requires the P1 stage per the program.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
@@ -11229,10 +11229,10 @@
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1/SCIENTIFIC_CONTRACTS.json",
-      "sha256": "1a070cb30201c13f6231d6285b8cb40f04e91f9a8b86010688da59cbaf51acad",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-Q0-TOOLCHAIN-HYGIENE-001",
-      "approvedAtUtc": "2026-08-20T08:58:30.000Z",
-      "rationale": "Approve R2.4 Q0 reality-probe rebind: PROBE_ENGINES_UNPINNED now expects PRESENT because package.json carries the pinned engines range after Q0; the probe keeps guarding against regression back to an unpinned toolchain.",
+      "sha256": "f80987c4858ee91d8a3906f03a768eb9f881ebca72740b7d9157a548581c7f7e",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-P0-AUTOSAVE-GENERATION-001",
+      "approvedAtUtc": "2026-08-20T10:44:38.000Z",
+      "rationale": "Approve R2.4 P0 reality-probe rebind: PROBE_RENDERER_DIRTY_EDGE_ONLY renamed to PROBE_RENDERER_DIRTY_GENERATION_FENCED with the needle bound to the new fenced dirty path (localEditGeneration bump plus unconditional dirty set) in editor.js; regression detection preserved.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },

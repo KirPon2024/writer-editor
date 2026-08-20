@@ -7942,6 +7942,7 @@ function composeEditorSnapshot() {
     plainText: getPlainText(),
     bookProfile: getActiveBookProfile(),
     selectionRange: getSelectionOffsets(),
+    generation: localEditGeneration,
   };
 }
 
@@ -10562,6 +10563,10 @@ if (rightSidebar && rightSidebarResizer) {
 }
 
 let localDirty = false;
+// R2.4 P0: per-session monotonically increasing local edit generation.
+// Every authoring mutation bumps it exactly once; autosave captures and
+// acknowledgements are fenced by it so a stale save cannot clear newer work.
+let localEditGeneration = 0;
 
 if (metaSynopsis) {
   metaSynopsis.addEventListener('input', () => {
@@ -18826,10 +18831,11 @@ function markAsModified() {
     updateStatusText('Изменено');
   }
 
-  if (!localDirty) {
-    localDirty = true;
-    void invokeSaveLifecycleSignalBridge('signal.localDirty.set', { state: true });
-  }
+  localEditGeneration += 1;
+  localDirty = true;
+  // R2.4 P0: every edit's generation is signaled so the main-side autosave
+  // acknowledgement fence always compares against the true latest edit.
+  void invokeSaveLifecycleSignalBridge('signal.localDirty.set', { state: true, generation: localEditGeneration });
   updateSaveStateText('unsaved');
   updatePerfHintText('typing');
   updateInspectorSnapshot();

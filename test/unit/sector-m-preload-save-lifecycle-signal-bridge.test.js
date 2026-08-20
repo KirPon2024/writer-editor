@@ -38,7 +38,7 @@ test('preload save lifecycle signal bridge: editor routes dirty and autosave cal
 
   assert.ok(source.includes("await invokeSaveLifecycleSignalBridge('signal.localDirty.set', { state: false });"))
   assert.ok(source.includes("invokeSaveLifecycleSignalBridge('signal.autoSave.request')"))
-  assert.ok(source.includes("void invokeSaveLifecycleSignalBridge('signal.localDirty.set', { state: true });"))
+  assert.ok(source.includes("void invokeSaveLifecycleSignalBridge('signal.localDirty.set', { state: true, generation: localEditGeneration });"))
   assert.ok(source.includes('typeof window.electronAPI.invokeSaveLifecycleSignalBridge !=='))
 
   assert.equal(source.includes('window.electronAPI.notifyDirtyState('), false)

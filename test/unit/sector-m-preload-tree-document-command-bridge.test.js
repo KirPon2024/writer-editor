@@ -83,12 +83,12 @@ test('preload tree document bridge: main bridge reuses existing tree and documen
   assert.ok(source.includes('[TREE_MOVE_COMMAND_ID]: async (payload = {}) => {'))
   assert.ok(source.includes('return handleUiMoveNodeCommand(payload);'))
 
-  assert.ok(source.includes("ipcMain.handle('ui:open-document', async (_, payload) => {"))
-  assert.ok(source.includes("ipcMain.handle('ui:create-node', async (_, payload) => {"))
-  assert.ok(source.includes("ipcMain.handle('ui:rename-node', async (_, payload) => {"))
-  assert.ok(source.includes("ipcMain.handle('ui:delete-node', async (_, payload) => {"))
-  assert.ok(source.includes("ipcMain.handle('ui:reorder-node', async (_, payload) => {"))
-  assert.ok(source.includes("ipcMain.handle('ui:move-node', async (_, payload) => {"))
+  assert.ok(source.includes("guardedHandle('ui:open-document', async (_, payload) => {"))
+  assert.ok(source.includes("guardedHandle('ui:create-node', async (_, payload) => {"))
+  assert.ok(source.includes("guardedHandle('ui:rename-node', async (_, payload) => {"))
+  assert.ok(source.includes("guardedHandle('ui:delete-node', async (_, payload) => {"))
+  assert.ok(source.includes("guardedHandle('ui:reorder-node', async (_, payload) => {"))
+  assert.ok(source.includes("guardedHandle('ui:move-node', async (_, payload) => {"))
 })
 
 test('preload tree document bridge: out-of-scope surfaces remain present and unchanged by intent', () => {

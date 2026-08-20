@@ -20,7 +20,7 @@ test('preload save lifecycle signal bridge: preload exposes one typed signal bri
 test('preload save lifecycle signal bridge: main exposes one handler with strict signal allowlist', () => {
   const source = read('src/main.js')
 
-  assert.equal((source.match(/ipcMain\.handle\('ui:save-lifecycle-signal-bridge'/g) || []).length, 1)
+  assert.equal((source.match(/guardedHandle\('ui:save-lifecycle-signal-bridge'/g) || []).length, 1)
   assert.ok(source.includes('const SAVE_LIFECYCLE_SIGNAL_BRIDGE_ALLOWED_SIGNAL_IDS = new Set(['))
   assert.ok(source.includes("'signal.localDirty.set'"))
   assert.ok(source.includes("'signal.autoSave.request'"))
@@ -51,8 +51,8 @@ test('preload save lifecycle signal bridge: existing compatibility paths remain 
 
   assert.ok(preloadSource.includes('notifyDirtyState: (state) => {'))
   assert.ok(preloadSource.includes('requestAutoSave: () => {'))
-  assert.ok(mainSource.includes("ipcMain.on('dirty-changed', (_, state) => {"))
-  assert.ok(mainSource.includes("ipcMain.handle('ui:request-autosave', async () => {"))
-  assert.ok(mainSource.includes("ipcMain.handle('ui:command-bridge', async (_, request) => {"))
-  assert.ok(mainSource.includes("ipcMain.handle('ui:workspace-query-bridge', async (_, request) => {"))
+  assert.ok(mainSource.includes("guardedOn('dirty-changed', (_, state) => {"))
+  assert.ok(mainSource.includes("guardedHandle('ui:request-autosave', async () => {"))
+  assert.ok(mainSource.includes("guardedHandle('ui:command-bridge', async (_, request) => {"))
+  assert.ok(mainSource.includes("guardedHandle('ui:workspace-query-bridge', async (_, request) => {"))
 })

@@ -5079,12 +5079,12 @@
     },
     {
       "filePath": "scripts/doctor.mjs",
-      "sha256": "b7c6be7070986b9a757782450b30c7bebab2de5145eccf124d81cd59df3737dc",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
-      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
-      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "sha256": "5535527fa8aee15a960bfec3cc78bd357d5a3986e6915b6ce78eeab342178e43",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-S0-IPC-CALLER-IDENTITY-001",
+      "approvedAtUtc": "2026-08-20T13:52:59.000Z",
+      "rationale": "Approve R2.4 S0 doctor wiring-law rebinds: M3 command wiring and U3 export channel now proven through guardedHandle registrations (ipc caller identity fence); check semantics unchanged.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "scripts/ops/attestation-trust-lock-state.mjs",
@@ -5477,10 +5477,11 @@
     },
     {
       "filePath": "scripts/ops/path-boundary-guard-state.mjs",
-      "sha256": "95838483e8f47c1fa76ca7c806fd993d029a128604f51bed5871cf5c5432e485",
-      "approvedBy": "ticket:TZ-24E-P1-PATH-BOUNDARY-GUARD-IPC-IO-012",
-      "approvedAtUtc": "2026-02-18T15:22:29.000Z",
-      "rationale": "Approve path-boundary guard wiring state checks and expanded bypass scenario coverage."
+      "sha256": "b8ba7516bb32435054d5eb75e42ec225bb9d8d110be82e38ee45bca1895a0666",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-S0-IPC-CALLER-IDENTITY-001",
+      "approvedAtUtc": "2026-08-20T14:03:55.000Z",
+      "rationale": "Approve R2.4 S0 path-boundary guard marker rebind: the five node-command channel markers now bind guardedHandle registrations after the IPC caller identity fence; boundary law unchanged.",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "scripts/ops/phase00-no-input-loss-rollup.mjs",

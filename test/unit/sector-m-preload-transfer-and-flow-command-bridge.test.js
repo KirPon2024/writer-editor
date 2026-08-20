@@ -74,13 +74,13 @@ test('preload transfer and flow bridge: main bridge reuses existing export impor
   assert.ok(source.includes('const result = await handleFlowSaveV1(payload);'))
   assert.ok(source.includes('return normalizeUiBridgeMenuResult(result);'))
 
-  assert.ok(source.includes("ipcMain.handle(EXPORT_DOCX_MIN_CHANNEL, async (_, payload) => {"))
-  assert.ok(source.includes("ipcMain.handle(IMPORT_MARKDOWN_V1_CHANNEL, async (_, payload) => {"))
-  assert.ok(source.includes("ipcMain.handle(EXPORT_MARKDOWN_V1_CHANNEL, async (_, payload) => {"))
-  assert.ok(source.includes("ipcMain.handle(FLOW_OPEN_V1_CHANNEL, async () => {"))
-  assert.ok(source.includes("ipcMain.handle(FLOW_SAVE_V1_CHANNEL, async (_, payload) => {"))
-  assert.ok(source.includes("ipcMain.handle(FLOW_OPEN_V1_CHANNEL, async () => {\n  return handleFlowOpenV1();\n});"))
-  assert.ok(source.includes("ipcMain.handle(FLOW_SAVE_V1_CHANNEL, async (_, payload) => {\n  return handleFlowSaveV1(payload);\n});"))
+  assert.ok(source.includes("guardedHandle(EXPORT_DOCX_MIN_CHANNEL, async (_, payload) => {"))
+  assert.ok(source.includes("guardedHandle(IMPORT_MARKDOWN_V1_CHANNEL, async (_, payload) => {"))
+  assert.ok(source.includes("guardedHandle(EXPORT_MARKDOWN_V1_CHANNEL, async (_, payload) => {"))
+  assert.ok(source.includes("guardedHandle(FLOW_OPEN_V1_CHANNEL, async () => {"))
+  assert.ok(source.includes("guardedHandle(FLOW_SAVE_V1_CHANNEL, async (_, payload) => {"))
+  assert.ok(source.includes("guardedHandle(FLOW_OPEN_V1_CHANNEL, async () => {\n  return handleFlowOpenV1();\n});"))
+  assert.ok(source.includes("guardedHandle(FLOW_SAVE_V1_CHANNEL, async (_, payload) => {\n  return handleFlowSaveV1(payload);\n});"))
 })
 
 test('preload transfer and flow bridge: flow open blocks stale batch state before tree read and keeps read projection path write-free', () => {

@@ -6668,12 +6668,12 @@
     },
     {
       "filePath": "src/main/rtkDocxReturnIntakeWorker.cjs",
-      "sha256": "184d895636855f487dff110519a000b764b29b15a0971b60df8db972f37bbba9",
-      "approvedBy": "owner-direct:TASK_ID:EVID-01_RETURN_EVIDENCE_PACKET",
-      "approvedAtUtc": "2026-08-08T23:55:04.384Z",
-      "rationale": "Approve EVID-01 worker emitting the immutable evidence packet without any secret access (HMAC secret no longer read) while keeping the transferable-bytes boundary and budget receipt.",
+      "sha256": "934bba1b8bfaf3c884cd089981d971f254672736e1d410716cf3d906b7d312ee",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-S0-IPC-CALLER-IDENTITY-001",
+      "approvedAtUtc": "2026-08-20T13:30:10.000Z",
+      "rationale": "Approve R2.4 S0 worker intake hardening: parentPort messages are envelope-validated (shape, depth, breadth, cycle, byte bounds) via the caller-identity law module before unwrap or interpretation; typed refusal block added; no product behavior change for valid payloads.",
       "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_EVID01_RETURN_EVIDENCE_PACKET"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "src/preload.js",
@@ -9321,10 +9321,10 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "5d41ba0c7b9e8b2cea05e64bb2786d8bb085c85bac67f1dd6cad49fc1a6f7667",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-P0-AUTOSAVE-GENERATION-001",
-      "approvedAtUtc": "2026-08-20T10:19:40.000Z",
-      "rationale": "Approve R2.4 P0 package.json change: adds test:r24-p0 script binding the P0 autosave gate into the required CI lane; no dependency change.",
+      "sha256": "5e0fff2fde4a6e6620d9394ea96753f9bf1f60cec9e33dffd843c5c757d6bc3f",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-S0-IPC-CALLER-IDENTITY-001",
+      "approvedAtUtc": "2026-08-20T13:30:10.000Z",
+      "rationale": "Approve R2.4 S0 package.json change: adds test:r24-s0 script binding the S0 IPC caller identity gate into the required CI lane; no dependency change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
@@ -9753,10 +9753,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "ce607b5e4701594df403d981b36f4eb5bcd50bf81a71456d80df1721aa84a986",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-P0-AUTOSAVE-GENERATION-001",
-      "approvedAtUtc": "2026-08-20T10:20:51.000Z",
-      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 P0: package.json and src/renderer/editor.js digests updated to the exact bytes after the autosave generation law edit and the test:r24-p0 script entry; no wording, claim, Word/DOCX, Google or terminal PASS change.",
+      "sha256": "98c6a4f63465970aebe91220bc7ec1c1e38de36f0a2dbf6cd84c8c0d7a9683fd",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-S0-IPC-CALLER-IDENTITY-001",
+      "approvedAtUtc": "2026-08-20T13:30:10.000Z",
+      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 S0: package.json digest updated to the exact bytes gained by the test:r24-s0 script entry; no wording or claim change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
@@ -10923,10 +10923,10 @@
     },
     {
       "filePath": ".github/workflows/rtk-required.yml",
-      "sha256": "e17a31e61904a22ad32a2b6e9058fd6d8f3279e378dc85965e9a3047c1e473cf",
-      "rationale": "Approve R2.4 P0 rtk-required.yml change: adds one step running npm run -s test:r24-p0 after the Q0 gate; triggers and permissions unchanged.",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-P0-AUTOSAVE-GENERATION-001",
-      "approvedAtUtc": "2026-08-20T10:19:40.000Z",
+      "sha256": "b08683b2ef785eaaa7eda641d42707a83db13508143649813ccbdb8a472f6f4e",
+      "rationale": "Approve R2.4 S0 rtk-required.yml change: adds one step running npm run -s test:r24-s0 after the P0 gate; triggers and permissions unchanged.",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-S0-IPC-CALLER-IDENTITY-001",
+      "approvedAtUtc": "2026-08-20T13:30:10.000Z",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },

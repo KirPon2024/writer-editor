@@ -46,6 +46,26 @@ const {
   ACK_OUTCOMES,
 } = require('./core/autosave-generation-v1.cjs');
 const {
+  createGuardedIpcRegistration,
+} = require('./core/ipc-caller-identity-v1.cjs');
+
+// R2.4 S0: every privileged IPC entry point proves its caller before any
+// handler body runs. The expected sender is the single main window's live
+// webContents; the frame origin must be the app-shell file URL. Identity is
+// evaluated from the event at dispatch time, never from payload.
+const IPC_CALLER_IDENTITY_POLICY = {
+  expectedSenderId: () => (
+    mainWindow && !mainWindow.isDestroyed() && mainWindow.webContents && !mainWindow.webContents.isDestroyed()
+      ? mainWindow.webContents.id
+      : null
+  ),
+  allowedFrameUrlPrefixes: () => [
+    pathToFileURL(path.join(__dirname, 'renderer', 'index.html')).href,
+  ],
+};
+
+const { handle: guardedHandle, on: guardedOn } = createGuardedIpcRegistration(ipcMain, IPC_CALLER_IDENTITY_POLICY);
+const {
   readExternalFileBounded,
   validateExternalWriteTarget,
 } = require('./utils/externalFileAuthority');
@@ -25721,7 +25741,7 @@ function resolveCollabScopeLocalState() {
   return aliasValue === '1' || aliasValue === 'true' || aliasValue === 'yes' || aliasValue === 'on';
 }
 
-ipcMain.on('editor:text-response', (_, payload) => {
+guardedOn('editor:text-response', (_, payload) => {
   const requestId = payload && payload.requestId;
   if (!requestId) {
     return;
@@ -25737,7 +25757,7 @@ ipcMain.on('editor:text-response', (_, payload) => {
   pending.resolve(typeof payload?.text === 'string' ? payload.text : '');
 });
 
-ipcMain.on('editor:snapshot-response', (_, payload) => {
+guardedOn('editor:snapshot-response', (_, payload) => {
   const requestId = typeof payload?.requestId === 'string' ? payload.requestId : '';
   if (!requestId) {
     return;
@@ -25753,7 +25773,7 @@ ipcMain.on('editor:snapshot-response', (_, payload) => {
   pending.resolve(normalizeEditorSnapshotPayload(payload ? payload.snapshot : null));
 });
 
-ipcMain.on(EDITOR_PASTE_FOCUS_STATE_CHANNEL, (_, payload) => {
+guardedOn(EDITOR_PASTE_FOCUS_STATE_CHANNEL, (_, payload) => {
   const focused = normalizeEditorPasteFocusState(payload);
   if (focused === null) return;
   isEditorPasteTargetFocused = focused;
@@ -25800,48 +25820,48 @@ async function executeFileCommand(intentRaw) {
   }
 }
 
-ipcMain.handle('file:save', async () => {
+guardedHandle('file:save', async () => {
   return executeFileCommand('save');
 });
 
-ipcMain.handle('file:save-as', async () => {
+guardedHandle('file:save-as', async () => {
   return executeFileCommand('saveAs');
 });
 
-ipcMain.handle('file:open', async (_, payload) => {
+guardedHandle('file:open', async (_, payload) => {
   const intent = payload && typeof payload === 'object' && payload.intent === 'new' ? 'new' : 'open';
   return executeFileCommand(intent);
 });
 
-ipcMain.handle(EXPORT_DOCX_MIN_CHANNEL, async (_, payload) => {
+guardedHandle(EXPORT_DOCX_MIN_CHANNEL, async (_, payload) => {
   return handleExportDocxMin(payload);
 });
 
-ipcMain.handle(IMPORT_MARKDOWN_V1_CHANNEL, async (_, payload) => {
+guardedHandle(IMPORT_MARKDOWN_V1_CHANNEL, async (_, payload) => {
   return dispatchCommandSurfaceKernel(COMMAND_SURFACE_KERNEL_COMMAND_IDS.PROJECT_IMPORT_MARKDOWN_V1, payload);
 });
 
-ipcMain.handle(EXPORT_MARKDOWN_V1_CHANNEL, async (_, payload) => {
+guardedHandle(EXPORT_MARKDOWN_V1_CHANNEL, async (_, payload) => {
   return dispatchCommandSurfaceKernel(COMMAND_SURFACE_KERNEL_COMMAND_IDS.PROJECT_EXPORT_MARKDOWN_V1, payload);
 });
 
-ipcMain.handle(FLOW_OPEN_V1_CHANNEL, async () => {
+guardedHandle(FLOW_OPEN_V1_CHANNEL, async () => {
   return handleFlowOpenV1();
 });
 
-ipcMain.handle(FLOW_SAVE_V1_CHANNEL, async (_, payload) => {
+guardedHandle(FLOW_SAVE_V1_CHANNEL, async (_, payload) => {
   return handleFlowSaveV1(payload);
 });
 
-ipcMain.handle('ui:request-autosave', async () => {
+guardedHandle('ui:request-autosave', async () => {
   return autoSave();
 });
 
-ipcMain.handle('ui:get-collab-scope-local', async () => {
+guardedHandle('ui:get-collab-scope-local', async () => {
   return handleWorkspaceCollabScopeLocalQuery();
 });
 
-ipcMain.handle('ui:command-bridge', async (_, request) => {
+guardedHandle('ui:command-bridge', async (_, request) => {
   const safeRequest = request && typeof request === 'object' && !Array.isArray(request)
     ? request
     : {};
@@ -25895,7 +25915,7 @@ const WORKSPACE_QUERY_BRIDGE_HANDLERS = new Map([
   [PROJECTION_INSPECTOR_QUERY_ID, handleWorkspaceProjectionInspectorQuery],
 ]);
 
-ipcMain.handle('ui:workspace-query-bridge', async (_, request) => {
+guardedHandle('ui:workspace-query-bridge', async (_, request) => {
   const safeRequest = request && typeof request === 'object' && !Array.isArray(request)
     ? request
     : {};
@@ -25917,7 +25937,7 @@ ipcMain.handle('ui:workspace-query-bridge', async (_, request) => {
     : handler(payload);
 });
 
-ipcMain.handle('ui:save-lifecycle-signal-bridge', async (_, request) => {
+guardedHandle('ui:save-lifecycle-signal-bridge', async (_, request) => {
   const safeRequest = request && typeof request === 'object' && !Array.isArray(request)
     ? request
     : {};
@@ -25948,23 +25968,23 @@ ipcMain.handle('ui:save-lifecycle-signal-bridge', async (_, request) => {
   return { ok: false, error: 'SIGNAL_ID_NOT_ALLOWED' };
 });
 
-ipcMain.on('dirty-changed', (_, state) => {
+guardedOn('dirty-changed', (_, state) => {
   isDirty = state;
 });
 
-ipcMain.on('ui:set-theme', (_, theme) => {
+guardedOn('ui:set-theme', (_, theme) => {
   if (typeof theme === 'string') {
     handleThemeChange(theme);
   }
 });
 
-ipcMain.on('ui:set-font', (_, fontFamily) => {
+guardedOn('ui:set-font', (_, fontFamily) => {
   if (typeof fontFamily === 'string') {
     handleFontChange(fontFamily);
   }
 });
 
-ipcMain.on('ui:set-font-size', async (_, px) => {
+guardedOn('ui:set-font-size', async (_, px) => {
   const nextSize = Number(px);
   if (!Number.isFinite(nextSize)) return;
   currentFontSize = clampFontSize(nextSize);
@@ -25978,11 +25998,11 @@ ipcMain.on('ui:set-font-size', async (_, px) => {
   }
 });
 
-ipcMain.on('ui:font-size', (_, action) => {
+guardedOn('ui:font-size', (_, action) => {
   handleFontSizeChange(action).catch(() => {});
 });
 
-ipcMain.on('ui:window-minimize', () => {
+guardedOn('ui:window-minimize', () => {
   if (mainWindow) {
     mainWindow.minimize();
   }
@@ -26552,7 +26572,7 @@ async function handleWorkspaceReviewSurfaceQuery() {
   };
 }
 
-ipcMain.handle('ui:get-project-tree', async (_, payload) => {
+guardedHandle('ui:get-project-tree', async (_, payload) => {
   return handleWorkspaceProjectTreeQuery(payload);
 });
 
@@ -26675,7 +26695,7 @@ async function dispatchLegacyUiTreeDocumentCommand(commandId, payload = {}) {
   }
 }
 
-ipcMain.handle('ui:open-document', async (_, payload) => {
+guardedHandle('ui:open-document', async (_, payload) => {
   return dispatchLegacyUiTreeDocumentCommand('cmd.project.document.open', payload);
 });
 
@@ -26772,7 +26792,7 @@ async function handleUiCreateNodeCommand(payload) {
   }
 }
 
-ipcMain.handle('ui:create-node', async (_, payload) => {
+guardedHandle('ui:create-node', async (_, payload) => {
   return dispatchLegacyUiTreeDocumentCommand('cmd.project.tree.createNode', payload);
 });
 
@@ -26842,7 +26862,7 @@ async function handleUiRenameNodeCommand(payload) {
   return { ok: true, nodeId: resolvedNode.nodeId };
 }
 
-ipcMain.handle('ui:rename-node', async (_, payload) => {
+guardedHandle('ui:rename-node', async (_, payload) => {
   return dispatchLegacyUiTreeDocumentCommand('cmd.project.tree.renameNode', payload);
 });
 
@@ -26907,7 +26927,7 @@ async function handleUiDeleteNodeCommand(payload) {
   return { ok: true, nodeId: resolvedNode.nodeId, removed: true };
 }
 
-ipcMain.handle('ui:delete-node', async (_, payload) => {
+guardedHandle('ui:delete-node', async (_, payload) => {
   return dispatchLegacyUiTreeDocumentCommand('cmd.project.tree.deleteNode', payload);
 });
 
@@ -27159,14 +27179,14 @@ async function handleUiReorderNodeCommand(payload) {
   return { ok: false, error: 'SCENE_ORDER_DOMAIN_EVENT_MISSING', reason: 'SCENE_ORDER_FACT_REQUIRED' };
 }
 
-ipcMain.handle('ui:reorder-node', async (_, payload) => {
+guardedHandle('ui:reorder-node', async (_, payload) => {
   return dispatchLegacyUiTreeDocumentCommand('cmd.project.tree.reorderNode', payload);
 });
 
-ipcMain.handle('ui:move-node', async (_, payload) => {
+guardedHandle('ui:move-node', async (_, payload) => {
   return dispatchLegacyUiTreeDocumentCommand(TREE_MOVE_COMMAND_ID, payload);
 });
-ipcMain.handle('ui:open-section', async (_, payload) => {
+guardedHandle('ui:open-section', async (_, payload) => {
   if (!mainWindow) {
     return { ok: false, error: 'No active window' };
   }

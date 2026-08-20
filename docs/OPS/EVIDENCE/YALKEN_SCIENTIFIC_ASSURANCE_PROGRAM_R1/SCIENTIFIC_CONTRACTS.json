@@ -309,9 +309,9 @@
       "issueId": "I03_AUTOSAVE_DIRTY_LIFECYCLE"
     },
     {
-      "probeId": "PROBE_RENDERER_DIRTY_EDGE_ONLY",
+      "probeId": "PROBE_RENDERER_DIRTY_GENERATION_FENCED",
       "repoPath": "src/renderer/editor.js",
-      "needle": "if (!localDirty) {\n    localDirty = true;",
+      "needle": "localEditGeneration += 1;\n  localDirty = true;",
       "expected": "PRESENT",
       "issueId": "I03_AUTOSAVE_DIRTY_LIFECYCLE"
     },

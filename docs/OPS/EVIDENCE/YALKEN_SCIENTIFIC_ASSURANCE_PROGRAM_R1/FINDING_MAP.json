@@ -49,7 +49,7 @@
       "title": "Stale autosave generation can clear newer edits and lifecycle trusts false clean",
       "sourceFindingIds": ["YAF-005", "YAF-006", "YAF-007", "YAF-008", "N-12", "N-19"],
       "decision": "ADOPT_MINIMAL_RUNTIME_REPAIR_AFTER_E0",
-      "currentState": "OPEN_CONFIRMED_AT_BINDING_BASE",
+      "currentState": "PARTIALLY_REPAIRED_BY_R24_P0_GENERATION_FENCE_P1_DIRTY_ADMISSION_ACK_REMAINS",
       "stageIds": ["P0_AUTOSAVE_GENERATION", "P1_DIRTY_ADMISSION_ACK"],
       "closureEvidence": ["E2_CONTRACT", "E3_INTEGRATION", "E4_FAULT_INJECTION", "E6_INDEPENDENT_EXACT_HEAD"],
       "nonClaims": ["No absolute no-loss claim", "Recovery checkpoint is not canonical save"]

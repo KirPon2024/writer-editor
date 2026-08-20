@@ -22,7 +22,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: "20.19.x"
           cache: npm
 
       - name: Install dependencies
@@ -33,6 +33,9 @@ jobs:
 
       - name: Run R2.4 E0 runner safety quarantine gate
         run: npm run -s test:r24-e0
+
+      - name: Run R2.4 Q0 toolchain hygiene gate
+        run: npm run -s test:r24-q0
 
       - name: Run maintained Atlas event contract graph
         run: npm run -s test:atlas-event-contract

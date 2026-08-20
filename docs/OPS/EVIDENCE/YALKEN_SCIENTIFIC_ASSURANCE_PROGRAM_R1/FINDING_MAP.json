@@ -181,7 +181,7 @@
       "title": "Unpinned toolchain and missing runtime package allowlist",
       "sourceFindingIds": ["YAF-028", "YAF-029"],
       "decision": "ADOPT_HERMETIC_TOOLCHAIN_AND_PACKAGE_CONTENT_MANIFEST",
-      "currentState": "OPEN_CONFIRMED",
+      "currentState": "PARTIALLY_REPAIRED_BY_R24_Q0_ENGINES_PIN_PK0_PACKAGE_ALLOWLIST_REMAINS",
       "stageIds": ["Q0_TOOLCHAIN_HYGIENE", "PK0_PACKAGE_CONTENT_TRUST"],
       "closureEvidence": ["E2_CONTRACT", "E3_INTEGRATION", "E5_PHYSICAL", "E6_INDEPENDENT_EXACT_HEAD"],
       "nonClaims": ["Dependency install success alone is not hermetic reproducibility"]

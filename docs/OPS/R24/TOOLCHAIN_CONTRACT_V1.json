@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "yalken.toolchain-contract.v1",
+  "contour": "Q0_TOOLCHAIN_HYGIENE",
+  "boundBaseSha": "2f0571682d01b4f6e8cf2dc1ee3886fb4cbeb943",
+  "node": {
+    "enginesRange": ">=20.19.0 <21.0.0",
+    "law": "supported product and CI runtime is Node 20 at or above 20.19.0 and below 21; CI pins the exact 20.19.x line; local runners must resolve a satisfying binary without relying on PATH shims"
+  },
+  "npm": {
+    "enginesRange": ">=10.0.0 <11.0.0",
+    "lockfileVersion": 3,
+    "onlyLockfile": "package-lock.json",
+    "forbiddenLockfiles": ["pnpm-lock.yaml", "pnpm-workspace.yaml", "yarn.lock", "bun.lockb", "bun.lock"],
+    "law": "npm with the committed package-lock.json is the only package manager path for repo verification lanes"
+  },
+  "workflows": {
+    "singleNodeVersion": "20.19.x",
+    "allowedActionPins": {
+      "actions/checkout": "v4",
+      "actions/setup-node": "v4",
+      "actions/upload-artifact": "v4",
+      "actions/github-script": "v7"
+    },
+    "law": "every workflow setup-node step pins the single declared version; every action use pins the declared major"
+  },
+  "tempPaths": {
+    "registry": "docs/OPS/R24/TEMP_PATH_REGISTRY_V1.json",
+    "law": "no fixed shared /tmp literal may appear in scripts/ unless registered with class and justification; new runtime temp uses os.tmpdir plus unique mkdtemp"
+  },
+  "verificationReadOnly": {
+    "law": "a verification lane must leave the git worktree byte-identical; tree change during a verification run fails closed",
+    "guardedLanes": ["test:r24-e0", "test:r24-q0", "ops-synth-negative", "dev-fast-lane"]
+  }
+}

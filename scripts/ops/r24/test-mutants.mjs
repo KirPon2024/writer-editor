@@ -122,12 +122,59 @@ export const MUTANTS = Object.freeze([
     find: 'Object.keys(value).sort().map((k)',
     replace: 'Object.keys(value).map((k)',
   },
+  {
+    id: 'tc-engines-drift-ignored',
+    file: 'toolchain.mjs',
+    find: 'if (pkg.engines.node !== contract.node.enginesRange) {',
+    replace: 'if (false) {',
+  },
+  {
+    id: 'tc-ci-node-incoherent-ignored',
+    file: 'toolchain.mjs',
+    find: 'if (version !== contract.workflows.singleNodeVersion) {',
+    replace: 'if (false) {',
+  },
+  {
+    id: 'tc-unregistered-action-ignored',
+    file: 'toolchain.mjs',
+    find: 'if (expected === undefined) failures.push(`E_TOOLCHAIN_ACTION_UNREGISTERED:${file}:${use}`);',
+    replace: 'if (false) failures.push(`E_TOOLCHAIN_ACTION_UNREGISTERED:${file}:${use}`);',
+  },
+  {
+    id: 'ro-tree-change-ignored',
+    file: 'test-readonly-guard.mjs',
+    find: 'if (before !== after) {',
+    replace: 'if (false) {',
+  },
+  {
+    id: 'ro-unregistered-temp-ignored',
+    file: 'test-readonly-guard.mjs',
+    find: 'if (!registered.has(literal)) failures.push(`E_TEMP_PATH_UNREGISTERED:${literal}`);',
+    replace: 'if (false) failures.push(`E_TEMP_PATH_UNREGISTERED:${literal}`);',
+  },
+  {
+    id: 'sb-digest-drift-ignored',
+    file: 'source-binding.mjs',
+    find: 'if (sha256hex(content) !== entry.sha256) failures.push(`E_SOURCE_BINDING_DIGEST_DRIFT:${rel}`);',
+    replace: 'if (false) failures.push(`E_SOURCE_BINDING_DIGEST_DRIFT:${rel}`);',
+  },
+  {
+    id: 'sb-extra-ignored',
+    file: 'source-binding.mjs',
+    find: 'if (!declared.has(rel)) failures.push(`E_SOURCE_BINDING_EXTRA:${rel}`);',
+    replace: 'if (false) failures.push(`E_SOURCE_BINDING_EXTRA:${rel}`);',
+  },
 ]);
 
-const listTestFiles = (dir) => fs.readdirSync(dir)
-  .filter((name) => name.endsWith('.test.mjs'))
-  .sort()
-  .map((name) => path.join(dir, name));
+const listTestFiles = (dir, out = []) => {
+  if (!fs.existsSync(dir)) return out;
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) listTestFiles(full, out);
+    else if (entry.isFile() && entry.name.endsWith('.test.mjs')) out.push(full);
+  }
+  return out.sort();
+};
 
 function runSuite(root) {
   const files = listTestFiles(path.join(root, 'tests'));

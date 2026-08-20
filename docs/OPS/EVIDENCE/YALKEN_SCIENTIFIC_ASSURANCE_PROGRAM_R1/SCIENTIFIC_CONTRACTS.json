@@ -340,7 +340,7 @@
       "probeId": "PROBE_ENGINES_UNPINNED",
       "repoPath": "package.json",
       "jsonPointer": "/engines",
-      "expected": "ABSENT",
+      "expected": "PRESENT",
       "issueId": "I14_TOOLCHAIN_AND_PACKAGE_SURFACE"
     }
   ],

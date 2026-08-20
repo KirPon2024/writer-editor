@@ -74,7 +74,8 @@
     "build:mac": "electron-builder --mac",
     "build:win": "electron-builder --win",
     "build:linux": "electron-builder --linux",
-    "test:rtk-phys01": "node --test test/contracts/rtk-phys01-ladder-runner.contract.test.js"
+    "test:rtk-phys01": "node --test test/contracts/rtk-phys01-ladder-runner.contract.test.js",
+    "test:r24-q0": "node scripts/ops/r24/run-q0-tests.mjs"
   },
   "keywords": [
     "editor",
@@ -141,5 +142,9 @@
         }
       }
     }
+  },
+  "engines": {
+    "node": ">=20.19.0 <21.0.0",
+    "npm": ">=10.0.0 <11.0.0"
   }
 }

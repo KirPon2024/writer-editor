@@ -1,4 +1,5 @@
 const { contextBridge, ipcRenderer } = require('electron');
+const { createEnvelope, withTimeoutBudget } = require('./core/ipc-envelope-v1.cjs');
 const PRELOAD_WORKSPACE_QUERY_IDS = Object.freeze({
   PROJECT_TREE: 'query.projectTree',
   PROJECT_LIBRARY: 'query.projectLibrary',
@@ -35,12 +36,23 @@ function normalizeRequestPayload(value) {
   return value && typeof value === 'object' && !Array.isArray(value) ? value : {};
 }
 
+// R2.4 S1: every bridge send carries the versioned envelope (version,
+// correlation id, issued-at) and awaited bridges run under a timeout budget
+// whose late results are discarded. The save-lifecycle signal bridge stays
+// fire-and-forget by design.
+const COMMAND_BRIDGE_TIMEOUT_MS = 120000;
+const QUERY_BRIDGE_TIMEOUT_MS = 30000;
+
 function invokeUiCommand(commandId, payload = {}) {
-  return ipcRenderer.invoke(UI_COMMAND_BRIDGE_CHANNEL, {
-    route: COMMAND_BUS_ROUTE,
-    commandId: typeof commandId === 'string' ? commandId : '',
-    payload: normalizeRequestPayload(payload),
-  });
+  const envelope = createEnvelope(
+    UI_COMMAND_BRIDGE_CHANNEL,
+    typeof commandId === 'string' ? commandId : '',
+    normalizeRequestPayload(payload),
+  );
+  return withTimeoutBudget(
+    () => ipcRenderer.invoke(UI_COMMAND_BRIDGE_CHANNEL, envelope),
+    { timeoutMs: COMMAND_BRIDGE_TIMEOUT_MS, correlationId: envelope.correlationId },
+  );
 }
 
 function dispatchTreeCommand(request = {}) {
@@ -133,16 +145,18 @@ contextBridge.exposeInMainWorld('electronAPI', {
     return ipcRenderer.invoke('ui:open-section', { sectionName });
   },
   getProjectTree: (tab) => {
-    return ipcRenderer.invoke(WORKSPACE_QUERY_BRIDGE_CHANNEL, {
-      queryId: PRELOAD_WORKSPACE_QUERY_IDS.PROJECT_TREE,
-      payload: { tab },
-    });
+    const envelope = createEnvelope(WORKSPACE_QUERY_BRIDGE_CHANNEL, PRELOAD_WORKSPACE_QUERY_IDS.PROJECT_TREE, { tab });
+    return withTimeoutBudget(
+      () => ipcRenderer.invoke(WORKSPACE_QUERY_BRIDGE_CHANNEL, envelope),
+      { timeoutMs: QUERY_BRIDGE_TIMEOUT_MS, correlationId: envelope.correlationId },
+    );
   },
   getProjectLibrary: (payload) => {
-    return ipcRenderer.invoke(WORKSPACE_QUERY_BRIDGE_CHANNEL, {
-      queryId: PRELOAD_WORKSPACE_QUERY_IDS.PROJECT_LIBRARY,
-      payload: normalizeRequestPayload(payload),
-    });
+    const envelope = createEnvelope(WORKSPACE_QUERY_BRIDGE_CHANNEL, PRELOAD_WORKSPACE_QUERY_IDS.PROJECT_LIBRARY, normalizeRequestPayload(payload));
+    return withTimeoutBudget(
+      () => ipcRenderer.invoke(WORKSPACE_QUERY_BRIDGE_CHANNEL, envelope),
+      { timeoutMs: QUERY_BRIDGE_TIMEOUT_MS, correlationId: envelope.correlationId },
+    );
   },
   openDocument: (payload) => {
     return invokeUiCommand(DOCUMENT_OPEN_COMMAND_ID, payload);
@@ -199,12 +213,15 @@ contextBridge.exposeInMainWorld('electronAPI', {
     const safeRequest = request && typeof request === 'object' && !Array.isArray(request)
       ? request
       : {};
-    const route = typeof safeRequest.route === 'string' ? safeRequest.route : '';
     const commandId = typeof safeRequest.commandId === 'string' ? safeRequest.commandId : '';
     const payload = safeRequest.payload && typeof safeRequest.payload === 'object' && !Array.isArray(safeRequest.payload)
       ? safeRequest.payload
       : {};
-    return ipcRenderer.invoke(UI_COMMAND_BRIDGE_CHANNEL, { route, commandId, payload });
+    const envelope = createEnvelope(UI_COMMAND_BRIDGE_CHANNEL, commandId, payload);
+    return withTimeoutBudget(
+      () => ipcRenderer.invoke(UI_COMMAND_BRIDGE_CHANNEL, envelope),
+      { timeoutMs: COMMAND_BRIDGE_TIMEOUT_MS, correlationId: envelope.correlationId },
+    );
   },
   invokeWorkspaceQueryBridge: (request) => {
     const safeRequest = request && typeof request === 'object' && !Array.isArray(request)
@@ -214,7 +231,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
     const payload = safeRequest.payload && typeof safeRequest.payload === 'object' && !Array.isArray(safeRequest.payload)
       ? safeRequest.payload
       : {};
-    return ipcRenderer.invoke(WORKSPACE_QUERY_BRIDGE_CHANNEL, { queryId, payload });
+    const envelope = createEnvelope(WORKSPACE_QUERY_BRIDGE_CHANNEL, queryId, payload);
+    return withTimeoutBudget(
+      () => ipcRenderer.invoke(WORKSPACE_QUERY_BRIDGE_CHANNEL, envelope),
+      { timeoutMs: QUERY_BRIDGE_TIMEOUT_MS, correlationId: envelope.correlationId },
+    );
   },
   invokeSaveLifecycleSignalBridge: (request) => {
     const safeRequest = request && typeof request === 'object' && !Array.isArray(request)
@@ -224,7 +245,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
     const payload = safeRequest.payload && typeof safeRequest.payload === 'object' && !Array.isArray(safeRequest.payload)
       ? safeRequest.payload
       : {};
-    return ipcRenderer.invoke(SAVE_LIFECYCLE_SIGNAL_BRIDGE_CHANNEL, { signalId, payload });
+    // Fire-and-forget by design: no timeout budget on the signal bridge;
+    // cancellation is the renderer's debounce, and the frame still carries
+    // version and correlation identity.
+    return ipcRenderer.invoke(SAVE_LIFECYCLE_SIGNAL_BRIDGE_CHANNEL, createEnvelope(SAVE_LIFECYCLE_SIGNAL_BRIDGE_CHANNEL, signalId, payload));
   },
   setTheme: (theme) => {
     ipcRenderer.send('ui:set-theme', theme);

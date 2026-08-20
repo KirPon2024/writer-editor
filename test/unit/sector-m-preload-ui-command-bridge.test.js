@@ -14,7 +14,7 @@ test('preload ui command bridge: preload exposes one typed invoke api for comman
 
   assert.equal((source.match(/invokeUiCommandBridge:\s*\(request\)\s*=>\s*\{/g) || []).length, 1)
   assert.ok(source.includes("const UI_COMMAND_BRIDGE_CHANNEL = 'ui:command-bridge';"))
-  assert.ok(source.includes("return ipcRenderer.invoke(UI_COMMAND_BRIDGE_CHANNEL, { route, commandId, payload });"))
+  assert.ok(source.includes("() => ipcRenderer.invoke(UI_COMMAND_BRIDGE_CHANNEL, envelope)"))
 })
 
 test('preload ui command bridge: main exposes one handler and enforces route and allowlist', () => {

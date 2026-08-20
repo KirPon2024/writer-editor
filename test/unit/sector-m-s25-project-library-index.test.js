@@ -243,6 +243,6 @@ test('S25 project library bridge: query is allowlisted and zero-network', () => 
   assert.match(main, /WORKSPACE_QUERY_BRIDGE_HANDLERS\.get\(queryId\)/u);
   assert.match(preload, /getProjectLibrary: \(payload\) => \{/u);
   assert.match(preload, /PROJECT_LIBRARY: 'query\.projectLibrary'/u);
-  assert.match(preload, /queryId: PRELOAD_WORKSPACE_QUERY_IDS\.PROJECT_LIBRARY/u);
+  assert.match(preload, /createEnvelope\(WORKSPACE_QUERY_BRIDGE_CHANNEL, PRELOAD_WORKSPACE_QUERY_IDS\.PROJECT_LIBRARY/u);
   assert.doesNotMatch(provider, /\bfetch\b|https?:|XMLHttpRequest|net\.request/u);
 });

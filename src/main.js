@@ -49,6 +49,9 @@ const {
   createGuardedIpcRegistration,
 } = require('./core/ipc-caller-identity-v1.cjs');
 const {
+  validateIpcEnvelope,
+} = require('./core/ipc-envelope-v1.cjs');
+const {
   classifySaveAck,
   SAVE_ACK_KINDS,
 } = require('./core/dirty-admission-v1.cjs');
@@ -25876,6 +25879,11 @@ guardedHandle('ui:get-collab-scope-local', async () => {
 });
 
 guardedHandle('ui:command-bridge', async (_, request) => {
+  // R2.4 S1: the versioned envelope is validated before any interpretation.
+  const envelopeVerdict = validateIpcEnvelope(request, 'ui:command-bridge');
+  if (!envelopeVerdict.ok) {
+    return { ok: false, reason: envelopeVerdict.code };
+  }
   const safeRequest = request && typeof request === 'object' && !Array.isArray(request)
     ? request
     : {};
@@ -25930,6 +25938,11 @@ const WORKSPACE_QUERY_BRIDGE_HANDLERS = new Map([
 ]);
 
 guardedHandle('ui:workspace-query-bridge', async (_, request) => {
+  // R2.4 S1: the versioned envelope is validated before any interpretation.
+  const envelopeVerdict = validateIpcEnvelope(request, 'ui:workspace-query-bridge');
+  if (!envelopeVerdict.ok) {
+    return { ok: false, error: envelopeVerdict.code };
+  }
   const safeRequest = request && typeof request === 'object' && !Array.isArray(request)
     ? request
     : {};
@@ -25952,6 +25965,11 @@ guardedHandle('ui:workspace-query-bridge', async (_, request) => {
 });
 
 guardedHandle('ui:save-lifecycle-signal-bridge', async (_, request) => {
+  // R2.4 S1: the versioned envelope is validated before any interpretation.
+  const envelopeVerdict = validateIpcEnvelope(request, 'ui:save-lifecycle-signal-bridge');
+  if (!envelopeVerdict.ok) {
+    return { ok: false, error: envelopeVerdict.code };
+  }
   const safeRequest = request && typeof request === 'object' && !Array.isArray(request)
     ? request
     : {};

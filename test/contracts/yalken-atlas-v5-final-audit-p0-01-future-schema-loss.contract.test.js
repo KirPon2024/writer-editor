@@ -23,6 +23,14 @@ const harnessCallerEvent = () => ({
   senderFrame: { url: HARNESS_SHELL_URL },
 });
 
+// R2.4 S1: bridge dispatches must carry the versioned envelope frame.
+const frameBridgeRequest = (request) => ({
+  v: 1,
+  correlationId: `harness-${Math.random().toString(36).slice(2, 12)}`,
+  issuedAt: new Date().toISOString(),
+  ...request,
+});
+
 async function loadRuntimeModule() {
   return import(pathToFileURL(path.join(ROOT, 'src', 'core', 'runtime.mjs')).href);
 }
@@ -188,7 +196,7 @@ test('P0 01: product command bridge fails closed on unsupported future Atlas aut
 
   const commandBridge = harness.ipcHandlers.get('ui:command-bridge');
   assert.equal(typeof commandBridge, 'function');
-  const dispatched = await commandBridge(harnessCallerEvent(), {
+  const dispatched = await commandBridge(harnessCallerEvent(), frameBridgeRequest({
     route: 'command.bus',
     commandId: 'atlas.entity.create',
     payload: {
@@ -197,7 +205,7 @@ test('P0 01: product command bridge fails closed on unsupported future Atlas aut
       name: 'After Future Quarantine',
       entityKind: 'character',
     },
-  });
+  }));
   assert.equal(dispatched.ok, false, JSON.stringify(dispatched));
   assert.match(JSON.stringify(dispatched), /E_PRODUCT_COMMAND_AUTHOR_SCHEMA_UNSUPPORTED/u);
   assert.equal(await fsPromises.readFile(sourceManifestPath, 'utf8'), sourceRaw);
@@ -241,7 +249,7 @@ test('P0 01: Atlas mutation preserves opaque future Manual Map, Idea and Meaning
   const opened = await harness.main.handleProjectLifecycleOpenCommand({ projectId: manifest.projectId });
   assert.equal(opened.ok, true);
   const commandBridge = harness.ipcHandlers.get('ui:command-bridge');
-  const dispatched = await commandBridge(harnessCallerEvent(), {
+  const dispatched = await commandBridge(harnessCallerEvent(), frameBridgeRequest({
     route: 'command.bus',
     commandId: 'atlas.entity.create',
     payload: {
@@ -250,7 +258,7 @@ test('P0 01: Atlas mutation preserves opaque future Manual Map, Idea and Meaning
       name: 'Preserved Domains',
       entityKind: 'character',
     },
-  });
+  }));
   assert.equal(dispatched.ok, true, JSON.stringify(dispatched));
 
   const persisted = JSON.parse(await fsPromises.readFile(manifestPath, 'utf8'));
@@ -339,7 +347,7 @@ test('R1 B: released Atlas mutation advances the canonical Command Kernel event 
   const beforeAuthority = JSON.parse(await fsPromises.readFile(authorityPath, 'utf8'));
 
   const commandBridge = harness.ipcHandlers.get('ui:command-bridge');
-  const dispatched = await commandBridge(harnessCallerEvent(), {
+  const dispatched = await commandBridge(harnessCallerEvent(), frameBridgeRequest({
     route: 'command.bus',
     commandId: 'atlas.entity.create',
     payload: {
@@ -349,7 +357,7 @@ test('R1 B: released Atlas mutation advances the canonical Command Kernel event 
       name: 'Canonical Authority',
       entityKind: 'character',
     },
-  });
+  }));
   assert.equal(dispatched.ok, true, JSON.stringify(dispatched));
   const receipt = dispatched.value?.receipt;
   assert.equal(receipt?.schemaVersion, 'command-kernel.receipt.v1');
@@ -384,7 +392,7 @@ test('R1 B: released Atlas mutation advances the canonical Command Kernel event 
   assert.equal(projectTruthRecovery.projectId, manifest.projectId);
   const recoveredPreviousManifest = JSON.parse(projectTruthRecovery.previousText);
   assert.equal(recoveredPreviousManifest.atlas?.entities?.['entity-command-kernel-authority'], undefined);
-  const duplicate = await commandBridge(harnessCallerEvent(), {
+  const duplicate = await commandBridge(harnessCallerEvent(), frameBridgeRequest({
     route: 'command.bus',
     commandId: 'atlas.entity.create',
     payload: {
@@ -394,7 +402,7 @@ test('R1 B: released Atlas mutation advances the canonical Command Kernel event 
       name: 'Duplicate Must Not Persist',
       entityKind: 'character',
     },
-  });
+  }));
   assert.equal(duplicate.ok, false, JSON.stringify(duplicate));
   assert.match(JSON.stringify(duplicate), /COMMAND_KERNEL_(RECEIPT_ID|OPERATION_ID)_ALREADY_EXISTS/u);
   assert.equal(await fsPromises.readFile(manifestPath, 'utf8'), manifestAfterFirst);
@@ -415,7 +423,7 @@ test('R1 B: released Atlas mutation advances the canonical Command Kernel event 
   const registry = registryModule.createCommandRegistry();
   projectCommands.registerProjectCommands(registry, {
     electronAPI: {
-      invokeUiCommandBridge: (request) => commandBridge(harnessCallerEvent(), request),
+      invokeUiCommandBridge: (request) => commandBridge(harnessCallerEvent(), frameBridgeRequest(request)),
     },
   });
   const alias = await registry.getHandler('atlas.alias.add')({
@@ -631,7 +639,7 @@ test('P0 01: startup-created product project persists tree identity before rende
 
   const commandBridge = harness.ipcHandlers.get('ui:command-bridge');
   assert.equal(typeof commandBridge, 'function');
-  const bridgeResult = await commandBridge(harnessCallerEvent(), {
+  const bridgeResult = await commandBridge(harnessCallerEvent(), frameBridgeRequest({
     route: 'command.bus',
     commandId: 'cmd.project.tree.createNode',
     payload: {
@@ -639,7 +647,7 @@ test('P0 01: startup-created product project persists tree identity before rende
       kind: 'scene',
       name: 'dorian-00-preface',
     },
-  });
+  }));
   assert.equal(bridgeResult.ok, true, JSON.stringify(bridgeResult));
   assert.equal(bridgeResult.value?.ok, true, JSON.stringify(bridgeResult));
   assert.match(bridgeResult.value.nodeId, /^tree-node-[a-f0-9]{32}$/u);
@@ -697,7 +705,7 @@ test('P0 01: lifecycle open bootstraps current-schema missing or stale tree iden
 
       const commandBridge = harness.ipcHandlers.get('ui:command-bridge');
       assert.equal(typeof commandBridge, 'function');
-      const bridgeResult = await commandBridge(harnessCallerEvent(), {
+      const bridgeResult = await commandBridge(harnessCallerEvent(), frameBridgeRequest({
         route: 'command.bus',
         commandId: 'cmd.project.tree.createNode',
         payload: {
@@ -705,7 +713,7 @@ test('P0 01: lifecycle open bootstraps current-schema missing or stale tree iden
           kind: 'scene',
           name: `dorian-${scenario.name}`,
         },
-      });
+      }));
       assert.equal(bridgeResult.ok, true, JSON.stringify(bridgeResult));
       assert.equal(bridgeResult.value?.ok, true, JSON.stringify(bridgeResult));
       assert.match(bridgeResult.value.nodeId, /^tree-node-[a-f0-9]{32}$/u);
@@ -759,7 +767,7 @@ test('P0 01: failed lifecycle open preserves prior active project tree authority
 
   const commandBridge = harness.ipcHandlers.get('ui:command-bridge');
   assert.equal(typeof commandBridge, 'function');
-  const createAfterFailure = await commandBridge(harnessCallerEvent(), {
+  const createAfterFailure = await commandBridge(harnessCallerEvent(), frameBridgeRequest({
     route: 'command.bus',
     commandId: 'cmd.project.tree.createNode',
     payload: {
@@ -767,7 +775,7 @@ test('P0 01: failed lifecycle open preserves prior active project tree authority
       kind: 'scene',
       name: 'alpha-after-failed-beta-open',
     },
-  });
+  }));
   assert.equal(createAfterFailure.ok, true, JSON.stringify(createAfterFailure));
   assert.equal(createAfterFailure.value?.ok, true, JSON.stringify(createAfterFailure));
   assert.match(createAfterFailure.value.nodeId, /^tree-node-[a-f0-9]{32}$/u);
@@ -821,11 +829,11 @@ test('P0 01: each commanded future author domain fails before recovery or durabl
     await fsPromises.writeFile(manifestPath, sourceRaw, 'utf8');
     assert.equal((await harness.main.handleProjectLifecycleOpenCommand({ projectId: manifest.projectId })).ok, true);
 
-    const dispatched = await harness.ipcHandlers.get('ui:command-bridge')(harnessCallerEvent(), {
+    const dispatched = await harness.ipcHandlers.get('ui:command-bridge')(harnessCallerEvent(), frameBridgeRequest({
       route: 'command.bus',
       commandId: scenario.commandId,
       payload: { projectId: manifest.projectId, ...scenario.payload },
-    });
+    }));
     assert.equal(dispatched.ok, false, `${scenario.commandId}:${JSON.stringify(dispatched)}`);
     assert.match(JSON.stringify(dispatched), /E_PRODUCT_COMMAND_AUTHOR_SCHEMA_UNSUPPORTED/u);
     assert.equal(await fsPromises.readFile(manifestPath, 'utf8'), sourceRaw);

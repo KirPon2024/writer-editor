@@ -14,7 +14,7 @@ test('preload workspace query bridge: preload exposes one typed query bridge api
 
   assert.equal((source.match(/invokeWorkspaceQueryBridge:\s*\(request\)\s*=>\s*\{/g) || []).length, 1)
   assert.ok(source.includes("const WORKSPACE_QUERY_BRIDGE_CHANNEL = 'ui:workspace-query-bridge';"))
-  assert.ok(source.includes("return ipcRenderer.invoke(WORKSPACE_QUERY_BRIDGE_CHANNEL, { queryId, payload });"))
+  assert.ok(source.includes("() => ipcRenderer.invoke(WORKSPACE_QUERY_BRIDGE_CHANNEL, envelope)"))
 })
 
 test('preload workspace query bridge: main has one query bridge handler with strict allowlist', () => {

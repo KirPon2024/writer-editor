@@ -6678,10 +6678,11 @@
     },
     {
       "filePath": "src/preload.js",
-      "sha256": "f56ee01ce624d1e25232b5a502deb55746b14c6e50b34730e481497b4a031f2c",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
-      "approvedAtUtc": "2026-07-31T11:45:00.000Z",
-      "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
+      "sha256": "f721aa83bb2e7eb28f441e7433c0bb4f4ee09e2c70257b508cf16baa189934f0",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-S1-IPC-ENVELOPE-BUDGETS-001",
+      "approvedAtUtc": "2026-08-20T17:53:00.000Z",
+      "rationale": "Approve R2.4 S1 preload bridge framing: all six sends to the three payload bridges are wrapped in the versioned envelope (v, correlationId, issuedAt) via createEnvelope, awaited bridges run under timeout budgets with late-result discard, signal bridge stays fire-and-forget; no new channel or authority.",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "src/renderer/commands/localCapabilityProvider.mjs",
@@ -8914,10 +8915,10 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-01-future-schema-loss.contract.test.js",
-      "sha256": "d9cf4a549de8e4ad883241aa0d7ec371ff1c04866d5c9dde4ad8228db32d29b9",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-S0-IPC-CALLER-IDENTITY-001",
-      "approvedAtUtc": "2026-08-20T15:12:38.000Z",
-      "rationale": "Approve R2.4 S0 atlas harness alignment: electron stub registers one synthetic shell webContents and command-bridge dispatches use a genuine-shaped caller event through the caller-identity fence instead of null events.",
+      "sha256": "d13aa44196fb642f7fc7246a993544ae84373b76922d33e68114428ab2922d62",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-S1-IPC-ENVELOPE-BUDGETS-001",
+      "approvedAtUtc": "2026-08-20T17:53:00.000Z",
+      "rationale": "Approve R2.4 S1 atlas harness envelope framing: command-bridge dispatches now carry the versioned frame via frameBridgeRequest, matching the main-side envelope validation; contract semantics unchanged.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
@@ -9322,10 +9323,10 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "d6304b3ab737b9b1b8dfa90407984ef532ae4fa7cbec92c883fcfa758907c612",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-P1-DIRTY-ADMISSION-ACK-001",
-      "approvedAtUtc": "2026-08-20T16:29:32.000Z",
-      "rationale": "Approve R2.4 P1 package.json change: adds test:r24-p1 script binding the P1 gate into the required CI lane; no dependency change.",
+      "sha256": "8ed3eded77711b42474b4ce9501670a705a30aef23e8c94dfb1d7432df5f4c83",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-S1-IPC-ENVELOPE-BUDGETS-001",
+      "approvedAtUtc": "2026-08-20T17:52:11.000Z",
+      "rationale": "Approve R2.4 S1 package.json change: adds test:r24-s1 script binding the S1 envelope gate into the required CI lane; no dependency change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
@@ -9754,10 +9755,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "6395771d5c268c4eea95c7e37372ef190876b7d160b37bb909ffe09af3bf1b3b",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-P1-DIRTY-ADMISSION-ACK-001",
-      "approvedAtUtc": "2026-08-20T16:29:32.000Z",
-      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 P1: package.json and src/renderer/editor.js digests updated to exact bytes after the dirty admission edit; no wording or claim change.",
+      "sha256": "2b3e1c50dcddd2605a9fa2313689a21b1c78695d798c6ac87dae4c635b32aed7",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-S1-IPC-ENVELOPE-BUDGETS-001",
+      "approvedAtUtc": "2026-08-20T17:52:11.000Z",
+      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 S1: package.json digest updated to the exact bytes gained by the test:r24-s1 script entry; no wording or claim change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
@@ -10924,10 +10925,10 @@
     },
     {
       "filePath": ".github/workflows/rtk-required.yml",
-      "sha256": "b9f401a84b27e863e9981ab576b38da1244d70d3b6bc7ae39ed1f3a06d3b1ba1",
-      "rationale": "Approve R2.4 P1 rtk-required.yml change: adds one step running npm run -s test:r24-p1 after the S0 gate; triggers and permissions unchanged.",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-P1-DIRTY-ADMISSION-ACK-001",
-      "approvedAtUtc": "2026-08-20T16:29:32.000Z",
+      "sha256": "320878db364cfa10c2425bca4582f66dd293f586555fa35506abed45488c1b0c",
+      "rationale": "Approve R2.4 S1 rtk-required.yml change: adds one step running npm run -s test:r24-s1 after the P1 gate; triggers and permissions unchanged.",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-S1-IPC-ENVELOPE-BUDGETS-001",
+      "approvedAtUtc": "2026-08-20T17:52:11.000Z",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },

@@ -46,6 +46,9 @@ jobs:
       - name: Run R2.4 P1 dirty admission ack gate
         run: npm run -s test:r24-p1
 
+      - name: Run R2.4 S1 IPC envelope budgets gate
+        run: npm run -s test:r24-s1
+
       - name: Run maintained Atlas event contract graph
         run: npm run -s test:atlas-event-contract
 

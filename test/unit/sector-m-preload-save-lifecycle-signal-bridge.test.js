@@ -14,7 +14,7 @@ test('preload save lifecycle signal bridge: preload exposes one typed signal bri
 
   assert.equal((source.match(/invokeSaveLifecycleSignalBridge:\s*\(request\)\s*=>\s*\{/g) || []).length, 1)
   assert.ok(source.includes("const SAVE_LIFECYCLE_SIGNAL_BRIDGE_CHANNEL = 'ui:save-lifecycle-signal-bridge';"))
-  assert.ok(source.includes('return ipcRenderer.invoke(SAVE_LIFECYCLE_SIGNAL_BRIDGE_CHANNEL, { signalId, payload });'))
+  assert.ok(source.includes('return ipcRenderer.invoke(SAVE_LIFECYCLE_SIGNAL_BRIDGE_CHANNEL, createEnvelope(SAVE_LIFECYCLE_SIGNAL_BRIDGE_CHANNEL, signalId, payload));'))
 })
 
 test('preload save lifecycle signal bridge: main exposes one handler with strict signal allowlist', () => {

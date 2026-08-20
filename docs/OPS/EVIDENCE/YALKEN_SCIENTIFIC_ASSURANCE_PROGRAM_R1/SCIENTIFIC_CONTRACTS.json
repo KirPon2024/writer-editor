@@ -302,9 +302,9 @@
   ],
   "currentRealityProbes": [
     {
-      "probeId": "PROBE_AUTOSAVE_IN_PROGRESS_RETURNS_TRUE",
+      "probeId": "PROBE_AUTOSAVE_IN_PROGRESS_RETURNS_NOOP_RESULT",
       "repoPath": "src/main.js",
-      "needle": "if (!mainWindow || autoSaveInProgress) {\n    return true;",
+      "needle": "if (!mainWindow || autoSaveInProgress) {\n    return { ok: true, ack: null };",
       "expected": "PRESENT",
       "issueId": "I03_AUTOSAVE_DIRTY_LIFECYCLE"
     },

@@ -11,7 +11,7 @@
     {
       "surfaceId": "surface-package-json",
       "path": "package.json",
-      "sha256": "sha256:5e0fff2fde4a6e6620d9394ea96753f9bf1f60cec9e33dffd843c5c757d6bc3f"
+      "sha256": "sha256:d6304b3ab737b9b1b8dfa90407984ef532ae4fa7cbec92c883fcfa758907c612"
     },
     {
       "surfaceId": "surface-menu-config",
@@ -21,7 +21,7 @@
     {
       "surfaceId": "surface-editor-js",
       "path": "src/renderer/editor.js",
-      "sha256": "sha256:aeac246f5ebf5c17b1797e797cda1abb2a81a65f795154467fec208f56b31921"
+      "sha256": "sha256:ea637d284586ddc99897862f639ece99f7771849e164dcfc025adaacc797cee1"
     }
   ],
   "claims": [

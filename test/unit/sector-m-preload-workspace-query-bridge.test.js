@@ -20,7 +20,7 @@ test('preload workspace query bridge: preload exposes one typed query bridge api
 test('preload workspace query bridge: main has one query bridge handler with strict allowlist', () => {
   const source = read('src/main.js')
 
-  assert.equal((source.match(/guardedHandle\('ui:workspace-query-bridge'/g) || []).length, 1)
+  assert.equal((source.match(/guardedProtocolHandle\('ui:workspace-query-bridge'/g) || []).length, 1)
   assert.ok(source.includes("} = require('./shared/workspaceQueryRegistry.cjs');"))
   assert.ok(source.includes('const WORKSPACE_QUERY_BRIDGE_ALLOWED_QUERY_IDS = new Set(WORKSPACE_QUERY_ID_LIST);'))
   assert.ok(source.includes('if (!WORKSPACE_QUERY_BRIDGE_ALLOWED_QUERY_IDS.has(queryId)) {'))
@@ -76,9 +76,9 @@ test('preload workspace query bridge: existing query semantics and out-of-scope 
 
   assert.ok(preloadSource.includes('requestAutoSave: () => {'))
   assert.ok(preloadSource.includes('notifyDirtyState: (state) => {'))
-  assert.ok(mainSource.includes("guardedHandle('ui:command-bridge', async (_, request) => {"))
+  assert.ok(mainSource.includes("guardedProtocolHandle('ui:command-bridge', async (_, request) => {"))
   assert.ok(preloadSource.includes('invokeSaveLifecycleSignalBridge: (request) => {'))
-  assert.ok(mainSource.includes("guardedHandle('ui:save-lifecycle-signal-bridge', async (_, request) => {"))
+  assert.ok(mainSource.includes("guardedProtocolHandle('ui:save-lifecycle-signal-bridge', async (_, request) => {"))
   assert.ok(editorSource.includes('typeof window.electronAPI.invokeSaveLifecycleSignalBridge !=='))
   assert.ok(editorSource.includes("invokeSaveLifecycleSignalBridge('signal.autoSave.request')"))
   assert.ok(editorSource.includes("void invokeSaveLifecycleSignalBridge('signal.localDirty.set', { state: true, generation: localEditGeneration });"))

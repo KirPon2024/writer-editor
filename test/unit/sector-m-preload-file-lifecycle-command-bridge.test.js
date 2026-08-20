@@ -79,8 +79,8 @@ test('preload file lifecycle bridge: out-of-scope surfaces remain present and co
   const mainSource = read('src/main.js')
 
   assert.ok(preloadSource.includes('invokeUiCommandBridge: (request) => {'))
-  assert.ok(mainSource.includes("guardedHandle('ui:workspace-query-bridge', async (_, request) => {"))
-  assert.ok(mainSource.includes("guardedHandle('ui:save-lifecycle-signal-bridge', async (_, request) => {"))
+  assert.ok(mainSource.includes("guardedProtocolHandle('ui:workspace-query-bridge', async (_, request) => {"))
+  assert.ok(mainSource.includes("guardedProtocolHandle('ui:save-lifecycle-signal-bridge', async (_, request) => {"))
   assert.ok(mainSource.includes("guardedHandle('ui:open-section', async (_, payload) => {"))
   assert.ok(mainSource.includes("guardedHandle(EXPORT_DOCX_MIN_CHANNEL, async (_, payload) => {"))
   assert.ok(mainSource.includes("guardedHandle(IMPORT_MARKDOWN_V1_CHANNEL, async (_, payload) => {"))

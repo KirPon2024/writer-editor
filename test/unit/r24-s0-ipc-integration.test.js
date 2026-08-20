@@ -93,7 +93,8 @@ test('full denominator: main.js registers every privileged channel through the g
   assert.equal(rawOn, 0, 'no raw ipcMain.on registration may remain in main.js');
   const guardedHandle = (source.match(/guardedHandle\(/g) || []).length;
   const guardedOn = (source.match(/guardedOn\(/g) || []).length;
-  assert.ok(guardedHandle >= 21, `guardedHandle call sites ${guardedHandle} >= 21`);
+  const protocolHandle = (source.match(/guardedProtocolHandle\(/g) || []).length;
+  assert.ok(guardedHandle + protocolHandle >= 21, `guarded handle call sites ${guardedHandle}+${protocolHandle} >= 21`);
   assert.ok(guardedOn >= 9, `guardedOn call sites ${guardedOn} >= 9`);
   assert.ok(source.includes('createGuardedIpcRegistration(ipcMain, IPC_CALLER_IDENTITY_POLICY)'));
 });

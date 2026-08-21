@@ -91,6 +91,9 @@ jobs:
       - name: Run R2.4 WP-103 revision product order gate
         run: npm run -s test:r24-wp103
 
+      - name: Run R2.4 WP-104 boundary falsification gate
+        run: npm run -s test:r24-wp104
+
       - name: Run maintained Atlas event contract graph
         run: npm run -s test:atlas-event-contract
 

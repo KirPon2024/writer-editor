@@ -69,11 +69,23 @@ function diffSets(expected, actual) {
   };
 }
 
+const RTK_PREFIX_RE = /^rtk-.*\.contract\.test\.js$/u;
+
 function buildPlan() {
   const catalog = readJson(CATALOG_PATH);
-  const expected = uniqueSorted(catalog.contractBasenames || []);
-  const actual = listMaintainedRtkContracts();
+  // R2.4 EXH0: the maintained graph is the prefix-discovered set plus the
+  // catalog-declared extra-maintained contracts (live-claim contracts whose
+  // freshness the required lane must prove). Extra entries must exist on
+  // disk and must not collide with the prefix class; violations fold into
+  // the drift gate so membership changes stay fail-closed.
+  const catalogBasenames = uniqueSorted(catalog.contractBasenames || []);
+  const extraMaintained = uniqueSorted(catalog.extraMaintainedContractBasenames || []);
+  const onDisk = new Set(fs.readdirSync(CONTRACT_DIR));
+  const expected = uniqueSorted([...catalogBasenames, ...extraMaintained]);
+  const actual = uniqueSorted([...listMaintainedRtkContracts(), ...extraMaintained.filter((name) => onDisk.has(name))]);
   const diff = diffSets(expected, actual);
+  diff.missing.push(...extraMaintained.filter((name) => !onDisk.has(name)).map((name) => `extra-maintained-not-on-disk:${name}`));
+  diff.extra.push(...extraMaintained.filter((name) => RTK_PREFIX_RE.test(name)).map((name) => `extra-maintained-prefix-collision:${name}`));
   return {
     catalog,
     expected,

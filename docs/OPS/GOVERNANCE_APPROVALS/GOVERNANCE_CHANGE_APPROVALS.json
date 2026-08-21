@@ -6268,12 +6268,12 @@
     },
     {
       "filePath": "scripts/run-rtk-tests.mjs",
-      "sha256": "d0c6b258d9b9c7a061d7e986e35729eee9ab2a1061458ab684a5ba4a93833c3f",
-      "approvedBy": "owner-direct:STANDING_DEFAULT_AUTHORIZATION:YALKEN_RTK_OWNED_TMPDIR_HYGIENE_V1_P1_REPAIR",
-      "approvedAtUtc": "2026-08-06T09:21:26.826Z",
-      "rationale": "Approve exact RTK runner bytes that execute the mandatory RTK graph inside a runner-owned TMPDIR lease, clean the no-follow direct-child root from a guaranteed cleanup path, report traversal/remove cleanup failures as structured RTK_TMPDIR_CLEANUP_FAILED evidence without throwing, and preserve fail-closed TAP/spawn diagnostics; no production runtime, Word, UI, dependency, network, Google, or long-campaign change.",
+      "sha256": "50ebedd9da1e52fea410ecf6e924b610da9801044f145ce734eb0bb349450b43",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-EXH0-EVIDENCE-INTEGRITY-REPAIR-001",
+      "approvedAtUtc": "2026-08-21T21:46:39.000Z",
+      "rationale": "Approve R2.4 EXH0 run-rtk-tests.mjs change: the maintained graph union gains the catalog-declared extra-maintained contracts with fail-closed drift semantics preserved; no runner behavior change beyond membership.",
       "approved": true,
-      "authority": "OWNER_STANDING_DEFAULT_AUTHORIZATION_FOR_ROUTINE_IN_SCOPE_EXACT_GOVERNANCE_RECORDS"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "scripts/run-tests.js",
@@ -6897,12 +6897,12 @@
     },
     {
       "filePath": "test/contracts/donor-port-command-surface-kernel.contract.test.js",
-      "sha256": "ab196c14e85a121f9a2919c28c6fa38ab6420e910e3f9f564b3fd8829c4dcd6e",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_N3_FORMATTING_RETURN_RESPONSE_REPAIR",
-      "approvedAtUtc": "2026-08-02T13:34:42.204Z",
-      "rationale": "Approve exact governed and previously approved product-route bytes for the controller-resumed Word N3 formatting-return response repair. This rebind covers the current T7 branch state after physical Word 16.111.2 apply/replay evidence, preserves Google blocked, adds no network path, and makes no broad Word saturation or fixture-only certification claim.",
+      "sha256": "9dba906cf220f40efcd2c5e2931708c1275737a51927c0d49cc81f648f90997a",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-EXH0-EVIDENCE-INTEGRITY-REPAIR-001",
+      "approvedAtUtc": "2026-08-21T21:46:39.000Z",
+      "rationale": "Approve R2.4 EXH0 donor contract reconciliation: expected allowlist updated to the canonical 22-id kernel registry after proving both newer ids are legitimately admitted; no assertion weakened.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_WORD_N3_RESUME"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "test/contracts/e2e-critical-user-path.contract.test.js",
@@ -10907,12 +10907,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
-      "sha256": "4d73d36ca256aa46485fa2c9a661661e77b123db07869075783ae3c8b5f4f26b",
-      "rationale": "Approve one additional maintained RTK contract that validates the complete 66-finding denominator, profile-aware acyclic DAG, bounded claim envelopes and scientific falsification lab while preserving NEEDS_MORE_EVIDENCE and all physical blockers.",
-      "approvedBy": "owner-direct:TASK_ID:YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1",
-      "approvedAtUtc": "2026-08-19T11:12:56.000Z",
+      "sha256": "61c4f6418f298983f07f109dd9912220569f7746dee71f18c7944398d483e769",
+      "rationale": "Approve R2.4 EXH0 catalog change: adds rtk-evidence-stale-green-guard.contract.test.js to contractBasenames and declares extraMaintainedContractBasenames for the two repaired live-claim contracts; discovery rule text amended to match.",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-EXH0-EVIDENCE-INTEGRITY-REPAIR-001",
+      "approvedAtUtc": "2026-08-21T21:46:39.000Z",
       "approved": true,
-      "authority": "OWNER_EXPLICIT_ALL_AUDITS_SCIENTIFIC_CONSOLIDATION_WITHIN_ACTIVE_CANON"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_R4_POSTMERGE_VERIFICATION_RECEIPT_V1.json",

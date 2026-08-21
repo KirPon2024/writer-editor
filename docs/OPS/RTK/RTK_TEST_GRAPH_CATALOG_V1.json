@@ -5,7 +5,7 @@
   "status": "ACTIVE_REQUIRED_LOCAL_PROMOTION_AND_CI",
   "createdAtUtc": "2026-08-01T16:20:00.000Z",
   "command": "npm run -s test:rtk",
-  "discoveryRule": "Every test/contracts basename matching /^rtk-.*\\.contract\\.test\\.js$/ is part of the maintained RTK graph.",
+  "discoveryRule": "Every test/contracts basename matching /^rtk-.*\\.contract\\.test\\.js$/ is part of the maintained RTK graph, plus every entry of extraMaintainedContractBasenames.",
   "scopeNotes": [
     "The graph is deterministic and fail-closed on missing or extra rtk-* contract files.",
     "Review bridge contracts remain covered by default and focused runners, but are not silently folded into the maintained RTK graph.",
@@ -13,12 +13,14 @@
     "Google Docs whole-book evidence covers the frozen canonical synthetic book denominator only; it is not chain saturation, not universal parity, and not a terminal Google Docs platform PASS.",
     "Interop chain C1-C8 is registered as a full-book route denominator with lineage closure rules only; every route remains NEEDS_MORE_EVIDENCE until its own sequential contour executes the complete route.",
     "R4 exact-head release-claim publication emits a scoped non-release aggregate only; blocked claims remain denied and program verdict remains NEEDS_MORE_EVIDENCE.",
-    "RTK execution requires explicit streamed TAP, progress heartbeats, hard deadlines, deterministic owned cleanup, and complete verified process-inspection capability; hidden or indeterminate PID visibility, timeout, orphan, duplicate, or cleanup uncertainty fails closed."
+    "RTK execution requires explicit streamed TAP, progress heartbeats, hard deadlines, deterministic owned cleanup, and complete verified process-inspection capability; hidden or indeterminate PID visibility, timeout, orphan, duplicate, or cleanup uncertainty fails closed.",
+    "R2.4 EXH0: extraMaintainedContractBasenames declares non-prefix contracts carrying live runtime claims (committed status artifacts or canonical registry expectations); membership is fail-closed both directions through the runner drift gate."
   ],
   "contractBasenames": [
     "rtk-admit01-accountable-lanes.contract.test.js",
     "rtk-canon01-ordered-projections.contract.test.js",
     "rtk-evid01-return-evidence-packet.contract.test.js",
+    "rtk-evidence-stale-green-guard.contract.test.js",
     "rtk-export01-unified-bookmark.contract.test.js",
     "rtk-g0a-assurance.contract.test.js",
     "rtk-g0b-feasibility.contract.test.js",
@@ -162,5 +164,9 @@
     "releaseClaimPublication": "R4_EXACT_HEAD_CLAIM_PUBLICATION_V1_SCOPED_NON_RELEASE_AGGREGATE_NEEDS_MORE_EVIDENCE",
     "r4PostmergeVerification": "R4_POSTMERGE_REQUIRED_CI_GREEN_SCOPE_UNCHANGED",
     "rtkExecutionProcessEvidence": "RTK_STREAMING_HARD_DEADLINES_EXPLICIT_PROCESS_INSPECTION_V1_REQUIRED"
-  }
+  },
+  "extraMaintainedContractBasenames": [
+    "b3c07-security-runtime-boundary.contract.test.js",
+    "donor-port-command-surface-kernel.contract.test.js"
+  ]
 }

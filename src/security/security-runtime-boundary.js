@@ -97,7 +97,29 @@ function evaluateRemoteCodeBoundary(mainText, preloadText) {
 
 function evaluateIpcBoundary(mainText, preloadText) {
   return Object.freeze([
-    markerResult('COMMAND_BRIDGE_HANDLER_BOUND', mainText, ["ipcMain.handle('ui:command-bridge'"]),
+    // R2.4 EXH0: semantic marker for the actual registration machinery — the
+    // command bridge must be bound exclusively through the guarded protocol
+    // path (caller identity at dispatch) with envelope-first validation; a
+    // raw ipcMain.handle registration must not exist. A future registration
+    // rename fails this row until the boundary law is re-bound to the new
+    // machinery by a reviewed contour, which is the intended fail-closed
+    // behavior for a security boundary.
+    (() => {
+      const semanticMarkers = [
+        "guardedProtocolHandle('ui:command-bridge'",
+        "validateIpcEnvelope(request, 'ui:command-bridge')",
+      ];
+      const missing = semanticMarkers.filter((marker) => !mainText.includes(marker));
+      const rawMarker = "ipcMain.handle('ui:command-bridge'";
+      if (mainText.includes(rawMarker)) {
+        missing.push('raw ' + rawMarker + ' present');
+      }
+      return Object.freeze({
+        id: 'COMMAND_BRIDGE_HANDLER_BOUND',
+        passed: missing.length === 0,
+        missingMarkers: missing,
+      });
+    })(),
     markerResult('COMMAND_BRIDGE_ROUTE_REQUIRED', mainText, ['COMMAND_ROUTE_UNSUPPORTED']),
     markerResult('COMMAND_BRIDGE_ALLOWLIST_BOUND', mainText, ['UI_COMMAND_BRIDGE_ALLOWED_COMMAND_IDS', 'COMMAND_ID_NOT_ALLOWED']),
     markerResult('WORKSPACE_QUERY_BRIDGE_ALLOWLIST_BOUND', mainText, ['WORKSPACE_QUERY_BRIDGE_ALLOWED_QUERY_IDS', 'QUERY_ID_NOT_ALLOWED']),

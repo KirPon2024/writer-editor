@@ -61,6 +61,19 @@ const {
 const {
   durableSaveTransaction,
 } = require('./core/save-coordinator-v1.cjs');
+const {
+  createShadowAuthorityCell,
+} = require('./core/shadow-authority-cell-v1.cjs');
+
+// R2.4 R1: one small per-project shadow cell for the local edit-generation
+// domain. Advisory only; see the autosave hook for its sole use.
+const shadowCell = createShadowAuthorityCell({ projectId: 'yalken.local' });
+
+function logShadowAdvice(context, verdict) {
+  if (isDevMode && verdict) {
+    console.debug(`[craftsman:shadow-cell] ${context} advice=${verdict.advice}`);
+  }
+}
 
 // R2.4 S0: every privileged IPC entry point proves its caller before any
 // handler body runs. The expected sender is the single main window's live
@@ -27487,6 +27500,19 @@ async function autoSave() {
     const snapshot = await requestEditorSnapshot();
     const content = snapshot.content;
     const currentHash = computeHash(content);
+    // R2.4 R1: the per-project shadow cell evaluates this same admission as
+    // advisory telemetry only. It holds no authority, and its verdict can
+    // never alter the lifecycle.
+    let shadowVerdict;
+    try {
+      shadowVerdict = shadowCell.shadowEvaluateWriteAdmission({
+        capturedGeneration: snapshot.generation,
+        latestEditGeneration: lastSignaledEditGeneration,
+      });
+    } catch (shadowError) {
+      shadowVerdict = { advice: 'E_SHADOW_EVALUATION_UNAVAILABLE' };
+    }
+    logShadowAdvice('autosave', shadowVerdict);
     // R2.4 P1: every autosave acknowledgement is explicit — SAVED, PROTECTED
     // or AT_RISK — classified from the P0 generation fence and the write.
     const classify = (writeSucceeded, ackOutcome) => classifySaveAck({

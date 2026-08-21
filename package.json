@@ -82,7 +82,8 @@
     "test:r24-s1": "node --test test/unit/r24-s1-ipc-envelope.test.js test/unit/r24-s1-envelope-integration.test.js test/unit/r24-s1-envelope-mutants.test.js",
     "test:r24-k0": "node --test test/unit/r24-k0-command-protocol.test.js test/unit/r24-k0-protocol-integration.test.js test/unit/r24-k0-protocol-mutants.test.js",
     "test:r24-r0": "node --test test/unit/r24-r0-revision-algebra.test.js test/unit/r24-r0-revision-integration.test.js test/unit/r24-r0-revision-mutants.test.js",
-    "test:r24-p2": "node --test test/unit/r24-p2-save-coordinator.test.js test/unit/r24-p2-save-crash.test.js test/unit/r24-p2-save-mutants.test.js"
+    "test:r24-p2": "node --test test/unit/r24-p2-save-coordinator.test.js test/unit/r24-p2-save-crash.test.js test/unit/r24-p2-save-mutants.test.js",
+    "test:r24-r1": "node --test test/unit/r24-r1-shadow-cell.test.js test/unit/r24-r1-shadow-differential.test.js test/unit/r24-r1-shadow-mutants.test.js"
   },
   "keywords": [
     "editor",

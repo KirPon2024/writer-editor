@@ -27,6 +27,13 @@ test('donor port command surface kernel: allowlist is fixed to minimal non-ui co
     'cmd.rtk.review.applyRootCommentReturn',
     'cmd.rtk.review.applyCommentLifecycleReturn',
     'cmd.rtk.review.applyMultiSceneFormattingReturn',
+    // R2.4 EXH0 reconciliation: both ids are canonical admissions proven
+    // against the runtime truth - the structural-return command carries its
+    // command-id constant, handler registration and dedicated runtime in the
+    // revision bridge; the black-box export carries a product registry
+    // record and its own product module.
+    'cmd.rtk.review.applyMultiSceneStructuralReturn',
+    'cmd.project.blackBox.exportManualCoreCapsuleKitV1',
   ]);
 });
 

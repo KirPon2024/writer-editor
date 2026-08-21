@@ -76,6 +76,9 @@ jobs:
       - name: Run R2.4 K1 authority decomposition gate
         run: npm run -s test:r24-k1
 
+      - name: Run R2.4 T1 anchor lineage gate
+        run: npm run -s test:r24-t1
+
       - name: Run maintained Atlas event contract graph
         run: npm run -s test:atlas-event-contract
 

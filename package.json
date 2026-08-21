@@ -88,7 +88,8 @@
     "test:r24-t0": "node --test test/unit/r24-t0-text-fold-tape.test.js test/unit/r24-t0-fold-roundtrip.test.js test/unit/r24-t0-fold-mutants.test.js",
     "test:r24-sec0": "node --test test/unit/r24-sec0-path-capability.test.js test/unit/r24-sec0-hostile-paths.test.js test/unit/r24-sec0-path-mutants.test.js",
     "test:r24-ent0": "node --test test/unit/r24-ent0-entitlement-law.test.js test/unit/r24-ent0-port-enforcement.test.js test/unit/r24-ent0-law-mutants.test.js",
-    "test:r24-k1": "node --test test/unit/r24-k1-path-allowlist-law.test.js test/unit/r24-k1-import-boundary.test.js test/unit/r24-k1-allowlist-mutants.test.js"
+    "test:r24-k1": "node --test test/unit/r24-k1-path-allowlist-law.test.js test/unit/r24-k1-import-boundary.test.js test/unit/r24-k1-allowlist-mutants.test.js",
+    "test:r24-t1": "node --test test/unit/r24-t1-anchor-lineage.test.js test/unit/r24-t1-reattach-diagnosis.test.js test/unit/r24-t1-lineage-mutants.test.js"
   },
   "keywords": [
     "editor",

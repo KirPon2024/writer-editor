@@ -70,6 +70,11 @@ const {
 const {
   resolveWithinCapabilityRoots,
 } = require('./core/io/path-capability-v1.cjs');
+const {
+  E_COMMAND_DISABLED_FOR_ENTITLEMENT,
+  decideCommandEntitlement,
+  getProductEntitlementTier,
+} = require('./core/entitlement-law-v1.cjs');
 
 // R2.4 R1: one small per-project shadow cell for the local edit-generation
 // domain. Advisory only; see the autosave hook for its sole use.
@@ -28066,17 +28071,6 @@ const UI_COMMAND_BRIDGE_ALLOWED_COMMAND_IDS = new Set([
   'cmd.ui.fontSize.set',
 ]);
 const WORKSPACE_QUERY_BRIDGE_ALLOWED_QUERY_IDS = new Set(WORKSPACE_QUERY_ID_LIST);
-const MAIN_FREE_PRO_COMPLEXITY_COMMAND_IDS = new Set([
-  'cmd.project.plan.switchMode',
-  'cmd.project.review.switchMode',
-  'cmd.project.review.importLocalPacket',
-  'cmd.project.review.exportLocalPacket',
-  'cmd.project.review.openDocxReviewPreviewSession',
-  'cmd.project.review.clearSession',
-  'cmd.project.review.applyExactTextChange',
-  'cmd.project.review.applyFullManuscriptExactTextReturn',
-  'cmd.project.review.exportMarkdown',
-]);
 const SAVE_LIFECYCLE_SIGNAL_BRIDGE_ALLOWED_SIGNAL_IDS = new Set([
   'signal.localDirty.set',
   'signal.autoSave.request',
@@ -29007,11 +29001,14 @@ function dispatchMenuCommand(commandId, payload = {}, options = {}) {
     throw new Error(`Unsupported menu command route: ${route}`);
   }
 
-  if (MAIN_FREE_PRO_COMPLEXITY_COMMAND_IDS.has(commandId)) {
+  // R2.4 ENT0: the entitlement decision comes from the single product-plane
+  // table with a product-owned tier. Renderer or menu hints never decide.
+  const entitlement = decideCommandEntitlement(commandId, getProductEntitlementTier());
+  if (!entitlement.available) {
     return {
       ok: false,
-      code: 'E_COMMAND_DISABLED_FOR_ENTITLEMENT',
-      reason: 'PRO_COMPLEXITY_SURFACE_UNAVAILABLE_IN_FREE',
+      code: E_COMMAND_DISABLED_FOR_ENTITLEMENT,
+      reason: entitlement.reason,
       commandId,
     };
   }
@@ -29678,6 +29675,24 @@ async function dispatchProductCommandBridge(commandId, payload = {}) {
       commandId,
       'E_PRODUCT_COMMAND_NOT_ALLOWED',
       'PRODUCT_COMMAND_NOT_ALLOWED',
+    );
+  }
+
+  // R2.4 ENT0: the same single table gates this port too, with the
+  // product-owned tier; the renderer payload is never consulted.
+  const entitlement = decideCommandEntitlement(commandId, getProductEntitlementTier());
+  if (!entitlement.available) {
+    return makeProductCommandBridgeError(
+      commandId,
+      E_COMMAND_DISABLED_FOR_ENTITLEMENT,
+      entitlement.reason,
+      {
+        commandAuthority: record.commandAuthority,
+        capabilityId: record.capabilityId,
+        domain: record.domain,
+        mutationApplied: false,
+        storageWritten: false,
+      },
     );
   }
 

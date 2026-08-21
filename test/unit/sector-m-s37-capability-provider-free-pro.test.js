@@ -124,21 +124,33 @@ test('S37 local capability provider: Free fails closed for unclassified commands
 
 test('S37 main bridge boundary blocks Pro review writes in local Free', () => {
   const main = read('src/main.js');
+  const law = require(path.join(ROOT, 'src', 'core', 'entitlement-law-v1.cjs'));
 
-  assert.ok(main.includes('const MAIN_FREE_PRO_COMPLEXITY_COMMAND_IDS = new Set(['));
-  assert.ok(main.includes("'cmd.project.review.applyExactTextChange'"));
-  const guardStart = main.indexOf('const MAIN_FREE_PRO_COMPLEXITY_COMMAND_IDS = new Set([');
-  const guardEnd = main.indexOf(']);', guardStart);
-  const mainFreeProGuard = main.slice(guardStart, guardEnd);
-  assert.equal(mainFreeProGuard.includes("'cmd.project.review.applyExactTextChangesBatch'"), false);
+  // R2.4 ENT0: one decision table in the product plane; the duplicated
+  // main-side hardcoded set is gone and the port consults the table with a
+  // product-owned tier.
+  assert.equal(main.includes('MAIN_FREE_PRO_COMPLEXITY_COMMAND_IDS'), false);
+  assert.ok(main.includes("require('./core/entitlement-law-v1.cjs')"));
+  assert.match(main, /decideCommandEntitlement\(commandId, getProductEntitlementTier\(\)\)/u);
+
+  const applyExact = law.decideCommandEntitlement('cmd.project.review.applyExactTextChange', law.getProductEntitlementTier());
+  assert.equal(applyExact.available, false);
+  assert.equal(applyExact.access, 'pro_complexity_surface');
+  assert.equal(applyExact.reason, 'PRO_COMPLEXITY_SURFACE_UNAVAILABLE_IN_FREE');
+
   assert.equal(
-    mainFreeProGuard.includes("'cmd.project.review.exportDocxReviewPacket'"),
+    law.isProComplexityCommandId('cmd.project.review.applyExactTextChangesBatch'),
+    false,
+    'Batch apply stays reachable from the product UI in Free',
+  );
+  assert.equal(
+    law.isProComplexityCommandId('cmd.project.review.exportDocxReviewPacket'),
     false,
     'Review DOCX export is a local artifact export and must stay reachable from the product UI in Free',
   );
-  assert.match(
-    main,
-    /if\s*\(\s*MAIN_FREE_PRO_COMPLEXITY_COMMAND_IDS\.has\(commandId\)\s*\)\s*\{[\s\S]*PRO_COMPLEXITY_SURFACE_UNAVAILABLE_IN_FREE/u,
+  assert.equal(
+    law.decideCommandEntitlement('cmd.project.review.exportDocxReviewPacket', law.getProductEntitlementTier()).available,
+    true,
   );
 });
 

@@ -9323,10 +9323,10 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "7f94a8964699e36eda089416232da51d1bdd40a02c178f515ab7d19d03001c1b",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-SEC0-PATH-CAPABILITY-001",
-      "approvedAtUtc": "2026-08-21T09:59:49.000Z",
-      "rationale": "Approve R2.4 SEC0 package.json change: adds test:r24-sec0 script binding the SEC0 path capability gate into the required CI lane; no dependency change.",
+      "sha256": "336807f74d0ad6ed3472574ec8c16fa8aa47819fd3b13741f9a4fdb57388f9ac",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-ENT0-ENTITLEMENT-CONFORMANCE-001",
+      "approvedAtUtc": "2026-08-21T11:50:49.000Z",
+      "rationale": "Approve R2.4 ENT0 package.json change: adds test:r24-ent0 script binding the ENT0 entitlement conformance gate into the required CI lane; no dependency change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
@@ -9755,10 +9755,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "3ff1d345941709fcb13c27f0c464300272913578d80488cab84974bba306cf82",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-SEC0-PATH-CAPABILITY-001",
-      "approvedAtUtc": "2026-08-21T09:59:49.000Z",
-      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 SEC0: package.json digest updated to the exact bytes gained by the test:r24-sec0 script entry; no wording or claim change.",
+      "sha256": "cdc7f0e5f2c428b7e722047eb120cc5f30d7869e423987949776187600070698",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-ENT0-ENTITLEMENT-CONFORMANCE-001",
+      "approvedAtUtc": "2026-08-21T11:50:49.000Z",
+      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 ENT0: package.json digest updated to the exact bytes gained by the test:r24-ent0 script entry; no wording or claim change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
@@ -10358,10 +10358,10 @@
     },
     {
       "filePath": "src/renderer/editor.bundle.js",
-      "sha256": "a98fbad3c6e95399164b9efc051d3669b07335fa375a92c74c47b2aa5cce519b",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-T0-TEXT-COORDINATE-ALGEBRA-001",
-      "approvedAtUtc": "2026-08-21T08:09:07.000Z",
-      "rationale": "Approve R2.4 T0 regenerated committed renderer bundle built from the edited editor.js via scripts/build-renderer.mjs.",
+      "sha256": "67c409250ead1f7370023f7b707f2563e9444e0b5dc499d3e116783a359ba5a6",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-ENT0-ENTITLEMENT-CONFORMANCE-001",
+      "approvedAtUtc": "2026-08-21T11:50:49.000Z",
+      "rationale": "Approve R2.4 ENT0 regenerated committed renderer bundle built via scripts/build-renderer.mjs after localCapabilityProvider.mjs was re-derived from the single product-plane entitlement table.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
@@ -10925,10 +10925,10 @@
     },
     {
       "filePath": ".github/workflows/rtk-required.yml",
-      "sha256": "b78ee0e2fd70543150a577e96def77ab1d77444bdef991c5444fa477ab612bbf",
-      "rationale": "Approve R2.4 SEC0 rtk-required.yml change: adds one step running npm run -s test:r24-sec0 after the T0 gate; no trigger, permission or environment change.",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-SEC0-PATH-CAPABILITY-001",
-      "approvedAtUtc": "2026-08-21T09:59:49.000Z",
+      "sha256": "4f1a061d07bea7966e4a74842ec8877be60c9df85c101140155e3efce954073e",
+      "rationale": "Approve R2.4 ENT0 rtk-required.yml change: adds one step running npm run -s test:r24-ent0 after the SEC0 gate; no trigger, permission or environment change.",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-ENT0-ENTITLEMENT-CONFORMANCE-001",
+      "approvedAtUtc": "2026-08-21T11:50:49.000Z",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },

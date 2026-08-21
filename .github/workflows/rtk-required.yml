@@ -61,6 +61,9 @@ jobs:
       - name: Run R2.4 R1 shadow authority cell gate
         run: npm run -s test:r24-r1
 
+      - name: Run R2.4 P3 transactional project commit gate
+        run: npm run -s test:r24-p3
+
       - name: Run maintained Atlas event contract graph
         run: npm run -s test:atlas-event-contract
 

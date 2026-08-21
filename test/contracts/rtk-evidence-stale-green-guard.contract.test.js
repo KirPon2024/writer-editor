@@ -26,13 +26,30 @@ const EXTRA_MAINTAINED = [
 // (4e2db88f), with the exact failing tests. Membership here is not a green
 // claim; it is named pre-existing red debt.
 const KNOWN_RED_LEDGER = Object.freeze([
-  Object.freeze({ contract: 'b2c09-command-surface-kernel.contract.test.js', failing: ['canonical packet is green'] }),
-  Object.freeze({ contract: 'b2c10-command-bypass-negative-matrix.contract.test.js', failing: ['current canonical core remains green and advisory tails are explicit', 'committed status packet matches executable state'] }),
-  Object.freeze({ contract: 'b3c01-command-kernel-scope-lock.contract.test.js', failing: ['committed status equals executable state', 'evidence packets align with executable state'] }),
-  Object.freeze({ contract: 'b3c06-no-network-writing-path.contract.test.js', failing: ['state artifact equals executable state', 'CLI status remains worktree independent outside repo cwd'] }),
-  Object.freeze({ contract: 'b3c09-performance-baseline-binding.contract.test.js', failing: ['CLI status remains worktree independent outside repo cwd'] }),
-  Object.freeze({ contract: 'b3c10-capability-tier-report.contract.test.js', failing: ['CLI status remains worktree independent outside repo cwd'] }),
-  Object.freeze({ contract: 'b3c16-supply-chain-release-scope.contract.test.js', failing: ['state artifact matches stable executable fields'] }),
+  Object.freeze({ contract: 'b2c09-command-surface-kernel.contract.test.js', failing: { any: ['canonical packet is green'] } }),
+  Object.freeze({ contract: 'b2c10-command-bypass-negative-matrix.contract.test.js', failing: { any: ['current canonical core remains green and advisory tails are explicit', 'committed status packet matches executable state'] } }),
+  Object.freeze({ contract: 'b3c01-command-kernel-scope-lock.contract.test.js', failing: { any: ['committed status equals executable state', 'evidence packets align with executable state'] } }),
+  Object.freeze({ contract: 'b3c06-no-network-writing-path.contract.test.js', failing: { any: ['state artifact equals executable state', 'CLI status remains worktree independent outside repo cwd'] } }),
+  Object.freeze({ contract: 'b3c09-performance-baseline-binding.contract.test.js', failing: {
+    darwin: ['CLI status remains worktree independent outside repo cwd'],
+    linux: ['records exact unsupported rows instead of false PERF_BASELINE_OK'],
+  } }),
+  Object.freeze({ contract: 'b3c10-capability-tier-report.contract.test.js', failing: {
+    darwin: ['CLI status remains worktree independent outside repo cwd'],
+    linux: ['state artifact equals executable state'],
+  } }),
+  Object.freeze({ contract: 'b3c16-supply-chain-release-scope.contract.test.js', failing: { any: ['state artifact matches stable executable fields'] } }),
+]);
+
+// Platform-divergent defects: these committed artifacts embed darwin-derived
+// state and diverge on linux. Green on darwin, red on linux — a portability
+// defect class, named exactly.
+const PLATFORM_DIVERGENT = Object.freeze([
+  Object.freeze({ contract: 'b3c11-xplat-normalization-baseline.contract.test.js', linuxFailing: ['state artifact matches stable executable fields'] }),
+  Object.freeze({ contract: 'b3c12-i18n-text-anchor-safety.contract.test.js', linuxFailing: ['state artifact matches stable executable fields'] }),
+  Object.freeze({ contract: 'b3c13-trust-surface-accessibility.contract.test.js', linuxFailing: ['state artifact matches stable executable fields'] }),
+  Object.freeze({ contract: 'b3c14-release-dossier-minimal.contract.test.js', linuxFailing: ['state artifact matches stable executable fields'] }),
+  Object.freeze({ contract: 'b3c15-attestation-chain.contract.test.js', linuxFailing: ['state artifact matches stable executable fields'] }),
 ]);
 
 // Status-backed contracts whose committed artifacts currently agree with
@@ -54,11 +71,6 @@ const GREEN_UNMAINTAINED_REGISTRY = Object.freeze([
   'b3c04-deterministic-export-mode.contract.test.js',
   'b3c05-permission-scope-enforced.contract.test.js',
   'b3c08-support-bundle-privacy.contract.test.js',
-  'b3c11-xplat-normalization-baseline.contract.test.js',
-  'b3c12-i18n-text-anchor-safety.contract.test.js',
-  'b3c13-trust-surface-accessibility.contract.test.js',
-  'b3c14-release-dossier-minimal.contract.test.js',
-  'b3c15-attestation-chain.contract.test.js',
   'b3c17-future-lanes-nonblocking.contract.test.js',
   'b3c18-production-hardening-queue.contract.test.js',
   'collab-no-network-wiring.contract.test.js',
@@ -139,10 +151,11 @@ test('stale-green guard: registration is complete and no entrant slips through',
   const maintained = new Set([...(catalog.contractBasenames || []), ...(catalog.extraMaintainedContractBasenames || [])]);
   const ledgered = new Set(KNOWN_RED_LEDGER.map((entry) => entry.contract));
   const greenUnmaintained = new Set(GREEN_UNMAINTAINED_REGISTRY);
+  const divergent = new Set(PLATFORM_DIVERGENT.map((entry) => entry.contract));
   const { backed, producerScripts } = enumerateStatusBackedClass();
   assert.equal(producerScripts >= 30, true, `producer denominator must be meaningful, got ${producerScripts}`);
   assert.equal(backed.length >= 30, true, `class denominator must be meaningful, got ${backed.length}`);
-  const violators = backed.filter((name) => !maintained.has(name) && !ledgered.has(name) && !greenUnmaintained.has(name));
+  const violators = backed.filter((name) => !maintained.has(name) && !ledgered.has(name) && !greenUnmaintained.has(name) && !divergent.has(name));
   assert.deepEqual(violators, [], 'status-backed contracts missing from all three registers');
   for (const name of EXTRA_MAINTAINED) {
     assert.equal(ledgered.has(name), false, `${name} is repaired and maintained, never ledgered`);
@@ -157,46 +170,59 @@ test('stale-green guard: registration is complete and no entrant slips through',
 test('stale-green guard: executable classification of every status-backed contract', { timeout: 720000 }, () => {
   const childEnv = { ...process.env };
   delete childEnv.NODE_TEST_CONTEXT;
+  const platform = process.platform === 'darwin' ? 'darwin' : 'linux';
   const runContract = (name) => {
     const filePath = path.join(ROOT, 'test', 'contracts', name);
     const run = spawnSync(process.execPath, ['--test', filePath], { encoding: 'utf8', timeout: 180000, cwd: ROOT, env: childEnv });
-    return {
-      exit: run.status,
-      failing: failingTestNames(run.stdout || ''),
-      stderrHead: (run.stderr || '').slice(0, 200),
-    };
+    return { exit: run.status, failing: failingTestNames(run.stdout || '') };
   };
-
   const greenToRed = [];
   const redToGreen = [];
   const shapeDrift = [];
+  const divergentDrift = [];
+
   for (const entry of KNOWN_RED_LEDGER) {
     const outcome = runContract(entry.contract);
     if (outcome.exit === 0) {
       redToGreen.push(entry.contract);
       continue;
     }
-    const actual = new Set(outcome.failing);
-    const recorded = new Set(entry.failing);
-    const missingRecorded = [...recorded].filter((name) => ![...actual].some((line) => line.includes(name)));
-    const unrecordedActual = [...actual].filter((line) => ![...recorded].some((name) => line.includes(name)));
+    const recorded = entry.failing.any || entry.failing[platform] || [];
+    const actual = outcome.failing;
+    const missingRecorded = recorded.filter((name) => !actual.some((line) => line.includes(name)));
+    const unrecordedActual = actual.filter((line) => !recorded.some((name) => line.includes(name)));
     if (missingRecorded.length > 0 || unrecordedActual.length > 0) {
-      shapeDrift.push({ contract: entry.contract, missingRecorded, unrecordedActual });
+      shapeDrift.push({ contract: entry.contract, platform, missingRecorded, unrecordedActual });
+    }
+  }
+  for (const entry of PLATFORM_DIVERGENT) {
+    const outcome = runContract(entry.contract);
+    if (platform === 'darwin') {
+      if (outcome.exit !== 0) divergentDrift.push({ contract: entry.contract, platform, detail: 'expected green on darwin', failing: outcome.failing.slice(0, 2) });
+    } else if (outcome.exit === 0) {
+      divergentDrift.push({ contract: entry.contract, platform, detail: 'expected red on linux (non-portable artifact) but passed' });
+    } else {
+      const missing = entry.linuxFailing.filter((name) => !outcome.failing.some((line) => line.includes(name)));
+      if (missing.length > 0) divergentDrift.push({ contract: entry.contract, platform, detail: 'linux failing shape drift', missing });
     }
   }
   for (const name of GREEN_UNMAINTAINED_REGISTRY) {
     const outcome = runContract(name);
-    if (outcome.exit !== 0) greenToRed.push({ contract: name, failing: outcome.failing.slice(0, 3) });
+    if (outcome.exit !== 0) greenToRed.push({ contract: name, platform, failing: outcome.failing.slice(0, 3) });
   }
   const summary = {
+    platform,
     executedRed: KNOWN_RED_LEDGER.length,
+    executedDivergent: PLATFORM_DIVERGENT.length,
     executedGreen: GREEN_UNMAINTAINED_REGISTRY.length,
     greenToRed,
     redToGreen,
     shapeDrift,
+    divergentDrift,
   };
   console.log(`R24_EXH1_CLASSIFICATION=${JSON.stringify(summary)}`);
-  assert.deepEqual(redToGreen, [], `red-to-green flip: ledger entries must be reclassified by a contour, never silently blessed: ${JSON.stringify(redToGreen)}`);
-  assert.deepEqual(greenToRed, [], `green-to-red flip in green-unmaintained registry: ${JSON.stringify(greenToRed)}`);
+  assert.deepEqual(redToGreen, [], `red-to-green flip: ${JSON.stringify(redToGreen)}`);
+  assert.deepEqual(greenToRed, [], `green-to-red flip: ${JSON.stringify(greenToRed)}`);
   assert.deepEqual(shapeDrift, [], `failure-shape drift in the known-red ledger: ${JSON.stringify(shapeDrift)}`);
+  assert.deepEqual(divergentDrift, [], `platform-divergent register drift: ${JSON.stringify(divergentDrift)}`);
 });

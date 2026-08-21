@@ -68,13 +68,16 @@ const {
   commitProjectTextAndManifest,
 } = require('./core/project-commit-v1.cjs');
 const {
-  resolveWithinCapabilityRoots,
-} = require('./core/io/path-capability-v1.cjs');
-const {
   E_COMMAND_DISABLED_FOR_ENTITLEMENT,
   decideCommandEntitlement,
   getProductEntitlementTier,
 } = require('./core/entitlement-law-v1.cjs');
+const {
+  resolveExistingPath: resolveExistingPathByLaw,
+  computeFilePathAllowlistRoots,
+  isPathInsideLaunchBoundary: isPathInsideLaunchBoundaryByLaw,
+  isAllowedFilePathByLaw,
+} = require('./core/io/file-path-allowlist-v1.cjs');
 
 // R2.4 R1: one small per-project shadow cell for the local edit-generation
 // domain. Advisory only; see the autosave hook for its sole use.
@@ -217,10 +220,7 @@ const CORRESPONDING_SOURCE_BASE_URL = 'https://github.com/KirPon2024/writer-edit
 const ABOUT_LICENSE_TEXT_FALLBACK = 'Yalken is licensed under AGPL-3.0-or-later.';
 const EDITOR_PASTE_FOCUS_STATE_CHANNEL = 'editor:paste-focus-state';
 function isPathInsideLaunchBoundary(parentPath, childPath) {
-  const parent = path.resolve(parentPath);
-  const child = path.resolve(childPath);
-  const relative = path.relative(parent, child);
-  return relative === '' || (!!relative && !relative.startsWith('..') && !path.isAbsolute(relative));
+  return isPathInsideLaunchBoundaryByLaw(parentPath, childPath);
 }
 
 function getAutonomousAppPathRoot() {
@@ -18723,43 +18723,21 @@ function isFileUrl(url) {
 }
 
 function resolveExistingPath(candidate) {
-  const normalized = typeof candidate === 'string' ? candidate.trim() : '';
-  if (!normalized) return '';
-  try {
-    return resolveValidatedPath(normalized, { mode: 'any' });
-  } catch {
-    return '';
-  }
+  return resolveExistingPathByLaw(candidate);
 }
 
+// R2.4 K1: the admission policy lives in the core plane; this adapter only
+// acquires the Electron-owned root sources and injects them.
 function getFilePathAllowlistRoots() {
-  const roots = new Set();
-  const candidates = [
+  return computeFilePathAllowlistRoots([
     getProjectRootPath(),
     fileManager.getDocumentsPath(),
     app ? app.getPath('userData') : '',
-  ];
-  for (const candidate of candidates) {
-    const resolved = resolveExistingPath(candidate);
-    if (resolved) {
-      roots.add(resolved);
-    }
-  }
-  return [...roots];
+  ]);
 }
 
 function isAllowedFilePath(candidatePath) {
-  const resolvedPath = resolveExistingPath(candidatePath);
-  if (!resolvedPath) return false;
-  const allowlistRoots = getFilePathAllowlistRoots();
-  if (!allowlistRoots.length) return false;
-  // R2.4 SEC0: containment is decided on canonical real paths through the
-  // single capability law, never on lexical prefixes. Symlink escapes land
-  // outside the canonical root and are refused; roots are canonicalized the
-  // same way, so alias-spelled roots cannot widen or narrow the boundary.
-  return allowlistRoots.some((rootPath) => (
-    resolveWithinCapabilityRoots(resolvedPath, [rootPath], { noFollow: true }).ok
-  ));
+  return isAllowedFilePathByLaw(candidatePath, getFilePathAllowlistRoots());
 }
 
 function isAllowedFileNavigationUrl(url) {

@@ -631,13 +631,13 @@ test('C5V2 full-manuscript product export is reachable through command kernel, r
   assert.equal(readFullExportSourceBody.includes('buildSelectedScenesTxtExportScope'), false);
   assert.equal(readFullExportSourceBody.includes('readSelectedScenesTxtExportSceneContent'), false);
   assert.equal(commandSurfaceKernel.includes(`'${COMMAND_ID}'`), true);
-  const disabledComplexitySet = mainSource.match(/const MAIN_FREE_PRO_COMPLEXITY_COMMAND_IDS = new Set\(\[\n(?<body>[\s\S]*?)\n\]\);/u);
-  assert.notEqual(disabledComplexitySet, null);
-  assert.equal(disabledComplexitySet.groups.body.includes(COMMAND_ID), false);
+  const entitlementLaw = require(path.join(REPO_ROOT, 'src', 'core', 'entitlement-law-v1.cjs'));
+  assert.equal(entitlementLaw.isProComplexityCommandId(COMMAND_ID), false, 'full-manuscript review export must stay reachable in Free');
+  assert.equal(entitlementLaw.decideCommandEntitlement(COMMAND_ID, 'free').available, true);
   assert.equal(projectCommands.includes(`REVIEW_EXPORT_FULL_MANUSCRIPT_DOCX_REVIEW_PACKET: '${COMMAND_ID}'`), true);
   assert.equal(projectCommands.includes('runReviewExportFullManuscriptDocxReviewPacketBridge'), true);
   assert.equal(capabilityPolicy.includes(`'${COMMAND_ID}': '${CAPABILITY_ID}'`), true);
-  assert.equal(localCapabilityProvider.includes(`'${COMMAND_ID}'`), true);
+  assert.equal(localCapabilityProvider.includes('entitlement-law-v1.cjs'), true, 'hint plane derives from the one table');
   const reviewMenu = menuConfig.menus.find((menu) => menu.id === 'review');
   const reviewItem = reviewMenu.items.find((item) => item.id === 'review-export-full-manuscript-docx-review-packet');
   assert.deepEqual(reviewItem, {

@@ -187,7 +187,10 @@ test('P0 Review DOCX exporter is reachable from product command, menu and capabi
   assert.equal(projectCommands.includes(`REVIEW_EXPORT_DOCX_REVIEW_PACKET: '${COMMAND_ID}'`), true);
   assert.equal(projectCommands.includes('runReviewExportDocxReviewPacketBridge'), true);
   assert.equal(capabilityPolicy.includes(`'${COMMAND_ID}': '${CAPABILITY_ID}'`), true);
-  assert.equal(localCapabilityProvider.includes(`'${COMMAND_ID}'`), true);
+  const entitlementLaw = require(path.join(REPO_ROOT, 'src', 'core', 'entitlement-law-v1.cjs'));
+  assert.equal(localCapabilityProvider.includes('entitlement-law-v1.cjs'), true, 'hint plane derives from the one table');
+  assert.equal(entitlementLaw.isProComplexityCommandId(COMMAND_ID), false);
+  assert.equal(entitlementLaw.decideCommandEntitlement(COMMAND_ID, 'free').available, true);
   const reviewMenu = menuConfig.menus.find((menu) => menu.id === 'review');
   const reviewItem = reviewMenu.items.find((item) => item.id === 'review-export-docx-review-packet');
   assert.deepEqual(reviewItem, {

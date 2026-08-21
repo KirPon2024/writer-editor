@@ -146,17 +146,14 @@ test('P0 comments mixed multi-scene contour keeps export reachable but apply gua
   const provider = await import(pathToFileURL(CAPABILITY_PROVIDER_PATH).href);
   const exportEntitlement = provider.resolveCommandEntitlement('cmd.project.review.exportDocxReviewPacket', { entitlementTier: 'free' });
   const applyEntitlement = provider.resolveCommandEntitlement('cmd.project.review.applyExactTextChange', { entitlementTier: 'free' });
-  const mainSource = fs.readFileSync(MAIN_PATH, 'utf8');
-  const guardStart = mainSource.indexOf('const MAIN_FREE_PRO_COMPLEXITY_COMMAND_IDS = new Set([');
-  const guardEnd = mainSource.indexOf(']);', guardStart);
-  const mainFreeProGuard = mainSource.slice(guardStart, guardEnd);
+  const entitlementLaw = require(path.join(REPO_ROOT, 'src', 'core', 'entitlement-law-v1.cjs'));
 
   assert.equal(exportEntitlement.available, true);
   assert.equal(exportEntitlement.visible, true);
   assert.equal(applyEntitlement.available, false);
-  assert.equal(mainFreeProGuard.includes("'cmd.project.review.exportDocxReviewPacket'"), false);
-  assert.equal(mainFreeProGuard.includes("'cmd.project.review.applyExactTextChange'"), true);
-  assert.equal(mainFreeProGuard.includes("'cmd.project.review.applyExactTextChangesBatch'"), false);
+  assert.equal(entitlementLaw.isProComplexityCommandId('cmd.project.review.exportDocxReviewPacket'), false);
+  assert.equal(entitlementLaw.isProComplexityCommandId('cmd.project.review.applyExactTextChange'), true);
+  assert.equal(entitlementLaw.isProComplexityCommandId('cmd.project.review.applyExactTextChangesBatch'), false);
 });
 
 test('P0 comments mixed multi-scene runner uses product and Word paths without later-editor execution', () => {

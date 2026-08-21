@@ -73,6 +73,9 @@ jobs:
       - name: Run R2.4 ENT0 entitlement conformance gate
         run: npm run -s test:r24-ent0
 
+      - name: Run R2.4 K1 authority decomposition gate
+        run: npm run -s test:r24-k1
+
       - name: Run maintained Atlas event contract graph
         run: npm run -s test:atlas-event-contract
 

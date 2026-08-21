@@ -9323,10 +9323,10 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "336807f74d0ad6ed3472574ec8c16fa8aa47819fd3b13741f9a4fdb57388f9ac",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-ENT0-ENTITLEMENT-CONFORMANCE-001",
-      "approvedAtUtc": "2026-08-21T11:50:49.000Z",
-      "rationale": "Approve R2.4 ENT0 package.json change: adds test:r24-ent0 script binding the ENT0 entitlement conformance gate into the required CI lane; no dependency change.",
+      "sha256": "6b6fd26a8ae9c4c01c0a184f8fbd59b8a5c66cc03fadc79cbb6b2518085a40e3",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-K1-AUTHORITY-DECOMPOSITION-001",
+      "approvedAtUtc": "2026-08-21T13:09:26.000Z",
+      "rationale": "Approve R2.4 K1 package.json change: adds test:r24-k1 script binding the K1 authority decomposition gate into the required CI lane; no dependency change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
@@ -9755,10 +9755,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "cdc7f0e5f2c428b7e722047eb120cc5f30d7869e423987949776187600070698",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-ENT0-ENTITLEMENT-CONFORMANCE-001",
-      "approvedAtUtc": "2026-08-21T11:50:49.000Z",
-      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 ENT0: package.json digest updated to the exact bytes gained by the test:r24-ent0 script entry; no wording or claim change.",
+      "sha256": "69519b5eb6a8e2d99447a7ab24e88a22106c319a3e458dd74ec4b7ad07d3d5a2",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-K1-AUTHORITY-DECOMPOSITION-001",
+      "approvedAtUtc": "2026-08-21T13:09:26.000Z",
+      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 K1: package.json digest updated to the exact bytes gained by the test:r24-k1 script entry; no wording or claim change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
@@ -10925,10 +10925,10 @@
     },
     {
       "filePath": ".github/workflows/rtk-required.yml",
-      "sha256": "4f1a061d07bea7966e4a74842ec8877be60c9df85c101140155e3efce954073e",
-      "rationale": "Approve R2.4 ENT0 rtk-required.yml change: adds one step running npm run -s test:r24-ent0 after the SEC0 gate; no trigger, permission or environment change.",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-ENT0-ENTITLEMENT-CONFORMANCE-001",
-      "approvedAtUtc": "2026-08-21T11:50:49.000Z",
+      "sha256": "9eca294e19e7b6cf341804d4ada99e2bbd3765054002dab23a173eda4df7aab9",
+      "rationale": "Approve R2.4 K1 rtk-required.yml change: adds one step running npm run -s test:r24-k1 after the ENT0 gate; no trigger, permission or environment change.",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-K1-AUTHORITY-DECOMPOSITION-001",
+      "approvedAtUtc": "2026-08-21T13:09:26.000Z",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },

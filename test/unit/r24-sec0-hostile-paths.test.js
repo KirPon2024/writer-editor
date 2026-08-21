@@ -65,15 +65,20 @@ test('traversal forms are refused in every spelling', () => {
 });
 
 
-test('isAllowedFilePath adoption: the capability law is wired in main.js', () => {
+test('isAllowedFilePath adoption: the capability law is wired through the core admission policy', () => {
   const main = fs.readFileSync(path.join(__dirname, '..', '..', 'src', 'main.js'), 'utf8');
-  assert.ok(main.includes("require('./core/io/path-capability-v1.cjs')"));
+  // R2.4 K1: the policy module is the seam; main delegates to it.
+  assert.ok(main.includes("require('./core/io/file-path-allowlist-v1.cjs')"));
   const fnStart = main.indexOf('function isAllowedFilePath');
   assert.ok(fnStart !== -1);
   const fnEnd = main.indexOf('\nfunction ', fnStart + 1);
   const body = main.slice(fnStart, fnEnd === -1 ? main.length : fnEnd);
-  assert.ok(body.includes('resolveWithinCapabilityRoots(resolvedPath, [rootPath], { noFollow: true })'));
+  assert.ok(body.includes('isAllowedFilePathByLaw(candidatePath, getFilePathAllowlistRoots())'));
   assert.equal(body.includes('isPathInside(rootPath, resolvedPath)'), false, 'lexical prefix containment is gone');
+  // The capability law sits exactly one hop behind the policy seam.
+  const policy = fs.readFileSync(path.join(__dirname, '..', '..', 'src', 'core', 'io', 'file-path-allowlist-v1.cjs'), 'utf8');
+  assert.ok(policy.includes("require('./path-capability-v1.cjs')"));
+  assert.ok(policy.includes('resolveWithinCapabilityRoots(resolvedPath, [rootPath], { noFollow: true })'));
 });
 
 test('isAllowedFilePath behavior differential: legit inside passes, symlink escape fails', () => {

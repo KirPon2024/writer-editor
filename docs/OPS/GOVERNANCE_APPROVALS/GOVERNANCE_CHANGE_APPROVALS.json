@@ -9323,10 +9323,10 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "eb9b5bfb35e7c2dbe73b1771e444412d3132af9824f6b18699a6af3b536b0390",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-P3-TRANSACTIONAL-PROJECT-COMMIT-001",
-      "approvedAtUtc": "2026-08-21T06:43:38.000Z",
-      "rationale": "Approve R2.4 P3 package.json change: adds test:r24-p3 script binding the P3 project commit gate into the required CI lane; no dependency change.",
+      "sha256": "aef0bf185cc4466e14c8e9148b67d96ea757f2dedf70f25c022ba2165c6abea3",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-T0-TEXT-COORDINATE-ALGEBRA-001",
+      "approvedAtUtc": "2026-08-21T08:09:07.000Z",
+      "rationale": "Approve R2.4 T0 package.json change: adds test:r24-t0 script binding the T0 gate into the required CI lane; no dependency change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
@@ -9755,10 +9755,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "278db0ed15d26d31ca10692e87f339d00358c944fb7d0a6d0561a78d43533927",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-P3-TRANSACTIONAL-PROJECT-COMMIT-001",
-      "approvedAtUtc": "2026-08-21T06:43:38.000Z",
-      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 P3: package.json digest updated to the exact bytes gained by the test:r24-p3 script entry; no wording or claim change.",
+      "sha256": "fa0a707ea26140b77c209d17b0cc77e611feeeff05299a33669210f6be3217d4",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-T0-TEXT-COORDINATE-ALGEBRA-001",
+      "approvedAtUtc": "2026-08-21T08:09:07.000Z",
+      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 T0: package.json and src/renderer/editor.js digests updated to exact bytes after the fold adoption; no wording or claim change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
@@ -10358,19 +10358,19 @@
     },
     {
       "filePath": "src/renderer/editor.bundle.js",
-      "sha256": "0c0b2165a78f73f1d7c55f22ebe80a70db1c05a86689900ffd496a84077327b3",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-P1-DIRTY-ADMISSION-ACK-001",
-      "approvedAtUtc": "2026-08-20T16:29:32.000Z",
-      "rationale": "Approve R2.4 P1 regenerated committed renderer bundle built from the edited editor.js via scripts/build-renderer.mjs.",
+      "sha256": "a98fbad3c6e95399164b9efc051d3669b07335fa375a92c74c47b2aa5cce519b",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-T0-TEXT-COORDINATE-ALGEBRA-001",
+      "approvedAtUtc": "2026-08-21T08:09:07.000Z",
+      "rationale": "Approve R2.4 T0 regenerated committed renderer bundle built from the edited editor.js via scripts/build-renderer.mjs.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "src/renderer/editor.js",
-      "sha256": "ea637d284586ddc99897862f639ece99f7771849e164dcfc025adaacc797cee1",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-P1-DIRTY-ADMISSION-ACK-001",
-      "approvedAtUtc": "2026-08-20T16:29:32.000Z",
-      "rationale": "Approve R2.4 P1 dirty admission: renderer gains the lastAckedGeneration admission coordinate, the fenced object-form set-dirty handler, baseline resets at load boundaries and typed ack application in scheduleAutoSave; no UI or design change.",
+      "sha256": "85c375150aeed782194fca8b696b0eabd137ad2855f190c363fb5b0ecc1ad03d",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-T0-TEXT-COORDINATE-ALGEBRA-001",
+      "approvedAtUtc": "2026-08-21T08:09:07.000Z",
+      "rationale": "Approve R2.4 T0 manual-map search adoption: the three match sites and the query fold now use foldIncludes from the deterministic fold tape instead of naive toLowerCase; UI contract unchanged.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
@@ -10925,10 +10925,10 @@
     },
     {
       "filePath": ".github/workflows/rtk-required.yml",
-      "sha256": "e6349869f92900f363f22352ed92d0e7c36e5ff70f0f42b9a56869dc0ac290e2",
-      "rationale": "Approve R2.4 P3 rtk-required.yml change: adds one step running npm run -s test:r24-p3 after the R1 gate; triggers and permissions unchanged.",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-P3-TRANSACTIONAL-PROJECT-COMMIT-001",
-      "approvedAtUtc": "2026-08-21T06:43:38.000Z",
+      "sha256": "344aa9c28e8808746fba5bf600df852b4720bfe9e4d6c8095af08b9c9f68b58d",
+      "rationale": "Approve R2.4 T0 rtk-required.yml change: adds one step running npm run -s test:r24-t0 after the P3 gate; triggers and permissions unchanged.",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-T0-TEXT-COORDINATE-ALGEBRA-001",
+      "approvedAtUtc": "2026-08-21T08:09:07.000Z",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },

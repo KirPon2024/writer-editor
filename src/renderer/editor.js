@@ -54,6 +54,9 @@ import {
   normalizeBookProfile,
 } from '../core/bookProfile.mjs';
 import {
+  foldIncludes,
+} from '../core/text-fold-tape-v1.mjs';
+import {
   buildSettingsAggregation,
   summarizeSettingsAggregation,
 } from './settings/settingsAggregator.mjs';
@@ -12469,23 +12472,25 @@ function buildManualMapHierarchyPresentationGraph(graph) {
 }
 
 function filterManualMapGraphForWorkbench(graph) {
-  const query = manualMapSearchQuery.trim().toLowerCase();
-  if (!query) return graph;
+  // R2.4 T0: search matching runs on the deterministic Unicode fold (pinned,
+  // host-independent, special-class safe) instead of naive toLowerCase.
+  const queryText = manualMapSearchQuery.trim();
+  if (!queryText) return graph;
   const nodes = Array.isArray(graph.nodes) ? graph.nodes : [];
   const edges = Array.isArray(graph.edges) ? graph.edges : [];
   const groups = Array.isArray(graph.groups) ? graph.groups : [];
   const matchingNodeIds = new Set(nodes
     .filter((node) => {
-      const haystack = `${manualMapText(node?.label)} ${manualMapText(node?.id)} ${manualMapText(node?.kind)} ${manualMapText(node?.target?.kind)} ${manualMapText(node?.target?.id)}`.toLowerCase();
-      return haystack.includes(query);
+      const haystack = `${manualMapText(node?.label)} ${manualMapText(node?.id)} ${manualMapText(node?.kind)} ${manualMapText(node?.target?.kind)} ${manualMapText(node?.target?.id)}`;
+      return foldIncludes(haystack, queryText);
     })
     .map((node) => manualMapText(node?.id))
     .filter(Boolean));
   const matchingEdgeIds = new Set(edges
-    .filter((edge) => `${manualMapText(edge?.label)} ${manualMapText(edge?.id)} ${manualMapText(edge?.kind)} ${manualMapText(edge?.from)} ${manualMapText(edge?.to)}`.toLowerCase().includes(query))
+    .filter((edge) => foldIncludes(`${manualMapText(edge?.label)} ${manualMapText(edge?.id)} ${manualMapText(edge?.kind)} ${manualMapText(edge?.from)} ${manualMapText(edge?.to)}`, queryText))
     .map((edge) => manualMapText(edge?.id))
     .filter(Boolean));
-  const matchingGroups = groups.filter((group) => `${manualMapText(group?.label)} ${manualMapText(group?.id)} ${manualMapText(group?.colorTag)}`.toLowerCase().includes(query));
+  const matchingGroups = groups.filter((group) => foldIncludes(`${manualMapText(group?.label)} ${manualMapText(group?.id)} ${manualMapText(group?.colorTag)}`, queryText));
   matchingGroups.forEach((group) => {
     (Array.isArray(group.nodeIds) ? group.nodeIds : []).forEach((nodeId) => matchingNodeIds.add(manualMapText(nodeId)));
   });

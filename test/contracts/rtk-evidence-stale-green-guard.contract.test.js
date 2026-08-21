@@ -10,6 +10,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
+const { spawnSync } = require('node:child_process');
 
 const ROOT = path.resolve(__dirname, '..', '..');
 const CATALOG_PATH = path.join(ROOT, 'docs', 'OPS', 'RTK', 'RTK_TEST_GRAPH_CATALOG_V1.json');
@@ -106,14 +107,9 @@ test('stale-green guard: donor expectation and kernel registry stay reconciled',
   assert.equal(ALLOWED_COMMAND_IDS.includes('cmd.project.blackBox.exportManualCoreCapsuleKitV1'), true);
 });
 
-test('stale-green guard: the status-backed class is fully registered and cannot grow silently', () => {
-  const catalog = readJson(CATALOG_PATH);
-  const maintained = new Set([...(catalog.contractBasenames || []), ...(catalog.extraMaintainedContractBasenames || [])]);
-  const ledgered = new Set(KNOWN_RED_LEDGER.map((entry) => entry.contract));
-  const greenUnmaintained = new Set(GREEN_UNMAINTAINED_REGISTRY);
-  // Enumerate the class authoritatively: contracts cited by status
-  // producer scripts (state scripts with a --write mode that commit live
-  // claim artifacts).
+function enumerateStatusBackedClass() {
+  // Contracts cited by status producer scripts (state scripts with a
+  // --write mode that commit live-claim artifacts).
   const opsDir = path.join(ROOT, 'scripts', 'ops');
   const backed = new Set();
   let producerScripts = 0;
@@ -126,20 +122,81 @@ test('stale-green guard: the status-backed class is fully registered and cannot 
       backed.add(match[1]);
     }
   }
-  assert.equal(producerScripts >= 30, true, `producer denominator must be meaningful, got ${producerScripts}`);
-  assert.equal(backed.size >= 30, true, `class denominator must be meaningful, got ${backed.size}`);
-  const violators = [];
-  for (const name of backed) {
-    if (!maintained.has(name) && !ledgered.has(name) && !greenUnmaintained.has(name)) {
-      violators.push(name);
-    }
+  return { backed: [...backed].sort(), producerScripts };
+}
+
+function failingTestNames(tapOutput) {
+  const names = [];
+  for (const line of tapOutput.split('\n')) {
+    const match = line.match(/^not ok \d+ - (.+)$/u);
+    if (match) names.push(match[1]);
   }
-  assert.deepEqual([...violators].sort(), [], 'status-backed contracts missing from all three registers');
+  return names;
+}
+
+test('stale-green guard: registration is complete and no entrant slips through', () => {
+  const catalog = readJson(CATALOG_PATH);
+  const maintained = new Set([...(catalog.contractBasenames || []), ...(catalog.extraMaintainedContractBasenames || [])]);
+  const ledgered = new Set(KNOWN_RED_LEDGER.map((entry) => entry.contract));
+  const greenUnmaintained = new Set(GREEN_UNMAINTAINED_REGISTRY);
+  const { backed, producerScripts } = enumerateStatusBackedClass();
+  assert.equal(producerScripts >= 30, true, `producer denominator must be meaningful, got ${producerScripts}`);
+  assert.equal(backed.length >= 30, true, `class denominator must be meaningful, got ${backed.length}`);
+  const violators = backed.filter((name) => !maintained.has(name) && !ledgered.has(name) && !greenUnmaintained.has(name));
+  assert.deepEqual(violators, [], 'status-backed contracts missing from all three registers');
   for (const name of EXTRA_MAINTAINED) {
     assert.equal(ledgered.has(name), false, `${name} is repaired and maintained, never ledgered`);
   }
-  for (const name of ledgered) {
-    assert.equal(fs.existsSync(path.join(ROOT, 'test', 'contracts', name)), true, `ledgered contract missing on disk: ${name}`);
+});
+
+// R2.4 EXH1: the classification is verified by execution, fail-closed.
+// Every ledgered red contract must currently fail with exactly the recorded
+// test names; every green-registered contract must currently pass. A
+// green-to-red flip, a red-to-green flip and a changed failure shape all
+// fail this gate deterministically.
+test('stale-green guard: executable classification of every status-backed contract', { timeout: 720000 }, () => {
+  const childEnv = { ...process.env };
+  delete childEnv.NODE_TEST_CONTEXT;
+  const runContract = (name) => {
+    const filePath = path.join(ROOT, 'test', 'contracts', name);
+    const run = spawnSync(process.execPath, ['--test', filePath], { encoding: 'utf8', timeout: 180000, cwd: ROOT, env: childEnv });
+    return {
+      exit: run.status,
+      failing: failingTestNames(run.stdout || ''),
+      stderrHead: (run.stderr || '').slice(0, 200),
+    };
+  };
+
+  const greenToRed = [];
+  const redToGreen = [];
+  const shapeDrift = [];
+  for (const entry of KNOWN_RED_LEDGER) {
+    const outcome = runContract(entry.contract);
+    if (outcome.exit === 0) {
+      redToGreen.push(entry.contract);
+      continue;
+    }
+    const actual = new Set(outcome.failing);
+    const recorded = new Set(entry.failing);
+    const missingRecorded = [...recorded].filter((name) => ![...actual].some((line) => line.includes(name)));
+    const unrecordedActual = [...actual].filter((line) => ![...recorded].some((name) => line.includes(name)));
+    if (missingRecorded.length > 0 || unrecordedActual.length > 0) {
+      shapeDrift.push({ contract: entry.contract, missingRecorded, unrecordedActual });
+    }
   }
-  console.log(`R24_EXH0_GUARD=${JSON.stringify({ classSize: backed.size, maintained: EXTRA_MAINTAINED.length, ledgeredRed: ledgered.size, greenUnmaintained: greenUnmaintained.size, violators: violators.length })}`);
+  for (const name of GREEN_UNMAINTAINED_REGISTRY) {
+    const outcome = runContract(name);
+    if (outcome.exit !== 0) greenToRed.push({ contract: name, failing: outcome.failing.slice(0, 3) });
+  }
+  const summary = {
+    executedRed: KNOWN_RED_LEDGER.length,
+    executedGreen: GREEN_UNMAINTAINED_REGISTRY.length,
+    greenToRed,
+    redToGreen,
+    shapeDrift,
+  };
+  console.log(`R24_EXH1_CLASSIFICATION=${JSON.stringify(summary)}`);
+  assert.deepEqual(redToGreen, [], `red-to-green flip: ledger entries must be reclassified by a contour, never silently blessed: ${JSON.stringify(redToGreen)}`);
+  assert.deepEqual(greenToRed, [], `green-to-red flip in green-unmaintained registry: ${JSON.stringify(greenToRed)}`);
+  assert.deepEqual(shapeDrift, [], `failure-shape drift in the known-red ledger: ${JSON.stringify(shapeDrift)}`);
 });

@@ -1,5 +1,6 @@
 import { hashCanonicalValue } from './browser-safe-hash.mjs';
 import { emitCoreDomainEventsForCommandResult } from './domainEvents.mjs';
+import anchorLineageLaw from './anchor-lineage-v1.cjs';
 export {
   buildSceneOrderChangedEvent,
   hashCoreDomainEvents,
@@ -2987,6 +2988,30 @@ function validateEvidenceStillMatchesScene({ state, project, sceneId, evidenceAn
     );
   }
   if (currentSceneTextHash !== evidenceAnchor.sceneTextHash || currentQuoteHash !== evidenceAnchor.quoteHash || currentQuote !== quote) {
+    // R2.4 T1: a stale witness carries a typed lineage/ambiguity diagnosis
+    // from the core anchor protocol. The error code and reason are
+    // unchanged; the diagnosis is additive evidence for the review inbox.
+    let anchorDiagnosis = { status: 'unavailable', basis: '', candidateCount: 0, candidates: [] };
+    try {
+      const resolution = anchorLineageLaw.resolveAnchorByWitness(
+        { quote, prefixContextHash: '', suffixContextHash: '' },
+        sceneText,
+      );
+      const rawCandidates = resolution.status === anchorLineageLaw.ANCHOR_STATUS.AMBIGUOUS
+        ? resolution.candidates
+        : (resolution.status === anchorLineageLaw.ANCHOR_STATUS.EXACT ? [resolution.span] : []);
+      anchorDiagnosis = {
+        status: resolution.status,
+        basis: resolution.basis || '',
+        candidateCount: rawCandidates.length,
+        candidates: rawCandidates.slice(0, 8).map((candidate) => ({
+          startOffset: candidate.startOffset,
+          endOffset: candidate.endOffset,
+        })),
+      };
+    } catch {
+      anchorDiagnosis = { status: 'unavailable', basis: '', candidateCount: 0, candidates: [] };
+    }
     return fail(state, 'E_ATLAS_EVIDENCE_STALE', op, 'EVIDENCE_STALE', {
       ...reasonDetails,
       sceneId,
@@ -2995,6 +3020,7 @@ function validateEvidenceStillMatchesScene({ state, project, sceneId, evidenceAn
       actualSceneTextHash: currentSceneTextHash,
       expectedQuoteHash: evidenceAnchor.quoteHash,
       actualQuoteHash: currentQuoteHash,
+      anchorDiagnosis,
     });
   }
   return null;

@@ -30,8 +30,11 @@ const GUARDED_CHANNELS = [
 const PROTOCOL_BRIDGES = ['ui:command-bridge', 'ui:workspace-query-bridge', 'ui:save-lifecycle-signal-bridge'];
 
 function sliceRegistrationBody(source, channel) {
-  const marker = `'${channel}'`;
-  const start = source.indexOf(marker);
+  // Anchor on the registration call itself: channel literals may legitimately
+  // appear in capability maps or comments elsewhere in the source.
+  const guardedIdx = source.indexOf(`guardedHandle('${channel}'`);
+  const protocolIdx = source.indexOf(`guardedProtocolHandle('${channel}'`);
+  const start = guardedIdx === -1 ? protocolIdx : (protocolIdx === -1 ? guardedIdx : Math.min(guardedIdx, protocolIdx));
   if (start === -1) return '';
   // The registration body runs to the next guarded registration or a broad
   // window, whichever comes first.

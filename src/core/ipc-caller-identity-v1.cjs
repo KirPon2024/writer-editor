@@ -108,9 +108,68 @@ function createGuardedIpcRegistration(ipcMainLike, policy) {
   });
 }
 
+// R2.4 WP-101 — channel capability binding. Every privileged channel must
+// be bound to a declared capability class at registration time; an unbound
+// channel is a wiring defect and fails closed before any handler exists.
+const IPC_CHANNEL_CAPABILITY_CLASSES = Object.freeze([
+  'fs.read',
+  'fs.write',
+  'project.mutation',
+  'project.query',
+  'query.read',
+  'command.dispatch',
+  'signal.ingest',
+]);
+
+function normalizeChannelCapabilityMap(channelCapabilityClass) {
+  if (!isObjectRecord(channelCapabilityClass)) {
+    throw new IpcCallerIdentityError('E_IPC_CAPABILITY_MAP_SHAPE');
+  }
+  const map = new Map();
+  for (const [channel, capabilityClass] of Object.entries(channelCapabilityClass)) {
+    const key = typeof channel === 'string' ? channel.trim() : '';
+    if (!key) throw new IpcCallerIdentityError('E_IPC_CAPABILITY_CHANNEL_EMPTY');
+    if (!IPC_CHANNEL_CAPABILITY_CLASSES.includes(capabilityClass)) {
+      throw new IpcCallerIdentityError('E_IPC_CAPABILITY_CLASS_UNKNOWN', `${key}:${String(capabilityClass)}`);
+    }
+    map.set(key, capabilityClass);
+  }
+  if (map.size === 0) throw new IpcCallerIdentityError('E_IPC_CAPABILITY_MAP_EMPTY');
+  return map;
+}
+
+// Wraps a guarded registration and refuses to register any channel without
+// a declared capability class. The identity check still runs first at
+// dispatch; the capability binding runs first at wiring.
+function createCapabilityBoundRegistration(registration, channelCapabilityClass) {
+  if (!registration || typeof registration.handle !== 'function' || typeof registration.on !== 'function') {
+    throw new IpcCallerIdentityError('E_IPC_REGISTRATION_SHAPE');
+  }
+  const map = normalizeChannelCapabilityMap(channelCapabilityClass);
+  const capabilityClassOf = (channel) => map.get(typeof channel === 'string' ? channel.trim() : '') || '';
+  const assertBound = (channel) => {
+    if (!capabilityClassOf(channel)) {
+      throw new IpcCallerIdentityError('E_IPC_CHANNEL_CAPABILITY_UNBOUND', String(channel));
+    }
+  };
+  return Object.freeze({
+    handle(channel, handler) {
+      assertBound(channel);
+      return registration.handle(channel, handler);
+    },
+    on(channel, handler) {
+      assertBound(channel);
+      return registration.on(channel, handler);
+    },
+    capabilityClassOf,
+  });
+}
+
 module.exports = Object.freeze({
   IpcCallerIdentityError,
+  IPC_CHANNEL_CAPABILITY_CLASSES,
   assertIpcCallerIdentity,
+  createCapabilityBoundRegistration,
   createGuardedIpcRegistration,
   evaluateIpcCallerIdentity,
   validateWorkerIntakeEnvelope,

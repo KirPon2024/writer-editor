@@ -32,6 +32,11 @@ const MUTANTS = [
     replace: '  if (false) {',
   },
   {
+    id: 'alias-mismatch-tolerated',
+    find: '  if (matches.length === 1 && matches[0] !== base) {',
+    replace: '  if (false) {',
+  },
+  {
     id: 'toctou-drift-tolerated',
     find: '  if (identity(before) !== identity(after)) {',
     replace: '  if (false) {',
@@ -78,14 +83,22 @@ function killOracle(module) {
   const nfd = 'cafe\u0301.txt';
   fs.writeFileSync(path.join(root, 'p', nfc), '1');
   fs.writeFileSync(path.join(root, 'p', nfd), '2');
-  assert.equal(
-    fs.readdirSync(path.join(root, 'p')).filter((name) => name.startsWith('caf')).length,
-    1,
-    'this APFS volume dedupes normalization aliases physically',
-  );
+  const physical = fs.readdirSync(path.join(root, 'p')).filter((name) => name.startsWith('caf'));
+  if (physical.length === 2) {
+    assert.throws(
+      () => assertAliasSafe(path.join(root, 'p', nfc)),
+      (e) => e instanceof PathCapabilityError && e.code === 'E_CAP_ALIAS_AMBIGUOUS',
+    );
+  } else {
+    assert.equal(physical.length, 1, 'volume physics: aliases either dedupe to one entry or coexist as two');
+    assert.throws(
+      () => assertAliasSafe(path.join(root, 'p', nfc), { readDirFn: () => [nfc, nfd] }),
+      (e) => e instanceof PathCapabilityError && e.code === 'E_CAP_ALIAS_AMBIGUOUS',
+    );
+  }
   assert.throws(
-    () => assertAliasSafe(path.join(root, 'p', nfc), { readDirFn: () => [nfc, nfd] }),
-    (e) => e instanceof PathCapabilityError && e.code === 'E_CAP_ALIAS_AMBIGUOUS',
+    () => assertAliasSafe(path.join(root, 'p', 'ok.txt'), { readDirFn: () => ['OK.txt'] }),
+    (e) => e instanceof PathCapabilityError && e.code === 'E_CAP_CASE_MISMATCH',
   );
 
   const target = path.join(root, 'p', 'ok.txt');

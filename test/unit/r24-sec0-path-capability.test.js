@@ -76,17 +76,29 @@ test('alias law: case mismatch and ambiguous aliases are typed, exact match pass
   assert.throws(() => assertAliasSafe(path.join(dir, 'scene.txt')), (e) => e instanceof PathCapabilityError && e.code === 'E_CAP_CASE_MISMATCH');
 });
 
-test('unicode alias law: deduping volume fact plus synthetic ambiguity proof', () => {
+test('unicode alias law: ambiguity proven on preserving and deduping volumes', () => {
   const dir = realTmp();
   const nfc = 'café.txt';
-  const nfd = 'cafe\u0301.txt';
+  const nfd = 'café.txt';
   fs.writeFileSync(path.join(dir, nfc), '1');
   fs.writeFileSync(path.join(dir, nfd), '2');
-  assert.equal(fs.readdirSync(dir).length, 1, 'this APFS volume dedupes normalization aliases physically');
-  assert.throws(
-    () => assertAliasSafe(path.join(dir, nfc), { readDirFn: () => [nfc, nfd] }),
-    (e) => e instanceof PathCapabilityError && e.code === 'E_CAP_ALIAS_AMBIGUOUS',
-  );
+  const physical = fs.readdirSync(dir).filter((name) => name.startsWith('caf'));
+  if (physical.length === 2) {
+    // Normalization-preserving volume (e.g. ext4): both entries coexist, so
+    // the ambiguity is proven against the real directory read.
+    assert.throws(
+      () => assertAliasSafe(path.join(dir, nfc)),
+      (e) => e instanceof PathCapabilityError && e.code === 'E_CAP_ALIAS_AMBIGUOUS',
+    );
+  } else {
+    assert.equal(physical.length, 1, 'volume physics: aliases either dedupe to one entry or coexist as two');
+    // Deduplicating volume (e.g. APFS): the alias pair cannot coexist
+    // physically, so ambiguity is proven through the injected directory read.
+    assert.throws(
+      () => assertAliasSafe(path.join(dir, nfc), { readDirFn: () => [nfc, nfd] }),
+      (e) => e instanceof PathCapabilityError && e.code === 'E_CAP_ALIAS_AMBIGUOUS',
+    );
+  }
   assert.throws(
     () => assertAliasSafe(path.join(dir, nfc), { readDirFn: () => ['DIFFERENT.txt', nfd] }),
     (e) => e.code === 'E_CAP_CASE_MISMATCH',

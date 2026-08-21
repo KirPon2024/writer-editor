@@ -124,14 +124,16 @@ function resolveWithinCapabilityRoots(candidate, roots, { noFollow = true } = {}
 
 const foldForAlias = (name) => name.normalize('NFC').toLowerCase();
 
-// Alias law for existing targets: multiple directory entries matching the
-// basename case-insensitively or via Unicode normalization are a typed
-// ambiguity; a single entry with different spelling is a typed mismatch.
-// The directory read is injectable so the ambiguity branch is provable on
-// deduplicating filesystems too.
+// Alias law for existing targets and for new spellings that would collide
+// with an existing sibling: multiple directory entries matching the basename
+// case-insensitively or via Unicode normalization are a typed ambiguity; a
+// single entry with different spelling is a typed mismatch. The check is
+// volume-independent: on a case-sensitive volume a wrong-case spelling does
+// not resolve, yet it is still refused so projects stay portable to
+// case-insensitive volumes. The directory read is injectable so the
+// ambiguity branch is provable on deduplicating filesystems too.
 function assertAliasSafe(candidatePath, { readDirFn = null } = {}) {
   const resolved = path.resolve(candidatePath);
-  if (!fs.existsSync(resolved)) return { ok: true, reason: '' };
   const parent = path.dirname(resolved);
   const base = path.basename(resolved);
   const baseFold = foldForAlias(base);
@@ -139,6 +141,7 @@ function assertAliasSafe(candidatePath, { readDirFn = null } = {}) {
   try {
     entries = typeof readDirFn === 'function' ? readDirFn(parent) : fs.readdirSync(parent);
   } catch (error) {
+    if (error && error.code === 'ENOENT') return { ok: true, reason: '' };
     throw new PathCapabilityError('E_CAP_PARENT_UNREADABLE', `${parent}: ${error.message}`);
   }
   if (!Array.isArray(entries)) throw new PathCapabilityError('E_CAP_PARENT_LISTING_INVALID', parent);
@@ -152,14 +155,16 @@ function assertAliasSafe(candidatePath, { readDirFn = null } = {}) {
   return { ok: true, reason: '' };
 }
 
-// TOCTOU law: identity (dev+ino) must not change between two probes around
-// the effect. Any drift is typed, never silently accepted.
+// TOCTOU law: identity (dev, ino, size, mtimeNs, ctimeNs) must not change
+// between two probes around the effect. Inode reuse after unlink must not
+// make a replacement invisible, so dev+ino alone is never sufficient. Any
+// drift is typed, never silently accepted.
 function withStableIdentity(targetPath, effect) {
   if (typeof effect !== 'function') throw new PathCapabilityError('E_CAP_EFFECT_REQUIRED');
-  const before = fs.lstatSync(targetPath);
-  const identity = (s) => `${s.dev}:${s.ino}`;
+  const before = fs.lstatSync(targetPath, { bigint: true });
+  const identity = (s) => `${s.dev}:${s.ino}:${s.size}:${s.mtimeNs}:${s.ctimeNs}`;
   const result = effect();
-  const after = fs.lstatSync(targetPath);
+  const after = fs.lstatSync(targetPath, { bigint: true });
   if (identity(before) !== identity(after)) {
     throw new PathCapabilityError('E_CAP_TOCTOU_DRIFT', `${targetPath}: ${identity(before)} -> ${identity(after)}`);
   }

@@ -46,6 +46,7 @@ const {
   ACK_OUTCOMES,
 } = require('./core/autosave-generation-v1.cjs');
 const {
+  createCapabilityBoundRegistration,
   createGuardedIpcRegistration,
 } = require('./core/ipc-caller-identity-v1.cjs');
 const {
@@ -110,9 +111,57 @@ const IPC_CALLER_IDENTITY_POLICY = {
   allowedFrameUrlPrefixes: () => [
     pathToFileURL(path.join(__dirname, 'renderer', 'index.html')).href,
   ],
+  // R2.4 WP-101: the session dimension is anchored to the live shell
+  // webContents' session. With no live shell the sender registry is already
+  // empty and refuses everything, so undefined is the safe anchor here.
+  expectedSessionId: () => {
+    if (!webContents || typeof webContents.getAllWebContents !== 'function') return undefined;
+    const shellPrefix = pathToFileURL(path.join(__dirname, 'renderer', 'index.html')).href;
+    const shell = webContents.getAllWebContents().find((wc) => wc
+      && typeof wc.getURL === 'function'
+      && wc.getURL().startsWith(shellPrefix)
+      && !(typeof wc.isDestroyed === 'function' && wc.isDestroyed()));
+    return shell ? shell.session : undefined;
+  },
 };
 
-const { handle: guardedHandle, on: guardedOn } = createGuardedIpcRegistration(ipcMain, IPC_CALLER_IDENTITY_POLICY);
+// R2.4 WP-101: every privileged channel carries a declared capability class;
+// registering an unbound channel fails closed at wiring time.
+const IPC_CHANNEL_CAPABILITY_CLASS = Object.freeze({
+  'file:open': 'fs.read',
+  'file:save': 'fs.write',
+  'file:save-as': 'fs.write',
+  'u:cmd:project:export:docxMin:v1': 'fs.write',
+  'm:cmd:project:import:markdownV1:v1': 'project.mutation',
+  'm:cmd:project:export:markdownV1:v1': 'fs.write',
+  'm:cmd:project:flow:open:v1': 'fs.read',
+  'm:cmd:project:flow:save:v1': 'fs.write',
+  'ui:create-node': 'project.mutation',
+  'ui:delete-node': 'project.mutation',
+  'ui:move-node': 'project.mutation',
+  'ui:rename-node': 'project.mutation',
+  'ui:reorder-node': 'project.mutation',
+  'ui:get-collab-scope-local': 'project.query',
+  'ui:get-project-tree': 'project.query',
+  'ui:open-document': 'project.query',
+  'ui:open-section': 'project.query',
+  'ui:request-autosave': 'signal.ingest',
+  'ui:command-bridge': 'command.dispatch',
+  'ui:workspace-query-bridge': 'query.read',
+  'ui:save-lifecycle-signal-bridge': 'signal.ingest',
+  'ui:window-minimize': 'signal.ingest',
+  'ui:set-theme': 'signal.ingest',
+  'ui:set-font': 'signal.ingest',
+  'ui:set-font-size': 'signal.ingest',
+  'ui:font-size': 'signal.ingest',
+  'editor:text-response': 'signal.ingest',
+  'editor:snapshot-response': 'signal.ingest',
+  'dirty-changed': 'signal.ingest',
+  'editor:paste-focus-state': 'signal.ingest',
+});
+
+const GUARDED_IPC_REGISTRATION = createGuardedIpcRegistration(ipcMain, IPC_CALLER_IDENTITY_POLICY);
+const { handle: guardedHandle, on: guardedOn } = createCapabilityBoundRegistration(GUARDED_IPC_REGISTRATION, IPC_CHANNEL_CAPABILITY_CLASS);
 
 // R2.4 K0: bridge results pass through the unified protocol contract — every
 // refusal carries a canonical machine code while legacy fields stay intact.

@@ -82,6 +82,9 @@ jobs:
       - name: Run R2.4 WP-100 generation admission gate
         run: npm run -s test:r24-wp100
 
+      - name: Run R2.4 WP-101 IPC admission gate
+        run: npm run -s test:r24-wp101
+
       - name: Run maintained Atlas event contract graph
         run: npm run -s test:atlas-event-contract
 

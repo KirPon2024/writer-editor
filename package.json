@@ -85,7 +85,8 @@
     "test:r24-p2": "node --test test/unit/r24-p2-save-coordinator.test.js test/unit/r24-p2-save-crash.test.js test/unit/r24-p2-save-mutants.test.js",
     "test:r24-r1": "node --test test/unit/r24-r1-shadow-cell.test.js test/unit/r24-r1-shadow-differential.test.js test/unit/r24-r1-shadow-mutants.test.js",
     "test:r24-p3": "node --test test/unit/r24-p3-project-commit.test.js test/unit/r24-p3-commit-crash.test.js test/unit/r24-p3-commit-mutants.test.js",
-    "test:r24-t0": "node --test test/unit/r24-t0-text-fold-tape.test.js test/unit/r24-t0-fold-roundtrip.test.js test/unit/r24-t0-fold-mutants.test.js"
+    "test:r24-t0": "node --test test/unit/r24-t0-text-fold-tape.test.js test/unit/r24-t0-fold-roundtrip.test.js test/unit/r24-t0-fold-mutants.test.js",
+    "test:r24-sec0": "node --test test/unit/r24-sec0-path-capability.test.js test/unit/r24-sec0-hostile-paths.test.js test/unit/r24-sec0-path-mutants.test.js"
   },
   "keywords": [
     "editor",

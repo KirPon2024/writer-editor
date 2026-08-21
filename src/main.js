@@ -67,6 +67,9 @@ const {
 const {
   commitProjectTextAndManifest,
 } = require('./core/project-commit-v1.cjs');
+const {
+  resolveWithinCapabilityRoots,
+} = require('./core/io/path-capability-v1.cjs');
 
 // R2.4 R1: one small per-project shadow cell for the local edit-generation
 // domain. Advisory only; see the autosave hook for its sole use.
@@ -18745,8 +18748,12 @@ function isAllowedFilePath(candidatePath) {
   if (!resolvedPath) return false;
   const allowlistRoots = getFilePathAllowlistRoots();
   if (!allowlistRoots.length) return false;
+  // R2.4 SEC0: containment is decided on canonical real paths through the
+  // single capability law, never on lexical prefixes. Symlink escapes land
+  // outside the canonical root and are refused; roots are canonicalized the
+  // same way, so alias-spelled roots cannot widen or narrow the boundary.
   return allowlistRoots.some((rootPath) => (
-    resolvedPath === rootPath || isPathInside(rootPath, resolvedPath)
+    resolveWithinCapabilityRoots(resolvedPath, [rootPath], { noFollow: true }).ok
   ));
 }
 

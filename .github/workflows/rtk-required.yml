@@ -79,6 +79,9 @@ jobs:
       - name: Run R2.4 T1 anchor lineage gate
         run: npm run -s test:r24-t1
 
+      - name: Run R2.4 WP-100 generation admission gate
+        run: npm run -s test:r24-wp100
+
       - name: Run maintained Atlas event contract graph
         run: npm run -s test:atlas-event-contract
 

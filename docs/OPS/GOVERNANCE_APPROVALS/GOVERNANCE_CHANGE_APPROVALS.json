@@ -9323,10 +9323,10 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "67514feda4ea63374a6aaddec0735d19fc4f79d501ca870986ba6d5ab48169ec",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-T1-ANCHOR-LINEAGE-001",
-      "approvedAtUtc": "2026-08-21T14:06:37.000Z",
-      "rationale": "Approve R2.4 T1 package.json change: adds test:r24-t1 script binding the T1 anchor lineage gate into the required CI lane; no dependency change.",
+      "sha256": "e5adf6de48fc520ace212c08141d624e0dbbd6f18a9a35fa7641e48087c99e49",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-WP100-GENERATION-ADMISSION-001",
+      "approvedAtUtc": "2026-08-21T14:58:23.000Z",
+      "rationale": "Approve R2.4 WP-100 package.json change: adds test:r24-wp100 script binding the WP-100 generation admission gate into the required CI lane; no dependency change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
@@ -9755,10 +9755,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "a83acb4488e0fae421a245111769269c2159a1ac10b6b139e9237da1d7e5bae4",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-T1-ANCHOR-LINEAGE-001",
-      "approvedAtUtc": "2026-08-21T14:06:37.000Z",
-      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 T1: package.json digest updated to the exact bytes gained by the test:r24-t1 script entry; no wording or claim change.",
+      "sha256": "30672f6bb4ba64a43f1d2721c6a31b699b9a68b4f5fc769587ec542750d4395d",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-WP100-GENERATION-ADMISSION-001",
+      "approvedAtUtc": "2026-08-21T14:58:23.000Z",
+      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 WP-100: package.json digest updated to the exact bytes gained by the test:r24-wp100 script entry; no wording or claim change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
@@ -10925,10 +10925,10 @@
     },
     {
       "filePath": ".github/workflows/rtk-required.yml",
-      "sha256": "e74da1e5ee8cd7dd3e89934a175c22c441b15faf8818c678392eb3568823a1e0",
-      "rationale": "Approve R2.4 T1 rtk-required.yml change: adds one step running npm run -s test:r24-t1 after the K1 gate; no trigger, permission or environment change.",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-T1-ANCHOR-LINEAGE-001",
-      "approvedAtUtc": "2026-08-21T14:06:37.000Z",
+      "sha256": "64c639129cd9272cb3f5aa2c1fe59706a961cedfa70998be9c0a24e292729d11",
+      "rationale": "Approve R2.4 WP-100 rtk-required.yml change: adds one step running npm run -s test:r24-wp100 after the T1 gate; no trigger, permission or environment change.",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-WP100-GENERATION-ADMISSION-001",
+      "approvedAtUtc": "2026-08-21T14:58:23.000Z",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },

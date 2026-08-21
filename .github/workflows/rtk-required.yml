@@ -67,6 +67,9 @@ jobs:
       - name: Run R2.4 T0 text coordinate algebra gate
         run: npm run -s test:r24-t0
 
+      - name: Run R2.4 SEC0 path capability gate
+        run: npm run -s test:r24-sec0
+
       - name: Run maintained Atlas event contract graph
         run: npm run -s test:atlas-event-contract
 

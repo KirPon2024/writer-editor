@@ -64,6 +64,9 @@ const {
 const {
   createShadowAuthorityCell,
 } = require('./core/shadow-authority-cell-v1.cjs');
+const {
+  commitProjectTextAndManifest,
+} = require('./core/project-commit-v1.cjs');
 
 // R2.4 R1: one small per-project shadow cell for the local edit-generation
 // domain. Advisory only; see the autosave hook for its sole use.
@@ -18655,6 +18658,18 @@ async function collectFreeEditDeletedSceneIds(nodePath) {
   return [...new Set(deletedSceneIds)];
 }
 
+// R2.4 P3: rollback companion for the pair transaction — restores the
+// previously committed manifest object with CAS on the newer committed text.
+async function rollbackBookProfileForFile(filePath, previousManifest, expectedText) {
+  const projectBinding = await resolveProjectBindingForFile(filePath);
+  if (!projectBinding || !projectBinding.manifestPath) {
+    throw new Error('PROJECT_MANIFEST_ROLLBACK_BINDING_UNAVAILABLE');
+  }
+  await persistProjectManifestAtPath(projectBinding.manifestPath, previousManifest, 'autosave manifest rollback', {
+    expectedText,
+  });
+}
+
 async function persistBookProfileForFile(filePath, bookProfile, operationLabel = 'save project manifest') {
   if (typeof filePath !== 'string' || !filePath.trim()) {
     return { persisted: false, manifest: null };
@@ -27524,8 +27539,53 @@ async function autoSave() {
 
     if (currentFilePath) {
       if (currentHash !== lastAutosaveHash) {
+        // R2.4 P3: scene and manifest commit as one transaction — the marker
+        // is the only commit point and a partial publication can never be
+        // ACKed. Manifest state is captured first so a scene-publish failure
+        // can roll the manifest back.
+        let preCommitManifest = null;
+        let preCommitManifestText = null;
+        try {
+          const bindingBefore = await resolveProjectBindingForFile(currentFilePath);
+          if (bindingBefore && isPlainObjectValue(bindingBefore.manifest)) {
+            preCommitManifest = bindingBefore.manifest;
+            preCommitManifestText = typeof bindingBefore.manifestRaw === 'string' ? bindingBefore.manifestRaw : null;
+          }
+        } catch (error) {
+          logDevError('autoSave:preCommitManifestCapture', error);
+        }
+        let pairNextManifestText = null;
         const saveResult = await queueDiskOperation(
-          () => durableSaveWithCoordinator(currentFilePath, content, snapshot.generation),
+          async () => {
+            try {
+              return await commitProjectTextAndManifest({
+                scenePath: currentFilePath,
+                sceneContent: content,
+                revision: snapshot.generation,
+                persistManifest: async () => {
+                  const outcome = await persistBookProfileForFile(currentFilePath, snapshot.bookProfile, 'autosave project manifest');
+                  if (outcome && outcome.persisted === true && outcome.manifest) {
+                    pairNextManifestText = JSON.stringify(outcome.manifest, null, 2);
+                  }
+                  return outcome;
+                },
+                rollbackManifest: preCommitManifest
+                  ? async () => {
+                      if (pairNextManifestText) {
+                        await rollbackBookProfileForFile(currentFilePath, preCommitManifest, pairNextManifestText);
+                      }
+                    }
+                  : undefined,
+              });
+            } catch (error) {
+              return {
+                success: false,
+                error: error && typeof error.message === 'string' ? error.message : 'unknown',
+                code: error && typeof error.code === 'string' ? error.code : null,
+                rolledBack: error && error.rolledBack === true,
+              };
+            }
+          },
           'autosave file'
         );
         if (!saveResult.success) {
@@ -27539,8 +27599,9 @@ async function autoSave() {
         } catch (error) {
           logDevError('autoSave:proDataInvalidation', error);
         }
+      } else {
+        await persistBookProfileForFile(currentFilePath, snapshot.bookProfile, 'autosave project manifest');
       }
-      await persistBookProfileForFile(currentFilePath, snapshot.bookProfile, 'autosave project manifest');
 
       lastAutosaveHash = currentHash;
       const fileDecision = decideAutosaveAck({

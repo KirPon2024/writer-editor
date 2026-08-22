@@ -9323,10 +9323,10 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "38ea622e88ecd3bd01b22549dc16ea511936571d9f92834ccf2dbe4bf5dcd4ca",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-R4-TRANSACTIONAL-INBOX-OUTBOX-001",
-      "approvedAtUtc": "2026-08-22T09:22:42.000Z",
-      "rationale": "Approve R2.4 R4 package.json change: adds test:r24-r4 script binding the transactional inbox/outbox gate into the required CI lane; no dependency change.",
+      "sha256": "708e10bdd5b8bafc27ef76bd758b4ac5783516c3050ae5fd28eb5b17aeef5d5c",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT-001",
+      "approvedAtUtc": "2026-08-22T10:07:43.000Z",
+      "rationale": "Approve R2.4 R5 package.json change: adds test:r24-r5 script binding the lifecycle external-conflict gate into the required CI lane; no dependency change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
@@ -9755,10 +9755,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "68269a1e794c21bc5d2d6dccacea4fe3187baa9fa09d18ca639b729be4dbd27b",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-R4-TRANSACTIONAL-INBOX-OUTBOX-001",
-      "approvedAtUtc": "2026-08-22T09:22:42.000Z",
-      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 R4: package.json digest updated to the exact bytes gained by the test:r24-r4 script entry; no wording or claim change.",
+      "sha256": "74225162b2882d03dd8c20631c1ed365b51c97a73599775b15127be78d22a7a2",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT-001",
+      "approvedAtUtc": "2026-08-22T10:07:43.000Z",
+      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 R5: package.json digest updated to the exact bytes gained by the test:r24-r5 script entry; no wording or claim change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
@@ -10925,10 +10925,10 @@
     },
     {
       "filePath": ".github/workflows/rtk-required.yml",
-      "sha256": "bb87e1a8a75e7719ab2e9d438c5e5ec2e249e11b670f60bb1633853e1a3700ce",
-      "rationale": "Approve R2.4 R4 rtk-required.yml change: adds one step running npm run -s test:r24-r4 after the R3 gate; no trigger, permission or environment change.",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-R4-TRANSACTIONAL-INBOX-OUTBOX-001",
-      "approvedAtUtc": "2026-08-22T09:22:42.000Z",
+      "sha256": "f152d10ad3fef399dfbd2387d78ed6ab84f04d634b3150d6399b57116253cfce",
+      "rationale": "Approve R2.4 R5 rtk-required.yml change: adds one step running npm run -s test:r24-r5 after the R4 gate; no trigger, permission or environment change.",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT-001",
+      "approvedAtUtc": "2026-08-22T10:07:43.000Z",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },

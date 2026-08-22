@@ -121,6 +121,9 @@ jobs:
       - name: Run R2.4 V1 Atlas claim compiler gate
         run: npm run -s test:r24-v1
 
+      - name: Run R2.4 A1 optional relation vocabulary gate
+        run: npm run -s test:r24-a1
+
       - name: Run maintained Atlas event contract graph
         run: npm run -s test:atlas-event-contract
 

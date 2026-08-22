@@ -6400,10 +6400,12 @@
     },
     {
       "filePath": "src/derived/atlas/index.mjs",
-      "sha256": "981e159f6728cbb7bc1a968e19f304467e35d35b006f424f8d40b1c88974e7ac",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C05_REAL_WORKER_AND_MEASURED_10K_BUDGET",
-      "approvedAtUtc": "2026-07-31T08:37:30.000Z",
-      "rationale": "Approve ER C05 Atlas derived barrel export update: exposes versioned worker payload, adapter, execution, and result helpers from the existing derived module boundary without adding runtime authority, dependency, network, storage, UI mutation, or project truth mutation."
+      "sha256": "800a9e7279bb0eebc7953c366e0059ce70ff89077197759910bfee2d7938668d",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-A1-OPTIONAL-RELATION-VOCABULARY-001",
+      "approvedAtUtc": "2026-08-22T16:03:00.000Z",
+      "rationale": "Approve R2.4 A1 Atlas barrel export update: exposes the derived-only optional relation vocabulary projection and constants from the existing Atlas derived module boundary without adding runtime authority, dependency, network, storage, renderer, UI mutation, project truth mutation, Writer promotion, release claim, Word claim, Google claim, or Program PASS.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "src/derived/atlas/scheduleAtlasGeneration.mjs",
@@ -6421,10 +6423,12 @@
     },
     {
       "filePath": "src/derived/index.mjs",
-      "sha256": "e226c3c121e865bbcc6bb9a53dbe4fc57ba121108d92990aecbef1182ed6d0bc",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C05_REAL_WORKER_AND_MEASURED_10K_BUDGET",
-      "approvedAtUtc": "2026-07-31T08:37:30.000Z",
-      "rationale": "Approve ER C05 derived root barrel export update: re-exports Atlas worker payload, adapter, execution, and result helpers from the existing product-derived boundary without adding runtime authority, dependency, network, storage, UI mutation, or project truth mutation."
+      "sha256": "9f4dc55287e1b534d606d21fe1212e77d82d72f8745164b95c4eaeba1e77a88e",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-A1-OPTIONAL-RELATION-VOCABULARY-001",
+      "approvedAtUtc": "2026-08-22T16:03:00.000Z",
+      "rationale": "Approve R2.4 A1 derived root barrel export update: re-exports the Atlas optional relation vocabulary read-only projection and constants from the existing product-derived boundary without adding runtime authority, dependency, network, storage, renderer, UI mutation, project truth mutation, Writer promotion, release claim, Word claim, Google claim, or Program PASS.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "src/derived/mindmap/manualMapLayoutScheduler.mjs",
@@ -11267,28 +11271,28 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "66e26a9f3c1a428570dfc4ca60ffb3e70b3b8c4cbc71ad61b4603a81a55f77ba",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V1-ATLAS-CLAIM-COMPILER-001",
-      "approvedAtUtc": "2026-08-22T14:29:03.000Z",
-      "rationale": "Approve R2.4 V1 package.json change: adds test:r24-v1 binding Atlas claim compiler contract and mutation suites to the existing Node test runner; no dependency, engine, metadata, product runtime or network change.",
+      "sha256": "b061769de08b974acddb9328e453d2ec733100861a4f52521eb674e62e911c10",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-A1-OPTIONAL-RELATION-VOCABULARY-001",
+      "approvedAtUtc": "2026-08-22T16:03:00.000Z",
+      "rationale": "Approve R2.4 A1 package.json change: adds test:r24-a1 binding optional Atlas relation vocabulary contract, integration and mutation suites to the existing Node test runner; no dependency, engine, metadata, product runtime, UI, release target or network change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": ".github/workflows/rtk-required.yml",
-      "sha256": "f5e4234be4a154aaf51195ff5664e9452597e500c692299fad369736473eba6f",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V1-ATLAS-CLAIM-COMPILER-001",
-      "approvedAtUtc": "2026-08-22T14:29:03.000Z",
-      "rationale": "Approve R2.4 V1 rtk-required.yml change: adds one step running npm run -s test:r24-v1 after A0 and before maintained Atlas tail gates; no trigger, permission, installation, environment or release target change.",
+      "sha256": "2c0e851502341a36d42ebfb164f86c919c506e7074ba2de7ece0b0f79af61023",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-A1-OPTIONAL-RELATION-VOCABULARY-001",
+      "approvedAtUtc": "2026-08-22T16:03:00.000Z",
+      "rationale": "Approve R2.4 A1 rtk-required.yml change: adds one step running npm run -s test:r24-a1 after the already-closed V1 gate and before maintained Atlas tail gates; no trigger, permission, installation, environment, release target, Word, Google or network change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "3dc19ce89fbc65b2e3df7ac8d0dfb0ee286833a514717cf681d3c9b395b2a8b6",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V1-ATLAS-CLAIM-COMPILER-001",
-      "approvedAtUtc": "2026-08-22T14:29:03.000Z",
-      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 V1: package.json digest updated to the exact bytes gained by the test:r24-v1 script entry; no wording, Word, Google, release, Writer-profile or Program PASS claim change.",
+      "sha256": "217ec4d107e49e63ef54df5969b12881681e0d5c0ab4701836f719c506937a79",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-A1-OPTIONAL-RELATION-VOCABULARY-001",
+      "approvedAtUtc": "2026-08-22T16:03:00.000Z",
+      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 A1: package.json digest updated to the exact bytes gained by the test:r24-a1 script entry; no wording, Word, Google, release, Writer-profile, optional feature promotion or Program PASS claim change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },

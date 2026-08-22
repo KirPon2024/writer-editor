@@ -126,6 +126,16 @@ export {
   sortAtlasRelationTimelineRows,
 } from './atlasRelationDossierTypes.mjs';
 export {
+  ATLAS_OPTIONAL_RELATION_VOCABULARY_EVIDENCE_SCHEMA_VERSION,
+  ATLAS_OPTIONAL_RELATION_VOCABULARY_REJECTED_ROW_SCHEMA_VERSION,
+  ATLAS_OPTIONAL_RELATION_VOCABULARY_ROW_KIND,
+  ATLAS_OPTIONAL_RELATION_VOCABULARY_ROW_SCHEMA_VERSION,
+  ATLAS_OPTIONAL_RELATION_VOCABULARY_SCHEMA_VERSION,
+  ATLAS_OPTIONAL_RELATION_VOCABULARY_STAGE_ID,
+  sortAtlasOptionalRelationVocabularyRejectedRows,
+  sortAtlasOptionalRelationVocabularyRows,
+} from './atlasOptionalRelationVocabularyTypes.mjs';
+export {
   ATLAS_RELATION_PERSPECTIVE_SCENE_SCHEMA_VERSION,
   ATLAS_RELATION_SEGMENTS_PERSPECTIVE_SCHEMA_VERSION,
   ATLAS_RELATION_SEGMENT_PARITY_PROOF_SCHEMA_VERSION,
@@ -349,6 +359,10 @@ export { deriveAtlasMentionIndex, ATLAS_MENTION_INDEX_VIEW_ID } from './deriveAt
 export { deriveAtlasCurrentSceneDossier, ATLAS_CURRENT_SCENE_DOSSIER_VIEW_ID } from './deriveAtlasCurrentSceneDossier.mjs';
 export { deriveAtlasObservationAggregate, ATLAS_OBSERVATION_AGGREGATE_VIEW_ID } from './deriveAtlasObservationAggregate.mjs';
 export { deriveAtlasEvidenceReattachmentInbox, ATLAS_EVIDENCE_REATTACHMENT_INBOX_VIEW_ID } from './deriveAtlasEvidenceReattachmentInbox.mjs';
+export {
+  deriveAtlasOptionalRelationVocabulary,
+  ATLAS_OPTIONAL_RELATION_VOCABULARY_VIEW_ID,
+} from './deriveAtlasOptionalRelationVocabulary.mjs';
 export {
   ATLAS_LOCAL_GRAPH_VIEW_ID,
   buildAtlasLocalGraphFromTemporalContinuity,

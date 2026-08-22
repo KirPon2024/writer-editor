@@ -6686,12 +6686,12 @@
     },
     {
       "filePath": "src/renderer/commands/localCapabilityProvider.mjs",
-      "sha256": "5cd48ab6a25024d06bf294a13d03ac02a681b3f9f47580008ed82f102f97b135",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_WORD_C5V2_FINAL_WORD_IMPLEMENTATION_AND_RECERTIFICATION",
-      "approvedAtUtc": "2026-08-03T21:05:27.922Z",
-      "rationale": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR",
+      "sha256": "0a7a67505e920c8ed149a8fc3446e292f0650108f79d0a8431c658df032e1208",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-001",
+      "approvedAtUtc": "2026-08-22T13:44:05.000Z",
+      "rationale": "Approve registry-hygiene rebind for inherited current-main local capability provider bytes discovered while closing the R2.4 A0 governance gate; no product runtime, UI, capability, storage, dependency, network, release or Program PASS change.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_APPROVED_WORD_C5V2_FINAL_WORD_REPAIR"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "src/renderer/design-os/atlasFeatureIntegrationManifest.mjs",
@@ -7767,12 +7767,12 @@
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-full-manuscript-product-export.contract.test.js",
-      "sha256": "c503a976b1f340087e4788c1751f7a5f06ef5393db137f9f78c0630d3a992463",
-      "approvedBy": "owner-standing-grant:TASK_ID:C1_RETURN_INTAKE_AUTHORITY_CARRIER_AUTHENTICATION_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T02:21:21.000Z",
-      "rationale": "Approve C1 full-manuscript regression coverage: review-round activation must publish with the bridge-store CAS digest and fail closed if the pending round cannot transition to active.",
+      "sha256": "c3480cc67033b35b70a30d160b77d91eb6884db58b69a518ceaac3164aeb187d",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-001",
+      "approvedAtUtc": "2026-08-22T13:44:05.000Z",
+      "rationale": "Approve registry-hygiene rebind for inherited current-main C5V2 full-manuscript contract bytes discovered while closing the R2.4 A0 governance gate; metadata only, no Word route PASS, product runtime, UI, dependency, network or Program PASS change.",
       "approved": true,
-      "authority": "MASTER_PROGRAM_STANDING_OWNER_GRANT_WITHIN_SCOPE_C1_RETURN_INTAKE_AUTHORITY_REPAIR"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-root-comment-return-runtime.contract.test.js",
@@ -7881,10 +7881,10 @@
     },
     {
       "filePath": "test/contracts/rtk-word-p0-product-review-docx-exporter.contract.test.js",
-      "sha256": "e6c60aff0db434749cac163fa0cffaa1432734c8e1e5c0ec0de55fa87d77d021",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T02:20:36.749Z",
-      "rationale": "Approve bounded P0 product-originated Word smoke typed blocker binding after origin/main rebind: records 12 product-command DOCX packets, parser PASS, customXml relationship path traversal repair, macOS Word sandbox grant requirement as ENVIRONMENT_PERMISSION, no package invalidity claim, no automatic apply, no saturation, and Google Docs remains closed."
+      "sha256": "84cb0ea4ba080ce91ce8ea67586f3e59f41dd537103aefd12097ee98cb15a84d",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-001",
+      "approvedAtUtc": "2026-08-22T13:44:05.000Z",
+      "rationale": "Approve registry-hygiene rebind for inherited current-main P0 product review DOCX exporter contract bytes discovered while closing the R2.4 A0 governance gate; metadata only, no Word saturation, automatic apply, Google, runtime, dependency, network or Program PASS change."
     },
     {
       "filePath": "test/contracts/rtk-word-p0-safe-formatting-lane-typed-limitation.contract.test.js",
@@ -7983,12 +7983,12 @@
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-product-comments-mixed-multiscene.contract.test.js",
-      "sha256": "1bdf16a52d530fcaae74c656572f25115b03b1746221d592b41828e94658bdf5",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
-      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
-      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
+      "sha256": "86404ed0c54dc703c363bae2306a9a6f5e3b2a68017d5f12291e0e34cbe4a364",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-001",
+      "approvedAtUtc": "2026-08-22T13:44:05.000Z",
+      "rationale": "Approve registry-hygiene rebind for inherited current-main mixed-multiscene Word release-audit contract bytes discovered while closing the R2.4 A0 governance gate; metadata only, no product capability, UI, network, dependency, release or Program PASS change.",
       "approved": true,
-      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-product-originated-smoke-wave12.contract.test.js",
@@ -9226,12 +9226,12 @@
     },
     {
       "filePath": "test/unit/sector-m-s37-capability-provider-free-pro.test.js",
-      "sha256": "233e61b58f95d672da35d2dc67c8c7d9139b765d8f6f631ee21c29c373cd9f6c",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V5_POST_3BF49983_IRONCLAD_REPAIR:WORD_PR1394_REBIND",
-      "approvedAtUtc": "2026-08-02T10:09:14.000Z",
-      "rationale": "Rebind exact already-merged Word PR1394 descendant bytes verified by the controller during Atlas R1-B delivery; this registry-only repair adds no product capability, UI change, network, dependency, or release claim.",
+      "sha256": "03a481c853018a30f7d288a183c962ee94c238c519283574829f06722af5d98e",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-001",
+      "approvedAtUtc": "2026-08-22T13:44:05.000Z",
+      "rationale": "Approve registry-hygiene rebind for inherited current-main Sector M capability-provider test bytes discovered while closing the R2.4 A0 governance gate; metadata only, no product capability, UI, network, dependency, release or Program PASS change.",
       "approved": true,
-      "authority": "AUTONOMOUS_GOVERNANCE_REBIND_FOR_CONTROLLER_VERIFIED_WORD_PR1394_BYTES"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "test/unit/yalken-design-os-sidebar-control-truth.test.js",
@@ -9320,15 +9320,6 @@
       "rationale": "Approve CERT-01 crash/resume contract tests with real SIGKILL and durable-state proofs, including the documented deterministic gate-file revision of CERT01-05; tests only, no product runtime change.",
       "approved": true,
       "authority": "DIRECT_OWNER_REQUEST_PROOF_CARRYING_INTEROP_V2_CERT01_RUNNER_V2"
-    },
-    {
-      "filePath": "package.json",
-      "sha256": "708e10bdd5b8bafc27ef76bd758b4ac5783516c3050ae5fd28eb5b17aeef5d5c",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT-001",
-      "approvedAtUtc": "2026-08-22T10:07:43.000Z",
-      "rationale": "Approve R2.4 R5 package.json change: adds test:r24-r5 script binding the lifecycle external-conflict gate into the required CI lane; no dependency change.",
-      "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "test/contracts/rtk-admit01-accountable-lanes.contract.test.js",
@@ -9752,15 +9743,6 @@
       "rationale": "Approve factual WAVE_300_REPEAT physical receipt for disposable synthetic fixtures only on exact signed Word 16.112 build 16.112.26081010: 300/300 pass, repeat manifest exactly bound to the WAVE_300 manifest, open documents after run 0 by independent post-run check, and explicit non-claims for saturation/terminal compatibility.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_THREE_FEATURES_SEQUENTIAL_AUTONOMOUS_PROGRAM_V1_F2"
-    },
-    {
-      "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "74225162b2882d03dd8c20631c1ed365b51c97a73599775b15127be78d22a7a2",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT-001",
-      "approvedAtUtc": "2026-08-22T10:07:43.000Z",
-      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 R5: package.json digest updated to the exact bytes gained by the test:r24-r5 script entry; no wording or claim change.",
-      "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "test/contracts/rtk-lab01-build-bound-profiles.contract.test.js",
@@ -10924,15 +10906,6 @@
       "authority": "OWNER_EXPLICIT_RTK_STREAMING_AND_PROCESS_CAPABILITY_REPAIR"
     },
     {
-      "filePath": ".github/workflows/rtk-required.yml",
-      "sha256": "f152d10ad3fef399dfbd2387d78ed6ab84f04d634b3150d6399b57116253cfce",
-      "rationale": "Approve R2.4 R5 rtk-required.yml change: adds one step running npm run -s test:r24-r5 after the R4 gate; no trigger, permission or environment change.",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT-001",
-      "approvedAtUtc": "2026-08-22T10:07:43.000Z",
-      "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
-    },
-    {
       "filePath": "test/contracts/rtk-test-graph-catalog.contract.test.js",
       "sha256": "5e055320c1b94db7aaebfffa79836eaecc6877ccf02c3011d35ba47af81810bb",
       "rationale": "Approve narrow R4 workflow contract hardening: required CI must fetch full history for exact-head ancestry checks and must not add one-off PULL_REQUEST_BASE_SHA_MISMATCH SHA allowlist entries; historical exact-head denial semantics remain fail-closed.",
@@ -11266,60 +11239,6 @@
       "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1"
     },
     {
-      "filePath": "package.json",
-      "sha256": "d0dc3ca490c6a134cfd0efce13fa013781b5634f224cb7a61c316b7c22daaf88",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-R6-MIGRATION-HISTORY-BACKUP-GC-001",
-      "approvedAtUtc": "2026-08-22T10:43:00.000Z",
-      "rationale": "Approve R2.4 R6 package.json change: adds test:r24-r6 script binding the migration history backup GC gate into the required CI lane; no dependency change.",
-      "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
-    },
-    {
-      "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "9ae5df2d9befe747889478d2e6be0ae105e9aefe5f0737f7c16e3a2f5b62adc3",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-R6-MIGRATION-HISTORY-BACKUP-GC-001",
-      "approvedAtUtc": "2026-08-22T10:43:00.000Z",
-      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 R6: package.json digest updated to the exact bytes gained by the test:r24-r6 script entry; no wording or claim change.",
-      "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
-    },
-    {
-      "filePath": ".github/workflows/rtk-required.yml",
-      "sha256": "9006eee72ca3848913d6f433b90e65de8fec05e322e90085786bc443313567ec",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-R6-MIGRATION-HISTORY-BACKUP-GC-001",
-      "approvedAtUtc": "2026-08-22T10:43:00.000Z",
-      "rationale": "Approve R2.4 R6 rtk-required.yml change: adds one step running npm run -s test:r24-r6 after the R5 gate; no trigger, permission or environment change.",
-      "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
-    },
-    {
-      "filePath": "package.json",
-      "sha256": "84a9210023e9eeff3df29b79452ac04c6f6d5eb2af696602e2e9ac51ddebc38b",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-F0-WRITER-REFINEMENT-CONFORMANCE-001",
-      "approvedAtUtc": "2026-08-22T11:43:09.000Z",
-      "rationale": "Approve R2.4 F0 package.json change: adds test:r24-f0 script binding the writer refinement conformance gate to the existing Node test runner; no dependency, engine, metadata or runtime network change.",
-      "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
-    },
-    {
-      "filePath": ".github/workflows/rtk-required.yml",
-      "sha256": "2e6d55d34b71a08e6a8ffd23819cc5d8cb208bcc1ea65aea9a0c432022ac715e",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-F0-WRITER-REFINEMENT-CONFORMANCE-001",
-      "approvedAtUtc": "2026-08-22T11:43:09.000Z",
-      "rationale": "Approve R2.4 F0 rtk-required.yml change: adds one step running npm run -s test:r24-f0 after the R6 gate; no trigger, permission, installation, environment or release target change.",
-      "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
-    },
-    {
-      "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "f1f1e98724be1f8e24660c93d94c5f5655ac0187a05f72a94aa98ba515550a2c",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-F0-WRITER-REFINEMENT-CONFORMANCE-001",
-      "approvedAtUtc": "2026-08-22T11:43:09.000Z",
-      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 F0: package.json digest updated to the exact bytes gained by the test:r24-f0 script entry; no wording or claim change.",
-      "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
-    },
-    {
       "filePath": "test/unit/r24-f0-writer-refinement-conformance.test.js",
       "sha256": "085f9a6498a825aad0a6dcd4750a922f17edf4be2966c247d788c0399e6ffa1d",
       "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-F0-WRITER-REFINEMENT-CONFORMANCE-001",
@@ -11348,28 +11267,37 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "a1356e78c5cc17f1957244cd6b3e3e01d0afa795373fccb9cbf3231ad1302131",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V0-WRITER-CLAIM-COMPILER-001",
-      "approvedAtUtc": "2026-08-22T12:39:32.000Z",
-      "rationale": "Approve R2.4 V0 package.json change: adds test:r24-v0 binding the Writer claim compiler and mutant suites to the existing Node test runner; no dependency, engine, metadata, product runtime or network change.",
+      "sha256": "8f8eab9d462a99fed4c82c4d5cd5305e5be0baf2d8b9296258cc6c1c724039eb",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-001",
+      "approvedAtUtc": "2026-08-22T13:44:05.000Z",
+      "rationale": "Approve R2.4 A0 package.json change: adds test:r24-a0 binding Atlas incremental/full equivalence, physical/resource and mutation suites to the existing Node test runner; no dependency, engine, metadata, product runtime or network change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": ".github/workflows/rtk-required.yml",
-      "sha256": "9660e0da12c3c66b5bf9ca0f9a9decc0ff92963f97c48e9d951256860185608e",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V0-WRITER-CLAIM-COMPILER-001",
-      "approvedAtUtc": "2026-08-22T12:39:32.000Z",
-      "rationale": "Approve R2.4 V0 rtk-required.yml change: adds one step running npm run -s test:r24-v0 after F0 and before maintained Atlas tail gates; no trigger, permission, installation, environment or release target change.",
+      "sha256": "fbd365c79c9cf0e5af86cf27a5d9bab5af7ebd22ce13a18e144a2234c0d5eb9b",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-001",
+      "approvedAtUtc": "2026-08-22T13:44:05.000Z",
+      "rationale": "Approve R2.4 A0 rtk-required.yml change: adds one step running npm run -s test:r24-a0 after V0 and before maintained Atlas tail gates; no trigger, permission, installation, environment or release target change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "37beab7da04b51b5ffd549f0091aa3109cc50bf92789a087de46594c38f2b934",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V0-WRITER-CLAIM-COMPILER-001",
-      "approvedAtUtc": "2026-08-22T12:39:32.000Z",
-      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 V0: package.json digest updated to the exact bytes gained by the test:r24-v0 script entry; no wording, Word, Google, release or optional-profile claim change.",
+      "sha256": "81b4a9c086e34a7280663268c96ad796faa6f1149fadc759adc6a415d69fd150",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-001",
+      "approvedAtUtc": "2026-08-22T13:44:05.000Z",
+      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 A0: package.json digest updated to the exact bytes gained by the test:r24-a0 script entry; no wording, Word, Google, release, Writer-profile or Program PASS claim change.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": "scripts/ops/r24/atlas-incremental-equivalence-a0.mjs",
+      "sha256": "1be34ff9ca768465ed57815174ba6e55efbe664fc26c9b7a407c922387f3302f",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-001",
+      "approvedAtUtc": "2026-08-22T13:44:05.000Z",
+      "rationale": "Approve R2.4 A0 read-only Atlas incremental equivalence proof harness: validates DAG/scientific-contract binding, incremental/full graph observational equivalence, replay/idle/stale/generation/hash/capability failures, bounded scheduler queue law, resource plan limits and physical no-product-write evidence without granting Writer, release, UI, storage, network or Program PASS authority.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },

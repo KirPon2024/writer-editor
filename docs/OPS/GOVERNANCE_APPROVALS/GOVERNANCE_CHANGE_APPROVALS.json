@@ -11291,6 +11291,60 @@
       "rationale": "Approve R2.4 R6 rtk-required.yml change: adds one step running npm run -s test:r24-r6 after the R5 gate; no trigger, permission or environment change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": "package.json",
+      "sha256": "84a9210023e9eeff3df29b79452ac04c6f6d5eb2af696602e2e9ac51ddebc38b",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-F0-WRITER-REFINEMENT-CONFORMANCE-001",
+      "approvedAtUtc": "2026-08-22T11:43:09.000Z",
+      "rationale": "Approve R2.4 F0 package.json change: adds test:r24-f0 script binding the writer refinement conformance gate to the existing Node test runner; no dependency, engine, metadata or runtime network change.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": ".github/workflows/rtk-required.yml",
+      "sha256": "2e6d55d34b71a08e6a8ffd23819cc5d8cb208bcc1ea65aea9a0c432022ac715e",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-F0-WRITER-REFINEMENT-CONFORMANCE-001",
+      "approvedAtUtc": "2026-08-22T11:43:09.000Z",
+      "rationale": "Approve R2.4 F0 rtk-required.yml change: adds one step running npm run -s test:r24-f0 after the R6 gate; no trigger, permission, installation, environment or release target change.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+      "sha256": "f1f1e98724be1f8e24660c93d94c5f5655ac0187a05f72a94aa98ba515550a2c",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-F0-WRITER-REFINEMENT-CONFORMANCE-001",
+      "approvedAtUtc": "2026-08-22T11:43:09.000Z",
+      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 F0: package.json digest updated to the exact bytes gained by the test:r24-f0 script entry; no wording or claim change.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": "test/unit/r24-f0-writer-refinement-conformance.test.js",
+      "sha256": "085f9a6498a825aad0a6dcd4750a922f17edf4be2966c247d788c0399e6ffa1d",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-F0-WRITER-REFINEMENT-CONFORMANCE-001",
+      "approvedAtUtc": "2026-08-22T11:43:09.000Z",
+      "rationale": "Approve R2.4 F0 executable refinement conformance matrix: binds F0 DAG evidence and issue coverage to exact implementation probes across dirty admission, durable save, project commit, IPC, command protocol, authority seams, revision algebra, inbox/outbox, lifecycle, migration, path capability, text coordinate and entitlement boundaries.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": "test/unit/r24-f0-refinement-physics.test.js",
+      "sha256": "a51e929ee418f2df3e3406814ea029751a31f9347b99dd4774e9a861fc57ac26",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-F0-WRITER-REFINEMENT-CONFORMANCE-001",
+      "approvedAtUtc": "2026-08-22T11:43:09.000Z",
+      "rationale": "Approve R2.4 F0 physical/adversarial refinement tests: stitch failed durable save to AT_RISK lifecycle blocking, pending outbox effect to crash-recovery blocking, denied path capability to no write, and checkpoint tamper to restore refusal without project byte mutation.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": "test/unit/r24-f0-refinement-mutants.test.js",
+      "sha256": "19e00264b051a39d4b265c1a9560da877282b619c07487c216f7e7138f9a8ac7",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-F0-WRITER-REFINEMENT-CONFORMANCE-001",
+      "approvedAtUtc": "2026-08-22T11:43:09.000Z",
+      "rationale": "Approve R2.4 F0 mutation suite: inverts representative dirty admission, path escape, inbox corruption, lifecycle dirty barrier and migration project-id guards in isolated module copies and requires every mutant to be killed.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     }
   ]
 }

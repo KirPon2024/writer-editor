@@ -25,9 +25,11 @@ export const INTEROP_CHAIN_PRE_STDOUT_DRAIN_REPAIR_SHA = '77bbf5c24459d5a16dd8e2
 export const INTEROP_CHAIN_POST_EXACT_LEDGER_REPAIR_PR_HEAD_SHA = 'f53f80fe21828c270f04ef7766d2fe74bbe2d31f';
 export const INTEROP_CHAIN_POST_EXACT_LEDGER_REPAIR_MERGE_SHA = '8b3d9cbb3d76c43bd777104bf95cf209062e6d40';
 export const INTEROP_CHAIN_POST_EXACT_LEDGER_REPAIR_MERGE_TREE = 'c07b18ed3db7fbb859596e224830f371bd698320';
-export const INTEROP_CHAIN_CURRENT_RUNTIME_PRECONDITION = 'MACOS_ACCESSIBILITY_PERMISSION_REQUIRED';
+export const INTEROP_CHAIN_CURRENT_RUNTIME_PRECONDITION = 'CALLER_IDENTITY_PROBE_ROUTING_RECLASSIFIED';
+export const INTEROP_CHAIN_CURRENT_RUNTIME_REPLAY_AUTHORITY = 'ALLOW_GOVERNED_HAMMERSPOON_ACCESSIBILITY_ROUTE_FOR_W0_PHYSICAL_RECERTIFICATION';
+export const INTEROP_CHAIN_LEGACY_PERMISSION_BLOCKER_ID = 'C1_WORD_MACOS_ACCESSIBILITY_PERMISSION_REQUIRED_CURRENT_BLOCKER';
 export const MATRIX_STATUS = 'INTEROP_CHAIN_C1_C8_DENOMINATOR_REGISTERED_NEEDS_MORE_EVIDENCE';
-export const NEXT_SEQUENTIAL_CONTOUR = 'C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_MACOS_ACCESSIBILITY_PERMISSION_RESTORED_V1';
+export const NEXT_SEQUENTIAL_CONTOUR = 'V2_WORD_CLAIM_COMPILER_AFTER_W0_PHYSICAL_RECERTIFICATION_V1';
 export const POST_FAILCLOSED_REPLAY_FULL_BOOK_ACCOUNTING = 'FULL_BOOK_ATTEMPTED_POST_FAILCLOSED_REPLAY_EXACT_LEDGER_BINDING_BLOCKED_NOT_PROVEN';
 export const POST_REUSE_GATE_REPAIR_FULL_BOOK_ACCOUNTING = POST_FAILCLOSED_REPLAY_FULL_BOOK_ACCOUNTING;
 export const POST_AUTH_REPAIR_FULL_BOOK_ACCOUNTING = POST_REUSE_GATE_REPAIR_FULL_BOOK_ACCOUNTING;
@@ -192,8 +194,8 @@ function validateRoute(route, errors) {
     if (!Array.isArray(route.blockerEvidenceRefs) || !route.blockerEvidenceRefs.includes('C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_MERGED_NOT_ROUTE_PASS')) {
       errors.push('routeDenominator:C1:EXACT_LEDGER_REPAIR_MERGED_REF_MISSING');
     }
-    if (!Array.isArray(route.blockerEvidenceRefs) || !route.blockerEvidenceRefs.includes('C1_WORD_MACOS_ACCESSIBILITY_PERMISSION_REQUIRED_CURRENT_BLOCKER')) {
-      errors.push('routeDenominator:C1:MACOS_ACCESSIBILITY_BLOCKER_REF_MISSING');
+    if (Array.isArray(route.blockerEvidenceRefs) && route.blockerEvidenceRefs.includes(INTEROP_CHAIN_LEGACY_PERMISSION_BLOCKER_ID)) {
+      errors.push('routeDenominator:C1:LEGACY_MACOS_ACCESSIBILITY_BLOCKER_REF_STILL_ACTIVE');
     }
     if (Array.isArray(route.executedFullRouteEvidence) && route.executedFullRouteEvidence.length !== 0) {
       errors.push('routeDenominator:C1:EXECUTED_FULL_ROUTE_EVIDENCE_MUST_REMAIN_EMPTY_WHEN_BLOCKED');
@@ -351,13 +353,31 @@ export function validateInteropChainMatrix(matrix, options = {}) {
     if (runtimePrecondition.classification !== INTEROP_CHAIN_CURRENT_RUNTIME_PRECONDITION) {
       errors.push('sourceEvidence:C1_CURRENT_RUNTIME_PRECONDITION_CLASSIFICATION_INVALID');
     }
+    if (runtimePrecondition.probeModel !== 'CALLER_IDENTITY_BOUND') {
+      errors.push('sourceEvidence:C1_CURRENT_RUNTIME_PRECONDITION_PROBE_MODEL_INVALID');
+    }
     if (runtimePrecondition.systemEventsUiElementsEnabled !== false) {
-      errors.push('sourceEvidence:C1_CURRENT_RUNTIME_PRECONDITION_UI_ELEMENTS_LAUNDER');
+      errors.push('sourceEvidence:C1_CURRENT_RUNTIME_PRECONDITION_LEGACY_UI_ELEMENTS_DIAGNOSTIC_LAUNDER');
+    }
+    if (runtimePrecondition.zshSystemEventsUiElementsEnabled !== false) {
+      errors.push('sourceEvidence:C1_CURRENT_RUNTIME_PRECONDITION_ZSH_UI_ELEMENTS_DIAGNOSTIC_LAUNDER');
+    }
+    if (runtimePrecondition.legacyUiElementsAuthority !== 'ADVISORY_ONLY_CALLER_SPECIFIC') {
+      errors.push('sourceEvidence:C1_CURRENT_RUNTIME_PRECONDITION_LEGACY_UI_ELEMENTS_AUTHORITY_INVALID');
+    }
+    if (runtimePrecondition.hammerspoonAccessibilityState !== true) {
+      errors.push('sourceEvidence:C1_CURRENT_RUNTIME_PRECONDITION_HAMMERSPOON_ACCESSIBILITY_STATE_INVALID');
+    }
+    if (runtimePrecondition.hammerspoonCallerIdentity !== 'com.hammerspoon.Hammerspoon') {
+      errors.push('sourceEvidence:C1_CURRENT_RUNTIME_PRECONDITION_HAMMERSPOON_CALLER_IDENTITY_INVALID');
     }
     if (runtimePrecondition.wordProcessExists !== false) {
-      errors.push('sourceEvidence:C1_CURRENT_RUNTIME_PRECONDITION_WORD_PROCESS_LAUNDER');
+      errors.push('sourceEvidence:C1_CURRENT_RUNTIME_PRECONDITION_WORD_PROCESS_PRE_FLOW_LAUNDER');
     }
-    if (runtimePrecondition.freshPhysicalReplayAuthority !== 'DENY_UNTIL_MACOS_ACCESSIBILITY_PERMISSION_RESTORED') {
+    if (runtimePrecondition.wordNotRunningPermissionDenial !== false) {
+      errors.push('sourceEvidence:C1_CURRENT_RUNTIME_PRECONDITION_WORD_PROCESS_PERMISSION_DENIAL_INVALID');
+    }
+    if (runtimePrecondition.freshPhysicalReplayAuthority !== INTEROP_CHAIN_CURRENT_RUNTIME_REPLAY_AUTHORITY) {
       errors.push('sourceEvidence:C1_CURRENT_RUNTIME_PRECONDITION_REPLAY_AUTHORITY_INVALID');
     }
   }

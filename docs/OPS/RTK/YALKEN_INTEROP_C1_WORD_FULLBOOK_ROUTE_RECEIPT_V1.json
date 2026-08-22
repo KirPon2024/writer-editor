@@ -293,11 +293,17 @@
       "productApplyAuthority": false,
       "executedFreshPhysicalReplayAfterRepair": false,
       "currentRuntimePrecondition": {
-        "checkedAtUtc": "2026-08-18T02:13:33.862Z",
+        "checkedAtUtc": "2026-08-22T20:20:00.000Z",
         "systemEventsUiElementsEnabled": false,
         "wordProcessExists": false,
-        "classification": "MACOS_ACCESSIBILITY_PERMISSION_REQUIRED",
-        "freshPhysicalReplayAuthority": "DENY_UNTIL_MACOS_ACCESSIBILITY_PERMISSION_RESTORED"
+        "classification": "CALLER_IDENTITY_PROBE_ROUTING_RECLASSIFIED",
+        "freshPhysicalReplayAuthority": "ALLOW_GOVERNED_HAMMERSPOON_ACCESSIBILITY_ROUTE_FOR_W0_PHYSICAL_RECERTIFICATION",
+        "probeModel": "CALLER_IDENTITY_BOUND",
+        "zshSystemEventsUiElementsEnabled": false,
+        "legacyUiElementsAuthority": "ADVISORY_ONLY_CALLER_SPECIFIC",
+        "hammerspoonAccessibilityState": true,
+        "hammerspoonCallerIdentity": "com.hammerspoon.Hammerspoon",
+        "wordNotRunningPermissionDenial": false
       }
     }
   },
@@ -384,8 +390,13 @@
     },
     {
       "id": "C1_WORD_MACOS_ACCESSIBILITY_PERMISSION_REQUIRED_CURRENT_BLOCKER",
-      "disposition": "ACTIVE_RUNTIME_PRECONDITION_BLOCKER_NOT_ROUTE_PASS",
-      "evidence": "Current runtime probe found System Events UI elements enabled false and no Microsoft Word process; a fresh physical Word replay is denied until macOS Accessibility permission is restored, preserving fail-closed behavior."
+      "disposition": "RECLASSIFIED_CALLER_IDENTITY_PROBE_ROUTING_NOT_PERMISSION_BLOCKER",
+      "evidence": "Live W0 rebind distinguishes caller identities: zsh /usr/bin/osascript reports System Events UI elements enabled false, but the owner-enabled Hammerspoon caller reports hs.accessibilityState() true. Microsoft Word was not running before the governed disposable-artifact test flow; that absence is not a permission denial and does not justify broad zsh Accessibility authority."
+    },
+    {
+      "id": "C1_WORD_ACCESSIBILITY_CALLER_IDENTITY_PROBE_ROUTING_RECLASSIFIED",
+      "disposition": "HAMMERSPOON_ROUTE_READY_NOT_ROUTE_PASS",
+      "evidence": "W0 binds fresh physical recertification to the Hammerspoon Accessibility route only. The route remains blocked by exact-ledger/apply-lifecycle/reuse gates; no C1 route PASS, product apply authority, SAFE_APPLY expansion, C2-C8 closure, Word terminal pass, or user-document access is created."
     }
   ],
   "oracles": {
@@ -490,11 +501,11 @@
     "userDataTouched": false,
     "previousReceiptExactHead": "6aee73c0770357cd0b84bf5e8388cee38071c798",
     "previousBlocker": "C1_WORD_ROUND01_EXACT_LEDGER_BINDING_BLOCKER",
-    "currentBlocker": "C1_WORD_MACOS_ACCESSIBILITY_PERMISSION_REQUIRED_CURRENT_BLOCKER",
+    "currentBlocker": "C1_WORD_ROUND01_EXACT_LEDGER_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER",
     "revertPlan": "Revert this post-exact-ledger repair DAG rebind commit to restore the prior exact-ledger next-contour pointer.",
     "previousExactHead": "5a5b34210bad80eaf1851efcf5a64426484f3f2a",
     "currentExactHead": "8504d5fa8db9af9456cc6a6d0ec8b1aa8ad4d81a",
-    "reason": "Exact-ledger repair merged and postmerge gates are green, but no fresh post-repair C1 physical replay has run; current macOS Accessibility permission is disabled, so replay authority remains denied and no route PASS or apply authority is created."
+    "reason": "The previous macOS Accessibility blocker is reclassified as caller-specific probe routing: zsh UI-elements false is advisory, Hammerspoon Accessibility is owner-enabled, and Word not running before the disposable governed flow is not a permission denial. C1 remains blocked by exact-ledger/apply-lifecycle/reuse gates; no route PASS or apply authority is created."
   },
-  "nextSequentialContour": "C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_MACOS_ACCESSIBILITY_PERMISSION_RESTORED_V1"
+  "nextSequentialContour": "V2_WORD_CLAIM_COMPILER_AFTER_W0_PHYSICAL_RECERTIFICATION_V1"
 }

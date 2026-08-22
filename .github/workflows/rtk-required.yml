@@ -133,6 +133,9 @@ jobs:
       - name: Run R2.4 V3 package claim compiler gate
         run: npm run -s test:r24-v3
 
+      - name: Run R2.4 W0 Word physical recertification gate
+        run: npm run -s test:r24-w0
+
       - name: Run maintained Atlas event contract graph
         run: npm run -s test:atlas-event-contract
 

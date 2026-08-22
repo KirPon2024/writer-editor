@@ -319,10 +319,16 @@ test('C1 Word full-book physical evidence binds exact blocker facts and no termi
   assert.equal(receipt.physicalEvidence.postExactLedgerRepairRebind.routePassClaim, false);
   assert.equal(receipt.physicalEvidence.postExactLedgerRepairRebind.productApplyAuthority, false);
   assert.equal(receipt.physicalEvidence.postExactLedgerRepairRebind.executedFreshPhysicalReplayAfterRepair, false);
-  assert.equal(receipt.physicalEvidence.postExactLedgerRepairRebind.currentRuntimePrecondition.classification, 'MACOS_ACCESSIBILITY_PERMISSION_REQUIRED');
+  assert.equal(receipt.physicalEvidence.postExactLedgerRepairRebind.currentRuntimePrecondition.classification, 'CALLER_IDENTITY_PROBE_ROUTING_RECLASSIFIED');
+  assert.equal(receipt.physicalEvidence.postExactLedgerRepairRebind.currentRuntimePrecondition.probeModel, 'CALLER_IDENTITY_BOUND');
   assert.equal(receipt.physicalEvidence.postExactLedgerRepairRebind.currentRuntimePrecondition.systemEventsUiElementsEnabled, false);
+  assert.equal(receipt.physicalEvidence.postExactLedgerRepairRebind.currentRuntimePrecondition.zshSystemEventsUiElementsEnabled, false);
+  assert.equal(receipt.physicalEvidence.postExactLedgerRepairRebind.currentRuntimePrecondition.legacyUiElementsAuthority, 'ADVISORY_ONLY_CALLER_SPECIFIC');
+  assert.equal(receipt.physicalEvidence.postExactLedgerRepairRebind.currentRuntimePrecondition.hammerspoonAccessibilityState, true);
+  assert.equal(receipt.physicalEvidence.postExactLedgerRepairRebind.currentRuntimePrecondition.hammerspoonCallerIdentity, 'com.hammerspoon.Hammerspoon');
   assert.equal(receipt.physicalEvidence.postExactLedgerRepairRebind.currentRuntimePrecondition.wordProcessExists, false);
-  assert.equal(receipt.physicalEvidence.postExactLedgerRepairRebind.currentRuntimePrecondition.freshPhysicalReplayAuthority, 'DENY_UNTIL_MACOS_ACCESSIBILITY_PERMISSION_RESTORED');
+  assert.equal(receipt.physicalEvidence.postExactLedgerRepairRebind.currentRuntimePrecondition.wordNotRunningPermissionDenial, false);
+  assert.equal(receipt.physicalEvidence.postExactLedgerRepairRebind.currentRuntimePrecondition.freshPhysicalReplayAuthority, 'ALLOW_GOVERNED_HAMMERSPOON_ACCESSIBILITY_ROUTE_FOR_W0_PHYSICAL_RECERTIFICATION');
   assert.equal(receipt.physicalEvidence.stageResult.headSha, '8504d5fa8db9af9456cc6a6d0ec8b1aa8ad4d81a');
   assert.equal(receipt.physicalEvidence.stageResult.operationCount, 2000);
   assert.equal(receipt.physicalEvidence.stageResult.roundGreen, false);
@@ -434,9 +440,11 @@ test('C1 Word full-book route updates only C1 as blocked in the chain matrix and
     'C1_WORD_ROUND01_EXACT_LEDGER_BINDING_BLOCKER',
     'C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER',
     'C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_MERGED_NOT_ROUTE_PASS',
-    'C1_WORD_MACOS_ACCESSIBILITY_PERMISSION_REQUIRED_CURRENT_BLOCKER',
   ]);
-  assert.equal(c1.nextContour, 'C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_MACOS_ACCESSIBILITY_PERMISSION_RESTORED_V1');
+  assert.equal(c1.blockerEvidenceRefs.includes('C1_WORD_MACOS_ACCESSIBILITY_PERMISSION_REQUIRED_CURRENT_BLOCKER'), false);
+  assert.equal(c1.fullBookEvidenceRefs.includes('C1_WORD_ACCESSIBILITY_CALLER_IDENTITY_PROBE_ROUTING_RECLASSIFIED'), true);
+  assert.equal(c1.fullBookEvidenceRefs.includes('YALKEN_R24_W0_WORD_PHYSICAL_RECERTIFICATION_RECEIPT_V1'), true);
+  assert.equal(c1.nextContour, 'V2_WORD_CLAIM_COMPILER_AFTER_W0_PHYSICAL_RECERTIFICATION_V1');
   assert.equal(c1.productMutationAuthority, 'DENY_UNTIL_ROUTE_CONTOUR_PROVES_APPLY_AUTHORITY');
   assert.notEqual(c1.requiredOracles.semanticOracle.status, 'PASS');
 
@@ -464,7 +472,7 @@ test('C1 Word full-book route hostile receipt mutations are rejected fail-closed
 
   const hostile = runC1HostileCorpus();
   const mutations = runC1SemanticMutationCatalog();
-  assert.equal(hostile.total, 22);
+  assert.equal(hostile.total, 23);
   assert.equal(hostile.survivors, 0, JSON.stringify(hostile.survivorDetails, null, 2));
   assert.equal(mutations.total, 12);
   assert.equal(mutations.survivors, 0, JSON.stringify(mutations.survivorDetails, null, 2));
@@ -485,7 +493,8 @@ test('C1 Word full-book route hostile receipt mutations are rejected fail-closed
     ['complete-oracle-regression-launder', (r) => { r.physicalEvidence.round01.completeRoundOracleGreen = false; }, 'COMPLETE_ROUND_ORACLE_MUST_BE_GREEN_FOR_THIS_BLOCKER'],
     ['exact-ledger-binding-false-pass', (r) => { r.physicalEvidence.round01.productReturnApply.exactTextBindingOk = true; }, 'EXACT_LEDGER_BINDING_MUST_REMAIN_FALSE'],
     ['post-ledger-repair-route-pass-launder', (r) => { r.physicalEvidence.postExactLedgerRepairRebind.routePassClaim = true; }, 'POST_EXACT_LEDGER_REPAIR_ROUTE_PASS_LAUNDER'],
-    ['ax-precondition-ready-launder', (r) => { r.physicalEvidence.postExactLedgerRepairRebind.currentRuntimePrecondition.systemEventsUiElementsEnabled = true; }, 'CURRENT_RUNTIME_PRECONDITION_INVALID:UI_ELEMENTS_ENABLED'],
+    ['legacy-ui-elements-authority-launder', (r) => { r.physicalEvidence.postExactLedgerRepairRebind.currentRuntimePrecondition.legacyUiElementsAuthority = 'AUTHORITATIVE'; }, 'LEGACY_UI_ELEMENTS_AUTHORITY'],
+    ['hammerspoon-accessibility-disabled-launder', (r) => { r.physicalEvidence.postExactLedgerRepairRebind.currentRuntimePrecondition.hammerspoonAccessibilityState = false; }, 'HAMMERSPOON_ACCESSIBILITY_STATE'],
     ['native-materialization-failure-launder', (r) => { r.physicalEvidence.round01.failureCode = 'NATIVE_MATERIALIZATION_ROOT_COUNT_MISMATCH'; }, 'COMPLETE_ROUND_ORACLE_GATE_FAILURE_CODE'],
   ];
 

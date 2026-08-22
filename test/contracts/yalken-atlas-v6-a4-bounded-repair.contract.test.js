@@ -462,6 +462,20 @@ test('Atlas V6 A4: interrupted artifact reservation restores prior bytes and sta
 
 test('Atlas V6 A4: process-instance heartbeat defeats PID reuse, wall-clock jumps, blocked-loop expiry and crash staleness', { timeout: 25_000 }, async () => {
   const leaseModule = await importModule('src/product/projectLease.mjs');
+  const originalExecArgv = process.execArgv.slice();
+  process.execArgv.push(
+    '--stack-trace-limit=10',
+    '--secure-heap=0',
+    '--tls-cipher-list=TLS_AES_256_GCM_SHA384',
+    '--node-snapshot',
+    '--trace-event-file-pattern=node_trace.${rotation}.log',
+    '--input-type=module',
+  );
+  try {
+    assert.deepEqual(leaseModule.projectLeaseHeartbeatWorkerExecArgv(), []);
+  } finally {
+    process.execArgv.splice(0, process.execArgv.length, ...originalExecArgv);
+  }
   const leaseUrl = pathToFileURL(path.join(ROOT, 'src/product/projectLease.mjs')).href;
   const longTemporaryBase = fs.mkdtempSync(path.join('/tmp', 'yalken-a4-socket-root-'));
   const longTemporaryRoot = path.join(longTemporaryBase, 'x'.repeat(96));

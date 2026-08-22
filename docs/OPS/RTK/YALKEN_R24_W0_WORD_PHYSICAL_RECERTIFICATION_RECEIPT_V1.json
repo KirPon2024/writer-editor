@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "yalken.r24.w0.word-physical-recertification.receipt.v1",
+  "receiptId": "YALKEN_R24_W0_WORD_PHYSICAL_RECERTIFICATION_RECEIPT_V1",
+  "generatedAtUtc": "2026-08-22T20:31:29Z",
+  "stageId": "W0_WORD_PHYSICAL_RECERTIFICATION",
+  "profileId": "WORD_ROUNDTRIP",
+  "baseHeadAtRun": "2d0f0bfdc2c037f7a8081f2391c370c4b2d30908",
+  "worktreeModeAtRun": "BRANCH_WIP_WITH_CANARY_TIMEOUT_PATCH_BEFORE_COMMIT",
+  "artifactAvailability": "EXTERNAL_PHYSICAL_HOST_ONLY_NOT_CI_REQUIRED",
+  "runtimeCode": {
+    "canaryScript": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
+    "canaryScriptSha256": "sha256:bdd7c2644682fa4f94c6d23f722bc4914628649a6ce60b008646d54915abeb99",
+    "accessibilityRunner": "hammerspoon"
+  },
+  "physicalRunner": {
+    "runner": "hammerspoon",
+    "callerIdentity": "com.hammerspoon.Hammerspoon",
+    "hammerspoonAccessibilityState": true,
+    "zshSystemEventsUiElementsEnabled": false,
+    "legacyUiElementsAuthority": "ADVISORY_ONLY_CALLER_SPECIFIC",
+    "broadZshAccessibilityRequested": false
+  },
+  "disposableArtifact": {
+    "syntheticDisposableDocxOnly": true,
+    "userDocumentsTouched": false,
+    "artifactRoot": "/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/w0-physical-recertification/w0-20260822T203129Z",
+    "docxPath": "/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/w0-physical-recertification/w0-20260822T203129Z/w0-disposable.docx",
+    "docxSha256": "sha256:f36291f83233991235430c6cedbe077bf460986edeff51b155c99a14f0426e70",
+    "preflightReceiptPath": "/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/w0-physical-recertification/w0-20260822T203129Z/hammerspoon-accessibility-preflight.json",
+    "preflightReceiptSha256": "sha256:1c0291673f9ad3c09ae8f3737456c520971d201f48c3ead937df2ee6cea2019f",
+    "frontDocumentFullName": "T7-Secure:storage:yalken:word-safety-remediation-v1:current:w0-physical-recertification:w0-20260822T203129Z:w0-disposable.docx",
+    "wordProcessAfterFlow": false
+  },
+  "preflightDiagnostics": {
+    "ok": true,
+    "code": "MACOS_ACCESSIBILITY_PREFLIGHT_READY",
+    "legacyUiElementsEnabled": false,
+    "wordProcessExists": true,
+    "wordFrontmost": true,
+    "wordWindowCount": 1,
+    "axQuerySucceeded": true,
+    "axMenuBarItemCount": 11,
+    "axWindowSubtreeItemCount": 7,
+    "directAxCapabilityProven": true,
+    "hammerspoonAccessibilityState": true,
+    "legacyUiElementsAuthority": "ADVISORY_ONLY_CALLER_SPECIFIC",
+    "frontDocumentFullName": "T7-Secure:storage:yalken:word-safety-remediation-v1:current:w0-physical-recertification:w0-20260822T203129Z:w0-disposable.docx",
+    "expectedFrontDocumentFullName": "T7-Secure:storage:yalken:word-safety-remediation-v1:current:w0-physical-recertification:w0-20260822T203129Z:w0-disposable.docx"
+  },
+  "result": {
+    "routePassClaim": false,
+    "productApplyAuthority": false,
+    "safeApplyExpansion": false,
+    "wordTerminalPass": false,
+    "programPass": false,
+    "userDocumentsAllowed": false,
+    "googleDocsTransfer": false,
+    "releaseReady": false
+  },
+  "c1Binding": {
+    "currentRuntimeClassification": "CALLER_IDENTITY_PROBE_ROUTING_RECLASSIFIED",
+    "reclassifiedBlocker": "C1_WORD_MACOS_ACCESSIBILITY_PERMISSION_REQUIRED_CURRENT_BLOCKER",
+    "reclassificationEvidence": "C1_WORD_ACCESSIBILITY_CALLER_IDENTITY_PROBE_ROUTING_RECLASSIFIED",
+    "activeBlockers": [
+      "C1_WORD_ROUND01_EXACT_LEDGER_BINDING_BLOCKER",
+      "C1_WORD_ROUND01_EXACT_LEDGER_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER",
+      "C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_MERGED_NOT_ROUTE_PASS"
+    ],
+    "nextSequentialContour": "V2_WORD_CLAIM_COMPILER_AFTER_W0_PHYSICAL_RECERTIFICATION_V1"
+  }
+}

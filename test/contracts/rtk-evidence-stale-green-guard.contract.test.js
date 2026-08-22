@@ -30,11 +30,9 @@ const KNOWN_RED_LEDGER = Object.freeze([
   Object.freeze({ contract: 'b2c10-command-bypass-negative-matrix.contract.test.js', failing: { any: ['current canonical core remains green and advisory tails are explicit', 'committed status packet matches executable state'] } }),
   Object.freeze({ contract: 'b3c01-command-kernel-scope-lock.contract.test.js', failing: { any: ['committed status equals executable state', 'evidence packets align with executable state'] } }),
   Object.freeze({ contract: 'b3c06-no-network-writing-path.contract.test.js', failing: { any: ['state artifact equals executable state', 'CLI status remains worktree independent outside repo cwd'] } }),
-  Object.freeze({ contract: 'b3c10-capability-tier-report.contract.test.js', failing: {
-    darwin: ['CLI status remains worktree independent outside repo cwd'],
-    linux: ['state artifact equals executable state'],
-  } }),
   Object.freeze({ contract: 'b3c16-supply-chain-release-scope.contract.test.js', failing: { any: ['state artifact matches stable executable fields'] } }),
+  Object.freeze({ contract: 'b3c17-future-lanes-nonblocking.contract.test.js', failing: { any: ['state artifact matches stable executable fields'] } }),
+  Object.freeze({ contract: 'b3c18-production-hardening-queue.contract.test.js', failing: { any: ['state artifact matches stable executable fields'] } }),
 ]);
 
 // Platform-divergent defects: these committed artifacts embed darwin-derived
@@ -80,8 +78,7 @@ const GREEN_UNMAINTAINED_REGISTRY = Object.freeze([
   'b3c04-deterministic-export-mode.contract.test.js',
   'b3c05-permission-scope-enforced.contract.test.js',
   'b3c08-support-bundle-privacy.contract.test.js',
-  'b3c17-future-lanes-nonblocking.contract.test.js',
-  'b3c18-production-hardening-queue.contract.test.js',
+  'b3c10-capability-tier-report.contract.test.js',
   'collab-no-network-wiring.contract.test.js',
   'path-boundary-guard.contract.test.js',
   'perf-fixture.contract.test.js',
@@ -147,12 +144,17 @@ function enumerateStatusBackedClass() {
 }
 
 function failingTestNames(tapOutput) {
-  const names = [];
+  const names = new Set();
   for (const line of tapOutput.split('\n')) {
-    const match = line.match(/^not ok \d+ - (.+)$/u);
-    if (match) names.push(match[1]);
+    const tapMatch = line.match(/^not ok \d+ - (.+)$/u);
+    if (tapMatch) {
+      names.add(tapMatch[1]);
+      continue;
+    }
+    const specMatch = line.match(/^\u2716 (?!failing tests:)(.+?)(?: \(\d+(?:\.\d+)?ms\))?$/u);
+    if (specMatch) names.add(specMatch[1]);
   }
-  return names;
+  return [...names];
 }
 
 test('stale-green guard: registration is complete and no entrant slips through', () => {
@@ -184,7 +186,7 @@ test('stale-green guard: executable classification of every status-backed contra
   const runContract = (name) => {
     const filePath = path.join(ROOT, 'test', 'contracts', name);
     const run = spawnSync(process.execPath, ['--test', filePath], { encoding: 'utf8', timeout: 180000, cwd: ROOT, env: childEnv });
-    return { exit: run.status, failing: failingTestNames(run.stdout || '') };
+    return { exit: run.status, failing: failingTestNames(`${run.stdout || ''}\n${run.stderr || ''}`) };
   };
   const greenToRed = [];
   const redToGreen = [];

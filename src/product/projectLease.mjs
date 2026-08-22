@@ -26,6 +26,10 @@ function typedError(code, reason, details = {}) {
   return { code, op: 'project.lease', reason, details: isPlainObject(details) ? { ...details } : {} };
 }
 
+export function projectLeaseHeartbeatWorkerExecArgv() {
+  return [];
+}
+
 function projectIdentity(value) {
   const identity = stage10ProjectPathIdentity(value);
   if (!identity.ok) {
@@ -557,7 +561,7 @@ export function createProjectLeaseManager(input = {}) {
 
   async function startWorkerHeartbeat(lease) {
     const worker = new Worker(new URL('./projectLeaseHeartbeatWorker.mjs', import.meta.url), {
-      execArgv: process.execArgv.filter((argument) => !argument.startsWith('--input-type')),
+      execArgv: projectLeaseHeartbeatWorkerExecArgv(),
       workerData: {
         projectId: lease.projectId,
         processInstanceId: lease.processInstanceId,

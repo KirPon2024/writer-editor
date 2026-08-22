@@ -120,11 +120,17 @@
       "claimBoundary": "Merged verifier/process repair only; no fresh post-repair full-route replay and no product apply authority."
     },
     "c1CurrentRuntimePrecondition": {
-      "checkedAtUtc": "2026-08-18T02:13:33.862Z",
+      "checkedAtUtc": "2026-08-22T20:20:00.000Z",
       "systemEventsUiElementsEnabled": false,
       "wordProcessExists": false,
-      "classification": "MACOS_ACCESSIBILITY_PERMISSION_REQUIRED",
-      "freshPhysicalReplayAuthority": "DENY_UNTIL_MACOS_ACCESSIBILITY_PERMISSION_RESTORED"
+      "classification": "CALLER_IDENTITY_PROBE_ROUTING_RECLASSIFIED",
+      "freshPhysicalReplayAuthority": "ALLOW_GOVERNED_HAMMERSPOON_ACCESSIBILITY_ROUTE_FOR_W0_PHYSICAL_RECERTIFICATION",
+      "probeModel": "CALLER_IDENTITY_BOUND",
+      "zshSystemEventsUiElementsEnabled": false,
+      "legacyUiElementsAuthority": "ADVISORY_ONLY_CALLER_SPECIFIC",
+      "hammerspoonAccessibilityState": true,
+      "hammerspoonCallerIdentity": "com.hammerspoon.Hammerspoon",
+      "wordNotRunningPermissionDenial": false
     }
   },
   "canonicalFullBookDenominator": {
@@ -193,15 +199,15 @@
         "C1_WORD_ROUND01_EXACT_LEDGER_BINDING_BLOCKER",
         "C1_WORD_ROUND01_POST_FAILCLOSED_ROUTE_REPLAY_V1_FAIL_CLOSED",
         "C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_MERGED_NOT_ROUTE_PASS",
-        "C1_WORD_MACOS_ACCESSIBILITY_PERMISSION_REQUIRED_CURRENT_BLOCKER"
+        "C1_WORD_ACCESSIBILITY_CALLER_IDENTITY_PROBE_ROUTING_RECLASSIFIED",
+        "YALKEN_R24_W0_WORD_PHYSICAL_RECERTIFICATION_RECEIPT_V1"
       ],
       "executedFullRouteEvidence": [],
       "blockerEvidenceRefs": [
         "YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1",
         "C1_WORD_ROUND01_EXACT_LEDGER_BINDING_BLOCKER",
         "C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER",
-        "C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_MERGED_NOT_ROUTE_PASS",
-        "C1_WORD_MACOS_ACCESSIBILITY_PERMISSION_REQUIRED_CURRENT_BLOCKER"
+        "C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_MERGED_NOT_ROUTE_PASS"
       ],
       "requiredBindings": [
         "yalkenSha",
@@ -244,7 +250,7 @@
           "reason": "Synthetic process cleanup succeeded but is not route PASS evidence."
         }
       },
-      "nextContour": "C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_MACOS_ACCESSIBILITY_PERMISSION_RESTORED_V1"
+      "nextContour": "V2_WORD_CLAIM_COMPILER_AFTER_W0_PHYSICAL_RECERTIFICATION_V1"
     },
     {
       "routeId": "C2",
@@ -612,16 +618,16 @@
       "nextContour": "AFTER_C7"
     }
   ],
-  "nextSequentialContour": "C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_MACOS_ACCESSIBILITY_PERMISSION_RESTORED_V1",
+  "nextSequentialContour": "V2_WORD_CLAIM_COMPILER_AFTER_W0_PHYSICAL_RECERTIFICATION_V1",
   "rollback": {
     "repo": "revert bounded chain matrix, lineage receipt, verifier, catalog, and governance binding commit",
     "productDataMigrationRequired": false,
     "runtimeRollbackRequired": false,
     "previousMatrixExactHead": "5a5b34210bad80eaf1851efcf5a64426484f3f2a",
     "previousBlocker": "C1_WORD_ROUND01_EXACT_LEDGER_BINDING_BLOCKER",
-    "currentBlocker": "C1_WORD_MACOS_ACCESSIBILITY_PERMISSION_REQUIRED_CURRENT_BLOCKER",
+    "currentBlocker": "C1_WORD_ROUND01_EXACT_LEDGER_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER",
     "revertPlan": "Revert this post-exact-ledger repair DAG rebind commit to restore the prior exact-ledger next-contour pointer.",
-    "reason": "C1 exact-ledger repair merged, but no fresh post-repair route replay exists and current macOS Accessibility permission is disabled; C1-C8 saturation stays NEEDS_MORE_EVIDENCE.",
+    "reason": "The previous macOS Accessibility blocker is reclassified as caller-specific probe routing: zsh UI-elements false is advisory, Hammerspoon Accessibility is owner-enabled, and Word not running before the disposable governed flow is not a permission denial. C1-C8 saturation remains NEEDS_MORE_EVIDENCE because exact-ledger/apply-lifecycle/reuse gates are still blocked.",
     "currentMatrixExactHead": "8504d5fa8db9af9456cc6a6d0ec8b1aa8ad4d81a"
   }
 }

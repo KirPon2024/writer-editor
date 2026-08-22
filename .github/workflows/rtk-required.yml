@@ -112,6 +112,9 @@ jobs:
       - name: Run R2.4 F0 writer refinement conformance gate
         run: npm run -s test:r24-f0
 
+      - name: Run R2.4 V0 Writer claim compiler gate
+        run: npm run -s test:r24-v0
+
       - name: Run maintained Atlas event contract graph
         run: npm run -s test:atlas-event-contract
 

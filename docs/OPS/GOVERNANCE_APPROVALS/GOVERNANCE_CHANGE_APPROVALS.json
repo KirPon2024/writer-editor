@@ -11345,6 +11345,60 @@
       "rationale": "Approve R2.4 F0 mutation suite: inverts representative dirty admission, path escape, inbox corruption, lifecycle dirty barrier and migration project-id guards in isolated module copies and requires every mutant to be killed.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": "package.json",
+      "sha256": "a1356e78c5cc17f1957244cd6b3e3e01d0afa795373fccb9cbf3231ad1302131",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V0-WRITER-CLAIM-COMPILER-001",
+      "approvedAtUtc": "2026-08-22T12:39:32.000Z",
+      "rationale": "Approve R2.4 V0 package.json change: adds test:r24-v0 binding the Writer claim compiler and mutant suites to the existing Node test runner; no dependency, engine, metadata, product runtime or network change.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": ".github/workflows/rtk-required.yml",
+      "sha256": "9660e0da12c3c66b5bf9ca0f9a9decc0ff92963f97c48e9d951256860185608e",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V0-WRITER-CLAIM-COMPILER-001",
+      "approvedAtUtc": "2026-08-22T12:39:32.000Z",
+      "rationale": "Approve R2.4 V0 rtk-required.yml change: adds one step running npm run -s test:r24-v0 after F0 and before maintained Atlas tail gates; no trigger, permission, installation, environment or release target change.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+      "sha256": "37beab7da04b51b5ffd549f0091aa3109cc50bf92789a087de46594c38f2b934",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V0-WRITER-CLAIM-COMPILER-001",
+      "approvedAtUtc": "2026-08-22T12:39:32.000Z",
+      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 V0: package.json digest updated to the exact bytes gained by the test:r24-v0 script entry; no wording, Word, Google, release or optional-profile claim change.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": "scripts/ops/r24/writer-claim-compiler-v0.mjs",
+      "sha256": "29df696572287aedecf7dfc034c1855261c0b45da2495b739052670031fedd3a",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V0-WRITER-CLAIM-COMPILER-001",
+      "approvedAtUtc": "2026-08-22T12:39:32.000Z",
+      "rationale": "Approve R2.4 V0 read-only Writer claim compiler: validates exact-head Writer gate prefix, selected profile separation, E6 evidence class, workflow/package bindings and profile-only claim ceiling while rejecting optional-profile evidence and program/global PASS.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": "test/unit/r24-v0-writer-claim-compiler.test.js",
+      "sha256": "aba6b4b8ca9873bebacd186c9eb28c3872850e0c4f4f8981506e663c4223a329",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V0-WRITER-CLAIM-COMPILER-001",
+      "approvedAtUtc": "2026-08-22T12:39:32.000Z",
+      "rationale": "Approve R2.4 V0 compiler contract tests: prove normal Writer-profile verdict compilation and boundary/adversarial rejection for missing F0 workflow prefix, stale head, dirty state, stale evidence, optional profiles, overclaim, global PASS and zero evidence denominator.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": "test/unit/r24-v0-writer-claim-mutants.test.js",
+      "sha256": "bdacc323762981ab2bf8a7a317e745878a6f40bb4c3ee376877542fb5dcefec2",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V0-WRITER-CLAIM-COMPILER-001",
+      "approvedAtUtc": "2026-08-22T12:39:32.000Z",
+      "rationale": "Approve R2.4 V0 mutation suite: inverts optional-profile, exact-head, global-pass, V0 workflow-step and missing-stage-evidence guards in isolated compiler copies and requires every mutant to be killed.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     }
   ]
 }

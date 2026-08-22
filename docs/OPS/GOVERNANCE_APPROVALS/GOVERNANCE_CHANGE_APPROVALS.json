@@ -11271,28 +11271,64 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "b061769de08b974acddb9328e453d2ec733100861a4f52521eb674e62e911c10",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-A1-OPTIONAL-RELATION-VOCABULARY-001",
-      "approvedAtUtc": "2026-08-22T16:03:00.000Z",
-      "rationale": "Approve R2.4 A1 package.json change: adds test:r24-a1 binding optional Atlas relation vocabulary contract, integration and mutation suites to the existing Node test runner; no dependency, engine, metadata, product runtime, UI, release target or network change.",
+      "sha256": "4894f8c72f7c705216c96782d36c53fa30adfdc1573aece0e10ce1472fcee966",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-PK0-PACKAGE-CONTENT-TRUST-001",
+      "approvedAtUtc": "2026-08-22T16:25:34.000Z",
+      "rationale": "Approve R2.4 PK0 package.json change: adds explicit Electron build.files package-content allowlist and test:r24-pk0 script binding package-content trust contract, physical repository and mutation suites; no dependency, lockfile, engine, product runtime, UI, Word, Google, signing, notarization, release publication, runtime network or Program PASS change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": ".github/workflows/rtk-required.yml",
-      "sha256": "2c0e851502341a36d42ebfb164f86c919c506e7074ba2de7ece0b0f79af61023",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-A1-OPTIONAL-RELATION-VOCABULARY-001",
-      "approvedAtUtc": "2026-08-22T16:03:00.000Z",
-      "rationale": "Approve R2.4 A1 rtk-required.yml change: adds one step running npm run -s test:r24-a1 after the already-closed V1 gate and before maintained Atlas tail gates; no trigger, permission, installation, environment, release target, Word, Google or network change.",
+      "sha256": "0601c691601a650297b1d465de15dfc229b70133bdac26f2f50cc08080e77a29",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-PK0-PACKAGE-CONTENT-TRUST-001",
+      "approvedAtUtc": "2026-08-22T16:25:34.000Z",
+      "rationale": "Approve R2.4 PK0 rtk-required.yml change: adds one step running npm run -s test:r24-pk0 after A1; no trigger, permission, installation, environment, dependency, Word, Google, signing, notarization, release publication, runtime network or Program PASS change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "217ec4d107e49e63ef54df5969b12881681e0d5c0ab4701836f719c506937a79",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-A1-OPTIONAL-RELATION-VOCABULARY-001",
-      "approvedAtUtc": "2026-08-22T16:03:00.000Z",
-      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 A1: package.json digest updated to the exact bytes gained by the test:r24-a1 script entry; no wording, Word, Google, release, Writer-profile, optional feature promotion or Program PASS claim change.",
+      "sha256": "56779a1fb179d94a124a43307830eac7f8dbe8de6b12453aeb3ff4b53dfe237e",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-PK0-PACKAGE-CONTENT-TRUST-001",
+      "approvedAtUtc": "2026-08-22T16:25:34.000Z",
+      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 PK0: package.json digest updated to exact bytes gained by the build.files allowlist and test:r24-pk0 script; no wording, Word, Google, signing, notarization, release readiness, release publication, dependency, optional promotion or Program PASS claim change.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": "scripts/ops/r24/package-content-trust-pk0.mjs",
+      "sha256": "38fd6d5db5675c4b73b2a64e0a40c5dbb397fe5c00779c41658856bc80881e13",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-PK0-PACKAGE-CONTENT-TRUST-001",
+      "approvedAtUtc": "2026-08-22T16:25:34.000Z",
+      "rationale": "Approve R2.4 PK0 package content trust verifier: validates package build.files manifest, runtime/staged/admitted set inclusion, program/scientific contract binding, lockfile/dependency mutation refusal, and release/signing/notarization/network/product-runtime promotion refusal.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": "test/unit/r24-pk0-package-content-trust.test.js",
+      "sha256": "0c5f2238d505f1480fbbca1332cf434a6472cbcc2f1295a502734e9e2adfa1af",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-PK0-PACKAGE-CONTENT-TRUST-001",
+      "approvedAtUtc": "2026-08-22T16:25:34.000Z",
+      "rationale": "Approve R2.4 PK0 package-content contract tests: prove normal content-profile verdict and boundary/adversarial rejection for broad manifests, forbidden staged files, missing runtime files, release promotion, dependency/lockfile drift and program contract mismatch.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": "test/unit/r24-pk0-package-content-physics.test.js",
+      "sha256": "f475056bd0dc8941d855394179666af3bc4f6527d9049230dc9e99281e1d735f",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-PK0-PACKAGE-CONTENT-TRUST-001",
+      "approvedAtUtc": "2026-08-22T16:25:34.000Z",
+      "rationale": "Approve R2.4 PK0 physical repository package-content proof: evaluates the live package manifest and git-index file set while asserting no build, signing, notarization, release publication, runtime network or product runtime mutation is performed.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": "test/unit/r24-pk0-package-content-mutants.test.js",
+      "sha256": "18ebecbce60f9832f72a9ca5687e296ad9d554ae86fc1a8ffcc95f01c6e404ae",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-PK0-PACKAGE-CONTENT-TRUST-001",
+      "approvedAtUtc": "2026-08-22T16:25:34.000Z",
+      "rationale": "Approve R2.4 PK0 mutation suite: inverts release-ready, signing/notarization, dependency mutation, runtime subset, build manifest, broad glob and forbidden staged-file guards in isolated verifier copies and requires every mutant to be killed.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },

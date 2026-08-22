@@ -124,6 +124,9 @@ jobs:
       - name: Run R2.4 A1 optional relation vocabulary gate
         run: npm run -s test:r24-a1
 
+      - name: Run R2.4 PK0 package content trust gate
+        run: npm run -s test:r24-pk0
+
       - name: Run maintained Atlas event contract graph
         run: npm run -s test:atlas-event-contract
 

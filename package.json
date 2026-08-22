@@ -102,7 +102,8 @@
     "test:r24-r6": "node --test test/unit/r24-r6-migration-history-backup.test.js test/unit/r24-r6-migration-physics.test.js test/unit/r24-r6-migration-mutants.test.js",
     "test:r24-f0": "node --test test/unit/r24-f0-writer-refinement-conformance.test.js test/unit/r24-f0-refinement-physics.test.js test/unit/r24-f0-refinement-mutants.test.js",
     "test:r24-v0": "node --test test/unit/r24-v0-writer-claim-compiler.test.js test/unit/r24-v0-writer-claim-mutants.test.js",
-    "test:r24-a0": "node --test test/unit/r24-a0-atlas-incremental-equivalence.test.js test/unit/r24-a0-atlas-physics.test.js test/unit/r24-a0-atlas-mutants.test.js"
+    "test:r24-a0": "node --test test/unit/r24-a0-atlas-incremental-equivalence.test.js test/unit/r24-a0-atlas-physics.test.js test/unit/r24-a0-atlas-mutants.test.js",
+    "test:r24-v1": "node --test test/unit/r24-v1-atlas-claim-compiler.test.js test/unit/r24-v1-atlas-claim-mutants.test.js"
   },
   "keywords": [
     "editor",

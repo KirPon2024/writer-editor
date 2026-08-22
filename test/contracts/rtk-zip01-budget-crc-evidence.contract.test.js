@@ -29,6 +29,7 @@ const ALLOWLIST = [
   'docs/OPS/RTK/YALKEN_RTK_STREAMING_ORCH_PROCESS_CAPABILITY_REPAIR_V1_RECEIPT.json',
   'docs/OPS/RTK/YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1.json',
   'docs/OPS/RTK/YALKEN_INTEROP_CHAIN_MATRIX_V1.json',
+  'docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json',
   'docs/OPS/RTK/YALKEN_INTEROP_MULTI_ROUND_LINEAGE_RECEIPT_V1.json',
   'scripts/ops/google-docs-real-account-e2e-v1.mjs',
   'scripts/ops/google-docs-real-account-whole-book-e2e-v1.mjs',

@@ -11145,30 +11145,30 @@
     },
     {
       "filePath": "test/contracts/rtk-g0b-feasibility.contract.test.js",
-      "sha256": "6005ab9ebe8ca40d8917c7d2cf94ae6a532cd80a72bc67eca67df741e28a26ac",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T19:23:26.000Z",
-      "rationale": "Approve G0B frozen allowlist companion entries for the C1 operationId ledger-binding terminal-orchestrator files.",
+      "sha256": "f30558c4229b52feab37c4a0493c1dcb74b360dc0bdfe332e2a4e692b825af8d",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V3-PACKAGE-CLAIM-COMPILER-001",
+      "approvedAtUtc": "2026-08-22T19:28:00.000Z",
+      "rationale": "Approve G0B frozen allowlist companion entry for the R2.4 V3 terminal-claim registry package.json wording-surface rebind; no runtime, Word, Google, dependency, release or Program PASS change.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",
-      "sha256": "4ecfbca036638a52316b0637755d4dcf0ec405271c816c68a85464ad51f2dc44",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T19:23:26.000Z",
-      "rationale": "Approve W1 frozen allowlist companion entries for the C1 operationId ledger-binding terminal-orchestrator files.",
+      "sha256": "de95624c1df98bf899e955681da1325a01c59ee737f13976f8ce6f4283a54a93",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V3-PACKAGE-CLAIM-COMPILER-001",
+      "approvedAtUtc": "2026-08-22T19:28:00.000Z",
+      "rationale": "Approve W1 frozen allowlist companion entry for the R2.4 V3 terminal-claim registry package.json wording-surface rebind; no runtime, Word, Google, dependency, release or Program PASS change.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js",
-      "sha256": "32be80bda07e3975b85a2c44601d44d33459cb42dcb7ca3906131a41dde04f59",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T19:23:26.000Z",
-      "rationale": "Approve W2 frozen allowlist companion entries for the C1 operationId ledger-binding terminal-orchestrator files.",
+      "sha256": "81ba3416f8c5377460c02796ce2e88e99cb6b4afc2b5843143ef8d55c779e26e",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V3-PACKAGE-CLAIM-COMPILER-001",
+      "approvedAtUtc": "2026-08-22T19:28:00.000Z",
+      "rationale": "Approve W2 frozen allowlist companion entry for the R2.4 V3 terminal-claim registry package.json wording-surface rebind; no runtime, Word, Google, dependency, release or Program PASS change.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-round-checkpoint.contract.test.js",
@@ -11235,12 +11235,12 @@
     },
     {
       "filePath": "test/contracts/rtk-zip01-budget-crc-evidence.contract.test.js",
-      "sha256": "c90f4f9223d7ac3198b4cec246be139ed3c0ba88b71eb011429aff95840cba70",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1",
-      "approvedAtUtc": "2026-08-17T19:23:48.000Z",
-      "rationale": "Approve ZIP01 exact write-set allowlist companion entries for C1 operationId ledger-binding contracts and terminal orchestrator.",
+      "sha256": "b3d24b953b3329f0f5ddc9d24dc320a38be759d28b4fa73a897a16800a377ce9",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V3-PACKAGE-CLAIM-COMPILER-001",
+      "approvedAtUtc": "2026-08-22T19:28:00.000Z",
+      "rationale": "Approve ZIP01 exact write-set allowlist companion entry for the R2.4 V3 terminal-claim registry package.json wording-surface rebind; no runtime, Word, Google, dependency, release or Program PASS change.",
       "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1"
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "test/unit/r24-f0-writer-refinement-conformance.test.js",
@@ -11352,10 +11352,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "ef724e6505c9d5831c0c2626885e9b25c1439f752ea2f4f4ae841df1fa7f3b15",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-PK1-RELEASE-SECURITY-PHYSICAL-001",
-      "approvedAtUtc": "2026-08-22T17:39:36.000Z",
-      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 PK1: package.json digest updated to exact bytes gained by the test:r24-pk1 script; no wording, Word, Google, signing, notarization, release readiness, release publication, dependency, optional promotion or Program PASS claim change.",
+      "sha256": "613f5bf188439e6c6560c85e53d5bfcddd7367b0f2a66a10c460ef18308bb201",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V3-PACKAGE-CLAIM-COMPILER-001",
+      "approvedAtUtc": "2026-08-22T19:16:00.000Z",
+      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 V3: package.json digest updated to exact bytes gained by the test:r24-v3 script; no wording, Word, Google, signing, notarization, release readiness, release publication, dependency, optional promotion or Program PASS claim change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },

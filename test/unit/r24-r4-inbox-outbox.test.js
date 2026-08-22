@@ -1,0 +1,175 @@
+'use strict';
+
+// R2.4 R4 inbox/outbox law: idempotent intent admission, typed conflicts,
+// effect lifecycle, crash-tail repair, corruption refusal and deterministic
+// replay.
+
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+
+const {
+  INBOX_OUTBOX_SCHEMA_VERSION,
+  INBOX_BASENAME,
+  OUTBOX_BASENAME,
+  InboxOutboxError,
+  openTransactionalInboxOutbox,
+} = require(path.join(__dirname, '..', '..', 'src', 'core', 'transactional-inbox-outbox-v1.cjs'));
+
+const sandbox = () => fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'r24-r4-')));
+
+test('intent admission is idempotent: direct duplicate typed, conflicting key typed', async () => {
+  const box = await openTransactionalInboxOutbox(sandbox());
+  const admitted = await box.admitIntent({ intentId: 'i-1', kind: 'project.commit', payload: { a: 1, b: 2 } });
+  assert.equal(admitted.status, 'ADMITTED');
+  await assert.rejects(
+    box.admitIntent({ intentId: 'i-1', kind: 'project.commit', payload: { b: 2, a: 1 } }),
+    (e) => e instanceof InboxOutboxError && e.code === 'E_INTENT_DUPLICATE',
+    'canonical payload identity makes key order irrelevant for same meaning',
+  );
+  await assert.rejects(
+    box.admitIntent({ intentId: 'i-1', kind: 'project.commit', payload: { a: 2, b: 2 } }),
+    (e) => e.code === 'E_INTENT_CONFLICT',
+    'the same key carrying a different payload is a conflict, never a silent overwrite',
+  );
+  await assert.rejects(box.admitIntent({ intentId: ' ', kind: 'x' }), (e) => e.code === 'E_INTENT_ID_REQUIRED');
+  await assert.rejects(box.admitIntent({ intentId: 'i-2', kind: ' ' }), (e) => e.code === 'E_INTENT_KIND_REQUIRED');
+});
+
+test('ensureIntentAdmitted is idempotent for same meaning and refuses conflicts', async () => {
+  const box = await openTransactionalInboxOutbox(sandbox());
+  await box.admitIntent({
+    intentId: 'i-canonical',
+    kind: 'project.commit',
+    payload: { left: { a: 1, b: 2 }, z: [2, 1] },
+  });
+  const ensured = await box.ensureIntentAdmitted({
+    intentId: 'i-canonical',
+    kind: 'project.commit',
+    payload: { z: [2, 1], left: { b: 2, a: 1 } },
+  });
+  assert.equal(ensured.status, 'ADMITTED');
+  await assert.rejects(
+    box.ensureIntentAdmitted({
+      intentId: 'i-canonical',
+      kind: 'project.commit',
+      payload: { z: [2, 1], left: { b: 3, a: 1 } },
+    }),
+    (e) => e.code === 'E_INTENT_CONFLICT',
+  );
+  await assert.rejects(
+    box.ensureIntentAdmitted({ intentId: 'i-bad', kind: 'project.commit', payload: { bad: Number.NaN } }),
+    (e) => e.code === 'E_JSON_PAYLOAD_INVALID',
+    'non-json payloads never enter the durable log',
+  );
+  const cyclic = { ok: true };
+  cyclic.self = cyclic;
+  await assert.rejects(
+    box.ensureIntentAdmitted({ intentId: 'i-cycle', kind: 'project.commit', payload: cyclic }),
+    (e) => e.code === 'E_JSON_PAYLOAD_INVALID',
+    'cyclic payloads are typed refusals, not stack failures',
+  );
+});
+
+test('execution is recorded exactly once and replay never re-executes', async () => {
+  const box = await openTransactionalInboxOutbox(sandbox());
+  await box.admitIntent({ intentId: 'i-1', kind: 'project.commit' });
+  assert.equal(box.isExecuted('i-1'), false);
+  await box.markExecuted('i-1', { revision: 1 });
+  assert.equal(box.isExecuted('i-1'), true);
+  await assert.rejects(box.markExecuted('i-1', { revision: 2 }), (e) => e.code === 'E_INTENT_ALREADY_EXECUTED');
+  await assert.rejects(box.markExecuted('ghost', {}), (e) => e.code === 'E_INTENT_UNKNOWN');
+});
+
+test('effect lifecycle: staging requires execution, publish is once, pending recovery is exact', async () => {
+  const dir = sandbox();
+  const box = await openTransactionalInboxOutbox(dir);
+  await assert.rejects(
+    box.stageEffect({ intentId: 'i-0', effectId: 'e-0', kind: 'fs.write' }),
+    (e) => e.code === 'E_INTENT_NOT_EXECUTED',
+    'an effect for an unexecuted intent never stages',
+  );
+  await box.admitIntent({ intentId: 'i-1', kind: 'project.commit' });
+  await assert.rejects(
+    box.stageEffect({ intentId: 'i-1', effectId: 'e-9', kind: 'fs.write' }),
+    (e) => e.code === 'E_INTENT_NOT_EXECUTED',
+    'admitted-but-unexecuted is still not executable authority',
+  );
+  await box.markExecuted('i-1', { revision: 1 });
+  await assert.rejects(box.stageEffect({ intentId: 'i-1', effectId: 'e-bad', kind: ' ' }), (e) => e.code === 'E_EFFECT_KIND_REQUIRED');
+  await box.stageEffect({ intentId: 'i-1', effectId: 'e-1', kind: 'fs.write' });
+  await box.stageEffect({ intentId: 'i-1', effectId: 'e-2', kind: 'fs.write' });
+  assert.deepEqual(box.pendingEffects().map((e) => e.effectId), ['e-1', 'e-2']);
+  await assert.rejects(box.stageEffect({ intentId: 'i-1', effectId: 'e-1', kind: 'fs.write' }), (e) => e.code === 'E_EFFECT_ALREADY_STAGED');
+  await box.markEffectPublished('e-1');
+  assert.deepEqual(box.pendingEffects().map((e) => e.effectId), ['e-2'], 'only the unpublished effect remains pending');
+  await assert.rejects(box.markEffectPublished('e-1'), (e) => e.code === 'E_EFFECT_ALREADY_PUBLISHED', 'no double publication');
+
+  const reopened = await openTransactionalInboxOutbox(dir);
+  assert.deepEqual(reopened.pendingEffects().map((e) => e.effectId), ['e-2'], 'the pending set survives reopen exactly');
+  assert.equal(reopened.isExecuted('i-1'), true);
+});
+
+test('replay is deterministic and carries schema identity', async () => {
+  const dir = sandbox();
+  const box = await openTransactionalInboxOutbox(dir);
+  await box.admitIntent({ intentId: 'i-1', kind: 'project.commit' });
+  await box.markExecuted('i-1', { revision: 1 });
+  await box.stageEffect({ intentId: 'i-1', effectId: 'e-1', kind: 'fs.write' });
+  const first = box.replay();
+  const reopened = await openTransactionalInboxOutbox(dir);
+  const second = reopened.replay();
+  assert.equal(first.schemaVersion, INBOX_OUTBOX_SCHEMA_VERSION);
+  assert.deepEqual(JSON.parse(JSON.stringify(second)), JSON.parse(JSON.stringify(first)), 'replay after reopen is identical');
+  assert.equal(first.inboxDigest, second.inboxDigest);
+  assert.equal(first.outboxDigest, second.outboxDigest);
+  assert.deepEqual(first.intents, [{ intentId: 'i-1', kind: 'project.commit', status: 'EXECUTED' }]);
+  assert.deepEqual(first.effects, [{ effectId: 'e-1', intentId: 'i-1', status: 'PENDING' }]);
+});
+
+test('torn log tails are durable truncation points, never admitted or pending truth', async () => {
+  const dir = sandbox();
+  const box = await openTransactionalInboxOutbox(dir);
+  await box.admitIntent({ intentId: 'i-1', kind: 'project.commit' });
+  fs.appendFileSync(box.inboxPath, '{"intentId":"i-2","kind":"pro');
+  const reopened = await openTransactionalInboxOutbox(dir);
+  assert.equal(reopened.isAdmitted('i-1'), true);
+  assert.equal(reopened.isAdmitted('i-2'), false, 'the torn intent was never admitted');
+  assert.equal(fs.readFileSync(reopened.inboxPath, 'utf8').includes('i-2'), false, 'the torn inbox tail was removed durably');
+
+  await reopened.markExecuted('i-1', { revision: 1 });
+  await reopened.stageEffect({ intentId: 'i-1', effectId: 'e-1', kind: 'fs.write' });
+  fs.appendFileSync(reopened.outboxPath, '{"effectId":"e-2","status":"PEN');
+  const repaired = await openTransactionalInboxOutbox(dir);
+  assert.deepEqual(repaired.pendingEffects().map((effect) => effect.effectId), ['e-1']);
+  assert.equal(fs.readFileSync(repaired.outboxPath, 'utf8').includes('e-2'), false, 'the torn outbox tail was removed durably');
+});
+
+test('valid-looking corrupt records are refused, not silently normalized', async () => {
+  const dir = sandbox();
+  fs.writeFileSync(path.join(dir, INBOX_BASENAME), `${JSON.stringify({
+    schemaVersion: INBOX_OUTBOX_SCHEMA_VERSION,
+    intentId: 'i-1',
+    kind: 'project.commit',
+    payloadHash: '0'.repeat(64),
+    status: 'MAYBE',
+    outcome: null,
+  })}\n`);
+  await assert.rejects(openTransactionalInboxOutbox(dir), (e) => e.code === 'E_INBOX_LOG_CORRUPT');
+
+  const outboxDir = sandbox();
+  const box = await openTransactionalInboxOutbox(outboxDir);
+  await box.admitIntent({ intentId: 'i-1', kind: 'project.commit' });
+  await box.markExecuted('i-1', { revision: 1 });
+  fs.writeFileSync(path.join(outboxDir, OUTBOX_BASENAME), `${JSON.stringify({
+    schemaVersion: INBOX_OUTBOX_SCHEMA_VERSION,
+    intentId: 'i-1',
+    effectId: 'e-1',
+    kind: 'fs.write',
+    detail: null,
+    status: 'MAYBE',
+  })}\n`);
+  await assert.rejects(openTransactionalInboxOutbox(outboxDir), (e) => e.code === 'E_OUTBOX_LOG_CORRUPT');
+});

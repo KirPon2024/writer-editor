@@ -96,7 +96,8 @@
     "test:r24-wp103": "node --test test/unit/r24-wp103-revision-order.test.js test/unit/r24-wp103-canonical-serialization.test.js test/unit/r24-wp103-order-mutants.test.js",
     "test:r24-wp104": "node --test test/unit/r24-wp104-boundary-falsification.test.js test/unit/r24-wp104-evidence-integrity.test.js",
     "test:r24-r2": "node --test test/unit/r24-r2-storage-bakeoff.test.js test/unit/r24-r2-candidate-physics.test.js test/unit/r24-r2-bakeoff-mutants.test.js",
-    "test:r24-r3": "node --test test/unit/r24-r3-recovery-ledger.test.js test/unit/r24-r3-ledger-physics.test.js test/unit/r24-r3-ledger-mutants.test.js"
+    "test:r24-r3": "node --test test/unit/r24-r3-recovery-ledger.test.js test/unit/r24-r3-ledger-physics.test.js test/unit/r24-r3-ledger-mutants.test.js",
+    "test:r24-r4": "node --test test/unit/r24-r4-inbox-outbox.test.js test/unit/r24-r4-inbox-physics.test.js test/unit/r24-r4-inbox-mutants.test.js"
   },
   "keywords": [
     "editor",

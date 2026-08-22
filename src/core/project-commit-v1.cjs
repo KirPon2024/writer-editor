@@ -43,6 +43,48 @@ function readMarkerSync(markerPath) {
   }
 }
 
+function hasIntentInbox(intentInbox) {
+  return intentInbox !== null && intentInbox !== undefined;
+}
+
+function requireIntentInbox(intentInbox) {
+  if (!hasIntentInbox(intentInbox)) return null;
+  const required = ['isExecuted', 'ensureIntentAdmitted', 'markExecuted'];
+  for (const method of required) {
+    if (typeof intentInbox[method] !== 'function') {
+      throw new ProjectCommitError('E_COMMIT_INTENT_BOX_INVALID', COMMIT_PHASES.ADMIT, method);
+    }
+  }
+  return intentInbox;
+}
+
+async function refuseExecutedIntent(intentInbox, intentKey) {
+  try {
+    if (await intentInbox.isExecuted(intentKey)) {
+      throw new ProjectCommitError('E_COMMIT_INTENT_DUPLICATE', COMMIT_PHASES.ADMIT, intentKey);
+    }
+  } catch (error) {
+    if (error instanceof ProjectCommitError) throw error;
+    throw new ProjectCommitError('E_COMMIT_INTENT_CHECK_FAILED', COMMIT_PHASES.ADMIT, error.message);
+  }
+}
+
+async function admitCommitIntent(intentInbox, intentKey, payload) {
+  try {
+    return await intentInbox.ensureIntentAdmitted({
+      intentId: intentKey,
+      kind: 'project.commit',
+      payload,
+    });
+  } catch (error) {
+    const cause = error && error.code ? error.code : error.message;
+    const code = error && error.code === 'E_INTENT_CONFLICT'
+      ? 'E_COMMIT_INTENT_CONFLICT'
+      : 'E_COMMIT_INTENT_ADMIT_FAILED';
+    throw new ProjectCommitError(code, COMMIT_PHASES.ADMIT, `${intentKey}:${cause}`);
+  }
+}
+
 // Recovery classification. The marker is the commit point: absent marker with
 // a prepared scene temp is resumable; present marker with digest agreement is
 // committed; present marker with any disagreement is typed corruption.
@@ -71,6 +113,8 @@ async function commitProjectTextAndManifest({
   rollbackManifest,
   fsAdapter = fsp,
   recoveryLedger = null,
+  intentInbox = null,
+  intentId = '',
 }) {
   if (typeof scenePath !== 'string' || scenePath.length === 0) {
     throw new ProjectCommitError('E_COMMIT_TARGET_REQUIRED', COMMIT_PHASES.ADMIT);
@@ -82,12 +126,26 @@ async function commitProjectTextAndManifest({
   if (typeof persistManifest !== 'function') throw new ProjectCommitError('E_COMMIT_MANIFEST_FN_REQUIRED', COMMIT_PHASES.ADMIT);
 
   const markerPath = markerPathFor(scenePath);
+  const sceneDigest = sha256hex(sceneContent);
+  const attachedIntentInbox = requireIntentInbox(intentInbox);
+  const intentKey = attachedIntentInbox ? (typeof intentId === 'string' ? intentId.trim() : '') : '';
+  const intentPayload = attachedIntentInbox
+    ? Object.freeze({ scenePath, revision, sceneDigest })
+    : null;
+  let admittedIntent = null;
+  if (attachedIntentInbox) {
+    if (!intentKey) throw new ProjectCommitError('E_COMMIT_INTENT_ID_REQUIRED', COMMIT_PHASES.ADMIT);
+    await refuseExecutedIntent(attachedIntentInbox, intentKey);
+  }
+
   const priorMarker = readMarkerSync(markerPath);
   if (priorMarker && Number.isInteger(priorMarker.revision) && priorMarker.revision >= revision) {
     throw new ProjectCommitError('E_COMMIT_FENCE_REGRESSION', COMMIT_PHASES.ADMIT, `marker=${priorMarker.revision} presented=${revision}`);
   }
+  if (attachedIntentInbox) {
+    admittedIntent = await admitCommitIntent(attachedIntentInbox, intentKey, intentPayload);
+  }
 
-  const sceneDigest = sha256hex(sceneContent);
   const tempPath = path.join(
     path.dirname(scenePath),
     `${path.basename(scenePath)}.p3-${process.pid}-${crypto.randomBytes(6).toString('hex')}.tmp`,
@@ -182,6 +240,23 @@ async function commitProjectTextAndManifest({
     }
   }
 
+  // R2.4 R4: a bound intent is marked executed only after the commit point.
+  // A write failure here is visible to recovery, but never rolls back or hides
+  // the already durable project commit.
+  let intentExecution = null;
+  let intentError = null;
+  if (attachedIntentInbox) {
+    try {
+      intentExecution = await attachedIntentInbox.markExecuted(intentKey, { revision, sceneDigest, manifestPersisted });
+    } catch (error) {
+      intentError = {
+        code: 'E_INTENT_EXECUTION_MARK_FAILED',
+        cause: error && error.code ? error.code : 'E_INTENT_EXECUTION_MARK_FAILED',
+        message: String(error && error.message || error),
+      };
+    }
+  }
+
   return Object.freeze({
     success: true,
     phases: Object.freeze([
@@ -198,6 +273,10 @@ async function commitProjectTextAndManifest({
     priorMarkerRevision: priorMarker && Number.isInteger(priorMarker.revision) ? priorMarker.revision : null,
     ledgerRecord: ledgerRecord ? Object.freeze({ seq: ledgerRecord.seq, digest: ledgerRecord.digest }) : null,
     ledgerError,
+    intentId: intentKey || null,
+    intentAdmitted: admittedIntent ? Object.freeze({ intentId: admittedIntent.intentId, status: admittedIntent.status }) : null,
+    intentExecuted: Boolean(intentExecution && intentExecution.status === 'EXECUTED'),
+    intentError,
   });
 }
 

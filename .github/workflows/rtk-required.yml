@@ -100,6 +100,9 @@ jobs:
       - name: Run R2.4 R3 recovery ledger gate
         run: npm run -s test:r24-r3
 
+      - name: Run R2.4 R4 transactional inbox/outbox gate
+        run: npm run -s test:r24-r4
+
       - name: Run maintained Atlas event contract graph
         run: npm run -s test:atlas-event-contract
 

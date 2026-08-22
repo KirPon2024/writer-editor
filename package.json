@@ -99,7 +99,8 @@
     "test:r24-r3": "node --test test/unit/r24-r3-recovery-ledger.test.js test/unit/r24-r3-ledger-physics.test.js test/unit/r24-r3-ledger-mutants.test.js",
     "test:r24-r4": "node --test test/unit/r24-r4-inbox-outbox.test.js test/unit/r24-r4-inbox-physics.test.js test/unit/r24-r4-inbox-mutants.test.js",
     "test:r24-r5": "node --test test/unit/r24-r5-lifecycle-conflict.test.js test/unit/r24-r5-lifecycle-physics.test.js test/unit/r24-r5-lifecycle-mutants.test.js",
-    "test:r24-r6": "node --test test/unit/r24-r6-migration-history-backup.test.js test/unit/r24-r6-migration-physics.test.js test/unit/r24-r6-migration-mutants.test.js"
+    "test:r24-r6": "node --test test/unit/r24-r6-migration-history-backup.test.js test/unit/r24-r6-migration-physics.test.js test/unit/r24-r6-migration-mutants.test.js",
+    "test:r24-f0": "node --test test/unit/r24-f0-writer-refinement-conformance.test.js test/unit/r24-f0-refinement-physics.test.js test/unit/r24-f0-refinement-mutants.test.js"
   },
   "keywords": [
     "editor",

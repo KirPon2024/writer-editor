@@ -106,6 +106,9 @@ jobs:
       - name: Run R2.4 R5 lifecycle external conflict gate
         run: npm run -s test:r24-r5
 
+      - name: Run R2.4 R6 migration history backup GC gate
+        run: npm run -s test:r24-r6
+
       - name: Run maintained Atlas event contract graph
         run: npm run -s test:atlas-event-contract
 

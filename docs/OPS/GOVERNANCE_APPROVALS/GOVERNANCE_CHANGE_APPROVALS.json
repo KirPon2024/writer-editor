@@ -11264,6 +11264,33 @@
       "rationale": "Approve ZIP01 exact write-set allowlist companion entries for C1 operationId ledger-binding contracts and terminal orchestrator.",
       "approved": true,
       "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1"
+    },
+    {
+      "filePath": "package.json",
+      "sha256": "d0dc3ca490c6a134cfd0efce13fa013781b5634f224cb7a61c316b7c22daaf88",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-R6-MIGRATION-HISTORY-BACKUP-GC-001",
+      "approvedAtUtc": "2026-08-22T10:43:00.000Z",
+      "rationale": "Approve R2.4 R6 package.json change: adds test:r24-r6 script binding the migration history backup GC gate into the required CI lane; no dependency change.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+      "sha256": "9ae5df2d9befe747889478d2e6be0ae105e9aefe5f0737f7c16e3a2f5b62adc3",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-R6-MIGRATION-HISTORY-BACKUP-GC-001",
+      "approvedAtUtc": "2026-08-22T10:43:00.000Z",
+      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 R6: package.json digest updated to the exact bytes gained by the test:r24-r6 script entry; no wording or claim change.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": ".github/workflows/rtk-required.yml",
+      "sha256": "9006eee72ca3848913d6f433b90e65de8fec05e322e90085786bc443313567ec",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-R6-MIGRATION-HISTORY-BACKUP-GC-001",
+      "approvedAtUtc": "2026-08-22T10:43:00.000Z",
+      "rationale": "Approve R2.4 R6 rtk-required.yml change: adds one step running npm run -s test:r24-r6 after the R5 gate; no trigger, permission or environment change.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     }
   ]
 }

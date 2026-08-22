@@ -11270,33 +11270,6 @@
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
-      "filePath": "package.json",
-      "sha256": "4894f8c72f7c705216c96782d36c53fa30adfdc1573aece0e10ce1472fcee966",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-PK0-PACKAGE-CONTENT-TRUST-001",
-      "approvedAtUtc": "2026-08-22T16:25:34.000Z",
-      "rationale": "Approve R2.4 PK0 package.json change: adds explicit Electron build.files package-content allowlist and test:r24-pk0 script binding package-content trust contract, physical repository and mutation suites; no dependency, lockfile, engine, product runtime, UI, Word, Google, signing, notarization, release publication, runtime network or Program PASS change.",
-      "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
-    },
-    {
-      "filePath": ".github/workflows/rtk-required.yml",
-      "sha256": "0601c691601a650297b1d465de15dfc229b70133bdac26f2f50cc08080e77a29",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-PK0-PACKAGE-CONTENT-TRUST-001",
-      "approvedAtUtc": "2026-08-22T16:25:34.000Z",
-      "rationale": "Approve R2.4 PK0 rtk-required.yml change: adds one step running npm run -s test:r24-pk0 after A1; no trigger, permission, installation, environment, dependency, Word, Google, signing, notarization, release publication, runtime network or Program PASS change.",
-      "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
-    },
-    {
-      "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "56779a1fb179d94a124a43307830eac7f8dbe8de6b12453aeb3ff4b53dfe237e",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-PK0-PACKAGE-CONTENT-TRUST-001",
-      "approvedAtUtc": "2026-08-22T16:25:34.000Z",
-      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 PK0: package.json digest updated to exact bytes gained by the build.files allowlist and test:r24-pk0 script; no wording, Word, Google, signing, notarization, release readiness, release publication, dependency, optional promotion or Program PASS claim change.",
-      "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
-    },
-    {
       "filePath": "scripts/ops/r24/package-content-trust-pk0.mjs",
       "sha256": "38fd6d5db5675c4b73b2a64e0a40c5dbb397fe5c00779c41658856bc80881e13",
       "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-PK0-PACKAGE-CONTENT-TRUST-001",
@@ -11374,6 +11347,69 @@
       "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V0-WRITER-CLAIM-COMPILER-001",
       "approvedAtUtc": "2026-08-22T12:39:32.000Z",
       "rationale": "Approve R2.4 V0 mutation suite: inverts optional-profile, exact-head, global-pass, V0 workflow-step and missing-stage-evidence guards in isolated compiler copies and requires every mutant to be killed.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": "package.json",
+      "sha256": "ef6a8d6eb670eb0f805878a065e9c8854de08124a9dcd14560b5b58b73430ab1",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-PK1-RELEASE-SECURITY-PHYSICAL-001",
+      "approvedAtUtc": "2026-08-22T17:39:36.000Z",
+      "rationale": "Approve R2.4 PK1 package.json change: adds test:r24-pk1 script binding release-security physical contract, real-repository and mutation suites; no dependency, lockfile, engine, product runtime, UI, Word, Google, signing, notarization, release publication, runtime network or Program PASS change.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": ".github/workflows/rtk-required.yml",
+      "sha256": "e9f3ffd871e2c44aeea6eb8b43b4f6b06a0e11e4d06b6a2cd682ffddb4fa6189",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-PK1-RELEASE-SECURITY-PHYSICAL-001",
+      "approvedAtUtc": "2026-08-22T17:39:36.000Z",
+      "rationale": "Approve R2.4 PK1 rtk-required.yml change: adds one step running npm run -s test:r24-pk1 after PK0; no trigger, permission, installation, environment, dependency, Word, Google, signing, notarization, release publication, runtime network or Program PASS change.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+      "sha256": "ef724e6505c9d5831c0c2626885e9b25c1439f752ea2f4f4ae841df1fa7f3b15",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-PK1-RELEASE-SECURITY-PHYSICAL-001",
+      "approvedAtUtc": "2026-08-22T17:39:36.000Z",
+      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 PK1: package.json digest updated to exact bytes gained by the test:r24-pk1 script; no wording, Word, Google, signing, notarization, release readiness, release publication, dependency, optional promotion or Program PASS claim change.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": "scripts/ops/r24/release-security-physical-pk1.mjs",
+      "sha256": "ddbe949d8f52e9a013de91d77157cdcf750242933a171132ed48182ba5e23cfe",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-PK1-RELEASE-SECURITY-PHYSICAL-001",
+      "approvedAtUtc": "2026-08-22T17:39:36.000Z",
+      "rationale": "Approve R2.4 PK1 release-security physical verifier: validates package-security DAG/scientific contract binding, C01-C04 ASAR/status/performance/SAST/runtime-network evidence, explicit target matrix and stale receipt blockers while refusing release-ready, signing, notarization, fuse, inactive-platform, product-runtime, dependency, publication and Program PASS promotion.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": "test/unit/r24-pk1-release-security-physical.test.js",
+      "sha256": "963f9b22b086cb9d0113ec00fa68289c88288b381c557def369991b8323e7d92",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-PK1-RELEASE-SECURITY-PHYSICAL-001",
+      "approvedAtUtc": "2026-08-22T17:39:36.000Z",
+      "rationale": "Approve R2.4 PK1 contract tests: prove normal package-profile NOT_READY classification and boundary/adversarial rejection for release, signing, notarization, fuse, current-head physical, distribution, dependency, product-runtime, runtime-network, inactive-platform and Program PASS overclaims plus program/package/ASAR/SAST/target drift.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": "test/unit/r24-pk1-release-security-physics.test.js",
+      "sha256": "95c29ff251a21bf57c42ec39bc73a50a1e988418183c8c21e167b08bcea7da25",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-PK1-RELEASE-SECURITY-PHYSICAL-001",
+      "approvedAtUtc": "2026-08-22T17:39:36.000Z",
+      "rationale": "Approve R2.4 PK1 physical repository tests: evaluates live checked-in C01-C04 package-security receipts at exact checkout while asserting stale physical receipt blockers, unsigned/unnotarized/fuse/hardened-runtime blockers and no build, credential, release publication, runtime network, Word, Google or Program PASS mutation.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": "test/unit/r24-pk1-release-security-mutants.test.js",
+      "sha256": "520cded5b380bacab84dc60e3e22b11e083816b57f480a3ba4f00d3b6e4cc4cd",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-PK1-RELEASE-SECURITY-PHYSICAL-001",
+      "approvedAtUtc": "2026-08-22T17:39:36.000Z",
+      "rationale": "Approve R2.4 PK1 mutation suite: inverts release-ready, signing, notarization, fuse, stale-receipt, ASAR-binding, SAST and afterPack hardening-hook guards in isolated verifier copies and requires every mutant to be killed.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     }

@@ -31,19 +31,54 @@ const KNOWN_RED_LEDGER = Object.freeze([
   Object.freeze({ contract: 'b3c01-command-kernel-scope-lock.contract.test.js', failing: { any: ['committed status equals executable state', 'evidence packets align with executable state'] } }),
   Object.freeze({ contract: 'b3c06-no-network-writing-path.contract.test.js', failing: { any: ['state artifact equals executable state', 'CLI status remains worktree independent outside repo cwd'] } }),
   Object.freeze({ contract: 'b3c16-supply-chain-release-scope.contract.test.js', failing: { any: ['state artifact matches stable executable fields'] } }),
-  Object.freeze({ contract: 'b3c17-future-lanes-nonblocking.contract.test.js', failing: { any: ['state artifact matches stable executable fields'] } }),
-  Object.freeze({ contract: 'b3c18-production-hardening-queue.contract.test.js', failing: { any: ['state artifact matches stable executable fields'] } }),
 ]);
 
-// Platform-divergent defects: these committed artifacts embed darwin-derived
-// state and diverge on linux. Green on darwin, red on linux — a portability
-// defect class, named exactly.
+// Platform-divergent defects: committed status artifacts embed platform-shaped
+// state. They are neither globally green nor globally red; the executable
+// classification is bound per platform so CI cannot hide a local-only repair.
 const PLATFORM_DIVERGENT = Object.freeze([
-  Object.freeze({ contract: 'b3c11-xplat-normalization-baseline.contract.test.js', linuxFailing: ['state artifact matches stable executable fields'] }),
-  Object.freeze({ contract: 'b3c12-i18n-text-anchor-safety.contract.test.js', linuxFailing: ['state artifact matches stable executable fields'] }),
-  Object.freeze({ contract: 'b3c13-trust-surface-accessibility.contract.test.js', linuxFailing: ['state artifact matches stable executable fields'] }),
-  Object.freeze({ contract: 'b3c14-release-dossier-minimal.contract.test.js', linuxFailing: ['state artifact matches stable executable fields'] }),
-  Object.freeze({ contract: 'b3c15-attestation-chain.contract.test.js', linuxFailing: ['state artifact matches stable executable fields'] }),
+  Object.freeze({
+    contract: 'b3c10-capability-tier-report.contract.test.js',
+    expected: Object.freeze({
+      darwin: Object.freeze({ status: 'green' }),
+      linux: Object.freeze({ status: 'red', failing: ['b3c10 capability tier report: state artifact equals executable state'] }),
+    }),
+  }),
+  Object.freeze({
+    contract: 'b3c11-xplat-normalization-baseline.contract.test.js',
+    expected: Object.freeze({
+      darwin: Object.freeze({ status: 'green' }),
+      linux: Object.freeze({ status: 'red', failing: ['state artifact matches stable executable fields'] }),
+    }),
+  }),
+  Object.freeze({
+    contract: 'b3c12-i18n-text-anchor-safety.contract.test.js',
+    expected: Object.freeze({
+      darwin: Object.freeze({ status: 'green' }),
+      linux: Object.freeze({ status: 'red', failing: ['state artifact matches stable executable fields'] }),
+    }),
+  }),
+  Object.freeze({
+    contract: 'b3c13-trust-surface-accessibility.contract.test.js',
+    expected: Object.freeze({
+      darwin: Object.freeze({ status: 'green' }),
+      linux: Object.freeze({ status: 'red', failing: ['state artifact matches stable executable fields'] }),
+    }),
+  }),
+  Object.freeze({
+    contract: 'b3c14-release-dossier-minimal.contract.test.js',
+    expected: Object.freeze({
+      darwin: Object.freeze({ status: 'green' }),
+      linux: Object.freeze({ status: 'red', failing: ['state artifact matches stable executable fields'] }),
+    }),
+  }),
+  Object.freeze({
+    contract: 'b3c15-attestation-chain.contract.test.js',
+    expected: Object.freeze({
+      darwin: Object.freeze({ status: 'green' }),
+      linux: Object.freeze({ status: 'red', failing: ['state artifact matches stable executable fields'] }),
+    }),
+  }),
 ]);
 
 // Evidence-unstable families: observed red on darwin, intermittently green
@@ -78,7 +113,8 @@ const GREEN_UNMAINTAINED_REGISTRY = Object.freeze([
   'b3c04-deterministic-export-mode.contract.test.js',
   'b3c05-permission-scope-enforced.contract.test.js',
   'b3c08-support-bundle-privacy.contract.test.js',
-  'b3c10-capability-tier-report.contract.test.js',
+  'b3c17-future-lanes-nonblocking.contract.test.js',
+  'b3c18-production-hardening-queue.contract.test.js',
   'collab-no-network-wiring.contract.test.js',
   'path-boundary-guard.contract.test.js',
   'perf-fixture.contract.test.js',
@@ -217,13 +253,18 @@ test('stale-green guard: executable classification of every status-backed contra
   }
   for (const entry of PLATFORM_DIVERGENT) {
     const outcome = runContract(entry.contract);
-    if (platform === 'darwin') {
-      if (outcome.exit !== 0) divergentDrift.push({ contract: entry.contract, platform, detail: 'expected green on darwin', failing: outcome.failing.slice(0, 2) });
-    } else if (outcome.exit === 0) {
-      divergentDrift.push({ contract: entry.contract, platform, detail: 'expected red on linux (non-portable artifact) but passed' });
+    const expected = entry.expected?.[platform] || entry.expected?.linux || {};
+    if (expected.status === 'green') {
+      if (outcome.exit !== 0) divergentDrift.push({ contract: entry.contract, platform, detail: `expected green on ${platform}`, failing: outcome.failing.slice(0, 2) });
+    } else if (expected.status === 'red') {
+      if (outcome.exit === 0) {
+        divergentDrift.push({ contract: entry.contract, platform, detail: `expected red on ${platform} (platform-shaped status artifact) but passed` });
+      } else {
+        const missing = (expected.failing || []).filter((name) => !outcome.failing.some((line) => line.includes(name)));
+        if (missing.length > 0) divergentDrift.push({ contract: entry.contract, platform, detail: `${platform} failing shape drift`, missing });
+      }
     } else {
-      const missing = entry.linuxFailing.filter((name) => !outcome.failing.some((line) => line.includes(name)));
-      if (missing.length > 0) divergentDrift.push({ contract: entry.contract, platform, detail: 'linux failing shape drift', missing });
+      divergentDrift.push({ contract: entry.contract, platform, detail: 'missing platform expectation' });
     }
   }
   const flakyOutcomes = [];

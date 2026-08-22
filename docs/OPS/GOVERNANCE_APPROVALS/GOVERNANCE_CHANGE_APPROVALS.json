@@ -11415,11 +11415,11 @@
     },
     {
       "filePath": "test/contracts/rtk-evidence-stale-green-guard.contract.test.js",
-      "sha256": "e39ed52e1e54e0e4f4d72c32df6cce2edb05feb54ddd1802cfc90e5a14750f08",
+      "sha256": "88e1e4caeb5309d01187da242ecf449ae97e54487801dd4bcc82d8da6726c675",
       "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
-      "approvedAtUtc": "2026-08-22T20:54:47.875Z",
+      "approvedAtUtc": "2026-08-22T21:24:06.529Z",
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
-      "rationale": "Approve stale-green registry reclassification of b3c10/b3c17/b3c18 against live executable evidence and Node spec-reporter failure parsing.",
+      "rationale": "Approve stale-green guard platform-aware classification repair: b3c10 is platform-divergent darwin-green/linux-red, b3c17 and b3c18 are restored to green-unmaintained after executable darwin and CI linux evidence.",
       "approved": true
     },
     {

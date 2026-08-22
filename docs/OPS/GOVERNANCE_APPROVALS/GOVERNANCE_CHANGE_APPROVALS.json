@@ -8919,12 +8919,12 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-01-future-schema-loss.contract.test.js",
-      "sha256": "d13aa44196fb642f7fc7246a993544ae84373b76922d33e68114428ab2922d62",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-S1-IPC-ENVELOPE-BUDGETS-001",
-      "approvedAtUtc": "2026-08-20T17:53:00.000Z",
-      "rationale": "Approve R2.4 S1 atlas harness envelope framing: command-bridge dispatches now carry the versioned frame via frameBridgeRequest, matching the main-side envelope validation; contract semantics unchanged.",
-      "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+      "sha256": "ceef86ba72c9aa15eab473eb00277bc1762118f5cb96e5c8a5f1a4be88e66ffc",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
+      "approvedAtUtc": "2026-08-22T20:58:31.117Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve P0-01 Atlas disposable harness realpath binding so SEC0 no-follow capability law is exercised with canonical temp-root spelling on macOS.",
+      "approved": true
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-03-packaged-visible-journey.contract.test.js",
@@ -9140,15 +9140,6 @@
       "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_A4_BOUNDED_REPAIR",
       "approvedAtUtc": "2026-08-02T21:22:35.000Z",
       "rationale": "Approve exact maintained A3 contract bytes updated for the live 128-code-unit Unicode domain, fail-closed foreign legacy aliases, process-instance heartbeat diagnostics, and transaction schema v5 recovery binding.",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_V6_A4_REPAIR"
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v6-a4-bounded-repair.contract.test.js",
-      "sha256": "67cacc50cc1add7187be1596143960dbd7c563c4a8959013b409e306c56d7b39",
-      "approvedBy": "owner-controller:TASK_ID:YALKEN_ATLAS_V6_A4_BOUNDED_REPAIR",
-      "approvedAtUtc": "2026-08-02T21:48:46.000Z",
-      "rationale": "Approve exact A4 product contract bytes proving child-process manifest and artifact races, Unicode identity parity, foreign legacy collision rejection, reservation recovery, PID reuse recovery, blocked-loop process-instance protection, bounded cross-platform socket-path startup under a hostile TMPDIR, and crash convergence.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_CONTROLLER_VERIFIED_ATLAS_V6_A4_REPAIR"
     },
@@ -11018,78 +11009,6 @@
       "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_ORACLE_OUTCOME_MISMATCH_REPAIR_V1"
     },
     {
-      "filePath": "docs/OPS/RTK/YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1.json",
-      "sha256": "166ce5ac5140877c8cf57eebe3d92557609b1dfd9cfc1ee8ad501826419416bd",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_POST_EXACT_LEDGER_REPAIR_DAG_REBIND_V1",
-      "approvedAtUtc": "2026-08-18T02:14:57.796Z",
-      "rationale": "Approve C1 route receipt rebind after exact-ledger repair merge: PR 1596 and merged main 8b3d9cbb3d76c43bd777104bf95cf209062e6d40 are recorded as non-route-PASS evidence, current macOS Accessibility disabled precondition is fail-closed, and route PASS, apply authority, user-document access, and C2-C8 closure remain denied.",
-      "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_POST_EXACT_LEDGER_REPAIR_DAG_REBIND_V1"
-    },
-    {
-      "filePath": "docs/OPS/RTK/YALKEN_INTEROP_CHAIN_MATRIX_V1.json",
-      "sha256": "d11c6f255aa637cced6f6036dc5d3860f2d7ad8197907cf8a78a618619e5a09d",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_POST_EXACT_LEDGER_REPAIR_DAG_REBIND_V1",
-      "approvedAtUtc": "2026-08-18T02:14:57.796Z",
-      "rationale": "Approve interop chain matrix DAG rebind from the already-merged exact-ledger repair contour to the next accessibility-restored C1 replay contour, preserving C1 BLOCKED, empty executedFullRouteEvidence, C1-C8 NEEDS_MORE_EVIDENCE, and no product/provider/user-document authority widening.",
-      "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_POST_EXACT_LEDGER_REPAIR_DAG_REBIND_V1"
-    },
-    {
-      "filePath": "docs/OPS/RTK/YALKEN_INTEROP_MULTI_ROUND_LINEAGE_RECEIPT_V1.json",
-      "sha256": "cd6d2c09c34c6827365b779e4744607d4ec51b301d1495fd8ffcfcb66622f849",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_POST_EXACT_LEDGER_REPAIR_DAG_REBIND_V1",
-      "approvedAtUtc": "2026-08-18T02:14:57.796Z",
-      "rationale": "Approve lineage receipt matrix-hash rebind after C1 post-exact-ledger repair DAG update while preserving NOT_STARTED denominator lineage status, denied chain-saturation claims, and no route PASS claim.",
-      "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_POST_EXACT_LEDGER_REPAIR_DAG_REBIND_V1"
-    },
-    {
-      "filePath": "scripts/ops/rtk-interop-c1-word-fullbook-route-v1.mjs",
-      "sha256": "9ea23606713aceb1ab0eb36bfbb98de06050a86ca8d63ff64e6e08733e12c961",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_POST_EXACT_LEDGER_REPAIR_DAG_REBIND_V1",
-      "approvedAtUtc": "2026-08-18T02:14:57.796Z",
-      "rationale": "Approve C1 route verifier rebind to require post-exact-ledger repair merge evidence and macOS Accessibility permission-required runtime precondition as fail-closed non-PASS facts, with hostile mutations rejecting route-PASS and replay-readiness laundering.",
-      "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_POST_EXACT_LEDGER_REPAIR_DAG_REBIND_V1"
-    },
-    {
-      "filePath": "scripts/ops/rtk-interop-chain-matrix-v1.mjs",
-      "sha256": "7641759fdd5628ee373fc09d3c7353ff5aee3b0d5df9b61ccbed19157060eeb7",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_POST_EXACT_LEDGER_REPAIR_DAG_REBIND_V1",
-      "approvedAtUtc": "2026-08-18T02:14:57.796Z",
-      "rationale": "Approve chain matrix verifier rebind to require the next contour after accessibility restoration, post-exact-ledger repair merge evidence, current AX-disabled runtime precondition, and blocker refs without saturation, route PASS, or apply-authority escalation.",
-      "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_POST_EXACT_LEDGER_REPAIR_DAG_REBIND_V1"
-    },
-    {
-      "filePath": "test/contracts/rtk-interop-c1-word-fullbook-route.contract.test.js",
-      "sha256": "21e5e291d5d74a8b16085de8ca5ee6a226f5ac7fc97130b67c13ec181ca0b556",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_AX_DIRECT_CAPABILITY_PREFLIGHT_REPAIR_V1",
-      "approvedAtUtc": "2026-08-18T10:45:54.885Z",
-      "rationale": "Approve focused C1 contract coverage requiring generated native-ui preflight direct AX capability proof, legacy UI-elements advisory diagnostics, and fail-closed denied, wrong-document, and ambiguous capability outcomes without granting route PASS or apply authority.",
-      "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_AX_DIRECT_CAPABILITY_PREFLIGHT_REPAIR_V1"
-    },
-    {
-      "filePath": "test/contracts/rtk-interop-chain-matrix.contract.test.js",
-      "sha256": "55ef8eda71ee78e624afe77101c0cb96c41033cd5efd70059c00bd4019cbd969",
-      "approvedBy": "owner-delegated:TASK_ID:C1_WORD_POST_EXACT_LEDGER_REPAIR_DAG_REBIND_V1",
-      "approvedAtUtc": "2026-08-18T02:14:57.796Z",
-      "rationale": "Approve focused chain matrix contract coverage for updated C1 blocker refs, accessibility-restored next contour, post-exact-ledger repair source evidence, current runtime precondition, and fail-closed hostile mutations.",
-      "approved": true,
-      "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_POST_EXACT_LEDGER_REPAIR_DAG_REBIND_V1"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
-      "sha256": "cdae4397a7f5a776ea9aa62808a567795c96ee0b91b13e4b58f54a9fd2da6a33",
-      "approvedBy": "owner-direct:TASK_ID:C1_WORD_AX_DIRECT_CAPABILITY_PREFLIGHT_REPAIR_V1_CORRECTION",
-      "approvedAtUtc": "2026-08-19T09:37:15.000Z",
-      "rationale": "Approve removal of the standalone preflight false-green: every ready verdict now requires bounded direct AX proof of Word frontmost, window, menu and window-subtree capability; full replay additionally requires exact synthetic document identity, with denied, throw, indeterminate, no-window and wrong-document outcomes fail-closed.",
-      "approved": true,
-      "authority": "DIRECT_OWNER_REQUEST_CONSOLIDATE_AUDITS_CORRECT_REPO_AND_PROVE_EACH_CONTRACT"
-    },
-    {
       "filePath": "scripts/ops/rtk-word-c5v2-terminal-orchestrator.mjs",
       "sha256": "87f367f397ae0e554e9a0faf3b53cbbd71e1e4f2f954efa2778f8d6f5638062a",
       "approvedBy": "owner-delegated:TASK_ID:C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1",
@@ -11142,33 +11061,6 @@
       "rationale": "Approve terminal-orchestrator contract fixture updates binding candidate-authority tuple digests to operationId while preserving process visibility, timeout, survivor, hidden-PID, and fail-closed behaviors.",
       "approved": true,
       "authority": "OWNER_DELEGATED_AUTONOMOUS_DELIVERY_WITHIN_C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_V1"
-    },
-    {
-      "filePath": "test/contracts/rtk-g0b-feasibility.contract.test.js",
-      "sha256": "f30558c4229b52feab37c4a0493c1dcb74b360dc0bdfe332e2a4e692b825af8d",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V3-PACKAGE-CLAIM-COMPILER-001",
-      "approvedAtUtc": "2026-08-22T19:28:00.000Z",
-      "rationale": "Approve G0B frozen allowlist companion entry for the R2.4 V3 terminal-claim registry package.json wording-surface rebind; no runtime, Word, Google, dependency, release or Program PASS change.",
-      "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
-    },
-    {
-      "filePath": "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",
-      "sha256": "de95624c1df98bf899e955681da1325a01c59ee737f13976f8ce6f4283a54a93",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V3-PACKAGE-CLAIM-COMPILER-001",
-      "approvedAtUtc": "2026-08-22T19:28:00.000Z",
-      "rationale": "Approve W1 frozen allowlist companion entry for the R2.4 V3 terminal-claim registry package.json wording-surface rebind; no runtime, Word, Google, dependency, release or Program PASS change.",
-      "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
-    },
-    {
-      "filePath": "test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js",
-      "sha256": "81ba3416f8c5377460c02796ce2e88e99cb6b4afc2b5843143ef8d55c779e26e",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V3-PACKAGE-CLAIM-COMPILER-001",
-      "approvedAtUtc": "2026-08-22T19:28:00.000Z",
-      "rationale": "Approve W2 frozen allowlist companion entry for the R2.4 V3 terminal-claim registry package.json wording-surface rebind; no runtime, Word, Google, dependency, release or Program PASS change.",
-      "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "test/contracts/rtk-word-c5v2-round-checkpoint.contract.test.js",
@@ -11232,15 +11124,6 @@
       "rationale": "Approve maintained positive and decisive negative coverage for source drift, finding completeness, DAG/profile law, bounded claims, revision/save/denominator/storage algebra and model-evidence ceilings.",
       "approved": true,
       "authority": "OWNER_EXPLICIT_ALL_AUDITS_SCIENTIFIC_CONSOLIDATION_WITHIN_ACTIVE_CANON"
-    },
-    {
-      "filePath": "test/contracts/rtk-zip01-budget-crc-evidence.contract.test.js",
-      "sha256": "b3d24b953b3329f0f5ddc9d24dc320a38be759d28b4fa73a897a16800a377ce9",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V3-PACKAGE-CLAIM-COMPILER-001",
-      "approvedAtUtc": "2026-08-22T19:28:00.000Z",
-      "rationale": "Approve ZIP01 exact write-set allowlist companion entry for the R2.4 V3 terminal-claim registry package.json wording-surface rebind; no runtime, Word, Google, dependency, release or Program PASS change.",
-      "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": "test/unit/r24-f0-writer-refinement-conformance.test.js",
@@ -11351,15 +11234,6 @@
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
-      "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "613f5bf188439e6c6560c85e53d5bfcddd7367b0f2a66a10c460ef18308bb201",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V3-PACKAGE-CLAIM-COMPILER-001",
-      "approvedAtUtc": "2026-08-22T19:16:00.000Z",
-      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 V3: package.json digest updated to exact bytes gained by the test:r24-v3 script; no wording, Word, Google, signing, notarization, release readiness, release publication, dependency, optional promotion or Program PASS claim change.",
-      "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
-    },
-    {
       "filePath": "scripts/ops/r24/release-security-physical-pk1.mjs",
       "sha256": "ddbe949d8f52e9a013de91d77157cdcf750242933a171132ed48182ba5e23cfe",
       "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-PK1-RELEASE-SECURITY-PHYSICAL-001",
@@ -11396,24 +11270,6 @@
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
-      "filePath": "package.json",
-      "sha256": "36b4d7212087f29896d0466faded2e4cf3acb2b75c3640ff84b301c2d4fe69a9",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V3-PACKAGE-CLAIM-COMPILER-001",
-      "approvedAtUtc": "2026-08-22T18:45:00.000Z",
-      "rationale": "Approve R2.4 V3 package.json change: adds test:r24-v3 script binding package claim compiler and mutation suites; no dependency, lockfile, engine, product runtime, UI, Word, Google, signing, notarization, release publication, runtime network or Program PASS change.",
-      "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
-    },
-    {
-      "filePath": ".github/workflows/rtk-required.yml",
-      "sha256": "e78053a7f5f88457ddcae95480927ccadee22686ef82d04bb77ebed48ea41319",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V3-PACKAGE-CLAIM-COMPILER-001",
-      "approvedAtUtc": "2026-08-22T18:45:00.000Z",
-      "rationale": "Approve R2.4 V3 rtk-required.yml change: adds one step running npm run -s test:r24-v3 after PK1; no trigger, permission, installation, environment, dependency, Word, Google, signing, notarization, release publication, runtime network or Program PASS change.",
-      "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
-    },
-    {
       "filePath": "scripts/ops/r24/package-claim-compiler-v3.mjs",
       "sha256": "cf88af829b4eb48f8b9b5caf9f83cbd6b0c28545a918242cf857e4443445afae",
       "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V3-PACKAGE-CLAIM-COMPILER-001",
@@ -11439,6 +11295,195 @@
       "rationale": "Approve R2.4 V3 mutation suite: inverts profile-import, exact-head, global-pass, release-ready, V3 workflow-step, missing PK1 evidence, cannot-promote, PK1-before-V3 and PK1 NOT_READY classification guards in isolated compiler copies and requires every mutant to be killed.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": "package.json",
+      "sha256": "c8046077325e16d38aeca07534fb08ccc69ef79f121d958930bdba1168bb1d3b",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
+      "approvedAtUtc": "2026-08-22T20:36:30.000Z",
+      "rationale": "Approve R2.4 W0 package script update: binds rtk:word:c5v2:accessibility-preflight to the Hammerspoon runner and adds test:r24-w0; no dependency, lockfile, product runtime, Word route PASS, Google, release, network or Program PASS change.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": ".github/workflows/rtk-required.yml",
+      "sha256": "38823aca41be2d4f9ff555dc6d2724d2072676d5a79391406555c6a994ae16eb",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
+      "approvedAtUtc": "2026-08-22T20:36:30.000Z",
+      "rationale": "Approve R2.4 W0 rtk-required workflow update: adds one CI step running npm run -s test:r24-w0 after V3; no trigger, permission, install, environment, dependency, release, network, Word route PASS, Google or Program authority change.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": "test/unit/r24-w0-word-physical-recertification.test.js",
+      "sha256": "b61c21e58ca083ea7e7f5926ac9e3f81c01144bfc6dc594301fffb80dfb6fb4d",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
+      "approvedAtUtc": "2026-08-22T20:36:30.000Z",
+      "rationale": "Approve R2.4 W0 unit tests: prove normal NOT_READY compilation plus stale/dirty, legacy blocker, Hammerspoon, physical receipt, route PASS, apply authority, replay, user document, SAFE_APPLY, Google, release and Program overclaim rejections.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": "test/unit/r24-w0-word-physical-mutants.test.js",
+      "sha256": "c850203caf366be7918ae9365736f60d589f9b5592b7977bdaea78fbd5a24487",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
+      "approvedAtUtc": "2026-08-22T20:36:30.000Z",
+      "rationale": "Approve R2.4 W0 mutation suite: inverts exact-head, Hammerspoon, replay authority, legacy blocker, route PASS, physical user-document, matrix blocker and SAFE_APPLY guards in isolated verifier copies and requires every mutant to be killed.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": "docs/OPS/RTK/YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1.json",
+      "sha256": "e92dc34711f44c36346904b96329f1605d4770b199ca4541574a1df9d6794b3e",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
+      "approvedAtUtc": "2026-08-22T20:54:47.875Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve W0 reclassification of the caller-specific macOS Accessibility probe as advisory while binding the governed Hammerspoon route and preserving C1 NOT_READY/blocked semantics.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/RTK/YALKEN_INTEROP_CHAIN_MATRIX_V1.json",
+      "sha256": "9d1b42ea0036f61f7f4fb6883392976c76234a5810d55742ed7d7f762ed62fb5",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
+      "approvedAtUtc": "2026-08-22T20:54:47.875Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve W0 chain matrix rebind that adds the physical recertification receipt as C1 evidence without promoting Word route PASS or product apply authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/RTK/YALKEN_INTEROP_MULTI_ROUND_LINEAGE_RECEIPT_V1.json",
+      "sha256": "7610da73d886a7035103c4d6c3afef2c85d8210f3dad3dd6b58ece3191d0c1ad",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
+      "approvedAtUtc": "2026-08-22T20:54:47.875Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve W0 lineage receipt digest rebind to the updated interop chain matrix while preserving blocked next-contour sequencing.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+      "sha256": "a196c8ac4c6a4ee26bed4b34a9118f158e6e18db64ad48a9ee6753bf65e52810",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
+      "approvedAtUtc": "2026-08-22T20:54:47.875Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve terminal claim wording-surface digest refresh for package.json after adding the W0 local test script; no terminal Word PASS or release claim is introduced.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/RTK/YALKEN_R24_W0_WORD_PHYSICAL_RECERTIFICATION_RECEIPT_V1.json",
+      "sha256": "ebf5b193e3e87e68fe4e68ede95318eba8fb8486de301cb560df9efc44a015cf",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
+      "approvedAtUtc": "2026-08-22T20:54:47.875Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve the W0 physical recertification receipt proving owner-enabled Hammerspoon Accessibility route on disposable Word artifact only, with zsh probe classified advisory and no user document authority.",
+      "approved": true
+    },
+    {
+      "filePath": "scripts/ops/r24/word-physical-recertification-w0.mjs",
+      "sha256": "7773f5d8f50cbc9beea975272ef4d51ff533ce494a50ca425ea4a11e8756f3f6",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
+      "approvedAtUtc": "2026-08-22T20:54:47.875Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve the W0 verifier/compiler that binds physical receipt evidence, denies overclaims, and keeps WORD_ROUNDTRIP current verdict NOT_READY.",
+      "approved": true
+    },
+    {
+      "filePath": "scripts/ops/rtk-interop-c1-word-fullbook-route-v1.mjs",
+      "sha256": "ae0abef568a6e8ed25ccd9f3f99919ca8cadc4cba6ed76b4f1e314589500f85d",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
+      "approvedAtUtc": "2026-08-22T20:54:47.875Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve C1 compiler update that recognizes W0 Hammerspoon route evidence and preserves C1 blocked route semantics.",
+      "approved": true
+    },
+    {
+      "filePath": "scripts/ops/rtk-interop-chain-matrix-v1.mjs",
+      "sha256": "8c679b92ccebed63a3e99ce11d10b36de6b538344b990b0b0fb210ede51fc1e2",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
+      "approvedAtUtc": "2026-08-22T20:54:47.875Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve chain matrix compiler update that carries W0 evidence references without broadening SAFE_APPLY, Google, release, or runtime network authority.",
+      "approved": true
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-c5v2-physical-canary.mjs",
+      "sha256": "bdd7c2644682fa4f94c6d23f722bc4914628649a6ce60b008646d54915abeb99",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
+      "approvedAtUtc": "2026-08-22T20:54:47.875Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve physical canary Hammerspoon accessibility preflight runner and advisory-only legacy zsh UI-elements probe classification for disposable Word artifacts.",
+      "approved": true
+    },
+    {
+      "filePath": "test/contracts/rtk-evidence-stale-green-guard.contract.test.js",
+      "sha256": "88e1e4caeb5309d01187da242ecf449ae97e54487801dd4bcc82d8da6726c675",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
+      "approvedAtUtc": "2026-08-22T21:24:06.529Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve stale-green guard platform-aware classification repair: b3c10 is platform-divergent darwin-green/linux-red, b3c17 and b3c18 are restored to green-unmaintained after executable darwin and CI linux evidence.",
+      "approved": true
+    },
+    {
+      "filePath": "test/contracts/rtk-g0b-feasibility.contract.test.js",
+      "sha256": "ee2fe76da84a46e4328ee83af487cd8a79b34ee458e91cae5518628f83e5eda0",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
+      "approvedAtUtc": "2026-08-22T20:59:04.923Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve W0 exact changed-file allowlist extension for physical recertification artifacts, stale-green guard rebind, lease-worker execArgv repair, and P0-01 canonical temp-root harness repair.",
+      "approved": true
+    },
+    {
+      "filePath": "test/contracts/rtk-interop-c1-word-fullbook-route.contract.test.js",
+      "sha256": "6591838af123a531129948231e48811af967d073e28cb4b45aa65f3c3163d868",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
+      "approvedAtUtc": "2026-08-22T20:54:47.875Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve C1 contract assertions for W0 caller-identity probe-routing reclassification and Hammerspoon route evidence.",
+      "approved": true
+    },
+    {
+      "filePath": "test/contracts/rtk-interop-chain-matrix.contract.test.js",
+      "sha256": "4623436ea473a1811616d7ef6f2e8cf790a8e8a63f7efc09b3c2ba9f1e467a2b",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
+      "approvedAtUtc": "2026-08-22T20:54:47.875Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve chain matrix contract assertions that bind W0 evidence while keeping route verdict blocked.",
+      "approved": true
+    },
+    {
+      "filePath": "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",
+      "sha256": "da8fd4822d9fdf1bd883e0a371e2791b4b13bb45c2863b544b74a87f6d21edf7",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
+      "approvedAtUtc": "2026-08-22T20:59:04.923Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve W0 exact changed-file allowlist extension in W1 frozen-scope guard for physical recertification artifacts, stale-green guard rebind, lease-worker execArgv repair, and P0-01 canonical temp-root harness repair.",
+      "approved": true
+    },
+    {
+      "filePath": "test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js",
+      "sha256": "f07257c9e41e6e6f1b21b9da200df6ba43013da2b7b2b3e6b98ef799e94d7f7c",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
+      "approvedAtUtc": "2026-08-22T20:59:04.923Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve W0 exact changed-file allowlist extension in W2 frozen-scope guard for physical recertification artifacts, stale-green guard rebind, lease-worker execArgv repair, and P0-01 canonical temp-root harness repair.",
+      "approved": true
+    },
+    {
+      "filePath": "test/contracts/rtk-zip01-budget-crc-evidence.contract.test.js",
+      "sha256": "f1b6490aa23ef3c4eed12be5411d14f758fb04120a95431c198e7fec8090149a",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
+      "approvedAtUtc": "2026-08-22T20:59:04.923Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve W0 exact changed-file allowlist extension in ZIP01 frozen-scope guard for workflow, physical recertification artifacts, stale-green guard rebind, lease-worker execArgv repair, and P0-01 canonical temp-root harness repair.",
+      "approved": true
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v6-a4-bounded-repair.contract.test.js",
+      "sha256": "aa866dd124891ab0f66d9370b17bdac0382ccaccbf1d4b7121e5981778312826",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
+      "approvedAtUtc": "2026-08-22T20:54:47.875Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve Atlas A4 lease-worker assertion proving heartbeat Workers do not inherit unsupported parent diagnostic execArgv flags.",
+      "approved": true
     }
   ]
 }

@@ -109,7 +109,8 @@ async function loadMainWithElectronStub(paths, options = {}) {
 }
 
 async function createHarness(t, options = {}) {
-  const tempRoot = await fsPromises.mkdtemp(path.join(os.tmpdir(), 'atlas-p0-01-'));
+  const rawTempRoot = await fsPromises.mkdtemp(path.join(os.tmpdir(), 'atlas-p0-01-'));
+  const tempRoot = await fsPromises.realpath(rawTempRoot);
   t.after(async () => fsPromises.rm(tempRoot, { recursive: true, force: true }));
   const documentsParent = path.join(tempRoot, 'Documents');
   const documentsRoot = path.join(documentsParent, 'craftsman');

@@ -22,8 +22,11 @@ export const PRE_STDOUT_DRAIN_REPAIR_HEAD = '77bbf5c24459d5a16dd8e20a51de0987235
 export const POST_EXACT_LEDGER_REPAIR_PR_HEAD = 'f53f80fe21828c270f04ef7766d2fe74bbe2d31f';
 export const POST_EXACT_LEDGER_REPAIR_MERGE_SHA = '8b3d9cbb3d76c43bd777104bf95cf209062e6d40';
 export const POST_EXACT_LEDGER_REPAIR_MERGE_TREE = 'c07b18ed3db7fbb859596e224830f371bd698320';
-export const CURRENT_RUNTIME_PRECONDITION = 'MACOS_ACCESSIBILITY_PERMISSION_REQUIRED';
-export const NEXT_SEQUENTIAL_CONTOUR = 'C1_WORD_FULLBOOK_ROUTE_REPLAY_AFTER_MACOS_ACCESSIBILITY_PERMISSION_RESTORED_V1';
+export const CURRENT_RUNTIME_PRECONDITION = 'CALLER_IDENTITY_PROBE_ROUTING_RECLASSIFIED';
+export const CURRENT_RUNTIME_REPLAY_AUTHORITY = 'ALLOW_GOVERNED_HAMMERSPOON_ACCESSIBILITY_ROUTE_FOR_W0_PHYSICAL_RECERTIFICATION';
+export const NEXT_SEQUENTIAL_CONTOUR = 'V2_WORD_CLAIM_COMPILER_AFTER_W0_PHYSICAL_RECERTIFICATION_V1';
+export const LEGACY_PERMISSION_BLOCKER_ID = 'C1_WORD_MACOS_ACCESSIBILITY_PERMISSION_REQUIRED_CURRENT_BLOCKER';
+export const ACCESSIBILITY_RECLASSIFICATION_ID = 'C1_WORD_ACCESSIBILITY_CALLER_IDENTITY_PROBE_ROUTING_RECLASSIFIED';
 export const POST_FAILCLOSED_REPLAY_FULL_BOOK_ACCOUNTING = 'FULL_BOOK_ATTEMPTED_POST_FAILCLOSED_REPLAY_EXACT_LEDGER_BINDING_BLOCKED_NOT_PROVEN';
 export const POST_REUSE_GATE_REPAIR_FULL_BOOK_ACCOUNTING = POST_FAILCLOSED_REPLAY_FULL_BOOK_ACCOUNTING;
 export const POST_AUTH_REPAIR_FULL_BOOK_ACCOUNTING = POST_REUSE_GATE_REPAIR_FULL_BOOK_ACCOUNTING;
@@ -331,10 +334,17 @@ function validatePhysicalEvidence(evidence, errors) {
     failIf(rebind.routePassClaim !== false, errors, 'POST_EXACT_LEDGER_REPAIR_ROUTE_PASS_LAUNDER');
     failIf(rebind.productApplyAuthority !== false, errors, 'POST_EXACT_LEDGER_REPAIR_APPLY_AUTHORITY_LAUNDER');
     failIf(rebind.executedFreshPhysicalReplayAfterRepair !== false, errors, 'POST_EXACT_LEDGER_REPAIR_FRESH_REPLAY_LAUNDER');
-    failIf(rebind.currentRuntimePrecondition?.classification !== CURRENT_RUNTIME_PRECONDITION, errors, 'CURRENT_RUNTIME_PRECONDITION_INVALID:CLASSIFICATION');
-    failIf(rebind.currentRuntimePrecondition?.systemEventsUiElementsEnabled !== false, errors, 'CURRENT_RUNTIME_PRECONDITION_INVALID:UI_ELEMENTS_ENABLED');
-    failIf(rebind.currentRuntimePrecondition?.wordProcessExists !== false, errors, 'CURRENT_RUNTIME_PRECONDITION_INVALID:WORD_PROCESS');
-    failIf(rebind.currentRuntimePrecondition?.freshPhysicalReplayAuthority !== 'DENY_UNTIL_MACOS_ACCESSIBILITY_PERMISSION_RESTORED', errors, 'CURRENT_RUNTIME_PRECONDITION_INVALID:REPLAY_AUTHORITY');
+    const precondition = rebind.currentRuntimePrecondition;
+    failIf(precondition?.classification !== CURRENT_RUNTIME_PRECONDITION, errors, 'CURRENT_RUNTIME_PRECONDITION_INVALID:CLASSIFICATION');
+    failIf(precondition?.probeModel !== 'CALLER_IDENTITY_BOUND', errors, 'CURRENT_RUNTIME_PRECONDITION_INVALID:PROBE_MODEL');
+    failIf(precondition?.systemEventsUiElementsEnabled !== false, errors, 'CURRENT_RUNTIME_PRECONDITION_INVALID:LEGACY_UI_ELEMENTS_DIAGNOSTIC');
+    failIf(precondition?.zshSystemEventsUiElementsEnabled !== false, errors, 'CURRENT_RUNTIME_PRECONDITION_INVALID:ZSH_UI_ELEMENTS_DIAGNOSTIC');
+    failIf(precondition?.legacyUiElementsAuthority !== 'ADVISORY_ONLY_CALLER_SPECIFIC', errors, 'CURRENT_RUNTIME_PRECONDITION_INVALID:LEGACY_UI_ELEMENTS_AUTHORITY');
+    failIf(precondition?.hammerspoonAccessibilityState !== true, errors, 'CURRENT_RUNTIME_PRECONDITION_INVALID:HAMMERSPOON_ACCESSIBILITY_STATE');
+    failIf(precondition?.hammerspoonCallerIdentity !== 'com.hammerspoon.Hammerspoon', errors, 'CURRENT_RUNTIME_PRECONDITION_INVALID:HAMMERSPOON_CALLER_IDENTITY');
+    failIf(precondition?.wordProcessExists !== false, errors, 'CURRENT_RUNTIME_PRECONDITION_INVALID:WORD_PROCESS_PRE_FLOW');
+    failIf(precondition?.wordNotRunningPermissionDenial !== false, errors, 'CURRENT_RUNTIME_PRECONDITION_INVALID:WORD_PROCESS_PERMISSION_DENIAL');
+    failIf(precondition?.freshPhysicalReplayAuthority !== CURRENT_RUNTIME_REPLAY_AUTHORITY, errors, 'CURRENT_RUNTIME_PRECONDITION_INVALID:REPLAY_AUTHORITY');
   }
 }
 
@@ -359,7 +369,8 @@ function validateClassifications(classifications, errors) {
     'C5_STALE_PROVIDER_PROFILE_BINDING',
     'C1_WORD_ROUND01_EXACT_LEDGER_BINDING_BLOCKER',
     'C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_MERGED_NOT_ROUTE_PASS',
-    'C1_WORD_MACOS_ACCESSIBILITY_PERMISSION_REQUIRED_CURRENT_BLOCKER',
+    LEGACY_PERMISSION_BLOCKER_ID,
+    ACCESSIBILITY_RECLASSIFICATION_ID,
     'ORCHESTRATOR_PROGRESS_ROUND_ID_DEFECT_REPAIRED',
     'N2_NOT_REPAIRED_IN_THIS_CONTOUR',
   ]) {
@@ -376,7 +387,8 @@ function validateClassifications(classifications, errors) {
   failIf(byId.get('C1_WORD_ROUND01_EXACT_LEDGER_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER')?.disposition !== 'ACTIVE_BLOCKER_NOT_ROUTE_PASS', errors, 'ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER_NOT_RECORDED');
   failIf(byId.get('C1_WORD_ROUND01_EXACT_LEDGER_BINDING_BLOCKER')?.disposition !== 'ACTIVE_BLOCKER_NOT_ROUTE_PASS', errors, 'ROUND01_EXACT_LEDGER_BINDING_BLOCKER_NOT_RECORDED');
   failIf(byId.get('C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_MERGED_NOT_ROUTE_PASS')?.disposition !== 'MERGED_REPAIR_NOT_ROUTE_PASS', errors, 'ROUND01_EXACT_LEDGER_REPAIR_MERGE_NOT_RECORDED');
-  failIf(byId.get('C1_WORD_MACOS_ACCESSIBILITY_PERMISSION_REQUIRED_CURRENT_BLOCKER')?.disposition !== 'ACTIVE_RUNTIME_PRECONDITION_BLOCKER_NOT_ROUTE_PASS', errors, 'MACOS_ACCESSIBILITY_PERMISSION_BLOCKER_NOT_RECORDED');
+  failIf(byId.get(LEGACY_PERMISSION_BLOCKER_ID)?.disposition !== 'RECLASSIFIED_CALLER_IDENTITY_PROBE_ROUTING_NOT_PERMISSION_BLOCKER', errors, 'MACOS_ACCESSIBILITY_PERMISSION_BLOCKER_NOT_RECLASSIFIED');
+  failIf(byId.get(ACCESSIBILITY_RECLASSIFICATION_ID)?.disposition !== 'HAMMERSPOON_ROUTE_READY_NOT_ROUTE_PASS', errors, 'ACCESSIBILITY_CALLER_ROUTE_RECLASSIFICATION_NOT_RECORDED');
   failIf(byId.get('RETURNED_DOCX_READY_BUT_APPLY_LIFECYCLE_REUSE_GATE_FAILED')?.disposition !== 'FAIL_CLOSED_AUTHORITY_DENIED', errors, 'RETURNED_DOCX_READY_GATE_FAILURE_NOT_RECORDED');
   for (const [id, item] of byId) {
     if (item.disposition === 'PASS') errors.push(`FAILURE_CLASSIFICATION_FALSE_PASS:${id}`);
@@ -457,7 +469,7 @@ export function validateC1MatrixBinding(matrix, receipt) {
   failIf(!Array.isArray(c1.blockerEvidenceRefs) || !c1.blockerEvidenceRefs.includes('C1_WORD_ROUND01_EXACT_LEDGER_BINDING_BLOCKER'), errors, 'MATRIX_C1_EXACT_LEDGER_BINDING_BLOCKER_REF_MISSING');
   failIf(!Array.isArray(c1.blockerEvidenceRefs) || !c1.blockerEvidenceRefs.includes('C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER'), errors, 'MATRIX_C1_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER_REF_MISSING');
   failIf(!Array.isArray(c1.blockerEvidenceRefs) || !c1.blockerEvidenceRefs.includes('C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_MERGED_NOT_ROUTE_PASS'), errors, 'MATRIX_C1_EXACT_LEDGER_REPAIR_MERGED_REF_MISSING');
-  failIf(!Array.isArray(c1.blockerEvidenceRefs) || !c1.blockerEvidenceRefs.includes('C1_WORD_MACOS_ACCESSIBILITY_PERMISSION_REQUIRED_CURRENT_BLOCKER'), errors, 'MATRIX_C1_MACOS_ACCESSIBILITY_BLOCKER_REF_MISSING');
+  failIf(Array.isArray(c1.blockerEvidenceRefs) && c1.blockerEvidenceRefs.includes(LEGACY_PERMISSION_BLOCKER_ID), errors, 'MATRIX_C1_LEGACY_MACOS_ACCESSIBILITY_BLOCKER_REF_STILL_ACTIVE');
   failIf(Array.isArray(c1.executedFullRouteEvidence) && c1.executedFullRouteEvidence.length !== 0, errors, 'MATRIX_C1_EXECUTED_FULL_ROUTE_EVIDENCE_MUST_REMAIN_EMPTY');
   failIf(c1.productMutationAuthority !== 'DENY_UNTIL_ROUTE_CONTOUR_PROVES_APPLY_AUTHORITY', errors, 'MATRIX_C1_PRODUCT_AUTHORITY_ESCALATION');
   failIf(matrix?.claimControls?.chainSaturationVerdict !== receipt.route.chainSaturationVerdict, errors, 'MATRIX_CHAIN_SATURATION_MISMATCH');
@@ -566,7 +578,8 @@ export function runC1HostileCorpus() {
     ['complete-oracle-regression-launder', (r) => { r.physicalEvidence.round01.completeRoundOracleGreen = false; }, 'COMPLETE_ROUND_ORACLE_MUST_BE_GREEN_FOR_THIS_BLOCKER'],
     ['exact-ledger-binding-false-pass', (r) => { r.physicalEvidence.round01.productReturnApply.exactTextBindingOk = true; }, 'EXACT_LEDGER_BINDING_MUST_REMAIN_FALSE'],
     ['post-ledger-repair-route-pass-launder', (r) => { r.physicalEvidence.postExactLedgerRepairRebind.routePassClaim = true; }, 'POST_EXACT_LEDGER_REPAIR_ROUTE_PASS_LAUNDER'],
-    ['ax-precondition-ready-launder', (r) => { r.physicalEvidence.postExactLedgerRepairRebind.currentRuntimePrecondition.systemEventsUiElementsEnabled = true; }, 'CURRENT_RUNTIME_PRECONDITION_INVALID:UI_ELEMENTS_ENABLED'],
+    ['legacy-ui-elements-authority-launder', (r) => { r.physicalEvidence.postExactLedgerRepairRebind.currentRuntimePrecondition.legacyUiElementsAuthority = 'AUTHORITATIVE'; }, 'LEGACY_UI_ELEMENTS_AUTHORITY'],
+    ['hammerspoon-accessibility-disabled-launder', (r) => { r.physicalEvidence.postExactLedgerRepairRebind.currentRuntimePrecondition.hammerspoonAccessibilityState = false; }, 'HAMMERSPOON_ACCESSIBILITY_STATE'],
   ];
   let killed = 0;
   const survivors = [];

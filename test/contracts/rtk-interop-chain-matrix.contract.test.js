@@ -54,8 +54,10 @@ test('Interop chain matrix registers the exact C1-C8 full-book denominator witho
     'C1_WORD_ROUND01_EXACT_LEDGER_BINDING_BLOCKER',
     'C1_WORD_ROUND01_APPLY_LIFECYCLE_REUSE_GATE_BLOCKER',
     'C1_WORD_ROUND01_EXACT_LEDGER_BINDING_REPAIR_MERGED_NOT_ROUTE_PASS',
-    'C1_WORD_MACOS_ACCESSIBILITY_PERMISSION_REQUIRED_CURRENT_BLOCKER',
   ]);
+  assert.equal(c1.blockerEvidenceRefs.includes('C1_WORD_MACOS_ACCESSIBILITY_PERMISSION_REQUIRED_CURRENT_BLOCKER'), false);
+  assert.equal(c1.fullBookEvidenceRefs.includes('C1_WORD_ACCESSIBILITY_CALLER_IDENTITY_PROBE_ROUTING_RECLASSIFIED'), true);
+  assert.equal(c1.fullBookEvidenceRefs.includes('YALKEN_R24_W0_WORD_PHYSICAL_RECERTIFICATION_RECEIPT_V1'), true);
   assert.equal(c1.nextContour, NEXT_SEQUENTIAL_CONTOUR);
   assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.failureCode, 'C5V2_COMPLETE_ROUND_ORACLE_GATE_FAILED');
   assert.equal(matrix.sourceEvidence.c1FreshApplyLifecycleGateBlockedReplay.returnedDocxReady, true);
@@ -85,10 +87,16 @@ test('Interop chain matrix registers the exact C1-C8 full-book denominator witho
   assert.equal(matrix.sourceEvidence.c1ExactLedgerBindingRepairMerged.mergeTree, 'c07b18ed3db7fbb859596e224830f371bd698320');
   assert.equal(matrix.sourceEvidence.c1ExactLedgerBindingRepairMerged.routePassClaim, false);
   assert.equal(matrix.sourceEvidence.c1ExactLedgerBindingRepairMerged.productApplyAuthority, false);
-  assert.equal(matrix.sourceEvidence.c1CurrentRuntimePrecondition.classification, 'MACOS_ACCESSIBILITY_PERMISSION_REQUIRED');
+  assert.equal(matrix.sourceEvidence.c1CurrentRuntimePrecondition.classification, 'CALLER_IDENTITY_PROBE_ROUTING_RECLASSIFIED');
+  assert.equal(matrix.sourceEvidence.c1CurrentRuntimePrecondition.probeModel, 'CALLER_IDENTITY_BOUND');
   assert.equal(matrix.sourceEvidence.c1CurrentRuntimePrecondition.systemEventsUiElementsEnabled, false);
+  assert.equal(matrix.sourceEvidence.c1CurrentRuntimePrecondition.zshSystemEventsUiElementsEnabled, false);
+  assert.equal(matrix.sourceEvidence.c1CurrentRuntimePrecondition.legacyUiElementsAuthority, 'ADVISORY_ONLY_CALLER_SPECIFIC');
+  assert.equal(matrix.sourceEvidence.c1CurrentRuntimePrecondition.hammerspoonAccessibilityState, true);
+  assert.equal(matrix.sourceEvidence.c1CurrentRuntimePrecondition.hammerspoonCallerIdentity, 'com.hammerspoon.Hammerspoon');
   assert.equal(matrix.sourceEvidence.c1CurrentRuntimePrecondition.wordProcessExists, false);
-  assert.equal(matrix.sourceEvidence.c1CurrentRuntimePrecondition.freshPhysicalReplayAuthority, 'DENY_UNTIL_MACOS_ACCESSIBILITY_PERMISSION_RESTORED');
+  assert.equal(matrix.sourceEvidence.c1CurrentRuntimePrecondition.wordNotRunningPermissionDenial, false);
+  assert.equal(matrix.sourceEvidence.c1CurrentRuntimePrecondition.freshPhysicalReplayAuthority, 'ALLOW_GOVERNED_HAMMERSPOON_ACCESSIBILITY_ROUTE_FOR_W0_PHYSICAL_RECERTIFICATION');
 
   for (const route of matrix.routeDenominator) {
     assert.equal(route.fullCanonicalSyntheticBookRequired, true, route.routeId);
@@ -252,11 +260,18 @@ test('Interop chain matrix hostile mutations are rejected fail-closed', async ()
       error: 'C1_EXACT_LEDGER_REPAIR_ROUTE_PASS_LAUNDER',
     },
     {
-      name: 'ax-precondition-ready-launder',
+      name: 'legacy-ui-elements-authority-launder',
       mutate(matrix) {
-        matrix.sourceEvidence.c1CurrentRuntimePrecondition.systemEventsUiElementsEnabled = true;
+        matrix.sourceEvidence.c1CurrentRuntimePrecondition.legacyUiElementsAuthority = 'AUTHORITATIVE';
       },
-      error: 'C1_CURRENT_RUNTIME_PRECONDITION_UI_ELEMENTS_LAUNDER',
+      error: 'C1_CURRENT_RUNTIME_PRECONDITION_LEGACY_UI_ELEMENTS_AUTHORITY_INVALID',
+    },
+    {
+      name: 'hammerspoon-accessibility-disabled-launder',
+      mutate(matrix) {
+        matrix.sourceEvidence.c1CurrentRuntimePrecondition.hammerspoonAccessibilityState = false;
+      },
+      error: 'C1_CURRENT_RUNTIME_PRECONDITION_HAMMERSPOON_ACCESSIBILITY_STATE_INVALID',
     },
   ];
 

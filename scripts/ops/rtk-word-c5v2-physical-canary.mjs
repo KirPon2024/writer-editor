@@ -2918,6 +2918,99 @@ export function parseMacosAccessibilityPreflightOutput(output, expectedFrontDocu
   });
 }
 
+function luaLongBracketLiteral(value) {
+  const text = String(value || '');
+  for (let level = 0; level < 8; level += 1) {
+    const equals = '='.repeat(level);
+    const close = `]${equals}]`;
+    if (!text.includes(close)) return `[${equals}[${text}]${equals}]`;
+  }
+  throw new Error('HAMMERSPOON_LUA_LITERAL_UNSAFE');
+}
+
+export function buildHammerspoonAccessibilityPreflightCommand(appleScript) {
+  return [
+    `local yScript = ${luaLongBracketLiteral(appleScript)}`,
+    'local yOk, yResult, yDescriptor = hs.osascript.applescript(yScript)',
+    'if yOk then return tostring(yResult or "") end',
+    'error(tostring(yResult or yDescriptor or "HAMMERSPOON_APPLESCRIPT_FAILED"))',
+  ].join('\n');
+}
+
+export function runMacosAccessibilityPreflight({
+  runner = 'osascript',
+  expectedFrontDocumentFullName = '',
+  execFileSyncImpl = execFileSync,
+  hammerspoonPath = '/opt/homebrew/bin/hs',
+  hammerspoonTimeoutSeconds = 30,
+} = {}) {
+  const normalizedRunner = String(runner || 'osascript').trim();
+  const appleScript = buildMacosAccessibilityPreflightScript(expectedFrontDocumentFullName);
+  let rawOutput = '';
+  let hammerspoonAccessibilityState = null;
+  try {
+    if (normalizedRunner === 'osascript') {
+      rawOutput = execFileSyncImpl('/usr/bin/osascript', ['-'], {
+        cwd: REPO_ROOT,
+        input: appleScript,
+        encoding: 'utf8',
+        timeout: 30_000,
+        stdio: ['pipe', 'pipe', 'pipe'],
+      });
+    } else if (normalizedRunner === 'hammerspoon') {
+      const hsPrefixArgs = ['-t', String(hammerspoonTimeoutSeconds), '-q', '-c'];
+      const hsState = String(execFileSyncImpl(hammerspoonPath, [...hsPrefixArgs, 'return hs.accessibilityState()'], {
+        cwd: REPO_ROOT,
+        encoding: 'utf8',
+        timeout: 15_000,
+        stdio: ['ignore', 'pipe', 'pipe'],
+      }) || '').trim();
+      hammerspoonAccessibilityState = hsState === 'true';
+      if (!hammerspoonAccessibilityState) {
+        return {
+          ok: false,
+          status: 'environment-blocked',
+          code: 'HAMMERSPOON_ACCESSIBILITY_PERMISSION_REQUIRED',
+          diagnostics: {
+            runner: 'hammerspoon',
+            hammerspoonAccessibilityState,
+            legacyUiElementsAuthority: 'ADVISORY_ONLY_CALLER_SPECIFIC',
+          },
+        };
+      }
+      rawOutput = execFileSyncImpl(hammerspoonPath, [...hsPrefixArgs, buildHammerspoonAccessibilityPreflightCommand(appleScript)], {
+        cwd: REPO_ROOT,
+        encoding: 'utf8',
+        timeout: (Number(hammerspoonTimeoutSeconds) + 5) * 1000,
+        stdio: ['ignore', 'pipe', 'pipe'],
+      });
+    } else {
+      return {
+        ok: false,
+        status: 'environment-blocked',
+        code: 'MACOS_ACCESSIBILITY_PREFLIGHT_RUNNER_UNSUPPORTED',
+        diagnostics: { runner: normalizedRunner },
+      };
+    }
+  } catch (error) {
+    return {
+      ok: false,
+      status: 'environment-blocked',
+      code: 'MACOS_ACCESSIBILITY_PREFLIGHT_EXECUTION_BLOCKED',
+      diagnostics: {
+        runner: normalizedRunner,
+        hammerspoonAccessibilityState,
+        executionError: String(error.stderr || error.message || error),
+      },
+    };
+  }
+  const result = parseMacosAccessibilityPreflightOutput(rawOutput, expectedFrontDocumentFullName);
+  result.diagnostics.runner = normalizedRunner;
+  result.diagnostics.hammerspoonAccessibilityState = hammerspoonAccessibilityState;
+  result.diagnostics.legacyUiElementsAuthority = 'ADVISORY_ONLY_CALLER_SPECIFIC';
+  return result;
+}
+
 export function createFullManuscriptExportChildSource({
   tempRoot,
   outPath,
@@ -7586,6 +7679,7 @@ function parseArgs(argv) {
     runPrefix: 'c5v2-physical-canary',
     roundCount: 1,
     accessibilityPreflightOnly: false,
+    accessibilityRunner: 'osascript',
     masterLedgerCampaign: false,
     resumeRunDir: '',
     negativeCampaignLedgerPath: '',
@@ -7621,6 +7715,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === '--accessibility-preflight-only') {
       options.accessibilityPreflightOnly = true;
+    } else if (arg === '--accessibility-runner') {
+      options.accessibilityRunner = String(argv[index + 1] || '');
+      index += 1;
     } else if (arg === '--master-ledger-campaign') {
       options.masterLedgerCampaign = true;
     } else if (arg === '--resume-run-dir') {
@@ -7690,7 +7787,7 @@ function parseArgs(argv) {
 const C5V2_ORCHESTRATED_STAGES = Object.freeze(['POSITIVE', 'NEGATIVE', 'AGGREGATE']);
 const C5V2_ORCHESTRATED_KNOWN_FLAGS = Object.freeze([
   '--scene-count', '--scene-start', '--family-counts-json', '--artifact-root', '--run-prefix',
-  '--round-count', '--accessibility-preflight-only', '--master-ledger-campaign', '--resume-run-dir',
+  '--round-count', '--accessibility-preflight-only', '--accessibility-runner', '--master-ledger-campaign', '--resume-run-dir',
   '--negative-campaign-ledger', '--negative-aggregate-evidence', '--negative-probe-start',
   '--negative-probe-count', '--positive-stage-seal-digest', '--negative-stage-seal-digest',
   '--round-inventory-digest', '--expected-corpus-digest', '--corpus-manifest', '--include-multilingual-qa', '--orchestrated-stage',
@@ -9142,27 +9239,7 @@ async function main() {
     return;
   }
   if (options.accessibilityPreflightOnly) {
-    let rawOutput = '';
-    let executionError = '';
-    try {
-      rawOutput = execFileSync('/usr/bin/osascript', ['-'], {
-        cwd: REPO_ROOT,
-        input: buildMacosAccessibilityPreflightScript(''),
-        encoding: 'utf8',
-        timeout: 30_000,
-        stdio: ['pipe', 'pipe', 'pipe'],
-      });
-    } catch (error) {
-      executionError = String(error.stderr || error.message || error);
-    }
-    const result = executionError
-      ? {
-        ok: false,
-        status: 'environment-blocked',
-        code: 'MACOS_ACCESSIBILITY_PREFLIGHT_EXECUTION_BLOCKED',
-        diagnostics: { executionError },
-      }
-      : parseMacosAccessibilityPreflightOutput(rawOutput);
+    const result = runMacosAccessibilityPreflight({ runner: options.accessibilityRunner });
     process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
     process.exit(result.ok ? 0 : 1);
   }

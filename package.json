@@ -94,7 +94,8 @@
     "test:r24-wp101": "node --test test/unit/r24-wp101-ipc-admission.test.js test/unit/r24-wp101-admission-mutants.test.js",
     "test:r24-wp102": "node --test test/unit/r24-wp102-operation-classes.test.js test/unit/r24-wp102-result-contract.test.js test/unit/r24-wp102-event-effect-job.test.js test/unit/r24-wp102-protocol-mutants.test.js",
     "test:r24-wp103": "node --test test/unit/r24-wp103-revision-order.test.js test/unit/r24-wp103-canonical-serialization.test.js test/unit/r24-wp103-order-mutants.test.js",
-    "test:r24-wp104": "node --test test/unit/r24-wp104-boundary-falsification.test.js test/unit/r24-wp104-evidence-integrity.test.js"
+    "test:r24-wp104": "node --test test/unit/r24-wp104-boundary-falsification.test.js test/unit/r24-wp104-evidence-integrity.test.js",
+    "test:r24-r2": "node --test test/unit/r24-r2-storage-bakeoff.test.js test/unit/r24-r2-candidate-physics.test.js test/unit/r24-r2-bakeoff-mutants.test.js"
   },
   "keywords": [
     "editor",

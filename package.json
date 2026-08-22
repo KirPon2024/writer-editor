@@ -103,7 +103,8 @@
     "test:r24-f0": "node --test test/unit/r24-f0-writer-refinement-conformance.test.js test/unit/r24-f0-refinement-physics.test.js test/unit/r24-f0-refinement-mutants.test.js",
     "test:r24-v0": "node --test test/unit/r24-v0-writer-claim-compiler.test.js test/unit/r24-v0-writer-claim-mutants.test.js",
     "test:r24-a0": "node --test test/unit/r24-a0-atlas-incremental-equivalence.test.js test/unit/r24-a0-atlas-physics.test.js test/unit/r24-a0-atlas-mutants.test.js",
-    "test:r24-v1": "node --test test/unit/r24-v1-atlas-claim-compiler.test.js test/unit/r24-v1-atlas-claim-mutants.test.js"
+    "test:r24-v1": "node --test test/unit/r24-v1-atlas-claim-compiler.test.js test/unit/r24-v1-atlas-claim-mutants.test.js",
+    "test:r24-a1": "node --test test/unit/r24-a1-optional-relation-vocabulary.test.js test/unit/r24-a1-relation-vocabulary-integration.test.js test/unit/r24-a1-relation-vocabulary-mutants.test.js"
   },
   "keywords": [
     "editor",

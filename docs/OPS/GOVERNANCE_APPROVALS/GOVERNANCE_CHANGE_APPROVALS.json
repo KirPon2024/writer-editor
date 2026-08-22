@@ -11351,24 +11351,6 @@
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
-      "filePath": "package.json",
-      "sha256": "ef6a8d6eb670eb0f805878a065e9c8854de08124a9dcd14560b5b58b73430ab1",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-PK1-RELEASE-SECURITY-PHYSICAL-001",
-      "approvedAtUtc": "2026-08-22T17:39:36.000Z",
-      "rationale": "Approve R2.4 PK1 package.json change: adds test:r24-pk1 script binding release-security physical contract, real-repository and mutation suites; no dependency, lockfile, engine, product runtime, UI, Word, Google, signing, notarization, release publication, runtime network or Program PASS change.",
-      "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
-    },
-    {
-      "filePath": ".github/workflows/rtk-required.yml",
-      "sha256": "e9f3ffd871e2c44aeea6eb8b43b4f6b06a0e11e4d06b6a2cd682ffddb4fa6189",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-PK1-RELEASE-SECURITY-PHYSICAL-001",
-      "approvedAtUtc": "2026-08-22T17:39:36.000Z",
-      "rationale": "Approve R2.4 PK1 rtk-required.yml change: adds one step running npm run -s test:r24-pk1 after PK0; no trigger, permission, installation, environment, dependency, Word, Google, signing, notarization, release publication, runtime network or Program PASS change.",
-      "approved": true,
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
-    },
-    {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
       "sha256": "ef724e6505c9d5831c0c2626885e9b25c1439f752ea2f4f4ae841df1fa7f3b15",
       "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-PK1-RELEASE-SECURITY-PHYSICAL-001",
@@ -11410,6 +11392,51 @@
       "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-PK1-RELEASE-SECURITY-PHYSICAL-001",
       "approvedAtUtc": "2026-08-22T17:39:36.000Z",
       "rationale": "Approve R2.4 PK1 mutation suite: inverts release-ready, signing, notarization, fuse, stale-receipt, ASAR-binding, SAST and afterPack hardening-hook guards in isolated verifier copies and requires every mutant to be killed.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": "package.json",
+      "sha256": "36b4d7212087f29896d0466faded2e4cf3acb2b75c3640ff84b301c2d4fe69a9",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V3-PACKAGE-CLAIM-COMPILER-001",
+      "approvedAtUtc": "2026-08-22T18:45:00.000Z",
+      "rationale": "Approve R2.4 V3 package.json change: adds test:r24-v3 script binding package claim compiler and mutation suites; no dependency, lockfile, engine, product runtime, UI, Word, Google, signing, notarization, release publication, runtime network or Program PASS change.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": ".github/workflows/rtk-required.yml",
+      "sha256": "e78053a7f5f88457ddcae95480927ccadee22686ef82d04bb77ebed48ea41319",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V3-PACKAGE-CLAIM-COMPILER-001",
+      "approvedAtUtc": "2026-08-22T18:45:00.000Z",
+      "rationale": "Approve R2.4 V3 rtk-required.yml change: adds one step running npm run -s test:r24-v3 after PK1; no trigger, permission, installation, environment, dependency, Word, Google, signing, notarization, release publication, runtime network or Program PASS change.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": "scripts/ops/r24/package-claim-compiler-v3.mjs",
+      "sha256": "cf88af829b4eb48f8b9b5caf9f83cbd6b0c28545a918242cf857e4443445afae",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V3-PACKAGE-CLAIM-COMPILER-001",
+      "approvedAtUtc": "2026-08-22T18:45:00.000Z",
+      "rationale": "Approve R2.4 V3 package claim compiler: compiles PACKAGED_RELEASE_SECURITY NOT_READY profile projection from exact-head PK1 evidence while refusing release-ready, signing, notarization, fuse, current-head physical package, production distribution, product-runtime, dependency, runtime-network, Writer, Atlas, Word and Program PASS promotion.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": "test/unit/r24-v3-package-claim-compiler.test.js",
+      "sha256": "b25f9254131c680d947e7afbb2e5e2bf877b0138ff2718722d5a1c177ea240b9",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V3-PACKAGE-CLAIM-COMPILER-001",
+      "approvedAtUtc": "2026-08-22T18:45:00.000Z",
+      "rationale": "Approve R2.4 V3 contract tests: prove normal package-profile NOT_READY verdict compilation and boundary/adversarial rejection for stale head, dirty state, stale evidence, release-ready, signing, physical-pass, profile import, global PASS, scientific-contract, package-vector, workflow, package-script and evidence-source drift.",
+      "approved": true,
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
+    },
+    {
+      "filePath": "test/unit/r24-v3-package-claim-mutants.test.js",
+      "sha256": "00216789581bcf498efdf2ec3a893d0b9a7b8c61794d8beb40cd70d8d3c64f49",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V3-PACKAGE-CLAIM-COMPILER-001",
+      "approvedAtUtc": "2026-08-22T18:45:00.000Z",
+      "rationale": "Approve R2.4 V3 mutation suite: inverts profile-import, exact-head, global-pass, release-ready, V3 workflow-step, missing PK1 evidence, cannot-promote, PK1-before-V3 and PK1 NOT_READY classification guards in isolated compiler copies and requires every mutant to be killed.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     }

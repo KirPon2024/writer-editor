@@ -70,6 +70,7 @@ async function commitProjectTextAndManifest({
   persistManifest,
   rollbackManifest,
   fsAdapter = fsp,
+  recoveryLedger = null,
 }) {
   if (typeof scenePath !== 'string' || scenePath.length === 0) {
     throw new ProjectCommitError('E_COMMIT_TARGET_REQUIRED', COMMIT_PHASES.ADMIT);
@@ -162,6 +163,25 @@ async function commitProjectTextAndManifest({
     throw new ProjectCommitError('E_COMMIT_MARKER', COMMIT_PHASES.MARKER, error.message);
   }
 
+  // R2.4 R3: an attached recovery ledger receives the commit record after
+  // ACK. The commit is already durable at this point, so a ledger failure
+  // is typed and visible in the result, never a hidden commit failure and
+  // never thrown back over a landed commit.
+  let ledgerRecord = null;
+  let ledgerError = null;
+  if (recoveryLedger !== null && typeof recoveryLedger.append === 'function') {
+    try {
+      ledgerRecord = await recoveryLedger.append({
+        kind: 'scene.commit',
+        subject: path.basename(scenePath),
+        revision,
+        payload: { sceneDigest, manifestPersisted },
+      });
+    } catch (error) {
+      ledgerError = { code: error && error.code ? error.code : 'E_LEDGER_APPEND_FAILED', message: String(error && error.message || error) };
+    }
+  }
+
   return Object.freeze({
     success: true,
     phases: Object.freeze([
@@ -176,6 +196,8 @@ async function commitProjectTextAndManifest({
     sceneDigest,
     manifestPersisted,
     priorMarkerRevision: priorMarker && Number.isInteger(priorMarker.revision) ? priorMarker.revision : null,
+    ledgerRecord: ledgerRecord ? Object.freeze({ seq: ledgerRecord.seq, digest: ledgerRecord.digest }) : null,
+    ledgerError,
   });
 }
 

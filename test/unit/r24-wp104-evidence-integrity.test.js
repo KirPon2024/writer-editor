@@ -36,6 +36,7 @@ const MUTANT_SUITE_FILES = [
   'r24-wp102-protocol-mutants.test.js',
   'r24-wp103-order-mutants.test.js',
   'r24-r2-bakeoff-mutants.test.js',
+  'r24-r3-ledger-mutants.test.js',
 ];
 const LANE_SCRIPTS = ['test:r24-e0', 'test:r24-q0'];
 

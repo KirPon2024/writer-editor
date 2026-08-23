@@ -1,0 +1,94 @@
+{
+  "stampId": "ES-R24-WP-102-OPERATION-PROTOCOL-INTEGRATION",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-102_OPERATION_PROTOCOL",
+  "attemptId": "ATTEMPT-WP102-20260823",
+  "authorityEpoch": "R24-WP102-PROTOCOL-BASE-F687A59E",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "f687a59eec2c7b288ecb0b9f7214786c03bda211",
+    "treeSha": "b5264fd64638ba475a66ca2afcdd78f4f01e3f07"
+  },
+  "createdAt": "2026-08-23T17:07:35Z",
+  "actor": "codex/r24-wp102-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "WP102_EVENT_EFFECT_BACKGROUND_JOB_PROJECTION_INTEGRATION",
+    "ceiling": "WP102_OPERATION_PROTOCOL_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "WP-102 event/effect/job plus independent projection-publication contracts",
+    "evidenceClass": "INTEGRATION",
+    "denominator": 10,
+    "passed": 10,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-102-OPERATION-PROTOCOL-CONTRACT"
+    ],
+    "predecessorReceiptDigest": "06f056b60754fca3091d8c38aff4f2da5c9f1917bfe90ae853397d4f32a19a6a"
+  },
+  "artifact": {
+    "commands": [
+      "node --test test/unit/r24-wp102-event-effect-job.test.js",
+      "node --test test/contracts/yalken-atlas-v5-e01-c05-scheduler-worker-stale-result-discard.contract.test.js"
+    ],
+    "integrationSubtests": [
+      "EVENT: command results carry typed domain events with hashes and closed payloads",
+      "EVENT: a refused command emits no domain events",
+      "EFFECT: file effects route through the admission port and carry capability classes",
+      "BACKGROUND_JOB: a stale worker result is discarded and never published",
+      "PROJECTION: job identity is preserved and the worker has no write authority",
+      "PROJECTION: scheduler queue is latest-only and bounded",
+      "PROJECTION: stale worker result is discarded before publication",
+      "PROJECTION: result identity must match project, revision, and generation before publication",
+      "PROJECTION: a fresh result publishes only a derived manifest pointer",
+      "PROJECTION: worker path has no filesystem, network, Electron, timer, or renderer-storage bypass"
+    ],
+    "observations": {
+      "emittedEventCount": 4,
+      "eventHashPrefix": "5000cb6bde42",
+      "refusedCommandEventCount": 0,
+      "fileEffectAdmissionBeforeRead": true,
+      "staleWorkerPublicationRefused": true,
+      "staleWorkerReasonCode": "E_ATLAS_STALE_WORKER_RESULT",
+      "projectionSourceRevisionMatched": true,
+      "projectionPersistentDerivedTruth": false,
+      "projectionManifestPointerOnly": true,
+      "projectionManifestPayloadAbsent": true,
+      "projectionGenerationIdentityGuarded": true
+    },
+    "artifactDigests": [
+      {
+        "path": "src/core/command-protocol-v1.cjs",
+        "sha256": "c0dbbfc8a3973a98875db5c38f3de94d3942577500e7c604a7f4bd912f7e5171"
+      },
+      {
+        "path": "src/main.js",
+        "sha256": "64f34fbc9cfe3226c8f9a9dde34aa69325557a24376858e1ed4f922d88409d62"
+      },
+      {
+        "path": "src/core/runtime.mjs",
+        "sha256": "d4c34d1d42ddb267048fa0e949bedf7c0261459f86c307c993248693e831e901"
+      },
+      {
+        "path": "src/derived/atlas/scheduleAtlasGeneration.mjs",
+        "sha256": "cdf7e1d319478bb7ec23888fa864c078aba5c911553fec0cfb1bb332d08e8580"
+      },
+      {
+        "path": "test/unit/r24-wp102-event-effect-job.test.js",
+        "sha256": "f75dbcab2673960876b6a21e1c415bc9823ffd2ce192fcbc3f188fe9cfcb4485"
+      },
+      {
+        "path": "test/contracts/yalken-atlas-v5-e01-c05-scheduler-worker-stale-result-discard.contract.test.js",
+        "sha256": "1c78174d82099c7a96720339bd5c8e6d6646cb5ec2df763b5074edaac1ea395b"
+      }
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

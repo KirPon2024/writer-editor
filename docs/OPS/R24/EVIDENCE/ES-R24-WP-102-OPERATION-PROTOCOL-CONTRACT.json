@@ -1,0 +1,82 @@
+{
+  "stampId": "ES-R24-WP-102-OPERATION-PROTOCOL-CONTRACT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-102_OPERATION_PROTOCOL",
+  "attemptId": "ATTEMPT-WP102-20260823",
+  "authorityEpoch": "R24-WP102-PROTOCOL-BASE-F687A59E",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "f687a59eec2c7b288ecb0b9f7214786c03bda211",
+    "treeSha": "b5264fd64638ba475a66ca2afcdd78f4f01e3f07"
+  },
+  "createdAt": "2026-08-23T17:07:35Z",
+  "actor": "codex/r24-wp102-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "WP102_OPERATION_CLASS_AND_RESULT_ERROR_CONTRACT",
+    "ceiling": "WP102_OPERATION_PROTOCOL_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "WP-102 operation-class and result/error contract tests",
+    "evidenceClass": "CONTRACT",
+    "denominator": 9,
+    "passed": 9,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-102-OPERATION-PROTOCOL-MODEL"
+    ],
+    "predecessorReceiptDigest": "06f056b60754fca3091d8c38aff4f2da5c9f1917bfe90ae853397d4f32a19a6a"
+  },
+  "artifact": {
+    "command": "node --test test/unit/r24-wp102-operation-classes.test.js test/unit/r24-wp102-result-contract.test.js",
+    "contractSubtests": [
+      "operation classes are closed, distinct and frozen",
+      "bridge registry binds each payload channel to exactly one class and id field",
+      "cross-class injection: command ids and query ids ride disjoint allowlists",
+      "class pollution hostile payloads carry no class authority",
+      "success results pass through unchanged",
+      "refusals normalize to the canonical code with reason preserved",
+      "a refusal without any machine code is a typed throw, never a silent pass",
+      "non-object results are a typed throw; free-form payloads without ok pass through",
+      "bridge-shaped refusals all carry canonical codes"
+    ],
+    "classVocabulary": [
+      "BACKGROUND_JOB",
+      "COMMAND",
+      "EFFECT",
+      "EVENT",
+      "QUERY"
+    ],
+    "liveClassDenominators": {
+      "commandIds": 44,
+      "queryHandlers": 22,
+      "signalIds": 2
+    },
+    "negativePath": "payload-supplied class, unknown bridge, cross-class injection, non-object result, and refusal without a canonical code fail before authority or publication",
+    "artifactDigests": [
+      {
+        "path": "src/core/command-protocol-v1.cjs",
+        "sha256": "c0dbbfc8a3973a98875db5c38f3de94d3942577500e7c604a7f4bd912f7e5171"
+      },
+      {
+        "path": "src/main.js",
+        "sha256": "64f34fbc9cfe3226c8f9a9dde34aa69325557a24376858e1ed4f922d88409d62"
+      },
+      {
+        "path": "test/unit/r24-wp102-operation-classes.test.js",
+        "sha256": "e63990df534018a41eff5f5a73b1595e18b712bae65f3558b84a9b8d394da3ff"
+      },
+      {
+        "path": "test/unit/r24-wp102-result-contract.test.js",
+        "sha256": "1a8393003d7a3f732fa72868f3cbd18e81d7b414fe9d0254dbb92cc0c3daa6cd"
+      }
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

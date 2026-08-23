@@ -4,21 +4,21 @@
   "contourId": "K1_AUTHORITY_DECOMPOSITION",
   "evidenceClass": "CONTRACT",
   "verdict": "PASS",
-  "headSha": "64711f479692c16adb2389c0c47c71f1d20faf0a",
-  "originMainSha": "64711f479692c16adb2389c0c47c71f1d20faf0a",
-  "generatedAtUtc": "2026-08-23T16:08:21Z",
-  "oracle": "docs-claim-lint exact sha-bound mutable PlanState claim binding for K1_AUTHORITY_DECOMPOSITION and subsequent repo-local closure state through WP-101",
+  "headSha": "f687a59eec2c7b288ecb0b9f7214786c03bda211",
+  "originMainSha": "f687a59eec2c7b288ecb0b9f7214786c03bda211",
+  "generatedAtUtc": "2026-08-23T17:07:35Z",
+  "oracle": "docs-claim-lint exact sha-bound mutable PlanState claim binding for K1_AUTHORITY_DECOMPOSITION and subsequent repo-local closure state through WP-102",
   "claimBindings": [
     {
       "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
-      "sha256": "ff334eced6bece69273c556f8f58f9a8a535d3eff37bc14fae1e178e0cd2e6a6",
+      "sha256": "d116f0f4a306ae0f587b383cefb0f6c2d6c7c7711a31af5f6f69c47673eb207d",
       "claimTerms": [
         "DONE"
       ]
     },
     {
       "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
-      "sha256": "eda3e66ba771d3e9c1611556d3e4ade7c43ee7c74d9458d978d6f7640593bac1",
+      "sha256": "08f6103b3790c4b656090d2cbafdcf0b5dfacc5854e3ec7160a1b30f737d34a9",
       "claimTerms": [
         "DONE"
       ]

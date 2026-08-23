@@ -6,10 +6,10 @@
   "policyEpoch": 0,
   "mode": "HANDOFF_ONLY",
   "selectedKind": "NODE",
-  "selectedId": "WP-102_OPERATION_PROTOCOL",
+  "selectedId": "WP-103_REVISION_PRODUCT_ORDER",
   "verdict": "SELECTED",
   "readySet": [
-    "WP-102_OPERATION_PROTOCOL"
+    "WP-103_REVISION_PRODUCT_ORDER"
   ],
   "deterministicOrder": [
     "MANDATORY_SAFETY_CORRECTNESS",
@@ -23,7 +23,7 @@
   "reasons": [
     "SUPERVISED_HANDOFF_ONLY_CANDIDATE"
   ],
-  "generatedAt": "2026-08-23T16:08:21Z",
+  "generatedAt": "2026-08-23T17:07:35Z",
   "graphNodeCount": 109,
   "graphDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
   "sourceOfTruthPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json"

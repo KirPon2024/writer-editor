@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.plan-state.r24.v1",
-  "revision": 93,
-  "fencingCounter": 19,
+  "revision": 94,
+  "fencingCounter": 20,
   "contours": {
     "R24C0_SEMANTIC_PACKAGE_CLOSURE": {
       "state": "DONE",
@@ -276,12 +276,12 @@
       "source": "R24_WP101_IPC_ADMISSION_CLOSURE_V1"
     },
     "WP-102_OPERATION_PROTOCOL": {
-      "state": "PENDING",
-      "previousState": null,
-      "attemptId": null,
-      "updatedAt": null,
-      "headSha": null,
-      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+      "state": "DONE",
+      "previousState": "POSTMERGE_VERIFIED",
+      "attemptId": "ATTEMPT-WP102-20260823",
+      "updatedAt": "2026-08-23T17:07:35Z",
+      "headSha": "f687a59eec2c7b288ecb0b9f7214786c03bda211",
+      "source": "R24_WP102_OPERATION_PROTOCOL_CLOSURE_V1"
     },
     "WP-103_REVISION_PRODUCT_ORDER": {
       "state": "PENDING",

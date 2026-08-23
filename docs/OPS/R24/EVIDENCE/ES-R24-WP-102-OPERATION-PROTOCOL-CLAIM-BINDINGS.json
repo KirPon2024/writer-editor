@@ -1,13 +1,13 @@
 {
   "schemaVersion": "EvidenceStampV2",
-  "stampId": "ES-R24-WP-101-IPC-ADMISSION-CLAIM-BINDINGS",
-  "contourId": "WP-101_IPC_ADMISSION",
+  "stampId": "ES-R24-WP-102-OPERATION-PROTOCOL-CLAIM-BINDINGS",
+  "contourId": "WP-102_OPERATION_PROTOCOL",
   "evidenceClass": "CONTRACT",
   "verdict": "PASS",
   "headSha": "f687a59eec2c7b288ecb0b9f7214786c03bda211",
   "originMainSha": "f687a59eec2c7b288ecb0b9f7214786c03bda211",
   "generatedAtUtc": "2026-08-23T17:07:35Z",
-  "oracle": "docs-claim-lint exact sha-bound mutable PlanState claim binding for WP-101_IPC_ADMISSION and subsequent repo-local closure state through WP-102",
+  "oracle": "docs-claim-lint exact sha-bound mutable PlanState claim binding for WP-102_OPERATION_PROTOCOL closure and successor selection",
   "claimBindings": [
     {
       "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
@@ -25,9 +25,9 @@
     }
   ],
   "nonClaims": [
-    "This linter-specific stamp resolves only current WP-101_IPC_ADMISSION PlanState claim vocabulary for docs-claim-lint.",
+    "This linter-specific stamp resolves only current WP-102_OPERATION_PROTOCOL PlanState claim vocabulary for docs-claim-lint.",
     "This stamp does not mark the full 109-node R2.4 program DONE.",
     "This stamp does not mutate product/runtime code, reopen parked V2, or claim release readiness.",
-    "This stamp does not implement or certify later contour product code beyond separately stamped closure evidence."
+    "This stamp does not implement or certify WP-103 or later product code beyond separately stamped closure evidence."
   ]
 }

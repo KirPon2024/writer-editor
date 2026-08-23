@@ -1,0 +1,59 @@
+{
+  "stampId": "ES-R24-K1-AUTHORITY-DECOMPOSITION-INTEGRATION",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "K1_AUTHORITY_DECOMPOSITION",
+  "attemptId": "ATTEMPT-K1-20260823",
+  "authorityEpoch": "R24-A0-ADMISSION-BASE-0BB87AE9",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "d96bb9e6f2fc86aec71b36ce8f5340a3ca20ee69",
+    "treeSha": "1f8d7db58d5b83d0dfda5042b710e7beb2362200"
+  },
+  "createdAt": "2026-08-23T09:11:18Z",
+  "actor": "codex/r24-k1-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "K1_IMPORT_BOUNDARY_INTEGRATION",
+    "ceiling": "K1_AUTHORITY_DECOMPOSITION_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "test/unit/r24-k1-import-boundary.test.js",
+    "evidenceClass": "INTEGRATION",
+    "denominator": 2,
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-K1-AUTHORITY-DECOMPOSITION-CONTRACT"
+    ],
+    "predecessorReceiptDigest": "67279f2d86b7e8b4803608457ee93edc34e551c86a90ce1249cd44eb97ebff6a"
+  },
+  "artifact": {
+    "command": "npm run -s test:r24-k1",
+    "boundaryScan": {
+      "files": 87,
+      "specifiers": 165,
+      "violations": 0
+    },
+    "integrationSubtests": [
+      "K1 import boundary: no reverse imports or platform effects across the live tree",
+      "K1 import boundary: the renderer dynamic-import adapter cannot reach the main process"
+    ],
+    "artifactDigests": [
+      {
+        "path": "src/main.js",
+        "sha256": "64f34fbc9cfe3226c8f9a9dde34aa69325557a24376858e1ed4f922d88409d62"
+      },
+      {
+        "path": "test/unit/r24-k1-import-boundary.test.js",
+        "sha256": "a6f27dbe3106447ff9e58400c0def7f1b5ac2f4d1b84a1f6a32880f589a11bda"
+      }
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

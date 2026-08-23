@@ -1,0 +1,63 @@
+{
+  "stampId": "ES-R24-K1-AUTHORITY-DECOMPOSITION-MUTANTS",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "K1_AUTHORITY_DECOMPOSITION",
+  "attemptId": "ATTEMPT-K1-20260823",
+  "authorityEpoch": "R24-A0-ADMISSION-BASE-0BB87AE9",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "d96bb9e6f2fc86aec71b36ce8f5340a3ca20ee69",
+    "treeSha": "1f8d7db58d5b83d0dfda5042b710e7beb2362200"
+  },
+  "createdAt": "2026-08-23T09:11:18Z",
+  "actor": "codex/r24-k1-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "K1_IMPLEMENTATION_MUTANTS_KILLED",
+    "ceiling": "K1_AUTHORITY_DECOMPOSITION_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "test/unit/r24-k1-allowlist-mutants.test.js",
+    "evidenceClass": "IMPLEMENTATION_MUTANTS",
+    "denominator": 5,
+    "passed": 5,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-K1-AUTHORITY-DECOMPOSITION-INTEGRATION"
+    ],
+    "predecessorReceiptDigest": "67279f2d86b7e8b4803608457ee93edc34e551c86a90ce1249cd44eb97ebff6a"
+  },
+  "artifact": {
+    "command": "npm run -s test:r24-k1",
+    "mutationReceipt": {
+      "total": 5,
+      "killed": 5,
+      "survived": [],
+      "score": 1
+    },
+    "mutantIds": [
+      "empty-roots-admit",
+      "nofollow-disabled",
+      "validation-swallowed",
+      "invalid-source-kept",
+      "launch-escape-allowed"
+    ],
+    "artifactDigests": [
+      {
+        "path": "src/core/io/file-path-allowlist-v1.cjs",
+        "sha256": "1c22638847286323defb0da1046560b9b79d9999a44909a51b224228ac561e3d"
+      },
+      {
+        "path": "test/unit/r24-k1-allowlist-mutants.test.js",
+        "sha256": "80bbdc087c7ff67ee22c33b613b0f626df792a202b10e1717ba8103c0532bc77"
+      }
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

@@ -1,0 +1,75 @@
+{
+  "stampId": "ES-R24-K1-AUTHORITY-DECOMPOSITION-POSTMERGE-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "K1_AUTHORITY_DECOMPOSITION",
+  "attemptId": "ATTEMPT-K1-20260823",
+  "authorityEpoch": "R24-A0-ADMISSION-BASE-0BB87AE9",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "d96bb9e6f2fc86aec71b36ce8f5340a3ca20ee69",
+    "treeSha": "1f8d7db58d5b83d0dfda5042b710e7beb2362200"
+  },
+  "createdAt": "2026-08-23T09:11:18Z",
+  "actor": "codex/r24-k1-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "K1_CURRENT_MAIN_EXACT_HEAD_CI",
+    "ceiling": "K1_AUTHORITY_DECOMPOSITION_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "github-actions-main-exact-head-d96bb9e6",
+    "evidenceClass": "POSTMERGE",
+    "denominator": 2,
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-K1-AUTHORITY-DECOMPOSITION-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "67279f2d86b7e8b4803608457ee93edc34e551c86a90ce1249cd44eb97ebff6a"
+  },
+  "artifact": {
+    "mainExactHeadChecks": [
+      {
+        "workflowName": "OSS policy",
+        "runId": 32627983326,
+        "jobId": 97166211004,
+        "event": "push",
+        "headSha": "d96bb9e6f2fc86aec71b36ce8f5340a3ca20ee69",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-23T08:20:29Z"
+      },
+      {
+        "workflowName": "rtk-required",
+        "runId": 32627983336,
+        "attempt": 2,
+        "jobId": 97167863351,
+        "event": "push",
+        "headSha": "d96bb9e6f2fc86aec71b36ce8f5340a3ca20ee69",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-23T08:54:37Z",
+        "includedK1Gate": true,
+        "includedFullR24GateSetThroughW0": true,
+        "maintainedRtkGraphPassed": true
+      }
+    ],
+    "priorFailedAttemptRecorded": {
+      "runId": 32627983336,
+      "attempt": 1,
+      "conclusion": "failure",
+      "failureShape": "bounded b3c09 stale-green classification drift in maintained RTK graph; exact rerun attempt 2 passed without code mutation"
+    },
+    "nonClaims": [
+      "This stamp records current main exact-head CI for K1 closure only.",
+      "It does not mark the 109-node R2.4 program DONE."
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

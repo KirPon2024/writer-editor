@@ -1,15 +1,15 @@
 {
   "schemaVersion": "yalken.r24.plan-state-source-receipt.v1",
-  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPO_LOCAL_SEC0_ENT0_K1_T1_A0_PK0_WP100_WP101_WP102_WP103_CLOSURE_NO_PROGRAM_DONE",
-  "generatedAtUtc": "2026-08-23T20:17:41Z",
+  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPO_LOCAL_SEC0_ENT0_K1_T1_A0_PK0_WP100_WP101_WP102_WP103_WP104_CLOSURE_NO_PROGRAM_DONE",
+  "generatedAtUtc": "2026-08-23T21:30:01Z",
   "executableProgramPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
   "executableProgramDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
   "planStatePath": "docs/OPS/R24/PLAN_STATE_R24.json",
   "currentPlanState": {
-    "sha256": "c298214a8378a7f3c1d723bbf2f5dd1e122a3d11f28cd17c920a872098d64e96",
+    "sha256": "3e44def6d45b9d85db6e97e4e32c20d2de24eeabccca8f7065ef3fe4cf2af998",
     "schemaVersion": "yalken.plan-state.r24.v2",
-    "revision": 101,
-    "fencingCounter": 21,
+    "revision": 108,
+    "fencingCounter": 22,
     "replayBaseline": {
       "classification": "ADOPTED_PRE_V2_UNREPLAYABLE_HISTORY",
       "revision": 94,
@@ -19,7 +19,7 @@
       "unreplayableContourCount": 10,
       "syntheticTransitionCount": 0
     },
-    "transitionHistoryCount": 5
+    "transitionHistoryCount": 10
   },
   "externalPlanState": {
     "path": "/Volumes/T7-Secure/worktrees/yalken/_r24-mission/PLAN_STATE_R24.json",
@@ -99,8 +99,8 @@
   },
   "nonClaims": [
     "R24 unit test files in current main are implementation evidence candidates only; they are not converted to DONE without durable terminal receipts.",
-    "This source receipt now accounts for repo-local SEC0, ENT0, K1, T1, A0, PK0, WP-100, WP-101, WP-102, and WP-103 closures and still does not mark the full 109-node program DONE.",
-    "WP-103 closure certifies comparable and concurrent revision coordinates with canonical serialization only; it does not certify WP-104, later work packages, release readiness, V2 Word, Word/Drive mutation, SAFE_APPLY expansion, account, network, cloud, AI, dependency, or paid entitlement authority.",
+    "This source receipt now accounts for repo-local SEC0, ENT0, K1, T1, A0, PK0, WP-100, WP-101, WP-102, WP-103, and WP-104 closures and still does not mark the full 109-node program DONE.",
+    "WP-104 closure certifies boundary falsification model, negative, spoof, stale, mutant, and independent exact-main evidence only; it does not certify R2 through R6, F0, V0, WP-200 through WP-207, WP-300 through WP-307, physical qualification, or release readiness.",
     "Parked V2 remains suspended until the executable graph selects it and all dependency and evidence predicates are satisfied."
   ],
   "discoveredR24TestFiles": {
@@ -204,7 +204,7 @@
     ]
   },
   "repoLocalPlanStateClosures": {
-    "doneContourCount": 10,
+    "doneContourCount": 11,
     "closures": [
       {
         "id": "SEC0_PATH_CAPABILITY",
@@ -418,8 +418,29 @@
           "ES-R24-WP-103-REVISION-PRODUCT-ORDER-CLAIM-BINDINGS"
         ],
         "deliveryState": "CURRENT_MAIN_7400EF00_EXACT_HEAD_POSTMERGE_AND_SURVIVOR_GREEN_NO_PROGRAM_DONE"
+      },
+      {
+        "id": "WP-104_BOUNDARY_FALSIFICATION",
+        "state": "DONE",
+        "previousState": "POSTMERGE_VERIFIED",
+        "attemptId": "ATTEMPT-WP104-20260824",
+        "updatedAt": "2026-08-23T21:30:00Z",
+        "headSha": "727fe0f04a023c653f68a888b3d4644f24594940",
+        "source": "R24_WP104_BOUNDARY_FALSIFICATION_CLOSURE_V1",
+        "terminalReceiptPath": "docs/OPS/R24/CTR-R24-WP-104-BOUNDARY-FALSIFICATION.json",
+        "evidenceStampIds": [
+          "ES-R24-WP-104-BOUNDARY-FALSIFICATION-MODEL",
+          "ES-R24-WP-104-BOUNDARY-FALSIFICATION-CONTRACT",
+          "ES-R24-WP-104-BOUNDARY-FALSIFICATION-INTEGRATION",
+          "ES-R24-WP-104-BOUNDARY-FALSIFICATION-MUTANTS",
+          "ES-R24-WP-104-BOUNDARY-FALSIFICATION-EXACT-HEAD",
+          "ES-R24-WP-104-BOUNDARY-FALSIFICATION-POSTMERGE-EXACT-HEAD",
+          "ES-R24-WP-104-BOUNDARY-FALSIFICATION-SURVIVOR-AUDIT",
+          "ES-R24-WP-104-BOUNDARY-FALSIFICATION-CLAIM-BINDINGS"
+        ],
+        "deliveryState": "CURRENT_MAIN_4C51661E_EXACT_HEAD_POSTMERGE_AND_SURVIVOR_GREEN_NO_PROGRAM_DONE"
       }
     ]
   },
-  "planStateRevision": 101
+  "planStateRevision": 108
 }

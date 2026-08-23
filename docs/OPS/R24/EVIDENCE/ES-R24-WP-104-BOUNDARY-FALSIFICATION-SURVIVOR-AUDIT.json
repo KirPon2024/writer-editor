@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-WP-104-BOUNDARY-FALSIFICATION-SURVIVOR-AUDIT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-104_BOUNDARY_FALSIFICATION",
+  "attemptId": "ATTEMPT-WP104-20260824",
+  "authorityEpoch": "R24-WP104-CLOSURE-BASE-4C51661E",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "4c51661eb27f469cd5cfd9f1cad415e92e662813",
+    "treeSha": "8936fce8540d098a35f9efbafde12c6aa924ef95"
+  },
+  "claim": {
+    "type": "WP104_EXACT_MAIN_SURVIVOR_AUDIT",
+    "ceiling": "WP104_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "exact-main-wp104-meta-mutant-survivor-audit",
+    "evidenceClass": "SURVIVOR_AUDIT",
+    "denominator": 114,
+    "passed": 114,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-104-BOUNDARY-FALSIFICATION-POSTMERGE-EXACT-HEAD",
+      "ES-R24-WP-104-BOUNDARY-FALSIFICATION-MUTANTS"
+    ],
+    "predecessorReceiptDigest": "2b3f28b57ab2756f64cf0da94fa9327045aa16333df5621b29b42ea423743216"
+  },
+  "createdAt": "2026-08-23T21:25:00Z",
+  "actor": "codex/r24-wp104-closure-reconciliation-v1-20260824",
+  "artifact": {
+    "implementationPr": {
+      "prNumber": 1628,
+      "baseSha": "770f6425c72f68e999206819b9cf5f1f56d2120e",
+      "prHeadSha": "740dc1cb75b193cd3c48bfc03fd8caa22213c8c2",
+      "mergeSha": "4e2db88ffa801513c5b0ba53f39be43807a76742",
+      "mergedAt": "2026-08-21T18:20:18Z"
+    },
+    "requiredImplementationChecks": [
+      {"name": "rtk-required", "runId": 32511007714, "headSha": "740dc1cb75b193cd3c48bfc03fd8caa22213c8c2", "conclusion": "success"},
+      {"name": "oss-policy", "runId": 32511007723, "headSha": "740dc1cb75b193cd3c48bfc03fd8caa22213c8c2", "conclusion": "success"},
+      {"name": "x1-runtime-parity (ubuntu-latest)", "runId": 32511007701, "headSha": "740dc1cb75b193cd3c48bfc03fd8caa22213c8c2", "conclusion": "success"},
+      {"name": "x1-runtime-parity (windows-latest)", "runId": 32511007701, "headSha": "740dc1cb75b193cd3c48bfc03fd8caa22213c8c2", "conclusion": "success"},
+      {"name": "ops_vector_close", "runId": 32512825637, "headSha": "740dc1cb75b193cd3c48bfc03fd8caa22213c8c2", "conclusion": "success"}
+    ],
+    "implementationPostmergeChecks": [
+      {"name": "OSS policy", "runId": 32512825611, "headSha": "4e2db88ffa801513c5b0ba53f39be43807a76742", "conclusion": "success"},
+      {"name": "rtk-required", "runId": 32512825703, "headSha": "4e2db88ffa801513c5b0ba53f39be43807a76742", "conclusion": "success"}
+    ],
+    "currentMainMetaReceipt": {"runId": 32665851311, "headSha": "4c51661eb27f469cd5cfd9f1cad415e92e662813", "suites": 22, "mutantTotal": 114, "allScoreOne": true},
+    "denominatorLaw": "All 114 implementation mutants reported by the exact-main WP104 meta receipt were killed; zero survivors, failures, skips or todos."
+  }
+}

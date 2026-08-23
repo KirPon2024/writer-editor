@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-WP-104-BOUNDARY-FALSIFICATION-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-104_BOUNDARY_FALSIFICATION",
+  "attemptId": "ATTEMPT-WP104-20260824",
+  "authorityEpoch": "R24-WP104-CLOSURE-BASE-4C51661E",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "4c51661eb27f469cd5cfd9f1cad415e92e662813",
+    "treeSha": "8936fce8540d098a35f9efbafde12c6aa924ef95"
+  },
+  "claim": {
+    "type": "WP104_INDEPENDENT_EXACT_HEAD_GREEN",
+    "ceiling": "WP104_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "github-actions-node20-wp104-exact-main",
+    "evidenceClass": "INDEPENDENT_EXACT_HEAD",
+    "denominator": 13,
+    "passed": 13,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": ["ES-R24-WP-104-BOUNDARY-FALSIFICATION-MUTANTS"],
+    "predecessorReceiptDigest": "2b3f28b57ab2756f64cf0da94fa9327045aa16333df5621b29b42ea423743216"
+  },
+  "createdAt": "2026-08-23T21:25:00Z",
+  "actor": "codex/r24-wp104-closure-reconciliation-v1-20260824",
+  "artifact": {
+    "implementationSourceRoles": {
+      "boundaryTestSourceSha": "740dc1cb75b193cd3c48bfc03fd8caa22213c8c2",
+      "metaExpansionSourceSha": "4f2f6a6383dbd0f496713628c7d9d5dd53675d74",
+      "implementationPrHeadSha": "740dc1cb75b193cd3c48bfc03fd8caa22213c8c2",
+      "implementationMergeSha": "4e2db88ffa801513c5b0ba53f39be43807a76742",
+      "evaluationHeadSha": "4c51661eb27f469cd5cfd9f1cad415e92e662813",
+      "evaluationTreeSha": "8936fce8540d098a35f9efbafde12c6aa924ef95",
+      "closurePrHeadSha": null,
+      "closureMergeSha": null,
+      "closurePostmergeSha": null
+    },
+    "runId": 32665851311,
+    "jobId": 97258988681,
+    "completedAt": "2026-08-23T21:12:41Z",
+    "metaReceipt": {"suites": 22, "mutantTotal": 114, "allScoreOne": true}
+  }
+}

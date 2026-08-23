@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-WP-104-BOUNDARY-FALSIFICATION-POSTMERGE-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-104_BOUNDARY_FALSIFICATION",
+  "attemptId": "ATTEMPT-WP104-20260824",
+  "authorityEpoch": "R24-WP104-CLOSURE-BASE-4C51661E",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "4c51661eb27f469cd5cfd9f1cad415e92e662813",
+    "treeSha": "8936fce8540d098a35f9efbafde12c6aa924ef95"
+  },
+  "claim": {
+    "type": "WP104_CURRENT_MAIN_EXACT_HEAD_CI",
+    "ceiling": "WP104_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "github-actions-main-exact-head-4c51661e",
+    "evidenceClass": "POSTMERGE",
+    "denominator": 2,
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": ["ES-R24-WP-104-BOUNDARY-FALSIFICATION-EXACT-HEAD"],
+    "predecessorReceiptDigest": "2b3f28b57ab2756f64cf0da94fa9327045aa16333df5621b29b42ea423743216"
+  },
+  "createdAt": "2026-08-23T21:25:00Z",
+  "actor": "codex/r24-wp104-closure-reconciliation-v1-20260824",
+  "artifact": {
+    "mainExactHeadChecks": [
+      {"workflowName": "OSS policy", "runId": 32665851308, "jobId": 97258988730, "event": "push", "headSha": "4c51661eb27f469cd5cfd9f1cad415e92e662813", "status": "completed", "conclusion": "success", "completedAt": "2026-08-23T20:54:47Z"},
+      {"workflowName": "rtk-required", "runId": 32665851311, "jobId": 97258988681, "event": "push", "headSha": "4c51661eb27f469cd5cfd9f1cad415e92e662813", "status": "completed", "conclusion": "success", "completedAt": "2026-08-23T21:12:41Z", "includedWp104Gate": true, "successfulStepCount": 46}
+    ],
+    "nonClaims": [
+      "This stamp records current-main CI for WP-104 only.",
+      "It does not mark any downstream contour or the R2.4 program DONE."
+    ]
+  }
+}

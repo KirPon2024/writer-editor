@@ -1,0 +1,85 @@
+{
+  "stampId": "ES-R24-WP-100-GENERATION-ADMISSION-INTEGRATION",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-100_GENERATION_ADMISSION",
+  "attemptId": "ATTEMPT-WP100-20260823",
+  "authorityEpoch": "R24-WP100-ADMISSION-BASE-C7934E8C",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "c7934e8c79e7466f4904d37f1c6392a5f03aa82b",
+    "treeSha": "937d586554661902489cc73d8e61c76d0140f62d"
+  },
+  "createdAt": "2026-08-23T14:43:07Z",
+  "actor": "codex/r24-wp100-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "WP100_LIVE_MAIN_PRELOAD_WIRING_MATRIX",
+    "ceiling": "WP100_GENERATION_ADMISSION_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "test/unit/r24-wp100-wiring-matrix.test.js full channel denominator",
+    "evidenceClass": "INTEGRATION",
+    "denominator": 16,
+    "passed": 16,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-100-GENERATION-ADMISSION-CONTRACT"
+    ],
+    "predecessorReceiptDigest": "d0e2889903a0b5e7701b57f85a652c50480237975183bf8bc3872a6bcf49ebf7"
+  },
+  "artifact": {
+    "command": "node --test test/unit/r24-wp100-wiring-matrix.test.js",
+    "observations": {
+      "guardedChannelCount": 13,
+      "protocolBridgeCount": 3,
+      "denominator": 16,
+      "violations": 0,
+      "rawIpcMainRegistrationCount": 0,
+      "rendererGenerationAssignedDirectly": false,
+      "commandAllowlistGatePresent": true,
+      "entitlementRevalidationGatesPresent": true,
+      "pathAdmissionDelegatesToCoreLaw": true
+    },
+    "guardedChannels": [
+      "file:open",
+      "file:save",
+      "file:save-as",
+      "ui:create-node",
+      "ui:delete-node",
+      "ui:get-collab-scope-local",
+      "ui:get-project-tree",
+      "ui:move-node",
+      "ui:open-document",
+      "ui:open-section",
+      "ui:rename-node",
+      "ui:reorder-node",
+      "ui:request-autosave"
+    ],
+    "protocolBridges": [
+      "ui:command-bridge",
+      "ui:workspace-query-bridge",
+      "ui:save-lifecycle-signal-bridge"
+    ],
+    "artifactDigests": [
+      {
+        "path": "src/main.js",
+        "sha256": "64f34fbc9cfe3226c8f9a9dde34aa69325557a24376858e1ed4f922d88409d62"
+      },
+      {
+        "path": "src/preload.js",
+        "sha256": "f721aa83bb2e7eb28f441e7433c0bb4f4ee09e2c70257b508cf16baa189934f0"
+      },
+      {
+        "path": "test/unit/r24-wp100-wiring-matrix.test.js",
+        "sha256": "6792e36e3cecf425113b0a595dd2e00c591741ae99b8356d56307edadf7395db"
+      }
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

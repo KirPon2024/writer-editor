@@ -1,0 +1,79 @@
+{
+  "stampId": "ES-R24-WP-100-GENERATION-ADMISSION-POSTMERGE-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-100_GENERATION_ADMISSION",
+  "attemptId": "ATTEMPT-WP100-20260823",
+  "authorityEpoch": "R24-WP100-ADMISSION-BASE-C7934E8C",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "c7934e8c79e7466f4904d37f1c6392a5f03aa82b",
+    "treeSha": "937d586554661902489cc73d8e61c76d0140f62d"
+  },
+  "createdAt": "2026-08-23T14:43:07Z",
+  "actor": "codex/r24-wp100-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "WP100_CURRENT_MAIN_EXACT_HEAD_CI",
+    "ceiling": "WP100_GENERATION_ADMISSION_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "github-actions-main-exact-head-c7934e8c",
+    "evidenceClass": "POSTMERGE",
+    "denominator": 2,
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-100-GENERATION-ADMISSION-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "d0e2889903a0b5e7701b57f85a652c50480237975183bf8bc3872a6bcf49ebf7"
+  },
+  "artifact": {
+    "mainExactHeadChecks": [
+      {
+        "workflowName": "OSS policy",
+        "runId": 32643698999,
+        "jobId": 97204576427,
+        "event": "push",
+        "headSha": "c7934e8c79e7466f4904d37f1c6392a5f03aa82b",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-23T13:53:14Z"
+      },
+      {
+        "workflowName": "rtk-required",
+        "runId": 32643698984,
+        "attempt": 2,
+        "jobId": 97207074277,
+        "event": "push",
+        "headSha": "c7934e8c79e7466f4904d37f1c6392a5f03aa82b",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-23T14:31:48Z",
+        "includedWp100Gate": true,
+        "successfulStepCount": 49,
+        "totalStepCount": 49,
+        "failedStepCount": 0,
+        "skippedStepCount": 0,
+        "maintainedRtkGraphPassed": true
+      }
+    ],
+    "priorFailedAttemptRecorded": {
+      "runId": 32643698984,
+      "attempt": 1,
+      "jobId": 97204576423,
+      "conclusion": "failure",
+      "failureShape": "one bounded b3c09 Linux outside-cwd classification drift; 1058 of 1059 maintained tests passed; exact rerun attempt 2 passed without code mutation"
+    },
+    "nonClaims": [
+      "This stamp records current main exact-head CI for WP-100 closure only.",
+      "It does not mark the 109-node R2.4 program DONE or erase the recorded first-attempt flake."
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

@@ -1,0 +1,216 @@
+{
+  "stampId": "ES-R24-WP-100-GENERATION-ADMISSION-MODEL",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-100_GENERATION_ADMISSION",
+  "attemptId": "ATTEMPT-WP100-20260823",
+  "authorityEpoch": "R24-WP100-ADMISSION-BASE-C7934E8C",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "c7934e8c79e7466f4904d37f1c6392a5f03aa82b",
+    "treeSha": "937d586554661902489cc73d8e61c76d0140f62d"
+  },
+  "createdAt": "2026-08-23T14:43:07Z",
+  "actor": "codex/r24-wp100-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "WP100_GENERATION_ADMISSION_MODEL_BINDING",
+    "ceiling": "WP100_GENERATION_ADMISSION_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-109-node-graph-wp100-envelope-and-seven-done-dependencies",
+    "evidenceClass": "MODEL",
+    "denominator": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [],
+    "predecessorReceiptDigest": "d0e2889903a0b5e7701b57f85a652c50480237975183bf8bc3872a6bcf49ebf7"
+  },
+  "artifact": {
+    "nodeId": "WP-100_GENERATION_ADMISSION",
+    "requiredOutcome": "Exact edit/durable generation and non-authoritative renderer state",
+    "graphDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+    "executionEnvelopeId": "ENV-R24-WP-100_GENERATION_ADMISSION",
+    "acceptanceId": "ACC-R24-WP-100_GENERATION_ADMISSION",
+    "evidenceContractClasses": [
+      "MODEL",
+      "CONTRACT",
+      "INTEGRATION",
+      "IMPLEMENTATION_MUTANTS",
+      "INDEPENDENT_EXACT_HEAD"
+    ],
+    "dependencyStates": [
+      {
+        "id": "Q0_TOOLCHAIN_HYGIENE",
+        "state": "DONE",
+        "previousState": "POSTMERGE_VERIFIED",
+        "attemptId": "ATTEMPT-1",
+        "updatedAt": "2026-08-20T07:45:00Z",
+        "headSha": "65b879a57ebdace67528a819bc3f12c208f1553c",
+        "source": "EXTERNAL_R24_MISSION_PLAN_STATE"
+      },
+      {
+        "id": "P0_AUTOSAVE_GENERATION",
+        "state": "DONE",
+        "previousState": "POSTMERGE_VERIFIED",
+        "attemptId": "ATTEMPT-1",
+        "updatedAt": "2026-08-20T09:20:00Z",
+        "headSha": "28f6858b3d945a6f8065cda2117de4a70a91c215",
+        "source": "EXTERNAL_R24_MISSION_PLAN_STATE"
+      },
+      {
+        "id": "P1_DIRTY_ADMISSION_ACK",
+        "state": "DONE",
+        "previousState": "POSTMERGE_VERIFIED",
+        "attemptId": "ATTEMPT-1",
+        "updatedAt": "2026-08-20T17:10:00Z",
+        "headSha": "2676af38b943739488e1252350b0f168881cba60",
+        "source": "EXTERNAL_R24_MISSION_PLAN_STATE"
+      },
+      {
+        "id": "S0_IPC_CALLER_IDENTITY",
+        "state": "DONE",
+        "previousState": "POSTMERGE_VERIFIED",
+        "attemptId": "ATTEMPT-1",
+        "updatedAt": "2026-08-20T15:40:00Z",
+        "headSha": "33b924d6a62b9ce5c35de3eebff789941524b55e",
+        "source": "EXTERNAL_R24_MISSION_PLAN_STATE"
+      },
+      {
+        "id": "S1_IPC_ENVELOPE_BUDGETS",
+        "state": "DONE",
+        "previousState": "POSTMERGE_VERIFIED",
+        "attemptId": "ATTEMPT-1",
+        "updatedAt": "2026-08-20T18:30:00Z",
+        "headSha": "d8e3ec32bd50dd6f85032fcae258837d9f18afb3",
+        "source": "EXTERNAL_R24_MISSION_PLAN_STATE"
+      },
+      {
+        "id": "K0_COMMAND_PROTOCOL",
+        "state": "DONE",
+        "previousState": "POSTMERGE_VERIFIED",
+        "attemptId": "ATTEMPT-1",
+        "updatedAt": "2026-08-20T20:10:00Z",
+        "headSha": "273e127a20c9f913d84db275a4137e31ddf2bf65",
+        "source": "EXTERNAL_R24_MISSION_PLAN_STATE"
+      },
+      {
+        "id": "R0_REVISION_ALGEBRA",
+        "state": "DONE",
+        "previousState": "POSTMERGE_VERIFIED",
+        "attemptId": "ATTEMPT-1",
+        "updatedAt": "2026-08-21T00:10:00Z",
+        "headSha": "a1992c9977bbe03e59bcd45f317539ff8aab4a4f",
+        "source": "EXTERNAL_R24_MISSION_PLAN_STATE"
+      }
+    ],
+    "testProfileIds": [
+      "CONTRACT_NEGATIVE",
+      "UNIT",
+      "INTEGRATION",
+      "IMPLEMENTATION_MUTANTS",
+      "UNICODE_IME",
+      "CRASH_RECOVERY",
+      "A11Y_PERF"
+    ],
+    "assuranceCoverage": {
+      "contractNegative": "WP-100 composed negative contract plus current full RTK",
+      "unit": "five composed generation/admission/revision tests",
+      "integration": "sixteen live guarded channels and protocol bridges",
+      "implementationMutants": "five named law-weakening mutations executed and killed",
+      "unicodeIme": "P0 and P1 dependency survivor tests in the 84-test foundation run",
+      "crashRecovery": "P0 and P1 dependency survivor tests in the 84-test foundation run",
+      "a11yPerf": "bounded O(1) foundation checks plus exact-head CI and Ubuntu/Windows parity"
+    },
+    "implementationPr": {
+      "prNumber": 1624,
+      "baseSha": "07ca26679a2fd9084d1be4b574557d1c79faefd8",
+      "prHeadSha": "8ed9af4fa0418b60423bc84e58d259f13e60e0b2",
+      "mergeSha": "2b37a8c1ec17e70a1e8342bb9f4383a46ff29d16",
+      "mergedAt": "2026-08-21T15:18:20Z"
+    },
+    "planRevisionBefore": 91,
+    "planRevisionAfter": 92,
+    "source": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+    "artifactDigests": [
+      {
+        "path": "src/core/autosave-generation-v1.cjs",
+        "sha256": "c901970cd0b6a7d865e4af1f5f305fb04873a3397da591691c5aa43af52cf752"
+      },
+      {
+        "path": "src/core/dirty-admission-v1.cjs",
+        "sha256": "2d1928cfc3f5b6ef669c0628578113fef5b345eb4bd3485f5e720c4d26e4362b"
+      },
+      {
+        "path": "src/core/ipc-caller-identity-v1.cjs",
+        "sha256": "d6225627ffab3329f8ad833d5a6232fa1c35c204898037517fa91223fa55b687"
+      },
+      {
+        "path": "src/core/ipc-envelope-v1.cjs",
+        "sha256": "157617747d4387ec7af664b6eff613af8f90742a9648e2a192d55e36b0564b8d"
+      },
+      {
+        "path": "src/core/revision-algebra-v1.cjs",
+        "sha256": "76768c50ff2d3f9103d80195e28c97671ea0b1e3171d85c5320dfa7912ce0923"
+      },
+      {
+        "path": "src/main.js",
+        "sha256": "64f34fbc9cfe3226c8f9a9dde34aa69325557a24376858e1ed4f922d88409d62"
+      },
+      {
+        "path": "src/preload.js",
+        "sha256": "f721aa83bb2e7eb28f441e7433c0bb4f4ee09e2c70257b508cf16baa189934f0"
+      },
+      {
+        "path": "test/unit/r24-wp100-generation-admission.test.js",
+        "sha256": "45e7a912593fc5171c46a9b1253f7fef7866939c3f765aac4300b4c703aa838c"
+      },
+      {
+        "path": "test/unit/r24-wp100-wiring-matrix.test.js",
+        "sha256": "6792e36e3cecf425113b0a595dd2e00c591741ae99b8356d56307edadf7395db"
+      },
+      {
+        "path": "test/unit/r24-wp100-wiring-mutants.test.js",
+        "sha256": "afa4db0d8ef318aa9f0de508c5000b2f6e47849bde4bb81aabc472df2f171e00"
+      },
+      {
+        "path": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+        "sha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5"
+      },
+      {
+        "path": "docs/OPS/R24/EXECUTION_ENVELOPES_R2_4.json",
+        "sha256": "0b2154eb93769ecb6a3b3164159cfe2c87d73c5345fdcb008af5576c630ae9d3"
+      },
+      {
+        "path": "docs/OPS/R24/TEST_ASSURANCE_MATRIX_R2_4.json",
+        "sha256": "29133d0b3f6c96891695e81a1191565843143826770ba6cb90cd286bcab80ca8"
+      },
+      {
+        "path": "docs/OPS/R24/EVIDENCE_AND_RECEIPT_CONTRACT_R2_4.json",
+        "sha256": "fb6ab27e2c5a55a192aac8a224f63b4c4bf32c769e32fc6268a5f80d87cbcd3d"
+      },
+      {
+        "path": "docs/OPS/R24/PLAN_STATE_R24.json",
+        "sha256": "aab936925b7ef9d62435ee3958e7fa0ad3801768b56dbc634d743f62f9608728"
+      },
+      {
+        "path": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+        "sha256": "7950abd4dd4417a046a89ed6c4ef6ae54cf77e00ffd8719de02eb2eb6a05094c"
+      },
+      {
+        "path": "docs/OPS/R24/SELECTION_RECEIPT_R2_4.json",
+        "sha256": "4b4b431cef4dfeca6e706492442a52c55960c938a5ae9335897b0236baa73461"
+      },
+      {
+        "path": "scripts/ops/r24/tests/executable-program.test.mjs",
+        "sha256": "d2bf63e52ec10332f42b0f0e64faee324db3808ccad479a21545e56e4e9db11a"
+      }
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

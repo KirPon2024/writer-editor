@@ -123,10 +123,12 @@ test('PlanState persists the full 109-node denominator without unreconciled DONE
   assert.equal(state.contours.A0_ATLAS_INCREMENTAL_EQUIVALENCE.source, 'R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE_CLOSURE_V1');
   assert.equal(state.contours.PK0_PACKAGE_CONTENT_TRUST.state, 'DONE');
   assert.equal(state.contours.PK0_PACKAGE_CONTENT_TRUST.source, 'R24_PK0_PACKAGE_CONTENT_TRUST_CLOSURE_V1');
-  assert.equal(repoLocalDone, 6);
+  assert.equal(state.contours['WP-100_GENERATION_ADMISSION'].state, 'DONE');
+  assert.equal(state.contours['WP-100_GENERATION_ADMISSION'].source, 'R24_WP100_GENERATION_ADMISSION_CLOSURE_V1');
+  assert.equal(repoLocalDone, 7);
   assert.deepEqual(
     sourceReceipt.repoLocalPlanStateClosures.closures.map((row) => row.id),
-    ['SEC0_PATH_CAPABILITY', 'ENT0_ENTITLEMENT_CONFORMANCE', 'K1_AUTHORITY_DECOMPOSITION', 'T1_ANCHOR_LINEAGE', 'A0_ATLAS_INCREMENTAL_EQUIVALENCE', 'PK0_PACKAGE_CONTENT_TRUST'],
+    ['SEC0_PATH_CAPABILITY', 'ENT0_ENTITLEMENT_CONFORMANCE', 'K1_AUTHORITY_DECOMPOSITION', 'T1_ANCHOR_LINEAGE', 'A0_ATLAS_INCREMENTAL_EQUIVALENCE', 'PK0_PACKAGE_CONTENT_TRUST', 'WP-100_GENERATION_ADMISSION'],
   );
   assert.equal(sourceReceipt.fullDenominator.nodeCount, EXPECTED_NODE_COUNT);
   assert.equal(sourceReceipt.externalPlanState.doneContourCount, 12);

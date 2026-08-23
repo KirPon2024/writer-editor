@@ -1,0 +1,211 @@
+{
+  "stampId": "ES-R24-WP-100-GENERATION-ADMISSION-SURVIVOR-AUDIT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-100_GENERATION_ADMISSION",
+  "attemptId": "ATTEMPT-WP100-20260823",
+  "authorityEpoch": "R24-WP100-ADMISSION-BASE-C7934E8C",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "c7934e8c79e7466f4904d37f1c6392a5f03aa82b",
+    "treeSha": "937d586554661902489cc73d8e61c76d0140f62d"
+  },
+  "createdAt": "2026-08-23T14:43:07Z",
+  "actor": "codex/r24-wp100-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "WP100_SURVIVOR_AUDIT",
+    "ceiling": "WP100_GENERATION_ADMISSION_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "github-actions-pr-1624-historical-postmerge-plus-current-main-survivor",
+    "evidenceClass": "SURVIVOR_AUDIT",
+    "denominator": 9,
+    "passed": 9,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-100-GENERATION-ADMISSION-POSTMERGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "d0e2889903a0b5e7701b57f85a652c50480237975183bf8bc3872a6bcf49ebf7"
+  },
+  "artifact": {
+    "implementationPr": {
+      "prNumber": 1624,
+      "baseSha": "07ca26679a2fd9084d1be4b574557d1c79faefd8",
+      "prHeadSha": "8ed9af4fa0418b60423bc84e58d259f13e60e0b2",
+      "mergeSha": "2b37a8c1ec17e70a1e8342bb9f4383a46ff29d16",
+      "mergedAt": "2026-08-21T15:18:20Z"
+    },
+    "implementationPrChecks": [
+      {
+        "workflowName": "OSS policy",
+        "runId": 32495095752,
+        "jobId": 96811530664,
+        "event": "pull_request",
+        "headSha": "8ed9af4fa0418b60423bc84e58d259f13e60e0b2",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-21T14:59:21Z"
+      },
+      {
+        "workflowName": "ops-vector-close",
+        "runId": 32496876231,
+        "jobId": 96817265304,
+        "event": "pull_request",
+        "headSha": "8ed9af4fa0418b60423bc84e58d259f13e60e0b2",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-21T15:18:38Z"
+      },
+      {
+        "workflowName": "rtk-required",
+        "runId": 32495095833,
+        "jobId": 96811530930,
+        "event": "pull_request",
+        "headSha": "8ed9af4fa0418b60423bc84e58d259f13e60e0b2",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-21T15:17:00Z",
+        "includedWp100Gate": true
+      },
+      {
+        "workflowName": "x1-runtime-parity",
+        "jobName": "x1-runtime-parity (ubuntu-latest)",
+        "runId": 32495095973,
+        "jobId": 96811531647,
+        "event": "pull_request",
+        "headSha": "8ed9af4fa0418b60423bc84e58d259f13e60e0b2",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-21T14:59:34Z"
+      },
+      {
+        "workflowName": "x1-runtime-parity",
+        "jobName": "x1-runtime-parity (windows-latest)",
+        "runId": 32495095973,
+        "jobId": 96811531826,
+        "event": "pull_request",
+        "headSha": "8ed9af4fa0418b60423bc84e58d259f13e60e0b2",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-21T14:59:52Z"
+      }
+    ],
+    "implementationPostmergeChecks": [
+      {
+        "workflowName": "OSS policy",
+        "runId": 32496873511,
+        "jobId": 96817257205,
+        "event": "push",
+        "headSha": "2b37a8c1ec17e70a1e8342bb9f4383a46ff29d16",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-21T15:18:45Z"
+      },
+      {
+        "workflowName": "rtk-required",
+        "runId": 32496873395,
+        "jobId": 96817256636,
+        "event": "push",
+        "headSha": "2b37a8c1ec17e70a1e8342bb9f4383a46ff29d16",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-21T15:36:35Z",
+        "includedWp100Gate": true
+      }
+    ],
+    "currentMainChecks": [
+      {
+        "workflowName": "OSS policy",
+        "runId": 32643698999,
+        "jobId": 97204576427,
+        "event": "push",
+        "headSha": "c7934e8c79e7466f4904d37f1c6392a5f03aa82b",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-23T13:53:14Z"
+      },
+      {
+        "workflowName": "rtk-required",
+        "runId": 32643698984,
+        "attempt": 2,
+        "jobId": 97207074277,
+        "event": "push",
+        "headSha": "c7934e8c79e7466f4904d37f1c6392a5f03aa82b",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-23T14:31:48Z",
+        "includedWp100Gate": true,
+        "successfulStepCount": 49,
+        "totalStepCount": 49
+      }
+    ],
+    "oracleEvolution": {
+      "fromMergeSha": "2b37a8c1ec17e70a1e8342bb9f4383a46ff29d16",
+      "toCurrentMainSha": "c7934e8c79e7466f4904d37f1c6392a5f03aa82b",
+      "unchangedPaths": [
+        "test/unit/r24-wp100-generation-admission.test.js",
+        "test/unit/r24-wp100-wiring-mutants.test.js"
+      ],
+      "hardenedPath": "test/unit/r24-wp100-wiring-matrix.test.js",
+      "hardeningCommit": "e69c4f56ea217c218c7e89a01df7f40000645e51",
+      "hardeningPrNumber": 1625,
+      "hardeningMergeSha": "2c73db8f1a26acfcf276b7a7354c19a7fbe448c6",
+      "detail": "The scanner was narrowed from first literal occurrence to the actual guarded registration call; current matrix and all five mutants pass, so the evolution strengthens oracle targeting without weakening a foundation law."
+    },
+    "survivorLaw": "WP-100 implementation PR and postmerge checks passed; current main exact-head CI and local 8-test suite pass after later merges, including the explicitly recorded registration-anchor oracle hardening.",
+    "artifactDigests": [
+      {
+        "path": "src/core/autosave-generation-v1.cjs",
+        "sha256": "c901970cd0b6a7d865e4af1f5f305fb04873a3397da591691c5aa43af52cf752"
+      },
+      {
+        "path": "src/core/dirty-admission-v1.cjs",
+        "sha256": "2d1928cfc3f5b6ef669c0628578113fef5b345eb4bd3485f5e720c4d26e4362b"
+      },
+      {
+        "path": "src/core/ipc-caller-identity-v1.cjs",
+        "sha256": "d6225627ffab3329f8ad833d5a6232fa1c35c204898037517fa91223fa55b687"
+      },
+      {
+        "path": "src/core/ipc-envelope-v1.cjs",
+        "sha256": "157617747d4387ec7af664b6eff613af8f90742a9648e2a192d55e36b0564b8d"
+      },
+      {
+        "path": "src/core/revision-algebra-v1.cjs",
+        "sha256": "76768c50ff2d3f9103d80195e28c97671ea0b1e3171d85c5320dfa7912ce0923"
+      },
+      {
+        "path": "src/main.js",
+        "sha256": "64f34fbc9cfe3226c8f9a9dde34aa69325557a24376858e1ed4f922d88409d62"
+      },
+      {
+        "path": "src/preload.js",
+        "sha256": "f721aa83bb2e7eb28f441e7433c0bb4f4ee09e2c70257b508cf16baa189934f0"
+      },
+      {
+        "path": "test/unit/r24-wp100-generation-admission.test.js",
+        "sha256": "45e7a912593fc5171c46a9b1253f7fef7866939c3f765aac4300b4c703aa838c"
+      },
+      {
+        "path": "test/unit/r24-wp100-wiring-matrix.test.js",
+        "sha256": "6792e36e3cecf425113b0a595dd2e00c591741ae99b8356d56307edadf7395db"
+      },
+      {
+        "path": "test/unit/r24-wp100-wiring-mutants.test.js",
+        "sha256": "afa4db0d8ef318aa9f0de508c5000b2f6e47849bde4bb81aabc472df2f171e00"
+      }
+    ],
+    "nonClaims": [
+      "This stamp closes only WP-100 survivor audit evidence.",
+      "This stamp does not claim all historical test bytes are unchanged; the one matrix hardening is named and provenance-bound.",
+      "This stamp does not mark the 109-node R2.4 program DONE, reopen parked V2, or claim release readiness."
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

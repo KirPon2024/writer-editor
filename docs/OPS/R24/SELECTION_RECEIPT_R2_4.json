@@ -6,10 +6,10 @@
   "policyEpoch": 0,
   "mode": "HANDOFF_ONLY",
   "selectedKind": "NODE",
-  "selectedId": "WP-100_GENERATION_ADMISSION",
+  "selectedId": "WP-101_IPC_ADMISSION",
   "verdict": "SELECTED",
   "readySet": [
-    "WP-100_GENERATION_ADMISSION"
+    "WP-101_IPC_ADMISSION"
   ],
   "deterministicOrder": [
     "MANDATORY_SAFETY_CORRECTNESS",
@@ -23,7 +23,7 @@
   "reasons": [
     "SUPERVISED_HANDOFF_ONLY_CANDIDATE"
   ],
-  "generatedAt": "2026-08-23T13:10:10Z",
+  "generatedAt": "2026-08-23T14:43:07Z",
   "graphNodeCount": 109,
   "graphDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
   "sourceOfTruthPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json"

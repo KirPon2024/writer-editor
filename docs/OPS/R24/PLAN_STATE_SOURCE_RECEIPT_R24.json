@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.r24.plan-state-source-receipt.v1",
-  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPO_LOCAL_SEC0_ENT0_K1_T1_A0_PK0_CLOSURE_NO_PROGRAM_DONE",
-  "generatedAtUtc": "2026-08-23T13:10:10Z",
+  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPO_LOCAL_SEC0_ENT0_K1_T1_A0_PK0_WP100_CLOSURE_NO_PROGRAM_DONE",
+  "generatedAtUtc": "2026-08-23T14:43:07Z",
   "executableProgramPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
   "executableProgramDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
   "planStatePath": "docs/OPS/R24/PLAN_STATE_R24.json",
@@ -83,8 +83,8 @@
   },
   "nonClaims": [
     "R24 unit test files in current main are implementation evidence candidates only; they are not converted to DONE without durable terminal receipts.",
-    "This source receipt now accounts for repo-local SEC0, ENT0, K1, T1, A0, and PK0 closures and still does not mark the full 109-node program DONE.",
-    "PK0 closure records runtime-resolved subset staged subset admitted package-content evidence only; it does not certify SBOM provenance, packaged install, update, rollback, signing, notarization, release publication, production package readiness, V2 Word, account, network, or paid entitlement authority.",
+    "This source receipt now accounts for repo-local SEC0, ENT0, K1, T1, A0, PK0, and WP-100 closures and still does not mark the full 109-node program DONE.",
+    "WP-100 closure records exact edit and durable-generation admission plus non-authoritative renderer evidence over seven closed foundations; it does not certify later work packages, release readiness, V2 Word, Word/Drive mutation, SAFE_APPLY expansion, account, network, cloud, AI, dependency, or paid entitlement authority.",
     "Parked V2 remains suspended until the executable graph selects it and all dependency and evidence predicates are satisfied."
   ],
   "discoveredR24TestFiles": {
@@ -188,7 +188,7 @@
     ]
   },
   "repoLocalPlanStateClosures": {
-    "doneContourCount": 6,
+    "doneContourCount": 7,
     "closures": [
       {
         "id": "SEC0_PATH_CAPABILITY",
@@ -318,8 +318,29 @@
           "ES-R24-PK0-PACKAGE-CONTENT-TRUST-CLAIM-BINDINGS"
         ],
         "deliveryState": "CURRENT_MAIN_51817A8D_EXACT_HEAD_POSTMERGE_AND_SURVIVOR_GREEN_NO_PROGRAM_DONE"
+      },
+      {
+        "id": "WP-100_GENERATION_ADMISSION",
+        "state": "DONE",
+        "previousState": "POSTMERGE_VERIFIED",
+        "attemptId": "ATTEMPT-WP100-20260823",
+        "updatedAt": "2026-08-23T14:43:07Z",
+        "headSha": "c7934e8c79e7466f4904d37f1c6392a5f03aa82b",
+        "source": "R24_WP100_GENERATION_ADMISSION_CLOSURE_V1",
+        "terminalReceiptPath": "docs/OPS/R24/CTR-R24-WP-100-GENERATION-ADMISSION.json",
+        "evidenceStampIds": [
+          "ES-R24-WP-100-GENERATION-ADMISSION-MODEL",
+          "ES-R24-WP-100-GENERATION-ADMISSION-CONTRACT",
+          "ES-R24-WP-100-GENERATION-ADMISSION-INTEGRATION",
+          "ES-R24-WP-100-GENERATION-ADMISSION-MUTANTS",
+          "ES-R24-WP-100-GENERATION-ADMISSION-EXACT-HEAD",
+          "ES-R24-WP-100-GENERATION-ADMISSION-POSTMERGE-EXACT-HEAD",
+          "ES-R24-WP-100-GENERATION-ADMISSION-SURVIVOR-AUDIT",
+          "ES-R24-WP-100-GENERATION-ADMISSION-CLAIM-BINDINGS"
+        ],
+        "deliveryState": "CURRENT_MAIN_C7934E8C_EXACT_HEAD_POSTMERGE_AND_SURVIVOR_GREEN_NO_PROGRAM_DONE"
       }
     ]
   },
-  "planStateRevision": 91
+  "planStateRevision": 92
 }

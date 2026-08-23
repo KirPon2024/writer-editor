@@ -1,0 +1,75 @@
+{
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "ENT0_ENTITLEMENT_CONFORMANCE",
+  "attemptId": "ATTEMPT-ENT0-20260823",
+  "authorityEpoch": "R24-A0-ADMISSION-BASE-0BB87AE9",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "416b5d92d4f4fb7f9eca8bf764c6e25d963358e4",
+    "treeSha": "47dc2f41739aa6c6db8efe9f7dc30e0dffc7dcd6"
+  },
+  "createdAt": "2026-08-23T07:41:32Z",
+  "actor": "codex/r24-ent0-closure-receipt-v1-20260823",
+  "stampId": "ES-R24-ENT0-ENTITLEMENT-CONFORMANCE-POSTMERGE-EXACT-HEAD",
+  "claim": {
+    "type": "ENT0_CURRENT_MAIN_EXACT_HEAD_CI",
+    "ceiling": "ENT0_ENTITLEMENT_CONFORMANCE_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "github-actions-main-exact-head-416b5d92",
+    "evidenceClass": "POSTMERGE",
+    "denominator": 2,
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-ENT0-ENTITLEMENT-CONFORMANCE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "4a61685f9dd1ae0f75f119f9ea51e36026d5aeaeb6b5e249a23b792fca00d21a"
+  },
+  "artifact": {
+    "mainExactHeadChecks": [
+      {
+        "workflowName": "OSS policy",
+        "runId": 32624392875,
+        "jobId": 97157367200,
+        "event": "push",
+        "headSha": "416b5d92d4f4fb7f9eca8bf764c6e25d963358e4",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-23T07:00:30Z"
+      },
+      {
+        "workflowName": "rtk-required",
+        "runId": 32624392924,
+        "attempt": 2,
+        "jobId": 97159178319,
+        "event": "push",
+        "headSha": "416b5d92d4f4fb7f9eca8bf764c6e25d963358e4",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-23T07:36:23Z",
+        "includedEnt0Gate": true,
+        "includedFullR24GateSetThroughW0": true,
+        "maintainedRtkGraphPassed": true
+      }
+    ],
+    "priorFailedAttemptRecorded": {
+      "runId": 32624392924,
+      "attempt": 1,
+      "conclusion": "failure",
+      "failureShape": "bounded b3c09 stale-green classification drift in maintained RTK graph; exact rerun attempt 2 passed without code mutation"
+    },
+    "nonClaims": [
+      "This stamp records current main exact-head CI for ENT0 closure only.",
+      "It does not mark the 109-node R2.4 program DONE."
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

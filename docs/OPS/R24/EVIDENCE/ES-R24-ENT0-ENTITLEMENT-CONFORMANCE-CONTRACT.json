@@ -1,0 +1,92 @@
+{
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "ENT0_ENTITLEMENT_CONFORMANCE",
+  "attemptId": "ATTEMPT-ENT0-20260823",
+  "authorityEpoch": "R24-A0-ADMISSION-BASE-0BB87AE9",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "416b5d92d4f4fb7f9eca8bf764c6e25d963358e4",
+    "treeSha": "47dc2f41739aa6c6db8efe9f7dc30e0dffc7dcd6"
+  },
+  "createdAt": "2026-08-23T07:41:32Z",
+  "actor": "codex/r24-ent0-closure-receipt-v1-20260823",
+  "stampId": "ES-R24-ENT0-ENTITLEMENT-CONFORMANCE-CONTRACT",
+  "claim": {
+    "type": "ENT0_ONE_TABLE_CONTRACT_TESTS",
+    "ceiling": "ENT0_ENTITLEMENT_CONFORMANCE_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "test/unit/r24-ent0-entitlement-law.test.js",
+    "evidenceClass": "CONTRACT",
+    "denominator": 11,
+    "passed": 11,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-ENT0-ENTITLEMENT-CONFORMANCE-MODEL"
+    ],
+    "predecessorReceiptDigest": "4a61685f9dd1ae0f75f119f9ea51e36026d5aeaeb6b5e249a23b792fca00d21a"
+  },
+  "artifact": {
+    "command": "npm run -s test:r24-ent0",
+    "contractFile": "test/unit/r24-ent0-entitlement-law.test.js",
+    "assertions": [
+      "fail-closed tier normalization",
+      "product-owned tier constant free under local v1 law",
+      "invalid command id unavailable",
+      "pro tier enables classified commands",
+      "free read-only access remains typed",
+      "nine pro-complexity commands refused in free",
+      "free authorship available",
+      "unclassified commands fail closed",
+      "overlap precedence remains pro complexity",
+      "frozen decision results",
+      "frozen table integrity and product registry coverage"
+    ],
+    "artifactDigests": [
+      {
+        "path": "src/core/entitlement-law-v1.cjs",
+        "sha256": "769415fe8be51a907fdd43fa4066da179b31afe77a73bc9314f5ac0f41a5b35e"
+      },
+      {
+        "path": "src/main.js",
+        "sha256": "64f34fbc9cfe3226c8f9a9dde34aa69325557a24376858e1ed4f922d88409d62"
+      },
+      {
+        "path": "src/renderer/commands/localCapabilityProvider.mjs",
+        "sha256": "0a7a67505e920c8ed149a8fc3446e292f0650108f79d0a8431c658df032e1208"
+      },
+      {
+        "path": "test/unit/r24-ent0-entitlement-law.test.js",
+        "sha256": "29480b37b43ed9f14042fc2644eb35fee35d1dae6dc9ce8b396c2af2f4586cd2"
+      },
+      {
+        "path": "test/unit/r24-ent0-port-enforcement.test.js",
+        "sha256": "ca5d6f020030d5fff5194be1c73eadf280f56b27140d6c22502634a36d262e70"
+      },
+      {
+        "path": "test/unit/r24-ent0-law-mutants.test.js",
+        "sha256": "967b25b2bc46795c5e7b582e6d0abb4cb07bde82e8a8b740fd97f43ea3d86904"
+      },
+      {
+        "path": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+        "sha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5"
+      },
+      {
+        "path": "docs/OPS/R24/PLAN_STATE_R24.json",
+        "sha256": "966673c9235eb8dbe0c22012490f05ccc7583ed8872b1436947b274ec6ac0b83"
+      },
+      {
+        "path": "scripts/ops/r24/tests/executable-program.test.mjs",
+        "sha256": "f3d28a94b71f7d0a3f3d92d46e9e50b5ec6073a1690a0ef7d88c9daa244867ca"
+      }
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

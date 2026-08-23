@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.r24.plan-state-source-receipt.v1",
-  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPO_LOCAL_SEC0_CLOSURE_NO_PROGRAM_DONE",
-  "generatedAtUtc": "2026-08-23T06:34:59Z",
+  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPO_LOCAL_SEC0_ENT0_CLOSURE_NO_PROGRAM_DONE",
+  "generatedAtUtc": "2026-08-23T07:41:32Z",
   "executableProgramPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
   "executableProgramDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
   "planStatePath": "docs/OPS/R24/PLAN_STATE_R24.json",
@@ -83,8 +83,8 @@
   },
   "nonClaims": [
     "R24 unit test files in current main are implementation evidence candidates only; they are not converted to DONE without durable terminal receipts.",
-    "This source receipt now accounts for one repo-local SEC0 closure and still does not mark the full 109-node program DONE.",
-    "SEC0 closure does not certify V2 Word, Word physical recertification, release, signing, notarization, or production package readiness.",
+    "This source receipt now accounts for repo-local SEC0 and ENT0 closures and still does not mark the full 109-node program DONE.",
+    "ENT0 closure does not certify V2 Word, Word physical recertification, release, signing, notarization, production package readiness, account, network, or paid entitlement authority.",
     "Parked V2 remains suspended until the corrective authority/evidence sequence is merged and postmerge verified."
   ],
   "discoveredR24TestFiles": {
@@ -188,7 +188,7 @@
     ]
   },
   "repoLocalPlanStateClosures": {
-    "doneContourCount": 1,
+    "doneContourCount": 2,
     "closures": [
       {
         "id": "SEC0_PATH_CAPABILITY",
@@ -210,7 +210,29 @@
           "ES-R24-SEC0-PATH-CAPABILITY-SURVIVOR-AUDIT"
         ],
         "deliveryState": "PR_1648_MERGED_MAIN_EXACT_HEAD_POSTMERGE_AND_SURVIVOR_GREEN_NO_PROGRAM_DONE"
+      },
+      {
+        "id": "ENT0_ENTITLEMENT_CONFORMANCE",
+        "state": "DONE",
+        "previousState": "POSTMERGE_VERIFIED",
+        "attemptId": "ATTEMPT-ENT0-20260823",
+        "updatedAt": "2026-08-23T07:41:32Z",
+        "headSha": "416b5d92d4f4fb7f9eca8bf764c6e25d963358e4",
+        "source": "R24_ENT0_ENTITLEMENT_CONFORMANCE_CLOSURE_V1",
+        "terminalReceiptPath": "docs/OPS/R24/CTR-R24-ENT0-ENTITLEMENT-CONFORMANCE.json",
+        "evidenceStampIds": [
+          "ES-R24-ENT0-ENTITLEMENT-CONFORMANCE-MODEL",
+          "ES-R24-ENT0-ENTITLEMENT-CONFORMANCE-CONTRACT",
+          "ES-R24-ENT0-ENTITLEMENT-CONFORMANCE-INTEGRATION",
+          "ES-R24-ENT0-ENTITLEMENT-CONFORMANCE-MUTANTS",
+          "ES-R24-ENT0-ENTITLEMENT-CONFORMANCE-EXACT-HEAD",
+          "ES-R24-ENT0-ENTITLEMENT-CONFORMANCE-POSTMERGE-EXACT-HEAD",
+          "ES-R24-ENT0-ENTITLEMENT-CONFORMANCE-SURVIVOR-AUDIT",
+          "ES-R24-ENT0-ENTITLEMENT-CONFORMANCE-CLAIM-BINDINGS"
+        ],
+        "deliveryState": "CURRENT_MAIN_416B5D92_EXACT_HEAD_POSTMERGE_AND_SURVIVOR_GREEN_NO_PROGRAM_DONE"
       }
     ]
-  }
+  },
+  "planStateRevision": 87
 }

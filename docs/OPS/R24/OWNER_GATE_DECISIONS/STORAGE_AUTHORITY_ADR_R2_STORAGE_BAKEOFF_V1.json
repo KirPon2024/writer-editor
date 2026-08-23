@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "yalken.owner-gate-decision.r24.v1",
+  "decisionId": "STORAGE_AUTHORITY_ADR_R2_STORAGE_BAKEOFF_V1",
+  "missionDigest": "2d188140211c4e2a65f0f1bf1bef5bac53e396e3c3887cb3563fa253a10b0c80",
+  "gateId": "STORAGE_AUTHORITY_ADR",
+  "nodeId": "R2_STORAGE_BAKEOFF",
+  "decision": "APPROVED",
+  "approvedBy": "owner:OWNER_DECISION_STORAGE_AUTHORITY_ADR_APPROVED",
+  "priorOwnerStandingGrantTaskId": "YALKEN-R24-R2-STORAGE-BAKEOFF-001",
+  "issuedAtUtc": "2026-08-23T22:47:22Z",
+  "expiresAtUtc": null,
+  "revocationEpoch": 0,
+  "authorizedScope": {
+    "storageBakeoffComparison": true,
+    "certifyAlreadyMergedImplementation": true,
+    "dependencyAdoption": false,
+    "liveStoragePathChange": false,
+    "userDataMigration": false,
+    "destructiveStorageAction": false
+  },
+  "forbiddenAuthorityExpansion": [
+    "DEPENDENCY_ADOPTION",
+    "LIVE_STORAGE_PATH_CHANGE",
+    "USER_DATA_MIGRATION",
+    "DESTRUCTIVE_STORAGE_ACTION",
+    "CREDENTIAL_OR_SECRET_BYPASS",
+    "SAFE_APPLY_EXPANSION",
+    "FORCE_PUSH",
+    "PROTECTION_BYPASS",
+    "SECOND_WRITER_OR_CONTOUR"
+  ],
+  "noSelfApproval": true
+}

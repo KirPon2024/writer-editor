@@ -138,6 +138,8 @@ const R24_A0_AUTHORITY_SOT_ALLOWLIST = [
   'docs/OPS/R24/EXECUTION_ENVELOPES_R2_4.json',
   'docs/OPS/R24/MISSION_APPROVAL_RECEIPT_R2_4.json',
   'docs/OPS/R24/MISSION_CONTRACT_R2_4.json',
+  'docs/OPS/R24/OWNER_GATE_AMENDMENTS_R2_4.json',
+  'docs/OPS/R24/OWNER_GATE_DECISIONS/STORAGE_AUTHORITY_ADR_R2_STORAGE_BAKEOFF_V1.json',
   'docs/OPS/R24/OWNER_GATE_REGISTRY_R2_4.json',
   'docs/OPS/R24/PACKAGE_MANIFEST_R2_4.json',
   'docs/OPS/R24/PACKAGE_MUTATION_RECEIPT_R2_4.json',
@@ -150,9 +152,11 @@ const R24_A0_AUTHORITY_SOT_ALLOWLIST = [
   'docs/OPS/R24/TEST_ASSURANCE_MATRIX_R2_4.json',
   'scripts/ops/r24/docs-claim-lint.mjs',
   'scripts/ops/r24/executable-program.mjs',
+  'scripts/ops/r24/owner-gate-decisions.mjs',
   'scripts/ops/r24/test-mutants.mjs',
   'scripts/ops/r24/tests/docs-claim-lint.test.mjs',
   'scripts/ops/r24/tests/executable-program.test.mjs',
+  'scripts/ops/r24/tests/owner-gate-decisions.test.mjs',
   'test/contracts/rtk-evidence-stale-green-guard.contract.test.js',
 ];
 const ALLOWLIST = [

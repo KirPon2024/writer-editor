@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import { readJsonBounded, sha256hex, canonicalDigest, R24Error, HEX40_RE, HEX64_RE } from './canonical-json.mjs';
 import { verifyApprovalReceipt } from './mission-contract.mjs';
+import { loadValidatedOwnerGateApprovals } from './owner-gate-decisions.mjs';
 import { selectNext } from './scheduler.mjs';
 
 const MODULE_DIR = path.dirname(fileURLToPath(import.meta.url));
@@ -283,6 +284,7 @@ export function buildSchedulerMission({
   graphDigest,
   schedulerGraphDigest,
   identityRoles,
+  ownerGateApprovals,
   selectedProfiles = null,
 }) {
   const profiles = selectedProfiles || [
@@ -299,7 +301,7 @@ export function buildSchedulerMission({
     missionId: missionContract.missionId,
     missionDigest: missionContract.missionDigest,
     selectedProfiles: profiles,
-    ownerGateApprovals: {},
+    ownerGateApprovals,
     approved: missionApproval.approved === true,
     autonomyEnabled: false,
     stateRevision: planState.revision,
@@ -320,6 +322,7 @@ export function buildSelectionReceiptOnFullGraph({ now, planState, implementatio
   const { program, digest } = loadExecutableProgram();
   const missionContract = readR24Json('MISSION_CONTRACT_R2_4.json');
   const missionApproval = assertMissionApproval();
+  const ownerGateApprovals = loadValidatedOwnerGateApprovals({ program, missionContract });
   const policy = readR24Json('AUTONOMY_CONTROL_PLANE_R2_4.json');
   const policyEpoch = policy?.policyEpoch?.epoch;
   if (!Number.isInteger(policyEpoch) || policyEpoch < 0) throw new R24Error('E_R24_POLICY_EPOCH_SHAPE');
@@ -352,6 +355,7 @@ export function buildSelectionReceiptOnFullGraph({ now, planState, implementatio
       graphDigest: digest,
       schedulerGraphDigest: canonicalDigest(program.nodes),
       identityRoles,
+      ownerGateApprovals,
     }),
     now,
   });

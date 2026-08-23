@@ -11495,10 +11495,11 @@
     },
     {
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-CLAIM-BINDINGS.json",
-      "sha256": "d594cb313ee7cd2ee6c5d3b39ad847895736abffba24ba14c2ef6696bcba1328",
-      "approvedBy": "owner-directive:RESUME_AFTER_REBOOT_R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE",
-      "approvedAtUtc": "2026-08-23T12:12:18Z",
-      "rationale": "Approve R2.4 A0 closure receipt delivery: records Atlas incremental/full equivalence node-only closure, claim-binding digest refreshes, scheduler selection to PK0/WP100, and stale-green register repair without PROGRAM DONE, product runtime, Word/Drive, SAFE_APPLY, dependency, package, or release authority.",
+      "sha256": "664b716c7cdad1d3e45c887efd8fa1151ffa2660ab77483dee138456ca11c173",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T13:10:10Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 PK0 closure receipt delivery: records node-only runtime-resolved subset staged subset admitted package-content evidence, refreshes mutable claim bindings, and selects WP-100 without PROGRAM DONE, SBOM provenance, package install/update/rollback, signing, notarization, release, product runtime, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
       "approved": true
     },
     {
@@ -11575,66 +11576,164 @@
     },
     {
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-ENT0-ENTITLEMENT-CONFORMANCE-CLAIM-BINDINGS.json",
-      "sha256": "7ee5000373cbf9b1b4c61c8168646d4dcee210f5d994b5ec73eeb4727f38c3d0",
-      "approvedBy": "owner-directive:RESUME_AFTER_REBOOT_R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE",
-      "approvedAtUtc": "2026-08-23T12:12:18Z",
-      "rationale": "Approve R2.4 A0 closure receipt delivery: records Atlas incremental/full equivalence node-only closure, claim-binding digest refreshes, scheduler selection to PK0/WP100, and stale-green register repair without PROGRAM DONE, product runtime, Word/Drive, SAFE_APPLY, dependency, package, or release authority.",
+      "sha256": "f8a6fbc2712716aeb7b6b384f6ff7947aa0145bccc59655265777f9285aefe1e",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T13:10:10Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 PK0 closure receipt delivery: records node-only runtime-resolved subset staged subset admitted package-content evidence, refreshes mutable claim bindings, and selects WP-100 without PROGRAM DONE, SBOM provenance, package install/update/rollback, signing, notarization, release, product runtime, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
       "approved": true
     },
     {
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-K1-AUTHORITY-DECOMPOSITION-CLAIM-BINDINGS.json",
-      "sha256": "2285ec65cbe5e8bd0134be816668ccce46624f3b00667eedcf0269d9dffd8585",
-      "approvedBy": "owner-directive:RESUME_AFTER_REBOOT_R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE",
-      "approvedAtUtc": "2026-08-23T12:12:18Z",
-      "rationale": "Approve R2.4 A0 closure receipt delivery: records Atlas incremental/full equivalence node-only closure, claim-binding digest refreshes, scheduler selection to PK0/WP100, and stale-green register repair without PROGRAM DONE, product runtime, Word/Drive, SAFE_APPLY, dependency, package, or release authority.",
+      "sha256": "a4c3c11eac5350bbdd40b28fa3a311bc54961f7f2dc4e5c347e1b6c7015cb223",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T13:10:10Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 PK0 closure receipt delivery: records node-only runtime-resolved subset staged subset admitted package-content evidence, refreshes mutable claim bindings, and selects WP-100 without PROGRAM DONE, SBOM provenance, package install/update/rollback, signing, notarization, release, product runtime, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
       "approved": true
     },
     {
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-SEC0-PATH-CAPABILITY-CLAIM-BINDINGS.json",
-      "sha256": "ebb1c6cb34ff889f51783681aca6219572c49825de9a0036ba67f24321072daa",
-      "approvedBy": "owner-directive:RESUME_AFTER_REBOOT_R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE",
-      "approvedAtUtc": "2026-08-23T12:12:18Z",
-      "rationale": "Approve R2.4 A0 closure receipt delivery: records Atlas incremental/full equivalence node-only closure, claim-binding digest refreshes, scheduler selection to PK0/WP100, and stale-green register repair without PROGRAM DONE, product runtime, Word/Drive, SAFE_APPLY, dependency, package, or release authority.",
+      "sha256": "87404f1b2a31372f73d50122be8e9c751f1b03612b537990bf687b8391f17d7e",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T13:10:10Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 PK0 closure receipt delivery: records node-only runtime-resolved subset staged subset admitted package-content evidence, refreshes mutable claim bindings, and selects WP-100 without PROGRAM DONE, SBOM provenance, package install/update/rollback, signing, notarization, release, product runtime, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
       "approved": true
     },
     {
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-T1-ANCHOR-LINEAGE-CLAIM-BINDINGS.json",
-      "sha256": "29ca392994e6745f03ef59469c39af0ee7c5485d0e72c8ff0508143d14732555",
-      "approvedBy": "owner-directive:RESUME_AFTER_REBOOT_R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE",
-      "approvedAtUtc": "2026-08-23T12:12:18Z",
-      "rationale": "Approve R2.4 A0 closure receipt delivery: records Atlas incremental/full equivalence node-only closure, claim-binding digest refreshes, scheduler selection to PK0/WP100, and stale-green register repair without PROGRAM DONE, product runtime, Word/Drive, SAFE_APPLY, dependency, package, or release authority.",
+      "sha256": "1d1450636a79c32e53520b44d67e4ca4c9205487152a31261a7b8c76404141ac",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T13:10:10Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 PK0 closure receipt delivery: records node-only runtime-resolved subset staged subset admitted package-content evidence, refreshes mutable claim bindings, and selects WP-100 without PROGRAM DONE, SBOM provenance, package install/update/rollback, signing, notarization, release, product runtime, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
       "approved": true
     },
     {
       "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
-      "sha256": "253b6d81074d048e47140eeaf993fb3f35c5d402490c63def4dc0c45ba65cad4",
-      "approvedBy": "owner-directive:RESUME_AFTER_REBOOT_R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE",
-      "approvedAtUtc": "2026-08-23T12:12:18Z",
-      "rationale": "Approve R2.4 A0 closure receipt delivery: records Atlas incremental/full equivalence node-only closure, claim-binding digest refreshes, scheduler selection to PK0/WP100, and stale-green register repair without PROGRAM DONE, product runtime, Word/Drive, SAFE_APPLY, dependency, package, or release authority.",
+      "sha256": "7e1f826050b956ac2adbf8f06ca117c8bbc45c609fb3b6b9741e2dab266470c1",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T13:10:10Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 PK0 closure receipt delivery: records node-only runtime-resolved subset staged subset admitted package-content evidence, refreshes mutable claim bindings, and selects WP-100 without PROGRAM DONE, SBOM provenance, package install/update/rollback, signing, notarization, release, product runtime, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
       "approved": true
     },
     {
       "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
-      "sha256": "95e79de8ede9ecd9c15fed56ed228717df581efa0f36de8dfa295764e7817e56",
-      "approvedBy": "owner-directive:RESUME_AFTER_REBOOT_R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE",
-      "approvedAtUtc": "2026-08-23T12:12:18Z",
-      "rationale": "Approve R2.4 A0 closure receipt delivery: records Atlas incremental/full equivalence node-only closure, claim-binding digest refreshes, scheduler selection to PK0/WP100, and stale-green register repair without PROGRAM DONE, product runtime, Word/Drive, SAFE_APPLY, dependency, package, or release authority.",
+      "sha256": "03dc75cedc2996313b3e027711e621bdd3a07fa29f0aa185cbad9e274fedd537",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T13:10:10Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 PK0 closure receipt delivery: records node-only runtime-resolved subset staged subset admitted package-content evidence, refreshes mutable claim bindings, and selects WP-100 without PROGRAM DONE, SBOM provenance, package install/update/rollback, signing, notarization, release, product runtime, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
       "approved": true
     },
     {
       "filePath": "docs/OPS/R24/SELECTION_RECEIPT_R2_4.json",
-      "sha256": "01ce4ef69ae5b846a188a2017253a49d548a3b23aeb745010d2b2c62d995c694",
-      "approvedBy": "owner-directive:RESUME_AFTER_REBOOT_R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE",
-      "approvedAtUtc": "2026-08-23T12:12:18Z",
-      "rationale": "Approve R2.4 A0 closure receipt delivery: records Atlas incremental/full equivalence node-only closure, claim-binding digest refreshes, scheduler selection to PK0/WP100, and stale-green register repair without PROGRAM DONE, product runtime, Word/Drive, SAFE_APPLY, dependency, package, or release authority.",
+      "sha256": "3416927febe40b5e56736496532d780a51a5a840b76347905e374fadf93760e1",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T13:10:10Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 PK0 closure receipt delivery: records node-only runtime-resolved subset staged subset admitted package-content evidence, refreshes mutable claim bindings, and selects WP-100 without PROGRAM DONE, SBOM provenance, package install/update/rollback, signing, notarization, release, product runtime, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
       "approved": true
     },
     {
       "filePath": "scripts/ops/r24/tests/executable-program.test.mjs",
-      "sha256": "bfec4029aecfc16208ca61537021f6f919c68787cf4f52b51ca740111db1bf0d",
-      "approvedBy": "owner-directive:RESUME_AFTER_REBOOT_R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE",
-      "approvedAtUtc": "2026-08-23T12:12:18Z",
-      "rationale": "Approve R2.4 A0 closure receipt delivery: records Atlas incremental/full equivalence node-only closure, claim-binding digest refreshes, scheduler selection to PK0/WP100, and stale-green register repair without PROGRAM DONE, product runtime, Word/Drive, SAFE_APPLY, dependency, package, or release authority.",
+      "sha256": "ffbcacf1d717c411cf0f95b794d90529fb6a4a71d38b5c4c67221b37aa617438",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T13:10:10Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 PK0 closure receipt delivery: records node-only runtime-resolved subset staged subset admitted package-content evidence, refreshes mutable claim bindings, and selects WP-100 without PROGRAM DONE, SBOM provenance, package install/update/rollback, signing, notarization, release, product runtime, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/CTR-R24-PK0-PACKAGE-CONTENT-TRUST.json",
+      "sha256": "d0e2889903a0b5e7701b57f85a652c50480237975183bf8bc3872a6bcf49ebf7",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T13:10:10Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 PK0 closure receipt delivery: records node-only runtime-resolved subset staged subset admitted package-content evidence, refreshes mutable claim bindings, and selects WP-100 without PROGRAM DONE, SBOM provenance, package install/update/rollback, signing, notarization, release, product runtime, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-PK0-PACKAGE-CONTENT-TRUST-CLAIM-BINDINGS.json",
+      "sha256": "3b76abd409a5386320d6213e186778026138fd0aa5085247997f4ccf603dde43",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T13:10:10Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 PK0 closure receipt delivery: records node-only runtime-resolved subset staged subset admitted package-content evidence, refreshes mutable claim bindings, and selects WP-100 without PROGRAM DONE, SBOM provenance, package install/update/rollback, signing, notarization, release, product runtime, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-PK0-PACKAGE-CONTENT-TRUST-CONTRACT.json",
+      "sha256": "1ce2416eca98923c8133b5f000172e336012a02af64724258e9035f9b7c206b2",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T13:10:10Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 PK0 closure receipt delivery: records node-only runtime-resolved subset staged subset admitted package-content evidence, refreshes mutable claim bindings, and selects WP-100 without PROGRAM DONE, SBOM provenance, package install/update/rollback, signing, notarization, release, product runtime, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-PK0-PACKAGE-CONTENT-TRUST-EXACT-HEAD.json",
+      "sha256": "b6db0994a6ee2980fb66e5581190e897aebbc70f72ef4cf9840fe3009eb16791",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T13:10:10Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 PK0 closure receipt delivery: records node-only runtime-resolved subset staged subset admitted package-content evidence, refreshes mutable claim bindings, and selects WP-100 without PROGRAM DONE, SBOM provenance, package install/update/rollback, signing, notarization, release, product runtime, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-PK0-PACKAGE-CONTENT-TRUST-INTEGRATION.json",
+      "sha256": "b7c0ec2aee08acc4ee86af1be8b1f8d6b5a58f64f1ed5d07ce23d9f4d69835c6",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T13:10:10Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 PK0 closure receipt delivery: records node-only runtime-resolved subset staged subset admitted package-content evidence, refreshes mutable claim bindings, and selects WP-100 without PROGRAM DONE, SBOM provenance, package install/update/rollback, signing, notarization, release, product runtime, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-PK0-PACKAGE-CONTENT-TRUST-MODEL.json",
+      "sha256": "651d976ce868ed141b01b5e82a6a23d11fc5e89a6416d56ba53e53577a8466dc",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T13:10:10Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 PK0 closure receipt delivery: records node-only runtime-resolved subset staged subset admitted package-content evidence, refreshes mutable claim bindings, and selects WP-100 without PROGRAM DONE, SBOM provenance, package install/update/rollback, signing, notarization, release, product runtime, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-PK0-PACKAGE-CONTENT-TRUST-MUTANTS.json",
+      "sha256": "4e94035115b52a80835d5eed4a9723f7eeb38850ef2159f9589c28cd15338ff0",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T13:10:10Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 PK0 closure receipt delivery: records node-only runtime-resolved subset staged subset admitted package-content evidence, refreshes mutable claim bindings, and selects WP-100 without PROGRAM DONE, SBOM provenance, package install/update/rollback, signing, notarization, release, product runtime, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-PK0-PACKAGE-CONTENT-TRUST-PHYSICAL.json",
+      "sha256": "420560846fa3dd7928547b4c9350def8e3d58fe0975ea518f4c3cf7a8a67795b",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T13:10:10Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 PK0 closure receipt delivery: records node-only runtime-resolved subset staged subset admitted package-content evidence, refreshes mutable claim bindings, and selects WP-100 without PROGRAM DONE, SBOM provenance, package install/update/rollback, signing, notarization, release, product runtime, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-PK0-PACKAGE-CONTENT-TRUST-POSTMERGE-EXACT-HEAD.json",
+      "sha256": "388be1cfe9b7baf94f56b2fdbbf72e1a50de5fec83d34cebda5817b891b5ecfa",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T13:10:10Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 PK0 closure receipt delivery: records node-only runtime-resolved subset staged subset admitted package-content evidence, refreshes mutable claim bindings, and selects WP-100 without PROGRAM DONE, SBOM provenance, package install/update/rollback, signing, notarization, release, product runtime, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-PK0-PACKAGE-CONTENT-TRUST-SURVIVOR-AUDIT.json",
+      "sha256": "79936daabb1902a787a2ff59bf27867dfdd1825cfff4a80941986c746114cc14",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T13:10:10Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 PK0 closure receipt delivery: records node-only runtime-resolved subset staged subset admitted package-content evidence, refreshes mutable claim bindings, and selects WP-100 without PROGRAM DONE, SBOM provenance, package install/update/rollback, signing, notarization, release, product runtime, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
       "approved": true
     }
   ]

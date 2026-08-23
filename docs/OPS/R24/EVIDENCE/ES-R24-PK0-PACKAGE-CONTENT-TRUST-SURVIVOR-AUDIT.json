@@ -1,0 +1,66 @@
+{
+  "stampId": "ES-R24-PK0-PACKAGE-CONTENT-TRUST-SURVIVOR-AUDIT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "PK0_PACKAGE_CONTENT_TRUST",
+  "attemptId": "ATTEMPT-PK0-20260823",
+  "authorityEpoch": "R24-PK0-ADMISSION-BASE-51817A8D",
+  "profileId": "PACKAGED_RELEASE_SECURITY",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "51817a8d281692dada3c042e98d14752ca03cef8",
+    "treeSha": "02fa1b213d9d4edccc2073af8296c26a6d5381eb"
+  },
+  "createdAt": "2026-08-23T13:10:10Z",
+  "actor": "codex/r24-pk0-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "PK0_SURVIVOR_AUDIT_CURRENT_MAIN",
+    "ceiling": "PK0_PACKAGE_CONTENT_TRUST_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "local survivor gates on 51817a8d plus exact-head main CI before PK0 closure mutation",
+    "denominator": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0,
+    "evidenceClass": "SURVIVOR_AUDIT"
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-PK0-PACKAGE-CONTENT-TRUST-EXACT-HEAD",
+      "ES-R24-PK0-PACKAGE-CONTENT-TRUST-POSTMERGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "139031645d8bfabfe7070c37daac92bba2c38628354013df12c10394e08b5f65"
+  },
+  "artifact": {
+    "survivorHeadSha": "51817a8d281692dada3c042e98d14752ca03cef8",
+    "localCommands": [
+      "test:r24-authority-sot",
+      "docs-claim-lint.test.mjs",
+      "test:r24-pk0",
+      "test:r24-e0",
+      "agent:guardrails",
+      "oss:policy",
+      "test:rtk"
+    ],
+    "docsClaimLint": {
+      "ok": true,
+      "filesWithClaims": 18,
+      "stampCount": 55
+    },
+    "currentSelectionBeforePk0Closure": {
+      "selectedId": "PK0_PACKAGE_CONTENT_TRUST",
+      "readySetCount": 2
+    },
+    "nextSelectionAfterPk0Closure": {
+      "selectedId": "WP-100_GENERATION_ADMISSION",
+      "readySetCount": 1
+    },
+    "planDigest": "7e1f826050b956ac2adbf8f06ca117c8bbc45c609fb3b6b9741e2dab266470c1",
+    "sourceDigest": "03dc75cedc2996313b3e027711e621bdd3a07fa29f0aa185cbad9e274fedd537",
+    "selectionDigest": "3416927febe40b5e56736496532d780a51a5a840b76347905e374fadf93760e1"
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

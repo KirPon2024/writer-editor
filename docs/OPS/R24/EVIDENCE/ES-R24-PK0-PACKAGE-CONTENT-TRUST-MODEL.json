@@ -1,0 +1,130 @@
+{
+  "stampId": "ES-R24-PK0-PACKAGE-CONTENT-TRUST-MODEL",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "PK0_PACKAGE_CONTENT_TRUST",
+  "attemptId": "ATTEMPT-PK0-20260823",
+  "authorityEpoch": "R24-PK0-ADMISSION-BASE-51817A8D",
+  "profileId": "PACKAGED_RELEASE_SECURITY",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "51817a8d281692dada3c042e98d14752ca03cef8",
+    "treeSha": "02fa1b213d9d4edccc2073af8296c26a6d5381eb"
+  },
+  "createdAt": "2026-08-23T13:10:10Z",
+  "actor": "codex/r24-pk0-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "PK0_MODEL_BINDING",
+    "ceiling": "PK0_PACKAGE_CONTENT_TRUST_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-109-node-graph-pk0-envelope-and-scientific-stage",
+    "denominator": 1,
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0,
+    "evidenceClass": "MODEL"
+  },
+  "causal": {
+    "parentStampIds": [],
+    "predecessorReceiptDigest": "139031645d8bfabfe7070c37daac92bba2c38628354013df12c10394e08b5f65"
+  },
+  "artifact": {
+    "nodeId": "PK0_PACKAGE_CONTENT_TRUST",
+    "requiredOutcome": "Define runtime files allowlist and prove resolved set is contained in staged and admitted package sets.",
+    "evidenceContractClasses": [
+      "MODEL",
+      "CONTRACT",
+      "INTEGRATION",
+      "IMPLEMENTATION_MUTANTS",
+      "INDEPENDENT_EXACT_HEAD"
+    ],
+    "graphDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+    "executionEnvelopeId": "ENV-R24-PK0_PACKAGE_CONTENT_TRUST",
+    "acceptanceId": "ACC-R24-PK0_PACKAGE_CONTENT_TRUST",
+    "scientificStageClaimCeiling": "PACKAGE_CONTENT_PROFILE_ONLY",
+    "implementationPr": {
+      "prNumber": 1641,
+      "prHeadSha": "6c6b2232b82aa3d5af293d8c92b58b1a14baf9f2",
+      "mergeSha": "6eaedd7ea2f81d6d2b4692024c1e65d201235d0a",
+      "mergedAt": "2026-08-22T16:56:52Z"
+    },
+    "planRevisionBefore": 90,
+    "planRevisionAfter": 91,
+    "packageSetReceipt": {
+      "runtimeResolvedCount": 6,
+      "stagedCount": 393,
+      "filesHash": "86985dcf9330ec13ca1c78c8f8ec432537fb62736220f4d437eb5e92affb887f",
+      "stagedFilesHash": "0049954edcfc168e0babfc0870bef15477cc4ca7d119260ae9c6e5c30d76305c"
+    },
+    "artifactDigests": [
+      {
+        "path": "scripts/ops/r24/package-content-trust-pk0.mjs",
+        "sha256": "38fd6d5db5675c4b73b2a64e0a40c5dbb397fe5c00779c41658856bc80881e13"
+      },
+      {
+        "path": "test/unit/r24-pk0-package-content-trust.test.js",
+        "sha256": "0c5f2238d505f1480fbbca1332cf434a6472cbcc2f1295a502734e9e2adfa1af"
+      },
+      {
+        "path": "test/unit/r24-pk0-package-content-mutants.test.js",
+        "sha256": "18ebecbce60f9832f72a9ca5687e296ad9d554ae86fc1a8ffcc95f01c6e404ae"
+      },
+      {
+        "path": "test/unit/r24-pk0-package-content-physics.test.js",
+        "sha256": "f475056bd0dc8941d855394179666af3bc4f6527d9049230dc9e99281e1d735f"
+      },
+      {
+        "path": "package.json",
+        "sha256": "e8566f7d509907bcb991ea957b6a65543ea04cdc17366162c6d17a63d6b9ce91"
+      },
+      {
+        "path": ".github/workflows/rtk-required.yml",
+        "sha256": "ac51eef84e4482ec96b3b513c4db8def1e06b93c5a5fe408d7ea0b31ea4dc818"
+      },
+      {
+        "path": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+        "sha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5"
+      },
+      {
+        "path": "docs/OPS/R24/EXECUTION_ENVELOPES_R2_4.json",
+        "sha256": "0b2154eb93769ecb6a3b3164159cfe2c87d73c5345fdcb008af5576c630ae9d3"
+      },
+      {
+        "path": "docs/OPS/R24/TEST_ASSURANCE_MATRIX_R2_4.json",
+        "sha256": "29133d0b3f6c96891695e81a1191565843143826770ba6cb90cd286bcab80ca8"
+      },
+      {
+        "path": "docs/OPS/R24/EVIDENCE_AND_RECEIPT_CONTRACT_R2_4.json",
+        "sha256": "fb6ab27e2c5a55a192aac8a224f63b4c4bf32c769e32fc6268a5f80d87cbcd3d"
+      },
+      {
+        "path": "docs/OPS/EVIDENCE/YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1/PROGRAM_DAG.json",
+        "sha256": "bf3f7e6e3871ebc5e5a4a83b6ded88db3ce6759df59b466b62cba1eea792be2e"
+      },
+      {
+        "path": "docs/OPS/EVIDENCE/YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1/SCIENTIFIC_CONTRACTS.json",
+        "sha256": "daf839e6a7de5719de951e73ddfee3459af2e2a8bd5bde10f6e2a8cca8e14417"
+      },
+      {
+        "path": "docs/OPS/R24/PLAN_STATE_R24.json",
+        "sha256": "7e1f826050b956ac2adbf8f06ca117c8bbc45c609fb3b6b9741e2dab266470c1"
+      },
+      {
+        "path": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+        "sha256": "03dc75cedc2996313b3e027711e621bdd3a07fa29f0aa185cbad9e274fedd537"
+      },
+      {
+        "path": "docs/OPS/R24/SELECTION_RECEIPT_R2_4.json",
+        "sha256": "3416927febe40b5e56736496532d780a51a5a840b76347905e374fadf93760e1"
+      },
+      {
+        "path": "scripts/ops/r24/tests/executable-program.test.mjs",
+        "sha256": "ffbcacf1d717c411cf0f95b794d90529fb6a4a71d38b5c4c67221b37aa617438"
+      }
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

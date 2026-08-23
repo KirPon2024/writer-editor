@@ -1,0 +1,60 @@
+{
+  "stampId": "ES-R24-PK0-PACKAGE-CONTENT-TRUST-POSTMERGE-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "PK0_PACKAGE_CONTENT_TRUST",
+  "attemptId": "ATTEMPT-PK0-20260823",
+  "authorityEpoch": "R24-PK0-ADMISSION-BASE-51817A8D",
+  "profileId": "PACKAGED_RELEASE_SECURITY",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "51817a8d281692dada3c042e98d14752ca03cef8",
+    "treeSha": "02fa1b213d9d4edccc2073af8296c26a6d5381eb"
+  },
+  "createdAt": "2026-08-23T13:10:10Z",
+  "actor": "codex/r24-pk0-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "PK0_POSTMERGE_EXACT_HEAD_MAIN_GREEN",
+    "ceiling": "PK0_PACKAGE_CONTENT_TRUST_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "main push CI after A0 closure includes PK0 package content gate",
+    "denominator": 2,
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0,
+    "evidenceClass": "POSTMERGE"
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-PK0-PACKAGE-CONTENT-TRUST-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "139031645d8bfabfe7070c37daac92bba2c38628354013df12c10394e08b5f65"
+  },
+  "artifact": {
+    "mainSha": "51817a8d281692dada3c042e98d14752ca03cef8",
+    "runs": [
+      {
+        "workflow": "OSS policy",
+        "runId": 32640486592,
+        "jobId": 97196710492,
+        "conclusion": "success"
+      },
+      {
+        "workflow": "rtk-required",
+        "runId": 32640486542,
+        "jobId": 97196710368,
+        "conclusion": "success"
+      }
+    ],
+    "rtkIncludedSteps": [
+      "Run R2.4 PK0 package content trust gate",
+      "Run R2.4 PK1 release security physical gate",
+      "Run R2.4 V3 package claim compiler gate"
+    ],
+    "completedAt": "2026-08-23T13:06:01Z"
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

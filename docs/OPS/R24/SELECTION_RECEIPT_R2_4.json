@@ -6,10 +6,9 @@
   "policyEpoch": 0,
   "mode": "HANDOFF_ONLY",
   "selectedKind": "NODE",
-  "selectedId": "PK0_PACKAGE_CONTENT_TRUST",
+  "selectedId": "WP-100_GENERATION_ADMISSION",
   "verdict": "SELECTED",
   "readySet": [
-    "PK0_PACKAGE_CONTENT_TRUST",
     "WP-100_GENERATION_ADMISSION"
   ],
   "deterministicOrder": [
@@ -24,7 +23,7 @@
   "reasons": [
     "SUPERVISED_HANDOFF_ONLY_CANDIDATE"
   ],
-  "generatedAt": "2026-08-23T11:06:52Z",
+  "generatedAt": "2026-08-23T13:10:10Z",
   "graphNodeCount": 109,
   "graphDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
   "sourceOfTruthPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json"

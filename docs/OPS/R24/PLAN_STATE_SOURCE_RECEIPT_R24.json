@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.r24.plan-state-source-receipt.v1",
-  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPO_LOCAL_SEC0_ENT0_K1_T1_A0_CLOSURE_NO_PROGRAM_DONE",
-  "generatedAtUtc": "2026-08-23T11:06:52Z",
+  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPO_LOCAL_SEC0_ENT0_K1_T1_A0_PK0_CLOSURE_NO_PROGRAM_DONE",
+  "generatedAtUtc": "2026-08-23T13:10:10Z",
   "executableProgramPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
   "executableProgramDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
   "planStatePath": "docs/OPS/R24/PLAN_STATE_R24.json",
@@ -83,9 +83,9 @@
   },
   "nonClaims": [
     "R24 unit test files in current main are implementation evidence candidates only; they are not converted to DONE without durable terminal receipts.",
-    "This source receipt now accounts for repo-local SEC0, ENT0, K1, T1, and A0 closures and still does not mark the full 109-node program DONE.",
-    "A0 closure records Atlas incremental/full equivalence evidence only; it does not certify V2 Word, Word physical recertification, release, signing, notarization, production package readiness, account, network, paid entitlement authority, or universal Atlas scale.",
-    "Parked V2 remains suspended until the corrective authority/evidence sequence is merged and postmerge verified."
+    "This source receipt now accounts for repo-local SEC0, ENT0, K1, T1, A0, and PK0 closures and still does not mark the full 109-node program DONE.",
+    "PK0 closure records runtime-resolved subset staged subset admitted package-content evidence only; it does not certify SBOM provenance, packaged install, update, rollback, signing, notarization, release publication, production package readiness, V2 Word, account, network, or paid entitlement authority.",
+    "Parked V2 remains suspended until the executable graph selects it and all dependency and evidence predicates are satisfied."
   ],
   "discoveredR24TestFiles": {
     "count": 94,
@@ -188,7 +188,7 @@
     ]
   },
   "repoLocalPlanStateClosures": {
-    "doneContourCount": 5,
+    "doneContourCount": 6,
     "closures": [
       {
         "id": "SEC0_PATH_CAPABILITY",
@@ -296,8 +296,30 @@
           "ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-CLAIM-BINDINGS"
         ],
         "deliveryState": "CURRENT_MAIN_16018651_EXACT_HEAD_POSTMERGE_AND_SURVIVOR_GREEN_NO_PROGRAM_DONE"
+      },
+      {
+        "id": "PK0_PACKAGE_CONTENT_TRUST",
+        "state": "DONE",
+        "previousState": "POSTMERGE_VERIFIED",
+        "attemptId": "ATTEMPT-PK0-20260823",
+        "updatedAt": "2026-08-23T13:10:10Z",
+        "headSha": "51817a8d281692dada3c042e98d14752ca03cef8",
+        "source": "R24_PK0_PACKAGE_CONTENT_TRUST_CLOSURE_V1",
+        "terminalReceiptPath": "docs/OPS/R24/CTR-R24-PK0-PACKAGE-CONTENT-TRUST.json",
+        "evidenceStampIds": [
+          "ES-R24-PK0-PACKAGE-CONTENT-TRUST-MODEL",
+          "ES-R24-PK0-PACKAGE-CONTENT-TRUST-CONTRACT",
+          "ES-R24-PK0-PACKAGE-CONTENT-TRUST-INTEGRATION",
+          "ES-R24-PK0-PACKAGE-CONTENT-TRUST-MUTANTS",
+          "ES-R24-PK0-PACKAGE-CONTENT-TRUST-PHYSICAL",
+          "ES-R24-PK0-PACKAGE-CONTENT-TRUST-EXACT-HEAD",
+          "ES-R24-PK0-PACKAGE-CONTENT-TRUST-POSTMERGE-EXACT-HEAD",
+          "ES-R24-PK0-PACKAGE-CONTENT-TRUST-SURVIVOR-AUDIT",
+          "ES-R24-PK0-PACKAGE-CONTENT-TRUST-CLAIM-BINDINGS"
+        ],
+        "deliveryState": "CURRENT_MAIN_51817A8D_EXACT_HEAD_POSTMERGE_AND_SURVIVOR_GREEN_NO_PROGRAM_DONE"
       }
     ]
   },
-  "planStateRevision": 90
+  "planStateRevision": 91
 }

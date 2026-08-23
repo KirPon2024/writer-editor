@@ -9,7 +9,7 @@ import { acquireLease, assertLeaseCurrent, releaseLease } from '../lease.mjs';
 import { selectNext } from '../scheduler.mjs';
 import { buildEvidenceStamp, buildTerminalReceipt } from '../terminal-receipt.mjs';
 import { runTruthful } from '../runner-truth.mjs';
-import { sha256hex } from '../canonical-json.mjs';
+import { sha256hex, canonicalDigest } from '../canonical-json.mjs';
 
 const tmp = () => fs.mkdtempSync(path.join(os.tmpdir(), 'r24-integ-'));
 const NOW = '2026-08-20T00:00:00Z';
@@ -101,6 +101,24 @@ test('full supervised E0 chain: approval, lease, schedule, transitions, receipts
       selectedProfiles: ['SHARED_ASSURANCE_BOOTSTRAP'],
       approved: true,
       autonomyEnabled: false,
+      stateRevision: readPlanState(planFile).revision,
+      fencingCounter: readPlanState(planFile).fencingCounter,
+      stateDigest: canonicalDigest(readPlanState(planFile)),
+      contourStatesDigest: canonicalDigest({}),
+      policyEpoch: 0,
+      policyDigest: '1'.repeat(64),
+      graphNodeCount: program.nodes.length,
+      graphDigest: '2'.repeat(64),
+      schedulerGraphDigest: canonicalDigest(program.nodes),
+      sourceOfTruthPath: 'docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json',
+      identityRoles: {
+        implementationSourceSha: HEAD,
+        evaluationHeadSha: HEAD,
+        evaluationTreeSha: TREE,
+        prHeadSha: null,
+        mergeSha: null,
+        postmergeSha: null,
+      },
     },
     now: NOW,
   });
@@ -117,6 +135,8 @@ test('full supervised E0 chain: approval, lease, schedule, transitions, receipts
       to,
       expectedRevision: revision,
       attemptId: 'ATTEMPT-1',
+      writerId: 'KIMI-K3-MAX',
+      fencingToken: 1,
       now: NOW,
       idempotencyKey: `e0-transition-${to}`,
     });
@@ -162,15 +182,25 @@ test('full supervised E0 chain: approval, lease, schedule, transitions, receipts
   // Duplicate dispatch suppression across the whole chain.
   const dupPlan = path.join(dir, 'dup-plan.json');
   initPlanState(dupPlan);
+  const dupLease = acquireLease(dupPlan, {
+    contourId: 'C',
+    writerId: 'KIMI-K3-MAX',
+    missionId: contract.missionId,
+    ttlMs: 3600000,
+    now: NOW,
+    expectedRevision: 0,
+  });
   const first = transitionContour(dupPlan, {
-    contourId: 'C', to: 'ELIGIBLE', expectedRevision: 0, attemptId: 'A1', now: NOW, idempotencyKey: 'k1',
+    contourId: 'C', to: 'ELIGIBLE', expectedRevision: dupLease.revision, attemptId: 'A1',
+    writerId: 'KIMI-K3-MAX', fencingToken: dupLease.result.lease.fencingToken, now: NOW, idempotencyKey: 'k1',
   });
   const replay = transitionContour(dupPlan, {
-    contourId: 'C', to: 'ELIGIBLE', expectedRevision: 1, attemptId: 'A1', now: NOW, idempotencyKey: 'k1',
+    contourId: 'C', to: 'ELIGIBLE', expectedRevision: dupLease.revision, attemptId: 'A1',
+    writerId: 'KIMI-K3-MAX', fencingToken: dupLease.result.lease.fencingToken, now: NOW, idempotencyKey: 'k1',
   });
   assert.equal(first.applied, true);
   assert.equal(replay.duplicate, true);
-  assert.equal(readPlanState(dupPlan).revision, 1);
+  assert.equal(readPlanState(dupPlan).revision, 2);
 
   // Crash between intent and commit classifies and recovers read-only.
   const crashFile = path.join(dir, 'crash-plan.json');

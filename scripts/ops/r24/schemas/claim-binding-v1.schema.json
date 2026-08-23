@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yalken.local/schemas/claim-binding-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "stampId",
+    "contourId",
+    "evidenceClass",
+    "verdict",
+    "headSha",
+    "originMainSha",
+    "generatedAtUtc",
+    "oracle",
+    "claimBindings",
+    "nonClaims"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "ClaimBindingV1"
+    },
+    "stampId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "contourId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidenceClass": {
+      "const": "CONTRACT"
+    },
+    "verdict": {
+      "enum": [
+        "PASS",
+        "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE"
+      ]
+    },
+    "headSha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "originMainSha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "generatedAtUtc": {
+      "type": "string",
+      "minLength": 1
+    },
+    "oracle": {
+      "type": "string",
+      "minLength": 1
+    },
+    "claimBindings": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "filePath",
+          "sha256",
+          "claimTerms"
+        ],
+        "properties": {
+          "filePath": {
+            "type": "string",
+            "pattern": "^docs/OPS/R24/.+\\.(json|md)$"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "claimTerms": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "PASS",
+                "DONE",
+                "READY",
+                "CLOSED",
+                "SAFE",
+                "COMPLETE"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "implementationArtifactDigests": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "sha256",
+          "terms"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "terms": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "executedEvidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "command",
+          "verdict"
+        ],
+        "properties": {
+          "command": {
+            "type": "string",
+            "minLength": 1
+          },
+          "verdict": {
+            "type": "string",
+            "minLength": 1
+          },
+          "tests": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "pass",
+              "fail"
+            ],
+            "properties": {
+              "pass": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "fail": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          },
+          "mutants": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "killed",
+              "survived"
+            ],
+            "properties": {
+              "killed": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "survived": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          },
+          "requiredDisposition": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "nonClaims": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

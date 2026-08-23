@@ -17,7 +17,7 @@ import {
   summarizeLegacyGraphDivergence,
   validateCommittedR24Sot,
 } from '../executable-program.mjs';
-import { readJsonBounded } from '../canonical-json.mjs';
+import { readJsonBounded, canonicalDigest } from '../canonical-json.mjs';
 
 const ROOT = path.resolve(R24_DIR, '..', '..', '..');
 const PLAN_STATE_PATH = path.join(R24_DIR, 'PLAN_STATE_R24.json');
@@ -104,7 +104,10 @@ test('validator fails closed on audited dependency reconciliation drift', () => 
 
 test('PlanState persists the full 109-node denominator without unreconciled DONE overclaim', () => {
   const state = readJsonBounded(PLAN_STATE_PATH);
-  assert.equal(state.schemaVersion, 'yalken.plan-state.r24.v1');
+  assert.equal(state.schemaVersion, 'yalken.plan-state.r24.v2');
+  assert.equal(state.replayBaseline.classification, 'ADOPTED_PRE_V2_UNREPLAYABLE_HISTORY');
+  assert.equal(state.replayBaseline.unreplayableContourIds.includes('WP-102_OPERATION_PROTOCOL'), true);
+  assert.deepEqual(state.transitionHistory, []);
   assert.equal(Object.keys(state.contours).length, EXPECTED_NODE_COUNT);
   assert.equal(state.leases && Object.keys(state.leases).length, 0);
   const sourceReceipt = readR24Json('PLAN_STATE_SOURCE_RECEIPT_R24.json');
@@ -151,11 +154,36 @@ test('scheduler selection receipt is bound to the real full graph rather than a 
   assert.equal(receipt.schemaVersion, 'SelectionReceiptR2_4');
   assert.equal(receipt.graphNodeCount, EXPECTED_NODE_COUNT);
   assert.equal(receipt.graphDigest, EXPECTED_PROGRAM_DIGEST);
+  assert.equal(receipt.stateRevision, planState.revision);
+  assert.equal(receipt.fencingCounter, planState.fencingCounter);
+  assert.equal(receipt.stateDigest, canonicalDigest(planState));
+  assert.equal(receipt.policyEpoch, 0);
+  assert.match(receipt.policyDigest, /^[0-9a-f]{64}$/);
+  assert.match(receipt.schedulerGraphDigest, /^[0-9a-f]{64}$/);
+  assert.match(receipt.identityRoles.implementationSourceSha, /^[0-9a-f]{40}$/);
+  assert.match(receipt.identityRoles.evaluationHeadSha, /^[0-9a-f]{40}$/);
+  assert.match(receipt.identityRoles.evaluationTreeSha, /^[0-9a-f]{40}$/);
+  assert.equal(receipt.identityRoles.prHeadSha, null);
+  assert.equal(receipt.identityRoles.mergeSha, null);
+  assert.equal(receipt.identityRoles.postmergeSha, null);
   assert.equal(receipt.sourceOfTruthPath, 'docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json');
   assert.equal(receipt.selectedKind, 'NODE');
   assert.equal(nodeIds.has(receipt.selectedId), true);
   assert.equal(receipt.selectedId === 'G0_AUTHORITY_CLOSURE', false);
   assert.equal(receipt.readySet.every((id) => nodeIds.has(id)), true);
+});
+
+test('scheduler refuses a plan state not committed at the evaluation head', () => {
+  const planState = readJsonBounded(PLAN_STATE_PATH);
+  const stale = clone(planState);
+  stale.revision += 1;
+  assert.throws(
+    () => buildSelectionReceiptOnFullGraph({
+      now: '2026-08-22T23:22:16Z',
+      planState: stale,
+    }),
+    (e) => e.code === 'E_R24_SELECTION_STATE_NOT_AT_EVALUATION_HEAD',
+  );
 });
 
 test('CLI validation receipt reports PASS on the committed SOT only', () => {

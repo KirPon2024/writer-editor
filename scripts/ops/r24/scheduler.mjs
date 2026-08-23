@@ -5,7 +5,13 @@
 // ownerGate null or APPROVED in the provided closed gate registry.
 // Selection order is the sealed seven-key total order; numeric product
 // scoring is forbidden; same inputs always produce the same receipt.
-import { R24Error } from './canonical-json.mjs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { R24Error, canonicalDigest, HEX40_RE, HEX64_RE, readJsonBounded } from './canonical-json.mjs';
+import { assertValidJson } from './json-schema-lite.mjs';
+
+const MODULE_DIR = path.dirname(fileURLToPath(import.meta.url));
+export const SELECTION_RECEIPT_SCHEMA_PATH = path.join(MODULE_DIR, 'schemas', 'selection-receipt-r2_4.schema.json');
 
 export const DETERMINISTIC_ORDER = Object.freeze([
   'MANDATORY_SAFETY_CORRECTNESS',
@@ -86,8 +92,32 @@ export function computeReadySet({ program, contourStates, mission }) {
   }).map((node) => node.id);
 }
 
+export function assertSchedulerMissionBinding({ program, contourStates, mission }) {
+  if (!mission || typeof mission !== 'object') throw new R24Error('E_SCHEDULER_MISSION_REQUIRED');
+  for (const key of ['stateRevision', 'fencingCounter', 'policyEpoch', 'graphNodeCount']) {
+    if (!Number.isInteger(mission[key]) || mission[key] < 0) throw new R24Error('E_SCHEDULER_BINDING_INTEGER', key);
+  }
+  if (mission.graphNodeCount !== program.nodes.length) throw new R24Error('E_SCHEDULER_GRAPH_COUNT_STALE');
+  for (const key of ['stateDigest', 'contourStatesDigest', 'policyDigest', 'graphDigest', 'schedulerGraphDigest']) {
+    if (!HEX64_RE.test(String(mission[key]))) throw new R24Error('E_SCHEDULER_BINDING_DIGEST', key);
+  }
+  if (mission.schedulerGraphDigest !== canonicalDigest(program.nodes)) throw new R24Error('E_SCHEDULER_GRAPH_BINDING_STALE');
+  if (mission.contourStatesDigest !== canonicalDigest(contourStates || {})) throw new R24Error('E_SCHEDULER_STATE_BINDING_STALE');
+  if (mission.sourceOfTruthPath !== 'docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json') throw new R24Error('E_SCHEDULER_SOT_PATH');
+  const roles = mission.identityRoles;
+  if (!roles || typeof roles !== 'object') throw new R24Error('E_SCHEDULER_IDENTITY_ROLES_REQUIRED');
+  for (const key of ['implementationSourceSha', 'evaluationHeadSha', 'evaluationTreeSha']) {
+    if (!HEX40_RE.test(String(roles[key]))) throw new R24Error('E_SCHEDULER_IDENTITY_SHAPE', key);
+  }
+  for (const key of ['prHeadSha', 'mergeSha', 'postmergeSha']) {
+    if (roles[key] !== null && !HEX40_RE.test(String(roles[key]))) throw new R24Error('E_SCHEDULER_IDENTITY_SHAPE', key);
+  }
+  return true;
+}
+
 export function selectNext({ program, contourStates, mission, now }) {
   if (typeof now !== 'string' || now.length === 0) throw new R24Error('E_CLOCK_REQUIRED');
+  assertSchedulerMissionBinding({ program, contourStates, mission });
   const reasons = [];
   const guard = (program.guards || []).find((g) => g.id === 'G0_AUTHORITY_CLOSURE');
   if (guard && guard.state !== 'CURRENT') {
@@ -133,12 +163,21 @@ export function selectNext({ program, contourStates, mission, now }) {
 }
 
 function buildReceipt({ program, mission, now, selectedKind, selectedId, verdict, reasons, readySet = [] }) {
-  return {
+  const receipt = {
     schemaVersion: 'SelectionReceiptR2_4',
     missionId: mission.missionId,
     missionDigest: mission.missionDigest,
-    stateRevision: Number.isInteger(mission.stateRevision) ? mission.stateRevision : 0,
-    policyEpoch: Number.isInteger(mission.policyEpoch) ? mission.policyEpoch : 0,
+    stateRevision: mission.stateRevision,
+    fencingCounter: mission.fencingCounter,
+    stateDigest: mission.stateDigest,
+    contourStatesDigest: mission.contourStatesDigest,
+    policyEpoch: mission.policyEpoch,
+    policyDigest: mission.policyDigest,
+    graphNodeCount: mission.graphNodeCount,
+    graphDigest: mission.graphDigest,
+    schedulerGraphDigest: mission.schedulerGraphDigest,
+    sourceOfTruthPath: mission.sourceOfTruthPath,
+    identityRoles: structuredClone(mission.identityRoles),
     mode: mission.autonomyEnabled === true ? 'AUTONOMOUS' : 'HANDOFF_ONLY',
     selectedKind,
     selectedId,
@@ -148,4 +187,6 @@ function buildReceipt({ program, mission, now, selectedKind, selectedId, verdict
     reasons: [...new Set(reasons)].sort(),
     generatedAt: now,
   };
+  assertValidJson(receipt, readJsonBounded(SELECTION_RECEIPT_SCHEMA_PATH), 'E_SELECTION_RECEIPT_SCHEMA');
+  return receipt;
 }

@@ -45,6 +45,24 @@ export const MUTANTS = Object.freeze([
     replace: "if (false) throw new R24Error('E_TERMINAL_STATE_HAS_NO_OUTGOING', from);",
   },
   {
+    id: 'ps-contour-direct-write-allowed',
+    file: 'plan-state.mjs',
+    find: 'if (afterTransitionControlDigest !== beforeTransitionControlDigest && _contourMutationToken !== CONTOUR_MUTATION_TOKEN) {',
+    replace: 'if (false) {',
+  },
+  {
+    id: 'ps-replay-final-state-ignored',
+    file: 'plan-state.mjs',
+    find: 'if (reconstructed[record.contourId] !== record.to) {',
+    replace: 'if (false) {',
+  },
+  {
+    id: 'ps-transition-lease-ignored',
+    file: 'plan-state.mjs',
+    find: "if (!lease) throw new R24Error('E_TRANSITION_LEASE_REQUIRED', contourId);",
+    replace: "if (false) throw new R24Error('E_TRANSITION_LEASE_REQUIRED', contourId);",
+  },
+  {
     id: 'ps-duplicate-not-suppressed',
     file: 'plan-state.mjs',
     find: '    if (prior) {',
@@ -87,6 +105,12 @@ export const MUTANTS = Object.freeze([
     replace: 'return true || node.dependsOn.every((dep) => {',
   },
   {
+    id: 'sched-state-binding-ignored',
+    file: 'scheduler.mjs',
+    find: "if (mission.contourStatesDigest !== canonicalDigest(contourStates || {})) throw new R24Error('E_SCHEDULER_STATE_BINDING_STALE');",
+    replace: "if (false) throw new R24Error('E_SCHEDULER_STATE_BINDING_STALE');",
+  },
+  {
     id: 'tr-skip-law-removed',
     file: 'terminal-receipt.mjs',
     find: "if (skipped > 0 && REQUIRED_WHEN_PASS.includes(stamp.test.evidenceClass)) throw new R24Error('E_SKIPPED_REQUIRED_EVIDENCE', `${skipped} skipped in ${stamp.test.evidenceClass}`);",
@@ -121,6 +145,12 @@ export const MUTANTS = Object.freeze([
     file: 'docs-claim-lint.mjs',
     find: 'if (actual !== binding.sha256) {\n      failures.push(`E_CLAIM_BINDING_DIGEST_MISMATCH:${relativePath}`);\n      continue;\n    }',
     replace: 'if (false) {\n      failures.push(`E_CLAIM_BINDING_DIGEST_MISMATCH:${relativePath}`);\n      continue;\n    }',
+  },
+  {
+    id: 'claim-binding-schema-skipped',
+    file: 'docs-claim-lint.mjs',
+    find: 'const binding = buildClaimBinding(artifact);',
+    replace: 'const binding = artifact;',
   },
   {
     id: 'canon-key-order-nondeterministic',

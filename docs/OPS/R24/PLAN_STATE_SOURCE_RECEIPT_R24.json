@@ -5,6 +5,22 @@
   "executableProgramPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
   "executableProgramDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
   "planStatePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+  "currentPlanState": {
+    "sha256": "20dd2c77a1fa826e0199229b8d281d0469e620a72f23cbc5cf2848f43c2370e4",
+    "schemaVersion": "yalken.plan-state.r24.v2",
+    "revision": 94,
+    "fencingCounter": 20,
+    "replayBaseline": {
+      "classification": "ADOPTED_PRE_V2_UNREPLAYABLE_HISTORY",
+      "revision": 94,
+      "fencingCounter": 20,
+      "contourStatesDigest": "cf7f9531eb361cdb1d6d90afdf0f72b89ef7ae2fc76d859d9a0f381fd3e31d52",
+      "sourceHeadSha": "64f577e415f475982a79e314c627dd5e59e50b73",
+      "unreplayableContourCount": 10,
+      "syntheticTransitionCount": 0
+    },
+    "transitionHistoryCount": 0
+  },
   "externalPlanState": {
     "path": "/Volumes/T7-Secure/worktrees/yalken/_r24-mission/PLAN_STATE_R24.json",
     "sha256": "45c310278b2d1ffebe3381420ebfe1e3aa861e22ca8634f4ec49704e533d7806",

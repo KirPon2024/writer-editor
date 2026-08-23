@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "EvidenceStampV2",
+  "schemaVersion": "ClaimBindingV1",
   "stampId": "ES-R24-WP-101-IPC-ADMISSION-CLAIM-BINDINGS",
   "contourId": "WP-101_IPC_ADMISSION",
   "evidenceClass": "CONTRACT",
@@ -11,14 +11,14 @@
   "claimBindings": [
     {
       "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
-      "sha256": "d116f0f4a306ae0f587b383cefb0f6c2d6c7c7711a31af5f6f69c47673eb207d",
+      "sha256": "20dd2c77a1fa826e0199229b8d281d0469e620a72f23cbc5cf2848f43c2370e4",
       "claimTerms": [
         "DONE"
       ]
     },
     {
       "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
-      "sha256": "08f6103b3790c4b656090d2cbafdcf0b5dfacc5854e3ec7160a1b30f737d34a9",
+      "sha256": "194df8294c4afc6f95bf754609ee3b6f8c179af12d06dea004b72d122d090bb7",
       "claimTerms": [
         "DONE"
       ]

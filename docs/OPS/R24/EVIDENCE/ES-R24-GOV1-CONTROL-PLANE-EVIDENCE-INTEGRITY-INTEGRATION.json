@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-GOV1-CONTROL-PLANE-EVIDENCE-INTEGRITY-INTEGRATION",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "GOV1_CONTROL_PLANE_EVIDENCE_INTEGRITY",
+  "attemptId": "ATTEMPT-GOV1-20260823",
+  "authorityEpoch": "OWNER-PROCESS-CORRECTION-BASE-64F577E4",
+  "profileId": "CONTROL_PLANE_EVIDENCE_INTEGRITY",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "1c615663e2e5f7ae6b8648d3986af9f8755436d5",
+    "treeSha": "0f7145cd79878f0fabef3ea1433edabce17ba2f8"
+  },
+  "claim": {
+    "type": "GOV1_FOCUSED_NEGATIVE_AND_INTEGRATION_GREEN",
+    "ceiling": "R24_GOV1_CORRECTIVE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "plan-state-lease-scheduler-claim-binding-integration-suite",
+    "evidenceClass": "INTEGRATION",
+    "denominator": 37,
+    "passed": 37,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-GOV1-CONTROL-PLANE-EVIDENCE-INTEGRITY-CONTRACT"
+    ],
+    "predecessorReceiptDigest": "194df8294c4afc6f95bf754609ee3b6f8c179af12d06dea004b72d122d090bb7"
+  },
+  "createdAt": "2026-08-23T18:53:27Z",
+  "actor": "codex/r24-gov1-control-plane-evidence-integrity-v1-20260823",
+  "artifact": {
+    "command": "node --test plan-state lease scheduler docs-claim-lint integration-bootstrap",
+    "negativeOracles": [
+      "illegal transition rejected",
+      "generic replay-control mutation rejected",
+      "stale revision and fencing rejected",
+      "missing or released lease rejected",
+      "idempotency key payload reuse rejected",
+      "stale state and graph bindings rejected",
+      "stampId-only evidence rejected",
+      "underspecified ClaimBindingV1 rejected"
+    ],
+    "artifactDigests": [
+      {
+        "path": "scripts/ops/r24/tests/plan-state.test.mjs",
+        "sha256": "1f2f19b1c4dd5068b8bc29ded853e2a9c8c34cce4f8de7e6a2cdab340d747aa8"
+      },
+      {
+        "path": "scripts/ops/r24/tests/scheduler.test.mjs",
+        "sha256": "46240e695a81d8006b96f0b56bc6601146f2e605b08b9186905751abcf552fd7"
+      },
+      {
+        "path": "scripts/ops/r24/tests/docs-claim-lint.test.mjs",
+        "sha256": "76eb09d5e259c5c90a70051a2c48f497fa5a1c23788fc817d6b127fd6473c321"
+      },
+      {
+        "path": "scripts/ops/r24/tests/integration-bootstrap.test.mjs",
+        "sha256": "21f63cdddea84fcf7a9bdfc1ebe11ef36ea4b5667f772710219b42a8e42aa2cd"
+      }
+    ]
+  }
+}

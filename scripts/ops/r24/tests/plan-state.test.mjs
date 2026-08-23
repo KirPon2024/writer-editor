@@ -10,10 +10,13 @@ import {
   transitionContour,
   createTransitionValidator,
   classifyPlanStateAfterCrash,
+  adoptPlanStateReplayBaseline,
+  validateTransitionReplay,
   DEFAULT_TRANSITION_LAW,
   PLAN_STATE_SCHEMA_VERSION,
 } from '../plan-state.mjs';
 import { writeJsonAtomic } from '../canonical-json.mjs';
+import { acquireLease, releaseLease } from '../lease.mjs';
 
 const tmp = () => fs.mkdtempSync(path.join(os.tmpdir(), 'r24-plan-'));
 const NOW = '2026-08-20T00:00:00Z';
@@ -34,7 +37,7 @@ test('CAS update applies at exact revision and rejects stale revision', () => {
   const applied = casUpdate(file, {
     expectedRevision: 0,
     mutate: (draft) => {
-      draft.contours.A = { state: 'PENDING' };
+      draft.auditMarker = 'A';
       return { marker: 'ok' };
     },
   });
@@ -55,19 +58,21 @@ test('duplicate idempotency key suppresses second effect and returns stored rece
   const first = casUpdate(file, {
     expectedRevision: 0,
     idempotencyKey: 'dispatch-1',
+    idempotencyPayload: { operation: 'TEST', target: 'A' },
     mutate: (draft) => {
       calls += 1;
-      draft.contours.A = { state: 'PENDING' };
+      draft.auditMarker = 'A';
       return { receipt: { effectId: 'effect-1' } };
     },
   });
   assert.equal(first.applied, true);
   const second = casUpdate(file, {
-    expectedRevision: 1,
+    expectedRevision: 0,
     idempotencyKey: 'dispatch-1',
+    idempotencyPayload: { operation: 'TEST', target: 'A' },
     mutate: (draft) => {
       calls += 1;
-      draft.contours.B = { state: 'PENDING' };
+      draft.auditMarker = 'B';
       return { receipt: { effectId: 'effect-2' } };
     },
   });
@@ -77,7 +82,57 @@ test('duplicate idempotency key suppresses second effect and returns stored rece
   assert.equal(calls, 1);
   const state = readPlanState(file);
   assert.equal(state.revision, 1);
-  assert.equal(state.contours.B, undefined);
+  assert.equal(state.auditMarker, 'A');
+});
+
+test('idempotency key reuse with a different payload fails closed', () => {
+  const dir = tmp();
+  const file = path.join(dir, 'plan.json');
+  initPlanState(file);
+  casUpdate(file, {
+    expectedRevision: 0,
+    idempotencyKey: 'dispatch-1',
+    idempotencyPayload: { operation: 'TEST', target: 'A' },
+    mutate: (draft) => {
+      draft.auditMarker = 'A';
+      return { receipt: { effectId: 'effect-1' } };
+    },
+  });
+  assert.throws(
+    () => casUpdate(file, {
+      expectedRevision: 0,
+      idempotencyKey: 'dispatch-1',
+      idempotencyPayload: { operation: 'TEST', target: 'B' },
+      mutate: () => ({}),
+    }),
+    (e) => e.code === 'E_IDEMPOTENCY_KEY_REUSE',
+  );
+});
+
+test('generic CAS cannot mutate contour state or bypass replay', () => {
+  const dir = tmp();
+  const file = path.join(dir, 'plan.json');
+  initPlanState(file);
+  assert.throws(
+    () => casUpdate(file, {
+      expectedRevision: 0,
+      mutate: (draft) => {
+        draft.contours.A = { state: 'DONE', previousState: 'POSTMERGE_VERIFIED' };
+      },
+    }),
+    (e) => e.code === 'E_CONTOUR_MUTATION_REQUIRES_TRANSITION_ENGINE',
+  );
+  assert.equal(readPlanState(file).revision, 0);
+  assert.throws(
+    () => casUpdate(file, {
+      expectedRevision: 0,
+      mutate: (draft) => {
+        draft.transitionHistory.push({ forged: true });
+      },
+    }),
+    (e) => e.code === 'E_CONTOUR_MUTATION_REQUIRES_TRANSITION_ENGINE',
+  );
+  assert.equal(readPlanState(file).revision, 0);
 });
 
 test('transition engine enforces the sealed law: positives and negatives', () => {
@@ -101,29 +156,169 @@ test('contour transition through the full legal chain reaches DONE', () => {
   const dir = tmp();
   const file = path.join(dir, 'plan.json');
   initPlanState(file);
+  const lease = acquireLease(file, {
+    contourId: 'E0_RUNNER_SAFETY_QUARANTINE',
+    writerId: 'WRITER-1',
+    missionId: 'MISSION-1',
+    ttlMs: 3600000,
+    now: NOW,
+    expectedRevision: 0,
+    idempotencyKey: 'lease-1',
+  });
+  const fence = lease.result.lease.fencingToken;
   const chain = ['ELIGIBLE', 'RUNNING', 'DELIVERED', 'POSTMERGE_VERIFIED', 'DONE'];
-  let revision = 0;
+  let revision = lease.revision;
   for (const to of chain) {
     const result = transitionContour(file, {
       contourId: 'E0_RUNNER_SAFETY_QUARANTINE',
       to,
       expectedRevision: revision,
       attemptId: 'ATTEMPT-1',
+      writerId: 'WRITER-1',
+      fencingToken: fence,
+      idempotencyKey: `transition-${to}`,
       now: NOW,
     });
     revision = result.revision;
   }
-  assert.equal(readPlanState(file).contours.E0_RUNNER_SAFETY_QUARANTINE.state, 'DONE');
+  const state = readPlanState(file);
+  assert.equal(state.contours.E0_RUNNER_SAFETY_QUARANTINE.state, 'DONE');
+  assert.equal(state.transitionHistory.length, 5);
+  assert.equal(validateTransitionReplay(state).replayedTransitions, 5);
   assert.throws(
     () => transitionContour(file, {
       contourId: 'E0_RUNNER_SAFETY_QUARANTINE',
       to: 'ELIGIBLE',
       expectedRevision: revision,
       attemptId: 'ATTEMPT-2',
+      writerId: 'WRITER-1',
+      fencingToken: fence,
+      idempotencyKey: 'transition-illegal',
       now: NOW,
     }),
     (e) => e.code === 'E_TERMINAL_STATE_HAS_NO_OUTGOING',
   );
+});
+
+test('transition requires the current lease writer and fencing token', () => {
+  const dir = tmp();
+  const file = path.join(dir, 'plan.json');
+  initPlanState(file);
+  const lease = acquireLease(file, {
+    contourId: 'C',
+    writerId: 'WRITER-1',
+    missionId: 'MISSION-1',
+    ttlMs: 3600000,
+    now: NOW,
+    expectedRevision: 0,
+  });
+  assert.throws(
+    () => transitionContour(file, {
+      contourId: 'C',
+      to: 'ELIGIBLE',
+      expectedRevision: lease.revision,
+      attemptId: 'A1',
+      writerId: 'WRITER-1',
+      fencingToken: lease.result.lease.fencingToken + 1,
+      idempotencyKey: 'transition-stale',
+      now: NOW,
+    }),
+    (e) => e.code === 'E_CAS_FENCING_CONFLICT' || e.code === 'E_FENCE_STALE',
+  );
+});
+
+test('transition fails closed after the current lease is released', () => {
+  const dir = tmp();
+  const file = path.join(dir, 'plan.json');
+  initPlanState(file);
+  const lease = acquireLease(file, {
+    contourId: 'C',
+    writerId: 'WRITER-1',
+    missionId: 'MISSION-1',
+    ttlMs: 3600000,
+    now: NOW,
+    expectedRevision: 0,
+  });
+  const released = releaseLease(file, {
+    contourId: 'C',
+    writerId: 'WRITER-1',
+    fencingToken: lease.result.lease.fencingToken,
+    now: NOW,
+    expectedRevision: lease.revision,
+  });
+  assert.throws(
+    () => transitionContour(file, {
+      contourId: 'C',
+      to: 'ELIGIBLE',
+      expectedRevision: released.revision,
+      attemptId: 'A1',
+      writerId: 'WRITER-1',
+      fencingToken: lease.result.lease.fencingToken,
+      idempotencyKey: 'transition-no-lease',
+      now: NOW,
+    }),
+    (e) => e.code === 'E_TRANSITION_LEASE_REQUIRED',
+  );
+});
+
+test('pre-v2 direct writes are adopted as explicit unreplayable baseline, never synthesized history', () => {
+  const legacy = {
+    schemaVersion: 'yalken.plan-state.r24.v1',
+    revision: 1,
+    fencingCounter: 1,
+    contours: {
+      C: {
+        state: 'DONE',
+        previousState: 'POSTMERGE_VERIFIED',
+        attemptId: 'LEGACY',
+        updatedAt: NOW,
+        headSha: 'a'.repeat(40),
+      },
+    },
+    leases: {},
+    idempotency: {},
+  };
+  const adopted = adoptPlanStateReplayBaseline(legacy, {
+    sourceHeadSha: 'b'.repeat(40),
+    adoptedAt: NOW,
+    authority: 'OWNER_CORRECTIVE',
+    unreplayableContourIds: ['C'],
+  });
+  assert.equal(adopted.replayBaseline.classification, 'ADOPTED_PRE_V2_UNREPLAYABLE_HISTORY');
+  assert.deepEqual(adopted.replayBaseline.unreplayableContourIds, ['C']);
+  assert.deepEqual(adopted.transitionHistory, []);
+  assert.equal(validateTransitionReplay(adopted).verdict, 'PASS');
+});
+
+test('replay validator detects final-state and idempotency tampering', () => {
+  const dir = tmp();
+  const file = path.join(dir, 'plan.json');
+  initPlanState(file);
+  const lease = acquireLease(file, {
+    contourId: 'C',
+    writerId: 'WRITER-1',
+    missionId: 'MISSION-1',
+    ttlMs: 3600000,
+    now: NOW,
+    expectedRevision: 0,
+  });
+  transitionContour(file, {
+    contourId: 'C',
+    to: 'ELIGIBLE',
+    expectedRevision: lease.revision,
+    attemptId: 'A1',
+    writerId: 'WRITER-1',
+    fencingToken: lease.result.lease.fencingToken,
+    idempotencyKey: 'transition-1',
+    now: NOW,
+  });
+  const state = readPlanState(file);
+  const badState = structuredClone(state);
+  badState.contours.C.state = 'DONE';
+  assert.throws(() => validateTransitionReplay(badState), (e) => e.code === 'E_TRANSITION_REPLAY_FINAL_STATE');
+  const badJournal = structuredClone(state);
+  delete badJournal.idempotency['transition-1'];
+  assert.throws(() => validateTransitionReplay(badJournal), (e) => e.code === 'E_TRANSITION_IDEMPOTENCY_UNBOUND');
 });
 
 test('plan-state crash classification covers resume and rollback', () => {

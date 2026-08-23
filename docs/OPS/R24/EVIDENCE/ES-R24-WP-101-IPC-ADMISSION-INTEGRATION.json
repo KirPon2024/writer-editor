@@ -1,0 +1,94 @@
+{
+  "stampId": "ES-R24-WP-101-IPC-ADMISSION-INTEGRATION",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-101_IPC_ADMISSION",
+  "attemptId": "ATTEMPT-WP101-20260823",
+  "authorityEpoch": "R24-WP101-ADMISSION-BASE-64711F47",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "64711f479692c16adb2389c0c47c71f1d20faf0a",
+    "treeSha": "f899eb1a837d292d230ae2ec99eca4af91c845b2"
+  },
+  "createdAt": "2026-08-23T16:08:21Z",
+  "actor": "codex/r24-wp101-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "WP101_LIVE_PRIVILEGED_REGISTRATION_DENOMINATOR",
+    "ceiling": "WP101_IPC_ADMISSION_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "test/unit/r24-wp101-ipc-admission.test.js full privileged denominator",
+    "evidenceClass": "INTEGRATION",
+    "denominator": 30,
+    "passed": 30,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-101-IPC-ADMISSION-CONTRACT"
+    ],
+    "predecessorReceiptDigest": "123d906b1bf0a908763725d9a9e2aa43b30f599db5427253bfc9dc9d6353b52d"
+  },
+  "artifact": {
+    "command": "node --test test/unit/r24-wp101-ipc-admission.test.js",
+    "observations": {
+      "registrationDenominator": 30,
+      "violations": 0,
+      "guardedFactoryPresent": true,
+      "sessionBindingPresent": true,
+      "capabilityWrapperPresent": true,
+      "capabilityClassVocabularyClosed": true
+    },
+    "privilegedChannels": [
+      "file:open",
+      "file:save",
+      "file:save-as",
+      "u:cmd:project:export:docxMin:v1",
+      "m:cmd:project:import:markdownV1:v1",
+      "m:cmd:project:export:markdownV1:v1",
+      "m:cmd:project:flow:open:v1",
+      "m:cmd:project:flow:save:v1",
+      "ui:create-node",
+      "ui:delete-node",
+      "ui:move-node",
+      "ui:rename-node",
+      "ui:reorder-node",
+      "ui:get-collab-scope-local",
+      "ui:get-project-tree",
+      "ui:open-document",
+      "ui:open-section",
+      "ui:request-autosave",
+      "ui:command-bridge",
+      "ui:workspace-query-bridge",
+      "ui:save-lifecycle-signal-bridge",
+      "ui:window-minimize",
+      "ui:set-theme",
+      "ui:set-font",
+      "ui:set-font-size",
+      "ui:font-size",
+      "editor:text-response",
+      "editor:snapshot-response",
+      "dirty-changed",
+      "editor:paste-focus-state"
+    ],
+    "artifactDigests": [
+      {
+        "path": "src/core/ipc-caller-identity-v1.cjs",
+        "sha256": "d6225627ffab3329f8ad833d5a6232fa1c35c204898037517fa91223fa55b687"
+      },
+      {
+        "path": "src/main.js",
+        "sha256": "64f34fbc9cfe3226c8f9a9dde34aa69325557a24376858e1ed4f922d88409d62"
+      },
+      {
+        "path": "test/unit/r24-wp101-ipc-admission.test.js",
+        "sha256": "fe70fe72fdd28a69d0834c08cf4b4eb00334b4a8b5ddb7f5a503541808226189"
+      }
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

@@ -109,6 +109,7 @@
     "test:r24-pk0": "node --test test/unit/r24-pk0-package-content-trust.test.js test/unit/r24-pk0-package-content-physics.test.js test/unit/r24-pk0-package-content-mutants.test.js",
     "test:r24-pk1": "node --test test/unit/r24-pk1-release-security-physical.test.js test/unit/r24-pk1-release-security-physics.test.js test/unit/r24-pk1-release-security-mutants.test.js",
     "test:r24-v3": "node --test test/unit/r24-v3-package-claim-compiler.test.js test/unit/r24-v3-package-claim-mutants.test.js",
+    "test:r24-b0": "node --test test/unit/r24-b0-observed-evidence-compiler.test.js test/unit/r24-v0-writer-claim-compiler.test.js test/unit/r24-v0-writer-claim-mutants.test.js test/unit/r24-v1-atlas-claim-compiler.test.js test/unit/r24-v1-atlas-claim-mutants.test.js test/unit/r24-v3-package-claim-compiler.test.js test/unit/r24-v3-package-claim-mutants.test.js",
     "test:r24-w0": "node --test test/unit/r24-w0-word-physical-recertification.test.js test/unit/r24-w0-word-physical-mutants.test.js"
   },
   "keywords": [

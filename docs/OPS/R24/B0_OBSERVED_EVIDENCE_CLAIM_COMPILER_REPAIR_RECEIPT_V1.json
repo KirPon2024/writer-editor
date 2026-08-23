@@ -1,0 +1,285 @@
+{
+  "schemaVersion": "yalken.r24.b0-observed-evidence-claim-compiler-repair-receipt.v1",
+  "contourId": "B0_OBSERVED_EVIDENCE_CLAIM_COMPILER_REPAIR_V1",
+  "status": "LOCAL_FOCUSED_GATES_GREEN_CLEAN_FULL_RTK_PENDING_AFTER_COMMIT",
+  "generatedAtUtc": "2026-08-23T02:06:55Z",
+  "baseHeadSha": "34e24436722d1b1860a61e1375e4e2193ba5949a",
+  "originMainSha": "34e24436722d1b1860a61e1375e4e2193ba5949a",
+  "nodeToolchain": {
+    "node": "v20.19.5",
+    "npm": "11.19.0",
+    "repositoryEngineNote": "package.json declares npm >=10 <11; this contour did not change dependencies or lockfiles."
+  },
+  "repairSummary": {
+    "topologyOnlyCanValidateOrdering": true,
+    "topologyOnlyCanSynthesizeSuccess": false,
+    "observedEvidenceRequired": true,
+    "requiredEvidenceClass": "INDEPENDENT_EXACT_HEAD",
+    "forbiddenLegacyEvidencePattern": "^E[0-9]_",
+    "standaloneCompilerAfterFailedPrecedingGateFailsClosed": true,
+    "boundedFlakyRegisterExactShapeLawRestored": true,
+    "b3c09LinuxCompoundFailureShapeBounded": true,
+    "requiredObservedBindings": [
+      "candidate.stageId",
+      "candidate.script",
+      "headSha",
+      "treeSha",
+      "run.id",
+      "run.conclusion",
+      "job.id",
+      "job.conclusion",
+      "step.name",
+      "step.conclusion",
+      "artifact.digest",
+      "tool.digest",
+      "schema.digest",
+      "fixture.digest",
+      "counts.denominator",
+      "counts.passed",
+      "counts.failed",
+      "counts.skipped",
+      "counts.exitCode"
+    ]
+  },
+  "persistedArtifacts": [
+    ".github/workflows/rtk-required.yml",
+    "docs/OPS/R24/B0_OBSERVED_EVIDENCE_CLAIM_COMPILER_REPAIR_RECEIPT_V1.json",
+    "docs/OPS/R24/EVIDENCE/ES-R24-B0-OBSERVED-EVIDENCE-CLAIM-COMPILER.json",
+    "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+    "package.json",
+    "scripts/ops/r24/atlas-claim-compiler-v1.mjs",
+    "scripts/ops/r24/observed-evidence-v2.mjs",
+    "scripts/ops/r24/package-claim-compiler-v3.mjs",
+    "scripts/ops/r24/writer-claim-compiler-v0.mjs",
+    "test/unit/r24-b0-observed-evidence-compiler.test.js",
+    "test/unit/r24-v0-writer-claim-compiler.test.js",
+    "test/unit/r24-v0-writer-claim-mutants.test.js",
+    "test/unit/r24-v1-atlas-claim-compiler.test.js",
+    "test/unit/r24-v1-atlas-claim-mutants.test.js",
+    "test/contracts/rtk-evidence-stale-green-guard.contract.test.js",
+    "test/unit/r24-v3-package-claim-compiler.test.js",
+    "test/unit/r24-v3-package-claim-mutants.test.js"
+  ],
+  "artifactDigests": [
+    {
+      "path": ".github/workflows/rtk-required.yml",
+      "sha256": "ac51eef84e4482ec96b3b513c4db8def1e06b93c5a5fe408d7ea0b31ea4dc818"
+    },
+    {
+      "path": "package.json",
+      "sha256": "e8566f7d509907bcb991ea957b6a65543ea04cdc17366162c6d17a63d6b9ce91"
+    },
+    {
+      "path": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+      "sha256": "8276de340dae065d27c783ba51983347edbfbee2beaf4697ad5bbd07d7601b77"
+    },
+    {
+      "path": "scripts/ops/r24/observed-evidence-v2.mjs",
+      "sha256": "da160e0b981c3aab387a34a553e41daf220bda3c2eea446a135238ae701d3d29"
+    },
+    {
+      "path": "scripts/ops/r24/writer-claim-compiler-v0.mjs",
+      "sha256": "3a2ff7e751ae5bde079684f36e05ce11236ef706b28a94170b374f48793604eb"
+    },
+    {
+      "path": "scripts/ops/r24/atlas-claim-compiler-v1.mjs",
+      "sha256": "434229f1be459c9349088d6ffa801a9ac3c929a9f9278812c1da29fab6b1d793"
+    },
+    {
+      "path": "scripts/ops/r24/package-claim-compiler-v3.mjs",
+      "sha256": "c79ee1641b5a4339eb1b8d6a76fb8f0075c9da718e2ab8b2ba22d7d89de56f0c"
+    },
+    {
+      "path": "test/unit/r24-b0-observed-evidence-compiler.test.js",
+      "sha256": "0690229ab648f0fa1c54644699bfc65f9a452d2d083d2a7a168e5a98d45d1e08"
+    },
+    {
+      "path": "test/unit/r24-v0-writer-claim-compiler.test.js",
+      "sha256": "2f0a2b5b7355feb1692ee6a383360cb5e2ed5e7dbc174504f775f71b9afd9577"
+    },
+    {
+      "path": "test/unit/r24-v0-writer-claim-mutants.test.js",
+      "sha256": "89482b88ede1ff1a1651bb430d970e424b68d8d4fafd3e9921b390e3767ac1d1"
+    },
+    {
+      "path": "test/unit/r24-v1-atlas-claim-compiler.test.js",
+      "sha256": "cd72f00b3beafaebe11deb9f1fb2370cc300cce6eccac001b77f17fb3e2ea36b"
+    },
+    {
+      "path": "test/unit/r24-v1-atlas-claim-mutants.test.js",
+      "sha256": "91ca0ef439cb0cd52ab5fd2ffab60acd7dbcd64289135cc438e8840191c81033"
+    },
+    {
+      "path": "test/contracts/rtk-evidence-stale-green-guard.contract.test.js",
+      "sha256": "0526dbba1cf67c94227fe80e7ba4b00e54e45cc43769dc7fc96651ce7b0e3757"
+    },
+    {
+      "path": "test/unit/r24-v3-package-claim-compiler.test.js",
+      "sha256": "476608752827b001fd8cf2d565f5dda9704f463aa43e68a8fffedca6d5fd2110"
+    },
+    {
+      "path": "test/unit/r24-v3-package-claim-mutants.test.js",
+      "sha256": "1f6278067f7dbf87d20d5916f7a9810d395ed03538ac490cc3280a8f0dba0d4b"
+    }
+  ],
+  "localEvidence": [
+    {
+      "command": "npm run -s test:r24-b0",
+      "node": "v20.19.5",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 31,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "mutants": {
+        "v0Killed": 5,
+        "v1Killed": 7,
+        "v3Killed": 9,
+        "survived": 0
+      }
+    },
+    {
+      "command": "npm run -s test:r24-v0",
+      "node": "v20.19.5",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 8,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 5,
+        "survived": 0
+      }
+    },
+    {
+      "command": "npm run -s test:r24-v1",
+      "node": "v20.19.5",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 10,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 7,
+        "survived": 0
+      }
+    },
+    {
+      "command": "npm run -s test:r24-v3",
+      "node": "v20.19.5",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 10,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 9,
+        "survived": 0
+      }
+    },
+    {
+      "command": "node --test test/contracts/rtk-evidence-stale-green-guard.contract.test.js",
+      "node": "v20.19.5",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 6,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "boundedFlakyLaw": {
+        "maxAttempts": 1,
+        "platforms": [
+          "darwin",
+          "linux"
+        ],
+        "wildcardsAllowed": false,
+        "acceptedOutcomesFinite": true,
+        "linuxCompoundShapeBound": true
+      }
+    },
+    {
+      "command": "npm run -s test:r24-authority-sot",
+      "node": "v20.19.5",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 9,
+        "fail": 0
+      },
+      "programDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+      "missionDigest": "2d188140211c4e2a65f0f1bf1bef5bac53e396e3c3887cb3563fa253a10b0c80",
+      "nodeCount": 109
+    },
+    {
+      "command": "npm run -s test:rtk-release01",
+      "node": "v20.19.5",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 46,
+        "fail": 0
+      },
+      "packageWordingSurfaceSha256": "sha256:e8566f7d509907bcb991ea957b6a65543ea04cdc17366162c6d17a63d6b9ce91"
+    },
+    {
+      "command": "npm run -s test:rtk",
+      "node": "v20.19.5",
+      "verdict": "FAIL_DIRTY_WORKTREE_DIAGNOSTIC_NOT_ACCEPTED_AS_GREEN",
+      "runner": {
+        "invocationId": "193c3479-d175-4041-93a2-9ec68c200036",
+        "status": 1,
+        "processGroupCleanup": "RTK_PROCESS_GROUP_CLEAN",
+        "leaseCleanupOk": true,
+        "durationMs": 445048
+      },
+      "tests": {
+        "pass": 1052,
+        "fail": 6,
+        "skipped": 0,
+        "todo": 0
+      },
+      "failures": [
+        "stale-green guard b3c17/b3c18 green-to-red while package.json is dirty",
+        "G0B frozen ActionEnvelope saw active B0 dirty files",
+        "W1 frozen allowlist saw active B0 dirty files",
+        "W2 frozen allowlist saw active B0 dirty files",
+        "ZIP01 frozen allowlist saw active B0 dirty files",
+        "RELEASE01 package.json wording surface digest stale before registry rebind"
+      ],
+      "requiredDisposition": "RERUN_FULL_RTK_ON_CLEAN_COMMITTED_CANDIDATE"
+    },
+    {
+      "command": "npm run -s oss:policy",
+      "node": "v20.19.5",
+      "verdict": "PASS"
+    },
+    {
+      "command": "npm run agent:guardrails",
+      "node": "v20.19.5",
+      "verdict": "PASS"
+    },
+    {
+      "command": "npm audit --audit-level=high",
+      "node": "v20.19.5",
+      "verdict": "FAIL_PREEXISTING_DEPENDENCY_AUDIT_FINDING_NO_B0_DEPENDENCY_MUTATION_AUTHORITY",
+      "advisories": [
+        "electron high severity advisory set",
+        "extract-zip high severity symlink path traversal"
+      ]
+    }
+  ],
+  "v2ParkedCheckpoint": {
+    "state": "PARKED_SUSPENDED_UNTOUCHED_BY_B0",
+    "worktree": "/Volumes/T7-Secure/worktrees/yalken/r24-v2-word-claim-compiler-20260822",
+    "manifestSha256": "f75188a8312b5f8df45311963778b285c4eedde87778719bd7b81a6d66589c65",
+    "trackedDiffSha256": "7450858ec1f41d5515411ec813ffc9829b1b173a86d1a8160ed1b8e14b2dbc34"
+  },
+  "nonClaims": [
+    "This receipt does not mark the 109-node R2.4 program DONE.",
+    "This receipt does not close V2_WORD_CLAIM_COMPILER or modify the parked V2 worktree.",
+    "This receipt does not certify Word, Google Docs, release readiness, signing, notarization, or production package physical PASS.",
+    "This receipt does not turn the dirty-worktree full RTK diagnostic into a green gate.",
+    "Historical R1 static contract metadata compatibility is not live EvidenceStampV2 authority; live gate evidence rejects scalar E0-E6 aliases."
+  ]
+}

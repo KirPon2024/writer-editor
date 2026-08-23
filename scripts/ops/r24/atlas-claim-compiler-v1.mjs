@@ -7,6 +7,11 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { HEX40_RE, sha256hex } from './canonical-json.mjs';
+import {
+  EVIDENCE_CLASS_INDEPENDENT_EXACT_HEAD,
+  buildTopologyOnlyEvidenceFromWorkflowPrefix,
+  validateObservedGateEvidenceRow,
+} from './observed-evidence-v2.mjs';
 
 const MODULE_DIR = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(MODULE_DIR, '..', '..', '..');
@@ -20,7 +25,8 @@ export const A0_STAGE_ID = 'A0_ATLAS_INCREMENTAL_EQUIVALENCE';
 export const V0_STAGE_ID = 'V0_WRITER_CLAIM_COMPILER';
 export const ATLAS_PROFILE_ID = 'ATLAS_MAPS_DERIVED';
 export const ATLAS_CLAIM_ID = 'CLM_ATLAS_DERIVED_SAFETY';
-export const REQUIRED_EVIDENCE_CLASS = 'E6_INDEPENDENT_EXACT_HEAD';
+export const REQUIRED_EVIDENCE_CLASS = EVIDENCE_CLASS_INDEPENDENT_EXACT_HEAD;
+export const LEGACY_CONTRACT_EVIDENCE_CLASS = 'E6_INDEPENDENT_EXACT_HEAD';
 export const PROFILE_CLAIM_CEILING = 'PROFILE_VERDICT_ONLY';
 export const ATLAS_PROFILE_VERDICT = 'ATLAS_MAPS_DERIVED_EVIDENCE_BOUND_BY_R24_EXACT_HEAD_A0_PREFIX';
 export const PROGRAM_VERDICT = 'NEEDS_MORE_EVIDENCE';
@@ -65,6 +71,7 @@ export const STAGE_SCRIPT_BY_ID = Object.freeze({
 
 const ALLOWED_EVIDENCE_SOURCES = new Set([
   'RTK_REQUIRED_WORKFLOW_PREFIX',
+  'OBSERVED_EVIDENCE_STAMP_V2',
   'V1_COMPILER_CONTRACT_FIXTURE',
 ]);
 
@@ -136,7 +143,8 @@ function sameSet(left, right) {
 
 function arrayHasEvidenceClass(value) {
   if (value === REQUIRED_EVIDENCE_CLASS) return true;
-  return Array.isArray(value) && value.includes(REQUIRED_EVIDENCE_CLASS);
+  if (value === LEGACY_CONTRACT_EVIDENCE_CLASS) return true;
+  return Array.isArray(value) && (value.includes(REQUIRED_EVIDENCE_CLASS) || value.includes(LEGACY_CONTRACT_EVIDENCE_CLASS));
 }
 
 function atlasClaimStageIds(programInput) {
@@ -157,22 +165,14 @@ export function extractR24WorkflowScripts(workflowText) {
 export function buildGateEvidenceFromWorkflowPrefix({ program, workflowText, repoState, expectedHeadSha }) {
   const requiredStageIds = atlasClaimStageIds(program);
   const scripts = extractR24WorkflowScripts(workflowText || '');
-  const v1Script = STAGE_SCRIPT_BY_ID[V1_STAGE_ID];
-  const v1Index = scripts.indexOf(v1Script);
-  if (v1Index < 0) return [];
-  const prefix = new Map(scripts.slice(0, v1Index).map((script, index) => [script, index]));
-  return requiredStageIds
-    .filter((stageId) => prefix.has(STAGE_SCRIPT_BY_ID[stageId]))
-    .map((stageId) => ({
-      stageId,
-      status: 'SUCCESS',
-      headSha: expectedHeadSha,
-      evidenceClass: REQUIRED_EVIDENCE_CLASS,
-      source: 'RTK_REQUIRED_WORKFLOW_PREFIX',
-      workflowIndex: prefix.get(STAGE_SCRIPT_BY_ID[stageId]),
-      script: STAGE_SCRIPT_BY_ID[stageId],
-      treeSha: repoState?.treeSha || null,
-    }));
+  void repoState;
+  void expectedHeadSha;
+  return buildTopologyOnlyEvidenceFromWorkflowPrefix({
+    requiredStageIds,
+    workflowScripts: scripts,
+    compilerScript: STAGE_SCRIPT_BY_ID[V1_STAGE_ID],
+    stageScriptById: STAGE_SCRIPT_BY_ID,
+  });
 }
 
 function validateScientificContract(scientificContracts) {
@@ -181,8 +181,8 @@ function validateScientificContract(scientificContracts) {
     : null;
   if (!claim) return fail('E_R24_V1_ATLAS_CLAIM_CONTRACT_MISSING', ATLAS_CLAIM_ID);
   if (claim.profileId !== ATLAS_PROFILE_ID) return fail('E_R24_V1_ATLAS_CLAIM_PROFILE', String(claim.profileId || ''));
-  if (claim.minimumEvidenceClass !== REQUIRED_EVIDENCE_CLASS) {
-    return fail('E_R24_V1_ATLAS_CLAIM_E6_REQUIRED', String(claim.minimumEvidenceClass || ''));
+  if (![REQUIRED_EVIDENCE_CLASS, LEGACY_CONTRACT_EVIDENCE_CLASS].includes(claim.minimumEvidenceClass)) {
+    return fail('E_R24_V1_ATLAS_CLAIM_EVIDENCE_CLASS_REQUIRED', String(claim.minimumEvidenceClass || ''));
   }
   if (claim.currentVerdict === 'PASS') return fail('E_R24_V1_ATLAS_CONTRACT_PREASSERTS_PASS', 'claim contract cannot pre-assert PASS');
   for (const promoted of CLAIM_CANNOT_PROMOTE_REQUIRED) {
@@ -225,7 +225,9 @@ function validateProgramContract({ program, scientificContracts, selectedProfile
   if (v1.profile !== ATLAS_PROFILE_ID) return fail('E_R24_V1_STAGE_PROFILE', v1.profile);
   if (v1.mutationAuthority !== 'ATLAS_CLAIM_PROJECTION_ONLY') return fail('E_R24_V1_STAGE_AUTHORITY', v1.mutationAuthority);
   if (v1.claimCeiling !== PROFILE_CLAIM_CEILING) return fail('E_R24_V1_CLAIM_CEILING', v1.claimCeiling);
-  if (!arrayHasEvidenceClass(v1.requiredEvidence)) return fail('E_R24_V1_E6_REQUIRED', JSON.stringify(v1.requiredEvidence || []));
+  if (!arrayHasEvidenceClass(v1.requiredEvidence)) {
+    return fail('E_R24_V1_REQUIRED_EVIDENCE_CLASS_MISSING', JSON.stringify(v1.requiredEvidence || []));
+  }
   if (!Array.isArray(v1.dependsOn) || !v1.dependsOn.includes(A0_STAGE_ID)) {
     return fail('E_R24_V1_A0_DEPENDENCY_MISSING', JSON.stringify(v1.dependsOn || []));
   }
@@ -358,8 +360,8 @@ function validateWorkflowBinding({ program, packageJson, workflowText, requiredS
   };
 }
 
-function validateGateEvidence({ gateEvidence, requiredStageIds, stages, expectedHeadSha }) {
-  if (!Array.isArray(gateEvidence)) return fail('E_R24_V1_GATE_EVIDENCE_REQUIRED', 'gate evidence must be an array');
+function validateGateEvidence({ gateEvidence, requiredStageIds, stages, expectedHeadSha, expectedTreeSha }) {
+  if (!Array.isArray(gateEvidence)) return fail('E_R24_V1_GATE_OBSERVED_EVIDENCE_REQUIRED', 'gateEvidence must be supplied by an observed EvidenceStampV2 source');
   const requiredSet = new Set(requiredStageIds);
   const evidenceByStage = new Map(gateEvidence.map((row) => [row.stageId, row]));
   for (const row of gateEvidence) {
@@ -374,9 +376,16 @@ function validateGateEvidence({ gateEvidence, requiredStageIds, stages, expected
   for (const stageId of requiredStageIds) {
     if (!evidenceByStage.has(stageId)) return fail('E_R24_V1_GATE_EVIDENCE_MISSING', stageId);
     const row = evidenceByStage.get(stageId);
-    if (row.status !== 'SUCCESS') return fail('E_R24_V1_GATE_NOT_SUCCESS', `${stageId}:${row.status}`);
-    if (row.headSha !== expectedHeadSha) return fail('E_R24_V1_GATE_HEAD_MISMATCH', `${stageId}:${row.headSha} != ${expectedHeadSha}`);
-    if (!arrayHasEvidenceClass(row.evidenceClass || row.evidenceClasses)) return fail('E_R24_V1_GATE_E6_MISSING', stageId);
+    const observed = validateObservedGateEvidenceRow({
+      row,
+      stageId,
+      stage: stages.get(stageId),
+      expectedHeadSha,
+      expectedTreeSha,
+      expectedScript: STAGE_SCRIPT_BY_ID[stageId],
+      requiredEvidenceClass: REQUIRED_EVIDENCE_CLASS,
+    });
+    if (!observed.ok) return fail(`E_R24_V1_${observed.code}`, observed.detail, observed.context);
   }
   if (requiredStageIds.length === 0 || gateEvidence.length === 0) {
     return fail('E_R24_V1_ZERO_DENOMINATOR', 'gate evidence denominator is zero');
@@ -405,19 +414,13 @@ export function compileAtlasVerdict(input = {}) {
     requiredStageIds: programCheck.requiredStageIds,
   });
   if (!workflowCheck.ok) return workflowCheck;
-  const gateEvidence = Array.isArray(input.gateEvidence)
-    ? input.gateEvidence
-    : buildGateEvidenceFromWorkflowPrefix({
-      program,
-      workflowText: input.workflowText,
-      repoState: input.repoState,
-      expectedHeadSha,
-    });
+  const gateEvidence = Array.isArray(input.gateEvidence) ? input.gateEvidence : null;
   const evidenceCheck = validateGateEvidence({
     gateEvidence,
     requiredStageIds: programCheck.requiredStageIds,
     stages: programCheck.stages,
     expectedHeadSha,
+    expectedTreeSha: input.repoState.treeSha || null,
   });
   if (!evidenceCheck.ok) return evidenceCheck;
 
@@ -428,6 +431,19 @@ export function compileAtlasVerdict(input = {}) {
     evidenceClass: row.evidenceClass || row.evidenceClasses,
     source: row.source,
     script: row.script || null,
+    treeSha: row.treeSha || null,
+    runId: row.run?.id || null,
+    jobId: row.job?.id || null,
+    stepName: row.step?.name || null,
+    artifactDigest: row.artifact?.digest || null,
+    toolDigest: row.tool?.digest || null,
+    schemaDigest: row.schema?.digest || null,
+    fixtureDigest: row.fixture?.digest || null,
+    denominator: row.counts?.denominator || null,
+    passed: row.counts?.passed || null,
+    failed: row.counts?.failed || null,
+    skipped: row.counts?.skipped || null,
+    exitCode: row.counts?.exitCode ?? null,
     workflowIndex: Number.isInteger(row.workflowIndex) ? row.workflowIndex : null,
   }))));
 
@@ -499,12 +515,14 @@ export function compileCurrentRepositoryVerdict(options = {}) {
   const scientificContracts = readJsonBounded(path.join(repoRoot, 'docs', 'OPS', 'EVIDENCE', 'YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1', 'SCIENTIFIC_CONTRACTS.json'));
   const packageJson = readJsonBounded(path.join(repoRoot, 'package.json'));
   const workflowText = readTextBounded(path.join(repoRoot, '.github', 'workflows', 'rtk-required.yml'));
+  const gateEvidence = options.gateEvidencePath ? readJsonBounded(path.resolve(repoRoot, options.gateEvidencePath)) : undefined;
   return compileAtlasVerdict({
     program,
     scientificContracts,
     packageJson,
     workflowText,
     repoState,
+    gateEvidence,
     expectedHeadSha: options.expectedHeadSha || repoState.headSha,
     expectedOriginMainSha: options.expectedOriginMainSha ?? null,
     now: options.now,
@@ -512,10 +530,11 @@ export function compileCurrentRepositoryVerdict(options = {}) {
 }
 
 function parseCli(argv) {
-  const out = { expectedHeadSha: '', expectedOriginMainSha: null };
+  const out = { expectedHeadSha: '', expectedOriginMainSha: null, gateEvidencePath: '' };
   for (let i = 0; i < argv.length; i += 1) {
     if (argv[i] === '--expected-head') out.expectedHeadSha = argv[i + 1] || '';
     if (argv[i] === '--expected-origin-main') out.expectedOriginMainSha = argv[i + 1] || '';
+    if (argv[i] === '--gate-evidence') out.gateEvidencePath = argv[i + 1] || '';
   }
   return out;
 }
@@ -525,6 +544,7 @@ function main() {
   const receipt = compileCurrentRepositoryVerdict({
     expectedHeadSha: args.expectedHeadSha || undefined,
     expectedOriginMainSha: args.expectedOriginMainSha,
+    gateEvidencePath: args.gateEvidencePath || undefined,
   });
   process.stdout.write(`R24_V1_ATLAS_CLAIM_RECEIPT=${JSON.stringify(receipt)}\n`);
   process.exitCode = receipt.ok ? 0 : 1;

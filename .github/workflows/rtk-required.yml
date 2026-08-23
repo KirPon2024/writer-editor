@@ -136,6 +136,9 @@ jobs:
       - name: Run R2.4 V3 package claim compiler gate
         run: npm run -s test:r24-v3
 
+      - name: Run R2.4 B0 observed evidence claim compiler repair gate
+        run: npm run -s test:r24-b0
+
       - name: Run R2.4 W0 Word physical recertification gate
         run: npm run -s test:r24-w0
 

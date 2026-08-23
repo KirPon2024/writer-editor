@@ -7,6 +7,11 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { HEX40_RE, sha256hex } from './canonical-json.mjs';
+import {
+  EVIDENCE_CLASS_INDEPENDENT_EXACT_HEAD,
+  buildTopologyOnlyEvidenceFromWorkflowPrefix,
+  validateObservedGateEvidenceRow,
+} from './observed-evidence-v2.mjs';
 
 const MODULE_DIR = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(MODULE_DIR, '..', '..', '..');
@@ -18,7 +23,8 @@ export const V0_STAGE_ID = 'V0_WRITER_CLAIM_COMPILER';
 export const WRITER_PROFILE_ID = 'WRITER_CORE';
 export const SELECTED_PROFILES = Object.freeze(['SHARED_ASSURANCE', WRITER_PROFILE_ID]);
 export const OPTIONAL_PROFILES = Object.freeze(['ATLAS_MAPS_DERIVED', 'WORD_ROUNDTRIP', 'PACKAGED_RELEASE_SECURITY']);
-export const REQUIRED_EVIDENCE_CLASS = 'E6_INDEPENDENT_EXACT_HEAD';
+export const REQUIRED_EVIDENCE_CLASS = EVIDENCE_CLASS_INDEPENDENT_EXACT_HEAD;
+export const LEGACY_CONTRACT_EVIDENCE_CLASS = 'E6_INDEPENDENT_EXACT_HEAD';
 export const PROFILE_CLAIM_CEILING = 'PROFILE_VERDICT_ONLY';
 export const WRITER_PROFILE_VERDICT = 'WRITER_CORE_EVIDENCE_BOUND_BY_R24_EXACT_HEAD_PREFIX';
 export const PROGRAM_VERDICT = 'NEEDS_MORE_EVIDENCE';
@@ -51,6 +57,7 @@ export const STAGE_SCRIPT_BY_ID = Object.freeze({
 
 const ALLOWED_EVIDENCE_SOURCES = new Set([
   'RTK_REQUIRED_WORKFLOW_PREFIX',
+  'OBSERVED_EVIDENCE_STAMP_V2',
   'V0_COMPILER_CONTRACT_FIXTURE',
 ]);
 
@@ -114,7 +121,8 @@ function sameSet(left, right) {
 
 function arrayHasEvidenceClass(value) {
   if (value === REQUIRED_EVIDENCE_CLASS) return true;
-  return Array.isArray(value) && value.includes(REQUIRED_EVIDENCE_CLASS);
+  if (value === LEGACY_CONTRACT_EVIDENCE_CLASS) return true;
+  return Array.isArray(value) && (value.includes(REQUIRED_EVIDENCE_CLASS) || value.includes(LEGACY_CONTRACT_EVIDENCE_CLASS));
 }
 
 export function expectedWriterStageIds(programInput) {
@@ -142,22 +150,14 @@ export function extractR24WorkflowScripts(workflowText) {
 export function buildGateEvidenceFromWorkflowPrefix({ program, workflowText, repoState, expectedHeadSha }) {
   const requiredStageIds = expectedWriterStageIds(program);
   const scripts = extractR24WorkflowScripts(workflowText);
-  const v0Script = STAGE_SCRIPT_BY_ID[V0_STAGE_ID];
-  const v0Index = scripts.indexOf(v0Script);
-  if (v0Index < 0) return [];
-  const prefix = new Map(scripts.slice(0, v0Index).map((script, index) => [script, index]));
-  return requiredStageIds
-    .filter((stageId) => prefix.has(STAGE_SCRIPT_BY_ID[stageId]))
-    .map((stageId) => ({
-      stageId,
-      status: 'SUCCESS',
-      headSha: expectedHeadSha,
-      evidenceClass: REQUIRED_EVIDENCE_CLASS,
-      source: 'RTK_REQUIRED_WORKFLOW_PREFIX',
-      workflowIndex: prefix.get(STAGE_SCRIPT_BY_ID[stageId]),
-      script: STAGE_SCRIPT_BY_ID[stageId],
-      treeSha: repoState?.treeSha || null,
-    }));
+  void repoState;
+  void expectedHeadSha;
+  return buildTopologyOnlyEvidenceFromWorkflowPrefix({
+    requiredStageIds,
+    workflowScripts: scripts,
+    compilerScript: STAGE_SCRIPT_BY_ID[V0_STAGE_ID],
+    stageScriptById: STAGE_SCRIPT_BY_ID,
+  });
 }
 
 function validateProgramContract({ program, selectedProfiles }) {
@@ -169,7 +169,9 @@ function validateProgramContract({ program, selectedProfiles }) {
   if (v0.profile !== WRITER_PROFILE_ID) return fail('E_R24_V0_STAGE_PROFILE', v0.profile);
   if (v0.mutationAuthority !== 'WRITER_CLAIM_PROJECTION_ONLY') return fail('E_R24_V0_STAGE_AUTHORITY', v0.mutationAuthority);
   if (v0.claimCeiling !== PROFILE_CLAIM_CEILING) return fail('E_R24_V0_CLAIM_CEILING', v0.claimCeiling);
-  if (!arrayHasEvidenceClass(v0.requiredEvidence)) return fail('E_R24_V0_E6_REQUIRED', JSON.stringify(v0.requiredEvidence || []));
+  if (!arrayHasEvidenceClass(v0.requiredEvidence)) {
+    return fail('E_R24_V0_REQUIRED_EVIDENCE_CLASS_MISSING', JSON.stringify(v0.requiredEvidence || []));
+  }
   if (!Array.isArray(v0.dependsOn) || !v0.dependsOn.includes('F0_WRITER_REFINEMENT_CONFORMANCE')) {
     return fail('E_R24_V0_F0_DEPENDENCY_MISSING', JSON.stringify(v0.dependsOn || []));
   }
@@ -264,7 +266,8 @@ function validateWorkflowBinding({ program, packageJson, workflowText, requiredS
   };
 }
 
-function validateGateEvidence({ gateEvidence, requiredStageIds, stages, expectedHeadSha }) {
+function validateGateEvidence({ gateEvidence, requiredStageIds, stages, expectedHeadSha, expectedTreeSha }) {
+  if (!Array.isArray(gateEvidence)) return fail('E_R24_V0_GATE_OBSERVED_EVIDENCE_REQUIRED', 'gateEvidence must be supplied by an observed EvidenceStampV2 source');
   const evidenceByStage = new Map(gateEvidence.map((row) => [row.stageId, row]));
   const optionalEvidence = gateEvidence.filter((row) => OPTIONAL_PROFILES.includes(stages.get(row.stageId)?.profile));
   if (optionalEvidence.length > 0) return fail('E_R24_V0_OPTIONAL_PROFILE_IMPORTED', optionalEvidence.map((row) => row.stageId).join(','));
@@ -275,9 +278,16 @@ function validateGateEvidence({ gateEvidence, requiredStageIds, stages, expected
   for (const stageId of requiredStageIds) {
     if (!evidenceByStage.has(stageId)) return fail('E_R24_V0_GATE_EVIDENCE_MISSING', stageId);
     const row = evidenceByStage.get(stageId);
-    if (row.status !== 'SUCCESS') return fail('E_R24_V0_GATE_NOT_SUCCESS', `${stageId}:${row.status}`);
-    if (row.headSha !== expectedHeadSha) return fail('E_R24_V0_GATE_HEAD_MISMATCH', `${stageId}:${row.headSha} != ${expectedHeadSha}`);
-    if (!arrayHasEvidenceClass(row.evidenceClass || row.evidenceClasses)) return fail('E_R24_V0_GATE_E6_MISSING', stageId);
+    const observed = validateObservedGateEvidenceRow({
+      row,
+      stageId,
+      stage: stages.get(stageId),
+      expectedHeadSha,
+      expectedTreeSha,
+      expectedScript: STAGE_SCRIPT_BY_ID[stageId],
+      requiredEvidenceClass: REQUIRED_EVIDENCE_CLASS,
+    });
+    if (!observed.ok) return fail(`E_R24_V0_${observed.code}`, observed.detail, observed.context);
   }
   if (requiredStageIds.length === 0 || gateEvidence.length === 0) return fail('E_R24_V0_ZERO_DENOMINATOR', 'gate evidence denominator is zero');
   return { ok: true };
@@ -303,19 +313,13 @@ export function compileWriterVerdict(input = {}) {
     requiredStageIds: programCheck.requiredStageIds,
   });
   if (!workflowCheck.ok) return workflowCheck;
-  const gateEvidence = Array.isArray(input.gateEvidence)
-    ? input.gateEvidence
-    : buildGateEvidenceFromWorkflowPrefix({
-      program,
-      workflowText: input.workflowText,
-      repoState: input.repoState,
-      expectedHeadSha,
-    });
+  const gateEvidence = Array.isArray(input.gateEvidence) ? input.gateEvidence : null;
   const evidenceCheck = validateGateEvidence({
     gateEvidence,
     requiredStageIds: programCheck.requiredStageIds,
     stages: programCheck.stages,
     expectedHeadSha,
+    expectedTreeSha: input.repoState.treeSha || null,
   });
   if (!evidenceCheck.ok) return evidenceCheck;
 
@@ -326,6 +330,19 @@ export function compileWriterVerdict(input = {}) {
     evidenceClass: row.evidenceClass || row.evidenceClasses,
     source: row.source,
     script: row.script || null,
+    treeSha: row.treeSha || null,
+    runId: row.run?.id || null,
+    jobId: row.job?.id || null,
+    stepName: row.step?.name || null,
+    artifactDigest: row.artifact?.digest || null,
+    toolDigest: row.tool?.digest || null,
+    schemaDigest: row.schema?.digest || null,
+    fixtureDigest: row.fixture?.digest || null,
+    denominator: row.counts?.denominator || null,
+    passed: row.counts?.passed || null,
+    failed: row.counts?.failed || null,
+    skipped: row.counts?.skipped || null,
+    exitCode: row.counts?.exitCode ?? null,
     workflowIndex: Number.isInteger(row.workflowIndex) ? row.workflowIndex : null,
   }))));
 
@@ -383,11 +400,13 @@ export function compileCurrentRepositoryVerdict(options = {}) {
   const program = readJsonBounded(path.join(repoRoot, 'docs', 'OPS', 'EVIDENCE', 'YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1', 'PROGRAM_DAG.json'));
   const packageJson = readJsonBounded(path.join(repoRoot, 'package.json'));
   const workflowText = readTextBounded(path.join(repoRoot, '.github', 'workflows', 'rtk-required.yml'));
+  const gateEvidence = options.gateEvidencePath ? readJsonBounded(path.resolve(repoRoot, options.gateEvidencePath)) : undefined;
   return compileWriterVerdict({
     program,
     packageJson,
     workflowText,
     repoState,
+    gateEvidence,
     expectedHeadSha: options.expectedHeadSha || repoState.headSha,
     expectedOriginMainSha: options.expectedOriginMainSha ?? null,
     now: options.now,
@@ -395,10 +414,11 @@ export function compileCurrentRepositoryVerdict(options = {}) {
 }
 
 function parseCli(argv) {
-  const out = { expectedHeadSha: '', expectedOriginMainSha: null };
+  const out = { expectedHeadSha: '', expectedOriginMainSha: null, gateEvidencePath: '' };
   for (let i = 0; i < argv.length; i += 1) {
     if (argv[i] === '--expected-head') out.expectedHeadSha = argv[i + 1] || '';
     if (argv[i] === '--expected-origin-main') out.expectedOriginMainSha = argv[i + 1] || '';
+    if (argv[i] === '--gate-evidence') out.gateEvidencePath = argv[i + 1] || '';
   }
   return out;
 }
@@ -408,6 +428,7 @@ function main() {
   const receipt = compileCurrentRepositoryVerdict({
     expectedHeadSha: args.expectedHeadSha || undefined,
     expectedOriginMainSha: args.expectedOriginMainSha,
+    gateEvidencePath: args.gateEvidencePath || undefined,
   });
   process.stdout.write(`R24_V0_WRITER_CLAIM_RECEIPT=${JSON.stringify(receipt)}\n`);
   process.exitCode = receipt.ok ? 0 : 1;

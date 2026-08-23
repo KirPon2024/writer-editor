@@ -1,0 +1,108 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-B0-OBSERVED-EVIDENCE-CLAIM-COMPILER",
+  "contourId": "B0_OBSERVED_EVIDENCE_CLAIM_COMPILER_REPAIR_V1",
+  "evidenceClass": "CONTRACT",
+  "verdict": "LOCAL_FOCUSED_PASS_CLEAN_FULL_RTK_PENDING",
+  "headSha": "34e24436722d1b1860a61e1375e4e2193ba5949a",
+  "originMainSha": "34e24436722d1b1860a61e1375e4e2193ba5949a",
+  "generatedAtUtc": "2026-08-23T02:06:55Z",
+  "oracle": "Observed EvidenceStampV2 compiler gate repair for V0/V1/V3 plus shared validator and mutation suites",
+  "claimBindings": [
+    {
+      "filePath": "scripts/ops/r24/observed-evidence-v2.mjs",
+      "sha256": "da160e0b981c3aab387a34a553e41daf220bda3c2eea446a135238ae701d3d29",
+      "claimTerms": [
+        "INDEPENDENT_EXACT_HEAD",
+        "FAIL_CLOSED",
+        "NO_LEGACY_E0_E6_ALIAS"
+      ]
+    },
+    {
+      "filePath": "scripts/ops/r24/writer-claim-compiler-v0.mjs",
+      "sha256": "3a2ff7e751ae5bde079684f36e05ce11236ef706b28a94170b374f48793604eb",
+      "claimTerms": [
+        "OBSERVED_EVIDENCE_REQUIRED",
+        "TOPOLOGY_ONLY_NOT_SUCCESS",
+        "WRITER_PROFILE_ONLY"
+      ]
+    },
+    {
+      "filePath": "scripts/ops/r24/atlas-claim-compiler-v1.mjs",
+      "sha256": "434229f1be459c9349088d6ffa801a9ac3c929a9f9278812c1da29fab6b1d793",
+      "claimTerms": [
+        "OBSERVED_EVIDENCE_REQUIRED",
+        "TOPOLOGY_ONLY_NOT_SUCCESS",
+        "ATLAS_PROFILE_ONLY"
+      ]
+    },
+    {
+      "filePath": "scripts/ops/r24/package-claim-compiler-v3.mjs",
+      "sha256": "c79ee1641b5a4339eb1b8d6a76fb8f0075c9da718e2ab8b2ba22d7d89de56f0c",
+      "claimTerms": [
+        "OBSERVED_EVIDENCE_REQUIRED",
+        "TOPOLOGY_ONLY_NOT_SUCCESS",
+        "PACKAGE_PROFILE_NOT_READY_ONLY"
+      ]
+    },
+    {
+      "filePath": "test/unit/r24-b0-observed-evidence-compiler.test.js",
+      "sha256": "0690229ab648f0fa1c54644699bfc65f9a452d2d083d2a7a168e5a98d45d1e08",
+      "claimTerms": [
+        "POSITIVE_AND_NEGATIVE_ORACLE",
+        "NON_VACUOUS_DENOMINATOR"
+      ]
+    },
+    {
+      "filePath": "package.json",
+      "sha256": "e8566f7d509907bcb991ea957b6a65543ea04cdc17366162c6d17a63d6b9ce91",
+      "claimTerms": [
+        "B0_TEST_SCRIPT_BOUND",
+        "NO_DEPENDENCY_CHANGE"
+      ]
+    },
+    {
+      "filePath": ".github/workflows/rtk-required.yml",
+      "sha256": "ac51eef84e4482ec96b3b513c4db8def1e06b93c5a5fe408d7ea0b31ea4dc818",
+      "claimTerms": [
+        "B0_CI_GATE_BOUND"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "npm run -s test:r24-b0",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 31,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 21,
+        "survived": 0
+      }
+    },
+    {
+      "command": "npm run -s test:rtk-release01",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 46,
+        "fail": 0
+      }
+    },
+    {
+      "command": "npm run -s test:rtk",
+      "verdict": "FAIL_DIRTY_WORKTREE_DIAGNOSTIC_NOT_GREEN",
+      "tests": {
+        "pass": 1052,
+        "fail": 6
+      },
+      "requiredDisposition": "clean exact-head rerun after commit"
+    }
+  ],
+  "nonClaims": [
+    "This stamp records B0 local focused evidence only; clean full RTK, exact-head CI, policy merge and postmerge survivor evidence remain required.",
+    "This stamp does not mark any R2.4 program node DONE and does not resume V2.",
+    "This stamp does not certify Word, Google Docs, release, signing, notarization or production package physical PASS."
+  ]
+}

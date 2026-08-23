@@ -19,6 +19,7 @@ const MODULE_PATH = path.join(ROOT, 'scripts', 'ops', 'r24', 'atlas-claim-compil
 const HEAD = 'a'.repeat(40);
 const ORIGIN = 'b'.repeat(40);
 const TREE = 'c'.repeat(40);
+const DIGEST = 'f'.repeat(64);
 
 async function compiler() {
   return import(pathToFileURL(MODULE_PATH).href);
@@ -85,6 +86,35 @@ function workflowFixture(mutateScripts = (scripts) => scripts) {
   ].join('\n')).join('\n');
 }
 
+function observedRow(c, program, stageId, overrides = {}) {
+  const stage = program.stages.find((row) => row.stageId === stageId);
+  const script = c.STAGE_SCRIPT_BY_ID[stageId];
+  return {
+    stageId,
+    status: 'SUCCESS',
+    headSha: HEAD,
+    treeSha: TREE,
+    evidenceClass: 'INDEPENDENT_EXACT_HEAD',
+    source: 'V1_COMPILER_CONTRACT_FIXTURE',
+    workflowIndex: 1,
+    script,
+    candidate: { stageId, script, profileId: stage?.profile || null },
+    run: { id: `run-${stageId}`, headSha: HEAD, conclusion: 'success' },
+    job: { id: `job-${stageId}`, name: `job ${stageId}`, conclusion: 'success' },
+    step: { name: `step ${stageId}`, number: 1, conclusion: 'success' },
+    counts: { denominator: 1, passed: 1, failed: 0, skipped: 0, exitCode: 0 },
+    artifact: { digest: DIGEST },
+    tool: { digest: DIGEST },
+    schema: { digest: DIGEST },
+    fixture: { digest: DIGEST },
+    ...overrides,
+  };
+}
+
+function observedAtlasEvidence(c, program = loadDag()) {
+  return [observedRow(c, program, 'A0_ATLAS_INCREMENTAL_EQUIVALENCE')];
+}
+
 function validInput(c, overrides = {}) {
   const repoState = overrides.repoState || {
     headSha: HEAD,
@@ -100,7 +130,9 @@ function validInput(c, overrides = {}) {
     workflowText: overrides.workflowText || workflowFixture(),
     expectedHeadSha: overrides.expectedHeadSha || HEAD,
     expectedOriginMainSha: overrides.expectedOriginMainSha === undefined ? ORIGIN : overrides.expectedOriginMainSha,
-    gateEvidence: overrides.gateEvidence,
+    gateEvidence: overrides.omitGateEvidence === true
+      ? undefined
+      : (Object.prototype.hasOwnProperty.call(overrides, 'gateEvidence') ? overrides.gateEvidence : observedAtlasEvidence(c, overrides.program || loadDag())),
     claimRequest: overrides.claimRequest,
     selectedProfiles: overrides.selectedProfiles,
     now: '2026-08-22T13:30:00.000Z',
@@ -166,12 +198,7 @@ test('V1 rejects stale head, dirty state, and stale A0 gate evidence', async () 
   assert.equal(dirtyRepo.ok, false);
   assert.equal(dirtyRepo.code, 'E_R24_V1_WORKTREE_DIRTY');
 
-  const evidence = c.buildGateEvidenceFromWorkflowPrefix({
-    program: loadDag(),
-    workflowText: workflowFixture(),
-    repoState: { headSha: HEAD, originMainSha: ORIGIN, treeSha: TREE, dirty: false },
-    expectedHeadSha: HEAD,
-  });
+  const evidence = observedAtlasEvidence(c);
   evidence[0] = { ...evidence[0], headSha: 'e'.repeat(40) };
   const staleEvidence = c.compileAtlasVerdict(validInput(c, { gateEvidence: evidence }));
   assert.equal(staleEvidence.ok, false);
@@ -274,50 +301,23 @@ test('V1 rejects workflow and package drift around V0, A0, V1, and A0 dependenci
 
 test('V1 rejects non-Atlas and unrequired Atlas gate evidence imports', async () => {
   const c = await compiler();
-  const writerEvidence = c.buildGateEvidenceFromWorkflowPrefix({
-    program: loadDag(),
-    workflowText: workflowFixture(),
-    repoState: { headSha: HEAD, originMainSha: ORIGIN, treeSha: TREE, dirty: false },
-    expectedHeadSha: HEAD,
-  });
-  writerEvidence.push({
-    stageId: 'T1_ANCHOR_LINEAGE',
-    status: 'SUCCESS',
-    headSha: HEAD,
-    evidenceClass: 'E6_INDEPENDENT_EXACT_HEAD',
-    source: 'V1_COMPILER_CONTRACT_FIXTURE',
-  });
+  const program = loadDag();
+  const writerEvidence = observedAtlasEvidence(c, program);
+  writerEvidence.push(observedRow(c, program, 'T1_ANCHOR_LINEAGE'));
   const writerImport = c.compileAtlasVerdict(validInput(c, { gateEvidence: writerEvidence }));
   assert.equal(writerImport.ok, false);
   assert.equal(writerImport.code, 'E_R24_V1_PROFILE_IMPORT_FORBIDDEN');
 
-  const a1Evidence = c.buildGateEvidenceFromWorkflowPrefix({
-    program: loadDag(),
-    workflowText: workflowFixture(),
-    repoState: { headSha: HEAD, originMainSha: ORIGIN, treeSha: TREE, dirty: false },
-    expectedHeadSha: HEAD,
-  });
-  a1Evidence.push({
-    stageId: 'A1_OPTIONAL_RELATION_VOCABULARY',
-    status: 'SUCCESS',
-    headSha: HEAD,
-    evidenceClass: 'E6_INDEPENDENT_EXACT_HEAD',
-    source: 'V1_COMPILER_CONTRACT_FIXTURE',
-  });
+  const a1Evidence = observedAtlasEvidence(c, program);
+  a1Evidence.push(observedRow(c, program, 'A1_OPTIONAL_RELATION_VOCABULARY'));
   const atlasImport = c.compileAtlasVerdict(validInput(c, { gateEvidence: a1Evidence }));
   assert.equal(atlasImport.ok, false);
   assert.equal(atlasImport.code, 'E_R24_V1_UNREQUIRED_ATLAS_STAGE_IMPORTED');
 });
 
-test('V1 rejects failed, source-forged, and non-E6 A0 gate evidence', async () => {
+test('V1 rejects failed, source-forged, and non-active-class A0 gate evidence', async () => {
   const c = await compiler();
-  const failed = [{
-    stageId: 'A0_ATLAS_INCREMENTAL_EQUIVALENCE',
-    status: 'FAIL',
-    headSha: HEAD,
-    evidenceClass: 'E6_INDEPENDENT_EXACT_HEAD',
-    source: 'V1_COMPILER_CONTRACT_FIXTURE',
-  }];
+  const failed = [observedRow(c, loadDag(), 'A0_ATLAS_INCREMENTAL_EQUIVALENCE', { status: 'FAIL' })];
   const failedEvidence = c.compileAtlasVerdict(validInput(c, { gateEvidence: failed }));
   assert.equal(failedEvidence.ok, false);
   assert.equal(failedEvidence.code, 'E_R24_V1_GATE_NOT_SUCCESS');
@@ -327,8 +327,50 @@ test('V1 rejects failed, source-forged, and non-E6 A0 gate evidence', async () =
   assert.equal(forgedEvidence.ok, false);
   assert.equal(forgedEvidence.code, 'E_R24_V1_GATE_EVIDENCE_SOURCE');
 
-  const nonE6 = [{ ...failed[0], status: 'SUCCESS', evidenceClass: 'E5_PHYSICAL' }];
-  const missingE6 = c.compileAtlasVerdict(validInput(c, { gateEvidence: nonE6 }));
-  assert.equal(missingE6.ok, false);
-  assert.equal(missingE6.code, 'E_R24_V1_GATE_E6_MISSING');
+  const nonActiveClass = [{ ...failed[0], status: 'SUCCESS', evidenceClass: 'PHYSICAL' }];
+  const missingActiveClass = c.compileAtlasVerdict(validInput(c, { gateEvidence: nonActiveClass }));
+  assert.equal(missingActiveClass.ok, false);
+  assert.equal(missingActiveClass.code, 'E_R24_V1_GATE_EVIDENCE_CLASS_MISSING');
+});
+
+test('V1 rejects topology-only, omitted, legacy-class, cancelled, wrong-tree, and digest-mismatched evidence', async () => {
+  const c = await compiler();
+  const topologyOnly = c.compileAtlasVerdict(validInput(c, {
+    gateEvidence: c.buildGateEvidenceFromWorkflowPrefix({
+      program: loadDag(),
+      workflowText: workflowFixture(),
+      repoState: { headSha: HEAD, originMainSha: ORIGIN, treeSha: TREE, dirty: false },
+      expectedHeadSha: HEAD,
+    }),
+  }));
+  assert.equal(topologyOnly.ok, false);
+  assert.equal(topologyOnly.code, 'E_R24_V1_GATE_TOPOLOGY_ONLY_EVIDENCE');
+
+  const omitted = c.compileAtlasVerdict(validInput(c, { omitGateEvidence: true }));
+  assert.equal(omitted.ok, false);
+  assert.equal(omitted.code, 'E_R24_V1_GATE_OBSERVED_EVIDENCE_REQUIRED');
+
+  const legacy = observedAtlasEvidence(c);
+  legacy[0] = { ...legacy[0], evidenceClass: 'E6_INDEPENDENT_EXACT_HEAD' };
+  const legacyResult = c.compileAtlasVerdict(validInput(c, { gateEvidence: legacy }));
+  assert.equal(legacyResult.ok, false);
+  assert.equal(legacyResult.code, 'E_R24_V1_GATE_LEGACY_EVIDENCE_CLASS_FORBIDDEN');
+
+  const cancelled = observedAtlasEvidence(c);
+  cancelled[0] = { ...cancelled[0], run: { ...cancelled[0].run, conclusion: 'cancelled' } };
+  const cancelledResult = c.compileAtlasVerdict(validInput(c, { gateEvidence: cancelled }));
+  assert.equal(cancelledResult.ok, false);
+  assert.equal(cancelledResult.code, 'E_R24_V1_GATE_NOT_SUCCESS');
+
+  const wrongTree = observedAtlasEvidence(c);
+  wrongTree[0] = { ...wrongTree[0], treeSha: '0'.repeat(40) };
+  const wrongTreeResult = c.compileAtlasVerdict(validInput(c, { gateEvidence: wrongTree }));
+  assert.equal(wrongTreeResult.ok, false);
+  assert.equal(wrongTreeResult.code, 'E_R24_V1_GATE_TREE_MISMATCH');
+
+  const digestMismatch = observedAtlasEvidence(c);
+  digestMismatch[0] = { ...digestMismatch[0], schema: { digest: DIGEST, expectedDigest: '0'.repeat(64) } };
+  const digestResult = c.compileAtlasVerdict(validInput(c, { gateEvidence: digestMismatch }));
+  assert.equal(digestResult.ok, false);
+  assert.equal(digestResult.code, 'E_R24_V1_GATE_DIGEST_MISMATCH');
 });

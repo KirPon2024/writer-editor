@@ -9,6 +9,11 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { HEX40_RE, sha256hex } from './canonical-json.mjs';
+import {
+  EVIDENCE_CLASS_INDEPENDENT_EXACT_HEAD,
+  buildTopologyOnlyEvidenceFromWorkflowPrefix,
+  validateObservedGateEvidenceRow,
+} from './observed-evidence-v2.mjs';
 
 const MODULE_DIR = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(MODULE_DIR, '..', '..', '..');
@@ -19,7 +24,8 @@ export const PK0_STAGE_ID = 'PK0_PACKAGE_CONTENT_TRUST';
 export const R6_STAGE_ID = 'R6_MIGRATION_HISTORY_BACKUP_GC';
 export const PACKAGE_PROFILE_ID = 'PACKAGED_RELEASE_SECURITY';
 export const PACKAGE_CLAIM_ID = 'CLM_PACKAGED_RELEASE_SECURITY';
-export const REQUIRED_EVIDENCE_CLASS = 'E6_INDEPENDENT_EXACT_HEAD';
+export const REQUIRED_EVIDENCE_CLASS = EVIDENCE_CLASS_INDEPENDENT_EXACT_HEAD;
+export const LEGACY_CONTRACT_EVIDENCE_CLASS = 'E6_INDEPENDENT_EXACT_HEAD';
 export const PROFILE_CLAIM_CEILING = 'PROFILE_VERDICT_ONLY';
 export const PACKAGE_PROFILE_VERDICT = 'PACKAGED_RELEASE_SECURITY_NOT_READY_EVIDENCE_BOUND_BY_R24_EXACT_HEAD_PK1_PREFIX';
 export const PROGRAM_VERDICT = 'NEEDS_MORE_EVIDENCE';
@@ -67,6 +73,7 @@ export const STAGE_SCRIPT_BY_ID = Object.freeze({
 
 const ALLOWED_EVIDENCE_SOURCES = new Set([
   'RTK_REQUIRED_WORKFLOW_PREFIX',
+  'OBSERVED_EVIDENCE_STAMP_V2',
   'V3_COMPILER_CONTRACT_FIXTURE',
 ]);
 
@@ -143,7 +150,8 @@ function sameSet(left, right) {
 
 function arrayHasEvidenceClass(value) {
   if (value === REQUIRED_EVIDENCE_CLASS) return true;
-  return Array.isArray(value) && value.includes(REQUIRED_EVIDENCE_CLASS);
+  if (value === LEGACY_CONTRACT_EVIDENCE_CLASS) return true;
+  return Array.isArray(value) && (value.includes(REQUIRED_EVIDENCE_CLASS) || value.includes(LEGACY_CONTRACT_EVIDENCE_CLASS));
 }
 
 function packageClaimStageIds(programInput) {
@@ -164,30 +172,14 @@ export function extractR24WorkflowScripts(workflowText) {
 export function buildGateEvidenceFromWorkflowPrefix({ program, workflowText, repoState, expectedHeadSha }) {
   const requiredStageIds = packageClaimStageIds(program);
   const scripts = extractR24WorkflowScripts(workflowText || '');
-  const v3Script = STAGE_SCRIPT_BY_ID[V3_STAGE_ID];
-  const v3Index = scripts.indexOf(v3Script);
-  if (v3Index < 0) return [];
-  const prefix = new Map(scripts.slice(0, v3Index).map((script, index) => [script, index]));
-  return requiredStageIds
-    .filter((stageId) => prefix.has(STAGE_SCRIPT_BY_ID[stageId]))
-    .map((stageId) => ({
-      stageId,
-      status: 'SUCCESS',
-      headSha: expectedHeadSha,
-      evidenceClass: REQUIRED_EVIDENCE_CLASS,
-      source: 'RTK_REQUIRED_WORKFLOW_PREFIX',
-      workflowIndex: prefix.get(STAGE_SCRIPT_BY_ID[stageId]),
-      script: STAGE_SCRIPT_BY_ID[stageId],
-      treeSha: repoState?.treeSha || null,
-      profileVerdictCandidate: 'NOT_READY',
-      stageClosureKind: 'TYPED_RELEASE_SECURITY_NOT_READY_CLASSIFICATION',
-      releaseReadyClaim: false,
-      signingPassClaim: false,
-      notarizationPassClaim: false,
-      fusePassClaim: false,
-      currentHeadPhysicalPackagePass: false,
-      productionDistribution: false,
-    }));
+  void repoState;
+  void expectedHeadSha;
+  return buildTopologyOnlyEvidenceFromWorkflowPrefix({
+    requiredStageIds,
+    workflowScripts: scripts,
+    compilerScript: STAGE_SCRIPT_BY_ID[V3_STAGE_ID],
+    stageScriptById: STAGE_SCRIPT_BY_ID,
+  });
 }
 
 function validateScientificContract(scientificContracts) {
@@ -196,8 +188,8 @@ function validateScientificContract(scientificContracts) {
     : null;
   if (!claim) return fail('E_R24_V3_PACKAGE_CLAIM_CONTRACT_MISSING', PACKAGE_CLAIM_ID);
   if (claim.profileId !== PACKAGE_PROFILE_ID) return fail('E_R24_V3_PACKAGE_CLAIM_PROFILE', String(claim.profileId || ''));
-  if (claim.minimumEvidenceClass !== REQUIRED_EVIDENCE_CLASS) {
-    return fail('E_R24_V3_PACKAGE_CLAIM_E6_REQUIRED', String(claim.minimumEvidenceClass || ''));
+  if (![REQUIRED_EVIDENCE_CLASS, LEGACY_CONTRACT_EVIDENCE_CLASS].includes(claim.minimumEvidenceClass)) {
+    return fail('E_R24_V3_PACKAGE_CLAIM_EVIDENCE_CLASS_REQUIRED', String(claim.minimumEvidenceClass || ''));
   }
   if (claim.currentVerdict !== 'NOT_READY') {
     return fail('E_R24_V3_PACKAGE_CONTRACT_NOT_READY_REQUIRED', String(claim.currentVerdict || ''));
@@ -265,7 +257,9 @@ function validateProgramContract({ program, scientificContracts, selectedProfile
   if (v3.profile !== PACKAGE_PROFILE_ID) return fail('E_R24_V3_STAGE_PROFILE', v3.profile);
   if (v3.mutationAuthority !== 'PACKAGE_CLAIM_PROJECTION_ONLY') return fail('E_R24_V3_STAGE_AUTHORITY', v3.mutationAuthority);
   if (v3.claimCeiling !== PROFILE_CLAIM_CEILING) return fail('E_R24_V3_CLAIM_CEILING', v3.claimCeiling);
-  if (!arrayHasEvidenceClass(v3.requiredEvidence)) return fail('E_R24_V3_E6_REQUIRED', JSON.stringify(v3.requiredEvidence || []));
+  if (!arrayHasEvidenceClass(v3.requiredEvidence)) {
+    return fail('E_R24_V3_REQUIRED_EVIDENCE_CLASS_MISSING', JSON.stringify(v3.requiredEvidence || []));
+  }
   if (!Array.isArray(v3.dependsOn) || !v3.dependsOn.includes(PK1_STAGE_ID)) {
     return fail('E_R24_V3_PK1_DEPENDENCY_MISSING', JSON.stringify(v3.dependsOn || []));
   }
@@ -457,8 +451,8 @@ function rowClaimsForbiddenPromotion(row) {
     || row.authority?.programScalarPass === true;
 }
 
-function validateGateEvidence({ gateEvidence, requiredStageIds, stages, expectedHeadSha }) {
-  if (!Array.isArray(gateEvidence)) return fail('E_R24_V3_GATE_EVIDENCE_REQUIRED', 'gate evidence must be an array');
+function validateGateEvidence({ gateEvidence, requiredStageIds, stages, expectedHeadSha, expectedTreeSha }) {
+  if (!Array.isArray(gateEvidence)) return fail('E_R24_V3_GATE_OBSERVED_EVIDENCE_REQUIRED', 'gateEvidence must be supplied by an observed EvidenceStampV2 source');
   const requiredSet = new Set(requiredStageIds);
   const evidenceByStage = new Map(gateEvidence.map((row) => [row.stageId, row]));
   for (const row of gateEvidence) {
@@ -473,9 +467,16 @@ function validateGateEvidence({ gateEvidence, requiredStageIds, stages, expected
   for (const stageId of requiredStageIds) {
     if (!evidenceByStage.has(stageId)) return fail('E_R24_V3_GATE_EVIDENCE_MISSING', stageId);
     const row = evidenceByStage.get(stageId);
-    if (row.status !== 'SUCCESS') return fail('E_R24_V3_GATE_NOT_SUCCESS', `${stageId}:${row.status}`);
-    if (row.headSha !== expectedHeadSha) return fail('E_R24_V3_GATE_HEAD_MISMATCH', `${stageId}:${row.headSha} != ${expectedHeadSha}`);
-    if (!arrayHasEvidenceClass(row.evidenceClass || row.evidenceClasses)) return fail('E_R24_V3_GATE_E6_MISSING', stageId);
+    const observed = validateObservedGateEvidenceRow({
+      row,
+      stageId,
+      stage: stages.get(stageId),
+      expectedHeadSha,
+      expectedTreeSha,
+      expectedScript: STAGE_SCRIPT_BY_ID[stageId],
+      requiredEvidenceClass: REQUIRED_EVIDENCE_CLASS,
+    });
+    if (!observed.ok) return fail(`E_R24_V3_${observed.code}`, observed.detail, observed.context);
     if (row.profileVerdictCandidate !== 'NOT_READY') {
       return fail('E_R24_V3_PK1_NOT_READY_CLASSIFICATION_REQUIRED', String(row.profileVerdictCandidate || ''));
     }
@@ -513,19 +514,13 @@ export function compilePackageVerdict(input = {}) {
     requiredStageIds: programCheck.requiredStageIds,
   });
   if (!workflowCheck.ok) return workflowCheck;
-  const gateEvidence = Array.isArray(input.gateEvidence)
-    ? input.gateEvidence
-    : buildGateEvidenceFromWorkflowPrefix({
-      program,
-      workflowText: input.workflowText,
-      repoState: input.repoState,
-      expectedHeadSha,
-    });
+  const gateEvidence = Array.isArray(input.gateEvidence) ? input.gateEvidence : null;
   const evidenceCheck = validateGateEvidence({
     gateEvidence,
     requiredStageIds: programCheck.requiredStageIds,
     stages: programCheck.stages,
     expectedHeadSha,
+    expectedTreeSha: input.repoState.treeSha || null,
   });
   if (!evidenceCheck.ok) return evidenceCheck;
 
@@ -536,6 +531,19 @@ export function compilePackageVerdict(input = {}) {
     evidenceClass: row.evidenceClass || row.evidenceClasses,
     source: row.source,
     script: row.script || null,
+    treeSha: row.treeSha || null,
+    runId: row.run?.id || null,
+    jobId: row.job?.id || null,
+    stepName: row.step?.name || null,
+    artifactDigest: row.artifact?.digest || null,
+    toolDigest: row.tool?.digest || null,
+    schemaDigest: row.schema?.digest || null,
+    fixtureDigest: row.fixture?.digest || null,
+    denominator: row.counts?.denominator || null,
+    passed: row.counts?.passed || null,
+    failed: row.counts?.failed || null,
+    skipped: row.counts?.skipped || null,
+    exitCode: row.counts?.exitCode ?? null,
     workflowIndex: Number.isInteger(row.workflowIndex) ? row.workflowIndex : null,
     profileVerdictCandidate: row.profileVerdictCandidate || null,
     stageClosureKind: row.stageClosureKind || null,
@@ -622,12 +630,14 @@ export function compileCurrentRepositoryVerdict(options = {}) {
   const scientificContracts = readJsonBounded(path.join(repoRoot, 'docs', 'OPS', 'EVIDENCE', 'YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1', 'SCIENTIFIC_CONTRACTS.json'));
   const packageJson = readJsonBounded(path.join(repoRoot, 'package.json'));
   const workflowText = readTextBounded(path.join(repoRoot, '.github', 'workflows', 'rtk-required.yml'));
+  const gateEvidence = options.gateEvidencePath ? readJsonBounded(path.resolve(repoRoot, options.gateEvidencePath)) : undefined;
   return compilePackageVerdict({
     program,
     scientificContracts,
     packageJson,
     workflowText,
     repoState,
+    gateEvidence,
     expectedHeadSha: options.expectedHeadSha || repoState.headSha,
     expectedOriginMainSha: options.expectedOriginMainSha ?? null,
     now: options.now,
@@ -635,10 +645,11 @@ export function compileCurrentRepositoryVerdict(options = {}) {
 }
 
 function parseCli(argv) {
-  const out = { expectedHeadSha: '', expectedOriginMainSha: null };
+  const out = { expectedHeadSha: '', expectedOriginMainSha: null, gateEvidencePath: '' };
   for (let i = 0; i < argv.length; i += 1) {
     if (argv[i] === '--expected-head') out.expectedHeadSha = argv[i + 1] || '';
     if (argv[i] === '--expected-origin-main') out.expectedOriginMainSha = argv[i + 1] || '';
+    if (argv[i] === '--gate-evidence') out.gateEvidencePath = argv[i + 1] || '';
   }
   return out;
 }
@@ -648,6 +659,7 @@ function main() {
   const receipt = compileCurrentRepositoryVerdict({
     expectedHeadSha: args.expectedHeadSha || undefined,
     expectedOriginMainSha: args.expectedOriginMainSha,
+    gateEvidencePath: args.gateEvidencePath || undefined,
   });
   process.stdout.write(`R24_V3_PACKAGE_CLAIM_RECEIPT=${JSON.stringify(receipt)}\n`);
   process.exitCode = receipt.ok ? 0 : 1;

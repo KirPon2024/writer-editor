@@ -15,6 +15,7 @@ const MODULE_PATH = path.join(ROOT, 'scripts', 'ops', 'r24', 'writer-claim-compi
 const HEAD = 'a'.repeat(40);
 const ORIGIN = 'b'.repeat(40);
 const TREE = 'c'.repeat(40);
+const DIGEST = 'f'.repeat(64);
 
 async function compiler() {
   return import(pathToFileURL(MODULE_PATH).href);
@@ -69,6 +70,35 @@ function workflowFixture(c, mutateScripts = (scripts) => scripts) {
   ].join('\n')).join('\n');
 }
 
+function observedRow(c, program, stageId, overrides = {}) {
+  const stage = program.stages.find((row) => row.stageId === stageId);
+  const script = c.STAGE_SCRIPT_BY_ID[stageId];
+  return {
+    stageId,
+    status: 'SUCCESS',
+    headSha: HEAD,
+    treeSha: TREE,
+    evidenceClass: 'INDEPENDENT_EXACT_HEAD',
+    source: 'V0_COMPILER_CONTRACT_FIXTURE',
+    workflowIndex: 1,
+    script,
+    candidate: { stageId, script, profileId: stage?.profile || null },
+    run: { id: `run-${stageId}`, headSha: HEAD, conclusion: 'success' },
+    job: { id: `job-${stageId}`, name: `job ${stageId}`, conclusion: 'success' },
+    step: { name: `step ${stageId}`, number: 1, conclusion: 'success' },
+    counts: { denominator: 1, passed: 1, failed: 0, skipped: 0, exitCode: 0 },
+    artifact: { digest: DIGEST },
+    tool: { digest: DIGEST },
+    schema: { digest: DIGEST },
+    fixture: { digest: DIGEST },
+    ...overrides,
+  };
+}
+
+function observedWriterEvidence(c, program = loadDag()) {
+  return c.expectedWriterStageIds(program).map((stageId, index) => observedRow(c, program, stageId, { workflowIndex: index }));
+}
+
 function validInput(c, overrides = {}) {
   const program = overrides.program || loadDag();
   const repoState = overrides.repoState || {
@@ -86,7 +116,9 @@ function validInput(c, overrides = {}) {
     workflowText,
     expectedHeadSha: overrides.expectedHeadSha || HEAD,
     expectedOriginMainSha: overrides.expectedOriginMainSha === undefined ? ORIGIN : overrides.expectedOriginMainSha,
-    gateEvidence: overrides.gateEvidence,
+    gateEvidence: overrides.omitGateEvidence === true
+      ? undefined
+      : (Object.prototype.hasOwnProperty.call(overrides, 'gateEvidence') ? overrides.gateEvidence : observedWriterEvidence(c, program)),
     claimRequest: overrides.claimRequest,
     selectedProfiles: overrides.selectedProfiles,
     now: '2026-08-22T12:30:00.000Z',
@@ -144,12 +176,7 @@ test('V0 rejects stale head, dirty state, and stale gate evidence', async () => 
   assert.equal(dirtyRepo.ok, false);
   assert.equal(dirtyRepo.code, 'E_R24_V0_WORKTREE_DIRTY');
 
-  const evidence = c.buildGateEvidenceFromWorkflowPrefix({
-    program: loadDag(),
-    workflowText: workflowFixture(c),
-    repoState: { headSha: HEAD, originMainSha: ORIGIN, treeSha: TREE, dirty: false },
-    expectedHeadSha: HEAD,
-  });
+  const evidence = observedWriterEvidence(c);
   evidence[0] = { ...evidence[0], headSha: 'e'.repeat(40) };
   const staleEvidence = c.compileWriterVerdict(validInput(c, { gateEvidence: evidence }));
   assert.equal(staleEvidence.ok, false);
@@ -158,19 +185,9 @@ test('V0 rejects stale head, dirty state, and stale gate evidence', async () => 
 
 test('V0 rejects optional-profile evidence and optional claim requests', async () => {
   const c = await compiler();
-  const evidence = c.buildGateEvidenceFromWorkflowPrefix({
-    program: loadDag(),
-    workflowText: workflowFixture(c),
-    repoState: { headSha: HEAD, originMainSha: ORIGIN, treeSha: TREE, dirty: false },
-    expectedHeadSha: HEAD,
-  });
-  evidence.push({
-    stageId: 'A0_ATLAS_INCREMENTAL_EQUIVALENCE',
-    status: 'SUCCESS',
-    headSha: HEAD,
-    evidenceClass: 'E6_INDEPENDENT_EXACT_HEAD',
-    source: 'V0_COMPILER_CONTRACT_FIXTURE',
-  });
+  const program = loadDag();
+  const evidence = observedWriterEvidence(c, program);
+  evidence.push(observedRow(c, program, 'A0_ATLAS_INCREMENTAL_EQUIVALENCE'));
   const optionalEvidence = c.compileWriterVerdict(validInput(c, { gateEvidence: evidence }));
   assert.equal(optionalEvidence.ok, false);
   assert.equal(optionalEvidence.code, 'E_R24_V0_OPTIONAL_PROFILE_IMPORTED');
@@ -210,4 +227,46 @@ test('V0 rejects invalid workflow order and zero evidence denominator', async ()
   const missingEvidence = c.compileWriterVerdict(validInput(c, { gateEvidence: [] }));
   assert.equal(missingEvidence.ok, false);
   assert.equal(missingEvidence.code, 'E_R24_V0_GATE_EVIDENCE_MISSING');
+});
+
+test('V0 rejects topology-only, omitted, legacy-class, failed, wrong-tree, and digest-mismatched evidence', async () => {
+  const c = await compiler();
+  const topologyOnly = c.compileWriterVerdict(validInput(c, {
+    gateEvidence: c.buildGateEvidenceFromWorkflowPrefix({
+      program: loadDag(),
+      workflowText: workflowFixture(c),
+      repoState: { headSha: HEAD, originMainSha: ORIGIN, treeSha: TREE, dirty: false },
+      expectedHeadSha: HEAD,
+    }),
+  }));
+  assert.equal(topologyOnly.ok, false);
+  assert.equal(topologyOnly.code, 'E_R24_V0_GATE_TOPOLOGY_ONLY_EVIDENCE');
+
+  const omitted = c.compileWriterVerdict(validInput(c, { omitGateEvidence: true }));
+  assert.equal(omitted.ok, false);
+  assert.equal(omitted.code, 'E_R24_V0_GATE_OBSERVED_EVIDENCE_REQUIRED');
+
+  const legacy = observedWriterEvidence(c);
+  legacy[0] = { ...legacy[0], evidenceClass: 'E6_INDEPENDENT_EXACT_HEAD' };
+  const legacyResult = c.compileWriterVerdict(validInput(c, { gateEvidence: legacy }));
+  assert.equal(legacyResult.ok, false);
+  assert.equal(legacyResult.code, 'E_R24_V0_GATE_LEGACY_EVIDENCE_CLASS_FORBIDDEN');
+
+  const failed = observedWriterEvidence(c);
+  failed[0] = { ...failed[0], step: { ...failed[0].step, conclusion: 'failure' } };
+  const failedResult = c.compileWriterVerdict(validInput(c, { gateEvidence: failed }));
+  assert.equal(failedResult.ok, false);
+  assert.equal(failedResult.code, 'E_R24_V0_GATE_NOT_SUCCESS');
+
+  const wrongTree = observedWriterEvidence(c);
+  wrongTree[0] = { ...wrongTree[0], treeSha: '0'.repeat(40) };
+  const wrongTreeResult = c.compileWriterVerdict(validInput(c, { gateEvidence: wrongTree }));
+  assert.equal(wrongTreeResult.ok, false);
+  assert.equal(wrongTreeResult.code, 'E_R24_V0_GATE_TREE_MISMATCH');
+
+  const digestMismatch = observedWriterEvidence(c);
+  digestMismatch[0] = { ...digestMismatch[0], artifact: { digest: DIGEST, expectedDigest: '0'.repeat(64) } };
+  const digestResult = c.compileWriterVerdict(validInput(c, { gateEvidence: digestMismatch }));
+  assert.equal(digestResult.ok, false);
+  assert.equal(digestResult.code, 'E_R24_V0_GATE_DIGEST_MISMATCH');
 });

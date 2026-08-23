@@ -15,11 +15,13 @@ const { pathToFileURL } = require('node:url');
 const ROOT = path.resolve(__dirname, '..', '..');
 const MODULE_PATH = path.join(ROOT, 'scripts', 'ops', 'r24', 'package-claim-compiler-v3.mjs');
 const CANONICAL_JSON_PATH = path.join(ROOT, 'scripts', 'ops', 'r24', 'canonical-json.mjs');
+const OBSERVED_EVIDENCE_PATH = path.join(ROOT, 'scripts', 'ops', 'r24', 'observed-evidence-v2.mjs');
 const DAG_PATH = path.join(ROOT, 'docs', 'OPS', 'EVIDENCE', 'YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1', 'PROGRAM_DAG.json');
 const CONTRACTS_PATH = path.join(ROOT, 'docs', 'OPS', 'EVIDENCE', 'YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1', 'SCIENTIFIC_CONTRACTS.json');
 const HEAD = '1'.repeat(40);
 const ORIGIN = '2'.repeat(40);
 const TREE = '3'.repeat(40);
+const DIGEST = 'f'.repeat(64);
 
 const MUTANTS = Object.freeze([
   {
@@ -28,19 +30,7 @@ const MUTANTS = Object.freeze([
     replace: "      if (false) return fail('E_R24_V3_PROFILE_IMPORT_FORBIDDEN', row.stageId);",
     oracle: async (c) => {
       const input = validInput(c);
-      input.gateEvidence = c.buildGateEvidenceFromWorkflowPrefix({
-        program: input.program,
-        workflowText: input.workflowText,
-        repoState: input.repoState,
-        expectedHeadSha: HEAD,
-      });
-      input.gateEvidence.push({
-        stageId: 'F0_WRITER_REFINEMENT_CONFORMANCE',
-        status: 'SUCCESS',
-        headSha: HEAD,
-        evidenceClass: 'E6_INDEPENDENT_EXACT_HEAD',
-        source: 'V3_COMPILER_CONTRACT_FIXTURE',
-      });
+      input.gateEvidence = [...observedPackageEvidence(c, input.program), observedRow(c, input.program, 'F0_WRITER_REFINEMENT_CONFORMANCE')];
       const result = c.compilePackageVerdict(input);
       assert.equal(result.ok, false);
       assert.equal(result.code, 'E_R24_V3_PROFILE_IMPORT_FORBIDDEN');
@@ -48,16 +38,11 @@ const MUTANTS = Object.freeze([
   },
   {
     id: 'gate-head-mismatch-admitted',
-    find: "    if (row.headSha !== expectedHeadSha) return fail('E_R24_V3_GATE_HEAD_MISMATCH', `${stageId}:${row.headSha} != ${expectedHeadSha}`);",
-    replace: "    if (false) return fail('E_R24_V3_GATE_HEAD_MISMATCH', `${stageId}:${row.headSha} != ${expectedHeadSha}`);",
+    target: 'observed',
+    find: "  if (row.headSha !== expectedHeadSha) return failure('GATE_HEAD_MISMATCH', `${stageId}:${String(row.headSha || '')} != ${expectedHeadSha}`);",
+    replace: "  if (false) return failure('GATE_HEAD_MISMATCH', `${stageId}:${String(row.headSha || '')} != ${expectedHeadSha}`);",
     oracle: async (c) => {
       const input = validInput(c);
-      input.gateEvidence = c.buildGateEvidenceFromWorkflowPrefix({
-        program: input.program,
-        workflowText: input.workflowText,
-        repoState: input.repoState,
-        expectedHeadSha: HEAD,
-      });
       input.gateEvidence[0] = { ...input.gateEvidence[0], headSha: '4'.repeat(40) };
       const result = c.compilePackageVerdict(input);
       assert.equal(result.ok, false);
@@ -142,12 +127,6 @@ const MUTANTS = Object.freeze([
     replace: "    if (false) {",
     oracle: async (c) => {
       const input = validInput(c);
-      input.gateEvidence = c.buildGateEvidenceFromWorkflowPrefix({
-        program: input.program,
-        workflowText: input.workflowText,
-        repoState: input.repoState,
-        expectedHeadSha: HEAD,
-      });
       input.gateEvidence[0] = { ...input.gateEvidence[0], profileVerdictCandidate: 'PASS' };
       const result = c.compilePackageVerdict(input);
       assert.equal(result.ok, false);
@@ -215,8 +194,9 @@ function workflowFixture(mutateScripts = (scripts) => scripts) {
 }
 
 function validInput(c, overrides = {}) {
+  const program = loadDag();
   return {
-    program: loadDag(),
+    program,
     scientificContracts: overrides.scientificContracts || loadContracts(),
     repoState: { headSha: HEAD, originMainSha: ORIGIN, treeSha: TREE, dirty: false },
     packageJson: packageFixture(c),
@@ -224,18 +204,53 @@ function validInput(c, overrides = {}) {
     expectedHeadSha: HEAD,
     expectedOriginMainSha: ORIGIN,
     claimRequest: overrides.claimRequest,
-    gateEvidence: overrides.gateEvidence,
+    gateEvidence: Object.hasOwn(overrides, 'gateEvidence') ? overrides.gateEvidence : observedPackageEvidence(c, program),
   };
+}
+
+function observedRow(c, program, stageId, overrides = {}) {
+  const stage = program.stages.find((row) => row.stageId === stageId);
+  assert.ok(stage, `stage fixture missing: ${stageId}`);
+  const script = c.STAGE_SCRIPT_BY_ID[stageId];
+  assert.ok(script, `script fixture missing: ${stageId}`);
+  return {
+    stageId,
+    status: 'SUCCESS',
+    headSha: HEAD,
+    treeSha: TREE,
+    evidenceClass: 'INDEPENDENT_EXACT_HEAD',
+    source: 'V3_COMPILER_CONTRACT_FIXTURE',
+    candidate: { stageId, script, profile: stage.profile },
+    run: { id: `run-${stageId}`, attempt: 1, headSha: HEAD, conclusion: 'success' },
+    job: { id: `job-${stageId}`, name: script, conclusion: 'success' },
+    step: { name: script, conclusion: 'success' },
+    artifact: { name: `${stageId}.json`, digest: DIGEST },
+    tool: { name: c.V3_STAGE_ID, digest: DIGEST },
+    schema: { name: 'EvidenceStampV2', digest: DIGEST },
+    fixture: { name: 'r24-v3-package-claim-mutants', digest: DIGEST },
+    counts: { passed: 1, failed: 0, skipped: 0, denominator: 1, exitCode: 0 },
+    profileVerdictCandidate: 'NOT_READY',
+    stageClosureKind: 'TYPED_RELEASE_SECURITY_NOT_READY_CLASSIFICATION',
+    ...overrides,
+  };
+}
+
+function observedPackageEvidence(c, program = loadDag()) {
+  return [observedRow(c, program, 'PK1_RELEASE_SECURITY_PHYSICAL')];
 }
 
 function materializeMutant(mutant) {
   const dir = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'r24-v3-mutant-')));
-  const source = fs.readFileSync(MODULE_PATH, 'utf8');
+  const sourcePath = mutant.target === 'observed' ? OBSERVED_EVIDENCE_PATH : MODULE_PATH;
+  const source = fs.readFileSync(sourcePath, 'utf8');
   const occurrences = source.split(mutant.find).length - 1;
   assert.equal(occurrences, 1, `mutant anchor must be unique: ${mutant.id}`);
   fs.copyFileSync(CANONICAL_JSON_PATH, path.join(dir, 'canonical-json.mjs'));
+  fs.copyFileSync(OBSERVED_EVIDENCE_PATH, path.join(dir, 'observed-evidence-v2.mjs'));
   const modulePath = path.join(dir, 'package-claim-compiler-v3.mjs');
-  fs.writeFileSync(modulePath, source.replace(mutant.find, mutant.replace));
+  fs.copyFileSync(MODULE_PATH, modulePath);
+  const mutantPath = mutant.target === 'observed' ? path.join(dir, 'observed-evidence-v2.mjs') : modulePath;
+  fs.writeFileSync(mutantPath, source.replace(mutant.find, mutant.replace));
   return { dir, modulePath };
 }
 

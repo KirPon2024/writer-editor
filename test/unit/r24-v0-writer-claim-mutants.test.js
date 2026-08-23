@@ -14,10 +14,12 @@ const { pathToFileURL } = require('node:url');
 const ROOT = path.resolve(__dirname, '..', '..');
 const MODULE_PATH = path.join(ROOT, 'scripts', 'ops', 'r24', 'writer-claim-compiler-v0.mjs');
 const CANONICAL_JSON_PATH = path.join(ROOT, 'scripts', 'ops', 'r24', 'canonical-json.mjs');
+const OBSERVED_EVIDENCE_PATH = path.join(ROOT, 'scripts', 'ops', 'r24', 'observed-evidence-v2.mjs');
 const DAG_PATH = path.join(ROOT, 'docs', 'OPS', 'EVIDENCE', 'YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1', 'PROGRAM_DAG.json');
 const HEAD = '1'.repeat(40);
 const ORIGIN = '2'.repeat(40);
 const TREE = '3'.repeat(40);
+const DIGEST = 'f'.repeat(64);
 
 const MUTANTS = Object.freeze([
   {
@@ -26,19 +28,7 @@ const MUTANTS = Object.freeze([
     replace: "  if (false) return fail('E_R24_V0_OPTIONAL_PROFILE_IMPORTED', optionalEvidence.map((row) => row.stageId).join(','));",
     oracle: async (c) => {
       const input = validInput(c);
-      input.gateEvidence = c.buildGateEvidenceFromWorkflowPrefix({
-        program: input.program,
-        workflowText: input.workflowText,
-        repoState: input.repoState,
-        expectedHeadSha: HEAD,
-      });
-      input.gateEvidence.push({
-        stageId: 'A0_ATLAS_INCREMENTAL_EQUIVALENCE',
-        status: 'SUCCESS',
-        headSha: HEAD,
-        evidenceClass: 'E6_INDEPENDENT_EXACT_HEAD',
-        source: 'V0_COMPILER_CONTRACT_FIXTURE',
-      });
+      input.gateEvidence = [...observedWriterEvidence(c, input.program), observedRow(c, input.program, 'A0_ATLAS_INCREMENTAL_EQUIVALENCE')];
       const result = c.compileWriterVerdict(input);
       assert.equal(result.ok, false);
       assert.equal(result.code, 'E_R24_V0_OPTIONAL_PROFILE_IMPORTED');
@@ -46,16 +36,11 @@ const MUTANTS = Object.freeze([
   },
   {
     id: 'gate-head-mismatch-admitted',
-    find: "    if (row.headSha !== expectedHeadSha) return fail('E_R24_V0_GATE_HEAD_MISMATCH', `${stageId}:${row.headSha} != ${expectedHeadSha}`);",
-    replace: "    if (false) return fail('E_R24_V0_GATE_HEAD_MISMATCH', `${stageId}:${row.headSha} != ${expectedHeadSha}`);",
+    target: 'observed',
+    find: "  if (row.headSha !== expectedHeadSha) return failure('GATE_HEAD_MISMATCH', `${stageId}:${String(row.headSha || '')} != ${expectedHeadSha}`);",
+    replace: "  if (false) return failure('GATE_HEAD_MISMATCH', `${stageId}:${String(row.headSha || '')} != ${expectedHeadSha}`);",
     oracle: async (c) => {
       const input = validInput(c);
-      input.gateEvidence = c.buildGateEvidenceFromWorkflowPrefix({
-        program: input.program,
-        workflowText: input.workflowText,
-        repoState: input.repoState,
-        expectedHeadSha: HEAD,
-      });
       input.gateEvidence[0] = { ...input.gateEvidence[0], headSha: '4'.repeat(40) };
       const result = c.compileWriterVerdict(input);
       assert.equal(result.ok, false);
@@ -90,12 +75,7 @@ const MUTANTS = Object.freeze([
     replace: "    if (false) return fail('E_R24_V0_GATE_EVIDENCE_MISSING', stageId);",
     oracle: async (c) => {
       const input = validInput(c);
-      input.gateEvidence = c.buildGateEvidenceFromWorkflowPrefix({
-        program: input.program,
-        workflowText: input.workflowText,
-        repoState: input.repoState,
-        expectedHeadSha: HEAD,
-      }).filter((row) => row.stageId !== 'F0_WRITER_REFINEMENT_CONFORMANCE');
+      input.gateEvidence = input.gateEvidence.filter((row) => row.stageId !== 'F0_WRITER_REFINEMENT_CONFORMANCE');
       const result = c.compileWriterVerdict(input);
       assert.equal(result.ok, false);
       assert.equal(result.code, 'E_R24_V0_GATE_EVIDENCE_MISSING');
@@ -152,27 +132,59 @@ function workflowFixture(c, mutateScripts = (scripts) => scripts) {
 }
 
 function validInput(c, overrides = {}) {
+  const program = loadDag();
   return {
-    program: loadDag(),
+    program,
     repoState: { headSha: HEAD, originMainSha: ORIGIN, treeSha: TREE, dirty: false },
     packageJson: packageFixture(c),
-    workflowText: workflowFixture(c),
     expectedHeadSha: HEAD,
     expectedOriginMainSha: ORIGIN,
     claimRequest: overrides.claimRequest,
-    gateEvidence: overrides.gateEvidence,
+    gateEvidence: Object.hasOwn(overrides, 'gateEvidence') ? overrides.gateEvidence : observedWriterEvidence(c, program),
     workflowText: overrides.workflowText || workflowFixture(c),
   };
 }
 
+function observedRow(c, program, stageId, overrides = {}) {
+  const stage = program.stages.find((row) => row.stageId === stageId);
+  assert.ok(stage, `stage fixture missing: ${stageId}`);
+  const script = c.STAGE_SCRIPT_BY_ID[stageId] || `test:r24-${String(stageId).split('_')[0].toLowerCase()}`;
+  return {
+    stageId,
+    status: 'SUCCESS',
+    headSha: HEAD,
+    treeSha: TREE,
+    evidenceClass: 'INDEPENDENT_EXACT_HEAD',
+    source: 'V0_COMPILER_CONTRACT_FIXTURE',
+    candidate: { stageId, script, profile: stage.profile },
+    run: { id: `run-${stageId}`, attempt: 1, headSha: HEAD, conclusion: 'success' },
+    job: { id: `job-${stageId}`, name: script, conclusion: 'success' },
+    step: { name: script, conclusion: 'success' },
+    artifact: { name: `${stageId}.json`, digest: DIGEST },
+    tool: { name: c.V0_STAGE_ID, digest: DIGEST },
+    schema: { name: 'EvidenceStampV2', digest: DIGEST },
+    fixture: { name: 'r24-v0-writer-claim-mutants', digest: DIGEST },
+    counts: { passed: 1, failed: 0, skipped: 0, denominator: 1, exitCode: 0 },
+    ...overrides,
+  };
+}
+
+function observedWriterEvidence(c, program = loadDag()) {
+  return c.expectedWriterStageIds(program).map((stageId) => observedRow(c, program, stageId));
+}
+
 function materializeMutant(mutant) {
   const dir = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'r24-v0-mutant-')));
-  const source = fs.readFileSync(MODULE_PATH, 'utf8');
+  const sourcePath = mutant.target === 'observed' ? OBSERVED_EVIDENCE_PATH : MODULE_PATH;
+  const source = fs.readFileSync(sourcePath, 'utf8');
   const occurrences = source.split(mutant.find).length - 1;
   assert.equal(occurrences, 1, `mutant anchor must be unique: ${mutant.id}`);
   fs.copyFileSync(CANONICAL_JSON_PATH, path.join(dir, 'canonical-json.mjs'));
+  fs.copyFileSync(OBSERVED_EVIDENCE_PATH, path.join(dir, 'observed-evidence-v2.mjs'));
   const modulePath = path.join(dir, 'writer-claim-compiler-v0.mjs');
-  fs.writeFileSync(modulePath, source.replace(mutant.find, mutant.replace));
+  fs.copyFileSync(MODULE_PATH, modulePath);
+  const mutantPath = mutant.target === 'observed' ? path.join(dir, 'observed-evidence-v2.mjs') : modulePath;
+  fs.writeFileSync(mutantPath, source.replace(mutant.find, mutant.replace));
   return { dir, modulePath };
 }
 

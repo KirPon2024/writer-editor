@@ -20,6 +20,7 @@ const MODULE_PATH = path.join(ROOT, 'scripts', 'ops', 'r24', 'package-claim-comp
 const HEAD = 'a'.repeat(40);
 const ORIGIN = 'b'.repeat(40);
 const TREE = 'c'.repeat(40);
+const DIGEST = 'f'.repeat(64);
 
 async function compiler() {
   return import(pathToFileURL(MODULE_PATH).href);
@@ -97,28 +98,80 @@ function validInput(c, overrides = {}) {
     treeSha: TREE,
     dirty: false,
   };
+  const program = overrides.program || loadDag();
+  const gateEvidence = Object.hasOwn(overrides, 'gateEvidence')
+    ? overrides.gateEvidence
+    : (overrides.omitGateEvidence ? undefined : observedPackageEvidence(c, program));
   return {
-    program: overrides.program || loadDag(),
+    program,
     scientificContracts: overrides.scientificContracts || loadContracts(),
     repoState,
     packageJson: overrides.packageJson || packageFixture(c),
     workflowText: overrides.workflowText || workflowFixture(),
     expectedHeadSha: overrides.expectedHeadSha || HEAD,
     expectedOriginMainSha: overrides.expectedOriginMainSha === undefined ? ORIGIN : overrides.expectedOriginMainSha,
-    gateEvidence: overrides.gateEvidence,
+    gateEvidence,
     claimRequest: overrides.claimRequest,
     selectedProfiles: overrides.selectedProfiles,
     now: '2026-08-22T18:40:00.000Z',
   };
 }
 
+function observedRow(c, program, stageId, overrides = {}) {
+  const stage = program.stages.find((row) => row.stageId === stageId);
+  assert.ok(stage, `stage fixture missing: ${stageId}`);
+  const script = c.STAGE_SCRIPT_BY_ID[stageId];
+  assert.ok(script, `script fixture missing: ${stageId}`);
+  return {
+    stageId,
+    status: 'SUCCESS',
+    headSha: HEAD,
+    treeSha: TREE,
+    evidenceClass: 'INDEPENDENT_EXACT_HEAD',
+    source: 'V3_COMPILER_CONTRACT_FIXTURE',
+    candidate: {
+      stageId,
+      script,
+      profile: stage.profile,
+    },
+    run: {
+      id: `run-${stageId}`,
+      attempt: 1,
+      headSha: HEAD,
+      conclusion: 'success',
+    },
+    job: {
+      id: `job-${stageId}`,
+      name: script,
+      conclusion: 'success',
+    },
+    step: {
+      name: script,
+      conclusion: 'success',
+    },
+    artifact: { name: `${stageId}.json`, digest: DIGEST },
+    tool: { name: c.V3_STAGE_ID, digest: DIGEST },
+    schema: { name: 'EvidenceStampV2', digest: DIGEST },
+    fixture: { name: 'r24-v3-package-claim-compiler', digest: DIGEST },
+    counts: {
+      passed: 1,
+      failed: 0,
+      skipped: 0,
+      denominator: 1,
+      exitCode: 0,
+    },
+    profileVerdictCandidate: 'NOT_READY',
+    stageClosureKind: 'TYPED_RELEASE_SECURITY_NOT_READY_CLASSIFICATION',
+    ...overrides,
+  };
+}
+
+function observedPackageEvidence(c, program = loadDag()) {
+  return [observedRow(c, program, 'PK1_RELEASE_SECURITY_PHYSICAL')];
+}
+
 function builtEvidence(c) {
-  return c.buildGateEvidenceFromWorkflowPrefix({
-    program: loadDag(),
-    workflowText: workflowFixture(),
-    repoState: { headSha: HEAD, originMainSha: ORIGIN, treeSha: TREE, dirty: false },
-    expectedHeadSha: HEAD,
-  });
+  return observedPackageEvidence(c);
 }
 
 test('V3 compiles a package-profile NOT_READY verdict from exact-head PK1 evidence only', async () => {
@@ -320,40 +373,21 @@ test('V3 rejects workflow and package drift around PK0, PK1, V3, and PK1 depende
 test('V3 rejects non-package and unrequired package gate evidence imports', async () => {
   const c = await compiler();
   const writerEvidence = builtEvidence(c);
-  writerEvidence.push({
-    stageId: 'F0_WRITER_REFINEMENT_CONFORMANCE',
-    status: 'SUCCESS',
-    headSha: HEAD,
-    evidenceClass: 'E6_INDEPENDENT_EXACT_HEAD',
-    source: 'V3_COMPILER_CONTRACT_FIXTURE',
-  });
+  writerEvidence.push(observedRow(c, loadDag(), 'F0_WRITER_REFINEMENT_CONFORMANCE'));
   const writerImport = c.compilePackageVerdict(validInput(c, { gateEvidence: writerEvidence }));
   assert.equal(writerImport.ok, false);
   assert.equal(writerImport.code, 'E_R24_V3_PROFILE_IMPORT_FORBIDDEN');
 
   const pk0Evidence = builtEvidence(c);
-  pk0Evidence.push({
-    stageId: 'PK0_PACKAGE_CONTENT_TRUST',
-    status: 'SUCCESS',
-    headSha: HEAD,
-    evidenceClass: 'E6_INDEPENDENT_EXACT_HEAD',
-    source: 'V3_COMPILER_CONTRACT_FIXTURE',
-  });
+  pk0Evidence.push(observedRow(c, loadDag(), 'PK0_PACKAGE_CONTENT_TRUST'));
   const packageImport = c.compilePackageVerdict(validInput(c, { gateEvidence: pk0Evidence }));
   assert.equal(packageImport.ok, false);
   assert.equal(packageImport.code, 'E_R24_V3_UNREQUIRED_PACKAGE_STAGE_IMPORTED');
 });
 
-test('V3 rejects failed, source-forged, non-E6, PASS-like, and release-promoting PK1 evidence', async () => {
+test('V3 rejects failed, source-forged, non-active-class, PASS-like, and release-promoting PK1 evidence', async () => {
   const c = await compiler();
-  const failed = [{
-    stageId: 'PK1_RELEASE_SECURITY_PHYSICAL',
-    status: 'FAIL',
-    headSha: HEAD,
-    evidenceClass: 'E6_INDEPENDENT_EXACT_HEAD',
-    source: 'V3_COMPILER_CONTRACT_FIXTURE',
-    profileVerdictCandidate: 'NOT_READY',
-  }];
+  const failed = [observedRow(c, loadDag(), 'PK1_RELEASE_SECURITY_PHYSICAL', { status: 'FAIL' })];
   const failedEvidence = c.compilePackageVerdict(validInput(c, { gateEvidence: failed }));
   assert.equal(failedEvidence.ok, false);
   assert.equal(failedEvidence.code, 'E_R24_V3_GATE_NOT_SUCCESS');
@@ -363,10 +397,10 @@ test('V3 rejects failed, source-forged, non-E6, PASS-like, and release-promoting
   assert.equal(forgedEvidence.ok, false);
   assert.equal(forgedEvidence.code, 'E_R24_V3_GATE_EVIDENCE_SOURCE');
 
-  const nonE6 = [{ ...failed[0], status: 'SUCCESS', evidenceClass: 'E5_PHYSICAL' }];
-  const missingE6 = c.compilePackageVerdict(validInput(c, { gateEvidence: nonE6 }));
-  assert.equal(missingE6.ok, false);
-  assert.equal(missingE6.code, 'E_R24_V3_GATE_E6_MISSING');
+  const nonActive = [{ ...failed[0], status: 'SUCCESS', evidenceClass: 'PHYSICAL_ONLY' }];
+  const missingActive = c.compilePackageVerdict(validInput(c, { gateEvidence: nonActive }));
+  assert.equal(missingActive.ok, false);
+  assert.equal(missingActive.code, 'E_R24_V3_GATE_EVIDENCE_CLASS_MISSING');
 
   const passLike = [{ ...failed[0], status: 'SUCCESS', profileVerdictCandidate: 'PASS' }];
   const passEvidence = c.compilePackageVerdict(validInput(c, { gateEvidence: passLike }));
@@ -377,4 +411,47 @@ test('V3 rejects failed, source-forged, non-E6, PASS-like, and release-promoting
   const promotedEvidence = c.compilePackageVerdict(validInput(c, { gateEvidence: releasePromoted }));
   assert.equal(promotedEvidence.ok, false);
   assert.equal(promotedEvidence.code, 'E_R24_V3_RELEASE_PROMOTION_EVIDENCE_FORBIDDEN');
+});
+
+test('V3 rejects topology-only, omitted, legacy-class, cancelled, wrong-tree, and digest-mismatched evidence', async () => {
+  const c = await compiler();
+  const topologyOnly = c.buildGateEvidenceFromWorkflowPrefix({
+    program: loadDag(),
+    workflowText: workflowFixture(),
+    repoState: { headSha: HEAD, originMainSha: ORIGIN, treeSha: TREE, dirty: false },
+    expectedHeadSha: HEAD,
+  });
+  const topology = c.compilePackageVerdict(validInput(c, { gateEvidence: topologyOnly }));
+  assert.equal(topology.ok, false);
+  assert.equal(topology.code, 'E_R24_V3_GATE_TOPOLOGY_ONLY_EVIDENCE');
+
+  const omitted = c.compilePackageVerdict(validInput(c, { omitGateEvidence: true }));
+  assert.equal(omitted.ok, false);
+  assert.equal(omitted.code, 'E_R24_V3_GATE_OBSERVED_EVIDENCE_REQUIRED');
+
+  const legacy = [observedRow(c, loadDag(), 'PK1_RELEASE_SECURITY_PHYSICAL', {
+    evidenceClass: 'E6_INDEPENDENT_EXACT_HEAD',
+  })];
+  const legacyEvidence = c.compilePackageVerdict(validInput(c, { gateEvidence: legacy }));
+  assert.equal(legacyEvidence.ok, false);
+  assert.equal(legacyEvidence.code, 'E_R24_V3_GATE_LEGACY_EVIDENCE_CLASS_FORBIDDEN');
+
+  const cancelled = [observedRow(c, loadDag(), 'PK1_RELEASE_SECURITY_PHYSICAL', {
+    run: { id: 'run-cancelled', attempt: 1, headSha: HEAD, conclusion: 'cancelled' },
+  })];
+  const cancelledEvidence = c.compilePackageVerdict(validInput(c, { gateEvidence: cancelled }));
+  assert.equal(cancelledEvidence.ok, false);
+  assert.equal(cancelledEvidence.code, 'E_R24_V3_GATE_NOT_SUCCESS');
+
+  const wrongTree = [observedRow(c, loadDag(), 'PK1_RELEASE_SECURITY_PHYSICAL', { treeSha: 'd'.repeat(40) })];
+  const treeEvidence = c.compilePackageVerdict(validInput(c, { gateEvidence: wrongTree }));
+  assert.equal(treeEvidence.ok, false);
+  assert.equal(treeEvidence.code, 'E_R24_V3_GATE_TREE_MISMATCH');
+
+  const digestMismatch = [observedRow(c, loadDag(), 'PK1_RELEASE_SECURITY_PHYSICAL', {
+    fixture: { name: 'r24-v3-package-claim-compiler', digest: DIGEST, expectedDigest: 'e'.repeat(64) },
+  })];
+  const digestEvidence = c.compilePackageVerdict(validInput(c, { gateEvidence: digestMismatch }));
+  assert.equal(digestEvidence.ok, false);
+  assert.equal(digestEvidence.code, 'E_R24_V3_GATE_DIGEST_MISMATCH');
 });

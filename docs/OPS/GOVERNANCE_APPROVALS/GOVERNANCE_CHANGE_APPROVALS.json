@@ -11190,7 +11190,7 @@
     },
     {
       "filePath": "scripts/ops/r24/atlas-claim-compiler-v1.mjs",
-      "sha256": "7d12d8ecc6ca3b8a61087690e9462d6b7c88de135e811118d6b22b822378c8cd",
+      "sha256": "434229f1be459c9349088d6ffa801a9ac3c929a9f9278812c1da29fab6b1d793",
       "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V1-ATLAS-CLAIM-COMPILER-001",
       "approvedAtUtc": "2026-08-22T14:29:03.000Z",
       "rationale": "Approve R2.4 V1 read-only Atlas claim compiler: validates exact-head A0 gate prefix, selected profile separation, scientific Atlas contract binding, E6 evidence class, workflow/package bindings and profile-only claim ceiling while rejecting Writer promotion, optional/release profile evidence and program/global PASS.",
@@ -11208,7 +11208,7 @@
     },
     {
       "filePath": "scripts/ops/r24/writer-claim-compiler-v0.mjs",
-      "sha256": "29df696572287aedecf7dfc034c1855261c0b45da2495b739052670031fedd3a",
+      "sha256": "3a2ff7e751ae5bde079684f36e05ce11236ef706b28a94170b374f48793604eb",
       "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V0-WRITER-CLAIM-COMPILER-001",
       "approvedAtUtc": "2026-08-22T12:39:32.000Z",
       "rationale": "Approve R2.4 V0 read-only Writer claim compiler: validates exact-head Writer gate prefix, selected profile separation, E6 evidence class, workflow/package bindings and profile-only claim ceiling while rejecting optional-profile evidence and program/global PASS.",
@@ -11217,7 +11217,7 @@
     },
     {
       "filePath": "test/unit/r24-v0-writer-claim-compiler.test.js",
-      "sha256": "aba6b4b8ca9873bebacd186c9eb28c3872850e0c4f4f8981506e663c4223a329",
+      "sha256": "2f0a2b5b7355feb1692ee6a383360cb5e2ed5e7dbc174504f775f71b9afd9577",
       "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V0-WRITER-CLAIM-COMPILER-001",
       "approvedAtUtc": "2026-08-22T12:39:32.000Z",
       "rationale": "Approve R2.4 V0 compiler contract tests: prove normal Writer-profile verdict compilation and boundary/adversarial rejection for missing F0 workflow prefix, stale head, dirty state, stale evidence, optional profiles, overclaim, global PASS and zero evidence denominator.",
@@ -11226,7 +11226,7 @@
     },
     {
       "filePath": "test/unit/r24-v0-writer-claim-mutants.test.js",
-      "sha256": "bdacc323762981ab2bf8a7a317e745878a6f40bb4c3ee376877542fb5dcefec2",
+      "sha256": "89482b88ede1ff1a1651bb430d970e424b68d8d4fafd3e9921b390e3767ac1d1",
       "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V0-WRITER-CLAIM-COMPILER-001",
       "approvedAtUtc": "2026-08-22T12:39:32.000Z",
       "rationale": "Approve R2.4 V0 mutation suite: inverts optional-profile, exact-head, global-pass, V0 workflow-step and missing-stage-evidence guards in isolated compiler copies and requires every mutant to be killed.",
@@ -11271,7 +11271,7 @@
     },
     {
       "filePath": "scripts/ops/r24/package-claim-compiler-v3.mjs",
-      "sha256": "cf88af829b4eb48f8b9b5caf9f83cbd6b0c28545a918242cf857e4443445afae",
+      "sha256": "c79ee1641b5a4339eb1b8d6a76fb8f0075c9da718e2ab8b2ba22d7d89de56f0c",
       "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V3-PACKAGE-CLAIM-COMPILER-001",
       "approvedAtUtc": "2026-08-22T18:45:00.000Z",
       "rationale": "Approve R2.4 V3 package claim compiler: compiles PACKAGED_RELEASE_SECURITY NOT_READY profile projection from exact-head PK1 evidence while refusing release-ready, signing, notarization, fuse, current-head physical package, production distribution, product-runtime, dependency, runtime-network, Writer, Atlas, Word and Program PASS promotion.",
@@ -11280,7 +11280,7 @@
     },
     {
       "filePath": "test/unit/r24-v3-package-claim-compiler.test.js",
-      "sha256": "b25f9254131c680d947e7afbb2e5e2bf877b0138ff2718722d5a1c177ea240b9",
+      "sha256": "476608752827b001fd8cf2d565f5dda9704f463aa43e68a8fffedca6d5fd2110",
       "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V3-PACKAGE-CLAIM-COMPILER-001",
       "approvedAtUtc": "2026-08-22T18:45:00.000Z",
       "rationale": "Approve R2.4 V3 contract tests: prove normal package-profile NOT_READY verdict compilation and boundary/adversarial rejection for stale head, dirty state, stale evidence, release-ready, signing, physical-pass, profile import, global PASS, scientific-contract, package-vector, workflow, package-script and evidence-source drift.",
@@ -11289,7 +11289,7 @@
     },
     {
       "filePath": "test/unit/r24-v3-package-claim-mutants.test.js",
-      "sha256": "00216789581bcf498efdf2ec3a893d0b9a7b8c61794d8beb40cd70d8d3c64f49",
+      "sha256": "1f6278067f7dbf87d20d5916f7a9810d395ed03538ac490cc3280a8f0dba0d4b",
       "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-V3-PACKAGE-CLAIM-COMPILER-001",
       "approvedAtUtc": "2026-08-22T18:45:00.000Z",
       "rationale": "Approve R2.4 V3 mutation suite: inverts profile-import, exact-head, global-pass, release-ready, V3 workflow-step, missing PK1 evidence, cannot-promote, PK1-before-V3 and PK1 NOT_READY classification guards in isolated compiler copies and requires every mutant to be killed.",
@@ -11298,7 +11298,7 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "c8046077325e16d38aeca07534fb08ccc69ef79f121d958930bdba1168bb1d3b",
+      "sha256": "e8566f7d509907bcb991ea957b6a65543ea04cdc17366162c6d17a63d6b9ce91",
       "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
       "approvedAtUtc": "2026-08-22T20:36:30.000Z",
       "rationale": "Approve R2.4 W0 package script update: binds rtk:word:c5v2:accessibility-preflight to the Hammerspoon runner and adds test:r24-w0; no dependency, lockfile, product runtime, Word route PASS, Google, release, network or Program PASS change.",
@@ -11307,7 +11307,7 @@
     },
     {
       "filePath": ".github/workflows/rtk-required.yml",
-      "sha256": "38823aca41be2d4f9ff555dc6d2724d2072676d5a79391406555c6a994ae16eb",
+      "sha256": "ac51eef84e4482ec96b3b513c4db8def1e06b93c5a5fe408d7ea0b31ea4dc818",
       "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
       "approvedAtUtc": "2026-08-22T20:36:30.000Z",
       "rationale": "Approve R2.4 W0 rtk-required workflow update: adds one CI step running npm run -s test:r24-w0 after V3; no trigger, permission, install, environment, dependency, release, network, Word route PASS, Google or Program authority change.",
@@ -11361,7 +11361,7 @@
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "a196c8ac4c6a4ee26bed4b34a9118f158e6e18db64ad48a9ee6753bf65e52810",
+      "sha256": "8276de340dae065d27c783ba51983347edbfbee2beaf4697ad5bbd07d7601b77",
       "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
       "approvedAtUtc": "2026-08-22T20:54:47.875Z",
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
@@ -11415,16 +11415,16 @@
     },
     {
       "filePath": "test/contracts/rtk-evidence-stale-green-guard.contract.test.js",
-      "sha256": "88e1e4caeb5309d01187da242ecf449ae97e54487801dd4bcc82d8da6726c675",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
-      "approvedAtUtc": "2026-08-22T21:24:06.529Z",
+      "sha256": "8318a5904a3b6ca2a378858a010c05bd2b478b4645b1436ffcd70097ae046502",
+      "approvedBy": "owner-directive:RESUME_AFTER_REBOOT_R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE",
+      "approvedAtUtc": "2026-08-23T12:12:18Z",
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
-      "rationale": "Approve stale-green guard platform-aware classification repair: b3c10 is platform-divergent darwin-green/linux-red, b3c17 and b3c18 are restored to green-unmaintained after executable darwin and CI linux evidence.",
+      "rationale": "Approve R2.4 A0 stale-green guard repair: b3c10 is darwin-green/linux-red and b3c09 accepts the exact darwin green outcome while keeping bounded finite failure shapes; no PROGRAM DONE, product runtime, Word/Drive, SAFE_APPLY, dependency, package, or release authority.",
       "approved": true
     },
     {
       "filePath": "test/contracts/rtk-g0b-feasibility.contract.test.js",
-      "sha256": "ee2fe76da84a46e4328ee83af487cd8a79b34ee458e91cae5518628f83e5eda0",
+      "sha256": "93cec00d575e333d76d9a234355734c430c390b8ee6205d7d953433b5341df4c",
       "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
       "approvedAtUtc": "2026-08-22T20:59:04.923Z",
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
@@ -11451,7 +11451,7 @@
     },
     {
       "filePath": "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",
-      "sha256": "da8fd4822d9fdf1bd883e0a371e2791b4b13bb45c2863b544b74a87f6d21edf7",
+      "sha256": "a27975448214c029a158b25af71e7250a63d0e04a5987fc53c28691a397b1815",
       "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
       "approvedAtUtc": "2026-08-22T20:59:04.923Z",
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
@@ -11460,7 +11460,7 @@
     },
     {
       "filePath": "test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js",
-      "sha256": "f07257c9e41e6e6f1b21b9da200df6ba43013da2b7b2b3e6b98ef799e94d7f7c",
+      "sha256": "4b1adcef80bce0f398b53ae749ab3f18c01e7cb7caa73081725e601756503bbf",
       "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
       "approvedAtUtc": "2026-08-22T20:59:04.923Z",
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
@@ -11469,7 +11469,7 @@
     },
     {
       "filePath": "test/contracts/rtk-zip01-budget-crc-evidence.contract.test.js",
-      "sha256": "f1b6490aa23ef3c4eed12be5411d14f758fb04120a95431c198e7fec8090149a",
+      "sha256": "322d5690b67610d040a09673fb73b9bcd5cd255cf5c5d7a0a5432fe593366ab4",
       "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
       "approvedAtUtc": "2026-08-22T20:59:04.923Z",
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
@@ -11483,6 +11483,158 @@
       "approvedAtUtc": "2026-08-22T20:54:47.875Z",
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
       "rationale": "Approve Atlas A4 lease-worker assertion proving heartbeat Workers do not inherit unsupported parent diagnostic execArgv flags.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/CTR-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE.json",
+      "sha256": "139031645d8bfabfe7070c37daac92bba2c38628354013df12c10394e08b5f65",
+      "approvedBy": "owner-directive:RESUME_AFTER_REBOOT_R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE",
+      "approvedAtUtc": "2026-08-23T12:12:18Z",
+      "rationale": "Approve R2.4 A0 closure receipt delivery: records Atlas incremental/full equivalence node-only closure, claim-binding digest refreshes, scheduler selection to PK0/WP100, and stale-green register repair without PROGRAM DONE, product runtime, Word/Drive, SAFE_APPLY, dependency, package, or release authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-CLAIM-BINDINGS.json",
+      "sha256": "d594cb313ee7cd2ee6c5d3b39ad847895736abffba24ba14c2ef6696bcba1328",
+      "approvedBy": "owner-directive:RESUME_AFTER_REBOOT_R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE",
+      "approvedAtUtc": "2026-08-23T12:12:18Z",
+      "rationale": "Approve R2.4 A0 closure receipt delivery: records Atlas incremental/full equivalence node-only closure, claim-binding digest refreshes, scheduler selection to PK0/WP100, and stale-green register repair without PROGRAM DONE, product runtime, Word/Drive, SAFE_APPLY, dependency, package, or release authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-CONTRACT.json",
+      "sha256": "48f5ffd04adde3d0c869ad4d606841ce82be277e1c412fd4aad091bd9bd2fac1",
+      "approvedBy": "owner-directive:RESUME_AFTER_REBOOT_R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE",
+      "approvedAtUtc": "2026-08-23T12:12:18Z",
+      "rationale": "Approve R2.4 A0 closure receipt delivery: records Atlas incremental/full equivalence node-only closure, claim-binding digest refreshes, scheduler selection to PK0/WP100, and stale-green register repair without PROGRAM DONE, product runtime, Word/Drive, SAFE_APPLY, dependency, package, or release authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-EXACT-HEAD.json",
+      "sha256": "547ba551ff4320170423b553e3b565494efd8f2925f7db7bfd37ef0a0c90f898",
+      "approvedBy": "owner-directive:RESUME_AFTER_REBOOT_R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE",
+      "approvedAtUtc": "2026-08-23T12:12:18Z",
+      "rationale": "Approve R2.4 A0 closure receipt delivery: records Atlas incremental/full equivalence node-only closure, claim-binding digest refreshes, scheduler selection to PK0/WP100, and stale-green register repair without PROGRAM DONE, product runtime, Word/Drive, SAFE_APPLY, dependency, package, or release authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-FAULTS.json",
+      "sha256": "8ebb67468a911d37c088d7dbf4d558a6a8813c3f556f325284ef6a8f4fb26ab9",
+      "approvedBy": "owner-directive:RESUME_AFTER_REBOOT_R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE",
+      "approvedAtUtc": "2026-08-23T12:12:18Z",
+      "rationale": "Approve R2.4 A0 closure receipt delivery: records Atlas incremental/full equivalence node-only closure, claim-binding digest refreshes, scheduler selection to PK0/WP100, and stale-green register repair without PROGRAM DONE, product runtime, Word/Drive, SAFE_APPLY, dependency, package, or release authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-INTEGRATION.json",
+      "sha256": "f92af63f693cc87c1655ba6a5c4a6c23cb28622f35ac901881304cf49b68cbdd",
+      "approvedBy": "owner-directive:RESUME_AFTER_REBOOT_R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE",
+      "approvedAtUtc": "2026-08-23T12:12:18Z",
+      "rationale": "Approve R2.4 A0 closure receipt delivery: records Atlas incremental/full equivalence node-only closure, claim-binding digest refreshes, scheduler selection to PK0/WP100, and stale-green register repair without PROGRAM DONE, product runtime, Word/Drive, SAFE_APPLY, dependency, package, or release authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-MODEL.json",
+      "sha256": "58f63bf6d3b0a8a3cd532d53d420d41f6d269f4e6a0bc8fc48822cf489e7386d",
+      "approvedBy": "owner-directive:RESUME_AFTER_REBOOT_R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE",
+      "approvedAtUtc": "2026-08-23T12:12:18Z",
+      "rationale": "Approve R2.4 A0 closure receipt delivery: records Atlas incremental/full equivalence node-only closure, claim-binding digest refreshes, scheduler selection to PK0/WP100, and stale-green register repair without PROGRAM DONE, product runtime, Word/Drive, SAFE_APPLY, dependency, package, or release authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-MUTANTS.json",
+      "sha256": "ce4284e1a3d932384c44b2a3c2b32765e12abc38e439d5185e1bf4fbef32fe39",
+      "approvedBy": "owner-directive:RESUME_AFTER_REBOOT_R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE",
+      "approvedAtUtc": "2026-08-23T12:12:18Z",
+      "rationale": "Approve R2.4 A0 closure receipt delivery: records Atlas incremental/full equivalence node-only closure, claim-binding digest refreshes, scheduler selection to PK0/WP100, and stale-green register repair without PROGRAM DONE, product runtime, Word/Drive, SAFE_APPLY, dependency, package, or release authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-PHYSICAL.json",
+      "sha256": "b43e8ff07010ff7bc3679a0461afa121990d70891b67d00c6d1ea4a9f8ac5e5a",
+      "approvedBy": "owner-directive:RESUME_AFTER_REBOOT_R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE",
+      "approvedAtUtc": "2026-08-23T12:12:18Z",
+      "rationale": "Approve R2.4 A0 closure receipt delivery: records Atlas incremental/full equivalence node-only closure, claim-binding digest refreshes, scheduler selection to PK0/WP100, and stale-green register repair without PROGRAM DONE, product runtime, Word/Drive, SAFE_APPLY, dependency, package, or release authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-POSTMERGE-EXACT-HEAD.json",
+      "sha256": "64b399c241f9306815f5842a759daf639759aeda976deec1e38494e3c9d561c7",
+      "approvedBy": "owner-directive:RESUME_AFTER_REBOOT_R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE",
+      "approvedAtUtc": "2026-08-23T12:12:18Z",
+      "rationale": "Approve R2.4 A0 closure receipt delivery: records Atlas incremental/full equivalence node-only closure, claim-binding digest refreshes, scheduler selection to PK0/WP100, and stale-green register repair without PROGRAM DONE, product runtime, Word/Drive, SAFE_APPLY, dependency, package, or release authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-SURVIVOR-AUDIT.json",
+      "sha256": "941dbbce51366041c56ae6a43ab83b1229c0ab8e2651a46b8ba33009eddff589",
+      "approvedBy": "owner-directive:RESUME_AFTER_REBOOT_R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE",
+      "approvedAtUtc": "2026-08-23T12:12:18Z",
+      "rationale": "Approve R2.4 A0 closure receipt delivery: records Atlas incremental/full equivalence node-only closure, claim-binding digest refreshes, scheduler selection to PK0/WP100, and stale-green register repair without PROGRAM DONE, product runtime, Word/Drive, SAFE_APPLY, dependency, package, or release authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-ENT0-ENTITLEMENT-CONFORMANCE-CLAIM-BINDINGS.json",
+      "sha256": "7ee5000373cbf9b1b4c61c8168646d4dcee210f5d994b5ec73eeb4727f38c3d0",
+      "approvedBy": "owner-directive:RESUME_AFTER_REBOOT_R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE",
+      "approvedAtUtc": "2026-08-23T12:12:18Z",
+      "rationale": "Approve R2.4 A0 closure receipt delivery: records Atlas incremental/full equivalence node-only closure, claim-binding digest refreshes, scheduler selection to PK0/WP100, and stale-green register repair without PROGRAM DONE, product runtime, Word/Drive, SAFE_APPLY, dependency, package, or release authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-K1-AUTHORITY-DECOMPOSITION-CLAIM-BINDINGS.json",
+      "sha256": "2285ec65cbe5e8bd0134be816668ccce46624f3b00667eedcf0269d9dffd8585",
+      "approvedBy": "owner-directive:RESUME_AFTER_REBOOT_R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE",
+      "approvedAtUtc": "2026-08-23T12:12:18Z",
+      "rationale": "Approve R2.4 A0 closure receipt delivery: records Atlas incremental/full equivalence node-only closure, claim-binding digest refreshes, scheduler selection to PK0/WP100, and stale-green register repair without PROGRAM DONE, product runtime, Word/Drive, SAFE_APPLY, dependency, package, or release authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-SEC0-PATH-CAPABILITY-CLAIM-BINDINGS.json",
+      "sha256": "ebb1c6cb34ff889f51783681aca6219572c49825de9a0036ba67f24321072daa",
+      "approvedBy": "owner-directive:RESUME_AFTER_REBOOT_R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE",
+      "approvedAtUtc": "2026-08-23T12:12:18Z",
+      "rationale": "Approve R2.4 A0 closure receipt delivery: records Atlas incremental/full equivalence node-only closure, claim-binding digest refreshes, scheduler selection to PK0/WP100, and stale-green register repair without PROGRAM DONE, product runtime, Word/Drive, SAFE_APPLY, dependency, package, or release authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-T1-ANCHOR-LINEAGE-CLAIM-BINDINGS.json",
+      "sha256": "29ca392994e6745f03ef59469c39af0ee7c5485d0e72c8ff0508143d14732555",
+      "approvedBy": "owner-directive:RESUME_AFTER_REBOOT_R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE",
+      "approvedAtUtc": "2026-08-23T12:12:18Z",
+      "rationale": "Approve R2.4 A0 closure receipt delivery: records Atlas incremental/full equivalence node-only closure, claim-binding digest refreshes, scheduler selection to PK0/WP100, and stale-green register repair without PROGRAM DONE, product runtime, Word/Drive, SAFE_APPLY, dependency, package, or release authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+      "sha256": "253b6d81074d048e47140eeaf993fb3f35c5d402490c63def4dc0c45ba65cad4",
+      "approvedBy": "owner-directive:RESUME_AFTER_REBOOT_R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE",
+      "approvedAtUtc": "2026-08-23T12:12:18Z",
+      "rationale": "Approve R2.4 A0 closure receipt delivery: records Atlas incremental/full equivalence node-only closure, claim-binding digest refreshes, scheduler selection to PK0/WP100, and stale-green register repair without PROGRAM DONE, product runtime, Word/Drive, SAFE_APPLY, dependency, package, or release authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+      "sha256": "95e79de8ede9ecd9c15fed56ed228717df581efa0f36de8dfa295764e7817e56",
+      "approvedBy": "owner-directive:RESUME_AFTER_REBOOT_R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE",
+      "approvedAtUtc": "2026-08-23T12:12:18Z",
+      "rationale": "Approve R2.4 A0 closure receipt delivery: records Atlas incremental/full equivalence node-only closure, claim-binding digest refreshes, scheduler selection to PK0/WP100, and stale-green register repair without PROGRAM DONE, product runtime, Word/Drive, SAFE_APPLY, dependency, package, or release authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/SELECTION_RECEIPT_R2_4.json",
+      "sha256": "01ce4ef69ae5b846a188a2017253a49d548a3b23aeb745010d2b2c62d995c694",
+      "approvedBy": "owner-directive:RESUME_AFTER_REBOOT_R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE",
+      "approvedAtUtc": "2026-08-23T12:12:18Z",
+      "rationale": "Approve R2.4 A0 closure receipt delivery: records Atlas incremental/full equivalence node-only closure, claim-binding digest refreshes, scheduler selection to PK0/WP100, and stale-green register repair without PROGRAM DONE, product runtime, Word/Drive, SAFE_APPLY, dependency, package, or release authority.",
+      "approved": true
+    },
+    {
+      "filePath": "scripts/ops/r24/tests/executable-program.test.mjs",
+      "sha256": "bfec4029aecfc16208ca61537021f6f919c68787cf4f52b51ca740111db1bf0d",
+      "approvedBy": "owner-directive:RESUME_AFTER_REBOOT_R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE",
+      "approvedAtUtc": "2026-08-23T12:12:18Z",
+      "rationale": "Approve R2.4 A0 closure receipt delivery: records Atlas incremental/full equivalence node-only closure, claim-binding digest refreshes, scheduler selection to PK0/WP100, and stale-green register repair without PROGRAM DONE, product runtime, Word/Drive, SAFE_APPLY, dependency, package, or release authority.",
       "approved": true
     }
   ]

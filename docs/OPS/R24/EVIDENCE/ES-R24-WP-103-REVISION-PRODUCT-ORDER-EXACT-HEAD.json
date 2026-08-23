@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-WP-103-REVISION-PRODUCT-ORDER-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-103_REVISION_PRODUCT_ORDER",
+  "attemptId": "ATTEMPT-WP103-20260823",
+  "authorityEpoch": "R24-WP103-CLOSURE-BASE-7400EF00",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "ef7eb0eb8d012d75b9f60d695100188cf4a88c3d",
+    "treeSha": "b30a921f7b5ecf294e0bc9c812cb18e45cf47e43"
+  },
+  "claim": {
+    "type": "WP103_INDEPENDENT_EXACT_HEAD_GREEN",
+    "ceiling": "WP103_REVISION_PRODUCT_ORDER_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "wp103-focused-plus-executable-program-replay-on-evaluation-head",
+    "evidenceClass": "INDEPENDENT_EXACT_HEAD",
+    "denominator": 22,
+    "passed": 22,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-103-REVISION-PRODUCT-ORDER-MUTANTS"
+    ],
+    "predecessorReceiptDigest": "194df8294c4afc6f95bf754609ee3b6f8c179af12d06dea004b72d122d090bb7"
+  },
+  "createdAt": "2026-08-23T20:21:00Z",
+  "actor": "codex/r24-wp103-closure-reconciliation-v1-20260823",
+  "artifact": {
+    "commands": [
+      {
+        "command": "npm run -s test:r24-wp103",
+        "pass": 12,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0,
+        "exitCode": 0
+      },
+      {
+        "command": "node --test scripts/ops/r24/tests/executable-program.test.mjs",
+        "pass": 10,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0,
+        "exitCode": 0
+      }
+    ],
+    "identityRoles": {
+      "productImplementationSourceSha": "4c72acd01a39dd5fa1777f677772d5de30f505dc",
+      "conformancePrHeadSha": "5fc962d028846966b8d6062c3d64da13dd1ac33c",
+      "conformanceMergeSha": "770f6425c72f68e999206819b9cf5f1f56d2120e",
+      "closureImplementationSourceSha": "ef7eb0eb8d012d75b9f60d695100188cf4a88c3d",
+      "evaluationHeadSha": "ef7eb0eb8d012d75b9f60d695100188cf4a88c3d",
+      "evaluationTreeSha": "b30a921f7b5ecf294e0bc9c812cb18e45cf47e43",
+      "prHeadSha": null,
+      "mergeSha": null,
+      "postmergeSha": null
+    },
+    "planStateReplay": {
+      "baselineRevision": 94,
+      "finalRevision": 101,
+      "fencingCounter": 21,
+      "replayedTransitions": 5,
+      "activeLeaseCount": 0,
+      "verdict": "PASS"
+    },
+    "selectionReceipt": {
+      "sha256": "a28a3804112bfdfd251566b7eb9982dde5a8b6dcfde3298d4f95e1ac8e8c76f5",
+      "stateRevision": 101,
+      "fencingCounter": 21,
+      "policyEpoch": 0,
+      "graphNodeCount": 109,
+      "selectedId": "WP-104_BOUNDARY_FALSIFICATION"
+    },
+    "artifactDigests": [
+      {"path": "src/core/revision-algebra-v1.cjs", "sha256": "76768c50ff2d3f9103d80195e28c97671ea0b1e3171d85c5320dfa7912ce0923"},
+      {"path": "test/unit/r24-wp103-revision-order.test.js", "sha256": "37c99a44394e038efa9839909a05e9db04f5ef2ad71fde19a10ec42640d47e92"},
+      {"path": "test/unit/r24-wp103-canonical-serialization.test.js", "sha256": "9b9aa995d06e7ff143f8b5a23627473b5fc17a084465c05af3314efdd1f23f9c"},
+      {"path": "test/unit/r24-wp103-order-mutants.test.js", "sha256": "f0459b65810a04f2a3cff8d1581ecfb0c62cd5d2b8e164390c8f6a05a07f858b"},
+      {"path": "docs/OPS/R24/PLAN_STATE_R24.json", "sha256": "c298214a8378a7f3c1d723bbf2f5dd1e122a3d11f28cd17c920a872098d64e96"},
+      {"path": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json", "sha256": "5525abec08defb05ec2c0a74ec3a100758a010beaa5c596d420f24b064003f36"},
+      {"path": "scripts/ops/r24/tests/executable-program.test.mjs", "sha256": "68c50eaaaf762d1cdf21a7c025bb05b2c9659367791a1fecfd2ef0b2cf00cff7"}
+    ],
+    "denominatorLaw": "12 WP-103 focused tests plus 10 executable-program and replay tests equals 22; all passed at exact evaluation head ef7eb0eb."
+  }
+}

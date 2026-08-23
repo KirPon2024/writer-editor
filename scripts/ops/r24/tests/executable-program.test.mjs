@@ -18,6 +18,7 @@ import {
   validateCommittedR24Sot,
 } from '../executable-program.mjs';
 import { readJsonBounded, canonicalDigest } from '../canonical-json.mjs';
+import { validateTransitionReplay } from '../plan-state.mjs';
 
 const ROOT = path.resolve(R24_DIR, '..', '..', '..');
 const PLAN_STATE_PATH = path.join(R24_DIR, 'PLAN_STATE_R24.json');
@@ -107,7 +108,27 @@ test('PlanState persists the full 109-node denominator without unreconciled DONE
   assert.equal(state.schemaVersion, 'yalken.plan-state.r24.v2');
   assert.equal(state.replayBaseline.classification, 'ADOPTED_PRE_V2_UNREPLAYABLE_HISTORY');
   assert.equal(state.replayBaseline.unreplayableContourIds.includes('WP-102_OPERATION_PROTOCOL'), true);
-  assert.deepEqual(state.transitionHistory, []);
+  assert.equal(state.transitionHistory.length, 5);
+  assert.deepEqual(
+    state.transitionHistory.map((row) => [row.contourId, row.from, row.to]),
+    [
+      ['WP-103_REVISION_PRODUCT_ORDER', 'PENDING', 'ELIGIBLE'],
+      ['WP-103_REVISION_PRODUCT_ORDER', 'ELIGIBLE', 'RUNNING'],
+      ['WP-103_REVISION_PRODUCT_ORDER', 'RUNNING', 'DELIVERED'],
+      ['WP-103_REVISION_PRODUCT_ORDER', 'DELIVERED', 'POSTMERGE_VERIFIED'],
+      ['WP-103_REVISION_PRODUCT_ORDER', 'POSTMERGE_VERIFIED', 'DONE'],
+    ],
+  );
+  assert.deepEqual(
+    validateTransitionReplay(state, PLAN_STATE_PATH),
+    {
+      verdict: 'PASS',
+      baselineClassification: 'ADOPTED_PRE_V2_UNREPLAYABLE_HISTORY',
+      baselineRevision: 94,
+      replayedTransitions: 5,
+      finalRevision: 101,
+    },
+  );
   assert.equal(Object.keys(state.contours).length, EXPECTED_NODE_COUNT);
   assert.equal(state.leases && Object.keys(state.leases).length, 0);
   const sourceReceipt = readR24Json('PLAN_STATE_SOURCE_RECEIPT_R24.json');
@@ -132,10 +153,13 @@ test('PlanState persists the full 109-node denominator without unreconciled DONE
   assert.equal(state.contours['WP-101_IPC_ADMISSION'].source, 'R24_WP101_IPC_ADMISSION_CLOSURE_V1');
   assert.equal(state.contours['WP-102_OPERATION_PROTOCOL'].state, 'DONE');
   assert.equal(state.contours['WP-102_OPERATION_PROTOCOL'].source, 'R24_WP102_OPERATION_PROTOCOL_CLOSURE_V1');
-  assert.equal(repoLocalDone, 9);
+  assert.equal(state.contours['WP-103_REVISION_PRODUCT_ORDER'].state, 'DONE');
+  assert.equal(state.contours['WP-103_REVISION_PRODUCT_ORDER'].previousState, 'POSTMERGE_VERIFIED');
+  assert.equal(state.contours['WP-103_REVISION_PRODUCT_ORDER'].headSha, '7400ef0074d9533e4988e6f06f856e44574fba23');
+  assert.equal(repoLocalDone, 10);
   assert.deepEqual(
     sourceReceipt.repoLocalPlanStateClosures.closures.map((row) => row.id),
-    ['SEC0_PATH_CAPABILITY', 'ENT0_ENTITLEMENT_CONFORMANCE', 'K1_AUTHORITY_DECOMPOSITION', 'T1_ANCHOR_LINEAGE', 'A0_ATLAS_INCREMENTAL_EQUIVALENCE', 'PK0_PACKAGE_CONTENT_TRUST', 'WP-100_GENERATION_ADMISSION', 'WP-101_IPC_ADMISSION', 'WP-102_OPERATION_PROTOCOL'],
+    ['SEC0_PATH_CAPABILITY', 'ENT0_ENTITLEMENT_CONFORMANCE', 'K1_AUTHORITY_DECOMPOSITION', 'T1_ANCHOR_LINEAGE', 'A0_ATLAS_INCREMENTAL_EQUIVALENCE', 'PK0_PACKAGE_CONTENT_TRUST', 'WP-100_GENERATION_ADMISSION', 'WP-101_IPC_ADMISSION', 'WP-102_OPERATION_PROTOCOL', 'WP-103_REVISION_PRODUCT_ORDER'],
   );
   assert.equal(sourceReceipt.fullDenominator.nodeCount, EXPECTED_NODE_COUNT);
   assert.equal(sourceReceipt.externalPlanState.doneContourCount, 12);

@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-104-BOUNDARY-FALSIFICATION-CLAIM-BINDINGS",
+  "contourId": "WP-104_BOUNDARY_FALSIFICATION",
+  "evidenceClass": "CONTRACT",
+  "verdict": "PASS",
+  "headSha": "727fe0f04a023c653f68a888b3d4644f24594940",
+  "originMainSha": "4c51661eb27f469cd5cfd9f1cad415e92e662813",
+  "generatedAtUtc": "2026-08-23T21:30:01Z",
+  "oracle": "strict ClaimBindingV1 exact-hash binding for WP-104 replayable PlanState closure and source receipt",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+      "sha256": "3e44def6d45b9d85db6e97e4e32c20d2de24eeabccca8f7065ef3fe4cf2af998",
+      "claimTerms": ["DONE"]
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+      "sha256": "2cbcf327b220b23f0157be5ce2599f5ed5a9b17c032d5a7bc67c87045a5ffea0",
+      "claimTerms": ["DONE"]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "test/unit/r24-wp104-boundary-falsification.test.js",
+      "sha256": "84355ce109af0f927abf9316dce08312bd2d22ff6cc5e6d35e9e4482071113e9",
+      "terms": ["boundary falsification", "negative spoof and stale evidence"]
+    },
+    {
+      "path": "test/unit/r24-wp104-evidence-integrity.test.js",
+      "sha256": "3c67249a5ab346e80b639deb1253c754733b2a94ae6b24762246bc7469f64ca2",
+      "terms": ["evidence integrity", "independent exact-head oracle"]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "npm run -s test:r24-wp104",
+      "verdict": "PASS",
+      "tests": {"pass": 13, "fail": 0},
+      "mutants": {"killed": 114, "survived": 0}
+    }
+  ],
+  "nonClaims": [
+    "This binding resolves only WP-104 PlanState and source-receipt DONE vocabulary.",
+    "It does not mark R2 through R6, F0, V0, downstream work packages, or the full 109-node R2.4 program DONE.",
+    "It does not mutate product runtime, reopen parked V2, or claim physical qualification or release readiness."
+  ]
+}

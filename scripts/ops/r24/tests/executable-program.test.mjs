@@ -108,7 +108,7 @@ test('PlanState persists the full 109-node denominator without unreconciled DONE
   assert.equal(state.schemaVersion, 'yalken.plan-state.r24.v2');
   assert.equal(state.replayBaseline.classification, 'ADOPTED_PRE_V2_UNREPLAYABLE_HISTORY');
   assert.equal(state.replayBaseline.unreplayableContourIds.includes('WP-102_OPERATION_PROTOCOL'), true);
-  assert.equal(state.transitionHistory.length, 5);
+  assert.equal(state.transitionHistory.length, 10);
   assert.deepEqual(
     state.transitionHistory.map((row) => [row.contourId, row.from, row.to]),
     [
@@ -117,6 +117,11 @@ test('PlanState persists the full 109-node denominator without unreconciled DONE
       ['WP-103_REVISION_PRODUCT_ORDER', 'RUNNING', 'DELIVERED'],
       ['WP-103_REVISION_PRODUCT_ORDER', 'DELIVERED', 'POSTMERGE_VERIFIED'],
       ['WP-103_REVISION_PRODUCT_ORDER', 'POSTMERGE_VERIFIED', 'DONE'],
+      ['WP-104_BOUNDARY_FALSIFICATION', 'PENDING', 'ELIGIBLE'],
+      ['WP-104_BOUNDARY_FALSIFICATION', 'ELIGIBLE', 'RUNNING'],
+      ['WP-104_BOUNDARY_FALSIFICATION', 'RUNNING', 'DELIVERED'],
+      ['WP-104_BOUNDARY_FALSIFICATION', 'DELIVERED', 'POSTMERGE_VERIFIED'],
+      ['WP-104_BOUNDARY_FALSIFICATION', 'POSTMERGE_VERIFIED', 'DONE'],
     ],
   );
   assert.deepEqual(
@@ -125,8 +130,8 @@ test('PlanState persists the full 109-node denominator without unreconciled DONE
       verdict: 'PASS',
       baselineClassification: 'ADOPTED_PRE_V2_UNREPLAYABLE_HISTORY',
       baselineRevision: 94,
-      replayedTransitions: 5,
-      finalRevision: 101,
+      replayedTransitions: 10,
+      finalRevision: 108,
     },
   );
   assert.equal(Object.keys(state.contours).length, EXPECTED_NODE_COUNT);
@@ -156,10 +161,13 @@ test('PlanState persists the full 109-node denominator without unreconciled DONE
   assert.equal(state.contours['WP-103_REVISION_PRODUCT_ORDER'].state, 'DONE');
   assert.equal(state.contours['WP-103_REVISION_PRODUCT_ORDER'].previousState, 'POSTMERGE_VERIFIED');
   assert.equal(state.contours['WP-103_REVISION_PRODUCT_ORDER'].headSha, '7400ef0074d9533e4988e6f06f856e44574fba23');
-  assert.equal(repoLocalDone, 10);
+  assert.equal(state.contours['WP-104_BOUNDARY_FALSIFICATION'].state, 'DONE');
+  assert.equal(state.contours['WP-104_BOUNDARY_FALSIFICATION'].previousState, 'POSTMERGE_VERIFIED');
+  assert.equal(state.contours['WP-104_BOUNDARY_FALSIFICATION'].headSha, '727fe0f04a023c653f68a888b3d4644f24594940');
+  assert.equal(repoLocalDone, 11);
   assert.deepEqual(
     sourceReceipt.repoLocalPlanStateClosures.closures.map((row) => row.id),
-    ['SEC0_PATH_CAPABILITY', 'ENT0_ENTITLEMENT_CONFORMANCE', 'K1_AUTHORITY_DECOMPOSITION', 'T1_ANCHOR_LINEAGE', 'A0_ATLAS_INCREMENTAL_EQUIVALENCE', 'PK0_PACKAGE_CONTENT_TRUST', 'WP-100_GENERATION_ADMISSION', 'WP-101_IPC_ADMISSION', 'WP-102_OPERATION_PROTOCOL', 'WP-103_REVISION_PRODUCT_ORDER'],
+    ['SEC0_PATH_CAPABILITY', 'ENT0_ENTITLEMENT_CONFORMANCE', 'K1_AUTHORITY_DECOMPOSITION', 'T1_ANCHOR_LINEAGE', 'A0_ATLAS_INCREMENTAL_EQUIVALENCE', 'PK0_PACKAGE_CONTENT_TRUST', 'WP-100_GENERATION_ADMISSION', 'WP-101_IPC_ADMISSION', 'WP-102_OPERATION_PROTOCOL', 'WP-103_REVISION_PRODUCT_ORDER', 'WP-104_BOUNDARY_FALSIFICATION'],
   );
   assert.equal(sourceReceipt.fullDenominator.nodeCount, EXPECTED_NODE_COUNT);
   assert.equal(sourceReceipt.externalPlanState.doneContourCount, 12);

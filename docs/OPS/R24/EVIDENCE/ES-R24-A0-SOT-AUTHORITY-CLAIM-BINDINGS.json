@@ -6,12 +6,12 @@
   "verdict": "PASS",
   "headSha": "0bb87ae9ce95300e86e3ffd70f8ca6850f014004",
   "originMainSha": "0bb87ae9ce95300e86e3ffd70f8ca6850f014004",
-  "generatedAtUtc": "2026-08-22T23:58:25Z",
+  "generatedAtUtc": "2026-08-23T00:48:55Z",
   "oracle": "docs-claim-lint exact sha-bound immutable-file claim binding",
   "claimBindings": [
     {
       "filePath": "docs/OPS/R24/A0_AUTHORITY_SOT_RECONCILIATION_RECEIPT_V1.json",
-      "sha256": "14879940ae895f6347106c1a061b1c98ae7dc7131245e8330a2799183f4b870f",
+      "sha256": "e0c12c30db5f8b0a3333065aed2957bf6baa75a40e799e01ed97d9daf15c73e7",
       "claimTerms": [
         "DONE"
       ]

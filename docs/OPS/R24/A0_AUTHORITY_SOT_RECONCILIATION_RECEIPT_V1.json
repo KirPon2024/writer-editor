@@ -2,7 +2,7 @@
   "schemaVersion": "yalken.r24.a0-authority-sot-reconciliation-receipt.v1",
   "contourId": "A0_R24_EXECUTABLE_PROGRAM_SOT_AUTHORITY_RECONCILIATION_V1",
   "status": "LOCAL_RTK_AND_GUARDRAILS_GREEN_READY_FOR_DELIVERY_WITH_PREEXISTING_DEPENDENCY_AUDIT_FINDING",
-  "generatedAtUtc": "2026-08-22T23:58:25Z",
+  "generatedAtUtc": "2026-08-23T00:48:55Z",
   "headSha": "0bb87ae9ce95300e86e3ffd70f8ca6850f014004",
   "originMainSha": "0bb87ae9ce95300e86e3ffd70f8ca6850f014004",
   "packageDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
@@ -199,9 +199,54 @@
         "todo": 0
       },
       "runner": {
+        "invocationId": "edd8ab20-b99b-446b-bcc8-7959a3a9521d",
         "status": 0,
         "processGroupCleanup": "RTK_PROCESS_GROUP_CLEAN",
-        "leaseCleanupOk": true
+        "leaseCleanupOk": true,
+        "durationMs": 450085
+      }
+    },
+    {
+      "command": "gh pr checks 1645 --watch --fail-fast=false",
+      "node": "GitHub Actions",
+      "verdict": "FAIL_REPAIRED_BY_A0_FOLLOWUP_COMMIT",
+      "runId": 32607575506,
+      "jobId": 97115022655,
+      "headSha": "b55103d786b3e558564a7c7869a5dee053a254d2",
+      "failingCheck": "rtk-required",
+      "failingStep": "Run maintained RTK graph",
+      "tests": {
+        "pass": 1057,
+        "fail": 1,
+        "skipped": 0,
+        "todo": 0
+      },
+      "failureSignature": [
+        "RTK_TAP_FAIL_COUNT_NONZERO:1",
+        "RTK_TAP_NOT_OK:52:stale-green guard: executable classification of every status-backed contract",
+        "red-to-green flip: b3c17-future-lanes-nonblocking.contract.test.js",
+        "red-to-green flip: b3c18-production-hardening-queue.contract.test.js"
+      ]
+    },
+    {
+      "command": "node --test test/contracts/rtk-evidence-stale-green-guard.contract.test.js",
+      "node": "v20.19.5",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 5,
+        "fail": 0
+      },
+      "classification": {
+        "platform": "darwin",
+        "executedRed": 5,
+        "executedDivergent": 6,
+        "executedGreen": 23,
+        "executedFlaky": 1,
+        "boundedFlakyAccepted": true,
+        "redToGreen": 0,
+        "greenToRed": 0,
+        "shapeDrift": 0,
+        "divergentDrift": 0
       }
     },
     {

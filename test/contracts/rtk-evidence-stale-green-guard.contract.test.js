@@ -31,18 +31,6 @@ const KNOWN_RED_LEDGER = Object.freeze([
   Object.freeze({ contract: 'b3c01-command-kernel-scope-lock.contract.test.js', failing: { any: ['committed status equals executable state', 'evidence packets align with executable state'] } }),
   Object.freeze({ contract: 'b3c06-no-network-writing-path.contract.test.js', failing: { any: ['state artifact equals executable state', 'CLI status remains worktree independent outside repo cwd'] } }),
   Object.freeze({ contract: 'b3c16-supply-chain-release-scope.contract.test.js', failing: { any: ['state artifact matches stable executable fields'] } }),
-  Object.freeze({ contract: 'b3c17-future-lanes-nonblocking.contract.test.js', assertRecorded: true, failing: { any: [
-    'b3c17 future lanes: state artifact matches stable executable fields',
-    'b3c17 future lanes: CLI status remains worktree independent outside repo cwd',
-    'b3c17 future lanes: nonblocking governance rows pass',
-    'b3c17 future lanes: required negative rows pass',
-  ] } }),
-  Object.freeze({ contract: 'b3c18-production-hardening-queue.contract.test.js', assertRecorded: true, failing: { any: [
-    'b3c18 production hardening queue: state artifact matches stable executable fields',
-    'b3c18 production hardening queue: CLI status remains worktree independent outside repo cwd',
-    'b3c18 production hardening queue: nonblocking governance rows pass',
-    'b3c18 production hardening queue: required negative rows pass',
-  ] } }),
 ]);
 
 // Platform-divergent defects: committed status artifacts embed platform-shaped
@@ -96,17 +84,33 @@ const PLATFORM_DIVERGENT = Object.freeze([
   }),
 ]);
 
-// Evidence-unstable families: observed red on darwin, intermittently green
-// on linux CI (b3c09's perf-baseline evaluation varies with machine
-// timing). Neither red nor green may be claimed; the outcome is recorded
-// per run and the family stays unmaintained until a contour stabilizes it.
+// Evidence-unstable families: every accepted outcome is finite and
+// platform-bound. This records the current b3c09 instability without creating
+// an "any outcome passes" registry.
 const FLAKY_REGISTER = Object.freeze([
-  Object.freeze({ contract: 'b3c09-performance-baseline-binding.contract.test.js', observedShapes: Object.freeze([
-    'darwin:CLI status remains worktree independent outside repo cwd',
-    'linux:records exact unsupported rows instead of false PERF_BASELINE_OK',
-    'linux:state artifact equals executable state',
-    'linux:green (exit 0 at R3 head)',
-  ]) }),
+  Object.freeze({
+    contract: 'b3c09-performance-baseline-binding.contract.test.js',
+    maxAttempts: 1,
+    accepted: Object.freeze({
+      darwin: Object.freeze([
+        Object.freeze({
+          status: 'red',
+          failing: Object.freeze(['b3c09 performance baseline: CLI status remains worktree independent outside repo cwd']),
+        }),
+      ]),
+      linux: Object.freeze([
+        Object.freeze({ status: 'green', failing: Object.freeze([]) }),
+        Object.freeze({
+          status: 'red',
+          failing: Object.freeze(['b3c09 performance baseline: records exact unsupported rows instead of false PERF_BASELINE_OK']),
+        }),
+        Object.freeze({
+          status: 'red',
+          failing: Object.freeze(['b3c09 performance baseline: state artifact equals executable state']),
+        }),
+      ]),
+    }),
+  }),
 ]);
 
 // Status-backed contracts whose committed artifacts currently agree with
@@ -128,6 +132,8 @@ const GREEN_UNMAINTAINED_REGISTRY = Object.freeze([
   'b3c04-deterministic-export-mode.contract.test.js',
   'b3c05-permission-scope-enforced.contract.test.js',
   'b3c08-support-bundle-privacy.contract.test.js',
+  'b3c17-future-lanes-nonblocking.contract.test.js',
+  'b3c18-production-hardening-queue.contract.test.js',
   'collab-no-network-wiring.contract.test.js',
   'path-boundary-guard.contract.test.js',
   'perf-fixture.contract.test.js',
@@ -206,6 +212,17 @@ function failingTestNames(tapOutput) {
   return [...names];
 }
 
+function sortedUnique(values) {
+  return [...new Set(values)].sort((a, b) => a.localeCompare(b));
+}
+
+function matchesOutcome(outcome, expected) {
+  const expectedExit = expected.status === 'green' ? 0 : 1;
+  const actualExit = outcome.exit === 0 ? 0 : 1;
+  if (actualExit !== expectedExit) return false;
+  return JSON.stringify(sortedUnique(outcome.failing)) === JSON.stringify(sortedUnique(expected.failing || []));
+}
+
 test('stale-green guard: registration is complete and no entrant slips through', () => {
   const catalog = readJson(CATALOG_PATH);
   const maintained = new Set([...(catalog.contractBasenames || []), ...(catalog.extraMaintainedContractBasenames || [])]);
@@ -252,19 +269,11 @@ test('stale-green guard: executable classification of every status-backed contra
       shapeDrift.push({ contract: entry.contract, platform, detail: 'nonzero exit with zero failing tests' });
       continue;
     }
-    // The recorded failing names are dated documentation of the divergence
-    // reason. They are reported, never asserted: the failure shape shifts
-    // legitimately when a contour changes a surface the artifact binds (as
-    // R2's package.json script addition did for b3c09), while the red
-    // disposition is the stable law.
     const recorded = entry.failing.any || entry.failing[platform] || [];
     const actual = outcome.failing;
     const missingRecorded = recorded.filter((name) => !actual.some((line) => line.includes(name)));
     if (missingRecorded.length > 0) {
-      console.log(`R24_EXH1_LEDGER_NOTE=${JSON.stringify({ contract: entry.contract, platform, recordedButNotFailingNow: missingRecorded })}`);
-      if (entry.assertRecorded) {
-        shapeDrift.push({ contract: entry.contract, platform, missingRecorded });
-      }
+      shapeDrift.push({ contract: entry.contract, platform, missingRecorded });
     }
   }
   for (const entry of PLATFORM_DIVERGENT) {
@@ -285,8 +294,26 @@ test('stale-green guard: executable classification of every status-backed contra
   }
   const flakyOutcomes = [];
   for (const entry of FLAKY_REGISTER) {
-    const outcome = runContract(entry.contract);
-    flakyOutcomes.push({ contract: entry.contract, platform, exit: outcome.exit, failing: outcome.failing.slice(0, 2) });
+    const attempts = Number.isInteger(entry.maxAttempts) && entry.maxAttempts >= 1 ? entry.maxAttempts : 1;
+    const accepted = entry.accepted?.[platform] || entry.accepted?.linux || [];
+    let acceptedOutcome = null;
+    const observed = [];
+    for (let attempt = 1; attempt <= attempts; attempt += 1) {
+      const outcome = runContract(entry.contract);
+      const record = { attempt, exit: outcome.exit, failing: sortedUnique(outcome.failing) };
+      observed.push(record);
+      if (accepted.some((candidate) => matchesOutcome(outcome, candidate))) {
+        acceptedOutcome = record;
+        break;
+      }
+    }
+    flakyOutcomes.push({
+      contract: entry.contract,
+      platform,
+      maxAttempts: attempts,
+      accepted: acceptedOutcome !== null,
+      observed,
+    });
   }
   for (const name of GREEN_UNMAINTAINED_REGISTRY) {
     const outcome = runContract(name);
@@ -309,4 +336,5 @@ test('stale-green guard: executable classification of every status-backed contra
   assert.deepEqual(greenToRed, [], `green-to-red flip: ${JSON.stringify(greenToRed)}`);
   assert.deepEqual(shapeDrift, [], `ledgered family must be red with named failing tests: ${JSON.stringify(shapeDrift)}`);
   assert.deepEqual(divergentDrift, [], `platform-divergent register drift: ${JSON.stringify(divergentDrift)}`);
+  assert.deepEqual(flakyOutcomes.filter((outcome) => outcome.accepted !== true), [], `bounded flaky register drift: ${JSON.stringify(flakyOutcomes)}`);
 });

@@ -1,13 +1,13 @@
 {
   "schemaVersion": "EvidenceStampV2",
-  "stampId": "ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-CLAIM-BINDINGS",
-  "contourId": "A0_ATLAS_INCREMENTAL_EQUIVALENCE",
+  "stampId": "ES-R24-PK0-PACKAGE-CONTENT-TRUST-CLAIM-BINDINGS",
+  "contourId": "PK0_PACKAGE_CONTENT_TRUST",
   "evidenceClass": "CONTRACT",
   "verdict": "PASS",
   "headSha": "51817a8d281692dada3c042e98d14752ca03cef8",
   "originMainSha": "51817a8d281692dada3c042e98d14752ca03cef8",
   "generatedAtUtc": "2026-08-23T13:10:10Z",
-  "oracle": "docs-claim-lint exact sha-bound mutable PlanState claim binding for A0_ATLAS_INCREMENTAL_EQUIVALENCE and subsequent repo-local closure state through PK0",
+  "oracle": "docs-claim-lint exact sha-bound mutable PlanState claim binding for PK0 closure",
   "claimBindings": [
     {
       "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
@@ -25,9 +25,9 @@
     }
   ],
   "nonClaims": [
-    "This linter-specific stamp resolves only current A0_ATLAS_INCREMENTAL_EQUIVALENCE PlanState claim vocabulary for docs-claim-lint.",
+    "This linter-specific stamp resolves only current PK0_PACKAGE_CONTENT_TRUST PlanState claim vocabulary for docs-claim-lint.",
     "This stamp does not mark the full 109-node R2.4 program DONE.",
     "This stamp does not mutate product/runtime code, reopen parked V2, or claim release readiness.",
-    "This stamp does not implement or certify later contour product code beyond separately stamped closure evidence."
+    "This stamp resolves PK0 package-content set containment only; it does not claim SBOM provenance, install, update, rollback, signing, notarization, release publication, or production package readiness."
   ]
 }

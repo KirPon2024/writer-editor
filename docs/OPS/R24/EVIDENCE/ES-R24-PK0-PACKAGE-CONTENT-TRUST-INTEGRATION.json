@@ -1,0 +1,75 @@
+{
+  "stampId": "ES-R24-PK0-PACKAGE-CONTENT-TRUST-INTEGRATION",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "PK0_PACKAGE_CONTENT_TRUST",
+  "attemptId": "ATTEMPT-PK0-20260823",
+  "authorityEpoch": "R24-PK0-ADMISSION-BASE-51817A8D",
+  "profileId": "PACKAGED_RELEASE_SECURITY",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "51817a8d281692dada3c042e98d14752ca03cef8",
+    "treeSha": "02fa1b213d9d4edccc2073af8296c26a6d5381eb"
+  },
+  "createdAt": "2026-08-23T13:10:10Z",
+  "actor": "codex/r24-pk0-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "PK0_PACKAGE_CONTENT_INTEGRATION",
+    "ceiling": "PK0_PACKAGE_CONTENT_TRUST_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "npm run -s test:r24-pk0",
+    "denominator": 6,
+    "passed": 6,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0,
+    "evidenceClass": "INTEGRATION"
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-PK0-PACKAGE-CONTENT-TRUST-CONTRACT"
+    ],
+    "predecessorReceiptDigest": "139031645d8bfabfe7070c37daac92bba2c38628354013df12c10394e08b5f65"
+  },
+  "artifact": {
+    "command": "npm run -s test:r24-pk0",
+    "observations": {
+      "testCount": 6,
+      "unitAndContractCount": 3,
+      "physicalRepositoryCount": 2,
+      "implementationMutationSuiteCount": 1,
+      "runtimeResolvedCount": 6,
+      "stagedCount": 393,
+      "runtimeResolvedSubsetOfStaged": true,
+      "stagedSubsetOfAdmitted": true,
+      "forbiddenStagedCount": 0,
+      "missingRuntimeCount": 0,
+      "unadmittedStagedCount": 0,
+      "filesHash": "86985dcf9330ec13ca1c78c8f8ec432537fb62736220f4d437eb5e92affb887f",
+      "stagedFilesHash": "0049954edcfc168e0babfc0870bef15477cc4ca7d119260ae9c6e5c30d76305c",
+      "releaseReadyClaim": false,
+      "signingNotarizationClaim": false
+    },
+    "artifactDigests": [
+      {
+        "path": "scripts/ops/r24/package-content-trust-pk0.mjs",
+        "sha256": "38fd6d5db5675c4b73b2a64e0a40c5dbb397fe5c00779c41658856bc80881e13"
+      },
+      {
+        "path": "test/unit/r24-pk0-package-content-trust.test.js",
+        "sha256": "0c5f2238d505f1480fbbca1332cf434a6472cbcc2f1295a502734e9e2adfa1af"
+      },
+      {
+        "path": "test/unit/r24-pk0-package-content-mutants.test.js",
+        "sha256": "18ebecbce60f9832f72a9ca5687e296ad9d554ae86fc1a8ffcc95f01c6e404ae"
+      },
+      {
+        "path": "test/unit/r24-pk0-package-content-physics.test.js",
+        "sha256": "f475056bd0dc8941d855394179666af3bc4f6527d9049230dc9e99281e1d735f"
+      }
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

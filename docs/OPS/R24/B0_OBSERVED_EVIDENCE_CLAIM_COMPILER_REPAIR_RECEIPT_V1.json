@@ -17,6 +17,8 @@
     "requiredEvidenceClass": "INDEPENDENT_EXACT_HEAD",
     "forbiddenLegacyEvidencePattern": "^E[0-9]_",
     "standaloneCompilerAfterFailedPrecedingGateFailsClosed": true,
+    "boundedFlakyRegisterExactShapeLawRestored": true,
+    "b3c09LinuxCompoundFailureShapeBounded": true,
     "requiredObservedBindings": [
       "candidate.stageId",
       "candidate.script",
@@ -54,6 +56,7 @@
     "test/unit/r24-v0-writer-claim-mutants.test.js",
     "test/unit/r24-v1-atlas-claim-compiler.test.js",
     "test/unit/r24-v1-atlas-claim-mutants.test.js",
+    "test/contracts/rtk-evidence-stale-green-guard.contract.test.js",
     "test/unit/r24-v3-package-claim-compiler.test.js",
     "test/unit/r24-v3-package-claim-mutants.test.js"
   ],
@@ -105,6 +108,10 @@
     {
       "path": "test/unit/r24-v1-atlas-claim-mutants.test.js",
       "sha256": "91ca0ef439cb0cd52ab5fd2ffab60acd7dbcd64289135cc438e8840191c81033"
+    },
+    {
+      "path": "test/contracts/rtk-evidence-stale-green-guard.contract.test.js",
+      "sha256": "0526dbba1cf67c94227fe80e7ba4b00e54e45cc43769dc7fc96651ce7b0e3757"
     },
     {
       "path": "test/unit/r24-v3-package-claim-compiler.test.js",
@@ -170,6 +177,27 @@
       "mutants": {
         "killed": 9,
         "survived": 0
+      }
+    },
+    {
+      "command": "node --test test/contracts/rtk-evidence-stale-green-guard.contract.test.js",
+      "node": "v20.19.5",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 6,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "boundedFlakyLaw": {
+        "maxAttempts": 1,
+        "platforms": [
+          "darwin",
+          "linux"
+        ],
+        "wildcardsAllowed": false,
+        "acceptedOutcomesFinite": true,
+        "linuxCompoundShapeBound": true
       }
     },
     {

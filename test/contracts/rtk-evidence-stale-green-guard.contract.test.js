@@ -108,6 +108,13 @@ const FLAKY_REGISTER = Object.freeze([
           status: 'red',
           failing: Object.freeze(['b3c09 performance baseline: state artifact equals executable state']),
         }),
+        Object.freeze({
+          status: 'red',
+          failing: Object.freeze([
+            'b3c09 performance baseline: CLI status remains worktree independent outside repo cwd',
+            'b3c09 performance baseline: state artifact equals executable state',
+          ]),
+        }),
       ]),
     }),
   }),
@@ -238,6 +245,43 @@ test('stale-green guard: registration is complete and no entrant slips through',
   for (const name of EXTRA_MAINTAINED) {
     assert.equal(ledgered.has(name), false, `${name} is repaired and maintained, never ledgered`);
   }
+});
+
+test('stale-green guard: b3c09 flaky register remains finite and exact-shaped', () => {
+  const entry = FLAKY_REGISTER.find((candidate) => candidate.contract === 'b3c09-performance-baseline-binding.contract.test.js');
+  assert.ok(entry, 'b3c09 must be the only bounded flaky status-backed contract');
+  assert.equal(FLAKY_REGISTER.length, 1);
+  assert.equal(entry.maxAttempts, 1);
+
+  for (const [platformName, outcomes] of Object.entries(entry.accepted)) {
+    assert.ok(['darwin', 'linux'].includes(platformName), `unexpected platform key ${platformName}`);
+    assert.ok(Array.isArray(outcomes) && outcomes.length > 0 && outcomes.length <= 4, `${platformName} outcomes must be finite`);
+    const seen = new Set();
+    for (const outcome of outcomes) {
+      assert.ok(['green', 'red'].includes(outcome.status), `unexpected outcome status ${outcome.status}`);
+      assert.ok(Array.isArray(outcome.failing), 'failing tests must be an exact array');
+      for (const failingName of outcome.failing) {
+        assert.equal(typeof failingName, 'string');
+        assert.equal(failingName.includes('*'), false, 'wildcard failing names are forbidden');
+        assert.equal(failingName.includes('any'), false, 'any-outcome failing names are forbidden');
+      }
+      const key = JSON.stringify({ status: outcome.status, failing: sortedUnique(outcome.failing) });
+      assert.equal(seen.has(key), false, `${platformName} duplicate flaky outcome ${key}`);
+      seen.add(key);
+    }
+  }
+
+  const linuxShapes = entry.accepted.linux.map((outcome) => JSON.stringify({
+    status: outcome.status,
+    failing: sortedUnique(outcome.failing),
+  }));
+  assert.ok(linuxShapes.includes(JSON.stringify({
+    status: 'red',
+    failing: sortedUnique([
+      'b3c09 performance baseline: CLI status remains worktree independent outside repo cwd',
+      'b3c09 performance baseline: state artifact equals executable state',
+    ]),
+  })));
 });
 
 // R2.4 EXH1: the classification is verified by execution, fail-closed.

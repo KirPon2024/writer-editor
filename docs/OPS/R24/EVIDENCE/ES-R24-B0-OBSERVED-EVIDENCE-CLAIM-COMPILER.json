@@ -11,7 +11,7 @@
   "claimBindings": [
     {
       "filePath": "docs/OPS/R24/B0_OBSERVED_EVIDENCE_CLAIM_COMPILER_REPAIR_RECEIPT_V1.json",
-      "sha256": "86a4bd72f689d03c8dd7647d98fef049bccd03c2c7ddab0a10dd5b0967764e6a",
+      "sha256": "6299b4052cc589c707794ff319cc98112bd317f615888f052c159be6aff97f54",
       "claimTerms": [
         "PASS",
         "PENDING"
@@ -61,6 +61,15 @@
       "terms": [
         "POSITIVE_AND_NEGATIVE_ORACLE",
         "NON_VACUOUS_DENOMINATOR"
+      ]
+    },
+    {
+      "path": "test/contracts/rtk-evidence-stale-green-guard.contract.test.js",
+      "sha256": "0526dbba1cf67c94227fe80e7ba4b00e54e45cc43769dc7fc96651ce7b0e3757",
+      "terms": [
+        "BOUNDED_FLAKY_LAW",
+        "EXACT_PLATFORM_SHAPE",
+        "NO_WILDCARD_OUTCOME"
       ]
     },
     {

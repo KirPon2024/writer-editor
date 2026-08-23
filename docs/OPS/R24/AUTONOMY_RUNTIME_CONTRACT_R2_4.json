@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "yalken.autonomy-runtime-contract.r2.4",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "enabled": false,
+  "bootstrapMode": "SUPERVISED_E0_ONLY_AFTER_FRESH_G0",
+  "enablementConjunction": [
+    "MISSION_DIGEST_OWNER_APPROVED",
+    "FRESH_G0_AUTHORITY_EPOCH",
+    "E0_RUNNER_TRUTH_PROVEN",
+    "AUTONOMY_RUNTIME_IMPLEMENTED",
+    "AUTONOMY_RUNTIME_NEGATIVE_MATRIX_GREEN",
+    "LIVE_CI_BINDING_COMPILED",
+    "ONE_WRITER_AND_ONE_ACTIVE_CONTOUR"
+  ],
+  "singleWriter": true,
+  "maxActiveContours": 1,
+  "maxActivePullRequests": 1,
+  "maxAutonomousMergesUnobserved": 2,
+  "observerDigestCadenceMinutes": 10,
+  "resourceEnvelope": {
+    "maxContoursPer24Hours": 8,
+    "maxCiMinutesPer24Hours": 480,
+    "maxRepeatedAttemptsPerFailureClass": 2,
+    "maxNoMaterialTransitionChecks": 2,
+    "maxConsecutivePostmergeFailures": 1
+  },
+  "materialTransitionRequired": true,
+  "autoMergeConjunction": [
+    "EXACT_PR_HEAD_MATCHES_APPROVED_CONTOUR_HEAD",
+    "ALL_REQUIRED_LIVE_CI_TERMINAL_GREEN",
+    "NO_UNRESOLVED_REVIEW",
+    "NO_AUTHORITY_OR_CANON_DRIFT",
+    "MATERIAL_TRANSITION_PROVEN",
+    "NO_SCOPE_DRIFT",
+    "OWNER_GATE_NOT_REQUIRED_OR_SATISFIED",
+    "POSTMERGE_PLAN_EXISTS"
+  ],
+  "stopClasses": [
+    "AMBIGUOUS_PROJECT_IDENTITY",
+    "AUTHORITY_EPOCH_STALE",
+    "OWNER_GATE_REQUIRED",
+    "SECRET_OR_CREDENTIAL_REQUEST",
+    "USER_DOCUMENT_ACCESS",
+    "SAFE_APPLY_WIDENING",
+    "SECOND_WRITER",
+    "RESOURCE_ENVELOPE_EXHAUSTED",
+    "TWO_CONSECUTIVE_NO_PROGRESS_CHECKS",
+    "REQUIRED_REVIEW_PROTECTED"
+  ],
+  "recoveryPolicy": {
+    "ordinaryToolingFailureIsOwnerBlocker": false,
+    "retryRequiresSameFailureFingerprint": true,
+    "mutationAfterUnknownFailureForbidden": true,
+    "stallGuard": "STOP_AND_BRIEF_OWNER_OR_SUPERVISOR"
+  },
+  "modelPolicy": {
+    "developmentAgent": "KIMI_K3_MAX_SUBSCRIPTION",
+    "productRuntimeModel": "NONE",
+    "modelOverrideBySupervisorForbidden": true
+  }
+}

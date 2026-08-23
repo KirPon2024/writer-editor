@@ -113,8 +113,14 @@ export const MUTANTS = Object.freeze([
   {
     id: 'claim-without-evidence-allowed',
     file: 'docs-claim-lint.mjs',
-    find: 'if (resolved.length === 0) failures.push(`E_CLAIM_WITHOUT_EVIDENCE:${path.relative(rootDir, file)}`);',
+    find: 'if (resolved.size === 0) failures.push(`E_CLAIM_WITHOUT_EVIDENCE:${path.relative(rootDir, file)}`);',
     replace: 'if (false) failures.push(`E_CLAIM_WITHOUT_EVIDENCE:${path.relative(rootDir, file)}`);',
+  },
+  {
+    id: 'claim-binding-digest-ignored',
+    file: 'docs-claim-lint.mjs',
+    find: 'if (actual !== binding.sha256) {\n      failures.push(`E_CLAIM_BINDING_DIGEST_MISMATCH:${relativePath}`);\n      continue;\n    }',
+    replace: 'if (false) {\n      failures.push(`E_CLAIM_BINDING_DIGEST_MISMATCH:${relativePath}`);\n      continue;\n    }',
   },
   {
     id: 'canon-key-order-nondeterministic',

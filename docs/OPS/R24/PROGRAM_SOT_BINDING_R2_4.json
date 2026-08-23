@@ -1,0 +1,176 @@
+{
+  "schemaVersion": "yalken.r24.program-sot-binding.v1",
+  "status": "COMMITTED_MACHINE_READABLE_SOT_BOUND_BY_DIGEST",
+  "importedAtUtc": "2026-08-22T23:24:48Z",
+  "bindingBaseSha": "0bb87ae9ce95300e86e3ffd70f8ca6850f014004",
+  "originMainSha": "0bb87ae9ce95300e86e3ffd70f8ca6850f014004",
+  "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+  "sourceRoot": "/Volumes/T7-Secure/storage/yalken/mission-state-r24/machine",
+  "sourceRootKind": "SEALED_R2_4_MACHINE_PACKAGE_ON_T7_SECURE",
+  "committedDirectory": "docs/OPS/R24",
+  "executableProgram": {
+    "path": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+    "sha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+    "schemaVersion": "yalken.executable-program.r2.4",
+    "programId": "YALKEN-FINAL-EVOLUTIONARY-PROGRAM-R2.4",
+    "nodeCount": 109,
+    "foundationNodeCount": 32,
+    "workPackageNodeCount": 77
+  },
+  "mission": {
+    "path": "docs/OPS/R24/MISSION_CONTRACT_R2_4.json",
+    "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+    "missionDigest": "2d188140211c4e2a65f0f1bf1bef5bac53e396e3c3887cb3563fa253a10b0c80",
+    "approvalReceiptPath": "docs/OPS/R24/MISSION_APPROVAL_RECEIPT_R2_4.json"
+  },
+  "copiedMachineFiles": [
+    {
+      "basename": "AUDIT_DISPOSITION_R2_4.json",
+      "sourcePath": "machine/AUDIT_DISPOSITION_R2_4.json",
+      "sourceSha256": "0214a60d9614b0c7986fdbf77595fc344ae01eaafee06bb83f8b01037e9c23b6",
+      "committedPath": "docs/OPS/R24/AUDIT_DISPOSITION_R2_4.json",
+      "committedSha256": "0214a60d9614b0c7986fdbf77595fc344ae01eaafee06bb83f8b01037e9c23b6",
+      "expectedSha256": "0214a60d9614b0c7986fdbf77595fc344ae01eaafee06bb83f8b01037e9c23b6"
+    },
+    {
+      "basename": "AUTHORITY_AND_SOURCE_BINDINGS_R2_4.json",
+      "sourcePath": "machine/AUTHORITY_AND_SOURCE_BINDINGS_R2_4.json",
+      "sourceSha256": "a4f946314de3d5ba558f4c3ec97123d464f2a425c7c6b39bab149d32deb67160",
+      "committedPath": "docs/OPS/R24/AUTHORITY_AND_SOURCE_BINDINGS_R2_4.json",
+      "committedSha256": "a4f946314de3d5ba558f4c3ec97123d464f2a425c7c6b39bab149d32deb67160",
+      "expectedSha256": "a4f946314de3d5ba558f4c3ec97123d464f2a425c7c6b39bab149d32deb67160"
+    },
+    {
+      "basename": "AUTONOMY_CONTROL_PLANE_R2_4.json",
+      "sourcePath": "machine/AUTONOMY_CONTROL_PLANE_R2_4.json",
+      "sourceSha256": "2f189a055e2c465b2725fea2b0b4980c22737bfd4f691816fd70e138bec633d2",
+      "committedPath": "docs/OPS/R24/AUTONOMY_CONTROL_PLANE_R2_4.json",
+      "committedSha256": "2f189a055e2c465b2725fea2b0b4980c22737bfd4f691816fd70e138bec633d2",
+      "expectedSha256": "2f189a055e2c465b2725fea2b0b4980c22737bfd4f691816fd70e138bec633d2"
+    },
+    {
+      "basename": "AUTONOMY_RUNTIME_CONTRACT_R2_4.json",
+      "sourcePath": "machine/AUTONOMY_RUNTIME_CONTRACT_R2_4.json",
+      "sourceSha256": "74eab847a9f4eea03aaf2f63c4038e5f9c321e8fb0b1e536e0a58106f9b55b65",
+      "committedPath": "docs/OPS/R24/AUTONOMY_RUNTIME_CONTRACT_R2_4.json",
+      "committedSha256": "74eab847a9f4eea03aaf2f63c4038e5f9c321e8fb0b1e536e0a58106f9b55b65",
+      "expectedSha256": "74eab847a9f4eea03aaf2f63c4038e5f9c321e8fb0b1e536e0a58106f9b55b65"
+    },
+    {
+      "basename": "CI_LIVE_BINDING_COMPILER_R2_4.json",
+      "sourcePath": "machine/CI_LIVE_BINDING_COMPILER_R2_4.json",
+      "sourceSha256": "be0a8a79044e3d8a6be95ff023888b3b7f84a81f6f293a1978c3f5df15043476",
+      "committedPath": "docs/OPS/R24/CI_LIVE_BINDING_COMPILER_R2_4.json",
+      "committedSha256": "be0a8a79044e3d8a6be95ff023888b3b7f84a81f6f293a1978c3f5df15043476",
+      "expectedSha256": "be0a8a79044e3d8a6be95ff023888b3b7f84a81f6f293a1978c3f5df15043476"
+    },
+    {
+      "basename": "CLAIM_REGISTRY_R2_4.json",
+      "sourcePath": "machine/CLAIM_REGISTRY_R2_4.json",
+      "sourceSha256": "051e42a39e241d34c7161e3b4823c156ce6357af1d141dd2b88a11c084a897b6",
+      "committedPath": "docs/OPS/R24/CLAIM_REGISTRY_R2_4.json",
+      "committedSha256": "051e42a39e241d34c7161e3b4823c156ce6357af1d141dd2b88a11c084a897b6",
+      "expectedSha256": "051e42a39e241d34c7161e3b4823c156ce6357af1d141dd2b88a11c084a897b6"
+    },
+    {
+      "basename": "CURRENT_CHECKPOINT_R2_4.json",
+      "sourcePath": "machine/CURRENT_CHECKPOINT_R2_4.json",
+      "sourceSha256": "83255bd441b5946cfac9c05a37aa3bec919b991005fd6e5c1c05f49c278e686f",
+      "committedPath": "docs/OPS/R24/CURRENT_CHECKPOINT_R2_4.json",
+      "committedSha256": "83255bd441b5946cfac9c05a37aa3bec919b991005fd6e5c1c05f49c278e686f",
+      "expectedSha256": "83255bd441b5946cfac9c05a37aa3bec919b991005fd6e5c1c05f49c278e686f"
+    },
+    {
+      "basename": "DOCUMENT_INVENTORY_R2_4.json",
+      "sourcePath": "machine/DOCUMENT_INVENTORY_R2_4.json",
+      "sourceSha256": "9311f871517faa161adb614f8dde225a755a44626510d07486df2c37f823023f",
+      "committedPath": "docs/OPS/R24/DOCUMENT_INVENTORY_R2_4.json",
+      "committedSha256": "9311f871517faa161adb614f8dde225a755a44626510d07486df2c37f823023f",
+      "expectedSha256": "9311f871517faa161adb614f8dde225a755a44626510d07486df2c37f823023f"
+    },
+    {
+      "basename": "EVIDENCE_AND_RECEIPT_CONTRACT_R2_4.json",
+      "sourcePath": "machine/EVIDENCE_AND_RECEIPT_CONTRACT_R2_4.json",
+      "sourceSha256": "fb6ab27e2c5a55a192aac8a224f63b4c4bf32c769e32fc6268a5f80d87cbcd3d",
+      "committedPath": "docs/OPS/R24/EVIDENCE_AND_RECEIPT_CONTRACT_R2_4.json",
+      "committedSha256": "fb6ab27e2c5a55a192aac8a224f63b4c4bf32c769e32fc6268a5f80d87cbcd3d",
+      "expectedSha256": "fb6ab27e2c5a55a192aac8a224f63b4c4bf32c769e32fc6268a5f80d87cbcd3d"
+    },
+    {
+      "basename": "EXECUTABLE_PROGRAM_R2_4.json",
+      "sourcePath": "machine/EXECUTABLE_PROGRAM_R2_4.json",
+      "sourceSha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+      "committedPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+      "committedSha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+      "expectedSha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5"
+    },
+    {
+      "basename": "EXECUTION_ENVELOPES_R2_4.json",
+      "sourcePath": "machine/EXECUTION_ENVELOPES_R2_4.json",
+      "sourceSha256": "0b2154eb93769ecb6a3b3164159cfe2c87d73c5345fdcb008af5576c630ae9d3",
+      "committedPath": "docs/OPS/R24/EXECUTION_ENVELOPES_R2_4.json",
+      "committedSha256": "0b2154eb93769ecb6a3b3164159cfe2c87d73c5345fdcb008af5576c630ae9d3",
+      "expectedSha256": "0b2154eb93769ecb6a3b3164159cfe2c87d73c5345fdcb008af5576c630ae9d3"
+    },
+    {
+      "basename": "MISSION_CONTRACT_R2_4.json",
+      "sourcePath": "machine/MISSION_CONTRACT_R2_4.json",
+      "sourceSha256": "981dd5c2f9e8d5071e79083c17daed1474d753d34610e1c456d3d07d0969a1ce",
+      "committedPath": "docs/OPS/R24/MISSION_CONTRACT_R2_4.json",
+      "committedSha256": "981dd5c2f9e8d5071e79083c17daed1474d753d34610e1c456d3d07d0969a1ce",
+      "expectedSha256": "981dd5c2f9e8d5071e79083c17daed1474d753d34610e1c456d3d07d0969a1ce"
+    },
+    {
+      "basename": "OWNER_GATE_REGISTRY_R2_4.json",
+      "sourcePath": "machine/OWNER_GATE_REGISTRY_R2_4.json",
+      "sourceSha256": "4d8e3e0f7fcafb84f6e4b625af930b7a5fb06d64bbb5e59af6fe2940284315c8",
+      "committedPath": "docs/OPS/R24/OWNER_GATE_REGISTRY_R2_4.json",
+      "committedSha256": "4d8e3e0f7fcafb84f6e4b625af930b7a5fb06d64bbb5e59af6fe2940284315c8",
+      "expectedSha256": "4d8e3e0f7fcafb84f6e4b625af930b7a5fb06d64bbb5e59af6fe2940284315c8"
+    },
+    {
+      "basename": "PACKAGE_MANIFEST_R2_4.json",
+      "sourcePath": "machine/PACKAGE_MANIFEST_R2_4.json",
+      "sourceSha256": "a437bb4de86b12dd6027218f55ef55216e5b18c40b48fb33725ccc752c60e7ff",
+      "committedPath": "docs/OPS/R24/PACKAGE_MANIFEST_R2_4.json",
+      "committedSha256": "a437bb4de86b12dd6027218f55ef55216e5b18c40b48fb33725ccc752c60e7ff",
+      "expectedSha256": "a437bb4de86b12dd6027218f55ef55216e5b18c40b48fb33725ccc752c60e7ff"
+    },
+    {
+      "basename": "PACKAGE_MUTATION_RECEIPT_R2_4.json",
+      "sourcePath": "machine/PACKAGE_MUTATION_RECEIPT_R2_4.json",
+      "sourceSha256": "b2f37f8e9288fb6790b44df26cab59c5de5a3ca9e3e8229a5c6dc1ec62d7b95c",
+      "committedPath": "docs/OPS/R24/PACKAGE_MUTATION_RECEIPT_R2_4.json",
+      "committedSha256": "b2f37f8e9288fb6790b44df26cab59c5de5a3ca9e3e8229a5c6dc1ec62d7b95c",
+      "expectedSha256": "b2f37f8e9288fb6790b44df26cab59c5de5a3ca9e3e8229a5c6dc1ec62d7b95c"
+    },
+    {
+      "basename": "PACKAGE_VERIFICATION_RECEIPT_R2_4.json",
+      "sourcePath": "machine/PACKAGE_VERIFICATION_RECEIPT_R2_4.json",
+      "sourceSha256": "e78402f9f71b88a4b4ce1a8cfaa2eff56b5d90343c83bbbc4c530fb62ecd01bc",
+      "committedPath": "docs/OPS/R24/PACKAGE_VERIFICATION_RECEIPT_R2_4.json",
+      "committedSha256": "e78402f9f71b88a4b4ce1a8cfaa2eff56b5d90343c83bbbc4c530fb62ecd01bc",
+      "expectedSha256": "e78402f9f71b88a4b4ce1a8cfaa2eff56b5d90343c83bbbc4c530fb62ecd01bc"
+    },
+    {
+      "basename": "PRODUCT_PROFILE_CUTS_R2_4.json",
+      "sourcePath": "machine/PRODUCT_PROFILE_CUTS_R2_4.json",
+      "sourceSha256": "612156616179239922406b1eb58afcd87e042e5f9d8073026f9d2dba452d2170",
+      "committedPath": "docs/OPS/R24/PRODUCT_PROFILE_CUTS_R2_4.json",
+      "committedSha256": "612156616179239922406b1eb58afcd87e042e5f9d8073026f9d2dba452d2170",
+      "expectedSha256": "612156616179239922406b1eb58afcd87e042e5f9d8073026f9d2dba452d2170"
+    },
+    {
+      "basename": "TEST_ASSURANCE_MATRIX_R2_4.json",
+      "sourcePath": "machine/TEST_ASSURANCE_MATRIX_R2_4.json",
+      "sourceSha256": "29133d0b3f6c96891695e81a1191565843143826770ba6cb90cd286bcab80ca8",
+      "committedPath": "docs/OPS/R24/TEST_ASSURANCE_MATRIX_R2_4.json",
+      "committedSha256": "29133d0b3f6c96891695e81a1191565843143826770ba6cb90cd286bcab80ca8",
+      "expectedSha256": "29133d0b3f6c96891695e81a1191565843143826770ba6cb90cd286bcab80ca8"
+    }
+  ],
+  "supersedesAsMaster": {
+    "legacyPath": "docs/OPS/EVIDENCE/YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1/PROGRAM_DAG.json",
+    "disposition": "HISTORICAL_EVIDENCE_ONLY_NOT_R2_4_MASTER_PROGRAM"
+  }
+}

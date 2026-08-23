@@ -31,6 +31,18 @@ const KNOWN_RED_LEDGER = Object.freeze([
   Object.freeze({ contract: 'b3c01-command-kernel-scope-lock.contract.test.js', failing: { any: ['committed status equals executable state', 'evidence packets align with executable state'] } }),
   Object.freeze({ contract: 'b3c06-no-network-writing-path.contract.test.js', failing: { any: ['state artifact equals executable state', 'CLI status remains worktree independent outside repo cwd'] } }),
   Object.freeze({ contract: 'b3c16-supply-chain-release-scope.contract.test.js', failing: { any: ['state artifact matches stable executable fields'] } }),
+  Object.freeze({ contract: 'b3c17-future-lanes-nonblocking.contract.test.js', assertRecorded: true, failing: { any: [
+    'b3c17 future lanes: state artifact matches stable executable fields',
+    'b3c17 future lanes: CLI status remains worktree independent outside repo cwd',
+    'b3c17 future lanes: nonblocking governance rows pass',
+    'b3c17 future lanes: required negative rows pass',
+  ] } }),
+  Object.freeze({ contract: 'b3c18-production-hardening-queue.contract.test.js', assertRecorded: true, failing: { any: [
+    'b3c18 production hardening queue: state artifact matches stable executable fields',
+    'b3c18 production hardening queue: CLI status remains worktree independent outside repo cwd',
+    'b3c18 production hardening queue: nonblocking governance rows pass',
+    'b3c18 production hardening queue: required negative rows pass',
+  ] } }),
 ]);
 
 // Platform-divergent defects: committed status artifacts embed platform-shaped
@@ -40,7 +52,10 @@ const PLATFORM_DIVERGENT = Object.freeze([
   Object.freeze({
     contract: 'b3c10-capability-tier-report.contract.test.js',
     expected: Object.freeze({
-      darwin: Object.freeze({ status: 'green' }),
+      darwin: Object.freeze({
+        status: 'red',
+        failing: ['b3c10 capability tier report: CLI status remains worktree independent outside repo cwd'],
+      }),
       linux: Object.freeze({ status: 'red', failing: ['b3c10 capability tier report: state artifact equals executable state'] }),
     }),
   }),
@@ -113,8 +128,6 @@ const GREEN_UNMAINTAINED_REGISTRY = Object.freeze([
   'b3c04-deterministic-export-mode.contract.test.js',
   'b3c05-permission-scope-enforced.contract.test.js',
   'b3c08-support-bundle-privacy.contract.test.js',
-  'b3c17-future-lanes-nonblocking.contract.test.js',
-  'b3c18-production-hardening-queue.contract.test.js',
   'collab-no-network-wiring.contract.test.js',
   'path-boundary-guard.contract.test.js',
   'perf-fixture.contract.test.js',
@@ -249,6 +262,9 @@ test('stale-green guard: executable classification of every status-backed contra
     const missingRecorded = recorded.filter((name) => !actual.some((line) => line.includes(name)));
     if (missingRecorded.length > 0) {
       console.log(`R24_EXH1_LEDGER_NOTE=${JSON.stringify({ contract: entry.contract, platform, recordedButNotFailingNow: missingRecorded })}`);
+      if (entry.assertRecorded) {
+        shapeDrift.push({ contract: entry.contract, platform, missingRecorded });
+      }
     }
   }
   for (const entry of PLATFORM_DIVERGENT) {

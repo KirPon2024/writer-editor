@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import { lintDocsClaims } from '../docs-claim-lint.mjs';
 
 function makeDocs({ stamps = [], docs = {} } = {}) {
@@ -18,6 +19,10 @@ function makeDocs({ stamps = [], docs = {} } = {}) {
     fs.writeFileSync(file, content);
   }
   return dir;
+}
+
+function sha256(value) {
+  return crypto.createHash('sha256').update(value).digest('hex');
 }
 
 test('claim term without resolvable stamp fails closed', () => {
@@ -50,4 +55,48 @@ test('unreadable evidence artifact fails closed', () => {
   const result = lintDocsClaims(dir);
   assert.equal(result.ok, false);
   assert.ok(result.failures.some((f) => f.startsWith('E_EVIDENCE_STAMP_UNREADABLE:')));
+});
+
+test('claim term in immutable file resolves through exact sha-bound evidence binding', () => {
+  const content = '{"status":"READY"}';
+  const dir = makeDocs({ docs: { 'SEALED.json': content } });
+  const stamp = {
+    schemaVersion: 'EvidenceStampV2',
+    stampId: 'ES-R24-A0-SEALED-BINDING',
+    claimBindings: [
+      {
+        filePath: 'docs/OPS/R24/SEALED.json',
+        sha256: sha256(content),
+      },
+    ],
+  };
+  fs.writeFileSync(
+    path.join(dir, 'docs', 'OPS', 'R24', 'EVIDENCE', 'ES-R24-A0-SEALED-BINDING.json'),
+    JSON.stringify(stamp),
+  );
+  const result = lintDocsClaims(dir);
+  assert.equal(result.ok, true);
+  assert.equal(result.filesWithClaims, 1);
+  assert.equal(result.stampCount, 1);
+});
+
+test('sha-bound evidence binding fails closed when target digest changes', () => {
+  const dir = makeDocs({ docs: { 'SEALED.json': '{"status":"READY"}' } });
+  const stamp = {
+    schemaVersion: 'EvidenceStampV2',
+    stampId: 'ES-R24-A0-SEALED-BINDING',
+    claimBindings: [
+      {
+        filePath: 'docs/OPS/R24/SEALED.json',
+        sha256: sha256('different bytes'),
+      },
+    ],
+  };
+  fs.writeFileSync(
+    path.join(dir, 'docs', 'OPS', 'R24', 'EVIDENCE', 'ES-R24-A0-SEALED-BINDING.json'),
+    JSON.stringify(stamp),
+  );
+  const result = lintDocsClaims(dir);
+  assert.equal(result.ok, false);
+  assert.ok(result.failures.includes('E_CLAIM_BINDING_DIGEST_MISMATCH:docs/OPS/R24/SEALED.json'));
 });

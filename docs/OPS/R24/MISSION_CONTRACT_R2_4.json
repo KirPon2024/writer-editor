@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "yalken.program-mission.r2.4",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "revision": 1,
+  "ownerIntent": "Prepare a complete evidence-bound R2.4 implementation law, hand it to Kimi K3 Max, perform fresh G0, then execute no repository mutation until the exact mission digest receives owner authority.",
+  "programId": "YALKEN-FINAL-EVOLUTIONARY-PROGRAM-R2.4",
+  "allowedProfilesBeforeRuntimeApproval": [
+    "SHARED_ASSURANCE_BOOTSTRAP"
+  ],
+  "proposedProfilesAfterApproval": [
+    "WRITER_TRUTH_FOUNDATION",
+    "WRITER_LOCAL_V1"
+  ],
+  "currentMutationScope": [
+    "READ_ONLY_G0",
+    "EXTERNAL_HANDOFF_PACKAGE",
+    "E0_PROPOSAL_ONLY"
+  ],
+  "forbiddenScope": [
+    "PUBLIC_RELEASE",
+    "USER_DOCUMENTS",
+    "EXISTING_USER_DRIVE_FILES",
+    "SAFE_APPLY_WIDENING",
+    "PRODUCT_AI",
+    "CLOUD_TRUTH",
+    "EXECUTABLE_PLUGINS",
+    "SECOND_ACTIVE_CONTOUR"
+  ],
+  "deliveryIntent": {
+    "commit": true,
+    "push": true,
+    "pullRequest": true,
+    "merge": "CONDITIONAL_AFTER_RUNTIME_APPROVAL_AND_ALL_EXACT_HEAD_GATES"
+  },
+  "terminalDefinition": "Program-level evidence-bound verdict for every approved profile; contour DONE is never program completion.",
+  "approvalInvalidatesOnAnyChange": true,
+  "missionDigest": "2d188140211c4e2a65f0f1bf1bef5bac53e396e3c3887cb3563fa253a10b0c80",
+  "ownerIntentRecord": {
+    "source": "CURRENT_OWNER_CONVERSATION",
+    "captured": true,
+    "runtimeAuthority": false,
+    "reason": "Owner intent predates this exact generated digest; fresh G0 must present and bind the immutable digest."
+  },
+  "ownerApproval": {
+    "status": "REQUIRED_AT_FRESH_G0",
+    "approvedDigest": null,
+    "approvalArtifactRequired": true,
+    "noSelfApproval": true
+  },
+  "controlPlaneAuthority": {
+    "status": "PACKAGE_LEVEL_CONTROL_PLANE_CLOSED_RUNTIME_UNPROVEN",
+    "runtimeImplemented": false,
+    "ownerApprovalRequiredAfterAnyChange": true,
+    "closureDigest": "7c6da839a9b81fc583bde80185862ec3757d127febe8ede5e84737a02387663d",
+    "closureFiles": [
+      {
+        "path": "machine/AUTONOMY_CONTROL_PLANE_R2_4.json",
+        "sha256": "2f189a055e2c465b2725fea2b0b4980c22737bfd4f691816fd70e138bec633d2"
+      },
+      {
+        "path": "machine/OWNER_GATE_REGISTRY_R2_4.json",
+        "sha256": "4d8e3e0f7fcafb84f6e4b625af930b7a5fb06d64bbb5e59af6fe2940284315c8"
+      },
+      {
+        "path": "machine/EXECUTION_ENVELOPES_R2_4.json",
+        "sha256": "0b2154eb93769ecb6a3b3164159cfe2c87d73c5345fdcb008af5576c630ae9d3"
+      },
+      {
+        "path": "schemas/autonomy-control-plane-r2_4.schema.json",
+        "sha256": "2ab01433142a703583081915c773c5c97dd4378f6756070d9f39f16005a2482d"
+      },
+      {
+        "path": "schemas/owner-gate-registry-r2_4.schema.json",
+        "sha256": "dc1b28a6492eb1604cbe8bcf9a0c9bd4e8b905aff138be54fe3ef558843db160"
+      },
+      {
+        "path": "schemas/execution-envelopes-r2_4.schema.json",
+        "sha256": "674c3f90953a52dd770ecca773baca177df89ad01d9b787d5386845f35e5cfd7"
+      },
+      {
+        "path": "schemas/selection-receipt-r2_4.schema.json",
+        "sha256": "b45a15cb01e5f36954474d6626d704e1a47078ff2aea11a5649e8276c9f1b441"
+      },
+      {
+        "path": "schemas/mission-contract-r2_4.schema.json",
+        "sha256": "44665b6e1909bfd04d9a87d3cfbb83afaf54d7dc7b1de52f62198ba72f97ae5f"
+      },
+      {
+        "path": "tools/dry-run-r2_4-scheduler.mjs",
+        "sha256": "dc5f5efdf4e82748c886ed6a2a03530c9afe9e1beb9d776affeedcabf765ae3a"
+      },
+      {
+        "path": "tools/verify-r2_4-package.mjs",
+        "sha256": "9a94b9740989b6629e4a076f6da015e54d39b4e2f5039e7a3d1bdb5db8228828"
+      },
+      {
+        "path": "tools/test-r2_4-dangerous-mutants.mjs",
+        "sha256": "f7922bf7761c0535bcc9844e589dade11f7b722bd8782c509ce2c9f97e7ed3b8"
+      }
+    ]
+  }
+}

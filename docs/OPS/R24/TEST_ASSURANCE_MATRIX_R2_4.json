@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "yalken.test-assurance-matrix.r2.4",
+  "globalRequirements": {
+    "riskBased": true,
+    "errorCodeCoveragePercent": 100,
+    "implementationMutantsRequired": true,
+    "independentOracleRequiredForCriticalGates": true,
+    "survivorAuditRequired": true,
+    "failOnZeroDenominator": true,
+    "failOnRequiredSkip": true
+  },
+  "profiles": [
+    {
+      "id": "CONTRACT_NEGATIVE",
+      "minimum": "ONE_K_MINUS_ONE_CASE_PER_CONJUNCT_PLUS_CROSS_FIELD_SEMANTIC_CASES"
+    },
+    {
+      "id": "IMPLEMENTATION_MUTANTS",
+      "minimumMutationScore": 1,
+      "modelWitnessesDoNotCountAsExecutedMutants": true
+    },
+    {
+      "id": "CRASH_RECOVERY",
+      "minimum": "PROCESS_KILL_AT_EVERY_DURABILITY_PHASE_PLUS_REOPEN_READBACK"
+    },
+    {
+      "id": "UNICODE_IME",
+      "minimum": "LENGTH_CHANGING_FOLDS_ASTRAL_GRAPHEME_IME_COMPOSITION_RTL"
+    },
+    {
+      "id": "PHYSICAL_PROVIDER",
+      "minimum": "DISPOSABLE_SYNTHETIC_INPUT_HOST_LIFECYCLE_REOPEN_SEMANTIC_READBACK"
+    },
+    {
+      "id": "PACKAGE_ALLOWLIST",
+      "minimum": "R_SUBSET_S_SUBSET_A_WITH_SBOM_PROVENANCE_AND_FORBIDDEN_SENTINELS"
+    },
+    {
+      "id": "A11Y_PERF",
+      "minimum": "KEYBOARD_SR_REFLOW_MOTION_RTL_TYPING_SURVIVOR_BUDGETS"
+    }
+  ],
+  "physicalSafety": {
+    "userDocuments": "DENY",
+    "existingUserDriveFiles": "DENY",
+    "disposableSyntheticArtifactsOnly": true,
+    "WordSafeApplyDefault": "DENY_UNTIL_SEPARATE_OWNER_ADR",
+    "GoogleApplyDefault": "DENY_UNTIL_SEPARATE_OWNER_ADR"
+  }
+}

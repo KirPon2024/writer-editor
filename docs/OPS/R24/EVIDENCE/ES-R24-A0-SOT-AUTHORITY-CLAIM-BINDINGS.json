@@ -1,0 +1,104 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-A0-SOT-AUTHORITY-CLAIM-BINDINGS",
+  "contourId": "A0_R24_EXECUTABLE_PROGRAM_SOT_AUTHORITY_RECONCILIATION_V1",
+  "evidenceClass": "CONTRACT",
+  "verdict": "PASS",
+  "headSha": "0bb87ae9ce95300e86e3ffd70f8ca6850f014004",
+  "originMainSha": "0bb87ae9ce95300e86e3ffd70f8ca6850f014004",
+  "generatedAtUtc": "2026-08-22T23:58:25Z",
+  "oracle": "docs-claim-lint exact sha-bound immutable-file claim binding",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/A0_AUTHORITY_SOT_RECONCILIATION_RECEIPT_V1.json",
+      "sha256": "14879940ae895f6347106c1a061b1c98ae7dc7131245e8330a2799183f4b870f",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/AUTONOMY_CONTROL_PLANE_R2_4.json",
+      "sha256": "2f189a055e2c465b2725fea2b0b4980c22737bfd4f691816fd70e138bec633d2",
+      "claimTerms": [
+        "CLOSED",
+        "COMPLETE",
+        "READY"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CURRENT_CHECKPOINT_R2_4.json",
+      "sha256": "83255bd441b5946cfac9c05a37aa3bec919b991005fd6e5c1c05f49c278e686f",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE_AND_RECEIPT_CONTRACT_R2_4.json",
+      "sha256": "fb6ab27e2c5a55a192aac8a224f63b4c4bf32c769e32fc6268a5f80d87cbcd3d",
+      "claimTerms": [
+        "CLOSED",
+        "COMPLETE",
+        "DONE",
+        "PASS",
+        "READY",
+        "SAFE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+      "sha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+      "claimTerms": [
+        "DONE",
+        "PASS",
+        "SAFE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/EXECUTION_ENVELOPES_R2_4.json",
+      "sha256": "0b2154eb93769ecb6a3b3164159cfe2c87d73c5345fdcb008af5576c630ae9d3",
+      "claimTerms": [
+        "DONE",
+        "PASS"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/MISSION_CONTRACT_R2_4.json",
+      "sha256": "981dd5c2f9e8d5071e79083c17daed1474d753d34610e1c456d3d07d0969a1ce",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/PACKAGE_MUTATION_RECEIPT_R2_4.json",
+      "sha256": "b2f37f8e9288fb6790b44df26cab59c5de5a3ca9e3e8229a5c6dc1ec62d7b95c",
+      "claimTerms": [
+        "PASS"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/PACKAGE_VERIFICATION_RECEIPT_R2_4.json",
+      "sha256": "e78402f9f71b88a4b4ce1a8cfaa2eff56b5d90343c83bbbc4c530fb62ecd01bc",
+      "claimTerms": [
+        "PASS"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+      "sha256": "1aef6fdb57e89202891b84d6af0ab1271e29963f29122973c8af9dbfc7ae86f4",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+      "sha256": "faae7fa26d5f19ee1085d87584cb69cad95a084650047061ff437f5cb2e853a6",
+      "claimTerms": [
+        "DONE"
+      ]
+    }
+  ],
+  "nonClaims": [
+    "This stamp resolves claim vocabulary only for docs-claim-lint and does not mark any R2.4 program node DONE.",
+    "This stamp does not modify sealed source-of-truth JSON bytes."
+  ]
+}

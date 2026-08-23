@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "yalken.r24.authority-epoch.v1",
+  "epochId": "R24-A0-ADMISSION-BASE-0BB87AE9",
+  "status": "ADMISSION_REBIND_CURRENT_AT_BASE_INVALIDATES_ON_HEAD_OR_TREE_CHANGE",
+  "generatedAtUtc": "2026-08-22T23:24:48Z",
+  "canonicalRepo": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+  "activeWorktree": "/Volumes/T7-Secure/worktrees/yalken/r24-a0-executable-sot-authority-20260822",
+  "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+  "headSha": "0bb87ae9ce95300e86e3ffd70f8ca6850f014004",
+  "originMainSha": "0bb87ae9ce95300e86e3ffd70f8ca6850f014004",
+  "treeSha": "0f3082dd62d585dd221d01986ed8b22d866be938",
+  "baseSha": "0bb87ae9ce95300e86e3ffd70f8ca6850f014004",
+  "activeCanonPath": "docs/OPS/STATUS/XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.13a-final.md",
+  "activeCanonDigest": "b8e99ad1c9cd37e874d3145c79be99f6f3181a9eae7078060f9e497e0896077b",
+  "canonStatusDigest": "0c73f3d0ed99adab897b841a8471733572e6c78970371eba751e4fe2418192be",
+  "corexDigest": "ea25f66352497e58935c673d3bf3c82d828e31dcc3cdad1ca19ef1250512f0bf",
+  "bibleDigest": "94864b5d7cbec709ca6d7e9c6a838ff9405cfbc86443a5485acd149ccc16de93",
+  "missionDigest": "2d188140211c4e2a65f0f1bf1bef5bac53e396e3c3887cb3563fa253a10b0c80",
+  "graphDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+  "liveCiBindingDigest": "be0a8a79044e3d8a6be95ff023888b3b7f84a81f6f293a1978c3f5df15043476",
+  "cleanWorktreeAtAdmission": true,
+  "singleWriterLease": {
+    "status": "NO_RELEVANT_ACTIVE_SECOND_WRITER_PROCESS_OBSERVED_AT_ADMISSION",
+    "planStateFencingCounter": 13,
+    "activeLeasePersisted": false
+  },
+  "invalidationEvents": [
+    "HEAD_CHANGED",
+    "TREE_CHANGED",
+    "CANON_CHANGED",
+    "MISSION_CHANGED",
+    "GRAPH_CHANGED",
+    "CI_BINDING_CHANGED",
+    "WORKTREE_DIRTY",
+    "WRITER_LEASE_CHANGED",
+    "PR_HEAD_CHANGED"
+  ]
+}

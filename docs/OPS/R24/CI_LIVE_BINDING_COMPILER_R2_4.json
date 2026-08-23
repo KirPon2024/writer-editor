@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "yalken.ci-live-binding-compiler.r2.4",
+  "bindingMode": "HISTORICAL_OBSERVATION_MUST_RECOMPILE_AT_EVERY_G0",
+  "observedHeadSha": "7b4c89de155567371e1f0a0003b74e3be3abc223",
+  "githubBranchProtectionObservation": "UNVERIFIED_AT_PACKAGE_BUILD",
+  "logicalLanes": {
+    "BASELINE_REQUIRED": [
+      "lockfile-node20.yml#lockfile",
+      "oss-policy.yml#oss-policy",
+      "rtk-required.yml#rtk-required",
+      "x1-runtime-parity.yml#x1-runtime-parity"
+    ],
+    "OPS_GOVERNANCE": [
+      "ops-vector-close.yml#ops_vector_close",
+      "rtk-required.yml#rtk-required"
+    ],
+    "WRITER_RISK": [
+      "rtk-required.yml#rtk-required",
+      "x1-runtime-parity.yml#x1-runtime-parity"
+    ],
+    "ATLAS_RISK": [
+      "rtk-required.yml#rtk-required"
+    ],
+    "INTERCHANGE_RISK": [
+      "rtk-required.yml#rtk-required",
+      "oss-policy.yml#oss-policy"
+    ],
+    "PACKAGE_SECURITY": [
+      "oss-policy.yml#oss-policy",
+      "rtk-required.yml#rtk-required",
+      "lockfile-node20.yml#lockfile"
+    ],
+    "WORD_LOCAL_PHYSICAL": [],
+    "GOOGLE_PROVIDER_PHYSICAL": [],
+    "MIXED_CHAIN_PHYSICAL": []
+  },
+  "workflowBindings": [
+    {
+      "file": ".github/workflows/lockfile-node20.yml",
+      "job": "lockfile",
+      "sha256": "51550ab2bf20fb54b07748dfb440fc10293a3a137f290a4f56e820ef2901d789",
+      "snapshotPath": "evidence/live-ci-snapshot/.github/workflows/lockfile-node20.yml"
+    },
+    {
+      "file": ".github/workflows/ops-vector-close.yml",
+      "job": "ops_vector_close",
+      "sha256": "d1e28288b26c4633832afd94d19d5093b50b26c16b4b216c74826f331f747a77",
+      "snapshotPath": "evidence/live-ci-snapshot/.github/workflows/ops-vector-close.yml"
+    },
+    {
+      "file": ".github/workflows/oss-policy.yml",
+      "job": "oss-policy",
+      "sha256": "dae9d320c932275cedbaa6e1098d275ba68a2dcb12ebafdd52e823e0120eb02e",
+      "snapshotPath": "evidence/live-ci-snapshot/.github/workflows/oss-policy.yml"
+    },
+    {
+      "file": ".github/workflows/rtk-required.yml",
+      "job": "rtk-required",
+      "sha256": "668cb579609aa6aea6193f7097eb40a51e81a5ff13227bc37b14a25dd04f5bb8",
+      "snapshotPath": "evidence/live-ci-snapshot/.github/workflows/rtk-required.yml"
+    },
+    {
+      "file": ".github/workflows/x1-runtime-parity.yml",
+      "job": "x1-runtime-parity",
+      "sha256": "ff9160c20e7c193fcb3ca9d29f1df207ca7a83e05b94057b40581a3f7b81a68f",
+      "snapshotPath": "evidence/live-ci-snapshot/.github/workflows/x1-runtime-parity.yml"
+    }
+  ],
+  "compilationChecks": [
+    "FILES_AND_JOBS_EXIST_AT_EXACT_HEAD",
+    "WORKFLOW_DIGESTS_MATCH",
+    "REQUIRED_STATUS_CONTEXTS_RESOLVED",
+    "NO_LOGICAL_LANE_SATISFIED_BY_WEAKER_AGGREGATE_CHECK",
+    "LOCAL_PHYSICAL_LANES_EXPLICITLY_NON_GITHUB"
+  ],
+  "staleBinding": "FAIL_CLOSED"
+}

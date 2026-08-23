@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "SelectionReceiptR2_4",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "missionDigest": "2d188140211c4e2a65f0f1bf1bef5bac53e396e3c3887cb3563fa253a10b0c80",
+  "stateRevision": 0,
+  "policyEpoch": 0,
+  "mode": "HANDOFF_ONLY",
+  "selectedKind": "NODE",
+  "selectedId": "SEC0_PATH_CAPABILITY",
+  "verdict": "SELECTED",
+  "readySet": [
+    "ENT0_ENTITLEMENT_CONFORMANCE",
+    "K1_AUTHORITY_DECOMPOSITION",
+    "SEC0_PATH_CAPABILITY",
+    "T1_ANCHOR_LINEAGE",
+    "WP-100_GENERATION_ADMISSION"
+  ],
+  "deterministicOrder": [
+    "MANDATORY_SAFETY_CORRECTNESS",
+    "CUT_SET_UNBLOCK",
+    "EVIDENCE_DEFICIT_REDUCTION",
+    "DEPENDENCY_CRITICALITY",
+    "BOUNDED_COST",
+    "STABLE_TOPOLOGICAL_RANK",
+    "STABLE_NODE_ID"
+  ],
+  "reasons": [
+    "SUPERVISED_HANDOFF_ONLY_CANDIDATE"
+  ],
+  "generatedAt": "2026-08-22T23:24:48Z",
+  "graphNodeCount": 109,
+  "graphDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+  "sourceOfTruthPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json"
+}

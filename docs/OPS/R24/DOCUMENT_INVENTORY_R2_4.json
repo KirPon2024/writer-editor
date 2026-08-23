@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "yalken.document-inventory.r2.4",
+  "activeDocuments": [
+    {
+      "file": "00_START_HERE_RU.md",
+      "sha256": "6cc11029442e828aa13958cc52ab5dd77b1bdddd097ec0cff5964849c120d914",
+      "role": "ACTIVE_R2_4_LAW"
+    },
+    {
+      "file": "01_FINAL_ENGINEERING_SPECIFICATION_R2_4.md",
+      "sha256": "a7f16b77a0c8ad628891405f786399d7cd3a34ddb9cb0add05e43123e851c996",
+      "role": "ACTIVE_R2_4_LAW"
+    },
+    {
+      "file": "02_MASTER_IMPLEMENTATION_PLAN_R2_4.md",
+      "sha256": "0af1dcbbc18fae59b64c9b104844ef62de94bfb330d73156984873edc8348507",
+      "role": "ACTIVE_R2_4_LAW"
+    },
+    {
+      "file": "03_AUTONOMOUS_EXECUTION_AND_GITHUB_DELIVERY_LAW_R2_4.md",
+      "sha256": "2fce8dd860f1af43d2ea910b1625bf416044470de189d20d850b90ba81f7416e",
+      "role": "ACTIVE_R2_4_LAW"
+    },
+    {
+      "file": "04_SCIENTIFIC_ASSURANCE_AND_TEST_LAW_R2_4.md",
+      "sha256": "93b68099f272decf293085c41e13b2acaf61f8f635f5d39ab7c328ebe1180bb9",
+      "role": "ACTIVE_R2_4_LAW"
+    },
+    {
+      "file": "05_DNA_ARCHITECTURE_AND_PRODUCT_PROFILES_R2_4.md",
+      "sha256": "190aa388c80ba6b66d462ea917a8f45b98a462bc9b9131ff6403971cc5bc667e",
+      "role": "ACTIVE_R2_4_LAW"
+    },
+    {
+      "file": "06_AUDIT_DISPOSITION_AND_NON_CLAIMS_R2_4.md",
+      "sha256": "c43df244e158f5307d4f1c099cd741de180cc0f6cb8ee7c11adf5b5ad47a3ceb",
+      "role": "ACTIVE_R2_4_LAW"
+    },
+    {
+      "file": "07_HANDOFF_TO_KIMI_K3_MAX_R2_4.md",
+      "sha256": "9392fb115549c80b89e69f5fc15f33d4c4c37c95e6448399e4518bf50ac3fe88",
+      "role": "ACTIVE_R2_4_LAW"
+    },
+    {
+      "file": "08_EXTERNAL_RESEARCH_INTAKE_R2_4.md",
+      "sha256": "6bf9a89462181ca11b6042f9b9fe2b726bfdb2220b59597c0080ec9a60889417",
+      "role": "ACTIVE_R2_4_LAW"
+    }
+  ],
+  "historicalBaseline": {
+    "path": "reference/R2_3_SEALED_BASELINE",
+    "role": "REFERENCE_ONLY_NOT_ACTIVE_LAW"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "yalken.claim-registry.r2.4",
+  "claims": [
+    {
+      "id": "R24_SEMANTIC_PACKAGE_ORACLE",
+      "loadBearing": true,
+      "verdict": "PASS_PRESEAL_AND_MUST_RECONFIRM_AFTER_FINAL_SEAL",
+      "ceiling": "R2.4_PACKAGE_SCHEMA_GRAPH_AND_SEMANTIC_ORACLE_ONLY",
+      "evidenceRefs": [
+        "machine/PACKAGE_VERIFICATION_RECEIPT_R2_4.json",
+        "tools/verify-r2_4-package.mjs"
+      ],
+      "forbiddenInference": "PRODUCT_OR_AUTONOMY_RUNTIME_PASS"
+    },
+    {
+      "id": "R24_DANGEROUS_MUTANTS",
+      "loadBearing": true,
+      "verdict": "108_OF_108_KILLED",
+      "ceiling": "R2.4_PACKAGE_AND_PLAN_ORACLE_IMPLEMENTATION",
+      "evidenceRefs": [
+        "machine/PACKAGE_MUTATION_RECEIPT_R2_4.json",
+        "tools/test-r2_4-dangerous-mutants.mjs"
+      ],
+      "forbiddenInference": "PRODUCT_REPOSITORY_IMPLEMENTATION_MUTANTS_EXECUTED"
+    },
+    {
+      "id": "R24_SOURCE_COVERAGE",
+      "loadBearing": false,
+      "verdict": "33_STAGES_AND_81_WORK_PACKAGES_RESOLVED",
+      "ceiling": "SOURCE_PLAN_COVERAGE",
+      "evidenceRefs": [
+        "machine/EXECUTABLE_PROGRAM_R2_4.json"
+      ],
+      "forbiddenInference": "ALL_FEATURES_IMPLEMENTED"
+    }
+  ]
+}

@@ -1,0 +1,354 @@
+{
+  "schemaVersion": "yalken.autonomy-control-plane.r2.4",
+  "controlPlaneId": "YALKEN-R2.4-AUTONOMY-CONTROL-PLANE",
+  "missionRef": "machine/MISSION_CONTRACT_R2_4.json",
+  "runtimeVerdict": "PACKAGE_LEVEL_EXECUTABLE_SPEC_RUNTIME_NOT_IMPLEMENTED_IN_PRODUCT_REPOSITORY",
+  "authorityDefault": "DENY",
+  "contracts": {
+    "MissionApprovalReceipt": {
+      "schemaStatus": "CLOSED",
+      "issued": false,
+      "exactMissionDigestRequired": true,
+      "ownerOrExplicitDelegateRequired": true,
+      "selfApprovalForbidden": true
+    },
+    "MissionState": {
+      "schemaStatus": "CLOSED",
+      "storageContract": "DURABLE_ATOMIC_CAS",
+      "expectedRevisionRequired": true,
+      "states": [
+        "CREATED",
+        "WAIT_G0",
+        "WAIT_OWNER_DIGEST_APPROVAL",
+        "READY",
+        "RUNNING",
+        "WAIT_OWNER",
+        "BLOCKED_TYPED",
+        "REVOKED",
+        "FAILED",
+        "COMPLETE"
+      ],
+      "terminalStates": [
+        "REVOKED",
+        "FAILED",
+        "COMPLETE"
+      ]
+    },
+    "MissionRevocation": {
+      "schemaStatus": "CLOSED",
+      "checkedBefore": [
+        "WRITE",
+        "COMMIT",
+        "PUSH",
+        "PR_CREATE_OR_UPDATE",
+        "MERGE",
+        "EXTERNAL_EFFECT"
+      ],
+      "revocationEpochMonotonic": true,
+      "killSwitchOwnerControlled": true,
+      "afterRevocationAllowed": [
+        "STOP_NEW_EFFECTS",
+        "SAFE_DRAIN",
+        "ROLLBACK_OR_RECONCILE",
+        "PERSIST_TERMINAL_RECEIPT"
+      ]
+    },
+    "StageEnvelope": {
+      "schemaStatus": "CLOSED",
+      "registryRef": "machine/EXECUTION_ENVELOPES_R2_4.json",
+      "exactReadWriteSetsRequiredAtAdmission": true,
+      "fixtureManifestRequiredAtAdmission": true
+    },
+    "StageAttempt": {
+      "schemaStatus": "CLOSED",
+      "key": [
+        "missionId",
+        "contourId",
+        "nodeId",
+        "attemptId",
+        "authorityEpoch",
+        "policyEpoch"
+      ],
+      "blindRetryForbidden": true
+    },
+    "ContourInstance": {
+      "schemaStatus": "CLOSED",
+      "oneActivePerMission": true,
+      "oneWriterLease": true,
+      "oneDeliveryEpoch": true
+    },
+    "DeliveryEpoch": {
+      "schemaStatus": "CLOSED",
+      "oneBranch": true,
+      "onePullRequest": true,
+      "manySequentialPerMission": true,
+      "simultaneousMutationEpochs": 1
+    },
+    "WriterLease": {
+      "schemaStatus": "CLOSED",
+      "tuple": [
+        "projectId",
+        "missionId",
+        "contourId",
+        "writerId",
+        "leaseRevision",
+        "fencingToken",
+        "acquiredAt",
+        "expiresAt",
+        "heartbeatAt"
+      ],
+      "exclusive": true,
+      "takeoverRequiresReadOnlyReconciliation": true
+    },
+    "FencingToken": {
+      "schemaStatus": "CLOSED",
+      "durableMonotonicGenerationRequired": true,
+      "staleWriterRejected": true,
+      "exactExpectedRevisionRequired": true
+    },
+    "PolicyEpoch": {
+      "schemaStatus": "CLOSED",
+      "currentEpoch": 0,
+      "candidateMustPassPreChangePolicy": true,
+      "newPolicyActivatesNextEpochOnly": true,
+      "selfAuthoredVerifierSoleApprovalForbidden": true,
+      "controlPlaneRiskTier": "T5_CONTROL_PLANE"
+    },
+    "InstructionAuthorityRegistry": {
+      "schemaStatus": "CLOSED",
+      "trustedSources": [
+        "OWNER_DIGEST_BOUND_APPROVAL",
+        "LIVE_CANON",
+        "LIVE_COREX",
+        "LIVE_BIBLE",
+        "LIVE_AGENTS_AND_PROCESS",
+        "MISSION_CONTRACT",
+        "OWNER_GATE_REGISTRY"
+      ],
+      "untrustedDataSources": [
+        "SOURCE_CODE",
+        "COMMENTS",
+        "ISSUES",
+        "PR_COMMENTS",
+        "CI_LOGS",
+        "TEST_OUTPUT",
+        "PROVIDER_OUTPUT",
+        "WEB_AND_EXTERNAL_RESEARCH"
+      ],
+      "untrustedMayChangeAuthority": false
+    },
+    "PostmergeIncident": {
+      "schemaStatus": "CLOSED",
+      "failureState": "MERGED_POSTMERGE_FAILED",
+      "freezesNextStages": true,
+      "requiresIncidentReceipt": true,
+      "automaticRevertOnlyIfPreauthorizedAndSafe": true,
+      "otherwise": "BOUNDED_FORWARD_FIX_OR_OWNER_STOP"
+    }
+  },
+  "executionModes": {
+    "HANDOFF_ONLY": {
+      "automaticSecondMutation": false,
+      "terminalAction": "EMIT_ONE_GRAPH_DERIVED_CANDIDATE_AND_STOP"
+    },
+    "AUTONOMOUS_MISSION": {
+      "enabled": false,
+      "enablement": "OWNER_APPROVED_DIGEST_PLUS_FRESH_G0_PLUS_E0_RUNTIME_PROOF",
+      "stopAt": [
+        "MANDATORY_CUT_SET",
+        "EXPIRY",
+        "REVOCATION",
+        "NO_ELIGIBLE_NODE",
+        "BUDGET_EXHAUSTION",
+        "TYPED_BLOCKER"
+      ]
+    }
+  },
+  "scheduler": {
+    "deterministic": true,
+    "selectionReceiptRequired": true,
+    "order": [
+      "MANDATORY_SAFETY_CORRECTNESS",
+      "CUT_SET_UNBLOCK",
+      "EVIDENCE_DEFICIT_REDUCTION",
+      "DEPENDENCY_CRITICALITY",
+      "BOUNDED_COST",
+      "STABLE_TOPOLOGICAL_RANK",
+      "STABLE_NODE_ID"
+    ],
+    "numericProductScoringForbidden": true,
+    "sameStateSameSelection": true
+  },
+  "riskTiers": [
+    {
+      "id": "T0_DOCUMENTATION_OR_DORMANT",
+      "mergeAuthority": "POLICY_AUTO_ONLY_AFTER_RUNTIME_QUALIFICATION",
+      "review": "INTERNAL_GATES",
+      "selfDowngradeForbidden": true
+    },
+    {
+      "id": "T1_BOUNDED_LEAF",
+      "mergeAuthority": "POLICY_AUTO_ONLY_AFTER_RUNTIME_QUALIFICATION",
+      "review": "INTERNAL_GATES_AND_SURVIVOR",
+      "selfDowngradeForbidden": true
+    },
+    {
+      "id": "T2_STATE_DURABILITY",
+      "mergeAuthority": "INDEPENDENT_REVIEW_REQUIRED",
+      "review": "PROTECTED_INDEPENDENT",
+      "selfDowngradeForbidden": true
+    },
+    {
+      "id": "T3_SECURITY_BOUNDARY",
+      "mergeAuthority": "PROTECTED_INDEPENDENT_REVIEW_REQUIRED",
+      "review": "SECURITY_AND_OWNER_POLICY",
+      "selfDowngradeForbidden": true
+    },
+    {
+      "id": "T4_RELEASE_OR_EXTERNAL_APPLY",
+      "mergeAuthority": "OWNER_GATE_REQUIRED",
+      "review": "OWNER_OR_PROTECTED_RELEASE",
+      "selfDowngradeForbidden": true
+    },
+    {
+      "id": "T5_CONTROL_PLANE",
+      "mergeAuthority": "OWNER_AND_INDEPENDENT_ORACLE_REQUIRED",
+      "review": "PRE_CHANGE_POLICY_PLUS_OWNER",
+      "selfDowngradeForbidden": true
+    }
+  ],
+  "missionBudgetContract": {
+    "expiryRequiredAtApproval": true,
+    "expiresAt": null,
+    "maximumStages": 8,
+    "maximumPullRequests": 8,
+    "maximumCommitsPerContour": 3,
+    "maximumCiMinutes": 480,
+    "maximumProviderDispatchesPerContour": 8,
+    "maximumUnapprovedExternalSpend": 0,
+    "maximumDiffFilesPerContour": 80,
+    "maximumDiffBytesPerContour": 2000000,
+    "newProductionDependenciesWithoutGate": 0,
+    "anyChangeRequiresNewMissionDigest": true
+  },
+  "mergeCandidateContract": {
+    "requiredIdentity": [
+      "exactBaseSha",
+      "exactHeadSha",
+      "mergeCandidateSha",
+      "mergeCandidateTree",
+      "liveCiBindingDigest",
+      "policyEpoch"
+    ],
+    "baseDriftDisposition": "INVALIDATE_RECOMPUTE_RERUN_REQUIRED_GATES",
+    "prHeadPassIsNotMergeCandidatePass": true
+  },
+  "dependencyWorkflowPolicy": {
+    "default": "DENY_UNLESS_PREAUTHORIZED_OR_OWNER_GATED",
+    "protectedClasses": [
+      "PRODUCTION_DEPENDENCY",
+      "GITHUB_ACTION",
+      "EXTERNAL_ENDPOINT",
+      "PERMISSION_EXPANSION",
+      "SECRET_SCOPE",
+      "INSTALL_SCRIPT",
+      "UNPINNED_ACTION_OR_IMAGE"
+    ],
+    "lockfileAndSbomEvidenceRequired": true
+  },
+  "productClosurePrimitives": {
+    "surfacePolicy": "FOLD_INTO_EXISTING_WRITER_ATLAS_HISTORY_COUNTERFACTUAL_REVIEW_SURFACES_UNLESS_SEPARATELY_ADMITTED",
+    "primitives": [
+      "AuthoredIntent",
+      "NarrativeEvent",
+      "StateTransition",
+      "ReaderState",
+      "InformationRelease",
+      "AlternativeOrVariant",
+      "InterpretationOrMeaningField",
+      "RevisionPass",
+      "CreativeRationale"
+    ],
+    "productCoreAuthorityRequired": true,
+    "commandKernelMutationRequired": true,
+    "derivedViewsProposalOnly": true,
+    "implementationStatus": "ROADMAP_ONLY_NEEDS_LIVE_IMPLEMENTATION_AND_EVIDENCE"
+  },
+  "policyEpoch": {
+    "epoch": 0,
+    "activation": "PRE_CHANGE_POLICY_ACTIVE; CANDIDATE_POLICY_NEXT_EPOCH_ONLY",
+    "requiredIndependentAuthoritiesForT5": [
+      "OWNER_DIGEST_BOUND_APPROVAL",
+      "INDEPENDENT_PRE_CHANGE_ORACLE"
+    ],
+    "protectedArtifacts": [
+      "CANON",
+      "COREX",
+      "BIBLE",
+      "AGENTS",
+      "CI_WORKFLOWS",
+      "AUTONOMY_POLICY",
+      "VERIFIER",
+      "OWNER_GATE_REGISTRY",
+      "ACCEPTANCE_AND_CLAIM_REGISTRY"
+    ],
+    "preChangePolicyBindings": [
+      {
+        "relativePath": "03_AUTONOMOUS_EXECUTION_AND_GITHUB_DELIVERY_LAW_R2_4.md",
+        "sha256": "2fce8dd860f1af43d2ea910b1625bf416044470de189d20d850b90ba81f7416e"
+      },
+      {
+        "relativePath": "04_SCIENTIFIC_ASSURANCE_AND_TEST_LAW_R2_4.md",
+        "sha256": "93b68099f272decf293085c41e13b2acaf61f8f635f5d39ab7c328ebe1180bb9"
+      },
+      {
+        "relativePath": "machine/AUTONOMY_RUNTIME_CONTRACT_R2_4.json",
+        "sha256": "74eab847a9f4eea03aaf2f63c4038e5f9c321e8fb0b1e536e0a58106f9b55b65"
+      },
+      {
+        "relativePath": "machine/CI_LIVE_BINDING_COMPILER_R2_4.json",
+        "sha256": "be0a8a79044e3d8a6be95ff023888b3b7f84a81f6f293a1978c3f5df15043476"
+      },
+      {
+        "relativePath": "machine/OWNER_GATE_REGISTRY_R2_4.json",
+        "sha256": "4d8e3e0f7fcafb84f6e4b625af930b7a5fb06d64bbb5e59af6fe2940284315c8"
+      },
+      {
+        "relativePath": "machine/EXECUTION_ENVELOPES_R2_4.json",
+        "sha256": "0b2154eb93769ecb6a3b3164159cfe2c87d73c5345fdcb008af5576c630ae9d3"
+      },
+      {
+        "relativePath": "schemas/executable-program-r2_4.schema.json",
+        "sha256": "419f392386387669766acc9cc9edf8b37c936d82507f4ff240f54a840a7a6ce8"
+      },
+      {
+        "relativePath": "schemas/autonomy-runtime-contract-r2_4.schema.json",
+        "sha256": "4d354460411cd85515ffe1be752ab89aef2a64fdd8b0d29329d7d8895699d93f"
+      },
+      {
+        "relativePath": "tools/verify-r2_4-package.mjs",
+        "sha256": "9a94b9740989b6629e4a076f6da015e54d39b4e2f5039e7a3d1bdb5db8228828"
+      },
+      {
+        "relativePath": "tools/test-r2_4-dangerous-mutants.mjs",
+        "sha256": "f7922bf7761c0535bcc9844e589dade11f7b722bd8782c509ce2c9f97e7ed3b8"
+      },
+      {
+        "relativePath": "tools/dry-run-r2_4-scheduler.mjs",
+        "sha256": "dc5f5efdf4e82748c886ed6a2a03530c9afe9e1beb9d776affeedcabf765ae3a"
+      }
+    ]
+  },
+  "bootstrapState": {
+    "stateRevision": 0,
+    "status": "WAIT_G0",
+    "missionDigestRef": "machine/MISSION_CONTRACT_R2_4.json#missionDigest",
+    "authorityEpoch": null,
+    "revocationEpoch": 0,
+    "revoked": false,
+    "activeContour": null,
+    "activeDeliveryEpoch": null,
+    "writerLease": null,
+    "hotResumeClassification": "READ_ONLY_RECONCILIATION_REQUIRED"
+  }
+}

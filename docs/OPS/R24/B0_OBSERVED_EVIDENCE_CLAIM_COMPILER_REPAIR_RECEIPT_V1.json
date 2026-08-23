@@ -1,8 +1,8 @@
 {
   "schemaVersion": "yalken.r24.b0-observed-evidence-claim-compiler-repair-receipt.v1",
   "contourId": "B0_OBSERVED_EVIDENCE_CLAIM_COMPILER_REPAIR_V1",
-  "status": "LOCAL_FOCUSED_GATES_GREEN_CLEAN_FULL_RTK_PENDING_AFTER_COMMIT",
-  "generatedAtUtc": "2026-08-23T02:06:55Z",
+  "status": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
+  "generatedAtUtc": "2026-08-23T03:58:33Z",
   "baseHeadSha": "34e24436722d1b1860a61e1375e4e2193ba5949a",
   "originMainSha": "34e24436722d1b1860a61e1375e4e2193ba5949a",
   "nodeToolchain": {
@@ -269,6 +269,86 @@
       ]
     }
   ],
+  "finalDelivery": {
+    "commitChain": [
+      "f6e92ab57829e44a7aa360893acbb4952b3b2fbe",
+      "f54bc2534bcc45063c0ffcfc37bd309e29576012",
+      "815bb83934cc2581799dd9097c2e2654b4f444c9"
+    ],
+    "pr": {
+      "number": 1646,
+      "state": "MERGED",
+      "headSha": "815bb83934cc2581799dd9097c2e2654b4f444c9",
+      "mergeSha": "2151e0e94978e23ac2498529013900a921097e0f",
+      "baseSha": "34e24436722d1b1860a61e1375e4e2193ba5949a",
+      "treeSha": "fc000b3b10538f40ab999216803f6b2a82209cf6"
+    },
+    "cleanFullRtk": {
+      "command": "npm run -s test:rtk",
+      "node": "v20.19.5",
+      "verdict": "PASS",
+      "headSha": "815bb83934cc2581799dd9097c2e2654b4f444c9",
+      "treeSha": "fc000b3b10538f40ab999216803f6b2a82209cf6",
+      "runner": {
+        "invocationId": "2608555d-84b6-472c-81a9-220df5414b97",
+        "durationMs": 447475,
+        "processGroupCleanup": "RTK_PROCESS_GROUP_CLEAN"
+      },
+      "tests": {
+        "pass": 1059,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    "exactHeadPullRequestChecks": [
+      {
+        "workflowName": "OSS policy",
+        "runId": 32614885119,
+        "headSha": "815bb83934cc2581799dd9097c2e2654b4f444c9",
+        "conclusion": "success"
+      },
+      {
+        "workflowName": "rtk-required",
+        "runId": 32614885187,
+        "headSha": "815bb83934cc2581799dd9097c2e2654b4f444c9",
+        "conclusion": "success"
+      },
+      {
+        "workflowName": "x1-runtime-parity",
+        "runId": 32614885034,
+        "headSha": "815bb83934cc2581799dd9097c2e2654b4f444c9",
+        "conclusion": "success"
+      },
+      {
+        "workflowName": "ops-vector-close",
+        "runId": 32615692128,
+        "headSha": "815bb83934cc2581799dd9097c2e2654b4f444c9",
+        "conclusion": "success"
+      }
+    ],
+    "exactHeadPostmergeChecks": [
+      {
+        "workflowName": "OSS policy",
+        "runId": 32615692135,
+        "headSha": "2151e0e94978e23ac2498529013900a921097e0f",
+        "conclusion": "success"
+      },
+      {
+        "workflowName": "rtk-required",
+        "runId": 32615692173,
+        "jobId": 97135922253,
+        "headSha": "2151e0e94978e23ac2498529013900a921097e0f",
+        "conclusion": "success",
+        "includedGate": "Run R2.4 B0 observed evidence claim compiler repair gate"
+      }
+    ],
+    "terminalReceiptPath": "docs/OPS/R24/CTR-R24-B0-OBSERVED-EVIDENCE-CLAIM-COMPILER.json",
+    "postmergeEvidenceStampId": "ES-R24-B0-POSTMERGE-EXACT-HEAD",
+    "survivorEvidenceStampId": "ES-R24-B0-SURVIVOR-AUDIT",
+    "planStateDisposition": "NOT_A_109_NODE_COMPLETION_ROW",
+    "nextAction": "fresh scheduler selection from live 109-node graph after this receipt addendum is merged and postmerge verified"
+  },
   "v2ParkedCheckpoint": {
     "state": "PARKED_SUSPENDED_UNTOUCHED_BY_B0",
     "worktree": "/Volumes/T7-Secure/worktrees/yalken/r24-v2-word-claim-compiler-20260822",

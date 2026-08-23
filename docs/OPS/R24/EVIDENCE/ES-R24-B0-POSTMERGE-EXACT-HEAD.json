@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-B0-POSTMERGE-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "B0_OBSERVED_EVIDENCE_CLAIM_COMPILER_REPAIR_V1",
+  "attemptId": "ATTEMPT-B0-20260823",
+  "authorityEpoch": "R24-A0-ADMISSION-BASE-0BB87AE9",
+  "profileId": "SHARED_ASSURANCE_BOOTSTRAP",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "2151e0e94978e23ac2498529013900a921097e0f",
+    "treeSha": "fc000b3b10538f40ab999216803f6b2a82209cf6"
+  },
+  "claim": {
+    "type": "POSTMERGE_EXACT_HEAD_CI",
+    "ceiling": "CONTOUR_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "github-actions-main-exact-head",
+    "evidenceClass": "POSTMERGE",
+    "denominator": 2,
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-B0-OBSERVED-EVIDENCE-CLAIM-COMPILER"
+    ],
+    "predecessorReceiptDigest": "6299b4052cc589c707794ff319cc98112bd317f615888f052c159be6aff97f54"
+  },
+  "createdAt": "2026-08-23T03:58:33Z",
+  "actor": "codex/r24-b0-postmerge-receipt-v1-20260823",
+  "artifact": {
+    "prNumber": 1646,
+    "mergeSha": "2151e0e94978e23ac2498529013900a921097e0f",
+    "runs": [
+      {
+        "workflowName": "OSS policy",
+        "runId": 32615692135,
+        "event": "push",
+        "headSha": "2151e0e94978e23ac2498529013900a921097e0f",
+        "status": "completed",
+        "conclusion": "success",
+        "createdAt": "2026-08-23T03:34:31Z",
+        "updatedAt": "2026-08-23T03:34:52Z"
+      },
+      {
+        "workflowName": "rtk-required",
+        "runId": 32615692173,
+        "jobId": 97135922253,
+        "event": "push",
+        "headSha": "2151e0e94978e23ac2498529013900a921097e0f",
+        "status": "completed",
+        "conclusion": "success",
+        "createdAt": "2026-08-23T03:34:31Z",
+        "updatedAt": "2026-08-23T03:54:17Z",
+        "includedB0Gate": true
+      }
+    ],
+    "nonClaims": [
+      "This stamp closes only B0 postmerge exact-head evidence.",
+      "This stamp does not mark any 109-node R2.4 plan node DONE.",
+      "This stamp does not resume or mutate parked V2."
+    ]
+  }
+}

@@ -3,18 +3,18 @@
   "stampId": "ES-R24-B0-OBSERVED-EVIDENCE-CLAIM-COMPILER",
   "contourId": "B0_OBSERVED_EVIDENCE_CLAIM_COMPILER_REPAIR_V1",
   "evidenceClass": "CONTRACT",
-  "verdict": "LOCAL_FOCUSED_PASS_CLEAN_FULL_RTK_PENDING",
-  "headSha": "34e24436722d1b1860a61e1375e4e2193ba5949a",
-  "originMainSha": "34e24436722d1b1860a61e1375e4e2193ba5949a",
-  "generatedAtUtc": "2026-08-23T02:06:55Z",
+  "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
+  "headSha": "2151e0e94978e23ac2498529013900a921097e0f",
+  "originMainSha": "2151e0e94978e23ac2498529013900a921097e0f",
+  "generatedAtUtc": "2026-08-23T03:58:33Z",
   "oracle": "Observed EvidenceStampV2 compiler gate repair for V0/V1/V3 plus shared validator and mutation suites",
   "claimBindings": [
     {
       "filePath": "docs/OPS/R24/B0_OBSERVED_EVIDENCE_CLAIM_COMPILER_REPAIR_RECEIPT_V1.json",
-      "sha256": "6299b4052cc589c707794ff319cc98112bd317f615888f052c159be6aff97f54",
+      "sha256": "54c4a75e5298bf199951b1faaa4e0ae5a96451e0ee0dc5e831334804ae17d4ab",
       "claimTerms": [
         "PASS",
-        "PENDING"
+        "DONE"
       ]
     }
   ],
@@ -120,7 +120,7 @@
     }
   ],
   "nonClaims": [
-    "This stamp records B0 local focused evidence only; clean full RTK, exact-head CI, policy merge and postmerge survivor evidence remain required.",
+    "This stamp records B0 claim binding only; strict postmerge and survivor EvidenceStampV2 files provide the executable evidence law.",
     "This stamp does not mark any R2.4 program node DONE and does not resume V2.",
     "This stamp does not certify Word, Google Docs, release, signing, notarization or production package physical PASS."
   ]

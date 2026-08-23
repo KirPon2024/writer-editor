@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "ContourTerminalReceiptV2",
+  "receiptId": "CTR-R24-B0-OBSERVED-EVIDENCE-CLAIM-COMPILER",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "B0_OBSERVED_EVIDENCE_CLAIM_COMPILER_REPAIR_V1",
+  "attemptId": "ATTEMPT-B0-20260823",
+  "authorityEpoch": "R24-A0-ADMISSION-BASE-0BB87AE9",
+  "exactHeadSha": "2151e0e94978e23ac2498529013900a921097e0f",
+  "mergeState": "MERGED",
+  "postmergeState": "PASS",
+  "survivorState": "PASS",
+  "evidenceStampIds": [
+    "ES-R24-B0-OBSERVED-EVIDENCE-CLAIM-COMPILER",
+    "ES-R24-B0-POSTMERGE-EXACT-HEAD",
+    "ES-R24-B0-SURVIVOR-AUDIT"
+  ],
+  "nextContourId": null
+}

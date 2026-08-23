@@ -1,0 +1,130 @@
+{
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "ENT0_ENTITLEMENT_CONFORMANCE",
+  "attemptId": "ATTEMPT-ENT0-20260823",
+  "authorityEpoch": "R24-A0-ADMISSION-BASE-0BB87AE9",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "416b5d92d4f4fb7f9eca8bf764c6e25d963358e4",
+    "treeSha": "47dc2f41739aa6c6db8efe9f7dc30e0dffc7dcd6"
+  },
+  "createdAt": "2026-08-23T07:41:32Z",
+  "actor": "codex/r24-ent0-closure-receipt-v1-20260823",
+  "stampId": "ES-R24-ENT0-ENTITLEMENT-CONFORMANCE-SURVIVOR-AUDIT",
+  "claim": {
+    "type": "ENT0_SURVIVOR_AUDIT",
+    "ceiling": "ENT0_ENTITLEMENT_CONFORMANCE_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "github-actions-pr-1621-plus-current-main-survivor",
+    "evidenceClass": "SURVIVOR_AUDIT",
+    "denominator": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-ENT0-ENTITLEMENT-CONFORMANCE-POSTMERGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "4a61685f9dd1ae0f75f119f9ea51e36026d5aeaeb6b5e249a23b792fca00d21a"
+  },
+  "artifact": {
+    "implementationPr": {
+      "prNumber": 1621,
+      "prHeadSha": "0a247956ec4b107245d39141a6b0ed593e2c991f",
+      "mergeSha": "874e37f4db8ee7f82773f806bb33073f8e34fd90",
+      "mergedAt": "2026-08-21T12:31:31Z"
+    },
+    "implementationPrChecks": [
+      {
+        "workflowName": "OSS policy",
+        "runId": 32480873177,
+        "jobId": 96766746926,
+        "event": "pull_request",
+        "headSha": "0a247956ec4b107245d39141a6b0ed593e2c991f",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-21T12:14:03Z"
+      },
+      {
+        "workflowName": "ops-vector-close",
+        "runId": 32482296205,
+        "jobId": 96771106984,
+        "event": "pull_request",
+        "headSha": "0a247956ec4b107245d39141a6b0ed593e2c991f",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-21T12:31:46Z"
+      },
+      {
+        "workflowName": "rtk-required",
+        "runId": 32480873076,
+        "jobId": 96766746654,
+        "event": "pull_request",
+        "headSha": "0a247956ec4b107245d39141a6b0ed593e2c991f",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-21T12:30:49Z",
+        "includedEnt0Gate": true
+      },
+      {
+        "workflowName": "x1-runtime-parity",
+        "jobName": "x1-runtime-parity (ubuntu-latest)",
+        "runId": 32480873146,
+        "jobId": 96766746720,
+        "event": "pull_request",
+        "headSha": "0a247956ec4b107245d39141a6b0ed593e2c991f",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-21T12:14:04Z"
+      },
+      {
+        "workflowName": "x1-runtime-parity",
+        "jobName": "x1-runtime-parity (windows-latest)",
+        "runId": 32480873146,
+        "jobId": 96766747084,
+        "event": "pull_request",
+        "headSha": "0a247956ec4b107245d39141a6b0ed593e2c991f",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-21T12:14:22Z"
+      }
+    ],
+    "currentMainChecks": [
+      {
+        "workflowName": "OSS policy",
+        "runId": 32624392875,
+        "jobId": 97157367200,
+        "event": "push",
+        "headSha": "416b5d92d4f4fb7f9eca8bf764c6e25d963358e4",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-23T07:00:30Z"
+      },
+      {
+        "workflowName": "rtk-required",
+        "runId": 32624392924,
+        "attempt": 2,
+        "jobId": 97159178319,
+        "event": "push",
+        "headSha": "416b5d92d4f4fb7f9eca8bf764c6e25d963358e4",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-23T07:36:23Z",
+        "includedEnt0Gate": true
+      }
+    ],
+    "survivorLaw": "ENT0 implementation PR exact-head checks passed; current main exact-head CI after later merges passed the maintained R2.4 ENT0 gate and full R2.4 gate set, proving the one-table entitlement law survived mainline drift.",
+    "nonClaims": [
+      "This stamp closes only ENT0 survivor audit evidence.",
+      "This stamp does not mark the 109-node R2.4 program DONE.",
+      "This stamp does not reopen parked V2 or claim release readiness."
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

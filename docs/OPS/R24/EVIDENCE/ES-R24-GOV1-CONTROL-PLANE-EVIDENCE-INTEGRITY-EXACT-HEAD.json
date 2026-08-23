@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-GOV1-CONTROL-PLANE-EVIDENCE-INTEGRITY-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "GOV1_CONTROL_PLANE_EVIDENCE_INTEGRITY",
+  "attemptId": "ATTEMPT-GOV1-20260823",
+  "authorityEpoch": "OWNER-PROCESS-CORRECTION-BASE-64F577E4",
+  "profileId": "CONTROL_PLANE_EVIDENCE_INTEGRITY",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "1c615663e2e5f7ae6b8648d3986af9f8755436d5",
+    "treeSha": "0f7145cd79878f0fabef3ea1433edabce17ba2f8"
+  },
+  "claim": {
+    "type": "GOV1_INDEPENDENT_EXACT_HEAD_GREEN",
+    "ceiling": "R24_GOV1_CORRECTIVE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "recursive-r24-tests-on-implementation-evaluation-head",
+    "evidenceClass": "INDEPENDENT_EXACT_HEAD",
+    "denominator": 105,
+    "passed": 105,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-GOV1-CONTROL-PLANE-EVIDENCE-INTEGRITY-MUTANTS"
+    ],
+    "predecessorReceiptDigest": "194df8294c4afc6f95bf754609ee3b6f8c179af12d06dea004b72d122d090bb7"
+  },
+  "createdAt": "2026-08-23T18:53:27Z",
+  "actor": "codex/r24-gov1-control-plane-evidence-integrity-v1-20260823",
+  "artifact": {
+    "command": "recursive node --test scripts/ops/r24/tests",
+    "identityRoles": {
+      "implementationSourceSha": "1c615663e2e5f7ae6b8648d3986af9f8755436d5",
+      "evaluationHeadSha": "1c615663e2e5f7ae6b8648d3986af9f8755436d5",
+      "evaluationTreeSha": "0f7145cd79878f0fabef3ea1433edabce17ba2f8",
+      "prHeadSha": null,
+      "mergeSha": null,
+      "postmergeSha": null
+    },
+    "selectionReceipt": {
+      "sha256": "2aeabf8e9ccee60b84aaaa87d4ab1a39fc18159c0f6c0cdb41a97831bf86e7ae",
+      "stateRevision": 94,
+      "fencingCounter": 20,
+      "policyEpoch": 0,
+      "graphNodeCount": 109,
+      "selectedId": "WP-103_REVISION_PRODUCT_ORDER"
+    },
+    "artifactDigests": [
+      {
+        "path": "scripts/ops/r24/plan-state.mjs",
+        "sha256": "eae36c584e3a828afbe625cdb9e1d643194a24707294804343efd94d17d1a48d"
+      },
+      {
+        "path": "scripts/ops/r24/scheduler.mjs",
+        "sha256": "433566654c57f5e3479a8c10af3ac89f92f4a214b39db5427273f9de6a0c6217"
+      },
+      {
+        "path": "scripts/ops/r24/docs-claim-lint.mjs",
+        "sha256": "681c00922d5b8bd198d8f01509e18e97ab2a3e7c5e85b199dbd8b32cc698331a"
+      },
+      {
+        "path": "scripts/ops/r24/claim-binding.mjs",
+        "sha256": "ade008f64bde180b750d86238805dfbdb41363e55d5ded5baec0d7c3254ca250"
+      },
+      {
+        "path": "docs/OPS/R24/PLAN_STATE_R24.json",
+        "sha256": "20dd2c77a1fa826e0199229b8d281d0469e620a72f23cbc5cf2848f43c2370e4"
+      },
+      {
+        "path": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+        "sha256": "194df8294c4afc6f95bf754609ee3b6f8c179af12d06dea004b72d122d090bb7"
+      },
+      {
+        "path": "docs/OPS/R24/SELECTION_RECEIPT_R2_4.json",
+        "sha256": "2aeabf8e9ccee60b84aaaa87d4ab1a39fc18159c0f6c0cdb41a97831bf86e7ae"
+      }
+    ],
+    "denominatorLaw": "All 105 recursively discovered R2.4 test cases passed with zero failures, skips, or todos."
+  }
+}

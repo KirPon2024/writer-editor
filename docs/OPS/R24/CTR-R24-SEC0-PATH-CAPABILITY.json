@@ -4,16 +4,19 @@
   "contourId": "SEC0_PATH_CAPABILITY",
   "attemptId": "ATTEMPT-SEC0-20260823",
   "authorityEpoch": "R24-A0-ADMISSION-BASE-0BB87AE9",
-  "exactHeadSha": "0fa8383a1ef68cf1777cee2c4942d586d7d9cf6f",
-  "mergeState": "WAITING",
-  "postmergeState": "PENDING",
-  "survivorState": "PENDING",
+  "exactHeadSha": "1330400c9a2bf8347ec6a3ab0201c8396511a7d7",
+  "mergeState": "MERGED",
+  "postmergeState": "PASS",
+  "survivorState": "PASS",
   "evidenceStampIds": [
     "ES-R24-SEC0-PATH-CAPABILITY-MODEL",
     "ES-R24-SEC0-PATH-CAPABILITY-CONTRACT",
     "ES-R24-SEC0-PATH-CAPABILITY-INTEGRATION",
     "ES-R24-SEC0-PATH-CAPABILITY-MUTANTS",
-    "ES-R24-SEC0-PATH-CAPABILITY-EXACT-HEAD"
+    "ES-R24-SEC0-PATH-CAPABILITY-EXACT-HEAD",
+    "ES-R24-SEC0-PATH-CAPABILITY-CLAIM-BINDINGS",
+    "ES-R24-SEC0-PATH-CAPABILITY-POSTMERGE-EXACT-HEAD",
+    "ES-R24-SEC0-PATH-CAPABILITY-SURVIVOR-AUDIT"
   ],
   "nextContourId": "ENT0_ENTITLEMENT_CONFORMANCE",
   "schemaVersion": "ContourTerminalReceiptV2"

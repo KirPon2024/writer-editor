@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.r24.plan-state-source-receipt.v1",
   "status": "FULL_109_NODE_DENOMINATOR_WITH_REPO_LOCAL_SEC0_CLOSURE_NO_PROGRAM_DONE",
-  "generatedAtUtc": "2026-08-23T05:06:09Z",
+  "generatedAtUtc": "2026-08-23T06:34:59Z",
   "executableProgramPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
   "executableProgramDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
   "planStatePath": "docs/OPS/R24/PLAN_STATE_R24.json",
@@ -195,8 +195,8 @@
         "state": "DONE",
         "previousState": "POSTMERGE_VERIFIED",
         "attemptId": "ATTEMPT-SEC0-20260823",
-        "updatedAt": "2026-08-23T04:51:09Z",
-        "headSha": "0fa8383a1ef68cf1777cee2c4942d586d7d9cf6f",
+        "updatedAt": "2026-08-23T06:34:59Z",
+        "headSha": "1330400c9a2bf8347ec6a3ab0201c8396511a7d7",
         "source": "R24_SEC0_PATH_CAPABILITY_CLOSURE_V1",
         "terminalReceiptPath": "docs/OPS/R24/CTR-R24-SEC0-PATH-CAPABILITY.json",
         "evidenceStampIds": [
@@ -204,9 +204,12 @@
           "ES-R24-SEC0-PATH-CAPABILITY-CONTRACT",
           "ES-R24-SEC0-PATH-CAPABILITY-INTEGRATION",
           "ES-R24-SEC0-PATH-CAPABILITY-MUTANTS",
-          "ES-R24-SEC0-PATH-CAPABILITY-EXACT-HEAD"
+          "ES-R24-SEC0-PATH-CAPABILITY-EXACT-HEAD",
+          "ES-R24-SEC0-PATH-CAPABILITY-CLAIM-BINDINGS",
+          "ES-R24-SEC0-PATH-CAPABILITY-POSTMERGE-EXACT-HEAD",
+          "ES-R24-SEC0-PATH-CAPABILITY-SURVIVOR-AUDIT"
         ],
-        "deliveryState": "LOCAL_FULL_RTK_GREEN_AWAITING_PR_EXACT_HEAD_CI_AND_POSTMERGE_RECEIPTS"
+        "deliveryState": "PR_1648_MERGED_MAIN_EXACT_HEAD_POSTMERGE_AND_SURVIVOR_GREEN_NO_PROGRAM_DONE"
       }
     ]
   }

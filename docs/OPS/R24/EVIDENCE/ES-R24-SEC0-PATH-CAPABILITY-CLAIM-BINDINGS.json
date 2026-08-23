@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-SEC0-PATH-CAPABILITY-CLAIM-BINDINGS",
+  "contourId": "SEC0_PATH_CAPABILITY",
+  "evidenceClass": "CONTRACT",
+  "verdict": "PASS",
+  "headSha": "e98cf37d58177c1365369c50db806c9dcc90402f",
+  "originMainSha": "0fa8383a1ef68cf1777cee2c4942d586d7d9cf6f",
+  "generatedAtUtc": "2026-08-23T05:48:58Z",
+  "oracle": "docs-claim-lint exact sha-bound mutable PlanState claim binding for SEC0 closure",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+      "sha256": "11389eb240ab2320e6bf59cae77e5d42a0a8ca0d5bf144e0076371c376d6bb40",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+      "sha256": "2cd4cf763de7a8caafb691145fb99e782e3560bb5bfd1df7ff1950ec74bba07d",
+      "claimTerms": [
+        "DONE"
+      ]
+    }
+  ],
+  "nonClaims": [
+    "This linter-specific stamp resolves only current SEC0 PlanState claim vocabulary for docs-claim-lint.",
+    "This stamp does not mark the full 109-node R2.4 program DONE.",
+    "This stamp does not reopen A0, B0, parked V2, Word physical recertification, release, signing, notarization, or production package readiness."
+  ]
+}

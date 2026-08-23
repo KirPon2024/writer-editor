@@ -107,9 +107,14 @@ test('PlanState persists the full 109-node denominator without unreconciled DONE
   assert.equal(state.schemaVersion, 'yalken.plan-state.r24.v1');
   assert.equal(Object.keys(state.contours).length, EXPECTED_NODE_COUNT);
   assert.equal(state.leases && Object.keys(state.leases).length, 0);
-  const doneRows = Object.values(state.contours).filter((row) => row.state === 'DONE');
-  assert.equal(doneRows.length, 13);
   const sourceReceipt = readR24Json('PLAN_STATE_SOURCE_RECEIPT_R24.json');
+  const doneRows = Object.values(state.contours).filter((row) => row.state === 'DONE');
+  const repoLocalDone = sourceReceipt.repoLocalPlanStateClosures?.doneContourCount || 0;
+  assert.equal(doneRows.length, sourceReceipt.externalPlanState.doneContourCount + 1 + repoLocalDone);
+  assert.equal(state.contours.SEC0_PATH_CAPABILITY.state, 'DONE');
+  assert.equal(state.contours.SEC0_PATH_CAPABILITY.source, 'R24_SEC0_PATH_CAPABILITY_CLOSURE_V1');
+  assert.equal(repoLocalDone, 1);
+  assert.equal(sourceReceipt.repoLocalPlanStateClosures.closures[0].id, 'SEC0_PATH_CAPABILITY');
   assert.equal(sourceReceipt.fullDenominator.nodeCount, EXPECTED_NODE_COUNT);
   assert.equal(sourceReceipt.externalPlanState.doneContourCount, 12);
   assert.equal(sourceReceipt.discoveredR24TestFiles.treatment, 'NOT_DELIVERY_STATE_WITHOUT_TERMINAL_RECEIPT');

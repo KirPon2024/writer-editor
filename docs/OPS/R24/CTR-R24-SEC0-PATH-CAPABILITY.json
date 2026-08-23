@@ -1,0 +1,20 @@
+{
+  "receiptId": "CTR-R24-SEC0-PATH-CAPABILITY",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "SEC0_PATH_CAPABILITY",
+  "attemptId": "ATTEMPT-SEC0-20260823",
+  "authorityEpoch": "R24-A0-ADMISSION-BASE-0BB87AE9",
+  "exactHeadSha": "0fa8383a1ef68cf1777cee2c4942d586d7d9cf6f",
+  "mergeState": "WAITING",
+  "postmergeState": "PENDING",
+  "survivorState": "PENDING",
+  "evidenceStampIds": [
+    "ES-R24-SEC0-PATH-CAPABILITY-MODEL",
+    "ES-R24-SEC0-PATH-CAPABILITY-CONTRACT",
+    "ES-R24-SEC0-PATH-CAPABILITY-INTEGRATION",
+    "ES-R24-SEC0-PATH-CAPABILITY-MUTANTS",
+    "ES-R24-SEC0-PATH-CAPABILITY-EXACT-HEAD"
+  ],
+  "nextContourId": "ENT0_ENTITLEMENT_CONFORMANCE",
+  "schemaVersion": "ContourTerminalReceiptV2"
+}

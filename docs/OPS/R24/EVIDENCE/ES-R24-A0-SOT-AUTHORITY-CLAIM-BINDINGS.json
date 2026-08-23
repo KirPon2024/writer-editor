@@ -81,20 +81,6 @@
       "claimTerms": [
         "PASS"
       ]
-    },
-    {
-      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
-      "sha256": "1aef6fdb57e89202891b84d6af0ab1271e29963f29122973c8af9dbfc7ae86f4",
-      "claimTerms": [
-        "DONE"
-      ]
-    },
-    {
-      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
-      "sha256": "faae7fa26d5f19ee1085d87584cb69cad95a084650047061ff437f5cb2e853a6",
-      "claimTerms": [
-        "DONE"
-      ]
     }
   ],
   "nonClaims": [

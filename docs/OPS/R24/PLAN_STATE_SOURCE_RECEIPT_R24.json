@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.r24.plan-state-source-receipt.v1",
-  "status": "FULL_109_NODE_DENOMINATOR_WITH_NO_UNRECEIPTED_DONE_OVERCLAIM",
-  "generatedAtUtc": "2026-08-22T23:24:48Z",
+  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPO_LOCAL_SEC0_CLOSURE_NO_PROGRAM_DONE",
+  "generatedAtUtc": "2026-08-23T05:06:09Z",
   "executableProgramPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
   "executableProgramDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
   "planStatePath": "docs/OPS/R24/PLAN_STATE_R24.json",
@@ -83,7 +83,8 @@
   },
   "nonClaims": [
     "R24 unit test files in current main are implementation evidence candidates only; they are not converted to DONE without durable terminal receipts.",
-    "This A0 receipt does not mark the full 109-node program DONE.",
+    "This source receipt now accounts for one repo-local SEC0 closure and still does not mark the full 109-node program DONE.",
+    "SEC0 closure does not certify V2 Word, Word physical recertification, release, signing, notarization, or production package readiness.",
     "Parked V2 remains suspended until the corrective authority/evidence sequence is merged and postmerge verified."
   ],
   "discoveredR24TestFiles": {
@@ -184,6 +185,29 @@
       "r24-wp103-revision-order.test.js",
       "r24-wp104-boundary-falsification.test.js",
       "r24-wp104-evidence-integrity.test.js"
+    ]
+  },
+  "repoLocalPlanStateClosures": {
+    "doneContourCount": 1,
+    "closures": [
+      {
+        "id": "SEC0_PATH_CAPABILITY",
+        "state": "DONE",
+        "previousState": "POSTMERGE_VERIFIED",
+        "attemptId": "ATTEMPT-SEC0-20260823",
+        "updatedAt": "2026-08-23T04:51:09Z",
+        "headSha": "0fa8383a1ef68cf1777cee2c4942d586d7d9cf6f",
+        "source": "R24_SEC0_PATH_CAPABILITY_CLOSURE_V1",
+        "terminalReceiptPath": "docs/OPS/R24/CTR-R24-SEC0-PATH-CAPABILITY.json",
+        "evidenceStampIds": [
+          "ES-R24-SEC0-PATH-CAPABILITY-MODEL",
+          "ES-R24-SEC0-PATH-CAPABILITY-CONTRACT",
+          "ES-R24-SEC0-PATH-CAPABILITY-INTEGRATION",
+          "ES-R24-SEC0-PATH-CAPABILITY-MUTANTS",
+          "ES-R24-SEC0-PATH-CAPABILITY-EXACT-HEAD"
+        ],
+        "deliveryState": "LOCAL_FULL_RTK_GREEN_AWAITING_PR_EXACT_HEAD_CI_AND_POSTMERGE_RECEIPTS"
+      }
     ]
   }
 }

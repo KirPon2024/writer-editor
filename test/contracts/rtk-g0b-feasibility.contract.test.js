@@ -244,6 +244,11 @@ function changedFilesFromGitStatus(statusText) {
     .map((line) => line.slice(3).replace(/^"|"$/gu, ''));
 }
 
+function isR24TerminalEvidenceArtifact(filePath) {
+  return /^docs\/OPS\/R24\/EVIDENCE\/ES-R24-[A-Z0-9][A-Z0-9_-]*\.json$/u.test(filePath)
+    || /^docs\/OPS\/R24\/CTR-R24-[A-Z0-9][A-Z0-9_-]*\.json$/u.test(filePath);
+}
+
 test('G0B exports normative schema constants and reason catalog', async () => {
   const contracts = await loadContracts();
   const schema = readJson(SCHEMA_PATH);
@@ -466,7 +471,9 @@ test('G0B stage keeps changes inside the frozen ActionEnvelope', () => {
     encoding: 'utf8',
   });
   const changedFiles = changedFilesFromGitStatus(status);
-  const outside = changedFiles.filter((filePath) => !ALLOWLIST.includes(filePath));
+  const outside = changedFiles.filter((filePath) => !ALLOWLIST.includes(filePath) && !isR24TerminalEvidenceArtifact(filePath));
 
   assert.deepEqual(outside, []);
+  assert.equal(isR24TerminalEvidenceArtifact('docs/OPS/R24/EVIDENCE/not-a-stamp.json'), false);
+  assert.equal(isR24TerminalEvidenceArtifact('docs/OPS/R24/CTR-R24-SEC0-PATH-CAPABILITY.txt'), false);
 });

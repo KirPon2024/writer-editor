@@ -1,0 +1,68 @@
+{
+  "stampId": "ES-R24-T1-ANCHOR-LINEAGE-POSTMERGE-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "T1_ANCHOR_LINEAGE",
+  "attemptId": "ATTEMPT-T1-20260823",
+  "authorityEpoch": "R24-A0-ADMISSION-BASE-0BB87AE9",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "b90e962799ff5db4324b3ec989ce318d9c5c0778",
+    "treeSha": "ec9e52aed4f87e308372ddf43c7e3b7319535bc8"
+  },
+  "createdAt": "2026-08-23T10:08:44Z",
+  "actor": "codex/r24-t1-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "T1_CURRENT_MAIN_EXACT_HEAD_CI",
+    "ceiling": "T1_ANCHOR_LINEAGE_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "github-actions-main-exact-head-b90e9627",
+    "denominator": 2,
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0,
+    "evidenceClass": "POSTMERGE"
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-T1-ANCHOR-LINEAGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "e02f9bf41fd2d00d62c93a4f76a8ecadee02591e9a40e7bbbc8527576b4399f2"
+  },
+  "artifact": {
+    "mainExactHeadChecks": [
+      {
+        "workflowName": "OSS policy",
+        "runId": 32631693468,
+        "jobId": 97175363876,
+        "event": "push",
+        "headSha": "b90e962799ff5db4324b3ec989ce318d9c5c0778",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-23T09:41:42Z"
+      },
+      {
+        "workflowName": "rtk-required",
+        "runId": 32631693470,
+        "jobId": 97175363908,
+        "event": "push",
+        "headSha": "b90e962799ff5db4324b3ec989ce318d9c5c0778",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-23T10:00:53Z",
+        "includedT1Gate": true,
+        "includedFullR24GateSetThroughW0": true,
+        "maintainedRtkGraphPassed": true
+      }
+    ],
+    "nonClaims": [
+      "This stamp records current main exact-head CI for T1 closure only.",
+      "It does not mark the 109-node R2.4 program DONE."
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

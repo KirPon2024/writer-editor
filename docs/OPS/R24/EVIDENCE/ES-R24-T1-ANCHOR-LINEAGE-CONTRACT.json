@@ -1,0 +1,63 @@
+{
+  "stampId": "ES-R24-T1-ANCHOR-LINEAGE-CONTRACT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "T1_ANCHOR_LINEAGE",
+  "attemptId": "ATTEMPT-T1-20260823",
+  "authorityEpoch": "R24-A0-ADMISSION-BASE-0BB87AE9",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "b90e962799ff5db4324b3ec989ce318d9c5c0778",
+    "treeSha": "ec9e52aed4f87e308372ddf43c7e3b7319535bc8"
+  },
+  "createdAt": "2026-08-23T10:08:44Z",
+  "actor": "codex/r24-t1-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "T1_ANCHOR_IDENTITY_AND_WITNESS_CONTRACT",
+    "ceiling": "T1_ANCHOR_LINEAGE_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "test/unit/r24-t1-anchor-lineage.test.js",
+    "denominator": 6,
+    "passed": 6,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0,
+    "evidenceClass": "CONTRACT"
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-T1-ANCHOR-LINEAGE-MODEL"
+    ],
+    "predecessorReceiptDigest": "e02f9bf41fd2d00d62c93a4f76a8ecadee02591e9a40e7bbbc8527576b4399f2"
+  },
+  "artifact": {
+    "command": "npm run -s test:r24-t1",
+    "pass": 11,
+    "contractSubtests": [
+      "identity is durable and never carries offsets or quote",
+      "witness is fallible evidence: quote, hashes and context from the birth text",
+      "lineage guard: unrelated or concurrent revisions are typed refusals",
+      "lineage carry: earlier edits shift, later edits leave, interior overlap is LOST",
+      "witness ambiguity protocol: none lost, one exact, many need context, never silent first match",
+      "full carry: lineage exact survives, drifted witness resolves with typed diagnosis"
+    ],
+    "artifactDigests": [
+      {
+        "path": "src/core/anchor-lineage-v1.cjs",
+        "sha256": "3d8b3b46ef6ead058c15b4a2828c195e46cb8d6574f7950641ec68dc3b50c1c6"
+      },
+      {
+        "path": "src/core/revision-algebra-v1.cjs",
+        "sha256": "76768c50ff2d3f9103d80195e28c97671ea0b1e3171d85c5320dfa7912ce0923"
+      },
+      {
+        "path": "test/unit/r24-t1-anchor-lineage.test.js",
+        "sha256": "8e7737bd2768d91bb76d853a82dbc13327cb20bd67e30f0b7f3ee6b9e7e31c57"
+      }
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

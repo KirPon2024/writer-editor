@@ -6,11 +6,11 @@
   "policyEpoch": 0,
   "mode": "HANDOFF_ONLY",
   "selectedKind": "NODE",
-  "selectedId": "T1_ANCHOR_LINEAGE",
+  "selectedId": "A0_ATLAS_INCREMENTAL_EQUIVALENCE",
   "verdict": "SELECTED",
   "readySet": [
+    "A0_ATLAS_INCREMENTAL_EQUIVALENCE",
     "PK0_PACKAGE_CONTENT_TRUST",
-    "T1_ANCHOR_LINEAGE",
     "WP-100_GENERATION_ADMISSION"
   ],
   "deterministicOrder": [
@@ -25,7 +25,7 @@
   "reasons": [
     "SUPERVISED_HANDOFF_ONLY_CANDIDATE"
   ],
-  "generatedAt": "2026-08-23T09:11:18Z",
+  "generatedAt": "2026-08-23T10:08:44Z",
   "graphNodeCount": 109,
   "graphDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
   "sourceOfTruthPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json"

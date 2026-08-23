@@ -1,0 +1,23 @@
+{
+  "receiptId": "CTR-R24-T1-ANCHOR-LINEAGE",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "T1_ANCHOR_LINEAGE",
+  "attemptId": "ATTEMPT-T1-20260823",
+  "authorityEpoch": "R24-A0-ADMISSION-BASE-0BB87AE9",
+  "exactHeadSha": "b90e962799ff5db4324b3ec989ce318d9c5c0778",
+  "mergeState": "MERGED",
+  "postmergeState": "PASS",
+  "survivorState": "PASS",
+  "evidenceStampIds": [
+    "ES-R24-T1-ANCHOR-LINEAGE-MODEL",
+    "ES-R24-T1-ANCHOR-LINEAGE-CONTRACT",
+    "ES-R24-T1-ANCHOR-LINEAGE-INTEGRATION",
+    "ES-R24-T1-ANCHOR-LINEAGE-MUTANTS",
+    "ES-R24-T1-ANCHOR-LINEAGE-EXACT-HEAD",
+    "ES-R24-T1-ANCHOR-LINEAGE-POSTMERGE-EXACT-HEAD",
+    "ES-R24-T1-ANCHOR-LINEAGE-SURVIVOR-AUDIT",
+    "ES-R24-T1-ANCHOR-LINEAGE-CLAIM-BINDINGS"
+  ],
+  "nextContourId": "A0_ATLAS_INCREMENTAL_EQUIVALENCE",
+  "schemaVersion": "ContourTerminalReceiptV2"
+}

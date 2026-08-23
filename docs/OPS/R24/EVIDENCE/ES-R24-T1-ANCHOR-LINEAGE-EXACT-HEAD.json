@@ -1,0 +1,112 @@
+{
+  "stampId": "ES-R24-T1-ANCHOR-LINEAGE-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "T1_ANCHOR_LINEAGE",
+  "attemptId": "ATTEMPT-T1-20260823",
+  "authorityEpoch": "R24-A0-ADMISSION-BASE-0BB87AE9",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "b90e962799ff5db4324b3ec989ce318d9c5c0778",
+    "treeSha": "ec9e52aed4f87e308372ddf43c7e3b7319535bc8"
+  },
+  "createdAt": "2026-08-23T10:08:44Z",
+  "actor": "codex/r24-t1-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "T1_LOCAL_EXACT_HEAD_GATES",
+    "ceiling": "T1_ANCHOR_LINEAGE_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "t1-focused-plus-e0-plus-governance-tests-on-current-main",
+    "denominator": 150,
+    "passed": 150,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0,
+    "evidenceClass": "INDEPENDENT_EXACT_HEAD"
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-T1-ANCHOR-LINEAGE-MUTANTS"
+    ],
+    "predecessorReceiptDigest": "e02f9bf41fd2d00d62c93a4f76a8ecadee02591e9a40e7bbbc8527576b4399f2"
+  },
+  "artifact": {
+    "commands": [
+      {
+        "command": "npm run -s test:r24-t1",
+        "pass": 11,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0,
+        "exitCode": 0
+      },
+      {
+        "command": "node --test scripts/ops/r24/tests/terminal-receipt.test.mjs scripts/ops/r24/tests/plan-state.test.mjs scripts/ops/r24/tests/scheduler.test.mjs scripts/ops/r24/tests/executable-program.test.mjs scripts/ops/r24/tests/docs-claim-lint.test.mjs",
+        "pass": 37,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0,
+        "exitCode": 0
+      },
+      {
+        "command": "npm run -s test:r24-e0",
+        "pass": 102,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0,
+        "exitCode": 0
+      }
+    ],
+    "denominatorLaw": "11 T1 focused tests + 37 governance tests + 74 E0 suite tests + 26 E0 mutants + env registry + docs claim lint = 150, all passed on head b90e9627 before this receipt mutation.",
+    "exactHead": "b90e962799ff5db4324b3ec989ce318d9c5c0778",
+    "exactTree": "ec9e52aed4f87e308372ddf43c7e3b7319535bc8",
+    "node": "v20.19.5",
+    "npm": "11.19.0",
+    "artifactDigests": [
+      {
+        "path": "src/core/anchor-lineage-v1.cjs",
+        "sha256": "3d8b3b46ef6ead058c15b4a2828c195e46cb8d6574f7950641ec68dc3b50c1c6"
+      },
+      {
+        "path": "src/core/revision-algebra-v1.cjs",
+        "sha256": "76768c50ff2d3f9103d80195e28c97671ea0b1e3171d85c5320dfa7912ce0923"
+      },
+      {
+        "path": "src/core/runtime.mjs",
+        "sha256": "d4c34d1d42ddb267048fa0e949bedf7c0261459f86c307c993248693e831e901"
+      },
+      {
+        "path": "src/derived/index.mjs",
+        "sha256": "9f4dc55287e1b534d606d21fe1212e77d82d72f8745164b95c4eaeba1e77a88e"
+      },
+      {
+        "path": "test/unit/r24-t1-anchor-lineage.test.js",
+        "sha256": "8e7737bd2768d91bb76d853a82dbc13327cb20bd67e30f0b7f3ee6b9e7e31c57"
+      },
+      {
+        "path": "test/unit/r24-t1-reattach-diagnosis.test.js",
+        "sha256": "e9b1b402b8917851b5b37e727f8e24ad39bb617997931486d3796c0f2ac262d2"
+      },
+      {
+        "path": "test/unit/r24-t1-lineage-mutants.test.js",
+        "sha256": "562bc0beda8f98df251f9182f3da97b94b2da31da9e68739a3a1999278de6e73"
+      },
+      {
+        "path": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+        "sha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5"
+      },
+      {
+        "path": "docs/OPS/R24/PLAN_STATE_R24.json",
+        "sha256": "8759d0c272e13dc78301a2ae9862a384aece3be487cc35fa54335473660597ef"
+      },
+      {
+        "path": "scripts/ops/r24/tests/executable-program.test.mjs",
+        "sha256": "2f705bd5f1b5765b25b7229719eb29fcdd258f9ac3d62a0c2988a16849a5ede2"
+      }
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-B0-SURVIVOR-AUDIT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "B0_OBSERVED_EVIDENCE_CLAIM_COMPILER_REPAIR_V1",
+  "attemptId": "ATTEMPT-B0-20260823",
+  "authorityEpoch": "R24-A0-ADMISSION-BASE-0BB87AE9",
+  "profileId": "SHARED_ASSURANCE_BOOTSTRAP",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "2151e0e94978e23ac2498529013900a921097e0f",
+    "treeSha": "fc000b3b10538f40ab999216803f6b2a82209cf6"
+  },
+  "claim": {
+    "type": "B0_SURVIVOR_AUDIT",
+    "ceiling": "CONTOUR_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "clean-full-rtk-plus-pr-head-checks",
+    "evidenceClass": "SURVIVOR_AUDIT",
+    "denominator": 1063,
+    "passed": 1063,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-B0-OBSERVED-EVIDENCE-CLAIM-COMPILER",
+      "ES-R24-B0-POSTMERGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "6299b4052cc589c707794ff319cc98112bd317f615888f052c159be6aff97f54"
+  },
+  "createdAt": "2026-08-23T03:58:33Z",
+  "actor": "codex/r24-b0-postmerge-receipt-v1-20260823",
+  "artifact": {
+    "cleanFullRtk": {
+      "headSha": "815bb83934cc2581799dd9097c2e2654b4f444c9",
+      "treeSha": "fc000b3b10538f40ab999216803f6b2a82209cf6",
+      "node": "v20.19.5",
+      "command": "npm run -s test:rtk",
+      "invocationId": "2608555d-84b6-472c-81a9-220df5414b97",
+      "tests": {
+        "pass": 1059,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "durationMs": 447475,
+      "processGroupCleanup": "RTK_PROCESS_GROUP_CLEAN"
+    },
+    "exactHeadPullRequestChecks": [
+      {
+        "workflowName": "OSS policy",
+        "runId": 32614885119,
+        "headSha": "815bb83934cc2581799dd9097c2e2654b4f444c9",
+        "conclusion": "success"
+      },
+      {
+        "workflowName": "rtk-required",
+        "runId": 32614885187,
+        "headSha": "815bb83934cc2581799dd9097c2e2654b4f444c9",
+        "conclusion": "success"
+      },
+      {
+        "workflowName": "x1-runtime-parity",
+        "runId": 32614885034,
+        "headSha": "815bb83934cc2581799dd9097c2e2654b4f444c9",
+        "conclusion": "success"
+      },
+      {
+        "workflowName": "ops-vector-close",
+        "runId": 32615692128,
+        "headSha": "815bb83934cc2581799dd9097c2e2654b4f444c9",
+        "conclusion": "success"
+      }
+    ],
+    "mergeTreeMatchesPrHeadTree": true,
+    "nonClaims": [
+      "This survivor stamp uses the branch-head clean full RTK because the merge commit tree is identical.",
+      "This stamp does not mark any 109-node R2.4 plan node DONE.",
+      "This stamp does not certify Word physical or package release readiness."
+    ]
+  }
+}

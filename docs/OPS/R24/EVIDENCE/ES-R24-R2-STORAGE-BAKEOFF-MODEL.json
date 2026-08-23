@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "R2_STORAGE_BAKEOFF",
+  "attemptId": "ATTEMPT-R2-20260824",
+  "authorityEpoch": "R24-R2-CERTIFICATION-BASE-20240143",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "202401430ae4ac6428b0a262cadaf6bb8408614f",
+    "treeSha": "eb5b74035a8a281e7336a1a1fc6685b6cd8564a1"
+  },
+  "createdAt": "2026-08-23T23:52:00Z",
+  "actor": "codex/r24-r2-storage-certification-v1-20260824",
+  "stampId": "ES-R24-R2-STORAGE-BAKEOFF-MODEL",
+  "claim": {
+    "type": "R2_STORAGE_CANDIDATE_MODEL",
+    "ceiling": "R2_NODE_ONLY_NO_STORAGE_ADOPTION_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-r2-model",
+    "evidenceClass": "MODEL",
+    "denominator": 4,
+    "passed": 4,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [],
+    "predecessorReceiptDigest": "5d7077d53940fefc25567f9ea9fdbc5843f35517a4cd01139502450bf12dd4f4"
+  },
+  "artifact": {
+    "classification": "ALREADY_IMPLEMENTED_RUNTIME_CERTIFICATION_MISSING",
+    "implementationSourceSha": "863976f48cb2c39abfac0f6a89fb7cca93581012",
+    "implementationPrHeadSha": "083103e4a2e9a81f6b5e8e086fa6800dffe95ba7",
+    "implementationMergeSha": "4bb6386d39489fe0c9d7745c21e1aa2c50a495c2",
+    "candidates": [
+      "atomic-file",
+      "append-ledger",
+      "sqlite",
+      "hybrid"
+    ],
+    "laws": [
+      "hard safety filters execute before benchmark",
+      "dependency network destructive and model-less candidates are eliminated with typed reasons",
+      "dossier is deterministic and selection-free",
+      "selection remains DEFERRED_TO_WP-203"
+    ],
+    "artifactDigests": [
+      {
+        "path": "src/core/storage-bakeoff-v1.cjs",
+        "sha256": "bc6bc31651e4a0137e5d4018e490474264e179ad53d40f7e48c65f5d0effe7dc"
+      }
+    ]
+  }
+}

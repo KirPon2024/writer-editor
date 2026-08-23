@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-103-REVISION-PRODUCT-ORDER-CLAIM-BINDINGS",
+  "contourId": "WP-103_REVISION_PRODUCT_ORDER",
+  "evidenceClass": "CONTRACT",
+  "verdict": "PASS",
+  "headSha": "7400ef0074d9533e4988e6f06f856e44574fba23",
+  "originMainSha": "7400ef0074d9533e4988e6f06f856e44574fba23",
+  "generatedAtUtc": "2026-08-23T20:17:41Z",
+  "oracle": "strict ClaimBindingV1 exact-hash binding for WP-103 replayable PlanState closure and source receipt",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+      "sha256": "c298214a8378a7f3c1d723bbf2f5dd1e122a3d11f28cd17c920a872098d64e96",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+      "sha256": "5525abec08defb05ec2c0a74ec3a100758a010beaa5c596d420f24b064003f36",
+      "claimTerms": [
+        "DONE"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/revision-algebra-v1.cjs",
+      "sha256": "76768c50ff2d3f9103d80195e28c97671ea0b1e3171d85c5320dfa7912ce0923",
+      "terms": [
+        "revision product order",
+        "canonical serialization"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "npm run -s test:r24-wp103",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 12,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 5,
+        "survived": 0
+      }
+    }
+  ],
+  "nonClaims": [
+    "This binding resolves only WP-103 PlanState and source-receipt DONE vocabulary.",
+    "It does not mark WP-104 or the full 109-node R2.4 program DONE.",
+    "It does not mutate product runtime, reopen parked V2, or claim physical qualification or release readiness."
+  ]
+}

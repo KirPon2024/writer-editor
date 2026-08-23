@@ -13,18 +13,20 @@
   "schedulerGraphDigest": "c9744a548acb32169483780de151a43bf89d5d75e9564874b7a8939192afe2f5",
   "sourceOfTruthPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
   "identityRoles": {
-    "implementationSourceSha": "c27aeb0d0cdcd7f999f1f4782af083d37bfa9704",
-    "evaluationHeadSha": "c27aeb0d0cdcd7f999f1f4782af083d37bfa9704",
-    "evaluationTreeSha": "3a709a899d2cf7d42a620cc19726f14dce09b853",
+    "implementationSourceSha": "2c3382e16993efb454532d4bb15dd91102090c36",
+    "evaluationHeadSha": "2c3382e16993efb454532d4bb15dd91102090c36",
+    "evaluationTreeSha": "2179f06d46d222ba6a7b7670fe75c27534042e51",
     "prHeadSha": null,
     "mergeSha": null,
     "postmergeSha": null
   },
   "mode": "HANDOFF_ONLY",
-  "selectedKind": "NONE",
-  "selectedId": null,
-  "verdict": "NO_ELIGIBLE_NODE",
-  "readySet": [],
+  "selectedKind": "NODE",
+  "selectedId": "R2_STORAGE_BAKEOFF",
+  "verdict": "SELECTED",
+  "readySet": [
+    "R2_STORAGE_BAKEOFF"
+  ],
   "deterministicOrder": [
     "MANDATORY_SAFETY_CORRECTNESS",
     "CUT_SET_UNBLOCK",
@@ -35,7 +37,7 @@
     "STABLE_NODE_ID"
   ],
   "reasons": [
-    "NO_DEPENDENCY_CLOSED_PENDING_NODE"
+    "SUPERVISED_HANDOFF_ONLY_CANDIDATE"
   ],
-  "generatedAt": "2026-08-23T21:31:00Z"
+  "generatedAt": "2026-08-23T23:08:00.718Z"
 }

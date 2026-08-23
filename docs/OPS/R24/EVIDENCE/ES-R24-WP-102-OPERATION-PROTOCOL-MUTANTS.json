@@ -1,0 +1,69 @@
+{
+  "stampId": "ES-R24-WP-102-OPERATION-PROTOCOL-MUTANTS",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-102_OPERATION_PROTOCOL",
+  "attemptId": "ATTEMPT-WP102-20260823",
+  "authorityEpoch": "R24-WP102-PROTOCOL-BASE-F687A59E",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "f687a59eec2c7b288ecb0b9f7214786c03bda211",
+    "treeSha": "b5264fd64638ba475a66ca2afcdd78f4f01e3f07"
+  },
+  "createdAt": "2026-08-23T17:07:35Z",
+  "actor": "codex/r24-wp102-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "WP102_IMPLEMENTATION_MUTANTS_KILLED",
+    "ceiling": "WP102_OPERATION_PROTOCOL_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "test/unit/r24-wp102-protocol-mutants.test.js",
+    "evidenceClass": "IMPLEMENTATION_MUTANTS",
+    "denominator": 4,
+    "passed": 4,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-102-OPERATION-PROTOCOL-INTEGRATION"
+    ],
+    "predecessorReceiptDigest": "06f056b60754fca3091d8c38aff4f2da5c9f1917bfe90ae853397d4f32a19a6a"
+  },
+  "artifact": {
+    "command": "node --test test/unit/r24-wp102-protocol-mutants.test.js",
+    "mutationReceipt": {
+      "total": 4,
+      "killed": 4,
+      "survived": [],
+      "score": 1
+    },
+    "mutantIds": [
+      "refusal-without-code-tolerated",
+      "unknown-channel-admitted",
+      "result-shape-check-removed",
+      "success-copied-not-passthrough"
+    ],
+    "mutantEvidencePr": {
+      "prNumber": 1628,
+      "baseSha": "770f6425c72f68e999206819b9cf5f1f56d2120e",
+      "prHeadSha": "740dc1cb75b193cd3c48bfc03fd8caa22213c8c2",
+      "mergeSha": "4e2db88ffa801513c5b0ba53f39be43807a76742",
+      "mergedAt": "2026-08-21T18:20:18Z"
+    },
+    "artifactDigests": [
+      {
+        "path": "src/core/command-protocol-v1.cjs",
+        "sha256": "c0dbbfc8a3973a98875db5c38f3de94d3942577500e7c604a7f4bd912f7e5171"
+      },
+      {
+        "path": "test/unit/r24-wp102-protocol-mutants.test.js",
+        "sha256": "a44194badda7b8f3e579c8b88fc2fd006ad0b53d30f4f1f553df6922bdd16594"
+      }
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

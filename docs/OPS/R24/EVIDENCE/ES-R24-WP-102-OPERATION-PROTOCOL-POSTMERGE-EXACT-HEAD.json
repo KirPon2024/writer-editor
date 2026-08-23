@@ -1,0 +1,73 @@
+{
+  "stampId": "ES-R24-WP-102-OPERATION-PROTOCOL-POSTMERGE-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-102_OPERATION_PROTOCOL",
+  "attemptId": "ATTEMPT-WP102-20260823",
+  "authorityEpoch": "R24-WP102-PROTOCOL-BASE-F687A59E",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "f687a59eec2c7b288ecb0b9f7214786c03bda211",
+    "treeSha": "b5264fd64638ba475a66ca2afcdd78f4f01e3f07"
+  },
+  "createdAt": "2026-08-23T17:07:35Z",
+  "actor": "codex/r24-wp102-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "WP102_CURRENT_MAIN_EXACT_HEAD_CI",
+    "ceiling": "WP102_OPERATION_PROTOCOL_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "github-actions-main-exact-head-f687a59e",
+    "evidenceClass": "POSTMERGE",
+    "denominator": 2,
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-102-OPERATION-PROTOCOL-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "06f056b60754fca3091d8c38aff4f2da5c9f1917bfe90ae853397d4f32a19a6a"
+  },
+  "artifact": {
+    "mainExactHeadChecks": [
+      {
+        "workflowName": "OSS policy",
+        "runId": 32652506040,
+        "jobId": 97226181986,
+        "event": "push",
+        "headSha": "f687a59eec2c7b288ecb0b9f7214786c03bda211",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-23T16:42:47Z",
+        "successfulStepCount": 10,
+        "totalStepCount": 10
+      },
+      {
+        "workflowName": "rtk-required",
+        "runId": 32652506041,
+        "jobId": 97226181884,
+        "event": "push",
+        "headSha": "f687a59eec2c7b288ecb0b9f7214786c03bda211",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-23T17:01:57Z",
+        "includedWp102Gate": true,
+        "successfulStepCount": 49,
+        "totalStepCount": 49,
+        "failedStepCount": 0,
+        "skippedStepCount": 0,
+        "maintainedRtkGraphPassed": true
+      }
+    ],
+    "nonClaims": [
+      "This stamp records current main exact-head CI for WP-102 closure only.",
+      "It does not mark the 109-node R2.4 program DONE or certify later work packages."
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

@@ -1,0 +1,155 @@
+{
+  "stampId": "ES-R24-WP-102-OPERATION-PROTOCOL-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-102_OPERATION_PROTOCOL",
+  "attemptId": "ATTEMPT-WP102-20260823",
+  "authorityEpoch": "R24-WP102-PROTOCOL-BASE-F687A59E",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "f687a59eec2c7b288ecb0b9f7214786c03bda211",
+    "treeSha": "b5264fd64638ba475a66ca2afcdd78f4f01e3f07"
+  },
+  "createdAt": "2026-08-23T17:07:35Z",
+  "actor": "codex/r24-wp102-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "WP102_INDEPENDENT_EXACT_HEAD_GREEN",
+    "ceiling": "WP102_OPERATION_PROTOCOL_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "WP-102 focused plus independent projection contract plus WP-101 predecessor plus executable-program authority on current main",
+    "evidenceClass": "INDEPENDENT_EXACT_HEAD",
+    "denominator": 41,
+    "passed": 41,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-102-OPERATION-PROTOCOL-MUTANTS"
+    ],
+    "predecessorReceiptDigest": "06f056b60754fca3091d8c38aff4f2da5c9f1917bfe90ae853397d4f32a19a6a"
+  },
+  "artifact": {
+    "commands": [
+      {
+        "command": "npm run -s test:r24-wp102",
+        "pass": 14,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0,
+        "exitCode": 0
+      },
+      {
+        "command": "node --test test/contracts/yalken-atlas-v5-e01-c05-scheduler-worker-stale-result-discard.contract.test.js",
+        "pass": 6,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0,
+        "exitCode": 0
+      },
+      {
+        "command": "npm run -s test:r24-wp101",
+        "pass": 12,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0,
+        "exitCode": 0
+      },
+      {
+        "command": "npm run -s test:r24-authority-sot",
+        "pass": 9,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0,
+        "exitCode": 0
+      }
+    ],
+    "denominatorLaw": "14 WP-102 focused tests + 6 independent projection-publication contract tests + 12 WP-101 predecessor tests + 9 executable-program authority tests = 41, all passed on exact head f687a59e before this receipt mutation.",
+    "exactHead": "f687a59eec2c7b288ecb0b9f7214786c03bda211",
+    "exactTree": "b5264fd64638ba475a66ca2afcdd78f4f01e3f07",
+    "node": "v26.7.0",
+    "artifactDigests": [
+      {
+        "path": "src/core/command-protocol-v1.cjs",
+        "sha256": "c0dbbfc8a3973a98875db5c38f3de94d3942577500e7c604a7f4bd912f7e5171"
+      },
+      {
+        "path": "src/main.js",
+        "sha256": "64f34fbc9cfe3226c8f9a9dde34aa69325557a24376858e1ed4f922d88409d62"
+      },
+      {
+        "path": "src/core/runtime.mjs",
+        "sha256": "d4c34d1d42ddb267048fa0e949bedf7c0261459f86c307c993248693e831e901"
+      },
+      {
+        "path": "src/derived/atlas/scheduleAtlasGeneration.mjs",
+        "sha256": "cdf7e1d319478bb7ec23888fa864c078aba5c911553fec0cfb1bb332d08e8580"
+      },
+      {
+        "path": "test/unit/r24-wp102-operation-classes.test.js",
+        "sha256": "e63990df534018a41eff5f5a73b1595e18b712bae65f3558b84a9b8d394da3ff"
+      },
+      {
+        "path": "test/unit/r24-wp102-result-contract.test.js",
+        "sha256": "1a8393003d7a3f732fa72868f3cbd18e81d7b414fe9d0254dbb92cc0c3daa6cd"
+      },
+      {
+        "path": "test/unit/r24-wp102-event-effect-job.test.js",
+        "sha256": "f75dbcab2673960876b6a21e1c415bc9823ffd2ce192fcbc3f188fe9cfcb4485"
+      },
+      {
+        "path": "test/unit/r24-wp102-protocol-mutants.test.js",
+        "sha256": "a44194badda7b8f3e579c8b88fc2fd006ad0b53d30f4f1f553df6922bdd16594"
+      },
+      {
+        "path": "test/contracts/yalken-atlas-v5-e01-c05-scheduler-worker-stale-result-discard.contract.test.js",
+        "sha256": "1c78174d82099c7a96720339bd5c8e6d6646cb5ec2df763b5074edaac1ea395b"
+      },
+      {
+        "path": "package.json",
+        "sha256": "e8566f7d509907bcb991ea957b6a65543ea04cdc17366162c6d17a63d6b9ce91"
+      },
+      {
+        "path": ".github/workflows/rtk-required.yml",
+        "sha256": "ac51eef84e4482ec96b3b513c4db8def1e06b93c5a5fe408d7ea0b31ea4dc818"
+      },
+      {
+        "path": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+        "sha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5"
+      },
+      {
+        "path": "docs/OPS/R24/EXECUTION_ENVELOPES_R2_4.json",
+        "sha256": "0b2154eb93769ecb6a3b3164159cfe2c87d73c5345fdcb008af5576c630ae9d3"
+      },
+      {
+        "path": "docs/OPS/R24/TEST_ASSURANCE_MATRIX_R2_4.json",
+        "sha256": "29133d0b3f6c96891695e81a1191565843143826770ba6cb90cd286bcab80ca8"
+      },
+      {
+        "path": "docs/OPS/R24/EVIDENCE_AND_RECEIPT_CONTRACT_R2_4.json",
+        "sha256": "fb6ab27e2c5a55a192aac8a224f63b4c4bf32c769e32fc6268a5f80d87cbcd3d"
+      },
+      {
+        "path": "docs/OPS/R24/PLAN_STATE_R24.json",
+        "sha256": "d116f0f4a306ae0f587b383cefb0f6c2d6c7c7711a31af5f6f69c47673eb207d"
+      },
+      {
+        "path": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+        "sha256": "08f6103b3790c4b656090d2cbafdcf0b5dfacc5854e3ec7160a1b30f737d34a9"
+      },
+      {
+        "path": "docs/OPS/R24/SELECTION_RECEIPT_R2_4.json",
+        "sha256": "1398801c311bb86c011bd280fb7ede35cc6386f0f629450642aca38bea9963c7"
+      },
+      {
+        "path": "scripts/ops/r24/tests/executable-program.test.mjs",
+        "sha256": "35a435489377aab9f2f8e21c4dbd83f11d29de04188b0d28324ce9bc5016c722"
+      }
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

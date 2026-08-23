@@ -127,10 +127,12 @@ test('PlanState persists the full 109-node denominator without unreconciled DONE
   assert.equal(state.contours['WP-100_GENERATION_ADMISSION'].source, 'R24_WP100_GENERATION_ADMISSION_CLOSURE_V1');
   assert.equal(state.contours['WP-101_IPC_ADMISSION'].state, 'DONE');
   assert.equal(state.contours['WP-101_IPC_ADMISSION'].source, 'R24_WP101_IPC_ADMISSION_CLOSURE_V1');
-  assert.equal(repoLocalDone, 8);
+  assert.equal(state.contours['WP-102_OPERATION_PROTOCOL'].state, 'DONE');
+  assert.equal(state.contours['WP-102_OPERATION_PROTOCOL'].source, 'R24_WP102_OPERATION_PROTOCOL_CLOSURE_V1');
+  assert.equal(repoLocalDone, 9);
   assert.deepEqual(
     sourceReceipt.repoLocalPlanStateClosures.closures.map((row) => row.id),
-    ['SEC0_PATH_CAPABILITY', 'ENT0_ENTITLEMENT_CONFORMANCE', 'K1_AUTHORITY_DECOMPOSITION', 'T1_ANCHOR_LINEAGE', 'A0_ATLAS_INCREMENTAL_EQUIVALENCE', 'PK0_PACKAGE_CONTENT_TRUST', 'WP-100_GENERATION_ADMISSION', 'WP-101_IPC_ADMISSION'],
+    ['SEC0_PATH_CAPABILITY', 'ENT0_ENTITLEMENT_CONFORMANCE', 'K1_AUTHORITY_DECOMPOSITION', 'T1_ANCHOR_LINEAGE', 'A0_ATLAS_INCREMENTAL_EQUIVALENCE', 'PK0_PACKAGE_CONTENT_TRUST', 'WP-100_GENERATION_ADMISSION', 'WP-101_IPC_ADMISSION', 'WP-102_OPERATION_PROTOCOL'],
   );
   assert.equal(sourceReceipt.fullDenominator.nodeCount, EXPECTED_NODE_COUNT);
   assert.equal(sourceReceipt.externalPlanState.doneContourCount, 12);

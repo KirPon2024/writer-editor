@@ -1,0 +1,100 @@
+{
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "SEC0_PATH_CAPABILITY",
+  "attemptId": "ATTEMPT-SEC0-20260823",
+  "authorityEpoch": "R24-A0-ADMISSION-BASE-0BB87AE9",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "0fa8383a1ef68cf1777cee2c4942d586d7d9cf6f",
+    "treeSha": "3715eb9ac580224d4692ad6f145afd7026be3273"
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-SEC0-PATH-CAPABILITY-CONTRACT"
+    ],
+    "predecessorReceiptDigest": "d326e672deded89d9396c67abec0f18c419970f15a9207a08c479c1712e29bd8"
+  },
+  "createdAt": "2026-08-23T05:06:09Z",
+  "actor": "codex/r24-sec0-path-capability-corrective-v1-20260823",
+  "stampId": "ES-R24-SEC0-PATH-CAPABILITY-INTEGRATION",
+  "claim": {
+    "type": "SEC0_CORE_ADMISSION_INTEGRATION",
+    "ceiling": "SEC0_PATH_CAPABILITY_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "node-test-r24-sec0-hostile-paths",
+    "evidenceClass": "INTEGRATION",
+    "denominator": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "artifact": {
+    "command": "npm run -s test:r24-sec0",
+    "subtests": [
+      "symlinked directory escape real disk",
+      "symlinked file escape real disk",
+      "symlinked alias root refusal",
+      "traversal spellings refused",
+      "main delegates isAllowedFilePath to file-path-allowlist law",
+      "inside pass and symlink escape fail differential",
+      "windows drive and UNC forms not misrouted"
+    ],
+    "node": "v20.19.5",
+    "artifactDigests": [
+      {
+        "path": "src/core/io/path-capability-v1.cjs",
+        "sha256": "e15ef3cc986a59fc3bdd03d1a5f88eecb0c480c40f094f65fd7d0cb27415ab5d"
+      },
+      {
+        "path": "src/core/io/file-path-allowlist-v1.cjs",
+        "sha256": "1c22638847286323defb0da1046560b9b79d9999a44909a51b224228ac561e3d"
+      },
+      {
+        "path": "src/main.js",
+        "sha256": "64f34fbc9cfe3226c8f9a9dde34aa69325557a24376858e1ed4f922d88409d62"
+      },
+      {
+        "path": "test/unit/r24-sec0-path-capability.test.js",
+        "sha256": "be43381a8b32c2acdbf1966937fed0454dc0a8b5bcd929adb938a5cbedca4379"
+      },
+      {
+        "path": "test/unit/r24-sec0-hostile-paths.test.js",
+        "sha256": "0b349ae8cb129f1356539b26fd38babf2f275f600f506fe4fff13aabcf21b61e"
+      },
+      {
+        "path": "test/unit/r24-sec0-path-mutants.test.js",
+        "sha256": "bea524a0b88cfb70a58647534f6a86bc65d89d992df63e61ceb5aa8095676132"
+      },
+      {
+        "path": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+        "sha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5"
+      },
+      {
+        "path": "scripts/ops/r24/tests/executable-program.test.mjs",
+        "sha256": "f3d28a94b71f7d0a3f3d92d46e9e50b5ec6073a1690a0ef7d88c9daa244867ca"
+      },
+      {
+        "path": "test/contracts/rtk-g0b-feasibility.contract.test.js",
+        "sha256": "93cec00d575e333d76d9a234355734c430c390b8ee6205d7d953433b5341df4c"
+      },
+      {
+        "path": "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",
+        "sha256": "a27975448214c029a158b25af71e7250a63d0e04a5987fc53c28691a397b1815"
+      },
+      {
+        "path": "test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js",
+        "sha256": "4b1adcef80bce0f398b53ae749ab3f18c01e7cb7caa73081725e601756503bbf"
+      },
+      {
+        "path": "test/contracts/rtk-zip01-budget-crc-evidence.contract.test.js",
+        "sha256": "322d5690b67610d040a09673fb73b9bcd5cd255cf5c5d7a0a5432fe593366ab4"
+      }
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

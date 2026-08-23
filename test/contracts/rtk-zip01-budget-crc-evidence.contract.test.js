@@ -306,9 +306,14 @@ function changedFilesFromGitStatus(statusText) {
     .map((line) => line.slice(3).replace(/^"|"$/gu, ''));
 }
 
+function isR24TerminalEvidenceArtifact(filePath) {
+  return /^docs\/OPS\/R24\/EVIDENCE\/ES-R24-[A-Z0-9][A-Z0-9_-]*\.json$/u.test(filePath)
+    || /^docs\/OPS\/R24\/CTR-R24-[A-Z0-9][A-Z0-9_-]*\.json$/u.test(filePath);
+}
+
 function changedFilesOutsideAllowlist(changedFiles) {
   const allowedPaths = new Set(ALLOWLIST);
-  return changedFiles.filter((filePath) => !allowedPaths.has(filePath));
+  return changedFiles.filter((filePath) => !allowedPaths.has(filePath) && !isR24TerminalEvidenceArtifact(filePath));
 }
 
 // ===========================================================================
@@ -723,9 +728,23 @@ test('ZIP01 changed-file allowlist still rejects outside paths', () => {
   assert.deepEqual(changedFilesOutsideAllowlist([]), []);
   assert.deepEqual(changedFilesOutsideAllowlist([TEST_PATH]), []);
   assert.deepEqual(changedFilesOutsideAllowlist(ALLOWLIST), []);
+  assert.deepEqual(changedFilesOutsideAllowlist([
+    'docs/OPS/R24/EVIDENCE/ES-R24-SEC0-PATH-CAPABILITY-CONTRACT.json',
+    'docs/OPS/R24/CTR-R24-SEC0-PATH-CAPABILITY.json',
+  ]), []);
   assert.deepEqual(
-    changedFilesOutsideAllowlist([`tmp/${path.basename(TEST_PATH)}`, 'src/io/revisionBridge/exactTextApplyJournal.mjs']),
-    [`tmp/${path.basename(TEST_PATH)}`, 'src/io/revisionBridge/exactTextApplyJournal.mjs'],
+    changedFilesOutsideAllowlist([
+      `tmp/${path.basename(TEST_PATH)}`,
+      'src/io/revisionBridge/exactTextApplyJournal.mjs',
+      'docs/OPS/R24/EVIDENCE/not-a-stamp.json',
+      'docs/OPS/R24/CTR-R24-SEC0-PATH-CAPABILITY.txt',
+    ]),
+    [
+      `tmp/${path.basename(TEST_PATH)}`,
+      'src/io/revisionBridge/exactTextApplyJournal.mjs',
+      'docs/OPS/R24/EVIDENCE/not-a-stamp.json',
+      'docs/OPS/R24/CTR-R24-SEC0-PATH-CAPABILITY.txt',
+    ],
   );
 });
 

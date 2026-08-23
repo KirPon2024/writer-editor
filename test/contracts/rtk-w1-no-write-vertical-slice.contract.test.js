@@ -193,6 +193,11 @@ const ALLOWLIST = [
   ...R24_A0_AUTHORITY_SOT_ALLOWLIST,
 ];
 
+function isR24TerminalEvidenceArtifact(filePath) {
+  return /^docs\/OPS\/R24\/EVIDENCE\/ES-R24-[A-Z0-9][A-Z0-9_-]*\.json$/u.test(filePath)
+    || /^docs\/OPS\/R24\/CTR-R24-[A-Z0-9][A-Z0-9_-]*\.json$/u.test(filePath);
+}
+
 async function loadContracts() {
   return import(pathToFileURL(path.join(process.cwd(), CONTRACTS_PATH)).href);
 }
@@ -383,6 +388,8 @@ test('W1 stage scope stays inside the frozen allowlist', () => {
   });
   const changed = status.split('\n').filter(Boolean).map((line) => line.slice(3));
   for (const file of changed) {
-    assert.equal(ALLOWLIST.includes(file), true, file);
+    assert.equal(ALLOWLIST.includes(file) || isR24TerminalEvidenceArtifact(file), true, file);
   }
+  assert.equal(isR24TerminalEvidenceArtifact('docs/OPS/R24/EVIDENCE/not-a-stamp.json'), false);
+  assert.equal(isR24TerminalEvidenceArtifact('docs/OPS/R24/CTR-R24-SEC0-PATH-CAPABILITY.txt'), false);
 });

@@ -6,12 +6,12 @@
   "policyEpoch": 0,
   "mode": "HANDOFF_ONLY",
   "selectedKind": "NODE",
-  "selectedId": "SEC0_PATH_CAPABILITY",
+  "selectedId": "ENT0_ENTITLEMENT_CONFORMANCE",
   "verdict": "SELECTED",
   "readySet": [
     "ENT0_ENTITLEMENT_CONFORMANCE",
     "K1_AUTHORITY_DECOMPOSITION",
-    "SEC0_PATH_CAPABILITY",
+    "PK0_PACKAGE_CONTENT_TRUST",
     "T1_ANCHOR_LINEAGE",
     "WP-100_GENERATION_ADMISSION"
   ],
@@ -27,7 +27,7 @@
   "reasons": [
     "SUPERVISED_HANDOFF_ONLY_CANDIDATE"
   ],
-  "generatedAt": "2026-08-22T23:24:48Z",
+  "generatedAt": "2026-08-23T04:51:09Z",
   "graphNodeCount": 109,
   "graphDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
   "sourceOfTruthPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json"

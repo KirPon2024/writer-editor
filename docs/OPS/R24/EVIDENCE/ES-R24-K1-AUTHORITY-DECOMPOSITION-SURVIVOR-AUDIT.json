@@ -1,0 +1,130 @@
+{
+  "stampId": "ES-R24-K1-AUTHORITY-DECOMPOSITION-SURVIVOR-AUDIT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "K1_AUTHORITY_DECOMPOSITION",
+  "attemptId": "ATTEMPT-K1-20260823",
+  "authorityEpoch": "R24-A0-ADMISSION-BASE-0BB87AE9",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "d96bb9e6f2fc86aec71b36ce8f5340a3ca20ee69",
+    "treeSha": "1f8d7db58d5b83d0dfda5042b710e7beb2362200"
+  },
+  "createdAt": "2026-08-23T09:11:18Z",
+  "actor": "codex/r24-k1-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "K1_SURVIVOR_AUDIT",
+    "ceiling": "K1_AUTHORITY_DECOMPOSITION_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "github-actions-pr-1622-plus-current-main-survivor",
+    "evidenceClass": "SURVIVOR_AUDIT",
+    "denominator": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-K1-AUTHORITY-DECOMPOSITION-POSTMERGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "67279f2d86b7e8b4803608457ee93edc34e551c86a90ce1249cd44eb97ebff6a"
+  },
+  "artifact": {
+    "implementationPr": {
+      "prNumber": 1622,
+      "prHeadSha": "a0645167bff6555a185c89aa5397c74b1ae3ee7f",
+      "mergeSha": "bbce07a60d116823677c622050ca264618606930",
+      "mergedAt": "2026-08-21T13:28:40Z"
+    },
+    "implementationPrChecks": [
+      {
+        "workflowName": "OSS policy",
+        "runId": 32485471289,
+        "jobId": 96780883748,
+        "event": "pull_request",
+        "headSha": "a0645167bff6555a185c89aa5397c74b1ae3ee7f",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-21T13:10:47Z"
+      },
+      {
+        "workflowName": "ops-vector-close",
+        "runId": 32487041913,
+        "jobId": 96785801981,
+        "event": "pull_request",
+        "headSha": "a0645167bff6555a185c89aa5397c74b1ae3ee7f",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-21T13:29:01Z"
+      },
+      {
+        "workflowName": "rtk-required",
+        "runId": 32485471318,
+        "jobId": 96780883755,
+        "event": "pull_request",
+        "headSha": "a0645167bff6555a185c89aa5397c74b1ae3ee7f",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-21T13:27:50Z",
+        "includedK1Gate": true
+      },
+      {
+        "workflowName": "x1-runtime-parity",
+        "jobName": "x1-runtime-parity (ubuntu-latest)",
+        "runId": 32485471297,
+        "jobId": 96780883993,
+        "event": "pull_request",
+        "headSha": "a0645167bff6555a185c89aa5397c74b1ae3ee7f",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-21T13:10:52Z"
+      },
+      {
+        "workflowName": "x1-runtime-parity",
+        "jobName": "x1-runtime-parity (windows-latest)",
+        "runId": 32485471297,
+        "jobId": 96780883627,
+        "event": "pull_request",
+        "headSha": "a0645167bff6555a185c89aa5397c74b1ae3ee7f",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-21T13:11:30Z"
+      }
+    ],
+    "currentMainChecks": [
+      {
+        "workflowName": "OSS policy",
+        "runId": 32627983326,
+        "jobId": 97166211004,
+        "event": "push",
+        "headSha": "d96bb9e6f2fc86aec71b36ce8f5340a3ca20ee69",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-23T08:20:29Z"
+      },
+      {
+        "workflowName": "rtk-required",
+        "runId": 32627983336,
+        "attempt": 2,
+        "jobId": 97167863351,
+        "event": "push",
+        "headSha": "d96bb9e6f2fc86aec71b36ce8f5340a3ca20ee69",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-23T08:54:37Z",
+        "includedK1Gate": true
+      }
+    ],
+    "survivorLaw": "K1 implementation PR exact-head checks passed; current main exact-head CI after later merges passed the maintained R2.4 K1 gate and full R2.4 gate set, proving the authority decomposition seam survived mainline drift.",
+    "nonClaims": [
+      "This stamp closes only K1 survivor audit evidence.",
+      "This stamp does not mark the 109-node R2.4 program DONE.",
+      "This stamp does not reopen parked V2 or claim release readiness."
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

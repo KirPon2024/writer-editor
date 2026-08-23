@@ -1,0 +1,67 @@
+{
+  "stampId": "ES-R24-K1-AUTHORITY-DECOMPOSITION-CONTRACT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "K1_AUTHORITY_DECOMPOSITION",
+  "attemptId": "ATTEMPT-K1-20260823",
+  "authorityEpoch": "R24-A0-ADMISSION-BASE-0BB87AE9",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "d96bb9e6f2fc86aec71b36ce8f5340a3ca20ee69",
+    "treeSha": "1f8d7db58d5b83d0dfda5042b710e7beb2362200"
+  },
+  "createdAt": "2026-08-23T09:11:18Z",
+  "actor": "codex/r24-k1-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "K1_FILE_PATH_ADMISSION_CONTRACT",
+    "ceiling": "K1_AUTHORITY_DECOMPOSITION_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "test/unit/r24-k1-path-allowlist-law.test.js",
+    "evidenceClass": "CONTRACT",
+    "denominator": 6,
+    "passed": 6,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-K1-AUTHORITY-DECOMPOSITION-MODEL"
+    ],
+    "predecessorReceiptDigest": "67279f2d86b7e8b4803608457ee93edc34e551c86a90ce1249cd44eb97ebff6a"
+  },
+  "artifact": {
+    "command": "npm run -s test:r24-k1",
+    "pass": 9,
+    "contractSubtests": [
+      "resolveExistingPath validates and resolves; invalid candidates fail closed",
+      "computeFilePathAllowlistRoots dedupes identical spellings and drops invalid sources",
+      "admission: inside passes, outside and empty roots fail closed",
+      "admission: symlink escape and in-root symlink are refused by the SEC0 law",
+      "launch boundary containment: inside and exact pass, escape and absolute tail fail",
+      "main.js keeps only the Electron source acquisition adapter"
+    ],
+    "artifactDigests": [
+      {
+        "path": "src/core/io/file-path-allowlist-v1.cjs",
+        "sha256": "1c22638847286323defb0da1046560b9b79d9999a44909a51b224228ac561e3d"
+      },
+      {
+        "path": "src/core/io/path-capability-v1.cjs",
+        "sha256": "e15ef3cc986a59fc3bdd03d1a5f88eecb0c480c40f094f65fd7d0cb27415ab5d"
+      },
+      {
+        "path": "src/core/io/path-boundary.js",
+        "sha256": "0bdd737db9f53a2961271a108d5c189c9d13832fb9ae99ec071090ead6718d4d"
+      },
+      {
+        "path": "src/main.js",
+        "sha256": "64f34fbc9cfe3226c8f9a9dde34aa69325557a24376858e1ed4f922d88409d62"
+      }
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

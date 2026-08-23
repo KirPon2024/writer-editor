@@ -4,21 +4,21 @@
   "contourId": "ENT0_ENTITLEMENT_CONFORMANCE",
   "evidenceClass": "CONTRACT",
   "verdict": "PASS",
-  "headSha": "416b5d92d4f4fb7f9eca8bf764c6e25d963358e4",
-  "originMainSha": "416b5d92d4f4fb7f9eca8bf764c6e25d963358e4",
-  "generatedAtUtc": "2026-08-23T07:41:32Z",
-  "oracle": "docs-claim-lint exact sha-bound mutable PlanState claim binding for ENT0 closure",
+  "headSha": "d96bb9e6f2fc86aec71b36ce8f5340a3ca20ee69",
+  "originMainSha": "d96bb9e6f2fc86aec71b36ce8f5340a3ca20ee69",
+  "generatedAtUtc": "2026-08-23T09:11:18Z",
+  "oracle": "docs-claim-lint exact sha-bound mutable PlanState claim binding for ENT0 and subsequent repo-local closure state through K1",
   "claimBindings": [
     {
       "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
-      "sha256": "f42daa3924e07b1ec65336781a2f6548d4971f4cca0373951e5d430934baaa2d",
+      "sha256": "f9c73ad46af975a583d7878f76bbc6266a158af291285dfaa3e80dc3f808950b",
       "claimTerms": [
         "DONE"
       ]
     },
     {
       "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
-      "sha256": "062bd96423cf17f36c37eb586de0e87d769c998d969f9bbfb888acffc1a23a24",
+      "sha256": "4511f8763dd1c8e08b6f2290905232c0347c6720cddfaa9a2f0e3c15c8c8b992",
       "claimTerms": [
         "DONE"
       ]

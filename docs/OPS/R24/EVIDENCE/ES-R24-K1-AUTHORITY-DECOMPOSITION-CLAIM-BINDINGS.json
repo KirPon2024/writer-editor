@@ -1,13 +1,13 @@
 {
   "schemaVersion": "EvidenceStampV2",
-  "stampId": "ES-R24-SEC0-PATH-CAPABILITY-CLAIM-BINDINGS",
-  "contourId": "SEC0_PATH_CAPABILITY",
+  "stampId": "ES-R24-K1-AUTHORITY-DECOMPOSITION-CLAIM-BINDINGS",
+  "contourId": "K1_AUTHORITY_DECOMPOSITION",
   "evidenceClass": "CONTRACT",
   "verdict": "PASS",
   "headSha": "d96bb9e6f2fc86aec71b36ce8f5340a3ca20ee69",
   "originMainSha": "d96bb9e6f2fc86aec71b36ce8f5340a3ca20ee69",
   "generatedAtUtc": "2026-08-23T09:11:18Z",
-  "oracle": "docs-claim-lint exact sha-bound mutable PlanState claim binding for SEC0 and subsequent repo-local closure state through K1",
+  "oracle": "docs-claim-lint exact sha-bound mutable PlanState claim binding for K1 closure",
   "claimBindings": [
     {
       "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
@@ -25,9 +25,8 @@
     }
   ],
   "nonClaims": [
-    "This linter-specific stamp resolves only current SEC0 PlanState claim vocabulary for docs-claim-lint.",
+    "This linter-specific stamp resolves only current K1 PlanState claim vocabulary for docs-claim-lint.",
     "This stamp does not mark the full 109-node R2.4 program DONE.",
-    "This stamp does not reopen A0, B0, parked V2, Word physical recertification, release, signing, notarization, or production package readiness.",
-    "This stamp does not implement or certify K1 product code beyond the separately stamped K1 closure evidence."
+    "This stamp does not mutate product/runtime code, reopen parked V2, or claim release readiness."
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "EvidenceStampV2",
+  "schemaVersion": "ClaimBindingV1",
   "stampId": "ES-R24-B0-OBSERVED-EVIDENCE-CLAIM-COMPILER",
   "contourId": "B0_OBSERVED_EVIDENCE_CLAIM_COMPILER_REPAIR_V1",
   "evidenceClass": "CONTRACT",

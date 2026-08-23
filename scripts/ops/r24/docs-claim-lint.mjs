@@ -7,6 +7,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { readJsonBounded, sha256hex } from './canonical-json.mjs';
+import { buildEvidenceStamp } from './terminal-receipt.mjs';
+import { buildClaimBinding } from './claim-binding.mjs';
 
 const CLAIM_TERMS = ['PASS', 'DONE', 'READY', 'CLOSED', 'SAFE', 'COMPLETE'];
 const CLAIM_RE = new RegExp(`\\b(${CLAIM_TERMS.join('|')})\\b`);
@@ -80,13 +82,22 @@ export function lintDocsClaims(rootDir) {
   for (const file of listFiles(evidenceDir)) {
     if (!file.endsWith('.json')) continue;
     try {
-      const stamp = readJsonBounded(file);
-      if (stamp && typeof stamp.stampId === 'string' && stamp.stampId.length > 0) {
+      const artifact = readJsonBounded(file);
+      if (artifact?.schemaVersion === 'EvidenceStampV2') {
+        const stamp = buildEvidenceStamp(artifact);
         stampIds.add(stamp.stampId);
-        addBinding({ rootDir, evidenceDir, stamp, file, bindingsByFile, failures });
+      } else if (artifact?.schemaVersion === 'ClaimBindingV1') {
+        const binding = buildClaimBinding(artifact);
+        stampIds.add(binding.stampId);
+        addBinding({ rootDir, evidenceDir, stamp: binding, file, bindingsByFile, failures });
+      } else if (artifact && (Object.hasOwn(artifact, 'stampId') || Object.hasOwn(artifact, 'claimBindings'))) {
+        failures.push('E_EVIDENCE_ARTIFACT_SCHEMA:' + path.relative(rootDir, file) + ':UNSUPPORTED_SCHEMA_VERSION');
       }
-    } catch {
-      return { ok: false, failures: [`E_EVIDENCE_STAMP_UNREADABLE:${path.relative(rootDir, file)}`] };
+    } catch (error) {
+      if (['E_R24_READ_MISSING', 'E_R24_READ_NOT_A_FILE', 'E_R24_READ_TOO_LARGE', 'E_R24_JSON_PARSE'].includes(error?.code)) {
+        return { ok: false, failures: ['E_EVIDENCE_STAMP_UNREADABLE:' + path.relative(rootDir, file)] };
+      }
+      failures.push('E_EVIDENCE_ARTIFACT_SCHEMA:' + path.relative(rootDir, file) + ':' + (error?.code || 'E_UNKNOWN'));
     }
   }
   let filesWithClaims = 0;

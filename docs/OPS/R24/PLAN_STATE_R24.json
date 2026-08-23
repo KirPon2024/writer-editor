@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "yalken.plan-state.r24.v1",
+  "schemaVersion": "yalken.plan-state.r24.v2",
   "revision": 94,
   "fencingCounter": 20,
   "contours": {
@@ -1166,5 +1166,28 @@
       "revision": 83,
       "receipt": null
     }
-  }
+  },
+  "replayBaseline": {
+    "schemaVersion": "PlanStateReplayBaselineV1",
+    "revision": 94,
+    "fencingCounter": 20,
+    "contourStatesDigest": "cf7f9531eb361cdb1d6d90afdf0f72b89ef7ae2fc76d859d9a0f381fd3e31d52",
+    "classification": "ADOPTED_PRE_V2_UNREPLAYABLE_HISTORY",
+    "sourceHeadSha": "64f577e415f475982a79e314c627dd5e59e50b73",
+    "adoptedAt": "2026-08-23T18:30:00Z",
+    "authority": "OWNER_PROCESS_CORRECTION_GOV1_20260823",
+    "unreplayableContourIds": [
+      "A0_ATLAS_INCREMENTAL_EQUIVALENCE",
+      "ENT0_ENTITLEMENT_CONFORMANCE",
+      "K1_AUTHORITY_DECOMPOSITION",
+      "PK0_PACKAGE_CONTENT_TRUST",
+      "R24C0_SEMANTIC_PACKAGE_CLOSURE",
+      "SEC0_PATH_CAPABILITY",
+      "T1_ANCHOR_LINEAGE",
+      "WP-100_GENERATION_ADMISSION",
+      "WP-101_IPC_ADMISSION",
+      "WP-102_OPERATION_PROTOCOL"
+    ]
+  },
+  "transitionHistory": []
 }

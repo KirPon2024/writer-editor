@@ -132,7 +132,7 @@ test('lease acquire is idempotent under duplicate dispatch key', () => {
     contourId: 'C1', writerId: 'W1', missionId: 'M1', ttlMs: 60000, now: T0, expectedRevision: 0, idempotencyKey: 'acq-1',
   });
   const second = acquireLease(file, {
-    contourId: 'C1', writerId: 'W1', missionId: 'M1', ttlMs: 60000, now: T1, expectedRevision: first.revision, idempotencyKey: 'acq-1',
+    contourId: 'C1', writerId: 'W1', missionId: 'M1', ttlMs: 60000, now: T0, expectedRevision: 0, idempotencyKey: 'acq-1',
   });
   assert.equal(second.duplicate, true);
   assert.equal(readPlanState(file).leases.C1.fencingToken, 1);

@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yalken.local/schemas/selection-receipt-r2_4.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "missionId",
+    "missionDigest",
+    "stateRevision",
+    "fencingCounter",
+    "stateDigest",
+    "contourStatesDigest",
+    "policyEpoch",
+    "policyDigest",
+    "graphNodeCount",
+    "graphDigest",
+    "schedulerGraphDigest",
+    "sourceOfTruthPath",
+    "identityRoles",
+    "mode",
+    "selectedKind",
+    "selectedId",
+    "verdict",
+    "readySet",
+    "deterministicOrder",
+    "reasons",
+    "generatedAt"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "SelectionReceiptR2_4"
+    },
+    "missionId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "missionDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "stateRevision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "fencingCounter": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "stateDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "contourStatesDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "policyEpoch": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "policyDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "graphNodeCount": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "graphDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "schedulerGraphDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "sourceOfTruthPath": {
+      "const": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json"
+    },
+    "identityRoles": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "implementationSourceSha",
+        "evaluationHeadSha",
+        "evaluationTreeSha",
+        "prHeadSha",
+        "mergeSha",
+        "postmergeSha"
+      ],
+      "properties": {
+        "implementationSourceSha": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "evaluationHeadSha": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "evaluationTreeSha": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "prHeadSha": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "mergeSha": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "postmergeSha": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{40}$"
+        }
+      }
+    },
+    "mode": {
+      "enum": [
+        "AUTONOMOUS",
+        "HANDOFF_ONLY"
+      ]
+    },
+    "selectedKind": {
+      "enum": [
+        "GUARD",
+        "NODE",
+        "NONE"
+      ]
+    },
+    "selectedId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "verdict": {
+      "enum": [
+        "WAIT_FRESH_G0",
+        "WAIT_OWNER_DIGEST_APPROVAL",
+        "NO_ELIGIBLE_NODE",
+        "SELECTED"
+      ]
+    },
+    "readySet": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "deterministicOrder": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "reasons": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "generatedAt": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

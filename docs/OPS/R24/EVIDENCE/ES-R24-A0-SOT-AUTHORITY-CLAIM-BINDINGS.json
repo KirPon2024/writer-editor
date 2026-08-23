@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "EvidenceStampV2",
+  "schemaVersion": "ClaimBindingV1",
   "stampId": "ES-R24-A0-SOT-AUTHORITY-CLAIM-BINDINGS",
   "contourId": "A0_R24_EXECUTABLE_PROGRAM_SOT_AUTHORITY_RECONCILIATION_V1",
   "evidenceClass": "CONTRACT",

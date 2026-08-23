@@ -47,6 +47,15 @@ export function acquireLease(filePath, {
   return casUpdate(filePath, {
     expectedRevision,
     idempotencyKey,
+    idempotencyPayload: idempotencyKey === null ? null : {
+      operation: 'ACQUIRE_LEASE',
+      contourId,
+      writerId,
+      missionId,
+      ttlMs,
+      now,
+      expectedRevision,
+    },
     mutate: (draft) => {
       const existing = draft.leases[contourId] || null;
       if (existing && nowMs < Date.parse(existing.expiresAt) && existing.writerId !== writerId) {

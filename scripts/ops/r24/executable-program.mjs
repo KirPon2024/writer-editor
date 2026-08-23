@@ -6,7 +6,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
-import { readJsonBounded, sha256hex, R24Error, HEX40_RE, HEX64_RE } from './canonical-json.mjs';
+import { readJsonBounded, sha256hex, canonicalDigest, R24Error, HEX40_RE, HEX64_RE } from './canonical-json.mjs';
 import { verifyApprovalReceipt } from './mission-contract.mjs';
 import { selectNext } from './scheduler.mjs';
 
@@ -273,7 +273,18 @@ export function buildCurrentG0Program(program) {
   return clone;
 }
 
-export function buildSchedulerMission({ missionContract, missionApproval, selectedProfiles = null }) {
+export function buildSchedulerMission({
+  missionContract,
+  missionApproval,
+  planState,
+  contourStates,
+  policyEpoch,
+  policyDigest,
+  graphDigest,
+  schedulerGraphDigest,
+  identityRoles,
+  selectedProfiles = null,
+}) {
   const profiles = selectedProfiles || [
     ...new Set([
       ...(missionContract.allowedProfilesBeforeRuntimeApproval || []),
@@ -291,27 +302,62 @@ export function buildSchedulerMission({ missionContract, missionApproval, select
     ownerGateApprovals: {},
     approved: missionApproval.approved === true,
     autonomyEnabled: false,
-    stateRevision: 0,
-    policyEpoch: 0,
+    stateRevision: planState.revision,
+    fencingCounter: planState.fencingCounter,
+    stateDigest: canonicalDigest(planState),
+    contourStatesDigest: canonicalDigest(contourStates),
+    policyEpoch,
+    policyDigest,
+    graphNodeCount: Object.keys(contourStates).length,
+    graphDigest,
+    schedulerGraphDigest,
+    sourceOfTruthPath: 'docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json',
+    identityRoles,
   };
 }
 
-export function buildSelectionReceiptOnFullGraph({ now, planState }) {
-  const { program } = loadExecutableProgram();
+export function buildSelectionReceiptOnFullGraph({ now, planState, implementationSourceSha = null }) {
+  const { program, digest } = loadExecutableProgram();
   const missionContract = readR24Json('MISSION_CONTRACT_R2_4.json');
   const missionApproval = assertMissionApproval();
+  const policy = readR24Json('AUTONOMY_CONTROL_PLANE_R2_4.json');
+  const policyEpoch = policy?.policyEpoch?.epoch;
+  if (!Number.isInteger(policyEpoch) || policyEpoch < 0) throw new R24Error('E_R24_POLICY_EPOCH_SHAPE');
+  const evaluationHeadSha = git(['rev-parse', 'HEAD']);
+  const evaluationTreeSha = git(['rev-parse', 'HEAD^{tree}']);
+  if (!HEX40_RE.test(evaluationHeadSha) || !HEX40_RE.test(evaluationTreeSha)) throw new R24Error('E_R24_EVALUATION_IDENTITY_SHAPE');
+  const sourceSha = implementationSourceSha || evaluationHeadSha;
+  if (!HEX40_RE.test(sourceSha)) throw new R24Error('E_R24_IMPLEMENTATION_SOURCE_SHAPE');
+  const committedPlanState = JSON.parse(git(['show', evaluationHeadSha + ':docs/OPS/R24/PLAN_STATE_R24.json']));
+  if (canonicalDigest(committedPlanState) !== canonicalDigest(planState)) throw new R24Error('E_R24_SELECTION_STATE_NOT_AT_EVALUATION_HEAD');
+  const contourStates = buildFullGraphContourStates({ program, planState });
+  const identityRoles = {
+    implementationSourceSha: sourceSha,
+    evaluationHeadSha,
+    evaluationTreeSha,
+    prHeadSha: null,
+    mergeSha: null,
+    postmergeSha: null,
+  };
   const receipt = selectNext({
     program: buildCurrentG0Program(program),
-    contourStates: buildFullGraphContourStates({ program, planState }),
-    mission: buildSchedulerMission({ missionContract, missionApproval }),
+    contourStates,
+    mission: buildSchedulerMission({
+      missionContract,
+      missionApproval,
+      planState,
+      contourStates,
+      policyEpoch,
+      policyDigest: sha256File(path.join(R24_DIR, 'AUTONOMY_CONTROL_PLANE_R2_4.json')),
+      graphDigest: digest,
+      schedulerGraphDigest: canonicalDigest(program.nodes),
+      identityRoles,
+    }),
     now,
   });
   if (receipt.selectedId !== null && !program.nodes.some((node) => node.id === receipt.selectedId)) {
     throw new R24Error('E_R24_SELECTION_NOT_IN_FULL_GRAPH', String(receipt.selectedId));
   }
-  receipt.graphNodeCount = program.nodes.length;
-  receipt.graphDigest = EXPECTED_PROGRAM_DIGEST;
-  receipt.sourceOfTruthPath = 'docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json';
   return receipt;
 }
 
@@ -350,6 +396,13 @@ export function validateCommittedR24Sot({ now = new Date().toISOString() } = {})
     selectionKind: selectionReceipt.selectedKind,
     selectionId: selectionReceipt.selectedId,
     selectionReadySetCount: selectionReceipt.readySet.length,
+    selectionStateRevision: selectionReceipt.stateRevision,
+    selectionFencingCounter: selectionReceipt.fencingCounter,
+    selectionPolicyEpoch: selectionReceipt.policyEpoch,
+    selectionStateDigest: selectionReceipt.stateDigest,
+    selectionGraphDigest: selectionReceipt.graphDigest,
+    selectionEvaluationHeadSha: selectionReceipt.identityRoles.evaluationHeadSha,
+    selectionEvaluationTreeSha: selectionReceipt.identityRoles.evaluationTreeSha,
     headSha,
     originMainSha,
     generatedAt: now,

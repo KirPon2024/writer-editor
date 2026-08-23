@@ -151,8 +151,8 @@
       "state": "DONE",
       "previousState": "POSTMERGE_VERIFIED",
       "attemptId": "ATTEMPT-SEC0-20260823",
-      "updatedAt": "2026-08-23T04:51:09Z",
-      "headSha": "0fa8383a1ef68cf1777cee2c4942d586d7d9cf6f",
+      "updatedAt": "2026-08-23T06:34:59Z",
+      "headSha": "1330400c9a2bf8347ec6a3ab0201c8396511a7d7",
       "source": "R24_SEC0_PATH_CAPABILITY_CLOSURE_V1"
     },
     "T0_TEXT_COORDINATE_ALGEBRA": {

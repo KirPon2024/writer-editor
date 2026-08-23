@@ -4,21 +4,21 @@
   "contourId": "SEC0_PATH_CAPABILITY",
   "evidenceClass": "CONTRACT",
   "verdict": "PASS",
-  "headSha": "e98cf37d58177c1365369c50db806c9dcc90402f",
-  "originMainSha": "0fa8383a1ef68cf1777cee2c4942d586d7d9cf6f",
-  "generatedAtUtc": "2026-08-23T05:48:58Z",
+  "headSha": "1330400c9a2bf8347ec6a3ab0201c8396511a7d7",
+  "originMainSha": "1330400c9a2bf8347ec6a3ab0201c8396511a7d7",
+  "generatedAtUtc": "2026-08-23T06:34:59Z",
   "oracle": "docs-claim-lint exact sha-bound mutable PlanState claim binding for SEC0 closure",
   "claimBindings": [
     {
       "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
-      "sha256": "11389eb240ab2320e6bf59cae77e5d42a0a8ca0d5bf144e0076371c376d6bb40",
+      "sha256": "966673c9235eb8dbe0c22012490f05ccc7583ed8872b1436947b274ec6ac0b83",
       "claimTerms": [
         "DONE"
       ]
     },
     {
       "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
-      "sha256": "2cd4cf763de7a8caafb691145fb99e782e3560bb5bfd1df7ff1950ec74bba07d",
+      "sha256": "cfca059d9815048b88cd28681f39ddd25897923b27fbc8cda23a6df07ffbffaf",
       "claimTerms": [
         "DONE"
       ]

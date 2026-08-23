@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-SEC0-PATH-CAPABILITY-POSTMERGE-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "SEC0_PATH_CAPABILITY",
+  "attemptId": "ATTEMPT-SEC0-20260823",
+  "authorityEpoch": "R24-A0-ADMISSION-BASE-0BB87AE9",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "1330400c9a2bf8347ec6a3ab0201c8396511a7d7",
+    "treeSha": "15dc2f238e73d651d0644a86f1332bb1d7a3f41d"
+  },
+  "claim": {
+    "type": "SEC0_POSTMERGE_EXACT_HEAD_CI",
+    "ceiling": "SEC0_PATH_CAPABILITY_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "github-actions-main-exact-head-postmerge",
+    "evidenceClass": "POSTMERGE",
+    "denominator": 2,
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-SEC0-PATH-CAPABILITY-EXACT-HEAD",
+      "ES-R24-SEC0-PATH-CAPABILITY-CLAIM-BINDINGS"
+    ],
+    "predecessorReceiptDigest": "ca9aadb9341b47dfd643d356864d6dcdff3af0819088df08afd82da97dae3730"
+  },
+  "createdAt": "2026-08-23T06:34:59Z",
+  "actor": "codex/r24-sec0-postmerge-receipt-v1-20260823",
+  "artifact": {
+    "prNumber": 1648,
+    "prHeadSha": "4abfbc85f6a110dc0aed18ac8e4ab69f3c64c704",
+    "mergeSha": "1330400c9a2bf8347ec6a3ab0201c8396511a7d7",
+    "mergeTreeSha": "15dc2f238e73d651d0644a86f1332bb1d7a3f41d",
+    "mainRuns": [
+      {
+        "workflowName": "OSS policy",
+        "runId": 32622122599,
+        "jobId": 97151724787,
+        "event": "push",
+        "headSha": "1330400c9a2bf8347ec6a3ab0201c8396511a7d7",
+        "status": "completed",
+        "conclusion": "success",
+        "createdAt": "2026-08-23T06:07:57Z",
+        "jobStartedAt": "2026-08-23T06:08:00Z",
+        "jobCompletedAt": "2026-08-23T06:08:24Z",
+        "updatedAt": "2026-08-23T06:08:25Z"
+      },
+      {
+        "workflowName": "rtk-required",
+        "runId": 32622122605,
+        "jobId": 97151724915,
+        "event": "push",
+        "headSha": "1330400c9a2bf8347ec6a3ab0201c8396511a7d7",
+        "status": "completed",
+        "conclusion": "success",
+        "createdAt": "2026-08-23T06:07:57Z",
+        "jobStartedAt": "2026-08-23T06:08:00Z",
+        "jobCompletedAt": "2026-08-23T06:27:32Z",
+        "updatedAt": "2026-08-23T06:27:33Z",
+        "includedSec0Gate": true,
+        "includedE0DocsClaimLint": true,
+        "includedFullR24GateSetThroughW0": true,
+        "includedMaintainedRtkGraph": true,
+        "includedAtlasEventReleaseEvidenceNegativeMatrix": true
+      }
+    ],
+    "nonClaims": [
+      "This stamp closes only SEC0 postmerge exact-head evidence.",
+      "This stamp does not mark the 109-node R2.4 program DONE.",
+      "This stamp does not implement ENT0, reopen parked V2, mutate Word/Drive documents, or claim release/signing/notarization/package readiness."
+    ]
+  }
+}

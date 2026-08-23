@@ -1,0 +1,161 @@
+{
+  "stampId": "ES-R24-WP-100-GENERATION-ADMISSION-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-100_GENERATION_ADMISSION",
+  "attemptId": "ATTEMPT-WP100-20260823",
+  "authorityEpoch": "R24-WP100-ADMISSION-BASE-C7934E8C",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "c7934e8c79e7466f4904d37f1c6392a5f03aa82b",
+    "treeSha": "937d586554661902489cc73d8e61c76d0140f62d"
+  },
+  "createdAt": "2026-08-23T14:43:07Z",
+  "actor": "codex/r24-wp100-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "WP100_INDEPENDENT_EXACT_HEAD_GREEN",
+    "ceiling": "WP100_GENERATION_ADMISSION_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "WP-100 focused plus six runtime foundations plus executable-program authority on current main",
+    "evidenceClass": "INDEPENDENT_EXACT_HEAD",
+    "denominator": 101,
+    "passed": 101,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-100-GENERATION-ADMISSION-MUTANTS"
+    ],
+    "predecessorReceiptDigest": "d0e2889903a0b5e7701b57f85a652c50480237975183bf8bc3872a6bcf49ebf7"
+  },
+  "artifact": {
+    "commands": [
+      {
+        "command": "npm run -s test:r24-wp100",
+        "pass": 8,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0,
+        "exitCode": 0
+      },
+      {
+        "command": "node --test six WP-100 runtime dependency suites (P0 P1 S0 S1 K0 R0)",
+        "pass": 84,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0,
+        "exitCode": 0
+      },
+      {
+        "command": "npm run -s test:r24-authority-sot",
+        "pass": 9,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0,
+        "exitCode": 0
+      }
+    ],
+    "denominatorLaw": "8 WP-100 focused tests + 84 composed dependency survivor tests + 9 executable-program authority tests = 101, all passed on exact head c7934e8c before this receipt mutation.",
+    "q0Diagnostic": {
+      "command": "npm run -s test:r24-q0",
+      "suiteTests": 20,
+      "suitePassed": 20,
+      "suiteFailed": 0,
+      "declaredToolchainOk": false,
+      "usedAsPositiveOutcomeClaim": false,
+      "reason": "Q0 is consumed from the durable DONE PlanState row; the current diagnostic is recorded without normalizing its declared toolchain status into PASS evidence."
+    },
+    "exactHead": "c7934e8c79e7466f4904d37f1c6392a5f03aa82b",
+    "exactTree": "937d586554661902489cc73d8e61c76d0140f62d",
+    "node": "v26.7.0",
+    "npm": "11.19.0",
+    "artifactDigests": [
+      {
+        "path": "src/core/autosave-generation-v1.cjs",
+        "sha256": "c901970cd0b6a7d865e4af1f5f305fb04873a3397da591691c5aa43af52cf752"
+      },
+      {
+        "path": "src/core/dirty-admission-v1.cjs",
+        "sha256": "2d1928cfc3f5b6ef669c0628578113fef5b345eb4bd3485f5e720c4d26e4362b"
+      },
+      {
+        "path": "src/core/ipc-caller-identity-v1.cjs",
+        "sha256": "d6225627ffab3329f8ad833d5a6232fa1c35c204898037517fa91223fa55b687"
+      },
+      {
+        "path": "src/core/ipc-envelope-v1.cjs",
+        "sha256": "157617747d4387ec7af664b6eff613af8f90742a9648e2a192d55e36b0564b8d"
+      },
+      {
+        "path": "src/core/revision-algebra-v1.cjs",
+        "sha256": "76768c50ff2d3f9103d80195e28c97671ea0b1e3171d85c5320dfa7912ce0923"
+      },
+      {
+        "path": "src/main.js",
+        "sha256": "64f34fbc9cfe3226c8f9a9dde34aa69325557a24376858e1ed4f922d88409d62"
+      },
+      {
+        "path": "src/preload.js",
+        "sha256": "f721aa83bb2e7eb28f441e7433c0bb4f4ee09e2c70257b508cf16baa189934f0"
+      },
+      {
+        "path": "test/unit/r24-wp100-generation-admission.test.js",
+        "sha256": "45e7a912593fc5171c46a9b1253f7fef7866939c3f765aac4300b4c703aa838c"
+      },
+      {
+        "path": "test/unit/r24-wp100-wiring-matrix.test.js",
+        "sha256": "6792e36e3cecf425113b0a595dd2e00c591741ae99b8356d56307edadf7395db"
+      },
+      {
+        "path": "test/unit/r24-wp100-wiring-mutants.test.js",
+        "sha256": "afa4db0d8ef318aa9f0de508c5000b2f6e47849bde4bb81aabc472df2f171e00"
+      },
+      {
+        "path": "package.json",
+        "sha256": "e8566f7d509907bcb991ea957b6a65543ea04cdc17366162c6d17a63d6b9ce91"
+      },
+      {
+        "path": ".github/workflows/rtk-required.yml",
+        "sha256": "ac51eef84e4482ec96b3b513c4db8def1e06b93c5a5fe408d7ea0b31ea4dc818"
+      },
+      {
+        "path": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+        "sha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5"
+      },
+      {
+        "path": "docs/OPS/R24/EXECUTION_ENVELOPES_R2_4.json",
+        "sha256": "0b2154eb93769ecb6a3b3164159cfe2c87d73c5345fdcb008af5576c630ae9d3"
+      },
+      {
+        "path": "docs/OPS/R24/TEST_ASSURANCE_MATRIX_R2_4.json",
+        "sha256": "29133d0b3f6c96891695e81a1191565843143826770ba6cb90cd286bcab80ca8"
+      },
+      {
+        "path": "docs/OPS/R24/EVIDENCE_AND_RECEIPT_CONTRACT_R2_4.json",
+        "sha256": "fb6ab27e2c5a55a192aac8a224f63b4c4bf32c769e32fc6268a5f80d87cbcd3d"
+      },
+      {
+        "path": "docs/OPS/R24/PLAN_STATE_R24.json",
+        "sha256": "aab936925b7ef9d62435ee3958e7fa0ad3801768b56dbc634d743f62f9608728"
+      },
+      {
+        "path": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+        "sha256": "7950abd4dd4417a046a89ed6c4ef6ae54cf77e00ffd8719de02eb2eb6a05094c"
+      },
+      {
+        "path": "docs/OPS/R24/SELECTION_RECEIPT_R2_4.json",
+        "sha256": "4b4b431cef4dfeca6e706492442a52c55960c938a5ae9335897b0236baa73461"
+      },
+      {
+        "path": "scripts/ops/r24/tests/executable-program.test.mjs",
+        "sha256": "d2bf63e52ec10332f42b0f0e64faee324db3808ccad479a21545e56e4e9db11a"
+      }
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

@@ -11494,15 +11494,6 @@
       "approved": true
     },
     {
-      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-CLAIM-BINDINGS.json",
-      "sha256": "664b716c7cdad1d3e45c887efd8fa1151ffa2660ab77483dee138456ca11c173",
-      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
-      "approvedAtUtc": "2026-08-23T13:10:10Z",
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
-      "rationale": "Approve R2.4 PK0 closure receipt delivery: records node-only runtime-resolved subset staged subset admitted package-content evidence, refreshes mutable claim bindings, and selects WP-100 without PROGRAM DONE, SBOM provenance, package install/update/rollback, signing, notarization, release, product runtime, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
-      "approved": true
-    },
-    {
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-CONTRACT.json",
       "sha256": "48f5ffd04adde3d0c869ad4d606841ce82be277e1c412fd4aad091bd9bd2fac1",
       "approvedBy": "owner-directive:RESUME_AFTER_REBOOT_R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE",
@@ -11575,89 +11566,8 @@
       "approved": true
     },
     {
-      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-ENT0-ENTITLEMENT-CONFORMANCE-CLAIM-BINDINGS.json",
-      "sha256": "f8a6fbc2712716aeb7b6b384f6ff7947aa0145bccc59655265777f9285aefe1e",
-      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
-      "approvedAtUtc": "2026-08-23T13:10:10Z",
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
-      "rationale": "Approve R2.4 PK0 closure receipt delivery: records node-only runtime-resolved subset staged subset admitted package-content evidence, refreshes mutable claim bindings, and selects WP-100 without PROGRAM DONE, SBOM provenance, package install/update/rollback, signing, notarization, release, product runtime, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
-      "approved": true
-    },
-    {
-      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-K1-AUTHORITY-DECOMPOSITION-CLAIM-BINDINGS.json",
-      "sha256": "a4c3c11eac5350bbdd40b28fa3a311bc54961f7f2dc4e5c347e1b6c7015cb223",
-      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
-      "approvedAtUtc": "2026-08-23T13:10:10Z",
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
-      "rationale": "Approve R2.4 PK0 closure receipt delivery: records node-only runtime-resolved subset staged subset admitted package-content evidence, refreshes mutable claim bindings, and selects WP-100 without PROGRAM DONE, SBOM provenance, package install/update/rollback, signing, notarization, release, product runtime, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
-      "approved": true
-    },
-    {
-      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-SEC0-PATH-CAPABILITY-CLAIM-BINDINGS.json",
-      "sha256": "87404f1b2a31372f73d50122be8e9c751f1b03612b537990bf687b8391f17d7e",
-      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
-      "approvedAtUtc": "2026-08-23T13:10:10Z",
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
-      "rationale": "Approve R2.4 PK0 closure receipt delivery: records node-only runtime-resolved subset staged subset admitted package-content evidence, refreshes mutable claim bindings, and selects WP-100 without PROGRAM DONE, SBOM provenance, package install/update/rollback, signing, notarization, release, product runtime, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
-      "approved": true
-    },
-    {
-      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-T1-ANCHOR-LINEAGE-CLAIM-BINDINGS.json",
-      "sha256": "1d1450636a79c32e53520b44d67e4ca4c9205487152a31261a7b8c76404141ac",
-      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
-      "approvedAtUtc": "2026-08-23T13:10:10Z",
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
-      "rationale": "Approve R2.4 PK0 closure receipt delivery: records node-only runtime-resolved subset staged subset admitted package-content evidence, refreshes mutable claim bindings, and selects WP-100 without PROGRAM DONE, SBOM provenance, package install/update/rollback, signing, notarization, release, product runtime, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
-      "approved": true
-    },
-    {
-      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
-      "sha256": "7e1f826050b956ac2adbf8f06ca117c8bbc45c609fb3b6b9741e2dab266470c1",
-      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
-      "approvedAtUtc": "2026-08-23T13:10:10Z",
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
-      "rationale": "Approve R2.4 PK0 closure receipt delivery: records node-only runtime-resolved subset staged subset admitted package-content evidence, refreshes mutable claim bindings, and selects WP-100 without PROGRAM DONE, SBOM provenance, package install/update/rollback, signing, notarization, release, product runtime, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
-      "approved": true
-    },
-    {
-      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
-      "sha256": "03dc75cedc2996313b3e027711e621bdd3a07fa29f0aa185cbad9e274fedd537",
-      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
-      "approvedAtUtc": "2026-08-23T13:10:10Z",
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
-      "rationale": "Approve R2.4 PK0 closure receipt delivery: records node-only runtime-resolved subset staged subset admitted package-content evidence, refreshes mutable claim bindings, and selects WP-100 without PROGRAM DONE, SBOM provenance, package install/update/rollback, signing, notarization, release, product runtime, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
-      "approved": true
-    },
-    {
-      "filePath": "docs/OPS/R24/SELECTION_RECEIPT_R2_4.json",
-      "sha256": "3416927febe40b5e56736496532d780a51a5a840b76347905e374fadf93760e1",
-      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
-      "approvedAtUtc": "2026-08-23T13:10:10Z",
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
-      "rationale": "Approve R2.4 PK0 closure receipt delivery: records node-only runtime-resolved subset staged subset admitted package-content evidence, refreshes mutable claim bindings, and selects WP-100 without PROGRAM DONE, SBOM provenance, package install/update/rollback, signing, notarization, release, product runtime, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
-      "approved": true
-    },
-    {
-      "filePath": "scripts/ops/r24/tests/executable-program.test.mjs",
-      "sha256": "ffbcacf1d717c411cf0f95b794d90529fb6a4a71d38b5c4c67221b37aa617438",
-      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
-      "approvedAtUtc": "2026-08-23T13:10:10Z",
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
-      "rationale": "Approve R2.4 PK0 closure receipt delivery: records node-only runtime-resolved subset staged subset admitted package-content evidence, refreshes mutable claim bindings, and selects WP-100 without PROGRAM DONE, SBOM provenance, package install/update/rollback, signing, notarization, release, product runtime, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
-      "approved": true
-    },
-    {
       "filePath": "docs/OPS/R24/CTR-R24-PK0-PACKAGE-CONTENT-TRUST.json",
       "sha256": "d0e2889903a0b5e7701b57f85a652c50480237975183bf8bc3872a6bcf49ebf7",
-      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
-      "approvedAtUtc": "2026-08-23T13:10:10Z",
-      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
-      "rationale": "Approve R2.4 PK0 closure receipt delivery: records node-only runtime-resolved subset staged subset admitted package-content evidence, refreshes mutable claim bindings, and selects WP-100 without PROGRAM DONE, SBOM provenance, package install/update/rollback, signing, notarization, release, product runtime, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
-      "approved": true
-    },
-    {
-      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-PK0-PACKAGE-CONTENT-TRUST-CLAIM-BINDINGS.json",
-      "sha256": "3b76abd409a5386320d6213e186778026138fd0aa5085247997f4ccf603dde43",
       "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
       "approvedAtUtc": "2026-08-23T13:10:10Z",
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
@@ -11734,6 +11644,177 @@
       "approvedAtUtc": "2026-08-23T13:10:10Z",
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
       "rationale": "Approve R2.4 PK0 closure receipt delivery: records node-only runtime-resolved subset staged subset admitted package-content evidence, refreshes mutable claim bindings, and selects WP-100 without PROGRAM DONE, SBOM provenance, package install/update/rollback, signing, notarization, release, product runtime, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/CTR-R24-WP-100-GENERATION-ADMISSION.json",
+      "sha256": "123d906b1bf0a908763725d9a9e2aa43b30f599db5427253bfc9dc9d6353b52d",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T14:43:07Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 WP-100 closure receipt delivery: records node-only exact edit/durable-generation and non-authoritative renderer evidence over seven closed foundations, refreshes mutable claim bindings, and selects WP-101 without PROGRAM DONE, runtime mutation, release readiness, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-CLAIM-BINDINGS.json",
+      "sha256": "de3b821eb62c13f2574f812c9ec85040090f33f5e4f5a91fe4ec700c12d6af3a",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T14:43:07Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 WP-100 closure receipt delivery: records node-only exact edit/durable-generation and non-authoritative renderer evidence over seven closed foundations, refreshes mutable claim bindings, and selects WP-101 without PROGRAM DONE, runtime mutation, release readiness, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-ENT0-ENTITLEMENT-CONFORMANCE-CLAIM-BINDINGS.json",
+      "sha256": "d808980db0fc3acf79bf20c3f0bc66f2606a614d9d73c66252e89e42e95c6e97",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T14:43:07Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 WP-100 closure receipt delivery: records node-only exact edit/durable-generation and non-authoritative renderer evidence over seven closed foundations, refreshes mutable claim bindings, and selects WP-101 without PROGRAM DONE, runtime mutation, release readiness, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-K1-AUTHORITY-DECOMPOSITION-CLAIM-BINDINGS.json",
+      "sha256": "a3d7d977f9602a034bc392b084043b5a7931717de6a71e6a2f70ea106acaeb79",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T14:43:07Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 WP-100 closure receipt delivery: records node-only exact edit/durable-generation and non-authoritative renderer evidence over seven closed foundations, refreshes mutable claim bindings, and selects WP-101 without PROGRAM DONE, runtime mutation, release readiness, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-PK0-PACKAGE-CONTENT-TRUST-CLAIM-BINDINGS.json",
+      "sha256": "bcd44be611efab393367537737da5b297cc010f37206b9c7a000ad0e945853a2",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T14:43:07Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 WP-100 closure receipt delivery: records node-only exact edit/durable-generation and non-authoritative renderer evidence over seven closed foundations, refreshes mutable claim bindings, and selects WP-101 without PROGRAM DONE, runtime mutation, release readiness, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-SEC0-PATH-CAPABILITY-CLAIM-BINDINGS.json",
+      "sha256": "4e3f81877f6059c8b4cf98d5e73608ec526cc4728fa54e053d9f3ca2776399b7",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T14:43:07Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 WP-100 closure receipt delivery: records node-only exact edit/durable-generation and non-authoritative renderer evidence over seven closed foundations, refreshes mutable claim bindings, and selects WP-101 without PROGRAM DONE, runtime mutation, release readiness, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-T1-ANCHOR-LINEAGE-CLAIM-BINDINGS.json",
+      "sha256": "2a9c22206d52c073dacf2631133ceeecf82fd7ef221f8dbbaa235a76c9dbd6c3",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T14:43:07Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 WP-100 closure receipt delivery: records node-only exact edit/durable-generation and non-authoritative renderer evidence over seven closed foundations, refreshes mutable claim bindings, and selects WP-101 without PROGRAM DONE, runtime mutation, release readiness, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-100-GENERATION-ADMISSION-CLAIM-BINDINGS.json",
+      "sha256": "87d974ea93c93accd6629e6aa75b82096d176a2eba353fb36bbf3dc8fe8ef603",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T14:43:07Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 WP-100 closure receipt delivery: records node-only exact edit/durable-generation and non-authoritative renderer evidence over seven closed foundations, refreshes mutable claim bindings, and selects WP-101 without PROGRAM DONE, runtime mutation, release readiness, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-100-GENERATION-ADMISSION-CONTRACT.json",
+      "sha256": "16cd39c4d749e9ee896b5baf6da196f417140f0bf097a4e064fdd36185b8ba7f",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T14:43:07Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 WP-100 closure receipt delivery: records node-only exact edit/durable-generation and non-authoritative renderer evidence over seven closed foundations, refreshes mutable claim bindings, and selects WP-101 without PROGRAM DONE, runtime mutation, release readiness, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-100-GENERATION-ADMISSION-EXACT-HEAD.json",
+      "sha256": "41b2bb04eea61d2d0491d6481c4f5584bf93561c1b8202c159fd18ab3c43d56e",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T14:43:07Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 WP-100 closure receipt delivery: records node-only exact edit/durable-generation and non-authoritative renderer evidence over seven closed foundations, refreshes mutable claim bindings, and selects WP-101 without PROGRAM DONE, runtime mutation, release readiness, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-100-GENERATION-ADMISSION-INTEGRATION.json",
+      "sha256": "42a85681b9624fef31fc8e919c8bb5276443aa5888d55a6c75ff26f2c42e0f98",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T14:43:07Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 WP-100 closure receipt delivery: records node-only exact edit/durable-generation and non-authoritative renderer evidence over seven closed foundations, refreshes mutable claim bindings, and selects WP-101 without PROGRAM DONE, runtime mutation, release readiness, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-100-GENERATION-ADMISSION-MODEL.json",
+      "sha256": "f4a38a4d239779056ba0ee2529cb05941bd8e909c0660259df63c4ece6ac80f5",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T14:43:07Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 WP-100 closure receipt delivery: records node-only exact edit/durable-generation and non-authoritative renderer evidence over seven closed foundations, refreshes mutable claim bindings, and selects WP-101 without PROGRAM DONE, runtime mutation, release readiness, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-100-GENERATION-ADMISSION-MUTANTS.json",
+      "sha256": "04d47a62a935a1a96895014d756504771ad0ed9a10dcc0b78775534f0d534b72",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T14:43:07Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 WP-100 closure receipt delivery: records node-only exact edit/durable-generation and non-authoritative renderer evidence over seven closed foundations, refreshes mutable claim bindings, and selects WP-101 without PROGRAM DONE, runtime mutation, release readiness, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-100-GENERATION-ADMISSION-POSTMERGE-EXACT-HEAD.json",
+      "sha256": "3abd77a9807ea5d1540bd62ddf3fb939bc55f52ca7cb0c6564eba123847923e0",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T14:43:07Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 WP-100 closure receipt delivery: records node-only exact edit/durable-generation and non-authoritative renderer evidence over seven closed foundations, refreshes mutable claim bindings, and selects WP-101 without PROGRAM DONE, runtime mutation, release readiness, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-100-GENERATION-ADMISSION-SURVIVOR-AUDIT.json",
+      "sha256": "3829c7de15945d56cf7ff827c6b113f260e5908ccd500b1d7611175378f103d1",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T14:43:07Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 WP-100 closure receipt delivery: records node-only exact edit/durable-generation and non-authoritative renderer evidence over seven closed foundations, refreshes mutable claim bindings, and selects WP-101 without PROGRAM DONE, runtime mutation, release readiness, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+      "sha256": "aab936925b7ef9d62435ee3958e7fa0ad3801768b56dbc634d743f62f9608728",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T14:43:07Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 WP-100 closure receipt delivery: records node-only exact edit/durable-generation and non-authoritative renderer evidence over seven closed foundations, refreshes mutable claim bindings, and selects WP-101 without PROGRAM DONE, runtime mutation, release readiness, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+      "sha256": "7950abd4dd4417a046a89ed6c4ef6ae54cf77e00ffd8719de02eb2eb6a05094c",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T14:43:07Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 WP-100 closure receipt delivery: records node-only exact edit/durable-generation and non-authoritative renderer evidence over seven closed foundations, refreshes mutable claim bindings, and selects WP-101 without PROGRAM DONE, runtime mutation, release readiness, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
+      "approved": true
+    },
+    {
+      "filePath": "docs/OPS/R24/SELECTION_RECEIPT_R2_4.json",
+      "sha256": "4b4b431cef4dfeca6e706492442a52c55960c938a5ae9335897b0236baa73461",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T14:43:07Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 WP-100 closure receipt delivery: records node-only exact edit/durable-generation and non-authoritative renderer evidence over seven closed foundations, refreshes mutable claim bindings, and selects WP-101 without PROGRAM DONE, runtime mutation, release readiness, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
+      "approved": true
+    },
+    {
+      "filePath": "scripts/ops/r24/tests/executable-program.test.mjs",
+      "sha256": "d2bf63e52ec10332f42b0f0e64faee324db3808ccad479a21545e56e4e9db11a",
+      "approvedBy": "owner-directive:GPT_5_6_SOL_ULTRA_MAX_RESOURCE_CONTINUATION",
+      "approvedAtUtc": "2026-08-23T14:43:07Z",
+      "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+      "rationale": "Approve R2.4 WP-100 closure receipt delivery: records node-only exact edit/durable-generation and non-authoritative renderer evidence over seven closed foundations, refreshes mutable claim bindings, and selects WP-101 without PROGRAM DONE, runtime mutation, release readiness, Word/Drive, SAFE_APPLY, dependency, lockfile, cloud, AI, or parked V2 authority.",
       "approved": true
     }
   ]

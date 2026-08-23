@@ -1,13 +1,13 @@
 {
   "schemaVersion": "EvidenceStampV2",
-  "stampId": "ES-R24-ENT0-ENTITLEMENT-CONFORMANCE-CLAIM-BINDINGS",
-  "contourId": "ENT0_ENTITLEMENT_CONFORMANCE",
+  "stampId": "ES-R24-WP-100-GENERATION-ADMISSION-CLAIM-BINDINGS",
+  "contourId": "WP-100_GENERATION_ADMISSION",
   "evidenceClass": "CONTRACT",
   "verdict": "PASS",
   "headSha": "c7934e8c79e7466f4904d37f1c6392a5f03aa82b",
   "originMainSha": "c7934e8c79e7466f4904d37f1c6392a5f03aa82b",
   "generatedAtUtc": "2026-08-23T14:43:07Z",
-  "oracle": "docs-claim-lint exact sha-bound mutable PlanState claim binding for ENT0_ENTITLEMENT_CONFORMANCE and subsequent repo-local closure state through WP-100",
+  "oracle": "docs-claim-lint exact sha-bound mutable PlanState claim binding for WP-100_GENERATION_ADMISSION closure and successor selection",
   "claimBindings": [
     {
       "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
@@ -25,9 +25,9 @@
     }
   ],
   "nonClaims": [
-    "This linter-specific stamp resolves only current ENT0_ENTITLEMENT_CONFORMANCE PlanState claim vocabulary for docs-claim-lint.",
+    "This linter-specific stamp resolves only current WP-100_GENERATION_ADMISSION PlanState claim vocabulary for docs-claim-lint.",
     "This stamp does not mark the full 109-node R2.4 program DONE.",
     "This stamp does not mutate product/runtime code, reopen parked V2, or claim release readiness.",
-    "This stamp does not implement or certify later contour product code beyond separately stamped closure evidence."
+    "This stamp does not implement or certify WP-101 or later product code beyond separately stamped closure evidence."
   ]
 }

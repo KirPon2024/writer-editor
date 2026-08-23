@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "yalken.package-mutation-receipt.r2.4",
+  "scope": "RESEALED_DANGEROUS_PACKAGE_AND_PLAN_MUTANTS",
+  "command": "node tools/test-r2_4-dangerous-mutants.mjs",
+  "status": "PASS",
+  "total": 138,
+  "killed": 138,
+  "survived": 0,
+  "mutationScore": 1,
+  "resealedBeforeVerification": true,
+  "packageAndPlanOracleMutantsExecuted": 138,
+  "productRepositoryImplementationMutantsExecuted": 0,
+  "claimCeiling": "PACKAGE_AND_PLAN_ORACLE_ONLY"
+}

@@ -1,0 +1,110 @@
+{
+  "schemaVersion": "yalken.authority-source-bindings.r2.4",
+  "canonicalRepo": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+  "observedCleanWorktree": "/Volumes/T7-Secure/worktrees/yalken/scientific-meatgrinder-20260819",
+  "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+  "observedHeadSha": "7b4c89de155567371e1f0a0003b74e3be3abc223",
+  "bindingStatus": "HISTORICAL_REBIND_REQUIRED",
+  "fixedT7": {
+    "uuid": "D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2",
+    "filesystem": "APFS",
+    "encrypted": true,
+    "unlocked": true
+  },
+  "forbiddenLegacyRoots": [
+    "/Volumes/Work"
+  ],
+  "protectedUntrackedBasenamesInOwnerCheckout": [
+    "pnpm-lock.yaml",
+    "pnpm-workspace.yaml"
+  ],
+  "sources": [
+    {
+      "relativePath": "AGENTS.md",
+      "sourcePathCorrected": false,
+      "existsAtObservedHead": true,
+      "sha256": "93a529dac4b5ff8dff77875e71eebe52c38c51b3220660aaa647a106c0e16441",
+      "size": 20979
+    },
+    {
+      "relativePath": "CANON.md",
+      "sourcePathCorrected": false,
+      "existsAtObservedHead": true,
+      "sha256": "99398ac898104c7a392f0e84b4bb8848212e2c5a7db6ae27cbfc549c3e070e48",
+      "size": 12149
+    },
+    {
+      "relativePath": "CANON_STATUS.json",
+      "sourcePathCorrected": false,
+      "existsAtObservedHead": false,
+      "sha256": null,
+      "size": null
+    },
+    {
+      "relativePath": "COREX.v2.md",
+      "sourcePathCorrected": false,
+      "existsAtObservedHead": false,
+      "sha256": null,
+      "size": null
+    },
+    {
+      "relativePath": "BIBLE.md",
+      "sourcePathCorrected": false,
+      "existsAtObservedHead": false,
+      "sha256": null,
+      "size": null
+    },
+    {
+      "relativePath": "ARCHITECTURE_ONE_PAGE.md",
+      "sourcePathCorrected": false,
+      "existsAtObservedHead": false,
+      "sha256": null,
+      "size": null
+    },
+    {
+      "relativePath": "docs/PROCESS.md",
+      "sourcePathCorrected": false,
+      "existsAtObservedHead": true,
+      "sha256": "4e6de8512a4c1163502149861d0d86c7c714f0180706b2b017f5a8d72b5b4bbb",
+      "size": 36416
+    },
+    {
+      "relativePath": "docs/HANDOFF.md",
+      "sourcePathCorrected": false,
+      "existsAtObservedHead": true,
+      "sha256": "eea499f71a0c65fbb0f17dfaa3eea2e1101f20568dfc78959245ee069e6534db",
+      "size": 66291
+    },
+    {
+      "relativePath": "docs/DOCUMENTATION_CONSTITUTION.md",
+      "sourcePathCorrected": false,
+      "existsAtObservedHead": true,
+      "sha256": "23df42a2cc47040ea8c1bcb2b747fa950e21f6202629dfda7081812b573050a4",
+      "size": 6455
+    },
+    {
+      "relativePath": "docs/YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1.md",
+      "sourcePathCorrected": true,
+      "existsAtObservedHead": true,
+      "sha256": "6188e9d213167724c479da73a08f513fd6c985a3987c4fb5cbbfae9e56710070",
+      "size": 23923
+    },
+    {
+      "relativePath": "docs/OPS/STATUS/XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.13a-final.md",
+      "sourcePathCorrected": false,
+      "existsAtObservedHead": true,
+      "sha256": "b8e99ad1c9cd37e874d3145c79be99f6f3181a9eae7078060f9e497e0896077b",
+      "size": 84337
+    }
+  ],
+  "externalResearchInputs": [
+    {
+      "id": "FIREFOX_CHATGPT_ARCHITEKTURA_REDAKTORA",
+      "url": "https://chatgpt.com/c/6a845817-12c0-83eb-b91c-2f2952767d0f",
+      "browserProfile": "Firefox/Medved/ChatGPT Pro",
+      "identityRelationToCodex": "SEPARATE_ACCOUNT_AND_SESSION",
+      "authorityClass": "UNTRUSTED_RESEARCH_INPUT_UNTIL_CAPTURED_REVIEWED_AND_BOUND",
+      "currentStatus": "IN_PROGRESS_AT_PACKAGE_BUILD"
+    }
+  ]
+}

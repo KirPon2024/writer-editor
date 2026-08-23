@@ -1,0 +1,278 @@
+{
+  "schemaVersion": "yalken.r24.a0-authority-sot-reconciliation-receipt.v1",
+  "contourId": "A0_R24_EXECUTABLE_PROGRAM_SOT_AUTHORITY_RECONCILIATION_V1",
+  "status": "LOCAL_RTK_AND_GUARDRAILS_GREEN_READY_FOR_DELIVERY_WITH_PREEXISTING_DEPENDENCY_AUDIT_FINDING",
+  "generatedAtUtc": "2026-08-23T00:48:55Z",
+  "headSha": "0bb87ae9ce95300e86e3ffd70f8ca6850f014004",
+  "originMainSha": "0bb87ae9ce95300e86e3ffd70f8ca6850f014004",
+  "packageDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+  "missionDigest": "2d188140211c4e2a65f0f1bf1bef5bac53e396e3c3887cb3563fa253a10b0c80",
+  "programSummary": {
+    "nodeCount": 109,
+    "foundationCount": 32,
+    "workPackageCount": 77,
+    "guardCount": 1
+  },
+  "legacyDisposition": {
+    "legacyStageCount": 32,
+    "legacyHasG0Stage": true,
+    "executableHasG0Node": false,
+    "missingInLegacyCount": 78,
+    "legacyNotExecutable": [
+      "G0_AUTHORITY_CLOSURE"
+    ],
+    "namedDependencyMismatchCount": 6,
+    "namedDependencyMismatches": [
+      {
+        "id": "E0_RUNNER_SAFETY_QUARANTINE",
+        "legacyDependsOn": [
+          "G0_AUTHORITY_CLOSURE"
+        ],
+        "executableDependsOn": [
+          "R24C0_SEMANTIC_PACKAGE_CLOSURE"
+        ]
+      },
+      {
+        "id": "V1_ATLAS_CLAIM_COMPILER",
+        "legacyDependsOn": [
+          "A0_ATLAS_INCREMENTAL_EQUIVALENCE"
+        ],
+        "executableDependsOn": [
+          "V0_WRITER_CLAIM_COMPILER",
+          "T1_ANCHOR_LINEAGE",
+          "A0_ATLAS_INCREMENTAL_EQUIVALENCE"
+        ]
+      },
+      {
+        "id": "W0_WORD_PHYSICAL_RECERTIFICATION",
+        "legacyDependsOn": [
+          "P2_DURABLE_SAVE_COORDINATOR",
+          "T1_ANCHOR_LINEAGE"
+        ],
+        "executableDependsOn": [
+          "V0_WRITER_CLAIM_COMPILER",
+          "P2_DURABLE_SAVE_COORDINATOR",
+          "T1_ANCHOR_LINEAGE"
+        ]
+      },
+      {
+        "id": "V2_WORD_CLAIM_COMPILER",
+        "legacyDependsOn": [
+          "W0_WORD_PHYSICAL_RECERTIFICATION"
+        ],
+        "executableDependsOn": [
+          "V0_WRITER_CLAIM_COMPILER",
+          "W0_WORD_PHYSICAL_RECERTIFICATION"
+        ]
+      },
+      {
+        "id": "PK1_RELEASE_SECURITY_PHYSICAL",
+        "legacyDependsOn": [
+          "PK0_PACKAGE_CONTENT_TRUST",
+          "R6_MIGRATION_HISTORY_BACKUP_GC"
+        ],
+        "executableDependsOn": [
+          "V0_WRITER_CLAIM_COMPILER",
+          "PK0_PACKAGE_CONTENT_TRUST",
+          "R6_MIGRATION_HISTORY_BACKUP_GC"
+        ]
+      },
+      {
+        "id": "V3_PACKAGE_CLAIM_COMPILER",
+        "legacyDependsOn": [
+          "PK1_RELEASE_SECURITY_PHYSICAL"
+        ],
+        "executableDependsOn": [
+          "V0_WRITER_CLAIM_COMPILER",
+          "PK1_RELEASE_SECURITY_PHYSICAL"
+        ]
+      }
+    ]
+  },
+  "persistedArtifacts": [
+    "docs/OPS/R24/AUDIT_DISPOSITION_R2_4.json",
+    "docs/OPS/R24/AUTHORITY_AND_SOURCE_BINDINGS_R2_4.json",
+    "docs/OPS/R24/AUTONOMY_CONTROL_PLANE_R2_4.json",
+    "docs/OPS/R24/AUTONOMY_RUNTIME_CONTRACT_R2_4.json",
+    "docs/OPS/R24/CI_LIVE_BINDING_COMPILER_R2_4.json",
+    "docs/OPS/R24/CLAIM_REGISTRY_R2_4.json",
+    "docs/OPS/R24/CURRENT_CHECKPOINT_R2_4.json",
+    "docs/OPS/R24/DOCUMENT_INVENTORY_R2_4.json",
+    "docs/OPS/R24/EVIDENCE/ES-R24-A0-SOT-AUTHORITY-CLAIM-BINDINGS.json",
+    "docs/OPS/R24/EVIDENCE_AND_RECEIPT_CONTRACT_R2_4.json",
+    "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+    "docs/OPS/R24/EXECUTION_ENVELOPES_R2_4.json",
+    "docs/OPS/R24/MISSION_CONTRACT_R2_4.json",
+    "docs/OPS/R24/MISSION_APPROVAL_RECEIPT_R2_4.json",
+    "docs/OPS/R24/OWNER_GATE_REGISTRY_R2_4.json",
+    "docs/OPS/R24/PACKAGE_MANIFEST_R2_4.json",
+    "docs/OPS/R24/PACKAGE_MUTATION_RECEIPT_R2_4.json",
+    "docs/OPS/R24/PACKAGE_VERIFICATION_RECEIPT_R2_4.json",
+    "docs/OPS/R24/PROGRAM_SOT_BINDING_R2_4.json",
+    "docs/OPS/R24/PRODUCT_PROFILE_CUTS_R2_4.json",
+    "docs/OPS/R24/TEST_ASSURANCE_MATRIX_R2_4.json",
+    "docs/OPS/R24/PLAN_STATE_R24.json",
+    "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+    "docs/OPS/R24/AUTHORITY_EPOCH_R2_4.json",
+    "docs/OPS/R24/SELECTION_RECEIPT_R2_4.json"
+  ],
+  "v2ParkedCheckpoint": {
+    "state": "PARKED_SUSPENDED_UNTOUCHED_BY_A0",
+    "manifestPath": "/Volumes/T7-Secure/storage/yalken/checkpoints/r24-v2-parked-20260822T230202Z/manifest.json",
+    "manifestSha256": "f75188a8312b5f8df45311963778b285c4eedde87778719bd7b81a6d66589c65",
+    "trackedDiffPath": "/Volumes/T7-Secure/storage/yalken/checkpoints/r24-v2-parked-20260822T230202Z/tracked.diff",
+    "trackedDiffSha256": "7450858ec1f41d5515411ec813ffc9829b1b173a86d1a8160ed1b8e14b2dbc34"
+  },
+  "localEvidence": [
+    {
+      "command": "npm run -s test:r24-authority-sot",
+      "node": "v20.19.5",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 9,
+        "fail": 0
+      },
+      "selectionId": "SEC0_PATH_CAPABILITY",
+      "selectionReadySetCount": 5
+    },
+    {
+      "command": "node --test scripts/ops/r24/tests/scheduler.test.mjs scripts/ops/r24/tests/plan-state.test.mjs scripts/ops/r24/tests/mission-contract.test.mjs scripts/ops/r24/tests/terminal-receipt.test.mjs scripts/ops/r24/tests/lease.test.mjs scripts/ops/r24/tests/integration-bootstrap.test.mjs",
+      "node": "v20.19.5",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 34,
+        "fail": 0
+      }
+    },
+    {
+      "command": "node --test scripts/ops/r24/tests/docs-claim-lint.test.mjs",
+      "node": "v20.19.5",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 6,
+        "fail": 0
+      }
+    },
+    {
+      "command": "node scripts/ops/r24/test-mutants.mjs",
+      "node": "v20.19.5",
+      "verdict": "PASS",
+      "mutants": {
+        "killed": 26,
+        "survived": 0
+      }
+    },
+    {
+      "command": "npm run -s test:r24-e0",
+      "node": "v20.19.5",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 74,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 26,
+        "survived": 0
+      }
+    },
+    {
+      "command": "npm run -s test:r24-q0",
+      "node": "v20.19.5",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 20,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 26,
+        "survived": 0
+      }
+    },
+    {
+      "command": "npm run -s test:rtk",
+      "node": "v20.19.5",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1058,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "runner": {
+        "invocationId": "edd8ab20-b99b-446b-bcc8-7959a3a9521d",
+        "status": 0,
+        "processGroupCleanup": "RTK_PROCESS_GROUP_CLEAN",
+        "leaseCleanupOk": true,
+        "durationMs": 450085
+      }
+    },
+    {
+      "command": "gh pr checks 1645 --watch --fail-fast=false",
+      "node": "GitHub Actions",
+      "verdict": "FAIL_REPAIRED_BY_A0_FOLLOWUP_COMMIT",
+      "runId": 32607575506,
+      "jobId": 97115022655,
+      "headSha": "b55103d786b3e558564a7c7869a5dee053a254d2",
+      "failingCheck": "rtk-required",
+      "failingStep": "Run maintained RTK graph",
+      "tests": {
+        "pass": 1057,
+        "fail": 1,
+        "skipped": 0,
+        "todo": 0
+      },
+      "failureSignature": [
+        "RTK_TAP_FAIL_COUNT_NONZERO:1",
+        "RTK_TAP_NOT_OK:52:stale-green guard: executable classification of every status-backed contract",
+        "red-to-green flip: b3c17-future-lanes-nonblocking.contract.test.js",
+        "red-to-green flip: b3c18-production-hardening-queue.contract.test.js"
+      ]
+    },
+    {
+      "command": "node --test test/contracts/rtk-evidence-stale-green-guard.contract.test.js",
+      "node": "v20.19.5",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 5,
+        "fail": 0
+      },
+      "classification": {
+        "platform": "darwin",
+        "executedRed": 5,
+        "executedDivergent": 6,
+        "executedGreen": 23,
+        "executedFlaky": 1,
+        "boundedFlakyAccepted": true,
+        "redToGreen": 0,
+        "greenToRed": 0,
+        "shapeDrift": 0,
+        "divergentDrift": 0
+      }
+    },
+    {
+      "command": "npm run -s oss:policy",
+      "node": "v20.19.5",
+      "verdict": "PASS"
+    },
+    {
+      "command": "npm run agent:guardrails",
+      "node": "v20.19.5",
+      "verdict": "PASS"
+    },
+    {
+      "command": "npm audit --audit-level=high",
+      "node": "v20.19.5",
+      "verdict": "FAIL_PREEXISTING_DEPENDENCY_ADVISORY_NO_A0_DEPENDENCY_MUTATION_AUTHORITY",
+      "findings": [
+        "electron high advisories via extract-zip",
+        "extract-zip high advisory"
+      ]
+    }
+  ],
+  "nonClaims": [
+    "This contour does not repair V0/V1/V3 observed-evidence compilers.",
+    "This contour does not resume or rebase V2.",
+    "This contour does not claim PROGRAM DONE."
+  ],
+  "nextCorrectiveContourHint": "B0_OBSERVED_EVIDENCE_CLAIM_COMPILER_REPAIR_V1"
+}

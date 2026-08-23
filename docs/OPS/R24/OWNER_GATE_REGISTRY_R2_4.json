@@ -1,0 +1,513 @@
+{
+  "schemaVersion": "yalken.owner-gate-registry.r2.4",
+  "registryId": "YALKEN-R2.4-OWNER-GATES",
+  "registryClosed": true,
+  "unknownGateDisposition": "UNRESOLVED_UNKNOWN_GATE_DENY",
+  "safeDefault": "DENY",
+  "entries": [
+    {
+      "id": "ADVANCED_LANGUAGE_PROFILE_SELECTION",
+      "status": "UNRESOLVED",
+      "safeDefault": "DENY",
+      "decisionAuthority": "OWNER_OR_EXPLICIT_DIGEST_BOUND_DELEGATE",
+      "capability": "PRODUCT_OR_SCOPE_AUTHORITY",
+      "scope": "EXACT_MISSION_DIGEST_AND_REFERENCING_NODE_ONLY",
+      "decisionArtifactDigest": null,
+      "issuedAt": null,
+      "expiresAt": null,
+      "revocationEpoch": 0,
+      "allowedTransitions": [
+        "APPROVED",
+        "DENIED",
+        "EXPIRED",
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "AI_PROVIDER_EGRESS_RETENTION_ADR",
+      "status": "UNRESOLVED",
+      "safeDefault": "DENY",
+      "decisionAuthority": "OWNER_OR_EXPLICIT_DIGEST_BOUND_DELEGATE",
+      "capability": "EXTERNAL_INTERCHANGE_EFFECT",
+      "scope": "EXACT_MISSION_DIGEST_AND_REFERENCING_NODE_ONLY",
+      "decisionArtifactDigest": null,
+      "issuedAt": null,
+      "expiresAt": null,
+      "revocationEpoch": 0,
+      "allowedTransitions": [
+        "APPROVED",
+        "DENIED",
+        "EXPIRED",
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "ATLAS_PROFILE_RELEASE_PERMIT",
+      "status": "UNRESOLVED",
+      "safeDefault": "DENY",
+      "decisionAuthority": "OWNER_OR_EXPLICIT_DIGEST_BOUND_DELEGATE",
+      "capability": "RELEASE_OR_PUBLIC_EFFECT",
+      "scope": "EXACT_MISSION_DIGEST_AND_REFERENCING_NODE_ONLY",
+      "decisionArtifactDigest": null,
+      "issuedAt": null,
+      "expiresAt": null,
+      "revocationEpoch": 0,
+      "allowedTransitions": [
+        "APPROVED",
+        "DENIED",
+        "EXPIRED",
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "BBR_CRYPTO_KEY_ADR",
+      "status": "UNRESOLVED",
+      "safeDefault": "DENY",
+      "decisionAuthority": "OWNER_OR_EXPLICIT_DIGEST_BOUND_DELEGATE",
+      "capability": "PRODUCT_OR_SCOPE_AUTHORITY",
+      "scope": "EXACT_MISSION_DIGEST_AND_REFERENCING_NODE_ONLY",
+      "decisionArtifactDigest": null,
+      "issuedAt": null,
+      "expiresAt": null,
+      "revocationEpoch": 0,
+      "allowedTransitions": [
+        "APPROVED",
+        "DENIED",
+        "EXPIRED",
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "BRAND_LICENSE_OWNER_CHOICE",
+      "status": "UNRESOLVED",
+      "safeDefault": "DENY",
+      "decisionAuthority": "OWNER_OR_EXPLICIT_DIGEST_BOUND_DELEGATE",
+      "capability": "PRODUCT_OR_SCOPE_AUTHORITY",
+      "scope": "EXACT_MISSION_DIGEST_AND_REFERENCING_NODE_ONLY",
+      "decisionArtifactDigest": null,
+      "issuedAt": null,
+      "expiresAt": null,
+      "revocationEpoch": 0,
+      "allowedTransitions": [
+        "APPROVED",
+        "DENIED",
+        "EXPIRED",
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "COLLABORATION_SYNC_ADR",
+      "status": "UNRESOLVED",
+      "safeDefault": "DENY",
+      "decisionAuthority": "OWNER_OR_EXPLICIT_DIGEST_BOUND_DELEGATE",
+      "capability": "PRODUCT_OR_SCOPE_AUTHORITY",
+      "scope": "EXACT_MISSION_DIGEST_AND_REFERENCING_NODE_ONLY",
+      "decisionArtifactDigest": null,
+      "issuedAt": null,
+      "expiresAt": null,
+      "revocationEpoch": 0,
+      "allowedTransitions": [
+        "APPROVED",
+        "DENIED",
+        "EXPIRED",
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "ENTITLEMENT_PRICING_ADR",
+      "status": "UNRESOLVED",
+      "safeDefault": "DENY",
+      "decisionAuthority": "OWNER_OR_EXPLICIT_DIGEST_BOUND_DELEGATE",
+      "capability": "PRODUCT_OR_SCOPE_AUTHORITY",
+      "scope": "EXACT_MISSION_DIGEST_AND_REFERENCING_NODE_ONLY",
+      "decisionArtifactDigest": null,
+      "issuedAt": null,
+      "expiresAt": null,
+      "revocationEpoch": 0,
+      "allowedTransitions": [
+        "APPROVED",
+        "DENIED",
+        "EXPIRED",
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "ENTITLEMENT_SEMANTICS_ADR_OR_DENY",
+      "status": "UNRESOLVED",
+      "safeDefault": "DENY",
+      "decisionAuthority": "OWNER_OR_EXPLICIT_DIGEST_BOUND_DELEGATE",
+      "capability": "PRODUCT_OR_SCOPE_AUTHORITY",
+      "scope": "EXACT_MISSION_DIGEST_AND_REFERENCING_NODE_ONLY",
+      "decisionArtifactDigest": null,
+      "issuedAt": null,
+      "expiresAt": null,
+      "revocationEpoch": 0,
+      "allowedTransitions": [
+        "APPROVED",
+        "DENIED",
+        "EXPIRED",
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "GOOGLE_EGRESS_APPLY_ADR",
+      "status": "UNRESOLVED",
+      "safeDefault": "DENY",
+      "decisionAuthority": "OWNER_OR_EXPLICIT_DIGEST_BOUND_DELEGATE",
+      "capability": "EXTERNAL_INTERCHANGE_EFFECT",
+      "scope": "EXACT_MISSION_DIGEST_AND_REFERENCING_NODE_ONLY",
+      "decisionArtifactDigest": null,
+      "issuedAt": null,
+      "expiresAt": null,
+      "revocationEpoch": 0,
+      "allowedTransitions": [
+        "APPROVED",
+        "DENIED",
+        "EXPIRED",
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "LINUX_PROFILE_ADR",
+      "status": "UNRESOLVED",
+      "safeDefault": "DENY",
+      "decisionAuthority": "OWNER_OR_EXPLICIT_DIGEST_BOUND_DELEGATE",
+      "capability": "PRODUCT_OR_SCOPE_AUTHORITY",
+      "scope": "EXACT_MISSION_DIGEST_AND_REFERENCING_NODE_ONLY",
+      "decisionArtifactDigest": null,
+      "issuedAt": null,
+      "expiresAt": null,
+      "revocationEpoch": 0,
+      "allowedTransitions": [
+        "APPROVED",
+        "DENIED",
+        "EXPIRED",
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "LOCAL_RELEASE_PERMIT",
+      "status": "UNRESOLVED",
+      "safeDefault": "DENY",
+      "decisionAuthority": "OWNER_OR_EXPLICIT_DIGEST_BOUND_DELEGATE",
+      "capability": "RELEASE_OR_PUBLIC_EFFECT",
+      "scope": "EXACT_MISSION_DIGEST_AND_REFERENCING_NODE_ONLY",
+      "decisionArtifactDigest": null,
+      "issuedAt": null,
+      "expiresAt": null,
+      "revocationEpoch": 0,
+      "allowedTransitions": [
+        "APPROVED",
+        "DENIED",
+        "EXPIRED",
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "OPTIONAL_RELATION_VOCABULARY_ADMISSION",
+      "status": "UNRESOLVED",
+      "safeDefault": "DENY",
+      "decisionAuthority": "OWNER_OR_EXPLICIT_DIGEST_BOUND_DELEGATE",
+      "capability": "PRODUCT_OR_SCOPE_AUTHORITY",
+      "scope": "EXACT_MISSION_DIGEST_AND_REFERENCING_NODE_ONLY",
+      "decisionArtifactDigest": null,
+      "issuedAt": null,
+      "expiresAt": null,
+      "revocationEpoch": 0,
+      "allowedTransitions": [
+        "APPROVED",
+        "DENIED",
+        "EXPIRED",
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "PER_MODULE_PRODUCT_ADMISSION",
+      "status": "UNRESOLVED",
+      "safeDefault": "DENY",
+      "decisionAuthority": "OWNER_OR_EXPLICIT_DIGEST_BOUND_DELEGATE",
+      "capability": "PRODUCT_OR_SCOPE_AUTHORITY",
+      "scope": "EXACT_MISSION_DIGEST_AND_REFERENCING_NODE_ONLY",
+      "decisionArtifactDigest": null,
+      "issuedAt": null,
+      "expiresAt": null,
+      "revocationEpoch": 0,
+      "allowedTransitions": [
+        "APPROVED",
+        "DENIED",
+        "EXPIRED",
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "PRODUCT_BUSINESS_ADR",
+      "status": "UNRESOLVED",
+      "safeDefault": "DENY",
+      "decisionAuthority": "OWNER_OR_EXPLICIT_DIGEST_BOUND_DELEGATE",
+      "capability": "PRODUCT_OR_SCOPE_AUTHORITY",
+      "scope": "EXACT_MISSION_DIGEST_AND_REFERENCING_NODE_ONLY",
+      "decisionArtifactDigest": null,
+      "issuedAt": null,
+      "expiresAt": null,
+      "revocationEpoch": 0,
+      "allowedTransitions": [
+        "APPROVED",
+        "DENIED",
+        "EXPIRED",
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "PUBLIC_RELEASE_PERMIT",
+      "status": "UNRESOLVED",
+      "safeDefault": "DENY",
+      "decisionAuthority": "OWNER_OR_EXPLICIT_DIGEST_BOUND_DELEGATE",
+      "capability": "RELEASE_OR_PUBLIC_EFFECT",
+      "scope": "EXACT_MISSION_DIGEST_AND_REFERENCING_NODE_ONLY",
+      "decisionArtifactDigest": null,
+      "issuedAt": null,
+      "expiresAt": null,
+      "revocationEpoch": 0,
+      "allowedTransitions": [
+        "APPROVED",
+        "DENIED",
+        "EXPIRED",
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "PULSE_METRIC_PRIVACY_ADR",
+      "status": "UNRESOLVED",
+      "safeDefault": "DENY",
+      "decisionAuthority": "OWNER_OR_EXPLICIT_DIGEST_BOUND_DELEGATE",
+      "capability": "PRODUCT_OR_SCOPE_AUTHORITY",
+      "scope": "EXACT_MISSION_DIGEST_AND_REFERENCING_NODE_ONLY",
+      "decisionArtifactDigest": null,
+      "issuedAt": null,
+      "expiresAt": null,
+      "revocationEpoch": 0,
+      "allowedTransitions": [
+        "APPROVED",
+        "DENIED",
+        "EXPIRED",
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "PULSE_PRODUCT_ADMISSION",
+      "status": "UNRESOLVED",
+      "safeDefault": "DENY",
+      "decisionAuthority": "OWNER_OR_EXPLICIT_DIGEST_BOUND_DELEGATE",
+      "capability": "PRODUCT_OR_SCOPE_AUTHORITY",
+      "scope": "EXACT_MISSION_DIGEST_AND_REFERENCING_NODE_ONLY",
+      "decisionArtifactDigest": null,
+      "issuedAt": null,
+      "expiresAt": null,
+      "revocationEpoch": 0,
+      "allowedTransitions": [
+        "APPROVED",
+        "DENIED",
+        "EXPIRED",
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "PULSE_RETENTION_ADR",
+      "status": "UNRESOLVED",
+      "safeDefault": "DENY",
+      "decisionAuthority": "OWNER_OR_EXPLICIT_DIGEST_BOUND_DELEGATE",
+      "capability": "PRODUCT_OR_SCOPE_AUTHORITY",
+      "scope": "EXACT_MISSION_DIGEST_AND_REFERENCING_NODE_ONLY",
+      "decisionArtifactDigest": null,
+      "issuedAt": null,
+      "expiresAt": null,
+      "revocationEpoch": 0,
+      "allowedTransitions": [
+        "APPROVED",
+        "DENIED",
+        "EXPIRED",
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "QUALIFIED_PROVIDER_SET",
+      "status": "UNRESOLVED",
+      "safeDefault": "DENY",
+      "decisionAuthority": "OWNER_OR_EXPLICIT_DIGEST_BOUND_DELEGATE",
+      "capability": "EXTERNAL_INTERCHANGE_EFFECT",
+      "scope": "EXACT_MISSION_DIGEST_AND_REFERENCING_NODE_ONLY",
+      "decisionArtifactDigest": null,
+      "issuedAt": null,
+      "expiresAt": null,
+      "revocationEpoch": 0,
+      "allowedTransitions": [
+        "APPROVED",
+        "DENIED",
+        "EXPIRED",
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "RESEARCH_PRODUCT_ADR",
+      "status": "UNRESOLVED",
+      "safeDefault": "DENY",
+      "decisionAuthority": "OWNER_OR_EXPLICIT_DIGEST_BOUND_DELEGATE",
+      "capability": "PRODUCT_OR_SCOPE_AUTHORITY",
+      "scope": "EXACT_MISSION_DIGEST_AND_REFERENCING_NODE_ONLY",
+      "decisionArtifactDigest": null,
+      "issuedAt": null,
+      "expiresAt": null,
+      "revocationEpoch": 0,
+      "allowedTransitions": [
+        "APPROVED",
+        "DENIED",
+        "EXPIRED",
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "SERIES_CANON_ADR",
+      "status": "UNRESOLVED",
+      "safeDefault": "DENY",
+      "decisionAuthority": "OWNER_OR_EXPLICIT_DIGEST_BOUND_DELEGATE",
+      "capability": "PRODUCT_OR_SCOPE_AUTHORITY",
+      "scope": "EXACT_MISSION_DIGEST_AND_REFERENCING_NODE_ONLY",
+      "decisionArtifactDigest": null,
+      "issuedAt": null,
+      "expiresAt": null,
+      "revocationEpoch": 0,
+      "allowedTransitions": [
+        "APPROVED",
+        "DENIED",
+        "EXPIRED",
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "SERIES_IDENTITY_PRIVACY_GATE_FOR_MODULE_13",
+      "status": "UNRESOLVED",
+      "safeDefault": "DENY",
+      "decisionAuthority": "OWNER_OR_EXPLICIT_DIGEST_BOUND_DELEGATE",
+      "capability": "PRODUCT_OR_SCOPE_AUTHORITY",
+      "scope": "EXACT_MISSION_DIGEST_AND_REFERENCING_NODE_ONLY",
+      "decisionArtifactDigest": null,
+      "issuedAt": null,
+      "expiresAt": null,
+      "revocationEpoch": 0,
+      "allowedTransitions": [
+        "APPROVED",
+        "DENIED",
+        "EXPIRED",
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "SIGNING_AND_RELEASE_AUTHORITY",
+      "status": "UNRESOLVED",
+      "safeDefault": "DENY",
+      "decisionAuthority": "OWNER_OR_EXPLICIT_DIGEST_BOUND_DELEGATE",
+      "capability": "RELEASE_OR_PUBLIC_EFFECT",
+      "scope": "EXACT_MISSION_DIGEST_AND_REFERENCING_NODE_ONLY",
+      "decisionArtifactDigest": null,
+      "issuedAt": null,
+      "expiresAt": null,
+      "revocationEpoch": 0,
+      "allowedTransitions": [
+        "APPROVED",
+        "DENIED",
+        "EXPIRED",
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "STORAGE_AUTHORITY_ADR",
+      "status": "UNRESOLVED",
+      "safeDefault": "DENY",
+      "decisionAuthority": "OWNER_OR_EXPLICIT_DIGEST_BOUND_DELEGATE",
+      "capability": "STATE_AUTHORITY",
+      "scope": "EXACT_MISSION_DIGEST_AND_REFERENCING_NODE_ONLY",
+      "decisionArtifactDigest": null,
+      "issuedAt": null,
+      "expiresAt": null,
+      "revocationEpoch": 0,
+      "allowedTransitions": [
+        "APPROVED",
+        "DENIED",
+        "EXPIRED",
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "TTS_MOBILE_PLATFORM_ADR",
+      "status": "UNRESOLVED",
+      "safeDefault": "DENY",
+      "decisionAuthority": "OWNER_OR_EXPLICIT_DIGEST_BOUND_DELEGATE",
+      "capability": "PRODUCT_OR_SCOPE_AUTHORITY",
+      "scope": "EXACT_MISSION_DIGEST_AND_REFERENCING_NODE_ONLY",
+      "decisionArtifactDigest": null,
+      "issuedAt": null,
+      "expiresAt": null,
+      "revocationEpoch": 0,
+      "allowedTransitions": [
+        "APPROVED",
+        "DENIED",
+        "EXPIRED",
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "WINDOWS_PROFILE_ADR",
+      "status": "UNRESOLVED",
+      "safeDefault": "DENY",
+      "decisionAuthority": "OWNER_OR_EXPLICIT_DIGEST_BOUND_DELEGATE",
+      "capability": "PRODUCT_OR_SCOPE_AUTHORITY",
+      "scope": "EXACT_MISSION_DIGEST_AND_REFERENCING_NODE_ONLY",
+      "decisionArtifactDigest": null,
+      "issuedAt": null,
+      "expiresAt": null,
+      "revocationEpoch": 0,
+      "allowedTransitions": [
+        "APPROVED",
+        "DENIED",
+        "EXPIRED",
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "WORD_MULTI_SCENE_SEPARATE_ADR",
+      "status": "UNRESOLVED",
+      "safeDefault": "DENY",
+      "decisionAuthority": "OWNER_OR_EXPLICIT_DIGEST_BOUND_DELEGATE",
+      "capability": "EXTERNAL_INTERCHANGE_EFFECT",
+      "scope": "EXACT_MISSION_DIGEST_AND_REFERENCING_NODE_ONLY",
+      "decisionArtifactDigest": null,
+      "issuedAt": null,
+      "expiresAt": null,
+      "revocationEpoch": 0,
+      "allowedTransitions": [
+        "APPROVED",
+        "DENIED",
+        "EXPIRED",
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "WORD_PHYSICAL_SESSION_AUTHORITY",
+      "status": "UNRESOLVED",
+      "safeDefault": "DENY",
+      "decisionAuthority": "OWNER_OR_EXPLICIT_DIGEST_BOUND_DELEGATE",
+      "capability": "EXTERNAL_INTERCHANGE_EFFECT",
+      "scope": "EXACT_MISSION_DIGEST_AND_REFERENCING_NODE_ONLY",
+      "decisionArtifactDigest": null,
+      "issuedAt": null,
+      "expiresAt": null,
+      "revocationEpoch": 0,
+      "allowedTransitions": [
+        "APPROVED",
+        "DENIED",
+        "EXPIRED",
+        "REVOKED"
+      ]
+    }
+  ]
+}

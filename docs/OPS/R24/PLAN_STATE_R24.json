@@ -1,0 +1,1170 @@
+{
+  "schemaVersion": "yalken.plan-state.r24.v1",
+  "revision": 85,
+  "fencingCounter": 13,
+  "contours": {
+    "R24C0_SEMANTIC_PACKAGE_CLOSURE": {
+      "state": "DONE",
+      "previousState": null,
+      "attemptId": "SEALED-PACKAGE-CLOSURE",
+      "updatedAt": "2026-08-22T23:24:48Z",
+      "headSha": "0bb87ae9ce95300e86e3ffd70f8ca6850f014004",
+      "source": "COMMITTED_SEALED_PACKAGE_INTEGRITY"
+    },
+    "E0_RUNNER_SAFETY_QUARANTINE": {
+      "state": "DONE",
+      "previousState": "POSTMERGE_VERIFIED",
+      "attemptId": "ATTEMPT-1",
+      "updatedAt": "2026-08-20T06:35:00Z",
+      "headSha": "2f0571682d01b4f6e8cf2dc1ee3886fb4cbeb943",
+      "source": "EXTERNAL_R24_MISSION_PLAN_STATE"
+    },
+    "Q0_TOOLCHAIN_HYGIENE": {
+      "state": "DONE",
+      "previousState": "POSTMERGE_VERIFIED",
+      "attemptId": "ATTEMPT-1",
+      "updatedAt": "2026-08-20T07:45:00Z",
+      "headSha": "65b879a57ebdace67528a819bc3f12c208f1553c",
+      "source": "EXTERNAL_R24_MISSION_PLAN_STATE"
+    },
+    "P0_AUTOSAVE_GENERATION": {
+      "state": "DONE",
+      "previousState": "POSTMERGE_VERIFIED",
+      "attemptId": "ATTEMPT-1",
+      "updatedAt": "2026-08-20T09:20:00Z",
+      "headSha": "28f6858b3d945a6f8065cda2117de4a70a91c215",
+      "source": "EXTERNAL_R24_MISSION_PLAN_STATE"
+    },
+    "P1_DIRTY_ADMISSION_ACK": {
+      "state": "DONE",
+      "previousState": "POSTMERGE_VERIFIED",
+      "attemptId": "ATTEMPT-1",
+      "updatedAt": "2026-08-20T17:10:00Z",
+      "headSha": "2676af38b943739488e1252350b0f168881cba60",
+      "source": "EXTERNAL_R24_MISSION_PLAN_STATE"
+    },
+    "P2_DURABLE_SAVE_COORDINATOR": {
+      "state": "DONE",
+      "previousState": "POSTMERGE_VERIFIED",
+      "attemptId": "ATTEMPT-1",
+      "updatedAt": "2026-08-21T01:20:00Z",
+      "headSha": "f0eaa5ff0c4ba687c7232560c6a8f76f64190110",
+      "source": "EXTERNAL_R24_MISSION_PLAN_STATE"
+    },
+    "P3_TRANSACTIONAL_PROJECT_COMMIT": {
+      "state": "DONE",
+      "previousState": "POSTMERGE_VERIFIED",
+      "attemptId": "ATTEMPT-1",
+      "updatedAt": "2026-08-21T03:30:00Z",
+      "headSha": "14af53dddf10db14859e9e9ae417fd4374fc9a54",
+      "source": "EXTERNAL_R24_MISSION_PLAN_STATE"
+    },
+    "S0_IPC_CALLER_IDENTITY": {
+      "state": "DONE",
+      "previousState": "POSTMERGE_VERIFIED",
+      "attemptId": "ATTEMPT-1",
+      "updatedAt": "2026-08-20T15:40:00Z",
+      "headSha": "33b924d6a62b9ce5c35de3eebff789941524b55e",
+      "source": "EXTERNAL_R24_MISSION_PLAN_STATE"
+    },
+    "S1_IPC_ENVELOPE_BUDGETS": {
+      "state": "DONE",
+      "previousState": "POSTMERGE_VERIFIED",
+      "attemptId": "ATTEMPT-1",
+      "updatedAt": "2026-08-20T18:30:00Z",
+      "headSha": "d8e3ec32bd50dd6f85032fcae258837d9f18afb3",
+      "source": "EXTERNAL_R24_MISSION_PLAN_STATE"
+    },
+    "K0_COMMAND_PROTOCOL": {
+      "state": "DONE",
+      "previousState": "POSTMERGE_VERIFIED",
+      "attemptId": "ATTEMPT-1",
+      "updatedAt": "2026-08-20T20:10:00Z",
+      "headSha": "273e127a20c9f913d84db275a4137e31ddf2bf65",
+      "source": "EXTERNAL_R24_MISSION_PLAN_STATE"
+    },
+    "K1_AUTHORITY_DECOMPOSITION": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "R0_REVISION_ALGEBRA": {
+      "state": "DONE",
+      "previousState": "POSTMERGE_VERIFIED",
+      "attemptId": "ATTEMPT-1",
+      "updatedAt": "2026-08-21T00:10:00Z",
+      "headSha": "a1992c9977bbe03e59bcd45f317539ff8aab4a4f",
+      "source": "EXTERNAL_R24_MISSION_PLAN_STATE"
+    },
+    "R1_SHADOW_PROJECT_AUTHORITY_CELL": {
+      "state": "DONE",
+      "previousState": "POSTMERGE_VERIFIED",
+      "attemptId": "ATTEMPT-1",
+      "updatedAt": "2026-08-21T02:40:00Z",
+      "headSha": "3760a741e967a949759ab59533ee701ee1f98bc6",
+      "source": "EXTERNAL_R24_MISSION_PLAN_STATE"
+    },
+    "R2_STORAGE_BAKEOFF": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "R3_DURABLE_RECOVERY_LEDGER": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "R4_TRANSACTIONAL_INBOX_OUTBOX": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "R5_LIFECYCLE_EXTERNAL_CONFLICT": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "R6_MIGRATION_HISTORY_BACKUP_GC": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "SEC0_PATH_CAPABILITY": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "T0_TEXT_COORDINATE_ALGEBRA": {
+      "state": "DONE",
+      "previousState": "POSTMERGE_VERIFIED",
+      "attemptId": "ATTEMPT-1",
+      "updatedAt": "2026-08-21T04:40:00Z",
+      "headSha": "a7f309f40259bd637014ad15d190f3de88370aea",
+      "source": "EXTERNAL_R24_MISSION_PLAN_STATE"
+    },
+    "ENT0_ENTITLEMENT_CONFORMANCE": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "F0_WRITER_REFINEMENT_CONFORMANCE": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "V0_WRITER_CLAIM_COMPILER": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "T1_ANCHOR_LINEAGE": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "A0_ATLAS_INCREMENTAL_EQUIVALENCE": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "A1_OPTIONAL_RELATION_VOCABULARY": {
+      "state": "INELIGIBLE_OPTIONAL",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "V1_ATLAS_CLAIM_COMPILER": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "W0_WORD_PHYSICAL_RECERTIFICATION": {
+      "state": "BLOCKED_TYPED",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "V2_WORD_CLAIM_COMPILER": {
+      "state": "BLOCKED_TYPED",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "PK0_PACKAGE_CONTENT_TRUST": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "PK1_RELEASE_SECURITY_PHYSICAL": {
+      "state": "BLOCKED_TYPED",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "V3_PACKAGE_CLAIM_COMPILER": {
+      "state": "BLOCKED_TYPED",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-100_GENERATION_ADMISSION": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-101_IPC_ADMISSION": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-102_OPERATION_PROTOCOL": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-103_REVISION_PRODUCT_ORDER": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-104_BOUNDARY_FALSIFICATION": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-200_DURABLE_SAVE": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-201_PROJECT_TRANSACTION": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-202_LEGACY_STRANGLER": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-203_STORAGE_SELECTION": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-204_LIFECYCLE_RECOVERY": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-205_PATH_AND_TEXT": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-206_SAFE_ENTITLEMENT_BASELINE": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-207_WRITER_REFINEMENT": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-300_WRITER_HOME": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-301_AUTHORING_SURFACES": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-302_SESSION_CONTINUITY": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-303_DESIGN_OS_CUSTOMIZATION": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-304_A11Y_PERFORMANCE": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-305_MINIMUM_INTERCHANGE": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-306_LOCAL_HISTORY_RECOVERY_UI": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-307_WRITER_LOCAL_PROFILE": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-308_BRAND_BASELINE": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-400_ANCHOR_LINEAGE": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-401_BOOK_SNAPSHOT": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-402_PROJECTOR_KERNEL": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-403_DECISION_SUBSTRATE": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-404_ATLAS_FOUNDATION_CLAIM": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-500_ASSOCIATIONS": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-501_TIME_KNOWLEDGE": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-502_THREADS_CAUSALITY": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-503_ATLAS_SURFACE": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-504_DOSSIER_LAYOUT_LINKS": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-505_REGISTER_AND_ASK": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-506_COUNTERFACTUAL": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-507_ATLAS_PRODUCT_CLAIM": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-600_FEATURESPEC_QUERY_IR": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-601_LOCAL_AUTOMATION": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-602_PROPOSAL_WORKFLOW": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-603_WSE_STATE_EVIDENCE": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-604_WSE_THREADS_EXPLANATION": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-605_WSE_REVISION_TIME_OBJECT": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-606_WSE_SERIES_MULTI_LAYER": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-607_WSE_CLAIMS": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-700_INTERCHANGE_IR": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-701_PARSER_QUARANTINE": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-702_TEXT_FORMATS": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-703_DOCX_PROFILE": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-704_PDF_ARCHIVE_REVIEW": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-705_NEGOTIATION_CORPUS": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-706_WORD_REPORT": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-707_WORD_APPLY": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-708_GOOGLE_PROVIDER": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-709_MIXED_CHAINS": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-710_EVIDENCE_CAPSULE_EXPORT": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-800_PULSE_POLICY_CODEC": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-801_PULSE_LEDGER": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-802_PULSE_FORMULAS": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-803_DESCRIPTIVE_HISTORY": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-804_PULSE_PRIVACY": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-805_LOCAL_HISTORY": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-806_PULSE_CLAIM": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-900_BBR_POLICY": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-901_BBR_RESTORE": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-902_ENTITLEMENT_PRODUCT": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-903_BRAND_RELEASE": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-904_PACKAGE_CONTENT": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-905_PACKAGE_PHYSICAL": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-906_RELEASE_VERDICT": {
+      "state": "PENDING",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-1000_ADVANCED_TEXT": {
+      "state": "INELIGIBLE_OPTIONAL",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-1001_WINDOWS_PROFILE": {
+      "state": "INELIGIBLE_OPTIONAL",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-1002_LINUX_PROFILE": {
+      "state": "INELIGIBLE_OPTIONAL",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-1003_SERIES_CANON": {
+      "state": "INELIGIBLE_OPTIONAL",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-1004_COLLABORATION": {
+      "state": "INELIGIBLE_OPTIONAL",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-1005_OPTIONAL_AI": {
+      "state": "INELIGIBLE_OPTIONAL",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-1006_RESEARCH_CITATIONS": {
+      "state": "INELIGIBLE_OPTIONAL",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-1007_TTS_MOBILE_CAPTURE": {
+      "state": "INELIGIBLE_OPTIONAL",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    },
+    "WP-1008_BUSINESS_HELP": {
+      "state": "INELIGIBLE_OPTIONAL",
+      "previousState": null,
+      "attemptId": null,
+      "updatedAt": null,
+      "headSha": null,
+      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+    }
+  },
+  "leases": {},
+  "idempotency": {
+    "e0-lease-attempt-1": {
+      "revision": 1,
+      "receipt": null
+    },
+    "e0-eligible": {
+      "revision": 2,
+      "receipt": null
+    },
+    "e0-running": {
+      "revision": 3,
+      "receipt": null
+    },
+    "e0-delivered": {
+      "revision": 4,
+      "receipt": null
+    },
+    "e0-postmerge_verified": {
+      "revision": 5,
+      "receipt": null
+    },
+    "e0-done": {
+      "revision": 6,
+      "receipt": null
+    },
+    "q0-lease-attempt-1": {
+      "revision": 8,
+      "receipt": null
+    },
+    "q0-eligible": {
+      "revision": 9,
+      "receipt": null
+    },
+    "q0-running": {
+      "revision": 10,
+      "receipt": null
+    },
+    "q0-delivered": {
+      "revision": 11,
+      "receipt": null
+    },
+    "q0-postmerge_verified": {
+      "revision": 12,
+      "receipt": null
+    },
+    "q0-done": {
+      "revision": 13,
+      "receipt": null
+    },
+    "p0-lease-attempt-1": {
+      "revision": 15,
+      "receipt": null
+    },
+    "p0-eligible": {
+      "revision": 16,
+      "receipt": null
+    },
+    "p0-running": {
+      "revision": 17,
+      "receipt": null
+    },
+    "p0-delivered": {
+      "revision": 18,
+      "receipt": null
+    },
+    "p0-postmerge_verified": {
+      "revision": 19,
+      "receipt": null
+    },
+    "p0-done": {
+      "revision": 20,
+      "receipt": null
+    },
+    "s0-lease-attempt-1": {
+      "revision": 22,
+      "receipt": null
+    },
+    "s0-eligible": {
+      "revision": 23,
+      "receipt": null
+    },
+    "s0-running": {
+      "revision": 24,
+      "receipt": null
+    },
+    "s0-delivered": {
+      "revision": 25,
+      "receipt": null
+    },
+    "s0-postmerge_verified": {
+      "revision": 26,
+      "receipt": null
+    },
+    "s0-done": {
+      "revision": 27,
+      "receipt": null
+    },
+    "p1-lease-attempt-1": {
+      "revision": 29,
+      "receipt": null
+    },
+    "p1-eligible": {
+      "revision": 30,
+      "receipt": null
+    },
+    "p1-running": {
+      "revision": 31,
+      "receipt": null
+    },
+    "p1-delivered": {
+      "revision": 32,
+      "receipt": null
+    },
+    "p1-postmerge_verified": {
+      "revision": 33,
+      "receipt": null
+    },
+    "p1-done": {
+      "revision": 34,
+      "receipt": null
+    },
+    "s1-lease-attempt-1": {
+      "revision": 36,
+      "receipt": null
+    },
+    "s1-eligible": {
+      "revision": 37,
+      "receipt": null
+    },
+    "s1-running": {
+      "revision": 38,
+      "receipt": null
+    },
+    "s1-delivered": {
+      "revision": 39,
+      "receipt": null
+    },
+    "s1-postmerge_verified": {
+      "revision": 40,
+      "receipt": null
+    },
+    "s1-done": {
+      "revision": 41,
+      "receipt": null
+    },
+    "k0-lease-attempt-1": {
+      "revision": 43,
+      "receipt": null
+    },
+    "k0-eligible": {
+      "revision": 44,
+      "receipt": null
+    },
+    "k0-running": {
+      "revision": 45,
+      "receipt": null
+    },
+    "k0-delivered": {
+      "revision": 46,
+      "receipt": null
+    },
+    "k0-postmerge_verified": {
+      "revision": 47,
+      "receipt": null
+    },
+    "k0-done": {
+      "revision": 48,
+      "receipt": null
+    },
+    "r0-lease-attempt-1": {
+      "revision": 50,
+      "receipt": null
+    },
+    "r0-eligible": {
+      "revision": 51,
+      "receipt": null
+    },
+    "r0-running": {
+      "revision": 52,
+      "receipt": null
+    },
+    "r0-delivered": {
+      "revision": 53,
+      "receipt": null
+    },
+    "r0-postmerge_verified": {
+      "revision": 54,
+      "receipt": null
+    },
+    "r0-done": {
+      "revision": 55,
+      "receipt": null
+    },
+    "p2-lease-attempt-1": {
+      "revision": 57,
+      "receipt": null
+    },
+    "p2-eligible": {
+      "revision": 58,
+      "receipt": null
+    },
+    "p2-running": {
+      "revision": 59,
+      "receipt": null
+    },
+    "p2-delivered": {
+      "revision": 60,
+      "receipt": null
+    },
+    "p2-postmerge_verified": {
+      "revision": 61,
+      "receipt": null
+    },
+    "p2-done": {
+      "revision": 62,
+      "receipt": null
+    },
+    "r1-lease-attempt-1": {
+      "revision": 64,
+      "receipt": null
+    },
+    "r1-eligible": {
+      "revision": 65,
+      "receipt": null
+    },
+    "r1-running": {
+      "revision": 66,
+      "receipt": null
+    },
+    "r1-delivered": {
+      "revision": 67,
+      "receipt": null
+    },
+    "r1-postmerge_verified": {
+      "revision": 68,
+      "receipt": null
+    },
+    "r1-done": {
+      "revision": 69,
+      "receipt": null
+    },
+    "p3-lease-attempt-1": {
+      "revision": 71,
+      "receipt": null
+    },
+    "p3-eligible": {
+      "revision": 72,
+      "receipt": null
+    },
+    "p3-running": {
+      "revision": 73,
+      "receipt": null
+    },
+    "p3-delivered": {
+      "revision": 74,
+      "receipt": null
+    },
+    "p3-postmerge_verified": {
+      "revision": 75,
+      "receipt": null
+    },
+    "p3-done": {
+      "revision": 76,
+      "receipt": null
+    },
+    "t0-lease-attempt-1": {
+      "revision": 78,
+      "receipt": null
+    },
+    "t0-eligible": {
+      "revision": 79,
+      "receipt": null
+    },
+    "t0-running": {
+      "revision": 80,
+      "receipt": null
+    },
+    "t0-delivered": {
+      "revision": 81,
+      "receipt": null
+    },
+    "t0-postmerge_verified": {
+      "revision": 82,
+      "receipt": null
+    },
+    "t0-done": {
+      "revision": 83,
+      "receipt": null
+    }
+  }
+}

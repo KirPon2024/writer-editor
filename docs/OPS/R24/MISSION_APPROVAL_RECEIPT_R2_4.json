@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "yalken.mission-approval-receipt.r24.v1",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "missionDigest": "2d188140211c4e2a65f0f1bf1bef5bac53e396e3c3887cb3563fa253a10b0c80",
+  "approvedDigest": "2d188140211c4e2a65f0f1bf1bef5bac53e396e3c3887cb3563fa253a10b0c80",
+  "status": "APPROVED",
+  "approvedBy": "owner:RESUME_AFTER_AUDIT_CORRECTIVE_PRIORITY_OVERRIDE",
+  "approvedAtUtc": "2026-08-22T23:24:48Z",
+  "noSelfApproval": true,
+  "authoritySource": "Current owner message explicitly authorizes the evidence-integrity remediation sequence and supersedes the pre-approval package state without mutating the sealed mission contract.",
+  "scope": [
+    "AUTHORITY_SOT_RECONCILIATION",
+    "OBSERVED_EVIDENCE_CLAIM_COMPILER_REPAIR",
+    "ASSURANCE_RESTORATION",
+    "RETURN_TO_PARKED_V2_AFTER_REPAIR"
+  ],
+  "forbiddenAuthorityExpansion": [
+    "PUBLIC_RELEASE",
+    "USER_DOCUMENTS",
+    "EXISTING_USER_DRIVE_FILES",
+    "SAFE_APPLY_WIDENING",
+    "PRODUCT_AI",
+    "CLOUD_TRUTH",
+    "EXECUTABLE_PLUGINS",
+    "SECOND_ACTIVE_CONTOUR"
+  ]
+}

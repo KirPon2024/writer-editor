@@ -6,7 +6,7 @@
 // Claim text without a resolvable stamp fails closed.
 import fs from 'node:fs';
 import path from 'node:path';
-import { readJsonBounded } from './canonical-json.mjs';
+import { readJsonBounded, sha256hex } from './canonical-json.mjs';
 
 const CLAIM_TERMS = ['PASS', 'DONE', 'READY', 'CLOSED', 'SAFE', 'COMPLETE'];
 const CLAIM_RE = new RegExp(`\\b(${CLAIM_TERMS.join('|')})\\b`);
@@ -21,20 +21,74 @@ function listFiles(dir, out = []) {
   return out;
 }
 
+function safeSurfaceRelative(value) {
+  if (typeof value !== 'string' || value.length === 0) return false;
+  if (path.isAbsolute(value)) return false;
+  const normalized = value.replaceAll('\\', '/');
+  return normalized.startsWith('docs/OPS/R24/')
+    && !normalized.includes('../')
+    && /\.(md|json)$/.test(normalized);
+}
+
+function addBinding({ rootDir, evidenceDir, stamp, file, bindingsByFile, failures }) {
+  if (!Array.isArray(stamp.claimBindings)) return;
+  for (const binding of stamp.claimBindings) {
+    const relativePath = binding?.filePath || binding?.path || '';
+    if (!safeSurfaceRelative(relativePath)) {
+      failures.push(`E_CLAIM_BINDING_UNSAFE_PATH:${path.relative(rootDir, file)}`);
+      continue;
+    }
+    if (relativePath.startsWith('docs/OPS/R24/EVIDENCE/')) {
+      failures.push(`E_CLAIM_BINDING_EVIDENCE_SELF_REFERENCE:${path.relative(rootDir, file)}`);
+      continue;
+    }
+    const target = path.join(rootDir, relativePath);
+    const normalizedTarget = path.resolve(target);
+    if (!normalizedTarget.startsWith(path.resolve(rootDir, 'docs', 'OPS', 'R24') + path.sep)) {
+      failures.push(`E_CLAIM_BINDING_OUTSIDE_SURFACE:${path.relative(rootDir, file)}`);
+      continue;
+    }
+    if (normalizedTarget.startsWith(path.resolve(evidenceDir) + path.sep)) {
+      failures.push(`E_CLAIM_BINDING_EVIDENCE_SELF_REFERENCE:${path.relative(rootDir, file)}`);
+      continue;
+    }
+    if (!fs.existsSync(normalizedTarget)) {
+      failures.push(`E_CLAIM_BINDING_TARGET_MISSING:${relativePath}`);
+      continue;
+    }
+    if (typeof binding.sha256 !== 'string' || !/^[0-9a-f]{64}$/.test(binding.sha256)) {
+      failures.push(`E_CLAIM_BINDING_DIGEST_REQUIRED:${relativePath}`);
+      continue;
+    }
+    const actual = sha256hex(fs.readFileSync(normalizedTarget));
+    if (actual !== binding.sha256) {
+      failures.push(`E_CLAIM_BINDING_DIGEST_MISMATCH:${relativePath}`);
+      continue;
+    }
+    const set = bindingsByFile.get(relativePath) || new Set();
+    set.add(stamp.stampId);
+    bindingsByFile.set(relativePath, set);
+  }
+}
+
 export function lintDocsClaims(rootDir) {
   const surface = path.join(rootDir, 'docs', 'OPS', 'R24');
   const evidenceDir = path.join(surface, 'EVIDENCE');
   const stampIds = new Set();
+  const bindingsByFile = new Map();
+  const failures = [];
   for (const file of listFiles(evidenceDir)) {
     if (!file.endsWith('.json')) continue;
     try {
       const stamp = readJsonBounded(file);
-      if (stamp && typeof stamp.stampId === 'string' && stamp.stampId.length > 0) stampIds.add(stamp.stampId);
+      if (stamp && typeof stamp.stampId === 'string' && stamp.stampId.length > 0) {
+        stampIds.add(stamp.stampId);
+        addBinding({ rootDir, evidenceDir, stamp, file, bindingsByFile, failures });
+      }
     } catch {
       return { ok: false, failures: [`E_EVIDENCE_STAMP_UNREADABLE:${path.relative(rootDir, file)}`] };
     }
   }
-  const failures = [];
   let filesWithClaims = 0;
   for (const file of listFiles(surface)) {
     if (file.startsWith(evidenceDir)) continue;
@@ -42,8 +96,12 @@ export function lintDocsClaims(rootDir) {
     const text = fs.readFileSync(file, 'utf8');
     if (!CLAIM_RE.test(text)) continue;
     filesWithClaims += 1;
-    const resolved = [...stampIds].filter((id) => text.includes(id));
-    if (resolved.length === 0) failures.push(`E_CLAIM_WITHOUT_EVIDENCE:${path.relative(rootDir, file)}`);
+    const relativePath = path.relative(rootDir, file).split(path.sep).join('/');
+    const resolved = new Set([
+      ...[...stampIds].filter((id) => text.includes(id)),
+      ...[...(bindingsByFile.get(relativePath) || [])],
+    ]);
+    if (resolved.size === 0) failures.push(`E_CLAIM_WITHOUT_EVIDENCE:${path.relative(rootDir, file)}`);
   }
   return { ok: failures.length === 0, failures, filesWithClaims, stampCount: stampIds.size };
 }

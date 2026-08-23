@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "yalken.package-verification-receipt.r2.4",
+  "scope": "FINAL_SEALED_SCHEMA_GRAPH_SEMANTIC_AND_CLOSED_WORLD_ORACLE",
+  "command": "node tools/verify-r2_4-package.mjs",
+  "status": "PASS",
+  "checks": 4628,
+  "failures": 0,
+  "nodes": 109,
+  "edges": 171,
+  "acyclic": true,
+  "sourceStagesResolved": 33,
+  "sourceWorkPackagesResolved": 81,
+  "missionDigest": "2d188140211c4e2a65f0f1bf1bef5bac53e396e3c3887cb3563fa253a10b0c80",
+  "ownerGatesResolvedToClosedRegistry": 28,
+  "executionNodeEnvelopes": 109,
+  "sourceWorkPackageBindings": 81,
+  "traceabilityRows": 110,
+  "controlPlaneRuntimeImplemented": false,
+  "presealChecks": 4628,
+  "finalSealedVerification": "PASS",
+  "claimCeiling": "PACKAGE_AND_PLAN_ONLY"
+}

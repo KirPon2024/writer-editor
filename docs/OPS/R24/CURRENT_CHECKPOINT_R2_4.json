@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "yalken.current-checkpoint.r2.4",
+  "generatedAt": "2026-08-19T00:00:00Z",
+  "packageNode": "R24C0_SEMANTIC_PACKAGE_CLOSURE",
+  "packageNodeState": "DONE",
+  "nextGraphCandidate": "G0_AUTHORITY_CLOSURE",
+  "nextMutationCandidateAfterFreshG0": "E0_RUNNER_SAFETY_QUARANTINE",
+  "nextMutationMode": "SUPERVISED_NOT_AUTONOMOUS",
+  "autonomyEnabled": false,
+  "programVerdict": "NEEDS_MORE_EVIDENCE",
+  "ownerActionRequiredBeforeMutation": "APPROVE_EXACT_MISSION_DIGEST_AFTER_FRESH_G0",
+  "controlPlaneClosureDigest": "7c6da839a9b81fc583bde80185862ec3757d127febe8ede5e84737a02387663d",
+  "missionDigest": "2d188140211c4e2a65f0f1bf1bef5bac53e396e3c3887cb3563fa253a10b0c80",
+  "controlPlaneRuntimeImplemented": false
+}

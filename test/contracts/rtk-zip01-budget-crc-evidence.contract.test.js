@@ -12,6 +12,44 @@ const MAIN_PATH = 'src/main.js';
 const WORKER_PATH = 'src/main/rtkDocxReturnIntakeWorker.cjs';
 const TEST_PATH = 'test/contracts/rtk-zip01-budget-crc-evidence.contract.test.js';
 const CATALOG_PATH = 'docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json';
+const R24_A0_AUTHORITY_SOT_ALLOWLIST = [
+  'docs/OPS/R24/A0_AUTHORITY_SOT_RECONCILIATION_RECEIPT_V1.json',
+  'docs/OPS/R24/AUDIT_DISPOSITION_R2_4.json',
+  'docs/OPS/R24/AUTHORITY_AND_SOURCE_BINDINGS_R2_4.json',
+  'docs/OPS/R24/AUTHORITY_EPOCH_R2_4.json',
+  'docs/OPS/R24/AUTONOMY_CONTROL_PLANE_R2_4.json',
+  'docs/OPS/R24/AUTONOMY_RUNTIME_CONTRACT_R2_4.json',
+  'docs/OPS/R24/CI_LIVE_BINDING_COMPILER_R2_4.json',
+  'docs/OPS/R24/CLAIM_REGISTRY_R2_4.json',
+  'docs/OPS/R24/CURRENT_CHECKPOINT_R2_4.json',
+  'docs/OPS/R24/DOCUMENT_INVENTORY_R2_4.json',
+  'docs/OPS/R24/EVIDENCE/',
+  'docs/OPS/R24/EVIDENCE/ES-R24-A0-SOT-AUTHORITY-CLAIM-BINDINGS.json',
+  'docs/OPS/R24/EVIDENCE_AND_RECEIPT_CONTRACT_R2_4.json',
+  'docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json',
+  'docs/OPS/R24/EXECUTION_ENVELOPES_R2_4.json',
+  'docs/OPS/R24/MISSION_APPROVAL_RECEIPT_R2_4.json',
+  'docs/OPS/R24/MISSION_CONTRACT_R2_4.json',
+  'docs/OPS/R24/OWNER_GATE_REGISTRY_R2_4.json',
+  'docs/OPS/R24/PACKAGE_MANIFEST_R2_4.json',
+  'docs/OPS/R24/PACKAGE_MUTATION_RECEIPT_R2_4.json',
+  'docs/OPS/R24/PACKAGE_VERIFICATION_RECEIPT_R2_4.json',
+  'docs/OPS/R24/PLAN_STATE_R24.json',
+  'docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json',
+  'docs/OPS/R24/PRODUCT_PROFILE_CUTS_R2_4.json',
+  'docs/OPS/R24/PROGRAM_SOT_BINDING_R2_4.json',
+  'docs/OPS/R24/SELECTION_RECEIPT_R2_4.json',
+  'docs/OPS/R24/TEST_ASSURANCE_MATRIX_R2_4.json',
+  'scripts/ops/r24/docs-claim-lint.mjs',
+  'scripts/ops/r24/executable-program.mjs',
+  'scripts/ops/r24/test-mutants.mjs',
+  'scripts/ops/r24/tests/docs-claim-lint.test.mjs',
+  'scripts/ops/r24/tests/executable-program.test.mjs',
+  'test/contracts/rtk-evidence-stale-green-guard.contract.test.js',
+  'test/contracts/rtk-g0b-feasibility.contract.test.js',
+  'test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js',
+  'test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js',
+];
 const ALLOWLIST = [
   // ZIP-01 Pass 2c fixture repair (real CRC32 in builder headers).
   '.github/workflows/rtk-required.yml',
@@ -99,6 +137,7 @@ const ALLOWLIST = [
   'test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js',
   // MULTI-01 Pass 2: closure evaluator accepts the typed blocked profile cell.
   'scripts/ops/rtk-word-release-audit-p0-multiscene-atomic-comment-state-closure.mjs',
+  ...R24_A0_AUTHORITY_SOT_ALLOWLIST,
 ];
 
 const W_NS = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main';

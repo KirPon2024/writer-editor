@@ -1,0 +1,189 @@
+{
+  "schemaVersion": "yalken.r24.plan-state-source-receipt.v1",
+  "status": "FULL_109_NODE_DENOMINATOR_WITH_NO_UNRECEIPTED_DONE_OVERCLAIM",
+  "generatedAtUtc": "2026-08-22T23:24:48Z",
+  "executableProgramPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+  "executableProgramDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+  "planStatePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+  "externalPlanState": {
+    "path": "/Volumes/T7-Secure/worktrees/yalken/_r24-mission/PLAN_STATE_R24.json",
+    "sha256": "45c310278b2d1ffebe3381420ebfe1e3aa861e22ca8634f4ec49704e533d7806",
+    "schemaVersion": "yalken.plan-state.r24.v1",
+    "revision": 84,
+    "fencingCounter": 12,
+    "doneContourCount": 12,
+    "importedDoneContours": [
+      {
+        "id": "E0_RUNNER_SAFETY_QUARANTINE",
+        "headSha": "2f0571682d01b4f6e8cf2dc1ee3886fb4cbeb943",
+        "updatedAt": "2026-08-20T06:35:00Z"
+      },
+      {
+        "id": "K0_COMMAND_PROTOCOL",
+        "headSha": "273e127a20c9f913d84db275a4137e31ddf2bf65",
+        "updatedAt": "2026-08-20T20:10:00Z"
+      },
+      {
+        "id": "P0_AUTOSAVE_GENERATION",
+        "headSha": "28f6858b3d945a6f8065cda2117de4a70a91c215",
+        "updatedAt": "2026-08-20T09:20:00Z"
+      },
+      {
+        "id": "P1_DIRTY_ADMISSION_ACK",
+        "headSha": "2676af38b943739488e1252350b0f168881cba60",
+        "updatedAt": "2026-08-20T17:10:00Z"
+      },
+      {
+        "id": "P2_DURABLE_SAVE_COORDINATOR",
+        "headSha": "f0eaa5ff0c4ba687c7232560c6a8f76f64190110",
+        "updatedAt": "2026-08-21T01:20:00Z"
+      },
+      {
+        "id": "P3_TRANSACTIONAL_PROJECT_COMMIT",
+        "headSha": "14af53dddf10db14859e9e9ae417fd4374fc9a54",
+        "updatedAt": "2026-08-21T03:30:00Z"
+      },
+      {
+        "id": "Q0_TOOLCHAIN_HYGIENE",
+        "headSha": "65b879a57ebdace67528a819bc3f12c208f1553c",
+        "updatedAt": "2026-08-20T07:45:00Z"
+      },
+      {
+        "id": "R0_REVISION_ALGEBRA",
+        "headSha": "a1992c9977bbe03e59bcd45f317539ff8aab4a4f",
+        "updatedAt": "2026-08-21T00:10:00Z"
+      },
+      {
+        "id": "R1_SHADOW_PROJECT_AUTHORITY_CELL",
+        "headSha": "3760a741e967a949759ab59533ee701ee1f98bc6",
+        "updatedAt": "2026-08-21T02:40:00Z"
+      },
+      {
+        "id": "S0_IPC_CALLER_IDENTITY",
+        "headSha": "33b924d6a62b9ce5c35de3eebff789941524b55e",
+        "updatedAt": "2026-08-20T15:40:00Z"
+      },
+      {
+        "id": "S1_IPC_ENVELOPE_BUDGETS",
+        "headSha": "d8e3ec32bd50dd6f85032fcae258837d9f18afb3",
+        "updatedAt": "2026-08-20T18:30:00Z"
+      },
+      {
+        "id": "T0_TEXT_COORDINATE_ALGEBRA",
+        "headSha": "a7f309f40259bd637014ad15d190f3de88370aea",
+        "updatedAt": "2026-08-21T04:40:00Z"
+      }
+    ]
+  },
+  "fullDenominator": {
+    "nodeCount": 109,
+    "foundationNodeCount": 32,
+    "workPackageNodeCount": 77,
+    "contourRowsPersisted": 109
+  },
+  "nonClaims": [
+    "R24 unit test files in current main are implementation evidence candidates only; they are not converted to DONE without durable terminal receipts.",
+    "This A0 receipt does not mark the full 109-node program DONE.",
+    "Parked V2 remains suspended until the corrective authority/evidence sequence is merged and postmerge verified."
+  ],
+  "discoveredR24TestFiles": {
+    "count": 94,
+    "treatment": "NOT_DELIVERY_STATE_WITHOUT_TERMINAL_RECEIPT",
+    "basenames": [
+      "r24-a0-atlas-incremental-equivalence.test.js",
+      "r24-a0-atlas-mutants.test.js",
+      "r24-a0-atlas-physics.test.js",
+      "r24-a1-optional-relation-vocabulary.test.js",
+      "r24-a1-relation-vocabulary-integration.test.js",
+      "r24-a1-relation-vocabulary-mutants.test.js",
+      "r24-ent0-entitlement-law.test.js",
+      "r24-ent0-law-mutants.test.js",
+      "r24-ent0-port-enforcement.test.js",
+      "r24-f0-refinement-mutants.test.js",
+      "r24-f0-refinement-physics.test.js",
+      "r24-f0-writer-refinement-conformance.test.js",
+      "r24-k0-command-protocol.test.js",
+      "r24-k0-protocol-integration.test.js",
+      "r24-k0-protocol-mutants.test.js",
+      "r24-k1-allowlist-mutants.test.js",
+      "r24-k1-import-boundary.test.js",
+      "r24-k1-path-allowlist-law.test.js",
+      "r24-p0-autosave-generation.test.js",
+      "r24-p0-autosave-integration.test.js",
+      "r24-p0-autosave-mutants.test.js",
+      "r24-p1-ack-mutants.test.js",
+      "r24-p1-dirty-admission.test.js",
+      "r24-p1-lifecycle-integration.test.js",
+      "r24-p2-save-coordinator.test.js",
+      "r24-p2-save-crash.test.js",
+      "r24-p2-save-mutants.test.js",
+      "r24-p3-commit-crash.test.js",
+      "r24-p3-commit-mutants.test.js",
+      "r24-p3-project-commit.test.js",
+      "r24-pk0-package-content-mutants.test.js",
+      "r24-pk0-package-content-physics.test.js",
+      "r24-pk0-package-content-trust.test.js",
+      "r24-pk1-release-security-mutants.test.js",
+      "r24-pk1-release-security-physical.test.js",
+      "r24-pk1-release-security-physics.test.js",
+      "r24-r0-revision-algebra.test.js",
+      "r24-r0-revision-integration.test.js",
+      "r24-r0-revision-mutants.test.js",
+      "r24-r1-shadow-cell.test.js",
+      "r24-r1-shadow-differential.test.js",
+      "r24-r1-shadow-mutants.test.js",
+      "r24-r2-bakeoff-mutants.test.js",
+      "r24-r2-candidate-physics.test.js",
+      "r24-r2-storage-bakeoff.test.js",
+      "r24-r3-ledger-mutants.test.js",
+      "r24-r3-ledger-physics.test.js",
+      "r24-r3-recovery-ledger.test.js",
+      "r24-r4-inbox-mutants.test.js",
+      "r24-r4-inbox-outbox.test.js",
+      "r24-r4-inbox-physics.test.js",
+      "r24-r5-lifecycle-conflict.test.js",
+      "r24-r5-lifecycle-mutants.test.js",
+      "r24-r5-lifecycle-physics.test.js",
+      "r24-r6-migration-history-backup.test.js",
+      "r24-r6-migration-mutants.test.js",
+      "r24-r6-migration-physics.test.js",
+      "r24-s0-ipc-caller-identity.test.js",
+      "r24-s0-ipc-integration.test.js",
+      "r24-s0-ipc-mutants.test.js",
+      "r24-s1-envelope-integration.test.js",
+      "r24-s1-envelope-mutants.test.js",
+      "r24-s1-ipc-envelope.test.js",
+      "r24-sec0-hostile-paths.test.js",
+      "r24-sec0-path-capability.test.js",
+      "r24-sec0-path-mutants.test.js",
+      "r24-t0-fold-mutants.test.js",
+      "r24-t0-fold-roundtrip.test.js",
+      "r24-t0-text-fold-tape.test.js",
+      "r24-t1-anchor-lineage.test.js",
+      "r24-t1-lineage-mutants.test.js",
+      "r24-t1-reattach-diagnosis.test.js",
+      "r24-v0-writer-claim-compiler.test.js",
+      "r24-v0-writer-claim-mutants.test.js",
+      "r24-v1-atlas-claim-compiler.test.js",
+      "r24-v1-atlas-claim-mutants.test.js",
+      "r24-v3-package-claim-compiler.test.js",
+      "r24-v3-package-claim-mutants.test.js",
+      "r24-w0-word-physical-mutants.test.js",
+      "r24-w0-word-physical-recertification.test.js",
+      "r24-wp100-generation-admission.test.js",
+      "r24-wp100-wiring-matrix.test.js",
+      "r24-wp100-wiring-mutants.test.js",
+      "r24-wp101-admission-mutants.test.js",
+      "r24-wp101-ipc-admission.test.js",
+      "r24-wp102-event-effect-job.test.js",
+      "r24-wp102-operation-classes.test.js",
+      "r24-wp102-protocol-mutants.test.js",
+      "r24-wp102-result-contract.test.js",
+      "r24-wp103-canonical-serialization.test.js",
+      "r24-wp103-order-mutants.test.js",
+      "r24-wp103-revision-order.test.js",
+      "r24-wp104-boundary-falsification.test.js",
+      "r24-wp104-evidence-integrity.test.js"
+    ]
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "yalken.product-profile-cuts.r2.4",
+  "cutPolicy": "DEPENDENCY_CLOSED_EXACT_NODE_SET_COMPILED_BY_VERIFIER",
+  "profiles": [
+    {
+      "id": "SHARED_ASSURANCE_BOOTSTRAP",
+      "releaseBlocking": true,
+      "rootNodeIds": [
+        "R24C0_SEMANTIC_PACKAGE_CLOSURE",
+        "E0_RUNNER_SAFETY_QUARANTINE",
+        "Q0_TOOLCHAIN_HYGIENE"
+      ],
+      "currentVerdict": "PACKAGE_CLOSED_RUNTIME_UNPROVEN"
+    },
+    {
+      "id": "WRITER_TRUTH_FOUNDATION",
+      "releaseBlocking": true,
+      "rootNodeIds": [
+        "V0_WRITER_CLAIM_COMPILER",
+        "WP-207_WRITER_REFINEMENT"
+      ],
+      "currentVerdict": "REQUALIFICATION_REQUIRED_NOT_A_REGRESSION_OF_EXISTING_REPO_FACTS"
+    },
+    {
+      "id": "WRITER_LOCAL_V1",
+      "releaseBlocking": true,
+      "rootNodeIds": [
+        "WP-307_WRITER_LOCAL_PROFILE"
+      ],
+      "currentVerdict": "NEEDS_FRESH_PROFILE_EVIDENCE"
+    },
+    {
+      "id": "ATLAS_FOUNDATION",
+      "releaseBlocking": false,
+      "rootNodeIds": [
+        "V1_ATLAS_CLAIM_COMPILER",
+        "WP-404_ATLAS_FOUNDATION_CLAIM"
+      ],
+      "currentVerdict": "NEEDS_MORE_EVIDENCE"
+    },
+    {
+      "id": "ATLAS_PRODUCT_V33",
+      "releaseBlocking": false,
+      "rootNodeIds": [
+        "WP-507_ATLAS_PRODUCT_CLAIM"
+      ],
+      "currentVerdict": "NEEDS_MORE_EVIDENCE"
+    },
+    {
+      "id": "WSE_OPTIONAL_MODULES",
+      "releaseBlocking": false,
+      "rootNodeIds": [
+        "WP-607_WSE_CLAIMS"
+      ],
+      "currentVerdict": "OPTIONAL_PER_MODULE_ADMISSION"
+    },
+    {
+      "id": "WORD_INTERCHANGE",
+      "releaseBlocking": false,
+      "rootNodeIds": [
+        "WP-707_WORD_APPLY"
+      ],
+      "currentVerdict": "BLOCKED_PHYSICAL_APPLY_LIFECYCLE_AUTHORITY"
+    },
+    {
+      "id": "GOOGLE_INTERCHANGE",
+      "releaseBlocking": false,
+      "rootNodeIds": [
+        "WP-708_GOOGLE_PROVIDER"
+      ],
+      "currentVerdict": "TYPED_UNVERIFIED_INDEPENDENT_OF_WORD"
+    },
+    {
+      "id": "MIXED_INTERCHANGE",
+      "releaseBlocking": false,
+      "rootNodeIds": [
+        "WP-709_MIXED_CHAINS"
+      ],
+      "currentVerdict": "BLOCKED_UNTIL_EACH_PROVIDER_QUALIFIES"
+    },
+    {
+      "id": "PULSE_LOCAL_HISTORY",
+      "releaseBlocking": false,
+      "rootNodeIds": [
+        "WP-806_PULSE_CLAIM"
+      ],
+      "currentVerdict": "NEEDS_OWNER_PRIVACY_ADMISSION"
+    },
+    {
+      "id": "PACKAGED_RELEASE_SECURITY",
+      "releaseBlocking": true,
+      "rootNodeIds": [
+        "V3_PACKAGE_CLAIM_COMPILER",
+        "WP-906_RELEASE_VERDICT"
+      ],
+      "currentVerdict": "NOT_READY"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "yalken.evidence-and-receipt-contract.r2.4",
+  "evidenceSchema": "schemas/evidence-stamp-v2.schema.json",
+  "terminalReceiptSchema": "schemas/contour-terminal-receipt-v2.schema.json",
+  "allowedEvidenceClasses": [
+    "MODEL",
+    "CONTRACT",
+    "UNIT",
+    "INTEGRATION",
+    "FAULT_INJECTION",
+    "PHYSICAL",
+    "IMPLEMENTATION_MUTANTS",
+    "INDEPENDENT_EXACT_HEAD",
+    "POSTMERGE",
+    "SURVIVOR_AUDIT",
+    "PACKAGE_INTEGRITY"
+  ],
+  "forbiddenLegacyLabelsPattern": "^E[0-9]_",
+  "laws": {
+    "denominatorZero": "FAIL",
+    "requiredSkipped": "FAIL",
+    "staleEvidence": "FAIL",
+    "aggregateOnlyEvidence": "FAIL",
+    "exactHeadRequired": true,
+    "postmergeRequired": true,
+    "survivorAuditRequired": true,
+    "evidenceCannotCreateAuthority": true,
+    "anchorIdentityIsNotWitness": true
+  },
+  "errorCodeCoverage": {
+    "requiredPercent": 100,
+    "denominator": "ALL_DECLARED_NON_SUCCESS_CODES_PER_ACTIVE_CONTOUR"
+  },
+  "scheduledCrashOnlyLane": {
+    "required": true,
+    "cadence": "AT_LEAST_ONE_DEDICATED_RUN_PER_RISK_CRITICAL_CONTOUR_AND_ONE_PER_24H_OF_ACTIVE_MUTATION"
+  },
+  "docsClaimLinter": {
+    "required": true,
+    "claimTerms": [
+      "PASS",
+      "DONE",
+      "READY",
+      "CLOSED",
+      "SAFE",
+      "COMPLETE"
+    ],
+    "mustResolveToEvidenceStamp": true
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "stampId": "ES-R24-T1-ANCHOR-LINEAGE-MUTANTS",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "T1_ANCHOR_LINEAGE",
+  "attemptId": "ATTEMPT-T1-20260823",
+  "authorityEpoch": "R24-A0-ADMISSION-BASE-0BB87AE9",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "b90e962799ff5db4324b3ec989ce318d9c5c0778",
+    "treeSha": "ec9e52aed4f87e308372ddf43c7e3b7319535bc8"
+  },
+  "createdAt": "2026-08-23T10:08:44Z",
+  "actor": "codex/r24-t1-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "T1_IMPLEMENTATION_MUTANTS_KILLED",
+    "ceiling": "T1_ANCHOR_LINEAGE_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "test/unit/r24-t1-lineage-mutants.test.js",
+    "denominator": 6,
+    "passed": 6,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0,
+    "evidenceClass": "IMPLEMENTATION_MUTANTS"
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-T1-ANCHOR-LINEAGE-INTEGRATION"
+    ],
+    "predecessorReceiptDigest": "e02f9bf41fd2d00d62c93a4f76a8ecadee02591e9a40e7bbbc8527576b4399f2"
+  },
+  "artifact": {
+    "command": "npm run -s test:r24-t1",
+    "mutationReceipt": {
+      "total": 6,
+      "killed": 6,
+      "survived": [],
+      "score": 1
+    },
+    "mutantIds": [
+      "lineage-guard-removed",
+      "shift-skipped",
+      "overlap-tolerated",
+      "silent-first-match",
+      "context-check-removed",
+      "quote-required-dropped"
+    ],
+    "artifactDigests": [
+      {
+        "path": "src/core/anchor-lineage-v1.cjs",
+        "sha256": "3d8b3b46ef6ead058c15b4a2828c195e46cb8d6574f7950641ec68dc3b50c1c6"
+      },
+      {
+        "path": "test/unit/r24-t1-lineage-mutants.test.js",
+        "sha256": "562bc0beda8f98df251f9182f3da97b94b2da31da9e68739a3a1999278de6e73"
+      }
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

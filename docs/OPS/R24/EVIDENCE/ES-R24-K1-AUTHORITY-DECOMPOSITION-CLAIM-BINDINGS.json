@@ -4,21 +4,21 @@
   "contourId": "K1_AUTHORITY_DECOMPOSITION",
   "evidenceClass": "CONTRACT",
   "verdict": "PASS",
-  "headSha": "d96bb9e6f2fc86aec71b36ce8f5340a3ca20ee69",
-  "originMainSha": "d96bb9e6f2fc86aec71b36ce8f5340a3ca20ee69",
-  "generatedAtUtc": "2026-08-23T09:11:18Z",
-  "oracle": "docs-claim-lint exact sha-bound mutable PlanState claim binding for K1 closure",
+  "headSha": "b90e962799ff5db4324b3ec989ce318d9c5c0778",
+  "originMainSha": "b90e962799ff5db4324b3ec989ce318d9c5c0778",
+  "generatedAtUtc": "2026-08-23T10:08:44Z",
+  "oracle": "docs-claim-lint exact sha-bound mutable PlanState claim binding for K1 and subsequent repo-local closure state through T1",
   "claimBindings": [
     {
       "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
-      "sha256": "f9c73ad46af975a583d7878f76bbc6266a158af291285dfaa3e80dc3f808950b",
+      "sha256": "8759d0c272e13dc78301a2ae9862a384aece3be487cc35fa54335473660597ef",
       "claimTerms": [
         "DONE"
       ]
     },
     {
       "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
-      "sha256": "4511f8763dd1c8e08b6f2290905232c0347c6720cddfaa9a2f0e3c15c8c8b992",
+      "sha256": "b0e725281bb9b1c4dcf766f1d1e4afc59570d6f45442a93d66e769ac441764e1",
       "claimTerms": [
         "DONE"
       ]
@@ -27,6 +27,7 @@
   "nonClaims": [
     "This linter-specific stamp resolves only current K1 PlanState claim vocabulary for docs-claim-lint.",
     "This stamp does not mark the full 109-node R2.4 program DONE.",
-    "This stamp does not mutate product/runtime code, reopen parked V2, or claim release readiness."
+    "This stamp does not mutate product/runtime code, reopen parked V2, or claim release readiness.",
+    "This stamp does not implement or certify T1 product code beyond the separately stamped T1 closure evidence."
   ]
 }

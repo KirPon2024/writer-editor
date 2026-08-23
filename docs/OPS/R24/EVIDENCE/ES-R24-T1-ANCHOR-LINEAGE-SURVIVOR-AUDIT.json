@@ -1,0 +1,129 @@
+{
+  "stampId": "ES-R24-T1-ANCHOR-LINEAGE-SURVIVOR-AUDIT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "T1_ANCHOR_LINEAGE",
+  "attemptId": "ATTEMPT-T1-20260823",
+  "authorityEpoch": "R24-A0-ADMISSION-BASE-0BB87AE9",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "b90e962799ff5db4324b3ec989ce318d9c5c0778",
+    "treeSha": "ec9e52aed4f87e308372ddf43c7e3b7319535bc8"
+  },
+  "createdAt": "2026-08-23T10:08:44Z",
+  "actor": "codex/r24-t1-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "T1_SURVIVOR_AUDIT",
+    "ceiling": "T1_ANCHOR_LINEAGE_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "github-actions-pr-1623-plus-current-main-survivor",
+    "denominator": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0,
+    "evidenceClass": "SURVIVOR_AUDIT"
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-T1-ANCHOR-LINEAGE-POSTMERGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "e02f9bf41fd2d00d62c93a4f76a8ecadee02591e9a40e7bbbc8527576b4399f2"
+  },
+  "artifact": {
+    "implementationPr": {
+      "prNumber": 1623,
+      "prHeadSha": "0d0fcce72d2677fdf9d1308a80d17b997f2fd9a3",
+      "mergeSha": "07ca26679a2fd9084d1be4b574557d1c79faefd8",
+      "mergedAt": "2026-08-21T14:25:20Z"
+    },
+    "implementationPrChecks": [
+      {
+        "workflowName": "OSS policy",
+        "runId": 32490405213,
+        "jobId": 96796431920,
+        "event": "pull_request",
+        "headSha": "0d0fcce72d2677fdf9d1308a80d17b997f2fd9a3",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-21T14:07:33Z"
+      },
+      {
+        "workflowName": "ops-vector-close",
+        "runId": 32492049755,
+        "jobId": 96801742493,
+        "event": "pull_request",
+        "headSha": "0d0fcce72d2677fdf9d1308a80d17b997f2fd9a3",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-21T14:25:35Z"
+      },
+      {
+        "workflowName": "rtk-required",
+        "runId": 32490405137,
+        "jobId": 96796431357,
+        "event": "pull_request",
+        "headSha": "0d0fcce72d2677fdf9d1308a80d17b997f2fd9a3",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-21T14:23:52Z",
+        "includedT1Gate": true
+      },
+      {
+        "workflowName": "x1-runtime-parity",
+        "jobName": "x1-runtime-parity (ubuntu-latest)",
+        "runId": 32490405050,
+        "jobId": 96796431733,
+        "event": "pull_request",
+        "headSha": "0d0fcce72d2677fdf9d1308a80d17b997f2fd9a3",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-21T14:07:39Z"
+      },
+      {
+        "workflowName": "x1-runtime-parity",
+        "jobName": "x1-runtime-parity (windows-latest)",
+        "runId": 32490405050,
+        "jobId": 96796431331,
+        "event": "pull_request",
+        "headSha": "0d0fcce72d2677fdf9d1308a80d17b997f2fd9a3",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-21T14:08:02Z"
+      }
+    ],
+    "currentMainChecks": [
+      {
+        "workflowName": "OSS policy",
+        "runId": 32631693468,
+        "jobId": 97175363876,
+        "event": "push",
+        "headSha": "b90e962799ff5db4324b3ec989ce318d9c5c0778",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-23T09:41:42Z"
+      },
+      {
+        "workflowName": "rtk-required",
+        "runId": 32631693470,
+        "jobId": 97175363908,
+        "event": "push",
+        "headSha": "b90e962799ff5db4324b3ec989ce318d9c5c0778",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-23T10:00:53Z",
+        "includedT1Gate": true
+      }
+    ],
+    "survivorLaw": "T1 implementation PR exact-head checks passed; current main exact-head CI after later merges passed the maintained R2.4 T1 gate and full R2.4 gate set, proving anchor lineage law survived mainline drift.",
+    "nonClaims": [
+      "This stamp closes only T1 survivor audit evidence.",
+      "This stamp does not mark the 109-node R2.4 program DONE.",
+      "This stamp does not reopen parked V2 or claim release readiness."
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

@@ -10,61 +10,71 @@
   "oracle": "Observed EvidenceStampV2 compiler gate repair for V0/V1/V3 plus shared validator and mutation suites",
   "claimBindings": [
     {
-      "filePath": "scripts/ops/r24/observed-evidence-v2.mjs",
-      "sha256": "da160e0b981c3aab387a34a553e41daf220bda3c2eea446a135238ae701d3d29",
+      "filePath": "docs/OPS/R24/B0_OBSERVED_EVIDENCE_CLAIM_COMPILER_REPAIR_RECEIPT_V1.json",
+      "sha256": "86a4bd72f689d03c8dd7647d98fef049bccd03c2c7ddab0a10dd5b0967764e6a",
       "claimTerms": [
+        "PASS",
+        "PENDING"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "scripts/ops/r24/observed-evidence-v2.mjs",
+      "sha256": "da160e0b981c3aab387a34a553e41daf220bda3c2eea446a135238ae701d3d29",
+      "terms": [
         "INDEPENDENT_EXACT_HEAD",
         "FAIL_CLOSED",
         "NO_LEGACY_E0_E6_ALIAS"
       ]
     },
     {
-      "filePath": "scripts/ops/r24/writer-claim-compiler-v0.mjs",
+      "path": "scripts/ops/r24/writer-claim-compiler-v0.mjs",
       "sha256": "3a2ff7e751ae5bde079684f36e05ce11236ef706b28a94170b374f48793604eb",
-      "claimTerms": [
+      "terms": [
         "OBSERVED_EVIDENCE_REQUIRED",
         "TOPOLOGY_ONLY_NOT_SUCCESS",
         "WRITER_PROFILE_ONLY"
       ]
     },
     {
-      "filePath": "scripts/ops/r24/atlas-claim-compiler-v1.mjs",
+      "path": "scripts/ops/r24/atlas-claim-compiler-v1.mjs",
       "sha256": "434229f1be459c9349088d6ffa801a9ac3c929a9f9278812c1da29fab6b1d793",
-      "claimTerms": [
+      "terms": [
         "OBSERVED_EVIDENCE_REQUIRED",
         "TOPOLOGY_ONLY_NOT_SUCCESS",
         "ATLAS_PROFILE_ONLY"
       ]
     },
     {
-      "filePath": "scripts/ops/r24/package-claim-compiler-v3.mjs",
+      "path": "scripts/ops/r24/package-claim-compiler-v3.mjs",
       "sha256": "c79ee1641b5a4339eb1b8d6a76fb8f0075c9da718e2ab8b2ba22d7d89de56f0c",
-      "claimTerms": [
+      "terms": [
         "OBSERVED_EVIDENCE_REQUIRED",
         "TOPOLOGY_ONLY_NOT_SUCCESS",
         "PACKAGE_PROFILE_NOT_READY_ONLY"
       ]
     },
     {
-      "filePath": "test/unit/r24-b0-observed-evidence-compiler.test.js",
+      "path": "test/unit/r24-b0-observed-evidence-compiler.test.js",
       "sha256": "0690229ab648f0fa1c54644699bfc65f9a452d2d083d2a7a168e5a98d45d1e08",
-      "claimTerms": [
+      "terms": [
         "POSITIVE_AND_NEGATIVE_ORACLE",
         "NON_VACUOUS_DENOMINATOR"
       ]
     },
     {
-      "filePath": "package.json",
+      "path": "package.json",
       "sha256": "e8566f7d509907bcb991ea957b6a65543ea04cdc17366162c6d17a63d6b9ce91",
-      "claimTerms": [
+      "terms": [
         "B0_TEST_SCRIPT_BOUND",
         "NO_DEPENDENCY_CHANGE"
       ]
     },
     {
-      "filePath": ".github/workflows/rtk-required.yml",
+      "path": ".github/workflows/rtk-required.yml",
       "sha256": "ac51eef84e4482ec96b3b513c4db8def1e06b93c5a5fe408d7ea0b31ea4dc818",
-      "claimTerms": [
+      "terms": [
         "B0_CI_GATE_BOUND"
       ]
     }

@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-WP-104-BOUNDARY-FALSIFICATION-MUTANTS",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-104_BOUNDARY_FALSIFICATION",
+  "attemptId": "ATTEMPT-WP104-20260824",
+  "authorityEpoch": "R24-WP104-CLOSURE-BASE-4C51661E",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "4c51661eb27f469cd5cfd9f1cad415e92e662813",
+    "treeSha": "8936fce8540d098a35f9efbafde12c6aa924ef95"
+  },
+  "claim": {
+    "type": "WP104_IMPLEMENTATION_MUTANTS",
+    "ceiling": "WP104_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "wp104-closed-contour-meta-mutation-receipt",
+    "evidenceClass": "IMPLEMENTATION_MUTANTS",
+    "denominator": 114,
+    "passed": 114,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": ["ES-R24-WP-104-BOUNDARY-FALSIFICATION-INTEGRATION"],
+    "predecessorReceiptDigest": "2b3f28b57ab2756f64cf0da94fa9327045aa16333df5621b29b42ea423743216"
+  },
+  "createdAt": "2026-08-23T21:25:00Z",
+  "actor": "codex/r24-wp104-closure-reconciliation-v1-20260824",
+  "artifact": {
+    "oracleRunId": 32665851311,
+    "oracleHeadSha": "4c51661eb27f469cd5cfd9f1cad415e92e662813",
+    "metaReceipt": {"suites": 22, "mutantTotal": 114, "allScoreOne": true},
+    "verifierDefectionsKilled": ["accept-zero-total", "accept-survivor", "accept-fractional-score", "accept-everything"],
+    "survived": [],
+    "denominatorLaw": "The exact-main WP104 meta proof re-executed 20 mutant suites plus E0 and Q0 lanes; 114 implementation mutants were killed with score exactly one."
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-WP-104-BOUNDARY-FALSIFICATION-CONTRACT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-104_BOUNDARY_FALSIFICATION",
+  "attemptId": "ATTEMPT-WP104-20260824",
+  "authorityEpoch": "R24-WP104-CLOSURE-BASE-4C51661E",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "4c51661eb27f469cd5cfd9f1cad415e92e662813",
+    "treeSha": "8936fce8540d098a35f9efbafde12c6aa924ef95"
+  },
+  "claim": {
+    "type": "WP104_ACCEPTANCE_CONTRACT",
+    "ceiling": "WP104_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "acc-r24-wp104-boundary-falsification",
+    "evidenceClass": "CONTRACT",
+    "denominator": 13,
+    "passed": 13,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": ["ES-R24-WP-104-BOUNDARY-FALSIFICATION-MODEL"],
+    "predecessorReceiptDigest": "2b3f28b57ab2756f64cf0da94fa9327045aa16333df5621b29b42ea423743216"
+  },
+  "createdAt": "2026-08-23T21:25:00Z",
+  "actor": "codex/r24-wp104-closure-reconciliation-v1-20260824",
+  "artifact": {
+    "envelopeId": "ENV-R24-WP-104_BOUNDARY_FALSIFICATION",
+    "acceptanceId": "ACC-R24-WP-104_BOUNDARY_FALSIFICATION",
+    "requirementId": "REQ-R24-WP-104_BOUNDARY_FALSIFICATION",
+    "requiredOutcome": "Model, negative, spoof, stale and implementation-mutant evidence",
+    "riskTier": "T5_CONTROL_PLANE",
+    "requiredEvidenceClasses": ["MODEL", "CONTRACT", "INTEGRATION", "IMPLEMENTATION_MUTANTS", "INDEPENDENT_EXACT_HEAD"],
+    "claimCeiling": "NODE_AND_SELECTED_PROFILE_ONLY"
+  }
+}

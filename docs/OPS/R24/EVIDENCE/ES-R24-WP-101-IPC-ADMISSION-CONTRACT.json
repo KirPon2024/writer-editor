@@ -1,0 +1,62 @@
+{
+  "stampId": "ES-R24-WP-101-IPC-ADMISSION-CONTRACT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-101_IPC_ADMISSION",
+  "attemptId": "ATTEMPT-WP101-20260823",
+  "authorityEpoch": "R24-WP101-ADMISSION-BASE-64711F47",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "64711f479692c16adb2389c0c47c71f1d20faf0a",
+    "treeSha": "f899eb1a837d292d230ae2ec99eca4af91c845b2"
+  },
+  "createdAt": "2026-08-23T16:08:21Z",
+  "actor": "codex/r24-wp101-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "WP101_SENDER_FRAME_ORIGIN_SESSION_CAPABILITY_CONTRACT",
+    "ceiling": "WP101_IPC_ADMISSION_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "test/unit/r24-wp101-ipc-admission.test.js contract and refusal cases",
+    "evidenceClass": "CONTRACT",
+    "denominator": 4,
+    "passed": 4,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-101-IPC-ADMISSION-MODEL"
+    ],
+    "predecessorReceiptDigest": "123d906b1bf0a908763725d9a9e2aa43b30f599db5427253bfc9dc9d6353b52d"
+  },
+  "artifact": {
+    "command": "node --test test/unit/r24-wp101-ipc-admission.test.js",
+    "contractSubtests": [
+      "session dimension: matching session passes, foreign session is a typed refusal",
+      "capability dimension: unbound channel fails closed at registration with a typed code",
+      "capability map validation: unknown class, empty channel and empty map are typed refusals",
+      "composed gateway: identity still runs first at dispatch under a capability-bound registration"
+    ],
+    "operationPath": "registration capability binding -> dispatch sender -> frame -> origin -> live session -> handler",
+    "negativePath": "foreign sender, denied origin, foreign or missing session, unbound channel, unknown capability class, and empty map fail before handler authority",
+    "artifactDigests": [
+      {
+        "path": "src/core/ipc-caller-identity-v1.cjs",
+        "sha256": "d6225627ffab3329f8ad833d5a6232fa1c35c204898037517fa91223fa55b687"
+      },
+      {
+        "path": "src/main.js",
+        "sha256": "64f34fbc9cfe3226c8f9a9dde34aa69325557a24376858e1ed4f922d88409d62"
+      },
+      {
+        "path": "test/unit/r24-wp101-ipc-admission.test.js",
+        "sha256": "fe70fe72fdd28a69d0834c08cf4b4eb00334b4a8b5ddb7f5a503541808226189"
+      }
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

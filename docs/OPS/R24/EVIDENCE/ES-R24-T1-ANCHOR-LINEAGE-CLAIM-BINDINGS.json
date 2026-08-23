@@ -4,21 +4,21 @@
   "contourId": "T1_ANCHOR_LINEAGE",
   "evidenceClass": "CONTRACT",
   "verdict": "PASS",
-  "headSha": "c7934e8c79e7466f4904d37f1c6392a5f03aa82b",
-  "originMainSha": "c7934e8c79e7466f4904d37f1c6392a5f03aa82b",
-  "generatedAtUtc": "2026-08-23T14:43:07Z",
-  "oracle": "docs-claim-lint exact sha-bound mutable PlanState claim binding for T1_ANCHOR_LINEAGE and subsequent repo-local closure state through WP-100",
+  "headSha": "64711f479692c16adb2389c0c47c71f1d20faf0a",
+  "originMainSha": "64711f479692c16adb2389c0c47c71f1d20faf0a",
+  "generatedAtUtc": "2026-08-23T16:08:21Z",
+  "oracle": "docs-claim-lint exact sha-bound mutable PlanState claim binding for T1_ANCHOR_LINEAGE and subsequent repo-local closure state through WP-101",
   "claimBindings": [
     {
       "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
-      "sha256": "aab936925b7ef9d62435ee3958e7fa0ad3801768b56dbc634d743f62f9608728",
+      "sha256": "ff334eced6bece69273c556f8f58f9a8a535d3eff37bc14fae1e178e0cd2e6a6",
       "claimTerms": [
         "DONE"
       ]
     },
     {
       "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
-      "sha256": "7950abd4dd4417a046a89ed6c4ef6ae54cf77e00ffd8719de02eb2eb6a05094c",
+      "sha256": "eda3e66ba771d3e9c1611556d3e4ade7c43ee7c74d9458d978d6f7640593bac1",
       "claimTerms": [
         "DONE"
       ]

@@ -1,0 +1,82 @@
+{
+  "stampId": "ES-R24-WP-101-IPC-ADMISSION-POSTMERGE-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-101_IPC_ADMISSION",
+  "attemptId": "ATTEMPT-WP101-20260823",
+  "authorityEpoch": "R24-WP101-ADMISSION-BASE-64711F47",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "64711f479692c16adb2389c0c47c71f1d20faf0a",
+    "treeSha": "f899eb1a837d292d230ae2ec99eca4af91c845b2"
+  },
+  "createdAt": "2026-08-23T16:08:21Z",
+  "actor": "codex/r24-wp101-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "WP101_CURRENT_MAIN_EXACT_HEAD_CI",
+    "ceiling": "WP101_IPC_ADMISSION_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "github-actions-main-exact-head-64711f47",
+    "evidenceClass": "POSTMERGE",
+    "denominator": 2,
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-101-IPC-ADMISSION-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "123d906b1bf0a908763725d9a9e2aa43b30f599db5427253bfc9dc9d6353b52d"
+  },
+  "artifact": {
+    "mainExactHeadChecks": [
+      {
+        "workflowName": "OSS policy",
+        "runId": 32648621572,
+        "jobId": 97216659142,
+        "event": "push",
+        "headSha": "64711f479692c16adb2389c0c47c71f1d20faf0a",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-23T15:28:12Z",
+        "successfulStepCount": 10,
+        "totalStepCount": 10
+      },
+      {
+        "workflowName": "rtk-required",
+        "runId": 32648621616,
+        "attempt": 2,
+        "jobId": 97218451369,
+        "event": "push",
+        "headSha": "64711f479692c16adb2389c0c47c71f1d20faf0a",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-23T16:00:22Z",
+        "includedWp101Gate": true,
+        "successfulStepCount": 49,
+        "totalStepCount": 49,
+        "failedStepCount": 0,
+        "skippedStepCount": 0,
+        "maintainedRtkGraphPassed": true
+      }
+    ],
+    "priorFailedAttemptRecorded": {
+      "runId": 32648621616,
+      "attempt": 1,
+      "jobId": 97216659167,
+      "conclusion": "failure",
+      "failureShape": "one registered b3c09 Linux performance-baseline classification failure; 1058 of 1059 maintained tests passed; exact rerun attempt 2 passed without code mutation",
+      "cleanup": "RTK_PROCESS_GROUP_CLEAN_AND_LEASE_CLEAN"
+    },
+    "nonClaims": [
+      "This stamp records current main exact-head CI for WP-101 closure only.",
+      "It does not mark the 109-node R2.4 program DONE or erase the recorded first-attempt flake."
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

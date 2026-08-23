@@ -1,0 +1,187 @@
+{
+  "stampId": "ES-R24-WP-101-IPC-ADMISSION-SURVIVOR-AUDIT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-101_IPC_ADMISSION",
+  "attemptId": "ATTEMPT-WP101-20260823",
+  "authorityEpoch": "R24-WP101-ADMISSION-BASE-64711F47",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "64711f479692c16adb2389c0c47c71f1d20faf0a",
+    "treeSha": "f899eb1a837d292d230ae2ec99eca4af91c845b2"
+  },
+  "createdAt": "2026-08-23T16:08:21Z",
+  "actor": "codex/r24-wp101-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "WP101_SURVIVOR_AUDIT",
+    "ceiling": "WP101_IPC_ADMISSION_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "github-actions-pr-1625-historical-postmerge-plus-current-main-survivor",
+    "evidenceClass": "SURVIVOR_AUDIT",
+    "denominator": 9,
+    "passed": 9,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-101-IPC-ADMISSION-POSTMERGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "123d906b1bf0a908763725d9a9e2aa43b30f599db5427253bfc9dc9d6353b52d"
+  },
+  "artifact": {
+    "implementationPr": {
+      "prNumber": 1625,
+      "baseSha": "2b37a8c1ec17e70a1e8342bb9f4383a46ff29d16",
+      "prHeadSha": "e69c4f56ea217c218c7e89a01df7f40000645e51",
+      "mergeSha": "2c73db8f1a26acfcf276b7a7354c19a7fbe448c6",
+      "mergedAt": "2026-08-21T16:07:49Z"
+    },
+    "implementationPrChecks": [
+      {
+        "workflowName": "OSS policy",
+        "runId": 32499773294,
+        "jobId": 96826524028,
+        "event": "pull_request",
+        "headSha": "e69c4f56ea217c218c7e89a01df7f40000645e51",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-21T15:50:49Z"
+      },
+      {
+        "workflowName": "ops-vector-close",
+        "runId": 32501321697,
+        "jobId": 96831406854,
+        "event": "pull_request",
+        "headSha": "e69c4f56ea217c218c7e89a01df7f40000645e51",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-21T16:08:03Z"
+      },
+      {
+        "workflowName": "rtk-required",
+        "runId": 32499773345,
+        "jobId": 96826523806,
+        "event": "pull_request",
+        "headSha": "e69c4f56ea217c218c7e89a01df7f40000645e51",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-21T16:07:06Z",
+        "includedWp101Gate": true
+      },
+      {
+        "workflowName": "x1-runtime-parity",
+        "jobName": "x1-runtime-parity (ubuntu-latest)",
+        "runId": 32499773309,
+        "jobId": 96826524225,
+        "event": "pull_request",
+        "headSha": "e69c4f56ea217c218c7e89a01df7f40000645e51",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-21T15:50:54Z"
+      },
+      {
+        "workflowName": "x1-runtime-parity",
+        "jobName": "x1-runtime-parity (windows-latest)",
+        "runId": 32499773309,
+        "jobId": 96826524083,
+        "event": "pull_request",
+        "headSha": "e69c4f56ea217c218c7e89a01df7f40000645e51",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-21T15:51:28Z"
+      }
+    ],
+    "implementationPostmergeChecks": [
+      {
+        "workflowName": "OSS policy",
+        "runId": 32501322167,
+        "jobId": 96831407918,
+        "event": "push",
+        "headSha": "2c73db8f1a26acfcf276b7a7354c19a7fbe448c6",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-21T16:08:13Z"
+      },
+      {
+        "workflowName": "rtk-required",
+        "runId": 32501322189,
+        "jobId": 96831407802,
+        "event": "push",
+        "headSha": "2c73db8f1a26acfcf276b7a7354c19a7fbe448c6",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-21T16:25:07Z",
+        "includedWp101Gate": true,
+        "successfulStepCount": 30,
+        "totalStepCount": 30
+      }
+    ],
+    "currentMainChecks": [
+      {
+        "workflowName": "OSS policy",
+        "runId": 32648621572,
+        "jobId": 97216659142,
+        "event": "push",
+        "headSha": "64711f479692c16adb2389c0c47c71f1d20faf0a",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-23T15:28:12Z"
+      },
+      {
+        "workflowName": "rtk-required",
+        "runId": 32648621616,
+        "attempt": 2,
+        "jobId": 97218451369,
+        "event": "push",
+        "headSha": "64711f479692c16adb2389c0c47c71f1d20faf0a",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-08-23T16:00:22Z",
+        "includedWp101Gate": true,
+        "successfulStepCount": 49,
+        "totalStepCount": 49
+      }
+    ],
+    "oracleEvolution": {
+      "fromMergeSha": "2c73db8f1a26acfcf276b7a7354c19a7fbe448c6",
+      "toCurrentMainSha": "64711f479692c16adb2389c0c47c71f1d20faf0a",
+      "unchangedPaths": [
+        "src/core/ipc-caller-identity-v1.cjs",
+        "src/main.js",
+        "test/unit/r24-wp101-ipc-admission.test.js",
+        "test/unit/r24-wp101-admission-mutants.test.js"
+      ],
+      "detail": "Core admission law, live gateway wiring, contract oracle, and mutation oracle are byte-unchanged from the WP-101 implementation merge through current main."
+    },
+    "survivorLaw": "WP-101 implementation PR and postmerge checks passed; all four implementation/oracle paths remain byte-identical and the current main exact-head focused gate, full RTK, OSS, and parity evidence remain green.",
+    "artifactDigests": [
+      {
+        "path": "src/core/ipc-caller-identity-v1.cjs",
+        "sha256": "d6225627ffab3329f8ad833d5a6232fa1c35c204898037517fa91223fa55b687"
+      },
+      {
+        "path": "src/main.js",
+        "sha256": "64f34fbc9cfe3226c8f9a9dde34aa69325557a24376858e1ed4f922d88409d62"
+      },
+      {
+        "path": "test/unit/r24-wp101-ipc-admission.test.js",
+        "sha256": "fe70fe72fdd28a69d0834c08cf4b4eb00334b4a8b5ddb7f5a503541808226189"
+      },
+      {
+        "path": "test/unit/r24-wp101-admission-mutants.test.js",
+        "sha256": "3ef18f6a62d590c2365919b46e6dd149c3390941040dbdfa8294144723dac0de"
+      }
+    ],
+    "nonClaims": [
+      "This stamp closes only WP-101 IPC admission survivor evidence.",
+      "It does not claim runtime paths beyond the 30 registered channels or promote payload visibility into authority.",
+      "It does not mark the 109-node R2.4 program DONE, reopen parked V2, or claim release readiness."
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

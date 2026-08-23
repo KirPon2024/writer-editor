@@ -1,0 +1,127 @@
+{
+  "stampId": "ES-R24-WP-101-IPC-ADMISSION-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-101_IPC_ADMISSION",
+  "attemptId": "ATTEMPT-WP101-20260823",
+  "authorityEpoch": "R24-WP101-ADMISSION-BASE-64711F47",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "64711f479692c16adb2389c0c47c71f1d20faf0a",
+    "treeSha": "f899eb1a837d292d230ae2ec99eca4af91c845b2"
+  },
+  "createdAt": "2026-08-23T16:08:21Z",
+  "actor": "codex/r24-wp101-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "WP101_INDEPENDENT_EXACT_HEAD_GREEN",
+    "ceiling": "WP101_IPC_ADMISSION_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "WP-101 focused plus WP-100 predecessor plus executable-program authority on current main",
+    "evidenceClass": "INDEPENDENT_EXACT_HEAD",
+    "denominator": 29,
+    "passed": 29,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-101-IPC-ADMISSION-MUTANTS"
+    ],
+    "predecessorReceiptDigest": "123d906b1bf0a908763725d9a9e2aa43b30f599db5427253bfc9dc9d6353b52d"
+  },
+  "artifact": {
+    "commands": [
+      {
+        "command": "npm run -s test:r24-wp101",
+        "pass": 12,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0,
+        "exitCode": 0
+      },
+      {
+        "command": "npm run -s test:r24-wp100",
+        "pass": 8,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0,
+        "exitCode": 0
+      },
+      {
+        "command": "npm run -s test:r24-authority-sot",
+        "pass": 9,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0,
+        "exitCode": 0
+      }
+    ],
+    "denominatorLaw": "12 WP-101 focused tests + 8 WP-100 predecessor tests + 9 executable-program authority tests = 29, all passed on exact head 64711f47 before this receipt mutation.",
+    "exactHead": "64711f479692c16adb2389c0c47c71f1d20faf0a",
+    "exactTree": "f899eb1a837d292d230ae2ec99eca4af91c845b2",
+    "node": "v26.7.0",
+    "artifactDigests": [
+      {
+        "path": "src/core/ipc-caller-identity-v1.cjs",
+        "sha256": "d6225627ffab3329f8ad833d5a6232fa1c35c204898037517fa91223fa55b687"
+      },
+      {
+        "path": "src/main.js",
+        "sha256": "64f34fbc9cfe3226c8f9a9dde34aa69325557a24376858e1ed4f922d88409d62"
+      },
+      {
+        "path": "test/unit/r24-wp101-ipc-admission.test.js",
+        "sha256": "fe70fe72fdd28a69d0834c08cf4b4eb00334b4a8b5ddb7f5a503541808226189"
+      },
+      {
+        "path": "test/unit/r24-wp101-admission-mutants.test.js",
+        "sha256": "3ef18f6a62d590c2365919b46e6dd149c3390941040dbdfa8294144723dac0de"
+      },
+      {
+        "path": "package.json",
+        "sha256": "e8566f7d509907bcb991ea957b6a65543ea04cdc17366162c6d17a63d6b9ce91"
+      },
+      {
+        "path": ".github/workflows/rtk-required.yml",
+        "sha256": "ac51eef84e4482ec96b3b513c4db8def1e06b93c5a5fe408d7ea0b31ea4dc818"
+      },
+      {
+        "path": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+        "sha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5"
+      },
+      {
+        "path": "docs/OPS/R24/EXECUTION_ENVELOPES_R2_4.json",
+        "sha256": "0b2154eb93769ecb6a3b3164159cfe2c87d73c5345fdcb008af5576c630ae9d3"
+      },
+      {
+        "path": "docs/OPS/R24/TEST_ASSURANCE_MATRIX_R2_4.json",
+        "sha256": "29133d0b3f6c96891695e81a1191565843143826770ba6cb90cd286bcab80ca8"
+      },
+      {
+        "path": "docs/OPS/R24/EVIDENCE_AND_RECEIPT_CONTRACT_R2_4.json",
+        "sha256": "fb6ab27e2c5a55a192aac8a224f63b4c4bf32c769e32fc6268a5f80d87cbcd3d"
+      },
+      {
+        "path": "docs/OPS/R24/PLAN_STATE_R24.json",
+        "sha256": "ff334eced6bece69273c556f8f58f9a8a535d3eff37bc14fae1e178e0cd2e6a6"
+      },
+      {
+        "path": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+        "sha256": "eda3e66ba771d3e9c1611556d3e4ade7c43ee7c74d9458d978d6f7640593bac1"
+      },
+      {
+        "path": "docs/OPS/R24/SELECTION_RECEIPT_R2_4.json",
+        "sha256": "dfd4bdb875facd78606337d63a2b61faf6e41e95ad7befa3e0fc8a53cfa997d1"
+      },
+      {
+        "path": "scripts/ops/r24/tests/executable-program.test.mjs",
+        "sha256": "30fcdd13222a10cf0725629d836cc9ef28b558ae5c37776b6504d5e4821a4c55"
+      }
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

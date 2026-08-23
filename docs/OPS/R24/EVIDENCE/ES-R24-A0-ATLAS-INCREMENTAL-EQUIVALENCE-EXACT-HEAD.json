@@ -1,0 +1,115 @@
+{
+  "stampId": "ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "A0_ATLAS_INCREMENTAL_EQUIVALENCE",
+  "attemptId": "ATTEMPT-A0-20260823",
+  "authorityEpoch": "R24-A0-ADMISSION-BASE-0BB87AE9",
+  "profileId": "ATLAS_MAPS_DERIVED",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "160186513389b05f336f0dcf1c06135959627c09",
+    "treeSha": "172ae3098fd2a51f2894a5dc9bf5aa0e95ff51a5"
+  },
+  "createdAt": "2026-08-23T11:06:52Z",
+  "actor": "codex/r24-a0-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "A0_INDEPENDENT_EXACT_HEAD_GREEN",
+    "ceiling": "A0_ATLAS_INCREMENTAL_EQUIVALENCE_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "PR1638+main16018651 exact-head CI and local Node20.19.5 gates",
+    "denominator": 6,
+    "passed": 6,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0,
+    "evidenceClass": "INDEPENDENT_EXACT_HEAD"
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-CONTRACT",
+      "ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-INTEGRATION",
+      "ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-MUTANTS",
+      "ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-PHYSICAL"
+    ],
+    "predecessorReceiptDigest": "b3c931e011d745f346a83914311204abc1b0a63d86dce501cb9fda0b716056ce"
+  },
+  "artifact": {
+    "historicalImplementationPr": {
+      "prNumber": 1638,
+      "prHeadSha": "8ce20c5e33023c37682aa3f62c80dae8a4127408",
+      "mergeSha": "8d81417a1dc80b3574e2b8646ded8c0bcd9e9bca",
+      "requiredChecksGreen": true
+    },
+    "currentMainExactHead": {
+      "headSha": "160186513389b05f336f0dcf1c06135959627c09",
+      "originMainSha": "160186513389b05f336f0dcf1c06135959627c09",
+      "mainOssPolicyRunId": 32634514376,
+      "mainRtkRequiredRunId": 32634514416,
+      "mainRtkJobId": 97182143031,
+      "completedAt": "2026-08-23T11:01:53Z"
+    },
+    "localNode": "v20.19.5",
+    "localCommands": [
+      "npm run -s test:r24-a0",
+      "node scripts/ops/r24/atlas-incremental-equivalence-a0.mjs --expected-head 160186513389b05f336f0dcf1c06135959627c09 --expected-origin-main 160186513389b05f336f0dcf1c06135959627c09"
+    ],
+    "artifactDigests": [
+      {
+        "path": "scripts/ops/r24/atlas-incremental-equivalence-a0.mjs",
+        "sha256": "1be34ff9ca768465ed57815174ba6e55efbe664fc26c9b7a407c922387f3302f"
+      },
+      {
+        "path": "src/core/runtime.mjs",
+        "sha256": "d4c34d1d42ddb267048fa0e949bedf7c0261459f86c307c993248693e831e901"
+      },
+      {
+        "path": "src/derived/index.mjs",
+        "sha256": "9f4dc55287e1b534d606d21fe1212e77d82d72f8745164b95c4eaeba1e77a88e"
+      },
+      {
+        "path": "test/unit/r24-a0-atlas-incremental-equivalence.test.js",
+        "sha256": "5db893ee6c0788b2d573f77d552c64399ec1efebbac4b328b14325948ad49637"
+      },
+      {
+        "path": "test/unit/r24-a0-atlas-physics.test.js",
+        "sha256": "ea7b8b0427a386ac5529dd91329993f8263f8fe4c24691755158ea0619467c4e"
+      },
+      {
+        "path": "test/unit/r24-a0-atlas-mutants.test.js",
+        "sha256": "afbea854323b4e477c5c8f33f280fcdff81d46c54974b58095ac712fcfe78bd5"
+      },
+      {
+        "path": "package.json",
+        "sha256": "e8566f7d509907bcb991ea957b6a65543ea04cdc17366162c6d17a63d6b9ce91"
+      },
+      {
+        "path": ".github/workflows/rtk-required.yml",
+        "sha256": "ac51eef84e4482ec96b3b513c4db8def1e06b93c5a5fe408d7ea0b31ea4dc818"
+      },
+      {
+        "path": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+        "sha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5"
+      },
+      {
+        "path": "docs/OPS/R24/PLAN_STATE_R24.json",
+        "sha256": "253b6d81074d048e47140eeaf993fb3f35c5d402490c63def4dc0c45ba65cad4"
+      },
+      {
+        "path": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+        "sha256": "95e79de8ede9ecd9c15fed56ed228717df581efa0f36de8dfa295764e7817e56"
+      },
+      {
+        "path": "docs/OPS/R24/SELECTION_RECEIPT_R2_4.json",
+        "sha256": "01ce4ef69ae5b846a188a2017253a49d548a3b23aeb745010d2b2c62d995c694"
+      },
+      {
+        "path": "scripts/ops/r24/tests/executable-program.test.mjs",
+        "sha256": "bfec4029aecfc16208ca61537021f6f919c68787cf4f52b51ca740111db1bf0d"
+      }
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

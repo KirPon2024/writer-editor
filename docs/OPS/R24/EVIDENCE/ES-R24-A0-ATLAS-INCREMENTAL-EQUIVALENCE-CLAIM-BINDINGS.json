@@ -1,13 +1,13 @@
 {
   "schemaVersion": "EvidenceStampV2",
-  "stampId": "ES-R24-K1-AUTHORITY-DECOMPOSITION-CLAIM-BINDINGS",
-  "contourId": "K1_AUTHORITY_DECOMPOSITION",
+  "stampId": "ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-CLAIM-BINDINGS",
+  "contourId": "A0_ATLAS_INCREMENTAL_EQUIVALENCE",
   "evidenceClass": "CONTRACT",
   "verdict": "PASS",
   "headSha": "160186513389b05f336f0dcf1c06135959627c09",
   "originMainSha": "160186513389b05f336f0dcf1c06135959627c09",
   "generatedAtUtc": "2026-08-23T11:06:52Z",
-  "oracle": "docs-claim-lint exact sha-bound mutable PlanState claim binding for K1 and subsequent repo-local closure state through A0",
+  "oracle": "docs-claim-lint exact sha-bound mutable PlanState claim binding for A0 closure",
   "claimBindings": [
     {
       "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
@@ -25,9 +25,9 @@
     }
   ],
   "nonClaims": [
-    "This linter-specific stamp resolves only current K1_AUTHORITY_DECOMPOSITION PlanState claim vocabulary for docs-claim-lint.",
+    "This linter-specific stamp resolves only current A0_ATLAS_INCREMENTAL_EQUIVALENCE PlanState claim vocabulary for docs-claim-lint.",
     "This stamp does not mark the full 109-node R2.4 program DONE.",
     "This stamp does not mutate product/runtime code, reopen parked V2, or claim release readiness.",
-    "This stamp does not implement or certify T1 or A0 product code beyond separately stamped closure evidence."
+    "This stamp resolves A0 closure claim vocabulary only; it does not claim Writer, Word, package, release, or PROGRAM DONE readiness."
   ]
 }

@@ -4,30 +4,30 @@
   "contourId": "ENT0_ENTITLEMENT_CONFORMANCE",
   "evidenceClass": "CONTRACT",
   "verdict": "PASS",
-  "headSha": "b90e962799ff5db4324b3ec989ce318d9c5c0778",
-  "originMainSha": "b90e962799ff5db4324b3ec989ce318d9c5c0778",
-  "generatedAtUtc": "2026-08-23T10:08:44Z",
-  "oracle": "docs-claim-lint exact sha-bound mutable PlanState claim binding for ENT0 and subsequent repo-local closure state through T1",
+  "headSha": "160186513389b05f336f0dcf1c06135959627c09",
+  "originMainSha": "160186513389b05f336f0dcf1c06135959627c09",
+  "generatedAtUtc": "2026-08-23T11:06:52Z",
+  "oracle": "docs-claim-lint exact sha-bound mutable PlanState claim binding for ENT0 and subsequent repo-local closure state through A0",
   "claimBindings": [
     {
       "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
-      "sha256": "8759d0c272e13dc78301a2ae9862a384aece3be487cc35fa54335473660597ef",
+      "sha256": "253b6d81074d048e47140eeaf993fb3f35c5d402490c63def4dc0c45ba65cad4",
       "claimTerms": [
         "DONE"
       ]
     },
     {
       "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
-      "sha256": "b0e725281bb9b1c4dcf766f1d1e4afc59570d6f45442a93d66e769ac441764e1",
+      "sha256": "95e79de8ede9ecd9c15fed56ed228717df581efa0f36de8dfa295764e7817e56",
       "claimTerms": [
         "DONE"
       ]
     }
   ],
   "nonClaims": [
-    "This linter-specific stamp resolves only current ENT0 PlanState claim vocabulary for docs-claim-lint.",
+    "This linter-specific stamp resolves only current ENT0_ENTITLEMENT_CONFORMANCE PlanState claim vocabulary for docs-claim-lint.",
     "This stamp does not mark the full 109-node R2.4 program DONE.",
-    "This stamp does not reopen A0, B0, parked V2, Word physical recertification, release, signing, notarization, production package readiness, account, network, or paid entitlement authority.",
-    "This stamp does not implement or certify T1 product code beyond the separately stamped T1 closure evidence."
+    "This stamp does not mutate product/runtime code, reopen parked V2, or claim release readiness.",
+    "This stamp does not implement or certify T1 or A0 product code beyond separately stamped closure evidence."
   ]
 }

@@ -1,0 +1,79 @@
+{
+  "stampId": "ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-PHYSICAL",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "A0_ATLAS_INCREMENTAL_EQUIVALENCE",
+  "attemptId": "ATTEMPT-A0-20260823",
+  "authorityEpoch": "R24-A0-ADMISSION-BASE-0BB87AE9",
+  "profileId": "ATLAS_MAPS_DERIVED",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "160186513389b05f336f0dcf1c06135959627c09",
+    "treeSha": "172ae3098fd2a51f2894a5dc9bf5aa0e95ff51a5"
+  },
+  "createdAt": "2026-08-23T11:06:52Z",
+  "actor": "codex/r24-a0-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "A0_PHYSICAL_RESOURCE_AND_NO_MUTATION",
+    "ceiling": "A0_ATLAS_INCREMENTAL_EQUIVALENCE_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "runAtlasA0Proof.physical+resource",
+    "denominator": 8,
+    "passed": 8,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0,
+    "evidenceClass": "PHYSICAL"
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-INTEGRATION"
+    ],
+    "predecessorReceiptDigest": "b3c931e011d745f346a83914311204abc1b0a63d86dce501cb9fda0b716056ce"
+  },
+  "artifact": {
+    "physical": {
+      "runtime": "node",
+      "platform": "darwin",
+      "arch": "arm64",
+      "wallTimeMs": 576.928,
+      "deadlineMs": 2500,
+      "deadlineWithinBudget": true,
+      "beforeStateHash": "440ee82f0806d71faac50e0ac004da21b90ea71ffb34cb37839237bdb8f49304",
+      "afterStateHash": "440ee82f0806d71faac50e0ac004da21b90ea71ffb34cb37839237bdb8f49304",
+      "sourceStateUnchanged": true,
+      "productMutation": false,
+      "storageMutation": false,
+      "networkMutation": false
+    },
+    "resource": {
+      "schemaVersion": "atlas.globalCompositeGraph.lodPlan.v1",
+      "proofSchemaVersion": "atlas.globalCompositeGraph.resourceBudgetProof.v1",
+      "sourceNodeCount": 4096,
+      "plannedNodeCount": 192,
+      "sourceEdgeCount": 4095,
+      "plannedEdgeCount": 0,
+      "withinBudget": true,
+      "renderAllNodes": false,
+      "renderAllEdges": false,
+      "resourceBudgetProofHash": "f217a260b1cfc2be174876df598b4c9caa27b7df542a9f7202476ac3787400a2"
+    },
+    "artifactDigests": [
+      {
+        "path": "scripts/ops/r24/atlas-incremental-equivalence-a0.mjs",
+        "sha256": "1be34ff9ca768465ed57815174ba6e55efbe664fc26c9b7a407c922387f3302f"
+      },
+      {
+        "path": "src/derived/index.mjs",
+        "sha256": "9f4dc55287e1b534d606d21fe1212e77d82d72f8745164b95c4eaeba1e77a88e"
+      },
+      {
+        "path": "test/unit/r24-a0-atlas-physics.test.js",
+        "sha256": "ea7b8b0427a386ac5529dd91329993f8263f8fe4c24691755158ea0619467c4e"
+      }
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

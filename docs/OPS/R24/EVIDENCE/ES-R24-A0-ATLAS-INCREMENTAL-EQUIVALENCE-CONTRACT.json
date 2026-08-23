@@ -1,0 +1,86 @@
+{
+  "stampId": "ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-CONTRACT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "A0_ATLAS_INCREMENTAL_EQUIVALENCE",
+  "attemptId": "ATTEMPT-A0-20260823",
+  "authorityEpoch": "R24-A0-ADMISSION-BASE-0BB87AE9",
+  "profileId": "ATLAS_MAPS_DERIVED",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "160186513389b05f336f0dcf1c06135959627c09",
+    "treeSha": "172ae3098fd2a51f2894a5dc9bf5aa0e95ff51a5"
+  },
+  "createdAt": "2026-08-23T11:06:52Z",
+  "actor": "codex/r24-a0-closure-receipt-v1-20260823",
+  "claim": {
+    "type": "A0_CONTRACT_BINDING",
+    "ceiling": "A0_ATLAS_INCREMENTAL_EQUIVALENCE_NODE_ONLY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "compileAtlasA0Evidence.validateProgramContract+validateWorkflowBinding",
+    "denominator": 8,
+    "passed": 8,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0,
+    "evidenceClass": "CONTRACT"
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-MODEL"
+    ],
+    "predecessorReceiptDigest": "b3c931e011d745f346a83914311204abc1b0a63d86dce501cb9fda0b716056ce"
+  },
+  "artifact": {
+    "requiredProgramStageId": "A0_ATLAS_INCREMENTAL_EQUIVALENCE",
+    "requiredProfileId": "ATLAS_MAPS_DERIVED",
+    "claimCeiling": "ATLAS_SUPPORTED_SCALE_PROFILE_ONLY",
+    "requiredEvidenceClasses": [
+      "E1_MODEL",
+      "E2_CONTRACT",
+      "E3_INTEGRATION",
+      "E4_FAULT_INJECTION",
+      "E5_PHYSICAL"
+    ],
+    "workflowOrder": [
+      "test:r24-v0",
+      "test:r24-a0"
+    ],
+    "nonClaims": [
+      "NO_PROGRAM_DONE",
+      "NO_GLOBAL_SCALAR_PASS",
+      "NO_WRITER_CORE_PROMOTION",
+      "NO_WORD_PROFILE_VERDICT",
+      "NO_GOOGLE_DOCS_PROFILE_VERDICT",
+      "NO_PACKAGED_RELEASE_PROFILE_VERDICT",
+      "NO_UNIVERSAL_ATLAS_SCALE",
+      "NO_PRODUCT_RUNTIME_MUTATION",
+      "NO_RUNTIME_DAEMON_OR_NETWORK"
+    ],
+    "artifactDigests": [
+      {
+        "path": "scripts/ops/r24/atlas-incremental-equivalence-a0.mjs",
+        "sha256": "1be34ff9ca768465ed57815174ba6e55efbe664fc26c9b7a407c922387f3302f"
+      },
+      {
+        "path": "docs/OPS/EVIDENCE/YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1/PROGRAM_DAG.json",
+        "sha256": "bf3f7e6e3871ebc5e5a4a83b6ded88db3ce6759df59b466b62cba1eea792be2e"
+      },
+      {
+        "path": "docs/OPS/EVIDENCE/YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1/SCIENTIFIC_CONTRACTS.json",
+        "sha256": "daf839e6a7de5719de951e73ddfee3459af2e2a8bd5bde10f6e2a8cca8e14417"
+      },
+      {
+        "path": ".github/workflows/rtk-required.yml",
+        "sha256": "ac51eef84e4482ec96b3b513c4db8def1e06b93c5a5fe408d7ea0b31ea4dc818"
+      },
+      {
+        "path": "package.json",
+        "sha256": "e8566f7d509907bcb991ea957b6a65543ea04cdc17366162c6d17a63d6b9ce91"
+      }
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

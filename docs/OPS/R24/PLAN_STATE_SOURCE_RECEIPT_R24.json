@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.r24.plan-state-source-receipt.v1",
-  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPO_LOCAL_SEC0_ENT0_K1_T1_CLOSURE_NO_PROGRAM_DONE",
-  "generatedAtUtc": "2026-08-23T10:08:44Z",
+  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPO_LOCAL_SEC0_ENT0_K1_T1_A0_CLOSURE_NO_PROGRAM_DONE",
+  "generatedAtUtc": "2026-08-23T11:06:52Z",
   "executableProgramPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
   "executableProgramDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
   "planStatePath": "docs/OPS/R24/PLAN_STATE_R24.json",
@@ -83,8 +83,8 @@
   },
   "nonClaims": [
     "R24 unit test files in current main are implementation evidence candidates only; they are not converted to DONE without durable terminal receipts.",
-    "This source receipt now accounts for repo-local SEC0, ENT0, K1, and T1 closures and still does not mark the full 109-node program DONE.",
-    "T1 closure records anchor lineage evidence only; it does not certify V2 Word, Word physical recertification, release, signing, notarization, production package readiness, account, network, or paid entitlement authority.",
+    "This source receipt now accounts for repo-local SEC0, ENT0, K1, T1, and A0 closures and still does not mark the full 109-node program DONE.",
+    "A0 closure records Atlas incremental/full equivalence evidence only; it does not certify V2 Word, Word physical recertification, release, signing, notarization, production package readiness, account, network, paid entitlement authority, or universal Atlas scale.",
     "Parked V2 remains suspended until the corrective authority/evidence sequence is merged and postmerge verified."
   ],
   "discoveredR24TestFiles": {
@@ -188,7 +188,7 @@
     ]
   },
   "repoLocalPlanStateClosures": {
-    "doneContourCount": 4,
+    "doneContourCount": 5,
     "closures": [
       {
         "id": "SEC0_PATH_CAPABILITY",
@@ -273,8 +273,31 @@
           "ES-R24-T1-ANCHOR-LINEAGE-CLAIM-BINDINGS"
         ],
         "deliveryState": "CURRENT_MAIN_B90E9627_EXACT_HEAD_POSTMERGE_AND_SURVIVOR_GREEN_NO_PROGRAM_DONE"
+      },
+      {
+        "id": "A0_ATLAS_INCREMENTAL_EQUIVALENCE",
+        "state": "DONE",
+        "previousState": "POSTMERGE_VERIFIED",
+        "attemptId": "ATTEMPT-A0-20260823",
+        "updatedAt": "2026-08-23T11:06:52Z",
+        "headSha": "160186513389b05f336f0dcf1c06135959627c09",
+        "source": "R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE_CLOSURE_V1",
+        "terminalReceiptPath": "docs/OPS/R24/CTR-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE.json",
+        "evidenceStampIds": [
+          "ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-MODEL",
+          "ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-CONTRACT",
+          "ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-INTEGRATION",
+          "ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-FAULTS",
+          "ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-MUTANTS",
+          "ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-PHYSICAL",
+          "ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-EXACT-HEAD",
+          "ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-POSTMERGE-EXACT-HEAD",
+          "ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-SURVIVOR-AUDIT",
+          "ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-CLAIM-BINDINGS"
+        ],
+        "deliveryState": "CURRENT_MAIN_16018651_EXACT_HEAD_POSTMERGE_AND_SURVIVOR_GREEN_NO_PROGRAM_DONE"
       }
     ]
   },
-  "planStateRevision": 89
+  "planStateRevision": 90
 }

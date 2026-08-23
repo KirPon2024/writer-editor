@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.plan-state.r24.v1",
-  "revision": 89,
-  "fencingCounter": 15,
+  "revision": 90,
+  "fencingCounter": 16,
   "contours": {
     "R24C0_SEMANTIC_PACKAGE_CLOSURE": {
       "state": "DONE",
@@ -196,12 +196,12 @@
       "source": "R24_T1_ANCHOR_LINEAGE_CLOSURE_V1"
     },
     "A0_ATLAS_INCREMENTAL_EQUIVALENCE": {
-      "state": "PENDING",
-      "previousState": null,
-      "attemptId": null,
-      "updatedAt": null,
-      "headSha": null,
-      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+      "state": "DONE",
+      "previousState": "POSTMERGE_VERIFIED",
+      "attemptId": "ATTEMPT-A0-20260823",
+      "updatedAt": "2026-08-23T11:06:52Z",
+      "headSha": "160186513389b05f336f0dcf1c06135959627c09",
+      "source": "R24_A0_ATLAS_INCREMENTAL_EQUIVALENCE_CLOSURE_V1"
     },
     "A1_OPTIONAL_RELATION_VOCABULARY": {
       "state": "INELIGIBLE_OPTIONAL",

@@ -40,10 +40,7 @@ const PLATFORM_DIVERGENT = Object.freeze([
   Object.freeze({
     contract: 'b3c10-capability-tier-report.contract.test.js',
     expected: Object.freeze({
-      darwin: Object.freeze({
-        status: 'red',
-        failing: ['b3c10 capability tier report: CLI status remains worktree independent outside repo cwd'],
-      }),
+      darwin: Object.freeze({ status: 'green' }),
       linux: Object.freeze({ status: 'red', failing: ['b3c10 capability tier report: state artifact equals executable state'] }),
     }),
   }),
@@ -93,6 +90,7 @@ const FLAKY_REGISTER = Object.freeze([
     maxAttempts: 1,
     accepted: Object.freeze({
       darwin: Object.freeze([
+        Object.freeze({ status: 'green', failing: Object.freeze([]) }),
         Object.freeze({
           status: 'red',
           failing: Object.freeze(['b3c09 performance baseline: CLI status remains worktree independent outside repo cwd']),

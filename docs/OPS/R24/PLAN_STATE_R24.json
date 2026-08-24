@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.plan-state.r24.v2",
-  "revision": 115,
-  "fencingCounter": 23,
+  "revision": 122,
+  "fencingCounter": 24,
   "contours": {
     "R24C0_SEMANTIC_PACKAGE_CLOSURE": {
       "state": "DONE",
@@ -128,12 +128,24 @@
       "deliveryState": "CURRENT_MAIN_20240143_EXACT_HEAD_R2_GATE_AND_SURVIVOR_GREEN_NO_STORAGE_ADOPTION_NO_PROGRAM_DONE"
     },
     "R3_DURABLE_RECOVERY_LEDGER": {
-      "state": "PENDING",
-      "previousState": null,
-      "attemptId": null,
-      "updatedAt": null,
-      "headSha": null,
-      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+      "state": "DONE",
+      "previousState": "POSTMERGE_VERIFIED",
+      "attemptId": "ATTEMPT-R3-20260824",
+      "updatedAt": "2026-08-24T00:54:05Z",
+      "headSha": "0a3d035de277a6edc9287b86d17cb59a7e16c104",
+      "source": "R24_R3_DURABLE_RECOVERY_LEDGER_CLOSURE_V1",
+      "terminalReceiptPath": "docs/OPS/R24/CTR-R24-R3-DURABLE-RECOVERY-LEDGER.json",
+      "evidenceStampIds": [
+        "ES-R24-R3-DURABLE-RECOVERY-LEDGER-MODEL",
+        "ES-R24-R3-DURABLE-RECOVERY-LEDGER-CONTRACT",
+        "ES-R24-R3-DURABLE-RECOVERY-LEDGER-INTEGRATION",
+        "ES-R24-R3-DURABLE-RECOVERY-LEDGER-MUTANTS",
+        "ES-R24-R3-DURABLE-RECOVERY-LEDGER-EXACT-HEAD",
+        "ES-R24-R3-DURABLE-RECOVERY-LEDGER-POSTMERGE-EXACT-HEAD",
+        "ES-R24-R3-DURABLE-RECOVERY-LEDGER-SURVIVOR-AUDIT",
+        "ES-R24-R3-DURABLE-RECOVERY-LEDGER-CLAIM-BINDINGS"
+      ],
+      "deliveryState": "CURRENT_MAIN_4D957820_EXACT_HEAD_R3_GATE_AND_SURVIVOR_GREEN_DORMANT_INTERNAL_ADAPTER_NO_LIVE_STORAGE_ADOPTION_NO_PROGRAM_DONE"
     },
     "R4_TRANSACTIONAL_INBOX_OUTBOX": {
       "state": "PENDING",
@@ -1490,6 +1502,111 @@
         "headSha": "5b505f27e0f51281f075b25257409e99755eae79",
         "appliedAt": "2026-08-23T23:54:00Z"
       }
+    },
+    "r3-20260824-lease": {
+      "revision": 116,
+      "requestDigest": "1bfd6eea55740e11ad53d95aafbed3e03f5beb2511b067cf63941b57f31f448f",
+      "receipt": null
+    },
+    "r3-20260824-transition-eligible": {
+      "revision": 117,
+      "requestDigest": "c56d354e6c349968e3c45948d107366b0b44c68901f62cf2f7855cd940d87d4b",
+      "receipt": {
+        "schemaVersion": "PlanStateTransitionReceiptV1",
+        "transitionId": "f6a211228c1c7a24f3e4bdf9316ae509645819b3f5b32d66618accd4a5467ec4",
+        "contourId": "R3_DURABLE_RECOVERY_LEDGER",
+        "from": "PENDING",
+        "to": "ELIGIBLE",
+        "fromRevision": 116,
+        "toRevision": 117,
+        "attemptId": "ATTEMPT-R3-20260824",
+        "writerId": "codex/r24-r3-durable-recovery-ledger-certification-v1-20260824",
+        "fencingToken": 24,
+        "idempotencyKey": "r3-20260824-transition-eligible",
+        "requestDigest": "c56d354e6c349968e3c45948d107366b0b44c68901f62cf2f7855cd940d87d4b",
+        "headSha": "0a3d035de277a6edc9287b86d17cb59a7e16c104",
+        "appliedAt": "2026-08-24T00:54:01Z"
+      }
+    },
+    "r3-20260824-transition-running": {
+      "revision": 118,
+      "requestDigest": "2da02413133e4566cde0e28e9555cf888b2fe764db142aa1e178abd544391bf9",
+      "receipt": {
+        "schemaVersion": "PlanStateTransitionReceiptV1",
+        "transitionId": "863767eb47e77b959581ade50b76452bad109579b214c6cf94c657bc6ab585fb",
+        "contourId": "R3_DURABLE_RECOVERY_LEDGER",
+        "from": "ELIGIBLE",
+        "to": "RUNNING",
+        "fromRevision": 117,
+        "toRevision": 118,
+        "attemptId": "ATTEMPT-R3-20260824",
+        "writerId": "codex/r24-r3-durable-recovery-ledger-certification-v1-20260824",
+        "fencingToken": 24,
+        "idempotencyKey": "r3-20260824-transition-running",
+        "requestDigest": "2da02413133e4566cde0e28e9555cf888b2fe764db142aa1e178abd544391bf9",
+        "headSha": "0a3d035de277a6edc9287b86d17cb59a7e16c104",
+        "appliedAt": "2026-08-24T00:54:02Z"
+      }
+    },
+    "r3-20260824-transition-delivered": {
+      "revision": 119,
+      "requestDigest": "bb1b154544790822d69a3ffae1845de3d3e11c5496f4a696ea4d905d95d23016",
+      "receipt": {
+        "schemaVersion": "PlanStateTransitionReceiptV1",
+        "transitionId": "c3d1949c221d7708a859d7f5cd6adb7302045b61a2aed92d21232f769c6ceee7",
+        "contourId": "R3_DURABLE_RECOVERY_LEDGER",
+        "from": "RUNNING",
+        "to": "DELIVERED",
+        "fromRevision": 118,
+        "toRevision": 119,
+        "attemptId": "ATTEMPT-R3-20260824",
+        "writerId": "codex/r24-r3-durable-recovery-ledger-certification-v1-20260824",
+        "fencingToken": 24,
+        "idempotencyKey": "r3-20260824-transition-delivered",
+        "requestDigest": "bb1b154544790822d69a3ffae1845de3d3e11c5496f4a696ea4d905d95d23016",
+        "headSha": "0a3d035de277a6edc9287b86d17cb59a7e16c104",
+        "appliedAt": "2026-08-24T00:54:03Z"
+      }
+    },
+    "r3-20260824-transition-postmerge_verified": {
+      "revision": 120,
+      "requestDigest": "d26951e288f866c77c809519e518895bb027e84a41816347d143064936bc2419",
+      "receipt": {
+        "schemaVersion": "PlanStateTransitionReceiptV1",
+        "transitionId": "cc6ef02539c79ed0b49ac0354fd84f165fa4de03901aa2d4f3cd82b2f9fb2647",
+        "contourId": "R3_DURABLE_RECOVERY_LEDGER",
+        "from": "DELIVERED",
+        "to": "POSTMERGE_VERIFIED",
+        "fromRevision": 119,
+        "toRevision": 120,
+        "attemptId": "ATTEMPT-R3-20260824",
+        "writerId": "codex/r24-r3-durable-recovery-ledger-certification-v1-20260824",
+        "fencingToken": 24,
+        "idempotencyKey": "r3-20260824-transition-postmerge_verified",
+        "requestDigest": "d26951e288f866c77c809519e518895bb027e84a41816347d143064936bc2419",
+        "headSha": "0a3d035de277a6edc9287b86d17cb59a7e16c104",
+        "appliedAt": "2026-08-24T00:54:04Z"
+      }
+    },
+    "r3-20260824-transition-done": {
+      "revision": 121,
+      "requestDigest": "f9a559a195eea4ee8f12218fa26cf650cf95d9d35a46f16bc5242b5617099ca7",
+      "receipt": {
+        "schemaVersion": "PlanStateTransitionReceiptV1",
+        "transitionId": "c44bcd1e8677979b954b1de5a4ab6afdba5d62408457825876c6967d310b1898",
+        "contourId": "R3_DURABLE_RECOVERY_LEDGER",
+        "from": "POSTMERGE_VERIFIED",
+        "to": "DONE",
+        "fromRevision": 120,
+        "toRevision": 121,
+        "attemptId": "ATTEMPT-R3-20260824",
+        "writerId": "codex/r24-r3-durable-recovery-ledger-certification-v1-20260824",
+        "fencingToken": 24,
+        "idempotencyKey": "r3-20260824-transition-done",
+        "requestDigest": "f9a559a195eea4ee8f12218fa26cf650cf95d9d35a46f16bc5242b5617099ca7",
+        "headSha": "0a3d035de277a6edc9287b86d17cb59a7e16c104",
+        "appliedAt": "2026-08-24T00:54:05Z"
+      }
     }
   },
   "replayBaseline": {
@@ -1768,6 +1885,91 @@
       "requestDigest": "61a9e46c9981a8e1d583c406ee5deec5c92e0fb6deaa2082621ed68c7725aae6",
       "headSha": "5b505f27e0f51281f075b25257409e99755eae79",
       "appliedAt": "2026-08-23T23:54:00Z",
+      "baselinePresent": true
+    },
+    {
+      "schemaVersion": "PlanStateTransitionReceiptV1",
+      "transitionId": "f6a211228c1c7a24f3e4bdf9316ae509645819b3f5b32d66618accd4a5467ec4",
+      "contourId": "R3_DURABLE_RECOVERY_LEDGER",
+      "from": "PENDING",
+      "to": "ELIGIBLE",
+      "fromRevision": 116,
+      "toRevision": 117,
+      "attemptId": "ATTEMPT-R3-20260824",
+      "writerId": "codex/r24-r3-durable-recovery-ledger-certification-v1-20260824",
+      "fencingToken": 24,
+      "idempotencyKey": "r3-20260824-transition-eligible",
+      "requestDigest": "c56d354e6c349968e3c45948d107366b0b44c68901f62cf2f7855cd940d87d4b",
+      "headSha": "0a3d035de277a6edc9287b86d17cb59a7e16c104",
+      "appliedAt": "2026-08-24T00:54:01Z",
+      "baselinePresent": true
+    },
+    {
+      "schemaVersion": "PlanStateTransitionReceiptV1",
+      "transitionId": "863767eb47e77b959581ade50b76452bad109579b214c6cf94c657bc6ab585fb",
+      "contourId": "R3_DURABLE_RECOVERY_LEDGER",
+      "from": "ELIGIBLE",
+      "to": "RUNNING",
+      "fromRevision": 117,
+      "toRevision": 118,
+      "attemptId": "ATTEMPT-R3-20260824",
+      "writerId": "codex/r24-r3-durable-recovery-ledger-certification-v1-20260824",
+      "fencingToken": 24,
+      "idempotencyKey": "r3-20260824-transition-running",
+      "requestDigest": "2da02413133e4566cde0e28e9555cf888b2fe764db142aa1e178abd544391bf9",
+      "headSha": "0a3d035de277a6edc9287b86d17cb59a7e16c104",
+      "appliedAt": "2026-08-24T00:54:02Z",
+      "baselinePresent": true
+    },
+    {
+      "schemaVersion": "PlanStateTransitionReceiptV1",
+      "transitionId": "c3d1949c221d7708a859d7f5cd6adb7302045b61a2aed92d21232f769c6ceee7",
+      "contourId": "R3_DURABLE_RECOVERY_LEDGER",
+      "from": "RUNNING",
+      "to": "DELIVERED",
+      "fromRevision": 118,
+      "toRevision": 119,
+      "attemptId": "ATTEMPT-R3-20260824",
+      "writerId": "codex/r24-r3-durable-recovery-ledger-certification-v1-20260824",
+      "fencingToken": 24,
+      "idempotencyKey": "r3-20260824-transition-delivered",
+      "requestDigest": "bb1b154544790822d69a3ffae1845de3d3e11c5496f4a696ea4d905d95d23016",
+      "headSha": "0a3d035de277a6edc9287b86d17cb59a7e16c104",
+      "appliedAt": "2026-08-24T00:54:03Z",
+      "baselinePresent": true
+    },
+    {
+      "schemaVersion": "PlanStateTransitionReceiptV1",
+      "transitionId": "cc6ef02539c79ed0b49ac0354fd84f165fa4de03901aa2d4f3cd82b2f9fb2647",
+      "contourId": "R3_DURABLE_RECOVERY_LEDGER",
+      "from": "DELIVERED",
+      "to": "POSTMERGE_VERIFIED",
+      "fromRevision": 119,
+      "toRevision": 120,
+      "attemptId": "ATTEMPT-R3-20260824",
+      "writerId": "codex/r24-r3-durable-recovery-ledger-certification-v1-20260824",
+      "fencingToken": 24,
+      "idempotencyKey": "r3-20260824-transition-postmerge_verified",
+      "requestDigest": "d26951e288f866c77c809519e518895bb027e84a41816347d143064936bc2419",
+      "headSha": "0a3d035de277a6edc9287b86d17cb59a7e16c104",
+      "appliedAt": "2026-08-24T00:54:04Z",
+      "baselinePresent": true
+    },
+    {
+      "schemaVersion": "PlanStateTransitionReceiptV1",
+      "transitionId": "c44bcd1e8677979b954b1de5a4ab6afdba5d62408457825876c6967d310b1898",
+      "contourId": "R3_DURABLE_RECOVERY_LEDGER",
+      "from": "POSTMERGE_VERIFIED",
+      "to": "DONE",
+      "fromRevision": 120,
+      "toRevision": 121,
+      "attemptId": "ATTEMPT-R3-20260824",
+      "writerId": "codex/r24-r3-durable-recovery-ledger-certification-v1-20260824",
+      "fencingToken": 24,
+      "idempotencyKey": "r3-20260824-transition-done",
+      "requestDigest": "f9a559a195eea4ee8f12218fa26cf650cf95d9d35a46f16bc5242b5617099ca7",
+      "headSha": "0a3d035de277a6edc9287b86d17cb59a7e16c104",
+      "appliedAt": "2026-08-24T00:54:05Z",
       "baselinePresent": true
     }
   ]

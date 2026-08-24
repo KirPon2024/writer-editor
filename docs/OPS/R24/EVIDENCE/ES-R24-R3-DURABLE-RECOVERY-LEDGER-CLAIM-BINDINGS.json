@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-R3-DURABLE-RECOVERY-LEDGER-CLAIM-BINDINGS",
+  "contourId": "R3_DURABLE_RECOVERY_LEDGER",
+  "evidenceClass": "CONTRACT",
+  "verdict": "PASS",
+  "headSha": "0a3d035de277a6edc9287b86d17cb59a7e16c104",
+  "originMainSha": "4d957820f61d4a35ad293f90865182ff2261f499",
+  "generatedAtUtc": "2026-08-24T00:55:00Z",
+  "oracle": "strict ClaimBindingV1 exact-hash binding for replayable R3 PlanState closure and source receipt",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+      "sha256": "d00fab4eba1638a02d865f49e50b71462835e5df5a66e9a33a788ac39a4370ef",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+      "sha256": "49926023e42abd67295953f428d542d5c1290e4ff5b3f4097b3a26b41b0c2981",
+      "claimTerms": [
+        "CLOSED"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/recovery-ledger-v1.cjs",
+      "sha256": "f6f0ab01ee768e374f07d2e830b2b4cca3b5a5a68278ca291b46229cffbb0e25",
+      "terms": [
+        "digest chain",
+        "sequence fence",
+        "entry-count bound",
+        "typed compaction",
+        "deterministic replay"
+      ]
+    },
+    {
+      "path": "src/core/project-commit-v1.cjs",
+      "sha256": "cc0f6a2b62f8e17efdc40caeef6e116dbc1eb380f0dd87987c1cfa430f133912",
+      "terms": [
+        "optional post-ACK recovery ledger seam",
+        "typed non-fatal ledger failure"
+      ]
+    },
+    {
+      "path": "test/unit/r24-r3-recovery-ledger.test.js",
+      "sha256": "9885d6c2b8236633caf1f362ca80802b26b18d7c492c4cfff9a593198fb8d7d5",
+      "terms": [
+        "six ledger contract tests"
+      ]
+    },
+    {
+      "path": "test/unit/r24-r3-ledger-physics.test.js",
+      "sha256": "793685274585d2f8127af3aa868c947e47c3967e3b4890b7914a3d63a76752ea",
+      "terms": [
+        "five real-filesystem and P3 integration tests"
+      ]
+    },
+    {
+      "path": "test/unit/r24-r3-ledger-mutants.test.js",
+      "sha256": "cd4bb15f95e7bf4441f2c94ceab525459b149d2d0b1e64a295a52bf9e040b1a8",
+      "terms": [
+        "five implementation mutants killed"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "npm run -s test:r24-r3",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 12,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 5,
+        "survived": 0
+      }
+    }
+  ],
+  "nonClaims": [
+    "This binding closes only R3_DURABLE_RECOVERY_LEDGER certification of the already-merged internal capability.",
+    "It does not claim live production attachment, broader storage candidate selection, dependency adoption, byte-size bounding, concurrent multi-handle serialization, storage-path change, migration, or destructive storage.",
+    "It does not mark R4 through R6, F0, V0, downstream work packages, physical qualification, release readiness, or the R2.4 program DONE."
+  ]
+}

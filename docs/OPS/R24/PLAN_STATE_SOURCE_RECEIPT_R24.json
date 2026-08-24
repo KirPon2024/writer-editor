@@ -1,15 +1,15 @@
 {
   "schemaVersion": "yalken.r24.plan-state-source-receipt.v1",
-  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPO_LOCAL_SEC0_ENT0_K1_T1_A0_PK0_WP100_WP101_WP102_WP103_WP104_R2_CLOSURE_NO_PROGRAM_DONE",
-  "generatedAtUtc": "2026-08-23T23:54:01Z",
+  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPO_LOCAL_SEC0_ENT0_K1_T1_A0_PK0_WP100_WP101_WP102_WP103_WP104_R2_R3_CLOSURE_NO_PROGRAM_DONE",
+  "generatedAtUtc": "2026-08-24T00:55:00Z",
   "executableProgramPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
   "executableProgramDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
   "planStatePath": "docs/OPS/R24/PLAN_STATE_R24.json",
   "currentPlanState": {
-    "sha256": "e8effbafda63636ca3541d7d5d62d743211261a4a851fd90ab040a1bcc4d9a9f",
+    "sha256": "d00fab4eba1638a02d865f49e50b71462835e5df5a66e9a33a788ac39a4370ef",
     "schemaVersion": "yalken.plan-state.r24.v2",
-    "revision": 115,
-    "fencingCounter": 23,
+    "revision": 122,
+    "fencingCounter": 24,
     "replayBaseline": {
       "classification": "ADOPTED_PRE_V2_UNREPLAYABLE_HISTORY",
       "revision": 94,
@@ -19,7 +19,7 @@
       "unreplayableContourCount": 10,
       "syntheticTransitionCount": 0
     },
-    "transitionHistoryCount": 15
+    "transitionHistoryCount": 20
   },
   "externalPlanState": {
     "path": "/Volumes/T7-Secure/worktrees/yalken/_r24-mission/PLAN_STATE_R24.json",
@@ -99,9 +99,10 @@
   },
   "nonClaims": [
     "R24 unit test files in current main are implementation evidence candidates only; they are not converted to DONE without durable terminal receipts.",
-    "This source receipt accounts for repo-local SEC0, ENT0, K1, T1, A0, PK0, WP-100 through WP-104, and R2 closures and does not mark the full 109-node program DONE.",
-    "R2 closure certifies comparison after hard safety filters, crash physics, six killed mutants, and current exact-main CI; it does not select a candidate, adopt a dependency, change the live storage path, migrate user data, or authorize destructive storage.",
-    "R3 through R6, F0, V0, WP-200 through WP-207, WP-300 through WP-307, physical qualification, and release readiness remain independently graph-gated.",
+    "This source receipt accounts for repo-local SEC0, ENT0, K1, T1, A0, PK0, WP-100 through WP-104, R2, and R3 closures and does not mark the full 109-node program DONE.",
+    "R3 closure certifies the existing dependency-free internal recovery-ledger capability, digest/sequence/entry-count/compaction/replay laws, real-filesystem torn-tail behavior, and optional P3 post-ACK seam.",
+    "R3 closure does not claim a live production attachment, a serialized byte-size bound, concurrent multi-handle writer serialization, broader storage candidate selection, dependency adoption, storage-path change, user migration, or destructive storage.",
+    "R4 through R6, F0, V0, WP-200 through WP-207, WP-300 through WP-307, physical qualification, and release readiness remain independently graph-gated.",
     "Parked V2 remains suspended until the executable graph selects it and all dependency and evidence predicates are satisfied."
   ],
   "discoveredR24TestFiles": {
@@ -205,7 +206,7 @@
     ]
   },
   "repoLocalPlanStateClosures": {
-    "doneContourCount": 12,
+    "doneContourCount": 13,
     "closures": [
       {
         "id": "SEC0_PATH_CAPABILITY",
@@ -461,8 +462,29 @@
           "ES-R24-R2-STORAGE-BAKEOFF-CLAIM-BINDINGS"
         ],
         "deliveryState": "CURRENT_MAIN_20240143_EXACT_HEAD_R2_GATE_AND_SURVIVOR_GREEN_NO_STORAGE_ADOPTION_NO_PROGRAM_DONE"
+      },
+      {
+        "id": "R3_DURABLE_RECOVERY_LEDGER",
+        "state": "DONE",
+        "previousState": "POSTMERGE_VERIFIED",
+        "attemptId": "ATTEMPT-R3-20260824",
+        "updatedAt": "2026-08-24T00:54:05Z",
+        "headSha": "0a3d035de277a6edc9287b86d17cb59a7e16c104",
+        "source": "R24_R3_DURABLE_RECOVERY_LEDGER_CLOSURE_V1",
+        "terminalReceiptPath": "docs/OPS/R24/CTR-R24-R3-DURABLE-RECOVERY-LEDGER.json",
+        "evidenceStampIds": [
+          "ES-R24-R3-DURABLE-RECOVERY-LEDGER-MODEL",
+          "ES-R24-R3-DURABLE-RECOVERY-LEDGER-CONTRACT",
+          "ES-R24-R3-DURABLE-RECOVERY-LEDGER-INTEGRATION",
+          "ES-R24-R3-DURABLE-RECOVERY-LEDGER-MUTANTS",
+          "ES-R24-R3-DURABLE-RECOVERY-LEDGER-EXACT-HEAD",
+          "ES-R24-R3-DURABLE-RECOVERY-LEDGER-POSTMERGE-EXACT-HEAD",
+          "ES-R24-R3-DURABLE-RECOVERY-LEDGER-SURVIVOR-AUDIT",
+          "ES-R24-R3-DURABLE-RECOVERY-LEDGER-CLAIM-BINDINGS"
+        ],
+        "deliveryState": "CURRENT_MAIN_4D957820_EXACT_HEAD_R3_GATE_AND_SURVIVOR_GREEN_DORMANT_INTERNAL_ADAPTER_NO_LIVE_STORAGE_ADOPTION_NO_PROGRAM_DONE"
       }
     ]
   },
-  "planStateRevision": 115
+  "planStateRevision": 122
 }

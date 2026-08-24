@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-202_LEGACY_STRANGLER",
+  "attemptId": "ATTEMPT-WP202-20260824",
+  "authorityEpoch": "R24-WP202-BASE-777D2100",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "8193fddcdae05b74cc5cbc69efc79918f229821a",
+    "treeSha": "1dd13f94d52b56cf33a8d1865d83284b2bf24ca5"
+  },
+  "createdAt": "2026-08-24T18:48:57Z",
+  "actor": "codex/r24-wp202-legacy-strangler-v1-20260824",
+  "stampId": "ES-R24-WP-202-LEGACY-STRANGLER-EXACT-HEAD",
+  "claim": {
+    "type": "WP202_LOCAL_EXACT_EVALUATION_SOURCE_GREEN",
+    "ceiling": "WP202_NODE_ONLY_WRITER_SAVE_ROUTING_NO_STORAGE_FORMAT_CHANGE_NO_LEGACY_REMOVAL_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-wp202-exact-head",
+    "evidenceClass": "INDEPENDENT_EXACT_HEAD",
+    "denominator": 1059,
+    "passed": 1059,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": ["ES-R24-WP-202-LEGACY-STRANGLER-MUTANTS"],
+    "predecessorReceiptDigest": "096389d98ebc784965735ac720dabb7c81a165dd5ef4628ff2d8d3c97edb803c"
+  },
+  "artifact": {
+    "identityRoles": {
+      "implementationSourceSha": "a655b4312e22bb2732d4af121c3a679a8ca75d57",
+      "evaluationHeadSha": "8193fddcdae05b74cc5cbc69efc79918f229821a",
+      "evaluationTreeSha": "1dd13f94d52b56cf33a8d1865d83284b2bf24ca5",
+      "implementationPrHeadSha": null,
+      "implementationMergeSha": null,
+      "postmergeSha": null
+    },
+    "focusedCommand": "npm run -s test:r24-wp202",
+    "focusedCounts": { "pass": 14, "fail": 0, "skipped": 0, "todo": 0 },
+    "mutants": { "killed": 7, "survived": 0 },
+    "fullRtk": {
+      "invocationId": "4bd2475f-2db7-4186-ad05-a1c5a36a1cfd",
+      "pass": 1059,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "exitCode": 0,
+      "durationMs": 263334.947167,
+      "processGroupCleanup": "RTK_PROCESS_GROUP_CLEAN",
+      "leaseCleanupOk": true,
+      "stderr": ""
+    },
+    "repairedObservedDrift": {
+      "initialInvocationId": "74150b30-72ca-482b-8e40-c957dbc15d78",
+      "initialResult": "1058_PASS_1_FAIL",
+      "failingOracle": "RELEASE01-14-integration-real-registry-binds-all-wording-and-rolls-up",
+      "rootCause": "WP202 package script changed the exact package wording-surface digest.",
+      "correction": "Refresh only the exact package.json digest in the existing terminal claim registry.",
+      "focusedReproductionAfterCorrection": "PASS"
+    },
+    "docsClaimLint": { "filesWithClaims": 29, "stampCountBeforeWp202Evidence": 179, "verdict": "PASS" },
+    "toolchain": { "nodeVersion": "v26.7.0" },
+    "guardrails": "PASS",
+    "diffCheck": "PASS",
+    "deliveryState": "AWAITING_PR_EXACT_HEAD_CI_POLICY_MERGE_AND_POSTMERGE",
+    "nonClaims": [
+      "This is exact local evaluation-source evidence, not PR-head, merge or postmerge evidence.",
+      "WP202 compares routing observations and does not remove the legacy implementation.",
+      "No storage format, user data, dependency, SAFE_APPLY, release, signing, cloud or AI authority is changed.",
+      "WP202 PlanState remains PENDING until policy merge and exact postmerge verification."
+    ]
+  }
+}

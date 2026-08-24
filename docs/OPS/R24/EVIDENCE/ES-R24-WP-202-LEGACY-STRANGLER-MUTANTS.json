@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-202_LEGACY_STRANGLER",
+  "attemptId": "ATTEMPT-WP202-20260824",
+  "authorityEpoch": "R24-WP202-BASE-777D2100",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "8193fddcdae05b74cc5cbc69efc79918f229821a",
+    "treeSha": "1dd13f94d52b56cf33a8d1865d83284b2bf24ca5"
+  },
+  "createdAt": "2026-08-24T18:48:57Z",
+  "actor": "codex/r24-wp202-legacy-strangler-v1-20260824",
+  "stampId": "ES-R24-WP-202-LEGACY-STRANGLER-MUTANTS",
+  "claim": {
+    "type": "WP202_IMPLEMENTATION_MUTANT_SURVIVOR_PROOF",
+    "ceiling": "WP202_NODE_ONLY_WRITER_SAVE_ROUTING_NO_STORAGE_FORMAT_CHANGE_NO_LEGACY_REMOVAL_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-wp202-implementation-mutants",
+    "evidenceClass": "IMPLEMENTATION_MUTANTS",
+    "denominator": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": ["ES-R24-WP-202-LEGACY-STRANGLER-INTEGRATION"],
+    "predecessorReceiptDigest": "096389d98ebc784965735ac720dabb7c81a165dd5ef4628ff2d8d3c97edb803c"
+  },
+  "artifact": {
+    "identityRoles": {
+      "implementationSourceSha": "a655b4312e22bb2732d4af121c3a679a8ca75d57",
+      "evaluationHeadSha": "8193fddcdae05b74cc5cbc69efc79918f229821a",
+      "evaluationTreeSha": "1dd13f94d52b56cf33a8d1865d83284b2bf24ca5",
+      "implementationPrHeadSha": null,
+      "implementationMergeSha": null,
+      "postmergeSha": null
+    },
+    "mutants": {
+      "killed": 7,
+      "survived": 0,
+      "ids": [
+        "comparison-guard-removed",
+        "request-binding-removed",
+        "unknown-route-accepted",
+        "observer-independence-removed",
+        "legacy-observation-aliased",
+        "duplicate-authority-execution",
+        "execution-count-forged"
+      ]
+    }
+  }
+}

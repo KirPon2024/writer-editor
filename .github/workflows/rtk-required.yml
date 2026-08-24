@@ -124,6 +124,9 @@ jobs:
       - name: Run R2.4 WP-201 project transaction gate
         run: npm run -s test:r24-wp201
 
+      - name: Run R2.4 WP-202 legacy strangler gate
+        run: npm run -s test:r24-wp202
+
       - name: Run R2.4 A0 Atlas incremental equivalence gate
         run: npm run -s test:r24-a0
 

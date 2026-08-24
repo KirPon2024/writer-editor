@@ -1,0 +1,107 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-203_STORAGE_SELECTION",
+  "attemptId": "ATTEMPT-WP203-20260825",
+  "authorityEpoch": "R24-WP203-BASE-B6E83836",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "d0dde4bdc80a0c15ceaf6638407e1937d59121d2",
+    "treeSha": "152169b3037afc5b62c29eab5209857c1a7b36d4"
+  },
+  "createdAt": "2026-08-24T21:42:03Z",
+  "actor": "codex/r24-wp203-storage-selection-v1-20260825",
+  "stampId": "ES-R24-WP-203-STORAGE-SELECTION-MODEL",
+  "claim": {
+    "type": "WP203_CORRECTNESS_FILTERED_PARETO_STORAGE_MODEL",
+    "ceiling": "WP203_NODE_ONLY_SELECTION_AND_EXISTING_LEDGER_NO_LIVE_STORAGE_ADOPTION_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-wp203-model",
+    "evidenceClass": "MODEL",
+    "denominator": 8,
+    "passed": 8,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [],
+    "predecessorReceiptDigest": "059ae02f146a7f7dd5afbba0e8bbb40039458aadaf26d655b35b234d567082f7"
+  },
+  "artifact": {
+    "classification": "PARTIAL_AT_ADMISSION_R2_BAKEOFF_AND_R3_LEDGER_ALREADY_IMPLEMENTED_GOVERNED_SELECTION_MISSING",
+    "identityRoles": {
+      "implementationSourceSha": "d0dde4bdc80a0c15ceaf6638407e1937d59121d2",
+      "evaluationHeadSha": "d0dde4bdc80a0c15ceaf6638407e1937d59121d2",
+      "evaluationTreeSha": "152169b3037afc5b62c29eab5209857c1a7b36d4",
+      "implementationPrHeadSha": null,
+      "implementationMergeSha": null,
+      "postmergeSha": null
+    },
+    "outcomeMatrix": [
+      {
+        "outcome": "deterministic four-candidate safety-filtered bakeoff",
+        "classification": "ALREADY_IMPLEMENTED"
+      },
+      {
+        "outcome": "bounded digest-chained recovery ledger with typed torn-tail recovery",
+        "classification": "ALREADY_IMPLEMENTED"
+      },
+      {
+        "outcome": "validated registry owner decision for storage bakeoff and certification",
+        "classification": "ALREADY_IMPLEMENTED"
+      },
+      {
+        "outcome": "owner-bound correctness filter before Pareto frontier and deterministic selection",
+        "classification": "MISSING_AT_ADMISSION_IMPLEMENTED_BY_WP203"
+      },
+      {
+        "outcome": "immutable digest-bound selection joining atomic commit truth to the bounded recovery ledger",
+        "classification": "MISSING_AT_ADMISSION_IMPLEMENTED_BY_WP203"
+      },
+      {
+        "outcome": "dependency adoption, live storage path change, user data migration or destructive storage action",
+        "classification": "MISSING_FORBIDDEN_OUTSIDE_WP203_AUTHORITY"
+      }
+    ],
+    "selection": {
+      "dossierDigest": "b8317c4c1da402ae90b0fefa37595c1a997b106c748419755b61cafcff1048e4",
+      "selectionDigest": "e0883ff2ffe032e1e450a8ad4e030657ae4580269893f850c9ddd90d21cd6cfa",
+      "correctnessAcceptedIds": [
+        "append-ledger",
+        "atomic-file",
+        "hybrid"
+      ],
+      "paretoFrontierIds": [
+        "atomic-file"
+      ],
+      "selectedPrimaryStorage": "atomic-file",
+      "selectedRecoveryLedger": "recovery-ledger-v1",
+      "recoveryLedgerRole": "DERIVED_RECOVERY_EVIDENCE",
+      "liveAttachmentAuthorized": false
+    },
+    "artifactDigests": [
+      {
+        "path": "src/core/storage-selection-v1.cjs",
+        "sha256": "0daada4aa8e3f0d6c8f2428452aed2b7158188091f4e1c92a383dfd681956f94"
+      },
+      {
+        "path": "src/core/storage-bakeoff-v1.cjs",
+        "sha256": "bc6bc31651e4a0137e5d4018e490474264e179ad53d40f7e48c65f5d0effe7dc"
+      },
+      {
+        "path": "src/core/recovery-ledger-v1.cjs",
+        "sha256": "f6f0ab01ee768e374f07d2e830b2b4cca3b5a5a68278ca291b46229cffbb0e25"
+      }
+    ],
+    "residualRisks": [
+      "The selected recovery ledger remains an explicit existing injection seam and is not attached to the live main path.",
+      "WP203 does not authorize adoption of a different storage engine or migration of user data.",
+      "No dependency, SAFE_APPLY, release, signing, cloud, AI or program-completion authority is added."
+    ]
+  }
+}

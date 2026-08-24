@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "V0_WRITER_CLAIM_COMPILER",
+  "attemptId": "ATTEMPT-V0-20260824",
+  "authorityEpoch": "R24-V0-CERTIFICATION-BASE-F1365F72",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "77de410bc7400d29a11d6fc90b9e6b297611fe18",
+    "treeSha": "55ff93e86b215ddad92a6fa21a9d009779435395"
+  },
+  "createdAt": "2026-08-24T10:19:32Z",
+  "actor": "codex/r24-v0-writer-claim-certification-v1-20260824",
+  "stampId": "ES-R24-V0-WRITER-CLAIM-COMPILER-MODEL",
+  "claim": {
+    "type": "V0_WRITER_DNA_MODEL_BINDING",
+    "ceiling": "V0_NODE_ONLY_WRITER_PROFILE_PROJECTION_BOUND_TO_F0_SIX_DNA_ROWS_NO_OPTIONAL_PROFILE_NO_RELEASE_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-v0-f0-dna-model-binding",
+    "evidenceClass": "MODEL",
+    "denominator": 6,
+    "passed": 6,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-F0-WRITER-REFINEMENT-CONFORMANCE-POSTMERGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "8ad402d8df8ffd577a5983d348579292dfb5b2427af8aaf2c237bd085cbab065"
+  },
+  "artifact": {
+    "exactDependency": "F0_WRITER_REFINEMENT_CONFORMANCE",
+    "f0ModelPath": "docs/OPS/R24/EVIDENCE/ES-R24-F0-WRITER-REFINEMENT-CONFORMANCE-MODEL.json",
+    "f0ModelSha256": "eb0c73d6a16710753b5c8f0e8bfbc7c60a0cc56247ade793c9683fd58188031b",
+    "requiredDnaDimensions": [
+      "calm",
+      "disclosure",
+      "continuity",
+      "customization",
+      "optional-off",
+      "no-bloat"
+    ],
+    "writerDnaRows": [
+      "DNA_CALM_DEFAULT_IS_BASELINE_WRITE",
+      "DNA_DISCLOSURE_REQUIRES_EXPLICIT_ADVANCED_OPEN",
+      "DNA_CONTINUITY_BLOCKS_UNSAVED_LIFECYCLE",
+      "DNA_CUSTOMIZATION_CANNOT_HIDE_CORE_COMMANDS",
+      "DNA_OPTIONAL_OFF_PRESERVES_FREE_AUTHORSHIP",
+      "DNA_NO_BLOAT_HAS_ONLY_APPROVED_PRODUCT_DEPENDENCIES"
+    ],
+    "existingCompilerImplementationSourceSha": "f6e92ab57829e44a7aa360893acbb4952b3b2fbe",
+    "certificationSourceSha": "77de410bc7400d29a11d6fc90b9e6b297611fe18",
+    "evaluationHeadSha": "77de410bc7400d29a11d6fc90b9e6b297611fe18",
+    "evaluationTreeSha": "55ff93e86b215ddad92a6fa21a9d009779435395"
+  }
+}

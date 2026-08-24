@@ -3,15 +3,29 @@
   "stampId": "ES-R24-R6-MIGRATION-HISTORY-BACKUP-GC-CLAIM-BINDINGS",
   "contourId": "R6_MIGRATION_HISTORY_BACKUP_GC",
   "evidenceClass": "CONTRACT",
-  "verdict": "PASS",
-  "headSha": "b938cd61dec9f9b9ffce3a931beb5ef281c40820",
-  "originMainSha": "2f925f2803c9128bddb6686575ffa26962fb0c20",
-  "generatedAtUtc": "2026-08-24T06:28:10Z",
-  "oracle": "strict ClaimBindingV1 exact-hash binding for the live R6 executable acceptance contract, corrective implementation artifacts and executed exact-source evidence",
+  "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
+  "headSha": "6438308efddff34511051502b082dd2037521bb6",
+  "originMainSha": "ee08668b33cc675f9666ba28cb58ee132e9a973c",
+  "generatedAtUtc": "2026-08-24T07:16:00Z",
+  "oracle": "strict ClaimBindingV1 exact-hash binding for replayable R6 PlanState closure, exact-main postmerge evidence, survivor audit and source receipt",
   "claimBindings": [
     {
-      "filePath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
-      "sha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+      "sha256": "f89070376d821545d184486d8a3285c7f83954efc106eda68765e271e400a457",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+      "sha256": "d2047b7bb6f89a76578a7814f6af9fa282b74ec5387c0d31eee07ffb31a3f05e",
+      "claimTerms": [
+        "CLOSED"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CTR-R24-R6-MIGRATION-HISTORY-BACKUP-GC.json",
+      "sha256": "77262e064e5be63fd3566f8dfa6648fcb7a39bdd0940d3fb4a5c9da75791e799",
       "claimTerms": [
         "PASS"
       ]
@@ -83,10 +97,19 @@
         "fail": 0
       },
       "requiredDisposition": "Exact corrective implementation source b938cd61 is green with clean process-group and lease cleanup."
+    },
+    {
+      "command": "GitHub exact PR-head and postmerge required checks",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "PR head 4763e075 and exact-main merge ee08668b are green; Ubuntu and Windows parity plus ops_vector_close passed."
     }
   ],
   "nonClaims": [
-    "This binding certifies only the bounded R6 corrective implementation source and does not claim PR-head, merge, postmerge, survivor or PlanState closure.",
+    "This binding closes only the bounded R6_MIGRATION_HISTORY_BACKUP_GC corrective certification contour.",
     "The certified profile uses synthetic temporary filesystem fixtures and does not execute a live user-data migration.",
     "The module is process-local and does not claim cross-process or cross-host serialization.",
     "A history save that may have committed before surfacing an error is reported as typed durability indeterminate.",

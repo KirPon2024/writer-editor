@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "F0_WRITER_REFINEMENT_CONFORMANCE",
+  "attemptId": "ATTEMPT-F0-20260824",
+  "authorityEpoch": "R24-F0-REFINEMENT-BASE-CBF4DC96",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "01e826a64771c2009ebc50d01fecddfe813deb95",
+    "treeSha": "08c2450369fe7398577d599dbacc55957f22b558"
+  },
+  "createdAt": "2026-08-24T08:25:52Z",
+  "actor": "codex/r24-f0-writer-refinement-certification-v1-20260824",
+  "stampId": "ES-R24-F0-WRITER-REFINEMENT-CONFORMANCE-MUTANTS",
+  "claim": {
+    "type": "F0_IMPLEMENTATION_MUTANT_SENSITIVITY",
+    "ceiling": "F0_NODE_ONLY_TEN_NAMED_WRITER_REFINEMENT_MUTANTS_NO_EXHAUSTIVE_FORMAL_PROOF_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-f0-mutants",
+    "evidenceClass": "IMPLEMENTATION_MUTANTS",
+    "denominator": 10,
+    "passed": 10,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-F0-WRITER-REFINEMENT-CONFORMANCE-INTEGRATION"
+    ],
+    "predecessorReceiptDigest": "77262e064e5be63fd3566f8dfa6648fcb7a39bdd0940d3fb4a5c9da75791e799"
+  },
+  "artifact": {
+    "killed": 10,
+    "survived": 0,
+    "score": 1,
+    "writerDnaMutants": [
+      "dna-calm-default-promoted-to-advanced",
+      "dna-progressive-disclosure-open-guard-removed",
+      "lifecycle-dirty-close-admitted",
+      "dna-customization-can-hide-core-command",
+      "dna-optional-off-loses-typed-complexity-refusal",
+      "dna-no-bloat-ui-framework-added"
+    ],
+    "foundationMutants": [
+      "dirty-stale-saved-admitted",
+      "path-escape-admitted",
+      "inbox-corrupt-status-admitted",
+      "migration-project-id-drift-admitted"
+    ],
+    "implementationSourceSha": "01e826a64771c2009ebc50d01fecddfe813deb95",
+    "evaluationHeadSha": "01e826a64771c2009ebc50d01fecddfe813deb95",
+    "evaluationTreeSha": "08c2450369fe7398577d599dbacc55957f22b558"
+  }
+}

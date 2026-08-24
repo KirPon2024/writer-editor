@@ -9,9 +9,12 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
+const { pathToFileURL } = require('node:url');
 
 const ROOT = path.resolve(__dirname, '..', '..');
 const DAG_PATH = path.join(ROOT, 'docs', 'OPS', 'EVIDENCE', 'YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1', 'PROGRAM_DAG.json');
+const EXECUTABLE_PROGRAM_PATH = path.join(ROOT, 'docs', 'OPS', 'R24', 'EXECUTABLE_PROGRAM_R2_4.json');
+const PACKAGE_PATH = path.join(ROOT, 'package.json');
 
 const EXPECTED_F0_DEPS = Object.freeze([
   'K1_AUTHORITY_DECOMPOSITION',
@@ -41,12 +44,29 @@ const EXPECTED_F0_EVIDENCE = Object.freeze([
   'E6_INDEPENDENT_EXACT_HEAD',
 ]);
 
+const REQUIRED_DNA_DIMENSIONS = Object.freeze([
+  'calm',
+  'disclosure',
+  'continuity',
+  'customization',
+  'optional-off',
+  'no-bloat',
+]);
+
 const sandbox = (prefix = 'r24-f0-') => fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), prefix)));
 const shaA = 'a'.repeat(64);
 const shaB = 'b'.repeat(64);
 
 function loadDag() {
   return JSON.parse(fs.readFileSync(DAG_PATH, 'utf8'));
+}
+
+function loadExecutableProgram() {
+  return JSON.parse(fs.readFileSync(EXECUTABLE_PROGRAM_PATH, 'utf8'));
+}
+
+async function importRepo(relativePath) {
+  return import(pathToFileURL(path.join(ROOT, relativePath)).href);
 }
 
 function requireCore(relativePath) {
@@ -421,23 +441,177 @@ const MODEL_ROWS = Object.freeze([
   },
 ]);
 
+const DNA_ROWS = Object.freeze([
+  {
+    id: 'DNA_CALM_DEFAULT_IS_BASELINE_WRITE',
+    dimension: 'calm',
+    stageId: 'F0_WRITER_REFINEMENT_CONFORMANCE',
+    evidenceClasses: ['E1_MODEL', 'E2_CONTRACT', 'E3_INTEGRATION'],
+    forbiddenState: 'Writer starts in an advanced, recovery, or non-writing context instead of the calm baseline',
+    async probe() {
+      const runtime = await importRepo('src/renderer/design-os/designOsRuntime.mjs');
+      assert.deepEqual(runtime.createRuntimeContext(), {
+        shell_mode: 'CALM_DOCKED',
+        profile: 'BASELINE',
+        workspace: 'WRITE',
+        platform: 'macos',
+        accessibility: 'default',
+      });
+      const layout = runtime.createLayoutSnapshot();
+      assert.equal(layout.shell_mode, 'CALM_DOCKED');
+      assert.equal(layout.editor_root, 'docked');
+      return 'CALM_DOCKED:BASELINE:WRITE';
+    },
+  },
+  {
+    id: 'DNA_DISCLOSURE_REQUIRES_EXPLICIT_ADVANCED_OPEN',
+    dimension: 'disclosure',
+    stageId: 'F0_WRITER_REFINEMENT_CONFORMANCE',
+    evidenceClasses: ['E1_MODEL', 'E2_CONTRACT', 'E3_INTEGRATION', 'E4_FAULT_INJECTION'],
+    forbiddenState: 'Advanced Atlas surfaces enter the Writer shell without an explicit user-open contract',
+    async probe() {
+      const atlas = await importRepo('src/renderer/design-os/atlasFeatureIntegrationManifest.mjs');
+      const advanced = atlas.YALKEN_ATLAS_FEATURE_INTEGRATION_MANIFEST_V1.surfaceManifests
+        .filter((surface) => ['heatmap', 'temporal', 'continuity'].includes(surface.surfaceKey));
+      assert.deepEqual(advanced.map((surface) => surface.surfaceKey), ['heatmap', 'temporal', 'continuity']);
+      assert.equal(advanced.every((surface) => surface.explicitOpenRequired === true), true);
+      return `explicit-open:${advanced.length}`;
+    },
+  },
+  {
+    id: 'DNA_CONTINUITY_BLOCKS_UNSAVED_LIFECYCLE',
+    dimension: 'continuity',
+    stageId: 'F0_WRITER_REFINEMENT_CONFORMANCE',
+    evidenceClasses: ['E1_MODEL', 'E2_CONTRACT', 'E3_INTEGRATION', 'E4_FAULT_INJECTION'],
+    forbiddenState: 'Unsaved authoring working state is treated as disposable shell or transient state',
+    async probe() {
+      const {
+        LIFECYCLE_EVENTS,
+        LIFECYCLE_REASONS,
+        createDetachedOutboxObservation,
+        evaluateLifecycleBarrier,
+      } = requireCore('lifecycle-conflict-v1.cjs');
+      const subjectId = 'project:f0-dna/document:scene';
+      const decision = evaluateLifecycleBarrier({
+        eventKind: LIFECYCLE_EVENTS.EXTERNAL_EDIT,
+        subjectId,
+        latestEditGeneration: 2,
+        ackedGeneration: 1,
+        outboxObservation: createDetachedOutboxObservation({ subjectId, observationGeneration: 2 }),
+        diskObservation: {
+          schemaVersion: 'yalken.lifecycleDiskObservation.v1',
+          subjectId,
+          observationGeneration: 2,
+          committedDigest: shaA,
+          observedDiskDigest: shaA,
+          p3Classification: 'NEW_COMMITTED',
+        },
+      });
+      assert.equal(decision.allowed, false);
+      assert.equal(decision.reason, LIFECYCLE_REASONS.UNSAVED_AUTHORING_WORK);
+      return LIFECYCLE_REASONS.UNSAVED_AUTHORING_WORK;
+    },
+  },
+  {
+    id: 'DNA_CUSTOMIZATION_CANNOT_HIDE_CORE_COMMANDS',
+    dimension: 'customization',
+    stageId: 'F0_WRITER_REFINEMENT_CONFORMANCE',
+    evidenceClasses: ['E1_MODEL', 'E2_CONTRACT', 'E3_INTEGRATION', 'E4_FAULT_INJECTION'],
+    forbiddenState: 'A presentation profile can customize away a required core writing or recovery command',
+    async probe() {
+      const compat = await importRepo('src/renderer/design-os/repoDesignOsCompat.mjs');
+      const profiles = compat.buildRuntimeProfiles({
+        requiredCoreCommands: ['cmd.project.save'],
+        presets: {
+          minimal: {
+            commandVisibility: {
+              forceVisible: ['cmd.project.save', 'cmd.optional.atlas'],
+              hidden: ['cmd.project.save', 'cmd.optional.atlas'],
+            },
+          },
+          pro: { commandVisibility: { forceVisible: ['cmd.project.save'], hidden: [] } },
+          guru: { commandVisibility: { forceVisible: ['cmd.project.save'], hidden: [] } },
+        },
+      }, {
+        knownCommandIds: ['cmd.project.save', 'cmd.optional.atlas'],
+      });
+      assert.equal(profiles.FOCUS.visible_commands.includes('cmd.project.save'), true);
+      assert.equal(profiles.FOCUS.hidden_commands.includes('cmd.project.save'), false);
+      assert.equal(profiles.FOCUS.hidden_commands.includes('cmd.optional.atlas'), true);
+      return 'core-visible:optional-hidden';
+    },
+  },
+  {
+    id: 'DNA_OPTIONAL_OFF_PRESERVES_FREE_AUTHORSHIP',
+    dimension: 'optional-off',
+    stageId: 'F0_WRITER_REFINEMENT_CONFORMANCE',
+    evidenceClasses: ['E1_MODEL', 'E2_CONTRACT', 'E3_INTEGRATION', 'E4_FAULT_INJECTION'],
+    forbiddenState: 'An unavailable optional complexity surface blocks the core free Writer save path',
+    async probe() {
+      const law = requireCore('entitlement-law-v1.cjs');
+      const optional = law.decideCommandEntitlement('cmd.project.review.switchMode', law.getProductEntitlementTier());
+      const save = law.decideCommandEntitlement('cmd.project.save', law.getProductEntitlementTier());
+      assert.deepEqual(
+        { available: optional.available, access: optional.access, reason: optional.reason },
+        {
+          available: false,
+          access: 'pro_complexity_surface',
+          reason: 'PRO_COMPLEXITY_SURFACE_UNAVAILABLE_IN_FREE',
+        },
+      );
+      assert.equal(save.available, true);
+      assert.equal(save.access, 'free_authorship');
+      return 'optional-off:writer-save-available';
+    },
+  },
+  {
+    id: 'DNA_NO_BLOAT_HAS_ONLY_APPROVED_PRODUCT_DEPENDENCIES',
+    dimension: 'no-bloat',
+    stageId: 'F0_WRITER_REFINEMENT_CONFORMANCE',
+    evidenceClasses: ['E1_MODEL', 'E2_CONTRACT', 'E6_INDEPENDENT_EXACT_HEAD'],
+    forbiddenState: 'Writer product runtime silently imports a UI framework, paid Tiptap service, or undeclared optional dependency',
+    async probe() {
+      const packageJson = JSON.parse(fs.readFileSync(PACKAGE_PATH, 'utf8'));
+      const dependencies = Object.keys(packageJson.dependencies || {}).sort();
+      const blocked = dependencies.filter((name) => (
+        !name.startsWith('@tiptap/')
+        || name.startsWith('@tiptap-pro/')
+        || name.startsWith('@tiptap-cloud/')
+        || ['react', 'vue', 'svelte', 'angular'].includes(name)
+      ));
+      assert.equal(dependencies.length > 0, true, 'zero dependency denominator forbidden');
+      assert.deepEqual(blocked, []);
+      assert.equal(Object.keys(packageJson.optionalDependencies || {}).length, 0);
+      return `approved-dependencies:${dependencies.length}`;
+    },
+  },
+]);
+
+const REFINEMENT_ROWS = Object.freeze([...MODEL_ROWS, ...DNA_ROWS]);
+
 test('F0 model contract is bound to the live R2.4 DAG stage and full issue/evidence surface', () => {
   const dag = loadDag();
   const f0 = dag.stages.find((stage) => stage.stageId === 'F0_WRITER_REFINEMENT_CONFORMANCE');
+  const executableF0 = loadExecutableProgram().nodes.find((node) => node.id === 'F0_WRITER_REFINEMENT_CONFORMANCE');
   assert.ok(f0, 'F0 stage must exist in PROGRAM_DAG');
+  assert.ok(executableF0, 'F0 node must exist in the live executable program');
   assert.deepEqual(f0.dependsOn, EXPECTED_F0_DEPS);
   assert.deepEqual(f0.requiredEvidence, EXPECTED_F0_EVIDENCE);
   assert.equal(f0.mutationAuthority, 'MODEL_TO_CODE_REFINEMENT_TESTS');
   assert.equal(f0.claimCeiling, 'WRITER_IMPLEMENTATION_REFINEMENT_SCOPED');
+  for (const dimension of REQUIRED_DNA_DIMENSIONS) {
+    assert.match(executableF0.outcome, new RegExp(dimension.replace('-', '[- ]'), 'u'), dimension);
+  }
 
-  const ids = MODEL_ROWS.map((row) => row.id);
+  const ids = REFINEMENT_ROWS.map((row) => row.id);
   assert.equal(new Set(ids).size, ids.length, 'model row ids must be unique');
   assert.equal(MODEL_ROWS.length >= EXPECTED_F0_ISSUES.length, true, 'F0 row denominator must cover every issue');
   const coveredIssues = new Set(MODEL_ROWS.flatMap((row) => row.issueIds));
   assert.deepEqual([...coveredIssues].sort(), [...EXPECTED_F0_ISSUES].sort());
-  const coveredEvidence = new Set(MODEL_ROWS.flatMap((row) => row.evidenceClasses));
+  const coveredEvidence = new Set(REFINEMENT_ROWS.flatMap((row) => row.evidenceClasses));
   for (const evidence of EXPECTED_F0_EVIDENCE) assert.equal(coveredEvidence.has(evidence), true, evidence);
-  for (const row of MODEL_ROWS) {
+  assert.deepEqual(DNA_ROWS.map((row) => row.dimension), REQUIRED_DNA_DIMENSIONS);
+  for (const row of REFINEMENT_ROWS) {
     assert.equal(typeof row.forbiddenState, 'string');
     assert.equal(row.forbiddenState.length > 20, true, row.id);
     assert.equal(typeof row.probe, 'function', row.id);
@@ -446,7 +620,7 @@ test('F0 model contract is bound to the live R2.4 DAG stage and full issue/evide
 
 test('F0 model rows execute exact implementation probes for every forbidden state', async () => {
   const observations = [];
-  for (const row of MODEL_ROWS) {
+  for (const row of REFINEMENT_ROWS) {
     const observed = await row.probe();
     observations.push({ rowId: row.id, stageId: row.stageId, observed });
     assert.equal(typeof observed, 'string', row.id);
@@ -455,7 +629,8 @@ test('F0 model rows execute exact implementation probes for every forbidden stat
   console.log(`R24_F0_REFINEMENT_RECEIPT=${JSON.stringify({
     rows: observations.length,
     stages: [...new Set(observations.map((item) => item.stageId))].sort(),
+    dnaDimensions: DNA_ROWS.map((row) => row.dimension),
     observations: observations.map((item) => item.rowId),
   })}`);
-  assert.equal(observations.length, MODEL_ROWS.length);
+  assert.equal(observations.length, REFINEMENT_ROWS.length);
 });

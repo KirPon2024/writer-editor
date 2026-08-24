@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "F0_WRITER_REFINEMENT_CONFORMANCE",
+  "attemptId": "ATTEMPT-F0-20260824",
+  "authorityEpoch": "R24-F0-REFINEMENT-BASE-CBF4DC96",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "01e826a64771c2009ebc50d01fecddfe813deb95",
+    "treeSha": "08c2450369fe7398577d599dbacc55957f22b558"
+  },
+  "createdAt": "2026-08-24T08:25:52Z",
+  "actor": "codex/r24-f0-writer-refinement-certification-v1-20260824",
+  "stampId": "ES-R24-F0-WRITER-REFINEMENT-CONFORMANCE-MODEL",
+  "claim": {
+    "type": "F0_EXECUTABLE_REFINEMENT_MODEL_ROWS",
+    "ceiling": "F0_NODE_ONLY_WRITER_MODEL_REFINEMENT_AND_SIX_DNA_DIMENSIONS_NO_UI_READINESS_NO_RELEASE_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-f0-model",
+    "evidenceClass": "MODEL",
+    "denominator": 19,
+    "passed": 19,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [],
+    "predecessorReceiptDigest": "77262e064e5be63fd3566f8dfa6648fcb7a39bdd0940d3fb4a5c9da75791e799"
+  },
+  "artifact": {
+    "implementationSourceSha": "01e826a64771c2009ebc50d01fecddfe813deb95",
+    "evaluationHeadSha": "01e826a64771c2009ebc50d01fecddfe813deb95",
+    "evaluationTreeSha": "08c2450369fe7398577d599dbacc55957f22b558",
+    "modelRows": 19,
+    "prerequisiteRefinementRows": 13,
+    "writerDnaRows": [
+      "DNA_CALM_DEFAULT_IS_BASELINE_WRITE",
+      "DNA_DISCLOSURE_REQUIRES_EXPLICIT_ADVANCED_OPEN",
+      "DNA_CONTINUITY_BLOCKS_UNSAVED_LIFECYCLE",
+      "DNA_CUSTOMIZATION_CANNOT_HIDE_CORE_COMMANDS",
+      "DNA_OPTIONAL_OFF_PRESERVES_FREE_AUTHORSHIP",
+      "DNA_NO_BLOAT_HAS_ONLY_APPROVED_PRODUCT_DEPENDENCIES"
+    ],
+    "requiredDnaDimensions": [
+      "calm",
+      "disclosure",
+      "continuity",
+      "customization",
+      "optional-off",
+      "no-bloat"
+    ],
+    "classificationAtAdmission": "PARTIAL",
+    "classificationAfterExactSourceProof": "IMPLEMENTATION_PRESENT_AND_EXECUTABLE_DENOMINATOR_CLOSED_AWAITING_DELIVERY"
+  }
+}

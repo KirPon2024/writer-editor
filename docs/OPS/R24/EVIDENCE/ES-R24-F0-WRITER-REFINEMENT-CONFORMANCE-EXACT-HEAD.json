@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "F0_WRITER_REFINEMENT_CONFORMANCE",
+  "attemptId": "ATTEMPT-F0-20260824",
+  "authorityEpoch": "R24-F0-REFINEMENT-BASE-CBF4DC96",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "01e826a64771c2009ebc50d01fecddfe813deb95",
+    "treeSha": "08c2450369fe7398577d599dbacc55957f22b558"
+  },
+  "createdAt": "2026-08-24T08:25:52Z",
+  "actor": "codex/r24-f0-writer-refinement-certification-v1-20260824",
+  "stampId": "ES-R24-F0-WRITER-REFINEMENT-CONFORMANCE-EXACT-HEAD",
+  "claim": {
+    "type": "F0_LOCAL_EXACT_IMPLEMENTATION_SOURCE_GREEN",
+    "ceiling": "F0_NODE_ONLY_WRITER_REFINEMENT_AND_DNA_EXACT_SOURCE_NO_PR_MERGE_POSTMERGE_UI_READINESS_RELEASE_OR_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-f0-exact",
+    "evidenceClass": "INDEPENDENT_EXACT_HEAD",
+    "denominator": 1059,
+    "passed": 1059,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-F0-WRITER-REFINEMENT-CONFORMANCE-MUTANTS"
+    ],
+    "predecessorReceiptDigest": "77262e064e5be63fd3566f8dfa6648fcb7a39bdd0940d3fb4a5c9da75791e799"
+  },
+  "artifact": {
+    "identityRoles": {
+      "implementationSourceSha": "01e826a64771c2009ebc50d01fecddfe813deb95",
+      "evaluationHeadSha": "01e826a64771c2009ebc50d01fecddfe813deb95",
+      "evaluationTreeSha": "08c2450369fe7398577d599dbacc55957f22b558",
+      "prHeadSha": null,
+      "mergeSha": null,
+      "postmergeSha": null
+    },
+    "focused": {
+      "command": "npm run -s test:r24-f0",
+      "pass": 7,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "refinementRows": 19,
+      "mutantsKilled": 10,
+      "mutantsSurvived": 0
+    },
+    "fullRtk": {
+      "invocationId": "ddd6b71c-e9df-4195-bbb8-2f953ab04e4b",
+      "pass": 1059,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "exitCode": 0,
+      "durationMs": 499281.003917,
+      "runnerElapsedMs": 499343.641459,
+      "processGroupCleanup": "RTK_PROCESS_GROUP_CLEAN",
+      "leaseCleanupOk": true
+    },
+    "toolchain": {
+      "nodeVersion": "v20.19.5",
+      "pathIncludesSystemSbin": true
+    },
+    "guardrails": "PASS",
+    "ossPolicy": "PASS",
+    "diffCheck": "PASS",
+    "deliveryState": "AWAITING_EVIDENCE_COMMIT_PR_EXACT_HEAD_CI_POLICY_MERGE_AND_POSTMERGE",
+    "nonClaims": [
+      "This is exact implementation-source evidence, not PR-head, merge or postmerge evidence.",
+      "The six DNA probes certify executable refinement rows; they do not claim a visual or physical macOS Writer readiness verdict.",
+      "No runtime source, product state, user document, dependency, storage path, SAFE_APPLY, release, signing, cloud or AI authority is added by this evidence.",
+      "F0 PlanState remains PENDING until policy merge and exact postmerge verification; this stamp does not claim contour or program completion."
+    ]
+  }
+}

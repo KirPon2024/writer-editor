@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "F0_WRITER_REFINEMENT_CONFORMANCE",
+  "attemptId": "ATTEMPT-F0-20260824",
+  "authorityEpoch": "R24-F0-REFINEMENT-BASE-CBF4DC96",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "01e826a64771c2009ebc50d01fecddfe813deb95",
+    "treeSha": "08c2450369fe7398577d599dbacc55957f22b558"
+  },
+  "createdAt": "2026-08-24T08:25:52Z",
+  "actor": "codex/r24-f0-writer-refinement-certification-v1-20260824",
+  "stampId": "ES-R24-F0-WRITER-REFINEMENT-CONFORMANCE-INTEGRATION",
+  "claim": {
+    "type": "F0_AFFECTED_CHAIN_INTEGRATION",
+    "ceiling": "F0_NODE_ONLY_ENTITLEMENT_R5_AND_DESIGN_OS_AFFECTED_CHAIN_NO_AD_HOC_UNMAINTAINED_TEST_CLAIM_NO_UI_READINESS_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-f0-integration",
+    "evidenceClass": "INTEGRATION",
+    "denominator": 72,
+    "passed": 72,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-F0-WRITER-REFINEMENT-CONFORMANCE-CONTRACT"
+    ],
+    "predecessorReceiptDigest": "77262e064e5be63fd3566f8dfa6648fcb7a39bdd0940d3fb4a5c9da75791e799"
+  },
+  "artifact": {
+    "suites": [
+      {
+        "name": "ENT0 affected chain",
+        "pass": 19,
+        "fail": 0,
+        "mutantsKilled": 7,
+        "mutantsSurvived": 0
+      },
+      {
+        "name": "R5 affected chain",
+        "pass": 16,
+        "fail": 0,
+        "mutantsKilled": 11,
+        "mutantsSurvived": 0
+      },
+      {
+        "name": "Design OS and menu disclosure affected chain",
+        "pass": 37,
+        "fail": 0,
+        "skipped": 0
+      }
+    ],
+    "implementationSourceSha": "01e826a64771c2009ebc50d01fecddfe813deb95",
+    "evaluationHeadSha": "01e826a64771c2009ebc50d01fecddfe813deb95",
+    "evaluationTreeSha": "08c2450369fe7398577d599dbacc55957f22b558",
+    "excludedObservation": {
+      "test": "test/unit/sector-m-design-os-command-palette-opener.test.js",
+      "failure": "BLACK_BOX_EXPORT_MANUAL_CORE_COMMAND_ID is not defined",
+      "disposition": "PRE_EXISTING_BYTE_IDENTICAL_TO_BASE_OUTSIDE_F0_DECLARED_SCOPE_AND_NOT_PART_OF_MAINTAINED_REQUIRED_RTK"
+    }
+  }
+}

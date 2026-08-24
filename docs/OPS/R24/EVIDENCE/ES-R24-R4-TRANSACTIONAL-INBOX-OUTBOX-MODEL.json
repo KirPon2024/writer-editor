@@ -1,0 +1,115 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "R4_TRANSACTIONAL_INBOX_OUTBOX",
+  "attemptId": "ATTEMPT-R4-20260824",
+  "authorityEpoch": "R24-R4-CORRECTIVE-BASE-670E0D13",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "10679beb0e6865abdd99316ae01a7e98505b1aac",
+    "treeSha": "1b5764881684c70eae7d69673d2f50aeb2c05ecc"
+  },
+  "createdAt": "2026-08-24T02:03:44Z",
+  "actor": "codex/r24-r4-transactional-inbox-outbox-certification-v1-20260824",
+  "stampId": "ES-R24-R4-TRANSACTIONAL-INBOX-OUTBOX-MODEL",
+  "claim": {
+    "type": "R4_CORRECTED_TRANSACTIONAL_INBOX_OUTBOX_MODEL",
+    "ceiling": "R4_NODE_ONLY_CORRECTED_INTERNAL_TRANSACTIONAL_EFFECT_PROFILE_NO_LIVE_ATTACHMENT_NO_CROSS_PROCESS_OR_ATOMIC_COMPOSITE_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-r4-model",
+    "evidenceClass": "MODEL",
+    "denominator": 8,
+    "passed": 8,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [],
+    "predecessorReceiptDigest": "b9d3cc819387dee63cdd22b71e3c6262cfb5d38f75096fe896eee8173c4e90b1"
+  },
+  "artifact": {
+    "classification": "PARTIAL_AT_ADMISSION_EXISTING_IMPLEMENTATION_WITH_DURABLE_PUBLICATION_DEFECT_CORRECTED_FORMAL_CERTIFICATION_MISSING",
+    "identityRoles": {
+      "historicalImplementationSourceSha": "c9f8df0e847033d427947eaa7ee9b5bc3e84ad4a",
+      "historicalImplementationPrHeadSha": "c9f8df0e847033d427947eaa7ee9b5bc3e84ad4a",
+      "historicalImplementationMergeSha": "0e9c94a9ff1eb46aae890fc2b172eddcea135456",
+      "correctiveImplementationSourceSha": "10679beb0e6865abdd99316ae01a7e98505b1aac",
+      "evaluationHeadSha": "10679beb0e6865abdd99316ae01a7e98505b1aac",
+      "evaluationTreeSha": "1b5764881684c70eae7d69673d2f50aeb2c05ecc",
+      "closurePrHeadSha": null,
+      "closureMergeSha": null,
+      "closurePostmergeSha": null
+    },
+    "artifactDigests": [
+      {
+        "path": "src/core/transactional-inbox-outbox-v1.cjs",
+        "sha256": "51a28ea2beb06607b89415c7da82681608d3c09b777700f08008f68d7cd1f63c"
+      },
+      {
+        "path": "src/core/project-commit-v1.cjs",
+        "sha256": "cc0f6a2b62f8e17efdc40caeef6e116dbc1eb380f0dd87987c1cfa430f133912"
+      },
+      {
+        "path": "test/unit/r24-r4-inbox-outbox.test.js",
+        "sha256": "d3f27646165e2209c0c7bf3e74d72d2da282333df24d6f5273b5de6c3bffb817"
+      },
+      {
+        "path": "test/unit/r24-r4-inbox-physics.test.js",
+        "sha256": "250230925cf27ef012328b41b202b0a94736302b9f802ae5eaad29c81640692b"
+      },
+      {
+        "path": "test/unit/r24-r4-inbox-mutants.test.js",
+        "sha256": "861cfd6f2fb9cfc31ef27d9f40578ce382b57b7a147640267a393ebeccc31bbc"
+      }
+    ],
+    "laws": [
+      "Intent meaning is bound to a canonical JSON digest before durable admission.",
+      "Every mutation derives an immutable candidate and publishes live state only after durable save or exact disk reconciliation.",
+      "Pre-publish failures preserve the durable pre-call state; ambiguous post-publish failures reload the exact durable result.",
+      "All handles for one canonical directory serialize mutations and refresh from disk within the current process.",
+      "Duplicate execution, duplicate publication, conflicting intent meaning and orphan effects are typed refusals.",
+      "Torn final JSONL records are durable truncation points and interior corruption fails closed.",
+      "Returned outcome and effect-detail snapshots are deep-cloned and deeply immutable.",
+      "Replay digests are deterministic over the exact durable inbox and outbox records."
+    ],
+    "outcomeMatrix": [
+      {
+        "outcome": "historical optional transactional inbox/outbox implementation and PR delivery",
+        "classification": "ALREADY_IMPLEMENTED"
+      },
+      {
+        "outcome": "durable failure reconciliation, same-process multi-handle serialization and immutable public snapshots",
+        "classification": "MISSING_AT_ADMISSION_THEN_IMPLEMENTED_BY_CORRECTIVE_SOURCE"
+      },
+      {
+        "outcome": "negative, crash, Unicode and implementation-mutant coverage",
+        "classification": "PARTIAL_AT_ADMISSION_THEN_IMPLEMENTED_AND_STRENGTHENED"
+      },
+      {
+        "outcome": "strict R2.4 evidence, replayable state and terminal receipt",
+        "classification": "MISSING_AT_ADMISSION"
+      },
+      {
+        "outcome": "live production attachment and atomic commit-plus-effect composite",
+        "classification": "MISSING_OUTSIDE_CERTIFIED_R4_PROFILE"
+      },
+      {
+        "outcome": "cross-process serialization, byte bound and compaction",
+        "classification": "PARTIAL_RESIDUAL_RISK_NOT_CLAIMED"
+      }
+    ],
+    "residualRisks": [
+      "Cross-process or cross-host writers are not serialized by the process-local canonical-directory queue.",
+      "Inbox execution and outbox effect staging are individually durable transitions, not one atomic composite transaction.",
+      "The production composition root does not attach this optional internal API or automatically stage external effects.",
+      "External delivery is at-least-once unless the effect sink independently deduplicates by effectId.",
+      "A landed project commit whose later execution mark fails is visible but has no automatic exact-marker recovery path in this contour.",
+      "Log byte-size bounding and compaction are not certified by the R4 oracle."
+    ]
+  }
+}

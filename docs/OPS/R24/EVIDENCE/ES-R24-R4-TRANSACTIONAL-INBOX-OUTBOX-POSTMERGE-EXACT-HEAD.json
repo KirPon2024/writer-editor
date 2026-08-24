@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "R4_TRANSACTIONAL_INBOX_OUTBOX",
+  "attemptId": "ATTEMPT-R4-20260824",
+  "authorityEpoch": "R24-R4-CORRECTIVE-BASE-670E0D13",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "10679beb0e6865abdd99316ae01a7e98505b1aac",
+    "treeSha": "1b5764881684c70eae7d69673d2f50aeb2c05ecc"
+  },
+  "createdAt": "2026-08-24T02:03:44Z",
+  "actor": "codex/r24-r4-transactional-inbox-outbox-certification-v1-20260824",
+  "stampId": "ES-R24-R4-TRANSACTIONAL-INBOX-OUTBOX-POSTMERGE-EXACT-HEAD",
+  "claim": {
+    "type": "R4_PRE_CORRECTIVE_MAIN_BASELINE_CI_INPUT",
+    "ceiling": "R4_PRE_CORRECTIVE_MAIN_BASELINE_ONLY_NO_CORRECTIVE_POSTMERGE_CLAIM",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-r4-post",
+    "evidenceClass": "POSTMERGE",
+    "denominator": 2,
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-R4-TRANSACTIONAL-INBOX-OUTBOX-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "b9d3cc819387dee63cdd22b71e3c6262cfb5d38f75096fe896eee8173c4e90b1"
+  },
+  "artifact": {
+    "baselineOnly": true,
+    "correctionIncluded": false,
+    "mainExactHeadChecks": [
+      {
+        "workflowName": "rtk-required",
+        "runId": 32679443220,
+        "jobId": 97293402789,
+        "event": "push",
+        "headSha": "670e0d13dec30ea1db8bdc4f73063732cbf080a5",
+        "conclusion": "success",
+        "includedHistoricalR4Gate": true,
+        "includedCorrectiveSource": false
+      },
+      {
+        "workflowName": "OSS policy",
+        "runId": 32679443228,
+        "jobId": 97293402857,
+        "event": "push",
+        "headSha": "670e0d13dec30ea1db8bdc4f73063732cbf080a5",
+        "conclusion": "success",
+        "includedCorrectiveSource": false
+      }
+    ],
+    "futureClosurePostmerge": {
+      "headSha": null,
+      "rtkRunId": null,
+      "ossRunId": null,
+      "status": "REQUIRED_AFTER_POLICY_MERGE"
+    },
+    "nonClaims": [
+      "This PASS is limited to the exact pre-corrective main baseline input.",
+      "It does not certify corrective source 10679beb or any future PR head, merge or postmerge SHA.",
+      "Cross-process or cross-host writers are not serialized by the process-local canonical-directory queue.",
+      "Inbox execution and outbox effect staging are individually durable transitions, not one atomic composite transaction.",
+      "The production composition root does not attach this optional internal API or automatically stage external effects.",
+      "External delivery is at-least-once unless the effect sink independently deduplicates by effectId.",
+      "A landed project commit whose later execution mark fails is visible but has no automatic exact-marker recovery path in this contour.",
+      "Log byte-size bounding and compaction are not certified by the R4 oracle."
+    ]
+  }
+}

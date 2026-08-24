@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "V1_ATLAS_CLAIM_COMPILER",
+  "attemptId": "ATTEMPT-V1-20260824",
+  "authorityEpoch": "R24-V1-CERTIFICATION-BASE-AD4840B2",
+  "profileId": "ATLAS_MAPS_DERIVED",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "ad4840b205422736c8af21dd49850d2dcd390784",
+    "treeSha": "af8affb83fe6be7d6d6d255618cecd302648e1ad"
+  },
+  "createdAt": "2026-08-24T16:49:42Z",
+  "actor": "codex/r24-v1-atlas-claim-certification-v1-20260824",
+  "stampId": "ES-R24-V1-ATLAS-CLAIM-COMPILER-EXACT-HEAD",
+  "claim": {
+    "type": "V1_LOCAL_EXACT_CERTIFICATION_SOURCE_GREEN",
+    "ceiling": "V1_NODE_ONLY_ATLAS_PROFILE_A0_AND_FAIL_CLOSED_CLAIM_PROJECTION_NO_PR_MERGE_POSTMERGE_WRITER_PROMOTION_RELEASE_OR_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-v1-exact-source-maintained-affected-chain",
+    "evidenceClass": "INDEPENDENT_EXACT_HEAD",
+    "denominator": 32,
+    "passed": 32,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-V1-ATLAS-CLAIM-COMPILER-MUTANTS"
+    ],
+    "predecessorReceiptDigest": "629853f0d55f0f721315249a5654d58bbba3e57b1a6ef114556ceef0fae35ff8"
+  },
+  "artifact": {
+    "identityRoles": {
+      "originalCompilerIntroductionMergeSha": "788f09b9d3cbe5780862b030fae9494f005da183",
+      "existingCompilerImplementationSourceSha": "f6e92ab57829e44a7aa360893acbb4952b3b2fbe",
+      "certificationSourceSha": "ad4840b205422736c8af21dd49850d2dcd390784",
+      "evaluationHeadSha": "ad4840b205422736c8af21dd49850d2dcd390784",
+      "evaluationTreeSha": "af8affb83fe6be7d6d6d255618cecd302648e1ad",
+      "prHeadSha": null,
+      "mergeSha": null,
+      "postmergeSha": null
+    },
+    "focused": {
+      "command": "npm run test:r24-v1",
+      "pass": 10,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "contractTests": 9,
+      "mutantsKilled": 7,
+      "mutantsSurvived": 0
+    },
+    "affectedChain": {
+      "command": "npm run test:r24-b0",
+      "pass": 32,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "artifactDigests": {
+      "compilerSha256": "434229f1be459c9349088d6ffa801a9ac3c929a9f9278812c1da29fab6b1d793",
+      "contractTestSha256": "cd72f00b3beafaebe11deb9f1fb2370cc300cce6eccac001b77f17fb3e2ea36b",
+      "mutantTestSha256": "91ca0ef439cb0cd52ab5fd2ffab60acd7dbcd64289135cc438e8840191c81033",
+      "a0PostmergeEvidenceSha256": "64b399c241f9306815f5842a759daf639759aeda976deec1e38494e3c9d561c7",
+      "v0PostmergeEvidenceSha256": "a9ffc2b3240c0baf00f1304e796b93a0f3b27d329d8c6a4059e6ada32cf3ba8a",
+      "t1PostmergeEvidenceSha256": "9573a68038efeca17e34c49946e7f279c62389f92c141f32fb11dd7235d62b04",
+      "executableProgramSha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5"
+    },
+    "inheritedExactMainBaseline": {
+      "mainSha": "ad4840b205422736c8af21dd49850d2dcd390784",
+      "rtkRunId": 32750577267,
+      "rtkJobId": 97506314246,
+      "rtkConclusion": "SUCCESS",
+      "rtkPass": 1059,
+      "rtkFail": 0,
+      "ossRunId": 32750577243,
+      "ossJobId": 97506314268,
+      "ossConclusion": "SUCCESS",
+      "reuseReason": "Only the V1 certification evidence delta is admitted; exact PR-head and postmerge required CI remain mandatory."
+    },
+    "deliveryState": "AWAITING_EVIDENCE_COMMIT_PR_EXACT_HEAD_CI_POLICY_MERGE_AND_POSTMERGE",
+    "nonClaims": [
+      "This is exact local certification-source evidence, not PR-head, merge or postmerge evidence.",
+      "The inherited exact-main RTK baseline is predecessor evidence and is not represented as having executed on the certification source SHA.",
+      "V1 emits only an Atlas profile verdict and keeps the program verdict NEEDS_MORE_EVIDENCE.",
+      "No Writer core promotion, visual readiness, physical macOS qualification, release, signing, distribution or program completion is claimed.",
+      "No runtime source, product state, user document, dependency, storage path, SAFE_APPLY, cloud or AI authority is added.",
+      "V1 PlanState remains PENDING until policy merge and exact postmerge verification; this stamp does not claim contour or program completion."
+    ]
+  }
+}

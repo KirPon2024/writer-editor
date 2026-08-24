@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "V1_ATLAS_CLAIM_COMPILER",
+  "attemptId": "ATTEMPT-V1-20260824",
+  "authorityEpoch": "R24-V1-CERTIFICATION-BASE-AD4840B2",
+  "profileId": "ATLAS_MAPS_DERIVED",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "ad4840b205422736c8af21dd49850d2dcd390784",
+    "treeSha": "af8affb83fe6be7d6d6d255618cecd302648e1ad"
+  },
+  "createdAt": "2026-08-24T16:49:42Z",
+  "actor": "codex/r24-v1-atlas-claim-certification-v1-20260824",
+  "stampId": "ES-R24-V1-ATLAS-CLAIM-COMPILER-MODEL",
+  "claim": {
+    "type": "V1_ATLAS_PROFILE_MODEL_BINDING",
+    "ceiling": "V1_NODE_ONLY_ATLAS_PROFILE_PROJECTION_BOUND_TO_A0_NO_WRITER_PROMOTION_NO_RELEASE_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-v1-atlas-profile-model-binding",
+    "evidenceClass": "MODEL",
+    "denominator": 1,
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-V0-WRITER-CLAIM-COMPILER-POSTMERGE-EXACT-HEAD",
+      "ES-R24-T1-ANCHOR-LINEAGE-POSTMERGE-EXACT-HEAD",
+      "ES-R24-A0-ATLAS-INCREMENTAL-EQUIVALENCE-POSTMERGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "629853f0d55f0f721315249a5654d58bbba3e57b1a6ef114556ceef0fae35ff8"
+  },
+  "artifact": {
+    "schedulerSelectionReceiptSha256": "856aa1f14def9fe006b7555aaa7e816445ab22904920e06c38be9dc8e727a276",
+    "sourceClaimId": "CLM_ATLAS_DERIVED_SAFETY",
+    "requiredStageIds": [
+      "A0_ATLAS_INCREMENTAL_EQUIVALENCE"
+    ],
+    "requiredStageCount": 1,
+    "selectedProfiles": [
+      "SHARED_ASSURANCE",
+      "WRITER_CORE",
+      "ATLAS_MAPS_DERIVED"
+    ],
+    "profileVerdict": "ATLAS_MAPS_DERIVED_EVIDENCE_BOUND_BY_R24_EXACT_HEAD_A0_PREFIX",
+    "programVerdict": "NEEDS_MORE_EVIDENCE",
+    "globalScalarPassForbidden": true,
+    "originalCompilerIntroductionMergeSha": "788f09b9d3cbe5780862b030fae9494f005da183",
+    "existingCompilerImplementationSourceSha": "f6e92ab57829e44a7aa360893acbb4952b3b2fbe",
+    "certificationSourceSha": "ad4840b205422736c8af21dd49850d2dcd390784",
+    "evaluationHeadSha": "ad4840b205422736c8af21dd49850d2dcd390784",
+    "evaluationTreeSha": "af8affb83fe6be7d6d6d255618cecd302648e1ad"
+  }
+}

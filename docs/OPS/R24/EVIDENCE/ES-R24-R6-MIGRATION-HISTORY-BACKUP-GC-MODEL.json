@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "R6_MIGRATION_HISTORY_BACKUP_GC",
+  "attemptId": "ATTEMPT-R6-20260824",
+  "authorityEpoch": "R24-R6-CORRECTIVE-BASE-2F925F28",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "b938cd61dec9f9b9ffce3a931beb5ef281c40820",
+    "treeSha": "da7013dc388df784ce19785cdf11581c18c0cc57"
+  },
+  "createdAt": "2026-08-24T06:28:10Z",
+  "actor": "codex/r24-r6-migration-history-backup-gc-certification-v1-20260824",
+  "stampId": "ES-R24-R6-MIGRATION-HISTORY-BACKUP-GC-MODEL",
+  "claim": {
+    "type": "R6_CORRECTED_MIGRATION_HISTORY_BACKUP_GC_MODEL",
+    "ceiling": "R6_NODE_ONLY_SYNTHETIC_FILESYSTEM_PROFILE_FORWARD_MIGRATION_ROLLBACK_QUARANTINE_CHECKPOINT_RETENTION_BACKUP_RESTORE_BOUNDED_GC_NO_LIVE_MIGRATION_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-r6-model",
+    "evidenceClass": "MODEL",
+    "denominator": 9,
+    "passed": 9,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [],
+    "predecessorReceiptDigest": "2c0aa3768c119418c4d402578f532ccac503f9995e292eaa3f75c4c4886b392f"
+  },
+  "artifact": {
+    "classification": "PARTIAL_AT_ADMISSION_WITH_STRICT_INDEX_PATH_AND_HISTORY_ACK_DEFECTS_CORRECTED",
+    "identityRoles": {
+      "historicalImplementationSourceSha": "9ea94f82522e7d038993eff32372fd3bcce3f6bb",
+      "historicalImplementationPrHeadSha": "9ea94f82522e7d038993eff32372fd3bcce3f6bb",
+      "historicalImplementationMergeSha": "6d7d07d281f50e27016c2263b18c1d6282ee591a",
+      "correctiveImplementationSourceSha": "b938cd61dec9f9b9ffce3a931beb5ef281c40820",
+      "evaluationHeadSha": "b938cd61dec9f9b9ffce3a931beb5ef281c40820",
+      "evaluationTreeSha": "da7013dc388df784ce19785cdf11581c18c0cc57",
+      "correctiveImplementationPrHeadSha": null,
+      "correctiveImplementationMergeSha": null,
+      "correctivePostmergeSha": null
+    },
+    "artifactDigests": [
+      {
+        "path": "src/core/migration-history-backup-gc-v1.cjs",
+        "sha256": "74bf22bff35aacdd2f017cd3dd6725dfa9ab9ca45b63ab63bf6fc9f028333d0f"
+      },
+      {
+        "path": "test/unit/r24-r6-migration-history-backup.test.js",
+        "sha256": "95c2c11f091ba6a5047283b45a9b0a49f300d1bb23b661b414f66309f530dd42"
+      },
+      {
+        "path": "test/unit/r24-r6-migration-physics.test.js",
+        "sha256": "711de8a4a5f5354e40ceca9a0485027193891b4c4d88c6c7711bd2b3bf87970f"
+      },
+      {
+        "path": "test/unit/r24-r6-migration-mutants.test.js",
+        "sha256": "b6aa921a59e8019db295134b41b91a7e15081762b1dd01a846ddafc2592f436f"
+      }
+    ],
+    "laws": [
+      "Durable index and artifact records are exact-schema validated before any path or mutation authority is derived.",
+      "Checkpoint and quarantine identifiers are sequence-bound and every artifact path is canonical, contained, regular and no-follow.",
+      "Migration and restore publish only after the history sink is preflighted and compensate exact prior project bytes when acknowledgement fails.",
+      "Quarantine and garbage collection restore exact prior index and artifact bytes when durable history acknowledgement fails.",
+      "Garbage collection prevalidates every indexed checkpoint digest and byte count before deleting any retained artifact.",
+      "Ambiguous post-publication history failure is typed as durability indeterminate rather than converted to success."
+    ],
+    "outcomeMatrix": [
+      {
+        "outcome": "core forward migration, checkpoint history and manual restore",
+        "classification": "ALREADY_IMPLEMENTED"
+      },
+      {
+        "outcome": "strict durable index schema, sequence binding, path containment and no-follow artifact validation",
+        "classification": "MISSING_AT_ADMISSION_THEN_IMPLEMENTED"
+      },
+      {
+        "outcome": "history preflight and project, restore, quarantine and GC acknowledgement compensation",
+        "classification": "PARTIAL_AT_ADMISSION_THEN_IMPLEMENTED"
+      },
+      {
+        "outcome": "production composition-root integration, live user-data migration and cross-process serialization",
+        "classification": "MISSING_OUTSIDE_CERTIFIED_PROFILE"
+      }
+    ],
+    "residualRisks": [
+      "The certified profile uses synthetic temporary filesystem fixtures and does not execute a live user-data migration.",
+      "The module is process-local and does not claim cross-process or cross-host serialization.",
+      "A history save that may have committed before surfacing an error is reported as typed durability indeterminate.",
+      "No production composition-root attachment, user document mutation, storage adoption, dependency, SAFE_APPLY, release, signing, cloud or AI authority is added."
+    ]
+  }
+}

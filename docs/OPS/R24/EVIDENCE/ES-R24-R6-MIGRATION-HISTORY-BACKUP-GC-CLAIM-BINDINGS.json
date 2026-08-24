@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-R6-MIGRATION-HISTORY-BACKUP-GC-CLAIM-BINDINGS",
+  "contourId": "R6_MIGRATION_HISTORY_BACKUP_GC",
+  "evidenceClass": "CONTRACT",
+  "verdict": "PASS",
+  "headSha": "b938cd61dec9f9b9ffce3a931beb5ef281c40820",
+  "originMainSha": "2f925f2803c9128bddb6686575ffa26962fb0c20",
+  "generatedAtUtc": "2026-08-24T06:28:10Z",
+  "oracle": "strict ClaimBindingV1 exact-hash binding for the live R6 executable acceptance contract, corrective implementation artifacts and executed exact-source evidence",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+      "sha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+      "claimTerms": [
+        "PASS"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/migration-history-backup-gc-v1.cjs",
+      "sha256": "74bf22bff35aacdd2f017cd3dd6725dfa9ab9ca45b63ab63bf6fc9f028333d0f",
+      "terms": [
+        "strict durable index and contained no-follow artifact validation",
+        "history preflight and compensated acknowledgement barriers",
+        "bounded checkpoint retention, restore, quarantine and garbage collection"
+      ]
+    },
+    {
+      "path": "test/unit/r24-r6-migration-history-backup.test.js",
+      "sha256": "95c2c11f091ba6a5047283b45a9b0a49f300d1bb23b661b414f66309f530dd42",
+      "terms": [
+        "R6 forward migration, restore, quarantine and retention contract"
+      ]
+    },
+    {
+      "path": "test/unit/r24-r6-migration-physics.test.js",
+      "sha256": "711de8a4a5f5354e40ceca9a0485027193891b4c4d88c6c7711bd2b3bf87970f",
+      "terms": [
+        "real filesystem no-follow and compensation probes"
+      ]
+    },
+    {
+      "path": "test/unit/r24-r6-migration-mutants.test.js",
+      "sha256": "b6aa921a59e8019db295134b41b91a7e15081762b1dd01a846ddafc2592f436f",
+      "terms": [
+        "eleven named implementation mutants killed"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "npm run -s test:r24-r6",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 16,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 11,
+        "survived": 0
+      }
+    },
+    {
+      "command": "R2.4 F0, V0 and PK1 affected-chain tests",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 22,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 18,
+        "survived": 0
+      },
+      "requiredDisposition": "F0 and V0 affected chain remains green; PK1 remains explicitly NOT_READY with no signing or release claim."
+    },
+    {
+      "command": "npm run test:rtk",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "Exact corrective implementation source b938cd61 is green with clean process-group and lease cleanup."
+    }
+  ],
+  "nonClaims": [
+    "This binding certifies only the bounded R6 corrective implementation source and does not claim PR-head, merge, postmerge, survivor or PlanState closure.",
+    "The certified profile uses synthetic temporary filesystem fixtures and does not execute a live user-data migration.",
+    "The module is process-local and does not claim cross-process or cross-host serialization.",
+    "A history save that may have committed before surfacing an error is reported as typed durability indeterminate.",
+    "No production composition-root attachment, user document mutation, storage adoption, dependency, SAFE_APPLY, release, signing, cloud or AI authority is added.",
+    "It does not mark R6, F0, V0, downstream work packages, physical qualification, release readiness or the R2.4 program DONE."
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "R6_MIGRATION_HISTORY_BACKUP_GC",
+  "attemptId": "ATTEMPT-R6-20260824",
+  "authorityEpoch": "R24-R6-CORRECTIVE-BASE-2F925F28",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "b938cd61dec9f9b9ffce3a931beb5ef281c40820",
+    "treeSha": "da7013dc388df784ce19785cdf11581c18c0cc57"
+  },
+  "createdAt": "2026-08-24T06:28:10Z",
+  "actor": "codex/r24-r6-migration-history-backup-gc-certification-v1-20260824",
+  "stampId": "ES-R24-R6-MIGRATION-HISTORY-BACKUP-GC-CONTRACT",
+  "claim": {
+    "type": "R6_ACCEPTANCE_CONTRACT_CORRECTIVE_PROFILE",
+    "ceiling": "R6_NODE_ONLY_SYNTHETIC_FILESYSTEM_PROFILE_FORWARD_MIGRATION_ROLLBACK_QUARANTINE_CHECKPOINT_RETENTION_BACKUP_RESTORE_BOUNDED_GC_NO_LIVE_MIGRATION_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-r6-contract",
+    "evidenceClass": "CONTRACT",
+    "denominator": 16,
+    "passed": 16,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-R6-MIGRATION-HISTORY-BACKUP-GC-MODEL"
+    ],
+    "predecessorReceiptDigest": "2c0aa3768c119418c4d402578f532ccac503f9995e292eaa3f75c4c4886b392f"
+  },
+  "artifact": {
+    "envelopeId": "ENV-R24-R6_MIGRATION_HISTORY_BACKUP_GC",
+    "acceptanceId": "ACC-R24-R6_MIGRATION_HISTORY_BACKUP_GC",
+    "requiredOutcome": "Prove forward migration, rollback and quarantine, checkpoint retention, backup restore and bounded garbage collection.",
+    "mutationAuthority": "MIGRATION_RECOVERY_HISTORY",
+    "materiality": [
+      "DEFECT_FIXED_WITH_REGRESSION",
+      "INVARIANT_NEWLY_ENFORCED",
+      "NAMED_IMPLEMENTATION_MUTANTS_KILLED"
+    ],
+    "finding": "The admitted implementation trusted forged durable index paths and could publish a migrated project before discovering an unusable history sink.",
+    "correctedProfile": "CORE_MIGRATION_HISTORY_BACKUP_GC_WITH_STRICT_INDEX_PATH_VALIDATION_AND_COMPENSATED_HISTORY_ACK",
+    "testProfileDisposition": {
+      "CONTRACT_NEGATIVE": "PASS",
+      "UNIT": "PASS",
+      "INTEGRATION": "PASS",
+      "IMPLEMENTATION_MUTANTS": "PASS_11_OF_11",
+      "UNICODE_IME": "UNICODE_FILESYSTEM_FIXTURE_PASS_IME_NOT_APPLICABLE_NO_UI_SURFACE",
+      "CRASH_RECOVERY": "PASS_HISTORY_ACK_COMPENSATION_AND_DURABILITY_INDETERMINATE_CLASSIFICATION",
+      "A11Y_PERF": "A11Y_NOT_APPLICABLE_NO_UI; BOUNDED_RETENTION_AND_GC_DENOMINATOR_PASS"
+    },
+    "forbidden": [
+      "LIVE_USER_DATA_MIGRATION",
+      "PRODUCTION_STORAGE_PATH_CHANGE",
+      "DESTRUCTIVE_STORAGE_ACTION",
+      "CROSS_PROCESS_SERIALIZATION_CLAIM",
+      "USER_DOCUMENT_MUTATION",
+      "DEPENDENCY_ADOPTION",
+      "SAFE_APPLY_EXPANSION",
+      "NETWORK_OR_CLOUD_AUTHORITY",
+      "PROGRAM_DONE"
+    ],
+    "residualRisks": [
+      "The certified profile uses synthetic temporary filesystem fixtures and does not execute a live user-data migration.",
+      "The module is process-local and does not claim cross-process or cross-host serialization.",
+      "A history save that may have committed before surfacing an error is reported as typed durability indeterminate.",
+      "No production composition-root attachment, user document mutation, storage adoption, dependency, SAFE_APPLY, release, signing, cloud or AI authority is added."
+    ]
+  }
+}

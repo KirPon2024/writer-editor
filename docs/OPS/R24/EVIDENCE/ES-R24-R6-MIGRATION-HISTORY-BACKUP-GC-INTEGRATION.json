@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "R6_MIGRATION_HISTORY_BACKUP_GC",
+  "attemptId": "ATTEMPT-R6-20260824",
+  "authorityEpoch": "R24-R6-CORRECTIVE-BASE-2F925F28",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "b938cd61dec9f9b9ffce3a931beb5ef281c40820",
+    "treeSha": "da7013dc388df784ce19785cdf11581c18c0cc57"
+  },
+  "createdAt": "2026-08-24T06:28:10Z",
+  "actor": "codex/r24-r6-migration-history-backup-gc-certification-v1-20260824",
+  "stampId": "ES-R24-R6-MIGRATION-HISTORY-BACKUP-GC-INTEGRATION",
+  "claim": {
+    "type": "R6_CORRECTIVE_AFFECTED_CHAIN_INTEGRATION",
+    "ceiling": "R6_NODE_ONLY_SYNTHETIC_FILESYSTEM_PROFILE_FORWARD_MIGRATION_ROLLBACK_QUARANTINE_CHECKPOINT_RETENTION_BACKUP_RESTORE_BOUNDED_GC_NO_LIVE_MIGRATION_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-r6-integration",
+    "evidenceClass": "INTEGRATION",
+    "denominator": 5,
+    "passed": 5,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-R6-MIGRATION-HISTORY-BACKUP-GC-CONTRACT"
+    ],
+    "predecessorReceiptDigest": "2c0aa3768c119418c4d402578f532ccac503f9995e292eaa3f75c4c4886b392f"
+  },
+  "artifact": {
+    "commands": [
+      {
+        "command": "npm run -s test:r24-r6",
+        "pass": 16,
+        "fail": 0,
+        "mutantsKilled": 11,
+        "mutantsSurvived": 0
+      },
+      {
+        "command": "node --test R2.4 F0 affected-chain tests",
+        "pass": 7,
+        "fail": 0,
+        "mutantsKilled": 5,
+        "mutantsSurvived": 0
+      },
+      {
+        "command": "node --test R2.4 V0 affected-chain tests",
+        "pass": 8,
+        "fail": 0,
+        "mutantsKilled": 5,
+        "mutantsSurvived": 0
+      },
+      {
+        "command": "node --test R2.4 PK1 classification tests",
+        "pass": 7,
+        "fail": 0,
+        "mutantsKilled": 8,
+        "mutantsSurvived": 0,
+        "disposition": "NOT_READY preserved; no signing or release claim"
+      },
+      {
+        "command": "npm run test:rtk",
+        "pass": 1059,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0,
+        "invocationId": "c8fe0944-9e09-40e5-a589-b159830d98e9",
+        "processGroupCleanup": "RTK_PROCESS_GROUP_CLEAN",
+        "leaseCleanupOk": true
+      }
+    ],
+    "observations": [
+      "forged index identifiers and escaped or symlinked checkpoint artifacts fail before mutation",
+      "unusable history sinks fail before migration, restore, quarantine or garbage collection publication",
+      "post-publication acknowledgement failures compensate exact prior project, index and artifact bytes when commit absence is known",
+      "F0 and V0 affected-chain tests remain green while PK1 remains explicitly NOT_READY",
+      "all maintained RTK tests pass on the corrective implementation source"
+    ],
+    "runtimeMutation": true,
+    "residualRisks": [
+      "The certified profile uses synthetic temporary filesystem fixtures and does not execute a live user-data migration.",
+      "The module is process-local and does not claim cross-process or cross-host serialization.",
+      "A history save that may have committed before surfacing an error is reported as typed durability indeterminate.",
+      "No production composition-root attachment, user document mutation, storage adoption, dependency, SAFE_APPLY, release, signing, cloud or AI authority is added."
+    ]
+  }
+}

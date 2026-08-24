@@ -1,15 +1,15 @@
 {
   "schemaVersion": "yalken.r24.plan-state-source-receipt.v1",
-  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPLAYABLE_WP200_EXACT_POSTMERGE_CLOSURE_NO_PROGRAM_DONE",
-  "generatedAtUtc": "2026-08-24T13:27:00Z",
+  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPLAYABLE_WP201_EXACT_POSTMERGE_CLOSURE_NO_PROGRAM_DONE",
+  "generatedAtUtc": "2026-08-24T15:58:30Z",
   "executableProgramPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
   "executableProgramDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
   "planStatePath": "docs/OPS/R24/PLAN_STATE_R24.json",
   "currentPlanState": {
-    "sha256": "cdba61c63993126726aad3b3abdeacdd354f355488b17a7a44c19c6886eaf334",
+    "sha256": "6d5f0b1aff564ed073508c20bc95d70ea078694df90410662ddb9510350ccb5b",
     "schemaVersion": "yalken.plan-state.r24.v2",
-    "revision": 164,
-    "fencingCounter": 30,
+    "revision": 171,
+    "fencingCounter": 31,
     "replayBaseline": {
       "classification": "ADOPTED_PRE_V2_UNREPLAYABLE_HISTORY",
       "revision": 94,
@@ -19,7 +19,7 @@
       "unreplayableContourCount": 10,
       "syntheticTransitionCount": 0
     },
-    "transitionHistoryCount": 50
+    "transitionHistoryCount": 55
   },
   "externalPlanState": {
     "path": "/Volumes/T7-Secure/worktrees/yalken/_r24-mission/PLAN_STATE_R24.json",
@@ -99,11 +99,11 @@
   },
   "nonClaims": [
     "R24 test files are implementation evidence candidates only and are not converted to DONE without durable terminal receipts.",
-    "This source receipt accounts for repo-local closures through WP200 and does not mark the full 109-node program DONE.",
-    "WP200 certifies generation-bound durable receipt acknowledgement for explicit Writer Save and Save As.",
-    "WP201 remains responsible for one multi-artifact scene and manifest transaction.",
+    "This source receipt accounts for repo-local closures through WP201 and does not mark the full 109-node program DONE.",
+    "WP201 certifies one scene plus one manifest transaction with total crash recovery and exact durable acknowledgement.",
+    "WP202 remains responsible for the legacy strangler outcome.",
     "No runtime product rewrite, product state, user document mutation, dependency, storage adoption or migration, SAFE_APPLY, release, signing, cloud or AI authority is added.",
-    "WP-201 through WP-207, WP-300 through WP-307, physical qualification, release readiness and program completion remain independently graph-gated.",
+    "WP-202 through WP-207, WP-300 through WP-307, physical qualification, release readiness and program completion remain independently graph-gated.",
     "Parked V2 remains suspended until selected by the executable graph."
   ],
   "discoveredR24TestFiles": {
@@ -207,7 +207,7 @@
     ]
   },
   "repoLocalPlanStateClosures": {
-    "doneContourCount": 19,
+    "doneContourCount": 20,
     "closures": [
       {
         "id": "SEC0_PATH_CAPABILITY",
@@ -610,8 +610,29 @@
           "ES-R24-WP-200-DURABLE-SAVE-CLAIM-BINDINGS"
         ],
         "deliveryState": "CURRENT_MAIN_8F69BFD0_EXACT_HEAD_WP200_DURABLE_RECEIPT_ACK_POSTMERGE_AND_SURVIVOR_GREEN_NO_MULTI_ARTIFACT_TRANSACTION_NO_PROGRAM_DONE"
+      },
+      {
+        "id": "WP-201_PROJECT_TRANSACTION",
+        "state": "DONE",
+        "previousState": "POSTMERGE_VERIFIED",
+        "attemptId": "ATTEMPT-WP201-20260824",
+        "updatedAt": "2026-08-24T15:58:30.005Z",
+        "headSha": "e47605be9669ff9d7d79e5d0aae061710f3c7732",
+        "source": "R24_WP201_PROJECT_TRANSACTION_CLOSURE_V1",
+        "terminalReceiptPath": "docs/OPS/R24/CTR-R24-WP-201-PROJECT-TRANSACTION.json",
+        "evidenceStampIds": [
+          "ES-R24-WP-201-PROJECT-TRANSACTION-MODEL",
+          "ES-R24-WP-201-PROJECT-TRANSACTION-CONTRACT",
+          "ES-R24-WP-201-PROJECT-TRANSACTION-INTEGRATION",
+          "ES-R24-WP-201-PROJECT-TRANSACTION-MUTANTS",
+          "ES-R24-WP-201-PROJECT-TRANSACTION-EXACT-HEAD",
+          "ES-R24-WP-201-PROJECT-TRANSACTION-POSTMERGE-EXACT-HEAD",
+          "ES-R24-WP-201-PROJECT-TRANSACTION-SURVIVOR-AUDIT",
+          "ES-R24-WP-201-PROJECT-TRANSACTION-CLAIM-BINDINGS"
+        ],
+        "deliveryState": "CURRENT_MAIN_E47605BE_EXACT_HEAD_WP201_PROJECT_TRANSACTION_POSTMERGE_AND_SURVIVOR_GREEN_NO_MULTI_SCENE_BATCH_NO_PROGRAM_DONE"
       }
     ]
   },
-  "planStateRevision": 164
+  "planStateRevision": 171
 }

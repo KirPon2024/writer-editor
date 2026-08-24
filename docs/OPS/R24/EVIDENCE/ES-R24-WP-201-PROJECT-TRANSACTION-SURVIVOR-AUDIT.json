@@ -1,0 +1,116 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-WP-201-PROJECT-TRANSACTION-SURVIVOR-AUDIT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-201_PROJECT_TRANSACTION",
+  "attemptId": "ATTEMPT-WP201-20260824",
+  "authorityEpoch": "R24-WP201-BASE-4DE97F42",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "e47605be9669ff9d7d79e5d0aae061710f3c7732",
+    "treeSha": "899ab9058322a125f864d75d32d466fdb4dcf983"
+  },
+  "claim": {
+    "type": "WP201_EXACT_MERGE_SURVIVOR_AUDIT",
+    "ceiling": "WP201_NODE_ONLY_ONE_SCENE_PLUS_MANIFEST_COMMIT_AND_TOTAL_RECOVERY_NO_MULTI_SCENE_BATCH_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "exact-merge-wp201-project-transaction-mutant-survivor-audit",
+    "evidenceClass": "SURVIVOR_AUDIT",
+    "denominator": 20,
+    "passed": 20,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-201-PROJECT-TRANSACTION-POSTMERGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "72369893c0e4ed0e95a8bcdeea44c69401d0f61112b805ac949669251e304d71"
+  },
+  "createdAt": "2026-08-24T15:58:30Z",
+  "actor": "codex/r24-wp201-postmerge-closure-v1-20260824",
+  "artifact": {
+    "pr": {
+      "number": 1675,
+      "baseSha": "4de97f423221382e14417907dcdd03c73f2c2401",
+      "implementationSourceSha": "982875a1df4b074b8cc9d3f2c7ea63ef3802e48d",
+      "evidenceSourceSha": "f99bff1ef2e17f16449d5e221b6628fb4410ea93",
+      "prHeadSha": "ddd10872c9dbc3d024062c4671994ce31fcf73a0",
+      "mergeSha": "e47605be9669ff9d7d79e5d0aae061710f3c7732",
+      "mergedAt": "2026-08-24T15:34:38Z",
+      "treeUnchangedFromPrHead": true
+    },
+    "requiredPrChecks": [
+      {
+        "name": "rtk-required",
+        "runId": 32743628720,
+        "jobId": 97483760045,
+        "headSha": "ddd10872c9dbc3d024062c4671994ce31fcf73a0",
+        "conclusion": "success"
+      },
+      {
+        "name": "oss-policy",
+        "runId": 32743628666,
+        "jobId": 97483756340,
+        "headSha": "ddd10872c9dbc3d024062c4671994ce31fcf73a0",
+        "conclusion": "success"
+      },
+      {
+        "name": "x1-runtime-parity (ubuntu-latest)",
+        "runId": 32743628688,
+        "jobId": 97483756420,
+        "headSha": "ddd10872c9dbc3d024062c4671994ce31fcf73a0",
+        "conclusion": "success"
+      },
+      {
+        "name": "x1-runtime-parity (windows-latest)",
+        "runId": 32743628688,
+        "jobId": 97483756830,
+        "headSha": "ddd10872c9dbc3d024062c4671994ce31fcf73a0",
+        "conclusion": "success"
+      },
+      {
+        "name": "ops_vector_close",
+        "runId": 32745705440,
+        "jobId": 97490585780,
+        "headSha": "ddd10872c9dbc3d024062c4671994ce31fcf73a0",
+        "conclusion": "success"
+      }
+    ],
+    "postmergeChecks": [
+      {
+        "name": "rtk-required",
+        "runId": 32745704863,
+        "jobId": 97490585292,
+        "headSha": "e47605be9669ff9d7d79e5d0aae061710f3c7732",
+        "conclusion": "success"
+      },
+      {
+        "name": "OSS policy",
+        "runId": 32745705127,
+        "jobId": 97490584852,
+        "headSha": "e47605be9669ff9d7d79e5d0aae061710f3c7732",
+        "conclusion": "success"
+      }
+    ],
+    "focusedPostmerge": {
+      "wp201TestsPassed": 14,
+      "wp201TestsFailed": 0,
+      "mutantsKilled": 6,
+      "mutantsSurvived": 0,
+      "docsNegativeTestsPassed": 9,
+      "docsNegativeTestsFailed": 0
+    },
+    "denominatorLaw": "All fourteen maintained WP201 tests and six named implementation mutants pass on the unchanged merge tree; strict docs lint and nine negative tests, exact PR-head parity and required checks, and exact-main RTK and OSS are terminal green.",
+    "residualRisks": [
+      "WP201 closes one scene plus one manifest transaction; Flow multi-scene batch save remains governed by its separate existing coordinator.",
+      "WP202 retains the legacy strangler outcome and all later work packages remain independently graph-gated.",
+      "No user document, dependency, storage adoption or migration, SAFE_APPLY, signing, release, cloud, AI or program completion authority is added."
+    ]
+  }
+}

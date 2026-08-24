@@ -1,0 +1,116 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-V0-WRITER-CLAIM-COMPILER-SURVIVOR-AUDIT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "V0_WRITER_CLAIM_COMPILER",
+  "attemptId": "ATTEMPT-V0-20260824",
+  "authorityEpoch": "R24-V0-CERTIFICATION-BASE-F1365F72",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "f68486bc2653d646ecd23f11cb388f231376f54b",
+    "treeSha": "fffc0185c3aa4d3050526439e0baf7c88dc38d39"
+  },
+  "claim": {
+    "type": "V0_EXACT_MERGE_SURVIVOR_AUDIT",
+    "ceiling": "V0_NODE_ONLY_WRITER_PROFILE_F0_DNA_AND_FAIL_CLOSED_CLAIM_PROJECTION_NO_VISUAL_READINESS_NO_PHYSICAL_MACOS_QUALIFICATION_NO_RELEASE_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "exact-merge-v0-writer-claim-mutant-survivor-audit",
+    "evidenceClass": "SURVIVOR_AUDIT",
+    "denominator": 14,
+    "passed": 14,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-V0-WRITER-CLAIM-COMPILER-POSTMERGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "8ad402d8df8ffd577a5983d348579292dfb5b2427af8aaf2c237bd085cbab065"
+  },
+  "createdAt": "2026-08-24T11:03:30Z",
+  "actor": "codex/r24-v0-postmerge-closure-v1-20260824",
+  "artifact": {
+    "pr": {
+      "number": 1671,
+      "baseSha": "f1365f72e4a159f2209c68b198f827f26f829891",
+      "existingCompilerImplementationSourceSha": "f6e92ab57829e44a7aa360893acbb4952b3b2fbe",
+      "certificationSourceSha": "77de410bc7400d29a11d6fc90b9e6b297611fe18",
+      "prHeadSha": "aae5d9cf04211a5f17780645ab0d03c1068e44b3",
+      "mergeSha": "f68486bc2653d646ecd23f11cb388f231376f54b",
+      "mergedAt": "2026-08-24T10:38:55Z",
+      "treeUnchangedFromPrHead": true
+    },
+    "requiredPrChecks": [
+      {
+        "name": "rtk-required",
+        "runId": 32716509221,
+        "jobId": 97398792109,
+        "headSha": "aae5d9cf04211a5f17780645ab0d03c1068e44b3",
+        "conclusion": "success"
+      },
+      {
+        "name": "oss-policy",
+        "runId": 32716509231,
+        "jobId": 97398792283,
+        "headSha": "aae5d9cf04211a5f17780645ab0d03c1068e44b3",
+        "conclusion": "success"
+      },
+      {
+        "name": "x1-runtime-parity (ubuntu-latest)",
+        "runId": 32716509201,
+        "jobId": 97398792277,
+        "headSha": "aae5d9cf04211a5f17780645ab0d03c1068e44b3",
+        "conclusion": "success"
+      },
+      {
+        "name": "x1-runtime-parity (windows-latest)",
+        "runId": 32716509201,
+        "jobId": 97398792195,
+        "headSha": "aae5d9cf04211a5f17780645ab0d03c1068e44b3",
+        "conclusion": "success"
+      },
+      {
+        "name": "ops_vector_close",
+        "runId": 32717836366,
+        "jobId": 97402758599,
+        "headSha": "aae5d9cf04211a5f17780645ab0d03c1068e44b3",
+        "conclusion": "success"
+      }
+    ],
+    "postmergeChecks": [
+      {
+        "name": "rtk-required",
+        "runId": 32717835926,
+        "jobId": 97402756572,
+        "headSha": "f68486bc2653d646ecd23f11cb388f231376f54b",
+        "conclusion": "success"
+      },
+      {
+        "name": "OSS policy",
+        "runId": 32717835936,
+        "jobId": 97402756645,
+        "headSha": "f68486bc2653d646ecd23f11cb388f231376f54b",
+        "conclusion": "success"
+      }
+    ],
+    "focusedPostmerge": {
+      "v0TestsPassed": 9,
+      "v0TestsFailed": 0,
+      "mutantsKilled": 5,
+      "mutantsSurvived": 0,
+      "affectedB0TestsPassed": 32,
+      "affectedB0TestsFailed": 0
+    },
+    "denominatorLaw": "All nine maintained V0 tests and five named compiler mutants pass on the unchanged merge tree; the 32-test B0 affected chain, exact PR-head parity and required checks, and exact-main RTK and OSS are terminal green.",
+    "residualRisks": [
+      "V0 certifies a Writer-profile evidence projection and F0 DNA binding; it does not certify visual polish or physical macOS application readiness.",
+      "The compiler implementation predates this contour; this contour adds exact F0/DNA certification and does not rewrite runtime.",
+      "No user document, runtime product source, dependency, storage-path change, SAFE_APPLY, signing, release, cloud, AI or program completion authority is added."
+    ]
+  }
+}

@@ -4,9 +4,9 @@
   "contourId": "V0_WRITER_CLAIM_COMPILER",
   "evidenceClass": "CONTRACT",
   "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
-  "headSha": "f68486bc2653d646ecd23f11cb388f231376f54b",
+  "headSha": "4b8b22911b4b0c6d4e437fd4bf223d848d7305c0",
   "originMainSha": "f68486bc2653d646ecd23f11cb388f231376f54b",
-  "generatedAtUtc": "2026-08-24T11:03:30Z",
+  "generatedAtUtc": "2026-08-24T11:05:00Z",
   "oracle": "strict ClaimBindingV1 exact-hash binding for replayable V0 PlanState closure, exact-main postmerge evidence, survivor audit and source receipt",
   "claimBindings": [
     {
@@ -25,7 +25,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CTR-R24-V0-WRITER-CLAIM-COMPILER.json",
-      "sha256": "305c668ec7d8f078c872dcb59b1042e2c09e1a4cc213bdb9a1729781a43a3dbe",
+      "sha256": "e2f0e2ccfc2f32b259767186219b809871ec9a57f1eeec17dc1e282b7e39d08d",
       "claimTerms": [
         "PASS"
       ]

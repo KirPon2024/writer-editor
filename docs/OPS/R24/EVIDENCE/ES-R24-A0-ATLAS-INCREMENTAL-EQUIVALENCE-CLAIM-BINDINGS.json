@@ -4,9 +4,9 @@
   "contourId": "A0_ATLAS_INCREMENTAL_EQUIVALENCE",
   "evidenceClass": "CONTRACT",
   "verdict": "PASS",
-  "headSha": "f687a59eec2c7b288ecb0b9f7214786c03bda211",
-  "originMainSha": "f687a59eec2c7b288ecb0b9f7214786c03bda211",
-  "generatedAtUtc": "2026-08-23T17:07:35Z",
+  "headSha": "292dc256f79d8fd2aa6969425301c65442b8adf1",
+  "originMainSha": "202401430ae4ac6428b0a262cadaf6bb8408614f",
+  "generatedAtUtc": "2026-08-23T23:55:00Z",
   "oracle": "docs-claim-lint exact sha-bound mutable PlanState claim binding for A0_ATLAS_INCREMENTAL_EQUIVALENCE and subsequent repo-local closure state through WP-102",
   "claimBindings": [
     {

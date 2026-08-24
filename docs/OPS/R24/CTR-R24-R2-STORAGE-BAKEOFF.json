@@ -5,7 +5,7 @@
   "contourId": "R2_STORAGE_BAKEOFF",
   "attemptId": "ATTEMPT-R2-20260824",
   "authorityEpoch": "R24-R2-CERTIFICATION-BASE-20240143",
-  "exactHeadSha": "5b505f27e0f51281f075b25257409e99755eae79",
+  "exactHeadSha": "292dc256f79d8fd2aa6969425301c65442b8adf1",
   "mergeState": "WAITING",
   "postmergeState": "PENDING",
   "survivorState": "PENDING",

@@ -4,9 +4,9 @@
   "contourId": "R2_STORAGE_BAKEOFF",
   "evidenceClass": "CONTRACT",
   "verdict": "PASS",
-  "headSha": "5b505f27e0f51281f075b25257409e99755eae79",
+  "headSha": "292dc256f79d8fd2aa6969425301c65442b8adf1",
   "originMainSha": "202401430ae4ac6428b0a262cadaf6bb8408614f",
-  "generatedAtUtc": "2026-08-23T23:54:01Z",
+  "generatedAtUtc": "2026-08-23T23:55:00Z",
   "oracle": "strict ClaimBindingV1 exact-hash binding for replayable R2 PlanState closure and source receipt",
   "claimBindings": [
     {

@@ -4,9 +4,9 @@
   "contourId": "WP-103_REVISION_PRODUCT_ORDER",
   "evidenceClass": "CONTRACT",
   "verdict": "PASS",
-  "headSha": "7400ef0074d9533e4988e6f06f856e44574fba23",
-  "originMainSha": "7400ef0074d9533e4988e6f06f856e44574fba23",
-  "generatedAtUtc": "2026-08-23T20:17:41Z",
+  "headSha": "292dc256f79d8fd2aa6969425301c65442b8adf1",
+  "originMainSha": "202401430ae4ac6428b0a262cadaf6bb8408614f",
+  "generatedAtUtc": "2026-08-23T23:55:00Z",
   "oracle": "strict ClaimBindingV1 exact-hash binding for WP-103 replayable PlanState closure and source receipt",
   "claimBindings": [
     {

@@ -3,15 +3,29 @@
   "stampId": "ES-R24-F0-WRITER-REFINEMENT-CONFORMANCE-CLAIM-BINDINGS",
   "contourId": "F0_WRITER_REFINEMENT_CONFORMANCE",
   "evidenceClass": "CONTRACT",
-  "verdict": "PASS",
-  "headSha": "01e826a64771c2009ebc50d01fecddfe813deb95",
-  "originMainSha": "cbf4dc966d87058b67fcbcfb2d0479880dac9ddb",
-  "generatedAtUtc": "2026-08-24T08:25:52Z",
-  "oracle": "strict ClaimBindingV1 exact-hash binding for the F0 executable program contract, implementation source, tests and exact-source executed evidence",
+  "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
+  "headSha": "fa036475f6ec5fac37f51e3c340324fe4b95c70b",
+  "originMainSha": "95ba2dfa30777229ce0ed7a803df7cc3d9024e1e",
+  "generatedAtUtc": "2026-08-24T09:11:00Z",
+  "oracle": "strict ClaimBindingV1 exact-hash binding for replayable F0 PlanState closure, exact-main postmerge evidence, survivor audit and source receipt",
   "claimBindings": [
     {
-      "filePath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
-      "sha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+      "sha256": "cbfb5452a19545c17d974b21ae5b44ad0a8db506ec8883de7dc29277fa432e91",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+      "sha256": "d9f69d06bae3b89a36757c7f78f6c151f7025d2869fa20ec09cfc571f8981c2b",
+      "claimTerms": [
+        "CLOSED"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CTR-R24-F0-WRITER-REFINEMENT-CONFORMANCE.json",
+      "sha256": "878d92427eb40cff61adb1af6c41cf53f88721e919f4d6fa3e03b0de0121fc5a",
       "claimTerms": [
         "PASS"
       ]
@@ -95,7 +109,7 @@
         "killed": 10,
         "survived": 0
       },
-      "requiredDisposition": "Nineteen model rows including all six mandatory Writer DNA dimensions passed on exact implementation source."
+      "requiredDisposition": "Nineteen model rows including all six mandatory Writer DNA dimensions pass on the exact implementation and unchanged merge tree."
     },
     {
       "command": "ENT0, R5 and relevant Design OS affected-chain suites",
@@ -111,24 +125,33 @@
       "requiredDisposition": "Affected entitlement, lifecycle, menu and Design OS boundaries remain green."
     },
     {
-      "command": "npm run test:rtk",
+      "command": "GitHub exact PR-head required checks",
       "verdict": "PASS",
       "tests": {
         "pass": 1059,
         "fail": 0
       },
-      "requiredDisposition": "Exact implementation source 01e826a6 is green with clean process-group and lease cleanup."
+      "mutants": {
+        "killed": 10,
+        "survived": 0
+      },
+      "requiredDisposition": "PR head 913d9053 has green RTK, OSS, Ubuntu and Windows parity, and ops_vector_close."
     },
     {
-      "command": "npm run agent:guardrails and npm run oss:policy and git diff --check",
+      "command": "GitHub exact-main postmerge RTK and OSS",
       "verdict": "PASS",
-      "requiredDisposition": "Repository guardrails, dependency policy and whitespace integrity passed."
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "Merge 95ba2dfa is green with RTK process-group and lease cleanup."
     }
   ],
   "nonClaims": [
-    "This binding certifies only the bounded F0 exact implementation-source evidence before PR delivery.",
-    "It does not claim PR-head CI, merge, postmerge, PlanState DONE, visual readiness, physical macOS qualification, release readiness or program completion.",
-    "The unrelated ad hoc sector-m command-palette fixture failure is byte-identical to the admission base, outside declared F0 write scope and absent from maintained RTK.",
-    "No runtime source, product state, user document, dependency, storage path, SAFE_APPLY, release, signing, cloud or AI authority is added."
+    "This binding closes only the bounded F0_WRITER_REFINEMENT_CONFORMANCE contour.",
+    "The executable DNA probes certify model refinement and forbidden-state rejection, not visual polish or physical macOS application readiness.",
+    "The unrelated ad hoc sector-m command-palette fixture remains outside this bounded contour and is not a maintained RTK failure.",
+    "No runtime product rewrite, user document, dependency, storage-path change, SAFE_APPLY, release, signing, cloud or AI authority is added.",
+    "It does not mark V0, downstream work packages, physical qualification, release readiness or the R2.4 program DONE."
   ]
 }

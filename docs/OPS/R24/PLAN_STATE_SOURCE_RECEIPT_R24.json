@@ -1,15 +1,15 @@
 {
   "schemaVersion": "yalken.r24.plan-state-source-receipt.v1",
-  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPLAYABLE_F0_EXACT_POSTMERGE_CLOSURE_NO_PROGRAM_DONE",
-  "generatedAtUtc": "2026-08-24T09:10:00Z",
+  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPLAYABLE_V0_EXACT_POSTMERGE_CLOSURE_NO_PROGRAM_DONE",
+  "generatedAtUtc": "2026-08-24T11:03:30Z",
   "executableProgramPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
   "executableProgramDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
   "planStatePath": "docs/OPS/R24/PLAN_STATE_R24.json",
   "currentPlanState": {
-    "sha256": "cbfb5452a19545c17d974b21ae5b44ad0a8db506ec8883de7dc29277fa432e91",
+    "sha256": "8d1c59b8a67258032a368fc41c10e91f24e69151e959865ead772e97c0d651eb",
     "schemaVersion": "yalken.plan-state.r24.v2",
-    "revision": 150,
-    "fencingCounter": 28,
+    "revision": 157,
+    "fencingCounter": 29,
     "replayBaseline": {
       "classification": "ADOPTED_PRE_V2_UNREPLAYABLE_HISTORY",
       "revision": 94,
@@ -19,7 +19,7 @@
       "unreplayableContourCount": 10,
       "syntheticTransitionCount": 0
     },
-    "transitionHistoryCount": 40
+    "transitionHistoryCount": 45
   },
   "externalPlanState": {
     "path": "/Volumes/T7-Secure/worktrees/yalken/_r24-mission/PLAN_STATE_R24.json",
@@ -99,11 +99,11 @@
   },
   "nonClaims": [
     "R24 test files are implementation evidence candidates only and are not converted to DONE without durable terminal receipts.",
-    "This source receipt accounts for repo-local closures through F0 and does not mark the full 109-node program DONE.",
-    "F0 certifies nineteen executable model refinement rows including calm, disclosure, continuity, customization, optional-off and no-bloat, with ten named mutants killed.",
-    "The F0 closure is not a visual readiness, physical macOS qualification, release readiness, signing or distribution claim.",
-    "No runtime product rewrite, user document mutation, dependency, storage-path change, SAFE_APPLY, release, signing, cloud or AI authority is added.",
-    "V0, WP-200 through WP-207, WP-300 through WP-307, physical qualification, release readiness and program completion remain independently graph-gated.",
+    "This source receipt accounts for repo-local closures through V0 and does not mark the full 109-node program DONE.",
+    "V0 certifies the existing Writer claim compiler against exact F0 dependency, six Writer DNA dimensions, exact-head evidence and five named mutants.",
+    "The V0 closure is not a visual readiness, physical macOS qualification, release readiness, signing or distribution claim.",
+    "No runtime product rewrite, product state, user document mutation, dependency, storage-path change, SAFE_APPLY, release, signing, cloud or AI authority is added.",
+    "WP-200 through WP-207, WP-300 through WP-307, physical qualification, release readiness and program completion remain independently graph-gated.",
     "Parked V2 remains suspended until selected by the executable graph."
   ],
   "discoveredR24TestFiles": {
@@ -207,7 +207,7 @@
     ]
   },
   "repoLocalPlanStateClosures": {
-    "doneContourCount": 17,
+    "doneContourCount": 18,
     "closures": [
       {
         "id": "SEC0_PATH_CAPABILITY",
@@ -568,8 +568,29 @@
           "ES-R24-F0-WRITER-REFINEMENT-CONFORMANCE-CLAIM-BINDINGS"
         ],
         "deliveryState": "CURRENT_MAIN_95BA2DFA_EXACT_HEAD_F0_WRITER_REFINEMENT_DNA_POSTMERGE_AND_SURVIVOR_GREEN_NO_PHYSICAL_MACOS_READINESS_NO_PROGRAM_DONE"
+      },
+      {
+        "id": "V0_WRITER_CLAIM_COMPILER",
+        "state": "DONE",
+        "previousState": "POSTMERGE_VERIFIED",
+        "attemptId": "ATTEMPT-V0-20260824",
+        "updatedAt": "2026-08-24T11:03:30.005Z",
+        "headSha": "f68486bc2653d646ecd23f11cb388f231376f54b",
+        "source": "R24_V0_WRITER_CLAIM_COMPILER_CLOSURE_V1",
+        "terminalReceiptPath": "docs/OPS/R24/CTR-R24-V0-WRITER-CLAIM-COMPILER.json",
+        "evidenceStampIds": [
+          "ES-R24-V0-WRITER-CLAIM-COMPILER-MODEL",
+          "ES-R24-V0-WRITER-CLAIM-COMPILER-CONTRACT",
+          "ES-R24-V0-WRITER-CLAIM-COMPILER-INTEGRATION",
+          "ES-R24-V0-WRITER-CLAIM-COMPILER-MUTANTS",
+          "ES-R24-V0-WRITER-CLAIM-COMPILER-EXACT-HEAD",
+          "ES-R24-V0-WRITER-CLAIM-COMPILER-POSTMERGE-EXACT-HEAD",
+          "ES-R24-V0-WRITER-CLAIM-COMPILER-SURVIVOR-AUDIT",
+          "ES-R24-V0-WRITER-CLAIM-COMPILER-CLAIM-BINDINGS"
+        ],
+        "deliveryState": "CURRENT_MAIN_F68486BC_EXACT_HEAD_V0_F0_DNA_CLAIM_COMPILER_POSTMERGE_AND_SURVIVOR_GREEN_NO_VISUAL_OR_PHYSICAL_MACOS_READINESS_NO_PROGRAM_DONE"
       }
     ]
   },
-  "planStateRevision": 150
+  "planStateRevision": 157
 }

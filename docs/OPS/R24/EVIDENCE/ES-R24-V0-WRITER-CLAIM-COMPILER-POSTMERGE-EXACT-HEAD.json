@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-V0-WRITER-CLAIM-COMPILER-POSTMERGE-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "V0_WRITER_CLAIM_COMPILER",
+  "attemptId": "ATTEMPT-V0-20260824",
+  "authorityEpoch": "R24-V0-CERTIFICATION-BASE-F1365F72",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "f68486bc2653d646ecd23f11cb388f231376f54b",
+    "treeSha": "fffc0185c3aa4d3050526439e0baf7c88dc38d39"
+  },
+  "claim": {
+    "type": "V0_CURRENT_MAIN_EXACT_HEAD_CI",
+    "ceiling": "V0_NODE_ONLY_WRITER_PROFILE_F0_DNA_AND_FAIL_CLOSED_CLAIM_PROJECTION_NO_VISUAL_READINESS_NO_PHYSICAL_MACOS_QUALIFICATION_NO_RELEASE_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "github-actions-main-exact-head-f68486bc",
+    "evidenceClass": "POSTMERGE",
+    "denominator": 2,
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-V0-WRITER-CLAIM-COMPILER-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "8ad402d8df8ffd577a5983d348579292dfb5b2427af8aaf2c237bd085cbab065"
+  },
+  "createdAt": "2026-08-24T11:03:30Z",
+  "actor": "codex/r24-v0-postmerge-closure-v1-20260824",
+  "artifact": {
+    "identityRoles": {
+      "existingCompilerImplementationSourceSha": "f6e92ab57829e44a7aa360893acbb4952b3b2fbe",
+      "certificationSourceSha": "77de410bc7400d29a11d6fc90b9e6b297611fe18",
+      "evaluationHeadSha": "77de410bc7400d29a11d6fc90b9e6b297611fe18",
+      "evaluationTreeSha": "55ff93e86b215ddad92a6fa21a9d009779435395",
+      "prHeadSha": "aae5d9cf04211a5f17780645ab0d03c1068e44b3",
+      "mergeSha": "f68486bc2653d646ecd23f11cb388f231376f54b",
+      "postmergeSha": "f68486bc2653d646ecd23f11cb388f231376f54b"
+    },
+    "checks": [
+      {
+        "workflowName": "rtk-required",
+        "runId": 32717835926,
+        "jobId": 97402756572,
+        "headSha": "f68486bc2653d646ecd23f11cb388f231376f54b",
+        "conclusion": "success",
+        "tests": {
+          "passed": 1059,
+          "failed": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "invocationId": "675b6cbf-9670-47d2-a743-d9f3edc50b03",
+        "processGroupCleanup": "RTK_PROCESS_GROUP_CLEAN",
+        "leaseCleanupOk": true
+      },
+      {
+        "workflowName": "OSS policy",
+        "runId": 32717835936,
+        "jobId": 97402756645,
+        "headSha": "f68486bc2653d646ecd23f11cb388f231376f54b",
+        "conclusion": "success"
+      }
+    ],
+    "localFocusedPostmerge": {
+      "commands": [
+        "npm run -s test:r24-v0",
+        "npm run -s test:r24-b0"
+      ],
+      "pass": 41,
+      "fail": 0,
+      "mutantsKilled": 5,
+      "mutantsSurvived": 0
+    },
+    "docsClaimLint": "PASS",
+    "treeUnchangedFromPrHead": true,
+    "nonClaims": [
+      "No visual readiness, physical macOS qualification, release, signing, distribution or program completion is claimed.",
+      "No runtime source, product state, user document, dependency, storage path, SAFE_APPLY, cloud or AI authority is added."
+    ]
+  }
+}

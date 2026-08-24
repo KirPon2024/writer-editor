@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-V0-WRITER-CLAIM-COMPILER-CLAIM-BINDINGS",
+  "contourId": "V0_WRITER_CLAIM_COMPILER",
+  "evidenceClass": "CONTRACT",
+  "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
+  "headSha": "f68486bc2653d646ecd23f11cb388f231376f54b",
+  "originMainSha": "f68486bc2653d646ecd23f11cb388f231376f54b",
+  "generatedAtUtc": "2026-08-24T11:03:30Z",
+  "oracle": "strict ClaimBindingV1 exact-hash binding for replayable V0 PlanState closure, exact-main postmerge evidence, survivor audit and source receipt",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+      "sha256": "8d1c59b8a67258032a368fc41c10e91f24e69151e959865ead772e97c0d651eb",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+      "sha256": "31a3a8d955c3b5c199a1caa170c1f5562a35845134f2629ac168cec10f1ea866",
+      "claimTerms": [
+        "CLOSED"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CTR-R24-V0-WRITER-CLAIM-COMPILER.json",
+      "sha256": "305c668ec7d8f078c872dcb59b1042e2c09e1a4cc213bdb9a1729781a43a3dbe",
+      "claimTerms": [
+        "PASS"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "scripts/ops/r24/writer-claim-compiler-v0.mjs",
+      "sha256": "3a2ff7e751ae5bde079684f36e05ce11236ef706b28a94170b374f48793604eb",
+      "terms": [
+        "existing fail-closed Writer profile claim compiler"
+      ]
+    },
+    {
+      "path": "test/unit/r24-v0-writer-claim-compiler.test.js",
+      "sha256": "0659bde9e0cf0d0d2732886a06e0bc4aad9866cfbf5524bdc455471c272b0758",
+      "terms": [
+        "exact F0 dependency, six Writer DNA rows and artifact digest certification"
+      ]
+    },
+    {
+      "path": "test/unit/r24-v0-writer-claim-mutants.test.js",
+      "sha256": "89482b88ede1ff1a1651bb430d970e424b68d8d4fafd3e9921b390e3767ac1d1",
+      "terms": [
+        "five named compiler mutants killed"
+      ]
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-F0-WRITER-REFINEMENT-CONFORMANCE-MODEL.json",
+      "sha256": "eb0c73d6a16710753b5c8f0e8bfbc7c60a0cc56247ade793c9683fd58188031b",
+      "terms": [
+        "six exact Writer DNA dimensions and rows"
+      ]
+    },
+    {
+      "path": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+      "sha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+      "terms": [
+        "V0 exact dependency on F0 in the 109-node graph"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "npm run -s test:r24-v0",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 9,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 5,
+        "survived": 0
+      },
+      "requiredDisposition": "Writer profile compilation, exact F0/DNA binding, stale evidence, optional profile, workflow order and overclaim boundaries pass."
+    },
+    {
+      "command": "npm run -s test:r24-b0",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 32,
+        "fail": 0
+      },
+      "requiredDisposition": "The affected observed-evidence claim compiler chain remains green on the unchanged merge tree."
+    },
+    {
+      "command": "GitHub exact PR-head required checks",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 5,
+        "survived": 0
+      },
+      "requiredDisposition": "PR head aae5d9cf has green RTK, OSS, Ubuntu and Windows parity, and ops_vector_close."
+    },
+    {
+      "command": "GitHub exact-main postmerge RTK and OSS",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "Merge f68486bc is green with RTK process-group and lease cleanup."
+    }
+  ],
+  "nonClaims": [
+    "This binding closes only the bounded V0_WRITER_CLAIM_COMPILER contour.",
+    "V0 certifies a Writer-profile evidence projection and exact F0 DNA binding, not visual polish or physical macOS application readiness.",
+    "The existing compiler runtime was not rewritten by this contour.",
+    "No product state, user document, dependency, storage-path change, SAFE_APPLY, release, signing, cloud or AI authority is added.",
+    "It does not mark downstream work packages, physical qualification, release readiness or the R2.4 program DONE."
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-R4-TRANSACTIONAL-INBOX-OUTBOX-CLAIM-BINDINGS",
+  "contourId": "R4_TRANSACTIONAL_INBOX_OUTBOX",
+  "evidenceClass": "CONTRACT",
+  "verdict": "PASS",
+  "headSha": "7d295a9ccb3e2e2883d50c731666263aa31783de",
+  "originMainSha": "670e0d13dec30ea1db8bdc4f73063732cbf080a5",
+  "generatedAtUtc": "2026-08-24T02:12:00Z",
+  "oracle": "strict ClaimBindingV1 exact-hash binding for replayable R4 PlanState closure and source receipt",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+      "sha256": "55850752e1d8bd540b121fb24c945ac18da7fa363a0fa501309fa61c76746a9b",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+      "sha256": "2c05043ecca67504285f832a2c5b04c0d4597573430e75d33d4957f76f27d1ae",
+      "claimTerms": [
+        "CLOSED"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/transactional-inbox-outbox-v1.cjs",
+      "sha256": "51a28ea2beb06607b89415c7da82681608d3c09b777700f08008f68d7cd1f63c",
+      "terms": [
+        "publish-on-success durable state",
+        "same-process multi-handle serialization",
+        "immutable public snapshots",
+        "typed reconciliation failure"
+      ]
+    },
+    {
+      "path": "src/core/project-commit-v1.cjs",
+      "sha256": "cc0f6a2b62f8e17efdc40caeef6e116dbc1eb380f0dd87987c1cfa430f133912",
+      "terms": [
+        "existing optional R4 transaction seam"
+      ]
+    },
+    {
+      "path": "test/unit/r24-r4-inbox-outbox.test.js",
+      "sha256": "d3f27646165e2209c0c7bf3e74d72d2da282333df24d6f5273b5de6c3bffb817",
+      "terms": [
+        "eleven deterministic contract and fault tests"
+      ]
+    },
+    {
+      "path": "test/unit/r24-r4-inbox-physics.test.js",
+      "sha256": "250230925cf27ef012328b41b202b0a94736302b9f802ae5eaad29c81640692b",
+      "terms": [
+        "real-filesystem and P3 integration tests"
+      ]
+    },
+    {
+      "path": "test/unit/r24-r4-inbox-mutants.test.js",
+      "sha256": "861cfd6f2fb9cfc31ef27d9f40578ce382b57b7a147640267a393ebeccc31bbc",
+      "terms": [
+        "twelve named implementation mutants killed"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "npm run -s test:r24-r4",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 19,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 12,
+        "survived": 0
+      }
+    }
+  ],
+  "nonClaims": [
+    "This binding closes only the bounded R4_TRANSACTIONAL_INBOX_OUTBOX corrective certification contour.",
+    "It does not claim cross-process or cross-host serialization, atomic inbox execution plus outbox staging, live production attachment, automatic post-ACK marker recovery, external exactly-once delivery without sink deduplication, log compaction, storage adoption, migration, or destructive storage.",
+    "It does not mark R5, R6, F0, V0, downstream work packages, physical qualification, release readiness, or the R2.4 program DONE."
+  ]
+}

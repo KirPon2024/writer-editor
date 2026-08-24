@@ -11,6 +11,7 @@ const { classifyProjectCommitState, commitProjectTextAndManifest } = require('..
 const { openTransactionalInboxOutbox } = require('../../src/core/transactional-inbox-outbox-v1.cjs');
 const { ACK_OUTCOMES, decideAutosaveAck, mergeSignaledGeneration } = require('../../src/core/autosave-generation-v1.cjs');
 const { SAVE_ACK_KINDS, classifySaveAck } = require('../../src/core/dirty-admission-v1.cjs');
+const { DURABLE_SAVE_PHASE_CHAIN, bindSaveReceiptToAck } = require('../../src/core/save-receipt-ack-v1.cjs');
 const {
   LIFECYCLE_EVENTS,
   LIFECYCLE_REASONS,
@@ -171,12 +172,13 @@ test('main quit joins saves and renderer false-clean signals have no authority',
   assert.match(main, /RENDERER_FALSE_CANNOT_CLEAR_MAIN_DIRTY/);
   assert.doesNotMatch(main, /isDirty = payload\.state;/);
   assert.match(main, /guardedOn\('dirty-changed', \(_, state\) => \{\n  if \(state === true\) isDirty = true;/);
-  assert.match(main, /function acknowledgeMainOwnedSave\(savedGeneration\)/);
-  assert.equal((main.match(/acknowledgeMainOwnedSave\(snapshot\.generation\)/g) || []).length, 3);
+  assert.match(main, /function acknowledgeMainOwnedSave\(saveReceipt, capturedContent, capturedGeneration\)/);
+  assert.equal((main.match(/acknowledgeMainOwnedSave\(/g) || []).length, 7);
   assert.match(main, /wasUntitled && saveAck\.kind === SAVE_ACK_KINDS\.SAVED/);
   assert.match(main, /result\.subjectId !== subjectId/);
   assert.equal((main.match(/const saveSubjectId = currentLifecycleSubjectId\(\);/g) || []).length, 2);
-  assert.match(main, /fileManager\.writeFileAtomic\(saveTargetPath, content\)/);
+  assert.match(main, /durableSaveWithCoordinator\(saveTargetPath, content, snapshot\.generation\)/);
+  assert.doesNotMatch(main, /fileManager\.writeFileAtomic\(saveTargetPath, content\)/);
   const closeBlock = main.slice(main.indexOf("mainWindow.on('close'"), main.indexOf("mainWindow.on('closed'"));
   assert.ok(closeBlock.indexOf('await persistWindowState(bounds)') < closeBlock.indexOf('await confirmDiscardChanges()'));
   const quitBlock = main.slice(main.indexOf("app.on('before-quit'"), main.indexOf("app.on('window-all-closed'"));
@@ -195,23 +197,28 @@ test('main save and single-flight coordinators execute the exact generation and 
   ].join('\n');
   const buildAcknowledger = new Function(
     'mergeSignaledGeneration',
-    'decideAutosaveAck',
-    'classifySaveAck',
+    'bindSaveReceiptToAck',
     'SAVE_ACK_KINDS',
-    'ACK_OUTCOMES',
     acknowledgeHarness,
   );
   const acknowledger = buildAcknowledger(
     mergeSignaledGeneration,
-    decideAutosaveAck,
-    classifySaveAck,
+    bindSaveReceiptToAck,
     SAVE_ACK_KINDS,
-    ACK_OUTCOMES,
   );
-  const stale = acknowledger.run(4);
+  const makeReceipt = (generation, content) => ({
+    success: true,
+    phases: [...DURABLE_SAVE_PHASE_CHAIN],
+    revision: generation,
+    digest: sha256hex(content),
+    bytes: Buffer.byteLength(content, 'utf8'),
+  });
+  const staleContent = 'stale';
+  const stale = acknowledger.run(makeReceipt(4, staleContent), staleContent, 4);
   assert.equal(stale.kind, SAVE_ACK_KINDS.PROTECTED);
   assert.equal(acknowledger.states.at(-1).state, true);
-  const exact = acknowledger.run(5);
+  const exactContent = 'exact';
+  const exact = acknowledger.run(makeReceipt(5, exactContent), exactContent, 5);
   assert.equal(exact.kind, SAVE_ACK_KINDS.SAVED);
   assert.equal(acknowledger.states.at(-1).state, false);
 

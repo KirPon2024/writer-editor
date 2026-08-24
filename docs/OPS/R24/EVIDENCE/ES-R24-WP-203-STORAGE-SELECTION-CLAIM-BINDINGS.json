@@ -1,0 +1,160 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-203-STORAGE-SELECTION-CLAIM-BINDINGS",
+  "contourId": "WP-203_STORAGE_SELECTION",
+  "evidenceClass": "CONTRACT",
+  "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
+  "headSha": "a2a4a7acc2e53d1b80f37905bca0fc41a47c577a",
+  "originMainSha": "65f1cb12e676b2c342fc8102974f6d2184751ba3",
+  "generatedAtUtc": "2026-08-24T22:33:00Z",
+  "oracle": "strict ClaimBindingV1 exact-hash binding for replayable WP203 PlanState closure, exact-main postmerge evidence, survivor audit, source receipt and graph-derived scheduler selection",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+      "sha256": "e2777ba3313b3ba169151b32634c276501b8c0064e3bfaa7de39c59d5b4fc825",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+      "sha256": "384080a9ffdbda5c6b50da815ae19377b4a04ca92d73b64330a56432384d720a",
+      "claimTerms": [
+        "CLOSED"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/SELECTION_RECEIPT_R2_4.json",
+      "sha256": "021d91a002c974e2c9284cd77da1cc2da6da88f0550798116994582e9ff56d99",
+      "claimTerms": [
+        "READY"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CTR-R24-WP-203-STORAGE-SELECTION.json",
+      "sha256": "58f1da4fdbae609274b120d70665688679e0a382678705facb6520defcaf1957",
+      "claimTerms": [
+        "PASS"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "package.json",
+      "sha256": "3ebe32bfd9d8dc59c330ac2bdf4f8d39b56a40b67c06a9f68961606704e376ed",
+      "terms": [
+        "maintained test:r24-wp203 package gate"
+      ]
+    },
+    {
+      "path": ".github/workflows/rtk-required.yml",
+      "sha256": "b6a42e6bf3eaf61f30492c98e8105a47cf2ce0583d8c78530e9ab9bd90398466",
+      "terms": [
+        "exact-head R2.4 WP203 workflow gate"
+      ]
+    },
+    {
+      "path": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+      "sha256": "bf19bb608fb2cb9e0ef0a706ab21c1ab33bce14804b2145dea0f8ac229c4cb0c",
+      "terms": [
+        "exact package wording-surface binding"
+      ]
+    },
+    {
+      "path": "src/core/storage-selection-v1.cjs",
+      "sha256": "0daada4aa8e3f0d6c8f2428452aed2b7158188091f4e1c92a383dfd681956f94",
+      "terms": [
+        "correctness-before-Pareto storage selection implementation"
+      ]
+    },
+    {
+      "path": "src/core/recovery-ledger-v1.cjs",
+      "sha256": "f6f0ab01ee768e374f07d2e830b2b4cca3b5a5a68278ca291b46229cffbb0e25",
+      "terms": [
+        "existing bounded derived recovery ledger implementation"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp203-storage-selection.test.js",
+      "sha256": "00f590c664e77963bf00f27c903ad1b8d9c2fe815c4a58e680548c048aac5947",
+      "terms": [
+        "WP203 contract and negative tests"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp203-storage-selection-integration.test.js",
+      "sha256": "acc47be9b2e3aebab95a8e803b2cd2a4f690406a1541cd2ef610e99aa9d214b3",
+      "terms": [
+        "WP203 real filesystem and recovery ledger integration"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp203-storage-selection-mutants.test.js",
+      "sha256": "7b0f01b10eecf353993518b6b63f9059353c94e1ee2c93c65032c3d05d4db20d",
+      "terms": [
+        "five named WP203 implementation mutants killed"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "npm run test:r24-wp203",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 9,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 5,
+        "survived": 0
+      }
+    },
+    {
+      "command": "npm run test:rtk",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "Exact evaluation source d0dde4bd is green with clean process-group and lease cleanup after explicit orphan-fixture reconciliation."
+    },
+    {
+      "command": "GitHub exact PR-head required checks",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 5,
+        "survived": 0
+      },
+      "requiredDisposition": "PR head c03b0832 has green RTK, OSS, Ubuntu and Windows parity."
+    },
+    {
+      "command": "GitHub exact-main postmerge RTK and OSS",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "Merge 65f1cb12 is terminal green in exact-main RTK run 32783222195 and OSS run 32783222253."
+    },
+    {
+      "command": "node scripts/ops/r24/docs-claim-lint.mjs and node --test scripts/ops/r24/tests/docs-claim-lint.test.mjs",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 9,
+        "fail": 0
+      },
+      "requiredDisposition": "Strict ClaimBindingV1 lint passes and all nine negative schema mutants are rejected."
+    }
+  ],
+  "nonClaims": [
+    "This binding closes only the bounded WP-203_STORAGE_SELECTION contour.",
+    "WP203 selects an already evaluated implementation but does not adopt a dependency, attach a live path or migrate user data.",
+    "No destructive storage action, user document mutation, SAFE_APPLY, release, signing, cloud or AI authority is added.",
+    "WP204 and all later nodes remain independently graph-gated.",
+    "It does not mark physical qualification, release readiness or the R2.4 program DONE."
+  ]
+}

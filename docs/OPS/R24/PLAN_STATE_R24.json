@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.plan-state.r24.v2",
-  "revision": 129,
-  "fencingCounter": 25,
+  "revision": 136,
+  "fencingCounter": 26,
   "contours": {
     "R24C0_SEMANTIC_PACKAGE_CLOSURE": {
       "state": "DONE",
@@ -168,12 +168,24 @@
       "deliveryState": "CURRENT_MAIN_670E0D13_R4_CORRECTIVE_LOCAL_EXACT_HEAD_GREEN_PR_AND_POSTMERGE_PENDING_NO_LIVE_PRODUCTION_ATTACHMENT_NO_PROGRAM_DONE"
     },
     "R5_LIFECYCLE_EXTERNAL_CONFLICT": {
-      "state": "PENDING",
-      "previousState": null,
-      "attemptId": null,
-      "updatedAt": null,
-      "headSha": null,
-      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+      "state": "DONE",
+      "previousState": "POSTMERGE_VERIFIED",
+      "attemptId": "ATTEMPT-R5-20260824",
+      "updatedAt": "2026-08-24T05:01:58.336Z",
+      "headSha": "c32661613c3e0ceed9890dfc8ce7ab7ae1e4ee0e",
+      "source": "R24_R5_LIFECYCLE_EXTERNAL_CONFLICT_CLOSURE_V1",
+      "terminalReceiptPath": "docs/OPS/R24/CTR-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT.json",
+      "evidenceStampIds": [
+        "ES-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT-MODEL",
+        "ES-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT-CONTRACT",
+        "ES-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT-INTEGRATION",
+        "ES-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT-MUTANTS",
+        "ES-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT-EXACT-HEAD",
+        "ES-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT-POSTMERGE-EXACT-HEAD",
+        "ES-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT-SURVIVOR-AUDIT",
+        "ES-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT-CLAIM-BINDINGS"
+      ],
+      "deliveryState": "CURRENT_MAIN_C3266161_EXACT_HEAD_R5_CORRECTIVE_CLOSE_QUIT_GENERATION_FENCE_POSTMERGE_AND_SURVIVOR_GREEN_NO_PLATFORM_SUSPEND_WIRING_NO_EXTERNAL_FILE_WATCHER_NO_RECOVERY_UI_NO_PROGRAM_DONE"
     },
     "R6_MIGRATION_HISTORY_BACKUP_GC": {
       "state": "PENDING",
@@ -1724,6 +1736,111 @@
         "headSha": "7d295a9ccb3e2e2883d50c731666263aa31783de",
         "appliedAt": "2026-08-24T02:11:05.000Z"
       }
+    },
+    "r5-20260824-postmerge-closure-lease": {
+      "revision": 130,
+      "requestDigest": "1a143eb22fb6a577a25c82f8b6fcfb99918b413411897b4a08618304b56594e8",
+      "receipt": null
+    },
+    "r5-20260824-postmerge-closure-eligible": {
+      "revision": 131,
+      "requestDigest": "63b041d5cad66056409273be3a280a26fe770449f10d4a948b26c71016841055",
+      "receipt": {
+        "schemaVersion": "PlanStateTransitionReceiptV1",
+        "transitionId": "a50e8925101339e4e14ea68de3479f13c933f00046ea1a52be35de0669b18960",
+        "contourId": "R5_LIFECYCLE_EXTERNAL_CONFLICT",
+        "from": "PENDING",
+        "to": "ELIGIBLE",
+        "fromRevision": 130,
+        "toRevision": 131,
+        "attemptId": "ATTEMPT-R5-20260824",
+        "writerId": "codex/r24-r5-postmerge-closure-v1-20260824",
+        "fencingToken": 26,
+        "idempotencyKey": "r5-20260824-postmerge-closure-eligible",
+        "requestDigest": "63b041d5cad66056409273be3a280a26fe770449f10d4a948b26c71016841055",
+        "headSha": "c32661613c3e0ceed9890dfc8ce7ab7ae1e4ee0e",
+        "appliedAt": "2026-08-24T05:01:58.332Z"
+      }
+    },
+    "r5-20260824-postmerge-closure-running": {
+      "revision": 132,
+      "requestDigest": "9596a10e173f964d931ea9d466b6e24973b4d6aa66430a70326b44b8e73e3571",
+      "receipt": {
+        "schemaVersion": "PlanStateTransitionReceiptV1",
+        "transitionId": "db83a521330ec267c264b13a224298a7d8e3a58c4b4b08722008fb02118290e9",
+        "contourId": "R5_LIFECYCLE_EXTERNAL_CONFLICT",
+        "from": "ELIGIBLE",
+        "to": "RUNNING",
+        "fromRevision": 131,
+        "toRevision": 132,
+        "attemptId": "ATTEMPT-R5-20260824",
+        "writerId": "codex/r24-r5-postmerge-closure-v1-20260824",
+        "fencingToken": 26,
+        "idempotencyKey": "r5-20260824-postmerge-closure-running",
+        "requestDigest": "9596a10e173f964d931ea9d466b6e24973b4d6aa66430a70326b44b8e73e3571",
+        "headSha": "c32661613c3e0ceed9890dfc8ce7ab7ae1e4ee0e",
+        "appliedAt": "2026-08-24T05:01:58.333Z"
+      }
+    },
+    "r5-20260824-postmerge-closure-delivered": {
+      "revision": 133,
+      "requestDigest": "345024a48885dd6944a8a2512de35ca56ae5f908579a6c54e7fe3930bd0e9a67",
+      "receipt": {
+        "schemaVersion": "PlanStateTransitionReceiptV1",
+        "transitionId": "15da0561ed76d2a73faf24f858935e32f4ded8e637eac5955ba0244b62ad00ea",
+        "contourId": "R5_LIFECYCLE_EXTERNAL_CONFLICT",
+        "from": "RUNNING",
+        "to": "DELIVERED",
+        "fromRevision": 132,
+        "toRevision": 133,
+        "attemptId": "ATTEMPT-R5-20260824",
+        "writerId": "codex/r24-r5-postmerge-closure-v1-20260824",
+        "fencingToken": 26,
+        "idempotencyKey": "r5-20260824-postmerge-closure-delivered",
+        "requestDigest": "345024a48885dd6944a8a2512de35ca56ae5f908579a6c54e7fe3930bd0e9a67",
+        "headSha": "c32661613c3e0ceed9890dfc8ce7ab7ae1e4ee0e",
+        "appliedAt": "2026-08-24T05:01:58.334Z"
+      }
+    },
+    "r5-20260824-postmerge-closure-postmerge-verified": {
+      "revision": 134,
+      "requestDigest": "211357c04da4a98f2d8aeb55d71f454fe1db7aeadb225ee4f092c65e037f883a",
+      "receipt": {
+        "schemaVersion": "PlanStateTransitionReceiptV1",
+        "transitionId": "73c2502c46208bcc7394f69bd55bc9e9263cd5f1ba5bfe04833d7a1093a1df9a",
+        "contourId": "R5_LIFECYCLE_EXTERNAL_CONFLICT",
+        "from": "DELIVERED",
+        "to": "POSTMERGE_VERIFIED",
+        "fromRevision": 133,
+        "toRevision": 134,
+        "attemptId": "ATTEMPT-R5-20260824",
+        "writerId": "codex/r24-r5-postmerge-closure-v1-20260824",
+        "fencingToken": 26,
+        "idempotencyKey": "r5-20260824-postmerge-closure-postmerge-verified",
+        "requestDigest": "211357c04da4a98f2d8aeb55d71f454fe1db7aeadb225ee4f092c65e037f883a",
+        "headSha": "c32661613c3e0ceed9890dfc8ce7ab7ae1e4ee0e",
+        "appliedAt": "2026-08-24T05:01:58.335Z"
+      }
+    },
+    "r5-20260824-postmerge-closure-done": {
+      "revision": 135,
+      "requestDigest": "3d8b481a2c295a21979b2da24f3279535b8b4d5354add0986f88e45e6e7a46f9",
+      "receipt": {
+        "schemaVersion": "PlanStateTransitionReceiptV1",
+        "transitionId": "c8a251825686657c5ea64365389964bf9472c3baab4a047fcbfeba9c788ff333",
+        "contourId": "R5_LIFECYCLE_EXTERNAL_CONFLICT",
+        "from": "POSTMERGE_VERIFIED",
+        "to": "DONE",
+        "fromRevision": 134,
+        "toRevision": 135,
+        "attemptId": "ATTEMPT-R5-20260824",
+        "writerId": "codex/r24-r5-postmerge-closure-v1-20260824",
+        "fencingToken": 26,
+        "idempotencyKey": "r5-20260824-postmerge-closure-done",
+        "requestDigest": "3d8b481a2c295a21979b2da24f3279535b8b4d5354add0986f88e45e6e7a46f9",
+        "headSha": "c32661613c3e0ceed9890dfc8ce7ab7ae1e4ee0e",
+        "appliedAt": "2026-08-24T05:01:58.336Z"
+      }
     }
   },
   "replayBaseline": {
@@ -2172,6 +2289,91 @@
       "requestDigest": "25557ccf62e37183dfa5c686f61ac07870b91ea2a1539eb258a59bdc4903c073",
       "headSha": "7d295a9ccb3e2e2883d50c731666263aa31783de",
       "appliedAt": "2026-08-24T02:11:05.000Z",
+      "baselinePresent": true
+    },
+    {
+      "schemaVersion": "PlanStateTransitionReceiptV1",
+      "transitionId": "a50e8925101339e4e14ea68de3479f13c933f00046ea1a52be35de0669b18960",
+      "contourId": "R5_LIFECYCLE_EXTERNAL_CONFLICT",
+      "from": "PENDING",
+      "to": "ELIGIBLE",
+      "fromRevision": 130,
+      "toRevision": 131,
+      "attemptId": "ATTEMPT-R5-20260824",
+      "writerId": "codex/r24-r5-postmerge-closure-v1-20260824",
+      "fencingToken": 26,
+      "idempotencyKey": "r5-20260824-postmerge-closure-eligible",
+      "requestDigest": "63b041d5cad66056409273be3a280a26fe770449f10d4a948b26c71016841055",
+      "headSha": "c32661613c3e0ceed9890dfc8ce7ab7ae1e4ee0e",
+      "appliedAt": "2026-08-24T05:01:58.332Z",
+      "baselinePresent": true
+    },
+    {
+      "schemaVersion": "PlanStateTransitionReceiptV1",
+      "transitionId": "db83a521330ec267c264b13a224298a7d8e3a58c4b4b08722008fb02118290e9",
+      "contourId": "R5_LIFECYCLE_EXTERNAL_CONFLICT",
+      "from": "ELIGIBLE",
+      "to": "RUNNING",
+      "fromRevision": 131,
+      "toRevision": 132,
+      "attemptId": "ATTEMPT-R5-20260824",
+      "writerId": "codex/r24-r5-postmerge-closure-v1-20260824",
+      "fencingToken": 26,
+      "idempotencyKey": "r5-20260824-postmerge-closure-running",
+      "requestDigest": "9596a10e173f964d931ea9d466b6e24973b4d6aa66430a70326b44b8e73e3571",
+      "headSha": "c32661613c3e0ceed9890dfc8ce7ab7ae1e4ee0e",
+      "appliedAt": "2026-08-24T05:01:58.333Z",
+      "baselinePresent": true
+    },
+    {
+      "schemaVersion": "PlanStateTransitionReceiptV1",
+      "transitionId": "15da0561ed76d2a73faf24f858935e32f4ded8e637eac5955ba0244b62ad00ea",
+      "contourId": "R5_LIFECYCLE_EXTERNAL_CONFLICT",
+      "from": "RUNNING",
+      "to": "DELIVERED",
+      "fromRevision": 132,
+      "toRevision": 133,
+      "attemptId": "ATTEMPT-R5-20260824",
+      "writerId": "codex/r24-r5-postmerge-closure-v1-20260824",
+      "fencingToken": 26,
+      "idempotencyKey": "r5-20260824-postmerge-closure-delivered",
+      "requestDigest": "345024a48885dd6944a8a2512de35ca56ae5f908579a6c54e7fe3930bd0e9a67",
+      "headSha": "c32661613c3e0ceed9890dfc8ce7ab7ae1e4ee0e",
+      "appliedAt": "2026-08-24T05:01:58.334Z",
+      "baselinePresent": true
+    },
+    {
+      "schemaVersion": "PlanStateTransitionReceiptV1",
+      "transitionId": "73c2502c46208bcc7394f69bd55bc9e9263cd5f1ba5bfe04833d7a1093a1df9a",
+      "contourId": "R5_LIFECYCLE_EXTERNAL_CONFLICT",
+      "from": "DELIVERED",
+      "to": "POSTMERGE_VERIFIED",
+      "fromRevision": 133,
+      "toRevision": 134,
+      "attemptId": "ATTEMPT-R5-20260824",
+      "writerId": "codex/r24-r5-postmerge-closure-v1-20260824",
+      "fencingToken": 26,
+      "idempotencyKey": "r5-20260824-postmerge-closure-postmerge-verified",
+      "requestDigest": "211357c04da4a98f2d8aeb55d71f454fe1db7aeadb225ee4f092c65e037f883a",
+      "headSha": "c32661613c3e0ceed9890dfc8ce7ab7ae1e4ee0e",
+      "appliedAt": "2026-08-24T05:01:58.335Z",
+      "baselinePresent": true
+    },
+    {
+      "schemaVersion": "PlanStateTransitionReceiptV1",
+      "transitionId": "c8a251825686657c5ea64365389964bf9472c3baab4a047fcbfeba9c788ff333",
+      "contourId": "R5_LIFECYCLE_EXTERNAL_CONFLICT",
+      "from": "POSTMERGE_VERIFIED",
+      "to": "DONE",
+      "fromRevision": 134,
+      "toRevision": 135,
+      "attemptId": "ATTEMPT-R5-20260824",
+      "writerId": "codex/r24-r5-postmerge-closure-v1-20260824",
+      "fencingToken": 26,
+      "idempotencyKey": "r5-20260824-postmerge-closure-done",
+      "requestDigest": "3d8b481a2c295a21979b2da24f3279535b8b4d5354add0986f88e45e6e7a46f9",
+      "headSha": "c32661613c3e0ceed9890dfc8ce7ab7ae1e4ee0e",
+      "appliedAt": "2026-08-24T05:01:58.336Z",
       "baselinePresent": true
     }
   ]

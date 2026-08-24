@@ -8,19 +8,19 @@
   "repo": {
     "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
     "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
-    "headSha": "1012a28bcd74847898e380812d51c81ebd3a5dc1",
-    "treeSha": "ea65acde08a418a32f0bd1da56a598565cc618fb"
+    "headSha": "c32661613c3e0ceed9890dfc8ce7ab7ae1e4ee0e",
+    "treeSha": "37e3cfcba0b5328bceade8a95e919278c7d2786e"
   },
-  "createdAt": "2026-08-24T04:12:13Z",
-  "actor": "codex/r24-r5-lifecycle-external-conflict-certification-v1-20260824",
+  "createdAt": "2026-08-24T05:02:18Z",
+  "actor": "codex/r24-r5-postmerge-closure-v1-20260824",
   "stampId": "ES-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT-SURVIVOR-AUDIT",
   "claim": {
-    "type": "R5_CORRECTIVE_LOCAL_SURVIVOR_AND_HISTORICAL_LINEAGE",
+    "type": "R5_CORRECTIVE_EXACT_MERGE_SURVIVOR_AUDIT",
     "ceiling": "R5_NODE_ONLY_CORRECTED_LIFECYCLE_CONFLICT_PROTOCOL_WITH_PRODUCTION_CLOSE_QUIT_GENERATION_FENCE_NO_PLATFORM_SUSPEND_WIRING_NO_EXTERNAL_FILE_WATCHER_NO_RECOVERY_UI_NO_PROGRAM_DONE",
     "verdict": "PASS"
   },
   "test": {
-    "oracleId": "r24-r5-survivor",
+    "oracleId": "exact-merge-r5-mutant-survivor-audit",
     "evidenceClass": "SURVIVOR_AUDIT",
     "denominator": 27,
     "passed": 27,
@@ -37,49 +37,70 @@
   "artifact": {
     "historicalImplementationPr": {
       "prNumber": 1634,
-      "baseSha": "0e9c94a9ff1eb46aae890fc2b172eddcea135456",
       "implementationSourceSha": "388b3ea0f2f6532e3b5c1b180bde334f85c16294",
       "prHeadSha": "388b3ea0f2f6532e3b5c1b180bde334f85c16294",
       "mergeSha": "2bfe31ff3bbc2278e4efc9436dd0096d37b787ff",
       "mergedAt": "2026-08-22T10:25:59Z"
     },
-    "historicalRequiredChecks": [
+    "correctiveImplementationPr": {
+      "prNumber": 1665,
+      "baseSha": "8454b33db3fd6d1b490347ece46c973dd27bed2e",
+      "implementationSourceSha": "1012a28bcd74847898e380812d51c81ebd3a5dc1",
+      "evidencePrHeadSha": "0841015b8dd84cda6e3382f77bcf5890524b4057",
+      "mergeSha": "c32661613c3e0ceed9890dfc8ce7ab7ae1e4ee0e",
+      "mergedAt": "2026-08-24T04:36:24Z",
+      "treeUnchangedFromPrHead": true
+    },
+    "requiredPrChecks": [
       {
         "name": "rtk-required",
-        "runId": 32566929763,
-        "jobId": 97016803676,
+        "runId": 32689434294,
+        "jobId": 97320328254,
+        "headSha": "0841015b8dd84cda6e3382f77bcf5890524b4057",
         "conclusion": "success"
       },
       {
         "name": "oss-policy",
-        "runId": 32566929771,
-        "jobId": 97016803317,
+        "runId": 32689434307,
+        "jobId": 97320328169,
+        "headSha": "0841015b8dd84cda6e3382f77bcf5890524b4057",
         "conclusion": "success"
       },
       {
         "name": "x1-runtime-parity (ubuntu-latest)",
-        "runId": 32566929685,
-        "jobId": 97016803252,
+        "runId": 32689434259,
+        "jobId": 97320328090,
+        "headSha": "0841015b8dd84cda6e3382f77bcf5890524b4057",
         "conclusion": "success"
       },
       {
         "name": "x1-runtime-parity (windows-latest)",
-        "runId": 32566929685,
-        "jobId": 97016803207,
+        "runId": 32689434259,
+        "jobId": 97320327971,
+        "headSha": "0841015b8dd84cda6e3382f77bcf5890524b4057",
+        "conclusion": "success"
+      },
+      {
+        "name": "ops_vector_close",
+        "runId": 32690640781,
+        "jobId": 97323547544,
+        "headSha": "0841015b8dd84cda6e3382f77bcf5890524b4057",
         "conclusion": "success"
       }
     ],
-    "historicalPostmerge": [
+    "postmergeChecks": [
       {
         "name": "rtk-required",
-        "runId": 32567590318,
-        "headSha": "2bfe31ff3bbc2278e4efc9436dd0096d37b787ff",
+        "runId": 32690640853,
+        "jobId": 97323547755,
+        "headSha": "c32661613c3e0ceed9890dfc8ce7ab7ae1e4ee0e",
         "conclusion": "success"
       },
       {
         "name": "OSS policy",
-        "runId": 32567590306,
-        "headSha": "2bfe31ff3bbc2278e4efc9436dd0096d37b787ff",
+        "runId": 32690640825,
+        "jobId": 97323547654,
+        "headSha": "c32661613c3e0ceed9890dfc8ce7ab7ae1e4ee0e",
         "conclusion": "success"
       }
     ],
@@ -89,15 +110,31 @@
       "focusedTests": 16,
       "mutantsKilled": 11,
       "mutantsSurvived": 0,
-      "fullRtkTests": 1059
+      "fullRtk": {
+        "denominator": 1059,
+        "passed": 1059,
+        "failed": 0,
+        "skipped": 0,
+        "todo": 0,
+        "cleanup": "CLEAN"
+      }
     },
-    "futureClosure": {
-      "prHeadSha": null,
-      "mergeSha": null,
-      "postmergeSha": null,
-      "status": "REQUIRED_EXTERNAL_TERMINAL_RECEIPT"
+    "exactMerged": {
+      "headSha": "c32661613c3e0ceed9890dfc8ce7ab7ae1e4ee0e",
+      "treeSha": "37e3cfcba0b5328bceade8a95e919278c7d2786e",
+      "prTreeSha": "37e3cfcba0b5328bceade8a95e919278c7d2786e",
+      "focusedTests": 16,
+      "mutantsKilled": 11,
+      "mutantsSurvived": 0,
+      "fullRtk": {
+        "denominator": 1059,
+        "passed": 1059,
+        "failed": 0,
+        "skipped": 0,
+        "todo": 0
+      }
     },
-    "denominatorLaw": "All sixteen corrected focused tests and all eleven named implementation mutants pass at the corrective source; the 1059-test full RTK graph is exact-head supporting evidence; historical PR and postmerge identities remain lineage evidence only.",
+    "denominatorLaw": "All sixteen corrected R5 focused tests and all eleven named implementation mutants pass on the exact implementation tree, which is byte-identical at PR head and merge; exact-main full RTK and OSS are terminal green.",
     "residualRisks": [
       "The production composition root applies the corrected barrier to BrowserWindow close and app before-quit; platform suspend is not wired in this contour.",
       "External-edit and crash decisions require exact caller-supplied disk, R4 and P3 observations; no production external file watcher or recovery UI is attached here.",

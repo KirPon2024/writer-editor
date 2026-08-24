@@ -29,6 +29,9 @@ const {
 const {
   LIFECYCLE_EVENTS,
   LIFECYCLE_REASONS,
+  createDetachedOutboxObservation,
+  createFreshOutboxObservation,
+  createSaveReceipt,
   evaluateLifecycleBarrier,
 } = require('../../src/core/lifecycle-conflict-v1.cjs');
 const {
@@ -41,6 +44,15 @@ const {
 } = require('../../src/core/migration-history-backup-gc-v1.cjs');
 
 const sandbox = (prefix = 'r24-f0p-') => fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), prefix)));
+const LIFECYCLE_SUBJECT = 'project:f0/document:scene';
+const cleanDiskObservation = (generation) => ({
+  schemaVersion: 'yalken.lifecycleDiskObservation.v1',
+  subjectId: LIFECYCLE_SUBJECT,
+  observationGeneration: generation,
+  committedDigest: 'a'.repeat(64),
+  observedDiskDigest: 'a'.repeat(64),
+  p3Classification: 'NEW_COMMITTED',
+});
 
 function linearMigrations(maxVersion) {
   return Array.from({ length: maxVersion - 1 }, (_, index) => {
@@ -83,9 +95,18 @@ test('F0 physics: failed durable save becomes AT_RISK and blocks lifecycle close
   assert.equal(deriveDirty(state), true);
   const lifecycle = evaluateLifecycleBarrier({
     eventKind: LIFECYCLE_EVENTS.QUIT,
+    subjectId: LIFECYCLE_SUBJECT,
     latestEditGeneration: state.latestEditGeneration,
     ackedGeneration: state.ackedGeneration,
-    saveAck: ack,
+    saveReceipt: createSaveReceipt({
+      subjectId: LIFECYCLE_SUBJECT,
+      observationGeneration: state.latestEditGeneration,
+      ack,
+    }),
+    outboxObservation: createDetachedOutboxObservation({
+      subjectId: LIFECYCLE_SUBJECT,
+      observationGeneration: state.latestEditGeneration,
+    }),
   });
   assert.equal(lifecycle.reason, LIFECYCLE_REASONS.AT_RISK_WRITE_FAILURE);
   assert.equal(lifecycle.allowed, false);
@@ -98,21 +119,35 @@ test('F0 physics: pending outbox effect blocks crash recovery until published', 
   await box.markExecuted('intent-1', { revision: 1 });
   await box.stageEffect({ intentId: 'intent-1', effectId: 'effect-1', kind: 'fs.write' });
 
+  const blockedBox = await openTransactionalInboxOutbox(dir);
   const blocked = evaluateLifecycleBarrier({
     eventKind: LIFECYCLE_EVENTS.CRASH_RECOVERY,
+    subjectId: LIFECYCLE_SUBJECT,
     latestEditGeneration: 1,
     ackedGeneration: 1,
-    pendingEffects: box.pendingEffects(),
+    outboxObservation: createFreshOutboxObservation({
+      subjectId: LIFECYCLE_SUBJECT,
+      observationGeneration: 1,
+      inboxOutbox: blockedBox,
+    }),
+    diskObservation: cleanDiskObservation(1),
   });
   assert.equal(blocked.reason, LIFECYCLE_REASONS.PENDING_EFFECT_REPLAY_REQUIRED);
   assert.equal(blocked.allowed, false);
 
   await box.markEffectPublished('effect-1');
+  const allowedBox = await openTransactionalInboxOutbox(dir);
   const allowed = evaluateLifecycleBarrier({
     eventKind: LIFECYCLE_EVENTS.CRASH_RECOVERY,
+    subjectId: LIFECYCLE_SUBJECT,
     latestEditGeneration: 1,
     ackedGeneration: 1,
-    pendingEffects: box.pendingEffects(),
+    outboxObservation: createFreshOutboxObservation({
+      subjectId: LIFECYCLE_SUBJECT,
+      observationGeneration: 1,
+      inboxOutbox: allowedBox,
+    }),
+    diskObservation: cleanDiskObservation(1),
   });
   assert.equal(allowed.reason, LIFECYCLE_REASONS.RECOVERY_CLEAN);
   assert.equal(allowed.allowed, true);

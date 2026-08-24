@@ -287,24 +287,58 @@ const MODEL_ROWS = Object.freeze([
     evidenceClasses: ['E2_CONTRACT', 'E3_INTEGRATION', 'E4_FAULT_INJECTION'],
     forbiddenState: 'quit, suspend or crash recovery is allowed while dirty, pending effects or external divergence exist',
     async probe() {
-      const { LIFECYCLE_EVENTS, LIFECYCLE_REASONS, evaluateLifecycleBarrier } = requireCore('lifecycle-conflict-v1.cjs');
+      const {
+        LIFECYCLE_EVENTS,
+        LIFECYCLE_REASONS,
+        createDetachedOutboxObservation,
+        createFreshOutboxObservation,
+        evaluateLifecycleBarrier,
+      } = requireCore('lifecycle-conflict-v1.cjs');
+      const subjectId = 'project:f0-model/document:scene';
+      const diskObservation = (generation, observedDiskDigest = shaA) => ({
+        schemaVersion: 'yalken.lifecycleDiskObservation.v1',
+        subjectId,
+        observationGeneration: generation,
+        committedDigest: shaA,
+        observedDiskDigest,
+        p3Classification: 'NEW_COMMITTED',
+      });
+      const pendingEffects = [{ intentId: 'intent-1', effectId: 'effect-1', status: 'PENDING' }];
+      const freshPending = createFreshOutboxObservation({
+        subjectId,
+        observationGeneration: 1,
+        inboxOutbox: {
+          replay: () => ({
+            schemaVersion: 'yalken.transactionalInboxOutbox.v1',
+            outboxDigest: 'c'.repeat(64),
+            effects: [{ intentId: 'intent-1', effectId: 'effect-1', status: 'PENDING' }],
+          }),
+          pendingEffects: () => pendingEffects,
+        },
+      });
       assert.equal(evaluateLifecycleBarrier({
-        eventKind: LIFECYCLE_EVENTS.QUIT,
+        eventKind: LIFECYCLE_EVENTS.EXTERNAL_EDIT,
+        subjectId,
         latestEditGeneration: 2,
         ackedGeneration: 1,
+        outboxObservation: createDetachedOutboxObservation({ subjectId, observationGeneration: 2 }),
+        diskObservation: diskObservation(2),
       }).reason, LIFECYCLE_REASONS.UNSAVED_AUTHORING_WORK);
       assert.equal(evaluateLifecycleBarrier({
         eventKind: LIFECYCLE_EVENTS.CRASH_RECOVERY,
+        subjectId,
         latestEditGeneration: 1,
         ackedGeneration: 1,
-        pendingEffects: [{ intentId: 'intent-1', effectId: 'effect-1', status: 'PENDING' }],
+        outboxObservation: freshPending,
+        diskObservation: diskObservation(1),
       }).reason, LIFECYCLE_REASONS.PENDING_EFFECT_REPLAY_REQUIRED);
       assert.equal(evaluateLifecycleBarrier({
         eventKind: LIFECYCLE_EVENTS.EXTERNAL_EDIT,
+        subjectId,
         latestEditGeneration: 1,
         ackedGeneration: 1,
-        committedDigest: shaA,
-        observedDiskDigest: shaB,
+        outboxObservation: createDetachedOutboxObservation({ subjectId, observationGeneration: 1 }),
+        diskObservation: diskObservation(1, shaB),
       }).reason, LIFECYCLE_REASONS.EXTERNAL_DIVERGENCE_DETECTED);
       return 'LIFECYCLE_BLOCKED';
     },

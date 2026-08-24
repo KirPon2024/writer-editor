@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "R5_LIFECYCLE_EXTERNAL_CONFLICT",
+  "attemptId": "ATTEMPT-R5-20260824",
+  "authorityEpoch": "R24-R5-CORRECTIVE-BASE-8454B33D",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "1012a28bcd74847898e380812d51c81ebd3a5dc1",
+    "treeSha": "ea65acde08a418a32f0bd1da56a598565cc618fb"
+  },
+  "createdAt": "2026-08-24T04:12:13Z",
+  "actor": "codex/r24-r5-lifecycle-external-conflict-certification-v1-20260824",
+  "stampId": "ES-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT-INTEGRATION",
+  "claim": {
+    "type": "R5_CORRECTIVE_AFFECTED_CHAIN_INTEGRATION",
+    "ceiling": "R5_NODE_ONLY_CORRECTED_LIFECYCLE_CONFLICT_PROTOCOL_WITH_PRODUCTION_CLOSE_QUIT_GENERATION_FENCE_NO_PLATFORM_SUSPEND_WIRING_NO_EXTERNAL_FILE_WATCHER_NO_RECOVERY_UI_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-r5-integration",
+    "evidenceClass": "INTEGRATION",
+    "denominator": 3,
+    "passed": 3,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT-CONTRACT"
+    ],
+    "predecessorReceiptDigest": "2c800aec20efa8fdc949673d663ae33e517501d43bffbb85da5c0e76be97924e"
+  },
+  "artifact": {
+    "commands": [
+      {
+        "command": "npm run test:r24-r5",
+        "pass": 16,
+        "fail": 0,
+        "mutantsKilled": 11,
+        "mutantsSurvived": 0
+      },
+      {
+        "command": "node --test b3c10 capability-tier and scientific-assurance contracts",
+        "pass": 33,
+        "fail": 0
+      },
+      {
+        "command": "npm run test:rtk",
+        "pass": 1059,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0,
+        "invocationId": "b98133c1-ac8e-4d70-b718-d8993462f67d",
+        "processGroupCleanup": "RTK_PROCESS_GROUP_CLEAN",
+        "leaseCleanupOk": true
+      }
+    ],
+    "observations": [
+      "main close and before-quit join the active exact-subject save and perform the final barrier immediately before close authority",
+      "manual save and autosave refuse subject or generation drift and retain newer autosave protection",
+      "crash and external-edit probes consume fresh R4 and P3 physical classifications",
+      "all affected-chain and full maintained RTK tests pass on the corrective exact head"
+    ],
+    "runtimeMutation": true,
+    "residualRisks": [
+      "The production composition root applies the corrected barrier to BrowserWindow close and app before-quit; platform suspend is not wired in this contour.",
+      "External-edit and crash decisions require exact caller-supplied disk, R4 and P3 observations; no production external file watcher or recovery UI is attached here.",
+      "The close path uses a detached zero-effect observation because the optional R4 inbox/outbox is not attached to the production composition root.",
+      "A successful file write whose later profile or shell-state persistence fails is not promoted to a SAVED acknowledgement by this contour.",
+      "The lifecycle protocol is process-local and does not claim cross-process or cross-host conflict serialization.",
+      "No user document, storage format, dependency, SAFE_APPLY, release, signing, cloud or AI authority is added."
+    ]
+  }
+}

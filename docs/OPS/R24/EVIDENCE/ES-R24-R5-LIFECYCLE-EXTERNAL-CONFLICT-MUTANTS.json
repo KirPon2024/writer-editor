@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "R5_LIFECYCLE_EXTERNAL_CONFLICT",
+  "attemptId": "ATTEMPT-R5-20260824",
+  "authorityEpoch": "R24-R5-CORRECTIVE-BASE-8454B33D",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "1012a28bcd74847898e380812d51c81ebd3a5dc1",
+    "treeSha": "ea65acde08a418a32f0bd1da56a598565cc618fb"
+  },
+  "createdAt": "2026-08-24T04:12:13Z",
+  "actor": "codex/r24-r5-lifecycle-external-conflict-certification-v1-20260824",
+  "stampId": "ES-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT-MUTANTS",
+  "claim": {
+    "type": "R5_CORRECTIVE_IMPLEMENTATION_MUTANTS",
+    "ceiling": "R5_NODE_ONLY_CORRECTED_LIFECYCLE_CONFLICT_PROTOCOL_WITH_PRODUCTION_CLOSE_QUIT_GENERATION_FENCE_NO_PLATFORM_SUSPEND_WIRING_NO_EXTERNAL_FILE_WATCHER_NO_RECOVERY_UI_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-r5-mutants",
+    "evidenceClass": "IMPLEMENTATION_MUTANTS",
+    "denominator": 11,
+    "passed": 11,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT-INTEGRATION"
+    ],
+    "predecessorReceiptDigest": "2c800aec20efa8fdc949673d663ae33e517501d43bffbb85da5c0e76be97924e"
+  },
+  "artifact": {
+    "command": "npm run test:r24-r5",
+    "receipt": {
+      "total": 11,
+      "killed": 11,
+      "survived": [],
+      "score": 1
+    },
+    "mutants": [
+      "missing-save-evidence-allowed",
+      "wrong-subject-save-evidence-allowed",
+      "stale-save-evidence-allowed",
+      "stale-saved-ack-allowed",
+      "forged-r4-fresh-reopen-allowed",
+      "pending-effects-ignored",
+      "p3-recovery-residue-ignored",
+      "external-disk-divergence-ignored",
+      "compound-divergence-action-leak",
+      "renderer-false-clears-main-dirty",
+      "single-flight-autosave-not-joined"
+    ],
+    "artifactDigest": {
+      "path": "test/unit/r24-r5-lifecycle-mutants.test.js",
+      "sha256": "2a68ae718c6bf3a77f84ebc4d0d5957fdb3dd634c352e3c9c3f6528926566fce"
+    }
+  }
+}

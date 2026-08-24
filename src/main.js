@@ -60,6 +60,12 @@ const {
   SAVE_ACK_KINDS,
 } = require('./core/dirty-admission-v1.cjs');
 const {
+  LIFECYCLE_EVENTS,
+  createDetachedOutboxObservation,
+  createSaveReceipt,
+  evaluateLifecycleBarrier,
+} = require('./core/lifecycle-conflict-v1.cjs');
+const {
   durableSaveTransaction,
 } = require('./core/save-coordinator-v1.cjs');
 const {
@@ -253,7 +259,9 @@ let editorStartupReadyPromise = Promise.resolve();
 let isDirty = false;
 let isEditorPasteTargetFocused = false;
 let autoSaveInProgress = false;
+let activeAutoSavePromise = null;
 let lastSignaledEditGeneration = 0;
+let lastAcknowledgedEditGeneration = 0;
 let isQuitting = false;
 let isWindowClosing = false;
 let lastAutosaveHash = null;
@@ -25806,12 +25814,36 @@ function updateStatus(status) {
 }
 
 function setDirtyState(state, ack = null) {
-  isDirty = state;
+  isDirty = state === true;
+  if (state === false && ack && ack.kind === SAVE_ACK_KINDS.SAVED) {
+    lastAcknowledgedEditGeneration = ack.savedGeneration;
+  } else if (state === false && ack === null) {
+    // A main-owned document replacement establishes a new baseline.
+    lastSignaledEditGeneration = 0;
+    lastAcknowledgedEditGeneration = 0;
+  }
   if (mainWindow) {
     // R2.4 P1: the push carries the typed acknowledgement so the renderer can
     // fence dirty clears by exact generation instead of trusting a boolean.
     mainWindow.webContents.send('set-dirty', { state, ack });
   }
+}
+
+function acknowledgeMainOwnedSave(savedGeneration) {
+  lastSignaledEditGeneration = mergeSignaledGeneration(lastSignaledEditGeneration, savedGeneration);
+  const decision = decideAutosaveAck({
+    capturedGeneration: savedGeneration,
+    latestEditGeneration: lastSignaledEditGeneration,
+  });
+  const ack = classifySaveAck({
+    writeSucceeded: true,
+    ackOutcome: decision.outcome,
+    savedGeneration,
+    latestEditGeneration: lastSignaledEditGeneration,
+  });
+  if (ack.kind === SAVE_ACK_KINDS.SAVED) setDirtyState(false, ack);
+  else setDirtyState(true);
+  return ack;
 }
 
 function sendRuntimeCommand(command, payload = {}) {
@@ -26082,12 +26114,12 @@ guardedProtocolHandle('ui:save-lifecycle-signal-bridge', async (_, request) => {
     if (typeof payload.state !== 'boolean') {
       return { ok: false, error: 'SIGNAL_PAYLOAD_INVALID' };
     }
-    if (payload.state === true) {
-      // R2.4 P0: a dirty signal carries the renderer's local edit generation;
-      // merge it monotonically so autosave acknowledgements can be fenced.
-      lastSignaledEditGeneration = mergeSignaledGeneration(lastSignaledEditGeneration, payload.generation);
+    if (payload.state !== true) {
+      return { ok: true, ignored: true, reason: 'RENDERER_FALSE_CANNOT_CLEAR_MAIN_DIRTY' };
     }
-    isDirty = payload.state;
+    // Renderer can raise dirty risk, but only a main-owned exact save ACK clears it.
+    lastSignaledEditGeneration = mergeSignaledGeneration(lastSignaledEditGeneration, payload.generation);
+    isDirty = true;
     return { ok: true };
   }
   if (signalId === 'signal.autoSave.request') {
@@ -26097,7 +26129,7 @@ guardedProtocolHandle('ui:save-lifecycle-signal-bridge', async (_, request) => {
 });
 
 guardedOn('dirty-changed', (_, state) => {
-  isDirty = state;
+  if (state === true) isDirty = true;
 });
 
 guardedOn('ui:set-theme', (_, theme) => {
@@ -27445,15 +27477,13 @@ function createWindow() {
     event.preventDefault();
 
     (async () => {
-      const canClose = await confirmDiscardChanges();
-      if (!canClose) {
-        return;
-      }
-
       if (mainWindow) {
         const bounds = mainWindow.getBounds();
         await persistWindowState(bounds);
       }
+
+      const canClose = await confirmDiscardChanges();
+      if (!canClose) return;
 
       isWindowClosing = true;
       mainWindow.close();
@@ -27540,18 +27570,33 @@ async function handleOpen() {
   }
 }
 
-async function autoSave() {
-  if (!mainWindow || autoSaveInProgress) {
-    return { ok: true, ack: null };
+async function runAutoSave() {
+  if (!mainWindow) {
+    return { ok: false, ack: classifySaveAck({ writeSucceeded: false, ackOutcome: null, savedGeneration: null, latestEditGeneration: lastSignaledEditGeneration }) };
   }
 
+  const lifecycleSubjectId = currentLifecycleSubjectId();
+  const saveTargetPath = currentFilePath;
   if (!isDirty) {
-    return { ok: true, ack: null };
+    return {
+      ok: true,
+      subjectId: lifecycleSubjectId,
+      ack: classifySaveAck({
+        writeSucceeded: true,
+        ackOutcome: ACK_OUTCOMES.CLEAR_DIRTY,
+        savedGeneration: lastSignaledEditGeneration,
+        latestEditGeneration: lastSignaledEditGeneration,
+      }),
+    };
   }
 
   autoSaveInProgress = true;
   try {
     const snapshot = await requestEditorSnapshot();
+    lastSignaledEditGeneration = mergeSignaledGeneration(lastSignaledEditGeneration, snapshot.generation);
+    if (currentLifecycleSubjectId() !== lifecycleSubjectId) {
+      return lifecycleSaveFailure(lifecycleSubjectId, 'SUBJECT_CHANGED_DURING_CAPTURE');
+    }
     const content = snapshot.content;
     const currentHash = computeHash(content);
     // R2.4 R1: the per-project shadow cell evaluates this same admission as
@@ -27576,7 +27621,7 @@ async function autoSave() {
       latestEditGeneration: lastSignaledEditGeneration,
     });
 
-    if (currentFilePath) {
+    if (saveTargetPath) {
       if (currentHash !== lastAutosaveHash) {
         // R2.4 P3: scene and manifest commit as one transaction — the marker
         // is the only commit point and a partial publication can never be
@@ -27585,7 +27630,7 @@ async function autoSave() {
         let preCommitManifest = null;
         let preCommitManifestText = null;
         try {
-          const bindingBefore = await resolveProjectBindingForFile(currentFilePath);
+          const bindingBefore = await resolveProjectBindingForFile(saveTargetPath);
           if (bindingBefore && isPlainObjectValue(bindingBefore.manifest)) {
             preCommitManifest = bindingBefore.manifest;
             preCommitManifestText = typeof bindingBefore.manifestRaw === 'string' ? bindingBefore.manifestRaw : null;
@@ -27598,11 +27643,11 @@ async function autoSave() {
           async () => {
             try {
               return await commitProjectTextAndManifest({
-                scenePath: currentFilePath,
+                scenePath: saveTargetPath,
                 sceneContent: content,
                 revision: snapshot.generation,
                 persistManifest: async () => {
-                  const outcome = await persistBookProfileForFile(currentFilePath, snapshot.bookProfile, 'autosave project manifest');
+                  const outcome = await persistBookProfileForFile(saveTargetPath, snapshot.bookProfile, 'autosave project manifest');
                   if (outcome && outcome.persisted === true && outcome.manifest) {
                     pairNextManifestText = JSON.stringify(outcome.manifest, null, 2);
                   }
@@ -27611,7 +27656,7 @@ async function autoSave() {
                 rollbackManifest: preCommitManifest
                   ? async () => {
                       if (pairNextManifestText) {
-                        await rollbackBookProfileForFile(currentFilePath, preCommitManifest, pairNextManifestText);
+                        await rollbackBookProfileForFile(saveTargetPath, preCommitManifest, pairNextManifestText);
                       }
                     }
                   : undefined,
@@ -27629,19 +27674,22 @@ async function autoSave() {
         );
         if (!saveResult.success) {
           updateStatus('Ошибка сохранения');
-          return { ok: false, ack: classify(false, null) };
+          return { ok: false, subjectId: lifecycleSubjectId, ack: classify(false, null) };
         }
         try {
-          await persistFreeEditProDataInvalidationForFile(currentFilePath, {
+          await persistFreeEditProDataInvalidationForFile(saveTargetPath, {
             operationLabel: 'autosave pro data invalidation',
           });
         } catch (error) {
           logDevError('autoSave:proDataInvalidation', error);
         }
       } else {
-        await persistBookProfileForFile(currentFilePath, snapshot.bookProfile, 'autosave project manifest');
+        await persistBookProfileForFile(saveTargetPath, snapshot.bookProfile, 'autosave project manifest');
       }
 
+      if (currentLifecycleSubjectId() !== lifecycleSubjectId) {
+        return lifecycleSaveFailure(lifecycleSubjectId, 'SUBJECT_CHANGED_DURING_SAVE');
+      }
       lastAutosaveHash = currentHash;
       const fileDecision = decideAutosaveAck({
         capturedGeneration: snapshot.generation,
@@ -27653,7 +27701,7 @@ async function autoSave() {
         updateStatus('Автосохранено');
       }
       await saveLastFile({ selectionRange: snapshot.selectionRange });
-      return { ok: true, ack: fileAck };
+      return { ok: true, subjectId: lifecycleSubjectId, ack: fileAck };
     }
 
     if (currentHash === lastAutosaveHash) {
@@ -27665,7 +27713,7 @@ async function autoSave() {
       if (idleAck.kind === SAVE_ACK_KINDS.SAVED) {
         setDirtyState(false, idleAck);
       }
-      return { ok: true, ack: idleAck };
+      return { ok: true, subjectId: lifecycleSubjectId, ack: idleAck };
     }
 
     const autosaveResult = await queueDiskOperation(
@@ -27674,9 +27722,12 @@ async function autoSave() {
     );
     if (!autosaveResult.success) {
       updateStatus('Ошибка сохранения');
-      return { ok: false, ack: classify(false, null) };
+      return { ok: false, subjectId: lifecycleSubjectId, ack: classify(false, null) };
     }
 
+    if (currentLifecycleSubjectId() !== lifecycleSubjectId) {
+      return lifecycleSaveFailure(lifecycleSubjectId, 'SUBJECT_CHANGED_DURING_SAVE');
+    }
     lastAutosaveHash = currentHash;
     const tempDecision = decideAutosaveAck({
       capturedGeneration: snapshot.generation,
@@ -27687,14 +27738,41 @@ async function autoSave() {
       setDirtyState(false, tempAck);
       updateStatus('Автосохранено');
     }
-    return { ok: true, ack: tempAck };
+    return { ok: true, subjectId: lifecycleSubjectId, ack: tempAck };
   } catch (error) {
     updateStatus('Ошибка сохранения');
     logDevError('autoSave', error);
-    return { ok: false, ack: { kind: SAVE_ACK_KINDS.AT_RISK, reason: 'EXCEPTION', savedGeneration: null, latestEditGeneration: lastSignaledEditGeneration } };
+    return { ok: false, subjectId: lifecycleSubjectId, ack: { kind: SAVE_ACK_KINDS.AT_RISK, reason: 'EXCEPTION', savedGeneration: null, latestEditGeneration: lastSignaledEditGeneration } };
   } finally {
     autoSaveInProgress = false;
   }
+}
+
+function autoSave() {
+  if (activeAutoSavePromise) return activeAutoSavePromise;
+  const operation = runAutoSave();
+  const joined = operation.finally(() => {
+    if (activeAutoSavePromise === joined) activeAutoSavePromise = null;
+  });
+  activeAutoSavePromise = joined;
+  return joined;
+}
+
+function currentLifecycleSubjectId() {
+  return 'document:' + computeHash(currentFilePath || 'UNTITLED_LOCAL_DRAFT');
+}
+
+function lifecycleSaveFailure(subjectId, reason) {
+  return {
+    ok: false,
+    subjectId,
+    ack: Object.freeze({
+      kind: SAVE_ACK_KINDS.AT_RISK,
+      reason,
+      savedGeneration: null,
+      latestEditGeneration: lastSignaledEditGeneration,
+    }),
+  };
 }
 
 // Создание бэкапа раз в минуту
@@ -27763,6 +27841,8 @@ async function handleSave() {
     return false;
   }
 
+  const saveSubjectId = currentLifecycleSubjectId();
+  const saveTargetPath = currentFilePath;
   let snapshot;
   try {
     snapshot = await requestEditorSnapshot();
@@ -27771,36 +27851,38 @@ async function handleSave() {
     logDevError('handleSave', error);
     return false;
   }
+  if (currentLifecycleSubjectId() !== saveSubjectId) return false;
   const content = snapshot.content;
-  const wasUntitled = currentFilePath === null;
+  const wasUntitled = saveTargetPath === null;
 
-  if (currentFilePath) {
-    if (!isAllowedFilePath(currentFilePath)) {
+  if (saveTargetPath) {
+    if (!isAllowedFilePath(saveTargetPath)) {
       updateStatus('Ошибка');
       return false;
     }
     const contentHash = computeHash(content);
     const textChanged = contentHash !== lastAutosaveHash;
     const saveResult = await queueDiskOperation(
-      () => fileManager.writeFileAtomic(currentFilePath, content),
+      () => fileManager.writeFileAtomic(saveTargetPath, content),
       'save existing file'
     );
     if (saveResult.success) {
       if (textChanged) {
         try {
-          await persistFreeEditProDataInvalidationForFile(currentFilePath, {
+          await persistFreeEditProDataInvalidationForFile(saveTargetPath, {
             operationLabel: 'save pro data invalidation',
           });
         } catch (error) {
           logDevError('handleSave:proDataInvalidation', error);
         }
       }
-      await persistBookProfileForFile(currentFilePath, snapshot.bookProfile, 'save project manifest');
+      await persistBookProfileForFile(saveTargetPath, snapshot.bookProfile, 'save project manifest');
+      if (currentLifecycleSubjectId() !== saveSubjectId) return false;
       lastAutosaveHash = contentHash;
-      setDirtyState(false);
-      updateStatus('Сохранено');
       await saveLastFile({ selectionRange: snapshot.selectionRange });
-      return true;
+      const saveAck = acknowledgeMainOwnedSave(snapshot.generation);
+      if (saveAck.kind === SAVE_ACK_KINDS.SAVED) updateStatus('Сохранено');
+      return saveAck.kind === SAVE_ACK_KINDS.SAVED;
     }
     updateStatus('Ошибка');
     return false;
@@ -27824,6 +27906,7 @@ async function handleSave() {
       updateStatus('Ошибка');
       return false;
     }
+    if (currentLifecycleSubjectId() !== saveSubjectId) return false;
 
     const saveResult = await queueDiskOperation(
       () => fileManager.writeFileAtomic(filePath, content),
@@ -27831,16 +27914,17 @@ async function handleSave() {
     );
     if (saveResult.success) {
       await persistBookProfileForFile(filePath, snapshot.bookProfile, 'save project manifest');
+      if (currentLifecycleSubjectId() !== saveSubjectId) return false;
       lastAutosaveHash = computeHash(content);
       currentFilePath = filePath;
       await saveLastFile({ selectionRange: snapshot.selectionRange });
-      setDirtyState(false);
-      updateStatus('Сохранено');
-      if (wasUntitled) {
+      const saveAck = acknowledgeMainOwnedSave(snapshot.generation);
+      if (saveAck.kind === SAVE_ACK_KINDS.SAVED) updateStatus('Сохранено');
+      if (wasUntitled && saveAck.kind === SAVE_ACK_KINDS.SAVED) {
         await deleteAutosaveFile();
         backupHashes.delete(getAutosavePath());
       }
-      return true;
+      return saveAck.kind === SAVE_ACK_KINDS.SAVED;
     }
     updateStatus('Ошибка');
   }
@@ -27853,6 +27937,7 @@ async function handleSaveAs() {
     return false;
   }
 
+  const saveSubjectId = currentLifecycleSubjectId();
   let snapshot;
   try {
     snapshot = await requestEditorSnapshot();
@@ -27861,6 +27946,7 @@ async function handleSaveAs() {
     logDevError('handleSaveAs', error);
     return false;
   }
+  if (currentLifecycleSubjectId() !== saveSubjectId) return false;
   const content = snapshot.content;
 
   const wasUntitled = currentFilePath === null;
@@ -27882,6 +27968,7 @@ async function handleSaveAs() {
       updateStatus('Ошибка');
       return false;
     }
+    if (currentLifecycleSubjectId() !== saveSubjectId) return false;
 
     const saveResult = await queueDiskOperation(
       () => fileManager.writeFileAtomic(filePath, content),
@@ -27889,16 +27976,17 @@ async function handleSaveAs() {
     );
     if (saveResult.success) {
       await persistBookProfileForFile(filePath, snapshot.bookProfile, 'save project manifest');
+      if (currentLifecycleSubjectId() !== saveSubjectId) return false;
       lastAutosaveHash = computeHash(content);
       currentFilePath = filePath;
       await saveLastFile({ selectionRange: snapshot.selectionRange });
-      setDirtyState(false);
-      updateStatus('Сохранено');
-      if (wasUntitled) {
+      const saveAck = acknowledgeMainOwnedSave(snapshot.generation);
+      if (saveAck.kind === SAVE_ACK_KINDS.SAVED) updateStatus('Сохранено');
+      if (wasUntitled && saveAck.kind === SAVE_ACK_KINDS.SAVED) {
         await deleteAutosaveFile();
         backupHashes.delete(getAutosavePath());
       }
-      return true;
+      return saveAck.kind === SAVE_ACK_KINDS.SAVED;
     }
     updateStatus('Ошибка');
   }
@@ -27907,21 +27995,29 @@ async function handleSaveAs() {
 }
 
 async function confirmDiscardChanges() {
-  if (!isDirty || !mainWindow) {
-    return true;
-  }
+  if (!mainWindow) return true;
 
-  // R2.4 P1: discard proceeds only on an explicit SAVED acknowledgement.
-  // PROTECTED (newer work unsaved) and AT_RISK (write failed or unbound)
-  // block the discard instead of trusting a false-clean boolean.
+  // Join the one active save. Evidence stays bound to the subject captured before I/O.
+  const subjectId = currentLifecycleSubjectId();
   const result = await autoSave();
-  if (!result || result.ok !== true) {
-    return false;
-  }
-  if (result.ack === null) {
-    return true;
-  }
-  return result.ack.kind === SAVE_ACK_KINDS.SAVED;
+  if (!result || result.ok !== true || !result.ack || result.subjectId !== subjectId) return false;
+  if (currentLifecycleSubjectId() !== subjectId) return false;
+  const decision = evaluateLifecycleBarrier({
+    eventKind: LIFECYCLE_EVENTS.QUIT,
+    subjectId,
+    latestEditGeneration: lastSignaledEditGeneration,
+    ackedGeneration: lastAcknowledgedEditGeneration,
+    saveReceipt: createSaveReceipt({
+      subjectId,
+      observationGeneration: lastSignaledEditGeneration,
+      ack: result.ack,
+    }),
+    outboxObservation: createDetachedOutboxObservation({
+      subjectId,
+      observationGeneration: lastSignaledEditGeneration,
+    }),
+  });
+  return decision.allowed === true;
 }
 
 async function ensureCleanAction(actionFn) {
@@ -30471,15 +30567,13 @@ app.on('before-quit', (event) => {
   event.preventDefault();
 
   (async () => {
-    const canQuit = await confirmDiscardChanges();
-    if (!canQuit) {
-      return;
-    }
-
     if (mainWindow) {
       const bounds = mainWindow.getBounds();
       await persistWindowState(bounds);
     }
+
+    const canQuit = await confirmDiscardChanges();
+    if (!canQuit) return;
 
     isQuitting = true;
     app.quit();

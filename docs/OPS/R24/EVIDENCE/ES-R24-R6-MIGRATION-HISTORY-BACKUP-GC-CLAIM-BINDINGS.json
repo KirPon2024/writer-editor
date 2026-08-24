@@ -4,9 +4,9 @@
   "contourId": "R6_MIGRATION_HISTORY_BACKUP_GC",
   "evidenceClass": "CONTRACT",
   "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
-  "headSha": "ee08668b33cc675f9666ba28cb58ee132e9a973c",
+  "headSha": "6438308efddff34511051502b082dd2037521bb6",
   "originMainSha": "ee08668b33cc675f9666ba28cb58ee132e9a973c",
-  "generatedAtUtc": "2026-08-24T07:15:30Z",
+  "generatedAtUtc": "2026-08-24T07:16:00Z",
   "oracle": "strict ClaimBindingV1 exact-hash binding for replayable R6 PlanState closure, exact-main postmerge evidence, survivor audit and source receipt",
   "claimBindings": [
     {

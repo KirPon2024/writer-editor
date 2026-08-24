@@ -1,0 +1,116 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-WP-200-DURABLE-SAVE-SURVIVOR-AUDIT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-200_DURABLE_SAVE",
+  "attemptId": "ATTEMPT-WP200-20260824",
+  "authorityEpoch": "R24-WP200-BASE-2028A5DC",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "8f69bfd0300157a7d6c8db5e7263ee7c46facc91",
+    "treeSha": "37cea8bc6d8d0eb89cb752b2132248851f811b83"
+  },
+  "claim": {
+    "type": "WP200_EXACT_MERGE_SURVIVOR_AUDIT",
+    "ceiling": "WP200_NODE_ONLY_GENERATION_BOUND_DURABLE_RECEIPT_ACK_NO_MULTI_ARTIFACT_TRANSACTION_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "exact-merge-wp200-durable-save-mutant-survivor-audit",
+    "evidenceClass": "SURVIVOR_AUDIT",
+    "denominator": 20,
+    "passed": 20,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-200-DURABLE-SAVE-POSTMERGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "2968dfcb56a82110175b9a442a2813669422e32500b325b0f05f0e83ec2319d6"
+  },
+  "createdAt": "2026-08-24T13:27:00Z",
+  "actor": "codex/r24-wp200-postmerge-closure-v1-20260824",
+  "artifact": {
+    "pr": {
+      "number": 1673,
+      "baseSha": "2028a5dc41b9b4ccb68291d247ed929403c9257c",
+      "implementationSourceSha": "1c89f33d601a6a97263b57aaf5a6ad8756951d89",
+      "evidenceSourceSha": "a3b852365af09faaf4029ac8a7ec817c7107211c",
+      "prHeadSha": "045b5cd1e333643b0a3b9da4f073c84c7e03aa1d",
+      "mergeSha": "8f69bfd0300157a7d6c8db5e7263ee7c46facc91",
+      "mergedAt": "2026-08-24T13:06:42Z",
+      "treeUnchangedFromPrHead": true
+    },
+    "requiredPrChecks": [
+      {
+        "name": "rtk-required",
+        "runId": 32728973322,
+        "jobId": 97436614037,
+        "headSha": "045b5cd1e333643b0a3b9da4f073c84c7e03aa1d",
+        "conclusion": "success"
+      },
+      {
+        "name": "oss-policy",
+        "runId": 32728973300,
+        "jobId": 97436613728,
+        "headSha": "045b5cd1e333643b0a3b9da4f073c84c7e03aa1d",
+        "conclusion": "success"
+      },
+      {
+        "name": "x1-runtime-parity (ubuntu-latest)",
+        "runId": 32728973461,
+        "jobId": 97436614428,
+        "headSha": "045b5cd1e333643b0a3b9da4f073c84c7e03aa1d",
+        "conclusion": "success"
+      },
+      {
+        "name": "x1-runtime-parity (windows-latest)",
+        "runId": 32728973461,
+        "jobId": 97436614667,
+        "headSha": "045b5cd1e333643b0a3b9da4f073c84c7e03aa1d",
+        "conclusion": "success"
+      },
+      {
+        "name": "ops_vector_close",
+        "runId": 32730761046,
+        "jobId": 97442242912,
+        "headSha": "045b5cd1e333643b0a3b9da4f073c84c7e03aa1d",
+        "conclusion": "success"
+      }
+    ],
+    "postmergeChecks": [
+      {
+        "name": "rtk-required",
+        "runId": 32730761366,
+        "jobId": 97442244225,
+        "headSha": "8f69bfd0300157a7d6c8db5e7263ee7c46facc91",
+        "conclusion": "success"
+      },
+      {
+        "name": "OSS policy",
+        "runId": 32730761262,
+        "jobId": 97442243459,
+        "headSha": "8f69bfd0300157a7d6c8db5e7263ee7c46facc91",
+        "conclusion": "success"
+      }
+    ],
+    "focusedPostmerge": {
+      "wp200TestsPassed": 14,
+      "wp200TestsFailed": 0,
+      "mutantsKilled": 6,
+      "mutantsSurvived": 0,
+      "docsNegativeTestsPassed": 9,
+      "docsNegativeTestsFailed": 0
+    },
+    "denominatorLaw": "All fourteen maintained WP200 tests and six named implementation mutants pass on the unchanged merge tree; strict docs lint and nine negative tests, exact PR-head parity and required checks, and exact-main RTK and OSS are terminal green.",
+    "residualRisks": [
+      "WP200 closes generation-bound durable receipt acknowledgement for explicit Writer Save and Save As; WP201 retains the multi-artifact project transaction.",
+      "Generic atomic writers outside the explicit Writer save path remain outside this claim.",
+      "No user document, dependency, storage adoption or migration, SAFE_APPLY, signing, release, cloud, AI or program completion authority is added."
+    ]
+  }
+}

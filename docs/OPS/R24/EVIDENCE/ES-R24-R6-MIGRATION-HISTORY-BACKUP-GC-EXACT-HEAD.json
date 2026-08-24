@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "R6_MIGRATION_HISTORY_BACKUP_GC",
+  "attemptId": "ATTEMPT-R6-20260824",
+  "authorityEpoch": "R24-R6-CORRECTIVE-BASE-2F925F28",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "b938cd61dec9f9b9ffce3a931beb5ef281c40820",
+    "treeSha": "da7013dc388df784ce19785cdf11581c18c0cc57"
+  },
+  "createdAt": "2026-08-24T06:28:10Z",
+  "actor": "codex/r24-r6-migration-history-backup-gc-certification-v1-20260824",
+  "stampId": "ES-R24-R6-MIGRATION-HISTORY-BACKUP-GC-EXACT-HEAD",
+  "claim": {
+    "type": "R6_CORRECTED_LOCAL_EXACT_IMPLEMENTATION_SOURCE_GREEN",
+    "ceiling": "R6_NODE_ONLY_SYNTHETIC_FILESYSTEM_PROFILE_FORWARD_MIGRATION_ROLLBACK_QUARANTINE_CHECKPOINT_RETENTION_BACKUP_RESTORE_BOUNDED_GC_NO_LIVE_MIGRATION_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-r6-exact",
+    "evidenceClass": "INDEPENDENT_EXACT_HEAD",
+    "denominator": 1059,
+    "passed": 1059,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-R6-MIGRATION-HISTORY-BACKUP-GC-MUTANTS"
+    ],
+    "predecessorReceiptDigest": "2c0aa3768c119418c4d402578f532ccac503f9995e292eaa3f75c4c4886b392f"
+  },
+  "artifact": {
+    "identityRoles": {
+      "historicalImplementationSourceSha": "9ea94f82522e7d038993eff32372fd3bcce3f6bb",
+      "historicalImplementationPrHeadSha": "9ea94f82522e7d038993eff32372fd3bcce3f6bb",
+      "historicalImplementationMergeSha": "6d7d07d281f50e27016c2263b18c1d6282ee591a",
+      "correctiveImplementationSourceSha": "b938cd61dec9f9b9ffce3a931beb5ef281c40820",
+      "evaluationHeadSha": "b938cd61dec9f9b9ffce3a931beb5ef281c40820",
+      "evaluationTreeSha": "da7013dc388df784ce19785cdf11581c18c0cc57",
+      "correctiveImplementationPrHeadSha": null,
+      "correctiveImplementationMergeSha": null,
+      "correctivePostmergeSha": null
+    },
+    "focusedCommand": "npm run -s test:r24-r6",
+    "focusedCounts": {
+      "pass": 16,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "mutants": {
+      "killed": 11,
+      "survived": 0
+    },
+    "fullRtk": {
+      "invocationId": "c8fe0944-9e09-40e5-a589-b159830d98e9",
+      "pass": 1059,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "exitCode": 0,
+      "durationMs": 446819.0095,
+      "processGroupCleanup": "RTK_PROCESS_GROUP_CLEAN",
+      "leaseCleanupOk": true,
+      "stderr": ""
+    },
+    "toolchain": {
+      "nodeVersion": "v20.19.5",
+      "pathIncludesSystemSbin": true
+    },
+    "guardrails": "PASS",
+    "diffCheck": "PASS",
+    "deliveryState": "AWAITING_PR_EXACT_HEAD_CI_POLICY_MERGE_AND_POSTMERGE",
+    "nonClaims": [
+      "This is exact implementation-source evidence, not PR-head, merge or postmerge evidence.",
+      "The certified profile uses synthetic temporary filesystem fixtures and does not execute a live user-data migration.",
+      "The module is process-local and does not claim cross-process or cross-host serialization.",
+      "A history save that may have committed before surfacing an error is reported as typed durability indeterminate.",
+      "No production composition-root attachment, user document mutation, storage adoption, dependency, SAFE_APPLY, release, signing, cloud or AI authority is added.",
+      "R6 PlanState remains PENDING until policy merge and exact postmerge verification; this stamp does not claim contour or program completion."
+    ]
+  }
+}

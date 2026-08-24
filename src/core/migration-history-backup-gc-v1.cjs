@@ -19,6 +19,9 @@ const CHECKPOINT_DIRNAME = 'checkpoints';
 const QUARANTINE_DIRNAME = 'quarantine';
 const GENESIS_DIGEST = '0'.repeat(64);
 const DEFAULT_MAX_HISTORY_RECORDS = 2048;
+const HEX_64_RE = /^[0-9a-f]{64}$/;
+const CHECKPOINT_ID_RE = /^r6-cp-([1-9][0-9]*)-[0-9a-f]{12}$/;
+const QUARANTINE_ID_RE = /^r6-quarantine-([1-9][0-9]*)-[0-9a-f]{12}$/;
 
 const HISTORY_KINDS = Object.freeze([
   'migration.applied',
@@ -84,10 +87,21 @@ function requirePathText(value, code) {
   return text;
 }
 
+function assertDirectoryNoFollow(directory, code) {
+  const resolved = path.resolve(directory);
+  const stat = fs.lstatSync(resolved);
+  if (stat.isSymbolicLink() || !stat.isDirectory()) throw new MigrationHistoryError(code, resolved);
+  if (fs.realpathSync(resolved) !== resolved) throw new MigrationHistoryError(code, resolved);
+  return resolved;
+}
+
 function ensureStoreDirs(storeDir) {
-  const root = requirePathText(storeDir, 'E_R6_STORE_DIR_REQUIRED');
+  const root = path.resolve(requirePathText(storeDir, 'E_R6_STORE_DIR_REQUIRED'));
   fs.mkdirSync(path.join(root, CHECKPOINT_DIRNAME), { recursive: true });
   fs.mkdirSync(path.join(root, QUARANTINE_DIRNAME), { recursive: true });
+  assertDirectoryNoFollow(root, 'E_R6_STORE_PATH_UNSAFE');
+  assertDirectoryNoFollow(path.join(root, CHECKPOINT_DIRNAME), 'E_R6_CHECKPOINT_ROOT_UNSAFE');
+  assertDirectoryNoFollow(path.join(root, QUARANTINE_DIRNAME), 'E_R6_QUARANTINE_ROOT_UNSAFE');
   return root;
 }
 
@@ -100,11 +114,113 @@ function emptyIndex() {
   };
 }
 
+function assertExactRecordKeys(record, expected, code) {
+  const actual = Object.keys(record).sort();
+  const wanted = [...expected].sort();
+  if (actual.length !== wanted.length || actual.some((key, index) => key !== wanted[index])) {
+    throw new MigrationHistoryError(code, actual.join(','));
+  }
+}
+
+function requireIndexText(value, code) {
+  if (typeof value !== 'string' || value.trim() === '') throw new MigrationHistoryError(code);
+}
+
+function requireIndexDigest(value, code) {
+  if (typeof value !== 'string' || !HEX_64_RE.test(value)) throw new MigrationHistoryError(code);
+}
+
+function requireIndexTimestamp(value, code) {
+  if (typeof value !== 'string' || Number.isNaN(Date.parse(value))) throw new MigrationHistoryError(code);
+}
+
+function assertIndexRecordIdentity({ record, idKey, idPattern, kind, nextSequence, seenIds, seenSequences }) {
+  if (!isPlainObject(record)) throw new MigrationHistoryError(`E_R6_INDEX_${kind}_SHAPE`);
+  const id = record[idKey];
+  const match = typeof id === 'string' ? idPattern.exec(id) : null;
+  if (!match || Number(match[1]) !== record.sequence) {
+    throw new MigrationHistoryError(`E_R6_INDEX_${kind}_ID`, String(id));
+  }
+  if (!Number.isInteger(record.sequence) || record.sequence < 1 || record.sequence >= nextSequence) {
+    throw new MigrationHistoryError(`E_R6_INDEX_${kind}_SEQUENCE`, String(record.sequence));
+  }
+  if (seenIds.has(id)) throw new MigrationHistoryError('E_R6_INDEX_ID_DUPLICATE', id);
+  if (seenSequences.has(record.sequence)) {
+    throw new MigrationHistoryError('E_R6_INDEX_SEQUENCE_DUPLICATE', String(record.sequence));
+  }
+  seenIds.add(id);
+  seenSequences.add(record.sequence);
+}
+
 function assertIndexShape(index) {
   if (!isPlainObject(index)) throw new MigrationHistoryError('E_R6_INDEX_SHAPE');
+  assertExactRecordKeys(index, ['schemaVersion', 'nextSequence', 'checkpoints', 'quarantines'], 'E_R6_INDEX_SHAPE');
   if (index.schemaVersion !== R6_SCHEMA_VERSION) throw new MigrationHistoryError('E_R6_INDEX_SCHEMA');
-  if (!Number.isInteger(index.nextSequence) || index.nextSequence < 1) throw new MigrationHistoryError('E_R6_INDEX_SEQUENCE');
-  if (!Array.isArray(index.checkpoints) || !Array.isArray(index.quarantines)) throw new MigrationHistoryError('E_R6_INDEX_SHAPE');
+  if (!Number.isInteger(index.nextSequence) || index.nextSequence < 1) {
+    throw new MigrationHistoryError('E_R6_INDEX_SEQUENCE');
+  }
+  if (!Array.isArray(index.checkpoints) || !Array.isArray(index.quarantines)) {
+    throw new MigrationHistoryError('E_R6_INDEX_SHAPE');
+  }
+
+  const seenIds = new Set();
+  const seenSequences = new Set();
+  for (const record of index.checkpoints) {
+    assertIndexRecordIdentity({
+      record,
+      idKey: 'checkpointId',
+      idPattern: CHECKPOINT_ID_RE,
+      kind: 'CHECKPOINT',
+      nextSequence: index.nextSequence,
+      seenIds,
+      seenSequences,
+    });
+    assertExactRecordKeys(record, [
+      'checkpointId',
+      'sequence',
+      'projectId',
+      'projectPathDigest',
+      'sourceVersion',
+      'sourceDigest',
+      'bytes',
+      'createdAt',
+    ], 'E_R6_INDEX_CHECKPOINT_SHAPE');
+    requireIndexText(record.projectId, 'E_R6_INDEX_CHECKPOINT_PROJECT_ID');
+    requireIndexDigest(record.projectPathDigest, 'E_R6_INDEX_CHECKPOINT_PATH_DIGEST');
+    requireIndexText(record.sourceVersion, 'E_R6_INDEX_CHECKPOINT_VERSION');
+    requireIndexDigest(record.sourceDigest, 'E_R6_INDEX_CHECKPOINT_SOURCE_DIGEST');
+    if (!Number.isInteger(record.bytes) || record.bytes < 0) {
+      throw new MigrationHistoryError('E_R6_INDEX_CHECKPOINT_BYTES');
+    }
+    requireIndexTimestamp(record.createdAt, 'E_R6_INDEX_CHECKPOINT_CREATED_AT');
+  }
+  for (const record of index.quarantines) {
+    assertIndexRecordIdentity({
+      record,
+      idKey: 'quarantineId',
+      idPattern: QUARANTINE_ID_RE,
+      kind: 'QUARANTINE',
+      nextSequence: index.nextSequence,
+      seenIds,
+      seenSequences,
+    });
+    assertExactRecordKeys(record, [
+      'quarantineId',
+      'sequence',
+      'projectPathDigest',
+      'sourceDigest',
+      'reason',
+      'bytes',
+      'createdAt',
+    ], 'E_R6_INDEX_QUARANTINE_SHAPE');
+    requireIndexDigest(record.projectPathDigest, 'E_R6_INDEX_QUARANTINE_PATH_DIGEST');
+    requireIndexDigest(record.sourceDigest, 'E_R6_INDEX_QUARANTINE_SOURCE_DIGEST');
+    requireIndexText(record.reason, 'E_R6_INDEX_QUARANTINE_REASON');
+    if (!Number.isInteger(record.bytes) || record.bytes < 0) {
+      throw new MigrationHistoryError('E_R6_INDEX_QUARANTINE_BYTES');
+    }
+    requireIndexTimestamp(record.createdAt, 'E_R6_INDEX_QUARANTINE_CREATED_AT');
+  }
 }
 
 function readIndex(storeDir) {
@@ -129,17 +245,49 @@ async function writeIndex(storeDir, index) {
   });
 }
 
-function checkpointPath(storeDir, checkpointId) {
-  return path.join(storeDir, CHECKPOINT_DIRNAME, `${checkpointId}.json`);
+function containedArtifactPath(root, basename, { mustExist, code }) {
+  const resolvedRoot = path.resolve(root);
+  const candidate = path.resolve(resolvedRoot, basename);
+  const relative = path.relative(resolvedRoot, candidate);
+  if (relative.startsWith('..') || path.isAbsolute(relative)) {
+    throw new MigrationHistoryError(code, basename);
+  }
+  if (!fs.existsSync(candidate)) {
+    if (mustExist) throw new MigrationHistoryError(code, `missing:${basename}`);
+    return candidate;
+  }
+  const stat = fs.lstatSync(candidate);
+  if (stat.isSymbolicLink() || !stat.isFile()) throw new MigrationHistoryError(code, basename);
+  const canonical = fs.realpathSync(candidate);
+  if (path.dirname(canonical) !== resolvedRoot) throw new MigrationHistoryError(code, basename);
+  return candidate;
 }
 
-function quarantinePath(storeDir, quarantineId) {
-  return path.join(storeDir, QUARANTINE_DIRNAME, `${quarantineId}.json`);
+function checkpointPath(storeDir, checkpointId, { mustExist = false } = {}) {
+  const id = normalizeCheckpointId(checkpointId);
+  return containedArtifactPath(path.join(storeDir, CHECKPOINT_DIRNAME), `${id}.json`, {
+    mustExist,
+    code: 'E_R6_CHECKPOINT_PATH_UNSAFE',
+  });
+}
+
+function quarantinePath(storeDir, quarantineId, { mustExist = false } = {}) {
+  const id = normalizeQuarantineId(quarantineId);
+  return containedArtifactPath(path.join(storeDir, QUARANTINE_DIRNAME), `${id}.json`, {
+    mustExist,
+    code: 'E_R6_QUARANTINE_PATH_UNSAFE',
+  });
 }
 
 function normalizeCheckpointId(checkpointId) {
   const id = typeof checkpointId === 'string' ? checkpointId.trim() : '';
-  if (!/^r6-cp-[1-9][0-9]*-[0-9a-f]{12}$/.test(id)) throw new MigrationHistoryError('E_R6_CHECKPOINT_ID_INVALID');
+  if (!CHECKPOINT_ID_RE.test(id)) throw new MigrationHistoryError('E_R6_CHECKPOINT_ID_INVALID');
+  return id;
+}
+
+function normalizeQuarantineId(quarantineId) {
+  const id = typeof quarantineId === 'string' ? quarantineId.trim() : '';
+  if (!QUARANTINE_ID_RE.test(id)) throw new MigrationHistoryError('E_R6_QUARANTINE_ID_INVALID');
   return id;
 }
 
@@ -228,6 +376,15 @@ function serializeHistory(records) {
 }
 
 function parseHistoryText(raw) {
+  if (raw !== '' && !raw.endsWith('\n')) {
+    const finalLine = raw.slice(raw.lastIndexOf('\n') + 1);
+    try {
+      JSON.parse(finalLine);
+      throw new MigrationHistoryError('E_R6_HISTORY_LOG_CORRUPT', 'unterminated-valid-record');
+    } catch (error) {
+      if (error instanceof MigrationHistoryError) throw error;
+    }
+  }
   const records = [];
   let expectedSeq = 1;
   let prevDigest = GENESIS_DIGEST;
@@ -260,18 +417,44 @@ function parseHistoryText(raw) {
 async function readHistory(storeDir) {
   const historyPath = path.join(storeDir, HISTORY_BASENAME);
   if (!fs.existsSync(historyPath)) return { records: [], tornTailTruncated: false };
-  const parsed = parseHistoryText(fs.readFileSync(historyPath, 'utf8'));
+  const stat = fs.lstatSync(historyPath);
+  if (stat.isSymbolicLink() || !stat.isFile()) {
+    throw new MigrationHistoryError('E_R6_HISTORY_LOG_NOT_REGULAR');
+  }
+  let raw;
+  try {
+    raw = fs.readFileSync(historyPath, 'utf8');
+  } catch (error) {
+    throw new MigrationHistoryError('E_R6_HISTORY_LOG_UNREADABLE', error.message);
+  }
+  const parsed = parseHistoryText(raw);
   if (parsed.tornTail) {
     await durableSaveTransaction({ filePath: historyPath, content: serializeHistory(parsed.records), revision: parsed.records.length });
   }
   return { records: parsed.records, tornTailTruncated: parsed.tornTail };
 }
 
-async function appendHistory(storeDir, partial, { maxHistoryRecords = DEFAULT_MAX_HISTORY_RECORDS } = {}) {
+function requireHistoryBound(maxHistoryRecords) {
   if (!Number.isInteger(maxHistoryRecords) || maxHistoryRecords < 1) {
     throw new MigrationHistoryError('E_R6_HISTORY_BOUND_INVALID');
   }
-  const { records } = await readHistory(storeDir);
+}
+
+async function preflightHistoryAppend(storeDir, { maxHistoryRecords = DEFAULT_MAX_HISTORY_RECORDS } = {}) {
+  requireHistoryBound(maxHistoryRecords);
+  const history = await readHistory(storeDir);
+  if (history.records.length >= maxHistoryRecords) {
+    throw new MigrationHistoryError('E_R6_HISTORY_COMPACTION_REQUIRED');
+  }
+  return history;
+}
+
+async function appendHistory(
+  storeDir,
+  partial,
+  { maxHistoryRecords = DEFAULT_MAX_HISTORY_RECORDS, fsAdapter = fsp } = {},
+) {
+  const { records } = await preflightHistoryAppend(storeDir, { maxHistoryRecords });
   if (records.length >= maxHistoryRecords) throw new MigrationHistoryError('E_R6_HISTORY_COMPACTION_REQUIRED');
   const prevDigest = records.length > 0 ? records[records.length - 1].digest : GENESIS_DIGEST;
   const entry = {
@@ -295,8 +478,52 @@ async function appendHistory(storeDir, partial, { maxHistoryRecords = DEFAULT_MA
     filePath: path.join(storeDir, HISTORY_BASENAME),
     content: serializeHistory(next),
     revision: entry.seq,
+    fsAdapter,
   });
   return Object.freeze({ ...entry });
+}
+
+function errorIdentity(error) {
+  return error && (error.code || error.message) ? String(error.code || error.message) : 'UNKNOWN';
+}
+
+async function historyContainsCommittedPartial(storeDir, partial) {
+  try {
+    const { records } = await readHistory(storeDir);
+    const last = records.at(-1);
+    if (!last) return false;
+    const expected = {
+      kind: partial.kind,
+      projectId: partial.projectId ?? null,
+      projectPathDigest: partial.projectPathDigest ?? null,
+      checkpointId: partial.checkpointId || null,
+      sourceVersion: partial.sourceVersion || null,
+      targetVersion: partial.targetVersion || null,
+      sourceDigest: partial.sourceDigest || null,
+      targetDigest: partial.targetDigest || null,
+      payload: sortJsonValue(partial.payload || null),
+    };
+    return Object.entries(expected).every(([key, value]) => JSON.stringify(last[key]) === JSON.stringify(value));
+  } catch {
+    return false;
+  }
+}
+
+async function failAfterProjectRollback({ targetPath, previousContent, revision, fsAdapter, cause }) {
+  try {
+    await durableSaveTransaction({
+      filePath: targetPath,
+      content: previousContent,
+      revision,
+      fsAdapter,
+    });
+  } catch (rollbackError) {
+    throw new MigrationHistoryError(
+      'E_R6_HISTORY_ACK_FAILED_ROLLBACK_FAILED',
+      `${errorIdentity(cause)};${errorIdentity(rollbackError)}`,
+    );
+  }
+  throw new MigrationHistoryError('E_R6_HISTORY_ACK_FAILED_ROLLED_BACK', errorIdentity(cause));
 }
 
 async function createCheckpoint({ storeDir, projectPath, rawContent, project, now = nowIso() }) {
@@ -321,11 +548,19 @@ async function createCheckpoint({ storeDir, projectPath, rawContent, project, no
   return Object.freeze({ ...record });
 }
 
-async function quarantineProjectSource({ projectPath, storeDir, reason, now = nowIso() }) {
+async function quarantineProjectSource({
+  projectPath,
+  storeDir,
+  reason,
+  now = nowIso(),
+  historyFsAdapter = fsp,
+}) {
   const root = ensureStoreDirs(storeDir);
   const targetPath = requirePathText(projectPath, 'E_R6_PROJECT_PATH_REQUIRED');
   const rawContent = fs.readFileSync(targetPath, 'utf8');
   const index = readIndex(root);
+  const originalIndex = JSON.parse(JSON.stringify(index));
+  await preflightHistoryAppend(root);
   const sequence = index.nextSequence;
   const sourceDigest = sha256hex(Buffer.from(rawContent, 'utf8'));
   const quarantineId = `r6-quarantine-${sequence}-${sourceDigest.slice(0, 12)}`;
@@ -338,18 +573,36 @@ async function quarantineProjectSource({ projectPath, storeDir, reason, now = no
     bytes: Buffer.byteLength(rawContent, 'utf8'),
     createdAt: now,
   };
-  await durableSaveTransaction({ filePath: quarantinePath(root, quarantineId), content: rawContent, revision: sequence });
+  const artifactPath = quarantinePath(root, quarantineId);
+  await durableSaveTransaction({ filePath: artifactPath, content: rawContent, revision: sequence });
   index.quarantines.push(record);
   index.nextSequence += 1;
   await writeIndex(root, index);
-  await appendHistory(root, {
+  const historyPartial = {
     kind: 'quarantine.created',
     projectId: null,
     projectPathDigest: record.projectPathDigest,
     checkpointId: null,
     sourceDigest,
     payload: { quarantineId, reason: record.reason },
-  });
+  };
+  try {
+    await appendHistory(root, historyPartial, { fsAdapter: historyFsAdapter });
+  } catch (error) {
+    if (await historyContainsCommittedPartial(root, historyPartial)) {
+      throw new MigrationHistoryError('E_R6_HISTORY_ACK_DURABILITY_INDETERMINATE', errorIdentity(error));
+    }
+    try {
+      await writeIndex(root, originalIndex);
+      await fsp.unlink(artifactPath);
+    } catch (rollbackError) {
+      throw new MigrationHistoryError(
+        'E_R6_HISTORY_ACK_FAILED_ROLLBACK_FAILED',
+        `${errorIdentity(error)};${errorIdentity(rollbackError)}`,
+      );
+    }
+    throw new MigrationHistoryError('E_R6_HISTORY_ACK_FAILED_ROLLED_BACK', errorIdentity(error));
+  }
   return Object.freeze({ ...record });
 }
 
@@ -360,6 +613,7 @@ async function migrateProjectFile({
   migrations,
   now = nowIso(),
   fsAdapter = fsp,
+  historyFsAdapter = fsp,
   retainCheckpoints = null,
 } = {}) {
   const root = ensureStoreDirs(storeDir);
@@ -375,7 +629,13 @@ async function migrateProjectFile({
     project = normalizeProjectDocument(rawContent, targetPath);
   } catch (error) {
     if (error instanceof MigrationHistoryError && error.code === 'E_R6_PROJECT_JSON_INVALID') {
-      const quarantine = await quarantineProjectSource({ projectPath: targetPath, storeDir: root, reason: error.code, now });
+      const quarantine = await quarantineProjectSource({
+        projectPath: targetPath,
+        storeDir: root,
+        reason: error.code,
+        now,
+        historyFsAdapter,
+      });
       return Object.freeze({ success: false, quarantined: true, error: { code: error.code }, quarantine });
     }
     throw error;
@@ -392,6 +652,7 @@ async function migrateProjectFile({
   }
 
   const chain = buildMigrationChain(project.schemaVersion, targetVersion, migrations);
+  await preflightHistoryAppend(root);
   const checkpoint = await createCheckpoint({ storeDir: root, projectPath: targetPath, rawContent, project, now });
   let current = sortJsonValue(project);
   for (const step of chain) {
@@ -406,7 +667,7 @@ async function migrateProjectFile({
   const targetContent = serializeJson(current);
   const targetDigest = sha256hex(Buffer.from(targetContent, 'utf8'));
   await durableSaveTransaction({ filePath: targetPath, content: targetContent, revision: checkpoint.sequence, fsAdapter });
-  const history = await appendHistory(root, {
+  const historyPartial = {
     kind: 'migration.applied',
     projectId: project.projectId,
     projectPathDigest: checkpoint.projectPathDigest,
@@ -416,10 +677,30 @@ async function migrateProjectFile({
     sourceDigest: checkpoint.sourceDigest,
     targetDigest,
     payload: { migrationIds: chain.map((step) => step.id) },
-  });
+  };
+  let history;
+  try {
+    history = await appendHistory(root, historyPartial, { fsAdapter: historyFsAdapter });
+  } catch (error) {
+    if (await historyContainsCommittedPartial(root, historyPartial)) {
+      throw new MigrationHistoryError('E_R6_HISTORY_ACK_DURABILITY_INDETERMINATE', errorIdentity(error));
+    }
+    await failAfterProjectRollback({
+      targetPath,
+      previousContent: rawContent,
+      revision: checkpoint.sequence,
+      fsAdapter,
+      cause: error,
+    });
+  }
   let gc = null;
   if (retainCheckpoints !== null && retainCheckpoints !== undefined) {
-    gc = await garbageCollectCheckpoints({ storeDir: root, retainLast: retainCheckpoints, now });
+    gc = await garbageCollectCheckpoints({
+      storeDir: root,
+      retainLast: retainCheckpoints,
+      now,
+      historyFsAdapter,
+    });
   }
   return Object.freeze({
     success: true,
@@ -441,6 +722,7 @@ async function restoreCheckpoint({
   checkpointId,
   now = nowIso(),
   fsAdapter = fsp,
+  historyFsAdapter = fsp,
 } = {}) {
   const root = ensureStoreDirs(storeDir);
   const targetPath = requirePathText(projectPath, 'E_R6_PROJECT_PATH_REQUIRED');
@@ -449,11 +731,14 @@ async function restoreCheckpoint({
   const record = index.checkpoints.find((checkpoint) => checkpoint.checkpointId === id);
   if (!record) throw new MigrationHistoryError('E_R6_CHECKPOINT_UNKNOWN', id);
   if (record.projectPathDigest !== projectPathHash(targetPath)) throw new MigrationHistoryError('E_R6_CHECKPOINT_TARGET_MISMATCH', id);
-  const rawContent = fs.readFileSync(checkpointPath(root, id), 'utf8');
+  const checkpointFile = checkpointPath(root, id, { mustExist: true });
+  const rawContent = fs.readFileSync(checkpointFile, 'utf8');
   const digest = sha256hex(Buffer.from(rawContent, 'utf8'));
   if (digest !== record.sourceDigest) throw new MigrationHistoryError('E_R6_CHECKPOINT_DIGEST_MISMATCH', id);
+  const previousContent = fs.readFileSync(targetPath, 'utf8');
+  await preflightHistoryAppend(root);
   await durableSaveTransaction({ filePath: targetPath, content: rawContent, revision: record.sequence, fsAdapter });
-  const history = await appendHistory(root, {
+  const historyPartial = {
     kind: 'backup.restored',
     projectId: record.projectId,
     projectPathDigest: record.projectPathDigest,
@@ -463,33 +748,91 @@ async function restoreCheckpoint({
     sourceDigest: record.sourceDigest,
     targetDigest: record.sourceDigest,
     payload: { restoredAt: now },
-  });
+  };
+  let history;
+  try {
+    history = await appendHistory(root, historyPartial, { fsAdapter: historyFsAdapter });
+  } catch (error) {
+    if (await historyContainsCommittedPartial(root, historyPartial)) {
+      throw new MigrationHistoryError('E_R6_HISTORY_ACK_DURABILITY_INDETERMINATE', errorIdentity(error));
+    }
+    await failAfterProjectRollback({
+      targetPath,
+      previousContent,
+      revision: record.sequence,
+      fsAdapter,
+      cause: error,
+    });
+  }
   return Object.freeze({ success: true, checkpoint: Object.freeze({ ...record }), history });
 }
 
-async function garbageCollectCheckpoints({ storeDir, retainLast, now = nowIso() } = {}) {
+async function garbageCollectCheckpoints({
+  storeDir,
+  retainLast,
+  now = nowIso(),
+  historyFsAdapter = fsp,
+} = {}) {
   const root = ensureStoreDirs(storeDir);
   if (!Number.isInteger(retainLast) || retainLast < 1) throw new MigrationHistoryError('E_R6_GC_RETAIN_INVALID');
   const index = readIndex(root);
+  const originalIndex = JSON.parse(JSON.stringify(index));
+  await preflightHistoryAppend(root);
   const sorted = index.checkpoints.slice().sort((a, b) => a.sequence - b.sequence);
   const keep = new Set(sorted.slice(-retainLast).map((record) => record.checkpointId));
-  const deleted = [];
+  const artifacts = new Map();
   for (const record of sorted) {
-    if (keep.has(record.checkpointId)) continue;
-    const filePath = checkpointPath(root, record.checkpointId);
-    if (!fs.existsSync(filePath)) throw new MigrationHistoryError('E_R6_CHECKPOINT_FILE_MISSING', record.checkpointId);
-    await fsp.unlink(filePath);
-    deleted.push(record.checkpointId);
+    const filePath = checkpointPath(root, record.checkpointId, { mustExist: true });
+    const rawContent = fs.readFileSync(filePath);
+    if (rawContent.length !== record.bytes) {
+      throw new MigrationHistoryError('E_R6_CHECKPOINT_BYTES_MISMATCH', record.checkpointId);
+    }
+    if (sha256hex(rawContent) !== record.sourceDigest) {
+      throw new MigrationHistoryError('E_R6_CHECKPOINT_DIGEST_MISMATCH', record.checkpointId);
+    }
+    artifacts.set(record.checkpointId, { filePath, rawContent, sequence: record.sequence });
   }
-  index.checkpoints = index.checkpoints.filter((record) => keep.has(record.checkpointId));
-  await writeIndex(root, index);
-  const history = await appendHistory(root, {
+  const deletedRecords = sorted.filter((record) => !keep.has(record.checkpointId));
+  const deleted = deletedRecords.map((record) => record.checkpointId);
+  const historyPartial = {
     kind: 'gc.completed',
     projectId: null,
     projectPathDigest: null,
     checkpointId: null,
     payload: { retainLast, deleted, completedAt: now },
-  });
+  };
+  let history;
+  try {
+    for (const record of deletedRecords) {
+      await fsp.unlink(artifacts.get(record.checkpointId).filePath);
+    }
+    index.checkpoints = index.checkpoints.filter((record) => keep.has(record.checkpointId));
+    await writeIndex(root, index);
+    history = await appendHistory(root, historyPartial, { fsAdapter: historyFsAdapter });
+  } catch (error) {
+    if (await historyContainsCommittedPartial(root, historyPartial)) {
+      throw new MigrationHistoryError('E_R6_HISTORY_ACK_DURABILITY_INDETERMINATE', errorIdentity(error));
+    }
+    try {
+      for (const record of deletedRecords) {
+        const artifact = artifacts.get(record.checkpointId);
+        if (!fs.existsSync(artifact.filePath)) {
+          await durableSaveTransaction({
+            filePath: artifact.filePath,
+            content: artifact.rawContent,
+            revision: artifact.sequence,
+          });
+        }
+      }
+      await writeIndex(root, originalIndex);
+    } catch (rollbackError) {
+      throw new MigrationHistoryError(
+        'E_R6_GC_FAILED_ROLLBACK_FAILED',
+        `${errorIdentity(error)};${errorIdentity(rollbackError)}`,
+      );
+    }
+    throw new MigrationHistoryError('E_R6_GC_FAILED_ROLLED_BACK', errorIdentity(error));
+  }
   return Object.freeze({
     success: true,
     retained: index.checkpoints.length,

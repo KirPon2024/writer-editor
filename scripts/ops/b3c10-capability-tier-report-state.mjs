@@ -371,13 +371,13 @@ async function main() {
   }
   if (args.json) process.stdout.write(stableJson(state));
   else process.stdout.write(`B3C10_STATUS=${state.status}\n${TOKEN_NAME}=${state[TOKEN_NAME]}\n${FULL_TIER_TOKEN_NAME}=${state[FULL_TIER_TOKEN_NAME]}\n`);
-  process.exit(state.ok ? 0 : 1);
+  process.exitCode = state.ok ? 0 : 1;
 }
 
 const selfPath = fileURLToPath(import.meta.url);
 if (process.argv[1] && path.resolve(process.argv[1]) === selfPath) {
   main().catch((error) => {
     process.stderr.write(`${error && error.stack ? error.stack : error}\n`);
-    process.exit(1);
+    process.exitCode = 1;
   });
 }

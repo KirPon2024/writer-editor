@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-201_PROJECT_TRANSACTION",
+  "attemptId": "ATTEMPT-WP201-20260824",
+  "authorityEpoch": "R24-WP201-BASE-4DE97F42",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "f99bff1ef2e17f16449d5e221b6628fb4410ea93",
+    "treeSha": "6d21b27f911832b8cb64df66f8ce1f214c4faa3f"
+  },
+  "createdAt": "2026-08-24T15:11:29Z",
+  "actor": "codex/r24-wp201-project-transaction-v1-20260824",
+  "stampId": "ES-R24-WP-201-PROJECT-TRANSACTION-MODEL",
+  "claim": {
+    "type": "WP201_RECOVERABLE_SCENE_MANIFEST_TRANSACTION_MODEL",
+    "ceiling": "WP201_NODE_ONLY_ONE_SCENE_PLUS_MANIFEST_COMMIT_AND_TOTAL_RECOVERY_NO_MULTI_SCENE_BATCH_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-wp201-model",
+    "evidenceClass": "MODEL",
+    "denominator": 8,
+    "passed": 8,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [],
+    "predecessorReceiptDigest": "72369893c0e4ed0e95a8bcdeea44c69401d0f61112b805ac949669251e304d71"
+  },
+  "artifact": {
+    "classification": "PARTIAL_AT_ADMISSION_MANIFEST_FIRST_CALLBACK_REPLACED_BY_RECOVERABLE_PROJECT_TRANSACTION",
+    "identityRoles": {
+      "implementationSourceSha": "982875a1df4b074b8cc9d3f2c7ea63ef3802e48d",
+      "evaluationHeadSha": "f99bff1ef2e17f16449d5e221b6628fb4410ea93",
+      "evaluationTreeSha": "6d21b27f911832b8cb64df66f8ce1f214c4faa3f",
+      "implementationPrHeadSha": null,
+      "implementationMergeSha": null,
+      "postmergeSha": null
+    },
+    "artifactDigests": [
+      { "path": "src/core/project-transaction-v1.cjs", "sha256": "7b24f40b23d30eaa0066e0e03611477e5b2a61278f02423060772b6829602124" },
+      { "path": "src/core/save-receipt-ack-v1.cjs", "sha256": "c1e72587236ac52d9826fb47e490729b3df1af11f3dd847a2aa77ef0840f0535" },
+      { "path": "src/main.js", "sha256": "924617056b33b068351ab1ff4507a95eb350593a9cbe71886cfec73df389140a" },
+      { "path": "test/unit/r24-wp201-project-transaction.test.js", "sha256": "03d63088e52b0b84c9b730314a4b5f6340516ea4aa879d67b9826c87dc6f005d" },
+      { "path": "test/unit/r24-wp201-project-transaction-physics.test.js", "sha256": "9500e2c48c2eb1f58f44fb2f404ea04493ddd907256a876783bf13fab3bfe47a" },
+      { "path": "test/unit/r24-wp201-project-transaction-mutants.test.js", "sha256": "75cd223e2c91cd51a1e5a0eabb86e9b6339e965615a9a5e3991c1595d5d01a3e" }
+    ],
+    "laws": [
+      "A durable journal containing exact before and after bytes exists before either canonical artifact is published.",
+      "The existing manifest CAS authority remains the only manifest publication path.",
+      "Scene publication uses the WP200 durable save coordinator and exact byte readback.",
+      "A per-scene durable commit record is the sole commit point after both artifacts publish.",
+      "Recovery without the matching commit point converges both artifacts to all-old.",
+      "Recovery with the matching commit point converges both artifacts to all-new.",
+      "Divergent third-party bytes fail typed and are never overwritten.",
+      "Every journal-derived scene path is digest-bound and revalidated by the SEC0 realpath/symlink capability guard before recovery."
+    ],
+    "outcomeMatrix": [
+      { "outcome": "P3 manifest-first callback with rollback", "classification": "PARTIAL_AT_ADMISSION" },
+      { "outcome": "durable journal and explicit commit point", "classification": "MISSING_AT_ADMISSION_THEN_IMPLEMENTED" },
+      { "outcome": "SIGKILL recovery to all-old or all-new", "classification": "MISSING_AT_ADMISSION_THEN_IMPLEMENTED" },
+      { "outcome": "Writer Save, Save As and autosave route through one scene plus manifest transaction", "classification": "MISSING_AT_ADMISSION_THEN_IMPLEMENTED" },
+      { "outcome": "open and Flow read paths recover before observable reads", "classification": "MISSING_AT_ADMISSION_THEN_IMPLEMENTED" }
+    ],
+    "residualRisks": [
+      "WP201 certifies one scene plus one manifest per transaction; Flow multi-scene batch save remains governed by its separate existing coordinator.",
+      "The filesystem physics tests use isolated synthetic temporary files and do not mutate user documents or Drive state.",
+      "No dependency, storage adoption, migration, SAFE_APPLY, release, signing, cloud or AI authority is added."
+    ]
+  }
+}

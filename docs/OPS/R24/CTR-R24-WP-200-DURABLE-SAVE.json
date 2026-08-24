@@ -19,5 +19,5 @@
     "ES-R24-WP-200-DURABLE-SAVE-SURVIVOR-AUDIT",
     "ES-R24-WP-200-DURABLE-SAVE-CLAIM-BINDINGS"
   ],
-  "nextContourId": null
+  "nextContourId": "V1_ATLAS_CLAIM_COMPILER"
 }

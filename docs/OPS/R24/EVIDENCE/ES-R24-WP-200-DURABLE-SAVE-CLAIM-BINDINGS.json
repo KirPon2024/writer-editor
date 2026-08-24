@@ -4,9 +4,9 @@
   "contourId": "WP-200_DURABLE_SAVE",
   "evidenceClass": "CONTRACT",
   "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
-  "headSha": "8f69bfd0300157a7d6c8db5e7263ee7c46facc91",
+  "headSha": "5cb2180bbc643bb07057a9074b41c6569bab54db",
   "originMainSha": "8f69bfd0300157a7d6c8db5e7263ee7c46facc91",
-  "generatedAtUtc": "2026-08-24T13:27:00Z",
+  "generatedAtUtc": "2026-08-24T13:32:00Z",
   "oracle": "strict ClaimBindingV1 exact-hash binding for replayable WP200 PlanState closure, exact-main postmerge evidence, survivor audit and source receipt",
   "claimBindings": [
     {
@@ -25,7 +25,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CTR-R24-WP-200-DURABLE-SAVE.json",
-      "sha256": "6f6ceda3ac18a507f2a2c211b46ff3dc4201d54c0706c6b5b215aa68d2093ff3",
+      "sha256": "72369893c0e4ed0e95a8bcdeea44c69401d0f61112b805ac949669251e304d71",
       "claimTerms": [
         "PASS"
       ]

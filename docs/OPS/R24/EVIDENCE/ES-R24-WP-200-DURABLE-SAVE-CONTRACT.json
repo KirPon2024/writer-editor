@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-200_DURABLE_SAVE",
+  "attemptId": "ATTEMPT-WP200-20260824",
+  "authorityEpoch": "R24-WP200-BASE-2028A5DC",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "1c89f33d601a6a97263b57aaf5a6ad8756951d89",
+    "treeSha": "a8f5f9af88c552f58f1cc4b1874fc7c52dff118c"
+  },
+  "createdAt": "2026-08-24T12:25:41Z",
+  "actor": "codex/r24-wp200-durable-save-v1-20260824",
+  "stampId": "ES-R24-WP-200-DURABLE-SAVE-CONTRACT",
+  "claim": {
+    "type": "WP200_ACCEPTANCE_CONTRACT",
+    "ceiling": "WP200_NODE_ONLY_GENERATION_BOUND_DURABLE_RECEIPT_ACK_NO_MULTI_ARTIFACT_TRANSACTION_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-wp200-contract",
+    "evidenceClass": "CONTRACT",
+    "denominator": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-200-DURABLE-SAVE-MODEL"
+    ],
+    "predecessorReceiptDigest": "e2f0e2ccfc2f32b259767186219b809871ec9a57f1eeec17dc1e282b7e39d08d"
+  },
+  "artifact": {
+    "envelopeId": "ENV-R24-WP-200_DURABLE_SAVE",
+    "acceptanceId": "ACC-R24-WP-200_DURABLE_SAVE",
+    "requirementId": "REQ-R24-WP-200_DURABLE_SAVE",
+    "requiredOutcome": "Generation-bound capture, sync, atomic publish, readback and receipt ACK",
+    "mutationAuthority": "WRITER_TRUTH_FOUNDATION_BOUNDED_CONTOUR",
+    "materiality": [
+      "DEFECT_FIXED_WITH_REGRESSION",
+      "INVARIANT_NEWLY_ENFORCED",
+      "NAMED_IMPLEMENTATION_MUTANTS_KILLED"
+    ],
+    "testProfileDisposition": {
+      "CONTRACT_NEGATIVE": "PASS_6_FORGED_OR_INCOMPLETE_RECEIPT_CLASSES",
+      "UNIT": "PASS_14",
+      "INTEGRATION": "PASS_P2_P3_R5_AND_MAIN_WIRING",
+      "IMPLEMENTATION_MUTANTS": "PASS_6_OF_6",
+      "UNICODE_IME": "UNICODE_BYTE_EXACT_PASS; IME_GENERATION_FENCE_PRESERVED_BY_P0_P1",
+      "CRASH_RECOVERY": "PASS_P2_P3_CRASH_SUITES_AND_RESIDUE_NO_ACK",
+      "A11Y_PERF": "A11Y_NOT_APPLICABLE_NO_UI; 24_DURABLE_WRITES_WITHIN_5000MS_LOCAL_BUDGET"
+    },
+    "forbidden": [
+      "MULTI_ARTIFACT_WP201_CLAIM",
+      "USER_DOCUMENT_MUTATION",
+      "DEPENDENCY_ADOPTION",
+      "STORAGE_MIGRATION",
+      "SAFE_APPLY_EXPANSION",
+      "PROGRAM_DONE"
+    ],
+    "residualRisks": [
+      "WP201 remains responsible for one multi-artifact scene and manifest transaction; WP200 closes only generation-bound durable receipt acknowledgement.",
+      "The physical filesystem tests use isolated synthetic temporary files and do not mutate user documents or Drive state.",
+      "Other generic atomic writers remain outside the explicit Writer Save and Save As path certified by this contour.",
+      "No dependency, storage adoption, migration, SAFE_APPLY, release, signing, cloud or AI authority is added."
+    ]
+  }
+}

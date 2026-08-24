@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "ContourTerminalReceiptV2",
+  "receiptId": "CTR-R24-WP-200-DURABLE-SAVE",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-200_DURABLE_SAVE",
+  "attemptId": "ATTEMPT-WP200-20260824",
+  "authorityEpoch": "R24-WP200-BASE-2028A5DC",
+  "exactHeadSha": "1c89f33d601a6a97263b57aaf5a6ad8756951d89",
+  "mergeState": "WAITING",
+  "postmergeState": "PENDING",
+  "survivorState": "PENDING",
+  "evidenceStampIds": [
+    "ES-R24-WP-200-DURABLE-SAVE-MODEL",
+    "ES-R24-WP-200-DURABLE-SAVE-CONTRACT",
+    "ES-R24-WP-200-DURABLE-SAVE-INTEGRATION",
+    "ES-R24-WP-200-DURABLE-SAVE-MUTANTS",
+    "ES-R24-WP-200-DURABLE-SAVE-EXACT-HEAD",
+    "ES-R24-WP-200-DURABLE-SAVE-POSTMERGE-EXACT-HEAD",
+    "ES-R24-WP-200-DURABLE-SAVE-SURVIVOR-AUDIT",
+    "ES-R24-WP-200-DURABLE-SAVE-CLAIM-BINDINGS"
+  ],
+  "nextContourId": null
+}

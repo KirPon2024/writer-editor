@@ -1,0 +1,109 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-200_DURABLE_SAVE",
+  "attemptId": "ATTEMPT-WP200-20260824",
+  "authorityEpoch": "R24-WP200-BASE-2028A5DC",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "1c89f33d601a6a97263b57aaf5a6ad8756951d89",
+    "treeSha": "a8f5f9af88c552f58f1cc4b1874fc7c52dff118c"
+  },
+  "createdAt": "2026-08-24T12:25:41Z",
+  "actor": "codex/r24-wp200-durable-save-v1-20260824",
+  "stampId": "ES-R24-WP-200-DURABLE-SAVE-MODEL",
+  "claim": {
+    "type": "WP200_RECEIPT_BOUND_DURABLE_SAVE_MODEL",
+    "ceiling": "WP200_NODE_ONLY_GENERATION_BOUND_DURABLE_RECEIPT_ACK_NO_MULTI_ARTIFACT_TRANSACTION_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-wp200-model",
+    "evidenceClass": "MODEL",
+    "denominator": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [],
+    "predecessorReceiptDigest": "e2f0e2ccfc2f32b259767186219b809871ec9a57f1eeec17dc1e282b7e39d08d"
+  },
+  "artifact": {
+    "classification": "PARTIAL_AT_ADMISSION_GENERIC_EXPLICIT_SAVE_ACK_DEFECT_CORRECTED",
+    "identityRoles": {
+      "implementationSourceSha": "1c89f33d601a6a97263b57aaf5a6ad8756951d89",
+      "evaluationHeadSha": "1c89f33d601a6a97263b57aaf5a6ad8756951d89",
+      "evaluationTreeSha": "a8f5f9af88c552f58f1cc4b1874fc7c52dff118c",
+      "implementationPrHeadSha": null,
+      "implementationMergeSha": null,
+      "postmergeSha": null
+    },
+    "artifactDigests": [
+      {
+        "path": "src/core/save-receipt-ack-v1.cjs",
+        "sha256": "f572b2d7717c08ea1ab0a674fc0b9934032e25370055551a439318039d5d31eb"
+      },
+      {
+        "path": "src/main.js",
+        "sha256": "256660b9f27bf3f4a9aae17294a42c4beec33e4ab1619f24b1a94e7c26296797"
+      },
+      {
+        "path": "test/unit/r24-r5-lifecycle-physics.test.js",
+        "sha256": "84db691975e6ee192ada4505435c73107a791c1c2584538511f20dd8d20305fa"
+      },
+      {
+        "path": "test/unit/r24-wp200-durable-save.test.js",
+        "sha256": "d528cbd996802da82e36898a275a0bb79ce4ca3da9e361878dad51e2a2950148"
+      },
+      {
+        "path": "test/unit/r24-wp200-durable-save-physics.test.js",
+        "sha256": "123f662c04035a2b6b94800538d7a6c593defa2f70dd9e2a57690a551e503bb0"
+      },
+      {
+        "path": "test/unit/r24-wp200-durable-save-mutants.test.js",
+        "sha256": "c1aac9d868c043a2d212143c92fd1425001b6cea86c9862652ec9bca88bb62c8"
+      }
+    ],
+    "laws": [
+      "Only a successful known P2 or P3 receipt with its complete ordered phase chain can reach save acknowledgement.",
+      "Receipt revision must equal the captured editor generation before the live dirty frontier is evaluated.",
+      "Receipt digest must equal the exact captured content SHA-256 and P2 byte count must also match.",
+      "A valid stale receipt protects newer work and never clears the later generation.",
+      "Explicit Save and Save As use the durable coordinator instead of generic atomic rename success.",
+      "Untitled and unchanged-content autosave paths obtain a fresh durable readback receipt before acknowledgement.",
+      "Renderer state consumes only a main-owned typed SAVED acknowledgement at its exact local generation."
+    ],
+    "outcomeMatrix": [
+      {
+        "outcome": "P2 sync, atomic publish and exact readback receipt",
+        "classification": "ALREADY_IMPLEMENTED"
+      },
+      {
+        "outcome": "P3 scene and manifest commit receipt",
+        "classification": "ALREADY_IMPLEMENTED"
+      },
+      {
+        "outcome": "main explicit Save and Save As durable coordinator adoption",
+        "classification": "MISSING_AT_ADMISSION_THEN_IMPLEMENTED"
+      },
+      {
+        "outcome": "strict receipt generation, digest, bytes and phase binding before dirty clear",
+        "classification": "MISSING_AT_ADMISSION_THEN_IMPLEMENTED"
+      },
+      {
+        "outcome": "multi-artifact explicit save transaction",
+        "classification": "MISSING_DEFERRED_TO_WP201"
+      }
+    ],
+    "residualRisks": [
+      "WP201 remains responsible for one multi-artifact scene and manifest transaction; WP200 closes only generation-bound durable receipt acknowledgement.",
+      "The physical filesystem tests use isolated synthetic temporary files and do not mutate user documents or Drive state.",
+      "Other generic atomic writers remain outside the explicit Writer Save and Save As path certified by this contour.",
+      "No dependency, storage adoption, migration, SAFE_APPLY, release, signing, cloud or AI authority is added."
+    ]
+  }
+}

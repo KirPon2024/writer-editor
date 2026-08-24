@@ -4,9 +4,9 @@
   "contourId": "WP-201_PROJECT_TRANSACTION",
   "evidenceClass": "CONTRACT",
   "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
-  "headSha": "e47605be9669ff9d7d79e5d0aae061710f3c7732",
+  "headSha": "9c822ef04125b49d142c516527acf3c086b985f6",
   "originMainSha": "e47605be9669ff9d7d79e5d0aae061710f3c7732",
-  "generatedAtUtc": "2026-08-24T15:58:30Z",
+  "generatedAtUtc": "2026-08-24T16:05:00Z",
   "oracle": "strict ClaimBindingV1 exact-hash binding for replayable WP201 PlanState closure, exact-main postmerge evidence, survivor audit and source receipt",
   "claimBindings": [
     {
@@ -25,7 +25,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CTR-R24-WP-201-PROJECT-TRANSACTION.json",
-      "sha256": "73e62557ba652153b1267b68b369224a69104f682e9dbd3399b183da1f2d9b2b",
+      "sha256": "629853f0d55f0f721315249a5654d58bbba3e57b1a6ef114556ceef0fae35ff8",
       "claimTerms": [
         "PASS"
       ]

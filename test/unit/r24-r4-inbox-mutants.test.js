@@ -9,6 +9,7 @@ const os = require('node:os');
 const path = require('node:path');
 
 const MODULE_PATH = path.join(__dirname, '..', '..', 'src', 'core', 'transactional-inbox-outbox-v1.cjs');
+const { durableSaveTransaction } = require(path.join(__dirname, '..', '..', 'src', 'core', 'save-coordinator-v1.cjs'));
 
 const MUTANTS = [
   {
@@ -23,13 +24,13 @@ const MUTANTS = [
   },
   {
     id: 'direct-conflict-tolerated',
-    find: "      if (existing) {\n        if (existing.payloadHash !== digest || existing.kind !== intentKind) {\n          throw new InboxOutboxError('E_INTENT_CONFLICT', id);\n        }\n        throw new InboxOutboxError('E_INTENT_DUPLICATE', id);\n      }",
-    replace: "      if (existing) {\n        if (false) {\n          throw new InboxOutboxError('E_INTENT_CONFLICT', id);\n        }\n        throw new InboxOutboxError('E_INTENT_DUPLICATE', id);\n      }",
+    find: "        if (existing) {\n          if (existing.payloadHash !== digest || existing.kind !== intentKind) {\n            throw new InboxOutboxError('E_INTENT_CONFLICT', id);\n          }\n          throw new InboxOutboxError('E_INTENT_DUPLICATE', id);\n        }",
+    replace: "        if (existing) {\n          if (false) {\n            throw new InboxOutboxError('E_INTENT_CONFLICT', id);\n          }\n          throw new InboxOutboxError('E_INTENT_DUPLICATE', id);\n        }",
   },
   {
     id: 'ensure-conflict-tolerated',
-    find: "      if (existing) {\n        if (existing.payloadHash !== digest || existing.kind !== intentKind) {\n          throw new InboxOutboxError('E_INTENT_CONFLICT', id);\n        }\n        return publicIntent(existing);\n      }",
-    replace: "      if (existing) {\n        if (false) {\n          throw new InboxOutboxError('E_INTENT_CONFLICT', id);\n        }\n        return publicIntent(existing);\n      }",
+    find: "        if (existing) {\n          if (existing.payloadHash !== digest || existing.kind !== intentKind) {\n            throw new InboxOutboxError('E_INTENT_CONFLICT', id);\n          }\n          return publicIntent(existing);\n        }",
+    replace: "        if (existing) {\n          if (false) {\n            throw new InboxOutboxError('E_INTENT_CONFLICT', id);\n          }\n          return publicIntent(existing);\n        }",
   },
   {
     id: 'double-execution-allowed',
@@ -46,6 +47,31 @@ const MUTANTS = [
     find: "      if (!record || record.status !== 'EXECUTED') throw new InboxOutboxError('E_INTENT_NOT_EXECUTED', id);",
     replace: "      if (!record) throw new InboxOutboxError('E_INTENT_NOT_EXECUTED', id);",
   },
+  {
+    id: 'same-process-handle-serialization-removed',
+    find: '    const predecessor = DIRECTORY_MUTATION_TAILS.get(directoryKey) || Promise.resolve();',
+    replace: '    const predecessor = Promise.resolve();',
+  },
+  {
+    id: 'durable-failure-reconciliation-removed',
+    find: '        state[channel] = await readJsonl(filePath, validateRecord, corruptCode, saveTransaction);',
+    replace: '        await readJsonl(filePath, validateRecord, corruptCode, saveTransaction);',
+  },
+  {
+    id: 'successful-publish-not-reflected-in-memory',
+    find: '      state[channel] = nextRecords;',
+    replace: '      void nextRecords;',
+  },
+  {
+    id: 'public-intent-outcome-alias',
+    find: '    outcome: immutableJsonValue(record.outcome),',
+    replace: '    outcome: record.outcome,',
+  },
+  {
+    id: 'public-effect-detail-alias',
+    find: '    detail: immutableJsonValue(effect.detail),',
+    replace: '    detail: effect.detail,',
+  },
 ];
 
 async function killOracle(module) {
@@ -54,6 +80,7 @@ async function killOracle(module) {
   const box = await openTransactionalInboxOutbox(dir);
 
   await box.admitIntent({ intentId: 'i-1', kind: 'project.commit', payload: { a: 1, b: 2 } });
+  assert.equal(box.isAdmitted('i-1'), true);
   await assert.rejects(
     box.admitIntent({ intentId: 'i-1', kind: 'project.commit', payload: { b: 2, a: 1 } }),
     (e) => e.code === 'E_INTENT_DUPLICATE',
@@ -82,7 +109,8 @@ async function killOracle(module) {
     (e) => e.code === 'E_INTENT_CONFLICT',
   );
 
-  await box.markExecuted('i-1', { revision: 1 });
+  const executed = await box.markExecuted('i-1', { revision: { value: 1 } });
+  assert.throws(() => { executed.outcome.revision.value = 9; }, TypeError);
   await assert.rejects(box.markExecuted('i-1', { revision: 9 }), (e) => e.code === 'E_INTENT_ALREADY_EXECUTED');
 
   await assert.rejects(
@@ -97,9 +125,61 @@ async function killOracle(module) {
     'an admitted-but-unexecuted intent never stages an effect',
   );
   await box2.markExecuted('i-9', {});
-  await box2.stageEffect({ intentId: 'i-9', effectId: 'e-9', kind: 'fs.write' });
+  const staged = await box2.stageEffect({
+    intentId: 'i-9',
+    effectId: 'e-9',
+    kind: 'fs.write',
+    detail: { nested: { value: 1 } },
+  });
+  assert.throws(() => { staged.detail.nested.value = 9; }, TypeError);
   await box2.markEffectPublished('e-9');
   await assert.rejects(box2.markEffectPublished('e-9'), (e) => e.code === 'E_EFFECT_ALREADY_PUBLISHED');
+
+  const faultDir = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'r24-r4m-fault-')));
+  let failureMode = null;
+  const saveTransaction = async (input) => {
+    if (failureMode === 'BEFORE') {
+      failureMode = null;
+      const error = new Error('injected before publish');
+      error.code = 'E_INJECTED_BEFORE';
+      throw error;
+    }
+    const receipt = await durableSaveTransaction(input);
+    if (failureMode === 'AFTER') {
+      failureMode = null;
+      const error = new Error('injected after publish');
+      error.code = 'E_INJECTED_AFTER';
+      throw error;
+    }
+    return receipt;
+  };
+  const faultBox = await openTransactionalInboxOutbox(faultDir, { saveTransaction });
+  await faultBox.admitIntent({ intentId: 'fault-intent', kind: 'project.commit' });
+  failureMode = 'BEFORE';
+  await assert.rejects(faultBox.markExecuted('fault-intent', {}), (e) => e.code === 'E_INJECTED_BEFORE');
+  assert.equal(faultBox.isExecuted('fault-intent'), false);
+  failureMode = 'AFTER';
+  await assert.rejects(faultBox.markExecuted('fault-intent', {}), (e) => e.code === 'E_INJECTED_AFTER');
+  assert.equal(faultBox.isExecuted('fault-intent'), true);
+  const faultReopened = await openTransactionalInboxOutbox(faultDir);
+  assert.equal(faultReopened.isExecuted('fault-intent'), true);
+
+  const concurrentDir = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'r24-r4m-concurrent-')));
+  let saveCall = 0;
+  const delayedSave = async (input) => {
+    saveCall += 1;
+    if (saveCall === 1) await new Promise((resolve) => setTimeout(resolve, 40));
+    return durableSaveTransaction(input);
+  };
+  const concurrentBoxA = await openTransactionalInboxOutbox(concurrentDir, { saveTransaction: delayedSave });
+  const concurrentBoxB = await openTransactionalInboxOutbox(concurrentDir, { saveTransaction: delayedSave });
+  await Promise.all([
+    concurrentBoxA.admitIntent({ intentId: 'parallel-a', kind: 'project.commit' }),
+    concurrentBoxB.admitIntent({ intentId: 'parallel-b', kind: 'project.commit' }),
+  ]);
+  const concurrentReopened = await openTransactionalInboxOutbox(concurrentDir);
+  assert.equal(concurrentReopened.isAdmitted('parallel-a'), true);
+  assert.equal(concurrentReopened.isAdmitted('parallel-b'), true);
 }
 
 test('R4 inbox/outbox: all implementation mutants are executed and killed', async () => {

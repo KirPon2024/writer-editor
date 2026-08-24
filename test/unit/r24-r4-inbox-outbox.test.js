@@ -17,6 +17,7 @@ const {
   InboxOutboxError,
   openTransactionalInboxOutbox,
 } = require(path.join(__dirname, '..', '..', 'src', 'core', 'transactional-inbox-outbox-v1.cjs'));
+const { durableSaveTransaction } = require(path.join(__dirname, '..', '..', 'src', 'core', 'save-coordinator-v1.cjs'));
 
 const sandbox = () => fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'r24-r4-')));
 
@@ -172,4 +173,177 @@ test('valid-looking corrupt records are refused, not silently normalized', async
     status: 'MAYBE',
   })}\n`);
   await assert.rejects(openTransactionalInboxOutbox(outboxDir), (e) => e.code === 'E_OUTBOX_LOG_CORRUPT');
+});
+
+function faultableSaveTransaction() {
+  let failureMode = null;
+  return {
+    failNext(mode) {
+      failureMode = mode;
+    },
+    async saveTransaction(input) {
+      if (failureMode === 'BEFORE_PUBLISH') {
+        failureMode = null;
+        const error = new Error('injected pre-publish failure');
+        error.code = 'E_INJECTED_BEFORE_PUBLISH';
+        throw error;
+      }
+      const receipt = await durableSaveTransaction(input);
+      if (failureMode === 'AFTER_PUBLISH') {
+        failureMode = null;
+        const error = new Error('injected post-publish failure');
+        error.code = 'E_INJECTED_AFTER_PUBLISH';
+        throw error;
+      }
+      return receipt;
+    },
+  };
+}
+
+async function assertMemoryMatchesDisk(dir, box) {
+  const reopened = await openTransactionalInboxOutbox(dir);
+  assert.deepEqual(
+    JSON.parse(JSON.stringify(box.replay())),
+    JSON.parse(JSON.stringify(reopened.replay())),
+    'the live object and durable replay must agree after a failed call',
+  );
+}
+
+test('pre-publish persistence failures leave every live transition at durable pre-call state', async () => {
+  const dir = sandbox();
+  const fault = faultableSaveTransaction();
+  const box = await openTransactionalInboxOutbox(dir, { saveTransaction: fault.saveTransaction });
+
+  fault.failNext('BEFORE_PUBLISH');
+  await assert.rejects(
+    box.admitIntent({ intentId: 'i-1', kind: 'project.commit' }),
+    (error) => error.code === 'E_INJECTED_BEFORE_PUBLISH',
+  );
+  assert.equal(box.isAdmitted('i-1'), false);
+  await assertMemoryMatchesDisk(dir, box);
+
+  await box.admitIntent({ intentId: 'i-1', kind: 'project.commit' });
+  fault.failNext('BEFORE_PUBLISH');
+  await assert.rejects(box.markExecuted('i-1', { revision: 1 }), (error) => error.code === 'E_INJECTED_BEFORE_PUBLISH');
+  assert.equal(box.isExecuted('i-1'), false);
+  await assertMemoryMatchesDisk(dir, box);
+
+  await box.markExecuted('i-1', { revision: 1 });
+  fault.failNext('BEFORE_PUBLISH');
+  await assert.rejects(
+    box.stageEffect({ intentId: 'i-1', effectId: 'e-1', kind: 'fs.write' }),
+    (error) => error.code === 'E_INJECTED_BEFORE_PUBLISH',
+  );
+  assert.deepEqual(box.pendingEffects(), []);
+  await assertMemoryMatchesDisk(dir, box);
+
+  await box.stageEffect({ intentId: 'i-1', effectId: 'e-1', kind: 'fs.write' });
+  fault.failNext('BEFORE_PUBLISH');
+  await assert.rejects(box.markEffectPublished('e-1'), (error) => error.code === 'E_INJECTED_BEFORE_PUBLISH');
+  assert.deepEqual(box.pendingEffects().map((effect) => effect.effectId), ['e-1']);
+  await assertMemoryMatchesDisk(dir, box);
+});
+
+test('post-publish failures reconcile every live transition to exact durable state', async () => {
+  const dir = sandbox();
+  const fault = faultableSaveTransaction();
+  const box = await openTransactionalInboxOutbox(dir, { saveTransaction: fault.saveTransaction });
+
+  fault.failNext('AFTER_PUBLISH');
+  await assert.rejects(
+    box.admitIntent({ intentId: 'i-1', kind: 'project.commit' }),
+    (error) => error.code === 'E_INJECTED_AFTER_PUBLISH',
+  );
+  assert.equal(box.isAdmitted('i-1'), true);
+  await assertMemoryMatchesDisk(dir, box);
+
+  fault.failNext('AFTER_PUBLISH');
+  await assert.rejects(box.markExecuted('i-1', { revision: 1 }), (error) => error.code === 'E_INJECTED_AFTER_PUBLISH');
+  assert.equal(box.isExecuted('i-1'), true);
+  await assertMemoryMatchesDisk(dir, box);
+
+  fault.failNext('AFTER_PUBLISH');
+  await assert.rejects(
+    box.stageEffect({ intentId: 'i-1', effectId: 'e-1', kind: 'fs.write' }),
+    (error) => error.code === 'E_INJECTED_AFTER_PUBLISH',
+  );
+  assert.deepEqual(box.pendingEffects().map((effect) => effect.effectId), ['e-1']);
+  await assertMemoryMatchesDisk(dir, box);
+
+  fault.failNext('AFTER_PUBLISH');
+  await assert.rejects(box.markEffectPublished('e-1'), (error) => error.code === 'E_INJECTED_AFTER_PUBLISH');
+  assert.deepEqual(box.pendingEffects(), []);
+  await assertMemoryMatchesDisk(dir, box);
+});
+
+test('same-process handles serialize mutations without lost durable records', async () => {
+  const dir = sandbox();
+  let saveCall = 0;
+  const saveTransaction = async (input) => {
+    saveCall += 1;
+    if (saveCall === 1) await new Promise((resolve) => setTimeout(resolve, 50));
+    return durableSaveTransaction(input);
+  };
+  const first = await openTransactionalInboxOutbox(dir, { saveTransaction });
+  const second = await openTransactionalInboxOutbox(dir, { saveTransaction });
+  await Promise.all([
+    first.admitIntent({ intentId: 'i-1', kind: 'project.commit' }),
+    second.admitIntent({ intentId: 'i-2', kind: 'project.commit' }),
+  ]);
+  const reopened = await openTransactionalInboxOutbox(dir);
+  assert.equal(reopened.isAdmitted('i-1'), true);
+  assert.equal(reopened.isAdmitted('i-2'), true);
+  assert.deepEqual(reopened.replay().intents.map((intent) => intent.intentId), ['i-1', 'i-2']);
+});
+
+test('returned outcome and effect detail are deep immutable snapshots', async () => {
+  const dir = sandbox();
+  const box = await openTransactionalInboxOutbox(dir);
+  await box.admitIntent({ intentId: 'i-immutable', kind: 'project.commit' });
+  const executed = await box.markExecuted('i-immutable', { nested: { revision: 1 } });
+  assert.throws(() => {
+    executed.outcome.nested.revision = 9;
+  }, TypeError);
+  const staged = await box.stageEffect({
+    intentId: 'i-immutable',
+    effectId: 'e-immutable',
+    kind: 'fs.write',
+    detail: { nested: { pathClass: 'project-relative' } },
+  });
+  assert.throws(() => {
+    staged.detail.nested.pathClass = 'external';
+  }, TypeError);
+  const reopened = await openTransactionalInboxOutbox(dir);
+  assert.equal(reopened.isExecuted('i-immutable'), true);
+  assert.deepEqual(reopened.pendingEffects()[0].detail, { nested: { pathClass: 'project-relative' } });
+});
+
+test('Unicode intent and JSON payload identity round-trip without normalization loss', async () => {
+  const dir = sandbox();
+  const box = await openTransactionalInboxOutbox(dir);
+  const intentId = '\u0441\u0446\u0435\u043d\u0430-e\u0301-\u6587';
+  await box.admitIntent({
+    intentId,
+    kind: 'project.commit.\u6587',
+    payload: {
+      title: 'Cafe\u0301',
+      author: '\u041a\u0438\u0440\u0438\u043b\u043b',
+      marks: ['\u2713', '\u6587'],
+    },
+  });
+  const reopened = await openTransactionalInboxOutbox(dir);
+  assert.equal(reopened.isAdmitted(intentId), true);
+  await assert.rejects(
+    reopened.admitIntent({
+      intentId,
+      kind: 'project.commit.\u6587',
+      payload: {
+        title: 'Caf\u00e9',
+        author: '\u041a\u0438\u0440\u0438\u043b\u043b',
+        marks: ['\u2713', '\u6587'],
+      },
+    }),
+    (error) => error.code === 'E_INTENT_CONFLICT',
+    'distinct Unicode code-point sequences are never silently normalized into one command meaning',
+  );
 });

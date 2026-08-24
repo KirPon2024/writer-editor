@@ -1,0 +1,123 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "R5_LIFECYCLE_EXTERNAL_CONFLICT",
+  "attemptId": "ATTEMPT-R5-20260824",
+  "authorityEpoch": "R24-R5-CORRECTIVE-BASE-8454B33D",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "1012a28bcd74847898e380812d51c81ebd3a5dc1",
+    "treeSha": "ea65acde08a418a32f0bd1da56a598565cc618fb"
+  },
+  "createdAt": "2026-08-24T04:12:13Z",
+  "actor": "codex/r24-r5-lifecycle-external-conflict-certification-v1-20260824",
+  "stampId": "ES-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT-MODEL",
+  "claim": {
+    "type": "R5_CORRECTED_LIFECYCLE_EXTERNAL_CONFLICT_MODEL",
+    "ceiling": "R5_NODE_ONLY_CORRECTED_LIFECYCLE_CONFLICT_PROTOCOL_WITH_PRODUCTION_CLOSE_QUIT_GENERATION_FENCE_NO_PLATFORM_SUSPEND_WIRING_NO_EXTERNAL_FILE_WATCHER_NO_RECOVERY_UI_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-r5-model",
+    "evidenceClass": "MODEL",
+    "denominator": 9,
+    "passed": 9,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [],
+    "predecessorReceiptDigest": "2c800aec20efa8fdc949673d663ae33e517501d43bffbb85da5c0e76be97924e"
+  },
+  "artifact": {
+    "classification": "PARTIAL_AT_ADMISSION_HISTORICAL_CORE_PROTOCOL_WITH_GENERATION_SUBJECT_AND_PRODUCTION_CLOSE_RACE_DEFECTS_CORRECTED_FORMAL_CERTIFICATION_MISSING",
+    "identityRoles": {
+      "historicalImplementationSourceSha": "388b3ea0f2f6532e3b5c1b180bde334f85c16294",
+      "historicalImplementationPrHeadSha": "388b3ea0f2f6532e3b5c1b180bde334f85c16294",
+      "historicalImplementationMergeSha": "2bfe31ff3bbc2278e4efc9436dd0096d37b787ff",
+      "correctiveImplementationSourceSha": "1012a28bcd74847898e380812d51c81ebd3a5dc1",
+      "evaluationHeadSha": "1012a28bcd74847898e380812d51c81ebd3a5dc1",
+      "evaluationTreeSha": "ea65acde08a418a32f0bd1da56a598565cc618fb",
+      "closurePrHeadSha": null,
+      "closureMergeSha": null,
+      "closurePostmergeSha": null
+    },
+    "artifactDigests": [
+      {
+        "path": "src/core/lifecycle-conflict-v1.cjs",
+        "sha256": "c0dfbf60c52cad3728572ff576fb1b475e09fa70b3524152e9ab3f4227d60ed6"
+      },
+      {
+        "path": "src/main.js",
+        "sha256": "1bac5d865a2562ba6e3973a2bb17c4f59b69877fbf733127718b6dbaf065805c"
+      },
+      {
+        "path": "test/unit/r24-r5-lifecycle-conflict.test.js",
+        "sha256": "933ace0942f432a5d87c3979833a9dc398ac60b75a7384851e862e1a7cd085af"
+      },
+      {
+        "path": "test/unit/r24-r5-lifecycle-physics.test.js",
+        "sha256": "94df88819aa75b8b26e23c0c477608c88b4a3b7c7f1bc0490a46a5b5da490366"
+      },
+      {
+        "path": "test/unit/r24-r5-lifecycle-mutants.test.js",
+        "sha256": "2a68ae718c6bf3a77f84ebc4d0d5957fdb3dd634c352e3c9c3f6528926566fce"
+      },
+      {
+        "path": "docs/OPS/EVIDENCE/YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1/SCIENTIFIC_CONTRACTS.json",
+        "sha256": "840e408e8b21ff1e4da21f50d30b102ef1aedfcf9df0927c6aac848fdfd64468"
+      },
+      {
+        "path": "scripts/ops/b3c10-capability-tier-report-state.mjs",
+        "sha256": "ccb18b8521d2e88ea510fbf2ea05e28930140075bd7236283781e55d7ce93515"
+      }
+    ],
+    "laws": [
+      "Every lifecycle decision is bound to one exact subject, observation generation and latest-edit generation.",
+      "SAVED authorizes progress only when savedGeneration and latestEditGeneration equal the current generation and the reason is exact.",
+      "An active autosave is joined as one single-flight operation; a concurrent caller never receives synthetic success.",
+      "Manual save acknowledgement is exact-generation and stale completion cannot clear newer dirty state or delete its autosave.",
+      "Crash recovery consumes a branded fresh R4 reopen observation and an exact P3 physical publication classification.",
+      "External edit classification is bound to exact subject, generation and disk digest and fails closed on P3 residue or corruption.",
+      "Compound divergence suppresses save and replay recovery actions instead of selecting a weaker hazard.",
+      "BrowserWindow close and app before-quit revalidate after awaited shell persistence and immediately hand off to synchronous close/quit authority."
+    ],
+    "outcomeMatrix": [
+      {
+        "outcome": "historical lifecycle barrier core and initial tests",
+        "classification": "ALREADY_IMPLEMENTED"
+      },
+      {
+        "outcome": "strict subject/generation evidence, physical R4/P3 recovery and compound-hazard authority",
+        "classification": "PARTIAL_AT_ADMISSION_THEN_IMPLEMENTED_AND_STRENGTHENED"
+      },
+      {
+        "outcome": "production close/quit single-flight save join and final no-gap revalidation",
+        "classification": "MISSING_AT_ADMISSION_THEN_IMPLEMENTED"
+      },
+      {
+        "outcome": "affected F0 fixtures and scientific current-reality probe migrated to the strict R5 protocol",
+        "classification": "MISSING_AT_ADMISSION_THEN_IMPLEMENTED"
+      },
+      {
+        "outcome": "flush-safe b3c10 JSON CLI on supported Node 20",
+        "classification": "LATENT_FULL_GATE_DEFECT_FOUND_AND_REPAIRED"
+      },
+      {
+        "outcome": "platform suspend wiring, external file watcher and recovery UI",
+        "classification": "MISSING_OUTSIDE_CERTIFIED_R5_PROFILE"
+      }
+    ],
+    "residualRisks": [
+      "The production composition root applies the corrected barrier to BrowserWindow close and app before-quit; platform suspend is not wired in this contour.",
+      "External-edit and crash decisions require exact caller-supplied disk, R4 and P3 observations; no production external file watcher or recovery UI is attached here.",
+      "The close path uses a detached zero-effect observation because the optional R4 inbox/outbox is not attached to the production composition root.",
+      "A successful file write whose later profile or shell-state persistence fails is not promoted to a SAVED acknowledgement by this contour.",
+      "The lifecycle protocol is process-local and does not claim cross-process or cross-host conflict serialization.",
+      "No user document, storage format, dependency, SAFE_APPLY, release, signing, cloud or AI authority is added."
+    ]
+  }
+}

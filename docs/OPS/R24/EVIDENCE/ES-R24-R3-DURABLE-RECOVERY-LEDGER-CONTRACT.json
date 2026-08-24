@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "R3_DURABLE_RECOVERY_LEDGER",
+  "attemptId": "ATTEMPT-R3-20260824",
+  "authorityEpoch": "R24-R3-CERTIFICATION-BASE-4D957820",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "4d957820f61d4a35ad293f90865182ff2261f499",
+    "treeSha": "d4f99d75bb40a723f8805b8972cf05c9a946bbb4"
+  },
+  "createdAt": "2026-08-24T00:51:10Z",
+  "actor": "codex/r24-r3-durable-recovery-ledger-certification-v1-20260824",
+  "stampId": "ES-R24-R3-DURABLE-RECOVERY-LEDGER-CONTRACT",
+  "claim": {
+    "type": "R3_ACCEPTANCE_CONTRACT",
+    "ceiling": "R3_NODE_ONLY_EXISTING_INTERNAL_LEDGER_NO_STORAGE_ADOPTION_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-r3-contract",
+    "evidenceClass": "CONTRACT",
+    "denominator": 12,
+    "passed": 12,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-R3-DURABLE-RECOVERY-LEDGER-MODEL"
+    ],
+    "predecessorReceiptDigest": "8760e5f9193b82cb37f5bff3ce757ed2486ad0421962aef5da450a0830ef04ff"
+  },
+  "artifact": {
+    "envelopeId": "ENV-R24-R3_DURABLE_RECOVERY_LEDGER",
+    "acceptanceId": "ACC-R24-R3_DURABLE_RECOVERY_LEDGER",
+    "requiredOutcome": "Implement the selected bounded recovery ledger only after bakeoff and owner-governed dependency law.",
+    "mutationAuthority": "SELECTED_DURABLE_RECOVERY_ADAPTER",
+    "authorityResolution": "The existing in-repo bounded recovery ledger is the R3-scoped adapter already merged under the prior standing grant; certification adds no dependency and performs no broader storage candidate adoption.",
+    "dependencyLaw": "NO_NEW_DEPENDENCY",
+    "broaderStorageCandidateSelection": "DEFERRED_TO_WP-203",
+    "forbidden": [
+      "DEPENDENCY_ADOPTION",
+      "LIVE_STORAGE_PATH_CHANGE",
+      "USER_DATA_MIGRATION",
+      "DESTRUCTIVE_STORAGE_ACTION",
+      "USER_DOCUMENT_MUTATION"
+    ],
+    "historicalOwnerTaskId": "YALKEN-R24-R3-RECOVERY-LEDGER-001",
+    "historicalGrantAuthority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
+    "activationClaim": "NO_LIVE_PRODUCTION_ATTACHMENT_OR_STORAGE_ADOPTION",
+    "residualRisksNotCertified": [
+      "serialized byte-size cap",
+      "concurrent multi-handle writer serialization"
+    ]
+  }
+}

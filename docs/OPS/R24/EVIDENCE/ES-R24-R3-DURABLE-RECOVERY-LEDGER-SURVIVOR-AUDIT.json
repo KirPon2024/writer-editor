@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "R3_DURABLE_RECOVERY_LEDGER",
+  "attemptId": "ATTEMPT-R3-20260824",
+  "authorityEpoch": "R24-R3-CERTIFICATION-BASE-4D957820",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "4d957820f61d4a35ad293f90865182ff2261f499",
+    "treeSha": "d4f99d75bb40a723f8805b8972cf05c9a946bbb4"
+  },
+  "createdAt": "2026-08-24T00:51:10Z",
+  "actor": "codex/r24-r3-durable-recovery-ledger-certification-v1-20260824",
+  "stampId": "ES-R24-R3-DURABLE-RECOVERY-LEDGER-SURVIVOR-AUDIT",
+  "claim": {
+    "type": "R3_EXACT_MAIN_SURVIVOR_AUDIT",
+    "ceiling": "R3_NODE_ONLY_EXISTING_INTERNAL_LEDGER_NO_STORAGE_ADOPTION_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-r3-survivor-audit",
+    "evidenceClass": "SURVIVOR_AUDIT",
+    "denominator": 5,
+    "passed": 5,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-R3-DURABLE-RECOVERY-LEDGER-POSTMERGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "8760e5f9193b82cb37f5bff3ce757ed2486ad0421962aef5da450a0830ef04ff"
+  },
+  "artifact": {
+    "implementationPr": {
+      "prNumber": 1632,
+      "baseSha": "4bb6386d39489fe0c9d7745c21e1aa2c50a495c2",
+      "implementationSourceSha": "4f2f6a6383dbd0f496713628c7d9d5dd53675d74",
+      "prHeadSha": "c22a5069839b0654535d8740393042374e4a3fae",
+      "mergeSha": "09c2ed9e4356a194550ee5c5344d09bdabc81889",
+      "mergedAt": "2026-08-22T08:23:34Z"
+    },
+    "requiredImplementationChecks": [
+      {
+        "name": "rtk-required",
+        "runId": 32561335599,
+        "headSha": "c22a5069839b0654535d8740393042374e4a3fae",
+        "conclusion": "success"
+      },
+      {
+        "name": "oss-policy",
+        "runId": 32561335534,
+        "headSha": "c22a5069839b0654535d8740393042374e4a3fae",
+        "conclusion": "success"
+      },
+      {
+        "name": "x1-runtime-parity (ubuntu-latest)",
+        "runId": 32561335492,
+        "headSha": "c22a5069839b0654535d8740393042374e4a3fae",
+        "conclusion": "success"
+      },
+      {
+        "name": "x1-runtime-parity (windows-latest)",
+        "runId": 32561335492,
+        "headSha": "c22a5069839b0654535d8740393042374e4a3fae",
+        "conclusion": "success"
+      }
+    ],
+    "historicalPostmerge": {
+      "rtkRunId": 32562158866,
+      "ossRunId": 32562158883,
+      "headSha": "09c2ed9e4356a194550ee5c5344d09bdabc81889",
+      "rtkConclusion": "success",
+      "ossConclusion": "success"
+    },
+    "currentMain": {
+      "rtkRunId": 32676655972,
+      "ossRunId": 32676655992,
+      "headSha": "4d957820f61d4a35ad293f90865182ff2261f499",
+      "r3Tests": 12,
+      "mutantsKilled": 5,
+      "mutantsSurvived": 0
+    },
+    "denominatorLaw": "All five named implementation mutants are killed and all twelve focused tests pass on current exact main; historical PR and postmerge checks are independently green."
+  }
+}

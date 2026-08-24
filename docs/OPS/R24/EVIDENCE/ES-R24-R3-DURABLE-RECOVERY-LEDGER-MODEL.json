@@ -1,0 +1,100 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "R3_DURABLE_RECOVERY_LEDGER",
+  "attemptId": "ATTEMPT-R3-20260824",
+  "authorityEpoch": "R24-R3-CERTIFICATION-BASE-4D957820",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "4d957820f61d4a35ad293f90865182ff2261f499",
+    "treeSha": "d4f99d75bb40a723f8805b8972cf05c9a946bbb4"
+  },
+  "createdAt": "2026-08-24T00:51:10Z",
+  "actor": "codex/r24-r3-durable-recovery-ledger-certification-v1-20260824",
+  "stampId": "ES-R24-R3-DURABLE-RECOVERY-LEDGER-MODEL",
+  "claim": {
+    "type": "R3_DURABLE_RECOVERY_LEDGER_MODEL",
+    "ceiling": "R3_NODE_ONLY_EXISTING_INTERNAL_LEDGER_NO_STORAGE_ADOPTION_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-r3-model",
+    "evidenceClass": "MODEL",
+    "denominator": 5,
+    "passed": 5,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [],
+    "predecessorReceiptDigest": "8760e5f9193b82cb37f5bff3ce757ed2486ad0421962aef5da450a0830ef04ff"
+  },
+  "artifact": {
+    "classification": "PARTIAL_AT_ADMISSION_ALREADY_IMPLEMENTED_SCOPED_ADAPTER_CERTIFICATION_MISSING",
+    "identityRoles": {
+      "implementationSourceSha": "4f2f6a6383dbd0f496713628c7d9d5dd53675d74",
+      "implementationPrHeadSha": "c22a5069839b0654535d8740393042374e4a3fae",
+      "implementationMergeSha": "09c2ed9e4356a194550ee5c5344d09bdabc81889",
+      "evaluationHeadSha": "4d957820f61d4a35ad293f90865182ff2261f499",
+      "evaluationTreeSha": "d4f99d75bb40a723f8805b8972cf05c9a946bbb4",
+      "closurePrHeadSha": null,
+      "closureMergeSha": null,
+      "closurePostmergeSha": null
+    },
+    "selectedAdapterInterpretation": "ALREADY_MERGED_INTERNAL_BOUNDED_RECOVERY_LEDGER_IMPLEMENTATION_ONLY",
+    "broaderStorageSelection": "DEFERRED_TO_WP-203",
+    "laws": [
+      "append-only digest chain from genesis",
+      "monotonic sequence fence",
+      "typed bounded compaction with folded-head continuation",
+      "deterministic per-subject replay",
+      "recovery ledger remains derived evidence while the atomic commit marker remains commit truth"
+    ],
+    "artifactDigests": [
+      {
+        "path": "src/core/recovery-ledger-v1.cjs",
+        "sha256": "f6f0ab01ee768e374f07d2e830b2b4cca3b5a5a68278ca291b46229cffbb0e25"
+      },
+      {
+        "path": "src/core/project-commit-v1.cjs",
+        "sha256": "cc0f6a2b62f8e17efdc40caeef6e116dbc1eb380f0dd87987c1cfa430f133912"
+      }
+    ],
+    "outcomeMatrix": [
+      {
+        "outcome": "dependency-free R3-scoped bounded recovery ledger implementation",
+        "classification": "ALREADY_IMPLEMENTED"
+      },
+      {
+        "outcome": "digest chain, sequence fence, tamper refusal, entry-count bound, compaction and deterministic replay",
+        "classification": "ALREADY_IMPLEMENTED"
+      },
+      {
+        "outcome": "real-filesystem torn-tail recovery and post-ACK P3 failure isolation",
+        "classification": "ALREADY_IMPLEMENTED"
+      },
+      {
+        "outcome": "formal strict R2.4 R3 evidence, replayable state and terminal receipt",
+        "classification": "MISSING"
+      },
+      {
+        "outcome": "broader storage candidate selection and live production attachment",
+        "classification": "MISSING_OUTSIDE_R3_CERTIFICATION_AND_DEFERRED_TO_WP-203"
+      },
+      {
+        "outcome": "byte-size bound and multi-handle concurrent-writer serialization",
+        "classification": "PARTIAL_RESIDUAL_RISK_NOT_CLAIMED_BY_CURRENT_R3_ORACLE"
+      }
+    ],
+    "historicalOwnerTaskId": "YALKEN-R24-R3-RECOVERY-LEDGER-001",
+    "activationState": "OPTIONAL_INJECTION_SEAM_NOT_ATTACHED_TO_LIVE_MAIN_PATH",
+    "residualRisks": [
+      "entry count is bounded but serialized byte size is not separately capped",
+      "the exact oracle does not certify concurrent multi-handle writers",
+      "the production caller does not attach the ledger and no live storage adoption is claimed"
+    ]
+  }
+}

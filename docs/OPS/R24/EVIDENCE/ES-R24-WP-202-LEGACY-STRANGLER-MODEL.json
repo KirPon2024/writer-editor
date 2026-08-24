@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-202_LEGACY_STRANGLER",
+  "attemptId": "ATTEMPT-WP202-20260824",
+  "authorityEpoch": "R24-WP202-BASE-777D2100",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "8193fddcdae05b74cc5cbc69efc79918f229821a",
+    "treeSha": "1dd13f94d52b56cf33a8d1865d83284b2bf24ca5"
+  },
+  "createdAt": "2026-08-24T18:48:57Z",
+  "actor": "codex/r24-wp202-legacy-strangler-v1-20260824",
+  "stampId": "ES-R24-WP-202-LEGACY-STRANGLER-MODEL",
+  "claim": {
+    "type": "WP202_DUAL_OBSERVE_SINGLE_AUTHORITY_MODEL",
+    "ceiling": "WP202_NODE_ONLY_WRITER_SAVE_ROUTING_NO_STORAGE_FORMAT_CHANGE_NO_LEGACY_REMOVAL_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-wp202-model",
+    "evidenceClass": "MODEL",
+    "denominator": 8,
+    "passed": 8,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [],
+    "predecessorReceiptDigest": "096389d98ebc784965735ac720dabb7c81a165dd5ef4628ff2d8d3c97edb803c"
+  },
+  "artifact": {
+    "classification": "PARTIAL_AT_ADMISSION_EXISTING_WP200_AND_WP201_EXECUTORS_WITHOUT_EXPLICIT_DUAL_OBSERVE_SINGLE_AUTHORITY_GATEWAY",
+    "identityRoles": {
+      "implementationSourceSha": "a655b4312e22bb2732d4af121c3a679a8ca75d57",
+      "evaluationHeadSha": "8193fddcdae05b74cc5cbc69efc79918f229821a",
+      "evaluationTreeSha": "1dd13f94d52b56cf33a8d1865d83284b2bf24ca5",
+      "implementationPrHeadSha": null,
+      "implementationMergeSha": null,
+      "postmergeSha": null
+    },
+    "artifactDigests": [
+      { "path": "src/core/legacy-strangler-v1.cjs", "sha256": "87c99cc734cb19636270c42f23c777c04c2b05556e0a620e66157659d84d42b7" },
+      { "path": "src/main.js", "sha256": "d9953c2067e69a2975a402d9a07031c95fcbfd00f9bce4de245a107275530e17" },
+      { "path": "package.json", "sha256": "9a2daa3f708b2c29d324104b86285e9e2c31c0eba5ed248458e3fb0fa8658f14" },
+      { "path": ".github/workflows/rtk-required.yml", "sha256": "934995f68922599b651a21267db3b30091c22f4550ad11da6d2188f196ecc9ea" },
+      { "path": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json", "sha256": "d1fd7ad618f9aff7a9e1fb9c98c0df7c79f53ad4b9ee82f52a7187b07576950f" }
+    ],
+    "laws": [
+      "Every save request is bound to exact file path, content digest, revision, project-bound state and project authority path before observation.",
+      "Legacy and gateway observations use one strict schema and bind to the same immutable request digest.",
+      "Two distinct observer functions execute exactly once before any persistence effect.",
+      "Any route disagreement fails typed before either existing save authority executes.",
+      "Only the closed WP200 durable-save and WP201 project-transaction routes are accepted.",
+      "Exactly one selected existing authority executes after agreement.",
+      "Executor refusal or failure never invokes the other authority as fallback.",
+      "The underlying WP200 or WP201 phase chain remains intact for exact dirty-state acknowledgement."
+    ],
+    "residualRisks": [
+      "WP202 compares routing observations and does not remove the legacy routing implementation.",
+      "WP202 does not change the storage format, migrate user data or widen save capability.",
+      "No dependency, user document, SAFE_APPLY, release, signing, cloud, AI or program completion authority is added."
+    ]
+  }
+}

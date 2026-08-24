@@ -4,9 +4,9 @@
   "contourId": "WP-202_LEGACY_STRANGLER",
   "evidenceClass": "CONTRACT",
   "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
-  "headSha": "3a7664cd74fe2137e630f033283849fe864e4e0b",
+  "headSha": "a06b1dcb93bb2a208e689ca56d147c5d23cce624",
   "originMainSha": "3a7664cd74fe2137e630f033283849fe864e4e0b",
-  "generatedAtUtc": "2026-08-24T19:31:00Z",
+  "generatedAtUtc": "2026-08-24T19:33:00Z",
   "oracle": "strict ClaimBindingV1 exact-hash binding for replayable WP202 PlanState closure, exact-main postmerge evidence, survivor audit and source receipt",
   "claimBindings": [
     {
@@ -25,7 +25,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CTR-R24-WP-202-LEGACY-STRANGLER.json",
-      "sha256": "f08dc72dc4807d7d20d3e06170c48e893e1953488f94713002bcff3ba87eb2f2",
+      "sha256": "059ae02f146a7f7dd5afbba0e8bbb40039458aadaf26d655b35b234d567082f7",
       "claimTerms": [
         "PASS"
       ]

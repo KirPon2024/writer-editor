@@ -80,6 +80,12 @@ const {
   recoverProjectTransaction,
 } = require('./core/project-transaction-v1.cjs');
 const {
+  OBSERVER_IDS: SAVE_AUTHORITY_OBSERVER_IDS,
+  SAVE_AUTHORITY_ROUTES,
+  createAuthorityObservation,
+  executeWriterSaveThroughStranglerGateway,
+} = require('./core/legacy-strangler-v1.cjs');
+const {
   E_COMMAND_DISABLED_FOR_ENTITLEMENT,
   decideCommandEntitlement,
   getProductEntitlementTier,
@@ -18786,46 +18792,76 @@ async function persistBookProfileForFile(filePath, bookProfile, operationLabel =
   };
 }
 
-// R2.4 WP-201: project-bound Writer saves publish scene bytes and manifest
-// bytes under one journaled commit point. The manifest still flows through
-// its existing CAS authority; non-project files retain the WP-200 path.
+// R2.4 WP-202: old and new routing observations must agree before exactly one
+// existing WP-200 or WP-201 authority executes.
 async function commitWriterProjectSnapshot(filePath, content, revision, bookProfile, operationLabel) {
   try {
     const prepared = await prepareBookProfileManifestForFile(filePath, bookProfile);
-    if (!prepared || typeof prepared.expectedText !== 'string') {
-      return await durableSaveTransaction({ filePath, content, revision });
-    }
-    let expectedSceneContent = null;
-    try {
-      expectedSceneContent = await fs.readFile(filePath, 'utf8');
-    } catch (error) {
-      if (!error || error.code !== 'ENOENT') throw error;
-    }
-    const authority = await getMainProjectManifestAuthority();
-    const receipt = await commitProjectTransaction({
-      scenePath: filePath,
-      sceneContent: content,
-      expectedSceneContent,
-      manifestPath: prepared.manifestPath,
-      manifestContent: prepared.nextText,
-      expectedManifestContent: prepared.expectedText,
-      revision,
-      publishManifest: async ({ manifestPath, expectedText, nextText, reason }) => {
-        if (manifestPath !== prepared.manifestPath) {
-          const error = new Error('PROJECT_TRANSACTION_MANIFEST_PATH_MISMATCH');
-          error.code = 'E_PROJECT_TRANSACTION_MANIFEST_PATH_MISMATCH';
-          throw error;
-        }
-        await authority.commitManifestText({
-          projectId: prepared.projectId,
-          targetPath: manifestPath,
-          expectedText,
-          nextText,
-          label: `${operationLabel}:${reason}`,
-        });
+    const projectBound = Boolean(prepared && typeof prepared.expectedText === 'string');
+    const legacyRoute = projectBound
+      ? SAVE_AUTHORITY_ROUTES.PROJECT_TRANSACTION_V1
+      : SAVE_AUTHORITY_ROUTES.DURABLE_SAVE_V1;
+    return await executeWriterSaveThroughStranglerGateway({
+      request: {
+        filePath,
+        content,
+        revision,
+        projectBound,
+        projectAuthorityPath: projectBound ? prepared.manifestPath : null,
+      },
+      observeLegacy: async (identity) => createAuthorityObservation({
+        observerId: SAVE_AUTHORITY_OBSERVER_IDS.LEGACY,
+        requestDigest: identity.identityDigest,
+        route: legacyRoute,
+      }),
+      observeGateway: async (identity) => createAuthorityObservation({
+        observerId: SAVE_AUTHORITY_OBSERVER_IDS.GATEWAY,
+        requestDigest: identity.identityDigest,
+        route: identity.projectBound
+          ? SAVE_AUTHORITY_ROUTES.PROJECT_TRANSACTION_V1
+          : SAVE_AUTHORITY_ROUTES.DURABLE_SAVE_V1,
+      }),
+      executors: {
+        [SAVE_AUTHORITY_ROUTES.DURABLE_SAVE_V1]: async () => durableSaveTransaction({
+          filePath,
+          content,
+          revision,
+        }),
+        [SAVE_AUTHORITY_ROUTES.PROJECT_TRANSACTION_V1]: async () => {
+          let expectedSceneContent = null;
+          try {
+            expectedSceneContent = await fs.readFile(filePath, 'utf8');
+          } catch (error) {
+            if (!error || error.code !== 'ENOENT') throw error;
+          }
+          const authority = await getMainProjectManifestAuthority();
+          const receipt = await commitProjectTransaction({
+            scenePath: filePath,
+            sceneContent: content,
+            expectedSceneContent,
+            manifestPath: prepared.manifestPath,
+            manifestContent: prepared.nextText,
+            expectedManifestContent: prepared.expectedText,
+            revision,
+            publishManifest: async ({ manifestPath, expectedText, nextText, reason }) => {
+              if (manifestPath !== prepared.manifestPath) {
+                const error = new Error('PROJECT_TRANSACTION_MANIFEST_PATH_MISMATCH');
+                error.code = 'E_PROJECT_TRANSACTION_MANIFEST_PATH_MISMATCH';
+                throw error;
+              }
+              await authority.commitManifestText({
+                projectId: prepared.projectId,
+                targetPath: manifestPath,
+                expectedText,
+                nextText,
+                label: `${operationLabel}:${reason}`,
+              });
+            },
+          });
+          return Object.freeze({ ...receipt, projectTransaction: true });
+        },
       },
     });
-    return Object.freeze({ ...receipt, projectTransaction: true });
   } catch (error) {
     return {
       success: false,

@@ -18,8 +18,8 @@ test('main save paths consume durable receipts and never use generic atomic succ
   assert.match(main, /function acknowledgeMainOwnedSave\(saveReceipt, capturedContent, capturedGeneration\)/);
   assert.match(main, /bindSaveReceiptToAck\(\{/);
   assert.equal((main.match(/acknowledgeMainOwnedSave\(/g) || []).length, 7);
-  assert.match(main, /durableSaveWithCoordinator\(saveTargetPath, content, snapshot\.generation\)/);
-  assert.equal((main.match(/durableSaveWithCoordinator\(filePath, content, snapshot\.generation\)/g) || []).length, 2);
+  assert.match(main, /commitWriterProjectSnapshot\(/);
+  assert.match(main, /return await durableSaveTransaction\(\{ filePath, content, revision \}\);/);
   assert.doesNotMatch(main, /fileManager\.writeFileAtomic\(saveTargetPath, content\)/);
   assert.doesNotMatch(main, /acknowledgeMainOwnedSave\(snapshot\.generation\)/);
 });

@@ -75,8 +75,10 @@ const {
   createShadowAuthorityCell,
 } = require('./core/shadow-authority-cell-v1.cjs');
 const {
-  commitProjectTextAndManifest,
-} = require('./core/project-commit-v1.cjs');
+  commitProjectTransaction,
+  readPendingProjectTransactionBinding,
+  recoverProjectTransaction,
+} = require('./core/project-transaction-v1.cjs');
 const {
   E_COMMAND_DISABLED_FOR_ENTITLEMENT,
   decideCommandEntitlement,
@@ -18726,26 +18728,14 @@ async function collectFreeEditDeletedSceneIds(nodePath) {
   return [...new Set(deletedSceneIds)];
 }
 
-// R2.4 P3: rollback companion for the pair transaction — restores the
-// previously committed manifest object with CAS on the newer committed text.
-async function rollbackBookProfileForFile(filePath, previousManifest, expectedText) {
-  const projectBinding = await resolveProjectBindingForFile(filePath);
-  if (!projectBinding || !projectBinding.manifestPath) {
-    throw new Error('PROJECT_MANIFEST_ROLLBACK_BINDING_UNAVAILABLE');
-  }
-  await persistProjectManifestAtPath(projectBinding.manifestPath, previousManifest, 'autosave manifest rollback', {
-    expectedText,
-  });
-}
-
-async function persistBookProfileForFile(filePath, bookProfile, operationLabel = 'save project manifest') {
+async function prepareBookProfileManifestForFile(filePath, bookProfile) {
   if (typeof filePath !== 'string' || !filePath.trim()) {
-    return { persisted: false, manifest: null };
+    return null;
   }
 
   const projectBinding = await resolveProjectBindingForFile(filePath);
   if (!projectBinding || !projectBinding.manifestPath) {
-    return { persisted: false, manifest: null };
+    return null;
   }
 
   const sourceManifest = isPlainObjectValue(projectBinding.manifest) ? projectBinding.manifest : {};
@@ -18762,20 +18752,141 @@ async function persistBookProfileForFile(filePath, bookProfile, operationLabel =
   const sourceComparable = JSON.stringify(getProjectManifestComparable(sourceManifest));
   const nextComparable = JSON.stringify(getProjectManifestComparable(nextManifest));
 
-  if (sourceComparable === nextComparable) {
+  return {
+    changed: sourceComparable !== nextComparable,
+    projectId: nextManifest.projectId,
+    manifestPath: projectBinding.manifestPath,
+    expectedText: projectBinding.manifestRaw,
+    nextText: sourceComparable === nextComparable
+      ? projectBinding.manifestRaw
+      : JSON.stringify(nextManifest, null, 2),
+    manifest: nextManifest,
+  };
+}
+
+async function persistBookProfileForFile(filePath, bookProfile, operationLabel = 'save project manifest') {
+  const prepared = await prepareBookProfileManifestForFile(filePath, bookProfile);
+  if (!prepared) {
+    return { persisted: false, manifest: null };
+  }
+
+  if (!prepared.changed) {
     return {
       persisted: false,
-      manifest: nextManifest,
+      manifest: prepared.manifest,
     };
   }
 
-  await persistProjectManifestAtPath(projectBinding.manifestPath, nextManifest, operationLabel, {
-    expectedText: projectBinding.manifestRaw,
+  await persistProjectManifestAtPath(prepared.manifestPath, prepared.manifest, operationLabel, {
+    expectedText: prepared.expectedText,
   });
   return {
     persisted: true,
-    manifest: nextManifest,
+    manifest: prepared.manifest,
   };
+}
+
+// R2.4 WP-201: project-bound Writer saves publish scene bytes and manifest
+// bytes under one journaled commit point. The manifest still flows through
+// its existing CAS authority; non-project files retain the WP-200 path.
+async function commitWriterProjectSnapshot(filePath, content, revision, bookProfile, operationLabel) {
+  try {
+    const prepared = await prepareBookProfileManifestForFile(filePath, bookProfile);
+    if (!prepared || typeof prepared.expectedText !== 'string') {
+      return await durableSaveTransaction({ filePath, content, revision });
+    }
+    let expectedSceneContent = null;
+    try {
+      expectedSceneContent = await fs.readFile(filePath, 'utf8');
+    } catch (error) {
+      if (!error || error.code !== 'ENOENT') throw error;
+    }
+    const authority = await getMainProjectManifestAuthority();
+    const receipt = await commitProjectTransaction({
+      scenePath: filePath,
+      sceneContent: content,
+      expectedSceneContent,
+      manifestPath: prepared.manifestPath,
+      manifestContent: prepared.nextText,
+      expectedManifestContent: prepared.expectedText,
+      revision,
+      publishManifest: async ({ manifestPath, expectedText, nextText, reason }) => {
+        if (manifestPath !== prepared.manifestPath) {
+          const error = new Error('PROJECT_TRANSACTION_MANIFEST_PATH_MISMATCH');
+          error.code = 'E_PROJECT_TRANSACTION_MANIFEST_PATH_MISMATCH';
+          throw error;
+        }
+        await authority.commitManifestText({
+          projectId: prepared.projectId,
+          targetPath: manifestPath,
+          expectedText,
+          nextText,
+          label: `${operationLabel}:${reason}`,
+        });
+      },
+    });
+    return Object.freeze({ ...receipt, projectTransaction: true });
+  } catch (error) {
+    return {
+      success: false,
+      error: error && typeof error.message === 'string' ? error.message : 'unknown',
+      phase: error && typeof error.phase === 'string' ? error.phase : null,
+      code: error && typeof error.code === 'string' ? error.code : null,
+    };
+  }
+}
+
+async function recoverWriterProjectTransactionForFile(filePath) {
+  if (typeof filePath !== 'string' || !filePath.trim()) return { recovered: false, outcome: 'NOT_A_FILE' };
+  const projectRoot = getProjectRootPath();
+  if (!isPathInside(projectRoot, filePath)) return { recovered: false, outcome: 'NOT_PROJECT_BOUND' };
+  const manifestPath = getProjectManifestPath(currentProjectName || DEFAULT_PROJECT_NAME);
+  const authority = await getMainProjectManifestAuthority();
+  return recoverProjectTransaction({
+    scenePath: filePath,
+    manifestPath,
+    publishManifest: async ({ manifestPath: targetPath, expectedText, nextText, reason }) => {
+      if (targetPath !== manifestPath) {
+        const error = new Error('PROJECT_TRANSACTION_MANIFEST_PATH_MISMATCH');
+        error.code = 'E_PROJECT_TRANSACTION_MANIFEST_PATH_MISMATCH';
+        throw error;
+      }
+      let nextManifest;
+      try {
+        nextManifest = JSON.parse(nextText);
+      } catch {
+        const error = new Error('PROJECT_TRANSACTION_MANIFEST_JSON_INVALID');
+        error.code = 'E_PROJECT_TRANSACTION_MANIFEST_JSON_INVALID';
+        throw error;
+      }
+      const projectId = normalizeStableProjectId(nextManifest?.projectId);
+      if (!projectId) {
+        const error = new Error('PROJECT_TRANSACTION_PROJECT_ID_REQUIRED');
+        error.code = 'E_PROJECT_TRANSACTION_PROJECT_ID_REQUIRED';
+        throw error;
+      }
+      await authority.commitManifestText({
+        projectId,
+        targetPath,
+        expectedText,
+        nextText,
+        label: `project transaction ${reason}`,
+      });
+    },
+  });
+}
+
+async function recoverPendingWriterProjectTransaction() {
+  const manifestPath = getProjectManifestPath(currentProjectName || DEFAULT_PROJECT_NAME);
+  const binding = await readPendingProjectTransactionBinding({ manifestPath });
+  if (!binding.pending) return { recovered: false, outcome: 'NO_JOURNAL' };
+  const scenePathGuard = sanitizePayloadWithinProjectRoot({ path: binding.scenePath }, ['path']);
+  if (!scenePathGuard.ok || !scenePathGuard.payload) {
+    const error = new Error('PROJECT_TRANSACTION_SCENE_PATH_FORBIDDEN');
+    error.code = 'E_PROJECT_TRANSACTION_SCENE_PATH_FORBIDDEN';
+    throw error;
+  }
+  return recoverWriterProjectTransactionForFile(scenePathGuard.payload.path);
 }
 
 function isFileUrl(url) {
@@ -24132,6 +24243,7 @@ function buildFlowSceneReadDescriptor(node, identity) {
 async function handleFlowOpenV1() {
   try {
     await ensureProjectStructure();
+    await recoverPendingWriterProjectTransaction();
     const projectRoot = getProjectRootPath();
     const batchGuard = await getFlowBatchGuard(projectRoot);
     if (batchGuard.hasBlockingBatchState) {
@@ -25636,6 +25748,13 @@ async function openLastFile() {
   const exists = await fileExists(lastFilePath);
   if (!exists) return 'noFile';
   
+  try {
+    await recoverWriterProjectTransactionForFile(lastFilePath);
+  } catch (error) {
+    logDevError('openLastFile:projectTransactionRecovery', error);
+    updateStatus('Ошибка');
+    return 'error';
+  }
   const fileResult = await fileManager.readFile(lastFilePath);
     if (fileResult.success) {
       currentFilePath = lastFilePath;
@@ -26783,6 +26902,7 @@ async function handleUiOpenDocumentCommand(payload) {
 
   let content = '';
   try {
+    await recoverWriterProjectTransactionForFile(filePath);
     content = await fs.readFile(filePath, 'utf8');
   } catch (error) {
     if (error && error.code !== 'ENOENT') {
@@ -27375,6 +27495,7 @@ guardedHandle('ui:open-section', async (_, payload) => {
 
   let content = '';
   try {
+    await recoverWriterProjectTransactionForFile(filePath);
     content = await fs.readFile(filePath, 'utf8');
   } catch (error) {
     if (error && error.code !== 'ENOENT') {
@@ -27549,6 +27670,13 @@ async function handleOpen() {
       updateStatus('Ошибка');
       return makeAllowlistReject('FILE_OPEN_PATH_NOT_ALLOWED', filePath);
     }
+    try {
+      await recoverWriterProjectTransactionForFile(filePath);
+    } catch (error) {
+      logDevError('handleOpen:projectTransactionRecovery', error);
+      updateStatus('Ошибка');
+      return { ok: false, error: error && error.code ? error.code : 'PROJECT_TRANSACTION_RECOVERY_FAILED' };
+    }
     const fileResult = await fileManager.readFile(filePath);
     
     if (fileResult.success) {
@@ -27628,54 +27756,15 @@ async function runAutoSave() {
     if (saveTargetPath) {
       let saveReceipt = null;
       if (currentHash !== lastAutosaveHash) {
-        // R2.4 P3: scene and manifest commit as one transaction — the marker
-        // is the only commit point and a partial publication can never be
-        // ACKed. Manifest state is captured first so a scene-publish failure
-        // can roll the manifest back.
-        let preCommitManifest = null;
-        let preCommitManifestText = null;
-        try {
-          const bindingBefore = await resolveProjectBindingForFile(saveTargetPath);
-          if (bindingBefore && isPlainObjectValue(bindingBefore.manifest)) {
-            preCommitManifest = bindingBefore.manifest;
-            preCommitManifestText = typeof bindingBefore.manifestRaw === 'string' ? bindingBefore.manifestRaw : null;
-          }
-        } catch (error) {
-          logDevError('autoSave:preCommitManifestCapture', error);
-        }
-        let pairNextManifestText = null;
         const saveResult = await queueDiskOperation(
-          async () => {
-            try {
-              return await commitProjectTextAndManifest({
-                scenePath: saveTargetPath,
-                sceneContent: content,
-                revision: snapshot.generation,
-                persistManifest: async () => {
-                  const outcome = await persistBookProfileForFile(saveTargetPath, snapshot.bookProfile, 'autosave project manifest');
-                  if (outcome && outcome.persisted === true && outcome.manifest) {
-                    pairNextManifestText = JSON.stringify(outcome.manifest, null, 2);
-                  }
-                  return outcome;
-                },
-                rollbackManifest: preCommitManifest
-                  ? async () => {
-                      if (pairNextManifestText) {
-                        await rollbackBookProfileForFile(saveTargetPath, preCommitManifest, pairNextManifestText);
-                      }
-                    }
-                  : undefined,
-              });
-            } catch (error) {
-              return {
-                success: false,
-                error: error && typeof error.message === 'string' ? error.message : 'unknown',
-                code: error && typeof error.code === 'string' ? error.code : null,
-                rolledBack: error && error.rolledBack === true,
-              };
-            }
-          },
-          'autosave file'
+          () => commitWriterProjectSnapshot(
+            saveTargetPath,
+            content,
+            snapshot.generation,
+            snapshot.bookProfile,
+            'autosave project transaction',
+          ),
+          'autosave project transaction'
         );
         if (!saveResult.success) {
           updateStatus('Ошибка сохранения');
@@ -27690,10 +27779,15 @@ async function runAutoSave() {
           logDevError('autoSave:proDataInvalidation', error);
         }
       } else {
-        await persistBookProfileForFile(saveTargetPath, snapshot.bookProfile, 'autosave project manifest');
         saveReceipt = await queueDiskOperation(
-          () => durableSaveWithCoordinator(saveTargetPath, content, snapshot.generation),
-          'autosave exact content receipt',
+          () => commitWriterProjectSnapshot(
+            saveTargetPath,
+            content,
+            snapshot.generation,
+            snapshot.bookProfile,
+            'autosave exact project transaction',
+          ),
+          'autosave exact project transaction',
         );
         if (!saveReceipt.success) {
           updateStatus('Ошибка сохранения');
@@ -27876,8 +27970,14 @@ async function handleSave() {
     const contentHash = computeHash(content);
     const textChanged = contentHash !== lastAutosaveHash;
     const saveResult = await queueDiskOperation(
-      () => durableSaveWithCoordinator(saveTargetPath, content, snapshot.generation),
-      'save existing file'
+      () => commitWriterProjectSnapshot(
+        saveTargetPath,
+        content,
+        snapshot.generation,
+        snapshot.bookProfile,
+        'save existing project transaction',
+      ),
+      'save existing project transaction'
     );
     if (saveResult.success) {
       if (textChanged) {
@@ -27889,7 +27989,9 @@ async function handleSave() {
           logDevError('handleSave:proDataInvalidation', error);
         }
       }
-      await persistBookProfileForFile(saveTargetPath, snapshot.bookProfile, 'save project manifest');
+      if (saveResult.projectTransaction !== true) {
+        await persistBookProfileForFile(saveTargetPath, snapshot.bookProfile, 'save project manifest');
+      }
       if (currentLifecycleSubjectId() !== saveSubjectId) return false;
       lastAutosaveHash = contentHash;
       await saveLastFile({ selectionRange: snapshot.selectionRange });
@@ -27922,11 +28024,19 @@ async function handleSave() {
     if (currentLifecycleSubjectId() !== saveSubjectId) return false;
 
     const saveResult = await queueDiskOperation(
-      () => durableSaveWithCoordinator(filePath, content, snapshot.generation),
-      'save new file'
+      () => commitWriterProjectSnapshot(
+        filePath,
+        content,
+        snapshot.generation,
+        snapshot.bookProfile,
+        'save new project transaction',
+      ),
+      'save new project transaction'
     );
     if (saveResult.success) {
-      await persistBookProfileForFile(filePath, snapshot.bookProfile, 'save project manifest');
+      if (saveResult.projectTransaction !== true) {
+        await persistBookProfileForFile(filePath, snapshot.bookProfile, 'save project manifest');
+      }
       if (currentLifecycleSubjectId() !== saveSubjectId) return false;
       lastAutosaveHash = computeHash(content);
       currentFilePath = filePath;
@@ -27984,11 +28094,19 @@ async function handleSaveAs() {
     if (currentLifecycleSubjectId() !== saveSubjectId) return false;
 
     const saveResult = await queueDiskOperation(
-      () => durableSaveWithCoordinator(filePath, content, snapshot.generation),
-      'save as file'
+      () => commitWriterProjectSnapshot(
+        filePath,
+        content,
+        snapshot.generation,
+        snapshot.bookProfile,
+        'save as project transaction',
+      ),
+      'save as project transaction'
     );
     if (saveResult.success) {
-      await persistBookProfileForFile(filePath, snapshot.bookProfile, 'save project manifest');
+      if (saveResult.projectTransaction !== true) {
+        await persistBookProfileForFile(filePath, snapshot.bookProfile, 'save project manifest');
+      }
       if (currentLifecycleSubjectId() !== saveSubjectId) return false;
       lastAutosaveHash = computeHash(content);
       currentFilePath = filePath;

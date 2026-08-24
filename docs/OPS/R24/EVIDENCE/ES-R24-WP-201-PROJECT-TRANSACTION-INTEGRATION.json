@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-201_PROJECT_TRANSACTION",
+  "attemptId": "ATTEMPT-WP201-20260824",
+  "authorityEpoch": "R24-WP201-BASE-4DE97F42",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "f99bff1ef2e17f16449d5e221b6628fb4410ea93",
+    "treeSha": "6d21b27f911832b8cb64df66f8ce1f214c4faa3f"
+  },
+  "createdAt": "2026-08-24T15:11:29Z",
+  "actor": "codex/r24-wp201-project-transaction-v1-20260824",
+  "stampId": "ES-R24-WP-201-PROJECT-TRANSACTION-INTEGRATION",
+  "claim": {
+    "type": "WP201_AFFECTED_CHAIN_INTEGRATION",
+    "ceiling": "WP201_NODE_ONLY_ONE_SCENE_PLUS_MANIFEST_COMMIT_AND_TOTAL_RECOVERY_NO_MULTI_SCENE_BATCH_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-wp201-integration",
+    "evidenceClass": "INTEGRATION",
+    "denominator": 6,
+    "passed": 6,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": ["ES-R24-WP-201-PROJECT-TRANSACTION-CONTRACT"],
+    "predecessorReceiptDigest": "72369893c0e4ed0e95a8bcdeea44c69401d0f61112b805ac949669251e304d71"
+  },
+  "artifact": {
+    "identityRoles": {
+      "implementationSourceSha": "982875a1df4b074b8cc9d3f2c7ea63ef3802e48d",
+      "evaluationHeadSha": "f99bff1ef2e17f16449d5e221b6628fb4410ea93",
+      "evaluationTreeSha": "6d21b27f911832b8cb64df66f8ce1f214c4faa3f",
+      "implementationPrHeadSha": null,
+      "implementationMergeSha": null,
+      "postmergeSha": null
+    },
+    "commands": [
+      { "command": "npm run -s test:r24-wp201", "pass": 14, "fail": 0, "mutantsKilled": 6, "mutantsSurvived": 0 },
+      { "command": "npm run -s test:r24-wp200", "pass": 14, "fail": 0, "mutantsKilled": 6, "mutantsSurvived": 0 },
+      { "command": "npm run -s test:r24-p3", "pass": 12, "fail": 0, "mutantsKilled": 6, "mutantsSurvived": 0 },
+      { "command": "npm run -s test:r24-r5", "pass": 16, "fail": 0, "mutantsKilled": 11, "mutantsSurvived": 0 },
+      { "command": "npm run -s test:r24-f0", "pass": 7, "fail": 0, "mutantsKilled": 10, "mutantsSurvived": 0 },
+      {
+        "command": "npm run test:rtk",
+        "pass": 1059,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0,
+        "invocationId": "4175e6ab-04fb-488e-b874-9854c077a674",
+        "processGroupCleanup": "RTK_PROCESS_GROUP_CLEAN",
+        "leaseCleanupOk": true
+      }
+    ],
+    "observations": [
+      "journal publication precedes manifest and scene publication",
+      "matching durable commit record selects all-new recovery while its absence selects all-old",
+      "Writer Save, Save As and autosave use the WP201 transaction with WP200 fallback only for non-project files",
+      "ordinary open and Flow open recover before exposing scene or manifest projections",
+      "forged path, CAS drift and divergent bytes fail typed without acknowledgement",
+      "the maintained 1059-test RTK graph passes on the exact evaluation source"
+    ],
+    "runtimeMutation": true,
+    "residualRisks": [
+      "WP201 certifies one scene plus one manifest per transaction; Flow multi-scene batch save remains governed by its separate existing coordinator.",
+      "The filesystem physics tests use isolated synthetic temporary files and do not mutate user documents or Drive state.",
+      "No dependency, storage adoption, migration, SAFE_APPLY, release, signing, cloud or AI authority is added."
+    ]
+  }
+}

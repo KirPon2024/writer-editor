@@ -3,35 +3,42 @@
   "stampId": "ES-R24-WP-200-DURABLE-SAVE-CLAIM-BINDINGS",
   "contourId": "WP-200_DURABLE_SAVE",
   "evidenceClass": "CONTRACT",
-  "verdict": "PASS_AWAITING_PR_EXACT_HEAD_CI_POLICY_MERGE_POSTMERGE",
+  "verdict": "PASS",
   "headSha": "1c89f33d601a6a97263b57aaf5a6ad8756951d89",
   "originMainSha": "2028a5dc41b9b4ccb68291d247ed929403c9257c",
   "generatedAtUtc": "2026-08-24T12:25:41Z",
   "oracle": "strict ClaimBindingV1 exact-hash binding for WP200 implementation source, tests, maintained gate and bounded claims",
   "claimBindings": [
     {
-      "filePath": "package.json",
-      "sha256": "0921e969bb9c7ea33b79bb709678c75f3d153b6430fbe3e04d8560da324b9b95",
+      "filePath": "docs/OPS/R24/CTR-R24-WP-200-DURABLE-SAVE.json",
+      "sha256": "83fa3484a66fbf0121f331577442577541658a98ca05d9e77e5bab8973b349da",
       "claimTerms": [
-        "test:r24-wp200"
-      ]
-    },
-    {
-      "filePath": ".github/workflows/rtk-required.yml",
-      "sha256": "feadf17c22e986ec29ea783d5478edba3caec4fb6a84feb3c83a598b29ad9055",
-      "claimTerms": [
-        "Run R2.4 WP-200 durable save gate"
-      ]
-    },
-    {
-      "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "32013784448645452249e63de81bebb7552d0c00d75dc0ea809adbd393e09deb",
-      "claimTerms": [
-        "surface-package-json"
+        "PASS"
       ]
     }
   ],
   "implementationArtifactDigests": [
+    {
+      "path": "package.json",
+      "sha256": "0921e969bb9c7ea33b79bb709678c75f3d153b6430fbe3e04d8560da324b9b95",
+      "terms": [
+        "maintained test:r24-wp200 package gate"
+      ]
+    },
+    {
+      "path": ".github/workflows/rtk-required.yml",
+      "sha256": "feadf17c22e986ec29ea783d5478edba3caec4fb6a84feb3c83a598b29ad9055",
+      "terms": [
+        "exact-head R2.4 WP-200 durable save workflow gate"
+      ]
+    },
+    {
+      "path": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+      "sha256": "32013784448645452249e63de81bebb7552d0c00d75dc0ea809adbd393e09deb",
+      "terms": [
+        "approved package surface binding"
+      ]
+    },
     {
       "path": "src/core/save-receipt-ack-v1.cjs",
       "sha256": "f572b2d7717c08ea1ab0a674fc0b9934032e25370055551a439318039d5d31eb",

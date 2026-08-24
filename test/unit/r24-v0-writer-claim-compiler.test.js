@@ -5,17 +5,36 @@
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
 
 const ROOT = path.resolve(__dirname, '..', '..');
 const DAG_PATH = path.join(ROOT, 'docs', 'OPS', 'EVIDENCE', 'YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1', 'PROGRAM_DAG.json');
+const EXECUTABLE_PROGRAM_PATH = path.join(ROOT, 'docs', 'OPS', 'R24', 'EXECUTABLE_PROGRAM_R2_4.json');
+const F0_MODEL_PATH = path.join(ROOT, 'docs', 'OPS', 'R24', 'EVIDENCE', 'ES-R24-F0-WRITER-REFINEMENT-CONFORMANCE-MODEL.json');
 const MODULE_PATH = path.join(ROOT, 'scripts', 'ops', 'r24', 'writer-claim-compiler-v0.mjs');
 const HEAD = 'a'.repeat(40);
 const ORIGIN = 'b'.repeat(40);
 const TREE = 'c'.repeat(40);
 const DIGEST = 'f'.repeat(64);
+const REQUIRED_DNA_DIMENSIONS = Object.freeze([
+  'calm',
+  'disclosure',
+  'continuity',
+  'customization',
+  'optional-off',
+  'no-bloat',
+]);
+const REQUIRED_DNA_ROWS = Object.freeze([
+  'DNA_CALM_DEFAULT_IS_BASELINE_WRITE',
+  'DNA_DISCLOSURE_REQUIRES_EXPLICIT_ADVANCED_OPEN',
+  'DNA_CONTINUITY_BLOCKS_UNSAVED_LIFECYCLE',
+  'DNA_CUSTOMIZATION_CANNOT_HIDE_CORE_COMMANDS',
+  'DNA_OPTIONAL_OFF_PRESERVES_FREE_AUTHORSHIP',
+  'DNA_NO_BLOAT_HAS_ONLY_APPROVED_PRODUCT_DEPENDENCIES',
+]);
 
 async function compiler() {
   return import(pathToFileURL(MODULE_PATH).href);
@@ -150,6 +169,43 @@ test('V0 compiles a Writer-profile verdict from exact-head Writer gate evidence 
     requiredStageCount: result.profileVerdict.requiredStageCount,
     nonClaims: result.nonClaims.length,
   })}`);
+});
+
+test('V0 binds its Writer verdict to the exact F0 dependency, six DNA rows, and F0 artifact digest', async () => {
+  const c = await compiler();
+  const executableProgram = JSON.parse(fs.readFileSync(EXECUTABLE_PROGRAM_PATH, 'utf8'));
+  const v0Node = executableProgram.nodes.find((node) => node.id === c.V0_STAGE_ID);
+  const f0ModelBytes = fs.readFileSync(F0_MODEL_PATH);
+  const f0Model = JSON.parse(f0ModelBytes.toString('utf8'));
+  const f0ArtifactDigest = crypto.createHash('sha256').update(f0ModelBytes).digest('hex');
+
+  assert.deepEqual(v0Node.dependsOn, ['F0_WRITER_REFINEMENT_CONFORMANCE']);
+  assert.equal(f0Model.schemaVersion, 'EvidenceStampV2');
+  assert.equal(f0Model.contourId, 'F0_WRITER_REFINEMENT_CONFORMANCE');
+  assert.equal(f0Model.claim.verdict, 'PASS');
+  assert.deepEqual(f0Model.artifact.requiredDnaDimensions, REQUIRED_DNA_DIMENSIONS);
+  assert.deepEqual(f0Model.artifact.writerDnaRows, REQUIRED_DNA_ROWS);
+
+  const program = loadDag();
+  const gateEvidence = observedWriterEvidence(c, program);
+  const f0Index = gateEvidence.findIndex((row) => row.stageId === 'F0_WRITER_REFINEMENT_CONFORMANCE');
+  assert.notEqual(f0Index, -1);
+  gateEvidence[f0Index] = {
+    ...gateEvidence[f0Index],
+    source: 'OBSERVED_EVIDENCE_STAMP_V2',
+    artifact: { digest: f0ArtifactDigest },
+  };
+
+  const result = c.compileWriterVerdict(validInput(c, { program, gateEvidence }));
+  assert.equal(result.ok, true);
+  assert.equal(result.profileVerdict.requiredStageIds.includes('F0_WRITER_REFINEMENT_CONFORMANCE'), true);
+
+  const substitutedEvidence = gateEvidence.map((row, index) => (
+    index === f0Index ? { ...row, artifact: { digest: '0'.repeat(64) } } : row
+  ));
+  const substituted = c.compileWriterVerdict(validInput(c, { program, gateEvidence: substitutedEvidence }));
+  assert.equal(substituted.ok, true);
+  assert.notEqual(substituted.profileVerdict.gateEvidenceDigest, result.profileVerdict.gateEvidenceDigest);
 });
 
 test('V0 rejects missing prerequisite workflow gates before claim compilation', async () => {

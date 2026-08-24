@@ -1,0 +1,112 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-203_STORAGE_SELECTION",
+  "attemptId": "ATTEMPT-WP203-20260825",
+  "authorityEpoch": "R24-WP203-BASE-B6E83836",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "d0dde4bdc80a0c15ceaf6638407e1937d59121d2",
+    "treeSha": "152169b3037afc5b62c29eab5209857c1a7b36d4"
+  },
+  "createdAt": "2026-08-24T21:42:03Z",
+  "actor": "codex/r24-wp203-storage-selection-v1-20260825",
+  "stampId": "ES-R24-WP-203-STORAGE-SELECTION-EXACT-HEAD",
+  "claim": {
+    "type": "WP203_LOCAL_EXACT_EVALUATION_SOURCE_GREEN",
+    "ceiling": "WP203_NODE_ONLY_SELECTION_AND_EXISTING_LEDGER_NO_LIVE_STORAGE_ADOPTION_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-wp203-exact-head",
+    "evidenceClass": "INDEPENDENT_EXACT_HEAD",
+    "denominator": 1059,
+    "passed": 1059,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-203-STORAGE-SELECTION-MUTANTS"
+    ],
+    "predecessorReceiptDigest": "059ae02f146a7f7dd5afbba0e8bbb40039458aadaf26d655b35b234d567082f7"
+  },
+  "artifact": {
+    "identityRoles": {
+      "implementationSourceSha": "d0dde4bdc80a0c15ceaf6638407e1937d59121d2",
+      "evaluationHeadSha": "d0dde4bdc80a0c15ceaf6638407e1937d59121d2",
+      "evaluationTreeSha": "152169b3037afc5b62c29eab5209857c1a7b36d4",
+      "implementationPrHeadSha": null,
+      "implementationMergeSha": null,
+      "postmergeSha": null
+    },
+    "focusedCommand": "npm run -s test:r24-wp203",
+    "focusedCounts": {
+      "pass": 9,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "affectedChain": {
+      "r2": {
+        "pass": 13,
+        "fail": 0,
+        "mutantsKilled": 6,
+        "mutantsSurvived": 0
+      },
+      "r3": {
+        "pass": 12,
+        "fail": 0,
+        "mutantsKilled": 5,
+        "mutantsSurvived": 0
+      },
+      "release01": {
+        "pass": 46,
+        "fail": 0
+      }
+    },
+    "fullRtk": {
+      "invocationId": "e7f1e2bc-01a2-4710-b105-07cd27b6ae13",
+      "pass": 1059,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "exitCode": 0,
+      "durationMs": 335639.334584,
+      "processGroupCleanup": "RTK_PROCESS_GROUP_CLEAN",
+      "leaseCleanupOk": true,
+      "stderr": ""
+    },
+    "discardedToolingAttempt": {
+      "invocationId": "38dd2d23-dec8-43d3-82d8-0dad11b0549d",
+      "result": "NOT_EVIDENCE_APP_SANDBOX_PROCESS_INSPECTION_EPERM",
+      "implementationAssertionFailure": false,
+      "recovery": "owned child processes terminated and exact owned temporary directory removed before the full rerun"
+    },
+    "ossPolicy": "PASS",
+    "guardrails": "PASS",
+    "diffCheck": "PASS",
+    "docsClaimLint": {
+      "filesWithClaims": 30,
+      "stampCount": 192,
+      "verdict": "PASS"
+    },
+    "e0Lane": {
+      "suitePass": 97,
+      "suiteFail": 0,
+      "mutantsKilled": 31,
+      "mutantsSurvived": 0,
+      "verdict": "PASS"
+    },
+    "deliveryState": "AWAITING_EVIDENCE_COMMIT_PR_EXACT_HEAD_CI_POLICY_MERGE_AND_POSTMERGE",
+    "nonClaims": [
+      "This is local evaluation-source evidence, not PR-head, merge or postmerge evidence.",
+      "WP203 selects existing atomic commit truth and the existing bounded recovery ledger without attaching a new live path.",
+      "No dependency, storage migration, destructive action, user document, SAFE_APPLY, release, signing, cloud or AI authority is changed.",
+      "WP203 PlanState remains PENDING until policy merge and exact postmerge verification."
+    ]
+  }
+}

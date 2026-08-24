@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-203_STORAGE_SELECTION",
+  "attemptId": "ATTEMPT-WP203-20260825",
+  "authorityEpoch": "R24-WP203-BASE-B6E83836",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "d0dde4bdc80a0c15ceaf6638407e1937d59121d2",
+    "treeSha": "152169b3037afc5b62c29eab5209857c1a7b36d4"
+  },
+  "createdAt": "2026-08-24T21:42:03Z",
+  "actor": "codex/r24-wp203-storage-selection-v1-20260825",
+  "stampId": "ES-R24-WP-203-STORAGE-SELECTION-MUTANTS",
+  "claim": {
+    "type": "WP203_IMPLEMENTATION_MUTATION_ORACLE",
+    "ceiling": "WP203_NODE_ONLY_SELECTION_AND_EXISTING_LEDGER_NO_LIVE_STORAGE_ADOPTION_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-wp203-mutants",
+    "evidenceClass": "IMPLEMENTATION_MUTANTS",
+    "denominator": 5,
+    "passed": 5,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-203-STORAGE-SELECTION-INTEGRATION"
+    ],
+    "predecessorReceiptDigest": "059ae02f146a7f7dd5afbba0e8bbb40039458aadaf26d655b35b234d567082f7"
+  },
+  "artifact": {
+    "command": "node --test test/unit/r24-wp203-storage-selection-mutants.test.js",
+    "mutationReceipt": {
+      "total": 5,
+      "killed": 5,
+      "survived": [],
+      "score": 1
+    },
+    "mutantIds": [
+      "owner-approval-bypass",
+      "authority-expansion-bypass",
+      "correctness-filter-bypass",
+      "pareto-dominance-bypass",
+      "receipt-digest-bypass"
+    ],
+    "artifactDigests": [
+      {
+        "path": "test/unit/r24-wp203-storage-selection-mutants.test.js",
+        "sha256": "7b0f01b10eecf353993518b6b63f9059353c94e1ee2c93c65032c3d05d4db20d"
+      }
+    ],
+    "identityRoles": {
+      "implementationSourceSha": "d0dde4bdc80a0c15ceaf6638407e1937d59121d2",
+      "evaluationHeadSha": "d0dde4bdc80a0c15ceaf6638407e1937d59121d2",
+      "evaluationTreeSha": "152169b3037afc5b62c29eab5209857c1a7b36d4",
+      "implementationPrHeadSha": null,
+      "implementationMergeSha": null,
+      "postmergeSha": null
+    }
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-V1-ATLAS-CLAIM-COMPILER-CLAIM-BINDINGS",
+  "contourId": "V1_ATLAS_CLAIM_COMPILER",
+  "evidenceClass": "CONTRACT",
+  "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
+  "headSha": "9db685e6dfcb56878e9ef0018b6a7341474cf26a",
+  "originMainSha": "8b1535018f203fff57a8fcfc0618115260205f3c",
+  "generatedAtUtc": "2026-08-24T17:44:41Z",
+  "oracle": "strict ClaimBindingV1 exact-hash binding for replayable V1 PlanState closure, exact-main postmerge evidence, survivor audit and source receipt",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+      "sha256": "b1b9e63edbbc7cbe97c3e1704c833181988d1bec0b19360abc2a5bb5d2a4b47d",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+      "sha256": "0a4d71afafc32cbd09e971fb21bcc1953ba1773c6ce62ecefc0e9922b96b9ca3",
+      "claimTerms": [
+        "CLOSED"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CTR-R24-V1-ATLAS-CLAIM-COMPILER.json",
+      "sha256": "096389d98ebc784965735ac720dabb7c81a165dd5ef4628ff2d8d3c97edb803c",
+      "claimTerms": [
+        "PASS"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "package.json",
+      "sha256": "28fc8746c950250de09ffa86a7a730cc8128ee7ef218168070286def7aa4d7a1",
+      "terms": [
+        "maintained test:r24-v1 package gate"
+      ]
+    },
+    {
+      "path": ".github/workflows/rtk-required.yml",
+      "sha256": "d0e64e9c43116ebba0e3b53dee6b6259ec6963bd9a675e04425c4a949ec0a9bb",
+      "terms": [
+        "exact-head R2.4 V1 Atlas claim compiler workflow gate"
+      ]
+    },
+    {
+      "path": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+      "sha256": "94d1fa3a1d2940deff061a15062c440e5b7a3cdeda5a4fd38a06d7e0a303aa50",
+      "terms": [
+        "approved V1 certification surface binding"
+      ]
+    },
+    {
+      "path": "scripts/ops/r24/compile-atlas-claims.mjs",
+      "sha256": "434229f1be459c9349088d6ffa801a9ac3c929a9f9278812c1da29fab6b1d793",
+      "terms": [
+        "V1 fail-closed Atlas claim compiler implementation"
+      ]
+    },
+    {
+      "path": "scripts/ops/r24/lib/observed-evidence.mjs",
+      "sha256": "da160e0b981c3aab387a34a553e41daf220bda3c2eea446a135238ae701d3d29",
+      "terms": [
+        "exact A0 observed-evidence validation helper"
+      ]
+    },
+    {
+      "path": "scripts/ops/r24/tests/v1-atlas-claim-compiler.test.mjs",
+      "sha256": "cd72f00b3beafaebe11deb9f1fb2370cc300cce6eccac001b77f17fb3e2ea36b",
+      "terms": [
+        "V1 contract and integration tests"
+      ]
+    },
+    {
+      "path": "scripts/ops/r24/tests/v1-atlas-claim-mutants.test.mjs",
+      "sha256": "91ca0ef439cb0cd52ab5fd2ffab60acd7dbcd64289135cc438e8840191c81033",
+      "terms": [
+        "seven named V1 implementation mutants killed"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "npm run test:r24-v1",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 10,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 7,
+        "survived": 0
+      }
+    },
+    {
+      "command": "npm run test:r24-b0",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 32,
+        "fail": 0
+      }
+    },
+    {
+      "command": "node scripts/ops/r24/docs-claim-lint.mjs && node --test scripts/ops/r24/tests/docs-claim-lint.test.mjs",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 9,
+        "fail": 0
+      },
+      "requiredDisposition": "Strict ClaimBindingV1 lint passes and all nine negative schema mutants are rejected on the closure candidate rooted at exact main 8b153501."
+    },
+    {
+      "command": "GitHub exact PR-head required checks",
+      "verdict": "PASS",
+      "requiredDisposition": "PR head f94ba9e5e253b69b0354007398ae6bf4c3965ffa has green RTK, OSS, Ubuntu and Windows parity, and ops_vector_close."
+    },
+    {
+      "command": "GitHub exact-main postmerge RTK and OSS",
+      "verdict": "PASS",
+      "requiredDisposition": "Merge 8b1535018f203fff57a8fcfc0618115260205f3c is terminal green in exact-main RTK run 32755420837 and OSS run 32755420831."
+    }
+  ],
+  "nonClaims": [
+    "This binding closes only the bounded V1_ATLAS_CLAIM_COMPILER contour.",
+    "V1 certifies only the Atlas profile claim projection bound to exact A0 evidence and does not promote Writer core.",
+    "WP202 and all later work packages remain independently graph-gated.",
+    "No runtime source, product state, user document, dependency, storage path, SAFE_APPLY, cloud, AI, signing, release or program completion authority is added."
+  ]
+}

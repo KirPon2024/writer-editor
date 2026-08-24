@@ -1,0 +1,119 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-V1-ATLAS-CLAIM-COMPILER-SURVIVOR-AUDIT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "V1_ATLAS_CLAIM_COMPILER",
+  "attemptId": "ATTEMPT-V1-20260824",
+  "authorityEpoch": "R24-V1-CERTIFICATION-BASE-AD4840B2",
+  "profileId": "ATLAS_MAPS_DERIVED",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "8b1535018f203fff57a8fcfc0618115260205f3c",
+    "treeSha": "b99c69e4d9d1d9eef0e1d53c5dd867330702850d"
+  },
+  "claim": {
+    "type": "V1_EXACT_MERGE_SURVIVOR_AUDIT",
+    "ceiling": "V1_NODE_ONLY_ATLAS_PROFILE_A0_AND_FAIL_CLOSED_CLAIM_PROJECTION_NO_WRITER_PROMOTION_NO_RELEASE_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "exact-merge-v1-atlas-claim-compiler-mutant-survivor-audit",
+    "evidenceClass": "SURVIVOR_AUDIT",
+    "denominator": 17,
+    "passed": 17,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-V1-ATLAS-CLAIM-COMPILER-POSTMERGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "629853f0d55f0f721315249a5654d58bbba3e57b1a6ef114556ceef0fae35ff8"
+  },
+  "createdAt": "2026-08-24T17:36:37Z",
+  "actor": "codex/r24-v1-postmerge-closure-v1-20260824",
+  "artifact": {
+    "pr": {
+      "number": 1677,
+      "baseSha": "ad4840b205422736c8af21dd49850d2dcd390784",
+      "originalCompilerIntroductionMergeSha": "788f09b9d3cbe5780862b030fae9494f005da183",
+      "existingCompilerImplementationSourceSha": "f6e92ab57829e44a7aa360893acbb4952b3b2fbe",
+      "certificationSourceSha": "ad4840b205422736c8af21dd49850d2dcd390784",
+      "prHeadSha": "f94ba9e5e253b69b0354007398ae6bf4c3965ffa",
+      "mergeSha": "8b1535018f203fff57a8fcfc0618115260205f3c",
+      "mergedAt": "2026-08-24T17:13:51Z",
+      "treeUnchangedFromPrHead": true
+    },
+    "requiredPrChecks": [
+      {
+        "name": "rtk-required",
+        "runId": 32753507152,
+        "jobId": 97515673118,
+        "headSha": "f94ba9e5e253b69b0354007398ae6bf4c3965ffa",
+        "conclusion": "success"
+      },
+      {
+        "name": "oss-policy",
+        "runId": 32753507249,
+        "jobId": 97515673855,
+        "headSha": "f94ba9e5e253b69b0354007398ae6bf4c3965ffa",
+        "conclusion": "success"
+      },
+      {
+        "name": "x1-runtime-parity (ubuntu-latest)",
+        "runId": 32753507112,
+        "jobId": 97515673331,
+        "headSha": "f94ba9e5e253b69b0354007398ae6bf4c3965ffa",
+        "conclusion": "success"
+      },
+      {
+        "name": "x1-runtime-parity (windows-latest)",
+        "runId": 32753507112,
+        "jobId": 97515672982,
+        "headSha": "f94ba9e5e253b69b0354007398ae6bf4c3965ffa",
+        "conclusion": "success"
+      },
+      {
+        "name": "ops_vector_close",
+        "runId": 32755421922,
+        "jobId": 97521723481,
+        "headSha": "f94ba9e5e253b69b0354007398ae6bf4c3965ffa",
+        "conclusion": "success"
+      }
+    ],
+    "postmergeChecks": [
+      {
+        "name": "rtk-required",
+        "runId": 32755420837,
+        "jobId": 97521720949,
+        "headSha": "8b1535018f203fff57a8fcfc0618115260205f3c",
+        "conclusion": "success"
+      },
+      {
+        "name": "OSS policy",
+        "runId": 32755420831,
+        "jobId": 97521719024,
+        "headSha": "8b1535018f203fff57a8fcfc0618115260205f3c",
+        "conclusion": "success"
+      }
+    ],
+    "focusedPostmerge": {
+      "v1TestsPassed": 10,
+      "v1TestsFailed": 0,
+      "mutantsKilled": 7,
+      "mutantsSurvived": 0,
+      "affectedChainTestsPassed": 32,
+      "affectedChainTestsFailed": 0,
+      "docsNegativeTestsPassed": 9,
+      "docsNegativeTestsFailed": 0
+    },
+    "denominatorLaw": "All ten maintained V1 tests and seven named implementation mutants pass on the unchanged merge tree; the maintained 32-test affected chain, strict docs lint and nine negative tests, exact PR-head parity and required checks, and exact-main RTK and OSS are terminal green.",
+    "residualRisks": [
+      "V1 computes only the Atlas profile verdict from exact A0 evidence and does not promote Writer core.",
+      "WP202 and all later work packages remain independently graph-gated.",
+      "No user document, dependency, storage path, SAFE_APPLY, signing, release, cloud, AI or program completion authority is added."
+    ]
+  }
+}

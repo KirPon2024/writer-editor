@@ -1,0 +1,113 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-WP-203-STORAGE-SELECTION-POSTMERGE-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-203_STORAGE_SELECTION",
+  "attemptId": "ATTEMPT-WP203-20260825",
+  "authorityEpoch": "R24-WP203-BASE-B6E83836",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "65f1cb12e676b2c342fc8102974f6d2184751ba3",
+    "treeSha": "8fdf431e0f1cb0d848d6b88d534a71a85a537d56"
+  },
+  "claim": {
+    "type": "WP203_EXACT_MAIN_POSTMERGE_REQUIRED_GATES",
+    "ceiling": "WP203_NODE_ONLY_SELECTION_AND_EXISTING_LEDGER_NO_LIVE_STORAGE_ADOPTION_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "exact-main-wp203-required-gates",
+    "evidenceClass": "POSTMERGE",
+    "denominator": 1059,
+    "passed": 1059,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-203-STORAGE-SELECTION-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "059ae02f146a7f7dd5afbba0e8bbb40039458aadaf26d655b35b234d567082f7"
+  },
+  "createdAt": "2026-08-24T22:31:00Z",
+  "actor": "codex/r24-wp203-postmerge-closure-v1-20260825",
+  "artifact": {
+    "identityRoles": {
+      "implementationSourceSha": "d0dde4bdc80a0c15ceaf6638407e1937d59121d2",
+      "evaluationHeadSha": "d0dde4bdc80a0c15ceaf6638407e1937d59121d2",
+      "evaluationTreeSha": "152169b3037afc5b62c29eab5209857c1a7b36d4",
+      "implementationPrHeadSha": "c03b08321f357f37a2c964b0a10b4a508e56d55a",
+      "implementationMergeSha": "65f1cb12e676b2c342fc8102974f6d2184751ba3",
+      "postmergeSha": "65f1cb12e676b2c342fc8102974f6d2184751ba3"
+    },
+    "pr": {
+      "number": 1681,
+      "baseSha": "b6e838361fcf351e6b2dfe05b8ce948968c4fc8a",
+      "prHeadSha": "c03b08321f357f37a2c964b0a10b4a508e56d55a",
+      "mergeSha": "65f1cb12e676b2c342fc8102974f6d2184751ba3",
+      "mergedAt": "2026-08-24T22:08:57Z",
+      "prHeadTreeSha": "8fdf431e0f1cb0d848d6b88d534a71a85a537d56",
+      "mergeTreeSha": "8fdf431e0f1cb0d848d6b88d534a71a85a537d56",
+      "treeUnchangedFromPrHead": true
+    },
+    "requiredPrChecks": [
+      {
+        "name": "rtk-required",
+        "runId": 32781454527,
+        "jobId": 97604210167,
+        "headSha": "c03b08321f357f37a2c964b0a10b4a508e56d55a",
+        "conclusion": "success"
+      },
+      {
+        "name": "oss-policy",
+        "runId": 32781454512,
+        "jobId": 97604209882,
+        "headSha": "c03b08321f357f37a2c964b0a10b4a508e56d55a",
+        "conclusion": "success"
+      },
+      {
+        "name": "x1-runtime-parity (ubuntu-latest)",
+        "runId": 32781454656,
+        "jobId": 97604210876,
+        "headSha": "c03b08321f357f37a2c964b0a10b4a508e56d55a",
+        "conclusion": "success"
+      },
+      {
+        "name": "x1-runtime-parity (windows-latest)",
+        "runId": 32781454656,
+        "jobId": 97604210650,
+        "headSha": "c03b08321f357f37a2c964b0a10b4a508e56d55a",
+        "conclusion": "success"
+      }
+    ],
+    "postmergeChecks": [
+      {
+        "name": "rtk-required",
+        "runId": 32783222195,
+        "jobId": 97609587720,
+        "headSha": "65f1cb12e676b2c342fc8102974f6d2184751ba3",
+        "conclusion": "success"
+      },
+      {
+        "name": "OSS policy",
+        "runId": 32783222253,
+        "jobId": 97609587807,
+        "headSha": "65f1cb12e676b2c342fc8102974f6d2184751ba3",
+        "conclusion": "success"
+      }
+    ],
+    "fullRtk": {
+      "pass": 1059,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "residualRisks": [
+      "WP203 certifies a deterministic choice among already evaluated candidates but does not adopt a dependency or attach a live storage path.",
+      "No user migration, destructive storage action, SAFE_APPLY, release, signing, cloud or AI authority is added."
+    ]
+  }
+}

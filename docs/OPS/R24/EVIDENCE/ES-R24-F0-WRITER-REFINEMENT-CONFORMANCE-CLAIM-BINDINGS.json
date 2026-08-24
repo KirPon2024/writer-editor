@@ -1,0 +1,134 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-F0-WRITER-REFINEMENT-CONFORMANCE-CLAIM-BINDINGS",
+  "contourId": "F0_WRITER_REFINEMENT_CONFORMANCE",
+  "evidenceClass": "CONTRACT",
+  "verdict": "PASS",
+  "headSha": "01e826a64771c2009ebc50d01fecddfe813deb95",
+  "originMainSha": "cbf4dc966d87058b67fcbcfb2d0479880dac9ddb",
+  "generatedAtUtc": "2026-08-24T08:25:52Z",
+  "oracle": "strict ClaimBindingV1 exact-hash binding for the F0 executable program contract, implementation source, tests and exact-source executed evidence",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+      "sha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+      "claimTerms": [
+        "PASS"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "test/unit/r24-f0-writer-refinement-conformance.test.js",
+      "sha256": "757048537615931772b69ed5cb8017b830b5840689ae9e6f35d2517bff2f8b8c",
+      "terms": [
+        "nineteen executable Writer refinement rows",
+        "six exact calm, disclosure, continuity, customization, optional-off and no-bloat dimensions"
+      ]
+    },
+    {
+      "path": "test/unit/r24-f0-refinement-physics.test.js",
+      "sha256": "1346446bab486a9cc42f657d5ebda8cbbcf756ccff207d3302d3a2547c01ade7",
+      "terms": [
+        "four physical filesystem and lifecycle refinement probes"
+      ]
+    },
+    {
+      "path": "test/unit/r24-f0-refinement-mutants.test.js",
+      "sha256": "ee74c503e5ad069904457f48c62c788e3995c491433ff1da1d950a658bbad557",
+      "terms": [
+        "ten named implementation mutants killed"
+      ]
+    },
+    {
+      "path": "src/renderer/design-os/designOsRuntime.mjs",
+      "sha256": "749bd1d45c4ccb48eae338e93065960cca6f8ecd10116550120ccc701a5c6538",
+      "terms": [
+        "calm baseline Writer runtime context"
+      ]
+    },
+    {
+      "path": "src/renderer/design-os/atlasFeatureIntegrationManifest.mjs",
+      "sha256": "765b3488ad42f486c5a8ed47fb49ffb86d89b40df2f1270dd502de07391392e2",
+      "terms": [
+        "explicit-open advanced Atlas surfaces"
+      ]
+    },
+    {
+      "path": "src/renderer/design-os/repoDesignOsCompat.mjs",
+      "sha256": "c0be2575d7e15eb4efeef33e1a1171b6fff8b375fad3a9a577204bf2550266f9",
+      "terms": [
+        "customization preserves required core command visibility"
+      ]
+    },
+    {
+      "path": "src/core/lifecycle-conflict-v1.cjs",
+      "sha256": "c0dfbf60c52cad3728572ff576fb1b475e09fa70b3524152e9ab3f4227d60ed6",
+      "terms": [
+        "unsaved authoring lifecycle barrier"
+      ]
+    },
+    {
+      "path": "src/core/entitlement-law-v1.cjs",
+      "sha256": "769415fe8be51a907fdd43fa4066da179b31afe77a73bc9314f5ac0f41a5b35e",
+      "terms": [
+        "optional complexity refusal preserves free authorship commands"
+      ]
+    },
+    {
+      "path": "package.json",
+      "sha256": "e8566f7d509907bcb991ea957b6a65543ea04cdc17366162c6d17a63d6b9ce91",
+      "terms": [
+        "approved dependency denominator with no UI framework or optional dependency"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "npm run -s test:r24-f0",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 7,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 10,
+        "survived": 0
+      },
+      "requiredDisposition": "Nineteen model rows including all six mandatory Writer DNA dimensions passed on exact implementation source."
+    },
+    {
+      "command": "ENT0, R5 and relevant Design OS affected-chain suites",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 72,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 18,
+        "survived": 0
+      },
+      "requiredDisposition": "Affected entitlement, lifecycle, menu and Design OS boundaries remain green."
+    },
+    {
+      "command": "npm run test:rtk",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "Exact implementation source 01e826a6 is green with clean process-group and lease cleanup."
+    },
+    {
+      "command": "npm run agent:guardrails and npm run oss:policy and git diff --check",
+      "verdict": "PASS",
+      "requiredDisposition": "Repository guardrails, dependency policy and whitespace integrity passed."
+    }
+  ],
+  "nonClaims": [
+    "This binding certifies only the bounded F0 exact implementation-source evidence before PR delivery.",
+    "It does not claim PR-head CI, merge, postmerge, PlanState DONE, visual readiness, physical macOS qualification, release readiness or program completion.",
+    "The unrelated ad hoc sector-m command-palette fixture failure is byte-identical to the admission base, outside declared F0 write scope and absent from maintained RTK.",
+    "No runtime source, product state, user document, dependency, storage path, SAFE_APPLY, release, signing, cloud or AI authority is added."
+  ]
+}

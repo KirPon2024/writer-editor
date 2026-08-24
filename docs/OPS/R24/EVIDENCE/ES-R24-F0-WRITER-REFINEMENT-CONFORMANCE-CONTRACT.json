@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "F0_WRITER_REFINEMENT_CONFORMANCE",
+  "attemptId": "ATTEMPT-F0-20260824",
+  "authorityEpoch": "R24-F0-REFINEMENT-BASE-CBF4DC96",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "01e826a64771c2009ebc50d01fecddfe813deb95",
+    "treeSha": "08c2450369fe7398577d599dbacc55957f22b558"
+  },
+  "createdAt": "2026-08-24T08:25:52Z",
+  "actor": "codex/r24-f0-writer-refinement-certification-v1-20260824",
+  "stampId": "ES-R24-F0-WRITER-REFINEMENT-CONFORMANCE-CONTRACT",
+  "claim": {
+    "type": "F0_WRITER_REFINEMENT_CONTRACT",
+    "ceiling": "F0_NODE_ONLY_EXACT_EXECUTABLE_PROGRAM_DEPENDENCIES_ISSUES_EVIDENCE_ROWS_AND_DNA_NO_UI_READINESS_NO_RELEASE_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-f0-contract",
+    "evidenceClass": "CONTRACT",
+    "denominator": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-F0-WRITER-REFINEMENT-CONFORMANCE-MODEL"
+    ],
+    "predecessorReceiptDigest": "77262e064e5be63fd3566f8dfa6648fcb7a39bdd0940d3fb4a5c9da75791e799"
+  },
+  "artifact": {
+    "command": "npm run -s test:r24-f0",
+    "tests": {
+      "pass": 7,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "refinementRows": 19,
+    "writerDnaDimensions": 6,
+    "physicalRows": 4,
+    "executableProgramSha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+    "implementationSourceSha": "01e826a64771c2009ebc50d01fecddfe813deb95",
+    "evaluationHeadSha": "01e826a64771c2009ebc50d01fecddfe813deb95",
+    "evaluationTreeSha": "08c2450369fe7398577d599dbacc55957f22b558",
+    "prHeadSha": null,
+    "mergeSha": null,
+    "postmergeSha": null
+  }
+}

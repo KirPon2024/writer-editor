@@ -4,9 +4,9 @@
   "contourId": "R5_LIFECYCLE_EXTERNAL_CONFLICT",
   "evidenceClass": "CONTRACT",
   "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
-  "headSha": "c32661613c3e0ceed9890dfc8ce7ab7ae1e4ee0e",
+  "headSha": "860a462b1e2e82499baffd27ff455210077971b0",
   "originMainSha": "c32661613c3e0ceed9890dfc8ce7ab7ae1e4ee0e",
-  "generatedAtUtc": "2026-08-24T05:02:18Z",
+  "generatedAtUtc": "2026-08-24T05:05:00Z",
   "oracle": "strict ClaimBindingV1 exact-hash binding for replayable R5 PlanState closure, exact-main postmerge evidence, survivor audit and source receipt",
   "claimBindings": [
     {

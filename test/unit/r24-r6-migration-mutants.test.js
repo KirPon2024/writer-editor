@@ -6,6 +6,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
+const fsp = require('node:fs/promises');
 const os = require('node:os');
 const path = require('node:path');
 
@@ -42,6 +43,31 @@ const MUTANTS = [
     find: "  if (historyEntryDigest(entry) !== entry.digest) throw new MigrationHistoryError('E_R6_HISTORY_DIGEST', String(entry.seq));",
     replace: "  if (false) throw new MigrationHistoryError('E_R6_HISTORY_DIGEST', String(entry.seq));",
   },
+  {
+    id: 'index-id-sequence-not-bound',
+    find: "  if (!match || Number(match[1]) !== record.sequence) {\n    throw new MigrationHistoryError(\`E_R6_INDEX_\${kind}_ID\`, String(id));\n  }",
+    replace: "  if (false) {\n    throw new MigrationHistoryError(\`E_R6_INDEX_\${kind}_ID\`, String(id));\n  }",
+  },
+  {
+    id: 'artifact-symlink-followed',
+    find: "  const stat = fs.lstatSync(candidate);\n  if (stat.isSymbolicLink() || !stat.isFile()) throw new MigrationHistoryError(code, basename);\n  const canonical = fs.realpathSync(candidate);\n  if (path.dirname(canonical) !== resolvedRoot) throw new MigrationHistoryError(code, basename);",
+    replace: "  return candidate;",
+  },
+  {
+    id: 'history-nonregular-untyped',
+    find: "  const stat = fs.lstatSync(historyPath);\n  if (stat.isSymbolicLink() || !stat.isFile()) {\n    throw new MigrationHistoryError('E_R6_HISTORY_LOG_NOT_REGULAR');\n  }",
+    replace: "  const stat = fs.lstatSync(historyPath);",
+  },
+  {
+    id: 'migration-history-preflight-skipped',
+    find: "  const chain = buildMigrationChain(project.schemaVersion, targetVersion, migrations);\n  await preflightHistoryAppend(root);",
+    replace: "  const chain = buildMigrationChain(project.schemaVersion, targetVersion, migrations);",
+  },
+  {
+    id: 'migration-history-rollback-keeps-target',
+    find: "      previousContent: rawContent,",
+    replace: "      previousContent: targetContent,",
+  },
 ];
 
 const sandbox = () => fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'r24-r6m-')));
@@ -67,13 +93,25 @@ function migrations(maxVersion) {
 
 async function killOracle(module) {
   const {
+    R6_SCHEMA_VERSION,
     HISTORY_BASENAME,
+    INDEX_BASENAME,
     CHECKPOINT_DIRNAME,
     migrateProjectFile,
     restoreCheckpoint,
     garbageCollectCheckpoints,
     replayMigrationHistory,
   } = module;
+
+  const historyFailureAdapter = {
+    ...fsp,
+    async open(filePath, flags) {
+      if (path.basename(filePath).startsWith(`${HISTORY_BASENAME}.p2-`)) {
+        throw new Error('simulated history write failure');
+      }
+      return fsp.open(filePath, flags);
+    },
+  };
 
   const missingDir = sandbox();
   writeProject(projectFile(missingDir), 'v1');
@@ -168,6 +206,93 @@ async function killOracle(module) {
     replayMigrationHistory(storeDir(historyDir)),
     (error) => error.code === 'E_R6_HISTORY_DIGEST',
   );
+
+  const indexDir = sandbox();
+  writeProject(projectFile(indexDir), 'v1');
+  const indexChain = migrations(4);
+  await migrateProjectFile({
+    projectPath: projectFile(indexDir),
+    storeDir: storeDir(indexDir),
+    targetVersion: 'v2',
+    migrations: indexChain,
+  });
+  await migrateProjectFile({
+    projectPath: projectFile(indexDir),
+    storeDir: storeDir(indexDir),
+    targetVersion: 'v3',
+    migrations: indexChain,
+  });
+  const indexPath = path.join(storeDir(indexDir), INDEX_BASENAME);
+  const index = JSON.parse(fs.readFileSync(indexPath, 'utf8'));
+  assert.equal(index.schemaVersion, R6_SCHEMA_VERSION);
+  const firstCheckpoint = index.checkpoints[0];
+  const mismatchedId = 'r6-cp-99-aaaaaaaaaaaa';
+  fs.renameSync(
+    path.join(storeDir(indexDir), CHECKPOINT_DIRNAME, `${firstCheckpoint.checkpointId}.json`),
+    path.join(storeDir(indexDir), CHECKPOINT_DIRNAME, `${mismatchedId}.json`),
+  );
+  firstCheckpoint.checkpointId = mismatchedId;
+  fs.writeFileSync(indexPath, `${JSON.stringify(index, null, 2)}\n`);
+  await assert.rejects(
+    garbageCollectCheckpoints({ storeDir: storeDir(indexDir), retainLast: 1 }),
+    (error) => error.code === 'E_R6_INDEX_CHECKPOINT_ID',
+  );
+
+  const symlinkDir = sandbox();
+  writeProject(projectFile(symlinkDir), 'v1');
+  const symlinkMigration = await migrateProjectFile({
+    projectPath: projectFile(symlinkDir),
+    storeDir: storeDir(symlinkDir),
+    targetVersion: 'v2',
+    migrations: migrations(2),
+  });
+  const symlinkCheckpoint = path.join(
+    storeDir(symlinkDir),
+    CHECKPOINT_DIRNAME,
+    `${symlinkMigration.checkpoint.checkpointId}.json`,
+  );
+  const outsideCheckpoint = path.join(symlinkDir, 'outside.json');
+  fs.writeFileSync(outsideCheckpoint, fs.readFileSync(symlinkCheckpoint));
+  fs.unlinkSync(symlinkCheckpoint);
+  fs.symlinkSync(outsideCheckpoint, symlinkCheckpoint);
+  await assert.rejects(
+    restoreCheckpoint({
+      projectPath: projectFile(symlinkDir),
+      storeDir: storeDir(symlinkDir),
+      checkpointId: symlinkMigration.checkpoint.checkpointId,
+    }),
+    (error) => error.code === 'E_R6_CHECKPOINT_PATH_UNSAFE',
+  );
+
+  const preflightDir = sandbox();
+  writeProject(projectFile(preflightDir), 'v1');
+  fs.mkdirSync(path.join(storeDir(preflightDir), HISTORY_BASENAME), { recursive: true });
+  await assert.rejects(
+    migrateProjectFile({
+      projectPath: projectFile(preflightDir),
+      storeDir: storeDir(preflightDir),
+      targetVersion: 'v2',
+      migrations: migrations(2),
+    }),
+    (error) => error.code === 'E_R6_HISTORY_LOG_NOT_REGULAR',
+  );
+  assert.deepEqual(fs.readdirSync(path.join(storeDir(preflightDir), CHECKPOINT_DIRNAME)), []);
+  assert.equal(JSON.parse(fs.readFileSync(projectFile(preflightDir), 'utf8')).schemaVersion, 'v1');
+
+  const rollbackDir = sandbox();
+  writeProject(projectFile(rollbackDir), 'v1');
+  const rollbackBefore = fs.readFileSync(projectFile(rollbackDir), 'utf8');
+  await assert.rejects(
+    migrateProjectFile({
+      projectPath: projectFile(rollbackDir),
+      storeDir: storeDir(rollbackDir),
+      targetVersion: 'v2',
+      migrations: migrations(2),
+      historyFsAdapter: historyFailureAdapter,
+    }),
+    (error) => error.code === 'E_R6_HISTORY_ACK_FAILED_ROLLED_BACK',
+  );
+  assert.equal(fs.readFileSync(projectFile(rollbackDir), 'utf8'), rollbackBefore);
 }
 
 test('R6 migration history backup GC: all implementation mutants are executed and killed', async () => {

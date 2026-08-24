@@ -1,15 +1,15 @@
 {
   "schemaVersion": "yalken.r24.plan-state-source-receipt.v1",
-  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPLAYABLE_V0_EXACT_POSTMERGE_CLOSURE_NO_PROGRAM_DONE",
-  "generatedAtUtc": "2026-08-24T11:03:30Z",
+  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPLAYABLE_WP200_EXACT_POSTMERGE_CLOSURE_NO_PROGRAM_DONE",
+  "generatedAtUtc": "2026-08-24T13:27:00Z",
   "executableProgramPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
   "executableProgramDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
   "planStatePath": "docs/OPS/R24/PLAN_STATE_R24.json",
   "currentPlanState": {
-    "sha256": "8d1c59b8a67258032a368fc41c10e91f24e69151e959865ead772e97c0d651eb",
+    "sha256": "cdba61c63993126726aad3b3abdeacdd354f355488b17a7a44c19c6886eaf334",
     "schemaVersion": "yalken.plan-state.r24.v2",
-    "revision": 157,
-    "fencingCounter": 29,
+    "revision": 164,
+    "fencingCounter": 30,
     "replayBaseline": {
       "classification": "ADOPTED_PRE_V2_UNREPLAYABLE_HISTORY",
       "revision": 94,
@@ -19,7 +19,7 @@
       "unreplayableContourCount": 10,
       "syntheticTransitionCount": 0
     },
-    "transitionHistoryCount": 45
+    "transitionHistoryCount": 50
   },
   "externalPlanState": {
     "path": "/Volumes/T7-Secure/worktrees/yalken/_r24-mission/PLAN_STATE_R24.json",
@@ -99,11 +99,11 @@
   },
   "nonClaims": [
     "R24 test files are implementation evidence candidates only and are not converted to DONE without durable terminal receipts.",
-    "This source receipt accounts for repo-local closures through V0 and does not mark the full 109-node program DONE.",
-    "V0 certifies the existing Writer claim compiler against exact F0 dependency, six Writer DNA dimensions, exact-head evidence and five named mutants.",
-    "The V0 closure is not a visual readiness, physical macOS qualification, release readiness, signing or distribution claim.",
-    "No runtime product rewrite, product state, user document mutation, dependency, storage-path change, SAFE_APPLY, release, signing, cloud or AI authority is added.",
-    "WP-200 through WP-207, WP-300 through WP-307, physical qualification, release readiness and program completion remain independently graph-gated.",
+    "This source receipt accounts for repo-local closures through WP200 and does not mark the full 109-node program DONE.",
+    "WP200 certifies generation-bound durable receipt acknowledgement for explicit Writer Save and Save As.",
+    "WP201 remains responsible for one multi-artifact scene and manifest transaction.",
+    "No runtime product rewrite, product state, user document mutation, dependency, storage adoption or migration, SAFE_APPLY, release, signing, cloud or AI authority is added.",
+    "WP-201 through WP-207, WP-300 through WP-307, physical qualification, release readiness and program completion remain independently graph-gated.",
     "Parked V2 remains suspended until selected by the executable graph."
   ],
   "discoveredR24TestFiles": {
@@ -207,7 +207,7 @@
     ]
   },
   "repoLocalPlanStateClosures": {
-    "doneContourCount": 18,
+    "doneContourCount": 19,
     "closures": [
       {
         "id": "SEC0_PATH_CAPABILITY",
@@ -589,8 +589,29 @@
           "ES-R24-V0-WRITER-CLAIM-COMPILER-CLAIM-BINDINGS"
         ],
         "deliveryState": "CURRENT_MAIN_F68486BC_EXACT_HEAD_V0_F0_DNA_CLAIM_COMPILER_POSTMERGE_AND_SURVIVOR_GREEN_NO_VISUAL_OR_PHYSICAL_MACOS_READINESS_NO_PROGRAM_DONE"
+      },
+      {
+        "id": "WP-200_DURABLE_SAVE",
+        "state": "DONE",
+        "previousState": "POSTMERGE_VERIFIED",
+        "attemptId": "ATTEMPT-WP200-20260824",
+        "updatedAt": "2026-08-24T13:27:00.005Z",
+        "headSha": "8f69bfd0300157a7d6c8db5e7263ee7c46facc91",
+        "source": "R24_WP200_DURABLE_SAVE_CLOSURE_V1",
+        "terminalReceiptPath": "docs/OPS/R24/CTR-R24-WP-200-DURABLE-SAVE.json",
+        "evidenceStampIds": [
+          "ES-R24-WP-200-DURABLE-SAVE-MODEL",
+          "ES-R24-WP-200-DURABLE-SAVE-CONTRACT",
+          "ES-R24-WP-200-DURABLE-SAVE-INTEGRATION",
+          "ES-R24-WP-200-DURABLE-SAVE-MUTANTS",
+          "ES-R24-WP-200-DURABLE-SAVE-EXACT-HEAD",
+          "ES-R24-WP-200-DURABLE-SAVE-POSTMERGE-EXACT-HEAD",
+          "ES-R24-WP-200-DURABLE-SAVE-SURVIVOR-AUDIT",
+          "ES-R24-WP-200-DURABLE-SAVE-CLAIM-BINDINGS"
+        ],
+        "deliveryState": "CURRENT_MAIN_8F69BFD0_EXACT_HEAD_WP200_DURABLE_RECEIPT_ACK_POSTMERGE_AND_SURVIVOR_GREEN_NO_MULTI_ARTIFACT_TRANSACTION_NO_PROGRAM_DONE"
       }
     ]
   },
-  "planStateRevision": 157
+  "planStateRevision": 164
 }

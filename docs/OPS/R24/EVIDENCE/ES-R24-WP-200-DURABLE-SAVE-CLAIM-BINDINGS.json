@@ -3,15 +3,29 @@
   "stampId": "ES-R24-WP-200-DURABLE-SAVE-CLAIM-BINDINGS",
   "contourId": "WP-200_DURABLE_SAVE",
   "evidenceClass": "CONTRACT",
-  "verdict": "PASS",
-  "headSha": "1c89f33d601a6a97263b57aaf5a6ad8756951d89",
-  "originMainSha": "2028a5dc41b9b4ccb68291d247ed929403c9257c",
-  "generatedAtUtc": "2026-08-24T12:25:41Z",
-  "oracle": "strict ClaimBindingV1 exact-hash binding for WP200 implementation source, tests, maintained gate and bounded claims",
+  "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
+  "headSha": "8f69bfd0300157a7d6c8db5e7263ee7c46facc91",
+  "originMainSha": "8f69bfd0300157a7d6c8db5e7263ee7c46facc91",
+  "generatedAtUtc": "2026-08-24T13:27:00Z",
+  "oracle": "strict ClaimBindingV1 exact-hash binding for replayable WP200 PlanState closure, exact-main postmerge evidence, survivor audit and source receipt",
   "claimBindings": [
     {
+      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+      "sha256": "cdba61c63993126726aad3b3abdeacdd354f355488b17a7a44c19c6886eaf334",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+      "sha256": "e93502996123a75b7554a9ab5d63cdbc73ee52d0d8d58b70fe8febec3a2db07e",
+      "claimTerms": [
+        "CLOSED"
+      ]
+    },
+    {
       "filePath": "docs/OPS/R24/CTR-R24-WP-200-DURABLE-SAVE.json",
-      "sha256": "83fa3484a66fbf0121f331577442577541658a98ca05d9e77e5bab8973b349da",
+      "sha256": "6f6ceda3ac18a507f2a2c211b46ff3dc4201d54c0706c6b5b215aa68d2093ff3",
       "claimTerms": [
         "PASS"
       ]
@@ -115,14 +129,36 @@
         "fail": 0
       },
       "requiredDisposition": "Exact implementation source 1c89f33d is green with clean process-group and lease cleanup."
+    },
+    {
+      "command": "GitHub exact PR-head required checks",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 6,
+        "survived": 0
+      },
+      "requiredDisposition": "PR head 045b5cd1 has green RTK, OSS, Ubuntu and Windows parity, and ops_vector_close."
+    },
+    {
+      "command": "GitHub exact-main postmerge RTK and OSS",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "Merge 8f69bfd0 is green with RTK process-group and lease cleanup."
     }
   ],
   "nonClaims": [
-    "This binding certifies only the bounded WP-200 durable receipt acknowledgement implementation source.",
+    "This binding closes only the bounded WP-200_DURABLE_SAVE contour.",
     "WP201 remains responsible for one multi-artifact scene and manifest transaction; WP200 closes only generation-bound durable receipt acknowledgement.",
     "The physical filesystem tests use isolated synthetic temporary files and do not mutate user documents or Drive state.",
     "Other generic atomic writers remain outside the explicit Writer Save and Save As path certified by this contour.",
     "No dependency, storage adoption, migration, SAFE_APPLY, release, signing, cloud or AI authority is added.",
-    "It does not mark WP200, downstream work packages, physical qualification, release readiness or the R2.4 program DONE."
+    "It does not mark downstream work packages, physical qualification, release readiness or the R2.4 program DONE."
   ]
 }

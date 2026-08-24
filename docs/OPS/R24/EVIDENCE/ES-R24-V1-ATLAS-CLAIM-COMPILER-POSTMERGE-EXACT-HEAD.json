@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-V1-ATLAS-CLAIM-COMPILER-POSTMERGE-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "V1_ATLAS_CLAIM_COMPILER",
+  "attemptId": "ATTEMPT-V1-20260824",
+  "authorityEpoch": "R24-V1-CERTIFICATION-BASE-AD4840B2",
+  "profileId": "ATLAS_MAPS_DERIVED",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "8b1535018f203fff57a8fcfc0618115260205f3c",
+    "treeSha": "b99c69e4d9d1d9eef0e1d53c5dd867330702850d"
+  },
+  "claim": {
+    "type": "V1_CURRENT_MAIN_EXACT_HEAD_CI",
+    "ceiling": "V1_NODE_ONLY_ATLAS_PROFILE_A0_AND_FAIL_CLOSED_CLAIM_PROJECTION_NO_WRITER_PROMOTION_NO_RELEASE_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "github-actions-main-exact-head-8b153501",
+    "evidenceClass": "POSTMERGE",
+    "denominator": 2,
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-V1-ATLAS-CLAIM-COMPILER-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "629853f0d55f0f721315249a5654d58bbba3e57b1a6ef114556ceef0fae35ff8"
+  },
+  "createdAt": "2026-08-24T17:36:37Z",
+  "actor": "codex/r24-v1-postmerge-closure-v1-20260824",
+  "artifact": {
+    "identityRoles": {
+      "originalCompilerIntroductionMergeSha": "788f09b9d3cbe5780862b030fae9494f005da183",
+      "existingCompilerImplementationSourceSha": "f6e92ab57829e44a7aa360893acbb4952b3b2fbe",
+      "certificationSourceSha": "ad4840b205422736c8af21dd49850d2dcd390784",
+      "evaluationHeadSha": "ad4840b205422736c8af21dd49850d2dcd390784",
+      "evaluationTreeSha": "af8affb83fe6be7d6d6d255618cecd302648e1ad",
+      "prHeadSha": "f94ba9e5e253b69b0354007398ae6bf4c3965ffa",
+      "mergeSha": "8b1535018f203fff57a8fcfc0618115260205f3c",
+      "postmergeSha": "8b1535018f203fff57a8fcfc0618115260205f3c"
+    },
+    "checks": [
+      {
+        "workflowName": "rtk-required",
+        "runId": 32755420837,
+        "jobId": 97521720949,
+        "headSha": "8b1535018f203fff57a8fcfc0618115260205f3c",
+        "conclusion": "success",
+        "completedWorkflowSteps": 51,
+        "maintainedGraphExitCode": 0
+      },
+      {
+        "workflowName": "OSS policy",
+        "runId": 32755420831,
+        "jobId": 97521719024,
+        "headSha": "8b1535018f203fff57a8fcfc0618115260205f3c",
+        "conclusion": "success"
+      }
+    ],
+    "localFocusedPostmerge": {
+      "commands": [
+        "npm run test:r24-v1",
+        "npm run test:r24-b0",
+        "node scripts/ops/r24/docs-claim-lint.mjs",
+        "node --test scripts/ops/r24/tests/docs-claim-lint.test.mjs"
+      ],
+      "v1Pass": 10,
+      "affectedChainPass": 32,
+      "docsNegativePass": 9,
+      "fail": 0,
+      "mutantsKilled": 7,
+      "mutantsSurvived": 0
+    },
+    "docsClaimLint": "PASS",
+    "treeUnchangedFromPrHead": true,
+    "nonClaims": [
+      "V1 closes only the Atlas profile claim projection bound to exact A0 evidence and does not promote Writer core.",
+      "The program verdict remains NEEDS_MORE_EVIDENCE.",
+      "No runtime source, product state, user document, dependency, storage path, SAFE_APPLY, cloud, AI, signing, release or program completion authority is added."
+    ]
+  }
+}

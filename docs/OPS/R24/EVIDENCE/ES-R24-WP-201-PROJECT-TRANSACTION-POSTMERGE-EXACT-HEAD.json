@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-WP-201-PROJECT-TRANSACTION-POSTMERGE-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-201_PROJECT_TRANSACTION",
+  "attemptId": "ATTEMPT-WP201-20260824",
+  "authorityEpoch": "R24-WP201-BASE-4DE97F42",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "e47605be9669ff9d7d79e5d0aae061710f3c7732",
+    "treeSha": "899ab9058322a125f864d75d32d466fdb4dcf983"
+  },
+  "claim": {
+    "type": "WP201_CURRENT_MAIN_EXACT_HEAD_CI",
+    "ceiling": "WP201_NODE_ONLY_ONE_SCENE_PLUS_MANIFEST_COMMIT_AND_TOTAL_RECOVERY_NO_MULTI_SCENE_BATCH_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "github-actions-main-exact-head-e47605be",
+    "evidenceClass": "POSTMERGE",
+    "denominator": 2,
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-201-PROJECT-TRANSACTION-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "72369893c0e4ed0e95a8bcdeea44c69401d0f61112b805ac949669251e304d71"
+  },
+  "createdAt": "2026-08-24T15:58:30Z",
+  "actor": "codex/r24-wp201-postmerge-closure-v1-20260824",
+  "artifact": {
+    "identityRoles": {
+      "implementationSourceSha": "982875a1df4b074b8cc9d3f2c7ea63ef3802e48d",
+      "evidenceSourceSha": "f99bff1ef2e17f16449d5e221b6628fb4410ea93",
+      "evaluationHeadSha": "f99bff1ef2e17f16449d5e221b6628fb4410ea93",
+      "evaluationTreeSha": "6d21b27f911832b8cb64df66f8ce1f214c4faa3f",
+      "prHeadSha": "ddd10872c9dbc3d024062c4671994ce31fcf73a0",
+      "mergeSha": "e47605be9669ff9d7d79e5d0aae061710f3c7732",
+      "postmergeSha": "e47605be9669ff9d7d79e5d0aae061710f3c7732"
+    },
+    "checks": [
+      {
+        "workflowName": "rtk-required",
+        "runId": 32745704863,
+        "jobId": 97490585292,
+        "headSha": "e47605be9669ff9d7d79e5d0aae061710f3c7732",
+        "conclusion": "success",
+        "tests": {
+          "passed": 1059,
+          "failed": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "processGroupCleanup": "RTK_PROCESS_GROUP_CLEAN",
+        "leaseCleanupOk": true
+      },
+      {
+        "workflowName": "OSS policy",
+        "runId": 32745705127,
+        "jobId": 97490584852,
+        "headSha": "e47605be9669ff9d7d79e5d0aae061710f3c7732",
+        "conclusion": "success"
+      }
+    ],
+    "localFocusedPostmerge": {
+      "commands": [
+        "npm run -s test:r24-wp201",
+        "node scripts/ops/r24/docs-claim-lint.mjs .",
+        "node --test scripts/ops/r24/tests/docs-claim-lint.test.mjs"
+      ],
+      "pass": 23,
+      "fail": 0,
+      "mutantsKilled": 6,
+      "mutantsSurvived": 0
+    },
+    "docsClaimLint": "PASS",
+    "treeUnchangedFromPrHead": true,
+    "nonClaims": [
+      "WP201 closes one scene plus one manifest transaction; Flow multi-scene batch save remains governed by its separate existing coordinator.",
+      "No runtime source, product state, user document, dependency, storage adoption or migration, SAFE_APPLY, cloud, AI, signing, release or program completion authority is added."
+    ]
+  }
+}

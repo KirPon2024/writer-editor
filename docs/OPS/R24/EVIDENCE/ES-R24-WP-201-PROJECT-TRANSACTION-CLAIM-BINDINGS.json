@@ -1,0 +1,178 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-201-PROJECT-TRANSACTION-CLAIM-BINDINGS",
+  "contourId": "WP-201_PROJECT_TRANSACTION",
+  "evidenceClass": "CONTRACT",
+  "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
+  "headSha": "9c822ef04125b49d142c516527acf3c086b985f6",
+  "originMainSha": "e47605be9669ff9d7d79e5d0aae061710f3c7732",
+  "generatedAtUtc": "2026-08-24T16:05:00Z",
+  "oracle": "strict ClaimBindingV1 exact-hash binding for replayable WP201 PlanState closure, exact-main postmerge evidence, survivor audit and source receipt",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+      "sha256": "6d5f0b1aff564ed073508c20bc95d70ea078694df90410662ddb9510350ccb5b",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+      "sha256": "4fca3f825e553f12537f2917014c3bea099eb777d665637b249f41e4052d95b2",
+      "claimTerms": [
+        "CLOSED"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CTR-R24-WP-201-PROJECT-TRANSACTION.json",
+      "sha256": "629853f0d55f0f721315249a5654d58bbba3e57b1a6ef114556ceef0fae35ff8",
+      "claimTerms": [
+        "PASS"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "package.json",
+      "sha256": "28fc8746c950250de09ffa86a7a730cc8128ee7ef218168070286def7aa4d7a1",
+      "terms": [
+        "maintained test:r24-wp201 package gate"
+      ]
+    },
+    {
+      "path": ".github/workflows/rtk-required.yml",
+      "sha256": "d0e64e9c43116ebba0e3b53dee6b6259ec6963bd9a675e04425c4a949ec0a9bb",
+      "terms": [
+        "exact-head R2.4 WP-201 project transaction workflow gate"
+      ]
+    },
+    {
+      "path": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+      "sha256": "94d1fa3a1d2940deff061a15062c440e5b7a3cdeda5a4fd38a06d7e0a303aa50",
+      "terms": [
+        "approved package surface binding"
+      ]
+    },
+    {
+      "path": "src/core/project-transaction-v1.cjs",
+      "sha256": "7b24f40b23d30eaa0066e0e03611477e5b2a61278f02423060772b6829602124",
+      "terms": [
+        "WP201 one-scene plus manifest transaction and total recovery implementation"
+      ]
+    },
+    {
+      "path": "src/core/save-receipt-ack-v1.cjs",
+      "sha256": "c1e72587236ac52d9826fb47e490729b3df1af11f3dd847a2aa77ef0840f0535",
+      "terms": [
+        "WP201 durable acknowledgement integration"
+      ]
+    },
+    {
+      "path": "src/main.js",
+      "sha256": "924617056b33b068351ab1ff4507a95eb350593a9cbe71886cfec73df389140a",
+      "terms": [
+        "Writer save open and recovery routing through WP201"
+      ]
+    },
+    {
+      "path": "test/unit/r24-r5-lifecycle-physics.test.js",
+      "sha256": "1386e38bfe7a25e09ca5f5525b6c6440fcf040a08c4731100c916d5ce1583604",
+      "terms": [
+        "WP201 lifecycle regression evidence"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp200-durable-save-physics.test.js",
+      "sha256": "424021fbcedc219e25a5dc2ac504d4a0310a8b569cca2d1d12a06f3f57c21dae",
+      "terms": [
+        "WP200 predecessor regression evidence"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp201-project-transaction.test.js",
+      "sha256": "03d63088e52b0b84c9b730314a4b5f6340516ea4aa879d67b9826c87dc6f005d",
+      "terms": [
+        "WP201 contract and integration tests"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp201-project-transaction-physics.test.js",
+      "sha256": "9500e2c48c2eb1f58f44fb2f404ea04493ddd907256a876783bf13fab3bfe47a",
+      "terms": [
+        "WP201 physical SIGKILL and recovery tests"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp201-project-transaction-mutants.test.js",
+      "sha256": "75cd223e2c91cd51a1e5a0eabb86e9b6339e965615a9a5e3991c1595d5d01a3e",
+      "terms": [
+        "six named implementation mutants killed"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "npm run -s test:r24-wp201",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 14,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 6,
+        "survived": 0
+      }
+    },
+    {
+      "command": "npm run -s test:r24-wp200 && npm run -s test:r24-p3 && npm run -s test:r24-r5 && npm run -s test:r24-f0",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 49,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 33,
+        "survived": 0
+      }
+    },
+    {
+      "command": "npm run test:rtk",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "Exact evaluation source f99bff1e is green with clean process-group and lease cleanup."
+    },
+    {
+      "command": "GitHub exact PR-head required checks",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 6,
+        "survived": 0
+      },
+      "requiredDisposition": "PR head ddd10872 has green RTK, OSS, Ubuntu and Windows parity, and ops_vector_close."
+    },
+    {
+      "command": "GitHub exact-main postmerge RTK and OSS",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "Merge e47605be is terminal green with exact-main RTK and OSS."
+    }
+  ],
+  "nonClaims": [
+    "This binding closes only the bounded WP-201_PROJECT_TRANSACTION contour.",
+    "WP201 certifies one scene plus one manifest transaction; Flow multi-scene batch save remains governed by its separate existing coordinator.",
+    "The physical filesystem tests use isolated synthetic temporary files and do not mutate user documents or Drive state.",
+    "WP202 retains the legacy strangler outcome and all later work packages remain independently graph-gated.",
+    "No dependency, storage adoption, migration, SAFE_APPLY, release, signing, cloud or AI authority is added.",
+    "It does not mark downstream work packages, physical qualification, release readiness or the R2.4 program DONE."
+  ]
+}

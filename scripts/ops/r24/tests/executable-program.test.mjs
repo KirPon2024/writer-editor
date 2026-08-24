@@ -109,7 +109,7 @@ test('PlanState persists the full 109-node denominator without unreconciled DONE
   assert.equal(state.schemaVersion, 'yalken.plan-state.r24.v2');
   assert.equal(state.replayBaseline.classification, 'ADOPTED_PRE_V2_UNREPLAYABLE_HISTORY');
   assert.equal(state.replayBaseline.unreplayableContourIds.includes('WP-102_OPERATION_PROTOCOL'), true);
-  assert.equal(state.transitionHistory.length, 50);
+  assert.equal(state.transitionHistory.length, 55);
   assert.deepEqual(
     state.transitionHistory.map((row) => [row.contourId, row.from, row.to]),
     [
@@ -163,6 +163,11 @@ test('PlanState persists the full 109-node denominator without unreconciled DONE
       ['WP-200_DURABLE_SAVE', 'RUNNING', 'DELIVERED'],
       ['WP-200_DURABLE_SAVE', 'DELIVERED', 'POSTMERGE_VERIFIED'],
       ['WP-200_DURABLE_SAVE', 'POSTMERGE_VERIFIED', 'DONE'],
+      ['WP-201_PROJECT_TRANSACTION', 'PENDING', 'ELIGIBLE'],
+      ['WP-201_PROJECT_TRANSACTION', 'ELIGIBLE', 'RUNNING'],
+      ['WP-201_PROJECT_TRANSACTION', 'RUNNING', 'DELIVERED'],
+      ['WP-201_PROJECT_TRANSACTION', 'DELIVERED', 'POSTMERGE_VERIFIED'],
+      ['WP-201_PROJECT_TRANSACTION', 'POSTMERGE_VERIFIED', 'DONE'],
     ],
   );
   assert.deepEqual(
@@ -171,8 +176,8 @@ test('PlanState persists the full 109-node denominator without unreconciled DONE
       verdict: 'PASS',
       baselineClassification: 'ADOPTED_PRE_V2_UNREPLAYABLE_HISTORY',
       baselineRevision: 94,
-      replayedTransitions: 50,
-      finalRevision: 164,
+      replayedTransitions: 55,
+      finalRevision: 171,
     },
   );
   assert.equal(Object.keys(state.contours).length, EXPECTED_NODE_COUNT);
@@ -229,10 +234,13 @@ test('PlanState persists the full 109-node denominator without unreconciled DONE
   assert.equal(state.contours['WP-200_DURABLE_SAVE'].state, 'DONE');
   assert.equal(state.contours['WP-200_DURABLE_SAVE'].previousState, 'POSTMERGE_VERIFIED');
   assert.equal(state.contours['WP-200_DURABLE_SAVE'].headSha, '8f69bfd0300157a7d6c8db5e7263ee7c46facc91');
-  assert.equal(repoLocalDone, 19);
+  assert.equal(state.contours['WP-201_PROJECT_TRANSACTION'].state, 'DONE');
+  assert.equal(state.contours['WP-201_PROJECT_TRANSACTION'].previousState, 'POSTMERGE_VERIFIED');
+  assert.equal(state.contours['WP-201_PROJECT_TRANSACTION'].headSha, 'e47605be9669ff9d7d79e5d0aae061710f3c7732');
+  assert.equal(repoLocalDone, 20);
   assert.deepEqual(
     sourceReceipt.repoLocalPlanStateClosures.closures.map((row) => row.id),
-    ['SEC0_PATH_CAPABILITY', 'ENT0_ENTITLEMENT_CONFORMANCE', 'K1_AUTHORITY_DECOMPOSITION', 'T1_ANCHOR_LINEAGE', 'A0_ATLAS_INCREMENTAL_EQUIVALENCE', 'PK0_PACKAGE_CONTENT_TRUST', 'WP-100_GENERATION_ADMISSION', 'WP-101_IPC_ADMISSION', 'WP-102_OPERATION_PROTOCOL', 'WP-103_REVISION_PRODUCT_ORDER', 'WP-104_BOUNDARY_FALSIFICATION', 'R2_STORAGE_BAKEOFF', 'R3_DURABLE_RECOVERY_LEDGER', 'R4_TRANSACTIONAL_INBOX_OUTBOX', 'R5_LIFECYCLE_EXTERNAL_CONFLICT', 'R6_MIGRATION_HISTORY_BACKUP_GC', 'F0_WRITER_REFINEMENT_CONFORMANCE', 'V0_WRITER_CLAIM_COMPILER', 'WP-200_DURABLE_SAVE'],
+    ['SEC0_PATH_CAPABILITY', 'ENT0_ENTITLEMENT_CONFORMANCE', 'K1_AUTHORITY_DECOMPOSITION', 'T1_ANCHOR_LINEAGE', 'A0_ATLAS_INCREMENTAL_EQUIVALENCE', 'PK0_PACKAGE_CONTENT_TRUST', 'WP-100_GENERATION_ADMISSION', 'WP-101_IPC_ADMISSION', 'WP-102_OPERATION_PROTOCOL', 'WP-103_REVISION_PRODUCT_ORDER', 'WP-104_BOUNDARY_FALSIFICATION', 'R2_STORAGE_BAKEOFF', 'R3_DURABLE_RECOVERY_LEDGER', 'R4_TRANSACTIONAL_INBOX_OUTBOX', 'R5_LIFECYCLE_EXTERNAL_CONFLICT', 'R6_MIGRATION_HISTORY_BACKUP_GC', 'F0_WRITER_REFINEMENT_CONFORMANCE', 'V0_WRITER_CLAIM_COMPILER', 'WP-200_DURABLE_SAVE', 'WP-201_PROJECT_TRANSACTION'],
   );
   assert.equal(sourceReceipt.fullDenominator.nodeCount, EXPECTED_NODE_COUNT);
   assert.equal(sourceReceipt.externalPlanState.doneContourCount, 12);
@@ -270,7 +278,7 @@ test('scheduler selection receipt is bound to the real full graph rather than a 
   assert.deepEqual(receipt.reasons, ['SUPERVISED_HANDOFF_ONLY_CANDIDATE']);
   assert.equal(nodeIds.has(receipt.selectedId), true);
   assert.equal(receipt.readySet.every((id) => nodeIds.has(id)), true);
-  assert.deepEqual(receipt.readySet, ['V1_ATLAS_CLAIM_COMPILER', 'WP-201_PROJECT_TRANSACTION']);
+  assert.deepEqual(receipt.readySet, ['V1_ATLAS_CLAIM_COMPILER', 'WP-202_LEGACY_STRANGLER']);
 });
 
 test('scheduler refuses a plan state not committed at the evaluation head', () => {

@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-R2-STORAGE-BAKEOFF-CLAIM-BINDINGS",
+  "contourId": "R2_STORAGE_BAKEOFF",
+  "evidenceClass": "CONTRACT",
+  "verdict": "PASS",
+  "headSha": "5b505f27e0f51281f075b25257409e99755eae79",
+  "originMainSha": "202401430ae4ac6428b0a262cadaf6bb8408614f",
+  "generatedAtUtc": "2026-08-23T23:54:01Z",
+  "oracle": "strict ClaimBindingV1 exact-hash binding for replayable R2 PlanState closure and source receipt",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+      "sha256": "e8effbafda63636ca3541d7d5d62d743211261a4a851fd90ab040a1bcc4d9a9f",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+      "sha256": "4732d4705445fe7aa5d1b5a0359aa130118d99273dd950bbbe05f07112c3ec45",
+      "claimTerms": [
+        "CLOSED"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/storage-bakeoff-v1.cjs",
+      "sha256": "bc6bc31651e4a0137e5d4018e490474264e179ad53d40f7e48c65f5d0effe7dc",
+      "terms": [
+        "hard safety filters",
+        "selection-free dossier",
+        "crash recovery models"
+      ]
+    },
+    {
+      "path": "test/unit/r24-r2-storage-bakeoff.test.js",
+      "sha256": "0414cbec85d64042326bec54afa746ec0aa353f4705b9af0a79e07203e9e5e1b",
+      "terms": [
+        "four candidate denominator",
+        "dependency elimination"
+      ]
+    },
+    {
+      "path": "test/unit/r24-r2-candidate-physics.test.js",
+      "sha256": "f0a423fbd53d53346a793c7f83c6084be5e9229cded9977f34109467e83b91f0",
+      "terms": [
+        "real filesystem crash physics"
+      ]
+    },
+    {
+      "path": "test/unit/r24-r2-bakeoff-mutants.test.js",
+      "sha256": "bfc83a19a78f885d0ff201f7ce1ebefb3275fdfc51488d64e32fad7f757c53b9",
+      "terms": [
+        "six implementation mutants killed"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "npm run -s test:r24-r2",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 13,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 6,
+        "survived": 0
+      }
+    }
+  ],
+  "nonClaims": [
+    "This binding closes only R2_STORAGE_BAKEOFF certification.",
+    "It does not select or adopt a candidate, add a dependency, change the live storage path, migrate user data, or authorize destructive storage.",
+    "It does not mark R3 through R6, F0, V0, downstream work packages, physical qualification, release readiness, or the R2.4 program DONE."
+  ]
+}

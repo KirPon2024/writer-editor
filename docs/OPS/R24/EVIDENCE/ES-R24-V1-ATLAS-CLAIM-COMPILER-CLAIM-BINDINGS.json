@@ -4,9 +4,9 @@
   "contourId": "V1_ATLAS_CLAIM_COMPILER",
   "evidenceClass": "CONTRACT",
   "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
-  "headSha": "8b1535018f203fff57a8fcfc0618115260205f3c",
+  "headSha": "9db685e6dfcb56878e9ef0018b6a7341474cf26a",
   "originMainSha": "8b1535018f203fff57a8fcfc0618115260205f3c",
-  "generatedAtUtc": "2026-08-24T17:36:37Z",
+  "generatedAtUtc": "2026-08-24T17:44:41Z",
   "oracle": "strict ClaimBindingV1 exact-hash binding for replayable V1 PlanState closure, exact-main postmerge evidence, survivor audit and source receipt",
   "claimBindings": [
     {
@@ -25,7 +25,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CTR-R24-V1-ATLAS-CLAIM-COMPILER.json",
-      "sha256": "3f2570653f5b089c90704c124db52b53a624cc02128a688017c870e690e9e2f0",
+      "sha256": "096389d98ebc784965735ac720dabb7c81a165dd5ef4628ff2d8d3c97edb803c",
       "claimTerms": [
         "PASS"
       ]
@@ -110,7 +110,7 @@
         "pass": 9,
         "fail": 0
       },
-      "requiredDisposition": "Strict ClaimBindingV1 lint passes and all nine negative schema mutants are rejected on exact main."
+      "requiredDisposition": "Strict ClaimBindingV1 lint passes and all nine negative schema mutants are rejected on the closure candidate rooted at exact main 8b153501."
     },
     {
       "command": "GitHub exact PR-head required checks",

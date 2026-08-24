@@ -5,7 +5,7 @@
   "contourId": "R4_TRANSACTIONAL_INBOX_OUTBOX",
   "attemptId": "ATTEMPT-R4-20260824",
   "authorityEpoch": "R24-R4-CORRECTIVE-CERTIFICATION-BASE-670E0D13",
-  "exactHeadSha": "7d295a9ccb3e2e2883d50c731666263aa31783de",
+  "exactHeadSha": "ffb03e125549d77b5b5680daab3d04eeb55a6fbf",
   "mergeState": "WAITING",
   "postmergeState": "PENDING",
   "survivorState": "PENDING",

@@ -4,9 +4,9 @@
   "contourId": "R4_TRANSACTIONAL_INBOX_OUTBOX",
   "evidenceClass": "CONTRACT",
   "verdict": "PASS",
-  "headSha": "7d295a9ccb3e2e2883d50c731666263aa31783de",
+  "headSha": "ffb03e125549d77b5b5680daab3d04eeb55a6fbf",
   "originMainSha": "670e0d13dec30ea1db8bdc4f73063732cbf080a5",
-  "generatedAtUtc": "2026-08-24T02:12:00Z",
+  "generatedAtUtc": "2026-08-24T02:13:00Z",
   "oracle": "strict ClaimBindingV1 exact-hash binding for replayable R4 PlanState closure and source receipt",
   "claimBindings": [
     {

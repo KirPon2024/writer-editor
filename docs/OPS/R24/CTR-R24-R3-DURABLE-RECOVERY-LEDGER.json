@@ -5,7 +5,7 @@
   "contourId": "R3_DURABLE_RECOVERY_LEDGER",
   "attemptId": "ATTEMPT-R3-20260824",
   "authorityEpoch": "R24-R3-CERTIFICATION-BASE-4D957820",
-  "exactHeadSha": "0a3d035de277a6edc9287b86d17cb59a7e16c104",
+  "exactHeadSha": "ea171d7b36efcae8e4c1d51028f14cbf51a7720f",
   "mergeState": "WAITING",
   "postmergeState": "PENDING",
   "survivorState": "PENDING",

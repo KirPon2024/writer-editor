@@ -4,9 +4,9 @@
   "contourId": "R3_DURABLE_RECOVERY_LEDGER",
   "evidenceClass": "CONTRACT",
   "verdict": "PASS",
-  "headSha": "0a3d035de277a6edc9287b86d17cb59a7e16c104",
+  "headSha": "ea171d7b36efcae8e4c1d51028f14cbf51a7720f",
   "originMainSha": "4d957820f61d4a35ad293f90865182ff2261f499",
-  "generatedAtUtc": "2026-08-24T00:55:00Z",
+  "generatedAtUtc": "2026-08-24T00:57:00Z",
   "oracle": "strict ClaimBindingV1 exact-hash binding for replayable R3 PlanState closure and source receipt",
   "claimBindings": [
     {

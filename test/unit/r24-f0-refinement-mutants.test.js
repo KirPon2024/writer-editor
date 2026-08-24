@@ -67,14 +67,30 @@ const MUTANTS = Object.freeze([
     id: 'lifecycle-dirty-close-admitted',
     moduleRel: 'src/core/lifecycle-conflict-v1.cjs',
     copies: ['src/core/dirty-admission-v1.cjs', 'src/core/autosave-generation-v1.cjs', 'src/core/revision-algebra-v1.cjs'],
-    find: '  if (dirty) {',
-    replace: '  if (false && dirty) {',
+    find: "    if (dirty) hazards.push('UNSAVED_AUTHORING');",
+    replace: "    if (false) hazards.push('UNSAVED_AUTHORING');",
     oracle: async (modulePath) => {
-      const { LIFECYCLE_EVENTS, LIFECYCLE_REASONS, evaluateLifecycleBarrier } = require(modulePath);
+      const {
+        LIFECYCLE_EVENTS,
+        LIFECYCLE_REASONS,
+        createDetachedOutboxObservation,
+        evaluateLifecycleBarrier,
+      } = require(modulePath);
+      const subjectId = 'project:f0-mutant/document:scene';
       const decision = evaluateLifecycleBarrier({
-        eventKind: LIFECYCLE_EVENTS.QUIT,
+        eventKind: LIFECYCLE_EVENTS.EXTERNAL_EDIT,
+        subjectId,
         latestEditGeneration: 2,
         ackedGeneration: 1,
+        outboxObservation: createDetachedOutboxObservation({ subjectId, observationGeneration: 2 }),
+        diskObservation: {
+          schemaVersion: 'yalken.lifecycleDiskObservation.v1',
+          subjectId,
+          observationGeneration: 2,
+          committedDigest: 'a'.repeat(64),
+          observedDiskDigest: 'a'.repeat(64),
+          p3Classification: 'NEW_COMMITTED',
+        },
       });
       assert.equal(decision.allowed, false);
       assert.equal(decision.reason, LIFECYCLE_REASONS.UNSAVED_AUTHORING_WORK);

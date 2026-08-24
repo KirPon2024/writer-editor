@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "R2_STORAGE_BAKEOFF",
+  "attemptId": "ATTEMPT-R2-20260824",
+  "authorityEpoch": "R24-R2-CERTIFICATION-BASE-20240143",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "202401430ae4ac6428b0a262cadaf6bb8408614f",
+    "treeSha": "eb5b74035a8a281e7336a1a1fc6685b6cd8564a1"
+  },
+  "createdAt": "2026-08-23T23:52:00Z",
+  "actor": "codex/r24-r2-storage-certification-v1-20260824",
+  "stampId": "ES-R24-R2-STORAGE-BAKEOFF-SURVIVOR-AUDIT",
+  "claim": {
+    "type": "R2_EXACT_MAIN_SURVIVOR_AUDIT",
+    "ceiling": "R2_NODE_ONLY_NO_STORAGE_ADOPTION_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-r2-survivor-audit",
+    "evidenceClass": "SURVIVOR_AUDIT",
+    "denominator": 6,
+    "passed": 6,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-R2-STORAGE-BAKEOFF-POSTMERGE-EXACT-HEAD",
+      "ES-R24-R2-STORAGE-BAKEOFF-MUTANTS"
+    ],
+    "predecessorReceiptDigest": "5d7077d53940fefc25567f9ea9fdbc5843f35517a4cd01139502450bf12dd4f4"
+  },
+  "artifact": {
+    "implementationPr": {
+      "prNumber": 1631,
+      "baseSha": "4bdd1cdad634770f8525deb2d379fd225f399625",
+      "prHeadSha": "083103e4a2e9a81f6b5e8e086fa6800dffe95ba7",
+      "mergeSha": "4bb6386d39489fe0c9d7745c21e1aa2c50a495c2",
+      "mergedAt": "2026-08-22T07:18:45Z"
+    },
+    "requiredImplementationChecks": [
+      {
+        "name": "rtk-required",
+        "runId": 32558378430,
+        "headSha": "083103e4a2e9a81f6b5e8e086fa6800dffe95ba7",
+        "conclusion": "success"
+      },
+      {
+        "name": "oss-policy",
+        "runId": 32558378433,
+        "headSha": "083103e4a2e9a81f6b5e8e086fa6800dffe95ba7",
+        "conclusion": "success"
+      },
+      {
+        "name": "x1-runtime-parity (ubuntu-latest)",
+        "runId": 32558378428,
+        "headSha": "083103e4a2e9a81f6b5e8e086fa6800dffe95ba7",
+        "conclusion": "success"
+      },
+      {
+        "name": "x1-runtime-parity (windows-latest)",
+        "runId": 32558378428,
+        "headSha": "083103e4a2e9a81f6b5e8e086fa6800dffe95ba7",
+        "conclusion": "success"
+      }
+    ],
+    "historicalPostmerge": {
+      "runId": 32559261691,
+      "headSha": "4bb6386d39489fe0c9d7745c21e1aa2c50a495c2",
+      "conclusion": "failure",
+      "failureSignature": "stale-green guard executable classification",
+      "r2GateFailure": false,
+      "notClaimedGreen": true
+    },
+    "currentMain": {
+      "rtkRunId": 32673721394,
+      "ossRunId": 32673721492,
+      "headSha": "202401430ae4ac6428b0a262cadaf6bb8408614f",
+      "r2Tests": 13,
+      "mutantsKilled": 6,
+      "mutantsSurvived": 0
+    },
+    "denominatorLaw": "All six R2 implementation mutants are killed on current exact main; historical unrelated red evidence remains explicit."
+  }
+}

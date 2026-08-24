@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.plan-state.r24.v2",
-  "revision": 108,
-  "fencingCounter": 22,
+  "revision": 115,
+  "fencingCounter": 23,
   "contours": {
     "R24C0_SEMANTIC_PACKAGE_CLOSURE": {
       "state": "DONE",
@@ -108,12 +108,24 @@
       "source": "EXTERNAL_R24_MISSION_PLAN_STATE"
     },
     "R2_STORAGE_BAKEOFF": {
-      "state": "PENDING",
-      "previousState": null,
-      "attemptId": null,
-      "updatedAt": null,
-      "headSha": null,
-      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+      "state": "DONE",
+      "previousState": "POSTMERGE_VERIFIED",
+      "attemptId": "ATTEMPT-R2-20260824",
+      "updatedAt": "2026-08-23T23:54:00Z",
+      "headSha": "5b505f27e0f51281f075b25257409e99755eae79",
+      "source": "R24_R2_STORAGE_BAKEOFF_CLOSURE_V1",
+      "terminalReceiptPath": "docs/OPS/R24/CTR-R24-R2-STORAGE-BAKEOFF.json",
+      "evidenceStampIds": [
+        "ES-R24-R2-STORAGE-BAKEOFF-MODEL",
+        "ES-R24-R2-STORAGE-BAKEOFF-CONTRACT",
+        "ES-R24-R2-STORAGE-BAKEOFF-INTEGRATION",
+        "ES-R24-R2-STORAGE-BAKEOFF-MUTANTS",
+        "ES-R24-R2-STORAGE-BAKEOFF-EXACT-HEAD",
+        "ES-R24-R2-STORAGE-BAKEOFF-POSTMERGE-EXACT-HEAD",
+        "ES-R24-R2-STORAGE-BAKEOFF-SURVIVOR-AUDIT",
+        "ES-R24-R2-STORAGE-BAKEOFF-CLAIM-BINDINGS"
+      ],
+      "deliveryState": "CURRENT_MAIN_20240143_EXACT_HEAD_R2_GATE_AND_SURVIVOR_GREEN_NO_STORAGE_ADOPTION_NO_PROGRAM_DONE"
     },
     "R3_DURABLE_RECOVERY_LEDGER": {
       "state": "PENDING",
@@ -1373,6 +1385,111 @@
         "headSha": "727fe0f04a023c653f68a888b3d4644f24594940",
         "appliedAt": "2026-08-23T21:30:00Z"
       }
+    },
+    "r2-20260824-lease": {
+      "revision": 109,
+      "requestDigest": "0ec46661b42cd7c595a0892687b0ce6e260f7aa22f93a2931a390e289a4602e8",
+      "receipt": null
+    },
+    "r2-20260824-transition-eligible": {
+      "revision": 110,
+      "requestDigest": "9457500e2b34dd817bd3409e1ff7d8a91aaaa3ce39f1fddc80900614c1f2a6d3",
+      "receipt": {
+        "schemaVersion": "PlanStateTransitionReceiptV1",
+        "transitionId": "b166e0a010dd082da0a30b57a097212d430e808d3d2d22e3ca6a98a21ae0be29",
+        "contourId": "R2_STORAGE_BAKEOFF",
+        "from": "PENDING",
+        "to": "ELIGIBLE",
+        "fromRevision": 109,
+        "toRevision": 110,
+        "attemptId": "ATTEMPT-R2-20260824",
+        "writerId": "codex/r24-r2-storage-certification-v1-20260824",
+        "fencingToken": 23,
+        "idempotencyKey": "r2-20260824-transition-eligible",
+        "requestDigest": "9457500e2b34dd817bd3409e1ff7d8a91aaaa3ce39f1fddc80900614c1f2a6d3",
+        "headSha": "5b505f27e0f51281f075b25257409e99755eae79",
+        "appliedAt": "2026-08-23T23:54:00Z"
+      }
+    },
+    "r2-20260824-transition-running": {
+      "revision": 111,
+      "requestDigest": "1fa7c9a72ee35cc37ef006892ba1f1a57cfbf38bae14a7b2c69f9eb12e8e2b62",
+      "receipt": {
+        "schemaVersion": "PlanStateTransitionReceiptV1",
+        "transitionId": "cdf40307866d2440cc2893998d599946af96943d0cb3ad0c9ea4697d7df3b023",
+        "contourId": "R2_STORAGE_BAKEOFF",
+        "from": "ELIGIBLE",
+        "to": "RUNNING",
+        "fromRevision": 110,
+        "toRevision": 111,
+        "attemptId": "ATTEMPT-R2-20260824",
+        "writerId": "codex/r24-r2-storage-certification-v1-20260824",
+        "fencingToken": 23,
+        "idempotencyKey": "r2-20260824-transition-running",
+        "requestDigest": "1fa7c9a72ee35cc37ef006892ba1f1a57cfbf38bae14a7b2c69f9eb12e8e2b62",
+        "headSha": "5b505f27e0f51281f075b25257409e99755eae79",
+        "appliedAt": "2026-08-23T23:54:00Z"
+      }
+    },
+    "r2-20260824-transition-delivered": {
+      "revision": 112,
+      "requestDigest": "714010d8c078399f553863d82c23945fcf96c78859bc946ce06812703f2067cf",
+      "receipt": {
+        "schemaVersion": "PlanStateTransitionReceiptV1",
+        "transitionId": "0606989a341cbda531d90806167a070c56f1f0ac5ba26a892617c0d1ef71b2f0",
+        "contourId": "R2_STORAGE_BAKEOFF",
+        "from": "RUNNING",
+        "to": "DELIVERED",
+        "fromRevision": 111,
+        "toRevision": 112,
+        "attemptId": "ATTEMPT-R2-20260824",
+        "writerId": "codex/r24-r2-storage-certification-v1-20260824",
+        "fencingToken": 23,
+        "idempotencyKey": "r2-20260824-transition-delivered",
+        "requestDigest": "714010d8c078399f553863d82c23945fcf96c78859bc946ce06812703f2067cf",
+        "headSha": "5b505f27e0f51281f075b25257409e99755eae79",
+        "appliedAt": "2026-08-23T23:54:00Z"
+      }
+    },
+    "r2-20260824-transition-postmerge_verified": {
+      "revision": 113,
+      "requestDigest": "9703143d393200a2fe1bfcd54359fbc69d139539aa3f3137a894360523f9b5a3",
+      "receipt": {
+        "schemaVersion": "PlanStateTransitionReceiptV1",
+        "transitionId": "d3b99cf4f4b44602bc5020119d390f25f9dfbbbf2f38b3f6f8df2a92060c62dc",
+        "contourId": "R2_STORAGE_BAKEOFF",
+        "from": "DELIVERED",
+        "to": "POSTMERGE_VERIFIED",
+        "fromRevision": 112,
+        "toRevision": 113,
+        "attemptId": "ATTEMPT-R2-20260824",
+        "writerId": "codex/r24-r2-storage-certification-v1-20260824",
+        "fencingToken": 23,
+        "idempotencyKey": "r2-20260824-transition-postmerge_verified",
+        "requestDigest": "9703143d393200a2fe1bfcd54359fbc69d139539aa3f3137a894360523f9b5a3",
+        "headSha": "5b505f27e0f51281f075b25257409e99755eae79",
+        "appliedAt": "2026-08-23T23:54:00Z"
+      }
+    },
+    "r2-20260824-transition-done": {
+      "revision": 114,
+      "requestDigest": "61a9e46c9981a8e1d583c406ee5deec5c92e0fb6deaa2082621ed68c7725aae6",
+      "receipt": {
+        "schemaVersion": "PlanStateTransitionReceiptV1",
+        "transitionId": "70a88ce5efc7af6cd64cdc3e3818c439787bfc83c0f9aefcda522b52d702104f",
+        "contourId": "R2_STORAGE_BAKEOFF",
+        "from": "POSTMERGE_VERIFIED",
+        "to": "DONE",
+        "fromRevision": 113,
+        "toRevision": 114,
+        "attemptId": "ATTEMPT-R2-20260824",
+        "writerId": "codex/r24-r2-storage-certification-v1-20260824",
+        "fencingToken": 23,
+        "idempotencyKey": "r2-20260824-transition-done",
+        "requestDigest": "61a9e46c9981a8e1d583c406ee5deec5c92e0fb6deaa2082621ed68c7725aae6",
+        "headSha": "5b505f27e0f51281f075b25257409e99755eae79",
+        "appliedAt": "2026-08-23T23:54:00Z"
+      }
     }
   },
   "replayBaseline": {
@@ -1566,6 +1683,91 @@
       "requestDigest": "908549262be42de2422e0fcd5183ec361a0a8a8b76b68a73f92e82160efa8ca0",
       "headSha": "727fe0f04a023c653f68a888b3d4644f24594940",
       "appliedAt": "2026-08-23T21:30:00Z",
+      "baselinePresent": true
+    },
+    {
+      "schemaVersion": "PlanStateTransitionReceiptV1",
+      "transitionId": "b166e0a010dd082da0a30b57a097212d430e808d3d2d22e3ca6a98a21ae0be29",
+      "contourId": "R2_STORAGE_BAKEOFF",
+      "from": "PENDING",
+      "to": "ELIGIBLE",
+      "fromRevision": 109,
+      "toRevision": 110,
+      "attemptId": "ATTEMPT-R2-20260824",
+      "writerId": "codex/r24-r2-storage-certification-v1-20260824",
+      "fencingToken": 23,
+      "idempotencyKey": "r2-20260824-transition-eligible",
+      "requestDigest": "9457500e2b34dd817bd3409e1ff7d8a91aaaa3ce39f1fddc80900614c1f2a6d3",
+      "headSha": "5b505f27e0f51281f075b25257409e99755eae79",
+      "appliedAt": "2026-08-23T23:54:00Z",
+      "baselinePresent": true
+    },
+    {
+      "schemaVersion": "PlanStateTransitionReceiptV1",
+      "transitionId": "cdf40307866d2440cc2893998d599946af96943d0cb3ad0c9ea4697d7df3b023",
+      "contourId": "R2_STORAGE_BAKEOFF",
+      "from": "ELIGIBLE",
+      "to": "RUNNING",
+      "fromRevision": 110,
+      "toRevision": 111,
+      "attemptId": "ATTEMPT-R2-20260824",
+      "writerId": "codex/r24-r2-storage-certification-v1-20260824",
+      "fencingToken": 23,
+      "idempotencyKey": "r2-20260824-transition-running",
+      "requestDigest": "1fa7c9a72ee35cc37ef006892ba1f1a57cfbf38bae14a7b2c69f9eb12e8e2b62",
+      "headSha": "5b505f27e0f51281f075b25257409e99755eae79",
+      "appliedAt": "2026-08-23T23:54:00Z",
+      "baselinePresent": true
+    },
+    {
+      "schemaVersion": "PlanStateTransitionReceiptV1",
+      "transitionId": "0606989a341cbda531d90806167a070c56f1f0ac5ba26a892617c0d1ef71b2f0",
+      "contourId": "R2_STORAGE_BAKEOFF",
+      "from": "RUNNING",
+      "to": "DELIVERED",
+      "fromRevision": 111,
+      "toRevision": 112,
+      "attemptId": "ATTEMPT-R2-20260824",
+      "writerId": "codex/r24-r2-storage-certification-v1-20260824",
+      "fencingToken": 23,
+      "idempotencyKey": "r2-20260824-transition-delivered",
+      "requestDigest": "714010d8c078399f553863d82c23945fcf96c78859bc946ce06812703f2067cf",
+      "headSha": "5b505f27e0f51281f075b25257409e99755eae79",
+      "appliedAt": "2026-08-23T23:54:00Z",
+      "baselinePresent": true
+    },
+    {
+      "schemaVersion": "PlanStateTransitionReceiptV1",
+      "transitionId": "d3b99cf4f4b44602bc5020119d390f25f9dfbbbf2f38b3f6f8df2a92060c62dc",
+      "contourId": "R2_STORAGE_BAKEOFF",
+      "from": "DELIVERED",
+      "to": "POSTMERGE_VERIFIED",
+      "fromRevision": 112,
+      "toRevision": 113,
+      "attemptId": "ATTEMPT-R2-20260824",
+      "writerId": "codex/r24-r2-storage-certification-v1-20260824",
+      "fencingToken": 23,
+      "idempotencyKey": "r2-20260824-transition-postmerge_verified",
+      "requestDigest": "9703143d393200a2fe1bfcd54359fbc69d139539aa3f3137a894360523f9b5a3",
+      "headSha": "5b505f27e0f51281f075b25257409e99755eae79",
+      "appliedAt": "2026-08-23T23:54:00Z",
+      "baselinePresent": true
+    },
+    {
+      "schemaVersion": "PlanStateTransitionReceiptV1",
+      "transitionId": "70a88ce5efc7af6cd64cdc3e3818c439787bfc83c0f9aefcda522b52d702104f",
+      "contourId": "R2_STORAGE_BAKEOFF",
+      "from": "POSTMERGE_VERIFIED",
+      "to": "DONE",
+      "fromRevision": 113,
+      "toRevision": 114,
+      "attemptId": "ATTEMPT-R2-20260824",
+      "writerId": "codex/r24-r2-storage-certification-v1-20260824",
+      "fencingToken": 23,
+      "idempotencyKey": "r2-20260824-transition-done",
+      "requestDigest": "61a9e46c9981a8e1d583c406ee5deec5c92e0fb6deaa2082621ed68c7725aae6",
+      "headSha": "5b505f27e0f51281f075b25257409e99755eae79",
+      "appliedAt": "2026-08-23T23:54:00Z",
       "baselinePresent": true
     }
   ]

@@ -1,0 +1,165 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-202-LEGACY-STRANGLER-CLAIM-BINDINGS",
+  "contourId": "WP-202_LEGACY_STRANGLER",
+  "evidenceClass": "CONTRACT",
+  "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
+  "headSha": "a06b1dcb93bb2a208e689ca56d147c5d23cce624",
+  "originMainSha": "3a7664cd74fe2137e630f033283849fe864e4e0b",
+  "generatedAtUtc": "2026-08-24T19:33:00Z",
+  "oracle": "strict ClaimBindingV1 exact-hash binding for replayable WP202 PlanState closure, exact-main postmerge evidence, survivor audit and source receipt",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+      "sha256": "498b22f126571ec189bf9adc1d8c7215038c5dc7707bd9996a1eff00f718a0a8",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+      "sha256": "b4c279ed21db2f736ee3c4755b31ba0fc0c59ef531651ffaa5d27dc7971e320a",
+      "claimTerms": [
+        "CLOSED"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CTR-R24-WP-202-LEGACY-STRANGLER.json",
+      "sha256": "059ae02f146a7f7dd5afbba0e8bbb40039458aadaf26d655b35b234d567082f7",
+      "claimTerms": [
+        "PASS"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "package.json",
+      "sha256": "9a2daa3f708b2c29d324104b86285e9e2c31c0eba5ed248458e3fb0fa8658f14",
+      "terms": [
+        "maintained test:r24-wp202 package gate"
+      ]
+    },
+    {
+      "path": ".github/workflows/rtk-required.yml",
+      "sha256": "934995f68922599b651a21267db3b30091c22f4550ad11da6d2188f196ecc9ea",
+      "terms": [
+        "exact-head R2.4 WP202 workflow gate"
+      ]
+    },
+    {
+      "path": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+      "sha256": "d1fd7ad618f9aff7a9e1fb9c98c0df7c79f53ad4b9ee82f52a7187b07576950f",
+      "terms": [
+        "exact package wording-surface binding"
+      ]
+    },
+    {
+      "path": "src/core/legacy-strangler-v1.cjs",
+      "sha256": "87c99cc734cb19636270c42f23c777c04c2b05556e0a620e66157659d84d42b7",
+      "terms": [
+        "dual-observe single-authority gateway implementation"
+      ]
+    },
+    {
+      "path": "src/main.js",
+      "sha256": "d9953c2067e69a2975a402d9a07031c95fcbfd00f9bce4de245a107275530e17",
+      "terms": [
+        "Writer save routing through WP202 gateway"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp202-legacy-strangler.test.js",
+      "sha256": "b072e32ce2224b0d200f6ab41ea45f2d45d27b0fb98715207618a5a1a7797462",
+      "terms": [
+        "WP202 contract and negative tests"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp202-legacy-strangler-integration.test.js",
+      "sha256": "bfd5b9fb621c3c689987f9a333ac5bf8c04c4302e666239ffe49058252c73c18",
+      "terms": [
+        "WP202 WP200/WP201 integration and Unicode evidence"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp202-legacy-strangler-mutants.test.js",
+      "sha256": "526d12fba1625def1bd301fa5645800d5c7ace2f4535065844cedaffccca30e0",
+      "terms": [
+        "seven named WP202 implementation mutants killed"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "npm run -s test:r24-wp202",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 14,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 7,
+        "survived": 0
+      }
+    },
+    {
+      "command": "npm run -s test:r24-wp200 && npm run -s test:r24-wp201 && npm run -s test:r24-r5 && npm run -s test:r24-f0",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 51,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 33,
+        "survived": 0
+      }
+    },
+    {
+      "command": "npm run test:rtk",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "Exact evaluation source 8193fddc is green with clean process-group and lease cleanup."
+    },
+    {
+      "command": "GitHub exact PR-head required checks",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 7,
+        "survived": 0
+      },
+      "requiredDisposition": "PR head 8182625c has green RTK, OSS, Ubuntu and Windows parity, and ops_vector_close."
+    },
+    {
+      "command": "GitHub exact-main postmerge RTK and OSS",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "Merge 3a7664cd is terminal green in exact-main RTK run 32766775120 and OSS run 32766775108."
+    },
+    {
+      "command": "node scripts/ops/r24/docs-claim-lint.mjs && node --test scripts/ops/r24/tests/docs-claim-lint.test.mjs",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 9,
+        "fail": 0
+      },
+      "requiredDisposition": "Strict ClaimBindingV1 lint passes and all nine negative schema mutants are rejected."
+    }
+  ],
+  "nonClaims": [
+    "This binding closes only the bounded WP-202_LEGACY_STRANGLER contour.",
+    "WP202 compares legacy and gateway routing observations but does not remove legacy code.",
+    "No storage format, path, user data, dependency, SAFE_APPLY, release, signing, cloud or AI authority is changed.",
+    "WP203 and all later nodes remain independently graph-gated.",
+    "It does not mark physical qualification, release readiness or the R2.4 program DONE."
+  ]
+}

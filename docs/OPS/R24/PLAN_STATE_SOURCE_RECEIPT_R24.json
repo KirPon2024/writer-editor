@@ -1,15 +1,15 @@
 {
   "schemaVersion": "yalken.r24.plan-state-source-receipt.v1",
-  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPLAYABLE_V1_EXACT_POSTMERGE_CLOSURE_NO_PROGRAM_DONE",
-  "generatedAtUtc": "2026-08-24T17:36:37Z",
+  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPLAYABLE_WP202_EXACT_POSTMERGE_CLOSURE_NO_PROGRAM_DONE",
+  "generatedAtUtc": "2026-08-24T19:31:00Z",
   "executableProgramPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
   "executableProgramDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
   "planStatePath": "docs/OPS/R24/PLAN_STATE_R24.json",
   "currentPlanState": {
-    "sha256": "b1b9e63edbbc7cbe97c3e1704c833181988d1bec0b19360abc2a5bb5d2a4b47d",
+    "sha256": "498b22f126571ec189bf9adc1d8c7215038c5dc7707bd9996a1eff00f718a0a8",
     "schemaVersion": "yalken.plan-state.r24.v2",
-    "revision": 178,
-    "fencingCounter": 32,
+    "revision": 185,
+    "fencingCounter": 33,
     "replayBaseline": {
       "classification": "ADOPTED_PRE_V2_UNREPLAYABLE_HISTORY",
       "revision": 94,
@@ -19,7 +19,7 @@
       "unreplayableContourCount": 10,
       "syntheticTransitionCount": 0
     },
-    "transitionHistoryCount": 60
+    "transitionHistoryCount": 65
   },
   "externalPlanState": {
     "path": "/Volumes/T7-Secure/worktrees/yalken/_r24-mission/PLAN_STATE_R24.json",
@@ -99,14 +99,14 @@
   },
   "nonClaims": [
     "R24 test files are implementation evidence candidates only and are not converted to DONE without durable terminal receipts.",
-    "This source receipt accounts for repo-local closures through V1 and does not mark the full 109-node program DONE.",
-    "V1 certifies only the Atlas profile claim projection bound to exact A0 evidence and does not promote Writer core.",
-    "WP202 and all later work packages remain independently graph-gated.",
-    "No runtime product rewrite, product state, user document mutation, dependency, storage path change or migration, SAFE_APPLY, release, signing, cloud or AI authority is added.",
+    "This source receipt accounts for repo-local closures through WP202 and does not mark the full 109-node program DONE.",
+    "WP202 certifies dual-observe routing with exactly one existing WP200 or WP201 save authority and no fallback after disagreement or failure.",
+    "WP203 and all later work packages remain independently graph-gated.",
+    "No runtime rewrite, storage format or path change, user document mutation, dependency, migration, SAFE_APPLY, release, signing, cloud or AI authority is added.",
     "Parked V2 remains suspended until selected by the executable graph."
   ],
   "discoveredR24TestFiles": {
-    "count": 94,
+    "count": 104,
     "treatment": "NOT_DELIVERY_STATE_WITHOUT_TERMINAL_RECEIPT",
     "basenames": [
       "r24-a0-atlas-incremental-equivalence.test.js",
@@ -115,6 +115,7 @@
       "r24-a1-optional-relation-vocabulary.test.js",
       "r24-a1-relation-vocabulary-integration.test.js",
       "r24-a1-relation-vocabulary-mutants.test.js",
+      "r24-b0-observed-evidence-compiler.test.js",
       "r24-ent0-entitlement-law.test.js",
       "r24-ent0-law-mutants.test.js",
       "r24-ent0-port-enforcement.test.js",
@@ -202,11 +203,20 @@
       "r24-wp103-order-mutants.test.js",
       "r24-wp103-revision-order.test.js",
       "r24-wp104-boundary-falsification.test.js",
-      "r24-wp104-evidence-integrity.test.js"
+      "r24-wp104-evidence-integrity.test.js",
+      "r24-wp200-durable-save-mutants.test.js",
+      "r24-wp200-durable-save-physics.test.js",
+      "r24-wp200-durable-save.test.js",
+      "r24-wp201-project-transaction-mutants.test.js",
+      "r24-wp201-project-transaction-physics.test.js",
+      "r24-wp201-project-transaction.test.js",
+      "r24-wp202-legacy-strangler-integration.test.js",
+      "r24-wp202-legacy-strangler-mutants.test.js",
+      "r24-wp202-legacy-strangler.test.js"
     ]
   },
   "repoLocalPlanStateClosures": {
-    "doneContourCount": 21,
+    "doneContourCount": 22,
     "closures": [
       {
         "id": "SEC0_PATH_CAPABILITY",
@@ -651,8 +661,29 @@
           "ES-R24-V1-ATLAS-CLAIM-COMPILER-CLAIM-BINDINGS"
         ],
         "deliveryState": "CURRENT_MAIN_8B153501_EXACT_HEAD_V1_ATLAS_PROFILE_POSTMERGE_AND_SURVIVOR_GREEN_NO_WRITER_PROMOTION_NO_PROGRAM_DONE"
+      },
+      {
+        "id": "WP-202_LEGACY_STRANGLER",
+        "state": "DONE",
+        "previousState": "POSTMERGE_VERIFIED",
+        "attemptId": "ATTEMPT-WP202-20260824",
+        "updatedAt": "2026-08-24T19:31:00.005Z",
+        "headSha": "3a7664cd74fe2137e630f033283849fe864e4e0b",
+        "source": "R24_WP202_LEGACY_STRANGLER_CLOSURE_V1",
+        "terminalReceiptPath": "docs/OPS/R24/CTR-R24-WP-202-LEGACY-STRANGLER.json",
+        "evidenceStampIds": [
+          "ES-R24-WP-202-LEGACY-STRANGLER-MODEL",
+          "ES-R24-WP-202-LEGACY-STRANGLER-CONTRACT",
+          "ES-R24-WP-202-LEGACY-STRANGLER-INTEGRATION",
+          "ES-R24-WP-202-LEGACY-STRANGLER-MUTANTS",
+          "ES-R24-WP-202-LEGACY-STRANGLER-EXACT-HEAD",
+          "ES-R24-WP-202-LEGACY-STRANGLER-POSTMERGE-EXACT-HEAD",
+          "ES-R24-WP-202-LEGACY-STRANGLER-SURVIVOR-AUDIT",
+          "ES-R24-WP-202-LEGACY-STRANGLER-CLAIM-BINDINGS"
+        ],
+        "deliveryState": "CURRENT_MAIN_3A7664CD_EXACT_HEAD_WP202_DUAL_OBSERVE_SINGLE_AUTHORITY_POSTMERGE_AND_SURVIVOR_GREEN_NO_LEGACY_REMOVAL_NO_PROGRAM_DONE"
       }
     ]
   },
-  "planStateRevision": 178
+  "planStateRevision": 185
 }

@@ -1,15 +1,15 @@
 {
   "schemaVersion": "yalken.r24.plan-state-source-receipt.v1",
-  "status": "R4_CORRECTIVE_CERTIFICATION_CLOSED_LOCALLY_DELIVERY_AND_POSTMERGE_PENDING_PROGRAM_NOT_DONE",
-  "generatedAtUtc": "2026-08-24T02:11:07.000Z",
+  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPLAYABLE_R5_EXACT_POSTMERGE_CLOSURE_NO_PROGRAM_DONE",
+  "generatedAtUtc": "2026-08-24T05:02:18Z",
   "executableProgramPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
   "executableProgramDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
   "planStatePath": "docs/OPS/R24/PLAN_STATE_R24.json",
   "currentPlanState": {
-    "sha256": "55850752e1d8bd540b121fb24c945ac18da7fa363a0fa501309fa61c76746a9b",
+    "sha256": "22c830efa0b151043bf7a263ae9c524afc56e5761e6a9f313e7a019e11bf508d",
     "schemaVersion": "yalken.plan-state.r24.v2",
-    "revision": 129,
-    "fencingCounter": 25,
+    "revision": 136,
+    "fencingCounter": 26,
     "replayBaseline": {
       "classification": "ADOPTED_PRE_V2_UNREPLAYABLE_HISTORY",
       "revision": 94,
@@ -19,7 +19,7 @@
       "unreplayableContourCount": 10,
       "syntheticTransitionCount": 0
     },
-    "transitionHistoryCount": 25
+    "transitionHistoryCount": 30
   },
   "externalPlanState": {
     "path": "/Volumes/T7-Secure/worktrees/yalken/_r24-mission/PLAN_STATE_R24.json",
@@ -99,10 +99,15 @@
   },
   "nonClaims": [
     "R24 unit test files in current main are implementation evidence candidates only; they are not converted to DONE without durable terminal receipts.",
-    "This source receipt accounts for repo-local SEC0, ENT0, K1, T1, A0, PK0, WP-100 through WP-104, R2, R3, and R4 closures and does not mark the full 109-node program DONE.",
-    "R4 closure certifies the bounded dependency-free internal inbox/outbox protocol, same-process handle serialization, publish-on-success durable state, immutable public snapshots, focused failure recovery, and named mutation resistance.",
-    "R4 closure does not claim cross-process or cross-host serialization, atomic inbox execution plus outbox staging, live production composition-root attachment, automatic post-ACK marker recovery, external exactly-once delivery without sink deduplication, log compaction, dependency adoption, storage-path change, user migration, or destructive storage.",
-    "R5, R6, F0, V0, WP-200 through WP-207, WP-300 through WP-307, physical qualification, and release readiness remain independently graph-gated.",
+    "This source receipt accounts for repo-local SEC0, ENT0, K1, T1, A0, PK0, WP-100 through WP-104, and R2 through R5 closures and does not mark the full 109-node program DONE.",
+    "R5 closure certifies exact subject, generation, save, R4 outbox, P3 recovery and disk barriers; stale manual saves cannot erase newer autosave state, autosave is single-flight, and close/quit revalidate immediately before the effect.",
+    "The production composition root applies the corrected barrier to BrowserWindow close and app before-quit; platform suspend is not wired in this contour.",
+    "External-edit and crash decisions require exact caller-supplied disk, R4 and P3 observations; no production external file watcher or recovery UI is attached here.",
+    "The close path uses a detached zero-effect observation because the optional R4 inbox/outbox is not attached to the production composition root.",
+    "A successful file write whose later profile or shell-state persistence fails is not promoted to a SAVED acknowledgement by this contour.",
+    "The lifecycle protocol is process-local and does not claim cross-process or cross-host conflict serialization.",
+    "No user document, storage format, dependency, SAFE_APPLY, release, signing, cloud or AI authority is added.",
+    "R6, F0, V0, WP-200 through WP-207, WP-300 through WP-307, physical qualification, release readiness, and program completion remain independently graph-gated.",
     "Parked V2 remains suspended until the executable graph selects it and all dependency and evidence predicates are satisfied."
   ],
   "discoveredR24TestFiles": {
@@ -206,7 +211,7 @@
     ]
   },
   "repoLocalPlanStateClosures": {
-    "doneContourCount": 14,
+    "doneContourCount": 15,
     "closures": [
       {
         "id": "SEC0_PATH_CAPABILITY",
@@ -504,8 +509,29 @@
           "ES-R24-R4-TRANSACTIONAL-INBOX-OUTBOX-CLAIM-BINDINGS"
         ],
         "deliveryState": "CURRENT_MAIN_670E0D13_R4_CORRECTIVE_LOCAL_EXACT_HEAD_GREEN_PR_AND_POSTMERGE_PENDING_NO_LIVE_PRODUCTION_ATTACHMENT_NO_PROGRAM_DONE"
+      },
+      {
+        "id": "R5_LIFECYCLE_EXTERNAL_CONFLICT",
+        "state": "DONE",
+        "previousState": "POSTMERGE_VERIFIED",
+        "attemptId": "ATTEMPT-R5-20260824",
+        "updatedAt": "2026-08-24T05:01:58.336Z",
+        "headSha": "c32661613c3e0ceed9890dfc8ce7ab7ae1e4ee0e",
+        "source": "R24_R5_LIFECYCLE_EXTERNAL_CONFLICT_CLOSURE_V1",
+        "terminalReceiptPath": "docs/OPS/R24/CTR-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT.json",
+        "evidenceStampIds": [
+          "ES-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT-MODEL",
+          "ES-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT-CONTRACT",
+          "ES-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT-INTEGRATION",
+          "ES-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT-MUTANTS",
+          "ES-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT-EXACT-HEAD",
+          "ES-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT-POSTMERGE-EXACT-HEAD",
+          "ES-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT-SURVIVOR-AUDIT",
+          "ES-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT-CLAIM-BINDINGS"
+        ],
+        "deliveryState": "CURRENT_MAIN_C3266161_EXACT_HEAD_R5_CORRECTIVE_CLOSE_QUIT_GENERATION_FENCE_POSTMERGE_AND_SURVIVOR_GREEN_NO_PLATFORM_SUSPEND_WIRING_NO_EXTERNAL_FILE_WATCHER_NO_RECOVERY_UI_NO_PROGRAM_DONE"
       }
     ]
   },
-  "planStateRevision": 129
+  "planStateRevision": 136
 }

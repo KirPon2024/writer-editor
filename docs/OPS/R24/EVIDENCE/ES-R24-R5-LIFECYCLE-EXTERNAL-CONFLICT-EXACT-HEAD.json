@@ -42,9 +42,9 @@
       "correctiveImplementationSourceSha": "1012a28bcd74847898e380812d51c81ebd3a5dc1",
       "evaluationHeadSha": "1012a28bcd74847898e380812d51c81ebd3a5dc1",
       "evaluationTreeSha": "ea65acde08a418a32f0bd1da56a598565cc618fb",
-      "closurePrHeadSha": null,
-      "closureMergeSha": null,
-      "closurePostmergeSha": null
+      "correctiveImplementationPrHeadSha": "0841015b8dd84cda6e3382f77bcf5890524b4057",
+      "correctiveImplementationMergeSha": "c32661613c3e0ceed9890dfc8ce7ab7ae1e4ee0e",
+      "correctivePostmergeSha": "c32661613c3e0ceed9890dfc8ce7ab7ae1e4ee0e"
     },
     "focusedCommand": "npm run test:r24-r5",
     "focusedCounts": {
@@ -75,7 +75,14 @@
     "guardrails": "PASS",
     "ossPolicy": "PASS",
     "diffCheck": "PASS",
-    "requiredClosurePrHeadChecks": "PENDING_EXTERNAL_GITHUB_IDENTITY",
+    "requiredClosurePrHeadChecks": {
+      "headSha": "0841015b8dd84cda6e3382f77bcf5890524b4057",
+      "rtkRunId": 32689434294,
+      "ossRunId": 32689434307,
+      "parityRunId": 32689434259,
+      "opsVectorRunId": 32690640781,
+      "result": "PASS"
+    },
     "nonClaims": [
       "The production composition root applies the corrected barrier to BrowserWindow close and app before-quit; platform suspend is not wired in this contour.",
       "External-edit and crash decisions require exact caller-supplied disk, R4 and P3 observations; no production external file watcher or recovery UI is attached here.",

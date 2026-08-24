@@ -1,0 +1,105 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT-CLAIM-BINDINGS",
+  "contourId": "R5_LIFECYCLE_EXTERNAL_CONFLICT",
+  "evidenceClass": "CONTRACT",
+  "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
+  "headSha": "c32661613c3e0ceed9890dfc8ce7ab7ae1e4ee0e",
+  "originMainSha": "c32661613c3e0ceed9890dfc8ce7ab7ae1e4ee0e",
+  "generatedAtUtc": "2026-08-24T05:02:18Z",
+  "oracle": "strict ClaimBindingV1 exact-hash binding for replayable R5 PlanState closure, exact-main postmerge evidence, survivor audit and source receipt",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+      "sha256": "22c830efa0b151043bf7a263ae9c524afc56e5761e6a9f313e7a019e11bf508d",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+      "sha256": "6db1921d78972c18709432509b8850be4960dfb7b86b3e9ee531932b62dad332",
+      "claimTerms": [
+        "CLOSED"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CTR-R24-R5-LIFECYCLE-EXTERNAL-CONFLICT.json",
+      "sha256": "2c0aa3768c119418c4d402578f532ccac503f9995e292eaa3f75c4c4886b392f",
+      "claimTerms": [
+        "PASS"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/lifecycle-conflict-v1.cjs",
+      "sha256": "c0dfbf60c52cad3728572ff576fb1b475e09fa70b3524152e9ab3f4227d60ed6",
+      "terms": [
+        "subject and generation bound lifecycle barrier",
+        "single-flight autosave and stale manual save refusal"
+      ]
+    },
+    {
+      "path": "src/main.js",
+      "sha256": "1bac5d865a2562ba6e3973a2bb17c4f59b69877fbf733127718b6dbaf065805c",
+      "terms": [
+        "BrowserWindow close and before-quit final revalidation"
+      ]
+    },
+    {
+      "path": "test/unit/r24-r5-lifecycle-conflict.test.js",
+      "sha256": "933ace0942f432a5d87c3979833a9dc398ac60b75a7384851e862e1a7cd085af",
+      "terms": [
+        "R5 contract and negative barriers"
+      ]
+    },
+    {
+      "path": "test/unit/r24-r5-lifecycle-physics.test.js",
+      "sha256": "94df88819aa75b8b26e23c0c477608c88b4a3b7c7f1bc0490a46a5b5da490366",
+      "terms": [
+        "R5 physical and production integration"
+      ]
+    },
+    {
+      "path": "test/unit/r24-r5-lifecycle-mutants.test.js",
+      "sha256": "2a68ae718c6bf3a77f84ebc4d0d5957fdb3dd634c352e3c9c3f6528926566fce",
+      "terms": [
+        "eleven named implementation mutants killed"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "npm run -s test:r24-r5",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 16,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 11,
+        "survived": 0
+      }
+    },
+    {
+      "command": "npm run -s test:rtk",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "Exact implementation source and exact-main merge both green with clean process-group and lease cleanup."
+    }
+  ],
+  "nonClaims": [
+    "This binding closes only the bounded R5_LIFECYCLE_EXTERNAL_CONFLICT corrective certification contour.",
+    "The production composition root applies the corrected barrier to BrowserWindow close and app before-quit; platform suspend is not wired in this contour.",
+    "External-edit and crash decisions require exact caller-supplied disk, R4 and P3 observations; no production external file watcher or recovery UI is attached here.",
+    "The close path uses a detached zero-effect observation because the optional R4 inbox/outbox is not attached to the production composition root.",
+    "A successful file write whose later profile or shell-state persistence fails is not promoted to a SAVED acknowledgement by this contour.",
+    "The lifecycle protocol is process-local and does not claim cross-process or cross-host conflict serialization.",
+    "No user document, storage format, dependency, SAFE_APPLY, release, signing, cloud or AI authority is added.",
+    "It does not mark R6, F0, V0, downstream work packages, physical qualification, release readiness, or the R2.4 program DONE."
+  ]
+}

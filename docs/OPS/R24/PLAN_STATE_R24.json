@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.plan-state.r24.v2",
-  "revision": 122,
-  "fencingCounter": 24,
+  "revision": 129,
+  "fencingCounter": 25,
   "contours": {
     "R24C0_SEMANTIC_PACKAGE_CLOSURE": {
       "state": "DONE",
@@ -148,12 +148,24 @@
       "deliveryState": "CURRENT_MAIN_4D957820_EXACT_HEAD_R3_GATE_AND_SURVIVOR_GREEN_DORMANT_INTERNAL_ADAPTER_NO_LIVE_STORAGE_ADOPTION_NO_PROGRAM_DONE"
     },
     "R4_TRANSACTIONAL_INBOX_OUTBOX": {
-      "state": "PENDING",
-      "previousState": null,
-      "attemptId": null,
-      "updatedAt": null,
-      "headSha": null,
-      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+      "state": "DONE",
+      "previousState": "POSTMERGE_VERIFIED",
+      "attemptId": "ATTEMPT-R4-20260824",
+      "updatedAt": "2026-08-24T02:11:05.000Z",
+      "headSha": "7d295a9ccb3e2e2883d50c731666263aa31783de",
+      "source": "R24_R4_TRANSACTIONAL_INBOX_OUTBOX_CLOSURE_V1",
+      "terminalReceiptPath": "docs/OPS/R24/CTR-R24-R4-TRANSACTIONAL-INBOX-OUTBOX.json",
+      "evidenceStampIds": [
+        "ES-R24-R4-TRANSACTIONAL-INBOX-OUTBOX-MODEL",
+        "ES-R24-R4-TRANSACTIONAL-INBOX-OUTBOX-CONTRACT",
+        "ES-R24-R4-TRANSACTIONAL-INBOX-OUTBOX-INTEGRATION",
+        "ES-R24-R4-TRANSACTIONAL-INBOX-OUTBOX-MUTANTS",
+        "ES-R24-R4-TRANSACTIONAL-INBOX-OUTBOX-EXACT-HEAD",
+        "ES-R24-R4-TRANSACTIONAL-INBOX-OUTBOX-POSTMERGE-EXACT-HEAD",
+        "ES-R24-R4-TRANSACTIONAL-INBOX-OUTBOX-SURVIVOR-AUDIT",
+        "ES-R24-R4-TRANSACTIONAL-INBOX-OUTBOX-CLAIM-BINDINGS"
+      ],
+      "deliveryState": "CURRENT_MAIN_670E0D13_R4_CORRECTIVE_LOCAL_EXACT_HEAD_GREEN_PR_AND_POSTMERGE_PENDING_NO_LIVE_PRODUCTION_ATTACHMENT_NO_PROGRAM_DONE"
     },
     "R5_LIFECYCLE_EXTERNAL_CONFLICT": {
       "state": "PENDING",
@@ -1607,6 +1619,111 @@
         "headSha": "0a3d035de277a6edc9287b86d17cb59a7e16c104",
         "appliedAt": "2026-08-24T00:54:05Z"
       }
+    },
+    "r4-20260824-lease": {
+      "revision": 123,
+      "requestDigest": "6b97dd75c952c87a149df1dfaf0aa93c5179cf086952390ffe9a33513fc2ce11",
+      "receipt": null
+    },
+    "r4-20260824-transition-eligible": {
+      "revision": 124,
+      "requestDigest": "1d7dd3aa0d84eae7d2cbabb66e635869075e733acd350812c391b8399ab60233",
+      "receipt": {
+        "schemaVersion": "PlanStateTransitionReceiptV1",
+        "transitionId": "273198587f10529c9c54829952b886680007e8b155e6f82e4e043f403c0d616a",
+        "contourId": "R4_TRANSACTIONAL_INBOX_OUTBOX",
+        "from": "PENDING",
+        "to": "ELIGIBLE",
+        "fromRevision": 123,
+        "toRevision": 124,
+        "attemptId": "ATTEMPT-R4-20260824",
+        "writerId": "codex/r24-r4-transactional-inbox-outbox-certification-v1-20260824",
+        "fencingToken": 25,
+        "idempotencyKey": "r4-20260824-transition-eligible",
+        "requestDigest": "1d7dd3aa0d84eae7d2cbabb66e635869075e733acd350812c391b8399ab60233",
+        "headSha": "7d295a9ccb3e2e2883d50c731666263aa31783de",
+        "appliedAt": "2026-08-24T02:11:01.000Z"
+      }
+    },
+    "r4-20260824-transition-running": {
+      "revision": 125,
+      "requestDigest": "059a6c2c94ceec85db2c7cf7e42af12aa66682fad104b8e77892d2d6118230d1",
+      "receipt": {
+        "schemaVersion": "PlanStateTransitionReceiptV1",
+        "transitionId": "b1c34d40668d800c7133e0a4194de1459658827cf0ba5297285081fa0d8bf454",
+        "contourId": "R4_TRANSACTIONAL_INBOX_OUTBOX",
+        "from": "ELIGIBLE",
+        "to": "RUNNING",
+        "fromRevision": 124,
+        "toRevision": 125,
+        "attemptId": "ATTEMPT-R4-20260824",
+        "writerId": "codex/r24-r4-transactional-inbox-outbox-certification-v1-20260824",
+        "fencingToken": 25,
+        "idempotencyKey": "r4-20260824-transition-running",
+        "requestDigest": "059a6c2c94ceec85db2c7cf7e42af12aa66682fad104b8e77892d2d6118230d1",
+        "headSha": "7d295a9ccb3e2e2883d50c731666263aa31783de",
+        "appliedAt": "2026-08-24T02:11:02.000Z"
+      }
+    },
+    "r4-20260824-transition-delivered": {
+      "revision": 126,
+      "requestDigest": "5222cc489f85a243f1731dde388e4869acb3b0e2822b394fce0942f3e25de0c1",
+      "receipt": {
+        "schemaVersion": "PlanStateTransitionReceiptV1",
+        "transitionId": "baa45565afad6ced93e396aba7747f3c4d91db4cb3c46d22aaa5c380f71b3595",
+        "contourId": "R4_TRANSACTIONAL_INBOX_OUTBOX",
+        "from": "RUNNING",
+        "to": "DELIVERED",
+        "fromRevision": 125,
+        "toRevision": 126,
+        "attemptId": "ATTEMPT-R4-20260824",
+        "writerId": "codex/r24-r4-transactional-inbox-outbox-certification-v1-20260824",
+        "fencingToken": 25,
+        "idempotencyKey": "r4-20260824-transition-delivered",
+        "requestDigest": "5222cc489f85a243f1731dde388e4869acb3b0e2822b394fce0942f3e25de0c1",
+        "headSha": "7d295a9ccb3e2e2883d50c731666263aa31783de",
+        "appliedAt": "2026-08-24T02:11:03.000Z"
+      }
+    },
+    "r4-20260824-transition-postmerge_verified": {
+      "revision": 127,
+      "requestDigest": "073bae96a824adf05b34a23d849fcedea298505fb3a4a99c5ad060c1439c3f88",
+      "receipt": {
+        "schemaVersion": "PlanStateTransitionReceiptV1",
+        "transitionId": "44f0e3b5faebb094d9f40b679aa32250457c523b9c9d1b453daa0f6f703d9a69",
+        "contourId": "R4_TRANSACTIONAL_INBOX_OUTBOX",
+        "from": "DELIVERED",
+        "to": "POSTMERGE_VERIFIED",
+        "fromRevision": 126,
+        "toRevision": 127,
+        "attemptId": "ATTEMPT-R4-20260824",
+        "writerId": "codex/r24-r4-transactional-inbox-outbox-certification-v1-20260824",
+        "fencingToken": 25,
+        "idempotencyKey": "r4-20260824-transition-postmerge_verified",
+        "requestDigest": "073bae96a824adf05b34a23d849fcedea298505fb3a4a99c5ad060c1439c3f88",
+        "headSha": "7d295a9ccb3e2e2883d50c731666263aa31783de",
+        "appliedAt": "2026-08-24T02:11:04.000Z"
+      }
+    },
+    "r4-20260824-transition-done": {
+      "revision": 128,
+      "requestDigest": "25557ccf62e37183dfa5c686f61ac07870b91ea2a1539eb258a59bdc4903c073",
+      "receipt": {
+        "schemaVersion": "PlanStateTransitionReceiptV1",
+        "transitionId": "90529a840890feb2e055880a8dee37de5ef9643e73f9d5ea95800fff8c04ba48",
+        "contourId": "R4_TRANSACTIONAL_INBOX_OUTBOX",
+        "from": "POSTMERGE_VERIFIED",
+        "to": "DONE",
+        "fromRevision": 127,
+        "toRevision": 128,
+        "attemptId": "ATTEMPT-R4-20260824",
+        "writerId": "codex/r24-r4-transactional-inbox-outbox-certification-v1-20260824",
+        "fencingToken": 25,
+        "idempotencyKey": "r4-20260824-transition-done",
+        "requestDigest": "25557ccf62e37183dfa5c686f61ac07870b91ea2a1539eb258a59bdc4903c073",
+        "headSha": "7d295a9ccb3e2e2883d50c731666263aa31783de",
+        "appliedAt": "2026-08-24T02:11:05.000Z"
+      }
     }
   },
   "replayBaseline": {
@@ -1970,6 +2087,91 @@
       "requestDigest": "f9a559a195eea4ee8f12218fa26cf650cf95d9d35a46f16bc5242b5617099ca7",
       "headSha": "0a3d035de277a6edc9287b86d17cb59a7e16c104",
       "appliedAt": "2026-08-24T00:54:05Z",
+      "baselinePresent": true
+    },
+    {
+      "schemaVersion": "PlanStateTransitionReceiptV1",
+      "transitionId": "273198587f10529c9c54829952b886680007e8b155e6f82e4e043f403c0d616a",
+      "contourId": "R4_TRANSACTIONAL_INBOX_OUTBOX",
+      "from": "PENDING",
+      "to": "ELIGIBLE",
+      "fromRevision": 123,
+      "toRevision": 124,
+      "attemptId": "ATTEMPT-R4-20260824",
+      "writerId": "codex/r24-r4-transactional-inbox-outbox-certification-v1-20260824",
+      "fencingToken": 25,
+      "idempotencyKey": "r4-20260824-transition-eligible",
+      "requestDigest": "1d7dd3aa0d84eae7d2cbabb66e635869075e733acd350812c391b8399ab60233",
+      "headSha": "7d295a9ccb3e2e2883d50c731666263aa31783de",
+      "appliedAt": "2026-08-24T02:11:01.000Z",
+      "baselinePresent": true
+    },
+    {
+      "schemaVersion": "PlanStateTransitionReceiptV1",
+      "transitionId": "b1c34d40668d800c7133e0a4194de1459658827cf0ba5297285081fa0d8bf454",
+      "contourId": "R4_TRANSACTIONAL_INBOX_OUTBOX",
+      "from": "ELIGIBLE",
+      "to": "RUNNING",
+      "fromRevision": 124,
+      "toRevision": 125,
+      "attemptId": "ATTEMPT-R4-20260824",
+      "writerId": "codex/r24-r4-transactional-inbox-outbox-certification-v1-20260824",
+      "fencingToken": 25,
+      "idempotencyKey": "r4-20260824-transition-running",
+      "requestDigest": "059a6c2c94ceec85db2c7cf7e42af12aa66682fad104b8e77892d2d6118230d1",
+      "headSha": "7d295a9ccb3e2e2883d50c731666263aa31783de",
+      "appliedAt": "2026-08-24T02:11:02.000Z",
+      "baselinePresent": true
+    },
+    {
+      "schemaVersion": "PlanStateTransitionReceiptV1",
+      "transitionId": "baa45565afad6ced93e396aba7747f3c4d91db4cb3c46d22aaa5c380f71b3595",
+      "contourId": "R4_TRANSACTIONAL_INBOX_OUTBOX",
+      "from": "RUNNING",
+      "to": "DELIVERED",
+      "fromRevision": 125,
+      "toRevision": 126,
+      "attemptId": "ATTEMPT-R4-20260824",
+      "writerId": "codex/r24-r4-transactional-inbox-outbox-certification-v1-20260824",
+      "fencingToken": 25,
+      "idempotencyKey": "r4-20260824-transition-delivered",
+      "requestDigest": "5222cc489f85a243f1731dde388e4869acb3b0e2822b394fce0942f3e25de0c1",
+      "headSha": "7d295a9ccb3e2e2883d50c731666263aa31783de",
+      "appliedAt": "2026-08-24T02:11:03.000Z",
+      "baselinePresent": true
+    },
+    {
+      "schemaVersion": "PlanStateTransitionReceiptV1",
+      "transitionId": "44f0e3b5faebb094d9f40b679aa32250457c523b9c9d1b453daa0f6f703d9a69",
+      "contourId": "R4_TRANSACTIONAL_INBOX_OUTBOX",
+      "from": "DELIVERED",
+      "to": "POSTMERGE_VERIFIED",
+      "fromRevision": 126,
+      "toRevision": 127,
+      "attemptId": "ATTEMPT-R4-20260824",
+      "writerId": "codex/r24-r4-transactional-inbox-outbox-certification-v1-20260824",
+      "fencingToken": 25,
+      "idempotencyKey": "r4-20260824-transition-postmerge_verified",
+      "requestDigest": "073bae96a824adf05b34a23d849fcedea298505fb3a4a99c5ad060c1439c3f88",
+      "headSha": "7d295a9ccb3e2e2883d50c731666263aa31783de",
+      "appliedAt": "2026-08-24T02:11:04.000Z",
+      "baselinePresent": true
+    },
+    {
+      "schemaVersion": "PlanStateTransitionReceiptV1",
+      "transitionId": "90529a840890feb2e055880a8dee37de5ef9643e73f9d5ea95800fff8c04ba48",
+      "contourId": "R4_TRANSACTIONAL_INBOX_OUTBOX",
+      "from": "POSTMERGE_VERIFIED",
+      "to": "DONE",
+      "fromRevision": 127,
+      "toRevision": 128,
+      "attemptId": "ATTEMPT-R4-20260824",
+      "writerId": "codex/r24-r4-transactional-inbox-outbox-certification-v1-20260824",
+      "fencingToken": 25,
+      "idempotencyKey": "r4-20260824-transition-done",
+      "requestDigest": "25557ccf62e37183dfa5c686f61ac07870b91ea2a1539eb258a59bdc4903c073",
+      "headSha": "7d295a9ccb3e2e2883d50c731666263aa31783de",
+      "appliedAt": "2026-08-24T02:11:05.000Z",
       "baselinePresent": true
     }
   ]

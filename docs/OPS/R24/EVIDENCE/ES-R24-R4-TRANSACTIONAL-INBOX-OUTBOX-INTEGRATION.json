@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "R4_TRANSACTIONAL_INBOX_OUTBOX",
+  "attemptId": "ATTEMPT-R4-20260824",
+  "authorityEpoch": "R24-R4-CORRECTIVE-BASE-670E0D13",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "10679beb0e6865abdd99316ae01a7e98505b1aac",
+    "treeSha": "1b5764881684c70eae7d69673d2f50aeb2c05ecc"
+  },
+  "createdAt": "2026-08-24T02:03:44Z",
+  "actor": "codex/r24-r4-transactional-inbox-outbox-certification-v1-20260824",
+  "stampId": "ES-R24-R4-TRANSACTIONAL-INBOX-OUTBOX-INTEGRATION",
+  "claim": {
+    "type": "R4_CORRECTIVE_AFFECTED_CHAIN_INTEGRATION",
+    "ceiling": "R4_NODE_ONLY_CORRECTED_INTERNAL_TRANSACTIONAL_EFFECT_PROFILE_NO_LIVE_ATTACHMENT_NO_CROSS_PROCESS_OR_ATOMIC_COMPOSITE_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-r4-integration",
+    "evidenceClass": "INTEGRATION",
+    "denominator": 5,
+    "passed": 5,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-R4-TRANSACTIONAL-INBOX-OUTBOX-CONTRACT"
+    ],
+    "predecessorReceiptDigest": "b9d3cc819387dee63cdd22b71e3c6262cfb5d38f75096fe896eee8173c4e90b1"
+  },
+  "artifact": {
+    "commands": [
+      {
+        "command": "npm run test:r24-r4",
+        "pass": 19,
+        "fail": 0,
+        "mutantsKilled": 12,
+        "mutantsSurvived": 0
+      },
+      {
+        "command": "npm run test:r24-p3",
+        "pass": 12,
+        "fail": 0,
+        "mutantsKilled": 6,
+        "mutantsSurvived": 0
+      },
+      {
+        "command": "npm run test:r24-r3",
+        "pass": 12,
+        "fail": 0,
+        "mutantsKilled": 5,
+        "mutantsSurvived": 0
+      },
+      {
+        "command": "npm run test:r24-r5",
+        "pass": 12,
+        "fail": 0,
+        "mutantsKilled": 5,
+        "mutantsSurvived": 0
+      },
+      {
+        "command": "npm run test:r24-f0",
+        "pass": 7,
+        "fail": 0,
+        "mutantsKilled": 5,
+        "mutantsSurvived": 0
+      }
+    ],
+    "observations": [
+      "all four R4 mutation APIs preserve or reconcile exact disk/live state across injected pre- and post-publish failure",
+      "two same-process handles retain both concurrently admitted intents",
+      "P3 optional integration remains green",
+      "R5 pending-effect lifecycle barrier remains green",
+      "F0 refinement probes remain green"
+    ],
+    "runtimeMutation": true,
+    "residualRisks": [
+      "Cross-process or cross-host writers are not serialized by the process-local canonical-directory queue.",
+      "Inbox execution and outbox effect staging are individually durable transitions, not one atomic composite transaction.",
+      "The production composition root does not attach this optional internal API or automatically stage external effects.",
+      "External delivery is at-least-once unless the effect sink independently deduplicates by effectId.",
+      "A landed project commit whose later execution mark fails is visible but has no automatic exact-marker recovery path in this contour.",
+      "Log byte-size bounding and compaction are not certified by the R4 oracle."
+    ]
+  }
+}

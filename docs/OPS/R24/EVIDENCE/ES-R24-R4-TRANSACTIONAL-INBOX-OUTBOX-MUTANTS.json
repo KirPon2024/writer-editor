@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "R4_TRANSACTIONAL_INBOX_OUTBOX",
+  "attemptId": "ATTEMPT-R4-20260824",
+  "authorityEpoch": "R24-R4-CORRECTIVE-BASE-670E0D13",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "10679beb0e6865abdd99316ae01a7e98505b1aac",
+    "treeSha": "1b5764881684c70eae7d69673d2f50aeb2c05ecc"
+  },
+  "createdAt": "2026-08-24T02:03:44Z",
+  "actor": "codex/r24-r4-transactional-inbox-outbox-certification-v1-20260824",
+  "stampId": "ES-R24-R4-TRANSACTIONAL-INBOX-OUTBOX-MUTANTS",
+  "claim": {
+    "type": "R4_CORRECTIVE_IMPLEMENTATION_MUTANTS",
+    "ceiling": "R4_NODE_ONLY_CORRECTED_INTERNAL_TRANSACTIONAL_EFFECT_PROFILE_NO_LIVE_ATTACHMENT_NO_CROSS_PROCESS_OR_ATOMIC_COMPOSITE_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-r4-mutants",
+    "evidenceClass": "IMPLEMENTATION_MUTANTS",
+    "denominator": 12,
+    "passed": 12,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-R4-TRANSACTIONAL-INBOX-OUTBOX-INTEGRATION"
+    ],
+    "predecessorReceiptDigest": "b9d3cc819387dee63cdd22b71e3c6262cfb5d38f75096fe896eee8173c4e90b1"
+  },
+  "artifact": {
+    "command": "npm run test:r24-r4",
+    "receipt": {
+      "total": 12,
+      "killed": 12,
+      "survived": [],
+      "score": 1
+    },
+    "mutants": [
+      "payload-order-not-canonical",
+      "duplicate-admitted",
+      "direct-conflict-tolerated",
+      "ensure-conflict-tolerated",
+      "double-execution-allowed",
+      "double-publication-allowed",
+      "staging-without-execution",
+      "same-process-handle-serialization-removed",
+      "durable-failure-reconciliation-removed",
+      "successful-publish-not-reflected-in-memory",
+      "public-intent-outcome-alias",
+      "public-effect-detail-alias"
+    ],
+    "artifactDigest": {
+      "path": "test/unit/r24-r4-inbox-mutants.test.js",
+      "sha256": "861cfd6f2fb9cfc31ef27d9f40578ce382b57b7a147640267a393ebeccc31bbc"
+    }
+  }
+}

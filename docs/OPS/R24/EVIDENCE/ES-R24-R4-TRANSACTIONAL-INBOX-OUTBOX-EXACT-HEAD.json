@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "R4_TRANSACTIONAL_INBOX_OUTBOX",
+  "attemptId": "ATTEMPT-R4-20260824",
+  "authorityEpoch": "R24-R4-CORRECTIVE-BASE-670E0D13",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "10679beb0e6865abdd99316ae01a7e98505b1aac",
+    "treeSha": "1b5764881684c70eae7d69673d2f50aeb2c05ecc"
+  },
+  "createdAt": "2026-08-24T02:03:44Z",
+  "actor": "codex/r24-r4-transactional-inbox-outbox-certification-v1-20260824",
+  "stampId": "ES-R24-R4-TRANSACTIONAL-INBOX-OUTBOX-EXACT-HEAD",
+  "claim": {
+    "type": "R4_CORRECTED_LOCAL_EXACT_HEAD_GREEN",
+    "ceiling": "R4_NODE_ONLY_CORRECTED_INTERNAL_TRANSACTIONAL_EFFECT_PROFILE_NO_LIVE_ATTACHMENT_NO_CROSS_PROCESS_OR_ATOMIC_COMPOSITE_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-r4-exact",
+    "evidenceClass": "INDEPENDENT_EXACT_HEAD",
+    "denominator": 19,
+    "passed": 19,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-R4-TRANSACTIONAL-INBOX-OUTBOX-MUTANTS"
+    ],
+    "predecessorReceiptDigest": "b9d3cc819387dee63cdd22b71e3c6262cfb5d38f75096fe896eee8173c4e90b1"
+  },
+  "artifact": {
+    "identityRoles": {
+      "historicalImplementationSourceSha": "c9f8df0e847033d427947eaa7ee9b5bc3e84ad4a",
+      "historicalImplementationPrHeadSha": "c9f8df0e847033d427947eaa7ee9b5bc3e84ad4a",
+      "historicalImplementationMergeSha": "0e9c94a9ff1eb46aae890fc2b172eddcea135456",
+      "correctiveImplementationSourceSha": "10679beb0e6865abdd99316ae01a7e98505b1aac",
+      "evaluationHeadSha": "10679beb0e6865abdd99316ae01a7e98505b1aac",
+      "evaluationTreeSha": "1b5764881684c70eae7d69673d2f50aeb2c05ecc",
+      "closurePrHeadSha": null,
+      "closureMergeSha": null,
+      "closurePostmergeSha": null
+    },
+    "focusedCommand": "npm run test:r24-r4",
+    "focusedCounts": {
+      "pass": 19,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "mutants": {
+      "killed": 12,
+      "survived": 0
+    },
+    "affectedChain": [
+      {
+        "id": "P3",
+        "pass": 12,
+        "fail": 0
+      },
+      {
+        "id": "R3",
+        "pass": 12,
+        "fail": 0
+      },
+      {
+        "id": "R5",
+        "pass": 12,
+        "fail": 0
+      },
+      {
+        "id": "F0",
+        "pass": 7,
+        "fail": 0
+      }
+    ],
+    "guardrails": "PASS",
+    "ossPolicy": "PASS",
+    "diffCheck": "PASS",
+    "requiredClosurePrHeadChecks": "PENDING_EXTERNAL_GITHUB_IDENTITY",
+    "nonClaims": [
+      "Cross-process or cross-host writers are not serialized by the process-local canonical-directory queue.",
+      "Inbox execution and outbox effect staging are individually durable transitions, not one atomic composite transaction.",
+      "The production composition root does not attach this optional internal API or automatically stage external effects.",
+      "External delivery is at-least-once unless the effect sink independently deduplicates by effectId.",
+      "A landed project commit whose later execution mark fails is visible but has no automatic exact-marker recovery path in this contour.",
+      "Log byte-size bounding and compaction are not certified by the R4 oracle."
+    ]
+  }
+}

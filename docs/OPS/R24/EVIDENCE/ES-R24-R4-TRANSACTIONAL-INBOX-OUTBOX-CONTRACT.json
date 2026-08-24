@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "R4_TRANSACTIONAL_INBOX_OUTBOX",
+  "attemptId": "ATTEMPT-R4-20260824",
+  "authorityEpoch": "R24-R4-CORRECTIVE-BASE-670E0D13",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "10679beb0e6865abdd99316ae01a7e98505b1aac",
+    "treeSha": "1b5764881684c70eae7d69673d2f50aeb2c05ecc"
+  },
+  "createdAt": "2026-08-24T02:03:44Z",
+  "actor": "codex/r24-r4-transactional-inbox-outbox-certification-v1-20260824",
+  "stampId": "ES-R24-R4-TRANSACTIONAL-INBOX-OUTBOX-CONTRACT",
+  "claim": {
+    "type": "R4_ACCEPTANCE_CONTRACT_CORRECTIVE_PROFILE",
+    "ceiling": "R4_NODE_ONLY_CORRECTED_INTERNAL_TRANSACTIONAL_EFFECT_PROFILE_NO_LIVE_ATTACHMENT_NO_CROSS_PROCESS_OR_ATOMIC_COMPOSITE_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-r4-contract",
+    "evidenceClass": "CONTRACT",
+    "denominator": 19,
+    "passed": 19,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-R4-TRANSACTIONAL-INBOX-OUTBOX-MODEL"
+    ],
+    "predecessorReceiptDigest": "b9d3cc819387dee63cdd22b71e3c6262cfb5d38f75096fe896eee8173c4e90b1"
+  },
+  "artifact": {
+    "envelopeId": "ENV-R24-R4_TRANSACTIONAL_INBOX_OUTBOX",
+    "acceptanceId": "ACC-R24-R4_TRANSACTIONAL_INBOX_OUTBOX",
+    "requiredOutcome": "Bind accepted intent, durable state transition and external effects with idempotency and replay laws.",
+    "mutationAuthority": "COMMAND_EFFECT_RECOVERY_PROTOCOL",
+    "materiality": [
+      "DEFECT_FIXED_WITH_REGRESSION",
+      "INVARIANT_NEWLY_ENFORCED",
+      "NAMED_IMPLEMENTATION_MUTANTS_KILLED"
+    ],
+    "finding": "At the admitted base, a rejected durable rewrite could leave live memory EXECUTED while disk remained ADMITTED.",
+    "correctedProfile": "OPTIONAL_INTERNAL_TRANSACTIONAL_EFFECT_STATE_WITH_DURABLE_RECONCILIATION_AND_SAME_PROCESS_MULTI_HANDLE_SERIALIZATION",
+    "testProfileDisposition": {
+      "CONTRACT_NEGATIVE": "PASS",
+      "UNIT": "PASS",
+      "INTEGRATION": "PASS",
+      "IMPLEMENTATION_MUTANTS": "PASS_12_OF_12",
+      "UNICODE_IME": "UNICODE_CORE_PASS_IME_NOT_APPLICABLE_NO_UI_SURFACE",
+      "CRASH_RECOVERY": "PASS_PRE_AND_POST_PUBLISH_FAILURE_RECONCILIATION",
+      "A11Y_PERF": "A11Y_NOT_APPLICABLE_NO_UI; NO_THROUGHPUT_OR_SCALE_CLAIM"
+    },
+    "forbidden": [
+      "LIVE_PRODUCTION_ATTACHMENT",
+      "CROSS_PROCESS_LOCK_CLAIM",
+      "ATOMIC_COMPOSITE_CLAIM",
+      "EXACTLY_ONCE_EXTERNAL_DELIVERY_CLAIM",
+      "USER_DOCUMENT_MUTATION",
+      "DEPENDENCY_ADOPTION",
+      "NETWORK_OR_CLOUD_AUTHORITY",
+      "PROGRAM_DONE"
+    ],
+    "residualRisks": [
+      "Cross-process or cross-host writers are not serialized by the process-local canonical-directory queue.",
+      "Inbox execution and outbox effect staging are individually durable transitions, not one atomic composite transaction.",
+      "The production composition root does not attach this optional internal API or automatically stage external effects.",
+      "External delivery is at-least-once unless the effect sink independently deduplicates by effectId.",
+      "A landed project commit whose later execution mark fails is visible but has no automatic exact-marker recovery path in this contour.",
+      "Log byte-size bounding and compaction are not certified by the R4 oracle."
+    ]
+  }
+}

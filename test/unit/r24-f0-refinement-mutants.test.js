@@ -9,6 +9,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
+const { pathToFileURL } = require('node:url');
 
 const ROOT = path.resolve(__dirname, '..', '..');
 
@@ -121,6 +122,107 @@ const MUTANTS = Object.freeze([
         }),
         (error) => error.code === 'E_R6_MIGRATION_PROJECT_ID_CHANGED',
       );
+    },
+  },
+  {
+    id: 'dna-calm-default-promoted-to-advanced',
+    moduleRel: 'src/renderer/design-os/designOsRuntime.mjs',
+    copies: [],
+    find: "const DEFAULT_RUNTIME_CONTEXT = Object.freeze({\n  shell_mode: 'CALM_DOCKED',",
+    replace: "const DEFAULT_RUNTIME_CONTEXT = Object.freeze({\n  shell_mode: 'SPATIAL_ADVANCED',",
+    oracle: async (modulePath) => {
+      const runtime = await import(`${pathToFileURL(modulePath).href}?f0=${Date.now()}-${Math.random()}`);
+      assert.deepEqual(runtime.createRuntimeContext(), {
+        shell_mode: 'CALM_DOCKED',
+        profile: 'BASELINE',
+        workspace: 'WRITE',
+        platform: 'macos',
+        accessibility: 'default',
+      });
+    },
+  },
+  {
+    id: 'dna-progressive-disclosure-open-guard-removed',
+    moduleRel: 'src/renderer/design-os/atlasFeatureIntegrationManifest.mjs',
+    copies: [],
+    find: "    surfaceKey: 'heatmap',\n    surfaceId: 'surface.atlas.heatmap',\n    queryRegistryKey: 'ATLAS_HEATMAP',\n    providerId: 'query.atlasHeatmap',\n    slotId: 'rightRail.context.atlas.heatmap',\n    hostKind: 'rightRail',\n    stateClass: 'DERIVED_STATE',\n    commandIds: [],\n    capabilityIds: [],\n    explicitOpenRequired: true,",
+    replace: "    surfaceKey: 'heatmap',\n    surfaceId: 'surface.atlas.heatmap',\n    queryRegistryKey: 'ATLAS_HEATMAP',\n    providerId: 'query.atlasHeatmap',\n    slotId: 'rightRail.context.atlas.heatmap',\n    hostKind: 'rightRail',\n    stateClass: 'DERIVED_STATE',\n    commandIds: [],\n    capabilityIds: [],\n    explicitOpenRequired: false,",
+    oracle: async (modulePath) => {
+      const atlas = await import(`${pathToFileURL(modulePath).href}?f0=${Date.now()}-${Math.random()}`);
+      const advanced = atlas.YALKEN_ATLAS_FEATURE_INTEGRATION_MANIFEST_V1.surfaceManifests
+        .filter((surface) => ['heatmap', 'temporal', 'continuity'].includes(surface.surfaceKey));
+      assert.deepEqual(advanced.map((surface) => surface.surfaceKey), ['heatmap', 'temporal', 'continuity']);
+      assert.equal(advanced.every((surface) => surface.explicitOpenRequired === true), true);
+    },
+  },
+  {
+    id: 'dna-customization-can-hide-core-command',
+    moduleRel: 'src/renderer/design-os/repoDesignOsCompat.mjs',
+    copies: ['src/renderer/design-os/designOsRuntime.mjs'],
+    find: '    const hidden = uniqueSortedStrings(value).filter((commandId) => !requiredCoreCommands.includes(commandId));',
+    replace: '    const hidden = uniqueSortedStrings(value);',
+    oracle: async (modulePath) => {
+      const compat = await import(`${pathToFileURL(modulePath).href}?f0=${Date.now()}-${Math.random()}`);
+      const profiles = compat.buildRuntimeProfiles({
+        requiredCoreCommands: ['cmd.project.save'],
+        presets: {
+          minimal: {
+            commandVisibility: {
+              forceVisible: ['cmd.project.save', 'cmd.optional.atlas'],
+              hidden: ['cmd.project.save', 'cmd.optional.atlas'],
+            },
+          },
+          pro: { commandVisibility: { forceVisible: ['cmd.project.save'], hidden: [] } },
+          guru: { commandVisibility: { forceVisible: ['cmd.project.save'], hidden: [] } },
+        },
+      }, {
+        knownCommandIds: ['cmd.project.save', 'cmd.optional.atlas'],
+      });
+      assert.equal(profiles.FOCUS.visible_commands.includes('cmd.project.save'), true);
+      assert.equal(profiles.FOCUS.hidden_commands.includes('cmd.project.save'), false);
+      assert.equal(profiles.FOCUS.hidden_commands.includes('cmd.optional.atlas'), true);
+    },
+  },
+  {
+    id: 'dna-optional-off-loses-typed-complexity-refusal',
+    moduleRel: 'src/core/entitlement-law-v1.cjs',
+    copies: ['src/shared/productCommandRegistry.cjs'],
+    find: '  if (FREE_PRO_COMPLEXITY_SET.has(normalizedCommandId)) {',
+    replace: '  if (false && FREE_PRO_COMPLEXITY_SET.has(normalizedCommandId)) {',
+    oracle: async (modulePath) => {
+      const law = require(modulePath);
+      const optional = law.decideCommandEntitlement('cmd.project.review.switchMode', law.getProductEntitlementTier());
+      const save = law.decideCommandEntitlement('cmd.project.save', law.getProductEntitlementTier());
+      assert.deepEqual(
+        { available: optional.available, access: optional.access, reason: optional.reason },
+        {
+          available: false,
+          access: 'pro_complexity_surface',
+          reason: 'PRO_COMPLEXITY_SURFACE_UNAVAILABLE_IN_FREE',
+        },
+      );
+      assert.equal(save.available, true);
+      assert.equal(save.access, 'free_authorship');
+    },
+  },
+  {
+    id: 'dna-no-bloat-ui-framework-added',
+    moduleRel: 'package.json',
+    copies: [],
+    find: '  "dependencies": {',
+    replace: '  "dependencies": {\n    "react": "19.0.0",',
+    oracle: async (modulePath) => {
+      const packageJson = JSON.parse(fs.readFileSync(modulePath, 'utf8'));
+      const dependencies = Object.keys(packageJson.dependencies || {}).sort();
+      const blocked = dependencies.filter((name) => (
+        !name.startsWith('@tiptap/')
+        || name.startsWith('@tiptap-pro/')
+        || name.startsWith('@tiptap-cloud/')
+        || ['react', 'vue', 'svelte', 'angular'].includes(name)
+      ));
+      assert.equal(dependencies.length > 0, true, 'zero dependency denominator forbidden');
+      assert.deepEqual(blocked, []);
+      assert.equal(Object.keys(packageJson.optionalDependencies || {}).length, 0);
     },
   },
 ]);

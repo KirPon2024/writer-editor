@@ -4,21 +4,21 @@
   "contourId": "SEC0_PATH_CAPABILITY",
   "evidenceClass": "CONTRACT",
   "verdict": "PASS",
-  "headSha": "292dc256f79d8fd2aa6969425301c65442b8adf1",
-  "originMainSha": "202401430ae4ac6428b0a262cadaf6bb8408614f",
-  "generatedAtUtc": "2026-08-23T23:55:00Z",
+  "headSha": "ea171d7b36efcae8e4c1d51028f14cbf51a7720f",
+  "originMainSha": "4d957820f61d4a35ad293f90865182ff2261f499",
+  "generatedAtUtc": "2026-08-24T00:57:00Z",
   "oracle": "docs-claim-lint exact sha-bound mutable PlanState claim binding for SEC0_PATH_CAPABILITY and subsequent repo-local closure state through WP-102",
   "claimBindings": [
     {
       "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
-      "sha256": "e8effbafda63636ca3541d7d5d62d743211261a4a851fd90ab040a1bcc4d9a9f",
+      "sha256": "d00fab4eba1638a02d865f49e50b71462835e5df5a66e9a33a788ac39a4370ef",
       "claimTerms": [
         "DONE"
       ]
     },
     {
       "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
-      "sha256": "4732d4705445fe7aa5d1b5a0359aa130118d99273dd950bbbe05f07112c3ec45",
+      "sha256": "49926023e42abd67295953f428d542d5c1290e4ff5b3f4097b3a26b41b0c2981",
       "claimTerms": [
         "DONE"
       ]

@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "R3_DURABLE_RECOVERY_LEDGER",
+  "attemptId": "ATTEMPT-R3-20260824",
+  "authorityEpoch": "R24-R3-CERTIFICATION-BASE-4D957820",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "4d957820f61d4a35ad293f90865182ff2261f499",
+    "treeSha": "d4f99d75bb40a723f8805b8972cf05c9a946bbb4"
+  },
+  "createdAt": "2026-08-24T00:51:10Z",
+  "actor": "codex/r24-r3-durable-recovery-ledger-certification-v1-20260824",
+  "stampId": "ES-R24-R3-DURABLE-RECOVERY-LEDGER-MUTANTS",
+  "claim": {
+    "type": "R3_IMPLEMENTATION_MUTANTS",
+    "ceiling": "R3_NODE_ONLY_EXISTING_INTERNAL_LEDGER_NO_STORAGE_ADOPTION_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-r3-mutants",
+    "evidenceClass": "IMPLEMENTATION_MUTANTS",
+    "denominator": 5,
+    "passed": 5,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-R3-DURABLE-RECOVERY-LEDGER-INTEGRATION"
+    ],
+    "predecessorReceiptDigest": "8760e5f9193b82cb37f5bff3ce757ed2486ad0421962aef5da450a0830ef04ff"
+  },
+  "artifact": {
+    "command": "npm run -s test:r24-r3",
+    "receipt": {
+      "total": 5,
+      "killed": 5,
+      "survived": [],
+      "score": 1
+    },
+    "mutants": [
+      "seq-fence-removed",
+      "chain-check-removed",
+      "digest-check-removed",
+      "bound-check-removed",
+      "torn-tail-not-truncated"
+    ],
+    "artifactDigest": {
+      "path": "test/unit/r24-r3-ledger-mutants.test.js",
+      "sha256": "cd4bb15f95e7bf4441f2c94ceab525459b149d2d0b1e64a295a52bf9e040b1a8"
+    }
+  }
+}

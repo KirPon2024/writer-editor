@@ -1,0 +1,137 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-204_LIFECYCLE_RECOVERY",
+  "attemptId": "ATTEMPT-WP204-20260825",
+  "authorityEpoch": "R24-WP204-BASE-88C4E858",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "1ee7bba98e52cd9aade3e88bb9e40b4528a9a53c",
+    "treeSha": "8a3a076777a63ade45bf5ad4780e5bfae5e03447"
+  },
+  "createdAt": "2026-08-24T23:48:01Z",
+  "actor": "codex/r24-wp204-lifecycle-recovery-v1-20260825",
+  "stampId": "ES-R24-WP-204-LIFECYCLE-RECOVERY-EXACT-HEAD",
+  "claim": {
+    "type": "WP204_LOCAL_EXACT_IMPLEMENTATION_SOURCE_GREEN",
+    "ceiling": "WP204_NODE_ONLY_INJECTION_SEAM_NO_LIVE_STORAGE_ATTACHMENT_NO_AUTOMATIC_EFFECT_PUBLICATION_OR_GC_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-wp204-exact-head",
+    "evidenceClass": "INDEPENDENT_EXACT_HEAD",
+    "denominator": 1059,
+    "passed": 1059,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-204-LIFECYCLE-RECOVERY-MUTANTS"
+    ],
+    "predecessorReceiptDigest": "58f1da4fdbae609274b120d70665688679e0a382678705facb6520defcaf1957"
+  },
+  "artifact": {
+    "identityRoles": {
+      "implementationSourceSha": "1ee7bba98e52cd9aade3e88bb9e40b4528a9a53c",
+      "evaluationHeadSha": "1ee7bba98e52cd9aade3e88bb9e40b4528a9a53c",
+      "evaluationTreeSha": "8a3a076777a63ade45bf5ad4780e5bfae5e03447",
+      "implementationPrHeadSha": null,
+      "implementationMergeSha": null,
+      "postmergeSha": null
+    },
+    "focusedCommand": "npm run -s test:r24-wp204",
+    "focusedCounts": {
+      "pass": 7,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "affectedChain": {
+      "wp201": {
+        "pass": 14,
+        "fail": 0,
+        "mutantsKilled": 6,
+        "mutantsSurvived": 0
+      },
+      "wp203": {
+        "pass": 9,
+        "fail": 0,
+        "mutantsKilled": 5,
+        "mutantsSurvived": 0
+      },
+      "r3": {
+        "pass": 12,
+        "fail": 0,
+        "mutantsKilled": 5,
+        "mutantsSurvived": 0
+      },
+      "r4": {
+        "pass": 19,
+        "fail": 0,
+        "mutantsKilled": 12,
+        "mutantsSurvived": 0
+      },
+      "r5": {
+        "pass": 16,
+        "fail": 0,
+        "mutantsKilled": 11,
+        "mutantsSurvived": 0
+      },
+      "r6": {
+        "pass": 16,
+        "fail": 0,
+        "mutantsKilled": 11,
+        "mutantsSurvived": 0
+      },
+      "f0": {
+        "pass": 7,
+        "fail": 0,
+        "mutantsKilled": 10,
+        "mutantsSurvived": 0
+      }
+    },
+    "fullRtk": {
+      "invocationId": "37a31b02-c2a2-41db-a638-a48abe798b93",
+      "pass": 1059,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "exitCode": 0,
+      "durationMs": 341779.245084,
+      "processGroupCleanup": "RTK_PROCESS_GROUP_CLEAN",
+      "leaseCleanupOk": true,
+      "stderr": ""
+    },
+    "discardedToolingAttempt": {
+      "invocationId": "dc03bcc7-9204-43f4-876d-0593345b2829",
+      "result": "NOT_EVIDENCE_APP_SANDBOX_PROCESS_INSPECTION_EPERM",
+      "implementationAssertionFailure": false,
+      "recovery": "three exact orphan fixture process groups were terminated with TERM and the exact owned temporary directory was removed after zero-handle proof before the unsandboxed rerun"
+    },
+    "ossPolicy": "PASS",
+    "guardrails": "PASS",
+    "diffCheck": "PASS",
+    "docsClaimLint": {
+      "filesWithClaims": 31,
+      "stampCount": 195,
+      "verdict": "PASS_BEFORE_WP204_EVIDENCE_ADDITION"
+    },
+    "e0Lane": {
+      "suitePass": 97,
+      "suiteFail": 0,
+      "verdict": "PASS"
+    },
+    "deliveryState": "AWAITING_EVIDENCE_COMMIT_PR_EXACT_HEAD_CI_POLICY_MERGE_AND_POSTMERGE",
+    "nonClaims": [
+      "This is local implementation-source evidence, not PR-head merge or postmerge evidence.",
+      "The coordinator is injection-only and does not attach a live storage path.",
+      "No pending effect is automatically published and no checkpoint is automatically deleted.",
+      "No dependency storage migration destructive action user document SAFE_APPLY release signing cloud or AI authority is changed.",
+      "WP204 PlanState remains PENDING until policy merge and exact postmerge verification."
+    ]
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-204_LIFECYCLE_RECOVERY",
+  "attemptId": "ATTEMPT-WP204-20260825",
+  "authorityEpoch": "R24-WP204-BASE-88C4E858",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "1ee7bba98e52cd9aade3e88bb9e40b4528a9a53c",
+    "treeSha": "8a3a076777a63ade45bf5ad4780e5bfae5e03447"
+  },
+  "createdAt": "2026-08-24T23:48:01Z",
+  "actor": "codex/r24-wp204-lifecycle-recovery-v1-20260825",
+  "stampId": "ES-R24-WP-204-LIFECYCLE-RECOVERY-INTEGRATION",
+  "claim": {
+    "type": "WP204_REAL_FILESYSTEM_CRASH_RECOVERY_INTEGRATION",
+    "ceiling": "WP204_NODE_ONLY_INJECTION_SEAM_NO_LIVE_STORAGE_ATTACHMENT_NO_AUTOMATIC_EFFECT_PUBLICATION_OR_GC_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-wp204-integration",
+    "evidenceClass": "INTEGRATION",
+    "denominator": 2,
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-204-LIFECYCLE-RECOVERY-CONTRACT"
+    ],
+    "predecessorReceiptDigest": "58f1da4fdbae609274b120d70665688679e0a382678705facb6520defcaf1957"
+  },
+  "artifact": {
+    "command": "npm run -s test:r24-wp204",
+    "evaluationHeadSha": "1ee7bba98e52cd9aade3e88bb9e40b4528a9a53c",
+    "focusedCounts": {
+      "pass": 7,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "integrationCounts": {
+      "pass": 2,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "physicalObservations": [
+      "a simulated crash before the WP201 commit record leaves a journal and all-new bytes; WP204 converges both scene and manifest to all-old, proves exact readback and removes the journal",
+      "fresh R4 reopen repairs a torn outbox tail while preserving the exact pending effect and blocking crash recovery from claiming clean",
+      "the selected R3 ledger repairs a torn tail and preserves its prior digest head",
+      "R6 replay repairs a torn history tail and reports three digest-bound checkpoints",
+      "the GC plan identifies the two oldest checkpoints while every checkpoint file remains on disk",
+      "20,000 checkpoint rows are planned in linear time under one second"
+    ],
+    "testProfileCoverage": {
+      "CONTRACT_NEGATIVE": "forged selection unknown event relative path missing authority and duplicate checkpoint identity",
+      "UNIT": "four model and contract tests",
+      "INTEGRATION": "real filesystem multi-primitive recovery",
+      "IMPLEMENTATION_MUTANTS": "seven named mutants",
+      "UNICODE_IME": "affected R4 Unicode identity test plus full RTK baseline",
+      "CRASH_RECOVERY": "real interrupted WP201 transaction and three torn durable tails",
+      "A11Y_PERF": "no UI delta; 20k planner budget plus full RTK baseline"
+    },
+    "runtimeMutation": true,
+    "liveStorageMutation": false,
+    "userDocumentMutation": false,
+    "automaticGcMutation": false
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-204_LIFECYCLE_RECOVERY",
+  "attemptId": "ATTEMPT-WP204-20260825",
+  "authorityEpoch": "R24-WP204-BASE-88C4E858",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "1ee7bba98e52cd9aade3e88bb9e40b4528a9a53c",
+    "treeSha": "8a3a076777a63ade45bf5ad4780e5bfae5e03447"
+  },
+  "createdAt": "2026-08-24T23:48:01Z",
+  "actor": "codex/r24-wp204-lifecycle-recovery-v1-20260825",
+  "stampId": "ES-R24-WP-204-LIFECYCLE-RECOVERY-CONTRACT",
+  "claim": {
+    "type": "WP204_ACCEPTANCE_AND_AUTHORITY_CONTRACT",
+    "ceiling": "WP204_NODE_ONLY_INJECTION_SEAM_NO_LIVE_STORAGE_ATTACHMENT_NO_AUTOMATIC_EFFECT_PUBLICATION_OR_GC_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-wp204-contract",
+    "evidenceClass": "CONTRACT",
+    "denominator": 18,
+    "passed": 18,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-204-LIFECYCLE-RECOVERY-MODEL"
+    ],
+    "predecessorReceiptDigest": "58f1da4fdbae609274b120d70665688679e0a382678705facb6520defcaf1957"
+  },
+  "artifact": {
+    "envelopeId": "ENV-R24-WP-204_LIFECYCLE_RECOVERY",
+    "acceptanceId": "ACC-R24-WP-204_LIFECYCLE_RECOVERY",
+    "requirementId": "REQ-R24-WP-204_LIFECYCLE_RECOVERY",
+    "requiredOutcome": "Inbox/outbox, close/quit/crash/external conflict, migration, backup and GC",
+    "mutationAuthority": "WRITER_TRUTH_FOUNDATION_BOUNDED_CONTOUR",
+    "stateOwner": "PRODUCT_CORE_AUTHORITY",
+    "ownerGate": null,
+    "contractLaws": [
+      "the WP203 storage selection receipt is verified before any path is opened",
+      "all injected filesystem paths must be absolute and normalized",
+      "manifest publication authority is explicit and required",
+      "the recovery ledger is derived evidence and never replaces commit truth",
+      "transactional inbox and outbox state is freshly reopened before lifecycle evaluation",
+      "project transaction recovery preserves its CAS and exact readback authority",
+      "migration history replay preserves checkpoint and quarantine identity",
+      "lifecycle evidence is bound to one subject and observation generation",
+      "unknown lifecycle events fail typed",
+      "close quit crash and external edit share the same fresh durable outbox observation",
+      "pending effects remain visible and block recovery where required",
+      "external divergence emits only recovery actions and no write authority",
+      "GC planning is deterministic oldest-first and rejects duplicate checkpoint identity",
+      "GC planning never executes deletion",
+      "pending effects are never automatically published",
+      "the receipt is immutable and canonical-digest bound",
+      "live storage attachment remains false",
+      "user data migration remains false"
+    ],
+    "forbidden": [
+      "LIVE_STORAGE_PATH_CHANGE",
+      "USER_DATA_MIGRATION",
+      "AUTOMATIC_EFFECT_PUBLICATION",
+      "DESTRUCTIVE_CHECKPOINT_GC",
+      "DEPENDENCY_ADOPTION",
+      "USER_DOCUMENT_MUTATION",
+      "SAFE_APPLY_EXPANSION",
+      "SECOND_WRITER_OR_CONTOUR"
+    ],
+    "identityRoles": {
+      "implementationSourceSha": "1ee7bba98e52cd9aade3e88bb9e40b4528a9a53c",
+      "evaluationHeadSha": "1ee7bba98e52cd9aade3e88bb9e40b4528a9a53c",
+      "evaluationTreeSha": "8a3a076777a63ade45bf5ad4780e5bfae5e03447",
+      "implementationPrHeadSha": null,
+      "implementationMergeSha": null,
+      "postmergeSha": null
+    }
+  }
+}

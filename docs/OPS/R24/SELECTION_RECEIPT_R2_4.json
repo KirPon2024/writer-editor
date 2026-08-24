@@ -2,10 +2,10 @@
   "schemaVersion": "SelectionReceiptR2_4",
   "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
   "missionDigest": "2d188140211c4e2a65f0f1bf1bef5bac53e396e3c3887cb3563fa253a10b0c80",
-  "stateRevision": 143,
-  "fencingCounter": 27,
-  "stateDigest": "9fb962ac606cd24302e766f0cb58580e1228a98aa596c43e36d7b1c2c52bb7b7",
-  "contourStatesDigest": "a13ef123b68d7ad68f31bb79ecab79840fa85cd5b4f33b69404e43390e869346",
+  "stateRevision": 150,
+  "fencingCounter": 28,
+  "stateDigest": "9e65e8bcfd1bb7dd5d82637f3977444584812c6fe7ad5f25d67880bbe3b74a34",
+  "contourStatesDigest": "9fa9f2a2f2daa0ad17d939a4156503320b4d6fa72557f90c3682b333e5f9bb5f",
   "policyEpoch": 0,
   "policyDigest": "2f189a055e2c465b2725fea2b0b4980c22737bfd4f691816fd70e138bec633d2",
   "graphNodeCount": 109,
@@ -13,19 +13,19 @@
   "schedulerGraphDigest": "c9744a548acb32169483780de151a43bf89d5d75e9564874b7a8939192afe2f5",
   "sourceOfTruthPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
   "identityRoles": {
-    "implementationSourceSha": "b938cd61dec9f9b9ffce3a931beb5ef281c40820",
-    "evaluationHeadSha": "6438308efddff34511051502b082dd2037521bb6",
-    "evaluationTreeSha": "8677f31a3a96d5981a72e4a83772bc60fd8adf6f",
+    "implementationSourceSha": "01e826a64771c2009ebc50d01fecddfe813deb95",
+    "evaluationHeadSha": "fa036475f6ec5fac37f51e3c340324fe4b95c70b",
+    "evaluationTreeSha": "eeb7a5f87ebc123b9b17c4afd27a336dd9aaebe6",
     "prHeadSha": null,
     "mergeSha": null,
     "postmergeSha": null
   },
   "mode": "HANDOFF_ONLY",
   "selectedKind": "NODE",
-  "selectedId": "F0_WRITER_REFINEMENT_CONFORMANCE",
+  "selectedId": "V0_WRITER_CLAIM_COMPILER",
   "verdict": "SELECTED",
   "readySet": [
-    "F0_WRITER_REFINEMENT_CONFORMANCE"
+    "V0_WRITER_CLAIM_COMPILER"
   ],
   "deterministicOrder": [
     "MANDATORY_SAFETY_CORRECTNESS",
@@ -39,5 +39,5 @@
   "reasons": [
     "SUPERVISED_HANDOFF_ONLY_CANDIDATE"
   ],
-  "generatedAt": "2026-08-24T07:16:00Z"
+  "generatedAt": "2026-08-24T09:11:00Z"
 }

@@ -4,9 +4,9 @@
   "contourId": "F0_WRITER_REFINEMENT_CONFORMANCE",
   "evidenceClass": "CONTRACT",
   "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
-  "headSha": "95ba2dfa30777229ce0ed7a803df7cc3d9024e1e",
+  "headSha": "fa036475f6ec5fac37f51e3c340324fe4b95c70b",
   "originMainSha": "95ba2dfa30777229ce0ed7a803df7cc3d9024e1e",
-  "generatedAtUtc": "2026-08-24T09:10:00Z",
+  "generatedAtUtc": "2026-08-24T09:11:00Z",
   "oracle": "strict ClaimBindingV1 exact-hash binding for replayable F0 PlanState closure, exact-main postmerge evidence, survivor audit and source receipt",
   "claimBindings": [
     {

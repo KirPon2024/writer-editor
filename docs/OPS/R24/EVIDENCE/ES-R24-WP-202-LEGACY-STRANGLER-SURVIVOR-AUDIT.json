@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-WP-202-LEGACY-STRANGLER-SURVIVOR-AUDIT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-202_LEGACY_STRANGLER",
+  "attemptId": "ATTEMPT-WP202-20260824",
+  "authorityEpoch": "R24-WP202-BASE-777D2100",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "3a7664cd74fe2137e630f033283849fe864e4e0b",
+    "treeSha": "84b0aea96b21fdf6edca55b1d9692210bd3ce89c"
+  },
+  "claim": {
+    "type": "WP202_EXACT_MERGE_SURVIVOR_AUDIT",
+    "ceiling": "WP202_NODE_ONLY_WRITER_SAVE_ROUTING_NO_STORAGE_FORMAT_CHANGE_NO_LEGACY_REMOVAL_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "exact-merge-wp202-and-affected-chain-survivor-audit",
+    "evidenceClass": "SURVIVOR_AUDIT",
+    "denominator": 74,
+    "passed": 74,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-202-LEGACY-STRANGLER-POSTMERGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "096389d98ebc784965735ac720dabb7c81a165dd5ef4628ff2d8d3c97edb803c"
+  },
+  "createdAt": "2026-08-24T19:31:00Z",
+  "actor": "codex/r24-wp202-postmerge-closure-v1-20260824",
+  "artifact": {
+    "identityRoles": {
+      "implementationSourceSha": "a655b4312e22bb2732d4af121c3a679a8ca75d57",
+      "evaluationHeadSha": "8193fddcdae05b74cc5cbc69efc79918f229821a",
+      "evaluationTreeSha": "1dd13f94d52b56cf33a8d1865d83284b2bf24ca5",
+      "implementationPrHeadSha": "8182625cf045ba69452eb38772915251bc5eadac",
+      "implementationMergeSha": "3a7664cd74fe2137e630f033283849fe864e4e0b",
+      "postmergeSha": "3a7664cd74fe2137e630f033283849fe864e4e0b"
+    },
+    "focusedPostmerge": {
+      "wp202TestsPassed": 14,
+      "wp202TestsFailed": 0,
+      "wp202MutantsKilled": 7,
+      "wp202MutantsSurvived": 0,
+      "wp200TestsPassed": 14,
+      "wp201TestsPassed": 14,
+      "r5TestsPassed": 16,
+      "f0TestsPassed": 7,
+      "affectedMutantsKilled": 33,
+      "affectedMutantsSurvived": 0,
+      "docsNegativeTestsPassed": 9,
+      "docsNegativeTestsFailed": 0
+    },
+    "replay": {
+      "verdict": "PASS",
+      "baselineClassification": "ADOPTED_PRE_V2_UNREPLAYABLE_HISTORY",
+      "baselineRevision": 94,
+      "replayedTransitions": 65,
+      "finalRevision": 185,
+      "fencingCounter": 33,
+      "activeLeaseCount": 0
+    },
+    "denominatorLaw": "All maintained WP202, WP200, WP201, R5, F0 and strict docs negative tests pass on the unchanged exact merge tree; all named mutants remain killed.",
+    "residualRisks": [
+      "The survivor audit uses isolated synthetic temporary files and never mutates user documents or Drive state.",
+      "WP203 and every later node remain independently graph-gated."
+    ]
+  }
+}

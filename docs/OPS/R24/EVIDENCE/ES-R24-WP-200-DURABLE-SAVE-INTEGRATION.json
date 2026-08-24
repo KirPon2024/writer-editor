@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-200_DURABLE_SAVE",
+  "attemptId": "ATTEMPT-WP200-20260824",
+  "authorityEpoch": "R24-WP200-BASE-2028A5DC",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "1c89f33d601a6a97263b57aaf5a6ad8756951d89",
+    "treeSha": "a8f5f9af88c552f58f1cc4b1874fc7c52dff118c"
+  },
+  "createdAt": "2026-08-24T12:25:41Z",
+  "actor": "codex/r24-wp200-durable-save-v1-20260824",
+  "stampId": "ES-R24-WP-200-DURABLE-SAVE-INTEGRATION",
+  "claim": {
+    "type": "WP200_AFFECTED_CHAIN_INTEGRATION",
+    "ceiling": "WP200_NODE_ONLY_GENERATION_BOUND_DURABLE_RECEIPT_ACK_NO_MULTI_ARTIFACT_TRANSACTION_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-wp200-integration",
+    "evidenceClass": "INTEGRATION",
+    "denominator": 5,
+    "passed": 5,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-200-DURABLE-SAVE-CONTRACT"
+    ],
+    "predecessorReceiptDigest": "e2f0e2ccfc2f32b259767186219b809871ec9a57f1eeec17dc1e282b7e39d08d"
+  },
+  "artifact": {
+    "identityRoles": {
+      "implementationSourceSha": "1c89f33d601a6a97263b57aaf5a6ad8756951d89",
+      "evaluationHeadSha": "1c89f33d601a6a97263b57aaf5a6ad8756951d89",
+      "evaluationTreeSha": "a8f5f9af88c552f58f1cc4b1874fc7c52dff118c",
+      "implementationPrHeadSha": null,
+      "implementationMergeSha": null,
+      "postmergeSha": null
+    },
+    "commands": [
+      {
+        "command": "npm run -s test:r24-wp200",
+        "pass": 14,
+        "fail": 0,
+        "mutantsKilled": 6,
+        "mutantsSurvived": 0
+      },
+      {
+        "command": "npm run -s test:r24-p2",
+        "pass": 12,
+        "fail": 0,
+        "mutantsKilled": 6,
+        "mutantsSurvived": 0
+      },
+      {
+        "command": "npm run -s test:r24-p3",
+        "pass": 12,
+        "fail": 0,
+        "mutantsKilled": 6,
+        "mutantsSurvived": 0
+      },
+      {
+        "command": "npm run -s test:r24-r5",
+        "pass": 16,
+        "fail": 0,
+        "mutantsKilled": 11,
+        "mutantsSurvived": 0
+      },
+      {
+        "command": "npm run test:rtk",
+        "pass": 1059,
+        "fail": 0,
+        "skipped": 0,
+        "todo": 0,
+        "invocationId": "587a7038-ab00-4dc1-aaf5-93ce4ea4c11c",
+        "processGroupCleanup": "RTK_PROCESS_GROUP_CLEAN",
+        "leaseCleanupOk": true
+      }
+    ],
+    "observations": [
+      "explicit Writer Save and Save As no longer use generic writeFileAtomic success as dirty-clear authority",
+      "P2 and P3 receipts bind complete known phase chains to exact generation and content digest",
+      "stale valid receipts produce PROTECTED while forged and incomplete receipts throw typed refusal",
+      "Unicode, crash residue, repeated local writes and R5 lifecycle barriers remain green",
+      "all maintained RTK tests pass on the exact implementation source"
+    ],
+    "runtimeMutation": true,
+    "residualRisks": [
+      "WP201 remains responsible for one multi-artifact scene and manifest transaction; WP200 closes only generation-bound durable receipt acknowledgement.",
+      "The physical filesystem tests use isolated synthetic temporary files and do not mutate user documents or Drive state.",
+      "Other generic atomic writers remain outside the explicit Writer Save and Save As path certified by this contour.",
+      "No dependency, storage adoption, migration, SAFE_APPLY, release, signing, cloud or AI authority is added."
+    ]
+  }
+}

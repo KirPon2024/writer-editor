@@ -1,0 +1,84 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-200_DURABLE_SAVE",
+  "attemptId": "ATTEMPT-WP200-20260824",
+  "authorityEpoch": "R24-WP200-BASE-2028A5DC",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "1c89f33d601a6a97263b57aaf5a6ad8756951d89",
+    "treeSha": "a8f5f9af88c552f58f1cc4b1874fc7c52dff118c"
+  },
+  "createdAt": "2026-08-24T12:25:41Z",
+  "actor": "codex/r24-wp200-durable-save-v1-20260824",
+  "stampId": "ES-R24-WP-200-DURABLE-SAVE-EXACT-HEAD",
+  "claim": {
+    "type": "WP200_LOCAL_EXACT_IMPLEMENTATION_SOURCE_GREEN",
+    "ceiling": "WP200_NODE_ONLY_GENERATION_BOUND_DURABLE_RECEIPT_ACK_NO_MULTI_ARTIFACT_TRANSACTION_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-wp200-exact-head",
+    "evidenceClass": "INDEPENDENT_EXACT_HEAD",
+    "denominator": 1059,
+    "passed": 1059,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-200-DURABLE-SAVE-MUTANTS"
+    ],
+    "predecessorReceiptDigest": "e2f0e2ccfc2f32b259767186219b809871ec9a57f1eeec17dc1e282b7e39d08d"
+  },
+  "artifact": {
+    "identityRoles": {
+      "implementationSourceSha": "1c89f33d601a6a97263b57aaf5a6ad8756951d89",
+      "evaluationHeadSha": "1c89f33d601a6a97263b57aaf5a6ad8756951d89",
+      "evaluationTreeSha": "a8f5f9af88c552f58f1cc4b1874fc7c52dff118c",
+      "implementationPrHeadSha": null,
+      "implementationMergeSha": null,
+      "postmergeSha": null
+    },
+    "focusedCommand": "npm run -s test:r24-wp200",
+    "focusedCounts": {
+      "pass": 14,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "mutants": {
+      "killed": 6,
+      "survived": 0
+    },
+    "fullRtk": {
+      "invocationId": "587a7038-ab00-4dc1-aaf5-93ce4ea4c11c",
+      "pass": 1059,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "exitCode": 0,
+      "durationMs": 209296.254041,
+      "processGroupCleanup": "RTK_PROCESS_GROUP_CLEAN",
+      "leaseCleanupOk": true,
+      "stderr": ""
+    },
+    "toolchain": {
+      "nodeVersion": "v26.7.0"
+    },
+    "guardrails": "PASS",
+    "diffCheck": "PASS",
+    "deliveryState": "AWAITING_PR_EXACT_HEAD_CI_POLICY_MERGE_AND_POSTMERGE",
+    "nonClaims": [
+      "This is exact implementation-source evidence, not PR-head, merge or postmerge evidence.",
+      "WP201 remains responsible for one multi-artifact scene and manifest transaction; WP200 closes only generation-bound durable receipt acknowledgement.",
+      "The physical filesystem tests use isolated synthetic temporary files and do not mutate user documents or Drive state.",
+      "Other generic atomic writers remain outside the explicit Writer Save and Save As path certified by this contour.",
+      "No dependency, storage adoption, migration, SAFE_APPLY, release, signing, cloud or AI authority is added.",
+      "WP200 PlanState remains PENDING until policy merge and exact postmerge verification."
+    ]
+  }
+}

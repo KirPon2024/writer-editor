@@ -69,6 +69,9 @@ const {
   durableSaveTransaction,
 } = require('./core/save-coordinator-v1.cjs');
 const {
+  bindSaveReceiptToAck,
+} = require('./core/save-receipt-ack-v1.cjs');
+const {
   createShadowAuthorityCell,
 } = require('./core/shadow-authority-cell-v1.cjs');
 const {
@@ -25829,18 +25832,19 @@ function setDirtyState(state, ack = null) {
   }
 }
 
-function acknowledgeMainOwnedSave(savedGeneration) {
-  lastSignaledEditGeneration = mergeSignaledGeneration(lastSignaledEditGeneration, savedGeneration);
-  const decision = decideAutosaveAck({
-    capturedGeneration: savedGeneration,
-    latestEditGeneration: lastSignaledEditGeneration,
+function acknowledgeMainOwnedSave(saveReceipt, capturedContent, capturedGeneration) {
+  const observedLatestGeneration = mergeSignaledGeneration(
+    lastSignaledEditGeneration,
+    capturedGeneration,
+  );
+  const binding = bindSaveReceiptToAck({
+    receipt: saveReceipt,
+    capturedContent,
+    capturedGeneration,
+    latestEditGeneration: observedLatestGeneration,
   });
-  const ack = classifySaveAck({
-    writeSucceeded: true,
-    ackOutcome: decision.outcome,
-    savedGeneration,
-    latestEditGeneration: lastSignaledEditGeneration,
-  });
+  lastSignaledEditGeneration = observedLatestGeneration;
+  const ack = binding.ack;
   if (ack.kind === SAVE_ACK_KINDS.SAVED) setDirtyState(false, ack);
   else setDirtyState(true);
   return ack;
@@ -27622,6 +27626,7 @@ async function runAutoSave() {
     });
 
     if (saveTargetPath) {
+      let saveReceipt = null;
       if (currentHash !== lastAutosaveHash) {
         // R2.4 P3: scene and manifest commit as one transaction — the marker
         // is the only commit point and a partial publication can never be
@@ -27676,6 +27681,7 @@ async function runAutoSave() {
           updateStatus('Ошибка сохранения');
           return { ok: false, subjectId: lifecycleSubjectId, ack: classify(false, null) };
         }
+        saveReceipt = saveResult;
         try {
           await persistFreeEditProDataInvalidationForFile(saveTargetPath, {
             operationLabel: 'autosave pro data invalidation',
@@ -27685,19 +27691,22 @@ async function runAutoSave() {
         }
       } else {
         await persistBookProfileForFile(saveTargetPath, snapshot.bookProfile, 'autosave project manifest');
+        saveReceipt = await queueDiskOperation(
+          () => durableSaveWithCoordinator(saveTargetPath, content, snapshot.generation),
+          'autosave exact content receipt',
+        );
+        if (!saveReceipt.success) {
+          updateStatus('Ошибка сохранения');
+          return { ok: false, subjectId: lifecycleSubjectId, ack: classify(false, null) };
+        }
       }
 
       if (currentLifecycleSubjectId() !== lifecycleSubjectId) {
         return lifecycleSaveFailure(lifecycleSubjectId, 'SUBJECT_CHANGED_DURING_SAVE');
       }
+      const fileAck = acknowledgeMainOwnedSave(saveReceipt, content, snapshot.generation);
       lastAutosaveHash = currentHash;
-      const fileDecision = decideAutosaveAck({
-        capturedGeneration: snapshot.generation,
-        latestEditGeneration: lastSignaledEditGeneration,
-      });
-      const fileAck = classify(true, fileDecision.outcome);
       if (fileAck.kind === SAVE_ACK_KINDS.SAVED) {
-        setDirtyState(false, fileAck);
         updateStatus('Автосохранено');
       }
       await saveLastFile({ selectionRange: snapshot.selectionRange });
@@ -27705,14 +27714,19 @@ async function runAutoSave() {
     }
 
     if (currentHash === lastAutosaveHash) {
-      const idleDecision = decideAutosaveAck({
-        capturedGeneration: snapshot.generation,
-        latestEditGeneration: lastSignaledEditGeneration,
-      });
-      const idleAck = classify(true, idleDecision.outcome);
-      if (idleAck.kind === SAVE_ACK_KINDS.SAVED) {
-        setDirtyState(false, idleAck);
+      const sameContentResult = await queueDiskOperation(
+        () => writeAutosaveFile(content, snapshot.generation),
+        'autosave exact content receipt',
+      );
+      if (!sameContentResult.success) {
+        updateStatus('Ошибка сохранения');
+        return { ok: false, subjectId: lifecycleSubjectId, ack: classify(false, null) };
       }
+      const idleAck = acknowledgeMainOwnedSave(
+        sameContentResult,
+        content,
+        snapshot.generation,
+      );
       return { ok: true, subjectId: lifecycleSubjectId, ack: idleAck };
     }
 
@@ -27728,14 +27742,13 @@ async function runAutoSave() {
     if (currentLifecycleSubjectId() !== lifecycleSubjectId) {
       return lifecycleSaveFailure(lifecycleSubjectId, 'SUBJECT_CHANGED_DURING_SAVE');
     }
+    const tempAck = acknowledgeMainOwnedSave(
+      autosaveResult,
+      content,
+      snapshot.generation,
+    );
     lastAutosaveHash = currentHash;
-    const tempDecision = decideAutosaveAck({
-      capturedGeneration: snapshot.generation,
-      latestEditGeneration: lastSignaledEditGeneration,
-    });
-    const tempAck = classify(true, tempDecision.outcome);
     if (tempAck.kind === SAVE_ACK_KINDS.SAVED) {
-      setDirtyState(false, tempAck);
       updateStatus('Автосохранено');
     }
     return { ok: true, subjectId: lifecycleSubjectId, ack: tempAck };
@@ -27863,7 +27876,7 @@ async function handleSave() {
     const contentHash = computeHash(content);
     const textChanged = contentHash !== lastAutosaveHash;
     const saveResult = await queueDiskOperation(
-      () => fileManager.writeFileAtomic(saveTargetPath, content),
+      () => durableSaveWithCoordinator(saveTargetPath, content, snapshot.generation),
       'save existing file'
     );
     if (saveResult.success) {
@@ -27880,7 +27893,7 @@ async function handleSave() {
       if (currentLifecycleSubjectId() !== saveSubjectId) return false;
       lastAutosaveHash = contentHash;
       await saveLastFile({ selectionRange: snapshot.selectionRange });
-      const saveAck = acknowledgeMainOwnedSave(snapshot.generation);
+      const saveAck = acknowledgeMainOwnedSave(saveResult, content, snapshot.generation);
       if (saveAck.kind === SAVE_ACK_KINDS.SAVED) updateStatus('Сохранено');
       return saveAck.kind === SAVE_ACK_KINDS.SAVED;
     }
@@ -27909,7 +27922,7 @@ async function handleSave() {
     if (currentLifecycleSubjectId() !== saveSubjectId) return false;
 
     const saveResult = await queueDiskOperation(
-      () => fileManager.writeFileAtomic(filePath, content),
+      () => durableSaveWithCoordinator(filePath, content, snapshot.generation),
       'save new file'
     );
     if (saveResult.success) {
@@ -27918,7 +27931,7 @@ async function handleSave() {
       lastAutosaveHash = computeHash(content);
       currentFilePath = filePath;
       await saveLastFile({ selectionRange: snapshot.selectionRange });
-      const saveAck = acknowledgeMainOwnedSave(snapshot.generation);
+      const saveAck = acknowledgeMainOwnedSave(saveResult, content, snapshot.generation);
       if (saveAck.kind === SAVE_ACK_KINDS.SAVED) updateStatus('Сохранено');
       if (wasUntitled && saveAck.kind === SAVE_ACK_KINDS.SAVED) {
         await deleteAutosaveFile();
@@ -27971,7 +27984,7 @@ async function handleSaveAs() {
     if (currentLifecycleSubjectId() !== saveSubjectId) return false;
 
     const saveResult = await queueDiskOperation(
-      () => fileManager.writeFileAtomic(filePath, content),
+      () => durableSaveWithCoordinator(filePath, content, snapshot.generation),
       'save as file'
     );
     if (saveResult.success) {
@@ -27980,7 +27993,7 @@ async function handleSaveAs() {
       lastAutosaveHash = computeHash(content);
       currentFilePath = filePath;
       await saveLastFile({ selectionRange: snapshot.selectionRange });
-      const saveAck = acknowledgeMainOwnedSave(snapshot.generation);
+      const saveAck = acknowledgeMainOwnedSave(saveResult, content, snapshot.generation);
       if (saveAck.kind === SAVE_ACK_KINDS.SAVED) updateStatus('Сохранено');
       if (wasUntitled && saveAck.kind === SAVE_ACK_KINDS.SAVED) {
         await deleteAutosaveFile();

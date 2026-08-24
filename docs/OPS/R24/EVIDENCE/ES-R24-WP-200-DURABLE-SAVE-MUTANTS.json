@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-200_DURABLE_SAVE",
+  "attemptId": "ATTEMPT-WP200-20260824",
+  "authorityEpoch": "R24-WP200-BASE-2028A5DC",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "1c89f33d601a6a97263b57aaf5a6ad8756951d89",
+    "treeSha": "a8f5f9af88c552f58f1cc4b1874fc7c52dff118c"
+  },
+  "createdAt": "2026-08-24T12:25:41Z",
+  "actor": "codex/r24-wp200-durable-save-v1-20260824",
+  "stampId": "ES-R24-WP-200-DURABLE-SAVE-MUTANTS",
+  "claim": {
+    "type": "WP200_IMPLEMENTATION_MUTANTS",
+    "ceiling": "WP200_NODE_ONLY_GENERATION_BOUND_DURABLE_RECEIPT_ACK_NO_MULTI_ARTIFACT_TRANSACTION_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-wp200-mutants",
+    "evidenceClass": "IMPLEMENTATION_MUTANTS",
+    "denominator": 6,
+    "passed": 6,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-200-DURABLE-SAVE-INTEGRATION"
+    ],
+    "predecessorReceiptDigest": "e2f0e2ccfc2f32b259767186219b809871ec9a57f1eeec17dc1e282b7e39d08d"
+  },
+  "artifact": {
+    "command": "npm run -s test:r24-wp200",
+    "receipt": {
+      "total": 6,
+      "killed": 6,
+      "survived": [],
+      "score": 1
+    },
+    "mutants": [
+      "failed-receipt-accepted",
+      "revision-binding-removed",
+      "phase-chain-fallback-accepted",
+      "digest-binding-removed",
+      "byte-binding-removed",
+      "write-success-denied"
+    ],
+    "artifactDigest": {
+      "path": "test/unit/r24-wp200-durable-save-mutants.test.js",
+      "sha256": "c1aac9d868c043a2d212143c92fd1425001b6cea86c9862652ec9bca88bb62c8"
+    }
+  }
+}

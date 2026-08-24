@@ -11298,19 +11298,19 @@
     },
     {
       "filePath": "package.json",
-      "sha256": "e8566f7d509907bcb991ea957b6a65543ea04cdc17366162c6d17a63d6b9ce91",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
-      "approvedAtUtc": "2026-08-22T20:36:30.000Z",
-      "rationale": "Approve R2.4 W0 package script update: binds rtk:word:c5v2:accessibility-preflight to the Hammerspoon runner and adds test:r24-w0; no dependency, lockfile, product runtime, Word route PASS, Google, release, network or Program PASS change.",
+      "sha256": "0921e969bb9c7ea33b79bb709678c75f3d153b6430fbe3e04d8560da324b9b95",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-WP200-DURABLE-SAVE-001",
+      "approvedAtUtc": "2026-08-24T12:20:03.000Z",
+      "rationale": "Approve R2.4 WP-200 package.json change: adds test:r24-wp200 binding the durable receipt ACK gate into the required CI lane; no dependency change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
     {
       "filePath": ".github/workflows/rtk-required.yml",
-      "sha256": "ac51eef84e4482ec96b3b513c4db8def1e06b93c5a5fe408d7ea0b31ea4dc818",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
-      "approvedAtUtc": "2026-08-22T20:36:30.000Z",
-      "rationale": "Approve R2.4 W0 rtk-required workflow update: adds one CI step running npm run -s test:r24-w0 after V3; no trigger, permission, install, environment, dependency, release, network, Word route PASS, Google or Program authority change.",
+      "sha256": "feadf17c22e986ec29ea783d5478edba3caec4fb6a84feb3c83a598b29ad9055",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-WP200-DURABLE-SAVE-001",
+      "approvedAtUtc": "2026-08-24T12:20:03.000Z",
+      "rationale": "Approve R2.4 WP-200 rtk-required.yml change: adds one step running npm run -s test:r24-wp200 after V0; no trigger, permission or environment change.",
       "approved": true,
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80"
     },
@@ -11361,11 +11361,11 @@
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
-      "sha256": "8276de340dae065d27c783ba51983347edbfbee2beaf4697ad5bbd07d7601b77",
-      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-W0-WORD-PHYSICAL-RECERTIFICATION-001",
-      "approvedAtUtc": "2026-08-22T20:54:47.875Z",
+      "sha256": "32013784448645452249e63de81bebb7552d0c00d75dc0ea809adbd393e09deb",
+      "approvedBy": "owner-standing-grant:TASK_ID:YALKEN-R24-WP200-DURABLE-SAVE-001",
+      "approvedAtUtc": "2026-08-24T12:20:03.000Z",
       "authority": "OWNER_AUTHORITY_GRANT_YALKEN_R24_MISSION_DIGEST_2D188140211C4E2A65F0F1BF1BEF5BAC53E396E3C3887CB3563FA253A10B0C80",
-      "rationale": "Approve terminal claim wording-surface digest refresh for package.json after adding the W0 local test script; no terminal Word PASS or release claim is introduced.",
+      "rationale": "Approve terminal claim registry wording-surface rebind for R2.4 WP-200: package.json digest updated to the exact bytes gained by test:r24-wp200; no wording or claim change.",
       "approved": true
     },
     {

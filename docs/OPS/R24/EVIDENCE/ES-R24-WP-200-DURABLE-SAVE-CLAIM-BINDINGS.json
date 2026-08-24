@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-200-DURABLE-SAVE-CLAIM-BINDINGS",
+  "contourId": "WP-200_DURABLE_SAVE",
+  "evidenceClass": "CONTRACT",
+  "verdict": "PASS",
+  "headSha": "1c89f33d601a6a97263b57aaf5a6ad8756951d89",
+  "originMainSha": "2028a5dc41b9b4ccb68291d247ed929403c9257c",
+  "generatedAtUtc": "2026-08-24T12:25:41Z",
+  "oracle": "strict ClaimBindingV1 exact-hash binding for WP200 implementation source, tests, maintained gate and bounded claims",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/CTR-R24-WP-200-DURABLE-SAVE.json",
+      "sha256": "83fa3484a66fbf0121f331577442577541658a98ca05d9e77e5bab8973b349da",
+      "claimTerms": [
+        "PASS"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "package.json",
+      "sha256": "0921e969bb9c7ea33b79bb709678c75f3d153b6430fbe3e04d8560da324b9b95",
+      "terms": [
+        "maintained test:r24-wp200 package gate"
+      ]
+    },
+    {
+      "path": ".github/workflows/rtk-required.yml",
+      "sha256": "feadf17c22e986ec29ea783d5478edba3caec4fb6a84feb3c83a598b29ad9055",
+      "terms": [
+        "exact-head R2.4 WP-200 durable save workflow gate"
+      ]
+    },
+    {
+      "path": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+      "sha256": "32013784448645452249e63de81bebb7552d0c00d75dc0ea809adbd393e09deb",
+      "terms": [
+        "approved package surface binding"
+      ]
+    },
+    {
+      "path": "src/core/save-receipt-ack-v1.cjs",
+      "sha256": "f572b2d7717c08ea1ab0a674fc0b9934032e25370055551a439318039d5d31eb",
+      "terms": [
+        "WP200 receipt-bound durable save implementation or regression evidence"
+      ]
+    },
+    {
+      "path": "src/main.js",
+      "sha256": "256660b9f27bf3f4a9aae17294a42c4beec33e4ab1619f24b1a94e7c26296797",
+      "terms": [
+        "WP200 receipt-bound durable save implementation or regression evidence"
+      ]
+    },
+    {
+      "path": "test/unit/r24-r5-lifecycle-physics.test.js",
+      "sha256": "84db691975e6ee192ada4505435c73107a791c1c2584538511f20dd8d20305fa",
+      "terms": [
+        "WP200 receipt-bound durable save implementation or regression evidence"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp200-durable-save.test.js",
+      "sha256": "d528cbd996802da82e36898a275a0bb79ce4ca3da9e361878dad51e2a2950148",
+      "terms": [
+        "WP200 receipt-bound durable save implementation or regression evidence"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp200-durable-save-physics.test.js",
+      "sha256": "123f662c04035a2b6b94800538d7a6c593defa2f70dd9e2a57690a551e503bb0",
+      "terms": [
+        "WP200 receipt-bound durable save implementation or regression evidence"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp200-durable-save-mutants.test.js",
+      "sha256": "c1aac9d868c043a2d212143c92fd1425001b6cea86c9862652ec9bca88bb62c8",
+      "terms": [
+        "six named implementation mutants killed"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "npm run -s test:r24-wp200",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 14,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 6,
+        "survived": 0
+      }
+    },
+    {
+      "command": "npm run -s test:r24-p2 && npm run -s test:r24-p3 && npm run -s test:r24-r5",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 40,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 23,
+        "survived": 0
+      }
+    },
+    {
+      "command": "npm run test:rtk",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "Exact implementation source 1c89f33d is green with clean process-group and lease cleanup."
+    }
+  ],
+  "nonClaims": [
+    "This binding certifies only the bounded WP-200 durable receipt acknowledgement implementation source.",
+    "WP201 remains responsible for one multi-artifact scene and manifest transaction; WP200 closes only generation-bound durable receipt acknowledgement.",
+    "The physical filesystem tests use isolated synthetic temporary files and do not mutate user documents or Drive state.",
+    "Other generic atomic writers remain outside the explicit Writer Save and Save As path certified by this contour.",
+    "No dependency, storage adoption, migration, SAFE_APPLY, release, signing, cloud or AI authority is added.",
+    "It does not mark WP200, downstream work packages, physical qualification, release readiness or the R2.4 program DONE."
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "V0_WRITER_CLAIM_COMPILER",
+  "attemptId": "ATTEMPT-V0-20260824",
+  "authorityEpoch": "R24-V0-CERTIFICATION-BASE-F1365F72",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "77de410bc7400d29a11d6fc90b9e6b297611fe18",
+    "treeSha": "55ff93e86b215ddad92a6fa21a9d009779435395"
+  },
+  "createdAt": "2026-08-24T10:19:32Z",
+  "actor": "codex/r24-v0-writer-claim-certification-v1-20260824",
+  "stampId": "ES-R24-V0-WRITER-CLAIM-COMPILER-MUTANTS",
+  "claim": {
+    "type": "V0_WRITER_CLAIM_COMPILER_MUTANT_SENSITIVITY",
+    "ceiling": "V0_NODE_ONLY_FIVE_NAMED_FAIL_CLOSED_MUTANTS_NO_EXHAUSTIVE_FORMAL_PROOF_NO_RELEASE_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-v0-writer-claim-mutants",
+    "evidenceClass": "IMPLEMENTATION_MUTANTS",
+    "denominator": 5,
+    "passed": 5,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-V0-WRITER-CLAIM-COMPILER-INTEGRATION"
+    ],
+    "predecessorReceiptDigest": "8ad402d8df8ffd577a5983d348579292dfb5b2427af8aaf2c237bd085cbab065"
+  },
+  "artifact": {
+    "killed": 5,
+    "survived": 0,
+    "score": 1,
+    "testFileSha256": "89482b88ede1ff1a1651bb430d970e424b68d8d4fafd3e9921b390e3767ac1d1",
+    "existingCompilerImplementationSourceSha": "f6e92ab57829e44a7aa360893acbb4952b3b2fbe",
+    "certificationSourceSha": "77de410bc7400d29a11d6fc90b9e6b297611fe18",
+    "evaluationHeadSha": "77de410bc7400d29a11d6fc90b9e6b297611fe18",
+    "evaluationTreeSha": "55ff93e86b215ddad92a6fa21a9d009779435395"
+  }
+}

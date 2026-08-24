@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "V0_WRITER_CLAIM_COMPILER",
+  "attemptId": "ATTEMPT-V0-20260824",
+  "authorityEpoch": "R24-V0-CERTIFICATION-BASE-F1365F72",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "77de410bc7400d29a11d6fc90b9e6b297611fe18",
+    "treeSha": "55ff93e86b215ddad92a6fa21a9d009779435395"
+  },
+  "createdAt": "2026-08-24T10:19:32Z",
+  "actor": "codex/r24-v0-writer-claim-certification-v1-20260824",
+  "stampId": "ES-R24-V0-WRITER-CLAIM-COMPILER-INTEGRATION",
+  "claim": {
+    "type": "V0_OBSERVED_EVIDENCE_COMPILER_CHAIN_INTEGRATION",
+    "ceiling": "V0_NODE_ONLY_MAINTAINED_B0_V0_V1_V3_AFFECTED_CHAIN_NO_OPTIONAL_PROMOTION_NO_RELEASE_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-b0-observed-evidence-compiler-affected-chain",
+    "evidenceClass": "INTEGRATION",
+    "denominator": 32,
+    "passed": 32,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-V0-WRITER-CLAIM-COMPILER-CONTRACT"
+    ],
+    "predecessorReceiptDigest": "8ad402d8df8ffd577a5983d348579292dfb5b2427af8aaf2c237bd085cbab065"
+  },
+  "artifact": {
+    "command": "npm run test:r24-b0",
+    "suites": [
+      {
+        "name": "B0 observed evidence compiler",
+        "pass": 3,
+        "fail": 0
+      },
+      {
+        "name": "V0 Writer claim compiler",
+        "pass": 9,
+        "fail": 0,
+        "mutantsKilled": 5,
+        "mutantsSurvived": 0
+      },
+      {
+        "name": "V1 Atlas claim compiler",
+        "pass": 10,
+        "fail": 0,
+        "mutantsKilled": 7,
+        "mutantsSurvived": 0
+      },
+      {
+        "name": "V3 package claim compiler",
+        "pass": 10,
+        "fail": 0,
+        "mutantsKilled": 9,
+        "mutantsSurvived": 0
+      }
+    ],
+    "existingCompilerImplementationSourceSha": "f6e92ab57829e44a7aa360893acbb4952b3b2fbe",
+    "certificationSourceSha": "77de410bc7400d29a11d6fc90b9e6b297611fe18",
+    "evaluationHeadSha": "77de410bc7400d29a11d6fc90b9e6b297611fe18",
+    "evaluationTreeSha": "55ff93e86b215ddad92a6fa21a9d009779435395"
+  }
+}

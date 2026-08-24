@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "V0_WRITER_CLAIM_COMPILER",
+  "attemptId": "ATTEMPT-V0-20260824",
+  "authorityEpoch": "R24-V0-CERTIFICATION-BASE-F1365F72",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "77de410bc7400d29a11d6fc90b9e6b297611fe18",
+    "treeSha": "55ff93e86b215ddad92a6fa21a9d009779435395"
+  },
+  "createdAt": "2026-08-24T10:19:32Z",
+  "actor": "codex/r24-v0-writer-claim-certification-v1-20260824",
+  "stampId": "ES-R24-V0-WRITER-CLAIM-COMPILER-EXACT-HEAD",
+  "claim": {
+    "type": "V0_LOCAL_EXACT_CERTIFICATION_SOURCE_GREEN",
+    "ceiling": "V0_NODE_ONLY_WRITER_PROFILE_F0_DNA_AND_FAIL_CLOSED_CLAIM_PROJECTION_NO_PR_MERGE_POSTMERGE_RELEASE_OR_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-v0-exact-source-maintained-affected-chain",
+    "evidenceClass": "INDEPENDENT_EXACT_HEAD",
+    "denominator": 32,
+    "passed": 32,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-V0-WRITER-CLAIM-COMPILER-MUTANTS"
+    ],
+    "predecessorReceiptDigest": "8ad402d8df8ffd577a5983d348579292dfb5b2427af8aaf2c237bd085cbab065"
+  },
+  "artifact": {
+    "identityRoles": {
+      "existingCompilerImplementationSourceSha": "f6e92ab57829e44a7aa360893acbb4952b3b2fbe",
+      "certificationSourceSha": "77de410bc7400d29a11d6fc90b9e6b297611fe18",
+      "evaluationHeadSha": "77de410bc7400d29a11d6fc90b9e6b297611fe18",
+      "evaluationTreeSha": "55ff93e86b215ddad92a6fa21a9d009779435395",
+      "prHeadSha": null,
+      "mergeSha": null,
+      "postmergeSha": null
+    },
+    "focused": {
+      "command": "npm run test:r24-v0",
+      "pass": 9,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "contractTests": 8,
+      "mutantsKilled": 5,
+      "mutantsSurvived": 0
+    },
+    "affectedChain": {
+      "command": "npm run test:r24-b0",
+      "pass": 32,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "artifactDigests": {
+      "compilerSha256": "3a2ff7e751ae5bde079684f36e05ce11236ef706b28a94170b374f48793604eb",
+      "contractTestSha256": "0659bde9e0cf0d0d2732886a06e0bc4aad9866cfbf5524bdc455471c272b0758",
+      "mutantTestSha256": "89482b88ede1ff1a1651bb430d970e424b68d8d4fafd3e9921b390e3767ac1d1",
+      "f0ModelSha256": "eb0c73d6a16710753b5c8f0e8bfbc7c60a0cc56247ade793c9683fd58188031b",
+      "executableProgramSha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5"
+    },
+    "inheritedExactMainBaseline": {
+      "mainSha": "f1365f72e4a159f2209c68b198f827f26f829891",
+      "rtkRunId": 32713858959,
+      "rtkConclusion": "SUCCESS",
+      "rtkPass": 1059,
+      "rtkFail": 0,
+      "ossRunId": 32713858949,
+      "ossConclusion": "SUCCESS",
+      "reuseReason": "Only the V0 test and evidence delta changed; exact PR-head and postmerge required CI remain mandatory."
+    },
+    "deliveryState": "AWAITING_EVIDENCE_COMMIT_PR_EXACT_HEAD_CI_POLICY_MERGE_AND_POSTMERGE",
+    "nonClaims": [
+      "This is exact local certification-source evidence, not PR-head, merge or postmerge evidence.",
+      "The inherited exact-main RTK baseline is predecessor evidence and is not represented as having executed on the certification source SHA.",
+      "V0 emits only a Writer profile verdict and keeps the program verdict NEEDS_MORE_EVIDENCE.",
+      "The F0 DNA binding does not claim visual or physical macOS Writer readiness.",
+      "No runtime source, product state, user document, dependency, storage path, SAFE_APPLY, release, signing, cloud or AI authority is added.",
+      "V0 PlanState remains PENDING until policy merge and exact postmerge verification; this stamp does not claim contour or program completion."
+    ]
+  }
+}

@@ -11,10 +11,20 @@ const MODULE_PATH = path.join(REPO_ROOT, 'scripts', 'ops', 'b3c09-performance-ba
 const STATUS_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'STATUS', 'B3C09_PERFORMANCE_BASELINE_BINDING_STATUS_V1.json');
 
 let modulePromise = null;
+let defaultStatePromise = null;
 
 function loadModule() {
   if (!modulePromise) modulePromise = import(pathToFileURL(MODULE_PATH).href);
   return modulePromise;
+}
+
+function loadDefaultState() {
+  if (!defaultStatePromise) {
+    defaultStatePromise = loadModule().then(({ evaluateB3C09PerformanceBaselineBindingState }) => (
+      evaluateB3C09PerformanceBaselineBindingState({ repoRoot: REPO_ROOT })
+    ));
+  }
+  return defaultStatePromise;
 }
 
 function readJson(targetPath) {
@@ -22,8 +32,8 @@ function readJson(targetPath) {
 }
 
 test('b3c09 performance baseline: state artifact equals executable state', async () => {
-  const { evaluateB3C09PerformanceBaselineBindingState, TOKEN_NAME, PERF_TOKEN_NAME, PROVISIONAL_TOKEN_NAME } = await loadModule();
-  const state = await evaluateB3C09PerformanceBaselineBindingState({ repoRoot: REPO_ROOT });
+  const { TOKEN_NAME, PERF_TOKEN_NAME, PROVISIONAL_TOKEN_NAME } = await loadModule();
+  const state = await loadDefaultState();
   const committedState = readJson(STATUS_PATH);
 
   assert.equal(committedState.artifactId, state.artifactId);
@@ -68,8 +78,7 @@ test('b3c09 performance baseline: CLI status remains worktree independent outsid
 });
 
 test('b3c09 performance baseline: binds B3C02 through B3C08 input statuses', async () => {
-  const { evaluateB3C09PerformanceBaselineBindingState } = await loadModule();
-  const state = await evaluateB3C09PerformanceBaselineBindingState({ repoRoot: REPO_ROOT });
+  const state = await loadDefaultState();
 
   assert.equal(state.proof.inputStatusesBound, true);
   assert.equal(state.proof.existingPerfStateReused, true);
@@ -79,8 +88,7 @@ test('b3c09 performance baseline: binds B3C02 through B3C08 input statuses', asy
 });
 
 test('b3c09 performance baseline: records exact unsupported rows instead of false PERF_BASELINE_OK', async () => {
-  const { evaluateB3C09PerformanceBaselineBindingState } = await loadModule();
-  const state = await evaluateB3C09PerformanceBaselineBindingState({ repoRoot: REPO_ROOT });
+  const state = await loadDefaultState();
   const unsupportedIds = state.unsupportedRows.map((row) => row.id).sort();
 
   assert.deepEqual(unsupportedIds, ['EXPORT_DOCX_P95_MS', 'SCENE_SWITCH_P95_MS']);
@@ -90,8 +98,7 @@ test('b3c09 performance baseline: records exact unsupported rows instead of fals
 });
 
 test('b3c09 performance baseline: measured tier zero rows stay below declared thresholds', async () => {
-  const { evaluateB3C09PerformanceBaselineBindingState } = await loadModule();
-  const state = await evaluateB3C09PerformanceBaselineBindingState({ repoRoot: REPO_ROOT });
+  const state = await loadDefaultState();
   const measuredRows = state.p95Rows.filter((row) => row.supported === true);
 
   assert.ok(measuredRows.length >= 4);
@@ -153,8 +160,7 @@ test('b3c09 performance baseline: hot path policy failure is blocking fail', asy
 });
 
 test('b3c09 performance baseline: scope flags reject release and layer drift', async () => {
-  const { evaluateB3C09PerformanceBaselineBindingState } = await loadModule();
-  const state = await evaluateB3C09PerformanceBaselineBindingState({ repoRoot: REPO_ROOT });
+  const state = await loadDefaultState();
 
   assert.equal(state.scope.performanceBaselineBindingOnly, true);
   assert.equal(state.scope.proofHelperOnly, true);

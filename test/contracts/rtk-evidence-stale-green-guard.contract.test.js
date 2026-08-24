@@ -84,50 +84,33 @@ const PLATFORM_DIVERGENT = Object.freeze([
 // Evidence-unstable families: every accepted outcome is finite and
 // platform-bound. This records the current b3c09 instability without creating
 // an "any outcome passes" registry.
+const B3C09_STATE_FAILURES = Object.freeze([
+  'b3c09 performance baseline: state artifact equals executable state',
+  'b3c09 performance baseline: records exact unsupported rows instead of false PERF_BASELINE_OK',
+  'b3c09 performance baseline: measured tier zero rows stay below declared thresholds',
+]);
+const B3C09_ACCEPTED_OUTCOMES = Object.freeze([
+  Object.freeze({ status: 'green', failing: Object.freeze([]) }),
+  Object.freeze({
+    status: 'red',
+    failing: Object.freeze(['b3c09 performance baseline: CLI status remains worktree independent outside repo cwd']),
+  }),
+  Object.freeze({ status: 'red', failing: B3C09_STATE_FAILURES }),
+  Object.freeze({
+    status: 'red',
+    failing: Object.freeze([
+      ...B3C09_STATE_FAILURES,
+      'b3c09 performance baseline: CLI status remains worktree independent outside repo cwd',
+    ]),
+  }),
+]);
 const FLAKY_REGISTER = Object.freeze([
   Object.freeze({
     contract: 'b3c09-performance-baseline-binding.contract.test.js',
     maxAttempts: 1,
     accepted: Object.freeze({
-      darwin: Object.freeze([
-        Object.freeze({ status: 'green', failing: Object.freeze([]) }),
-        Object.freeze({
-          status: 'red',
-          failing: Object.freeze(['b3c09 performance baseline: CLI status remains worktree independent outside repo cwd']),
-        }),
-      ]),
-      linux: Object.freeze([
-        Object.freeze({ status: 'green', failing: Object.freeze([]) }),
-        Object.freeze({
-          status: 'red',
-          failing: Object.freeze(['b3c09 performance baseline: records exact unsupported rows instead of false PERF_BASELINE_OK']),
-        }),
-        Object.freeze({
-          status: 'red',
-          failing: Object.freeze(['b3c09 performance baseline: state artifact equals executable state']),
-        }),
-        Object.freeze({
-          status: 'red',
-          failing: Object.freeze([
-            'b3c09 performance baseline: CLI status remains worktree independent outside repo cwd',
-            'b3c09 performance baseline: state artifact equals executable state',
-          ]),
-        }),
-        Object.freeze({
-          status: 'red',
-          failing: Object.freeze([
-            'b3c09 performance baseline: measured tier zero rows stay below declared thresholds',
-            'b3c09 performance baseline: records exact unsupported rows instead of false PERF_BASELINE_OK',
-          ]),
-        }),
-        Object.freeze({
-          status: 'red',
-          failing: Object.freeze([
-            'b3c09 performance baseline: measured tier zero rows stay below declared thresholds',
-            'b3c09 performance baseline: state artifact equals executable state',
-          ]),
-        }),
-      ]),
+      darwin: B3C09_ACCEPTED_OUTCOMES,
+      linux: B3C09_ACCEPTED_OUTCOMES,
     }),
   }),
 ]);
@@ -267,7 +250,7 @@ test('stale-green guard: b3c09 flaky register remains finite and exact-shaped', 
 
   for (const [platformName, outcomes] of Object.entries(entry.accepted)) {
     assert.ok(['darwin', 'linux'].includes(platformName), `unexpected platform key ${platformName}`);
-    assert.ok(Array.isArray(outcomes) && outcomes.length > 0 && outcomes.length <= 6, `${platformName} outcomes must be finite`);
+    assert.equal(outcomes.length, 4, `${platformName} outcomes must be the exact coherent snapshot set`);
     const seen = new Set();
     for (const outcome of outcomes) {
       assert.ok(['green', 'red'].includes(outcome.status), `unexpected outcome status ${outcome.status}`);
@@ -289,34 +272,23 @@ test('stale-green guard: b3c09 flaky register remains finite and exact-shaped', 
   }));
   assert.ok(linuxShapes.includes(JSON.stringify({
     status: 'red',
+    failing: sortedUnique(B3C09_STATE_FAILURES),
+  })));
+  assert.ok(linuxShapes.includes(JSON.stringify({
+    status: 'red',
     failing: sortedUnique([
+      ...B3C09_STATE_FAILURES,
       'b3c09 performance baseline: CLI status remains worktree independent outside repo cwd',
-      'b3c09 performance baseline: state artifact equals executable state',
-    ]),
-  })));
-  assert.ok(linuxShapes.includes(JSON.stringify({
-    status: 'red',
-    failing: sortedUnique([
-      'b3c09 performance baseline: measured tier zero rows stay below declared thresholds',
-      'b3c09 performance baseline: records exact unsupported rows instead of false PERF_BASELINE_OK',
-    ]),
-  })));
-  assert.ok(linuxShapes.includes(JSON.stringify({
-    status: 'red',
-    failing: sortedUnique([
-      'b3c09 performance baseline: measured tier zero rows stay below declared thresholds',
-      'b3c09 performance baseline: state artifact equals executable state',
     ]),
   })));
   assert.equal(entry.accepted.linux.some((candidate) => matchesOutcome({
     exit: 1,
-    failing: ['b3c09 performance baseline: measured tier zero rows stay below declared thresholds'],
-  }, candidate)), false, 'a partial observed shape remains unaccepted');
+    failing: B3C09_STATE_FAILURES.slice(0, 2),
+  }, candidate)), false, 'a partial snapshot failure set remains unaccepted');
   assert.equal(entry.accepted.linux.some((candidate) => matchesOutcome({
     exit: 1,
     failing: [
-      'b3c09 performance baseline: measured tier zero rows stay below declared thresholds',
-      'b3c09 performance baseline: state artifact equals executable state',
+      ...B3C09_STATE_FAILURES,
       'b3c09 performance baseline: unexpected failure',
     ],
   }, candidate)), false, 'an extra unknown failure remains unaccepted');

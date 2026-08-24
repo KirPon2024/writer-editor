@@ -8,6 +8,7 @@ const { decideAutosaveAck } = require('./autosave-generation-v1.cjs');
 const { classifySaveAck } = require('./dirty-admission-v1.cjs');
 const { SAVE_PHASES } = require('./save-coordinator-v1.cjs');
 const { COMMIT_PHASES } = require('./project-commit-v1.cjs');
+const { TRANSACTION_PHASE_CHAIN } = require('./project-transaction-v1.cjs');
 
 class SaveReceiptAckError extends Error {
   constructor(code, detail = '') {
@@ -46,6 +47,7 @@ function phaseChainEquals(actual, expected) {
 function identifyReceiptKind(receipt) {
   if (phaseChainEquals(receipt.phases, DURABLE_SAVE_PHASE_CHAIN)) return 'DURABLE_SAVE_V1';
   if (phaseChainEquals(receipt.phases, PROJECT_COMMIT_PHASE_CHAIN)) return 'PROJECT_COMMIT_V1';
+  if (phaseChainEquals(receipt.phases, TRANSACTION_PHASE_CHAIN)) return 'PROJECT_TRANSACTION_V1';
   throw new SaveReceiptAckError('E_SAVE_RECEIPT_PHASE_CHAIN_INVALID');
 }
 

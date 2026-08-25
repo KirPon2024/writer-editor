@@ -1,6 +1,6 @@
 import { hashCanonicalValue } from './browser-safe-hash.mjs';
 import { emitCoreDomainEventsForCommandResult } from './domainEvents.mjs';
-import anchorLineageLaw from './anchor-lineage-v1.cjs';
+import anchorLineageLaw from './anchor-lineage-browser-safe-v1.mjs';
 export {
   buildSceneOrderChangedEvent,
   hashCoreDomainEvents,

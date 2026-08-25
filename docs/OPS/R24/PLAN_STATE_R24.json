@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.plan-state.r24.v2",
-  "revision": 206,
-  "fencingCounter": 36,
+  "revision": 213,
+  "fencingCounter": 37,
   "contours": {
     "R24C0_SEMANTIC_PACKAGE_CLOSURE": {
       "state": "DONE",
@@ -415,12 +415,12 @@
       "deliveryState": "CURRENT_MAIN_D84B1B00_EXACT_HEAD_WP205_PATH_AND_TEXT_POSTMERGE_AND_SURVIVOR_GREEN_NO_USER_DOCUMENT_OR_SYSTEM_CLIPBOARD_MUTATION_NO_PROGRAM_DONE"
     },
     "WP-206_SAFE_ENTITLEMENT_BASELINE": {
-      "state": "PENDING",
-      "previousState": null,
-      "attemptId": null,
-      "updatedAt": null,
-      "headSha": null,
-      "source": "EXECUTABLE_PROGRAM_DEFAULT_STATE"
+      "state": "DONE",
+      "previousState": "POSTMERGE_VERIFIED",
+      "attemptId": "ATTEMPT-WP206-20260825",
+      "updatedAt": "2026-08-25T12:35:00.005Z",
+      "headSha": "2042cec2fa12cf6793cb194141f1669e7dda5454",
+      "source": "R24_WP206_SAFE_ENTITLEMENT_BASELINE_CLOSURE_V1"
     },
     "WP-207_WRITER_REFINEMENT": {
       "state": "PENDING",
@@ -2912,6 +2912,111 @@
         "headSha": "d84b1b00df08a8f0576ec4fc50a7a169f1fbb858",
         "appliedAt": "2026-08-25T09:25:00.005Z"
       }
+    },
+    "wp206-closure-20260825-lease-r206": {
+      "revision": 207,
+      "requestDigest": "d1fa34f99064ca0e4579fe35403d7cb2f621d28b090d104c822249d41b762c62",
+      "receipt": null
+    },
+    "wp206-closure-20260825-eligible-r207": {
+      "revision": 208,
+      "requestDigest": "f4c9ab7a2cd23572f7c123b2ec813d8fc350894b21a58d08812d13de565b4ec0",
+      "receipt": {
+        "schemaVersion": "PlanStateTransitionReceiptV1",
+        "transitionId": "fd04aa147fbfa964a0b900ef87f09af76d4fb50b15cdff8a7c873d07e6c71bb3",
+        "contourId": "WP-206_SAFE_ENTITLEMENT_BASELINE",
+        "from": "PENDING",
+        "to": "ELIGIBLE",
+        "fromRevision": 207,
+        "toRevision": 208,
+        "attemptId": "ATTEMPT-WP206-20260825",
+        "writerId": "codex/r24-wp206-postmerge-closure-v1-20260825",
+        "fencingToken": 37,
+        "idempotencyKey": "wp206-closure-20260825-eligible-r207",
+        "requestDigest": "f4c9ab7a2cd23572f7c123b2ec813d8fc350894b21a58d08812d13de565b4ec0",
+        "headSha": "2042cec2fa12cf6793cb194141f1669e7dda5454",
+        "appliedAt": "2026-08-25T12:35:00.001Z"
+      }
+    },
+    "wp206-closure-20260825-running-r208": {
+      "revision": 209,
+      "requestDigest": "b35390a9b77c40eb2a8dd076d57c50549338c302525da4d56a252dae4cc08b65",
+      "receipt": {
+        "schemaVersion": "PlanStateTransitionReceiptV1",
+        "transitionId": "65016b3b0c8ce5aeaeb82fa48f0c5afa9430cbca87eccf89262d2e9241860026",
+        "contourId": "WP-206_SAFE_ENTITLEMENT_BASELINE",
+        "from": "ELIGIBLE",
+        "to": "RUNNING",
+        "fromRevision": 208,
+        "toRevision": 209,
+        "attemptId": "ATTEMPT-WP206-20260825",
+        "writerId": "codex/r24-wp206-postmerge-closure-v1-20260825",
+        "fencingToken": 37,
+        "idempotencyKey": "wp206-closure-20260825-running-r208",
+        "requestDigest": "b35390a9b77c40eb2a8dd076d57c50549338c302525da4d56a252dae4cc08b65",
+        "headSha": "2042cec2fa12cf6793cb194141f1669e7dda5454",
+        "appliedAt": "2026-08-25T12:35:00.002Z"
+      }
+    },
+    "wp206-closure-20260825-delivered-r209": {
+      "revision": 210,
+      "requestDigest": "8021e91c64e8625fb012855dda1b609f3a13b434a044d64d983c833d7024865e",
+      "receipt": {
+        "schemaVersion": "PlanStateTransitionReceiptV1",
+        "transitionId": "33fc58aeb542ea6430b475f491870eb52011b025c23b7a8865bd3b52ebca900c",
+        "contourId": "WP-206_SAFE_ENTITLEMENT_BASELINE",
+        "from": "RUNNING",
+        "to": "DELIVERED",
+        "fromRevision": 209,
+        "toRevision": 210,
+        "attemptId": "ATTEMPT-WP206-20260825",
+        "writerId": "codex/r24-wp206-postmerge-closure-v1-20260825",
+        "fencingToken": 37,
+        "idempotencyKey": "wp206-closure-20260825-delivered-r209",
+        "requestDigest": "8021e91c64e8625fb012855dda1b609f3a13b434a044d64d983c833d7024865e",
+        "headSha": "2042cec2fa12cf6793cb194141f1669e7dda5454",
+        "appliedAt": "2026-08-25T12:35:00.003Z"
+      }
+    },
+    "wp206-closure-20260825-postmerge_verified-r210": {
+      "revision": 211,
+      "requestDigest": "a1d5437cb1ef8909a4880df8749ffde095d57c644c21553cd62de975d4297f8d",
+      "receipt": {
+        "schemaVersion": "PlanStateTransitionReceiptV1",
+        "transitionId": "84e20a63a72dac821f8bfbe81a77e97c1f0dc7c1c946d5fd84ab5bf28fcd6630",
+        "contourId": "WP-206_SAFE_ENTITLEMENT_BASELINE",
+        "from": "DELIVERED",
+        "to": "POSTMERGE_VERIFIED",
+        "fromRevision": 210,
+        "toRevision": 211,
+        "attemptId": "ATTEMPT-WP206-20260825",
+        "writerId": "codex/r24-wp206-postmerge-closure-v1-20260825",
+        "fencingToken": 37,
+        "idempotencyKey": "wp206-closure-20260825-postmerge_verified-r210",
+        "requestDigest": "a1d5437cb1ef8909a4880df8749ffde095d57c644c21553cd62de975d4297f8d",
+        "headSha": "2042cec2fa12cf6793cb194141f1669e7dda5454",
+        "appliedAt": "2026-08-25T12:35:00.004Z"
+      }
+    },
+    "wp206-closure-20260825-done-r211": {
+      "revision": 212,
+      "requestDigest": "59009f6d8437da3d2a8a8dcc96e2d98ce7537c7a27af93ef829c63e784882009",
+      "receipt": {
+        "schemaVersion": "PlanStateTransitionReceiptV1",
+        "transitionId": "0b904d6e798fddce2e0c9d6683e03d1c55e01a958030590b72d39966d42ae7b0",
+        "contourId": "WP-206_SAFE_ENTITLEMENT_BASELINE",
+        "from": "POSTMERGE_VERIFIED",
+        "to": "DONE",
+        "fromRevision": 211,
+        "toRevision": 212,
+        "attemptId": "ATTEMPT-WP206-20260825",
+        "writerId": "codex/r24-wp206-postmerge-closure-v1-20260825",
+        "fencingToken": 37,
+        "idempotencyKey": "wp206-closure-20260825-done-r211",
+        "requestDigest": "59009f6d8437da3d2a8a8dcc96e2d98ce7537c7a27af93ef829c63e784882009",
+        "headSha": "2042cec2fa12cf6793cb194141f1669e7dda5454",
+        "appliedAt": "2026-08-25T12:35:00.005Z"
+      }
     }
   },
   "replayBaseline": {
@@ -4295,6 +4400,91 @@
       "requestDigest": "c203b3144552455fbf818621c409a56d6d97de0173c8d20193b121ce4780e835",
       "headSha": "d84b1b00df08a8f0576ec4fc50a7a169f1fbb858",
       "appliedAt": "2026-08-25T09:25:00.005Z",
+      "baselinePresent": true
+    },
+    {
+      "schemaVersion": "PlanStateTransitionReceiptV1",
+      "transitionId": "fd04aa147fbfa964a0b900ef87f09af76d4fb50b15cdff8a7c873d07e6c71bb3",
+      "contourId": "WP-206_SAFE_ENTITLEMENT_BASELINE",
+      "from": "PENDING",
+      "to": "ELIGIBLE",
+      "fromRevision": 207,
+      "toRevision": 208,
+      "attemptId": "ATTEMPT-WP206-20260825",
+      "writerId": "codex/r24-wp206-postmerge-closure-v1-20260825",
+      "fencingToken": 37,
+      "idempotencyKey": "wp206-closure-20260825-eligible-r207",
+      "requestDigest": "f4c9ab7a2cd23572f7c123b2ec813d8fc350894b21a58d08812d13de565b4ec0",
+      "headSha": "2042cec2fa12cf6793cb194141f1669e7dda5454",
+      "appliedAt": "2026-08-25T12:35:00.001Z",
+      "baselinePresent": true
+    },
+    {
+      "schemaVersion": "PlanStateTransitionReceiptV1",
+      "transitionId": "65016b3b0c8ce5aeaeb82fa48f0c5afa9430cbca87eccf89262d2e9241860026",
+      "contourId": "WP-206_SAFE_ENTITLEMENT_BASELINE",
+      "from": "ELIGIBLE",
+      "to": "RUNNING",
+      "fromRevision": 208,
+      "toRevision": 209,
+      "attemptId": "ATTEMPT-WP206-20260825",
+      "writerId": "codex/r24-wp206-postmerge-closure-v1-20260825",
+      "fencingToken": 37,
+      "idempotencyKey": "wp206-closure-20260825-running-r208",
+      "requestDigest": "b35390a9b77c40eb2a8dd076d57c50549338c302525da4d56a252dae4cc08b65",
+      "headSha": "2042cec2fa12cf6793cb194141f1669e7dda5454",
+      "appliedAt": "2026-08-25T12:35:00.002Z",
+      "baselinePresent": true
+    },
+    {
+      "schemaVersion": "PlanStateTransitionReceiptV1",
+      "transitionId": "33fc58aeb542ea6430b475f491870eb52011b025c23b7a8865bd3b52ebca900c",
+      "contourId": "WP-206_SAFE_ENTITLEMENT_BASELINE",
+      "from": "RUNNING",
+      "to": "DELIVERED",
+      "fromRevision": 209,
+      "toRevision": 210,
+      "attemptId": "ATTEMPT-WP206-20260825",
+      "writerId": "codex/r24-wp206-postmerge-closure-v1-20260825",
+      "fencingToken": 37,
+      "idempotencyKey": "wp206-closure-20260825-delivered-r209",
+      "requestDigest": "8021e91c64e8625fb012855dda1b609f3a13b434a044d64d983c833d7024865e",
+      "headSha": "2042cec2fa12cf6793cb194141f1669e7dda5454",
+      "appliedAt": "2026-08-25T12:35:00.003Z",
+      "baselinePresent": true
+    },
+    {
+      "schemaVersion": "PlanStateTransitionReceiptV1",
+      "transitionId": "84e20a63a72dac821f8bfbe81a77e97c1f0dc7c1c946d5fd84ab5bf28fcd6630",
+      "contourId": "WP-206_SAFE_ENTITLEMENT_BASELINE",
+      "from": "DELIVERED",
+      "to": "POSTMERGE_VERIFIED",
+      "fromRevision": 210,
+      "toRevision": 211,
+      "attemptId": "ATTEMPT-WP206-20260825",
+      "writerId": "codex/r24-wp206-postmerge-closure-v1-20260825",
+      "fencingToken": 37,
+      "idempotencyKey": "wp206-closure-20260825-postmerge_verified-r210",
+      "requestDigest": "a1d5437cb1ef8909a4880df8749ffde095d57c644c21553cd62de975d4297f8d",
+      "headSha": "2042cec2fa12cf6793cb194141f1669e7dda5454",
+      "appliedAt": "2026-08-25T12:35:00.004Z",
+      "baselinePresent": true
+    },
+    {
+      "schemaVersion": "PlanStateTransitionReceiptV1",
+      "transitionId": "0b904d6e798fddce2e0c9d6683e03d1c55e01a958030590b72d39966d42ae7b0",
+      "contourId": "WP-206_SAFE_ENTITLEMENT_BASELINE",
+      "from": "POSTMERGE_VERIFIED",
+      "to": "DONE",
+      "fromRevision": 211,
+      "toRevision": 212,
+      "attemptId": "ATTEMPT-WP206-20260825",
+      "writerId": "codex/r24-wp206-postmerge-closure-v1-20260825",
+      "fencingToken": 37,
+      "idempotencyKey": "wp206-closure-20260825-done-r211",
+      "requestDigest": "59009f6d8437da3d2a8a8dcc96e2d98ce7537c7a27af93ef829c63e784882009",
+      "headSha": "2042cec2fa12cf6793cb194141f1669e7dda5454",
+      "appliedAt": "2026-08-25T12:35:00.005Z",
       "baselinePresent": true
     }
   ]

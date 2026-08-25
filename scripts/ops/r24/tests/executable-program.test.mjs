@@ -109,7 +109,7 @@ test('PlanState persists the full 109-node denominator without unreconciled DONE
   assert.equal(state.schemaVersion, 'yalken.plan-state.r24.v2');
   assert.equal(state.replayBaseline.classification, 'ADOPTED_PRE_V2_UNREPLAYABLE_HISTORY');
   assert.equal(state.replayBaseline.unreplayableContourIds.includes('WP-102_OPERATION_PROTOCOL'), true);
-  assert.equal(state.transitionHistory.length, 80);
+  assert.equal(state.transitionHistory.length, 85);
   assert.deepEqual(
     state.transitionHistory.map((row) => [row.contourId, row.from, row.to]),
     [
@@ -193,6 +193,11 @@ test('PlanState persists the full 109-node denominator without unreconciled DONE
       ['WP-205_PATH_AND_TEXT', 'RUNNING', 'DELIVERED'],
       ['WP-205_PATH_AND_TEXT', 'DELIVERED', 'POSTMERGE_VERIFIED'],
       ['WP-205_PATH_AND_TEXT', 'POSTMERGE_VERIFIED', 'DONE'],
+      ['WP-206_SAFE_ENTITLEMENT_BASELINE', 'PENDING', 'ELIGIBLE'],
+      ['WP-206_SAFE_ENTITLEMENT_BASELINE', 'ELIGIBLE', 'RUNNING'],
+      ['WP-206_SAFE_ENTITLEMENT_BASELINE', 'RUNNING', 'DELIVERED'],
+      ['WP-206_SAFE_ENTITLEMENT_BASELINE', 'DELIVERED', 'POSTMERGE_VERIFIED'],
+      ['WP-206_SAFE_ENTITLEMENT_BASELINE', 'POSTMERGE_VERIFIED', 'DONE'],
     ],
   );
   assert.deepEqual(
@@ -201,8 +206,8 @@ test('PlanState persists the full 109-node denominator without unreconciled DONE
       verdict: 'PASS',
       baselineClassification: 'ADOPTED_PRE_V2_UNREPLAYABLE_HISTORY',
       baselineRevision: 94,
-      replayedTransitions: 80,
-      finalRevision: 206,
+      replayedTransitions: 85,
+      finalRevision: 213,
     },
   );
   assert.equal(Object.keys(state.contours).length, EXPECTED_NODE_COUNT);
@@ -277,10 +282,13 @@ test('PlanState persists the full 109-node denominator without unreconciled DONE
   assert.equal(state.contours['WP-205_PATH_AND_TEXT'].state, 'DONE');
   assert.equal(state.contours['WP-205_PATH_AND_TEXT'].previousState, 'POSTMERGE_VERIFIED');
   assert.equal(state.contours['WP-205_PATH_AND_TEXT'].headSha, 'd84b1b00df08a8f0576ec4fc50a7a169f1fbb858');
-  assert.equal(repoLocalDone, 25);
+  assert.equal(state.contours['WP-206_SAFE_ENTITLEMENT_BASELINE'].state, 'DONE');
+  assert.equal(state.contours['WP-206_SAFE_ENTITLEMENT_BASELINE'].previousState, 'POSTMERGE_VERIFIED');
+  assert.equal(state.contours['WP-206_SAFE_ENTITLEMENT_BASELINE'].headSha, '2042cec2fa12cf6793cb194141f1669e7dda5454');
+  assert.equal(repoLocalDone, 26);
   assert.deepEqual(
     sourceReceipt.repoLocalPlanStateClosures.closures.map((row) => row.id),
-    ['SEC0_PATH_CAPABILITY', 'ENT0_ENTITLEMENT_CONFORMANCE', 'K1_AUTHORITY_DECOMPOSITION', 'T1_ANCHOR_LINEAGE', 'A0_ATLAS_INCREMENTAL_EQUIVALENCE', 'PK0_PACKAGE_CONTENT_TRUST', 'WP-100_GENERATION_ADMISSION', 'WP-101_IPC_ADMISSION', 'WP-102_OPERATION_PROTOCOL', 'WP-103_REVISION_PRODUCT_ORDER', 'WP-104_BOUNDARY_FALSIFICATION', 'R2_STORAGE_BAKEOFF', 'R3_DURABLE_RECOVERY_LEDGER', 'R4_TRANSACTIONAL_INBOX_OUTBOX', 'R5_LIFECYCLE_EXTERNAL_CONFLICT', 'R6_MIGRATION_HISTORY_BACKUP_GC', 'F0_WRITER_REFINEMENT_CONFORMANCE', 'V0_WRITER_CLAIM_COMPILER', 'WP-200_DURABLE_SAVE', 'WP-201_PROJECT_TRANSACTION', 'V1_ATLAS_CLAIM_COMPILER', 'WP-202_LEGACY_STRANGLER', 'WP-203_STORAGE_SELECTION', 'WP-204_LIFECYCLE_RECOVERY', 'WP-205_PATH_AND_TEXT'],
+    ['SEC0_PATH_CAPABILITY', 'ENT0_ENTITLEMENT_CONFORMANCE', 'K1_AUTHORITY_DECOMPOSITION', 'T1_ANCHOR_LINEAGE', 'A0_ATLAS_INCREMENTAL_EQUIVALENCE', 'PK0_PACKAGE_CONTENT_TRUST', 'WP-100_GENERATION_ADMISSION', 'WP-101_IPC_ADMISSION', 'WP-102_OPERATION_PROTOCOL', 'WP-103_REVISION_PRODUCT_ORDER', 'WP-104_BOUNDARY_FALSIFICATION', 'R2_STORAGE_BAKEOFF', 'R3_DURABLE_RECOVERY_LEDGER', 'R4_TRANSACTIONAL_INBOX_OUTBOX', 'R5_LIFECYCLE_EXTERNAL_CONFLICT', 'R6_MIGRATION_HISTORY_BACKUP_GC', 'F0_WRITER_REFINEMENT_CONFORMANCE', 'V0_WRITER_CLAIM_COMPILER', 'WP-200_DURABLE_SAVE', 'WP-201_PROJECT_TRANSACTION', 'V1_ATLAS_CLAIM_COMPILER', 'WP-202_LEGACY_STRANGLER', 'WP-203_STORAGE_SELECTION', 'WP-204_LIFECYCLE_RECOVERY', 'WP-205_PATH_AND_TEXT', 'WP-206_SAFE_ENTITLEMENT_BASELINE'],
   );
   assert.equal(sourceReceipt.fullDenominator.nodeCount, EXPECTED_NODE_COUNT);
   assert.equal(sourceReceipt.externalPlanState.doneContourCount, 12);

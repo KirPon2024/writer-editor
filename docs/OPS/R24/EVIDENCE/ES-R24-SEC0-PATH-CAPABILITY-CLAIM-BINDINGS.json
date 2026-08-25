@@ -11,14 +11,14 @@
   "claimBindings": [
     {
       "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
-      "sha256": "e2777ba3313b3ba169151b32634c276501b8c0064e3bfaa7de39c59d5b4fc825",
+      "sha256": "95aec0beea6bd69eceabe3ad9ce9a7f120f30bee3e6d26d6147e69613ebc87dc",
       "claimTerms": [
         "DONE"
       ]
     },
     {
       "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
-      "sha256": "384080a9ffdbda5c6b50da815ae19377b4a04ca92d73b64330a56432384d720a",
+      "sha256": "f8504252b86bc9c82e65ad2b40a36b8c8938b8e49de844191ee017807e696b87",
       "claimTerms": [
         "DONE"
       ]

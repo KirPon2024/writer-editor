@@ -1,0 +1,79 @@
+{
+  "stampId": "ES-R24-WP-301-AUTHORING-SURFACES-SURVIVOR-AUDIT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-301_AUTHORING_SURFACES",
+  "attemptId": "ATTEMPT-WP301-20260825",
+  "authorityEpoch": "R24-WP301-BASE-EBB18772",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "d714e8cfbea0eba211fe8145a038b7db62f69132",
+    "treeSha": "dd6a05d93fe3305022ed8933c028e00202822cde"
+  },
+  "claim": {
+    "type": "WP301_POSTMERGE_SURVIVOR_AUDIT",
+    "ceiling": "WP301_NODE_ONLY_NO_PROGRAM_DONE_NO_RELEASE_OR_PHYSICAL_QUALIFICATION_NO_USER_DOCUMENT_MUTATION",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "exact-main artifact digest and authority survivor audit",
+    "evidenceClass": "SURVIVOR_AUDIT",
+    "denominator": 8,
+    "passed": 8,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-301-AUTHORING-SURFACES-POSTMERGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "897fa9eb07ec237c05d576e7162ecec54fb110028e8b49508d5301538e0f992e"
+  },
+  "createdAt": "2026-08-25T20:46:49Z",
+  "actor": "codex/r24-wp301-postmerge-closure-v1-20260825",
+  "artifact": {
+    "artifactDigests": [
+      {
+        "path": "src/core/authoring-surfaces-projection-v1.mjs",
+        "sha256": "adb079a91f39caba7eab4820702ac27005a32dd5ce66ff5636aa55a5b40d1262"
+      },
+      {
+        "path": "src/renderer/authoringSurfacesSurface.mjs",
+        "sha256": "0429d8a96bc419ab705ed650eae79fe02b04eb1b05199d1e61070c202603cbf4"
+      },
+      {
+        "path": "src/renderer/editor.js",
+        "sha256": "294f8d361c933315a0aa0da6e7abec9b318cb2c65071482b5beb5a36b1f2cab6"
+      },
+      {
+        "path": "src/renderer/editor.bundle.js",
+        "sha256": "4d3d7fb151b4e323d96481d058f83174c0f44f6d8b5b982cf202ba31b8500281"
+      },
+      {
+        "path": "src/renderer/index.html",
+        "sha256": "34841542e361d42c3fd45c7f0e8450d2c5bbf9ef98b9a731e4ef43097443d365"
+      },
+      {
+        "path": "src/renderer/styles.css",
+        "sha256": "ed747ff7c5fd6b71259e553afdc64ece10272c859301205168291f3be8f34f53"
+      },
+      {
+        "path": "test/unit/r24-wp301-authoring-surfaces.test.mjs",
+        "sha256": "b359527fc53f210b050d6cf437ee6dc6344caea69d794bdc2ee33b4a06006993"
+      },
+      {
+        "path": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+        "sha256": "70402140d809797829bf0fb943fb81bbbb66df9f20fa345650197e7ec9da7c11"
+      }
+    ],
+    "survivors": {
+      "artifactDigestMismatches": 0,
+      "unknownAuthorityRoutes": 0,
+      "activeLeases": 0,
+      "activeWatchersOrMutatorsAtReceipt": 0
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

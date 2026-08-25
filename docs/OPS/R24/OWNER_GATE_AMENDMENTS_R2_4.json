@@ -11,6 +11,15 @@
       "decisionArtifactPath": "docs/OPS/R24/OWNER_GATE_DECISIONS/STORAGE_AUTHORITY_ADR_R2_STORAGE_BAKEOFF_V1.json",
       "decisionArtifactSha256": "f49bacdaf74637c5cf5d06d74ce2f147e5563bfed81c4da95ed11ad5fd7c7211",
       "revocationEpoch": 0
+    },
+    {
+      "gateId": "ENTITLEMENT_SEMANTICS_ADR_OR_DENY",
+      "nodeId": "WP-206_SAFE_ENTITLEMENT_BASELINE",
+      "transitionFrom": "UNRESOLVED",
+      "transitionTo": "DENIED",
+      "decisionArtifactPath": "docs/OPS/R24/OWNER_GATE_DECISIONS/ENTITLEMENT_SEMANTICS_ADR_OR_DENY_WP206_SAFE_ENTITLEMENT_BASELINE_V1.json",
+      "decisionArtifactSha256": "d86d4edd2faf14a4ac019a3561ce468a83c333b5112ba57490211b04cd061c0e",
+      "revocationEpoch": 0
     }
   ]
 }

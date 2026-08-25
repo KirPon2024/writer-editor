@@ -11,26 +11,61 @@ export const OWNER_GATE_REGISTRY_DIGEST = '4d8e3e0f7fcafb84f6e4b625af930b7a5fb06
 export const OWNER_GATE_AMENDMENTS_PATH = path.join(R24_DIR, 'OWNER_GATE_AMENDMENTS_R2_4.json');
 export const OWNER_GATE_REGISTRY_PATH = path.join(R24_DIR, 'OWNER_GATE_REGISTRY_R2_4.json');
 
-const EXPECTED_DECISION_SCOPE = Object.freeze({
-  storageBakeoffComparison: true,
-  certifyAlreadyMergedImplementation: true,
-  dependencyAdoption: false,
-  liveStoragePathChange: false,
-  userDataMigration: false,
-  destructiveStorageAction: false,
+const EXPECTED_OWNER_GATE_DECISIONS = Object.freeze({
+  STORAGE_AUTHORITY_ADR: Object.freeze({
+    decisionId: 'STORAGE_AUTHORITY_ADR_R2_STORAGE_BAKEOFF_V1',
+    decision: 'APPROVED',
+    approvedBy: 'owner:OWNER_DECISION_STORAGE_AUTHORITY_ADR_APPROVED',
+    priorOwnerStandingGrantTaskId: 'YALKEN-R24-R2-STORAGE-BAKEOFF-001',
+    authorizedScope: Object.freeze({
+      storageBakeoffComparison: true,
+      certifyAlreadyMergedImplementation: true,
+      dependencyAdoption: false,
+      liveStoragePathChange: false,
+      userDataMigration: false,
+      destructiveStorageAction: false,
+    }),
+    forbiddenAuthorityExpansion: Object.freeze([
+      'DEPENDENCY_ADOPTION',
+      'LIVE_STORAGE_PATH_CHANGE',
+      'USER_DATA_MIGRATION',
+      'DESTRUCTIVE_STORAGE_ACTION',
+      'CREDENTIAL_OR_SECRET_BYPASS',
+      'SAFE_APPLY_EXPANSION',
+      'FORCE_PUSH',
+      'PROTECTION_BYPASS',
+      'SECOND_WRITER_OR_CONTOUR',
+    ]),
+  }),
+  ENTITLEMENT_SEMANTICS_ADR_OR_DENY: Object.freeze({
+    decisionId: 'ENTITLEMENT_SEMANTICS_ADR_OR_DENY_WP206_SAFE_ENTITLEMENT_BASELINE_V1',
+    decision: 'DENIED',
+    approvedBy: 'owner:OWNER_CANONICAL_DECISION_ENTITLEMENT_SEMANTICS_ADR_OR_DENY_DENIED',
+    priorOwnerStandingGrantTaskId: 'OWNER_CONTINUOUS_AUTONOMY_GRANTED',
+    authorizedScope: Object.freeze({
+      safeDenyEntitlementBaseline: true,
+      entitlementDependentBehaviorDisabledByDefault: true,
+      pricingAuthority: false,
+      businessAuthority: false,
+      releaseAuthority: false,
+      cloudAuthority: false,
+      userDataAuthority: false,
+      dependencyAdoption: false,
+    }),
+    forbiddenAuthorityExpansion: Object.freeze([
+      'PRICING_OR_BUSINESS_AUTHORITY',
+      'RELEASE_OR_PUBLIC_EFFECT',
+      'CLOUD_OR_NETWORK_AUTHORITY',
+      'USER_DATA_MUTATION',
+      'DEPENDENCY_ADOPTION',
+      'CREDENTIAL_OR_SECRET_BYPASS',
+      'SAFE_APPLY_EXPANSION',
+      'FORCE_PUSH',
+      'PROTECTION_BYPASS',
+      'SECOND_WRITER_OR_CONTOUR',
+    ]),
+  }),
 });
-
-const EXPECTED_FORBIDDEN_AUTHORITY = Object.freeze([
-  'DEPENDENCY_ADOPTION',
-  'LIVE_STORAGE_PATH_CHANGE',
-  'USER_DATA_MIGRATION',
-  'DESTRUCTIVE_STORAGE_ACTION',
-  'CREDENTIAL_OR_SECRET_BYPASS',
-  'SAFE_APPLY_EXPANSION',
-  'FORCE_PUSH',
-  'PROTECTION_BYPASS',
-  'SECOND_WRITER_OR_CONTOUR',
-]);
 
 function assertObject(value, code, detail) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new R24Error(code, detail);
@@ -55,6 +90,8 @@ function assertExactArray(value, expected, code, detail) {
 }
 
 function assertDecisionArtifact({ artifact, amendment, missionDigest }) {
+  const expectedDecision = EXPECTED_OWNER_GATE_DECISIONS[amendment.gateId];
+  if (!expectedDecision) throw new R24Error('E_R24_OWNER_GATE_DECISION_UNSUPPORTED_GATE', amendment.gateId);
   assertExactKeys(artifact, [
     'schemaVersion',
     'decisionId',
@@ -72,13 +109,13 @@ function assertDecisionArtifact({ artifact, amendment, missionDigest }) {
     'noSelfApproval',
   ], 'E_R24_OWNER_GATE_DECISION_SHAPE', amendment.gateId);
   if (artifact.schemaVersion !== 'yalken.owner-gate-decision.r24.v1') throw new R24Error('E_R24_OWNER_GATE_DECISION_SCHEMA', amendment.gateId);
-  if (artifact.decisionId !== 'STORAGE_AUTHORITY_ADR_R2_STORAGE_BAKEOFF_V1') throw new R24Error('E_R24_OWNER_GATE_DECISION_ID', String(artifact.decisionId));
+  if (artifact.decisionId !== expectedDecision.decisionId) throw new R24Error('E_R24_OWNER_GATE_DECISION_ID', String(artifact.decisionId));
   if (artifact.missionDigest !== missionDigest) throw new R24Error('E_R24_OWNER_GATE_DECISION_MISSION', String(artifact.missionDigest));
   if (artifact.gateId !== amendment.gateId) throw new R24Error('E_R24_OWNER_GATE_DECISION_GATE', String(artifact.gateId));
   if (artifact.nodeId !== amendment.nodeId) throw new R24Error('E_R24_OWNER_GATE_DECISION_NODE', String(artifact.nodeId));
-  if (artifact.decision !== 'APPROVED') throw new R24Error('E_R24_OWNER_GATE_DECISION_STATUS', String(artifact.decision));
-  if (artifact.approvedBy !== 'owner:OWNER_DECISION_STORAGE_AUTHORITY_ADR_APPROVED') throw new R24Error('E_R24_OWNER_GATE_DECISION_AUTHORITY', String(artifact.approvedBy));
-  if (artifact.priorOwnerStandingGrantTaskId !== 'YALKEN-R24-R2-STORAGE-BAKEOFF-001') {
+  if (artifact.decision !== expectedDecision.decision) throw new R24Error('E_R24_OWNER_GATE_DECISION_STATUS', String(artifact.decision));
+  if (artifact.approvedBy !== expectedDecision.approvedBy) throw new R24Error('E_R24_OWNER_GATE_DECISION_AUTHORITY', String(artifact.approvedBy));
+  if (artifact.priorOwnerStandingGrantTaskId !== expectedDecision.priorOwnerStandingGrantTaskId) {
     throw new R24Error('E_R24_OWNER_GATE_DECISION_PRIOR_GRANT', String(artifact.priorOwnerStandingGrantTaskId));
   }
   if (typeof artifact.issuedAtUtc !== 'string' || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(artifact.issuedAtUtc)) {
@@ -87,13 +124,13 @@ function assertDecisionArtifact({ artifact, amendment, missionDigest }) {
   if (artifact.expiresAtUtc !== null) throw new R24Error('E_R24_OWNER_GATE_DECISION_EXPIRY', String(artifact.expiresAtUtc));
   if (artifact.revocationEpoch !== amendment.revocationEpoch) throw new R24Error('E_R24_OWNER_GATE_DECISION_REVOCATION', String(artifact.revocationEpoch));
   if (artifact.noSelfApproval !== true) throw new R24Error('E_R24_OWNER_GATE_DECISION_SELF_APPROVAL');
-  assertExactKeys(artifact.authorizedScope, Object.keys(EXPECTED_DECISION_SCOPE), 'E_R24_OWNER_GATE_DECISION_SCOPE_SHAPE', amendment.gateId);
-  for (const [key, expected] of Object.entries(EXPECTED_DECISION_SCOPE)) {
+  assertExactKeys(artifact.authorizedScope, Object.keys(expectedDecision.authorizedScope), 'E_R24_OWNER_GATE_DECISION_SCOPE_SHAPE', amendment.gateId);
+  for (const [key, expected] of Object.entries(expectedDecision.authorizedScope)) {
     if (artifact.authorizedScope[key] !== expected) throw new R24Error('E_R24_OWNER_GATE_DECISION_SCOPE_WIDENING', key);
   }
   assertExactArray(
     artifact.forbiddenAuthorityExpansion,
-    EXPECTED_FORBIDDEN_AUTHORITY,
+    expectedDecision.forbiddenAuthorityExpansion,
     'E_R24_OWNER_GATE_DECISION_FORBIDDEN_SCOPE',
     amendment.gateId,
   );
@@ -149,7 +186,9 @@ export function validateOwnerGateAmendments({
     if (gate.status !== amendment.transitionFrom || amendment.transitionFrom !== 'UNRESOLVED') {
       throw new R24Error('E_R24_OWNER_GATE_AMENDMENT_FROM_STATE', `${gate.status}:${amendment.transitionFrom}`);
     }
-    if (amendment.transitionTo !== 'APPROVED' || !gate.allowedTransitions?.includes('APPROVED')) {
+    const expectedDecision = EXPECTED_OWNER_GATE_DECISIONS[amendment.gateId];
+    if (!expectedDecision) throw new R24Error('E_R24_OWNER_GATE_DECISION_UNSUPPORTED_GATE', amendment.gateId);
+    if (amendment.transitionTo !== expectedDecision.decision || !gate.allowedTransitions?.includes(expectedDecision.decision)) {
       throw new R24Error('E_R24_OWNER_GATE_AMENDMENT_TRANSITION', String(amendment.transitionTo));
     }
     if (gate.safeDefault !== 'DENY'
@@ -171,7 +210,7 @@ export function validateOwnerGateAmendments({
       throw new R24Error('E_R24_OWNER_GATE_DECISION_DIGEST_MISMATCH', amendment.gateId);
     }
     assertDecisionArtifact({ artifact: loaded.value, amendment, missionDigest: missionContract.missionDigest });
-    approvals[amendment.gateId] = 'APPROVED';
+    approvals[amendment.gateId] = expectedDecision.decision;
   }
   return Object.freeze(approvals);
 }

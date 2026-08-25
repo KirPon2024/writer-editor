@@ -12,6 +12,8 @@ function miniProgram() {
       { id: 'ROOT', kind: 'FOUNDATION', profile: 'P1', dependsOn: [], state: 'DONE', ownerGate: null, evidenceContract: { requiredClasses: ['CONTRACT'] } },
       { id: 'A_LEAF', kind: 'WORK_PACKAGE', profile: 'P1', dependsOn: ['ROOT'], state: 'PENDING', ownerGate: null, evidenceContract: { requiredClasses: ['CONTRACT'] } },
       { id: 'B_GATE', kind: 'WORK_PACKAGE', profile: 'P1', dependsOn: ['ROOT'], state: 'PENDING', ownerGate: 'GATE_X', evidenceContract: { requiredClasses: ['CONTRACT'] } },
+      { id: 'B_DENY_GATE', kind: 'WORK_PACKAGE', profile: 'P1', dependsOn: ['ROOT'], state: 'PENDING', ownerGate: 'SAFE_PATH_OR_DENY', evidenceContract: { requiredClasses: ['CONTRACT'] } },
+      { id: 'B_UNSAFE_DENY_GATE', kind: 'WORK_PACKAGE', profile: 'P1', dependsOn: ['ROOT'], state: 'PENDING', ownerGate: 'UNSAFE_GATE', evidenceContract: { requiredClasses: ['CONTRACT'] } },
       { id: 'C_PROFILE', kind: 'WORK_PACKAGE', profile: 'P2', dependsOn: ['ROOT'], state: 'PENDING', ownerGate: null, evidenceContract: { requiredClasses: ['CONTRACT'] } },
       { id: 'D_DEP', kind: 'WORK_PACKAGE', profile: 'P1', dependsOn: ['A_LEAF'], state: 'PENDING', ownerGate: null, evidenceContract: { requiredClasses: ['CONTRACT', 'UNIT'] } },
     ],
@@ -60,6 +62,12 @@ test('ready set filters dependency, profile and gate conjuncts', () => {
     mission: { ...mission, ownerGateApprovals: { GATE_X: 'APPROVED' } },
   });
   assert.deepEqual(withGate.sort(), ['A_LEAF', 'B_GATE']);
+  const withSafeDeny = computeReadySet({
+    program: miniProgram(),
+    contourStates: {},
+    mission: { ...mission, ownerGateApprovals: { SAFE_PATH_OR_DENY: 'DENIED', UNSAFE_GATE: 'DENIED' } },
+  });
+  assert.deepEqual(withSafeDeny.sort(), ['A_LEAF', 'B_DENY_GATE']);
 });
 
 test('selection is deterministic and picks the only ready node', () => {

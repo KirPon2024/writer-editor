@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "yalken.owner-gate-decision.r24.v1",
+  "decisionId": "ENTITLEMENT_SEMANTICS_ADR_OR_DENY_WP206_SAFE_ENTITLEMENT_BASELINE_V1",
+  "missionDigest": "2d188140211c4e2a65f0f1bf1bef5bac53e396e3c3887cb3563fa253a10b0c80",
+  "gateId": "ENTITLEMENT_SEMANTICS_ADR_OR_DENY",
+  "nodeId": "WP-206_SAFE_ENTITLEMENT_BASELINE",
+  "decision": "DENIED",
+  "approvedBy": "owner:OWNER_CANONICAL_DECISION_ENTITLEMENT_SEMANTICS_ADR_OR_DENY_DENIED",
+  "priorOwnerStandingGrantTaskId": "OWNER_CONTINUOUS_AUTONOMY_GRANTED",
+  "issuedAtUtc": "2026-08-25T10:40:38Z",
+  "expiresAtUtc": null,
+  "revocationEpoch": 0,
+  "authorizedScope": {
+    "safeDenyEntitlementBaseline": true,
+    "entitlementDependentBehaviorDisabledByDefault": true,
+    "pricingAuthority": false,
+    "businessAuthority": false,
+    "releaseAuthority": false,
+    "cloudAuthority": false,
+    "userDataAuthority": false,
+    "dependencyAdoption": false
+  },
+  "forbiddenAuthorityExpansion": [
+    "PRICING_OR_BUSINESS_AUTHORITY",
+    "RELEASE_OR_PUBLIC_EFFECT",
+    "CLOUD_OR_NETWORK_AUTHORITY",
+    "USER_DATA_MUTATION",
+    "DEPENDENCY_ADOPTION",
+    "CREDENTIAL_OR_SECRET_BYPASS",
+    "SAFE_APPLY_EXPANSION",
+    "FORCE_PUSH",
+    "PROTECTION_BYPASS",
+    "SECOND_WRITER_OR_CONTOUR"
+  ],
+  "noSelfApproval": true
+}

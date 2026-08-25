@@ -109,7 +109,7 @@ test('PlanState persists the full 109-node denominator without unreconciled DONE
   assert.equal(state.schemaVersion, 'yalken.plan-state.r24.v2');
   assert.equal(state.replayBaseline.classification, 'ADOPTED_PRE_V2_UNREPLAYABLE_HISTORY');
   assert.equal(state.replayBaseline.unreplayableContourIds.includes('WP-102_OPERATION_PROTOCOL'), true);
-  assert.equal(state.transitionHistory.length, 100);
+  assert.equal(state.transitionHistory.length, 105);
   assert.deepEqual(
     state.transitionHistory.map((row) => [row.contourId, row.from, row.to]),
     [
@@ -353,12 +353,12 @@ test('scheduler selection receipt is bound to the real full graph rather than a 
   assert.equal(receipt.identityRoles.postmergeSha, null);
   assert.equal(receipt.sourceOfTruthPath, 'docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json');
   assert.equal(receipt.selectedKind, 'NODE');
-  assert.equal(receipt.selectedId, 'WP-302_SESSION_CONTINUITY');
+  assert.equal(receipt.selectedId, 'WP-303_DESIGN_OS_CUSTOMIZATION');
   assert.equal(receipt.verdict, 'SELECTED');
   assert.deepEqual(receipt.reasons, ['SUPERVISED_HANDOFF_ONLY_CANDIDATE']);
   assert.equal(receipt.selectedId === null || nodeIds.has(receipt.selectedId), true);
   assert.equal(receipt.readySet.every((id) => nodeIds.has(id)), true);
-  assert.deepEqual(receipt.readySet, ["WP-302_SESSION_CONTINUITY"]);
+  assert.deepEqual(receipt.readySet, ["WP-303_DESIGN_OS_CUSTOMIZATION"]);
 });
 
 test('scheduler refuses a plan state not committed at the evaluation head', () => {

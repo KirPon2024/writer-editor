@@ -1,0 +1,122 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-302-SESSION-CONTINUITY-CLAIM-BINDINGS",
+  "contourId": "WP-302_SESSION_CONTINUITY",
+  "evidenceClass": "CONTRACT",
+  "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
+  "headSha": "41dd77ecb8472858b0b06efd6d13e8b11a86c252",
+  "originMainSha": "6299274226f27bd9cbdc96832ac88499983f5ee5",
+  "generatedAtUtc": "2026-08-25T23:12:00Z",
+  "oracle": "strict ClaimBindingV1 exact-hash binding for replayable WP302 session continuity closure, exact-main postmerge evidence, survivor audit, source receipt and graph-derived WP303 scheduler receipt",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+      "sha256": "d83c2da8e38b550d853b697a3970b94958409897743d4c688ba29bc7dad885a8",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+      "sha256": "0ad4a35662197c4a5c96381bb8d55bf9181a2ea3722292522b0a6e3dae5f6971",
+      "claimTerms": [
+        "CLOSED"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/SELECTION_RECEIPT_R2_4.json",
+      "sha256": "23af42fa852be52465fccb28d2b87bf5090774c396b65297f0389ff02088d142",
+      "claimTerms": [
+        "READY"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CTR-R24-WP-302-SESSION-CONTINUITY.json",
+      "sha256": "0eff32eec5fde45147ec795818848541e7c4e52fb6b7acc6bf2b454679363045",
+      "claimTerms": [
+        "PASS"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/session-continuity-v1.cjs",
+      "sha256": "a581acc28db911dc884ccea0b3cd0a2f18d54ef9b1621f82510e3a0ecef348c8",
+      "terms": [
+        "WP302 strict versioned session continuity contract"
+      ]
+    },
+    {
+      "path": "src/main.js",
+      "sha256": "16a9bc20ca6087a2c1caa6a05adb4a7d510800cb716100e4b719f240fb18a703",
+      "terms": [
+        "WP302 project open continue rename and path rebind integration"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp302-session-continuity.test.mjs",
+      "sha256": "037dbc6a367b72401da8c1e6371935b05fe09bc7bce310d283351ad1a7109e14",
+      "terms": [
+        "WP302 contract negative mutant Unicode recovery and lifecycle oracle"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "node --test test/unit/r24-wp302-session-continuity.test.mjs",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 12,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 11,
+        "survived": 0
+      },
+      "requiredDisposition": "Versioned contract, path bounds, legacy strangler, identity, persistence, fallback, rename and cursor recovery contracts are green."
+    },
+    {
+      "command": "WP302 plus sector M S26 project create open continue affected-chain tests",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 17,
+        "fail": 0
+      },
+      "requiredDisposition": "Existing create, open and continue lifecycle remains compatible at the exact merge tree."
+    },
+    {
+      "command": "npm run test:rtk",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "Exact product PR head 740e3d1c was green locally with clean process-group cleanup."
+    },
+    {
+      "command": "GitHub exact PR-head required checks",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "PR 1696 head 740e3d1c has green RTK, OSS, Ubuntu parity and Windows parity."
+    },
+    {
+      "command": "GitHub exact-main postmerge RTK and OSS",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "Merge 62992742 is terminal green in exact-main RTK 32907485789 and OSS 32907485740."
+    }
+  ],
+  "nonClaims": [
+    "This binding closes only the bounded WP-302_SESSION_CONTINUITY contour.",
+    "WP302 certifies a strict versioned local session continuity contract and existing lifecycle integration without new UI or background authority.",
+    "The scheduler receipt after WP302 closure selects WP-303_DESIGN_OS_CUSTOMIZATION as the next graph-admissible product contour.",
+    "No physical macOS qualification, release readiness, signing, cloud, dependency adoption, storage migration, destructive storage action, user Word/Drive mutation, SAFE_APPLY expansion, pricing, business or AI authority is added.",
+    "It does not mark the R2.4 program DONE."
+  ]
+}

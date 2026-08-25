@@ -78,6 +78,11 @@ import {
 } from '../core/writer-home-projection-v1.mjs';
 import { renderWriterHomeSurface } from './writerHomeSurface.mjs';
 import {
+  buildAuthoringSurfacesProjection,
+  countAuthoringSurfaceWords,
+} from '../core/authoring-surfaces-projection-v1.mjs';
+import { renderAuthoringSurfacesSurface } from './authoringSurfacesSurface.mjs';
+import {
   applyNavigatorSelection,
   buildNavigatorSelectionDescriptor,
   createNavigatorSelectionState,
@@ -214,6 +219,7 @@ const perfHintElement = document.querySelector('[data-perf-hint]');
 const appLayout = document.querySelector('.app-layout');
 const emptyState = document.querySelector('.empty-state');
 const writerHomeSurface = document.querySelector('[data-writer-home]');
+const authoringSurfacesHost = document.querySelector('[data-authoring-surfaces]');
 const editorPanel = document.querySelector('.editor-panel');
 const editorPanelWrapper = document.querySelector('.editor-panel-wrapper');
 const sidebar = document.querySelector('.sidebar');
@@ -8990,6 +8996,47 @@ function updateWriterHomeSurface() {
   });
 }
 
+function buildCurrentAuthoringSurfacesProjection() {
+  return buildAuthoringSurfacesProjection({
+    projectId: currentProjectId,
+    activeDocumentId: currentDocumentId || '',
+    activeDocumentKind: currentDocumentKind || '',
+    activeDocumentTitle: currentDocumentTitle || '',
+    mode: currentMode,
+    leftTab: currentLeftTab,
+    rightTab: currentRightTab,
+    flowModeActive: flowModeState.active === true,
+    localDirty,
+    wordCount: countAuthoringSurfaceWords(getPlainText()),
+    toolbarVisibleItemCount: toolbarTunableItems.length,
+    toolbarState: toolbarTunableItems.length ? 'ready' : 'empty',
+    notesState: notesWorkspaceState.state,
+    notesCounts: notesWorkspaceState.counts,
+    searchState: projectSearchState.state,
+    searchCounts: projectSearchState.counts,
+    reviewState: reviewSurfaceState?.status || reviewSurfaceState?.state || 'empty',
+  });
+}
+
+function updateAuthoringSurfacesSurface() {
+  if (!(authoringSurfacesHost instanceof HTMLElement)) return;
+  renderAuthoringSurfacesSurface(authoringSurfacesHost, buildCurrentAuthoringSurfacesProjection());
+}
+
+function syncVisibleAuthoringSurfacesSurface() {
+  if (!(authoringSurfacesHost instanceof HTMLElement) || authoringSurfacesHost.hidden === true) return;
+  updateAuthoringSurfacesSurface();
+}
+
+function hideAuthoringSurfacesSurface() {
+  authoringSurfacesHost?.setAttribute('hidden', '');
+}
+
+function showAuthoringSurfacesSurface() {
+  updateAuthoringSurfacesSurface();
+  authoringSurfacesHost?.removeAttribute('hidden');
+}
+
 function hideWriterHomeSurface() {
   writerHomeSurface?.classList.add('hidden');
 }
@@ -8998,6 +9045,7 @@ function showWriterHomeSurface() {
   hideManualMapPlanWorkspace();
   hideNotesWorkspace();
   hideProjectSearchWorkspace();
+  hideAuthoringSurfacesSurface();
   editorPanel?.classList.remove('active');
   mainContent?.classList.remove('main-content--editor');
   emptyState?.classList.remove('hidden');
@@ -9014,6 +9062,7 @@ function showEditorPanelFor(title) {
   editorPanel?.classList.add('active');
   hideWriterHomeSurface();
   currentDocumentTitle = typeof title === 'string' ? title.trim() : '';
+  showAuthoringSurfacesSurface();
   mainContent?.classList.add('main-content--editor');
   emptyState?.classList.add('hidden');
   updateMetaVisibility();
@@ -9043,6 +9092,7 @@ function collapseSelection() {
   hideManualMapPlanWorkspace();
   hideNotesWorkspace();
   hideProjectSearchWorkspace();
+  hideAuthoringSurfacesSurface();
   editorPanel?.classList.remove('active');
   mainContent?.classList.remove('main-content--editor');
   metaPanel?.classList.add('is-hidden');
@@ -11268,6 +11318,7 @@ async function refreshNotesWorkspace(options = {}) {
 function showNotesWorkspace() {
   hideManualMapPlanWorkspace();
   hideWriterHomeSurface();
+  hideAuthoringSurfacesSurface();
   notesWorkspace?.removeAttribute('hidden');
   notesWorkspace?.classList.add('is-active');
   editorPanel?.classList.remove('active');
@@ -11290,6 +11341,7 @@ function hideNotesWorkspace() {
 function showProjectSearchWorkspace() {
   hideManualMapPlanWorkspace();
   hideWriterHomeSurface();
+  hideAuthoringSurfacesSurface();
   projectSearchWorkspace?.removeAttribute('hidden');
   projectSearchWorkspace?.classList.add('is-active');
   editorPanel?.classList.remove('active');
@@ -11315,6 +11367,7 @@ function showManualMapPlanWorkspace() {
   hideNotesWorkspace();
   hideProjectSearchWorkspace();
   hideWriterHomeSurface();
+  hideAuthoringSurfacesSurface();
   manualMapPlanWorkspace.removeAttribute('hidden');
   manualMapPlanWorkspace.classList.add('is-active');
   editorPanel?.classList.remove('active');
@@ -11927,6 +11980,7 @@ function applyLeftTab(tab) {
   if (tab === 'search') {
     renderSearchResults(leftSearchInput ? leftSearchInput.value : '');
   }
+  syncVisibleAuthoringSurfacesSurface();
 }
 
 function ensureCommandsOpenerInRightInspectorSurface() {
@@ -12163,6 +12217,7 @@ function applyRightTab(tab) {
   }
   syncInspectorStateSurface();
   syncToolbarShellState();
+  syncVisibleAuthoringSurfacesSurface();
 }
 
 function normalizeSceneHistoryReadModel(result = {}, sequence = sceneHistoryState.sequence) {
@@ -17018,6 +17073,7 @@ function setReviewSurfaceState(nextState = {}, options = {}) {
     reviewSurfaceExactTextApplyTransientState = null;
   }
   renderReviewSurface();
+  syncVisibleAuthoringSurfacesSurface();
   return reviewSurfaceState;
 }
 
@@ -17499,6 +17555,7 @@ function applyMode(mode) {
   syncLayoutPreviewVisibility();
   updateInspectorSnapshot();
   syncToolbarShellState();
+  syncVisibleAuthoringSurfacesSurface();
   if (mode === 'plan') {
     showManualMapPlanWorkspace();
   } else if (manualMapPlanWorkspace instanceof HTMLElement && manualMapPlanWorkspace.hidden !== true) {
@@ -18815,6 +18872,7 @@ function updateWordCount(textOverride = null) {
   if (count > 20000) {
     updatePerfHintText('large document');
   }
+  syncVisibleAuthoringSurfacesSurface();
 }
 
 function scheduleWordCountRefresh(text = null) {
@@ -18932,6 +18990,7 @@ function markAsModified() {
   updateSaveStateText('unsaved');
   updatePerfHintText('typing');
   updateInspectorSnapshot();
+  syncVisibleAuthoringSurfacesSurface();
   scheduleAutoSave();
 }
 
@@ -20251,8 +20310,22 @@ function handleUiAction(action) {
         updateStatusText('Открыта текущая сцена');
       }
       return true;
+    case 'open-authoring-write':
+      applyMode('write');
+      if (currentDocumentId || currentDocumentTitle) {
+        showEditorPanelFor(currentDocumentTitle || 'Текущая сцена');
+      } else {
+        showWriterHomeSurface();
+      }
+      return true;
     case 'open-flow-mode':
       void dispatchUiCommand(EXTRA_COMMAND_IDS.INSERT_FLOW_OPEN);
+      return true;
+    case 'open-authoring-notes':
+      applyLeftTab('notes');
+      return true;
+    case 'open-authoring-search':
+      applyLeftTab('search');
       return true;
     case 'save':
       commitSpatialLayoutState(currentProjectId);

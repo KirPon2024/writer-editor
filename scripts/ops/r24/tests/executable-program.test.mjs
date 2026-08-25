@@ -315,7 +315,7 @@ test('PlanState persists the full 109-node denominator without unreconciled DONE
 test('scheduler selection receipt is bound to the real full graph rather than a fixture', () => {
   const planState = readJsonBounded(PLAN_STATE_PATH);
   const receipt = buildSelectionReceiptOnFullGraph({
-    now: '2026-08-22T23:22:16Z',
+    now: '2026-08-25T18:24:00Z',
     planState,
   });
   const { program } = loadExecutableProgram();
@@ -337,12 +337,12 @@ test('scheduler selection receipt is bound to the real full graph rather than a 
   assert.equal(receipt.identityRoles.postmergeSha, null);
   assert.equal(receipt.sourceOfTruthPath, 'docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json');
   assert.equal(receipt.selectedKind, 'NODE');
-  assert.equal(receipt.selectedId, 'WP-300_WRITER_HOME');
+  assert.equal(receipt.selectedId, 'WP-301_AUTHORING_SURFACES');
   assert.equal(receipt.verdict, 'SELECTED');
   assert.deepEqual(receipt.reasons, ['SUPERVISED_HANDOFF_ONLY_CANDIDATE']);
   assert.equal(receipt.selectedId === null || nodeIds.has(receipt.selectedId), true);
   assert.equal(receipt.readySet.every((id) => nodeIds.has(id)), true);
-  assert.deepEqual(receipt.readySet, ['WP-300_WRITER_HOME']);
+  assert.deepEqual(receipt.readySet, ["WP-301_AUTHORING_SURFACES"]);
 });
 
 test('scheduler refuses a plan state not committed at the evaluation head', () => {
@@ -351,7 +351,7 @@ test('scheduler refuses a plan state not committed at the evaluation head', () =
   stale.revision += 1;
   assert.throws(
     () => buildSelectionReceiptOnFullGraph({
-      now: '2026-08-22T23:22:16Z',
+      now: '2026-08-25T18:24:00Z',
       planState: stale,
     }),
     (e) => e.code === 'E_R24_SELECTION_STATE_NOT_AT_EVALUATION_HEAD',
@@ -359,7 +359,7 @@ test('scheduler refuses a plan state not committed at the evaluation head', () =
 });
 
 test('CLI validation receipt reports PASS on the committed SOT only', () => {
-  const receipt = validateCommittedR24Sot({ now: '2026-08-22T23:22:16Z' });
+  const receipt = validateCommittedR24Sot({ now: '2026-08-25T18:24:00Z' });
   assert.equal(receipt.verdict, 'PASS');
   assert.equal(receipt.programDigest, EXPECTED_PROGRAM_DIGEST);
   assert.equal(receipt.missionDigest, EXPECTED_MISSION_DIGEST);

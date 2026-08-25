@@ -1,0 +1,84 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-WP-205-PATH-AND-TEXT-CONTRACT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-205_PATH_AND_TEXT",
+  "attemptId": "ATTEMPT-WP205-20260825",
+  "authorityEpoch": "R24-WP205-BASE-497D367A",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "7ce7e659e2feab39336f19706d07fd4b171cf946",
+    "treeSha": "ae96422055d408f544c34d8fd75017968626c805"
+  },
+  "claim": {
+    "type": "WP205_ACCEPTANCE_AND_AUTHORITY_CONTRACT",
+    "ceiling": "WP205_NODE_ONLY_IN_MEMORY_TEXT_OPERATION_PLANS_NO_USER_DOCUMENT_OR_SYSTEM_CLIPBOARD_MUTATION_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-wp205-contract",
+    "evidenceClass": "CONTRACT",
+    "denominator": 18,
+    "passed": 18,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-205-PATH-AND-TEXT-MODEL"
+    ],
+    "predecessorReceiptDigest": "6704fa38495c9bf70b1515b38af4e98d620cafead9ff7f6ae92ff9641a0e6350"
+  },
+  "createdAt": "2026-08-25T09:25:00Z",
+  "actor": "codex/r24-wp205-path-and-text-v1-20260825",
+  "artifact": {
+    "envelopeId": "ENV-R24-WP-205_PATH_AND_TEXT",
+    "acceptanceId": "ACC-R24-WP-205_PATH_AND_TEXT",
+    "requirementId": "REQ-R24-WP-205_PATH_AND_TEXT",
+    "requiredOutcome": "Path-scoped Unicode text command planning, search/replace and digest-bound undo without renderer, file or system clipboard bypass",
+    "mutationAuthority": "WRITER_TRUTH_FOUNDATION_BOUNDED_CONTOUR",
+    "stateOwner": "PRODUCT_CORE_AUTHORITY",
+    "ownerGate": null,
+    "contractLaws": [
+      "all paths are absolute normalized and validated through SEC0 no-follow capability before text planning",
+      "path alias and case drift fail closed before operation planning",
+      "source and replacement text must be well-formed Unicode",
+      "range boundaries must land on T0 grapheme coordinates",
+      "deterministic folded search maps only offsets that preserve exact source boundaries",
+      "length-changing unmappable fold matches fail closed",
+      "IME-active composition blocks mutation planning",
+      "clipboard input accepts only plain text and rejects html payloads",
+      "system clipboard mutation is never performed",
+      "undo receipt is memory-only and digest-bound to the exact target text",
+      "undo automatic apply remains false",
+      "stale target hash refuses undo application",
+      "operation plan records rendererBypass false",
+      "operation plan records liveFileWrite false",
+      "no user document is mutated",
+      "one path+text contour does not certify later entitlement or Writer UI nodes",
+      "all claims remain bound to exact PR and merge SHAs",
+      "the R2.4 program is not marked DONE"
+    ],
+    "forbidden": [
+      "USER_DOCUMENT_MUTATION",
+      "LIVE_FILE_WRITE",
+      "SYSTEM_CLIPBOARD_MUTATION",
+      "RENDERER_BYPASS",
+      "AUTOMATIC_UNDO_APPLY",
+      "DEPENDENCY_ADOPTION",
+      "SAFE_APPLY_EXPANSION",
+      "SECOND_WRITER_OR_CONTOUR"
+    ],
+    "identityRoles": {
+      "implementationSourceSha": "7ce7e659e2feab39336f19706d07fd4b171cf946",
+      "evaluationHeadSha": "7ce7e659e2feab39336f19706d07fd4b171cf946",
+      "evaluationTreeSha": "ae96422055d408f544c34d8fd75017968626c805",
+      "implementationPrHeadSha": null,
+      "implementationMergeSha": null,
+      "postmergeSha": null
+    }
+  }
+}

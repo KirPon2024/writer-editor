@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-WP-205-PATH-AND-TEXT-MODEL",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-205_PATH_AND_TEXT",
+  "attemptId": "ATTEMPT-WP205-20260825",
+  "authorityEpoch": "R24-WP205-BASE-497D367A",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "7ce7e659e2feab39336f19706d07fd4b171cf946",
+    "treeSha": "ae96422055d408f544c34d8fd75017968626c805"
+  },
+  "claim": {
+    "type": "WP205_FAIL_CLOSED_PATH_TEXT_INTEGRITY_MODEL",
+    "ceiling": "WP205_NODE_ONLY_IN_MEMORY_TEXT_OPERATION_PLANS_NO_USER_DOCUMENT_OR_SYSTEM_CLIPBOARD_MUTATION_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-wp205-model",
+    "evidenceClass": "MODEL",
+    "denominator": 12,
+    "passed": 12,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [],
+    "predecessorReceiptDigest": "6704fa38495c9bf70b1515b38af4e98d620cafead9ff7f6ae92ff9641a0e6350"
+  },
+  "createdAt": "2026-08-25T09:25:00Z",
+  "actor": "codex/r24-wp205-path-and-text-v1-20260825",
+  "artifact": {
+    "classification": "PARTIAL_AT_ADMISSION_SEC0_AND_T0_PRIMITIVES_EXISTED_BUT_NO_SINGLE_PATH_TEXT_INTEGRITY_RECEIPT",
+    "identityRoles": {
+      "implementationSourceSha": "7ce7e659e2feab39336f19706d07fd4b171cf946",
+      "evaluationHeadSha": "7ce7e659e2feab39336f19706d07fd4b171cf946",
+      "evaluationTreeSha": "ae96422055d408f544c34d8fd75017968626c805",
+      "implementationPrHeadSha": null,
+      "implementationMergeSha": null,
+      "postmergeSha": null
+    },
+    "outcomeMatrix": [
+      {
+        "outcome": "no-follow SEC0 path capability binding",
+        "classification": "ALREADY_IMPLEMENTED"
+      },
+      {
+        "outcome": "T0 grapheme and deterministic fold coordinate law",
+        "classification": "ALREADY_IMPLEMENTED"
+      },
+      {
+        "outcome": "fail-closed path plus text command operation plan",
+        "classification": "MISSING_AT_ADMISSION_IMPLEMENTED_BY_WP205"
+      },
+      {
+        "outcome": "digest-bound memory-only undo receipt",
+        "classification": "MISSING_AT_ADMISSION_IMPLEMENTED_BY_WP205"
+      },
+      {
+        "outcome": "plain-text clipboard projection without system clipboard mutation",
+        "classification": "MISSING_AT_ADMISSION_IMPLEMENTED_BY_WP205"
+      },
+      {
+        "outcome": "IME composition and unmappable fold refusal",
+        "classification": "MISSING_AT_ADMISSION_IMPLEMENTED_BY_WP205"
+      },
+      {
+        "outcome": "live user document mutation, renderer bypass or system clipboard write",
+        "classification": "MISSING_FORBIDDEN_OUTSIDE_WP205_AUTHORITY"
+      }
+    ],
+    "compositionOrder": [
+      "validate no-follow path capability",
+      "validate source text well-formedness",
+      "map search and range coordinates through grapheme/fold law",
+      "compile a digest-bound proposed edit plan",
+      "compile a memory-only undo entry with target hash guard",
+      "emit no filesystem write and no system clipboard mutation"
+    ],
+    "artifactDigests": [
+      {
+        "path": "src/core/path-text-integrity-v1.mjs",
+        "sha256": "1062b7a4f9d0f2a1c9a7e61b4f3f08fd785d8ef6b383ce1e8bdcf975b230bcfe"
+      }
+    ],
+    "residualRisks": [
+      "WP205 returns operation plans and receipts only; no live editor surface is wired here.",
+      "Storage adoption, user migration, destructive file action, SAFE_APPLY, release, signing, cloud and AI authority remain out of scope."
+    ]
+  }
+}

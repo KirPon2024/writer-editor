@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-WP-205-PATH-AND-TEXT-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-205_PATH_AND_TEXT",
+  "attemptId": "ATTEMPT-WP205-20260825",
+  "authorityEpoch": "R24-WP205-BASE-497D367A",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "7ce7e659e2feab39336f19706d07fd4b171cf946",
+    "treeSha": "ae96422055d408f544c34d8fd75017968626c805"
+  },
+  "claim": {
+    "type": "WP205_LOCAL_EXACT_IMPLEMENTATION_SOURCE_GREEN",
+    "ceiling": "WP205_NODE_ONLY_IN_MEMORY_TEXT_OPERATION_PLANS_NO_USER_DOCUMENT_OR_SYSTEM_CLIPBOARD_MUTATION_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-wp205-exact-head",
+    "evidenceClass": "INDEPENDENT_EXACT_HEAD",
+    "denominator": 1059,
+    "passed": 1059,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-205-PATH-AND-TEXT-MUTANTS"
+    ],
+    "predecessorReceiptDigest": "6704fa38495c9bf70b1515b38af4e98d620cafead9ff7f6ae92ff9641a0e6350"
+  },
+  "createdAt": "2026-08-25T09:25:00Z",
+  "actor": "codex/r24-wp205-path-and-text-v1-20260825",
+  "artifact": {
+    "identityRoles": {
+      "implementationSourceSha": "7ce7e659e2feab39336f19706d07fd4b171cf946",
+      "evaluationHeadSha": "7ce7e659e2feab39336f19706d07fd4b171cf946",
+      "evaluationTreeSha": "ae96422055d408f544c34d8fd75017968626c805",
+      "implementationPrHeadSha": null,
+      "implementationMergeSha": null,
+      "postmergeSha": null
+    },
+    "focusedCommand": "node --test test/unit/r24-wp205-path-and-text.test.mjs test/unit/r24-wp205-path-and-text-physics.test.mjs test/unit/r24-wp205-path-and-text-mutants.test.mjs",
+    "focusedCounts": {
+      "pass": 9,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "affectedChain": {
+      "sec0": {
+        "pass": 4,
+        "fail": 0
+      },
+      "t0": {
+        "pass": 10,
+        "fail": 0
+      },
+      "wp205": {
+        "pass": 9,
+        "fail": 0,
+        "mutantsKilled": 7,
+        "mutantsSurvived": 0
+      }
+    },
+    "fullRtk": {
+      "pass": 1059,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "exitCode": 0,
+      "processGroupCleanup": "RTK_PROCESS_GROUP_CLEAN",
+      "leaseCleanupOk": true
+    },
+    "discardedToolingAttempt": {
+      "result": "NOT_EVIDENCE_DIRTY_WORKTREE_ALLOWLIST_DIAGNOSTIC_BEFORE_COMMIT",
+      "implementationAssertionFailure": false,
+      "recovery": "clean exact-head full RTK rerun at commit 7ce7e659 passed 1059/1059 before push"
+    },
+    "ossPolicy": "PASS",
+    "guardrails": "PASS",
+    "diffCheck": "PASS",
+    "docsClaimLint": {
+      "filesWithClaims": 32,
+      "stampCount": 203,
+      "verdict": "PASS_BEFORE_WP205_EVIDENCE_ADDITION"
+    },
+    "deliveryState": "MERGED_POLICY_PR_1685_EXACT_MAIN_POSTMERGE_GREEN_BEFORE_CLOSURE_BINDING",
+    "nonClaims": [
+      "This is implementation-source evidence plus exact PR-head CI evidence; PlanState closure is recorded by the closure addendum.",
+      "No live file write, user document mutation, renderer bypass, system clipboard mutation or automatic undo apply is added.",
+      "WP206 and later nodes remain independently graph-gated."
+    ]
+  }
+}

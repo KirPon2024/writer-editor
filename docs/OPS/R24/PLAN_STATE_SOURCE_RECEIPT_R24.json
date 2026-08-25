@@ -1,15 +1,15 @@
 {
   "schemaVersion": "yalken.r24.plan-state-source-receipt.v1",
-  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPLAYABLE_WP204_EXACT_POSTMERGE_CLOSURE_NO_PROGRAM_DONE",
-  "generatedAtUtc": "2026-08-25T00:37:30Z",
+  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPLAYABLE_WP205_EXACT_POSTMERGE_CLOSURE_NO_PROGRAM_DONE",
+  "generatedAtUtc": "2026-08-25T09:25:00Z",
   "executableProgramPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
   "executableProgramDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
   "planStatePath": "docs/OPS/R24/PLAN_STATE_R24.json",
   "currentPlanState": {
-    "sha256": "95aec0beea6bd69eceabe3ad9ce9a7f120f30bee3e6d26d6147e69613ebc87dc",
+    "sha256": "ba6c5b0a8898bd9b4bb39cd003430e5b332b6317069971f4f263d538ff4d22d5",
     "schemaVersion": "yalken.plan-state.r24.v2",
-    "revision": 199,
-    "fencingCounter": 35,
+    "revision": 206,
+    "fencingCounter": 36,
     "replayBaseline": {
       "classification": "ADOPTED_PRE_V2_UNREPLAYABLE_HISTORY",
       "revision": 94,
@@ -19,7 +19,7 @@
       "unreplayableContourCount": 10,
       "syntheticTransitionCount": 0
     },
-    "transitionHistoryCount": 75
+    "transitionHistoryCount": 80
   },
   "externalPlanState": {
     "path": "/Volumes/T7-Secure/worktrees/yalken/_r24-mission/PLAN_STATE_R24.json",
@@ -99,14 +99,14 @@
   },
   "nonClaims": [
     "R24 test files are implementation evidence candidates only and are not converted to DONE without durable terminal receipts.",
-    "This source receipt accounts for repo-local closures through WP204 and does not mark the full 109-node program DONE.",
-    "WP204 certifies exact composition of selected ledger, inbox/outbox, project transaction, migration history and lifecycle recovery primitives.",
-    "WP205 and all later work packages remain independently graph-gated.",
-    "No dependency adoption, runtime storage attachment or path change, automatic publication or checkpoint deletion, user migration, destructive action, user document mutation, SAFE_APPLY, release, signing, cloud or AI authority is added.",
+    "This source receipt accounts for repo-local closures through WP205 and does not mark the full 109-node program DONE.",
+    "WP205 certifies fail-closed path and Unicode text operation planning, memory undo hash guarding and plain-text clipboard projection without live user-document mutation.",
+    "WP206 and all later work packages remain independently graph-gated.",
+    "No dependency adoption, runtime storage attachment or path change, system clipboard mutation, live file write, user migration, destructive action, user document mutation, SAFE_APPLY, release, signing, cloud or AI authority is added.",
     "Parked V2 remains suspended until selected by the executable graph."
   ],
   "discoveredR24TestFiles": {
-    "count": 110,
+    "count": 113,
     "treatment": "NOT_DELIVERY_STATE_WITHOUT_TERMINAL_RECEIPT",
     "basenames": [
       "r24-a0-atlas-incremental-equivalence.test.js",
@@ -218,11 +218,14 @@
       "r24-wp203-storage-selection.test.js",
       "r24-wp204-lifecycle-recovery-mutants.test.js",
       "r24-wp204-lifecycle-recovery-physics.test.js",
-      "r24-wp204-lifecycle-recovery.test.js"
+      "r24-wp204-lifecycle-recovery.test.js",
+      "r24-wp205-path-and-text-mutants.test.mjs",
+      "r24-wp205-path-and-text-physics.test.mjs",
+      "r24-wp205-path-and-text.test.mjs"
     ]
   },
   "repoLocalPlanStateClosures": {
-    "doneContourCount": 24,
+    "doneContourCount": 25,
     "closures": [
       {
         "id": "SEC0_PATH_CAPABILITY",
@@ -730,8 +733,29 @@
           "ES-R24-WP-204-LIFECYCLE-RECOVERY-CLAIM-BINDINGS"
         ],
         "deliveryState": "CURRENT_MAIN_1518C299_EXACT_HEAD_WP204_LIFECYCLE_RECOVERY_POSTMERGE_AND_SURVIVOR_GREEN_NO_LIVE_STORAGE_ATTACHMENT_NO_AUTOMATIC_PUBLICATION_OR_GC_NO_PROGRAM_DONE"
+      },
+      {
+        "id": "WP-205_PATH_AND_TEXT",
+        "state": "DONE",
+        "previousState": "POSTMERGE_VERIFIED",
+        "attemptId": "ATTEMPT-WP205-20260825",
+        "updatedAt": "2026-08-25T09:25:00.005Z",
+        "headSha": "d84b1b00df08a8f0576ec4fc50a7a169f1fbb858",
+        "source": "R24_WP205_PATH_AND_TEXT_CLOSURE_V1",
+        "terminalReceiptPath": "docs/OPS/R24/CTR-R24-WP-205-PATH-AND-TEXT.json",
+        "evidenceStampIds": [
+          "ES-R24-WP-205-PATH-AND-TEXT-MODEL",
+          "ES-R24-WP-205-PATH-AND-TEXT-CONTRACT",
+          "ES-R24-WP-205-PATH-AND-TEXT-INTEGRATION",
+          "ES-R24-WP-205-PATH-AND-TEXT-MUTANTS",
+          "ES-R24-WP-205-PATH-AND-TEXT-EXACT-HEAD",
+          "ES-R24-WP-205-PATH-AND-TEXT-POSTMERGE-EXACT-HEAD",
+          "ES-R24-WP-205-PATH-AND-TEXT-SURVIVOR-AUDIT",
+          "ES-R24-WP-205-PATH-AND-TEXT-CLAIM-BINDINGS"
+        ],
+        "deliveryState": "CURRENT_MAIN_D84B1B00_EXACT_HEAD_WP205_PATH_AND_TEXT_POSTMERGE_AND_SURVIVOR_GREEN_NO_USER_DOCUMENT_OR_SYSTEM_CLIPBOARD_MUTATION_NO_PROGRAM_DONE"
       }
     ]
   },
-  "planStateRevision": 199
+  "planStateRevision": 206
 }

@@ -1,13 +1,13 @@
 {
   "schemaVersion": "ClaimBindingV1",
-  "stampId": "ES-R24-WP-204-LIFECYCLE-RECOVERY-CLAIM-BINDINGS",
-  "contourId": "WP-204_LIFECYCLE_RECOVERY",
+  "stampId": "ES-R24-WP-205-PATH-AND-TEXT-CLAIM-BINDINGS",
+  "contourId": "WP-205_PATH_AND_TEXT",
   "evidenceClass": "CONTRACT",
   "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
-  "headSha": "b02d3ffa21471331dab688c29f49be82f76c0a58",
-  "originMainSha": "1518c29951f40aacbf61441c7e19a353a70234c4",
-  "generatedAtUtc": "2026-08-25T00:40:00Z",
-  "oracle": "strict ClaimBindingV1 exact-hash binding for replayable WP204 PlanState closure, exact-main postmerge evidence, survivor audit, source receipt and graph-derived scheduler selection",
+  "headSha": "9f391ee139c2a98f5b80151c965d204461976b6c",
+  "originMainSha": "d84b1b00df08a8f0576ec4fc50a7a169f1fbb858",
+  "generatedAtUtc": "2026-08-25T09:28:00Z",
+  "oracle": "strict ClaimBindingV1 exact-hash binding for replayable WP205 PlanState closure, exact-main postmerge evidence, survivor audit, source receipt and graph-derived scheduler no-eligible receipt",
   "claimBindings": [
     {
       "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
@@ -31,8 +31,8 @@
       ]
     },
     {
-      "filePath": "docs/OPS/R24/CTR-R24-WP-204-LIFECYCLE-RECOVERY.json",
-      "sha256": "6704fa38495c9bf70b1515b38af4e98d620cafead9ff7f6ae92ff9641a0e6350",
+      "filePath": "docs/OPS/R24/CTR-R24-WP-205-PATH-AND-TEXT.json",
+      "sha256": "b619de06f361a64272b8f703cd6a52ecfd9affe8ed5fb28d8f03f7a2d8759bdc",
       "claimTerms": [
         "PASS"
       ]
@@ -43,14 +43,14 @@
       "path": "package.json",
       "sha256": "559f106ce1d5d3a5cbfd4bbc3800b51a9c6144f380630624cc541182cd6bcdbf",
       "terms": [
-        "maintained test:r24-wp204 package gate"
+        "maintained test:rtk and WP205 node gate"
       ]
     },
     {
       "path": ".github/workflows/rtk-required.yml",
       "sha256": "c6d80368648147cbe70526bebf86ab4cdf4eda92520269da93addbbf350a1d82",
       "terms": [
-        "exact-head R2.4 WP204 workflow gate"
+        "exact-head R2.4 WP205 workflow gate"
       ]
     },
     {
@@ -61,40 +61,40 @@
       ]
     },
     {
-      "path": "src/core/lifecycle-recovery-v1.cjs",
-      "sha256": "57cf18f554b9b478ba1509860013cb2d54d9660f15b69ea56e2da830bdac0506",
+      "path": "src/core/path-text-integrity-v1.mjs",
+      "sha256": "1062b7a4f9d0f2a1c9a7e61b4f3f08fd785d8ef6b383ce1e8bdcf975b230bcfe",
       "terms": [
-        "selected-ledger lifecycle recovery composition"
+        "path capability plus Unicode text operation integrity composer"
       ]
     },
     {
-      "path": "test/unit/r24-wp204-lifecycle-recovery.test.js",
-      "sha256": "6dbecf36d6a64db748cfe9d3c88126ba326af8990c0502d13a4ae2670927b86d",
+      "path": "test/unit/r24-wp205-path-and-text.test.mjs",
+      "sha256": "e2248da245f948c451a8eafeee82e80605074e2001ac306ce37869e25266a048",
       "terms": [
-        "WP204 contract and negative tests"
+        "WP205 contract and negative tests"
       ]
     },
     {
-      "path": "test/unit/r24-wp204-lifecycle-recovery-physics.test.js",
-      "sha256": "d8e2df9b3c5e0ec6fc2c18988ce384c84c53125a98f4fe24d15dfe8e9e12ae64",
+      "path": "test/unit/r24-wp205-path-and-text-physics.test.mjs",
+      "sha256": "5dc41dba99739475aa2d2ac45737fd994ccf3210c73f96fced548c3dfc13c31c",
       "terms": [
-        "WP204 physical crash, torn artifact and budget tests"
+        "WP205 no-follow path, undo recovery and large text physical tests"
       ]
     },
     {
-      "path": "test/unit/r24-wp204-lifecycle-recovery-mutants.test.js",
-      "sha256": "bdfb104479ceecdaa4911f0578e130e9298e2a1fb56263a809938edb0e9dfd1f",
+      "path": "test/unit/r24-wp205-path-and-text-mutants.test.mjs",
+      "sha256": "a6c9efc1b53b8090fe45da782a7fc5e947b7fe25a971f44007c58ee6ed808eeb",
       "terms": [
-        "seven named WP204 implementation mutants killed"
+        "seven named WP205 implementation mutants killed"
       ]
     }
   ],
   "executedEvidence": [
     {
-      "command": "npm run test:r24-wp204",
+      "command": "node --test test/unit/r24-wp205-path-and-text.test.mjs test/unit/r24-wp205-path-and-text-physics.test.mjs test/unit/r24-wp205-path-and-text-mutants.test.mjs",
       "verdict": "PASS",
       "tests": {
-        "pass": 7,
+        "pass": 9,
         "fail": 0
       },
       "mutants": {
@@ -109,7 +109,7 @@
         "pass": 1059,
         "fail": 0
       },
-      "requiredDisposition": "Exact evaluation source 1ee7bba9 is green with clean process-group and lease cleanup after fail-closed sandbox attempt quarantine."
+      "requiredDisposition": "Exact evaluation source 7ce7e659 is green with clean process-group and lease cleanup after dirty-worktree allowlist diagnostic was discarded."
     },
     {
       "command": "GitHub exact PR-head required checks",
@@ -122,7 +122,7 @@
         "killed": 7,
         "survived": 0
       },
-      "requiredDisposition": "PR head 68243823 has green RTK, OSS, Ubuntu and Windows parity."
+      "requiredDisposition": "PR head 7ce7e659 has green RTK, OSS, Ubuntu and Windows parity."
     },
     {
       "command": "GitHub exact-main postmerge RTK and OSS",
@@ -131,7 +131,7 @@
         "pass": 1059,
         "fail": 0
       },
-      "requiredDisposition": "Merge 1518c299 is terminal green in exact-main RTK run 32792821615 and OSS run 32792821595."
+      "requiredDisposition": "Merge d84b1b00 is terminal green in exact-main RTK run 32830060696 and OSS run 32830060729."
     },
     {
       "command": "node scripts/ops/r24/docs-claim-lint.mjs and node --test scripts/ops/r24/tests/docs-claim-lint.test.mjs",
@@ -140,14 +140,14 @@
         "pass": 9,
         "fail": 0
       },
-      "requiredDisposition": "Strict ClaimBindingV1 lint passes and all nine negative schema mutants are rejected."
+      "requiredDisposition": "Strict ClaimBindingV1 lint passes and all negative schema mutants are expected to remain rejected after this binding refresh."
     }
   ],
   "nonClaims": [
-    "This binding closes only the bounded WP-204_LIFECYCLE_RECOVERY contour.",
-    "WP204 composes existing recovery primitives but does not attach a live storage path, publish effects automatically or delete checkpoints.",
+    "This binding closes only the bounded WP-205_PATH_AND_TEXT contour.",
+    "WP205 returns in-memory path/text operation plans and memory undo receipts; it does not mutate a live user document or system clipboard.",
+    "The scheduler receipt after WP205 closure is NO_ELIGIBLE_NODE because WP206 requires a separate ENTITLEMENT_SEMANTICS_ADR_OR_DENY owner gate.",
     "No dependency adoption, destructive storage action, user document mutation, SAFE_APPLY, release, signing, cloud or AI authority is added.",
-    "WP205 is selected for a later contour but is not admitted or started by this closure.",
     "It does not mark physical qualification, release readiness or the R2.4 program DONE."
   ]
 }

@@ -73,6 +73,11 @@ import {
   resolveLeftRailActiveReveal,
 } from './leftRailPresentationModel.mjs';
 import {
+  buildWriterHomeProjection,
+  countWriterHomeTextBlocks,
+} from '../core/writer-home-projection-v1.mjs';
+import { renderWriterHomeSurface } from './writerHomeSurface.mjs';
+import {
   applyNavigatorSelection,
   buildNavigatorSelectionDescriptor,
   createNavigatorSelectionState,
@@ -208,6 +213,7 @@ const warningStateElement = document.querySelector('[data-warning-state]');
 const perfHintElement = document.querySelector('[data-perf-hint]');
 const appLayout = document.querySelector('.app-layout');
 const emptyState = document.querySelector('.empty-state');
+const writerHomeSurface = document.querySelector('[data-writer-home]');
 const editorPanel = document.querySelector('.editor-panel');
 const editorPanelWrapper = document.querySelector('.editor-panel-wrapper');
 const sidebar = document.querySelector('.sidebar');
@@ -8945,11 +8951,68 @@ function updateSpatialLayoutForViewportChange() {
   applySpatialLayoutState(resolvedState, { persist: false, projectId: currentProjectId });
 }
 
+function getWriterHomeOnboardingStorageKey(projectId = currentProjectId) {
+  const normalizedProjectId = normalizeProjectId(projectId) || 'local-project';
+  return `writerHome:onboardingDismissed:${normalizedProjectId}`;
+}
+
+function isWriterHomeOnboardingDismissed() {
+  try {
+    return localStorage.getItem(getWriterHomeOnboardingStorageKey()) === 'true';
+  } catch {
+    return false;
+  }
+}
+
+function setWriterHomeOnboardingDismissed() {
+  try {
+    localStorage.setItem(getWriterHomeOnboardingStorageKey(), 'true');
+  } catch {}
+}
+
+function buildCurrentWriterHomeProjection() {
+  return buildWriterHomeProjection({
+    treeRoot,
+    projectId: currentProjectId,
+    activeDocumentId: currentDocumentId || '',
+    activeBlockCount: currentDocumentId ? countWriterHomeTextBlocks(getPlainText()) : null,
+    onboardingDismissed: isWriterHomeOnboardingDismissed(),
+  });
+}
+
+function updateWriterHomeSurface() {
+  if (!(writerHomeSurface instanceof HTMLElement)) return;
+  renderWriterHomeSurface(writerHomeSurface, buildCurrentWriterHomeProjection(), {
+    onDismissOnboarding: () => {
+      setWriterHomeOnboardingDismissed();
+      updateWriterHomeSurface();
+    },
+  });
+}
+
+function hideWriterHomeSurface() {
+  writerHomeSurface?.classList.add('hidden');
+}
+
+function showWriterHomeSurface() {
+  hideManualMapPlanWorkspace();
+  hideNotesWorkspace();
+  hideProjectSearchWorkspace();
+  editorPanel?.classList.remove('active');
+  mainContent?.classList.remove('main-content--editor');
+  emptyState?.classList.remove('hidden');
+  updateWriterHomeSurface();
+  requestAnimationFrame(() => {
+    if (mainContent) mainContent.scrollTop = 0;
+  });
+}
+
 function showEditorPanelFor(title) {
   hideManualMapPlanWorkspace();
   hideNotesWorkspace();
   hideProjectSearchWorkspace();
   editorPanel?.classList.add('active');
+  hideWriterHomeSurface();
   currentDocumentTitle = typeof title === 'string' ? title.trim() : '';
   mainContent?.classList.add('main-content--editor');
   emptyState?.classList.add('hidden');
@@ -8982,7 +9045,6 @@ function collapseSelection() {
   hideProjectSearchWorkspace();
   editorPanel?.classList.remove('active');
   mainContent?.classList.remove('main-content--editor');
-  emptyState?.classList.remove('hidden');
   metaPanel?.classList.add('is-hidden');
   if (inspectorEmptyState) inspectorEmptyState.hidden = false;
   metaEnabled = false;
@@ -8999,6 +9061,7 @@ function collapseSelection() {
   }
   updateInspectorSnapshot();
   renderMetadataInspectorState({ state: 'empty', unavailableReason: 'NO_ACTIVE_NODE' });
+  showWriterHomeSurface();
 }
 
 function updateMetaInputs() {
@@ -9907,6 +9970,7 @@ function renderTree({ revealActive = false, restoreEditorFocus = false } = {}) {
     renderOutlineList();
     renderSearchResults(leftSearchInput ? leftSearchInput.value : '');
     updateInspectorSnapshot();
+    updateWriterHomeSurface();
     return;
   }
   const list = document.createElement('ul');
@@ -9927,6 +9991,7 @@ function renderTree({ revealActive = false, restoreEditorFocus = false } = {}) {
   renderOutlineList();
   renderSearchResults(leftSearchInput ? leftSearchInput.value : '');
   updateInspectorSnapshot();
+  updateWriterHomeSurface();
 }
 
 async function loadTree() {
@@ -11202,6 +11267,7 @@ async function refreshNotesWorkspace(options = {}) {
 
 function showNotesWorkspace() {
   hideManualMapPlanWorkspace();
+  hideWriterHomeSurface();
   notesWorkspace?.removeAttribute('hidden');
   notesWorkspace?.classList.add('is-active');
   editorPanel?.classList.remove('active');
@@ -11223,6 +11289,7 @@ function hideNotesWorkspace() {
 
 function showProjectSearchWorkspace() {
   hideManualMapPlanWorkspace();
+  hideWriterHomeSurface();
   projectSearchWorkspace?.removeAttribute('hidden');
   projectSearchWorkspace?.classList.add('is-active');
   editorPanel?.classList.remove('active');
@@ -11247,6 +11314,7 @@ function showManualMapPlanWorkspace() {
   if (!(manualMapPlanWorkspace instanceof HTMLElement)) return;
   hideNotesWorkspace();
   hideProjectSearchWorkspace();
+  hideWriterHomeSurface();
   manualMapPlanWorkspace.removeAttribute('hidden');
   manualMapPlanWorkspace.classList.add('is-active');
   editorPanel?.classList.remove('active');
@@ -17434,7 +17502,11 @@ function applyMode(mode) {
   if (mode === 'plan') {
     showManualMapPlanWorkspace();
   } else if (manualMapPlanWorkspace instanceof HTMLElement && manualMapPlanWorkspace.hidden !== true) {
-    showEditorPanelFor(currentDocumentTitle || 'Yalken');
+    if (currentDocumentId || currentDocumentTitle) {
+      showEditorPanelFor(currentDocumentTitle || 'Yalken');
+    } else {
+      showWriterHomeSurface();
+    }
   }
 }
 
@@ -20492,7 +20564,7 @@ ensureCommandsOpenerInRightInspectorSurface();
 installNetworkGuard();
 void initializeCollabScopeLocal();
 initializeToolbarConfiguratorFoundation();
-showEditorPanelFor('Yalken');
+showWriterHomeSurface();
 updateWordCount();
 initializeFloatingToolbarSpacingMenu();
 initializeFloatingToolbarParagraphMenu();

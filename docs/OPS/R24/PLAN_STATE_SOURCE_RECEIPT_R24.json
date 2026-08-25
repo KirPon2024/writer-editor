@@ -1,25 +1,16 @@
 {
   "schemaVersion": "yalken.r24.plan-state-source-receipt.v1",
-  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPLAYABLE_WP207_EXACT_POSTMERGE_CLOSURE_NO_PROGRAM_DONE",
-  "generatedAtUtc": "2026-08-25T16:05:00Z",
+  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPLAYABLE_WP300_EXACT_POSTMERGE_CLOSURE_NO_PROGRAM_DONE",
+  "generatedAtUtc": "2026-08-25T18:22:10Z",
   "executableProgramPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
   "executableProgramDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
   "planStatePath": "docs/OPS/R24/PLAN_STATE_R24.json",
   "currentPlanState": {
-    "sha256": "bb93c8c7960e93d88c4fbe678a990a984c0442b92be02ed9413e1a8863734b81",
-    "schemaVersion": "yalken.plan-state.r24.v2",
-    "revision": 220,
-    "fencingCounter": 38,
-    "replayBaseline": {
-      "classification": "ADOPTED_PRE_V2_UNREPLAYABLE_HISTORY",
-      "revision": 94,
-      "fencingCounter": 20,
-      "contourStatesDigest": "cf7f9531eb361cdb1d6d90afdf0f72b89ef7ae2fc76d859d9a0f381fd3e31d52",
-      "sourceHeadSha": "64f577e415f475982a79e314c627dd5e59e50b73",
-      "unreplayableContourCount": 10,
-      "syntheticTransitionCount": 0
-    },
-    "transitionHistoryCount": 90
+    "path": "docs/OPS/R24/PLAN_STATE_R24.json",
+    "sha256": "5eee4857447cadaa6a199620b1c7308f658eb11e11f942dd8ccca105e2067f05",
+    "revision": 227,
+    "fencingCounter": 39,
+    "transitionHistoryCount": 95
   },
   "externalPlanState": {
     "path": "/Volumes/T7-Secure/worktrees/yalken/_r24-mission/PLAN_STATE_R24.json",
@@ -98,15 +89,13 @@
     "contourRowsPersisted": 109
   },
   "nonClaims": [
-    "R24 test files are implementation evidence candidates only and are not converted to DONE without durable terminal receipts.",
-    "This source receipt accounts for repo-local closures through WP207 and does not mark the full 109-node program DONE.",
-    "WP207 certifies only the bounded Writer Core refinement verdict under F0 DNA and WP206 safe-deny entitlement baseline.",
-    "WP300 and all later work packages remain independently graph-gated.",
-    "No visual readiness, physical macOS qualification, release readiness, pricing, business, cloud, dependency, live user-data, migration, destructive storage, user document, SAFE_APPLY, signing or AI authority is added.",
-    "Parked V2 remains suspended until selected by the executable graph."
+    "This source receipt accounts for repo-local closures through WP300 and does not mark the full 109-node program DONE.",
+    "WP300 certifies only the Writer Home derived surface and pathless projection at exact merged main 226d8c065c3fe3f5a3b6c02312f7f514d1b79f84.",
+    "WP301 and all later work packages remain independently graph-gated.",
+    "No release readiness, physical macOS qualification, signing, cloud, AI, dependency adoption, storage migration, destructive action, user Word/Drive mutation or SAFE_APPLY expansion is implied."
   ],
   "discoveredR24TestFiles": {
-    "count": 116,
+    "count": 117,
     "treatment": "NOT_DELIVERY_STATE_WITHOUT_TERMINAL_RECEIPT",
     "basenames": [
       "r24-a0-atlas-incremental-equivalence.test.js",
@@ -224,11 +213,12 @@
       "r24-wp205-path-and-text.test.mjs",
       "r24-wp206-safe-entitlement-baseline-mutants.test.js",
       "r24-wp206-safe-entitlement-baseline.test.js",
-      "r24-wp207-writer-refinement.test.js"
+      "r24-wp207-writer-refinement.test.js",
+      "r24-wp300-writer-home.test.mjs"
     ]
   },
   "repoLocalPlanStateClosures": {
-    "doneContourCount": 27,
+    "doneContourCount": 28,
     "closures": [
       {
         "id": "SEC0_PATH_CAPABILITY",
@@ -799,8 +789,29 @@
           "ES-R24-WP-207-WRITER-REFINEMENT-CLAIM-BINDINGS"
         ],
         "deliveryState": "CURRENT_MAIN_E952207A_EXACT_HEAD_WP207_WRITER_REFINEMENT_POSTMERGE_AND_SURVIVOR_GREEN_NO_PROGRAM_DONE"
+      },
+      {
+        "id": "WP-300_WRITER_HOME",
+        "state": "DONE",
+        "previousState": "POSTMERGE_VERIFIED",
+        "attemptId": "ATTEMPT-WP300-20260825",
+        "updatedAt": "2026-08-25T18:22:10.005Z",
+        "headSha": "226d8c065c3fe3f5a3b6c02312f7f514d1b79f84",
+        "source": "R24_WP300_WRITER_HOME_CLOSURE_V1",
+        "terminalReceiptPath": "docs/OPS/R24/CTR-R24-WP-300-WRITER-HOME.json",
+        "evidenceStampIds": [
+          "ES-R24-WP-300-WRITER-HOME-MODEL",
+          "ES-R24-WP-300-WRITER-HOME-CONTRACT",
+          "ES-R24-WP-300-WRITER-HOME-INTEGRATION",
+          "ES-R24-WP-300-WRITER-HOME-MUTANTS",
+          "ES-R24-WP-300-WRITER-HOME-EXACT-HEAD",
+          "ES-R24-WP-300-WRITER-HOME-POSTMERGE-EXACT-HEAD",
+          "ES-R24-WP-300-WRITER-HOME-SURVIVOR-AUDIT",
+          "ES-R24-WP-300-WRITER-HOME-CLAIM-BINDINGS"
+        ],
+        "deliveryState": "CURRENT_MAIN_226D8C06_EXACT_HEAD_WP300_WRITER_HOME_POSTMERGE_AND_SURVIVOR_GREEN_NO_PROGRAM_DONE"
       }
     ]
   },
-  "planStateRevision": 220
+  "planStateRevision": 227
 }

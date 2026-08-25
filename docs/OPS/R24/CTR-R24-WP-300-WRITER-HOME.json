@@ -1,0 +1,23 @@
+{
+  "receiptId": "CTR-R24-WP-300-WRITER-HOME",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-300_WRITER_HOME",
+  "attemptId": "ATTEMPT-WP300-20260825",
+  "authorityEpoch": "R24-WP300-BASE-E660306B",
+  "exactHeadSha": "226d8c065c3fe3f5a3b6c02312f7f514d1b79f84",
+  "mergeState": "MERGED",
+  "postmergeState": "PASS",
+  "survivorState": "PASS",
+  "evidenceStampIds": [
+    "ES-R24-WP-300-WRITER-HOME-MODEL",
+    "ES-R24-WP-300-WRITER-HOME-CONTRACT",
+    "ES-R24-WP-300-WRITER-HOME-INTEGRATION",
+    "ES-R24-WP-300-WRITER-HOME-MUTANTS",
+    "ES-R24-WP-300-WRITER-HOME-EXACT-HEAD",
+    "ES-R24-WP-300-WRITER-HOME-POSTMERGE-EXACT-HEAD",
+    "ES-R24-WP-300-WRITER-HOME-SURVIVOR-AUDIT",
+    "ES-R24-WP-300-WRITER-HOME-CLAIM-BINDINGS"
+  ],
+  "nextContourId": null,
+  "schemaVersion": "ContourTerminalReceiptV2"
+}

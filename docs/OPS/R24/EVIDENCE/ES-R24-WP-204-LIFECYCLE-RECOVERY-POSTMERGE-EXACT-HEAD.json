@@ -1,0 +1,113 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-WP-204-LIFECYCLE-RECOVERY-POSTMERGE-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-204_LIFECYCLE_RECOVERY",
+  "attemptId": "ATTEMPT-WP204-20260825",
+  "authorityEpoch": "R24-WP204-BASE-88C4E858",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "1518c29951f40aacbf61441c7e19a353a70234c4",
+    "treeSha": "19ec9e4112b4c0ef299836cf192b5dd5c90c7205"
+  },
+  "claim": {
+    "type": "WP204_EXACT_MAIN_POSTMERGE_REQUIRED_GATES",
+    "ceiling": "WP204_NODE_ONLY_LIFECYCLE_RECOVERY_NO_LIVE_STORAGE_ATTACHMENT_NO_AUTOMATIC_PUBLICATION_OR_GC_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "exact-main-wp204-required-gates",
+    "evidenceClass": "POSTMERGE",
+    "denominator": 1059,
+    "passed": 1059,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-204-LIFECYCLE-RECOVERY-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "58f1da4fdbae609274b120d70665688679e0a382678705facb6520defcaf1957"
+  },
+  "createdAt": "2026-08-25T00:37:30Z",
+  "actor": "codex/r24-wp204-postmerge-closure-v1-20260825",
+  "artifact": {
+    "identityRoles": {
+      "implementationSourceSha": "1ee7bba98e52cd9aade3e88bb9e40b4528a9a53c",
+      "evaluationHeadSha": "1ee7bba98e52cd9aade3e88bb9e40b4528a9a53c",
+      "evaluationTreeSha": "8a3a076777a63ade45bf5ad4780e5bfae5e03447",
+      "implementationPrHeadSha": "68243823194d4c727ab55ae7bec0b5804b7e2014",
+      "implementationMergeSha": "1518c29951f40aacbf61441c7e19a353a70234c4",
+      "postmergeSha": "1518c29951f40aacbf61441c7e19a353a70234c4"
+    },
+    "pr": {
+      "number": 1683,
+      "baseSha": "88c4e8583ba41bcc489f5d52d74ecbfb3a0095ee",
+      "prHeadSha": "68243823194d4c727ab55ae7bec0b5804b7e2014",
+      "mergeSha": "1518c29951f40aacbf61441c7e19a353a70234c4",
+      "mergedAt": "2026-08-25T00:14:37Z",
+      "prHeadTreeSha": "19ec9e4112b4c0ef299836cf192b5dd5c90c7205",
+      "mergeTreeSha": "19ec9e4112b4c0ef299836cf192b5dd5c90c7205",
+      "treeUnchangedFromPrHead": true
+    },
+    "requiredPrChecks": [
+      {
+        "name": "rtk-required",
+        "runId": 32791468577,
+        "jobId": 97633701579,
+        "headSha": "68243823194d4c727ab55ae7bec0b5804b7e2014",
+        "conclusion": "success"
+      },
+      {
+        "name": "oss-policy",
+        "runId": 32791468554,
+        "jobId": 97633701269,
+        "headSha": "68243823194d4c727ab55ae7bec0b5804b7e2014",
+        "conclusion": "success"
+      },
+      {
+        "name": "x1-runtime-parity (ubuntu-latest)",
+        "runId": 32791468543,
+        "jobId": 97633701648,
+        "headSha": "68243823194d4c727ab55ae7bec0b5804b7e2014",
+        "conclusion": "success"
+      },
+      {
+        "name": "x1-runtime-parity (windows-latest)",
+        "runId": 32791468543,
+        "jobId": 97633701385,
+        "headSha": "68243823194d4c727ab55ae7bec0b5804b7e2014",
+        "conclusion": "success"
+      }
+    ],
+    "postmergeChecks": [
+      {
+        "name": "rtk-required",
+        "runId": 32792821615,
+        "jobId": 97637749505,
+        "headSha": "1518c29951f40aacbf61441c7e19a353a70234c4",
+        "conclusion": "success"
+      },
+      {
+        "name": "OSS policy",
+        "runId": 32792821595,
+        "jobId": 97637749321,
+        "headSha": "1518c29951f40aacbf61441c7e19a353a70234c4",
+        "conclusion": "success"
+      }
+    ],
+    "fullRtk": {
+      "pass": 1059,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "residualRisks": [
+      "WP204 composes already merged recovery primitives through injected paths but does not attach a live storage path.",
+      "No automatic effect publication, checkpoint deletion, user migration, destructive storage action, SAFE_APPLY, release, signing, cloud or AI authority is added."
+    ]
+  }
+}

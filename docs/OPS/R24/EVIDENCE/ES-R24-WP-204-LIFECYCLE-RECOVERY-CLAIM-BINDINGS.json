@@ -1,0 +1,153 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-204-LIFECYCLE-RECOVERY-CLAIM-BINDINGS",
+  "contourId": "WP-204_LIFECYCLE_RECOVERY",
+  "evidenceClass": "CONTRACT",
+  "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
+  "headSha": "b02d3ffa21471331dab688c29f49be82f76c0a58",
+  "originMainSha": "1518c29951f40aacbf61441c7e19a353a70234c4",
+  "generatedAtUtc": "2026-08-25T00:40:00Z",
+  "oracle": "strict ClaimBindingV1 exact-hash binding for replayable WP204 PlanState closure, exact-main postmerge evidence, survivor audit, source receipt and graph-derived scheduler selection",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+      "sha256": "95aec0beea6bd69eceabe3ad9ce9a7f120f30bee3e6d26d6147e69613ebc87dc",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+      "sha256": "f8504252b86bc9c82e65ad2b40a36b8c8938b8e49de844191ee017807e696b87",
+      "claimTerms": [
+        "CLOSED"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/SELECTION_RECEIPT_R2_4.json",
+      "sha256": "20d8530fc8053bb50679c21ab3468b6dc30630cfe1243600417b571399d15427",
+      "claimTerms": [
+        "READY"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CTR-R24-WP-204-LIFECYCLE-RECOVERY.json",
+      "sha256": "6704fa38495c9bf70b1515b38af4e98d620cafead9ff7f6ae92ff9641a0e6350",
+      "claimTerms": [
+        "PASS"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "package.json",
+      "sha256": "559f106ce1d5d3a5cbfd4bbc3800b51a9c6144f380630624cc541182cd6bcdbf",
+      "terms": [
+        "maintained test:r24-wp204 package gate"
+      ]
+    },
+    {
+      "path": ".github/workflows/rtk-required.yml",
+      "sha256": "c6d80368648147cbe70526bebf86ab4cdf4eda92520269da93addbbf350a1d82",
+      "terms": [
+        "exact-head R2.4 WP204 workflow gate"
+      ]
+    },
+    {
+      "path": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+      "sha256": "6eb9c06f8001e715618b912da17550a90912cf04f0eec8eb543eb15ad321121f",
+      "terms": [
+        "exact package wording-surface binding"
+      ]
+    },
+    {
+      "path": "src/core/lifecycle-recovery-v1.cjs",
+      "sha256": "57cf18f554b9b478ba1509860013cb2d54d9660f15b69ea56e2da830bdac0506",
+      "terms": [
+        "selected-ledger lifecycle recovery composition"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp204-lifecycle-recovery.test.js",
+      "sha256": "6dbecf36d6a64db748cfe9d3c88126ba326af8990c0502d13a4ae2670927b86d",
+      "terms": [
+        "WP204 contract and negative tests"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp204-lifecycle-recovery-physics.test.js",
+      "sha256": "d8e2df9b3c5e0ec6fc2c18988ce384c84c53125a98f4fe24d15dfe8e9e12ae64",
+      "terms": [
+        "WP204 physical crash, torn artifact and budget tests"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp204-lifecycle-recovery-mutants.test.js",
+      "sha256": "bdfb104479ceecdaa4911f0578e130e9298e2a1fb56263a809938edb0e9dfd1f",
+      "terms": [
+        "seven named WP204 implementation mutants killed"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "npm run test:r24-wp204",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 7,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 7,
+        "survived": 0
+      }
+    },
+    {
+      "command": "npm run test:rtk",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "Exact evaluation source 1ee7bba9 is green with clean process-group and lease cleanup after fail-closed sandbox attempt quarantine."
+    },
+    {
+      "command": "GitHub exact PR-head required checks",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 7,
+        "survived": 0
+      },
+      "requiredDisposition": "PR head 68243823 has green RTK, OSS, Ubuntu and Windows parity."
+    },
+    {
+      "command": "GitHub exact-main postmerge RTK and OSS",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "Merge 1518c299 is terminal green in exact-main RTK run 32792821615 and OSS run 32792821595."
+    },
+    {
+      "command": "node scripts/ops/r24/docs-claim-lint.mjs and node --test scripts/ops/r24/tests/docs-claim-lint.test.mjs",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 9,
+        "fail": 0
+      },
+      "requiredDisposition": "Strict ClaimBindingV1 lint passes and all nine negative schema mutants are rejected."
+    }
+  ],
+  "nonClaims": [
+    "This binding closes only the bounded WP-204_LIFECYCLE_RECOVERY contour.",
+    "WP204 composes existing recovery primitives but does not attach a live storage path, publish effects automatically or delete checkpoints.",
+    "No dependency adoption, destructive storage action, user document mutation, SAFE_APPLY, release, signing, cloud or AI authority is added.",
+    "WP205 is selected for a later contour but is not admitted or started by this closure.",
+    "It does not mark physical qualification, release readiness or the R2.4 program DONE."
+  ]
+}

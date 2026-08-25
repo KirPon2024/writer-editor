@@ -25,6 +25,14 @@ test('S37 local capability provider: defaults to local Free without account or n
   assert.equal(state.requiresAccount, false);
   assert.equal(state.requiresNetwork, false);
   assert.equal(state.hasRemoteLicenseAuthority, false);
+  assert.equal(state.entitlementAuthorityMode, 'SAFE_DENY');
+  assert.equal(state.entitlementDependentBehaviorEnabled, false);
+  assert.equal(state.pricingAuthority, false);
+  assert.equal(state.businessAuthority, false);
+  assert.equal(state.releaseAuthority, false);
+  assert.equal(state.cloudAuthority, false);
+  assert.equal(state.userDataAuthority, false);
+  assert.equal(state.dependencyAdoption, false);
   assert.equal(state.projectFormatShared, true);
   assert.equal(state.preservesUnknownProjectData, true);
   assert.equal(state.freeCanReadProData, true);
@@ -40,7 +48,10 @@ test('S37 local capability provider: toolbar profile does not become a product t
   assert.equal(masterState.profileIsTier, false);
 
   const proState = provider.normalizeLocalCapabilityState({ entitlementTier: 'pro', toolbarProfile: 'minimal' });
-  assert.equal(proState.tier, 'pro');
+  assert.equal(proState.requestedTier, 'pro');
+  assert.equal(proState.tier, 'free');
+  assert.equal(proState.tierDisabled, true);
+  assert.equal(proState.label, 'Free');
   assert.equal(proState.profileId, 'minimal');
   assert.equal(proState.profileIsTier, false);
 });
@@ -85,7 +96,7 @@ test('S37 local capability provider: Free keeps authorship, toolbar, import, exp
   assert.equal(provider.isFreeAlwaysAvailableCommand('cmd.project.importFullArchiveV1'), true);
 });
 
-test('S37 local capability provider: Pro complexity commands are unavailable in Free and enabled in Pro', async () => {
+test('S37 local capability provider: Pro complexity commands stay unavailable under safe-deny', async () => {
   const provider = await importModule('src/renderer/commands/localCapabilityProvider.mjs');
   const freeReview = provider.resolveCommandEntitlement('cmd.project.review.switchMode', { entitlementTier: 'free' });
   const freeReviewApply = provider.resolveCommandEntitlement('cmd.project.review.applyExactTextChange', { entitlementTier: 'free' });
@@ -102,8 +113,13 @@ test('S37 local capability provider: Pro complexity commands are unavailable in 
   assert.equal(freeReviewApply.reason, 'PRO_COMPLEXITY_SURFACE_UNAVAILABLE_IN_FREE');
   assert.equal(freeReviewApplyBatch.available, true);
   assert.equal(freeReviewApplyBatch.visible, true);
-  assert.equal(proReview.available, true);
-  assert.equal(proReview.visible, true);
+  assert.equal(proReview.available, false);
+  assert.equal(proReview.visible, false);
+  assert.equal(proReview.access, 'pro_complexity_surface');
+  assert.equal(proReview.reason, 'PRO_COMPLEXITY_SURFACE_UNAVAILABLE_IN_FREE');
+  assert.equal(proReview.state.requestedTier, 'pro');
+  assert.equal(proReview.state.tier, 'free');
+  assert.equal(proReview.state.tierDisabled, true);
   assert.equal(freeComments.available, true);
   assert.equal(freeComments.access, 'read_only');
   assert.equal(freeComments.reason, 'PRO_DATA_READ_ONLY_IN_FREE');
@@ -179,7 +195,7 @@ test('S37 local capability provider: surface projection separates visibility fro
   assert.equal(review.entitlement.visible, false);
 });
 
-test('S37 command capability enforcement: entitlement is optional and blocks only when supplied', async () => {
+test('S37 command capability enforcement: entitlement is optional and safe-denies pro when supplied', async () => {
   const capability = await importModule('src/renderer/commands/capabilityPolicy.mjs');
   const registryModule = await importModule('src/renderer/commands/registry.mjs');
   const runnerModule = await importModule('src/renderer/commands/runCommand.mjs');
@@ -216,8 +232,8 @@ test('S37 command capability enforcement: entitlement is optional and blocks onl
 
   assert.equal((await freeRunner('cmd.project.review.switchMode')).ok, false);
   assert.equal(calls, 0);
-  assert.equal((await proRunner('cmd.project.review.switchMode')).ok, true);
-  assert.equal(calls, 1);
+  assert.equal((await proRunner('cmd.project.review.switchMode')).ok, false);
+  assert.equal(calls, 0);
 });
 
 test('S37 palette provider: optional entitlement hides Free Pro-complexity entries without changing default provider', async () => {
@@ -249,7 +265,6 @@ test('S37 palette provider: optional entitlement hides Free Pro-complexity entri
   });
   assert.deepEqual(proProvider.listAll().map((entry) => entry.id), [
     'cmd.project.review.openComments',
-    'cmd.project.review.switchMode',
     'cmd.project.save',
   ]);
 });
@@ -278,6 +293,9 @@ test('S37 preservation contract: provider and editor expose capability without d
   assert.match(providerSource, /preservesUnknownProjectData: true/u);
   assert.match(providerSource, /projectFormatShared: true/u);
   assert.match(providerSource, /fullArchiveAlwaysAvailable: true/u);
+  assert.match(providerSource, /ENTITLEMENT_AUTHORITY_MODE/u);
+  assert.match(providerSource, /entitlementDependentBehaviorEnabled: ENTITLEMENT_AUTHORITY_MODE\.entitlementDependentBehaviorEnabled/u);
+  assert.match(providerSource, /pricingAuthority: false/u);
   assert.match(providerSource, /requiresNetwork: false/u);
   assert.match(providerSource, /requiresAccount: false/u);
   assert.match(editorSource, /entitlementTier: 'free'/u);

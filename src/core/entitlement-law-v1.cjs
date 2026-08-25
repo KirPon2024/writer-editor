@@ -24,6 +24,22 @@ const ENTITLEMENT_TIERS = Object.freeze({
   PRO: 'pro',
 });
 
+const ENTITLEMENT_AUTHORITY_MODE = Object.freeze({
+  schemaVersion: 'entitlement-authority-mode.v1',
+  gateId: 'ENTITLEMENT_SEMANTICS_ADR_OR_DENY',
+  ownerDecision: 'DENIED',
+  mode: 'SAFE_DENY',
+  entitlementDependentBehaviorEnabled: false,
+  enabledTiers: Object.freeze([ENTITLEMENT_TIERS.FREE]),
+  disabledTiers: Object.freeze([ENTITLEMENT_TIERS.PRO]),
+  pricingAuthority: false,
+  businessAuthority: false,
+  releaseAuthority: false,
+  cloudAuthority: false,
+  userDataAuthority: false,
+  dependencyAdoption: false,
+});
+
 const E_COMMAND_DISABLED_FOR_ENTITLEMENT = 'E_COMMAND_DISABLED_FOR_ENTITLEMENT';
 
 const FREE_READ_ONLY_COMMAND_IDS = Object.freeze([
@@ -186,6 +202,14 @@ const ENTITLEMENT_INVARIANTS = Object.freeze({
   freeCanEditAuthoredText: true,
   fullArchiveAlwaysAvailable: true,
   projectFormatShared: true,
+  safeDenyUntilProductDecision: true,
+  entitlementDependentBehaviorEnabled: false,
+  pricingAuthority: false,
+  businessAuthority: false,
+  releaseAuthority: false,
+  cloudAuthority: false,
+  userDataAuthority: false,
+  dependencyAdoption: false,
 });
 
 const normalizeCommandId = (value) => (typeof value === 'string' ? value.trim() : '');
@@ -198,10 +222,22 @@ function normalizeEntitlementTier(value) {
     : ENTITLEMENT_TIERS.FREE;
 }
 
+function isEntitlementTierEnabled(value) {
+  const tier = normalizeEntitlementTier(value);
+  return ENTITLEMENT_AUTHORITY_MODE.enabledTiers.includes(tier);
+}
+
+function normalizeEffectiveEntitlementTier(value) {
+  const tier = normalizeEntitlementTier(value);
+  return isEntitlementTierEnabled(tier) ? tier : ENTITLEMENT_TIERS.FREE;
+}
+
 // The product-owned tier for port decisions. v1 local law admits no remote
 // license authority, account or network source, so the tier is the constant
-// FREE. A future owner-approved contour is the only way this resolver gains
-// another source; renderer payloads are never read here.
+// FREE. WP206 safe-deny authority also prevents a supplied Pro spelling from
+// becoming an effective entitlement tier until a future owner-approved product
+// contour changes ENTITLEMENT_AUTHORITY_MODE; renderer payloads are never read
+// here.
 function getProductEntitlementTier() {
   return ENTITLEMENT_TIERS.FREE;
 }
@@ -222,7 +258,7 @@ function isFreeAlwaysAvailableCommandId(commandId) {
 // Unknown or unclassified commands fail closed as unavailable.
 function decideCommandEntitlement(commandId, tierInput) {
   const normalizedCommandId = normalizeCommandId(commandId);
-  const tier = normalizeEntitlementTier(tierInput);
+  const tier = normalizeEffectiveEntitlementTier(tierInput);
   if (!normalizedCommandId) {
     return Object.freeze({
       ok: false,
@@ -286,6 +322,7 @@ function decideCommandEntitlement(commandId, tierInput) {
 module.exports = Object.freeze({
   ENTITLEMENT_LAW_SCHEMA_VERSION,
   ENTITLEMENT_TIERS,
+  ENTITLEMENT_AUTHORITY_MODE,
   E_COMMAND_DISABLED_FOR_ENTITLEMENT,
   ENTITLEMENT_INVARIANTS,
   FREE_READ_ONLY_COMMAND_IDS,
@@ -296,5 +333,7 @@ module.exports = Object.freeze({
   isFreeReadOnlyCommandId,
   isProComplexityCommandId,
   isFreeAlwaysAvailableCommandId,
+  isEntitlementTierEnabled,
+  normalizeEffectiveEntitlementTier,
   decideCommandEntitlement,
 });

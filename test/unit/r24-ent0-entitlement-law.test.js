@@ -8,12 +8,18 @@ const path = require('node:path');
 
 const law = require(path.join(__dirname, '..', '..', 'src', 'core', 'entitlement-law-v1.cjs'));
 
-test('tier normalization is fail-closed: only the exact pro spelling is pro', () => {
+test('tier normalization recognizes pro spelling, but effective tier safe-denies pro', () => {
   assert.equal(law.normalizeEntitlementTier('pro'), 'pro');
   assert.equal(law.normalizeEntitlementTier('PRO'), 'pro');
   assert.equal(law.normalizeEntitlementTier(' Pro '), 'pro');
+  assert.equal(law.normalizeEffectiveEntitlementTier('pro'), 'free');
+  assert.equal(law.normalizeEffectiveEntitlementTier('PRO'), 'free');
+  assert.equal(law.normalizeEffectiveEntitlementTier(' Pro '), 'free');
+  assert.equal(law.isEntitlementTierEnabled('free'), true);
+  assert.equal(law.isEntitlementTierEnabled('pro'), false);
   for (const hostile of ['free', '', 'enterprise', 'pro-plus', '1', 'true', null, undefined, 42, {}, ['pro']]) {
     assert.equal(law.normalizeEntitlementTier(hostile), 'free', String(hostile));
+    assert.equal(law.normalizeEffectiveEntitlementTier(hostile), 'free', String(hostile));
   }
 });
 
@@ -32,12 +38,14 @@ test('decision branches: invalid id fails closed as unavailable', () => {
   }
 });
 
-test('decision branches: pro tier enables every classified command', () => {
+test('decision branches: supplied pro tier is safe-denied to free for pro complexity', () => {
   for (const id of law.FREE_PRO_COMPLEXITY_COMMAND_IDS) {
     const d = law.decideCommandEntitlement(id, 'pro');
-    assert.equal(d.available, true, id);
-    assert.equal(d.access, 'enabled', id);
-    assert.equal(d.reason, '', id);
+    assert.equal(d.ok, false, id);
+    assert.equal(d.available, false, id);
+    assert.equal(d.visible, false, id);
+    assert.equal(d.access, 'pro_complexity_surface', id);
+    assert.equal(d.reason, 'PRO_COMPLEXITY_SURFACE_UNAVAILABLE_IN_FREE', id);
   }
 });
 
@@ -63,17 +71,17 @@ test('decision branches: the nine pro complexity commands are refused in free', 
   }
 });
 
-test('decision branches: free authorship commands are available in free', () => {
+test('decision branches: free authorship commands stay available under supplied pro', () => {
   for (const id of ['cmd.project.save', 'project.create', 'project.applyTextEdit', 'cmd.ui.theme.set']) {
-    const d = law.decideCommandEntitlement(id, 'free');
+    const d = law.decideCommandEntitlement(id, 'pro');
     assert.equal(d.available, true, id);
     assert.equal(d.access, 'free_authorship', id);
     assert.equal(d.reason, '', id);
   }
 });
 
-test('decision branches: unclassified commands fail closed in free', () => {
-  const d = law.decideCommandEntitlement('cmd.project.unknown.surface', 'free');
+test('decision branches: unclassified commands fail closed under supplied pro', () => {
+  const d = law.decideCommandEntitlement('cmd.project.unknown.surface', 'pro');
   assert.deepEqual(
     { ok: d.ok, available: d.available, visible: d.visible, access: d.access, reason: d.reason },
     { ok: false, available: false, visible: false, access: 'unclassified', reason: 'COMMAND_ENTITLEMENT_UNCLASSIFIED' },
@@ -105,5 +113,17 @@ test('table integrity: sets are frozen, product registry commands are free autho
   }
   assert.equal(law.ENTITLEMENT_INVARIANTS.hasRemoteLicenseAuthority, false);
   assert.equal(law.ENTITLEMENT_INVARIANTS.requiresNetwork, false);
+  assert.equal(law.ENTITLEMENT_INVARIANTS.safeDenyUntilProductDecision, true);
+  assert.equal(law.ENTITLEMENT_INVARIANTS.entitlementDependentBehaviorEnabled, false);
+  assert.equal(law.ENTITLEMENT_INVARIANTS.pricingAuthority, false);
+  assert.equal(law.ENTITLEMENT_INVARIANTS.businessAuthority, false);
+  assert.equal(law.ENTITLEMENT_INVARIANTS.releaseAuthority, false);
+  assert.equal(law.ENTITLEMENT_INVARIANTS.cloudAuthority, false);
+  assert.equal(law.ENTITLEMENT_INVARIANTS.userDataAuthority, false);
+  assert.equal(law.ENTITLEMENT_INVARIANTS.dependencyAdoption, false);
+  assert.equal(law.ENTITLEMENT_AUTHORITY_MODE.ownerDecision, 'DENIED');
+  assert.equal(law.ENTITLEMENT_AUTHORITY_MODE.mode, 'SAFE_DENY');
+  assert.deepEqual(law.ENTITLEMENT_AUTHORITY_MODE.enabledTiers, ['free']);
+  assert.deepEqual(law.ENTITLEMENT_AUTHORITY_MODE.disabledTiers, ['pro']);
   assert.equal(Object.isFrozen(law.ENTITLEMENT_INVARIANTS), true);
 });

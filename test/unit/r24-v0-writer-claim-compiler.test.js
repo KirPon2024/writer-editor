@@ -326,3 +326,5 @@ test('V0 rejects topology-only, omitted, legacy-class, failed, wrong-tree, and d
   assert.equal(digestResult.ok, false);
   assert.equal(digestResult.code, 'E_R24_V0_GATE_DIGEST_MISMATCH');
 });
+
+require('./r24-wp207-writer-refinement.test.js');

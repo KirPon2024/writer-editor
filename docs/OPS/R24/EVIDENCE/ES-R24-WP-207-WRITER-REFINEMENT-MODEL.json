@@ -1,0 +1,154 @@
+{
+  "stampId": "ES-R24-WP-207-WRITER-REFINEMENT-MODEL",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-207_WRITER_REFINEMENT",
+  "attemptId": "ATTEMPT-WP207-20260825",
+  "authorityEpoch": "R24-WP207-BASE-2C7C4E8",
+  "profileId": "WRITER_CORE",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "742dd64dac65f2e301ce935228c6f92198ecf1df",
+    "treeSha": "cf0f1ce8186dcc59fe314802f8a360dad043724c"
+  },
+  "claim": {
+    "type": "WP207_WRITER_REFINEMENT_MODEL",
+    "ceiling": "WP207_WRITER_REFINEMENT_VERDICT_NODE_ONLY_NO_PROGRAM_DONE_NO_RELEASE_READINESS_NO_VISUAL_READINESS_NO_PHYSICAL_MACOS_QUALIFICATION",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "wp207-writer-refinement-model",
+    "evidenceClass": "MODEL",
+    "denominator": 6,
+    "passed": 6,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [],
+    "predecessorReceiptDigest": "758acd166441b92262308bd828c438148c0089bd8d17a79c8c37ac2f2331a27d"
+  },
+  "createdAt": "2026-08-25T16:05:00Z",
+  "actor": "codex/r24-wp207-postmerge-closure-v1-20260825",
+  "artifact": {
+    "identityRoles": {
+      "implementationSourceSha": "742dd64dac65f2e301ce935228c6f92198ecf1df",
+      "evaluationHeadSha": "742dd64dac65f2e301ce935228c6f92198ecf1df",
+      "evaluationTreeSha": "cf0f1ce8186dcc59fe314802f8a360dad043724c",
+      "implementationPrHeadSha": "742dd64dac65f2e301ce935228c6f92198ecf1df",
+      "implementationMergeSha": "e952207aa5ef91d954ca3ee3c5068b9fa7beed1f",
+      "postmergeSha": "e952207aa5ef91d954ca3ee3c5068b9fa7beed1f"
+    },
+    "pr": {
+      "number": 1690,
+      "baseSha": "2c7c4e8ed81d78cd2e82add815d512fa6e47c254",
+      "prHeadSha": "742dd64dac65f2e301ce935228c6f92198ecf1df",
+      "mergeSha": "e952207aa5ef91d954ca3ee3c5068b9fa7beed1f",
+      "mergedAt": "2026-08-25T15:40:39Z",
+      "prHeadTreeSha": "cf0f1ce8186dcc59fe314802f8a360dad043724c",
+      "mergeTreeSha": "cf0f1ce8186dcc59fe314802f8a360dad043724c",
+      "treeUnchangedFromPrHead": true
+    },
+    "requiredPrChecks": [
+      {
+        "name": "rtk-required",
+        "runId": 32864275852,
+        "jobId": 97855552613,
+        "headSha": "742dd64dac65f2e301ce935228c6f92198ecf1df",
+        "conclusion": "success"
+      },
+      {
+        "name": "oss-policy",
+        "runId": 32864276172,
+        "jobId": 97855553196,
+        "headSha": "742dd64dac65f2e301ce935228c6f92198ecf1df",
+        "conclusion": "success"
+      },
+      {
+        "name": "x1-runtime-parity (ubuntu-latest)",
+        "runId": 32864275872,
+        "jobId": 97855553197,
+        "headSha": "742dd64dac65f2e301ce935228c6f92198ecf1df",
+        "conclusion": "success"
+      },
+      {
+        "name": "x1-runtime-parity (windows-latest)",
+        "runId": 32864275872,
+        "jobId": 97855552824,
+        "headSha": "742dd64dac65f2e301ce935228c6f92198ecf1df",
+        "conclusion": "success"
+      }
+    ],
+    "postmergeChecks": [
+      {
+        "name": "rtk-required",
+        "runId": 32867281999,
+        "jobId": 97865538888,
+        "headSha": "e952207aa5ef91d954ca3ee3c5068b9fa7beed1f",
+        "conclusion": "success"
+      },
+      {
+        "name": "oss-policy",
+        "runId": 32867282010,
+        "jobId": 97865539413,
+        "headSha": "e952207aa5ef91d954ca3ee3c5068b9fa7beed1f",
+        "conclusion": "success"
+      },
+      {
+        "name": "ops_vector_close",
+        "runId": 32867281405,
+        "jobId": 97865537135,
+        "headSha": "742dd64dac65f2e301ce935228c6f92198ecf1df",
+        "conclusion": "success"
+      }
+    ],
+    "artifactDigests": [
+      {
+        "path": "src/core/writer-refinement-verdict-v1.cjs",
+        "sha256": "e9a2ae901a6e62b6653674f5473cd6b548652e114ee70952b809ce8d39fcb05f",
+        "terms": [
+          "WP207 writer refinement verdict compiler"
+        ]
+      },
+      {
+        "path": "test/unit/r24-wp207-writer-refinement.test.js",
+        "sha256": "cc4049a052106ce0da47f71b52b34cebe430eb6a47af789eb047224d2070a74a",
+        "terms": [
+          "WP207 writer DNA contract, negatives and mutants"
+        ]
+      },
+      {
+        "path": "test/unit/r24-v0-writer-claim-compiler.test.js",
+        "sha256": "3b5bb0a126d5dc7b926b97fbac6c803cdf49e7438bd900641ed2d2ef1cd8f31b",
+        "terms": [
+          "V0 affected-chain import carries WP207 runtime verdict coverage"
+        ]
+      },
+      {
+        "path": "test/unit/r24-f0-writer-refinement-conformance.test.js",
+        "sha256": "757048537615931772b69ed5cb8017b830b5840689ae9e6f35d2517bff2f8b8c",
+        "terms": [
+          "F0 writer DNA conformance oracle consumed by WP207 verdict ceiling"
+        ]
+      },
+      {
+        "path": "src/core/entitlement-law-v1.cjs",
+        "sha256": "5732be7bd42372591513c37205fa94dbea1ef01741cc3a95ab6c8cd0bfff2109",
+        "terms": [
+          "WP206 safe-deny entitlement baseline remains disabled by default"
+        ]
+      }
+    ],
+    "writerDnaRows": [
+      "DNA_CALM_DEFAULT_IS_BASELINE_WRITE",
+      "DNA_DISCLOSURE_REQUIRES_EXPLICIT_ADVANCED_OPEN",
+      "DNA_CONTINUITY_BLOCKS_UNSAVED_LIFECYCLE",
+      "DNA_CUSTOMIZATION_CANNOT_HIDE_CORE_COMMANDS",
+      "DNA_OPTIONAL_OFF_PRESERVES_FREE_AUTHORSHIP",
+      "DNA_NO_BLOAT_HAS_ONLY_APPROVED_PRODUCT_DEPENDENCIES"
+    ],
+    "programVerdict": "NEEDS_MORE_EVIDENCE"
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

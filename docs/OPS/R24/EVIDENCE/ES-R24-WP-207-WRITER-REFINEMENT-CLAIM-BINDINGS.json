@@ -1,0 +1,139 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-207-WRITER-REFINEMENT-CLAIM-BINDINGS",
+  "contourId": "WP-207_WRITER_REFINEMENT",
+  "evidenceClass": "CONTRACT",
+  "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
+  "headSha": "c63624904ec91171033edf5bb3357624e58a5ecd",
+  "originMainSha": "e952207aa5ef91d954ca3ee3c5068b9fa7beed1f",
+  "generatedAtUtc": "2026-08-25T16:08:00Z",
+  "oracle": "strict ClaimBindingV1 exact-hash binding for replayable WP207 writer refinement closure, exact-main postmerge evidence, survivor audit, source receipt and graph-derived WP300 scheduler receipt",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+      "sha256": "bb93c8c7960e93d88c4fbe678a990a984c0442b92be02ed9413e1a8863734b81",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+      "sha256": "e0df2c26f9259c473085a074ef45b609080358fe3dd5292cf266caf4f79b0511",
+      "claimTerms": [
+        "CLOSED"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/SELECTION_RECEIPT_R2_4.json",
+      "sha256": "05e36dc155ec00208b1e45d5c5ab61ba65cbeec85f0ddb60bfc47057684c6d75",
+      "claimTerms": [
+        "READY"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CTR-R24-WP-207-WRITER-REFINEMENT.json",
+      "sha256": "a2ce9aad92008f056a5dd923c2b22a448ca64dd2f8f38a9dd638df36e94506e0",
+      "claimTerms": [
+        "PASS"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/writer-refinement-verdict-v1.cjs",
+      "sha256": "e9a2ae901a6e62b6653674f5473cd6b548652e114ee70952b809ce8d39fcb05f",
+      "terms": [
+        "WP207 writer refinement verdict compiler"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp207-writer-refinement.test.js",
+      "sha256": "cc4049a052106ce0da47f71b52b34cebe430eb6a47af789eb047224d2070a74a",
+      "terms": [
+        "WP207 writer DNA contract, negatives and six mutants"
+      ]
+    },
+    {
+      "path": "test/unit/r24-v0-writer-claim-compiler.test.js",
+      "sha256": "3b5bb0a126d5dc7b926b97fbac6c803cdf49e7438bd900641ed2d2ef1cd8f31b",
+      "terms": [
+        "V0 affected-chain import carries WP207 runtime verdict coverage"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "node --test test/unit/r24-wp207-writer-refinement.test.js",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 6,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 6,
+        "survived": 0
+      },
+      "requiredDisposition": "WP207 writer DNA contract, identity guards, ceiling negatives and mutants are green."
+    },
+    {
+      "command": "npm run -s test:r24-v0 && npm run -s test:r24-f0 && node --test test/unit/r24-wp206-safe-entitlement-baseline.test.js test/unit/r24-wp206-safe-entitlement-baseline-mutants.test.js",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 27,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 13,
+        "survived": 0
+      },
+      "requiredDisposition": "Affected V0/F0/WP206 chain remains green with safe-deny entitlement baseline and bounded writer-core verdict."
+    },
+    {
+      "command": "npm run test:rtk",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "Exact product PR head 742dd64d was green locally with clean cleanup before protected-branch delivery."
+    },
+    {
+      "command": "GitHub exact PR-head required checks",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 6,
+        "survived": 0
+      },
+      "requiredDisposition": "PR #1690 head 742dd64d has green RTK, OSS, Ubuntu and Windows parity."
+    },
+    {
+      "command": "GitHub exact-main postmerge RTK, OSS and ops vector close",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "Merge e952207a is terminal green in exact-main RTK run 32867281999, OSS run 32867282010 and ops_vector_close run 32867281405."
+    },
+    {
+      "command": "node scripts/ops/r24/docs-claim-lint.mjs and node --test scripts/ops/r24/tests/docs-claim-lint.test.mjs",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 9,
+        "fail": 0
+      },
+      "requiredDisposition": "Strict ClaimBindingV1 lint remains the required oracle after this digest refresh."
+    }
+  ],
+  "nonClaims": [
+    "This binding closes only the bounded WP-207_WRITER_REFINEMENT contour.",
+    "WP207 certifies a Writer Core runtime refinement verdict bounded by F0 DNA and WP206 safe-deny entitlement baseline.",
+    "The scheduler receipt after WP207 closure selects WP-300_WRITER_HOME as the next graph-admissible product contour.",
+    "No visual readiness, physical macOS qualification, release readiness, pricing, business, release, cloud, dependency adoption, live user-data mutation, migration, destructive storage action, SAFE_APPLY, signing or AI authority is added.",
+    "It does not mark the R2.4 program DONE."
+  ]
+}

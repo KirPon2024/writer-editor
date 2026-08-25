@@ -2,7 +2,8 @@
 // R2.4 E0 — deterministic ready-set scheduler.
 // READY predicate (offline-computable conjuncts): state=PENDING, all
 // dependencies DONE, node profile inside the mission-selected profiles,
-// ownerGate null or APPROVED in the provided closed gate registry.
+// ownerGate null, APPROVED in the provided closed gate registry, or DENIED only
+// for a gate whose contract explicitly admits a safe-deny path.
 // Selection order is the sealed seven-key total order; numeric product
 // scoring is forbidden; same inputs always produce the same receipt.
 import path from 'node:path';
@@ -24,6 +25,13 @@ export const DETERMINISTIC_ORDER = Object.freeze([
 ]);
 
 const KIND_RANK = Object.freeze({ FOUNDATION: 0, WORK_PACKAGE: 1 });
+
+function ownerGateSatisfied(node, gates) {
+  if (node.ownerGate === null || node.ownerGate === undefined) return true;
+  const gateDecision = gates[node.ownerGate];
+  if (gateDecision === 'APPROVED') return true;
+  return gateDecision === 'DENIED' && String(node.ownerGate).endsWith('_OR_DENY');
+}
 
 function topoRanks(nodes) {
   const byId = new Map(nodes.map((n) => [n.id, n]));
@@ -83,7 +91,7 @@ export function computeReadySet({ program, contourStates, mission }) {
     const state = states[node.id] || node.state;
     if (state !== 'PENDING') return false;
     if (!profiles.has(node.profile)) return false;
-    if (node.ownerGate !== null && node.ownerGate !== undefined && gates[node.ownerGate] !== 'APPROVED') return false;
+    if (!ownerGateSatisfied(node, gates)) return false;
     return node.dependsOn.every((dep) => {
       const depNode = program.nodes.find((x) => x.id === dep);
       const depState = states[dep] || (depNode && depNode.state);

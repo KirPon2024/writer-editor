@@ -1,0 +1,54 @@
+{
+  "stampId": "ES-R24-WP-301-AUTHORING-SURFACES-MODEL",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-301_AUTHORING_SURFACES",
+  "attemptId": "ATTEMPT-WP301-20260825",
+  "authorityEpoch": "R24-WP301-BASE-EBB18772",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "405fde0d8649144db975be89bfe3d0bf847353de",
+    "treeSha": "dd6a05d93fe3305022ed8933c028e00202822cde"
+  },
+  "claim": {
+    "type": "WP301_AUTHORING_SURFACES_MODEL_BOUNDARY",
+    "ceiling": "WP301_NODE_ONLY_NO_PROGRAM_DONE_NO_RELEASE_OR_PHYSICAL_QUALIFICATION_NO_USER_DOCUMENT_MUTATION",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "wp301-authoring-surfaces-model-and-identity-guards",
+    "evidenceClass": "MODEL",
+    "denominator": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [],
+    "predecessorReceiptDigest": "897fa9eb07ec237c05d576e7162ecec54fb110028e8b49508d5301538e0f992e"
+  },
+  "createdAt": "2026-08-25T20:46:49Z",
+  "actor": "codex/r24-wp301-postmerge-closure-v1-20260825",
+  "artifact": {
+    "identityRoles": {
+      "implementationSourceSha": "986e15de565fe2c519b2ab2fa2daa279812a8389",
+      "evaluationHeadSha": "405fde0d8649144db975be89bfe3d0bf847353de",
+      "evaluationTreeSha": "dd6a05d93fe3305022ed8933c028e00202822cde",
+      "implementationPrHeadSha": "405fde0d8649144db975be89bfe3d0bf847353de",
+      "implementationMergeSha": "d714e8cfbea0eba211fe8145a038b7db62f69132",
+      "postmergeSha": "d714e8cfbea0eba211fe8145a038b7db62f69132"
+    },
+    "modelAssertions": [
+      "Authoring surfaces are immutable revision-bound derived projections.",
+      "WRITE, flow, notes, search and review use existing command or query authority only.",
+      "Surface visibility never creates command availability or mutation authority.",
+      "Unsafe identifiers and unknown actions fail closed.",
+      "No direct filesystem, storage, IPC or platform write is introduced.",
+      "Recovery rebuild is deterministic and the surface set is bounded.",
+      "No program-done, release or physical qualification claim is made."
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

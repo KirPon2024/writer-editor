@@ -1,0 +1,93 @@
+{
+  "stampId": "ES-R24-WP-301-AUTHORING-SURFACES-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-301_AUTHORING_SURFACES",
+  "attemptId": "ATTEMPT-WP301-20260825",
+  "authorityEpoch": "R24-WP301-BASE-EBB18772",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "405fde0d8649144db975be89bfe3d0bf847353de",
+    "treeSha": "dd6a05d93fe3305022ed8933c028e00202822cde"
+  },
+  "claim": {
+    "type": "WP301_EXACT_PR_HEAD_REQUIRED_GATES",
+    "ceiling": "WP301_NODE_ONLY_NO_PROGRAM_DONE_NO_RELEASE_OR_PHYSICAL_QUALIFICATION_NO_USER_DOCUMENT_MUTATION",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "GitHub PR 1694 exact-head required checks plus local full RTK",
+    "evidenceClass": "INDEPENDENT_EXACT_HEAD",
+    "denominator": 1059,
+    "passed": 1059,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-301-AUTHORING-SURFACES-MUTANTS"
+    ],
+    "predecessorReceiptDigest": "897fa9eb07ec237c05d576e7162ecec54fb110028e8b49508d5301538e0f992e"
+  },
+  "createdAt": "2026-08-25T20:46:49Z",
+  "actor": "codex/r24-wp301-postmerge-closure-v1-20260825",
+  "artifact": {
+    "identityRoles": {
+      "implementationSourceSha": "986e15de565fe2c519b2ab2fa2daa279812a8389",
+      "evaluationHeadSha": "405fde0d8649144db975be89bfe3d0bf847353de",
+      "evaluationTreeSha": "dd6a05d93fe3305022ed8933c028e00202822cde",
+      "implementationPrHeadSha": "405fde0d8649144db975be89bfe3d0bf847353de",
+      "implementationMergeSha": "d714e8cfbea0eba211fe8145a038b7db62f69132",
+      "postmergeSha": "d714e8cfbea0eba211fe8145a038b7db62f69132"
+    },
+    "pr": {
+      "number": 1694,
+      "baseSha": "ebb1877206363b95280786e47fce658aabf0179b",
+      "prHeadSha": "405fde0d8649144db975be89bfe3d0bf847353de",
+      "mergeSha": "d714e8cfbea0eba211fe8145a038b7db62f69132",
+      "mergedAt": "2026-08-25T20:25:43Z",
+      "prHeadTreeSha": "dd6a05d93fe3305022ed8933c028e00202822cde",
+      "mergeTreeSha": "dd6a05d93fe3305022ed8933c028e00202822cde",
+      "treeUnchangedFromPrHead": true
+    },
+    "requiredPrChecks": [
+      {
+        "name": "rtk-required",
+        "runId": 32893349425,
+        "jobId": 97950126018,
+        "headSha": "405fde0d8649144db975be89bfe3d0bf847353de",
+        "conclusion": "success"
+      },
+      {
+        "name": "oss-policy",
+        "runId": 32893349458,
+        "jobId": 97950126069,
+        "headSha": "405fde0d8649144db975be89bfe3d0bf847353de",
+        "conclusion": "success"
+      },
+      {
+        "name": "x1-runtime-parity (ubuntu-latest)",
+        "runId": 32893350098,
+        "jobId": 97950127679,
+        "headSha": "405fde0d8649144db975be89bfe3d0bf847353de",
+        "conclusion": "success"
+      },
+      {
+        "name": "x1-runtime-parity (windows-latest)",
+        "runId": 32893350098,
+        "jobId": 97950127636,
+        "headSha": "405fde0d8649144db975be89bfe3d0bf847353de",
+        "conclusion": "success"
+      }
+    ],
+    "localExactHeadRtk": {
+      "invocationId": "3afb16ee-f96f-454f-b831-21fd1d46ffea",
+      "pass": 1059,
+      "fail": 0,
+      "cleanup": "RTK_PROCESS_GROUP_CLEAN"
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

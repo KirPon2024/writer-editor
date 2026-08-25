@@ -1,0 +1,76 @@
+{
+  "stampId": "ES-R24-WP-301-AUTHORING-SURFACES-POSTMERGE-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-301_AUTHORING_SURFACES",
+  "attemptId": "ATTEMPT-WP301-20260825",
+  "authorityEpoch": "R24-WP301-BASE-EBB18772",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "d714e8cfbea0eba211fe8145a038b7db62f69132",
+    "treeSha": "dd6a05d93fe3305022ed8933c028e00202822cde"
+  },
+  "claim": {
+    "type": "WP301_EXACT_MAIN_POSTMERGE_REQUIRED_GATES",
+    "ceiling": "WP301_NODE_ONLY_NO_PROGRAM_DONE_NO_RELEASE_OR_PHYSICAL_QUALIFICATION_NO_USER_DOCUMENT_MUTATION",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "exact-main GitHub RTK and OSS plus focused local postmerge chain",
+    "evidenceClass": "POSTMERGE",
+    "denominator": 1059,
+    "passed": 1059,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-301-AUTHORING-SURFACES-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "897fa9eb07ec237c05d576e7162ecec54fb110028e8b49508d5301538e0f992e"
+  },
+  "createdAt": "2026-08-25T20:46:49Z",
+  "actor": "codex/r24-wp301-postmerge-closure-v1-20260825",
+  "artifact": {
+    "postmergeChecks": [
+      {
+        "name": "rtk-required",
+        "runId": 32895269558,
+        "jobId": 97956371712,
+        "headSha": "d714e8cfbea0eba211fe8145a038b7db62f69132",
+        "conclusion": "success"
+      },
+      {
+        "name": "oss-policy",
+        "runId": 32895269510,
+        "jobId": 97956372073,
+        "headSha": "d714e8cfbea0eba211fe8145a038b7db62f69132",
+        "conclusion": "success"
+      },
+      {
+        "name": "ops_vector_close",
+        "runId": 32895269232,
+        "jobId": 97956370486,
+        "headSha": "405fde0d8649144db975be89bfe3d0bf847353de",
+        "conclusion": "success"
+      }
+    ],
+    "treeIdentity": {
+      "prHeadTreeSha": "dd6a05d93fe3305022ed8933c028e00202822cde",
+      "mergeTreeSha": "dd6a05d93fe3305022ed8933c028e00202822cde",
+      "unchanged": true
+    },
+    "focusedPostmerge": {
+      "wp301": 7,
+      "writerAffectedChain": 44,
+      "a11yPerf": 3,
+      "releaseRegistry": 46,
+      "agentGuardrails": "PASS",
+      "ossPolicy": "PASS",
+      "perfBaseline": "PASS"
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

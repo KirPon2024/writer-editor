@@ -1,16 +1,16 @@
 {
   "schemaVersion": "yalken.r24.plan-state-source-receipt.v1",
-  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPLAYABLE_WP300_EXACT_POSTMERGE_CLOSURE_NO_PROGRAM_DONE",
-  "generatedAtUtc": "2026-08-25T18:22:10Z",
+  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPLAYABLE_WP301_EXACT_POSTMERGE_CLOSURE_NO_PROGRAM_DONE",
+  "generatedAtUtc": "2026-08-25T20:46:49Z",
   "executableProgramPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
   "executableProgramDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
   "planStatePath": "docs/OPS/R24/PLAN_STATE_R24.json",
   "currentPlanState": {
     "path": "docs/OPS/R24/PLAN_STATE_R24.json",
-    "sha256": "5eee4857447cadaa6a199620b1c7308f658eb11e11f942dd8ccca105e2067f05",
-    "revision": 227,
-    "fencingCounter": 39,
-    "transitionHistoryCount": 95
+    "sha256": "a870cccf50562f2c0c31349b553508999ba28bfa0c287873f4105bd5df5c12f1",
+    "revision": 234,
+    "fencingCounter": 40,
+    "transitionHistoryCount": 100
   },
   "externalPlanState": {
     "path": "/Volumes/T7-Secure/worktrees/yalken/_r24-mission/PLAN_STATE_R24.json",
@@ -89,13 +89,13 @@
     "contourRowsPersisted": 109
   },
   "nonClaims": [
-    "This source receipt accounts for repo-local closures through WP300 and does not mark the full 109-node program DONE.",
-    "WP300 certifies only the Writer Home derived surface and pathless projection at exact merged main 226d8c065c3fe3f5a3b6c02312f7f514d1b79f84.",
-    "WP301 and all later work packages remain independently graph-gated.",
+    "This source receipt accounts for repo-local closures through WP301 and does not mark the full 109-node program DONE.",
+    "WP301 certifies only the bounded authoring surfaces projection and renderer integration at exact merged main d714e8cfbea0eba211fe8145a038b7db62f69132.",
+    "WP302 and all later work packages remain independently graph-gated.",
     "No release readiness, physical macOS qualification, signing, cloud, AI, dependency adoption, storage migration, destructive action, user Word/Drive mutation or SAFE_APPLY expansion is implied."
   ],
   "discoveredR24TestFiles": {
-    "count": 117,
+    "count": 118,
     "treatment": "NOT_DELIVERY_STATE_WITHOUT_TERMINAL_RECEIPT",
     "basenames": [
       "r24-a0-atlas-incremental-equivalence.test.js",
@@ -214,11 +214,12 @@
       "r24-wp206-safe-entitlement-baseline-mutants.test.js",
       "r24-wp206-safe-entitlement-baseline.test.js",
       "r24-wp207-writer-refinement.test.js",
-      "r24-wp300-writer-home.test.mjs"
+      "r24-wp300-writer-home.test.mjs",
+      "r24-wp301-authoring-surfaces.test.mjs"
     ]
   },
   "repoLocalPlanStateClosures": {
-    "doneContourCount": 28,
+    "doneContourCount": 29,
     "closures": [
       {
         "id": "SEC0_PATH_CAPABILITY",
@@ -810,8 +811,29 @@
           "ES-R24-WP-300-WRITER-HOME-CLAIM-BINDINGS"
         ],
         "deliveryState": "CURRENT_MAIN_226D8C06_EXACT_HEAD_WP300_WRITER_HOME_POSTMERGE_AND_SURVIVOR_GREEN_NO_PROGRAM_DONE"
+      },
+      {
+        "id": "WP-301_AUTHORING_SURFACES",
+        "state": "DONE",
+        "previousState": "POSTMERGE_VERIFIED",
+        "attemptId": "ATTEMPT-WP301-20260825",
+        "updatedAt": "2026-08-25T20:46:49.005Z",
+        "headSha": "d714e8cfbea0eba211fe8145a038b7db62f69132",
+        "source": "R24_WP301_AUTHORING_SURFACES_CLOSURE_V1",
+        "terminalReceiptPath": "docs/OPS/R24/CTR-R24-WP-301-AUTHORING-SURFACES.json",
+        "evidenceStampIds": [
+          "ES-R24-WP-301-AUTHORING-SURFACES-MODEL",
+          "ES-R24-WP-301-AUTHORING-SURFACES-CONTRACT",
+          "ES-R24-WP-301-AUTHORING-SURFACES-INTEGRATION",
+          "ES-R24-WP-301-AUTHORING-SURFACES-MUTANTS",
+          "ES-R24-WP-301-AUTHORING-SURFACES-EXACT-HEAD",
+          "ES-R24-WP-301-AUTHORING-SURFACES-POSTMERGE-EXACT-HEAD",
+          "ES-R24-WP-301-AUTHORING-SURFACES-SURVIVOR-AUDIT",
+          "ES-R24-WP-301-AUTHORING-SURFACES-CLAIM-BINDINGS"
+        ],
+        "deliveryState": "CURRENT_MAIN_D714E8CF_EXACT_HEAD_WP301_AUTHORING_SURFACES_POSTMERGE_AND_SURVIVOR_GREEN_NO_PROGRAM_DONE"
       }
     ]
   },
-  "planStateRevision": 227
+  "planStateRevision": 234
 }

@@ -1,0 +1,52 @@
+{
+  "stampId": "ES-R24-WP-301-AUTHORING-SURFACES-INTEGRATION",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-301_AUTHORING_SURFACES",
+  "attemptId": "ATTEMPT-WP301-20260825",
+  "authorityEpoch": "R24-WP301-BASE-EBB18772",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "405fde0d8649144db975be89bfe3d0bf847353de",
+    "treeSha": "dd6a05d93fe3305022ed8933c028e00202822cde"
+  },
+  "claim": {
+    "type": "WP301_EXISTING_WRITER_SURFACE_INTEGRATION",
+    "ceiling": "WP301_NODE_ONLY_NO_PROGRAM_DONE_NO_RELEASE_OR_PHYSICAL_QUALIFICATION_NO_USER_DOCUMENT_MUTATION",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "wp300-notes-search-review-toolbar-affected-chain",
+    "evidenceClass": "INTEGRATION",
+    "denominator": 44,
+    "passed": 44,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-301-AUTHORING-SURFACES-CONTRACT"
+    ],
+    "predecessorReceiptDigest": "897fa9eb07ec237c05d576e7162ecec54fb110028e8b49508d5301538e0f992e"
+  },
+  "createdAt": "2026-08-25T20:46:49Z",
+  "actor": "codex/r24-wp301-postmerge-closure-v1-20260825",
+  "artifact": {
+    "affectedChain": [
+      "WP300 Writer Home",
+      "notes inbox",
+      "pathless search",
+      "review surface",
+      "toolbar Command Kernel routing"
+    ],
+    "postmergeFocused": {
+      "wp301": 7,
+      "writerAffectedChain": 44,
+      "a11yPerf": 3,
+      "releaseRegistry": 46
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

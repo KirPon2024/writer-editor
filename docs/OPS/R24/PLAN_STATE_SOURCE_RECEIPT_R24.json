@@ -1,15 +1,15 @@
 {
   "schemaVersion": "yalken.r24.plan-state-source-receipt.v1",
-  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPLAYABLE_WP203_EXACT_POSTMERGE_CLOSURE_NO_PROGRAM_DONE",
-  "generatedAtUtc": "2026-08-24T22:31:00Z",
+  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPLAYABLE_WP204_EXACT_POSTMERGE_CLOSURE_NO_PROGRAM_DONE",
+  "generatedAtUtc": "2026-08-25T00:37:30Z",
   "executableProgramPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
   "executableProgramDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
   "planStatePath": "docs/OPS/R24/PLAN_STATE_R24.json",
   "currentPlanState": {
-    "sha256": "e2777ba3313b3ba169151b32634c276501b8c0064e3bfaa7de39c59d5b4fc825",
+    "sha256": "95aec0beea6bd69eceabe3ad9ce9a7f120f30bee3e6d26d6147e69613ebc87dc",
     "schemaVersion": "yalken.plan-state.r24.v2",
-    "revision": 192,
-    "fencingCounter": 34,
+    "revision": 199,
+    "fencingCounter": 35,
     "replayBaseline": {
       "classification": "ADOPTED_PRE_V2_UNREPLAYABLE_HISTORY",
       "revision": 94,
@@ -19,7 +19,7 @@
       "unreplayableContourCount": 10,
       "syntheticTransitionCount": 0
     },
-    "transitionHistoryCount": 70
+    "transitionHistoryCount": 75
   },
   "externalPlanState": {
     "path": "/Volumes/T7-Secure/worktrees/yalken/_r24-mission/PLAN_STATE_R24.json",
@@ -99,14 +99,14 @@
   },
   "nonClaims": [
     "R24 test files are implementation evidence candidates only and are not converted to DONE without durable terminal receipts.",
-    "This source receipt accounts for repo-local closures through WP203 and does not mark the full 109-node program DONE.",
-    "WP203 certifies correctness-before-Pareto selection of the already implemented atomic-file commit truth with the existing bounded recovery ledger.",
-    "WP204 and all later work packages remain independently graph-gated.",
-    "No dependency adoption, runtime storage attachment or path change, user migration, destructive action, user document mutation, SAFE_APPLY, release, signing, cloud or AI authority is added.",
+    "This source receipt accounts for repo-local closures through WP204 and does not mark the full 109-node program DONE.",
+    "WP204 certifies exact composition of selected ledger, inbox/outbox, project transaction, migration history and lifecycle recovery primitives.",
+    "WP205 and all later work packages remain independently graph-gated.",
+    "No dependency adoption, runtime storage attachment or path change, automatic publication or checkpoint deletion, user migration, destructive action, user document mutation, SAFE_APPLY, release, signing, cloud or AI authority is added.",
     "Parked V2 remains suspended until selected by the executable graph."
   ],
   "discoveredR24TestFiles": {
-    "count": 107,
+    "count": 110,
     "treatment": "NOT_DELIVERY_STATE_WITHOUT_TERMINAL_RECEIPT",
     "basenames": [
       "r24-a0-atlas-incremental-equivalence.test.js",
@@ -215,11 +215,14 @@
       "r24-wp202-legacy-strangler.test.js",
       "r24-wp203-storage-selection-integration.test.js",
       "r24-wp203-storage-selection-mutants.test.js",
-      "r24-wp203-storage-selection.test.js"
+      "r24-wp203-storage-selection.test.js",
+      "r24-wp204-lifecycle-recovery-mutants.test.js",
+      "r24-wp204-lifecycle-recovery-physics.test.js",
+      "r24-wp204-lifecycle-recovery.test.js"
     ]
   },
   "repoLocalPlanStateClosures": {
-    "doneContourCount": 23,
+    "doneContourCount": 24,
     "closures": [
       {
         "id": "SEC0_PATH_CAPABILITY",
@@ -706,8 +709,29 @@
           "ES-R24-WP-203-STORAGE-SELECTION-CLAIM-BINDINGS"
         ],
         "deliveryState": "CURRENT_MAIN_65F1CB12_EXACT_HEAD_WP203_CORRECTNESS_PARETO_STORAGE_SELECTION_POSTMERGE_AND_SURVIVOR_GREEN_NO_LIVE_STORAGE_ADOPTION_NO_PROGRAM_DONE"
+      },
+      {
+        "id": "WP-204_LIFECYCLE_RECOVERY",
+        "state": "DONE",
+        "previousState": "POSTMERGE_VERIFIED",
+        "attemptId": "ATTEMPT-WP204-20260825",
+        "updatedAt": "2026-08-25T00:37:30.005Z",
+        "headSha": "1518c29951f40aacbf61441c7e19a353a70234c4",
+        "source": "R24_WP204_LIFECYCLE_RECOVERY_CLOSURE_V1",
+        "terminalReceiptPath": "docs/OPS/R24/CTR-R24-WP-204-LIFECYCLE-RECOVERY.json",
+        "evidenceStampIds": [
+          "ES-R24-WP-204-LIFECYCLE-RECOVERY-MODEL",
+          "ES-R24-WP-204-LIFECYCLE-RECOVERY-CONTRACT",
+          "ES-R24-WP-204-LIFECYCLE-RECOVERY-INTEGRATION",
+          "ES-R24-WP-204-LIFECYCLE-RECOVERY-MUTANTS",
+          "ES-R24-WP-204-LIFECYCLE-RECOVERY-EXACT-HEAD",
+          "ES-R24-WP-204-LIFECYCLE-RECOVERY-POSTMERGE-EXACT-HEAD",
+          "ES-R24-WP-204-LIFECYCLE-RECOVERY-SURVIVOR-AUDIT",
+          "ES-R24-WP-204-LIFECYCLE-RECOVERY-CLAIM-BINDINGS"
+        ],
+        "deliveryState": "CURRENT_MAIN_1518C299_EXACT_HEAD_WP204_LIFECYCLE_RECOVERY_POSTMERGE_AND_SURVIVOR_GREEN_NO_LIVE_STORAGE_ATTACHMENT_NO_AUTOMATIC_PUBLICATION_OR_GC_NO_PROGRAM_DONE"
       }
     ]
   },
-  "planStateRevision": 192
+  "planStateRevision": 199
 }

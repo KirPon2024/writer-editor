@@ -1,0 +1,167 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-206-SAFE-ENTITLEMENT-BASELINE-CLAIM-BINDINGS",
+  "contourId": "WP-206_SAFE_ENTITLEMENT_BASELINE",
+  "evidenceClass": "CONTRACT",
+  "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
+  "headSha": "9716d9ddecfe5864204bf07b790011c840041bfe",
+  "originMainSha": "2042cec2fa12cf6793cb194141f1669e7dda5454",
+  "generatedAtUtc": "2026-08-25T12:38:00Z",
+  "oracle": "strict ClaimBindingV1 exact-hash binding for replayable WP206 safe-deny entitlement baseline closure, exact-main postmerge evidence, survivor audit, source receipt and graph-derived WP207 scheduler receipt",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+      "sha256": "ae2e2de2c781ad28b780ac92694d5c124b9cbebc74c04fce9f26f3cc6794f141",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+      "sha256": "2a0dcd2da9d7099bf50bf57dde816223f505221a6aadfbcb52736eb242533d39",
+      "claimTerms": [
+        "CLOSED"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/SELECTION_RECEIPT_R2_4.json",
+      "sha256": "1d3a6fb605bb1a0a89821f79faa0484763d90f8ec07c8b56e8c6850d58dfb116",
+      "claimTerms": [
+        "READY"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CTR-R24-WP-206-SAFE-ENTITLEMENT-BASELINE.json",
+      "sha256": "758acd166441b92262308bd828c438148c0089bd8d17a79c8c37ac2f2331a27d",
+      "claimTerms": [
+        "PASS"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "docs/OPS/R24/OWNER_GATE_DECISIONS/ENTITLEMENT_SEMANTICS_ADR_OR_DENY_WP206_SAFE_ENTITLEMENT_BASELINE_V1.json",
+      "sha256": "d86d4edd2faf14a4ac019a3561ce468a83c333b5112ba57490211b04cd061c0e",
+      "terms": [
+        "validated owner safe-deny decision artifact for WP206"
+      ]
+    },
+    {
+      "path": "src/core/entitlement-law-v1.cjs",
+      "sha256": "5732be7bd42372591513c37205fa94dbea1ef01741cc3a95ab6c8cd0bfff2109",
+      "terms": [
+        "safe-deny entitlement law"
+      ]
+    },
+    {
+      "path": "src/renderer/commands/localCapabilityProvider.mjs",
+      "sha256": "5e3e957f651cae2487265b3d75960ac5a28ed033761a445cad2f90c76e051c39",
+      "terms": [
+        "safe-deny capability projection"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp206-safe-entitlement-baseline.test.js",
+      "sha256": "92c910c17dad377e522d964dd06d1c430d5ed96e89e576d1a15eba44054cd7bd",
+      "terms": [
+        "WP206 contract and negative tests"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp206-safe-entitlement-baseline-mutants.test.js",
+      "sha256": "79cd58459de5a06656bcdab01781cfaeee7b88d19a2aa08d0e5f61294641df18",
+      "terms": [
+        "seven WP206 implementation mutants killed"
+      ]
+    },
+    {
+      "path": "test/unit/r24-ent0-entitlement-law.test.js",
+      "sha256": "a34cd888879678a5d6ff983c47a125638449629b3940a26a5af5e3796cdf0dc2",
+      "terms": [
+        "ENT0 safe entitlement regression tests"
+      ]
+    },
+    {
+      "path": "test/unit/r24-ent0-law-mutants.test.js",
+      "sha256": "bb323761c37346bb8b3de7700992ed15a21ed160b796f501a15521779d2dda62",
+      "terms": [
+        "ENT0 entitlement mutants remain killed"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "node --test test/unit/r24-wp206-safe-entitlement-baseline.test.js test/unit/r24-wp206-safe-entitlement-baseline-mutants.test.js test/unit/r24-ent0-entitlement-law.test.js test/unit/r24-ent0-law-mutants.test.js",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 41,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 16,
+        "survived": 0
+      },
+      "requiredDisposition": "WP206 safe-deny baseline and ENT0 entitlement regressions remain green with entitlement-dependent behavior disabled by default."
+    },
+    {
+      "command": "bounded exact-main WP206/ENT0/F0/WP104/sector-m affected chain",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 52,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 26,
+        "survived": 0
+      },
+      "requiredDisposition": "Exact-main bounded survivor proof keeps safe-deny, authority leak negatives, F0 mutants and capability projections green."
+    },
+    {
+      "command": "npm run test:rtk",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "Exact product PR head 9e9a5a89 was green locally with clean cleanup before protected-branch delivery."
+    },
+    {
+      "command": "GitHub exact PR-head required checks",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 7,
+        "survived": 0
+      },
+      "requiredDisposition": "PR #1688 head 9e9a5a89 has green RTK, OSS, Ubuntu and Windows parity."
+    },
+    {
+      "command": "GitHub exact-main postmerge RTK, OSS and ops vector close",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "Merge 2042cec2 is terminal green in exact-main RTK run 32846366032, OSS run 32846366142 and ops_vector_close run 32846366607."
+    },
+    {
+      "command": "node scripts/ops/r24/docs-claim-lint.mjs and node --test scripts/ops/r24/tests/docs-claim-lint.test.mjs",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 9,
+        "fail": 0
+      },
+      "requiredDisposition": "Strict ClaimBindingV1 lint remains the required oracle after this digest refresh."
+    }
+  ],
+  "nonClaims": [
+    "This binding closes only the bounded WP-206_SAFE_ENTITLEMENT_BASELINE contour.",
+    "WP206 safe-deny keeps entitlement-dependent behavior disabled by default; Pro recognition is metadata only.",
+    "The scheduler receipt after WP206 closure selects WP-207_WRITER_REFINEMENT as the next graph-admissible product contour.",
+    "No pricing, business, release, cloud, dependency adoption, live user-data mutation, migration, destructive action, SAFE_APPLY, signing or AI authority is added.",
+    "It does not mark physical qualification, release readiness or the R2.4 program DONE."
+  ]
+}

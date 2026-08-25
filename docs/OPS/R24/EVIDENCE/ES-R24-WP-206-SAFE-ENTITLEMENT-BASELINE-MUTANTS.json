@@ -1,0 +1,214 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-WP-206-SAFE-ENTITLEMENT-BASELINE-MUTANTS",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-206_SAFE_ENTITLEMENT_BASELINE",
+  "attemptId": "ATTEMPT-WP206-20260825",
+  "authorityEpoch": "R24-WP206-BASE-CFD9B560",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "9e9a5a89471fe3b2cc380c3e84b56ed074de2fd1",
+    "treeSha": "2b696612770e01f6a386885306bb0d61ab45e532"
+  },
+  "claim": {
+    "type": "WP206_SAFE_DENY_IMPLEMENTATION_MUTANTS",
+    "ceiling": "WP206_SAFE_DENY_ENTITLEMENT_BASELINE_NODE_ONLY_NO_PRICING_BUSINESS_RELEASE_CLOUD_USER_DATA_OR_DEPENDENCY_AUTHORITY_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "wp206-safe-deny-implementation-mutants",
+    "evidenceClass": "IMPLEMENTATION_MUTANTS",
+    "denominator": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-206-SAFE-ENTITLEMENT-BASELINE-CONTRACT",
+      "ES-R24-WP-206-SAFE-ENTITLEMENT-BASELINE-INTEGRATION"
+    ],
+    "predecessorReceiptDigest": "b619de06f361a64272b8f703cd6a52ecfd9affe8ed5fb28d8f03f7a2d8759bdc"
+  },
+  "createdAt": "2026-08-25T12:35:00Z",
+  "actor": "codex/r24-wp206-postmerge-closure-v1-20260825",
+  "artifact": {
+    "identityRoles": {
+      "implementationSourceSha": "9e9a5a89471fe3b2cc380c3e84b56ed074de2fd1",
+      "evaluationHeadSha": "9e9a5a89471fe3b2cc380c3e84b56ed074de2fd1",
+      "evaluationTreeSha": "2b696612770e01f6a386885306bb0d61ab45e532",
+      "implementationPrHeadSha": "9e9a5a89471fe3b2cc380c3e84b56ed074de2fd1",
+      "implementationMergeSha": "2042cec2fa12cf6793cb194141f1669e7dda5454",
+      "postmergeSha": "2042cec2fa12cf6793cb194141f1669e7dda5454"
+    },
+    "pr": {
+      "number": 1688,
+      "baseSha": "cfd9b5605df5232d9d384887e7c4464f590148ca",
+      "prHeadSha": "9e9a5a89471fe3b2cc380c3e84b56ed074de2fd1",
+      "mergeSha": "2042cec2fa12cf6793cb194141f1669e7dda5454",
+      "mergedAt": "2026-08-25T12:12:51Z",
+      "prHeadTreeSha": "2b696612770e01f6a386885306bb0d61ab45e532",
+      "mergeTreeSha": "2b696612770e01f6a386885306bb0d61ab45e532",
+      "treeUnchangedFromPrHead": true
+    },
+    "requiredPrChecks": [
+      {
+        "name": "rtk-required",
+        "runId": 32844785337,
+        "jobId": 97791939664,
+        "headSha": "9e9a5a89471fe3b2cc380c3e84b56ed074de2fd1",
+        "conclusion": "success"
+      },
+      {
+        "name": "oss-policy",
+        "runId": 32844785339,
+        "jobId": 97791936291,
+        "headSha": "9e9a5a89471fe3b2cc380c3e84b56ed074de2fd1",
+        "conclusion": "success"
+      },
+      {
+        "name": "x1-runtime-parity (ubuntu-latest)",
+        "runId": 32844785318,
+        "jobId": 97791936613,
+        "headSha": "9e9a5a89471fe3b2cc380c3e84b56ed074de2fd1",
+        "conclusion": "success"
+      },
+      {
+        "name": "x1-runtime-parity (windows-latest)",
+        "runId": 32844785318,
+        "jobId": 97791936278,
+        "headSha": "9e9a5a89471fe3b2cc380c3e84b56ed074de2fd1",
+        "conclusion": "success"
+      }
+    ],
+    "postmergeChecks": [
+      {
+        "name": "rtk-required",
+        "runId": 32846366032,
+        "jobId": 97796882064,
+        "headSha": "2042cec2fa12cf6793cb194141f1669e7dda5454",
+        "conclusion": "success"
+      },
+      {
+        "name": "oss-policy",
+        "runId": 32846366142,
+        "headSha": "2042cec2fa12cf6793cb194141f1669e7dda5454",
+        "conclusion": "success"
+      },
+      {
+        "name": "ops_vector_close",
+        "runId": 32846366607,
+        "headSha": "2042cec2fa12cf6793cb194141f1669e7dda5454",
+        "conclusion": "success"
+      }
+    ],
+    "artifactDigests": [
+      {
+        "path": "docs/OPS/R24/OWNER_GATE_DECISIONS/ENTITLEMENT_SEMANTICS_ADR_OR_DENY_WP206_SAFE_ENTITLEMENT_BASELINE_V1.json",
+        "sha256": "d86d4edd2faf14a4ac019a3561ce468a83c333b5112ba57490211b04cd061c0e",
+        "terms": [
+          "owner-denied safe entitlement semantics decision for WP206"
+        ]
+      },
+      {
+        "path": "src/core/entitlement-law-v1.cjs",
+        "sha256": "5732be7bd42372591513c37205fa94dbea1ef01741cc3a95ab6c8cd0bfff2109",
+        "terms": [
+          "safe-deny entitlement law: Pro recognized but effective tier remains Free"
+        ]
+      },
+      {
+        "path": "src/renderer/commands/localCapabilityProvider.mjs",
+        "sha256": "5e3e957f651cae2487265b3d75960ac5a28ed033761a445cad2f90c76e051c39",
+        "terms": [
+          "renderer capability projection disables entitlement-dependent actions by default"
+        ]
+      },
+      {
+        "path": "test/unit/r24-wp206-safe-entitlement-baseline.test.js",
+        "sha256": "92c910c17dad377e522d964dd06d1c430d5ed96e89e576d1a15eba44054cd7bd",
+        "terms": [
+          "WP206 safe entitlement baseline contract and negative tests"
+        ]
+      },
+      {
+        "path": "test/unit/r24-wp206-safe-entitlement-baseline-mutants.test.js",
+        "sha256": "79cd58459de5a06656bcdab01781cfaeee7b88d19a2aa08d0e5f61294641df18",
+        "terms": [
+          "seven WP206 entitlement baseline mutants killed"
+        ]
+      },
+      {
+        "path": "test/unit/r24-ent0-entitlement-law.test.js",
+        "sha256": "a34cd888879678a5d6ff983c47a125638449629b3940a26a5af5e3796cdf0dc2",
+        "terms": [
+          "ENT0 regression coverage for safe entitlement law"
+        ]
+      },
+      {
+        "path": "test/unit/r24-ent0-law-mutants.test.js",
+        "sha256": "bb323761c37346bb8b3de7700992ed15a21ed160b796f501a15521779d2dda62",
+        "terms": [
+          "ENT0 entitlement mutants remain killed"
+        ]
+      },
+      {
+        "path": "test/unit/r24-wp104-boundary-falsification.test.js",
+        "sha256": "61e6b072d1329a371f5689db4c24e606185bf196d25b580ba3813cb34b3627ff",
+        "terms": [
+          "WP104 boundary falsification regression for authority leaks"
+        ]
+      },
+      {
+        "path": "test/unit/sector-m-s37-capability-provider-free-pro.test.js",
+        "sha256": "5199a0aa6ba3257989e58a12c9b7b24dc7160e096dacdc5141b5015dee3674ad",
+        "terms": [
+          "Free/Pro capability provider regression remains safe by default"
+        ]
+      },
+      {
+        "path": "test/unit/sector-m-s38-pro-free-pro-roundtrip.test.js",
+        "sha256": "4e2ddf8ea5ea85222ac9b5838e53a65562c0f0dabb96d774a072a8fbc6eb85f0",
+        "terms": [
+          "Free/Pro roundtrip regression remains safe by default"
+        ]
+      }
+    ],
+    "fullRtk": {
+      "pass": 1059,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "focusedPostmerge": {
+      "wp206FocusedPassed": 52,
+      "wp206FocusedFailed": 0,
+      "ent0MutantsKilled": 9,
+      "wp206MutantsKilled": 7,
+      "f0MutantsKilled": 10,
+      "claimBindingFiles": 33,
+      "claimBindingStamps": 211,
+      "claimBindingLintPassed": true,
+      "docsLintTestsPassed": 9,
+      "agentGuardrailsPassed": true,
+      "ossPolicyPassed": true,
+      "diffCheckPassed": true
+    },
+    "residualRisks": [
+      "WP206 deliberately keeps entitlement-dependent behavior disabled by default under safe-deny semantics.",
+      "This closure does not authorize pricing, business logic, release, cloud, user-data mutation, dependency adoption or migration authority."
+    ],
+    "killedMutants": [
+      "pro-effective-tier-bypass",
+      "entitlement-dependent-capability-enable",
+      "authority-flag-leak",
+      "renderer-capability-unconditional-enable",
+      "unknown-tier-upgrade",
+      "safe-deny-default-flip",
+      "decision-artifact-bypass"
+    ]
+  }
+}

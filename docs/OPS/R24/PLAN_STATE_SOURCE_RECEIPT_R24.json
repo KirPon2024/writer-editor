@@ -1,15 +1,15 @@
 {
   "schemaVersion": "yalken.r24.plan-state-source-receipt.v1",
-  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPLAYABLE_WP205_EXACT_POSTMERGE_CLOSURE_NO_PROGRAM_DONE",
-  "generatedAtUtc": "2026-08-25T09:25:00Z",
+  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPLAYABLE_WP206_EXACT_POSTMERGE_CLOSURE_NO_PROGRAM_DONE",
+  "generatedAtUtc": "2026-08-25T12:35:00Z",
   "executableProgramPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
   "executableProgramDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
   "planStatePath": "docs/OPS/R24/PLAN_STATE_R24.json",
   "currentPlanState": {
-    "sha256": "ba6c5b0a8898bd9b4bb39cd003430e5b332b6317069971f4f263d538ff4d22d5",
+    "sha256": "ae2e2de2c781ad28b780ac92694d5c124b9cbebc74c04fce9f26f3cc6794f141",
     "schemaVersion": "yalken.plan-state.r24.v2",
-    "revision": 206,
-    "fencingCounter": 36,
+    "revision": 213,
+    "fencingCounter": 37,
     "replayBaseline": {
       "classification": "ADOPTED_PRE_V2_UNREPLAYABLE_HISTORY",
       "revision": 94,
@@ -19,7 +19,7 @@
       "unreplayableContourCount": 10,
       "syntheticTransitionCount": 0
     },
-    "transitionHistoryCount": 80
+    "transitionHistoryCount": 85
   },
   "externalPlanState": {
     "path": "/Volumes/T7-Secure/worktrees/yalken/_r24-mission/PLAN_STATE_R24.json",
@@ -99,14 +99,14 @@
   },
   "nonClaims": [
     "R24 test files are implementation evidence candidates only and are not converted to DONE without durable terminal receipts.",
-    "This source receipt accounts for repo-local closures through WP205 and does not mark the full 109-node program DONE.",
-    "WP205 certifies fail-closed path and Unicode text operation planning, memory undo hash guarding and plain-text clipboard projection without live user-document mutation.",
-    "WP206 and all later work packages remain independently graph-gated.",
-    "No dependency adoption, runtime storage attachment or path change, system clipboard mutation, live file write, user migration, destructive action, user document mutation, SAFE_APPLY, release, signing, cloud or AI authority is added.",
+    "This source receipt accounts for repo-local closures through WP206 and does not mark the full 109-node program DONE.",
+    "WP206 certifies a safe-deny entitlement baseline: entitlement-dependent behavior remains disabled by default even when Pro is recognized as metadata.",
+    "WP207 and all later work packages remain independently graph-gated.",
+    "No pricing, business, release, cloud, dependency, live user-data, migration, destructive storage, user document, SAFE_APPLY, signing or AI authority is added.",
     "Parked V2 remains suspended until selected by the executable graph."
   ],
   "discoveredR24TestFiles": {
-    "count": 113,
+    "count": 115,
     "treatment": "NOT_DELIVERY_STATE_WITHOUT_TERMINAL_RECEIPT",
     "basenames": [
       "r24-a0-atlas-incremental-equivalence.test.js",
@@ -221,11 +221,13 @@
       "r24-wp204-lifecycle-recovery.test.js",
       "r24-wp205-path-and-text-mutants.test.mjs",
       "r24-wp205-path-and-text-physics.test.mjs",
-      "r24-wp205-path-and-text.test.mjs"
+      "r24-wp205-path-and-text.test.mjs",
+      "r24-wp206-safe-entitlement-baseline-mutants.test.js",
+      "r24-wp206-safe-entitlement-baseline.test.js"
     ]
   },
   "repoLocalPlanStateClosures": {
-    "doneContourCount": 25,
+    "doneContourCount": 26,
     "closures": [
       {
         "id": "SEC0_PATH_CAPABILITY",
@@ -754,8 +756,29 @@
           "ES-R24-WP-205-PATH-AND-TEXT-CLAIM-BINDINGS"
         ],
         "deliveryState": "CURRENT_MAIN_D84B1B00_EXACT_HEAD_WP205_PATH_AND_TEXT_POSTMERGE_AND_SURVIVOR_GREEN_NO_USER_DOCUMENT_OR_SYSTEM_CLIPBOARD_MUTATION_NO_PROGRAM_DONE"
+      },
+      {
+        "id": "WP-206_SAFE_ENTITLEMENT_BASELINE",
+        "state": "DONE",
+        "previousState": "POSTMERGE_VERIFIED",
+        "attemptId": "ATTEMPT-WP206-20260825",
+        "updatedAt": "2026-08-25T12:35:00.005Z",
+        "headSha": "2042cec2fa12cf6793cb194141f1669e7dda5454",
+        "source": "R24_WP206_SAFE_ENTITLEMENT_BASELINE_CLOSURE_V1",
+        "terminalReceiptPath": "docs/OPS/R24/CTR-R24-WP-206-SAFE-ENTITLEMENT-BASELINE.json",
+        "evidenceStampIds": [
+          "ES-R24-WP-206-SAFE-ENTITLEMENT-BASELINE-MODEL",
+          "ES-R24-WP-206-SAFE-ENTITLEMENT-BASELINE-CONTRACT",
+          "ES-R24-WP-206-SAFE-ENTITLEMENT-BASELINE-INTEGRATION",
+          "ES-R24-WP-206-SAFE-ENTITLEMENT-BASELINE-MUTANTS",
+          "ES-R24-WP-206-SAFE-ENTITLEMENT-BASELINE-EXACT-HEAD",
+          "ES-R24-WP-206-SAFE-ENTITLEMENT-BASELINE-POSTMERGE-EXACT-HEAD",
+          "ES-R24-WP-206-SAFE-ENTITLEMENT-BASELINE-SURVIVOR-AUDIT",
+          "ES-R24-WP-206-SAFE-ENTITLEMENT-BASELINE-CLAIM-BINDINGS"
+        ],
+        "deliveryState": "CURRENT_MAIN_2042CEC2_EXACT_HEAD_WP206_SAFE_DENY_ENTITLEMENT_BASELINE_POSTMERGE_AND_SURVIVOR_GREEN_NO_PRICING_BUSINESS_RELEASE_CLOUD_USER_DATA_OR_DEPENDENCY_AUTHORITY_NO_PROGRAM_DONE"
       }
     ]
   },
-  "planStateRevision": 206
+  "planStateRevision": 213
 }

@@ -96,6 +96,13 @@ const {
   isPathInsideLaunchBoundary: isPathInsideLaunchBoundaryByLaw,
   isAllowedFilePathByLaw,
 } = require('./core/io/file-path-allowlist-v1.cjs');
+const {
+  SESSION_CONTINUITY_SETTINGS_KEY,
+  commitSessionContinuityV1,
+  normalizeSessionDocumentRelativePath,
+  normalizeSessionSelectionRange,
+  readSessionContinuityV1,
+} = require('./core/session-continuity-v1.cjs');
 
 // R2.4 R1: one small per-project shadow cell for the local edit-generation
 // domain. Advisory only; see the autosave hook for its sole use.
@@ -11794,7 +11801,9 @@ async function bootstrapStage10ApplicationForProject(projectRoot, manifest, mode
 
 async function resolveStartupStage10ProjectBinding() {
   const settings = await loadSettings();
-  const lastProjectId = normalizeStableProjectId(settings?.lastProjectId);
+  const continuity = readSessionContinuityV1(settings);
+  if (!continuity.ok && continuity.present) return null;
+  const lastProjectId = normalizeStableProjectId(continuity.record?.projectId || continuity.projectId);
   if (lastProjectId) {
     const binding = await findProjectBindingByProjectId(lastProjectId);
     if (binding) return binding;
@@ -16686,10 +16695,20 @@ function normalizeSelectionRangeForSettings(value) {
   const start = Number(value.start);
   const end = Number(value.end);
   if (!Number.isFinite(start) || !Number.isFinite(end)) return null;
-  return {
+  return normalizeSessionSelectionRange({
     start: Math.max(0, Math.floor(start)),
     end: Math.max(0, Math.floor(end)),
-  };
+  });
+}
+
+function clampSelectionRangeForContent(value, content) {
+  const selectionRange = normalizeSelectionRangeForSettings(value);
+  if (!selectionRange) return null;
+  const limit = typeof content === 'string' ? content.length : 0;
+  return normalizeSessionSelectionRange({
+    start: Math.min(selectionRange.start, limit),
+    end: Math.min(selectionRange.end, limit),
+  });
 }
 
 async function hasPendingAutosaveRecovery() {
@@ -16755,11 +16774,13 @@ async function collectProjectTextFiles(rootPath, output = []) {
 }
 
 async function resolveProjectContinueTarget(projectBinding, settings = {}) {
-  const relative = typeof settings.lastProjectRelativePath === 'string'
-    ? settings.lastProjectRelativePath.trim()
+  const continuity = readSessionContinuityV1(settings);
+  const record = continuity.ok ? continuity.record : null;
+  const relative = record?.projectId === projectBinding.projectId
+    ? record.documentRelativePath
     : '';
-  if (relative && settings.lastProjectId === projectBinding.projectId) {
-    const candidatePath = joinPathSegmentsWithinRoot(projectBinding.projectRoot, [relative], {
+  if (relative) {
+    const candidatePath = joinPathSegmentsWithinRoot(projectBinding.projectRoot, relative.split('/'), {
       resolveSymlinks: false,
     });
     if (
@@ -16808,6 +16829,7 @@ async function openProjectDocumentFile(filePath, options = {}) {
   if (!fileResult.success) {
     return makeProjectLifecycleError('E_PROJECT_OPEN_READ_FAILED', 'PROJECT_OPEN_READ_FAILED');
   }
+  const previousFilePath = currentFilePath;
   currentFilePath = filePath;
   const context = getDocumentContextFromPath(filePath);
   const readOnlyProject = options.readOnlyProject === true;
@@ -16815,6 +16837,19 @@ async function openProjectDocumentFile(filePath, options = {}) {
   const documentIdentity = readOnlyProject && projectBinding
     ? await getReadOnlyProjectDocumentIdentityPayload(filePath, projectBinding)
     : await getProjectDocumentIdentityPayload(filePath);
+  const selectionRange = clampSelectionRangeForContent(options.selectionRange, fileResult.content);
+  const continuityCommit = await saveLastFile({
+    selectionRange,
+    projectBinding,
+  });
+  if (!continuityCommit.ok) {
+    currentFilePath = previousFilePath;
+    updateStatus('Ошибка');
+    return makeProjectLifecycleError(
+      continuityCommit.code || 'E_SESSION_CONTINUITY_COMMIT_FAILED',
+      'SESSION_CONTINUITY_COMMIT_FAILED',
+    );
+  }
   sendEditorText(await attachProjectIdToEditorPayload({
     content: fileResult.content,
     title: context.title,
@@ -16822,17 +16857,13 @@ async function openProjectDocumentFile(filePath, options = {}) {
     projectId: options.projectId || documentIdentity.projectId || projectBinding?.projectId || '',
     kind: context.kind,
     metaEnabled: context.metaEnabled,
-    selectionRange: normalizeSelectionRangeForSettings(options.selectionRange),
+    selectionRange,
     readOnlyProject,
   }, filePath));
   setDirtyState(false);
   const contentHash = computeHash(fileResult.content);
   lastAutosaveHash = contentHash;
   backupHashes.set(filePath, contentHash);
-  await saveLastFile({
-    selectionRange: normalizeSelectionRangeForSettings(options.selectionRange),
-    projectBinding,
-  });
   updateStatus(options.statusText || 'Готово');
   return {
     ok: true,
@@ -16949,10 +16980,13 @@ async function handleProjectLifecycleOpenCommand(payload = {}) {
   }
   setActiveProjectNameFromRoot(binding.projectRoot);
   const settings = await loadSettings();
+  const continuity = readSessionContinuityV1(settings);
   const target = await resolveProjectContinueTarget(projectBindingForOpen, settings);
   if (!target.filePath) return restoreActiveProjectOnFailedOpen(makeProjectLifecycleError('E_PROJECT_EMPTY', 'PROJECT_EMPTY'));
-  const selectionRange = settings.lastProjectId === binding.projectId
-    ? normalizeSelectionRangeForSettings(settings.lastProjectSelectionRange)
+  const selectionRange = target.source === 'last-active'
+    && continuity.ok
+    && continuity.record?.projectId === binding.projectId
+    ? continuity.record.selectionRange
     : null;
   let opened;
   try {
@@ -16987,7 +17021,10 @@ async function handleProjectLifecycleOpenCommand(payload = {}) {
 
 async function handleProjectLifecycleContinueCommand() {
   const settings = await loadSettings();
-  const lastProjectId = typeof settings.lastProjectId === 'string' ? settings.lastProjectId.trim() : '';
+  const continuity = readSessionContinuityV1(settings);
+  const lastProjectId = continuity.ok
+    ? normalizeStableProjectId(continuity.record?.projectId || continuity.projectId)
+    : '';
   if (!lastProjectId) return makeProjectLifecycleError('E_PROJECT_CONTINUE_UNAVAILABLE', 'PROJECT_CONTINUE_UNAVAILABLE');
   return handleProjectLifecycleOpenCommand({ projectId: lastProjectId });
 }
@@ -17336,7 +17373,10 @@ async function moveProjectDirectoryWithManifestMutationUnderLease({
       const relative = path.relative(sourceRoot, currentFilePath);
       currentFilePath = relative ? joinPathSegmentsWithinRoot(targetRoot, [relative], { resolveSymlinks: false }) : null;
       setActiveProjectNameFromRoot(targetRoot);
-      await saveLastFile({ projectBinding: nextBinding });
+      await saveLastFile({
+        projectBinding: nextBinding,
+        preserveSelectionOnPathRebind: true,
+      });
     }
     await replaceProjectLibraryIndexBinding(sourceRoot, nextBinding, {
       status: options.indexStatus || 'available',
@@ -18095,8 +18135,12 @@ async function readProjectLibraryManifestCandidate(projectRoot, status, document
     if (!normalizeStableProjectId(parsed?.projectId)) return null;
     const manifest = await normalizeProjectManifest(parsed, path.basename(normalizedRoot));
     const stored = getProjectLibraryStoredEntry(indexEntries, normalizedRoot);
+    const continuity = readSessionContinuityV1(settings);
+    const continuityProjectId = continuity.ok
+      ? normalizeStableProjectId(continuity.record?.projectId || continuity.projectId)
+      : '';
     const lastOpenedAtUtc = stored?.lastOpenedAtUtc
-      || (settings?.lastProjectId === manifest.projectId ? new Date().toISOString() : '');
+      || (continuityProjectId === manifest.projectId ? new Date().toISOString() : '');
     return {
       projectId: manifest.projectId,
       projectName: manifest.projectName || path.basename(normalizedRoot),
@@ -18258,14 +18302,16 @@ async function touchProjectLibraryIndexForBinding(projectBinding, options = {}) 
 
 async function resolveLastOpenedFilePath(settings) {
   const source = settings && typeof settings === 'object' ? settings : {};
-  const lastProjectId = typeof source.lastProjectId === 'string' ? source.lastProjectId.trim() : '';
-  const lastProjectRelativePath = typeof source.lastProjectRelativePath === 'string' ? source.lastProjectRelativePath.trim() : '';
+  const continuity = readSessionContinuityV1(source);
+  if (!continuity.ok && continuity.present) return null;
+  const lastProjectId = continuity.record?.projectId || continuity.projectId || '';
+  const lastProjectRelativePath = continuity.record?.documentRelativePath || '';
 
   if (lastProjectId && lastProjectRelativePath) {
     const projectBinding = await findProjectBindingByProjectId(lastProjectId);
     if (projectBinding && projectBinding.projectRoot) {
       try {
-        const candidatePath = joinPathSegmentsWithinRoot(projectBinding.projectRoot, [lastProjectRelativePath], {
+        const candidatePath = joinPathSegmentsWithinRoot(projectBinding.projectRoot, lastProjectRelativePath.split('/'), {
           resolveSymlinks: false,
         });
         if ((candidatePath === projectBinding.projectRoot || isPathInside(projectBinding.projectRoot, candidatePath))
@@ -19405,12 +19451,14 @@ async function moveMenuSectionLater(sectionId) {
 // Сохранение настроек
 async function saveSettings(settings) {
   try {
-    await queueDiskOperation(
+    const result = await queueDiskOperation(
       () => fileManager.writeFileAtomic(getSettingsPath(), JSON.stringify(settings)),
       'save settings'
     );
-  } catch {
-    // Тихая обработка ошибок
+    return !result || result.success !== false;
+  } catch (error) {
+    logDevError('save settings', error);
+    return false;
   }
 }
 
@@ -19424,21 +19472,37 @@ async function saveLastFile(options = {}) {
       : await resolveProjectBindingForFile(currentFilePath);
     if (projectBinding && projectBinding.projectId) {
       const projectId = projectBinding.projectId;
-      const relativePath = getProjectRelativeFilePath(currentFilePath, projectBinding.manifestPath);
+      const relativePath = normalizeSessionDocumentRelativePath(
+        getProjectRelativeFilePath(currentFilePath, projectBinding.manifestPath),
+      );
+      if (!relativePath) throw new Error('E_SESSION_CONTINUITY_DOCUMENT_PATH');
+      const previousContinuity = readSessionContinuityV1(settings);
+      const previousRecord = previousContinuity.ok ? previousContinuity.record : null;
+      const preserveSelectionOnPathRebind = options.preserveSelectionOnPathRebind === true;
+      const committedSelectionRange = selectionRange
+        || (previousRecord?.projectId === projectId
+          && (previousRecord.documentRelativePath === relativePath || preserveSelectionOnPathRebind)
+          ? previousRecord.selectionRange
+          : { start: 0, end: 0 });
+      const continuityRecord = commitSessionContinuityV1(
+        settings[SESSION_CONTINUITY_SETTINGS_KEY],
+        {
+          projectId,
+          documentRelativePath: relativePath,
+          selectionRange: committedSelectionRange,
+        },
+      );
+      settings[SESSION_CONTINUITY_SETTINGS_KEY] = continuityRecord;
       settings.projectId = projectId;
       settings.projectManifestPath = projectBinding.manifestPath;
+      // Compatibility mirrors are write-only for older builds. V1 is authoritative.
       settings.lastProjectId = projectId;
-      if (relativePath) {
-        settings.lastProjectRelativePath = relativePath;
-      } else {
-        delete settings.lastProjectRelativePath;
-      }
-      if (selectionRange) {
-        settings.lastProjectSelectionRange = selectionRange;
-      }
+      settings.lastProjectRelativePath = relativePath;
+      settings.lastProjectSelectionRange = continuityRecord.selectionRange;
       delete settings.lastExternalFilePath;
       await touchProjectLibraryIndexForBinding(projectBinding);
     } else {
+      delete settings[SESSION_CONTINUITY_SETTINGS_KEY];
       delete settings.projectId;
       delete settings.projectManifestPath;
       delete settings.lastProjectId;
@@ -19451,9 +19515,16 @@ async function saveLastFile(options = {}) {
       }
     }
     delete settings.lastFilePath;
-    await saveSettings(settings);
+    const persisted = await saveSettings(settings);
+    return persisted
+      ? { ok: true, continuity: settings[SESSION_CONTINUITY_SETTINGS_KEY] || null }
+      : { ok: false, code: 'E_SESSION_CONTINUITY_PERSIST_FAILED' };
   } catch (error) {
-    // Тихая обработка ошибок
+    logDevError('save last file continuity', error);
+    return {
+      ok: false,
+      code: typeof error?.code === 'string' ? error.code : 'E_SESSION_CONTINUITY_COMMIT_FAILED',
+    };
   }
 }
 
@@ -25776,8 +25847,10 @@ async function buildTreeMovePlan(nodePath, targetParentPath, targetIndex) {
 // Автоматическое открытие последнего файла
 async function openLastFile() {
   if (!mainWindow) return 'noFile';
-  
-  const lastFilePath = await loadLastFile();
+
+  const settings = await loadSettings();
+  const continuity = readSessionContinuityV1(settings);
+  const lastFilePath = await resolveLastOpenedFilePath(settings);
   if (!lastFilePath) return 'noFile';
   if (!isAllowedFilePath(lastFilePath)) return 'noFile';
   
@@ -25793,8 +25866,18 @@ async function openLastFile() {
   }
   const fileResult = await fileManager.readFile(lastFilePath);
     if (fileResult.success) {
+      const previousFilePath = currentFilePath;
       currentFilePath = lastFilePath;
-      await saveLastFile();
+      const selectionRange = clampSelectionRangeForContent(
+        continuity.ok ? continuity.record?.selectionRange || null : null,
+        fileResult.content,
+      );
+      const continuityCommit = await saveLastFile({ selectionRange });
+      if (!continuityCommit.ok) {
+        currentFilePath = previousFilePath;
+        updateStatus('Ошибка');
+        return 'error';
+      }
       const context = getDocumentContextFromPath(lastFilePath);
       const documentIdentity = await getProjectDocumentIdentityPayload(lastFilePath);
       sendEditorText(await attachProjectIdToEditorPayload({
@@ -25802,7 +25885,8 @@ async function openLastFile() {
         title: context.title,
         ...documentIdentity,
         kind: context.kind,
-        metaEnabled: context.metaEnabled
+        metaEnabled: context.metaEnabled,
+        selectionRange,
       }, lastFilePath));
       setDirtyState(false);
       const contentHash = computeHash(fileResult.content);
@@ -27176,7 +27260,7 @@ async function handleUiRenameNodeCommand(payload) {
   if (currentFilePath && isPathInside(nodePath, currentFilePath)) {
     const relative = path.relative(nodePath, currentFilePath);
     currentFilePath = joinPathSegmentsWithinRoot(targetPath, [relative], { resolveSymlinks: false });
-    await saveLastFile();
+    await saveLastFile({ preserveSelectionOnPathRebind: true });
   }
 
   return { ok: true, nodeId: resolvedNode.nodeId };
@@ -27388,7 +27472,7 @@ async function handleUiMoveNodeCommand(payload, options = {}) {
   if (currentFilePath && isPathInside(nodePath, currentFilePath)) {
     const relative = path.relative(nodePath, currentFilePath);
     currentFilePath = joinPathSegmentsWithinRoot(nextNodePath, [relative], { resolveSymlinks: false });
-    await saveLastFile();
+    await saveLastFile({ preserveSelectionOnPathRebind: true });
   }
 
   const receipt = {
@@ -30810,6 +30894,7 @@ module.exports = {
   persistFreeEditProDataInvalidationForSceneIds,
   persistProjectManifestAtPath,
   readProjectManifest,
+  resolveLastOpenedFilePath,
   resolveProjectTreeNodeIdentity,
   serializeProjectTreeNode,
   rebindProjectTreeIdentityForPaths,

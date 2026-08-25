@@ -6172,6 +6172,165 @@ body.dark-theme .writer-home__action:hover {
   opacity: 0.44;
 }
 
+.authoring-surface[hidden] {
+  display: none;
+}
+
+.authoring-surface {
+  width: min(100%, 920px);
+  margin: 0 auto 10px;
+  color: var(--foreground);
+}
+
+.authoring-surface__shell {
+  display: grid;
+  gap: 10px;
+  padding: 2px 0 12px;
+  border-bottom: 1px solid rgba(109, 104, 97, 0.14);
+}
+
+.authoring-surface__header,
+.authoring-surface__postures,
+.authoring-surface__grid {
+  display: flex;
+  align-items: center;
+}
+
+.authoring-surface__header {
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.authoring-surface__copy {
+  min-width: 0;
+}
+
+.authoring-surface__eyebrow {
+  color: var(--text-tertiary);
+  font-size: 10.5px;
+  line-height: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.authoring-surface__title {
+  margin: 2px 0 0;
+  overflow: hidden;
+  color: var(--foreground);
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.authoring-surface__meta {
+  flex: 0 0 auto;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.authoring-surface__postures,
+.authoring-surface__grid {
+  gap: 8px;
+}
+
+.authoring-surface__posture,
+.authoring-surface__item {
+  display: grid;
+  min-width: 0;
+  border: 1px solid var(--toolbar-control-border);
+  border-radius: 8px;
+  background: rgba(255, 252, 246, 0.48);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.authoring-surface__posture {
+  flex: 0 1 132px;
+  min-height: 42px;
+  padding: 7px 10px;
+}
+
+.authoring-surface__item {
+  flex: 1 1 128px;
+  min-height: 56px;
+  padding: 9px 10px;
+}
+
+.authoring-surface__posture:hover,
+.authoring-surface__item:hover {
+  background: rgba(255, 255, 255, 0.66);
+  border-color: rgba(90, 84, 76, 0.34);
+}
+
+.authoring-surface__posture:focus-visible,
+.authoring-surface__item:focus-visible {
+  outline: 2px solid var(--a11y-focus-outline);
+  outline-offset: 2px;
+  background: var(--a11y-focus-surface);
+}
+
+.authoring-surface__posture:disabled,
+.authoring-surface__item:disabled {
+  cursor: default;
+  opacity: 0.48;
+}
+
+.authoring-surface__posture[aria-pressed="true"],
+.authoring-surface__item[data-state="dirty"] {
+  border-color: rgba(78, 102, 128, 0.52);
+  background: rgba(231, 239, 245, 0.68);
+}
+
+.authoring-surface__posture-label,
+.authoring-surface__item-label {
+  min-width: 0;
+  overflow: hidden;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.authoring-surface__posture-value,
+.authoring-surface__item-value {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--text-muted);
+  font-size: 11.5px;
+  line-height: 15px;
+  letter-spacing: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+body.dark-theme .authoring-surface__shell {
+  border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+
+body.dark-theme .authoring-surface__posture,
+body.dark-theme .authoring-surface__item {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-theme .authoring-surface__posture:hover,
+body.dark-theme .authoring-surface__item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-theme .authoring-surface__posture[aria-pressed="true"],
+body.dark-theme .authoring-surface__item[data-state="dirty"] {
+  background: rgba(62, 90, 116, 0.36);
+}
+
 #editor,
 .editor__input {
   width: 100%;
@@ -8515,6 +8674,32 @@ body.dark-theme .manual-map-workspace__minimap {
 
   .writer-home__dismiss {
     justify-self: start;
+  }
+
+  .authoring-surface {
+    width: min(100%, calc(100% - 8px));
+    margin-bottom: 8px;
+  }
+
+  .authoring-surface__header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .authoring-surface__meta {
+    align-self: flex-start;
+  }
+
+  .authoring-surface__postures,
+  .authoring-surface__grid {
+    align-items: stretch;
+    flex-wrap: wrap;
+  }
+
+  .authoring-surface__posture,
+  .authoring-surface__item {
+    flex: 1 1 146px;
   }
 
   .main-content--notes,

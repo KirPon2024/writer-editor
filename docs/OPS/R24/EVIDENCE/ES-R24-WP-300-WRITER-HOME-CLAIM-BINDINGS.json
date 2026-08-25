@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-300-WRITER-HOME-CLAIM-BINDINGS",
+  "contourId": "WP-300_WRITER_HOME",
+  "evidenceClass": "CONTRACT",
+  "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
+  "headSha": "627950c370917b8139a88f238285930977ebacfe",
+  "originMainSha": "226d8c065c3fe3f5a3b6c02312f7f514d1b79f84",
+  "generatedAtUtc": "2026-08-25T18:24:00Z",
+  "oracle": "strict ClaimBindingV1 exact-hash binding for replayable WP300 writer home closure, exact-main postmerge evidence, survivor audit, source receipt and graph-derived WP301 scheduler receipt",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+      "sha256": "5eee4857447cadaa6a199620b1c7308f658eb11e11f942dd8ccca105e2067f05",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+      "sha256": "b4e598dd7eb824e6a578bea4efa3e54e8a14685780657c0b8109fec003d74031",
+      "claimTerms": [
+        "CLOSED"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/SELECTION_RECEIPT_R2_4.json",
+      "sha256": "156f56dd547a6993e0560baca35fd3ba18cbd7e5306ca414dc6f1bea9042b130",
+      "claimTerms": [
+        "READY"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CTR-R24-WP-300-WRITER-HOME.json",
+      "sha256": "897fa9eb07ec237c05d576e7162ecec54fb110028e8b49508d5301538e0f992e",
+      "claimTerms": [
+        "PASS"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/writer-home-projection-v1.mjs",
+      "sha256": "348f0f779790465bbf5eb11289c8ccdf931c3d4b7e53e68332ee5efb68a0a42b",
+      "terms": [
+        "WP300 writer home projection and pathless outline summary"
+      ]
+    },
+    {
+      "path": "src/renderer/writerHomeSurface.mjs",
+      "sha256": "7b4b6ad9e02b5e406d71c0796b9f890cae30ea3227dca25f2999ee3316480346",
+      "terms": [
+        "WP300 renderer Writer Home DOM surface"
+      ]
+    },
+    {
+      "path": "src/renderer/editor.js",
+      "sha256": "7f678b3e5abb200b816db5d7e02c5cd3a2d60e9e03d8ab26e8b6f4c1bbb62da3",
+      "terms": [
+        "WP300 editor integration"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp300-writer-home.test.mjs",
+      "sha256": "19962a07b60b33d8ff8d9c820499aff3e05f43a25441b273e5998b5a2d824ab4",
+      "terms": [
+        "WP300 focused oracle"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "node --test test/unit/r24-wp300-writer-home.test.mjs",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 10,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 6,
+        "survived": 0
+      },
+      "requiredDisposition": "Writer Home projection, renderer contract, pathless negatives and mutants are green."
+    },
+    {
+      "command": "npm run test:rtk",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "Exact product PR head a34de5ab was green locally with clean cleanup before protected-branch delivery."
+    },
+    {
+      "command": "GitHub exact PR-head required checks",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "PR #1692 head a34de5ab has green RTK, OSS, Ubuntu parity and Windows parity."
+    },
+    {
+      "command": "GitHub exact-main postmerge RTK, OSS and ops vector close",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "Merge 226d8c06 is terminal green in exact-main RTK run 32880854484, OSS run 32880854465 and ops_vector_close run 32880854648."
+    },
+    {
+      "command": "node scripts/ops/r24/docs-claim-lint.mjs and node --test scripts/ops/r24/tests/docs-claim-lint.test.mjs",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 9,
+        "fail": 0
+      },
+      "requiredDisposition": "Strict ClaimBindingV1 lint remains the required oracle after WP300 scheduler binding."
+    }
+  ],
+  "nonClaims": [
+    "This binding closes only the bounded WP-300_WRITER_HOME contour.",
+    "WP300 certifies a Writer Home derived projection and renderer surface without adding product truth, direct storage authority or a release claim.",
+    "The scheduler receipt after WP300 closure selects WP-301_AUTHORING_SURFACES as the next graph-admissible product contour.",
+    "No physical macOS qualification, release readiness, signing, cloud, dependency adoption, storage migration, destructive storage action, user Word/Drive mutation, SAFE_APPLY expansion, pricing, business or AI authority is added.",
+    "It does not mark the R2.4 program DONE."
+  ]
+}

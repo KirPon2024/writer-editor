@@ -1,0 +1,207 @@
+{
+  "stampId": "ES-R24-WP-300-WRITER-HOME-MUTANTS",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-300_WRITER_HOME",
+  "attemptId": "ATTEMPT-WP300-20260825",
+  "authorityEpoch": "R24-WP300-BASE-E660306B",
+  "profileId": "WRITER_CORE",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "a34de5ab4542559cb1d832198c3ac362c56eac3e",
+    "treeSha": "a75b44c23b1ba985adaaa698feed297977dfbb2c"
+  },
+  "claim": {
+    "type": "WP300_WRITER_HOME_NEGATIVE_AND_MUTANT_COVERAGE",
+    "ceiling": "WP300_WRITER_HOME_NODE_ONLY_NO_PROGRAM_DONE_NO_RELEASE_READINESS_NO_PHYSICAL_MACOS_QUALIFICATION_NO_USER_DOCUMENT_MUTATION",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "test/unit/r24-wp300-writer-home.test.mjs mutants",
+    "evidenceClass": "IMPLEMENTATION_MUTANTS",
+    "denominator": 6,
+    "passed": 6,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-300-WRITER-HOME-INTEGRATION"
+    ],
+    "predecessorReceiptDigest": "a2ce9aad92008f056a5dd923c2b22a448ca64dd2f8f38a9dd638df36e94506e0"
+  },
+  "createdAt": "2026-08-25T18:22:10Z",
+  "actor": "codex/r24-wp300-postmerge-closure-v1-20260825",
+  "artifact": {
+    "identityRoles": {
+      "implementationSourceSha": "0c405540ab2cd514dc6e541276426c1ee33ffa6f",
+      "evaluationHeadSha": "a34de5ab4542559cb1d832198c3ac362c56eac3e",
+      "evaluationTreeSha": "a75b44c23b1ba985adaaa698feed297977dfbb2c",
+      "implementationPrHeadSha": "a34de5ab4542559cb1d832198c3ac362c56eac3e",
+      "implementationMergeSha": "226d8c065c3fe3f5a3b6c02312f7f514d1b79f84",
+      "postmergeSha": "226d8c065c3fe3f5a3b6c02312f7f514d1b79f84"
+    },
+    "pr": {
+      "number": 1692,
+      "baseSha": "e660306ba913c06867a9deb51f8e061e75e5743f",
+      "prHeadSha": "a34de5ab4542559cb1d832198c3ac362c56eac3e",
+      "mergeSha": "226d8c065c3fe3f5a3b6c02312f7f514d1b79f84",
+      "mergedAt": "2026-08-25T17:56:34Z",
+      "prHeadTreeSha": "a75b44c23b1ba985adaaa698feed297977dfbb2c",
+      "mergeTreeSha": "a75b44c23b1ba985adaaa698feed297977dfbb2c",
+      "treeUnchangedFromPrHead": true
+    },
+    "requiredPrChecks": [
+      {
+        "name": "rtk-required",
+        "runId": 32878869731,
+        "jobId": 97903299440,
+        "headSha": "a34de5ab4542559cb1d832198c3ac362c56eac3e",
+        "conclusion": "success"
+      },
+      {
+        "name": "oss-policy",
+        "runId": 32878869732,
+        "jobId": 97903299479,
+        "headSha": "a34de5ab4542559cb1d832198c3ac362c56eac3e",
+        "conclusion": "success"
+      },
+      {
+        "name": "x1-runtime-parity (ubuntu-latest)",
+        "runId": 32878869723,
+        "jobId": 97903299318,
+        "headSha": "a34de5ab4542559cb1d832198c3ac362c56eac3e",
+        "conclusion": "success"
+      },
+      {
+        "name": "x1-runtime-parity (windows-latest)",
+        "runId": 32878869723,
+        "jobId": 97903299132,
+        "headSha": "a34de5ab4542559cb1d832198c3ac362c56eac3e",
+        "conclusion": "success"
+      }
+    ],
+    "postmergeChecks": [
+      {
+        "name": "rtk-required",
+        "runId": 32880854484,
+        "jobId": 97909727784,
+        "headSha": "226d8c065c3fe3f5a3b6c02312f7f514d1b79f84",
+        "conclusion": "success"
+      },
+      {
+        "name": "oss-policy",
+        "runId": 32880854465,
+        "jobId": 97909727436,
+        "headSha": "226d8c065c3fe3f5a3b6c02312f7f514d1b79f84",
+        "conclusion": "success"
+      },
+      {
+        "name": "ops_vector_close",
+        "runId": 32880854648,
+        "jobId": 97909728357,
+        "headSha": "a34de5ab4542559cb1d832198c3ac362c56eac3e",
+        "conclusion": "success"
+      }
+    ],
+    "artifactDigests": [
+      {
+        "path": "src/core/writer-home-projection-v1.mjs",
+        "sha256": "348f0f779790465bbf5eb11289c8ccdf931c3d4b7e53e68332ee5efb68a0a42b",
+        "terms": [
+          "WP300 writer home projection and pathless outline summary"
+        ]
+      },
+      {
+        "path": "src/core/anchor-lineage-browser-safe-v1.mjs",
+        "sha256": "4ecdada72cad646dce883a3d8a9b994a5964d2ba67ac2dfc80fa5c6c292a14cf",
+        "terms": [
+          "Browser-safe anchor-lineage surface adapter"
+        ]
+      },
+      {
+        "path": "src/renderer/writerHomeSurface.mjs",
+        "sha256": "7b4b6ad9e02b5e406d71c0796b9f890cae30ea3227dca25f2999ee3316480346",
+        "terms": [
+          "WP300 renderer Writer Home DOM surface without innerHTML"
+        ]
+      },
+      {
+        "path": "src/renderer/editor.js",
+        "sha256": "7f678b3e5abb200b816db5d7e02c5cd3a2d60e9e03d8ab26e8b6f4c1bbb62da3",
+        "terms": [
+          "Editor integration for Writer Home visibility and bounded actions"
+        ]
+      },
+      {
+        "path": "src/renderer/editor.bundle.js",
+        "sha256": "549e505ed255231aaa835f1faa90a3137a0d22fdc9d8782bec59b00224299c85",
+        "terms": [
+          "Tracked renderer bundle rebuilt from WP300 sources"
+        ]
+      },
+      {
+        "path": "src/renderer/index.html",
+        "sha256": "918994d63fc4ecfc40f171ee026f0b583ba164be358c41d3ebd9494f7653e4b2",
+        "terms": [
+          "Writer Home empty-state host markup"
+        ]
+      },
+      {
+        "path": "src/renderer/styles.css",
+        "sha256": "e3573ea67cc494ffed3adfaa2d885546e93b96434a3487fdf9607a0f84b6276e",
+        "terms": [
+          "Responsive Writer Home styling"
+        ]
+      },
+      {
+        "path": "test/unit/r24-wp300-writer-home.test.mjs",
+        "sha256": "19962a07b60b33d8ff8d9c820499aff3e05f43a25441b273e5998b5a2d824ab4",
+        "terms": [
+          "WP300 projection, integration, negative and mutant oracle"
+        ]
+      },
+      {
+        "path": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+        "sha256": "454fda0bc0642548fdb5bd1103aba033986e4c15d4b38cf7c204d7e88ae87061",
+        "terms": [
+          "Interop registry exact editor-js surface binding"
+        ]
+      }
+    ],
+    "localExactHeadRtk": {
+      "invocationId": "f9d7a74d-6b11-430b-8c59-09d915c46749",
+      "headSha": "a34de5ab4542559cb1d832198c3ac362c56eac3e",
+      "pass": 1059,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "exitCode": 0,
+      "cleanup": "RTK_PROCESS_GROUP_CLEAN"
+    },
+    "localExactMainRtk": {
+      "invocationId": "b62e8056-87b4-4172-9a03-7f36a32fd060",
+      "headSha": "226d8c065c3fe3f5a3b6c02312f7f514d1b79f84",
+      "pass": 1059,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0,
+      "exitCode": 0,
+      "cleanup": "RTK_PROCESS_GROUP_CLEAN"
+    },
+    "mutants": {
+      "killed": 6,
+      "survived": 0,
+      "scenarios": [
+        "path-like project labels sanitized",
+        "path-like scene labels sanitized",
+        "innerHTML injection absent from renderer surface",
+        "stale active document hides Writer Home",
+        "unknown action dispatch is ignored",
+        "registry hash drift fails terminal claim binding"
+      ]
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

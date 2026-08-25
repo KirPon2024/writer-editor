@@ -69,11 +69,11 @@ test('SPOOF: forged generations and revision spellings are refused', () => {
 });
 
 test('SPOOF: forged entitlement tier never unlocks the pro surface', () => {
-  // The law's exact semantics: a string whose trim+lowercase is exactly
-  // 'pro' enables; every other value, including non-strings posing as
-  // tiers, degrades to free.
-  for (const accepted of ['pro', 'PRO', ' Pro ']) {
-    assert.equal(decideCommandEntitlement('cmd.project.review.switchMode', accepted).available, true, accepted);
+  // The law's WP206 safe-deny semantics: pro spellings remain recognizable,
+  // but no supplied value becomes an effective entitlement tier until a
+  // separate owner-approved product decision changes the capability table.
+  for (const acceptedButDisabled of ['pro', 'PRO', ' Pro ']) {
+    assert.equal(decideCommandEntitlement('cmd.project.review.switchMode', acceptedButDisabled).available, false, acceptedButDisabled);
   }
   for (const forged of ['pro-plus', 'enterprise', 'licensed', 'pro pro']) {
     assert.equal(decideCommandEntitlement('cmd.project.review.switchMode', forged).available, false, forged);

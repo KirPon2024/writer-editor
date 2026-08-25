@@ -6,11 +6,13 @@ import entitlementLaw from '../../core/entitlement-law-v1.cjs';
 
 const {
   ENTITLEMENT_TIERS,
+  ENTITLEMENT_AUTHORITY_MODE,
   FREE_READ_ONLY_COMMAND_IDS,
   FREE_PRO_COMPLEXITY_COMMAND_IDS,
   FREE_ALWAYS_AVAILABLE_COMMAND_IDS,
   decideCommandEntitlement,
   normalizeEntitlementTier,
+  normalizeEffectiveEntitlementTier,
 } = entitlementLaw;
 
 export const LOCAL_CAPABILITY_SCHEMA_VERSION = 'local-capability-provider.v1';
@@ -25,20 +27,26 @@ function normalizeTier(value) {
   return normalizeEntitlementTier(value);
 }
 
-function pickTier(input = {}) {
+function pickTierInput(input = {}) {
   const source = input && typeof input === 'object' && !Array.isArray(input) ? input : {};
-  return normalizeTier(
-    source.entitlementTier
-      || source.tier
-      || source.plan
-      || source.productTier
-      || source.localTier
-      || '',
-  );
+  return source.entitlementTier
+    || source.tier
+    || source.plan
+    || source.productTier
+    || source.localTier
+    || '';
+}
+
+function pickRequestedTier(input = {}) {
+  return normalizeTier(pickTierInput(input));
+}
+
+function pickTier(input = {}) {
+  return normalizeEffectiveEntitlementTier(pickTierInput(input));
 }
 
 export function resolveEntitlementTierLabel(value) {
-  return normalizeTier(value) === LOCAL_ENTITLEMENT_TIERS.PRO ? 'Pro' : 'Free';
+  return normalizeEffectiveEntitlementTier(value) === LOCAL_ENTITLEMENT_TIERS.PRO ? 'Pro' : 'Free';
 }
 
 export function normalizeLocalCapabilityState(input = {}) {
@@ -47,23 +55,35 @@ export function normalizeLocalCapabilityState(input = {}) {
     ? source.entitlementState
     : {};
   const profileId = normalizeString(source.profileId || source.toolbarProfile || entitlementState.profileId);
-  const tier = pickTier({
+  const tierInput = {
     ...entitlementState,
     entitlementTier: source.entitlementTier || entitlementState.entitlementTier,
     tier: source.tier || entitlementState.tier,
     plan: source.plan || entitlementState.plan,
     productTier: source.productTier || entitlementState.productTier,
     localTier: source.localTier || entitlementState.localTier,
-  });
+  };
+  const requestedTier = pickRequestedTier(tierInput);
+  const tier = pickTier(tierInput);
 
   return Object.freeze({
     schemaVersion: LOCAL_CAPABILITY_SCHEMA_VERSION,
     tier,
+    requestedTier,
+    tierDisabled: requestedTier !== tier,
     label: resolveEntitlementTierLabel(tier),
+    entitlementAuthorityMode: ENTITLEMENT_AUTHORITY_MODE.mode,
+    entitlementDependentBehaviorEnabled: ENTITLEMENT_AUTHORITY_MODE.entitlementDependentBehaviorEnabled,
     localOnly: true,
     requiresAccount: false,
     requiresNetwork: false,
     hasRemoteLicenseAuthority: false,
+    pricingAuthority: false,
+    businessAuthority: false,
+    releaseAuthority: false,
+    cloudAuthority: false,
+    userDataAuthority: false,
+    dependencyAdoption: false,
     profileId,
     profileIsTier: false,
     preservesUnknownProjectData: true,
@@ -86,6 +106,18 @@ export function getLocalCapabilityContract() {
   return Object.freeze({
     schemaVersion: LOCAL_CAPABILITY_SCHEMA_VERSION,
     tiers: Object.freeze([LOCAL_ENTITLEMENT_TIERS.FREE, LOCAL_ENTITLEMENT_TIERS.PRO]),
+    entitlementAuthorityMode: ENTITLEMENT_AUTHORITY_MODE.mode,
+    entitlementDependentBehaviorEnabled: ENTITLEMENT_AUTHORITY_MODE.entitlementDependentBehaviorEnabled,
+    enabledTiers: Object.freeze([...ENTITLEMENT_AUTHORITY_MODE.enabledTiers]),
+    disabledTiers: Object.freeze([...ENTITLEMENT_AUTHORITY_MODE.disabledTiers]),
+    forbiddenAuthority: Object.freeze({
+      pricingAuthority: ENTITLEMENT_AUTHORITY_MODE.pricingAuthority,
+      businessAuthority: ENTITLEMENT_AUTHORITY_MODE.businessAuthority,
+      releaseAuthority: ENTITLEMENT_AUTHORITY_MODE.releaseAuthority,
+      cloudAuthority: ENTITLEMENT_AUTHORITY_MODE.cloudAuthority,
+      userDataAuthority: ENTITLEMENT_AUTHORITY_MODE.userDataAuthority,
+      dependencyAdoption: ENTITLEMENT_AUTHORITY_MODE.dependencyAdoption,
+    }),
     freeAlwaysAvailableCommandIds: Object.freeze([...FREE_ALWAYS_AVAILABLE_COMMAND_IDS]),
     freeReadOnlyCommandIds: Object.freeze([...FREE_READ_ONLY_COMMAND_IDS]),
     freeProComplexityCommandIds: Object.freeze([...FREE_PRO_COMPLEXITY_COMMAND_IDS]),
@@ -97,6 +129,7 @@ export function getLocalCapabilityContract() {
       fullArchiveAlwaysAvailable: true,
       projectFormatShared: true,
       preservesUnknownProjectData: true,
+      entitlementDependentBehaviorEnabled: false,
     }),
   });
 }

@@ -17,9 +17,14 @@ const MUTANTS = [
     replace: "  return (typeof value === 'string' ? value.trim() : '').toLowerCase() !== ENTITLEMENT_TIERS.FREE\n    ? ENTITLEMENT_TIERS.PRO\n    : ENTITLEMENT_TIERS.FREE;",
   },
   {
-    id: 'pro-tier-check-removed',
-    find: '  if (tier === ENTITLEMENT_TIERS.PRO) {',
-    replace: '  if (false) {',
+    id: 'pro-effective-safe-deny-removed',
+    find: '  return isEntitlementTierEnabled(tier) ? tier : ENTITLEMENT_TIERS.FREE;',
+    replace: '  return tier;',
+  },
+  {
+    id: 'safe-deny-enabled-tiers-widened',
+    find: '  enabledTiers: Object.freeze([ENTITLEMENT_TIERS.FREE]),',
+    replace: '  enabledTiers: Object.freeze([ENTITLEMENT_TIERS.FREE, ENTITLEMENT_TIERS.PRO]),',
   },
   {
     id: 'pro-complexity-block-removed',
@@ -46,12 +51,21 @@ const MUTANTS = [
     find: 'function getProductEntitlementTier() {\n  return ENTITLEMENT_TIERS.FREE;\n}',
     replace: 'function getProductEntitlementTier() {\n  return ENTITLEMENT_TIERS.PRO;\n}',
   },
+  {
+    id: 'forbidden-pricing-authority-enabled',
+    find: '  disabledTiers: Object.freeze([ENTITLEMENT_TIERS.PRO]),\n  pricingAuthority: false,',
+    replace: '  disabledTiers: Object.freeze([ENTITLEMENT_TIERS.PRO]),\n  pricingAuthority: true,',
+  },
 ];
 
 function killOracle(module) {
   const {
+    ENTITLEMENT_AUTHORITY_MODE,
+    ENTITLEMENT_INVARIANTS,
     decideCommandEntitlement,
     getProductEntitlementTier,
+    isEntitlementTierEnabled,
+    normalizeEffectiveEntitlementTier,
     normalizeEntitlementTier,
     FREE_PRO_COMPLEXITY_COMMAND_IDS,
     FREE_READ_ONLY_COMMAND_IDS,
@@ -59,25 +73,43 @@ function killOracle(module) {
 
   // v1 local law: the product-owned tier is the constant free.
   assert.equal(getProductEntitlementTier(), 'free');
+  assert.equal(ENTITLEMENT_AUTHORITY_MODE.ownerDecision, 'DENIED');
+  assert.equal(ENTITLEMENT_AUTHORITY_MODE.mode, 'SAFE_DENY');
+  assert.deepEqual(ENTITLEMENT_AUTHORITY_MODE.enabledTiers, ['free']);
+  assert.deepEqual(ENTITLEMENT_AUTHORITY_MODE.disabledTiers, ['pro']);
+  assert.equal(ENTITLEMENT_AUTHORITY_MODE.entitlementDependentBehaviorEnabled, false);
+  assert.equal(ENTITLEMENT_AUTHORITY_MODE.pricingAuthority, false);
+  assert.equal(ENTITLEMENT_AUTHORITY_MODE.businessAuthority, false);
+  assert.equal(ENTITLEMENT_AUTHORITY_MODE.releaseAuthority, false);
+  assert.equal(ENTITLEMENT_AUTHORITY_MODE.cloudAuthority, false);
+  assert.equal(ENTITLEMENT_AUTHORITY_MODE.userDataAuthority, false);
+  assert.equal(ENTITLEMENT_AUTHORITY_MODE.dependencyAdoption, false);
+  assert.equal(ENTITLEMENT_INVARIANTS.safeDenyUntilProductDecision, true);
 
-  // Hostile tier spellings degrade to free; only exact pro is pro.
+  // Hostile tier spellings degrade to free; recognized pro is not an effective tier.
   assert.equal(normalizeEntitlementTier('enterprise'), 'free');
   assert.equal(normalizeEntitlementTier('pro'), 'pro');
+  assert.equal(normalizeEffectiveEntitlementTier('pro'), 'free');
+  assert.equal(isEntitlementTierEnabled('pro'), false);
+  assert.equal(isEntitlementTierEnabled('free'), true);
 
-  // Free refuses the pro complexity surface; pro enables it.
+  // Free refuses the pro complexity surface; supplied pro is safe-denied to free.
   const proId = FREE_PRO_COMPLEXITY_COMMAND_IDS[0];
   assert.equal(decideCommandEntitlement(proId, 'free').available, false);
   assert.equal(decideCommandEntitlement(proId, 'free').reason, 'PRO_COMPLEXITY_SURFACE_UNAVAILABLE_IN_FREE');
-  assert.equal(decideCommandEntitlement(proId, 'pro').available, true);
+  assert.equal(decideCommandEntitlement(proId, 'pro').available, false);
+  assert.equal(decideCommandEntitlement(proId, 'pro').reason, 'PRO_COMPLEXITY_SURFACE_UNAVAILABLE_IN_FREE');
 
   // Read-only stays available with typed access in free.
   const roId = FREE_READ_ONLY_COMMAND_IDS[0];
   assert.equal(decideCommandEntitlement(roId, 'free').available, true);
   assert.equal(decideCommandEntitlement(roId, 'free').access, 'read_only');
+  assert.equal(decideCommandEntitlement(roId, 'pro').available, true);
+  assert.equal(decideCommandEntitlement(roId, 'pro').access, 'read_only');
 
   // Free authorship is available; unclassified fails closed.
-  assert.equal(decideCommandEntitlement('cmd.project.save', 'free').available, true);
-  const un = decideCommandEntitlement('cmd.project.unknown.surface', 'free');
+  assert.equal(decideCommandEntitlement('cmd.project.save', 'pro').available, true);
+  const un = decideCommandEntitlement('cmd.project.unknown.surface', 'pro');
   assert.equal(un.available, false);
   assert.equal(un.reason, 'COMMAND_ENTITLEMENT_UNCLASSIFIED');
 }

@@ -345,6 +345,10 @@ test('S38 Pro roundtrip: Free save and full archive reopen preserve unknown Pro 
   assert.deepEqual(normalizedAfter.futureProData, manifest.futureProData);
   assert.equal(
     capabilityProvider.resolveCommandEntitlement('cmd.project.review.switchMode', { entitlementTier: 'pro' }).available,
-    true,
+    false,
+  );
+  assert.equal(
+    capabilityProvider.resolveCommandEntitlement('cmd.project.review.switchMode', { entitlementTier: 'pro' }).reason,
+    'PRO_COMPLEXITY_SURFACE_UNAVAILABLE_IN_FREE',
   );
 });

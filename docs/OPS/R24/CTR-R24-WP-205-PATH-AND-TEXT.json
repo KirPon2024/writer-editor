@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "ContourTerminalReceiptV2",
+  "receiptId": "CTR-R24-WP-205-PATH-AND-TEXT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-205_PATH_AND_TEXT",
+  "attemptId": "ATTEMPT-WP205-20260825",
+  "authorityEpoch": "R24-WP205-BASE-497D367A",
+  "exactHeadSha": "d84b1b00df08a8f0576ec4fc50a7a169f1fbb858",
+  "mergeState": "MERGED",
+  "postmergeState": "PASS",
+  "survivorState": "PASS",
+  "evidenceStampIds": [
+    "ES-R24-WP-205-PATH-AND-TEXT-MODEL",
+    "ES-R24-WP-205-PATH-AND-TEXT-CONTRACT",
+    "ES-R24-WP-205-PATH-AND-TEXT-INTEGRATION",
+    "ES-R24-WP-205-PATH-AND-TEXT-MUTANTS",
+    "ES-R24-WP-205-PATH-AND-TEXT-EXACT-HEAD",
+    "ES-R24-WP-205-PATH-AND-TEXT-POSTMERGE-EXACT-HEAD",
+    "ES-R24-WP-205-PATH-AND-TEXT-SURVIVOR-AUDIT",
+    "ES-R24-WP-205-PATH-AND-TEXT-CLAIM-BINDINGS"
+  ],
+  "nextContourId": null
+}

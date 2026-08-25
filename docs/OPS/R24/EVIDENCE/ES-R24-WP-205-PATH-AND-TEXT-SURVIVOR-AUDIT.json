@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-WP-205-PATH-AND-TEXT-SURVIVOR-AUDIT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-205_PATH_AND_TEXT",
+  "attemptId": "ATTEMPT-WP205-20260825",
+  "authorityEpoch": "R24-WP205-BASE-497D367A",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "d84b1b00df08a8f0576ec4fc50a7a169f1fbb858",
+    "treeSha": "ae96422055d408f544c34d8fd75017968626c805"
+  },
+  "claim": {
+    "type": "WP205_EXACT_MERGE_SURVIVOR_AUDIT",
+    "ceiling": "WP205_NODE_ONLY_IN_MEMORY_TEXT_OPERATION_PLANS_NO_USER_DOCUMENT_OR_SYSTEM_CLIPBOARD_MUTATION_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "exact-merge-wp205-path-text-survivor-audit",
+    "evidenceClass": "SURVIVOR_AUDIT",
+    "denominator": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-205-PATH-AND-TEXT-POSTMERGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "6704fa38495c9bf70b1515b38af4e98d620cafead9ff7f6ae92ff9641a0e6350"
+  },
+  "createdAt": "2026-08-25T09:25:00Z",
+  "actor": "codex/r24-wp205-postmerge-closure-v1-20260825",
+  "artifact": {
+    "identityRoles": {
+      "implementationSourceSha": "7ce7e659e2feab39336f19706d07fd4b171cf946",
+      "evaluationHeadSha": "7ce7e659e2feab39336f19706d07fd4b171cf946",
+      "evaluationTreeSha": "ae96422055d408f544c34d8fd75017968626c805",
+      "implementationPrHeadSha": "7ce7e659e2feab39336f19706d07fd4b171cf946",
+      "implementationMergeSha": "d84b1b00df08a8f0576ec4fc50a7a169f1fbb858",
+      "postmergeSha": "d84b1b00df08a8f0576ec4fc50a7a169f1fbb858"
+    },
+    "focusedPostmerge": {
+      "wp205TestsPassed": 9,
+      "wp205TestsFailed": 0,
+      "wp205MutantsKilled": 7,
+      "wp205MutantsSurvived": 0,
+      "claimBindingFiles": 32,
+      "claimBindingStamps": 203,
+      "claimBindingLintPassed": true,
+      "agentGuardrailsPassed": true,
+      "ossPolicyPassed": true
+    },
+    "pathTextOutcome": {
+      "noFollowPathCapability": true,
+      "pathAliasMismatchRejected": true,
+      "graphemeBoundaryGuard": true,
+      "imeActiveRejected": true,
+      "deterministicFoldUnmappableRejected": true,
+      "plainTextClipboardOnly": true,
+      "memoryUndoHashGuard": true,
+      "rendererBypass": false,
+      "liveFileWrite": false,
+      "systemClipboardMutation": false,
+      "userDocumentMutation": false
+    },
+    "replay": {
+      "verdict": "PASS",
+      "baselineClassification": "ADOPTED_PRE_V2_UNREPLAYABLE_HISTORY",
+      "baselineRevision": 94,
+      "replayedTransitions": 80,
+      "finalRevision": 206,
+      "fencingCounter": 36,
+      "activeLeaseCount": 0
+    },
+    "implementationArtifactDigests": {
+      "module": "1062b7a4f9d0f2a1c9a7e61b4f3f08fd785d8ef6b383ce1e8bdcf975b230bcfe",
+      "unitTest": "e2248da245f948c451a8eafeee82e80605074e2001ac306ce37869e25266a048",
+      "physicsTest": "5dc41dba99739475aa2d2ac45737fd994ccf3210c73f96fced548c3dfc13c31c",
+      "mutantsTest": "a6c9efc1b53b8090fe45da782a7fc5e947b7fe25a971f44007c58ee6ed808eeb"
+    },
+    "denominatorLaw": "All nine focused WP205 contract, physics and mutant-oracle tests pass on the unchanged exact merge tree; all seven named mutants remain killed, strict claim lint, guardrails and OSS policy also pass.",
+    "residualRisks": [
+      "The survivor audit is over in-memory operation plans and temporary path fixtures, never live user documents or Drive state.",
+      "WP206 and every later node remain independently graph-gated."
+    ]
+  }
+}

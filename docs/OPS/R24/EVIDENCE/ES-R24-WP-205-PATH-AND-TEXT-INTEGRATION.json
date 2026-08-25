@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-WP-205-PATH-AND-TEXT-INTEGRATION",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-205_PATH_AND_TEXT",
+  "attemptId": "ATTEMPT-WP205-20260825",
+  "authorityEpoch": "R24-WP205-BASE-497D367A",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "7ce7e659e2feab39336f19706d07fd4b171cf946",
+    "treeSha": "ae96422055d408f544c34d8fd75017968626c805"
+  },
+  "claim": {
+    "type": "WP205_REAL_FILESYSTEM_AND_UNICODE_PATH_TEXT_INTEGRATION",
+    "ceiling": "WP205_NODE_ONLY_IN_MEMORY_TEXT_OPERATION_PLANS_NO_USER_DOCUMENT_OR_SYSTEM_CLIPBOARD_MUTATION_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-wp205-integration",
+    "evidenceClass": "INTEGRATION",
+    "denominator": 3,
+    "passed": 3,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-205-PATH-AND-TEXT-CONTRACT"
+    ],
+    "predecessorReceiptDigest": "6704fa38495c9bf70b1515b38af4e98d620cafead9ff7f6ae92ff9641a0e6350"
+  },
+  "createdAt": "2026-08-25T09:25:00Z",
+  "actor": "codex/r24-wp205-path-and-text-v1-20260825",
+  "artifact": {
+    "command": "node --test test/unit/r24-wp205-path-and-text.test.mjs test/unit/r24-wp205-path-and-text-physics.test.mjs test/unit/r24-wp205-path-and-text-mutants.test.mjs",
+    "evaluationHeadSha": "7ce7e659e2feab39336f19706d07fd4b171cf946",
+    "focusedCounts": {
+      "pass": 9,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "integrationCounts": {
+      "pass": 3,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "physicalObservations": [
+      "a real symlink component is refused by no-follow path capability before text planning",
+      "a JSON-persisted undo receipt survives reopen and refuses stale target text",
+      "large deterministic search replace remains bounded and preserves Unicode normalization exactly"
+    ],
+    "testProfileCoverage": {
+      "CONTRACT_NEGATIVE": "path escape alias mismatch clipboard html undo drift IME-active grapheme split and unmappable fold",
+      "UNIT": "search replace, range replace, clipboard paste and undo planning",
+      "INTEGRATION": "real filesystem symlink, persisted undo recovery and large Unicode replace",
+      "IMPLEMENTATION_MUTANTS": "seven named mutants killed",
+      "UNICODE_IME": "well-formed Unicode, grapheme boundaries, deterministic fold and IME-active refusal",
+      "CRASH_RECOVERY": "memory-only undo receipt persisted and revalidated after JSON reopen",
+      "A11Y_PERF": "no UI delta; large replace bounded under the focused performance oracle"
+    },
+    "runtimeMutation": true,
+    "liveFileMutation": false,
+    "userDocumentMutation": false,
+    "systemClipboardMutation": false
+  }
+}

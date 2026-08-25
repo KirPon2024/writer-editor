@@ -1,0 +1,126 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-WP-205-PATH-AND-TEXT-POSTMERGE-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-205_PATH_AND_TEXT",
+  "attemptId": "ATTEMPT-WP205-20260825",
+  "authorityEpoch": "R24-WP205-BASE-497D367A",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "d84b1b00df08a8f0576ec4fc50a7a169f1fbb858",
+    "treeSha": "ae96422055d408f544c34d8fd75017968626c805"
+  },
+  "claim": {
+    "type": "WP205_EXACT_MAIN_POSTMERGE_REQUIRED_GATES",
+    "ceiling": "WP205_NODE_ONLY_IN_MEMORY_TEXT_OPERATION_PLANS_NO_USER_DOCUMENT_OR_SYSTEM_CLIPBOARD_MUTATION_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "exact-main-wp205-required-gates",
+    "evidenceClass": "POSTMERGE",
+    "denominator": 1059,
+    "passed": 1059,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-205-PATH-AND-TEXT-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "6704fa38495c9bf70b1515b38af4e98d620cafead9ff7f6ae92ff9641a0e6350"
+  },
+  "createdAt": "2026-08-25T09:25:00Z",
+  "actor": "codex/r24-wp205-postmerge-closure-v1-20260825",
+  "artifact": {
+    "identityRoles": {
+      "implementationSourceSha": "7ce7e659e2feab39336f19706d07fd4b171cf946",
+      "evaluationHeadSha": "7ce7e659e2feab39336f19706d07fd4b171cf946",
+      "evaluationTreeSha": "ae96422055d408f544c34d8fd75017968626c805",
+      "implementationPrHeadSha": "7ce7e659e2feab39336f19706d07fd4b171cf946",
+      "implementationMergeSha": "d84b1b00df08a8f0576ec4fc50a7a169f1fbb858",
+      "postmergeSha": "d84b1b00df08a8f0576ec4fc50a7a169f1fbb858"
+    },
+    "pr": {
+      "number": 1685,
+      "baseSha": "497d367a2e1b956c992f1e68f6ce4e71e93a5937",
+      "prHeadSha": "7ce7e659e2feab39336f19706d07fd4b171cf946",
+      "mergeSha": "d84b1b00df08a8f0576ec4fc50a7a169f1fbb858",
+      "mergedAt": "2026-08-25T09:05:27Z",
+      "prHeadTreeSha": "ae96422055d408f544c34d8fd75017968626c805",
+      "mergeTreeSha": "ae96422055d408f544c34d8fd75017968626c805",
+      "treeUnchangedFromPrHead": true
+    },
+    "requiredPrChecks": [
+      {
+        "name": "rtk-required",
+        "runId": 32828292862,
+        "jobId": 97741076782,
+        "headSha": "7ce7e659e2feab39336f19706d07fd4b171cf946",
+        "conclusion": "success"
+      },
+      {
+        "name": "oss-policy",
+        "runId": 32828292897,
+        "jobId": 97741076640,
+        "headSha": "7ce7e659e2feab39336f19706d07fd4b171cf946",
+        "conclusion": "success"
+      },
+      {
+        "name": "x1-runtime-parity (ubuntu-latest)",
+        "runId": 32828292762,
+        "jobId": 97741076522,
+        "headSha": "7ce7e659e2feab39336f19706d07fd4b171cf946",
+        "conclusion": "success"
+      },
+      {
+        "name": "x1-runtime-parity (windows-latest)",
+        "runId": 32828292762,
+        "jobId": 97741076849,
+        "headSha": "7ce7e659e2feab39336f19706d07fd4b171cf946",
+        "conclusion": "success"
+      }
+    ],
+    "postmergeChecks": [
+      {
+        "name": "rtk-required",
+        "runId": 32830060696,
+        "jobId": 97746495708,
+        "headSha": "d84b1b00df08a8f0576ec4fc50a7a169f1fbb858",
+        "conclusion": "success"
+      },
+      {
+        "name": "OSS policy",
+        "runId": 32830060729,
+        "jobId": 97746495703,
+        "headSha": "d84b1b00df08a8f0576ec4fc50a7a169f1fbb858",
+        "conclusion": "success"
+      }
+    ],
+    "fullRtk": {
+      "pass": 1059,
+      "fail": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "focusedPostmerge": {
+      "wp205TestsPassed": 9,
+      "wp205TestsFailed": 0,
+      "wp205MutantsKilled": 7,
+      "wp205MutantsSurvived": 0,
+      "authoritySotPassed": 16,
+      "claimBindingFiles": 32,
+      "claimBindingStamps": 203,
+      "claimBindingLintPassed": true,
+      "agentGuardrailsPassed": true,
+      "ossPolicyPassed": true,
+      "diffCheckPassed": true
+    },
+    "residualRisks": [
+      "WP205 produces path/text operation plans and memory undo receipts; it does not write live user files.",
+      "No system clipboard mutation, user migration, dependency adoption, destructive action, SAFE_APPLY, release, signing, cloud or AI authority is added."
+    ]
+  }
+}

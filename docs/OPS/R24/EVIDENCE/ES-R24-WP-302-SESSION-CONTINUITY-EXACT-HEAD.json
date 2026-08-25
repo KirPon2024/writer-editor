@@ -1,0 +1,93 @@
+{
+  "stampId": "ES-R24-WP-302-SESSION-CONTINUITY-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-302_SESSION_CONTINUITY",
+  "attemptId": "ATTEMPT-WP302-20260826",
+  "authorityEpoch": "R24-WP302-BASE-5A433C71",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "740e3d1c9a6b6ce3e97450cccbc5e469b8df9038",
+    "treeSha": "9d035ab897a0ad70a42f5597be9b6f1d24132f41"
+  },
+  "claim": {
+    "type": "WP302_EXACT_PR_HEAD_REQUIRED_GATES",
+    "ceiling": "WP302_NODE_ONLY_NO_PROGRAM_DONE_NO_RELEASE_OR_PHYSICAL_QUALIFICATION_NO_USER_DOCUMENT_MUTATION",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "GitHub PR 1696 exact-head required checks plus local full RTK",
+    "evidenceClass": "INDEPENDENT_EXACT_HEAD",
+    "denominator": 1059,
+    "passed": 1059,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-302-SESSION-CONTINUITY-MUTANTS"
+    ],
+    "predecessorReceiptDigest": "3d942b23a3a597bfaeafd2f8987f532a66258682d7b173251e281f14595131e9"
+  },
+  "createdAt": "2026-08-25T23:09:00Z",
+  "actor": "codex/r24-wp302-postmerge-closure-v1-20260826",
+  "artifact": {
+    "identityRoles": {
+      "implementationSourceSha": "740e3d1c9a6b6ce3e97450cccbc5e469b8df9038",
+      "evaluationHeadSha": "740e3d1c9a6b6ce3e97450cccbc5e469b8df9038",
+      "evaluationTreeSha": "9d035ab897a0ad70a42f5597be9b6f1d24132f41",
+      "implementationPrHeadSha": "740e3d1c9a6b6ce3e97450cccbc5e469b8df9038",
+      "implementationMergeSha": "6299274226f27bd9cbdc96832ac88499983f5ee5",
+      "postmergeSha": "6299274226f27bd9cbdc96832ac88499983f5ee5"
+    },
+    "pr": {
+      "number": 1696,
+      "baseSha": "5a433c719b2064b359d6f0479aa3fb5e113cebce",
+      "prHeadSha": "740e3d1c9a6b6ce3e97450cccbc5e469b8df9038",
+      "mergeSha": "6299274226f27bd9cbdc96832ac88499983f5ee5",
+      "mergedAt": "2026-08-25T22:43:15Z",
+      "prHeadTreeSha": "9d035ab897a0ad70a42f5597be9b6f1d24132f41",
+      "mergeTreeSha": "9d035ab897a0ad70a42f5597be9b6f1d24132f41",
+      "treeUnchangedFromPrHead": true
+    },
+    "requiredPrChecks": [
+      {
+        "name": "rtk-required",
+        "runId": 32905810894,
+        "jobId": 97989537923,
+        "headSha": "740e3d1c9a6b6ce3e97450cccbc5e469b8df9038",
+        "conclusion": "success"
+      },
+      {
+        "name": "oss-policy",
+        "runId": 32905810874,
+        "jobId": 97989537943,
+        "headSha": "740e3d1c9a6b6ce3e97450cccbc5e469b8df9038",
+        "conclusion": "success"
+      },
+      {
+        "name": "x1-runtime-parity (ubuntu-latest)",
+        "runId": 32905810913,
+        "jobId": 97989538089,
+        "headSha": "740e3d1c9a6b6ce3e97450cccbc5e469b8df9038",
+        "conclusion": "success"
+      },
+      {
+        "name": "x1-runtime-parity (windows-latest)",
+        "runId": 32905810913,
+        "jobId": 97989538230,
+        "headSha": "740e3d1c9a6b6ce3e97450cccbc5e469b8df9038",
+        "conclusion": "success"
+      }
+    ],
+    "localExactHeadRtk": {
+      "invocationId": "4f566354-7ce0-407e-887a-4e854e417f02",
+      "pass": 1059,
+      "fail": 0,
+      "cleanup": "RTK_PROCESS_GROUP_CLEAN"
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

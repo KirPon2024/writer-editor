@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-204_LIFECYCLE_RECOVERY",
+  "attemptId": "ATTEMPT-WP204-20260825",
+  "authorityEpoch": "R24-WP204-BASE-88C4E858",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "1ee7bba98e52cd9aade3e88bb9e40b4528a9a53c",
+    "treeSha": "8a3a076777a63ade45bf5ad4780e5bfae5e03447"
+  },
+  "createdAt": "2026-08-24T23:48:01Z",
+  "actor": "codex/r24-wp204-lifecycle-recovery-v1-20260825",
+  "stampId": "ES-R24-WP-204-LIFECYCLE-RECOVERY-MUTANTS",
+  "claim": {
+    "type": "WP204_IMPLEMENTATION_MUTATION_ORACLE",
+    "ceiling": "WP204_NODE_ONLY_INJECTION_SEAM_NO_LIVE_STORAGE_ATTACHMENT_NO_AUTOMATIC_EFFECT_PUBLICATION_OR_GC_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-wp204-mutants",
+    "evidenceClass": "IMPLEMENTATION_MUTANTS",
+    "denominator": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-204-LIFECYCLE-RECOVERY-INTEGRATION"
+    ],
+    "predecessorReceiptDigest": "58f1da4fdbae609274b120d70665688679e0a382678705facb6520defcaf1957"
+  },
+  "artifact": {
+    "command": "node --test test/unit/r24-wp204-lifecycle-recovery-mutants.test.js",
+    "mutationReceipt": {
+      "total": 7,
+      "killed": 7,
+      "survived": [],
+      "score": 1
+    },
+    "mutantIds": [
+      "M_PATH_ACCEPTS_RELATIVE",
+      "M_GC_DELETES_NEWEST",
+      "M_GC_AUTOMATIC_EXECUTION",
+      "M_EVENT_FORCED_TO_CRASH",
+      "M_PENDING_EFFECTS_HIDDEN",
+      "M_EFFECTS_AUTO_PUBLISH",
+      "M_LIVE_STORAGE_ATTACHMENT"
+    ],
+    "artifactDigests": [
+      {
+        "path": "test/unit/r24-wp204-lifecycle-recovery-mutants.test.js",
+        "sha256": "bdfb104479ceecdaa4911f0578e130e9298e2a1fb56263a809938edb0e9dfd1f"
+      }
+    ],
+    "identityRoles": {
+      "implementationSourceSha": "1ee7bba98e52cd9aade3e88bb9e40b4528a9a53c",
+      "evaluationHeadSha": "1ee7bba98e52cd9aade3e88bb9e40b4528a9a53c",
+      "evaluationTreeSha": "8a3a076777a63ade45bf5ad4780e5bfae5e03447",
+      "implementationPrHeadSha": null,
+      "implementationMergeSha": null,
+      "postmergeSha": null
+    }
+  }
+}

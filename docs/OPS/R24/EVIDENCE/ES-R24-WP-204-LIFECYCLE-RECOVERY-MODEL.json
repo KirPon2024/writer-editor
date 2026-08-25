@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-204_LIFECYCLE_RECOVERY",
+  "attemptId": "ATTEMPT-WP204-20260825",
+  "authorityEpoch": "R24-WP204-BASE-88C4E858",
+  "profileId": "WRITER_TRUTH_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "1ee7bba98e52cd9aade3e88bb9e40b4528a9a53c",
+    "treeSha": "8a3a076777a63ade45bf5ad4780e5bfae5e03447"
+  },
+  "createdAt": "2026-08-24T23:48:01Z",
+  "actor": "codex/r24-wp204-lifecycle-recovery-v1-20260825",
+  "stampId": "ES-R24-WP-204-LIFECYCLE-RECOVERY-MODEL",
+  "claim": {
+    "type": "WP204_FAIL_CLOSED_LIFECYCLE_RECOVERY_COMPOSITION_MODEL",
+    "ceiling": "WP204_NODE_ONLY_INJECTION_SEAM_NO_LIVE_STORAGE_ATTACHMENT_NO_AUTOMATIC_EFFECT_PUBLICATION_OR_GC_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "r24-wp204-model",
+    "evidenceClass": "MODEL",
+    "denominator": 13,
+    "passed": 13,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [],
+    "predecessorReceiptDigest": "58f1da4fdbae609274b120d70665688679e0a382678705facb6520defcaf1957"
+  },
+  "artifact": {
+    "classification": "PARTIAL_AT_ADMISSION_R4_R5_R6_WP201_WP203_PRIMITIVES_EXISTED_BUT_NO_SINGLE_RECOVERY_COMPOSITION_RECEIPT",
+    "identityRoles": {
+      "implementationSourceSha": "1ee7bba98e52cd9aade3e88bb9e40b4528a9a53c",
+      "evaluationHeadSha": "1ee7bba98e52cd9aade3e88bb9e40b4528a9a53c",
+      "evaluationTreeSha": "8a3a076777a63ade45bf5ad4780e5bfae5e03447",
+      "implementationPrHeadSha": null,
+      "implementationMergeSha": null,
+      "postmergeSha": null
+    },
+    "outcomeMatrix": [
+      {
+        "outcome": "digest-chained selected recovery ledger",
+        "classification": "ALREADY_IMPLEMENTED"
+      },
+      {
+        "outcome": "durable transactional inbox and outbox replay",
+        "classification": "ALREADY_IMPLEMENTED"
+      },
+      {
+        "outcome": "close quit crash and external-conflict lifecycle barrier",
+        "classification": "PARTIAL_MAIN_QUIT_WIRED_OTHER_EVIDENCE_PRIMITIVES_EXISTED"
+      },
+      {
+        "outcome": "recoverable scene and manifest project transaction",
+        "classification": "ALREADY_IMPLEMENTED"
+      },
+      {
+        "outcome": "migration history checkpoints backup restore and bounded GC",
+        "classification": "ALREADY_IMPLEMENTED"
+      },
+      {
+        "outcome": "one immutable subject-generation-bound composition receipt over fresh durable replay",
+        "classification": "MISSING_AT_ADMISSION_IMPLEMENTED_BY_WP204"
+      },
+      {
+        "outcome": "live storage attachment user data migration automatic effect publication or destructive GC",
+        "classification": "MISSING_FORBIDDEN_OUTSIDE_WP204_AUTHORITY"
+      }
+    ],
+    "compositionOrder": [
+      "validate selected storage receipt",
+      "open selected recovery ledger",
+      "fresh reopen transactional inbox and outbox",
+      "recover project transaction through injected manifest authority",
+      "replay migration checkpoint history",
+      "evaluate lifecycle barrier on fresh subject and generation evidence",
+      "compile immutable digest-bound receipt and non-executing GC plan"
+    ],
+    "artifactDigests": [
+      {
+        "path": "src/core/lifecycle-recovery-v1.cjs",
+        "sha256": "57cf18f554b9b478ba1509860013cb2d54d9660f15b69ea56e2da830bdac0506"
+      }
+    ],
+    "residualRisks": [
+      "The composition is injection-only and is not attached to the live main storage path.",
+      "Pending effects are surfaced but never automatically published.",
+      "Checkpoint deletion is planned but never automatically executed.",
+      "No user data migration dependency adoption SAFE_APPLY release signing cloud AI or program-completion authority is added."
+    ]
+  }
+}

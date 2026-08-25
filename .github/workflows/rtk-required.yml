@@ -130,6 +130,9 @@ jobs:
       - name: Run R2.4 WP-203 storage selection gate
         run: npm run -s test:r24-wp203
 
+      - name: Run R2.4 WP-204 lifecycle recovery gate
+        run: npm run -s test:r24-wp204
+
       - name: Run R2.4 A0 Atlas incremental equivalence gate
         run: npm run -s test:r24-a0
 

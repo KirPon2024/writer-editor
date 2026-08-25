@@ -1,0 +1,51 @@
+{
+  "stampId": "ES-R24-WP-302-SESSION-CONTINUITY-INTEGRATION",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-302_SESSION_CONTINUITY",
+  "attemptId": "ATTEMPT-WP302-20260826",
+  "authorityEpoch": "R24-WP302-BASE-5A433C71",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "740e3d1c9a6b6ce3e97450cccbc5e469b8df9038",
+    "treeSha": "9d035ab897a0ad70a42f5597be9b6f1d24132f41"
+  },
+  "claim": {
+    "type": "WP302_EXISTING_PROJECT_LIFECYCLE_INTEGRATION",
+    "ceiling": "WP302_NODE_ONLY_NO_PROGRAM_DONE_NO_RELEASE_OR_PHYSICAL_QUALIFICATION_NO_USER_DOCUMENT_MUTATION",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "wp302-and-sector-m-s26-project-create-open-continue-affected-chain",
+    "evidenceClass": "INTEGRATION",
+    "denominator": 17,
+    "passed": 17,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-302-SESSION-CONTINUITY-CONTRACT"
+    ],
+    "predecessorReceiptDigest": "3d942b23a3a597bfaeafd2f8987f532a66258682d7b173251e281f14595131e9"
+  },
+  "createdAt": "2026-08-25T23:09:00Z",
+  "actor": "codex/r24-wp302-postmerge-closure-v1-20260826",
+  "artifact": {
+    "affectedChain": [
+      "project create",
+      "project open",
+      "project continue",
+      "scene fallback",
+      "rename and path rebind",
+      "cursor recovery"
+    ],
+    "postmergeFocused": {
+      "wp302": 12,
+      "sectorMS26": 5
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

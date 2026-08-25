@@ -1,0 +1,54 @@
+{
+  "stampId": "ES-R24-WP-302-SESSION-CONTINUITY-MODEL",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-302_SESSION_CONTINUITY",
+  "attemptId": "ATTEMPT-WP302-20260826",
+  "authorityEpoch": "R24-WP302-BASE-5A433C71",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "740e3d1c9a6b6ce3e97450cccbc5e469b8df9038",
+    "treeSha": "9d035ab897a0ad70a42f5597be9b6f1d24132f41"
+  },
+  "claim": {
+    "type": "WP302_SESSION_CONTINUITY_MODEL_BOUNDARY",
+    "ceiling": "WP302_NODE_ONLY_NO_PROGRAM_DONE_NO_RELEASE_OR_PHYSICAL_QUALIFICATION_NO_USER_DOCUMENT_MUTATION",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "wp302-session-continuity-model-and-identity-guards",
+    "evidenceClass": "MODEL",
+    "denominator": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [],
+    "predecessorReceiptDigest": "3d942b23a3a597bfaeafd2f8987f532a66258682d7b173251e281f14595131e9"
+  },
+  "createdAt": "2026-08-25T23:09:00Z",
+  "actor": "codex/r24-wp302-postmerge-closure-v1-20260826",
+  "artifact": {
+    "identityRoles": {
+      "implementationSourceSha": "740e3d1c9a6b6ce3e97450cccbc5e469b8df9038",
+      "evaluationHeadSha": "740e3d1c9a6b6ce3e97450cccbc5e469b8df9038",
+      "evaluationTreeSha": "9d035ab897a0ad70a42f5597be9b6f1d24132f41",
+      "implementationPrHeadSha": "740e3d1c9a6b6ce3e97450cccbc5e469b8df9038",
+      "implementationMergeSha": "6299274226f27bd9cbdc96832ac88499983f5ee5",
+      "postmergeSha": "6299274226f27bd9cbdc96832ac88499983f5ee5"
+    },
+    "modelAssertions": [
+      "One versioned V1 continuity record binds project identity, relative document path, selection and monotonic revision.",
+      "Absolute, escaping, malformed and oversized paths fail closed before they can create authority.",
+      "A present malformed V1 record blocks fallback to legacy mirrors.",
+      "Selection is clamped to the recovered document and never transferred to a foreign or missing scene.",
+      "Path rebind preserves selection only through an explicit bounded continuity operation.",
+      "Persistence failure cannot be reported as a successful project open.",
+      "No background, UI, network, storage migration, release or user-document authority is added."
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

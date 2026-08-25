@@ -1,0 +1,67 @@
+{
+  "stampId": "ES-R24-WP-302-SESSION-CONTINUITY-POSTMERGE-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-302_SESSION_CONTINUITY",
+  "attemptId": "ATTEMPT-WP302-20260826",
+  "authorityEpoch": "R24-WP302-BASE-5A433C71",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "6299274226f27bd9cbdc96832ac88499983f5ee5",
+    "treeSha": "9d035ab897a0ad70a42f5597be9b6f1d24132f41"
+  },
+  "claim": {
+    "type": "WP302_EXACT_MAIN_POSTMERGE_REQUIRED_GATES",
+    "ceiling": "WP302_NODE_ONLY_NO_PROGRAM_DONE_NO_RELEASE_OR_PHYSICAL_QUALIFICATION_NO_USER_DOCUMENT_MUTATION",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "exact-main GitHub RTK and OSS plus focused local postmerge chain",
+    "evidenceClass": "POSTMERGE",
+    "denominator": 1059,
+    "passed": 1059,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-302-SESSION-CONTINUITY-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "3d942b23a3a597bfaeafd2f8987f532a66258682d7b173251e281f14595131e9"
+  },
+  "createdAt": "2026-08-25T23:09:00Z",
+  "actor": "codex/r24-wp302-postmerge-closure-v1-20260826",
+  "artifact": {
+    "postmergeChecks": [
+      {
+        "name": "rtk-required",
+        "runId": 32907485789,
+        "jobId": 97994613305,
+        "headSha": "6299274226f27bd9cbdc96832ac88499983f5ee5",
+        "conclusion": "success"
+      },
+      {
+        "name": "oss-policy",
+        "runId": 32907485740,
+        "jobId": 97994613163,
+        "headSha": "6299274226f27bd9cbdc96832ac88499983f5ee5",
+        "conclusion": "success"
+      }
+    ],
+    "treeIdentity": {
+      "prHeadTreeSha": "9d035ab897a0ad70a42f5597be9b6f1d24132f41",
+      "mergeTreeSha": "9d035ab897a0ad70a42f5597be9b6f1d24132f41",
+      "unchanged": true
+    },
+    "focusedPostmerge": {
+      "wp302": 12,
+      "sectorMS26": 5,
+      "total": 17,
+      "agentGuardrails": "PASS",
+      "ossPolicy": "PASS"
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

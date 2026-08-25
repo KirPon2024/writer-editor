@@ -1,0 +1,53 @@
+{
+  "stampId": "ES-R24-WP-302-SESSION-CONTINUITY-MUTANTS",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-302_SESSION_CONTINUITY",
+  "attemptId": "ATTEMPT-WP302-20260826",
+  "authorityEpoch": "R24-WP302-BASE-5A433C71",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "740e3d1c9a6b6ce3e97450cccbc5e469b8df9038",
+    "treeSha": "9d035ab897a0ad70a42f5597be9b6f1d24132f41"
+  },
+  "claim": {
+    "type": "WP302_IMPLEMENTATION_MUTANTS",
+    "ceiling": "WP302_NODE_ONLY_NO_PROGRAM_DONE_NO_RELEASE_OR_PHYSICAL_QUALIFICATION_NO_USER_DOCUMENT_MUTATION",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "wp302-schema-path-selection-negative-mutant-matrix",
+    "evidenceClass": "IMPLEMENTATION_MUTANTS",
+    "denominator": 11,
+    "passed": 11,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-302-SESSION-CONTINUITY-INTEGRATION"
+    ],
+    "predecessorReceiptDigest": "3d942b23a3a597bfaeafd2f8987f532a66258682d7b173251e281f14595131e9"
+  },
+  "createdAt": "2026-08-25T23:09:00Z",
+  "actor": "codex/r24-wp302-postmerge-closure-v1-20260826",
+  "artifact": {
+    "killed": [
+      "EXTRA_AUTHORITY_FIELD",
+      "SCHEMA_DRIFT",
+      "ZERO_REVISION",
+      "ESCAPING_PROJECT_ID",
+      "POSIX_ABSOLUTE_PATH",
+      "PARENT_PATH_ESCAPE",
+      "WINDOWS_ABSOLUTE_PATH",
+      "OVERSIZED_PATH_COMPONENT",
+      "OVERSIZED_RELATIVE_PATH",
+      "REVERSED_SELECTION",
+      "EXTRA_SELECTION_FIELD"
+    ],
+    "survived": []
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

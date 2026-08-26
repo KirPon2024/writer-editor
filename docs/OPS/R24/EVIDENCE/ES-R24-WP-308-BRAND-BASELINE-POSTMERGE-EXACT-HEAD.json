@@ -1,0 +1,81 @@
+{
+  "stampId": "ES-R24-WP-308-BRAND-BASELINE-POSTMERGE-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-308_BRAND_BASELINE",
+  "attemptId": "ATTEMPT-WP308-20260826",
+  "authorityEpoch": "R24-WP308-BASE-bd9b2d2c",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "f51a678a89cb7dfba1bd4249dabffbf5ec0fea5a",
+    "treeSha": "a093b6fb4bbcb4fe41cb98e9a4c04f048cba9368"
+  },
+  "claim": {
+    "type": "WP308_EXACT_MAIN_POSTMERGE_REQUIRED_GATES",
+    "ceiling": "WP308_NODE_ONLY_ORIGINAL_FIRST_PARTY_TOKENIZED_ACCESSIBLE_IDENTITY_NO_SCREENSHOT_CANON_THIRD_PARTY_ASSET_DEPENDENCY_SIGNING_RELEASE_CLOUD_USER_DATA_OR_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "exact-main GitHub RTK and OSS plus focused local postmerge chain",
+    "evidenceClass": "POSTMERGE",
+    "denominator": 1059,
+    "passed": 1059,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-308-BRAND-BASELINE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "c058bac18c88e6bc21cee8fd6c644384213917575b348de0414cc255854fd92e"
+  },
+  "createdAt": "2026-08-26T19:52:30Z",
+  "actor": "codex/r24-wp308-postmerge-closure-v1-20260826",
+  "artifact": {
+    "identityRoles": {
+      "implementationSourceSha": "bd9b2d2c6ff62d79d4558fea29f9a4f56f868991",
+      "evaluationHeadSha": "6b65414f4dae0f8f04829640ef17621b3c44d546",
+      "evaluationTreeSha": "a093b6fb4bbcb4fe41cb98e9a4c04f048cba9368",
+      "implementationPrHeadSha": "6b65414f4dae0f8f04829640ef17621b3c44d546",
+      "implementationMergeSha": "f51a678a89cb7dfba1bd4249dabffbf5ec0fea5a",
+      "postmergeSha": "f51a678a89cb7dfba1bd4249dabffbf5ec0fea5a"
+    },
+    "postmergeChecks": [
+      {
+        "name": "rtk-required",
+        "runId": 33004582505,
+        "runAttempt": 2,
+        "jobId": 98297925882,
+        "headSha": "f51a678a89cb7dfba1bd4249dabffbf5ec0fea5a",
+        "conclusion": "success"
+      },
+      {
+        "name": "oss-policy",
+        "runId": 33004581804,
+        "runAttempt": 1,
+        "jobId": 98294753337,
+        "headSha": "f51a678a89cb7dfba1bd4249dabffbf5ec0fea5a",
+        "conclusion": "success"
+      }
+    ],
+    "localPostmerge": {
+      "headSha": "f51a678a89cb7dfba1bd4249dabffbf5ec0fea5a",
+      "treeSha": "a093b6fb4bbcb4fe41cb98e9a4c04f048cba9368",
+      "treeUnchangedFromPrHead": true,
+      "focusedPass": 9,
+      "focusedFail": 0,
+      "wp308MutantsKilled": 7,
+      "guardrails": "PASS",
+      "ossPolicy": "PASS",
+      "worktree": "CLEAN_DETACHED_EXACT_MAIN_BEFORE_CLOSURE_WRITES"
+    },
+    "ordinaryRetryEvidence": {
+      "initialFailure": "CERT01-01 runner process artifact race missing hang-pid.txt",
+      "productFailure": false,
+      "rerunSameHeadTerminal": "SUCCESS"
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

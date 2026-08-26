@@ -1,0 +1,82 @@
+{
+  "stampId": "ES-R24-WP-308-BRAND-BASELINE-SURVIVOR-AUDIT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-308_BRAND_BASELINE",
+  "attemptId": "ATTEMPT-WP308-20260826",
+  "authorityEpoch": "R24-WP308-BASE-bd9b2d2c",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "f51a678a89cb7dfba1bd4249dabffbf5ec0fea5a",
+    "treeSha": "a093b6fb4bbcb4fe41cb98e9a4c04f048cba9368"
+  },
+  "claim": {
+    "type": "WP308_POSTMERGE_SURVIVOR_AUDIT",
+    "ceiling": "WP308_NODE_ONLY_ORIGINAL_FIRST_PARTY_TOKENIZED_ACCESSIBLE_IDENTITY_NO_SCREENSHOT_CANON_THIRD_PARTY_ASSET_DEPENDENCY_SIGNING_RELEASE_CLOUD_USER_DATA_OR_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "exact-main artifact digest and authority survivor audit",
+    "evidenceClass": "SURVIVOR_AUDIT",
+    "denominator": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-308-BRAND-BASELINE-POSTMERGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "c058bac18c88e6bc21cee8fd6c644384213917575b348de0414cc255854fd92e"
+  },
+  "createdAt": "2026-08-26T19:52:30Z",
+  "actor": "codex/r24-wp308-postmerge-closure-v1-20260826",
+  "artifact": {
+    "artifactDigests": [
+      {
+        "path": "src/core/brand-identity-v1.cjs",
+        "sha256": "ece237471aa9f59e7699c550eb7ada410dab481e244e5dc6af55070536887f34"
+      },
+      {
+        "path": "src/main.js",
+        "sha256": "9b720c2c8c6f99aee23ba01d64ea5511d5d51ddf52fa45e1b67308a8e74abbc8"
+      },
+      {
+        "path": "src/renderer/brandIdentitySurface.mjs",
+        "sha256": "d988aad829b03c44c08855c0ef497c34138692271de7323824a7c0f039a17ed6"
+      },
+      {
+        "path": "src/renderer/index.html",
+        "sha256": "a1b5c63c8f95b9703675db464e3f33d735af504dd5c8aa0611075582ba8c8273"
+      },
+      {
+        "path": "src/renderer/styles.css",
+        "sha256": "e5a3baed873f0f7387585901d96788e034b06ed2e6595dd21bbc3e71155f1fb9"
+      },
+      {
+        "path": "test/unit/r24-wp308-brand-baseline.test.mjs",
+        "sha256": "b5d177a20c70aa096776d80dd39c7d27ab36b457188571badd86d1e2db0dcf32"
+      },
+      {
+        "path": "docs/OPS/R24/OWNER_GATE_DECISIONS/BRAND_LICENSE_OWNER_CHOICE_WP308_BRAND_BASELINE_V1.json",
+        "sha256": "cfd5b89e89e1c9228c8572a72f219effd1cda1b1fc910369c7f13e2fd781eccc"
+      }
+    ],
+    "survivors": {
+      "artifactDigestMismatches": 0,
+      "mutableIdentityContracts": 0,
+      "invalidProjectionPublications": 0,
+      "externalAssetReferences": 0,
+      "screenshotCanonAuthorities": 0,
+      "thirdPartyAssetAuthorities": 0,
+      "dependencyOrCloudAuthorities": 0,
+      "signingOrReleaseAuthorities": 0,
+      "userDataMutations": 0,
+      "activeLeases": 0,
+      "activeWatchersOrMutatorsAtReceipt": 0
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

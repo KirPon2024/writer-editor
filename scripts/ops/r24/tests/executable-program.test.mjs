@@ -243,6 +243,11 @@ test('PlanState persists the full 109-node denominator without unreconciled DONE
       ['WP-307_WRITER_LOCAL_PROFILE', 'RUNNING', 'DELIVERED'],
       ['WP-307_WRITER_LOCAL_PROFILE', 'DELIVERED', 'POSTMERGE_VERIFIED'],
       ['WP-307_WRITER_LOCAL_PROFILE', 'POSTMERGE_VERIFIED', 'DONE'],
+      ['WP-308_BRAND_BASELINE', 'PENDING', 'ELIGIBLE'],
+      ['WP-308_BRAND_BASELINE', 'ELIGIBLE', 'RUNNING'],
+      ['WP-308_BRAND_BASELINE', 'RUNNING', 'DELIVERED'],
+      ['WP-308_BRAND_BASELINE', 'DELIVERED', 'POSTMERGE_VERIFIED'],
+      ['WP-308_BRAND_BASELINE', 'POSTMERGE_VERIFIED', 'DONE'],
     ],
   );
   assert.deepEqual(
@@ -251,8 +256,8 @@ test('PlanState persists the full 109-node denominator without unreconciled DONE
       verdict: 'PASS',
       baselineClassification: 'ADOPTED_PRE_V2_UNREPLAYABLE_HISTORY',
       baselineRevision: 94,
-      replayedTransitions: 130,
-      finalRevision: 276,
+      replayedTransitions: 135,
+      finalRevision: 283,
     },
   );
   assert.equal(Object.keys(state.contours).length, EXPECTED_NODE_COUNT);
@@ -357,10 +362,13 @@ test('PlanState persists the full 109-node denominator without unreconciled DONE
   assert.equal(state.contours['WP-307_WRITER_LOCAL_PROFILE'].state, 'DONE');
   assert.equal(state.contours['WP-307_WRITER_LOCAL_PROFILE'].previousState, 'POSTMERGE_VERIFIED');
   assert.equal(state.contours['WP-307_WRITER_LOCAL_PROFILE'].headSha, '7df1d26f664ed77819545c7138926482a8561841');
-  assert.equal(repoLocalDone, 35);
+  assert.equal(state.contours['WP-308_BRAND_BASELINE'].state, 'DONE');
+  assert.equal(state.contours['WP-308_BRAND_BASELINE'].previousState, 'POSTMERGE_VERIFIED');
+  assert.equal(state.contours['WP-308_BRAND_BASELINE'].headSha, 'f51a678a89cb7dfba1bd4249dabffbf5ec0fea5a');
+  assert.equal(repoLocalDone, 36);
   assert.deepEqual(
     sourceReceipt.repoLocalPlanStateClosures.closures.map((row) => row.id),
-    ['SEC0_PATH_CAPABILITY', 'ENT0_ENTITLEMENT_CONFORMANCE', 'K1_AUTHORITY_DECOMPOSITION', 'T1_ANCHOR_LINEAGE', 'A0_ATLAS_INCREMENTAL_EQUIVALENCE', 'PK0_PACKAGE_CONTENT_TRUST', 'WP-100_GENERATION_ADMISSION', 'WP-101_IPC_ADMISSION', 'WP-102_OPERATION_PROTOCOL', 'WP-103_REVISION_PRODUCT_ORDER', 'WP-104_BOUNDARY_FALSIFICATION', 'R2_STORAGE_BAKEOFF', 'R3_DURABLE_RECOVERY_LEDGER', 'R4_TRANSACTIONAL_INBOX_OUTBOX', 'R5_LIFECYCLE_EXTERNAL_CONFLICT', 'R6_MIGRATION_HISTORY_BACKUP_GC', 'F0_WRITER_REFINEMENT_CONFORMANCE', 'V0_WRITER_CLAIM_COMPILER', 'WP-200_DURABLE_SAVE', 'WP-201_PROJECT_TRANSACTION', 'V1_ATLAS_CLAIM_COMPILER', 'WP-202_LEGACY_STRANGLER', 'WP-203_STORAGE_SELECTION', 'WP-204_LIFECYCLE_RECOVERY', 'WP-205_PATH_AND_TEXT', 'WP-206_SAFE_ENTITLEMENT_BASELINE', 'WP-207_WRITER_REFINEMENT', 'WP-300_WRITER_HOME', 'WP-301_AUTHORING_SURFACES', 'WP-302_SESSION_CONTINUITY', 'WP-303_DESIGN_OS_CUSTOMIZATION', 'WP-304_A11Y_PERFORMANCE', 'WP-305_MINIMUM_INTERCHANGE', 'WP-306_LOCAL_HISTORY_RECOVERY_UI', 'WP-307_WRITER_LOCAL_PROFILE'],
+    ['SEC0_PATH_CAPABILITY', 'ENT0_ENTITLEMENT_CONFORMANCE', 'K1_AUTHORITY_DECOMPOSITION', 'T1_ANCHOR_LINEAGE', 'A0_ATLAS_INCREMENTAL_EQUIVALENCE', 'PK0_PACKAGE_CONTENT_TRUST', 'WP-100_GENERATION_ADMISSION', 'WP-101_IPC_ADMISSION', 'WP-102_OPERATION_PROTOCOL', 'WP-103_REVISION_PRODUCT_ORDER', 'WP-104_BOUNDARY_FALSIFICATION', 'R2_STORAGE_BAKEOFF', 'R3_DURABLE_RECOVERY_LEDGER', 'R4_TRANSACTIONAL_INBOX_OUTBOX', 'R5_LIFECYCLE_EXTERNAL_CONFLICT', 'R6_MIGRATION_HISTORY_BACKUP_GC', 'F0_WRITER_REFINEMENT_CONFORMANCE', 'V0_WRITER_CLAIM_COMPILER', 'WP-200_DURABLE_SAVE', 'WP-201_PROJECT_TRANSACTION', 'V1_ATLAS_CLAIM_COMPILER', 'WP-202_LEGACY_STRANGLER', 'WP-203_STORAGE_SELECTION', 'WP-204_LIFECYCLE_RECOVERY', 'WP-205_PATH_AND_TEXT', 'WP-206_SAFE_ENTITLEMENT_BASELINE', 'WP-207_WRITER_REFINEMENT', 'WP-300_WRITER_HOME', 'WP-301_AUTHORING_SURFACES', 'WP-302_SESSION_CONTINUITY', 'WP-303_DESIGN_OS_CUSTOMIZATION', 'WP-304_A11Y_PERFORMANCE', 'WP-305_MINIMUM_INTERCHANGE', 'WP-306_LOCAL_HISTORY_RECOVERY_UI', 'WP-307_WRITER_LOCAL_PROFILE', 'WP-308_BRAND_BASELINE'],
   );
   assert.equal(sourceReceipt.fullDenominator.nodeCount, EXPECTED_NODE_COUNT);
   assert.equal(sourceReceipt.externalPlanState.doneContourCount, 12);
@@ -392,13 +400,13 @@ test('scheduler selection receipt is bound to the real full graph rather than a 
   assert.equal(receipt.identityRoles.mergeSha, null);
   assert.equal(receipt.identityRoles.postmergeSha, null);
   assert.equal(receipt.sourceOfTruthPath, 'docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json');
-  assert.equal(receipt.selectedKind, 'NODE');
-  assert.equal(receipt.selectedId, 'WP-308_BRAND_BASELINE');
-  assert.equal(receipt.verdict, 'SELECTED');
-  assert.deepEqual(receipt.reasons, ['SUPERVISED_HANDOFF_ONLY_CANDIDATE']);
+  assert.equal(receipt.selectedKind, 'NONE');
+  assert.equal(receipt.selectedId, null);
+  assert.equal(receipt.verdict, 'NO_ELIGIBLE_NODE');
+  assert.deepEqual(receipt.reasons, ['NO_DEPENDENCY_CLOSED_PENDING_NODE']);
   assert.equal(receipt.selectedId === null || nodeIds.has(receipt.selectedId), true);
   assert.equal(receipt.readySet.every((id) => nodeIds.has(id)), true);
-  assert.deepEqual(receipt.readySet, ['WP-308_BRAND_BASELINE']);
+  assert.deepEqual(receipt.readySet, []);
 });
 
 test('scheduler refuses a plan state not committed at the evaluation head', () => {

@@ -1,0 +1,57 @@
+{
+  "stampId": "ES-R24-WP-308-BRAND-BASELINE-MODEL",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-308_BRAND_BASELINE",
+  "attemptId": "ATTEMPT-WP308-20260826",
+  "authorityEpoch": "R24-WP308-BASE-bd9b2d2c",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "6b65414f4dae0f8f04829640ef17621b3c44d546",
+    "treeSha": "a093b6fb4bbcb4fe41cb98e9a4c04f048cba9368"
+  },
+  "claim": {
+    "type": "WP308_BRAND_BASELINE_MODEL_BOUNDARY",
+    "ceiling": "WP308_NODE_ONLY_ORIGINAL_FIRST_PARTY_TOKENIZED_ACCESSIBLE_IDENTITY_NO_SCREENSHOT_CANON_THIRD_PARTY_ASSET_DEPENDENCY_SIGNING_RELEASE_CLOUD_USER_DATA_OR_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "wp308-first-party-brand-identity-model",
+    "evidenceClass": "MODEL",
+    "denominator": 5,
+    "passed": 5,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [],
+    "predecessorReceiptDigest": "c058bac18c88e6bc21cee8fd6c644384213917575b348de0414cc255854fd92e"
+  },
+  "createdAt": "2026-08-26T19:52:30Z",
+  "actor": "codex/r24-wp308-postmerge-closure-v1-20260826",
+  "artifact": {
+    "identityRoles": {
+      "implementationSourceSha": "bd9b2d2c6ff62d79d4558fea29f9a4f56f868991",
+      "evaluationHeadSha": "6b65414f4dae0f8f04829640ef17621b3c44d546",
+      "evaluationTreeSha": "a093b6fb4bbcb4fe41cb98e9a4c04f048cba9368",
+      "implementationPrHeadSha": "6b65414f4dae0f8f04829640ef17621b3c44d546",
+      "implementationMergeSha": "f51a678a89cb7dfba1bd4249dabffbf5ec0fea5a",
+      "postmergeSha": "f51a678a89cb7dfba1bd4249dabffbf5ec0fea5a"
+    },
+    "modelAssertions": [
+      "YALKEN_ORIGINAL_V1 is immutable Product Core identity truth.",
+      "The titlebar consumes an immutable startup projection and fails closed when the projection is absent or invalid.",
+      "The mark and wordmark are original first-party source artifacts with no external asset dependency.",
+      "Visible colors and dimensions are tokenized for light, dark and forced-color environments.",
+      "The contour adds no screenshot canon, third-party asset, dependency, signing, release, cloud, user-data or program-completion authority."
+    ],
+    "ownerDecision": {
+      "decisionId": "BRAND_LICENSE_OWNER_CHOICE_WP308_BRAND_BASELINE_V1",
+      "missionDigest": "2d188140211c4e2a65f0f1bf1bef5bac53e396e3c3887cb3563fa253a10b0c80",
+      "sha256": "cfd5b89e89e1c9228c8572a72f219effd1cda1b1fc910369c7f13e2fd781eccc"
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

@@ -1,0 +1,23 @@
+{
+  "receiptId": "CTR-R24-WP-308-BRAND-BASELINE",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-308_BRAND_BASELINE",
+  "attemptId": "ATTEMPT-WP308-20260826",
+  "authorityEpoch": "R24-WP308-BASE-bd9b2d2c",
+  "exactHeadSha": "6b65414f4dae0f8f04829640ef17621b3c44d546",
+  "mergeState": "MERGED",
+  "postmergeState": "PASS",
+  "survivorState": "PASS",
+  "evidenceStampIds": [
+    "ES-R24-WP-308-BRAND-BASELINE-MODEL",
+    "ES-R24-WP-308-BRAND-BASELINE-CONTRACT",
+    "ES-R24-WP-308-BRAND-BASELINE-INTEGRATION",
+    "ES-R24-WP-308-BRAND-BASELINE-MUTANTS",
+    "ES-R24-WP-308-BRAND-BASELINE-EXACT-HEAD",
+    "ES-R24-WP-308-BRAND-BASELINE-POSTMERGE-EXACT-HEAD",
+    "ES-R24-WP-308-BRAND-BASELINE-SURVIVOR-AUDIT",
+    "ES-R24-WP-308-BRAND-BASELINE-CLAIM-BINDINGS"
+  ],
+  "nextContourId": null,
+  "schemaVersion": "ContourTerminalReceiptV2"
+}

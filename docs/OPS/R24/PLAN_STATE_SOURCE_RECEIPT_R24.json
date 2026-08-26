@@ -1,16 +1,16 @@
 {
   "schemaVersion": "yalken.r24.plan-state-source-receipt.v1",
-  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPLAYABLE_WP307_EXACT_POSTMERGE_CLOSURE_NO_PROGRAM_DONE",
-  "generatedAtUtc": "2026-08-26T14:00:00Z",
+  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPLAYABLE_WP308_EXACT_POSTMERGE_CLOSURE_NO_PROGRAM_DONE",
+  "generatedAtUtc": "2026-08-26T19:52:30Z",
   "executableProgramPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
   "executableProgramDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
   "planStatePath": "docs/OPS/R24/PLAN_STATE_R24.json",
   "currentPlanState": {
     "path": "docs/OPS/R24/PLAN_STATE_R24.json",
-    "sha256": "05da169da8d9a4691c5cf921e64547f77e1f24be27daf9b5fb9d6055c5e41df9",
-    "revision": 276,
-    "fencingCounter": 46,
-    "transitionHistoryCount": 130
+    "sha256": "f037355e4f1d87107f1593927463d94fa3f7128038790616c4d5611cf42f12f9",
+    "revision": 283,
+    "fencingCounter": 47,
+    "transitionHistoryCount": 135
   },
   "externalPlanState": {
     "path": "/Volumes/T7-Secure/worktrees/yalken/_r24-mission/PLAN_STATE_R24.json",
@@ -89,10 +89,10 @@
     "contourRowsPersisted": 109
   },
   "nonClaims": [
-    "This source receipt accounts for repo-local closures through WP307 and does not mark the full 109-node program DONE.",
-    "WP307 certifies only the bounded packaged-macOS Writer Local profile at exact merged main 7df1d26f664ed77819545c7138926482a8561841 under the validated local-only permit.",
-    "WP308 and all later work packages remain independently graph-gated.",
-    "No signing, notarization, public distribution, cloud, AI, dependency adoption, storage migration, destructive action, user Word/Drive mutation or SAFE_APPLY expansion is implied."
+    "This source receipt accounts for repo-local closures through WP308 and does not mark the full 109-node program DONE.",
+    "WP308 certifies only the bounded original first-party tokenized accessible brand identity at exact merged main f51a678a89cb7dfba1bd4249dabffbf5ec0fea5a under the validated owner decision.",
+    "All later work packages remain independently graph-gated.",
+    "No screenshot canon, third-party asset acquisition, dependency adoption, signing, notarization, public distribution, release, cloud, AI, user-data mutation, storage migration, destructive action, user Word/Drive mutation or SAFE_APPLY expansion is implied."
   ],
   "discoveredR24TestFiles": {
     "count": 126,
@@ -227,7 +227,7 @@
     ]
   },
   "repoLocalPlanStateClosures": {
-    "doneContourCount": 35,
+    "doneContourCount": 36,
     "closures": [
       {
         "id": "SEC0_PATH_CAPABILITY",
@@ -966,8 +966,29 @@
           "ES-R24-WP-307-WRITER-LOCAL-PROFILE-CLAIM-BINDINGS"
         ],
         "deliveryState": "CURRENT_MAIN_7DF1D26F_EXACT_HEAD_WP307_WRITER_LOCAL_PROFILE_POSTMERGE_PHYSICAL_AND_SURVIVOR_GREEN_LOCAL_ONLY_NO_SIGNING_NOTARIZATION_OR_PUBLIC_DISTRIBUTION_NO_PROGRAM_DONE"
+      },
+      {
+        "id": "WP-308_BRAND_BASELINE",
+        "state": "DONE",
+        "previousState": "POSTMERGE_VERIFIED",
+        "attemptId": "ATTEMPT-WP308-20260826",
+        "updatedAt": "2026-08-26T19:52:30.005Z",
+        "headSha": "f51a678a89cb7dfba1bd4249dabffbf5ec0fea5a",
+        "source": "R24_WP308_BRAND_BASELINE_CLOSURE_V1",
+        "terminalReceiptPath": "docs/OPS/R24/CTR-R24-WP-308-BRAND-BASELINE.json",
+        "evidenceStampIds": [
+          "ES-R24-WP-308-BRAND-BASELINE-MODEL",
+          "ES-R24-WP-308-BRAND-BASELINE-CONTRACT",
+          "ES-R24-WP-308-BRAND-BASELINE-INTEGRATION",
+          "ES-R24-WP-308-BRAND-BASELINE-MUTANTS",
+          "ES-R24-WP-308-BRAND-BASELINE-EXACT-HEAD",
+          "ES-R24-WP-308-BRAND-BASELINE-POSTMERGE-EXACT-HEAD",
+          "ES-R24-WP-308-BRAND-BASELINE-SURVIVOR-AUDIT",
+          "ES-R24-WP-308-BRAND-BASELINE-CLAIM-BINDINGS"
+        ],
+        "deliveryState": "CURRENT_MAIN_F51A678A_EXACT_HEAD_WP308_ORIGINAL_FIRST_PARTY_TOKENIZED_ACCESSIBLE_BRAND_BASELINE_POSTMERGE_AND_SURVIVOR_GREEN_NO_SCREENSHOT_CANON_THIRD_PARTY_ASSET_DEPENDENCY_SIGNING_RELEASE_CLOUD_USER_DATA_OR_PROGRAM_DONE"
       }
     ]
   },
-  "planStateRevision": 276
+  "planStateRevision": 283
 }

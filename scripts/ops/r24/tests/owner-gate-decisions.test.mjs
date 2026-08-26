@@ -17,12 +17,14 @@ const MISSION_PATH = path.join(R24_DIR, 'MISSION_CONTRACT_R2_4.json');
 const DECISION_PATH = path.join(R24_DIR, 'OWNER_GATE_DECISIONS', 'STORAGE_AUTHORITY_ADR_R2_STORAGE_BAKEOFF_V1.json');
 const ENTITLEMENT_DECISION_PATH = path.join(R24_DIR, 'OWNER_GATE_DECISIONS', 'ENTITLEMENT_SEMANTICS_ADR_OR_DENY_WP206_SAFE_ENTITLEMENT_BASELINE_V1.json');
 const LOCAL_RELEASE_DECISION_PATH = path.join(R24_DIR, 'OWNER_GATE_DECISIONS', 'LOCAL_RELEASE_PERMIT_WP307_WRITER_LOCAL_PROFILE_V1.json');
+const BRAND_LICENSE_DECISION_PATH = path.join(R24_DIR, 'OWNER_GATE_DECISIONS', 'BRAND_LICENSE_OWNER_CHOICE_WP308_BRAND_BASELINE_V1.json');
 const clone = (value) => structuredClone(value);
 
 function fixture() {
   const decision = readJsonBounded(DECISION_PATH);
   const entitlementDecision = readJsonBounded(ENTITLEMENT_DECISION_PATH);
   const localReleaseDecision = readJsonBounded(LOCAL_RELEASE_DECISION_PATH);
+  const brandLicenseDecision = readJsonBounded(BRAND_LICENSE_DECISION_PATH);
   return {
     program: readJsonBounded(PROGRAM_PATH),
     missionContract: readJsonBounded(MISSION_PATH),
@@ -35,14 +37,19 @@ function fixture() {
     entitlementDecisionDigest: sha256hex(fs.readFileSync(ENTITLEMENT_DECISION_PATH)),
     localReleaseDecision,
     localReleaseDecisionDigest: sha256hex(fs.readFileSync(LOCAL_RELEASE_DECISION_PATH)),
+    brandLicenseDecision,
+    brandLicenseDecisionDigest: sha256hex(fs.readFileSync(BRAND_LICENSE_DECISION_PATH)),
   };
 }
 
-function validate(values, artifacts = {
-  [values.decision.decisionId]: { value: values.decision, digest: values.decisionDigest },
-  [values.entitlementDecision.decisionId]: { value: values.entitlementDecision, digest: values.entitlementDecisionDigest },
-  [values.localReleaseDecision.decisionId]: { value: values.localReleaseDecision, digest: values.localReleaseDecisionDigest },
-}) {
+function validate(values, artifacts = {}) {
+  const loadedArtifacts = {
+    [values.decision.decisionId]: { value: values.decision, digest: values.decisionDigest },
+    [values.entitlementDecision.decisionId]: { value: values.entitlementDecision, digest: values.entitlementDecisionDigest },
+    [values.localReleaseDecision.decisionId]: { value: values.localReleaseDecision, digest: values.localReleaseDecisionDigest },
+    [values.brandLicenseDecision.decisionId]: { value: values.brandLicenseDecision, digest: values.brandLicenseDecisionDigest },
+    ...artifacts,
+  };
   return validateOwnerGateAmendments({
     program: values.program,
     missionContract: values.missionContract,
@@ -51,20 +58,22 @@ function validate(values, artifacts = {
     amendments: values.amendments,
     loadDecisionArtifact: (relativePath) => {
       const decisionId = path.basename(relativePath, '.json');
-      return artifacts[decisionId];
+      return loadedArtifacts[decisionId];
     },
   });
 }
 
-test('exact owner decisions yield mission-bound storage, entitlement and WP307 local-profile dispositions', () => {
+test('exact owner decisions yield mission-bound storage, entitlement, local-profile and brand dispositions', () => {
   const values = fixture();
   assert.equal(values.registry.entries.find((entry) => entry.id === 'STORAGE_AUTHORITY_ADR').status, 'UNRESOLVED');
   assert.equal(values.registry.entries.find((entry) => entry.id === 'ENTITLEMENT_SEMANTICS_ADR_OR_DENY').status, 'UNRESOLVED');
   assert.equal(values.registry.entries.find((entry) => entry.id === 'LOCAL_RELEASE_PERMIT').status, 'UNRESOLVED');
+  assert.equal(values.registry.entries.find((entry) => entry.id === 'BRAND_LICENSE_OWNER_CHOICE').status, 'UNRESOLVED');
   assert.deepEqual(validate(values), {
     STORAGE_AUTHORITY_ADR: 'APPROVED',
     ENTITLEMENT_SEMANTICS_ADR_OR_DENY: 'DENIED',
     LOCAL_RELEASE_PERMIT: 'APPROVED',
+    BRAND_LICENSE_OWNER_CHOICE: 'APPROVED',
   });
 });
 
@@ -167,6 +176,36 @@ test('WP307 local release approval cannot widen signing, distribution, dependenc
       [values.decision.decisionId]: { value: values.decision, digest: values.decisionDigest },
       [values.entitlementDecision.decisionId]: { value: values.entitlementDecision, digest: values.entitlementDecisionDigest },
       [wrongNode.decisionId]: { value: wrongNode, digest: values.localReleaseDecisionDigest },
+    }),
+    (error) => error.code === 'E_R24_OWNER_GATE_DECISION_NODE',
+  );
+});
+
+test('WP308 brand approval cannot widen screenshot, assets, dependencies, release, cloud or user-data authority', () => {
+  const values = fixture();
+  for (const key of ['screenshotCanon', 'thirdPartyAssetAcquisition', 'dependencyAdoption', 'signing', 'release', 'cloudAuthority', 'userDataMutation']) {
+    const decision = clone(values.brandLicenseDecision);
+    decision.authorizedScope[key] = true;
+    assert.throws(
+      () => validate(values, {
+        [decision.decisionId]: { value: decision, digest: values.brandLicenseDecisionDigest },
+      }),
+      (error) => error.code === 'E_R24_OWNER_GATE_DECISION_SCOPE_WIDENING',
+    );
+  }
+  const widenedIdentity = clone(values.brandLicenseDecision);
+  widenedIdentity.authorizedScope.originalFirstPartyTokenizedAccessibleIdentityOnly = false;
+  assert.throws(
+    () => validate(values, {
+      [widenedIdentity.decisionId]: { value: widenedIdentity, digest: values.brandLicenseDecisionDigest },
+    }),
+    (error) => error.code === 'E_R24_OWNER_GATE_DECISION_SCOPE_WIDENING',
+  );
+  const wrongNode = clone(values.brandLicenseDecision);
+  wrongNode.nodeId = 'WP-309_TOKEN_ARCHITECTURE';
+  assert.throws(
+    () => validate(values, {
+      [wrongNode.decisionId]: { value: wrongNode, digest: values.brandLicenseDecisionDigest },
     }),
     (error) => error.code === 'E_R24_OWNER_GATE_DECISION_NODE',
   );

@@ -93,6 +93,38 @@ const EXPECTED_OWNER_GATE_DECISIONS = Object.freeze({
       'SECOND_WRITER_OR_CONTOUR',
     ]),
   }),
+  BRAND_LICENSE_OWNER_CHOICE: Object.freeze({
+    decisionId: 'BRAND_LICENSE_OWNER_CHOICE_WP308_BRAND_BASELINE_V1',
+    decision: 'APPROVED',
+    approvedBy: 'owner:OWNER_DECISION_BRAND_LICENSE_OWNER_CHOICE_APPROVED',
+    priorOwnerStandingGrantTaskId: 'OWNER_CONTINUOUS_AUTONOMY_GRANTED',
+    authorizedScope: Object.freeze({
+      originalFirstPartyTokenizedAccessibleIdentityOnly: true,
+      screenshotCanon: false,
+      thirdPartyAssetAcquisition: false,
+      dependencyAdoption: false,
+      signing: false,
+      release: false,
+      cloudAuthority: false,
+      userDataMutation: false,
+    }),
+    forbiddenAuthorityExpansion: Object.freeze([
+      'SCREENSHOT_AS_CANON',
+      'THIRD_PARTY_ASSET_ACQUISITION',
+      'DEPENDENCY_ADOPTION',
+      'SIGNING',
+      'NOTARIZATION',
+      'PUBLIC_DISTRIBUTION',
+      'RELEASE_AUTHORITY',
+      'CLOUD_OR_NETWORK_AUTHORITY',
+      'USER_DATA_MUTATION',
+      'CREDENTIAL_OR_SECRET_BYPASS',
+      'SAFE_APPLY_EXPANSION',
+      'FORCE_PUSH',
+      'PROTECTION_BYPASS',
+      'SECOND_WRITER_OR_CONTOUR',
+    ]),
+  }),
 });
 
 function assertObject(value, code, detail) {

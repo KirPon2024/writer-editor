@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "yalken.owner-gate-decision.r24.v1",
+  "decisionId": "BRAND_LICENSE_OWNER_CHOICE_WP308_BRAND_BASELINE_V1",
+  "missionDigest": "2d188140211c4e2a65f0f1bf1bef5bac53e396e3c3887cb3563fa253a10b0c80",
+  "gateId": "BRAND_LICENSE_OWNER_CHOICE",
+  "nodeId": "WP-308_BRAND_BASELINE",
+  "decision": "APPROVED",
+  "approvedBy": "owner:OWNER_DECISION_BRAND_LICENSE_OWNER_CHOICE_APPROVED",
+  "priorOwnerStandingGrantTaskId": "OWNER_CONTINUOUS_AUTONOMY_GRANTED",
+  "issuedAtUtc": "2026-08-26T15:16:06Z",
+  "expiresAtUtc": null,
+  "revocationEpoch": 0,
+  "authorizedScope": {
+    "originalFirstPartyTokenizedAccessibleIdentityOnly": true,
+    "screenshotCanon": false,
+    "thirdPartyAssetAcquisition": false,
+    "dependencyAdoption": false,
+    "signing": false,
+    "release": false,
+    "cloudAuthority": false,
+    "userDataMutation": false
+  },
+  "forbiddenAuthorityExpansion": [
+    "SCREENSHOT_AS_CANON",
+    "THIRD_PARTY_ASSET_ACQUISITION",
+    "DEPENDENCY_ADOPTION",
+    "SIGNING",
+    "NOTARIZATION",
+    "PUBLIC_DISTRIBUTION",
+    "RELEASE_AUTHORITY",
+    "CLOUD_OR_NETWORK_AUTHORITY",
+    "USER_DATA_MUTATION",
+    "CREDENTIAL_OR_SECRET_BYPASS",
+    "SAFE_APPLY_EXPANSION",
+    "FORCE_PUSH",
+    "PROTECTION_BYPASS",
+    "SECOND_WRITER_OR_CONTOUR"
+  ],
+  "noSelfApproval": true
+}

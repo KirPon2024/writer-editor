@@ -64,6 +64,7 @@ function trackedFixture() {
     'SECURITY.md',
     'src/main.js',
     'src/preload.js',
+    'src/preload.bundle.cjs',
     'src/core/ipc-envelope-v1.cjs',
     'src/core/contracts.ts',
     'src/contracts/core-state.contract.ts',
@@ -100,6 +101,7 @@ test('PK0 accepts exact build.files manifest and proves runtime/staged/admitted 
   assert.equal(result.value.authority.dependencyMutation, false);
   assert.equal(result.value.authority.productRuntimeMutation, false);
   assert.equal(result.value.authority.runtimeNetworkActivated, false);
+  assert.equal(result.value.sets.runtimeResolvedFiles.includes('src/preload.bundle.cjs'), true);
   assert.equal(result.value.sets.runtimeResolvedFiles.includes('src/renderer/editor.bundle.js'), true);
 });
 
@@ -118,7 +120,7 @@ test('PK0 rejects broad globs, forbidden staged files, missing runtime entries, 
 
   const missing = module.evaluatePackageContentTrust({
     packageJson: packageFixture(module.PK0_REQUIRED_BUILD_FILES),
-    trackedFiles: trackedFixture().filter((file) => file !== 'src/preload.js'),
+    trackedFiles: trackedFixture().filter((file) => file !== 'src/preload.bundle.cjs'),
     programDag: programDagFixture(),
     scientificContracts: scientificContractsFixture(),
   });

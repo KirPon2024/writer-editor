@@ -26,7 +26,7 @@ export const PK0_REQUIRED_BUILD_FILES = Object.freeze([
 export const PK0_REQUIRED_RUNTIME_FILES = Object.freeze([
   'package.json',
   'src/main.js',
-  'src/preload.js',
+  'src/preload.bundle.cjs',
   'src/renderer/index.html',
   'src/renderer/editor.bundle.js',
   'src/renderer/flags.js',

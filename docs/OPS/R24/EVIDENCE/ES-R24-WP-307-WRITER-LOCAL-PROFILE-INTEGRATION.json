@@ -1,0 +1,70 @@
+{
+  "stampId": "ES-R24-WP-307-WRITER-LOCAL-PROFILE-INTEGRATION",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-307_WRITER_LOCAL_PROFILE",
+  "attemptId": "ATTEMPT-WP307-20260826",
+  "authorityEpoch": "R24-WP307-BASE-d6ba7bf1",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "0101b95c282281330603d6c6344479c2637fcc33",
+    "treeSha": "29255ef982288b80a60055a2b5c3dfa9efe1b7d9"
+  },
+  "claim": {
+    "type": "WP307_WRITER_LOCAL_PROFILE_INTEGRATION",
+    "ceiling": "WP307_NODE_ONLY_LOCAL_PACKAGING_AND_CERTIFICATION_NO_SIGNING_NOTARIZATION_PUBLIC_DISTRIBUTION_DEPENDENCY_CLOUD_USER_DATA_OR_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "WP300-WP307, K0, S1, ENT0, package network policy and RELEASE01 affected chain",
+    "evidenceClass": "INTEGRATION",
+    "denominator": 101,
+    "passed": 101,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-307-WRITER-LOCAL-PROFILE-CONTRACT"
+    ],
+    "predecessorReceiptDigest": "fe2fe80c44764a1cb1bd15ed37ef34d3db9c5c975ce6bc0c4e70af2b8f81f196"
+  },
+  "createdAt": "2026-08-26T14:00:00Z",
+  "actor": "codex/r24-wp307-postmerge-closure-v1-20260826",
+  "artifact": {
+    "affectedChain": [
+      "Writer Home through local history recovery UI",
+      "K0 command protocol",
+      "S1 IPC envelope",
+      "ENT0 entitlement law",
+      "macOS package network policy",
+      "terminal wording registry",
+      "packaged app entrypoint and exact renderer bundle",
+      "isolated packaged launch"
+    ],
+    "accessEnforcement": {
+      "mainCommandBridge": "PASS",
+      "mainQueryBridge": "PASS",
+      "menuDispatch": "PASS",
+      "rendererPresentationCut": "PASS",
+      "coreWriterHistoryInterchangeSurvivors": "PASS"
+    },
+    "physicalPackage": {
+      "sourceTreeSha": "29255ef982288b80a60055a2b5c3dfa9efe1b7d9",
+      "appAsarSha256": "361107b8340ae5dfd0aca20ba5a5ef8dfa70f81cf97f3fbfc39aa00942d53d93",
+      "infoPlistSha256": "c48f273c88c7cf57ebf23681dfda4972818d827ab19a326162fc62c84c1e3a8a",
+      "executableSha256": "f5212ea9181df95040385dfd04f512e983ed95394a96fb7c4b8ee838ea433caf",
+      "rendererBundleSha256": "655cdbaa7e68447b9edabdaa87e2f0696a30e01dfb5da054de93ab88490979c9",
+      "appTransportSecurity": "DENY",
+      "developerIdSigning": false,
+      "teamIdentifierPresent": false,
+      "signatureDisposition": "LOCAL_ADHOC_LINKER_ONLY",
+      "isolatedLaunch": "PASS",
+      "survivorProcesses": 0
+    },
+    "productTruthMutationObserved": false
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

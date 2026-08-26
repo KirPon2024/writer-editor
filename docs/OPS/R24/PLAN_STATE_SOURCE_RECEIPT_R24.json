@@ -1,16 +1,16 @@
 {
   "schemaVersion": "yalken.r24.plan-state-source-receipt.v1",
-  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPLAYABLE_WP306_EXACT_POSTMERGE_CLOSURE_NO_PROGRAM_DONE",
-  "generatedAtUtc": "2026-08-26T07:42:00Z",
+  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPLAYABLE_WP307_EXACT_POSTMERGE_CLOSURE_NO_PROGRAM_DONE",
+  "generatedAtUtc": "2026-08-26T14:00:00Z",
   "executableProgramPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
   "executableProgramDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
   "planStatePath": "docs/OPS/R24/PLAN_STATE_R24.json",
   "currentPlanState": {
     "path": "docs/OPS/R24/PLAN_STATE_R24.json",
-    "sha256": "347be774b7e573ffcd8edd5035edba60d5b1cbe294ed39feb7078cf45906f7a7",
-    "revision": 269,
-    "fencingCounter": 45,
-    "transitionHistoryCount": 125
+    "sha256": "05da169da8d9a4691c5cf921e64547f77e1f24be27daf9b5fb9d6055c5e41df9",
+    "revision": 276,
+    "fencingCounter": 46,
+    "transitionHistoryCount": 130
   },
   "externalPlanState": {
     "path": "/Volumes/T7-Secure/worktrees/yalken/_r24-mission/PLAN_STATE_R24.json",
@@ -89,13 +89,13 @@
     "contourRowsPersisted": 109
   },
   "nonClaims": [
-    "This source receipt accounts for repo-local closures through WP306 and does not mark the full 109-node program DONE.",
-    "WP306 certifies only exact renderer restore-intent and undo-presentation identity guards at exact merged main 0b746a4c9eb20d32c30f8bf5facacf1102249798; Product Core persistence and recovery semantics remain unchanged.",
-    "WP307 and all later work packages remain independently graph-gated.",
-    "No release readiness, physical macOS qualification, signing, cloud, AI, dependency adoption, storage migration, destructive action, user Word/Drive mutation or SAFE_APPLY expansion is implied."
+    "This source receipt accounts for repo-local closures through WP307 and does not mark the full 109-node program DONE.",
+    "WP307 certifies only the bounded packaged-macOS Writer Local profile at exact merged main 7df1d26f664ed77819545c7138926482a8561841 under the validated local-only permit.",
+    "WP308 and all later work packages remain independently graph-gated.",
+    "No signing, notarization, public distribution, cloud, AI, dependency adoption, storage migration, destructive action, user Word/Drive mutation or SAFE_APPLY expansion is implied."
   ],
   "discoveredR24TestFiles": {
-    "count": 123,
+    "count": 126,
     "treatment": "NOT_DELIVERY_STATE_WITHOUT_TERMINAL_RECEIPT",
     "basenames": [
       "r24-a0-atlas-incremental-equivalence.test.js",
@@ -220,11 +220,14 @@
       "r24-wp303-design-os-customization.test.js",
       "r24-wp304-a11y-performance.test.js",
       "r24-wp305-minimum-interchange.test.js",
-      "r24-wp306-local-history-recovery-ui.test.mjs"
+      "r24-wp306-local-history-recovery-ui.test.mjs",
+      "r24-wp307-writer-local-profile-integration.test.js",
+      "r24-wp307-writer-local-profile-mutants.test.js",
+      "r24-wp307-writer-local-profile.test.js"
     ]
   },
   "repoLocalPlanStateClosures": {
-    "doneContourCount": 34,
+    "doneContourCount": 35,
     "closures": [
       {
         "id": "SEC0_PATH_CAPABILITY",
@@ -942,8 +945,29 @@
           "ES-R24-WP-306-LOCAL-HISTORY-RECOVERY-UI-CLAIM-BINDINGS"
         ],
         "deliveryState": "CURRENT_MAIN_0B746A4C_EXACT_HEAD_WP306_LOCAL_HISTORY_RECOVERY_UI_POSTMERGE_AND_SURVIVOR_GREEN_NO_PROGRAM_DONE"
+      },
+      {
+        "id": "WP-307_WRITER_LOCAL_PROFILE",
+        "state": "DONE",
+        "previousState": "POSTMERGE_VERIFIED",
+        "attemptId": "ATTEMPT-WP307-20260826",
+        "updatedAt": "2026-08-26T14:00:00.005Z",
+        "headSha": "7df1d26f664ed77819545c7138926482a8561841",
+        "source": "R24_WP307_WRITER_LOCAL_PROFILE_CLOSURE_V1",
+        "terminalReceiptPath": "docs/OPS/R24/CTR-R24-WP-307-WRITER-LOCAL-PROFILE.json",
+        "evidenceStampIds": [
+          "ES-R24-WP-307-WRITER-LOCAL-PROFILE-MODEL",
+          "ES-R24-WP-307-WRITER-LOCAL-PROFILE-CONTRACT",
+          "ES-R24-WP-307-WRITER-LOCAL-PROFILE-INTEGRATION",
+          "ES-R24-WP-307-WRITER-LOCAL-PROFILE-MUTANTS",
+          "ES-R24-WP-307-WRITER-LOCAL-PROFILE-EXACT-HEAD",
+          "ES-R24-WP-307-WRITER-LOCAL-PROFILE-POSTMERGE-EXACT-HEAD",
+          "ES-R24-WP-307-WRITER-LOCAL-PROFILE-SURVIVOR-AUDIT",
+          "ES-R24-WP-307-WRITER-LOCAL-PROFILE-CLAIM-BINDINGS"
+        ],
+        "deliveryState": "CURRENT_MAIN_7DF1D26F_EXACT_HEAD_WP307_WRITER_LOCAL_PROFILE_POSTMERGE_PHYSICAL_AND_SURVIVOR_GREEN_LOCAL_ONLY_NO_SIGNING_NOTARIZATION_OR_PUBLIC_DISTRIBUTION_NO_PROGRAM_DONE"
       }
     ]
   },
-  "planStateRevision": 269
+  "planStateRevision": 276
 }

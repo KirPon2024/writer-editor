@@ -1,0 +1,58 @@
+{
+  "stampId": "ES-R24-WP-307-WRITER-LOCAL-PROFILE-MODEL",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-307_WRITER_LOCAL_PROFILE",
+  "attemptId": "ATTEMPT-WP307-20260826",
+  "authorityEpoch": "R24-WP307-BASE-d6ba7bf1",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "0101b95c282281330603d6c6344479c2637fcc33",
+    "treeSha": "29255ef982288b80a60055a2b5c3dfa9efe1b7d9"
+  },
+  "claim": {
+    "type": "WP307_WRITER_LOCAL_PROFILE_MODEL_BOUNDARY",
+    "ceiling": "WP307_NODE_ONLY_LOCAL_PACKAGING_AND_CERTIFICATION_NO_SIGNING_NOTARIZATION_PUBLIC_DISTRIBUTION_DEPENDENCY_CLOUD_USER_DATA_OR_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "wp307-packaged-macos-profile-and-optional-system-deny-model",
+    "evidenceClass": "MODEL",
+    "denominator": 4,
+    "passed": 4,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [],
+    "predecessorReceiptDigest": "fe2fe80c44764a1cb1bd15ed37ef34d3db9c5c975ce6bc0c4e70af2b8f81f196"
+  },
+  "createdAt": "2026-08-26T14:00:00Z",
+  "actor": "codex/r24-wp307-postmerge-closure-v1-20260826",
+  "artifact": {
+    "identityRoles": {
+      "implementationSourceSha": "d6ba7bf161d2f544a85c6eac8c44ed1c9a0d0e2a",
+      "evaluationHeadSha": "0101b95c282281330603d6c6344479c2637fcc33",
+      "evaluationTreeSha": "29255ef982288b80a60055a2b5c3dfa9efe1b7d9",
+      "implementationPrHeadSha": "0101b95c282281330603d6c6344479c2637fcc33",
+      "implementationMergeSha": "7df1d26f664ed77819545c7138926482a8561841",
+      "postmergeSha": "7df1d26f664ed77819545c7138926482a8561841"
+    },
+    "modelAssertions": [
+      "WRITER_LOCAL_V1 activates only when Electron reports a packaged darwin runtime.",
+      "Optional Plan, Review, Atlas and related command and query authority fails closed in the main process.",
+      "Renderer control removal is presentation-only and cannot widen command or query authority.",
+      "Core Writer, local history and minimum interchange paths remain available.",
+      "The validated owner permit is limited to local packaging and certification.",
+      "The contour adds no signing, notarization, public distribution, dependency, cloud, user-data or program-completion authority."
+    ],
+    "ownerDecision": {
+      "decisionId": "LOCAL_RELEASE_PERMIT_WP307_WRITER_LOCAL_PROFILE_V1",
+      "missionDigest": "2d188140211c4e2a65f0f1bf1bef5bac53e396e3c3887cb3563fa253a10b0c80",
+      "sha256": "061e5adf483ecbfbfb5278cf14da04fd332fd26dfe0b3debe006eda1a8ff68c1"
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

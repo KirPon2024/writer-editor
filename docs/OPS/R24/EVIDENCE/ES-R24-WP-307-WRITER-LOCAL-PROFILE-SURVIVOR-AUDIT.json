@@ -1,0 +1,89 @@
+{
+  "stampId": "ES-R24-WP-307-WRITER-LOCAL-PROFILE-SURVIVOR-AUDIT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-307_WRITER_LOCAL_PROFILE",
+  "attemptId": "ATTEMPT-WP307-20260826",
+  "authorityEpoch": "R24-WP307-BASE-d6ba7bf1",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "7df1d26f664ed77819545c7138926482a8561841",
+    "treeSha": "29255ef982288b80a60055a2b5c3dfa9efe1b7d9"
+  },
+  "claim": {
+    "type": "WP307_POSTMERGE_SURVIVOR_AUDIT",
+    "ceiling": "WP307_NODE_ONLY_LOCAL_PACKAGING_AND_CERTIFICATION_NO_SIGNING_NOTARIZATION_PUBLIC_DISTRIBUTION_DEPENDENCY_CLOUD_USER_DATA_OR_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "exact-main artifact digest and authority survivor audit",
+    "evidenceClass": "SURVIVOR_AUDIT",
+    "denominator": 9,
+    "passed": 9,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-307-WRITER-LOCAL-PROFILE-POSTMERGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "fe2fe80c44764a1cb1bd15ed37ef34d3db9c5c975ce6bc0c4e70af2b8f81f196"
+  },
+  "createdAt": "2026-08-26T14:00:00Z",
+  "actor": "codex/r24-wp307-postmerge-closure-v1-20260826",
+  "artifact": {
+    "artifactDigests": [
+      {
+        "path": "src/core/writer-local-profile-v1.cjs",
+        "sha256": "e79e475f1899dc6ab939ba9b230b917e0c14c4899100c60d538e99f1e37d05f4"
+      },
+      {
+        "path": "src/main.js",
+        "sha256": "8ef58e6e8345a952cc2c92a7a6255c9f21036a4675e5aeb75c4e5240e3bc2ddd"
+      },
+      {
+        "path": "src/renderer/flags.js",
+        "sha256": "3b37be868b03ae09f0dff0507a8ed188aa80e87d7127b4900b64eb22f537defd"
+      },
+      {
+        "path": "test/unit/r24-wp307-writer-local-profile.test.js",
+        "sha256": "0463b83b845160f2870db09a7e76ff2a5affd70433ec693ea495db2b9e3bcf41"
+      },
+      {
+        "path": "test/unit/r24-wp307-writer-local-profile-integration.test.js",
+        "sha256": "13515d4f7faf03fd0afcdd07b21f54eadd6737ced509d05569dd3212414394ef"
+      },
+      {
+        "path": "test/unit/r24-wp307-writer-local-profile-mutants.test.js",
+        "sha256": "8edd8d10b56192c5f56c945549edab7dc2020be3ad577869f592c81eacc37784"
+      },
+      {
+        "path": "docs/OPS/R24/OWNER_GATE_DECISIONS/LOCAL_RELEASE_PERMIT_WP307_WRITER_LOCAL_PROFILE_V1.json",
+        "sha256": "061e5adf483ecbfbfb5278cf14da04fd332fd26dfe0b3debe006eda1a8ff68c1"
+      },
+      {
+        "path": "src/renderer/editor.js",
+        "sha256": "5d443aca3c441c831ee9a47a3e7445a836730d0c602cf95136afc76ce47af320"
+      },
+      {
+        "path": "src/renderer/editor.bundle.js",
+        "sha256": "655cdbaa7e68447b9edabdaa87e2f0696a30e01dfb5da054de93ab88490979c9"
+      }
+    ],
+    "survivors": {
+      "artifactDigestMismatches": 0,
+      "unpackagedOrNonMacActivations": 0,
+      "optionalCommandOrQueryBypasses": 0,
+      "rendererAuthorityEscalations": 0,
+      "developerIdSignatures": 0,
+      "notarizationOrPublicDistributionAuthorities": 0,
+      "dependencyOrCloudAuthorities": 0,
+      "userDataMutations": 0,
+      "activeLeases": 0,
+      "activeWatchersOrMutatorsAtReceipt": 0
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

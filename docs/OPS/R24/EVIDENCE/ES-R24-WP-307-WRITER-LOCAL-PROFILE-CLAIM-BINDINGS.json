@@ -1,0 +1,173 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-307-WRITER-LOCAL-PROFILE-CLAIM-BINDINGS",
+  "contourId": "WP-307_WRITER_LOCAL_PROFILE",
+  "evidenceClass": "CONTRACT",
+  "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
+  "headSha": "b559344eaa31c2574739e38ada20462ded98a84c",
+  "originMainSha": "7df1d26f664ed77819545c7138926482a8561841",
+  "generatedAtUtc": "2026-08-26T14:12:00Z",
+  "oracle": "strict ClaimBindingV1 exact-hash binding for replayable WP307 Writer Local profile closure, local physical package evidence, exact-main postmerge evidence, survivor audit, source receipt and graph-derived fail-closed scheduler receipt",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+      "sha256": "05da169da8d9a4691c5cf921e64547f77e1f24be27daf9b5fb9d6055c5e41df9",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+      "sha256": "ada6b3a8ae82ee2a6ce35c355c0ff4fd953c9fcc97620d8d0bbc08c3d99cd0af",
+      "claimTerms": [
+        "CLOSED"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/SELECTION_RECEIPT_R2_4.json",
+      "sha256": "74716379fc11935c8c993915f66a29ac7523cd36f23b0f66bfeef1093aedd639",
+      "claimTerms": [
+        "SAFE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CTR-R24-WP-307-WRITER-LOCAL-PROFILE.json",
+      "sha256": "c058bac18c88e6bc21cee8fd6c644384213917575b348de0414cc255854fd92e",
+      "claimTerms": [
+        "PASS"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/writer-local-profile-v1.cjs",
+      "sha256": "e79e475f1899dc6ab939ba9b230b917e0c14c4899100c60d538e99f1e37d05f4",
+      "terms": [
+        "WP307 packaged-darwin activation and optional authority deny model"
+      ]
+    },
+    {
+      "path": "src/main.js",
+      "sha256": "8ef58e6e8345a952cc2c92a7a6255c9f21036a4675e5aeb75c4e5240e3bc2ddd",
+      "terms": [
+        "WP307 main-process command, query and menu-dispatch revalidation"
+      ]
+    },
+    {
+      "path": "src/renderer/flags.js",
+      "sha256": "3b37be868b03ae09f0dff0507a8ed188aa80e87d7127b4900b64eb22f537defd",
+      "terms": [
+        "WP307 presentation-only optional control removal"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp307-writer-local-profile.test.js",
+      "sha256": "0463b83b845160f2870db09a7e76ff2a5affd70433ec693ea495db2b9e3bcf41",
+      "terms": [
+        "WP307 activation, deny and survivor contract oracle"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp307-writer-local-profile-integration.test.js",
+      "sha256": "13515d4f7faf03fd0afcdd07b21f54eadd6737ced509d05569dd3212414394ef",
+      "terms": [
+        "WP307 main and renderer integration oracle"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp307-writer-local-profile-mutants.test.js",
+      "sha256": "8edd8d10b56192c5f56c945549edab7dc2020be3ad577869f592c81eacc37784",
+      "terms": [
+        "WP307 implementation mutant oracle"
+      ]
+    },
+    {
+      "path": "docs/OPS/R24/OWNER_GATE_DECISIONS/LOCAL_RELEASE_PERMIT_WP307_WRITER_LOCAL_PROFILE_V1.json",
+      "sha256": "061e5adf483ecbfbfb5278cf14da04fd332fd26dfe0b3debe006eda1a8ff68c1",
+      "terms": [
+        "Validated local packaging and certification permit with explicit authority denials"
+      ]
+    },
+    {
+      "path": "src/renderer/editor.js",
+      "sha256": "5d443aca3c441c831ee9a47a3e7445a836730d0c602cf95136afc76ce47af320",
+      "terms": [
+        "Hash-bound Writer, history and interchange runtime survivor"
+      ]
+    },
+    {
+      "path": "src/renderer/editor.bundle.js",
+      "sha256": "655cdbaa7e68447b9edabdaa87e2f0696a30e01dfb5da054de93ab88490979c9",
+      "terms": [
+        "Exact implementation-head renderer bundle included in the local package"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "node --test test/unit/r24-wp307-writer-local-profile.test.js test/unit/r24-wp307-writer-local-profile-integration.test.js test/unit/r24-wp307-writer-local-profile-mutants.test.js",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 10,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 6,
+        "survived": 0
+      },
+      "requiredDisposition": "Packaged-darwin activation, optional authority deny paths and core Writer survivors are green."
+    },
+    {
+      "command": "WP307 affected Writer, command, IPC, entitlement, package-network and release chain",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 101,
+        "fail": 0
+      },
+      "requiredDisposition": "Main enforcement, renderer presentation and local package integration remain compatible with the affected chain."
+    },
+    {
+      "command": "electron-builder local unsigned macOS directory package plus asar, ATS, signature and isolated-launch inspection",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 9,
+        "fail": 0
+      },
+      "requiredDisposition": "The package matches the exact implementation tree, denies network transport, has no Developer ID team and leaves no survivor process."
+    },
+    {
+      "command": "GitHub exact PR-head required checks",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "PR 1707 head 0101b95c has green RTK, OSS, Ubuntu parity and Windows parity."
+    },
+    {
+      "command": "GitHub exact-main postmerge RTK and OSS",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "Merge 7df1d26f is terminal green in exact-main RTK 32975100324 and OSS 32975100218."
+    },
+    {
+      "command": "node scripts/ops/r24/docs-claim-lint.mjs and node --test scripts/ops/r24/tests/docs-claim-lint.test.mjs",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 9,
+        "fail": 0
+      },
+      "requiredDisposition": "Strict ClaimBindingV1 lint passes and all negative schema mutants remain rejected after mutable-state binding refresh."
+    }
+  ],
+  "nonClaims": [
+    "This binding closes only the bounded WP-307_WRITER_LOCAL_PROFILE contour.",
+    "WP307 activates the Writer Local profile only for packaged macOS and keeps optional command and query authority disabled in the main process.",
+    "The exact scheduler receipt has an empty ready set because WP-308_BRAND_BASELINE requires the ungranted BRAND_LICENSE_OWNER_CHOICE owner gate; it does not fabricate admission authority.",
+    "No signing, notarization, public distribution, dependency adoption, cloud, user-data mutation, storage migration, destructive storage action, user Word/Drive mutation, SAFE_APPLY expansion, pricing, business or AI authority is added.",
+    "It does not mark the R2.4 program DONE."
+  ]
+}

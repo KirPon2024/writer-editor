@@ -1,0 +1,79 @@
+{
+  "stampId": "ES-R24-WP-307-WRITER-LOCAL-PROFILE-CONTRACT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-307_WRITER_LOCAL_PROFILE",
+  "attemptId": "ATTEMPT-WP307-20260826",
+  "authorityEpoch": "R24-WP307-BASE-d6ba7bf1",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "0101b95c282281330603d6c6344479c2637fcc33",
+    "treeSha": "29255ef982288b80a60055a2b5c3dfa9efe1b7d9"
+  },
+  "claim": {
+    "type": "WP307_WRITER_LOCAL_PROFILE_ACCEPTANCE_CONTRACT",
+    "ceiling": "WP307_NODE_ONLY_LOCAL_PACKAGING_AND_CERTIFICATION_NO_SIGNING_NOTARIZATION_PUBLIC_DISTRIBUTION_DEPENDENCY_CLOUD_USER_DATA_OR_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "node --test test/unit/r24-wp307-writer-local-profile.test.js",
+    "evidenceClass": "CONTRACT",
+    "denominator": 4,
+    "passed": 4,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-307-WRITER-LOCAL-PROFILE-MODEL"
+    ],
+    "predecessorReceiptDigest": "fe2fe80c44764a1cb1bd15ed37ef34d3db9c5c975ce6bc0c4e70af2b8f81f196"
+  },
+  "createdAt": "2026-08-26T14:00:00Z",
+  "actor": "codex/r24-wp307-postmerge-closure-v1-20260826",
+  "artifact": {
+    "requiredProfiles": [
+      "CONTRACT_NEGATIVE",
+      "UNIT",
+      "INTEGRATION",
+      "IMPLEMENTATION_MUTANTS",
+      "UNICODE_IME",
+      "CRASH_RECOVERY",
+      "A11Y_PERF",
+      "EXACT_HEAD",
+      "POSTMERGE",
+      "SURVIVOR_AUDIT"
+    ],
+    "canonicalContract": {
+      "schemaVersion": "writer-local-profile.v1",
+      "profileId": "WRITER_LOCAL_V1",
+      "activation": {
+        "isPackaged": true,
+        "platform": "darwin"
+      },
+      "localPackagingAndCertificationOnly": true,
+      "optionalSystemsEnabled": false,
+      "signing": false,
+      "notarization": false,
+      "publicDistribution": false,
+      "dependencyAdoption": false,
+      "cloudAuthority": false,
+      "userDataMutation": false
+    },
+    "forbiddenAuthority": [
+      "UNPACKAGED_OR_NON_MAC_ACTIVATION",
+      "OPTIONAL_COMMAND_OR_QUERY_BYPASS",
+      "RENDERER_ENFORCEMENT_AUTHORITY",
+      "SIGNING",
+      "NOTARIZATION",
+      "PUBLIC_DISTRIBUTION",
+      "DEPENDENCY_ADOPTION",
+      "NETWORK_OR_CLOUD_TRUTH",
+      "USER_DATA_MUTATION",
+      "SAFE_APPLY_EXPANSION"
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

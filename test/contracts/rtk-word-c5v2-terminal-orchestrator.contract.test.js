@@ -1125,6 +1125,19 @@ leaseTest('ORCH_TEST_6B: nested secure-volume preflight verifies mount root and 
 
 leaseTest('ORCH_TEST_6C: Hammerspoon physical runner requires a green caller-bound Accessibility probe', async () => {
   const orch = await loadOrchestrator();
+  const probeCalls = [];
+  const directGreen = orch.defaultHammerspoonProbe({
+    execFileSyncImpl(executable, args) {
+      probeCalls.push({ executable, args });
+      return 'true\n';
+    },
+  });
+  assert.equal(directGreen.ok, true);
+  assert.equal(probeCalls[0].executable, '/opt/homebrew/bin/hs');
+  assert.deepEqual(probeCalls[0].args, ['-t', '30', '-q', '-c', 'return hs.accessibilityState()']);
+  assert.match(orch.defaultHammerspoonProbe({ execFileSyncImpl: () => 'false\n' }).code, /ACCESSIBILITY_PERMISSION_REQUIRED/u);
+  assert.match(orch.defaultHammerspoonProbe({ execFileSyncImpl: () => { throw new Error('missing'); } }).code, /HAMMERSPOON_UNAVAILABLE/u);
+
   const repo = tmpDir('c5v2-orch-hammerspoon-repo-');
   const head = initCleanGitRepo(repo);
   spawnSync('git', ['update-ref', 'refs/remotes/origin/main', head], { cwd: repo });

@@ -1,0 +1,62 @@
+{
+  "stampId": "ES-R24-WP-305-MINIMUM-INTERCHANGE-SURVIVOR-AUDIT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-305_MINIMUM_INTERCHANGE",
+  "attemptId": "ATTEMPT-WP305-20260826",
+  "authorityEpoch": "R24-WP305-BASE-C7FAA7B7",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "689198a5e64123f1c2c7326893c13a6d702994bd",
+    "treeSha": "e72ab9e09b2e165ab5142deefe205c271f8d9867"
+  },
+  "claim": {
+    "type": "WP305_POSTMERGE_SURVIVOR_AUDIT",
+    "ceiling": "WP305_NODE_ONLY_NO_PROGRAM_DONE_NO_RELEASE_OR_PHYSICAL_QUALIFICATION_NO_USER_DOCUMENT_MUTATION",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "exact-main artifact digest and authority survivor audit",
+    "evidenceClass": "SURVIVOR_AUDIT",
+    "denominator": 3,
+    "passed": 3,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-305-MINIMUM-INTERCHANGE-POSTMERGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "4115e855812906c61f2b309741b1f84649905ecb7d0bd17ae3bc472b6020b624"
+  },
+  "createdAt": "2026-08-26T05:27:00Z",
+  "actor": "codex/r24-wp305-postmerge-closure-v1-20260826",
+  "artifact": {
+    "artifactDigests": [
+      {
+        "path": "src/core/minimum-interchange-v1.cjs",
+        "sha256": "4ad6d8df0c17e1ee27b0a401aafa7f4d21891f3b2cb32748d7c00e48d150abc4"
+      },
+      {
+        "path": "src/main.js",
+        "sha256": "a42f3e63bcbecea8f1530c8cdf4ccd89ad1a9a7073966b1e1fc1903b30dc1345"
+      },
+      {
+        "path": "test/unit/r24-wp305-minimum-interchange.test.js",
+        "sha256": "b7aae6cb7e7a6a9bd92669830fd0fc77ac1761bb6f5afd14c38b908232174976"
+      }
+    ],
+    "survivors": {
+      "artifactDigestMismatches": 0,
+      "unknownAuthorityRoutes": 0,
+      "unsafeImportPolicies": 0,
+      "networkOrCloudDependencies": 0,
+      "userDocumentMutations": 0,
+      "activeLeases": 0,
+      "activeWatchersOrMutatorsAtReceipt": 0
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

@@ -1,0 +1,122 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-305-MINIMUM-INTERCHANGE-CLAIM-BINDINGS",
+  "contourId": "WP-305_MINIMUM_INTERCHANGE",
+  "evidenceClass": "CONTRACT",
+  "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
+  "headSha": "3bf16d2d3c59c79ec42d5be262eb428e70e11705",
+  "originMainSha": "689198a5e64123f1c2c7326893c13a6d702994bd",
+  "generatedAtUtc": "2026-08-26T05:31:00Z",
+  "oracle": "strict ClaimBindingV1 exact-hash binding for replayable WP305 minimum interchange closure, exact-main postmerge evidence, survivor audit, source receipt and graph-derived WP306 scheduler receipt",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+      "sha256": "11cf7e93811541134f9bd4c83db8e1c2a510ca8db86906949c4c7f23535da8e3",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+      "sha256": "4994267e40a9739a8db2da745fadffe46e12301b9ae3a9a0480743a742bb6dbd",
+      "claimTerms": [
+        "CLOSED"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/SELECTION_RECEIPT_R2_4.json",
+      "sha256": "40d1f5a184a3ddc2d56435e1a6760866185b4ae46e814a1ce531316fbbcbd4f6",
+      "claimTerms": [
+        "READY"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CTR-R24-WP-305-MINIMUM-INTERCHANGE.json",
+      "sha256": "a154750532c3e1b068536e81044c57f493e3cc07e492a10a7990c78c91be0903",
+      "claimTerms": [
+        "PASS"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/minimum-interchange-v1.cjs",
+      "sha256": "4ad6d8df0c17e1ee27b0a401aafa7f4d21891f3b2cb32748d7c00e48d150abc4",
+      "terms": [
+        "WP305 immutable four-format ownership registry and fail-closed runtime binding"
+      ]
+    },
+    {
+      "path": "src/main.js",
+      "sha256": "a42f3e63bcbecea8f1530c8cdf4ccd89ad1a9a7073966b1e1fc1903b30dc1345",
+      "terms": [
+        "WP305 main-process startup enforcement across command bridge, menu handlers and direct IPC capabilities"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp305-minimum-interchange.test.js",
+      "sha256": "b7aae6cb7e7a6a9bd92669830fd0fc77ac1761bb6f5afd14c38b908232174976",
+      "terms": [
+        "WP305 contract and implementation mutant oracle for DOCX-first ownership and safe import policy"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "node --test test/unit/r24-wp305-minimum-interchange.test.js",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 5,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 7,
+        "survived": 0
+      },
+      "requiredDisposition": "DOCX-first identity, primary export, command ownership, safe-create import policy and runtime bindings are green."
+    },
+    {
+      "command": "WP305 exact-main affected interchange chain",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 52,
+        "fail": 0
+      },
+      "requiredDisposition": "TXT, Markdown, whole-project archive and DOCX interchange preserve their bounded ownership and safe-create semantics."
+    },
+    {
+      "command": "GitHub exact PR-head required checks",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "PR 1702 head 9a8d9d6d has green RTK, OSS, Ubuntu parity and Windows parity."
+    },
+    {
+      "command": "GitHub exact-main postmerge RTK and OSS",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "Merge 689198a5 is terminal green in exact-main RTK 32932364199 and OSS 32932364161."
+    },
+    {
+      "command": "node scripts/ops/r24/docs-claim-lint.mjs and node --test scripts/ops/r24/tests/docs-claim-lint.test.mjs",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 9,
+        "fail": 0
+      },
+      "requiredDisposition": "Strict ClaimBindingV1 lint passes and all negative schema mutants remain rejected after the mutable-state binding refresh."
+    }
+  ],
+  "nonClaims": [
+    "This binding closes only the bounded WP-305_MINIMUM_INTERCHANGE contour.",
+    "WP305 certifies the immutable minimum interchange ownership contract for TXT, Markdown, whole-project archive and DOCX-first paths without changing already-merged runtime semantics.",
+    "The scheduler receipt after WP305 closure selects WP-306_LOCAL_HISTORY_RECOVERY_UI as the next graph-admissible product contour.",
+    "No physical macOS qualification, release readiness, signing, cloud, dependency adoption, storage migration, destructive storage action, user Word/Drive mutation, SAFE_APPLY expansion, pricing, business or AI authority is added.",
+    "It does not mark the R2.4 program DONE."
+  ]
+}

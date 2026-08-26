@@ -1,0 +1,59 @@
+{
+  "stampId": "ES-R24-WP-305-MINIMUM-INTERCHANGE-INTEGRATION",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-305_MINIMUM_INTERCHANGE",
+  "attemptId": "ATTEMPT-WP305-20260826",
+  "authorityEpoch": "R24-WP305-BASE-C7FAA7B7",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "9a8d9d6d1c7a4ce0824bc9b94c5fbe6cdb63f3a8",
+    "treeSha": "e72ab9e09b2e165ab5142deefe205c271f8d9867"
+  },
+  "claim": {
+    "type": "WP305_WRITER_MINIMUM_INTERCHANGE_INTEGRATION",
+    "ceiling": "WP305_NODE_ONLY_NO_PROGRAM_DONE_NO_RELEASE_OR_PHYSICAL_QUALIFICATION_NO_USER_DOCUMENT_MUTATION",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "WP305 exact-main affected interchange chain",
+    "evidenceClass": "INTEGRATION",
+    "denominator": 52,
+    "passed": 52,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-305-MINIMUM-INTERCHANGE-CONTRACT"
+    ],
+    "predecessorReceiptDigest": "4115e855812906c61f2b309741b1f84649905ecb7d0bd17ae3bc472b6020b624"
+  },
+  "createdAt": "2026-08-26T05:27:00Z",
+  "actor": "codex/r24-wp305-postmerge-closure-v1-20260826",
+  "artifact": {
+    "affectedChain": [
+      "minimum interchange ownership registry",
+      "main-process startup binding",
+      "TXT safe-create import",
+      "Markdown import and export",
+      "project archive whole-project round trip",
+      "DOCX import and minimum export",
+      "command bridge and menu handler ownership",
+      "direct IPC capability classes"
+    ],
+    "postmergeFocused": {
+      "wp305": 5,
+      "affectedChain": 52
+    },
+    "txt": "PASS",
+    "markdown": "PASS",
+    "projectArchive": "PASS",
+    "docxFirst": "PASS",
+    "runtimeStartupBinding": "PASS",
+    "productTruthMutationObserved": false
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

@@ -1,0 +1,136 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-306-LOCAL-HISTORY-RECOVERY-UI-CLAIM-BINDINGS",
+  "contourId": "WP-306_LOCAL_HISTORY_RECOVERY_UI",
+  "evidenceClass": "CONTRACT",
+  "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
+  "headSha": "1f5eb9042edc34c54e36916865bcdabc161aee45",
+  "originMainSha": "0b746a4c9eb20d32c30f8bf5facacf1102249798",
+  "generatedAtUtc": "2026-08-26T07:54:00Z",
+  "oracle": "strict ClaimBindingV1 exact-hash binding for replayable WP306 local history recovery UI closure, exact-main postmerge evidence, survivor audit, source receipt and graph-derived fail-closed scheduler receipt",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+      "sha256": "347be774b7e573ffcd8edd5035edba60d5b1cbe294ed39feb7078cf45906f7a7",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+      "sha256": "d87fe8273e2c6bc0df6032510397b3c6cfd02ecaa36e7c5ed611bdc5e1fe462b",
+      "claimTerms": [
+        "CLOSED"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/SELECTION_RECEIPT_R2_4.json",
+      "sha256": "0f949871e20c51e3268c78eda16bf58d8a8d58f73df1ef56b053a2e18a26a3d5",
+      "claimTerms": [
+        "SAFE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CTR-R24-WP-306-LOCAL-HISTORY-RECOVERY-UI.json",
+      "sha256": "fe2fe80c44764a1cb1bd15ed37ef34d3db9c5c975ce6bc0c4e70af2b8f81f196",
+      "claimTerms": [
+        "PASS"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/renderer/editor.js",
+      "sha256": "5d443aca3c441c831ee9a47a3e7445a836730d0c602cf95136afc76ce47af320",
+      "terms": [
+        "WP306 guarded renderer restore-preview, apply and receipt-bound undo presentation"
+      ]
+    },
+    {
+      "path": "src/renderer/editor.bundle.js",
+      "sha256": "655cdbaa7e68447b9edabdaa87e2f0696a30e01dfb5da054de93ab88490979c9",
+      "terms": [
+        "WP306 generated renderer bundle at the exact implementation head and merge tree"
+      ]
+    },
+    {
+      "path": "src/renderer/historyRecoveryIdentity.mjs",
+      "sha256": "1eb9660fe957dbb19a2c8be55882059c593600ce822f0ebf028081659979b293",
+      "terms": [
+        "WP306 immutable project, scene, snapshot, generation and undo receipt identity guards"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp306-local-history-recovery-ui.test.mjs",
+      "sha256": "1b427e61a66a4e993c1c0b4fb38044f0fcaf8240eb1d3f9ad1fb455fbef79e7c",
+      "terms": [
+        "WP306 contract, negative and implementation mutant oracle"
+      ]
+    },
+    {
+      "path": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+      "sha256": "57873917b196d3df2a1bc9104ddaf4739c9942d9473f76cbc5dbf1c84427530e",
+      "terms": [
+        "Exact implementation-head terminal registry binding after the renderer delta"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "node --test test/unit/r24-wp306-local-history-recovery-ui.test.mjs",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 4,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 6,
+        "survived": 0
+      },
+      "requiredDisposition": "Project, scene, snapshot, generation, receipt and undo identity guards are green."
+    },
+    {
+      "command": "WP306 exact-main history, Unicode/IME, crash-recovery and accessibility/performance chain",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 22,
+        "fail": 0
+      },
+      "requiredDisposition": "Restore identity remains compatible with history, recovery, text input and accessibility/performance contracts."
+    },
+    {
+      "command": "GitHub exact PR-head required checks",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "PR 1704 head fc94c168 has green RTK, OSS, Ubuntu parity and Windows parity."
+    },
+    {
+      "command": "GitHub exact-main postmerge RTK and OSS",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "Merge 0b746a4c is terminal green in exact-main RTK 32942280114 and OSS 32942280129."
+    },
+    {
+      "command": "node scripts/ops/r24/docs-claim-lint.mjs and node --test scripts/ops/r24/tests/docs-claim-lint.test.mjs",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 9,
+        "fail": 0
+      },
+      "requiredDisposition": "Strict ClaimBindingV1 lint passes and all negative schema mutants remain rejected after mutable-state binding refresh."
+    }
+  ],
+  "nonClaims": [
+    "This binding closes only the bounded WP-306_LOCAL_HISTORY_RECOVERY_UI contour.",
+    "WP306 certifies renderer restore-intent and undo-presentation identity guards without changing Product Core persistence or recovery semantics.",
+    "The exact scheduler receipt has an empty ready set because WP-307_WRITER_LOCAL_PROFILE requires the ungranted LOCAL_RELEASE_PERMIT owner gate; it does not fabricate admission authority.",
+    "No physical macOS qualification, local release permit, release readiness, signing, cloud, dependency adoption, storage migration, destructive storage action, user Word/Drive mutation, SAFE_APPLY expansion, pricing, business or AI authority is added.",
+    "It does not mark the R2.4 program DONE."
+  ]
+}

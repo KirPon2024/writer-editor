@@ -2,10 +2,10 @@
   "schemaVersion": "SelectionReceiptR2_4",
   "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
   "missionDigest": "2d188140211c4e2a65f0f1bf1bef5bac53e396e3c3887cb3563fa253a10b0c80",
-  "stateRevision": 262,
-  "fencingCounter": 44,
-  "stateDigest": "7640a275970c73e724124b4a0b64115e17e2969099d7a6d281ce346450898f42",
-  "contourStatesDigest": "e6fa4c5b4fd26b8839703b6ed542ca3672a0f44f6bbc3ef3661a6f83833c7117",
+  "stateRevision": 269,
+  "fencingCounter": 45,
+  "stateDigest": "9a38d6942dd5e78cca9c3813f398b9a2f03a342aea24e4878b0e06cae8a55a96",
+  "contourStatesDigest": "0652df064a5c2f5a49bc634af3c8efd5b137b8d4b6fff93fff80ce46c7569f47",
   "policyEpoch": 0,
   "policyDigest": "2f189a055e2c465b2725fea2b0b4980c22737bfd4f691816fd70e138bec633d2",
   "graphNodeCount": 109,
@@ -13,20 +13,18 @@
   "schedulerGraphDigest": "c9744a548acb32169483780de151a43bf89d5d75e9564874b7a8939192afe2f5",
   "sourceOfTruthPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
   "identityRoles": {
-    "implementationSourceSha": "3bf16d2d3c59c79ec42d5be262eb428e70e11705",
-    "evaluationHeadSha": "3bf16d2d3c59c79ec42d5be262eb428e70e11705",
-    "evaluationTreeSha": "7e2c02961bc9a83e77fa823721774122ccdd80f5",
+    "implementationSourceSha": "1f5eb9042edc34c54e36916865bcdabc161aee45",
+    "evaluationHeadSha": "1f5eb9042edc34c54e36916865bcdabc161aee45",
+    "evaluationTreeSha": "65264679dd4f28a81103d1d9e5434156f696933d",
     "prHeadSha": null,
     "mergeSha": null,
     "postmergeSha": null
   },
   "mode": "HANDOFF_ONLY",
-  "selectedKind": "NODE",
-  "selectedId": "WP-306_LOCAL_HISTORY_RECOVERY_UI",
-  "verdict": "SELECTED",
-  "readySet": [
-    "WP-306_LOCAL_HISTORY_RECOVERY_UI"
-  ],
+  "selectedKind": "NONE",
+  "selectedId": null,
+  "verdict": "NO_ELIGIBLE_NODE",
+  "readySet": [],
   "deterministicOrder": [
     "MANDATORY_SAFETY_CORRECTNESS",
     "CUT_SET_UNBLOCK",
@@ -37,7 +35,7 @@
     "STABLE_NODE_ID"
   ],
   "reasons": [
-    "SUPERVISED_HANDOFF_ONLY_CANDIDATE"
+    "NO_DEPENDENCY_CLOSED_PENDING_NODE"
   ],
-  "generatedAt": "2026-08-26T05:31:00Z"
+  "generatedAt": "2026-08-26T07:54:00Z"
 }

@@ -1,0 +1,59 @@
+{
+  "stampId": "ES-R24-WP-308-BRAND-BASELINE-INTEGRATION",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-308_BRAND_BASELINE",
+  "attemptId": "ATTEMPT-WP308-20260826",
+  "authorityEpoch": "R24-WP308-BASE-bd9b2d2c",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "6b65414f4dae0f8f04829640ef17621b3c44d546",
+    "treeSha": "a093b6fb4bbcb4fe41cb98e9a4c04f048cba9368"
+  },
+  "claim": {
+    "type": "WP308_BRAND_BASELINE_INTEGRATION",
+    "ceiling": "WP308_NODE_ONLY_ORIGINAL_FIRST_PARTY_TOKENIZED_ACCESSIBLE_IDENTITY_NO_SCREENSHOT_CANON_THIRD_PARTY_ASSET_DEPENDENCY_SIGNING_RELEASE_CLOUD_USER_DATA_OR_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "WP300-WP308 Writer titlebar, startup projection, renderer and accessibility affected chain",
+    "evidenceClass": "INTEGRATION",
+    "denominator": 35,
+    "passed": 35,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-308-BRAND-BASELINE-CONTRACT"
+    ],
+    "predecessorReceiptDigest": "c058bac18c88e6bc21cee8fd6c644384213917575b348de0414cc255854fd92e"
+  },
+  "createdAt": "2026-08-26T19:52:30Z",
+  "actor": "codex/r24-wp308-postmerge-closure-v1-20260826",
+  "artifact": {
+    "affectedChain": [
+      "Product Core brand identity contract",
+      "main-process startup identity projection",
+      "renderer exact binding and fail-closed fallback",
+      "titlebar brand lockup",
+      "light, dark and forced-color token surfaces",
+      "accessible name and decorative child semantics",
+      "narrow and desktop layout stability"
+    ],
+    "integrationObservations": {
+      "mainStartupProjection": "PASS",
+      "rendererExactBinding": "PASS",
+      "invalidProjectionFailClosed": "PASS",
+      "externalAssetReferences": 0,
+      "accessibleLockup": "PASS",
+      "desktopVisual": "PASS",
+      "narrowVisual": "PASS",
+      "preExistingOptionalSkipsOutsideRequiredDenominator": 6
+    },
+    "productTruthMutationObserved": false
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

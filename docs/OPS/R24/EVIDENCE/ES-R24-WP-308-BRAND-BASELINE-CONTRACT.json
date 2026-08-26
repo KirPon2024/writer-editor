@@ -1,0 +1,75 @@
+{
+  "stampId": "ES-R24-WP-308-BRAND-BASELINE-CONTRACT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-308_BRAND_BASELINE",
+  "attemptId": "ATTEMPT-WP308-20260826",
+  "authorityEpoch": "R24-WP308-BASE-bd9b2d2c",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "6b65414f4dae0f8f04829640ef17621b3c44d546",
+    "treeSha": "a093b6fb4bbcb4fe41cb98e9a4c04f048cba9368"
+  },
+  "claim": {
+    "type": "WP308_BRAND_BASELINE_ACCEPTANCE_CONTRACT",
+    "ceiling": "WP308_NODE_ONLY_ORIGINAL_FIRST_PARTY_TOKENIZED_ACCESSIBLE_IDENTITY_NO_SCREENSHOT_CANON_THIRD_PARTY_ASSET_DEPENDENCY_SIGNING_RELEASE_CLOUD_USER_DATA_OR_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "node --test test/unit/r24-wp308-brand-baseline.test.mjs",
+    "evidenceClass": "CONTRACT",
+    "denominator": 9,
+    "passed": 9,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-308-BRAND-BASELINE-MODEL"
+    ],
+    "predecessorReceiptDigest": "c058bac18c88e6bc21cee8fd6c644384213917575b348de0414cc255854fd92e"
+  },
+  "createdAt": "2026-08-26T19:52:30Z",
+  "actor": "codex/r24-wp308-postmerge-closure-v1-20260826",
+  "artifact": {
+    "requiredProfiles": [
+      "CONTRACT_NEGATIVE",
+      "UNIT",
+      "INTEGRATION",
+      "IMPLEMENTATION_MUTANTS",
+      "UNICODE_IME",
+      "CRASH_RECOVERY",
+      "A11Y_PERF",
+      "EXACT_HEAD",
+      "POSTMERGE",
+      "SURVIVOR_AUDIT"
+    ],
+    "canonicalContract": {
+      "schemaVersion": "yalken.brand-identity.v1",
+      "identityId": "YALKEN_ORIGINAL_V1",
+      "ownership": "ORIGINAL_FIRST_PARTY",
+      "tokenized": true,
+      "accessible": true,
+      "screenshotCanon": false,
+      "thirdPartyAssetAcquisition": false,
+      "dependencyAdoption": false,
+      "signing": false,
+      "release": false,
+      "cloudAuthority": false,
+      "userDataMutation": false
+    },
+    "forbiddenAuthority": [
+      "SCREENSHOT_AS_CANON",
+      "THIRD_PARTY_ASSET_ACQUISITION",
+      "DEPENDENCY_ADOPTION",
+      "SIGNING_OR_NOTARIZATION",
+      "PUBLIC_DISTRIBUTION_OR_RELEASE",
+      "NETWORK_OR_CLOUD_TRUTH",
+      "USER_DATA_MUTATION",
+      "SAFE_APPLY_EXPANSION"
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

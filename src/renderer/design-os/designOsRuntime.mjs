@@ -1,4 +1,6 @@
 
+import { createDesignOsFormConfigurationController } from './designOsFormConfiguration.mjs';
+
 export const DESIGN_OS_RESOLVER_ORDER = Object.freeze([
   'base',
   'mode',
@@ -200,6 +202,14 @@ export function createRuntimeContext(input = {}) {
   };
 }
 
+function sameRuntimeContext(left, right) {
+  return left.shell_mode === right.shell_mode
+    && left.profile === right.profile
+    && left.workspace === right.workspace
+    && left.platform === right.platform
+    && left.accessibility === right.accessibility;
+}
+
 function normalizeForHash(value) {
   if (typeof value === 'string') return normalizeTextString(value);
   if (typeof value === 'number' || typeof value === 'boolean' || value === null) return value;
@@ -314,6 +324,9 @@ function normalizeRuntimeState(input = {}) {
     baseline_layout: createLayoutSnapshot(source.baseline_layout),
     current_layout: createLayoutSnapshot(source.current_layout || source.baseline_layout),
     last_stable_layout: createLayoutSnapshot(source.last_stable_layout || source.baseline_layout),
+    form_configuration_snapshot: isPlainObject(source.form_configuration_snapshot)
+      ? source.form_configuration_snapshot
+      : null,
   };
 }
 
@@ -370,6 +383,10 @@ export function createPreviewResult(input = {}) {
     degraded_to_baseline: source.degraded_to_baseline === true,
     product_hash: normalizeString(source.product_hash),
     resolver_calls: Number.isFinite(source.resolver_calls) ? Math.trunc(source.resolver_calls) : 0,
+    form_configuration_revision: Number.isSafeInteger(source.form_configuration_revision)
+      ? source.form_configuration_revision
+      : 0,
+    form_configuration_lifecycle: normalizeString(source.form_configuration_lifecycle) || 'STABLE',
   };
 }
 
@@ -381,9 +398,36 @@ export class DesignOsRuntime {
     this.profiles = cloneProfiles(profiles);
     this.workspaces = cloneWorkspaces(workspaces);
     this.supportedContext = normalizeSupportedContext(supportedContext, this.profiles, this.workspaces, this.runtimeState);
+    const formConfigurationInput = {
+      baseline: {
+        context: createRuntimeContext(),
+        designState: {},
+        layout: this.runtimeState.baseline_layout,
+      },
+    };
+    if (this.runtimeState.form_configuration_snapshot) {
+      formConfigurationInput.snapshot = this.runtimeState.form_configuration_snapshot;
+    } else {
+      formConfigurationInput.initial = {
+        context: createRuntimeContext(),
+        designState: this.runtimeState.design_state,
+        layout: this.runtimeState.current_layout,
+      };
+    }
+    this.formConfiguration = createDesignOsFormConfigurationController(formConfigurationInput);
+    this.syncRuntimeStateFromFormConfiguration();
     this.resolverCalls = 0;
     this.previewCalls = 0;
     this.textInputEvents = 0;
+  }
+
+  syncRuntimeStateFromFormConfiguration() {
+    const current = this.formConfiguration.getCurrentConfiguration();
+    const lastStable = this.formConfiguration.getLastStableConfiguration();
+    this.runtimeState.design_state = deepCopyTree(current.designState);
+    this.runtimeState.current_layout = cloneLayoutSnapshot(current.layout);
+    this.runtimeState.last_stable_layout = cloneLayoutSnapshot(lastStable.layout);
+    return current;
   }
 
   assertSupportedContext(ctx) {
@@ -499,6 +543,7 @@ export class DesignOsRuntime {
     const visible_commands = this.getVisibleCommands(ctx.profile);
     const available_commands = this.getAvailableCommands(visible_commands, ctx);
     this.previewCalls += 1;
+    const formConfiguration = this.formConfiguration.getCurrentConfiguration();
     return createPreviewResult({
       resolved_tokens: this.resolveTokens(ctx, designPatch),
       layout,
@@ -507,6 +552,8 @@ export class DesignOsRuntime {
       degraded_to_baseline,
       product_hash: buildProductTruthHash(this.productTruth),
       resolver_calls: this.resolverCalls,
+      form_configuration_revision: formConfiguration.revision,
+      form_configuration_lifecycle: formConfiguration.lifecycle,
     });
   }
 
@@ -525,17 +572,36 @@ export class DesignOsRuntime {
       design_patch: designPatch,
       layout_patch: layoutPatch,
     });
-    if (designPatch) {
-      validatePatch(designPatch, { allowedRoots: Object.keys(this.resolveTokens(ctx)) });
-      this.runtimeState.design_state = deepMerge(this.runtimeState.design_state, designPatch);
-    }
-    if (layoutPatch) {
-      if (preview.degraded_to_baseline) {
-        this.runtimeState.current_layout = cloneLayoutSnapshot(this.runtimeState.baseline_layout);
-      } else {
-        this.runtimeState.current_layout = cloneLayoutSnapshot(preview.layout);
-        this.runtimeState.last_stable_layout = cloneLayoutSnapshot(preview.layout);
+    if (designPatch) validatePatch(designPatch, { allowedRoots: Object.keys(this.resolveTokens(ctx)) });
+    const currentConfiguration = this.formConfiguration.getCurrentConfiguration();
+    const contextChanged = !sameRuntimeContext(ctx, currentConfiguration.context);
+    if (designPatch || layoutPatch || contextChanged) {
+      const nextDesignState = designPatch
+        ? deepMerge(this.runtimeState.design_state, designPatch)
+        : deepCopyTree(this.runtimeState.design_state);
+      const nextLayout = layoutPatch
+        ? cloneLayoutSnapshot(preview.degraded_to_baseline ? this.runtimeState.baseline_layout : preview.layout)
+        : cloneLayoutSnapshot(contextChanged ? preview.layout : this.runtimeState.current_layout);
+      const staged = this.formConfiguration.stage({
+        expectedRevision: currentConfiguration.revision,
+        commitPoint,
+        context: ctx,
+        designState: nextDesignState,
+        layout: nextLayout,
+      });
+      if (!(layoutPatch && preview.degraded_to_baseline)) {
+        this.formConfiguration.promoteStable(staged.revision);
       }
+      const committedConfiguration = this.syncRuntimeStateFromFormConfiguration();
+      const afterHash = buildProductTruthHash(this.productTruth);
+      if (beforeHash !== afterHash) {
+        throw new Error('Design OS commit mutated product truth.');
+      }
+      return createPreviewResult({
+        ...preview,
+        form_configuration_revision: committedConfiguration.revision,
+        form_configuration_lifecycle: committedConfiguration.lifecycle,
+      });
     }
     const afterHash = buildProductTruthHash(this.productTruth);
     if (beforeHash !== afterHash) {
@@ -545,16 +611,17 @@ export class DesignOsRuntime {
   }
 
   safeReset() {
-    const baseline = cloneLayoutSnapshot(this.runtimeState.baseline_layout);
-    this.runtimeState.current_layout = baseline;
-    this.runtimeState.last_stable_layout = cloneLayoutSnapshot(baseline);
-    this.runtimeState.design_state = {};
-    return cloneLayoutSnapshot(baseline);
+    const current = this.formConfiguration.getCurrentConfiguration();
+    this.formConfiguration.safeReset(current.revision);
+    const reset = this.syncRuntimeStateFromFormConfiguration();
+    return cloneLayoutSnapshot(reset.layout);
   }
 
   restoreLastStable() {
-    this.runtimeState.current_layout = cloneLayoutSnapshot(this.runtimeState.last_stable_layout);
-    return cloneLayoutSnapshot(this.runtimeState.current_layout);
+    const current = this.formConfiguration.getCurrentConfiguration();
+    this.formConfiguration.rollback(current.revision);
+    const restored = this.syncRuntimeStateFromFormConfiguration();
+    return cloneLayoutSnapshot(restored.layout);
   }
 
   getSnapshot() {
@@ -564,6 +631,8 @@ export class DesignOsRuntime {
       last_stable_layout: cloneLayoutSnapshot(this.runtimeState.last_stable_layout),
       baseline_layout: cloneLayoutSnapshot(this.runtimeState.baseline_layout),
       design_state: deepCopyTree(this.runtimeState.design_state),
+      form_configuration_snapshot: this.formConfiguration.getSnapshot(),
+      form_configuration_recovery: this.formConfiguration.getRecoveryReceipt(),
       resolver_calls: this.resolverCalls,
       preview_calls: this.previewCalls,
       text_input_events: this.textInputEvents,

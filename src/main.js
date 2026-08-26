@@ -103,6 +103,9 @@ const {
   normalizeSessionSelectionRange,
   readSessionContinuityV1,
 } = require('./core/session-continuity-v1.cjs');
+const {
+  bindMinimumInterchangeRuntime,
+} = require('./core/minimum-interchange-v1.cjs');
 
 // R2.4 R1: one small per-project shadow cell for the local edit-generation
 // domain. Advisory only; see the autosave hook for its sole use.
@@ -30738,6 +30741,12 @@ async function reconcileRoundRecordV3StoreAtStartup() {
   }
 }
 
+const MINIMUM_INTERCHANGE_RUNTIME_BINDING = bindMinimumInterchangeRuntime({
+  bridgeCommandIds: UI_COMMAND_BRIDGE_ALLOWED_COMMAND_IDS,
+  menuCommandHandlers: MENU_COMMAND_HANDLERS,
+  ipcCapabilityClasses: IPC_CHANNEL_CAPABILITY_CLASS,
+});
+
 app.whenReady().then(async () => {
   if (!singleInstanceLockAcquired) {
     return;
@@ -30838,6 +30847,7 @@ app.on('window-all-closed', () => {
 });
 
 module.exports = {
+  MINIMUM_INTERCHANGE_RUNTIME_BINDING,
   buildProjectTreeRootsWithIdentities,
   ensureProjectManifest,
   getProjectDocumentIdentityPayload,

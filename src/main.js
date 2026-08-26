@@ -247,6 +247,9 @@ const {
   evaluateWriterLocalQueryAccess,
 } = require('./core/writer-local-profile-v1.cjs');
 const {
+  createBrandIdentityRendererProjection,
+} = require('./core/brand-identity-v1.cjs');
+const {
   makeCommandBridgeEditorSyncSummary,
   makeCommandBridgeException,
   makeCommandBridgeFailure,
@@ -27725,10 +27728,12 @@ function createWindow() {
   const useLegacyEditor = process.env.USE_LEGACY_EDITOR === '1';
   const useTiptap = !useLegacyEditor;
   const writerLocalProfile = getWriterLocalRuntimeProfile();
+  const brandIdentity = createBrandIdentityRendererProjection();
   editorStartupReadyPromise = mainWindow.loadFile(path.join(__dirname, 'renderer', 'index.html'), {
     query: {
       USE_TIPTAP: (useTiptap ? '1' : '0'),
       PRODUCT_PROFILE: writerLocalProfile.profileId,
+      BRAND_IDENTITY: brandIdentity.identityId,
     },
   }).then(async () => {
     mainWindow.webContents.setZoomFactor(1);

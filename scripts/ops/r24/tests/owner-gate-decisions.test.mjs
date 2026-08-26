@@ -16,11 +16,13 @@ const PROGRAM_PATH = path.join(R24_DIR, 'EXECUTABLE_PROGRAM_R2_4.json');
 const MISSION_PATH = path.join(R24_DIR, 'MISSION_CONTRACT_R2_4.json');
 const DECISION_PATH = path.join(R24_DIR, 'OWNER_GATE_DECISIONS', 'STORAGE_AUTHORITY_ADR_R2_STORAGE_BAKEOFF_V1.json');
 const ENTITLEMENT_DECISION_PATH = path.join(R24_DIR, 'OWNER_GATE_DECISIONS', 'ENTITLEMENT_SEMANTICS_ADR_OR_DENY_WP206_SAFE_ENTITLEMENT_BASELINE_V1.json');
+const LOCAL_RELEASE_DECISION_PATH = path.join(R24_DIR, 'OWNER_GATE_DECISIONS', 'LOCAL_RELEASE_PERMIT_WP307_WRITER_LOCAL_PROFILE_V1.json');
 const clone = (value) => structuredClone(value);
 
 function fixture() {
   const decision = readJsonBounded(DECISION_PATH);
   const entitlementDecision = readJsonBounded(ENTITLEMENT_DECISION_PATH);
+  const localReleaseDecision = readJsonBounded(LOCAL_RELEASE_DECISION_PATH);
   return {
     program: readJsonBounded(PROGRAM_PATH),
     missionContract: readJsonBounded(MISSION_PATH),
@@ -31,12 +33,15 @@ function fixture() {
     decisionDigest: sha256hex(fs.readFileSync(DECISION_PATH)),
     entitlementDecision,
     entitlementDecisionDigest: sha256hex(fs.readFileSync(ENTITLEMENT_DECISION_PATH)),
+    localReleaseDecision,
+    localReleaseDecisionDigest: sha256hex(fs.readFileSync(LOCAL_RELEASE_DECISION_PATH)),
   };
 }
 
 function validate(values, artifacts = {
   [values.decision.decisionId]: { value: values.decision, digest: values.decisionDigest },
   [values.entitlementDecision.decisionId]: { value: values.entitlementDecision, digest: values.entitlementDecisionDigest },
+  [values.localReleaseDecision.decisionId]: { value: values.localReleaseDecision, digest: values.localReleaseDecisionDigest },
 }) {
   return validateOwnerGateAmendments({
     program: values.program,
@@ -51,13 +56,15 @@ function validate(values, artifacts = {
   });
 }
 
-test('exact owner decisions yield mission-bound storage approval and WP206 safe deny', () => {
+test('exact owner decisions yield mission-bound storage, entitlement and WP307 local-profile dispositions', () => {
   const values = fixture();
   assert.equal(values.registry.entries.find((entry) => entry.id === 'STORAGE_AUTHORITY_ADR').status, 'UNRESOLVED');
   assert.equal(values.registry.entries.find((entry) => entry.id === 'ENTITLEMENT_SEMANTICS_ADR_OR_DENY').status, 'UNRESOLVED');
+  assert.equal(values.registry.entries.find((entry) => entry.id === 'LOCAL_RELEASE_PERMIT').status, 'UNRESOLVED');
   assert.deepEqual(validate(values), {
     STORAGE_AUTHORITY_ADR: 'APPROVED',
     ENTITLEMENT_SEMANTICS_ADR_OR_DENY: 'DENIED',
+    LOCAL_RELEASE_PERMIT: 'APPROVED',
   });
 });
 
@@ -69,6 +76,7 @@ test('wrong mission digest is rejected even if a mutant is resealed', () => {
     () => validate(values, {
       [decision.decisionId]: { value: decision, digest: values.decisionDigest },
       [values.entitlementDecision.decisionId]: { value: values.entitlementDecision, digest: values.entitlementDecisionDigest },
+      [values.localReleaseDecision.decisionId]: { value: values.localReleaseDecision, digest: values.localReleaseDecisionDigest },
     }),
     (error) => error.code === 'E_R24_OWNER_GATE_DECISION_MISSION',
   );
@@ -82,6 +90,7 @@ test('wrong node or gate cannot inherit the R2 decision', () => {
     () => validate(values, {
       [wrongNode.decisionId]: { value: wrongNode, digest: values.decisionDigest },
       [values.entitlementDecision.decisionId]: { value: values.entitlementDecision, digest: values.entitlementDecisionDigest },
+      [values.localReleaseDecision.decisionId]: { value: values.localReleaseDecision, digest: values.localReleaseDecisionDigest },
     }),
     (error) => error.code === 'E_R24_OWNER_GATE_DECISION_NODE',
   );
@@ -99,6 +108,7 @@ test('artifact byte drift fails before semantic approval', () => {
     () => validate(values, {
       [values.decision.decisionId]: { value: values.decision, digest: 'f'.repeat(64) },
       [values.entitlementDecision.decisionId]: { value: values.entitlementDecision, digest: values.entitlementDecisionDigest },
+      [values.localReleaseDecision.decisionId]: { value: values.localReleaseDecision, digest: values.localReleaseDecisionDigest },
     }),
     (error) => error.code === 'E_R24_OWNER_GATE_DECISION_DIGEST_MISMATCH',
   );
@@ -113,6 +123,7 @@ test('dependency adoption and live storage scope widening are rejected', () => {
       () => validate(values, {
         [decision.decisionId]: { value: decision, digest: values.decisionDigest },
         [values.entitlementDecision.decisionId]: { value: values.entitlementDecision, digest: values.entitlementDecisionDigest },
+        [values.localReleaseDecision.decisionId]: { value: values.localReleaseDecision, digest: values.localReleaseDecisionDigest },
       }),
       (error) => error.code === 'E_R24_OWNER_GATE_DECISION_SCOPE_WIDENING',
     );
@@ -128,10 +139,37 @@ test('entitlement denial cannot widen pricing, release, cloud, user data or depe
       () => validate(values, {
         [values.decision.decisionId]: { value: values.decision, digest: values.decisionDigest },
         [decision.decisionId]: { value: decision, digest: values.entitlementDecisionDigest },
+        [values.localReleaseDecision.decisionId]: { value: values.localReleaseDecision, digest: values.localReleaseDecisionDigest },
       }),
       (error) => error.code === 'E_R24_OWNER_GATE_DECISION_SCOPE_WIDENING',
     );
   }
+});
+
+test('WP307 local release approval cannot widen signing, distribution, dependency, cloud or user-data authority', () => {
+  const values = fixture();
+  for (const key of ['signing', 'notarization', 'publicDistribution', 'dependencyAdoption', 'cloudAuthority', 'userDataMutation']) {
+    const decision = clone(values.localReleaseDecision);
+    decision.authorizedScope[key] = true;
+    assert.throws(
+      () => validate(values, {
+        [values.decision.decisionId]: { value: values.decision, digest: values.decisionDigest },
+        [values.entitlementDecision.decisionId]: { value: values.entitlementDecision, digest: values.entitlementDecisionDigest },
+        [decision.decisionId]: { value: decision, digest: values.localReleaseDecisionDigest },
+      }),
+      (error) => error.code === 'E_R24_OWNER_GATE_DECISION_SCOPE_WIDENING',
+    );
+  }
+  const wrongNode = clone(values.localReleaseDecision);
+  wrongNode.nodeId = 'WP-308_BRAND_BASELINE';
+  assert.throws(
+    () => validate(values, {
+      [values.decision.decisionId]: { value: values.decision, digest: values.decisionDigest },
+      [values.entitlementDecision.decisionId]: { value: values.entitlementDecision, digest: values.entitlementDecisionDigest },
+      [wrongNode.decisionId]: { value: wrongNode, digest: values.localReleaseDecisionDigest },
+    }),
+    (error) => error.code === 'E_R24_OWNER_GATE_DECISION_NODE',
+  );
 });
 
 test('base registry and revocation drift fail closed', () => {
@@ -146,6 +184,7 @@ test('base registry and revocation drift fail closed', () => {
     () => validate(values, {
       [decision.decisionId]: { value: decision, digest: values.decisionDigest },
       [values.entitlementDecision.decisionId]: { value: values.entitlementDecision, digest: values.entitlementDecisionDigest },
+      [values.localReleaseDecision.decisionId]: { value: values.localReleaseDecision, digest: values.localReleaseDecisionDigest },
     }),
     (error) => error.code === 'E_R24_OWNER_GATE_DECISION_REVOCATION',
   );

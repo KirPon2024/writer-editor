@@ -65,6 +65,34 @@ const EXPECTED_OWNER_GATE_DECISIONS = Object.freeze({
       'SECOND_WRITER_OR_CONTOUR',
     ]),
   }),
+  LOCAL_RELEASE_PERMIT: Object.freeze({
+    decisionId: 'LOCAL_RELEASE_PERMIT_WP307_WRITER_LOCAL_PROFILE_V1',
+    decision: 'APPROVED',
+    approvedBy: 'owner:OWNER_DIRECTIVE_LOCAL_RELEASE_PERMIT_APPROVED',
+    priorOwnerStandingGrantTaskId: 'OWNER_CONTINUOUS_AUTONOMY_GRANTED',
+    authorizedScope: Object.freeze({
+      localPackagingAndCertificationOnly: true,
+      signing: false,
+      notarization: false,
+      publicDistribution: false,
+      dependencyAdoption: false,
+      cloudAuthority: false,
+      userDataMutation: false,
+    }),
+    forbiddenAuthorityExpansion: Object.freeze([
+      'SIGNING',
+      'NOTARIZATION',
+      'PUBLIC_DISTRIBUTION',
+      'DEPENDENCY_ADOPTION',
+      'CLOUD_OR_NETWORK_AUTHORITY',
+      'USER_DATA_MUTATION',
+      'CREDENTIAL_OR_SECRET_BYPASS',
+      'SAFE_APPLY_EXPANSION',
+      'FORCE_PUSH',
+      'PROTECTION_BYPASS',
+      'SECOND_WRITER_OR_CONTOUR',
+    ]),
+  }),
 });
 
 function assertObject(value, code, detail) {

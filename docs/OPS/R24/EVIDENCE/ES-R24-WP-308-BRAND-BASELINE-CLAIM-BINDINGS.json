@@ -1,0 +1,159 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-308-BRAND-BASELINE-CLAIM-BINDINGS",
+  "contourId": "WP-308_BRAND_BASELINE",
+  "evidenceClass": "CONTRACT",
+  "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
+  "headSha": "1ccfc8556ae19cff9dba573192dd70580d69d11f",
+  "originMainSha": "f51a678a89cb7dfba1bd4249dabffbf5ec0fea5a",
+  "generatedAtUtc": "2026-08-26T19:52:31Z",
+  "oracle": "strict ClaimBindingV1 exact-hash binding for replayable WP308 original first-party brand baseline closure, exact-head and exact-main postmerge evidence, survivor audit, source receipt and graph-derived fail-closed scheduler receipt",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+      "sha256": "f037355e4f1d87107f1593927463d94fa3f7128038790616c4d5611cf42f12f9",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+      "sha256": "982420769ae5531abab607ed076e7cd8d09e08a2907fc748fff80c78a45d83ed",
+      "claimTerms": [
+        "CLOSED"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/SELECTION_RECEIPT_R2_4.json",
+      "sha256": "09427e86890d6a9511ba9ec709d7289326c30f380d8f0f8ed7f8121ed5cacb0b",
+      "claimTerms": [
+        "SAFE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CTR-R24-WP-308-BRAND-BASELINE.json",
+      "sha256": "7f1c09c094e0539c316b29f09d3a1a942c546b621b5b0de94f8c3bdbd555ce43",
+      "claimTerms": [
+        "PASS"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/brand-identity-v1.cjs",
+      "sha256": "ece237471aa9f59e7699c550eb7ada410dab481e244e5dc6af55070536887f34",
+      "terms": [
+        "Immutable WP308 original first-party identity contract"
+      ]
+    },
+    {
+      "path": "src/main.js",
+      "sha256": "9b720c2c8c6f99aee23ba01d64ea5511d5d51ddf52fa45e1b67308a8e74abbc8",
+      "terms": [
+        "Main-process startup identity projection"
+      ]
+    },
+    {
+      "path": "src/renderer/brandIdentitySurface.mjs",
+      "sha256": "d988aad829b03c44c08855c0ef497c34138692271de7323824a7c0f039a17ed6",
+      "terms": [
+        "Exact renderer binding and invalid-projection fail-closed behavior"
+      ]
+    },
+    {
+      "path": "src/renderer/index.html",
+      "sha256": "a1b5c63c8f95b9703675db464e3f33d735af504dd5c8aa0611075582ba8c8273",
+      "terms": [
+        "Original inline brand mark and accessible lockup semantics"
+      ]
+    },
+    {
+      "path": "src/renderer/styles.css",
+      "sha256": "e5a3baed873f0f7387585901d96788e034b06ed2e6595dd21bbc3e71155f1fb9",
+      "terms": [
+        "Tokenized light, dark, forced-color and stable titlebar presentation"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp308-brand-baseline.test.mjs",
+      "sha256": "b5d177a20c70aa096776d80dd39c7d27ab36b457188571badd86d1e2db0dcf32",
+      "terms": [
+        "WP308 contract, integration, accessibility and implementation mutant oracle"
+      ]
+    },
+    {
+      "path": "docs/OPS/R24/OWNER_GATE_DECISIONS/BRAND_LICENSE_OWNER_CHOICE_WP308_BRAND_BASELINE_V1.json",
+      "sha256": "cfd5b89e89e1c9228c8572a72f219effd1cda1b1fc910369c7f13e2fd781eccc",
+      "terms": [
+        "Validated original first-party identity approval with explicit authority denials"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "node --test test/unit/r24-wp308-brand-baseline.test.mjs",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 9,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 7,
+        "survived": 0
+      },
+      "requiredDisposition": "Identity immutability, exact projection binding, fail-closed visibility, accessibility and asset-authority boundaries are green."
+    },
+    {
+      "command": "WP300-WP308 Writer titlebar, startup projection, renderer and accessibility affected chain",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 35,
+        "fail": 0
+      },
+      "requiredDisposition": "The original brand lockup remains compatible with the bounded Writer affected chain; six unrelated optional skips are outside the required denominator."
+    },
+    {
+      "command": "desktop and narrow viewport visual inspection",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 2,
+        "fail": 0
+      },
+      "requiredDisposition": "The 28px titlebar lockup is visible, stable and non-overflowing at desktop and narrow widths; no screenshot is treated as canon."
+    },
+    {
+      "command": "GitHub exact PR-head required checks",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "PR 1710 head 6b65414f has green RTK, OSS, Ubuntu parity and Windows parity."
+    },
+    {
+      "command": "GitHub exact-main postmerge RTK and OSS",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "Merge f51a678a is terminal green in exact-main RTK 33004582505 attempt 2 and OSS 33004581804."
+    },
+    {
+      "command": "node scripts/ops/r24/docs-claim-lint.mjs and node --test scripts/ops/r24/tests/docs-claim-lint.test.mjs",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 9,
+        "fail": 0
+      },
+      "requiredDisposition": "Strict ClaimBindingV1 lint passes and all negative schema mutants remain rejected after mutable-state binding refresh."
+    }
+  ],
+  "nonClaims": [
+    "This binding closes only the bounded WP-308_BRAND_BASELINE contour.",
+    "WP308 certifies only original first-party tokenized accessible identity and does not make a screenshot canonical.",
+    "The exact scheduler receipt currently has an empty ready set; that is a graph frontier observation and not a PROGRAM DONE verdict.",
+    "No third-party asset acquisition, dependency adoption, signing, notarization, public distribution, release, cloud, user-data mutation, storage migration, destructive storage action, user Word/Drive mutation, SAFE_APPLY expansion, pricing, business or AI authority is added.",
+    "It does not mark the R2.4 program DONE."
+  ]
+}

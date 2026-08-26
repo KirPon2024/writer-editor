@@ -109,7 +109,7 @@ test('PlanState persists the full 109-node denominator without unreconciled DONE
   assert.equal(state.schemaVersion, 'yalken.plan-state.r24.v2');
   assert.equal(state.replayBaseline.classification, 'ADOPTED_PRE_V2_UNREPLAYABLE_HISTORY');
   assert.equal(state.replayBaseline.unreplayableContourIds.includes('WP-102_OPERATION_PROTOCOL'), true);
-  assert.equal(state.transitionHistory.length, 130);
+  assert.equal(state.transitionHistory.length, 135);
   assert.deepEqual(
     state.transitionHistory.map((row) => [row.contourId, row.from, row.to]),
     [

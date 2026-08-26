@@ -1,0 +1,150 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-304-A11Y-PERFORMANCE-CLAIM-BINDINGS",
+  "contourId": "WP-304_A11Y_PERFORMANCE",
+  "evidenceClass": "CONTRACT",
+  "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
+  "headSha": "336c74698344addc3d03b55404a34e9ed38b61ab",
+  "originMainSha": "275d8d96406fa0081a88c14c31c13f0d434a6429",
+  "generatedAtUtc": "2026-08-26T03:40:00Z",
+  "oracle": "strict ClaimBindingV1 exact-hash binding for replayable WP304 accessibility/performance closure, exact-main postmerge evidence, survivor audit, source receipt and graph-derived WP305 scheduler receipt",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+      "sha256": "6555bb785a6516d69006f2ab13eb7fad1edaa38306a29f6b2c2b9e1949de8eab",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+      "sha256": "0893f81b6b914d64589b4b41513be685732729e8466de590796dd1e6ed166fca",
+      "claimTerms": [
+        "CLOSED"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/SELECTION_RECEIPT_R2_4.json",
+      "sha256": "dcc807881d46dc8f238ee6f25a45b62d349f4d75e5623907345b41a8e4f8d40d",
+      "claimTerms": [
+        "READY"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CTR-R24-WP-304-A11Y-PERFORMANCE.json",
+      "sha256": "4115e855812906c61f2b309741b1f84649905ecb7d0bd17ae3bc472b6020b624",
+      "claimTerms": [
+        "PASS"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/renderer/a11yPerformanceRuntime.mjs",
+      "sha256": "d431d5d36cc8106298099fa3cb46cf3c17546ea0db14cc0fe0f501bfdd303d6d",
+      "terms": [
+        "WP304 strict accessibility/performance projection, deterministic reflow, direction, reduced motion and budget monitors"
+      ]
+    },
+    {
+      "path": "src/renderer/editor.js",
+      "sha256": "b5632956374ea75b3cb69f1b5111a745ef87c3c7fcb10be28a21d8e18d5f15cc",
+      "terms": [
+        "WP304 Writer runtime integration without Product truth authority"
+      ]
+    },
+    {
+      "path": "src/renderer/index.html",
+      "sha256": "d6cc5fb5700dfa2061d56362dc5de1be2380027d4901d2ae7f1550cd5327301d",
+      "terms": [
+        "WP304 status semantics and authoring direction boundary"
+      ]
+    },
+    {
+      "path": "src/renderer/styles.css",
+      "sha256": "4ac9b79376dc148995ab62e163a8938d522093b81b20ee2d8f20d1ca6b9a2171",
+      "terms": [
+        "WP304 deterministic reflow and reduced-motion presentation"
+      ]
+    },
+    {
+      "path": "src/renderer/editor.bundle.js",
+      "sha256": "0f4fc6937ed8e2362a026dc7a7914a791f23238b69b88782428070b4a4bbaea4",
+      "terms": [
+        "WP304 packaged renderer parity"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp304-a11y-performance.test.js",
+      "sha256": "dd8d6efda1a9087d6ae1c37e61521de0582d0c71cb2720e1abc22418a5070e78",
+      "terms": [
+        "WP304 contract, negative, mixed-script, IME, budget and implementation mutant oracle"
+      ]
+    },
+    {
+      "path": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+      "sha256": "ea0ee8170eb38de601d85979679899d674ed5a8725ac05830ed83f30204cae2f",
+      "terms": [
+        "Exact terminal wording source binding after WP304 editor integration"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "node --test test/unit/r24-wp304-a11y-performance.test.js",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 5,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 7,
+        "survived": 0
+      },
+      "requiredDisposition": "Keyboard, screen-reader, reflow, motion, RTL, mixed-script, IME, budget and stale-generation boundaries are green."
+    },
+    {
+      "command": "WP304 plus RELEASE01 exact-main focused chain",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 51,
+        "fail": 0
+      },
+      "requiredDisposition": "The exact merge tree preserves the WP304 implementation and terminal wording source binding."
+    },
+    {
+      "command": "GitHub exact PR-head required checks",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "PR 1700 head 7265bf5d has green RTK, OSS, Ubuntu parity and Windows parity."
+    },
+    {
+      "command": "GitHub exact-main postmerge RTK and OSS",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "Merge 275d8d96 is terminal green in exact-main RTK 32925512060 and OSS 32925512064."
+    },
+    {
+      "command": "node scripts/ops/r24/docs-claim-lint.mjs and node --test scripts/ops/r24/tests/docs-claim-lint.test.mjs",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 9,
+        "fail": 0
+      },
+      "requiredDisposition": "Strict ClaimBindingV1 lint passes and all negative schema mutants remain rejected after the mutable-state binding refresh."
+    }
+  ],
+  "nonClaims": [
+    "This binding closes only the bounded WP-304_A11Y_PERFORMANCE contour.",
+    "WP304 certifies the Writer accessibility/performance projection, deterministic reflow, interface direction, reduced motion and bounded timing monitors without Product truth mutation.",
+    "The scheduler receipt after WP304 closure selects WP-305_MINIMUM_INTERCHANGE as the next graph-admissible product contour.",
+    "No physical macOS qualification, release readiness, signing, cloud, dependency adoption, storage migration, destructive storage action, user Word/Drive mutation, SAFE_APPLY expansion, pricing, business or AI authority is added.",
+    "It does not mark the R2.4 program DONE."
+  ]
+}

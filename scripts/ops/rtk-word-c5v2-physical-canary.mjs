@@ -2937,6 +2937,19 @@ export function buildHammerspoonAccessibilityPreflightCommand(appleScript) {
   ].join('\n');
 }
 
+export function buildHammerspoonAppleScriptFileCommand(scriptPath) {
+  return [
+    `local yPath = ${luaLongBracketLiteral(path.resolve(String(scriptPath || '')))}`,
+    'local yFile, yOpenError = io.open(yPath, "rb")',
+    'if not yFile then error("HAMMERSPOON_APPLESCRIPT_FILE_OPEN_FAILED:" .. tostring(yOpenError or "")) end',
+    'local yScript = yFile:read("*a")',
+    'yFile:close()',
+    'local yOk, yResult, yDescriptor = hs.osascript.applescript(yScript)',
+    'if yOk then return tostring(yResult or "") end',
+    'error(tostring(yResult or yDescriptor or "HAMMERSPOON_APPLESCRIPT_FAILED"))',
+  ].join('\n');
+}
+
 export function runMacosAccessibilityPreflight({
   runner = 'osascript',
   expectedFrontDocumentFullName = '',
@@ -6133,15 +6146,48 @@ export function formatAppleScriptExecutionError(error, scriptPath) {
   ].join('|');
 }
 
-export function runAppleScript(scriptText, scriptPath) {
+export function runAppleScript(scriptText, scriptPath, {
+  runner = 'osascript',
+  execFileSyncImpl = execFileSync,
+  hammerspoonPath = '/opt/homebrew/bin/hs',
+  hammerspoonTimeoutSeconds = 480,
+} = {}) {
   fs.writeFileSync(scriptPath, scriptText, 'utf8');
+  const normalizedRunner = String(runner || 'osascript').trim();
   try {
-    return execFileSync('/usr/bin/osascript', [scriptPath], {
-      cwd: REPO_ROOT,
-      encoding: 'utf8',
-      timeout: 480_000,
-      stdio: ['ignore', 'pipe', 'pipe'],
-    });
+    if (normalizedRunner === 'osascript') {
+      return execFileSyncImpl('/usr/bin/osascript', [scriptPath], {
+        cwd: REPO_ROOT,
+        encoding: 'utf8',
+        timeout: 480_000,
+        stdio: ['ignore', 'pipe', 'pipe'],
+      });
+    }
+    if (normalizedRunner === 'hammerspoon') {
+      const hsPrefixArgs = ['-t', String(hammerspoonTimeoutSeconds), '-q', '-c'];
+      const accessibilityState = String(execFileSyncImpl(hammerspoonPath, [
+        ...hsPrefixArgs,
+        'return hs.accessibilityState()',
+      ], {
+        cwd: REPO_ROOT,
+        encoding: 'utf8',
+        timeout: 15_000,
+        stdio: ['ignore', 'pipe', 'pipe'],
+      }) || '').trim();
+      if (accessibilityState !== 'true') {
+        throw new Error('HAMMERSPOON_ACCESSIBILITY_PERMISSION_REQUIRED');
+      }
+      return execFileSyncImpl(hammerspoonPath, [
+        ...hsPrefixArgs,
+        buildHammerspoonAppleScriptFileCommand(scriptPath),
+      ], {
+        cwd: REPO_ROOT,
+        encoding: 'utf8',
+        timeout: (Number(hammerspoonTimeoutSeconds) + 5) * 1000,
+        stdio: ['ignore', 'pipe', 'pipe'],
+      });
+    }
+    throw new Error(`C5V2_APPLESCRIPT_RUNNER_UNSUPPORTED:${normalizedRunner}`);
   } catch (error) {
     throw new Error(formatAppleScriptExecutionError(error, scriptPath));
   }
@@ -6191,6 +6237,7 @@ export function runWordLedgerInChunks({
   evidenceDir,
   chunkSize = 48,
   onChunkProgress = null,
+  appleScriptRunner = 'osascript',
 }) {
   const chunks = buildWordLedgerChunkPlan(ledger, chunkSize);
   const outputs = [];
@@ -6244,7 +6291,7 @@ export function runWordLedgerInChunks({
       visibleReadbackPath: chunk.chunkIndex === chunks.length - 1
         ? `${artifactReturnedPath}.word-visible-readback.txt`
         : '',
-    }), scriptPath);
+    }), scriptPath, { runner: appleScriptRunner });
     const parsed = parseWordOutput(output);
     if (parsed.scalars.WORD_STATUS !== 'PASS') {
       throw new Error(`C5V2_WORD_CHUNK_FAILED:${chunk.chunkId}:${output}`);
@@ -7825,6 +7872,10 @@ export function validateC5V2OrchestratedArgs(options, argv = []) {
   if (!identityRe.test(options.campaignId)) return { ok: false, code: `ORCH_CANARY_CAMPAIGN_ID_INVALID:${options.campaignId}` };
   if (!['W06', 'REP1', 'REP2', 'REP3'].includes(options.chainId)) return { ok: false, code: `ORCH_CANARY_CHAIN_ID_INVALID:${options.chainId}` };
   if (!/^[0-9a-f]{40}$/u.test(options.expectedSha)) return { ok: false, code: 'ORCH_CANARY_SHA_FORMAT' };
+  const appleScriptRunner = String(options.accessibilityRunner || 'osascript');
+  if (!['osascript', 'hammerspoon'].includes(appleScriptRunner)) {
+    return { ok: false, code: `ORCH_CANARY_APPLESCRIPT_RUNNER_INVALID:${appleScriptRunner}` };
+  }
   const rawPaths = [
     ['run-dir', options.explicitRunDir],
     ['stage-result-path', options.stageResultPath],
@@ -7984,7 +8035,11 @@ async function mainNegativeCampaign(options) {
     negativePlanDigest: fullNegativePlan.planDigest,
     negativeChunk,
   });
-  const wordVersion = shellValue('/usr/bin/osascript', ['-e', 'tell application "Microsoft Word" to return version as text'], { timeout: 30_000 });
+  const wordVersion = String(runAppleScript(
+    'tell application "Microsoft Word" to return version as text',
+    path.join(runDir, 'word-version.applescript'),
+    { runner: options.accessibilityRunner },
+  )).trim();
   const exportResult = await runElectronFullManuscriptRoundtrip({
     runDir,
     sourcePath: sourceDocxPath,
@@ -8026,6 +8081,7 @@ async function mainNegativeCampaign(options) {
           ledger,
         }),
         path.join(runDir, 'word-negative-baseline.applescript'),
+        { runner: options.accessibilityRunner },
       );
       const forkManifest = materializeC5V2NegativeForks({
         baselineDocxPath: returnedDocxPath,
@@ -8307,7 +8363,11 @@ async function mainCumulative(options) {
     }
     fs.mkdirSync(path.dirname(rounds.at(-1).wordReturnedPath), { recursive: true });
   }
-  const wordVersion = shellValue('/usr/bin/osascript', ['-e', 'tell application "Microsoft Word" to return version as text'], { timeout: 30_000 });
+  const wordVersion = String(runAppleScript(
+    'tell application "Microsoft Word" to return version as text',
+    path.join(runDir, 'word-version.applescript'),
+    { runner: options.accessibilityRunner },
+  )).trim();
   const positiveStageProgress = createPositiveStageProgressTracker();
   const electronResult = await runElectronCumulativeFullManuscriptRoundtrip({
     runDir,
@@ -8425,6 +8485,7 @@ async function mainCumulative(options) {
             artifactReturnedPath: round.returnedPath,
             ledger,
             evidenceDir: round.roundDir,
+            appleScriptRunner: options.accessibilityRunner,
             onChunkProgress: (progress) => positiveStageProgress.recordRoundChunk({
               roundIndex,
               roundId: round.roundId,
@@ -8440,6 +8501,7 @@ async function mainCumulative(options) {
               ledger,
             }),
             path.join(round.roundDir, 'word-canary.applescript'),
+            { runner: options.accessibilityRunner },
           );
       positiveStageProgress.finishRound({
         roundIndex,
@@ -9267,7 +9329,11 @@ async function main() {
   });
   let ledger = buildCanaryLedger(scenes, { counts: options.counts });
   fs.writeFileSync(path.join(runDir, 'canary-ledger.pre-export.json'), `${JSON.stringify(ledger, null, 2)}\n`);
-  const wordVersion = shellValue('/usr/bin/osascript', ['-e', 'tell application "Microsoft Word" to return version as text'], { timeout: 30_000 });
+  const wordVersion = String(runAppleScript(
+    'tell application "Microsoft Word" to return version as text',
+    path.join(runDir, 'word-version.applescript'),
+    { runner: options.accessibilityRunner },
+  )).trim();
   let wordOutput = '';
   let wordError = '';
   const exportResult = await runElectronFullManuscriptRoundtrip({
@@ -9291,6 +9357,7 @@ async function main() {
           ledger,
         }),
         path.join(runDir, 'word-canary.applescript'),
+        { runner: options.accessibilityRunner },
       );
     },
   });

@@ -235,6 +235,39 @@ test('C1 generated macOS Accessibility preflight checkpoints typed fail-closed d
   assert.match(message, /STDERR:execution error: synthetic AX failure/u);
 });
 
+test('C1 Hammerspoon physical runner reads the exact generated AppleScript file and fails closed on caller drift', async () => {
+  const { buildHammerspoonAppleScriptFileCommand, runAppleScript } = await loadCanary();
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'c1-hammerspoon-runner-'));
+  const scriptPath = path.join(root, 'word.applescript');
+  const command = buildHammerspoonAppleScriptFileCommand(scriptPath);
+  assert.match(command, /io\.open\(yPath, "rb"\)/u);
+  assert.match(command, /hs\.osascript\.applescript\(yScript\)/u);
+
+  const calls = [];
+  const output = runAppleScript('return "WORD_STATUS=PASS"', scriptPath, {
+    runner: 'hammerspoon',
+    hammerspoonPath: '/opt/homebrew/bin/hs',
+    execFileSyncImpl(executable, args) {
+      calls.push({ executable, args });
+      return calls.length === 1 ? 'true\n' : 'WORD_STATUS=PASS\n';
+    },
+  });
+  assert.equal(output, 'WORD_STATUS=PASS\n');
+  assert.equal(calls.length, 2);
+  assert.equal(calls[0].executable, '/opt/homebrew/bin/hs');
+  assert.equal(calls[1].executable, '/opt/homebrew/bin/hs');
+  assert.match(calls[1].args.at(-1), /HAMMERSPOON_APPLESCRIPT_FILE_OPEN_FAILED/u);
+
+  assert.throws(() => runAppleScript('return "x"', scriptPath, {
+    runner: 'hammerspoon',
+    execFileSyncImpl() { return 'false\n'; },
+  }), /HAMMERSPOON_ACCESSIBILITY_PERMISSION_REQUIRED/u);
+  assert.throws(() => runAppleScript('return "x"', scriptPath, {
+    runner: 'unknown',
+    execFileSyncImpl() { throw new Error('must not execute'); },
+  }), /C5V2_APPLESCRIPT_RUNNER_UNSUPPORTED/u);
+});
+
 test('C1 Word full-book route receipt is fail-closed blocker evidence, not route PASS', async () => {
   const {
     EXACT_HEAD,

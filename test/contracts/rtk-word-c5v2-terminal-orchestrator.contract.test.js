@@ -1009,8 +1009,10 @@ leaseTest('ORCH_TEST_3: CLI rejects invalid sha, build, timeout, campaign and ch
   assert.throws(() => orch.parseOrchestratorArgs(withArg('--campaign-id', '../escape')), /ORCH_CAMPAIGN_ID_INVALID/u);
   assert.throws(() => orch.parseOrchestratorArgs(withArg('--campaign-id', 'has space')), /ORCH_CAMPAIGN_ID_INVALID/u);
   assert.throws(() => orch.parseOrchestratorArgs(withArg('--chain-id', 'REP9')), /ORCH_CHAIN_ID_INVALID/u);
+  assert.throws(() => orch.parseOrchestratorArgs([...BASE_ARGS, '--physical-runner', 'shell']), /ORCH_ARG_INVALID:--physical-runner/u);
   const parsed = orch.parseOrchestratorArgs(BASE_ARGS);
   assert.equal(parsed.chainId, 'W06');
+  assert.equal(parsed.physicalRunner, 'osascript');
   assert.equal(parsed.campaignRoot, path.join('/tmp/c5v2-orch-args', 'test-campaign-001'));
   assert.equal(orch.parseOrchestratorArgs(withArg('--expected-word-version', '16.112')).expectedWordVersion, '16.112');
 });
@@ -1119,6 +1121,54 @@ leaseTest('ORCH_TEST_6B: nested secure-volume preflight verifies mount root and 
   assert.equal(green.ok, true, green.code);
   assert.equal(beforeExists, false);
   assert.equal(fs.existsSync(artifactRoot), false);
+});
+
+leaseTest('ORCH_TEST_6C: Hammerspoon physical runner requires a green caller-bound Accessibility probe', async () => {
+  const orch = await loadOrchestrator();
+  const probeCalls = [];
+  const directGreen = orch.defaultHammerspoonProbe({
+    execFileSyncImpl(executable, args) {
+      probeCalls.push({ executable, args });
+      return 'true\n';
+    },
+  });
+  assert.equal(directGreen.ok, true);
+  assert.equal(probeCalls[0].executable, '/opt/homebrew/bin/hs');
+  assert.deepEqual(probeCalls[0].args, ['-t', '30', '-q', '-c', 'return hs.accessibilityState()']);
+  assert.match(orch.defaultHammerspoonProbe({ execFileSyncImpl: () => 'false\n' }).code, /ACCESSIBILITY_PERMISSION_REQUIRED/u);
+  assert.match(orch.defaultHammerspoonProbe({ execFileSyncImpl: () => { throw new Error('missing'); } }).code, /HAMMERSPOON_UNAVAILABLE/u);
+
+  const repo = tmpDir('c5v2-orch-hammerspoon-repo-');
+  const head = initCleanGitRepo(repo);
+  spawnSync('git', ['update-ref', 'refs/remotes/origin/main', head], { cwd: repo });
+  const plistPath = path.join(tmpDir('c5v2-orch-hammerspoon-plist-'), 'Info.plist');
+  fs.writeFileSync(plistPath, `<?xml version="1.0"?><plist><dict><key>CFBundleShortVersionString</key><string>16.111.3</string><key>CFBundleVersion</key><string>16.111.26080215</string></dict></plist>`, 'utf8');
+  const options = validOptions({
+    expectedSha: head,
+    expectedWordVersion: '16.111.3',
+    expectedWordBuild: '16.111.26080215',
+    physicalRunner: 'hammerspoon',
+  });
+  const common = {
+    options,
+    scope: 'PRELAUNCH_TEST',
+    repoRoot: repo,
+    wordPlistPath: plistPath,
+    secureVolumeProbe: () => ({ ok: true, code: 'ORCH_SECURE_VOLUME_VERIFIED' }),
+  };
+  const blocked = orch.runOrchestratorPreflight({
+    ...common,
+    hammerspoonProbe: () => ({ ok: false, code: 'ORCH_HAMMERSPOON_ACCESSIBILITY_PERMISSION_REQUIRED' }),
+  });
+  assert.equal(blocked.ok, false);
+  assert.match(blocked.code, /ORCH_HAMMERSPOON_ACCESSIBILITY_PERMISSION_REQUIRED/u);
+
+  const green = orch.runOrchestratorPreflight({
+    ...common,
+    hammerspoonProbe: () => ({ ok: true, code: 'ORCH_HAMMERSPOON_ACCESSIBILITY_VERIFIED', accessibilityState: true }),
+  });
+  assert.equal(green.ok, true, green.code);
+  assert.equal(green.hammerspoon.accessibilityState, true);
 });
 
 leaseTest('ORCH_TEST_7: atomic lock admits exactly one writer under concurrent acquisition', async () => {
@@ -3737,6 +3787,7 @@ leaseTest('ORCH_TEST_19B: orchestrator owns control dirs only; canary owns fresh
             : {},
       });
       seen.push({ stage, stageRoot: command.stageRoot, existedBeforeStage: fs.existsSync(command.stageRoot), args: command.args });
+      assert.equal(command.args[command.args.indexOf('--accessibility-runner') + 1], 'osascript');
       if (stage === 'POSITIVE') {
         assert.equal(fs.existsSync(path.join(options.campaignRoot, 'MAIN')), false);
         assert.equal(command.args[command.args.indexOf('--artifact-root') + 1], options.campaignRoot);
@@ -3770,6 +3821,22 @@ leaseTest('ORCH_TEST_19B: orchestrator owns control dirs only; canary owns fresh
   });
   assert.equal(outcome.ok, true, JSON.stringify(outcome.failure));
   assert.deepEqual(seen.map((entry) => entry.stage), ['POSITIVE', 'NEGATIVE', 'AGGREGATE']);
+});
+
+leaseTest('ORCH_TEST_19C: selected physical runner is forwarded to every canary stage', async () => {
+  const orch = await loadOrchestrator();
+  const options = validOptions({ physicalRunner: 'hammerspoon' });
+  for (const stage of ['POSITIVE', 'NEGATIVE', 'AGGREGATE']) {
+    const command = orch.buildOrchestratedStageCommand({
+      stage,
+      campaignRoot: options.campaignRoot,
+      campaignId: options.campaignId,
+      chainId: options.chainId,
+      options,
+      inputs: {},
+    });
+    assert.equal(command.args[command.args.indexOf('--accessibility-runner') + 1], 'hammerspoon');
+  }
 });
 
 leaseTest('ORCH_TEST_20: pre-existing campaign root is a collision STOP and stale green directory is ignored', async () => {

@@ -683,6 +683,8 @@
               role="textbox"
               aria-label="Текст сцены"
               aria-multiline="true"
+              dir="auto"
+              data-bidi-policy="plaintext"
               contenteditable="true"
               spellcheck="false"
               autofocus
@@ -1221,7 +1223,7 @@
       </aside>
     </div>
   </div>
-  <footer class="status-dock" aria-live="polite">
+  <footer class="status-dock" role="status" aria-live="polite" aria-atomic="true">
     <div class="status-dock__side status-dock__side--left">
       <span class="status-dock__item status-dock__item--word-count" data-word-count>0 words</span>
     </div>

@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "yalken.owner-gate-decision.r24.v1",
+  "decisionId": "LOCAL_RELEASE_PERMIT_WP307_WRITER_LOCAL_PROFILE_V1",
+  "missionDigest": "2d188140211c4e2a65f0f1bf1bef5bac53e396e3c3887cb3563fa253a10b0c80",
+  "gateId": "LOCAL_RELEASE_PERMIT",
+  "nodeId": "WP-307_WRITER_LOCAL_PROFILE",
+  "decision": "APPROVED",
+  "approvedBy": "owner:OWNER_DIRECTIVE_LOCAL_RELEASE_PERMIT_APPROVED",
+  "priorOwnerStandingGrantTaskId": "OWNER_CONTINUOUS_AUTONOMY_GRANTED",
+  "issuedAtUtc": "2026-08-26T11:45:23Z",
+  "expiresAtUtc": null,
+  "revocationEpoch": 0,
+  "authorizedScope": {
+    "localPackagingAndCertificationOnly": true,
+    "signing": false,
+    "notarization": false,
+    "publicDistribution": false,
+    "dependencyAdoption": false,
+    "cloudAuthority": false,
+    "userDataMutation": false
+  },
+  "forbiddenAuthorityExpansion": [
+    "SIGNING",
+    "NOTARIZATION",
+    "PUBLIC_DISTRIBUTION",
+    "DEPENDENCY_ADOPTION",
+    "CLOUD_OR_NETWORK_AUTHORITY",
+    "USER_DATA_MUTATION",
+    "CREDENTIAL_OR_SECRET_BYPASS",
+    "SAFE_APPLY_EXPANSION",
+    "FORCE_PUSH",
+    "PROTECTION_BYPASS",
+    "SECOND_WRITER_OR_CONTOUR"
+  ],
+  "noSelfApproval": true
+}

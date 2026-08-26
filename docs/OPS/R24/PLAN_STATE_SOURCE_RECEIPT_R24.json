@@ -1,16 +1,16 @@
 {
   "schemaVersion": "yalken.r24.plan-state-source-receipt.v1",
-  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPLAYABLE_WP303_EXACT_POSTMERGE_CLOSURE_NO_PROGRAM_DONE",
-  "generatedAtUtc": "2026-08-26T01:33:23Z",
+  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPLAYABLE_WP304_EXACT_POSTMERGE_CLOSURE_NO_PROGRAM_DONE",
+  "generatedAtUtc": "2026-08-26T03:36:00Z",
   "executableProgramPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
   "executableProgramDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
   "planStatePath": "docs/OPS/R24/PLAN_STATE_R24.json",
   "currentPlanState": {
     "path": "docs/OPS/R24/PLAN_STATE_R24.json",
-    "sha256": "1b524559fe14695d9ab4e196c2e1caa0619c4abfcb7c800e9ae4e23f79497774",
-    "revision": 248,
-    "fencingCounter": 42,
-    "transitionHistoryCount": 110
+    "sha256": "6555bb785a6516d69006f2ab13eb7fad1edaa38306a29f6b2c2b9e1949de8eab",
+    "revision": 255,
+    "fencingCounter": 43,
+    "transitionHistoryCount": 115
   },
   "externalPlanState": {
     "path": "/Volumes/T7-Secure/worktrees/yalken/_r24-mission/PLAN_STATE_R24.json",
@@ -89,13 +89,13 @@
     "contourRowsPersisted": 109
   },
   "nonClaims": [
-    "This source receipt accounts for repo-local closures through WP303 and does not mark the full 109-node program DONE.",
-    "WP303 certifies only the bounded Design OS form configuration, last-stable recovery and existing port integration at exact merged main aacaf1f6c15cfcd89925c248b1e90105c64bde43.",
-    "WP304 and all later work packages remain independently graph-gated.",
+    "This source receipt accounts for repo-local closures through WP304 and does not mark the full 109-node program DONE.",
+    "WP304 certifies only the bounded Writer accessibility/performance projection, exact rendering integration and budget enforcement at exact merged main 275d8d96406fa0081a88c14c31c13f0d434a6429.",
+    "WP305 and all later work packages remain independently graph-gated.",
     "No release readiness, physical macOS qualification, signing, cloud, AI, dependency adoption, storage migration, destructive action, user Word/Drive mutation or SAFE_APPLY expansion is implied."
   ],
   "discoveredR24TestFiles": {
-    "count": 120,
+    "count": 121,
     "treatment": "NOT_DELIVERY_STATE_WITHOUT_TERMINAL_RECEIPT",
     "basenames": [
       "r24-a0-atlas-incremental-equivalence.test.js",
@@ -217,11 +217,12 @@
       "r24-wp300-writer-home.test.mjs",
       "r24-wp301-authoring-surfaces.test.mjs",
       "r24-wp302-session-continuity.test.mjs",
-      "r24-wp303-design-os-customization.test.js"
+      "r24-wp303-design-os-customization.test.js",
+      "r24-wp304-a11y-performance.test.js"
     ]
   },
   "repoLocalPlanStateClosures": {
-    "doneContourCount": 31,
+    "doneContourCount": 32,
     "closures": [
       {
         "id": "SEC0_PATH_CAPABILITY",
@@ -876,8 +877,29 @@
           "ES-R24-WP-303-DESIGN-OS-CUSTOMIZATION-CLAIM-BINDINGS"
         ],
         "deliveryState": "CURRENT_MAIN_AACAF1F6_EXACT_HEAD_WP303_DESIGN_OS_CUSTOMIZATION_POSTMERGE_AND_SURVIVOR_GREEN_NO_PROGRAM_DONE"
+      },
+      {
+        "id": "WP-304_A11Y_PERFORMANCE",
+        "state": "DONE",
+        "previousState": "POSTMERGE_VERIFIED",
+        "attemptId": "ATTEMPT-WP304-20260826",
+        "updatedAt": "2026-08-26T03:36:00.005Z",
+        "headSha": "275d8d96406fa0081a88c14c31c13f0d434a6429",
+        "source": "R24_WP304_A11Y_PERFORMANCE_CLOSURE_V1",
+        "terminalReceiptPath": "docs/OPS/R24/CTR-R24-WP-304-A11Y-PERFORMANCE.json",
+        "evidenceStampIds": [
+          "ES-R24-WP-304-A11Y-PERFORMANCE-MODEL",
+          "ES-R24-WP-304-A11Y-PERFORMANCE-CONTRACT",
+          "ES-R24-WP-304-A11Y-PERFORMANCE-INTEGRATION",
+          "ES-R24-WP-304-A11Y-PERFORMANCE-MUTANTS",
+          "ES-R24-WP-304-A11Y-PERFORMANCE-EXACT-HEAD",
+          "ES-R24-WP-304-A11Y-PERFORMANCE-POSTMERGE-EXACT-HEAD",
+          "ES-R24-WP-304-A11Y-PERFORMANCE-SURVIVOR-AUDIT",
+          "ES-R24-WP-304-A11Y-PERFORMANCE-CLAIM-BINDINGS"
+        ],
+        "deliveryState": "CURRENT_MAIN_275D8D96_EXACT_HEAD_WP304_A11Y_PERFORMANCE_POSTMERGE_AND_SURVIVOR_GREEN_NO_PROGRAM_DONE"
       }
     ]
   },
-  "planStateRevision": 248
+  "planStateRevision": 255
 }

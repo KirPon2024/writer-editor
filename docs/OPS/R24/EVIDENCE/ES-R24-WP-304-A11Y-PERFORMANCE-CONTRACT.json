@@ -1,0 +1,64 @@
+{
+  "stampId": "ES-R24-WP-304-A11Y-PERFORMANCE-CONTRACT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-304_A11Y_PERFORMANCE",
+  "attemptId": "ATTEMPT-WP304-20260826",
+  "authorityEpoch": "R24-WP304-BASE-C993202A",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "7265bf5d7f9198ca14441f414c082f04e2ec498b",
+    "treeSha": "81e841e479d00833b927f0e3e0c4afcf3aec6e17"
+  },
+  "claim": {
+    "type": "WP304_A11Y_PERFORMANCE_ACCEPTANCE_CONTRACT",
+    "ceiling": "WP304_NODE_ONLY_NO_PROGRAM_DONE_NO_RELEASE_OR_PHYSICAL_QUALIFICATION_NO_USER_DOCUMENT_MUTATION",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "node --test test/unit/r24-wp304-a11y-performance.test.js",
+    "evidenceClass": "CONTRACT",
+    "denominator": 5,
+    "passed": 5,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-304-A11Y-PERFORMANCE-MODEL"
+    ],
+    "predecessorReceiptDigest": "c06eaa454fd261d278056c37b8d0d212068f5b86140e360f957cb2cc350bc80a"
+  },
+  "createdAt": "2026-08-26T03:36:00Z",
+  "actor": "codex/r24-wp304-postmerge-closure-v1-20260826",
+  "artifact": {
+    "requiredProfiles": [
+      "CONTRACT_NEGATIVE",
+      "UNIT",
+      "INTEGRATION",
+      "IMPLEMENTATION_MUTANTS",
+      "UNICODE_IME",
+      "CRASH_RECOVERY",
+      "A11Y_PERF"
+    ],
+    "canonicalContract": {
+      "projectionSchemaVersion": "yalken.writer.a11yPerformanceProjection.v1",
+      "typingBudgetMs": 16,
+      "survivorBudgetMs": 8,
+      "staleGenerationDisposition": "REJECT",
+      "authoringDirection": "AUTO_PLAINTEXT"
+    },
+    "forbiddenAuthority": [
+      "PRODUCT_TRUTH_MUTATION",
+      "AUTHOR_TEXT_DIRECTION_REWRITE",
+      "STALE_GENERATION_ACCEPTANCE",
+      "MALFORMED_SAMPLE_ACCEPTANCE",
+      "STORAGE_OR_COMMAND_EFFECT",
+      "NETWORK_OR_RELEASE_EFFECT",
+      "USER_DOCUMENT_MUTATION"
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

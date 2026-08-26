@@ -1,0 +1,49 @@
+{
+  "stampId": "ES-R24-WP-304-A11Y-PERFORMANCE-MUTANTS",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-304_A11Y_PERFORMANCE",
+  "attemptId": "ATTEMPT-WP304-20260826",
+  "authorityEpoch": "R24-WP304-BASE-C993202A",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "7265bf5d7f9198ca14441f414c082f04e2ec498b",
+    "treeSha": "81e841e479d00833b927f0e3e0c4afcf3aec6e17"
+  },
+  "claim": {
+    "type": "WP304_IMPLEMENTATION_MUTANTS",
+    "ceiling": "WP304_NODE_ONLY_NO_PROGRAM_DONE_NO_RELEASE_OR_PHYSICAL_QUALIFICATION_NO_USER_DOCUMENT_MUTATION",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "wp304-direction-reflow-motion-budget-stale-generation-mutant-matrix",
+    "evidenceClass": "IMPLEMENTATION_MUTANTS",
+    "denominator": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-304-A11Y-PERFORMANCE-INTEGRATION"
+    ],
+    "predecessorReceiptDigest": "c06eaa454fd261d278056c37b8d0d212068f5b86140e360f957cb2cc350bc80a"
+  },
+  "createdAt": "2026-08-26T03:36:00Z",
+  "actor": "codex/r24-wp304-postmerge-closure-v1-20260826",
+  "artifact": {
+    "killed": [
+      "RTL_INTERFACE_DIRECTION_DROPPED",
+      "AUTHOR_TEXT_DIRECTION_FORCED",
+      "REFLOW_BREAKPOINT_BYPASSED",
+      "REDUCED_MOTION_IGNORED",
+      "TYPING_BUDGET_DISABLED",
+      "SURVIVOR_BUDGET_DISABLED",
+      "STALE_GENERATION_ACCEPTED"
+    ],
+    "survived": []
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

@@ -242,6 +242,11 @@ const {
   getProductCommandRecord,
 } = require('./shared/productCommandRegistry.cjs');
 const {
+  createWriterLocalProfileProjection,
+  evaluateWriterLocalCommandAccess,
+  evaluateWriterLocalQueryAccess,
+} = require('./core/writer-local-profile-v1.cjs');
+const {
   makeCommandBridgeEditorSyncSummary,
   makeCommandBridgeException,
   makeCommandBridgeFailure,
@@ -26249,6 +26254,7 @@ guardedHandle('ui:request-autosave', async () => {
 });
 
 guardedHandle('ui:get-collab-scope-local', async () => {
+  if (getWriterLocalRuntimeProfile().active) return false;
   return handleWorkspaceCollabScopeLocalQuery();
 });
 
@@ -26272,6 +26278,19 @@ guardedProtocolHandle('ui:command-bridge', async (_, request) => {
   }
   if (!UI_COMMAND_BRIDGE_ALLOWED_COMMAND_IDS.has(commandId)) {
     return { ok: false, reason: 'COMMAND_ID_NOT_ALLOWED' };
+  }
+
+  const profileAccess = evaluateWriterLocalCommandAccess({
+    profile: getWriterLocalRuntimeProfile(),
+    commandId,
+    productCommandRecord: getProductCommandRecord(commandId),
+  });
+  if (!profileAccess.allowed) {
+    return makeCommandBridgeFailure(profileAccess.reason, {
+      profileId: profileAccess.profileId,
+      mutationApplied: false,
+      storageWritten: false,
+    });
   }
 
   try {
@@ -26327,6 +26346,18 @@ guardedProtocolHandle('ui:workspace-query-bridge', async (_, request) => {
 
   if (!WORKSPACE_QUERY_BRIDGE_ALLOWED_QUERY_IDS.has(queryId)) {
     return { ok: false, error: 'QUERY_ID_NOT_ALLOWED' };
+  }
+
+  const profileAccess = evaluateWriterLocalQueryAccess({
+    profile: getWriterLocalRuntimeProfile(),
+    queryId,
+  });
+  if (!profileAccess.allowed) {
+    return {
+      ok: false,
+      error: profileAccess.reason,
+      profileId: profileAccess.profileId,
+    };
   }
 
   const handler = WORKSPACE_QUERY_BRIDGE_HANDLERS.get(queryId);
@@ -27653,6 +27684,13 @@ guardedHandle('ui:open-section', async (_, payload) => {
   return { ok: true, documentId: documentIdentity.documentId };
 });
 
+function getWriterLocalRuntimeProfile() {
+  return createWriterLocalProfileProjection({
+    isPackaged: app.isPackaged === true,
+    platform: process.platform,
+  });
+}
+
 function createWindow() {
   // Восстановление размеров и позиции окна
   const { screen } = require('electron');
@@ -27686,8 +27724,12 @@ function createWindow() {
 
   const useLegacyEditor = process.env.USE_LEGACY_EDITOR === '1';
   const useTiptap = !useLegacyEditor;
+  const writerLocalProfile = getWriterLocalRuntimeProfile();
   editorStartupReadyPromise = mainWindow.loadFile(path.join(__dirname, 'renderer', 'index.html'), {
-    query: { USE_TIPTAP: (useTiptap ? '1' : '0') },
+    query: {
+      USE_TIPTAP: (useTiptap ? '1' : '0'),
+      PRODUCT_PROFILE: writerLocalProfile.profileId,
+    },
   }).then(async () => {
     mainWindow.webContents.setZoomFactor(1);
     logPerfStage('did-finish-load');
@@ -29376,6 +29418,21 @@ function dispatchMenuCommand(commandId, payload = {}, options = {}) {
     : COMMAND_BUS_ROUTE;
   if (route !== COMMAND_BUS_ROUTE) {
     throw new Error(`Unsupported menu command route: ${route}`);
+  }
+
+  const profileAccess = evaluateWriterLocalCommandAccess({
+    profile: getWriterLocalRuntimeProfile(),
+    commandId,
+    productCommandRecord: getProductCommandRecord(commandId),
+  });
+  if (!profileAccess.allowed) {
+    return {
+      ok: false,
+      code: profileAccess.reason,
+      reason: profileAccess.reason,
+      commandId,
+      profileId: profileAccess.profileId,
+    };
   }
 
   // R2.4 ENT0: the entitlement decision comes from the single product-plane

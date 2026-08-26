@@ -282,6 +282,7 @@ export function parseOrchestratorArgs(argv = []) {
     ['--artifact-root', { key: 'artifactRoot', value: true }],
     ['--campaign-id', { key: 'campaignId', value: true }],
     ['--chain-id', { key: 'chainId', value: true }],
+    ['--physical-runner', { key: 'physicalRunner', value: true }],
     ['--resume', { key: 'resume', value: false }],
     ['--stage-timeout-ms', { key: 'stageTimeoutMs', value: true }],
     ['--progress-timeout-ms', { key: 'progressTimeoutMs', value: true }],
@@ -300,6 +301,7 @@ export function parseOrchestratorArgs(argv = []) {
     artifactRoot: '',
     campaignId: '',
     chainId: '',
+    physicalRunner: 'osascript',
     resume: false,
     stageTimeoutMs: 6 * 60 * 60 * 1000,
     progressTimeoutMs: 30 * 60 * 1000,
@@ -323,7 +325,7 @@ export function parseOrchestratorArgs(argv = []) {
     options[entry.key] = value;
   }
   for (const [flag, entry] of spec.entries()) {
-    if (['--corpus-manifest', '--stage-timeout-ms', '--progress-timeout-ms', '--kill-grace-ms', '--resume', '--preflight-only'].includes(flag)) continue;
+    if (['--corpus-manifest', '--physical-runner', '--stage-timeout-ms', '--progress-timeout-ms', '--kill-grace-ms', '--resume', '--preflight-only'].includes(flag)) continue;
     if (!options[entry.key]) throw new Error(`ORCH_ARG_REQUIRED:${flag}`);
   }
   if (!/^[0-9a-f]{40}$/u.test(options.expectedSha)) throw new Error(`ORCH_ARG_INVALID:--expected-sha:${options.expectedSha}`);
@@ -335,6 +337,9 @@ export function parseOrchestratorArgs(argv = []) {
   if (!SHA256_DIGEST_RE.test(options.expectedOperationIdSetDigest)) throw new Error(`ORCH_ARG_INVALID:--expected-operation-id-set-digest:${options.expectedOperationIdSetDigest}`);
   if (!IDENTITY_RE.test(options.campaignProfile)) throw new Error(`ORCH_ARG_INVALID:--campaign-profile:${options.campaignProfile}`);
   if (!CHAIN_IDS.includes(options.chainId)) throw new Error(`ORCH_CHAIN_ID_INVALID:${options.chainId}`);
+  if (!['osascript', 'hammerspoon'].includes(options.physicalRunner)) {
+    throw new Error(`ORCH_ARG_INVALID:--physical-runner:${options.physicalRunner}`);
+  }
   if (!IDENTITY_RE.test(options.campaignId)) throw new Error(`ORCH_CAMPAIGN_ID_INVALID:${options.campaignId}`);
   for (const key of ['stageTimeoutMs', 'progressTimeoutMs', 'killGraceMs']) {
     const parsed = Number(options[key]);
@@ -543,12 +548,38 @@ export function defaultSecureVolumeProbe({
   };
 }
 
+export function defaultHammerspoonProbe({
+  hammerspoonPath = '/opt/homebrew/bin/hs',
+  execFileSyncImpl = execFileSync,
+} = {}) {
+  try {
+    const rawState = String(execFileSyncImpl(hammerspoonPath, [
+      '-t', '30', '-q', '-c', 'return hs.accessibilityState()',
+    ], {
+      encoding: 'utf8',
+      timeout: 15_000,
+      stdio: ['ignore', 'pipe', 'pipe'],
+    }) || '').trim();
+    if (rawState !== 'true') {
+      return { ok: false, code: 'ORCH_HAMMERSPOON_ACCESSIBILITY_PERMISSION_REQUIRED', accessibilityState: rawState };
+    }
+    return { ok: true, code: 'ORCH_HAMMERSPOON_ACCESSIBILITY_VERIFIED', accessibilityState: true };
+  } catch (error) {
+    return {
+      ok: false,
+      code: `ORCH_HAMMERSPOON_UNAVAILABLE:${String(error?.stderr || error?.message || error).slice(0, 160)}`,
+      accessibilityState: null,
+    };
+  }
+}
+
 export function runOrchestratorPreflight({
   options,
   scope,
   repoRoot = REPO_ROOT,
   wordPlistPath = '/Applications/Microsoft Word.app/Contents/Info.plist',
   secureVolumeProbe = defaultSecureVolumeProbe,
+  hammerspoonProbe = defaultHammerspoonProbe,
 }) {
   const failures = [];
   const head = gitValue(repoRoot, ['rev-parse', 'HEAD']);
@@ -576,6 +607,10 @@ export function runOrchestratorPreflight({
     mountRoot: '/Volumes/T7-Secure',
   });
   if (!secureVolume || secureVolume.ok !== true) failures.push(secureVolume?.code || 'ORCH_SECURE_VOLUME_UNAVAILABLE');
+  const hammerspoon = options.physicalRunner === 'hammerspoon'
+    ? hammerspoonProbe()
+    : { ok: true, code: 'ORCH_HAMMERSPOON_NOT_SELECTED', accessibilityState: null };
+  if (!hammerspoon || hammerspoon.ok !== true) failures.push(hammerspoon?.code || 'ORCH_HAMMERSPOON_UNAVAILABLE');
   const scriptHashes = computeCanonicalScriptHashes();
   return {
     ok: failures.length === 0,
@@ -585,6 +620,7 @@ export function runOrchestratorPreflight({
     checkedAtUtc: nowIso(),
     scriptHashes,
     secureVolume,
+    hammerspoon,
   };
 }
 
@@ -2790,6 +2826,7 @@ export function buildOrchestratedStageCommand({ stage, campaignRoot, campaignId,
     '--expected-sha', options.expectedSha,
     '--expected-word-version', options.expectedWordVersion,
     '--expected-word-build', options.expectedWordBuild,
+    '--accessibility-runner', options.physicalRunner || 'osascript',
   ];
   if (options.expectedCorpusDigest) args.push('--expected-corpus-digest', options.expectedCorpusDigest);
   if (options.corpusManifestPath) args.push('--corpus-manifest', options.corpusManifestPath);

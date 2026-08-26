@@ -99,6 +99,12 @@ import {
   createPreviewChromeState,
 } from './previewChrome.mjs';
 import {
+  assessSceneHistoryIntentBinding,
+  canPresentSceneHistoryUndo,
+  createSceneHistoryIntentBinding,
+  createSceneHistoryRestoreReceiptBinding,
+} from './historyRecoveryIdentity.mjs';
+import {
   buildVirtualViewportWindowMathContract,
   buildCachedLayoutPreviewSnapshot,
   createLayoutPreviewSnapshotCache,
@@ -742,6 +748,7 @@ let sceneHistoryState = {
   restoreReceiptId: '',
   restoreState: 'idle',
 };
+let sceneHistoryRestoreReceiptBinding = null;
 let atlasOverviewState = {
   state: 'empty',
   projectId: '',
@@ -12287,6 +12294,7 @@ function normalizeSceneHistoryReadModel(result = {}, sequence = sceneHistoryStat
   const selectedSnapshot = result.selectedSnapshot && typeof result.selectedSnapshot === 'object' && !Array.isArray(result.selectedSnapshot)
     ? result.selectedSnapshot
     : null;
+  const undoAvailable = canPresentSceneHistoryUndo(sceneHistoryRestoreReceiptBinding, result);
   return {
     ...result,
     snapshots,
@@ -12294,7 +12302,7 @@ function normalizeSceneHistoryReadModel(result = {}, sequence = sceneHistoryStat
     selectedSnapshotId: selectedSnapshot?.snapshotId || sceneHistoryState.selectedSnapshotId || '',
     sequence,
     unavailableReason: typeof result.unavailableReason === 'string' ? result.unavailableReason : '',
-    restoreReceiptId: sceneHistoryState.restoreReceiptId || '',
+    restoreReceiptId: undoAvailable ? sceneHistoryRestoreReceiptBinding.receiptId : '',
     restoreState: sceneHistoryState.restoreState || 'idle',
   };
 }
@@ -12355,7 +12363,11 @@ function renderSceneHistoryState() {
 
   const diff = selected?.diff || null;
   const canRestore = Boolean(selected?.readable && diff && diff.changed && selectedId);
-  const undoMarkup = sceneHistoryState.restoreReceiptId
+  const undoAvailable = canPresentSceneHistoryUndo(sceneHistoryRestoreReceiptBinding, {
+    projectId: currentProjectId,
+    nodeId: currentDocumentId,
+  });
+  const undoMarkup = undoAvailable
     ? `
       <button
         type="button"
@@ -17037,18 +17049,40 @@ async function restoreSelectedSceneHistorySnapshot() {
   const selected = sceneHistoryState.selectedSnapshot;
   const snapshotId = selected?.snapshotId || sceneHistoryState.selectedSnapshotId || '';
   if (!currentProjectId || !currentDocumentId || !snapshotId) return;
-  sceneHistoryState = { ...sceneHistoryState, restoreState: 'previewing' };
-  renderSceneHistoryState();
-  const previewResult = await invokePreloadUiCommandBridge(EXTRA_COMMAND_IDS.HISTORY_RESTORE_PREVIEW, {
+  const intentBinding = createSceneHistoryIntentBinding({
     projectId: currentProjectId,
     nodeId: currentDocumentId,
     snapshotId,
+    sequence: sceneHistoryState.sequence,
+  });
+  const assessCurrentIntent = () => assessSceneHistoryIntentBinding(intentBinding, {
+    projectId: currentProjectId,
+    nodeId: currentDocumentId,
+    snapshotId: sceneHistoryState.selectedSnapshot?.snapshotId || sceneHistoryState.selectedSnapshotId || '',
+    sequence: sceneHistoryState.sequence,
+  });
+  const rejectStaleIntent = (assessment) => {
+    sceneHistoryState = { ...sceneHistoryState, restoreState: 'stale' };
+    updateStatusText(`Восстановление отменено: ${assessment.reason}`);
+    renderSceneHistoryState();
+  };
+  sceneHistoryState = { ...sceneHistoryState, restoreState: 'previewing' };
+  renderSceneHistoryState();
+  const previewResult = await invokePreloadUiCommandBridge(EXTRA_COMMAND_IDS.HISTORY_RESTORE_PREVIEW, {
+    projectId: intentBinding.projectId,
+    nodeId: intentBinding.nodeId,
+    snapshotId: intentBinding.snapshotId,
   });
   const previewPlan = previewResult?.value?.previewPlan || previewResult?.previewPlan || null;
   if (!previewResult || previewResult.ok !== true || !previewPlan) {
     sceneHistoryState = { ...sceneHistoryState, restoreState: 'failed' };
     updateStatusText('Восстановление недоступно');
     renderSceneHistoryState();
+    return;
+  }
+  const afterPreview = assessCurrentIntent();
+  if (!afterPreview.ok) {
+    rejectStaleIntent(afterPreview);
     return;
   }
   const delta = previewPlan.diff && Number.isFinite(previewPlan.diff.deltaWords)
@@ -17060,10 +17094,15 @@ async function restoreSelectedSceneHistorySnapshot() {
     renderSceneHistoryState();
     return;
   }
+  const beforeApply = assessCurrentIntent();
+  if (!beforeApply.ok) {
+    rejectStaleIntent(beforeApply);
+    return;
+  }
   const applyResult = await invokePreloadUiCommandBridge(EXTRA_COMMAND_IDS.HISTORY_RESTORE_APPLY, {
-    projectId: currentProjectId,
-    nodeId: currentDocumentId,
-    snapshotId,
+    projectId: intentBinding.projectId,
+    nodeId: intentBinding.nodeId,
+    snapshotId: intentBinding.snapshotId,
     previewPlan,
     confirmed: true,
   });
@@ -17074,9 +17113,24 @@ async function restoreSelectedSceneHistorySnapshot() {
     renderSceneHistoryState();
     return;
   }
+  const receiptBinding = createSceneHistoryRestoreReceiptBinding(receipt);
+  if (!receiptBinding
+    || receiptBinding.projectId !== intentBinding.projectId
+    || receiptBinding.nodeId !== intentBinding.nodeId) {
+    sceneHistoryState = { ...sceneHistoryState, restoreState: 'failed' };
+    updateStatusText('Восстановление применено без валидной undo-привязки');
+    renderSceneHistoryState();
+    return;
+  }
+  sceneHistoryRestoreReceiptBinding = receiptBinding;
   sceneHistoryState = {
     ...sceneHistoryState,
-    restoreReceiptId: typeof receipt.receiptId === 'string' ? receipt.receiptId : '',
+    restoreReceiptId: canPresentSceneHistoryUndo(receiptBinding, {
+      projectId: currentProjectId,
+      nodeId: currentDocumentId,
+    })
+      ? receiptBinding.receiptId
+      : '',
     restoreState: 'applied',
     selectedSnapshotId: '',
   };
@@ -17085,7 +17139,11 @@ async function restoreSelectedSceneHistorySnapshot() {
 }
 
 async function undoLastSceneHistoryRestore() {
-  const receiptId = sceneHistoryState.restoreReceiptId || '';
+  if (!canPresentSceneHistoryUndo(sceneHistoryRestoreReceiptBinding, {
+    projectId: currentProjectId,
+    nodeId: currentDocumentId,
+  })) return;
+  const receiptId = sceneHistoryRestoreReceiptBinding?.receiptId || '';
   if (!receiptId) return;
   const confirmed = window.confirm('Отменить последнее восстановление и вернуть текст, который был перед ним?');
   if (!confirmed) return;
@@ -17096,6 +17154,7 @@ async function undoLastSceneHistoryRestore() {
     updateStatusText('Отмена восстановления недоступна');
     return;
   }
+  sceneHistoryRestoreReceiptBinding = null;
   sceneHistoryState = {
     ...sceneHistoryState,
     restoreReceiptId: '',

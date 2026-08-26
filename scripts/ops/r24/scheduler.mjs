@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 // R2.4 E0 — deterministic ready-set scheduler.
-// READY predicate (offline-computable conjuncts): state=PENDING, all
-// dependencies DONE, node profile inside the mission-selected profiles,
-// ownerGate null, APPROVED in the provided closed gate registry, or DENIED only
-// for a gate whose contract explicitly admits a safe-deny path.
+// READY predicate (offline-computable conjuncts): state=PENDING, or
+// state=BLOCKED_TYPED with a now-satisfied owner gate; all dependencies DONE;
+// node profile inside the mission-selected profiles; ownerGate null, APPROVED
+// in the provided closed gate registry, or DENIED only for a gate whose
+// contract explicitly admits a safe-deny path.
 // Selection order is the sealed seven-key total order; numeric product
 // scoring is forbidden; same inputs always produce the same receipt.
 import path from 'node:path';
@@ -89,9 +90,14 @@ export function computeReadySet({ program, contourStates, mission }) {
   const states = contourStates || {};
   return program.nodes.filter((node) => {
     const state = states[node.id] || node.state;
-    if (state !== 'PENDING') return false;
+    const gateSatisfied = ownerGateSatisfied(node, gates);
+    const ownerGateUnblocked = state === 'BLOCKED_TYPED'
+      && node.ownerGate !== null
+      && node.ownerGate !== undefined
+      && gateSatisfied;
+    if (state !== 'PENDING' && !ownerGateUnblocked) return false;
     if (!profiles.has(node.profile)) return false;
-    if (!ownerGateSatisfied(node, gates)) return false;
+    if (!gateSatisfied) return false;
     return node.dependsOn.every((dep) => {
       const depNode = program.nodes.find((x) => x.id === dep);
       const depState = states[dep] || (depNode && depNode.state);

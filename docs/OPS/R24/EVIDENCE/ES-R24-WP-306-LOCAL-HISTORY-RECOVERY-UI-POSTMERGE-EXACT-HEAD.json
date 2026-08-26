@@ -1,0 +1,74 @@
+{
+  "stampId": "ES-R24-WP-306-LOCAL-HISTORY-RECOVERY-UI-POSTMERGE-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-306_LOCAL_HISTORY_RECOVERY_UI",
+  "attemptId": "ATTEMPT-WP306-20260826",
+  "authorityEpoch": "R24-WP306-BASE-83574989",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "0b746a4c9eb20d32c30f8bf5facacf1102249798",
+    "treeSha": "71887eb20b6c151c321dbdccac426ee9ff17d512"
+  },
+  "claim": {
+    "type": "WP306_EXACT_MAIN_POSTMERGE_REQUIRED_GATES",
+    "ceiling": "WP306_NODE_ONLY_NO_PROGRAM_DONE_NO_RELEASE_OR_PHYSICAL_QUALIFICATION_NO_USER_DOCUMENT_MUTATION",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "exact-main GitHub RTK and OSS plus focused local postmerge chain",
+    "evidenceClass": "POSTMERGE",
+    "denominator": 1059,
+    "passed": 1059,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-306-LOCAL-HISTORY-RECOVERY-UI-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "a154750532c3e1b068536e81044c57f493e3cc07e492a10a7990c78c91be0903"
+  },
+  "createdAt": "2026-08-26T07:42:00Z",
+  "actor": "codex/r24-wp306-postmerge-closure-v1-20260826",
+  "artifact": {
+    "identityRoles": {
+      "implementationSourceSha": "83574989fd38682c4ef43285cbebe31b88acbe43",
+      "evaluationHeadSha": "fc94c168703a84537eccbf9cb7c6889cde8ccefd",
+      "evaluationTreeSha": "71887eb20b6c151c321dbdccac426ee9ff17d512",
+      "implementationPrHeadSha": "fc94c168703a84537eccbf9cb7c6889cde8ccefd",
+      "implementationMergeSha": "0b746a4c9eb20d32c30f8bf5facacf1102249798",
+      "postmergeSha": "0b746a4c9eb20d32c30f8bf5facacf1102249798"
+    },
+    "postmergeChecks": [
+      {
+        "name": "rtk-required",
+        "runId": 32942280114,
+        "jobId": 98095551709,
+        "headSha": "0b746a4c9eb20d32c30f8bf5facacf1102249798",
+        "conclusion": "success"
+      },
+      {
+        "name": "oss-policy",
+        "runId": 32942280129,
+        "jobId": 98095551582,
+        "headSha": "0b746a4c9eb20d32c30f8bf5facacf1102249798",
+        "conclusion": "success"
+      }
+    ],
+    "localPostmerge": {
+      "headSha": "0b746a4c9eb20d32c30f8bf5facacf1102249798",
+      "focusedPass": 22,
+      "focusedFail": 0,
+      "wp306Pass": 4,
+      "wp306MutantsKilled": 6,
+      "terminalClaimRegistryPass": 46,
+      "ossPolicy": "PASS",
+      "guardrails": "PASS",
+      "worktree": "CLEAN_BRANCH_AT_EXACT_MAIN_BEFORE_CLOSURE_WRITES"
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

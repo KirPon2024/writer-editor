@@ -1,0 +1,73 @@
+{
+  "stampId": "ES-R24-WP-306-LOCAL-HISTORY-RECOVERY-UI-SURVIVOR-AUDIT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-306_LOCAL_HISTORY_RECOVERY_UI",
+  "attemptId": "ATTEMPT-WP306-20260826",
+  "authorityEpoch": "R24-WP306-BASE-83574989",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "0b746a4c9eb20d32c30f8bf5facacf1102249798",
+    "treeSha": "71887eb20b6c151c321dbdccac426ee9ff17d512"
+  },
+  "claim": {
+    "type": "WP306_POSTMERGE_SURVIVOR_AUDIT",
+    "ceiling": "WP306_NODE_ONLY_NO_PROGRAM_DONE_NO_RELEASE_OR_PHYSICAL_QUALIFICATION_NO_USER_DOCUMENT_MUTATION",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "exact-main artifact digest and authority survivor audit",
+    "evidenceClass": "SURVIVOR_AUDIT",
+    "denominator": 5,
+    "passed": 5,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-306-LOCAL-HISTORY-RECOVERY-UI-POSTMERGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "a154750532c3e1b068536e81044c57f493e3cc07e492a10a7990c78c91be0903"
+  },
+  "createdAt": "2026-08-26T07:42:00Z",
+  "actor": "codex/r24-wp306-postmerge-closure-v1-20260826",
+  "artifact": {
+    "artifactDigests": [
+      {
+        "path": "src/renderer/editor.js",
+        "sha256": "5d443aca3c441c831ee9a47a3e7445a836730d0c602cf95136afc76ce47af320"
+      },
+      {
+        "path": "src/renderer/editor.bundle.js",
+        "sha256": "655cdbaa7e68447b9edabdaa87e2f0696a30e01dfb5da054de93ab88490979c9"
+      },
+      {
+        "path": "src/renderer/historyRecoveryIdentity.mjs",
+        "sha256": "1eb9660fe957dbb19a2c8be55882059c593600ce822f0ebf028081659979b293"
+      },
+      {
+        "path": "test/unit/r24-wp306-local-history-recovery-ui.test.mjs",
+        "sha256": "1b427e61a66a4e993c1c0b4fb38044f0fcaf8240eb1d3f9ad1fb455fbef79e7c"
+      },
+      {
+        "path": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+        "sha256": "57873917b196d3df2a1bc9104ddaf4739c9942d9473f76cbc5dbf1c84427530e"
+      }
+    ],
+    "survivors": {
+      "artifactDigestMismatches": 0,
+      "crossProjectRestoreIntents": 0,
+      "crossSceneRestoreIntents": 0,
+      "staleGenerationApplies": 0,
+      "crossSceneUndoPresentations": 0,
+      "rendererPathAuthorities": 0,
+      "storageOrNetworkAuthorities": 0,
+      "userDocumentMutations": 0,
+      "activeLeases": 0,
+      "activeWatchersOrMutatorsAtReceipt": 0
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

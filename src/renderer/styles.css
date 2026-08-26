@@ -115,6 +115,16 @@
   --canvas-padding-bottom: 48px;
   --configurator-panel-side-margin: 5mm;
   --editor-zoom: 1;
+  --brand-titlebar-height: 28px;
+  --brand-mark-size: 18px;
+  --brand-mark-radius: 4px;
+  --brand-wordmark-size: 13px;
+  --brand-titlebar-surface: #f8f5ef;
+  --brand-wordmark-ink: #173b34;
+  --brand-mark-bg: #173b34;
+  --brand-mark-ink: #ffffff;
+  --brand-mark-accent: #b74636;
+  --brand-focus-ring: #005fcc;
 }
 
 body.dark-theme {
@@ -169,6 +179,12 @@ body.dark-theme {
   --canvas-padding-top: 24px;
   --canvas-padding-horizontal: 48px;
   --canvas-padding-bottom: 48px;
+  --brand-titlebar-surface: #101119;
+  --brand-wordmark-ink: #d7eee6;
+  --brand-mark-bg: #d7eee6;
+  --brand-mark-ink: #102c26;
+  --brand-mark-accent: #ff8b74;
+  --brand-focus-ring: #9bc3ff;
 }
 
 *,
@@ -206,15 +222,17 @@ body {
 }
 
 .titlebar {
-  height: 16px;
+  height: var(--brand-titlebar-height);
+  min-height: var(--brand-titlebar-height);
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   padding: 0 12px;
-  background: var(--background);
+  background: var(--brand-titlebar-surface);
   border-bottom: none;
   box-shadow: none;
+  -webkit-app-region: drag;
 }
 
 .titlebar__dots {
@@ -246,14 +264,68 @@ body {
   background: #28ca42;
 }
 
-.titlebar__label {
-  font-family: "Roboto Mono", ui-monospace, monospace;
-  font-size: 10px;
-  font-weight: 300;
+.brand-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 84px;
+  min-height: var(--brand-mark-size);
+  color: var(--brand-wordmark-ink);
+  user-select: none;
+  pointer-events: none;
+}
+
+.brand-lockup__mark {
+  width: var(--brand-mark-size);
+  height: var(--brand-mark-size);
+  display: block;
+  flex: 0 0 var(--brand-mark-size);
+  overflow: hidden;
+  border-radius: var(--brand-mark-radius);
+  background: var(--brand-mark-bg);
+  color: var(--brand-mark-ink);
+}
+
+.brand-lockup__page {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.brand-lockup__accent {
+  fill: var(--brand-mark-accent);
+}
+
+.brand-lockup__wordmark {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: var(--brand-wordmark-size);
+  font-weight: 600;
   line-height: 1;
   letter-spacing: 0;
-  color: var(--text-tertiary);
-  opacity: 0.55;
+  color: var(--brand-wordmark-ink);
+}
+
+.brand-lockup[data-brand-contract="fallback"] {
+  visibility: hidden;
+}
+
+@media (forced-colors: active) {
+  .brand-lockup__mark {
+    border: 1px solid CanvasText;
+    background: CanvasText;
+    color: Canvas;
+    forced-color-adjust: auto;
+  }
+
+  .brand-lockup__accent {
+    fill: Canvas;
+  }
+
+  .brand-lockup__wordmark {
+    color: CanvasText;
+  }
 }
 
 .work-bar {

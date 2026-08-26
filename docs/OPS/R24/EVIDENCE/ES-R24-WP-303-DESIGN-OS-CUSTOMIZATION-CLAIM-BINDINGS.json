@@ -1,0 +1,152 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-303-DESIGN-OS-CUSTOMIZATION-CLAIM-BINDINGS",
+  "contourId": "WP-303_DESIGN_OS_CUSTOMIZATION",
+  "evidenceClass": "CONTRACT",
+  "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
+  "headSha": "83b35c32be71d9a83c04d12b82d2d8fb3d8d7507",
+  "originMainSha": "aacaf1f6c15cfcd89925c248b1e90105c64bde43",
+  "generatedAtUtc": "2026-08-26T01:37:50Z",
+  "oracle": "strict ClaimBindingV1 exact-hash binding for replayable WP303 Design OS customization closure, exact-main postmerge evidence, survivor audit, source receipt and graph-derived WP304 scheduler receipt",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_R24.json",
+      "sha256": "1b524559fe14695d9ab4e196c2e1caa0619c4abfcb7c800e9ae4e23f79497774",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/PLAN_STATE_SOURCE_RECEIPT_R24.json",
+      "sha256": "c06eaa454fd261d278056c37b8d0d212068f5b86140e360f957cb2cc350bc80a",
+      "claimTerms": [
+        "CLOSED"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/SELECTION_RECEIPT_R2_4.json",
+      "sha256": "08912e9f304eb796f343d699f4e509657d864e4ba009b55373c4158df7489bf3",
+      "claimTerms": [
+        "READY"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CTR-R24-WP-303-DESIGN-OS-CUSTOMIZATION.json",
+      "sha256": "0e338d87b52f0d02804779f46d70ff44cf4b554be3bd27261a2f5f715f1c8f42",
+      "claimTerms": [
+        "PASS"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/renderer/design-os/designOsFormConfiguration.mjs",
+      "sha256": "9fb48989bfc52e2778ade241424c62a15f5965d385f35b9e82d6a32069969d7d",
+      "terms": [
+        "WP303 strict immutable versioned form configuration, revision CAS, last-stable rollback and crash recovery"
+      ]
+    },
+    {
+      "path": "src/renderer/design-os/designOsPortContract.mjs",
+      "sha256": "096559aecef57bb7995f545ca2e3e4271be1385baf218d5f2f8a76f51d9c8dd9",
+      "terms": [
+        "WP303 revision-bound Design OS form configuration port contract"
+      ]
+    },
+    {
+      "path": "src/renderer/design-os/designOsRuntime.mjs",
+      "sha256": "d71981685996394a0523a53cc3a5e303cda0a9b93a3b22165c7ff0ea46ed8310",
+      "terms": [
+        "WP303 existing Design OS runtime integration and snapshot recovery"
+      ]
+    },
+    {
+      "path": "src/renderer/design-os/index.mjs",
+      "sha256": "8ba610c0c22c1d91c3322638042e3532921c5cc0d25e5164e038618a0102a3d3",
+      "terms": [
+        "WP303 bounded Design OS exports"
+      ]
+    },
+    {
+      "path": "src/renderer/editor.bundle.js",
+      "sha256": "9de49daf2d26af1872e8cf31d3e47e1e0204b1bdb0da4d3b4302c671d8678cd3",
+      "terms": [
+        "WP303 renderer bundle parity for versioned shell configuration without visible composition change"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp303-design-os-customization.test.js",
+      "sha256": "46210316dc9ffe1205cdbdab6679f7ce15400689ba556914b9a3ecd2b62e7472",
+      "terms": [
+        "WP303 contract negative integration recovery and implementation mutant oracle"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "node --test test/unit/r24-wp303-design-os-customization.test.js",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 7,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 6,
+        "survived": 0
+      },
+      "requiredDisposition": "Versioning, CAS, strict schema, Unicode normalization, rollback, crash recovery, baseline rebind and authority boundaries are green."
+    },
+    {
+      "command": "WP303 plus affected Design OS and layout focused postmerge chain",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 18,
+        "fail": 0
+      },
+      "requiredDisposition": "Existing Design OS ports, layout state and renderer bundle remain compatible at the exact merge tree."
+    },
+    {
+      "command": "npm run test:rtk",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "Exact product PR head 8bc6ac32 was green locally with clean process-group cleanup."
+    },
+    {
+      "command": "GitHub exact PR-head required checks",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "PR 1698 head 8bc6ac32 has green RTK, OSS, Ubuntu parity and Windows parity."
+    },
+    {
+      "command": "GitHub exact-main postmerge RTK and OSS",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1059,
+        "fail": 0
+      },
+      "requiredDisposition": "Merge aacaf1f6 is terminal green in exact-main RTK 32917745189 and OSS 32917745184."
+    },
+    {
+      "command": "node scripts/ops/r24/docs-claim-lint.mjs and node --test scripts/ops/r24/tests/docs-claim-lint.test.mjs",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 9,
+        "fail": 0
+      },
+      "requiredDisposition": "Strict ClaimBindingV1 lint passes and all negative schema mutants remain rejected after the mutable-state binding refresh."
+    }
+  ],
+  "nonClaims": [
+    "This binding closes only the bounded WP-303_DESIGN_OS_CUSTOMIZATION contour.",
+    "WP303 certifies a strict versioned local Design OS form configuration, last-stable rollback and existing port integration without Product truth or visible UI composition change.",
+    "The scheduler receipt after WP303 closure selects WP-304_A11Y_PERFORMANCE as the next graph-admissible product contour.",
+    "No physical macOS qualification, release readiness, signing, cloud, dependency adoption, storage migration, destructive storage action, user Word/Drive mutation, SAFE_APPLY expansion, pricing, business or AI authority is added.",
+    "It does not mark the R2.4 program DONE."
+  ]
+}

@@ -1,16 +1,16 @@
 {
   "schemaVersion": "yalken.r24.plan-state-source-receipt.v1",
-  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPLAYABLE_WP302_EXACT_POSTMERGE_CLOSURE_NO_PROGRAM_DONE",
-  "generatedAtUtc": "2026-08-25T23:09:00Z",
+  "status": "FULL_109_NODE_DENOMINATOR_WITH_REPLAYABLE_WP303_EXACT_POSTMERGE_CLOSURE_NO_PROGRAM_DONE",
+  "generatedAtUtc": "2026-08-26T01:33:23Z",
   "executableProgramPath": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
   "executableProgramDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
   "planStatePath": "docs/OPS/R24/PLAN_STATE_R24.json",
   "currentPlanState": {
     "path": "docs/OPS/R24/PLAN_STATE_R24.json",
-    "sha256": "d83c2da8e38b550d853b697a3970b94958409897743d4c688ba29bc7dad885a8",
-    "revision": 241,
-    "fencingCounter": 41,
-    "transitionHistoryCount": 105
+    "sha256": "1b524559fe14695d9ab4e196c2e1caa0619c4abfcb7c800e9ae4e23f79497774",
+    "revision": 248,
+    "fencingCounter": 42,
+    "transitionHistoryCount": 110
   },
   "externalPlanState": {
     "path": "/Volumes/T7-Secure/worktrees/yalken/_r24-mission/PLAN_STATE_R24.json",
@@ -89,13 +89,13 @@
     "contourRowsPersisted": 109
   },
   "nonClaims": [
-    "This source receipt accounts for repo-local closures through WP302 and does not mark the full 109-node program DONE.",
-    "WP302 certifies only the bounded session continuity contract and existing lifecycle integration at exact merged main 6299274226f27bd9cbdc96832ac88499983f5ee5.",
-    "WP303 and all later work packages remain independently graph-gated.",
+    "This source receipt accounts for repo-local closures through WP303 and does not mark the full 109-node program DONE.",
+    "WP303 certifies only the bounded Design OS form configuration, last-stable recovery and existing port integration at exact merged main aacaf1f6c15cfcd89925c248b1e90105c64bde43.",
+    "WP304 and all later work packages remain independently graph-gated.",
     "No release readiness, physical macOS qualification, signing, cloud, AI, dependency adoption, storage migration, destructive action, user Word/Drive mutation or SAFE_APPLY expansion is implied."
   ],
   "discoveredR24TestFiles": {
-    "count": 119,
+    "count": 120,
     "treatment": "NOT_DELIVERY_STATE_WITHOUT_TERMINAL_RECEIPT",
     "basenames": [
       "r24-a0-atlas-incremental-equivalence.test.js",
@@ -216,11 +216,12 @@
       "r24-wp207-writer-refinement.test.js",
       "r24-wp300-writer-home.test.mjs",
       "r24-wp301-authoring-surfaces.test.mjs",
-      "r24-wp302-session-continuity.test.mjs"
+      "r24-wp302-session-continuity.test.mjs",
+      "r24-wp303-design-os-customization.test.js"
     ]
   },
   "repoLocalPlanStateClosures": {
-    "doneContourCount": 30,
+    "doneContourCount": 31,
     "closures": [
       {
         "id": "SEC0_PATH_CAPABILITY",
@@ -854,8 +855,29 @@
           "ES-R24-WP-302-SESSION-CONTINUITY-CLAIM-BINDINGS"
         ],
         "deliveryState": "CURRENT_MAIN_62992742_EXACT_HEAD_WP302_SESSION_CONTINUITY_POSTMERGE_AND_SURVIVOR_GREEN_NO_PROGRAM_DONE"
+      },
+      {
+        "id": "WP-303_DESIGN_OS_CUSTOMIZATION",
+        "state": "DONE",
+        "previousState": "POSTMERGE_VERIFIED",
+        "attemptId": "ATTEMPT-WP303-20260826",
+        "updatedAt": "2026-08-26T01:33:23.005Z",
+        "headSha": "aacaf1f6c15cfcd89925c248b1e90105c64bde43",
+        "source": "R24_WP303_DESIGN_OS_CUSTOMIZATION_CLOSURE_V1",
+        "terminalReceiptPath": "docs/OPS/R24/CTR-R24-WP-303-DESIGN-OS-CUSTOMIZATION.json",
+        "evidenceStampIds": [
+          "ES-R24-WP-303-DESIGN-OS-CUSTOMIZATION-MODEL",
+          "ES-R24-WP-303-DESIGN-OS-CUSTOMIZATION-CONTRACT",
+          "ES-R24-WP-303-DESIGN-OS-CUSTOMIZATION-INTEGRATION",
+          "ES-R24-WP-303-DESIGN-OS-CUSTOMIZATION-MUTANTS",
+          "ES-R24-WP-303-DESIGN-OS-CUSTOMIZATION-EXACT-HEAD",
+          "ES-R24-WP-303-DESIGN-OS-CUSTOMIZATION-POSTMERGE-EXACT-HEAD",
+          "ES-R24-WP-303-DESIGN-OS-CUSTOMIZATION-SURVIVOR-AUDIT",
+          "ES-R24-WP-303-DESIGN-OS-CUSTOMIZATION-CLAIM-BINDINGS"
+        ],
+        "deliveryState": "CURRENT_MAIN_AACAF1F6_EXACT_HEAD_WP303_DESIGN_OS_CUSTOMIZATION_POSTMERGE_AND_SURVIVOR_GREEN_NO_PROGRAM_DONE"
       }
     ]
   },
-  "planStateRevision": 241
+  "planStateRevision": 248
 }

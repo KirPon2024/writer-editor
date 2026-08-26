@@ -1,0 +1,67 @@
+{
+  "stampId": "ES-R24-WP-303-DESIGN-OS-CUSTOMIZATION-CONTRACT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-303_DESIGN_OS_CUSTOMIZATION",
+  "attemptId": "ATTEMPT-WP303-20260826",
+  "authorityEpoch": "R24-WP303-BASE-4EBFB78E",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "8bc6ac322b16cd6c2fc7db5cf91a94a98b3eea96",
+    "treeSha": "814dca82d343e3fd09e5c91c2db5a488738a2705"
+  },
+  "claim": {
+    "type": "WP303_DESIGN_OS_CUSTOMIZATION_ACCEPTANCE_CONTRACT",
+    "ceiling": "WP303_NODE_ONLY_NO_PROGRAM_DONE_NO_RELEASE_OR_PHYSICAL_QUALIFICATION_NO_USER_DOCUMENT_MUTATION",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "node --test test/unit/r24-wp303-design-os-customization.test.js",
+    "evidenceClass": "CONTRACT",
+    "denominator": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-303-DESIGN-OS-CUSTOMIZATION-MODEL"
+    ],
+    "predecessorReceiptDigest": "0eff32eec5fde45147ec795818848541e7c4e52fb6b7acc6bf2b454679363045"
+  },
+  "createdAt": "2026-08-26T01:33:23Z",
+  "actor": "codex/r24-wp303-postmerge-closure-v1-20260826",
+  "artifact": {
+    "requiredProfiles": [
+      "CONTRACT_NEGATIVE",
+      "UNIT",
+      "INTEGRATION",
+      "IMPLEMENTATION_MUTANTS",
+      "UNICODE_IME",
+      "CRASH_RECOVERY",
+      "A11Y_PERF"
+    ],
+    "canonicalContract": {
+      "schemaVersion": "yalken.designOsFormConfiguration.v1",
+      "snapshotSchemaVersion": "yalken.designOsFormConfigurationSnapshot.v1",
+      "lifecycleStates": [
+        "PENDING",
+        "STABLE"
+      ],
+      "revisionLaw": "STRICT_CAS_MONOTONIC",
+      "rollbackLaw": "LAST_STABLE_REVISION_ADVANCING"
+    },
+    "forbiddenAuthority": [
+      "PRODUCT_TRUTH_MUTATION",
+      "PERSISTED_BASELINE_REBIND",
+      "UNSAFE_OBJECT_KEYS",
+      "UNBOUNDED_FORM_DATA",
+      "STORAGE_OR_COMMAND_EFFECT",
+      "VISIBLE_UI_CHANGE",
+      "USER_DOCUMENT_MUTATION"
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

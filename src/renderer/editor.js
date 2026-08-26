@@ -83,6 +83,11 @@ import {
 } from '../core/authoring-surfaces-projection-v1.mjs';
 import { renderAuthoringSurfacesSurface } from './authoringSurfacesSurface.mjs';
 import {
+  applyWriterA11yPerformanceProjection,
+  buildWriterA11yPerformanceProjection,
+  createWriterPerformanceBudgetMonitor,
+} from './a11yPerformanceRuntime.mjs';
+import {
   applyNavigatorSelection,
   buildNavigatorSelectionDescriptor,
   createNavigatorSelectionState,
@@ -217,6 +222,51 @@ const saveStateElement = document.querySelector('[data-save-state]');
 const warningStateElement = document.querySelector('[data-warning-state]');
 const perfHintElement = document.querySelector('[data-perf-hint]');
 const appLayout = document.querySelector('.app-layout');
+const writerStatusRegion = statusElement?.closest('[aria-live]') || statusElement;
+const writerDirectionRequest = document.documentElement.getAttribute('dir') || 'auto';
+const writerPerformanceBudgetMonitor = createWriterPerformanceBudgetMonitor();
+let writerReducedMotionQuery = null;
+
+try {
+  if (typeof window.matchMedia === 'function') {
+    writerReducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  }
+} catch {}
+
+function syncWriterA11yPerformanceProjection() {
+  const projection = buildWriterA11yPerformanceProjection({
+    viewportWidth: window.innerWidth,
+    locale: document.documentElement.lang,
+    requestedDirection: writerDirectionRequest,
+    reducedMotion: writerReducedMotionQuery?.matches === true,
+  });
+  return applyWriterA11yPerformanceProjection({
+    documentElement: document.documentElement,
+    appLayout,
+    editorElement: editor,
+    statusRegion: writerStatusRegion,
+    projection,
+  });
+}
+
+function recordWriterRuntimeBudget(lane, startedAt, generation) {
+  const result = writerPerformanceBudgetMonitor.record({
+    lane,
+    durationMs: Math.max(0, nowMs() - startedAt),
+    generation,
+  });
+  appLayout?.setAttribute(`data-writer-${lane}-budget`, result.ok ? 'within' : 'exceeded');
+  return result;
+}
+
+syncWriterA11yPerformanceProjection();
+if (writerReducedMotionQuery) {
+  if (typeof writerReducedMotionQuery.addEventListener === 'function') {
+    writerReducedMotionQuery.addEventListener('change', syncWriterA11yPerformanceProjection);
+  } else if (typeof writerReducedMotionQuery.addListener === 'function') {
+    writerReducedMotionQuery.addListener(syncWriterA11yPerformanceProjection);
+  }
+}
 const emptyState = document.querySelector('.empty-state');
 const writerHomeSurface = document.querySelector('[data-writer-home]');
 const authoringSurfacesHost = document.querySelector('[data-authoring-surfaces]');
@@ -8250,6 +8300,7 @@ function scheduleDeferredHotpathRender(options = {}) {
   const throttledDelay = Math.max(0, HOTPATH_FULL_RENDER_MIN_INTERVAL_MS - elapsedSinceFullRender);
   const nextDelay = Math.max(HOTPATH_RENDER_DEBOUNCE_MS, throttledDelay);
   deferredRenderTimerId = window.setTimeout(() => {
+    const survivorStartedAt = nowMs();
     deferredRenderTimerId = null;
     const nextIncludePagination = deferredRenderIncludePagination;
     const nextPreserveSelection = deferredRenderPreserveSelection;
@@ -8259,6 +8310,7 @@ function scheduleDeferredHotpathRender(options = {}) {
       includePagination: nextIncludePagination,
       preserveSelection: nextPreserveSelection,
     });
+    recordWriterRuntimeBudget('survivor', survivorStartedAt, localEditGeneration);
   }, nextDelay);
 }
 
@@ -21455,6 +21507,7 @@ document.addEventListener('selectionchange', syncAlignmentButtonsToSelection);
 document.addEventListener('selectionchange', syncToolbarFormattingState);
 
 window.addEventListener('resize', () => {
+  syncWriterA11yPerformanceProjection();
   updateSpatialLayoutForViewportChange();
   scheduleLayoutRefresh();
   scheduleCentralSheetStripProofRefresh();
@@ -21904,6 +21957,7 @@ if (isTiptapMode) {
     beginCentralSheetStripStructuralTransition();
   });
   editor.addEventListener('input', () => {
+    const typingStartedAt = nowMs();
     const needsPostStructuralRefresh = centralSheetStripPendingStructuralInput;
     scheduleIncrementalInputDomSync();
     syncPlainTextBufferFromEditorDom();
@@ -21917,6 +21971,7 @@ if (isTiptapMode) {
     }
     markAsModified();
     scheduleWordCountRefresh(plainTextBuffer);
+    recordWriterRuntimeBudget('typing', typingStartedAt, localEditGeneration);
   });
 } else {
   editor.addEventListener('pointerdown', (event) => {
@@ -21947,16 +22002,19 @@ if (isTiptapMode) {
   });
 
   editor.addEventListener('input', () => {
+    const typingStartedAt = nowMs();
     scheduleIncrementalInputDomSync();
     syncPlainTextBufferFromEditorDom();
     if (legacyCompositionActive) {
       legacyCompositionRenderPending = true;
+      recordWriterRuntimeBudget('typing', typingStartedAt, localEditGeneration);
       return;
     }
     scheduleDeferredHotpathRender({ includePagination: false, preserveSelection: true });
     scheduleDeferredPaginationRefresh();
     markAsModified();
     updateWordCount();
+    recordWriterRuntimeBudget('typing', typingStartedAt, localEditGeneration);
   });
 
   editor.addEventListener('paste', (event) => {

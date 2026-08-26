@@ -6347,6 +6347,8 @@ body.dark-theme .authoring-surface__item[data-state="dirty"] {
   font-family: var(--font-family);
   color: var(--foreground);
   white-space: pre-wrap;
+  unicode-bidi: plaintext;
+  text-align: start;
   word-break: break-word;
 }
 
@@ -6564,6 +6566,8 @@ body.dark-theme .authoring-surface__item[data-state="dirty"] {
   color: var(--foreground);
   outline: none;
   white-space: pre-wrap;
+  unicode-bidi: plaintext;
+  text-align: start;
   word-break: break-word;
 }
 
@@ -6588,6 +6592,8 @@ body.dark-theme .authoring-surface__item[data-state="dirty"] {
   flex: 1;
   min-width: 0;
   white-space: pre-wrap;
+  unicode-bidi: plaintext;
+  text-align: start;
   overflow-wrap: anywhere;
   word-break: break-word;
 }

@@ -1,0 +1,77 @@
+{
+  "stampId": "ES-R24-WP-304-A11Y-PERFORMANCE-SURVIVOR-AUDIT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-304_A11Y_PERFORMANCE",
+  "attemptId": "ATTEMPT-WP304-20260826",
+  "authorityEpoch": "R24-WP304-BASE-C993202A",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "275d8d96406fa0081a88c14c31c13f0d434a6429",
+    "treeSha": "81e841e479d00833b927f0e3e0c4afcf3aec6e17"
+  },
+  "claim": {
+    "type": "WP304_POSTMERGE_SURVIVOR_AUDIT",
+    "ceiling": "WP304_NODE_ONLY_NO_PROGRAM_DONE_NO_RELEASE_OR_PHYSICAL_QUALIFICATION_NO_USER_DOCUMENT_MUTATION",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "exact-main artifact digest and authority survivor audit",
+    "evidenceClass": "SURVIVOR_AUDIT",
+    "denominator": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-304-A11Y-PERFORMANCE-POSTMERGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "c06eaa454fd261d278056c37b8d0d212068f5b86140e360f957cb2cc350bc80a"
+  },
+  "createdAt": "2026-08-26T03:36:00Z",
+  "actor": "codex/r24-wp304-postmerge-closure-v1-20260826",
+  "artifact": {
+    "artifactDigests": [
+      {
+        "path": "src/renderer/a11yPerformanceRuntime.mjs",
+        "sha256": "d431d5d36cc8106298099fa3cb46cf3c17546ea0db14cc0fe0f501bfdd303d6d"
+      },
+      {
+        "path": "src/renderer/editor.js",
+        "sha256": "b5632956374ea75b3cb69f1b5111a745ef87c3c7fcb10be28a21d8e18d5f15cc"
+      },
+      {
+        "path": "src/renderer/index.html",
+        "sha256": "d6cc5fb5700dfa2061d56362dc5de1be2380027d4901d2ae7f1550cd5327301d"
+      },
+      {
+        "path": "src/renderer/styles.css",
+        "sha256": "4ac9b79376dc148995ab62e163a8938d522093b81b20ee2d8f20d1ca6b9a2171"
+      },
+      {
+        "path": "src/renderer/editor.bundle.js",
+        "sha256": "0f4fc6937ed8e2362a026dc7a7914a791f23238b69b88782428070b4a4bbaea4"
+      },
+      {
+        "path": "test/unit/r24-wp304-a11y-performance.test.js",
+        "sha256": "dd8d6efda1a9087d6ae1c37e61521de0582d0c71cb2720e1abc22418a5070e78"
+      },
+      {
+        "path": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+        "sha256": "ea0ee8170eb38de601d85979679899d674ed5a8725ac05830ed83f30204cae2f"
+      }
+    ],
+    "survivors": {
+      "artifactDigestMismatches": 0,
+      "unknownAuthorityRoutes": 0,
+      "productTruthMutations": 0,
+      "userDocumentMutations": 0,
+      "activeLeases": 0,
+      "activeWatchersOrMutatorsAtReceipt": 0
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

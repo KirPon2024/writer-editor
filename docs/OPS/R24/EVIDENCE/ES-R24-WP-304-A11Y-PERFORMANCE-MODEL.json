@@ -1,0 +1,54 @@
+{
+  "stampId": "ES-R24-WP-304-A11Y-PERFORMANCE-MODEL",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-304_A11Y_PERFORMANCE",
+  "attemptId": "ATTEMPT-WP304-20260826",
+  "authorityEpoch": "R24-WP304-BASE-C993202A",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "7265bf5d7f9198ca14441f414c082f04e2ec498b",
+    "treeSha": "81e841e479d00833b927f0e3e0c4afcf3aec6e17"
+  },
+  "claim": {
+    "type": "WP304_A11Y_PERFORMANCE_MODEL_BOUNDARY",
+    "ceiling": "WP304_NODE_ONLY_NO_PROGRAM_DONE_NO_RELEASE_OR_PHYSICAL_QUALIFICATION_NO_USER_DOCUMENT_MUTATION",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "wp304-accessibility-performance-projection-and-authority-guards",
+    "evidenceClass": "MODEL",
+    "denominator": 5,
+    "passed": 5,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [],
+    "predecessorReceiptDigest": "c06eaa454fd261d278056c37b8d0d212068f5b86140e360f957cb2cc350bc80a"
+  },
+  "createdAt": "2026-08-26T03:36:00Z",
+  "actor": "codex/r24-wp304-postmerge-closure-v1-20260826",
+  "artifact": {
+    "identityRoles": {
+      "implementationSourceSha": "26ad123375ccaa507d395f9066091ef774bc3171",
+      "evaluationHeadSha": "7265bf5d7f9198ca14441f414c082f04e2ec498b",
+      "evaluationTreeSha": "81e841e479d00833b927f0e3e0c4afcf3aec6e17",
+      "implementationPrHeadSha": "7265bf5d7f9198ca14441f414c082f04e2ec498b",
+      "implementationMergeSha": "275d8d96406fa0081a88c14c31c13f0d434a6429",
+      "postmergeSha": "275d8d96406fa0081a88c14c31c13f0d434a6429"
+    },
+    "modelAssertions": [
+      "Writer keyboard and screen-reader projection is presentation-only and exposes deterministic semantic status.",
+      "Viewport reflow is deterministic and bounded without rewriting author text.",
+      "Interface direction is explicit while mixed-script authoring remains direction-auto with plaintext bidi isolation.",
+      "Reduced-motion preference disables nonessential transition behavior.",
+      "Typing and survivor performance monitors enforce bounded budgets and reject malformed or stale-generation samples.",
+      "IME composition and revision identity remain outside the presentation projection mutation surface.",
+      "No Product truth, storage, command, network, release or user-document authority is added."
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

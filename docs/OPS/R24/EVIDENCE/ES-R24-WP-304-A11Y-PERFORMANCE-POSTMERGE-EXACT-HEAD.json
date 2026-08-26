@@ -1,0 +1,76 @@
+{
+  "stampId": "ES-R24-WP-304-A11Y-PERFORMANCE-POSTMERGE-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-304_A11Y_PERFORMANCE",
+  "attemptId": "ATTEMPT-WP304-20260826",
+  "authorityEpoch": "R24-WP304-BASE-C993202A",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "275d8d96406fa0081a88c14c31c13f0d434a6429",
+    "treeSha": "81e841e479d00833b927f0e3e0c4afcf3aec6e17"
+  },
+  "claim": {
+    "type": "WP304_EXACT_MAIN_POSTMERGE_REQUIRED_GATES",
+    "ceiling": "WP304_NODE_ONLY_NO_PROGRAM_DONE_NO_RELEASE_OR_PHYSICAL_QUALIFICATION_NO_USER_DOCUMENT_MUTATION",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "exact-main GitHub RTK and OSS plus focused local postmerge chain",
+    "evidenceClass": "POSTMERGE",
+    "denominator": 1059,
+    "passed": 1059,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-304-A11Y-PERFORMANCE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "c06eaa454fd261d278056c37b8d0d212068f5b86140e360f957cb2cc350bc80a"
+  },
+  "createdAt": "2026-08-26T03:36:00Z",
+  "actor": "codex/r24-wp304-postmerge-closure-v1-20260826",
+  "artifact": {
+    "identityRoles": {
+      "implementationSourceSha": "26ad123375ccaa507d395f9066091ef774bc3171",
+      "evaluationHeadSha": "7265bf5d7f9198ca14441f414c082f04e2ec498b",
+      "evaluationTreeSha": "81e841e479d00833b927f0e3e0c4afcf3aec6e17",
+      "implementationPrHeadSha": "7265bf5d7f9198ca14441f414c082f04e2ec498b",
+      "implementationMergeSha": "275d8d96406fa0081a88c14c31c13f0d434a6429",
+      "postmergeSha": "275d8d96406fa0081a88c14c31c13f0d434a6429"
+    },
+    "postmergeChecks": [
+      {
+        "name": "rtk-required",
+        "runId": 32925512060,
+        "jobId": 98047501371,
+        "headSha": "275d8d96406fa0081a88c14c31c13f0d434a6429",
+        "conclusion": "success"
+      },
+      {
+        "name": "oss-policy",
+        "runId": 32925512064,
+        "jobId": 98047501339,
+        "headSha": "275d8d96406fa0081a88c14c31c13f0d434a6429",
+        "conclusion": "success"
+      }
+    ],
+    "localPostmerge": {
+      "headSha": "275d8d96406fa0081a88c14c31c13f0d434a6429",
+      "focusedPass": 51,
+      "focusedFail": 0,
+      "wp304Pass": 5,
+      "wp304MutantsKilled": 7,
+      "rendererBuild": "PASS",
+      "packagedRenderer": "PASS",
+      "docsClaimLint": "PASS",
+      "ossPolicy": "PASS",
+      "guardrails": "PASS",
+      "worktree": "CLEAN_DETACHED"
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

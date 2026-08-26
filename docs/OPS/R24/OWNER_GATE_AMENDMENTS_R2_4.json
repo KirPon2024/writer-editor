@@ -29,6 +29,15 @@
       "decisionArtifactPath": "docs/OPS/R24/OWNER_GATE_DECISIONS/LOCAL_RELEASE_PERMIT_WP307_WRITER_LOCAL_PROFILE_V1.json",
       "decisionArtifactSha256": "061e5adf483ecbfbfb5278cf14da04fd332fd26dfe0b3debe006eda1a8ff68c1",
       "revocationEpoch": 0
+    },
+    {
+      "gateId": "BRAND_LICENSE_OWNER_CHOICE",
+      "nodeId": "WP-308_BRAND_BASELINE",
+      "transitionFrom": "UNRESOLVED",
+      "transitionTo": "APPROVED",
+      "decisionArtifactPath": "docs/OPS/R24/OWNER_GATE_DECISIONS/BRAND_LICENSE_OWNER_CHOICE_WP308_BRAND_BASELINE_V1.json",
+      "decisionArtifactSha256": "cfd5b89e89e1c9228c8572a72f219effd1cda1b1fc910369c7f13e2fd781eccc",
+      "revocationEpoch": 0
     }
   ]
 }

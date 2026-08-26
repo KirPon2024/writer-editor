@@ -17,6 +17,8 @@ function serializePreview(result) {
     degraded_to_baseline: result.degraded_to_baseline === true,
     product_hash: result.product_hash,
     resolver_calls: result.resolver_calls,
+    form_configuration_revision: result.form_configuration_revision,
+    form_configuration_lifecycle: result.form_configuration_lifecycle,
   };
 }
 
@@ -71,6 +73,8 @@ export function createDesignOsPorts(input = {}) {
         last_stable_layout: cloneLayoutSnapshot(snapshot.last_stable_layout),
         baseline_layout: cloneLayoutSnapshot(snapshot.baseline_layout),
         design_state: deepCopyTree(snapshot.design_state),
+        form_configuration_snapshot: deepCopyTree(snapshot.form_configuration_snapshot),
+        form_configuration_recovery: deepCopyTree(snapshot.form_configuration_recovery),
         resolver_calls: snapshot.resolver_calls,
         preview_calls: snapshot.preview_calls,
         text_input_events: snapshot.text_input_events,

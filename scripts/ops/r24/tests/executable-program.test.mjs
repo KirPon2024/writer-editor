@@ -109,7 +109,7 @@ test('PlanState persists the full 109-node denominator without unreconciled DONE
   assert.equal(state.schemaVersion, 'yalken.plan-state.r24.v2');
   assert.equal(state.replayBaseline.classification, 'ADOPTED_PRE_V2_UNREPLAYABLE_HISTORY');
   assert.equal(state.replayBaseline.unreplayableContourIds.includes('WP-102_OPERATION_PROTOCOL'), true);
-  assert.equal(state.transitionHistory.length, 105);
+  assert.equal(state.transitionHistory.length, 110);
   assert.deepEqual(
     state.transitionHistory.map((row) => [row.contourId, row.from, row.to]),
     [
@@ -218,6 +218,11 @@ test('PlanState persists the full 109-node denominator without unreconciled DONE
       ['WP-302_SESSION_CONTINUITY', 'RUNNING', 'DELIVERED'],
       ['WP-302_SESSION_CONTINUITY', 'DELIVERED', 'POSTMERGE_VERIFIED'],
       ['WP-302_SESSION_CONTINUITY', 'POSTMERGE_VERIFIED', 'DONE'],
+      ['WP-303_DESIGN_OS_CUSTOMIZATION', 'PENDING', 'ELIGIBLE'],
+      ['WP-303_DESIGN_OS_CUSTOMIZATION', 'ELIGIBLE', 'RUNNING'],
+      ['WP-303_DESIGN_OS_CUSTOMIZATION', 'RUNNING', 'DELIVERED'],
+      ['WP-303_DESIGN_OS_CUSTOMIZATION', 'DELIVERED', 'POSTMERGE_VERIFIED'],
+      ['WP-303_DESIGN_OS_CUSTOMIZATION', 'POSTMERGE_VERIFIED', 'DONE'],
     ],
   );
   assert.deepEqual(
@@ -226,8 +231,8 @@ test('PlanState persists the full 109-node denominator without unreconciled DONE
       verdict: 'PASS',
       baselineClassification: 'ADOPTED_PRE_V2_UNREPLAYABLE_HISTORY',
       baselineRevision: 94,
-      replayedTransitions: 105,
-      finalRevision: 241,
+      replayedTransitions: 110,
+      finalRevision: 248,
     },
   );
   assert.equal(Object.keys(state.contours).length, EXPECTED_NODE_COUNT);
@@ -317,10 +322,13 @@ test('PlanState persists the full 109-node denominator without unreconciled DONE
   assert.equal(state.contours['WP-302_SESSION_CONTINUITY'].state, 'DONE');
   assert.equal(state.contours['WP-302_SESSION_CONTINUITY'].previousState, 'POSTMERGE_VERIFIED');
   assert.equal(state.contours['WP-302_SESSION_CONTINUITY'].headSha, '6299274226f27bd9cbdc96832ac88499983f5ee5');
-  assert.equal(repoLocalDone, 30);
+  assert.equal(state.contours['WP-303_DESIGN_OS_CUSTOMIZATION'].state, 'DONE');
+  assert.equal(state.contours['WP-303_DESIGN_OS_CUSTOMIZATION'].previousState, 'POSTMERGE_VERIFIED');
+  assert.equal(state.contours['WP-303_DESIGN_OS_CUSTOMIZATION'].headSha, 'aacaf1f6c15cfcd89925c248b1e90105c64bde43');
+  assert.equal(repoLocalDone, 31);
   assert.deepEqual(
     sourceReceipt.repoLocalPlanStateClosures.closures.map((row) => row.id),
-    ['SEC0_PATH_CAPABILITY', 'ENT0_ENTITLEMENT_CONFORMANCE', 'K1_AUTHORITY_DECOMPOSITION', 'T1_ANCHOR_LINEAGE', 'A0_ATLAS_INCREMENTAL_EQUIVALENCE', 'PK0_PACKAGE_CONTENT_TRUST', 'WP-100_GENERATION_ADMISSION', 'WP-101_IPC_ADMISSION', 'WP-102_OPERATION_PROTOCOL', 'WP-103_REVISION_PRODUCT_ORDER', 'WP-104_BOUNDARY_FALSIFICATION', 'R2_STORAGE_BAKEOFF', 'R3_DURABLE_RECOVERY_LEDGER', 'R4_TRANSACTIONAL_INBOX_OUTBOX', 'R5_LIFECYCLE_EXTERNAL_CONFLICT', 'R6_MIGRATION_HISTORY_BACKUP_GC', 'F0_WRITER_REFINEMENT_CONFORMANCE', 'V0_WRITER_CLAIM_COMPILER', 'WP-200_DURABLE_SAVE', 'WP-201_PROJECT_TRANSACTION', 'V1_ATLAS_CLAIM_COMPILER', 'WP-202_LEGACY_STRANGLER', 'WP-203_STORAGE_SELECTION', 'WP-204_LIFECYCLE_RECOVERY', 'WP-205_PATH_AND_TEXT', 'WP-206_SAFE_ENTITLEMENT_BASELINE', 'WP-207_WRITER_REFINEMENT', 'WP-300_WRITER_HOME', 'WP-301_AUTHORING_SURFACES', 'WP-302_SESSION_CONTINUITY'],
+    ['SEC0_PATH_CAPABILITY', 'ENT0_ENTITLEMENT_CONFORMANCE', 'K1_AUTHORITY_DECOMPOSITION', 'T1_ANCHOR_LINEAGE', 'A0_ATLAS_INCREMENTAL_EQUIVALENCE', 'PK0_PACKAGE_CONTENT_TRUST', 'WP-100_GENERATION_ADMISSION', 'WP-101_IPC_ADMISSION', 'WP-102_OPERATION_PROTOCOL', 'WP-103_REVISION_PRODUCT_ORDER', 'WP-104_BOUNDARY_FALSIFICATION', 'R2_STORAGE_BAKEOFF', 'R3_DURABLE_RECOVERY_LEDGER', 'R4_TRANSACTIONAL_INBOX_OUTBOX', 'R5_LIFECYCLE_EXTERNAL_CONFLICT', 'R6_MIGRATION_HISTORY_BACKUP_GC', 'F0_WRITER_REFINEMENT_CONFORMANCE', 'V0_WRITER_CLAIM_COMPILER', 'WP-200_DURABLE_SAVE', 'WP-201_PROJECT_TRANSACTION', 'V1_ATLAS_CLAIM_COMPILER', 'WP-202_LEGACY_STRANGLER', 'WP-203_STORAGE_SELECTION', 'WP-204_LIFECYCLE_RECOVERY', 'WP-205_PATH_AND_TEXT', 'WP-206_SAFE_ENTITLEMENT_BASELINE', 'WP-207_WRITER_REFINEMENT', 'WP-300_WRITER_HOME', 'WP-301_AUTHORING_SURFACES', 'WP-302_SESSION_CONTINUITY', 'WP-303_DESIGN_OS_CUSTOMIZATION'],
   );
   assert.equal(sourceReceipt.fullDenominator.nodeCount, EXPECTED_NODE_COUNT);
   assert.equal(sourceReceipt.externalPlanState.doneContourCount, 12);

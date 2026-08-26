@@ -1,0 +1,73 @@
+{
+  "stampId": "ES-R24-WP-303-DESIGN-OS-CUSTOMIZATION-SURVIVOR-AUDIT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-303_DESIGN_OS_CUSTOMIZATION",
+  "attemptId": "ATTEMPT-WP303-20260826",
+  "authorityEpoch": "R24-WP303-BASE-4EBFB78E",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "aacaf1f6c15cfcd89925c248b1e90105c64bde43",
+    "treeSha": "814dca82d343e3fd09e5c91c2db5a488738a2705"
+  },
+  "claim": {
+    "type": "WP303_POSTMERGE_SURVIVOR_AUDIT",
+    "ceiling": "WP303_NODE_ONLY_NO_PROGRAM_DONE_NO_RELEASE_OR_PHYSICAL_QUALIFICATION_NO_USER_DOCUMENT_MUTATION",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "exact-main artifact digest and authority survivor audit",
+    "evidenceClass": "SURVIVOR_AUDIT",
+    "denominator": 6,
+    "passed": 6,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-303-DESIGN-OS-CUSTOMIZATION-POSTMERGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "0eff32eec5fde45147ec795818848541e7c4e52fb6b7acc6bf2b454679363045"
+  },
+  "createdAt": "2026-08-26T01:33:23Z",
+  "actor": "codex/r24-wp303-postmerge-closure-v1-20260826",
+  "artifact": {
+    "artifactDigests": [
+      {
+        "path": "src/renderer/design-os/designOsFormConfiguration.mjs",
+        "sha256": "9fb48989bfc52e2778ade241424c62a15f5965d385f35b9e82d6a32069969d7d"
+      },
+      {
+        "path": "src/renderer/design-os/designOsPortContract.mjs",
+        "sha256": "096559aecef57bb7995f545ca2e3e4271be1385baf218d5f2f8a76f51d9c8dd9"
+      },
+      {
+        "path": "src/renderer/design-os/designOsRuntime.mjs",
+        "sha256": "d71981685996394a0523a53cc3a5e303cda0a9b93a3b22165c7ff0ea46ed8310"
+      },
+      {
+        "path": "src/renderer/design-os/index.mjs",
+        "sha256": "8ba610c0c22c1d91c3322638042e3532921c5cc0d25e5164e038618a0102a3d3"
+      },
+      {
+        "path": "src/renderer/editor.bundle.js",
+        "sha256": "9de49daf2d26af1872e8cf31d3e47e1e0204b1bdb0da4d3b4302c671d8678cd3"
+      },
+      {
+        "path": "test/unit/r24-wp303-design-os-customization.test.js",
+        "sha256": "46210316dc9ffe1205cdbdab6679f7ce15400689ba556914b9a3ecd2b62e7472"
+      }
+    ],
+    "survivors": {
+      "artifactDigestMismatches": 0,
+      "unknownAuthorityRoutes": 0,
+      "productTruthMutations": 0,
+      "visibleUiCompositionChanges": 0,
+      "activeLeases": 0,
+      "activeWatchersOrMutatorsAtReceipt": 0
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

@@ -9,6 +9,9 @@ const entry = path.join(projectRoot, 'src', 'renderer', 'editor.js');
 const outdir = path.join(projectRoot, 'dist', 'renderer');
 const outfile = path.join(outdir, 'editor.bundle.js');
 const runtimeOutfile = path.join(projectRoot, 'src', 'renderer', 'editor.bundle.js');
+const preloadEntry = path.join(projectRoot, 'src', 'preload.js');
+const preloadOutfile = path.join(projectRoot, 'dist', 'preload.bundle.cjs');
+const preloadRuntimeOutfile = path.join(projectRoot, 'src', 'preload.bundle.cjs');
 const require = createRequire(import.meta.url);
 
 function listSharedSearchRoots() {
@@ -66,6 +69,11 @@ async function copyRuntimeBundle() {
   await fs.copyFile(outfile, runtimeOutfile);
 }
 
+async function copyRuntimePreloadBundle() {
+  await fs.mkdir(path.dirname(preloadRuntimeOutfile), { recursive: true });
+  await fs.copyFile(preloadOutfile, preloadRuntimeOutfile);
+}
+
 const buildOptions = {
   entryPoints: [entry],
   bundle: true,
@@ -92,17 +100,48 @@ const buildOptions = {
   ]
 };
 
+const preloadBuildOptions = {
+  entryPoints: [preloadEntry],
+  bundle: true,
+  format: 'cjs',
+  platform: 'node',
+  target: ['node20'],
+  external: ['electron'],
+  minify: false,
+  outfile: preloadOutfile,
+  nodePaths: sharedNodePaths,
+  sourcemap: isWatch ? 'external' : false,
+  logLevel: 'info',
+  plugins: [
+    {
+      name: 'runtime-preload-bundle-copy',
+      setup(build) {
+        build.onEnd(async (result) => {
+          if (result.errors.length > 0) {
+            return;
+          }
+          await copyRuntimePreloadBundle();
+        });
+      }
+    }
+  ]
+};
+
 if (isWatch) {
-  const ctx = await esbuild.context(buildOptions);
-  await ctx.watch();
+  const [rendererContext, preloadContext] = await Promise.all([
+    esbuild.context(buildOptions),
+    esbuild.context(preloadBuildOptions),
+  ]);
+  await Promise.all([rendererContext.watch(), preloadContext.watch()]);
   console.log('[renderer] esbuild watch: ON');
 
   const dispose = () => {
-    ctx.dispose().finally(() => process.exit(0));
+    Promise.all([rendererContext.dispose(), preloadContext.dispose()]).finally(() => process.exit(0));
   };
 
   process.on('SIGINT', dispose);
   process.on('SIGTERM', dispose);
 } else {
+  await esbuild.build(preloadBuildOptions);
   await esbuild.build(buildOptions);
 }

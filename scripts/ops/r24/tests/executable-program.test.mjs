@@ -400,13 +400,13 @@ test('scheduler selection receipt is bound to the real full graph rather than a 
   assert.equal(receipt.identityRoles.mergeSha, null);
   assert.equal(receipt.identityRoles.postmergeSha, null);
   assert.equal(receipt.sourceOfTruthPath, 'docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json');
-  assert.equal(receipt.selectedKind, 'NONE');
-  assert.equal(receipt.selectedId, null);
-  assert.equal(receipt.verdict, 'NO_ELIGIBLE_NODE');
-  assert.deepEqual(receipt.reasons, ['NO_DEPENDENCY_CLOSED_PENDING_NODE']);
+  assert.equal(receipt.selectedKind, 'NODE');
+  assert.equal(receipt.selectedId, 'W0_WORD_PHYSICAL_RECERTIFICATION');
+  assert.equal(receipt.verdict, 'SELECTED');
+  assert.deepEqual(receipt.reasons, ['SUPERVISED_HANDOFF_ONLY_CANDIDATE']);
   assert.equal(receipt.selectedId === null || nodeIds.has(receipt.selectedId), true);
   assert.equal(receipt.readySet.every((id) => nodeIds.has(id)), true);
-  assert.deepEqual(receipt.readySet, []);
+  assert.deepEqual(receipt.readySet, ['W0_WORD_PHYSICAL_RECERTIFICATION']);
 });
 
 test('scheduler refuses a plan state not committed at the evaluation head', () => {

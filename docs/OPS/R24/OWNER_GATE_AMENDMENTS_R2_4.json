@@ -38,6 +38,15 @@
       "decisionArtifactPath": "docs/OPS/R24/OWNER_GATE_DECISIONS/BRAND_LICENSE_OWNER_CHOICE_WP308_BRAND_BASELINE_V1.json",
       "decisionArtifactSha256": "cfd5b89e89e1c9228c8572a72f219effd1cda1b1fc910369c7f13e2fd781eccc",
       "revocationEpoch": 0
+    },
+    {
+      "gateId": "WORD_PHYSICAL_SESSION_AUTHORITY",
+      "nodeId": "W0_WORD_PHYSICAL_RECERTIFICATION",
+      "transitionFrom": "UNRESOLVED",
+      "transitionTo": "APPROVED",
+      "decisionArtifactPath": "docs/OPS/R24/OWNER_GATE_DECISIONS/WORD_PHYSICAL_SESSION_AUTHORITY_W0_WORD_PHYSICAL_RECERTIFICATION_V1.json",
+      "decisionArtifactSha256": "f90200890b6704498803cc286d02e869d5474bd114553d1c82a2597c7324409c",
+      "revocationEpoch": 0
     }
   ]
 }

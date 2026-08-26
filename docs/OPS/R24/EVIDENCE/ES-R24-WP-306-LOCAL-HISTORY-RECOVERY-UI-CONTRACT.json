@@ -1,0 +1,80 @@
+{
+  "stampId": "ES-R24-WP-306-LOCAL-HISTORY-RECOVERY-UI-CONTRACT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-306_LOCAL_HISTORY_RECOVERY_UI",
+  "attemptId": "ATTEMPT-WP306-20260826",
+  "authorityEpoch": "R24-WP306-BASE-83574989",
+  "profileId": "WRITER_LOCAL_V1",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "fc94c168703a84537eccbf9cb7c6889cde8ccefd",
+    "treeSha": "71887eb20b6c151c321dbdccac426ee9ff17d512"
+  },
+  "claim": {
+    "type": "WP306_LOCAL_HISTORY_RECOVERY_UI_ACCEPTANCE_CONTRACT",
+    "ceiling": "WP306_NODE_ONLY_NO_PROGRAM_DONE_NO_RELEASE_OR_PHYSICAL_QUALIFICATION_NO_USER_DOCUMENT_MUTATION",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "node --test test/unit/r24-wp306-local-history-recovery-ui.test.mjs",
+    "evidenceClass": "CONTRACT",
+    "denominator": 4,
+    "passed": 4,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-306-LOCAL-HISTORY-RECOVERY-UI-MODEL"
+    ],
+    "predecessorReceiptDigest": "a154750532c3e1b068536e81044c57f493e3cc07e492a10a7990c78c91be0903"
+  },
+  "createdAt": "2026-08-26T07:42:00Z",
+  "actor": "codex/r24-wp306-postmerge-closure-v1-20260826",
+  "artifact": {
+    "requiredProfiles": [
+      "CONTRACT_NEGATIVE",
+      "UNIT",
+      "INTEGRATION",
+      "IMPLEMENTATION_MUTANTS",
+      "UNICODE_IME",
+      "CRASH_RECOVERY",
+      "A11Y_PERF",
+      "EXACT_HEAD",
+      "POSTMERGE",
+      "SURVIVOR_AUDIT"
+    ],
+    "canonicalContract": {
+      "schemaVersion": "yalken.scene-history-recovery-identity.v1",
+      "restoreIntentDimensions": [
+        "projectId",
+        "nodeId",
+        "snapshotId",
+        "sequence"
+      ],
+      "undoReceiptDimensions": [
+        "receiptId",
+        "projectId",
+        "nodeId"
+      ],
+      "localOnly": true,
+      "productCoreAuthorityPreserved": true,
+      "persistenceSemanticsChanged": false
+    },
+    "forbiddenAuthority": [
+      "CROSS_PROJECT_RESTORE",
+      "CROSS_SCENE_RESTORE",
+      "STALE_GENERATION_APPLY",
+      "CROSS_SCENE_UNDO",
+      "RENDERER_PATH_AUTHORITY",
+      "DIRECT_STORAGE_WRITE",
+      "NETWORK_OR_CLOUD_TRUTH",
+      "DEPENDENCY_ADOPTION",
+      "RELEASE_OR_SIGNING",
+      "USER_DOCUMENT_MUTATION"
+    ]
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

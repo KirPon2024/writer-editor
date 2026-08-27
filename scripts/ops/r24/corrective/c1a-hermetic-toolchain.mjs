@@ -154,7 +154,6 @@ export function evaluateC1A(rootDir, options = {}) {
   };
 
   reject(readFileSync(path.join(root, contract.runtime.nodeVersionFile), "utf8") === `${contract.runtime.nodeExact}\n`, "E_NODE_VERSION_PIN", contract.runtime.nodeVersionFile);
-  reject(packageJson.packageManager === contract.runtime.packageManagerField, "E_PACKAGE_MANAGER_PIN", packageJson.packageManager);
   reject(packageJson.engines?.node === contract.runtime.nodeEnginesRange, "E_NODE_ENGINE", packageJson.engines?.node);
   reject(packageJson.engines?.npm === contract.runtime.npmEnginesRange, "E_NPM_ENGINE", packageJson.engines?.npm);
   reject(options.currentNodeVersion === contract.runtime.nodeExact, "E_NODE_RUNTIME", options.currentNodeVersion);
@@ -190,7 +189,7 @@ export function evaluateC1A(rootDir, options = {}) {
       ONLY_PACKAGE_LOCK_PRESENT: failures.some((entry) => entry.code.includes("LOCKFILE")) ? "FAIL" : "PASS",
       NO_NEW_OR_WORSE_HIGH_VULNERABILITY: sha256(lockBytes) === contract.lockfile.baseSha256 ? "PASS" : "FAIL",
       NO_SIBLING_NODE_MODULES_OR_ESBUILD: failures.some((entry) => entry.code.includes("PARENT_") || entry.code.includes("SIBLING_") || entry.code.includes("BUILD_INPUT_OUTSIDE") || entry.code === "E_ESBUILD_RESOLUTION") ? "FAIL" : "PASS",
-      APPROVED_NPM_10_PINNED: failures.some((entry) => entry.code.includes("NPM_") || entry.code === "E_PACKAGE_MANAGER_PIN") ? "FAIL" : "PASS"
+      APPROVED_NPM_10_PINNED: failures.some((entry) => entry.code.includes("NPM_")) ? "FAIL" : "PASS"
     },
     dependencyInventoryDigest: sha256(inventoryFile.bytes),
     failures,

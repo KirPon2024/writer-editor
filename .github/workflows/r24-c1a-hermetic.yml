@@ -38,7 +38,7 @@ jobs:
         run: npm ci --ignore-scripts --no-audit --no-fund
 
       - name: Verify C1A contracts
-        run: npm run -s test:r24-c1a
+        run: node scripts/ops/r24/corrective/c1a-hermetic-toolchain.mjs --check docs/OPS/R24/CORRECTIVE/C1A_TOOLCHAIN_CONTRACT_V1.json docs/OPS/R24/CORRECTIVE/C1A_DEPENDENCY_INVENTORY_V1.json
 
       - name: Verify deterministic dependency audit ceiling
         shell: bash

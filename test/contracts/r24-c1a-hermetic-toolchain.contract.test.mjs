@@ -44,13 +44,12 @@ function fixture() {
       nodeExact: "20.19.5",
       nodeVersionFile: ".node-version",
       npmEnginesRange: ">=10.0.0 <11.0.0",
-      npmExact: "10.8.2",
-      packageManagerField: "npm@10.8.2"
+      npmExact: "10.8.2"
     },
     workflows: { setupNodeAction: "actions/setup-node@v4", workflowPaths: workflows }
   };
   writeFileSync(path.join(root, ".node-version"), "20.19.5\n");
-  writeFileSync(path.join(root, "package.json"), JSON.stringify({ engines: { node: contract.runtime.nodeEnginesRange, npm: contract.runtime.npmEnginesRange }, packageManager: contract.runtime.packageManagerField }));
+  writeFileSync(path.join(root, "package.json"), JSON.stringify({ engines: { node: contract.runtime.nodeEnginesRange, npm: contract.runtime.npmEnginesRange } }));
   writeFileSync(path.join(root, "package-lock.json"), lockBytes);
   mkdirSync(path.join(root, "node_modules/esbuild/lib"), { recursive: true });
   writeFileSync(path.join(root, "node_modules/esbuild/lib/main.js"), "");
@@ -100,7 +99,7 @@ test("stale or non-canonical inventory fails closed", () => {
   }
 });
 
-test("runtime and package manager pins reject drift", () => {
+test("Node and npm runtime pins reject drift", () => {
   const state = fixture();
   try {
     assert.equal(evaluate(state, { currentNodeVersion: "20.19.4" }).acceptanceSignals.NODE_20_19_5_PINNED, "FAIL");

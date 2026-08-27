@@ -459,13 +459,17 @@ test('DOCX review preview session candidate: evidence packet full manuscript par
         {
           operation: 'delete',
           nativeRevisionId: 'del-current-profile-1',
+          author: 'Yalken C5V2 OP c5v2-tracked_text_edit-0023',
           paragraphIndex: 7,
+          replacementGroupId: 'replacement-group-current-profile-1',
           text: 'original bounded phrase',
         },
         {
           operation: 'insert',
           nativeRevisionId: 'ins-current-profile-1',
+          author: 'Yalken C5V2 OP c5v2-tracked_text_edit-0023',
           paragraphIndex: 7,
+          replacementGroupId: 'replacement-group-current-profile-1',
           text: 'replacement bounded phrase',
         },
       ],
@@ -500,7 +504,67 @@ test('DOCX review preview session candidate: evidence packet full manuscript par
   assert.equal(result.reviewPacket.textChanges[0].match.kind, 'exact');
   assert.equal(result.reviewPacket.textChanges[0].match.quote, 'original bounded phrase');
   assert.equal(result.reviewPacket.textChanges[0].replacementText, 'replacement bounded phrase');
+  assert.equal(result.reviewPacket.textChanges[0].operationId, 'c5v2-tracked_text_edit-0023');
   assert.equal(result.reviewPacket.textChanges[0].sourceAuthority, 'full-manuscript-export-map-paragraph-signal');
+  assertNoStorageOrApplyAuthority(result);
+});
+
+test('DOCX review preview session candidate: evidence packet does not pair distinct parser replacement groups', async () => {
+  const bridge = await loadBridge();
+  const result = bridge.buildDocxReviewPreviewSessionCandidateFromEvidence({
+    returnedProjection: {
+      schemaVersion: 'yalken.rtk.review-ir.v2',
+      sourceMode: 'TRACKED',
+      textRevisions: [
+        {
+          operation: 'delete',
+          nativeRevisionId: 'del-independent-1',
+          author: 'Yalken C5V2 OP c5v2-tracked_text_edit-0695',
+          paragraphIndex: 7,
+          replacementGroupId: false,
+          text: 'independent deleted phrase',
+        },
+        {
+          operation: 'insert',
+          nativeRevisionId: 'ins-independent-2',
+          author: 'Yalken C5V2 OP c5v2-tracked_text_edit-0783',
+          paragraphIndex: 7,
+          replacementGroupId: 'different-parser-group',
+          text: 'independent inserted phrase',
+        },
+      ],
+      commentThreads: [],
+      commentPlacements: [],
+      structureChanges: [],
+      formattingDeltas: [],
+    },
+    diagnostics: [],
+  }, {
+    targetScope: { type: 'scene', id: 'roman/currently-open.txt' },
+    fullManuscriptExportMap: {
+      scenes: [{
+        sceneId: 'roman/chapter-07.txt',
+        blocks: [{
+          blockId: 'scene-07-block-0008',
+          documentParagraphIndex: 7,
+          wordSignals: [],
+        }],
+      }],
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.reviewPacket.textChanges.length, 2);
+  assert.deepEqual(result.reviewPacket.textChanges.map((change) => change.operationId), [
+    'c5v2-tracked_text_edit-0695',
+    'c5v2-tracked_text_edit-0783',
+  ]);
+  assert.equal(result.reviewPacket.textChanges[0].match.kind, 'exact');
+  assert.equal(result.reviewPacket.textChanges[0].match.quote, 'independent deleted phrase');
+  assert.equal(result.reviewPacket.textChanges[0].replacementText, '');
+  assert.equal(result.reviewPacket.textChanges[1].match.kind, 'manual');
+  assert.equal(result.reviewPacket.textChanges[1].match.quote, '');
+  assert.equal(result.reviewPacket.textChanges[1].replacementText, 'independent inserted phrase');
   assertNoStorageOrApplyAuthority(result);
 });
 
@@ -564,12 +628,14 @@ test('DOCX review preview session candidate: evidence packet without authenticat
           operation: 'delete',
           nativeRevisionId: 'del-legacy-1',
           paragraphIndex: 7,
+          replacementGroupId: 'replacement-group-legacy-1',
           text: 'legacy bounded phrase',
         },
         {
           operation: 'insert',
           nativeRevisionId: 'ins-legacy-1',
           paragraphIndex: 7,
+          replacementGroupId: 'replacement-group-legacy-1',
           text: 'legacy replacement phrase',
         },
       ],

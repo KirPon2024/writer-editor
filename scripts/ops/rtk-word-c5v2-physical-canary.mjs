@@ -5072,6 +5072,11 @@ function wordOperationLines(ledger, returnedPath, materializationExpectations = 
   lines.push('set yRootComments to {}');
   const markLine = (id, status, indent = '  ') => `${indent}set yOpsDone to yOpsDone & "OP|" & ${appleText(id)} & "|${status}" & linefeed`;
   const rootOperations = ledger.operations.filter((operation) => operation.family === 'root_comment' && operation.wordRange);
+  const lifecycleRootOperations = Array.isArray(materializationExpectations.lifecycleRootOperations)
+    ? materializationExpectations.lifecycleRootOperations.filter((operation) => (
+        operation?.family === 'root_comment' && operation.wordRange && operation.id && operation.quote
+      ))
+    : rootOperations;
   const orderedOperations = orderWordOperations(ledger.operations);
   const expectedNativeRevisionCount = ledger.operations.reduce((count, operation) => (
     count + (['tracked_replace', 'tracked_insert'].includes(operation.family) ? 2 : operation.family === 'tracked_delete' ? 1 : 0)
@@ -5187,8 +5192,9 @@ function wordOperationLines(ledger, returnedPath, materializationExpectations = 
       lines.push(markLine(id, operation.expectedOutcome || 'SAFE_APPLY'));
     } else if (operation.family === 'reply_attempt') {
       lines.push('  set track revisions of yDoc to false');
-      const root = rootOperations.find((candidate) => candidate.id === operation.targetRootOperationId);
-      lines.push(`  set yTargetRootRange to my yFindRange(yDoc, ${appleText(root?.quote || '')})`);
+      const root = lifecycleRootOperations.find((candidate) => candidate.id === operation.targetRootOperationId);
+      if (root) lines.push(`  set yTargetRootRange to my yFindRange(yDoc, ${appleText(root.quote)})`);
+      else lines.push(`  error "LIFECYCLE_ROOT_BINDING_MISSING:${operation.targetRootOperationId || id}" number 9102`);
       lines.push('  if yTargetRootRange is missing value then error "EXPLICIT_ROOT_COMMENT_FOR_REPLY_NOT_FOUND" number 9102');
       lines.push('  try');
       lines.push(`    my yCheckpoint(yCheckpointPath, ${appleText(`${id}:TARGET_SELECT_BEFORE`)}, ${appleText(operation.targetRootOperationId)})`);
@@ -5212,14 +5218,15 @@ function wordOperationLines(ledger, returnedPath, materializationExpectations = 
       lines.push(markLine(id, 'MANUAL_OR_BLOCKED', '    '));
       lines.push('  end try');
     } else if (operation.family === 'state_attempt') {
-      const root = rootOperations.find((candidate) => candidate.id === operation.targetRootOperationId);
+      const root = lifecycleRootOperations.find((candidate) => candidate.id === operation.targetRootOperationId);
       const requestedState = operation.requestedState === 'reopened' ? 'reopen' : operation.requestedState;
       const names = requestedState === 'reopen'
         ? '{"Повторно открыть", "Reopen"}'
         : requestedState === 'delete'
           ? '{"Удалить примечание", "Delete Comment", "Delete"}'
           : '{"Разрешить", "Resolve"}';
-      lines.push(`  set yTargetRootRange to my yFindRange(yDoc, ${appleText(root?.quote || '')})`);
+      if (root) lines.push(`  set yTargetRootRange to my yFindRange(yDoc, ${appleText(root.quote)})`);
+      else lines.push(`  error "LIFECYCLE_ROOT_BINDING_MISSING:${operation.targetRootOperationId || id}" number 9103`);
       lines.push('  if yTargetRootRange is missing value then error "EXPLICIT_ROOT_COMMENT_FOR_STATE_NOT_FOUND" number 9103');
       lines.push('  try');
       lines.push(`    my yCheckpoint(yCheckpointPath, ${appleText(`${id}:TARGET_SELECT_BEFORE`)}, ${appleText(operation.targetRootOperationId)})`);
@@ -5335,6 +5342,7 @@ export function buildWordScript({
   expectedNativeRevisionCount: expectedNativeRevisionCountInput = null,
   minimumNativeRevisionCount: minimumNativeRevisionCountInput = null,
   expectedRootMarkers: expectedRootMarkersInput = null,
+  lifecycleRootOperations: lifecycleRootOperationsInput = null,
   chunkId = '',
   visibleReadbackPath = '',
 }) {
@@ -6093,6 +6101,7 @@ export function buildWordScript({
       expectedNativeRevisionCount,
       minimumNativeRevisionCount,
       expectedRootMarkers,
+      lifecycleRootOperations: lifecycleRootOperationsInput,
     }),
     '  save yDoc',
     '  my yCheckpoint(yCheckpointPath, "FINAL_SAVE_AFTER", "")',
@@ -6290,6 +6299,9 @@ export function runWordLedgerInChunks({
   appleScriptRunner = 'osascript',
 }) {
   const chunks = buildWordLedgerChunkPlan(ledger, chunkSize);
+  const lifecycleRootOperations = (ledger?.operations || []).filter((operation) => (
+    operation.family === 'root_comment' && operation.wordRange && operation.id && operation.quote
+  ));
   const outputs = [];
   const ledgerDigest = ledger.masterLedgerDigest
     || ledger.ledgerDigest
@@ -6337,6 +6349,7 @@ export function runWordLedgerInChunks({
       expectedNativeRevisionCount: chunk.expectedNativeRevisionCount,
       minimumNativeRevisionCount: chunk.minimumNativeRevisionCount,
       expectedRootMarkers: chunk.expectedRootMarkers,
+      lifecycleRootOperations,
       chunkId: chunk.chunkId,
       visibleReadbackPath: chunk.chunkIndex === chunks.length - 1
         ? `${artifactReturnedPath}.word-visible-readback.txt`

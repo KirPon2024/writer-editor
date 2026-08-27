@@ -1133,3 +1133,50 @@ test('N2 AX route has bounded traversal timeout and durable killed-process phase
   assert.equal(checkpoint.present, true);
   assert.equal(checkpoint.lastPhase, 'root-1:ROOT_CREATE_AFTER');
 });
+
+test('N2 chunked lifecycle script retains its full-ledger root target without replaying the root comment', async () => {
+  const canary = await import(CANARY_PATH);
+  const fullLedger = {
+    operations: [
+      {
+        id: 'root-1',
+        family: 'root_comment',
+        quote: 'exact root anchor',
+        wordRange: { start: 0, end: 17 },
+      },
+      {
+        id: 'reply-1',
+        family: 'reply_attempt',
+        targetRootOperationId: 'root-1',
+        expectedOutcome: 'SAFE_APPLY',
+      },
+    ],
+  };
+  const lifecycleChunkLedger = { ...fullLedger, operations: [fullLedger.operations[1]] };
+  const script = canary.buildWordScript({
+    sourcePath: 'source.docx',
+    returnedPath: 'returned.docx',
+    ledger: lifecycleChunkLedger,
+    initializeFromSource: false,
+    lifecycleRootOperations: [fullLedger.operations[0]],
+  });
+
+  assert.match(script, /set yTargetRootRange to my yFindRange\(yDoc, "exact root anchor"\)/u);
+  assert.doesNotMatch(script, /set yTargetRootRange to my yFindRange\(yDoc, ""\)/u);
+  assert.doesNotMatch(script, /make new Word comment at yRange/u);
+  assert.doesNotMatch(script, /LIFECYCLE_ROOT_BINDING_MISSING:root-1/u);
+
+  const missingBindingScript = canary.buildWordScript({
+    sourcePath: 'source.docx',
+    returnedPath: 'returned.docx',
+    ledger: lifecycleChunkLedger,
+    initializeFromSource: false,
+    lifecycleRootOperations: [],
+  });
+  assert.match(missingBindingScript, /LIFECYCLE_ROOT_BINDING_MISSING:root-1/u);
+  assert.doesNotMatch(missingBindingScript, /set yTargetRootRange to my yFindRange\(yDoc, ""\)/u);
+
+  const source = fs.readFileSync(CANARY_PATH, 'utf8');
+  assert.match(source, /lifecycleRootOperations: lifecycleRootOperationsInput/u);
+  assert.match(source, /lifecycleRootOperations,\n\s+chunkId:/u);
+});

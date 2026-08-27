@@ -5335,9 +5335,9 @@ function returnEvidenceTextChangeFromRevision(revision, options = {}) {
   return change;
 }
 
-// Build replacement-grouped textChanges from parser textRevisions the same way
-// the legacy tokenizer grouped adjacent delete+insert pairs, so the parity
-// shape downstream consumers expect is preserved.
+// Build replacement-grouped textChanges only from pairs the parser already
+// bound into the same replacement group. Paragraph adjacency alone can join
+// independent Word operations and erase their author-derived operation IDs.
 function returnEvidenceTextChangesFromProjection(projection, options = {}) {
   const revisions = Array.isArray(projection?.textRevisions) ? projection.textRevisions : [];
   const fallbackTargetScope = docxReviewPreviewSessionTargetScopeOrDefault(options.targetScope);
@@ -5361,7 +5361,12 @@ function returnEvidenceTextChangesFromProjection(projection, options = {}) {
     const sameParagraph = current?.paragraphIndex != null
       && next?.paragraphIndex != null
       && current.paragraphIndex === next.paragraphIndex;
+    const currentReplacementGroupId = normalizeString(current?.replacementGroupId);
+    const nextReplacementGroupId = normalizeString(next?.replacementGroupId);
+    const sameReplacementGroup = Boolean(currentReplacementGroupId)
+      && currentReplacementGroupId === nextReplacementGroupId;
     const isReplacementPair = sameParagraph
+      && sameReplacementGroup
       && ((currentOp === 'delete' && nextOp === 'insert')
         || (currentOp === 'insert' && nextOp === 'delete'));
     if (isReplacementPair) {

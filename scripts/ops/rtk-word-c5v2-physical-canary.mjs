@@ -75,6 +75,20 @@ export function nowStamp() {
   return new Date().toISOString().replace(/[-:]/gu, '').replace(/\.\d{3}Z$/u, 'Z');
 }
 
+export function createC5V2CanonicalTempRoot(prefix, {
+  tmpRoot = os.tmpdir(),
+  mkdtempSyncImpl = fs.mkdtempSync,
+  realpathSyncImpl = fs.realpathSync.native,
+} = {}) {
+  const canonicalTmpRoot = realpathSyncImpl(tmpRoot);
+  const createdRoot = mkdtempSyncImpl(path.join(canonicalTmpRoot, prefix));
+  const canonicalCreatedRoot = realpathSyncImpl(createdRoot);
+  if (path.dirname(canonicalCreatedRoot) !== canonicalTmpRoot) {
+    throw new Error(`C5V2_TEMP_ROOT_OUTSIDE_CANONICAL_TMP:${canonicalCreatedRoot}`);
+  }
+  return canonicalCreatedRoot;
+}
+
 function normalizeC5V2OperationId(value) {
   const operationId = String(value || '').trim();
   return C5V2_OPERATION_ID_PATTERN.test(operationId) ? operationId : '';
@@ -4676,7 +4690,7 @@ async function runElectronFullManuscriptRoundtrip({
   negativeCampaign = null,
   onChildProgress = null,
 }) {
-  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-c5v2-canary-ui-'));
+  const tempRoot = createC5V2CanonicalTempRoot('yalken-c5v2-canary-ui-');
   const childPath = path.join(tempRoot, 'fullbook-export-child.cjs');
   fs.writeFileSync(childPath, createFullManuscriptExportChildSource({
     tempRoot,
@@ -4813,7 +4827,7 @@ async function runElectronCumulativeFullManuscriptRoundtrip({
   runWordForRound,
   validateRound,
 }) {
-  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-c5v2-cumulative-ui-'));
+  const tempRoot = createC5V2CanonicalTempRoot('yalken-c5v2-cumulative-ui-');
   const childPath = path.join(tempRoot, 'fullbook-cumulative-child.cjs');
   fs.writeFileSync(childPath, createFullManuscriptExportChildSource({
     tempRoot,

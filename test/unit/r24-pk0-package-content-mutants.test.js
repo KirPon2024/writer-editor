@@ -99,6 +99,7 @@ function trackedFixture(extra = []) {
     'SECURITY.md',
     'src/main.js',
     'src/preload.js',
+    'src/preload.bundle.cjs',
     'src/renderer/index.html',
     'src/renderer/editor.bundle.js',
     'src/renderer/flags.js',
@@ -125,7 +126,7 @@ async function killOracle(module) {
   assert.equal(normal.value.authority.dependencyMutation, false);
 
   const missingRuntime = evaluate(module, {
-    trackedFiles: trackedFixture().filter((filePath) => filePath !== 'src/preload.js'),
+    trackedFiles: trackedFixture().filter((filePath) => filePath !== 'src/preload.bundle.cjs'),
   });
   assert.equal(missingRuntime.ok, false);
   assert.equal(missingRuntime.error.value.errors.includes('PK0_RUNTIME_RESOLVED_NOT_STAGED'), true);

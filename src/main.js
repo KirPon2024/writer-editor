@@ -27712,7 +27712,7 @@ function createWindow() {
     backgroundColor: '#dbd4ca',
     titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'default',
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, 'preload.bundle.cjs'),
       nodeIntegration: false,
       contextIsolation: true,
       sandbox: true

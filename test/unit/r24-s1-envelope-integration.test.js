@@ -7,6 +7,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const vm = require('node:vm');
 
 const {
   createEnvelope,
@@ -65,6 +66,57 @@ test('full denominator: every preload send to the three bridges is framed by cre
   const framedDirect = preload.match(/ipcRenderer\.invoke\(SAVE_LIFECYCLE_SIGNAL_BRIDGE_CHANNEL, createEnvelope/g) || [];
   assert.equal(sends.length, framed.length + framedDirect.length, `unframed bridge sends: ${sends.length - framed.length - framedDirect.length}`);
   assert.ok(preload.includes("require('./core/ipc-envelope-v1.cjs')"));
+});
+
+test('sandboxed runtime preload is self-contained and preserves the envelope contract', async () => {
+  const root = path.join(__dirname, '..', '..');
+  const main = fs.readFileSync(path.join(root, 'src', 'main.js'), 'utf8');
+  const bundlePath = path.join(root, 'src', 'preload.bundle.cjs');
+  const bundle = fs.readFileSync(bundlePath, 'utf8');
+  const requireCalls = [];
+  const invokes = [];
+  let exposed = null;
+  const context = {
+    Buffer,
+    Date,
+    Math,
+    Promise,
+    clearTimeout,
+    console,
+    module: { exports: {} },
+    exports: {},
+    require(specifier) {
+      requireCalls.push(specifier);
+      if (specifier !== 'electron') throw new Error(`SANDBOX_PRELOAD_REQUIRE_FORBIDDEN:${specifier}`);
+      return {
+        contextBridge: {
+          exposeInMainWorld(name, value) {
+            assert.equal(name, 'electronAPI');
+            exposed = value;
+          },
+        },
+        ipcRenderer: {
+          invoke(channel, envelope) {
+            invokes.push({ channel, envelope });
+            return Promise.resolve({ ok: true });
+          },
+          on() {},
+          send() {},
+        },
+      };
+    },
+    setTimeout,
+  };
+  vm.runInNewContext(bundle, context, { filename: bundlePath });
+
+  assert.deepEqual(requireCalls, ['electron']);
+  assert.ok(exposed && typeof exposed.invokeWorkspaceQueryBridge === 'function');
+  await exposed.invokeWorkspaceQueryBridge({ queryId: 'query.projectTree', payload: { tab: 'roman' } });
+  assert.equal(invokes.length, 1);
+  assert.equal(invokes[0].channel, 'ui:workspace-query-bridge');
+  assert.equal(validateIpcEnvelope(invokes[0].envelope, invokes[0].channel).ok, true);
+  assert.match(main, /preload:\s*path\.join\(__dirname, 'preload\.bundle\.cjs'\)/u);
+  assert.match(main, /contextIsolation:\s*true,\s*\n\s*sandbox:\s*true/u);
 });
 
 test('full denominator: all three main-side bridge handlers validate the envelope first', () => {

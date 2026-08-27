@@ -3737,9 +3737,21 @@ export function buildDocxReviewFormattingReturnCandidatesFromZipBytes(input, opt
       diagnostics: Array.isArray(scanned.reasons) ? scanned.reasons : [],
     };
   }
+  return buildDocxReviewFormattingReturnCandidatesFromFormattingParagraphs(
+    scanned.paragraphs,
+    options,
+    scanned.reasons,
+  );
+}
+
+function buildDocxReviewFormattingReturnCandidatesFromFormattingParagraphs(
+  formattingParagraphs,
+  options = {},
+  scannerReasons = [],
+) {
   const resolveBlock = docxReviewFormattingBuildFullManuscriptBlockResolver(options.fullManuscriptExportMap);
   const candidates = [];
-  const diagnostics = Array.isArray(scanned.reasons) ? [...scanned.reasons] : [];
+  const diagnostics = Array.isArray(scannerReasons) ? [...scannerReasons] : [];
   const seenOperationIds = new Set();
   // MATCH-01: unclassified topology tracking. A returned paragraph that
   // carries styled content but cannot be bound to a source block by a
@@ -3748,7 +3760,7 @@ export function buildDocxReviewFormattingReturnCandidatesFromZipBytes(input, opt
   // (RTK_MATCH_UNCLASSIFIED_BLOCKS family) — never silently disappear.
   let unclassifiedBlocks = 0;
   const unclassifiedIndices = [];
-  for (const paragraph of scanned.paragraphs) {
+  for (const paragraph of formattingParagraphs) {
     const paragraphIndex = Number.isSafeInteger(paragraph.paragraphIndex) ? paragraph.paragraphIndex : -1;
     const resolution = resolveBlock({
       paraId: paragraph.paraId,
@@ -4084,11 +4096,23 @@ export function buildDocxReviewStructuralReturnCandidatesFromZipBytes(input, opt
       diagnostics: Array.isArray(scanned.reasons) ? scanned.reasons : [],
     };
   }
+  return buildDocxReviewStructuralReturnCandidatesFromFormattingParagraphs(
+    scanned.paragraphs,
+    options,
+    scanned.reasons,
+  );
+}
+
+function buildDocxReviewStructuralReturnCandidatesFromFormattingParagraphs(
+  formattingParagraphs,
+  options = {},
+  scannerReasons = [],
+) {
   const resolveBlock = docxReviewFormattingBuildFullManuscriptBlockResolver(options.fullManuscriptExportMap);
   const candidates = [];
-  const diagnostics = Array.isArray(scanned.reasons) ? [...scanned.reasons] : [];
+  const diagnostics = Array.isArray(scannerReasons) ? [...scannerReasons] : [];
   const seenOperationIds = new Set();
-  for (const paragraph of scanned.paragraphs) {
+  for (const paragraph of formattingParagraphs) {
     const paragraphIndex = Number.isSafeInteger(paragraph.paragraphIndex) ? paragraph.paragraphIndex : -1;
     const resolution = resolveBlock({
       paraId: paragraph.paraId,
@@ -5803,36 +5827,21 @@ export function buildDocxReviewPreviewSessionCandidateFromEvidence(packet, optio
 // consumes. No DOCX ZIP re-scan occurs.
 export function buildDocxReviewFormattingReturnCandidatesFromEvidence(packet, options = {}) {
   const projection = isPlainObject(packet?.returnedProjection) ? packet.returnedProjection : {};
-  const deltas = Array.isArray(projection.formattingDeltas) ? projection.formattingDeltas : [];
-  const fullManuscriptExportMap = isPlainObject(options.fullManuscriptExportMap)
-    ? options.fullManuscriptExportMap
-    : null;
-  const cryptoPort = isPlainObject(options.cryptoPort) ? options.cryptoPort : null;
-  const candidates = [];
-  const diagnostics = [];
-  for (const delta of deltas) {
-    if (!isPlainObject(delta)) continue;
-    const candidate = {
-      operationId: normalizeString(delta.operationId || delta.formatKind),
-      sceneId: normalizeString(delta.sceneId || delta.placement?.sceneId),
-      blockId: normalizeString(delta.blockId || delta.placement?.blockId),
-      paragraphOrdinal: Number.isSafeInteger(delta.placement?.paragraphOrdinal)
-        ? delta.placement.paragraphOrdinal
-        : -1,
-      selectedText: normalizeString(delta.selectedText),
-      inline: isPlainObject(delta.values) ? delta.values : {},
-      formatKind: normalizeString(delta.formatKind),
+  if (!Array.isArray(projection.formattingParagraphs)) {
+    return {
+      ok: false,
+      status: 'blocked',
+      code: 'RTK_FORMATTING_RETURN_PARAGRAPH_PROJECTION_REQUIRED',
+      reason: 'RTK_FORMATTING_RETURN_PARAGRAPH_PROJECTION_REQUIRED',
+      candidates: [],
+      diagnostics: [],
+      candidateCount: 0,
     };
-    candidates.push(candidate);
   }
-  void fullManuscriptExportMap;
-  void cryptoPort;
-  return {
-    ok: true,
-    candidates,
-    diagnostics,
-    candidateCount: candidates.length,
-  };
+  return buildDocxReviewFormattingReturnCandidatesFromFormattingParagraphs(
+    projection.formattingParagraphs,
+    options,
+  );
 }
 
 // EVID-01 (V6): build structural-return candidates from the packet projection.
@@ -5841,33 +5850,21 @@ export function buildDocxReviewFormattingReturnCandidatesFromEvidence(packet, op
 // consumes. No DOCX ZIP re-scan occurs.
 export function buildDocxReviewStructuralReturnCandidatesFromEvidence(packet, options = {}) {
   const projection = isPlainObject(packet?.returnedProjection) ? packet.returnedProjection : {};
-  const changes = Array.isArray(projection.structureChanges) ? projection.structureChanges : [];
-  const fullManuscriptExportMap = isPlainObject(options.fullManuscriptExportMap)
-    ? options.fullManuscriptExportMap
-    : null;
-  const candidates = [];
-  const diagnostics = [];
-  for (const change of changes) {
-    if (!isPlainObject(change)) continue;
-    const candidate = {
-      operationId: normalizeString(change.operationId || change.nativeRevisionId),
-      sceneId: normalizeString(change.sceneId || change.placement?.sceneId),
-      blockId: normalizeString(change.blockId || change.placement?.blockId),
-      paragraphOrdinal: Number.isSafeInteger(change.placement?.paragraphOrdinal)
-        ? change.placement.paragraphOrdinal
-        : -1,
-      selectedText: normalizeString(change.selectedText),
-      structural: isPlainObject(change.structural) ? change.structural : { structureKind: normalizeString(change.structureKind || change.kind) },
+  if (!Array.isArray(projection.formattingParagraphs)) {
+    return {
+      ok: false,
+      status: 'blocked',
+      code: 'RTK_STRUCTURAL_RETURN_PARAGRAPH_PROJECTION_REQUIRED',
+      reason: 'RTK_STRUCTURAL_RETURN_PARAGRAPH_PROJECTION_REQUIRED',
+      candidates: [],
+      diagnostics: [],
+      candidateCount: 0,
     };
-    candidates.push(candidate);
   }
-  void fullManuscriptExportMap;
-  return {
-    ok: true,
-    candidates,
-    diagnostics,
-    candidateCount: candidates.length,
-  };
+  return buildDocxReviewStructuralReturnCandidatesFromFormattingParagraphs(
+    projection.formattingParagraphs,
+    options,
+  );
 }
 
 // RB_11_DOCX_CONTENT_PREVIEW_START
@@ -11161,9 +11158,11 @@ export function validateCommentPlacement(input = {}) {
 export function normalizeTextChange(input = {}) {
   const change = isPlainObject(input) ? input : {};
   const match = isPlainObject(change.match) ? change.match : {};
+  const operationId = normalizeString(change.operationId);
   return {
     schemaVersion: REVISION_BRIDGE_TEXT_CHANGE_SCHEMA,
     changeId: normalizeString(change.changeId),
+    ...(operationId ? { operationId } : {}),
     targetScope: normalizeReviewGraphTargetScope(change.targetScope),
     match: {
       kind: normalizeStringEnum(change.matchKind || match.kind, ['exact', 'fuzzy', 'manual'], 'manual'),

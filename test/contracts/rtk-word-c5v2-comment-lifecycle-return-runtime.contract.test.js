@@ -810,6 +810,13 @@ test('N2 Word canary never classifies reply or state setter no-error as SAFE_APP
   assert.match(source, /yRibbonScrollAreaCount is not 1/u);
   assert.match(source, /group 5 of scroll area 1 of tab group 1/u);
   assert.match(source, /every checkbox of yReviewGroup whose name is "Показать примечания"/u);
+  assert.match(source, /every menu button of yReviewGroup whose name is "Примечания"/u);
+  assert.match(source, /every popover of yCommentsMenuButton/u);
+  assert.match(source, /every checkbox of item 1 of yCommentsPopoverGroups whose name is "Показать примечания"/u);
+  assert.match(source, /COMMENTS_MENU_BUTTON_COUNT/u);
+  assert.match(source, /COMMENTS_POPOVER_COUNT/u);
+  assert.match(source, /COMMENTS_POPOVER_GROUP_COUNT/u);
+  assert.match(source, /REVIEW_COMMENTS_MENU_POPOVER_CHECKBOX/u);
   assert.doesNotMatch(source, /button "Показать примечания"/u);
   assert.match(source, /yShowCommentsCount is not 1/u);
   assert.match(source, /if yShowCommentsValue is 0 then[\s\S]*click yShowCommentsControl/u);

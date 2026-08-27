@@ -253,6 +253,53 @@ test('N4 extractor derives safe heading-level structural operation from authenti
   assert.equal(extracted.summary.typedPendingStructuralKinds.includes('split'), true);
 });
 
+test('N4 verified parser projection preserves outline-level structure for the exact evidence compiler', async () => {
+  const bridge = await import(pathToFileURL(BRIDGE_PATH).href);
+  const documentBody = paragraphXml({ outlineLevel: 1 });
+  const documentPart = `<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml"><w:body>${documentBody}</w:body></w:document>`;
+  const analysis = bridge.parseReviewTransportPackageV2(
+    { parts: { 'word/document.xml': documentPart } },
+    { cryptoPort },
+  );
+  assert.equal(analysis.ok, true, JSON.stringify(analysis, null, 2));
+  assert.deepEqual(analysis.reviewIr.formattingParagraphs[0].paragraphStructure, {
+    nodeType: 'heading',
+    headingLevel: 2,
+  });
+
+  const fromEvidence = bridge.buildDocxReviewStructuralReturnCandidatesFromEvidence({
+    returnedProjection: analysis.reviewIr,
+  }, {
+    fullManuscriptExportMap: exportMap(),
+    cryptoPort,
+  });
+  assert.equal(fromEvidence.status, 'ready', JSON.stringify(fromEvidence, null, 2));
+  assert.equal(fromEvidence.candidates.length, 1);
+  assert.deepEqual(fromEvidence.candidates[0].structural, {
+    action: 'setNodeType',
+    nodeType: 'heading',
+    headingLevel: 2,
+  });
+
+  const projectionAsZipInput = bridge.buildDocxReviewStructuralReturnCandidatesFromZipBytes({
+    formattingParagraphs: analysis.reviewIr.formattingParagraphs,
+  }, {
+    fullManuscriptExportMap: exportMap(),
+    cryptoPort,
+  });
+  assert.equal(projectionAsZipInput.ok, false);
+  assert.equal(projectionAsZipInput.code, 'RTK_STRUCTURAL_RETURN_AUTHORITY_REQUIRED');
+
+  const missingProjection = bridge.buildDocxReviewStructuralReturnCandidatesFromEvidence({
+    returnedProjection: { structureChanges: [] },
+  }, {
+    fullManuscriptExportMap: exportMap(),
+    cryptoPort,
+  });
+  assert.equal(missingProjection.ok, false);
+  assert.equal(missingProjection.code, 'RTK_STRUCTURAL_RETURN_PARAGRAPH_PROJECTION_REQUIRED');
+});
+
 test('N4 extractor fails closed on stale text, no-op structure, and unsupported Word structural states', async () => {
   const bridge = await import(pathToFileURL(BRIDGE_PATH).href);
   const staleText = bridge.buildDocxReviewStructuralReturnCandidatesFromZipBytes(

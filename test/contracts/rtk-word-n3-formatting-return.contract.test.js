@@ -150,6 +150,57 @@ test('N3 extractor binds safe inline formatting and ignores comment-reference-on
   });
 });
 
+test('N3 verified parser projection compiles the same exact formatting candidates without a DOCX re-scan', async () => {
+  const bridge = await import(pathToFileURL(BRIDGE_PATH).href);
+  const documentBody = [
+    '<w:p w14:paraId="A1B2C3D4" w14:textId="D4C3B2A1">',
+    '<w:bookmarkStart w:name="YRTK_01_0001_alpha"/>',
+    '<w:r><w:rPr><w:b/><w:color w:val="FF0000"/></w:rPr><w:t>Alpha</w:t></w:r>',
+    '<w:r><w:t> beta</w:t></w:r>',
+    '</w:p>',
+  ].join('');
+  const documentPart = `<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml"><w:body>${documentBody}</w:body></w:document>`;
+  const input = docx(documentBody);
+  const analysis = bridge.parseReviewTransportPackageV2(
+    { parts: { 'word/document.xml': documentPart } },
+    { cryptoPort },
+  );
+  assert.equal(analysis.ok, true, JSON.stringify(analysis, null, 2));
+  assert.equal(analysis.reviewIr.formattingParagraphs.length, 1);
+
+  const fromBytes = bridge.buildDocxReviewFormattingReturnCandidatesFromZipBytes(input, {
+    fullManuscriptExportMap: exportMap(),
+    cryptoPort,
+  });
+  const fromEvidence = bridge.buildDocxReviewFormattingReturnCandidatesFromEvidence({
+    returnedProjection: analysis.reviewIr,
+  }, {
+    fullManuscriptExportMap: exportMap(),
+    cryptoPort,
+  });
+  assert.deepEqual(fromEvidence.candidates, fromBytes.candidates);
+  assert.equal(fromEvidence.candidates.length, 1);
+  assert.equal(Object.hasOwn(fromEvidence.candidates[0], 'formatKind'), false);
+
+  const projectionAsZipInput = bridge.buildDocxReviewFormattingReturnCandidatesFromZipBytes({
+    formattingParagraphs: analysis.reviewIr.formattingParagraphs,
+  }, {
+    fullManuscriptExportMap: exportMap(),
+    cryptoPort,
+  });
+  assert.equal(projectionAsZipInput.ok, false);
+  assert.equal(projectionAsZipInput.code, 'RTK_FORMATTING_RETURN_AUTHORITY_REQUIRED');
+
+  const missingProjection = bridge.buildDocxReviewFormattingReturnCandidatesFromEvidence({
+    returnedProjection: { formattingDeltas: [] },
+  }, {
+    fullManuscriptExportMap: exportMap(),
+    cryptoPort,
+  });
+  assert.equal(missingProjection.ok, false);
+  assert.equal(missingProjection.code, 'RTK_FORMATTING_RETURN_PARAGRAPH_PROJECTION_REQUIRED');
+});
+
 test('N3 extractor coalesces adjacent Word run fragments with identical effective formatting', async () => {
   const bridge = await import(pathToFileURL(BRIDGE_PATH).href);
   const input = docx([

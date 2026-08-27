@@ -54,8 +54,10 @@ test('sector-m scene rich truth: no new autosave or recovery channel is introduc
   assert.equal(source.includes('rich-recovery'), false);
   assert.ok(source.includes('const snapshot = await requestEditorSnapshot();'));
   assert.ok(source.includes('const content = snapshot.content;'));
-  assert.ok(source.includes("persistBookProfileForFile(currentFilePath, snapshot.bookProfile, 'autosave project manifest')"));
-  assert.ok(source.includes("persistBookProfileForFile(currentFilePath, snapshot.bookProfile, 'save project manifest')"));
-  assert.ok(source.includes('() => fileManager.writeFileAtomic(currentFilePath, content)'));
+  assert.ok(source.includes('async function commitWriterProjectSnapshot(filePath, content, revision, bookProfile, operationLabel)'));
+  assert.ok(source.includes('() => commitWriterProjectSnapshot('));
+  assert.ok(source.includes("'autosave project transaction'"));
+  assert.ok(source.includes("'save existing project transaction'"));
+  assert.equal(source.includes('() => fileManager.writeFileAtomic(currentFilePath, content)'), false);
   assert.ok(source.includes("mainWindow.webContents.send('ui:recovery-restored'"));
 });

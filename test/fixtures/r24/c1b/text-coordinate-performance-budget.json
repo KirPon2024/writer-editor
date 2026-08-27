@@ -1,0 +1,10 @@
+{
+  "schemaVersion": "R24_C1B_TEXT_COORDINATE_PERFORMANCE_BUDGET_V1",
+  "scenarioId": "TEXT-01A-SHARED-COMPACT-INDEX",
+  "warmupRuns": 2,
+  "sampleRuns": 7,
+  "sceneRepeats": 4000,
+  "anchorsPerRun": 100,
+  "maxMedianMs": 500,
+  "maxP95Ms": 1000
+}

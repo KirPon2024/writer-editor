@@ -277,6 +277,7 @@ test('command palette opener: selecting entry closes modal and dispatches comman
   const { exported } = instantiateFunctions([
     'runCommandPaletteAction',
   ], {
+    BLACK_BOX_EXPORT_MANUAL_CORE_COMMAND_ID: 'cmd.project.blackBox.exportManualCoreCapsuleKitV1',
     commandPaletteModal,
     closeSimpleModal: (modal) => {
       modal.hidden = true

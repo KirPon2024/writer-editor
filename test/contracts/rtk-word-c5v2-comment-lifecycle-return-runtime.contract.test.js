@@ -802,6 +802,9 @@ test('N2 Word canary never classifies reply or state setter no-error as SAFE_APP
   assert.match(source, /FRONT_DOCUMENT_MISMATCH/u);
   assert.match(source, /yPrepareCommentsUi/u);
   assert.match(source, /yClickBoundedMarkerControl/u);
+  assert.match(source, /repeat with yAttempt from 1 to 64/u);
+  assert.match(source, /if \(yAttempt is 1\) or \(yAttempt is 17\) or \(yAttempt is 33\) or \(yAttempt is 49\) then set yWindowReviveDiagnostics/u);
+  assert.doesNotMatch(source, /if \(yAttempt is 1\) or \(yWindowCount < 1\) or \(yWordFrontmost is false\) then set yWindowReviveDiagnostics/u);
   assert.match(source, /radio button "Рецензирование" of tab group 1/u);
   assert.match(source, /repeat while yRibbonExpansionAttempts < 3/u);
   assert.match(source, /set yReviewTabValue to value of yReviewTab/u);

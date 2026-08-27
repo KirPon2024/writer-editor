@@ -12,6 +12,8 @@ const file = (path) => {
   return { bytes, value: JSON.parse(bytes), digest: sha256(bytes) };
 };
 
+const WORKFLOW_PATH = ".github/workflows/r24-terminal-attestation.yml";
+
 function fixture() {
   const trustFile = file("docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json");
   const programFile = file("docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json");
@@ -110,4 +112,23 @@ test("rejects recursive closure carrier", () => {
   const subject = fixture();
   subject.attestationFile.value.receiptCarrierSha = "6".repeat(40);
   assert.throws(() => verifyTerminalAttestation(subject), /E_RECURSIVE_CLOSURE/);
+});
+
+test("protected workflow binds exact base or paired append-only stage paths", () => {
+  const workflow = readFileSync(WORKFLOW_PATH, "utf8");
+  for (const token of [
+    "stage_instance_path:",
+    "stage_admission_path:",
+    "STAGE_INSTANCE_PATH: ${{ inputs.stage_instance_path }}",
+    "STAGE_ADMISSION_PATH: ${{ inputs.stage_admission_path }}",
+    "E_STAGE_PATH_IDENTITY",
+    "E_STAGE_PATH_VERSION_MISMATCH",
+    "E_NON_CANONICAL_STAGE_BYTES",
+    "E_STAGE_DIGEST_MISMATCH",
+    "E_ADMISSION_BINDING",
+  ]) {
+    assert.equal(workflow.includes(token), true, `missing workflow binding: ${token}`);
+  }
+  assert.equal(workflow.includes("sha256sum docs/OPS/R24/CORRECTIVE/${STAGE_ID}_STAGE_INSTANCE_V1.json"), false);
+  assert.equal(workflow.includes("sha256sum docs/OPS/R24/CORRECTIVE/${STAGE_ID}_STAGE_ADMISSION_ATTESTATION_V1.json"), false);
 });

@@ -6,6 +6,12 @@ on:
       stage_id:
         required: true
         type: string
+      stage_instance_path:
+        required: true
+        type: string
+      stage_admission_path:
+        required: true
+        type: string
       program_template_digest:
         required: true
         type: string
@@ -49,16 +55,51 @@ jobs:
           PROGRAM_TEMPLATE_DIGEST: ${{ inputs.program_template_digest }}
           STAGE_INSTANCE_DIGEST: ${{ inputs.stage_instance_digest }}
           STAGE_ADMISSION_DIGEST: ${{ inputs.stage_admission_digest }}
+          ACCEPTANCE_SIGNALS_DIGEST: ${{ inputs.acceptance_signals_digest }}
           EVALUATION_TREE_SHA: ${{ inputs.evaluation_tree_sha }}
           IMPLEMENTATION_MERGE_SHA: ${{ inputs.implementation_merge_sha }}
           STAGE_ID: ${{ inputs.stage_id }}
+          STAGE_INSTANCE_PATH: ${{ inputs.stage_instance_path }}
+          STAGE_ADMISSION_PATH: ${{ inputs.stage_admission_path }}
         run: |
           test "${GITHUB_REF}" = "refs/heads/main"
           test "${GITHUB_SHA}" = "${IMPLEMENTATION_MERGE_SHA}"
           test "$(git rev-parse HEAD^{tree})" = "${EVALUATION_TREE_SHA}"
           test "$(sha256sum docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json | cut -d ' ' -f 1)" = "${PROGRAM_TEMPLATE_DIGEST}"
-          test "$(sha256sum docs/OPS/R24/CORRECTIVE/${STAGE_ID}_STAGE_INSTANCE_V1.json | cut -d ' ' -f 1)" = "${STAGE_INSTANCE_DIGEST}"
-          test "$(sha256sum docs/OPS/R24/CORRECTIVE/${STAGE_ID}_STAGE_ADMISSION_ATTESTATION_V1.json | cut -d ' ' -f 1)" = "${STAGE_ADMISSION_DIGEST}"
+          node --input-type=module <<'NODE'
+          import { createHash } from "node:crypto";
+          import { readFileSync } from "node:fs";
+          import { canonicalBytes } from "./scripts/ops/r24/corrective/canonical-json.mjs";
+
+          const fail = (code) => { throw new Error(code); };
+          const digest = (bytes) => createHash("sha256").update(bytes).digest("hex");
+          const stageId = process.env.STAGE_ID;
+          const instancePath = process.env.STAGE_INSTANCE_PATH;
+          const admissionPath = process.env.STAGE_ADMISSION_PATH;
+          if (!/^(?:B0|C[0-9][A-Z0-9]*)$/.test(stageId)) fail("E_STAGE_IDENTITY");
+          const prefix = "docs/OPS/R24/CORRECTIVE/";
+          const baseInstancePath = `${prefix}${stageId}_STAGE_INSTANCE_V1.json`;
+          const baseAdmissionPath = `${prefix}${stageId}_STAGE_ADMISSION_ATTESTATION_V1.json`;
+          if (instancePath === baseInstancePath || admissionPath === baseAdmissionPath) {
+            if (instancePath !== baseInstancePath || admissionPath !== baseAdmissionPath) fail("E_STAGE_PATH_VERSION_MISMATCH");
+          } else {
+            const instancePrefix = `${prefix}${stageId}_STAGE_INSTANCE_AMENDMENT_V`;
+            const admissionPrefix = `${prefix}${stageId}_STAGE_ADMISSION_ATTESTATION_AMENDMENT_V`;
+            if (!instancePath.startsWith(instancePrefix) || !admissionPath.startsWith(admissionPrefix)) fail("E_STAGE_PATH_IDENTITY");
+            const instanceVersion = instancePath.slice(instancePrefix.length, -".json".length);
+            const admissionVersion = admissionPath.slice(admissionPrefix.length, -".json".length);
+            if (!instancePath.endsWith(".json") || !admissionPath.endsWith(".json") || !/^[1-9][0-9]*$/.test(instanceVersion) || instanceVersion !== admissionVersion) fail("E_STAGE_PATH_VERSION_MISMATCH");
+          }
+          const instanceBytes = readFileSync(instancePath);
+          const admissionBytes = readFileSync(admissionPath);
+          const instance = JSON.parse(instanceBytes);
+          const admission = JSON.parse(admissionBytes);
+          if (!instanceBytes.equals(canonicalBytes(instance)) || !admissionBytes.equals(canonicalBytes(admission))) fail("E_NON_CANONICAL_STAGE_BYTES");
+          if (digest(instanceBytes) !== process.env.STAGE_INSTANCE_DIGEST || digest(admissionBytes) !== process.env.STAGE_ADMISSION_DIGEST) fail("E_STAGE_DIGEST_MISMATCH");
+          if (instance.stageId !== stageId || admission.stageId !== stageId) fail("E_STAGE_IDENTITY");
+          if (instance.programTemplateDigest !== process.env.PROGRAM_TEMPLATE_DIGEST || admission.programTemplateDigest !== process.env.PROGRAM_TEMPLATE_DIGEST) fail("E_PROGRAM_DIGEST_MISMATCH");
+          if (admission.stageInstanceDigest !== process.env.STAGE_INSTANCE_DIGEST || admission.acceptanceSignalsDigest !== process.env.ACCEPTANCE_SIGNALS_DIGEST || admission.status !== "ADMITTED") fail("E_ADMISSION_BINDING");
+          NODE
       - name: Emit immutable terminal envelope
         env:
           STAGE_ID: ${{ inputs.stage_id }}

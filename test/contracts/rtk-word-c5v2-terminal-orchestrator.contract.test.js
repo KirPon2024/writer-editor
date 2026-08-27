@@ -986,6 +986,46 @@ leaseTest('ORCH_TEMP_LEASE_5: assertion and timeout style failures still run exa
   assert.equal(fs.existsSync(timeoutLease), false);
 });
 
+leaseTest('C5V2_CANONICAL_TEMP_ROOT_1: symlink-spelled tmp roots are canonicalized before allocation', async () => {
+  const canary = await loadCanary();
+  const calls = [];
+  const result = canary.createC5V2CanonicalTempRoot('yalken-c5v2-cumulative-ui-', {
+    tmpRoot: '/alias/tmp',
+    realpathSyncImpl: (candidate) => {
+      calls.push(['realpath', candidate]);
+      if (candidate === '/alias/tmp') return '/canonical/tmp';
+      if (candidate === '/canonical/tmp/yalken-c5v2-cumulative-ui-owned') return candidate;
+      throw new Error(`UNEXPECTED_REALPATH:${candidate}`);
+    },
+    mkdtempSyncImpl: (candidate) => {
+      calls.push(['mkdtemp', candidate]);
+      assert.equal(candidate, path.join('/canonical/tmp', 'yalken-c5v2-cumulative-ui-'));
+      return '/canonical/tmp/yalken-c5v2-cumulative-ui-owned';
+    },
+  });
+
+  assert.equal(result, '/canonical/tmp/yalken-c5v2-cumulative-ui-owned');
+  assert.deepEqual(calls, [
+    ['realpath', '/alias/tmp'],
+    ['mkdtemp', path.join('/canonical/tmp', 'yalken-c5v2-cumulative-ui-')],
+    ['realpath', '/canonical/tmp/yalken-c5v2-cumulative-ui-owned'],
+  ]);
+});
+
+leaseTest('C5V2_CANONICAL_TEMP_ROOT_2: allocation outside the canonical tmp root is rejected', async () => {
+  const canary = await loadCanary();
+  assert.throws(
+    () => canary.createC5V2CanonicalTempRoot('yalken-c5v2-cumulative-ui-', {
+      tmpRoot: '/alias/tmp',
+      realpathSyncImpl: (candidate) => (
+        candidate === '/alias/tmp' ? '/canonical/tmp' : '/outside/yalken-c5v2-cumulative-ui-owned'
+      ),
+      mkdtempSyncImpl: () => '/alias/tmp/yalken-c5v2-cumulative-ui-owned',
+    }),
+    /C5V2_TEMP_ROOT_OUTSIDE_CANONICAL_TMP/u,
+  );
+});
+
 leaseTest('ORCH_TEST_1: CLI rejects missing required args with exact flag', async () => {
   const orch = await loadOrchestrator();
   assert.throws(() => orch.parseOrchestratorArgs([]), /ORCH_ARG_REQUIRED:--expected-sha/u);

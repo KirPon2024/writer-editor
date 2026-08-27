@@ -5,28 +5,113 @@ on:
   push:
     branches:
       - main
-      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
-  oss-policy:
+  c1a-hermetic:
+    uses: ./.github/workflows/r24-c1a-hermetic.yml
+
+  c1b-baseline:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup exact Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".node-version"
+          cache: npm
+
+      - name: Install exact dependency graph
+        run: npm ci
+
+      - name: Verify exhaustive test inventory
+        run: node scripts/ops/r24/test-inventory.mjs --check docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json
+
+      - name: Falsify C1B inventory boundaries
+        run: node --test test/contracts/r24-c1b-test-inventory.contract.test.mjs
+
+      - name: Run repaired C1B baseline
+        env:
+          GOVERNANCE_CHANGE_APPROVALS_PATH: docs/OPS/R24/CORRECTIVE/C1C_GOVERNANCE_CHANGE_APPROVALS_V1.json
+        run: npm test
+
+  c1c-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup exact Node
         uses: actions/setup-node@v4
         with:
           node-version-file: ".node-version"
 
-      - name: OSS policy check (pre-install)
+      - name: Falsify aggregate and ruleset boundaries
+        run: node --test test/contracts/r24-c1c-merge-gate.contract.test.mjs
+
+      - name: Verify workflow topology and live ruleset
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/ops/r24/corrective/c1c-merge-gate.mjs --check docs/OPS/R24/CORRECTIVE/C1C_MERGE_GATE_CONTRACT_V1.json
+
+  oss-policy-core:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup exact Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".node-version"
+          cache: npm
+
+      - name: OSS policy check before install
         run: node scripts/check-no-paid-tiptap.mjs
 
-      - name: Install dependencies
+      - name: Install exact dependency graph
         run: npm ci
 
-      - name: OSS policy check (post-install)
+      - name: OSS policy check after install
         run: node scripts/check-no-paid-tiptap.mjs
 
-      - name: npm audit (high+)
+      - name: Reject high production dependency vulnerabilities
         run: npm audit --omit=dev --audit-level=high
+
+  rtk-required:
+    uses: ./.github/workflows/rtk-required.yml
+
+  x1-runtime-parity:
+    uses: ./.github/workflows/x1-runtime-parity.yml
+
+  oss-policy:
+    name: oss-policy
+    if: ${{ always() }}
+    needs:
+      - c1a-hermetic
+      - c1b-baseline
+      - c1c-contract
+      - oss-policy-core
+      - rtk-required
+      - x1-runtime-parity
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      REQUIRED_DEPENDENCY_RESULTS: >-
+        {"c1a-hermetic":"${{ needs.c1a-hermetic.result }}","c1b-baseline":"${{ needs.c1b-baseline.result }}","c1c-contract":"${{ needs.c1c-contract.result }}","oss-policy-core":"${{ needs.oss-policy-core.result }}","rtk-required":"${{ needs.rtk-required.result }}","x1-runtime-parity":"${{ needs.x1-runtime-parity.result }}"}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fail closed on every non-success dependency result
+        run: node scripts/ops/r24/corrective/c1c-merge-gate.mjs --check-results docs/OPS/R24/CORRECTIVE/C1C_MERGE_GATE_CONTRACT_V1.json "$REQUIRED_DEPENDENCY_RESULTS"

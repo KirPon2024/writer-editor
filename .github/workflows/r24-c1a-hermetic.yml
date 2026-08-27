@@ -1,15 +1,7 @@
 name: r24-c1a-hermetic
 
 on:
-  pull_request:
-    paths:
-      - ".github/workflows/**"
-      - ".node-version"
-      - "docs/OPS/R24/CORRECTIVE/C1A_*.json"
-      - "package.json"
-      - "package-lock.json"
-      - "scripts/ops/r24/corrective/c1a-hermetic-toolchain.mjs"
-      - "test/contracts/r24-c1a-hermetic-toolchain.contract.test.mjs"
+  workflow_call:
   workflow_dispatch:
 
 permissions:
@@ -39,6 +31,9 @@ jobs:
 
       - name: Verify C1A contracts
         run: node scripts/ops/r24/corrective/c1a-hermetic-toolchain.mjs --check docs/OPS/R24/CORRECTIVE/C1A_TOOLCHAIN_CONTRACT_V1.json docs/OPS/R24/CORRECTIVE/C1A_DEPENDENCY_INVENTORY_V1.json
+
+      - name: Falsify C1A contract boundaries
+        run: node --test test/contracts/r24-c1a-hermetic-toolchain.contract.test.mjs
 
       - name: Verify deterministic dependency audit ceiling
         shell: bash

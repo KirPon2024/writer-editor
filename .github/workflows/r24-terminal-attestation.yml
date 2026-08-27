@@ -1,0 +1,79 @@
+name: r24-terminal-attestation
+
+on:
+  workflow_dispatch:
+    inputs:
+      stage_id:
+        required: true
+        type: string
+      program_template_digest:
+        required: true
+        type: string
+      stage_instance_digest:
+        required: true
+        type: string
+      stage_admission_digest:
+        required: true
+        type: string
+      acceptance_signals_digest:
+        required: true
+        type: string
+      implementation_candidate_sha:
+        required: true
+        type: string
+      implementation_merge_sha:
+        required: true
+        type: string
+      evaluation_tree_sha:
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: r24-terminal-attestation-${{ inputs.stage_id }}
+  cancel-in-progress: false
+
+jobs:
+  terminal-attestation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Verify exact identities
+        shell: bash
+        env:
+          PROGRAM_TEMPLATE_DIGEST: ${{ inputs.program_template_digest }}
+          STAGE_INSTANCE_DIGEST: ${{ inputs.stage_instance_digest }}
+          STAGE_ADMISSION_DIGEST: ${{ inputs.stage_admission_digest }}
+          EVALUATION_TREE_SHA: ${{ inputs.evaluation_tree_sha }}
+          IMPLEMENTATION_MERGE_SHA: ${{ inputs.implementation_merge_sha }}
+          STAGE_ID: ${{ inputs.stage_id }}
+        run: |
+          test "${GITHUB_REF}" = "refs/heads/main"
+          test "${GITHUB_SHA}" = "${IMPLEMENTATION_MERGE_SHA}"
+          test "$(git rev-parse HEAD^{tree})" = "${EVALUATION_TREE_SHA}"
+          test "$(sha256sum docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json | cut -d ' ' -f 1)" = "${PROGRAM_TEMPLATE_DIGEST}"
+          test "$(sha256sum docs/OPS/R24/CORRECTIVE/${STAGE_ID}_STAGE_INSTANCE_V1.json | cut -d ' ' -f 1)" = "${STAGE_INSTANCE_DIGEST}"
+          test "$(sha256sum docs/OPS/R24/CORRECTIVE/${STAGE_ID}_STAGE_ADMISSION_ATTESTATION_V1.json | cut -d ' ' -f 1)" = "${STAGE_ADMISSION_DIGEST}"
+      - name: Emit immutable terminal envelope
+        env:
+          STAGE_ID: ${{ inputs.stage_id }}
+          PROGRAM_TEMPLATE_DIGEST: ${{ inputs.program_template_digest }}
+          STAGE_INSTANCE_DIGEST: ${{ inputs.stage_instance_digest }}
+          STAGE_ADMISSION_DIGEST: ${{ inputs.stage_admission_digest }}
+          ACCEPTANCE_SIGNALS_DIGEST: ${{ inputs.acceptance_signals_digest }}
+          IMPLEMENTATION_CANDIDATE_SHA: ${{ inputs.implementation_candidate_sha }}
+          IMPLEMENTATION_MERGE_SHA: ${{ inputs.implementation_merge_sha }}
+          EVALUATION_TREE_SHA: ${{ inputs.evaluation_tree_sha }}
+        run: |
+          node --input-type=module -e 'import { writeFileSync } from "node:fs"; import { canonicalBytes } from "./scripts/ops/r24/corrective/canonical-json.mjs"; const a={schemaVersion:"TERMINAL_ATTESTATION_V1",attestationType:"EXTERNAL_IMMUTABLE_TERMINAL_ATTESTATION",result:"PASS",stageId:process.env.STAGE_ID,programTemplateDigest:process.env.PROGRAM_TEMPLATE_DIGEST,stageInstanceDigest:process.env.STAGE_INSTANCE_DIGEST,stageAdmissionAttestationDigest:process.env.STAGE_ADMISSION_DIGEST,acceptanceSignalsDigest:process.env.ACCEPTANCE_SIGNALS_DIGEST,implementationCandidateSha:process.env.IMPLEMENTATION_CANDIDATE_SHA,implementationMergeSha:process.env.IMPLEMENTATION_MERGE_SHA,evaluationSha:process.env.GITHUB_SHA,evaluationTreeSha:process.env.EVALUATION_TREE_SHA,receiptCarrierSha:null,closureMergeSha:null,repository:process.env.GITHUB_REPOSITORY,workflowPath:".github/workflows/r24-terminal-attestation.yml",workflowRunId:Number(process.env.GITHUB_RUN_ID),runAttempt:Number(process.env.GITHUB_RUN_ATTEMPT),event:process.env.GITHUB_EVENT_NAME,ref:process.env.GITHUB_REF,createdAtUtc:new Date().toISOString(),externalImmutableTerminalAttestation:{provider:"GITHUB_ACTIONS_PROTECTED_WORKFLOW",workflowRunId:Number(process.env.GITHUB_RUN_ID),runAttempt:Number(process.env.GITHUB_RUN_ATTEMPT)}}; writeFileSync("terminal-attestation.json",canonicalBytes(a));'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r24-terminal-attestation-${{ inputs.stage_id }}
+          path: terminal-attestation.json
+          if-no-files-found: error
+          retention-days: 90

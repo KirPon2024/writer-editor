@@ -75,6 +75,15 @@ test("workflow topology rejects a conditional aggregate and direct reusable trig
   assert.equal(evidence.failures.some((entry) => entry.code === "E_DUPLICATE_PULL_REQUEST_TRIGGER"), true);
 });
 
+test("workflow topology requires exact detached C1B checkout identity to remain branch-addressable", () => {
+  const masterPath = contract.aggregate.workflowPath;
+  const master = readFileSync(path.join(ROOT_DIR, masterPath), "utf8")
+    .replace('        run: git switch --create "c1b-ci-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"\n', "");
+  const evidence = evaluateWorkflowTopology(ROOT_DIR, contract, { [masterPath]: master });
+  assert.equal(evidence.status, "FAIL");
+  assert.equal(evidence.failures.some((entry) => entry.code === "E_C1B_DETACHED_CHECKOUT_UNBOUND"), true);
+});
+
 test("live ruleset evidence requires PR, conversations, protected history and exact context", () => {
   assert.deepEqual(evaluateLiveRuleset(liveRuleset(), contract).failures, []);
   const weakened = liveRuleset();
@@ -86,4 +95,28 @@ test("live ruleset evidence requires PR, conversations, protected history and ex
   assert.equal(evidence.failures.some((entry) => entry.code === "E_NON_FAST_FORWARD_NOT_BLOCKED"), true);
   assert.equal(evidence.failures.some((entry) => entry.code === "E_CONVERSATION_RESOLUTION_NOT_REQUIRED"), true);
   assert.equal(evidence.failures.some((entry) => entry.code === "E_REQUIRED_CONTEXT"), true);
+});
+
+test("limited CI token records unavailable bypass fields without weakening mandatory enforcement", () => {
+  const redacted = liveRuleset();
+  delete redacted.bypass_actors;
+  delete redacted.current_user_can_bypass;
+  const evidence = evaluateLiveRuleset(redacted, contract);
+  assert.equal(evidence.status, "PASS");
+  assert.deepEqual(evidence.bypassEvidence, {
+    actors: "UNAVAILABLE_TO_TOKEN",
+    currentUser: "UNAVAILABLE_TO_TOKEN",
+    ownerAuthenticatedClosureRequired: true,
+    policy: "REJECT_VISIBLE_BYPASS_REQUIRE_OWNER_AUTHENTICATED_CLOSURE"
+  });
+});
+
+test("visible bypass authority fails closed", () => {
+  const weakened = liveRuleset();
+  weakened.bypass_actors = [{ actor_id: 1, actor_type: "RepositoryRole", bypass_mode: "always" }];
+  weakened.current_user_can_bypass = "always";
+  const evidence = evaluateLiveRuleset(weakened, contract);
+  assert.equal(evidence.status, "FAIL");
+  assert.equal(evidence.failures.some((entry) => entry.code === "E_BYPASS_ACTOR"), true);
+  assert.equal(evidence.failures.some((entry) => entry.code === "E_CURRENT_USER_BYPASS"), true);
 });

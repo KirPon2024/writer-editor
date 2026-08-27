@@ -64,6 +64,8 @@ function contractFailures(contract) {
   reject(contract?.aggregate?.requiredResult === "success", "E_REQUIRED_RESULT", contract?.aggregate?.requiredResult);
   reject(Array.isArray(contract?.aggregate?.requiredDependencyJobs) && contract.aggregate.requiredDependencyJobs.length > 0, "E_REQUIRED_DEPENDENCIES", "missing");
   reject(JSON.stringify(contract?.aggregate?.failClosedResults) === JSON.stringify(["failure", "skipped", "cancelled"]), "E_FAIL_CLOSED_SET", JSON.stringify(contract?.aggregate?.failClosedResults));
+  reject(contract?.ruleset?.bypassEvidencePolicy === "REJECT_VISIBLE_BYPASS_REQUIRE_OWNER_AUTHENTICATED_CLOSURE", "E_BYPASS_EVIDENCE_POLICY", contract?.ruleset?.bypassEvidencePolicy);
+  reject(contract?.ruleset?.ownerAuthenticatedClosureRequired === true, "E_OWNER_AUTHENTICATED_CLOSURE", contract?.ruleset?.ownerAuthenticatedClosureRequired);
   return failures;
 }
 
@@ -123,7 +125,9 @@ export function evaluateWorkflowTopology(rootDir, contract, sourceOverrides = {}
   }
 
   reject(!master.includes("npm run -s test:rtk"), "E_DUPLICATE_FULL_SUITE", "master-workflow");
-  reject(jobBlock(master, "c1b-baseline").includes("npm test"), "E_C1B_BASELINE_MISSING", "c1b-baseline");
+  const c1bBaseline = jobBlock(master, "c1b-baseline");
+  reject(c1bBaseline.includes("npm test"), "E_C1B_BASELINE_MISSING", "c1b-baseline");
+  reject(c1bBaseline.includes('git switch --create "c1b-ci-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"'), "E_C1B_DETACHED_CHECKOUT_UNBOUND", "c1b-baseline");
   reject(jobBlock(master, "c1c-contract").includes("--check docs/OPS/R24/CORRECTIVE/C1C_MERGE_GATE_CONTRACT_V1.json"), "E_LIVE_CHECK_MISSING", "c1c-contract");
   return {
     schemaVersion: "YALKEN_R24_C1C_WORKFLOW_TOPOLOGY_V1",
@@ -143,6 +147,8 @@ export function evaluateLiveRuleset(ruleset, contract) {
   const requiredChecks = rule("required_status_checks")?.parameters?.required_status_checks;
   const expectedContext = contract.ruleset.requiredStatusContext;
   const expectedIntegration = contract.ruleset.requiredStatusIntegrationId;
+  const bypassActorsVisible = Array.isArray(ruleset?.bypass_actors);
+  const currentUserBypassVisible = typeof ruleset?.current_user_can_bypass === "string";
 
   reject(ruleset?.id === contract.ruleset.id && ruleset?.name === contract.ruleset.name, "E_RULESET_IDENTITY", ruleset?.id);
   reject(ruleset?.target === contract.ruleset.target && ruleset?.enforcement === contract.ruleset.enforcement, "E_RULESET_ENFORCEMENT", ruleset?.enforcement);
@@ -154,9 +160,15 @@ export function evaluateLiveRuleset(ruleset, contract) {
   reject(Array.isArray(requiredChecks) && requiredChecks.length === 1
     && requiredChecks[0]?.context === expectedContext
     && requiredChecks[0]?.integration_id === expectedIntegration, "E_REQUIRED_CONTEXT", expectedContext);
-  reject(Array.isArray(ruleset?.bypass_actors) && ruleset.bypass_actors.length === 0, "E_BYPASS_ACTOR", "ruleset");
-  reject(ruleset?.current_user_can_bypass === contract.ruleset.currentUserCanBypass, "E_CURRENT_USER_BYPASS", ruleset?.current_user_can_bypass);
+  if (bypassActorsVisible) reject(ruleset.bypass_actors.length === 0, "E_BYPASS_ACTOR", "ruleset");
+  if (currentUserBypassVisible) reject(ruleset.current_user_can_bypass === contract.ruleset.currentUserCanBypass, "E_CURRENT_USER_BYPASS", ruleset.current_user_can_bypass);
   return {
+    bypassEvidence: {
+      actors: bypassActorsVisible ? (ruleset.bypass_actors.length === 0 ? "EMPTY" : "NON_EMPTY") : "UNAVAILABLE_TO_TOKEN",
+      currentUser: currentUserBypassVisible ? ruleset.current_user_can_bypass : "UNAVAILABLE_TO_TOKEN",
+      ownerAuthenticatedClosureRequired: contract.ruleset.ownerAuthenticatedClosureRequired,
+      policy: contract.ruleset.bypassEvidencePolicy
+    },
     schemaVersion: "YALKEN_R24_C1C_LIVE_RULESET_EVIDENCE_V1",
     rulesetId: ruleset?.id ?? null,
     requiredContext: expectedContext,

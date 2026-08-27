@@ -72,7 +72,12 @@ async function loadMainWithElectronStub(paths) {
 }
 
 async function createHarness(t) {
-  const tempRoot = await fsPromises.mkdtemp(path.join(os.tmpdir(), 'project-lifecycle-s26-'));
+  const spelledTempRoot = await fsPromises.mkdtemp(path.join(os.tmpdir(), 'project-lifecycle-s26-'));
+  // macOS spells its temporary root through /var while the no-follow law sees
+  // the same system-owned root as /private/var. Canonicalize the capability
+  // root before it crosses the security boundary; descendants remain subject
+  // to the unchanged no-follow checks.
+  const tempRoot = await fsPromises.realpath(spelledTempRoot);
   t.after(async () => fsPromises.rm(tempRoot, { recursive: true, force: true }));
   const documentsParent = path.join(tempRoot, 'Documents');
   const documentsRoot = path.join(documentsParent, 'craftsman');
@@ -123,6 +128,8 @@ function assertPathless(value, forbiddenRoot) {
 
 test('S26 project lifecycle: create builds local skeleton and pathless library entry', async (t) => {
   const harness = await createHarness(t);
+
+  assert.equal(await fsPromises.realpath(harness.tempRoot), harness.tempRoot);
 
   const created = await harness.main.handleProjectLifecycleCreateCommand({ projectName: 'Alpha Book' });
   assert.equal(created.ok, true);

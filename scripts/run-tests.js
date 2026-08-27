@@ -101,7 +101,7 @@ function parseCli(rawArgs) {
   }
 
   out.modeArg = tokens[0] || '';
-  out.explicitTests = tokens.filter((arg) => arg.endsWith('.test.js'));
+  out.explicitTests = tokens.filter((arg) => /\.test\.(?:js|mjs)$/u.test(arg));
 
   if (checkModeArg) {
     const normalizedMode = normalizeCheckMode(checkModeArg);
@@ -143,7 +143,7 @@ function listTestFiles(dir, out = []) {
       continue;
     }
 
-    if (entry.isFile() && entry.name.endsWith('.test.js')) {
+    if (entry.isFile() && /\.test\.(?:js|mjs)$/u.test(entry.name)) {
       out.push(fullPath);
     }
   }
@@ -496,7 +496,7 @@ const testFiles = explicitTests.length > 0
   : (fs.existsSync(testDir) ? listTestFiles(testDir).sort() : []);
 
 if (testFiles.length === 0) {
-  console.error(`No test files found in ./test/${mode} (expected **/*.test.js).`);
+  console.error(`No test files found in ./test/${mode} (expected **/*.test.js or **/*.test.mjs).`);
   process.exitCode = 1;
 } else {
   let exitCode = 0;

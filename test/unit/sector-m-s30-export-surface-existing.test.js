@@ -89,7 +89,8 @@ test('S30 export surface: palette, runtime, and Tiptap routes converge on surfac
   assert.ok(paletteSection.includes("const exportDocxCommandId = 'cmd.project.export.docxMin';"));
   assert.ok(paletteSection.includes("const exportPdfCommandId = 'cmd.project.exportPdfV1';"));
   assert.ok(paletteSection.includes("const exportMarkdownCommandId = 'cmd.project.exportMarkdownV1';"));
-  assert.equal((paletteSection.match(/return openExportSurfaceModal\(normalizedCommandId\);/g) || []).length, 4);
+  assert.ok(paletteSection.includes('normalizedCommandId === BLACK_BOX_EXPORT_MANUAL_CORE_COMMAND_ID'));
+  assert.equal((paletteSection.match(/return openExportSurfaceModal\(normalizedCommandId\);/g) || []).length, 5);
 
   const runtimeSection = sectionBetween(
     editor,
@@ -99,14 +100,16 @@ test('S30 export surface: palette, runtime, and Tiptap routes converge on surfac
   for (const marker of [
     'if (commandId === COMMAND_IDS.PROJECT_EXPORT_MARKDOWN_V1) {',
     'if (commandId === COMMAND_IDS.PROJECT_EXPORT_PDF_V1) {',
+    'if (commandId === COMMAND_IDS.PROJECT_EXPORT_FULL_ARCHIVE_V1) {',
     'if (commandId === EXTRA_COMMAND_IDS.PROJECT_EXPORT_CURRENT_SCENE_TXT) {',
     'if (commandId === EXTRA_COMMAND_IDS.PROJECT_EXPORT_SELECTED_SCENES_TXT) {',
     'if (commandId === EXTRA_COMMAND_IDS.PROJECT_EXPORT_ALL_SCENES_TXT) {',
+    'if (commandId === BLACK_BOX_EXPORT_MANUAL_CORE_COMMAND_ID) {',
     'if (commandId === COMMAND_IDS.PROJECT_EXPORT_DOCX_MIN && payload.preview === true) {',
   ]) {
     assert.ok(runtimeSection.includes(marker), marker);
   }
-  assert.equal((runtimeSection.match(/openExportSurfaceModal\(commandId\);/g) || []).length, 7);
+  assert.equal((runtimeSection.match(/openExportSurfaceModal\(commandId\);/g) || []).length, 8);
   assert.ok(editor.includes('openExportSurface: (commandId = \'\') => openExportSurfaceModal(commandId),'));
 
   for (const commandId of [

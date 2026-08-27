@@ -1,6 +1,7 @@
 {
   "name": "craftsman",
   "version": "1.0.2",
+  "packageManager": "npm@10.8.2",
   "description": "Бесплатный аскетичный редактор для писателей",
   "main": "src/main.js",
   "type": "commonjs",
@@ -77,6 +78,7 @@
     "build:linux": "electron-builder --linux",
     "test:rtk-phys01": "node --test test/contracts/rtk-phys01-ladder-runner.contract.test.js",
     "test:r24-q0": "node scripts/ops/r24/run-q0-tests.mjs",
+    "test:r24-c1a": "node scripts/ops/r24/corrective/c1a-hermetic-toolchain.mjs --check docs/OPS/R24/CORRECTIVE/C1A_TOOLCHAIN_CONTRACT_V1.json docs/OPS/R24/CORRECTIVE/C1A_DEPENDENCY_INVENTORY_V1.json",
     "test:r24-p0": "node --test test/unit/r24-p0-autosave-generation.test.js test/unit/r24-p0-autosave-integration.test.js test/unit/r24-p0-autosave-mutants.test.js",
     "test:r24-s0": "node --test test/unit/r24-s0-ipc-caller-identity.test.js test/unit/r24-s0-ipc-integration.test.js test/unit/r24-s0-ipc-mutants.test.js",
     "test:r24-p1": "node --test test/unit/r24-p1-dirty-admission.test.js test/unit/r24-p1-lifecycle-integration.test.js test/unit/r24-p1-ack-mutants.test.js",

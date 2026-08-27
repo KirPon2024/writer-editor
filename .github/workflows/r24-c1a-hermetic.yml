@@ -1,0 +1,55 @@
+name: r24-c1a-hermetic
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/**"
+      - ".node-version"
+      - "docs/OPS/R24/CORRECTIVE/C1A_*.json"
+      - "package.json"
+      - "package-lock.json"
+      - "scripts/ops/r24/corrective/c1a-hermetic-toolchain.mjs"
+      - "test/contracts/r24-c1a-hermetic-toolchain.contract.test.mjs"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  c1a-hermetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup exact Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".node-version"
+          cache: npm
+
+      - name: Verify exact runtime
+        run: |
+          test "$(node --version)" = "v20.19.5"
+          test "$(npm --version)" = "10.8.2"
+
+      - name: Install exact lock graph without package lifecycle scripts
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Verify C1A contracts
+        run: npm run -s test:r24-c1a
+
+      - name: Verify deterministic dependency audit ceiling
+        shell: bash
+        run: |
+          audit_status=0
+          npm audit --package-lock-only --json > "$RUNNER_TEMP/c1a-audit.json" || audit_status=$?
+          test "$audit_status" -eq 0 -o "$audit_status" -eq 1
+          node scripts/ops/r24/corrective/c1a-hermetic-toolchain.mjs --check-audit "$RUNNER_TEMP/c1a-audit.json" docs/OPS/R24/CORRECTIVE/C1A_TOOLCHAIN_CONTRACT_V1.json
+
+      - name: Build renderer hermetically
+        run: npm run -s build:renderer
+
+      - name: Verify OSS policy
+        run: npm run -s oss:policy

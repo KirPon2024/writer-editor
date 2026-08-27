@@ -132,3 +132,20 @@ test("protected workflow binds exact base or paired append-only stage paths", ()
   assert.equal(workflow.includes("sha256sum docs/OPS/R24/CORRECTIVE/${STAGE_ID}_STAGE_INSTANCE_V1.json"), false);
   assert.equal(workflow.includes("sha256sum docs/OPS/R24/CORRECTIVE/${STAGE_ID}_STAGE_ADMISSION_ATTESTATION_V1.json"), false);
 });
+
+test("protected workflow separates implementation merge from evaluation identity", () => {
+  const workflow = readFileSync(WORKFLOW_PATH, "utf8");
+  for (const token of [
+    "evaluation_sha:",
+    "fetch-depth: 0",
+    "EVALUATION_SHA: ${{ inputs.evaluation_sha }}",
+    "IMPLEMENTATION_CANDIDATE_SHA: ${{ inputs.implementation_candidate_sha }}",
+    'test "${GITHUB_SHA}" = "${EVALUATION_SHA}"',
+    'git merge-base --is-ancestor "${IMPLEMENTATION_CANDIDATE_SHA}" "${IMPLEMENTATION_MERGE_SHA}"',
+    'git merge-base --is-ancestor "${IMPLEMENTATION_MERGE_SHA}" "${EVALUATION_SHA}"',
+    "evaluationSha:process.env.EVALUATION_SHA",
+  ]) {
+    assert.equal(workflow.includes(token), true, `missing commit-role binding: ${token}`);
+  }
+  assert.equal(workflow.includes('test "${GITHUB_SHA}" = "${IMPLEMENTATION_MERGE_SHA}"'), false);
+});

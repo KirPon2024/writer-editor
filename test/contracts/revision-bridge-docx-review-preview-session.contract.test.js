@@ -375,6 +375,18 @@ test('DOCX review preview session candidate: operation author marker exposes evi
   assert.equal(mismatched.reviewPacket.textChanges[0].operationId, undefined);
   assert.equal(invalid.reviewPacket.textChanges[0].operationId, undefined);
   assert.equal(directOnly.reviewPacket.textChanges[0].operationId, undefined);
+  const normalizedSession = bridge.normalizeRevisionSession({
+    sessionId: 'operation-identity-session',
+    projectId: 'operation-identity-project',
+    reviewGraph: result.reviewPacket,
+  });
+  const normalizedDirectOnly = bridge.normalizeRevisionSession({
+    sessionId: 'direct-field-session',
+    projectId: 'direct-field-project',
+    reviewGraph: directOnly.reviewPacket,
+  });
+  assert.equal(normalizedSession.reviewGraph.textChanges[0].operationId, 'c5v2-tracked_text_edit-0023');
+  assert.equal(normalizedDirectOnly.reviewGraph.textChanges[0].operationId, undefined);
   assertNoStorageOrApplyAuthority(result);
   assertNoStorageOrApplyAuthority(directOnly);
 });

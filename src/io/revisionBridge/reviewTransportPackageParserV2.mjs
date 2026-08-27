@@ -1864,8 +1864,13 @@ export function extractReviewTransportFormattingRunsV2(documentXml, options = {}
   }
   const budgets = normalizeBudgets(options.budgets);
   const budgetState = createParserBudgetState(budgets, cryptoPort);
-  const documentScan = parseXmlPart('word/document.xml', documentXml, budgets, cryptoPort, budgetState);
-  const reasons = [...documentScan.diagnostics];
+  const suppliedDocumentScan = isPlainObject(options.documentScan)
+    && Array.isArray(options.documentScan.tokens)
+    ? options.documentScan
+    : null;
+  const documentScan = suppliedDocumentScan
+    || parseXmlPart('word/document.xml', documentXml, budgets, cryptoPort, budgetState);
+  const reasons = suppliedDocumentScan ? [] : [...documentScan.diagnostics];
   if (blockingReason(reasons)) {
     return { ok: false, code: 'RTK_FORMATTING_SCANNER_XML_BLOCKED', reasons, paragraphs: [] };
   }
@@ -1959,6 +1964,31 @@ export function extractReviewTransportFormattingRunsV2(documentXml, options = {}
     });
   }
   return { ok: true, code: 'RTK_FORMATTING_SCANNER_READY', reasons, paragraphs: results };
+}
+
+function formattingParagraphsSemanticProjection(paragraphs) {
+  return paragraphs.map((paragraph) => ({
+    paragraphIndex: paragraph.paragraphIndex,
+    paragraphText: paragraph.paragraphText,
+    trackedRevision: paragraph.trackedRevision,
+    paraId: paragraph.paraId,
+    textId: paragraph.textId,
+    bookmarkNames: paragraph.bookmarkNames,
+    paragraphState: paragraph.paragraphState,
+    paragraphActions: paragraph.paragraphActions,
+    paragraphStructure: paragraph.paragraphStructure,
+    unsupportedParagraphNames: paragraph.unsupportedParagraphNames,
+    paragraphFormattingInvalid: paragraph.paragraphFormattingInvalid,
+    formattedRuns: paragraph.formattedRuns.map((run) => ({
+      from: run.from,
+      to: run.to,
+      text: run.text,
+      inline: run.inline,
+      inlineState: run.inlineState,
+      unsupportedNames: run.unsupportedNames,
+      invalidSupportedValue: run.invalidSupportedValue,
+    })),
+  }));
 }
 
 function parseFormattingDeltas(documentXml, documentScan, budgetState, reasons) {
@@ -2621,6 +2651,7 @@ function emptyReviewIr(diagnostics = []) {
     commentThreads: [],
     comments: [],
     formattingDeltas: [],
+    formattingParagraphs: [],
     opaqueUnsupported: [],
     changes: [],
     diagnostics,
@@ -2756,6 +2787,21 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
   const propertyRevisions = parsePropertyRevisions(documentXml, documentScan, budgetState, reasons);
   const structureChanges = parseStructureChanges(documentScan, budgetState, reasons);
   const formattingDeltas = parseFormattingDeltas(documentXml, documentScan, budgetState, reasons);
+  const formattingParagraphScan = extractReviewTransportFormattingRunsV2(documentXml, {
+    cryptoPort,
+    budgets,
+    documentScan,
+  });
+  const formattingParagraphs = [];
+  if (!formattingParagraphScan.ok) {
+    reasons.push(...(Array.isArray(formattingParagraphScan.reasons) ? formattingParagraphScan.reasons : []));
+  } else {
+    for (const paragraph of formattingParagraphScan.paragraphs) {
+      if (admitWorkerOutput(budgetState, reasons, 'reviewIr.formattingParagraphs', paragraph)) {
+        formattingParagraphs.push(paragraph);
+      }
+    }
+  }
   const comments = parseCommentThreads(input, documentXml, documentScan, scans, cryptoPort, budgetState);
   reasons.push(...comments.reasons);
   const semanticBudgetBlocked = blockingReason(reasons);
@@ -2805,6 +2851,7 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
     commentThreads: comments.commentThreads,
     comments: comments.commentThreads,
     formattingDeltas,
+    formattingParagraphs,
     opaqueUnsupported,
     authorityCarrier,
     commentGraphCapability,
@@ -2848,6 +2895,7 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
       'structure-lane',
       'comment-thread-graph',
       'formatting-delta-lane',
+      'formatting-paragraph-projection-lane',
       'opaque-unsupported-lane',
       'hostile-package-gate',
       'custom-document-property-authority-carrier',
@@ -2915,6 +2963,9 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
       // CANON-01 P0-18: placement participates so relocated formatting deltas change the digest.
       placement: placementForFormattingDelta(documentScan, delta),
     })),
+    formattingParagraphsDigest: cryptoPort.sha256Json(
+      formattingParagraphsSemanticProjection(formattingParagraphs),
+    ),
     opaqueUnsupported: opaqueUnsupported.map((item) => ({
       partName: item.partName,
       elementName: item.elementName,

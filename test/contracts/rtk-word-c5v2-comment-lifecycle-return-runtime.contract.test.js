@@ -1,6 +1,7 @@
 'use strict';
 
 const assert = require('node:assert/strict');
+const { spawnSync } = require('node:child_process');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
@@ -811,7 +812,9 @@ test('N2 Word canary never classifies reply or state setter no-error as SAFE_APP
   assert.match(source, /group 5 of scroll area 1 of tab group 1/u);
   assert.match(source, /every checkbox of yReviewGroup whose name is "Показать примечания"/u);
   assert.match(source, /every menu button of yReviewGroup whose name is "Примечания"/u);
-  assert.match(source, /every popover of yCommentsMenuButton/u);
+  assert.match(source, /every UI element of yCommentsMenuButton/u);
+  assert.match(source, /value of attribute "AXRole" of yCommentsPopoverCandidate as text\) is "AXPopover"/u);
+  assert.doesNotMatch(source, /every popover of yCommentsMenuButton/u);
   assert.match(source, /every checkbox of item 1 of yCommentsPopoverGroups whose name is "Показать примечания"/u);
   assert.match(source, /COMMENTS_MENU_BUTTON_COUNT/u);
   assert.match(source, /COMMENTS_POPOVER_COUNT/u);
@@ -1064,6 +1067,18 @@ test('N2 macOS Accessibility preflight classifies environment blockers before UI
     sourcePath: 'source.docx', returnedPath: 'returned.docx',
     ledger: { operations: [{ id: 'root-1', family: 'root_comment', quote: 'anchor', wordRange: { start: 0, end: 6 } }] },
   });
+  if (process.platform === 'darwin') {
+    const compileRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-c5v2-applescript-compile-'));
+    const sourceScriptPath = path.join(compileRoot, 'word-canary.applescript');
+    const compiledScriptPath = path.join(compileRoot, 'word-canary.scpt');
+    fs.writeFileSync(sourceScriptPath, physicalScript, 'utf8');
+    const compile = spawnSync('/usr/bin/osacompile', ['-o', compiledScriptPath, sourceScriptPath], {
+      encoding: 'utf8',
+      timeout: 30_000,
+    });
+    assert.equal(compile.status, 0, String(compile.stderr || compile.stdout || 'AppleScript compilation failed'));
+    fs.rmSync(compileRoot, { recursive: true, force: true });
+  }
   assert.match(physicalScript, /on yReviveExpectedWordWindow/u);
   const gateIndex = physicalScript.indexOf('set yAccessibilityPreflight to my yMacosAccessibilityPreflight');
   const mutationIndex = physicalScript.indexOf('make new Word comment at yRange');

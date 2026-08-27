@@ -32,6 +32,9 @@ test('C2A semantic oracle compiles immutable raw, effective, and certified state
   assert.equal(result.signals.ALL_CERTIFICATION_MUTANTS_KILLED, 'REQUIRES_EXECUTED_TEST_ORACLE');
   assert.equal(result.signals.EXTERNAL_TERMINAL_ATTESTATION_VERIFIED, 'REQUIRES_POST_MERGE_EXTERNAL_C2A_ATTESTATION');
   assert.equal(Object.entries(result.signals).filter(([, value]) => value === true).length, 6);
+  const artifacts = fixture();
+  assert.equal(artifacts.historical.sourceEvidenceStampIds.length, 37);
+  assert.deepEqual(artifacts.bindings.sourceEvidenceStampIds, artifacts.historical.sourceEvidenceStampIds);
 });
 
 test('all generated C2A JSON artifacts use exact deterministic canonical bytes', () => {
@@ -105,6 +108,13 @@ test('missing successor claim binding mutant is killed', () => {
   artifacts.bindings = clone(artifacts.bindings);
   artifacts.bindings.historicalBindings.pop();
   assert.throws(() => compile(artifacts), /E_SUCCESSOR_BINDING_MISSING/u);
+});
+
+test('missing historical source evidence stamp reference mutant is killed', () => {
+  const artifacts = fixture();
+  artifacts.historical = clone(artifacts.historical);
+  artifacts.historical.sourceEvidenceStampIds.pop();
+  assert.throws(() => compile(artifacts), /E_SOURCE_EVIDENCE_STAMP_SET/u);
 });
 
 test('all historical claims remain non-certified while current control stages are certified', () => {

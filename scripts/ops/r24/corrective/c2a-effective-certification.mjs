@@ -180,6 +180,34 @@ function entryWithDigest(entry) {
   return { ...entry, entryDigest: sha256(canonicalBytes(entry)) };
 }
 
+function sourceEvidenceStampId(contourId) {
+  if (contourId === 'B0_OBSERVED_EVIDENCE_CLAIM_COMPILER_REPAIR_V1') {
+    return 'ES-R24-B0-OBSERVED-EVIDENCE-CLAIM-COMPILER';
+  }
+  return `ES-R24-${contourId.replaceAll('_', '-')}-CLAIM-BINDINGS`;
+}
+
+function availableEvidenceStampIds(repoRoot) {
+  const evidenceRoot = path.join(repoRoot, 'docs/OPS/R24/EVIDENCE');
+  return new Set(fs.readdirSync(evidenceRoot)
+    .filter((name) => name.endsWith('.json'))
+    .map((name) => {
+      try {
+        return JSON.parse(fs.readFileSync(path.join(evidenceRoot, name), 'utf8')).stampId;
+      } catch {
+        return null;
+      }
+    })
+    .filter((stampId) => typeof stampId === 'string' && stampId.length > 0));
+}
+
+function sourceEvidenceStampIds(receipts, repoRoot) {
+  const available = availableEvidenceStampIds(repoRoot);
+  const stampIds = receipts.map((receipt) => sourceEvidenceStampId(receipt.contourId)).sort(lexical);
+  for (const stampId of stampIds) assert(available.has(stampId), 'E_SOURCE_EVIDENCE_STAMP_MISSING', stampId);
+  return stampIds;
+}
+
 export function buildLedger() {
   const genesis = {
     ledgerId: 'YALKEN_R24_C2A_APPEND_ONLY_CORRECTION_LEDGER_V1',
@@ -273,6 +301,7 @@ export function buildHistoricalManifest(repoRoot = process.cwd(), gitOracle = cr
     rawReceiptSetDigest: sha256(canonicalBytes(receipts)),
     receipts,
     schemaVersion: 'YALKEN_R24_C2A_HISTORICAL_RECEIPT_MANIFEST_V1',
+    sourceEvidenceStampIds: sourceEvidenceStampIds(receipts, repoRoot),
     sourceCount: receipts.length
   };
 }
@@ -392,6 +421,7 @@ export function buildClaimBindings({ contract, ledger, historical, current }) {
     nextCorrectiveStage: 'C2B1',
     programTemplateDigest: PROGRAM_TEMPLATE_DIGEST,
     schemaVersion: 'YALKEN_R24_C2A_EFFECTIVE_CERTIFICATION_CLAIM_BINDINGS_V1',
+    sourceEvidenceStampIds: [...historical.sourceEvidenceStampIds],
     sourceDigests: {
       contractDigest: sha256(canonicalBytes(contract)),
       correctionLedgerDigest: sha256(canonicalBytes(ledger)),
@@ -440,6 +470,9 @@ export function validateHistoricalManifest(historical, repoRoot, gitOracle) {
   sortedUnique(paths, 'historical paths');
   assert(new Set(ids).size === ids.length, 'E_DUPLICATE', 'historical receipt ids');
   assert(historical.rawReceiptSetDigest === sha256(canonicalBytes(historical.receipts)), 'E_HISTORY_SET_DIGEST', 'receipts');
+  const expectedSourceEvidenceStampIds = sourceEvidenceStampIds(historical.receipts, repoRoot);
+  sortedUnique(historical.sourceEvidenceStampIds, 'historical source evidence stamp ids');
+  assert(canonicalize(historical.sourceEvidenceStampIds) === canonicalize(expectedSourceEvidenceStampIds), 'E_SOURCE_EVIDENCE_STAMP_SET', 'history');
   for (const entry of historical.receipts) {
     for (const forbidden of FORBIDDEN_HISTORICAL_FIELDS) assert(!(forbidden in entry), 'E_HISTORY_CURRENT_CONFLATION', `${entry.receiptId}:${forbidden}`);
     const source = readJsonBytes(repoRoot, entry.repoRelativePath);
@@ -496,6 +529,7 @@ export function validateClaimBindings(bindings, contract, ledger, historical, cu
   assert(bindings.schemaVersion === 'YALKEN_R24_C2A_EFFECTIVE_CERTIFICATION_CLAIM_BINDINGS_V1', 'E_BINDINGS_SCHEMA', 'schemaVersion');
   assert(bindings.programTemplateDigest === PROGRAM_TEMPLATE_DIGEST, 'E_PROGRAM_DIGEST_MISMATCH', 'bindings');
   assert(bindings.nextCorrectiveStage === 'C2B1', 'E_SUCCESSOR_STAGE', 'nextCorrectiveStage');
+  assert(canonicalize(bindings.sourceEvidenceStampIds) === canonicalize(historical.sourceEvidenceStampIds), 'E_SOURCE_EVIDENCE_STAMP_SET', 'bindings');
   const expectedDigests = {
     contractDigest: sha256(canonicalBytes(contract)),
     correctionLedgerDigest: sha256(canonicalBytes(ledger)),

@@ -17,11 +17,15 @@ const HISTORY_BASENAME = 'migration-history.v1.jsonl';
 const INDEX_BASENAME = 'migration-index.v1.json';
 const CHECKPOINT_DIRNAME = 'checkpoints';
 const QUARANTINE_DIRNAME = 'quarantine';
+const RECOVERY_DIRNAME = 'recovery';
+const RECOVERY_MANIFEST_BASENAME = 'manifest.v1.json';
+const RECOVERY_CAPABILITY_ID = 'CAP_R24_MIGRATION_LOCAL_RECOVERY_MANIFEST';
 const GENESIS_DIGEST = '0'.repeat(64);
 const DEFAULT_MAX_HISTORY_RECORDS = 2048;
 const HEX_64_RE = /^[0-9a-f]{64}$/;
 const CHECKPOINT_ID_RE = /^r6-cp-([1-9][0-9]*)-[0-9a-f]{12}$/;
 const QUARANTINE_ID_RE = /^r6-quarantine-([1-9][0-9]*)-[0-9a-f]{12}$/;
+const RECOVERY_ID_RE = /^r6-recovery-([1-9][0-9]*)-[0-9a-f]{12}$/;
 
 const HISTORY_KINDS = Object.freeze([
   'migration.applied',
@@ -31,9 +35,18 @@ const HISTORY_KINDS = Object.freeze([
 ]);
 
 class MigrationHistoryError extends Error {
-  constructor(code, detail = '') {
+  constructor(code, detail = '', publicEvidence = null) {
     super(detail ? `${code}: ${detail}` : code);
     this.code = code;
+    if (publicEvidence !== null) {
+      const versionRoles = Array.isArray(publicEvidence.versionRoles)
+        ? Object.freeze([...publicEvidence.versionRoles])
+        : undefined;
+      const frozen = Object.freeze({ ...publicEvidence, ...(versionRoles ? { versionRoles } : {}) });
+      this.blockedState = frozen.blockedState || null;
+      this.publicEvidence = frozen;
+      if (frozen.recoveryAvailable === true) this.recovery = frozen;
+    }
   }
 }
 
@@ -279,6 +292,26 @@ function quarantinePath(storeDir, quarantineId, { mustExist = false } = {}) {
   });
 }
 
+function ensureRecoveryRoot(storeDir) {
+  const exactStoreRoot = assertDirectoryNoFollow(storeDir, 'E_R6_STORE_PATH_UNSAFE');
+  const recoveryRoot = path.join(exactStoreRoot, RECOVERY_DIRNAME);
+  const existed = fs.existsSync(recoveryRoot);
+  if (!existed) fs.mkdirSync(recoveryRoot, { recursive: false, mode: 0o700 });
+  const exactRecoveryRoot = assertDirectoryNoFollow(recoveryRoot, 'E_R6_RECOVERY_ROOT_UNSAFE');
+  fsyncDirectorySync(exactStoreRoot, 'E_R6_RECOVERY_ROOT_DURABILITY');
+  return exactRecoveryRoot;
+}
+
+function recoveryPacketPath(storeDir, recoveryId) {
+  const id = normalizeRecoveryId(recoveryId);
+  const recoveryRoot = ensureRecoveryRoot(storeDir);
+  const candidate = path.resolve(recoveryRoot, id);
+  if (path.dirname(candidate) !== recoveryRoot) {
+    throw new MigrationHistoryError('E_R6_RECOVERY_PATH_UNSAFE', id);
+  }
+  return candidate;
+}
+
 function normalizeCheckpointId(checkpointId) {
   const id = typeof checkpointId === 'string' ? checkpointId.trim() : '';
   if (!CHECKPOINT_ID_RE.test(id)) throw new MigrationHistoryError('E_R6_CHECKPOINT_ID_INVALID');
@@ -288,6 +321,12 @@ function normalizeCheckpointId(checkpointId) {
 function normalizeQuarantineId(quarantineId) {
   const id = typeof quarantineId === 'string' ? quarantineId.trim() : '';
   if (!QUARANTINE_ID_RE.test(id)) throw new MigrationHistoryError('E_R6_QUARANTINE_ID_INVALID');
+  return id;
+}
+
+function normalizeRecoveryId(recoveryId) {
+  const id = typeof recoveryId === 'string' ? recoveryId.trim() : '';
+  if (!RECOVERY_ID_RE.test(id)) throw new MigrationHistoryError('E_R6_RECOVERY_ID_INVALID');
   return id;
 }
 
@@ -487,6 +526,251 @@ function errorIdentity(error) {
   return error && (error.code || error.message) ? String(error.code || error.message) : 'UNKNOWN';
 }
 
+function pathlessErrorIdentity(error) {
+  const code = error && typeof error.code === 'string' ? error.code.trim() : '';
+  return /^[A-Z][A-Z0-9_:-]{0,127}$/.test(code) ? code : 'E_UNTYPED_FAILURE';
+}
+
+function fsyncDirectorySync(directory, code) {
+  let descriptor;
+  try {
+    descriptor = fs.openSync(directory, 'r');
+    fs.fsyncSync(descriptor);
+  } catch (error) {
+    throw new MigrationHistoryError(code, pathlessErrorIdentity(error));
+  } finally {
+    if (descriptor !== undefined) fs.closeSync(descriptor);
+  }
+}
+
+function recoveryBytes(value) {
+  return Buffer.isBuffer(value) ? Buffer.from(value) : Buffer.from(String(value), 'utf8');
+}
+
+function observeProjectTarget(targetPath, beforeDigest, intendedDigest) {
+  try {
+    const bytes = fs.readFileSync(targetPath);
+    const digest = sha256hex(bytes);
+    let state = 'OTHER_BYTES_OBSERVED';
+    if (digest === beforeDigest) state = 'BEFORE_BYTES_OBSERVED';
+    if (digest === intendedDigest) state = 'INTENDED_BYTES_OBSERVED';
+    return Object.freeze({ exists: true, bytes, digest, state });
+  } catch (error) {
+    return Object.freeze({
+      exists: false,
+      bytes: null,
+      digest: null,
+      state: 'TARGET_UNREADABLE_OR_ABSENT',
+      errorCode: errorIdentity(error),
+    });
+  }
+}
+
+async function writeVerifiedRecoveryArtifact({ packetRoot, basename, bytes, revision, recoveryFsAdapter }) {
+  const artifactPath = containedArtifactPath(packetRoot, basename, {
+    mustExist: false,
+    code: 'E_R6_RECOVERY_ARTIFACT_PATH_UNSAFE',
+  });
+  if (fs.existsSync(artifactPath)) {
+    throw new MigrationHistoryError('E_R6_RECOVERY_ARTIFACT_COLLISION', basename);
+  }
+  await durableSaveTransaction({ filePath: artifactPath, content: bytes, revision, fsAdapter: recoveryFsAdapter });
+  const readback = fs.readFileSync(artifactPath);
+  const expectedDigest = sha256hex(bytes);
+  const readbackDigest = sha256hex(readback);
+  if (!readback.equals(bytes) || readbackDigest !== expectedDigest) {
+    throw new MigrationHistoryError('E_R6_RECOVERY_ARTIFACT_READBACK_MISMATCH', basename);
+  }
+  return Object.freeze({
+    role: basename.slice(0, -'.bytes'.length).toUpperCase(),
+    basename,
+    sha256: expectedDigest,
+    sizeBytes: bytes.length,
+  });
+}
+
+async function createLocalRecoveryManifest({
+  storeDir,
+  operationKind,
+  projectId,
+  projectPathDigest,
+  checkpointId,
+  revision,
+  beforeContent,
+  intendedContent,
+  observation,
+  cause,
+  now,
+  recoveryFsAdapter = fsp,
+}) {
+  const beforeBytes = recoveryBytes(beforeContent);
+  const intendedBytes = recoveryBytes(intendedContent);
+  const beforeDigest = sha256hex(beforeBytes);
+  const intendedDigest = sha256hex(intendedBytes);
+  const seed = serializeJson({
+    beforeDigest,
+    checkpointId: checkpointId || null,
+    intendedDigest,
+    operationKind,
+    projectId,
+    projectPathDigest,
+    revision,
+  });
+  const recoveryId = `r6-recovery-${revision}-${sha256hex(Buffer.from(seed, 'utf8')).slice(0, 12)}`;
+  const packetRoot = recoveryPacketPath(storeDir, recoveryId);
+  if (fs.existsSync(packetRoot)) throw new MigrationHistoryError('E_R6_RECOVERY_PACKET_COLLISION', recoveryId);
+  fs.mkdirSync(packetRoot, { recursive: false, mode: 0o700 });
+  assertDirectoryNoFollow(packetRoot, 'E_R6_RECOVERY_PACKET_ROOT_UNSAFE');
+  fsyncDirectorySync(path.dirname(packetRoot), 'E_R6_RECOVERY_PACKET_ROOT_DURABILITY');
+
+  const artifacts = [];
+  artifacts.push(await writeVerifiedRecoveryArtifact({
+    packetRoot,
+    basename: 'before.bytes',
+    bytes: beforeBytes,
+    revision,
+    recoveryFsAdapter,
+  }));
+  artifacts.push(await writeVerifiedRecoveryArtifact({
+    packetRoot,
+    basename: 'intended.bytes',
+    bytes: intendedBytes,
+    revision,
+    recoveryFsAdapter,
+  }));
+  if (observation.exists) {
+    artifacts.push(await writeVerifiedRecoveryArtifact({
+      packetRoot,
+      basename: 'observed.bytes',
+      bytes: observation.bytes,
+      revision,
+      recoveryFsAdapter,
+    }));
+  }
+
+  const manifest = {
+    schemaVersion: 'YALKEN_R24_C5B_LOCAL_RECOVERY_MANIFEST_V1',
+    recoveryId,
+    capabilityId: RECOVERY_CAPABILITY_ID,
+    status: 'LOCAL_RECOVERY_READY',
+    operationKind,
+    createdAt: now,
+    projectId,
+    projectPathDigest,
+    checkpointId: checkpointId || null,
+    revision,
+    causeCode: pathlessErrorIdentity(cause),
+    observedTargetState: observation.state,
+    artifacts,
+    repairAuthorityRequired: true,
+    fallbackStoreUsed: false,
+  };
+  const manifestBytes = Buffer.from(serializeJson(manifest), 'utf8');
+  const manifestPath = containedArtifactPath(packetRoot, RECOVERY_MANIFEST_BASENAME, {
+    mustExist: false,
+    code: 'E_R6_RECOVERY_MANIFEST_PATH_UNSAFE',
+  });
+  await durableSaveTransaction({
+    filePath: manifestPath,
+    content: manifestBytes,
+    revision,
+    fsAdapter: recoveryFsAdapter,
+  });
+  const manifestReadback = fs.readFileSync(manifestPath);
+  if (!manifestReadback.equals(manifestBytes)) {
+    throw new MigrationHistoryError('E_R6_RECOVERY_MANIFEST_READBACK_MISMATCH', recoveryId);
+  }
+  return Object.freeze({
+    recoveryId,
+    manifestDigest: sha256hex(manifestReadback),
+    operationKind,
+    targetState: observation.state,
+    versionRoles: Object.freeze(artifacts.map((artifact) => artifact.role)),
+  });
+}
+
+function recoveryPublicEvidence(packet, blockedState) {
+  return Object.freeze({
+    blockedState,
+    capabilityId: RECOVERY_CAPABILITY_ID,
+    recoveryAvailable: true,
+    recoveryId: packet.recoveryId,
+    manifestDigest: packet.manifestDigest,
+    operationKind: packet.operationKind,
+    targetState: packet.targetState,
+    versionRoles: packet.versionRoles,
+    repairAuthorityRequired: true,
+  });
+}
+
+function unavailableRecoveryEvidence({ blockedState, operationKind, targetState }) {
+  return Object.freeze({
+    blockedState,
+    capabilityId: RECOVERY_CAPABILITY_ID,
+    recoveryAvailable: false,
+    operationKind,
+    targetState,
+    versionRoles: Object.freeze([]),
+    repairAuthorityRequired: true,
+  });
+}
+
+async function publishProjectMutation({
+  storeDir,
+  targetPath,
+  beforeContent,
+  intendedContent,
+  revision,
+  fsAdapter,
+  recoveryFsAdapter,
+  operationKind,
+  projectId,
+  projectPathDigest,
+  checkpointId,
+  now,
+}) {
+  try {
+    return await durableSaveTransaction({ filePath: targetPath, content: intendedContent, revision, fsAdapter });
+  } catch (cause) {
+    const beforeDigest = sha256hex(recoveryBytes(beforeContent));
+    const intendedDigest = sha256hex(recoveryBytes(intendedContent));
+    const observation = observeProjectTarget(targetPath, beforeDigest, intendedDigest);
+    if (observation.exists && observation.digest === beforeDigest) throw cause;
+    let packet;
+    try {
+      packet = await createLocalRecoveryManifest({
+        storeDir,
+        operationKind,
+        projectId,
+        projectPathDigest,
+        checkpointId,
+        revision,
+        beforeContent,
+        intendedContent,
+        observation,
+        cause,
+        now,
+        recoveryFsAdapter,
+      });
+    } catch (recoveryError) {
+      throw new MigrationHistoryError(
+        'E_R6_PROJECT_PUBLISH_BLOCKED_RECOVERY_UNAVAILABLE',
+        `${pathlessErrorIdentity(cause)};${pathlessErrorIdentity(recoveryError)}`,
+        unavailableRecoveryEvidence({
+          blockedState: 'BLOCKED_NO_RECOVERY_PROOF',
+          operationKind,
+          targetState: observation.state,
+        }),
+      );
+    }
+    throw new MigrationHistoryError(
+      'E_R6_PROJECT_PUBLISH_BLOCKED_RECOVERY_REQUIRED',
+      pathlessErrorIdentity(cause),
+      recoveryPublicEvidence(packet, 'BLOCKED_MANUAL_RECOVERY_REQUIRED'),
+    );
+  }
+}
+
 async function historyContainsCommittedPartial(storeDir, partial) {
   try {
     const { records } = await readHistory(storeDir);
@@ -509,7 +793,44 @@ async function historyContainsCommittedPartial(storeDir, partial) {
   }
 }
 
-async function failAfterProjectRollback({ targetPath, previousContent, revision, fsAdapter, cause }) {
+async function failAfterProjectRollback({
+  storeDir,
+  targetPath,
+  previousContent,
+  intendedContent,
+  revision,
+  fsAdapter,
+  recoveryFsAdapter,
+  cause,
+  operationKind,
+  projectId,
+  projectPathDigest,
+  checkpointId,
+  now,
+}) {
+  const beforeDigest = sha256hex(recoveryBytes(previousContent));
+  const intendedDigest = sha256hex(recoveryBytes(intendedContent));
+  const observation = observeProjectTarget(targetPath, beforeDigest, intendedDigest);
+  let packet = null;
+  let preservationError = null;
+  try {
+    packet = await createLocalRecoveryManifest({
+      storeDir,
+      operationKind,
+      projectId,
+      projectPathDigest,
+      checkpointId,
+      revision,
+      beforeContent: previousContent,
+      intendedContent,
+      observation,
+      cause,
+      now,
+      recoveryFsAdapter,
+    });
+  } catch (error) {
+    preservationError = error;
+  }
   try {
     await durableSaveTransaction({
       filePath: targetPath,
@@ -518,12 +839,28 @@ async function failAfterProjectRollback({ targetPath, previousContent, revision,
       fsAdapter,
     });
   } catch (rollbackError) {
+    if (!packet) {
+      throw new MigrationHistoryError(
+        'E_R6_HISTORY_ACK_FAILED_RECOVERY_UNAVAILABLE',
+        `${pathlessErrorIdentity(cause)};${pathlessErrorIdentity(preservationError)};${pathlessErrorIdentity(rollbackError)}`,
+        unavailableRecoveryEvidence({
+          blockedState: 'BLOCKED_NO_RECOVERY_PROOF',
+          operationKind,
+          targetState: observation.state,
+        }),
+      );
+    }
     throw new MigrationHistoryError(
-      'E_R6_HISTORY_ACK_FAILED_ROLLBACK_FAILED',
-      `${errorIdentity(cause)};${errorIdentity(rollbackError)}`,
+      'E_R6_HISTORY_ACK_FAILED_RECOVERY_BLOCKED',
+      `${pathlessErrorIdentity(cause)};${pathlessErrorIdentity(rollbackError)}`,
+      recoveryPublicEvidence(packet, 'BLOCKED_MANUAL_RECOVERY_REQUIRED'),
     );
   }
-  throw new MigrationHistoryError('E_R6_HISTORY_ACK_FAILED_ROLLED_BACK', errorIdentity(cause));
+  throw new MigrationHistoryError(
+    'E_R6_HISTORY_ACK_FAILED_ROLLED_BACK',
+    pathlessErrorIdentity(cause),
+    packet ? recoveryPublicEvidence(packet, 'ROLLED_BACK_RECOVERY_AVAILABLE') : null,
+  );
 }
 
 async function createCheckpoint({ storeDir, projectPath, rawContent, project, now = nowIso() }) {
@@ -614,6 +951,7 @@ async function migrateProjectFile({
   now = nowIso(),
   fsAdapter = fsp,
   historyFsAdapter = fsp,
+  recoveryFsAdapter = fsp,
   retainCheckpoints = null,
 } = {}) {
   const root = ensureStoreDirs(storeDir);
@@ -666,7 +1004,20 @@ async function migrateProjectFile({
 
   const targetContent = serializeJson(current);
   const targetDigest = sha256hex(Buffer.from(targetContent, 'utf8'));
-  await durableSaveTransaction({ filePath: targetPath, content: targetContent, revision: checkpoint.sequence, fsAdapter });
+  await publishProjectMutation({
+    storeDir: root,
+    targetPath,
+    beforeContent: rawContent,
+    intendedContent: targetContent,
+    revision: checkpoint.sequence,
+    fsAdapter,
+    recoveryFsAdapter,
+    operationKind: 'MIGRATION_PUBLISH',
+    projectId: project.projectId,
+    projectPathDigest: checkpoint.projectPathDigest,
+    checkpointId: checkpoint.checkpointId,
+    now,
+  });
   const historyPartial = {
     kind: 'migration.applied',
     projectId: project.projectId,
@@ -686,11 +1037,19 @@ async function migrateProjectFile({
       throw new MigrationHistoryError('E_R6_HISTORY_ACK_DURABILITY_INDETERMINATE', errorIdentity(error));
     }
     await failAfterProjectRollback({
+      storeDir: root,
       targetPath,
       previousContent: rawContent,
+      intendedContent: targetContent,
       revision: checkpoint.sequence,
       fsAdapter,
+      recoveryFsAdapter,
       cause: error,
+      operationKind: 'MIGRATION_HISTORY_ACK_ROLLBACK',
+      projectId: project.projectId,
+      projectPathDigest: checkpoint.projectPathDigest,
+      checkpointId: checkpoint.checkpointId,
+      now,
     });
   }
   let gc = null;
@@ -723,6 +1082,7 @@ async function restoreCheckpoint({
   now = nowIso(),
   fsAdapter = fsp,
   historyFsAdapter = fsp,
+  recoveryFsAdapter = fsp,
 } = {}) {
   const root = ensureStoreDirs(storeDir);
   const targetPath = requirePathText(projectPath, 'E_R6_PROJECT_PATH_REQUIRED');
@@ -737,7 +1097,20 @@ async function restoreCheckpoint({
   if (digest !== record.sourceDigest) throw new MigrationHistoryError('E_R6_CHECKPOINT_DIGEST_MISMATCH', id);
   const previousContent = fs.readFileSync(targetPath, 'utf8');
   await preflightHistoryAppend(root);
-  await durableSaveTransaction({ filePath: targetPath, content: rawContent, revision: record.sequence, fsAdapter });
+  await publishProjectMutation({
+    storeDir: root,
+    targetPath,
+    beforeContent: previousContent,
+    intendedContent: rawContent,
+    revision: record.sequence,
+    fsAdapter,
+    recoveryFsAdapter,
+    operationKind: 'RESTORE_PUBLISH',
+    projectId: record.projectId,
+    projectPathDigest: record.projectPathDigest,
+    checkpointId: id,
+    now,
+  });
   const historyPartial = {
     kind: 'backup.restored',
     projectId: record.projectId,
@@ -757,11 +1130,19 @@ async function restoreCheckpoint({
       throw new MigrationHistoryError('E_R6_HISTORY_ACK_DURABILITY_INDETERMINATE', errorIdentity(error));
     }
     await failAfterProjectRollback({
+      storeDir: root,
       targetPath,
       previousContent,
+      intendedContent: rawContent,
       revision: record.sequence,
       fsAdapter,
+      recoveryFsAdapter,
       cause: error,
+      operationKind: 'RESTORE_HISTORY_ACK_ROLLBACK',
+      projectId: record.projectId,
+      projectPathDigest: record.projectPathDigest,
+      checkpointId: id,
+      now,
     });
   }
   return Object.freeze({ success: true, checkpoint: Object.freeze({ ...record }), history });
@@ -861,6 +1242,9 @@ module.exports = Object.freeze({
   INDEX_BASENAME,
   CHECKPOINT_DIRNAME,
   QUARANTINE_DIRNAME,
+  RECOVERY_DIRNAME,
+  RECOVERY_MANIFEST_BASENAME,
+  RECOVERY_CAPABILITY_ID,
   HISTORY_KINDS,
   GENESIS_DIGEST,
   MigrationHistoryError,

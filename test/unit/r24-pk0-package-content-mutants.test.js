@@ -30,6 +30,11 @@ const MUTANTS = Object.freeze([
     replace: 'const DEPENDENCY_MUTATION_ALLOWED = true;',
   },
   {
+    id: 'forged-c6d-dependency-admission-accepted',
+    find: '    && hashCanonicalValue(candidate) === hashCanonicalValue(C6D_DEPENDENCY_MUTATION_ADMISSION);',
+    replace: '    && true;',
+  },
+  {
     id: 'runtime-subset-missing-disabled',
     find: 'const missingRuntime = runtimeResolvedFiles.filter((filePath) => !staged.has(filePath));',
     replace: 'const missingRuntime = runtimeResolvedFiles.filter((filePath) => false && !staged.has(filePath));',
@@ -124,6 +129,21 @@ async function killOracle(module) {
   assert.equal(normal.value.authority.releaseReadyClaim, false);
   assert.equal(normal.value.authority.signingNotarizationClaim, false);
   assert.equal(normal.value.authority.dependencyMutation, false);
+
+  const upgraded = packageFixture(null, module);
+  upgraded.devDependencies.electron = '41.10.3';
+  const forgedAdmission = structuredClone(module.C6D_DEPENDENCY_MUTATION_ADMISSION);
+  forgedAdmission.currentLockSha256 = '0'.repeat(64);
+  const forged = module.evaluatePackageContentTrust({
+    packageJson: upgraded,
+    baselinePackageJson: packageFixture(null, module),
+    trackedFiles: trackedFixture(),
+    changedFiles: ['package.json', 'package-lock.json'],
+    dependencyMutationAdmission: forgedAdmission,
+    programDag: programDagFixture(),
+    scientificContracts: scientificContractsFixture(),
+  });
+  assert.equal(forged.ok, false, 'forged C6D admission must remain denied');
 
   const missingRuntime = evaluate(module, {
     trackedFiles: trackedFixture().filter((filePath) => filePath !== 'src/preload.bundle.cjs'),

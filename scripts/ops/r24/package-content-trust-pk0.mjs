@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // R2.4 PK0 - package content trust. This OPS-only verifier binds the Electron
 // package content allowlist to a closed runtime file set without signing,
-// notarization, release publication, dependency mutation, or product runtime
-// authority.
+// notarization, release publication, unadmitted dependency mutation, or
+// product runtime authority.
 import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -51,6 +51,21 @@ const SIGNING_NOTARIZATION_CLAIM = false;
 const DEPENDENCY_MUTATION_ALLOWED = false;
 const PRODUCT_RUNTIME_MUTATION = false;
 const RUNTIME_NETWORK_ACTIVATED = false;
+
+export const C6D_DEPENDENCY_MUTATION_ADMISSION = Object.freeze({
+  allowedChangedFiles: Object.freeze(['package-lock.json', 'package.json']),
+  currentLockSha256: '54dc46b025c7f77d522bb861724dc7d8bdd752a29e3e6a55eb72f30b50047a6f',
+  originalElectronRange: '^40.9.2',
+  originalLockSha256: '441b7b14e6a395cc04bee04f51b17ce400a27c1530ec2483d5168ba15070e689',
+  ownerAuthorityBindingDigest: 'be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6',
+  releaseScope: 'DEPENDENCY_AUDIT_GATE_ONLY',
+  schemaVersion: 'YALKEN_R24_C6D_PK0_DEPENDENCY_MUTATION_ADMISSION_V1',
+  stageAdmissionDigest: '9f35217cc69b30f7032010d7c6965f54872e69ea9b8bec363a4f949a63cd7460',
+  stageId: 'C6D',
+  stageInstanceDigest: 'd43adf0bdf56e008f2ebfb2c87f2479eb1b86ae20de9859cfebcb343d6576723',
+  status: 'ADMITTED_SECURITY_UPGRADE',
+  targetElectronVersion: '41.10.3',
+});
 
 function stableJson(value) {
   if (value === null || typeof value !== 'object') return JSON.stringify(value);
@@ -144,20 +159,59 @@ function validateProgramBinding(programDag, scientificContracts) {
   return { ok: errors.length === 0, stage, consistency, errors };
 }
 
-function validatePackageDependencies({ packageJson, baselinePackageJson = null, changedFiles = [] }) {
+export function validateDependencyMutationAdmission(candidate) {
+  return candidate
+    && typeof candidate === 'object'
+    && !Array.isArray(candidate)
+    && hashCanonicalValue(candidate) === hashCanonicalValue(C6D_DEPENDENCY_MUTATION_ADMISSION);
+}
+
+function exactElectronOnlyUpgrade(packageJson, baselinePackageJson) {
+  const currentDev = { ...(packageJson?.devDependencies || {}) };
+  const baselineDev = { ...(baselinePackageJson?.devDependencies || {}) };
+  const currentElectron = currentDev.electron;
+  const baselineElectron = baselineDev.electron;
+  delete currentDev.electron;
+  delete baselineDev.electron;
+  return baselineElectron === C6D_DEPENDENCY_MUTATION_ADMISSION.originalElectronRange
+    && currentElectron === C6D_DEPENDENCY_MUTATION_ADMISSION.targetElectronVersion
+    && hashCanonicalValue(currentDev) === hashCanonicalValue(baselineDev);
+}
+
+function validatePackageDependencies({
+  packageJson,
+  baselinePackageJson = null,
+  changedFiles = [],
+  dependencyMutationAdmission = null,
+}) {
   const errors = [];
   const changed = new Set(uniqSorted(changedFiles));
-  if (changed.has('package-lock.json') || changed.has('pnpm-lock.yaml') || changed.has('pnpm-workspace.yaml')) {
+  const admissionValid = validateDependencyMutationAdmission(dependencyMutationAdmission);
+  if (changed.has('pnpm-lock.yaml') || changed.has('pnpm-workspace.yaml')) {
     errors.push('PK0_LOCKFILE_OR_WORKSPACE_MUTATION_FORBIDDEN');
+  }
+  if (changed.has('package-lock.json') && !admissionValid) errors.push('PK0_LOCKFILE_OR_WORKSPACE_MUTATION_FORBIDDEN');
+  if (admissionValid) {
+    const outsideAdmission = [...changed].filter((filePath) => (
+      (filePath === 'package.json'
+        || filePath === 'package-lock.json'
+        || filePath === 'pnpm-lock.yaml'
+        || filePath === 'pnpm-workspace.yaml')
+      && !C6D_DEPENDENCY_MUTATION_ADMISSION.allowedChangedFiles.includes(filePath)
+    ));
+    if (outsideAdmission.length > 0) errors.push('PK0_DEPENDENCY_ADMISSION_WRITE_SET_EXPANSION');
   }
   if (baselinePackageJson) {
     for (const key of ['dependencies', 'devDependencies', 'overrides', 'engines']) {
       if (hashCanonicalValue(packageJson?.[key] || {}) !== hashCanonicalValue(baselinePackageJson?.[key] || {})) {
-        errors.push(`PK0_${key.toUpperCase()}_MUTATION_FORBIDDEN`);
+        const exactAdmittedElectronUpgrade = key === 'devDependencies'
+          && admissionValid
+          && exactElectronOnlyUpgrade(packageJson, baselinePackageJson);
+        if (!exactAdmittedElectronUpgrade) errors.push(`PK0_${key.toUpperCase()}_MUTATION_FORBIDDEN`);
       }
     }
   }
-  return { ok: errors.length === 0, errors };
+  return { admissionValid, ok: errors.length === 0, errors };
 }
 
 export function evaluatePackageContentTrust(input = {}) {
@@ -198,6 +252,7 @@ export function evaluatePackageContentTrust(input = {}) {
     packageJson,
     baselinePackageJson: input.baselinePackageJson || null,
     changedFiles,
+    dependencyMutationAdmission: input.dependencyMutationAdmission || null,
   });
   if (!dependencyBinding.ok) errors.push(...dependencyBinding.errors);
 
@@ -238,6 +293,7 @@ export function evaluatePackageContentTrust(input = {}) {
       buildEvidenceOnly: true,
       productRuntimeMutation: false,
       dependencyMutation: false,
+      admittedDependencyAuditException: dependencyBinding.admissionValid,
       lockfileMutation: false,
       runtimeNetworkActivated: false,
       releasePublication: false,
@@ -286,25 +342,67 @@ export function gitLsFiles({ cwd = process.cwd() } = {}) {
 }
 
 export function gitChangedFiles({ cwd = process.cwd() } = {}) {
-  const result = spawnSync('git', ['diff', '--name-only', 'HEAD', '--'], {
+  const commands = [
+    ['diff', '--name-only', 'origin/main...HEAD', '--'],
+    ['diff', '--name-only', 'HEAD', '--'],
+  ];
+  const changed = [];
+  for (const args of commands) {
+    const result = spawnSync('git', args, {
+      cwd,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'pipe'],
+      timeout: 10000,
+    });
+    if (result.status !== 0) {
+      throw new Error(`git ${args.join(' ')} failed: ${String(result.stderr || '').trim()}`);
+    }
+    changed.push(...String(result.stdout || '').split(/\r?\n/u).filter(Boolean));
+  }
+  return uniqSorted(changed);
+}
+
+function gitShowJson({ cwd, revisionPath }) {
+  const result = spawnSync('git', ['show', revisionPath], {
     cwd,
     encoding: 'utf8',
     stdio: ['ignore', 'pipe', 'pipe'],
     timeout: 10000,
   });
-  if (result.status !== 0) {
-    throw new Error(`git diff --name-only failed: ${String(result.stderr || '').trim()}`);
+  if (result.status !== 0) throw new Error(`git show failed: ${revisionPath}`);
+  return JSON.parse(String(result.stdout));
+}
+
+function readC6DDependencyAdmission(root) {
+  const files = {
+    stage: ['docs/OPS/R24/CORRECTIVE/C6D_STAGE_INSTANCE_AMENDMENT_V1.json', C6D_DEPENDENCY_MUTATION_ADMISSION.stageInstanceDigest],
+    admission: ['docs/OPS/R24/CORRECTIVE/C6D_STAGE_ADMISSION_ATTESTATION_AMENDMENT_V1.json', C6D_DEPENDENCY_MUTATION_ADMISSION.stageAdmissionDigest],
+    disposition: ['docs/OPS/R24/CORRECTIVE/C6D_AUDIT_DISPOSITION_V1.json', null],
+  };
+  const values = {};
+  for (const [role, [relativePath, expectedDigest]] of Object.entries(files)) {
+    const bytes = fs.readFileSync(path.join(root, relativePath));
+    const value = JSON.parse(bytes.toString('utf8'));
+    if (bytes.toString('utf8') !== `${stableJson(value)}\n`) return null;
+    if (expectedDigest && crypto.createHash('sha256').update(bytes).digest('hex') !== expectedDigest) return null;
+    values[role] = value;
   }
-  return String(result.stdout || '').split(/\r?\n/u).filter(Boolean);
+  if (values.stage.stageId !== 'C6D' || values.admission.status !== 'ADMITTED') return null;
+  if (values.admission.stageInstanceDigest !== C6D_DEPENDENCY_MUTATION_ADMISSION.stageInstanceDigest) return null;
+  if (values.disposition.decisions?.dependencyAudit !== 'PASS') return null;
+  if (values.disposition.currentAudit?.high !== 0 || values.disposition.currentAudit?.critical !== 0) return null;
+  if (values.disposition.sourceBindings?.lockfileSha256 !== C6D_DEPENDENCY_MUTATION_ADMISSION.currentLockSha256) return null;
+  return C6D_DEPENDENCY_MUTATION_ADMISSION;
 }
 
 export function evaluateRepositoryPackageContentTrust({ repoRoot = process.cwd(), baselinePackageJson = null } = {}) {
   const root = path.resolve(repoRoot);
   return evaluatePackageContentTrust({
     packageJson: readJson(path.join(root, 'package.json')),
-    baselinePackageJson,
+    baselinePackageJson: baselinePackageJson || gitShowJson({ cwd: root, revisionPath: 'origin/main:package.json' }),
     trackedFiles: gitLsFiles({ cwd: root }),
     changedFiles: gitChangedFiles({ cwd: root }),
+    dependencyMutationAdmission: readC6DDependencyAdmission(root),
     programDag: readJson(path.join(root, 'docs', 'OPS', 'EVIDENCE', 'YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1', 'PROGRAM_DAG.json')),
     scientificContracts: readJson(path.join(root, 'docs', 'OPS', 'EVIDENCE', 'YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1', 'SCIENTIFIC_CONTRACTS.json')),
   });

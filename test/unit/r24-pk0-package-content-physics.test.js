@@ -43,6 +43,7 @@ test('PK0 repository package content trust passes on the real tracked file set',
   assert.equal(receipt.sets.missingRuntime.length, 0);
   assert.equal(receipt.sets.missingTrackedRuntime.length, 0);
   assert.equal(receipt.authority.releasePublication, false);
+  assert.equal(receipt.authority.admittedDependencyAuditException, true);
   assert.equal(receipt.authority.releaseReadyClaim, false);
   assert.equal(receipt.authority.signingNotarizationClaim, false);
   assert.equal(receipt.authority.wordOrGoogleClaim, false);

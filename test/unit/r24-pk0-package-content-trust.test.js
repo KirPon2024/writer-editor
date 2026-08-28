@@ -170,3 +170,65 @@ test('PK0 rejects dependency, lockfile, program binding, and consistency-law dri
   assert.equal(programDrift.error.value.errors.includes('PK0_CLAIM_CEILING_MISMATCH'), true);
   assert.equal(programDrift.error.value.errors.includes('PK0_CONSISTENCY_MODEL_MISSING'), true);
 });
+
+test('PK0 admits only the exact owner-bound C6D Electron security upgrade', async () => {
+  const module = await loadModule();
+  const baselinePackageJson = packageFixture(module.PK0_REQUIRED_BUILD_FILES);
+  const packageJson = packageFixture(module.PK0_REQUIRED_BUILD_FILES);
+  packageJson.devDependencies.electron = '41.10.3';
+
+  const admitted = module.evaluatePackageContentTrust({
+    packageJson,
+    baselinePackageJson,
+    trackedFiles: trackedFixture(),
+    changedFiles: ['package.json', 'package-lock.json'],
+    dependencyMutationAdmission: module.C6D_DEPENDENCY_MUTATION_ADMISSION,
+    programDag: programDagFixture(),
+    scientificContracts: scientificContractsFixture(),
+  });
+  assert.equal(admitted.ok, true, admitted.ok ? '' : JSON.stringify(admitted.error.value.errors));
+  assert.equal(admitted.value.authority.dependencyMutation, false);
+  assert.equal(admitted.value.authority.admittedDependencyAuditException, true);
+
+  const forged = structuredClone(module.C6D_DEPENDENCY_MUTATION_ADMISSION);
+  forged.currentLockSha256 = '0'.repeat(64);
+  const forgedResult = module.evaluatePackageContentTrust({
+    packageJson,
+    baselinePackageJson,
+    trackedFiles: trackedFixture(),
+    changedFiles: ['package.json', 'package-lock.json'],
+    dependencyMutationAdmission: forged,
+    programDag: programDagFixture(),
+    scientificContracts: scientificContractsFixture(),
+  });
+  assert.equal(forgedResult.ok, false);
+  assert.equal(forgedResult.error.value.errors.includes('PK0_LOCKFILE_OR_WORKSPACE_MUTATION_FORBIDDEN'), true);
+  assert.equal(forgedResult.error.value.errors.includes('PK0_DEVDEPENDENCIES_MUTATION_FORBIDDEN'), true);
+
+  const expanded = structuredClone(packageJson);
+  expanded.devDependencies.unapproved = '1.0.0';
+  const expandedResult = module.evaluatePackageContentTrust({
+    packageJson: expanded,
+    baselinePackageJson,
+    trackedFiles: trackedFixture(),
+    changedFiles: ['package.json', 'package-lock.json'],
+    dependencyMutationAdmission: module.C6D_DEPENDENCY_MUTATION_ADMISSION,
+    programDag: programDagFixture(),
+    scientificContracts: scientificContractsFixture(),
+  });
+  assert.equal(expandedResult.ok, false);
+  assert.equal(expandedResult.error.value.errors.includes('PK0_DEVDEPENDENCIES_MUTATION_FORBIDDEN'), true);
+
+  const workspaceResult = module.evaluatePackageContentTrust({
+    packageJson,
+    baselinePackageJson,
+    trackedFiles: trackedFixture(),
+    changedFiles: ['package.json', 'package-lock.json', 'pnpm-workspace.yaml'],
+    dependencyMutationAdmission: module.C6D_DEPENDENCY_MUTATION_ADMISSION,
+    programDag: programDagFixture(),
+    scientificContracts: scientificContractsFixture(),
+  });
+  assert.equal(workspaceResult.ok, false);
+  assert.equal(workspaceResult.error.value.errors.includes('PK0_LOCKFILE_OR_WORKSPACE_MUTATION_FORBIDDEN'), true);
+  assert.equal(workspaceResult.error.value.errors.includes('PK0_DEPENDENCY_ADMISSION_WRITE_SET_EXPANSION'), true);
+});

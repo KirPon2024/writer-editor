@@ -12593,6 +12593,15 @@ async function migrateProjectNotesStorage(options = {}) {
       projectId: manifest.projectId,
       operationLabel: 'save project notes storage',
     }),
+    writeRecoveryFileAtomic: (targetPath, content) => queueDiskOperation(
+      () => backupManager.writeReceiptOrBackupThroughAtomicGateway({
+        targetPath,
+        content,
+        targetRole: backupManager.ATOMIC_RECEIPT_BACKUP_TARGET_ROLES.NOTES_RECOVERY_SNAPSHOT,
+        subjectDigest: computeHash(`notes-recovery:${manifest.projectId}`),
+      }),
+      'save project notes recovery snapshot',
+    ),
     ...(typeof options.now === 'function' ? { now: options.now } : {}),
   });
 }
@@ -12654,6 +12663,15 @@ async function writeProjectNotesDocument(context, current, document, commandId, 
     projectRoot: context.projectRoot,
     notesPath,
     sourceText: beforeText,
+    writeRecoveryFileAtomic: (targetPath, content) => queueDiskOperation(
+      () => backupManager.writeReceiptOrBackupThroughAtomicGateway({
+        targetPath,
+        content,
+        targetRole: backupManager.ATOMIC_RECEIPT_BACKUP_TARGET_ROLES.NOTES_RECOVERY_SNAPSHOT,
+        subjectDigest: computeHash(`notes-recovery:${context.projectId}`),
+      }),
+      'save project notes command recovery snapshot',
+    ),
     now,
   });
   const writeResult = await writeNotesOrSettingsThroughAtomicGateway({
@@ -18047,7 +18065,12 @@ async function handleProjectLifecycleCreateBackupCommand(payload = {}, options =
       resolveSymlinks: false,
     });
     const receiptWrite = await queueDiskOperation(
-      () => fileManager.writeFileAtomic(receiptPath, `${JSON.stringify(receipt, null, 2)}\n`),
+      () => backupManager.writeReceiptOrBackupThroughAtomicGateway({
+        targetPath: receiptPath,
+        content: `${JSON.stringify(receipt, null, 2)}\n`,
+        targetRole: backupManager.ATOMIC_RECEIPT_BACKUP_TARGET_ROLES.PROJECT_MANUAL_BACKUP_RECEIPT,
+        subjectDigest: computeHash(`manual-backup-receipt:${resolved.binding.projectId}`),
+      }),
       'save project lifecycle backup receipt',
     );
     if (!receiptWrite || receiptWrite.success !== true) {

@@ -31069,6 +31069,7 @@ app.on('window-all-closed', () => {
 module.exports = {
   MINIMUM_INTERCHANGE_RUNTIME_BINDING,
   buildProjectTreeRootsWithIdentities,
+  createWindow,
   ensureProjectManifest,
   getProjectDocumentIdentityPayload,
   getProjectManifestComparable,

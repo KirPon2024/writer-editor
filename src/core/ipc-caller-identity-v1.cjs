@@ -174,8 +174,11 @@ function validateExpectedShellUrl(components) {
   }
   for (const key of IPC_SHELL_QUERY_KEYS) {
     const value = query.get(key);
-    if (typeof value !== 'string' || value.length === 0) {
+    if (!query.has(key) || typeof value !== 'string') {
       throw new IpcCallerIdentityError('E_IPC_FRAME_QUERY_DENIED', `missing:${key}`);
+    }
+    if (key !== 'PRODUCT_PROFILE' && value.length === 0) {
+      throw new IpcCallerIdentityError('E_IPC_FRAME_QUERY_DENIED', `empty:${key}`);
     }
     if (Buffer.byteLength(value, 'utf8') > IPC_FRAME_QUERY_VALUE_MAX_BYTES) {
       throw new IpcCallerIdentityError('E_IPC_FRAME_QUERY_DENIED', `value-bytes:${key}`);

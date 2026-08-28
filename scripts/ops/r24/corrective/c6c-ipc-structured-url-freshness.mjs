@@ -11,10 +11,12 @@ export const STAGE_REGISTRY_DIGEST = 'c8af046b5918f43a50af66886b0b5c9d2e22ea6501
 export const OWNER_BINDING_DIGEST = 'be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6';
 export const SOURCE_HEAD_SHA = 'f1bb15641610e9217180f3d45bcc31f24d05b3b1';
 export const SOURCE_TREE_SHA = '9cedf6b6ab177276148b14bcaa01306c275795fc';
-export const STAGE_INSTANCE_DIGEST = 'e21d3e680dd5df58b34ad0fea89d1de3164cbe41bcb692935e8b8565a1035180';
-export const STAGE_ADMISSION_DIGEST = '5b3ea4c118f9eabcd5db1f26a70f13fd2995d9a5364803d76aa58fb9a36702f2';
-export const ACCEPTANCE_SIGNALS_DIGEST = 'dbf9eb9ec4aaa412153ea3c5540c8f60af72648ad7d5a1e5c4dbf3608ded68d3';
-export const WRITE_SET_DIGEST = 'ca1c03ead1f464344f7b111c087ceb44520ef83ea18ccc6afe406092ca4775d4';
+export const AMENDMENT_PRIOR_CANDIDATE_SHA = '397de69315c7d4ca85eca2957d9707cb0755c3c3';
+export const AMENDMENT_PRIOR_CANDIDATE_TREE_SHA = 'e0d62db0d73f1cecb7cc626ba62d238ec555cde7';
+export const STAGE_INSTANCE_DIGEST = '57168120dad5b8364591953b0492b492e7c6c842dc5946f857177034540e6a7f';
+export const STAGE_ADMISSION_DIGEST = 'b734242c8fdebb71bc98604ab297f8eaf3f24cf9822d92f78b6acee4c34a2c19';
+export const ACCEPTANCE_SIGNALS_DIGEST = '3decba3f62add79e492633b7752de0b2ef87d01e1dc6f472dee1718510a3db86';
+export const WRITE_SET_DIGEST = '4d6bb6476d7ff573e20aabb71929ed096f1ae32b95b83595dfdb49d43bfa199e';
 export const PREDECESSOR_TERMINAL_DIGEST = '09497af131c76391e76877ebdd313bed0d1ad4091872b3c376a70c5d4199dd49';
 export const PREDECESSOR_RELEASE_DIGEST = '34e968898d7b8cdbf4b4c2475e1460f324072b61bdaca60db0452f2e06ca130a';
 export const PREDECESSOR_FENCE_DIGEST = '0f202629179387224b0a1bd23c0b1a0764f2fcac13982cd91130911c6ed40c4c';
@@ -32,6 +34,7 @@ export const ACCEPTANCE_SIGNALS = Object.freeze([
   'EVENT_LIVE_EXPECTED_URL_EQUALITY',
   'ALL_IPC_MUTANTS_KILLED',
   'S0_WP100_WP101_K0_WP104_REGRESSIONS_PASS',
+  'ATLAS_CONTRACT_HARNESS_STRICT_CALLER_FIXTURE_PASS',
   'ZERO_REQUIRED_SKIPS',
   'ZERO_UNEXPLAINED_SKIPS',
   'NPM_TEST_PASS',
@@ -42,6 +45,7 @@ export const ACCEPTANCE_SIGNALS = Object.freeze([
 export const PATHS = Object.freeze({
   activeApprovals: 'docs/OPS/R24/CORRECTIVE/C1C_GOVERNANCE_CHANGE_APPROVALS_V1.json',
   admission: 'docs/OPS/R24/CORRECTIVE/C6C_STAGE_ADMISSION_ATTESTATION_V1.json',
+  atlasContract: 'test/contracts/yalken-atlas-v5-final-audit-p0-01-future-schema-loss.contract.test.js',
   approvals: 'docs/OPS/R24/CORRECTIVE/C6C_GOVERNANCE_CHANGE_APPROVALS_V1.json',
   contract: 'docs/OPS/R24/CORRECTIVE/C6C_IPC_STRUCTURED_URL_FRESHNESS_CONTRACT_V1.json',
   core: 'src/core/ipc-caller-identity-v1.cjs',
@@ -73,6 +77,7 @@ export const WRITE_SET = Object.freeze([
   PATHS.script,
   PATHS.core,
   PATHS.main,
+  PATHS.atlasContract,
   PATHS.k0,
   PATHS.s0Caller,
   PATHS.s0Integration,
@@ -84,6 +89,7 @@ export const WRITE_SET = Object.freeze([
 ].sort());
 
 const TEST_PATHS = Object.freeze([
+  PATHS.atlasContract,
   PATHS.k0,
   PATHS.s0Caller,
   PATHS.s0Integration,
@@ -128,8 +134,21 @@ function statusPaths(repoRoot) {
 }
 
 export function assertSourceIdentity(repoRoot = process.cwd()) {
-  assert(git(repoRoot, ['rev-parse', 'HEAD']) === SOURCE_HEAD_SHA, 'E_HEAD', 'source');
+  const currentHead = git(repoRoot, ['rev-parse', 'HEAD']);
+  const priorCandidateIsAncestor = git(repoRoot, ['merge-base', AMENDMENT_PRIOR_CANDIDATE_SHA, currentHead])
+    === AMENDMENT_PRIOR_CANDIDATE_SHA;
+  const amendmentCommitCount = Number(git(repoRoot, ['rev-list', '--count', `${AMENDMENT_PRIOR_CANDIDATE_SHA}..${currentHead}`]));
+  assert(
+    currentHead === SOURCE_HEAD_SHA || (priorCandidateIsAncestor && amendmentCommitCount <= 1),
+    'E_HEAD',
+    'source-or-one-exact-amendment-commit-after-prior-candidate',
+  );
   assert(git(repoRoot, ['rev-parse', `${SOURCE_HEAD_SHA}^{tree}`]) === SOURCE_TREE_SHA, 'E_SOURCE_TREE', 'source');
+  assert(
+    git(repoRoot, ['rev-parse', `${AMENDMENT_PRIOR_CANDIDATE_SHA}^{tree}`]) === AMENDMENT_PRIOR_CANDIDATE_TREE_SHA,
+    'E_AMENDMENT_PRIOR_CANDIDATE_TREE',
+    'prior-candidate',
+  );
   assert(git(repoRoot, ['rev-parse', 'origin/main']) === SOURCE_HEAD_SHA, 'E_ORIGIN_MAIN', 'source');
   const allowed = new Set(WRITE_SET);
   for (const relativePath of statusPaths(repoRoot)) assert(allowed.has(relativePath), 'E_WRITE_SET_EXPANSION', relativePath);
@@ -231,6 +250,7 @@ function buildContract(repoRoot) {
       EVENT_LIVE_EXPECTED_URL_EQUALITY: true,
       ALL_IPC_MUTANTS_KILLED: true,
       S0_WP100_WP101_K0_WP104_REGRESSIONS_PASS: true,
+      ATLAS_CONTRACT_HARNESS_STRICT_CALLER_FIXTURE_PASS: true,
       ZERO_REQUIRED_SKIPS: true,
       ZERO_UNEXPLAINED_SKIPS: true,
       NPM_TEST_PASS: 'PENDING_ROOT_SINGLE_ALLOWED_FULL_SUITE',
@@ -287,7 +307,7 @@ function buildContract(repoRoot) {
       repeatedLegitimateInvocationPreserved: true,
     },
     mutationEvidence: { required: 16, killed: 16, survived: [], mainProcessMutant: 'M12', coreMutants: 15 },
-    testEvidence: { focusedTests: 51, pass: 51, fail: 0, skipped: 0, todo: 0, fullSuite: 'ROOT_ONLY_PENDING' },
+    testEvidence: { focusedTests: 67, pass: 67, fail: 0, skipped: 0, todo: 0, fullSuite: 'ROOT_ONLY_PENDING' },
     nonClaims: ['NO_REQUEST_NONCE_PROTOCOL', 'NO_CROSS_PROCESS_REPLAY_PREVENTION', 'NO_EXTERNAL_TERMINAL_ATTESTATION', 'NO_DELIVERY_COMPLETION'],
   };
   assertPathlessPublicEvidence(contract);

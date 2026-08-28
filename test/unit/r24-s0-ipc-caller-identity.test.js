@@ -145,6 +145,22 @@ test('query keys are exact, unique, bounded and value-bound', () => {
   }
 });
 
+test('inactive product profile remains an exact present query value', () => {
+  const inactiveUrl = shellUrl({ ...SHELL_QUERY, PRODUCT_PROFILE: '' });
+  const event = goodEvent();
+  event.senderFrame.url = inactiveUrl;
+  const inactivePolicy = policy({
+    expectedFrameUrl: () => inactiveUrl,
+    resolveLiveCaller: () => ({
+      senderId: event.sender.id,
+      session: event.sender.session,
+      currentUrl: inactiveUrl,
+      allowedChannels: [CHANNEL],
+    }),
+  });
+  assert.equal(evaluate(event, inactivePolicy).ok, true);
+});
+
 test('hash, malformed, control, backslash and over-byte URLs have typed refusals', () => {
   const hashed = goodEvent();
   hashed.senderFrame.url = `${EXPECTED_URL}#top`;

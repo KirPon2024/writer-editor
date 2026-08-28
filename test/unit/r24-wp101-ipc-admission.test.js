@@ -17,31 +17,36 @@ const {
   evaluateIpcCallerIdentity,
 } = require(path.join(ROOT, 'src', 'core', 'ipc-caller-identity-v1.cjs'));
 
-const SHELL_PREFIX = 'yalken-shell://';
+const SHELL_URL = 'file:///app/index.html?USE_TIPTAP=1&PRODUCT_PROFILE=WRITER_LOCAL_V1&BRAND_IDENTITY=YALKEN_ORIGINAL_V1';
 const SHARED_SESSION = { partition: 'persist:default' };
+const CREATE_NODE_CHANNEL = 'ui:create-node';
 
 const policyWithSession = {
-  expectedSenderIds: () => [7],
-  allowedFrameUrlPrefixes: () => [SHELL_PREFIX],
-  expectedSessionId: () => SHARED_SESSION,
+  expectedFrameUrl: () => SHELL_URL,
+  resolveLiveCaller: () => ({
+    senderId: 7,
+    session: SHARED_SESSION,
+    currentUrl: SHELL_URL,
+    allowedChannels: [CREATE_NODE_CHANNEL],
+  }),
 };
 
 function makeEvent(overrides = {}) {
   return {
     sender: { id: 7, isDestroyed: () => false, session: SHARED_SESSION },
-    senderFrame: { url: `${SHELL_PREFIX}index.html` },
+    senderFrame: { url: SHELL_URL },
     ...overrides,
   };
 }
 
 test('session dimension: matching session passes, foreign session is a typed refusal', () => {
-  assert.equal(evaluateIpcCallerIdentity(makeEvent(), policyWithSession).ok, true);
+  assert.equal(evaluateIpcCallerIdentity(makeEvent(), policyWithSession, { channel: CREATE_NODE_CHANNEL }).ok, true);
   const foreign = makeEvent({ sender: { id: 7, isDestroyed: () => false, session: { partition: 'persist:other' } } });
-  const verdict = evaluateIpcCallerIdentity(foreign, policyWithSession);
+  const verdict = evaluateIpcCallerIdentity(foreign, policyWithSession, { channel: CREATE_NODE_CHANNEL });
   assert.equal(verdict.ok, false);
   assert.equal(verdict.code, 'E_IPC_SESSION_MISMATCH');
   const noSession = makeEvent({ sender: { id: 7, isDestroyed: () => false, session: undefined } });
-  assert.equal(evaluateIpcCallerIdentity(noSession, policyWithSession).ok, false, 'a caller without the session is refused when the policy binds one');
+  assert.equal(evaluateIpcCallerIdentity(noSession, policyWithSession, { channel: CREATE_NODE_CHANNEL }).ok, false, 'a caller without the session is refused when the policy binds one');
 });
 
 test('capability dimension: unbound channel fails closed at registration with a typed code', () => {
@@ -122,8 +127,17 @@ function scanAdmissionWiring(mainSource) {
   if (!mainSource.includes('createCapabilityBoundRegistration(GUARDED_IPC_REGISTRATION, IPC_CHANNEL_CAPABILITY_CLASS)')) {
     violations.push({ law: 'CAPABILITY_WRAP', detail: 'capability-bound registration wrap missing' });
   }
-  if (!mainSource.includes('expectedSessionId: () => {')) {
-    violations.push({ law: 'SESSION_BINDING', detail: 'live policy does not bind the session dimension' });
+  if (!mainSource.includes('resolveLiveCaller: () => {')) {
+    violations.push({ law: 'LIVE_CALLER_BINDING', detail: 'live policy does not resolve one dispatch-time caller snapshot' });
+  }
+  if (!mainSource.includes('const shell = mainWindow.webContents;')) {
+    violations.push({ law: 'MAIN_WINDOW_ONLY', detail: 'live policy is not bound to mainWindow.webContents' });
+  }
+  if (!mainSource.includes('expectedFrameUrl: getExpectedIpcShellUrl')) {
+    violations.push({ law: 'STRUCTURED_URL_BINDING', detail: 'live policy does not bind the exact expected shell URL' });
+  }
+  if (mainSource.includes('webContents.getAllWebContents')) {
+    violations.push({ law: 'GENERIC_WEBCONTENTS_ENUMERATION', detail: 'generic webContents enumeration remains' });
   }
   const mapStart = mainSource.indexOf('const IPC_CHANNEL_CAPABILITY_CLASS = Object.freeze({');
   const mapEnd = mapStart === -1 ? -1 : mainSource.indexOf('});', mapStart);

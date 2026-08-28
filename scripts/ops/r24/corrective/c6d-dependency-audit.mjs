@@ -9,21 +9,23 @@ import process from 'node:process';
 import { buildDependencyInventory } from './c1a-hermetic-toolchain.mjs';
 import { canonicalBytes, canonicalize } from './canonical-json.mjs';
 
-export const PROGRAM_TEMPLATE_DIGEST = '6c833c964318da3e61e1743365f8763206be838647b5222c187b3bda8d1c6b9a';
-export const STAGE_REGISTRY_DIGEST = 'c8af046b5918f43a50af66886b0b5c9d2e22ea6501240d4b239101d8836ced1a';
-export const OWNER_BINDING_DIGEST = 'be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6';
+export const PROGRAM_TEMPLATE_DIGEST = 'ed95251b548e07ea3c8a7d2928a163a3abd96dc3b1db979d00e4e38172113768';
+export const STAGE_REGISTRY_DIGEST = '778b8c9418c81076a13ce4c71094bcf5c440557f30680fd10b8c0384a2a2b5df';
+export const OWNER_BINDING_DIGEST = '644f726a64b7b837c0d204f7b064125572bf2b4f5571b036cc7ab4380060f66e';
 export const SOURCE_HEAD_SHA = 'c9007065c0da5903d333f497b466ec25771bb9f9';
 export const SOURCE_TREE_SHA = 'f72a9cb00895fcdfecbb48d38ff759e1b9c217aa';
-export const STAGE_INSTANCE_DIGEST = 'd43adf0bdf56e008f2ebfb2c87f2479eb1b86ae20de9859cfebcb343d6576723';
-export const STAGE_ADMISSION_DIGEST = '9f35217cc69b30f7032010d7c6965f54872e69ea9b8bec363a4f949a63cd7460';
-export const ACCEPTANCE_SIGNALS_DIGEST = 'c994e62e9029c91fc3a040adfb2a30c13779d4839dbe5028cfe84a6d84af695a';
-export const WRITE_SET_DIGEST = 'd6b3e7627fb41dc47a0659950ee60764cfcd4f6e331eac7d6ba04bbe4efa4668';
+export const ADMITTED_HEAD_SHA = '19e7b00e92b59773d5a28a89943cc963f9ccf47b';
+export const ADMITTED_TREE_SHA = '48c0c9bcd1f07ad09c038fcc1aeeca25d6ab4b20';
+export const STAGE_INSTANCE_DIGEST = '96928484660cf2b1f13d9bc95f372e9e1a7a1ba6affc8a4a8dad0cd6e7453b7c';
+export const STAGE_ADMISSION_DIGEST = '7aa2c3da03b7f36d4265253b4af646eb031b24727312fbcbe020e39fa51222f7';
+export const ACCEPTANCE_SIGNALS_DIGEST = 'f7754418d5dc218362976447d38f485f309ccc2c9ece202f1e692e1f4806f647';
+export const WRITE_SET_DIGEST = '597108cc7978395368d346ff1a6fc1a73b97e95b70166f663aaeec45347e6995';
 export const PREDECESSOR_TERMINAL_DIGEST = 'f8dc277a013a374823b1fa953d7562827bfc059a153af61d7ffffc91c4f31e24';
 export const PREDECESSOR_RELEASE_DIGEST = '34efd089ceb3928f20a9c4e44cd47a3e1ef0a40457775049a96208474478c9d6';
-export const PREDECESSOR_FENCE_DIGEST = '76a4067933ee8c459fa38c79d792c9aa4763c9844486b92337a8070218d21614';
-export const LEASE_DIGEST = '7160955e5a23205bd940964f862c7d73689c11ecd261fdfb9b9d97f8b894c186';
-export const FENCE_DIGEST = 'b6438601e9a73bf7c35b88c1bbe33cee9aaed946be4ad549627406abfd8a3528';
-export const OBSERVED_AT_UTC = '2026-08-28T13:58:11Z';
+export const PREDECESSOR_FENCE_DIGEST = 'e47780e8998e11196363461bc49ad15c39c6d880754b11c8e1b5e50d11c572f1';
+export const LEASE_DIGEST = '62308dd37649f6cc57be86b7a389b1348e28f321b8901dd22bce5701bca10215';
+export const FENCE_DIGEST = 'c9df1a9f4e36586ebbcd8c3001d48244ef43bd4b4535645cc80d464fd3711105';
+export const OBSERVED_AT_UTC = '2026-08-28T14:46:29Z';
 export const APPROVED_ELECTRON_VERSION = '41.10.3';
 export const APPROVED_INTERNAL_EXTRACT_ZIP_VERSION = '1.0.5';
 export const ORIGINAL_ELECTRON_RANGE = '^40.9.2';
@@ -35,28 +37,36 @@ export const CONTROL_PLANE_EVIDENCE_STAMP_ID = 'ES-R24-CORRECTIVE-B0-CONTROL-PLA
 
 export const PATHS = Object.freeze({
   activeApprovals: 'docs/OPS/R24/CORRECTIVE/C1C_GOVERNANCE_CHANGE_APPROVALS_V1.json',
-  admission: 'docs/OPS/R24/CORRECTIVE/C6D_STAGE_ADMISSION_ATTESTATION_AMENDMENT_V1.json',
-  admissionPredecessor: 'docs/OPS/R24/CORRECTIVE/C6D_STAGE_ADMISSION_ATTESTATION_V1.json',
+  admission: 'docs/OPS/R24/CORRECTIVE/C6D_STAGE_ADMISSION_ATTESTATION_AMENDMENT_V3.json',
+  admissionPredecessor: 'docs/OPS/R24/CORRECTIVE/C6D_STAGE_ADMISSION_ATTESTATION_AMENDMENT_V2.json',
+  admissionPredecessor2: 'docs/OPS/R24/CORRECTIVE/C6D_STAGE_ADMISSION_ATTESTATION_AMENDMENT_V1.json',
+  admissionRoot: 'docs/OPS/R24/CORRECTIVE/C6D_STAGE_ADMISSION_ATTESTATION_V1.json',
   auditDisposition: 'docs/OPS/R24/CORRECTIVE/C6D_AUDIT_DISPOSITION_V1.json',
   c1aContract: 'docs/OPS/R24/CORRECTIVE/C1A_TOOLCHAIN_CONTRACT_V1.json',
   c1aInventory: 'docs/OPS/R24/CORRECTIVE/C1A_DEPENDENCY_INVENTORY_V1.json',
   contract: 'docs/OPS/R24/CORRECTIVE/C6D_DEPENDENCY_AUDIT_CONTRACT_V1.json',
   currentArtifact: 'docs/OPS/R24/CORRECTIVE/C6D_CURRENT_CHECKOUT_DEPENDENCY_ARTIFACT_V1.json',
   environment: 'docs/OPS/R24/CORRECTIVE/C6D_IMMUTABLE_ENVIRONMENT_MANIFEST_V1.json',
+  evidenceStamp: 'docs/OPS/R24/EVIDENCE/ES-R24-CORRECTIVE-B0-CONTROL-PLANE-CLAIM-BINDINGS.json',
   inventory: 'docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json',
   lock: 'package-lock.json',
   package: 'package.json',
   program: 'docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json',
   registry: 'docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json',
+  release01Registry: 'docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json',
   script: 'scripts/ops/r24/corrective/c6d-dependency-audit.mjs',
   pk0: 'scripts/ops/r24/package-content-trust-pk0.mjs',
   pk0Mutants: 'test/unit/r24-pk0-package-content-mutants.test.js',
   pk0Physics: 'test/unit/r24-pk0-package-content-physics.test.js',
   pk0Trust: 'test/unit/r24-pk0-package-content-trust.test.js',
-  stage: 'docs/OPS/R24/CORRECTIVE/C6D_STAGE_INSTANCE_AMENDMENT_V1.json',
-  stagePredecessor: 'docs/OPS/R24/CORRECTIVE/C6D_STAGE_INSTANCE_V1.json',
+  stage: 'docs/OPS/R24/CORRECTIVE/C6D_STAGE_INSTANCE_AMENDMENT_V3.json',
+  stagePredecessor: 'docs/OPS/R24/CORRECTIVE/C6D_STAGE_INSTANCE_AMENDMENT_V2.json',
+  stagePredecessor2: 'docs/OPS/R24/CORRECTIVE/C6D_STAGE_INSTANCE_AMENDMENT_V1.json',
+  stageRoot: 'docs/OPS/R24/CORRECTIVE/C6D_STAGE_INSTANCE_V1.json',
   stageApprovals: 'docs/OPS/R24/CORRECTIVE/C6D_GOVERNANCE_CHANGE_APPROVALS_V1.json',
+  standingAuthority: 'docs/OPS/R24/CORRECTIVE/STANDING_AUTHORITY_BINDING_V1.json',
   test: 'test/contracts/r24-c6d-dependency-audit.contract.test.mjs',
+  trustModel: 'docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json',
 });
 
 export const WRITE_SET = Object.freeze([
@@ -69,18 +79,31 @@ export const WRITE_SET = Object.freeze([
   PATHS.contract,
   PATHS.stageApprovals,
   PATHS.environment,
+  PATHS.evidenceStamp,
   PATHS.admission,
   PATHS.admissionPredecessor,
+  PATHS.admissionPredecessor2,
+  PATHS.admissionRoot,
   PATHS.stage,
   PATHS.stagePredecessor,
+  PATHS.stagePredecessor2,
+  PATHS.stageRoot,
   PATHS.lock,
   PATHS.package,
+  PATHS.release01Registry,
   PATHS.pk0,
   PATHS.script,
   PATHS.test,
   PATHS.pk0Mutants,
   PATHS.pk0Physics,
   PATHS.pk0Trust,
+].sort());
+
+export const OWNER_AMENDMENT_PATHS = Object.freeze([
+  PATHS.program,
+  PATHS.registry,
+  PATHS.standingAuthority,
+  PATHS.trustModel,
 ].sort());
 
 const LEXICAL = (left, right) => left < right ? -1 : left > right ? 1 : 0;
@@ -131,10 +154,10 @@ export function assertSourceIdentity(repoRoot = process.cwd()) {
   const currentHead = git(repoRoot, ['rev-parse', 'HEAD']);
   const sourceIsAncestor = git(repoRoot, ['merge-base', SOURCE_HEAD_SHA, currentHead]) === SOURCE_HEAD_SHA;
   const stageCommitCount = Number(git(repoRoot, ['rev-list', '--count', `${SOURCE_HEAD_SHA}..${currentHead}`]));
-  assert(currentHead === SOURCE_HEAD_SHA || (sourceIsAncestor && stageCommitCount <= 1), 'E_HEAD', currentHead);
+  assert(currentHead === SOURCE_HEAD_SHA || (sourceIsAncestor && stageCommitCount <= 2), 'E_HEAD', currentHead);
   assert(git(repoRoot, ['rev-parse', `${SOURCE_HEAD_SHA}^{tree}`]) === SOURCE_TREE_SHA, 'E_SOURCE_TREE', SOURCE_HEAD_SHA);
   assert(git(repoRoot, ['rev-parse', 'origin/main']) === SOURCE_HEAD_SHA, 'E_ORIGIN_MAIN', 'source');
-  const allowed = new Set(WRITE_SET);
+  const allowed = new Set([...WRITE_SET, ...OWNER_AMENDMENT_PATHS]);
   for (const relativePath of statusPaths(repoRoot)) assert(allowed.has(relativePath), 'E_WRITE_SET_EXPANSION', relativePath);
   return { currentHead, sourceHeadSha: SOURCE_HEAD_SHA, sourceTreeSha: SOURCE_TREE_SHA };
 }
@@ -149,12 +172,12 @@ function validateBindings(repoRoot) {
   assert(stage.digest === STAGE_INSTANCE_DIGEST, 'E_STAGE_INSTANCE_DIGEST', 'stage');
   assert(admission.digest === STAGE_ADMISSION_DIGEST, 'E_STAGE_ADMISSION_DIGEST', 'admission');
   assert(stage.value.stageId === 'C6D', 'E_STAGE_BINDING', 'stageId');
-  assert(stage.value.baseSha === SOURCE_HEAD_SHA && stage.value.headSha === SOURCE_HEAD_SHA, 'E_STAGE_BINDING', 'head');
-  assert(stage.value.treeSha === SOURCE_TREE_SHA, 'E_STAGE_BINDING', 'tree');
+  assert(stage.value.baseSha === SOURCE_HEAD_SHA && stage.value.headSha === ADMITTED_HEAD_SHA, 'E_STAGE_BINDING', 'head');
+  assert(stage.value.treeSha === ADMITTED_TREE_SHA, 'E_STAGE_BINDING', 'tree');
   assert(stage.value.predecessorLeaseReleaseDigest === PREDECESSOR_RELEASE_DIGEST, 'E_STAGE_BINDING', 'predecessor-release');
   assert(stage.value.predecessorFenceDigest === PREDECESSOR_FENCE_DIGEST, 'E_STAGE_BINDING', 'predecessor-fence');
-  assert(stage.value.amendment?.predecessorStageInstanceDigest === '70fef7975846d7ff80a6e80c14a764fce06e43efe2bcc3cd2af22d0caeffab61', 'E_STAGE_BINDING', 'amendment-predecessor-stage');
-  assert(stage.value.amendment?.predecessorAdmissionDigest === '546ffe92365c5a50be4b8a90f6cff6ebea1fe591ba2cad8986d8d5d55a6c2137', 'E_STAGE_BINDING', 'amendment-predecessor-admission');
+  assert(stage.value.amendment?.predecessorStageInstanceDigest === 'd14fcc538318f63c7931327adb7bf512c4cb076ea9c034bfed3146af8193b425', 'E_STAGE_BINDING', 'amendment-predecessor-stage');
+  assert(stage.value.amendment?.predecessorAdmissionDigest === 'f81eda0f8636ee22a0fe1253c68db6e504c9f9ffe36eaf27bd4ce8eb23e07ab6', 'E_STAGE_BINDING', 'amendment-predecessor-admission');
   assert(stage.value.dependencies?.length === 1, 'E_STAGE_BINDING', 'dependency-count');
   assert(stage.value.dependencies[0]?.stageId === 'C6C', 'E_STAGE_BINDING', 'dependency-stage');
   assert(stage.value.dependencies[0]?.attestationDigest === PREDECESSOR_TERMINAL_DIGEST, 'E_STAGE_BINDING', 'dependency-attestation');
@@ -473,7 +496,9 @@ function assertExpectedFile(repoRoot, relativePath, value) {
 }
 
 function approvedPaths() {
-  return WRITE_SET.filter((filePath) => filePath !== PATHS.activeApprovals && filePath !== PATHS.stageApprovals).sort(LEXICAL);
+  return [...WRITE_SET, ...OWNER_AMENDMENT_PATHS]
+    .filter((filePath) => filePath !== PATHS.activeApprovals && filePath !== PATHS.stageApprovals)
+    .sort(LEXICAL);
 }
 
 function approvalForPath(repoRoot, filePath, rationale) {

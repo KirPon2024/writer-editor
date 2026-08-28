@@ -57,12 +57,12 @@ export const C6D_DEPENDENCY_MUTATION_ADMISSION = Object.freeze({
   currentLockSha256: '54dc46b025c7f77d522bb861724dc7d8bdd752a29e3e6a55eb72f30b50047a6f',
   originalElectronRange: '^40.9.2',
   originalLockSha256: '441b7b14e6a395cc04bee04f51b17ce400a27c1530ec2483d5168ba15070e689',
-  ownerAuthorityBindingDigest: 'be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6',
+  ownerAuthorityBindingDigest: '644f726a64b7b837c0d204f7b064125572bf2b4f5571b036cc7ab4380060f66e',
   releaseScope: 'DEPENDENCY_AUDIT_GATE_ONLY',
   schemaVersion: 'YALKEN_R24_C6D_PK0_DEPENDENCY_MUTATION_ADMISSION_V1',
-  stageAdmissionDigest: '9f35217cc69b30f7032010d7c6965f54872e69ea9b8bec363a4f949a63cd7460',
+  stageAdmissionDigest: '7aa2c3da03b7f36d4265253b4af646eb031b24727312fbcbe020e39fa51222f7',
   stageId: 'C6D',
-  stageInstanceDigest: 'd43adf0bdf56e008f2ebfb2c87f2479eb1b86ae20de9859cfebcb343d6576723',
+  stageInstanceDigest: '96928484660cf2b1f13d9bc95f372e9e1a7a1ba6affc8a4a8dad0cd6e7453b7c',
   status: 'ADMITTED_SECURITY_UPGRADE',
   targetElectronVersion: '41.10.3',
 });
@@ -375,8 +375,8 @@ function gitShowJson({ cwd, revisionPath }) {
 
 function readC6DDependencyAdmission(root) {
   const files = {
-    stage: ['docs/OPS/R24/CORRECTIVE/C6D_STAGE_INSTANCE_AMENDMENT_V1.json', C6D_DEPENDENCY_MUTATION_ADMISSION.stageInstanceDigest],
-    admission: ['docs/OPS/R24/CORRECTIVE/C6D_STAGE_ADMISSION_ATTESTATION_AMENDMENT_V1.json', C6D_DEPENDENCY_MUTATION_ADMISSION.stageAdmissionDigest],
+    stage: ['docs/OPS/R24/CORRECTIVE/C6D_STAGE_INSTANCE_AMENDMENT_V3.json', C6D_DEPENDENCY_MUTATION_ADMISSION.stageInstanceDigest],
+    admission: ['docs/OPS/R24/CORRECTIVE/C6D_STAGE_ADMISSION_ATTESTATION_AMENDMENT_V3.json', C6D_DEPENDENCY_MUTATION_ADMISSION.stageAdmissionDigest],
     disposition: ['docs/OPS/R24/CORRECTIVE/C6D_AUDIT_DISPOSITION_V1.json', null],
   };
   const values = {};

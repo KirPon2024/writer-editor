@@ -6,6 +6,19 @@ const crypto = require('node:crypto');
 
 const STRANGLER_SCHEMA_VERSION = 'yalken.writer-save-legacy-strangler.v1';
 const OBSERVATION_SCHEMA_VERSION = 'yalken.writer-save-authority-observation.v1';
+const ATOMIC_SCENE_MANIFEST_GATEWAY_SCHEMA_VERSION = 'yalken.atomic-scene-manifest-gateway.v1';
+
+const ATOMIC_SCENE_MANIFEST_PHASE_CHAIN = Object.freeze([
+  'ADMIT',
+  'RECOVER',
+  'PREPARE_JOURNAL',
+  'MANIFEST_PUBLISH',
+  'SCENE_PUBLISH',
+  'COMMIT_POINT',
+  'READBACK',
+  'CLEANUP',
+  'ACK',
+]);
 
 const SAVE_AUTHORITY_ROUTES = Object.freeze({
   DURABLE_SAVE_V1: 'DURABLE_SAVE_V1',
@@ -103,23 +116,17 @@ function createAuthorityObservation({ observerId, requestDigest, route }) {
   });
 }
 
-async function executeWriterSaveThroughStranglerGateway({
-  request,
-  observeLegacy,
-  observeGateway,
-  executors,
-}) {
+function assertIndependentObservers(observeLegacy, observeGateway) {
   if (typeof observeLegacy !== 'function' || typeof observeGateway !== 'function') {
     throw new LegacyStranglerError('E_LEGACY_STRANGLER_OBSERVER_REQUIRED', PHASES.ADMIT);
   }
   if (observeLegacy === observeGateway) {
     throw new LegacyStranglerError('E_LEGACY_STRANGLER_OBSERVERS_NOT_INDEPENDENT', PHASES.ADMIT);
   }
-  if (!executors || typeof executors !== 'object' || Array.isArray(executors)) {
-    throw new LegacyStranglerError('E_LEGACY_STRANGLER_EXECUTORS_REQUIRED', PHASES.ADMIT);
-  }
+}
 
-  const identity = createWriterSaveAuthorityIdentity(request || {});
+async function observeAuthorityPair(identity, observeLegacy, observeGateway) {
+  assertIndependentObservers(observeLegacy, observeGateway);
   const legacy = validateObservation(
     await observeLegacy(identity),
     OBSERVER_IDS.LEGACY,
@@ -130,7 +137,6 @@ async function executeWriterSaveThroughStranglerGateway({
     OBSERVER_IDS.GATEWAY,
     identity.identityDigest,
   );
-
   if (legacy.route !== gateway.route) {
     throw new LegacyStranglerError(
       'E_LEGACY_STRANGLER_OBSERVATION_MISMATCH',
@@ -138,6 +144,100 @@ async function executeWriterSaveThroughStranglerGateway({
       `${legacy.route}!=${gateway.route}`,
     );
   }
+  return Object.freeze({ legacy, gateway });
+}
+
+function validateAtomicSceneManifestReceipt(result, request) {
+  if (!result || typeof result !== 'object' || Array.isArray(result)) {
+    throw new LegacyStranglerError(
+      'E_ATOMIC_SCENE_MANIFEST_GATEWAY_RECEIPT_INVALID',
+      PHASES.EXECUTE,
+      'object',
+    );
+  }
+  if (result.success !== true
+    || result.revision !== request.revision
+    || typeof result.transactionId !== 'string'
+    || !/^[a-f0-9]{64}$/u.test(result.transactionId)
+    || typeof result.sceneDigest !== 'string'
+    || !/^[a-f0-9]{64}$/u.test(result.sceneDigest)
+    || typeof result.manifestDigest !== 'string'
+    || !/^[a-f0-9]{64}$/u.test(result.manifestDigest)
+    || !Array.isArray(result.phases)
+    || result.phases.length !== ATOMIC_SCENE_MANIFEST_PHASE_CHAIN.length
+    || result.phases.some((phase, index) => phase !== ATOMIC_SCENE_MANIFEST_PHASE_CHAIN[index])) {
+    throw new LegacyStranglerError(
+      'E_ATOMIC_SCENE_MANIFEST_GATEWAY_RECEIPT_INVALID',
+      PHASES.EXECUTE,
+      'durable-project-transaction',
+    );
+  }
+  return result;
+}
+
+// C5C1: project-bound scene + manifest writes expose exactly one executor.
+// The legacy route is retained only as a read-only compatibility observation;
+// it is structurally absent from the write API and can never be a fallback.
+async function executeAtomicSceneManifestGatewayCutover({
+  request,
+  observeLegacy,
+  observeGateway,
+  executeGateway,
+}) {
+  if (typeof executeGateway !== 'function') {
+    throw new LegacyStranglerError('E_ATOMIC_SCENE_MANIFEST_GATEWAY_REQUIRED', PHASES.ADMIT);
+  }
+  const identity = createWriterSaveAuthorityIdentity(request || {});
+  if (identity.projectBound !== true || identity.projectAuthorityPath.length === 0) {
+    throw new LegacyStranglerError('E_ATOMIC_SCENE_MANIFEST_PROJECT_BINDING_REQUIRED', PHASES.ADMIT);
+  }
+  const { legacy, gateway } = await observeAuthorityPair(identity, observeLegacy, observeGateway);
+  if (gateway.route !== SAVE_AUTHORITY_ROUTES.PROJECT_TRANSACTION_V1) {
+    throw new LegacyStranglerError(
+      'E_ATOMIC_SCENE_MANIFEST_ROUTE_REQUIRED',
+      PHASES.COMPARE,
+      gateway.route,
+    );
+  }
+
+  const result = validateAtomicSceneManifestReceipt(
+    await executeGateway(Object.freeze({ ...request, authorityIdentity: identity })),
+    request,
+  );
+  return Object.freeze({
+    ...result,
+    atomicSceneManifestGateway: Object.freeze({
+      schemaVersion: ATOMIC_SCENE_MANIFEST_GATEWAY_SCHEMA_VERSION,
+      requestDigest: identity.identityDigest,
+      selectedRoute: gateway.route,
+      observerCount: 2,
+      legacyObserverId: legacy.observerId,
+      gatewayObserverId: gateway.observerId,
+      legacyAuthorityRole: 'READ_ONLY_OBSERVER',
+      legacyFallbackMode: 'READ_ONLY_OBSERVATION_ONLY',
+      legacyWriteFallbackAllowed: false,
+      dualObserved: true,
+      dualWriteAllowed: false,
+      gatewayExecutorCount: 1,
+      durabilityAuthority: SAVE_AUTHORITY_ROUTES.PROJECT_TRANSACTION_V1,
+      durabilityPhaseChain: ATOMIC_SCENE_MANIFEST_PHASE_CHAIN,
+    }),
+  });
+}
+
+async function executeWriterSaveThroughStranglerGateway({
+  request,
+  observeLegacy,
+  observeGateway,
+  executors,
+}) {
+  assertIndependentObservers(observeLegacy, observeGateway);
+  if (!executors || typeof executors !== 'object' || Array.isArray(executors)) {
+    throw new LegacyStranglerError('E_LEGACY_STRANGLER_EXECUTORS_REQUIRED', PHASES.ADMIT);
+  }
+
+  const identity = createWriterSaveAuthorityIdentity(request || {});
+  const { legacy, gateway } = await observeAuthorityPair(identity, observeLegacy, observeGateway);
 
   const executor = executors[gateway.route];
   if (typeof executor !== 'function') {
@@ -164,6 +264,8 @@ async function executeWriterSaveThroughStranglerGateway({
 }
 
 module.exports = Object.freeze({
+  ATOMIC_SCENE_MANIFEST_GATEWAY_SCHEMA_VERSION,
+  ATOMIC_SCENE_MANIFEST_PHASE_CHAIN,
   LegacyStranglerError,
   OBSERVATION_SCHEMA_VERSION,
   OBSERVER_IDS,
@@ -172,6 +274,7 @@ module.exports = Object.freeze({
   STRANGLER_SCHEMA_VERSION,
   createAuthorityObservation,
   createWriterSaveAuthorityIdentity,
+  executeAtomicSceneManifestGatewayCutover,
   executeWriterSaveThroughStranglerGateway,
   validateObservation,
 });

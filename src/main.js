@@ -80,10 +80,12 @@ const {
   recoverProjectTransaction,
 } = require('./core/project-transaction-v1.cjs');
 const {
+  ATOMIC_SINGLE_FILE_TARGET_ROLES,
   OBSERVER_IDS: SAVE_AUTHORITY_OBSERVER_IDS,
   SAVE_AUTHORITY_ROUTES,
   createAuthorityObservation,
   executeAtomicSceneManifestGatewayCutover,
+  executeAtomicSingleFileGatewayCutover,
   executeWriterSaveThroughStranglerGateway,
 } = require('./core/legacy-strangler-v1.cjs');
 const {
@@ -12466,6 +12468,56 @@ async function ensureProjectManifest(projectName = DEFAULT_PROJECT_NAME) {
   throw new Error('PROJECT_MANIFEST_RETRY_EXHAUSTED');
 }
 
+async function writeNotesOrSettingsThroughAtomicGateway({
+  filePath,
+  content,
+  targetRole,
+  projectId,
+  operationLabel,
+}) {
+  const request = {
+    filePath,
+    content,
+    targetRole,
+    projectId,
+  };
+  const observeLegacy = async (identity) => createAuthorityObservation({
+    observerId: SAVE_AUTHORITY_OBSERVER_IDS.LEGACY,
+    requestDigest: identity.identityDigest,
+    route: SAVE_AUTHORITY_ROUTES.ATOMIC_FILE_V1,
+  });
+  const observeGateway = async (identity) => createAuthorityObservation({
+    observerId: SAVE_AUTHORITY_OBSERVER_IDS.GATEWAY,
+    requestDigest: identity.identityDigest,
+    route: SAVE_AUTHORITY_ROUTES.ATOMIC_FILE_V1,
+  });
+
+  try {
+    return await queueDiskOperation(
+      () => executeAtomicSingleFileGatewayCutover({
+        request,
+        observeLegacy,
+        observeGateway,
+        executeGateway: async ({ authorityIdentity }) => {
+          const result = await fileManager.writeFileAtomic(filePath, content);
+          return {
+            ...result,
+            targetRole: authorityIdentity.targetRole,
+            contentDigest: authorityIdentity.contentDigest,
+          };
+        },
+      }),
+      operationLabel,
+    );
+  } catch (error) {
+    return {
+      success: false,
+      error: error && typeof error.message === 'string' ? error.message : 'ATOMIC_SINGLE_FILE_WRITE_FAILED',
+      code: error && typeof error.code === 'string' ? error.code : 'E_ATOMIC_SINGLE_FILE_WRITE_FAILED',
+    };
+  }
+}
+
 async function migrateProjectNotesStorage(options = {}) {
   const { manifestPath, manifest } = await ensureProjectManifest(DEFAULT_PROJECT_NAME);
   const expectedProjectId = normalizeStableProjectId(options.projectId);
@@ -12482,10 +12534,13 @@ async function migrateProjectNotesStorage(options = {}) {
     projectRoot,
     projectId: manifest.projectId,
     readFile: fs.readFile,
-    writeFileAtomic: (filePath, content) => queueDiskOperation(
-      () => fileManager.writeFileAtomic(filePath, content),
-      'save project notes storage',
-    ),
+    writeFileAtomic: (filePath, content) => writeNotesOrSettingsThroughAtomicGateway({
+      filePath,
+      content,
+      targetRole: ATOMIC_SINGLE_FILE_TARGET_ROLES.NOTES_PRIMARY,
+      projectId: manifest.projectId,
+      operationLabel: 'save project notes storage',
+    }),
     ...(typeof options.now === 'function' ? { now: options.now } : {}),
   });
 }
@@ -12549,10 +12604,13 @@ async function writeProjectNotesDocument(context, current, document, commandId, 
     sourceText: beforeText,
     now,
   });
-  const writeResult = await queueDiskOperation(
-    () => fileManager.writeFileAtomic(notesPath, `${JSON.stringify(document, null, 2)}\n`),
-    'save project notes command',
-  );
+  const writeResult = await writeNotesOrSettingsThroughAtomicGateway({
+    filePath: notesPath,
+    content: `${JSON.stringify(document, null, 2)}\n`,
+    targetRole: ATOMIC_SINGLE_FILE_TARGET_ROLES.NOTES_PRIMARY,
+    projectId: context.projectId,
+    operationLabel: 'save project notes command',
+  });
   if (!writeResult || writeResult.success !== true) {
     return makeNotesCommandError(
       commandId,
@@ -19475,10 +19533,13 @@ async function moveMenuSectionLater(sectionId) {
 // Сохранение настроек
 async function saveSettings(settings) {
   try {
-    const result = await queueDiskOperation(
-      () => fileManager.writeFileAtomic(getSettingsPath(), JSON.stringify(settings)),
-      'save settings'
-    );
+    const result = await writeNotesOrSettingsThroughAtomicGateway({
+      filePath: getSettingsPath(),
+      content: JSON.stringify(settings),
+      targetRole: ATOMIC_SINGLE_FILE_TARGET_ROLES.SETTINGS_PRIMARY,
+      projectId: null,
+      operationLabel: 'save settings',
+    });
     return !result || result.success !== false;
   } catch (error) {
     logDevError('save settings', error);

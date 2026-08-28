@@ -21,6 +21,8 @@ export const ACCEPTANCE_SIGNALS_DIGEST = '2510434d60a82370953aab5af5c7d41d067a31
 export const WRITE_SET_DIGEST = '158b8f9006133c831aa01ce739c80b40ac057115bbc3e16a5acae733e924562c';
 export const SOURCE_HEAD_SHA = '7dabc48f28f7e621292a0ccab2519511ae580fa4';
 export const SOURCE_TREE_SHA = '29aed82eede9f9114afcf2e66d5a8a3c156a56e6';
+export const RECOVERY_CONTOUR_HEAD_SHA = '3bb836f706acdf01ab85526bf0ff976c26de71c7';
+export const RECOVERY_CONTOUR_TREE_SHA = '7cc9139cc45783fce90794ec57ccb4b391c743e4';
 export const PREDECESSOR_C6B_TERMINAL_DIGEST = '09497af131c76391e76877ebdd313bed0d1ad4091872b3c376a70c5d4199dd49';
 export const PREDECESSOR_C6B_RELEASE_DIGEST = '34e968898d7b8cdbf4b4c2475e1460f324072b61bdaca60db0452f2e06ca130a';
 export const TRIGGERING_C8A_BLOCKED_RECEIPT_DIGEST = 'f6638ae8cf85dcdea96fd2720f552aebb94198913a0f063c39094c79806990ff';
@@ -41,6 +43,7 @@ export const PATHS = Object.freeze({
   activeApprovals: 'docs/OPS/R24/CORRECTIVE/C1C_GOVERNANCE_CHANGE_APPROVALS_V1.json',
   approvals: 'docs/OPS/R24/CORRECTIVE/C6B_ACCESSIBILITY_RECOVERY_GOVERNANCE_APPROVALS_V1.json',
   forwardApprovals: 'docs/OPS/R24/CORRECTIVE/C6B_DEPENDENT_BINDING_RECOVERY_GOVERNANCE_APPROVALS_V1.json',
+  postmergeApprovals: 'docs/OPS/R24/CORRECTIVE/C6B_POSTMERGE_CONTOUR_RECOVERY_GOVERNANCE_APPROVALS_V1.json',
   contract: 'docs/OPS/R24/CORRECTIVE/C6B_ACCESSIBILITY_RECOVERY_CONTRACT_V1.json',
   evidence: 'docs/OPS/R24/CORRECTIVE/C6B_ACCESSIBILITY_RECOVERY_EVIDENCE_V1.json',
   inventory: 'docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json',
@@ -72,9 +75,12 @@ const FORWARD_RECOVERY_PATHS = Object.freeze([
   'docs/OPS/R24/CORRECTIVE/C6B_STAGE_ADMISSION_ATTESTATION_AMENDMENT_V1.json',
   'docs/OPS/R24/CORRECTIVE/C6B_STAGE_ADMISSION_ATTESTATION_AMENDMENT_V2.json',
   'docs/OPS/R24/CORRECTIVE/C6B_STAGE_ADMISSION_ATTESTATION_AMENDMENT_V3.json',
+  'docs/OPS/R24/CORRECTIVE/C6B_STAGE_ADMISSION_ATTESTATION_AMENDMENT_V4.json',
   'docs/OPS/R24/CORRECTIVE/C6B_STAGE_INSTANCE_AMENDMENT_V1.json',
   'docs/OPS/R24/CORRECTIVE/C6B_STAGE_INSTANCE_AMENDMENT_V2.json',
   'docs/OPS/R24/CORRECTIVE/C6B_STAGE_INSTANCE_AMENDMENT_V3.json',
+  'docs/OPS/R24/CORRECTIVE/C6B_STAGE_INSTANCE_AMENDMENT_V4.json',
+  'docs/OPS/R24/CORRECTIVE/C6B_POSTMERGE_CONTOUR_RECOVERY_GOVERNANCE_APPROVALS_V1.json',
   'docs/OPS/R24/CORRECTIVE/C6B_WRITER_HOME_COMPUTED_STYLE_CONTRACT_V1.json',
   'scripts/ops/r24/corrective/c6b-dependent-binding-recovery.mjs',
 ].sort());
@@ -127,18 +133,24 @@ function sameSet(actual, expected) {
 
 export function assertHeadContour(repoRoot = process.cwd()) {
   const currentHead = git(repoRoot, ['rev-parse', 'HEAD']);
-  assert(git(repoRoot, ['rev-parse', `${SOURCE_HEAD_SHA}^{tree}`]) === SOURCE_TREE_SHA, 'E_SOURCE_TREE', SOURCE_TREE_SHA);
-  if (currentHead !== SOURCE_HEAD_SHA) {
-    const ancestor = spawnSync('git', ['merge-base', '--is-ancestor', SOURCE_HEAD_SHA, currentHead], { cwd: repoRoot });
+  assert(git(repoRoot, ['rev-parse', `${RECOVERY_CONTOUR_HEAD_SHA}^{tree}`]) === RECOVERY_CONTOUR_TREE_SHA, 'E_RECOVERY_CONTOUR_TREE', RECOVERY_CONTOUR_TREE_SHA);
+  if (currentHead !== RECOVERY_CONTOUR_HEAD_SHA) {
+    const ancestor = spawnSync('git', ['merge-base', '--is-ancestor', RECOVERY_CONTOUR_HEAD_SHA, currentHead], { cwd: repoRoot });
     assert(ancestor.status === 0, 'E_SOURCE_HEAD_NOT_ANCESTOR', currentHead);
-    const commitCount = Number(git(repoRoot, ['rev-list', '--count', `${SOURCE_HEAD_SHA}..${currentHead}`]));
+    const commitCount = Number(git(repoRoot, ['rev-list', '--count', `${RECOVERY_CONTOUR_HEAD_SHA}..${currentHead}`]));
     assert(Number.isInteger(commitCount) && commitCount <= 2, 'E_UNBOUNDED_DELTA', String(commitCount));
-    for (const relativePath of git(repoRoot, ['diff', '--name-only', SOURCE_HEAD_SHA, currentHead]).split('\n').filter(Boolean)) {
+    for (const relativePath of git(repoRoot, ['diff', '--name-only', RECOVERY_CONTOUR_HEAD_SHA, currentHead]).split('\n').filter(Boolean)) {
       assert(CONTOUR_WRITE_SET.includes(relativePath), 'E_WRITE_SET_DRIFT', relativePath);
     }
   }
   for (const relativePath of statusPaths(repoRoot)) assert(CONTOUR_WRITE_SET.includes(relativePath), 'E_DIRTY_PATH_OUTSIDE_WRITE_SET', relativePath);
-  return { currentHead, sourceHeadSha: SOURCE_HEAD_SHA, sourceTreeSha: SOURCE_TREE_SHA };
+  return {
+    currentHead,
+    recoveryContourHeadSha: RECOVERY_CONTOUR_HEAD_SHA,
+    recoveryContourTreeSha: RECOVERY_CONTOUR_TREE_SHA,
+    sourceHeadSha: SOURCE_HEAD_SHA,
+    sourceTreeSha: SOURCE_TREE_SHA,
+  };
 }
 
 export function assertSourceContractText(source) {
@@ -263,6 +275,8 @@ export function buildContract(repoRoot = process.cwd()) {
       predecessorC6BReleaseDigest: PREDECESSOR_C6B_RELEASE_DIGEST,
       predecessorC6BTerminalDigest: PREDECESSOR_C6B_TERMINAL_DIGEST,
       programTemplateDigest: PROGRAM_TEMPLATE_DIGEST,
+      recoveryContourHeadSha: RECOVERY_CONTOUR_HEAD_SHA,
+      recoveryContourTreeSha: RECOVERY_CONTOUR_TREE_SHA,
       sourceHeadSha: SOURCE_HEAD_SHA,
       sourceTreeSha: SOURCE_TREE_SHA,
       stageAdmissionDigest: STAGE_ADMISSION_DIGEST,
@@ -461,7 +475,7 @@ export function buildEvidence(contract, physicalReceipt) {
     externalTerminalAttestation: { required: true, status: 'AWAITING_POST_MERGE_EXTERNAL_C6B_RECOVERY_ATTESTATION' },
     observations: { accessibility: physicalReceipt.accessibility, electronVersion: physicalReceipt.electronVersion, platform: physicalReceipt.platform, safety: physicalReceipt.safety },
     schemaVersion: 'YALKEN_R24_C6B_ACCESSIBILITY_RECOVERY_EVIDENCE_V1',
-    sourceBindings: { blockedC8AReceiptDigest: TRIGGERING_C8A_BLOCKED_RECEIPT_DIGEST, programTemplateDigest: PROGRAM_TEMPLATE_DIGEST, sourceHeadSha: SOURCE_HEAD_SHA, sourceTreeSha: SOURCE_TREE_SHA, stageAdmissionDigest: STAGE_ADMISSION_DIGEST, stageInstanceDigest: STAGE_INSTANCE_DIGEST },
+    sourceBindings: { blockedC8AReceiptDigest: TRIGGERING_C8A_BLOCKED_RECEIPT_DIGEST, programTemplateDigest: PROGRAM_TEMPLATE_DIGEST, recoveryContourHeadSha: RECOVERY_CONTOUR_HEAD_SHA, recoveryContourTreeSha: RECOVERY_CONTOUR_TREE_SHA, sourceHeadSha: SOURCE_HEAD_SHA, sourceTreeSha: SOURCE_TREE_SHA, stageAdmissionDigest: STAGE_ADMISSION_DIGEST, stageInstanceDigest: STAGE_INSTANCE_DIGEST },
     stageId: STAGE_ID,
     status: 'CURRENT_HEAD_EVALUATED_PENDING_EXTERNAL_TERMINAL_ATTESTATION',
   };
@@ -499,8 +513,13 @@ function buildActiveApprovals(repoRoot) {
 function validateCurrentApprovalSets(repoRoot) {
   const stageApprovals = readJsonBytes(repoRoot, PATHS.approvals, true).value;
   const forwardApprovals = readJsonBytes(repoRoot, PATHS.forwardApprovals, true).value;
+  const postmergeApprovals = readJsonBytes(repoRoot, PATHS.postmergeApprovals, true).value;
   const activeApprovals = readJsonBytes(repoRoot, PATHS.activeApprovals, true).value;
-  for (const approvalSet of [stageApprovals, forwardApprovals, activeApprovals]) {
+  assert(Array.isArray(forwardApprovals.approvals) && forwardApprovals.version === 'v1.0', 'E_HISTORICAL_APPROVAL_SCHEMA', 'forward');
+  for (const entry of forwardApprovals.approvals) {
+    assert(typeof entry.filePath === 'string' && typeof entry.sha256 === 'string', 'E_HISTORICAL_APPROVAL_ENTRY', 'shape');
+  }
+  for (const approvalSet of [stageApprovals, postmergeApprovals, activeApprovals]) {
     assert(Array.isArray(approvalSet.approvals) && approvalSet.version === 'v1.0', 'E_APPROVAL_SCHEMA', 'current');
     for (const entry of approvalSet.approvals) {
       assert(typeof entry.filePath === 'string' && typeof entry.sha256 === 'string', 'E_APPROVAL_ENTRY', 'shape');

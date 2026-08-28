@@ -37,6 +37,11 @@ const MUTANTS = [
     find: '    direction: TEXT_TRANSFORM_DIRECTION.INVERSE,',
     replace: '    direction: TEXT_TRANSFORM_DIRECTION.FORWARD,',
   },
+  {
+    id: 'utf16-prefix-offset-replaced-by-code-point-index',
+    find: '  const utf16OffsetOf = (codePointIndex) => utf16PrefixOffsets[codePointIndex];',
+    replace: '  const utf16OffsetOf = (codePointIndex) => codePointIndex;',
+  },
 ];
 
 async function killOracle(modulePath) {
@@ -50,6 +55,15 @@ async function killOracle(modulePath) {
   const after = m.mapFoldedOffsetToOriginal(tape, 4);
   assert.equal(after.status, 'EXACT');
   assert.equal(after.position, 3);
+  const hostileAstral = m.buildDeterministicFoldTape('😀A😀B');
+  assert.deepEqual(
+    hostileAstral.tape.operations.map(({ sourceStart, sourceEnd }) => ({ sourceStart, sourceEnd })),
+    [
+      { sourceStart: 2, sourceEnd: 3 },
+      { sourceStart: 5, sourceEnd: 6 },
+    ],
+    'changed-run boundaries use UTF-16 code units after astral code points',
+  );
   assert.equal(m.foldIncludes('Hello', 'hello'), true);
   assert.equal(m.foldIncludes('Straße', 'STRASSE'), false);
 }

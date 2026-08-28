@@ -49,10 +49,14 @@ export function buildDeterministicFoldTape(text, { sourceRevisionId = 'fold-sour
   const operations = [];
   const foldedPieces = [];
   const codePoints = [...text];
+  const utf16PrefixOffsets = new Uint32Array(codePoints.length + 1);
+  for (let index = 0; index < codePoints.length; index += 1) {
+    utf16PrefixOffsets[index + 1] = utf16PrefixOffsets[index] + codePoints[index].length;
+  }
   let cursor = 0;
   let runStart = -1;
 
-  const utf16OffsetOf = (codePointIndex) => codePoints.slice(0, codePointIndex).join('').length;
+  const utf16OffsetOf = (codePointIndex) => utf16PrefixOffsets[codePointIndex];
 
   const closeRun = (endIndex) => {
     if (runStart === -1) return;

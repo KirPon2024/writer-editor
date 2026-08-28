@@ -483,6 +483,13 @@ export function initTiptap(mountEl, options = {}) {
   const nextFormattingStateHandler = typeof options.onFormattingStateChange === 'function'
     ? options.onFormattingStateChange
     : null
+  const editorAccessibilityAttributes = {
+    'aria-label': mountEl.getAttribute('aria-label') || 'Текст сцены',
+    'aria-multiline': mountEl.getAttribute('aria-multiline') || 'true',
+    'data-bidi-policy': mountEl.getAttribute('data-bidi-policy') || 'plaintext',
+    dir: mountEl.getAttribute('dir') || 'auto',
+    role: 'textbox',
+  }
 
   destroyCurrentEditor()
   currentFormattingStateHandler = nextFormattingStateHandler
@@ -493,6 +500,9 @@ export function initTiptap(mountEl, options = {}) {
   mountEl.innerHTML = ''
   mountEl.classList.add('tiptap-host')
   mountEl.removeAttribute('contenteditable')
+  mountEl.removeAttribute('role')
+  mountEl.removeAttribute('aria-label')
+  mountEl.removeAttribute('aria-multiline')
   mountEl.setAttribute('data-editor-surface', 'tiptap')
 
   const pageWrapEl = document.createElement('div')
@@ -514,6 +524,9 @@ export function initTiptap(mountEl, options = {}) {
 
   const editor = new Editor({
     element: contentEl,
+    editorProps: {
+      attributes: editorAccessibilityAttributes,
+    },
     extensions: [
       StarterKit.configure({
         link: false,

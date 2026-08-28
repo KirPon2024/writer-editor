@@ -7,6 +7,12 @@ const crypto = require('node:crypto');
 const STRANGLER_SCHEMA_VERSION = 'yalken.writer-save-legacy-strangler.v1';
 const OBSERVATION_SCHEMA_VERSION = 'yalken.writer-save-authority-observation.v1';
 const ATOMIC_SCENE_MANIFEST_GATEWAY_SCHEMA_VERSION = 'yalken.atomic-scene-manifest-gateway.v1';
+const ATOMIC_SINGLE_FILE_GATEWAY_SCHEMA_VERSION = 'yalken.atomic-single-file-gateway.v1';
+
+const ATOMIC_SINGLE_FILE_TARGET_ROLES = Object.freeze({
+  NOTES_PRIMARY: 'NOTES_PRIMARY',
+  SETTINGS_PRIMARY: 'SETTINGS_PRIMARY',
+});
 
 const ATOMIC_SCENE_MANIFEST_PHASE_CHAIN = Object.freeze([
   'ADMIT',
@@ -21,6 +27,7 @@ const ATOMIC_SCENE_MANIFEST_PHASE_CHAIN = Object.freeze([
 ]);
 
 const SAVE_AUTHORITY_ROUTES = Object.freeze({
+  ATOMIC_FILE_V1: 'ATOMIC_FILE_V1',
   DURABLE_SAVE_V1: 'DURABLE_SAVE_V1',
   PROJECT_TRANSACTION_V1: 'PROJECT_TRANSACTION_V1',
 });
@@ -78,6 +85,45 @@ function createWriterSaveAuthorityIdentity({
     revision,
     projectBound,
     projectAuthorityPath,
+  };
+  return Object.freeze({
+    ...identity,
+    identityDigest: sha256hex(JSON.stringify(identity)),
+  });
+}
+
+function createAtomicSingleFileAuthorityIdentity({
+  filePath,
+  content,
+  targetRole,
+  projectId,
+}) {
+  if (typeof filePath !== 'string' || filePath.length === 0) {
+    throw new LegacyStranglerError('E_ATOMIC_SINGLE_FILE_PATH_REQUIRED', PHASES.ADMIT);
+  }
+  if (typeof content !== 'string' && !Buffer.isBuffer(content)) {
+    throw new LegacyStranglerError('E_ATOMIC_SINGLE_FILE_CONTENT_REQUIRED', PHASES.ADMIT);
+  }
+  if (!Object.values(ATOMIC_SINGLE_FILE_TARGET_ROLES).includes(targetRole)) {
+    throw new LegacyStranglerError('E_ATOMIC_SINGLE_FILE_TARGET_ROLE_INVALID', PHASES.ADMIT);
+  }
+  if (targetRole === ATOMIC_SINGLE_FILE_TARGET_ROLES.NOTES_PRIMARY) {
+    if (typeof projectId !== 'string'
+      || projectId.length === 0
+      || projectId.length > 256
+      || /[\\/\0]/u.test(projectId)) {
+      throw new LegacyStranglerError('E_ATOMIC_SINGLE_FILE_PROJECT_ID_INVALID', PHASES.ADMIT);
+    }
+  } else if (projectId !== null) {
+    throw new LegacyStranglerError('E_ATOMIC_SINGLE_FILE_PROJECT_ID_FORBIDDEN', PHASES.ADMIT);
+  }
+
+  const identity = {
+    schemaVersion: ATOMIC_SINGLE_FILE_GATEWAY_SCHEMA_VERSION,
+    targetRole,
+    contentDigest: sha256hex(content),
+    projectId,
+    filePath,
   };
   return Object.freeze({
     ...identity,
@@ -175,6 +221,20 @@ function validateAtomicSceneManifestReceipt(result, request) {
   return result;
 }
 
+function validateAtomicSingleFileReceipt(result, identity) {
+  if (!result || typeof result !== 'object' || Array.isArray(result)
+    || result.success !== true
+    || result.targetRole !== identity.targetRole
+    || result.contentDigest !== identity.contentDigest) {
+    throw new LegacyStranglerError(
+      'E_ATOMIC_SINGLE_FILE_GATEWAY_RECEIPT_INVALID',
+      PHASES.EXECUTE,
+      identity.targetRole,
+    );
+  }
+  return result;
+}
+
 // C5C1: project-bound scene + manifest writes expose exactly one executor.
 // The legacy route is retained only as a read-only compatibility observation;
 // it is structurally absent from the write API and can never be a fallback.
@@ -225,6 +285,53 @@ async function executeAtomicSceneManifestGatewayCutover({
   });
 }
 
+// C5C2: notes and settings primary writes share one typed single-file gateway.
+// Legacy routing is an independent read-only observation and is intentionally
+// absent from the executor API, so gateway failure cannot trigger a second write.
+async function executeAtomicSingleFileGatewayCutover({
+  request,
+  observeLegacy,
+  observeGateway,
+  executeGateway,
+}) {
+  if (typeof executeGateway !== 'function') {
+    throw new LegacyStranglerError('E_ATOMIC_SINGLE_FILE_GATEWAY_REQUIRED', PHASES.ADMIT);
+  }
+  const identity = createAtomicSingleFileAuthorityIdentity(request || {});
+  const { legacy, gateway } = await observeAuthorityPair(identity, observeLegacy, observeGateway);
+  if (gateway.route !== SAVE_AUTHORITY_ROUTES.ATOMIC_FILE_V1) {
+    throw new LegacyStranglerError(
+      'E_ATOMIC_SINGLE_FILE_ROUTE_REQUIRED',
+      PHASES.COMPARE,
+      gateway.route,
+    );
+  }
+
+  const result = validateAtomicSingleFileReceipt(
+    await executeGateway(Object.freeze({ ...request, authorityIdentity: identity })),
+    identity,
+  );
+  return Object.freeze({
+    ...result,
+    atomicSingleFileGateway: Object.freeze({
+      schemaVersion: ATOMIC_SINGLE_FILE_GATEWAY_SCHEMA_VERSION,
+      requestDigest: identity.identityDigest,
+      targetRole: identity.targetRole,
+      contentDigest: identity.contentDigest,
+      selectedRoute: gateway.route,
+      observerCount: 2,
+      legacyObserverId: legacy.observerId,
+      gatewayObserverId: gateway.observerId,
+      legacyAuthorityRole: 'READ_ONLY_OBSERVER',
+      legacyFallbackMode: 'READ_ONLY_OBSERVATION_ONLY',
+      legacyWriteFallbackAllowed: false,
+      dualObserved: true,
+      dualWriteAllowed: false,
+      gatewayExecutorCount: 1,
+    }),
+  });
+}
+
 async function executeWriterSaveThroughStranglerGateway({
   request,
   observeLegacy,
@@ -266,6 +373,8 @@ async function executeWriterSaveThroughStranglerGateway({
 module.exports = Object.freeze({
   ATOMIC_SCENE_MANIFEST_GATEWAY_SCHEMA_VERSION,
   ATOMIC_SCENE_MANIFEST_PHASE_CHAIN,
+  ATOMIC_SINGLE_FILE_GATEWAY_SCHEMA_VERSION,
+  ATOMIC_SINGLE_FILE_TARGET_ROLES,
   LegacyStranglerError,
   OBSERVATION_SCHEMA_VERSION,
   OBSERVER_IDS,
@@ -273,8 +382,10 @@ module.exports = Object.freeze({
   SAVE_AUTHORITY_ROUTES,
   STRANGLER_SCHEMA_VERSION,
   createAuthorityObservation,
+  createAtomicSingleFileAuthorityIdentity,
   createWriterSaveAuthorityIdentity,
   executeAtomicSceneManifestGatewayCutover,
+  executeAtomicSingleFileGatewayCutover,
   executeWriterSaveThroughStranglerGateway,
   validateObservation,
 });

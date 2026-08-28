@@ -24,27 +24,28 @@ const { isAllowedFilePathByLaw, computeFilePathAllowlistRoots } = require(CORE('
 const anchorLaw = require(CORE('anchor-lineage-v1.cjs'));
 
 test('SPOOF: forged caller identities are refused with typed codes', () => {
+  const shellUrl = 'file:///app/index.html?USE_TIPTAP=1&PRODUCT_PROFILE=WRITER_LOCAL_V1&BRAND_IDENTITY=YALKEN_ORIGINAL_V1';
+  const channel = 'ui:command-bridge';
   const policy = {
-    expectedSenderIds: () => [7],
-    allowedFrameUrlPrefixes: () => ['yalken-shell://'],
-    expectedSessionId: () => 'session-a',
+    expectedFrameUrl: () => shellUrl,
+    resolveLiveCaller: () => ({ senderId: 7, session: 'session-a', currentUrl: shellUrl, allowedChannels: [channel] }),
   };
   const foreignSender = evaluateIpcCallerIdentity({
     sender: { id: 31337, isDestroyed: () => false, session: 'session-a' },
-    senderFrame: { url: 'yalken-shell://index.html' },
-  }, policy);
+    senderFrame: { url: shellUrl },
+  }, policy, { channel });
   assert.equal(foreignSender.code, 'E_IPC_SENDER_MISMATCH');
 
   const foreignFrame = evaluateIpcCallerIdentity({
     sender: { id: 7, isDestroyed: () => false, session: 'session-a' },
     senderFrame: { url: 'https://evil.example/' },
-  }, policy);
-  assert.equal(foreignFrame.code, 'E_IPC_FRAME_ORIGIN_DENIED');
+  }, policy, { channel });
+  assert.equal(foreignFrame.code, 'E_IPC_FRAME_PROTOCOL_DENIED');
 
   const foreignSession = evaluateIpcCallerIdentity({
     sender: { id: 7, isDestroyed: () => false, session: 'session-b' },
-    senderFrame: { url: 'yalken-shell://index.html' },
-  }, policy);
+    senderFrame: { url: shellUrl },
+  }, policy, { channel });
   assert.equal(foreignSession.code, 'E_IPC_SESSION_MISMATCH');
 });
 

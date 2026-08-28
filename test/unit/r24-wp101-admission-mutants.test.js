@@ -16,8 +16,8 @@ const { scanAdmissionWiring } = require('./r24-wp101-ipc-admission.test.js');
 const MODULE_MUTANTS = [
   {
     id: 'unbound-channel-allowed',
-    find: "    if (!capabilityClassOf(channel)) {\n      throw new IpcCallerIdentityError('E_IPC_CHANNEL_CAPABILITY_UNBOUND', String(channel));\n    }",
-    replace: "    if (!capabilityClassOf(channel)) {\n      return;\n    }",
+    find: "    if (!capabilityClassOf(channel)) throw new IpcCallerIdentityError('E_IPC_CHANNEL_CAPABILITY_UNBOUND', String(channel));",
+    replace: "    if (!capabilityClassOf(channel)) return;",
   },
   {
     id: 'unknown-class-accepted',
@@ -43,8 +43,15 @@ function moduleOracle(module) {
 
 const WIRING_MUTANTS = [
   {
-    id: 'session-binding-removed',
-    mutate: (source) => source.replace('  expectedSessionId: () => {', '  expectedSessionId_DISABLED: () => {'),
+    id: 'live-caller-binding-removed',
+    mutate: (source) => source.replace('  resolveLiveCaller: () => {', '  resolveLiveCaller_DISABLED: () => {'),
+  },
+  {
+    id: 'M12-generic-webcontents-enumeration-restored',
+    mutate: (source) => source.replace(
+      '    const shell = mainWindow.webContents;',
+      '    const shell = webContents.getAllWebContents().find((candidate) => candidate && !candidate.isDestroyed());',
+    ),
   },
   {
     id: 'capability-wrap-removed',

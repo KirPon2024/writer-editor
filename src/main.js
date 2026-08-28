@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, dialog, ipcMain, session, utilityProcess, webContents } = require('electron');
+const { app, BrowserWindow, Menu, dialog, ipcMain, session, utilityProcess } = require('electron');
 const { performance } = require('perf_hooks');
 const { spawnSync } = require('child_process');
 const path = require('path');
@@ -122,38 +122,43 @@ function logShadowAdvice(context, verdict) {
   }
 }
 
-// R2.4 S0: every privileged IPC entry point proves its caller before any
-// handler body runs. The expected sender is the single main window's live
-// webContents; the frame origin must be the app-shell file URL. Identity is
-// evaluated from the event at dispatch time, never from payload.
+function getIpcShellQuery() {
+  const useTiptap = process.env.USE_LEGACY_EDITOR !== '1';
+  const writerLocalProfile = getWriterLocalRuntimeProfile();
+  const brandIdentity = createBrandIdentityRendererProjection();
+  return Object.freeze({
+    USE_TIPTAP: useTiptap ? '1' : '0',
+    PRODUCT_PROFILE: writerLocalProfile.profileId,
+    BRAND_IDENTITY: brandIdentity.identityId,
+  });
+}
+
+function getExpectedIpcShellUrl() {
+  const shellUrl = pathToFileURL(path.join(__dirname, 'renderer', 'index.html'));
+  const query = getIpcShellQuery();
+  for (const [key, value] of Object.entries(query)) shellUrl.searchParams.set(key, value);
+  return shellUrl.href;
+}
+
+// R2.4 S0/C6C: every privileged IPC entry point proves its caller before any
+// handler body runs. One dispatch-time snapshot binds the single live main
+// window's sender id, session, current structured URL and channel allowlist.
+// The parser cache cannot carry authority across dispatches.
 const IPC_CALLER_IDENTITY_POLICY = {
-  // The legitimate sender set is the live registry of app-shell webContents:
-  // exactly those currently showing the bundled shell URL. This covers window
-  // recreation and refuses everything when no shell is alive.
-  expectedSenderIds: () => {
-    if (!webContents || typeof webContents.getAllWebContents !== 'function') return [];
-    const shellPrefix = pathToFileURL(path.join(__dirname, 'renderer', 'index.html')).href;
-    return webContents.getAllWebContents()
-      .filter((wc) => wc && typeof wc.id === 'number'
-        && typeof wc.getURL === 'function'
-        && wc.getURL().startsWith(shellPrefix)
-        && !(typeof wc.isDestroyed === 'function' && wc.isDestroyed()))
-      .map((wc) => wc.id);
-  },
-  allowedFrameUrlPrefixes: () => [
-    pathToFileURL(path.join(__dirname, 'renderer', 'index.html')).href,
-  ],
-  // R2.4 WP-101: the session dimension is anchored to the live shell
-  // webContents' session. With no live shell the sender registry is already
-  // empty and refuses everything, so undefined is the safe anchor here.
-  expectedSessionId: () => {
-    if (!webContents || typeof webContents.getAllWebContents !== 'function') return undefined;
-    const shellPrefix = pathToFileURL(path.join(__dirname, 'renderer', 'index.html')).href;
-    const shell = webContents.getAllWebContents().find((wc) => wc
-      && typeof wc.getURL === 'function'
-      && wc.getURL().startsWith(shellPrefix)
-      && !(typeof wc.isDestroyed === 'function' && wc.isDestroyed()));
-    return shell ? shell.session : undefined;
+  expectedFrameUrl: getExpectedIpcShellUrl,
+  resolveLiveCaller: () => {
+    if (!mainWindow || (typeof mainWindow.isDestroyed === 'function' && mainWindow.isDestroyed())) return null;
+    const shell = mainWindow.webContents;
+    if (!shell
+      || !Number.isInteger(shell.id)
+      || typeof shell.getURL !== 'function'
+      || (typeof shell.isDestroyed === 'function' && shell.isDestroyed())) return null;
+    return {
+      senderId: shell.id,
+      session: shell.session,
+      currentUrl: shell.getURL(),
+      allowedChannels: Object.keys(IPC_CHANNEL_CAPABILITY_CLASS),
+    };
   },
 };
 
@@ -27885,16 +27890,9 @@ function createWindow() {
 
   logPerfStage('create-window');
 
-  const useLegacyEditor = process.env.USE_LEGACY_EDITOR === '1';
-  const useTiptap = !useLegacyEditor;
-  const writerLocalProfile = getWriterLocalRuntimeProfile();
-  const brandIdentity = createBrandIdentityRendererProjection();
+  const shellQuery = getIpcShellQuery();
   editorStartupReadyPromise = mainWindow.loadFile(path.join(__dirname, 'renderer', 'index.html'), {
-    query: {
-      USE_TIPTAP: (useTiptap ? '1' : '0'),
-      PRODUCT_PROFILE: writerLocalProfile.profileId,
-      BRAND_IDENTITY: brandIdentity.identityId,
-    },
+    query: shellQuery,
   }).then(async () => {
     mainWindow.webContents.setZoomFactor(1);
     logPerfStage('did-finish-load');
@@ -31071,6 +31069,7 @@ app.on('window-all-closed', () => {
 module.exports = {
   MINIMUM_INTERCHANGE_RUNTIME_BINDING,
   buildProjectTreeRootsWithIdentities,
+  createWindow,
   ensureProjectManifest,
   getProjectDocumentIdentityPayload,
   getProjectManifestComparable,

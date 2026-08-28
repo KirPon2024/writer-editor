@@ -16,7 +16,8 @@ const {
 const { createGuardedIpcRegistration } = require('../../src/core/ipc-caller-identity-v1.cjs');
 const { validateIpcEnvelope, createEnvelope } = require('../../src/core/ipc-envelope-v1.cjs');
 
-const SHELL_PREFIX = 'file:///app/index.html';
+const SHELL_URL = 'file:///app/index.html?USE_TIPTAP=1&PRODUCT_PROFILE=WRITER_LOCAL_V1&BRAND_IDENTITY=YALKEN_ORIGINAL_V1';
+const SHARED_SESSION = Object.freeze({ partition: 'default' });
 
 test('end-to-end bridge shape: caller fence, envelope law, then unified protocol refusal', async () => {
   const ipc = {
@@ -25,8 +26,8 @@ test('end-to-end bridge shape: caller fence, envelope law, then unified protocol
     on() {},
   };
   const policy = {
-    expectedSenderIds: () => [1],
-    allowedFrameUrlPrefixes: () => [SHELL_PREFIX],
+    expectedFrameUrl: () => SHELL_URL,
+    resolveLiveCaller: () => ({ senderId: 1, session: SHARED_SESSION, currentUrl: SHELL_URL, allowedChannels: ['ui:command-bridge'] }),
   };
   const guarded = createGuardedIpcRegistration(ipc, policy);
   const guardedProtocolHandle = (channel, handler) => guarded.handle(channel, async (event, request) => {
@@ -36,12 +37,12 @@ test('end-to-end bridge shape: caller fence, envelope law, then unified protocol
   });
   guardedProtocolHandle('ui:command-bridge', async () => ({ ok: false, reason: 'COMMAND_ID_NOT_ALLOWED' }));
 
-  const genuine = { sender: { id: 1, isDestroyed: () => false }, senderFrame: { url: SHELL_PREFIX } };
+  const genuine = { sender: { id: 1, isDestroyed: () => false, session: SHARED_SESSION }, senderFrame: { url: SHELL_URL } };
   const handler = ipc.handlers.get('ui:command-bridge');
 
   let forgedCode = '';
   try {
-    await handler({ sender: { id: 9, isDestroyed: () => false }, senderFrame: { url: SHELL_PREFIX } }, createEnvelope('ui:command-bridge', 'x', {}));
+    await handler({ sender: { id: 9, isDestroyed: () => false, session: SHARED_SESSION }, senderFrame: { url: SHELL_URL } }, createEnvelope('ui:command-bridge', 'x', {}));
   } catch (error) {
     forgedCode = error && error.code ? error.code : '';
   }

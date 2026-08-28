@@ -10,19 +10,6 @@ const { pathToFileURL } = require('node:url');
 const ROOT = path.resolve(__dirname, '..', '..');
 const PROJECT_MANIFEST_FILENAME = 'project.craftsman.json';
 
-// R2.4 S0: the app-shell caller identity used by harness dispatches. The
-// shell URL must equal the fence's file prefix computed from src/main.js.
-const HARNESS_SHELL_URL = pathToFileURL(path.join(ROOT, 'src', 'renderer', 'index.html')).href;
-const syntheticShellWebContents = {
-  id: 1,
-  getURL: () => HARNESS_SHELL_URL,
-  isDestroyed: () => false,
-};
-const harnessCallerEvent = () => ({
-  sender: { id: syntheticShellWebContents.id, isDestroyed: () => false },
-  senderFrame: { url: HARNESS_SHELL_URL },
-});
-
 // R2.4 S1: bridge dispatches must carry the versioned envelope frame.
 const frameBridgeRequest = (request) => ({
   v: 1,
@@ -44,6 +31,46 @@ async function loadMainWithElectronStub(paths, options = {}) {
     process.argv.push('--dev');
   }
   const ipcHandlers = new Map();
+  const shellSession = Object.freeze({ partition: 'persist:yalken-contract-harness' });
+  let liveWindow = null;
+  let nextWebContentsId = 1;
+  class BrowserWindowStub {
+    constructor() {
+      const listeners = new Map();
+      let shellUrl = '';
+      this.webContents = {
+        id: nextWebContentsId++,
+        session: shellSession,
+        getURL: () => shellUrl,
+        isDestroyed: () => false,
+        on: (event, listener) => listeners.set(event, listener),
+        paste: () => {},
+        send: () => {},
+        setWindowOpenHandler: () => {},
+        setZoomFactor: () => {},
+      };
+      this.isDestroyed = () => false;
+      this.isFullScreen = () => false;
+      this.on = (event, listener) => listeners.set(event, listener);
+      this.loadFile = (filePath, loadOptions = {}) => {
+        const url = pathToFileURL(filePath);
+        for (const [key, value] of Object.entries(loadOptions.query || {})) {
+          url.searchParams.set(key, String(value));
+        }
+        shellUrl = url.href;
+        return new Promise(() => {});
+      };
+      liveWindow = this;
+    }
+
+    static getFocusedWindow() {
+      return liveWindow;
+    }
+
+    static getAllWindows() {
+      return liveWindow ? [liveWindow] : [];
+    }
+  }
   const electronStub = {
     app: {
       getPath: (name) => {
@@ -60,10 +87,7 @@ async function loadMainWithElectronStub(paths, options = {}) {
       setName: () => {},
       requestSingleInstanceLock: () => true,
     },
-    BrowserWindow: {
-      getFocusedWindow: () => null,
-      getAllWindows: () => [],
-    },
+    BrowserWindow: BrowserWindowStub,
     Menu: {
       buildFromTemplate: () => ({}),
       setApplicationMenu: () => {},
@@ -82,11 +106,8 @@ async function loadMainWithElectronStub(paths, options = {}) {
     session: {
       defaultSession: { webRequest: { onHeadersReceived: () => {} } },
     },
-    webContents: {
-      // R2.4 S0: the caller-identity fence resolves legitimate senders from
-      // the live shell webContents registry; the harness registers one
-      // synthetic shell contents so dispatches model a genuine caller.
-      getAllWebContents: () => [syntheticShellWebContents],
+    screen: {
+      getPrimaryDisplay: () => ({ workAreaSize: { width: 1440, height: 900 } }),
     },
   };
 
@@ -97,10 +118,23 @@ async function loadMainWithElectronStub(paths, options = {}) {
   delete require.cache[mainPath];
   delete require.cache[fileManagerPath];
   try {
+    const main = require(mainPath);
+    main.createWindow();
+    const shell = liveWindow.webContents;
+    const parsedShellUrl = new URL(shell.getURL());
+    assert.equal(parsedShellUrl.searchParams.has('PRODUCT_PROFILE'), true);
     return {
-      main: require(mainPath),
+      main,
       fileManager: require(fileManagerPath),
       ipcHandlers,
+      callerEvent: () => ({
+        sender: {
+          id: shell.id,
+          session: shell.session,
+          isDestroyed: () => false,
+        },
+        senderFrame: { url: shell.getURL() },
+      }),
     };
   } finally {
     Module._load = originalLoad;
@@ -197,7 +231,7 @@ test('P0 01: product command bridge fails closed on unsupported future Atlas aut
 
   const commandBridge = harness.ipcHandlers.get('ui:command-bridge');
   assert.equal(typeof commandBridge, 'function');
-  const dispatched = await commandBridge(harnessCallerEvent(), frameBridgeRequest({
+  const dispatched = await commandBridge(harness.callerEvent(), frameBridgeRequest({
     route: 'command.bus',
     commandId: 'atlas.entity.create',
     payload: {
@@ -250,7 +284,7 @@ test('P0 01: Atlas mutation preserves opaque future Manual Map, Idea and Meaning
   const opened = await harness.main.handleProjectLifecycleOpenCommand({ projectId: manifest.projectId });
   assert.equal(opened.ok, true);
   const commandBridge = harness.ipcHandlers.get('ui:command-bridge');
-  const dispatched = await commandBridge(harnessCallerEvent(), frameBridgeRequest({
+  const dispatched = await commandBridge(harness.callerEvent(), frameBridgeRequest({
     route: 'command.bus',
     commandId: 'atlas.entity.create',
     payload: {
@@ -348,7 +382,7 @@ test('R1 B: released Atlas mutation advances the canonical Command Kernel event 
   const beforeAuthority = JSON.parse(await fsPromises.readFile(authorityPath, 'utf8'));
 
   const commandBridge = harness.ipcHandlers.get('ui:command-bridge');
-  const dispatched = await commandBridge(harnessCallerEvent(), frameBridgeRequest({
+  const dispatched = await commandBridge(harness.callerEvent(), frameBridgeRequest({
     route: 'command.bus',
     commandId: 'atlas.entity.create',
     payload: {
@@ -393,7 +427,7 @@ test('R1 B: released Atlas mutation advances the canonical Command Kernel event 
   assert.equal(projectTruthRecovery.projectId, manifest.projectId);
   const recoveredPreviousManifest = JSON.parse(projectTruthRecovery.previousText);
   assert.equal(recoveredPreviousManifest.atlas?.entities?.['entity-command-kernel-authority'], undefined);
-  const duplicate = await commandBridge(harnessCallerEvent(), frameBridgeRequest({
+  const duplicate = await commandBridge(harness.callerEvent(), frameBridgeRequest({
     route: 'command.bus',
     commandId: 'atlas.entity.create',
     payload: {
@@ -424,7 +458,7 @@ test('R1 B: released Atlas mutation advances the canonical Command Kernel event 
   const registry = registryModule.createCommandRegistry();
   projectCommands.registerProjectCommands(registry, {
     electronAPI: {
-      invokeUiCommandBridge: (request) => commandBridge(harnessCallerEvent(), frameBridgeRequest(request)),
+      invokeUiCommandBridge: (request) => commandBridge(harness.callerEvent(), frameBridgeRequest(request)),
     },
   });
   const alias = await registry.getHandler('atlas.alias.add')({
@@ -640,7 +674,7 @@ test('P0 01: startup-created product project persists tree identity before rende
 
   const commandBridge = harness.ipcHandlers.get('ui:command-bridge');
   assert.equal(typeof commandBridge, 'function');
-  const bridgeResult = await commandBridge(harnessCallerEvent(), frameBridgeRequest({
+  const bridgeResult = await commandBridge(harness.callerEvent(), frameBridgeRequest({
     route: 'command.bus',
     commandId: 'cmd.project.tree.createNode',
     payload: {
@@ -706,7 +740,7 @@ test('P0 01: lifecycle open bootstraps current-schema missing or stale tree iden
 
       const commandBridge = harness.ipcHandlers.get('ui:command-bridge');
       assert.equal(typeof commandBridge, 'function');
-      const bridgeResult = await commandBridge(harnessCallerEvent(), frameBridgeRequest({
+      const bridgeResult = await commandBridge(harness.callerEvent(), frameBridgeRequest({
         route: 'command.bus',
         commandId: 'cmd.project.tree.createNode',
         payload: {
@@ -768,7 +802,7 @@ test('P0 01: failed lifecycle open preserves prior active project tree authority
 
   const commandBridge = harness.ipcHandlers.get('ui:command-bridge');
   assert.equal(typeof commandBridge, 'function');
-  const createAfterFailure = await commandBridge(harnessCallerEvent(), frameBridgeRequest({
+  const createAfterFailure = await commandBridge(harness.callerEvent(), frameBridgeRequest({
     route: 'command.bus',
     commandId: 'cmd.project.tree.createNode',
     payload: {
@@ -830,7 +864,7 @@ test('P0 01: each commanded future author domain fails before recovery or durabl
     await fsPromises.writeFile(manifestPath, sourceRaw, 'utf8');
     assert.equal((await harness.main.handleProjectLifecycleOpenCommand({ projectId: manifest.projectId })).ok, true);
 
-    const dispatched = await harness.ipcHandlers.get('ui:command-bridge')(harnessCallerEvent(), frameBridgeRequest({
+    const dispatched = await harness.ipcHandlers.get('ui:command-bridge')(harness.callerEvent(), frameBridgeRequest({
       route: 'command.bus',
       commandId: scenario.commandId,
       payload: { projectId: manifest.projectId, ...scenario.payload },

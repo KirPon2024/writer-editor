@@ -22,17 +22,19 @@ const {
   normalizeRevisionCoordinate,
 } = require(CORE('revision-algebra-v1.cjs'));
 
-const SHELL_PREFIX = 'yalken-shell://';
+const SHELL_URL = 'file:///app/index.html?USE_TIPTAP=1&PRODUCT_PROFILE=WRITER_LOCAL_V1&BRAND_IDENTITY=YALKEN_ORIGINAL_V1';
+const SHARED_SESSION = Object.freeze({ partition: 'default' });
+const SIGNAL_CHANNEL = 'ui:save-lifecycle-signal-bridge';
 const POLICY = {
-  expectedSenderIds: () => [7],
-  allowedFrameUrlPrefixes: () => [SHELL_PREFIX],
+  expectedFrameUrl: () => SHELL_URL,
+  resolveLiveCaller: () => ({ senderId: 7, session: SHARED_SESSION, currentUrl: SHELL_URL, allowedChannels: [SIGNAL_CHANNEL] }),
 };
 const genuineEvent = () => ({
-  sender: { id: 7, isDestroyed: () => false },
-  senderFrame: { url: `${SHELL_PREFIX}index.html` },
+  sender: { id: 7, isDestroyed: () => false, session: SHARED_SESSION },
+  senderFrame: { url: SHELL_URL },
 });
 const forgedEvent = () => ({
-  sender: { id: 31337, isDestroyed: () => false },
+  sender: { id: 31337, isDestroyed: () => false, session: SHARED_SESSION },
   senderFrame: { url: 'https://evil.example/payload' },
 });
 

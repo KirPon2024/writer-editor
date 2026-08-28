@@ -14,7 +14,9 @@ const {
   IpcCallerIdentityError,
 } = require('../../src/core/ipc-caller-identity-v1.cjs');
 
-const SHELL_PREFIX = 'file:///Applications/yalken/renderer/index.html';
+const SHELL_URL = 'file:///Applications/yalken/renderer/index.html?USE_TIPTAP=1&PRODUCT_PROFILE=WRITER_LOCAL_V1&BRAND_IDENTITY=YALKEN_ORIGINAL_V1';
+const SESSION = Object.freeze({ id: 'default' });
+const CHANNELS = Object.freeze(['privileged:write', 'privileged:notify', 'x']);
 
 function fakeIpcMain() {
   const handlers = new Map();
@@ -31,17 +33,17 @@ function fakeIpcMain() {
 }
 
 const policy = {
-  expectedSenderIds: () => [7],
-  allowedFrameUrlPrefixes: () => [SHELL_PREFIX],
+  expectedFrameUrl: () => SHELL_URL,
+  resolveLiveCaller: () => ({ senderId: 7, session: SESSION, currentUrl: SHELL_URL, allowedChannels: [...CHANNELS] }),
 };
 
 const genuine = () => ({
-  sender: { id: 7, isDestroyed: () => false },
-  senderFrame: { url: SHELL_PREFIX },
+  sender: { id: 7, isDestroyed: () => false, session: SESSION },
+  senderFrame: { url: SHELL_URL },
 });
 
 const forged = () => ({
-  sender: { id: 31337, isDestroyed: () => false },
+  sender: { id: 31337, isDestroyed: () => false, session: SESSION },
   senderFrame: { url: 'https://evil.example/payload' },
 });
 

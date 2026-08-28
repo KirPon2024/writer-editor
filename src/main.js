@@ -80,10 +80,12 @@ const {
   recoverProjectTransaction,
 } = require('./core/project-transaction-v1.cjs');
 const {
+  ATOMIC_IMPORT_LIBRARY_TARGET_ROLES,
   ATOMIC_SINGLE_FILE_TARGET_ROLES,
   OBSERVER_IDS: SAVE_AUTHORITY_OBSERVER_IDS,
   SAVE_AUTHORITY_ROUTES,
   createAuthorityObservation,
+  executeAtomicImportLibraryGatewayCutover,
   executeAtomicSceneManifestGatewayCutover,
   executeAtomicSingleFileGatewayCutover,
   executeWriterSaveThroughStranglerGateway,
@@ -12518,6 +12520,56 @@ async function writeNotesOrSettingsThroughAtomicGateway({
   }
 }
 
+async function executeImportOrLibraryThroughAtomicGateway({
+  targetRole,
+  projectId,
+  payloadDigest,
+  entryCount,
+  operationLabel,
+  executeWrite,
+}) {
+  if (typeof executeWrite !== 'function') {
+    const error = new Error('ATOMIC_IMPORT_LIBRARY_EXECUTOR_REQUIRED');
+    error.code = 'E_ATOMIC_IMPORT_LIBRARY_EXECUTOR_REQUIRED';
+    throw error;
+  }
+  const request = {
+    targetRole,
+    projectId,
+    payloadDigest,
+    entryCount,
+  };
+  const observeLegacy = async (identity) => createAuthorityObservation({
+    observerId: SAVE_AUTHORITY_OBSERVER_IDS.LEGACY,
+    requestDigest: identity.identityDigest,
+    route: SAVE_AUTHORITY_ROUTES.ATOMIC_IMPORT_LIBRARY_V1,
+  });
+  const observeGateway = async (identity) => createAuthorityObservation({
+    observerId: SAVE_AUTHORITY_OBSERVER_IDS.GATEWAY,
+    requestDigest: identity.identityDigest,
+    route: SAVE_AUTHORITY_ROUTES.ATOMIC_IMPORT_LIBRARY_V1,
+  });
+
+  return queueDiskOperation(
+    () => executeAtomicImportLibraryGatewayCutover({
+      request,
+      observeLegacy,
+      observeGateway,
+      executeGateway: async ({ authorityIdentity }) => {
+        await executeWrite();
+        return {
+          success: true,
+          targetRole: authorityIdentity.targetRole,
+          projectId: authorityIdentity.projectId,
+          payloadDigest: authorityIdentity.payloadDigest,
+          entryCount: authorityIdentity.entryCount,
+        };
+      },
+    }),
+    operationLabel,
+  );
+}
+
 async function migrateProjectNotesStorage(options = {}) {
   const { manifestPath, manifest } = await ensureProjectManifest(DEFAULT_PROJECT_NAME);
   const expectedProjectId = normalizeStableProjectId(options.projectId);
@@ -18175,13 +18227,20 @@ async function writeProjectLibraryPrivateIndex(entries) {
       manifestHash: entry.manifestHash || '',
     })),
   };
-  const writeResult = await queueDiskOperation(
-    () => fileManager.writeFileAtomic(getProjectLibraryIndexPath(), `${JSON.stringify(payload, null, 2)}\n`),
-    'save project library index',
-  );
-  if (!writeResult.success) {
-    throw new Error(writeResult.error || 'Failed to save project library index');
-  }
+  const content = `${JSON.stringify(payload, null, 2)}\n`;
+  await executeImportOrLibraryThroughAtomicGateway({
+    targetRole: ATOMIC_IMPORT_LIBRARY_TARGET_ROLES.PROJECT_LIBRARY_INDEX_PRIMARY,
+    projectId: null,
+    payloadDigest: computeHash(content),
+    entryCount: 1,
+    operationLabel: 'save project library index',
+    executeWrite: async () => {
+      const writeResult = await fileManager.writeFileAtomic(getProjectLibraryIndexPath(), content);
+      if (!writeResult || writeResult.success !== true) {
+        throw new Error(writeResult?.error || 'Failed to save project library index');
+      }
+    },
+  });
 }
 
 function buildProjectLibraryLocationKey(projectRoot) {
@@ -23470,10 +23529,14 @@ async function handleImportProjectArchive(payloadRaw = {}, options = {}) {
         tempRoot,
       });
       if (typeof options.beforeExtract === 'function') await options.beforeExtract({ tempRoot, targetRoot });
-      await queueDiskOperation(
-        () => writeProjectArchivePayloadToTempRoot(archivePayload, tempRoot),
-        'import project archive entries',
-      );
+      await executeImportOrLibraryThroughAtomicGateway({
+        targetRole: ATOMIC_IMPORT_LIBRARY_TARGET_ROLES.PROJECT_ARCHIVE_IMPORT_BATCH,
+        projectId: newProjectId,
+        payloadDigest: archiveSummary.archiveSha256,
+        entryCount: archiveSummary.entryCount,
+        operationLabel: 'import project archive entries',
+        executeWrite: () => writeProjectArchivePayloadToTempRoot(archivePayload, tempRoot),
+      });
       const tempManifestPath = joinPathSegmentsWithinRoot(tempRoot, [PROJECT_MANIFEST_FILENAME], {
         resolveSymlinks: false,
       });

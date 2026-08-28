@@ -8,6 +8,12 @@ const STRANGLER_SCHEMA_VERSION = 'yalken.writer-save-legacy-strangler.v1';
 const OBSERVATION_SCHEMA_VERSION = 'yalken.writer-save-authority-observation.v1';
 const ATOMIC_SCENE_MANIFEST_GATEWAY_SCHEMA_VERSION = 'yalken.atomic-scene-manifest-gateway.v1';
 const ATOMIC_SINGLE_FILE_GATEWAY_SCHEMA_VERSION = 'yalken.atomic-single-file-gateway.v1';
+const ATOMIC_IMPORT_LIBRARY_GATEWAY_SCHEMA_VERSION = 'yalken.atomic-import-library-gateway.v1';
+
+const ATOMIC_IMPORT_LIBRARY_TARGET_ROLES = Object.freeze({
+  PROJECT_ARCHIVE_IMPORT_BATCH: 'PROJECT_ARCHIVE_IMPORT_BATCH',
+  PROJECT_LIBRARY_INDEX_PRIMARY: 'PROJECT_LIBRARY_INDEX_PRIMARY',
+});
 
 const ATOMIC_SINGLE_FILE_TARGET_ROLES = Object.freeze({
   NOTES_PRIMARY: 'NOTES_PRIMARY',
@@ -28,6 +34,7 @@ const ATOMIC_SCENE_MANIFEST_PHASE_CHAIN = Object.freeze([
 
 const SAVE_AUTHORITY_ROUTES = Object.freeze({
   ATOMIC_FILE_V1: 'ATOMIC_FILE_V1',
+  ATOMIC_IMPORT_LIBRARY_V1: 'ATOMIC_IMPORT_LIBRARY_V1',
   DURABLE_SAVE_V1: 'DURABLE_SAVE_V1',
   PROJECT_TRANSACTION_V1: 'PROJECT_TRANSACTION_V1',
 });
@@ -124,6 +131,45 @@ function createAtomicSingleFileAuthorityIdentity({
     contentDigest: sha256hex(content),
     projectId,
     filePath,
+  };
+  return Object.freeze({
+    ...identity,
+    identityDigest: sha256hex(JSON.stringify(identity)),
+  });
+}
+
+function createAtomicImportLibraryAuthorityIdentity({
+  targetRole,
+  projectId,
+  payloadDigest,
+  entryCount,
+}) {
+  if (!Object.values(ATOMIC_IMPORT_LIBRARY_TARGET_ROLES).includes(targetRole)) {
+    throw new LegacyStranglerError('E_ATOMIC_IMPORT_LIBRARY_TARGET_ROLE_INVALID', PHASES.ADMIT);
+  }
+  if (typeof payloadDigest !== 'string' || !/^[a-f0-9]{64}$/u.test(payloadDigest)) {
+    throw new LegacyStranglerError('E_ATOMIC_IMPORT_LIBRARY_PAYLOAD_DIGEST_INVALID', PHASES.ADMIT);
+  }
+  if (!Number.isSafeInteger(entryCount) || entryCount < 1) {
+    throw new LegacyStranglerError('E_ATOMIC_IMPORT_LIBRARY_ENTRY_COUNT_INVALID', PHASES.ADMIT);
+  }
+  if (targetRole === ATOMIC_IMPORT_LIBRARY_TARGET_ROLES.PROJECT_ARCHIVE_IMPORT_BATCH) {
+    if (typeof projectId !== 'string'
+      || projectId.length === 0
+      || projectId.length > 256
+      || /[\\/\0]/u.test(projectId)) {
+      throw new LegacyStranglerError('E_ATOMIC_IMPORT_LIBRARY_PROJECT_ID_INVALID', PHASES.ADMIT);
+    }
+  } else if (projectId !== null) {
+    throw new LegacyStranglerError('E_ATOMIC_IMPORT_LIBRARY_PROJECT_ID_FORBIDDEN', PHASES.ADMIT);
+  }
+
+  const identity = {
+    schemaVersion: ATOMIC_IMPORT_LIBRARY_GATEWAY_SCHEMA_VERSION,
+    targetRole,
+    projectId,
+    payloadDigest,
+    entryCount,
   };
   return Object.freeze({
     ...identity,
@@ -228,6 +274,22 @@ function validateAtomicSingleFileReceipt(result, identity) {
     || result.contentDigest !== identity.contentDigest) {
     throw new LegacyStranglerError(
       'E_ATOMIC_SINGLE_FILE_GATEWAY_RECEIPT_INVALID',
+      PHASES.EXECUTE,
+      identity.targetRole,
+    );
+  }
+  return result;
+}
+
+function validateAtomicImportLibraryReceipt(result, identity) {
+  if (!result || typeof result !== 'object' || Array.isArray(result)
+    || result.success !== true
+    || result.targetRole !== identity.targetRole
+    || result.projectId !== identity.projectId
+    || result.payloadDigest !== identity.payloadDigest
+    || result.entryCount !== identity.entryCount) {
+    throw new LegacyStranglerError(
+      'E_ATOMIC_IMPORT_LIBRARY_GATEWAY_RECEIPT_INVALID',
       PHASES.EXECUTE,
       identity.targetRole,
     );
@@ -370,7 +432,57 @@ async function executeWriterSaveThroughStranglerGateway({
   });
 }
 
+// C5C3: project archive import batches and the private project-library index
+// expose one typed executor per logical write. Legacy routing remains an
+// independent read-only observation and is absent from the write API.
+async function executeAtomicImportLibraryGatewayCutover({
+  request,
+  observeLegacy,
+  observeGateway,
+  executeGateway,
+}) {
+  if (typeof executeGateway !== 'function') {
+    throw new LegacyStranglerError('E_ATOMIC_IMPORT_LIBRARY_GATEWAY_REQUIRED', PHASES.ADMIT);
+  }
+  const identity = createAtomicImportLibraryAuthorityIdentity(request || {});
+  const { legacy, gateway } = await observeAuthorityPair(identity, observeLegacy, observeGateway);
+  if (gateway.route !== SAVE_AUTHORITY_ROUTES.ATOMIC_IMPORT_LIBRARY_V1) {
+    throw new LegacyStranglerError(
+      'E_ATOMIC_IMPORT_LIBRARY_ROUTE_REQUIRED',
+      PHASES.COMPARE,
+      gateway.route,
+    );
+  }
+
+  const result = validateAtomicImportLibraryReceipt(
+    await executeGateway(Object.freeze({ ...request, authorityIdentity: identity })),
+    identity,
+  );
+  return Object.freeze({
+    ...result,
+    atomicImportLibraryGateway: Object.freeze({
+      schemaVersion: ATOMIC_IMPORT_LIBRARY_GATEWAY_SCHEMA_VERSION,
+      requestDigest: identity.identityDigest,
+      targetRole: identity.targetRole,
+      payloadDigest: identity.payloadDigest,
+      entryCount: identity.entryCount,
+      selectedRoute: gateway.route,
+      observerCount: 2,
+      legacyObserverId: legacy.observerId,
+      gatewayObserverId: gateway.observerId,
+      legacyAuthorityRole: 'READ_ONLY_OBSERVER',
+      legacyFallbackMode: 'READ_ONLY_OBSERVATION_ONLY',
+      legacyWriteFallbackAllowed: false,
+      dualObserved: true,
+      dualWriteAllowed: false,
+      gatewayExecutorCount: 1,
+    }),
+  });
+}
+
 module.exports = Object.freeze({
+  ATOMIC_IMPORT_LIBRARY_GATEWAY_SCHEMA_VERSION,
+  ATOMIC_IMPORT_LIBRARY_TARGET_ROLES,
   ATOMIC_SCENE_MANIFEST_GATEWAY_SCHEMA_VERSION,
   ATOMIC_SCENE_MANIFEST_PHASE_CHAIN,
   ATOMIC_SINGLE_FILE_GATEWAY_SCHEMA_VERSION,
@@ -382,9 +494,11 @@ module.exports = Object.freeze({
   SAVE_AUTHORITY_ROUTES,
   STRANGLER_SCHEMA_VERSION,
   createAuthorityObservation,
+  createAtomicImportLibraryAuthorityIdentity,
   createAtomicSingleFileAuthorityIdentity,
   createWriterSaveAuthorityIdentity,
   executeAtomicSceneManifestGatewayCutover,
+  executeAtomicImportLibraryGatewayCutover,
   executeAtomicSingleFileGatewayCutover,
   executeWriterSaveThroughStranglerGateway,
   validateObservation,

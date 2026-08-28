@@ -6173,6 +6173,7 @@ body.dark-theme .empty-state {
 
 body.dark-theme .empty-state.writer-home {
   color: rgba(255, 253, 248, 0.88);
+  background: transparent;
 }
 
 body.dark-theme .writer-home__title,
@@ -8653,7 +8654,8 @@ body.dark-theme .manual-map-workspace__minimap {
     padding: 0 4px;
   }
 
-  .main-content {
+  .main-content,
+  .literal-stage-a .main-content {
     padding: 28px;
   }
 }
@@ -8706,7 +8708,8 @@ body.dark-theme .manual-map-workspace__minimap {
     display: none;
   }
 
-  .main-content {
+  .main-content,
+  .literal-stage-a .main-content {
     padding: 24px;
   }
 

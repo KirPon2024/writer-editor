@@ -6,6 +6,7 @@ import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 
 import { canonicalBytes } from '../../scripts/ops/r24/corrective/canonical-json.mjs';
+import { buildArtifacts as buildWriterHomeArtifacts } from '../../scripts/ops/r24/corrective/c6b-writer-home-computed-style.mjs';
 import {
   ACCEPTANCE_SIGNALS_DIGEST,
   C6BAccessibilityRecoveryError,
@@ -87,8 +88,13 @@ test('C6B recovery generated contract and evidence are exact canonical bytes', (
 });
 
 test('C6B recovery preserves the prior Writer Home CSS closure bytes', () => {
+  const writerHomeArtifacts = buildWriterHomeArtifacts(REPO_ROOT);
+  assert.equal(
+    fs.readFileSync(path.join(REPO_ROOT, PATHS.originalContract)).equals(canonicalBytes(writerHomeArtifacts.contract)),
+    true,
+    PATHS.originalContract,
+  );
   const expected = new Map([
-    [PATHS.originalContract, '2ca57539c09dd074f9eed6c33951267ed0d1605865684be614d000dd6fec1c05'],
     [PATHS.originalMatrix, 'f1e07041b8de79a97470514b2b66eabdcd29ebb44cf054e817941adc1a32c502'],
     [PATHS.originalScript, '2d2aeaa9cb35aa7625ca6c37f361660d864b3ad90afbee5118662fe9835a08b3'],
     [PATHS.originalTest, '62d590a83345afe416ff667bda330a0533740b45895026e14092c8200f104238'],

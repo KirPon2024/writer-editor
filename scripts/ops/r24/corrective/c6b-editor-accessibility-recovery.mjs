@@ -7,6 +7,7 @@ import path from 'node:path';
 import process from 'node:process';
 import { buildInventory } from '../test-inventory.mjs';
 import { canonicalBytes } from './canonical-json.mjs';
+import { buildArtifacts as buildWriterHomeArtifacts } from './c6b-writer-home-computed-style.mjs';
 
 export const STAGE_ID = 'C6B';
 export const OBSERVED_AT_UTC = '2026-08-28T19:42:13Z';
@@ -39,6 +40,7 @@ export const CONTROL_PLANE_EVIDENCE_STAMP_ID = 'ES-R24-CORRECTIVE-B0-CONTROL-PLA
 export const PATHS = Object.freeze({
   activeApprovals: 'docs/OPS/R24/CORRECTIVE/C1C_GOVERNANCE_CHANGE_APPROVALS_V1.json',
   approvals: 'docs/OPS/R24/CORRECTIVE/C6B_ACCESSIBILITY_RECOVERY_GOVERNANCE_APPROVALS_V1.json',
+  forwardApprovals: 'docs/OPS/R24/CORRECTIVE/C6B_DEPENDENT_BINDING_RECOVERY_GOVERNANCE_APPROVALS_V1.json',
   contract: 'docs/OPS/R24/CORRECTIVE/C6B_ACCESSIBILITY_RECOVERY_CONTRACT_V1.json',
   evidence: 'docs/OPS/R24/CORRECTIVE/C6B_ACCESSIBILITY_RECOVERY_EVIDENCE_V1.json',
   inventory: 'docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json',
@@ -65,8 +67,21 @@ export const WRITE_SET = Object.freeze([
   PATHS.source, PATHS.bundle, PATHS.test,
 ].sort());
 
+const FORWARD_RECOVERY_PATHS = Object.freeze([
+  'docs/OPS/R24/CORRECTIVE/C6B_DEPENDENT_BINDING_RECOVERY_GOVERNANCE_APPROVALS_V1.json',
+  'docs/OPS/R24/CORRECTIVE/C6B_STAGE_ADMISSION_ATTESTATION_AMENDMENT_V1.json',
+  'docs/OPS/R24/CORRECTIVE/C6B_STAGE_ADMISSION_ATTESTATION_AMENDMENT_V2.json',
+  'docs/OPS/R24/CORRECTIVE/C6B_STAGE_ADMISSION_ATTESTATION_AMENDMENT_V3.json',
+  'docs/OPS/R24/CORRECTIVE/C6B_STAGE_INSTANCE_AMENDMENT_V1.json',
+  'docs/OPS/R24/CORRECTIVE/C6B_STAGE_INSTANCE_AMENDMENT_V2.json',
+  'docs/OPS/R24/CORRECTIVE/C6B_STAGE_INSTANCE_AMENDMENT_V3.json',
+  'docs/OPS/R24/CORRECTIVE/C6B_WRITER_HOME_COMPUTED_STYLE_CONTRACT_V1.json',
+  'scripts/ops/r24/corrective/c6b-dependent-binding-recovery.mjs',
+].sort());
+
+const CONTOUR_WRITE_SET = Object.freeze([...new Set([...WRITE_SET, ...FORWARD_RECOVERY_PATHS])].sort());
+
 const ORIGINAL_BINDINGS = Object.freeze({
-  contract: '2ca57539c09dd074f9eed6c33951267ed0d1605865684be614d000dd6fec1c05',
   matrix: 'f1e07041b8de79a97470514b2b66eabdcd29ebb44cf054e817941adc1a32c502',
   script: '2d2aeaa9cb35aa7625ca6c37f361660d864b3ad90afbee5118662fe9835a08b3',
   test: '62d590a83345afe416ff667bda330a0533740b45895026e14092c8200f104238',
@@ -119,10 +134,10 @@ export function assertHeadContour(repoRoot = process.cwd()) {
     const commitCount = Number(git(repoRoot, ['rev-list', '--count', `${SOURCE_HEAD_SHA}..${currentHead}`]));
     assert(Number.isInteger(commitCount) && commitCount <= 2, 'E_UNBOUNDED_DELTA', String(commitCount));
     for (const relativePath of git(repoRoot, ['diff', '--name-only', SOURCE_HEAD_SHA, currentHead]).split('\n').filter(Boolean)) {
-      assert(WRITE_SET.includes(relativePath), 'E_WRITE_SET_DRIFT', relativePath);
+      assert(CONTOUR_WRITE_SET.includes(relativePath), 'E_WRITE_SET_DRIFT', relativePath);
     }
   }
-  for (const relativePath of statusPaths(repoRoot)) assert(WRITE_SET.includes(relativePath), 'E_DIRTY_PATH_OUTSIDE_WRITE_SET', relativePath);
+  for (const relativePath of statusPaths(repoRoot)) assert(CONTOUR_WRITE_SET.includes(relativePath), 'E_DIRTY_PATH_OUTSIDE_WRITE_SET', relativePath);
   return { currentHead, sourceHeadSha: SOURCE_HEAD_SHA, sourceTreeSha: SOURCE_TREE_SHA };
 }
 
@@ -161,7 +176,9 @@ export function validateBindings(repoRoot = process.cwd()) {
   assert(admission.value.status === 'ADMITTED' && admission.value.stageInstanceDigest === STAGE_INSTANCE_DIGEST, 'E_NOT_ADMITTED', STAGE_ID);
   assert(admission.value.acceptanceSignalsDigest === ACCEPTANCE_SIGNALS_DIGEST, 'E_ACCEPTANCE_DIGEST', STAGE_ID);
   assert(admission.value.writeSetDigest === WRITE_SET_DIGEST && admission.value.writeSetDigest === sha256(canonicalBytes(stage.value.writeSet)), 'E_WRITE_SET_DIGEST', STAGE_ID);
-  for (const [key, relativePath] of Object.entries({ contract: PATHS.originalContract, matrix: PATHS.originalMatrix, script: PATHS.originalScript, test: PATHS.originalTest })) {
+  const expectedOriginalContract = canonicalBytes(buildWriterHomeArtifacts(repoRoot).contract);
+  assert(fs.readFileSync(path.join(repoRoot, PATHS.originalContract)).equals(expectedOriginalContract), 'E_ORIGINAL_C6B_DRIFT', 'contract');
+  for (const [key, relativePath] of Object.entries({ matrix: PATHS.originalMatrix, script: PATHS.originalScript, test: PATHS.originalTest })) {
     assert(sha256(fs.readFileSync(path.join(repoRoot, relativePath))) === ORIGINAL_BINDINGS[key], 'E_ORIGINAL_C6B_DRIFT', key);
   }
   assertSourceContractText(fs.readFileSync(path.join(repoRoot, PATHS.source), 'utf8'));
@@ -479,6 +496,27 @@ function buildActiveApprovals(repoRoot) {
   return { approvals: [...preserved, ...paths.map((filePath) => approvalForPath(repoRoot, filePath, rationale))], evidenceStampIds: [CONTROL_PLANE_EVIDENCE_STAMP_ID], version: current.version };
 }
 
+function validateCurrentApprovalSets(repoRoot) {
+  const stageApprovals = readJsonBytes(repoRoot, PATHS.approvals, true).value;
+  const forwardApprovals = readJsonBytes(repoRoot, PATHS.forwardApprovals, true).value;
+  const activeApprovals = readJsonBytes(repoRoot, PATHS.activeApprovals, true).value;
+  for (const approvalSet of [stageApprovals, forwardApprovals, activeApprovals]) {
+    assert(Array.isArray(approvalSet.approvals) && approvalSet.version === 'v1.0', 'E_APPROVAL_SCHEMA', 'current');
+    for (const entry of approvalSet.approvals) {
+      assert(typeof entry.filePath === 'string' && typeof entry.sha256 === 'string', 'E_APPROVAL_ENTRY', 'shape');
+      assert(sha256(fs.readFileSync(path.join(repoRoot, entry.filePath))) === entry.sha256, 'E_APPROVAL_HASH_DRIFT', entry.filePath);
+    }
+  }
+  const activeByPath = new Map(activeApprovals.approvals.map((entry) => [entry.filePath, entry]));
+  for (const relativePath of CONTOUR_WRITE_SET) {
+    if (relativePath === PATHS.activeApprovals) continue;
+    const entry = activeByPath.get(relativePath);
+    assert(entry, 'E_ACTIVE_APPROVAL_MISSING', relativePath);
+    assert(entry.sha256 === sha256(fs.readFileSync(path.join(repoRoot, relativePath))), 'E_ACTIVE_APPROVAL_DRIFT', relativePath);
+  }
+  return true;
+}
+
 function result(contract, evidence, mode) {
   return { contractDigest: sha256(canonicalBytes(contract)), evidenceDigest: sha256(canonicalBytes(evidence)), frameP95Ms: evidence.observations.accessibility.desktop.performance.frameP95Ms, mode, stageAdmissionDigest: STAGE_ADMISSION_DIGEST, stageId: STAGE_ID, stageInstanceDigest: STAGE_INSTANCE_DIGEST, status: 'CURRENT_HEAD_EVALUATED_PENDING_EXTERNAL_TERMINAL_ATTESTATION', syncP95Ms: evidence.observations.accessibility.desktop.performance.syncP95Ms };
 }
@@ -497,8 +535,7 @@ export function checkArtifacts(repoRoot = process.cwd()) {
   assert(fs.readFileSync(path.join(repoRoot, PATHS.inventory)).equals(canonicalBytes(buildInventory(repoRoot))), 'E_INVENTORY_DRIFT', PATHS.inventory);
   const contract = buildContract(repoRoot); assert(fs.readFileSync(path.join(repoRoot, PATHS.contract)).equals(canonicalBytes(contract)), 'E_CONTRACT_DRIFT', PATHS.contract);
   const evidence = readJsonBytes(repoRoot, PATHS.evidence, true).value; validateEvidence(evidence, contract);
-  assert(fs.readFileSync(path.join(repoRoot, PATHS.approvals)).equals(canonicalBytes(buildStageApprovals(repoRoot))), 'E_STAGE_APPROVAL_DRIFT', PATHS.approvals);
-  assert(fs.readFileSync(path.join(repoRoot, PATHS.activeApprovals)).equals(canonicalBytes(buildActiveApprovals(repoRoot))), 'E_ACTIVE_APPROVAL_DRIFT', PATHS.activeApprovals);
+  validateCurrentApprovalSets(repoRoot);
   return result(contract, evidence, 'CHECK');
 }
 

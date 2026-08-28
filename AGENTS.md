@@ -299,6 +299,19 @@ docs-only и механических правок без изменения des
   стили без отдельного UI scope; точечные editor styles не создают новый visual
   language.
 
+### Universal Design Lab
+
+Для локального UI-эксперимента, A/B-сравнения, исследования typography/spacing
+или доканонической visual-проверки использовать глобальный `$design-lab` skill.
+
+- Yalken остаётся read-only source на всём протяжении lab-эксперимента.
+- Не копировать в этот репозиторий lab knowledge, runtime state, findings или
+  local references.
+- Лаборатория только предлагает варианты; owner выбирает treatment и отдельно
+  разрешает local reference с причиной и ограничениями.
+- Любое изменение Yalken после эксперимента — отдельная явно разрешённая задача
+  с обычными bootstrap, declaration, scope и delivery gates этого репозитория.
+
 ## 11. Worktree и delivery
 
 - Не менять грязный owner checkout. Использовать существующий изолированный

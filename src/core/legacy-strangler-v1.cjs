@@ -9,6 +9,14 @@ const OBSERVATION_SCHEMA_VERSION = 'yalken.writer-save-authority-observation.v1'
 const ATOMIC_SCENE_MANIFEST_GATEWAY_SCHEMA_VERSION = 'yalken.atomic-scene-manifest-gateway.v1';
 const ATOMIC_SINGLE_FILE_GATEWAY_SCHEMA_VERSION = 'yalken.atomic-single-file-gateway.v1';
 const ATOMIC_IMPORT_LIBRARY_GATEWAY_SCHEMA_VERSION = 'yalken.atomic-import-library-gateway.v1';
+const ATOMIC_RECEIPT_BACKUP_GATEWAY_SCHEMA_VERSION = 'yalken.atomic-receipt-backup-gateway.v1';
+
+const ATOMIC_RECEIPT_BACKUP_TARGET_ROLES = Object.freeze({
+  GENERIC_BACKUP_CONTENT: 'GENERIC_BACKUP_CONTENT',
+  GENERIC_BACKUP_METADATA: 'GENERIC_BACKUP_METADATA',
+  NOTES_RECOVERY_SNAPSHOT: 'NOTES_RECOVERY_SNAPSHOT',
+  PROJECT_MANUAL_BACKUP_RECEIPT: 'PROJECT_MANUAL_BACKUP_RECEIPT',
+});
 
 const ATOMIC_IMPORT_LIBRARY_TARGET_ROLES = Object.freeze({
   PROJECT_ARCHIVE_IMPORT_BATCH: 'PROJECT_ARCHIVE_IMPORT_BATCH',
@@ -35,6 +43,7 @@ const ATOMIC_SCENE_MANIFEST_PHASE_CHAIN = Object.freeze([
 const SAVE_AUTHORITY_ROUTES = Object.freeze({
   ATOMIC_FILE_V1: 'ATOMIC_FILE_V1',
   ATOMIC_IMPORT_LIBRARY_V1: 'ATOMIC_IMPORT_LIBRARY_V1',
+  ATOMIC_RECEIPT_BACKUP_V1: 'ATOMIC_RECEIPT_BACKUP_V1',
   DURABLE_SAVE_V1: 'DURABLE_SAVE_V1',
   PROJECT_TRANSACTION_V1: 'PROJECT_TRANSACTION_V1',
 });
@@ -177,6 +186,34 @@ function createAtomicImportLibraryAuthorityIdentity({
   });
 }
 
+function createAtomicReceiptBackupAuthorityIdentity({
+  targetRole,
+  subjectDigest,
+  content,
+}) {
+  if (!Object.values(ATOMIC_RECEIPT_BACKUP_TARGET_ROLES).includes(targetRole)) {
+    throw new LegacyStranglerError('E_ATOMIC_RECEIPT_BACKUP_TARGET_ROLE_INVALID', PHASES.ADMIT);
+  }
+  if (typeof subjectDigest !== 'string' || !/^[a-f0-9]{64}$/u.test(subjectDigest)) {
+    throw new LegacyStranglerError('E_ATOMIC_RECEIPT_BACKUP_SUBJECT_DIGEST_INVALID', PHASES.ADMIT);
+  }
+  if (typeof content !== 'string' && !Buffer.isBuffer(content)) {
+    throw new LegacyStranglerError('E_ATOMIC_RECEIPT_BACKUP_CONTENT_REQUIRED', PHASES.ADMIT);
+  }
+
+  const identity = {
+    schemaVersion: ATOMIC_RECEIPT_BACKUP_GATEWAY_SCHEMA_VERSION,
+    targetRole,
+    subjectDigest,
+    contentDigest: sha256hex(content),
+    byteCount: Buffer.isBuffer(content) ? content.length : Buffer.byteLength(content, 'utf8'),
+  };
+  return Object.freeze({
+    ...identity,
+    identityDigest: sha256hex(JSON.stringify(identity)),
+  });
+}
+
 function validateObservation(observation, expectedObserverId, identityDigest) {
   if (!observation || typeof observation !== 'object' || Array.isArray(observation)) {
     throw new LegacyStranglerError('E_LEGACY_STRANGLER_OBSERVATION_REQUIRED', PHASES.OBSERVE, expectedObserverId);
@@ -290,6 +327,22 @@ function validateAtomicImportLibraryReceipt(result, identity) {
     || result.entryCount !== identity.entryCount) {
     throw new LegacyStranglerError(
       'E_ATOMIC_IMPORT_LIBRARY_GATEWAY_RECEIPT_INVALID',
+      PHASES.EXECUTE,
+      identity.targetRole,
+    );
+  }
+  return result;
+}
+
+function validateAtomicReceiptBackupReceipt(result, identity) {
+  if (!result || typeof result !== 'object' || Array.isArray(result)
+    || result.success !== true
+    || result.targetRole !== identity.targetRole
+    || result.subjectDigest !== identity.subjectDigest
+    || result.contentDigest !== identity.contentDigest
+    || result.byteCount !== identity.byteCount) {
+    throw new LegacyStranglerError(
+      'E_ATOMIC_RECEIPT_BACKUP_GATEWAY_RECEIPT_INVALID',
       PHASES.EXECUTE,
       identity.targetRole,
     );
@@ -480,9 +533,60 @@ async function executeAtomicImportLibraryGatewayCutover({
   });
 }
 
+// C5C4: recovery snapshots, backup content and metadata, and manual-backup
+// receipts expose one typed atomic executor per logical write. Paths remain
+// private to the executor; public gateway evidence is capability-and-digest only.
+async function executeAtomicReceiptBackupGatewayCutover({
+  request,
+  observeLegacy,
+  observeGateway,
+  executeGateway,
+}) {
+  if (typeof executeGateway !== 'function') {
+    throw new LegacyStranglerError('E_ATOMIC_RECEIPT_BACKUP_GATEWAY_REQUIRED', PHASES.ADMIT);
+  }
+  const identity = createAtomicReceiptBackupAuthorityIdentity(request || {});
+  const { legacy, gateway } = await observeAuthorityPair(identity, observeLegacy, observeGateway);
+  if (gateway.route !== SAVE_AUTHORITY_ROUTES.ATOMIC_RECEIPT_BACKUP_V1) {
+    throw new LegacyStranglerError(
+      'E_ATOMIC_RECEIPT_BACKUP_ROUTE_REQUIRED',
+      PHASES.COMPARE,
+      gateway.route,
+    );
+  }
+
+  const result = validateAtomicReceiptBackupReceipt(
+    await executeGateway(Object.freeze({ ...request, authorityIdentity: identity })),
+    identity,
+  );
+  return Object.freeze({
+    ...result,
+    atomicReceiptBackupGateway: Object.freeze({
+      schemaVersion: ATOMIC_RECEIPT_BACKUP_GATEWAY_SCHEMA_VERSION,
+      requestDigest: identity.identityDigest,
+      targetRole: identity.targetRole,
+      subjectDigest: identity.subjectDigest,
+      contentDigest: identity.contentDigest,
+      byteCount: identity.byteCount,
+      selectedRoute: gateway.route,
+      observerCount: 2,
+      legacyObserverId: legacy.observerId,
+      gatewayObserverId: gateway.observerId,
+      legacyAuthorityRole: 'READ_ONLY_OBSERVER',
+      legacyFallbackMode: 'READ_ONLY_OBSERVATION_ONLY',
+      legacyWriteFallbackAllowed: false,
+      dualObserved: true,
+      dualWriteAllowed: false,
+      gatewayExecutorCount: 1,
+    }),
+  });
+}
+
 module.exports = Object.freeze({
   ATOMIC_IMPORT_LIBRARY_GATEWAY_SCHEMA_VERSION,
   ATOMIC_IMPORT_LIBRARY_TARGET_ROLES,
+  ATOMIC_RECEIPT_BACKUP_GATEWAY_SCHEMA_VERSION,
+  ATOMIC_RECEIPT_BACKUP_TARGET_ROLES,
   ATOMIC_SCENE_MANIFEST_GATEWAY_SCHEMA_VERSION,
   ATOMIC_SCENE_MANIFEST_PHASE_CHAIN,
   ATOMIC_SINGLE_FILE_GATEWAY_SCHEMA_VERSION,
@@ -495,10 +599,12 @@ module.exports = Object.freeze({
   STRANGLER_SCHEMA_VERSION,
   createAuthorityObservation,
   createAtomicImportLibraryAuthorityIdentity,
+  createAtomicReceiptBackupAuthorityIdentity,
   createAtomicSingleFileAuthorityIdentity,
   createWriterSaveAuthorityIdentity,
   executeAtomicSceneManifestGatewayCutover,
   executeAtomicImportLibraryGatewayCutover,
+  executeAtomicReceiptBackupGatewayCutover,
   executeAtomicSingleFileGatewayCutover,
   executeWriterSaveThroughStranglerGateway,
   validateObservation,

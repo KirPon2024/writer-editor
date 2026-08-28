@@ -27,15 +27,22 @@ export async function createNotesRecoverySnapshot({
   projectRoot,
   notesPath,
   sourceText,
+  writeRecoveryFileAtomic,
   now = () => new Date().toISOString(),
 } = {}) {
+  if (typeof writeRecoveryFileAtomic !== 'function') {
+    throw new Error('NOTES_RECOVERY_ATOMIC_WRITER_REQUIRED');
+  }
   const text = typeof sourceText === 'string' ? sourceText : '';
   const recoveryRoot = path.join(projectRoot, 'backups', NOTES_RECOVERY_DIRNAME);
   const timestamp = String(now()).replace(/[^0-9A-Za-z._-]/gu, '-');
   const snapshotName = `${safeBasename(notesPath)}.${timestamp}.recovery.json`;
   const snapshotPath = path.join(recoveryRoot, snapshotName);
   await fs.mkdir(recoveryRoot, { recursive: true });
-  await fs.writeFile(snapshotPath, text, 'utf8');
+  const writeResult = await writeRecoveryFileAtomic(snapshotPath, text);
+  if (!writeResult || writeResult.success !== true) {
+    throw new Error('NOTES_RECOVERY_ATOMIC_WRITE_FAILED');
+  }
   const recoveredText = await fs.readFile(snapshotPath, 'utf8');
   return {
     snapshotCreated: true,
@@ -94,10 +101,14 @@ export async function migrateNotesStorage({
   projectId,
   readFile = fs.readFile,
   writeFileAtomic,
+  writeRecoveryFileAtomic,
   now,
 } = {}) {
   if (typeof writeFileAtomic !== 'function') {
     throw new Error('NOTES_ATOMIC_WRITER_REQUIRED');
+  }
+  if (typeof writeRecoveryFileAtomic !== 'function') {
+    throw new Error('NOTES_RECOVERY_ATOMIC_WRITER_REQUIRED');
   }
   const current = await readNotesStorage({ projectRoot, projectId, readFile, now });
   if (current.ok && current.state === 'ready') {
@@ -123,7 +134,13 @@ export async function migrateNotesStorage({
     } catch {}
   }
   const recovery = sourceText
-    ? await createNotesRecoverySnapshot({ projectRoot, notesPath, sourceText, now })
+    ? await createNotesRecoverySnapshot({
+      projectRoot,
+      notesPath,
+      sourceText,
+      writeRecoveryFileAtomic,
+      now,
+    })
     : null;
   const document = current.ok ? current.document : buildEmptyNotesDocument(projectId, { now });
   const content = `${JSON.stringify(document, null, 2)}\n`;

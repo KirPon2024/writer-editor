@@ -13,6 +13,12 @@ async function loadNotesStorage() {
   return import(pathToFileURL(path.join(ROOT, 'src', 'product', 'notesStoragePersistence.mjs')).href);
 }
 
+async function writeAtomicForTest(filePath, content) {
+  await fsPromises.mkdir(path.dirname(filePath), { recursive: true });
+  await fsPromises.writeFile(filePath, content, 'utf8');
+  return { success: true };
+}
+
 async function loadMainWithElectronStub() {
   const mainPath = path.join(ROOT, 'src', 'main.js');
   const fileManagerPath = path.join(ROOT, 'src', 'utils', 'fileManager.js');
@@ -207,10 +213,9 @@ test('S17 notes storage missing project stays read-only until explicit atomic mi
     projectId: 'project-alpha',
     writeFileAtomic: async (filePath, content) => {
       writes += 1;
-      await fsPromises.mkdir(path.dirname(filePath), { recursive: true });
-      await fsPromises.writeFile(filePath, content, 'utf8');
-      return { success: true };
+      return writeAtomicForTest(filePath, content);
     },
+    writeRecoveryFileAtomic: writeAtomicForTest,
     now: () => '2026-07-18T20:00:00Z',
   });
 
@@ -225,6 +230,9 @@ test('S17 notes storage missing project stays read-only until explicit atomic mi
     projectId: 'project-alpha',
     writeFileAtomic: async () => {
       throw new Error('should not write');
+    },
+    writeRecoveryFileAtomic: async () => {
+      throw new Error('should not write recovery');
     },
     now: () => '2026-07-18T20:00:00Z',
   });
@@ -247,6 +255,7 @@ test('S17 notes storage corrupt source writes readable recovery before replaceme
       await fsPromises.writeFile(filePath, content, 'utf8');
       return { success: true };
     },
+    writeRecoveryFileAtomic: writeAtomicForTest,
     now: () => '2026-07-18T20:00:00Z',
   });
 
@@ -282,6 +291,7 @@ test('S17 notes storage write failure reports recovery without mutating source',
     projectRoot: tempRoot,
     projectId: 'project-alpha',
     writeFileAtomic: async () => ({ success: false, error: 'disk full' }),
+    writeRecoveryFileAtomic: writeAtomicForTest,
     now: () => '2026-07-18T20:00:00Z',
   });
 

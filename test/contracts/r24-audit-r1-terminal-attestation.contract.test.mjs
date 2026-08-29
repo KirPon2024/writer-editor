@@ -27,18 +27,19 @@ const expected = { artifactName: 'r24-audit-r1-terminal-COMPLETE_CHAIN', stageId
 const runEvidence = { id: 41, run_attempt: 1, status: 'completed', conclusion: 'success', event: 'workflow_dispatch', head_branch: 'main', head_sha: evaluationSha, path: expected.workflowPath };
 const artifactEvidence = { id: 51, expired: false, name: expected.artifactName, workflow_run: { id: 41 }, digest: `sha256:${sha256(zipBytes)}` };
 
-test('full baseline binds the exact evaluation SHA to a non-sector branch before npm test', () => {
+test('full baseline fetches full history and binds the exact evaluation SHA to the known-green C1B branch form before npm test', () => {
   const workflow = readFileSync('.github/workflows/r24-terminal-attestation.yml', 'utf8');
   const fullBaselineStart = workflow.indexOf('  full-baseline:');
   const nextJobStart = workflow.indexOf('\n  sector-u-full:', fullBaselineStart);
   assert.notEqual(fullBaselineStart, -1);
   assert.notEqual(nextJobStart, -1);
   const fullBaseline = workflow.slice(fullBaselineStart, nextJobStart);
-  const branchStep = fullBaseline.indexOf('Bind exact detached SHA to a non-sector terminal baseline branch');
+  const checkout = fullBaseline.indexOf('fetch-depth: 0');
+  const branchStep = fullBaseline.indexOf('Bind exact detached SHA to the known-green C1B baseline branch form');
   const firstShaCheck = fullBaseline.indexOf('test "$(git rev-parse HEAD)" = "${{ inputs.evaluation_sha }}"');
-  const branchCreate = fullBaseline.indexOf('git switch --create "audit-r1-terminal-baseline-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"');
+  const branchCreate = fullBaseline.indexOf('git switch --create "c1b-ci-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"');
   const npmTest = fullBaseline.indexOf('npm test 2>&1');
-  assert.ok(branchStep >= 0 && firstShaCheck > branchStep && branchCreate > firstShaCheck && npmTest > branchCreate);
+  assert.ok(checkout >= 0 && branchStep > checkout && firstShaCheck > branchStep && branchCreate > firstShaCheck && npmTest > branchCreate);
   assert.equal((fullBaseline.match(/test "\$\(git rev-parse HEAD\)" = "\$\{\{ inputs\.evaluation_sha \}\}"/gu) ?? []).length, 2);
 });
 

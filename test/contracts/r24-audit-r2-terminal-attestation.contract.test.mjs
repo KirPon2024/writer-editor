@@ -66,3 +66,31 @@ test('fabricated stage result digest fails independent artifact replay',()=>{con
 test('unsafe ZIP entry is rejected before extraction',()=>{
   const root=fs.mkdtempSync(path.join(os.tmpdir(),'r24-r2-unsafe-'));const child=path.join(root,'child');fs.mkdirSync(child);fs.writeFileSync(path.join(root,'evil'),'x');const zipPath=path.join(root,'unsafe.zip');execFileSync('zip',['-q',zipPath,'../evil'],{cwd:child});const zipBytes=fs.readFileSync(zipPath);try{assert.throws(()=>verifyDownloadedArtifact({zipBytes,metadata:{artifactId:'42',artifactName:'audit-r2-terminal-7',expired:false,runConclusion:'success',runHeadSha:SHA,runId:'7'},expected:{artifactId:'42',artifactName:'audit-r2-terminal-7',runId:'7',zipDigest:h(zipBytes),evaluationSha:SHA,evaluationTreeSha:TREE}}),(error)=>error.code==='E_ZIP_UNSAFE_ENTRY');}finally{fs.rmSync(root,{recursive:true,force:true});}
 });
+
+test('terminal workflow transfers supplied environment JSON exactly and defaults an omitted value safely',()=>{
+  const workflow=fs.readFileSync('.github/workflows/r24-terminal-attestation.yml','utf8');
+  assert.match(workflow,/RESULT_ENV_JSON="\$\{6-\}" node --input-type=module/u);
+  assert.match(workflow,/JSON\.parse\(process\.env\.RESULT_ENV_JSON \|\| '\{\}'\)/u);
+  assert.doesNotMatch(workflow,/\$\{6:-\{\}\}/u);
+  const script=`probe(){ RESULT_ENV_JSON="\${1-}" node -e "const value=JSON.parse(process.env.RESULT_ENV_JSON||'{}');process.stdout.write(JSON.stringify(value)+'\\n')"; }; probe '{"SECTOR_U_FULL_A11Y":"1"}'; probe`;
+  assert.equal(execFileSync('bash',['-c',script],{encoding:'utf8'}),'{"SECTOR_U_FULL_A11Y":"1"}\n{}\n');
+});
+
+test('fresh-run C8D lease and fence inputs are exact immutable repository carriers',()=>{
+  const workflow=fs.readFileSync('.github/workflows/r24-terminal-attestation.yml','utf8');
+  const expected=[
+    ['docs/OPS/R24/CORRECTIVE/AUDIT_R2_C8D_LEASE_CARRIER_V1.json','a628943f000979a32186c1934c560c8fa25cc1b327c01e44382b7e531c5cfc0c','lease-c8d-pk1-security-package-v1.json'],
+    ['docs/OPS/R24/CORRECTIVE/AUDIT_R2_C8D_FENCE_CARRIER_V1.json','a2cc34a9e3f998e1e1b3e3c16cebd8b04f88fe5930eb9982770adcc18fbbf043','fence-c8d-pk1-security-package-v1.json'],
+  ];
+  for(const [carrier,digest,target] of expected){
+    const bytes=fs.readFileSync(carrier);
+    assert.equal(h(bytes),digest);
+    assert.doesNotThrow(()=>JSON.parse(bytes));
+    assert.notEqual(h(Buffer.concat([bytes,Buffer.from('mutation')])),digest);
+    assert.ok(workflow.includes(carrier));
+    assert.ok(workflow.includes(digest));
+    assert.ok(workflow.includes(target));
+  }
+  assert.match(workflow,/if \[ -e "\$\{C8D_LEASE_TARGET\}" \]; then cmp/u);
+  assert.match(workflow,/if \[ -e "\$\{C8D_FENCE_TARGET\}" \]; then cmp/u);
+});

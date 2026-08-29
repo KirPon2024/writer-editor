@@ -14,11 +14,16 @@ function fixture() {
   fs.writeFileSync(path.join(root,'synthetic.docx'),Buffer.concat([Buffer.from('504b0304','hex'),Buffer.alloc(300,1)]));
   fs.writeFileSync(path.join(root,'unsigned.zip'),Buffer.concat([Buffer.from('504b0304','hex'),Buffer.alloc(2048,2)]));
   const manifest=compileManifest({evaluationSha:SHA,evaluationTreeSha:TREE,root,docx:'synthetic.docx',artifact:'unsigned.zip',logs:['PHYSICAL_A11Y_PERFORMANCE=physical.log','PLATFORM_COMPLEMENTS=platform.log']});
+  manifest.platform='darwin-arm64';
   return {root,manifest};
 }
 const cleanup=(value)=>fs.rmSync(value.root,{recursive:true,force:true});
 test('fresh physical manifest binds raw logs and actual synthetic DOCX and unsigned artifact bytes',()=>{
-  const value=fixture(); try{assert.equal(validateManifest(value.manifest,{root:value.root,evaluationSha:SHA,evaluationTreeSha:TREE,verifyGit:false}).laneCount,4);}finally{cleanup(value);}
+  const value=fixture(); try{
+    assert.equal(validateManifest(value.manifest,{root:value.root,evaluationSha:SHA,evaluationTreeSha:TREE,verifyGit:false}).laneCount,4);
+    value.manifest.platform='linux-x64';
+    assert.throws(()=>validateManifest(value.manifest,{root:value.root,evaluationSha:SHA,evaluationTreeSha:TREE,verifyGit:false}),(error)=>error.code==='E_PHYSICAL_PLATFORM');
+  }finally{cleanup(value);}
 });
 test('stale evaluation head or tree fails closed',()=>{
   const value=fixture(); try{assert.throws(()=>validateManifest(value.manifest,{root:value.root,evaluationSha:'3'.repeat(40),evaluationTreeSha:TREE,verifyGit:false}),(error)=>error.code==='E_PHYSICAL_STALE_HEAD');}finally{cleanup(value);}

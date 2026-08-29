@@ -136,6 +136,7 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Execute stage-specific 33-stage replay
+        id: stage_replay
         shell: bash
         run: |
           set -euo pipefail
@@ -164,6 +165,16 @@ jobs:
           import fs from 'node:fs'; import crypto from 'node:crypto'; import { canonicalBytes } from './scripts/ops/r24/corrective/canonical-json.mjs';
           const h=(b)=>crypto.createHash('sha256').update(b).digest('hex'); const command={program:'node',args:['audit-r2-stage-replay','--execute']}; const evidencePath='evidence-stage_replay_33.log'; const evidence=fs.readFileSync(process.env.RESULT_LOG); fs.copyFileSync(process.env.RESULT_LOG,process.env.RUNNER_TEMP+'/results/'+evidencePath); fs.writeFileSync(process.env.RUNNER_TEMP+'/results/result-STAGE_REPLAY_33.json',canonicalBytes({id:'STAGE_REPLAY_33',status:'PASS',exitCode:0,command,commandDigest:h(canonicalBytes(command)),evidencePath,evidenceDigest:h(evidence),evaluationSha:process.env.EVALUATION_SHA,evaluationTreeSha:process.env.EVALUATION_TREE_SHA,source:'GITHUB_ACTIONS_JOB'}));
           NODE
+      - name: Upload fail-closed sanitized stage replay diagnostics
+        if: ${{ always() && steps.stage_replay.outcome == 'failure' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-r2-stage-replay-diagnostics-macos-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/replay/*-failure-sanitized.log
+            ${{ runner.temp }}/replay/*-failure.json
+          if-no-files-found: error
+          retention-days: 90
       - name: Execute fresh physical macOS, DOCX, unsigned artifact, and package lanes
         shell: bash
         env:

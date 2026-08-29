@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
-import { validateReplayPlan, executeReplay, parseTap, assertCleanRepository, assertExecutionSuccess } from '../../scripts/ops/r24/corrective/audit-r2-stage-replay.mjs';
+import { validateReplayPlan, executeReplay, parseTap, assertCleanRepository, assertExecutionSuccess, sanitizeReplayFailure } from '../../scripts/ops/r24/corrective/audit-r2-stage-replay.mjs';
 
 const load = (path) => JSON.parse(fs.readFileSync(path, 'utf8'));
 const plan = () => load('docs/OPS/R24/CORRECTIVE/AUDIT_R2_STAGE_REPLAY_PLAN_V1.json');
@@ -63,4 +63,43 @@ test('cancelled process cannot become a stage PASS', () => withTemp((dir) => {
 test('dirty worktree evidence cannot bind an unchanged HEAD and tree', () => {
   assert.throws(()=>assertCleanRepository(' M scripts/example.mjs'),(error)=>error.code==='E_REPLAY_DIRTY_WORKTREE');
   assert.doesNotThrow(()=>assertCleanRepository(''));
+});
+
+test('failed stage persists bounded sanitized inner TAP evidence and exact failure binding', () => withTemp((dir) => {
+  const now=runtime();
+  const secret='ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const inner=Buffer.from(`TAP version 13\nnot ok 1 - C8D remote failure at /Users/runner/work/yalken/private-fixture\nAuthorization: Bearer ${secret}\n# tests 1\n# fail 1\n# skipped 0\n# cancelled 0\n# todo 0\n`);
+  const gitResolve=(args)=>args[0]==='status'?'':args[1]==='HEAD'?now.sha:now.tree;
+  let captured;
+  assert.throws(() => executeReplay({plan:plan(),registry,evaluationSha:now.sha,evaluationTreeSha:now.tree,outputDir:dir,gitResolve,spawn:()=>({status:1,signal:null,error:null,stdout:inner,stderr:Buffer.alloc(0)})}), (error)=>{captured=error;return error.code==='E_REPLAY_COMMAND_FAILED';});
+  const record=load(path.join(dir,'stage-00-C0-failure.json'));
+  const evidence=fs.readFileSync(path.join(dir,record.sanitizedEvidence.path));
+  assert.equal(record.status,'FAIL');
+  assert.equal(record.exitCode,1);
+  assert.equal(record.evaluationSha,now.sha);
+  assert.equal(record.evaluationTreeSha,now.tree);
+  assert.equal(record.sanitizedEvidence.sizeBytes,evidence.length);
+  assert.ok(evidence.length <= 64 * 1024);
+  assert.match(evidence.toString('utf8'),/not ok 1 - C8D remote failure/);
+  assert.doesNotMatch(evidence.toString('utf8'),/\/Users\/runner|ghp_|Authorization: Bearer/);
+  assert.ok(Buffer.isBuffer(captured.diagnosticEvidence));
+  assert.equal(fs.existsSync(path.join(dir,'stage-00-C0.json')),false);
+}));
+
+test('failure sanitizer rejects oversized bounds and truncates to the fixed maximum', () => {
+  assert.throws(()=>sanitizeReplayFailure(Buffer.from('x'),{maxBytes:64*1024+1}),(error)=>error.code==='E_REPLAY_FAILURE_BOUND');
+  const result=sanitizeReplayFailure(Buffer.from(`${'x'.repeat(70*1024)}€AWS_PRIVATE_KEY=forbidden`));
+  assert.equal(result.truncated,true);
+  assert.ok(result.sanitizedBytes.length <= 64*1024);
+  assert.doesNotMatch(result.sanitizedBytes.toString('utf8'),/forbidden/);
+});
+
+test('macOS replay workflow immutably uploads diagnostics whenever the replay step fails', () => {
+  const workflow=fs.readFileSync('.github/workflows/r24-terminal-attestation.yml','utf8');
+  assert.match(workflow,/id: stage_replay/u);
+  assert.match(workflow,/always\(\) && steps\.stage_replay\.outcome == 'failure'/u);
+  assert.match(workflow,/audit-r2-stage-replay-diagnostics-macos-/u);
+  assert.match(workflow,/\*-failure-sanitized\.log/u);
+  assert.match(workflow,/\*-failure\.json/u);
+  assert.match(workflow,/if-no-files-found: error/u);
 });

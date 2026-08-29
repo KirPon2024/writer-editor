@@ -19,6 +19,7 @@ const EFFECTIVE_ADMISSION_BINDING = Object.freeze({
   successorVerifierContractDigest:'093615deb41bd2b33f7c31508e1cf1022149e00a7d79fa49a104672b2ecafae8',
   writeSetDigest:'b141168e4cdd1c79e06376ced2ae4509a1dddcc0ba0bd7878fd0ef7a7671d464',
 });
+const MAX_FAILURE_DIAGNOSTIC_BYTES = 64 * 1024;
 const git = (args, cwd = process.cwd()) => {
   const result = spawnSync('git', args, { cwd, encoding: 'utf8' });
   assert(result.status === 0, 'E_GIT', args.join(' '));
@@ -91,6 +92,52 @@ export function assertCleanRepository(status) {
 export function assertExecutionSuccess(execution, stageId) {
   assert(execution.status === 0 && !execution.error && !execution.signal, 'E_REPLAY_COMMAND_FAILED', `${stageId}:${execution.status}:${execution.signal ?? ''}`);
 }
+export function sanitizeReplayFailure(bytes, { maxBytes = MAX_FAILURE_DIAGNOSTIC_BYTES } = {}) {
+  assert(Buffer.isBuffer(bytes), 'E_REPLAY_FAILURE_BYTES', typeof bytes);
+  assert(Number.isInteger(maxBytes) && maxBytes > 0 && maxBytes <= MAX_FAILURE_DIAGNOSTIC_BYTES, 'E_REPLAY_FAILURE_BOUND', String(maxBytes));
+  let redactionCount = 0;
+  let text = bytes.toString('utf8').replace(/\r\n?/gu, '\n');
+  const redact = (pattern, replacement) => { text = text.replace(pattern, () => { redactionCount += 1; return replacement; }); };
+  redact(/(?:\/(?:Users|Volumes|private|tmp|var|etc|home)\/[^\s"'<>)]*)/gu, '<redacted-absolute-path>');
+  redact(/(?:[A-Za-z]:\\|\\\\)[^\s"'<>)]*/gu, '<redacted-absolute-path>');
+  redact(/\b(?:github_pat_|gh[pousr]_)[A-Za-z0-9_]+\b/gu, '<redacted-credential>');
+  redact(/\b(?:authorization|password|secret|token)(\s*[:=]\s*)(?:Bearer\s+)?[^\s,;]+/giu, '<redacted-sensitive-field>');
+  redact(/\b[A-Z][A-Z0-9_]*(?:TOKEN|SECRET|PASSWORD|PRIVATE_KEY)\s*=\s*[^\s,;]+/gu, '<redacted-sensitive-field>');
+  const sanitizedFull = Buffer.from(text, 'utf8');
+  const truncated = sanitizedFull.length > maxBytes;
+  let start = truncated ? sanitizedFull.length - maxBytes : 0;
+  while (start < sanitizedFull.length && (sanitizedFull[start] & 0xc0) === 0x80) start += 1;
+  const sanitizedBytes = sanitizedFull.subarray(start);
+  return { sanitizedBytes, originalSizeBytes: bytes.length, sanitizedSizeBytes: sanitizedBytes.length, maxBytes, truncated, redactionCount };
+}
+export function persistReplayFailure({ outputDir, stage, execution, logBytes, evaluationSha, evaluationTreeSha }) {
+  const diagnostic = sanitizeReplayFailure(logBytes);
+  const prefix = `stage-${String(stage.order).padStart(2,'0')}-${stage.stageId}-failure`;
+  const evidencePath = `${prefix}-sanitized.log`;
+  const recordPath = `${prefix}.json`;
+  fs.writeFileSync(path.join(outputDir, evidencePath), diagnostic.sanitizedBytes, { flag: 'wx' });
+  const record = {
+    schemaVersion: 'AUDIT_R2_STAGE_REPLAY_FAILURE_V1',
+    status: 'FAIL',
+    code: 'E_REPLAY_COMMAND_FAILED',
+    stageId: stage.stageId,
+    order: stage.order,
+    evaluationSha,
+    evaluationTreeSha,
+    command: stage.command,
+    commandDigest: sha256(canonicalBytes(stage.command)),
+    exitCode: execution.status,
+    signal: execution.signal ?? null,
+    errorCode: execution.error?.code ?? null,
+    combinedOutputDigest: sha256(logBytes),
+    combinedOutputSizeBytes: logBytes.length,
+    sanitizedEvidence: { path: evidencePath, sha256: sha256(diagnostic.sanitizedBytes), sizeBytes: diagnostic.sanitizedSizeBytes, maxBytes: diagnostic.maxBytes, truncated: diagnostic.truncated, redactionCount: diagnostic.redactionCount },
+    programDoneClaimed: false,
+    wp400MutationStarted: false,
+  };
+  fs.writeFileSync(path.join(outputDir, recordPath), canonicalBytes(record), { flag: 'wx' });
+  return { record, recordPath, diagnosticBytes: diagnostic.sanitizedBytes };
+}
 function parseJsonStatus(bytes, stageId) {
   const lines = bytes.toString('utf8').trim().split('\n').reverse();
   let value = null;
@@ -144,12 +191,12 @@ function parseArtifact(root, outputDir, artifactPath, stageId) {
   return record;
 }
 
-export function executeReplay({ plan, registry, evaluationSha, evaluationTreeSha, outputDir, root = process.cwd(), spawn = spawnSync }) {
+export function executeReplay({ plan, registry, evaluationSha, evaluationTreeSha, outputDir, root = process.cwd(), spawn = spawnSync, gitResolve = (args) => git(args, root) }) {
   validateReplayPlan(plan, registry, { root });
   assertHex(evaluationSha, 40, 'evaluationSha');
   assertHex(evaluationTreeSha, 40, 'evaluationTreeSha');
-  assert(git(['rev-parse','HEAD'], root) === evaluationSha && git(['rev-parse','HEAD^{tree}'], root) === evaluationTreeSha, 'E_REPLAY_STALE_HEAD', `${evaluationSha}/${evaluationTreeSha}`);
-  assertCleanRepository(git(['status','--porcelain=v1','--untracked-files=all'], root));
+  assert(gitResolve(['rev-parse','HEAD']) === evaluationSha && gitResolve(['rev-parse','HEAD^{tree}']) === evaluationTreeSha, 'E_REPLAY_STALE_HEAD', `${evaluationSha}/${evaluationTreeSha}`);
+  assertCleanRepository(gitResolve(['status','--porcelain=v1','--untracked-files=all']));
   fs.mkdirSync(outputDir, { recursive: true });
   const results = new Map();
   for (const stage of plan.stages) {
@@ -164,7 +211,14 @@ export function executeReplay({ plan, registry, evaluationSha, evaluationTreeSha
     const logBytes = Buffer.concat([stdout, stderr]);
     const logName = `stage-${String(stage.order).padStart(2,'0')}-${stage.stageId}.log`;
     fs.writeFileSync(path.join(outputDir, logName), logBytes, { flag: 'wx' });
-    assertExecutionSuccess(execution, stage.stageId);
+    try {
+      assertExecutionSuccess(execution, stage.stageId);
+    } catch (error) {
+      const failure = persistReplayFailure({ outputDir, stage, execution, logBytes, evaluationSha, evaluationTreeSha });
+      error.message = `${error.message}:${failure.recordPath}:${failure.record.sanitizedEvidence.sha256}`;
+      error.diagnosticEvidence = failure.diagnosticBytes;
+      throw error;
+    }
     const parsed = parseStageLog(logBytes, stage.parser, stage.stageId);
     const artifacts = stage.artifactPaths.map((artifactPath) => parseArtifact(root, outputDir, artifactPath, stage.stageId));
     const result = {
@@ -214,6 +268,12 @@ if (import.meta.url === `file://${process.argv[1]}`) {
       process.stdout.write(canonicalBytes(executeReplay({plan:plan.value,registry:registry.value,evaluationSha:options['evaluation-sha'],evaluationTreeSha:options['evaluation-tree'],outputDir:options['output-dir']})));
     }
   } catch (error) {
+    if (Buffer.isBuffer(error.diagnosticEvidence)) {
+      process.stderr.write('AUDIT_R2_SANITIZED_STAGE_FAILURE_BEGIN\n');
+      process.stderr.write(error.diagnosticEvidence);
+      if (error.diagnosticEvidence.at(-1) !== 10) process.stderr.write('\n');
+      process.stderr.write('AUDIT_R2_SANITIZED_STAGE_FAILURE_END\n');
+    }
     process.stderr.write(`${canonicalize({code:error.code ?? 'E_UNTYPED',message:error.message})}\n`);
     process.exitCode = 1;
   }

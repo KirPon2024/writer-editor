@@ -33,6 +33,7 @@ export const EXACT_STRUCTURED_COMMANDS = Object.freeze([
   { program: 'node', args: ['scripts/ops/r24/corrective/audit-r1-corrections.mjs', '--check'] },
   { program: 'node', args: ['scripts/ops/r24/corrective/audit-r1-recertify.mjs', '--check-plan', '--plan', 'docs/OPS/R24/CORRECTIVE/AUDIT_R1_RECERTIFICATION_PLAN_V1.json', '--registry', 'docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json', '--requirements', 'docs/OPS/R24/CORRECTIVE/AUDIT_R1_ACCEPTANCE_REQUIREMENTS_V1.json', '--matrix', 'docs/OPS/R24/CORRECTIVE/AUDIT_R1_REQUIREMENT_EVIDENCE_MATRIX_V1.json'] },
   { program: 'node', args: ['scripts/ops/r24/corrective/audit-r1-test-inventory.mjs', '--stage', 'AUDIT_R1', '--check', 'docs/OPS/R24/CORRECTIVE/AUDIT_R1_TEST_INVENTORY_V1.json'] },
+  { program: 'node', args: ['scripts/ops/r24/test-inventory.mjs', '--write', 'docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json'] },
   { program: 'node', args: ['--test', 'test/contracts/r24-audit-r1-corrections.contract.test.mjs', 'test/contracts/r24-audit-r1-stage-admission-verifier.contract.test.mjs', 'test/contracts/r24-audit-r1-terminal-attestation.contract.test.mjs', 'test/contracts/r24-audit-r1-test-inventory.contract.test.mjs'] },
   { program: 'npm', args: ['run', 'test:r24-e0'] },
   { program: 'npm', args: ['run', 'test:sector-u-full'] },

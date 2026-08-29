@@ -12,12 +12,12 @@ const FIXED = Object.freeze({
   ownerAuthorityBindingDigest: 'be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6',
 });
 const EFFECTIVE_ADMISSION_BINDING = Object.freeze({
-  programAmendmentDigest:'ab588b586d7e05b8b0b9f7f8074eff53a2d0b1ba1ada5699d63e41e9918a7331',
-  stageAdmissionDigest:'2cb123233aa5e798f1f9d7a64010fbd9db88e72371c71456e078fea17b75a059',
-  stageInstanceDigest:'5904e10a1077ea7be57551c684d1a4a2b82f55636bf802ba45f1b21f6e540435',
+  programAmendmentDigest:'9c8b0e312ab5e59f002a08e578a8f9dfa81b66d61e7a83e9364e14bee765b624',
+  stageAdmissionDigest:'bbe4d10a7c89d61d885f3dfea8881848a3bf7847a1b1380bdfe440e266a12945',
+  stageInstanceDigest:'48ca83aa6b34d8405182f65934c0a2d35af976714c4bce64a763276480129777',
   successorVerifierCodeDigest:'f6ff040d1b02b4db7195f57a4fc6527003f3903c3a66703924df0905fe095807',
   successorVerifierContractDigest:'093615deb41bd2b33f7c31508e1cf1022149e00a7d79fa49a104672b2ecafae8',
-  writeSetDigest:'b141168e4cdd1c79e06376ced2ae4509a1dddcc0ba0bd7878fd0ef7a7671d464',
+  writeSetDigest:'1a2625d2557e5c7783ea7d6611b6b183db6b4dd3b949cb145806d5096dbbb2de',
 });
 const MAX_FAILURE_DIAGNOSTIC_BYTES = 64 * 1024;
 const git = (args, cwd = process.cwd()) => {

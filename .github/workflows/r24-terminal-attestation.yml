@@ -87,12 +87,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ inputs.evaluation_sha }}
-      - name: Bind exact detached SHA to a non-sector terminal baseline branch
+          fetch-depth: 0
+      - name: Bind exact detached SHA to the known-green C1B baseline branch form
         shell: bash
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "${{ inputs.evaluation_sha }}"
-          git switch --create "audit-r1-terminal-baseline-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          git switch --create "c1b-ci-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
           test "$(git rev-parse HEAD)" = "${{ inputs.evaluation_sha }}"
       - uses: actions/setup-node@v4
         with:

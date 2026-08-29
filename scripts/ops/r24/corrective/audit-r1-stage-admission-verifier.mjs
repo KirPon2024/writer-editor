@@ -27,8 +27,8 @@ const CONTRACT_KEYS = Object.freeze([
   'exactWriteSet', 'fixedBindings', 'legacyAdmissionDigest', 'requiredFindingIds', 'schemaVersion', 'stageId',
 ]);
 export const EXACT_STRUCTURED_COMMANDS = Object.freeze([
-  { program: 'npm', args: ['run', 'agent:bootstrap', '--', '--objective', 'audit-r1-terminal-attestation-baseline-tail'] },
-  { program: 'npm', args: ['run', 'agent:preflight', '--', '--declaration', '/private/tmp/YALKEN_AUDIT_R1_TERMINAL_TAIL_TASK_ARCHITECTURE_DECLARATION_V2.json'] },
+  { program: 'npm', args: ['run', 'agent:bootstrap', '--', '--objective', 'audit-r1-terminal-attestation-full-history-tail'] },
+  { program: 'npm', args: ['run', 'agent:preflight', '--', '--declaration', '/private/tmp/YALKEN_AUDIT_R1_TERMINAL_TAIL_TASK_ARCHITECTURE_DECLARATION_V3.json'] },
   { program: 'node', args: ['scripts/ops/r24/corrective/audit-r1-stage-admission-verifier.mjs', '--instance', 'docs/OPS/R24/CORRECTIVE/AUDIT_R1_CORRECTION_STAGE_INSTANCE_V1.json', '--registry', 'docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json', '--program', 'docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json', '--contract', 'docs/OPS/R24/CORRECTIVE/AUDIT_R1_CORRECTION_CONTRACT_V1.json'] },
   { program: 'node', args: ['scripts/ops/r24/corrective/audit-r1-corrections.mjs', '--check'] },
   { program: 'node', args: ['scripts/ops/r24/corrective/audit-r1-recertify.mjs', '--check-plan', '--plan', 'docs/OPS/R24/CORRECTIVE/AUDIT_R1_RECERTIFICATION_PLAN_V1.json', '--registry', 'docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json', '--requirements', 'docs/OPS/R24/CORRECTIVE/AUDIT_R1_ACCEPTANCE_REQUIREMENTS_V1.json', '--matrix', 'docs/OPS/R24/CORRECTIVE/AUDIT_R1_REQUIREMENT_EVIDENCE_MATRIX_V1.json'] },
@@ -48,9 +48,9 @@ export const EXACT_STRUCTURED_COMMANDS = Object.freeze([
   { program: 'git', args: ['diff', '--check'] },
   { program: 'git', args: ['status', '--short', '--branch'] },
   { program: 'git', args: ['add', '--', '.github/workflows/r24-terminal-attestation.yml', 'docs/OPS/R24/CORRECTIVE', 'scripts/ops/r24/corrective', 'test/contracts'] },
-  { program: 'git', args: ['commit', '-m', 'Close audit round 1 terminal tail'] },
-  { program: 'git', args: ['push', 'origin', 'codex/r24-audit-r1-terminal-tail-v2-20260829'] },
-  { program: 'gh', args: ['pr', 'create', '--base', 'main', '--head', 'codex/r24-audit-r1-terminal-tail-v2-20260829'] },
+  { program: 'git', args: ['commit', '-m', 'Close audit round 1 terminal full-history tail'] },
+  { program: 'git', args: ['push', 'origin', 'codex/r24-audit-r1-terminal-tail-v3-20260829'] },
+  { program: 'gh', args: ['pr', 'create', '--base', 'main', '--head', 'codex/r24-audit-r1-terminal-tail-v3-20260829'] },
   { program: 'gh', args: ['pr', 'checks', '--watch'] },
   { program: 'gh', args: ['pr', 'merge', '--merge'] },
   { program: 'git', args: ['fetch', 'origin', 'main'] },

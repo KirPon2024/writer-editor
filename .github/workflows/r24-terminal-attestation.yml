@@ -135,9 +135,41 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
       - run: npm ci
+      - name: Prepare same-run physical macOS, DOCX, unsigned artifact, and package evidence
+        shell: bash
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+        run: |
+          set -euo pipefail
+          P="${RUNNER_TEMP}/physical"
+          mkdir -p "${P}/docx/_rels" "${P}/docx/word" "${RUNNER_TEMP}/results"
+          npm run build:renderer
+          npm run test:electron 2>&1 | tee "${P}/physical.log"
+          {
+            npm run test:r24-w0
+            npm run test:r24-pk1
+            npm run test:r24-v3
+            npx electron-builder --mac --dir --publish never
+          } 2>&1 | tee "${P}/platform.log"
+          printf '%s' '<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>' > "${P}/docx/[Content_Types].xml"
+          printf '%s' '<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>' > "${P}/docx/_rels/.rels"
+          printf '%s' '<?xml version="1.0" encoding="UTF-8"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body><w:p><w:r><w:t>Yalken synthetic audit R2 document</w:t></w:r></w:p></w:body></w:document>' > "${P}/docx/word/document.xml"
+          (cd "${P}/docx" && zip -X -q -r "${P}/synthetic-audit-r2.docx" .)
+          APP_PATH="$(find dist -maxdepth 3 -type d -name 'Yalken.app' -print -quit)"
+          test -n "${APP_PATH}"
+          ditto -c -k --keepParent "${APP_PATH}" "${P}/unsigned-yalken-app.zip"
+          node scripts/ops/r24/corrective/audit-r2-physical-evidence.mjs \
+            --compile --root "${P}" \
+            --evaluation-sha "${EVALUATION_SHA}" --evaluation-tree "${EVALUATION_TREE_SHA}" \
+            --docx synthetic-audit-r2.docx --artifact unsigned-yalken-app.zip \
+            --log PHYSICAL_A11Y_PERFORMANCE=physical.log \
+            --log PLATFORM_COMPLEMENTS=platform.log \
+            --write "${P}/physical-manifest.json"
       - name: Execute stage-specific 33-stage replay
         id: stage_replay
         shell: bash
+        env:
+          AUDIT_R2_PHYSICAL_ROOT: ${{ runner.temp }}/physical
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "${EVALUATION_SHA}"
@@ -175,36 +207,11 @@ jobs:
             ${{ runner.temp }}/replay/*-failure.json
           if-no-files-found: error
           retention-days: 90
-      - name: Execute fresh physical macOS, DOCX, unsigned artifact, and package lanes
+      - name: Record same-run physical lane acceptance results
         shell: bash
-        env:
-          CSC_IDENTITY_AUTO_DISCOVERY: "false"
         run: |
           set -euo pipefail
           P="${RUNNER_TEMP}/physical"
-          mkdir -p "${P}/docx/_rels" "${P}/docx/word"
-          npm run build:renderer
-          npm run test:electron 2>&1 | tee "${P}/physical.log"
-          {
-            npm run test:r24-w0
-            npm run test:r24-pk1
-            npm run test:r24-v3
-            npx electron-builder --mac --dir --publish never
-          } 2>&1 | tee "${P}/platform.log"
-          printf '%s' '<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>' > "${P}/docx/[Content_Types].xml"
-          printf '%s' '<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>' > "${P}/docx/_rels/.rels"
-          printf '%s' '<?xml version="1.0" encoding="UTF-8"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body><w:p><w:r><w:t>Yalken synthetic audit R2 document</w:t></w:r></w:p></w:body></w:document>' > "${P}/docx/word/document.xml"
-          (cd "${P}/docx" && zip -X -q -r "${P}/synthetic-audit-r2.docx" .)
-          APP_PATH="$(find dist -maxdepth 3 -type d -name 'Yalken.app' -print -quit)"
-          test -n "${APP_PATH}"
-          ditto -c -k --keepParent "${APP_PATH}" "${P}/unsigned-yalken-app.zip"
-          node scripts/ops/r24/corrective/audit-r2-physical-evidence.mjs \
-            --compile --root "${P}" \
-            --evaluation-sha "${EVALUATION_SHA}" --evaluation-tree "${EVALUATION_TREE_SHA}" \
-            --docx synthetic-audit-r2.docx --artifact unsigned-yalken-app.zip \
-            --log PHYSICAL_A11Y_PERFORMANCE=physical.log \
-            --log PLATFORM_COMPLEMENTS=platform.log \
-            --write "${P}/physical-manifest.json"
           for ID in PHYSICAL_MACOS PLATFORM_COMPLEMENTS; do
             if [ "${ID}" = PHYSICAL_MACOS ]; then LOG="${P}/physical.log"; else LOG="${P}/platform.log"; fi
             RESULT_ID="${ID}" RESULT_LOG="${LOG}" node --input-type=module <<'NODE'

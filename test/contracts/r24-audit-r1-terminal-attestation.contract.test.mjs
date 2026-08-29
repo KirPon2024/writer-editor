@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import { canonicalBytes } from '../../scripts/ops/r24/corrective/canonical-json.mjs';
 import { collectRepositoryG0DigestBindings, sha256 } from '../../scripts/ops/r24/corrective/audit-r1-corrections.mjs';
@@ -25,6 +26,21 @@ const stageAdmissionFile = { value: admissionValue, bytes: admissionBytes, diges
 const expected = { artifactName: 'r24-audit-r1-terminal-COMPLETE_CHAIN', stageId: 'COMPLETE_CHAIN', correctionId: 'YALKEN_R24_AUDIT_ROUND_1_CORRECTIONS_V1', programTemplateDigest: 'c'.repeat(64), stageInstanceDigest: stageInstanceFile.digest, stageAdmissionAttestationDigest: stageAdmissionFile.digest, repository: 'KirPonomarev/writer-editor-codex', workflowPath: '.github/workflows/r24-terminal-attestation.yml', evaluationSha, evaluationTreeSha, baseSha: evaluationSha, headSha: evaluationSha, treeSha: evaluationTreeSha, originUrl: 'https://github.com/KirPonomarev/writer-editor-codex.git', canonicalRepo: 'KirPonomarev/writer-editor-codex', implementationCandidateSha: 'd'.repeat(40), implementationMergeSha: evaluationSha };
 const runEvidence = { id: 41, run_attempt: 1, status: 'completed', conclusion: 'success', event: 'workflow_dispatch', head_branch: 'main', head_sha: evaluationSha, path: expected.workflowPath };
 const artifactEvidence = { id: 51, expired: false, name: expected.artifactName, workflow_run: { id: 41 }, digest: `sha256:${sha256(zipBytes)}` };
+
+test('full baseline binds the exact evaluation SHA to a non-sector branch before npm test', () => {
+  const workflow = readFileSync('.github/workflows/r24-terminal-attestation.yml', 'utf8');
+  const fullBaselineStart = workflow.indexOf('  full-baseline:');
+  const nextJobStart = workflow.indexOf('\n  sector-u-full:', fullBaselineStart);
+  assert.notEqual(fullBaselineStart, -1);
+  assert.notEqual(nextJobStart, -1);
+  const fullBaseline = workflow.slice(fullBaselineStart, nextJobStart);
+  const branchStep = fullBaseline.indexOf('Bind exact detached SHA to a non-sector terminal baseline branch');
+  const firstShaCheck = fullBaseline.indexOf('test "$(git rev-parse HEAD)" = "${{ inputs.evaluation_sha }}"');
+  const branchCreate = fullBaseline.indexOf('git switch --create "audit-r1-terminal-baseline-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"');
+  const npmTest = fullBaseline.indexOf('npm test 2>&1');
+  assert.ok(branchStep >= 0 && firstShaCheck > branchStep && branchCreate > firstShaCheck && npmTest > branchCreate);
+  assert.equal((fullBaseline.match(/test "\$\(git rev-parse HEAD\)" = "\$\{\{ inputs\.evaluation_sha \}\}"/gu) ?? []).length, 2);
+});
 
 function build({ resultStatus = 'PASS', omitResult = false, substituteEvidenceDigest = false, list = REQUIRED_ARCHIVE_ENTRIES } = {}) {
   const lease = { activeAdmissionAmendment: { authority: 'AUDIT_ROUND_1_CORRECTION_BRIEF_AND_FIXED_SUCCESSOR_ADMISSION', legacyAdmissionDigest: '7'.repeat(64), stageAdmissionDigest: stageAdmissionFile.digest, stageInstanceDigest: stageInstanceFile.digest, status: 'ADMITTED_WITHIN_ACTIVE_ONE_WRITER_LEASE', writeSetDigest: admissionValue.exactWriteSetDigest }, fenceDigest: '1'.repeat(64), fencingCounter: 53, leaseDigest: '2'.repeat(64), oneWriter: true, originalStageAdmissionDigest: '4'.repeat(64), originalStageInstanceDigest: '5'.repeat(64), originalWriteSetDigest: '6'.repeat(64), predecessorReleaseDigest: '3'.repeat(64), status: 'ACTIVE', wip: 1 };

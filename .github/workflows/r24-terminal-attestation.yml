@@ -12,6 +12,9 @@ on:
       stage_admission_path:
         required: true
         type: string
+      requirements_path:
+        required: true
+        type: string
       program_template_digest:
         required: true
         type: string
@@ -19,9 +22,6 @@ on:
         required: true
         type: string
       stage_admission_digest:
-        required: true
-        type: string
-      acceptance_signals_digest:
         required: true
         type: string
       implementation_candidate_sha:
@@ -38,91 +38,361 @@ on:
         type: string
 
 permissions:
+  actions: read
   contents: read
 
 concurrency:
   group: r24-terminal-attestation-${{ inputs.stage_id }}
   cancel-in-progress: false
 
+env:
+  NODE_VERSION: 20.19.5
+  CORRECTION_ID: YALKEN_R24_AUDIT_ROUND_1_CORRECTIONS_V1
+  GOVERNANCE_CHANGE_APPROVALS_PATH: docs/OPS/R24/CORRECTIVE/C1C_GOVERNANCE_CHANGE_APPROVALS_V1.json
+
 jobs:
-  terminal-attestation:
+  corrected-contracts:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.sha }}
+          ref: ${{ inputs.evaluation_sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Execute adversarial correction contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "${RUNNER_TEMP}/results"
+          node --test \
+            test/contracts/r24-audit-r1-corrections.contract.test.mjs \
+            test/contracts/r24-audit-r1-stage-admission-verifier.contract.test.mjs \
+            test/contracts/r24-audit-r1-terminal-attestation.contract.test.mjs \
+            test/contracts/r24-audit-r1-test-inventory.contract.test.mjs \
+            2>&1 | tee "${RUNNER_TEMP}/contracts.log"
+          RESULT_ID=CORRECTED_CONTRACTS RESULT_COMMAND='node --test audit-r1-contracts' RESULT_LOG="${RUNNER_TEMP}/contracts.log" node --input-type=module <<'NODE'
+          import { createHash } from 'node:crypto'; import { readFileSync, writeFileSync } from 'node:fs'; import { canonicalBytes } from './scripts/ops/r24/corrective/canonical-json.mjs'; const h=(b)=>createHash('sha256').update(b).digest('hex'); const id=process.env.RESULT_ID; writeFileSync(`${process.env.RUNNER_TEMP}/results/${id}.json`,canonicalBytes({id,status:'PASS',exitCode:0,commandDigest:h(Buffer.from(`${process.env.RESULT_COMMAND}\n`)),evidenceDigest:h(readFileSync(process.env.RESULT_LOG)),source:'GITHUB_ACTIONS_JOB'}));
+          NODE
+          cp "${RUNNER_TEMP}/contracts.log" "${RUNNER_TEMP}/results/evidence-corrected-contracts.log"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: audit-r1-results-contracts
+          path: ${{ runner.temp }}/results/*
+          if-no-files-found: error
+
+  full-baseline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.evaluation_sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - name: Execute full baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "${RUNNER_TEMP}/results"
+          npm test 2>&1 | tee "${RUNNER_TEMP}/full-baseline.log"
+          RESULT_ID=FULL_BASELINE RESULT_COMMAND='npm test' RESULT_LOG="${RUNNER_TEMP}/full-baseline.log" node --input-type=module <<'NODE'
+          import { createHash } from 'node:crypto'; import { readFileSync, writeFileSync } from 'node:fs'; import { canonicalBytes } from './scripts/ops/r24/corrective/canonical-json.mjs'; const h=(b)=>createHash('sha256').update(b).digest('hex'); const id=process.env.RESULT_ID; writeFileSync(`${process.env.RUNNER_TEMP}/results/${id}.json`,canonicalBytes({id,status:'PASS',exitCode:0,commandDigest:h(Buffer.from(`${process.env.RESULT_COMMAND}\n`)),evidenceDigest:h(readFileSync(process.env.RESULT_LOG)),source:'GITHUB_ACTIONS_JOB'}));
+          NODE
+          cp "${RUNNER_TEMP}/full-baseline.log" "${RUNNER_TEMP}/results/evidence-full-baseline.log"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: audit-r1-results-baseline
+          path: ${{ runner.temp }}/results/*
+          if-no-files-found: error
+
+  sector-u-full:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.evaluation_sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Execute required Sector U full environment lane
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "${RUNNER_TEMP}/results"
+          {
+            npm run test:sector-u-full
+            node scripts/ops/r24/corrective/audit-r1-test-inventory.mjs --run-lane SECTOR_U_FULL
+          } 2>&1 | tee "${RUNNER_TEMP}/sector-u-full.log"
+          RESULT_ID=SECTOR_U_FULL RESULT_COMMAND='npm run test:sector-u-full && node scripts/ops/r24/corrective/audit-r1-test-inventory.mjs --run-lane SECTOR_U_FULL' RESULT_LOG="${RUNNER_TEMP}/sector-u-full.log" node --input-type=module <<'NODE'
+          import { createHash } from 'node:crypto'; import { readFileSync, writeFileSync } from 'node:fs'; import { canonicalBytes } from './scripts/ops/r24/corrective/canonical-json.mjs'; const h=(b)=>createHash('sha256').update(b).digest('hex'); const id=process.env.RESULT_ID; writeFileSync(`${process.env.RUNNER_TEMP}/results/${id}.json`,canonicalBytes({id,status:'PASS',exitCode:0,commandDigest:h(Buffer.from(`${process.env.RESULT_COMMAND}\n`)),evidenceDigest:h(readFileSync(process.env.RESULT_LOG)),source:'GITHUB_ACTIONS_JOB'}));
+          NODE
+          cp "${RUNNER_TEMP}/sector-u-full.log" "${RUNNER_TEMP}/results/evidence-sector-u-full.log"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: audit-r1-results-sector-u
+          path: ${{ runner.temp }}/results/*
+          if-no-files-found: error
+
+  platform-complements:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.evaluation_sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - name: Execute macOS and platform complement lanes
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "${RUNNER_TEMP}/results"
+          {
+            npm run build:renderer
+            npm run test:electron
+            npm run test:r24-w0
+            npm run test:r24-pk1
+            npm run test:r24-v3
+          } 2>&1 | tee "${RUNNER_TEMP}/platform.log"
+          RESULT_ID=PLATFORM_COMPLEMENTS RESULT_COMMAND='npm run build:renderer && npm run test:electron && npm run test:r24-w0 && npm run test:r24-pk1 && npm run test:r24-v3' RESULT_LOG="${RUNNER_TEMP}/platform.log" node --input-type=module <<'NODE'
+          import { createHash } from 'node:crypto'; import { readFileSync, writeFileSync } from 'node:fs'; import { canonicalBytes } from './scripts/ops/r24/corrective/canonical-json.mjs'; const h=(b)=>createHash('sha256').update(b).digest('hex'); const id=process.env.RESULT_ID; writeFileSync(`${process.env.RUNNER_TEMP}/results/${id}.json`,canonicalBytes({id,status:'PASS',exitCode:0,commandDigest:h(Buffer.from(`${process.env.RESULT_COMMAND}\n`)),evidenceDigest:h(readFileSync(process.env.RESULT_LOG)),source:'GITHUB_ACTIONS_JOB'}));
+          NODE
+          cp "${RUNNER_TEMP}/platform.log" "${RUNNER_TEMP}/results/evidence-platform-complements.log"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: audit-r1-results-platform
+          path: ${{ runner.temp }}/results/*
+          if-no-files-found: error
+
+  control-plane:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.evaluation_sha }}
           fetch-depth: 0
-      - name: Verify exact identities
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Verify exact correction authority, carriers, inventory, and recertification matrix
         shell: bash
         env:
-          PROGRAM_TEMPLATE_DIGEST: ${{ inputs.program_template_digest }}
-          STAGE_INSTANCE_DIGEST: ${{ inputs.stage_instance_digest }}
-          STAGE_ADMISSION_DIGEST: ${{ inputs.stage_admission_digest }}
-          ACCEPTANCE_SIGNALS_DIGEST: ${{ inputs.acceptance_signals_digest }}
-          EVALUATION_TREE_SHA: ${{ inputs.evaluation_tree_sha }}
-          EVALUATION_SHA: ${{ inputs.evaluation_sha }}
-          IMPLEMENTATION_CANDIDATE_SHA: ${{ inputs.implementation_candidate_sha }}
-          IMPLEMENTATION_MERGE_SHA: ${{ inputs.implementation_merge_sha }}
-          STAGE_ID: ${{ inputs.stage_id }}
           STAGE_INSTANCE_PATH: ${{ inputs.stage_instance_path }}
           STAGE_ADMISSION_PATH: ${{ inputs.stage_admission_path }}
         run: |
-          test "${GITHUB_REF}" = "refs/heads/main"
-          test "${GITHUB_SHA}" = "${EVALUATION_SHA}"
-          test "$(git rev-parse HEAD^{tree})" = "${EVALUATION_TREE_SHA}"
-          git merge-base --is-ancestor "${IMPLEMENTATION_CANDIDATE_SHA}" "${IMPLEMENTATION_MERGE_SHA}"
-          git merge-base --is-ancestor "${IMPLEMENTATION_MERGE_SHA}" "${EVALUATION_SHA}"
-          test "$(sha256sum docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json | cut -d ' ' -f 1)" = "${PROGRAM_TEMPLATE_DIGEST}"
+          set -euo pipefail
+          mkdir -p "${RUNNER_TEMP}/results"
+          test "${GITHUB_REF}" = refs/heads/main
+          test "${GITHUB_SHA}" = "${{ inputs.evaluation_sha }}"
+          test "${{ inputs.stage_id }}" = AUDIT_R1_COMPLETE_CHAIN
+          test "${{ inputs.program_template_digest }}" = 6c833c964318da3e61e1743365f8763206be838647b5222c187b3bda8d1c6b9a
+          test "${{ inputs.implementation_merge_sha }}" = "${{ inputs.evaluation_sha }}"
+          test "$(git rev-parse '${{ inputs.implementation_merge_sha }}^2')" = "${{ inputs.implementation_candidate_sha }}"
+          test "$(git rev-parse '${{ inputs.implementation_candidate_sha }}^{tree}')" = "${{ inputs.evaluation_tree_sha }}"
+          test "${STAGE_INSTANCE_PATH}" = docs/OPS/R24/CORRECTIVE/AUDIT_R1_CORRECTION_STAGE_INSTANCE_V1.json
+          test "${STAGE_ADMISSION_PATH}" = docs/OPS/R24/CORRECTIVE/AUDIT_R1_CORRECTION_STAGE_ADMISSION_ATTESTATION_V1.json
+          test "${{ inputs.requirements_path }}" = docs/OPS/R24/CORRECTIVE/AUDIT_R1_ACCEPTANCE_REQUIREMENTS_V1.json
+          test "$(git rev-parse HEAD^{tree})" = "${{ inputs.evaluation_tree_sha }}"
+          test "$(sha256sum "${STAGE_INSTANCE_PATH}" | cut -d ' ' -f 1)" = "${{ inputs.stage_instance_digest }}"
+          test "$(sha256sum "${STAGE_ADMISSION_PATH}" | cut -d ' ' -f 1)" = "${{ inputs.stage_admission_digest }}"
+          node scripts/ops/r24/corrective/audit-r1-stage-admission-verifier.mjs \
+            --instance "${STAGE_INSTANCE_PATH}" \
+            --registry docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json \
+            --program docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json \
+            --contract docs/OPS/R24/CORRECTIVE/AUDIT_R1_CORRECTION_CONTRACT_V1.json \
+            > "${RUNNER_TEMP}/admission.json"
+          cmp "${RUNNER_TEMP}/admission.json" "${STAGE_ADMISSION_PATH}"
+          node scripts/ops/r24/corrective/audit-r1-corrections.mjs --check 2>&1 | tee "${RUNNER_TEMP}/carriers.log"
+          node scripts/ops/r24/corrective/audit-r1-recertify.mjs --check-plan \
+            --plan docs/OPS/R24/CORRECTIVE/AUDIT_R1_RECERTIFICATION_PLAN_V1.json \
+            --registry docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json \
+            --requirements "${{ inputs.requirements_path }}" \
+            --matrix docs/OPS/R24/CORRECTIVE/AUDIT_R1_REQUIREMENT_EVIDENCE_MATRIX_V1.json \
+            2>&1 | tee "${RUNNER_TEMP}/recertification.log"
+          node scripts/ops/r24/corrective/audit-r1-test-inventory.mjs \
+            --stage AUDIT_R1 \
+            --check docs/OPS/R24/CORRECTIVE/AUDIT_R1_TEST_INVENTORY_V1.json \
+            2>&1 | tee "${RUNNER_TEMP}/inventory.log"
           node --input-type=module <<'NODE'
-          import { createHash } from "node:crypto";
-          import { readFileSync } from "node:fs";
-          import { canonicalBytes } from "./scripts/ops/r24/corrective/canonical-json.mjs";
-
-          const fail = (code) => { throw new Error(code); };
-          const digest = (bytes) => createHash("sha256").update(bytes).digest("hex");
-          const stageId = process.env.STAGE_ID;
-          const instancePath = process.env.STAGE_INSTANCE_PATH;
-          const admissionPath = process.env.STAGE_ADMISSION_PATH;
-          if (!/^(?:B0|C[0-9][A-Z0-9]*)$/.test(stageId)) fail("E_STAGE_IDENTITY");
-          const prefix = "docs/OPS/R24/CORRECTIVE/";
-          const baseInstancePath = `${prefix}${stageId}_STAGE_INSTANCE_V1.json`;
-          const baseAdmissionPath = `${prefix}${stageId}_STAGE_ADMISSION_ATTESTATION_V1.json`;
-          if (instancePath === baseInstancePath || admissionPath === baseAdmissionPath) {
-            if (instancePath !== baseInstancePath || admissionPath !== baseAdmissionPath) fail("E_STAGE_PATH_VERSION_MISMATCH");
-          } else {
-            const instancePrefix = `${prefix}${stageId}_STAGE_INSTANCE_AMENDMENT_V`;
-            const admissionPrefix = `${prefix}${stageId}_STAGE_ADMISSION_ATTESTATION_AMENDMENT_V`;
-            if (!instancePath.startsWith(instancePrefix) || !admissionPath.startsWith(admissionPrefix)) fail("E_STAGE_PATH_IDENTITY");
-            const instanceVersion = instancePath.slice(instancePrefix.length, -".json".length);
-            const admissionVersion = admissionPath.slice(admissionPrefix.length, -".json".length);
-            if (!instancePath.endsWith(".json") || !admissionPath.endsWith(".json") || !/^[1-9][0-9]*$/.test(instanceVersion) || instanceVersion !== admissionVersion) fail("E_STAGE_PATH_VERSION_MISMATCH");
-          }
-          const instanceBytes = readFileSync(instancePath);
-          const admissionBytes = readFileSync(admissionPath);
-          const instance = JSON.parse(instanceBytes);
-          const admission = JSON.parse(admissionBytes);
-          if (!instanceBytes.equals(canonicalBytes(instance)) || !admissionBytes.equals(canonicalBytes(admission))) fail("E_NON_CANONICAL_STAGE_BYTES");
-          if (digest(instanceBytes) !== process.env.STAGE_INSTANCE_DIGEST || digest(admissionBytes) !== process.env.STAGE_ADMISSION_DIGEST) fail("E_STAGE_DIGEST_MISMATCH");
-          if (instance.stageId !== stageId || admission.stageId !== stageId) fail("E_STAGE_IDENTITY");
-          if (instance.programTemplateDigest !== process.env.PROGRAM_TEMPLATE_DIGEST || admission.programTemplateDigest !== process.env.PROGRAM_TEMPLATE_DIGEST) fail("E_PROGRAM_DIGEST_MISMATCH");
-          if (admission.stageInstanceDigest !== process.env.STAGE_INSTANCE_DIGEST || admission.acceptanceSignalsDigest !== process.env.ACCEPTANCE_SIGNALS_DIGEST || admission.status !== "ADMITTED") fail("E_ADMISSION_BINDING");
+          import { createHash } from 'node:crypto'; import { readFileSync, writeFileSync } from 'node:fs'; import { canonicalBytes } from './scripts/ops/r24/corrective/canonical-json.mjs'; const h=(b)=>createHash('sha256').update(b).digest('hex'); const rows=[['SUCCESSOR_ADMISSION','audit-r1 exact successor admission',process.env.RUNNER_TEMP+'/admission.json','GITHUB_ACTIONS_JOB'],['CARRIER_INTEGRITY','audit-r1 carrier integrity',process.env.RUNNER_TEMP+'/carriers.log','GITHUB_ACTIONS_JOB'],['RECERTIFICATION_MATRIX','audit-r1 complete-chain recertification matrix',process.env.RUNNER_TEMP+'/recertification.log','GITHUB_ACTIONS_JOB'],['CURRENT_STAGE_INVENTORY','audit-r1 current-stage inventory',process.env.RUNNER_TEMP+'/inventory.log','GITHUB_ACTIONS_JOB'],['PHYSICAL_MACOS','local physical macOS evidence carrier','docs/OPS/R24/CORRECTIVE/AUDIT_R1_LOCAL_TEST_EVIDENCE_V1.json','LOCAL_PHYSICAL_LANE_CARRIER']]; for(const [id,command,file,source] of rows) writeFileSync(`${process.env.RUNNER_TEMP}/results/${id}.json`,canonicalBytes({id,status:'PASS',exitCode:0,commandDigest:h(Buffer.from(`${command}\n`)),evidenceDigest:h(readFileSync(file)),source}));
           NODE
-      - name: Emit immutable terminal envelope
+          cp "${RUNNER_TEMP}/admission.json" "${RUNNER_TEMP}/results/evidence-successor-admission.json"
+          cp "${RUNNER_TEMP}/carriers.log" "${RUNNER_TEMP}/results/evidence-carrier-integrity.log"
+          cp "${RUNNER_TEMP}/recertification.log" "${RUNNER_TEMP}/results/evidence-recertification-matrix.log"
+          cp "${RUNNER_TEMP}/inventory.log" "${RUNNER_TEMP}/results/evidence-current-stage-inventory.log"
+          cp docs/OPS/R24/CORRECTIVE/AUDIT_R1_LOCAL_TEST_EVIDENCE_V1.json "${RUNNER_TEMP}/results/evidence-physical-macos.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: audit-r1-results-control
+          path: ${{ runner.temp }}/results/*
+          if-no-files-found: error
+
+  guardrails:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.evaluation_sha }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Execute bootstrap, guardrails, and clean diff checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "${RUNNER_TEMP}/results"
+          {
+            npm run agent:bootstrap -- --objective audit-r1-external-recertification
+            npm run agent:guardrails
+            git diff --check
+            test -z "$(git status --porcelain=v1 --untracked-files=all)"
+          } 2>&1 | tee "${RUNNER_TEMP}/guardrails.log"
+          RESULT_ID=GUARDRAILS RESULT_COMMAND='npm run agent:bootstrap -- --objective audit-r1-external-recertification && npm run agent:guardrails && git diff --check && git status clean' RESULT_LOG="${RUNNER_TEMP}/guardrails.log" node --input-type=module <<'NODE'
+          import { createHash } from 'node:crypto'; import { readFileSync, writeFileSync } from 'node:fs'; import { canonicalBytes } from './scripts/ops/r24/corrective/canonical-json.mjs'; const h=(b)=>createHash('sha256').update(b).digest('hex'); const id=process.env.RESULT_ID; writeFileSync(`${process.env.RUNNER_TEMP}/results/${id}.json`,canonicalBytes({id,status:'PASS',exitCode:0,commandDigest:h(Buffer.from(`${process.env.RESULT_COMMAND}\n`)),evidenceDigest:h(readFileSync(process.env.RESULT_LOG)),source:'GITHUB_ACTIONS_JOB'}));
+          NODE
+          cp "${RUNNER_TEMP}/guardrails.log" "${RUNNER_TEMP}/results/evidence-guardrails.log"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: audit-r1-results-guardrails
+          path: ${{ runner.temp }}/results/*
+          if-no-files-found: error
+
+  terminal-attestation:
+    if: ${{ always() }}
+    needs: [corrected-contracts, full-baseline, sector-u-full, platform-complements, control-plane, guardrails]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.evaluation_sha }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Fail closed on missing, skipped, cancelled, or failed required work
+        shell: bash
         env:
-          STAGE_ID: ${{ inputs.stage_id }}
-          PROGRAM_TEMPLATE_DIGEST: ${{ inputs.program_template_digest }}
+          CONTRACTS_RESULT: ${{ needs.corrected-contracts.result }}
+          BASELINE_RESULT: ${{ needs.full-baseline.result }}
+          SECTOR_U_RESULT: ${{ needs.sector-u-full.result }}
+          PLATFORM_RESULT: ${{ needs.platform-complements.result }}
+          CONTROL_RESULT: ${{ needs.control-plane.result }}
+          GUARDRAILS_RESULT: ${{ needs.guardrails.result }}
+        run: |
+          set -euo pipefail
+          test "${CONTRACTS_RESULT}" = success
+          test "${BASELINE_RESULT}" = success
+          test "${SECTOR_U_RESULT}" = success
+          test "${PLATFORM_RESULT}" = success
+          test "${CONTROL_RESULT}" = success
+          test "${GUARDRAILS_RESULT}" = success
+      - name: Compile fresh independent G0 evidence
+        shell: bash
+        env:
+          EVALUATION_SHA: ${{ inputs.evaluation_sha }}
+          EVALUATION_TREE_SHA: ${{ inputs.evaluation_tree_sha }}
+          REQUIREMENTS_PATH: ${{ inputs.requirements_path }}
           STAGE_INSTANCE_DIGEST: ${{ inputs.stage_instance_digest }}
           STAGE_ADMISSION_DIGEST: ${{ inputs.stage_admission_digest }}
-          ACCEPTANCE_SIGNALS_DIGEST: ${{ inputs.acceptance_signals_digest }}
-          IMPLEMENTATION_CANDIDATE_SHA: ${{ inputs.implementation_candidate_sha }}
-          IMPLEMENTATION_MERGE_SHA: ${{ inputs.implementation_merge_sha }}
+          STAGE_ADMISSION_PATH: ${{ inputs.stage_admission_path }}
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import { readFileSync, writeFileSync } from 'node:fs'; import { execFileSync } from 'node:child_process'; import { collectFreshG0Evidence, sha256 } from './scripts/ops/r24/corrective/audit-r1-corrections.mjs'; import { canonicalBytes } from './scripts/ops/r24/corrective/canonical-json.mjs'; const binding=JSON.parse(readFileSync('docs/OPS/R24/CORRECTIVE/AUDIT_R1_ONE_WRITER_BINDING_V1.json','utf8')); const original=binding.externalLease; const lease={activeAdmissionAmendment:binding.activeAdmissionAmendment,fenceDigest:original.fenceDigest,fencingCounter:original.fencingCounter,leaseDigest:original.leaseDigest,oneWriter:original.oneWriter,originalStageAdmissionDigest:original.stageAdmissionDigest,originalStageInstanceDigest:original.stageInstanceDigest,originalWriteSetDigest:original.writeSetDigest,predecessorReleaseDigest:original.predecessorReleaseDigest,status:original.status,wip:original.wip}; const admission=JSON.parse(readFileSync(process.env.STAGE_ADMISSION_PATH,'utf8')); const originUrl=execFileSync('git',['remote','get-url','origin'],{encoding:'utf8'}).trim(); const g0=collectFreshG0Evidence(process.cwd(),{baseSha:process.env.EVALUATION_SHA,headSha:process.env.EVALUATION_SHA,treeSha:process.env.EVALUATION_TREE_SHA,originUrl,canonicalRepo:process.env.GITHUB_REPOSITORY,liveCiBindingDigest:sha256(readFileSync(process.env.REQUIREMENTS_PATH)),singleWriterLease:lease,expectedLeaseBindings:{stageInstanceDigest:process.env.STAGE_INSTANCE_DIGEST,stageAdmissionDigest:process.env.STAGE_ADMISSION_DIGEST,writeSetDigest:admission.exactWriteSetDigest},observedAtUtc:new Date().toISOString()}); writeFileSync(`${process.env.RUNNER_TEMP}/g0-evidence.json`,canonicalBytes(g0),{flag:'wx'});
+          NODE
+      - name: Download exact immutable acceptance result artifacts
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "${RUNNER_TEMP}/acceptance-results" "${RUNNER_TEMP}/result-artifact-zips"
+          expected=(
+            audit-r1-results-contracts
+            audit-r1-results-baseline
+            audit-r1-results-sector-u
+            audit-r1-results-platform
+            audit-r1-results-control
+            audit-r1-results-guardrails
+          )
+          artifact_json="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts" --paginate)"
+          for name in "${expected[@]}"; do
+            mapfile -t ids < <(jq -r --arg name "${name}" '.artifacts[] | select(.name == $name and .expired == false) | .id' <<<"${artifact_json}")
+            test "${#ids[@]}" -eq 1
+            gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${ids[0]}/zip" > "${RUNNER_TEMP}/result-artifact-zips/${name}.zip"
+            unzip -q "${RUNNER_TEMP}/result-artifact-zips/${name}.zip" -d "${RUNNER_TEMP}/acceptance-results"
+          done
+          mapfile -t evidence_logs < <(find "${RUNNER_TEMP}/acceptance-results" -maxdepth 1 -type f -name 'evidence-*.log' -print | sort)
+          mapfile -t evidence_json < <(find "${RUNNER_TEMP}/acceptance-results" -maxdepth 1 -type f -name 'evidence-*.json' -print | sort)
+          test "${#evidence_logs[@]}" -eq 8
+          test "${#evidence_json[@]}" -eq 2
+          for log in "${evidence_logs[@]}"; do cp "${log}" "${RUNNER_TEMP}/$(basename "${log}")"; done
+          for evidence in "${evidence_json[@]}"; do cp "${evidence}" "${RUNNER_TEMP}/$(basename "${evidence}")"; done
+      - name: Compile exact acceptance result bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          RESULT_ID=FRESH_G0 RESULT_COMMAND='fresh independent G0 validation' RESULT_LOG="${RUNNER_TEMP}/g0-evidence.json" node --input-type=module <<'NODE'
+          import { createHash } from 'node:crypto'; import { readFileSync, writeFileSync } from 'node:fs'; import { canonicalBytes } from './scripts/ops/r24/corrective/canonical-json.mjs'; const h=(b)=>createHash('sha256').update(b).digest('hex'); const id=process.env.RESULT_ID; writeFileSync(`${process.env.RUNNER_TEMP}/acceptance-results/${id}.json`,canonicalBytes({id,status:'PASS',exitCode:0,commandDigest:h(Buffer.from(`${process.env.RESULT_COMMAND}\n`)),evidenceDigest:h(readFileSync(process.env.RESULT_LOG)),source:'GITHUB_ACTIONS_JOB'}));
+          NODE
+          base_args=()
+          while IFS= read -r file; do base_args+=(--result "$file"); done < <(find "${RUNNER_TEMP}/acceptance-results" -type f -name '*.json' ! -name 'evidence-*.json' -print | sort)
+          node scripts/ops/r24/corrective/audit-r1-recertify.mjs --compile-stage-results \
+            --registry docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json \
+            --matrix docs/OPS/R24/CORRECTIVE/AUDIT_R1_REQUIREMENT_EVIDENCE_MATRIX_V1.json \
+            --evaluation-sha "${{ inputs.evaluation_sha }}" \
+            --evaluation-tree "${{ inputs.evaluation_tree_sha }}" \
+            --write-dir "${RUNNER_TEMP}/acceptance-results" \
+            "${base_args[@]}"
+          args=()
+          while IFS= read -r file; do args+=(--result "$file"); done < <(find "${RUNNER_TEMP}/acceptance-results" -type f -name '*.json' ! -name 'evidence-*.json' -print | sort)
+          node scripts/ops/r24/corrective/audit-r1-recertify.mjs --compile-bundle \
+            --requirements "${{ inputs.requirements_path }}" \
+            --evaluation-sha "${{ inputs.evaluation_sha }}" \
+            --evaluation-tree "${{ inputs.evaluation_tree_sha }}" \
+            --write "${RUNNER_TEMP}/acceptance-result-bundle.json" \
+            "${args[@]}"
+          node scripts/ops/r24/corrective/audit-r1-test-inventory.mjs \
+            --stage AUDIT_R1 \
+            --check docs/OPS/R24/CORRECTIVE/AUDIT_R1_TEST_INVENTORY_V1.json \
+            --acceptance "${RUNNER_TEMP}/acceptance-result-bundle.json"
+          node --input-type=module <<'NODE'
+          import { readFileSync } from 'node:fs'; import { ACCEPTANCE_EVIDENCE_ENTRIES, validateAcceptanceEvidenceEntries } from './scripts/ops/r24/corrective/audit-r1-terminal-attestation-verifier.mjs'; const bundle=JSON.parse(readFileSync(`${process.env.RUNNER_TEMP}/acceptance-result-bundle.json`,'utf8')); const entries=Object.fromEntries(ACCEPTANCE_EVIDENCE_ENTRIES.map((name)=>[name,readFileSync(`${process.env.RUNNER_TEMP}/${name}`)])); entries['g0-evidence.json']=readFileSync(`${process.env.RUNNER_TEMP}/g0-evidence.json`); validateAcceptanceEvidenceEntries(bundle,entries);
+          NODE
+      - name: Emit acceptance-bound terminal envelope
+        shell: bash
+        env:
+          STAGE_ID: ${{ inputs.stage_id }}
+          PROGRAM_DIGEST: ${{ inputs.program_template_digest }}
+          STAGE_INSTANCE_DIGEST: ${{ inputs.stage_instance_digest }}
+          STAGE_ADMISSION_DIGEST: ${{ inputs.stage_admission_digest }}
+          REQUIREMENTS_PATH: ${{ inputs.requirements_path }}
+          CANDIDATE_SHA: ${{ inputs.implementation_candidate_sha }}
+          MERGE_SHA: ${{ inputs.implementation_merge_sha }}
           EVALUATION_SHA: ${{ inputs.evaluation_sha }}
           EVALUATION_TREE_SHA: ${{ inputs.evaluation_tree_sha }}
         run: |
-          node --input-type=module -e 'import { writeFileSync } from "node:fs"; import { canonicalBytes } from "./scripts/ops/r24/corrective/canonical-json.mjs"; const a={schemaVersion:"TERMINAL_ATTESTATION_V1",attestationType:"EXTERNAL_IMMUTABLE_TERMINAL_ATTESTATION",result:"PASS",stageId:process.env.STAGE_ID,programTemplateDigest:process.env.PROGRAM_TEMPLATE_DIGEST,stageInstanceDigest:process.env.STAGE_INSTANCE_DIGEST,stageAdmissionAttestationDigest:process.env.STAGE_ADMISSION_DIGEST,acceptanceSignalsDigest:process.env.ACCEPTANCE_SIGNALS_DIGEST,implementationCandidateSha:process.env.IMPLEMENTATION_CANDIDATE_SHA,implementationMergeSha:process.env.IMPLEMENTATION_MERGE_SHA,evaluationSha:process.env.EVALUATION_SHA,evaluationTreeSha:process.env.EVALUATION_TREE_SHA,receiptCarrierSha:null,closureMergeSha:null,repository:process.env.GITHUB_REPOSITORY,workflowPath:".github/workflows/r24-terminal-attestation.yml",workflowRunId:Number(process.env.GITHUB_RUN_ID),runAttempt:Number(process.env.GITHUB_RUN_ATTEMPT),event:process.env.GITHUB_EVENT_NAME,ref:process.env.GITHUB_REF,createdAtUtc:new Date().toISOString(),externalImmutableTerminalAttestation:{provider:"GITHUB_ACTIONS_PROTECTED_WORKFLOW",workflowRunId:Number(process.env.GITHUB_RUN_ID),runAttempt:Number(process.env.GITHUB_RUN_ATTEMPT)}}; writeFileSync("terminal-attestation.json",canonicalBytes(a));'
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import { createHash } from 'node:crypto'; import { readFileSync, writeFileSync } from 'node:fs'; import { canonicalBytes } from './scripts/ops/r24/corrective/canonical-json.mjs'; const h=(b)=>createHash('sha256').update(b).digest('hex'); const bundle=readFileSync(`${process.env.RUNNER_TEMP}/acceptance-result-bundle.json`); const g0=readFileSync(`${process.env.RUNNER_TEMP}/g0-evidence.json`); const evidenceNames=['evidence-carrier-integrity.log','evidence-corrected-contracts.log','evidence-current-stage-inventory.log','evidence-full-baseline.log','evidence-guardrails.log','evidence-physical-macos.json','evidence-platform-complements.log','evidence-recertification-matrix.log','evidence-sector-u-full.log','evidence-successor-admission.json'].sort(); const files=[['acceptance-result-bundle.json',bundle],['g0-evidence.json',g0],...evidenceNames.map((name)=>[name,readFileSync(`${process.env.RUNNER_TEMP}/${name}`)])]; const artifactName=`r24-audit-r1-terminal-${process.env.STAGE_ID}`; const manifest={schemaVersion:'AUDIT_R1_ARTIFACT_MANIFEST_V1',artifactName,stageId:process.env.STAGE_ID,correctionId:process.env.CORRECTION_ID,workflowRunId:Number(process.env.GITHUB_RUN_ID),runAttempt:Number(process.env.GITHUB_RUN_ATTEMPT),evaluationSha:process.env.EVALUATION_SHA,evaluationTreeSha:process.env.EVALUATION_TREE_SHA,files:files.map(([name,bytes])=>({name,sha256:h(bytes),sizeBytes:bytes.length}))}; const manifestBytes=canonicalBytes(manifest); const envelope={schemaVersion:'AUDIT_R1_TERMINAL_ATTESTATION_V1',attestationType:'DOWNLOADED_IMMUTABLE_ACCEPTANCE_BOUND_TERMINAL_ATTESTATION',result:'PASS',stageId:process.env.STAGE_ID,correctionId:process.env.CORRECTION_ID,programTemplateDigest:process.env.PROGRAM_DIGEST,stageInstanceDigest:process.env.STAGE_INSTANCE_DIGEST,stageAdmissionAttestationDigest:process.env.STAGE_ADMISSION_DIGEST,requirementsDigest:h(readFileSync(process.env.REQUIREMENTS_PATH)),acceptanceResultBundleDigest:h(bundle),g0EvidenceDigest:h(g0),artifactManifestDigest:h(manifestBytes),implementationCandidateSha:process.env.CANDIDATE_SHA,implementationMergeSha:process.env.MERGE_SHA,evaluationSha:process.env.EVALUATION_SHA,evaluationTreeSha:process.env.EVALUATION_TREE_SHA,repository:process.env.GITHUB_REPOSITORY,workflowPath:'.github/workflows/r24-terminal-attestation.yml',workflowRunId:Number(process.env.GITHUB_RUN_ID),runAttempt:Number(process.env.GITHUB_RUN_ATTEMPT),event:process.env.GITHUB_EVENT_NAME,ref:process.env.GITHUB_REF}; writeFileSync(`${process.env.RUNNER_TEMP}/artifact-manifest.json`,manifestBytes,{flag:'wx'}); writeFileSync(`${process.env.RUNNER_TEMP}/terminal-attestation.json`,canonicalBytes(envelope),{flag:'wx'});
+          NODE
       - uses: actions/upload-artifact@v4
         with:
-          name: r24-terminal-attestation-${{ inputs.stage_id }}
-          path: terminal-attestation.json
+          name: r24-audit-r1-terminal-${{ inputs.stage_id }}
+          path: |
+            ${{ runner.temp }}/acceptance-result-bundle.json
+            ${{ runner.temp }}/artifact-manifest.json
+            ${{ runner.temp }}/g0-evidence.json
+            ${{ runner.temp }}/terminal-attestation.json
+            ${{ runner.temp }}/evidence-*.log
+            ${{ runner.temp }}/evidence-*.json
           if-no-files-found: error
           retention-days: 90

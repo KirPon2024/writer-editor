@@ -67,12 +67,12 @@ jobs:
           R="${RUNNER_TEMP}/results"
           mkdir -p "${R}"
           make_result() {
-            RESULT_ID="$1" RESULT_SOURCE="$2" RESULT_PROGRAM="$3" RESULT_ARGS_JSON="$4" RESULT_LOG="$5" RESULT_ENV_JSON="${6:-{}}" node --input-type=module <<'NODE'
+            RESULT_ID="$1" RESULT_SOURCE="$2" RESULT_PROGRAM="$3" RESULT_ARGS_JSON="$4" RESULT_LOG="$5" RESULT_ENV_JSON="${6-}" node --input-type=module <<'NODE'
           import fs from 'node:fs';
           import crypto from 'node:crypto';
           import { canonicalBytes } from './scripts/ops/r24/corrective/canonical-json.mjs';
           const h=(bytes)=>crypto.createHash('sha256').update(bytes).digest('hex');
-          const environment=JSON.parse(process.env.RESULT_ENV_JSON);const command={program:process.env.RESULT_PROGRAM,args:JSON.parse(process.env.RESULT_ARGS_JSON),...(Object.keys(environment).length>0?{environment}:{})};
+          const environment=JSON.parse(process.env.RESULT_ENV_JSON || '{}');const command={program:process.env.RESULT_PROGRAM,args:JSON.parse(process.env.RESULT_ARGS_JSON),...(Object.keys(environment).length>0?{environment}:{})};
           const evidencePath='evidence-'+process.env.RESULT_ID.toLowerCase()+'.log';
           const evidence=fs.readFileSync(process.env.RESULT_LOG);
           fs.copyFileSync(process.env.RESULT_LOG,process.env.RUNNER_TEMP+'/results/'+evidencePath);
@@ -141,6 +141,18 @@ jobs:
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "${EVALUATION_SHA}"
           test "$(git rev-parse HEAD^{tree})" = "${EVALUATION_TREE_SHA}"
+          C8D_LOCK_DIR="/private/tmp/yalken-r24-corrective-canonical-writer.lock"
+          C8D_LEASE_CARRIER="docs/OPS/R24/CORRECTIVE/AUDIT_R2_C8D_LEASE_CARRIER_V1.json"
+          C8D_FENCE_CARRIER="docs/OPS/R24/CORRECTIVE/AUDIT_R2_C8D_FENCE_CARRIER_V1.json"
+          C8D_LEASE_TARGET="${C8D_LOCK_DIR}/lease-c8d-pk1-security-package-v1.json"
+          C8D_FENCE_TARGET="${C8D_LOCK_DIR}/fence-c8d-pk1-security-package-v1.json"
+          test "$(shasum -a 256 "${C8D_LEASE_CARRIER}" | awk '{print $1}')" = a628943f000979a32186c1934c560c8fa25cc1b327c01e44382b7e531c5cfc0c
+          test "$(shasum -a 256 "${C8D_FENCE_CARRIER}" | awk '{print $1}')" = a2cc34a9e3f998e1e1b3e3c16cebd8b04f88fe5930eb9982770adcc18fbbf043
+          mkdir -p "${C8D_LOCK_DIR}"
+          if [ -e "${C8D_LEASE_TARGET}" ]; then cmp "${C8D_LEASE_CARRIER}" "${C8D_LEASE_TARGET}"; else cp "${C8D_LEASE_CARRIER}" "${C8D_LEASE_TARGET}"; fi
+          if [ -e "${C8D_FENCE_TARGET}" ]; then cmp "${C8D_FENCE_CARRIER}" "${C8D_FENCE_TARGET}"; else cp "${C8D_FENCE_CARRIER}" "${C8D_FENCE_TARGET}"; fi
+          test "$(shasum -a 256 "${C8D_LEASE_TARGET}" | awk '{print $1}')" = a628943f000979a32186c1934c560c8fa25cc1b327c01e44382b7e531c5cfc0c
+          test "$(shasum -a 256 "${C8D_FENCE_TARGET}" | awk '{print $1}')" = a2cc34a9e3f998e1e1b3e3c16cebd8b04f88fe5930eb9982770adcc18fbbf043
           mkdir -p "${RUNNER_TEMP}/results" "${RUNNER_TEMP}/replay"
           node scripts/ops/r24/corrective/audit-r2-stage-replay.mjs \
             --execute docs/OPS/R24/CORRECTIVE/AUDIT_R2_STAGE_REPLAY_PLAN_V1.json \

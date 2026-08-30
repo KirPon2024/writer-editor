@@ -17,8 +17,8 @@ const spawnTap = (output) => () => ({ status:0, signal:null, error:null, stdout:
 test('plan contains the exact ordered 33-stage registered dependency graph', () => {
   const candidate=plan();
   assert.equal(validateReplayPlan(candidate, registry).registeredStages, 33);
-  assert.equal(candidate.effectiveAdmissionBinding.stageInstanceDigest,'48ca83aa6b34d8405182f65934c0a2d35af976714c4bce64a763276480129777');
-  assert.equal(candidate.effectiveAdmissionBinding.stageAdmissionDigest,'bbe4d10a7c89d61d885f3dfea8881848a3bf7847a1b1380bdfe440e266a12945');
+  assert.equal(candidate.effectiveAdmissionBinding.stageInstanceDigest,'e3136181930a86c5beb21a50884e551e5477abe4563fdad0749ac546d70b811f');
+  assert.equal(candidate.effectiveAdmissionBinding.stageAdmissionDigest,'decb456ea5e3b51b3220c4349b2ac2f3a2e4dc247d78e685615876279bbdc1a3');
   const wrongBinding=plan();wrongBinding.effectiveAdmissionBinding.stageAdmissionDigest='0'.repeat(64);
   assert.throws(() => validateReplayPlan(wrongBinding,registry,{requireFiles:false}), (error)=>error.code==='E_REPLAY_EFFECTIVE_ADMISSION_BINDING');
 });
@@ -28,6 +28,15 @@ test('C8D replay is the same-run hosted physical-byte successor and never the T7
   assert.ok(stage.artifactPaths.includes('docs/OPS/R24/CORRECTIVE/AUDIT_R2_C8D_HOSTED_REPLAY_RECOVERY_DIAGNOSTIC_EVIDENCE_V1.json'));
   assert.ok(stage.artifactPaths.includes('docs/OPS/R24/CORRECTIVE/AUDIT_R2_PHYSICAL_EVIDENCE_CONTRACT_V1.json'));
   assert.equal(stage.artifactPaths.includes('test/contracts/r24-c8d-pk1-security-package.contract.test.mjs'),false);
+});
+test('C8E replay is the immutable-ledger hosted successor and never the ephemeral local lease test', () => {
+  const stage=plan().stages.find((entry)=>entry.stageId==='C8E');
+  assert.deepEqual(stage.command,{program:'node',args:['--test','test/contracts/r24-audit-r2-c8e-hosted-lease-replay.contract.test.mjs']});
+  assert.ok(stage.artifactPaths.includes('docs/OPS/R24/CORRECTIVE/AUDIT_R2_C8E_HOSTED_LEASE_REPLAY_RECOVERY_DIAGNOSTIC_EVIDENCE_V1.json'));
+  assert.ok(stage.artifactPaths.includes('docs/OPS/R24/CORRECTIVE/AUDIT_R2_LEASE_FENCE_LEDGER_V1.json'));
+  assert.ok(stage.artifactPaths.includes('docs/OPS/R24/CORRECTIVE/C8E_V3_PACKAGE_COMPILER_CONTRACT_V1.json'));
+  assert.ok(stage.artifactPaths.includes('docs/OPS/R24/CORRECTIVE/C8E_V3_PACKAGE_COMPILER_EVIDENCE_V1.json'));
+  assert.equal(stage.artifactPaths.includes('test/contracts/r24-c8e-v3-package-compiler.contract.test.mjs'),false);
 });
 test('fabricated PASS fields and unknown digests are not accepted as replay inputs', () => {
   const value=plan();

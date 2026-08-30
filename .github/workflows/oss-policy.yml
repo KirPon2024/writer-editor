@@ -119,7 +119,7 @@ jobs:
           sudo chmod 4755 node_modules/electron/dist/chrome-sandbox
           test "$(stat -c '%u:%g:%a' node_modules/electron/dist/chrome-sandbox)" = "0:0:4755"
       - name: Explicit privacy-negative gate
-        run: node --test test/contracts/b3c08-support-bundle-privacy.contract.test.js test/unit/security-privacy-writing-path-smoke.mjs
+        run: xvfb-run -a node --test test/contracts/b3c08-support-bundle-privacy.contract.test.js test/unit/security-privacy-writing-path-smoke.mjs
 
   static-security-sast:
     runs-on: ubuntu-latest

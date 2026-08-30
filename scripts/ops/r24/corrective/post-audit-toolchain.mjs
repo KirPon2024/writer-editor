@@ -20,7 +20,9 @@ export const EXPECTED = Object.freeze({
 });
 
 function npmVersion() {
-  return execFileSync(process.platform === 'win32' ? 'npm.cmd' : 'npm', ['--version'], { encoding: 'utf8' }).trim();
+  const executable = process.platform === 'win32' ? (process.env.ComSpec || 'cmd.exe') : 'npm';
+  const args = process.platform === 'win32' ? ['/d', '/s', '/c', 'npm --version'] : ['--version'];
+  return execFileSync(executable, args, { encoding: 'utf8', windowsHide: true }).trim();
 }
 
 export function verifyToolchain({ verifyRuntime = true, verifyBundles = true } = {}) {

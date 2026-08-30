@@ -1,12 +1,12 @@
 {
   "schemaVersion": "POST_AUDIT_TERMINAL_TRUST_MODEL_V1",
   "trustModelId": "YALKEN_R24_POST_AUDIT_REMOTE_TERMINAL_AND_DURABLE_CARRIER",
-  "programDigest": "73058c447c7a5c0b7b675d569c9ac579b5375618e2a40de0ada43ecef8680e7b",
-  "stageInstanceDigest": "0a4977fd069d07736772d5258021cd9778afdc683c31abe72f50565d12223a3f",
-  "stageAdmissionDigest": "31b87f338103e563036ed6a0d95738a86c0caba0082190d69ecb2c3317e5cd96",
-  "writeSetDigest": "a514bb690a82e2c95eb65eda16ad00c98ef6adc6fdbe08be48b949b6d8b64786",
-  "commandScopeDigest": "6c238434f73c8c075becb96fa28520d71c357f0c58cdaf95acdf75f94b78b9e7",
-  "acceptanceSignalsDigest": "19b012c1c647cf0abf2cbb39d4c973276efc4133637d9733c4c6d24fec1cde6f",
+  "programDigest": "d09fdebec82dc1a7f2cd3a69e06a19de005afd59fdb5140d3ddb78bb339c7eaa",
+  "stageInstanceDigest": "3f8575072bab7ef30a264f08144a258ed0242a99c309def520c71a1b9a626617",
+  "stageAdmissionDigest": "fe883534ca88f7ff9a67090da2614461a7eaad4d123872bb2105c3a02bedd456",
+  "writeSetDigest": "2dc040f2c765704dec610049788eb302d2df976168e87eaccbcd634327a2631a",
+  "commandScopeDigest": "b4318f21b0285c43b69812fb6a125c0a0df50fde7d7829877878e9ea4629b9a4",
+  "acceptanceSignalsDigest": "4d807e7c33eca64aa293c226f10298650cd9baa879cb497689c773cfe37001a3",
   "issuer": {
     "provider": "GITHUB_ACTIONS",
     "repository": "KirPonomarev/writer-editor",

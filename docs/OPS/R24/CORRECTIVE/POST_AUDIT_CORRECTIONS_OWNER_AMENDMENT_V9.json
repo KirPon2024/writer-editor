@@ -1,0 +1,303 @@
+{
+  "acceptanceSignals": [
+    "EXACT_5AB261FA_BASE_AND_D78AED5D_TREE",
+    "INDEPENDENT_PINNED_STAGE_ADMISSION_V2_PASS",
+    "NODE_22_12_0_NPM_10_9_0_ENGINE_STRICT_INSTALL",
+    "ELECTRON_41_10_3_RUNTIME_AND_LAUNCH_PASS",
+    "REAL_RENDERER_BUILD_CLEAN_TREE",
+    "FOCUSED_SCOPE_ALL_PASS_AFTER_REAL_BUILD",
+    "MAINTAINED_RTK_ALL_PASS_AFTER_REAL_BUILD",
+    "LITERAL_R24_TEST_INVENTORY_SCRIPT_PASS",
+    "MERGE_GATE_ALWAYS_FAIL_CLOSED_AND_LIVE_RULESET_REQUIRED",
+    "INVENTORY_BASELINE_E0_RTK_PARITY_OPS_OSS_TOOLCHAIN_BUILD_STATIC_SAST_PRIVACY_DEPENDENCIES",
+    "REMOTE_TERMINAL_ARTIFACT_AND_ZIP_STRICTLY_VERIFIED",
+    "CLOSURE_STAGE_DIRECT_AUTHORITY_ENVELOPE",
+    "DURABLE_TERMINAL_CARRIER_VERIFIED",
+    "R24_CORRECTIVE_PROGRAM_V1_1_SINGLE_MACHINE_TRUTH",
+    "EXACT_CERTIFICATION_STATES_AND_33_STAGE_CURRENT_RECOMPILE",
+    "FIXED_HISTORICAL_BINDINGS_PRESERVED",
+    "AUDIT_LOOP_CLOSED_PRESERVED",
+    "FULL_BASELINE_PASS",
+    "R24_E0_PASS",
+    "GUARDRAILS_PASS",
+    "PROTECTED_NORMAL_MERGE",
+    "EXACT_POST_MERGE_CI_SUCCESS",
+    "FRESH_EXTERNAL_TERMINAL_ATTESTATION_PASS",
+    "LEASE_56_RELEASED_WIP_0",
+    "PROGRAM_DONE_FALSE",
+    "PK0_EXACT_POST_AUDIT_TOOLCHAIN_SUCCESSOR_AND_NEGATIVE_MUTANTS_PASS",
+    "LEGACY_Q0_TOOLCHAIN_SUCCESSOR_RECONCILED_AND_MUTATION_BASELINE_GREEN",
+    "CANDIDATE_CI_33324294051_FAILURE_CLASSIFIED_NO_RETRY",
+    "CI_SYNTHETIC_MERGE_ORIGIN_MAIN_AVAILABLE",
+    "WINDOWS_CANONICAL_LF_EXACT_BYTES",
+    "LINUX_ELECTRON_SUID_SANDBOX_CONFIGURED_NOT_BYPASSED",
+    "DETACHED_PR_MERGE_SCOPE_AUDIT_FAIL_CLOSED",
+    "CANDIDATE_CI_33325977254_FAILURE_CLASSIFIED_NO_RETRY",
+    "LINUX_PRIVACY_ELECTRON_XVFB_WITH_SUID_SANDBOX",
+    "WINDOWS_NPM_RUNTIME_WITH_BATCH_SHIM_PORTABLE_INVOCATION",
+    "FRESH_SUCCESSOR_CANDIDATE_CI_ALL_SUCCESS"
+  ],
+  "allowedCommands": [
+    "npm run agent:bootstrap -- --objective R2.4 post-audit correction contour",
+    "npm run agent:preflight -- --declaration POST_AUDIT_CORRECTIONS_TASK_ARCHITECTURE_DECLARATION_V1.json",
+    "git fetch origin main",
+    "git rev-parse origin/main",
+    "git rev-parse origin/main^{tree}",
+    "git switch -c codex/r24-post-audit-corrections-v1-20260830",
+    "node stage-admission-verifier-anchor-v2.mjs --repo-root WORKTREE --authority AUTHORITY --stage-instance INSTANCE --stage-admission ADMISSION --expected-verifier-digest d7837ff49cb9df196303384111336d9907cbf66147ba23bf8b687404666e5b59 --expected-authority-digest AUTHORITY_DIGEST",
+    "npm ci --engine-strict",
+    "npm run build:renderer",
+    "git diff --exit-code -- src/renderer/editor.bundle.js src/preload.bundle.cjs",
+    "npm run r24:test-inventory",
+    "node --test test/contracts/r24-post-audit-corrections.contract.test.mjs test/contracts/r24-stage-admission-verifier-v2.contract.test.mjs test/contracts/r24-terminal-attestation.contract.test.mjs",
+    "node --test test/unit/r24-pk0-package-content-physics.test.js test/unit/r24-pk0-package-content-trust.test.js test/unit/r24-pk0-package-content-mutants.test.js",
+    "node scripts/ops/r24/docs-claim-lint.mjs",
+    "node --test scripts/ops/r24/tests/q0/integration-q0.test.mjs scripts/ops/r24/tests/q0/toolchain.test.mjs",
+    "npm run test:r24-e0",
+    "npm test",
+    "npm run test:rtk",
+    "npm run test:electron",
+    "npm audit --omit=dev --audit-level=high",
+    "npm run oss:policy",
+    "npm run agent:guardrails",
+    "git diff --check",
+    "git diff --name-status origin/main",
+    "git add --exact-write-set",
+    "git diff --cached --check",
+    "git diff --cached --name-status",
+    "git commit -m Close R2.4 post-audit corrections",
+    "git push origin codex/r24-post-audit-corrections-v1-20260830",
+    "gh pr create --base main --head codex/r24-post-audit-corrections-v1-20260830",
+    "gh pr checks PR --watch",
+    "gh pr merge PR --merge",
+    "gh api repos/KirPonomarev/writer-editor/rulesets/12270444",
+    "gh api --method PUT repos/KirPonomarev/writer-editor/rulesets/12270444 --input RULESET_PATCH",
+    "gh workflow run r24-terminal-attestation.yml --ref main --field stage_id=POST_AUDIT_CORRECTIONS",
+    "gh run watch RUN --exit-status",
+    "gh run download RUN --name r24-terminal-attestation-POST_AUDIT_CORRECTIONS --dir DOWNLOAD",
+    "node scripts/ops/r24/corrective/terminal-attestation-verifier.mjs --remote-run RUN --expected-artifact r24-terminal-attestation-POST_AUDIT_CORRECTIONS --trust docs/OPS/R24/CORRECTIVE/POST_AUDIT_TERMINAL_TRUST_MODEL_V1.json --program docs/OPS/R24/CORRECTIVE/R24_CORRECTIVE_PROGRAM_V1_1.json --stage-instance docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V10.json --stage-admission docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_ATTESTATION_V10.json",
+    "node scripts/ops/r24/corrective/terminal-attestation-verifier.mjs --write-durable-carrier docs/OPS/R24/CORRECTIVE/POST_AUDIT_TERMINAL_ATTESTATION_DURABLE_CARRIER_V1.json --write-terminal-receipt docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_TERMINAL_RECEIPT_V1.json",
+    "git commit -m Preserve durable post-audit terminal evidence",
+    "git push origin codex/r24-post-audit-terminal-carrier-v1-20260830",
+    "gh pr create --base main --head codex/r24-post-audit-terminal-carrier-v1-20260830",
+    "gh pr checks PR2 --watch",
+    "gh pr merge PR2 --merge",
+    "node scripts/ops/r24/test-inventory.mjs --write docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+    "gh api repos/KirPonomarev/writer-editor/actions/runs/33324294051/jobs",
+    "node --test test/unit/sector-m-no-scope-leak.test.js",
+    "git check-attr --all -- .node-version .github/workflows/oss-policy.yml docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_OWNER_AMENDMENT_V8.json scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs",
+    "gh pr checks 1774 --watch",
+    "gh run view 33325977254 --json status,conclusion,headSha,event,attempt,jobs",
+    "gh api repos/KirPonomarev/writer-editor/actions/jobs/99296054309/logs",
+    "gh api repos/KirPonomarev/writer-editor/actions/jobs/99296054509/logs",
+    "xvfb-run -a node --test test/contracts/b3c08-support-bundle-privacy.contract.test.js test/unit/security-privacy-writing-path-smoke.mjs"
+  ],
+  "allowedOperations": {
+    "readPaths": [
+      "AGENTS.md",
+      "CANON.md",
+      "docs/OPS/R24/CORRECTIVE/AUDIT_R2_FINAL_CORRECTION_CONTRACT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/AUDIT_R2_ROUND1_RECEIPT_STATUS_V1.json",
+      "docs/OPS/R24/CORRECTIVE/AUDIT_R2_WP400_CARRIER_STATUS_V1.json",
+      "docs/OPS/R24/CORRECTIVE/OWNER_PROGRAM_RATIFICATION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json",
+      "docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP400_TERMINAL_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP400_TERMINAL_CLOSURE_EFFECTIVE_STATE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP400_TERMINAL_CLOSURE_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP400_TERMINAL_CLOSURE_STAGE_INSTANCE_V1.json"
+    ],
+    "modifyPaths": [
+      ".github/workflows/oss-policy.yml",
+      ".github/workflows/r24-terminal-attestation.yml",
+      "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/C1C_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+      "docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_CONTRACT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_EFFECTIVE_STATE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/POST_AUDIT_CURRENT_CERTIFICATION_SET_V1.json",
+      "docs/OPS/R24/CORRECTIVE/POST_AUDIT_TERMINAL_TRUST_MODEL_V1.json",
+      "docs/OPS/R24/CORRECTIVE/R24_CORRECTIVE_PROGRAM_V1_1.json",
+      "scripts/ops/r24/corrective/post-audit-corrections.mjs",
+      "scripts/ops/r24/corrective/post-audit-toolchain.mjs",
+      "test/contracts/r24-stage-admission-verifier-v2.contract.test.mjs",
+      "test/contracts/r24-terminal-attestation.contract.test.mjs"
+    ],
+    "createPaths": [
+      "docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_OWNER_AMENDMENT_V9.json",
+      "docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_ATTESTATION_V10.json",
+      "docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V10.json"
+    ],
+    "deletePaths": [],
+    "renamePairs": []
+  },
+  "authorityCeiling": [
+    "BOUNDED_REPOSITORY_WRITE",
+    "BRANCH_WORKTREE",
+    "COMMIT",
+    "PUSH",
+    "PR_CREATE_OR_UPDATE",
+    "PROTECTED_NORMAL_MERGE",
+    "READ_ONLY_GITHUB_API",
+    "BOUNDED_GITHUB_RULESET_UPDATE",
+    "BOUNDED_CI_OPERATION",
+    "GITHUB_WORKFLOW_DISPATCH",
+    "GITHUB_ARTIFACT_READ",
+    "LOCAL_TEST_BUILD_EVIDENCE",
+    "NON_DESTRUCTIVE_LOCAL_TOOLCHAIN"
+  ],
+  "authorityId": "OWNER_POST_AUDIT_RESUME_OVERRIDE_V1",
+  "baseSha": "3d36852804939719cfa268fb264573fc8c504bd8",
+  "baseTree": "e99d42430e4aa8d87e4f0d2a7c479abf937b7f5f",
+  "branch": "codex/r24-post-audit-corrections-v1-20260830",
+  "externalEffects": [
+    "GIT_PUSH",
+    "GITHUB_PR",
+    "GITHUB_PROTECTED_MERGE",
+    "GITHUB_RULESET_EXACT_PATCH",
+    "GITHUB_CI",
+    "GITHUB_WORKFLOW_DISPATCH",
+    "GITHUB_ARTIFACT_READ"
+  ],
+  "fixedBindings": [
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/OWNER_PROGRAM_RATIFICATION_ATTESTATION_V1.json",
+      "sha256": "093bdc624e5512216b2de2ae69bdd701f5828b42941b88aec9112f8b5b9f081b"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json",
+      "sha256": "6c833c964318da3e61e1743365f8763206be838647b5222c187b3bda8d1c6b9a"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json",
+      "sha256": "c8af046b5918f43a50af66886b0b5c9d2e22ea6501240d4b239101d8836ced1a"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json",
+      "sha256": "4f6e4b3a191e0302ea44646659e8c2f71121af7d808cc0ee768269b4e156840d"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/schemas/STAGE_INSTANCE_V1.schema.json",
+      "sha256": "c51a58ca8563c4342a67593adab2fe05356e14da2c614f72ad02e43fbdf80aa2"
+    },
+    {
+      "path": "scripts/ops/r24/corrective/stage-admission-verifier.mjs",
+      "sha256": "82e49d577b79b41b26b67e25b7ce0fd81f26fb973232194fef8d96d6c563c6f9"
+    }
+  ],
+  "lease": {
+    "fencingCounter": 56,
+    "predecessorReleaseDigest": "583e4209f200cb4dc342f8d05f59b808243e960669d8a0d225586b0e7ff4dd6f",
+    "status": "ACTIVE",
+    "wip": 1
+  },
+  "ownerAuthorityBindingDigest": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+  "predecessors": [
+    {
+      "digest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+      "id": "YALKEN_R24_CORRECTIVE_RECOVERY_AND_RESUME_V1_1",
+      "status": "RATIFIED_AND_IMPLEMENTED_WITH_ACCEPTED_SUCCESSORS"
+    },
+    {
+      "digest": "3bd4f799f2f8f575c9157b5abba30e1c8b71fab166abc612f8f803d4352988df",
+      "id": "AUDIT_ROUND_2_FINAL_CORRECTIONS",
+      "status": "AUDIT_LOOP_CLOSED"
+    },
+    {
+      "digest": "ec40492a7b36d5c14060dc021087ba9eec68634d2c37fe56c87ac6885d6a1efd",
+      "id": "WP400_TERMINAL_ISSUER_COMPATIBILITY",
+      "status": "CERTIFIED_PREDECESSOR"
+    },
+    {
+      "digest": "8102a6a2b36a033ef96921774a4c98f1f48f99a876d6e9dc843d416acfdbbcc6",
+      "id": "WP400_TERMINAL_CLOSURE",
+      "status": "CLOSED_BUT_REQUIRES_POST_AUDIT_TRUST_REPAIR"
+    },
+    {
+      "digest": "435c7f944cd4b2395a9437676b99c31725d90d9718b743e7b521580d9d6aa12c",
+      "id": "POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V2",
+      "status": "SUPERSEDED_BY_FAIL_CLOSED_INDUCED_SCOPE_READMISSION"
+    },
+    {
+      "digest": "78234d30eedfc4361b5ccb83603e13454cfdbf53a11545f06c1f6a839ce65b4f",
+      "id": "POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_V2",
+      "status": "SUPERSEDED_BY_FAIL_CLOSED_INDUCED_SCOPE_READMISSION"
+    },
+    {
+      "digest": "1ae77b127daec73009a9cf84a010306004e7c247708215deaa2a566b48826eb1",
+      "id": "POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V3",
+      "status": "SUPERSEDED_BY_TERMINAL_COMMAND_PATH_READMISSION"
+    },
+    {
+      "digest": "8ed57cd7f1808f3550a98b3b262fb5cb61bca6f28320adcdd3c426f67b184340",
+      "id": "POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_V3",
+      "status": "SUPERSEDED_BY_TERMINAL_COMMAND_PATH_READMISSION"
+    },
+    {
+      "digest": "95619d478545808056696f476f582e87b56e5437d67ccebecc8724a0e1ea1208",
+      "id": "POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V4",
+      "status": "SUPERSEDED_BY_Q0_TOOLCHAIN_CONTRACT_READMISSION"
+    },
+    {
+      "digest": "391b58348691507913869ae6bba85f1102d87c1926516c8db6e122ba22196235",
+      "id": "POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_V4",
+      "status": "SUPERSEDED_BY_Q0_TOOLCHAIN_CONTRACT_READMISSION"
+    },
+    {
+      "digest": "0e73ff7b1f3a86437cb90029af5fe235dc6a368e4656f9dd39cbad3d75809be8",
+      "id": "POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V5",
+      "status": "SUPERSEDED_BY_CURRENT_TERMINAL_AUTHORITY_REBIND"
+    },
+    {
+      "digest": "3eefc15b544af82e53404a7559a6e7954e571ecb016e81f9e1845abd3e228e5a",
+      "id": "POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_V5",
+      "status": "SUPERSEDED_BY_CURRENT_TERMINAL_AUTHORITY_REBIND"
+    },
+    {
+      "digest": "ea931c06af1f0ef9c713a5b680a018fd27ea48d3210323a47f79e1a641544b64",
+      "id": "POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V6",
+      "status": "SUPERSEDED_BY_AFFECTED_CURRENT_BYTE_BINDING_READMISSION"
+    },
+    {
+      "digest": "3ea9564574b0fa867920266d715b0b1a34d69139fac9441100ea5c7f3e6ddcdb",
+      "id": "POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_V6",
+      "status": "SUPERSEDED_BY_AFFECTED_CURRENT_BYTE_BINDING_READMISSION"
+    },
+    {
+      "digest": "d5912ceee91cfc588c53ee8fe02a590ab1835bb625574d6811b3f3dce383492f",
+      "id": "POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V7",
+      "status": "SUPERSEDED_BY_EXACT_INVENTORY_WRITE_COMMAND_READMISSION"
+    },
+    {
+      "digest": "2f096c77a6f2e4710d4c92b6db00ac9793f873b3c0cfd17c161bc45ed6190bfa",
+      "id": "POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_V7",
+      "status": "SUPERSEDED_BY_EXACT_INVENTORY_WRITE_COMMAND_READMISSION"
+    },
+    {
+      "digest": "8c3d95458cd90cd7fd70c7a3032b08388c26e047594f442b0a672149f82fba55",
+      "id": "POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V8",
+      "status": "SUPERSEDED_BY_CANDIDATE_CI_PORTABILITY_READMISSION"
+    },
+    {
+      "digest": "fef6c734300f6285f99dabe4af21e43c2eb676bec79aaf1f2c0950684ddbea28",
+      "id": "POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_V8",
+      "status": "SUPERSEDED_BY_CANDIDATE_CI_PORTABILITY_READMISSION"
+    },
+    {
+      "id": "POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V9",
+      "digest": "0a4977fd069d07736772d5258021cd9778afdc683c31abe72f50565d12223a3f",
+      "status": "SUPERSEDED_BY_CANDIDATE_CI_XVFB_AND_WINDOWS_NPM_READMISSION"
+    },
+    {
+      "id": "POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_V9",
+      "digest": "31b87f338103e563036ed6a0d95738a86c0caba0082190d69ecb2c3317e5cd96",
+      "status": "SUPERSEDED_BY_CANDIDATE_CI_XVFB_AND_WINDOWS_NPM_READMISSION"
+    }
+  ],
+  "schemaVersion": "POST_AUDIT_CORRECTIONS_OWNER_AUTHORITY_V1",
+  "sourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "stageId": "POST_AUDIT_CORRECTIONS",
+  "verifierDigest": "d7837ff49cb9df196303384111336d9907cbf66147ba23bf8b687404666e5b59"
+}

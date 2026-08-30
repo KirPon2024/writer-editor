@@ -11,23 +11,23 @@ const assert = (condition, code, detail) => { if (!condition) fail(code, detail)
 const read = (path) => { const bytes = fs.readFileSync(path); return { bytes, digest: sha256(bytes), value: JSON.parse(bytes) }; };
 
 const EXPECTED = Object.freeze({
-  authority: 'ce21a6365c81d103a1dcfe5b4480004263f311185402712befee9e56a5fa353b',
-  instance: '0a4977fd069d07736772d5258021cd9778afdc683c31abe72f50565d12223a3f',
-  admission: '31b87f338103e563036ed6a0d95738a86c0caba0082190d69ecb2c3317e5cd96',
-  program: '73058c447c7a5c0b7b675d569c9ac579b5375618e2a40de0ada43ecef8680e7b',
-  registry: '6e35540c350a87fc944b7eab2529b87d495008ba9fa081fc81a6c5713cd5afa2',
-  effective: 'cd270b050ce6ba6eb9ec55fbdaaaf3142bdd4cf706a4b7d7e32d3c1154289ac3',
-  trust: 'b354b8e57f4812b90d142b183da7bd1ed5cbd9bf267bfd5c39cb289967a940ac',
-  contract: 'b8161de0e174338ae40dec9aa28bbdd16ba138ba657d6a393646691cd5925e7b',
-  certification: 'afa7188fe2cee8cb981007fb6052ea30da6095f7ffdce3d16c488b968ff7ff5f',
+  authority: '40170e7ddd50ee3d4326e1eee04daac96e74770f4dabf53a8ca8171299fea528',
+  instance: '3f8575072bab7ef30a264f08144a258ed0242a99c309def520c71a1b9a626617',
+  admission: 'fe883534ca88f7ff9a67090da2614461a7eaad4d123872bb2105c3a02bedd456',
+  program: 'd09fdebec82dc1a7f2cd3a69e06a19de005afd59fdb5140d3ddb78bb339c7eaa',
+  registry: 'f3908069ff519e0ce3a424f3e5e4b2e263b4f489d51c1728bd6b0c9c34ba5ef9',
+  effective: '6caa8b7b2917223bebd34c4cc9a96e7fd104ce454dac1b7aaaad97fd5e14ec50',
+  trust: '8d80eb3d6e2b2615921cde0e62c57b7cb50ed2f78461709fcbd2197d0cacebec',
+  contract: '8affe3a99645cbbc4d8fd1a26463acd71a07039e3b629d418695e5b578eb90fa',
+  certification: 'e4559aab09e674282e520a42cd63fbdc37de71b29a028cf220a1cc41f3b90346',
   historicalTemplate: '6c833c964318da3e61e1743365f8763206be838647b5222c187b3bda8d1c6b9a',
   historicalRegistry: 'c8af046b5918f43a50af66886b0b5c9d2e22ea6501240d4b239101d8836ced1a',
   historicalTrust: '4f6e4b3a191e0302ea44646659e8c2f71121af7d808cc0ee768269b4e156840d'
 });
 const PATHS = Object.freeze({
-  authority: 'docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_OWNER_AMENDMENT_V8.json',
-  instance: 'docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V9.json',
-  admission: 'docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_ATTESTATION_V9.json',
+  authority: 'docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_OWNER_AMENDMENT_V9.json',
+  instance: 'docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V10.json',
+  admission: 'docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_ATTESTATION_V10.json',
   program: 'docs/OPS/R24/CORRECTIVE/R24_CORRECTIVE_PROGRAM_V1_1.json',
   registry: 'docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_REGISTRY_V1.json',
   effective: 'docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_EFFECTIVE_STATE_V1.json',

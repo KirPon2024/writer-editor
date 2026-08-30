@@ -1,6 +1,7 @@
 import { hashCanonicalValue } from './browser-safe-hash.mjs';
 import { emitCoreDomainEventsForCommandResult } from './domainEvents.mjs';
 import anchorLineageLaw from './anchor-lineage-browser-safe-v1.mjs';
+import atlasAnchorLineage from './atlas-anchor-lineage-v1.mjs';
 export {
   buildSceneOrderChangedEvent,
   hashCoreDomainEvents,
@@ -2941,6 +2942,98 @@ function normalizeEvidenceAnchor(value) {
   };
 }
 
+function runtimeAnchorRevision(projectId, sceneId, commandSeq) {
+  const revision = Number.isSafeInteger(commandSeq) && commandSeq >= 0 ? commandSeq : 0;
+  return {
+    domain: { projectId, entityId: sceneId },
+    projectRevision: revision,
+    entityRevision: revision,
+    sourceRevision: 0,
+    generation: 0,
+    writerEpoch: 0,
+  };
+}
+
+function mapAtlasAnchorDiagnosisForRuntime(diagnosis) {
+  const rawCandidates = Array.isArray(diagnosis?.candidates) ? diagnosis.candidates : [];
+  const resolvedCandidate = isPlainObject(diagnosis?.span) ? diagnosis.span : null;
+  const basis = diagnosis?.basis === 'unique-quote'
+    ? 'quote'
+    : (diagnosis?.basis === 'unique-context' ? 'context' : trimString(diagnosis?.basis));
+  return {
+    status: trimString(diagnosis?.status) || 'unavailable',
+    basis,
+    reason: trimString(diagnosis?.reason),
+    candidateCount: Number.isSafeInteger(diagnosis?.candidateCount) ? diagnosis.candidateCount : rawCandidates.length,
+    candidates: rawCandidates.map((candidate) => ({
+      candidateId: trimString(candidate?.candidateId),
+      startOffset: Number(candidate?.startOffset),
+      endOffset: Number(candidate?.endOffset),
+      contextMatches: candidate?.contextMatches === true,
+    })),
+    selectedCandidateId: trimString(diagnosis?.selectedCandidateId),
+    resolvedCandidateId: trimString(resolvedCandidate?.candidateId),
+    span: resolvedCandidate ? {
+      startOffset: Number(resolvedCandidate.startOffset),
+      endOffset: Number(resolvedCandidate.endOffset),
+    } : null,
+    automaticReattachment: false,
+    requiresExplicitSelection: diagnosis?.requiresExplicitSelection === true,
+    requiresExplicitReattachment: diagnosis?.requiresExplicitReattachment === true,
+  };
+}
+
+export function diagnoseAtlasAnchorRelocation(input = {}) {
+  try {
+    const anchor = normalizeEvidenceAnchor(input.evidenceAnchor || input.witness);
+    const sceneId = trimString(input.sceneId || anchor?.sceneId);
+    if (!anchor) {
+      return {
+        ok: false,
+        error: typedError('E_ATLAS_EVIDENCE_ANCHOR_REQUIRED', 'atlas.anchorRelocation.query', 'EVIDENCE_ANCHOR_REQUIRED'),
+      };
+    }
+    if (!sceneId) {
+      return {
+        ok: false,
+        error: typedError('E_CORE_SCENE_ID_REQUIRED', 'atlas.anchorRelocation.query', 'SCENE_ID_REQUIRED'),
+      };
+    }
+    const diagnosis = atlasAnchorLineage.diagnoseRelocationWitness({
+      anchorId: anchor.anchorId,
+      sceneId,
+      witness: anchor,
+      currentSceneText: input.currentSceneText,
+      selectedCandidateId: input.selectedCandidateId,
+    });
+    return {
+      ok: true,
+      value: mapAtlasAnchorDiagnosisForRuntime(diagnosis),
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      error: typedError(
+        trimString(error?.code) || 'E_ATLAS_ANCHOR_RELOCATION_INVALID',
+        'atlas.anchorRelocation.query',
+        'ANCHOR_RELOCATION_INVALID',
+      ),
+    };
+  }
+}
+
+function latestAtlasAnchorLineage(atlas, anchorId) {
+  const records = Object.values(isPlainObject(atlas?.evidenceReattachments) ? atlas.evidenceReattachments : {})
+    .filter((record) => isPlainObject(record?.anchorLineage)
+      && record.anchorLineage?.identity?.anchorId === anchorId)
+    .sort((left, right) => {
+      const seqDelta = Number(left?.createdByCommandSeq || 0) - Number(right?.createdByCommandSeq || 0);
+      if (seqDelta !== 0) return seqDelta;
+      return trimString(left?.id).localeCompare(trimString(right?.id), 'en', { sensitivity: 'variant' });
+    });
+  return records.length > 0 ? records[records.length - 1].anchorLineage : null;
+}
+
 function entitySnapshotHash(entity) {
   return hashCanonicalValue(isPlainObject(entity) ? entity : null);
 }
@@ -2992,25 +3085,19 @@ function validateEvidenceStillMatchesScene({ state, project, sceneId, evidenceAn
     // from the core anchor protocol. The error code and reason are
     // unchanged; the diagnosis is additive evidence for the review inbox.
     let anchorDiagnosis = { status: 'unavailable', basis: '', candidateCount: 0, candidates: [] };
-    try {
-      const resolution = anchorLineageLaw.resolveAnchorByWitness(
-        { quote, prefixContextHash: '', suffixContextHash: '' },
-        sceneText,
-      );
-      const rawCandidates = resolution.status === anchorLineageLaw.ANCHOR_STATUS.AMBIGUOUS
-        ? resolution.candidates
-        : (resolution.status === anchorLineageLaw.ANCHOR_STATUS.EXACT ? [resolution.span] : []);
+    const diagnosisResult = diagnoseAtlasAnchorRelocation({
+      evidenceAnchor,
+      sceneId,
+      currentSceneText: sceneText,
+    });
+    if (diagnosisResult.ok) {
       anchorDiagnosis = {
-        status: resolution.status,
-        basis: resolution.basis || '',
-        candidateCount: rawCandidates.length,
-        candidates: rawCandidates.slice(0, 8).map((candidate) => ({
+        ...diagnosisResult.value,
+        candidates: diagnosisResult.value.candidates.slice(0, 8).map((candidate) => ({
           startOffset: candidate.startOffset,
           endOffset: candidate.endOffset,
         })),
       };
-    } catch {
-      anchorDiagnosis = { status: 'unavailable', basis: '', candidateCount: 0, candidates: [] };
     }
     return fail(state, 'E_ATLAS_EVIDENCE_STALE', op, 'EVIDENCE_STALE', {
       ...reasonDetails,
@@ -3540,12 +3627,98 @@ function applyAtlasEvidenceReattach(state, payload) {
     reasonDetails: { projectId, sourceRecordKind, sourceRecordId },
   });
   if (staleNewEvidence) return staleNewEvidence;
+  let relocationDiagnosis = null;
+  if (staleEvidenceAnchor.anchorId === newEvidenceAnchor.anchorId) {
+    const relocationResult = diagnoseAtlasAnchorRelocation({
+      evidenceAnchor: staleEvidenceAnchor,
+      sceneId: newEvidenceAnchor.sceneId,
+      currentSceneText: project.scenes[newEvidenceAnchor.sceneId].text,
+      selectedCandidateId: payload?.selectedCandidateId || payload?.relocationSelection?.candidateId,
+    });
+    if (!relocationResult.ok) {
+      return fail(state, relocationResult.error.code, 'atlas.evidence.reattach', 'ANCHOR_RELOCATION_INVALID', {
+        projectId,
+        sourceRecordKind,
+        sourceRecordId,
+      });
+    }
+    relocationDiagnosis = relocationResult.value;
+    if (relocationDiagnosis.status === atlasAnchorLineage.ATLAS_ANCHOR_STATUS.LOST) {
+      return fail(state, 'E_ATLAS_ANCHOR_RELOCATION_LOST', 'atlas.evidence.reattach', 'ANCHOR_RELOCATION_LOST', {
+        projectId,
+        sourceRecordKind,
+        sourceRecordId,
+        anchorId: staleEvidenceAnchor.anchorId,
+        diagnosis: relocationDiagnosis,
+      });
+    }
+    if (relocationDiagnosis.status === atlasAnchorLineage.ATLAS_ANCHOR_STATUS.AMBIGUOUS) {
+      return fail(state, 'E_ATLAS_ANCHOR_SELECTION_REQUIRED', 'atlas.evidence.reattach', 'ANCHOR_SELECTION_REQUIRED', {
+        projectId,
+        sourceRecordKind,
+        sourceRecordId,
+        anchorId: staleEvidenceAnchor.anchorId,
+        diagnosis: relocationDiagnosis,
+      });
+    }
+    const selectedSpan = relocationDiagnosis.candidates.find((candidate) => (
+      candidate.startOffset === newEvidenceAnchor.startOffset
+      && candidate.endOffset === newEvidenceAnchor.endOffset
+    ));
+    if (!selectedSpan || selectedSpan.candidateId !== relocationDiagnosis.resolvedCandidateId) {
+      return fail(state, 'E_ATLAS_ANCHOR_SELECTION_MISMATCH', 'atlas.evidence.reattach', 'ANCHOR_SELECTION_MISMATCH', {
+        projectId,
+        sourceRecordKind,
+        sourceRecordId,
+        anchorId: staleEvidenceAnchor.anchorId,
+        newStartOffset: newEvidenceAnchor.startOffset,
+        newEndOffset: newEvidenceAnchor.endOffset,
+        diagnosis: relocationDiagnosis,
+      });
+    }
+  }
   if (atlas.evidenceReattachments && atlas.evidenceReattachments[reattachmentId]) {
     return fail(state, 'E_ATLAS_REATTACHMENT_ALREADY_EXISTS', 'atlas.evidence.reattach', 'REATTACHMENT_ALREADY_EXISTS', { projectId, reattachmentId });
   }
 
   const next = cloneJson(state);
   const commandSeq = next.data.lastCommandId + 1;
+  const durableAnchorId = relocationDiagnosis ? staleEvidenceAnchor.anchorId : newEvidenceAnchor.anchorId;
+  const durableSceneId = relocationDiagnosis
+    ? (staleEvidenceAnchor.sceneId || newEvidenceAnchor.sceneId)
+    : newEvidenceAnchor.sceneId;
+  const birthCommandSeq = Number.isSafeInteger(sourceRecord.createdByCommandSeq) && sourceRecord.createdByCommandSeq >= 0
+    ? sourceRecord.createdByCommandSeq
+    : 0;
+  let anchorLineage;
+  try {
+    const existingLineage = latestAtlasAnchorLineage(atlas, durableAnchorId);
+    anchorLineage = existingLineage
+      ? atlasAnchorLineage.verifyAnchorLineage(existingLineage)
+      : atlasAnchorLineage.createAnchorLineage(atlasAnchorLineage.createDurableAnchorIdentity({
+        anchorId: durableAnchorId,
+        projectId,
+        sceneId: durableSceneId,
+        birthRevision: runtimeAnchorRevision(projectId, durableSceneId, birthCommandSeq),
+      }));
+    anchorLineage = atlasAnchorLineage.appendAnchorLineageEntry(anchorLineage, {
+      toRevision: runtimeAnchorRevision(projectId, durableSceneId, commandSeq),
+      status: atlasAnchorLineage.ATLAS_ANCHOR_STATUS.EXACT,
+      basis: relocationDiagnosis?.basis || 'manual-explicit-new-identity',
+      witnessHash: hashCanonicalValue(newEvidenceAnchor),
+      selectedCandidateId: relocationDiagnosis?.selectedCandidateId || '',
+      span: { startOffset: newEvidenceAnchor.startOffset, endOffset: newEvidenceAnchor.endOffset },
+      reattachmentId,
+      commandSeq,
+    });
+  } catch (error) {
+    return fail(state, trimString(error?.code) || 'E_ATLAS_ANCHOR_LINEAGE_INVALID', 'atlas.evidence.reattach', 'ANCHOR_LINEAGE_INVALID', {
+      projectId,
+      sourceRecordKind,
+      sourceRecordId,
+      anchorId: durableAnchorId,
+    });
+  }
   const nextProject = next.data.projects[projectId];
   const nextAtlas = ensureAtlasAuthorData(nextProject);
   if (!isPlainObject(nextAtlas.evidenceReattachments)) nextAtlas.evidenceReattachments = {};
@@ -3559,6 +3732,10 @@ function applyAtlasEvidenceReattach(state, payload) {
     staleEvidenceAnchor,
     newEvidenceAnchor,
     reason,
+    durableAnchorIdentity: anchorLineage.identity,
+    anchorLineage,
+    relocationDiagnosis,
+    automaticReattachment: false,
     createdByCommandSeq: commandSeq,
   };
   next.data.lastCommandId += 1;

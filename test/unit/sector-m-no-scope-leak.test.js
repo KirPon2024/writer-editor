@@ -50,6 +50,12 @@ function currentOriginMain() {
   return String(head.stdout || '').trim();
 }
 
+function currentHeadParents() {
+  const parents = spawnSync('git', ['rev-list', '--parents', '-n', '1', 'HEAD'], { encoding: 'utf8' });
+  if (parents.status !== 0) return [];
+  return String(parents.stdout || '').trim().split(/\s+/).filter(Boolean);
+}
+
 function shouldEnforceSectorMScope() {
   const branch = currentGitBranch();
   return /(?:^|[/-])(?:sector-m|yalken-atlas|atlas)(?:[/-]|$)/u.test(branch);
@@ -57,6 +63,16 @@ function shouldEnforceSectorMScope() {
 
 function isDetachedRemoteHeadAudit() {
   return !currentGitBranch() && currentGitHead() === currentOriginMain();
+}
+
+function isDetachedPullRequestMergeAudit() {
+  const originMain = currentOriginMain();
+  const parents = currentHeadParents();
+  return !currentGitBranch()
+    && originMain !== ''
+    && parents.length === 3
+    && parents[0] === currentGitHead()
+    && parents[1] === originMain;
 }
 
 function phaseIndex(scopeMap, phase) {
@@ -117,7 +133,7 @@ function isAllowedPathForPhase(scopeMap, filePath, phase) {
 }
 
 test('sector-m diff does not leak outside cumulative phase allowlist', () => {
-  if (isDetachedRemoteHeadAudit()) {
+  if (isDetachedRemoteHeadAudit() || isDetachedPullRequestMergeAudit()) {
     assert.equal(shouldEnforceSectorMScope(), false);
     return;
   }
@@ -146,6 +162,12 @@ test('detached exact origin main audit skips sector-m scope without requiring a 
     /(?:^|[/-])(?:sector-m|yalken-atlas|atlas)(?:[/-]|$)/u.test(''),
     false,
   );
+});
+
+test('detached pull-request merge audit is bounded to an exact origin-main first parent', () => {
+  const parents = currentHeadParents();
+  if (currentGitBranch() !== '' || parents.length !== 3 || currentOriginMain() === '') return;
+  assert.equal(isDetachedPullRequestMergeAudit(), parents[1] === currentOriginMain());
 });
 
 test('phase map union includes M0..M4 allowlists when phase is M4', () => {

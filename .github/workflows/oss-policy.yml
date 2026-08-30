@@ -40,6 +40,8 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
@@ -111,6 +113,11 @@ jobs:
           node-version-file: .node-version
           cache: npm
       - run: npm ci --engine-strict
+      - name: Configure the Electron SUID sandbox
+        run: |
+          sudo chown root:root node_modules/electron/dist/chrome-sandbox
+          sudo chmod 4755 node_modules/electron/dist/chrome-sandbox
+          test "$(stat -c '%u:%g:%a' node_modules/electron/dist/chrome-sandbox)" = "0:0:4755"
       - name: Explicit privacy-negative gate
         run: node --test test/contracts/b3c08-support-bundle-privacy.contract.test.js test/unit/security-privacy-writing-path-smoke.mjs
 

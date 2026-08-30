@@ -32,6 +32,13 @@ jobs:
           test "$(npm --version)" = "10.9.0"
       - name: Clean exact engine-strict install
         run: npm ci --engine-strict
+      - name: Configure the Electron SUID sandbox on Linux
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          sudo chown root:root node_modules/electron/dist/chrome-sandbox
+          sudo chmod 4755 node_modules/electron/dist/chrome-sandbox
+          test "$(stat -c '%u:%g:%a' node_modules/electron/dist/chrome-sandbox)" = "0:0:4755"
       - name: Verify successor toolchain and dependency graph
         run: node scripts/ops/r24/corrective/post-audit-toolchain.mjs
       - name: Build actual renderer and preload artifacts

@@ -17,8 +17,10 @@ const spawnTap = (output) => () => ({ status:0, signal:null, error:null, stdout:
 test('plan contains the exact ordered 33-stage registered dependency graph', () => {
   const candidate=plan();
   assert.equal(validateReplayPlan(candidate, registry).registeredStages, 33);
-  assert.equal(candidate.effectiveAdmissionBinding.stageInstanceDigest,'a073f48f5dd5779aad4fa7b815edc11adbbca1af0663aa37ff5dd40233f1c3ea');
-  assert.equal(candidate.effectiveAdmissionBinding.stageAdmissionDigest,'31e06a80563c2c1e6d51e0083e484641f49b3299dc96cd799f4519ccfbff32db');
+  assert.equal(candidate.effectiveAdmissionBinding.stageInstanceDigest,'d281079c0d2a72608fb1d5be2cd105edee2049bfebd8358986780c56b1f2e20a');
+  assert.equal(candidate.effectiveAdmissionBinding.stageAdmissionDigest,'29dcd8feba2a893c806dc5301c9f9d8c7ddf54d2d8dd98de16699cf4eaf0eeed');
+  assert.equal(candidate.effectiveAdmissionBinding.programAmendmentDigest,'a51a6f124f62c48da0ec716a9276da6bf0bdc00a8a8067734f6ea7a32cad554e');
+  assert.equal(candidate.effectiveAdmissionBinding.writeSetDigest,'3650b4e984f171dcb7652782b3b2e2549c9a71fec1077f6eccbb980fb2a794b7');
   const wrongBinding=plan();wrongBinding.effectiveAdmissionBinding.stageAdmissionDigest='0'.repeat(64);
   assert.throws(() => validateReplayPlan(wrongBinding,registry,{requireFiles:false}), (error)=>error.code==='E_REPLAY_EFFECTIVE_ADMISSION_BINDING');
 });

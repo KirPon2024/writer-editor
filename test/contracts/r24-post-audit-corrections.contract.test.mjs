@@ -1,9 +1,32 @@
 import assert from 'node:assert/strict';
+import crypto from 'node:crypto';
 import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { spawnSync } from 'node:child_process';
 import test from 'node:test';
 import { verifyPostAuditCorrections } from '../../scripts/ops/r24/corrective/post-audit-corrections.mjs';
 import { EXPECTED, verifyToolchain } from '../../scripts/ops/r24/corrective/post-audit-toolchain.mjs';
 import { REQUIRED_DEPENDENCIES, verifyDependencyResults, verifyRuleset, verifyWorkflowText } from '../../scripts/ops/r24/corrective/post-audit-merge-gate.mjs';
+
+const CLOSURE_VERIFIER='scripts/ops/r24/corrective/stage-admission-verifier-anchor-v2.mjs';
+const CLOSURE_VERIFIER_DIGEST='d7837ff49cb9df196303384111336d9907cbf66147ba23bf8b687404666e5b59';
+const CLOSURE_AUTHORITY='docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_OWNER_AMENDMENT_V13.json';
+const CLOSURE_INSTANCE='docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V14.json';
+const CLOSURE_ADMISSION='docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_ATTESTATION_V14.json';
+const CLOSURE_AUTHORITY_DIGEST='59e7d9e68ce77a9e3dd41fb5833ad3e23ef064c9d899b1849eb9e55e70261db6';
+const sha256=(bytes)=>crypto.createHash('sha256').update(bytes).digest('hex');
+function closureBaseFixture(){
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'post-audit-terminal-closure-base-'));
+  const instance=JSON.parse(fs.readFileSync(CLOSURE_INSTANCE));
+  const existing=[...instance.operations.readPaths,...instance.operations.modifyPaths,...instance.operations.deletePaths,...instance.fixedBindings.map(x=>x.path)];
+  for(const relative of new Set(existing)){const target=path.join(root,relative);fs.mkdirSync(path.dirname(target),{recursive:true});fs.copyFileSync(relative,target);}
+  for(const relative of instance.operations.createPaths)fs.mkdirSync(path.dirname(path.join(root,relative)),{recursive:true});
+  return root;
+}
+function verifyClosureAdmission({instance=CLOSURE_INSTANCE,admission=CLOSURE_ADMISSION}={}){
+  return spawnSync(process.execPath,[CLOSURE_VERIFIER,'--repo-root',closureBaseFixture(),'--authority',CLOSURE_AUTHORITY,'--stage-instance',instance,'--stage-admission',admission,'--expected-verifier-digest',CLOSURE_VERIFIER_DIGEST,'--expected-authority-digest',CLOSURE_AUTHORITY_DIGEST],{encoding:'utf8'});
+}
 
 test('literal normative R24 program preserves fixed identities and 33-stage denominator',()=>{const p=JSON.parse(fs.readFileSync('docs/OPS/R24/CORRECTIVE/R24_CORRECTIVE_PROGRAM_V1_1.json'));assert.equal(p.schemaVersion,'R24_CORRECTIVE_PROGRAM_V1_1');assert.equal(p.stageRegistry.stageOrder.length,33);assert.equal(p.fixedBindings.programTemplateDigest,'6c833c964318da3e61e1743365f8763206be838647b5222c187b3bda8d1c6b9a');assert.equal(p.fixedBindings.stageRegistryDigest,'c8af046b5918f43a50af66886b0b5c9d2e22ea6501240d4b239101d8836ced1a');assert.equal(p.fixedBindings.trustModelDigest,'4f6e4b3a191e0302ea44646659e8c2f71121af7d808cc0ee768269b4e156840d');assert.equal(p.ownerRatification.canonicalByteManifest.entries.length,7);assert.equal(p.invariants.rawCorrectiveHistoryImmutable,true);});
 test('exact certification vocabulary and current 33-stage replay are compiled',()=>{const c=JSON.parse(fs.readFileSync('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CURRENT_CERTIFICATION_SET_V1.json'));assert.deepEqual(c.effectiveStateEnum,['CERTIFIED_DONE','DONE_UNCERTIFIED','CERTIFICATION_PENDING','CERTIFICATION_INVALIDATED','INELIGIBLE_OPTIONAL','BLOCKED_TYPED']);assert.equal(c.stages.length,33);assert.equal(c.stages.every(x=>x.effectiveState==='CERTIFIED_DONE'),true);assert.equal(c.auditSuccessors[0].terminalRunId,33291717577);assert.equal(c.mainProductSuccessors.at(-1).terminalRunId,33315428854);assert.equal(c.postAuditCorrections.effectiveState,'CERTIFICATION_PENDING');});
@@ -17,3 +40,6 @@ test('required CI covers three platforms real build RTK SAST and privacy negativ
 test('Windows c1a launches npm through an executable and fails closed on invalid launch authority',()=>{const source=fs.readFileSync('scripts/run-tests.js','utf8');for(const token of ["process.env.npm_execpath","command = process.execPath","path.isAbsolute(npmExecPath)","E_NPM_EXEC_PATH_INVALID=1","process.env.ComSpec","E_WINDOWS_COMMAND_SHELL_INVALID=1","E_PERF_BASELINE_SPAWN="])assert.equal(source.includes(token),true,token);assert.equal(source.includes("process.platform === 'win32' ? 'npm.cmd' : 'npm'"),false);});
 test('direct closure authority and durable carrier policy are mandatory',()=>{const trust=JSON.parse(fs.readFileSync('docs/OPS/R24/CORRECTIVE/POST_AUDIT_TERMINAL_TRUST_MODEL_V1.json'));assert.equal(trust.verification.downloadedRemoteArchiveRequired,true);assert.equal(trust.verification.localSelfIssuedReceiptAccepted,false);assert.equal(trust.predecessors.wp400Closure.stageInstanceDigest,'8102a6a2b36a033ef96921774a4c98f1f48f99a876d6e9dc843d416acfdbbcc6');assert.equal(trust.predecessors.wp400Closure.effectiveStateDigest,'1e23d7eae55b658a68f93893c11d01069c3f04427c0a6ece9214bb6e3e2bff0d');assert.equal(trust.retention.durableCanonicalCarrierRequired,true);});
 test('whole static correction contract passes and verifies a durable carrier whenever present',()=>{const result=verifyPostAuditCorrections();assert.equal(result.status,'PASS');assert.equal(result.stageCount,33);assert.equal(Boolean(result.durableCarrier),fs.existsSync('docs/OPS/R24/CORRECTIVE/POST_AUDIT_TERMINAL_ATTESTATION_DURABLE_CARRIER_V1.json'));assert.equal(result.programDone,false);});
+test('exact-head terminal closure successor is independently admitted at lease 56 WIP one',()=>{const result=verifyClosureAdmission();assert.equal(result.status,0,result.stderr);const parsed=JSON.parse(result.stdout);assert.equal(parsed.status,'PASS');assert.equal(parsed.authorityDigest,CLOSURE_AUTHORITY_DIGEST);assert.equal(parsed.stageInstanceDigest,'67740b72d2c72760b9b308e1715c365fa3fcfb0537be4524145cc2f52b223755');assert.equal(parsed.writeSetDigest,'fe78fa6c1a4f39553edefcbfc4e49b525fc03fdb51a6853c794d647f34f56d04');const admission=JSON.parse(fs.readFileSync(CLOSURE_ADMISSION));assert.deepEqual(admission.lease,{fencingCounter:56,status:'ACTIVE',wip:1,predecessorReleaseDigest:'583e4209f200cb4dc342f8d05f59b808243e960669d8a0d225586b0e7ff4dd6f'});});
+test('closure admission fails closed on coordinated command-scope mutation',()=>{const value=JSON.parse(fs.readFileSync(CLOSURE_INSTANCE));value.commands=[...value.commands,'self-authorized command'];const dir=fs.mkdtempSync(path.join(os.tmpdir(),'post-audit-terminal-closure-mutant-')),file=path.join(dir,'instance.json');fs.writeFileSync(file,`${JSON.stringify(value,null,2)}\n`);const result=verifyClosureAdmission({instance:file});assert.notEqual(result.status,0);assert.match(result.stderr,/E_COMMAND_SCOPE/);});
+test('admission commit preserves historical pending carriers and does not release lease before protected evidence',()=>{for(const file of ['POST_AUDIT_CORRECTIONS_FINAL_ACCEPTANCE_MATRIX_V1.json','POST_AUDIT_CORRECTIONS_FINAL_EFFECTIVE_STATE_V1.json','POST_AUDIT_CORRECTIONS_FINAL_STAGE_REGISTRY_V1.json','POST_AUDIT_CORRECTIONS_FINAL_TERMINAL_RECEIPT_V1.json','POST_AUDIT_CORRECTIONS_LEASE_RELEASE_V1.json'])assert.equal(fs.existsSync(`docs/OPS/R24/CORRECTIVE/${file}`),false,file);const pending=JSON.parse(fs.readFileSync('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_EFFECTIVE_STATE_V1.json'));assert.equal(pending.status,'CERTIFICATION_PENDING');assert.deepEqual(pending.lease,{fencingCounter:56,status:'ACTIVE',wip:1,predecessorReleaseDigest:'583e4209f200cb4dc342f8d05f59b808243e960669d8a0d225586b0e7ff4dd6f'});assert.equal(sha256(fs.readFileSync('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_TERMINAL_RECEIPT_V1.json')),'4a6be94c500a36f732f6a9d82f82bd1eff5813e4ffb511d67e0776ad3f4f8379');});

@@ -13,6 +13,11 @@ const file = (path) => {
 };
 
 const WORKFLOW_PATH = ".github/workflows/r24-terminal-attestation.yml";
+const WP400_STAGE_ID = "WP-400_ANCHOR_LINEAGE";
+const WP400_PROGRAM_PATH = "docs/OPS/R24/CORRECTIVE/WP400_TERMINAL_ISSUER_COMPATIBILITY_EXACT_HEAD_AMENDMENT_V1.json";
+const WP400_INSTANCE_PATH = "docs/OPS/R24/CORRECTIVE/WP400_TERMINAL_ISSUER_COMPATIBILITY_STAGE_INSTANCE_V1.json";
+const WP400_ADMISSION_PATH = "docs/OPS/R24/CORRECTIVE/WP400_TERMINAL_ISSUER_COMPATIBILITY_STAGE_ADMISSION_ATTESTATION_V1.json";
+const WP400_TRUST_PATH = "docs/OPS/R24/CORRECTIVE/WP400_TERMINAL_ATTESTATION_TRUST_MODEL_V1.json";
 
 function fixture() {
   const trustFile = file("docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json");
@@ -80,8 +85,45 @@ function fixture() {
   };
 }
 
+function wp400Fixture() {
+  const subject = fixture();
+  subject.trustFile = file(WP400_TRUST_PATH);
+  subject.programFile = file(WP400_PROGRAM_PATH);
+  subject.instanceFile = file(WP400_INSTANCE_PATH);
+  subject.admissionFile = file(WP400_ADMISSION_PATH);
+  Object.assign(subject.attestationFile.value, {
+    stageId: WP400_STAGE_ID,
+    programTemplateDigest: subject.programFile.digest,
+    stageInstanceDigest: subject.instanceFile.digest,
+    stageAdmissionAttestationDigest: subject.admissionFile.digest,
+    acceptanceSignalsDigest: subject.admissionFile.value.acceptanceSignalsDigest,
+  });
+  subject.attestationFile.bytes = canonicalBytes(subject.attestationFile.value);
+  subject.attestationFile.digest = sha256(subject.attestationFile.bytes);
+  subject.artifactEvidence.name = `r24-terminal-attestation-${WP400_STAGE_ID}`;
+  return subject;
+}
+
 test("verifies externally bound terminal attestation", () => {
   assert.equal(verifyTerminalAttestation(fixture()).status, "VERIFIED");
+});
+
+test("verifies WP-400 through its append-only trust and admission carriers", () => {
+  const result = verifyTerminalAttestation(wp400Fixture());
+  assert.equal(result.status, "VERIFIED");
+  assert.equal(result.stageId, WP400_STAGE_ID);
+});
+
+test("rejects a cross-stage WP-400 attestation", () => {
+  const subject = wp400Fixture();
+  subject.attestationFile.value.stageId = "AUDIT_R2_COMPLETE_CHAIN";
+  assert.throws(() => verifyTerminalAttestation(subject), /E_STAGE_IDENTITY/);
+});
+
+test("rejects WP-400 under the historical audit-only trust binding", () => {
+  const subject = wp400Fixture();
+  subject.trustFile = file("docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json");
+  assert.throws(() => verifyTerminalAttestation(subject), /E_TRUST_PROGRAM_BINDING/);
 });
 
 test("fails closed without API evidence", () => {
@@ -148,4 +190,39 @@ test("protected workflow separates implementation merge from evaluation identity
     assert.equal(workflow.includes(token), true, `missing commit-role binding: ${token}`);
   }
   assert.equal(workflow.includes('test "${GITHUB_SHA}" = "${IMPLEMENTATION_MERGE_SHA}"'), false);
+});
+
+test("protected workflow routes audit R2 and WP-400 without cross-stage execution", () => {
+  const workflow = readFileSync(WORKFLOW_PATH, "utf8");
+  for (const token of [
+    "stage-router:",
+    "E_STAGE_IDENTITY:${STAGE_ID}",
+    "AUDIT_R2_COMPLETE_CHAIN|WP-400_ANCHOR_LINEAGE",
+    "if: ${{ inputs.stage_id == 'AUDIT_R2_COMPLETE_CHAIN' }}",
+    "if: ${{ inputs.stage_id == 'WP-400_ANCHOR_LINEAGE' }}",
+    "wp400-terminal-attestation:",
+    `test \"${'${STAGE_ID}'}\" = \"${WP400_STAGE_ID}\" || fail E_STAGE_IDENTITY`,
+    `test \"${'${STAGE_INSTANCE_PATH}'}\" = \"${WP400_INSTANCE_PATH}\" || fail E_STAGE_PATH_IDENTITY`,
+    `test \"${'${STAGE_ADMISSION_PATH}'}\" = \"${WP400_ADMISSION_PATH}\" || fail E_STAGE_PATH_IDENTITY`,
+    `test \"${'${REQUIREMENTS_PATH}'}\" = \"${WP400_PROGRAM_PATH}\" || fail E_STAGE_PATH_VERSION_MISMATCH`,
+    "name: r24-terminal-attestation-${{ inputs.stage_id }}",
+  ]) {
+    assert.equal(workflow.includes(token), true, `missing stage isolation binding: ${token}`);
+  }
+});
+
+test("WP-400 terminal route cannot release the lease or emit audit-R2 identity", () => {
+  const workflow = readFileSync(WORKFLOW_PATH, "utf8");
+  const marker = "  wp400-terminal-attestation:\n";
+  const wp400Job = workflow.slice(workflow.indexOf(marker));
+  assert.notEqual(workflow.indexOf(marker), -1);
+  for (const forbidden of [
+    "lease-release-ledger.json",
+    "writerTaskId",
+    "fencingCounter:54",
+    "wp400MutationStarted:false",
+    "audit-r2-terminal-${{ github.run_id }}",
+  ]) {
+    assert.equal(wp400Job.includes(forbidden), false, `WP-400 job contains audit-only token: ${forbidden}`);
+  }
 });

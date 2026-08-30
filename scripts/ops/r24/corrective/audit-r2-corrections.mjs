@@ -93,6 +93,9 @@ function dispatchTerminal() {
   assert(selected, 'E_TERMINAL_RUN_DISCOVERY', evaluationSha);
   return {status:'DISPATCHED',runId:String(selected.databaseId),evaluationSha,evaluationTree};
 }
+export function buildRemoteTerminalExpected({artifactId,artifactName,runId,zipDigest,evaluationSha,evaluationTree}) {
+  return {artifactId,artifactName,runId,zipDigest,evaluationSha,evaluationTreeSha:evaluationTree};
+}
 function verifyRemoteTerminal() {
   const evaluationSha = git(['rev-parse','origin/main']);
   const evaluationTree = git(['rev-parse','origin/main^{tree}']);
@@ -105,7 +108,7 @@ function verifyRemoteTerminal() {
   assert(artifact, 'E_TERMINAL_ARTIFACT_DISCOVERY', runId);
   const binary=spawnSync('gh',['api',`repos/{owner}/{repo}/actions/artifacts/${artifact.id}/zip`],{encoding:null,maxBuffer:256*1024*1024});
   assert(binary.status===0 && Buffer.isBuffer(binary.stdout), 'E_TERMINAL_ARTIFACT_DOWNLOAD', runId);
-  return verifyDownloadedArtifact({zipBytes:binary.stdout,metadata:{artifactId:String(artifact.id),artifactName:artifact.name,expired:artifact.expired,runConclusion:selected.conclusion,runHeadSha:selected.headSha,runId},expected:{artifactId:String(artifact.id),artifactName:artifact.name,runId,zipDigest:sha256(binary.stdout),evaluationSha,evaluationTree}});
+  return verifyDownloadedArtifact({zipBytes:binary.stdout,metadata:{artifactId:String(artifact.id),artifactName:artifact.name,expired:artifact.expired,runConclusion:selected.conclusion,runHeadSha:selected.headSha,runId},expected:buildRemoteTerminalExpected({artifactId:String(artifact.id),artifactName:artifact.name,runId,zipDigest:sha256(binary.stdout),evaluationSha,evaluationTree})});
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

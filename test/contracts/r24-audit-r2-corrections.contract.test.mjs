@@ -3,10 +3,15 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import crypto from 'node:crypto';
 import { canonicalBytes } from '../../scripts/ops/r24/corrective/canonical-json.mjs';
-import { checkCorrections } from '../../scripts/ops/r24/corrective/audit-r2-corrections.mjs';
+import { buildRemoteTerminalExpected, checkCorrections } from '../../scripts/ops/r24/corrective/audit-r2-corrections.mjs';
 
 const load=(path)=>JSON.parse(fs.readFileSync(path,'utf8'));
 const hash=(bytes)=>crypto.createHash('sha256').update(bytes).digest('hex');
+test('remote terminal wrapper binds the verifier tree field exactly',()=>{
+  const expected=buildRemoteTerminalExpected({artifactId:'42',artifactName:'audit-r2-terminal-7',runId:'7',zipDigest:'3'.repeat(64),evaluationSha:'1'.repeat(40),evaluationTree:'2'.repeat(40)});
+  assert.deepEqual(expected,{artifactId:'42',artifactName:'audit-r2-terminal-7',runId:'7',zipDigest:'3'.repeat(64),evaluationSha:'1'.repeat(40),evaluationTreeSha:'2'.repeat(40)});
+  assert.equal(Object.hasOwn(expected,'evaluationTree'),false);
+});
 test('all eight correction carriers pass the static exact-byte check',()=>{
   const result=checkCorrections();
   assert.equal(result.status,'PASS');

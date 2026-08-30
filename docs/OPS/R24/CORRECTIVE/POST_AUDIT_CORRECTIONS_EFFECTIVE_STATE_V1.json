@@ -4,11 +4,11 @@
   "status": "CERTIFICATION_PENDING",
   "baseSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
   "baseTree": "d78aed5df32e3d84433292f425fd3683f2579dbe",
-  "stageInstanceDigest": "46f23ba5a53c03b09dae2a85d221bac4ee3ea163b7dcc93f6bc94968bbc4f687",
-  "stageAdmissionDigest": "8e9424bb20a524223088928a7a4378013128b35d578a9c8104f7d796f4b47f91",
-  "writeSetDigest": "fed5f5a3a328f18a6c27f814a5934d0893e212ab0aadc0d79d385f577e46030d",
-  "commandScopeDigest": "5f6717baf5eb4b4e66d1040b7548b16cf3b6b7709b32da6fdcc0ebd806109d65",
-  "acceptanceSignalsDigest": "7dc5cd1e575ecb39ed23779f51717fd25ea186cfcbe459577f6a2a4d2298ff04",
+  "stageInstanceDigest": "2dc214033df5cc341d6f7dfaf20375d63ae5f5e6bdc8b28b58b34eef21317027",
+  "stageAdmissionDigest": "de8b32eb6838e2a65a8c89e11cee948ce5aa20e4ba4f4bda1260bbcdb894923d",
+  "writeSetDigest": "a0697de20f748070e8eee0758fc383acd5ab1e74ec06e0110d554093b4e5872a",
+  "commandScopeDigest": "9dcdc1bae5fb9c87831bfa75ce4870db5300cbd5892153989e72fc12498692a3",
+  "acceptanceSignalsDigest": "399554da415678d7a42aed9fcf791e2749afe650944166870d99391021172c42",
   "predecessors": {
     "issuerCompatibility": {
       "stageInstanceDigest": "ec40492a7b36d5c14060dc021087ba9eec68634d2c37fe56c87ac6885d6a1efd",

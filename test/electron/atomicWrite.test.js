@@ -42,28 +42,35 @@ test('writeFileAtomic fails on directory targets without altering them', async (
 });
 
 test('writeFileAtomic keeps original content on write failures', async (t) => {
-  if (process.platform === 'win32') {
-    t.skip('Permission-based test skipped on Windows');
-    return;
-  }
-
   const tempDir = await createTempDir();
   t.after(async () => {
     await fs.rm(tempDir, { recursive: true, force: true });
   });
 
-  const restrictedDir = path.join(tempDir, 'restricted');
-  await fs.mkdir(restrictedDir, { recursive: true });
-
-  const filePath = path.join(restrictedDir, 'locked.txt');
+  const filePath = path.join(tempDir, 'locked.txt');
   await fs.writeFile(filePath, 'keep', 'utf8');
 
+  const originalRename = fs.rename;
+  let forcedFailures = 0;
+  fs.rename = async (sourcePath, destinationPath, ...args) => {
+    if (
+      path.resolve(destinationPath) === path.resolve(filePath)
+      && String(sourcePath).endsWith('.tmp')
+    ) {
+      forcedFailures += 1;
+      const error = new Error('deterministic atomic replacement failure');
+      error.code = 'EACCES';
+      throw error;
+    }
+    return originalRename.call(fs, sourcePath, destinationPath, ...args);
+  };
+
   try {
-    await fs.chmod(restrictedDir, 0o500);
     const result = await fileManager.writeFileAtomic(filePath, 'replace');
     assert.equal(result.success, false);
+    assert.equal(forcedFailures, 2);
     assert.equal(await fs.readFile(filePath, 'utf8'), 'keep');
   } finally {
-    await fs.chmod(restrictedDir, 0o700);
+    fs.rename = originalRename;
   }
 });

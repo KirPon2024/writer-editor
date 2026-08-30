@@ -1,0 +1,118 @@
+{
+  "schemaVersion": "POST_AUDIT_CORRECTIONS_TERMINAL_RECEIPT_V1",
+  "receiptId": "POST_AUDIT_CORRECTIONS_FINAL_TERMINAL_RECEIPT_V1",
+  "supersedesDigest": "4a6be94c500a36f732f6a9d82f82bd1eff5813e4ffb511d67e0776ad3f4f8379",
+  "stageId": "POST_AUDIT_CORRECTIONS_TERMINAL_CLOSURE",
+  "status": "CERTIFIED_DONE",
+  "evaluationSha": "af0bfb704c13b0195c12b0144415f2e769f99752",
+  "evaluationTreeSha": "d3e2232ec01af860794de90f81f2e185cdc3fcfe",
+  "observedAtUtc": "2026-08-30T23:18:35Z",
+  "bindings": {
+    "sourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "ownerAuthorityBindingDigest": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+    "authorityDigest": "fc7becea30f9b5d6efb86328baeba0d7e41d58922d6120e840c13a15088e091b",
+    "stageInstanceDigest": "8256106036a2119ec4683fcaeb30ecf6611859ee8cc1a5cd48ed1922f327a2c0",
+    "stageAdmissionDigest": "175953e378ef72d319ea9324bcf6e5ebebfe1c33f59042979d289bb6a9732d39",
+    "writeSetDigest": "1e58bd7772e9dcb28581dd52c086383d0a806269eadce066e3333e99ce61dfba",
+    "commandScopeDigest": "80fc15486bec1e34654c93339bf5cc85471971b82f6f3cf8a7028df192572d39",
+    "acceptanceSignalsDigest": "1910fc1903d7ca625e046875e0f63158e2c1ddfa705563d0d552a379f38821df",
+    "fixedTemplateDigest": "6c833c964318da3e61e1743365f8763206be838647b5222c187b3bda8d1c6b9a",
+    "fixedRegistryDigest": "c8af046b5918f43a50af66886b0b5c9d2e22ea6501240d4b239101d8836ced1a",
+    "fixedTrustDigest": "4f6e4b3a191e0302ea44646659e8c2f71121af7d808cc0ee768269b4e156840d",
+    "historicalVerifierDigest": "82e49d577b79b41b26b67e25b7ce0fd81f26fb973232194fef8d96d6c563c6f9",
+    "historicalVerifierContractDigest": "925b4c23f1cad674720ee6a22fcd74cc2169b16bbc161be5d43535f20dd2ee31"
+  },
+  "predecessorEvidence": {
+    "pr1774": {
+      "candidateSha": "82cac6c9b30db9f845a652a602934aaec8e1bc4d",
+      "candidateCiRunId": 33331788807,
+      "opsVectorCloseRunId": 33332262278,
+      "mergeSha": "c219de8dab40331aff52ab10a78353afb634aed4",
+      "mergeTreeSha": "6ee641eeb7b344a5253c5b807ded4306501400c6",
+      "exactMergeCiRunId": 33332262516,
+      "terminalRunId": 33332820052,
+      "terminalArtifactId": 9738133388,
+      "terminalArchiveSha256": "891994e2cbb5114786bfbb33e479a68549e6424372a2bd9eca92ef983f45a398",
+      "terminalAttestationDigest": "dacfad51100d7900f3706641c6796a4ece6a3e943ebdb411c54870c908196401",
+      "status": "VERIFIED"
+    },
+    "pr1775": {
+      "candidateSha": "3a35f169cdf3840e7f2a5138de89d24c7336ab0c",
+      "candidateCiRunId": 33333154363,
+      "opsVectorCloseRunId": 33333702518,
+      "mergeSha": "3796c04913d0ec4cca84deafc9195e934e882422",
+      "mergeTreeSha": "acb938d6274fad0b7c52b29780d55d8b4f1925dc",
+      "exactPostmergeCiRunId": 33333702218,
+      "durableCarrierDigest": "ced14208c1e089f103fb1d7adc70296c603e3ba1a40fe76f4ae350475bf02481",
+      "status": "VERIFIED"
+    }
+  },
+  "closureSuccessorEvidence": {
+    "pullRequest": 1776,
+    "baseSha": "3796c04913d0ec4cca84deafc9195e934e882422",
+    "baseTreeSha": "acb938d6274fad0b7c52b29780d55d8b4f1925dc",
+    "candidateSha": "77354cfe994588dc1771f3eded29d1e7e68d703f",
+    "candidateTreeSha": "d3e2232ec01af860794de90f81f2e185cdc3fcfe",
+    "candidateCiRunId": 33340416107,
+    "candidateCiJobCount": 16,
+    "candidateCiStatus": "SUCCESS",
+    "protectedMergeSha": "af0bfb704c13b0195c12b0144415f2e769f99752",
+    "protectedMergeTreeSha": "d3e2232ec01af860794de90f81f2e185cdc3fcfe",
+    "mergeMethod": "MERGE",
+    "protectionRulesetId": 12270444,
+    "protectionEnforcement": "ACTIVE_NO_BYPASS",
+    "exactPostmergeCiRunId": 33340952023,
+    "exactPostmergeCiJobCount": 16,
+    "exactPostmergeCiStatus": "SUCCESS",
+    "status": "VERIFIED"
+  },
+  "finalCarriers": {
+    "leaseReleaseDigest": "003e51ce6fe7b6b888b160c5c310bd3f3bf833903f39dc508809c22580d13191",
+    "acceptanceMatrixDigest": "d790d055223138a31df83e66d3e474fb1e7a3bcacaa34bbf1015553649dae91d",
+    "effectiveStateDigest": "d4825720458a8b62a642ed3660622cc14cedfa74bd97577cae1d093b03275a53",
+    "stageRegistryDigest": "0578e0cfb2bc8042ee4d3ce6af1b48acf8737c034768b9b4abeddf86d0ae4039"
+  },
+  "acceptance": {
+    "rowCount": 18,
+    "passedRowCount": 18,
+    "pendingRowCount": 0,
+    "status": "PASS"
+  },
+  "effectiveState": {
+    "status": "CERTIFIED_DONE",
+    "leaseStatus": "RELEASED",
+    "fencingCounter": 56,
+    "wip": 0
+  },
+  "leaseDisposition": {
+    "status": "RELEASED",
+    "fencingCounter": 56,
+    "wip": 0,
+    "releaseDigest": "003e51ce6fe7b6b888b160c5c310bd3f3bf833903f39dc508809c22580d13191",
+    "disposition": "RELEASED_AFTER_DURABLE_CARRIER_PROTECTED_MERGE_AND_FRESH_CLOSURE_SUCCESSOR_PROTECTED_MERGE_EXACT_POSTMERGE_CI"
+  },
+  "worktreeProof": {
+    "writerBaseClean": true,
+    "writerBaseSha": "af0bfb704c13b0195c12b0144415f2e769f99752",
+    "predecessorCorrectionWorktreeCount": 2,
+    "predecessorCorrectionWorktreesClean": true,
+    "predecessorCorrectionWorktreesWip": 0,
+    "protectedUnrelatedWorktreeCount": 251,
+    "protectedUnrelatedDirtyWorktreeCount": 7,
+    "protectedUnrelatedBeforeEntriesSha256": "e5dff70a9836ff8bc35bb916702730352f76121249a5ce74af445bcf4215b056",
+    "protectedUnrelatedAfterEntriesSha256": "e5dff70a9836ff8bc35bb916702730352f76121249a5ce74af445bcf4215b056",
+    "protectedUnrelatedWipUntouched": true,
+    "postdeliveryWriterCleanVerificationRequired": true
+  },
+  "liveWork": {
+    "openPullRequestCount": 0,
+    "runningActionCount": 0,
+    "queuedActionCount": 0,
+    "status": "NONE"
+  },
+  "evidenceStampIds": [
+    "ES-R24-CORRECTIVE-B0-CONTROL-PLANE-CLAIM-BINDINGS"
+  ],
+  "programDone": false,
+  "mainProductGraphNodeStarted": false
+}

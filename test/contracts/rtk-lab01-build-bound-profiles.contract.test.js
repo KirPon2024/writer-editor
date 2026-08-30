@@ -727,6 +727,7 @@ test('LAB01-16-historical-rejoin-positive', async () => {
       wordBuild: '16.42.25071018',
       evidenceHeadPath: frozenHeadPath,
     },
+    nowUtc: '2026-06-15T00:00:00.000Z',
   });
 
   assert.equal(result.ok, true, 're-joining an existing frozen head must succeed');

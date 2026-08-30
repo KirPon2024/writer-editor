@@ -17,8 +17,8 @@ const spawnTap = (output) => () => ({ status:0, signal:null, error:null, stdout:
 test('plan contains the exact ordered 33-stage registered dependency graph', () => {
   const candidate=plan();
   assert.equal(validateReplayPlan(candidate, registry).registeredStages, 33);
-  assert.equal(candidate.effectiveAdmissionBinding.stageInstanceDigest,'e3136181930a86c5beb21a50884e551e5477abe4563fdad0749ac546d70b811f');
-  assert.equal(candidate.effectiveAdmissionBinding.stageAdmissionDigest,'decb456ea5e3b51b3220c4349b2ac2f3a2e4dc247d78e685615876279bbdc1a3');
+  assert.equal(candidate.effectiveAdmissionBinding.stageInstanceDigest,'a073f48f5dd5779aad4fa7b815edc11adbbca1af0663aa37ff5dd40233f1c3ea');
+  assert.equal(candidate.effectiveAdmissionBinding.stageAdmissionDigest,'31e06a80563c2c1e6d51e0083e484641f49b3299dc96cd799f4519ccfbff32db');
   const wrongBinding=plan();wrongBinding.effectiveAdmissionBinding.stageAdmissionDigest='0'.repeat(64);
   assert.throws(() => validateReplayPlan(wrongBinding,registry,{requireFiles:false}), (error)=>error.code==='E_REPLAY_EFFECTIVE_ADMISSION_BINDING');
 });

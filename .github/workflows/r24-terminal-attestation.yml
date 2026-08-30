@@ -10,6 +10,7 @@ on:
       program_template_digest: { required: true, type: string }
       stage_instance_digest: { required: true, type: string }
       stage_admission_digest: { required: true, type: string }
+      acceptance_signals_digest: { required: false, type: string }
       implementation_candidate_sha: { required: true, type: string }
       implementation_merge_sha: { required: true, type: string }
       evaluation_sha: { required: true, type: string }
@@ -30,7 +31,23 @@ env:
   GOVERNANCE_CHANGE_APPROVALS_PATH: docs/OPS/R24/CORRECTIVE/C1C_GOVERNANCE_CHANGE_APPROVALS_V1.json
 
 jobs:
+  stage-router:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Reject unsupported or cross-stage dispatch
+        shell: bash
+        env:
+          STAGE_ID: ${{ inputs.stage_id }}
+        run: |
+          set -euo pipefail
+          case "${STAGE_ID}" in
+            AUDIT_R2_COMPLETE_CHAIN|WP-400_ANCHOR_LINEAGE) ;;
+            *) echo "E_STAGE_IDENTITY:${STAGE_ID}" >&2; exit 1 ;;
+          esac
+
   linux-evidence:
+    needs: stage-router
+    if: ${{ inputs.stage_id == 'AUDIT_R2_COMPLETE_CHAIN' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -124,6 +141,8 @@ jobs:
           if-no-files-found: error
 
   macos-evidence:
+    needs: stage-router
+    if: ${{ inputs.stage_id == 'AUDIT_R2_COMPLETE_CHAIN' }}
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -233,7 +252,8 @@ jobs:
           if-no-files-found: error
 
   terminal:
-    needs: [linux-evidence, macos-evidence]
+    needs: [stage-router, linux-evidence, macos-evidence]
+    if: ${{ inputs.stage_id == 'AUDIT_R2_COMPLETE_CHAIN' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -312,5 +332,100 @@ jobs:
         with:
           name: audit-r2-terminal-${{ github.run_id }}
           path: ${{ runner.temp }}/terminal/*
+          if-no-files-found: error
+          retention-days: 90
+
+  wp400-terminal-attestation:
+    needs: stage-router
+    if: ${{ inputs.stage_id == 'WP-400_ANCHOR_LINEAGE' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.evaluation_sha }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - name: Verify exact WP-400 identities and admission
+        shell: bash
+        env:
+          STAGE_ID: ${{ inputs.stage_id }}
+          STAGE_INSTANCE_PATH: ${{ inputs.stage_instance_path }}
+          STAGE_ADMISSION_PATH: ${{ inputs.stage_admission_path }}
+          REQUIREMENTS_PATH: ${{ inputs.requirements_path }}
+          PROGRAM_TEMPLATE_DIGEST: ${{ inputs.program_template_digest }}
+          STAGE_INSTANCE_DIGEST: ${{ inputs.stage_instance_digest }}
+          STAGE_ADMISSION_DIGEST: ${{ inputs.stage_admission_digest }}
+          ACCEPTANCE_SIGNALS_DIGEST: ${{ inputs.acceptance_signals_digest }}
+          IMPLEMENTATION_CANDIDATE_SHA: ${{ inputs.implementation_candidate_sha }}
+          IMPLEMENTATION_MERGE_SHA: ${{ inputs.implementation_merge_sha }}
+        run: |
+          set -euo pipefail
+          fail() { echo "$1" >&2; exit 1; }
+          test "${GITHUB_REF}" = "refs/heads/main" || fail E_REF_IDENTITY
+          test "${GITHUB_SHA}" = "${EVALUATION_SHA}" || fail E_EVALUATION_SHA_MISMATCH
+          test "$(git rev-parse HEAD^{tree})" = "${EVALUATION_TREE_SHA}" || fail E_EVALUATION_TREE_MISMATCH
+          test "${STAGE_ID}" = "WP-400_ANCHOR_LINEAGE" || fail E_STAGE_IDENTITY
+          test "${STAGE_INSTANCE_PATH}" = "docs/OPS/R24/CORRECTIVE/WP400_TERMINAL_ISSUER_COMPATIBILITY_STAGE_INSTANCE_V1.json" || fail E_STAGE_PATH_IDENTITY
+          test "${STAGE_ADMISSION_PATH}" = "docs/OPS/R24/CORRECTIVE/WP400_TERMINAL_ISSUER_COMPATIBILITY_STAGE_ADMISSION_ATTESTATION_V1.json" || fail E_STAGE_PATH_IDENTITY
+          test "${REQUIREMENTS_PATH}" = "docs/OPS/R24/CORRECTIVE/WP400_TERMINAL_ISSUER_COMPATIBILITY_EXACT_HEAD_AMENDMENT_V1.json" || fail E_STAGE_PATH_VERSION_MISMATCH
+          test "$(sha256sum "${REQUIREMENTS_PATH}" | cut -d ' ' -f 1)" = "${PROGRAM_TEMPLATE_DIGEST}" || fail E_PROGRAM_DIGEST_MISMATCH
+          test "$(sha256sum "${STAGE_INSTANCE_PATH}" | cut -d ' ' -f 1)" = "${STAGE_INSTANCE_DIGEST}" || fail E_STAGE_DIGEST_MISMATCH
+          test "$(sha256sum "${STAGE_ADMISSION_PATH}" | cut -d ' ' -f 1)" = "${STAGE_ADMISSION_DIGEST}" || fail E_STAGE_DIGEST_MISMATCH
+          git merge-base --is-ancestor "${IMPLEMENTATION_CANDIDATE_SHA}" "${IMPLEMENTATION_MERGE_SHA}" || fail E_IMPLEMENTATION_ANCESTRY
+          git merge-base --is-ancestor "${IMPLEMENTATION_MERGE_SHA}" "${EVALUATION_SHA}" || fail E_EVALUATION_ANCESTRY
+          node scripts/ops/r24/corrective/stage-admission-verifier.mjs \
+            "${STAGE_INSTANCE_PATH}" \
+            docs/OPS/R24/CORRECTIVE/WP400_TERMINAL_ISSUER_COMPATIBILITY_STAGE_REGISTRY_V1.json \
+            "${REQUIREMENTS_PATH}" > "${RUNNER_TEMP}/wp400-stage-admission.json"
+          cmp "${RUNNER_TEMP}/wp400-stage-admission.json" "${STAGE_ADMISSION_PATH}" || fail E_ADMISSION_BINDING
+          node --input-type=module <<'NODE'
+          import { readFileSync } from "node:fs";
+          import { canonicalBytes, sha256 } from "./scripts/ops/r24/corrective/canonical-json.mjs";
+          const instanceBytes = readFileSync(process.env.STAGE_INSTANCE_PATH);
+          const admissionBytes = readFileSync(process.env.STAGE_ADMISSION_PATH);
+          const instance = JSON.parse(instanceBytes);
+          const admission = JSON.parse(admissionBytes);
+          if (!instanceBytes.equals(canonicalBytes(instance)) || !admissionBytes.equals(canonicalBytes(admission))) throw new Error("E_NON_CANONICAL_STAGE_BYTES");
+          if (instance.stageId !== process.env.STAGE_ID || admission.stageId !== process.env.STAGE_ID) throw new Error("E_STAGE_IDENTITY");
+          if (instance.programTemplateDigest !== process.env.PROGRAM_TEMPLATE_DIGEST || admission.programTemplateDigest !== process.env.PROGRAM_TEMPLATE_DIGEST) throw new Error("E_PROGRAM_DIGEST_MISMATCH");
+          if (admission.stageInstanceDigest !== process.env.STAGE_INSTANCE_DIGEST || admission.acceptanceSignalsDigest !== process.env.ACCEPTANCE_SIGNALS_DIGEST || admission.status !== "ADMITTED") throw new Error("E_ADMISSION_BINDING");
+          if (sha256(instanceBytes) !== process.env.STAGE_INSTANCE_DIGEST || sha256(admissionBytes) !== process.env.STAGE_ADMISSION_DIGEST) throw new Error("E_STAGE_DIGEST_MISMATCH");
+          NODE
+      - name: Execute exact-head WP-400 terminal gates
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test test/contracts/r24-terminal-attestation.contract.test.mjs test/unit/r24-wp400-anchor-lineage.test.js test/unit/r24-wp400-anchor-lineage-mutants.test.js
+          node scripts/ops/r24/test-inventory.mjs --check docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json
+          node scripts/ops/r24/corrective/audit-r2-corrections.mjs --check
+          npm run agent:guardrails
+          git diff --check
+          test -z "$(git status --porcelain=v1 --untracked-files=all)"
+      - name: Emit immutable WP-400 terminal envelope
+        shell: bash
+        env:
+          STAGE_ID: ${{ inputs.stage_id }}
+          PROGRAM_TEMPLATE_DIGEST: ${{ inputs.program_template_digest }}
+          STAGE_INSTANCE_DIGEST: ${{ inputs.stage_instance_digest }}
+          STAGE_ADMISSION_DIGEST: ${{ inputs.stage_admission_digest }}
+          ACCEPTANCE_SIGNALS_DIGEST: ${{ inputs.acceptance_signals_digest }}
+          IMPLEMENTATION_CANDIDATE_SHA: ${{ inputs.implementation_candidate_sha }}
+          IMPLEMENTATION_MERGE_SHA: ${{ inputs.implementation_merge_sha }}
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import { writeFileSync } from "node:fs";
+          import { canonicalBytes } from "./scripts/ops/r24/corrective/canonical-json.mjs";
+          const attestation={schemaVersion:"TERMINAL_ATTESTATION_V1",attestationType:"EXTERNAL_IMMUTABLE_TERMINAL_ATTESTATION",result:"PASS",stageId:process.env.STAGE_ID,programTemplateDigest:process.env.PROGRAM_TEMPLATE_DIGEST,stageInstanceDigest:process.env.STAGE_INSTANCE_DIGEST,stageAdmissionAttestationDigest:process.env.STAGE_ADMISSION_DIGEST,acceptanceSignalsDigest:process.env.ACCEPTANCE_SIGNALS_DIGEST,implementationCandidateSha:process.env.IMPLEMENTATION_CANDIDATE_SHA,implementationMergeSha:process.env.IMPLEMENTATION_MERGE_SHA,evaluationSha:process.env.EVALUATION_SHA,evaluationTreeSha:process.env.EVALUATION_TREE_SHA,receiptCarrierSha:null,closureMergeSha:null,repository:process.env.GITHUB_REPOSITORY,workflowPath:".github/workflows/r24-terminal-attestation.yml",workflowRunId:Number(process.env.GITHUB_RUN_ID),runAttempt:Number(process.env.GITHUB_RUN_ATTEMPT),event:process.env.GITHUB_EVENT_NAME,ref:process.env.GITHUB_REF,createdAtUtc:new Date().toISOString(),externalImmutableTerminalAttestation:{provider:"GITHUB_ACTIONS_PROTECTED_WORKFLOW",workflowRunId:Number(process.env.GITHUB_RUN_ID),runAttempt:Number(process.env.GITHUB_RUN_ATTEMPT)}};
+          writeFileSync("terminal-attestation.json",canonicalBytes(attestation));
+          NODE
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r24-terminal-attestation-${{ inputs.stage_id }}
+          path: terminal-attestation.json
           if-no-files-found: error
           retention-days: 90

@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "POST_AUDIT_CORRECTIONS_FINAL_STAGE_REGISTRY_V1",
+  "registryId": "YALKEN_R24_POST_AUDIT_CORRECTIONS_TERMINAL_CLOSURE_FINAL",
+  "supersedesDigest": "1cb21c3c935e2aa5f4bb27167be5d80c7ca261aaadd78c6a4422fb6f0e5c5c95",
+  "predecessorRegistryDigest": "c8af046b5918f43a50af66886b0b5c9d2e22ea6501240d4b239101d8836ced1a",
+  "ownerAuthorityBindingDigest": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+  "ownerAuthorityDigest": "fc7becea30f9b5d6efb86328baeba0d7e41d58922d6120e840c13a15088e091b",
+  "sourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "stages": [
+    {
+      "stageId": "POST_AUDIT_CORRECTIONS_TERMINAL_CLOSURE",
+      "stageInstanceDigest": "8256106036a2119ec4683fcaeb30ecf6611859ee8cc1a5cd48ed1922f327a2c0",
+      "stageAdmissionDigest": "175953e378ef72d319ea9324bcf6e5ebebfe1c33f59042979d289bb6a9732d39",
+      "writeSetDigest": "1e58bd7772e9dcb28581dd52c086383d0a806269eadce066e3333e99ce61dfba",
+      "commandScopeDigest": "80fc15486bec1e34654c93339bf5cc85471971b82f6f3cf8a7028df192572d39",
+      "acceptanceSignalsDigest": "1910fc1903d7ca625e046875e0f63158e2c1ddfa705563d0d552a379f38821df",
+      "finalAcceptanceMatrixDigest": "d790d055223138a31df83e66d3e474fb1e7a3bcacaa34bbf1015553649dae91d",
+      "finalEffectiveStateDigest": "d4825720458a8b62a642ed3660622cc14cedfa74bd97577cae1d093b03275a53",
+      "leaseReleaseDigest": "003e51ce6fe7b6b888b160c5c310bd3f3bf833903f39dc508809c22580d13191",
+      "fencingCounter": 56,
+      "leaseStatus": "RELEASED",
+      "wip": 0,
+      "status": "CERTIFIED_DONE_RELEASED"
+    }
+  ],
+  "evaluationSha": "af0bfb704c13b0195c12b0144415f2e769f99752",
+  "evaluationTreeSha": "d3e2232ec01af860794de90f81f2e185cdc3fcfe",
+  "closureSuccessor": {
+    "pullRequest": 1776,
+    "candidateCiRunId": 33340416107,
+    "mergeSha": "af0bfb704c13b0195c12b0144415f2e769f99752",
+    "exactPostmergeCiRunId": 33340952023,
+    "status": "VERIFIED"
+  },
+  "rawRegistryImmutable": true,
+  "noLiveWork": true,
+  "programDone": false,
+  "mainProductGraphNodeStarted": false
+}

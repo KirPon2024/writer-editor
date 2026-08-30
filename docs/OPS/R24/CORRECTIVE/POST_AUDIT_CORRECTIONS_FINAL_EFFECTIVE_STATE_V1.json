@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "POST_AUDIT_CORRECTIONS_FINAL_EFFECTIVE_STATE_V1",
+  "stageId": "POST_AUDIT_CORRECTIONS_TERMINAL_CLOSURE",
+  "status": "CERTIFIED_DONE",
+  "supersedesDigest": "087a18c66d9e59401c17550e79a31572515d4236998b709c81a7c0bd9e7d8093",
+  "evaluationSha": "af0bfb704c13b0195c12b0144415f2e769f99752",
+  "evaluationTreeSha": "d3e2232ec01af860794de90f81f2e185cdc3fcfe",
+  "sourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "authorityDigest": "fc7becea30f9b5d6efb86328baeba0d7e41d58922d6120e840c13a15088e091b",
+  "stageInstanceDigest": "8256106036a2119ec4683fcaeb30ecf6611859ee8cc1a5cd48ed1922f327a2c0",
+  "stageAdmissionDigest": "175953e378ef72d319ea9324bcf6e5ebebfe1c33f59042979d289bb6a9732d39",
+  "writeSetDigest": "1e58bd7772e9dcb28581dd52c086383d0a806269eadce066e3333e99ce61dfba",
+  "commandScopeDigest": "80fc15486bec1e34654c93339bf5cc85471971b82f6f3cf8a7028df192572d39",
+  "acceptanceSignalsDigest": "1910fc1903d7ca625e046875e0f63158e2c1ddfa705563d0d552a379f38821df",
+  "finalAcceptanceMatrixDigest": "d790d055223138a31df83e66d3e474fb1e7a3bcacaa34bbf1015553649dae91d",
+  "leaseReleaseDigest": "003e51ce6fe7b6b888b160c5c310bd3f3bf833903f39dc508809c22580d13191",
+  "lease": {
+    "fencingCounter": 56,
+    "status": "RELEASED",
+    "wip": 0,
+    "releaseDigest": "003e51ce6fe7b6b888b160c5c310bd3f3bf833903f39dc508809c22580d13191"
+  },
+  "predecessorEvidence": {
+    "terminalReceiptDigest": "4a6be94c500a36f732f6a9d82f82bd1eff5813e4ffb511d67e0776ad3f4f8379",
+    "durableCarrierDigest": "ced14208c1e089f103fb1d7adc70296c603e3ba1a40fe76f4ae350475bf02481",
+    "terminalRunId": 33332820052,
+    "terminalArtifactId": 9738133388,
+    "pr1774MergeSha": "c219de8dab40331aff52ab10a78353afb634aed4",
+    "pr1775MergeSha": "3796c04913d0ec4cca84deafc9195e934e882422"
+  },
+  "closureSuccessorEvidence": {
+    "pullRequest": 1776,
+    "candidateSha": "77354cfe994588dc1771f3eded29d1e7e68d703f",
+    "candidateCiRunId": 33340416107,
+    "mergeSha": "af0bfb704c13b0195c12b0144415f2e769f99752",
+    "mergeTreeSha": "d3e2232ec01af860794de90f81f2e185cdc3fcfe",
+    "exactPostmergeCiRunId": 33340952023,
+    "status": "VERIFIED"
+  },
+  "transition": "CERTIFICATION_PENDING_ACTIVE_WIP_1_TO_CERTIFIED_DONE_RELEASED_WIP_0",
+  "transitionSatisfied": true,
+  "noLiveWork": true,
+  "programDone": false,
+  "mainProductGraphNodeStarted": false
+}

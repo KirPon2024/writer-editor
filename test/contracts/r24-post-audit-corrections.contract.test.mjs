@@ -15,7 +15,47 @@ const CLOSURE_AUTHORITY='docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_OWNER_AM
 const CLOSURE_INSTANCE='docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V15.json';
 const CLOSURE_ADMISSION='docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_ATTESTATION_V15.json';
 const CLOSURE_AUTHORITY_DIGEST='fc7becea30f9b5d6efb86328baeba0d7e41d58922d6120e840c13a15088e091b';
+const FINAL_LEASE='docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_LEASE_RELEASE_V1.json';
+const FINAL_MATRIX='docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_FINAL_ACCEPTANCE_MATRIX_V1.json';
+const FINAL_STATE='docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_FINAL_EFFECTIVE_STATE_V1.json';
+const FINAL_REGISTRY='docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_FINAL_STAGE_REGISTRY_V1.json';
+const FINAL_RECEIPT='docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_FINAL_TERMINAL_RECEIPT_V1.json';
 const sha256=(bytes)=>crypto.createHash('sha256').update(bytes).digest('hex');
+const readJson=(file)=>JSON.parse(fs.readFileSync(file));
+function verifyFinalTransition({lease=readJson(FINAL_LEASE),matrix=readJson(FINAL_MATRIX),state=readJson(FINAL_STATE),registry=readJson(FINAL_REGISTRY),receipt=readJson(FINAL_RECEIPT)}={}){
+  assert.deepEqual(lease.lease,{fencingCounter:56,transition:'ACTIVE_WIP_1_TO_RELEASED_WIP_0',status:'RELEASED',wip:0,predecessorReleaseDigest:'583e4209f200cb4dc342f8d05f59b808243e960669d8a0d225586b0e7ff4dd6f',releasedAdmissionDigest:'175953e378ef72d319ea9324bcf6e5ebebfe1c33f59042979d289bb6a9732d39',disposition:'RELEASED_AFTER_DURABLE_CARRIER_PROTECTED_MERGE_AND_FRESH_CLOSURE_SUCCESSOR_PROTECTED_MERGE_EXACT_POSTMERGE_CI'});
+  assert.equal(lease.closureSuccessorEvidence.candidateCiStatus,'SUCCESS');
+  assert.equal(lease.closureSuccessorEvidence.exactPostmergeCiStatus,'SUCCESS');
+  assert.equal(lease.liveWorkObservation.status,'NO_LIVE_WORK');
+  assert.equal(matrix.evaluationStatus,'CERTIFIED_DONE');
+  assert.equal(matrix.rows.length,matrix.rowCount);
+  assert.equal(matrix.rows.every((row)=>row.status==='PASS'),true);
+  assert.equal(matrix.passedRowCount,matrix.rowCount);
+  assert.equal(matrix.zeroPendingRows,true);
+  assert.equal(matrix.bindings.leaseReleaseDigest,sha256(fs.readFileSync(FINAL_LEASE)));
+  assert.equal(state.status,'CERTIFIED_DONE');
+  assert.deepEqual(state.lease,{fencingCounter:56,status:'RELEASED',wip:0,releaseDigest:sha256(fs.readFileSync(FINAL_LEASE))});
+  assert.equal(state.finalAcceptanceMatrixDigest,sha256(fs.readFileSync(FINAL_MATRIX)));
+  assert.equal(registry.stages.length,1);
+  assert.equal(registry.stages[0].status,'CERTIFIED_DONE_RELEASED');
+  assert.equal(registry.stages[0].wip,0);
+  assert.equal(registry.stages[0].finalEffectiveStateDigest,sha256(fs.readFileSync(FINAL_STATE)));
+  assert.equal(receipt.schemaVersion,'POST_AUDIT_CORRECTIONS_TERMINAL_RECEIPT_V1');
+  assert.equal(receipt.status,'CERTIFIED_DONE');
+  assert.equal(receipt.evaluationSha,'af0bfb704c13b0195c12b0144415f2e769f99752');
+  assert.equal(receipt.evaluationTreeSha,'d3e2232ec01af860794de90f81f2e185cdc3fcfe');
+  assert.equal(receipt.finalCarriers.leaseReleaseDigest,sha256(fs.readFileSync(FINAL_LEASE)));
+  assert.equal(receipt.finalCarriers.acceptanceMatrixDigest,sha256(fs.readFileSync(FINAL_MATRIX)));
+  assert.equal(receipt.finalCarriers.effectiveStateDigest,sha256(fs.readFileSync(FINAL_STATE)));
+  assert.equal(receipt.finalCarriers.stageRegistryDigest,sha256(fs.readFileSync(FINAL_REGISTRY)));
+  assert.deepEqual(receipt.acceptance,{rowCount:18,passedRowCount:18,pendingRowCount:0,status:'PASS'});
+  assert.deepEqual(receipt.effectiveState,{status:'CERTIFIED_DONE',leaseStatus:'RELEASED',fencingCounter:56,wip:0});
+  assert.equal(receipt.worktreeProof.protectedUnrelatedBeforeEntriesSha256,receipt.worktreeProof.protectedUnrelatedAfterEntriesSha256);
+  assert.equal(receipt.worktreeProof.protectedUnrelatedWipUntouched,true);
+  assert.equal(receipt.liveWork.status,'NONE');
+  for(const value of [lease,matrix,state,registry,receipt]){assert.equal(value.programDone,false);assert.equal(value.mainProductGraphNodeStarted,false);}
+  return {status:'PASS',receiptDigest:sha256(fs.readFileSync(FINAL_RECEIPT))};
+}
 function closureBaseFixture(){
   const root=fs.mkdtempSync(path.join(os.tmpdir(),'post-audit-terminal-closure-base-'));
   const instance=JSON.parse(fs.readFileSync(CLOSURE_INSTANCE));
@@ -42,4 +82,5 @@ test('direct closure authority and durable carrier policy are mandatory',()=>{co
 test('whole static correction contract passes and verifies a durable carrier whenever present',()=>{const result=verifyPostAuditCorrections();assert.equal(result.status,'PASS');assert.equal(result.stageCount,33);assert.equal(Boolean(result.durableCarrier),fs.existsSync('docs/OPS/R24/CORRECTIVE/POST_AUDIT_TERMINAL_ATTESTATION_DURABLE_CARRIER_V1.json'));assert.equal(result.programDone,false);});
 test('exact-head terminal closure CI-correction successor is independently admitted at lease 56 WIP one',()=>{const result=verifyClosureAdmission();assert.equal(result.status,0,result.stderr);const parsed=JSON.parse(result.stdout);assert.equal(parsed.status,'PASS');assert.equal(parsed.authorityDigest,CLOSURE_AUTHORITY_DIGEST);assert.equal(parsed.stageInstanceDigest,'8256106036a2119ec4683fcaeb30ecf6611859ee8cc1a5cd48ed1922f327a2c0');assert.equal(parsed.writeSetDigest,'1e58bd7772e9dcb28581dd52c086383d0a806269eadce066e3333e99ce61dfba');const admission=JSON.parse(fs.readFileSync(CLOSURE_ADMISSION));assert.deepEqual(admission.lease,{fencingCounter:56,status:'ACTIVE',wip:1,predecessorReleaseDigest:'583e4209f200cb4dc342f8d05f59b808243e960669d8a0d225586b0e7ff4dd6f'});});
 test('closure admission fails closed on coordinated command-scope mutation',()=>{const value=JSON.parse(fs.readFileSync(CLOSURE_INSTANCE));value.commands=[...value.commands,'self-authorized command'];const dir=fs.mkdtempSync(path.join(os.tmpdir(),'post-audit-terminal-closure-mutant-')),file=path.join(dir,'instance.json');fs.writeFileSync(file,`${JSON.stringify(value,null,2)}\n`);const result=verifyClosureAdmission({instance:file});assert.notEqual(result.status,0);assert.match(result.stderr,/E_COMMAND_SCOPE/);});
-test('admission commit preserves historical pending carriers and does not release lease before protected evidence',()=>{for(const file of ['POST_AUDIT_CORRECTIONS_FINAL_ACCEPTANCE_MATRIX_V1.json','POST_AUDIT_CORRECTIONS_FINAL_EFFECTIVE_STATE_V1.json','POST_AUDIT_CORRECTIONS_FINAL_STAGE_REGISTRY_V1.json','POST_AUDIT_CORRECTIONS_FINAL_TERMINAL_RECEIPT_V1.json','POST_AUDIT_CORRECTIONS_LEASE_RELEASE_V1.json'])assert.equal(fs.existsSync(`docs/OPS/R24/CORRECTIVE/${file}`),false,file);const pending=JSON.parse(fs.readFileSync('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_EFFECTIVE_STATE_V1.json'));assert.equal(pending.status,'CERTIFICATION_PENDING');assert.deepEqual(pending.lease,{fencingCounter:56,status:'ACTIVE',wip:1,predecessorReleaseDigest:'583e4209f200cb4dc342f8d05f59b808243e960669d8a0d225586b0e7ff4dd6f'});assert.equal(sha256(fs.readFileSync('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_TERMINAL_RECEIPT_V1.json')),'4a6be94c500a36f732f6a9d82f82bd1eff5813e4ffb511d67e0776ad3f4f8379');});
+test('final append-only carriers close every row and release lease 56 at WIP zero',()=>{const result=verifyFinalTransition();assert.equal(result.status,'PASS');assert.equal(result.receiptDigest,'9d9baa275ccebfe73c78810f80366b5eb7bfb466f055b6db8f8516ff4886c144');assert.equal(sha256(fs.readFileSync('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_TERMINAL_RECEIPT_V1.json')),'4a6be94c500a36f732f6a9d82f82bd1eff5813e4ffb511d67e0776ad3f4f8379');});
+test('final transition rejects a pending row active lease nonzero WIP or PROGRAM_DONE claim',()=>{const matrix=readJson(FINAL_MATRIX);matrix.rows[0].status='CI_PENDING';assert.throws(()=>verifyFinalTransition({matrix}),/true/);const lease=readJson(FINAL_LEASE);lease.lease.status='ACTIVE';lease.lease.wip=1;assert.throws(()=>verifyFinalTransition({lease}));const receipt=readJson(FINAL_RECEIPT);receipt.programDone=true;assert.throws(()=>verifyFinalTransition({receipt}),/false/);});

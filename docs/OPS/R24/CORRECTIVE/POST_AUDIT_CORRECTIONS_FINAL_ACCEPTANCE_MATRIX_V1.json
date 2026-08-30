@@ -1,0 +1,100 @@
+{
+  "schemaVersion": "POST_AUDIT_CORRECTIONS_FINAL_ACCEPTANCE_MATRIX_V1",
+  "stageId": "POST_AUDIT_CORRECTIONS_TERMINAL_CLOSURE",
+  "supersedesDigest": "b3f58543b58684be6d8396e441364a35992fd0c2917dff1410e8ce8e3d7d30e7",
+  "evaluationSha": "af0bfb704c13b0195c12b0144415f2e769f99752",
+  "evaluationTreeSha": "d3e2232ec01af860794de90f81f2e185cdc3fcfe",
+  "evaluationStatus": "CERTIFIED_DONE",
+  "bindings": {
+    "sourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "authorityDigest": "fc7becea30f9b5d6efb86328baeba0d7e41d58922d6120e840c13a15088e091b",
+    "stageInstanceDigest": "8256106036a2119ec4683fcaeb30ecf6611859ee8cc1a5cd48ed1922f327a2c0",
+    "stageAdmissionDigest": "175953e378ef72d319ea9324bcf6e5ebebfe1c33f59042979d289bb6a9732d39",
+    "writeSetDigest": "1e58bd7772e9dcb28581dd52c086383d0a806269eadce066e3333e99ce61dfba",
+    "commandScopeDigest": "80fc15486bec1e34654c93339bf5cc85471971b82f6f3cf8a7028df192572d39",
+    "acceptanceSignalsDigest": "1910fc1903d7ca625e046875e0f63158e2c1ddfa705563d0d552a379f38821df",
+    "leaseReleaseDigest": "003e51ce6fe7b6b888b160c5c310bd3f3bf833903f39dc508809c22580d13191"
+  },
+  "rows": [
+    {
+      "id": "INDEPENDENT_PINNED_STAGE_ADMISSION_V2",
+      "status": "PASS"
+    },
+    {
+      "id": "FIXED_PREDECESSOR_BINDINGS",
+      "status": "PASS"
+    },
+    {
+      "id": "PR_1774_CANDIDATE_MERGE_CI_TERMINAL_ATTESTATION",
+      "status": "PASS"
+    },
+    {
+      "id": "PR_1775_CANDIDATE_MERGE_CI_DURABLE_CARRIER",
+      "status": "PASS"
+    },
+    {
+      "id": "AUDIT_R2_CARRIER_REGISTRY_CURRENT_C1B_BINDING",
+      "status": "PASS"
+    },
+    {
+      "id": "CLOSURE_SUCCESSOR_CANDIDATE_CI_33340416107",
+      "status": "PASS"
+    },
+    {
+      "id": "CLOSURE_SUCCESSOR_PROTECTED_NORMAL_MERGE_AF0BFB70",
+      "status": "PASS"
+    },
+    {
+      "id": "CLOSURE_SUCCESSOR_EXACT_POSTMERGE_CI_33340952023",
+      "status": "PASS"
+    },
+    {
+      "id": "TOOLCHAIN_ENGINE_STRICT",
+      "status": "PASS"
+    },
+    {
+      "id": "REAL_RENDERER_BUILD_CLEAN_TREE",
+      "status": "PASS"
+    },
+    {
+      "id": "MERGE_GATE_TOPOLOGY_AND_ACTIVE_RULESET_NO_BYPASS",
+      "status": "PASS"
+    },
+    {
+      "id": "REMOTE_TERMINAL_ORACLE_AND_DURABLE_CARRIER",
+      "status": "PASS"
+    },
+    {
+      "id": "CURRENT_33_STAGE_CERTIFICATION",
+      "status": "PASS"
+    },
+    {
+      "id": "LEASE_56_RELEASED_WIP_0",
+      "status": "PASS"
+    },
+    {
+      "id": "CLEAN_WRITER_AND_PREDECESSOR_WORKTREES",
+      "status": "PASS"
+    },
+    {
+      "id": "PROTECTED_UNRELATED_WIP_SNAPSHOT_CAPTURED",
+      "status": "PASS"
+    },
+    {
+      "id": "NO_LIVE_WORK",
+      "status": "PASS"
+    },
+    {
+      "id": "PROGRAM_DONE_FALSE_AND_NO_GRAPH_NODE_START",
+      "status": "PASS"
+    }
+  ],
+  "rowCount": 18,
+  "passedRowCount": 18,
+  "zeroPendingRows": true,
+  "evidenceStampIds": [
+    "ES-R24-CORRECTIVE-B0-CONTROL-PLANE-CLAIM-BINDINGS"
+  ],
+  "programDone": false,
+  "mainProductGraphNodeStarted": false
+}

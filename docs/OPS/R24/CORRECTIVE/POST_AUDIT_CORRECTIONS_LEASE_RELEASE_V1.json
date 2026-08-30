@@ -1,0 +1,110 @@
+{
+  "schemaVersion": "POST_AUDIT_CORRECTIONS_LEASE_RELEASE_V1",
+  "releaseId": "POST_AUDIT_CORRECTIONS_TERMINAL_CLOSURE_LEASE_56_RELEASE",
+  "stageId": "POST_AUDIT_CORRECTIONS_TERMINAL_CLOSURE",
+  "authorityId": "OWNER_POST_AUDIT_TERMINAL_CLOSURE_CI_CORRECTION_V1",
+  "ownerAuthorityBindingDigest": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+  "sourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "authorityDigest": "fc7becea30f9b5d6efb86328baeba0d7e41d58922d6120e840c13a15088e091b",
+  "stageInstanceDigest": "8256106036a2119ec4683fcaeb30ecf6611859ee8cc1a5cd48ed1922f327a2c0",
+  "stageAdmissionDigest": "175953e378ef72d319ea9324bcf6e5ebebfe1c33f59042979d289bb6a9732d39",
+  "writeSetDigest": "1e58bd7772e9dcb28581dd52c086383d0a806269eadce066e3333e99ce61dfba",
+  "commandScopeDigest": "80fc15486bec1e34654c93339bf5cc85471971b82f6f3cf8a7028df192572d39",
+  "acceptanceSignalsDigest": "1910fc1903d7ca625e046875e0f63158e2c1ddfa705563d0d552a379f38821df",
+  "releaseBase": {
+    "originSha": "af0bfb704c13b0195c12b0144415f2e769f99752",
+    "treeSha": "d3e2232ec01af860794de90f81f2e185cdc3fcfe",
+    "observedAtUtc": "2026-08-30T23:18:35Z",
+    "writerWorktreeCleanBeforeReleaseWrite": true
+  },
+  "lease": {
+    "fencingCounter": 56,
+    "transition": "ACTIVE_WIP_1_TO_RELEASED_WIP_0",
+    "status": "RELEASED",
+    "wip": 0,
+    "predecessorReleaseDigest": "583e4209f200cb4dc342f8d05f59b808243e960669d8a0d225586b0e7ff4dd6f",
+    "releasedAdmissionDigest": "175953e378ef72d319ea9324bcf6e5ebebfe1c33f59042979d289bb6a9732d39",
+    "disposition": "RELEASED_AFTER_DURABLE_CARRIER_PROTECTED_MERGE_AND_FRESH_CLOSURE_SUCCESSOR_PROTECTED_MERGE_EXACT_POSTMERGE_CI"
+  },
+  "predecessorEvidence": {
+    "pr1774": {
+      "candidateSha": "82cac6c9b30db9f845a652a602934aaec8e1bc4d",
+      "candidateCiRunId": 33331788807,
+      "opsVectorCloseRunId": 33332262278,
+      "mergeSha": "c219de8dab40331aff52ab10a78353afb634aed4",
+      "mergeTreeSha": "6ee641eeb7b344a5253c5b807ded4306501400c6",
+      "exactMergeCiRunId": 33332262516,
+      "terminalRunId": 33332820052,
+      "terminalArtifactId": 9738133388,
+      "terminalArchiveSha256": "891994e2cbb5114786bfbb33e479a68549e6424372a2bd9eca92ef983f45a398",
+      "terminalAttestationDigest": "dacfad51100d7900f3706641c6796a4ece6a3e943ebdb411c54870c908196401",
+      "status": "VERIFIED"
+    },
+    "pr1775": {
+      "candidateSha": "3a35f169cdf3840e7f2a5138de89d24c7336ab0c",
+      "candidateCiRunId": 33333154363,
+      "opsVectorCloseRunId": 33333702518,
+      "mergeSha": "3796c04913d0ec4cca84deafc9195e934e882422",
+      "mergeTreeSha": "acb938d6274fad0b7c52b29780d55d8b4f1925dc",
+      "exactPostmergeCiRunId": 33333702218,
+      "durableCarrierDigest": "ced14208c1e089f103fb1d7adc70296c603e3ba1a40fe76f4ae350475bf02481",
+      "status": "VERIFIED"
+    }
+  },
+  "closureSuccessorEvidence": {
+    "pullRequest": 1776,
+    "baseSha": "3796c04913d0ec4cca84deafc9195e934e882422",
+    "candidateSha": "77354cfe994588dc1771f3eded29d1e7e68d703f",
+    "candidateTreeSha": "d3e2232ec01af860794de90f81f2e185cdc3fcfe",
+    "candidateCiRunId": 33340416107,
+    "candidateCiJobCount": 16,
+    "candidateCiStatus": "SUCCESS",
+    "protectedMergeSha": "af0bfb704c13b0195c12b0144415f2e769f99752",
+    "protectedMergeTreeSha": "d3e2232ec01af860794de90f81f2e185cdc3fcfe",
+    "mergeMethod": "MERGE",
+    "protectionRulesetId": 12270444,
+    "protectionEnforcement": "ACTIVE_NO_BYPASS",
+    "exactPostmergeCiRunId": 33340952023,
+    "exactPostmergeCiJobCount": 16,
+    "exactPostmergeCiStatus": "SUCCESS",
+    "status": "VERIFIED"
+  },
+  "worktreeProof": {
+    "writerWorktree": {
+      "baseSha": "af0bfb704c13b0195c12b0144415f2e769f99752",
+      "baseTreeSha": "d3e2232ec01af860794de90f81f2e185cdc3fcfe",
+      "cleanBeforeReleaseWrite": true
+    },
+    "predecessorCorrectionWorktrees": [
+      {
+        "headSha": "82cac6c9b30db9f845a652a602934aaec8e1bc4d",
+        "treeSha": "6ee641eeb7b344a5253c5b807ded4306501400c6",
+        "wip": 0,
+        "clean": true
+      },
+      {
+        "headSha": "3a35f169cdf3840e7f2a5138de89d24c7336ab0c",
+        "treeSha": "acb938d6274fad0b7c52b29780d55d8b4f1925dc",
+        "wip": 0,
+        "clean": true
+      }
+    ],
+    "protectedUnrelatedWorktrees": {
+      "snapshotSchemaVersion": "YALKEN_PROTECTED_WORKTREE_SNAPSHOT_V1",
+      "worktreeCount": 251,
+      "dirtyWorktreeCount": 7,
+      "beforeEntriesSha256": "e5dff70a9836ff8bc35bb916702730352f76121249a5ce74af445bcf4215b056",
+      "finalComparisonRequired": true
+    }
+  },
+  "liveWorkObservation": {
+    "observedAtUtc": "2026-08-30T23:18:35Z",
+    "openPullRequestCount": 0,
+    "runningActionCount": 0,
+    "queuedActionCount": 0,
+    "status": "NO_LIVE_WORK"
+  },
+  "programDone": false,
+  "mainProductGraphNodeStarted": false,
+  "status": "RELEASED_WIP_0"
+}

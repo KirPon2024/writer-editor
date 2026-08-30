@@ -1,0 +1,933 @@
+{
+  "schemaVersion": "POST_AUDIT_CURRENT_CERTIFICATION_SET_V1",
+  "programId": "YALKEN_R24_CORRECTIVE_RECOVERY_AND_RESUME_V1_1",
+  "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+  "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+  "effectiveStateEnum": [
+    "CERTIFIED_DONE",
+    "DONE_UNCERTIFIED",
+    "CERTIFICATION_PENDING",
+    "CERTIFICATION_INVALIDATED",
+    "INELIGIBLE_OPTIONAL",
+    "BLOCKED_TYPED"
+  ],
+  "stages": [
+    {
+      "stageId": "C0",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_C0_ROOT_REPLAY_V1.json",
+          "sha256": "d104e5a01cb671d75403955c5da589a135752cd3fb9bb6c01a76280f48a76e40"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/OWNER_PROGRAM_RATIFICATION_ATTESTATION_V1.json",
+          "sha256": "093bdc624e5512216b2de2ae69bdd701f5828b42941b88aec9112f8b5b9f081b"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/AUDIT_R1_C0_ROOT_REPLACEMENT_V1.json",
+          "sha256": "a1b9bbf2421a9c0a75a7c900b295d687e616f5d2bcc587783f93a17f8320837f"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    },
+    {
+      "stageId": "B0",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/B0_STAGE_INSTANCE_AMENDMENT_V2.json",
+          "sha256": "d85c9600f34454a8595e71b6ae9d66af6d1186e7863f9d2c2843971836f5213e"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/B0_STAGE_ADMISSION_ATTESTATION_AMENDMENT_V2.json",
+          "sha256": "7682109a2437f68dcc20ea10c2e25770000e76368ca9a1daff42f355ea294e21"
+        },
+        {
+          "path": "test/contracts/r24-audit-r2-stage-admission-verifier.contract.test.mjs",
+          "sha256": "d813b0f48e7b0d3fd0b7d53e0081d2730fe5bb2b22cfc39435a233a0bc888cbc"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    },
+    {
+      "stageId": "C1A",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C1A_STAGE_INSTANCE_V1.json",
+          "sha256": "456f1098a57de1b24add67f3f3920734d85417a02f56f5a7519a2e77b87479ef"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C1A_STAGE_ADMISSION_ATTESTATION_V1.json",
+          "sha256": "f851e6bf5a85bda2ddf2b017c5f932789d72c15b1ed8caa86653f06778defdad"
+        },
+        {
+          "path": "test/contracts/r24-c1a-hermetic-toolchain.contract.test.mjs",
+          "sha256": "031344e4c47c370e734abe6bbfdbc87126356fe13340aa7e04cd3c295622de71"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    },
+    {
+      "stageId": "C1B",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C1B_STAGE_INSTANCE_AMENDMENT_V2.json",
+          "sha256": "12362330d4d29f0c94413da061e1e325c1fedd6b8bf30bd137fdc3d5a4d1cefe"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C1B_STAGE_ADMISSION_ATTESTATION_AMENDMENT_V2.json",
+          "sha256": "6d548aecda9830c5a7224ce12e40decd53c804a885dfd412412c27438097b6e7"
+        },
+        {
+          "path": "test/contracts/r24-c1b-test-inventory.contract.test.mjs",
+          "sha256": "a42a907f684d9675c9a5ea69c772636a8faebd5131bbe226cb3bbd0cedc435ff"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    },
+    {
+      "stageId": "C1C",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C1C_STAGE_INSTANCE_AMENDMENT_V1.json",
+          "sha256": "e5902d81ab8c8e72098a6a4fbc4154e1dc358f57f6fa34fbca9b04a3f58b3e0c"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C1C_STAGE_ADMISSION_ATTESTATION_AMENDMENT_V1.json",
+          "sha256": "f2369cfae1498505cfc2b3ce439688738a89fc3ff320f86fa840c3a4db9e9802"
+        },
+        {
+          "path": "test/contracts/r24-c1c-merge-gate.contract.test.mjs",
+          "sha256": "7ac20e52dbf513e61ee3c010644d9f343f7ab8b3901efe247735eabb8ee49a16"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    },
+    {
+      "stageId": "C2A",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C2A_STAGE_INSTANCE_AMENDMENT_V1.json",
+          "sha256": "d0a2b80c8ac0974f06337464706737459e9c3ac32191fb323a538eea27d0967b"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C2A_STAGE_ADMISSION_ATTESTATION_AMENDMENT_V1.json",
+          "sha256": "b7667e48d79736f60f3b6031179326cc1512287b0a46abcd3151546aca606906"
+        },
+        {
+          "path": "test/unit/r24-b0-observed-evidence-compiler.test.js",
+          "sha256": "0690229ab648f0fa1c54644699bfc65f9a452d2d083d2a7a168e5a98d45d1e08"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    },
+    {
+      "stageId": "C2B1",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C2B1_STAGE_INSTANCE_V1.json",
+          "sha256": "e93dfd83db3da72686cbb8170ffe2204ff0027c5da5e734e7803d1c6049c75ca"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C2B1_STAGE_ADMISSION_ATTESTATION_V1.json",
+          "sha256": "f8d62356fbbd92128700aad5d761b0c3f1ed2614d9219e99b45ff0a57aeda623"
+        },
+        {
+          "path": "test/contracts/r24-audit-r2-corrections.contract.test.mjs",
+          "sha256": "31354abad94c1ad307a8e29ee7952d3c3d80309c194300bcf0bcdf75a69a2d67"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    },
+    {
+      "stageId": "C2B2",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C2B2_STAGE_INSTANCE_V1.json",
+          "sha256": "dcce8351b08478988e156092fcb3c40ad0e82f2eb6ce0e3897f4bf3be4209b46"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C2B2_STAGE_ADMISSION_ATTESTATION_V1.json",
+          "sha256": "dae5579997cf1d9808800cf9ab48794b395548449b4a8306545a3939b10b346d"
+        },
+        {
+          "path": "package.json",
+          "sha256": "a89e8475a4ae5649cd779d4c6dac39445d2264f2e37a8716fd0d7aed872e4a96"
+        },
+        {
+          "path": "scripts/ops/r24/run-e0-tests.mjs",
+          "sha256": "171728cb569f3646d8684b1e708357a2c4f93fb2296246c1ea0105e57b8354bb"
+        }
+      ],
+      "replayParser": "R24_E0_RECEIPT"
+    },
+    {
+      "stageId": "C2B3A",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C2B3A_STAGE_INSTANCE_V1.json",
+          "sha256": "a2f2e3760f2049022d612c1e2549796478e81435a68fbf6fb0ce87661e6e857f"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C2B3A_STAGE_ADMISSION_ATTESTATION_V1.json",
+          "sha256": "7f2dd3034e200bb0df9b6dfffe66ea2a271cc385f6c77381bdf0f7dcf3f3e730"
+        },
+        {
+          "path": "test/contracts/r24-c2b3a-e0-q0-recertification.contract.test.mjs",
+          "sha256": "0e909abc99b76cdc0202b99630fd0c04018b426302bdac9165e59dd10968b7e7"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    },
+    {
+      "stageId": "C2B3B",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C2B3B_STAGE_INSTANCE_V1.json",
+          "sha256": "f5fd944b17aaba940d535940d7b8bd6e6c8a2eb8742d74e67cbfbfa0788287a3"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C2B3B_STAGE_ADMISSION_ATTESTATION_V1.json",
+          "sha256": "8fa0fc9c990dbc1531cc218b520151ee452501ca06a509a3a77cdd2dd66c40d5"
+        },
+        {
+          "path": "test/contracts/r24-c2b3b-p-s-k-recertification.contract.test.mjs",
+          "sha256": "d5b41244caeefbe4264edc941e289d92715195b178f58ddbd608f000157b161d"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    },
+    {
+      "stageId": "C2B3C",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C2B3C_STAGE_INSTANCE_V1.json",
+          "sha256": "2eec4f0edd523f629ee6403224f81082ba4c840782c538b7ec18f196f4bc4d75"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C2B3C_STAGE_ADMISSION_ATTESTATION_V1.json",
+          "sha256": "7099fa80609baeda11e4258f61b6575cdc784321d3583938e071af513f4161fc"
+        },
+        {
+          "path": "test/contracts/r24-c2b3c-r-t-recertification.contract.test.mjs",
+          "sha256": "c138b38042f9bc414d385fd4971ea2dd823a1fb6ce3d4030713cbffccb32aa37"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    },
+    {
+      "stageId": "C2B4",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C2B4_STAGE_INSTANCE_V1.json",
+          "sha256": "958d8e70bb04922edcd3562da868544a6a7b2ce31498c01ece29e97929e777d7"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C2B4_STAGE_ADMISSION_ATTESTATION_V1.json",
+          "sha256": "2678216d2ce691966cb45f7b8c273752daf2c8ca80d4589348643c8a4122210d"
+        },
+        {
+          "path": "test/contracts/r24-c2b4-package-reconciliation.contract.test.mjs",
+          "sha256": "2fa0577e376af0f4a37484d35eff5563d60ad6b0e3ae14e28b784dff42bb5d15"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    },
+    {
+      "stageId": "C3",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C3_STAGE_INSTANCE_V1.json",
+          "sha256": "bb05ee05b0ac4112131b7ee47668cff637ac0a55f1f8044e0fd5cf96087bdda1"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C3_STAGE_ADMISSION_ATTESTATION_V1.json",
+          "sha256": "861b24362f9625209946e50f1661d71b4ce200a231320b683be3b68b19696794"
+        },
+        {
+          "path": "test/contracts/r24-audit-r2-lease-verifier.contract.test.mjs",
+          "sha256": "3a726f546bb683770c1df020dbaf8cc082be1e6dec918a16e1a853205a0dc208"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_LEASE_FENCE_LEDGER_V1.json",
+          "sha256": "94808bcdb9d31e5183cc4e4138eb953f685925d9e0965039d048fca4a7d7257f"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    },
+    {
+      "stageId": "C4",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C4_STAGE_INSTANCE_V1.json",
+          "sha256": "54fba3806c5fbff0371b4e04eba4aa5e04569a5c1ba949594dcf6b4ecf8b5cbb"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C4_STAGE_ADMISSION_ATTESTATION_V1.json",
+          "sha256": "916d4027c4776451d4070625a3fe1141c7e4bf77489e7b92dd4324e3184d5ef2"
+        },
+        {
+          "path": "package.json",
+          "sha256": "a89e8475a4ae5649cd779d4c6dac39445d2264f2e37a8716fd0d7aed872e4a96"
+        },
+        {
+          "path": "test/unit/r24-a1-optional-relation-vocabulary.test.js",
+          "sha256": "fc0c80e4ec8523b9b352ddbac6b21be7f8d38db22524925690a6b8a6ac6dacb8"
+        },
+        {
+          "path": "test/unit/r24-a1-relation-vocabulary-integration.test.js",
+          "sha256": "ef9eed0e92023a374ac8b2de56159b9c5e02e90178f6b4d2a415773bc56c76d7"
+        },
+        {
+          "path": "test/unit/r24-a1-relation-vocabulary-mutants.test.js",
+          "sha256": "fc7cf843cc6945a7db6eaded1d9f23ca4132006f1724c87bf797f9215dcce1d7"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    },
+    {
+      "stageId": "C5A",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C5A_STAGE_INSTANCE_V1.json",
+          "sha256": "d010d4f44980973162fe5f0756c23d9a53e0b118977c22bac238a8e425c936b6"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C5A_STAGE_ADMISSION_ATTESTATION_V1.json",
+          "sha256": "eaf58a7a25843bc19b6e1a2fa1e294ac97b7f9c41798891be93d7a9f0ed8e911"
+        },
+        {
+          "path": "package.json",
+          "sha256": "a89e8475a4ae5649cd779d4c6dac39445d2264f2e37a8716fd0d7aed872e4a96"
+        },
+        {
+          "path": "test/unit/r24-p3-project-commit.test.js",
+          "sha256": "db956ca533edb8f2d795ae55f53bb4dbde99e05c80e5833d7cd3bc7dd875dba0"
+        },
+        {
+          "path": "test/unit/r24-p3-commit-crash.test.js",
+          "sha256": "80c401438dc2d5e158678465fdb62d4e3720777946a1587ab314d4bcfa4cd2c3"
+        },
+        {
+          "path": "test/unit/r24-p3-commit-mutants.test.js",
+          "sha256": "8068e24346ea469ec271ba59f1cc307255adc5a1b6826fc560ec7a176d5a015d"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    },
+    {
+      "stageId": "C5B",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C5B_STAGE_INSTANCE_V1.json",
+          "sha256": "119f1aaa0b1e68c7bb70e7252561a9682bf930036bb5f38727a3e8672f0e9d22"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C5B_STAGE_ADMISSION_ATTESTATION_V1.json",
+          "sha256": "a1c16ce9eb4a870bd0473ca522d4b1c10b142a8949ecf7214b05fcdf4711b275"
+        },
+        {
+          "path": "test/contracts/r24-c5b-migration-recovery.contract.test.mjs",
+          "sha256": "ea75f96eafde3d8ffd7688a5a18b09ce04fbcd6d2701f68734a18aa33d8add49"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    },
+    {
+      "stageId": "C5C1",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C5C1_STAGE_INSTANCE_V1.json",
+          "sha256": "99423649634a6530814e4aded877f7f2a5cf958b186c20ceb333631d8f66c64f"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C5C1_STAGE_ADMISSION_ATTESTATION_V1.json",
+          "sha256": "7eeda855b6f73d0e1f8bad4d9d30d22d2fc1c5ee399cee9ad5634efc4740e46b"
+        },
+        {
+          "path": "package.json",
+          "sha256": "a89e8475a4ae5649cd779d4c6dac39445d2264f2e37a8716fd0d7aed872e4a96"
+        },
+        {
+          "path": "test/unit/r24-wp200-durable-save.test.js",
+          "sha256": "d528cbd996802da82e36898a275a0bb79ce4ca3da9e361878dad51e2a2950148"
+        },
+        {
+          "path": "test/unit/r24-wp200-durable-save-physics.test.js",
+          "sha256": "424021fbcedc219e25a5dc2ac504d4a0310a8b569cca2d1d12a06f3f57c21dae"
+        },
+        {
+          "path": "test/unit/r24-wp200-durable-save-mutants.test.js",
+          "sha256": "c1aac9d868c043a2d212143c92fd1425001b6cea86c9862652ec9bca88bb62c8"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    },
+    {
+      "stageId": "C5C2",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C5C2_STAGE_INSTANCE_V1.json",
+          "sha256": "ae7b4b1e6039101c0898c23693ded2fdc6ca59a5167c69b69a17b359934c1d64"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C5C2_STAGE_ADMISSION_ATTESTATION_V1.json",
+          "sha256": "5636e75458c263773277e1fe625e997c8b7850fe1f787fb419f8f643ad5e40ce"
+        },
+        {
+          "path": "test/contracts/r24-c5c2-atomic-gateway.contract.test.mjs",
+          "sha256": "2c6870ed359fcbd45a28fef1d9c5ca8844afb07068f88a07f4b42755e6d7059e"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    },
+    {
+      "stageId": "C5C3",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C5C3_STAGE_INSTANCE_V1.json",
+          "sha256": "5302b8621d7a3cbf476f2b38badee7f2909594528018d88aa5403fd180846ac8"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C5C3_STAGE_ADMISSION_ATTESTATION_V1.json",
+          "sha256": "90a61e858cd6ec6e8da65c0210acbd28f1f379ffe6976933d34989973c99e0e0"
+        },
+        {
+          "path": "package.json",
+          "sha256": "a89e8475a4ae5649cd779d4c6dac39445d2264f2e37a8716fd0d7aed872e4a96"
+        },
+        {
+          "path": "test/unit/r24-wp202-legacy-strangler.test.js",
+          "sha256": "b072e32ce2224b0d200f6ab41ea45f2d45d27b0fb98715207618a5a1a7797462"
+        },
+        {
+          "path": "test/unit/r24-wp202-legacy-strangler-integration.test.js",
+          "sha256": "bfd5b9fb621c3c689987f9a333ac5bf8c04c4302e666239ffe49058252c73c18"
+        },
+        {
+          "path": "test/unit/r24-wp202-legacy-strangler-mutants.test.js",
+          "sha256": "526d12fba1625def1bd301fa5645800d5c7ace2f4535065844cedaffccca30e0"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    },
+    {
+      "stageId": "C5C4",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C5C4_STAGE_INSTANCE_V1.json",
+          "sha256": "519ebba36ad87d19e49b3349fadd78911cec5f6a84ba700aa860b6e5062637a7"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C5C4_STAGE_ADMISSION_ATTESTATION_V1.json",
+          "sha256": "acabdd222611393b96d13af23a2d4269082e27607f36c1d707fc5410049a6f24"
+        },
+        {
+          "path": "test/contracts/r24-c5c4-atomic-gateway.contract.test.mjs",
+          "sha256": "3cf7a24027e48c7ae687ba0e2cd8bc4ba6c0d9a4bc2846091af49a783cc5180b"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    },
+    {
+      "stageId": "C6A",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C6A_STAGE_INSTANCE_V1.json",
+          "sha256": "d0f950796e053ad973cdadcbdb7d238d79a324253f31c681f05bfa9bbdefe4c4"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C6A_STAGE_ADMISSION_ATTESTATION_V1.json",
+          "sha256": "eec2903a1d12296a40c8d4c64fe86b38a0de26d4af086b568924799f6f539127"
+        },
+        {
+          "path": "test/contracts/r24-c6a-text-fold-prefix-offset.contract.test.mjs",
+          "sha256": "013ae38db7e3f988d94802f9c78d07f55490dd2ea0dad451f1e74ad1cfc59d68"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    },
+    {
+      "stageId": "C6B",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C6B_ACCESSIBILITY_RECOVERY_STAGE_INSTANCE_V1.json",
+          "sha256": "dd194555421fe12e5803d5a90f0ac72f5f008f9b20f566f7531c78044c6192f5"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C6B_ACCESSIBILITY_RECOVERY_STAGE_ADMISSION_ATTESTATION_V1.json",
+          "sha256": "f0a567184d2e18a63ed9e10762adf0e5fa45672902e6e7d988948e45733ac97b"
+        },
+        {
+          "path": "package.json",
+          "sha256": "a89e8475a4ae5649cd779d4c6dac39445d2264f2e37a8716fd0d7aed872e4a96"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_C6B_LAZYWEB_PROVIDER_EXPORT_V1.json",
+          "sha256": "878192b8d3d5cc08924063e149fb3f9d394eb7c7a65162f9c61b5d9750a68ab8"
+        },
+        {
+          "path": "test/contracts/r24-c6b-editor-accessibility-recovery.contract.test.mjs",
+          "sha256": "0e82ce15de4259711939f77bcd6d21bfb3f9c568ee6e6c750e56e9492482ebc5"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    },
+    {
+      "stageId": "C6C",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C6C_STAGE_INSTANCE_V1.json",
+          "sha256": "57168120dad5b8364591953b0492b492e7c6c842dc5946f857177034540e6a7f"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C6C_STAGE_ADMISSION_ATTESTATION_V1.json",
+          "sha256": "b734242c8fdebb71bc98604ab297f8eaf3f24cf9822d92f78b6acee4c34a2c19"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C6C_IPC_STRUCTURED_URL_FRESHNESS_CONTRACT_V1.json",
+          "sha256": "2d6cdadc00fc95dd68475949956d0b64a3c045e7961def301109f299e9a2105b"
+        },
+        {
+          "path": "test/unit/r24-s0-ipc-caller-identity.test.js",
+          "sha256": "a751ced823798e659c8075291261ea7c18f03f605b37fd078060be579ff698b5"
+        },
+        {
+          "path": "test/unit/r24-s0-ipc-integration.test.js",
+          "sha256": "dca0a729922490c8bebb0d2f13d23b20b916c10d8b21f89685c5db7f0a01ba50"
+        },
+        {
+          "path": "test/unit/r24-s0-ipc-mutants.test.js",
+          "sha256": "72b6ca34dacfe184053469f010f4d60a229cc145c586060bf70c111936a94f05"
+        },
+        {
+          "path": "test/unit/r24-k0-protocol-integration.test.js",
+          "sha256": "d5f2d0ba73ae4b016f735feaadd0fef4e9d6d6edbde9721a77662346848cd5db"
+        },
+        {
+          "path": "test/unit/r24-wp100-generation-admission.test.js",
+          "sha256": "6283f0ba2be0b7855f64d2c2c58da5e85e594295bfc0d933eda28798e489ac1d"
+        },
+        {
+          "path": "test/unit/r24-wp101-ipc-admission.test.js",
+          "sha256": "da7968ac9da6c375ccf22d588a96a0b1962d23437974e91ec31739c75fe8ea5e"
+        },
+        {
+          "path": "test/unit/r24-wp101-admission-mutants.test.js",
+          "sha256": "788fa45546834d073c0740ad83dab8f25725b4610ff637ac2d093031d793ed68"
+        },
+        {
+          "path": "test/unit/r24-wp104-boundary-falsification.test.js",
+          "sha256": "9dc63e2ec68f002151a2972b9045f7617aa40944b4fc2f94605b7f7359b978a9"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    },
+    {
+      "stageId": "C6D",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C6D_STAGE_INSTANCE_AMENDMENT_V6.json",
+          "sha256": "332bbb73048aab55683285aceb0240c921d18c1156b14bdf96e8d5b560096dad"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C6D_STAGE_ADMISSION_ATTESTATION_AMENDMENT_V6.json",
+          "sha256": "714a57cb4a2a31ce27cbbda9734c62a53956489f4e22628f0a32bb5e528d9251"
+        },
+        {
+          "path": "package.json",
+          "sha256": "a89e8475a4ae5649cd779d4c6dac39445d2264f2e37a8716fd0d7aed872e4a96"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "ecd5600757578f16f663db256d19649d1b238e00dd8f50510dffd11d642d8ff5"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C6D_DEPENDENCY_AUDIT_CONTRACT_V1.json",
+          "sha256": "f07e6448e024c2ddd0df86e5ab7ec5ff9edbee1d1a6d1f13185a3f6fd347c4b7"
+        }
+      ],
+      "replayParser": "JSON_DOCUMENT_ZERO_VULNERABILITIES"
+    },
+    {
+      "stageId": "C7A",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C7A_STAGE_INSTANCE_AMENDMENT_V4.json",
+          "sha256": "2df2f9166e72df9e28bb7e3a12ac0b0266c9c7ebb47b60f5ddf5d0397d65d98a"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C7A_STAGE_ADMISSION_ATTESTATION_AMENDMENT_V4.json",
+          "sha256": "8a2a66d4b7e6a28a66ee5d88a5724f89f01b2a375babcbd37a07b216d3d4d47d"
+        },
+        {
+          "path": "test/contracts/r24-c7a-aggregate-gate.contract.test.mjs",
+          "sha256": "c3d3fbec0ea49a22ad8ea616d0aed419d3f85be66dc7bba973bdbfa3cd421bf7"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    },
+    {
+      "stageId": "C7B",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C7B_STAGE_INSTANCE_V1.json",
+          "sha256": "03b7f2b6be405dc3c7f698b598d4dd0a03732d1a9d8bfe41d46d7f79a37deffb"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C7B_STAGE_ADMISSION_ATTESTATION_V1.json",
+          "sha256": "6474edc34e08905d7708dbdef3f5363a0edbfdf7e20fa55521a736e2f9537b81"
+        },
+        {
+          "path": "test/contracts/r24-c7b-live-ruleset-audit.contract.test.mjs",
+          "sha256": "981ca87e2b6f385f7a1539ce0e1d886c7abe7dfdeac211e6db0bf8859b1726f1"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    },
+    {
+      "stageId": "C8A",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C8A_STAGE_INSTANCE_AMENDMENT_V1.json",
+          "sha256": "31038ecef7a296f5d4d7a30272dd3b092c08bb5e1feea1c152061998ee00803c"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C8A_STAGE_ADMISSION_ATTESTATION_AMENDMENT_V1.json",
+          "sha256": "ff1df2e63213ed60d64b0c8953922d1f1cd97a733c13afbfdec69831134b6fdc"
+        },
+        {
+          "path": "test/contracts/r24-audit-r2-physical-evidence.contract.test.mjs",
+          "sha256": "fa6f38e0bb9d743eb6dd9fc8cb78547f77320522f81ae2ab6a009559de56cfe2"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_PHYSICAL_EVIDENCE_CONTRACT_V1.json",
+          "sha256": "09b350387c8c81e1cd5e4288930feb04e4cb6257ca7d78bd7a81adca75f348fe"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    },
+    {
+      "stageId": "C8B",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C8B_STAGE_INSTANCE_V1.json",
+          "sha256": "c56804939a1a6d2234581e9c64f88de3336d352d99c4e44cbaf550041a063d1f"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C8B_STAGE_ADMISSION_ATTESTATION_V1.json",
+          "sha256": "db1e1febeeebcaa1551cd4287bcc2ae6a4a6c828fc725e7d58d41863306ac54c"
+        },
+        {
+          "path": "package.json",
+          "sha256": "a89e8475a4ae5649cd779d4c6dac39445d2264f2e37a8716fd0d7aed872e4a96"
+        },
+        {
+          "path": "test/unit/r24-w0-word-physical-recertification.test.js",
+          "sha256": "b61c21e58ca083ea7e7f5926ac9e3f81c01144bfc6dc594301fffb80dfb6fb4d"
+        },
+        {
+          "path": "test/unit/r24-w0-word-physical-mutants.test.js",
+          "sha256": "c850203caf366be7918ae9365736f60d589f9b5592b7977bdaea78fbd5a24487"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    },
+    {
+      "stageId": "C8C",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C8C_STAGE_INSTANCE_V1.json",
+          "sha256": "edc01f039b7614e4f8a85609a2f07dd4d16276840af2051708078a8915e42714"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C8C_STAGE_ADMISSION_ATTESTATION_V1.json",
+          "sha256": "e7c182a4b9e32b5374db1576503b917348c7d5f1616f20902637f15399b05606"
+        },
+        {
+          "path": "test/contracts/r24-audit-r2-physical-evidence.contract.test.mjs",
+          "sha256": "fa6f38e0bb9d743eb6dd9fc8cb78547f77320522f81ae2ab6a009559de56cfe2"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_PHYSICAL_EVIDENCE_CONTRACT_V1.json",
+          "sha256": "09b350387c8c81e1cd5e4288930feb04e4cb6257ca7d78bd7a81adca75f348fe"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    },
+    {
+      "stageId": "C8D",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C8D_STAGE_INSTANCE_V1.json",
+          "sha256": "03fb9fd8aa7991b74c240e9560258bbae2643aa0e6e65850f44849bdcd1acf9a"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C8D_STAGE_ADMISSION_ATTESTATION_V1.json",
+          "sha256": "b9ea68d0a608ffb9e681d10283e055b558e32d143d18ae09efe98bf2ac2d629e"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_C8D_HOSTED_REPLAY_RECOVERY_DIAGNOSTIC_EVIDENCE_V1.json",
+          "sha256": "9b7f6c3c8145e67359f0cac3dae4f47c49f79b53728f0f39fe9c427c4ff04811"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_PHYSICAL_EVIDENCE_CONTRACT_V1.json",
+          "sha256": "09b350387c8c81e1cd5e4288930feb04e4cb6257ca7d78bd7a81adca75f348fe"
+        },
+        {
+          "path": "test/contracts/r24-audit-r2-c8d-hosted-replay.contract.test.mjs",
+          "sha256": "9da50c2754bb3988cbbbb91e169acbc40db551f631e74a3ceddefbf695e7077a"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    },
+    {
+      "stageId": "C8E",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C8E_STAGE_INSTANCE_V1.json",
+          "sha256": "6d6ea53145265bf31465b81b7d0f0dfd66fa5dce35c2edd859e217af92eca696"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C8E_STAGE_ADMISSION_ATTESTATION_V1.json",
+          "sha256": "aa9280ce97c979691762f640249b787da2b0dd6484c3b8fd33534b1ef2de8ed8"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_C8E_HOSTED_LEASE_REPLAY_RECOVERY_DIAGNOSTIC_EVIDENCE_V1.json",
+          "sha256": "bd1cf91f65c192a9d21f0b339bc54e95d98e6b4fff372a7e87f1bcfe606ba2b9"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_LEASE_FENCE_LEDGER_V1.json",
+          "sha256": "94808bcdb9d31e5183cc4e4138eb953f685925d9e0965039d048fca4a7d7257f"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C8E_V3_PACKAGE_COMPILER_CONTRACT_V1.json",
+          "sha256": "332eb5cf6c209eb93b4ac6d1b87a574fc4fe67d4e606c53b289c65ac18d03cff"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C8E_V3_PACKAGE_COMPILER_EVIDENCE_V1.json",
+          "sha256": "2813300f600e486780aaf59fc2d4abad8390cec54b5909bb5749aebcbc07098f"
+        },
+        {
+          "path": "test/contracts/r24-audit-r2-c8e-hosted-lease-replay.contract.test.mjs",
+          "sha256": "066eb2e257e838ccdc0c740974ccb55b1bc83e92006f24a94bab71f01af16220"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    },
+    {
+      "stageId": "C8Z",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C8Z_STAGE_INSTANCE_V1.json",
+          "sha256": "8ab927f43d9b54be45eb51c24aa6225fd8a6b31fbf8f6ced3c5cebcf201b87ce"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C8Z_STAGE_ADMISSION_ATTESTATION_V1.json",
+          "sha256": "501a45051ab6fc3620eb4bc4a9f2a6877d4d9ea7b491b32ff04ce5b964986414"
+        },
+        {
+          "path": "test/contracts/r24-audit-r2-physical-evidence.contract.test.mjs",
+          "sha256": "fa6f38e0bb9d743eb6dd9fc8cb78547f77320522f81ae2ab6a009559de56cfe2"
+        },
+        {
+          "path": "test/contracts/r24-audit-r2-terminal-attestation.contract.test.mjs",
+          "sha256": "d836865ebf35b69d6d0d7be9ed4e347632b2654def2cc1efc65373c678995e59"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_ACCEPTANCE_REQUIREMENTS_V1.json",
+          "sha256": "3b9109288e844029c6260ac73c3a242befc7b57a50c01aa7da19f4f2a2f3d260"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    },
+    {
+      "stageId": "C9",
+      "effectiveState": "CERTIFIED_DONE",
+      "evaluationSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+      "evaluationTreeSha": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+      "certificationBasis": "AUDIT_R2_TERMINAL_33_OF_33_REPLAY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+      "artifactBindings": [
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C9_STAGE_INSTANCE_V1.json",
+          "sha256": "130d1080f9b5ebc9537af5e9b2290b37629f8cf2371c52b7b2f99ce4f212fcc1"
+        },
+        {
+          "path": "docs/OPS/R24/CORRECTIVE/C9_STAGE_ADMISSION_ATTESTATION_V1.json",
+          "sha256": "3b3b53380c6572491e7184710d926377b44b72190e3a89ae14be575689a6ace8"
+        },
+        {
+          "path": "test/contracts/r24-c9-corrective-closure-transition.contract.test.mjs",
+          "sha256": "978ea931b2de9628985e26bb18c68fd353b03873c9e1711e251e17952646c81d"
+        }
+      ],
+      "replayParser": "NODE_TAP_ZERO_SKIP"
+    }
+  ],
+  "auditSuccessors": [
+    {
+      "id": "AUDIT_R2_FINAL_CORRECTIONS",
+      "effectiveState": "CERTIFIED_DONE",
+      "round2AuditDigest": "3bd4f799f2f8f575c9157b5abba30e1c8b71fab166abc612f8f803d4352988df",
+      "classificationDigest": "c09060abcab9b8f675fee1c248b7909e187a60cf9952de2a6f11704b0d0e88fb",
+      "terminalRunId": 33291717577,
+      "terminalArtifactId": 9726215648,
+      "archiveDigest": "f0c07a35006be2cf48632667aa228c8b81a36d482bc346ca8640c86865d3f183",
+      "finalReceiptDigest": "28d0ccdc9a15e17d5d0b033294e07072edb321780b1f7c4c33a39b231bd11a58"
+    }
+  ],
+  "mainProductSuccessors": [
+    {
+      "id": "WP400_TERMINAL_ISSUER_COMPATIBILITY",
+      "effectiveState": "CERTIFIED_DONE",
+      "stageInstanceDigest": "ec40492a7b36d5c14060dc021087ba9eec68634d2c37fe56c87ac6885d6a1efd",
+      "stageAdmissionDigest": "c661d05ae23824a1bde0884481cfeeee3227730619d87f6e592c8a3f5fca66d3"
+    },
+    {
+      "id": "WP400_TERMINAL_CLOSURE",
+      "effectiveState": "CERTIFIED_DONE",
+      "stageInstanceDigest": "8102a6a2b36a033ef96921774a4c98f1f48f99a876d6e9dc843d416acfdbbcc6",
+      "stageAdmissionDigest": "e2f3b88f5ba2d7766e281b33da636a48b058ee98622b1f993a9a13c75109945c",
+      "effectiveStateDigest": "1e23d7eae55b658a68f93893c11d01069c3f04427c0a6ece9214bb6e3e2bff0d",
+      "receiptDigest": "2db757992bec132f5b06b0ebf4a542b78b14a271b2ca0d5e9925677efa0c0b0a",
+      "terminalRunId": 33315428854,
+      "terminalArtifactId": 9733286932,
+      "archiveDigest": "734f1b983042ba0367293fff9ba9b79812e81db7059dad9c9e0decf9dfcd9195",
+      "envelopeDigest": "7f48703493bf184dcd0210dd9c7d4bf403a0c332ffe84a71d0bbb4f42fd11bb4"
+    }
+  ],
+  "postAuditCorrections": {
+    "effectiveState": "CERTIFICATION_PENDING",
+    "stageInstanceDigest": "8c3d95458cd90cd7fd70c7a3032b08388c26e047594f442b0a672149f82fba55",
+    "stageAdmissionDigest": "fef6c734300f6285f99dabe4af21e43c2eb676bec79aaf1f2c0950684ddbea28"
+  },
+  "rawHistoricalStateRewritten": false,
+  "programDone": false
+}

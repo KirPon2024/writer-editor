@@ -9,42 +9,44 @@ permissions:
 
 jobs:
   c1a-hermetic:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
+    name: c1a-hermetic (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup exact Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version-file: ".node-version"
+          node-version-file: .node-version
           cache: npm
-
-      - name: Verify exact runtime
-        run: |
-          test "$(node --version)" = "v20.19.5"
-          test "$(npm --version)" = "10.8.2"
-
-      - name: Install exact lock graph without package lifecycle scripts
-        run: npm ci --ignore-scripts --no-audit --no-fund
-
-      - name: Verify C1A contracts
-        run: node scripts/ops/r24/corrective/c1a-hermetic-toolchain.mjs --check docs/OPS/R24/CORRECTIVE/C1A_TOOLCHAIN_CONTRACT_V1.json docs/OPS/R24/CORRECTIVE/C1A_DEPENDENCY_INVENTORY_V1.json
-
-      - name: Falsify C1A contract boundaries
-        run: node --test test/contracts/r24-c1a-hermetic-toolchain.contract.test.mjs
-
-      - name: Verify deterministic dependency audit ceiling
+      - name: Verify exact runtime before install
         shell: bash
         run: |
-          audit_status=0
-          npm audit --package-lock-only --json > "$RUNNER_TEMP/c1a-audit.json" || audit_status=$?
-          test "$audit_status" -eq 0 -o "$audit_status" -eq 1
-          node scripts/ops/r24/corrective/c1a-hermetic-toolchain.mjs --check-audit "$RUNNER_TEMP/c1a-audit.json" docs/OPS/R24/CORRECTIVE/C1A_TOOLCHAIN_CONTRACT_V1.json
-
-      - name: Build renderer hermetically
-        run: npm run -s build:renderer
-
-      - name: Verify OSS policy
-        run: npm run -s oss:policy
+          test "$(node --version)" = "v22.12.0"
+          test "$(npm --version)" = "10.9.0"
+      - name: Clean exact engine-strict install
+        run: npm ci --engine-strict
+      - name: Verify successor toolchain and dependency graph
+        run: node scripts/ops/r24/corrective/post-audit-toolchain.mjs
+      - name: Build actual renderer and preload artifacts
+        run: npm run build:renderer
+      - name: Require deterministic tracked generated artifacts
+        run: git diff --exit-code -- src/renderer/editor.bundle.js src/preload.bundle.cjs
+      - name: Run focused post-audit contracts
+        run: npm run test:r24-post-audit
+      - name: Run Electron contract lanes
+        run: npm run test:electron
+      - name: Launch exact Electron binary on Linux
+        if: runner.os == 'Linux'
+        run: xvfb-run -a npx electron --version
+      - name: Launch exact Electron binary on macOS or Windows
+        if: runner.os != 'Linux'
+        run: npx electron --version
+      - name: Verify dependency and OSS boundaries
+        run: npm run oss:policy

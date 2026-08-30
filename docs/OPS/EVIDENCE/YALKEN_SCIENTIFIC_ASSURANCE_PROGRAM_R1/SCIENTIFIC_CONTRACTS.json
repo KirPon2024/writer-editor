@@ -330,10 +330,10 @@
       "issueId": "I02_RUNNER_AND_EVIDENCE_TRUTH"
     },
     {
-      "probeId": "PROBE_PACKAGE_MANAGER_UNPINNED",
+      "probeId": "PROBE_PACKAGE_MANAGER_PINNED",
       "repoPath": "package.json",
       "jsonPointer": "/packageManager",
-      "expected": "ABSENT",
+      "expected": "PRESENT",
       "issueId": "I14_TOOLCHAIN_AND_PACKAGE_SURFACE"
     },
     {

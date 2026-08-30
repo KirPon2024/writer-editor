@@ -49,7 +49,7 @@ function packageFixture(files) {
     dependencies: { '@tiptap/core': '^3.20.1' },
     devDependencies: { electron: '^40.9.2', 'electron-builder': '^26.8.1' },
     overrides: { plist: '3.1.1' },
-    engines: { node: '>=20.19.0 <21.0.0' },
+    engines: { node: '>=20.19.0 <21.0.0', npm: '>=10.0.0 <11.0.0' },
     build: { files },
   };
 }
@@ -231,4 +231,81 @@ test('PK0 admits only the exact owner-bound C6D Electron security upgrade', asyn
   assert.equal(workspaceResult.ok, false);
   assert.equal(workspaceResult.error.value.errors.includes('PK0_LOCKFILE_OR_WORKSPACE_MUTATION_FORBIDDEN'), true);
   assert.equal(workspaceResult.error.value.errors.includes('PK0_DEPENDENCY_ADMISSION_WRITE_SET_EXPANSION'), true);
+});
+
+test('PK0 admits only the exact owner-bound post-audit Node and npm successor', async () => {
+  const module = await loadModule();
+  const baselinePackageJson = packageFixture(module.PK0_REQUIRED_BUILD_FILES);
+  baselinePackageJson.devDependencies.electron = '41.10.3';
+  const packageJson = structuredClone(baselinePackageJson);
+  packageJson.packageManager = 'npm@10.9.0';
+  packageJson.engines = { node: '>=22.12.0 <23.0.0', npm: '>=10.9.0 <11.0.0' };
+
+  const admitted = module.evaluatePackageContentTrust({
+    packageJson,
+    baselinePackageJson,
+    trackedFiles: trackedFixture(),
+    changedFiles: ['package.json', 'package-lock.json'],
+    dependencyMutationAdmission: module.POST_AUDIT_TOOLCHAIN_MUTATION_ADMISSION,
+    programDag: programDagFixture(),
+    scientificContracts: scientificContractsFixture(),
+  });
+  assert.equal(admitted.ok, true, admitted.ok ? '' : JSON.stringify(admitted.error.value.errors));
+  assert.equal(admitted.value.authority.admittedDependencyAuditException, true);
+
+  const wrongEngine = structuredClone(packageJson);
+  wrongEngine.engines.node = '>=22.0.0 <23.0.0';
+  const wrongEngineResult = module.evaluatePackageContentTrust({
+    packageJson: wrongEngine,
+    baselinePackageJson,
+    trackedFiles: trackedFixture(),
+    changedFiles: ['package.json', 'package-lock.json'],
+    dependencyMutationAdmission: module.POST_AUDIT_TOOLCHAIN_MUTATION_ADMISSION,
+    programDag: programDagFixture(),
+    scientificContracts: scientificContractsFixture(),
+  });
+  assert.equal(wrongEngineResult.ok, false);
+  assert.equal(wrongEngineResult.error.value.errors.includes('PK0_ENGINES_MUTATION_FORBIDDEN'), true);
+
+  const wrongPackageManager = structuredClone(packageJson);
+  wrongPackageManager.packageManager = 'npm@10.8.2';
+  const wrongPackageManagerResult = module.evaluatePackageContentTrust({
+    packageJson: wrongPackageManager,
+    baselinePackageJson,
+    trackedFiles: trackedFixture(),
+    changedFiles: ['package.json', 'package-lock.json'],
+    dependencyMutationAdmission: module.POST_AUDIT_TOOLCHAIN_MUTATION_ADMISSION,
+    programDag: programDagFixture(),
+    scientificContracts: scientificContractsFixture(),
+  });
+  assert.equal(wrongPackageManagerResult.ok, false);
+  assert.equal(wrongPackageManagerResult.error.value.errors.includes('PK0_PACKAGEMANAGER_MUTATION_FORBIDDEN'), true);
+
+  const dependencyExpansion = structuredClone(packageJson);
+  dependencyExpansion.dependencies.unapproved = '1.0.0';
+  const dependencyExpansionResult = module.evaluatePackageContentTrust({
+    packageJson: dependencyExpansion,
+    baselinePackageJson,
+    trackedFiles: trackedFixture(),
+    changedFiles: ['package.json', 'package-lock.json'],
+    dependencyMutationAdmission: module.POST_AUDIT_TOOLCHAIN_MUTATION_ADMISSION,
+    programDag: programDagFixture(),
+    scientificContracts: scientificContractsFixture(),
+  });
+  assert.equal(dependencyExpansionResult.ok, false);
+  assert.equal(dependencyExpansionResult.error.value.errors.includes('PK0_DEPENDENCIES_MUTATION_FORBIDDEN'), true);
+
+  const crossStageElectron = structuredClone(packageJson);
+  crossStageElectron.devDependencies.electron = '^40.9.2';
+  const crossStageElectronResult = module.evaluatePackageContentTrust({
+    packageJson: crossStageElectron,
+    baselinePackageJson,
+    trackedFiles: trackedFixture(),
+    changedFiles: ['package.json', 'package-lock.json'],
+    dependencyMutationAdmission: module.POST_AUDIT_TOOLCHAIN_MUTATION_ADMISSION,
+    programDag: programDagFixture(),
+    scientificContracts: scientificContractsFixture(),
+  });
+  assert.equal(crossStageElectronResult.ok, false);
+  assert.equal(crossStageElectronResult.error.value.errors.includes('PK0_DEVDEPENDENCIES_MUTATION_FORBIDDEN'), true);
 });

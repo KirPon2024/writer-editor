@@ -1,0 +1,65 @@
+{
+  "stampId": "ES-R24-WP-400-ANCHOR-LINEAGE-POSTMERGE-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-400_ANCHOR_LINEAGE",
+  "attemptId": "ATTEMPT-WP400-20260830",
+  "authorityEpoch": "YALKEN_R24_WP400_TERMINAL_CLOSURE_OWNER_AUTHORITY_V1",
+  "profileId": "ATLAS_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "f1f0aae213a98e3943f4775e3041b5731c23781f",
+    "treeSha": "4e1124ef010ef7dd7fb21acf8f53e569d09450ab"
+  },
+  "claim": {
+    "type": "WP400_EXACT_MAIN_POSTMERGE_AND_ISSUER_GATES",
+    "ceiling": "WP400_NODE_ONLY_STABLE_DURABLE_ANCHOR_IDENTITY_FALLIBLE_RELOCATION_WITNESSES_TYPED_LOST_EXPLICIT_AMBIGUITY_SELECTION_APPEND_ONLY_LINEAGE_NO_AUTOMATIC_REATTACHMENT_NO_GRAPH_ADVANCE_OR_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "GitHub protected implementation postmerge, issuer candidate, issuer postmerge and ops-vector gates",
+    "evidenceClass": "POSTMERGE",
+    "denominator": 17,
+    "passed": 17,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-400-ANCHOR-LINEAGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "533c11f13d52f39e65e7e1aa906064140dc3c38ef67e456b65beb24166511c3c"
+  },
+  "createdAt": "2026-08-30T11:51:31Z",
+  "actor": "codex/r24-wp400-terminal-closure-v1-20260830",
+  "artifact": {
+    "runs": [
+      {
+        "runId": 33298595500,
+        "headSha": "e1372ea1e856a15b0d7419794464c1118f5f8e91",
+        "successfulRequiredJobs": 8
+      },
+      {
+        "runId": 33306403601,
+        "headSha": "7364c45f923d0d799bb65e0db0c4627dd8e03a51",
+        "successfulRequiredJobs": 8
+      },
+      {
+        "runId": 33307195900,
+        "headSha": "7364c45f923d0d799bb65e0db0c4627dd8e03a51",
+        "successfulRequiredJobs": 1
+      },
+      {
+        "runId": 33307195640,
+        "headSha": "f1f0aae213a98e3943f4775e3041b5731c23781f",
+        "successfulRequiredJobs": 8,
+        "role": "EXACT_ISSUER_MERGE_POSTMERGE"
+      }
+    ],
+    "denominatorRole": "8_IMPLEMENTATION_POSTMERGE_PLUS_8_ISSUER_CANDIDATE_PLUS_1_OPS_VECTOR;EXACT_ISSUER_MERGE_POSTMERGE_IS_ADDITIONAL_SURVIVOR_EVIDENCE",
+    "failedRequiredJobs": 0,
+    "skippedRequiredJobs": 0
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

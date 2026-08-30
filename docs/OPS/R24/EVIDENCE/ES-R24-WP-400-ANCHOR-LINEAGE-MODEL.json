@@ -1,0 +1,47 @@
+{
+  "stampId": "ES-R24-WP-400-ANCHOR-LINEAGE-MODEL",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-400_ANCHOR_LINEAGE",
+  "attemptId": "ATTEMPT-WP400-20260830",
+  "authorityEpoch": "YALKEN_R24_WP400_TERMINAL_CLOSURE_OWNER_AUTHORITY_V1",
+  "profileId": "ATLAS_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "f1f0aae213a98e3943f4775e3041b5731c23781f",
+    "treeSha": "4e1124ef010ef7dd7fb21acf8f53e569d09450ab"
+  },
+  "claim": {
+    "type": "WP400_ANCHOR_IDENTITY_AND_LINEAGE_MODEL",
+    "ceiling": "WP400_NODE_ONLY_STABLE_DURABLE_ANCHOR_IDENTITY_FALLIBLE_RELOCATION_WITNESSES_TYPED_LOST_EXPLICIT_AMBIGUITY_SELECTION_APPEND_ONLY_LINEAGE_NO_AUTOMATIC_REATTACHMENT_NO_GRAPH_ADVANCE_OR_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "WP400 durable identity, witness, relocation, ambiguity and lineage model",
+    "evidenceClass": "MODEL",
+    "denominator": 5,
+    "passed": 5,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [],
+    "predecessorReceiptDigest": "533c11f13d52f39e65e7e1aa906064140dc3c38ef67e456b65beb24166511c3c"
+  },
+  "createdAt": "2026-08-30T11:51:31Z",
+  "actor": "codex/r24-wp400-terminal-closure-v1-20260830",
+  "artifact": {
+    "modelAssertions": [
+      "Durable anchor identity contains no fallible witness fields.",
+      "Relocation witnesses are separately validated and may resolve only to exact, ambiguous or typed LOST.",
+      "Ambiguity never mutates identity and requires an explicit candidate selection.",
+      "Lineage is append-only and hash chained across revisions.",
+      "Typed LOST never causes automatic reattachment; explicit replacement starts a separate durable identity lineage."
+    ],
+    "productSemanticsChangedByClosure": false,
+    "graphAdvance": false,
+    "programDone": false
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

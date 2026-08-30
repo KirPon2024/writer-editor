@@ -1,0 +1,110 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-400-ANCHOR-LINEAGE-CLAIM-BINDINGS",
+  "contourId": "WP-400_ANCHOR_LINEAGE",
+  "evidenceClass": "CONTRACT",
+  "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
+  "headSha": "f1f0aae213a98e3943f4775e3041b5731c23781f",
+  "originMainSha": "f1f0aae213a98e3943f4775e3041b5731c23781f",
+  "generatedAtUtc": "2026-08-30T11:51:31Z",
+  "oracle": "Strict exact-hash binding for WP400 native terminal receipt, append-only effective state and protected immutable terminal attestation",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP400_TERMINAL_ATTESTATION_V1.json",
+      "sha256": "533c11f13d52f39e65e7e1aa906064140dc3c38ef67e456b65beb24166511c3c",
+      "claimTerms": [
+        "PASS"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP400_TERMINAL_CLOSURE_EXACT_HEAD_AMENDMENT_V1.json",
+      "sha256": "a9b4b5a5e4fb09ca90022e8d34a6b0609b6d7bcb416da0b8e308de37d7355525",
+      "claimTerms": [
+        "PASS"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CTR-R24-WP-400-ANCHOR-LINEAGE.json",
+      "sha256": "894624ab6d7061d07308c330d3e108d4c5c2774a6850d9d0c1c3d67b47e4fde9",
+      "claimTerms": [
+        "PASS"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP400_TERMINAL_CLOSURE_EFFECTIVE_STATE_V1.json",
+      "sha256": "1e23d7eae55b658a68f93893c11d01069c3f04427c0a6ece9214bb6e3e2bff0d",
+      "claimTerms": [
+        "DONE"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/atlas-anchor-lineage-v1.mjs",
+      "sha256": "d7e2da6e7d5147ce2a02b76479c6d22486c94d86da7f551fa947d822815bd4cc",
+      "terms": [
+        "Stable durable anchor identity and fallible relocation witnesses"
+      ]
+    },
+    {
+      "path": "src/core/runtime.mjs",
+      "sha256": "5ef31555ab5a06835240bbb90f6f24dd198110030e5a40e9404c40c7572eb293",
+      "terms": [
+        "Runtime integration for explicit relocation selection and append-only lineage"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp400-anchor-lineage.test.js",
+      "sha256": "26fad23972c4a8a1ac4ae7c004d6a0bafe5a567cb1c999ebfff975ad78147492",
+      "terms": [
+        "WP400 contract and integration oracle"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp400-anchor-lineage-mutants.test.js",
+      "sha256": "3a6c574631a073756f2fe7bb6a62b9c72942f6a00593cc20196a9735ab3ad950",
+      "terms": [
+        "Eight-of-eight implementation mutant oracle"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "node --test test/unit/r24-wp400-anchor-lineage.test.js test/unit/r24-wp400-anchor-lineage-mutants.test.js test/contracts/r24-terminal-attestation.contract.test.mjs",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 22,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 8,
+        "survived": 0
+      },
+      "requiredDisposition": "WP400 product and protected stage-specific terminal behavior are green."
+    },
+    {
+      "command": "GitHub protected candidate and postmerge CI",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 33,
+        "fail": 0
+      },
+      "requiredDisposition": "Implementation, issuer candidate, exact postmerge and ops-vector required jobs are green."
+    },
+    {
+      "command": "GitHub protected external WP400 terminal workflow and immutable artifact verification",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 2,
+        "fail": 0
+      },
+      "requiredDisposition": "Selected WP400 router and attestation jobs passed; three audit-only routes were non-selected and outside the denominator."
+    }
+  ],
+  "nonClaims": [
+    "This binding closes only WP-400_ANCHOR_LINEAGE.",
+    "Raw plan and C9 state remain immutable historical inputs.",
+    "No next graph node is selected or mutated.",
+    "It does not mark the R2.4 program DONE."
+  ]
+}

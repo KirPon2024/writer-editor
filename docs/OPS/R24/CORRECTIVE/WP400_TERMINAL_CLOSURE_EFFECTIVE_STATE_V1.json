@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "YALKEN_R24_WP400_TERMINAL_CLOSURE_EFFECTIVE_STATE_V1",
+  "stageId": "WP-400_ANCHOR_LINEAGE_TERMINAL_CLOSURE",
+  "observedAtUtc": "2026-08-30T11:51:31Z",
+  "rawState": {
+    "immutable": true,
+    "planStateBytesDigest": "f037355e4f1d87107f1593927463d94fa3f7128038790616c4d5611cf42f12f9",
+    "c9EffectiveStateBytesDigest": "027ab9944b4e3a3ad8109c8c69cd318b57c21982b3468b5ce88a6221940eea23",
+    "executableProgramBytesDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+    "wp400State": "PENDING"
+  },
+  "predecessorEffectiveState": {
+    "digest": "d364bf424fa000ee59a2bf55f317e258edeb0de6eae332528172506d050b63ec",
+    "counts": {
+      "BLOCKED_TYPED": 3,
+      "DONE": 50,
+      "INELIGIBLE_OPTIONAL": 10,
+      "PENDING": 46
+    },
+    "wp400State": "PENDING"
+  },
+  "appendOnlyCorrections": [
+    {
+      "correctionId": "WP400_TERMINAL_CLOSURE_CERTIFIED_CORRECTION_V1",
+      "nodeId": "WP-400_ANCHOR_LINEAGE",
+      "from": "PENDING",
+      "to": "DONE",
+      "stateMutation": true,
+      "mode": "APPEND_ONLY_EFFECTIVE_STATE_SUCCESSOR",
+      "exactHeadSha": "f1f0aae213a98e3943f4775e3041b5731c23781f",
+      "exactTreeSha": "4e1124ef010ef7dd7fb21acf8f53e569d09450ab",
+      "contourTerminalReceiptDigest": "894624ab6d7061d07308c330d3e108d4c5c2774a6850d9d0c1c3d67b47e4fde9",
+      "externalTerminalAttestationDigest": "533c11f13d52f39e65e7e1aa906064140dc3c38ef67e456b65beb24166511c3c",
+      "stageInstanceDigest": "8102a6a2b36a033ef96921774a4c98f1f48f99a876d6e9dc843d416acfdbbcc6",
+      "stageAdmissionDigest": "e2f3b88f5ba2d7766e281b33da636a48b058ee98622b1f993a9a13c75109945c",
+      "evidenceDigests": {
+        "docs/OPS/R24/EVIDENCE/ES-R24-WP-400-ANCHOR-LINEAGE-MODEL.json": "aa2e9e814a72199fbc34a15e541570c62058d35874765655d7d6643d9f0adbd7",
+        "docs/OPS/R24/EVIDENCE/ES-R24-WP-400-ANCHOR-LINEAGE-CONTRACT.json": "dd2e38300ff1db826ce205dc3ac459b00519e52d991835fa8e8888a9a14adbe1",
+        "docs/OPS/R24/EVIDENCE/ES-R24-WP-400-ANCHOR-LINEAGE-INTEGRATION.json": "7ca8f62e44c1b2c084faeb6dd8d77e76cae68ac511db7ae12068daf3ad77fff9",
+        "docs/OPS/R24/EVIDENCE/ES-R24-WP-400-ANCHOR-LINEAGE-MUTANTS.json": "1f9dae56a8635245d6b4c3bffe6aa46b485d62b94059b4ca935a0921b7ef8d4d",
+        "docs/OPS/R24/EVIDENCE/ES-R24-WP-400-ANCHOR-LINEAGE-EXACT-HEAD.json": "2f233a2246aecfae506aad7843751bf996556be7759f339674014eb002d9b7d0",
+        "docs/OPS/R24/EVIDENCE/ES-R24-WP-400-ANCHOR-LINEAGE-POSTMERGE-EXACT-HEAD.json": "2db757992bec132f5b06b0ebf4a542b78b14a271b2ca0d5e9925677efa0c0b0a",
+        "docs/OPS/R24/EVIDENCE/ES-R24-WP-400-ANCHOR-LINEAGE-SURVIVOR-AUDIT.json": "17e01d6a099d14eee82657d390da640217ac75bbf3bc2d9ef151cef1b8c83728"
+      }
+    }
+  ],
+  "effectiveState": {
+    "counts": {
+      "BLOCKED_TYPED": 3,
+      "DONE": 51,
+      "INELIGIBLE_OPTIONAL": 10,
+      "PENDING": 45
+    },
+    "wp400State": "DONE",
+    "digest": "3b0cf934a96eb3459892a179c7c2708d67d048b32e2cd745710cd9c346ebcdc0"
+  },
+  "leaseDispositionRequiredAfterClosureMerge": "RELEASE_FENCE_55_WIP_0_AFTER_EXACT_POSTMERGE_CI_AND_EXTERNAL_ATTESTATION",
+  "nextGraphSelection": false,
+  "nextAction": "WAIT_FOR_OWNER_PERSONAL_AUDIT_AFTER_TERMINAL_RELEASE",
+  "programDone": false
+}

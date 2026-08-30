@@ -1,0 +1,91 @@
+{
+  "stampId": "ES-R24-WP-400-ANCHOR-LINEAGE-SURVIVOR-AUDIT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-400_ANCHOR_LINEAGE",
+  "attemptId": "ATTEMPT-WP400-20260830",
+  "authorityEpoch": "YALKEN_R24_WP400_TERMINAL_CLOSURE_OWNER_AUTHORITY_V1",
+  "profileId": "ATLAS_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "f1f0aae213a98e3943f4775e3041b5731c23781f",
+    "treeSha": "4e1124ef010ef7dd7fb21acf8f53e569d09450ab"
+  },
+  "claim": {
+    "type": "WP400_EXACT_MAIN_SURVIVOR_AND_EXTERNAL_TERMINAL_AUDIT",
+    "ceiling": "WP400_NODE_ONLY_STABLE_DURABLE_ANCHOR_IDENTITY_FALLIBLE_RELOCATION_WITNESSES_TYPED_LOST_EXPLICIT_AMBIGUITY_SELECTION_APPEND_ONLY_LINEAGE_NO_AUTOMATIC_REATTACHMENT_NO_GRAPH_ADVANCE_OR_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "Exact-main artifact digests plus protected immutable WP400 terminal artifact",
+    "evidenceClass": "SURVIVOR_AUDIT",
+    "denominator": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-400-ANCHOR-LINEAGE-POSTMERGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "533c11f13d52f39e65e7e1aa906064140dc3c38ef67e456b65beb24166511c3c"
+  },
+  "createdAt": "2026-08-30T11:51:31Z",
+  "actor": "codex/r24-wp400-terminal-closure-v1-20260830",
+  "artifact": {
+    "artifactDigests": [
+      {
+        "path": "src/core/atlas-anchor-lineage-v1.mjs",
+        "sha256": "d7e2da6e7d5147ce2a02b76479c6d22486c94d86da7f551fa947d822815bd4cc"
+      },
+      {
+        "path": "src/core/runtime.mjs",
+        "sha256": "5ef31555ab5a06835240bbb90f6f24dd198110030e5a40e9404c40c7572eb293"
+      },
+      {
+        "path": "test/unit/r24-wp400-anchor-lineage.test.js",
+        "sha256": "26fad23972c4a8a1ac4ae7c004d6a0bafe5a567cb1c999ebfff975ad78147492"
+      },
+      {
+        "path": "test/unit/r24-wp400-anchor-lineage-mutants.test.js",
+        "sha256": "3a6c574631a073756f2fe7bb6a62b9c72942f6a00593cc20196a9735ab3ad950"
+      },
+      {
+        "path": ".github/workflows/r24-terminal-attestation.yml",
+        "sha256": "5f8d923a4772982ae79dc08f07f2a282ba18755e7e3888b1e178f43b5dce9548"
+      },
+      {
+        "path": "docs/OPS/R24/CORRECTIVE/WP400_TERMINAL_ISSUER_COMPATIBILITY_STAGE_INSTANCE_V1.json",
+        "sha256": "ec40492a7b36d5c14060dc021087ba9eec68634d2c37fe56c87ac6885d6a1efd"
+      },
+      {
+        "path": "docs/OPS/R24/CORRECTIVE/WP400_TERMINAL_ISSUER_COMPATIBILITY_STAGE_ADMISSION_ATTESTATION_V1.json",
+        "sha256": "c661d05ae23824a1bde0884481cfeeee3227730619d87f6e592c8a3f5fca66d3"
+      }
+    ],
+    "externalTerminal": {
+      "runId": 33308014728,
+      "artifactId": 9731094281,
+      "archiveSha256": "d3f9044660db2c7c35c1a1d8029cbb403704278cd7dd069ff6fb0cd0e4b80c67",
+      "attestationSha256": "533c11f13d52f39e65e7e1aa906064140dc3c38ef67e456b65beb24166511c3c",
+      "evaluationSha": "f1f0aae213a98e3943f4775e3041b5731c23781f",
+      "evaluationTreeSha": "4e1124ef010ef7dd7fb21acf8f53e569d09450ab",
+      "protectedRouteJobsPassed": 2,
+      "nonSelectedAuditRouteJobs": 3,
+      "nonSelectedAuditRouteDisposition": "NOT_IN_REQUIRED_WP400_DENOMINATOR",
+      "result": "PASS"
+    },
+    "survivors": {
+      "artifactDigestMismatches": 0,
+      "automaticReattachments": 0,
+      "lineageRewrites": 0,
+      "crossStageAttestations": 0,
+      "workflowTrustOrVerifierChanges": 0,
+      "rawStateMutations": 0,
+      "graphAdvances": 0,
+      "programDoneClaims": 0
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

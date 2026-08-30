@@ -8,9 +8,9 @@ import test from 'node:test';
 
 const VERIFIER='scripts/ops/r24/corrective/stage-admission-verifier-anchor-v2.mjs';
 const VERIFIER_DIGEST='d7837ff49cb9df196303384111336d9907cbf66147ba23bf8b687404666e5b59';
-const AUTHORITY='docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_OWNER_AMENDMENT_V9.json';
-const INSTANCE='docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V10.json';
-const ADMISSION='docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_ATTESTATION_V10.json';
+const AUTHORITY='docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_OWNER_AMENDMENT_V10.json';
+const INSTANCE='docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V11.json';
+const ADMISSION='docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_ATTESTATION_V11.json';
 const sha256=(bytes)=>crypto.createHash('sha256').update(bytes).digest('hex');
 const canonical=(v)=>Array.isArray(v)?`[${v.map(canonical).join(',')}]`:v&&typeof v==='object'?`{${Object.keys(v).sort().map(k=>`${JSON.stringify(k)}:${canonical(v[k])}`).join(',')}}`:JSON.stringify(v);
 const write=(file,value)=>{fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,`${JSON.stringify(value,null,2)}\n`);};

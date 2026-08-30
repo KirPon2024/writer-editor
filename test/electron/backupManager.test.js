@@ -25,8 +25,8 @@ test('createBackup separates files with identical basenames', async (t) => {
     await fs.rm(tempDir, { recursive: true, force: true });
   });
 
-  const firstPath = '/a/notes.txt';
-  const secondPath = '/b/notes.txt';
+  const firstPath = path.resolve(path.sep, 'a', 'notes.txt');
+  const secondPath = path.resolve(path.sep, 'b', 'notes.txt');
 
   await backupManager.createBackup(firstPath, 'first');
   await backupManager.createBackup(secondPath, 'second');
@@ -56,7 +56,7 @@ test('createBackup rotates backups per fileId (keeps last 50)', async (t) => {
     await fs.rm(tempDir, { recursive: true, force: true });
   });
 
-  const filePath = '/rotate/story.txt';
+  const filePath = path.resolve(path.sep, 'rotate', 'story.txt');
   const fileId = fileIdFor(filePath);
   const backupDir = path.join(tempDir, '.backups', fileId);
 
@@ -72,7 +72,7 @@ test('createBackup rotates backups per fileId (keeps last 50)', async (t) => {
 });
 
 test('createBackup rejects traversal-like basePath input', async () => {
-  const result = await backupManager.createBackup('/rotate/story.txt', 'content', {
+  const result = await backupManager.createBackup(path.resolve(path.sep, 'rotate', 'story.txt'), 'content', {
     basePath: '../outside',
   });
 

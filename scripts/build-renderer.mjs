@@ -13,54 +13,11 @@ const preloadEntry = path.join(projectRoot, 'src', 'preload.js');
 const preloadOutfile = path.join(projectRoot, 'dist', 'preload.bundle.cjs');
 const preloadRuntimeOutfile = path.join(projectRoot, 'src', 'preload.bundle.cjs');
 const require = createRequire(import.meta.url);
-
-function listSharedSearchRoots() {
-  const parentDir = path.dirname(projectRoot);
-  const roots = [projectRoot];
-  const preferredSiblingRoots = [
-    path.join(parentDir, 'writer-editor-codex'),
-    path.join(parentDir, 'writer-editor-contour-00ab-isolation-001'),
-  ];
-
-  for (const root of preferredSiblingRoots) {
-    if (root !== projectRoot && fsSync.existsSync(root)) {
-      roots.push(root);
-    }
-  }
-
-  try {
-    const siblingRoots = fsSync.readdirSync(parentDir, { withFileTypes: true })
-      .filter((entry) => entry.isDirectory() && entry.name.startsWith('writer-editor'))
-      .map((entry) => path.join(parentDir, entry.name));
-    for (const root of siblingRoots) {
-      if (!roots.includes(root)) {
-        roots.push(root);
-      }
-    }
-  } catch {
-    // Ignore sibling discovery failures and fall back to explicit roots only.
-  }
-
-  return roots;
+const localNodeModules = path.join(projectRoot, 'node_modules');
+if (!fsSync.existsSync(localNodeModules)) {
+  throw new Error('LOCAL_NODE_MODULES_REQUIRED: run npm ci in this exact checkout');
 }
-
-function resolveEsbuildModule() {
-  for (const searchRoot of listSharedSearchRoots()) {
-    try {
-      const resolvedPath = require.resolve('esbuild', { paths: [searchRoot] });
-      return require(resolvedPath);
-    } catch {
-      // Continue scanning sibling worktrees for the shared toolchain install.
-    }
-  }
-
-  throw new Error('ESBUILD_MODULE_NOT_FOUND: install dependencies in this worktree or an adjacent shared worktree');
-}
-
-const esbuild = resolveEsbuildModule();
-const sharedNodePaths = listSharedSearchRoots()
-  .map((searchRoot) => path.join(searchRoot, 'node_modules'))
-  .filter((nodeModulesPath, index, allPaths) => fsSync.existsSync(nodeModulesPath) && allPaths.indexOf(nodeModulesPath) === index);
+const esbuild = require(require.resolve('esbuild', { paths: [projectRoot] }));
 
 await fs.mkdir(outdir, { recursive: true });
 
@@ -82,7 +39,7 @@ const buildOptions = {
   target: ['es2018'],
   minify: !isWatch,
   outfile,
-  nodePaths: sharedNodePaths,
+  nodePaths: [localNodeModules],
   sourcemap: isWatch ? 'external' : false,
   logLevel: 'info',
   plugins: [
@@ -105,11 +62,11 @@ const preloadBuildOptions = {
   bundle: true,
   format: 'cjs',
   platform: 'node',
-  target: ['node20'],
+  target: ['node22'],
   external: ['electron'],
   minify: false,
   outfile: preloadOutfile,
-  nodePaths: sharedNodePaths,
+  nodePaths: [localNodeModules],
   sourcemap: isWatch ? 'external' : false,
   logLevel: 'info',
   plugins: [

@@ -11,6 +11,8 @@
     "dev": "node -e \"const { existsSync } = require('node:fs'); const { execSync, spawnSync } = require('node:child_process'); if (!existsSync('dist/renderer/editor.bundle.js')) { execSync('node scripts/build-renderer.mjs',{stdio:'inherit'}); } const electron = require('electron'); const env = { ...process.env }; delete env.ELECTRON_RUN_AS_NODE; const result = spawnSync(electron, ['.', '--dev'], { stdio: 'inherit', env }); if (result.error) { console.error(result.error); process.exit(1); } const status = typeof result.status === 'number' ? result.status : 1; process.exit(status);\"",
     "build:renderer": "node scripts/build-renderer.mjs",
     "build:renderer:watch": "node scripts/build-renderer.mjs --watch",
+    "r24:test-inventory": "node scripts/ops/r24/test-inventory.mjs --check docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+    "test:r24-post-audit": "node --test test/contracts/r24-post-audit-corrections.contract.test.mjs test/contracts/r24-stage-admission-verifier-v2.contract.test.mjs test/contracts/r24-terminal-attestation.contract.test.mjs",
     "test:ops": "npm run -s ops:current-wave",
     "test:toolbar-closeout": "node scripts/run-tests.js closeout",
     "test:sector-m": "node --test test/unit/sector-m-*.test.js",
@@ -194,8 +196,9 @@
       }
     }
   },
+  "packageManager": "npm@10.9.0",
   "engines": {
-    "node": ">=20.19.0 <21.0.0",
-    "npm": ">=10.0.0 <11.0.0"
+    "node": ">=22.12.0 <23.0.0",
+    "npm": ">=10.9.0 <11.0.0"
   }
 }

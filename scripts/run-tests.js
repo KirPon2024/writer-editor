@@ -275,12 +275,34 @@ function runToolbarCloseoutLane(rootDir, dryRun) {
 
 function runPerfBaselineGuard(rootDir, isPromotionMode) {
   const checkMode = isPromotionMode ? 'promotion' : 'release';
-  const npmCmd = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+  const npmArgs = ['run', '-s', 'perf:baseline:check', '--', `--mode=${checkMode}`];
+  const npmExecPath = String(process.env.npm_execpath || '').trim();
+  let command = 'npm';
+  let commandArgs = npmArgs;
+
+  if (npmExecPath) {
+    if (!path.isAbsolute(npmExecPath) || path.basename(npmExecPath).toLowerCase() !== 'npm-cli.js') {
+      console.error('E_NPM_EXEC_PATH_INVALID=1');
+      return 1;
+    }
+    command = process.execPath;
+    commandArgs = [npmExecPath, ...npmArgs];
+  } else if (process.platform === 'win32') {
+    const commandShell = String(process.env.ComSpec || '').trim();
+    if (!path.isAbsolute(commandShell)) {
+      console.error('E_WINDOWS_COMMAND_SHELL_INVALID=1');
+      return 1;
+    }
+    command = commandShell;
+    commandArgs = ['/d', '/s', '/c', 'npm.cmd', ...npmArgs];
+  }
+
   const result = spawnSync(
-    npmCmd,
-    ['run', '-s', 'perf:baseline:check', '--', `--mode=${checkMode}`],
+    command,
+    commandArgs,
     { cwd: rootDir, stdio: 'inherit' },
   );
+  if (result.error) console.error(`E_PERF_BASELINE_SPAWN=${result.error.code || 'UNKNOWN'}`);
   return result.status ?? 1;
 }
 

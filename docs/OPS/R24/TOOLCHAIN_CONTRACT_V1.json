@@ -1,25 +1,26 @@
 {
   "schemaVersion": "yalken.toolchain-contract.v1",
   "contour": "Q0_TOOLCHAIN_HYGIENE",
-  "boundBaseSha": "2f0571682d01b4f6e8cf2dc1ee3886fb4cbeb943",
+  "boundBaseSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
   "node": {
-    "enginesRange": ">=20.19.0 <21.0.0",
-    "law": "supported product and CI runtime is Node 20 at or above 20.19.0 and below 21; CI pins the exact 20.19.x line; local runners must resolve a satisfying binary without relying on PATH shims"
+    "enginesRange": ">=22.12.0 <23.0.0",
+    "law": "supported product and CI runtime is Node 22 at or above 22.12.0 and below 23; CI pins the exact 22.12.x line; local runners must resolve a satisfying binary without relying on PATH shims"
   },
   "npm": {
-    "enginesRange": ">=10.0.0 <11.0.0",
+    "enginesRange": ">=10.9.0 <11.0.0",
     "lockfileVersion": 3,
     "onlyLockfile": "package-lock.json",
     "forbiddenLockfiles": ["pnpm-lock.yaml", "pnpm-workspace.yaml", "yarn.lock", "bun.lockb", "bun.lock"],
     "law": "npm with the committed package-lock.json is the only package manager path for repo verification lanes"
   },
   "workflows": {
-    "singleNodeVersion": "20.19.x",
+    "singleNodeVersion": "22.12.x",
     "allowedActionPins": {
       "actions/checkout": "v4",
       "actions/setup-node": "v4",
       "actions/upload-artifact": "v4",
-      "actions/github-script": "v7"
+      "actions/github-script": "v7",
+      "actions/setup-python": "v5"
     },
     "law": "every workflow setup-node step pins the single declared version; every action use pins the declared major"
   },

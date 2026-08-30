@@ -13,7 +13,7 @@ import { sha256hex } from '../../canonical-json.mjs';
 const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..', '..', '..');
 
 test('Q0 integration: live repo satisfies the toolchain contract', () => {
-  const result = checkToolchain(REPO_ROOT, { currentNodeVersion: 'v20.19.0' });
+  const result = checkToolchain(REPO_ROOT, { currentNodeVersion: 'v22.12.0' });
   assert.equal(result.ok, true, JSON.stringify(result.failures));
   assert.ok(result.workflowCount >= 5);
 });

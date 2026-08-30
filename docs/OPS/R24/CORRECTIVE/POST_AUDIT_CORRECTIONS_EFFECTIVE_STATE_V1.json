@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "POST_AUDIT_CORRECTIONS_EFFECTIVE_STATE_V1",
+  "stageId": "POST_AUDIT_CORRECTIONS",
+  "status": "CERTIFICATION_PENDING",
+  "baseSha": "5ab261fa7dc4a1ae4693f78d5e5ee0c270bfc111",
+  "baseTree": "d78aed5df32e3d84433292f425fd3683f2579dbe",
+  "stageInstanceDigest": "cf3030757b869cf9c5c2053abe4fae750f504c70f82bbb1da56e3f7afcac2188",
+  "stageAdmissionDigest": "c9a3bdb666ed9cba2c6f32951ebf6f8d6d36e3fe2d5fcf8e1ce394acf38b5a37",
+  "writeSetDigest": "1ee2085d30d0a5bb8baebc40390b0a9e311b0cd07c2c381886b731afe722d97a",
+  "commandScopeDigest": "dea17f04e01dce3f936001dfe138a8023aa97f40e558d6a30e3aca335d9c1115",
+  "acceptanceSignalsDigest": "25a8af32f65ec976b338aec760b07d2ae932255368abaa510668639a1cf1b6a7",
+  "predecessors": {
+    "issuerCompatibility": {
+      "stageInstanceDigest": "ec40492a7b36d5c14060dc021087ba9eec68634d2c37fe56c87ac6885d6a1efd",
+      "stageAdmissionDigest": "c661d05ae23824a1bde0884481cfeeee3227730619d87f6e592c8a3f5fca66d3"
+    },
+    "wp400Closure": {
+      "stageInstanceDigest": "8102a6a2b36a033ef96921774a4c98f1f48f99a876d6e9dc843d416acfdbbcc6",
+      "stageAdmissionDigest": "e2f3b88f5ba2d7766e281b33da636a48b058ee98622b1f993a9a13c75109945c",
+      "effectiveStateDigest": "1e23d7eae55b658a68f93893c11d01069c3f04427c0a6ece9214bb6e3e2bff0d",
+      "receiptDigest": "2db757992bec132f5b06b0ebf4a542b78b14a271b2ca0d5e9925677efa0c0b0a"
+    }
+  },
+  "requiredTransition": "CERTIFIED_DONE_ONLY_AFTER_PROTECTED_MERGE_EXACT_POSTMERGE_CI_REMOTE_ARTIFACT_VERIFICATION_AND_DURABLE_CARRIER",
+  "lease": {
+    "fencingCounter": 56,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "583e4209f200cb4dc342f8d05f59b808243e960669d8a0d225586b0e7ff4dd6f"
+  },
+  "programDone": false
+}

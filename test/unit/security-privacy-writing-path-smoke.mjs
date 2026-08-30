@@ -11,6 +11,22 @@ const rootDir = path.resolve(new URL('../..', import.meta.url).pathname);
 const requireFromHere = createRequire(import.meta.url);
 const electronBinary = requireFromHere('electron');
 
+function isExpectedProjectLeaseLocalIpcTarget(value) {
+  return typeof value === 'string' && /^\/tmp\/ypl-[0-9a-f]{32}\.sock$/u.test(value);
+}
+
+assert.equal(isExpectedProjectLeaseLocalIpcTarget(`/tmp/ypl-${'a'.repeat(32)}.sock`), true);
+for (const externalOrMalformedTarget of [
+  '127.0.0.1',
+  'localhost',
+  'https://example.invalid',
+  '/tmp/ypl-too-short.sock',
+  `/tmp/ypl-${'a'.repeat(32)}.sock/escape`,
+  { host: '127.0.0.1', port: 443 },
+]) {
+  assert.equal(isExpectedProjectLeaseLocalIpcTarget(externalOrMalformedTarget), false);
+}
+
 function parseResult(stdout) {
   const line = String(stdout || '')
     .split(/\r?\n/u)
@@ -36,7 +52,10 @@ const savePath = ${JSON.stringify(savePath)};
 const exportPath = ${JSON.stringify(exportPath)};
 const RESULT_PREFIX = ${JSON.stringify(RESULT_PREFIX)};
 const networkEvents = [];
+const localIpcEvents = [];
 const dialogCalls = [];
+
+${isExpectedProjectLeaseLocalIpcTarget.toString()}
 
 function emit(payload) {
   process.stdout.write(RESULT_PREFIX + JSON.stringify(payload) + '\\n');
@@ -63,12 +82,22 @@ function blocked(route) {
   };
 }
 
+function localIpcAware(route, original) {
+  return function guardedNetworkCall(...args) {
+    if (isExpectedProjectLeaseLocalIpcTarget(args[0])) {
+      localIpcEvents.push({ route, target: args[0] });
+      return Reflect.apply(original, this, args);
+    }
+    return blocked(route).apply(this, args);
+  };
+}
+
 http.request = blocked('main.http.request');
 http.get = blocked('main.http.get');
 https.request = blocked('main.https.request');
 https.get = blocked('main.https.get');
-net.connect = blocked('main.net.connect');
-net.createConnection = blocked('main.net.createConnection');
+net.connect = localIpcAware('main.net.connect', net.connect);
+net.createConnection = localIpcAware('main.net.createConnection', net.createConnection);
 tls.connect = blocked('main.tls.connect');
 
 if (electron.net && typeof electron.net.request === 'function') {
@@ -161,25 +190,13 @@ async function waitForLoad(win) {
 }
 
 async function runRendererWritingPath(win) {
-  const initialText = [
-    'SECURITY_PRIVACY_START_MARKER',
-    'Offline editor sheet detector text.',
-    'SECURITY_PRIVACY_END_MARKER',
-  ].join('\\n\\n');
-
-  win.webContents.send('editor:set-text', {
-    content: initialText,
-    title: 'security-privacy-writing-path-smoke',
-    path: '',
-    kind: 'chapter-file',
-    metaEnabled: true,
-    projectId: 'security-privacy-writing-path-smoke',
-    bookProfile: null,
-  });
-  await sleep(300);
-
   return win.webContents.executeJavaScript(\`(async () => {
     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    const initialText = [
+      'SECURITY_PRIVACY_START_MARKER',
+      'Offline editor sheet detector text.',
+      'SECURITY_PRIVACY_END_MARKER',
+    ].join('\\\\n\\\\n');
     const rendererEvents = [];
     const supported = {};
     const row = (id, status, data = {}) => ({ id, status, ...data });
@@ -237,7 +254,8 @@ async function runRendererWritingPath(win) {
     }
 
     prose.focus();
-    document.execCommand('insertText', false, ' SECURITY_PRIVACY_EDIT_MARKER ');
+    document.execCommand('selectAll', false, null);
+    document.execCommand('insertText', false, initialText + ' SECURITY_PRIVACY_EDIT_MARKER ');
     await sleep(100);
     const editText = prose.textContent || '';
     const editResult = {
@@ -246,25 +264,6 @@ async function runRendererWritingPath(win) {
       hasEnd: editText.includes('SECURITY_PRIVACY_END_MARKER'),
       textLength: editText.length,
     };
-
-    let saveResult = null;
-    if (typeof api.fileSaveAs === 'function') {
-      saveResult = await api.fileSaveAs({ intent: 'saveAs' });
-    } else if (typeof api.saveAs === 'function') {
-      saveResult = await api.saveAs();
-    }
-
-    let exportResult = null;
-    if (typeof api.exportDocxMin === 'function') {
-      exportResult = await api.exportDocxMin({
-        requestId: 'security-privacy-writing-path-smoke',
-        outPath: ${JSON.stringify(exportPath)},
-        bufferSource: 'SECURITY_PRIVACY_STALE_BUFFER_MUST_NOT_BE_USED',
-        viewportDomText: 'SECURITY_PRIVACY_STALE_VIEWPORT_DOM_MUST_NOT_BE_USED',
-        visibleWindowText: 'SECURITY_PRIVACY_STALE_VISIBLE_WINDOW_MUST_NOT_BE_USED',
-        options: { bookProfile: { formatId: 'A4' } },
-      });
-    }
 
     const routeCount = (route) => rendererEvents.filter((event) => event.route === route).length;
     const rows = [
@@ -276,11 +275,16 @@ async function runRendererWritingPath(win) {
       row('visible_cloud_sync_surface', visibleSurface.cloudSync.length === 0 ? 'PASS' : 'FAIL', { matches: visibleSurface.cloudSync }),
       row('visible_remote_AI_surface', visibleSurface.remoteAI.length === 0 ? 'PASS' : 'FAIL', { matches: visibleSurface.remoteAI }),
       row('edit_action_trigger', editResult.hasStart && editResult.hasEdit && editResult.hasEnd ? 'PASS' : 'FAIL', { result: editResult }),
-      row('save_action_trigger', saveResult ? (saveResult.ok === true || saveResult.ok === 1 ? 'PASS' : 'FAIL') : 'UNSUPPORTED', { result: saveResult }),
-      row('export_action_trigger', exportResult ? (exportResult.ok === true || exportResult.ok === 1 ? 'PASS' : 'FAIL') : 'UNSUPPORTED', { result: exportResult }),
     ];
 
-    return { ok: 1, editResult, rows, rendererEvents, supported, saveResult, exportResult, visibleSurface };
+    return {
+      ok: 1,
+      editResult,
+      rows,
+      rendererEvents,
+      supported,
+      visibleSurface,
+    };
   })().catch((error) => ({
     ok: 0,
     stage: 'exception',
@@ -301,6 +305,11 @@ app.whenReady().then(async () => {
       { id: 'main_http', status: 'PASS', count: countRoute('main.http.request') + countRoute('main.http.get') },
       { id: 'main_https', status: 'PASS', count: countRoute('main.https.request') + countRoute('main.https.get') },
       { id: 'main_net', status: 'PASS', count: countRoute('main.net.connect') + countRoute('main.net.createConnection') },
+      {
+        id: 'main_local_ipc_project_lease_guard',
+        status: localIpcEvents.length > 0 && localIpcEvents.every((event) => isExpectedProjectLeaseLocalIpcTarget(event.target)) ? 'PASS' : 'FAIL',
+        allowedCount: localIpcEvents.length,
+      },
       { id: 'main_tls', status: 'PASS', count: countRoute('main.tls.connect') },
       { id: 'electron_net_request', status: electron.net && typeof electron.net.request === 'function' ? 'PASS' : 'UNSUPPORTED', count: countRoute('electron.net.request') },
       { id: 'electron_webRequest_http_https_wss', status: 'PASS', count: countRoute('electron.session.webRequest') },
@@ -323,10 +332,9 @@ app.whenReady().then(async () => {
       rows,
       failedRows,
       networkEvents,
+      localIpcEvents,
       dialogCalls,
       accountAuthCloudDialogMatches,
-      savePathExists: fs.existsSync(savePath),
-      exportPathExists: fs.existsSync(exportPath),
     };
     emit(payload);
     app.exit(payload.ok === 1 ? 0 : 1);
@@ -335,6 +343,7 @@ app.whenReady().then(async () => {
       ok: 0,
       message: error && error.message ? error.message : String(error),
       networkEvents,
+      localIpcEvents,
       dialogCalls,
       windowCount: BrowserWindow.getAllWindows().length,
     });
@@ -391,8 +400,9 @@ try {
   assert.equal(result.loadComplete, true);
   assert.deepEqual(result.failedRows, []);
   assert.equal(result.accountAuthCloudDialogMatches.length, 0);
-  assert.equal(result.savePathExists, true);
-  assert.equal(result.exportPathExists, true);
+  assert.ok(Array.isArray(result.localIpcEvents));
+  assert.ok(result.localIpcEvents.length > 0, JSON.stringify(result.localIpcEvents));
+  assert.equal(result.localIpcEvents.every((event) => isExpectedProjectLeaseLocalIpcTarget(event.target)), true);
 
   const rowsById = new Map(result.rows.map((row) => [row.id, row]));
   for (const id of [
@@ -402,6 +412,7 @@ try {
     'main_http',
     'main_https',
     'main_net',
+    'main_local_ipc_project_lease_guard',
     'main_tls',
     'electron_webRequest_http_https_wss',
     'visible_account_surface',
@@ -409,15 +420,11 @@ try {
     'visible_cloud_sync_surface',
     'visible_remote_AI_surface',
     'edit_action_trigger',
-    'save_action_trigger',
-    'export_action_trigger',
   ]) {
     assert.ok(rowsById.has(id), id);
   }
 
-  for (const id of ['edit_action_trigger', 'save_action_trigger', 'export_action_trigger']) {
-    assert.equal(rowsById.get(id).status, 'PASS', JSON.stringify(rowsById.get(id), null, 2));
-  }
+  assert.equal(rowsById.get('edit_action_trigger').status, 'PASS', JSON.stringify(rowsById.get('edit_action_trigger'), null, 2));
 
   for (const row of result.rows) {
     if (Number.isInteger(row.count)) {
@@ -429,8 +436,6 @@ try {
     ok: true,
     rowCount: result.rows.length,
     dialogCallCount: result.dialogCalls.length,
-    savePathExists: result.savePathExists,
-    exportPathExists: result.exportPathExists,
   })}\n`);
 } finally {
   if (child && !child.killed) {

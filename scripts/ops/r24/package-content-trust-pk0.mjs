@@ -67,6 +67,23 @@ export const C6D_DEPENDENCY_MUTATION_ADMISSION = Object.freeze({
   targetElectronVersion: '41.10.3',
 });
 
+export const POST_AUDIT_TOOLCHAIN_MUTATION_ADMISSION = Object.freeze({
+  allowedChangedFiles: Object.freeze(['package-lock.json', 'package.json']),
+  authorityDigest: '25dcdecea335cf72d42e1bf145f89b31a27f21b22ab22e41311e895542b052be',
+  baseLockSha256: '54dc46b025c7f77d522bb861724dc7d8bdd752a29e3e6a55eb72f30b50047a6f',
+  currentLockSha256: 'ecd5600757578f16f663db256d19649d1b238e00dd8f50510dffd11d642d8ff5',
+  originalEngines: Object.freeze({ node: '>=20.19.0 <21.0.0', npm: '>=10.0.0 <11.0.0' }),
+  originalPackageManager: null,
+  ownerAuthorityBindingDigest: 'be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6',
+  schemaVersion: 'YALKEN_R24_POST_AUDIT_TOOLCHAIN_MUTATION_ADMISSION_V1',
+  stageAdmissionDigest: '8ed57cd7f1808f3550a98b3b262fb5cb61bca6f28320adcdd3c426f67b184340',
+  stageId: 'POST_AUDIT_CORRECTIONS',
+  stageInstanceDigest: '1ae77b127daec73009a9cf84a010306004e7c247708215deaa2a566b48826eb1',
+  status: 'ADMITTED_TOOLCHAIN_SUCCESSOR',
+  targetEngines: Object.freeze({ node: '>=22.12.0 <23.0.0', npm: '>=10.9.0 <11.0.0' }),
+  targetPackageManager: 'npm@10.9.0',
+});
+
 function stableJson(value) {
   if (value === null || typeof value !== 'object') return JSON.stringify(value);
   if (Array.isArray(value)) return `[${value.map(stableJson).join(',')}]`;
@@ -160,10 +177,22 @@ function validateProgramBinding(programDag, scientificContracts) {
 }
 
 export function validateDependencyMutationAdmission(candidate) {
-  return candidate
+  const c6dValid = candidate
     && typeof candidate === 'object'
     && !Array.isArray(candidate)
     && hashCanonicalValue(candidate) === hashCanonicalValue(C6D_DEPENDENCY_MUTATION_ADMISSION);
+  const postAuditValid = candidate
+    && typeof candidate === 'object'
+    && !Array.isArray(candidate)
+    && hashCanonicalValue(candidate) === hashCanonicalValue(POST_AUDIT_TOOLCHAIN_MUTATION_ADMISSION);
+  return c6dValid || postAuditValid;
+}
+
+function isPostAuditToolchainAdmission(candidate) {
+  return candidate
+    && typeof candidate === 'object'
+    && !Array.isArray(candidate)
+    && hashCanonicalValue(candidate) === hashCanonicalValue(POST_AUDIT_TOOLCHAIN_MUTATION_ADMISSION);
 }
 
 function exactElectronOnlyUpgrade(packageJson, baselinePackageJson) {
@@ -178,6 +207,16 @@ function exactElectronOnlyUpgrade(packageJson, baselinePackageJson) {
     && hashCanonicalValue(currentDev) === hashCanonicalValue(baselineDev);
 }
 
+function exactPostAuditToolchainTransition(packageJson, baselinePackageJson) {
+  return hashCanonicalValue(packageJson?.dependencies || {}) === hashCanonicalValue(baselinePackageJson?.dependencies || {})
+    && hashCanonicalValue(packageJson?.devDependencies || {}) === hashCanonicalValue(baselinePackageJson?.devDependencies || {})
+    && hashCanonicalValue(packageJson?.overrides || {}) === hashCanonicalValue(baselinePackageJson?.overrides || {})
+    && hashCanonicalValue(baselinePackageJson?.engines || {}) === hashCanonicalValue(POST_AUDIT_TOOLCHAIN_MUTATION_ADMISSION.originalEngines)
+    && hashCanonicalValue(packageJson?.engines || {}) === hashCanonicalValue(POST_AUDIT_TOOLCHAIN_MUTATION_ADMISSION.targetEngines)
+    && (baselinePackageJson?.packageManager ?? null) === POST_AUDIT_TOOLCHAIN_MUTATION_ADMISSION.originalPackageManager
+    && packageJson?.packageManager === POST_AUDIT_TOOLCHAIN_MUTATION_ADMISSION.targetPackageManager;
+}
+
 function validatePackageDependencies({
   packageJson,
   baselinePackageJson = null,
@@ -187,6 +226,7 @@ function validatePackageDependencies({
   const errors = [];
   const changed = new Set(uniqSorted(changedFiles));
   const admissionValid = validateDependencyMutationAdmission(dependencyMutationAdmission);
+  const postAuditAdmissionValid = isPostAuditToolchainAdmission(dependencyMutationAdmission);
   if (changed.has('pnpm-lock.yaml') || changed.has('pnpm-workspace.yaml')) {
     errors.push('PK0_LOCKFILE_OR_WORKSPACE_MUTATION_FORBIDDEN');
   }
@@ -197,17 +237,25 @@ function validatePackageDependencies({
         || filePath === 'package-lock.json'
         || filePath === 'pnpm-lock.yaml'
         || filePath === 'pnpm-workspace.yaml')
-      && !C6D_DEPENDENCY_MUTATION_ADMISSION.allowedChangedFiles.includes(filePath)
+      && !(postAuditAdmissionValid
+        ? POST_AUDIT_TOOLCHAIN_MUTATION_ADMISSION.allowedChangedFiles
+        : C6D_DEPENDENCY_MUTATION_ADMISSION.allowedChangedFiles).includes(filePath)
     ));
     if (outsideAdmission.length > 0) errors.push('PK0_DEPENDENCY_ADMISSION_WRITE_SET_EXPANSION');
   }
   if (baselinePackageJson) {
-    for (const key of ['dependencies', 'devDependencies', 'overrides', 'engines']) {
+    for (const key of ['dependencies', 'devDependencies', 'overrides', 'engines', 'packageManager']) {
       if (hashCanonicalValue(packageJson?.[key] || {}) !== hashCanonicalValue(baselinePackageJson?.[key] || {})) {
         const exactAdmittedElectronUpgrade = key === 'devDependencies'
           && admissionValid
+          && !postAuditAdmissionValid
           && exactElectronOnlyUpgrade(packageJson, baselinePackageJson);
-        if (!exactAdmittedElectronUpgrade) errors.push(`PK0_${key.toUpperCase()}_MUTATION_FORBIDDEN`);
+        const exactAdmittedToolchainTransition = (key === 'engines' || key === 'packageManager')
+          && postAuditAdmissionValid
+          && exactPostAuditToolchainTransition(packageJson, baselinePackageJson);
+        if (!exactAdmittedElectronUpgrade && !exactAdmittedToolchainTransition) {
+          errors.push(`PK0_${key.toUpperCase()}_MUTATION_FORBIDDEN`);
+        }
       }
     }
   }
@@ -395,14 +443,39 @@ function readC6DDependencyAdmission(root) {
   return C6D_DEPENDENCY_MUTATION_ADMISSION;
 }
 
+function readPostAuditToolchainAdmission(root) {
+  const files = {
+    authority: ['docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_OWNER_AMENDMENT_V2.json', POST_AUDIT_TOOLCHAIN_MUTATION_ADMISSION.authorityDigest],
+    stage: ['docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V3.json', POST_AUDIT_TOOLCHAIN_MUTATION_ADMISSION.stageInstanceDigest],
+    admission: ['docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_ATTESTATION_V3.json', POST_AUDIT_TOOLCHAIN_MUTATION_ADMISSION.stageAdmissionDigest],
+  };
+  const values = {};
+  for (const [role, [relativePath, expectedDigest]] of Object.entries(files)) {
+    const absolutePath = path.join(root, relativePath);
+    if (!fs.existsSync(absolutePath)) return null;
+    const bytes = fs.readFileSync(absolutePath);
+    if (crypto.createHash('sha256').update(bytes).digest('hex') !== expectedDigest) return null;
+    values[role] = JSON.parse(bytes.toString('utf8'));
+  }
+  if (values.authority.stageId !== POST_AUDIT_TOOLCHAIN_MUTATION_ADMISSION.stageId) return null;
+  if (values.stage.stageId !== POST_AUDIT_TOOLCHAIN_MUTATION_ADMISSION.stageId) return null;
+  if (values.admission.status !== 'ADMITTED') return null;
+  if (values.admission.authorityDigest !== POST_AUDIT_TOOLCHAIN_MUTATION_ADMISSION.authorityDigest) return null;
+  if (values.admission.stageInstanceDigest !== POST_AUDIT_TOOLCHAIN_MUTATION_ADMISSION.stageInstanceDigest) return null;
+  const lockBytes = fs.readFileSync(path.join(root, 'package-lock.json'));
+  if (crypto.createHash('sha256').update(lockBytes).digest('hex') !== POST_AUDIT_TOOLCHAIN_MUTATION_ADMISSION.currentLockSha256) return null;
+  return POST_AUDIT_TOOLCHAIN_MUTATION_ADMISSION;
+}
+
 export function evaluateRepositoryPackageContentTrust({ repoRoot = process.cwd(), baselinePackageJson = null } = {}) {
   const root = path.resolve(repoRoot);
+  const dependencyMutationAdmission = readPostAuditToolchainAdmission(root) || readC6DDependencyAdmission(root);
   return evaluatePackageContentTrust({
     packageJson: readJson(path.join(root, 'package.json')),
     baselinePackageJson: baselinePackageJson || gitShowJson({ cwd: root, revisionPath: 'origin/main:package.json' }),
     trackedFiles: gitLsFiles({ cwd: root }),
     changedFiles: gitChangedFiles({ cwd: root }),
-    dependencyMutationAdmission: readC6DDependencyAdmission(root),
+    dependencyMutationAdmission,
     programDag: readJson(path.join(root, 'docs', 'OPS', 'EVIDENCE', 'YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1', 'PROGRAM_DAG.json')),
     scientificContracts: readJson(path.join(root, 'docs', 'OPS', 'EVIDENCE', 'YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1', 'SCIENTIFIC_CONTRACTS.json')),
   });

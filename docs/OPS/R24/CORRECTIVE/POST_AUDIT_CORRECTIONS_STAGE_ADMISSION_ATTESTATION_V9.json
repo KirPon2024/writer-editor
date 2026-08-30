@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "STAGE_ADMISSION_ATTESTATION_V2",
+  "attestationType": "INDEPENDENT_PINNED_STAGE_ADMISSION",
+  "status": "ADMITTED",
+  "decision": "INSTANCE_IS_EXACT_SUBSET_OF_OWNER_AUTHORIZED_SUCCESSOR",
+  "stageId": "POST_AUDIT_CORRECTIONS",
+  "authorityId": "OWNER_POST_AUDIT_RESUME_OVERRIDE_V1",
+  "authorityDigest": "ce21a6365c81d103a1dcfe5b4480004263f311185402712befee9e56a5fa353b",
+  "ownerAuthorityBindingDigest": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+  "sourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "stageInstanceDigest": "0a4977fd069d07736772d5258021cd9778afdc683c31abe72f50565d12223a3f",
+  "writeSetDigest": "a514bb690a82e2c95eb65eda16ad00c98ef6adc6fdbe08be48b949b6d8b64786",
+  "commandScopeDigest": "6c238434f73c8c075becb96fa28520d71c357f0c58cdaf95acdf75f94b78b9e7",
+  "acceptanceSignalsDigest": "19b012c1c647cf0abf2cbb39d4c973276efc4133637d9733c4c6d24fec1cde6f",
+  "verifierDigest": "d7837ff49cb9df196303384111336d9907cbf66147ba23bf8b687404666e5b59",
+  "exactIdentity": {
+    "baseSha": "34a32dc9a7fb0fa66df9aaf3fbefaa0398e7f476",
+    "headSha": "34a32dc9a7fb0fa66df9aaf3fbefaa0398e7f476",
+    "treeSha": "5b00da5385c4975b0e260efb4e488569aed1f009",
+    "branch": "codex/r24-post-audit-corrections-v1-20260830",
+    "targetRemote": "origin"
+  },
+  "lease": {
+    "fencingCounter": 56,
+    "predecessorReleaseDigest": "583e4209f200cb4dc342f8d05f59b808243e960669d8a0d225586b0e7ff4dd6f",
+    "status": "ACTIVE",
+    "wip": 1
+  },
+  "observedAtUtc": "2026-08-30T17:19:09Z"
+}

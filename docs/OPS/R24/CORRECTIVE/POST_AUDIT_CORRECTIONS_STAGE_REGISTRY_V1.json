@@ -6,11 +6,11 @@
   "stages": [
     {
       "stageId": "POST_AUDIT_CORRECTIONS",
-      "stageInstanceDigest": "2dc214033df5cc341d6f7dfaf20375d63ae5f5e6bdc8b28b58b34eef21317027",
-      "stageAdmissionDigest": "de8b32eb6838e2a65a8c89e11cee948ce5aa20e4ba4f4bda1260bbcdb894923d",
-      "writeSetDigest": "a0697de20f748070e8eee0758fc383acd5ab1e74ec06e0110d554093b4e5872a",
-      "commandScopeDigest": "9dcdc1bae5fb9c87831bfa75ce4870db5300cbd5892153989e72fc12498692a3",
-      "acceptanceSignalsDigest": "399554da415678d7a42aed9fcf791e2749afe650944166870d99391021172c42",
+      "stageInstanceDigest": "cf3030757b869cf9c5c2053abe4fae750f504c70f82bbb1da56e3f7afcac2188",
+      "stageAdmissionDigest": "c9a3bdb666ed9cba2c6f32951ebf6f8d6d36e3fe2d5fcf8e1ce394acf38b5a37",
+      "writeSetDigest": "1ee2085d30d0a5bb8baebc40390b0a9e311b0cd07c2c381886b731afe722d97a",
+      "commandScopeDigest": "dea17f04e01dce3f936001dfe138a8023aa97f40e558d6a30e3aca335d9c1115",
+      "acceptanceSignalsDigest": "25a8af32f65ec976b338aec760b07d2ae932255368abaa510668639a1cf1b6a7",
       "fencingCounter": 56,
       "status": "ADMITTED_ACTIVE"
     }

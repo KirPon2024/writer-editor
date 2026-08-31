@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "YALKEN_R24_WP402_ACCEPTANCE_MATRIX_V1",
+  "stageId": "WP-402_PROJECTOR_KERNEL",
+  "status": "PASS",
+  "observedAtUtc": "2026-08-31T23:07:28Z",
+  "evaluationSha": "9a7635ab1ccccfbbbaa941319b1bfab35876e383",
+  "evaluationTreeSha": "d36b6ae4fdcfd8bd82e9753f167e521d77c4040e",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "bindings": {
+    "stageInstanceDigest": "5bc2e5566be12de357521a6f1a1509fcb12964317894c8910fc353c09da4d63c",
+    "stageAdmissionDigest": "ad6f75503eaddad4265c8efc16c9a40e13e14ff206171a3f2fe8da224538e007",
+    "acceptanceSignalsDigest": "203c570cb81dcd303790483a93841aeb43a632b07cadd2f9476cd7c97089b656",
+    "contourTerminalReceiptDigest": "f73582e9885a113f8487f21f7d88c0d7898529f7551e670049de00a4524768c0",
+    "claimBindingDigest": "0d770d528d703a3c93ff21ce4dbfccd7f5135dacf449b5c05a8261e76a557cb9",
+    "leaseReleaseDigest": "44a92464818faf50edf08c614b25ee000db918745025bc39d021b9e20f474f9e",
+    "protectedWipAfterCarrierDigest": "40c90edc85c8b829b38258e7dee681dce5b7e43a8b7b956d1414995b957219d0"
+  },
+  "rowCount": 19,
+  "passedRowCount": 19,
+  "failedRowCount": 0,
+  "pendingRowCount": 0,
+  "rows": [
+    { "id": "ATOMIC_PUBLICATION_NO_PARTIAL_STATE", "status": "PASS", "evidenceStampId": "ES-R24-WP-402-PROJECTOR-KERNEL-INTEGRATION" },
+    { "id": "BOUNDED_LATEST_JOB_SCHEDULER", "status": "PASS", "evidenceStampId": "ES-R24-WP-402-PROJECTOR-KERNEL-MODEL" },
+    { "id": "COMPLETE_DENOMINATOR_NO_SKIPS", "status": "PASS", "evidenceStampId": "ES-R24-WP-402-PROJECTOR-KERNEL-CLAIM-BINDINGS" },
+    { "id": "DIFFERENTIAL_ORACLE", "status": "PASS", "evidenceStampId": "ES-R24-WP-402-PROJECTOR-KERNEL-INTEGRATION" },
+    { "id": "EXACT_BOOK_SNAPSHOT_BINDING", "status": "PASS", "evidenceStampId": "ES-R24-WP-402-PROJECTOR-KERNEL-CONTRACT" },
+    { "id": "GOVERNANCE_STRICT_PASS", "status": "PASS", "evidenceStampId": "ES-R24-WP-402-PROJECTOR-KERNEL-SURVIVOR-AUDIT" },
+    { "id": "IMPLEMENTATION_MUTANTS_ALL_KILLED", "status": "PASS", "evidenceStampId": "ES-R24-WP-402-PROJECTOR-KERNEL-MUTANTS" },
+    { "id": "INDEPENDENT_EXACT_HEAD", "status": "PASS", "evidenceStampId": "ES-R24-WP-402-PROJECTOR-KERNEL-EXACT-HEAD" },
+    { "id": "LARGE_CORPUS_BOUND", "status": "PASS", "evidenceStampId": "ES-R24-WP-402-PROJECTOR-KERNEL-INTEGRATION" },
+    { "id": "LEASE_60_RELEASED_WIP_0", "status": "PASS", "carrier": "WP402_LEASE_RELEASE_V1" },
+    { "id": "POSTMERGE_EXACT_HEAD", "status": "PASS", "evidenceStampId": "ES-R24-WP-402-PROJECTOR-KERNEL-POSTMERGE-EXACT-HEAD" },
+    { "id": "POST_AUDIT_WP402_EXCEPTION_FAIL_CLOSED", "status": "PASS", "evidenceStampId": "ES-R24-WP-402-PROJECTOR-KERNEL-SURVIVOR-AUDIT" },
+    { "id": "PROGRAM_DONE_FALSE", "status": "PASS", "carrier": "WP402_LEASE_RELEASE_V1" },
+    { "id": "PROJECTOR_AND_JOB_IDENTITY_BINDING", "status": "PASS", "evidenceStampId": "ES-R24-WP-402-PROJECTOR-KERNEL-MODEL" },
+    { "id": "PROTECTED_WIP_UNCHANGED", "status": "PASS", "carrier": "WP402_PROTECTED_WIP_AFTER_V1" },
+    { "id": "STALE_GENERATION_REJECTION", "status": "PASS", "evidenceStampId": "ES-R24-WP-402-PROJECTOR-KERNEL-CONTRACT" },
+    { "id": "STALE_SNAPSHOT_REJECTION", "status": "PASS", "evidenceStampId": "ES-R24-WP-402-PROJECTOR-KERNEL-CONTRACT" },
+    { "id": "STRICT_INPUT_AND_TAMPER_REJECTION", "status": "PASS", "evidenceStampId": "ES-R24-WP-402-PROJECTOR-KERNEL-MUTANTS" },
+    { "id": "SURVIVOR_AUDIT", "status": "PASS", "evidenceStampId": "ES-R24-WP-402-PROJECTOR-KERNEL-SURVIVOR-AUDIT" }
+  ],
+  "verdict": "PASS",
+  "programDone": false
+}

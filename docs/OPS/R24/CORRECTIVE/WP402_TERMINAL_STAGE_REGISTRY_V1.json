@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "YALKEN_R24_WP402_TERMINAL_STAGE_REGISTRY_V1",
+  "registryId": "WP402_TERMINAL_STAGE_REGISTRY_V1",
+  "status": "CERTIFIED_DONE_RELEASED_WIP_0",
+  "observedAtUtc": "2026-08-31T23:07:28Z",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "predecessor": {
+    "wp401TerminalReceiptDigest": "62404f7e5db644b3af115d226ee6314316c241d9cfa0662bd036e6c7f64a79b4",
+    "wp401TerminalEffectiveStateDigest": "43b9c5de6777321efdce2c457a2b562e084b4a7d12d9d8e925d473fc3ca13122",
+    "wp401LeaseReleaseDigest": "f2805eb6d9b22e9f3ceb80672f4e41cb71d6b40c2870825591d15c4dd77dd428"
+  },
+  "stages": [
+    {
+      "stageId": "WP-402_PROJECTOR_KERNEL",
+      "status": "CERTIFIED_DONE",
+      "evaluationSha": "9a7635ab1ccccfbbbaa941319b1bfab35876e383",
+      "evaluationTreeSha": "d36b6ae4fdcfd8bd82e9753f167e521d77c4040e",
+      "authorityDigest": "74ae21ddddb35e732a6cbe29cb83aa026fe38c3b379edd72a037ed2cfdf288bf",
+      "stageInstanceDigest": "5bc2e5566be12de357521a6f1a1509fcb12964317894c8910fc353c09da4d63c",
+      "stageAdmissionDigest": "ad6f75503eaddad4265c8efc16c9a40e13e14ff206171a3f2fe8da224538e007",
+      "writeSetDigest": "3c3ecd32b8fb5fa5052e2b4f03d5d5ce1919e1a8acf4d9a437d2edf13c90bc91",
+      "commandListDigest": "1c5645a2b25eb54b08041e7ffeb176ca61c39060b24031da9e408e593537736b",
+      "acceptanceSignalsDigest": "203c570cb81dcd303790483a93841aeb43a632b07cadd2f9476cd7c97089b656",
+      "acceptanceMatrixDigest": "5cf88a4869f17703b12c040d79b0ef0d07721124ff427556784052fd28bde65b",
+      "terminalEffectiveStateDigest": "84339e1787b1ec68d9cfd89b3fb8a111d3fb88ace172ac04a07af6c98740570e",
+      "leaseReleaseDigest": "44a92464818faf50edf08c614b25ee000db918745025bc39d021b9e20f474f9e",
+      "lease": {
+        "fencingCounter": 60,
+        "status": "RELEASED",
+        "wip": 0
+      },
+      "delivery": {
+        "implementationPullRequest": 1789,
+        "implementationCandidateCiRunId": 33444157986,
+        "implementationMergeSha": "423c74a1ba57144b6cf6b3e0dd350199cdefd02d",
+        "implementationPostmergeRunId": 33445276980,
+        "closurePullRequest": 1790,
+        "closureCandidateCiRunId": 33447625710,
+        "closureMergeSha": "9a7635ab1ccccfbbbaa941319b1bfab35876e383",
+        "closurePostmergeRunId": 33448531817,
+        "releaseCarrierProtectedDeliveryPending": true,
+        "nonRecursiveCarrierPattern": true
+      }
+    }
+  ],
+  "stageCount": 1,
+  "certifiedDoneCount": 1,
+  "failedCount": 0,
+  "pendingCount": 0,
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

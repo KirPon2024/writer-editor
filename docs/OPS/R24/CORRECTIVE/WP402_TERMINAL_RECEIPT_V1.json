@@ -1,0 +1,151 @@
+{
+  "schemaVersion": "YALKEN_R24_WP402_TERMINAL_RECEIPT_V1",
+  "receiptId": "WP402_TERMINAL_RECEIPT_V1",
+  "stageId": "WP-402_PROJECTOR_KERNEL",
+  "status": "CERTIFIED_DONE",
+  "observedAtUtc": "2026-08-31T23:07:28Z",
+  "originSha": "9a7635ab1ccccfbbbaa941319b1bfab35876e383",
+  "originTreeSha": "d36b6ae4fdcfd8bd82e9753f167e521d77c4040e",
+  "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+  "bindings": {
+    "ownerAuthorityBindingDigest": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+    "authorityDigest": "74ae21ddddb35e732a6cbe29cb83aa026fe38c3b379edd72a037ed2cfdf288bf",
+    "stageInstanceDigest": "5bc2e5566be12de357521a6f1a1509fcb12964317894c8910fc353c09da4d63c",
+    "stageAdmissionDigest": "ad6f75503eaddad4265c8efc16c9a40e13e14ff206171a3f2fe8da224538e007",
+    "writeSetDigest": "3c3ecd32b8fb5fa5052e2b4f03d5d5ce1919e1a8acf4d9a437d2edf13c90bc91",
+    "commandListDigest": "1c5645a2b25eb54b08041e7ffeb176ca61c39060b24031da9e408e593537736b",
+    "acceptanceSignalsDigest": "203c570cb81dcd303790483a93841aeb43a632b07cadd2f9476cd7c97089b656",
+    "contourTerminalReceiptDigest": "f73582e9885a113f8487f21f7d88c0d7898529f7551e670049de00a4524768c0",
+    "claimBindingDigest": "0d770d528d703a3c93ff21ce4dbfccd7f5135dacf449b5c05a8261e76a557cb9",
+    "closureGovernanceApprovalDigest": "29480fa92956e13ac532f43cfb450a525aaf25473d81211fed3b09219c07a39f",
+    "acceptanceMatrixDigest": "5cf88a4869f17703b12c040d79b0ef0d07721124ff427556784052fd28bde65b",
+    "leaseReleaseDigest": "44a92464818faf50edf08c614b25ee000db918745025bc39d021b9e20f474f9e",
+    "terminalEffectiveStateDigest": "84339e1787b1ec68d9cfd89b3fb8a111d3fb88ace172ac04a07af6c98740570e",
+    "terminalStageRegistryDigest": "fcfb04fc17ae7f9e2617f5b137620e93098a1ee072b8e11c72088788a129c913",
+    "protectedWipBeforeCarrierDigest": "b6db898c3a4d5395fd38d2129ae950c9da4f5c8d23230547f7ce2618e17cce49",
+    "protectedWipAfterCarrierDigest": "40c90edc85c8b829b38258e7dee681dce5b7e43a8b7b956d1414995b957219d0"
+  },
+  "predecessor": {
+    "wp401TerminalReceiptDigest": "62404f7e5db644b3af115d226ee6314316c241d9cfa0662bd036e6c7f64a79b4",
+    "wp401EffectiveStateDigest": "43b9c5de6777321efdce2c457a2b562e084b4a7d12d9d8e925d473fc3ca13122",
+    "wp401LeaseReleaseDigest": "f2805eb6d9b22e9f3ceb80672f4e41cb71d6b40c2870825591d15c4dd77dd428",
+    "auditV3ReceiptDigest": "81b204ec31d99aede71532b6ac58d8af10dee5543871faa8283d9687a83e49e3"
+  },
+  "delivery": {
+    "implementation": {
+      "pullRequest": 1789,
+      "candidateSha": "5989cc000eeb5de26a0cc4b92ad68bd9a6c06f0e",
+      "mergeSha": "423c74a1ba57144b6cf6b3e0dd350199cdefd02d",
+      "treeSha": "ded492f716e63b3273ab8d9c6d69fa3b1013e8d9",
+      "candidateCiRunId": 33444157986,
+      "candidateCiRequiredContextsPassed": 17,
+      "exactPostmergeCiRunId": 33445276980,
+      "exactPostmergeRequiredContextsPassed": 17,
+      "status": "VERIFIED"
+    },
+    "closureCarrier": {
+      "pullRequest": 1790,
+      "candidateSha": "ae8ccb3c74464088789694efd53bd9909258b8e0",
+      "mergeSha": "9a7635ab1ccccfbbbaa941319b1bfab35876e383",
+      "treeSha": "d36b6ae4fdcfd8bd82e9753f167e521d77c4040e",
+      "candidateCiRunId": 33447625710,
+      "candidateCiRequiredContextsPassed": 17,
+      "exactPostmergeCiRunId": 33448531817,
+      "exactPostmergeRequiredContextsPassed": 17,
+      "status": "VERIFIED"
+    },
+    "supersededClosureCandidate": {
+      "candidateSha": "7cbd2d580a7e393e695273985a23110fa5979403",
+      "candidateCiRunId": 33447275538,
+      "failureCode": "E_CLAIM_BINDING_SCHEMA",
+      "successorCandidateSha": "ae8ccb3c74464088789694efd53bd9909258b8e0",
+      "status": "FAIL_CLOSED_CORRECTED_AND_SUPERSEDED"
+    },
+    "releaseCarrier": {
+      "status": "PENDING_NON_RECURSIVE_PROTECTED_DELIVERY",
+      "finalDeliveryBindsThisReceiptExternally": true
+    }
+  },
+  "acceptance": {
+    "matrixDigest": "5cf88a4869f17703b12c040d79b0ef0d07721124ff427556784052fd28bde65b",
+    "rowCount": 19,
+    "passedRowCount": 19,
+    "failedRowCount": 0,
+    "pendingRowCount": 0,
+    "rows": [
+      { "id": "ATOMIC_PUBLICATION_NO_PARTIAL_STATE", "status": "PASS" },
+      { "id": "BOUNDED_LATEST_JOB_SCHEDULER", "status": "PASS" },
+      { "id": "COMPLETE_DENOMINATOR_NO_SKIPS", "status": "PASS" },
+      { "id": "DIFFERENTIAL_ORACLE", "status": "PASS" },
+      { "id": "EXACT_BOOK_SNAPSHOT_BINDING", "status": "PASS" },
+      { "id": "GOVERNANCE_STRICT_PASS", "status": "PASS" },
+      { "id": "IMPLEMENTATION_MUTANTS_ALL_KILLED", "status": "PASS" },
+      { "id": "INDEPENDENT_EXACT_HEAD", "status": "PASS" },
+      { "id": "LARGE_CORPUS_BOUND", "status": "PASS" },
+      { "id": "LEASE_60_RELEASED_WIP_0", "status": "PASS" },
+      { "id": "POSTMERGE_EXACT_HEAD", "status": "PASS" },
+      { "id": "POST_AUDIT_WP402_EXCEPTION_FAIL_CLOSED", "status": "PASS" },
+      { "id": "PROGRAM_DONE_FALSE", "status": "PASS" },
+      { "id": "PROJECTOR_AND_JOB_IDENTITY_BINDING", "status": "PASS" },
+      { "id": "PROTECTED_WIP_UNCHANGED", "status": "PASS" },
+      { "id": "STALE_GENERATION_REJECTION", "status": "PASS" },
+      { "id": "STALE_SNAPSHOT_REJECTION", "status": "PASS" },
+      { "id": "STRICT_INPUT_AND_TAMPER_REJECTION", "status": "PASS" },
+      { "id": "SURVIVOR_AUDIT", "status": "PASS" }
+    ],
+    "verdict": "PASS"
+  },
+  "effectiveState": {
+    "digest": "84339e1787b1ec68d9cfd89b3fb8a111d3fb88ace172ac04a07af6c98740570e",
+    "wp402State": "DONE",
+    "doneCount": 53,
+    "pendingCount": 43
+  },
+  "stageRegistry": {
+    "digest": "fcfb04fc17ae7f9e2617f5b137620e93098a1ee072b8e11c72088788a129c913",
+    "stageCount": 1,
+    "certifiedDoneCount": 1,
+    "failedCount": 0,
+    "pendingCount": 0
+  },
+  "leaseDisposition": {
+    "fencingCounter": 60,
+    "status": "RELEASED",
+    "wip": 0,
+    "releaseDigest": "44a92464818faf50edf08c614b25ee000db918745025bc39d021b9e20f474f9e"
+  },
+  "worktreeProof": {
+    "algorithm": "YALKEN_PROTECTED_WIP_SNAPSHOT_ALGORITHM_V2",
+    "completeDenominator": 253,
+    "presentDenominator": 250,
+    "prunableDenominator": 3,
+    "dirtyDenominator": 7,
+    "completeIdentitySetExact": true,
+    "completeEntrySetExact": true,
+    "protectedDirtySetExact": true,
+    "missingIdentityCount": 0,
+    "addedIdentityCount": 0,
+    "changedEntryCount": 0,
+    "userSensitiveContentsDisclosed": false
+  },
+  "evidenceStampIds": [
+    "ES-R24-WP-402-PROJECTOR-KERNEL-MODEL",
+    "ES-R24-WP-402-PROJECTOR-KERNEL-CONTRACT",
+    "ES-R24-WP-402-PROJECTOR-KERNEL-INTEGRATION",
+    "ES-R24-WP-402-PROJECTOR-KERNEL-MUTANTS",
+    "ES-R24-WP-402-PROJECTOR-KERNEL-EXACT-HEAD",
+    "ES-R24-WP-402-PROJECTOR-KERNEL-POSTMERGE-EXACT-HEAD",
+    "ES-R24-WP-402-PROJECTOR-KERNEL-SURVIVOR-AUDIT",
+    "ES-R24-WP-402-PROJECTOR-KERNEL-CLAIM-BINDINGS"
+  ],
+  "liveWorkAtReleaseBase": {
+    "openPullRequestCount": 0,
+    "runningActionCount": 0,
+    "queuedActionCount": 0,
+    "status": "NONE"
+  },
+  "nonRecursiveCarrierPattern": true,
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

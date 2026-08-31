@@ -4,56 +4,49 @@
       "approvedAtUtc": "2026-08-31T23:07:28Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/CORRECTIVE/WP402_ACCEPTANCE_MATRIX_V1.json",
-      "rationale": "Owner-authorized active WP402 governance route for the exact protected-WIP after snapshot, lease 60 release, terminal acceptance, effective state, stage registry, and non-recursive terminal receipt.",
+      "rationale": "Owner-authorized WP402 release after verified implementation and closure protected merges, exact postmerge CI, and exact privacy-safe protected-WIP comparison.",
       "sha256": "5cf88a4869f17703b12c040d79b0ef0d07721124ff427556784052fd28bde65b"
     },
     {
       "approvedAtUtc": "2026-08-31T23:07:28Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/CORRECTIVE/WP402_LEASE_RELEASE_V1.json",
-      "rationale": "Owner-authorized active WP402 governance route for the exact protected-WIP after snapshot, lease 60 release, terminal acceptance, effective state, stage registry, and non-recursive terminal receipt.",
+      "rationale": "Owner-authorized WP402 release after verified implementation and closure protected merges, exact postmerge CI, and exact privacy-safe protected-WIP comparison.",
       "sha256": "44a92464818faf50edf08c614b25ee000db918745025bc39d021b9e20f474f9e"
     },
     {
       "approvedAtUtc": "2026-08-31T23:07:28Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/CORRECTIVE/WP402_PROTECTED_WIP_AFTER_V1.json",
-      "rationale": "Owner-authorized active WP402 governance route for the exact protected-WIP after snapshot, lease 60 release, terminal acceptance, effective state, stage registry, and non-recursive terminal receipt.",
+      "rationale": "Owner-authorized WP402 release after verified implementation and closure protected merges, exact postmerge CI, and exact privacy-safe protected-WIP comparison.",
       "sha256": "40c90edc85c8b829b38258e7dee681dce5b7e43a8b7b956d1414995b957219d0"
     },
     {
       "approvedAtUtc": "2026-08-31T23:07:28Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
-      "filePath": "docs/OPS/R24/CORRECTIVE/WP402_RELEASE_GOVERNANCE_CHANGE_APPROVALS_V1.json",
-      "rationale": "Owner-authorized active WP402 governance route for the exact protected-WIP after snapshot, lease 60 release, terminal acceptance, effective state, stage registry, and non-recursive terminal receipt.",
-      "sha256": "f8de452d9f3bbbb6752498da142e22ae8457e450dd9dad53629454cabdff165d"
-    },
-    {
-      "approvedAtUtc": "2026-08-31T23:07:28Z",
-      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/CORRECTIVE/WP402_TERMINAL_EFFECTIVE_STATE_V1.json",
-      "rationale": "Owner-authorized active WP402 governance route for the exact protected-WIP after snapshot, lease 60 release, terminal acceptance, effective state, stage registry, and non-recursive terminal receipt.",
+      "rationale": "Owner-authorized WP402 release after verified implementation and closure protected merges, exact postmerge CI, and exact privacy-safe protected-WIP comparison.",
       "sha256": "84339e1787b1ec68d9cfd89b3fb8a111d3fb88ace172ac04a07af6c98740570e"
     },
     {
       "approvedAtUtc": "2026-08-31T23:07:28Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/CORRECTIVE/WP402_TERMINAL_RECEIPT_V1.json",
-      "rationale": "Owner-authorized active WP402 governance route for the exact protected-WIP after snapshot, lease 60 release, terminal acceptance, effective state, stage registry, and non-recursive terminal receipt.",
+      "rationale": "Owner-authorized WP402 release after verified implementation and closure protected merges, exact postmerge CI, and exact privacy-safe protected-WIP comparison.",
       "sha256": "369d4657bf5cc3852d969188686018304d5c165a63a55427ed0a4474bbf6387f"
     },
     {
       "approvedAtUtc": "2026-08-31T23:07:28Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/CORRECTIVE/WP402_TERMINAL_STAGE_REGISTRY_V1.json",
-      "rationale": "Owner-authorized active WP402 governance route for the exact protected-WIP after snapshot, lease 60 release, terminal acceptance, effective state, stage registry, and non-recursive terminal receipt.",
+      "rationale": "Owner-authorized WP402 release after verified implementation and closure protected merges, exact postmerge CI, and exact privacy-safe protected-WIP comparison.",
       "sha256": "fcfb04fc17ae7f9e2617f5b137620e93098a1ee072b8e11c72088788a129c913"
     }
   ],
   "evidenceStampIds": [
     "ES-R24-WP-402-PROJECTOR-KERNEL-SURVIVOR-AUDIT"
   ],
-  "phase": "WP402_TERMINAL_RELEASE_CARRIER",
+  "routingCarrierExemptFromThisPhaseCarrier": "WP402_ACTIVE_GOVERNANCE_CHANGE_APPROVALS_V1.json",
   "sourcePlanRoles": {
     "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
     "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",

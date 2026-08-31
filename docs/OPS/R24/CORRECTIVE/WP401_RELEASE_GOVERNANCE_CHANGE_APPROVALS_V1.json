@@ -4,42 +4,35 @@
       "approvedAtUtc": "2026-08-31T18:08:08Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/CORRECTIVE/WP401_LEASE_RELEASE_V1.json",
-      "rationale": "Owner-authorized active WP401 governance route for the exact protected-WIP after snapshot, lease 59 release, terminal effective state and non-recursive terminal receipt.",
+      "rationale": "Owner-authorized WP401 release after verified implementation and closure protected merges, exact postmerge CI, and exact privacy-safe protected-WIP comparison.",
       "sha256": "f2805eb6d9b22e9f3ceb80672f4e41cb71d6b40c2870825591d15c4dd77dd428"
     },
     {
       "approvedAtUtc": "2026-08-31T18:08:08Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/CORRECTIVE/WP401_PROTECTED_WIP_AFTER_V1.json",
-      "rationale": "Owner-authorized active WP401 governance route for the exact protected-WIP after snapshot, lease 59 release, terminal effective state and non-recursive terminal receipt.",
+      "rationale": "Owner-authorized WP401 release after verified implementation and closure protected merges, exact postmerge CI, and exact privacy-safe protected-WIP comparison.",
       "sha256": "1e146ca3af6e963917b5ba33c3533ce77741401e2ef9bee6cea8c4fc297a6cf0"
     },
     {
       "approvedAtUtc": "2026-08-31T18:08:08Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
-      "filePath": "docs/OPS/R24/CORRECTIVE/WP401_RELEASE_GOVERNANCE_CHANGE_APPROVALS_V1.json",
-      "rationale": "Owner-authorized active WP401 governance route for the exact protected-WIP after snapshot, lease 59 release, terminal effective state and non-recursive terminal receipt.",
-      "sha256": "d8d447982b83d9c2d997e085b8c7a4cdd20b69b583f679bfc774f2d73fa5322d"
-    },
-    {
-      "approvedAtUtc": "2026-08-31T18:08:08Z",
-      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/CORRECTIVE/WP401_TERMINAL_EFFECTIVE_STATE_V1.json",
-      "rationale": "Owner-authorized active WP401 governance route for the exact protected-WIP after snapshot, lease 59 release, terminal effective state and non-recursive terminal receipt.",
+      "rationale": "Owner-authorized WP401 release after verified implementation and closure protected merges, exact postmerge CI, and exact privacy-safe protected-WIP comparison.",
       "sha256": "43b9c5de6777321efdce2c457a2b562e084b4a7d12d9d8e925d473fc3ca13122"
     },
     {
       "approvedAtUtc": "2026-08-31T18:08:08Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/CORRECTIVE/WP401_TERMINAL_RECEIPT_V1.json",
-      "rationale": "Owner-authorized active WP401 governance route for the exact protected-WIP after snapshot, lease 59 release, terminal effective state and non-recursive terminal receipt.",
+      "rationale": "Owner-authorized WP401 release after verified implementation and closure protected merges, exact postmerge CI, and exact privacy-safe protected-WIP comparison.",
       "sha256": "62404f7e5db644b3af115d226ee6314316c241d9cfa0662bd036e6c7f64a79b4"
     }
   ],
   "evidenceStampIds": [
     "ES-R24-WP-401-BOOK-SNAPSHOT-SURVIVOR-AUDIT"
   ],
-  "phase": "WP401_TERMINAL_RELEASE_CARRIER",
+  "routingCarrierExemptFromThisPhaseCarrier": "WP401_ACTIVE_GOVERNANCE_CHANGE_APPROVALS_V1.json",
   "sourcePlanRoles": {
     "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
     "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",

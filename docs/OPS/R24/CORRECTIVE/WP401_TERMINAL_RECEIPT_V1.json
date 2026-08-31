@@ -1,0 +1,180 @@
+{
+  "schemaVersion": "YALKEN_R24_WP401_TERMINAL_RECEIPT_V1",
+  "receiptId": "WP401_TERMINAL_RECEIPT_V1",
+  "stageId": "WP-401_BOOK_SNAPSHOT",
+  "status": "CERTIFIED_DONE",
+  "observedAtUtc": "2026-08-31T18:08:08Z",
+  "originSha": "3bc7d9946a50debeec5691b7c1f0186f5b6e10ad",
+  "originTreeSha": "8c2342eb82a7eb79b8d5ea60d876ac290b892c0a",
+  "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+  "bindings": {
+    "ownerAuthorityBindingDigest": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+    "authorityDigest": "2edc680fd48dc3034af0b1ca76d92ea0e80f007f5874ca4f75959ddfcc8f44ab",
+    "stageRegistryDigest": "92174ef49ecc2754b2ae9082b2b51afdb4267973b21e80590dd23db2a0c47365",
+    "stageInstanceDigest": "bce73b311b15cbe1c05828411b961669bc9ebeda0f4ef471556172297d8775be",
+    "stageAdmissionDigest": "3b44a24aef899ff2692d6d82d518d55c206a898d058be667f58f0ae2b6d11533",
+    "writeSetDigest": "41837e39c5ad8acbce74f7f7613a15c1c8aa24e32266cd3e629572badf400843",
+    "commandListDigest": "dc07c61a3b5e1bdad3613d492054ed800fa020a1f38f2a8e837a392db14c3810",
+    "acceptanceSignalsDigest": "273aa167818ba98e7d9e47c88bd57f8a5da4c9e8918f57bab7e40b27ec01448b",
+    "contourTerminalReceiptDigest": "0743edb8a5048249a6265d054b8626c93dfe0a056d118ced82d27804d65b0f38",
+    "claimBindingDigest": "f62e24de201704556e52a27d07903b386a74e527824a2b676e9728257077f0e7",
+    "closureGovernanceApprovalDigest": "e82567cba362d5fde45c2594c10cd269ac61c5582322a8fd268a382cbf0de73c",
+    "leaseReleaseDigest": "f2805eb6d9b22e9f3ceb80672f4e41cb71d6b40c2870825591d15c4dd77dd428",
+    "terminalEffectiveStateDigest": "43b9c5de6777321efdce2c457a2b562e084b4a7d12d9d8e925d473fc3ca13122",
+    "protectedWipBeforeCarrierDigest": "64ccef672eeca07195e15e4c0a767bb7d034d1f6fbfa5726967f646b94bb3ad7",
+    "protectedWipAfterCarrierDigest": "1e146ca3af6e963917b5ba33c3533ce77741401e2ef9bee6cea8c4fc297a6cf0"
+  },
+  "predecessor": {
+    "wp400TerminalReceiptDigest": "894624ab6d7061d07308c330d3e108d4c5c2774a6850d9d0c1c3d67b47e4fde9",
+    "wp400EffectiveStateDigest": "1e23d7eae55b658a68f93893c11d01069c3f04427c0a6ece9214bb6e3e2bff0d",
+    "auditV3ReceiptDigest": "81b204ec31d99aede71532b6ac58d8af10dee5543871faa8283d9687a83e49e3",
+    "auditV3AuditedStateDigest": "fdddcab15516456de0bef61a22a81419f101c891f0051ed19ca3a2cbf662bf77",
+    "auditV3IdentityCorrectionDigest": "3decfeb778d794bcfce653f302055e1c5f5f58749a8842693363e69b067d5519",
+    "lease58ReleaseDigest": "c3fd6a9ffd7f13faf12a46181f9ea6ae697473272fbf9964a61f3d393f0bb66d"
+  },
+  "delivery": {
+    "implementation": {
+      "pullRequest": 1786,
+      "candidateSha": "5740f2a01e35776201c46e0d5cffe81a37e6a2da",
+      "mergeSha": "61f8bd63aaff11af96612d3aab8dd77e1c22d34b",
+      "treeSha": "a72827c99fce4af93e931d9c4c3902c073e92174",
+      "candidateCiRunId": 33417262371,
+      "candidateCiRequiredContextsPassed": 17,
+      "exactPostmergeCiRunId": 33418324416,
+      "exactPostmergeRequiredContextsPassed": 17,
+      "status": "VERIFIED"
+    },
+    "closureCarrier": {
+      "pullRequest": 1787,
+      "candidateSha": "ebd9734b75157f46028660e8e875b05d82275e8b",
+      "mergeSha": "3bc7d9946a50debeec5691b7c1f0186f5b6e10ad",
+      "treeSha": "8c2342eb82a7eb79b8d5ea60d876ac290b892c0a",
+      "candidateCiRunId": 33421197871,
+      "candidateCiRequiredContextsPassed": 17,
+      "exactPostmergeCiRunId": 33422258403,
+      "exactPostmergeRequiredContextsPassed": 17,
+      "status": "VERIFIED"
+    },
+    "releaseCarrier": {
+      "status": "PENDING_NON_RECURSIVE_PROTECTED_DELIVERY",
+      "finalDeliveryBindsThisReceiptExternally": true
+    }
+  },
+  "acceptance": {
+    "rowCount": 16,
+    "passedRowCount": 16,
+    "failedRowCount": 0,
+    "pendingRowCount": 0,
+    "rows": [
+      {
+        "id": "IMMUTABLE_EXACT_REVISION_BOOK_SNAPSHOT",
+        "status": "PASS"
+      },
+      {
+        "id": "AUTHORITATIVE_SCENE_ORDER_DIGEST",
+        "status": "PASS"
+      },
+      {
+        "id": "COMPLETE_SCENE_DEPENDENCY_DIGEST",
+        "status": "PASS"
+      },
+      {
+        "id": "PROJECT_REVISION_AND_MANIFEST_BINDING",
+        "status": "PASS"
+      },
+      {
+        "id": "STRICT_INPUT_AND_TAMPER_REJECTION",
+        "status": "PASS"
+      },
+      {
+        "id": "STALE_SNAPSHOT_REJECTION",
+        "status": "PASS"
+      },
+      {
+        "id": "DIFFERENTIAL_ORACLE",
+        "status": "PASS"
+      },
+      {
+        "id": "LARGE_CORPUS_BOUND",
+        "status": "PASS"
+      },
+      {
+        "id": "IMPLEMENTATION_MUTANTS",
+        "status": "PASS"
+      },
+      {
+        "id": "INDEPENDENT_EXACT_HEAD",
+        "status": "PASS"
+      },
+      {
+        "id": "POSTMERGE_EXACT_HEAD",
+        "status": "PASS"
+      },
+      {
+        "id": "SURVIVOR_AUDIT",
+        "status": "PASS"
+      },
+      {
+        "id": "PROTECTED_WIP_UNCHANGED",
+        "status": "PASS"
+      },
+      {
+        "id": "LEASE_59_RELEASED_WIP_0",
+        "status": "PASS"
+      },
+      {
+        "id": "PROGRAM_DONE_FALSE",
+        "status": "PASS"
+      },
+      {
+        "id": "GOVERNANCE_STRICT_PASS",
+        "status": "PASS"
+      }
+    ],
+    "verdict": "PASS"
+  },
+  "effectiveState": {
+    "digest": "43b9c5de6777321efdce2c457a2b562e084b4a7d12d9d8e925d473fc3ca13122",
+    "wp401State": "DONE",
+    "doneCount": 52,
+    "pendingCount": 44
+  },
+  "leaseDisposition": {
+    "fencingCounter": 59,
+    "status": "RELEASED",
+    "wip": 0,
+    "releaseDigest": "f2805eb6d9b22e9f3ceb80672f4e41cb71d6b40c2870825591d15c4dd77dd428"
+  },
+  "worktreeProof": {
+    "algorithm": "YALKEN_PROTECTED_WIP_SNAPSHOT_ALGORITHM_V2",
+    "completeDenominator": 253,
+    "dirtyDenominator": 7,
+    "completeIdentitySetExact": true,
+    "completeEntrySetExact": true,
+    "protectedDirtySetExact": true,
+    "missingIdentityCount": 0,
+    "addedIdentityCount": 0,
+    "changedEntryCount": 0,
+    "userSensitiveContentsDisclosed": false
+  },
+  "evidenceStampIds": [
+    "ES-R24-WP-401-BOOK-SNAPSHOT-MODEL",
+    "ES-R24-WP-401-BOOK-SNAPSHOT-CONTRACT",
+    "ES-R24-WP-401-BOOK-SNAPSHOT-INTEGRATION",
+    "ES-R24-WP-401-BOOK-SNAPSHOT-MUTANTS",
+    "ES-R24-WP-401-BOOK-SNAPSHOT-EXACT-HEAD",
+    "ES-R24-WP-401-BOOK-SNAPSHOT-POSTMERGE-EXACT-HEAD",
+    "ES-R24-WP-401-BOOK-SNAPSHOT-SURVIVOR-AUDIT",
+    "ES-R24-WP-401-BOOK-SNAPSHOT-CLAIM-BINDINGS"
+  ],
+  "liveWorkAtReleaseBase": {
+    "openPullRequestCount": 0,
+    "runningActionCount": 0,
+    "queuedActionCount": 0,
+    "status": "NONE"
+  },
+  "nonRecursiveCarrierPattern": true,
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

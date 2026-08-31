@@ -1,0 +1,75 @@
+{
+  "approvals": [
+    {
+      "approvedAtUtc": "2026-08-31T19:35:58Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V3.json",
+      "rationale": "Owner-authorized WP402 bounded implementation contour at exact admitted base under lease 60; no second graph node and PROGRAM_DONE remains false.",
+      "sha256": "0c26c28ebede876b814314ed2a54683bc82040bc0b8d77c3127b2dd3dd438b73"
+    },
+    {
+      "approvedAtUtc": "2026-08-31T19:35:58Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "rationale": "Owner-authorized WP402 bounded implementation contour at exact admitted base under lease 60; no second graph node and PROGRAM_DONE remains false.",
+      "sha256": "66ebc107e3999538bd89a0cca6e478a94fa20043bdacfd5203855d676e8cfd52"
+    },
+    {
+      "approvedAtUtc": "2026-08-31T19:35:58Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP402_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "rationale": "Owner-authorized WP402 bounded implementation contour at exact admitted base under lease 60; no second graph node and PROGRAM_DONE remains false.",
+      "sha256": "aedbe756a9e7a4820df8e343de8f56d5e4d3598bbf93b77fdeeddcbef6194d65"
+    },
+    {
+      "approvedAtUtc": "2026-08-31T19:35:58Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP402_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "rationale": "Owner-authorized WP402 bounded implementation contour at exact admitted base under lease 60; no second graph node and PROGRAM_DONE remains false.",
+      "sha256": "ef726640ca9d4fa4c6e42b0aed9df0b123a3ba04e27fbdd1b147a802e143a5ba"
+    },
+    {
+      "approvedAtUtc": "2026-08-31T19:35:58Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP402_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "rationale": "Owner-authorized WP402 bounded implementation contour at exact admitted base under lease 60; no second graph node and PROGRAM_DONE remains false.",
+      "sha256": "bd63c345e43178b7e5f59650e1b93132ddaaa6f33af404ce53806f10f30da7a0"
+    },
+    {
+      "approvedAtUtc": "2026-08-31T19:35:58Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP402_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "rationale": "Owner-authorized WP402 bounded implementation contour at exact admitted base under lease 60; no second graph node and PROGRAM_DONE remains false.",
+      "sha256": "a6df655fc011e2c2589559b4c29207706fb0da9f58bf724998b7b699833c8560"
+    },
+    {
+      "approvedAtUtc": "2026-08-31T19:35:58Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP402_PROTECTED_WIP_BEFORE_V1.json",
+      "rationale": "Owner-authorized WP402 bounded implementation contour at exact admitted base under lease 60; no second graph node and PROGRAM_DONE remains false.",
+      "sha256": "b6db898c3a4d5395fd38d2129ae950c9da4f5c8d23230547f7ce2618e17cce49"
+    },
+    {
+      "approvedAtUtc": "2026-08-31T19:35:58Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "scripts/ops/r24/corrective/audit-r2-corrections.mjs",
+      "rationale": "Owner-authorized WP402 bounded implementation contour at exact admitted base under lease 60; no second graph node and PROGRAM_DONE remains false.",
+      "sha256": "3fc60869e5da9d07a1a59a57c0c3c43e4bf937d83f1632124884d40554fd150b"
+    },
+    {
+      "approvedAtUtc": "2026-08-31T19:35:58Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "test/contracts/r24-audit-r2-corrections.contract.test.mjs",
+      "rationale": "Owner-authorized WP402 bounded implementation contour at exact admitted base under lease 60; no second graph node and PROGRAM_DONE remains false.",
+      "sha256": "d98f0cd550a8469c171d4afd743f0b4793fcb30f6d5e2aa48d72aa85cdd1c0ed"
+    }
+  ],
+  "evidenceStampIds": [],
+  "phase": "WP402_IMPLEMENTATION_ACTIVE_CARRIER",
+  "sourcePlanRoles": {
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "rolesDistinct": true
+  },
+  "version": "v1.0"
+}

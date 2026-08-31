@@ -56,7 +56,7 @@ jobs:
           git merge-base --is-ancestor "$IMPLEMENTATION_CANDIDATE_SHA" "$IMPLEMENTATION_MERGE_SHA"
       - name: Verify complete certification replay and repaired hostile contracts
         run: |
-          node scripts/ops/r24/corrective/post-audit-certification-set.mjs --verify docs/OPS/R24/CORRECTIVE/POST_AUDIT_CURRENT_CERTIFICATION_SET_V2.json --candidate-sha "$GITHUB_SHA"
+          node scripts/ops/r24/corrective/post-audit-certification-set.mjs --verify docs/OPS/R24/CORRECTIVE/POST_AUDIT_CURRENT_CERTIFICATION_SET_V2.json --candidate-sha "$GITHUB_SHA" --audit-cycle2-admission
           node scripts/ops/r24/corrective/post-audit-certification-set.mjs --verify-audit-cycle-durable docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_1_TERMINAL_ATTESTATION_DURABLE_CARRIER_V1.json --expected-carrier-digest 596c8fecbc486368e34585505b36b074f1b66ffb5073fc189c086a8e0394db0d
           npm run test:r24-post-audit
           node --test test/contracts/r24-post-audit-certification-set.contract.test.mjs test/contracts/r24-protected-wip-snapshot.contract.test.mjs
@@ -89,7 +89,7 @@ jobs:
           node --input-type=module <<'NODE'
           import crypto from 'node:crypto';
           import fs from 'node:fs';
-          import { verifyRuleset } from './scripts/ops/r24/corrective/post-audit-merge-gate.mjs';
+          import { verifyRulesetObserverWithAuthority } from './scripts/ops/r24/corrective/post-audit-merge-gate.mjs';
           import { AUDIT_CYCLE_1_DURABLE_EXPECTATION, verifyAuditCycleDurableCarrier } from './scripts/ops/r24/corrective/post-audit-certification-set.mjs';
           const h=(bytes)=>crypto.createHash('sha256').update(bytes).digest('hex');
           const c=(v)=>Array.isArray(v)?`[${v.map(c).join(',')}]`:v&&typeof v==='object'?`{${Object.keys(v).sort().map((k)=>`${JSON.stringify(k)}:${c(v[k])}`).join(',')}}`:JSON.stringify(v);
@@ -114,7 +114,7 @@ jobs:
           assert(certification.value.stageCount===33&&certification.value.artifactBindingDenominator===137&&certification.value.verifiedArtifactBindingCount===137,'E_CERTIFICATION_DENOMINATOR');
           assert(before.value.completeDenominator===252&&before.value.dirtyDenominator===7&&before.value.snapshotSha256==='693799c9ac5df9b975f94dea5d34ee48a1638f8f3d4cf05ca6e70b11e2c23bab','E_WIP_BEFORE');
           assert(predecessorValidation.carrierDigest===AUDIT_CYCLE_1_DURABLE_EXPECTATION.carrierDigest,'E_PREDECESSOR_DURABLE');
-          const rulesetResult=verifyRuleset(ruleset.value);
+          const rulesetResult=verifyRulesetObserverWithAuthority({observerRuleset:ruleset.value});
           assert(Number(candidateCi.value.id)===Number(process.env.CANDIDATE_CI_RUN_ID)&&candidateCi.value.conclusion==='success'&&candidateCi.value.head_sha===process.env.IMPLEMENTATION_CANDIDATE_SHA,'E_CANDIDATE_CI');
           assert(Number(postmergeCi.value.id)===Number(process.env.EXACT_POSTMERGE_CI_RUN_ID)&&postmergeCi.value.conclusion==='success'&&postmergeCi.value.head_sha===process.env.IMPLEMENTATION_MERGE_SHA,'E_POSTMERGE_CI');
           const attestation={

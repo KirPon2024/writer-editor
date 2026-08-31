@@ -25,6 +25,9 @@ const hasOwn = (value, key) => Object.prototype.hasOwnProperty.call(value, key);
 const RULE_TYPES = Object.freeze(['deletion', 'non_fast_forward', 'pull_request', 'required_status_checks']);
 const RULESET_KEYS = Object.freeze(['_links', 'bypass_actors', 'conditions', 'created_at', 'enforcement', 'id', 'name', 'node_id', 'rules', 'source', 'source_type', 'target', 'updated_at']);
 const RULESET_KEYS_WITH_CURRENT_USER = Object.freeze([...RULESET_KEYS, 'current_user_can_bypass']);
+const OBSERVER_RULESET_KEYS = Object.freeze(RULESET_KEYS_WITH_CURRENT_USER.filter((key) => key !== 'bypass_actors'));
+const AUTHORITY_RULESET_CARRIER_PATH = 'docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_1_LIVE_RULESET_V1.json';
+const AUTHORITY_RULESET_CARRIER_DIGEST = '867f06a203b0e1aeb688aa7a25479b0a102ba5394d039802d51a9e867ce626ff';
 
 export function verifyDependencyResults(results) {
   assert(results && typeof results === 'object' && !Array.isArray(results), 'E_RESULTS_OBJECT');
@@ -84,13 +87,40 @@ export function verifyRuleset(ruleset) {
   return { schemaVersion: 'POST_AUDIT_RULESET_RESULT_V2', status: 'PASS', rulesetId: ruleset.id, requiredContexts: contexts, normalizedRulesetDigest: sha256(Buffer.from(canonical(normalized))), protections: { deletion: true, nonFastForward: true, pullRequest: true, conversationResolution: true, bypassActorCount: 0 } };
 }
 
+export function verifyRulesetObserverWithAuthority({observerRuleset,authorityCarrierPath=AUTHORITY_RULESET_CARRIER_PATH}={}) {
+  const observerKeys=Object.keys(observerRuleset??{}).sort();
+  assert(canonical(observerKeys)===canonical([...OBSERVER_RULESET_KEYS].sort()),'E_RULESET_OBSERVER_ENVELOPE',observerKeys.join(','));
+  assert(observerRuleset.current_user_can_bypass==='never','E_RULESET_CURRENT_USER_BYPASS',String(observerRuleset.current_user_can_bypass));
+  const carrierBytes=fs.readFileSync(authorityCarrierPath);
+  assert(sha256(carrierBytes)===AUTHORITY_RULESET_CARRIER_DIGEST,'E_RULESET_AUTHORITY_CARRIER_DIGEST');
+  const carrier=JSON.parse(carrierBytes);
+  assert(carrier?.schemaVersion==='AUDIT_CYCLE_1_LIVE_RULESET_V1'&&carrier.status==='VERIFIED_ACTIVE_NO_BYPASS'&&carrier.rulesetId===12270444&&carrier.rawRulesetReconstructible===true,'E_RULESET_AUTHORITY_CARRIER');
+  const view=carrier.independentVerifierView;
+  assert(view?.currentUserCanBypass==='never'&&typeof view.returnedBytesCanonicalBase64==='string','E_RULESET_AUTHORITY_VIEW');
+  const authorityBytes=Buffer.from(view.returnedBytesCanonicalBase64,'base64');
+  assert(authorityBytes.length===view.returnedByteLength&&sha256(authorityBytes)===view.returnedBytesDigest,'E_RULESET_AUTHORITY_BYTES');
+  const authorityRuleset=JSON.parse(authorityBytes);
+  const authorityResult=verifyRuleset(authorityRuleset);
+  assert(authorityResult.normalizedRulesetDigest===view.normalizedRulesetDigest&&canonical(authorityResult.requiredContexts)===canonical(carrier.requiredContexts)&&canonical(authorityResult.protections)===canonical(carrier.protections),'E_RULESET_AUTHORITY_SEMANTICS');
+  const observerComparable={...observerRuleset};
+  const authorityComparable={...authorityRuleset};
+  delete authorityComparable.bypass_actors;
+  assert(canonical(observerComparable)===canonical(authorityComparable),'E_RULESET_OBSERVER_AUTHORITY_DRIFT');
+  return {...authorityResult,proofMode:'LIVE_RESTRICTED_OBSERVER_EXACTLY_MATCHES_PINNED_FULL_AUTHORITY_BYTES',authorityCarrierDigest:AUTHORITY_RULESET_CARRIER_DIGEST,authorityReturnedBytesDigest:view.returnedBytesDigest};
+}
+
 function parseArgs(argv) { const result = {}; for (let i = 0; i < argv.length; i += 1) { if (!argv[i].startsWith('--')) continue; result[argv[i].slice(2)] = argv[i + 1] ?? true; i += argv[i + 1] === undefined ? 0 : 1; } return result; }
 if (import.meta.url === `file://${process.argv[1]}`) {
   try {
     const args = parseArgs(process.argv.slice(2));
     let result;
     if (args['check-results']) result = verifyDependencyResults(JSON.parse(args['check-results']));
-    else if (args['check-live-ruleset']) { const bytes=execFileSync('gh', ['api', 'repos/KirPonomarev/writer-editor/rulesets/12270444']); result={...verifyRuleset(JSON.parse(bytes)),returnedBytesDigest:sha256(bytes),returnedByteLength:bytes.length}; }
+    else if (args['check-live-ruleset']) {
+      const bytes=execFileSync('gh', ['api', 'repos/KirPonomarev/writer-editor/rulesets/12270444']);
+      const ruleset=JSON.parse(bytes);
+      const verification=hasOwn(ruleset,'bypass_actors')?verifyRuleset(ruleset):verifyRulesetObserverWithAuthority({observerRuleset:ruleset});
+      result={...verification,returnedBytesDigest:sha256(bytes),returnedByteLength:bytes.length};
+    }
     else result = verifyWorkflowText(fs.readFileSync('.github/workflows/oss-policy.yml', 'utf8'));
     process.stdout.write(`${JSON.stringify(result)}\n`);
   } catch (error) {

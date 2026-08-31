@@ -51,7 +51,7 @@ export function verifyPostAuditCorrections({ verifyRuntime = true } = {}) {
   const certifications = files.certification.value.stages;
   assert(certifications.length === 33 && JSON.stringify(certifications.map((entry) => entry.stageId)) === JSON.stringify(stageOrder), 'E_CERTIFICATION_DENOMINATOR');
   for (const entry of certifications) assert(entry.effectiveState === 'CERTIFIED_DONE', 'E_CERTIFICATION_STATE', entry.stageId);
-  const certificationVerification = verifyCertificationSet({ value: files.certification.value, fileDigest: files.certification.digest, candidateSha: 'HEAD' });
+  const certificationVerification = verifyCertificationSet({ value: files.certification.value, fileDigest: files.certification.digest, candidateSha: 'HEAD', allowAuditCycle2Admission: true });
   const cycle2Contract=read('docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_2_CORRECTION_CONTRACT_V1.json');
   const cycle2Authority=read('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_OWNER_AMENDMENT_V16.json');
   const cycle2Instance=read('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V17.json');

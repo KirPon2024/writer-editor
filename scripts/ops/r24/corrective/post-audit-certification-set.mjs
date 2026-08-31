@@ -54,6 +54,42 @@ const atomicCanonicalWrite=(file,value)=>{const temporary=`${file}.tmp-${process
 const AUDIT_CYCLE_ATTESTATION_KEYS=Object.freeze([
   'schemaVersion','attestationType','result','stageId','externalSourcePlanDigest','compiledProgramFileDigest','authorityDigest','stageInstanceDigest','stageAdmissionDigest','writeSetDigest','commandScopeDigest','acceptanceSignalsDigest','certificationSetDigest','certificationEvaluationSha','certificationEvaluationTreeSha','certificationStageCount','certificationArtifactBindingDenominator','protectedWipBeforeCarrierDigest','protectedWipBeforeSnapshotDigest','protectedWipBeforeCompleteDenominator','protectedWipBeforeDirtyDenominator','liveRuleset','predecessorPullRequests','correctionDelivery','repository','workflowPath','workflowRunId','runAttempt','event','ref','artifactName','artifactFile','nonRecursiveCarrierPattern','programDoneClaimed','mainProductGraphNodeStarted'
 ]);
+const DURABLE_OUTER_KEYS=Object.freeze(['archive','artifactExpiryIndependent','member','programDone','provenance','schemaVersion','status','verification']);
+const DURABLE_PROVENANCE_KEYS=Object.freeze(['provider','repository','workflowPath','runId','runAttempt','headSha','artifactId','artifactName']);
+const DURABLE_ARCHIVE_KEYS=Object.freeze(['sha256','sizeBytes']);
+const DURABLE_MEMBER_KEYS=Object.freeze(['path','sha256','sizeBytes','canonicalBase64']);
+const DURABLE_VERIFICATION_KEYS=Object.freeze(['schemaVersion','status','runId','runAttempt','artifactId','archiveDigest','attestationDigest','evaluationSha','evaluationTreeSha','implementationCandidateSha','certificationSetDigest','terminalRulesetReturnedBytesDigest','terminalRulesetReturnedByteLength','verificationRulesetReturnedBytesDigest','verificationRulesetReturnedByteLength','normalizedRulesetDigest','candidateCiBytesDigest','postmergeCiBytesDigest','programDone']);
+const DURABLE_EXPECTATION_KEYS=Object.freeze(['carrierDigest','schemaVersion','provider','repository','workflowPath','runId','runAttempt','headSha','artifactId','artifactName','memberPath','archiveSha256','archiveSizeBytes','memberSha256','memberSizeBytes']);
+const DURABLE_MEMBER_LIVE_RULESET_KEYS=Object.freeze(['rulesetId','returnedBytesDigest','returnedByteLength','normalizedRulesetDigest','requiredContexts','protections']);
+const DURABLE_MEMBER_PROTECTION_KEYS=Object.freeze(['deletion','nonFastForward','pullRequest','conversationResolution','bypassActorCount']);
+const DURABLE_MEMBER_DELIVERY_KEYS=Object.freeze(['implementationCandidateSha','implementationMergeSha','evaluationSha','evaluationTreeSha','candidateCiRunId','candidateCiBytesDigest','exactPostmergeCiRunId','exactPostmergeCiBytesDigest']);
+const DURABLE_MEMBER_PR_KEYS=Object.freeze(['candidateSha','mergeSha']);
+const AUDIT_CYCLE_2_ATTESTATION_KEYS=Object.freeze([
+  'schemaVersion','attestationType','result','stageId','auditReceiptDigest','externalSourcePlanDigest','compiledProgramFileDigest','authorityDigest','stageInstanceDigest','stageAdmissionDigest','writeSetDigest','commandScopeDigest','acceptanceSignalsDigest','certificationSetDigest','certificationEvaluationSha','certificationEvaluationTreeSha','certificationStageCount','certificationArtifactBindingDenominator','protectedWipBeforeCarrierDigest','protectedWipBeforeSnapshotDigest','protectedWipBeforeCompleteDenominator','protectedWipBeforeDirtyDenominator','predecessorCycleEvidence','liveRuleset','verifierRepairs','correctionDelivery','repository','workflowPath','workflowRunId','runAttempt','event','ref','artifactName','artifactFile','nonRecursiveCarrierPattern','programDoneClaimed','mainProductGraphNodeStarted'
+]);
+const AUDIT_CYCLE_2_PREDECESSOR_KEYS=Object.freeze(['leaseReleaseDigest','terminalReceiptDigest','durableCarrierDigest','durableCarrierValidationSchema']);
+const AUDIT_CYCLE_2_REPAIRS_KEYS=Object.freeze(['durableCarrier','liveRuleset']);
+const AUDIT_CYCLE_2_DURABLE_REPAIR_KEYS=Object.freeze(['canonicalCarrierDigest','canonicalOuterBytesRequired','expectedCarrierDigestRequired','closedNestedKeysRequired','positiveSizesRequired','exactMemberPathRequired','pinnedProvenanceRequired','cliJsonRequired']);
+const AUDIT_CYCLE_2_RULESET_REPAIR_KEYS=Object.freeze(['ruleTypeDenominator','uniqueRuleTypesRequired','closedRoleEnvelopeRequired','explicitBypassActorsRequired','currentUserCanBypassIfPresent']);
+const AUDIT_CYCLE_2_DURABLE_VERIFICATION_KEYS=Object.freeze(['schemaVersion','status','runId','runAttempt','artifactId','archiveDigest','attestationDigest','evaluationSha','evaluationTreeSha','implementationCandidateSha','certificationSetDigest','predecessorDurableCarrierDigest','predecessorDurableCarrierValidationSchema','terminalRulesetReturnedBytesDigest','terminalRulesetReturnedByteLength','normalizedRulesetDigest','candidateCiBytesDigest','postmergeCiBytesDigest','programDone']);
+
+export const AUDIT_CYCLE_1_DURABLE_EXPECTATION=Object.freeze({
+  carrierDigest:'596c8fecbc486368e34585505b36b074f1b66ffb5073fc189c086a8e0394db0d',
+  schemaVersion:'AUDIT_CYCLE_1_TERMINAL_ATTESTATION_DURABLE_CARRIER_V1',
+  provider:'GITHUB_ACTIONS',
+  repository:'KirPonomarev/writer-editor',
+  workflowPath:'.github/workflows/r24-audit-cycle1-terminal-attestation.yml',
+  runId:33353487113,
+  runAttempt:1,
+  headSha:'79c0bb785bc6ace996d535f06970a0f25338cbbf',
+  artifactId:9744372163,
+  artifactName:'r24-audit-cycle1-terminal-attestation',
+  memberPath:'audit-cycle1-terminal-attestation.json',
+  archiveSha256:'0bba8002a24a7ba252c00f896247403a8b148526b0c0d1e7ea21ef32f284866e',
+  archiveSizeBytes:1869,
+  memberSha256:'50d740b36b3de15ebee327dbd01d2b4165350a6cb76c7eeb6a1c084d2d7e891c',
+  memberSizeBytes:3148
+});
 
 export function verifyAuditCycleTerminalArtifact({zipBytes,runEvidenceFile,artifactEvidence,rulesetEvidenceFile,candidateCiEvidenceFile,postmergeCiEvidenceFile,authorityFile,instanceFile,admissionFile,certificationFile,beforeFile,git=defaultGit}){
   const run=runEvidenceFile.value;
@@ -101,13 +137,138 @@ export function createAuditCycleDurableCarrier({zipBytes,memberBytes,runEvidence
   return{schemaVersion:'AUDIT_CYCLE_1_TERMINAL_ATTESTATION_DURABLE_CARRIER_V1',status:'VERIFIED_DURABLE_CANONICAL_CARRIER',provenance:{provider:'GITHUB_ACTIONS',repository:runEvidenceFile.value.repository.full_name,workflowPath:runEvidenceFile.value.path,runId:finiteId(runEvidenceFile.value.id,'run.id'),runAttempt:finiteId(runEvidenceFile.value.run_attempt,'runAttempt'),headSha:runEvidenceFile.value.head_sha,artifactId:finiteId(artifactEvidence.id,'artifact.id'),artifactName:artifactEvidence.name},archive:{sha256:h(zipBytes),sizeBytes:zipBytes.length},member:{path:'audit-cycle1-terminal-attestation.json',sha256:h(memberBytes),sizeBytes:memberBytes.length,canonicalBase64:memberBytes.toString('base64')},verification,artifactExpiryIndependent:true,programDone:false};
 }
 
-export function verifyAuditCycleDurableCarrier({value,fileDigest}){
-  assert(value?.schemaVersion==='AUDIT_CYCLE_1_TERMINAL_ATTESTATION_DURABLE_CARRIER_V1'&&value.status==='VERIFIED_DURABLE_CANONICAL_CARRIER','E_DURABLE_SCHEMA');
-  const bytes=Buffer.from(value.member.canonicalBase64,'base64');
-  assert(bytes.length===value.member.sizeBytes&&h(bytes)===value.member.sha256&&bytes.equals(canonicalBytes(JSON.parse(bytes))),'E_DURABLE_MEMBER');
-  assert(value.provenance.runId===value.verification.runId&&value.provenance.runAttempt===value.verification.runAttempt&&value.provenance.artifactId===value.verification.artifactId&&value.provenance.headSha===value.verification.evaluationSha,'E_DURABLE_PROVENANCE');
-  assert(value.verification.attestationDigest===value.member.sha256&&value.verification.archiveDigest===`sha256:${value.archive.sha256}`&&value.artifactExpiryIndependent===true&&value.programDone===false,'E_DURABLE_POLICY');
-  return{schemaVersion:'AUDIT_CYCLE_1_DURABLE_CARRIER_VALIDATION_V1',status:'VERIFIED',carrierDigest:fileDigest,attestationDigest:value.member.sha256,runId:value.provenance.runId,artifactId:value.provenance.artifactId,programDone:false};
+export function verifyAuditCycleDurableCarrier(file,expectation=AUDIT_CYCLE_1_DURABLE_EXPECTATION){
+  exactKeys(file,['bytes','digest','value'],'durableFile');
+  exactKeys(expectation,DURABLE_EXPECTATION_KEYS,'durableExpectation');
+  const {bytes:fileBytes,digest,value}=file;
+  assert(Buffer.isBuffer(fileBytes),'E_DURABLE_FILE_BYTES');
+  hex(digest,64,'carrierDigest');
+  hex(expectation.carrierDigest,64,'expectedCarrierDigest');
+  assert(h(fileBytes)===digest&&digest===expectation.carrierDigest,'E_DURABLE_CARRIER_DIGEST');
+  assert(fileBytes.equals(canonicalBytes(value)),'E_DURABLE_OUTER_CANONICAL_BYTES');
+  exactKeys(value,DURABLE_OUTER_KEYS,'durableCarrier');
+  exactKeys(value.provenance,DURABLE_PROVENANCE_KEYS,'durableCarrier.provenance');
+  exactKeys(value.archive,DURABLE_ARCHIVE_KEYS,'durableCarrier.archive');
+  exactKeys(value.member,DURABLE_MEMBER_KEYS,'durableCarrier.member');
+  exactKeys(value.verification,DURABLE_VERIFICATION_KEYS,'durableCarrier.verification');
+  assert(value.schemaVersion===expectation.schemaVersion&&value.status==='VERIFIED_DURABLE_CANONICAL_CARRIER','E_DURABLE_SCHEMA');
+  const provenance=value.provenance;
+  assert(provenance.provider===expectation.provider&&provenance.repository===expectation.repository&&provenance.workflowPath===expectation.workflowPath,'E_DURABLE_PROVENANCE_PROVIDER');
+  assert(provenance.runId===expectation.runId&&provenance.runAttempt===expectation.runAttempt&&provenance.headSha===expectation.headSha&&provenance.artifactId===expectation.artifactId&&provenance.artifactName===expectation.artifactName,'E_DURABLE_PROVENANCE_IDENTITY');
+  assert(value.archive.sha256===expectation.archiveSha256&&value.archive.sizeBytes===expectation.archiveSizeBytes&&Number.isSafeInteger(value.archive.sizeBytes)&&value.archive.sizeBytes>0,'E_DURABLE_ARCHIVE_BINDING');
+  assert(value.member.path===expectation.memberPath&&value.member.sha256===expectation.memberSha256&&value.member.sizeBytes===expectation.memberSizeBytes&&Number.isSafeInteger(value.member.sizeBytes)&&value.member.sizeBytes>0,'E_DURABLE_MEMBER_BINDING');
+  assert(typeof value.member.canonicalBase64==='string'&&value.member.canonicalBase64.length>0&&/^[A-Za-z0-9+/]+={0,2}$/.test(value.member.canonicalBase64),'E_DURABLE_MEMBER_BASE64');
+  const memberBytes=Buffer.from(value.member.canonicalBase64,'base64');
+  assert(memberBytes.toString('base64')===value.member.canonicalBase64,'E_DURABLE_MEMBER_BASE64');
+  assert(memberBytes.length===value.member.sizeBytes&&h(memberBytes)===value.member.sha256,'E_DURABLE_MEMBER');
+  const member=JSON.parse(memberBytes);
+  assert(memberBytes.equals(canonicalBytes(member)),'E_DURABLE_MEMBER_CANONICAL_BYTES');
+  exactKeys(member,AUDIT_CYCLE_ATTESTATION_KEYS,'durableCarrier.member.attestation');
+  exactKeys(member.liveRuleset,DURABLE_MEMBER_LIVE_RULESET_KEYS,'durableCarrier.member.liveRuleset');
+  exactKeys(member.liveRuleset.protections,DURABLE_MEMBER_PROTECTION_KEYS,'durableCarrier.member.liveRuleset.protections');
+  exactKeys(member.predecessorPullRequests,['pr1776','pr1777'],'durableCarrier.member.predecessorPullRequests');
+  exactKeys(member.predecessorPullRequests.pr1776,DURABLE_MEMBER_PR_KEYS,'durableCarrier.member.predecessorPullRequests.pr1776');
+  exactKeys(member.predecessorPullRequests.pr1777,DURABLE_MEMBER_PR_KEYS,'durableCarrier.member.predecessorPullRequests.pr1777');
+  exactKeys(member.correctionDelivery,DURABLE_MEMBER_DELIVERY_KEYS,'durableCarrier.member.correctionDelivery');
+  assert(member.schemaVersion==='AUDIT_CYCLE_1_TERMINAL_ATTESTATION_V1'&&member.result==='PASS'&&member.stageId==='AUDIT_CYCLE_1_CORRECTIONS','E_DURABLE_MEMBER_SCHEMA');
+  assert(member.externalSourcePlanDigest===EXTERNAL_SOURCE_PLAN_DIGEST&&member.compiledProgramFileDigest===COMPILED_PROGRAM_FILE_DIGEST&&member.externalSourcePlanDigest!==member.compiledProgramFileDigest,'E_DURABLE_MEMBER_SOURCE_ROLES');
+  assert(member.repository===expectation.repository&&member.workflowPath===expectation.workflowPath&&member.workflowRunId===expectation.runId&&member.runAttempt===expectation.runAttempt&&member.artifactName===expectation.artifactName&&member.artifactFile===expectation.memberPath,'E_DURABLE_MEMBER_PROVENANCE');
+  assert(member.correctionDelivery.evaluationSha===expectation.headSha&&member.correctionDelivery.implementationMergeSha===expectation.headSha&&member.correctionDelivery.implementationCandidateSha===value.verification.implementationCandidateSha,'E_DURABLE_MEMBER_DELIVERY');
+  assert(member.programDoneClaimed===false&&member.mainProductGraphNodeStarted===false&&member.nonRecursiveCarrierPattern===true,'E_DURABLE_MEMBER_SCOPE');
+  const verification=value.verification;
+  assert(verification.runId===expectation.runId&&verification.runAttempt===expectation.runAttempt&&verification.artifactId===expectation.artifactId&&verification.evaluationSha===expectation.headSha,'E_DURABLE_VERIFICATION_IDENTITY');
+  assert(verification.attestationDigest===expectation.memberSha256&&verification.attestationDigest===value.member.sha256&&verification.archiveDigest===`sha256:${expectation.archiveSha256}`&&verification.archiveDigest===`sha256:${value.archive.sha256}`,'E_DURABLE_VERIFICATION_DIGESTS');
+  assert(verification.certificationSetDigest===member.certificationSetDigest&&verification.evaluationTreeSha===member.correctionDelivery.evaluationTreeSha&&verification.candidateCiBytesDigest===member.correctionDelivery.candidateCiBytesDigest&&verification.postmergeCiBytesDigest===member.correctionDelivery.exactPostmergeCiBytesDigest,'E_DURABLE_VERIFICATION_MEMBER_BINDING');
+  assert(verification.status==='VERIFIED'&&verification.schemaVersion==='AUDIT_CYCLE_1_TERMINAL_ATTESTATION_VALIDATION_V1'&&verification.programDone===false&&value.artifactExpiryIndependent===true&&value.programDone===false,'E_DURABLE_POLICY');
+  return{schemaVersion:'AUDIT_CYCLE_1_DURABLE_CARRIER_VALIDATION_V2',status:'VERIFIED',carrierDigest:digest,attestationDigest:value.member.sha256,runId:value.provenance.runId,artifactId:value.provenance.artifactId,programDone:false};
+}
+
+export function verifyAuditCycle2TerminalArtifact({zipBytes,runEvidenceFile,artifactEvidence,rulesetEvidenceFile,candidateCiEvidenceFile,postmergeCiEvidenceFile,authorityFile,instanceFile,admissionFile,certificationFile,beforeFile,predecessorReleaseFile,predecessorReceiptFile,predecessorDurableFile,git=defaultGit}){
+  const run=runEvidenceFile.value;
+  assert(run?.repository?.full_name==='KirPonomarev/writer-editor'&&run.path==='.github/workflows/r24-audit-cycle2-terminal-attestation.yml','E_CYCLE2_RUN_IDENTITY');
+  assert(run.event==='workflow_dispatch'&&run.head_branch==='main'&&run.status==='completed'&&run.conclusion==='success','E_CYCLE2_RUN_STATE');
+  assert(artifactEvidence?.name==='r24-audit-cycle2-terminal-attestation'&&artifactEvidence.expired===false,'E_CYCLE2_ARTIFACT_IDENTITY_OR_EXPIRY');
+  assert(finiteId(artifactEvidence.workflow_run?.id,'cycle2.artifact.workflowRunId')===finiteId(run.id,'cycle2.run.id'),'E_CYCLE2_ARTIFACT_RUN_MISMATCH');
+  assert(typeof artifactEvidence.digest==='string'&&artifactEvidence.digest===`sha256:${h(zipBytes)}`,'E_CYCLE2_ARCHIVE_DIGEST_MISMATCH');
+  const memberBytes=inspectExactZip(zipBytes,'audit-cycle2-terminal-attestation.json');
+  const member=JSON.parse(memberBytes);
+  assert(memberBytes.equals(canonicalBytes(member)),'E_CYCLE2_NON_CANONICAL_ATTESTATION_BYTES');
+  exactKeys(member,AUDIT_CYCLE_2_ATTESTATION_KEYS,'auditCycle2Attestation');
+  exactKeys(member.predecessorCycleEvidence,AUDIT_CYCLE_2_PREDECESSOR_KEYS,'auditCycle2Attestation.predecessorCycleEvidence');
+  exactKeys(member.liveRuleset,DURABLE_MEMBER_LIVE_RULESET_KEYS,'auditCycle2Attestation.liveRuleset');
+  exactKeys(member.liveRuleset.protections,DURABLE_MEMBER_PROTECTION_KEYS,'auditCycle2Attestation.liveRuleset.protections');
+  exactKeys(member.verifierRepairs,AUDIT_CYCLE_2_REPAIRS_KEYS,'auditCycle2Attestation.verifierRepairs');
+  exactKeys(member.verifierRepairs.durableCarrier,AUDIT_CYCLE_2_DURABLE_REPAIR_KEYS,'auditCycle2Attestation.verifierRepairs.durableCarrier');
+  exactKeys(member.verifierRepairs.liveRuleset,AUDIT_CYCLE_2_RULESET_REPAIR_KEYS,'auditCycle2Attestation.verifierRepairs.liveRuleset');
+  exactKeys(member.correctionDelivery,DURABLE_MEMBER_DELIVERY_KEYS,'auditCycle2Attestation.correctionDelivery');
+  assert(member.schemaVersion==='AUDIT_CYCLE_2_TERMINAL_ATTESTATION_V1'&&member.attestationType==='EXTERNAL_IMMUTABLE_ACCEPTANCE_BOUND_TERMINAL_ATTESTATION'&&member.result==='PASS'&&member.stageId==='AUDIT_CYCLE_2_CORRECTIONS','E_CYCLE2_ATTESTATION_SCHEMA');
+  assert(member.auditReceiptDigest==='babdb1ed4e37d9e8b3b8234ec4b3e86d72d43b3c2fe26a1511a5d3de1a92af70','E_CYCLE2_AUDIT_RECEIPT');
+  assert(member.externalSourcePlanDigest===EXTERNAL_SOURCE_PLAN_DIGEST&&member.compiledProgramFileDigest===COMPILED_PROGRAM_FILE_DIGEST&&member.externalSourcePlanDigest!==member.compiledProgramFileDigest,'E_CYCLE2_SOURCE_PLAN_ROLE_BINDING');
+  assert(member.authorityDigest===authorityFile.digest&&member.stageInstanceDigest===instanceFile.digest&&member.stageAdmissionDigest===admissionFile.digest,'E_CYCLE2_ADMISSION_FILE_BINDING');
+  assert(admissionFile.value.authorityDigest===authorityFile.digest&&admissionFile.value.stageInstanceDigest===instanceFile.digest&&admissionFile.value.status==='ADMITTED'&&admissionFile.value.lease?.fencingCounter===58&&admissionFile.value.lease?.wip===1,'E_CYCLE2_ADMISSION_CHAIN');
+  for(const field of ['writeSetDigest','commandScopeDigest','acceptanceSignalsDigest'])assert(member[field]===admissionFile.value[field],'E_CYCLE2_ADMISSION_SCOPE_BINDING',field);
+  assert(member.certificationSetDigest===certificationFile.digest&&member.certificationEvaluationSha===certificationFile.value.evaluationSha&&member.certificationEvaluationTreeSha===certificationFile.value.evaluationTreeSha,'E_CYCLE2_CERTIFICATION_FILE_BINDING');
+  assert(member.certificationStageCount===EXPECTED_STAGE_COUNT&&member.certificationArtifactBindingDenominator===EXPECTED_ARTIFACT_BINDING_DENOMINATOR,'E_CYCLE2_CERTIFICATION_DENOMINATOR');
+  assert(member.protectedWipBeforeCarrierDigest===beforeFile.digest&&member.protectedWipBeforeSnapshotDigest===beforeFile.value.snapshotSha256&&member.protectedWipBeforeCompleteDenominator===252&&member.protectedWipBeforeDirtyDenominator===7,'E_CYCLE2_PROTECTED_WIP_BEFORE_BINDING');
+  const predecessorValidation=verifyAuditCycleDurableCarrier(predecessorDurableFile);
+  assert(member.predecessorCycleEvidence.leaseReleaseDigest===predecessorReleaseFile.digest&&member.predecessorCycleEvidence.terminalReceiptDigest===predecessorReceiptFile.digest&&member.predecessorCycleEvidence.durableCarrierDigest===predecessorDurableFile.digest&&member.predecessorCycleEvidence.durableCarrierValidationSchema===predecessorValidation.schemaVersion,'E_CYCLE2_PREDECESSOR_BINDING');
+  const rulesetResult=verifyRuleset(rulesetEvidenceFile.value);
+  assert(member.liveRuleset.rulesetId===12270444&&member.liveRuleset.returnedBytesDigest===rulesetEvidenceFile.digest&&member.liveRuleset.returnedByteLength===rulesetEvidenceFile.bytes.length&&member.liveRuleset.normalizedRulesetDigest===rulesetResult.normalizedRulesetDigest,'E_CYCLE2_LIVE_RULESET_BINDING');
+  assert(canonicalBytes(member.liveRuleset.requiredContexts).equals(canonicalBytes(rulesetResult.requiredContexts))&&canonicalBytes(member.liveRuleset.protections).equals(canonicalBytes(rulesetResult.protections)),'E_CYCLE2_LIVE_RULESET_VIEW');
+  assert(JSON.stringify(member.liveRuleset.requiredContexts)===JSON.stringify(['merge-gate'])&&member.liveRuleset.protections.bypassActorCount===0&&member.liveRuleset.protections.conversationResolution===true,'E_CYCLE2_LIVE_RULESET_POLICY');
+  assert(canonicalBytes(member.verifierRepairs.durableCarrier).equals(canonicalBytes({canonicalCarrierDigest:AUDIT_CYCLE_1_DURABLE_EXPECTATION.carrierDigest,canonicalOuterBytesRequired:true,expectedCarrierDigestRequired:true,closedNestedKeysRequired:true,positiveSizesRequired:true,exactMemberPathRequired:true,pinnedProvenanceRequired:true,cliJsonRequired:true})),'E_CYCLE2_DURABLE_REPAIR');
+  assert(canonicalBytes(member.verifierRepairs.liveRuleset).equals(canonicalBytes({ruleTypeDenominator:4,uniqueRuleTypesRequired:true,closedRoleEnvelopeRequired:true,explicitBypassActorsRequired:true,currentUserCanBypassIfPresent:'never'})),'E_CYCLE2_RULESET_REPAIR');
+  const delivery=member.correctionDelivery;
+  for(const field of ['implementationCandidateSha','implementationMergeSha','evaluationSha','evaluationTreeSha'])hex(delivery[field],40,`cycle2.${field}`);
+  assert(delivery.implementationMergeSha===delivery.evaluationSha&&delivery.evaluationSha===run.head_sha,'E_CYCLE2_EVALUATION_RUN_HEAD');
+  assert(gitText(git,['rev-parse',`${delivery.evaluationSha}^{tree}`])===delivery.evaluationTreeSha,'E_CYCLE2_EVALUATION_TREE');
+  assert(gitText(git,['rev-parse',`${delivery.implementationMergeSha}^2`])===delivery.implementationCandidateSha,'E_CYCLE2_CANDIDATE_SECOND_PARENT');
+  try{git(['merge-base','--is-ancestor',delivery.implementationCandidateSha,delivery.implementationMergeSha],{encoding:null});}catch{fail('E_CYCLE2_CANDIDATE_ANCESTRY');}
+  try{git(['merge-base','--is-ancestor',certificationFile.value.evaluationSha,delivery.implementationCandidateSha],{encoding:null});}catch{fail('E_CYCLE2_CERTIFICATION_EVALUATION_ANCESTRY');}
+  assert(finiteId(delivery.candidateCiRunId,'cycle2.candidateCiRunId')===finiteId(candidateCiEvidenceFile.value.id,'cycle2.candidateCi.id')&&candidateCiEvidenceFile.value.status==='completed'&&candidateCiEvidenceFile.value.conclusion==='success'&&candidateCiEvidenceFile.value.head_sha===delivery.implementationCandidateSha&&delivery.candidateCiBytesDigest===candidateCiEvidenceFile.digest,'E_CYCLE2_CANDIDATE_CI_BINDING');
+  assert(finiteId(delivery.exactPostmergeCiRunId,'cycle2.postmergeCiRunId')===finiteId(postmergeCiEvidenceFile.value.id,'cycle2.postmergeCi.id')&&postmergeCiEvidenceFile.value.status==='completed'&&postmergeCiEvidenceFile.value.conclusion==='success'&&postmergeCiEvidenceFile.value.head_sha===delivery.implementationMergeSha&&delivery.exactPostmergeCiBytesDigest===postmergeCiEvidenceFile.digest,'E_CYCLE2_POSTMERGE_CI_BINDING');
+  assert(member.repository==='KirPonomarev/writer-editor'&&member.workflowPath===run.path&&finiteId(member.workflowRunId,'cycle2.workflowRunId')===finiteId(run.id,'cycle2.run.id')&&finiteId(member.runAttempt,'cycle2.runAttempt')===finiteId(run.run_attempt,'cycle2.runAttempt'),'E_CYCLE2_RUN_BINDING');
+  assert(member.event==='workflow_dispatch'&&member.ref==='refs/heads/main'&&member.artifactName===artifactEvidence.name&&member.artifactFile==='audit-cycle2-terminal-attestation.json','E_CYCLE2_ISSUER_BINDING');
+  assert(member.nonRecursiveCarrierPattern===true&&member.programDoneClaimed===false&&member.mainProductGraphNodeStarted===false,'E_CYCLE2_TERMINAL_SCOPE');
+  return{verification:{schemaVersion:'AUDIT_CYCLE_2_TERMINAL_ATTESTATION_VALIDATION_V1',status:'VERIFIED',runId:finiteId(run.id,'cycle2.run.id'),runAttempt:finiteId(run.run_attempt,'cycle2.runAttempt'),artifactId:finiteId(artifactEvidence.id,'cycle2.artifact.id'),archiveDigest:`sha256:${h(zipBytes)}`,attestationDigest:h(memberBytes),evaluationSha:delivery.evaluationSha,evaluationTreeSha:delivery.evaluationTreeSha,implementationCandidateSha:delivery.implementationCandidateSha,certificationSetDigest:certificationFile.digest,predecessorDurableCarrierDigest:predecessorDurableFile.digest,predecessorDurableCarrierValidationSchema:predecessorValidation.schemaVersion,terminalRulesetReturnedBytesDigest:rulesetEvidenceFile.digest,terminalRulesetReturnedByteLength:rulesetEvidenceFile.bytes.length,normalizedRulesetDigest:rulesetResult.normalizedRulesetDigest,candidateCiBytesDigest:candidateCiEvidenceFile.digest,postmergeCiBytesDigest:postmergeCiEvidenceFile.digest,programDone:false},memberBytes,member};
+}
+
+export function createAuditCycle2DurableCarrier({zipBytes,memberBytes,runEvidenceFile,artifactEvidence,verification}){
+  return{schemaVersion:'AUDIT_CYCLE_2_TERMINAL_ATTESTATION_DURABLE_CARRIER_V1',status:'VERIFIED_DURABLE_CANONICAL_CARRIER',provenance:{provider:'GITHUB_ACTIONS',repository:runEvidenceFile.value.repository.full_name,workflowPath:runEvidenceFile.value.path,runId:finiteId(runEvidenceFile.value.id,'cycle2.run.id'),runAttempt:finiteId(runEvidenceFile.value.run_attempt,'cycle2.runAttempt'),headSha:runEvidenceFile.value.head_sha,artifactId:finiteId(artifactEvidence.id,'cycle2.artifact.id'),artifactName:artifactEvidence.name},archive:{sha256:h(zipBytes),sizeBytes:zipBytes.length},member:{path:'audit-cycle2-terminal-attestation.json',sha256:h(memberBytes),sizeBytes:memberBytes.length,canonicalBase64:memberBytes.toString('base64')},verification,artifactExpiryIndependent:true,programDone:false};
+}
+
+export function verifyAuditCycle2DurableCarrier(file,{expectedCarrierDigest}){
+  exactKeys(file,['bytes','digest','value'],'auditCycle2DurableFile');
+  hex(expectedCarrierDigest,64,'cycle2.expectedCarrierDigest');
+  const {bytes:fileBytes,digest,value}=file;
+  assert(Buffer.isBuffer(fileBytes)&&h(fileBytes)===digest&&digest===expectedCarrierDigest,'E_CYCLE2_DURABLE_CARRIER_DIGEST');
+  assert(fileBytes.equals(canonicalBytes(value)),'E_CYCLE2_DURABLE_OUTER_CANONICAL_BYTES');
+  exactKeys(value,DURABLE_OUTER_KEYS,'auditCycle2DurableCarrier');
+  exactKeys(value.provenance,DURABLE_PROVENANCE_KEYS,'auditCycle2DurableCarrier.provenance');
+  exactKeys(value.archive,DURABLE_ARCHIVE_KEYS,'auditCycle2DurableCarrier.archive');
+  exactKeys(value.member,DURABLE_MEMBER_KEYS,'auditCycle2DurableCarrier.member');
+  exactKeys(value.verification,AUDIT_CYCLE_2_DURABLE_VERIFICATION_KEYS,'auditCycle2DurableCarrier.verification');
+  assert(value.schemaVersion==='AUDIT_CYCLE_2_TERMINAL_ATTESTATION_DURABLE_CARRIER_V1'&&value.status==='VERIFIED_DURABLE_CANONICAL_CARRIER','E_CYCLE2_DURABLE_SCHEMA');
+  assert(value.provenance.provider==='GITHUB_ACTIONS'&&value.provenance.repository==='KirPonomarev/writer-editor'&&value.provenance.workflowPath==='.github/workflows/r24-audit-cycle2-terminal-attestation.yml'&&value.provenance.artifactName==='r24-audit-cycle2-terminal-attestation','E_CYCLE2_DURABLE_PROVENANCE');
+  assert(Number.isSafeInteger(value.archive.sizeBytes)&&value.archive.sizeBytes>0&&typeof value.archive.sha256==='string','E_CYCLE2_DURABLE_ARCHIVE');
+  assert(value.member.path==='audit-cycle2-terminal-attestation.json'&&Number.isSafeInteger(value.member.sizeBytes)&&value.member.sizeBytes>0&&typeof value.member.canonicalBase64==='string'&&/^[A-Za-z0-9+/]+={0,2}$/.test(value.member.canonicalBase64),'E_CYCLE2_DURABLE_MEMBER_BINDING');
+  const memberBytes=Buffer.from(value.member.canonicalBase64,'base64');
+  assert(memberBytes.toString('base64')===value.member.canonicalBase64&&memberBytes.length===value.member.sizeBytes&&h(memberBytes)===value.member.sha256,'E_CYCLE2_DURABLE_MEMBER');
+  const member=JSON.parse(memberBytes);
+  assert(memberBytes.equals(canonicalBytes(member)),'E_CYCLE2_DURABLE_MEMBER_CANONICAL_BYTES');
+  exactKeys(member,AUDIT_CYCLE_2_ATTESTATION_KEYS,'auditCycle2DurableCarrier.member.attestation');
+  exactKeys(member.predecessorCycleEvidence,AUDIT_CYCLE_2_PREDECESSOR_KEYS,'auditCycle2DurableCarrier.member.predecessorCycleEvidence');
+  exactKeys(member.liveRuleset,DURABLE_MEMBER_LIVE_RULESET_KEYS,'auditCycle2DurableCarrier.member.liveRuleset');
+  exactKeys(member.liveRuleset.protections,DURABLE_MEMBER_PROTECTION_KEYS,'auditCycle2DurableCarrier.member.liveRuleset.protections');
+  exactKeys(member.verifierRepairs,AUDIT_CYCLE_2_REPAIRS_KEYS,'auditCycle2DurableCarrier.member.verifierRepairs');
+  exactKeys(member.correctionDelivery,DURABLE_MEMBER_DELIVERY_KEYS,'auditCycle2DurableCarrier.member.correctionDelivery');
+  assert(member.schemaVersion==='AUDIT_CYCLE_2_TERMINAL_ATTESTATION_V1'&&member.result==='PASS'&&member.stageId==='AUDIT_CYCLE_2_CORRECTIONS','E_CYCLE2_DURABLE_MEMBER_SCHEMA');
+  assert(member.repository===value.provenance.repository&&member.workflowPath===value.provenance.workflowPath&&member.workflowRunId===value.provenance.runId&&member.runAttempt===value.provenance.runAttempt&&member.artifactName===value.provenance.artifactName&&member.artifactFile===value.member.path,'E_CYCLE2_DURABLE_MEMBER_PROVENANCE');
+  assert(member.correctionDelivery.evaluationSha===value.provenance.headSha&&member.correctionDelivery.evaluationSha===value.verification.evaluationSha&&member.correctionDelivery.evaluationTreeSha===value.verification.evaluationTreeSha&&member.correctionDelivery.implementationCandidateSha===value.verification.implementationCandidateSha,'E_CYCLE2_DURABLE_MEMBER_DELIVERY');
+  assert(value.verification.runId===value.provenance.runId&&value.verification.runAttempt===value.provenance.runAttempt&&value.verification.artifactId===value.provenance.artifactId,'E_CYCLE2_DURABLE_VERIFICATION_IDENTITY');
+  assert(value.verification.attestationDigest===value.member.sha256&&value.verification.archiveDigest===`sha256:${value.archive.sha256}`&&value.verification.certificationSetDigest===member.certificationSetDigest&&value.verification.predecessorDurableCarrierDigest===member.predecessorCycleEvidence.durableCarrierDigest&&value.verification.predecessorDurableCarrierValidationSchema===member.predecessorCycleEvidence.durableCarrierValidationSchema,'E_CYCLE2_DURABLE_VERIFICATION_BINDING');
+  assert(value.verification.schemaVersion==='AUDIT_CYCLE_2_TERMINAL_ATTESTATION_VALIDATION_V1'&&value.verification.status==='VERIFIED'&&value.verification.programDone===false&&member.programDoneClaimed===false&&member.mainProductGraphNodeStarted===false&&member.nonRecursiveCarrierPattern===true&&value.artifactExpiryIndependent===true&&value.programDone===false,'E_CYCLE2_DURABLE_POLICY');
+  return{schemaVersion:'AUDIT_CYCLE_2_DURABLE_CARRIER_VALIDATION_V1',status:'VERIFIED',carrierDigest:digest,attestationDigest:value.member.sha256,runId:value.provenance.runId,artifactId:value.provenance.artifactId,programDone:false};
 }
 
 export function generateCertificationSet({sourceFile,evaluationSha,evaluationTreeSha,git=defaultGit}){
@@ -213,7 +374,30 @@ if(import.meta.url===`file://${process.argv[1]}`){
       const carrierFile=readJsonFile(options['write-durable-carrier']);
       process.stdout.write(canonicalBytes({verification:verified.verification,durableCarrierValidation:verifyAuditCycleDurableCarrier(carrierFile),durableCarrierDigest:carrierFile.digest}));
     }
-    else if(options['verify-audit-cycle-durable']){const file=readJsonFile(options['verify-audit-cycle-durable']);process.stdout.write(canonicalBytes(verifyAuditCycleDurableCarrier(file)));}
+    else if(options['verify-audit-cycle2-terminal']){
+      const runId=finiteId(options['remote-run'],'cycle2.remote-run');
+      const repository='KirPonomarev/writer-editor';
+      const runEvidenceFile=rawJsonBytes(ghRaw(`repos/${repository}/actions/runs/${runId}`),'cycle2.run');
+      const artifactsResponse=JSON.parse(ghRaw(`repos/${repository}/actions/runs/${runId}/artifacts`));
+      const matchingArtifacts=artifactsResponse.artifacts.filter((entry)=>entry.name==='r24-audit-cycle2-terminal-attestation');
+      assert(matchingArtifacts.length===1,'E_CYCLE2_EXACT_ARTIFACT_SELECTION',String(matchingArtifacts.length));
+      const artifactEvidence=matchingArtifacts[0];
+      const zipBytes=ghRaw(`repos/${repository}/actions/artifacts/${finiteId(artifactEvidence.id,'cycle2.artifact.id')}/zip`);
+      const untrustedMember=JSON.parse(inspectExactZip(zipBytes,'audit-cycle2-terminal-attestation.json'));
+      const candidateRunId=finiteId(untrustedMember?.correctionDelivery?.candidateCiRunId,'cycle2.candidateCiRunId');
+      const postmergeRunId=finiteId(untrustedMember?.correctionDelivery?.exactPostmergeCiRunId,'cycle2.postmergeCiRunId');
+      const rulesetEvidenceFile=rawJsonBytes(ghRaw(`repos/${repository}/rulesets/12270444`),'cycle2.ruleset');
+      const candidateCiEvidenceFile=rawJsonBytes(ghRaw(`repos/${repository}/actions/runs/${candidateRunId}`),'cycle2.candidateCi');
+      const postmergeCiEvidenceFile=rawJsonBytes(ghRaw(`repos/${repository}/actions/runs/${postmergeRunId}`),'cycle2.postmergeCi');
+      const verified=verifyAuditCycle2TerminalArtifact({zipBytes,runEvidenceFile,artifactEvidence,rulesetEvidenceFile,candidateCiEvidenceFile,postmergeCiEvidenceFile,authorityFile:readJsonFile('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_OWNER_AMENDMENT_V16.json'),instanceFile:readJsonFile('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V17.json'),admissionFile:readJsonFile('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_ATTESTATION_V17.json'),certificationFile:readJsonFile('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CURRENT_CERTIFICATION_SET_V2.json'),beforeFile:readJsonFile('docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_2_PROTECTED_WIP_BEFORE_V1.json'),predecessorReleaseFile:readJsonFile('docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_1_CORRECTIONS_LEASE_RELEASE_V1.json'),predecessorReceiptFile:readJsonFile('docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_1_CORRECTIONS_TERMINAL_RECEIPT_V1.json'),predecessorDurableFile:readJsonFile('docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_1_TERMINAL_ATTESTATION_DURABLE_CARRIER_V1.json')});
+      const carrier=createAuditCycle2DurableCarrier({zipBytes,memberBytes:verified.memberBytes,runEvidenceFile,artifactEvidence,verification:verified.verification});
+      assert(options['write-durable-carrier'],'E_CYCLE2_OUTPUT');
+      atomicCanonicalWrite(options['write-durable-carrier'],carrier);
+      const carrierFile=readJsonFile(options['write-durable-carrier']);
+      process.stdout.write(canonicalBytes({verification:verified.verification,durableCarrierValidation:verifyAuditCycle2DurableCarrier(carrierFile,{expectedCarrierDigest:carrierFile.digest}),durableCarrierDigest:carrierFile.digest}));
+    }
+    else if(options['verify-audit-cycle-durable']){const expectedDigest=options['expected-carrier-digest']??AUDIT_CYCLE_1_DURABLE_EXPECTATION.carrierDigest;hex(expectedDigest,64,'expected-carrier-digest');assert(expectedDigest===AUDIT_CYCLE_1_DURABLE_EXPECTATION.carrierDigest,'E_DURABLE_EXPECTED_DIGEST_PIN');const file=readJsonFile(options['verify-audit-cycle-durable']);process.stdout.write(canonicalBytes(verifyAuditCycleDurableCarrier(file,{...AUDIT_CYCLE_1_DURABLE_EXPECTATION,carrierDigest:expectedDigest})));}
+    else if(options['verify-audit-cycle2-durable']){const expectedDigest=options['expected-carrier-digest'];hex(expectedDigest,64,'cycle2.expected-carrier-digest');const file=readJsonFile(options['verify-audit-cycle2-durable']);process.stdout.write(canonicalBytes(verifyAuditCycle2DurableCarrier(file,{expectedCarrierDigest:expectedDigest})));}
     else if(options.generate){const value=generateCertificationSet({sourceFile:options.source,evaluationSha:options['evaluation-sha'],evaluationTreeSha:options['evaluation-tree']});assert(options.output,'E_OUTPUT');fs.writeFileSync(options.output,`${JSON.stringify(value,null,2)}\n`);process.stdout.write(`${JSON.stringify({status:'GENERATED',output:path.normalize(options.output),evaluationSha:value.evaluationSha,artifactBindingDenominator:value.artifactBindingDenominator})}\n`);}
     else if(options.verify){const file=readJsonFile(options.verify);process.stdout.write(`${JSON.stringify(verifyCertificationSet({value:file.value,fileDigest:file.digest,candidateSha:options['candidate-sha']??'HEAD'}))}\n`);}
     else fail('E_MODE');

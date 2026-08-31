@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "AUDIT_CYCLE_2_CORRECTION_CONTRACT_V1",
+  "contractId": "YALKEN_R24_AUDIT_CYCLE_2_CORRECTIONS",
+  "status": "ADMITTED_ACTIVE",
+  "auditInput": {
+    "receipt": "INDEPENDENT_POST_CORRECTION_AUDIT_V2_RECEIPT",
+    "receiptDigest": "babdb1ed4e37d9e8b3b8234ec4b3e86d72d43b3c2fe26a1511a5d3de1a92af70",
+    "verdict": "GAPS_FOUND",
+    "allAuditCycleOneFindings": "INDEPENDENTLY_CLOSED",
+    "confirmedFindings": [
+      "IPCAV2_001_DURABLE_CARRIER_VERIFIER_FAIL_OPEN",
+      "IPCAV2_002_LIVE_RULESET_VERIFIER_FAIL_OPEN"
+    ]
+  },
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "externalSourcePlanSerialization": "OWNER_SUPPLIED_EXACT_UTF8_BYTES",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "compiledProgramPath": "docs/OPS/R24/CORRECTIVE/R24_CORRECTIVE_PROGRAM_V1_1.json",
+    "rolesAreDistinct": true,
+    "selfHashEqualityRequired": false
+  },
+  "exactBase": {
+    "originSha": "cd79111a7342ab52f4cebd0aca57f8f9af6fcffd",
+    "treeSha": "12e066f9ce85c15ae49c9ed0374144b15158c4fa"
+  },
+  "admission": {
+    "authorityDigest": "d07be95b36595ae5877abb04bca32bece319930cc9a210fdd1c88ba5d7b901d8",
+    "stageInstanceDigest": "f1c3b756dd3ea694964125087dbe5af33262254adeda4a678fcda38c803d03c2",
+    "stageAdmissionDigest": "eedb83accc580c155ba90107189e55406cb2080a3e2132fd86eeb3a72c2300f6",
+    "writeSetDigest": "2ff5201b9c32f2d5902ada501457c59d5c6e3eec8f1939f87001965a58b00bd3",
+    "commandScopeDigest": "6d8298c8f5a41c8457803776bf24be1c02c655215891249997bb5ad3fd1452c6",
+    "acceptanceSignalsDigest": "4ced3f0e69aab4e9203e2a4b057a1c1cb2ea0f3a2aa6f54ced98fc7fb41fdc4a",
+    "verifierDigest": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f",
+    "fencingCounter": 58,
+    "wip": 1
+  },
+  "protectedWipBefore": {
+    "carrierDigest": "3e10fa7ddba92ebdb3c4f0a6e79bfd595cffe81cea4948555588329c89ac1ce5",
+    "snapshotDigest": "693799c9ac5df9b975f94dea5d34ee48a1638f8f3d4cf05ca6e70b11e2c23bab",
+    "completeDenominator": 252,
+    "presentDenominator": 249,
+    "prunableDenominator": 3,
+    "dirtyDenominator": 7,
+    "capturedBeforeRepositoryMutation": true,
+    "excludedRoles": [
+      "auditor",
+      "writer"
+    ]
+  },
+  "requiredCorrections": {
+    "durableCarrier": "CANONICAL_OUTER_BYTES_REAL_AND_EXPECTED_DIGEST_CLOSED_KEYS_POSITIVE_SIZES_EXACT_MEMBER_PATH_AND_PINNED_PROVIDER_REPOSITORY_WORKFLOW_RUN_ARTIFACT_MEMBER_IDENTITIES",
+    "liveRuleset": "CLOSED_ROLE_RELATIVE_ENVELOPE_EXPLICIT_ZERO_BYPASS_OPTIONAL_CURRENT_USER_NEVER_AND_EXACTLY_FOUR_UNIQUE_INTENDED_RULE_TYPES",
+    "hostileTests": "UNKNOWN_MISSING_ZERO_SIZE_PATH_PROVIDER_REPOSITORY_WORKFLOW_REPORTED_DIGEST_CLI_JSON_DUPLICATE_RULE_MISSING_BYPASS_CURRENT_USER_BYPASS_AND_UNKNOWN_ENVELOPE_MUTANTS",
+    "regression": "ALL_AUDIT_CYCLE_ONE_FINDINGS_REMAIN_CLOSED_COMPLETE_137_BINDING_CERTIFICATION_AND_33_STAGE_REPLAY_PASS"
+  },
+  "predecessorCycle": {
+    "leaseReleaseDigest": "03d722c2476ac80699633890de3bc8aeb89d17a64a22f697c04141815eb7af60",
+    "terminalReceiptDigest": "a2a5f29879b5396277f95826d83721c5d9e61827ad0088f8d00e007ee36769ec",
+    "durableCarrierDigest": "596c8fecbc486368e34585505b36b074f1b66ffb5073fc189c086a8e0394db0d"
+  },
+  "delivery": {
+    "normalProtectedPullRequestsOnly": true,
+    "forcePushOrBypassForbidden": true,
+    "externalTerminalArtifactRequired": true,
+    "durableCarrierRequired": true,
+    "nonRecursiveCarrierPattern": true,
+    "exactPostmergeCiRequired": true
+  },
+  "programDone": false,
+  "mainProductGraphNodeStarted": false
+}

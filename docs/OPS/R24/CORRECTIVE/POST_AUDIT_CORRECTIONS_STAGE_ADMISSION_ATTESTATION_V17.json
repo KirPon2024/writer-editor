@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "STAGE_ADMISSION_ATTESTATION_V2",
+  "attestationType": "INDEPENDENT_PINNED_STAGE_ADMISSION",
+  "status": "ADMITTED",
+  "decision": "INSTANCE_IS_EXACT_SUBSET_OF_OWNER_AUTHORIZED_SUCCESSOR",
+  "stageId": "AUDIT_CYCLE_2_CORRECTIONS",
+  "authorityId": "OWNER_AUDIT_CYCLE_2_CORRECTIONS_V1",
+  "authorityDigest": "d07be95b36595ae5877abb04bca32bece319930cc9a210fdd1c88ba5d7b901d8",
+  "ownerAuthorityBindingDigest": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+  "sourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+  "stageInstanceDigest": "f1c3b756dd3ea694964125087dbe5af33262254adeda4a678fcda38c803d03c2",
+  "writeSetDigest": "2ff5201b9c32f2d5902ada501457c59d5c6e3eec8f1939f87001965a58b00bd3",
+  "commandScopeDigest": "6d8298c8f5a41c8457803776bf24be1c02c655215891249997bb5ad3fd1452c6",
+  "acceptanceSignalsDigest": "4ced3f0e69aab4e9203e2a4b057a1c1cb2ea0f3a2aa6f54ced98fc7fb41fdc4a",
+  "verifierDigest": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f",
+  "exactIdentity": {
+    "baseSha": "cd79111a7342ab52f4cebd0aca57f8f9af6fcffd",
+    "headSha": "cd79111a7342ab52f4cebd0aca57f8f9af6fcffd",
+    "treeSha": "12e066f9ce85c15ae49c9ed0374144b15158c4fa",
+    "branch": "codex/r24-audit-cycle2-corrections-v1-20260831",
+    "targetRemote": "origin"
+  },
+  "lease": {
+    "fencingCounter": 58,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "03d722c2476ac80699633890de3bc8aeb89d17a64a22f697c04141815eb7af60"
+  },
+  "observedAtUtc": "2026-08-31T10:34:31Z"
+}

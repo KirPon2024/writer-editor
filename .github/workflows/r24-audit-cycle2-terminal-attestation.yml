@@ -1,0 +1,142 @@
+name: r24-audit-cycle2-terminal-attestation
+
+on:
+  workflow_dispatch:
+    inputs:
+      implementation_candidate_sha:
+        required: true
+        type: string
+      implementation_merge_sha:
+        required: true
+        type: string
+      evaluation_sha:
+        required: true
+        type: string
+      evaluation_tree_sha:
+        required: true
+        type: string
+      candidate_ci_run_id:
+        required: true
+        type: string
+      exact_postmerge_ci_run_id:
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  terminal-attestation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.evaluation_sha }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - run: npm ci --engine-strict
+      - name: Verify exact implementation ancestry and evaluation tree
+        shell: bash
+        env:
+          IMPLEMENTATION_CANDIDATE_SHA: ${{ inputs.implementation_candidate_sha }}
+          IMPLEMENTATION_MERGE_SHA: ${{ inputs.implementation_merge_sha }}
+          EVALUATION_SHA: ${{ inputs.evaluation_sha }}
+          EVALUATION_TREE_SHA: ${{ inputs.evaluation_tree_sha }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_SHA" = "$EVALUATION_SHA"
+          test "$IMPLEMENTATION_MERGE_SHA" = "$EVALUATION_SHA"
+          test "$(git rev-parse "$EVALUATION_SHA^{tree}")" = "$EVALUATION_TREE_SHA"
+          test "$(git rev-parse "$IMPLEMENTATION_MERGE_SHA^2")" = "$IMPLEMENTATION_CANDIDATE_SHA"
+          git merge-base --is-ancestor "$IMPLEMENTATION_CANDIDATE_SHA" "$IMPLEMENTATION_MERGE_SHA"
+      - name: Verify complete certification replay and repaired hostile contracts
+        run: |
+          node scripts/ops/r24/corrective/post-audit-certification-set.mjs --verify docs/OPS/R24/CORRECTIVE/POST_AUDIT_CURRENT_CERTIFICATION_SET_V2.json --candidate-sha "$GITHUB_SHA"
+          node scripts/ops/r24/corrective/post-audit-certification-set.mjs --verify-audit-cycle-durable docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_1_TERMINAL_ATTESTATION_DURABLE_CARRIER_V1.json --expected-carrier-digest 596c8fecbc486368e34585505b36b074f1b66ffb5073fc189c086a8e0394db0d
+          npm run test:r24-post-audit
+          node --test test/contracts/r24-post-audit-certification-set.contract.test.mjs test/contracts/r24-protected-wip-snapshot.contract.test.mjs
+      - name: Download and validate live ruleset and CI run bytes
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CANDIDATE_CI_RUN_ID: ${{ inputs.candidate_ci_run_id }}
+          EXACT_POSTMERGE_CI_RUN_ID: ${{ inputs.exact_postmerge_ci_run_id }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/audit-cycle2-inputs"
+          gh api "repos/$GITHUB_REPOSITORY/rulesets/12270444" > "$RUNNER_TEMP/audit-cycle2-inputs/ruleset.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$CANDIDATE_CI_RUN_ID" > "$RUNNER_TEMP/audit-cycle2-inputs/candidate-ci.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$EXACT_POSTMERGE_CI_RUN_ID" > "$RUNNER_TEMP/audit-cycle2-inputs/postmerge-ci.json"
+          node scripts/ops/r24/corrective/post-audit-merge-gate.mjs --check-live-ruleset
+      - name: Emit one canonical non-recursive cycle-two terminal member
+        shell: bash
+        env:
+          IMPLEMENTATION_CANDIDATE_SHA: ${{ inputs.implementation_candidate_sha }}
+          IMPLEMENTATION_MERGE_SHA: ${{ inputs.implementation_merge_sha }}
+          EVALUATION_SHA: ${{ inputs.evaluation_sha }}
+          EVALUATION_TREE_SHA: ${{ inputs.evaluation_tree_sha }}
+          CANDIDATE_CI_RUN_ID: ${{ inputs.candidate_ci_run_id }}
+          EXACT_POSTMERGE_CI_RUN_ID: ${{ inputs.exact_postmerge_ci_run_id }}
+        run: |
+          set -euo pipefail
+          export OUT="$RUNNER_TEMP/audit-cycle2-terminal"
+          mkdir -p "$OUT"
+          node --input-type=module <<'NODE'
+          import crypto from 'node:crypto';
+          import fs from 'node:fs';
+          import { verifyRuleset } from './scripts/ops/r24/corrective/post-audit-merge-gate.mjs';
+          import { AUDIT_CYCLE_1_DURABLE_EXPECTATION, verifyAuditCycleDurableCarrier } from './scripts/ops/r24/corrective/post-audit-certification-set.mjs';
+          const h=(bytes)=>crypto.createHash('sha256').update(bytes).digest('hex');
+          const c=(v)=>Array.isArray(v)?`[${v.map(c).join(',')}]`:v&&typeof v==='object'?`{${Object.keys(v).sort().map((k)=>`${JSON.stringify(k)}:${c(v[k])}`).join(',')}}`:JSON.stringify(v);
+          const read=(path)=>{const bytes=fs.readFileSync(path);return{bytes,digest:h(bytes),value:JSON.parse(bytes)}};
+          const authority=read('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_OWNER_AMENDMENT_V16.json');
+          const instance=read('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V17.json');
+          const admission=read('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_ATTESTATION_V17.json');
+          const program=read('docs/OPS/R24/CORRECTIVE/R24_CORRECTIVE_PROGRAM_V1_1.json');
+          const certification=read('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CURRENT_CERTIFICATION_SET_V2.json');
+          const before=read('docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_2_PROTECTED_WIP_BEFORE_V1.json');
+          const predecessorRelease=read('docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_1_CORRECTIONS_LEASE_RELEASE_V1.json');
+          const predecessorReceipt=read('docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_1_CORRECTIONS_TERMINAL_RECEIPT_V1.json');
+          const predecessorDurable=read('docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_1_TERMINAL_ATTESTATION_DURABLE_CARRIER_V1.json');
+          const ruleset=read(`${process.env.RUNNER_TEMP}/audit-cycle2-inputs/ruleset.json`);
+          const candidateCi=read(`${process.env.RUNNER_TEMP}/audit-cycle2-inputs/candidate-ci.json`);
+          const postmergeCi=read(`${process.env.RUNNER_TEMP}/audit-cycle2-inputs/postmerge-ci.json`);
+          const assert=(condition,code)=>{if(!condition)throw new Error(code)};
+          const predecessorValidation=verifyAuditCycleDurableCarrier(predecessorDurable);
+          assert(authority.value.externalSourcePlanDigest==='1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a','E_EXTERNAL_SOURCE_PLAN');
+          assert(authority.value.compiledProgramFileDigest===program.digest&&program.digest==='da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a','E_COMPILED_PROGRAM');
+          assert(admission.value.authorityDigest===authority.digest&&admission.value.stageInstanceDigest===instance.digest&&admission.value.status==='ADMITTED'&&admission.value.lease.fencingCounter===58&&admission.value.lease.wip===1,'E_ADMISSION');
+          assert(certification.value.stageCount===33&&certification.value.artifactBindingDenominator===137&&certification.value.verifiedArtifactBindingCount===137,'E_CERTIFICATION_DENOMINATOR');
+          assert(before.value.completeDenominator===252&&before.value.dirtyDenominator===7&&before.value.snapshotSha256==='693799c9ac5df9b975f94dea5d34ee48a1638f8f3d4cf05ca6e70b11e2c23bab','E_WIP_BEFORE');
+          assert(predecessorValidation.carrierDigest===AUDIT_CYCLE_1_DURABLE_EXPECTATION.carrierDigest,'E_PREDECESSOR_DURABLE');
+          const rulesetResult=verifyRuleset(ruleset.value);
+          assert(Number(candidateCi.value.id)===Number(process.env.CANDIDATE_CI_RUN_ID)&&candidateCi.value.conclusion==='success'&&candidateCi.value.head_sha===process.env.IMPLEMENTATION_CANDIDATE_SHA,'E_CANDIDATE_CI');
+          assert(Number(postmergeCi.value.id)===Number(process.env.EXACT_POSTMERGE_CI_RUN_ID)&&postmergeCi.value.conclusion==='success'&&postmergeCi.value.head_sha===process.env.IMPLEMENTATION_MERGE_SHA,'E_POSTMERGE_CI');
+          const attestation={
+            schemaVersion:'AUDIT_CYCLE_2_TERMINAL_ATTESTATION_V1',attestationType:'EXTERNAL_IMMUTABLE_ACCEPTANCE_BOUND_TERMINAL_ATTESTATION',result:'PASS',stageId:'AUDIT_CYCLE_2_CORRECTIONS',auditReceiptDigest:'babdb1ed4e37d9e8b3b8234ec4b3e86d72d43b3c2fe26a1511a5d3de1a92af70',
+            externalSourcePlanDigest:authority.value.externalSourcePlanDigest,compiledProgramFileDigest:program.digest,authorityDigest:authority.digest,stageInstanceDigest:instance.digest,stageAdmissionDigest:admission.digest,writeSetDigest:admission.value.writeSetDigest,commandScopeDigest:admission.value.commandScopeDigest,acceptanceSignalsDigest:admission.value.acceptanceSignalsDigest,
+            certificationSetDigest:certification.digest,certificationEvaluationSha:certification.value.evaluationSha,certificationEvaluationTreeSha:certification.value.evaluationTreeSha,certificationStageCount:certification.value.stageCount,certificationArtifactBindingDenominator:certification.value.artifactBindingDenominator,
+            protectedWipBeforeCarrierDigest:before.digest,protectedWipBeforeSnapshotDigest:before.value.snapshotSha256,protectedWipBeforeCompleteDenominator:before.value.completeDenominator,protectedWipBeforeDirtyDenominator:before.value.dirtyDenominator,
+            predecessorCycleEvidence:{leaseReleaseDigest:predecessorRelease.digest,terminalReceiptDigest:predecessorReceipt.digest,durableCarrierDigest:predecessorDurable.digest,durableCarrierValidationSchema:predecessorValidation.schemaVersion},
+            liveRuleset:{rulesetId:12270444,returnedBytesDigest:ruleset.digest,returnedByteLength:ruleset.bytes.length,normalizedRulesetDigest:rulesetResult.normalizedRulesetDigest,requiredContexts:rulesetResult.requiredContexts,protections:rulesetResult.protections},
+            verifierRepairs:{durableCarrier:{canonicalCarrierDigest:AUDIT_CYCLE_1_DURABLE_EXPECTATION.carrierDigest,canonicalOuterBytesRequired:true,expectedCarrierDigestRequired:true,closedNestedKeysRequired:true,positiveSizesRequired:true,exactMemberPathRequired:true,pinnedProvenanceRequired:true,cliJsonRequired:true},liveRuleset:{ruleTypeDenominator:4,uniqueRuleTypesRequired:true,closedRoleEnvelopeRequired:true,explicitBypassActorsRequired:true,currentUserCanBypassIfPresent:'never'}},
+            correctionDelivery:{implementationCandidateSha:process.env.IMPLEMENTATION_CANDIDATE_SHA,implementationMergeSha:process.env.IMPLEMENTATION_MERGE_SHA,evaluationSha:process.env.EVALUATION_SHA,evaluationTreeSha:process.env.EVALUATION_TREE_SHA,candidateCiRunId:Number(process.env.CANDIDATE_CI_RUN_ID),candidateCiBytesDigest:candidateCi.digest,exactPostmergeCiRunId:Number(process.env.EXACT_POSTMERGE_CI_RUN_ID),exactPostmergeCiBytesDigest:postmergeCi.digest},
+            repository:process.env.GITHUB_REPOSITORY,workflowPath:'.github/workflows/r24-audit-cycle2-terminal-attestation.yml',workflowRunId:Number(process.env.GITHUB_RUN_ID),runAttempt:Number(process.env.GITHUB_RUN_ATTEMPT),event:process.env.GITHUB_EVENT_NAME,ref:process.env.GITHUB_REF,artifactName:'r24-audit-cycle2-terminal-attestation',artifactFile:'audit-cycle2-terminal-attestation.json',nonRecursiveCarrierPattern:true,programDoneClaimed:false,mainProductGraphNodeStarted:false
+          };
+          fs.writeFileSync(`${process.env.OUT}/audit-cycle2-terminal-attestation.json`,`${c(attestation)}\n`);
+          NODE
+      - name: Require exactly one artifact member
+        run: |
+          test "$(find "$RUNNER_TEMP/audit-cycle2-terminal" -type f | wc -l | tr -d ' ')" = 1
+          test -f "$RUNNER_TEMP/audit-cycle2-terminal/audit-cycle2-terminal-attestation.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r24-audit-cycle2-terminal-attestation
+          path: ${{ runner.temp }}/audit-cycle2-terminal/audit-cycle2-terminal-attestation.json
+          if-no-files-found: error
+          retention-days: 90

@@ -1,0 +1,288 @@
+{
+  "schemaVersion": "STAGE_INSTANCE_V2",
+  "stageId": "AUDIT_CYCLE_2_CORRECTIONS",
+  "authorityId": "OWNER_AUDIT_CYCLE_2_V18_SUCCESSOR_V1",
+  "ownerAuthorityBindingDigest": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+  "sourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+  "baseSha": "ee480790c3f3553fe5e5f44ec5f42d5c6066d73c",
+  "headSha": "ee480790c3f3553fe5e5f44ec5f42d5c6066d73c",
+  "treeSha": "c8478220aa7a2f16883dd3361009d6b2c5d5408d",
+  "branch": "codex/r24-audit-cycle2-corrections-v1-20260831",
+  "targetRemote": "origin",
+  "fixedBindings": [
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/OWNER_PROGRAM_RATIFICATION_ATTESTATION_V1.json",
+      "sha256": "093bdc624e5512216b2de2ae69bdd701f5828b42941b88aec9112f8b5b9f081b"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json",
+      "sha256": "6c833c964318da3e61e1743365f8763206be838647b5222c187b3bda8d1c6b9a"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/R24_CORRECTIVE_PROGRAM_V1_1.json",
+      "sha256": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json",
+      "sha256": "c8af046b5918f43a50af66886b0b5c9d2e22ea6501240d4b239101d8836ced1a"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json",
+      "sha256": "4f6e4b3a191e0302ea44646659e8c2f71121af7d808cc0ee768269b4e156840d"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/schemas/STAGE_INSTANCE_V1.schema.json",
+      "sha256": "c51a58ca8563c4342a67593adab2fe05356e14da2c614f72ad02e43fbdf80aa2"
+    },
+    {
+      "path": "scripts/ops/r24/corrective/stage-admission-verifier.mjs",
+      "sha256": "82e49d577b79b41b26b67e25b7ce0fd81f26fb973232194fef8d96d6c563c6f9"
+    }
+  ],
+  "operations": {
+    "readPaths": [
+      "AGENTS.md",
+      "CANON.md",
+      "docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_1_CORRECTIONS_LEASE_RELEASE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_1_CORRECTIONS_TERMINAL_RECEIPT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_1_TERMINAL_ATTESTATION_DURABLE_CARRIER_V1.json",
+      "docs/OPS/R24/CORRECTIVE/OWNER_PROGRAM_RATIFICATION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_OWNER_AMENDMENT_V15.json",
+      "docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_ATTESTATION_V16.json",
+      "docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V16.json",
+      "docs/OPS/R24/CORRECTIVE/POST_AUDIT_CURRENT_CERTIFICATION_SET_V2.json",
+      "docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json",
+      "docs/OPS/R24/CORRECTIVE/R24_CORRECTIVE_PROGRAM_V1_1.json",
+      "docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json",
+      "docs/OPS/R24/CORRECTIVE/schemas/STAGE_INSTANCE_V1.schema.json",
+      "scripts/ops/r24/corrective/stage-admission-verifier.mjs"
+    ],
+    "modifyPaths": [
+      ".github/workflows/r24-audit-cycle2-terminal-attestation.yml",
+      "docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_2_CORRECTION_CONTRACT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_2_PROTECTED_WIP_BEFORE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/C1C_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+      "docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_OWNER_AMENDMENT_V16.json",
+      "docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_ATTESTATION_V17.json",
+      "docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V17.json",
+      "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "scripts/ops/r24/corrective/post-audit-corrections.mjs",
+      "scripts/ops/r24/corrective/post-audit-merge-gate.mjs",
+      "test/contracts/r24-post-audit-certification-set.contract.test.mjs",
+      "test/contracts/r24-post-audit-corrections.contract.test.mjs"
+    ],
+    "createPaths": [
+      "docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_2_CORRECTIONS_FINAL_ACCEPTANCE_MATRIX_V1.json",
+      "docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_2_CORRECTIONS_FINAL_EFFECTIVE_STATE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_2_CORRECTIONS_FINAL_STAGE_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_2_CORRECTIONS_LEASE_RELEASE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_2_CORRECTIONS_TERMINAL_RECEIPT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_2_LIVE_RULESET_V1.json",
+      "docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_2_PROTECTED_WIP_AFTER_V1.json",
+      "docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_2_TERMINAL_ATTESTATION_DURABLE_CARRIER_V1.json",
+      "docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_OWNER_AMENDMENT_V17.json",
+      "docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_ATTESTATION_V18.json",
+      "docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V18.json"
+    ],
+    "deletePaths": [],
+    "renamePairs": []
+  },
+  "commands": [
+    "npm run agent:bootstrap -- --objective AUDIT_CYCLE_2_CORRECTIONS_V1",
+    "npm run agent:preflight -- --declaration YALKEN_R24_AUDIT_CYCLE_2_CORRECTIONS_DECLARATION_V1.json",
+    "git fetch origin main",
+    "git rev-parse origin/main",
+    "git rev-parse origin/main^{tree}",
+    "git switch -c codex/r24-audit-cycle2-corrections-v1-20260831",
+    "node stage-admission-verifier-v2-successor.mjs --repo-root BASE --authority AUTHORITY_V16 --stage-instance INSTANCE_V17 --stage-admission ADMISSION_V17 --expected-verifier-digest b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f --expected-authority-digest AUTHORITY_DIGEST",
+    "node scripts/ops/r24/corrective/protected-wip-snapshot.mjs --capture-or-verify",
+    "node scripts/ops/r24/corrective/post-audit-certification-set.mjs --verify-audit-cycle-durable DURABLE --expected-carrier-digest DIGEST",
+    "node scripts/ops/r24/corrective/post-audit-certification-set.mjs --verify POST_AUDIT_CURRENT_CERTIFICATION_SET_V2 --candidate-sha HEAD",
+    "node scripts/ops/r24/corrective/post-audit-merge-gate.mjs --check-live-ruleset",
+    "node --test test/contracts/r24-post-audit-certification-set.contract.test.mjs test/contracts/r24-post-audit-corrections.contract.test.mjs test/contracts/r24-protected-wip-snapshot.contract.test.mjs",
+    "node scripts/ops/r24/test-inventory.mjs --write docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+    "npm run test:r24-post-audit",
+    "npm run test:r24-e0",
+    "GOVERNANCE_CHANGE_APPROVALS_PATH=docs/OPS/R24/CORRECTIVE/C1C_GOVERNANCE_CHANGE_APPROVALS_V1.json npm test",
+    "npm run test:rtk",
+    "npm run test:electron",
+    "npm audit --omit=dev --audit-level=high",
+    "npm run oss:policy",
+    "npm run agent:guardrails",
+    "git diff --check",
+    "git diff --name-status origin/main",
+    "git add --exact-write-set",
+    "git diff --cached --check",
+    "git diff --cached --name-status",
+    "git commit -m Fail close R2.4 audit cycle two verifiers",
+    "git commit -m Preserve R2.4 audit cycle two terminal evidence",
+    "git commit -m Release R2.4 audit cycle two lease",
+    "git push origin codex/r24-audit-cycle2-corrections-v1-20260831",
+    "gh pr create --base main --head codex/r24-audit-cycle2-corrections-v1-20260831",
+    "gh pr checks PR --watch",
+    "gh pr merge PR --merge",
+    "gh workflow run r24-audit-cycle2-terminal-attestation.yml --ref main --field EXACT_INPUTS",
+    "gh run watch TERMINAL_RUN --exit-status",
+    "gh run download TERMINAL_RUN --name AUDIT_CYCLE_2_ARTIFACT",
+    "git switch -c codex/r24-audit-cycle2-durable-carrier-v1-20260831 origin/main",
+    "git push origin codex/r24-audit-cycle2-durable-carrier-v1-20260831",
+    "git switch -c codex/r24-audit-cycle2-release-v1-20260831 origin/main",
+    "git push origin codex/r24-audit-cycle2-release-v1-20260831",
+    "gh run view RUN --json status,conclusion,headSha,event,attempt,jobs",
+    "git status --porcelain=v1 --untracked-files=all",
+    "git worktree list --porcelain"
+  ],
+  "acceptanceSignals": [
+    "EXACT_CD79111A_BASE_AND_12E066F9_TREE",
+    "INDEPENDENT_AUDIT_V2_RECEIPT_BABDB1ED_BOUND",
+    "EXTERNAL_SOURCE_PLAN_AND_COMPILED_PROGRAM_DIGEST_ROLES_DISTINCT_AND_BOUND",
+    "INDEPENDENT_PINNED_STAGE_ADMISSION_V2_PASS",
+    "ONE_WRITER_LEASE_58_ACTIVE_WIP_1",
+    "CYCLE_1_DURABLE_CARRIER_REAL_DIGEST_AND_CANONICAL_OUTER_BYTES_BOUND",
+    "DURABLE_OUTER_AND_NESTED_KEYS_DIGEST_SIZE_PATH_PROVIDER_REPOSITORY_WORKFLOW_RUN_ARTIFACT_AND_MEMBER_IDENTITIES_FAIL_CLOSED",
+    "DURABLE_CLI_EMITS_VALID_JSON_WITH_NONEMPTY_PINNED_CARRIER_DIGEST",
+    "LIVE_RULESET_EXACT_FOUR_UNIQUE_RULE_TYPES_AND_ROLE_RELATIVE_CLOSED_ENVELOPE",
+    "DUPLICATE_UNKNOWN_MISSING_BYPASS_AND_BYPASS_CAPABLE_RULESET_MUTANTS_REJECTED",
+    "RULESET_12270444_SOLE_MERGE_GATE_ZERO_BYPASS_AND_ALL_PROTECTIONS_RETAINED",
+    "PREVIOUS_AUDIT_V1_FINDINGS_REMAIN_CLOSED_AND_FULL_33_STAGE_REPLAY_PASSES",
+    "PRIVACY_SAFE_PROTECTED_WIP_BEFORE_AFTER_COMPLETE_DENOMINATOR_AND_SEVEN_DIRTY_IDENTITIES_UNCHANGED",
+    "CANDIDATE_AND_EXACT_POSTMERGE_CI_PASS",
+    "EXTERNAL_TERMINAL_ARTIFACT_AND_DURABLE_CARRIER_INDEPENDENTLY_VERIFIED",
+    "FINAL_ACCEPTANCE_HAS_NO_FAIL_UNKNOWN_OR_PENDING_ROWS",
+    "LEASE_58_RELEASED_WIP_0",
+    "NO_LIVE_WORK_AND_ACTIVE_WRITER_CLEAN",
+    "PROGRAM_DONE_FALSE",
+    "NO_MAIN_PRODUCT_GRAPH_NODE_START"
+  ],
+  "authorityCeiling": [
+    "BOUNDED_REPOSITORY_WRITE",
+    "BRANCH_WORKTREE",
+    "COMMIT",
+    "PUSH",
+    "PR_CREATE_OR_UPDATE",
+    "PROTECTED_NORMAL_MERGE",
+    "READ_ONLY_GITHUB_API",
+    "BOUNDED_CI_OPERATION",
+    "EXTERNAL_TERMINAL_ARTIFACT",
+    "LOCAL_TEST_BUILD_EVIDENCE",
+    "NON_DESTRUCTIVE_LOCAL_TOOLCHAIN"
+  ],
+  "externalEffects": [
+    "GIT_PUSH",
+    "GITHUB_PR",
+    "GITHUB_PROTECTED_MERGE",
+    "GITHUB_CI",
+    "GITHUB_ARTIFACT_DOWNLOAD",
+    "NPM_REGISTRY_TOOLCHAIN_FETCH"
+  ],
+  "predecessors": [
+    {
+      "id": "INDEPENDENT_POST_CORRECTION_AUDIT_V2_RECEIPT",
+      "digest": "babdb1ed4e37d9e8b3b8234ec4b3e86d72d43b3c2fe26a1511a5d3de1a92af70",
+      "status": "GAPS_FOUND_INPUT"
+    },
+    {
+      "id": "AUDIT_CYCLE_2_PROTECTED_WIP_BEFORE_RAW_SNAPSHOT",
+      "digest": "3e10fa7ddba92ebdb3c4f0a6e79bfd595cffe81cea4948555588329c89ac1ce5",
+      "status": "CAPTURED_BEFORE_REPOSITORY_MUTATION_SNAPSHOT_693799C9"
+    },
+    {
+      "id": "AUDIT_CYCLE_1_CORRECTIONS_LEASE_RELEASE_V1",
+      "digest": "03d722c2476ac80699633890de3bc8aeb89d17a64a22f697c04141815eb7af60",
+      "status": "LEASE_57_RELEASED_PREDECESSOR"
+    },
+    {
+      "id": "POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V16",
+      "digest": "84bd35e761567556cee248d6c9edeca91b0fc1174b261ffe71fea50193829442",
+      "status": "ADMITTED_PREDECESSOR"
+    },
+    {
+      "id": "POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_V16",
+      "digest": "ca4af17220e4416be6e463528506561329cabf8bb84bde9b0f213cc1572b587a",
+      "status": "ADMITTED_PREDECESSOR"
+    },
+    {
+      "id": "HISTORICAL_STAGE_ADMISSION_VERIFIER_CONTRACT",
+      "digest": "925b4c23f1cad674720ee6a22fcd74cc2169b16bbc161be5d43535f20dd2ee31",
+      "status": "FIXED_BINDING_PRESERVED"
+    },
+    {
+      "id": "AUDIT_CYCLE_2_V18_SUCCESSOR_AUTHORITY_V1",
+      "digest": "80abb3720c287e1bf394595ce84b5ccdffa423dde61baddc4a9bdf2a5fa26fb8",
+      "status": "OWNER_AUTHORIZED_NORMALIZED_EXACT_SCOPE",
+      "binding": {
+        "authorizationId": "AUDIT_CYCLE_2_V18_SUCCESSOR_AUTHORITY_V1",
+        "sourceThreadId": "019f9535-0fc9-7282-a3a5-9b6e9a748de4",
+        "ownerStandingAuthorityDigest": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+        "candidateSha": "ee480790c3f3553fe5e5f44ec5f42d5c6066d73c",
+        "candidateTreeSha": "c8478220aa7a2f16883dd3361009d6b2c5d5408d",
+        "predecessorAuthorityDigest": "d07be95b36595ae5877abb04bca32bece319930cc9a210fdd1c88ba5d7b901d8",
+        "predecessorStageInstanceDigest": "f1c3b756dd3ea694964125087dbe5af33262254adeda4a678fcda38c803d03c2",
+        "predecessorStageAdmissionDigest": "eedb83accc580c155ba90107189e55406cb2080a3e2132fd86eeb3a72c2300f6",
+        "predecessorWriteSetDigest": "2ff5201b9c32f2d5902ada501457c59d5c6e3eec8f1939f87001965a58b00bd3",
+        "addedModifyPaths": [
+          "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V1.json"
+        ],
+        "addedCreatePaths": [
+          "docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_OWNER_AMENDMENT_V17.json",
+          "docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_ATTESTATION_V18.json",
+          "docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V18.json"
+        ],
+        "lease": {
+          "fencingCounter": 58,
+          "status": "ACTIVE",
+          "wip": 1,
+          "predecessorReleaseDigest": "03d722c2476ac80699633890de3bc8aeb89d17a64a22f697c04141815eb7af60"
+        },
+        "programDone": false,
+        "mainProductGraphNodeStarted": false
+      }
+    },
+    {
+      "id": "POST_AUDIT_CORRECTIONS_OWNER_AMENDMENT_V16",
+      "digest": "d07be95b36595ae5877abb04bca32bece319930cc9a210fdd1c88ba5d7b901d8",
+      "status": "SUPERSEDED_BY_EXACT_ONE_PATH_SUCCESSOR"
+    },
+    {
+      "id": "POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V17",
+      "digest": "f1c3b756dd3ea694964125087dbe5af33262254adeda4a678fcda38c803d03c2",
+      "status": "SUPERSEDED_BY_EXACT_ONE_PATH_SUCCESSOR"
+    },
+    {
+      "id": "POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_V17",
+      "digest": "eedb83accc580c155ba90107189e55406cb2080a3e2132fd86eeb3a72c2300f6",
+      "status": "SUPERSEDED_BY_EXACT_ONE_PATH_SUCCESSOR"
+    },
+    {
+      "id": "POST_AUDIT_CORRECTIONS_V17_WRITE_SET",
+      "digest": "2ff5201b9c32f2d5902ada501457c59d5c6e3eec8f1939f87001965a58b00bd3",
+      "status": "SUPERSEDED_BY_EXACT_ONE_PATH_SUCCESSOR"
+    }
+  ],
+  "lease": {
+    "fencingCounter": 58,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "03d722c2476ac80699633890de3bc8aeb89d17a64a22f697c04141815eb7af60"
+  },
+  "model": "gpt-5.6-sol",
+  "reasoningEffort": "xhigh",
+  "stopConditions": [
+    "ORIGIN_MAIN_DRIFT",
+    "MODEL_OR_REASONING_RUNTIME_MISMATCH",
+    "LEASE_FENCE_OR_ONE_WRITER_VIOLATION",
+    "EXACT_WRITE_SET_OR_COMMAND_SCOPE_WOULD_EXPAND",
+    "PROTECTED_WIP_BASELINE_OR_AFTER_MISMATCH",
+    "RULESET_PROTECTION_LOSS_OR_BYPASS",
+    "DIRTY_OR_PRESERVED_WIP_WOULD_BE_LOST",
+    "FORCE_PUSH_PROTECTION_BYPASS_SECRET_PAYMENT_SIGNING_NOTARIZATION_OR_RELEASE_REQUIRED",
+    "REQUIRED_EVIDENCE_MISSING_STALE_SKIPPED_SELF_AUTHORED_OR_DIFFERENT_HEAD",
+    "PROGRAM_DONE_ATTEMPT",
+    "MAIN_PRODUCT_GRAPH_NODE_START_ATTEMPT"
+  ]
+}

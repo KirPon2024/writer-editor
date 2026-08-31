@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import crypto from 'node:crypto';
 import { verifyToolchain } from './post-audit-toolchain.mjs';
 import { verifyWorkflowText } from './post-audit-merge-gate.mjs';
-import { verifyCertificationSet } from './post-audit-certification-set.mjs';
+import { verifyAuditCycle2DurableCarrier, verifyCertificationSet } from './post-audit-certification-set.mjs';
 import { verifyDurableCarrier } from './terminal-attestation-verifier.mjs';
 
 const sha256 = (bytes) => crypto.createHash('sha256').update(bytes).digest('hex');
@@ -51,7 +51,15 @@ export function verifyPostAuditCorrections({ verifyRuntime = true } = {}) {
   const certifications = files.certification.value.stages;
   assert(certifications.length === 33 && JSON.stringify(certifications.map((entry) => entry.stageId)) === JSON.stringify(stageOrder), 'E_CERTIFICATION_DENOMINATOR');
   for (const entry of certifications) assert(entry.effectiveState === 'CERTIFIED_DONE', 'E_CERTIFICATION_STATE', entry.stageId);
-  const certificationVerification = verifyCertificationSet({ value: files.certification.value, fileDigest: files.certification.digest, candidateSha: 'HEAD' });
+  const certificationVerification = verifyCertificationSet({ value: files.certification.value, fileDigest: files.certification.digest, candidateSha: 'HEAD', allowAuditCycle2Admission: true });
+  const cycle2Contract=read('docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_2_CORRECTION_CONTRACT_V1.json');
+  const cycle2Authority=read('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_OWNER_AMENDMENT_V17.json');
+  const cycle2Instance=read('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V18.json');
+  const cycle2Admission=read('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_ATTESTATION_V18.json');
+  assert(cycle2Contract.value.admission.authorityDigest===cycle2Authority.digest&&cycle2Contract.value.admission.stageInstanceDigest===cycle2Instance.digest&&cycle2Contract.value.admission.stageAdmissionDigest===cycle2Admission.digest,'E_CYCLE2_CONTRACT_ADMISSION_BINDING');
+  assert(cycle2Admission.value.authorityDigest===cycle2Authority.digest&&cycle2Admission.value.stageInstanceDigest===cycle2Instance.digest&&cycle2Admission.value.status==='ADMITTED'&&cycle2Admission.value.lease?.fencingCounter===58&&cycle2Admission.value.lease?.wip===1,'E_CYCLE2_ADMISSION_BINDING');
+  assert(cycle2Contract.value.predecessorAdmission.authorityDigest==='d07be95b36595ae5877abb04bca32bece319930cc9a210fdd1c88ba5d7b901d8'&&cycle2Contract.value.predecessorAdmission.stageInstanceDigest==='f1c3b756dd3ea694964125087dbe5af33262254adeda4a678fcda38c803d03c2'&&cycle2Contract.value.predecessorAdmission.stageAdmissionDigest==='eedb83accc580c155ba90107189e55406cb2080a3e2132fd86eeb3a72c2300f6','E_CYCLE2_PREDECESSOR_ADMISSION_BINDING');
+  assert(cycle2Contract.value.auditInput.receiptDigest==='babdb1ed4e37d9e8b3b8234ec4b3e86d72d43b3c2fe26a1511a5d3de1a92af70'&&cycle2Contract.value.programDone===false&&cycle2Contract.value.mainProductGraphNodeStarted===false,'E_CYCLE2_SCOPE');
   assert(JSON.stringify(files.certification.value.effectiveStateEnum) === JSON.stringify(['CERTIFIED_DONE','DONE_UNCERTIFIED','CERTIFICATION_PENDING','CERTIFICATION_INVALIDATED','INELIGIBLE_OPTIONAL','BLOCKED_TYPED']), 'E_CERTIFICATION_ENUM');
   for (const path of ['docs/OPS/R24/CORRECTIVE/schemas/STAGE_INSTANCE_V2.schema.json','docs/OPS/R24/CORRECTIVE/schemas/STAGE_ADMISSION_ATTESTATION_V2.schema.json','docs/OPS/R24/CORRECTIVE/schemas/TERMINAL_ATTESTATION_V2.schema.json']) assert(read(path).value.additionalProperties === false, 'E_SCHEMA_OPEN', path);
   verifyWorkflowText(fs.readFileSync('.github/workflows/oss-policy.yml', 'utf8'));
@@ -60,7 +68,10 @@ export function verifyPostAuditCorrections({ verifyRuntime = true } = {}) {
   const toolchain = verifyToolchain({ verifyRuntime, verifyBundles: true });
   const durablePath = 'docs/OPS/R24/CORRECTIVE/POST_AUDIT_TERMINAL_ATTESTATION_DURABLE_CARRIER_V1.json';
   const durableCarrier = fs.existsSync(durablePath) ? verifyDurableCarrier(read(durablePath)) : null;
-  return { schemaVersion: 'POST_AUDIT_CORRECTIONS_STATIC_RESULT_V2', status: 'PASS', stageCount: 33, artifactBindingDenominator: certificationVerification.artifactBindingDenominator, certificationSetDigest: files.certification.digest, toolchain, durableCarrier, digests: EXPECTED, programDone: false };
+  const cycle2DurablePath='docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_2_TERMINAL_ATTESTATION_DURABLE_CARRIER_V1.json';
+  const cycle2DurableFile=fs.existsSync(cycle2DurablePath)?read(cycle2DurablePath):null;
+  const cycle2DurableCarrier=cycle2DurableFile?verifyAuditCycle2DurableCarrier(cycle2DurableFile,{expectedCarrierDigest:cycle2DurableFile.digest}):null;
+  return { schemaVersion: 'POST_AUDIT_CORRECTIONS_STATIC_RESULT_V3', status: 'PASS', stageCount: 33, artifactBindingDenominator: certificationVerification.artifactBindingDenominator, certificationSetDigest: files.certification.digest, cycle2AdmissionDigest:cycle2Admission.digest, toolchain, durableCarrier, cycle2DurableCarrier, digests: EXPECTED, programDone: false };
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

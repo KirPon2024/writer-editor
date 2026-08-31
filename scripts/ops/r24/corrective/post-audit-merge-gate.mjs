@@ -56,7 +56,7 @@ export function verifyRuleset(ruleset) {
   assert(JSON.stringify(contexts) === JSON.stringify(['merge-gate']), 'E_RULESET_REQUIRED_CONTEXTS', contexts.join(','));
   assert(requiredStatus.required_status_checks[0].integration_id === 15368 && requiredStatus.strict_required_status_checks_policy === false && requiredStatus.do_not_enforce_on_create === false, 'E_RULESET_STATUS_CHECK_POLICY');
   assert((ruleset.bypass_actors ?? []).length === 0, 'E_RULESET_BYPASS');
-  const normalized={id:ruleset.id,name:ruleset.name,target:ruleset.target,enforcement:ruleset.enforcement,conditions:ruleset.conditions,bypass_actors:ruleset.bypass_actors,rules:ruleset.rules};
+  const normalized={id:ruleset.id,name:ruleset.name,target:ruleset.target,enforcement:ruleset.enforcement,conditions:ruleset.conditions,bypass_actors:ruleset.bypass_actors??[],rules:ruleset.rules};
   return { schemaVersion: 'POST_AUDIT_RULESET_RESULT_V2', status: 'PASS', rulesetId: ruleset.id, requiredContexts: contexts, normalizedRulesetDigest: sha256(Buffer.from(canonical(normalized))), protections: { deletion: true, nonFastForward: true, pullRequest: true, conversationResolution: true, bypassActorCount: 0 } };
 }
 

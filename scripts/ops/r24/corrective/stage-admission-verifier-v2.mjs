@@ -33,6 +33,26 @@ const validateRepoPath = (relative, label) => {
   if (path.posix.normalize(relative) !== relative) fail('E_PATH_NORMALIZATION', relative);
   return relative;
 };
+const CONFUSABLES = new Map(Object.entries({
+  '\u0430':'a','\u0435':'e','\u043e':'o','\u0440':'p','\u0441':'c','\u0445':'x','\u0443':'y','\u043a':'k','\u043c':'m','\u0442':'t','\u0432':'b','\u043d':'h','\u0456':'i','\u0458':'j','\u0455':'s','\u04cf':'l',
+  '\u03b1':'a','\u03b2':'b','\u03b5':'e','\u03b7':'h','\u03b9':'i','\u03ba':'k','\u03bc':'m','\u03bd':'v','\u03bf':'o','\u03c1':'p','\u03c4':'t','\u03c5':'y','\u03c7':'x','\u03f2':'c','\u03f3':'j'
+}));
+const caseFoldPath = (value) => value.toLowerCase();
+const confusableSkeleton = (value) => [...value.normalize('NFKC').toLowerCase()].map((character) => CONFUSABLES.get(character) ?? character).join('');
+const rejectAmbiguousPaths = (values) => {
+  for (const [kind, keyOf, code] of [
+    ['case-fold', caseFoldPath, 'E_PATH_CASEFOLD_COLLISION'],
+    ['confusable-skeleton', confusableSkeleton, 'E_PATH_CONFUSABLE_COLLISION']
+  ]) {
+    const seen = new Map();
+    for (const value of values) {
+      const key = keyOf(value);
+      const previous = seen.get(key);
+      if (previous !== undefined && previous !== value) fail(code, `${kind}:${previous}:${value}`);
+      seen.set(key, value);
+    }
+  }
+};
 const ensureContained = (repoReal, absolute, label) => {
   const relative = path.relative(repoReal, absolute);
   if (relative === '..' || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) fail('E_PATH_ESCAPE', label);
@@ -78,18 +98,19 @@ const authority = readJson(args.authority);
 const instance = readJson(args['stage-instance']);
 const admission = readJson(args['stage-admission']);
 if (authority.digest !== args['expected-authority-digest']) fail('E_AUTHORITY_BYTES', authority.digest);
-exactKeys(authority.value, ['schemaVersion','authorityId','ownerAuthorityBindingDigest','sourcePlanDigest','baseSha','baseTree','branch','stageId','verifierDigest','fixedBindings','allowedCommands','allowedOperations','acceptanceSignals','authorityCeiling','externalEffects','predecessors','lease'], 'authority');
-exactKeys(instance.value, ['schemaVersion','stageId','authorityId','ownerAuthorityBindingDigest','sourcePlanDigest','baseSha','headSha','treeSha','branch','targetRemote','fixedBindings','operations','commands','acceptanceSignals','authorityCeiling','externalEffects','predecessors','lease','model','reasoningEffort','stopConditions'], 'stageInstance');
-exactKeys(admission.value, ['schemaVersion','attestationType','status','decision','stageId','authorityId','authorityDigest','ownerAuthorityBindingDigest','sourcePlanDigest','stageInstanceDigest','writeSetDigest','commandScopeDigest','acceptanceSignalsDigest','verifierDigest','exactIdentity','lease','observedAtUtc'], 'stageAdmission');
+exactKeys(authority.value, ['schemaVersion','authorityId','ownerAuthorityBindingDigest','sourcePlanDigest','externalSourcePlanDigest','compiledProgramFileDigest','baseSha','baseTree','branch','stageId','verifierDigest','fixedBindings','allowedCommands','allowedOperations','acceptanceSignals','authorityCeiling','externalEffects','predecessors','lease'], 'authority');
+exactKeys(instance.value, ['schemaVersion','stageId','authorityId','ownerAuthorityBindingDigest','sourcePlanDigest','externalSourcePlanDigest','compiledProgramFileDigest','baseSha','headSha','treeSha','branch','targetRemote','fixedBindings','operations','commands','acceptanceSignals','authorityCeiling','externalEffects','predecessors','lease','model','reasoningEffort','stopConditions'], 'stageInstance');
+exactKeys(admission.value, ['schemaVersion','attestationType','status','decision','stageId','authorityId','authorityDigest','ownerAuthorityBindingDigest','sourcePlanDigest','externalSourcePlanDigest','compiledProgramFileDigest','stageInstanceDigest','writeSetDigest','commandScopeDigest','acceptanceSignalsDigest','verifierDigest','exactIdentity','lease','observedAtUtc'], 'stageAdmission');
 exactKeys(instance.value.operations, ['readPaths','modifyPaths','createPaths','deletePaths','renamePairs'], 'operations');
 exactKeys(authority.value.allowedOperations, ['readPaths','modifyPaths','createPaths','deletePaths','renamePairs'], 'allowedOperations');
 exactKeys(instance.value.lease, ['fencingCounter','status','wip','predecessorReleaseDigest'], 'instance.lease');
 exactKeys(admission.value.lease, ['fencingCounter','status','wip','predecessorReleaseDigest'], 'admission.lease');
 exactKeys(admission.value.exactIdentity, ['baseSha','headSha','treeSha','branch','targetRemote'], 'admission.exactIdentity');
 if (authority.value.schemaVersion !== 'POST_AUDIT_CORRECTIONS_OWNER_AUTHORITY_V1' || instance.value.schemaVersion !== 'STAGE_INSTANCE_V2' || admission.value.schemaVersion !== 'STAGE_ADMISSION_ATTESTATION_V2') fail('E_SCHEMA');
+if (authority.value.sourcePlanDigest !== authority.value.externalSourcePlanDigest || authority.value.externalSourcePlanDigest !== '1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a' || authority.value.compiledProgramFileDigest !== 'da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a') fail('E_SOURCE_PLAN_ROLE_BINDING');
 if (authority.value.verifierDigest !== selfDigest || admission.value.verifierDigest !== selfDigest) fail('E_VERIFIER_BINDING');
 if (admission.value.authorityDigest !== authority.digest) fail('E_ADMISSION_AUTHORITY_BINDING');
-for (const field of ['stageId','authorityId','ownerAuthorityBindingDigest','sourcePlanDigest','baseSha','baseTree','branch','fixedBindings','acceptanceSignals','authorityCeiling','externalEffects','predecessors','lease']) {
+for (const field of ['stageId','authorityId','ownerAuthorityBindingDigest','sourcePlanDigest','externalSourcePlanDigest','compiledProgramFileDigest','baseSha','baseTree','branch','fixedBindings','acceptanceSignals','authorityCeiling','externalEffects','predecessors','lease']) {
   const instanceField = field === 'baseTree' ? 'treeSha' : field;
   if (JSON.stringify(authority.value[field]) !== JSON.stringify(instance.value[instanceField])) fail('E_AUTHORITY_BINDING', field);
 }
@@ -116,6 +137,7 @@ for (const pair of instance.value.operations.renamePairs) {
   all.push(pair.from, pair.to);
 }
 if (new Set(all).size !== all.length) fail('E_OPERATION_CLASS_COLLISION');
+rejectAmbiguousPaths(all);
 for (const relative of instance.value.operations.readPaths) if (!inspectComponents(repoRoot, relative, false)) fail('E_READ_MISSING', relative);
 for (const relative of instance.value.operations.modifyPaths) if (!inspectComponents(repoRoot, relative, false)) fail('E_MODIFY_MISSING', relative);
 for (const relative of instance.value.operations.deletePaths) if (!inspectComponents(repoRoot, relative, false)) fail('E_DELETE_MISSING', relative);
@@ -130,6 +152,7 @@ const commandScopeDigest = sha256(Buffer.from(canonical(instance.value.commands)
 const acceptanceSignalsDigest = sha256(Buffer.from(canonical(instance.value.acceptanceSignals)));
 if (admission.value.stageInstanceDigest !== instance.digest || admission.value.writeSetDigest !== writeSetDigest || admission.value.commandScopeDigest !== commandScopeDigest || admission.value.acceptanceSignalsDigest !== acceptanceSignalsDigest) fail('E_ADMISSION_DIGEST_BINDING');
 if (admission.value.status !== 'ADMITTED' || admission.value.decision !== 'INSTANCE_IS_EXACT_SUBSET_OF_OWNER_AUTHORIZED_SUCCESSOR') fail('E_NOT_ADMITTED');
+if (admission.value.sourcePlanDigest !== instance.value.sourcePlanDigest || admission.value.externalSourcePlanDigest !== instance.value.externalSourcePlanDigest || admission.value.compiledProgramFileDigest !== instance.value.compiledProgramFileDigest) fail('E_ADMISSION_SOURCE_PLAN_ROLE_BINDING');
 if (JSON.stringify(admission.value.exactIdentity) !== JSON.stringify({baseSha:instance.value.baseSha,headSha:instance.value.headSha,treeSha:instance.value.treeSha,branch:instance.value.branch,targetRemote:instance.value.targetRemote})) fail('E_ADMISSION_IDENTITY');
 if (JSON.stringify(admission.value.lease) !== JSON.stringify(instance.value.lease)) fail('E_ADMISSION_LEASE');
 process.stdout.write(`${JSON.stringify({schemaVersion:'STAGE_ADMISSION_VERIFIER_V2_RESULT',status:'PASS',authorityDigest:authority.digest,stageInstanceDigest:instance.digest,stageAdmissionDigest:admission.digest,writeSetDigest,commandScopeDigest,acceptanceSignalsDigest,verifierDigest:selfDigest,repoRoot})}\n`);

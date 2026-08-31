@@ -66,7 +66,9 @@ jobs:
       - name: Require build-to-clean-tree policy
         run: git diff --exit-code -- src/renderer/editor.bundle.js src/preload.bundle.cjs
       - name: Run focused post-audit negative contracts after real build
-        run: npm run test:r24-post-audit
+        run: |
+          npm run test:r24-post-audit
+          node --test test/contracts/r24-post-audit-certification-set.contract.test.mjs test/contracts/r24-protected-wip-snapshot.contract.test.mjs
       - name: Run full maintained RTK after real build
         run: npm run test:rtk
 
@@ -140,6 +142,16 @@ jobs:
   x1-runtime-parity:
     uses: ./.github/workflows/x1-runtime-parity.yml
 
+  live-ruleset-oracle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Require literal protected merge-gate ruleset without bypass or protection loss
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/ops/r24/corrective/post-audit-merge-gate.mjs --check-live-ruleset
+
   merge-gate:
     name: merge-gate
     if: ${{ always() }}
@@ -148,6 +160,7 @@ jobs:
       - c1a-hermetic
       - e0-mutants
       - inventory-baseline
+      - live-ruleset-oracle
       - ops-vector
       - oss-policy-core
       - privacy-negative
@@ -158,7 +171,7 @@ jobs:
     timeout-minutes: 5
     env:
       REQUIRED_DEPENDENCY_RESULTS: >-
-        {"actual-renderer-build-rtk":"${{ needs.actual-renderer-build-rtk.result }}","c1a-hermetic":"${{ needs.c1a-hermetic.result }}","e0-mutants":"${{ needs.e0-mutants.result }}","inventory-baseline":"${{ needs.inventory-baseline.result }}","ops-vector":"${{ needs.ops-vector.result }}","oss-policy-core":"${{ needs.oss-policy-core.result }}","privacy-negative":"${{ needs.privacy-negative.result }}","rtk-required":"${{ needs.rtk-required.result }}","static-security-sast":"${{ needs.static-security-sast.result }}","x1-runtime-parity":"${{ needs.x1-runtime-parity.result }}"}
+        {"actual-renderer-build-rtk":"${{ needs.actual-renderer-build-rtk.result }}","c1a-hermetic":"${{ needs.c1a-hermetic.result }}","e0-mutants":"${{ needs.e0-mutants.result }}","inventory-baseline":"${{ needs.inventory-baseline.result }}","live-ruleset-oracle":"${{ needs.live-ruleset-oracle.result }}","ops-vector":"${{ needs.ops-vector.result }}","oss-policy-core":"${{ needs.oss-policy-core.result }}","privacy-negative":"${{ needs.privacy-negative.result }}","rtk-required":"${{ needs.rtk-required.result }}","static-security-sast":"${{ needs.static-security-sast.result }}","x1-runtime-parity":"${{ needs.x1-runtime-parity.result }}"}
     steps:
       - uses: actions/checkout@v4
       - name: Fail closed on failed cancelled or unexplained skipped dependencies

@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "AUDIT_CYCLE_1_CORRECTION_CONTRACT_V1",
+  "contractId": "YALKEN_R24_AUDIT_CYCLE_1_CORRECTIONS",
+  "status": "ADMITTED_ACTIVE",
+  "auditInput": {
+    "auditorTaskId": "01a05533-2be4-7cd1-aaf6-acbfaa7e4d8f",
+    "auditorReceipt": "INDEPENDENT_POST_CORRECTION_AUDIT_V1_RECEIPT",
+    "auditedStateDigest": "75359ba2264782c80b9e0219e44d3e978d6ac136ed8f177a5aa7e3a736be9f0e",
+    "auditorResultDigest": "d6cfbf6dbfb8902fe5ee7bad9b9c4bd8df96493a211b7321a60ab77c11acebca",
+    "monitorClassificationDigest": "ed2ad3f89308e78888391e0ae70ee6dc66f96a445530c10460f391ac48822336",
+    "verdict": "GAPS_FOUND"
+  },
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "externalSourcePlanSerialization": "OWNER_SUPPLIED_EXACT_UTF8_BYTES",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "compiledProgramPath": "docs/OPS/R24/CORRECTIVE/R24_CORRECTIVE_PROGRAM_V1_1.json",
+    "rolesAreDistinct": true,
+    "selfHashEqualityRequired": false
+  },
+  "exactBase": {
+    "originSha": "0a8837ae8b0724fa9c258d98281cae693ce0693e",
+    "treeSha": "d5642ab0bdc549e94878d1b9a466bcab4c01380b"
+  },
+  "admission": {
+    "authorityDigest": "f39cbf41d3cad609e2ddd852346b8d34cdf6b0dd79ceaa2629e5fdea5b5327ad",
+    "stageInstanceDigest": "84bd35e761567556cee248d6c9edeca91b0fc1174b261ffe71fea50193829442",
+    "stageAdmissionDigest": "ca4af17220e4416be6e463528506561329cabf8bb84bde9b0f213cc1572b587a",
+    "writeSetDigest": "fb434ff3595c05602d1a53cc82905b1b59e58723fd4b3320eba5315f9ac9bbb0",
+    "commandScopeDigest": "c1cab2d9f6bad9aac5fb6a23d6b2afcb2e6725d09b1880bf66b4aa956944c144",
+    "acceptanceSignalsDigest": "ba17b5554b5768033f071617c830fa3ebccf0f58d76183dd0aca6a77e32c146c",
+    "verifierDigest": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f",
+    "fencingCounter": 57,
+    "wip": 1
+  },
+  "findingDisposition": {
+    "IPCA-001": "REJECTED_AS_DEFECT_BOTH_BYTE_ROLES_EXPLICITLY_BOUND",
+    "IPCA-002": "CONFIRMED_REQUIRES_COMPLETE_GIT_OBJECT_REHASH_SUCCESSOR",
+    "IPCA-003": "CONFIRMED_REQUIRES_LITERAL_LIVE_MERGE_GATE_RULESET_AND_REQUIRED_CI_ORACLE",
+    "IPCA-004": "CONFIRMED_HISTORICAL_OVERCLAIM_SUPERSEDED_NEW_RECONSTRUCTIBLE_BASELINE_REQUIRED",
+    "IPCA-005": "CONFIRMED_REQUIRES_CASEFOLD_AND_APPROVED_CONFUSABLE_COLLISION_REJECTION",
+    "IPCA-006": "EXTERNAL_LABEL_ONLY_PR_1776_AND_PR_1777_IDENTITIES_FIXED",
+    "PR1777_SELF_BINDING": "REJECTED_AS_GAP_NON_RECURSIVE_PATTERN_PRESERVED"
+  },
+  "requiredCorrections": {
+    "certification": "ONE_EXACT_EVALUATION_SHA_TREE_COMPLETE_137_BINDING_GIT_OBJECT_LOOKUP_AND_HOSTILE_MUTANTS",
+    "ruleset": "RULESET_12270444_SOLE_MERGE_GATE_ZERO_BYPASS_RETAIN_DELETION_NON_FAST_FORWARD_PULL_REQUEST_AND_CONVERSATION_PROTECTIONS",
+    "protectedWip": "PRIVACY_SAFE_DETERMINISTIC_COMPLETE_DENOMINATOR_BEFORE_AFTER_WITH_SEVEN_DIRTY_IDENTITIES_UNCHANGED",
+    "stageAdmission": "ALL_OPERATION_CLASSES_AND_RENAME_SIDES_REJECT_CASEFOLD_AND_APPROVED_CONFUSABLE_COLLISIONS_WITHOUT_NEW_DEPENDENCY"
+  },
+  "protectedWipBefore": {
+    "carrierDigest": "b0aca65c8b3836ed47f384317cc8c871c03ddb783b103ab189c69df277e81ec4",
+    "snapshotDigest": "a6320222337a261464a3868d4e82725d985fb234b0326fc06474ba3285d7ca32",
+    "completeDenominator": 251,
+    "dirtyDenominator": 7,
+    "capturedBeforeRepositoryMutation": true
+  },
+  "correctPullRequestIdentities": {
+    "pr1776": {
+      "candidateSha": "77354cfe994588dc1771f3eded29d1e7e68d703f",
+      "mergeSha": "af0bfb704c13b0195c12b0144415f2e769f99752"
+    },
+    "pr1777": {
+      "candidateSha": "bf3d21072879d276ca3489b0bbead780fb39f596",
+      "mergeSha": "0a8837ae8b0724fa9c258d98281cae693ce0693e"
+    }
+  },
+  "delivery": {
+    "normalProtectedPullRequestsOnly": true,
+    "forcePushOrBypassForbidden": true,
+    "externalTerminalArtifactRequired": true,
+    "durableCarrierRequired": true,
+    "nonRecursiveCarrierPattern": true,
+    "exactPostmergeCiRequired": true
+  },
+  "programDone": false,
+  "mainProductGraphNodeStarted": false
+}

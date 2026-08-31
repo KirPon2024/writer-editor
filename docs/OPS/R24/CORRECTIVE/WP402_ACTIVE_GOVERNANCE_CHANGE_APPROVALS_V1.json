@@ -1,0 +1,110 @@
+{
+  "approvals": [
+    {
+      "approvedAtUtc": "2026-08-31T19:35:58Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V3.json",
+      "rationale": "Owner-authorized WP402 bounded implementation contour at exact admitted base under lease 60; no second graph node and PROGRAM_DONE remains false.",
+      "sha256": "290ad8cd3db9c25e1a3a17b24b405f07655c7fc3640dd27d28d6ddf96987ee00"
+    },
+    {
+      "approvedAtUtc": "2026-08-31T19:35:58Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "rationale": "Owner-authorized WP402 bounded implementation contour at exact admitted base under lease 60; no second graph node and PROGRAM_DONE remains false.",
+      "sha256": "89c60f36adacd7d0b552f6d55c44bcf12e4892e80834128b782c9e1723040d2b"
+    },
+    {
+      "approvedAtUtc": "2026-08-31T20:29:37Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP402_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V2.json",
+      "rationale": "Append-only WP402 candidate-CI oracle successor admitted after exact run 33435657434 exposed one shared post-audit exception-chain failure; product semantics, lease 60, and protected WIP remain unchanged.",
+      "sha256": "74ae21ddddb35e732a6cbe29cb83aa026fe38c3b379edd72a037ed2cfdf288bf"
+    },
+    {
+      "approvedAtUtc": "2026-08-31T19:35:58Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP402_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "rationale": "Owner-authorized WP402 bounded implementation contour at exact admitted base under lease 60; no second graph node and PROGRAM_DONE remains false.",
+      "sha256": "aedbe756a9e7a4820df8e343de8f56d5e4d3598bbf93b77fdeeddcbef6194d65"
+    },
+    {
+      "approvedAtUtc": "2026-08-31T19:35:58Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP402_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "rationale": "Owner-authorized WP402 bounded implementation contour at exact admitted base under lease 60; no second graph node and PROGRAM_DONE remains false.",
+      "sha256": "ef726640ca9d4fa4c6e42b0aed9df0b123a3ba04e27fbdd1b147a802e143a5ba"
+    },
+    {
+      "approvedAtUtc": "2026-08-31T19:35:58Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP402_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "rationale": "Owner-authorized WP402 bounded implementation contour at exact admitted base under lease 60; no second graph node and PROGRAM_DONE remains false.",
+      "sha256": "bd63c345e43178b7e5f59650e1b93132ddaaa6f33af404ce53806f10f30da7a0"
+    },
+    {
+      "approvedAtUtc": "2026-08-31T20:29:37Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP402_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V2.json",
+      "rationale": "Append-only WP402 candidate-CI oracle successor admitted after exact run 33435657434 exposed one shared post-audit exception-chain failure; product semantics, lease 60, and protected WIP remain unchanged.",
+      "sha256": "ad6f75503eaddad4265c8efc16c9a40e13e14ff206171a3f2fe8da224538e007"
+    },
+    {
+      "approvedAtUtc": "2026-08-31T19:35:58Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP402_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "rationale": "Owner-authorized WP402 bounded implementation contour at exact admitted base under lease 60; no second graph node and PROGRAM_DONE remains false.",
+      "sha256": "a6df655fc011e2c2589559b4c29207706fb0da9f58bf724998b7b699833c8560"
+    },
+    {
+      "approvedAtUtc": "2026-08-31T20:29:37Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP402_MAIN_PRODUCT_STAGE_INSTANCE_V2.json",
+      "rationale": "Append-only WP402 candidate-CI oracle successor admitted after exact run 33435657434 exposed one shared post-audit exception-chain failure; product semantics, lease 60, and protected WIP remain unchanged.",
+      "sha256": "5bc2e5566be12de357521a6f1a1509fcb12964317894c8910fc353c09da4d63c"
+    },
+    {
+      "approvedAtUtc": "2026-08-31T19:35:58Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP402_PROTECTED_WIP_BEFORE_V1.json",
+      "rationale": "Owner-authorized WP402 bounded implementation contour at exact admitted base under lease 60; no second graph node and PROGRAM_DONE remains false.",
+      "sha256": "b6db898c3a4d5395fd38d2129ae950c9da4f5c8d23230547f7ce2618e17cce49"
+    },
+    {
+      "approvedAtUtc": "2026-08-31T19:35:58Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "scripts/ops/r24/corrective/audit-r2-corrections.mjs",
+      "rationale": "Owner-authorized WP402 bounded implementation contour at exact admitted base under lease 60; no second graph node and PROGRAM_DONE remains false.",
+      "sha256": "3fc60869e5da9d07a1a59a57c0c3c43e4bf937d83f1632124884d40554fd150b"
+    },
+    {
+      "approvedAtUtc": "2026-08-31T20:29:37Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "rationale": "Append-only WP402 candidate-CI oracle successor admits a fail-closed exact-path exception composed after WP401, with no widening beyond the V2 StageInstance write set.",
+      "sha256": "7ce2d613690c6711f40e545d3bad00f2647757a66a1de0fd455bd2bc1ad66064"
+    },
+    {
+      "approvedAtUtc": "2026-08-31T19:35:58Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "test/contracts/r24-audit-r2-corrections.contract.test.mjs",
+      "rationale": "Owner-authorized WP402 bounded implementation contour at exact admitted base under lease 60; no second graph node and PROGRAM_DONE remains false.",
+      "sha256": "d98f0cd550a8469c171d4afd743f0b4793fcb30f6d5e2aa48d72aa85cdd1c0ed"
+    },
+    {
+      "approvedAtUtc": "2026-08-31T20:29:37Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "test/contracts/r24-post-audit-certification-set.contract.test.mjs",
+      "rationale": "Append-only WP402 candidate-CI oracle successor adds positive chain proof and a hostile unadmitted future-path rejection without changing product semantics.",
+      "sha256": "6ab5489c1b576fc27add23a67b3a85e5355721c2ca28cfa374d00a1164be1f2e"
+    }
+  ],
+  "evidenceStampIds": [],
+  "phase": "WP402_IMPLEMENTATION_ACTIVE_CARRIER",
+  "sourcePlanRoles": {
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "rolesDistinct": true
+  },
+  "version": "v1.0"
+}

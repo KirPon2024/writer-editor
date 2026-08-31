@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import crypto from 'node:crypto';
 import { verifyToolchain } from './post-audit-toolchain.mjs';
 import { verifyWorkflowText } from './post-audit-merge-gate.mjs';
+import { verifyCertificationSet } from './post-audit-certification-set.mjs';
 import { verifyDurableCarrier } from './terminal-attestation-verifier.mjs';
 
 const sha256 = (bytes) => crypto.createHash('sha256').update(bytes).digest('hex');
@@ -19,7 +20,6 @@ const EXPECTED = Object.freeze({
   effective: '087a18c66d9e59401c17550e79a31572515d4236998b709c81a7c0bd9e7d8093',
   trust: '7cbdd6c9b12ca95274943b82849e26b50dd26243bbd265540bbba294af8e1f41',
   contract: '90197c119af8bb9923437217a89514524769824d19306cd1fa801e6ca68e2fbe',
-  certification: '0097725f062a38ed20fa3a9ccf6b4d720cd3240a2be0547b194d3ee18a99056c',
   historicalTemplate: '6c833c964318da3e61e1743365f8763206be838647b5222c187b3bda8d1c6b9a',
   historicalRegistry: 'c8af046b5918f43a50af66886b0b5c9d2e22ea6501240d4b239101d8836ced1a',
   historicalTrust: '4f6e4b3a191e0302ea44646659e8c2f71121af7d808cc0ee768269b4e156840d'
@@ -33,7 +33,7 @@ const PATHS = Object.freeze({
   effective: 'docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_EFFECTIVE_STATE_V1.json',
   trust: 'docs/OPS/R24/CORRECTIVE/POST_AUDIT_TERMINAL_TRUST_MODEL_V1.json',
   contract: 'docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_CONTRACT_V1.json',
-  certification: 'docs/OPS/R24/CORRECTIVE/POST_AUDIT_CURRENT_CERTIFICATION_SET_V1.json'
+  certification: 'docs/OPS/R24/CORRECTIVE/POST_AUDIT_CURRENT_CERTIFICATION_SET_V2.json'
 });
 
 export function verifyPostAuditCorrections({ verifyRuntime = true } = {}) {
@@ -51,6 +51,7 @@ export function verifyPostAuditCorrections({ verifyRuntime = true } = {}) {
   const certifications = files.certification.value.stages;
   assert(certifications.length === 33 && JSON.stringify(certifications.map((entry) => entry.stageId)) === JSON.stringify(stageOrder), 'E_CERTIFICATION_DENOMINATOR');
   for (const entry of certifications) assert(entry.effectiveState === 'CERTIFIED_DONE', 'E_CERTIFICATION_STATE', entry.stageId);
+  const certificationVerification = verifyCertificationSet({ value: files.certification.value, fileDigest: files.certification.digest, candidateSha: 'HEAD' });
   assert(JSON.stringify(files.certification.value.effectiveStateEnum) === JSON.stringify(['CERTIFIED_DONE','DONE_UNCERTIFIED','CERTIFICATION_PENDING','CERTIFICATION_INVALIDATED','INELIGIBLE_OPTIONAL','BLOCKED_TYPED']), 'E_CERTIFICATION_ENUM');
   for (const path of ['docs/OPS/R24/CORRECTIVE/schemas/STAGE_INSTANCE_V2.schema.json','docs/OPS/R24/CORRECTIVE/schemas/STAGE_ADMISSION_ATTESTATION_V2.schema.json','docs/OPS/R24/CORRECTIVE/schemas/TERMINAL_ATTESTATION_V2.schema.json']) assert(read(path).value.additionalProperties === false, 'E_SCHEMA_OPEN', path);
   verifyWorkflowText(fs.readFileSync('.github/workflows/oss-policy.yml', 'utf8'));
@@ -59,7 +60,7 @@ export function verifyPostAuditCorrections({ verifyRuntime = true } = {}) {
   const toolchain = verifyToolchain({ verifyRuntime, verifyBundles: true });
   const durablePath = 'docs/OPS/R24/CORRECTIVE/POST_AUDIT_TERMINAL_ATTESTATION_DURABLE_CARRIER_V1.json';
   const durableCarrier = fs.existsSync(durablePath) ? verifyDurableCarrier(read(durablePath)) : null;
-  return { schemaVersion: 'POST_AUDIT_CORRECTIONS_STATIC_RESULT_V1', status: 'PASS', stageCount: 33, toolchain, durableCarrier, digests: EXPECTED, programDone: false };
+  return { schemaVersion: 'POST_AUDIT_CORRECTIONS_STATIC_RESULT_V2', status: 'PASS', stageCount: 33, artifactBindingDenominator: certificationVerification.artifactBindingDenominator, certificationSetDigest: files.certification.digest, toolchain, durableCarrier, digests: EXPECTED, programDone: false };
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

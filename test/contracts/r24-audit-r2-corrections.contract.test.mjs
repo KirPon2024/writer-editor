@@ -12,12 +12,24 @@ test('remote terminal wrapper binds the verifier tree field exactly',()=>{
   assert.deepEqual(expected,{artifactId:'42',artifactName:'audit-r2-terminal-7',runId:'7',zipDigest:'3'.repeat(64),evaluationSha:'1'.repeat(40),evaluationTreeSha:'2'.repeat(40)});
   assert.equal(Object.hasOwn(expected,'evaluationTree'),false);
 });
-test('all eight correction carriers pass the static exact-byte check',()=>{
+test('the append-only audit-R2 carrier chain passes the static exact-byte check',()=>{
   const result=checkCorrections();
   assert.equal(result.status,'PASS');
+  assert.equal(result.schemaVersion,'AUDIT_R2_CORRECTION_STATIC_CHECK_V2');
+  assert.equal(result.predecessorCarrierRegistryDigest,'b1738174bd03f47a25e3bcb2ea68c9bf9f602e761b1c8783cc04a8c54f972f8b');
   assert.equal(result.registeredStages,33);
   assert.equal(result.programDoneClaimed,false);
   assert.equal(result.wp400MutationStarted,false);
+});
+test('audit-R2 registry successor binds distinct source roles and only replaces the current inventory entry',()=>{
+  const value=load('docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V2.json');
+  assert.equal(value.predecessor.sha256,'b1738174bd03f47a25e3bcb2ea68c9bf9f602e761b1c8783cc04a8c54f972f8b');
+  assert.equal(value.sourcePlanRoles.externalSourcePlanDigest,'1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a');
+  assert.equal(value.sourcePlanRoles.compiledProgramFileDigest,'da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a');
+  assert.notEqual(value.sourcePlanRoles.externalSourcePlanDigest,value.sourcePlanRoles.compiledProgramFileDigest);
+  assert.deepEqual(value.successorScope.replacementPaths,['docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json','scripts/ops/r24/corrective/audit-r2-corrections.mjs','test/contracts/r24-audit-r2-corrections.contract.test.mjs']);
+  assert.deepEqual(value.successorScope.addedPaths,[]);
+  assert.deepEqual(value.successorScope.removedPaths,[]);
 });
 test('six fixed historical authority sources remain byte-identical',()=>{
   const fixed=[

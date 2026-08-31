@@ -41,23 +41,23 @@ export const AUDIT_CYCLE_2_ADMISSION_EXPECTATION=Object.freeze({
   fencingCounter:58
 });
 export const WP401_MAIN_PRODUCT_ADMISSION_EXPECTATION=Object.freeze({
-  authorityPath:'docs/OPS/R24/CORRECTIVE/WP401_MAIN_PRODUCT_AUTHORITY_AMENDMENT_V4.json',
-  authorityDigest:'69fc9e600d22019bfee17af97765566388f2a96ecb311e5b34cff75f7b2caed3',
-  registryPath:'docs/OPS/R24/CORRECTIVE/WP401_MAIN_PRODUCT_STAGE_REGISTRY_V4.json',
-  registryDigest:'c4ee0eae8e8f7522c32e56fee3c31964c64cd91c4f769659f50b5d51c29f557b',
-  instancePath:'docs/OPS/R24/CORRECTIVE/WP401_MAIN_PRODUCT_STAGE_INSTANCE_V4.json',
-  instanceDigest:'12f485e3607df00da29817efeaa25a2da467d8b622dd7c3622344b1602636785',
-  admissionPath:'docs/OPS/R24/CORRECTIVE/WP401_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V4.json',
-  admissionDigest:'edf49faf8c1d1177f74191e483cf6bbfefe3aaa866835c941dad04b0ddc1ce2b',
-  writeSetDigest:'ba7e04d030ffd942913a1dd7d09a0e4c0c12d0df5391b84f70048146afcd6d0e',
-  predecessorAuthorityDigest:'39a79895242d5ba7ed8abeeaa9f325d9b926ac1d52351d1512817d19370cefcc',
-  predecessorRegistryDigest:'195f0580022ad281a2c5891940b36437c52445d1eee3b4cbac1e45bbcf750a69',
-  predecessorInstanceDigest:'8ccf862743b336e540e75429a93820984f9a84f1b7207abb1f202fd59f9b050e',
-  predecessorAdmissionDigest:'c860edf7d791572eb9dc5c16f3bf9f18228b4967a55fea36d3471250f35dbdbc',
-  predecessorWriteSetDigest:'c8264de1e501a51402e3c7b7870dc7a6162d084bcf9368f334926c1301bec5a8',
+  authorityPath:'docs/OPS/R24/CORRECTIVE/WP401_MAIN_PRODUCT_AUTHORITY_AMENDMENT_V5.json',
+  authorityDigest:'2edc680fd48dc3034af0b1ca76d92ea0e80f007f5874ca4f75959ddfcc8f44ab',
+  registryPath:'docs/OPS/R24/CORRECTIVE/WP401_MAIN_PRODUCT_STAGE_REGISTRY_V5.json',
+  registryDigest:'92174ef49ecc2754b2ae9082b2b51afdb4267973b21e80590dd23db2a0c47365',
+  instancePath:'docs/OPS/R24/CORRECTIVE/WP401_MAIN_PRODUCT_STAGE_INSTANCE_V5.json',
+  instanceDigest:'bce73b311b15cbe1c05828411b961669bc9ebeda0f4ef471556172297d8775be',
+  admissionPath:'docs/OPS/R24/CORRECTIVE/WP401_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V5.json',
+  admissionDigest:'3b44a24aef899ff2692d6d82d518d55c206a898d058be667f58f0ae2b6d11533',
+  writeSetDigest:'41837e39c5ad8acbce74f7f7613a15c1c8aa24e32266cd3e629572badf400843',
+  predecessorAuthorityDigest:'69fc9e600d22019bfee17af97765566388f2a96ecb311e5b34cff75f7b2caed3',
+  predecessorRegistryDigest:'c4ee0eae8e8f7522c32e56fee3c31964c64cd91c4f769659f50b5d51c29f557b',
+  predecessorInstanceDigest:'12f485e3607df00da29817efeaa25a2da467d8b622dd7c3622344b1602636785',
+  predecessorAdmissionDigest:'edf49faf8c1d1177f74191e483cf6bbfefe3aaa866835c941dad04b0ddc1ce2b',
+  predecessorWriteSetDigest:'ba7e04d030ffd942913a1dd7d09a0e4c0c12d0df5391b84f70048146afcd6d0e',
   baseSha:'9aae563b18578a052fffc434b3f37257248092a0',
   baseTree:'b58795b702cbbdd920d4470f3ea67de1fdfadfa2',
-  authorityTemplateId:'OWNER_AUTHORIZED_YALKEN_R24_WP401_BOOK_SNAPSHOT_V4',
+  authorityTemplateId:'OWNER_AUTHORIZED_YALKEN_R24_WP401_BOOK_SNAPSHOT_V5',
   stageId:'WP-401_BOOK_SNAPSHOT',
   fencingCounter:59
 });
@@ -391,8 +391,8 @@ export function verifyWp401MainProductPostEvaluationException({candidateSha='HEA
   assert(authority.digest===expectation.authorityDigest&&registry.digest===expectation.registryDigest&&instance.digest===expectation.instanceDigest&&admission.digest===expectation.admissionDigest,'E_WP401_EXCEPTION_CARRIER_DIGEST');
   const sourceRoles={externalSourcePlanDigest:EXTERNAL_SOURCE_PLAN_DIGEST,compiledProgramFileDigest:COMPILED_PROGRAM_FILE_DIGEST,rolesDistinct:true};
   for(const [label,value] of [['authority',authority.value],['registry',registry.value],['instance',instance.value]])assert(canonicalBytes(value.sourcePlanRoles).equals(canonicalBytes(sourceRoles)),'E_WP401_EXCEPTION_SOURCE_ROLES',label);
-  assert(authority.value?.schemaVersion==='YALKEN_R24_WP401_MAIN_PRODUCT_AUTHORITY_AMENDMENT_V4'&&authority.value.programId==='YALKEN_R24_MAIN_PRODUCT_WP401_V1'&&authority.value.stageRegistryDigest===registry.digest,'E_WP401_EXCEPTION_AUTHORITY');
-  assert(registry.value?.schemaVersion==='YALKEN_R24_WP401_MAIN_PRODUCT_STAGE_REGISTRY_V4'&&registry.value.authorityTemplateId===expectation.authorityTemplateId,'E_WP401_EXCEPTION_REGISTRY');
+  assert(authority.value?.schemaVersion==='YALKEN_R24_WP401_MAIN_PRODUCT_AUTHORITY_AMENDMENT_V5'&&authority.value.programId==='YALKEN_R24_MAIN_PRODUCT_WP401_V1'&&authority.value.stageRegistryDigest===registry.digest,'E_WP401_EXCEPTION_AUTHORITY');
+  assert(registry.value?.schemaVersion==='YALKEN_R24_WP401_MAIN_PRODUCT_STAGE_REGISTRY_V5'&&registry.value.authorityTemplateId===expectation.authorityTemplateId,'E_WP401_EXCEPTION_REGISTRY');
   assert(instance.value?.schemaVersion==='STAGE_INSTANCE_V1'&&instance.value.stageId===expectation.stageId&&instance.value.authorityTemplateId===expectation.authorityTemplateId,'E_WP401_EXCEPTION_INSTANCE');
   assert(instance.value.programTemplateDigest===authority.digest&&instance.value.planDigest===authority.digest&&instance.value.stageRegistryDigest===registry.digest,'E_WP401_EXCEPTION_INSTANCE_CHAIN');
   assert(admission.value?.schemaVersion==='STAGE_ADMISSION_ATTESTATION_V1'&&admission.value.status==='ADMITTED'&&admission.value.decision==='INSTANCE_IS_SUBSET_OF_OWNER_APPROVED_TEMPLATE','E_WP401_EXCEPTION_ADMISSION');

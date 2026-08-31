@@ -1,0 +1,99 @@
+{
+  "stampId": "ES-R24-WP-402-PROJECTOR-KERNEL-SURVIVOR-AUDIT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-402_PROJECTOR_KERNEL",
+  "attemptId": "ATTEMPT-WP402-20260831",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP402_AUTHORITY_EPOCH_V2",
+  "profileId": "ATLAS_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "423c74a1ba57144b6cf6b3e0dd350199cdefd02d",
+    "treeSha": "ded492f716e63b3273ab8d9c6d69fa3b1013e8d9"
+  },
+  "claim": {
+    "type": "WP402_EXACT_MAIN_SURVIVOR_AUDIT",
+    "ceiling": "WP402_NODE_ONLY_EXACT_BOOK_SNAPSHOT_BOUND_PROJECTOR_JOB_IDENTITY_BOUNDED_LATEST_JOB_COALESCING_DETERMINISTIC_IMMUTABLE_RESULT_STALE_GENERATION_AND_SNAPSHOT_REJECTION_ATOMIC_PUBLICATION_NO_RUNTIME_WIRING_NO_GRAPH_ADVANCE_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "Git-object artifact digests and fresh merge-tree focused replay",
+    "evidenceClass": "SURVIVOR_AUDIT",
+    "denominator": 8,
+    "passed": 8,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-402-PROJECTOR-KERNEL-POSTMERGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "ad6f75503eaddad4265c8efc16c9a40e13e14ff206171a3f2fe8da224538e007"
+  },
+  "createdAt": "2026-08-31T22:27:02Z",
+  "actor": "codex/r24-wp402-projector-kernel-v1-20260831",
+  "artifact": {
+    "artifactDigests": [
+      {
+        "path": "src/core/atlas-projector-kernel-v1.mjs",
+        "sha256": "2f269419eeae1ffbb75e862197da3cc0c9f0aee41bc1d65eb87b8ebfaa24132a"
+      },
+      {
+        "path": "test/unit/r24-wp402-projector-kernel.test.js",
+        "sha256": "24f97b3e7feecca50edac17f37055aebbf9cb9128f3945ff76c8cd54d85f9c81"
+      },
+      {
+        "path": "test/unit/r24-wp402-projector-kernel-integration.test.js",
+        "sha256": "ee406fc829b089cbf8b4a81cce3e73dfc665da82502c3455749dec24d8e46000"
+      },
+      {
+        "path": "test/unit/r24-wp402-projector-kernel-mutants.test.js",
+        "sha256": "47a3bc510e22da46a8543f18ddee790a5c2b90a80e5c0acef965b3ce40738336"
+      }
+    ],
+    "admission": {
+      "authorityDigest": "74ae21ddddb35e732a6cbe29cb83aa026fe38c3b379edd72a037ed2cfdf288bf",
+      "stageInstanceDigest": "5bc2e5566be12de357521a6f1a1509fcb12964317894c8910fc353c09da4d63c",
+      "stageAdmissionDigest": "ad6f75503eaddad4265c8efc16c9a40e13e14ff206171a3f2fe8da224538e007",
+      "writeSetDigest": "3c3ecd32b8fb5fa5052e2b4f03d5d5ce1919e1a8acf4d9a437d2edf13c90bc91",
+      "commandScopeDigest": "1c5645a2b25eb54b08041e7ffeb176ca61c39060b24031da9e408e593537736b",
+      "acceptanceSignalsDigest": "203c570cb81dcd303790483a93841aeb43a632b07cadd2f9476cd7c97089b656"
+    },
+    "sourcePlanRoles": {
+      "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+      "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+      "rolesDistinct": true
+    },
+    "implementationDelta": {
+      "baseSha": "a435035bef98d2ede7801bded8a8839845c4dd92",
+      "candidateSha": "5989cc000eeb5de26a0cc4b92ad68bd9a6c06f0e",
+      "nameStatusSha256": "3a63ec4845be02418d983c6fec74941c0d7b37629d085dd4559eb488dd8c0cce",
+      "insertions": 1316,
+      "deletions": 27,
+      "changedPathDenominator": 20
+    },
+    "focusedReplay": {
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "mutantsKilled": 8,
+      "mutantsSurvived": 0,
+      "largeCorpusSourceJobs": 4000,
+      "largeCorpusCoalescedJobs": 200,
+      "largeCorpusPublishedQueueJobs": 128
+    },
+    "survivors": {
+      "artifactDigestMismatches": 0,
+      "staleGenerationsAccepted": 0,
+      "staleSnapshotsAccepted": 0,
+      "tamperedOutputsPublished": 0,
+      "partialPublications": 0,
+      "sourceMutations": 0,
+      "runtimeWirings": 0,
+      "graphAdvances": 0,
+      "programDoneClaims": 0
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-402-PROJECTOR-KERNEL-CLAIM-BINDINGS",
+  "contourId": "WP-402_PROJECTOR_KERNEL",
+  "evidenceClass": "CONTRACT",
+  "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
+  "headSha": "423c74a1ba57144b6cf6b3e0dd350199cdefd02d",
+  "originMainSha": "423c74a1ba57144b6cf6b3e0dd350199cdefd02d",
+  "generatedAtUtc": "2026-08-31T22:27:02Z",
+  "oracle": "Strict exact-hash binding for the WP402 implementation, protected candidate, merge, exact postmerge CI and merge-tree survivor replay",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/CTR-R24-WP-402-PROJECTOR-KERNEL.json",
+      "sha256": "f73582e9885a113f8487f21f7d88c0d7898529f7551e670049de00a4524768c0",
+      "claimTerms": [
+        "PASS"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/atlas-projector-kernel-v1.mjs",
+      "sha256": "2f269419eeae1ffbb75e862197da3cc0c9f0aee41bc1d65eb87b8ebfaa24132a",
+      "terms": [
+        "Bounded latest-job projector kernel"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp402-projector-kernel.test.js",
+      "sha256": "24f97b3e7feecca50edac17f37055aebbf9cb9128f3945ff76c8cd54d85f9c81",
+      "terms": [
+        "WP402 strict contract oracle"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp402-projector-kernel-integration.test.js",
+      "sha256": "ee406fc829b089cbf8b4a81cce3e73dfc665da82502c3455749dec24d8e46000",
+      "terms": [
+        "WP402 differential, atomic publication and large-corpus oracle"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp402-projector-kernel-mutants.test.js",
+      "sha256": "47a3bc510e22da46a8543f18ddee790a5c2b90a80e5c0acef965b3ce40738336",
+      "terms": [
+        "Eight-of-eight scheduling, identity, stale and publication mutant oracle"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "node --test test/unit/r24-wp402-projector-kernel.test.js test/unit/r24-wp402-projector-kernel-integration.test.js test/unit/r24-wp402-projector-kernel-mutants.test.js",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 10,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 8,
+        "survived": 0
+      },
+      "requiredDisposition": "The WP402 job model, bounded scheduler, identity digests, atomic publication, stale rejection, large-corpus bound and mutants are green at the exact implementation merge tree."
+    },
+    {
+      "command": "GitHub protected candidate and exact implementation postmerge CI",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 34,
+        "fail": 0
+      },
+      "requiredDisposition": "All 17 candidate and all 17 exact-merge required contexts passed."
+    },
+    {
+      "command": "npm test at clean detached exact implementation merge under Node 22.12.0 and npm 10.9.0",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1395,
+        "fail": 0,
+        "declaredSkipped": 64
+      },
+      "requiredDisposition": "The full maintained baseline is green at the exact protected implementation merge; declared skips remain explicit and are not counted as passes."
+    }
+  ],
+  "nonClaims": [
+    "This binding closes only WP-402_PROJECTOR_KERNEL product evidence.",
+    "Lease 60 remains active until this closure carrier is normally protected-merged and its exact postmerge CI passes.",
+    "The protected WIP after snapshot and lease release are not claimed by this carrier.",
+    "No next graph node is selected or mutated.",
+    "It does not mark the R2.4 program DONE."
+  ]
+}

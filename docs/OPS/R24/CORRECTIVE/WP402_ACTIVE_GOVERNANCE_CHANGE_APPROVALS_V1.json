@@ -5,7 +5,7 @@
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/CORRECTIVE/WP402_CLOSURE_GOVERNANCE_CHANGE_APPROVALS_V1.json",
       "rationale": "Owner-authorized active WP402 governance route for the append-only closure carrier after exact implementation postmerge CI; product semantics are frozen and lease 60 remains active until release.",
-      "sha256": "1ab75874faacd3086734974747b6db39abee38ad0459969ff521daa8997e6c7e"
+      "sha256": "29480fa92956e13ac532f43cfb450a525aaf25473d81211fed3b09219c07a39f"
     },
     {
       "approvedAtUtc": "2026-08-31T22:27:02Z",
@@ -19,7 +19,7 @@
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-402-PROJECTOR-KERNEL-CLAIM-BINDINGS.json",
       "rationale": "Owner-authorized active WP402 governance route for the append-only closure carrier after exact implementation postmerge CI; product semantics are frozen and lease 60 remains active until release.",
-      "sha256": "6ae60e1bec0faf94edad6339d5467ae94e6ad133f2c8ae135b17d5de81b4e8cf"
+      "sha256": "0d770d528d703a3c93ff21ce4dbfccd7f5135dacf449b5c05a8261e76a557cb9"
     },
     {
       "approvedAtUtc": "2026-08-31T22:27:02Z",

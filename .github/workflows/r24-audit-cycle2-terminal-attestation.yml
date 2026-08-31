@@ -94,9 +94,9 @@ jobs:
           const h=(bytes)=>crypto.createHash('sha256').update(bytes).digest('hex');
           const c=(v)=>Array.isArray(v)?`[${v.map(c).join(',')}]`:v&&typeof v==='object'?`{${Object.keys(v).sort().map((k)=>`${JSON.stringify(k)}:${c(v[k])}`).join(',')}}`:JSON.stringify(v);
           const read=(path)=>{const bytes=fs.readFileSync(path);return{bytes,digest:h(bytes),value:JSON.parse(bytes)}};
-          const authority=read('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_OWNER_AMENDMENT_V16.json');
-          const instance=read('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V17.json');
-          const admission=read('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_ATTESTATION_V17.json');
+          const authority=read('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_OWNER_AMENDMENT_V17.json');
+          const instance=read('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V18.json');
+          const admission=read('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_ATTESTATION_V18.json');
           const program=read('docs/OPS/R24/CORRECTIVE/R24_CORRECTIVE_PROGRAM_V1_1.json');
           const certification=read('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CURRENT_CERTIFICATION_SET_V2.json');
           const before=read('docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_2_PROTECTED_WIP_BEFORE_V1.json');

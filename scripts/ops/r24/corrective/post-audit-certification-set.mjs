@@ -24,15 +24,20 @@ export const ALLOWED_POST_EVALUATION_CARRIERS=Object.freeze([
   'docs/OPS/R24/CORRECTIVE/POST_AUDIT_CURRENT_CERTIFICATION_SET_V2.json'
 ]);
 export const AUDIT_CYCLE_2_ADMISSION_EXPECTATION=Object.freeze({
-  authorityPath:'docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_OWNER_AMENDMENT_V16.json',
-  authorityDigest:'d07be95b36595ae5877abb04bca32bece319930cc9a210fdd1c88ba5d7b901d8',
-  instancePath:'docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V17.json',
-  instanceDigest:'f1c3b756dd3ea694964125087dbe5af33262254adeda4a678fcda38c803d03c2',
-  admissionPath:'docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_ATTESTATION_V17.json',
-  admissionDigest:'eedb83accc580c155ba90107189e55406cb2080a3e2132fd86eeb3a72c2300f6',
-  writeSetDigest:'2ff5201b9c32f2d5902ada501457c59d5c6e3eec8f1939f87001965a58b00bd3',
-  baseSha:'cd79111a7342ab52f4cebd0aca57f8f9af6fcffd',
-  baseTree:'12e066f9ce85c15ae49c9ed0374144b15158c4fa',
+  authorityPath:'docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_OWNER_AMENDMENT_V17.json',
+  authorityDigest:'f4e7617cfc0014b4582d76fdc62986f1da5a9451ce953e06959199b0aed4fa92',
+  authorityId:'OWNER_AUDIT_CYCLE_2_V18_SUCCESSOR_V1',
+  instancePath:'docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V18.json',
+  instanceDigest:'ecf838c810262e53eb86f63f0f15ea0f989c85009a51aa12798e5b94758821df',
+  admissionPath:'docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_ATTESTATION_V18.json',
+  admissionDigest:'10051af910bf4b7004c3068927cd835a521faa3d56a7bdf09ee3ad2058075038',
+  writeSetDigest:'2d45eca2f751fb4f4b6e9abf3a2f369d8597389437875ac7893c3827f6afd260',
+  predecessorAuthorityDigest:'d07be95b36595ae5877abb04bca32bece319930cc9a210fdd1c88ba5d7b901d8',
+  predecessorInstanceDigest:'f1c3b756dd3ea694964125087dbe5af33262254adeda4a678fcda38c803d03c2',
+  predecessorAdmissionDigest:'eedb83accc580c155ba90107189e55406cb2080a3e2132fd86eeb3a72c2300f6',
+  predecessorWriteSetDigest:'2ff5201b9c32f2d5902ada501457c59d5c6e3eec8f1939f87001965a58b00bd3',
+  baseSha:'ee480790c3f3553fe5e5f44ec5f42d5c6066d73c',
+  baseTree:'c8478220aa7a2f16883dd3361009d6b2c5d5408d',
   fencingCounter:58
 });
 const h=(bytes)=>crypto.createHash('sha256').update(bytes).digest('hex');
@@ -333,12 +338,17 @@ export function verifyAuditCycle2PostEvaluationException({candidateSha='HEAD',gi
   const expectation=AUDIT_CYCLE_2_ADMISSION_EXPECTATION;
   const authority=readJsonFile(expectation.authorityPath),instance=readJsonFile(expectation.instancePath),admission=readJsonFile(expectation.admissionPath);
   assert(authority.digest===expectation.authorityDigest&&instance.digest===expectation.instanceDigest&&admission.digest===expectation.admissionDigest,'E_CYCLE2_EXCEPTION_CARRIER_DIGEST');
-  assert(authority.value?.schemaVersion==='POST_AUDIT_CORRECTIONS_OWNER_AUTHORITY_V1'&&authority.value.authorityId==='OWNER_AUDIT_CYCLE_2_CORRECTIONS_V1','E_CYCLE2_EXCEPTION_AUTHORITY');
+  assert(authority.value?.schemaVersion==='POST_AUDIT_CORRECTIONS_OWNER_AUTHORITY_V1'&&authority.value.authorityId===expectation.authorityId,'E_CYCLE2_EXCEPTION_AUTHORITY');
   assert(instance.value?.schemaVersion==='STAGE_INSTANCE_V2'&&instance.value.stageId==='AUDIT_CYCLE_2_CORRECTIONS'&&instance.value.authorityId===authority.value.authorityId,'E_CYCLE2_EXCEPTION_INSTANCE');
   assert(admission.value?.schemaVersion==='STAGE_ADMISSION_ATTESTATION_V2'&&admission.value.status==='ADMITTED'&&admission.value.decision==='INSTANCE_IS_EXACT_SUBSET_OF_OWNER_AUTHORIZED_SUCCESSOR','E_CYCLE2_EXCEPTION_ADMISSION');
   assert(admission.value.authorityDigest===authority.digest&&admission.value.stageInstanceDigest===instance.digest&&admission.value.writeSetDigest===expectation.writeSetDigest,'E_CYCLE2_EXCEPTION_CHAIN');
   assert(admission.value.externalSourcePlanDigest===EXTERNAL_SOURCE_PLAN_DIGEST&&admission.value.compiledProgramFileDigest===COMPILED_PROGRAM_FILE_DIGEST,'E_CYCLE2_EXCEPTION_SOURCE_ROLES');
   assert(admission.value.lease?.fencingCounter===expectation.fencingCounter&&admission.value.lease.status==='ACTIVE'&&admission.value.lease.wip===1,'E_CYCLE2_EXCEPTION_LEASE');
+  const authorization=authority.value.predecessors.find((entry)=>entry.id==='AUDIT_CYCLE_2_V18_SUCCESSOR_AUTHORITY_V1');
+  assert(authorization?.status==='OWNER_AUTHORIZED_NORMALIZED_EXACT_SCOPE'&&authorization.binding?.candidateSha===expectation.baseSha&&authorization.binding.candidateTreeSha===expectation.baseTree,'E_CYCLE2_EXCEPTION_OWNER_SUCCESSOR');
+  assert(authorization.binding.predecessorAuthorityDigest===expectation.predecessorAuthorityDigest&&authorization.binding.predecessorStageInstanceDigest===expectation.predecessorInstanceDigest&&authorization.binding.predecessorStageAdmissionDigest===expectation.predecessorAdmissionDigest&&authorization.binding.predecessorWriteSetDigest===expectation.predecessorWriteSetDigest,'E_CYCLE2_EXCEPTION_PREDECESSOR');
+  assert(h(canonicalBytes(authorization.binding).subarray(0,-1))===authorization.digest,'E_CYCLE2_EXCEPTION_OWNER_BINDING_DIGEST');
+  assert(JSON.stringify(authorization.binding.addedModifyPaths)===JSON.stringify(['docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V1.json'])&&authorization.binding.addedCreatePaths.length===3,'E_CYCLE2_EXCEPTION_EXACT_EXPANSION');
   assert(instance.value.baseSha===expectation.baseSha&&instance.value.headSha===expectation.baseSha&&instance.value.treeSha===expectation.baseTree&&authority.value.baseSha===expectation.baseSha&&authority.value.baseTree===expectation.baseTree,'E_CYCLE2_EXCEPTION_BASE');
   assert(evaluationTree(git,expectation.baseSha)===expectation.baseTree,'E_CYCLE2_EXCEPTION_BASE_TREE');
   assert(canonicalBytes(authority.value.allowedOperations).equals(canonicalBytes(instance.value.operations)),'E_CYCLE2_EXCEPTION_OPERATION_BINDING');
@@ -427,7 +437,7 @@ if(import.meta.url===`file://${process.argv[1]}`){
       const rulesetEvidenceFile=rawJsonBytes(ghRaw(`repos/${repository}/rulesets/12270444`),'cycle2.ruleset');
       const candidateCiEvidenceFile=rawJsonBytes(ghRaw(`repos/${repository}/actions/runs/${candidateRunId}`),'cycle2.candidateCi');
       const postmergeCiEvidenceFile=rawJsonBytes(ghRaw(`repos/${repository}/actions/runs/${postmergeRunId}`),'cycle2.postmergeCi');
-      const verified=verifyAuditCycle2TerminalArtifact({zipBytes,runEvidenceFile,artifactEvidence,rulesetEvidenceFile,candidateCiEvidenceFile,postmergeCiEvidenceFile,authorityFile:readJsonFile('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_OWNER_AMENDMENT_V16.json'),instanceFile:readJsonFile('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V17.json'),admissionFile:readJsonFile('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_ATTESTATION_V17.json'),certificationFile:readJsonFile('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CURRENT_CERTIFICATION_SET_V2.json'),beforeFile:readJsonFile('docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_2_PROTECTED_WIP_BEFORE_V1.json'),predecessorReleaseFile:readJsonFile('docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_1_CORRECTIONS_LEASE_RELEASE_V1.json'),predecessorReceiptFile:readJsonFile('docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_1_CORRECTIONS_TERMINAL_RECEIPT_V1.json'),predecessorDurableFile:readJsonFile('docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_1_TERMINAL_ATTESTATION_DURABLE_CARRIER_V1.json')});
+      const verified=verifyAuditCycle2TerminalArtifact({zipBytes,runEvidenceFile,artifactEvidence,rulesetEvidenceFile,candidateCiEvidenceFile,postmergeCiEvidenceFile,authorityFile:readJsonFile('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_OWNER_AMENDMENT_V17.json'),instanceFile:readJsonFile('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_INSTANCE_V18.json'),admissionFile:readJsonFile('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_STAGE_ADMISSION_ATTESTATION_V18.json'),certificationFile:readJsonFile('docs/OPS/R24/CORRECTIVE/POST_AUDIT_CURRENT_CERTIFICATION_SET_V2.json'),beforeFile:readJsonFile('docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_2_PROTECTED_WIP_BEFORE_V1.json'),predecessorReleaseFile:readJsonFile('docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_1_CORRECTIONS_LEASE_RELEASE_V1.json'),predecessorReceiptFile:readJsonFile('docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_1_CORRECTIONS_TERMINAL_RECEIPT_V1.json'),predecessorDurableFile:readJsonFile('docs/OPS/R24/CORRECTIVE/AUDIT_CYCLE_1_TERMINAL_ATTESTATION_DURABLE_CARRIER_V1.json')});
       const carrier=createAuditCycle2DurableCarrier({zipBytes,memberBytes:verified.memberBytes,runEvidenceFile,artifactEvidence,verification:verified.verification});
       assert(options['write-durable-carrier'],'E_CYCLE2_OUTPUT');
       atomicCanonicalWrite(options['write-durable-carrier'],carrier);

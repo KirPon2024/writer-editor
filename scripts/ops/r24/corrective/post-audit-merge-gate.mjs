@@ -105,6 +105,12 @@ export function verifyRulesetObserverWithAuthority({observerRuleset,authorityCar
   const observerComparable={...observerRuleset};
   const authorityComparable={...authorityRuleset};
   delete authorityComparable.bypass_actors;
+  for(const field of ['created_at','updated_at']){
+    const observerTime=new Date(observerComparable[field]),authorityTime=new Date(authorityComparable[field]);
+    assert(Number.isFinite(observerTime.getTime())&&Number.isFinite(authorityTime.getTime()),'E_RULESET_OBSERVER_TIMESTAMP',field);
+    observerComparable[field]=observerTime.toISOString();
+    authorityComparable[field]=authorityTime.toISOString();
+  }
   assert(canonical(observerComparable)===canonical(authorityComparable),'E_RULESET_OBSERVER_AUTHORITY_DRIFT');
   return {...authorityResult,proofMode:'LIVE_RESTRICTED_OBSERVER_EXACTLY_MATCHES_PINNED_FULL_AUTHORITY_BYTES',authorityCarrierDigest:AUTHORITY_RULESET_CARRIER_DIGEST,authorityReturnedBytesDigest:view.returnedBytesDigest};
 }

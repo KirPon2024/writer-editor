@@ -1,7 +1,7 @@
 {
   "schemaVersion": "AUDIT_CYCLE_2_CORRECTION_CONTRACT_V1",
   "contractId": "YALKEN_R24_AUDIT_CYCLE_2_CORRECTIONS",
-  "status": "ADMITTED_ACTIVE",
+  "status": "ADMITTED_ACTIVE_V18_SUCCESSOR",
   "auditInput": {
     "receipt": "INDEPENDENT_POST_CORRECTION_AUDIT_V2_RECEIPT",
     "receiptDigest": "babdb1ed4e37d9e8b3b8234ec4b3e86d72d43b3c2fe26a1511a5d3de1a92af70",
@@ -24,11 +24,22 @@
     "originSha": "cd79111a7342ab52f4cebd0aca57f8f9af6fcffd",
     "treeSha": "12e066f9ce85c15ae49c9ed0374144b15158c4fa"
   },
-  "admission": {
+  "successorBase": {
+    "candidateSha": "ee480790c3f3553fe5e5f44ec5f42d5c6066d73c",
+    "treeSha": "c8478220aa7a2f16883dd3361009d6b2c5d5408d"
+  },
+  "predecessorAdmission": {
     "authorityDigest": "d07be95b36595ae5877abb04bca32bece319930cc9a210fdd1c88ba5d7b901d8",
     "stageInstanceDigest": "f1c3b756dd3ea694964125087dbe5af33262254adeda4a678fcda38c803d03c2",
     "stageAdmissionDigest": "eedb83accc580c155ba90107189e55406cb2080a3e2132fd86eeb3a72c2300f6",
     "writeSetDigest": "2ff5201b9c32f2d5902ada501457c59d5c6e3eec8f1939f87001965a58b00bd3",
+    "status": "SUPERSEDED_BY_EXACT_ONE_PATH_V18_SUCCESSOR"
+  },
+  "admission": {
+    "authorityDigest": "f4e7617cfc0014b4582d76fdc62986f1da5a9451ce953e06959199b0aed4fa92",
+    "stageInstanceDigest": "ecf838c810262e53eb86f63f0f15ea0f989c85009a51aa12798e5b94758821df",
+    "stageAdmissionDigest": "10051af910bf4b7004c3068927cd835a521faa3d56a7bdf09ee3ad2058075038",
+    "writeSetDigest": "2d45eca2f751fb4f4b6e9abf3a2f369d8597389437875ac7893c3827f6afd260",
     "commandScopeDigest": "6d8298c8f5a41c8457803776bf24be1c02c655215891249997bb5ad3fd1452c6",
     "acceptanceSignalsDigest": "4ced3f0e69aab4e9203e2a4b057a1c1cb2ea0f3a2aa6f54ced98fc7fb41fdc4a",
     "verifierDigest": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f",

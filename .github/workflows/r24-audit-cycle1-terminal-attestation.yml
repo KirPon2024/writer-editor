@@ -58,6 +58,7 @@ jobs:
         run: |
           node scripts/ops/r24/corrective/post-audit-certification-set.mjs --verify docs/OPS/R24/CORRECTIVE/POST_AUDIT_CURRENT_CERTIFICATION_SET_V2.json --candidate-sha "$GITHUB_SHA"
           npm run test:r24-post-audit
+          node --test test/contracts/r24-post-audit-certification-set.contract.test.mjs test/contracts/r24-protected-wip-snapshot.contract.test.mjs
       - name: Download and validate live ruleset and CI run bytes
         shell: bash
         env:

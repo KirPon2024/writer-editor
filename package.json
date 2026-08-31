@@ -12,7 +12,7 @@
     "build:renderer": "node scripts/build-renderer.mjs",
     "build:renderer:watch": "node scripts/build-renderer.mjs --watch",
     "r24:test-inventory": "node scripts/ops/r24/test-inventory.mjs --check docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
-    "test:r24-post-audit": "node --test test/contracts/r24-post-audit-certification-set.contract.test.mjs test/contracts/r24-post-audit-corrections.contract.test.mjs test/contracts/r24-protected-wip-snapshot.contract.test.mjs test/contracts/r24-stage-admission-verifier-v2.contract.test.mjs test/contracts/r24-terminal-attestation.contract.test.mjs",
+    "test:r24-post-audit": "node --test test/contracts/r24-post-audit-corrections.contract.test.mjs test/contracts/r24-stage-admission-verifier-v2.contract.test.mjs test/contracts/r24-terminal-attestation.contract.test.mjs",
     "test:ops": "npm run -s ops:current-wave",
     "test:toolbar-closeout": "node scripts/run-tests.js closeout",
     "test:sector-m": "node --test test/unit/sector-m-*.test.js",

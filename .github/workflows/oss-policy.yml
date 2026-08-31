@@ -66,7 +66,9 @@ jobs:
       - name: Require build-to-clean-tree policy
         run: git diff --exit-code -- src/renderer/editor.bundle.js src/preload.bundle.cjs
       - name: Run focused post-audit negative contracts after real build
-        run: npm run test:r24-post-audit
+        run: |
+          npm run test:r24-post-audit
+          node --test test/contracts/r24-post-audit-certification-set.contract.test.mjs test/contracts/r24-protected-wip-snapshot.contract.test.mjs
       - name: Run full maintained RTK after real build
         run: npm run test:rtk
 

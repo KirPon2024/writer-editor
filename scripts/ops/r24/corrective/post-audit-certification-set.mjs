@@ -40,6 +40,27 @@ export const AUDIT_CYCLE_2_ADMISSION_EXPECTATION=Object.freeze({
   baseTree:'c8478220aa7a2f16883dd3361009d6b2c5d5408d',
   fencingCounter:58
 });
+export const WP401_MAIN_PRODUCT_ADMISSION_EXPECTATION=Object.freeze({
+  authorityPath:'docs/OPS/R24/CORRECTIVE/WP401_MAIN_PRODUCT_AUTHORITY_AMENDMENT_V3.json',
+  authorityDigest:'39a79895242d5ba7ed8abeeaa9f325d9b926ac1d52351d1512817d19370cefcc',
+  registryPath:'docs/OPS/R24/CORRECTIVE/WP401_MAIN_PRODUCT_STAGE_REGISTRY_V3.json',
+  registryDigest:'195f0580022ad281a2c5891940b36437c52445d1eee3b4cbac1e45bbcf750a69',
+  instancePath:'docs/OPS/R24/CORRECTIVE/WP401_MAIN_PRODUCT_STAGE_INSTANCE_V3.json',
+  instanceDigest:'8ccf862743b336e540e75429a93820984f9a84f1b7207abb1f202fd59f9b050e',
+  admissionPath:'docs/OPS/R24/CORRECTIVE/WP401_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V3.json',
+  admissionDigest:'c860edf7d791572eb9dc5c16f3bf9f18228b4967a55fea36d3471250f35dbdbc',
+  writeSetDigest:'c8264de1e501a51402e3c7b7870dc7a6162d084bcf9368f334926c1301bec5a8',
+  predecessorAuthorityDigest:'98210bb2536fc68a0801a26a671e6a16f05b4e759a0433459140beb07fd57a23',
+  predecessorRegistryDigest:'17e823683a333cf8e93e8bd07e9b1a0f72267259f464e7f1dcbd566c85c343a7',
+  predecessorInstanceDigest:'f396d5c3a370a9e19de7ab570ccf6d3a0b9e0c8a9e81207b017d2164ab1b0bda',
+  predecessorAdmissionDigest:'dc01074f08969dc37b4f22baf3872602fde9719cc7f9603c23290b4483f4afba',
+  predecessorWriteSetDigest:'b2ea41d6f90b6b44013bb254ebd31324ec0ca0f7418ac8f9efc89746038b8838',
+  baseSha:'9aae563b18578a052fffc434b3f37257248092a0',
+  baseTree:'b58795b702cbbdd920d4470f3ea67de1fdfadfa2',
+  authorityTemplateId:'OWNER_AUTHORIZED_YALKEN_R24_WP401_BOOK_SNAPSHOT_V3',
+  stageId:'WP-401_BOOK_SNAPSHOT',
+  fencingCounter:59
+});
 const h=(bytes)=>crypto.createHash('sha256').update(bytes).digest('hex');
 const fail=(code,detail='')=>{const error=new Error(`${code}${detail?`:${detail}`:''}`);error.code=code;throw error;};
 const assert=(condition,code,detail)=>{if(!condition)fail(code,detail);};
@@ -364,7 +385,39 @@ export function verifyAuditCycle2PostEvaluationException({candidateSha='HEAD',gi
   return{schemaVersion:'AUDIT_CYCLE_2_POST_EVALUATION_EXCEPTION_VERIFICATION_V1',status:'PASS',authorityDigest:authority.digest,stageInstanceDigest:instance.digest,stageAdmissionDigest:admission.digest,writeSetDigest:admission.value.writeSetDigest,baseSha:expectation.baseSha,baseTree:expectation.baseTree,admittedPathDenominator:admitted.length,changedPaths:changed,admittedPaths:admitted};
 }
 
-export function verifyCertificationSet({value,fileDigest,candidateSha='HEAD',git=defaultGit,allowAuditCycle2Admission=false}){
+export function verifyWp401MainProductPostEvaluationException({candidateSha='HEAD',git=defaultGit}={}){
+  const expectation=WP401_MAIN_PRODUCT_ADMISSION_EXPECTATION;
+  const authority=readJsonFile(expectation.authorityPath),registry=readJsonFile(expectation.registryPath),instance=readJsonFile(expectation.instancePath),admission=readJsonFile(expectation.admissionPath);
+  assert(authority.digest===expectation.authorityDigest&&registry.digest===expectation.registryDigest&&instance.digest===expectation.instanceDigest&&admission.digest===expectation.admissionDigest,'E_WP401_EXCEPTION_CARRIER_DIGEST');
+  const sourceRoles={externalSourcePlanDigest:EXTERNAL_SOURCE_PLAN_DIGEST,compiledProgramFileDigest:COMPILED_PROGRAM_FILE_DIGEST,rolesDistinct:true};
+  for(const [label,value] of [['authority',authority.value],['registry',registry.value],['instance',instance.value]])assert(canonicalBytes(value.sourcePlanRoles).equals(canonicalBytes(sourceRoles)),'E_WP401_EXCEPTION_SOURCE_ROLES',label);
+  assert(authority.value?.schemaVersion==='YALKEN_R24_WP401_MAIN_PRODUCT_AUTHORITY_AMENDMENT_V3'&&authority.value.programId==='YALKEN_R24_MAIN_PRODUCT_WP401_V1'&&authority.value.stageRegistryDigest===registry.digest,'E_WP401_EXCEPTION_AUTHORITY');
+  assert(registry.value?.schemaVersion==='YALKEN_R24_WP401_MAIN_PRODUCT_STAGE_REGISTRY_V3'&&registry.value.authorityTemplateId===expectation.authorityTemplateId,'E_WP401_EXCEPTION_REGISTRY');
+  assert(instance.value?.schemaVersion==='STAGE_INSTANCE_V1'&&instance.value.stageId===expectation.stageId&&instance.value.authorityTemplateId===expectation.authorityTemplateId,'E_WP401_EXCEPTION_INSTANCE');
+  assert(instance.value.programTemplateDigest===authority.digest&&instance.value.planDigest===authority.digest&&instance.value.stageRegistryDigest===registry.digest,'E_WP401_EXCEPTION_INSTANCE_CHAIN');
+  assert(admission.value?.schemaVersion==='STAGE_ADMISSION_ATTESTATION_V1'&&admission.value.status==='ADMITTED'&&admission.value.decision==='INSTANCE_IS_SUBSET_OF_OWNER_APPROVED_TEMPLATE','E_WP401_EXCEPTION_ADMISSION');
+  assert(admission.value.programTemplateDigest===authority.digest&&admission.value.stageRegistryDigest===registry.digest&&admission.value.stageInstanceDigest===instance.digest&&admission.value.writeSetDigest===expectation.writeSetDigest,'E_WP401_EXCEPTION_ADMISSION_CHAIN');
+  const predecessor=authority.value.amendment;
+  assert(predecessor?.predecessorAuthorityDigest===expectation.predecessorAuthorityDigest&&predecessor.predecessorStageRegistryDigest===expectation.predecessorRegistryDigest&&predecessor.predecessorStageInstanceDigest===expectation.predecessorInstanceDigest&&predecessor.predecessorStageAdmissionDigest===expectation.predecessorAdmissionDigest&&predecessor.predecessorWriteSetDigest===expectation.predecessorWriteSetDigest,'E_WP401_EXCEPTION_PREDECESSOR');
+  assert(registry.value.predecessor?.authorityDigest===expectation.predecessorAuthorityDigest&&registry.value.predecessor.stageRegistryDigest===expectation.predecessorRegistryDigest&&registry.value.predecessor.stageInstanceDigest===expectation.predecessorInstanceDigest&&registry.value.predecessor.stageAdmissionDigest===expectation.predecessorAdmissionDigest&&registry.value.predecessor.writeSetDigest===expectation.predecessorWriteSetDigest,'E_WP401_EXCEPTION_REGISTRY_PREDECESSOR');
+  assert(instance.value.baseSha===expectation.baseSha&&instance.value.headSha===expectation.baseSha&&instance.value.treeSha===expectation.baseTree&&instance.value.contractSha===expectation.baseSha,'E_WP401_EXCEPTION_BASE');
+  assert(instance.value.model==='gpt-5.6-sol'&&instance.value.reasoningEffort==='xhigh'&&authority.value.fixedRuntime?.model==='gpt-5.6-sol'&&authority.value.fixedRuntime.reasoningEffort==='xhigh'&&authority.value.fixedRuntime.downgradeForbidden===true,'E_WP401_EXCEPTION_RUNTIME');
+  assert(instance.value.leaseBinding?.fencingCounter===expectation.fencingCounter&&instance.value.leaseBinding.status==='ACTIVE'&&instance.value.leaseBinding.wip===1,'E_WP401_EXCEPTION_LEASE');
+  assert(evaluationTree(git,expectation.baseSha)===expectation.baseTree,'E_WP401_EXCEPTION_BASE_TREE');
+  const writeSet=instance.value.writeSet;
+  assert(Array.isArray(writeSet?.paths)&&Array.isArray(writeSet.deletePaths)&&Array.isArray(writeSet.renamePaths)&&writeSet.deletePaths.length===0&&writeSet.renamePaths.length===0,'E_WP401_EXCEPTION_WRITE_SET');
+  assert(h(canonicalBytes(writeSet))===expectation.writeSetDigest,'E_WP401_EXCEPTION_WRITE_SET_DIGEST');
+  const admitted=writeSet.paths.map(validatePath).sort();
+  assert(new Set(admitted).size===admitted.length,'E_WP401_EXCEPTION_DUPLICATE_PATH');
+  assert(canonicalBytes(registry.value.stages[0].allowedWritePaths).equals(canonicalBytes(admitted)),'E_WP401_EXCEPTION_REGISTRY_PATHS');
+  const resolvedCandidate=gitText(git,['rev-parse',candidateSha]);
+  try{git(['merge-base','--is-ancestor',expectation.baseSha,resolvedCandidate],{encoding:null});}catch{fail('E_WP401_EXCEPTION_BASE_NOT_ANCESTOR');}
+  const changed=gitText(git,['diff','--name-only',`${expectation.baseSha}..${resolvedCandidate}`]).split('\n').filter(Boolean).sort();
+  for(const changedPath of changed)assert(admitted.includes(changedPath),'E_WP401_EXCEPTION_UNADMITTED_PATH',changedPath);
+  return{schemaVersion:'WP401_MAIN_PRODUCT_POST_EVALUATION_EXCEPTION_VERIFICATION_V1',status:'PASS',authorityDigest:authority.digest,stageRegistryDigest:registry.digest,stageInstanceDigest:instance.digest,stageAdmissionDigest:admission.digest,writeSetDigest:admission.value.writeSetDigest,baseSha:expectation.baseSha,baseTree:expectation.baseTree,admittedPathDenominator:admitted.length,changedPaths:changed,admittedPaths:admitted,sourcePlanRoles:sourceRoles};
+}
+
+export function verifyCertificationSet({value,fileDigest,candidateSha='HEAD',git=defaultGit,allowAuditCycle2Admission=false,allowMainProductWp401Admission=false}){
   assert(value?.schemaVersion==='POST_AUDIT_CURRENT_CERTIFICATION_SET_V2'&&value.status==='CERTIFIED_DONE','E_SCHEMA_OR_STATUS');
   assert(value.externalSourcePlanDigest===EXTERNAL_SOURCE_PLAN_DIGEST&&value.compiledProgramFileDigest===COMPILED_PROGRAM_FILE_DIGEST&&value.externalSourcePlanDigest!==value.compiledProgramFileDigest,'E_SOURCE_PLAN_ROLE_BINDING');
   hex(value.evaluationSha,40,'evaluationSha');hex(value.evaluationTreeSha,40,'evaluationTreeSha');hex(fileDigest,64,'fileDigest');
@@ -387,17 +440,21 @@ export function verifyCertificationSet({value,fileDigest,candidateSha='HEAD',git
   const resolvedCandidate=gitText(git,['rev-parse',candidateSha]);
   try{git(['merge-base','--is-ancestor',value.evaluationSha,resolvedCandidate],{encoding:null});}catch{fail('E_EVALUATION_NOT_ANCESTOR');}
   const changed=gitText(git,['diff','--name-only',`${value.evaluationSha}..${resolvedCandidate}`]).split('\n').filter(Boolean).sort();
-  const cycle2Exception=allowAuditCycle2Admission?verifyAuditCycle2PostEvaluationException({candidateSha:resolvedCandidate,git}):null;
-  const allowedPaths=new Set([...ALLOWED_POST_EVALUATION_CARRIERS,...(cycle2Exception?.admittedPaths??[])]);
+  let wp401Descendant=false;
+  try{git(['merge-base','--is-ancestor',WP401_MAIN_PRODUCT_ADMISSION_EXPECTATION.baseSha,resolvedCandidate],{encoding:null});wp401Descendant=true;}catch{}
+  const wp401Enabled=allowMainProductWp401Admission||(allowAuditCycle2Admission&&wp401Descendant);
+  const cycle2Exception=allowAuditCycle2Admission?verifyAuditCycle2PostEvaluationException({candidateSha:wp401Enabled?WP401_MAIN_PRODUCT_ADMISSION_EXPECTATION.baseSha:resolvedCandidate,git}):null;
+  const wp401Exception=wp401Enabled?verifyWp401MainProductPostEvaluationException({candidateSha:resolvedCandidate,git}):null;
+  const allowedPaths=new Set([...ALLOWED_POST_EVALUATION_CARRIERS,...(cycle2Exception?.admittedPaths??[]),...(wp401Exception?.admittedPaths??[])]);
   for(const changedPath of changed)assert(allowedPaths.has(changedPath),'E_POST_EVALUATION_PATH',changedPath);
   const boundPaths=new Set(value.stages.flatMap((stage)=>stage.artifactBindings.map((binding)=>binding.path)));
   for(const allowed of ALLOWED_POST_EVALUATION_CARRIERS)assert(!boundPaths.has(allowed),'E_POST_EVALUATION_BOUND_ARTIFACT',allowed);
   assert(value.requiredOrUnexplainedSkips===0&&value.programDone===false&&value.mainProductGraphNodeStarted===false,'E_TERMINAL_SCOPE');
-  return{schemaVersion:'POST_AUDIT_CERTIFICATION_SET_VERIFICATION_V1',status:'PASS',certificationSetDigest:fileDigest,evaluationSha:value.evaluationSha,evaluationTreeSha:value.evaluationTreeSha,stageCount:value.stageCount,artifactBindingDenominator:denominator,postEvaluationChangedPaths:changed,auditCycle2PostEvaluationException:cycle2Exception};
+  return{schemaVersion:'POST_AUDIT_CERTIFICATION_SET_VERIFICATION_V1',status:'PASS',certificationSetDigest:fileDigest,evaluationSha:value.evaluationSha,evaluationTreeSha:value.evaluationTreeSha,stageCount:value.stageCount,artifactBindingDenominator:denominator,postEvaluationChangedPaths:changed,auditCycle2PostEvaluationException:cycle2Exception,wp401MainProductPostEvaluationException:wp401Exception};
 }
 
 const ghRaw=(endpoint)=>execFileSync('gh',['api',endpoint],{encoding:null,maxBuffer:128*1024*1024});
-function args(argv){const out={};for(let i=0;i<argv.length;i+=1){const item=argv[i];if(!item.startsWith('--'))continue;const key=item.slice(2);out[key]=argv[i+1]??true;if(argv[i+1]&&!argv[i+1].startsWith('--'))i+=1;}return out;}
+function args(argv){const out={};for(let i=0;i<argv.length;i+=1){const item=argv[i];if(!item.startsWith('--'))continue;const key=item.slice(2),next=argv[i+1];out[key]=next&&!next.startsWith('--')?next:true;if(next&&!next.startsWith('--'))i+=1;}return out;}
 if(import.meta.url===`file://${process.argv[1]}`){
   try{
     const options=args(process.argv.slice(2));
@@ -448,7 +505,7 @@ if(import.meta.url===`file://${process.argv[1]}`){
     else if(options['verify-audit-cycle-durable']){const expectedDigest=options['expected-carrier-digest']??AUDIT_CYCLE_1_DURABLE_EXPECTATION.carrierDigest;hex(expectedDigest,64,'expected-carrier-digest');assert(expectedDigest===AUDIT_CYCLE_1_DURABLE_EXPECTATION.carrierDigest,'E_DURABLE_EXPECTED_DIGEST_PIN');const file=readJsonFile(options['verify-audit-cycle-durable']);process.stdout.write(canonicalBytes(verifyAuditCycleDurableCarrier(file,{...AUDIT_CYCLE_1_DURABLE_EXPECTATION,carrierDigest:expectedDigest})));}
     else if(options['verify-audit-cycle2-durable']){const expectedDigest=options['expected-carrier-digest'];hex(expectedDigest,64,'cycle2.expected-carrier-digest');const file=readJsonFile(options['verify-audit-cycle2-durable']);process.stdout.write(canonicalBytes(verifyAuditCycle2DurableCarrier(file,{expectedCarrierDigest:expectedDigest})));}
     else if(options.generate){const value=generateCertificationSet({sourceFile:options.source,evaluationSha:options['evaluation-sha'],evaluationTreeSha:options['evaluation-tree']});assert(options.output,'E_OUTPUT');fs.writeFileSync(options.output,`${JSON.stringify(value,null,2)}\n`);process.stdout.write(`${JSON.stringify({status:'GENERATED',output:path.normalize(options.output),evaluationSha:value.evaluationSha,artifactBindingDenominator:value.artifactBindingDenominator})}\n`);}
-    else if(options.verify){const file=readJsonFile(options.verify);process.stdout.write(`${JSON.stringify(verifyCertificationSet({value:file.value,fileDigest:file.digest,candidateSha:options['candidate-sha']??'HEAD',allowAuditCycle2Admission:options['audit-cycle2-admission']===true}))}\n`);}
+    else if(options.verify){const file=readJsonFile(options.verify);process.stdout.write(`${JSON.stringify(verifyCertificationSet({value:file.value,fileDigest:file.digest,candidateSha:options['candidate-sha']??'HEAD',allowAuditCycle2Admission:options['audit-cycle2-admission']===true,allowMainProductWp401Admission:options['wp401-admission']===true}))}\n`);}
     else fail('E_MODE');
   }catch(error){process.stderr.write(`${JSON.stringify({status:'FAIL',code:error.code??'E_UNTYPED',message:error.message})}\n`);process.exitCode=1;}
 }

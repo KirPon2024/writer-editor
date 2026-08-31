@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "YALKEN_R24_WP401_LEASE_RELEASE_V1",
+  "releaseId": "YALKEN_R24_WP401_LEASE_59_RELEASE",
+  "stageId": "WP-401_BOOK_SNAPSHOT",
+  "status": "RELEASED_WIP_0",
+  "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+  "observedAtUtc": "2026-08-31T18:08:08Z",
+  "releaseBase": {
+    "originSha": "3bc7d9946a50debeec5691b7c1f0186f5b6e10ad",
+    "originTreeSha": "8c2342eb82a7eb79b8d5ea60d876ac290b892c0a",
+    "writerWorktreeCleanBeforeReleaseWrite": true
+  },
+  "bindings": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "ownerAuthorityBindingDigest": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+    "authorityDigest": "2edc680fd48dc3034af0b1ca76d92ea0e80f007f5874ca4f75959ddfcc8f44ab",
+    "stageRegistryDigest": "92174ef49ecc2754b2ae9082b2b51afdb4267973b21e80590dd23db2a0c47365",
+    "stageInstanceDigest": "bce73b311b15cbe1c05828411b961669bc9ebeda0f4ef471556172297d8775be",
+    "stageAdmissionDigest": "3b44a24aef899ff2692d6d82d518d55c206a898d058be667f58f0ae2b6d11533",
+    "writeSetDigest": "41837e39c5ad8acbce74f7f7613a15c1c8aa24e32266cd3e629572badf400843",
+    "commandListDigest": "dc07c61a3b5e1bdad3613d492054ed800fa020a1f38f2a8e837a392db14c3810",
+    "acceptanceSignalsDigest": "273aa167818ba98e7d9e47c88bd57f8a5da4c9e8918f57bab7e40b27ec01448b",
+    "contourTerminalReceiptDigest": "0743edb8a5048249a6265d054b8626c93dfe0a056d118ced82d27804d65b0f38",
+    "claimBindingDigest": "f62e24de201704556e52a27d07903b386a74e527824a2b676e9728257077f0e7",
+    "closureGovernanceApprovalDigest": "e82567cba362d5fde45c2594c10cd269ac61c5582322a8fd268a382cbf0de73c",
+    "protectedWipBeforeCarrierDigest": "64ccef672eeca07195e15e4c0a767bb7d034d1f6fbfa5726967f646b94bb3ad7",
+    "protectedWipAfterCarrierDigest": "1e146ca3af6e963917b5ba33c3533ce77741401e2ef9bee6cea8c4fc297a6cf0"
+  },
+  "delivery": {
+    "implementation": {
+      "pullRequest": 1786,
+      "candidateSha": "5740f2a01e35776201c46e0d5cffe81a37e6a2da",
+      "candidateTreeSha": "a72827c99fce4af93e931d9c4c3902c073e92174",
+      "mergeSha": "61f8bd63aaff11af96612d3aab8dd77e1c22d34b",
+      "mergeTreeSha": "a72827c99fce4af93e931d9c4c3902c073e92174",
+      "candidateCiRunId": 33417262371,
+      "exactPostmergeCiRunId": 33418324416,
+      "status": "VERIFIED"
+    },
+    "closureCarrier": {
+      "pullRequest": 1787,
+      "candidateSha": "ebd9734b75157f46028660e8e875b05d82275e8b",
+      "candidateTreeSha": "8c2342eb82a7eb79b8d5ea60d876ac290b892c0a",
+      "mergeSha": "3bc7d9946a50debeec5691b7c1f0186f5b6e10ad",
+      "mergeTreeSha": "8c2342eb82a7eb79b8d5ea60d876ac290b892c0a",
+      "candidateCiRunId": 33421197871,
+      "exactPostmergeCiRunId": 33422258403,
+      "status": "VERIFIED"
+    }
+  },
+  "lease": {
+    "fencingCounter": 59,
+    "acquisitionDigest": "e666892092d76baf42e6bb137c75e3dc3f634e81e762fae5effb1b85d524bfba",
+    "fenceDigest": "e7ae6ab9ebe9ef2238a098934f2a39be1712dfa8b9c98544c92bf045ae3631b4",
+    "predecessorReleaseDigest": "c3fd6a9ffd7f13faf12a46181f9ea6ae697473272fbf9964a61f3d393f0bb66d",
+    "releasedAdmissionDigest": "3b44a24aef899ff2692d6d82d518d55c206a898d058be667f58f0ae2b6d11533",
+    "status": "RELEASED",
+    "wip": 0,
+    "transition": "ACTIVE_WIP_1_TO_RELEASED_WIP_0",
+    "disposition": "RELEASED_AFTER_IMPLEMENTATION_AND_CLOSURE_PROTECTED_MERGES_EXACT_POSTMERGE_CI_AND_EXACT_PROTECTED_WIP_COMPARISON"
+  },
+  "worktreeProof": {
+    "algorithm": "YALKEN_PROTECTED_WIP_SNAPSHOT_ALGORITHM_V2",
+    "beforeCarrierDigest": "64ccef672eeca07195e15e4c0a767bb7d034d1f6fbfa5726967f646b94bb3ad7",
+    "beforeSnapshotDigest": "c6e574cf8603f04713bba1c538cd66c1e58e6e871039671c5fc46ef0a720f4cc",
+    "afterCarrierDigest": "1e146ca3af6e963917b5ba33c3533ce77741401e2ef9bee6cea8c4fc297a6cf0",
+    "afterSnapshotDigest": "0b0bc3bbd902a4db8d09cb59fec661b073560e2f539d375556223405a40a2b2d",
+    "completeDenominator": 253,
+    "presentDenominator": 250,
+    "prunableDenominator": 3,
+    "dirtyDenominator": 7,
+    "completeIdentitySetExact": true,
+    "completeEntrySetExact": true,
+    "protectedDirtySetExact": true,
+    "missingIdentityCount": 0,
+    "addedIdentityCount": 0,
+    "changedEntryCount": 0,
+    "userSensitiveContentsDisclosed": false
+  },
+  "noLiveWorkObservation": {
+    "observedAtUtc": "2026-08-31T18:08:08Z",
+    "openPullRequestCount": 0,
+    "runningActionCount": 0,
+    "queuedActionCount": 0,
+    "status": "NONE_AT_RELEASE_BASE"
+  },
+  "releaseCarrierRequiresNormalProtectedDelivery": true,
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

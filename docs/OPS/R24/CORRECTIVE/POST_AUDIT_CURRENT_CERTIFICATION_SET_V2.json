@@ -6,8 +6,8 @@
   "programId": "YALKEN_R24_CORRECTIVE_RECOVERY_AND_RESUME_V1_1",
   "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
   "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
-  "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-  "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+  "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+  "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
   "effectiveStateEnum": [
     "CERTIFIED_DONE",
     "DONE_UNCERTIFIED",
@@ -42,8 +42,8 @@
     {
       "stageId": "C0",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -64,8 +64,8 @@
     {
       "stageId": "B0",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -86,8 +86,8 @@
     {
       "stageId": "C1A",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -108,8 +108,8 @@
     {
       "stageId": "C1B",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -130,8 +130,8 @@
     {
       "stageId": "C1C",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -152,8 +152,8 @@
     {
       "stageId": "C2A",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -174,8 +174,8 @@
     {
       "stageId": "C2B1",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -196,8 +196,8 @@
     {
       "stageId": "C2B2",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -210,7 +210,7 @@
         },
         {
           "path": "package.json",
-          "sha256": "bca624307da68d1b0d2611a186b4eef13efbf53e161074397e6d5bbc73bda3c8"
+          "sha256": "a89e8475a4ae5649cd779d4c6dac39445d2264f2e37a8716fd0d7aed872e4a96"
         },
         {
           "path": "scripts/ops/r24/run-e0-tests.mjs",
@@ -222,8 +222,8 @@
     {
       "stageId": "C2B3A",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -244,8 +244,8 @@
     {
       "stageId": "C2B3B",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -266,8 +266,8 @@
     {
       "stageId": "C2B3C",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -288,8 +288,8 @@
     {
       "stageId": "C2B4",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -310,8 +310,8 @@
     {
       "stageId": "C3",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -336,8 +336,8 @@
     {
       "stageId": "C4",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -350,7 +350,7 @@
         },
         {
           "path": "package.json",
-          "sha256": "bca624307da68d1b0d2611a186b4eef13efbf53e161074397e6d5bbc73bda3c8"
+          "sha256": "a89e8475a4ae5649cd779d4c6dac39445d2264f2e37a8716fd0d7aed872e4a96"
         },
         {
           "path": "test/unit/r24-a1-optional-relation-vocabulary.test.js",
@@ -370,8 +370,8 @@
     {
       "stageId": "C5A",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -384,7 +384,7 @@
         },
         {
           "path": "package.json",
-          "sha256": "bca624307da68d1b0d2611a186b4eef13efbf53e161074397e6d5bbc73bda3c8"
+          "sha256": "a89e8475a4ae5649cd779d4c6dac39445d2264f2e37a8716fd0d7aed872e4a96"
         },
         {
           "path": "test/unit/r24-p3-project-commit.test.js",
@@ -404,8 +404,8 @@
     {
       "stageId": "C5B",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -426,8 +426,8 @@
     {
       "stageId": "C5C1",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -440,7 +440,7 @@
         },
         {
           "path": "package.json",
-          "sha256": "bca624307da68d1b0d2611a186b4eef13efbf53e161074397e6d5bbc73bda3c8"
+          "sha256": "a89e8475a4ae5649cd779d4c6dac39445d2264f2e37a8716fd0d7aed872e4a96"
         },
         {
           "path": "test/unit/r24-wp200-durable-save.test.js",
@@ -460,8 +460,8 @@
     {
       "stageId": "C5C2",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -482,8 +482,8 @@
     {
       "stageId": "C5C3",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -496,7 +496,7 @@
         },
         {
           "path": "package.json",
-          "sha256": "bca624307da68d1b0d2611a186b4eef13efbf53e161074397e6d5bbc73bda3c8"
+          "sha256": "a89e8475a4ae5649cd779d4c6dac39445d2264f2e37a8716fd0d7aed872e4a96"
         },
         {
           "path": "test/unit/r24-wp202-legacy-strangler.test.js",
@@ -516,8 +516,8 @@
     {
       "stageId": "C5C4",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -538,8 +538,8 @@
     {
       "stageId": "C6A",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -560,8 +560,8 @@
     {
       "stageId": "C6B",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -574,7 +574,7 @@
         },
         {
           "path": "package.json",
-          "sha256": "bca624307da68d1b0d2611a186b4eef13efbf53e161074397e6d5bbc73bda3c8"
+          "sha256": "a89e8475a4ae5649cd779d4c6dac39445d2264f2e37a8716fd0d7aed872e4a96"
         },
         {
           "path": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_C6B_LAZYWEB_PROVIDER_EXPORT_V1.json",
@@ -590,8 +590,8 @@
     {
       "stageId": "C6C",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -644,8 +644,8 @@
     {
       "stageId": "C6D",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -658,7 +658,7 @@
         },
         {
           "path": "package.json",
-          "sha256": "bca624307da68d1b0d2611a186b4eef13efbf53e161074397e6d5bbc73bda3c8"
+          "sha256": "a89e8475a4ae5649cd779d4c6dac39445d2264f2e37a8716fd0d7aed872e4a96"
         },
         {
           "path": "package-lock.json",
@@ -674,8 +674,8 @@
     {
       "stageId": "C7A",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -696,8 +696,8 @@
     {
       "stageId": "C7B",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -718,8 +718,8 @@
     {
       "stageId": "C8A",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -744,8 +744,8 @@
     {
       "stageId": "C8B",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -758,7 +758,7 @@
         },
         {
           "path": "package.json",
-          "sha256": "bca624307da68d1b0d2611a186b4eef13efbf53e161074397e6d5bbc73bda3c8"
+          "sha256": "a89e8475a4ae5649cd779d4c6dac39445d2264f2e37a8716fd0d7aed872e4a96"
         },
         {
           "path": "test/unit/r24-w0-word-physical-recertification.test.js",
@@ -774,8 +774,8 @@
     {
       "stageId": "C8C",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -800,8 +800,8 @@
     {
       "stageId": "C8D",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -830,8 +830,8 @@
     {
       "stageId": "C8E",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -868,8 +868,8 @@
     {
       "stageId": "C8Z",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {
@@ -898,8 +898,8 @@
     {
       "stageId": "C9",
       "effectiveState": "CERTIFIED_DONE",
-      "evaluationSha": "7a362c4b40edd00ddbb3afb7bd21cb05e28ac27a",
-      "evaluationTreeSha": "52d33f0814d38f836da5e4f5b77a726c02eccbf9",
+      "evaluationSha": "ed7321d3298b11c2e45f18c722ec319dd4042b32",
+      "evaluationTreeSha": "6c52d213912fe171fdd3c9c4c3cff07bd34a0f67",
       "certificationBasis": "AUDIT_CYCLE_1_COMPLETE_GIT_OBJECT_REHASH_AND_EXACT_33_STAGE_REPLAY",
       "artifactBindings": [
         {

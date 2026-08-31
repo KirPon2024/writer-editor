@@ -1,0 +1,47 @@
+{
+  "stampId": "ES-R24-WP-401-BOOK-SNAPSHOT-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-401_BOOK_SNAPSHOT",
+  "attemptId": "ATTEMPT-WP401-20260831",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP401_AUTHORITY_EPOCH_V5",
+  "profileId": "ATLAS_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "61f8bd63aaff11af96612d3aab8dd77e1c22d34b",
+    "treeSha": "a72827c99fce4af93e931d9c4c3902c073e92174"
+  },
+  "claim": {
+    "type": "WP401_EXACT_IMPLEMENTATION_CANDIDATE_REQUIRED_GATES",
+    "ceiling": "WP401_NODE_ONLY_IMMUTABLE_EXACT_REVISION_SNAPSHOT_AUTHORITATIVE_ORDER_COMPLETE_DEPENDENCY_DIGESTS_MANIFEST_AND_PRODUCT_REVISION_BINDING_NO_SOURCE_MUTATION_NO_GRAPH_ADVANCE_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "GitHub protected candidate CI run 33417262371",
+    "evidenceClass": "INDEPENDENT_EXACT_HEAD",
+    "denominator": 17,
+    "passed": 17,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-401-BOOK-SNAPSHOT-MUTANTS"
+    ],
+    "predecessorReceiptDigest": "3b44a24aef899ff2692d6d82d518d55c206a898d058be667f58f0ae2b6d11533"
+  },
+  "createdAt": "2026-08-31T17:24:20Z",
+  "actor": "codex/r24-wp401-book-snapshot-v1-20260831",
+  "artifact": {
+    "runId": 33417262371,
+    "headSha": "5740f2a01e35776201c46e0d5cffe81a37e6a2da",
+    "treeSha": "a72827c99fce4af93e931d9c4c3902c073e92174",
+    "conclusion": "SUCCESS",
+    "requiredJobs": 17,
+    "failedJobs": 0,
+    "skippedRequiredJobs": 0,
+    "pr": 1786
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

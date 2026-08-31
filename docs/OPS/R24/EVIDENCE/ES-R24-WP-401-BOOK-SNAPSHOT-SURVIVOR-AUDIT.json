@@ -1,0 +1,88 @@
+{
+  "stampId": "ES-R24-WP-401-BOOK-SNAPSHOT-SURVIVOR-AUDIT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-401_BOOK_SNAPSHOT",
+  "attemptId": "ATTEMPT-WP401-20260831",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP401_AUTHORITY_EPOCH_V5",
+  "profileId": "ATLAS_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "61f8bd63aaff11af96612d3aab8dd77e1c22d34b",
+    "treeSha": "a72827c99fce4af93e931d9c4c3902c073e92174"
+  },
+  "claim": {
+    "type": "WP401_EXACT_MAIN_SURVIVOR_AUDIT",
+    "ceiling": "WP401_NODE_ONLY_IMMUTABLE_EXACT_REVISION_SNAPSHOT_AUTHORITATIVE_ORDER_COMPLETE_DEPENDENCY_DIGESTS_MANIFEST_AND_PRODUCT_REVISION_BINDING_NO_SOURCE_MUTATION_NO_GRAPH_ADVANCE_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "Git-object artifact digests and fresh merge-tree focused replay",
+    "evidenceClass": "SURVIVOR_AUDIT",
+    "denominator": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-401-BOOK-SNAPSHOT-POSTMERGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "3b44a24aef899ff2692d6d82d518d55c206a898d058be667f58f0ae2b6d11533"
+  },
+  "createdAt": "2026-08-31T17:24:20Z",
+  "actor": "codex/r24-wp401-book-snapshot-v1-20260831",
+  "artifact": {
+    "artifactDigests": [
+      {
+        "path": "src/core/atlas-book-snapshot-v1.mjs",
+        "sha256": "edffd5a709ec6fb0e7e96d0b40dbc6dc8fd32a8c1172a910cc9def021dd74e1e"
+      },
+      {
+        "path": "test/unit/r24-wp401-book-snapshot.test.js",
+        "sha256": "cb1a1082debb6f076ada2c65c5ac184140360aeff9cb51347c2b5c11a635d752"
+      },
+      {
+        "path": "test/unit/r24-wp401-book-snapshot-integration.test.js",
+        "sha256": "71f39476e762b6c536107f986a0d0b9da56f119cea0aa69ce8cd1633cca4dfbb"
+      },
+      {
+        "path": "test/unit/r24-wp401-book-snapshot-mutants.test.js",
+        "sha256": "f8e004d014e6b38df08a9355756b4922505925c216c5f891e8886f5bf08136da"
+      }
+    ],
+    "admission": {
+      "authorityDigest": "2edc680fd48dc3034af0b1ca76d92ea0e80f007f5874ca4f75959ddfcc8f44ab",
+      "stageRegistryDigest": "92174ef49ecc2754b2ae9082b2b51afdb4267973b21e80590dd23db2a0c47365",
+      "stageInstanceDigest": "bce73b311b15cbe1c05828411b961669bc9ebeda0f4ef471556172297d8775be",
+      "stageAdmissionDigest": "3b44a24aef899ff2692d6d82d518d55c206a898d058be667f58f0ae2b6d11533",
+      "writeSetDigest": "41837e39c5ad8acbce74f7f7613a15c1c8aa24e32266cd3e629572badf400843"
+    },
+    "implementationDelta": {
+      "baseSha": "9aae563b18578a052fffc434b3f37257248092a0",
+      "candidateSha": "5740f2a01e35776201c46e0d5cffe81a37e6a2da",
+      "nameStatusSha256": "d175f6a7ad8ac628007004f471af531f969fe3fc0ca71e065ea2349adabc1424",
+      "insertions": 1096,
+      "deletions": 21,
+      "changedPathDenominator": 37
+    },
+    "focusedReplay": {
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0,
+      "mutantsKilled": 8,
+      "mutantsSurvived": 0
+    },
+    "survivors": {
+      "artifactDigestMismatches": 0,
+      "stalePublicationsAccepted": 0,
+      "sourceMutations": 0,
+      "privacyPayloadLeaks": 0,
+      "crossStageAttestations": 0,
+      "graphAdvances": 0,
+      "programDoneClaims": 0
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

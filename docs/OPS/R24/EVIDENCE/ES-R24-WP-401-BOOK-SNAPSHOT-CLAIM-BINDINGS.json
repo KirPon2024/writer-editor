@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-401-BOOK-SNAPSHOT-CLAIM-BINDINGS",
+  "contourId": "WP-401_BOOK_SNAPSHOT",
+  "evidenceClass": "CONTRACT",
+  "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
+  "headSha": "61f8bd63aaff11af96612d3aab8dd77e1c22d34b",
+  "originMainSha": "61f8bd63aaff11af96612d3aab8dd77e1c22d34b",
+  "generatedAtUtc": "2026-08-31T17:24:20Z",
+  "oracle": "Strict exact-hash binding for the WP401 implementation, protected candidate, merge, exact postmerge CI and merge-tree survivor replay",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/CTR-R24-WP-401-BOOK-SNAPSHOT.json",
+      "sha256": "0743edb8a5048249a6265d054b8626c93dfe0a056d118ced82d27804d65b0f38",
+      "claimTerms": [
+        "PASS"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/atlas-book-snapshot-v1.mjs",
+      "sha256": "edffd5a709ec6fb0e7e96d0b40dbc6dc8fd32a8c1172a910cc9def021dd74e1e",
+      "terms": [
+        "Immutable exact-revision whole-book snapshot"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp401-book-snapshot.test.js",
+      "sha256": "cb1a1082debb6f076ada2c65c5ac184140360aeff9cb51347c2b5c11a635d752",
+      "terms": [
+        "WP401 strict contract oracle"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp401-book-snapshot-integration.test.js",
+      "sha256": "71f39476e762b6c536107f986a0d0b9da56f119cea0aa69ce8cd1633cca4dfbb",
+      "terms": [
+        "WP401 product revision bridge, differential and large-corpus oracle"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp401-book-snapshot-mutants.test.js",
+      "sha256": "f8e004d014e6b38df08a9355756b4922505925c216c5f891e8886f5bf08136da",
+      "terms": [
+        "Eight-of-eight identity and stale-publication mutant oracle"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "node --test test/unit/r24-wp401-book-snapshot.test.js test/unit/r24-wp401-book-snapshot-integration.test.js test/unit/r24-wp401-book-snapshot-mutants.test.js",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 14,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 8,
+        "survived": 0
+      },
+      "requiredDisposition": "The WP401 product model, bridge, differential oracle, large-corpus bound and mutants are green at the exact implementation merge tree."
+    },
+    {
+      "command": "GitHub protected candidate and exact implementation postmerge CI",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 34,
+        "fail": 0
+      },
+      "requiredDisposition": "All 17 candidate and all 17 exact-merge required contexts passed."
+    }
+  ],
+  "nonClaims": [
+    "This binding closes only WP-401_BOOK_SNAPSHOT product evidence.",
+    "Lease 59 remains active until this closure carrier is normally protected-merged and its exact postmerge CI passes.",
+    "The protected WIP after snapshot and lease release are not claimed by this carrier.",
+    "No next graph node is selected or mutated.",
+    "It does not mark the R2.4 program DONE."
+  ]
+}

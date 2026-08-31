@@ -3,82 +3,70 @@
     {
       "approvedAtUtc": "2026-08-31T17:24:20Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
-      "filePath": "docs/OPS/R24/CORRECTIVE/WP401_CLOSURE_GOVERNANCE_CHANGE_APPROVALS_V1.json",
-      "rationale": "Owner-authorized active WP401 governance route for the append-only closure carrier after exact implementation postmerge CI; product semantics are frozen and lease 59 remains active until release.",
-      "sha256": "e82567cba362d5fde45c2594c10cd269ac61c5582322a8fd268a382cbf0de73c"
-    },
-    {
-      "approvedAtUtc": "2026-08-31T17:24:20Z",
-      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/CTR-R24-WP-401-BOOK-SNAPSHOT.json",
-      "rationale": "Owner-authorized active WP401 governance route for the append-only closure carrier after exact implementation postmerge CI; product semantics are frozen and lease 59 remains active until release.",
+      "rationale": "Owner-authorized WP401 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 59 remains active pending protected closure merge and release.",
       "sha256": "0743edb8a5048249a6265d054b8626c93dfe0a056d118ced82d27804d65b0f38"
     },
     {
       "approvedAtUtc": "2026-08-31T17:24:20Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-401-BOOK-SNAPSHOT-CLAIM-BINDINGS.json",
-      "rationale": "Owner-authorized active WP401 governance route for the append-only closure carrier after exact implementation postmerge CI; product semantics are frozen and lease 59 remains active until release.",
+      "rationale": "Owner-authorized WP401 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 59 remains active pending protected closure merge and release.",
       "sha256": "f62e24de201704556e52a27d07903b386a74e527824a2b676e9728257077f0e7"
     },
     {
       "approvedAtUtc": "2026-08-31T17:24:20Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-401-BOOK-SNAPSHOT-CONTRACT.json",
-      "rationale": "Owner-authorized active WP401 governance route for the append-only closure carrier after exact implementation postmerge CI; product semantics are frozen and lease 59 remains active until release.",
+      "rationale": "Owner-authorized WP401 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 59 remains active pending protected closure merge and release.",
       "sha256": "58fdba430809e74d7a8d46a35ec8549b88218ff70ac8f9efecd674487c67d183"
     },
     {
       "approvedAtUtc": "2026-08-31T17:24:20Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-401-BOOK-SNAPSHOT-EXACT-HEAD.json",
-      "rationale": "Owner-authorized active WP401 governance route for the append-only closure carrier after exact implementation postmerge CI; product semantics are frozen and lease 59 remains active until release.",
+      "rationale": "Owner-authorized WP401 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 59 remains active pending protected closure merge and release.",
       "sha256": "a32f92c2192fe56c90009999c5c1135f3682346aa8b7dc5c652b8b6e0bb40f22"
     },
     {
       "approvedAtUtc": "2026-08-31T17:24:20Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-401-BOOK-SNAPSHOT-INTEGRATION.json",
-      "rationale": "Owner-authorized active WP401 governance route for the append-only closure carrier after exact implementation postmerge CI; product semantics are frozen and lease 59 remains active until release.",
+      "rationale": "Owner-authorized WP401 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 59 remains active pending protected closure merge and release.",
       "sha256": "5ac4fb4c642e684fee7cae962f9d59129ccb3d84dd97a73ec23b40d8c38dcb2e"
     },
     {
       "approvedAtUtc": "2026-08-31T17:24:20Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-401-BOOK-SNAPSHOT-MODEL.json",
-      "rationale": "Owner-authorized active WP401 governance route for the append-only closure carrier after exact implementation postmerge CI; product semantics are frozen and lease 59 remains active until release.",
+      "rationale": "Owner-authorized WP401 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 59 remains active pending protected closure merge and release.",
       "sha256": "037845039fca3b57715fc16ae385a0923545af7eb5b34ff5746d511299acc151"
     },
     {
       "approvedAtUtc": "2026-08-31T17:24:20Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-401-BOOK-SNAPSHOT-MUTANTS.json",
-      "rationale": "Owner-authorized active WP401 governance route for the append-only closure carrier after exact implementation postmerge CI; product semantics are frozen and lease 59 remains active until release.",
+      "rationale": "Owner-authorized WP401 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 59 remains active pending protected closure merge and release.",
       "sha256": "94dab3de8a82b8f258ed5920b97d6fad677baee1ecf33f995056fb7215b26070"
     },
     {
       "approvedAtUtc": "2026-08-31T17:24:20Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-401-BOOK-SNAPSHOT-POSTMERGE-EXACT-HEAD.json",
-      "rationale": "Owner-authorized active WP401 governance route for the append-only closure carrier after exact implementation postmerge CI; product semantics are frozen and lease 59 remains active until release.",
+      "rationale": "Owner-authorized WP401 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 59 remains active pending protected closure merge and release.",
       "sha256": "58eeccb417189dd3dbb64befa8fad238cd44c1de2cfafeb4a325100931c6766d"
     },
     {
       "approvedAtUtc": "2026-08-31T17:24:20Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-401-BOOK-SNAPSHOT-SURVIVOR-AUDIT.json",
-      "rationale": "Owner-authorized active WP401 governance route for the append-only closure carrier after exact implementation postmerge CI; product semantics are frozen and lease 59 remains active until release.",
+      "rationale": "Owner-authorized WP401 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 59 remains active pending protected closure merge and release.",
       "sha256": "f0100be5b8446e7345aa48c07e6bd239f1ea3b7dbf85a67af118258c9f280161"
     }
   ],
   "evidenceStampIds": [
     "ES-R24-WP-401-BOOK-SNAPSHOT-SURVIVOR-AUDIT"
   ],
-  "phase": "WP401_APPEND_ONLY_CLOSURE_CARRIER",
-  "sourcePlanRoles": {
-    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
-    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
-    "rolesDistinct": true
-  },
+  "routingCarrierExemptFromThisPhaseCarrier": "WP401_ACTIVE_GOVERNANCE_CHANGE_APPROVALS_V1.json",
   "version": "v1.0"
 }

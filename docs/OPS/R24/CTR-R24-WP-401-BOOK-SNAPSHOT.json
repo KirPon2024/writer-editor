@@ -1,0 +1,23 @@
+{
+  "receiptId": "CTR-R24-WP-401-BOOK-SNAPSHOT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-401_BOOK_SNAPSHOT",
+  "attemptId": "ATTEMPT-WP401-20260831",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP401_AUTHORITY_EPOCH_V5",
+  "exactHeadSha": "61f8bd63aaff11af96612d3aab8dd77e1c22d34b",
+  "mergeState": "MERGED",
+  "postmergeState": "PASS",
+  "survivorState": "PASS",
+  "evidenceStampIds": [
+    "ES-R24-WP-401-BOOK-SNAPSHOT-MODEL",
+    "ES-R24-WP-401-BOOK-SNAPSHOT-CONTRACT",
+    "ES-R24-WP-401-BOOK-SNAPSHOT-INTEGRATION",
+    "ES-R24-WP-401-BOOK-SNAPSHOT-MUTANTS",
+    "ES-R24-WP-401-BOOK-SNAPSHOT-EXACT-HEAD",
+    "ES-R24-WP-401-BOOK-SNAPSHOT-POSTMERGE-EXACT-HEAD",
+    "ES-R24-WP-401-BOOK-SNAPSHOT-SURVIVOR-AUDIT",
+    "ES-R24-WP-401-BOOK-SNAPSHOT-CLAIM-BINDINGS"
+  ],
+  "nextContourId": null,
+  "schemaVersion": "ContourTerminalReceiptV2"
+}

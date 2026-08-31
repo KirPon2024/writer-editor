@@ -32,6 +32,20 @@ const readJsonFile=(file)=>{const bytes=fs.readFileSync(file);assert(bytes.at(-1
 const defaultGit=(args,options={})=>execFileSync('git',args,{encoding:options.encoding??null,maxBuffer:64*1024*1024});
 const gitText=(git,args)=>String(git(args,{encoding:'utf8'})).trim();
 const objectBytes=(git,sha,artifactPath)=>git(['show',`${sha}:${validatePath(artifactPath)}`],{encoding:null});
+const evaluationTree=(git,sha)=>gitText(git,['rev-parse',`${sha}^{tree}`]);
+const ensureEvaluationObject=(git,sha)=>{
+  try{return evaluationTree(git,sha);}catch(initialError){
+    if(git!==defaultGit)throw initialError;
+    try{
+      const shallow=gitText(defaultGit,['rev-parse','--is-shallow-repository'])==='true';
+      if(shallow)defaultGit(['fetch','--no-tags','--no-write-fetch-head','--unshallow','origin'],{encoding:null});
+      try{return evaluationTree(defaultGit,sha);}catch{
+        defaultGit(['fetch','--no-tags','--no-write-fetch-head','origin',sha],{encoding:null});
+        return evaluationTree(defaultGit,sha);
+      }
+    }catch{fail('E_EVALUATION_OBJECT_UNAVAILABLE',sha);}
+  }
+};
 const exactKeys=(value,keys,label)=>assert(value&&typeof value==='object'&&!Array.isArray(value)&&JSON.stringify(Object.keys(value).sort())===JSON.stringify([...keys].sort()),'E_UNKNOWN_OR_MISSING_FIELD',label);
 const finiteId=(value,label)=>{const id=Number(value);assert(Number.isSafeInteger(id)&&id>0,'E_IDENTITY_INVALID',label);return id;};
 const rawJsonBytes=(bytes,label)=>{const value=JSON.parse(bytes);return{bytes:Buffer.from(bytes),digest:h(bytes),value,label};};
@@ -95,7 +109,7 @@ export function verifyAuditCycleDurableCarrier({value,fileDigest}){
 
 export function generateCertificationSet({sourceFile,evaluationSha,evaluationTreeSha,git=defaultGit}){
   hex(evaluationSha,40,'evaluationSha');hex(evaluationTreeSha,40,'evaluationTreeSha');
-  assert(gitText(git,['rev-parse',`${evaluationSha}^{tree}`])===evaluationTreeSha,'E_EVALUATION_TREE');
+  assert(ensureEvaluationObject(git,evaluationSha)===evaluationTreeSha,'E_EVALUATION_TREE');
   const source=readJsonFile(sourceFile);
   assert(source.value.schemaVersion==='POST_AUDIT_CURRENT_CERTIFICATION_SET_V1','E_SOURCE_SCHEMA');
   assert(source.value.stages.length===EXPECTED_STAGE_COUNT,'E_STAGE_DENOMINATOR');
@@ -143,7 +157,7 @@ export function verifyCertificationSet({value,fileDigest,candidateSha='HEAD',git
   assert(value?.schemaVersion==='POST_AUDIT_CURRENT_CERTIFICATION_SET_V2'&&value.status==='CERTIFIED_DONE','E_SCHEMA_OR_STATUS');
   assert(value.externalSourcePlanDigest===EXTERNAL_SOURCE_PLAN_DIGEST&&value.compiledProgramFileDigest===COMPILED_PROGRAM_FILE_DIGEST&&value.externalSourcePlanDigest!==value.compiledProgramFileDigest,'E_SOURCE_PLAN_ROLE_BINDING');
   hex(value.evaluationSha,40,'evaluationSha');hex(value.evaluationTreeSha,40,'evaluationTreeSha');hex(fileDigest,64,'fileDigest');
-  assert(gitText(git,['rev-parse',`${value.evaluationSha}^{tree}`])===value.evaluationTreeSha,'E_EVALUATION_TREE');
+  assert(ensureEvaluationObject(git,value.evaluationSha)===value.evaluationTreeSha,'E_EVALUATION_TREE');
   assert(Array.isArray(value.stages)&&value.stages.length===EXPECTED_STAGE_COUNT&&value.stageCount===EXPECTED_STAGE_COUNT,'E_STAGE_DENOMINATOR');
   let denominator=0;
   for(const [stageIndex,stage] of value.stages.entries()){

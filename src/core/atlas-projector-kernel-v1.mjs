@@ -418,6 +418,10 @@ function verifyPublication(publication) {
   return rebuilt;
 }
 
+export function verifyAtlasProjectorPublication(publication) {
+  return verifyPublication(publication);
+}
+
 export function createAtlasProjectorPublicationCell(initialPublication = null) {
   let current = initialPublication === null ? null : verifyPublication(initialPublication);
   return Object.freeze({

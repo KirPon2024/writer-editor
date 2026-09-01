@@ -1,0 +1,77 @@
+{
+  "approvals": [
+    {
+      "approvedAtUtc": "2026-08-31T23:45:32Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V4.json",
+      "rationale": "Owner-authorized WP403 implementation route for the exact admitted decision substrate contour, test inventory successor, and current audit verifier bytes.",
+      "sha256": "7356f4c4f5f607214603755b409eca7420149c7966e92c564e023d5d468c1232"
+    },
+    {
+      "approvedAtUtc": "2026-08-31T23:45:32Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "rationale": "Owner-authorized WP403 implementation route for the exact admitted decision substrate contour, test inventory successor, and current audit verifier bytes.",
+      "sha256": "c45fbdc5eb8f02cdb3002fb93864e7e2c5ea9254b442459a84d69e5897d2503d"
+    },
+    {
+      "approvedAtUtc": "2026-08-31T23:45:32Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP403_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "rationale": "Owner-authorized WP403 implementation route for the exact admitted decision substrate contour, test inventory successor, and current audit verifier bytes.",
+      "sha256": "78d40137fc5dcdf85c1cc4de911d8bb3517bb7ed4249827c3aec7e85f84de309"
+    },
+    {
+      "approvedAtUtc": "2026-08-31T23:45:32Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP403_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "rationale": "Owner-authorized WP403 implementation route for the exact admitted decision substrate contour, test inventory successor, and current audit verifier bytes.",
+      "sha256": "f4201ace1d161d6c9331ec41bf6007d48acfb364070b3776902f2ae4a9e2d46e"
+    },
+    {
+      "approvedAtUtc": "2026-08-31T23:45:32Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP403_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "rationale": "Owner-authorized WP403 implementation route for the exact admitted decision substrate contour, test inventory successor, and current audit verifier bytes.",
+      "sha256": "4e66142783984614c3aba97d9496dc61171cbefbf1ce60240bde2d55380493dc"
+    },
+    {
+      "approvedAtUtc": "2026-08-31T23:45:32Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP403_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "rationale": "Owner-authorized WP403 implementation route for the exact admitted decision substrate contour, test inventory successor, and current audit verifier bytes.",
+      "sha256": "19acf09e3789b02936a7afb2e4ee7619f5bedd3848bc1abee8498adedb563bad"
+    },
+    {
+      "approvedAtUtc": "2026-08-31T23:45:32Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP403_PROTECTED_WIP_BEFORE_V1.json",
+      "rationale": "Owner-authorized WP403 implementation route for the exact admitted decision substrate contour, test inventory successor, and current audit verifier bytes.",
+      "sha256": "05e864f1fa58a381d8ab4dfa935e7110981fe4688ccfbedfcbe294fb11f103d2"
+    },
+    {
+      "approvedAtUtc": "2026-08-31T23:45:32Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "scripts/ops/r24/corrective/audit-r2-corrections.mjs",
+      "rationale": "Owner-authorized WP403 implementation route for the exact admitted decision substrate contour, test inventory successor, and current audit verifier bytes.",
+      "sha256": "79f9f55cb1f3a4e676f04ba25857b8059db6341c5c757446deab17f36df3b692"
+    },
+    {
+      "approvedAtUtc": "2026-08-31T23:45:32Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "test/contracts/r24-audit-r2-corrections.contract.test.mjs",
+      "rationale": "Owner-authorized WP403 implementation route for the exact admitted decision substrate contour, test inventory successor, and current audit verifier bytes.",
+      "sha256": "011af44c0dc7009e0ac9190dfe9cc7326c183ce4a6deb53d2c51db573cfdf5a8"
+    }
+  ],
+  "evidenceStampIds": [
+    "ES-R24-WP-402-PROJECTOR-KERNEL-SURVIVOR-AUDIT"
+  ],
+  "phase": "WP403_IMPLEMENTATION_CANDIDATE",
+  "sourcePlanRoles": {
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "rolesDistinct": true
+  },
+  "version": "v1.0"
+}

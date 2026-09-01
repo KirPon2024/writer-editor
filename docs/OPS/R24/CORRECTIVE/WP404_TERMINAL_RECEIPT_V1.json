@@ -1,0 +1,159 @@
+{
+  "schemaVersion": "YALKEN_R24_WP404_TERMINAL_RECEIPT_V1",
+  "receiptId": "WP404_TERMINAL_RECEIPT_V1",
+  "stageId": "WP-404_ATLAS_FOUNDATION_CLAIM",
+  "status": "CERTIFIED_DONE",
+  "observedAtUtc": "2026-09-01T04:12:27Z",
+  "originSha": "695c5918293ce5b0f181d665964773df6c94eeb5",
+  "originTreeSha": "ef559a9cab8c1983dc0337b4efde350d2f447bb5",
+  "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+  "bindings": {
+    "ownerAuthorityBindingDigest": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+    "authorityDigest": "5ef707aeffe932d65dad2ea7ed80799f89886db3f6ef671c3a3fe901eb8ffdf2",
+    "stageInstanceDigest": "1276a9c2805d4317e35dfff4809bc26a6ca773e82312b12bbd20fb4547464318",
+    "stageAdmissionDigest": "92bbab8e9a12950b43763414bb702ed97ef89887e994a4cc1e6c498a625cadaa",
+    "writeSetDigest": "99efd171a84d457e4ae0ba408f420ff1aa6ce490c2ad7ffdcc9298b7015f4316",
+    "commandListDigest": "a4643ddbd58039b0a7cc4a5a3a6df1de52a6bc2500b305009982250800d2663f",
+    "acceptanceSignalsDigest": "e1523fcfed0ea29267743ee9405749a3024c594986c82c88e86cc32cfb8b75b7",
+    "contourTerminalReceiptDigest": "426ca6a507e668344b9be83d5043ff3d43146b1108f0f04bc93d7cab04ad8379",
+    "claimBindingDigest": "c2fc41a0109a883cb89ff7d6dacf9f651e142f865d1cefd128aea89a477bef82",
+    "closureGovernanceApprovalDigest": "6d31afc37d746282e9dd76c731ff517657f296930090e8bb70b122d8437fbe81",
+    "acceptanceMatrixDigest": "506c10286333d8a8679567daeef2c49fecb06cf006594efe896cd00a9a80cd22",
+    "leaseReleaseDigest": "596fd41507d2cd6bbf5cc244c84d021767bf643e75a3595ae31b5025800fca97",
+    "terminalEffectiveStateDigest": "3fde4ab0b8ad3372ebe0e92d64bb5f20d145367d9c227ab8740e0d11a1e3baa9",
+    "terminalStageRegistryDigest": "d019da24a535ad15230f913814192da150ebca87f93522e09b8de4ee413bb334",
+    "protectedWipBeforeCarrierDigest": "0688062a9935509bca93b4e8942686631ca22a976e5c0b5ee86e223c2b4b7194",
+    "protectedWipAfterCarrierDigest": "b607d2b89f31fa511f1632a4fb95d7409b49ec13817a416cf873d3145c292e27"
+  },
+  "predecessor": {
+    "wp403TerminalReceiptDigest": "21c5ca5a64bca8b5d62a4ad1bde10d60267eb31ade8e555e29747795e3b97301",
+    "wp403EffectiveStateDigest": "8f5498e68447a573b419fce7295721458f8a1c8649ce5e0ad2f0d75e4e13098d",
+    "wp403LeaseReleaseDigest": "b09d066b08aa9f6ad2375f09e4da266396f209160a96b0067e819ff58dd35d5f"
+  },
+  "delivery": {
+    "implementation": {
+      "pullRequest": 1795,
+      "candidateSha": "1daa931f1111f2c44530274400b2a1ce238944b1",
+      "candidateTreeSha": "8e1e67b0ed3281ff865fcc420a3be1df91a96445",
+      "mergeSha": "233210ae4cc7a52d158db1a3c312d4f9781913e2",
+      "mergeTreeSha": "8e1e67b0ed3281ff865fcc420a3be1df91a96445",
+      "candidateCiRunId": 33465079765,
+      "candidateCiRunAttempt": 1,
+      "exactPostmergeCiRunId": 33465824099,
+      "exactPostmergeCiRunAttempt": 1,
+      "status": "VERIFIED",
+      "candidateCiRequiredContextsPassed": 17,
+      "exactPostmergeRequiredContextsPassed": 17
+    },
+    "closureCarrier": {
+      "pullRequest": 1796,
+      "candidateSha": "8d9f5c2be8c62ad4febec8405947a97a72b51637",
+      "candidateTreeSha": "ef559a9cab8c1983dc0337b4efde350d2f447bb5",
+      "mergeSha": "695c5918293ce5b0f181d665964773df6c94eeb5",
+      "mergeTreeSha": "ef559a9cab8c1983dc0337b4efde350d2f447bb5",
+      "candidateCiRunId": 33466996083,
+      "candidateCiRunAttempt": 1,
+      "exactPostmergeCiRunId": 33467716165,
+      "exactPostmergeCiRunAttempt": 2,
+      "status": "VERIFIED_AFTER_ONE_IDENTICAL_EVIDENCE_BACKED_RETRY",
+      "candidateCiRequiredContextsPassed": 17,
+      "exactPostmergeRequiredContextsPassed": 17,
+      "supersededPostmergeAttempt": {
+        "runAttempt": 1,
+        "status": "FAIL_CLOSED",
+        "directFailure": "C4_RTK_RUNNER_REUSED_LEADER_TIMING_PROBE",
+        "independentSameShaRtkRequiredStatus": "SUCCESS_1067_OF_1067",
+        "retryPolicy": "ONE_IDENTICAL_RETRY_USED"
+      }
+    },
+    "releaseCarrier": {
+      "status": "PENDING_NON_RECURSIVE_PROTECTED_DELIVERY",
+      "finalDeliveryBindsThisReceiptExternally": true
+    }
+  },
+  "acceptance": {
+    "matrixDigest": "506c10286333d8a8679567daeef2c49fecb06cf006594efe896cd00a9a80cd22",
+    "rowCount": 20,
+    "passedRowCount": 20,
+    "failedRowCount": 0,
+    "pendingRowCount": 0,
+    "rows": [
+      { "id": "BOUNDED_SUPPORTING_EVIDENCE_LARGE_CORPUS", "status": "PASS" },
+      { "id": "COMPLETE_FOUR_NODE_FOUNDATION_DENOMINATOR", "status": "PASS" },
+      { "id": "CONTRACT_NEGATIVE", "status": "PASS" },
+      { "id": "DIFFERENTIAL_ORACLE", "status": "PASS" },
+      { "id": "EXACT_WRITER_V0_INHERITANCE", "status": "PASS" },
+      { "id": "FOUNDATION_CLAIM_DIGEST_BOUND", "status": "PASS" },
+      { "id": "GOVERNANCE_STRICT_PASS", "status": "PASS" },
+      { "id": "IMPLEMENTATION_MUTANTS_ALL_KILLED", "status": "PASS" },
+      { "id": "INDEPENDENT_EXACT_HEAD", "status": "PASS" },
+      { "id": "LEASE_62_RELEASED_WIP_0", "status": "PASS" },
+      { "id": "NO_CROSS_PROFILE_OR_GLOBAL_PROMOTION", "status": "PASS" },
+      { "id": "NO_RUNTIME_PERSISTENCE_OR_RENDERER_WIRING", "status": "PASS" },
+      { "id": "POSTMERGE_EXACT_HEAD", "status": "PASS" },
+      { "id": "POST_AUDIT_WP404_EXCEPTION_FAIL_CLOSED", "status": "PASS" },
+      { "id": "PROGRAM_DONE_FALSE", "status": "PASS" },
+      { "id": "PROTECTED_WIP_UNCHANGED", "status": "PASS" },
+      { "id": "STALE_HEAD_TREE_AND_EVIDENCE_REJECTION", "status": "PASS" },
+      { "id": "STRICT_INPUT_AND_TAMPER_REJECTION", "status": "PASS" },
+      { "id": "SURVIVOR_AUDIT", "status": "PASS" },
+      { "id": "WRITER_V0_RECEIPT_DIGEST_BOUND", "status": "PASS" }
+    ],
+    "verdict": "PASS"
+  },
+  "effectiveState": {
+    "digest": "3fde4ab0b8ad3372ebe0e92d64bb5f20d145367d9c227ab8740e0d11a1e3baa9",
+    "wp404State": "DONE",
+    "doneCount": 55,
+    "pendingCount": 41
+  },
+  "stageRegistry": {
+    "digest": "d019da24a535ad15230f913814192da150ebca87f93522e09b8de4ee413bb334",
+    "stageCount": 1,
+    "certifiedDoneCount": 1,
+    "failedCount": 0,
+    "pendingCount": 0
+  },
+  "leaseDisposition": {
+    "fencingCounter": 62,
+    "status": "RELEASED",
+    "wip": 0,
+    "releaseDigest": "596fd41507d2cd6bbf5cc244c84d021767bf643e75a3595ae31b5025800fca97"
+  },
+  "worktreeProof": {
+    "algorithm": "YALKEN_PROTECTED_WIP_SNAPSHOT_ALGORITHM_V2",
+    "completeDenominator": 254,
+    "presentDenominator": 251,
+    "prunableDenominator": 3,
+    "dirtyDenominator": 7,
+    "completeIdentitySetExact": true,
+    "completeEntrySetExact": true,
+    "protectedDirtySetExact": true,
+    "completeEntrySetDigest": "eae733667d3aef766c033fdba158404437e2cfcd71380e6178fcb119fafb4a05",
+    "protectedDirtySetDigest": "4656fe4edd93cdc4b05d593d877622e6d82247ff6e58b468ad78889b9ec31e50",
+    "missingIdentityCount": 0,
+    "addedIdentityCount": 0,
+    "changedEntryCount": 0,
+    "userSensitiveContentsDisclosed": false
+  },
+  "evidenceStampIds": [
+    "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-MODEL",
+    "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-CONTRACT",
+    "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-INTEGRATION",
+    "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-MUTANTS",
+    "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-EXACT-HEAD",
+    "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-POSTMERGE-EXACT-HEAD",
+    "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-SURVIVOR-AUDIT",
+    "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-CLAIM-BINDINGS"
+  ],
+  "liveWorkAtReleaseBase": {
+    "openPullRequestCount": 0,
+    "runningActionCount": 0,
+    "queuedActionCount": 0,
+    "status": "NONE"
+  },
+  "nonRecursiveCarrierPattern": true,
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

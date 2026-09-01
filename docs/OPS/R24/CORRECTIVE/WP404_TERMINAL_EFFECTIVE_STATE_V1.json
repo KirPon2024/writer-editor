@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "YALKEN_R24_WP404_TERMINAL_EFFECTIVE_STATE_V1",
+  "stageId": "WP-404_ATLAS_FOUNDATION_CLAIM",
+  "status": "CERTIFIED_DONE_RELEASED_WIP_0",
+  "observedAtUtc": "2026-09-01T04:12:27Z",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "rawState": {
+    "immutable": true,
+    "planStateBytesDigest": "f037355e4f1d87107f1593927463d94fa3f7128038790616c4d5611cf42f12f9",
+    "executableProgramBytesDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+    "wp404State": "PENDING"
+  },
+  "predecessorEffectiveState": {
+    "digest": "8f5498e68447a573b419fce7295721458f8a1c8649ce5e0ad2f0d75e4e13098d",
+    "counts": {
+      "BLOCKED_TYPED": 3,
+      "DONE": 54,
+      "INELIGIBLE_OPTIONAL": 10,
+      "PENDING": 42
+    },
+    "wp403State": "DONE",
+    "wp404State": "PENDING"
+  },
+  "appendOnlyTransitions": [
+    {
+      "transitionId": "WP404_TERMINAL_CERTIFICATION_V1",
+      "nodeId": "WP-404_ATLAS_FOUNDATION_CLAIM",
+      "from": "PENDING",
+      "to": "DONE",
+      "mode": "APPEND_ONLY_EFFECTIVE_STATE_SUCCESSOR",
+      "evaluationSha": "695c5918293ce5b0f181d665964773df6c94eeb5",
+      "evaluationTreeSha": "ef559a9cab8c1983dc0337b4efde350d2f447bb5",
+      "contourTerminalReceiptDigest": "426ca6a507e668344b9be83d5043ff3d43146b1108f0f04bc93d7cab04ad8379",
+      "claimBindingDigest": "c2fc41a0109a883cb89ff7d6dacf9f651e142f865d1cefd128aea89a477bef82",
+      "stageInstanceDigest": "1276a9c2805d4317e35dfff4809bc26a6ca773e82312b12bbd20fb4547464318",
+      "stageAdmissionDigest": "92bbab8e9a12950b43763414bb702ed97ef89887e994a4cc1e6c498a625cadaa",
+      "acceptanceMatrixDigest": "506c10286333d8a8679567daeef2c49fecb06cf006594efe896cd00a9a80cd22"
+    },
+    {
+      "transitionId": "WP404_LEASE_62_RELEASE_V1",
+      "from": "ACTIVE_WIP_1",
+      "to": "RELEASED_WIP_0",
+      "mode": "APPEND_ONLY_LEASE_RELEASE",
+      "leaseReleaseDigest": "596fd41507d2cd6bbf5cc244c84d021767bf643e75a3595ae31b5025800fca97",
+      "protectedWipAfterCarrierDigest": "b607d2b89f31fa511f1632a4fb95d7409b49ec13817a416cf873d3145c292e27"
+    }
+  ],
+  "effectiveState": {
+    "counts": {
+      "BLOCKED_TYPED": 3,
+      "DONE": 55,
+      "INELIGIBLE_OPTIONAL": 10,
+      "PENDING": 41
+    },
+    "wp403State": "DONE",
+    "wp404State": "DONE"
+  },
+  "acceptance": {
+    "matrixDigest": "506c10286333d8a8679567daeef2c49fecb06cf006594efe896cd00a9a80cd22",
+    "requiredSignals": 20,
+    "passedSignals": 20,
+    "failedSignals": 0,
+    "pendingSignals": 0,
+    "verdict": "PASS"
+  },
+  "lease": {
+    "fencingCounter": 62,
+    "status": "RELEASED",
+    "wip": 0,
+    "releaseDigest": "596fd41507d2cd6bbf5cc244c84d021767bf643e75a3595ae31b5025800fca97"
+  },
+  "delivery": {
+    "implementationPullRequest": 1795,
+    "implementationMergeSha": "233210ae4cc7a52d158db1a3c312d4f9781913e2",
+    "implementationPostmergeRunId": 33465824099,
+    "implementationPostmergeRunAttempt": 1,
+    "closurePullRequest": 1796,
+    "closureMergeSha": "695c5918293ce5b0f181d665964773df6c94eeb5",
+    "closurePostmergeRunId": 33467716165,
+    "closurePostmergeRunAttempt": 2,
+    "closurePostmergeAttemptOneStatus": "FAIL_CLOSED_SUPERSEDED_BY_ONE_IDENTICAL_GREEN_RETRY",
+    "releaseCarrierProtectedDeliveryPending": true,
+    "nonRecursiveCarrierPattern": true
+  },
+  "evidenceStampIds": [
+    "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-MODEL",
+    "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-CONTRACT",
+    "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-INTEGRATION",
+    "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-MUTANTS",
+    "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-EXACT-HEAD",
+    "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-POSTMERGE-EXACT-HEAD",
+    "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-SURVIVOR-AUDIT",
+    "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-CLAIM-BINDINGS"
+  ],
+  "nextGraphSelection": false,
+  "programDone": false
+}

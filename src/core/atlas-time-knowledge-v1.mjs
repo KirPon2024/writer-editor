@@ -371,8 +371,15 @@ function sortById(values, field) {
 }
 
 function indexCells(cells, key) {
-  const values = [...new Set(cells.map((cell) => cell[key]))].sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'variant' }));
-  return Object.fromEntries(values.map((value) => [value, cells.filter((cell) => cell[key] === value).map((cell) => cell.cellId)]));
+  const cellsByValue = new Map();
+  for (const cell of cells) {
+    const value = cell[key];
+    const existing = cellsByValue.get(value);
+    if (existing) existing.push(cell.cellId);
+    else cellsByValue.set(value, [cell.cellId]);
+  }
+  const values = [...cellsByValue.keys()].sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'variant' }));
+  return Object.fromEntries(values.map((value) => [value, cellsByValue.get(value)]));
 }
 
 function emptyTimeDenominator(totalCells) {

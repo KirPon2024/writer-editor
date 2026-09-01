@@ -1,0 +1,259 @@
+{
+  "schemaVersion": "STAGE_INSTANCE_V2",
+  "stageId": "WP-500_ASSOCIATIONS",
+  "authorityId": "OWNER_AUTHORIZED_YALKEN_R24_WP500_ASSOCIATIONS_V1",
+  "ownerAuthorityBindingDigest": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+  "sourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+  "baseSha": "c7cb783a699cdd44a531040fde8b3278ec86a39b",
+  "branch": "codex/r24-wp500-associations-v1-20260901",
+  "fixedBindings": [
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json",
+      "sha256": "6c833c964318da3e61e1743365f8763206be838647b5222c187b3bda8d1c6b9a"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json",
+      "sha256": "c8af046b5918f43a50af66886b0b5c9d2e22ea6501240d4b239101d8836ced1a"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/STANDING_AUTHORITY_BINDING_V1.json",
+      "sha256": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json",
+      "sha256": "4f6e4b3a191e0302ea44646659e8c2f71121af7d808cc0ee768269b4e156840d"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP404_ACCEPTANCE_MATRIX_V1.json",
+      "sha256": "506c10286333d8a8679567daeef2c49fecb06cf006594efe896cd00a9a80cd22"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP404_LEASE_RELEASE_V1.json",
+      "sha256": "596fd41507d2cd6bbf5cc244c84d021767bf643e75a3595ae31b5025800fca97"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP404_TERMINAL_EFFECTIVE_STATE_V1.json",
+      "sha256": "3fde4ab0b8ad3372ebe0e92d64bb5f20d145367d9c227ab8740e0d11a1e3baa9"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP404_TERMINAL_RECEIPT_V1.json",
+      "sha256": "3de6e7ad6d860faa718bc370d04ae2d8d0d5cf6e08bfbf3cf155fc048fcfa595"
+    },
+    {
+      "path": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+      "sha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5"
+    },
+    {
+      "path": "scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs",
+      "sha256": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f"
+    }
+  ],
+  "acceptanceSignals": [
+    "BOOK_SCOPE_APPLIES_ACROSS_COMPLETE_BOOK",
+    "CLAIM_BINDINGS_DENOMINATOR_COMPLETE",
+    "CONTRACT_NEGATIVE",
+    "DIFFERENTIAL_ORACLE",
+    "EXACT_ATLAS_BOOK_SNAPSHOT_BINDING",
+    "FRAGMENT_SCOPE_REQUIRES_EXACT_SCENE_REVISION_AND_RANGE_CONTAINMENT",
+    "GOVERNANCE_STRICT_PASS",
+    "IMPLEMENTATION_MUTANTS_ALL_KILLED",
+    "INDEPENDENT_EXACT_HEAD",
+    "LARGE_CORPUS_10000_ASSOCIATIONS",
+    "LEASE_63_RELEASED_WIP_0",
+    "NO_PERSISTENCE_RENDERER_OR_PLATFORM_EFFECT",
+    "POSTMERGE_EXACT_HEAD",
+    "PROGRAM_DONE_FALSE",
+    "PROTECTED_WIP_UNCHANGED",
+    "SCENE_SCOPE_NEVER_LEAKS_ACROSS_SCENES",
+    "STALE_BOOK_SCENE_AND_FRAGMENT_REJECTION",
+    "STRICT_INPUT_TAMPER_AND_DENOMINATOR_REJECTION",
+    "SURVIVOR_AUDIT",
+    "WP404_FOUNDATION_PREDECESSOR_BOUND"
+  ],
+  "authorityCeiling": [
+    "BOUNDED_CI_OPERATION",
+    "BOUNDED_REPOSITORY_WRITE",
+    "BRANCH_WORKTREE",
+    "COMMIT",
+    "GITHUB_PR",
+    "GITHUB_PROTECTED_MERGE",
+    "LOCAL_TEST_BUILD_EVIDENCE",
+    "NON_DESTRUCTIVE_LOCAL_TOOLCHAIN",
+    "PROTECTED_NORMAL_MERGE",
+    "PR_CREATE_OR_UPDATE",
+    "PUSH",
+    "READ_ONLY_GITHUB_API"
+  ],
+  "externalEffects": [
+    "GITHUB_CI",
+    "GITHUB_PR",
+    "GITHUB_PROTECTED_MERGE",
+    "GIT_PUSH"
+  ],
+  "predecessors": [
+    {
+      "id": "WP404_ACCEPTANCE_MATRIX",
+      "digest": "506c10286333d8a8679567daeef2c49fecb06cf006594efe896cd00a9a80cd22",
+      "status": "PASS_20_OF_20"
+    },
+    {
+      "id": "WP404_LEASE_RELEASE",
+      "digest": "596fd41507d2cd6bbf5cc244c84d021767bf643e75a3595ae31b5025800fca97",
+      "status": "RELEASED_WIP_0"
+    },
+    {
+      "id": "WP404_TERMINAL_EFFECTIVE_STATE",
+      "digest": "3fde4ab0b8ad3372ebe0e92d64bb5f20d145367d9c227ab8740e0d11a1e3baa9",
+      "status": "CERTIFIED_DONE_RELEASED_WIP_0"
+    },
+    {
+      "id": "WP404_TERMINAL_RECEIPT",
+      "digest": "3de6e7ad6d860faa718bc370d04ae2d8d0d5cf6e08bfbf3cf155fc048fcfa595",
+      "status": "CERTIFIED_DONE"
+    }
+  ],
+  "lease": {
+    "fencingCounter": 63,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "596fd41507d2cd6bbf5cc244c84d021767bf643e75a3595ae31b5025800fca97"
+  },
+  "headSha": "c7cb783a699cdd44a531040fde8b3278ec86a39b",
+  "treeSha": "236dcab03a21f63fa20966381fcba41119354d63",
+  "targetRemote": "origin",
+  "operations": {
+    "readPaths": [
+      ".github/workflows/r24-terminal-attestation.yml",
+      "AGENTS.md",
+      "CANON.md",
+      "docs/ARCHITECTURE_ONE_PAGE.md",
+      "docs/BIBLE.md",
+      "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V5.json",
+      "docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json",
+      "docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/STANDING_AUTHORITY_BINDING_V1.json",
+      "docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP404_ACCEPTANCE_MATRIX_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP404_LEASE_RELEASE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP404_PROTECTED_WIP_AFTER_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP404_TERMINAL_EFFECTIVE_STATE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP404_TERMINAL_RECEIPT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP404_TERMINAL_STAGE_REGISTRY_V1.json",
+      "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+      "docs/OPS/R24/EXECUTION_ENVELOPES_R2_4.json",
+      "docs/OPS/R24/PRODUCT_PROFILE_CUTS_R2_4.json",
+      "scripts/ops/r24/atlas-claim-compiler-v1.mjs",
+      "scripts/ops/r24/corrective/protected-wip-snapshot.mjs",
+      "scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs",
+      "src/core/atlas-book-snapshot-v1.mjs",
+      "src/core/atlas-foundation-claim-v1.mjs",
+      "src/core/atlas-projector-kernel-v1.mjs",
+      "test/unit/r24-wp401-book-snapshot.test.js",
+      "test/unit/r24-wp404-atlas-foundation-claim.test.js"
+    ],
+    "modifyPaths": [
+      ".github/workflows/oss-policy.yml",
+      "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "scripts/ops/r24/corrective/audit-r2-corrections.mjs",
+      "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "test/contracts/r24-audit-r2-corrections.contract.test.mjs",
+      "test/contracts/r24-post-audit-certification-set.contract.test.mjs"
+    ],
+    "createPaths": [
+      "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V6.json",
+      "docs/OPS/R24/CORRECTIVE/WP500_ACCEPTANCE_MATRIX_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP500_ACTIVE_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP500_CANDIDATE_CI_FAILURE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP500_CLOSURE_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP500_IMPLEMENTATION_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP500_LEASE_RELEASE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP500_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP500_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP500_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP500_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP500_PROTECTED_WIP_AFTER_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP500_PROTECTED_WIP_BEFORE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP500_RELEASE_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP500_TERMINAL_EFFECTIVE_STATE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP500_TERMINAL_RECEIPT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP500_TERMINAL_STAGE_REGISTRY_V1.json",
+      "docs/OPS/R24/CTR-R24-WP-500-ASSOCIATIONS.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-500-ASSOCIATIONS-CLAIM-BINDINGS.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-500-ASSOCIATIONS-CONTRACT.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-500-ASSOCIATIONS-EXACT-HEAD.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-500-ASSOCIATIONS-INTEGRATION.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-500-ASSOCIATIONS-MODEL.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-500-ASSOCIATIONS-MUTANTS.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-500-ASSOCIATIONS-POSTMERGE-EXACT-HEAD.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-500-ASSOCIATIONS-SURVIVOR-AUDIT.json",
+      "src/core/atlas-associations-v1.mjs",
+      "test/unit/r24-wp500-associations-integration.test.js",
+      "test/unit/r24-wp500-associations-mutants.test.js",
+      "test/unit/r24-wp500-associations.test.js"
+    ],
+    "deletePaths": [],
+    "renamePairs": []
+  },
+  "commands": [
+    "EFFECTIVE_MODE=STRICT GOVERNANCE_CHANGE_APPROVALS_PATH=docs/OPS/R24/CORRECTIVE/WP500_ACTIVE_GOVERNANCE_CHANGE_APPROVALS_V1.json node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main --approvals-path docs/OPS/R24/CORRECTIVE/WP500_ACTIVE_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+    "GOVERNANCE_CHANGE_APPROVALS_PATH=docs/OPS/R24/CORRECTIVE/WP500_ACTIVE_GOVERNANCE_CHANGE_APPROVALS_V1.json npm test",
+    "gh pr checks PR --watch",
+    "gh pr create --base main --head codex/r24-wp500-associations-v1-20260901",
+    "gh pr merge PR --merge",
+    "gh run view RUN --json status,conclusion,headSha,event,attempt,jobs",
+    "git add -- EXACT_WP500_WRITE_SET",
+    "git commit -m Close WP-500 with exact-head evidence",
+    "git commit -m Implement WP-500 association scopes",
+    "git commit -m Release WP-500 lease 63",
+    "git diff --cached --check",
+    "git diff --check",
+    "git diff --name-status origin/main",
+    "git fetch origin main",
+    "git push origin codex/r24-wp500-associations-v1-20260901",
+    "git rev-parse HEAD",
+    "git rev-parse HEAD^{tree}",
+    "git rev-parse origin/main",
+    "git status --short --branch",
+    "node --test test/contracts/r24-audit-r2-corrections.contract.test.mjs test/contracts/r24-post-audit-certification-set.contract.test.mjs",
+    "node --test test/unit/r24-wp500-associations.test.js test/unit/r24-wp500-associations-integration.test.js test/unit/r24-wp500-associations-mutants.test.js",
+    "node scripts/ops/governance-approval-state.mjs --json --approvals-path docs/OPS/R24/CORRECTIVE/WP500_ACTIVE_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+    "node scripts/ops/r24/corrective/audit-r2-corrections.mjs --check",
+    "node scripts/ops/r24/corrective/post-audit-corrections.mjs --check-static",
+    "node scripts/ops/r24/corrective/protected-wip-snapshot.mjs writer=WRITER",
+    "node scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs --repo-root BASE --authority WP500_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json --stage-instance WP500_MAIN_PRODUCT_STAGE_INSTANCE_V1.json --stage-admission WP500_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json --expected-verifier-digest b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f --expected-authority-digest AUTHORITY_DIGEST",
+    "node scripts/ops/r24/test-inventory.mjs --check docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+    "node scripts/ops/r24/test-inventory.mjs --write docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+    "npm audit --omit=dev --audit-level=high",
+    "npm ci --engine-strict",
+    "npm run agent:bootstrap -- --objective WP-500 bounded association scopes",
+    "npm run agent:guardrails",
+    "npm run agent:preflight -- --declaration YALKEN_R24_WP500_TASK_ARCHITECTURE_DECLARATION_V1.json",
+    "npm run build:renderer",
+    "npm run oss:policy",
+    "npm run test:electron",
+    "npm run test:r24-e0",
+    "npm run test:rtk",
+    "npm test",
+    "npx --yes --package=node@22.12.0 --package=npm@10.9.0 --call npm ci --engine-strict"
+  ],
+  "model": "gpt-5.6-sol",
+  "reasoningEffort": "xhigh",
+  "stopConditions": [
+    "AUTHORITY_UNAVAILABLE_OR_COMPROMISED",
+    "BASE_HEAD_TREE_OR_DELTA_AMBIGUOUS",
+    "CREDENTIAL_IDENTITY_OR_SECRET_REQUIRED",
+    "DESTRUCTIVE_IRREVERSIBLE_OR_FORCE_ACTION_REQUIRED",
+    "DIRTY_OR_PRESERVED_WIP_WOULD_BE_LOST",
+    "EXACT_WRITE_SET_OR_COMMAND_SCOPE_WOULD_EXPAND",
+    "EXTERNAL_EFFECT_OUTSIDE_ADMITTED_STAGE",
+    "LEASE_FENCE_OR_ONE_WRITER_VIOLATION",
+    "MATERIAL_SEMANTIC_DEVIATION_WITHOUT_OWNER_AMENDMENT",
+    "MODEL_OR_REASONING_RUNTIME_MISMATCH",
+    "ORIGIN_MAIN_DRIFT",
+    "PROGRAM_DONE_ATTEMPT",
+    "REQUIRED_EVIDENCE_MISSING_STALE_SKIPPED_OR_SELF_AUTHORED",
+    "SECOND_GRAPH_NODE_ATTEMPT"
+  ]
+}

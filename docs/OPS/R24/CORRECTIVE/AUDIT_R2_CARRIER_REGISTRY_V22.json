@@ -1,7 +1,7 @@
 {
   "schemaVersion": "AUDIT_R2_CARRIER_REGISTRY_V22",
-  "baseSha": "faef2f0813e4c8eb4b8703682e417aea72e627de",
-  "baseTreeSha": "b223e12273e9e9c790241125cef9f883239cbb0e",
+  "baseSha": "c0b32b36fe0e46b26e0278c8df4f07ffbb6450e0",
+  "baseTreeSha": "77f2b4b354e526820d9d47f8c4449cfbc60644fa",
   "sourcePlanRoles": {
     "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
     "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
@@ -13,17 +13,17 @@
     "status": "SUPERSEDED_BY_APPEND_ONLY_WP504_CANDIDATE_BOUND_SUCCESSOR"
   },
   "carriers": [
-    {"path": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json", "purpose": "COMPLETE_TEST_INVENTORY", "sha256": "15faa42770ca7ca42de54622d1db8384c49610465ace6f429d5f454e02d543bb", "sizeBytes": 394924, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json", "purpose": "COMPLETE_TEST_INVENTORY", "sha256": "8aa49b08aff217b5a87694d632d8adf56d2664e6ac65099dad0dc9bf9d9d826a", "sizeBytes": 394924, "status": "CANONICAL_BYTES_PRESENT"},
     {"path": "docs/OPS/R24/CORRECTIVE/WP503_EXTERNAL_TERMINAL_CLOSURE_V2.json", "purpose": "CORRECTED_WP503_EXTERNAL_IDENTITY", "sha256": "9a61133d7afdced43e6d72b5a366d2d9c3f7c1a4070fd23ee08596657351da5e", "sizeBytes": 2674, "status": "CANONICAL_BYTES_PRESENT"},
-    {"path": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V8.json", "purpose": "APPEND_ONLY_OWNER_AUTHORITY", "sha256": "8eb29f3ae2dabb7b51f73ba37fa1a6ce2063502aac1a1dc1414755e7cee15124", "sizeBytes": 8897, "status": "CANONICAL_BYTES_PRESENT"},
-    {"path": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V8.json", "purpose": "PINNED_STAGE_ADMISSION", "sha256": "c6b9424ff613428c2e605be256065389b1fa7ee37956760547f1db3dacef6d47", "sizeBytes": 1791, "status": "CANONICAL_BYTES_PRESENT"},
-    {"path": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_INSTANCE_V8.json", "purpose": "EXACT_STAGE_INSTANCE", "sha256": "76df9020c8f8a444f24130cb5107369723a98cbb3425dfb21599291f5af3b133", "sizeBytes": 9203, "status": "CANONICAL_BYTES_PRESENT"},
-    {"path": "docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_CANDIDATE_BOUND_SUCCESSOR_V1.json", "purpose": "CANDIDATE_BOUND_POST_EVALUATION_SUCCESSOR", "sha256": "4f162656d286de14e9499b29bf471e2302ae640a404c2a16eb49259e246e9c42", "sizeBytes": 2389, "status": "CANONICAL_BYTES_PRESENT"},
-    {"path": "docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_CLEAN_TREE_FAILURE_V1.json", "purpose": "FAIL_CLOSED_CLEAN_TREE_REPLAY_EVIDENCE", "sha256": "886d4f809340904db01bbfd19afc961625a016e55ccdca2f9e8e34d9db95e937", "sizeBytes": 2384, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V9.json", "purpose": "APPEND_ONLY_OWNER_AUTHORITY", "sha256": "ad438abb7b9471ad1fd1d0936b47c587fd962e105673d06c167ab78cf7541892", "sizeBytes": 8928, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V9.json", "purpose": "PINNED_STAGE_ADMISSION", "sha256": "5d972effa430f64fcba01311b2c5d8581a8156a43901933f97b72b113094731c", "sizeBytes": 1794, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_INSTANCE_V9.json", "purpose": "EXACT_STAGE_INSTANCE", "sha256": "9a6b546878a6ddf3cdcdc6bf1ecead0c1c2c626b975328f72620eea0654610d0", "sizeBytes": 9234, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_CANDIDATE_BOUND_SUCCESSOR_V1.json", "purpose": "CANDIDATE_BOUND_POST_EVALUATION_SUCCESSOR", "sha256": "90fe695dad63c5ec12c09b632917a89cc8c5d9c974d905cc5dbfdf0ee4538770", "sizeBytes": 2455, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_CLEAN_TREE_FAILURE_V1.json", "purpose": "FAIL_CLOSED_CLEAN_TREE_REPLAY_EVIDENCE", "sha256": "b25d655c6138f42db176426c9514e5d50827d4a8f22453e1274f40a086c63e6b", "sizeBytes": 2867, "status": "CANONICAL_BYTES_PRESENT"},
     {"path": "docs/OPS/R24/CORRECTIVE/WP504_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json", "purpose": "APPEND_ONLY_RELEASE01_CURRENT_WORDING_SURFACE_BINDING", "sha256": "2b3821f7a47c72fc40d141cacbd0c2b6e80f853b7d6bb287dbd62dfc78cba670", "sizeBytes": 1806, "status": "CANONICAL_BYTES_PRESENT"},
-    {"path": "scripts/ops/r24/corrective/post-audit-certification-set.mjs", "purpose": "COMPLETE_WP504_POST_EVALUATION_ADMISSION_ORACLE", "sha256": "f95df26dc611ae6c61f75f3631a4353bc66b8eb4026bc1a3a4a48d4427a15950", "sizeBytes": 225065, "status": "CANONICAL_BYTES_PRESENT"},
-    {"path": "scripts/ops/r24/wp504-terminal-verifier.mjs", "purpose": "WP504_CANDIDATE_BOUND_TERMINAL_VERIFIER", "sha256": "4a1a727b8216ca61e3e5dabe9cb2b25390498c582a6218e401605619d190d9a2", "sizeBytes": 18989, "status": "CANONICAL_BYTES_PRESENT"},
-    {"path": "test/contracts/rtk-release01-terminal-claims.contract.test.js", "purpose": "RELEASE01_APPEND_ONLY_WORDING_SURFACE_CONTRACT", "sha256": "5dc666041e8f55ee5f1e9ec8f7ce753f9b5b0d990c324070399d357de5900544", "sizeBytes": 94235, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "scripts/ops/r24/corrective/post-audit-certification-set.mjs", "purpose": "COMPLETE_WP504_POST_EVALUATION_ADMISSION_ORACLE", "sha256": "5b29f010111fe3b3f5afaa0d5e666bd63b9879fa748a7152219901ef07e5acff", "sizeBytes": 225810, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "scripts/ops/r24/wp504-terminal-verifier.mjs", "purpose": "WP504_CANDIDATE_BOUND_TERMINAL_VERIFIER", "sha256": "7d769e6791d5ec32f278fbffb4fd0bb8c7c5288feb99fab297cbbb90af58bdb3", "sizeBytes": 18989, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "test/unit/r24-wp307-writer-local-profile-integration.test.js", "purpose": "WP307_APPEND_ONLY_WORDING_SUCCESSOR_CONSUMER_CONTRACT", "sha256": "f8d0e98eb25f866e212500b8b18ca447bb7c8aa26d62c89a0d823bea9fa4f691", "sizeBytes": 5241, "status": "CANONICAL_BYTES_PRESENT"},
     {"path": "test/contracts/r24-wp504-terminal-carriers.contract.test.mjs", "purpose": "WP504_CANDIDATE_BOUND_TERMINAL_CONTRACT", "sha256": "64ec042c833c68aa23d9846f9b9240243d79db40d5af1ebfe0932866b08d77c8", "sizeBytes": 4982, "status": "CANONICAL_BYTES_PRESENT"}
   ],
   "carrierDenominator": 12,

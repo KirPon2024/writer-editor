@@ -10,10 +10,10 @@
   },
   "bindings": {
     "predecessorLeaseReleaseDigest": "bb3bd4dee9e1b8228389adbef9e0777b7b5940d3aea93737e48ef4eb25a1905a",
-    "acceptanceMatrixDigest": "1c1e64fd2b4d5bc927b991b3c4a49d3c9260c3e9fc2e0853a26c83e19d2ecb7e",
-    "effectiveStateDigest": "2aee8a7bbeb6bd4d68c15b9fbf41aafc2edc90e3867abdb33f361361659c4c5e",
-    "stageRegistryDigest": "3d1941dcd308d74d3fcc4052c061c60f5dc9c3b2f42a3eec8fcd1042bfb573a6",
-    "stageAdmissionDigest": "c6b9424ff613428c2e605be256065389b1fa7ee37956760547f1db3dacef6d47"
+    "acceptanceMatrixDigest": "7c67efd8c0c81e6ed0dc60033c8fbf3429c1a5eca66ade5ab9a0bb6f87144b15",
+    "effectiveStateDigest": "20091f9d49da5941bafb892e29b0e23199393eabf81321386a82f21f23214149",
+    "stageRegistryDigest": "fb0c3e2b032902059425a6d0c7bf811e8e318b7d4cd34d69636ee6aebcccc741",
+    "stageAdmissionDigest": "5d972effa430f64fcba01311b2c5d8581a8156a43901933f97b72b113094731c"
   },
   "currentLease": {
     "fencingCounter": 68,

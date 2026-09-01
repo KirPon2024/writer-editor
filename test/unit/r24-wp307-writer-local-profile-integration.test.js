@@ -64,19 +64,27 @@ test('WP307 flags projection removes optional controls from keyboard and accessi
   }
 });
 
-test('WP307 preserves its historical wording hash and accepts only the admitted WP503 append-only successor', () => {
+test('WP307 preserves its historical wording hash and follows the admitted WP503 and WP504 append-only successors', () => {
   const editor = read('src/renderer/editor.js');
   const registry = JSON.parse(read('docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json'));
-  const successor = JSON.parse(read('docs/OPS/R24/CORRECTIVE/WP307_EDITOR_WORDING_SUCCESSOR_V1.json'));
+  const wp307SuccessorBytes = read('docs/OPS/R24/CORRECTIVE/WP307_EDITOR_WORDING_SUCCESSOR_V1.json');
+  const wp503SuccessorBytes = read('docs/OPS/R24/CORRECTIVE/WP503_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json');
+  const wp504Successor = JSON.parse(read('docs/OPS/R24/CORRECTIVE/WP504_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json'));
+  const wp307Successor = JSON.parse(wp307SuccessorBytes);
+  const wp503Successor = JSON.parse(wp503SuccessorBytes);
   const surface = registry.wordingSurfaces.find((entry) => entry.path === 'src/renderer/editor.js');
   assert.ok(surface);
   const digest = `sha256:${crypto.createHash('sha256').update(editor).digest('hex')}`;
   assert.equal(surface.sha256, 'sha256:5d443aca3c441c831ee9a47a3e7445a836730d0c602cf95136afc76ce47af320');
-  assert.equal(successor.historicalRegistry.sha256, crypto.createHash('sha256').update(read('docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json')).digest('hex'));
-  assert.equal(successor.historicalRegistry.editorSourceSha256, surface.sha256);
-  assert.equal(successor.successor.editorSourceSha256, digest);
-  assert.equal(successor.successor.scope, 'WP503_READ_ONLY_ATLAS_SURFACE_RENDERER_WIRING');
-  assert.equal(successor.programDone, false);
+  assert.equal(wp307Successor.historicalRegistry.sha256, crypto.createHash('sha256').update(read('docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json')).digest('hex'));
+  assert.equal(wp307Successor.historicalRegistry.editorSourceSha256, surface.sha256);
+  assert.equal(wp307Successor.successor.scope, 'WP503_READ_ONLY_ATLAS_SURFACE_RENDERER_WIRING');
+  assert.equal(wp503Successor.predecessorSuccessor.sha256, crypto.createHash('sha256').update(wp307SuccessorBytes).digest('hex'));
+  assert.equal(wp504Successor.predecessorSuccessor.sha256, crypto.createHash('sha256').update(wp503SuccessorBytes).digest('hex'));
+  assert.equal(wp504Successor.surfaceOverrides.find((entry) => entry.path === 'src/renderer/editor.js').sha256, digest);
+  assert.equal(wp307Successor.programDone, false);
+  assert.equal(wp503Successor.programDone, false);
+  assert.equal(wp504Successor.programDone, false);
 });
 
 test('WP307 profile contract carries no persistence, network or external authority', () => {

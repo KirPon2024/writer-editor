@@ -425,6 +425,12 @@ export const WP504_MAIN_PRODUCT_ADMISSION_EXPECTATIONS=Object.freeze([
     instancePath:'docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_INSTANCE_V8.json',instanceDigest:'76df9020c8f8a444f24130cb5107369723a98cbb3425dfb21599291f5af3b133',
     admissionPath:'docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V8.json',admissionDigest:'c6b9424ff613428c2e605be256065389b1fa7ee37956760547f1db3dacef6d47',
     writeSetDigest:'37260bfc96c255fe65ea9d452753633f620a1726386aad33108be63509627b30',baseSha:'faef2f0813e4c8eb4b8703682e417aea72e627de',baseTree:'b223e12273e9e9c790241125cef9f883239cbb0e'
+  }),
+  Object.freeze({
+    authorityPath:'docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V9.json',authorityDigest:'ad438abb7b9471ad1fd1d0936b47c587fd962e105673d06c167ab78cf7541892',
+    instancePath:'docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_INSTANCE_V9.json',instanceDigest:'9a6b546878a6ddf3cdcdc6bf1ecead0c1c2c626b975328f72620eea0654610d0',
+    admissionPath:'docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V9.json',admissionDigest:'5d972effa430f64fcba01311b2c5d8581a8156a43901933f97b72b113094731c',
+    writeSetDigest:'2d2d8b32f25c91be2a298f6a4f5095d5d0ecf15bdb5b4f573a64fa0aa42a9f47',baseSha:'c0b32b36fe0e46b26e0278c8df4f07ffbb6450e0',baseTree:'77f2b4b354e526820d9d47f8c4449cfbc60644fa'
   })
 ]);
 const h=(bytes)=>crypto.createHash('sha256').update(bytes).digest('hex');

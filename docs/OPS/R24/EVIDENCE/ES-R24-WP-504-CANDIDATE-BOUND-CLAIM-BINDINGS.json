@@ -4,32 +4,34 @@
   "contourId": "WP-504_DOSSIER_LAYOUT_LINKS",
   "evidenceClass": "CONTRACT",
   "verdict": "PASS",
-  "headSha": "faef2f0813e4c8eb4b8703682e417aea72e627de",
+  "headSha": "c0b32b36fe0e46b26e0278c8df4f07ffbb6450e0",
   "originMainSha": "38a495f5beca286f134e20a991cb69dc19e6379f",
   "generatedAtUtc": "2026-09-01T21:42:00Z",
-  "oracle": "WP504 append-only candidate-bound successor verifies the complete V5 V6 V7 V8 post-evaluation admission chain, corrects WP503 external identity from immutable bytes, and binds the current RELEASE01 wording surfaces without rewriting the WP503 successor",
+  "oracle": "WP504 append-only candidate-bound successor verifies the complete V5 V6 V7 V8 V9 post-evaluation admission chain, corrects WP503 external identity from immutable bytes, binds the current RELEASE01 wording surfaces, and advances the WP307 consumer through the complete successor chain without rewriting historical carriers",
   "claimBindings": [
     {"filePath": "docs/OPS/R24/CORRECTIVE/WP503_EXTERNAL_TERMINAL_CLOSURE_V2.json", "sha256": "9a61133d7afdced43e6d72b5a366d2d9c3f7c1a4070fd23ee08596657351da5e", "claimTerms": ["PASS"]},
-    {"filePath": "docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_CLEAN_TREE_FAILURE_V1.json", "sha256": "886d4f809340904db01bbfd19afc961625a016e55ccdca2f9e8e34d9db95e937", "claimTerms": ["CLOSED"]},
-    {"filePath": "docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_CANDIDATE_BOUND_SUCCESSOR_V1.json", "sha256": "4f162656d286de14e9499b29bf471e2302ae640a404c2a16eb49259e246e9c42", "claimTerms": ["PASS"]},
-    {"filePath": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V22.json", "sha256": "f99d620fe230ec3fb20fdc03f3d9ec4749bd0eba3f9bfba379fe5e4de80d8d60", "claimTerms": ["PASS"]},
-    {"filePath": "docs/OPS/R24/CORRECTIVE/WP504_ACCEPTANCE_MATRIX_V3.json", "sha256": "1c1e64fd2b4d5bc927b991b3c4a49d3c9260c3e9fc2e0853a26c83e19d2ecb7e", "claimTerms": ["PASS"]},
-    {"filePath": "docs/OPS/R24/CORRECTIVE/WP504_EFFECTIVE_STATE_V3.json", "sha256": "2aee8a7bbeb6bd4d68c15b9fbf41aafc2edc90e3867abdb33f361361659c4c5e", "claimTerms": ["DONE"]},
-    {"filePath": "docs/OPS/R24/CORRECTIVE/WP504_STAGE_REGISTRY_V3.json", "sha256": "3d1941dcd308d74d3fcc4052c061c60f5dc9c3b2f42a3eec8fcd1042bfb573a6", "claimTerms": ["DONE"]},
-    {"filePath": "docs/OPS/R24/CORRECTIVE/WP504_LEASE_RELEASE_V3.json", "sha256": "2c48e779b3b86b55c79048abc05a66da881cf80b7c7161e353ddd859da3a2eb8", "claimTerms": ["CLOSED"]},
-    {"filePath": "docs/OPS/R24/CORRECTIVE/WP504_TERMINAL_RECEIPT_V3.json", "sha256": "337ec3fe7008453c8888758dfdb7229955945dc4f8628643a8a2c4c23b5dcefa", "claimTerms": ["DONE"]},
-    {"filePath": "docs/OPS/R24/CORRECTIVE/WP504_TERMINAL_SUPPLEMENT_V3.json", "sha256": "6efbd87b6ff6ed9841f3f9786612c98bb7b87eeb9999ce263b1b6f679957a3d5", "claimTerms": ["PASS"]}
+    {"filePath": "docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_CLEAN_TREE_FAILURE_V1.json", "sha256": "b25d655c6138f42db176426c9514e5d50827d4a8f22453e1274f40a086c63e6b", "claimTerms": ["CLOSED"]},
+    {"filePath": "docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_CANDIDATE_BOUND_SUCCESSOR_V1.json", "sha256": "90fe695dad63c5ec12c09b632917a89cc8c5d9c974d905cc5dbfdf0ee4538770", "claimTerms": ["PASS"]},
+    {"filePath": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V22.json", "sha256": "c33b2a2b16847c6364d818216a47f201e6e51fb8775f0d3d1872924e298dca71", "claimTerms": ["PASS"]},
+    {"filePath": "docs/OPS/R24/CORRECTIVE/WP504_ACCEPTANCE_MATRIX_V3.json", "sha256": "7c67efd8c0c81e6ed0dc60033c8fbf3429c1a5eca66ade5ab9a0bb6f87144b15", "claimTerms": ["PASS"]},
+    {"filePath": "docs/OPS/R24/CORRECTIVE/WP504_EFFECTIVE_STATE_V3.json", "sha256": "20091f9d49da5941bafb892e29b0e23199393eabf81321386a82f21f23214149", "claimTerms": ["DONE"]},
+    {"filePath": "docs/OPS/R24/CORRECTIVE/WP504_STAGE_REGISTRY_V3.json", "sha256": "fb0c3e2b032902059425a6d0c7bf811e8e318b7d4cd34d69636ee6aebcccc741", "claimTerms": ["DONE"]},
+    {"filePath": "docs/OPS/R24/CORRECTIVE/WP504_LEASE_RELEASE_V3.json", "sha256": "13a8d4d3ce55ceed20bb8770bbd262893d15ac1398be4cfefe27223db0d9d52b", "claimTerms": ["CLOSED"]},
+    {"filePath": "docs/OPS/R24/CORRECTIVE/WP504_TERMINAL_RECEIPT_V3.json", "sha256": "5a21a0c9bc9b71b21b4916eeecfa4849ad6131cf67ae3c1981fae14782f6cd84", "claimTerms": ["DONE"]},
+    {"filePath": "docs/OPS/R24/CORRECTIVE/WP504_TERMINAL_SUPPLEMENT_V3.json", "sha256": "a3c932946087c6cd7f5965a97fe6d0db85f67d4ae3531ff20d51e85a2244c5c0", "claimTerms": ["PASS"]}
   ],
   "implementationArtifactDigests": [
     {"path": "docs/OPS/R24/CORRECTIVE/WP504_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json", "sha256": "2b3821f7a47c72fc40d141cacbd0c2b6e80f853b7d6bb287dbd62dfc78cba670", "terms": ["CURRENT_WORDING_SURFACE_BINDING"]},
-    {"path": "scripts/ops/r24/corrective/post-audit-certification-set.mjs", "sha256": "f95df26dc611ae6c61f75f3631a4353bc66b8eb4026bc1a3a4a48d4427a15950", "terms": ["COMPLETE_WP504_ADMISSION_CHAIN"]},
-    {"path": "scripts/ops/r24/wp504-terminal-verifier.mjs", "sha256": "4a1a727b8216ca61e3e5dabe9cb2b25390498c582a6218e401605619d190d9a2", "terms": ["CANDIDATE_BOUND_TERMINAL_CHAIN"]},
+    {"path": "scripts/ops/r24/corrective/post-audit-certification-set.mjs", "sha256": "5b29f010111fe3b3f5afaa0d5e666bd63b9879fa748a7152219901ef07e5acff", "terms": ["COMPLETE_WP504_ADMISSION_CHAIN"]},
+    {"path": "scripts/ops/r24/wp504-terminal-verifier.mjs", "sha256": "7d769e6791d5ec32f278fbffb4fd0bb8c7c5288feb99fab297cbbb90af58bdb3", "terms": ["CANDIDATE_BOUND_TERMINAL_CHAIN"]},
     {"path": "test/contracts/r24-wp504-terminal-carriers.contract.test.mjs", "sha256": "64ec042c833c68aa23d9846f9b9240243d79db40d5af1ebfe0932866b08d77c8", "terms": ["HOSTILE_TERMINAL_CONTRACT"]},
-    {"path": "test/contracts/rtk-release01-terminal-claims.contract.test.js", "sha256": "5dc666041e8f55ee5f1e9ec8f7ce753f9b5b0d990c324070399d357de5900544", "terms": ["RELEASE01_APPEND_ONLY_WORDING_SURFACE_CONTRACT"]}
+    {"path": "test/contracts/rtk-release01-terminal-claims.contract.test.js", "sha256": "5dc666041e8f55ee5f1e9ec8f7ce753f9b5b0d990c324070399d357de5900544", "terms": ["RELEASE01_APPEND_ONLY_WORDING_SURFACE_CONTRACT"]},
+    {"path": "test/unit/r24-wp307-writer-local-profile-integration.test.js", "sha256": "f8d0e98eb25f866e212500b8b18ca447bb7c8aa26d62c89a0d823bea9fa4f691", "terms": ["WP307_CURRENT_WORDING_SUCCESSOR_CONSUMER"]}
   ],
   "executedEvidence": [
     {"command": "npm run test:r24-post-audit under exact Node 22.12.0 and npm 10.9.0", "verdict": "PASS", "tests": {"pass": 63, "fail": 0}},
     {"command": "RELEASE01-14 focused replay under exact Node 22.12.0", "verdict": "PASS", "tests": {"pass": 1, "fail": 0}},
+    {"command": "WP307 wording successor focused replay under exact Node 22.12.0", "verdict": "PASS", "tests": {"pass": 1, "fail": 0}},
     {"command": "npm run r24:test-inventory", "verdict": "PASS", "tests": {"pass": 1297, "fail": 0}, "requiredDisposition": "Zero required and unexplained skips"}
   ],
   "nonClaims": [

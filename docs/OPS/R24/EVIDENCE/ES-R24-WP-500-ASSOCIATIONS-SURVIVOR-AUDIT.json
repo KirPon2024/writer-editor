@@ -1,0 +1,108 @@
+{
+  "stampId": "ES-R24-WP-500-ASSOCIATIONS-SURVIVOR-AUDIT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-500_ASSOCIATIONS",
+  "attemptId": "ATTEMPT-WP500-20260901",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP500_AUTHORITY_EPOCH_V1",
+  "profileId": "ATLAS_PRODUCT_V33",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "8fbe5caaeb5ceab50b998c2feb0548075b21e391",
+    "treeSha": "9ef313b3d8d4c7992b1799a9ad79d58fafec0387"
+  },
+  "claim": {
+    "type": "WP500_EXACT_MAIN_SURVIVOR_AUDIT",
+    "ceiling": "WP500_NODE_AND_ASSOCIATION_SCOPE_SEMANTICS_ONLY_EXACT_WP404_FOUNDATION_AND_WP308_DEPENDENCY_BOUND_NO_PERSISTENCE_NO_RENDERER_NO_PLATFORM_EFFECT_NO_GRAPH_ADVANCE_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "Git-object artifact digests and fresh exact-merge focused replay",
+    "evidenceClass": "SURVIVOR_AUDIT",
+    "denominator": 10,
+    "passed": 10,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-500-ASSOCIATIONS-POSTMERGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "3de6e7ad6d860faa718bc370d04ae2d8d0d5cf6e08bfbf3cf155fc048fcfa595"
+  },
+  "createdAt": "2026-09-01T06:00:13Z",
+  "actor": "codex/r24-wp500-associations-v1-20260901",
+  "artifact": {
+    "artifactDigests": [
+      {
+        "path": "src/core/atlas-associations-v1.mjs",
+        "sha256": "0b716cf7d07eb6e94a7aaccd3e4a5c0536ef24b61af9415b5f08d4b959f86c47"
+      },
+      {
+        "path": "test/unit/r24-wp500-associations.test.js",
+        "sha256": "c7b5619007fcb430da2e525d03c819682018d45c4478f55390ceaa2a8509eb6a"
+      },
+      {
+        "path": "test/unit/r24-wp500-associations-integration.test.js",
+        "sha256": "ff4f77605189ef0619fe240e6e86b99a08e7fab6944a2009cde42978940f6681"
+      },
+      {
+        "path": "test/unit/r24-wp500-associations-mutants.test.js",
+        "sha256": "19ebb8b0160fde4fae378d4cf90c7831c08581cd81f69aa64eff547966da66b0"
+      }
+    ],
+    "admission": {
+      "authorityDigest": "6b5d213bcef05f4810d7664adbc1d43490e97acb82de749ea63417f10f4554da",
+      "stageInstanceDigest": "071abad5b50032d25eebd6e8ce1b1d76f44da5464673b87b83e4ac9a19ff677d",
+      "stageAdmissionDigest": "6b0a4354ca7e89095993fdcf925eb3c3ce878e64ad13a271b7877d8b0b150e81",
+      "writeSetDigest": "ed35c734509d64bf8038bdde71dbc7b10c05c3a171cc4a7ff936058ec88dc394",
+      "commandScopeDigest": "5e53c3f55509b60da3486476c4b3e18c90c4fbdf7b99b959f5f53829300ab54a",
+      "acceptanceSignalsDigest": "e7b0dd36441d3aa77b33ac8be917d84792e9dcfc1e4a321d14c85c751b6adaf3",
+      "verifierDigest": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f"
+    },
+    "sourcePlanRoles": {
+      "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+      "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+      "rolesDistinct": true
+    },
+    "implementationDelta": {
+      "baseSha": "c7cb783a699cdd44a531040fde8b3278ec86a39b",
+      "candidateSha": "124fb01ed3bbee8a1a3055c15cbaf2c364ebb273",
+      "nameStatusSha256": "eef7c772a9b553094f25c1661a348a0398181f14e1a0bdb0382d6ee86cd8634c",
+      "insertions": 1676,
+      "deletions": 27,
+      "changedPathDenominator": 18
+    },
+    "focusedReplay": {
+      "passed": 7,
+      "failed": 0,
+      "skipped": 0,
+      "mutantsKilled": 8,
+      "mutantsSurvived": 0,
+      "largeCorpusAssociationDenominator": 10000,
+      "elapsedBoundMs": 5000
+    },
+    "survivors": {
+      "artifactDigestMismatches": 0,
+      "staleBookSceneOrFragmentIdentitiesAccepted": 0,
+      "crossSceneLeaksAccepted": 0,
+      "fragmentRangeEscapesAccepted": 0,
+      "duplicateOrSemanticDuplicateEdgesAccepted": 0,
+      "projectionOrQueryTamperingAccepted": 0,
+      "productMutations": 0,
+      "runtimePersistences": 0,
+      "rendererWirings": 0,
+      "platformEffects": 0,
+      "graphAdvances": 0,
+      "programDoneClaims": 0
+    },
+    "correctionCycleIdentity": {
+      "pr1776CandidateSha": "77354cfe994588dc1771f3eded29d1e7e68d703f",
+      "pr1776MergeSha": "af0bfb704c13b0195c12b0144415f2e769f99752",
+      "pr1777CandidateSha": "bf3d21072879d276ca3489b0bbead780fb39f596",
+      "pr1777MergeSha": "0a8837ae8b0724fa9c258d98281cae693ce0693e"
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

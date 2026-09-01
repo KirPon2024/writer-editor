@@ -1,0 +1,69 @@
+{
+  "stampId": "ES-R24-WP-500-ASSOCIATIONS-MODEL",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-500_ASSOCIATIONS",
+  "attemptId": "ATTEMPT-WP500-20260901",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP500_AUTHORITY_EPOCH_V1",
+  "profileId": "ATLAS_PRODUCT_V33",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "8fbe5caaeb5ceab50b998c2feb0548075b21e391",
+    "treeSha": "9ef313b3d8d4c7992b1799a9ad79d58fafec0387"
+  },
+  "claim": {
+    "type": "WP500_BOUNDED_ATLAS_ASSOCIATIONS_MODEL",
+    "ceiling": "WP500_NODE_AND_ASSOCIATION_SCOPE_SEMANTICS_ONLY_EXACT_WP404_FOUNDATION_AND_WP308_DEPENDENCY_BOUND_NO_PERSISTENCE_NO_RENDERER_NO_PLATFORM_EFFECT_NO_GRAPH_ADVANCE_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "WP500 immutable revision-bound association projection model",
+    "evidenceClass": "MODEL",
+    "denominator": 8,
+    "passed": 8,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-SURVIVOR-AUDIT"
+    ],
+    "predecessorReceiptDigest": "3de6e7ad6d860faa718bc370d04ae2d8d0d5cf6e08bfbf3cf155fc048fcfa595"
+  },
+  "createdAt": "2026-09-01T06:00:13Z",
+  "actor": "codex/r24-wp500-associations-v1-20260901",
+  "artifact": {
+    "modelAssertions": [
+      "Association projections bind one exact Atlas book snapshot identity and reject stale book or scene revisions.",
+      "Book scope applies across the complete book while scene scope never leaks across scenes.",
+      "Fragment scope requires exact scene revision, anchor lineage identity and range containment.",
+      "Directed and undirected edges are normalized deterministically and semantic duplicates are rejected.",
+      "Projection indexes and query results are independently recomputed and digest-verified.",
+      "The complete admitted association denominator is bounded at 10000 and evidence at 100000 entries.",
+      "The feature manifest exposes derived query authority only with no mutation, persistence, renderer or platform effect.",
+      "The node is bounded to WP500 and makes no graph advance or PROGRAM_DONE claim."
+    ],
+    "predecessors": [
+      {
+        "nodeId": "WP-308_BRAND_BASELINE",
+        "state": "DONE",
+        "bindingSource": "WP500_MAIN_PRODUCT_SELECTION_RECEIPT_V1"
+      },
+      {
+        "nodeId": "WP-404_ATLAS_FOUNDATION_CLAIM",
+        "terminalReceiptDigest": "3de6e7ad6d860faa718bc370d04ae2d8d0d5cf6e08bfbf3cf155fc048fcfa595",
+        "claimBindingDigest": "c2fc41a0109a883cb89ff7d6dacf9f651e142f865d1cefd128aea89a477bef82"
+      }
+    ],
+    "sourcePlanRoles": {
+      "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+      "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+      "rolesDistinct": true
+    },
+    "productSemanticsChangedByClosure": false,
+    "graphAdvance": false,
+    "programDone": false
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

@@ -1,0 +1,217 @@
+{
+  "schemaVersion": "YALKEN_R24_WP403_TERMINAL_RECEIPT_V1",
+  "receiptId": "WP403_TERMINAL_RECEIPT_V1",
+  "stageId": "WP-403_DECISION_SUBSTRATE",
+  "status": "CERTIFIED_DONE",
+  "observedAtUtc": "2026-09-01T01:36:02Z",
+  "originSha": "71009cdb7e6af9d156dc49a821222b11bd99817f",
+  "originTreeSha": "69ac0f39e491b4994eadf2b8c7174a69faf92eda",
+  "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+  "bindings": {
+    "ownerAuthorityBindingDigest": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+    "authorityDigest": "25c0c652a4992bcf2d2263b17f3215c14ca7c6f1a0a4a4aabd413ac581a2fbd7",
+    "stageInstanceDigest": "714495e775228af4aaebdcfa3098b17906294eae29a333c51b332a44fed4cebe",
+    "stageAdmissionDigest": "0aa76c71369c2b6886762c186f4ea8dbc5be4f5514aa58580f4161eb6f65c769",
+    "writeSetDigest": "13bdbef9e3bcffaeec33f992f5b823b0bf1486d56672b50e4febfb6093cd6805",
+    "commandListDigest": "e697c4902d36781d675f34b7524d76d3aeefc68b80699bebab5ae6b3923361ce",
+    "acceptanceSignalsDigest": "be441ceafb09df3079a32f8a4812a689f1c01eeb178496c50353032cf99f4257",
+    "contourTerminalReceiptDigest": "e6f22b56fc85526b0993b4814ea596e0f5fd512690a5b15b60ad8fd7a1985e4b",
+    "claimBindingDigest": "bd2e8b577a49b12f9594bc40797143f93dd540d1884afaf16e50fce1bd82b0fa",
+    "closureGovernanceApprovalDigest": "6594c13d51ceeaa15a9efc316a6b6db6c7fb20a0c20abd113092e43e0645599c",
+    "acceptanceMatrixDigest": "4a992b06ca2f382a4d1dfa78116ca5f00eec9cd39eb9d5994370b0fda293d023",
+    "leaseReleaseDigest": "b09d066b08aa9f6ad2375f09e4da266396f209160a96b0067e819ff58dd35d5f",
+    "terminalEffectiveStateDigest": "8f5498e68447a573b419fce7295721458f8a1c8649ce5e0ad2f0d75e4e13098d",
+    "terminalStageRegistryDigest": "9b3b496ce2ca560ca9dfc40e5f678c6b29eaf6f94ae50591f15713e14543a740",
+    "protectedWipBeforeCarrierDigest": "05e864f1fa58a381d8ab4dfa935e7110981fe4688ccfbedfcbe294fb11f103d2",
+    "protectedWipAfterCarrierDigest": "912dcba839a864c9b7f0ad842e437883ef5c6272876522ed66ffdf225887ce74"
+  },
+  "predecessor": {
+    "wp402TerminalReceiptDigest": "369d4657bf5cc3852d969188686018304d5c165a63a55427ed0a4474bbf6387f",
+    "wp402EffectiveStateDigest": "84339e1787b1ec68d9cfd89b3fb8a111d3fb88ace172ac04a07af6c98740570e",
+    "wp402LeaseReleaseDigest": "44a92464818faf50edf08c614b25ee000db918745025bc39d021b9e20f474f9e"
+  },
+  "delivery": {
+    "implementation": {
+      "pullRequest": 1792,
+      "candidateSha": "1435530b574331aee32cfe1df33b3c02050f2a38",
+      "candidateTreeSha": "9acdaa527f4bccbba7458bd14cdfae992cacc606",
+      "mergeSha": "44e49ca4327af75d368ea46957880a7eb85d54ae",
+      "mergeTreeSha": "9acdaa527f4bccbba7458bd14cdfae992cacc606",
+      "candidateCiRunId": 33455684073,
+      "exactPostmergeCiRunId": 33456460270,
+      "status": "VERIFIED",
+      "treeSha": "9acdaa527f4bccbba7458bd14cdfae992cacc606",
+      "candidateCiRequiredContextsPassed": 17,
+      "exactPostmergeRequiredContextsPassed": 17
+    },
+    "closureCarrier": {
+      "pullRequest": 1793,
+      "candidateSha": "eeeb393e71be5068341065a247308593f7b378b5",
+      "candidateTreeSha": "69ac0f39e491b4994eadf2b8c7174a69faf92eda",
+      "mergeSha": "71009cdb7e6af9d156dc49a821222b11bd99817f",
+      "mergeTreeSha": "69ac0f39e491b4994eadf2b8c7174a69faf92eda",
+      "candidateCiRunId": 33457878352,
+      "exactPostmergeCiRunId": 33458643849,
+      "status": "VERIFIED",
+      "treeSha": "69ac0f39e491b4994eadf2b8c7174a69faf92eda",
+      "candidateCiRequiredContextsPassed": 17,
+      "exactPostmergeRequiredContextsPassed": 17
+    },
+    "supersededImplementationCandidate": {
+      "runId": 33453952193,
+      "candidateSha": "16f2474b9825ea94d8762b81153b67d8fcd395a5",
+      "failureCarrierDigest": "3d933f3dc61c2abed270f8775ca6d2d1105a64f4e844d3b5aa6d5fb09f8a36f7",
+      "rootFailure": "E_WP402_EXCEPTION_UNADMITTED_PATH",
+      "successorCandidateSha": "1435530b574331aee32cfe1df33b3c02050f2a38",
+      "successorCandidateRunId": 33455684073,
+      "status": "FAIL_CLOSED_CORRECTED_AND_SUPERSEDED"
+    },
+    "releaseCarrier": {
+      "status": "PENDING_NON_RECURSIVE_PROTECTED_DELIVERY",
+      "finalDeliveryBindsThisReceiptExternally": true
+    }
+  },
+  "acceptance": {
+    "matrixDigest": "4a992b06ca2f382a4d1dfa78116ca5f00eec9cd39eb9d5994370b0fda293d023",
+    "rowCount": 20,
+    "passedRowCount": 20,
+    "failedRowCount": 0,
+    "pendingRowCount": 0,
+    "rows": [
+      {
+        "id": "APPEND_ONLY_DECISION_MEMORY_HASH_CHAIN",
+        "status": "PASS"
+      },
+      {
+        "id": "BOUNDED_DETERMINISTIC_CANDIDATE_QUEUE",
+        "status": "PASS"
+      },
+      {
+        "id": "COMPLETE_DENOMINATOR_NO_SKIPS",
+        "status": "PASS"
+      },
+      {
+        "id": "DIFFERENTIAL_ORACLE",
+        "status": "PASS"
+      },
+      {
+        "id": "EVIDENCE_DELTA_EXACT",
+        "status": "PASS"
+      },
+      {
+        "id": "EXACT_BOOK_SNAPSHOT_AND_PROJECTOR_PUBLICATION_BINDING",
+        "status": "PASS"
+      },
+      {
+        "id": "GOVERNANCE_STRICT_PASS",
+        "status": "PASS"
+      },
+      {
+        "id": "IMPLEMENTATION_MUTANTS_ALL_KILLED",
+        "status": "PASS"
+      },
+      {
+        "id": "INDEPENDENT_EXACT_HEAD",
+        "status": "PASS"
+      },
+      {
+        "id": "LARGE_CORPUS_BOUND",
+        "status": "PASS"
+      },
+      {
+        "id": "LEASE_61_RELEASED_WIP_0",
+        "status": "PASS"
+      },
+      {
+        "id": "NO_RUNTIME_PERSISTENCE_OR_RENDERER_WIRING",
+        "status": "PASS"
+      },
+      {
+        "id": "POSTMERGE_EXACT_HEAD",
+        "status": "PASS"
+      },
+      {
+        "id": "POST_AUDIT_WP403_EXCEPTION_FAIL_CLOSED",
+        "status": "PASS"
+      },
+      {
+        "id": "PROGRAM_DONE_FALSE",
+        "status": "PASS"
+      },
+      {
+        "id": "PROTECTED_WIP_UNCHANGED",
+        "status": "PASS"
+      },
+      {
+        "id": "REVIEW_CENTER_READ_ONLY_PROJECTION",
+        "status": "PASS"
+      },
+      {
+        "id": "STALE_GENERATION_SNAPSHOT_AND_PUBLICATION_REJECTION",
+        "status": "PASS"
+      },
+      {
+        "id": "STRICT_INPUT_AND_TAMPER_REJECTION",
+        "status": "PASS"
+      },
+      {
+        "id": "SURVIVOR_AUDIT",
+        "status": "PASS"
+      }
+    ],
+    "verdict": "PASS"
+  },
+  "effectiveState": {
+    "digest": "8f5498e68447a573b419fce7295721458f8a1c8649ce5e0ad2f0d75e4e13098d",
+    "wp403State": "DONE",
+    "doneCount": 54,
+    "pendingCount": 42
+  },
+  "stageRegistry": {
+    "digest": "9b3b496ce2ca560ca9dfc40e5f678c6b29eaf6f94ae50591f15713e14543a740",
+    "stageCount": 1,
+    "certifiedDoneCount": 1,
+    "failedCount": 0,
+    "pendingCount": 0
+  },
+  "leaseDisposition": {
+    "fencingCounter": 61,
+    "status": "RELEASED",
+    "wip": 0,
+    "releaseDigest": "b09d066b08aa9f6ad2375f09e4da266396f209160a96b0067e819ff58dd35d5f"
+  },
+  "worktreeProof": {
+    "algorithm": "YALKEN_PROTECTED_WIP_SNAPSHOT_ALGORITHM_V2",
+    "completeDenominator": 253,
+    "presentDenominator": 250,
+    "prunableDenominator": 3,
+    "dirtyDenominator": 7,
+    "completeIdentitySetExact": true,
+    "completeEntrySetExact": true,
+    "protectedDirtySetExact": true,
+    "missingIdentityCount": 0,
+    "addedIdentityCount": 0,
+    "changedEntryCount": 0,
+    "userSensitiveContentsDisclosed": false
+  },
+  "evidenceStampIds": [
+    "ES-R24-WP-403-DECISION-SUBSTRATE-MODEL",
+    "ES-R24-WP-403-DECISION-SUBSTRATE-CONTRACT",
+    "ES-R24-WP-403-DECISION-SUBSTRATE-INTEGRATION",
+    "ES-R24-WP-403-DECISION-SUBSTRATE-MUTANTS",
+    "ES-R24-WP-403-DECISION-SUBSTRATE-EXACT-HEAD",
+    "ES-R24-WP-403-DECISION-SUBSTRATE-POSTMERGE-EXACT-HEAD",
+    "ES-R24-WP-403-DECISION-SUBSTRATE-SURVIVOR-AUDIT",
+    "ES-R24-WP-403-DECISION-SUBSTRATE-CLAIM-BINDINGS"
+  ],
+  "liveWorkAtReleaseBase": {
+    "openPullRequestCount": 0,
+    "runningActionCount": 0,
+    "queuedActionCount": 0,
+    "status": "NONE"
+  },
+  "nonRecursiveCarrierPattern": true,
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

@@ -1,0 +1,130 @@
+{
+  "schemaVersion": "YALKEN_R24_WP403_ACCEPTANCE_MATRIX_V1",
+  "stageId": "WP-403_DECISION_SUBSTRATE",
+  "status": "PASS",
+  "observedAtUtc": "2026-09-01T01:36:02Z",
+  "evaluationSha": "71009cdb7e6af9d156dc49a821222b11bd99817f",
+  "evaluationTreeSha": "69ac0f39e491b4994eadf2b8c7174a69faf92eda",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "bindings": {
+    "stageInstanceDigest": "714495e775228af4aaebdcfa3098b17906294eae29a333c51b332a44fed4cebe",
+    "stageAdmissionDigest": "0aa76c71369c2b6886762c186f4ea8dbc5be4f5514aa58580f4161eb6f65c769",
+    "acceptanceSignalsDigest": "be441ceafb09df3079a32f8a4812a689f1c01eeb178496c50353032cf99f4257",
+    "contourTerminalReceiptDigest": "e6f22b56fc85526b0993b4814ea596e0f5fd512690a5b15b60ad8fd7a1985e4b",
+    "claimBindingDigest": "bd2e8b577a49b12f9594bc40797143f93dd540d1884afaf16e50fce1bd82b0fa",
+    "leaseReleaseDigest": "b09d066b08aa9f6ad2375f09e4da266396f209160a96b0067e819ff58dd35d5f",
+    "protectedWipAfterCarrierDigest": "912dcba839a864c9b7f0ad842e437883ef5c6272876522ed66ffdf225887ce74"
+  },
+  "rowCount": 20,
+  "passedRowCount": 20,
+  "failedRowCount": 0,
+  "pendingRowCount": 0,
+  "rows": [
+    {
+      "id": "APPEND_ONLY_DECISION_MEMORY_HASH_CHAIN",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-403-DECISION-SUBSTRATE-CONTRACT"
+    },
+    {
+      "id": "BOUNDED_DETERMINISTIC_CANDIDATE_QUEUE",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-403-DECISION-SUBSTRATE-MODEL"
+    },
+    {
+      "id": "COMPLETE_DENOMINATOR_NO_SKIPS",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-403-DECISION-SUBSTRATE-CLAIM-BINDINGS"
+    },
+    {
+      "id": "DIFFERENTIAL_ORACLE",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-403-DECISION-SUBSTRATE-INTEGRATION"
+    },
+    {
+      "id": "EVIDENCE_DELTA_EXACT",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-403-DECISION-SUBSTRATE-CONTRACT"
+    },
+    {
+      "id": "EXACT_BOOK_SNAPSHOT_AND_PROJECTOR_PUBLICATION_BINDING",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-403-DECISION-SUBSTRATE-MODEL"
+    },
+    {
+      "id": "GOVERNANCE_STRICT_PASS",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-403-DECISION-SUBSTRATE-SURVIVOR-AUDIT"
+    },
+    {
+      "id": "IMPLEMENTATION_MUTANTS_ALL_KILLED",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-403-DECISION-SUBSTRATE-MUTANTS"
+    },
+    {
+      "id": "INDEPENDENT_EXACT_HEAD",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-403-DECISION-SUBSTRATE-EXACT-HEAD"
+    },
+    {
+      "id": "LARGE_CORPUS_BOUND",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-403-DECISION-SUBSTRATE-INTEGRATION"
+    },
+    {
+      "id": "LEASE_61_RELEASED_WIP_0",
+      "status": "PASS",
+      "carrier": "WP403_LEASE_RELEASE_V1"
+    },
+    {
+      "id": "NO_RUNTIME_PERSISTENCE_OR_RENDERER_WIRING",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-403-DECISION-SUBSTRATE-SURVIVOR-AUDIT"
+    },
+    {
+      "id": "POSTMERGE_EXACT_HEAD",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-403-DECISION-SUBSTRATE-POSTMERGE-EXACT-HEAD"
+    },
+    {
+      "id": "POST_AUDIT_WP403_EXCEPTION_FAIL_CLOSED",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-403-DECISION-SUBSTRATE-SURVIVOR-AUDIT"
+    },
+    {
+      "id": "PROGRAM_DONE_FALSE",
+      "status": "PASS",
+      "carrier": "WP403_LEASE_RELEASE_V1"
+    },
+    {
+      "id": "PROTECTED_WIP_UNCHANGED",
+      "status": "PASS",
+      "carrier": "WP403_PROTECTED_WIP_AFTER_V1"
+    },
+    {
+      "id": "REVIEW_CENTER_READ_ONLY_PROJECTION",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-403-DECISION-SUBSTRATE-CONTRACT"
+    },
+    {
+      "id": "STALE_GENERATION_SNAPSHOT_AND_PUBLICATION_REJECTION",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-403-DECISION-SUBSTRATE-CONTRACT"
+    },
+    {
+      "id": "STRICT_INPUT_AND_TAMPER_REJECTION",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-403-DECISION-SUBSTRATE-MUTANTS"
+    },
+    {
+      "id": "SURVIVOR_AUDIT",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-403-DECISION-SUBSTRATE-SURVIVOR-AUDIT"
+    }
+  ],
+  "verdict": "PASS",
+  "programDone": false
+}

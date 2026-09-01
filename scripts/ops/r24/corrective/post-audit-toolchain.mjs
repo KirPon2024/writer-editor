@@ -15,9 +15,25 @@ export const EXPECTED = Object.freeze({
   nodeEngine: '>=22.12.0 <23.0.0',
   npmEngine: '>=10.9.0 <11.0.0',
   electron: '41.10.3',
+  bundleBuildBaseSha: '3157d84126a76734af50d012b359f7a58b2035fb',
+  bundleBuildBaseTreeSha: '7f38243ced17ee249f0c541004171235a1e14788',
+  bundleArtifactSha: 'e17b93766c0abd9d7102881b22b54038efd8fc48',
+  bundleArtifactTreeSha: '30af7b8d0c54395fece0502ae165b4295b4fa471',
   editorBundleSha256: 'b0b287b15698df9f7b3fb63215900983c3ec8604177325969cc4cbb0a833d770',
   preloadBundleSha256: '361a55245fbdee46691953b5a8fabf495c7db45e0aa6edd36597342136596561'
 });
+
+function gitText(args) {
+  return execFileSync('git', args, { encoding: 'utf8', windowsHide: true }).trim();
+}
+
+function gitObjectBytes(revision, relativePath) {
+  return execFileSync('git', ['show', `${revision}:${relativePath}`], {
+    encoding: null,
+    maxBuffer: 64 * 1024 * 1024,
+    windowsHide: true
+  });
+}
 
 function npmVersion() {
   const executable = process.platform === 'win32' ? (process.env.ComSpec || 'cmd.exe') : 'npm';
@@ -42,8 +58,10 @@ export function verifyToolchain({ verifyRuntime = true, verifyBundles = true } =
     assert(npmVersion() === EXPECTED.npm, 'E_NPM_RUNTIME', npmVersion());
   }
   if (verifyBundles) {
-    assert(sha256(fs.readFileSync('src/renderer/editor.bundle.js')) === EXPECTED.editorBundleSha256, 'E_EDITOR_BUNDLE_DIGEST');
-    assert(sha256(fs.readFileSync('src/preload.bundle.cjs')) === EXPECTED.preloadBundleSha256, 'E_PRELOAD_BUNDLE_DIGEST');
+    assert(gitText(['rev-parse', `${EXPECTED.bundleBuildBaseSha}^{tree}`]) === EXPECTED.bundleBuildBaseTreeSha, 'E_BUNDLE_BUILD_BASE_TREE');
+    assert(gitText(['rev-parse', `${EXPECTED.bundleArtifactSha}^{tree}`]) === EXPECTED.bundleArtifactTreeSha, 'E_BUNDLE_ARTIFACT_TREE');
+    assert(sha256(gitObjectBytes(EXPECTED.bundleArtifactSha, 'src/renderer/editor.bundle.js')) === EXPECTED.editorBundleSha256, 'E_EDITOR_BUNDLE_DIGEST');
+    assert(sha256(gitObjectBytes(EXPECTED.bundleArtifactSha, 'src/preload.bundle.cjs')) === EXPECTED.preloadBundleSha256, 'E_PRELOAD_BUNDLE_DIGEST');
   }
   return { schemaVersion: 'POST_AUDIT_TOOLCHAIN_RESULT_V1', status: 'PASS', ...EXPECTED };
 }

@@ -133,6 +133,12 @@ import {
   buildAtlasSurfacePresentation,
 } from './atlasSurfacePresentationModel.mjs';
 import {
+  assertAtlasDossierPresentationParity,
+  ATLAS_DEEP_LINK_KIND,
+  ATLAS_DOSSIER_LOD,
+  buildAtlasDossierLayoutPresentation,
+} from './atlasDossierLayoutPresentationModel.mjs';
+import {
   getToolbarFunctionCatalogEntryById,
   listLiveToolbarFunctionCatalogEntries,
 } from './toolbar/toolbarFunctionCatalog.mjs';
@@ -787,6 +793,8 @@ let atlasSurfacePosture = ATLAS_SURFACE_POSTURE.MANUSCRIPT;
 let atlasSurfaceView = ATLAS_SURFACE_VIEW.GRAPH;
 let atlasSurfaceSelectedRowId = '';
 let atlasSurfacePresentationState = null;
+let atlasDossierLod = ATLAS_DOSSIER_LOD.CONTEXT;
+let atlasDossierPresentationState = null;
 let atlasEntityDossierState = {
   state: 'empty',
   projectId: '',
@@ -12562,7 +12570,7 @@ function renderAtlasWorkspaceGraph(presentation) {
   host.setAttribute('role', 'group');
   host.setAttribute('aria-label', `Atlas graph, ${presentation.rowCount} items. Equivalent list and table views are available.`);
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  svg.setAttribute('viewBox', '0 0 360 300');
+  svg.setAttribute('viewBox', '0 0 1000 700');
   svg.setAttribute('role', 'img');
   svg.setAttribute('aria-label', `Atlas shared-row graph with ${presentation.rowCount} nodes`);
   const rowsById = new Map(presentation.rows.map((row) => [row.rowId, row]));
@@ -12590,16 +12598,77 @@ function renderAtlasWorkspaceGraph(presentation) {
     group.setAttribute('aria-label', `${row.kind}: ${row.title}. ${row.subtitle}`);
     group.setAttribute('aria-pressed', row.rowId === presentation.selectedRowId ? 'true' : 'false');
     const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    circle.setAttribute('r', row.rowId === presentation.selectedRowId ? '9' : '7');
-    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    text.setAttribute('x', '11');
-    text.setAttribute('y', '4');
-    text.textContent = row.title.slice(0, 24);
-    group.append(circle, text);
+    circle.setAttribute('r', node.selected ? '10' : node.detail === 'DOT' ? '5' : node.detail === 'EVIDENCE_COUNT' && node.evidenceCount > 0 ? '8' : '7');
+    group.appendChild(circle);
+    if (node.detail !== 'DOT') {
+      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      text.setAttribute('x', '12');
+      text.setAttribute('y', '4');
+      text.textContent = `${row.title.slice(0, 24)}${node.detail === 'EVIDENCE_COUNT' ? ` · ${node.evidenceCount}` : ''}`;
+      group.appendChild(text);
+    }
     svg.appendChild(group);
   }
   host.appendChild(svg);
   return host;
+}
+
+function renderAtlasWorkspaceDossier(presentation) {
+  const dossier = presentation.dossier;
+  const panel = document.createElement('aside');
+  panel.className = 'atlas-workspace__dossier';
+  panel.setAttribute('aria-label', 'Selected Atlas dossier');
+  panel.dataset.atlasDossierState = dossier.state;
+  const eyebrow = document.createElement('span');
+  eyebrow.className = 'atlas-workspace__dossier-eyebrow';
+  eyebrow.textContent = dossier.kicker;
+  const title = document.createElement('h2');
+  title.className = 'atlas-workspace__dossier-title';
+  title.textContent = dossier.title;
+  const meta = document.createElement('p');
+  meta.className = 'atlas-workspace__dossier-meta';
+  meta.textContent = dossier.meta;
+  panel.append(eyebrow, title, meta);
+  if (dossier.state !== 'ready') return panel;
+
+  const links = document.createElement('div');
+  links.className = 'atlas-workspace__dossier-links';
+  links.setAttribute('aria-label', 'Typed deep links');
+  for (const link of dossier.typedLinks) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'atlas-workspace__deep-link';
+    button.dataset.atlasDeepLinkKind = link.kind;
+    button.dataset.atlasDeepLinkTargetId = link.targetId;
+    const evidence = dossier.evidence.find((item) => item.evidenceId === link.targetId);
+    if (evidence) {
+      button.dataset.atlasDeepLinkSceneId = evidence.sceneId;
+      if (evidence.startOffset !== null) button.dataset.atlasDeepLinkStart = String(evidence.startOffset);
+      if (evidence.endOffset !== null) button.dataset.atlasDeepLinkEnd = String(evidence.endOffset);
+    }
+    const label = document.createElement('strong');
+    label.textContent = link.label;
+    const detail = document.createElement('span');
+    detail.textContent = `${link.kind.replace('ATLAS_', '').toLowerCase()}${link.meta ? ` · ${link.meta}` : ''}`;
+    button.append(label, detail);
+    links.appendChild(button);
+  }
+  panel.appendChild(links);
+
+  const evidenceList = document.createElement('ol');
+  evidenceList.className = 'atlas-workspace__evidence-list';
+  evidenceList.setAttribute('aria-label', 'Exact evidence');
+  for (const evidence of dossier.evidence) {
+    const item = document.createElement('li');
+    const quote = document.createElement('span');
+    quote.textContent = evidence.label;
+    const locator = document.createElement('small');
+    locator.textContent = `${evidence.sceneId || 'record'} · ${evidence.state}`;
+    item.append(quote, locator);
+    evidenceList.appendChild(item);
+  }
+  if (dossier.evidence.length) panel.appendChild(evidenceList);
+  return panel;
 }
 
 function renderAtlasWorkspaceList(presentation) {
@@ -12702,13 +12771,20 @@ function renderAtlasWorkspaceState() {
   }));
   atlasSurfacePresentationState = presentation;
   atlasSurfaceSelectedRowId = presentation.selectedRowId;
+  const dossierPresentation = assertAtlasDossierPresentationParity(buildAtlasDossierLayoutPresentation({
+    surfacePresentation: presentation,
+    lod: atlasDossierLod,
+    entityDossier: atlasEntityDossierState,
+    relationDossier: atlasRelationDossierState,
+  }), presentation);
+  atlasDossierPresentationState = dossierPresentation;
   applyAtlasResolvedSurfaceBinding('workspace', atlasWorkspace, 'atlasWorkspaceProvider');
   syncAtlasWorkspaceLayout(presentation);
   if (atlasWorkspaceMeta) atlasWorkspaceMeta.textContent = `${presentation.rowCount} shared rows · ${presentation.summary.evidenceHealth}`;
   if (atlasWorkspaceStatus) {
     atlasWorkspaceStatus.textContent = presentation.responsiveFallbackApplied
       ? 'Split needs a wider window; manuscript posture remains active.'
-      : `${presentation.posture.toLowerCase()} · ${presentation.view.toLowerCase()} · graph/list/table parity`;
+      : `${presentation.posture.toLowerCase()} · ${presentation.view.toLowerCase()} · ${dossierPresentation.lod.toLowerCase()} detail · stable layout`;
   }
   for (const button of document.querySelectorAll('[data-atlas-posture]')) {
     const active = button instanceof HTMLElement && button.dataset.atlasPosture === presentation.requestedPosture;
@@ -12720,18 +12796,29 @@ function renderAtlasWorkspaceState() {
     button.setAttribute('aria-selected', active ? 'true' : 'false');
     button.tabIndex = active ? 0 : -1;
   }
-  atlasWorkspaceContent.innerHTML = '';
-  if (presentation.state === 'unavailable') {
-    atlasWorkspaceContent.appendChild(createAtlasWorkspaceEmpty(presentation.unavailableReason || 'Atlas is unavailable.'));
-  } else if (presentation.state === 'empty') {
-    atlasWorkspaceContent.appendChild(createAtlasWorkspaceEmpty('Atlas will appear here when the project has entities, relations, or scene coverage.'));
-  } else if (presentation.view === ATLAS_SURFACE_VIEW.GRAPH) {
-    atlasWorkspaceContent.appendChild(renderAtlasWorkspaceGraph(presentation));
-  } else if (presentation.view === ATLAS_SURFACE_VIEW.LIST) {
-    atlasWorkspaceContent.appendChild(renderAtlasWorkspaceList(presentation));
-  } else {
-    atlasWorkspaceContent.appendChild(renderAtlasWorkspaceTable(presentation));
+  for (const button of document.querySelectorAll('[data-atlas-lod]')) {
+    const active = button instanceof HTMLElement && button.dataset.atlasLod === dossierPresentation.lod;
+    button.setAttribute('aria-selected', active ? 'true' : 'false');
+    button.tabIndex = active ? 0 : -1;
   }
+  atlasWorkspaceContent.innerHTML = '';
+  const body = document.createElement('div');
+  body.className = 'atlas-workspace__body';
+  const canvas = document.createElement('div');
+  canvas.className = 'atlas-workspace__canvas';
+  if (presentation.state === 'unavailable') {
+    canvas.appendChild(createAtlasWorkspaceEmpty(presentation.unavailableReason || 'Atlas is unavailable.'));
+  } else if (presentation.state === 'empty') {
+    canvas.appendChild(createAtlasWorkspaceEmpty('Atlas will appear here when the project has entities, relations, or scene coverage.'));
+  } else if (presentation.view === ATLAS_SURFACE_VIEW.GRAPH) {
+    canvas.appendChild(renderAtlasWorkspaceGraph({ ...presentation, graphNodes: dossierPresentation.graphNodes }));
+  } else if (presentation.view === ATLAS_SURFACE_VIEW.LIST) {
+    canvas.appendChild(renderAtlasWorkspaceList(presentation));
+  } else {
+    canvas.appendChild(renderAtlasWorkspaceTable(presentation));
+  }
+  body.append(canvas, renderAtlasWorkspaceDossier(dossierPresentation));
+  atlasWorkspaceContent.appendChild(body);
 }
 
 function setAtlasSurfacePosture(posture, options = {}) {
@@ -12748,6 +12835,14 @@ function setAtlasSurfacePosture(posture, options = {}) {
 function setAtlasSurfaceView(view, options = {}) {
   if (!Object.values(ATLAS_SURFACE_VIEW).includes(view)) return false;
   atlasSurfaceView = view;
+  renderAtlasWorkspaceState();
+  if (options.focus === true) requestAnimationFrame(() => atlasWorkspaceContent?.querySelector('[data-atlas-row-id]')?.focus({ preventScroll: true }));
+  return true;
+}
+
+function setAtlasDossierLod(lod, options = {}) {
+  if (!Object.values(ATLAS_DOSSIER_LOD).includes(lod)) return false;
+  atlasDossierLod = lod;
   renderAtlasWorkspaceState();
   if (options.focus === true) requestAnimationFrame(() => atlasWorkspaceContent?.querySelector('[data-atlas-row-id]')?.focus({ preventScroll: true }));
   return true;
@@ -15442,6 +15537,7 @@ async function refreshAtlasEntityDossier() {
   atlasEntityDossierState = normalizeAtlasEntityDossier(nextState);
   atlasSelectedEntityId = atlasEntityDossierState.selectedEntityId || atlasSelectedEntityId || '';
   renderAtlasEntityDossierState();
+  renderAtlasWorkspaceState();
 }
 
 function selectAtlasEntity(entityId = '') {
@@ -15646,6 +15742,7 @@ async function refreshAtlasRelationDossier() {
     rightEntityId: atlasRelationDossierState.relation?.rightEntityId || atlasSelectedRelation.rightEntityId || '',
   };
   renderAtlasRelationDossierState();
+  renderAtlasWorkspaceState();
 }
 
 function selectAtlasRelation(relation = {}) {
@@ -21398,6 +21495,31 @@ atlasWorkspace?.addEventListener('click', (event) => {
     setAtlasSurfaceView(view.dataset.atlasView || '');
     return;
   }
+  const lod = event.target instanceof Element ? event.target.closest('[data-atlas-lod]') : null;
+  if (lod instanceof HTMLElement) {
+    setAtlasDossierLod(lod.dataset.atlasLod || '');
+    return;
+  }
+  const deepLink = event.target instanceof Element ? event.target.closest('[data-atlas-deep-link-kind]') : null;
+  if (deepLink instanceof HTMLElement) {
+    const kind = deepLink.dataset.atlasDeepLinkKind || '';
+    const targetId = deepLink.dataset.atlasDeepLinkTargetId || '';
+    if (kind === ATLAS_DEEP_LINK_KIND.ROW) setAtlasWorkspaceRowSelection(targetId);
+    else if (kind === ATLAS_DEEP_LINK_KIND.ENTITY) selectAtlasEntity(targetId);
+    else if (kind === ATLAS_DEEP_LINK_KIND.RELATION) selectAtlasRelation({ pairId: targetId });
+    else if (kind === ATLAS_DEEP_LINK_KIND.SCENE) updateStatusText(targetId === currentDocumentId ? 'Atlas scene link points to the open scene' : `Atlas scene link: ${targetId} must be opened from the project tree`);
+    else if (kind === ATLAS_DEEP_LINK_KIND.EVIDENCE) {
+      const sceneId = deepLink.dataset.atlasDeepLinkSceneId || '';
+      const start = Number(deepLink.dataset.atlasDeepLinkStart);
+      const end = Number(deepLink.dataset.atlasDeepLinkEnd);
+      if (sceneId && sceneId === currentDocumentId && Number.isSafeInteger(start) && Number.isSafeInteger(end) && end >= start) {
+        focusEditorSurface('atlas-dossier');
+        setSelectionRange(start, end);
+        updateStatusText('Atlas exact evidence opened in the manuscript');
+      } else updateStatusText(`Atlas evidence link: ${sceneId || targetId} is read-only or belongs to another scene`);
+    }
+    return;
+  }
   const row = event.target instanceof Element ? event.target.closest('[data-atlas-row-id]') : null;
   if (row instanceof Element) setAtlasWorkspaceRowSelection(row.getAttribute('data-atlas-row-id') || '');
 });
@@ -21408,6 +21530,9 @@ atlasWorkspace?.addEventListener('keydown', (event) => {
   }
   if (event.target instanceof Element && event.target.closest('[data-atlas-view-tabs]')) {
     if (moveAtlasTabFocus(event, '[data-atlas-view]')) return;
+  }
+  if (event.target instanceof Element && event.target.closest('[data-atlas-lod-tabs]')) {
+    if (moveAtlasTabFocus(event, '[data-atlas-lod]')) return;
   }
   if (event.key !== 'Enter' && event.key !== ' ') return;
   const row = event.target instanceof Element ? event.target.closest('[data-atlas-row-id]') : null;

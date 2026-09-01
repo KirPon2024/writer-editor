@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "YALKEN_R24_WP504_TERMINAL_SUPPLEMENT_V2",
+  "stageId": "WP-504_DOSSIER_LAYOUT_LINKS",
+  "status": "CONDITIONAL_CERTIFIED_DONE_PENDING_EXTERNAL_DELIVERY",
+  "evidenceStampId": "ES-R24-WP-504-POST-AUDIT-COMPATIBILITY-CLAIM-BINDINGS",
+  "sourcePlanRoles": {"externalSourcePlanDigest":"1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a","compiledProgramFileDigest":"da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a","rolesDistinct":true},
+  "bindings": {
+    "predecessorSupplementDigest": "82a4f1cd746af93cc226db1ed4c4e1c08d8041de596a7f9b87ec30fb24b4dca9",
+    "terminalReceiptDigest": "98caaafe9032c37c5ea37d38ef8262aa5fe8d497c0f0bc293f67981d3110614d",
+    "authorityDigest": "04d0909273767307fb8a0de07c987bbe34c7a01dffef037383c3eb22b6db6e3d",
+    "stageInstanceDigest": "3153c0156d9abf3b4d13ff646f02a73bdc7a1b334bd0bb7b322d7d2f5863dd28",
+    "stageAdmissionDigest": "0693491d2e2b41acb07fd6db7ac838166a61c3079b5c12e959857c0b615255bd",
+    "compatibilitySuccessorDigest": "c26c6548f86a1e790f5fc982b7712be55269fe6cfab27cd155c7999eccab5614",
+    "auditR2RegistryDigest": "15d33b32e84235ee9f6d20f35121931cbde9b44c52c7a01a28b83325c1de5e62",
+    "testInventoryDigest": "281448595d3be609b2fb1615c7d565e337373e1ffd82bb0f7f0ad0b74857c5bf",
+    "visualAuditDigest": "3c1d9dfe15d1d0f2aa9d9ec6a654526a6383feac1b7a2ac4270b11d92d9fa276",
+    "protectedWipBeforeExternalDigest": "58e575e5238a97c858746b223d1ccfccb9c82cef172bcfca439cd2ff8b01bade",
+    "protectedWipAfterExternalDigest": "fd852dac97b61e92ca0dea5e0453ea27620087f2047cfcf33a76f9a41a45d600"
+  },
+  "compatibilityReview": {
+    "historicalBundle": "VERIFIED_FROM_WP503_CANDIDATE_GIT_OBJECT",
+    "historicalSelectionSuccessor": "VERIFIED_FROM_WP503_SELECTION_CANDIDATE_GIT_OBJECT",
+    "mutablePresentTreeFallback": false,
+    "exactRuntimeReplay": "PASS_63_OF_63",
+    "rtkDirtyTreeObservation": "EXPECTED_CLEAN_COMMIT_REPLAY_REQUIRED"
+  },
+  "currentLease": {"fencingCounter":68,"status":"ACTIVE","wip":1},
+  "targetLease": {"fencingCounter":68,"status":"RELEASED","wip":0},
+  "externalDeliveryPredicates": [
+    {"id":"CANDIDATE_CI_GREEN_AT_EXACT_PR_HEAD","status":"REQUIRED_NOT_PRECLAIMED","providerIdentity":null},
+    {"id":"NORMAL_PROTECTED_MERGE","status":"REQUIRED_NOT_PRECLAIMED","providerIdentity":null},
+    {"id":"OPS_VECTOR_CLOSE_GREEN_AT_EXACT_MERGE","status":"REQUIRED_NOT_PRECLAIMED","providerIdentity":null},
+    {"id":"EXACT_POSTMERGE_CI_GREEN_AT_EXACT_MERGE","status":"REQUIRED_NOT_PRECLAIMED","providerIdentity":null}
+  ],
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

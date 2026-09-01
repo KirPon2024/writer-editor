@@ -112,6 +112,12 @@ const gitObjectDigest = (revision, file) => {
   assert(result.status === 0 && Buffer.isBuffer(result.stdout), 'E_WP503_HISTORICAL_GIT_OBJECT', file);
   return sha256(result.stdout);
 };
+const readGitObject = (revision, file) => {
+  const result = spawnSync('git', ['show', `${revision}:${file}`], { encoding: null, maxBuffer: 16 * 1024 * 1024 });
+  assert(result.status === 0 && Buffer.isBuffer(result.stdout), 'E_WP503_HISTORICAL_GIT_OBJECT', file);
+  assert(result.stdout.length > 0 && result.stdout.at(-1) === 0x0a, 'E_WP503_CANONICAL_LF', file);
+  return { value: JSON.parse(result.stdout.toString('utf8')), digest: sha256(result.stdout), sizeBytes: result.stdout.length };
+};
 
 export function verifyWp503SelectionProvenanceRecord({ selectionDigest, selection, failureDigest, failure, successor, historicalFailureDigest, historicalSuccessorDigest }) {
   assert(selectionDigest === failure.rootFailure.selectionReceiptDigest && selectionDigest === 'd427af7be17e40af773cac79d40aba24b5e892dd27e1f0c710454aa3c03cc05d', 'E_WP503_SELECTION_PROVENANCE_SELECTION_DIGEST');
@@ -175,12 +181,12 @@ export function verifyWp503V6TerminalCarriers() {
   assert(instance.value.acceptanceSignals.includes('TRACKED_RENDERER_BUNDLE_EXACT_BUILD'), 'E_WP503_TRACKED_BUNDLE_SIGNAL');
   assert(instance.value.operations.modifyPaths.includes('scripts/ops/r24/corrective/post-audit-toolchain.mjs') && instance.value.operations.createPaths.includes(PATHS.toolchainSuccessor), 'E_WP503_TOOLCHAIN_SUCCESSOR_UNADMITTED');
   assert(instance.value.acceptanceSignals.includes('POST_AUDIT_TOOLCHAIN_TRACKED_BUNDLE_SUCCESSOR'), 'E_WP503_TOOLCHAIN_SUCCESSOR_SIGNAL');
-  assert(toolchainSuccessor.value.historicalContract.sha256 === '90197c119af8bb9923437217a89514524769824d19306cd1fa801e6ca68e2fbe' && toolchainSuccessor.value.successor.editorBundleSha256 === sha256(fs.readFileSync('src/renderer/editor.bundle.js')), 'E_WP503_TOOLCHAIN_SUCCESSOR_BINDING');
+  assert(toolchainSuccessor.value.historicalContract.sha256 === '90197c119af8bb9923437217a89514524769824d19306cd1fa801e6ca68e2fbe' && toolchainSuccessor.value.successor.editorBundleSha256 === gitObjectDigest('fdd6a88834e090f2830ba23ca8a9489f1a95964a', 'src/renderer/editor.bundle.js'), 'E_WP503_TOOLCHAIN_SUCCESSOR_BINDING');
   assert(instance.value.operations.modifyPaths.includes('test/contracts/rtk-release01-terminal-claims.contract.test.js') && instance.value.operations.createPaths.includes(PATHS.wordingSuccessor), 'E_WP503_WORDING_SUCCESSOR_UNADMITTED');
   assert(instance.value.acceptanceSignals.includes('WP307_EDITOR_WORDING_HASH_SUCCESSOR') && instance.value.acceptanceSignals.includes('RTK_RELEASE01_WORDING_SURFACE_SUCCESSOR'), 'E_WP503_WORDING_SUCCESSOR_SIGNAL');
   assert(wordingSuccessor.value.historicalRegistry.sha256 === '9064441a85e1ce2758ef018cdb82c76229e921cb1adeea844792e102ee96cba2', 'E_WP503_WORDING_HISTORICAL_BINDING');
   const wordingOverrides = new Map(wordingSuccessor.value.surfaceOverrides.map((surface) => [surface.path, surface.sha256]));
-  assert(wordingOverrides.size === 2 && wordingOverrides.get('package.json') === `sha256:${sha256(fs.readFileSync('package.json'))}` && wordingOverrides.get('src/renderer/editor.js') === `sha256:${sha256(fs.readFileSync('src/renderer/editor.js'))}`, 'E_WP503_WORDING_SUCCESSOR_BINDING');
+  assert(wordingOverrides.size === 2 && wordingOverrides.get('package.json') === `sha256:${gitObjectDigest('fdd6a88834e090f2830ba23ca8a9489f1a95964a', 'package.json')}` && wordingOverrides.get('src/renderer/editor.js') === `sha256:${gitObjectDigest('fdd6a88834e090f2830ba23ca8a9489f1a95964a', 'src/renderer/editor.js')}`, 'E_WP503_WORDING_SUCCESSOR_BINDING');
   assert(instance.value.acceptanceSignals.includes('POST_AUDIT_CERTIFICATION_CHAIN_SUCCESSOR') && instance.value.operations.modifyPaths.includes('scripts/ops/r24/corrective/post-audit-certification-set.mjs') && instance.value.operations.modifyPaths.includes('test/contracts/r24-post-audit-certification-set.contract.test.mjs') && instance.value.operations.createPaths.includes(PATHS.postAuditSuccessor), 'E_WP503_POST_AUDIT_SUCCESSOR_UNADMITTED');
   assert(postAuditFailure.value.candidateSha === '25910cd47369495d9bdafb2a78db20ac75b78abc' && postAuditFailure.value.rootFailure.code === 'E_WP502_EXCEPTION_UNADMITTED_PATH', 'E_WP503_POST_AUDIT_FAILURE_BINDING');
   assert(postAuditSuccessor.value.bindings.authorityDigest === authority.digest && postAuditSuccessor.value.bindings.stageInstanceDigest === instance.digest && postAuditSuccessor.value.bindings.stageAdmissionDigest === admission.digest && postAuditSuccessor.value.bindings.failureDigest === postAuditFailure.digest, 'E_WP503_POST_AUDIT_SUCCESSOR_BINDING');
@@ -204,7 +210,7 @@ export function verifyWp503V6TerminalCarriers() {
   for (const artifact of claims.value.implementationArtifactDigests) {
     const observedDigest = supersededImplementationPaths.has(artifact.path)
       ? gitObjectDigest('e17b93766c0abd9d7102881b22b54038efd8fc48', artifact.path)
-      : sha256(fs.readFileSync(artifact.path));
+      : gitObjectDigest('fdd6a88834e090f2830ba23ca8a9489f1a95964a', artifact.path);
     assert(observedDigest === artifact.sha256, 'E_WP503_IMPLEMENTATION_DIGEST', artifact.path);
   }
   const compiledProgramBinding = claims.value.implementationArtifactDigests.find((artifact) => artifact.path === `${C}/R24_CORRECTIVE_PROGRAM_V1_1.json`);
@@ -389,7 +395,7 @@ export function verifyWp503V9TerminalCarriers() {
   const approvals = read(INVENTORY_PATHS.approvals);
   const supplement = read(INVENTORY_PATHS.supplement);
   const auditR2Registry = read(INVENTORY_PATHS.auditR2Registry);
-  const testInventory = read(INVENTORY_PATHS.testInventory);
+  const testInventory = readGitObject('22255e715b1474611377bb73a997ee7d91151650', INVENTORY_PATHS.testInventory);
   const now = Date.now();
 
   assert(authority.digest === 'bd12fbab73fde7c73d4ec1116eaea0154bf77612fb02b1ec158dd6528bad8d60', 'E_WP503_INVENTORY_AUTHORITY_DIGEST');
@@ -451,7 +457,7 @@ export function verifyWp503TerminalCarriers() {
   const approvals = read(SELECTION_PROVENANCE_PATHS.approvals);
   const supplement = read(SELECTION_PROVENANCE_PATHS.supplement);
   const auditR2Registry = read(SELECTION_PROVENANCE_PATHS.auditR2Registry);
-  const testInventory = read(SELECTION_PROVENANCE_PATHS.testInventory);
+  const testInventory = readGitObject('b95b9b66ebf3b9602a8b9f2f9265ca3df2bf6719', SELECTION_PROVENANCE_PATHS.testInventory);
   const selection = read(PATHS.selection);
   const historicalFailure = read(TEMPORAL_PATHS.failure);
   const historicalSuccessor = read(TEMPORAL_PATHS.successor);
@@ -481,7 +487,7 @@ export function verifyWp503TerminalCarriers() {
 
   assert(successor.value.status === 'CURRENT_APPEND_ONLY_SUCCESSOR' && successor.value.bindings.authorityDigest === authority.digest && successor.value.bindings.stageInstanceDigest === instance.digest && successor.value.bindings.stageAdmissionDigest === admission.digest && successor.value.bindings.failureDigest === failure.digest && successor.value.bindings.selectionReceiptDigest === selection.digest, 'E_WP503_SELECTION_PROVENANCE_SUCCESSOR_CHAIN');
   assert(successor.value.bindings.historicalTemporalFailureDigest === historicalFailure.digest && successor.value.bindings.historicalTemporalSuccessorDigest === historicalSuccessor.digest && successor.value.bindings.auditR2RegistryDigest === auditR2Registry.digest && successor.value.bindings.testInventoryDigest === testInventory.digest, 'E_WP503_SELECTION_PROVENANCE_SUCCESSOR_EVIDENCE');
-  assert(successor.value.bindings.terminalVerifierDigest === sha256(fs.readFileSync('scripts/ops/r24/wp503-terminal-verifier.mjs')) && successor.value.bindings.terminalCarrierTestDigest === sha256(fs.readFileSync('test/contracts/r24-wp503-terminal-carriers.contract.test.mjs')) && successor.value.bindings.postAuditVerifierDigest === sha256(fs.readFileSync('scripts/ops/r24/corrective/post-audit-certification-set.mjs')) && successor.value.bindings.postAuditContractTestDigest === sha256(fs.readFileSync('test/contracts/r24-post-audit-certification-set.contract.test.mjs')), 'E_WP503_SELECTION_PROVENANCE_SUCCESSOR_BYTES');
+  assert(successor.value.bindings.terminalVerifierDigest === gitObjectDigest('b95b9b66ebf3b9602a8b9f2f9265ca3df2bf6719', 'scripts/ops/r24/wp503-terminal-verifier.mjs') && successor.value.bindings.terminalCarrierTestDigest === gitObjectDigest('b95b9b66ebf3b9602a8b9f2f9265ca3df2bf6719', 'test/contracts/r24-wp503-terminal-carriers.contract.test.mjs') && successor.value.bindings.postAuditVerifierDigest === gitObjectDigest('b95b9b66ebf3b9602a8b9f2f9265ca3df2bf6719', 'scripts/ops/r24/corrective/post-audit-certification-set.mjs') && successor.value.bindings.postAuditContractTestDigest === gitObjectDigest('b95b9b66ebf3b9602a8b9f2f9265ca3df2bf6719', 'test/contracts/r24-post-audit-certification-set.contract.test.mjs'), 'E_WP503_SELECTION_PROVENANCE_SUCCESSOR_BYTES');
   assert(successor.value.correctedOracle.selectionCreationClockBound === true && successor.value.correctedOracle.declaredSelectedAtUtcRejectedAsEventTimeEvidence === true && successor.value.correctedOracle.historicalThreeCarrierSetPreserved === true && successor.value.historicalEvidenceRewritten === false && successor.value.programDone === false, 'E_WP503_SELECTION_PROVENANCE_SUCCESSOR_STATE');
 
   assert(auditR2Registry.value.schemaVersion === 'AUDIT_R2_CARRIER_REGISTRY_V19' && auditR2Registry.value.carriers.length === 32 && auditR2Registry.value.predecessor.sha256 === '6ba8627ca8c56dba1490c092c6a025494180692cb2844e95135615feb35415e1', 'E_WP503_SELECTION_PROVENANCE_REGISTRY_DENOMINATOR');
@@ -491,12 +497,12 @@ export function verifyWp503TerminalCarriers() {
   for (const [index, approval] of approvals.value.approvals.entries()) {
     const approvedAt = Date.parse(approval.approvedAtUtc);
     assert(Number.isFinite(approvedAt) && approvedAt <= now, 'E_WP503_SELECTION_PROVENANCE_APPROVAL_FUTURE', String(index));
-    assert(sha256(fs.readFileSync(approval.filePath)) === approval.sha256, 'E_WP503_SELECTION_PROVENANCE_APPROVAL_BYTES', approval.filePath);
+    assert(gitObjectDigest('b95b9b66ebf3b9602a8b9f2f9265ca3df2bf6719', approval.filePath) === approval.sha256, 'E_WP503_SELECTION_PROVENANCE_APPROVAL_BYTES', approval.filePath);
   }
 
   assert(supplement.value.status === 'CONDITIONAL_CERTIFIED_DONE_PENDING_EXTERNAL_DELIVERY' && supplement.value.bindings.authorityDigest === authority.digest && supplement.value.bindings.stageInstanceDigest === instance.digest && supplement.value.bindings.stageAdmissionDigest === admission.digest && supplement.value.bindings.selectionProvenanceFailureDigest === failure.digest && supplement.value.bindings.selectionProvenanceSuccessorDigest === successor.digest, 'E_WP503_SELECTION_PROVENANCE_SUPPLEMENT_CHAIN');
   assert(supplement.value.bindings.predecessorTerminalSupplementDigest === '07fe0f3e5969e0c5c9e6064d783e59041d05cdf257e7ddbc045cda047bef983c' && supplement.value.bindings.auditR2RegistryDigest === auditR2Registry.digest && supplement.value.bindings.testInventoryDigest === testInventory.digest, 'E_WP503_SELECTION_PROVENANCE_SUPPLEMENT_PREDECESSOR');
-  assert(supplement.value.bindings.terminalVerifierDigest === sha256(fs.readFileSync('scripts/ops/r24/wp503-terminal-verifier.mjs')) && supplement.value.bindings.terminalCarrierTestDigest === sha256(fs.readFileSync('test/contracts/r24-wp503-terminal-carriers.contract.test.mjs')), 'E_WP503_SELECTION_PROVENANCE_SUPPLEMENT_BYTES');
+  assert(supplement.value.bindings.terminalVerifierDigest === gitObjectDigest('b95b9b66ebf3b9602a8b9f2f9265ca3df2bf6719', 'scripts/ops/r24/wp503-terminal-verifier.mjs') && supplement.value.bindings.terminalCarrierTestDigest === gitObjectDigest('b95b9b66ebf3b9602a8b9f2f9265ca3df2bf6719', 'test/contracts/r24-wp503-terminal-carriers.contract.test.mjs'), 'E_WP503_SELECTION_PROVENANCE_SUPPLEMENT_BYTES');
   assert(supplement.value.externalDeliveryPredicates.length === 4 && supplement.value.externalDeliveryPredicates.every((predicate) => predicate.status === 'REQUIRED_NOT_PRECLAIMED' && predicate.providerIdentity === null), 'E_WP503_SELECTION_PROVENANCE_EXTERNAL_PRECLAIM');
   assert(supplement.value.currentLease.fencingCounter === 67 && supplement.value.currentLease.status === 'ACTIVE' && supplement.value.currentLease.wip === 1 && supplement.value.targetLease.status === 'RELEASED' && supplement.value.targetLease.wip === 0, 'E_WP503_SELECTION_PROVENANCE_SUPPLEMENT_LEASE');
   assert(supplement.value.programDone === false && supplement.value.nextGraphNodeStarted === false, 'E_WP503_SELECTION_PROVENANCE_SUPPLEMENT_PROGRAM_STATE');

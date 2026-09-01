@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "AUDIT_R2_CARRIER_REGISTRY_V21",
+  "baseSha": "38a495f5beca286f134e20a991cb69dc19e6379f",
+  "baseTreeSha": "ed61f208dda5a9340b4697cdaf3487d6e66f7b90",
+  "sourcePlanRoles": {"externalSourcePlanDigest":"1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a","compiledProgramFileDigest":"da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a","rolesDistinct":true},
+  "predecessor": {"path":"docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V20.json","sha256":"2a01739d90c9f1077dcff2b6ad7a66038a66247760d44887608ffba1200c5395","status":"SUPERSEDED_BY_APPEND_ONLY_WP504_POST_AUDIT_COMPATIBILITY_SUCCESSOR"},
+  "carriers": [
+    {"path":"docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json","purpose":"COMPLETE_TEST_INVENTORY","sha256":"281448595d3be609b2fb1615c7d565e337373e1ffd82bb0f7f0ad0b74857c5bf","sizeBytes":394924,"status":"CANONICAL_BYTES_PRESENT"},
+    {"path":"docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V6.json","purpose":"APPEND_ONLY_OWNER_AUTHORITY","sha256":"04d0909273767307fb8a0de07c987bbe34c7a01dffef037383c3eb22b6db6e3d","sizeBytes":7924,"status":"CANONICAL_BYTES_PRESENT"},
+    {"path":"docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V6.json","purpose":"PINNED_STAGE_ADMISSION","sha256":"0693491d2e2b41acb07fd6db7ac838166a61c3079b5c12e959857c0b615255bd","sizeBytes":1734,"status":"CANONICAL_BYTES_PRESENT"},
+    {"path":"docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_INSTANCE_V6.json","purpose":"EXACT_STAGE_INSTANCE","sha256":"3153c0156d9abf3b4d13ff646f02a73bdc7a1b334bd0bb7b322d7d2f5863dd28","sizeBytes":8197,"status":"CANONICAL_BYTES_PRESENT"},
+    {"path":"docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_COMPATIBILITY_SUCCESSOR_V1.json","purpose":"GIT_OBJECT_COMPATIBILITY_SUCCESSOR","sha256":"c26c6548f86a1e790f5fc982b7712be55269fe6cfab27cd155c7999eccab5614","sizeBytes":2625,"status":"CANONICAL_BYTES_PRESENT"},
+    {"path":"docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_REPLAY_FAILURE_V1.json","purpose":"FAIL_CLOSED_REPLAY_EVIDENCE","sha256":"71a3b5a154c6e48c0f7475464d1e6a34da00acc75f086261df62b344da59b57a","sizeBytes":1572,"status":"CANONICAL_BYTES_PRESENT"},
+    {"path":"scripts/ops/r24/corrective/post-audit-certification-set.mjs","purpose":"HISTORICAL_SELECTION_GIT_OBJECT_ORACLE","sha256":"e5ae1ff80ef224b5013ef5f19cf1cfacfe3036ef4982146a5be8018317571ba6","sizeBytes":216003,"status":"CANONICAL_BYTES_PRESENT"},
+    {"path":"scripts/ops/r24/corrective/post-audit-toolchain.mjs","purpose":"HISTORICAL_BUNDLE_GIT_OBJECT_ORACLE","sha256":"cb6fe3b6e1f5b7e41d152faebd1fe02e7c8362053ea6f942f7918079f3a73f00","sizeBytes":4388,"status":"CANONICAL_BYTES_PRESENT"},
+    {"path":"test/contracts/r24-post-audit-corrections.contract.test.mjs","purpose":"EXACT_RUNTIME_AND_GIT_OBJECT_CONTRACT","sha256":"bea7b54bca40afb5f7b29ce18382d94331d97ffc6b8118fb41e2cf4b35d347d5","sizeBytes":23396,"status":"CANONICAL_BYTES_PRESENT"}
+  ],
+  "carrierDenominator": 9,
+  "verifiedCarrierCount": 9,
+  "excludedSelfCarriers": [
+    "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V21.json",
+    "docs/OPS/R24/CORRECTIVE/WP504_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP504_ACCEPTANCE_MATRIX_V2.json",
+    "docs/OPS/R24/CORRECTIVE/WP504_EFFECTIVE_STATE_V2.json",
+    "docs/OPS/R24/CORRECTIVE/WP504_LEASE_RELEASE_V2.json",
+    "docs/OPS/R24/CORRECTIVE/WP504_STAGE_REGISTRY_V2.json",
+    "docs/OPS/R24/CORRECTIVE/WP504_TERMINAL_RECEIPT_V2.json",
+    "docs/OPS/R24/CORRECTIVE/WP504_TERMINAL_SUPPLEMENT_V2.json",
+    "docs/OPS/R24/EVIDENCE/ES-R24-WP-504-POST-AUDIT-COMPATIBILITY-CLAIM-BINDINGS.json"
+  ],
+  "programDoneClaimed": false,
+  "wp400MutationStarted": false
+}

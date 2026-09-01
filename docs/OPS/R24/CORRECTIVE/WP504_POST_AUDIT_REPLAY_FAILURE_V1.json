@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "WP504_POST_AUDIT_REPLAY_FAILURE_V1",
+  "status": "FAIL_CLOSED_SUPERSEDED_BY_APPEND_ONLY_GIT_OBJECT_SUCCESSOR",
+  "stageId": "WP-504_DOSSIER_LAYOUT_LINKS",
+  "evidenceStampId": "ES-R24-WP-504-POST-AUDIT-COMPATIBILITY-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "exactBase": {"sha":"38a495f5beca286f134e20a991cb69dc19e6379f","tree":"ed61f208dda5a9340b4697cdaf3487d6e66f7b90"},
+  "firstReplay": {
+    "node": "22.23.2",
+    "npm": "10.9.8",
+    "tests": 63,
+    "passed": 60,
+    "failed": 3,
+    "failureCodes": ["E_NODE_RUNTIME:22.23.2","E_WP503_SELECTION_PROVENANCE_SUCCESSOR_BYTES","CURRENT_EDITOR_BUNDLE_COMPARED_TO_WP503_HISTORICAL_SUCCESSOR"]
+  },
+  "exactRuntimeReplay": {
+    "node": "22.12.0",
+    "npm": "10.9.0",
+    "tests": 63,
+    "passed": 60,
+    "failed": 3,
+    "failureCodes": ["E_EDITOR_BUNDLE_DIGEST","E_GIT_OBJECT_READ_MAX_BUFFER","E_EDITOR_BUNDLE_DIGEST"]
+  },
+  "rootCause": {
+    "classification": "HISTORICAL_SUCCESSOR_BOUND_TO_MUTABLE_PRESENT_TREE",
+    "wp503SelectionSuccessorArtifactCommit": "b95b9b66ebf3b9602a8b9f2f9265ca3df2bf6719",
+    "toolchainBuildBaseSha": "3157d84126a76734af50d012b359f7a58b2035fb",
+    "toolchainArtifactCommit": "e17b93766c0abd9d7102881b22b54038efd8fc48",
+    "historicalBytesRewritten": false
+  },
+  "programDone": false,
+  "mainProductGraphNodeStarted": false
+}

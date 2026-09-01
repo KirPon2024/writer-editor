@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "YALKEN_R24_WP504_LEASE_RELEASE_V2",
+  "stageId": "WP-504_DOSSIER_LAYOUT_LINKS",
+  "status": "ADMITTED_CONDITIONAL_RELEASE",
+  "evidenceStampId": "ES-R24-WP-504-POST-AUDIT-COMPATIBILITY-CLAIM-BINDINGS",
+  "sourcePlanRoles": {"externalSourcePlanDigest":"1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a","compiledProgramFileDigest":"da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a","rolesDistinct":true},
+  "currentLease": {"fencingCounter":68,"status":"ACTIVE","wip":1,"predecessorReleaseDigest":"65fb353a94ec1e592a3e5161673eabce7f850df9f2a4c2c9151e40963b36f39c"},
+  "targetLease": {"fencingCounter":68,"status":"RELEASED","wip":0,"transition":"ACTIVE_WIP_1_TO_RELEASED_WIP_0"},
+  "bindings": {
+    "authorityDigest": "04d0909273767307fb8a0de07c987bbe34c7a01dffef037383c3eb22b6db6e3d",
+    "stageInstanceDigest": "3153c0156d9abf3b4d13ff646f02a73bdc7a1b334bd0bb7b322d7d2f5863dd28",
+    "stageAdmissionDigest": "0693491d2e2b41acb07fd6db7ac838166a61c3079b5c12e959857c0b615255bd",
+    "writeSetDigest": "2a64a960f90762b958c4d91100df46f5582d7a0e05e2ca5cd7ea2c1ac6078cc2",
+    "acceptanceMatrixDigest": "a904d297efb87043140efc337828a211af8556976b793e05cc250b6b545837c0",
+    "effectiveStateDigest": "1a91b4141ab7d55d7773326903e5987f3ed479bc29d9c32571459af7d4d665d8",
+    "stageRegistryDigest": "3834b9d3a5fe7ba621a2cc0e8e1a215156c1f71aa7bf98abbbe9b15590c39f60",
+    "compatibilitySuccessorDigest": "c26c6548f86a1e790f5fc982b7712be55269fe6cfab27cd155c7999eccab5614",
+    "protectedWipBeforeExternalDigest": "58e575e5238a97c858746b223d1ccfccb9c82cef172bcfca439cd2ff8b01bade",
+    "protectedWipAfterExternalDigest": "fd852dac97b61e92ca0dea5e0453ea27620087f2047cfcf33a76f9a41a45d600"
+  },
+  "activationPredicates": ["CANDIDATE_CI_GREEN_AT_EXACT_PR_HEAD","NORMAL_PROTECTED_MERGE","OPS_VECTOR_CLOSE_GREEN_AT_EXACT_MERGE","EXACT_POSTMERGE_CI_GREEN_AT_EXACT_MERGE","PROTECTED_WIP_AFTER_EXACT","NO_LIVE_WORK_AT_RELEASE"],
+  "selfBindingPolicy": "FUTURE_PROVIDER_IDENTITIES_BOUND_BY_EXTERNAL_TERMINAL_RECEIPT_NO_RECURSIVE_CLOSURE_PR",
+  "programDone": false
+}

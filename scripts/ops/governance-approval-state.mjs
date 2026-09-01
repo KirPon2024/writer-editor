@@ -101,7 +101,7 @@ export function hashRepoFileSha256(repoRoot, relativePath) {
   };
 }
 
-function parseApprovalEntry(rawEntry, index, repoRoot, seenKeys) {
+function parseApprovalEntry(rawEntry, index, repoRoot, seenKeys, evaluationTimeMs) {
   if (!isObjectRecord(rawEntry)) {
     return {
       ok: false,
@@ -141,6 +141,13 @@ function parseApprovalEntry(rawEntry, index, repoRoot, seenKeys) {
     return {
       ok: false,
       failDetail: `APPROVAL_APPROVED_AT_INVALID_${index}`,
+      entry: null,
+    };
+  }
+  if (Date.parse(approvedAtUtc) > evaluationTimeMs) {
+    return {
+      ok: false,
+      failDetail: `APPROVAL_APPROVED_AT_FUTURE_${index}`,
       entry: null,
     };
   }
@@ -214,9 +221,22 @@ function buildState({
 
 export function evaluateGovernanceApprovalState(input = {}) {
   const repoRoot = String(input.repoRoot || process.env.GOVERNANCE_APPROVAL_REPO_ROOT || process.cwd()).trim();
+  const evaluationTimeMs = input.evaluationTimeMs === undefined
+    ? Date.now()
+    : Number(input.evaluationTimeMs);
   const approvalsPath = normalizeRepoRelativePath(
     input.approvalsPath || process.env.GOVERNANCE_CHANGE_APPROVALS_PATH || DEFAULT_APPROVALS_PATH,
   );
+
+  if (!Number.isFinite(evaluationTimeMs)) {
+    return buildState({
+      ok: false,
+      repoRoot,
+      approvalsPath,
+      approvals: [],
+      failDetail: 'EVALUATION_TIME_INVALID',
+    });
+  }
 
   if (!approvalsPath) {
     return buildState({
@@ -292,7 +312,7 @@ export function evaluateGovernanceApprovalState(input = {}) {
   const seenKeys = new Set();
   const approvals = [];
   for (let i = 0; i < parsed.approvals.length; i += 1) {
-    const parsedEntry = parseApprovalEntry(parsed.approvals[i], i, repoRoot, seenKeys);
+    const parsedEntry = parseApprovalEntry(parsed.approvals[i], i, repoRoot, seenKeys, evaluationTimeMs);
     if (!parsedEntry.ok || !parsedEntry.entry) {
       return buildState({
         ok: false,

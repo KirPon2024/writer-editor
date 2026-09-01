@@ -1,0 +1,25 @@
+{
+  "version": "v1.0",
+  "evidenceStampIds": ["WP503_TEMPORAL_EVIDENCE_SUCCESSOR_V1"],
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "approvals": [
+    {"filePath":"docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json","sha256":"ca83393d533dd63907d5ebff348162302a2950c6aa962ae1627148811ce8b11e","approvedBy":"owner-direct:CONFIRMED_POSTMERGE_AUDIT_DEFECT","approvedAtUtc":"2026-09-01T16:29:05.000Z","rationale":"Owner-authorized exact-head WP503 future-UTC evidence correction."},
+    {"filePath":"docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V7.json","sha256":"31340f9c67867eb2b11cd940cdbc3bfb564fd62f738df0b3c1ebcf70c4e9dca1","approvedBy":"owner-direct:CONFIRMED_POSTMERGE_AUDIT_DEFECT","approvedAtUtc":"2026-09-01T16:29:05.000Z","rationale":"Owner-authorized exact-head WP503 future-UTC evidence correction."},
+    {"filePath":"docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V7.json","sha256":"bb0b13c4727f4bac954f9b6bf7d0c150401f9894b76fe5e2429ee6b8c27a8666","approvedBy":"owner-direct:CONFIRMED_POSTMERGE_AUDIT_DEFECT","approvedAtUtc":"2026-09-01T16:29:05.000Z","rationale":"Owner-authorized exact-head WP503 future-UTC evidence correction."},
+    {"filePath":"docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_INSTANCE_V7.json","sha256":"6ebc284bed89df7b4c6f86fd9849e57dfcc58cd227ee898e786a69633028212f","approvedBy":"owner-direct:CONFIRMED_POSTMERGE_AUDIT_DEFECT","approvedAtUtc":"2026-09-01T16:29:05.000Z","rationale":"Owner-authorized exact-head WP503 future-UTC evidence correction."},
+    {"filePath":"docs/OPS/R24/CORRECTIVE/WP503_TEMPORAL_EVIDENCE_FAILURE_V1.json","sha256":"eb9a45ba28d3cf8dff91f21c57ece84244ce423ead86a6a6b4786f6f9de333fe","approvedBy":"owner-direct:CONFIRMED_POSTMERGE_AUDIT_DEFECT","approvedAtUtc":"2026-09-01T16:29:05.000Z","rationale":"Owner-authorized exact-head WP503 future-UTC evidence correction."},
+    {"filePath":"docs/OPS/R24/CORRECTIVE/WP503_TEMPORAL_EVIDENCE_SUCCESSOR_V1.json","sha256":"a7407272da2c8dd53c965393ce1f04fb3eb31f11dc47ae0c36f6823014b91cb0","approvedBy":"owner-direct:CONFIRMED_POSTMERGE_AUDIT_DEFECT","approvedAtUtc":"2026-09-01T16:29:05.000Z","rationale":"Owner-authorized exact-head WP503 future-UTC evidence correction."},
+    {"filePath":"docs/OPS/R24/CORRECTIVE/WP503_TERMINAL_SUPPLEMENT_V3.json","sha256":"3bbe6afc149fa625a43ccbc6775ce219199e146b06984453281cac834a0e6bc9","approvedBy":"owner-direct:CONFIRMED_POSTMERGE_AUDIT_DEFECT","approvedAtUtc":"2026-09-01T16:29:05.000Z","rationale":"Owner-authorized exact-head WP503 future-UTC evidence correction."},
+    {"filePath":"scripts/ops/governance-approval-state.mjs","sha256":"1df6facd12f44dab161a8783298c750305b7b12cc916bcce07fe93159eded4e8","approvedBy":"owner-direct:CONFIRMED_POSTMERGE_AUDIT_DEFECT","approvedAtUtc":"2026-09-01T16:29:05.000Z","rationale":"Owner-authorized exact-head WP503 future-UTC evidence correction."},
+    {"filePath":"scripts/ops/r24/corrective/post-audit-certification-set.mjs","sha256":"132acc106a271e377214e1b529250fdc52065c270e2b541073dbd2e99225228b","approvedBy":"owner-direct:CONFIRMED_POSTMERGE_AUDIT_DEFECT","approvedAtUtc":"2026-09-01T16:29:05.000Z","rationale":"Owner-authorized exact-head WP503 future-UTC evidence correction."},
+    {"filePath":"scripts/ops/r24/wp503-terminal-verifier.mjs","sha256":"dfe3cd4f8d18b113bc767b17950ade59571474a11e5e8b151aa42926b565cf51","approvedBy":"owner-direct:CONFIRMED_POSTMERGE_AUDIT_DEFECT","approvedAtUtc":"2026-09-01T16:29:05.000Z","rationale":"Owner-authorized exact-head WP503 future-UTC evidence correction."},
+    {"filePath":"test/contracts/governance-approval-state.contract.test.js","sha256":"08e3564992a5949024f8969c87aaa28ddf36383dfa78089b2e111cad7a46078f","approvedBy":"owner-direct:CONFIRMED_POSTMERGE_AUDIT_DEFECT","approvedAtUtc":"2026-09-01T16:29:05.000Z","rationale":"Owner-authorized exact-head WP503 future-UTC evidence correction."},
+    {"filePath":"test/contracts/governance-change-detection.contract.test.js","sha256":"9ee395437e772a1fff065432031291d0fbf38e08fc5cae61f64a86409e1afdad","approvedBy":"owner-direct:CONFIRMED_POSTMERGE_AUDIT_DEFECT","approvedAtUtc":"2026-09-01T16:29:05.000Z","rationale":"Owner-authorized exact-head WP503 future-UTC evidence correction."},
+    {"filePath":"test/contracts/r24-post-audit-certification-set.contract.test.mjs","sha256":"19fb831cb47a76f0ba6c4a2fe7c5b11defd23bc2d353a33c96a0b49be9a00a0e","approvedBy":"owner-direct:CONFIRMED_POSTMERGE_AUDIT_DEFECT","approvedAtUtc":"2026-09-01T16:29:05.000Z","rationale":"Owner-authorized exact-head WP503 future-UTC evidence correction."},
+    {"filePath":"test/contracts/r24-wp503-terminal-carriers.contract.test.mjs","sha256":"d48707d99ca9824bc769a5dc1cf96c7d250a13389059b5de9e49412171caae8e","approvedBy":"owner-direct:CONFIRMED_POSTMERGE_AUDIT_DEFECT","approvedAtUtc":"2026-09-01T16:29:05.000Z","rationale":"Owner-authorized exact-head WP503 future-UTC evidence correction."}
+  ]
+}

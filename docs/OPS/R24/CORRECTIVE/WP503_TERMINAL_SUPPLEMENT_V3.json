@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "WP503_TERMINAL_SUPPLEMENT_V3",
+  "status": "CONDITIONAL_CERTIFIED_DONE_PENDING_EXTERNAL_DELIVERY",
+  "stageId": "WP-503_ATLAS_SURFACE",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "bindings": {
+    "authorityDigest": "31340f9c67867eb2b11cd940cdbc3bfb564fd62f738df0b3c1ebcf70c4e9dca1",
+    "stageInstanceDigest": "6ebc284bed89df7b4c6f86fd9849e57dfcc58cd227ee898e786a69633028212f",
+    "stageAdmissionDigest": "bb0b13c4727f4bac954f9b6bf7d0c150401f9894b76fe5e2429ee6b8c27a8666",
+    "writeSetDigest": "f65d02046449a80901ef5571b2f691afa06656460cf3ca1522f63e30a56abda0",
+    "commandScopeDigest": "0b4afd99911f6d22260a414d93ba4a054d11476f6b4a5ae9443d3dbb6748b059",
+    "acceptanceSignalsDigest": "5af306fd93cbfd79e6114c9b05ab1cf5f04621488f81c106387a1f533067a8c1",
+    "predecessorTerminalSupplementDigest": "0eae9267c9db7c8837999de0f6c8b598e0568fb96bcc1050274ab481cc59d001",
+    "temporalFailureDigest": "eb9a45ba28d3cf8dff91f21c57ece84244ce423ead86a6a6b4786f6f9de333fe",
+    "temporalSuccessorDigest": "a7407272da2c8dd53c965393ce1f04fb3eb31f11dc47ae0c36f6823014b91cb0",
+    "terminalVerifierDigest": "dfe3cd4f8d18b113bc767b17950ade59571474a11e5e8b151aa42926b565cf51",
+    "terminalCarrierTestDigest": "d48707d99ca9824bc769a5dc1cf96c7d250a13389059b5de9e49412171caae8e"
+  },
+  "externalDeliveryPredicates": [
+    {"id":"CANDIDATE_CI_GREEN_AT_EXACT_PR_HEAD","status":"REQUIRED_NOT_PRECLAIMED","providerIdentity":null},
+    {"id":"NORMAL_PROTECTED_MERGE","status":"REQUIRED_NOT_PRECLAIMED","providerIdentity":null},
+    {"id":"OPS_VECTOR_CLOSE_GREEN_AT_EXACT_MERGE","status":"REQUIRED_NOT_PRECLAIMED","providerIdentity":null},
+    {"id":"EXACT_POSTMERGE_CI_GREEN_AT_EXACT_MERGE","status":"REQUIRED_NOT_PRECLAIMED","providerIdentity":null}
+  ],
+  "currentLease": {
+    "fencingCounter": 67,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "9caae577ab5ff1f0cea7661c74ee8ef19fdf68cdb603e4172ec61293a7c65795"
+  },
+  "targetLease": {
+    "fencingCounter": 67,
+    "status": "RELEASED",
+    "wip": 0,
+    "transition": "ACTIVE_WIP_1_TO_RELEASED_WIP_0"
+  },
+  "correctionOutcome": {
+    "historicalFutureEvidencePreserved": true,
+    "historicalFutureEvidenceSuperseded": true,
+    "futureUtcOracleRequiredInCi": true,
+    "predecessorDeliveryBound": true,
+    "secondTerminalPrAuditDefectException": true,
+    "productBytesChanged": false
+  },
+  "nonClaims": [
+    "NO_FUTURE_EXTERNAL_PROVIDER_IDENTITY_PRECLAIMED",
+    "NO_HISTORICAL_BYTE_REWRITE",
+    "NO_MAIN_PRODUCT_GRAPH_NODE_AFTER_WP503_STARTED",
+    "NO_PRODUCT_PERSISTENCE_COMMAND_OR_PLATFORM_EFFECT",
+    "NO_PROGRAM_DONE_CLAIM"
+  ],
+  "programDone": false,
+  "nextGraphNodeStarted": false
+}

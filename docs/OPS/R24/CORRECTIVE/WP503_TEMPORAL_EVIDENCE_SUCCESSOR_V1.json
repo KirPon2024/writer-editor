@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "WP503_TEMPORAL_EVIDENCE_SUCCESSOR_V1",
+  "status": "CURRENT_APPEND_ONLY_SUCCESSOR",
+  "stageId": "WP-503_ATLAS_SURFACE",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "observedAtUtc": "2026-09-01T16:29:05.000Z",
+  "exactBase": {
+    "sha": "fdd6a88834e090f2830ba23ca8a9489f1a95964a",
+    "tree": "c8af93e64befe8b62ca47f810be780d0855bb560"
+  },
+  "bindings": {
+    "authorityDigest": "31340f9c67867eb2b11cd940cdbc3bfb564fd62f738df0b3c1ebcf70c4e9dca1",
+    "stageInstanceDigest": "6ebc284bed89df7b4c6f86fd9849e57dfcc58cd227ee898e786a69633028212f",
+    "stageAdmissionDigest": "bb0b13c4727f4bac954f9b6bf7d0c150401f9894b76fe5e2429ee6b8c27a8666",
+    "writeSetDigest": "f65d02046449a80901ef5571b2f691afa06656460cf3ca1522f63e30a56abda0",
+    "commandScopeDigest": "0b4afd99911f6d22260a414d93ba4a054d11476f6b4a5ae9443d3dbb6748b059",
+    "acceptanceSignalsDigest": "5af306fd93cbfd79e6114c9b05ab1cf5f04621488f81c106387a1f533067a8c1",
+    "failureDigest": "eb9a45ba28d3cf8dff91f21c57ece84244ce423ead86a6a6b4786f6f9de333fe",
+    "governanceApprovalStateDigest": "1df6facd12f44dab161a8783298c750305b7b12cc916bcce07fe93159eded4e8",
+    "governanceApprovalStateTestDigest": "08e3564992a5949024f8969c87aaa28ddf36383dfa78089b2e111cad7a46078f",
+    "governanceChangeDetectionTestDigest": "9ee395437e772a1fff065432031291d0fbf38e08fc5cae61f64a86409e1afdad",
+    "verifierDigest": "132acc106a271e377214e1b529250fdc52065c270e2b541073dbd2e99225228b",
+    "contractTestDigest": "19fb831cb47a76f0ba6c4a2fe7c5b11defd23bc2d353a33c96a0b49be9a00a0e",
+    "testInventoryDigest": "ca83393d533dd63907d5ebff348162302a2950c6aa962ae1627148811ce8b11e"
+  },
+  "predecessorDelivery": {
+    "pr": 1804,
+    "candidateSha": "7c736c134763f9079bcd024bb1333a300f2fea67",
+    "mergeSha": "fdd6a88834e090f2830ba23ca8a9489f1a95964a",
+    "candidateCiRunId": 33529127716,
+    "opsVectorCloseRunId": 33530115631,
+    "postmergeCiRunId": 33530115523
+  },
+  "correctedOracle": {
+    "futureApprovalUtcRejected": true,
+    "evaluationClockSource": "RUNTIME_UTC_CLOCK",
+    "failureCode": "APPROVAL_APPROVED_AT_FUTURE_INDEX",
+    "exactByteHashRequired": true,
+    "strictGovernanceDependencyRequired": true
+  },
+  "postEvaluationAdmission": {
+    "predecessorPathDenominator": 76,
+    "deltaPathDenominator": 16,
+    "cumulativeUniquePathDenominator": 86
+  },
+  "historicalEvidenceRewritten": false,
+  "secondTerminalPrReason": "CONFIRMED_POSTMERGE_AUDIT_DEFECT_FUTURE_UTC_FENCE",
+  "programDone": false,
+  "nextGraphNodeStarted": false
+}

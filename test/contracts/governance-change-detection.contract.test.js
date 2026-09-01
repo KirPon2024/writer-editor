@@ -55,6 +55,7 @@ function runState(repoRoot, env = {}) {
       encoding: 'utf8',
       env: {
         ...process.env,
+        GOVERNANCE_CHANGE_APPROVALS_PATH: APPROVALS_PATH,
         ...env,
       },
     },
@@ -200,6 +201,33 @@ test('governance change detection: STRICT + exact registry approval passes', () 
     'scripts/ops/custom-state.mjs',
   ]);
   assert.deepEqual(first.payload.changed_governance_files, second.payload.changed_governance_files);
+});
+
+test('governance change detection: STRICT rejects exact bytes with future approval UTC', () => {
+  const repoRoot = setupTempRepo();
+  const opsScript = path.join(repoRoot, 'scripts/ops/custom-state.mjs');
+  fs.mkdirSync(path.dirname(opsScript), { recursive: true });
+  fs.writeFileSync(opsScript, 'export const v = 1;\n', 'utf8');
+  runGit(repoRoot, ['add', 'scripts/ops/custom-state.mjs']);
+  runGit(repoRoot, ['commit', '-m', 'ops-script-change']);
+
+  writeApprovalRegistry(repoRoot, [
+    {
+      filePath: 'scripts/ops/custom-state.mjs',
+      sha256: sha256File(opsScript),
+      approvedBy: 'contract-test',
+      approvedAtUtc: '2099-01-01T00:00:00.000Z',
+      rationale: 'hostile future UTC fixture',
+    },
+  ]);
+
+  const { result, payload } = runState(repoRoot, { EFFECTIVE_MODE: 'STRICT' });
+  fs.rmSync(repoRoot, { recursive: true, force: true });
+
+  assert.notEqual(result.status, 0, 'expected strict future-UTC failure');
+  assert.equal(payload.tokens.GOVERNANCE_CHANGE_OK, 0);
+  assert.equal(payload.approval_registry_valid, 0);
+  assert.equal(payload.failReason, 'GOVERNANCE_CHANGE_APPROVAL_REQUIRED');
 });
 
 test('governance change detection: env override remains fallback in non-strict when registry is absent', () => {

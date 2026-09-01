@@ -10,9 +10,9 @@
   },
   "bindings": {
     "predecessorEffectiveStateDigest": "1a91b4141ab7d55d7773326903e5987f3ed479bc29d9c32571459af7d4d665d8",
-    "acceptanceMatrixDigest": "9b20ccf70c8618784e4beb6a0891916bf8eeebf78860c099fb42ac2ba7e21e31",
+    "acceptanceMatrixDigest": "c5931c244d3cc9b1a3a0980b995e453688466f2dcd6d25f1da25bf5b9e0d8de0",
     "stageAdmissionDigest": "c4cc882e80ae012950dd4934b80a58d1622f7a8adcc1a813e2039415fd42c0a3",
-    "candidateBoundSuccessorDigest": "25d66b6e74f417c52ca3bc26de51d2ab0e3efea5d578d11b7121ae5467a271a7",
+    "candidateBoundSuccessorDigest": "cfe2d42be2306713830f216a7f69bdc3d14d52631121d8eaba90c502c12f1f1b",
     "wp503ExternalClosureV2Digest": "9a61133d7afdced43e6d72b5a366d2d9c3f7c1a4070fd23ee08596657351da5e"
   },
   "currentCounts": {"BLOCKED_TYPED": 3, "DONE": 59, "INELIGIBLE_OPTIONAL": 10, "PENDING": 37},

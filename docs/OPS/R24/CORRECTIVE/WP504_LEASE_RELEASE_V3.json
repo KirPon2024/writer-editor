@@ -10,9 +10,9 @@
   },
   "bindings": {
     "predecessorLeaseReleaseDigest": "bb3bd4dee9e1b8228389adbef9e0777b7b5940d3aea93737e48ef4eb25a1905a",
-    "acceptanceMatrixDigest": "9b20ccf70c8618784e4beb6a0891916bf8eeebf78860c099fb42ac2ba7e21e31",
-    "effectiveStateDigest": "224cebaad7bd5291eb4820d791a032f44df210d15c05acccc2f201ca8021081f",
-    "stageRegistryDigest": "81c001e1475c762658513868ba8dc2d7377c2f85cd18afd336be9cfad7ffc011",
+    "acceptanceMatrixDigest": "c5931c244d3cc9b1a3a0980b995e453688466f2dcd6d25f1da25bf5b9e0d8de0",
+    "effectiveStateDigest": "ac655bc7cfbe0f116065e8354d94e4e9d869cfa5874a4c27f3811086504221d1",
+    "stageRegistryDigest": "d321e198119851b40fda58d293a6ae78eb5e4c2279538ebbd21fe0cb61e112da",
     "stageAdmissionDigest": "c4cc882e80ae012950dd4934b80a58d1622f7a8adcc1a813e2039415fd42c0a3"
   },
   "currentLease": {

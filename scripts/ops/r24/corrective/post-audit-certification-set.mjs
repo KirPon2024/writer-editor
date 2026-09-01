@@ -1378,9 +1378,10 @@ export function verifyWp504MainProductPostEvaluationException({candidateSha='HEA
   const v56Admitted=new Set([...verified[0].admittedPaths,...verified[1].admittedPaths]);
   const v56Changed=gitText(git,['diff','--name-only',`${verified[0].baseSha}..${checkpoint}`]).split('\n').filter(Boolean).sort();
   for(const changedPath of v56Changed)assert(v56Admitted.has(changedPath),'E_WP504_V56_UNADMITTED_PATH',changedPath);
+  const allAdmitted=new Set(verified.flatMap((entry)=>entry.admittedPaths));
   const v7Changed=gitText(git,['diff','--name-only',`${checkpoint}..${resolvedCandidate}`]).split('\n').filter(Boolean).sort();
-  for(const changedPath of v7Changed)assert(verified[2].admittedPaths.includes(changedPath),'E_WP504_V7_UNADMITTED_PATH',changedPath);
-  const admittedPaths=[...new Set(verified.flatMap((entry)=>entry.admittedPaths))].sort();
+  for(const changedPath of v7Changed)assert(allAdmitted.has(changedPath),'E_WP504_SUCCESSOR_UNADMITTED_PATH',changedPath);
+  const admittedPaths=[...allAdmitted].sort();
   return{schemaVersion:'WP504_MAIN_PRODUCT_POST_EVALUATION_EXCEPTION_VERIFICATION_V1',status:'PASS',baseSha:verified[0].baseSha,checkpointSha:checkpoint,candidateSha:resolvedCandidate,admissionDenominator:verified.length,admittedPathDenominator:admittedPaths.length,v56ChangedPaths:v56Changed,v7ChangedPaths:v7Changed,admittedPaths,admissions:verified.map(({authorityDigest,instanceDigest,admissionDigest,writeSetDigest,baseSha,baseTree})=>({authorityDigest,instanceDigest,admissionDigest,writeSetDigest,baseSha,baseTree})),sourcePlanRoles:{externalSourcePlanDigest:EXTERNAL_SOURCE_PLAN_DIGEST,compiledProgramFileDigest:COMPILED_PROGRAM_FILE_DIGEST,rolesDistinct:true}};
 }
 

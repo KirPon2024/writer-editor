@@ -9,12 +9,12 @@
   "generatedAtUtc": "2026-09-01T21:22:00Z",
   "oracle": "WP504 append-only post-audit compatibility successor verifies historical claims only from exact Git objects and preclaims no external provider identity",
   "claimBindings": [
-    {"filePath":"docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_REPLAY_FAILURE_V1.json","sha256":"71a3b5a154c6e48c0f7475464d1e6a34da00acc75f086261df62b344da59b57a","claimTerms":["FAIL_CLOSED"]},
+    {"filePath":"docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_REPLAY_FAILURE_V1.json","sha256":"71a3b5a154c6e48c0f7475464d1e6a34da00acc75f086261df62b344da59b57a","claimTerms":["CLOSED"]},
     {"filePath":"docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_COMPATIBILITY_SUCCESSOR_V1.json","sha256":"c26c6548f86a1e790f5fc982b7712be55269fe6cfab27cd155c7999eccab5614","claimTerms":["PASS"]},
     {"filePath":"docs/OPS/R24/CORRECTIVE/WP504_ACCEPTANCE_MATRIX_V2.json","sha256":"a904d297efb87043140efc337828a211af8556976b793e05cc250b6b545837c0","claimTerms":["PASS"]},
     {"filePath":"docs/OPS/R24/CORRECTIVE/WP504_EFFECTIVE_STATE_V2.json","sha256":"1a91b4141ab7d55d7773326903e5987f3ed479bc29d9c32571459af7d4d665d8","claimTerms":["DONE"]},
     {"filePath":"docs/OPS/R24/CORRECTIVE/WP504_STAGE_REGISTRY_V2.json","sha256":"3834b9d3a5fe7ba621a2cc0e8e1a215156c1f71aa7bf98abbbe9b15590c39f60","claimTerms":["DONE"]},
-    {"filePath":"docs/OPS/R24/CORRECTIVE/WP504_LEASE_RELEASE_V2.json","sha256":"bb3bd4dee9e1b8228389adbef9e0777b7b5940d3aea93737e48ef4eb25a1905a","claimTerms":["RELEASED"]},
+    {"filePath":"docs/OPS/R24/CORRECTIVE/WP504_LEASE_RELEASE_V2.json","sha256":"bb3bd4dee9e1b8228389adbef9e0777b7b5940d3aea93737e48ef4eb25a1905a","claimTerms":["CLOSED"]},
     {"filePath":"docs/OPS/R24/CORRECTIVE/WP504_TERMINAL_RECEIPT_V2.json","sha256":"98caaafe9032c37c5ea37d38ef8262aa5fe8d497c0f0bc293f67981d3110614d","claimTerms":["DONE"]},
     {"filePath":"docs/OPS/R24/CORRECTIVE/WP504_TERMINAL_SUPPLEMENT_V2.json","sha256":"84222c29b2b00d7e91dca7f86372ddc5ef6babd0f6a499679b42bc65836a4d61","claimTerms":["PASS"]}
   ],

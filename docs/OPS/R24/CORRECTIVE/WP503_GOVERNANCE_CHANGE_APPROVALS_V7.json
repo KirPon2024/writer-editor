@@ -1,0 +1,293 @@
+{
+  "version": "v1.0",
+  "evidenceStampIds": [
+    "WP503_SELECTION_PROVENANCE_SUCCESSOR_V1"
+  ],
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "approvals": [
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V17.json",
+      "sha256": "b7a504de9f0061f1cabf98cdca47452d0881bf4eadf427b0d33ebf198760cc1f",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V18.json",
+      "sha256": "6ba8627ca8c56dba1490c092c6a025494180692cb2844e95135615feb35415e1",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V19.json",
+      "sha256": "afa7a51abf8a0e52ae6c6c6277a70b37337969fa50878bd089ffdd2a587197db",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "cc66cf3541462e9ebed74a2ec11c06a84b39013a63454a81f6f9368bf8ecbcb5",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_AUDIT_R2_REGISTRY_SUCCESSOR_V1.json",
+      "sha256": "2917a339723f77d9de02d409518f3c9b2f640390f5e14517e4663a8edf2b76a5",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_CANDIDATE_CI_AUDIT_R2_FAILURE_V1.json",
+      "sha256": "0cccf8595bb84dad5ceb07ac9ab560d9bd4e93a03440241429e1d078464de071",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_GOVERNANCE_CHANGE_APPROVALS_V4.json",
+      "sha256": "9575dcaf64a219a59b249b98c21768fc7962b6e082a6527b5bce0f987f1d08ac",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_GOVERNANCE_CHANGE_APPROVALS_V5.json",
+      "sha256": "163864967995ee1f47d5c00effe029dc0a0513a4e206182f05aab066101f1592",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_GOVERNANCE_CHANGE_APPROVALS_V6.json",
+      "sha256": "0b399bd1678d4881e2a6793c837e0f9cf66e69751b2ed8b15225186308d7b893",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Preserved predecessor governance approval carrier."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_LOCAL_TEST_INVENTORY_FAILURE_V1.json",
+      "sha256": "9463ff4630877875689853e9999a146d881b437ee3dd4aa97e043cf959b8fd01",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V10.json",
+      "sha256": "80ee85c081b44ee6cdfb062b0d072c7864ef29aeff60ae986aae094ba89da9fb",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V7.json",
+      "sha256": "31340f9c67867eb2b11cd940cdbc3bfb564fd62f738df0b3c1ebcf70c4e9dca1",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V8.json",
+      "sha256": "cf801d05286366aeae012188cf98a5aaf3c01e0a49cd47864e0490a4269ebd58",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V9.json",
+      "sha256": "bd12fbab73fde7c73d4ec1116eaea0154bf77612fb02b1ec158dd6528bad8d60",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V10.json",
+      "sha256": "15132c0f255c8d5163152cd145c92847966fa8998b839d7858ec7d7053def984",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V7.json",
+      "sha256": "bb0b13c4727f4bac954f9b6bf7d0c150401f9894b76fe5e2429ee6b8c27a8666",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V8.json",
+      "sha256": "32640b6152d3aa2c69eea0b4383e416f50acf081c1ddeba45a3f3db558574e7a",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V9.json",
+      "sha256": "9dd48faa1949c810ba87186fbf654502c900e50e718839d8a4b93d3c506d8027",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_INSTANCE_V10.json",
+      "sha256": "4008678b2e14d8385f36411a7c400cb324aaff0ab4c9d0592fb889d18e545797",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_INSTANCE_V7.json",
+      "sha256": "6ebc284bed89df7b4c6f86fd9849e57dfcc58cd227ee898e786a69633028212f",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_INSTANCE_V8.json",
+      "sha256": "d6539526c8948c6a0e0445b56c9606548b19702473a5c4f8b89f57bca56fa6b8",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_INSTANCE_V9.json",
+      "sha256": "9480cbcb3878c30f1dbf20d680e9368479ff3f06179067bd9800607cd516d88b",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_SELECTION_PROVENANCE_FAILURE_V1.json",
+      "sha256": "feb785fab1da6dfa30447bb2bb5ae5ae7f84fbdb7629dc1ff6e447cd9357542e",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_SELECTION_PROVENANCE_SUCCESSOR_V1.json",
+      "sha256": "6747430989a5ff16066199e84246ab768a1f6376651ba17c858bad6f5e73786b",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_TEMPORAL_EVIDENCE_FAILURE_V1.json",
+      "sha256": "eb9a45ba28d3cf8dff91f21c57ece84244ce423ead86a6a6b4786f6f9de333fe",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_TEMPORAL_EVIDENCE_SUCCESSOR_V1.json",
+      "sha256": "a7407272da2c8dd53c965393ce1f04fb3eb31f11dc47ae0c36f6823014b91cb0",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_TERMINAL_SUPPLEMENT_V3.json",
+      "sha256": "3bbe6afc149fa625a43ccbc6775ce219199e146b06984453281cac834a0e6bc9",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_TERMINAL_SUPPLEMENT_V4.json",
+      "sha256": "33f3221c78dad919948b7c4fbdd856c0872496d8e4650b393fdd5ac5d0314389",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_TERMINAL_SUPPLEMENT_V5.json",
+      "sha256": "07fe0f3e5969e0c5c9e6064d783e59041d05cdf257e7ddbc045cda047bef983c",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_TERMINAL_SUPPLEMENT_V6.json",
+      "sha256": "4342d96ff4c40ce9bcc0c1cd0b0060655649d46115fc0f55e06708cc23e02bdc",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_TEST_INVENTORY_SUCCESSOR_V1.json",
+      "sha256": "630a6350c79ede36e6df40c41b1f7b85e7fd6b59a4ea0a5ee8524afcb6a32343",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "scripts/ops/governance-approval-state.mjs",
+      "sha256": "1df6facd12f44dab161a8783298c750305b7b12cc916bcce07fe93159eded4e8",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "scripts/ops/r24/corrective/audit-r2-corrections.mjs",
+      "sha256": "2d8e702a0d35d9c871cf9b2de8e763bb6d892e16c06ce04113d1d3720f7a52c5",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "1af1749fe89c01fea03601d79f90844d462b4ee83e3235b5844a7346d3c97be2",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "scripts/ops/r24/wp503-terminal-verifier.mjs",
+      "sha256": "16416d0430ce02ec8b62c78a257d79409f352b4bf7e499bc79f3514ad65af86a",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "test/contracts/governance-approval-state.contract.test.js",
+      "sha256": "08e3564992a5949024f8969c87aaa28ddf36383dfa78089b2e111cad7a46078f",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "test/contracts/governance-change-detection.contract.test.js",
+      "sha256": "9ee395437e772a1fff065432031291d0fbf38e08fc5cae61f64a86409e1afdad",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "test/contracts/r24-audit-r2-corrections.contract.test.mjs",
+      "sha256": "59e5198e4e62f0ee2c21eb5be031bb7d1fc44b033052d100675f8b41e659bd7e",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "test/contracts/r24-post-audit-certification-set.contract.test.mjs",
+      "sha256": "6e867a07507e1616a7d8eb8dc44154fbff24f014f7f7446e0db8a2db51caddae",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    },
+    {
+      "filePath": "test/contracts/r24-wp503-terminal-carriers.contract.test.mjs",
+      "sha256": "447b4592b856a4894b53aee9a28ec700f750f52faf196e9e18857811ff7b20f3",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_CORRECTION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T19:02:20Z",
+      "rationale": "Owner-authorized exact-head WP503 selection-provenance successor."
+    }
+  ]
+}

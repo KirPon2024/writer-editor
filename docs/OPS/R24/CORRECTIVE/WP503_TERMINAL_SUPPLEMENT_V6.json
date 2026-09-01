@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "WP503_TERMINAL_SUPPLEMENT_V6",
+  "status": "CONDITIONAL_CERTIFIED_DONE_PENDING_EXTERNAL_DELIVERY",
+  "stageId": "WP-503_ATLAS_SURFACE",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "bindings": {
+    "authorityDigest": "80ee85c081b44ee6cdfb062b0d072c7864ef29aeff60ae986aae094ba89da9fb",
+    "stageInstanceDigest": "4008678b2e14d8385f36411a7c400cb324aaff0ab4c9d0592fb889d18e545797",
+    "stageAdmissionDigest": "15132c0f255c8d5163152cd145c92847966fa8998b839d7858ec7d7053def984",
+    "writeSetDigest": "e777d14d23c2f96d4afeb10d2325f9d0662190eb99c5ce1728936ee980f4b11f",
+    "commandScopeDigest": "7689fed8d9e8999711d7b7a44233516efb2bd4c923d35104069fca2ece0ee999",
+    "acceptanceSignalsDigest": "16465cafdb2d969cde7794d686f355d2205bc62d706da8e447d9236dbc3bb190",
+    "predecessorTerminalSupplementDigest": "07fe0f3e5969e0c5c9e6064d783e59041d05cdf257e7ddbc045cda047bef983c",
+    "selectionProvenanceFailureDigest": "feb785fab1da6dfa30447bb2bb5ae5ae7f84fbdb7629dc1ff6e447cd9357542e",
+    "selectionProvenanceSuccessorDigest": "6747430989a5ff16066199e84246ab768a1f6376651ba17c858bad6f5e73786b",
+    "auditR2RegistryDigest": "afa7a51abf8a0e52ae6c6c6277a70b37337969fa50878bd089ffdd2a587197db",
+    "testInventoryDigest": "cc66cf3541462e9ebed74a2ec11c06a84b39013a63454a81f6f9368bf8ecbcb5",
+    "terminalVerifierDigest": "16416d0430ce02ec8b62c78a257d79409f352b4bf7e499bc79f3514ad65af86a",
+    "terminalCarrierTestDigest": "447b4592b856a4894b53aee9a28ec700f750f52faf196e9e18857811ff7b20f3",
+    "rejectedExternalReceiptDigest": "ab88df32b77bfc2392519962cefd83e5673de35a041b23c640fe725d4a8937ed",
+    "rejectedExternalArchiveDigest": "e641396e701bd3fb45f78e3cd2784d62e4895404ce9982afaec8e4c1bd9f4936",
+    "rejectedExternalVerificationDigest": "f65bece771a80feba0b43ddf0651a6fd308b17bb3630f5163f79f7da452e66b0"
+  },
+  "externalDeliveryPredicates": [
+    {"id":"CANDIDATE_CI_GREEN_AT_EXACT_PR_HEAD","status":"REQUIRED_NOT_PRECLAIMED","providerIdentity":null},
+    {"id":"NORMAL_PROTECTED_MERGE","status":"REQUIRED_NOT_PRECLAIMED","providerIdentity":null},
+    {"id":"OPS_VECTOR_CLOSE_GREEN_AT_EXACT_MERGE","status":"REQUIRED_NOT_PRECLAIMED","providerIdentity":null},
+    {"id":"EXACT_POSTMERGE_CI_GREEN_AT_EXACT_MERGE","status":"REQUIRED_NOT_PRECLAIMED","providerIdentity":null}
+  ],
+  "currentLease": {
+    "fencingCounter": 67,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "9caae577ab5ff1f0cea7661c74ee8ef19fdf68cdb603e4172ec61293a7c65795"
+  },
+  "targetLease": {
+    "fencingCounter": 67,
+    "status": "RELEASED",
+    "wip": 0,
+    "transition": "ACTIVE_WIP_1_TO_RELEASED_WIP_0"
+  },
+  "correctionOutcome": {
+    "selectionCreationClockBound": true,
+    "futureSelectedAtExplicitlySuperseded": true,
+    "historicalThreeCarrierSetPreserved": true,
+    "prematureExternalTerminalEvidenceRejected": true,
+    "testInventoryRequiredSkips": 0,
+    "testInventoryUnexplainedSkips": 0,
+    "auditR2RegistryAppendOnlySuccessor": true,
+    "historicalBytesRewritten": false,
+    "productBytesChanged": false
+  },
+  "nonClaims": [
+    "NO_FUTURE_EXTERNAL_PROVIDER_IDENTITY_PRECLAIMED",
+    "NO_HISTORICAL_BYTE_REWRITE",
+    "NO_MAIN_PRODUCT_GRAPH_NODE_AFTER_WP503_STARTED",
+    "NO_PRODUCT_PERSISTENCE_COMMAND_OR_PLATFORM_EFFECT",
+    "NO_PROGRAM_DONE_CLAIM"
+  ],
+  "programDone": false,
+  "nextGraphNodeStarted": false
+}

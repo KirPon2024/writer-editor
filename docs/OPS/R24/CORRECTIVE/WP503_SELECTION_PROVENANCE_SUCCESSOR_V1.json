@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "WP503_SELECTION_PROVENANCE_SUCCESSOR_V1",
+  "status": "CURRENT_APPEND_ONLY_SUCCESSOR",
+  "stageId": "WP-503_ATLAS_SURFACE",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "evaluationIdentity": {
+    "sha": "f2848a044b1f37c95463ffca341058f7ea33da49",
+    "tree": "5951c4939e6fec540bdb1044131e064f4ed81e0e"
+  },
+  "bindings": {
+    "authorityDigest": "80ee85c081b44ee6cdfb062b0d072c7864ef29aeff60ae986aae094ba89da9fb",
+    "stageInstanceDigest": "4008678b2e14d8385f36411a7c400cb324aaff0ab4c9d0592fb889d18e545797",
+    "stageAdmissionDigest": "15132c0f255c8d5163152cd145c92847966fa8998b839d7858ec7d7053def984",
+    "failureDigest": "feb785fab1da6dfa30447bb2bb5ae5ae7f84fbdb7629dc1ff6e447cd9357542e",
+    "selectionReceiptDigest": "d427af7be17e40af773cac79d40aba24b5e892dd27e1f0c710454aa3c03cc05d",
+    "historicalTemporalFailureDigest": "eb9a45ba28d3cf8dff91f21c57ece84244ce423ead86a6a6b4786f6f9de333fe",
+    "historicalTemporalSuccessorDigest": "a7407272da2c8dd53c965393ce1f04fb3eb31f11dc47ae0c36f6823014b91cb0",
+    "auditR2RegistryDigest": "afa7a51abf8a0e52ae6c6c6277a70b37337969fa50878bd089ffdd2a587197db",
+    "testInventoryDigest": "cc66cf3541462e9ebed74a2ec11c06a84b39013a63454a81f6f9368bf8ecbcb5",
+    "terminalVerifierDigest": "16416d0430ce02ec8b62c78a257d79409f352b4bf7e499bc79f3514ad65af86a",
+    "terminalCarrierTestDigest": "447b4592b856a4894b53aee9a28ec700f750f52faf196e9e18857811ff7b20f3",
+    "postAuditVerifierDigest": "1af1749fe89c01fea03601d79f90844d462b4ee83e3235b5844a7346d3c97be2",
+    "postAuditContractTestDigest": "6e867a07507e1616a7d8eb8dc44154fbff24f014f7f7446e0db8a2db51caddae",
+    "auditR2VerifierDigest": "2d8e702a0d35d9c871cf9b2de8e763bb6d892e16c06ce04113d1d3720f7a52c5",
+    "auditR2ContractTestDigest": "59e5198e4e62f0ee2c21eb5be031bb7d1fc44b033052d100675f8b41e659bd7e"
+  },
+  "correctedOracle": {
+    "selectionCreationClockBound": true,
+    "declaredSelectedAtUtcRejectedAsEventTimeEvidence": true,
+    "verifiedCreationObservedAtUtc": "2026-09-01T13:39:55Z",
+    "futureDeltaSeconds": 1205,
+    "historicalThreeCarrierSetPreserved": true,
+    "prematureExternalTerminalEvidenceRejected": true,
+    "currentSelectionAuthority": "APPEND_ONLY_V10_SUCCESSOR_AT_EXACT_BASE"
+  },
+  "historicalEvidenceRewritten": false,
+  "productBytesChanged": false,
+  "programDone": false,
+  "nextGraphNodeStarted": false
+}

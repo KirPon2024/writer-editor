@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-501-TIME-KNOWLEDGE-CLAIM-BINDINGS",
+  "contourId": "WP-501_TIME_KNOWLEDGE",
+  "evidenceClass": "CONTRACT",
+  "verdict": "PASS",
+  "headSha": "810603c97958a7e94c9a537ab3e6f5a834d6502d",
+  "originMainSha": "55a9a226e1e7aec1b426b1d511b7cfbc7cf139d8",
+  "generatedAtUtc": "2026-09-01T07:49:13Z",
+  "oracle": "Strict WP501 local exact-evaluation claim binding; owner source-plan and compiled-program digests are distinct immutable roles; future external delivery identities remain unclaimed predicates",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP501_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "2008f4e8ce203818690810c73d493c2127200130319e2f35f588473a8d6139e7",
+      "claimTerms": ["DONE"]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/atlas-time-knowledge-v1.mjs",
+      "sha256": "400b585957d727496729d4c681581d93423e109d72f30d672e5ed1e334cc9295",
+      "terms": ["Pure immutable revision-bound triple-time perspective knowledge projection and query compiler"]
+    },
+    {
+      "path": "test/unit/r24-wp501-time-knowledge.test.js",
+      "sha256": "6ef7a186b4791fe6be5a000060ce8aa843c795e31b29fa1bc57be7adae9d2130",
+      "terms": ["WP501 exact identity, triple-axis, evidence and query contract oracle"]
+    },
+    {
+      "path": "test/unit/r24-wp501-time-knowledge-integration.test.js",
+      "sha256": "40b938cc85302f7245351506b5b1f35fe2e28279d6c7316ab43ba17a2b9c9e28",
+      "terms": ["WP501 full and incremental differential integration and ten-thousand-cell bound oracle"]
+    },
+    {
+      "path": "test/unit/r24-wp501-time-knowledge-mutants.test.js",
+      "sha256": "85c9e4d43a574987d45fbe014d69b5ed93f85433c8fe4371978149a9bb801d8f",
+      "terms": ["Nine-of-nine time, perspective, evidence, digest, index and authority mutant oracle"]
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/R24_CORRECTIVE_PROGRAM_V1_1.json",
+      "sha256": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+      "terms": ["compiledProgramFileDigest role distinct from owner-supplied externalSourcePlanDigest 1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a"]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "source-plan role-separation oracle",
+      "verdict": "PASS",
+      "tests": {"pass": 1, "fail": 0},
+      "requiredDisposition": "externalSourcePlanDigest and compiledProgramFileDigest are distinct and correctly bound"
+    },
+    {
+      "command": "node test WP501 and adjacent WP500 and E06 contracts",
+      "verdict": "PASS",
+      "tests": {"pass": 28, "fail": 0},
+      "mutants": {"killed": 17, "survived": 0},
+      "requiredDisposition": "Exact snapshot and evidence identity, independent time axes, perspective truth, differential indexes and ten-thousand-cell bound"
+    }
+  ],
+  "nonClaims": [
+    "No external candidate, protected merge, ops-vector-close or exact postmerge identity is claimed before those events exist.",
+    "No renderer, product-runtime persistence, Command Kernel or platform-effect wiring was added.",
+    "No graph node beyond WP-501 was started.",
+    "PROGRAM_DONE remains false.",
+    "The single non-recursive terminal carrier does not claim its own future protected merge."
+  ]
+}

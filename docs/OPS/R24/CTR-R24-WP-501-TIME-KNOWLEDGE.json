@@ -1,0 +1,45 @@
+{
+  "receiptId": "CTR-R24-WP-501-TIME-KNOWLEDGE",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-501_TIME_KNOWLEDGE",
+  "attemptId": "ATTEMPT-WP501-20260901",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP501_AUTHORITY_EPOCH_V1",
+  "evaluationSha": "810603c97958a7e94c9a537ab3e6f5a834d6502d",
+  "evaluationTreeSha": "ae74bd0ff5b587493032f640b8bacb2f65cf452a",
+  "mergeState": "PENDING_EXTERNAL_PROTECTED_MERGE",
+  "postmergeState": "PENDING_EXTERNAL_EXACT_POSTMERGE_CI",
+  "opsVectorCloseState": "PENDING_EXTERNAL_OPS_VECTOR_CLOSE",
+  "survivorState": "PENDING_EXTERNAL_POSTMERGE_GATES",
+  "conditionalTerminalRule": {
+    "ruleId": "SINGLE_TERMINAL_PR_RULE_V1",
+    "currentState": "ADMITTED_ACTIVE_WIP_1",
+    "targetState": "CERTIFIED_DONE_RELEASED_WIP_0",
+    "predicates": [
+      "CANDIDATE_CI_GREEN_AT_EXACT_PR_HEAD",
+      "NORMAL_PROTECTED_MERGE",
+      "OPS_VECTOR_CLOSE_GREEN_AT_EXACT_MERGE",
+      "EXACT_POSTMERGE_CI_GREEN_AT_EXACT_MERGE",
+      "PROTECTED_WIP_AFTER_EXACT",
+      "NO_LIVE_WORK_AT_RELEASE"
+    ],
+    "selfBindingPolicy": "FUTURE_EXTERNAL_IDENTITIES_BOUND_BY_EXTERNAL_TERMINAL_DELIVERY_RECEIPT; NO_RECURSIVE_CLOSURE_PR"
+  },
+  "evidenceStampIds": [
+    "ES-R24-WP-501-TIME-KNOWLEDGE-MODEL",
+    "ES-R24-WP-501-TIME-KNOWLEDGE-CONTRACT",
+    "ES-R24-WP-501-TIME-KNOWLEDGE-INTEGRATION",
+    "ES-R24-WP-501-TIME-KNOWLEDGE-MUTANTS",
+    "ES-R24-WP-501-TIME-KNOWLEDGE-EXACT-HEAD",
+    "ES-R24-WP-501-TIME-KNOWLEDGE-SURVIVOR-AUDIT",
+    "ES-R24-WP-501-TIME-KNOWLEDGE-CLAIM-BINDINGS"
+  ],
+  "nextContourId": null,
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "graphAdvance": false,
+  "programDone": false,
+  "schemaVersion": "ContourTerminalReceiptV2"
+}

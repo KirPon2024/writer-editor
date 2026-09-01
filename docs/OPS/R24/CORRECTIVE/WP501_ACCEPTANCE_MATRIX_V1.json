@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "YALKEN_R24_WP501_ACCEPTANCE_MATRIX_V1",
+  "stageId": "WP-501_TIME_KNOWLEDGE",
+  "status": "CONDITIONAL_PENDING_EXTERNAL_GATES",
+  "observedAtUtc": "2026-09-01T07:49:13Z",
+  "evaluationSha": "810603c97958a7e94c9a537ab3e6f5a834d6502d",
+  "evaluationTreeSha": "ae74bd0ff5b587493032f640b8bacb2f65cf452a",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "bindings": {
+    "stageInstanceDigest": "bcee44d31ff29c96566fb5d4dec1c335fd5831cb28419c2c252dabd8bad18fc6",
+    "stageAdmissionDigest": "61b437c37deb503d7904272a734511f987ec9a4ca3a448c2c430639db122ac2e",
+    "acceptanceSignalsDigest": "fb99d01057c6ea1af7ffc7e24536d57cd1190b961c33ccf3c48a48dba75e808a",
+    "contourTerminalReceiptDigest": "993d1cd2570eec9f5913ae4970ae4a47c51f2139fcfb5862a428afceff0ce009",
+    "claimBindingDigest": "50f1846091a48e50c218bfb6632f988049f6504d397a2efc9302a875e3f0e1ef",
+    "protectedWipBeforeCarrierDigest": "2380d322d74465c526da8f7efa7804efe98894a0d07b5e9520488dc4a27e1db6",
+    "protectedWipAfterCarrierDigest": "70bf1804b4d48589d377aaa37c976bdc9ce64d49405787ca78afb6339c22e9ea"
+  },
+  "rowCount": 22,
+  "passedRowCount": 17,
+  "failedRowCount": 0,
+  "pendingRowCount": 5,
+  "rows": [
+    {"id": "CLAIM_BINDINGS_DENOMINATOR_COMPLETE", "status": "PASS", "evidenceStampId": "ES-R24-WP-501-TIME-KNOWLEDGE-CLAIM-BINDINGS"},
+    {"id": "CONTRACT_NEGATIVE", "status": "PASS", "evidenceStampId": "ES-R24-WP-501-TIME-KNOWLEDGE-CONTRACT"},
+    {"id": "DETERMINISTIC_FULL_INCREMENTAL_PARITY", "status": "PASS", "evidenceStampId": "ES-R24-WP-501-TIME-KNOWLEDGE-INTEGRATION"},
+    {"id": "EVIDENCE_ANCHOR_SCOPE_AND_IDENTITY_EXACT", "status": "PASS", "evidenceStampId": "ES-R24-WP-501-TIME-KNOWLEDGE-CONTRACT"},
+    {"id": "EXACT_ATLAS_BOOK_SNAPSHOT_BINDING", "status": "PASS", "evidenceStampId": "ES-R24-WP-501-TIME-KNOWLEDGE-INTEGRATION"},
+    {"id": "GOVERNANCE_STRICT_PASS", "status": "PASS_LOCAL", "evidenceStampId": "ES-R24-WP-501-TIME-KNOWLEDGE-SURVIVOR-AUDIT"},
+    {"id": "IMPLEMENTATION_MUTANTS_ALL_KILLED", "status": "PASS", "evidenceStampId": "ES-R24-WP-501-TIME-KNOWLEDGE-MUTANTS"},
+    {"id": "INDEPENDENT_EXACT_HEAD", "status": "PENDING_EXTERNAL", "evidenceStampId": "ES-R24-WP-501-TIME-KNOWLEDGE-EXACT-HEAD"},
+    {"id": "KNOWLEDGE_UNKNOWN_NEVER_COLLAPSES_TO_FALSE", "status": "PASS", "evidenceStampId": "ES-R24-WP-501-TIME-KNOWLEDGE-MODEL"},
+    {"id": "LARGE_CORPUS_10000_CELLS", "status": "PASS", "evidenceStampId": "ES-R24-WP-501-TIME-KNOWLEDGE-INTEGRATION"},
+    {"id": "LEASE_64_RELEASED_WIP_0_AFTER_EXTERNAL_GATES", "status": "PENDING_EXTERNAL", "carrier": "WP501_LEASE_RELEASE_V1"},
+    {"id": "NO_PERSISTENCE_RENDERER_COMMAND_OR_PLATFORM_EFFECT", "status": "PASS", "evidenceStampId": "ES-R24-WP-501-TIME-KNOWLEDGE-SURVIVOR-AUDIT"},
+    {"id": "POSTMERGE_EXACT_HEAD", "status": "PENDING_EXTERNAL", "evidenceStampId": "ES-R24-WP-501-TIME-KNOWLEDGE-SURVIVOR-AUDIT"},
+    {"id": "PROGRAM_DONE_FALSE", "status": "PASS", "carrier": "WP501_MAIN_PRODUCT_OWNER_AUTHORITY_V1"},
+    {"id": "PROPOSITION_PERSPECTIVE_MODALITY_EXPLICIT", "status": "PASS", "evidenceStampId": "ES-R24-WP-501-TIME-KNOWLEDGE-MODEL"},
+    {"id": "PROTECTED_WIP_UNCHANGED", "status": "PASS_LOCAL", "carrier": "WP501_PROTECTED_WIP_AFTER_V1"},
+    {"id": "SINGLE_TERMINAL_PROTECTED_PR", "status": "PENDING_EXTERNAL", "carrier": "WP501_TERMINAL_RECEIPT_V1"},
+    {"id": "STALE_BOOK_SCENE_PROJECTION_AND_EVIDENCE_REJECTION", "status": "PASS", "evidenceStampId": "ES-R24-WP-501-TIME-KNOWLEDGE-CONTRACT"},
+    {"id": "STORY_NARRATIVE_KNOWLEDGE_TIME_AXES_SEPARATED", "status": "PASS", "evidenceStampId": "ES-R24-WP-501-TIME-KNOWLEDGE-MODEL"},
+    {"id": "SURVIVOR_AUDIT", "status": "PENDING_EXTERNAL", "evidenceStampId": "ES-R24-WP-501-TIME-KNOWLEDGE-SURVIVOR-AUDIT"},
+    {"id": "TAMPERED_DENOMINATOR_INDEX_AND_DIGEST_REJECTION", "status": "PASS", "evidenceStampId": "ES-R24-WP-501-TIME-KNOWLEDGE-MUTANTS"},
+    {"id": "WP500_CERTIFIED_PREDECESSOR_BOUND", "status": "PASS", "evidenceStampId": "ES-R24-WP-501-TIME-KNOWLEDGE-MODEL"}
+  ],
+  "conditionalPromotion": {
+    "targetStatus": "PASS",
+    "targetPassedRowCount": 22,
+    "targetPendingRowCount": 0,
+    "requiredExternalPredicates": [
+      "CANDIDATE_CI_GREEN_AT_EXACT_PR_HEAD",
+      "NORMAL_PROTECTED_MERGE",
+      "OPS_VECTOR_CLOSE_GREEN_AT_EXACT_MERGE",
+      "EXACT_POSTMERGE_CI_GREEN_AT_EXACT_MERGE",
+      "NO_LIVE_WORK_AT_RELEASE"
+    ],
+    "bindingLocation": "EXTERNAL_TERMINAL_DELIVERY_RECEIPT"
+  },
+  "verdict": "PENDING_EXTERNAL_GATES",
+  "programDone": false
+}

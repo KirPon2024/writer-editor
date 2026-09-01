@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "YALKEN_R24_MAIN_PRODUCT_NODE_SELECTION_RECEIPT_V3",
+  "decision": "SELECTED_AND_ADMITTED",
+  "observedAtUtc": "2026-09-01T07:30:15Z",
+  "exactBase": {
+    "branch": "codex/r24-wp501-time-knowledge-v1-20260901",
+    "headSha": "55a9a226e1e7aec1b426b1d511b7cfbc7cf139d8",
+    "originMainSha": "55a9a226e1e7aec1b426b1d511b7cfbc7cf139d8",
+    "treeSha": "522d3602bf1472dc99893d8503e42a93dca9f187",
+    "worktreeCleanBeforeAdmission": true
+  },
+  "isolation": {
+    "canonicalRepositoryResolved": true,
+    "t7MountedEncryptedUnlockedWritable": true,
+    "t7Uuid": "D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2",
+    "soleWriter": true,
+    "secondWriter": false
+  },
+  "freshRemote": {
+    "openPullRequestCount": 0,
+    "runningActionCount": 0,
+    "queuedActionCount": 0,
+    "rulesetId": 12270444,
+    "rulesetRequiredContext": "merge-gate",
+    "rulesetZeroBypassActors": true
+  },
+  "graph": {
+    "selectedId": "WP-501_TIME_KNOWLEDGE",
+    "selectionReason": "DEPENDENCY_READY_LOWEST_PROGRAM_INDEX_MANDATORY_NODE_AFTER_WP500",
+    "higherPriorityGraphReadyNode": null,
+    "wp500State": "DONE",
+    "effectiveCountsBefore": {
+      "BLOCKED_TYPED": 3,
+      "DONE": 56,
+      "INELIGIBLE_OPTIONAL": 10,
+      "PENDING": 40
+    },
+    "readySet": [
+      {
+        "id": "WP-501_TIME_KNOWLEDGE",
+        "profile": "ATLAS_PRODUCT_V33",
+        "programIndex": 60
+      },
+      {
+        "id": "WP-700_INTERCHANGE_IR",
+        "profile": "INTERCHANGE_COMMON",
+        "programIndex": 75
+      },
+      {
+        "id": "WP-800_PULSE_POLICY_CODEC",
+        "profile": "PULSE_LOCAL_HISTORY",
+        "programIndex": 86
+      }
+    ]
+  },
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "protectedWip": {
+    "algorithm": "YALKEN_PROTECTED_WIP_SNAPSHOT_ALGORITHM_V2",
+    "fileSha256": "2380d322d74465c526da8f7efa7804efe98894a0d07b5e9520488dc4a27e1db6",
+    "snapshotSha256": "e0bef9e788032e5de07cdb6c3ed26ca174a7c18b564123a67d8afa4234f4d01e",
+    "completeDenominator": 254,
+    "presentDenominator": 251,
+    "prunableDenominator": 3,
+    "dirtyDenominator": 7,
+    "predecessorDirtySetExact": true
+  },
+  "lease": {
+    "fencingCounter": 64,
+    "predecessorReleaseDigest": "8085f4786f9ef3068cfa8a1566a1aef0b6486e24dc1ecedc9535010de4cd4c8f",
+    "status": "ACTIVE",
+    "wip": 1
+  },
+  "admissionBindings": {
+    "authorityDigest": "4a1ff1f4b285b1f23e8b332547427d8545d2cfbce582ca59671ee3ea9429f59a",
+    "stageInstanceDigest": "bcee44d31ff29c96566fb5d4dec1c335fd5831cb28419c2c252dabd8bad18fc6",
+    "stageAdmissionDigest": "61b437c37deb503d7904272a734511f987ec9a4ca3a448c2c430639db122ac2e",
+    "writeSetDigest": "a0bbfc590dff004a8b5be3d10a2bfb7528f6cf4e91ee07b10be2a3e7ba1fbb09",
+    "commandScopeDigest": "fdb174add6399ac4e1db515e728e12b6934c07ce79e880a0d35ffcac66ae4b17",
+    "acceptanceSignalsDigest": "fb99d01057c6ea1af7ffc7e24536d57cd1190b961c33ccf3c48a48dba75e808a",
+    "verifierDigest": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f"
+  },
+  "oneNodeOneTerminalPr": true,
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

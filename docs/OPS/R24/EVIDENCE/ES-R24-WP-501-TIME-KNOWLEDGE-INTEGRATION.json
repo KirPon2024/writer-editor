@@ -1,0 +1,54 @@
+{
+  "stampId": "ES-R24-WP-501-TIME-KNOWLEDGE-INTEGRATION",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-501_TIME_KNOWLEDGE",
+  "attemptId": "ATTEMPT-WP501-20260901",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP501_AUTHORITY_EPOCH_V1",
+  "profileId": "ATLAS_PRODUCT_V33",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "810603c97958a7e94c9a537ab3e6f5a834d6502d",
+    "treeSha": "ae74bd0ff5b587493032f640b8bacb2f65cf452a"
+  },
+  "claim": {
+    "type": "WP501_INTEGRATION_DIFFERENTIAL_AND_LARGE_CORPUS",
+    "ceiling": "WP501_NODE_TRIPLE_TIME_AND_EVIDENCE_BOUND_PERSPECTIVE_KNOWLEDGE_ONLY_EXACT_WP500_PREDECESSOR_NO_PERSISTENCE_NO_RENDERER_NO_COMMAND_NO_PLATFORM_EFFECT_NO_NEXT_NODE_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "WP501_INTEGRATION_DIFFERENTIAL_AND_LARGE_CORPUS",
+    "evidenceClass": "INTEGRATION",
+    "denominator": 3,
+    "passed": 3,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-501-TIME-KNOWLEDGE-CONTRACT"
+    ],
+    "predecessorReceiptDigest": "17d2998d20041005cfa01ef2745599854b20ed9fe28f5ad40dfe590225c19978"
+  },
+  "createdAt": "2026-09-01T07:43:59Z",
+  "actor": "codex/r24-wp501-time-knowledge-v1-20260901",
+  "artifact": {
+    "command": "node --test r24-wp501-time-knowledge-integration.test.js",
+    "checks": [
+      "WP500 association and WP501 knowledge share one exact snapshot identity",
+      "independent differential indexes and full versus incremental parity across 120 cells",
+      "10000-cell and 10000-anchor exact denominator inside five-second compile budget"
+    ],
+    "cellDenominator": 10000,
+    "evidenceAnchorDenominator": 10000,
+    "skips": 0,
+    "todos": 0,
+    "sourcePlanRoles": {
+      "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+      "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+      "rolesDistinct": true
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

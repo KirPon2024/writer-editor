@@ -1,0 +1,107 @@
+{
+  "stampId": "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-SURVIVOR-AUDIT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-404_ATLAS_FOUNDATION_CLAIM",
+  "attemptId": "ATTEMPT-WP404-20260901",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP404_AUTHORITY_EPOCH_V1",
+  "profileId": "ATLAS_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "233210ae4cc7a52d158db1a3c312d4f9781913e2",
+    "treeSha": "8e1e67b0ed3281ff865fcc420a3be1df91a96445"
+  },
+  "claim": {
+    "type": "WP404_EXACT_MAIN_SURVIVOR_AUDIT",
+    "ceiling": "WP404_NODE_AND_SELECTED_ATLAS_FOUNDATION_PROFILE_ONLY_WRITER_V0_INHERITED_COMPLETE_WP400_WP403_PROOF_SET_BOUND_NO_GLOBAL_SCALAR_PASS_NO_CROSS_PROFILE_PROMOTION_NO_RUNTIME_PERSISTENCE_NO_RENDERER_WIRING_NO_GRAPH_ADVANCE_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "Git-object artifact digests and fresh exact-merge focused replay",
+    "evidenceClass": "SURVIVOR_AUDIT",
+    "denominator": 9,
+    "passed": 9,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-POSTMERGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "21c5ca5a64bca8b5d62a4ad1bde10d60267eb31ade8e555e29747795e3b97301"
+  },
+  "createdAt": "2026-09-01T03:31:16Z",
+  "actor": "codex/r24-wp404-atlas-foundation-claim-v1-20260901",
+  "artifact": {
+    "artifactDigests": [
+      {
+        "path": "src/core/atlas-foundation-claim-v1.mjs",
+        "sha256": "1185504976e32ab8061356934858301e2e7c30671c088415e67bdefb234a87cb"
+      },
+      {
+        "path": "test/unit/r24-wp404-atlas-foundation-claim.test.js",
+        "sha256": "fe9dd286b863a496deac3a0b2cdaf370f1072e673e8b49ffd1d63d17ed8e76bf"
+      },
+      {
+        "path": "test/unit/r24-wp404-atlas-foundation-claim-integration.test.js",
+        "sha256": "084cd755832e24bba42e8ff942a59b0c88bb174e4cc89757f77718d0d30a7f27"
+      },
+      {
+        "path": "test/unit/r24-wp404-atlas-foundation-claim-mutants.test.js",
+        "sha256": "ee3d76d7020eb270bef4c59c70e5fa4e96dde6cd73aef3268ab109c09a0077d2"
+      }
+    ],
+    "admission": {
+      "authorityDigest": "5ef707aeffe932d65dad2ea7ed80799f89886db3f6ef671c3a3fe901eb8ffdf2",
+      "stageInstanceDigest": "1276a9c2805d4317e35dfff4809bc26a6ca773e82312b12bbd20fb4547464318",
+      "stageAdmissionDigest": "92bbab8e9a12950b43763414bb702ed97ef89887e994a4cc1e6c498a625cadaa",
+      "writeSetDigest": "99efd171a84d457e4ae0ba408f420ff1aa6ce490c2ad7ffdcc9298b7015f4316",
+      "commandScopeDigest": "a4643ddbd58039b0a7cc4a5a3a6df1de52a6bc2500b305009982250800d2663f",
+      "acceptanceSignalsDigest": "e1523fcfed0ea29267743ee9405749a3024c594986c82c88e86cc32cfb8b75b7",
+      "verifierDigest": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f"
+    },
+    "sourcePlanRoles": {
+      "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+      "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+      "rolesDistinct": true
+    },
+    "implementationDelta": {
+      "baseSha": "5774d547bfa607209f4d871c48ae2241332b00b6",
+      "candidateSha": "1daa931f1111f2c44530274400b2a1ce238944b1",
+      "nameStatusSha256": "4c4411cc72163571c4c0ecb04739d1fe3ac4e211eb672d14b27010a8d0198815",
+      "insertions": 1522,
+      "deletions": 27,
+      "changedPathDenominator": 18
+    },
+    "focusedReplay": {
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "mutantsKilled": 9,
+      "mutantsSurvived": 0,
+      "completeFoundationNodeDenominator": 4,
+      "largeCorpusSupportingEvidenceDenominator": 8192
+    },
+    "survivors": {
+      "artifactDigestMismatches": 0,
+      "staleIdentitiesAccepted": 0,
+      "missingDuplicateOrUnknownNodesAccepted": 0,
+      "tamperedWriterOrProofDigestsAccepted": 0,
+      "globalScalarPassesAccepted": 0,
+      "crossProfilePromotionsAccepted": 0,
+      "productMutations": 0,
+      "runtimePersistences": 0,
+      "rendererWirings": 0,
+      "graphAdvances": 0,
+      "programDoneClaims": 0
+    },
+    "correctionCycleIdentity": {
+      "pr1776CandidateSha": "77354cfe994588dc1771f3eded29d1e7e68d703f",
+      "pr1776MergeSha": "af0bfb704c13b0195c12b0144415f2e769f99752",
+      "pr1777CandidateSha": "bf3d21072879d276ca3489b0bbead780fb39f596",
+      "pr1777MergeSha": "0a8837ae8b0724fa9c258d98281cae693ce0693e"
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

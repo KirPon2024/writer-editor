@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "WP503_SELECTION_PROVENANCE_FAILURE_V1",
+  "status": "FAIL_CLOSED_SUPERSEDED_BY_APPEND_ONLY_SELECTION_PROVENANCE_SUCCESSOR",
+  "stageId": "WP-503_ATLAS_SURFACE",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "exactBase": {
+    "sha": "f2848a044b1f37c95463ffca341058f7ea33da49",
+    "tree": "5951c4939e6fec540bdb1044131e064f4ed81e0e"
+  },
+  "rootFailure": {
+    "code": "E_WP503_SELECTION_SELECTED_AT_FUTURE_RELATIVE_TO_CREATION_OBSERVATION",
+    "selectionReceiptPath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+    "selectionReceiptDigest": "d427af7be17e40af773cac79d40aba24b5e892dd27e1f0c710454aa3c03cc05d",
+    "declaredSelectedAtUtc": "2026-09-01T14:00:00Z",
+    "verifiedCreationObservedAtUtc": "2026-09-01T13:39:55Z",
+    "futureDeltaSeconds": 1205,
+    "creationObservationSource": "OWNER_MONITOR_VERIFIED_RUNTIME_OBSERVATION",
+    "classification": "REJECTED_FUTURE_SELECTED_AT_CREATION"
+  },
+  "publicationChronology": {
+    "firstCarrierCommitSha": "e17b93766c0abd9d7102881b22b54038efd8fc48",
+    "firstCarrierCommitTimeUtc": "2026-09-01T14:37:22Z",
+    "role": "LATER_GIT_PUBLICATION_NOT_SELECTION_CREATION_CLOCK",
+    "creationClockNotRecoverableFromCommitTime": true
+  },
+  "historicalTemporalSet": {
+    "failureCarrierDigest": "eb9a45ba28d3cf8dff91f21c57ece84244ce423ead86a6a6b4786f6f9de333fe",
+    "successorCarrierDigest": "a7407272da2c8dd53c965393ce1f04fb3eb31f11dc47ae0c36f6823014b91cb0",
+    "futureCarrierDenominator": 3,
+    "selectionDefectIsAdditive": true,
+    "historicalBytesRewritten": false
+  },
+  "rejectedPrematureTerminalEvidence": {
+    "receiptDigest": "ab88df32b77bfc2392519962cefd83e5673de35a041b23c640fe725d4a8937ed",
+    "archiveDigest": "e641396e701bd3fb45f78e3cd2784d62e4895404ce9982afaec8e4c1bd9f4936",
+    "verificationDigest": "f65bece771a80feba0b43ddf0651a6fd308b17bb3630f5163f79f7da452e66b0",
+    "terminalArtifactId": "WP503-TERMINAL-20260901T182914874Z",
+    "status": "REJECTED_SELECTION_PROVENANCE_GAP"
+  },
+  "repairPolicy": {
+    "historicalSelectionReceiptBytesPreserved": true,
+    "declaredSelectedAtUtcMayNotProveEventTime": true,
+    "verifiedCreationObservationMustBeBound": true,
+    "appendOnlySuccessorRequired": true,
+    "noFabricatedPastEntry": true
+  },
+  "programDone": false
+}

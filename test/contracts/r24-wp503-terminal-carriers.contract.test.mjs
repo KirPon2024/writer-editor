@@ -1,14 +1,15 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { verifyWp503TerminalCarriers } from '../../scripts/ops/r24/wp503-terminal-verifier.mjs';
+import crypto from 'node:crypto';
+import { verifyWp503ApprovalChronology, verifyWp503SelectionProvenanceRecord, verifyWp503TerminalCarriers } from '../../scripts/ops/r24/wp503-terminal-verifier.mjs';
 
 const load = (path) => JSON.parse(fs.readFileSync(path, 'utf8'));
 
 test('WP-503 terminal carriers form an acyclic exact-byte chain with a closed 25-row denominator', () => {
   const result = verifyWp503TerminalCarriers();
   assert.equal(result.status, 'PASS');
-  assert.equal(result.schemaVersion, 'YALKEN_R24_WP503_TERMINAL_CARRIERS_VERIFICATION_V4');
+  assert.equal(result.schemaVersion, 'YALKEN_R24_WP503_TERMINAL_CARRIERS_VERIFICATION_V5');
   assert.equal(result.evidenceStampDenominator, 7);
   assert.equal(result.localPassedRows, 21);
   assert.equal(result.externalPredicateRows, 4);
@@ -20,6 +21,7 @@ test('WP-503 terminal carriers form an acyclic exact-byte chain with a closed 25
   assert.equal(result.futureUtcOracle, 'PASS');
   assert.equal(result.auditR2RegistryOracle, 'PASS');
   assert.equal(result.testInventoryOracle, 'PASS');
+  assert.equal(result.selectionCreationClockOracle, 'PASS');
   assert.equal(result.programDone, false);
 });
 
@@ -35,9 +37,46 @@ test('WP-503 temporal successor binds the exact future-UTC defect without rewrit
 });
 
 test('WP-503 current approval successor contains no future timestamps', () => {
-  const approvals = load('docs/OPS/R24/CORRECTIVE/WP503_GOVERNANCE_CHANGE_APPROVALS_V6.json');
+  const approvals = load('docs/OPS/R24/CORRECTIVE/WP503_GOVERNANCE_CHANGE_APPROVALS_V7.json');
   assert.ok(approvals.approvals.length > 0);
   assert.ok(approvals.approvals.every((entry) => Date.parse(entry.approvedAtUtc) <= Date.now()));
+});
+
+test('WP-503 selection provenance successor binds the additive 1205-second future defect', () => {
+  const selectionPath = 'docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json';
+  const failurePath = 'docs/OPS/R24/CORRECTIVE/WP503_SELECTION_PROVENANCE_FAILURE_V1.json';
+  const successorPath = 'docs/OPS/R24/CORRECTIVE/WP503_SELECTION_PROVENANCE_SUCCESSOR_V1.json';
+  const historicalFailurePath = 'docs/OPS/R24/CORRECTIVE/WP503_TEMPORAL_EVIDENCE_FAILURE_V1.json';
+  const historicalSuccessorPath = 'docs/OPS/R24/CORRECTIVE/WP503_TEMPORAL_EVIDENCE_SUCCESSOR_V1.json';
+  const h = (path) => crypto.createHash('sha256').update(fs.readFileSync(path)).digest('hex');
+  const result = verifyWp503SelectionProvenanceRecord({ selectionDigest: h(selectionPath), selection: load(selectionPath), failureDigest: h(failurePath), failure: load(failurePath), successor: load(successorPath), historicalFailureDigest: h(historicalFailurePath), historicalSuccessorDigest: h(historicalSuccessorPath) });
+  assert.deepEqual(result, { status: 'PASS', futureDeltaSeconds: 1205, historicalFutureCarrierDenominator: 3 });
+});
+
+test('WP-503 selection provenance hostile mutations fail closed', () => {
+  const paths = {
+    selection: 'docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json',
+    failure: 'docs/OPS/R24/CORRECTIVE/WP503_SELECTION_PROVENANCE_FAILURE_V1.json',
+    successor: 'docs/OPS/R24/CORRECTIVE/WP503_SELECTION_PROVENANCE_SUCCESSOR_V1.json',
+    historicalFailure: 'docs/OPS/R24/CORRECTIVE/WP503_TEMPORAL_EVIDENCE_FAILURE_V1.json',
+    historicalSuccessor: 'docs/OPS/R24/CORRECTIVE/WP503_TEMPORAL_EVIDENCE_SUCCESSOR_V1.json',
+  };
+  const h = (path) => crypto.createHash('sha256').update(fs.readFileSync(path)).digest('hex');
+  const base = { selectionDigest: h(paths.selection), selection: load(paths.selection), failureDigest: h(paths.failure), failure: load(paths.failure), successor: load(paths.successor), historicalFailureDigest: h(paths.historicalFailure), historicalSuccessorDigest: h(paths.historicalSuccessor) };
+  const mutations = [
+    [(subject) => { subject.selectionDigest = '0'.repeat(64); }, /E_WP503_SELECTION_PROVENANCE_SELECTION_DIGEST/],
+    [(subject) => { subject.failure.rootFailure.verifiedCreationObservedAtUtc = '2026-09-01T14:00:00Z'; }, /E_WP503_SELECTION_PROVENANCE_CHRONOLOGY/],
+    [(subject) => { subject.failure.rootFailure.futureDeltaSeconds = 1204; }, /E_WP503_SELECTION_PROVENANCE_CHRONOLOGY/],
+    [(subject) => { subject.failure.historicalTemporalSet.futureCarrierDenominator = 4; }, /E_WP503_SELECTION_PROVENANCE_HISTORICAL_SET/],
+    [(subject) => { subject.failure.rejectedPrematureTerminalEvidence.status = 'VERIFIED'; }, /E_WP503_SELECTION_PROVENANCE_PREMATURE_EVIDENCE/],
+    [(subject) => { delete subject.successor.bindings.selectionReceiptDigest; }, /E_WP503_SELECTION_PROVENANCE_SUCCESSOR_PROVENANCE_BINDING/],
+  ];
+  for (const [mutate, expected] of mutations) {
+    const subject = structuredClone(base);
+    mutate(subject);
+    assert.throws(() => verifyWp503SelectionProvenanceRecord(subject), expected);
+  }
+  assert.throws(() => verifyWp503ApprovalChronology([{ approvedAtUtc: '2999-01-01T00:00:00Z' }], Date.parse('2026-09-01T18:00:00Z')), /E_WP503_SELECTION_PROVENANCE_APPROVAL_FUTURE/);
 });
 
 test('WP-503 does not preclaim future PR, merge, ops-vector-close or postmerge provider identities', () => {

@@ -59,6 +59,17 @@ const INVENTORY_PATHS = Object.freeze({
   auditR2Registry: `${C}/AUDIT_R2_CARRIER_REGISTRY_V18.json`,
   testInventory: `${C}/C1B_TEST_INVENTORY_V1.json`,
 });
+const SELECTION_PROVENANCE_PATHS = Object.freeze({
+  authority: `${C}/WP503_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V10.json`,
+  instance: `${C}/WP503_MAIN_PRODUCT_STAGE_INSTANCE_V10.json`,
+  admission: `${C}/WP503_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V10.json`,
+  failure: `${C}/WP503_SELECTION_PROVENANCE_FAILURE_V1.json`,
+  successor: `${C}/WP503_SELECTION_PROVENANCE_SUCCESSOR_V1.json`,
+  approvals: `${C}/WP503_GOVERNANCE_CHANGE_APPROVALS_V7.json`,
+  supplement: `${C}/WP503_TERMINAL_SUPPLEMENT_V6.json`,
+  auditR2Registry: `${C}/AUDIT_R2_CARRIER_REGISTRY_V19.json`,
+  testInventory: `${C}/C1B_TEST_INVENTORY_V1.json`,
+});
 const EXTERNAL_SOURCE = '1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a';
 const COMPILED_PROGRAM = 'da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a';
 const V1_AUTHORITY = '7155c4221be54e631a640767989b478310cf4943e7b42560beda5a2835f02ba2';
@@ -101,6 +112,30 @@ const gitObjectDigest = (revision, file) => {
   assert(result.status === 0 && Buffer.isBuffer(result.stdout), 'E_WP503_HISTORICAL_GIT_OBJECT', file);
   return sha256(result.stdout);
 };
+
+export function verifyWp503SelectionProvenanceRecord({ selectionDigest, selection, failureDigest, failure, successor, historicalFailureDigest, historicalSuccessorDigest }) {
+  assert(selectionDigest === failure.rootFailure.selectionReceiptDigest && selectionDigest === 'd427af7be17e40af773cac79d40aba24b5e892dd27e1f0c710454aa3c03cc05d', 'E_WP503_SELECTION_PROVENANCE_SELECTION_DIGEST');
+  assert(selection.selectedAtUtc === failure.rootFailure.declaredSelectedAtUtc, 'E_WP503_SELECTION_PROVENANCE_DECLARED_TIME');
+  const declared = Date.parse(failure.rootFailure.declaredSelectedAtUtc);
+  const created = Date.parse(failure.rootFailure.verifiedCreationObservedAtUtc);
+  assert(Number.isFinite(declared) && Number.isFinite(created) && declared > created && (declared - created) / 1000 === 1205 && failure.rootFailure.futureDeltaSeconds === 1205, 'E_WP503_SELECTION_PROVENANCE_CHRONOLOGY');
+  assert(failure.rootFailure.creationObservationSource === 'OWNER_MONITOR_VERIFIED_RUNTIME_OBSERVATION' && failure.rootFailure.classification === 'REJECTED_FUTURE_SELECTED_AT_CREATION', 'E_WP503_SELECTION_PROVENANCE_CLASSIFICATION');
+  assert(failure.publicationChronology.firstCarrierCommitSha === 'e17b93766c0abd9d7102881b22b54038efd8fc48' && failure.publicationChronology.firstCarrierCommitTimeUtc === '2026-09-01T14:37:22Z' && failure.publicationChronology.role === 'LATER_GIT_PUBLICATION_NOT_SELECTION_CREATION_CLOCK', 'E_WP503_SELECTION_PROVENANCE_PUBLICATION_ROLE');
+  assert(failure.historicalTemporalSet.failureCarrierDigest === historicalFailureDigest && failure.historicalTemporalSet.successorCarrierDigest === historicalSuccessorDigest && failure.historicalTemporalSet.futureCarrierDenominator === 3 && failure.historicalTemporalSet.selectionDefectIsAdditive === true && failure.historicalTemporalSet.historicalBytesRewritten === false, 'E_WP503_SELECTION_PROVENANCE_HISTORICAL_SET');
+  assert(failure.rejectedPrematureTerminalEvidence.receiptDigest === 'ab88df32b77bfc2392519962cefd83e5673de35a041b23c640fe725d4a8937ed' && failure.rejectedPrematureTerminalEvidence.archiveDigest === 'e641396e701bd3fb45f78e3cd2784d62e4895404ce9982afaec8e4c1bd9f4936' && failure.rejectedPrematureTerminalEvidence.verificationDigest === 'f65bece771a80feba0b43ddf0651a6fd308b17bb3630f5163f79f7da452e66b0' && failure.rejectedPrematureTerminalEvidence.status === 'REJECTED_SELECTION_PROVENANCE_GAP', 'E_WP503_SELECTION_PROVENANCE_PREMATURE_EVIDENCE');
+  assert(successor.bindings.failureDigest === failureDigest && successor.bindings.selectionReceiptDigest === selectionDigest && successor.bindings.historicalTemporalFailureDigest === historicalFailureDigest && successor.bindings.historicalTemporalSuccessorDigest === historicalSuccessorDigest, 'E_WP503_SELECTION_PROVENANCE_SUCCESSOR_PROVENANCE_BINDING');
+  assert(successor.correctedOracle.selectionCreationClockBound === true && successor.correctedOracle.declaredSelectedAtUtcRejectedAsEventTimeEvidence === true && successor.correctedOracle.historicalThreeCarrierSetPreserved === true && successor.historicalEvidenceRewritten === false && successor.programDone === false, 'E_WP503_SELECTION_PROVENANCE_SUCCESSOR_STATE');
+  return { status: 'PASS', futureDeltaSeconds: 1205, historicalFutureCarrierDenominator: 3 };
+}
+
+export function verifyWp503ApprovalChronology(approvals, now = Date.now()) {
+  assert(Array.isArray(approvals) && approvals.length > 0, 'E_WP503_SELECTION_PROVENANCE_APPROVALS_SCHEMA');
+  for (const [index, approval] of approvals.entries()) {
+    const approvedAt = Date.parse(approval.approvedAtUtc);
+    assert(Number.isFinite(approvedAt) && approvedAt <= now, 'E_WP503_SELECTION_PROVENANCE_APPROVAL_FUTURE', String(index));
+  }
+  return { status: 'PASS', denominator: approvals.length };
+}
 
 export function verifyWp503V6TerminalCarriers() {
   const authority = read(PATHS.authority), selection = read(PATHS.selection), instance = read(PATHS.instance), admission = read(PATHS.admission);
@@ -344,7 +379,7 @@ export function verifyWp503V8TerminalCarriers() {
   };
 }
 
-export function verifyWp503TerminalCarriers() {
+export function verifyWp503V9TerminalCarriers() {
   const predecessor = verifyWp503V8TerminalCarriers();
   const authority = read(INVENTORY_PATHS.authority);
   const instance = read(INVENTORY_PATHS.instance);
@@ -369,7 +404,7 @@ export function verifyWp503TerminalCarriers() {
 
   assert(failure.value.status === 'FAIL_CLOSED_SUPERSEDED_BY_APPEND_ONLY_TEST_INVENTORY_SUCCESSOR' && failure.value.result.code === 'E_INVENTORY_DIGEST_MISMATCH' && failure.value.result.mismatchedPaths.length === 3 && failure.value.result.requiredSkips === 0 && failure.value.result.unexplainedSkips === 0, 'E_WP503_INVENTORY_FAILURE_STATE');
   assert(successor.value.status === 'CURRENT_APPEND_ONLY_SUCCESSOR' && successor.value.bindings.authorityDigest === authority.digest && successor.value.bindings.stageInstanceDigest === instance.digest && successor.value.bindings.stageAdmissionDigest === admission.digest && successor.value.bindings.failureDigest === failure.digest, 'E_WP503_INVENTORY_SUCCESSOR_CHAIN');
-  assert(successor.value.bindings.auditR2RegistryDigest === auditR2Registry.digest && successor.value.bindings.testInventoryDigest === testInventory.digest && successor.value.bindings.auditR2VerifierDigest === sha256(fs.readFileSync('scripts/ops/r24/corrective/audit-r2-corrections.mjs')) && successor.value.bindings.auditR2ContractTestDigest === sha256(fs.readFileSync('test/contracts/r24-audit-r2-corrections.contract.test.mjs')) && successor.value.bindings.postAuditVerifierDigest === sha256(fs.readFileSync('scripts/ops/r24/corrective/post-audit-certification-set.mjs')) && successor.value.bindings.postAuditContractTestDigest === sha256(fs.readFileSync('test/contracts/r24-post-audit-certification-set.contract.test.mjs')), 'E_WP503_INVENTORY_SUCCESSOR_BYTES');
+  assert(successor.value.bindings.auditR2RegistryDigest === gitObjectDigest('22255e715b1474611377bb73a997ee7d91151650', INVENTORY_PATHS.auditR2Registry) && successor.value.bindings.testInventoryDigest === gitObjectDigest('22255e715b1474611377bb73a997ee7d91151650', INVENTORY_PATHS.testInventory) && successor.value.bindings.auditR2VerifierDigest === gitObjectDigest('22255e715b1474611377bb73a997ee7d91151650', 'scripts/ops/r24/corrective/audit-r2-corrections.mjs') && successor.value.bindings.auditR2ContractTestDigest === gitObjectDigest('22255e715b1474611377bb73a997ee7d91151650', 'test/contracts/r24-audit-r2-corrections.contract.test.mjs') && successor.value.bindings.postAuditVerifierDigest === gitObjectDigest('22255e715b1474611377bb73a997ee7d91151650', 'scripts/ops/r24/corrective/post-audit-certification-set.mjs') && successor.value.bindings.postAuditContractTestDigest === gitObjectDigest('22255e715b1474611377bb73a997ee7d91151650', 'test/contracts/r24-post-audit-certification-set.contract.test.mjs'), 'E_WP503_INVENTORY_SUCCESSOR_BYTES');
   assert(auditR2Registry.value.schemaVersion === 'AUDIT_R2_CARRIER_REGISTRY_V18' && auditR2Registry.value.carriers.length === 32 && auditR2Registry.value.predecessor.sha256 === 'b7a504de9f0061f1cabf98cdca47452d0881bf4eadf427b0d33ebf198760cc1f', 'E_WP503_INVENTORY_REGISTRY_DENOMINATOR');
   assert(testInventory.value.totals?.requiredSkips === 0 && testInventory.value.totals.unexplainedSkips === 0 && testInventory.value.totals.all === 1293, 'E_WP503_INVENTORY_SKIP_DENOMINATOR');
 
@@ -377,12 +412,12 @@ export function verifyWp503TerminalCarriers() {
   for (const [index, approval] of approvals.value.approvals.entries()) {
     const approvedAt = Date.parse(approval.approvedAtUtc);
     assert(Number.isFinite(approvedAt) && approvedAt <= now, 'E_WP503_INVENTORY_APPROVAL_FUTURE', String(index));
-    assert(sha256(fs.readFileSync(approval.filePath)) === approval.sha256, 'E_WP503_INVENTORY_APPROVAL_BYTES', approval.filePath);
+    assert(gitObjectDigest('22255e715b1474611377bb73a997ee7d91151650', approval.filePath) === approval.sha256, 'E_WP503_INVENTORY_APPROVAL_BYTES', approval.filePath);
   }
 
-  assert(supplement.value.status === 'CONDITIONAL_CERTIFIED_DONE_PENDING_EXTERNAL_DELIVERY' && supplement.value.bindings.authorityDigest === authority.digest && supplement.value.bindings.stageInstanceDigest === instance.digest && supplement.value.bindings.stageAdmissionDigest === admission.digest && supplement.value.bindings.localInventoryFailureDigest === failure.digest && supplement.value.bindings.testInventorySuccessorDigest === successor.digest && supplement.value.bindings.auditR2RegistryDigest === auditR2Registry.digest && supplement.value.bindings.testInventoryDigest === testInventory.digest, 'E_WP503_INVENTORY_SUPPLEMENT_CHAIN');
+  assert(supplement.value.status === 'CONDITIONAL_CERTIFIED_DONE_PENDING_EXTERNAL_DELIVERY' && supplement.value.bindings.authorityDigest === authority.digest && supplement.value.bindings.stageInstanceDigest === instance.digest && supplement.value.bindings.stageAdmissionDigest === admission.digest && supplement.value.bindings.localInventoryFailureDigest === failure.digest && supplement.value.bindings.testInventorySuccessorDigest === successor.digest && supplement.value.bindings.auditR2RegistryDigest === gitObjectDigest('22255e715b1474611377bb73a997ee7d91151650', INVENTORY_PATHS.auditR2Registry) && supplement.value.bindings.testInventoryDigest === gitObjectDigest('22255e715b1474611377bb73a997ee7d91151650', INVENTORY_PATHS.testInventory), 'E_WP503_INVENTORY_SUPPLEMENT_CHAIN');
   assert(supplement.value.bindings.predecessorTerminalSupplementDigest === '33f3221c78dad919948b7c4fbdd856c0872496d8e4650b393fdd5ac5d0314389', 'E_WP503_INVENTORY_SUPPLEMENT_PREDECESSOR');
-  assert(supplement.value.bindings.terminalVerifierDigest === sha256(fs.readFileSync('scripts/ops/r24/wp503-terminal-verifier.mjs')) && supplement.value.bindings.terminalCarrierTestDigest === sha256(fs.readFileSync('test/contracts/r24-wp503-terminal-carriers.contract.test.mjs')), 'E_WP503_INVENTORY_SUPPLEMENT_BYTES');
+  assert(supplement.value.bindings.terminalVerifierDigest === gitObjectDigest('22255e715b1474611377bb73a997ee7d91151650', 'scripts/ops/r24/wp503-terminal-verifier.mjs') && supplement.value.bindings.terminalCarrierTestDigest === gitObjectDigest('22255e715b1474611377bb73a997ee7d91151650', 'test/contracts/r24-wp503-terminal-carriers.contract.test.mjs'), 'E_WP503_INVENTORY_SUPPLEMENT_BYTES');
   assert(supplement.value.currentLease.fencingCounter === 67 && supplement.value.currentLease.status === 'ACTIVE' && supplement.value.currentLease.wip === 1 && supplement.value.targetLease.status === 'RELEASED' && supplement.value.targetLease.wip === 0, 'E_WP503_INVENTORY_SUPPLEMENT_LEASE');
   assert(supplement.value.programDone === false && supplement.value.nextGraphNodeStarted === false, 'E_WP503_INVENTORY_SUPPLEMENT_PROGRAM_STATE');
 
@@ -399,6 +434,87 @@ export function verifyWp503TerminalCarriers() {
     terminalSupplementDigest: supplement.digest,
     currentLease: supplement.value.currentLease,
     targetLease: supplement.value.targetLease,
+    futureUtcOracle: 'PASS',
+    auditR2RegistryOracle: 'PASS',
+    testInventoryOracle: 'PASS',
+    programDone: false,
+  };
+}
+
+export function verifyWp503TerminalCarriers() {
+  const predecessor = verifyWp503V9TerminalCarriers();
+  const authority = read(SELECTION_PROVENANCE_PATHS.authority);
+  const instance = read(SELECTION_PROVENANCE_PATHS.instance);
+  const admission = read(SELECTION_PROVENANCE_PATHS.admission);
+  const failure = read(SELECTION_PROVENANCE_PATHS.failure);
+  const successor = read(SELECTION_PROVENANCE_PATHS.successor);
+  const approvals = read(SELECTION_PROVENANCE_PATHS.approvals);
+  const supplement = read(SELECTION_PROVENANCE_PATHS.supplement);
+  const auditR2Registry = read(SELECTION_PROVENANCE_PATHS.auditR2Registry);
+  const testInventory = read(SELECTION_PROVENANCE_PATHS.testInventory);
+  const selection = read(PATHS.selection);
+  const historicalFailure = read(TEMPORAL_PATHS.failure);
+  const historicalSuccessor = read(TEMPORAL_PATHS.successor);
+  const now = Date.now();
+
+  assert(authority.digest === '80ee85c081b44ee6cdfb062b0d072c7864ef29aeff60ae986aae094ba89da9fb', 'E_WP503_SELECTION_PROVENANCE_AUTHORITY_DIGEST');
+  assert(instance.digest === '4008678b2e14d8385f36411a7c400cb324aaff0ab4c9d0592fb889d18e545797', 'E_WP503_SELECTION_PROVENANCE_INSTANCE_DIGEST');
+  assert(admission.digest === '15132c0f255c8d5163152cd145c92847966fa8998b839d7858ec7d7053def984', 'E_WP503_SELECTION_PROVENANCE_ADMISSION_DIGEST');
+  assert(failure.digest === 'feb785fab1da6dfa30447bb2bb5ae5ae7f84fbdb7629dc1ff6e447cd9357542e', 'E_WP503_SELECTION_PROVENANCE_FAILURE_DIGEST');
+  assert(admission.value.authorityDigest === authority.digest && admission.value.stageInstanceDigest === instance.digest, 'E_WP503_SELECTION_PROVENANCE_ADMISSION_CHAIN');
+  assert(admission.value.writeSetDigest === 'e777d14d23c2f96d4afeb10d2325f9d0662190eb99c5ce1728936ee980f4b11f' && admission.value.commandScopeDigest === '7689fed8d9e8999711d7b7a44233516efb2bd4c923d35104069fca2ece0ee999' && admission.value.acceptanceSignalsDigest === '16465cafdb2d969cde7794d686f355d2205bc62d706da8e447d9236dbc3bb190', 'E_WP503_SELECTION_PROVENANCE_ADMISSION_DIGESTS');
+  assert(instance.value.baseSha === 'f2848a044b1f37c95463ffca341058f7ea33da49' && instance.value.treeSha === '5951c4939e6fec540bdb1044131e064f4ed81e0e', 'E_WP503_SELECTION_PROVENANCE_EXACT_BASE');
+  assert(instance.value.model === 'gpt-5.6-sol' && instance.value.reasoningEffort === 'xhigh', 'E_WP503_SELECTION_PROVENANCE_RUNTIME');
+  assert(instance.value.lease.fencingCounter === 67 && instance.value.lease.status === 'ACTIVE' && instance.value.lease.wip === 1, 'E_WP503_SELECTION_PROVENANCE_ACTIVE_LEASE');
+  for (const value of [authority.value, instance.value, admission.value, failure.value.sourcePlanRoles, successor.value.sourcePlanRoles, approvals.value.sourcePlanRoles, supplement.value.sourcePlanRoles]) sourceRolesExact(value, value.schemaVersion);
+
+  assert(selection.digest === failure.value.rootFailure.selectionReceiptDigest && selection.digest === 'd427af7be17e40af773cac79d40aba24b5e892dd27e1f0c710454aa3c03cc05d', 'E_WP503_SELECTION_PROVENANCE_SELECTION_DIGEST');
+  assert(selection.value.selectedAtUtc === failure.value.rootFailure.declaredSelectedAtUtc, 'E_WP503_SELECTION_PROVENANCE_DECLARED_TIME');
+  const declared = Date.parse(failure.value.rootFailure.declaredSelectedAtUtc);
+  const created = Date.parse(failure.value.rootFailure.verifiedCreationObservedAtUtc);
+  assert(Number.isFinite(declared) && Number.isFinite(created) && declared > created && (declared - created) / 1000 === 1205 && failure.value.rootFailure.futureDeltaSeconds === 1205, 'E_WP503_SELECTION_PROVENANCE_CHRONOLOGY');
+  assert(failure.value.rootFailure.creationObservationSource === 'OWNER_MONITOR_VERIFIED_RUNTIME_OBSERVATION' && failure.value.rootFailure.classification === 'REJECTED_FUTURE_SELECTED_AT_CREATION', 'E_WP503_SELECTION_PROVENANCE_CLASSIFICATION');
+  assert(failure.value.publicationChronology.firstCarrierCommitSha === 'e17b93766c0abd9d7102881b22b54038efd8fc48' && failure.value.publicationChronology.firstCarrierCommitTimeUtc === '2026-09-01T14:37:22Z' && failure.value.publicationChronology.role === 'LATER_GIT_PUBLICATION_NOT_SELECTION_CREATION_CLOCK', 'E_WP503_SELECTION_PROVENANCE_PUBLICATION_ROLE');
+  assert(failure.value.historicalTemporalSet.failureCarrierDigest === historicalFailure.digest && failure.value.historicalTemporalSet.successorCarrierDigest === historicalSuccessor.digest && failure.value.historicalTemporalSet.futureCarrierDenominator === 3 && historicalFailure.value.rootFailure.futureCarriers.length === 3 && failure.value.historicalTemporalSet.selectionDefectIsAdditive === true && failure.value.historicalTemporalSet.historicalBytesRewritten === false, 'E_WP503_SELECTION_PROVENANCE_HISTORICAL_SET');
+  assert(failure.value.rejectedPrematureTerminalEvidence.receiptDigest === 'ab88df32b77bfc2392519962cefd83e5673de35a041b23c640fe725d4a8937ed' && failure.value.rejectedPrematureTerminalEvidence.archiveDigest === 'e641396e701bd3fb45f78e3cd2784d62e4895404ce9982afaec8e4c1bd9f4936' && failure.value.rejectedPrematureTerminalEvidence.verificationDigest === 'f65bece771a80feba0b43ddf0651a6fd308b17bb3630f5163f79f7da452e66b0' && failure.value.rejectedPrematureTerminalEvidence.status === 'REJECTED_SELECTION_PROVENANCE_GAP', 'E_WP503_SELECTION_PROVENANCE_PREMATURE_EVIDENCE');
+  verifyWp503SelectionProvenanceRecord({ selectionDigest: selection.digest, selection: selection.value, failureDigest: failure.digest, failure: failure.value, successor: successor.value, historicalFailureDigest: historicalFailure.digest, historicalSuccessorDigest: historicalSuccessor.digest });
+
+  assert(successor.value.status === 'CURRENT_APPEND_ONLY_SUCCESSOR' && successor.value.bindings.authorityDigest === authority.digest && successor.value.bindings.stageInstanceDigest === instance.digest && successor.value.bindings.stageAdmissionDigest === admission.digest && successor.value.bindings.failureDigest === failure.digest && successor.value.bindings.selectionReceiptDigest === selection.digest, 'E_WP503_SELECTION_PROVENANCE_SUCCESSOR_CHAIN');
+  assert(successor.value.bindings.historicalTemporalFailureDigest === historicalFailure.digest && successor.value.bindings.historicalTemporalSuccessorDigest === historicalSuccessor.digest && successor.value.bindings.auditR2RegistryDigest === auditR2Registry.digest && successor.value.bindings.testInventoryDigest === testInventory.digest, 'E_WP503_SELECTION_PROVENANCE_SUCCESSOR_EVIDENCE');
+  assert(successor.value.bindings.terminalVerifierDigest === sha256(fs.readFileSync('scripts/ops/r24/wp503-terminal-verifier.mjs')) && successor.value.bindings.terminalCarrierTestDigest === sha256(fs.readFileSync('test/contracts/r24-wp503-terminal-carriers.contract.test.mjs')) && successor.value.bindings.postAuditVerifierDigest === sha256(fs.readFileSync('scripts/ops/r24/corrective/post-audit-certification-set.mjs')) && successor.value.bindings.postAuditContractTestDigest === sha256(fs.readFileSync('test/contracts/r24-post-audit-certification-set.contract.test.mjs')), 'E_WP503_SELECTION_PROVENANCE_SUCCESSOR_BYTES');
+  assert(successor.value.correctedOracle.selectionCreationClockBound === true && successor.value.correctedOracle.declaredSelectedAtUtcRejectedAsEventTimeEvidence === true && successor.value.correctedOracle.historicalThreeCarrierSetPreserved === true && successor.value.historicalEvidenceRewritten === false && successor.value.programDone === false, 'E_WP503_SELECTION_PROVENANCE_SUCCESSOR_STATE');
+
+  assert(auditR2Registry.value.schemaVersion === 'AUDIT_R2_CARRIER_REGISTRY_V19' && auditR2Registry.value.carriers.length === 32 && auditR2Registry.value.predecessor.sha256 === '6ba8627ca8c56dba1490c092c6a025494180692cb2844e95135615feb35415e1', 'E_WP503_SELECTION_PROVENANCE_REGISTRY_DENOMINATOR');
+  assert(testInventory.value.totals?.requiredSkips === 0 && testInventory.value.totals.unexplainedSkips === 0 && testInventory.value.totals.all === 1293, 'E_WP503_SELECTION_PROVENANCE_TEST_INVENTORY');
+  assert(approvals.value.version === 'v1.0' && Array.isArray(approvals.value.approvals) && approvals.value.approvals.length > 0, 'E_WP503_SELECTION_PROVENANCE_APPROVALS_SCHEMA');
+  verifyWp503ApprovalChronology(approvals.value.approvals, now);
+  for (const [index, approval] of approvals.value.approvals.entries()) {
+    const approvedAt = Date.parse(approval.approvedAtUtc);
+    assert(Number.isFinite(approvedAt) && approvedAt <= now, 'E_WP503_SELECTION_PROVENANCE_APPROVAL_FUTURE', String(index));
+    assert(sha256(fs.readFileSync(approval.filePath)) === approval.sha256, 'E_WP503_SELECTION_PROVENANCE_APPROVAL_BYTES', approval.filePath);
+  }
+
+  assert(supplement.value.status === 'CONDITIONAL_CERTIFIED_DONE_PENDING_EXTERNAL_DELIVERY' && supplement.value.bindings.authorityDigest === authority.digest && supplement.value.bindings.stageInstanceDigest === instance.digest && supplement.value.bindings.stageAdmissionDigest === admission.digest && supplement.value.bindings.selectionProvenanceFailureDigest === failure.digest && supplement.value.bindings.selectionProvenanceSuccessorDigest === successor.digest, 'E_WP503_SELECTION_PROVENANCE_SUPPLEMENT_CHAIN');
+  assert(supplement.value.bindings.predecessorTerminalSupplementDigest === '07fe0f3e5969e0c5c9e6064d783e59041d05cdf257e7ddbc045cda047bef983c' && supplement.value.bindings.auditR2RegistryDigest === auditR2Registry.digest && supplement.value.bindings.testInventoryDigest === testInventory.digest, 'E_WP503_SELECTION_PROVENANCE_SUPPLEMENT_PREDECESSOR');
+  assert(supplement.value.bindings.terminalVerifierDigest === sha256(fs.readFileSync('scripts/ops/r24/wp503-terminal-verifier.mjs')) && supplement.value.bindings.terminalCarrierTestDigest === sha256(fs.readFileSync('test/contracts/r24-wp503-terminal-carriers.contract.test.mjs')), 'E_WP503_SELECTION_PROVENANCE_SUPPLEMENT_BYTES');
+  assert(supplement.value.externalDeliveryPredicates.length === 4 && supplement.value.externalDeliveryPredicates.every((predicate) => predicate.status === 'REQUIRED_NOT_PRECLAIMED' && predicate.providerIdentity === null), 'E_WP503_SELECTION_PROVENANCE_EXTERNAL_PRECLAIM');
+  assert(supplement.value.currentLease.fencingCounter === 67 && supplement.value.currentLease.status === 'ACTIVE' && supplement.value.currentLease.wip === 1 && supplement.value.targetLease.status === 'RELEASED' && supplement.value.targetLease.wip === 0, 'E_WP503_SELECTION_PROVENANCE_SUPPLEMENT_LEASE');
+  assert(supplement.value.programDone === false && supplement.value.nextGraphNodeStarted === false, 'E_WP503_SELECTION_PROVENANCE_SUPPLEMENT_PROGRAM_STATE');
+
+  return {
+    ...predecessor,
+    schemaVersion: 'YALKEN_R24_WP503_TERMINAL_CARRIERS_VERIFICATION_V5',
+    authorityDigest: authority.digest,
+    stageInstanceDigest: instance.digest,
+    stageAdmissionDigest: admission.digest,
+    selectionProvenanceFailureDigest: failure.digest,
+    selectionProvenanceSuccessorDigest: successor.digest,
+    auditR2RegistryDigest: auditR2Registry.digest,
+    testInventoryDigest: testInventory.digest,
+    terminalSupplementDigest: supplement.digest,
+    currentLease: supplement.value.currentLease,
+    targetLease: supplement.value.targetLease,
+    selectionCreationClockOracle: 'PASS',
     futureUtcOracle: 'PASS',
     auditR2RegistryOracle: 'PASS',
     testInventoryOracle: 'PASS',

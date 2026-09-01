@@ -1,0 +1,100 @@
+{
+  "schemaVersion": "YALKEN_R24_WP404_LEASE_RELEASE_V1",
+  "releaseId": "YALKEN_R24_WP404_LEASE_62_RELEASE",
+  "stageId": "WP-404_ATLAS_FOUNDATION_CLAIM",
+  "status": "RELEASED_WIP_0",
+  "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+  "observedAtUtc": "2026-09-01T04:12:27Z",
+  "releaseBase": {
+    "originSha": "695c5918293ce5b0f181d665964773df6c94eeb5",
+    "originTreeSha": "ef559a9cab8c1983dc0337b4efde350d2f447bb5",
+    "writerWorktreeCleanBeforeReleaseWrite": true
+  },
+  "bindings": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "ownerAuthorityBindingDigest": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+    "authorityDigest": "5ef707aeffe932d65dad2ea7ed80799f89886db3f6ef671c3a3fe901eb8ffdf2",
+    "stageInstanceDigest": "1276a9c2805d4317e35dfff4809bc26a6ca773e82312b12bbd20fb4547464318",
+    "stageAdmissionDigest": "92bbab8e9a12950b43763414bb702ed97ef89887e994a4cc1e6c498a625cadaa",
+    "writeSetDigest": "99efd171a84d457e4ae0ba408f420ff1aa6ce490c2ad7ffdcc9298b7015f4316",
+    "commandListDigest": "a4643ddbd58039b0a7cc4a5a3a6df1de52a6bc2500b305009982250800d2663f",
+    "acceptanceSignalsDigest": "e1523fcfed0ea29267743ee9405749a3024c594986c82c88e86cc32cfb8b75b7",
+    "contourTerminalReceiptDigest": "426ca6a507e668344b9be83d5043ff3d43146b1108f0f04bc93d7cab04ad8379",
+    "claimBindingDigest": "c2fc41a0109a883cb89ff7d6dacf9f651e142f865d1cefd128aea89a477bef82",
+    "closureGovernanceApprovalDigest": "6d31afc37d746282e9dd76c731ff517657f296930090e8bb70b122d8437fbe81",
+    "protectedWipBeforeCarrierDigest": "0688062a9935509bca93b4e8942686631ca22a976e5c0b5ee86e223c2b4b7194",
+    "protectedWipAfterCarrierDigest": "b607d2b89f31fa511f1632a4fb95d7409b49ec13817a416cf873d3145c292e27"
+  },
+  "delivery": {
+    "implementation": {
+      "pullRequest": 1795,
+      "candidateSha": "1daa931f1111f2c44530274400b2a1ce238944b1",
+      "candidateTreeSha": "8e1e67b0ed3281ff865fcc420a3be1df91a96445",
+      "mergeSha": "233210ae4cc7a52d158db1a3c312d4f9781913e2",
+      "mergeTreeSha": "8e1e67b0ed3281ff865fcc420a3be1df91a96445",
+      "candidateCiRunId": 33465079765,
+      "candidateCiRunAttempt": 1,
+      "exactPostmergeCiRunId": 33465824099,
+      "exactPostmergeCiRunAttempt": 1,
+      "status": "VERIFIED"
+    },
+    "closureCarrier": {
+      "pullRequest": 1796,
+      "candidateSha": "8d9f5c2be8c62ad4febec8405947a97a72b51637",
+      "candidateTreeSha": "ef559a9cab8c1983dc0337b4efde350d2f447bb5",
+      "mergeSha": "695c5918293ce5b0f181d665964773df6c94eeb5",
+      "mergeTreeSha": "ef559a9cab8c1983dc0337b4efde350d2f447bb5",
+      "candidateCiRunId": 33466996083,
+      "candidateCiRunAttempt": 1,
+      "exactPostmergeCiRunId": 33467716165,
+      "exactPostmergeCiRunAttempt": 2,
+      "status": "VERIFIED_AFTER_ONE_IDENTICAL_EVIDENCE_BACKED_RETRY",
+      "supersededPostmergeAttempt": {
+        "runAttempt": 1,
+        "status": "FAIL_CLOSED",
+        "directFailure": "C4_RTK_RUNNER_REUSED_LEADER_TIMING_PROBE",
+        "independentSameShaRtkRequiredStatus": "SUCCESS_1067_OF_1067",
+        "retryPolicy": "ONE_IDENTICAL_RETRY_USED"
+      }
+    }
+  },
+  "lease": {
+    "fencingCounter": 62,
+    "predecessorReleaseDigest": "b09d066b08aa9f6ad2375f09e4da266396f209160a96b0067e819ff58dd35d5f",
+    "releasedAdmissionDigest": "92bbab8e9a12950b43763414bb702ed97ef89887e994a4cc1e6c498a625cadaa",
+    "status": "RELEASED",
+    "wip": 0,
+    "transition": "ACTIVE_WIP_1_TO_RELEASED_WIP_0",
+    "disposition": "RELEASED_AFTER_IMPLEMENTATION_AND_CLOSURE_PROTECTED_MERGES_EXACT_POSTMERGE_CI_AND_EXACT_PROTECTED_WIP_COMPARISON"
+  },
+  "worktreeProof": {
+    "algorithm": "YALKEN_PROTECTED_WIP_SNAPSHOT_ALGORITHM_V2",
+    "beforeCarrierDigest": "0688062a9935509bca93b4e8942686631ca22a976e5c0b5ee86e223c2b4b7194",
+    "beforeSnapshotDigest": "d4300e333b2a5c9b1c15cab4ef94ac690f44f08898a93e06155269ad34095add",
+    "afterCarrierDigest": "b607d2b89f31fa511f1632a4fb95d7409b49ec13817a416cf873d3145c292e27",
+    "afterSnapshotDigest": "c0310353337b50badc2e76bdc7deb6608a131279ad6854c6cc3af70d669cf923",
+    "completeDenominator": 254,
+    "presentDenominator": 251,
+    "prunableDenominator": 3,
+    "dirtyDenominator": 7,
+    "completeIdentitySetExact": true,
+    "completeEntrySetExact": true,
+    "protectedDirtySetExact": true,
+    "missingIdentityCount": 0,
+    "addedIdentityCount": 0,
+    "changedEntryCount": 0,
+    "userSensitiveContentsDisclosed": false
+  },
+  "noLiveWorkObservation": {
+    "observedAtUtc": "2026-09-01T04:12:27Z",
+    "openPullRequestCount": 0,
+    "runningActionCount": 0,
+    "queuedActionCount": 0,
+    "status": "NONE_AT_RELEASE_BASE"
+  },
+  "releaseCarrierRequiresNormalProtectedDelivery": true,
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

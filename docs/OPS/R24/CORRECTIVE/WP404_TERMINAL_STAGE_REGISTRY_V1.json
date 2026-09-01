@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "YALKEN_R24_WP404_TERMINAL_STAGE_REGISTRY_V1",
+  "registryId": "WP404_TERMINAL_STAGE_REGISTRY_V1",
+  "status": "CERTIFIED_DONE_RELEASED_WIP_0",
+  "observedAtUtc": "2026-09-01T04:12:27Z",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "predecessor": {
+    "wp403TerminalReceiptDigest": "21c5ca5a64bca8b5d62a4ad1bde10d60267eb31ade8e555e29747795e3b97301",
+    "wp403TerminalEffectiveStateDigest": "8f5498e68447a573b419fce7295721458f8a1c8649ce5e0ad2f0d75e4e13098d",
+    "wp403LeaseReleaseDigest": "b09d066b08aa9f6ad2375f09e4da266396f209160a96b0067e819ff58dd35d5f"
+  },
+  "stages": [
+    {
+      "stageId": "WP-404_ATLAS_FOUNDATION_CLAIM",
+      "status": "CERTIFIED_DONE",
+      "evaluationSha": "695c5918293ce5b0f181d665964773df6c94eeb5",
+      "evaluationTreeSha": "ef559a9cab8c1983dc0337b4efde350d2f447bb5",
+      "authorityDigest": "5ef707aeffe932d65dad2ea7ed80799f89886db3f6ef671c3a3fe901eb8ffdf2",
+      "stageInstanceDigest": "1276a9c2805d4317e35dfff4809bc26a6ca773e82312b12bbd20fb4547464318",
+      "stageAdmissionDigest": "92bbab8e9a12950b43763414bb702ed97ef89887e994a4cc1e6c498a625cadaa",
+      "writeSetDigest": "99efd171a84d457e4ae0ba408f420ff1aa6ce490c2ad7ffdcc9298b7015f4316",
+      "commandListDigest": "a4643ddbd58039b0a7cc4a5a3a6df1de52a6bc2500b305009982250800d2663f",
+      "acceptanceSignalsDigest": "e1523fcfed0ea29267743ee9405749a3024c594986c82c88e86cc32cfb8b75b7",
+      "acceptanceMatrixDigest": "506c10286333d8a8679567daeef2c49fecb06cf006594efe896cd00a9a80cd22",
+      "terminalEffectiveStateDigest": "3fde4ab0b8ad3372ebe0e92d64bb5f20d145367d9c227ab8740e0d11a1e3baa9",
+      "leaseReleaseDigest": "596fd41507d2cd6bbf5cc244c84d021767bf643e75a3595ae31b5025800fca97",
+      "lease": {
+        "fencingCounter": 62,
+        "status": "RELEASED",
+        "wip": 0
+      },
+      "delivery": {
+        "implementationPullRequest": 1795,
+        "implementationCandidateCiRunId": 33465079765,
+        "implementationMergeSha": "233210ae4cc7a52d158db1a3c312d4f9781913e2",
+        "implementationPostmergeRunId": 33465824099,
+        "closurePullRequest": 1796,
+        "closureCandidateCiRunId": 33466996083,
+        "closureMergeSha": "695c5918293ce5b0f181d665964773df6c94eeb5",
+        "closurePostmergeRunId": 33467716165,
+        "closurePostmergeSuccessfulAttempt": 2,
+        "closurePostmergeAttemptOneStatus": "FAIL_CLOSED_SUPERSEDED_BY_ONE_IDENTICAL_GREEN_RETRY",
+        "releaseCarrierProtectedDeliveryPending": true,
+        "nonRecursiveCarrierPattern": true
+      }
+    }
+  ],
+  "stageCount": 1,
+  "certifiedDoneCount": 1,
+  "failedCount": 0,
+  "pendingCount": 0,
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

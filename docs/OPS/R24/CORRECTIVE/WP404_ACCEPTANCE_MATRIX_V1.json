@@ -1,0 +1,130 @@
+{
+  "schemaVersion": "YALKEN_R24_WP404_ACCEPTANCE_MATRIX_V1",
+  "stageId": "WP-404_ATLAS_FOUNDATION_CLAIM",
+  "status": "PASS",
+  "observedAtUtc": "2026-09-01T04:12:27Z",
+  "evaluationSha": "695c5918293ce5b0f181d665964773df6c94eeb5",
+  "evaluationTreeSha": "ef559a9cab8c1983dc0337b4efde350d2f447bb5",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "bindings": {
+    "stageInstanceDigest": "1276a9c2805d4317e35dfff4809bc26a6ca773e82312b12bbd20fb4547464318",
+    "stageAdmissionDigest": "92bbab8e9a12950b43763414bb702ed97ef89887e994a4cc1e6c498a625cadaa",
+    "acceptanceSignalsDigest": "e1523fcfed0ea29267743ee9405749a3024c594986c82c88e86cc32cfb8b75b7",
+    "contourTerminalReceiptDigest": "426ca6a507e668344b9be83d5043ff3d43146b1108f0f04bc93d7cab04ad8379",
+    "claimBindingDigest": "c2fc41a0109a883cb89ff7d6dacf9f651e142f865d1cefd128aea89a477bef82",
+    "leaseReleaseDigest": "596fd41507d2cd6bbf5cc244c84d021767bf643e75a3595ae31b5025800fca97",
+    "protectedWipAfterCarrierDigest": "b607d2b89f31fa511f1632a4fb95d7409b49ec13817a416cf873d3145c292e27"
+  },
+  "rowCount": 20,
+  "passedRowCount": 20,
+  "failedRowCount": 0,
+  "pendingRowCount": 0,
+  "rows": [
+    {
+      "id": "BOUNDED_SUPPORTING_EVIDENCE_LARGE_CORPUS",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-INTEGRATION"
+    },
+    {
+      "id": "COMPLETE_FOUR_NODE_FOUNDATION_DENOMINATOR",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-MODEL"
+    },
+    {
+      "id": "CONTRACT_NEGATIVE",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-CONTRACT"
+    },
+    {
+      "id": "DIFFERENTIAL_ORACLE",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-INTEGRATION"
+    },
+    {
+      "id": "EXACT_WRITER_V0_INHERITANCE",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-MODEL"
+    },
+    {
+      "id": "FOUNDATION_CLAIM_DIGEST_BOUND",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-INTEGRATION"
+    },
+    {
+      "id": "GOVERNANCE_STRICT_PASS",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-SURVIVOR-AUDIT"
+    },
+    {
+      "id": "IMPLEMENTATION_MUTANTS_ALL_KILLED",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-MUTANTS"
+    },
+    {
+      "id": "INDEPENDENT_EXACT_HEAD",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-EXACT-HEAD"
+    },
+    {
+      "id": "LEASE_62_RELEASED_WIP_0",
+      "status": "PASS",
+      "carrier": "WP404_LEASE_RELEASE_V1"
+    },
+    {
+      "id": "NO_CROSS_PROFILE_OR_GLOBAL_PROMOTION",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-CONTRACT"
+    },
+    {
+      "id": "NO_RUNTIME_PERSISTENCE_OR_RENDERER_WIRING",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-SURVIVOR-AUDIT"
+    },
+    {
+      "id": "POSTMERGE_EXACT_HEAD",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-POSTMERGE-EXACT-HEAD"
+    },
+    {
+      "id": "POST_AUDIT_WP404_EXCEPTION_FAIL_CLOSED",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-SURVIVOR-AUDIT"
+    },
+    {
+      "id": "PROGRAM_DONE_FALSE",
+      "status": "PASS",
+      "carrier": "WP404_LEASE_RELEASE_V1"
+    },
+    {
+      "id": "PROTECTED_WIP_UNCHANGED",
+      "status": "PASS",
+      "carrier": "WP404_PROTECTED_WIP_AFTER_V1"
+    },
+    {
+      "id": "STALE_HEAD_TREE_AND_EVIDENCE_REJECTION",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-CONTRACT"
+    },
+    {
+      "id": "STRICT_INPUT_AND_TAMPER_REJECTION",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-MUTANTS"
+    },
+    {
+      "id": "SURVIVOR_AUDIT",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-SURVIVOR-AUDIT"
+    },
+    {
+      "id": "WRITER_V0_RECEIPT_DIGEST_BOUND",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-CONTRACT"
+    }
+  ],
+  "verdict": "PASS",
+  "programDone": false
+}

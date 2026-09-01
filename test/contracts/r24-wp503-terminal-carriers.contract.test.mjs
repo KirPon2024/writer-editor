@@ -8,7 +8,7 @@ const load = (path) => JSON.parse(fs.readFileSync(path, 'utf8'));
 test('WP-503 terminal carriers form an acyclic exact-byte chain with a closed 25-row denominator', () => {
   const result = verifyWp503TerminalCarriers();
   assert.equal(result.status, 'PASS');
-  assert.equal(result.schemaVersion, 'YALKEN_R24_WP503_TERMINAL_CARRIERS_VERIFICATION_V2');
+  assert.equal(result.schemaVersion, 'YALKEN_R24_WP503_TERMINAL_CARRIERS_VERIFICATION_V3');
   assert.equal(result.evidenceStampDenominator, 7);
   assert.equal(result.localPassedRows, 21);
   assert.equal(result.externalPredicateRows, 4);
@@ -18,6 +18,7 @@ test('WP-503 terminal carriers form an acyclic exact-byte chain with a closed 25
   assert.equal(result.targetLease.wip, 0);
   assert.match(result.terminalSupplementDigest, /^[0-9a-f]{64}$/u);
   assert.equal(result.futureUtcOracle, 'PASS');
+  assert.equal(result.auditR2RegistryOracle, 'PASS');
   assert.equal(result.programDone, false);
 });
 
@@ -33,7 +34,7 @@ test('WP-503 temporal successor binds the exact future-UTC defect without rewrit
 });
 
 test('WP-503 current approval successor contains no future timestamps', () => {
-  const approvals = load('docs/OPS/R24/CORRECTIVE/WP503_GOVERNANCE_CHANGE_APPROVALS_V4.json');
+  const approvals = load('docs/OPS/R24/CORRECTIVE/WP503_GOVERNANCE_CHANGE_APPROVALS_V5.json');
   assert.ok(approvals.approvals.length > 0);
   assert.ok(approvals.approvals.every((entry) => Date.parse(entry.approvedAtUtc) <= Date.now()));
 });

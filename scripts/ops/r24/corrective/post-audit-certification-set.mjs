@@ -300,7 +300,7 @@ export const WP503_V6_MAIN_PRODUCT_ADMISSION_EXPECTATION=Object.freeze({
   fencingCounter:66,
   predecessorLeaseReleaseDigest:'b81c3795dbce79f479366af1a1585078d7d53709d048d8a2c12a630d3ec08b93'
 });
-export const WP503_MAIN_PRODUCT_ADMISSION_EXPECTATION=Object.freeze({
+export const WP503_V7_MAIN_PRODUCT_ADMISSION_EXPECTATION=Object.freeze({
   authorityPath:'docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V7.json',
   authorityDigest:'31340f9c67867eb2b11cd940cdbc3bfb564fd62f738df0b3c1ebcf70c4e9dca1',
   authorityId:'OWNER_AUTHORIZED_YALKEN_R24_WP503_TEMPORAL_EVIDENCE_SUCCESSOR_V7',
@@ -321,6 +321,31 @@ export const WP503_MAIN_PRODUCT_ADMISSION_EXPECTATION=Object.freeze({
   predecessorCommandScopeDigest:'53330da3b5757b1c84096a28ddd6641af179e1e34869703fa6b4bbc8e4259180',
   baseSha:'fdd6a88834e090f2830ba23ca8a9489f1a95964a',
   baseTree:'c8af93e64befe8b62ca47f810be780d0855bb560',
+  stageId:'WP-503_ATLAS_SURFACE',
+  fencingCounter:67,
+  predecessorLeaseReleaseDigest:'9caae577ab5ff1f0cea7661c74ee8ef19fdf68cdb603e4172ec61293a7c65795'
+});
+export const WP503_MAIN_PRODUCT_ADMISSION_EXPECTATION=Object.freeze({
+  authorityPath:'docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V8.json',
+  authorityDigest:'cf801d05286366aeae012188cf98a5aaf3c01e0a49cd47864e0490a4269ebd58',
+  authorityId:'OWNER_AUTHORIZED_YALKEN_R24_WP503_AUDIT_R2_REGISTRY_SUCCESSOR_V8',
+  instancePath:'docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_INSTANCE_V8.json',
+  instanceDigest:'d6539526c8948c6a0e0445b56c9606548b19702473a5c4f8b89f57bca56fa6b8',
+  admissionPath:'docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V8.json',
+  admissionDigest:'32640b6152d3aa2c69eea0b4383e416f50acf081c1ddeba45a3f3db558574e7a',
+  failurePath:'docs/OPS/R24/CORRECTIVE/WP503_CANDIDATE_CI_AUDIT_R2_FAILURE_V1.json',
+  failureDigest:'0cccf8595bb84dad5ceb07ac9ab560d9bd4e93a03440241429e1d078464de071',
+  successorPath:'docs/OPS/R24/CORRECTIVE/WP503_AUDIT_R2_REGISTRY_SUCCESSOR_V1.json',
+  writeSetDigest:'60eccb80c45fa375a930f7339f2c25ba29479620b77841df7cf41518800eb2be',
+  commandScopeDigest:'95ad5fe461e22149e182da07fda067c74b15b0e30724058231a0e4f2ba7524cf',
+  acceptanceSignalsDigest:'b3c9237b0a3ee45869d764d0991783aefdde27b6da29b28182ce6dd2dcfcae6b',
+  predecessorAuthorityDigest:'31340f9c67867eb2b11cd940cdbc3bfb564fd62f738df0b3c1ebcf70c4e9dca1',
+  predecessorInstanceDigest:'6ebc284bed89df7b4c6f86fd9849e57dfcc58cd227ee898e786a69633028212f',
+  predecessorAdmissionDigest:'bb0b13c4727f4bac954f9b6bf7d0c150401f9894b76fe5e2429ee6b8c27a8666',
+  predecessorWriteSetDigest:'f65d02046449a80901ef5571b2f691afa06656460cf3ca1522f63e30a56abda0',
+  predecessorCommandScopeDigest:'0b4afd99911f6d22260a414d93ba4a054d11476f6b4a5ae9443d3dbb6748b059',
+  baseSha:'acc19208d94c6be40e0f627cec218191171ae583',
+  baseTree:'32480ed79d2ac73ed3589de99f685bd9758f53ca',
   stageId:'WP-503_ATLAS_SURFACE',
   fencingCounter:67,
   predecessorLeaseReleaseDigest:'9caae577ab5ff1f0cea7661c74ee8ef19fdf68cdb603e4172ec61293a7c65795'
@@ -1131,9 +1156,9 @@ export function verifyWp503V6MainProductPostEvaluationException({candidateSha='H
   return{schemaVersion:'WP503_MAIN_PRODUCT_POST_EVALUATION_EXCEPTION_VERIFICATION_V1',status:'PASS',authorityDigest:authority.digest,stageInstanceDigest:instance.digest,stageAdmissionDigest:admission.digest,failureDigest:failure.digest,successorDigest:successor.digest,writeSetDigest:admission.value.writeSetDigest,baseSha:expectation.baseSha,baseTree:expectation.baseTree,admittedPathDenominator:admitted.length,changedPaths:changed,admittedPaths:admitted,sourcePlanRoles:{externalSourcePlanDigest:EXTERNAL_SOURCE_PLAN_DIGEST,compiledProgramFileDigest:COMPILED_PROGRAM_FILE_DIGEST,rolesDistinct:true}};
 }
 
-export function verifyWp503MainProductPostEvaluationException({candidateSha='HEAD',git=defaultGit}={}){
-  const predecessor=verifyWp503V6MainProductPostEvaluationException({candidateSha:WP503_MAIN_PRODUCT_ADMISSION_EXPECTATION.baseSha,git});
-  const expectation=WP503_MAIN_PRODUCT_ADMISSION_EXPECTATION;
+export function verifyWp503V7MainProductPostEvaluationException({candidateSha='HEAD',git=defaultGit}={}){
+  const predecessor=verifyWp503V6MainProductPostEvaluationException({candidateSha:WP503_V7_MAIN_PRODUCT_ADMISSION_EXPECTATION.baseSha,git});
+  const expectation=WP503_V7_MAIN_PRODUCT_ADMISSION_EXPECTATION;
   const authority=readJsonFile(expectation.authorityPath),instance=readJsonFile(expectation.instancePath),admission=readJsonFile(expectation.admissionPath),failure=readJsonFile(expectation.failurePath),successor=readJsonFile(expectation.successorPath);
   assert(authority.digest===expectation.authorityDigest&&instance.digest===expectation.instanceDigest&&admission.digest===expectation.admissionDigest&&failure.digest===expectation.failureDigest,'E_WP503_TEMPORAL_CARRIER_DIGEST');
   assert(authority.value?.schemaVersion==='POST_AUDIT_CORRECTIONS_OWNER_AUTHORITY_V1'&&authority.value.authorityId===expectation.authorityId&&authority.value.stageId===expectation.stageId,'E_WP503_TEMPORAL_AUTHORITY');
@@ -1149,7 +1174,7 @@ export function verifyWp503MainProductPostEvaluationException({candidateSha='HEA
   assert(failure.value.schemaVersion==='WP503_TEMPORAL_EVIDENCE_FAILURE_V1'&&failure.value.status==='FAIL_CLOSED_SUPERSEDED_BY_APPEND_ONLY_TEMPORAL_EVIDENCE_SUCCESSOR'&&failure.value.exactOrigin.sha===expectation.baseSha&&failure.value.exactOrigin.tree===expectation.baseTree&&failure.value.rootFailure?.code==='E_GOVERNANCE_APPROVAL_APPROVED_AT_FUTURE'&&failure.value.rootFailure.futureCarriers.length===3,'E_WP503_TEMPORAL_FAILURE_IDENTITY');
   assert(failure.value.rootFailure.futureCarriers.every((entry)=>Date.parse(entry.approvedAtUtc??entry.observedAtUtc)>Date.parse(failure.value.rootFailure.providerClockUtc)),'E_WP503_TEMPORAL_FAILURE_CHRONOLOGY');
   assert(successor.value.schemaVersion==='WP503_TEMPORAL_EVIDENCE_SUCCESSOR_V1'&&successor.value.status==='CURRENT_APPEND_ONLY_SUCCESSOR'&&successor.value.bindings.authorityDigest===authority.digest&&successor.value.bindings.stageInstanceDigest===instance.digest&&successor.value.bindings.stageAdmissionDigest===admission.digest&&successor.value.bindings.failureDigest===failure.digest,'E_WP503_TEMPORAL_SUCCESSOR_BINDING');
-  assert(successor.value.bindings.verifierDigest===h(fs.readFileSync('scripts/ops/r24/corrective/post-audit-certification-set.mjs'))&&successor.value.bindings.contractTestDigest===h(fs.readFileSync('test/contracts/r24-post-audit-certification-set.contract.test.mjs'))&&successor.value.bindings.testInventoryDigest===h(fs.readFileSync('docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json'))&&successor.value.programDone===false,'E_WP503_TEMPORAL_SUCCESSOR_BYTES');
+  assert(successor.value.bindings.verifierDigest===h(objectBytes(git,'acc19208d94c6be40e0f627cec218191171ae583','scripts/ops/r24/corrective/post-audit-certification-set.mjs'))&&successor.value.bindings.contractTestDigest===h(objectBytes(git,'acc19208d94c6be40e0f627cec218191171ae583','test/contracts/r24-post-audit-certification-set.contract.test.mjs'))&&successor.value.bindings.testInventoryDigest===h(objectBytes(git,'acc19208d94c6be40e0f627cec218191171ae583','docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json'))&&successor.value.programDone===false,'E_WP503_TEMPORAL_SUCCESSOR_BYTES');
   const operations=instance.value.operations,writeSet={createPaths:operations.createPaths,deletePaths:operations.deletePaths,modifyPaths:operations.modifyPaths,renamePairs:operations.renamePairs};
   assert(h(canonicalBytes(writeSet).subarray(0,-1))===expectation.writeSetDigest,'E_WP503_TEMPORAL_WRITE_SET_DIGEST');
   const admitted=[...operations.modifyPaths,...operations.createPaths,...operations.deletePaths,...operations.renamePairs.flatMap((pair)=>[pair.from,pair.to])].map(validatePath).sort();
@@ -1160,6 +1185,36 @@ export function verifyWp503MainProductPostEvaluationException({candidateSha='HEA
   const admittedPaths=[...new Set([...predecessor.admittedPaths,...admitted])].sort();
   assert(admittedPaths.length===86,'E_WP503_TEMPORAL_CUMULATIVE_PATH_DENOMINATOR');
   return{schemaVersion:'WP503_MAIN_PRODUCT_POST_EVALUATION_EXCEPTION_VERIFICATION_V2',status:'PASS',authorityDigest:authority.digest,stageInstanceDigest:instance.digest,stageAdmissionDigest:admission.digest,failureDigest:failure.digest,successorDigest:successor.digest,writeSetDigest:admission.value.writeSetDigest,baseSha:expectation.baseSha,baseTree:expectation.baseTree,deltaAdmittedPathDenominator:admitted.length,admittedPathDenominator:admittedPaths.length,changedPaths:changed,admittedPaths,predecessor,sourcePlanRoles:{externalSourcePlanDigest:EXTERNAL_SOURCE_PLAN_DIGEST,compiledProgramFileDigest:COMPILED_PROGRAM_FILE_DIGEST,rolesDistinct:true}};
+}
+
+export function verifyWp503MainProductPostEvaluationException({candidateSha='HEAD',git=defaultGit}={}){
+  const predecessor=verifyWp503V7MainProductPostEvaluationException({candidateSha:WP503_MAIN_PRODUCT_ADMISSION_EXPECTATION.baseSha,git});
+  const expectation=WP503_MAIN_PRODUCT_ADMISSION_EXPECTATION;
+  const authority=readJsonFile(expectation.authorityPath),instance=readJsonFile(expectation.instancePath),admission=readJsonFile(expectation.admissionPath),failure=readJsonFile(expectation.failurePath),successor=readJsonFile(expectation.successorPath);
+  assert(authority.digest===expectation.authorityDigest&&instance.digest===expectation.instanceDigest&&admission.digest===expectation.admissionDigest&&failure.digest===expectation.failureDigest,'E_WP503_REGISTRY_CARRIER_DIGEST');
+  assert(authority.value?.schemaVersion==='POST_AUDIT_CORRECTIONS_OWNER_AUTHORITY_V1'&&authority.value.authorityId===expectation.authorityId&&authority.value.stageId===expectation.stageId,'E_WP503_REGISTRY_AUTHORITY');
+  assert(instance.value?.schemaVersion==='STAGE_INSTANCE_V2'&&instance.value.authorityId===expectation.authorityId&&instance.value.stageId===expectation.stageId&&instance.value.model==='gpt-5.6-sol'&&instance.value.reasoningEffort==='xhigh','E_WP503_REGISTRY_INSTANCE');
+  assert(admission.value?.schemaVersion==='STAGE_ADMISSION_ATTESTATION_V2'&&admission.value.status==='ADMITTED'&&admission.value.decision==='INSTANCE_IS_EXACT_SUBSET_OF_OWNER_AUTHORIZED_SUCCESSOR'&&Date.parse(admission.value.observedAtUtc)<=Date.now(),'E_WP503_REGISTRY_ADMISSION');
+  assert(admission.value.authorityDigest===authority.digest&&admission.value.stageInstanceDigest===instance.digest&&admission.value.writeSetDigest===expectation.writeSetDigest&&admission.value.commandScopeDigest===expectation.commandScopeDigest&&admission.value.acceptanceSignalsDigest===expectation.acceptanceSignalsDigest,'E_WP503_REGISTRY_CHAIN');
+  for(const [label,value] of [['authority',authority.value],['instance',instance.value],['admission',admission.value],['failure',failure.value.sourcePlanRoles],['successor',successor.value.sourcePlanRoles]])assert(value.externalSourcePlanDigest===EXTERNAL_SOURCE_PLAN_DIGEST&&value.compiledProgramFileDigest===COMPILED_PROGRAM_FILE_DIGEST&&value.externalSourcePlanDigest!==value.compiledProgramFileDigest,'E_WP503_REGISTRY_SOURCE_ROLES',label);
+  assert(instance.value.baseSha===expectation.baseSha&&instance.value.headSha===expectation.baseSha&&instance.value.treeSha===expectation.baseTree&&authority.value.baseSha===expectation.baseSha&&authority.value.baseTree===expectation.baseTree&&evaluationTree(git,expectation.baseSha)===expectation.baseTree,'E_WP503_REGISTRY_BASE');
+  assert(instance.value.lease?.fencingCounter===expectation.fencingCounter&&instance.value.lease.status==='ACTIVE'&&instance.value.lease.wip===1&&instance.value.lease.predecessorReleaseDigest===expectation.predecessorLeaseReleaseDigest,'E_WP503_REGISTRY_LEASE');
+  assert(canonicalBytes(authority.value.allowedOperations).equals(canonicalBytes(instance.value.operations)),'E_WP503_REGISTRY_OPERATION_BINDING');
+  const predecessorById=new Map(instance.value.predecessors.map((entry)=>[entry.id,entry]));
+  for(const [id,digest] of [['WP503_V7_AUTHORITY',expectation.predecessorAuthorityDigest],['WP503_V7_STAGE_INSTANCE',expectation.predecessorInstanceDigest],['WP503_V7_STAGE_ADMISSION',expectation.predecessorAdmissionDigest],['WP503_V7_WRITE_SET',expectation.predecessorWriteSetDigest],['WP503_V7_COMMAND_SCOPE',expectation.predecessorCommandScopeDigest],['WP503_CANDIDATE_CI_RUN_33536582620',expectation.failureDigest]])assert(predecessorById.get(id)?.digest===digest,'E_WP503_REGISTRY_PREDECESSOR',id);
+  assert(failure.value.schemaVersion==='WP503_CANDIDATE_CI_AUDIT_R2_FAILURE_V1'&&failure.value.status==='FAIL_CLOSED_SUPERSEDED_BY_APPEND_ONLY_AUDIT_R2_REGISTRY_SUCCESSOR'&&failure.value.pullRequest?.number===1805&&failure.value.pullRequest.candidateSha===expectation.baseSha&&failure.value.pullRequest.candidateTreeSha===expectation.baseTree&&failure.value.candidateCi?.runId===33536582620&&failure.value.candidateCi.failedJob?.jobId===99952261969&&failure.value.candidateCi.failedJob.code==='E_CARRIER_REGISTRY_DIGEST'&&failure.value.rootCause?.predecessorRegistryDigest==='9da3395a8d3d0e1403bb234f09a318b3e198e0fba7e8a88f64e60cafdcf4b243','E_WP503_REGISTRY_FAILURE_IDENTITY');
+  assert(successor.value.schemaVersion==='WP503_AUDIT_R2_REGISTRY_SUCCESSOR_V1'&&successor.value.status==='CURRENT_APPEND_ONLY_SUCCESSOR'&&successor.value.bindings.authorityDigest===authority.digest&&successor.value.bindings.stageInstanceDigest===instance.digest&&successor.value.bindings.stageAdmissionDigest===admission.digest&&successor.value.bindings.failureDigest===failure.digest,'E_WP503_REGISTRY_SUCCESSOR_BINDING');
+  assert(successor.value.bindings.auditR2RegistryDigest===h(fs.readFileSync('docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V17.json'))&&successor.value.bindings.auditR2VerifierDigest===h(fs.readFileSync('scripts/ops/r24/corrective/audit-r2-corrections.mjs'))&&successor.value.bindings.auditR2ContractTestDigest===h(fs.readFileSync('test/contracts/r24-audit-r2-corrections.contract.test.mjs'))&&successor.value.bindings.postAuditVerifierDigest===h(fs.readFileSync('scripts/ops/r24/corrective/post-audit-certification-set.mjs'))&&successor.value.bindings.postAuditContractTestDigest===h(fs.readFileSync('test/contracts/r24-post-audit-certification-set.contract.test.mjs'))&&successor.value.programDone===false,'E_WP503_REGISTRY_SUCCESSOR_BYTES');
+  const operations=instance.value.operations,writeSet={createPaths:operations.createPaths,deletePaths:operations.deletePaths,modifyPaths:operations.modifyPaths,renamePairs:operations.renamePairs};
+  assert(h(canonicalBytes(writeSet).subarray(0,-1))===expectation.writeSetDigest,'E_WP503_REGISTRY_WRITE_SET_DIGEST');
+  const admitted=[...operations.modifyPaths,...operations.createPaths,...operations.deletePaths,...operations.renamePairs.flatMap((pair)=>[pair.from,pair.to])].map(validatePath).sort();
+  assert(new Set(admitted).size===admitted.length&&admitted.length===15,'E_WP503_REGISTRY_PATH_DENOMINATOR');
+  const resolvedCandidate=gitText(git,['rev-parse',candidateSha]);try{git(['merge-base','--is-ancestor',expectation.baseSha,resolvedCandidate],{encoding:null});}catch{fail('E_WP503_REGISTRY_BASE_NOT_ANCESTOR');}
+  const changed=gitText(git,['diff','--name-only',`${expectation.baseSha}..${resolvedCandidate}`]).split('\n').filter(Boolean).sort();
+  for(const changedPath of changed)assert(admitted.includes(changedPath),'E_WP503_REGISTRY_UNADMITTED_PATH',changedPath);
+  const admittedPaths=[...new Set([...predecessor.admittedPaths,...admitted])].sort();
+  assert(admittedPaths.length===94,'E_WP503_REGISTRY_CUMULATIVE_PATH_DENOMINATOR');
+  return{schemaVersion:'WP503_MAIN_PRODUCT_POST_EVALUATION_EXCEPTION_VERIFICATION_V3',status:'PASS',authorityDigest:authority.digest,stageInstanceDigest:instance.digest,stageAdmissionDigest:admission.digest,failureDigest:failure.digest,successorDigest:successor.digest,writeSetDigest:admission.value.writeSetDigest,baseSha:expectation.baseSha,baseTree:expectation.baseTree,deltaAdmittedPathDenominator:admitted.length,admittedPathDenominator:admittedPaths.length,changedPaths:changed,admittedPaths,predecessor,sourcePlanRoles:{externalSourcePlanDigest:EXTERNAL_SOURCE_PLAN_DIGEST,compiledProgramFileDigest:COMPILED_PROGRAM_FILE_DIGEST,rolesDistinct:true}};
 }
 
 export function verifyCertificationSet({value,fileDigest,candidateSha='HEAD',git=defaultGit,allowAuditCycle2Admission=false,allowMainProductWp401Admission=false,allowMainProductWp402Admission=false,allowMainProductWp403Admission=false,allowMainProductWp404Admission=false,allowMainProductWp500Admission=false,allowMainProductWp501Admission=false,allowWp501GateIntegrationAdmission=false,allowWp501PerformanceIntegrationAdmission=false,allowWp501AuditR2CompatibilityAdmission=false,allowWp501InventoryFinalizationAdmission=false,allowWp501TerminalExceptionAdmission=false,allowMainProductWp502Admission=false,allowMainProductWp503Admission=false}){

@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "WP503_AUDIT_R2_REGISTRY_SUCCESSOR_V1",
+  "status": "CURRENT_APPEND_ONLY_SUCCESSOR",
+  "stageId": "WP-503_ATLAS_SURFACE",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "evaluationIdentity": {
+    "baseSha": "acc19208d94c6be40e0f627cec218191171ae583",
+    "baseTreeSha": "32480ed79d2ac73ed3589de99f685bd9758f53ca",
+    "candidateCiRunId": 33536582620,
+    "failedJobId": 99952261969
+  },
+  "bindings": {
+    "authorityDigest": "cf801d05286366aeae012188cf98a5aaf3c01e0a49cd47864e0490a4269ebd58",
+    "stageInstanceDigest": "d6539526c8948c6a0e0445b56c9606548b19702473a5c4f8b89f57bca56fa6b8",
+    "stageAdmissionDigest": "32640b6152d3aa2c69eea0b4383e416f50acf081c1ddeba45a3f3db558574e7a",
+    "writeSetDigest": "60eccb80c45fa375a930f7339f2c25ba29479620b77841df7cf41518800eb2be",
+    "commandScopeDigest": "95ad5fe461e22149e182da07fda067c74b15b0e30724058231a0e4f2ba7524cf",
+    "acceptanceSignalsDigest": "b3c9237b0a3ee45869d764d0991783aefdde27b6da29b28182ce6dd2dcfcae6b",
+    "failureDigest": "0cccf8595bb84dad5ceb07ac9ab560d9bd4e93a03440241429e1d078464de071",
+    "predecessorAuditR2RegistryDigest": "9da3395a8d3d0e1403bb234f09a318b3e198e0fba7e8a88f64e60cafdcf4b243",
+    "auditR2RegistryDigest": "b7a504de9f0061f1cabf98cdca47452d0881bf4eadf427b0d33ebf198760cc1f",
+    "currentTestInventoryDigest": "ca83393d533dd63907d5ebff348162302a2950c6aa962ae1627148811ce8b11e",
+    "auditR2VerifierDigest": "ca6b77feb062456fe3f1d06ee471629a5131b296b1903ebb93d7e7460a4ef037",
+    "auditR2ContractTestDigest": "821cc4476a78f52d27cfc67a5fbeb7fd79dea77d86dda9e5a9435bb778635c79",
+    "postAuditVerifierDigest": "2ed3c696bb99b0de28cd585dab00138c9bfe567581a127d1b16a2045384bee49",
+    "postAuditContractTestDigest": "7f30da7b6cd04b22b8c5d23b95084aab5e8c94961435f6047b28823088b35124"
+  },
+  "correctedOracle": {
+    "registrySchemaVersion": "AUDIT_R2_CARRIER_REGISTRY_V17",
+    "carrierDenominator": 32,
+    "allCarrierBytesCurrent": true,
+    "historicalRegistryRewritten": false,
+    "candidateFailureBound": true
+  },
+  "lease": {
+    "fencingCounter": 67,
+    "status": "ACTIVE",
+    "wip": 1
+  },
+  "programDone": false,
+  "nextGraphNodeStarted": false,
+  "observedAtUtc": "2026-09-01T17:30:04Z"
+}

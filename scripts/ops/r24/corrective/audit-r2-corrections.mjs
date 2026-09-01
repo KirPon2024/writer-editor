@@ -11,8 +11,8 @@ import { verifyDownloadedArtifact } from './audit-r2-terminal-attestation-verifi
 const ROOT = 'docs/OPS/R24/CORRECTIVE';
 const PATHS = Object.freeze({
   admission: `${ROOT}/AUDIT_R2_FINAL_CORRECTION_STAGE_ADMISSION_ATTESTATION_V1.json`,
-  carrierRegistry: `${ROOT}/AUDIT_R2_CARRIER_REGISTRY_V6.json`,
-  predecessorCarrierRegistry: `${ROOT}/AUDIT_R2_CARRIER_REGISTRY_V5.json`,
+  carrierRegistry: `${ROOT}/AUDIT_R2_CARRIER_REGISTRY_V7.json`,
+  predecessorCarrierRegistry: `${ROOT}/AUDIT_R2_CARRIER_REGISTRY_V6.json`,
   rootCarrierRegistry: `${ROOT}/AUDIT_R2_CARRIER_REGISTRY_V1.json`,
   c0: `${ROOT}/AUDIT_R2_C0_ROOT_REPLAY_V1.json`,
   lazyweb: `${ROOT}/AUDIT_R2_C6B_LAZYWEB_PROVIDER_EXPORT_V1.json`,
@@ -58,15 +58,15 @@ export function checkCorrections(root = process.cwd()) {
   const round1 = read(PATHS.round1).value;
   assert(round1.round1NarrativeDigest === '35277a49b8d87079ec5f49bd7d2196a41803bd8cab7f339f99499c5936eceaa5' && round1.canonicalBytesPresent === false && round1.status === 'DOWNGRADED_NON_CARRIED_NARRATIVE_DIGEST', 'E_ROUND1_RECEIPT_STATUS', round1.status);
   const predecessorCarrierRegistry = read(PATHS.predecessorCarrierRegistry);
-  assert(predecessorCarrierRegistry.digest === 'b6f1160de2e2d0129eac1376887a9cbd720de233ce625ff1d4009e9bb13fcfb8' && predecessorCarrierRegistry.value.schemaVersion === 'AUDIT_R2_CARRIER_REGISTRY_V5', 'E_CARRIER_REGISTRY_PREDECESSOR_DIGEST', predecessorCarrierRegistry.digest);
+  assert(predecessorCarrierRegistry.digest === '3912c79ac74885f56c56688bd5aa66b5267b6f1213d3ec487081b58a9865db05' && predecessorCarrierRegistry.value.schemaVersion === 'AUDIT_R2_CARRIER_REGISTRY_V6', 'E_CARRIER_REGISTRY_PREDECESSOR_DIGEST', predecessorCarrierRegistry.digest);
   const rootCarrierRegistry = read(PATHS.rootCarrierRegistry);
   assert(rootCarrierRegistry.digest === 'b1738174bd03f47a25e3bcb2ea68c9bf9f602e761b1c8783cc04a8c54f972f8b' && rootCarrierRegistry.value.schemaVersion === 'AUDIT_R2_CARRIER_REGISTRY_V1', 'E_CARRIER_REGISTRY_ROOT_DIGEST', rootCarrierRegistry.digest);
   const carrierRegistryFile = read(PATHS.carrierRegistry),carrierRegistry=carrierRegistryFile.value;
   assertClosedObject(carrierRegistry, ['schemaVersion','evidenceStampIds','baseSha','baseTreeSha','carriers','excludedSelfCarriers','predecessor','sourcePlanRoles','successorScope','programDoneClaimed','wp400MutationStarted'], ['schemaVersion','evidenceStampIds','baseSha','baseTreeSha','carriers','excludedSelfCarriers','predecessor','sourcePlanRoles','successorScope','programDoneClaimed','wp400MutationStarted'], 'carrierRegistry');
-  assert(carrierRegistry.schemaVersion === 'AUDIT_R2_CARRIER_REGISTRY_V6' && carrierRegistry.baseSha === stage.value.baseSha && carrierRegistry.baseTreeSha === stage.value.treeSha, 'E_CARRIER_REGISTRY_BINDING', carrierRegistry.schemaVersion);
-  assertExactJson(carrierRegistry.predecessor,{path:PATHS.predecessorCarrierRegistry,sha256:predecessorCarrierRegistry.digest,status:'SUPERSEDED_BY_APPEND_ONLY_WP500_TEST_INVENTORY_SUCCESSOR'},'E_CARRIER_REGISTRY_PREDECESSOR','binding');
+  assert(carrierRegistry.schemaVersion === 'AUDIT_R2_CARRIER_REGISTRY_V7' && carrierRegistry.baseSha === stage.value.baseSha && carrierRegistry.baseTreeSha === stage.value.treeSha, 'E_CARRIER_REGISTRY_BINDING', carrierRegistry.schemaVersion);
+  assertExactJson(carrierRegistry.predecessor,{path:PATHS.predecessorCarrierRegistry,sha256:predecessorCarrierRegistry.digest,status:'SUPERSEDED_BY_APPEND_ONLY_WP501_TEST_INVENTORY_SUCCESSOR'},'E_CARRIER_REGISTRY_PREDECESSOR','binding');
   assertExactJson(carrierRegistry.sourcePlanRoles,{externalSourcePlanDigest:'1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a',compiledProgramFileDigest:'da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a',rolesDistinct:true},'E_CARRIER_REGISTRY_SOURCE_ROLES','roles');
-  assertExactJson(carrierRegistry.successorScope,{reason:'CURRENT_REPOSITORY_TEST_INVENTORY_CHANGED_AFTER_ADMITTED_WP500_TEST_ADDITION',replacementPaths:[`${ROOT}/C1B_TEST_INVENTORY_V1.json`,'scripts/ops/r24/corrective/audit-r2-corrections.mjs','test/contracts/r24-audit-r2-corrections.contract.test.mjs'],addedPaths:[],removedPaths:[]},'E_CARRIER_REGISTRY_SUCCESSOR_SCOPE','scope');
+  assertExactJson(carrierRegistry.successorScope,{reason:'CURRENT_REPOSITORY_TEST_INVENTORY_CHANGED_AFTER_ADMITTED_WP501_TEST_ADDITION',replacementPaths:[`${ROOT}/C1B_TEST_INVENTORY_V1.json`,'scripts/ops/r24/corrective/audit-r2-corrections.mjs','test/contracts/r24-audit-r2-corrections.contract.test.mjs'],addedPaths:[],removedPaths:[]},'E_CARRIER_REGISTRY_SUCCESSOR_SCOPE','scope');
   assert(carrierRegistry.programDoneClaimed === false && carrierRegistry.wp400MutationStarted === false, 'E_CARRIER_REGISTRY_OVERCLAIM', 'status');
   const historicalExpectedPaths = stage.value.writeSet.paths.filter((item)=>item !== PATHS.rootCarrierRegistry && item !== `${ROOT}/C1C_GOVERNANCE_CHANGE_APPROVALS_V1.json`);
   assertExactJson(rootCarrierRegistry.value.carriers.map((item)=>item.path),historicalExpectedPaths,'E_CARRIER_REGISTRY_HISTORICAL_SET','paths');
@@ -77,13 +77,13 @@ export function checkCorrections(root = process.cwd()) {
     const bytes = fs.readFileSync(carrier.path);
     assert(carrier.status === 'CANONICAL_BYTES_PRESENT' && carrier.sha256 === sha256(bytes) && carrier.sizeBytes === bytes.length, 'E_CARRIER_REGISTRY_DIGEST', carrier.path);
   }
-  assertExactJson(carrierRegistry.excludedSelfCarriers, [PATHS.carrierRegistry,PATHS.predecessorCarrierRegistry,`${ROOT}/AUDIT_R2_CARRIER_REGISTRY_V4.json`,`${ROOT}/AUDIT_R2_CARRIER_REGISTRY_V3.json`,`${ROOT}/AUDIT_R2_CARRIER_REGISTRY_V2.json`,PATHS.rootCarrierRegistry,`${ROOT}/C1C_GOVERNANCE_CHANGE_APPROVALS_V1.json`], 'E_CARRIER_REGISTRY_EXCLUSIONS', 'excludedSelfCarriers');
+  assertExactJson(carrierRegistry.excludedSelfCarriers, [PATHS.carrierRegistry,PATHS.predecessorCarrierRegistry,`${ROOT}/AUDIT_R2_CARRIER_REGISTRY_V5.json`,`${ROOT}/AUDIT_R2_CARRIER_REGISTRY_V4.json`,`${ROOT}/AUDIT_R2_CARRIER_REGISTRY_V3.json`,`${ROOT}/AUDIT_R2_CARRIER_REGISTRY_V2.json`,PATHS.rootCarrierRegistry,`${ROOT}/C1C_GOVERNANCE_CHANGE_APPROVALS_V1.json`], 'E_CARRIER_REGISTRY_EXCLUSIONS', 'excludedSelfCarriers');
   const ledger = validateLedger(read(PATHS.ledger).value, { root });
   const registry = read(`${ROOT}/STAGE_REGISTRY_V1.json`);
   const replay = validateReplayPlan(read(PATHS.plan).value, registry.value, { root });
   const requirements = read(PATHS.requirements).value;
   assert(requirements.requiredOutcomeIds.length === 10 && requirements.requiredStageIds.length === 33 && requirements.programDoneClaimed === false && requirements.wp400MutationStarted === false, 'E_REQUIREMENT_INVENTORY', 'requirements');
-  return {schemaVersion:'AUDIT_R2_CORRECTION_STATIC_CHECK_V6',status:'PASS',stageInstanceDigest:stage.digest,stageAdmissionDigest:admission.digest,writeSetDigest:sha256(canonicalBytes(stage.value.writeSet)),carrierRegistryDigest:carrierRegistryFile.digest,predecessorCarrierRegistryDigest:predecessorCarrierRegistry.digest,rootCarrierRegistryDigest:rootCarrierRegistry.digest,c0ReplacementDigest:c0.replacementAttestationDigest,lazywebProviderBytesDigest:lazyweb.providerResultBytesDigest,leaseDigest:ledger.leaseDigest,fenceDigest:ledger.fenceDigest,replayPlanDigest:replay.planDigest,registeredStages:33,programDoneClaimed:false,wp400MutationStarted:false};
+  return {schemaVersion:'AUDIT_R2_CORRECTION_STATIC_CHECK_V7',status:'PASS',stageInstanceDigest:stage.digest,stageAdmissionDigest:admission.digest,writeSetDigest:sha256(canonicalBytes(stage.value.writeSet)),carrierRegistryDigest:carrierRegistryFile.digest,predecessorCarrierRegistryDigest:predecessorCarrierRegistry.digest,rootCarrierRegistryDigest:rootCarrierRegistry.digest,c0ReplacementDigest:c0.replacementAttestationDigest,lazywebProviderBytesDigest:lazyweb.providerResultBytesDigest,leaseDigest:ledger.leaseDigest,fenceDigest:ledger.fenceDigest,replayPlanDigest:replay.planDigest,registeredStages:33,programDoneClaimed:false,wp400MutationStarted:false};
 }
 
 function dispatchTerminal() {

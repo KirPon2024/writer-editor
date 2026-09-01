@@ -44,7 +44,7 @@ test('P0 04: Atlas feature integration manifest binds product, command, projecti
   assert.equal(YALKEN_ATLAS_FEATURE_INTEGRATION_MANIFEST_V1.authorityMap.commandAuthority.includes('Command Kernel'), true);
   assert.equal(YALKEN_ATLAS_FEATURE_INTEGRATION_MANIFEST_V1.authorityMap.designAuthority.includes('Design OS slot resolver'), true);
   assert.equal(YALKEN_ATLAS_FEATURE_INTEGRATION_MANIFEST_V1.requiredDesignOsPorts.includes('ShellProjectionPort'), true);
-  assert.equal(YALKEN_ATLAS_FEATURE_INTEGRATION_MANIFEST_V1.surfaceManifests.length, 13);
+  assert.equal(YALKEN_ATLAS_FEATURE_INTEGRATION_MANIFEST_V1.surfaceManifests.length, 14);
   assert.deepEqual(
     YALKEN_ATLAS_FEATURE_INTEGRATION_MANIFEST_V1.negativeBypassChecks,
     [
@@ -67,7 +67,7 @@ test('P0 04: Atlas feature integration manifest binds product, command, projecti
   assert.equal(result.ok, true, JSON.stringify(result, null, 2));
   assert.equal(result.resolverId, ATLAS_DESIGN_OS_SLOT_RESOLVER_ID);
   assert.equal(result.source, ATLAS_DESIGN_OS_BINDING_SOURCE);
-  assert.equal(result.bindingCount, 13);
+  assert.equal(result.bindingCount, 14);
   assert.equal(result.bindings.every((binding) => binding.source === 'DESIGN_OS_SLOT_RESOLVER'), true);
   assert.equal(result.bindings.every((binding) => binding.productMutation === false), true);
   assert.equal(result.bindings.every((binding) => binding.storageAuthority === false), true);
@@ -83,6 +83,12 @@ test('P0 04: Atlas feature integration manifest binds product, command, projecti
   assert.equal(manualMap.providerId, 'query.manualMapWorkbench');
   assert.equal(manualMap.slotId, 'workspace.plan.manualMapWorkbench');
   assert.equal(manualMap.hostKind, 'planWorkspace');
+
+  const workspace = getAtlasFeatureSurfaceBinding(result, 'workspace');
+  assert.equal(workspace.providerId, 'query.atlasOverview');
+  assert.equal(workspace.slotId, 'workspace.write.atlas');
+  assert.equal(workspace.hostKind, 'writeWorkspace');
+  assert.equal(workspace.productMutation, false);
 });
 
 test('P0 04: Design OS slot resolver fails closed for bypass and drift cases', async () => {
@@ -173,6 +179,7 @@ test('P0 04: renderer binds Atlas surfaces through resolver, not HTML attrs or d
   }
 
   assert.match(htmlSource, /data-atlas-overview-host/u);
+  assert.match(htmlSource, /data-atlas-workspace/u);
   assert.match(htmlSource, /data-atlas-relation-dossier-host/u);
   assert.match(htmlSource, /data-manual-map-workbench-host/u);
 });

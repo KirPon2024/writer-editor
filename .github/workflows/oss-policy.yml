@@ -32,7 +32,7 @@ jobs:
         run: node --test test/contracts/r24-c1b-test-inventory.contract.test.mjs
       - name: Run broad maintained baseline
         env:
-          GOVERNANCE_CHANGE_APPROVALS_PATH: docs/OPS/R24/CORRECTIVE/WP502_GOVERNANCE_CHANGE_APPROVALS_V2.json
+          GOVERNANCE_CHANGE_APPROVALS_PATH: docs/OPS/R24/CORRECTIVE/WP503_GOVERNANCE_CHANGE_APPROVALS_V3.json
         run: npm test
       - name: Verify WP-500 association scope semantics and mutants
         run: node --test test/unit/r24-wp500-associations.test.js test/unit/r24-wp500-associations-integration.test.js test/unit/r24-wp500-associations-mutants.test.js
@@ -40,6 +40,8 @@ jobs:
         run: node --test test/unit/r24-wp501-time-knowledge.test.js test/unit/r24-wp501-time-knowledge-integration.test.js test/unit/r24-wp501-time-knowledge-mutants.test.js
       - name: Verify WP-502 promise-thread open-world causality semantics and mutants
         run: node --test test/unit/r24-wp502-threads-causality.test.js test/unit/r24-wp502-threads-causality-integration.test.js test/unit/r24-wp502-threads-causality-mutants.test.js test/contracts/r24-wp502-terminal-carriers.contract.test.mjs
+      - name: Verify WP-503 Atlas posture and graph list table parity semantics and mutants
+        run: npm run test:r24-wp503
 
   e0-mutants:
     runs-on: ubuntu-latest
@@ -94,8 +96,8 @@ jobs:
       - run: node scripts/ops/r24/corrective/audit-r2-corrections.mjs --check
       - env:
           EFFECTIVE_MODE: STRICT
-          GOVERNANCE_CHANGE_APPROVALS_PATH: docs/OPS/R24/CORRECTIVE/WP502_GOVERNANCE_CHANGE_APPROVALS_V2.json
-        run: node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main --approvals-path docs/OPS/R24/CORRECTIVE/WP502_GOVERNANCE_CHANGE_APPROVALS_V2.json
+          GOVERNANCE_CHANGE_APPROVALS_PATH: docs/OPS/R24/CORRECTIVE/WP503_GOVERNANCE_CHANGE_APPROVALS_V3.json
+        run: node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main --approvals-path docs/OPS/R24/CORRECTIVE/WP503_GOVERNANCE_CHANGE_APPROVALS_V3.json
 
   oss-policy-core:
     runs-on: ubuntu-latest

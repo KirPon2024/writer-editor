@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "WP503_POST_AUDIT_CERTIFICATION_SUCCESSOR_V1",
+  "status": "CURRENT_APPEND_ONLY_SUCCESSOR",
+  "stageId": "WP-503_ATLAS_SURFACE",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "historicalCertificationSet": {
+    "path": "docs/OPS/R24/CORRECTIVE/POST_AUDIT_CURRENT_CERTIFICATION_SET_V2.json",
+    "sha256": "b6556c010c891c3d52bb93180542840ad382a4555cf4442f001bb1ab21275c2e",
+    "stageCount": 33,
+    "artifactBindingDenominator": 137,
+    "status": "PRESERVED_EXACT_EVALUATION_BYTES"
+  },
+  "predecessorBoundary": {
+    "stageId": "WP-502_THREADS_CAUSALITY",
+    "baseSha": "d76a3e4da899775ae94b9a1ee5ba8aa766e2fb2b",
+    "authorityDigest": "bca8995ad43a4f2393c4523c230878785c08389bcd654ee23510c14594cf4c1a",
+    "status": "PRESERVED_CHAIN_LINK"
+  },
+  "bindings": {
+    "authorityDigest": "5dd25723c9af2f691bfc5cefe19786aa3cc0ad9a93c7853594ebcd993e34b4c7",
+    "stageInstanceDigest": "0303b1510b35d98f6d1379c828af2814a8476bd9f5a0884b080f5df4b555e578",
+    "stageAdmissionDigest": "ea8e6bfbbe29f4ae919d75bb3186ed47f833dd5cff38c6353610aef8e3382d49",
+    "failureDigest": "1e65500ff761dd3c85549731afc6925ac17d3066a6a15d870e4927336aabe8da",
+    "verifierDigest": "d8e0ef23397eb41d0d3aa3bc749c7b05e405e75068f053a0441bb236648e6d5f",
+    "contractTestDigest": "c2c50d9ae1f4903d4f70e8ac7a37472867e35552bad1474490b18bb0d9733807"
+  },
+  "exceptionChain": {
+    "currentStageId": "WP-503_ATLAS_SURFACE",
+    "exactBaseSha": "3157d84126a76734af50d012b359f7a58b2035fb",
+    "exactBaseTreeSha": "7f38243ced17ee249f0c541004171235a1e14788",
+    "admittedPathDenominator": 76,
+    "previousLinksPreserved": true,
+    "unadmittedPathsRejected": true
+  },
+  "programDone": false,
+  "nextGraphNodeStarted": false
+}

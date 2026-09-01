@@ -690,6 +690,37 @@
             data-manual-map-workbench-provider="query.manualMapWorkbench"
           ></div>
         </section>
+        <section
+          class="atlas-workspace"
+          data-atlas-workspace
+          data-atlas-workspace-provider="query.atlasOverview"
+          aria-label="Atlas workspace"
+          hidden
+        >
+          <div class="atlas-workspace__shell">
+            <header class="atlas-workspace__header">
+              <div class="atlas-workspace__heading">
+                <span class="atlas-workspace__eyebrow">Atlas</span>
+                <h1 class="atlas-workspace__title">Story field</h1>
+                <span class="atlas-workspace__meta" data-atlas-workspace-meta>0 shared rows</span>
+              </div>
+              <div class="atlas-workspace__controls">
+                <div class="atlas-workspace__tabs" data-atlas-posture-tabs role="tablist" aria-label="Atlas posture">
+                  <button type="button" data-atlas-posture="MANUSCRIPT" role="tab" aria-selected="false" tabindex="-1">Manuscript</button>
+                  <button type="button" data-atlas-posture="SPLIT" role="tab" aria-selected="true" tabindex="0">Split</button>
+                  <button type="button" data-atlas-posture="FULL" role="tab" aria-selected="false" tabindex="-1">Full</button>
+                </div>
+                <div class="atlas-workspace__tabs" data-atlas-view-tabs role="tablist" aria-label="Atlas representation">
+                  <button type="button" data-atlas-view="GRAPH" role="tab" aria-selected="true" tabindex="0">Graph</button>
+                  <button type="button" data-atlas-view="LIST" role="tab" aria-selected="false" tabindex="-1">List</button>
+                  <button type="button" data-atlas-view="TABLE" role="tab" aria-selected="false" tabindex="-1">Table</button>
+                </div>
+              </div>
+            </header>
+            <div class="atlas-workspace__status" data-atlas-workspace-status role="status" aria-live="polite"></div>
+            <div class="atlas-workspace__content" data-atlas-workspace-content></div>
+          </div>
+        </section>
         <section class="authoring-surface" data-authoring-surfaces hidden aria-label="Поверхности письма"></section>
         <div class="editor-panel-wrapper">
           <div class="editor-architecture-strip" aria-hidden="true">

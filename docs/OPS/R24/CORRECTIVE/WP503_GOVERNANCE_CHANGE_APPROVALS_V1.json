@@ -1,0 +1,307 @@
+{
+  "version": "v1.0",
+  "evidenceStampIds": [
+    "ES-R24-WP-503-ATLAS-SURFACE-CLAIM-BINDINGS"
+  ],
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "approvals": [
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V12.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "75b7b42582bd9c057a62929b4b93d1eefbb3ad71cfc11ac6c87c97bb2d2c1cbf"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V13.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "c4391adfe540dfaac47857806dc4f97627506ba196d25dad78f3a91e9d27b168"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V14.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "7ba08968e97ee07413aa307b8fa64a4a339704ee0627c8d2d4f04e56debba67a"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "df61cca2f5ea770eae000cad4a700f80171c30a1e52246f73da683df4cb7aba2"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/POST_AUDIT_TOOLCHAIN_BUNDLE_SUCCESSOR_V1.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "681fb191cc89cc8fdffc205efe5a3225934825f56710acfe7ad0efe6657bd3f1"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP307_EDITOR_WORDING_SUCCESSOR_V1.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "a899b5d6c8e0a290085256f939c59220a4f3d9c56e997e007c822c3ac0c274e7"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_ACCEPTANCE_MATRIX_V1.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "f264985b682ee8f780573790dd7d3563aeb557c9204af56e2039f59ba8d5a731"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_LEASE_RELEASE_V1.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "9caae577ab5ff1f0cea7661c74ee8ef19fdf68cdb603e4172ec61293a7c65795"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V2.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "7ba0df466478c45cac70525d5fc5d661a37ba5fe8cb001955430842d37158e44"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V3.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "fd542b02ccb232cf91ad924bcb7f74ed5cde953cbd1911c305162d50dc2762be"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V4.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "4c159e905b4a769f01d387d7e879ff88477038cb5e8c74ba96ddb7fd82fd766c"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "7155c4221be54e631a640767989b478310cf4943e7b42560beda5a2835f02ba2"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "d427af7be17e40af773cac79d40aba24b5e892dd27e1f0c710454aa3c03cc05d"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "5ffb7fbfa69061ec2de6cd9d8bb79cf6a4b4b2132d5b92350756569b86adca90"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V2.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "004d5e479ef2cb35332d4cb89c41824ad5586b38461d60d9cc4a4a3ba3428c59"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V3.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "1de86e8b59ef0ec0a421e853e2b447f5112bebce8c7db26f909425734278c12f"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V4.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "b37ffe11651cfd5639daeb71ccc81ef2e7c6f4cb4fa54decd80f5eb66d3ce04b"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "85ae16689ecf3cc4783eb6cb57815f9d8dbb459080b4607cce46f60a025ae749"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_INSTANCE_V2.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "c33047dc38e6bbd07f698f4b0818261a85e48a22f2b1b7df2bde0bea48055ecd"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_INSTANCE_V3.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "3e99a19fa0874c1aab12af1b2f988d3def3434d27d9baa3c04a36e0a028e8125"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_INSTANCE_V4.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "3dd4894bb6121b8dd188412df19ebdb42e6f2f511efc2ff1e2ea75b2f3615cc4"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_PROTECTED_WIP_AFTER_V1.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "95735ffa221cad9d112027d4db1d3879909ba7e0a6a4ac8989b79a8eda0d4f8d"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_PROTECTED_WIP_BEFORE_V1.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "680246f35b65f98ef17ce823d90b0e982a01528dc21fd64de0cba94e9c87095e"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_TERMINAL_EFFECTIVE_STATE_V1.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "8afc06a99219e903aa772f5159089dcec6f9254c8fd2041d8d5212eb9b099b5c"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_TERMINAL_RECEIPT_V1.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "6043108e676a182a614a2613e4d851ab5c766cb41c5af07af2944f3254d958ab"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_TERMINAL_STAGE_REGISTRY_V1.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "99b9129c5f784658de31316fdd4508131d738a15fbd194d1b954e6f0ebe583f9"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CTR-R24-WP-503-ATLAS-SURFACE.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "0b2b185baa6eb540b44b008d9cc1884c9a327e23c647489870aef8380a9090ec"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-503-ATLAS-SURFACE-CLAIM-BINDINGS.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "dbf548292850eaedd7c224932b9a92aa435b8a5aaaa294bbee19dad73a4281a4"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-503-ATLAS-SURFACE-CONTRACT.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "98281c2b0eb05a6d2374719b96c96a92739f0dabb28948709cee5415c27d9579"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-503-ATLAS-SURFACE-EXACT-HEAD.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "bd30aa2dada4c6a821f7d5ea88fe7c90a6d5acd21dec7de0eb654da44bc96d57"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-503-ATLAS-SURFACE-INTEGRATION.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "edde74f56499ee0d91cce37358ffad8a533bbc8c0a2392bf2149b1777f9e6361"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-503-ATLAS-SURFACE-MODEL.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "e45e55198fe1bcc58d96121eec67debbdc1767062c9b7d4c9eca6ca9f3bff65e"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-503-ATLAS-SURFACE-MUTANTS.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "fea93ccb71bbdba43085f8cf0455990eeea340a428ebb884c9025ce25e6a9adb"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-503-ATLAS-SURFACE-SURVIVOR-AUDIT.json",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "7b1a227ba43d749c6eaaea3279c5bae37bc19ee7757e03245bda03f23ed69e19"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "scripts/ops/r24/corrective/audit-r2-corrections.mjs",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "59ec01b7a7a3cb3baac88a508edf7507ec3ec842d2ebb916956262ee45923940"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "scripts/ops/r24/corrective/post-audit-toolchain.mjs",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "761eedf91e09a79b41aa180d227def53b2fb5ddd91998d1320d2f14cd2926118"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "scripts/ops/r24/wp503-terminal-verifier.mjs",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "21a0ec5277940f302f1928412c6ed98263fc2766d0db32383bbe06b5a930a124"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "test/contracts/r24-audit-r2-corrections.contract.test.mjs",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "e7b927977b9584a5db04405464b453f6c70cd72132501b79b6f46ba62714ca33"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "test/contracts/r24-post-audit-corrections.contract.test.mjs",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "bfe357bbc931d9cc7abaf3599dc86b48597621343f59f98395bedd2ad4f2d95c"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "test/contracts/r24-wp503-terminal-carriers.contract.test.mjs",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "cd9f34b5afd0defb22bcc805f458e7d216c71a359d734ebdbca8fcbdd0a767ab"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "test/contracts/yalken-atlas-v5-er-c06-atlas-rail-responsive-accessibility.contract.test.js",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "cf2b09ce7bee4589a34bc41fb69dc9343f9427c3bf1f49692894bb1c6e94965d"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T15:45:00.000Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-04-design-os-binding.contract.test.js",
+      "rationale": "Owner-authorized WP503 Atlas surface and append-only toolchain and wording successors: exact admitted governance and terminal carrier bytes.",
+      "sha256": "315e378f20630a072db7044aa92a5fa64533205dcd1f008647abbe4555c9f13d"
+    }
+  ]
+}

@@ -1,0 +1,281 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-503-ATLAS-SURFACE-CLAIM-BINDINGS",
+  "contourId": "WP-503_ATLAS_SURFACE",
+  "evidenceClass": "CONTRACT",
+  "verdict": "PASS",
+  "headSha": "3157d84126a76734af50d012b359f7a58b2035fb",
+  "originMainSha": "3157d84126a76734af50d012b359f7a58b2035fb",
+  "generatedAtUtc": "2026-09-01T13:57:42.010Z",
+  "oracle": "Strict WP503 local exact-byte claim binding; future delivery identities remain unclaimed external predicates",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "7155c4221be54e631a640767989b478310cf4943e7b42560beda5a2835f02ba2",
+      "claimTerms": [
+        "READY"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "5ffb7fbfa69061ec2de6cd9d8bb79cf6a4b4b2132d5b92350756569b86adca90",
+      "claimTerms": [
+        "READY"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V2.json",
+      "sha256": "7ba0df466478c45cac70525d5fc5d661a37ba5fe8cb001955430842d37158e44",
+      "claimTerms": [
+        "READY"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V2.json",
+      "sha256": "004d5e479ef2cb35332d4cb89c41824ad5586b38461d60d9cc4a4a3ba3428c59",
+      "claimTerms": [
+        "READY"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V3.json",
+      "sha256": "fd542b02ccb232cf91ad924bcb7f74ed5cde953cbd1911c305162d50dc2762be",
+      "claimTerms": [
+        "READY"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V3.json",
+      "sha256": "1de86e8b59ef0ec0a421e853e2b447f5112bebce8c7db26f909425734278c12f",
+      "claimTerms": [
+        "READY"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V4.json",
+      "sha256": "4c159e905b4a769f01d387d7e879ff88477038cb5e8c74ba96ddb7fd82fd766c",
+      "claimTerms": [
+        "READY"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_INSTANCE_V4.json",
+      "sha256": "3dd4894bb6121b8dd188412df19ebdb42e6f2f511efc2ff1e2ea75b2f3615cc4",
+      "claimTerms": [
+        "READY"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V4.json",
+      "sha256": "b37ffe11651cfd5639daeb71ccc81ef2e7c6f4cb4fa54decd80f5eb66d3ce04b",
+      "claimTerms": [
+        "READY"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "d427af7be17e40af773cac79d40aba24b5e892dd27e1f0c710454aa3c03cc05d",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "680246f35b65f98ef17ce823d90b0e982a01528dc21fd64de0cba94e9c87095e",
+      "claimTerms": [
+        "SAFE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP503_PROTECTED_WIP_AFTER_V1.json",
+      "sha256": "95735ffa221cad9d112027d4db1d3879909ba7e0a6a4ac8989b79a8eda0d4f8d",
+      "claimTerms": [
+        "SAFE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/POST_AUDIT_TOOLCHAIN_BUNDLE_SUCCESSOR_V1.json",
+      "sha256": "681fb191cc89cc8fdffc205efe5a3225934825f56710acfe7ad0efe6657bd3f1",
+      "claimTerms": [
+        "PASS"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP307_EDITOR_WORDING_SUCCESSOR_V1.json",
+      "sha256": "a899b5d6c8e0a290085256f939c59220a4f3d9c56e997e007c822c3ac0c274e7",
+      "claimTerms": [
+        "PASS"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/R24_CORRECTIVE_PROGRAM_V1_1.json",
+      "sha256": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+      "terms": [
+        "compiledProgramFileDigest da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a is distinct from externalSourcePlanDigest 1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a"
+      ]
+    },
+    {
+      "path": "scripts/ops/r24/wp503-terminal-verifier.mjs",
+      "sha256": "21a0ec5277940f302f1928412c6ed98263fc2766d0db32383bbe06b5a930a124",
+      "terms": [
+        "WP503 bounded Atlas surface implementation or oracle bytes"
+      ]
+    },
+    {
+      "path": "scripts/ops/r24/corrective/post-audit-toolchain.mjs",
+      "sha256": "761eedf91e09a79b41aa180d227def53b2fb5ddd91998d1320d2f14cd2926118",
+      "terms": [
+        "WP503 bounded Atlas surface implementation or oracle bytes"
+      ]
+    },
+    {
+      "path": "src/core/atlas-surface-v1.mjs",
+      "sha256": "308c0ef09b408b29f3f3454cfc76622be014f4818c3ee1c4cd577c6f5f8a64a0",
+      "terms": [
+        "WP503 bounded Atlas surface implementation or oracle bytes"
+      ]
+    },
+    {
+      "path": "src/renderer/atlasSurfacePresentationModel.mjs",
+      "sha256": "c8962f3d7d8c3fea1ee39f6139bcd3bac3531b92bdac2eb3947c5e31fe9472cd",
+      "terms": [
+        "WP503 bounded Atlas surface implementation or oracle bytes"
+      ]
+    },
+    {
+      "path": "src/renderer/editor.js",
+      "sha256": "e3b76b9c23a7dbf318382bed0626090d6be8ae8de478afcffecbf0f13ded374b",
+      "terms": [
+        "WP503 bounded Atlas surface implementation or oracle bytes"
+      ]
+    },
+    {
+      "path": "src/renderer/editor.bundle.js",
+      "sha256": "b0b287b15698df9f7b3fb63215900983c3ec8604177325969cc4cbb0a833d770",
+      "terms": [
+        "WP503 bounded Atlas surface implementation or oracle bytes"
+      ]
+    },
+    {
+      "path": "src/renderer/index.html",
+      "sha256": "be60dd104f64acb644aa7d37c9876df97d5adf26f1e4e1f11b0edb0ca764a11e",
+      "terms": [
+        "WP503 bounded Atlas surface implementation or oracle bytes"
+      ]
+    },
+    {
+      "path": "src/renderer/styles.css",
+      "sha256": "a1eaecb11f775cf7fb7dc47a51b0be8c2858f550871ddc30bd404c37fe4d8828",
+      "terms": [
+        "WP503 bounded Atlas surface implementation or oracle bytes"
+      ]
+    },
+    {
+      "path": "src/renderer/design-os/atlasFeatureIntegrationManifest.mjs",
+      "sha256": "b390787964da06d365b69f88ca3d2483f02cb0e1785bdd1e58634875ccda0e04",
+      "terms": [
+        "WP503 bounded Atlas surface implementation or oracle bytes"
+      ]
+    },
+    {
+      "path": "src/renderer/design-os/atlasSlotCatalog.v1.mjs",
+      "sha256": "c0cf8f254575fce8660046d2180a9163ea0a5052a2f74771c1ec44fc9a89d40b",
+      "terms": [
+        "WP503 bounded Atlas surface implementation or oracle bytes"
+      ]
+    },
+    {
+      "path": "test/contracts/r24-post-audit-corrections.contract.test.mjs",
+      "sha256": "bfe357bbc931d9cc7abaf3599dc86b48597621343f59f98395bedd2ad4f2d95c",
+      "terms": [
+        "WP503 bounded Atlas surface implementation or oracle bytes"
+      ]
+    },
+    {
+      "path": "test/contracts/r24-wp503-terminal-carriers.contract.test.mjs",
+      "sha256": "cd9f34b5afd0defb22bcc805f458e7d216c71a359d734ebdbca8fcbdd0a767ab",
+      "terms": [
+        "WP503 bounded Atlas surface implementation or oracle bytes"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp307-writer-local-profile-integration.test.js",
+      "sha256": "b6d0b19d6442ba992d4845fdf1b0cbcf83f828ba26c8899fb21e3311e28fd630",
+      "terms": [
+        "WP503 bounded Atlas surface implementation or oracle bytes"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp503-atlas-surface.test.js",
+      "sha256": "b0169d23d28da6accb12dbe196648c2822cf34dd031964538de0dbfd36e0a59c",
+      "terms": [
+        "WP503 bounded Atlas surface implementation or oracle bytes"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp503-atlas-surface-integration.test.js",
+      "sha256": "a731c8855bcff4dece9c38925ec84e43c734bb2d2ea8016fdabffdbbc16d46a7",
+      "terms": [
+        "WP503 bounded Atlas surface implementation or oracle bytes"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp503-atlas-surface-mutants.test.js",
+      "sha256": "5d8013056f6969d05fd038c89fc0189f742804fbdcfb1c15d1d7004434fbdfb2",
+      "terms": [
+        "WP503 bounded Atlas surface implementation or oracle bytes"
+      ]
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/POST_AUDIT_TOOLCHAIN_BUNDLE_SUCCESSOR_V1.json",
+      "sha256": "681fb191cc89cc8fdffc205efe5a3225934825f56710acfe7ad0efe6657bd3f1",
+      "terms": [
+        "WP503 bounded Atlas surface implementation or oracle bytes"
+      ]
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP307_EDITOR_WORDING_SUCCESSOR_V1.json",
+      "sha256": "a899b5d6c8e0a290085256f939c59220a4f3d9c56e997e007c822c3ac0c274e7",
+      "terms": [
+        "WP503 bounded Atlas surface implementation or oracle bytes"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "npm run test:r24-wp503",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 22,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 9,
+        "survived": 0
+      }
+    },
+    {
+      "command": "privacy-safe protected-WIP exact comparison",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 252,
+        "fail": 0
+      },
+      "requiredDisposition": "All 252 deterministic inventory entries and the exact seven-worktree protected dirty set are unchanged"
+    },
+    {
+      "command": "npm run build:renderer",
+      "verdict": "PASS",
+      "requiredDisposition": "Tracked renderer bundle generated from exact source bytes"
+    }
+  ],
+  "nonClaims": [
+    "NO_EXTERNAL_CANDIDATE_MERGE_OPS_VECTOR_CLOSE_OR_POSTMERGE_IDENTITY_PRECLAIMED",
+    "NO_PRODUCT_PERSISTENCE_COMMAND_OR_PLATFORM_EFFECT",
+    "NO_MAIN_PRODUCT_GRAPH_NODE_AFTER_WP503_STARTED",
+    "NO_PROFILE_WIDE_OR_PROGRAM_WIDE_PASS",
+    "PROGRAM_DONE_FALSE"
+  ]
+}

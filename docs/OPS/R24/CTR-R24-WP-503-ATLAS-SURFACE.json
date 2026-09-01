@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "ContourTerminalReceiptV2",
+  "receiptId": "CTR-R24-WP-503-ATLAS-SURFACE",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-503_ATLAS_SURFACE",
+  "attemptId": "ATTEMPT-WP503-20260901",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP503_AUTHORITY_EPOCH_V2",
+  "evaluationBaseSha": "3157d84126a76734af50d012b359f7a58b2035fb",
+  "evaluationBaseTreeSha": "7f38243ced17ee249f0c541004171235a1e14788",
+  "terminalCarrierDigest": "6043108e676a182a614a2613e4d851ab5c766cb41c5af07af2944f3254d958ab",
+  "mergeState": "PENDING_EXTERNAL_PROTECTED_MERGE",
+  "postmergeState": "PENDING_EXTERNAL_EXACT_POSTMERGE_CI",
+  "opsVectorCloseState": "PENDING_EXTERNAL_OPS_VECTOR_CLOSE",
+  "survivorState": "PENDING_EXTERNAL_POSTMERGE_GATES",
+  "conditionalTerminalRule": {
+    "ruleId": "SINGLE_TERMINAL_PR_RULE_V1",
+    "currentState": "ADMITTED_ACTIVE_WIP_1",
+    "targetState": "CERTIFIED_DONE_RELEASED_WIP_0",
+    "predicates": [
+      "CANDIDATE_CI_GREEN_AT_EXACT_PR_HEAD",
+      "NORMAL_PROTECTED_MERGE",
+      "OPS_VECTOR_CLOSE_GREEN_AT_EXACT_MERGE",
+      "EXACT_POSTMERGE_CI_GREEN_AT_EXACT_MERGE"
+    ],
+    "selfBindingPolicy": "FUTURE_EXTERNAL_IDENTITIES_BOUND_BY_EXTERNAL_TERMINAL_DELIVERY_RECEIPT_NO_RECURSIVE_CLOSURE_PR"
+  },
+  "evidenceStampIds": [
+    "ES-R24-WP-503-ATLAS-SURFACE-CLAIM-BINDINGS",
+    "ES-R24-WP-503-ATLAS-SURFACE-CONTRACT",
+    "ES-R24-WP-503-ATLAS-SURFACE-EXACT-HEAD",
+    "ES-R24-WP-503-ATLAS-SURFACE-INTEGRATION",
+    "ES-R24-WP-503-ATLAS-SURFACE-MODEL",
+    "ES-R24-WP-503-ATLAS-SURFACE-MUTANTS",
+    "ES-R24-WP-503-ATLAS-SURFACE-SURVIVOR-AUDIT"
+  ],
+  "nextContourId": null,
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "graphAdvance": false,
+  "programDone": false
+}

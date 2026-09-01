@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "WP503_TERMINAL_SUPPLEMENT_V1",
+  "status": "CONDITIONAL_CERTIFIED_DONE_PENDING_EXTERNAL_DELIVERY",
+  "stageId": "WP-503_ATLAS_SURFACE",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "bindings": {
+    "authorityDigest": "0265d35e41a130a63ac03b431f50c02b06bd37d3799f5dcd63d5f5e8791f2ce9",
+    "stageInstanceDigest": "28e89223241512edfb2df2d3436f6a74d24fa80bea572ec051da06c7b46bef21",
+    "stageAdmissionDigest": "5e56705c54871f229791f70ac3831d10dfe75ac3207669ec08e19a8805c35598",
+    "writeSetDigest": "b172149c47ea946096eb03a45c262def16a98106fa725729eb16f50494cf0310",
+    "commandScopeDigest": "05b1fc4e79b77753dc73c77a774dcfdbc89efb7518dac0ae8e69c3e0f681cc3b",
+    "acceptanceSignalsDigest": "507eeed1ec273e2361056d9974ea916831cd55fc64963269d25b94902c920cae",
+    "predecessorTerminalReceiptDigest": "6043108e676a182a614a2613e4d851ab5c766cb41c5af07af2944f3254d958ab",
+    "predecessorAcceptanceMatrixDigest": "f264985b682ee8f780573790dd7d3563aeb557c9204af56e2039f59ba8d5a731",
+    "predecessorEffectiveStateDigest": "8afc06a99219e903aa772f5159089dcec6f9254c8fd2041d8d5212eb9b099b5c",
+    "predecessorStageRegistryDigest": "99b9129c5f784658de31316fdd4508131d738a15fbd194d1b954e6f0ebe583f9",
+    "predecessorLeaseReleaseDigest": "9caae577ab5ff1f0cea7661c74ee8ef19fdf68cdb603e4172ec61293a7c65795",
+    "wordingSuccessorDigest": "bf5a6cea9149e480382033e8b7d4b9ffc463be4f4dbfed0170e869e5222442d4",
+    "rtkFailureDigest": "b909e660bbb0018e9f04b1b1a766f03ad8b9b94caa63ca9f306215979f3f3bf9",
+    "terminalVerifierDigest": "c5eba7e4472f3c9ea78ea898cf8db5539fd7368bfed30b092864fa331224f2c6",
+    "terminalCarrierTestDigest": "0baf7b56e4b9278e7a1c18a422687abb8abcc0d269bfa8d49cc4263abd077146"
+  },
+  "externalDeliveryPredicates": [
+    {
+      "id": "CANDIDATE_CI_GREEN_AT_EXACT_PR_HEAD",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_GREEN_AT_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI_GREEN_AT_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    }
+  ],
+  "currentLease": {
+    "fencingCounter": 66,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "b81c3795dbce79f479366af1a1585078d7d53709d048d8a2c12a630d3ec08b93"
+  },
+  "targetLease": {
+    "fencingCounter": 66,
+    "status": "RELEASED",
+    "wip": 0,
+    "transition": "ACTIVE_WIP_1_TO_RELEASED_WIP_0"
+  },
+  "correctionOutcome": {
+    "historicalRegistryPreserved": true,
+    "exactSurfaceOverrideDenominator": 2,
+    "fullRtkRequiredAfterCleanCommit": true,
+    "skipOrTodoIntroduced": false
+  },
+  "nonClaims": [
+    "NO_FUTURE_EXTERNAL_PROVIDER_IDENTITY_PRECLAIMED",
+    "NO_PRODUCT_PERSISTENCE_COMMAND_OR_PLATFORM_EFFECT",
+    "NO_MAIN_PRODUCT_GRAPH_NODE_AFTER_WP503_STARTED",
+    "NO_PROFILE_WIDE_OR_PROGRAM_WIDE_PASS"
+  ],
+  "programDone": false,
+  "nextGraphNodeStarted": false
+}

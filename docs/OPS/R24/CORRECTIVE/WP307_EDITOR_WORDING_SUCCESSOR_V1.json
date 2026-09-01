@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "WP307_EDITOR_WORDING_SUCCESSOR_V1",
+  "status": "CURRENT_APPEND_ONLY_SUCCESSOR",
+  "stageId": "WP-503_ATLAS_SURFACE",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "historicalRegistry": {
+    "path": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+    "sha256": "9064441a85e1ce2758ef018cdb82c76229e921cb1adeea844792e102ee96cba2",
+    "editorSourceSha256": "sha256:5d443aca3c441c831ee9a47a3e7445a836730d0c602cf95136afc76ce47af320",
+    "status": "PRESERVED_HISTORICAL_BYTES"
+  },
+  "successor": {
+    "evaluationBaseSha": "3157d84126a76734af50d012b359f7a58b2035fb",
+    "evaluationBaseTreeSha": "7f38243ced17ee249f0c541004171235a1e14788",
+    "editorSourceSha256": "sha256:e3b76b9c23a7dbf318382bed0626090d6be8ae8de478afcffecbf0f13ded374b",
+    "scope": "WP503_READ_ONLY_ATLAS_SURFACE_RENDERER_WIRING"
+  },
+  "authority": {
+    "authorityDigest": "4c159e905b4a769f01d387d7e879ff88477038cb5e8c74ba96ddb7fd82fd766c",
+    "stageInstanceDigest": "3dd4894bb6121b8dd188412df19ebdb42e6f2f511efc2ff1e2ea75b2f3615cc4",
+    "stageAdmissionDigest": "b37ffe11651cfd5639daeb71ccc81ef2e7c6f4cb4fa54decd80f5eb66d3ce04b"
+  },
+  "programDone": false
+}

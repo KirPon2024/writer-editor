@@ -48,6 +48,17 @@ const REGISTRY_PATHS = Object.freeze({
   supplement: `${C}/WP503_TERMINAL_SUPPLEMENT_V4.json`,
   auditR2Registry: `${C}/AUDIT_R2_CARRIER_REGISTRY_V17.json`,
 });
+const INVENTORY_PATHS = Object.freeze({
+  authority: `${C}/WP503_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V9.json`,
+  instance: `${C}/WP503_MAIN_PRODUCT_STAGE_INSTANCE_V9.json`,
+  admission: `${C}/WP503_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V9.json`,
+  failure: `${C}/WP503_LOCAL_TEST_INVENTORY_FAILURE_V1.json`,
+  successor: `${C}/WP503_TEST_INVENTORY_SUCCESSOR_V1.json`,
+  approvals: `${C}/WP503_GOVERNANCE_CHANGE_APPROVALS_V6.json`,
+  supplement: `${C}/WP503_TERMINAL_SUPPLEMENT_V5.json`,
+  auditR2Registry: `${C}/AUDIT_R2_CARRIER_REGISTRY_V18.json`,
+  testInventory: `${C}/C1B_TEST_INVENTORY_V1.json`,
+});
 const EXTERNAL_SOURCE = '1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a';
 const COMPILED_PROGRAM = 'da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a';
 const V1_AUTHORITY = '7155c4221be54e631a640767989b478310cf4943e7b42560beda5a2835f02ba2';
@@ -274,7 +285,7 @@ export function verifyWp503V7TerminalCarriers() {
   };
 }
 
-export function verifyWp503TerminalCarriers() {
+export function verifyWp503V8TerminalCarriers() {
   const predecessor = verifyWp503V7TerminalCarriers();
   const authority = read(REGISTRY_PATHS.authority);
   const instance = read(REGISTRY_PATHS.instance);
@@ -299,19 +310,19 @@ export function verifyWp503TerminalCarriers() {
   assert(failure.value.status === 'FAIL_CLOSED_SUPERSEDED_BY_APPEND_ONLY_AUDIT_R2_REGISTRY_SUCCESSOR' && failure.value.candidateCi.runId === 33536582620 && failure.value.candidateCi.failedJob.jobId === 99952261969 && failure.value.candidateCi.failedJob.code === 'E_CARRIER_REGISTRY_DIGEST', 'E_WP503_REGISTRY_FAILURE_STATE');
   assert(failure.value.rootCause.predecessorRegistryDigest === '9da3395a8d3d0e1403bb234f09a318b3e198e0fba7e8a88f64e60cafdcf4b243' && failure.value.rootCause.staleCarrierPath === `${C}/C1B_TEST_INVENTORY_V1.json`, 'E_WP503_REGISTRY_FAILURE_ROOT');
   assert(successor.value.status === 'CURRENT_APPEND_ONLY_SUCCESSOR' && successor.value.bindings.authorityDigest === authority.digest && successor.value.bindings.stageInstanceDigest === instance.digest && successor.value.bindings.stageAdmissionDigest === admission.digest && successor.value.bindings.failureDigest === failure.digest, 'E_WP503_REGISTRY_SUCCESSOR_CHAIN');
-  assert(successor.value.bindings.auditR2RegistryDigest === auditR2Registry.digest && successor.value.bindings.auditR2VerifierDigest === sha256(fs.readFileSync('scripts/ops/r24/corrective/audit-r2-corrections.mjs')) && successor.value.bindings.auditR2ContractTestDigest === sha256(fs.readFileSync('test/contracts/r24-audit-r2-corrections.contract.test.mjs')) && successor.value.bindings.postAuditVerifierDigest === sha256(fs.readFileSync('scripts/ops/r24/corrective/post-audit-certification-set.mjs')) && successor.value.bindings.postAuditContractTestDigest === sha256(fs.readFileSync('test/contracts/r24-post-audit-certification-set.contract.test.mjs')), 'E_WP503_REGISTRY_SUCCESSOR_BYTES');
+  assert(successor.value.bindings.auditR2RegistryDigest === auditR2Registry.digest && successor.value.bindings.auditR2VerifierDigest === gitObjectDigest('96cded02b57cf0147ae2d4a063891dd63f0ac212', 'scripts/ops/r24/corrective/audit-r2-corrections.mjs') && successor.value.bindings.auditR2ContractTestDigest === gitObjectDigest('96cded02b57cf0147ae2d4a063891dd63f0ac212', 'test/contracts/r24-audit-r2-corrections.contract.test.mjs') && successor.value.bindings.postAuditVerifierDigest === gitObjectDigest('96cded02b57cf0147ae2d4a063891dd63f0ac212', 'scripts/ops/r24/corrective/post-audit-certification-set.mjs') && successor.value.bindings.postAuditContractTestDigest === gitObjectDigest('96cded02b57cf0147ae2d4a063891dd63f0ac212', 'test/contracts/r24-post-audit-certification-set.contract.test.mjs'), 'E_WP503_REGISTRY_SUCCESSOR_BYTES');
   assert(auditR2Registry.value.schemaVersion === 'AUDIT_R2_CARRIER_REGISTRY_V17' && auditR2Registry.value.carriers.length === 32 && auditR2Registry.value.predecessor.sha256 === '9da3395a8d3d0e1403bb234f09a318b3e198e0fba7e8a88f64e60cafdcf4b243', 'E_WP503_REGISTRY_DENOMINATOR');
 
   assert(approvals.value.version === 'v1.0' && Array.isArray(approvals.value.approvals) && approvals.value.approvals.length > 0, 'E_WP503_REGISTRY_APPROVALS_SCHEMA');
   for (const [index, approval] of approvals.value.approvals.entries()) {
     const approvedAt = Date.parse(approval.approvedAtUtc);
     assert(Number.isFinite(approvedAt) && approvedAt <= now, 'E_WP503_REGISTRY_APPROVAL_FUTURE', String(index));
-    assert(sha256(fs.readFileSync(approval.filePath)) === approval.sha256, 'E_WP503_REGISTRY_APPROVAL_BYTES', approval.filePath);
+    assert(gitObjectDigest('96cded02b57cf0147ae2d4a063891dd63f0ac212', approval.filePath) === approval.sha256, 'E_WP503_REGISTRY_APPROVAL_BYTES', approval.filePath);
   }
 
   assert(supplement.value.status === 'CONDITIONAL_CERTIFIED_DONE_PENDING_EXTERNAL_DELIVERY' && supplement.value.bindings.authorityDigest === authority.digest && supplement.value.bindings.stageInstanceDigest === instance.digest && supplement.value.bindings.stageAdmissionDigest === admission.digest && supplement.value.bindings.candidateCiFailureDigest === failure.digest && supplement.value.bindings.auditR2RegistrySuccessorDigest === successor.digest && supplement.value.bindings.auditR2RegistryDigest === auditR2Registry.digest, 'E_WP503_REGISTRY_SUPPLEMENT_CHAIN');
   assert(supplement.value.bindings.predecessorTerminalSupplementDigest === '3bbe6afc149fa625a43ccbc6775ce219199e146b06984453281cac834a0e6bc9', 'E_WP503_REGISTRY_SUPPLEMENT_PREDECESSOR');
-  assert(supplement.value.bindings.terminalVerifierDigest === sha256(fs.readFileSync('scripts/ops/r24/wp503-terminal-verifier.mjs')) && supplement.value.bindings.terminalCarrierTestDigest === sha256(fs.readFileSync('test/contracts/r24-wp503-terminal-carriers.contract.test.mjs')), 'E_WP503_REGISTRY_SUPPLEMENT_BYTES');
+  assert(supplement.value.bindings.terminalVerifierDigest === gitObjectDigest('96cded02b57cf0147ae2d4a063891dd63f0ac212', 'scripts/ops/r24/wp503-terminal-verifier.mjs') && supplement.value.bindings.terminalCarrierTestDigest === gitObjectDigest('96cded02b57cf0147ae2d4a063891dd63f0ac212', 'test/contracts/r24-wp503-terminal-carriers.contract.test.mjs'), 'E_WP503_REGISTRY_SUPPLEMENT_BYTES');
   assert(supplement.value.currentLease.fencingCounter === 67 && supplement.value.currentLease.status === 'ACTIVE' && supplement.value.currentLease.wip === 1 && supplement.value.targetLease.status === 'RELEASED' && supplement.value.targetLease.wip === 0, 'E_WP503_REGISTRY_SUPPLEMENT_LEASE');
   assert(supplement.value.programDone === false && supplement.value.nextGraphNodeStarted === false, 'E_WP503_REGISTRY_SUPPLEMENT_PROGRAM_STATE');
 
@@ -329,6 +340,68 @@ export function verifyWp503TerminalCarriers() {
     targetLease: supplement.value.targetLease,
     futureUtcOracle: 'PASS',
     auditR2RegistryOracle: 'PASS',
+    programDone: false,
+  };
+}
+
+export function verifyWp503TerminalCarriers() {
+  const predecessor = verifyWp503V8TerminalCarriers();
+  const authority = read(INVENTORY_PATHS.authority);
+  const instance = read(INVENTORY_PATHS.instance);
+  const admission = read(INVENTORY_PATHS.admission);
+  const failure = read(INVENTORY_PATHS.failure);
+  const successor = read(INVENTORY_PATHS.successor);
+  const approvals = read(INVENTORY_PATHS.approvals);
+  const supplement = read(INVENTORY_PATHS.supplement);
+  const auditR2Registry = read(INVENTORY_PATHS.auditR2Registry);
+  const testInventory = read(INVENTORY_PATHS.testInventory);
+  const now = Date.now();
+
+  assert(authority.digest === 'bd12fbab73fde7c73d4ec1116eaea0154bf77612fb02b1ec158dd6528bad8d60', 'E_WP503_INVENTORY_AUTHORITY_DIGEST');
+  assert(instance.digest === '9480cbcb3878c30f1dbf20d680e9368479ff3f06179067bd9800607cd516d88b', 'E_WP503_INVENTORY_INSTANCE_DIGEST');
+  assert(admission.digest === '9dd48faa1949c810ba87186fbf654502c900e50e718839d8a4b93d3c506d8027', 'E_WP503_INVENTORY_ADMISSION_DIGEST');
+  assert(failure.digest === '9463ff4630877875689853e9999a146d881b437ee3dd4aa97e043cf959b8fd01', 'E_WP503_INVENTORY_FAILURE_DIGEST');
+  assert(admission.value.authorityDigest === authority.digest && admission.value.stageInstanceDigest === instance.digest, 'E_WP503_INVENTORY_ADMISSION_CHAIN');
+  assert(instance.value.baseSha === '96cded02b57cf0147ae2d4a063891dd63f0ac212' && instance.value.treeSha === '3488fd8b7640be57c7c48ee7ba952d75f345f3f3', 'E_WP503_INVENTORY_EXACT_BASE');
+  assert(instance.value.model === 'gpt-5.6-sol' && instance.value.reasoningEffort === 'xhigh', 'E_WP503_INVENTORY_RUNTIME');
+  assert(instance.value.lease.fencingCounter === 67 && instance.value.lease.status === 'ACTIVE' && instance.value.lease.wip === 1, 'E_WP503_INVENTORY_ACTIVE_LEASE');
+  for (const value of [authority.value, instance.value, admission.value, failure.value.sourcePlanRoles, successor.value.sourcePlanRoles, approvals.value.sourcePlanRoles, supplement.value.sourcePlanRoles]) sourceRolesExact(value, value.schemaVersion);
+
+  assert(failure.value.status === 'FAIL_CLOSED_SUPERSEDED_BY_APPEND_ONLY_TEST_INVENTORY_SUCCESSOR' && failure.value.result.code === 'E_INVENTORY_DIGEST_MISMATCH' && failure.value.result.mismatchedPaths.length === 3 && failure.value.result.requiredSkips === 0 && failure.value.result.unexplainedSkips === 0, 'E_WP503_INVENTORY_FAILURE_STATE');
+  assert(successor.value.status === 'CURRENT_APPEND_ONLY_SUCCESSOR' && successor.value.bindings.authorityDigest === authority.digest && successor.value.bindings.stageInstanceDigest === instance.digest && successor.value.bindings.stageAdmissionDigest === admission.digest && successor.value.bindings.failureDigest === failure.digest, 'E_WP503_INVENTORY_SUCCESSOR_CHAIN');
+  assert(successor.value.bindings.auditR2RegistryDigest === auditR2Registry.digest && successor.value.bindings.testInventoryDigest === testInventory.digest && successor.value.bindings.auditR2VerifierDigest === sha256(fs.readFileSync('scripts/ops/r24/corrective/audit-r2-corrections.mjs')) && successor.value.bindings.auditR2ContractTestDigest === sha256(fs.readFileSync('test/contracts/r24-audit-r2-corrections.contract.test.mjs')) && successor.value.bindings.postAuditVerifierDigest === sha256(fs.readFileSync('scripts/ops/r24/corrective/post-audit-certification-set.mjs')) && successor.value.bindings.postAuditContractTestDigest === sha256(fs.readFileSync('test/contracts/r24-post-audit-certification-set.contract.test.mjs')), 'E_WP503_INVENTORY_SUCCESSOR_BYTES');
+  assert(auditR2Registry.value.schemaVersion === 'AUDIT_R2_CARRIER_REGISTRY_V18' && auditR2Registry.value.carriers.length === 32 && auditR2Registry.value.predecessor.sha256 === 'b7a504de9f0061f1cabf98cdca47452d0881bf4eadf427b0d33ebf198760cc1f', 'E_WP503_INVENTORY_REGISTRY_DENOMINATOR');
+  assert(testInventory.value.totals?.requiredSkips === 0 && testInventory.value.totals.unexplainedSkips === 0 && testInventory.value.totals.all === 1293, 'E_WP503_INVENTORY_SKIP_DENOMINATOR');
+
+  assert(approvals.value.version === 'v1.0' && Array.isArray(approvals.value.approvals) && approvals.value.approvals.length > 0, 'E_WP503_INVENTORY_APPROVALS_SCHEMA');
+  for (const [index, approval] of approvals.value.approvals.entries()) {
+    const approvedAt = Date.parse(approval.approvedAtUtc);
+    assert(Number.isFinite(approvedAt) && approvedAt <= now, 'E_WP503_INVENTORY_APPROVAL_FUTURE', String(index));
+    assert(sha256(fs.readFileSync(approval.filePath)) === approval.sha256, 'E_WP503_INVENTORY_APPROVAL_BYTES', approval.filePath);
+  }
+
+  assert(supplement.value.status === 'CONDITIONAL_CERTIFIED_DONE_PENDING_EXTERNAL_DELIVERY' && supplement.value.bindings.authorityDigest === authority.digest && supplement.value.bindings.stageInstanceDigest === instance.digest && supplement.value.bindings.stageAdmissionDigest === admission.digest && supplement.value.bindings.localInventoryFailureDigest === failure.digest && supplement.value.bindings.testInventorySuccessorDigest === successor.digest && supplement.value.bindings.auditR2RegistryDigest === auditR2Registry.digest && supplement.value.bindings.testInventoryDigest === testInventory.digest, 'E_WP503_INVENTORY_SUPPLEMENT_CHAIN');
+  assert(supplement.value.bindings.predecessorTerminalSupplementDigest === '33f3221c78dad919948b7c4fbdd856c0872496d8e4650b393fdd5ac5d0314389', 'E_WP503_INVENTORY_SUPPLEMENT_PREDECESSOR');
+  assert(supplement.value.bindings.terminalVerifierDigest === sha256(fs.readFileSync('scripts/ops/r24/wp503-terminal-verifier.mjs')) && supplement.value.bindings.terminalCarrierTestDigest === sha256(fs.readFileSync('test/contracts/r24-wp503-terminal-carriers.contract.test.mjs')), 'E_WP503_INVENTORY_SUPPLEMENT_BYTES');
+  assert(supplement.value.currentLease.fencingCounter === 67 && supplement.value.currentLease.status === 'ACTIVE' && supplement.value.currentLease.wip === 1 && supplement.value.targetLease.status === 'RELEASED' && supplement.value.targetLease.wip === 0, 'E_WP503_INVENTORY_SUPPLEMENT_LEASE');
+  assert(supplement.value.programDone === false && supplement.value.nextGraphNodeStarted === false, 'E_WP503_INVENTORY_SUPPLEMENT_PROGRAM_STATE');
+
+  return {
+    ...predecessor,
+    schemaVersion: 'YALKEN_R24_WP503_TERMINAL_CARRIERS_VERIFICATION_V4',
+    authorityDigest: authority.digest,
+    stageInstanceDigest: instance.digest,
+    stageAdmissionDigest: admission.digest,
+    localInventoryFailureDigest: failure.digest,
+    testInventorySuccessorDigest: successor.digest,
+    auditR2RegistryDigest: auditR2Registry.digest,
+    testInventoryDigest: testInventory.digest,
+    terminalSupplementDigest: supplement.digest,
+    currentLease: supplement.value.currentLease,
+    targetLease: supplement.value.targetLease,
+    futureUtcOracle: 'PASS',
+    auditR2RegistryOracle: 'PASS',
+    testInventoryOracle: 'PASS',
     programDone: false,
   };
 }

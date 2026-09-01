@@ -15,23 +15,23 @@ test('remote terminal wrapper binds the verifier tree field exactly',()=>{
 test('the append-only audit-R2 carrier chain passes the static exact-byte check',()=>{
   const result=checkCorrections();
   assert.equal(result.status,'PASS');
-  assert.equal(result.schemaVersion,'AUDIT_R2_CORRECTION_STATIC_CHECK_V17');
-  assert.equal(result.predecessorCarrierRegistryDigest,'9da3395a8d3d0e1403bb234f09a318b3e198e0fba7e8a88f64e60cafdcf4b243');
+  assert.equal(result.schemaVersion,'AUDIT_R2_CORRECTION_STATIC_CHECK_V18');
+  assert.equal(result.predecessorCarrierRegistryDigest,'b7a504de9f0061f1cabf98cdca47452d0881bf4eadf427b0d33ebf198760cc1f');
   assert.equal(result.rootCarrierRegistryDigest,'b1738174bd03f47a25e3bcb2ea68c9bf9f602e761b1c8783cc04a8c54f972f8b');
   assert.equal(result.registeredStages,33);
   assert.equal(result.programDoneClaimed,false);
   assert.equal(result.wp400MutationStarted,false);
 });
-test('audit-R2 registry successor binds distinct source roles and the admitted WP503 exact-byte refresh',()=>{
-  const value=load('docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V17.json');
-  assert.equal(value.predecessor.sha256,'9da3395a8d3d0e1403bb234f09a318b3e198e0fba7e8a88f64e60cafdcf4b243');
-  assert.equal(value.predecessor.status,'SUPERSEDED_BY_APPEND_ONLY_WP503_AUDIT_R2_REGISTRY_SUCCESSOR');
+test('audit-R2 registry successor binds distinct source roles and the admitted WP503 inventory refresh',()=>{
+  const value=load('docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V18.json');
+  assert.equal(value.predecessor.sha256,'b7a504de9f0061f1cabf98cdca47452d0881bf4eadf427b0d33ebf198760cc1f');
+  assert.equal(value.predecessor.status,'SUPERSEDED_BY_APPEND_ONLY_WP503_TEST_INVENTORY_SUCCESSOR');
   assert.equal(value.sourcePlanRoles.externalSourcePlanDigest,'1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a');
   assert.equal(value.sourcePlanRoles.compiledProgramFileDigest,'da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a');
   assert.notEqual(value.sourcePlanRoles.externalSourcePlanDigest,value.sourcePlanRoles.compiledProgramFileDigest);
-  assert.deepEqual(value.successorScope.replacementPaths,['.github/workflows/oss-policy.yml','scripts/ops/r24/corrective/audit-r2-corrections.mjs','scripts/ops/r24/corrective/post-audit-certification-set.mjs','scripts/ops/r24/wp503-terminal-verifier.mjs','test/contracts/r24-audit-r2-corrections.contract.test.mjs','test/contracts/r24-post-audit-certification-set.contract.test.mjs','test/contracts/r24-wp503-terminal-carriers.contract.test.mjs']);
-  assert.deepEqual(value.successorScope.reboundExistingPaths,['docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json']);
-  assert.deepEqual(value.successorScope.addedPaths,['docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V17.json','docs/OPS/R24/CORRECTIVE/WP503_AUDIT_R2_REGISTRY_SUCCESSOR_V1.json','docs/OPS/R24/CORRECTIVE/WP503_CANDIDATE_CI_AUDIT_R2_FAILURE_V1.json','docs/OPS/R24/CORRECTIVE/WP503_GOVERNANCE_CHANGE_APPROVALS_V5.json','docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V8.json','docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V8.json','docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_INSTANCE_V8.json','docs/OPS/R24/CORRECTIVE/WP503_TERMINAL_SUPPLEMENT_V4.json']);
+  assert.deepEqual(value.successorScope.replacementPaths,['.github/workflows/oss-policy.yml','docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json','scripts/ops/r24/corrective/audit-r2-corrections.mjs','scripts/ops/r24/corrective/post-audit-certification-set.mjs','scripts/ops/r24/wp503-terminal-verifier.mjs','test/contracts/r24-audit-r2-corrections.contract.test.mjs','test/contracts/r24-post-audit-certification-set.contract.test.mjs','test/contracts/r24-wp503-terminal-carriers.contract.test.mjs']);
+  assert.deepEqual(value.successorScope.reboundExistingPaths,[]);
+  assert.deepEqual(value.successorScope.addedPaths,['docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V18.json','docs/OPS/R24/CORRECTIVE/WP503_GOVERNANCE_CHANGE_APPROVALS_V6.json','docs/OPS/R24/CORRECTIVE/WP503_LOCAL_TEST_INVENTORY_FAILURE_V1.json','docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V9.json','docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V9.json','docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_INSTANCE_V9.json','docs/OPS/R24/CORRECTIVE/WP503_TERMINAL_SUPPLEMENT_V5.json','docs/OPS/R24/CORRECTIVE/WP503_TEST_INVENTORY_SUCCESSOR_V1.json']);
   assert.deepEqual(value.successorScope.removedPaths,[]);
 });
 test('six fixed historical authority sources remain byte-identical',()=>{

@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "WP503_LOCAL_TEST_INVENTORY_FAILURE_V1",
+  "status": "FAIL_CLOSED_SUPERSEDED_BY_APPEND_ONLY_TEST_INVENTORY_SUCCESSOR",
+  "stageId": "WP-503_ATLAS_SURFACE",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "exactIdentity": {
+    "sha": "96cded02b57cf0147ae2d4a063891dd63f0ac212",
+    "tree": "3488fd8b7640be57c7c48ee7ba952d75f345f3f3",
+    "predecessorSha": "acc19208d94c6be40e0f627cec218191171ae583",
+    "predecessorTree": "32480ed79d2ac73ed3589de99f685bd9758f53ca"
+  },
+  "command": "node scripts/ops/r24/test-inventory.mjs --check docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+  "result": {
+    "status": "INVALID",
+    "all": 1293,
+    "lateMjs": 8,
+    "requiredSkips": 0,
+    "unexplainedSkips": 0,
+    "code": "E_INVENTORY_DIGEST_MISMATCH",
+    "mismatchedPaths": [
+      "test/contracts/r24-audit-r2-corrections.contract.test.mjs",
+      "test/contracts/r24-post-audit-certification-set.contract.test.mjs",
+      "test/contracts/r24-wp503-terminal-carriers.contract.test.mjs"
+    ]
+  },
+  "currentInventoryDigest": "ca83393d533dd63907d5ebff348162302a2950c6aa962ae1627148811ce8b11e",
+  "rootCause": "V8_CHANGED_THREE_CONTRACT_TEST_BYTE_IDENTITIES_WITHOUT_ADMITTING_C1B_INVENTORY_REGENERATION",
+  "historicalBytesRewritten": false,
+  "programDone": false,
+  "observedAtUtc": "2026-09-01T17:42:35Z"
+}

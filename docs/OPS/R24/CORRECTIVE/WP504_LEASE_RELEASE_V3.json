@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "YALKEN_R24_WP504_LEASE_RELEASE_V3",
+  "stageId": "WP-504_DOSSIER_LAYOUT_LINKS",
+  "status": "CONDITIONAL_RELEASE_PENDING_EXTERNAL_DELIVERY",
+  "evidenceStampId": "ES-R24-WP-504-CANDIDATE-BOUND-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "bindings": {
+    "predecessorLeaseReleaseDigest": "bb3bd4dee9e1b8228389adbef9e0777b7b5940d3aea93737e48ef4eb25a1905a",
+    "acceptanceMatrixDigest": "9b20ccf70c8618784e4beb6a0891916bf8eeebf78860c099fb42ac2ba7e21e31",
+    "effectiveStateDigest": "224cebaad7bd5291eb4820d791a032f44df210d15c05acccc2f201ca8021081f",
+    "stageRegistryDigest": "81c001e1475c762658513868ba8dc2d7377c2f85cd18afd336be9cfad7ffc011",
+    "stageAdmissionDigest": "c4cc882e80ae012950dd4934b80a58d1622f7a8adcc1a813e2039415fd42c0a3"
+  },
+  "currentLease": {
+    "fencingCounter": 68,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "65fb353a94ec1e592a3e5161673eabce7f850df9f2a4c2c9151e40963b36f39c"
+  },
+  "targetLease": {
+    "fencingCounter": 68,
+    "status": "RELEASED",
+    "wip": 0,
+    "transition": "ACTIVE_WIP_1_TO_RELEASED_WIP_0"
+  },
+  "protectedWipProof": {
+    "algorithm": "PROTECTED_WIP_INVENTORY_V1",
+    "beforeCarrierDigest": "58e575e5238a97c858746b223d1ccfccb9c82cef172bcfca439cd2ff8b01bade",
+    "afterAdmissionCarrierDigest": "fd852dac97b61e92ca0dea5e0453ea27620087f2047cfcf33a76f9a41a45d600",
+    "beforeSnapshotDigest": "1ff0d5c2e7f5f162a0c2d44c0f00133cd2b3fc8f6c2972ec4b83d86731645d5e",
+    "afterAdmissionSnapshotDigest": "237f6aa5854bcbc0493dc3971b3eebd94b85fa20a1b8fb08a570db021d3d8404",
+    "completeDenominator": 254,
+    "presentDenominator": 251,
+    "prunableDenominator": 3,
+    "dirtyDenominator": 7,
+    "entriesExact": true,
+    "protectedDirtySetExact": true,
+    "finalSnapshotRequired": true
+  },
+  "activationCondition": "ALL_FOUR_EXTERNAL_PREDICATES_AND_FINAL_PROTECTED_WIP_SNAPSHOT_PASS",
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

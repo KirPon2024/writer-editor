@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-504-CANDIDATE-BOUND-CLAIM-BINDINGS",
+  "contourId": "WP-504_DOSSIER_LAYOUT_LINKS",
+  "evidenceClass": "CONTRACT",
+  "verdict": "PASS",
+  "headSha": "02dd018ec5e8c1cb3c11cfc3ccce6ead67dfa440",
+  "originMainSha": "38a495f5beca286f134e20a991cb69dc19e6379f",
+  "generatedAtUtc": "2026-09-01T21:42:00Z",
+  "oracle": "WP504 append-only candidate-bound successor verifies the complete V5 V6 V7 post-evaluation admission chain and corrects WP503 external identity from immutable external bytes",
+  "claimBindings": [
+    {"filePath": "docs/OPS/R24/CORRECTIVE/WP503_EXTERNAL_TERMINAL_CLOSURE_V2.json", "sha256": "9a61133d7afdced43e6d72b5a366d2d9c3f7c1a4070fd23ee08596657351da5e", "claimTerms": ["PASS"]},
+    {"filePath": "docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_CLEAN_TREE_FAILURE_V1.json", "sha256": "098bc596153de4f31ab83814c71b9f08235748ff045de4693d80c558e84b6eca", "claimTerms": ["FAIL_CLOSED"]},
+    {"filePath": "docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_CANDIDATE_BOUND_SUCCESSOR_V1.json", "sha256": "25d66b6e74f417c52ca3bc26de51d2ab0e3efea5d578d11b7121ae5467a271a7", "claimTerms": ["PASS"]},
+    {"filePath": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V22.json", "sha256": "5e92089c307c0ca2b9edf3be66766f10f2ca166079c5de4af85a233c1f6f5460", "claimTerms": ["PASS"]},
+    {"filePath": "docs/OPS/R24/CORRECTIVE/WP504_ACCEPTANCE_MATRIX_V3.json", "sha256": "9b20ccf70c8618784e4beb6a0891916bf8eeebf78860c099fb42ac2ba7e21e31", "claimTerms": ["PASS"]},
+    {"filePath": "docs/OPS/R24/CORRECTIVE/WP504_EFFECTIVE_STATE_V3.json", "sha256": "224cebaad7bd5291eb4820d791a032f44df210d15c05acccc2f201ca8021081f", "claimTerms": ["DONE"]},
+    {"filePath": "docs/OPS/R24/CORRECTIVE/WP504_STAGE_REGISTRY_V3.json", "sha256": "81c001e1475c762658513868ba8dc2d7377c2f85cd18afd336be9cfad7ffc011", "claimTerms": ["DONE"]},
+    {"filePath": "docs/OPS/R24/CORRECTIVE/WP504_LEASE_RELEASE_V3.json", "sha256": "70191da0698aab40ff10db655296827259040cbf4e7b5b92c648226645d7384b", "claimTerms": ["RELEASED"]},
+    {"filePath": "docs/OPS/R24/CORRECTIVE/WP504_TERMINAL_RECEIPT_V3.json", "sha256": "b6a673c3e2830f14661f3ec69c0448824a92b1f1888cfeb2a26c9dc1a470a978", "claimTerms": ["DONE"]},
+    {"filePath": "docs/OPS/R24/CORRECTIVE/WP504_TERMINAL_SUPPLEMENT_V3.json", "sha256": "b8d9d639093c149668c141dae4be2980f6e8164a7c7f918a9170b30dc956b15a", "claimTerms": ["PASS"]}
+  ],
+  "implementationArtifactDigests": [
+    {"path": "scripts/ops/r24/corrective/post-audit-certification-set.mjs", "sha256": "bfd2523adfd426cac689dd402d7d4f0a5a2b051f9aaaf4f7e786a44215b47c21", "terms": ["COMPLETE_WP504_ADMISSION_CHAIN"]},
+    {"path": "scripts/ops/r24/wp504-terminal-verifier.mjs", "sha256": "18f0cd198ad9d69c6a97932f026a9f14ff7d9d78306f89d922139104ba5b6a3c", "terms": ["CANDIDATE_BOUND_TERMINAL_CHAIN"]},
+    {"path": "test/contracts/r24-wp504-terminal-carriers.contract.test.mjs", "sha256": "64ec042c833c68aa23d9846f9b9240243d79db40d5af1ebfe0932866b08d77c8", "terms": ["HOSTILE_TERMINAL_CONTRACT"]}
+  ],
+  "executedEvidence": [
+    {"command": "npm run test:r24-post-audit under exact Node 22.12.0 and npm 10.9.0", "verdict": "PASS", "tests": {"pass": 63, "fail": 0}},
+    {"command": "npm run r24:test-inventory", "verdict": "PASS", "tests": {"pass": 1297, "fail": 0}, "requiredDisposition": "Zero required and unexplained skips"}
+  ],
+  "nonClaims": [
+    "NO_FUTURE_EXTERNAL_PROVIDER_IDENTITY_PRECLAIMED",
+    "NO_MAIN_PRODUCT_GRAPH_NODE_AFTER_WP504_STARTED",
+    "PROGRAM_DONE_FALSE"
+  ],
+  "programDone": false
+}

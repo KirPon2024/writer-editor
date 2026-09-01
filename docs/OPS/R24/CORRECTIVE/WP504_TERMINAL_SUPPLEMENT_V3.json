@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "YALKEN_R24_WP504_TERMINAL_SUPPLEMENT_V3",
+  "stageId": "WP-504_DOSSIER_LAYOUT_LINKS",
+  "status": "CONDITIONAL_CERTIFIED_DONE_PENDING_EXTERNAL_DELIVERY",
+  "evidenceStampId": "ES-R24-WP-504-CANDIDATE-BOUND-CLAIM-BINDINGS",
+  "repositoryEvidenceStampId": "ES-R24-WP-504-CANDIDATE-BOUND-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "bindings": {
+    "predecessorSupplementDigest": "84222c29b2b00d7e91dca7f86372ddc5ef6babd0f6a499679b42bc65836a4d61",
+    "terminalReceiptDigest": "b6a673c3e2830f14661f3ec69c0448824a92b1f1888cfeb2a26c9dc1a470a978",
+    "authorityDigest": "0183ca48ef2843975a92ae9230333a2a65d24182344d2a81a84ad2cd3fe91df3",
+    "stageInstanceDigest": "658db9d670c051222df0b4e346e93352ff6b9bef3d46318ab334ef8ec4d4f8fa",
+    "stageAdmissionDigest": "c4cc882e80ae012950dd4934b80a58d1622f7a8adcc1a813e2039415fd42c0a3",
+    "candidateBoundSuccessorDigest": "25d66b6e74f417c52ca3bc26de51d2ab0e3efea5d578d11b7121ae5467a271a7",
+    "auditR2RegistryDigest": "5e92089c307c0ca2b9edf3be66766f10f2ca166079c5de4af85a233c1f6f5460",
+    "testInventoryDigest": "c9c075f93b13e4a86e87d9ec835deabb5ab922e6387ceed6baac423491e7e7e8",
+    "wp503ExternalClosureV2Digest": "9a61133d7afdced43e6d72b5a366d2d9c3f7c1a4070fd23ee08596657351da5e"
+  },
+  "compatibilityReview": {
+    "wp503CandidateSha": "b95b9b66ebf3b9602a8b9f2f9265ca3df2bf6719",
+    "wp503VerificationSha256": "2c8c30f4598c16e272e1e77b947513c9d47751165b4b886e236a82c7c963b8e6",
+    "wp503DeltaBoundToExactCandidate": true,
+    "wp504AdmissionDenominator": 3,
+    "wp504V56CheckpointSha": "02dd018ec5e8c1cb3c11cfc3ccce6ead67dfa440",
+    "arbitraryDescendantAccepted": false,
+    "mutablePresentTreeFallback": false,
+    "exactRuntimeReplay": "PASS_63_OF_63"
+  },
+  "currentLease": {"fencingCounter": 68, "status": "ACTIVE", "wip": 1},
+  "targetLease": {"fencingCounter": 68, "status": "RELEASED", "wip": 0},
+  "externalDeliveryPredicates": [
+    {"id": "CANDIDATE_CI_GREEN_AT_EXACT_PR_HEAD", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null},
+    {"id": "NORMAL_PROTECTED_MERGE", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null},
+    {"id": "OPS_VECTOR_CLOSE_GREEN_AT_EXACT_MERGE", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null},
+    {"id": "EXACT_POSTMERGE_CI_GREEN_AT_EXACT_MERGE", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null}
+  ],
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

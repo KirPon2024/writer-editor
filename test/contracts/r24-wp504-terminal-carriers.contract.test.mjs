@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { verifyWp504TerminalCarriers, verifyWp504TerminalRecord } from '../../scripts/ops/r24/wp504-terminal-verifier.mjs';
+import { verifyWp504CandidateBoundSuccessor, verifyWp504TerminalCarriers, verifyWp504TerminalRecord } from '../../scripts/ops/r24/wp504-terminal-verifier.mjs';
 
 const load = (path) => JSON.parse(fs.readFileSync(path, 'utf8'));
 
@@ -10,6 +10,20 @@ test('WP-504 terminal carriers form one acyclic 30-row conditional delivery chai
   assert.equal(result.status, 'PASS');
   assert.equal(result.schemaVersion, 'YALKEN_R24_WP504_TERMINAL_CARRIERS_VERIFICATION_V1');
   assert.equal(result.localPassedRows, 26);
+  assert.equal(result.externalPredicateRows, 4);
+  assert.equal(result.currentLease.fencingCounter, 68);
+  assert.equal(result.currentLease.status, 'ACTIVE');
+  assert.equal(result.currentLease.wip, 1);
+  assert.equal(result.targetLease.status, 'RELEASED');
+  assert.equal(result.targetLease.wip, 0);
+  assert.equal(result.programDone, false);
+});
+
+test('WP-504 candidate-bound successor closes the exact 34-row conditional chain', () => {
+  const result = verifyWp504CandidateBoundSuccessor();
+  assert.equal(result.status, 'PASS');
+  assert.equal(result.schemaVersion, 'YALKEN_R24_WP504_CANDIDATE_BOUND_TERMINAL_VERIFICATION_V1');
+  assert.equal(result.localPassedRows, 30);
   assert.equal(result.externalPredicateRows, 4);
   assert.equal(result.currentLease.fencingCounter, 68);
   assert.equal(result.currentLease.status, 'ACTIVE');

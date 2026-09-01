@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "AUDIT_R2_CARRIER_REGISTRY_V22",
+  "baseSha": "02dd018ec5e8c1cb3c11cfc3ccce6ead67dfa440",
+  "baseTreeSha": "3795971a31469c0e3f31e7a281adeab0a66b5a2b",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "predecessor": {
+    "path": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V21.json",
+    "sha256": "15d33b32e84235ee9f6d20f35121931cbde9b44c52c7a01a28b83325c1de5e62",
+    "status": "SUPERSEDED_BY_APPEND_ONLY_WP504_CANDIDATE_BOUND_SUCCESSOR"
+  },
+  "carriers": [
+    {"path": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json", "purpose": "COMPLETE_TEST_INVENTORY", "sha256": "c9c075f93b13e4a86e87d9ec835deabb5ab922e6387ceed6baac423491e7e7e8", "sizeBytes": 394924, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "docs/OPS/R24/CORRECTIVE/WP503_EXTERNAL_TERMINAL_CLOSURE_V2.json", "purpose": "CORRECTED_WP503_EXTERNAL_IDENTITY", "sha256": "9a61133d7afdced43e6d72b5a366d2d9c3f7c1a4070fd23ee08596657351da5e", "sizeBytes": 2674, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V7.json", "purpose": "APPEND_ONLY_OWNER_AUTHORITY", "sha256": "0183ca48ef2843975a92ae9230333a2a65d24182344d2a81a84ad2cd3fe91df3", "sizeBytes": 7981, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V7.json", "purpose": "PINNED_STAGE_ADMISSION", "sha256": "c4cc882e80ae012950dd4934b80a58d1622f7a8adcc1a813e2039415fd42c0a3", "sizeBytes": 1783, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_INSTANCE_V7.json", "purpose": "EXACT_STAGE_INSTANCE", "sha256": "658db9d670c051222df0b4e346e93352ff6b9bef3d46318ab334ef8ec4d4f8fa", "sizeBytes": 8287, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_CANDIDATE_BOUND_SUCCESSOR_V1.json", "purpose": "CANDIDATE_BOUND_POST_EVALUATION_SUCCESSOR", "sha256": "25d66b6e74f417c52ca3bc26de51d2ab0e3efea5d578d11b7121ae5467a271a7", "sizeBytes": 2209, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_CLEAN_TREE_FAILURE_V1.json", "purpose": "FAIL_CLOSED_CLEAN_TREE_REPLAY_EVIDENCE", "sha256": "098bc596153de4f31ab83814c71b9f08235748ff045de4693d80c558e84b6eca", "sizeBytes": 1531, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "scripts/ops/r24/corrective/post-audit-certification-set.mjs", "purpose": "COMPLETE_WP504_POST_EVALUATION_ADMISSION_ORACLE", "sha256": "bfd2523adfd426cac689dd402d7d4f0a5a2b051f9aaaf4f7e786a44215b47c21", "sizeBytes": 224299, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "scripts/ops/r24/wp504-terminal-verifier.mjs", "purpose": "WP504_CANDIDATE_BOUND_TERMINAL_VERIFIER", "sha256": "18f0cd198ad9d69c6a97932f026a9f14ff7d9d78306f89d922139104ba5b6a3c", "sizeBytes": 18257, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "test/contracts/r24-wp504-terminal-carriers.contract.test.mjs", "purpose": "WP504_CANDIDATE_BOUND_TERMINAL_CONTRACT", "sha256": "64ec042c833c68aa23d9846f9b9240243d79db40d5af1ebfe0932866b08d77c8", "sizeBytes": 4982, "status": "CANONICAL_BYTES_PRESENT"}
+  ],
+  "carrierDenominator": 10,
+  "verifiedCarrierCount": 10,
+  "excludedSelfCarriers": [
+    "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V22.json",
+    "docs/OPS/R24/CORRECTIVE/WP504_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP504_ACCEPTANCE_MATRIX_V3.json",
+    "docs/OPS/R24/CORRECTIVE/WP504_EFFECTIVE_STATE_V3.json",
+    "docs/OPS/R24/CORRECTIVE/WP504_LEASE_RELEASE_V3.json",
+    "docs/OPS/R24/CORRECTIVE/WP504_STAGE_REGISTRY_V3.json",
+    "docs/OPS/R24/CORRECTIVE/WP504_TERMINAL_RECEIPT_V3.json",
+    "docs/OPS/R24/CORRECTIVE/WP504_TERMINAL_SUPPLEMENT_V3.json",
+    "docs/OPS/R24/EVIDENCE/ES-R24-WP-504-CANDIDATE-BOUND-CLAIM-BINDINGS.json"
+  ],
+  "programDoneClaimed": false,
+  "wp400MutationStarted": false
+}

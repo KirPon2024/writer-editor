@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "YALKEN_R24_WP504_EFFECTIVE_STATE_V3",
+  "stageId": "WP-504_DOSSIER_LAYOUT_LINKS",
+  "status": "CONDITIONAL_CERTIFIED_DONE_PENDING_EXTERNAL_PREDICATES",
+  "evidenceStampId": "ES-R24-WP-504-CANDIDATE-BOUND-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "bindings": {
+    "predecessorEffectiveStateDigest": "1a91b4141ab7d55d7773326903e5987f3ed479bc29d9c32571459af7d4d665d8",
+    "acceptanceMatrixDigest": "9b20ccf70c8618784e4beb6a0891916bf8eeebf78860c099fb42ac2ba7e21e31",
+    "stageAdmissionDigest": "c4cc882e80ae012950dd4934b80a58d1622f7a8adcc1a813e2039415fd42c0a3",
+    "candidateBoundSuccessorDigest": "25d66b6e74f417c52ca3bc26de51d2ab0e3efea5d578d11b7121ae5467a271a7",
+    "wp503ExternalClosureV2Digest": "9a61133d7afdced43e6d72b5a366d2d9c3f7c1a4070fd23ee08596657351da5e"
+  },
+  "currentCounts": {"BLOCKED_TYPED": 3, "DONE": 59, "INELIGIBLE_OPTIONAL": 10, "PENDING": 37},
+  "targetCounts": {"BLOCKED_TYPED": 3, "DONE": 60, "INELIGIBLE_OPTIONAL": 10, "PENDING": 36},
+  "currentNodeState": "ADMITTED_ACTIVE",
+  "targetNodeState": "DONE",
+  "currentLease": {"fencingCounter": 68, "status": "ACTIVE", "wip": 1},
+  "targetLease": {"fencingCounter": 68, "status": "RELEASED", "wip": 0},
+  "activationRule": "ALL_SINGLE_TERMINAL_PR_EXTERNAL_DELIVERY_PREDICATES_PASS",
+  "nextGraphSelection": false,
+  "programDone": false
+}

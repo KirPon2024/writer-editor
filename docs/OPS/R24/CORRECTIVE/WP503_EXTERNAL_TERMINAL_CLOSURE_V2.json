@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "YALKEN_R24_WP503_EXTERNAL_TERMINAL_CLOSURE_V2",
+  "stageId": "WP-503_ATLAS_SURFACE",
+  "status": "CERTIFIED_DONE",
+  "supersedes": {
+    "path": "docs/OPS/R24/CORRECTIVE/WP503_EXTERNAL_TERMINAL_CLOSURE_V1.json",
+    "sha256": "d2ec548b06d44942c14474457395a755d3a5370d133a627e4acaf6c9a7ad7091",
+    "reason": "APPEND_ONLY_CORRECTION_OF_TWO_TRANSCRIPTION_ERRORS_AGAINST_IMMUTABLE_EXTERNAL_BYTES"
+  },
+  "exactOrigin": {
+    "sha": "38a495f5beca286f134e20a991cb69dc19e6379f",
+    "tree": "ed61f208dda5a9340b4697cdaf3487d6e66f7b90"
+  },
+  "delivery": {
+    "pr": 1806,
+    "baseSha": "f2848a044b1f37c95463ffca341058f7ea33da49",
+    "candidateSha": "b95b9b66ebf3b9602a8b9f2f9265ca3df2bf6719",
+    "candidateTree": "ed61f208dda5a9340b4697cdaf3487d6e66f7b90",
+    "mergeSha": "38a495f5beca286f134e20a991cb69dc19e6379f",
+    "mergeParents": [
+      "f2848a044b1f37c95463ffca341058f7ea33da49",
+      "b95b9b66ebf3b9602a8b9f2f9265ca3df2bf6719"
+    ],
+    "candidateCiRunId": 33548963806,
+    "opsVectorRunId": 33550081025,
+    "postmergeCiRunId": 33550081255,
+    "conclusions": ["SUCCESS", "SUCCESS", "SUCCESS"]
+  },
+  "externalTerminal": {
+    "artifactId": "WP503-SELECTION-PROVENANCE-TERMINAL-20260901T194930333Z",
+    "receiptSha256": "c1a3868eb2b69bedef549e6dd05fbc4c35686f140b65267e29b008be7bc9d357",
+    "archiveSha256": "17c4daa7a91c292f939596fcd689e4999fcacf9e6b617839de62fe654a5a6b20",
+    "verificationSha256": "2c8c30f4598c16e272e1e77b947513c9d47751165b4b886e236a82c7c963b8e6",
+    "leaseDispositionSha256": "65fb353a94ec1e592a3e5161673eabce7f850df9f2a4c2c9151e40963b36f39c",
+    "verificationStatus": "PASS",
+    "externalBytesReadOnlyVerified": true
+  },
+  "finalState": {
+    "lease": {"fencingCounter": 67, "status": "RELEASED", "wip": 0},
+    "counts": {"DONE": 59, "PENDING": 37, "BLOCKED_TYPED": 3, "INELIGIBLE_OPTIONAL": 10},
+    "openPrCount": 0,
+    "liveActionCount": 0,
+    "activeWorktreeClean": true,
+    "protectedDirtyWorktreeCount": 7
+  },
+  "correction": {
+    "historicalBytesRewritten": false,
+    "v1CandidateShaClaim": "b95b9b66840c560f64cfaab9bec50cc11309d38a",
+    "v1VerificationSha256Claim": "c2c8c30f4598c16e272e1e77b947513c9d47751165b4b886e236a82c7c963b8e6",
+    "correctCandidateSource": "IMMUTABLE_EXTERNAL_TERMINAL_RECEIPT_AND_GITHUB_PR_1806",
+    "correctVerificationDigestSource": "READ_ONLY_SHA256_OF_EXTERNAL_VERIFICATION_BYTES"
+  },
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false
+}

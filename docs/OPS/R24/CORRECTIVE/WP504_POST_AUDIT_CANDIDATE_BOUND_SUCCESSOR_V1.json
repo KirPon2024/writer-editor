@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "YALKEN_R24_WP504_POST_AUDIT_CANDIDATE_BOUND_SUCCESSOR_V1",
+  "stageId": "WP-504_DOSSIER_LAYOUT_LINKS",
+  "status": "CURRENT_APPEND_ONLY_SUCCESSOR",
+  "observedAtUtc": "2026-09-01T21:40:00Z",
+  "bindings": {
+    "authorityDigest": "0183ca48ef2843975a92ae9230333a2a65d24182344d2a81a84ad2cd3fe91df3",
+    "stageInstanceDigest": "658db9d670c051222df0b4e346e93352ff6b9bef3d46318ab334ef8ec4d4f8fa",
+    "stageAdmissionDigest": "c4cc882e80ae012950dd4934b80a58d1622f7a8adcc1a813e2039415fd42c0a3",
+    "writeSetDigest": "844ecaa772dac00ba7be4a8dd65067099caa1500503ca8fabf3946f8e21fe83d",
+    "commandScopeDigest": "c6a77e14ede3d20db6459b55d93660de005d70479647eecec14f3e94e5042f03",
+    "acceptanceSignalsDigest": "f4500a6a79670fbfd22de3fa89c345c6ddf569337301697f15c3e073115e722c",
+    "failureDigest": "098bc596153de4f31ab83814c71b9f08235748ff045de4693d80c558e84b6eca",
+    "wp503ExternalClosureV2Digest": "9a61133d7afdced43e6d72b5a366d2d9c3f7c1a4070fd23ee08596657351da5e",
+    "postAuditCertificationVerifierDigest": "bfd2523adfd426cac689dd402d7d4f0a5a2b051f9aaaf4f7e786a44215b47c21"
+  },
+  "evaluationPolicy": {
+    "wp503BaseSha": "f2848a044b1f37c95463ffca341058f7ea33da49",
+    "wp503CandidateSha": "b95b9b66ebf3b9602a8b9f2f9265ca3df2bf6719",
+    "wp504BaseSha": "38a495f5beca286f134e20a991cb69dc19e6379f",
+    "wp504V56CheckpointSha": "02dd018ec5e8c1cb3c11cfc3ccce6ead67dfa440",
+    "historicalDeltaDerivedFromExactGitObjects": true,
+    "arbitraryDescendantDeltaAccepted": false,
+    "completeWp504AdmissionDenominator": 3,
+    "mutableWorkingTreeUsedForHistoricalClaim": false
+  },
+  "executedEvidence": {
+    "command": "PATH=/tmp/node-v22.12.0-darwin-arm64/bin:$PATH npm run test:r24-post-audit",
+    "node": "22.12.0",
+    "npm": "10.9.0",
+    "tests": 63,
+    "passed": 63,
+    "failed": 0,
+    "skipped": 0,
+    "status": "PASS"
+  },
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "historicalBytesRewritten": false,
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

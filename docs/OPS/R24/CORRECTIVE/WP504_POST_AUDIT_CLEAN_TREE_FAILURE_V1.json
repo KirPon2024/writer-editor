@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "YALKEN_R24_WP504_POST_AUDIT_CLEAN_TREE_FAILURE_V1",
+  "stageId": "WP-504_DOSSIER_LAYOUT_LINKS",
+  "status": "FAIL_CLOSED_SUPERSEDED_BY_APPEND_ONLY_CANDIDATE_BOUND_SUCCESSOR",
+  "observedAtUtc": "2026-09-01T21:36:14Z",
+  "exactIdentity": {
+    "sha": "02dd018ec5e8c1cb3c11cfc3ccce6ead67dfa440",
+    "tree": "3795971a31469c0e3f31e7a281adeab0a66b5a2b"
+  },
+  "attempts": [
+    {
+      "hypothesis": "WP503_SELECTION_DELTA_MAY_USE_CURRENT_DESCENDANT",
+      "result": "FAIL",
+      "code": "E_WP503_SELECTION_PROVENANCE_UNADMITTED_PATH",
+      "detail": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V20.json",
+      "rootCause": "WP503_DELTA_WAS_DERIVED_TO_CURRENT_HEAD_INSTEAD_OF_EXACT_WP503_CANDIDATE"
+    },
+    {
+      "hypothesis": "PINNING_ONLY_THE_WP503_DELTA_IS_SUFFICIENT",
+      "result": "FAIL",
+      "code": "E_POST_EVALUATION_PATH",
+      "detail": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V20.json",
+      "rootCause": "GLOBAL_33_STAGE_ORACLE_LACKED_THE_COMPLETE_WP504_V5_V6_V7_ADMISSION_CHAIN"
+    }
+  ],
+  "failedCommand": "PATH=/tmp/node-v22.12.0-darwin-arm64/bin:$PATH npm run test:r24-post-audit",
+  "failedTests": 1,
+  "passedTests": 62,
+  "skippedTests": 0,
+  "historicalBytesRewritten": false,
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false
+}

@@ -11,8 +11,8 @@
   "failedCount": 0,
   "pendingCount": 0,
   "bindings": {
-    "acceptanceMatrixDigest": "baf3a18c0a039516258fdae9d7867e60a302d225700887c3dbaaeaec7ab490e5",
-    "effectiveStateDigest": "dfa6f8735fa59f133fa7e6fbc5a121ff767c1831954433556c26829a7a3b790d"
+    "acceptanceMatrixDigest": "8a57cf3abe70187ed7b281c500cd2217983bd88c10eaaf87fca1192f781a9fb9",
+    "effectiveStateDigest": "53d1c4d533c834e3f6cd7ba2d48a27c979879f986d1a7b1f5eea366c1556c86b"
   },
   "stages": [
     {

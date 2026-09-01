@@ -8,14 +8,14 @@
     "rolesDistinct": true
   },
   "bindings": {
-    "stageInstanceDigest": "9d4b205fbd2d45b66c576fd217e221eeabb8f4dc23f91d8a7831bca139a13873",
-    "stageAdmissionDigest": "67e2d651e11365dca6e506252fea3165ead351389c81a6aef85bd7b0bf6da5c2",
-    "acceptanceSignalsDigest": "79ffb3e542cbafa256dbf1c6b4719e0f1d67b17e0661542befbd7f5921f38e4e",
-    "claimBindingDigest": "afdcbea5cce7cb93f206fd96a0fb1bdc55925e00a601742bf9284028800de8e3",
+    "stageInstanceDigest": "672f995ba2758e564300ca4aa03fad74efd459e8018ca1716e8a87c5a8d3f729",
+    "stageAdmissionDigest": "60cee6d4232012dc7cd6087a3703f45dce9c3ccf920186d5b2f481e6156c71c8",
+    "acceptanceSignalsDigest": "7c8bcb457b9bbd6de06db4ba7b128f3918e783a564d54dcbe78dfb8dce73af37",
+    "claimBindingDigest": "374f8e8593708e04c39944b3411e221f4dadcc3bf985b25fbc8cce642943e2cb",
     "protectedWipAfterDigest": "569ec2a9cc9cd02fdece8503b531787b31b48f74752a3c4cbd2e22a1553ffd7b"
   },
-  "rowCount": 20,
-  "localPassedRowCount": 16,
+  "rowCount": 22,
+  "localPassedRowCount": 18,
   "externalPredicateRowCount": 4,
   "failedRowCount": 0,
   "pendingRowCount": 0,
@@ -49,6 +49,11 @@
       "id": "EXPLICIT_CAUSAL_RELATION_ONLY_NO_TRANSITIVE_INFERENCE",
       "status": "PASS",
       "evidence": "ES-R24-WP-502-THREADS-CAUSALITY-CONTRACT"
+    },
+    {
+      "id": "FAILED_CANDIDATE_CI_BOUND",
+      "status": "PASS",
+      "evidence": "WP502_CANDIDATE_CI_FAILURE_V1"
     },
     {
       "id": "GOVERNANCE_STRICT_PASS",
@@ -91,9 +96,14 @@
       "evidence": "EXACT_POSTMERGE_CI_GREEN_AT_EXACT_MERGE"
     },
     {
+      "id": "POST_AUDIT_WP502_EXCEPTION_FAIL_CLOSED",
+      "status": "PASS",
+      "evidence": "WP502_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V2"
+    },
+    {
       "id": "PROGRAM_DONE_FALSE",
       "status": "PASS",
-      "evidence": "WP502_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1"
+      "evidence": "WP502_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V2"
     },
     {
       "id": "PROTECTED_WIP_UNCHANGED",

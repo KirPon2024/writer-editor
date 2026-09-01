@@ -20,13 +20,13 @@
     "transition": "ACTIVE_WIP_1_TO_RELEASED_WIP_0"
   },
   "bindings": {
-    "authorityDigest": "799e9b0076ec86115bbe425624eb11d065b945c47f0c7193c0184f8052991d00",
-    "stageInstanceDigest": "9d4b205fbd2d45b66c576fd217e221eeabb8f4dc23f91d8a7831bca139a13873",
-    "stageAdmissionDigest": "67e2d651e11365dca6e506252fea3165ead351389c81a6aef85bd7b0bf6da5c2",
-    "writeSetDigest": "76248a7364d8d2081a32f28c90ca0232071981654f529085eb04d2bdaf187eea",
-    "acceptanceMatrixDigest": "baf3a18c0a039516258fdae9d7867e60a302d225700887c3dbaaeaec7ab490e5",
-    "effectiveStateDigest": "dfa6f8735fa59f133fa7e6fbc5a121ff767c1831954433556c26829a7a3b790d",
-    "stageRegistryDigest": "3c272f4174896dbec7c81251a8882ce38a55833266f12921a021ba0fc7c93b62",
+    "authorityDigest": "bca8995ad43a4f2393c4523c230878785c08389bcd654ee23510c14594cf4c1a",
+    "stageInstanceDigest": "672f995ba2758e564300ca4aa03fad74efd459e8018ca1716e8a87c5a8d3f729",
+    "stageAdmissionDigest": "60cee6d4232012dc7cd6087a3703f45dce9c3ccf920186d5b2f481e6156c71c8",
+    "writeSetDigest": "d3f3186eace81880f6ed286dfb071e04da3401cf5e3d10385f3956a3b992f1d1",
+    "acceptanceMatrixDigest": "8a57cf3abe70187ed7b281c500cd2217983bd88c10eaaf87fca1192f781a9fb9",
+    "effectiveStateDigest": "53d1c4d533c834e3f6cd7ba2d48a27c979879f986d1a7b1f5eea366c1556c86b",
+    "stageRegistryDigest": "779828c6fed8e185cb9f026800ab128e4b3aee6e26b6c37051558c1eb64a4ff4",
     "protectedWipBeforeDigest": "569ec2a9cc9cd02fdece8503b531787b31b48f74752a3c4cbd2e22a1553ffd7b",
     "protectedWipAfterDigest": "569ec2a9cc9cd02fdece8503b531787b31b48f74752a3c4cbd2e22a1553ffd7b"
   },

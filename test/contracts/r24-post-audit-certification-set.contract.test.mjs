@@ -19,6 +19,7 @@ import {
   WP501_PERFORMANCE_INTEGRATION_ADMISSION_EXPECTATION,
   WP501_INVENTORY_FINALIZATION_ADMISSION_EXPECTATION,
   WP501_TERMINAL_EXCEPTION_ADMISSION_EXPECTATION,
+  WP502_MAIN_PRODUCT_ADMISSION_EXPECTATION,
   createAuditCycle2DurableCarrier,
   createAuditCycleDurableCarrier,
   verifyAuditCycle2DurableCarrier,
@@ -39,6 +40,7 @@ import {
   verifyWp501InventoryFinalizationPostEvaluationException,
   verifyWp501FinalTerminalCarriers,
   verifyWp501TerminalExceptionPostEvaluationException,
+  verifyWp502MainProductPostEvaluationException,
 } from '../../scripts/ops/r24/corrective/post-audit-certification-set.mjs';
 
 const FILE='docs/OPS/R24/CORRECTIVE/POST_AUDIT_CURRENT_CERTIFICATION_SET_V2.json';
@@ -86,7 +88,7 @@ test('missing binding cannot shrink the complete denominator',()=>{const file=lo
 test('stale tree identity fails closed',()=>{const file=load(),mutant=clone(file.value);mutant.evaluationTreeSha='0'.repeat(40);assert.throws(()=>verify(mutant),/E_EVALUATION_TREE/);});
 test('future top-level evaluation cannot retain stale per-stage identities',()=>{const file=load(),mutant=clone(file.value);mutant.evaluationSha=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();mutant.evaluationTreeSha=execFileSync('git',['rev-parse','HEAD^{tree}'],{encoding:'utf8'}).trim();assert.throws(()=>verify(mutant),/E_STAGE_EVALUATION/);});
 test('post-evaluation exception is exact and machine checked',()=>{const file=load(),mutant=clone(file.value);mutant.postEvaluationCarrierException.allowedPaths=[];assert.throws(()=>verify(mutant),/E_CARRIER_EXCEPTION_PATHS/);});
-test('post-evaluation bytes require the exact chained audit-cycle-two WP401 WP402 WP403 WP404 WP500 WP501 gate performance audit-R2 inventory and terminal-exception admissions',()=>{
+test('post-evaluation bytes require the exact chained audit-cycle-two WP401 WP402 WP403 WP404 WP500 WP501 and WP502 admissions',()=>{
   const file=load();
   assert.throws(()=>verifyCertificationSet({value:file.value,fileDigest:file.fileDigest,candidateSha:'HEAD'}),/E_POST_EVALUATION_PATH/);
   const cycle2=verifyAuditCycle2PostEvaluationException({candidateSha:WP401_MAIN_PRODUCT_ADMISSION_EXPECTATION.baseSha});
@@ -100,7 +102,8 @@ test('post-evaluation bytes require the exact chained audit-cycle-two WP401 WP40
   const wp501Performance=verifyWp501PerformanceIntegrationPostEvaluationException({candidateSha:WP501_AUDIT_R2_COMPATIBILITY_ADMISSION_EXPECTATION.baseSha});
   const wp501AuditR2=verifyWp501AuditR2CompatibilityPostEvaluationException({candidateSha:WP501_INVENTORY_FINALIZATION_ADMISSION_EXPECTATION.baseSha});
   const wp501Inventory=verifyWp501InventoryFinalizationPostEvaluationException({candidateSha:WP501_TERMINAL_EXCEPTION_ADMISSION_EXPECTATION.baseSha});
-  const wp501Terminal=verifyWp501TerminalExceptionPostEvaluationException({candidateSha:'HEAD'});
+  const wp501Terminal=verifyWp501TerminalExceptionPostEvaluationException({candidateSha:WP502_MAIN_PRODUCT_ADMISSION_EXPECTATION.baseSha});
+  const wp502=verifyWp502MainProductPostEvaluationException({candidateSha:'HEAD'});
   const result=verify(file.value,file.fileDigest);
   assert.equal(cycle2.status,'PASS');
   assert.equal(cycle2.authorityDigest,AUDIT_CYCLE_2_ADMISSION_EXPECTATION.authorityDigest);
@@ -171,6 +174,13 @@ test('post-evaluation bytes require the exact chained audit-cycle-two WP401 WP40
   assert.equal(wp501Terminal.finalCarriers.acceptanceRows,22);
   assert.equal(wp501Terminal.finalCarriers.leaseStatus,'RELEASED');
   assert.equal(wp501Terminal.finalCarriers.wip,0);
+  assert.equal(wp502.status,'PASS');
+  assert.equal(wp502.authorityDigest,WP502_MAIN_PRODUCT_ADMISSION_EXPECTATION.authorityDigest);
+  assert.equal(wp502.stageAdmissionDigest,WP502_MAIN_PRODUCT_ADMISSION_EXPECTATION.admissionDigest);
+  assert.equal(wp502.failedCandidateCiCarrierDigest,WP502_MAIN_PRODUCT_ADMISSION_EXPECTATION.failureDigest);
+  assert.equal(wp502.writeSetDigest,WP502_MAIN_PRODUCT_ADMISSION_EXPECTATION.writeSetDigest);
+  assert.equal(wp502.finalCarriers.localPassedRows,18);
+  assert.equal(wp502.finalCarriers.externalPredicateRows,4);
   assert.equal(result.auditCycle2PostEvaluationException.status,'PASS');
   assert.equal(result.wp401MainProductPostEvaluationException.status,'PASS');
   assert.equal(result.wp402MainProductPostEvaluationException.status,'PASS');
@@ -192,6 +202,8 @@ test('post-evaluation bytes require the exact chained audit-cycle-two WP401 WP40
   assert.equal(result.wp501InventoryFinalizationPostEvaluationException.changedPaths.every((entry)=>wp501Inventory.admittedPaths.includes(entry)),true);
   assert.equal(result.wp501TerminalExceptionPostEvaluationException.status,'PASS');
   assert.equal(result.wp501TerminalExceptionPostEvaluationException.changedPaths.every((entry)=>wp501Terminal.admittedPaths.includes(entry)),true);
+  assert.equal(result.wp502MainProductPostEvaluationException.status,'PASS');
+  assert.equal(result.wp502MainProductPostEvaluationException.changedPaths.every((entry)=>wp502.admittedPaths.includes(entry)),true);
 });
 test('WP401 successor exception rejects an unadmitted future path',()=>{const hostileGit=(args,options={})=>args[0]==='diff'?(options.encoding==='utf8'?'package.json\n':Buffer.from('package.json\n')):execFileSync('git',args,options);assert.throws(()=>verifyWp401MainProductPostEvaluationException({candidateSha:'HEAD',git:hostileGit}),/E_WP401_EXCEPTION_UNADMITTED_PATH:package\.json/);});
 test('WP402 successor exception rejects an unadmitted future path',()=>{const hostileGit=(args,options={})=>args[0]==='diff'?(options.encoding==='utf8'?'package.json\n':Buffer.from('package.json\n')):execFileSync('git',args,options);assert.throws(()=>verifyWp402MainProductPostEvaluationException({candidateSha:'HEAD',git:hostileGit}),/E_WP402_EXCEPTION_UNADMITTED_PATH:package\.json/);});
@@ -204,6 +216,7 @@ test('WP501 performance exception rejects an unadmitted future path',()=>{const 
 test('WP501 audit-R2 compatibility exception rejects an unadmitted future path',()=>{const hostileGit=(args,options={})=>args[0]==='diff'?(options.encoding==='utf8'?'package.json\n':Buffer.from('package.json\n')):execFileSync('git',args,options);assert.throws(()=>verifyWp501AuditR2CompatibilityPostEvaluationException({candidateSha:'HEAD',git:hostileGit}),/E_WP501_AUDIT_R2_EXCEPTION_UNADMITTED_PATH:package\.json/);});
 test('WP501 inventory-finalization exception rejects an unadmitted future path',()=>{const hostileGit=(args,options={})=>args[0]==='diff'?(options.encoding==='utf8'?'package.json\n':Buffer.from('package.json\n')):execFileSync('git',args,options);assert.throws(()=>verifyWp501InventoryFinalizationPostEvaluationException({candidateSha:'HEAD',git:hostileGit}),/E_WP501_INVENTORY_EXCEPTION_UNADMITTED_PATH:package\.json/);});
 test('WP501 terminal exception rejects an unadmitted future path',()=>{const hostileGit=(args,options={})=>args[0]==='diff'?(options.encoding==='utf8'?'package.json\n':Buffer.from('package.json\n')):execFileSync('git',args,options);assert.throws(()=>verifyWp501TerminalExceptionPostEvaluationException({candidateSha:'HEAD',git:hostileGit}),/E_WP501_TERMINAL_EXCEPTION_UNADMITTED_PATH:package\.json/);});
+test('WP502 successor exception rejects an unadmitted future path',()=>{const hostileGit=(args,options={})=>args[0]==='diff'?(options.encoding==='utf8'?'README.md\n':Buffer.from('README.md\n')):execFileSync('git',args,options);assert.throws(()=>verifyWp502MainProductPostEvaluationException({candidateSha:'HEAD',git:hostileGit}),/E_WP502_EXCEPTION_UNADMITTED_PATH:README\.md/);});
 test('WP501 final carriers reject future chronology pending rows nonzero WIP and provider substitution',()=>{
   const read=(name)=>JSON.parse(fs.readFileSync(`docs/OPS/R24/CORRECTIVE/${name}`));
   const matrix=read('WP501_FINAL_ACCEPTANCE_MATRIX_V1.json'),effective=read('WP501_FINAL_EFFECTIVE_STATE_V1.json'),release=read('WP501_FINAL_LEASE_RELEASE_V1.json'),receipt=read('WP501_FINAL_TERMINAL_RECEIPT_V1.json');

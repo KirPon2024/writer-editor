@@ -7,11 +7,11 @@ import { verifyWp502TerminalCarriers } from '../../scripts/ops/r24/wp502-termina
 const load = (path) => JSON.parse(fs.readFileSync(path, 'utf8'));
 const hash = (bytes) => crypto.createHash('sha256').update(bytes).digest('hex');
 
-test('WP-502 terminal carriers form an acyclic exact-byte chain with a closed 20-row denominator', () => {
+test('WP-502 terminal carriers form an acyclic exact-byte chain with a closed 22-row denominator', () => {
   const result = verifyWp502TerminalCarriers();
   assert.equal(result.status, 'PASS');
   assert.equal(result.evidenceStampDenominator, 7);
-  assert.equal(result.localPassedRows, 16);
+  assert.equal(result.localPassedRows, 18);
   assert.equal(result.externalPredicateRows, 4);
   assert.equal(result.currentLease.status, 'ACTIVE');
   assert.equal(result.currentLease.wip, 1);

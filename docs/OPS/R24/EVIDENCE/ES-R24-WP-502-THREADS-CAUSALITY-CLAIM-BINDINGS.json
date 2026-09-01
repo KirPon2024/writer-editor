@@ -53,7 +53,7 @@
     },
     {
       "path": "scripts/ops/r24/wp502-terminal-verifier.mjs",
-      "sha256": "1b97a57a41117db65a10d4a07b11970c51b0ee46260756223ab255712e5f738b",
+      "sha256": "58a53ac8c2c9f9e92a016cf570ff076c9bcf4ececf9b08a5cd42841ad752e4da",
       "terms": ["WP502 acyclic terminal-carrier verifier"]
     },
     {
@@ -63,7 +63,7 @@
     },
     {
       "path": "test/contracts/r24-wp502-terminal-carriers.contract.test.mjs",
-      "sha256": "382ef747791b93443774565aca0e69a595db11c5a2d308dbdd54413a9b916ca6",
+      "sha256": "6212957532f64c30cf1588b07c89393f36cbb25f5e10febccb5d87e8eec44b46",
       "terms": ["WP502 terminal carrier and hostile binding contracts"]
     },
     {

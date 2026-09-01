@@ -15,22 +15,22 @@ test('remote terminal wrapper binds the verifier tree field exactly',()=>{
 test('the append-only audit-R2 carrier chain passes the static exact-byte check',()=>{
   const result=checkCorrections();
   assert.equal(result.status,'PASS');
-  assert.equal(result.schemaVersion,'AUDIT_R2_CORRECTION_STATIC_CHECK_V9');
-  assert.equal(result.predecessorCarrierRegistryDigest,'a019163ce23c514ed88e1565843827c4928486f6efde6709fc3f5ae485433c01');
+  assert.equal(result.schemaVersion,'AUDIT_R2_CORRECTION_STATIC_CHECK_V10');
+  assert.equal(result.predecessorCarrierRegistryDigest,'4e0dccf984528fa798f74f41ebaf7acb8aa9ffcda3c09e76d32f7461b220e467');
   assert.equal(result.rootCarrierRegistryDigest,'b1738174bd03f47a25e3bcb2ea68c9bf9f602e761b1c8783cc04a8c54f972f8b');
   assert.equal(result.registeredStages,33);
   assert.equal(result.programDoneClaimed,false);
   assert.equal(result.wp400MutationStarted,false);
 });
-test('audit-R2 registry successor binds distinct source roles and only replaces the terminal-exception inventory entry',()=>{
-  const value=load('docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V9.json');
-  assert.equal(value.predecessor.sha256,'a019163ce23c514ed88e1565843827c4928486f6efde6709fc3f5ae485433c01');
-  assert.equal(value.predecessor.status,'SUPERSEDED_BY_APPEND_ONLY_WP501_TERMINAL_EXCEPTION_TEST_INVENTORY_SUCCESSOR');
+test('audit-R2 registry successor binds distinct source roles and the admitted WP502 inventory extension',()=>{
+  const value=load('docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V10.json');
+  assert.equal(value.predecessor.sha256,'4e0dccf984528fa798f74f41ebaf7acb8aa9ffcda3c09e76d32f7461b220e467');
+  assert.equal(value.predecessor.status,'SUPERSEDED_BY_APPEND_ONLY_WP502_TEST_INVENTORY_SUCCESSOR');
   assert.equal(value.sourcePlanRoles.externalSourcePlanDigest,'1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a');
   assert.equal(value.sourcePlanRoles.compiledProgramFileDigest,'da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a');
   assert.notEqual(value.sourcePlanRoles.externalSourcePlanDigest,value.sourcePlanRoles.compiledProgramFileDigest);
   assert.deepEqual(value.successorScope.replacementPaths,['docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json','scripts/ops/r24/corrective/audit-r2-corrections.mjs','test/contracts/r24-audit-r2-corrections.contract.test.mjs']);
-  assert.deepEqual(value.successorScope.addedPaths,[]);
+  assert.deepEqual(value.successorScope.addedPaths,['test/contracts/r24-wp502-terminal-carriers.contract.test.mjs','test/unit/r24-wp502-threads-causality-integration.test.js','test/unit/r24-wp502-threads-causality-mutants.test.js','test/unit/r24-wp502-threads-causality.test.js']);
   assert.deepEqual(value.successorScope.removedPaths,[]);
 });
 test('six fixed historical authority sources remain byte-identical',()=>{

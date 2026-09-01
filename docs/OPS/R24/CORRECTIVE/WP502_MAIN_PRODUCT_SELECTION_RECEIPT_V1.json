@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "YALKEN_R24_MAIN_PRODUCT_NODE_SELECTION_RECEIPT_V2",
+  "decision": "SELECTED_AND_ADMITTED",
+  "evidenceStampIds": [
+    "ES-R24-WP-501-TIME-KNOWLEDGE-SURVIVOR-AUDIT"
+  ],
+  "observedAtUtc": "2026-09-01T11:21:36.681Z",
+  "exactBase": {
+    "branch": "codex/r24-wp502-threads-causality-v1-20260901",
+    "headSha": "d76a3e4da899775ae94b9a1ee5ba8aa766e2fb2b",
+    "originMainSha": "d76a3e4da899775ae94b9a1ee5ba8aa766e2fb2b",
+    "treeSha": "522a3a18d8d467f1427e928febc7a402fcd2f689",
+    "worktreeCleanBeforeAdmission": true
+  },
+  "freshRemote": {
+    "openPullRequestCount": 0,
+    "runningActionCount": 0,
+    "queuedActionCount": 0,
+    "rulesetId": 12270444,
+    "rulesetRequiredContext": "merge-gate",
+    "rulesetZeroBypassActors": true
+  },
+  "graph": {
+    "selectedId": "WP-502_THREADS_CAUSALITY",
+    "selectionReason": "DETERMINISTIC_SEVEN_KEY_ORDER_HIGHEST_PRIORITY_GRAPH_READY_MANDATORY_NODE",
+    "higherPriorityGraphReadyNode": null,
+    "wp501State": "DONE",
+    "effectiveCounts": {
+      "BLOCKED_TYPED": 3,
+      "DONE": 57,
+      "INELIGIBLE_OPTIONAL": 10,
+      "PENDING": 39
+    },
+    "effectiveStateDigest": "2d9ef8366bc87918c1be07930603ff443369e7c00a9aa032a9858fc2e00c96eb",
+    "schedulerInputStateDigest": "c91067aababf10c856efde0e4e1888bd274048b5a2fe19d3c2157ec385e4dbfd",
+    "schedulerGraphDigest": "6d68ccb113349bb31af10636f088534ed973445301552a708dfe9dac6a037fae",
+    "readySet": [
+      {
+        "id": "WP-502_THREADS_CAUSALITY",
+        "profile": "ATLAS_PRODUCT_V33",
+        "programIndex": 61,
+        "directDependents": 1,
+        "requiredEvidenceClasses": 5
+      },
+      {
+        "id": "WP-700_INTERCHANGE_IR",
+        "profile": "INTERCHANGE_COMMON",
+        "programIndex": 75,
+        "directDependents": 1,
+        "requiredEvidenceClasses": 5
+      }
+    ]
+  },
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "protectedWip": {
+    "algorithm": "YALKEN_PROTECTED_WIP_SNAPSHOT_ALGORITHM_V2",
+    "fileSha256": "569ec2a9cc9cd02fdece8503b531787b31b48f74752a3c4cbd2e22a1553ffd7b",
+    "snapshotSha256": "d43585d7622164ad88b7fbf538cf7972baeb36fbeb5b39da285067bd976968b3",
+    "completeDenominator": 252,
+    "presentDenominator": 249,
+    "prunableDenominator": 3,
+    "dirtyDenominator": 7,
+    "predecessorDirtySetExact": true
+  },
+  "lease": {
+    "fencingCounter": 65,
+    "predecessorReleaseDigest": "1a94d4f591266b8dadc3ac5e277292e3c95767e9a19f6a8f0ec4df30e2be9c4e",
+    "status": "ACTIVE",
+    "wip": 1
+  },
+  "admissionBindings": {
+    "authorityDigest": "799e9b0076ec86115bbe425624eb11d065b945c47f0c7193c0184f8052991d00",
+    "stageInstanceDigest": "9d4b205fbd2d45b66c576fd217e221eeabb8f4dc23f91d8a7831bca139a13873",
+    "stageAdmissionDigest": "67e2d651e11365dca6e506252fea3165ead351389c81a6aef85bd7b0bf6da5c2",
+    "writeSetDigest": "76248a7364d8d2081a32f28c90ca0232071981654f529085eb04d2bdaf187eea",
+    "commandScopeDigest": "f96c5b9ea827d7e0388dddeb7ee270b83f0a499702c98cae9b16e9bd48d175dc",
+    "acceptanceSignalsDigest": "79ffb3e542cbafa256dbf1c6b4719e0f1d67b17e0661542befbd7f5921f38e4e",
+    "verifierDigest": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f"
+  },
+  "singleTerminalPrRule": "SINGLE_TERMINAL_PR_RULE_V1",
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "YALKEN_R24_WP502_LEASE_RELEASE_V1",
+  "stageId": "WP-502_THREADS_CAUSALITY",
+  "status": "ADMITTED_CONDITIONAL_RELEASE",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "currentLease": {
+    "fencingCounter": 65,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "1a94d4f591266b8dadc3ac5e277292e3c95767e9a19f6a8f0ec4df30e2be9c4e"
+  },
+  "targetLease": {
+    "fencingCounter": 65,
+    "status": "RELEASED",
+    "wip": 0,
+    "transition": "ACTIVE_WIP_1_TO_RELEASED_WIP_0"
+  },
+  "bindings": {
+    "authorityDigest": "799e9b0076ec86115bbe425624eb11d065b945c47f0c7193c0184f8052991d00",
+    "stageInstanceDigest": "9d4b205fbd2d45b66c576fd217e221eeabb8f4dc23f91d8a7831bca139a13873",
+    "stageAdmissionDigest": "67e2d651e11365dca6e506252fea3165ead351389c81a6aef85bd7b0bf6da5c2",
+    "writeSetDigest": "76248a7364d8d2081a32f28c90ca0232071981654f529085eb04d2bdaf187eea",
+    "acceptanceMatrixDigest": "baf3a18c0a039516258fdae9d7867e60a302d225700887c3dbaaeaec7ab490e5",
+    "effectiveStateDigest": "dfa6f8735fa59f133fa7e6fbc5a121ff767c1831954433556c26829a7a3b790d",
+    "stageRegistryDigest": "3c272f4174896dbec7c81251a8882ce38a55833266f12921a021ba0fc7c93b62",
+    "protectedWipBeforeDigest": "569ec2a9cc9cd02fdece8503b531787b31b48f74752a3c4cbd2e22a1553ffd7b",
+    "protectedWipAfterDigest": "569ec2a9cc9cd02fdece8503b531787b31b48f74752a3c4cbd2e22a1553ffd7b"
+  },
+  "activationPredicates": [
+    "CANDIDATE_CI_GREEN_AT_EXACT_PR_HEAD",
+    "NORMAL_PROTECTED_MERGE",
+    "OPS_VECTOR_CLOSE_GREEN_AT_EXACT_MERGE",
+    "EXACT_POSTMERGE_CI_GREEN_AT_EXACT_MERGE",
+    "PROTECTED_WIP_AFTER_EXACT",
+    "NO_LIVE_WORK_AT_RELEASE"
+  ],
+  "selfBindingPolicy": "FUTURE_PROVIDER_IDENTITIES_BOUND_BY_EXTERNAL_TERMINAL_RECEIPT_NO_RECURSIVE_CLOSURE_PR",
+  "programDone": false
+}

@@ -1,0 +1,149 @@
+{
+  "schemaVersion": "YALKEN_R24_WP502_TERMINAL_RECEIPT_V1",
+  "receiptId": "WP502_TERMINAL_RECEIPT_V1",
+  "stageId": "WP-502_THREADS_CAUSALITY",
+  "status": "CONDITIONAL_CERTIFIED_DONE_PENDING_EXTERNAL_DELIVERY",
+  "observedAtUtc": "2026-09-01T11:30:54.613Z",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "baseIdentity": {
+    "sha": "d76a3e4da899775ae94b9a1ee5ba8aa766e2fb2b",
+    "treeSha": "522a3a18d8d467f1427e928febc7a402fcd2f689"
+  },
+  "bindings": {
+    "authorityDigest": "799e9b0076ec86115bbe425624eb11d065b945c47f0c7193c0184f8052991d00",
+    "selectionDigest": "313c3cb156f8857166051fc0c65a08017b11d494d93b25bb4d19724f5bbe8768",
+    "stageInstanceDigest": "9d4b205fbd2d45b66c576fd217e221eeabb8f4dc23f91d8a7831bca139a13873",
+    "stageAdmissionDigest": "67e2d651e11365dca6e506252fea3165ead351389c81a6aef85bd7b0bf6da5c2",
+    "writeSetDigest": "76248a7364d8d2081a32f28c90ca0232071981654f529085eb04d2bdaf187eea",
+    "commandScopeDigest": "f96c5b9ea827d7e0388dddeb7ee270b83f0a499702c98cae9b16e9bd48d175dc",
+    "acceptanceSignalsDigest": "79ffb3e542cbafa256dbf1c6b4719e0f1d67b17e0661542befbd7f5921f38e4e",
+    "claimBindingDigest": "afdcbea5cce7cb93f206fd96a0fb1bdc55925e00a601742bf9284028800de8e3",
+    "acceptanceMatrixDigest": "baf3a18c0a039516258fdae9d7867e60a302d225700887c3dbaaeaec7ab490e5",
+    "effectiveStateDigest": "dfa6f8735fa59f133fa7e6fbc5a121ff767c1831954433556c26829a7a3b790d",
+    "stageRegistryDigest": "3c272f4174896dbec7c81251a8882ce38a55833266f12921a021ba0fc7c93b62",
+    "leaseReleaseDigest": "34dbeabc890fff13011259777eea672fdd24e797f942b7b0133634e02e095e9f",
+    "protectedWipBeforeDigest": "569ec2a9cc9cd02fdece8503b531787b31b48f74752a3c4cbd2e22a1553ffd7b",
+    "protectedWipAfterDigest": "569ec2a9cc9cd02fdece8503b531787b31b48f74752a3c4cbd2e22a1553ffd7b"
+  },
+  "predecessors": {
+    "wp501FinalAcceptanceMatrixDigest": "9ff9deeb0675f6ef7ab9e7d44dbd962c813cc0b2e75426c3c001771d1053fe99",
+    "wp501FinalEffectiveStateDigest": "2d9ef8366bc87918c1be07930603ff443369e7c00a9aa032a9858fc2e00c96eb",
+    "wp501FinalLeaseReleaseDigest": "1a94d4f591266b8dadc3ac5e277292e3c95767e9a19f6a8f0ec4df30e2be9c4e",
+    "wp501FinalStageRegistryDigest": "37ec93aa905f73890aafd2009b4521c4fc451cfe09ffc167032703c1a77a4ba4",
+    "wp501FinalTerminalReceiptDigest": "f087f11d70cce4a83aa152f09b537fe0240394bcf8f252df62e3b83793d29234"
+  },
+  "predecessorCorrections": {
+    "pr1776": {
+      "candidateSha": "77354cfe994588dc1771f3eded29d1e7e68d703f",
+      "mergeSha": "af0bfb704c13b0195c12b0144415f2e769f99752"
+    },
+    "pr1777": {
+      "candidateSha": "bf3d21072879d276ca3489b0bbead780fb39f596",
+      "mergeSha": "0a8837ae8b0724fa9c258d98281cae693ce0693e"
+    }
+  },
+  "evidenceStampPaths": [
+    "docs/OPS/R24/EVIDENCE/ES-R24-WP-502-THREADS-CAUSALITY-CLAIM-BINDINGS.json",
+    "docs/OPS/R24/EVIDENCE/ES-R24-WP-502-THREADS-CAUSALITY-CONTRACT.json",
+    "docs/OPS/R24/EVIDENCE/ES-R24-WP-502-THREADS-CAUSALITY-EXACT-HEAD.json",
+    "docs/OPS/R24/EVIDENCE/ES-R24-WP-502-THREADS-CAUSALITY-INTEGRATION.json",
+    "docs/OPS/R24/EVIDENCE/ES-R24-WP-502-THREADS-CAUSALITY-MODEL.json",
+    "docs/OPS/R24/EVIDENCE/ES-R24-WP-502-THREADS-CAUSALITY-MUTANTS.json",
+    "docs/OPS/R24/EVIDENCE/ES-R24-WP-502-THREADS-CAUSALITY-SURVIVOR-AUDIT.json"
+  ],
+  "evidenceStampDigests": [
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-502-THREADS-CAUSALITY-CLAIM-BINDINGS.json",
+      "sha256": "afdcbea5cce7cb93f206fd96a0fb1bdc55925e00a601742bf9284028800de8e3"
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-502-THREADS-CAUSALITY-CONTRACT.json",
+      "sha256": "ffab55f3a8758d2a048394f2fdfb55dd3cb5f85fdf560f2c863ac26009cf00a6"
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-502-THREADS-CAUSALITY-EXACT-HEAD.json",
+      "sha256": "66b9f355328cededc1db38721994685fe0cc6cf97912ba7fa3a9bbb14976d78c"
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-502-THREADS-CAUSALITY-INTEGRATION.json",
+      "sha256": "355a0652eefa96fed078f2efe41d90cec67181d13fe5fa64b4acac4a0ac0c1d9"
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-502-THREADS-CAUSALITY-MODEL.json",
+      "sha256": "6f3de0976672cdb68fcc69721bd507f39c29df48e892520a2d28c0df65ef18de"
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-502-THREADS-CAUSALITY-MUTANTS.json",
+      "sha256": "917111fce28de61f75438d82a9b1585ee40381a8e3a6966ff18ca8b099ea1a16"
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-502-THREADS-CAUSALITY-SURVIVOR-AUDIT.json",
+      "sha256": "453e8334b3daa8a9cdd5e0f74ba8fc4b89ce310678d1c4b30a949348e2eda0f8"
+    }
+  ],
+  "localEvidence": {
+    "focusedTests": {
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0
+    },
+    "mutants": {
+      "killed": 10,
+      "survived": 0
+    },
+    "largeCorpus": {
+      "threads": 10000,
+      "causalEdges": 10000
+    },
+    "protectedWip": {
+      "completeDenominator": 252,
+      "presentDenominator": 249,
+      "prunableDenominator": 3,
+      "dirtyDenominator": 7,
+      "entriesExact": true,
+      "protectedDirtySetExact": true
+    }
+  },
+  "externalDeliveryPredicates": [
+    {
+      "id": "CANDIDATE_CI_GREEN_AT_EXACT_PR_HEAD",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_GREEN_AT_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI_GREEN_AT_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    }
+  ],
+  "singleTerminalPrRule": "SINGLE_TERMINAL_PR_RULE_V1",
+  "activationOutcome": {
+    "nodeState": "DONE",
+    "leaseStatus": "RELEASED",
+    "wip": 0,
+    "doneCount": 58,
+    "pendingCount": 38
+  },
+  "nonClaims": [
+    "NO_FUTURE_EXTERNAL_PROVIDER_IDENTITY_PRECLAIMED",
+    "NO_RENDERER_PRODUCT_RUNTIME_PERSISTENCE_COMMAND_OR_PLATFORM_EFFECT_WIRING",
+    "NO_MAIN_PRODUCT_GRAPH_NODE_AFTER_WP502_STARTED",
+    "NO_PROFILE_WIDE_OR_PROGRAM_WIDE_PASS"
+  ],
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

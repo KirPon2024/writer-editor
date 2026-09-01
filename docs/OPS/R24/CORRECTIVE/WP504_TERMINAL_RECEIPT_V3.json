@@ -12,24 +12,25 @@
     "rolesDistinct": true
   },
   "baseIdentity": {
-    "sha": "02dd018ec5e8c1cb3c11cfc3ccce6ead67dfa440",
-    "treeSha": "3795971a31469c0e3f31e7a281adeab0a66b5a2b"
+    "sha": "faef2f0813e4c8eb4b8703682e417aea72e627de",
+    "treeSha": "b223e12273e9e9c790241125cef9f883239cbb0e"
   },
   "bindings": {
     "predecessorTerminalReceiptDigest": "98caaafe9032c37c5ea37d38ef8262aa5fe8d497c0f0bc293f67981d3110614d",
-    "authorityDigest": "0183ca48ef2843975a92ae9230333a2a65d24182344d2a81a84ad2cd3fe91df3",
-    "stageInstanceDigest": "658db9d670c051222df0b4e346e93352ff6b9bef3d46318ab334ef8ec4d4f8fa",
-    "stageAdmissionDigest": "c4cc882e80ae012950dd4934b80a58d1622f7a8adcc1a813e2039415fd42c0a3",
-    "writeSetDigest": "844ecaa772dac00ba7be4a8dd65067099caa1500503ca8fabf3946f8e21fe83d",
-    "commandScopeDigest": "c6a77e14ede3d20db6459b55d93660de005d70479647eecec14f3e94e5042f03",
-    "acceptanceSignalsDigest": "f4500a6a79670fbfd22de3fa89c345c6ddf569337301697f15c3e073115e722c",
-    "candidateBoundSuccessorDigest": "cfe2d42be2306713830f216a7f69bdc3d14d52631121d8eaba90c502c12f1f1b",
+    "authorityDigest": "8eb29f3ae2dabb7b51f73ba37fa1a6ce2063502aac1a1dc1414755e7cee15124",
+    "stageInstanceDigest": "76df9020c8f8a444f24130cb5107369723a98cbb3425dfb21599291f5af3b133",
+    "stageAdmissionDigest": "c6b9424ff613428c2e605be256065389b1fa7ee37956760547f1db3dacef6d47",
+    "writeSetDigest": "37260bfc96c255fe65ea9d452753633f620a1726386aad33108be63509627b30",
+    "commandScopeDigest": "b6d89118adb39048dce1111d842e2ed2713f86cd366f6f65d54961dc7a3b0e13",
+    "acceptanceSignalsDigest": "683a86c059b0e3326335cb63c21b9ec3b198db69ea1938dfffd91c7dcb10dedc",
+    "candidateBoundSuccessorDigest": "4f162656d286de14e9499b29bf471e2302ae640a404c2a16eb49259e246e9c42",
     "wp503ExternalClosureV2Digest": "9a61133d7afdced43e6d72b5a366d2d9c3f7c1a4070fd23ee08596657351da5e",
-    "carrierRegistryDigest": "0b807227dbf184e8ec5aa0f1022d328136f40fe9ae4410a8b094647ee1a1771e",
-    "acceptanceMatrixDigest": "c5931c244d3cc9b1a3a0980b995e453688466f2dcd6d25f1da25bf5b9e0d8de0",
-    "effectiveStateDigest": "ac655bc7cfbe0f116065e8354d94e4e9d869cfa5874a4c27f3811086504221d1",
-    "stageRegistryDigest": "d321e198119851b40fda58d293a6ae78eb5e4c2279538ebbd21fe0cb61e112da",
-    "leaseReleaseDigest": "9779526000b2117f44d2ba8d564d90eae5ed4aa3d95cc1486636321582213d8d"
+    "carrierRegistryDigest": "f99d620fe230ec3fb20fdc03f3d9ec4749bd0eba3f9bfba379fe5e4de80d8d60",
+    "acceptanceMatrixDigest": "1c1e64fd2b4d5bc927b991b3c4a49d3c9260c3e9fc2e0853a26c83e19d2ecb7e",
+    "effectiveStateDigest": "2aee8a7bbeb6bd4d68c15b9fbf41aafc2edc90e3867abdb33f361361659c4c5e",
+    "stageRegistryDigest": "3d1941dcd308d74d3fcc4052c061c60f5dc9c3b2f42a3eec8fcd1042bfb573a6",
+    "leaseReleaseDigest": "2c48e779b3b86b55c79048abc05a66da881cf80b7c7161e353ddd859da3a2eb8",
+    "release01WordingSurfaceSuccessorDigest": "2b3821f7a47c72fc40d141cacbd0c2b6e80f853b7d6bb287dbd62dfc78cba670"
   },
   "localEvidence": {
     "postAuditExactRuntimeReplay": {"node": "22.12.0", "npm": "10.9.0", "tests": 63, "passed": 63, "failed": 0, "skipped": 0, "status": "PASS"},

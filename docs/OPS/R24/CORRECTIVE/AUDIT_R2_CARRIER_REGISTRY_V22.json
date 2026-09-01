@@ -1,7 +1,7 @@
 {
   "schemaVersion": "AUDIT_R2_CARRIER_REGISTRY_V22",
-  "baseSha": "02dd018ec5e8c1cb3c11cfc3ccce6ead67dfa440",
-  "baseTreeSha": "3795971a31469c0e3f31e7a281adeab0a66b5a2b",
+  "baseSha": "faef2f0813e4c8eb4b8703682e417aea72e627de",
+  "baseTreeSha": "b223e12273e9e9c790241125cef9f883239cbb0e",
   "sourcePlanRoles": {
     "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
     "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
@@ -13,19 +13,21 @@
     "status": "SUPERSEDED_BY_APPEND_ONLY_WP504_CANDIDATE_BOUND_SUCCESSOR"
   },
   "carriers": [
-    {"path": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json", "purpose": "COMPLETE_TEST_INVENTORY", "sha256": "c9c075f93b13e4a86e87d9ec835deabb5ab922e6387ceed6baac423491e7e7e8", "sizeBytes": 394924, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json", "purpose": "COMPLETE_TEST_INVENTORY", "sha256": "15faa42770ca7ca42de54622d1db8384c49610465ace6f429d5f454e02d543bb", "sizeBytes": 394924, "status": "CANONICAL_BYTES_PRESENT"},
     {"path": "docs/OPS/R24/CORRECTIVE/WP503_EXTERNAL_TERMINAL_CLOSURE_V2.json", "purpose": "CORRECTED_WP503_EXTERNAL_IDENTITY", "sha256": "9a61133d7afdced43e6d72b5a366d2d9c3f7c1a4070fd23ee08596657351da5e", "sizeBytes": 2674, "status": "CANONICAL_BYTES_PRESENT"},
-    {"path": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V7.json", "purpose": "APPEND_ONLY_OWNER_AUTHORITY", "sha256": "0183ca48ef2843975a92ae9230333a2a65d24182344d2a81a84ad2cd3fe91df3", "sizeBytes": 7981, "status": "CANONICAL_BYTES_PRESENT"},
-    {"path": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V7.json", "purpose": "PINNED_STAGE_ADMISSION", "sha256": "c4cc882e80ae012950dd4934b80a58d1622f7a8adcc1a813e2039415fd42c0a3", "sizeBytes": 1783, "status": "CANONICAL_BYTES_PRESENT"},
-    {"path": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_INSTANCE_V7.json", "purpose": "EXACT_STAGE_INSTANCE", "sha256": "658db9d670c051222df0b4e346e93352ff6b9bef3d46318ab334ef8ec4d4f8fa", "sizeBytes": 8287, "status": "CANONICAL_BYTES_PRESENT"},
-    {"path": "docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_CANDIDATE_BOUND_SUCCESSOR_V1.json", "purpose": "CANDIDATE_BOUND_POST_EVALUATION_SUCCESSOR", "sha256": "cfe2d42be2306713830f216a7f69bdc3d14d52631121d8eaba90c502c12f1f1b", "sizeBytes": 2209, "status": "CANONICAL_BYTES_PRESENT"},
-    {"path": "docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_CLEAN_TREE_FAILURE_V1.json", "purpose": "FAIL_CLOSED_CLEAN_TREE_REPLAY_EVIDENCE", "sha256": "3a48b2de0f0e3151c2ca359b98f30f1996fce9ab5455cf011b64bf3cd49c633f", "sizeBytes": 1930, "status": "CANONICAL_BYTES_PRESENT"},
-    {"path": "scripts/ops/r24/corrective/post-audit-certification-set.mjs", "purpose": "COMPLETE_WP504_POST_EVALUATION_ADMISSION_ORACLE", "sha256": "6f520b4bc1ba44a2b97165b0804074d555cdad44e4125773908fdba4da7398e0", "sizeBytes": 224320, "status": "CANONICAL_BYTES_PRESENT"},
-    {"path": "scripts/ops/r24/wp504-terminal-verifier.mjs", "purpose": "WP504_CANDIDATE_BOUND_TERMINAL_VERIFIER", "sha256": "f4bc8c243e95499bd91668625ab82dfba76cdf06716c789619fcf33e9eb9cb78", "sizeBytes": 18394, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V8.json", "purpose": "APPEND_ONLY_OWNER_AUTHORITY", "sha256": "8eb29f3ae2dabb7b51f73ba37fa1a6ce2063502aac1a1dc1414755e7cee15124", "sizeBytes": 8897, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V8.json", "purpose": "PINNED_STAGE_ADMISSION", "sha256": "c6b9424ff613428c2e605be256065389b1fa7ee37956760547f1db3dacef6d47", "sizeBytes": 1791, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_INSTANCE_V8.json", "purpose": "EXACT_STAGE_INSTANCE", "sha256": "76df9020c8f8a444f24130cb5107369723a98cbb3425dfb21599291f5af3b133", "sizeBytes": 9203, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_CANDIDATE_BOUND_SUCCESSOR_V1.json", "purpose": "CANDIDATE_BOUND_POST_EVALUATION_SUCCESSOR", "sha256": "4f162656d286de14e9499b29bf471e2302ae640a404c2a16eb49259e246e9c42", "sizeBytes": 2389, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_CLEAN_TREE_FAILURE_V1.json", "purpose": "FAIL_CLOSED_CLEAN_TREE_REPLAY_EVIDENCE", "sha256": "886d4f809340904db01bbfd19afc961625a016e55ccdca2f9e8e34d9db95e937", "sizeBytes": 2384, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "docs/OPS/R24/CORRECTIVE/WP504_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json", "purpose": "APPEND_ONLY_RELEASE01_CURRENT_WORDING_SURFACE_BINDING", "sha256": "2b3821f7a47c72fc40d141cacbd0c2b6e80f853b7d6bb287dbd62dfc78cba670", "sizeBytes": 1806, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "scripts/ops/r24/corrective/post-audit-certification-set.mjs", "purpose": "COMPLETE_WP504_POST_EVALUATION_ADMISSION_ORACLE", "sha256": "f95df26dc611ae6c61f75f3631a4353bc66b8eb4026bc1a3a4a48d4427a15950", "sizeBytes": 225065, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "scripts/ops/r24/wp504-terminal-verifier.mjs", "purpose": "WP504_CANDIDATE_BOUND_TERMINAL_VERIFIER", "sha256": "4a1a727b8216ca61e3e5dabe9cb2b25390498c582a6218e401605619d190d9a2", "sizeBytes": 18989, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "test/contracts/rtk-release01-terminal-claims.contract.test.js", "purpose": "RELEASE01_APPEND_ONLY_WORDING_SURFACE_CONTRACT", "sha256": "5dc666041e8f55ee5f1e9ec8f7ce753f9b5b0d990c324070399d357de5900544", "sizeBytes": 94235, "status": "CANONICAL_BYTES_PRESENT"},
     {"path": "test/contracts/r24-wp504-terminal-carriers.contract.test.mjs", "purpose": "WP504_CANDIDATE_BOUND_TERMINAL_CONTRACT", "sha256": "64ec042c833c68aa23d9846f9b9240243d79db40d5af1ebfe0932866b08d77c8", "sizeBytes": 4982, "status": "CANONICAL_BYTES_PRESENT"}
   ],
-  "carrierDenominator": 10,
-  "verifiedCarrierCount": 10,
+  "carrierDenominator": 12,
+  "verifiedCarrierCount": 12,
   "excludedSelfCarriers": [
     "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V22.json",
     "docs/OPS/R24/CORRECTIVE/WP504_GOVERNANCE_CHANGE_APPROVALS_V1.json",

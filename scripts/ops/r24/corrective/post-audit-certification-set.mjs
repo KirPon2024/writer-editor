@@ -419,6 +419,12 @@ export const WP504_MAIN_PRODUCT_ADMISSION_EXPECTATIONS=Object.freeze([
     instancePath:'docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_INSTANCE_V7.json',instanceDigest:'658db9d670c051222df0b4e346e93352ff6b9bef3d46318ab334ef8ec4d4f8fa',
     admissionPath:'docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V7.json',admissionDigest:'c4cc882e80ae012950dd4934b80a58d1622f7a8adcc1a813e2039415fd42c0a3',
     writeSetDigest:'844ecaa772dac00ba7be4a8dd65067099caa1500503ca8fabf3946f8e21fe83d',baseSha:'02dd018ec5e8c1cb3c11cfc3ccce6ead67dfa440',baseTree:'3795971a31469c0e3f31e7a281adeab0a66b5a2b'
+  }),
+  Object.freeze({
+    authorityPath:'docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V8.json',authorityDigest:'8eb29f3ae2dabb7b51f73ba37fa1a6ce2063502aac1a1dc1414755e7cee15124',
+    instancePath:'docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_INSTANCE_V8.json',instanceDigest:'76df9020c8f8a444f24130cb5107369723a98cbb3425dfb21599291f5af3b133',
+    admissionPath:'docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V8.json',admissionDigest:'c6b9424ff613428c2e605be256065389b1fa7ee37956760547f1db3dacef6d47',
+    writeSetDigest:'37260bfc96c255fe65ea9d452753633f620a1726386aad33108be63509627b30',baseSha:'faef2f0813e4c8eb4b8703682e417aea72e627de',baseTree:'b223e12273e9e9c790241125cef9f883239cbb0e'
   })
 ]);
 const h=(bytes)=>crypto.createHash('sha256').update(bytes).digest('hex');

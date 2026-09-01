@@ -4,24 +4,26 @@
   "status": "CURRENT_APPEND_ONLY_SUCCESSOR",
   "observedAtUtc": "2026-09-01T21:40:00Z",
   "bindings": {
-    "authorityDigest": "0183ca48ef2843975a92ae9230333a2a65d24182344d2a81a84ad2cd3fe91df3",
-    "stageInstanceDigest": "658db9d670c051222df0b4e346e93352ff6b9bef3d46318ab334ef8ec4d4f8fa",
-    "stageAdmissionDigest": "c4cc882e80ae012950dd4934b80a58d1622f7a8adcc1a813e2039415fd42c0a3",
-    "writeSetDigest": "844ecaa772dac00ba7be4a8dd65067099caa1500503ca8fabf3946f8e21fe83d",
-    "commandScopeDigest": "c6a77e14ede3d20db6459b55d93660de005d70479647eecec14f3e94e5042f03",
-    "acceptanceSignalsDigest": "f4500a6a79670fbfd22de3fa89c345c6ddf569337301697f15c3e073115e722c",
-    "failureDigest": "3a48b2de0f0e3151c2ca359b98f30f1996fce9ab5455cf011b64bf3cd49c633f",
+    "authorityDigest": "8eb29f3ae2dabb7b51f73ba37fa1a6ce2063502aac1a1dc1414755e7cee15124",
+    "stageInstanceDigest": "76df9020c8f8a444f24130cb5107369723a98cbb3425dfb21599291f5af3b133",
+    "stageAdmissionDigest": "c6b9424ff613428c2e605be256065389b1fa7ee37956760547f1db3dacef6d47",
+    "writeSetDigest": "37260bfc96c255fe65ea9d452753633f620a1726386aad33108be63509627b30",
+    "commandScopeDigest": "b6d89118adb39048dce1111d842e2ed2713f86cd366f6f65d54961dc7a3b0e13",
+    "acceptanceSignalsDigest": "683a86c059b0e3326335cb63c21b9ec3b198db69ea1938dfffd91c7dcb10dedc",
+    "failureDigest": "886d4f809340904db01bbfd19afc961625a016e55ccdca2f9e8e34d9db95e937",
     "wp503ExternalClosureV2Digest": "9a61133d7afdced43e6d72b5a366d2d9c3f7c1a4070fd23ee08596657351da5e",
-    "postAuditCertificationVerifierDigest": "6f520b4bc1ba44a2b97165b0804074d555cdad44e4125773908fdba4da7398e0"
+    "postAuditCertificationVerifierDigest": "f95df26dc611ae6c61f75f3631a4353bc66b8eb4026bc1a3a4a48d4427a15950",
+    "release01WordingSurfaceSuccessorDigest": "2b3821f7a47c72fc40d141cacbd0c2b6e80f853b7d6bb287dbd62dfc78cba670"
   },
   "evaluationPolicy": {
     "wp503BaseSha": "f2848a044b1f37c95463ffca341058f7ea33da49",
     "wp503CandidateSha": "b95b9b66ebf3b9602a8b9f2f9265ca3df2bf6719",
     "wp504BaseSha": "38a495f5beca286f134e20a991cb69dc19e6379f",
     "wp504V56CheckpointSha": "02dd018ec5e8c1cb3c11cfc3ccce6ead67dfa440",
+    "wp504V8BaseSha": "faef2f0813e4c8eb4b8703682e417aea72e627de",
     "historicalDeltaDerivedFromExactGitObjects": true,
     "arbitraryDescendantDeltaAccepted": false,
-    "completeWp504AdmissionDenominator": 3,
+    "completeWp504AdmissionDenominator": 4,
     "mutableWorkingTreeUsedForHistoricalClaim": false
   },
   "executedEvidence": {

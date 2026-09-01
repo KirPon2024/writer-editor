@@ -10,10 +10,10 @@
   },
   "bindings": {
     "predecessorLeaseReleaseDigest": "bb3bd4dee9e1b8228389adbef9e0777b7b5940d3aea93737e48ef4eb25a1905a",
-    "acceptanceMatrixDigest": "c5931c244d3cc9b1a3a0980b995e453688466f2dcd6d25f1da25bf5b9e0d8de0",
-    "effectiveStateDigest": "ac655bc7cfbe0f116065e8354d94e4e9d869cfa5874a4c27f3811086504221d1",
-    "stageRegistryDigest": "d321e198119851b40fda58d293a6ae78eb5e4c2279538ebbd21fe0cb61e112da",
-    "stageAdmissionDigest": "c4cc882e80ae012950dd4934b80a58d1622f7a8adcc1a813e2039415fd42c0a3"
+    "acceptanceMatrixDigest": "1c1e64fd2b4d5bc927b991b3c4a49d3c9260c3e9fc2e0853a26c83e19d2ecb7e",
+    "effectiveStateDigest": "2aee8a7bbeb6bd4d68c15b9fbf41aafc2edc90e3867abdb33f361361659c4c5e",
+    "stageRegistryDigest": "3d1941dcd308d74d3fcc4052c061c60f5dc9c3b2f42a3eec8fcd1042bfb573a6",
+    "stageAdmissionDigest": "c6b9424ff613428c2e605be256065389b1fa7ee37956760547f1db3dacef6d47"
   },
   "currentLease": {
     "fencingCounter": 68,

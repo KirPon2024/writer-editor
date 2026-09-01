@@ -23,12 +23,13 @@ const P = Object.freeze({
   evidence: 'docs/OPS/R24/EVIDENCE/ES-R24-WP-504-DOSSIER-LAYOUT-LINKS-CLAIM-BINDINGS.json',
 });
 const P3 = Object.freeze({
-  authority: `${C}/WP504_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V7.json`,
-  instance: `${C}/WP504_MAIN_PRODUCT_STAGE_INSTANCE_V7.json`,
-  admission: `${C}/WP504_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V7.json`,
+  authority: `${C}/WP504_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V8.json`,
+  instance: `${C}/WP504_MAIN_PRODUCT_STAGE_INSTANCE_V8.json`,
+  admission: `${C}/WP504_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V8.json`,
   predecessor: `${C}/WP503_EXTERNAL_TERMINAL_CLOSURE_V2.json`,
   failure: `${C}/WP504_POST_AUDIT_CLEAN_TREE_FAILURE_V1.json`,
   successor: `${C}/WP504_POST_AUDIT_CANDIDATE_BOUND_SUCCESSOR_V1.json`,
+  wordingSuccessor: `${C}/WP504_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json`,
   carrierRegistry: `${C}/AUDIT_R2_CARRIER_REGISTRY_V22.json`,
   matrix: `${C}/WP504_ACCEPTANCE_MATRIX_V3.json`,
   effective: `${C}/WP504_EFFECTIVE_STATE_V3.json`,
@@ -115,14 +116,15 @@ export function verifyWp504TerminalCarriers() {
 }
 
 export function verifyWp504CandidateBoundSuccessor() {
-  const authority = read(P3.authority), instance = read(P3.instance), admission = read(P3.admission), predecessor = read(P3.predecessor), failure = read(P3.failure), successor = read(P3.successor), carrierRegistry = read(P3.carrierRegistry), matrix = read(P3.matrix), effective = read(P3.effective), registry = read(P3.registry), release = read(P3.release), receipt = read(P3.receipt), supplement = read(P3.supplement), evidence = read(P3.evidence);
+  const authority = read(P3.authority), instance = read(P3.instance), admission = read(P3.admission), predecessor = read(P3.predecessor), failure = read(P3.failure), successor = read(P3.successor), wordingSuccessor = read(P3.wordingSuccessor), carrierRegistry = read(P3.carrierRegistry), matrix = read(P3.matrix), effective = read(P3.effective), registry = read(P3.registry), release = read(P3.release), receipt = read(P3.receipt), supplement = read(P3.supplement), evidence = read(P3.evidence);
   assert(authority.digest === admission.value.authorityDigest && instance.digest === admission.value.stageInstanceDigest && admission.digest === successor.value.bindings.stageAdmissionDigest, 'E_WP504_V3_ADMISSION_CHAIN');
   assert(admission.value.writeSetDigest === successor.value.bindings.writeSetDigest && admission.value.commandScopeDigest === successor.value.bindings.commandScopeDigest && admission.value.acceptanceSignalsDigest === successor.value.bindings.acceptanceSignalsDigest, 'E_WP504_V3_SCOPE_CHAIN');
-  assert(instance.value.baseSha === '02dd018ec5e8c1cb3c11cfc3ccce6ead67dfa440' && instance.value.treeSha === '3795971a31469c0e3f31e7a281adeab0a66b5a2b' && instance.value.model === 'gpt-5.6-sol' && instance.value.reasoningEffort === 'xhigh', 'E_WP504_V3_IDENTITY');
-  for (const value of [authority.value, instance.value, admission.value, predecessor.value.sourcePlanRoles, failure.value.sourcePlanRoles, successor.value.sourcePlanRoles, matrix.value.sourcePlanRoles, effective.value.sourcePlanRoles, registry.value.sourcePlanRoles, release.value.sourcePlanRoles, receipt.value.sourcePlanRoles, supplement.value.sourcePlanRoles]) sourceRolesExact(value, value.schemaVersion);
+  assert(instance.value.baseSha === 'faef2f0813e4c8eb4b8703682e417aea72e627de' && instance.value.treeSha === 'b223e12273e9e9c790241125cef9f883239cbb0e' && instance.value.model === 'gpt-5.6-sol' && instance.value.reasoningEffort === 'xhigh', 'E_WP504_V3_IDENTITY');
+  for (const value of [authority.value, instance.value, admission.value, predecessor.value.sourcePlanRoles, failure.value.sourcePlanRoles, successor.value.sourcePlanRoles, wordingSuccessor.value.sourcePlanRoles, matrix.value.sourcePlanRoles, effective.value.sourcePlanRoles, registry.value.sourcePlanRoles, release.value.sourcePlanRoles, receipt.value.sourcePlanRoles, supplement.value.sourcePlanRoles]) sourceRolesExact(value, value.schemaVersion);
   assert(predecessor.value.delivery.candidateSha === 'b95b9b66ebf3b9602a8b9f2f9265ca3df2bf6719' && predecessor.value.externalTerminal.verificationSha256 === '2c8c30f4598c16e272e1e77b947513c9d47751165b4b886e236a82c7c963b8e6', 'E_WP504_V3_PREDECESSOR_IDENTITY');
   assert(predecessor.value.supersedes.sha256 === sha256(fs.readFileSync(`${C}/WP503_EXTERNAL_TERMINAL_CLOSURE_V1.json`)) && predecessor.value.correction.historicalBytesRewritten === false, 'E_WP504_V3_PREDECESSOR_SUCCESSOR');
-  assert(failure.digest === successor.value.bindings.failureDigest && predecessor.digest === successor.value.bindings.wp503ExternalClosureV2Digest && successor.value.evaluationPolicy.completeWp504AdmissionDenominator === 3 && successor.value.evaluationPolicy.arbitraryDescendantDeltaAccepted === false, 'E_WP504_V3_SUCCESSOR');
+  assert(failure.digest === successor.value.bindings.failureDigest && predecessor.digest === successor.value.bindings.wp503ExternalClosureV2Digest && successor.value.evaluationPolicy.completeWp504AdmissionDenominator === 4 && successor.value.evaluationPolicy.arbitraryDescendantDeltaAccepted === false, 'E_WP504_V3_SUCCESSOR');
+  assert(wordingSuccessor.digest === successor.value.bindings.release01WordingSurfaceSuccessorDigest && wordingSuccessor.value.predecessorSuccessor.sha256 === sha256(fs.readFileSync(`${C}/WP503_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json`)) && wordingSuccessor.value.surfaceOverrides.every((surface) => surface.sha256 === `sha256:${sha256(fs.readFileSync(surface.path))}`), 'E_WP504_V3_WORDING_SUCCESSOR');
   assert(carrierRegistry.value.carriers.length === carrierRegistry.value.carrierDenominator && carrierRegistry.value.carriers.every((binding) => sha256(fs.readFileSync(binding.path)) === binding.sha256), 'E_WP504_V3_CARRIER_REGISTRY');
   verifyWp504TerminalRecord(matrix.value);
   assert(matrix.digest === effective.value.bindings.acceptanceMatrixDigest && matrix.digest === registry.value.bindings.acceptanceMatrixDigest && matrix.digest === release.value.bindings.acceptanceMatrixDigest && matrix.digest === receipt.value.bindings.acceptanceMatrixDigest, 'E_WP504_V3_MATRIX_CHAIN');
@@ -134,7 +136,7 @@ export function verifyWp504CandidateBoundSuccessor() {
   for (const binding of evidence.value.claimBindings) assert(sha256(fs.readFileSync(binding.filePath)) === binding.sha256, 'E_WP504_V3_EVIDENCE_BINDING', binding.filePath);
   assert(matrix.value.rowCount === 34 && matrix.value.localPassedRowCount === 30 && matrix.value.externalPredicateRowCount === 4, 'E_WP504_V3_DENOMINATOR');
   assert(release.value.currentLease.fencingCounter === 68 && release.value.currentLease.status === 'ACTIVE' && release.value.currentLease.wip === 1 && release.value.targetLease.status === 'RELEASED' && release.value.targetLease.wip === 0, 'E_WP504_V3_LEASE');
-  for (const value of [predecessor.value, failure.value, successor.value, carrierRegistry.value, matrix.value, effective.value, registry.value, release.value, receipt.value, supplement.value]) assert(value.programDone === false || value.programDoneClaimed === false, 'E_WP504_V3_PROGRAM_DONE');
+  for (const value of [predecessor.value, failure.value, successor.value, wordingSuccessor.value, carrierRegistry.value, matrix.value, effective.value, registry.value, release.value, receipt.value, supplement.value]) assert(value.programDone === false || value.programDoneClaimed === false, 'E_WP504_V3_PROGRAM_DONE');
   assert(!Object.hasOwn(evidence.value, 'programDone') && evidence.value.nonClaims?.includes('PROGRAM_DONE_FALSE'), 'E_WP504_V3_EVIDENCE_PROGRAM_DONE');
   return { schemaVersion: 'YALKEN_R24_WP504_CANDIDATE_BOUND_TERMINAL_VERIFICATION_V1', status: 'PASS', authorityDigest: authority.digest, stageInstanceDigest: instance.digest, stageAdmissionDigest: admission.digest, predecessorClosureDigest: predecessor.digest, failureDigest: failure.digest, successorDigest: successor.digest, carrierRegistryDigest: carrierRegistry.digest, acceptanceMatrixDigest: matrix.digest, effectiveStateDigest: effective.digest, stageRegistryDigest: registry.digest, leaseReleaseDigest: release.digest, terminalReceiptDigest: receipt.digest, terminalSupplementDigest: supplement.digest, evidenceStampDigest: evidence.digest, localPassedRows: 30, externalPredicateRows: 4, currentLease: release.value.currentLease, targetLease: release.value.targetLease, programDone: false };
 }

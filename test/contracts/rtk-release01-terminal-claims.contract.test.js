@@ -59,7 +59,8 @@ const { pathToFileURL } = require('node:url');
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
 const MODULE_PATH = path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-interop-terminal-claims-v1.mjs');
 const REGISTRY_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json');
-const WORDING_SUCCESSOR_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'R24', 'CORRECTIVE', 'WP503_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json');
+const WORDING_PREDECESSOR_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'R24', 'CORRECTIVE', 'WP503_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json');
+const WORDING_SUCCESSOR_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'R24', 'CORRECTIVE', 'WP504_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json');
 const WORD_REGISTRY_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_BUILD_PROFILE_REGISTRY_V1.json');
 const GOOGLE_REGISTRY_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'GOOGLE_BUILD_PROFILE_REGISTRY_V1.json');
 const CAPABILITY_MATRIX_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'STATUS', 'CAPABILITY_MATRIX.json');
@@ -623,6 +624,7 @@ test('RELEASE01-14-integration-real-registry-binds-all-wording-and-rolls-up', as
   assert.ok(historicalRegistry, 'loaded registry must expose the registry object');
   const successor = JSON.parse(fs.readFileSync(WORDING_SUCCESSOR_PATH, 'utf8'));
   assert.equal(successor.historicalRegistry.sha256, crypto.createHash('sha256').update(fs.readFileSync(REGISTRY_PATH)).digest('hex'));
+  assert.equal(successor.predecessorSuccessor.sha256, crypto.createHash('sha256').update(fs.readFileSync(WORDING_PREDECESSOR_PATH)).digest('hex'));
   assert.deepEqual(successor.surfaceOverrides.map((surface) => surface.path), ['package.json', 'src/renderer/editor.js']);
   const registry = JSON.parse(JSON.stringify(historicalRegistry));
   for (const override of successor.surfaceOverrides) {

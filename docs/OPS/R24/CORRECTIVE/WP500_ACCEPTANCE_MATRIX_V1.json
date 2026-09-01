@@ -1,0 +1,130 @@
+{
+  "schemaVersion": "YALKEN_R24_WP500_ACCEPTANCE_MATRIX_V1",
+  "stageId": "WP-500_ASSOCIATIONS",
+  "status": "PASS",
+  "observedAtUtc": "2026-09-01T06:31:55Z",
+  "evaluationSha": "02fce73c0ccdf28d7836f8d69f114627605f9f23",
+  "evaluationTreeSha": "31a1f473836545066b6cb03282f7040544a3f0e3",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "bindings": {
+    "stageInstanceDigest": "071abad5b50032d25eebd6e8ce1b1d76f44da5464673b87b83e4ac9a19ff677d",
+    "stageAdmissionDigest": "6b0a4354ca7e89095993fdcf925eb3c3ce878e64ad13a271b7877d8b0b150e81",
+    "acceptanceSignalsDigest": "e7b0dd36441d3aa77b33ac8be917d84792e9dcfc1e4a321d14c85c751b6adaf3",
+    "contourTerminalReceiptDigest": "f892eef01d695b65598c881f208a51940d3dd2eaf80f9eb999eab4842799c314",
+    "claimBindingDigest": "99f4a3f5c0dd356492f70da77cf67252bfc9862a4b264d1407ccab21320ffb79",
+    "leaseReleaseDigest": "8085f4786f9ef3068cfa8a1566a1aef0b6486e24dc1ecedc9535010de4cd4c8f",
+    "protectedWipAfterCarrierDigest": "343a76630b68bcecfe18b14e9acc2eb115ef489a77a4007ab18d1ce667cca2fb"
+  },
+  "rowCount": 20,
+  "passedRowCount": 20,
+  "failedRowCount": 0,
+  "pendingRowCount": 0,
+  "rows": [
+    {
+      "id": "BOOK_SCOPE_APPLIES_ACROSS_COMPLETE_BOOK",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-500-ASSOCIATIONS-CONTRACT"
+    },
+    {
+      "id": "CLAIM_BINDINGS_DENOMINATOR_COMPLETE",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-500-ASSOCIATIONS-CLAIM-BINDINGS"
+    },
+    {
+      "id": "CONTRACT_NEGATIVE",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-500-ASSOCIATIONS-CONTRACT"
+    },
+    {
+      "id": "DIFFERENTIAL_ORACLE",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-500-ASSOCIATIONS-INTEGRATION"
+    },
+    {
+      "id": "EXACT_ATLAS_BOOK_SNAPSHOT_BINDING",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-500-ASSOCIATIONS-INTEGRATION"
+    },
+    {
+      "id": "FRAGMENT_SCOPE_REQUIRES_EXACT_SCENE_REVISION_AND_RANGE_CONTAINMENT",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-500-ASSOCIATIONS-CONTRACT"
+    },
+    {
+      "id": "GOVERNANCE_STRICT_PASS",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-500-ASSOCIATIONS-SURVIVOR-AUDIT"
+    },
+    {
+      "id": "IMPLEMENTATION_MUTANTS_ALL_KILLED",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-500-ASSOCIATIONS-MUTANTS"
+    },
+    {
+      "id": "INDEPENDENT_EXACT_HEAD",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-500-ASSOCIATIONS-EXACT-HEAD"
+    },
+    {
+      "id": "LARGE_CORPUS_10000_ASSOCIATIONS",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-500-ASSOCIATIONS-INTEGRATION"
+    },
+    {
+      "id": "LEASE_63_RELEASED_WIP_0",
+      "status": "PASS",
+      "carrier": "WP500_LEASE_RELEASE_V1"
+    },
+    {
+      "id": "NO_PERSISTENCE_RENDERER_OR_PLATFORM_EFFECT",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-500-ASSOCIATIONS-SURVIVOR-AUDIT"
+    },
+    {
+      "id": "POSTMERGE_EXACT_HEAD",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-500-ASSOCIATIONS-POSTMERGE-EXACT-HEAD"
+    },
+    {
+      "id": "PROGRAM_DONE_FALSE",
+      "status": "PASS",
+      "carrier": "WP500_LEASE_RELEASE_V1"
+    },
+    {
+      "id": "PROTECTED_WIP_UNCHANGED",
+      "status": "PASS",
+      "carrier": "WP500_PROTECTED_WIP_AFTER_V1"
+    },
+    {
+      "id": "SCENE_SCOPE_NEVER_LEAKS_ACROSS_SCENES",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-500-ASSOCIATIONS-MUTANTS"
+    },
+    {
+      "id": "STALE_BOOK_SCENE_AND_FRAGMENT_REJECTION",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-500-ASSOCIATIONS-CONTRACT"
+    },
+    {
+      "id": "STRICT_INPUT_TAMPER_AND_DENOMINATOR_REJECTION",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-500-ASSOCIATIONS-SURVIVOR-AUDIT"
+    },
+    {
+      "id": "SURVIVOR_AUDIT",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-500-ASSOCIATIONS-SURVIVOR-AUDIT"
+    },
+    {
+      "id": "WP404_FOUNDATION_PREDECESSOR_BOUND",
+      "status": "PASS",
+      "evidenceStampId": "ES-R24-WP-500-ASSOCIATIONS-MODEL"
+    }
+  ],
+  "verdict": "PASS",
+  "programDone": false
+}

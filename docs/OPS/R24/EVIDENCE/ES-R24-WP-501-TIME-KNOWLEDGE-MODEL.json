@@ -1,0 +1,58 @@
+{
+  "stampId": "ES-R24-WP-501-TIME-KNOWLEDGE-MODEL",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-501_TIME_KNOWLEDGE",
+  "attemptId": "ATTEMPT-WP501-20260901",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP501_AUTHORITY_EPOCH_V1",
+  "profileId": "ATLAS_PRODUCT_V33",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "810603c97958a7e94c9a537ab3e6f5a834d6502d",
+    "treeSha": "ae74bd0ff5b587493032f640b8bacb2f65cf452a"
+  },
+  "claim": {
+    "type": "WP501_BOUNDED_TRIPLE_TIME_KNOWLEDGE_MODEL",
+    "ceiling": "WP501_NODE_TRIPLE_TIME_AND_EVIDENCE_BOUND_PERSPECTIVE_KNOWLEDGE_ONLY_EXACT_WP500_PREDECESSOR_NO_PERSISTENCE_NO_RENDERER_NO_COMMAND_NO_PLATFORM_EFFECT_NO_NEXT_NODE_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "WP501_BOUNDED_TRIPLE_TIME_KNOWLEDGE_MODEL",
+    "evidenceClass": "MODEL",
+    "denominator": 8,
+    "passed": 8,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-500-ASSOCIATIONS-SURVIVOR-AUDIT"
+    ],
+    "predecessorReceiptDigest": "17d2998d20041005cfa01ef2745599854b20ed9fe28f5ad40dfe590225c19978"
+  },
+  "createdAt": "2026-09-01T07:43:59Z",
+  "actor": "codex/r24-wp501-time-knowledge-v1-20260901",
+  "artifact": {
+    "modelAssertions": [
+      "Each cell binds one proposition, one perspective entity, one epistemic state and one modality.",
+      "Story order, narrative scene order and perspective knowledge order are three independent explicit coordinates.",
+      "Narrative order is exact and must equal the verified snapshot scene ordinal.",
+      "Unknown time requires a null ordinal and UNKNOWN knowledge remains explicit rather than false.",
+      "Every cell has one to 128 exact evidence anchors from one current scene revision.",
+      "Book, scene and fragment scopes are validated and fragment evidence remains inside lineage and offset bounds.",
+      "Projection indexes, denominators, cell digests, evidence digests and outer digest are deterministic and verified.",
+      "The feature is a pure immutable DERIVED_STATE query with no product mutation, persistence, renderer, command or external effect."
+    ],
+    "predecessor": {
+      "nodeId": "WP-500_ASSOCIATIONS",
+      "terminalReceiptDigest": "17d2998d20041005cfa01ef2745599854b20ed9fe28f5ad40dfe590225c19978"
+    },
+    "sourcePlanRoles": {
+      "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+      "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+      "rolesDistinct": true
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

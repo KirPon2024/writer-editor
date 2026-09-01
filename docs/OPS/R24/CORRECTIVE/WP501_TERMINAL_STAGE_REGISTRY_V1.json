@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "YALKEN_R24_WP501_TERMINAL_STAGE_REGISTRY_V1",
+  "registryId": "WP501_TERMINAL_STAGE_REGISTRY_V1",
+  "status": "ADMITTED_ACTIVE_PENDING_EXTERNAL_GATES",
+  "observedAtUtc": "2026-09-01T07:49:13Z",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "predecessor": {
+    "wp500TerminalReceiptDigest": "17d2998d20041005cfa01ef2745599854b20ed9fe28f5ad40dfe590225c19978",
+    "wp500TerminalEffectiveStateDigest": "d0c7758dea0b10377d270a52f66ce7746ba26774986339dda299ef0eb3d5d009",
+    "wp500TerminalStageRegistryDigest": "2cd208d318c961339896dfe7f3e7b573804638c9f8fac77694ae40098ecc1fff",
+    "wp500LeaseReleaseDigest": "8085f4786f9ef3068cfa8a1566a1aef0b6486e24dc1ecedc9535010de4cd4c8f"
+  },
+  "stages": [
+    {
+      "stageId": "WP-501_TIME_KNOWLEDGE",
+      "status": "ADMITTED_ACTIVE_PENDING_EXTERNAL_GATES",
+      "targetStatusAfterPredicates": "CERTIFIED_DONE",
+      "evaluationSha": "810603c97958a7e94c9a537ab3e6f5a834d6502d",
+      "evaluationTreeSha": "ae74bd0ff5b587493032f640b8bacb2f65cf452a",
+      "authorityDigest": "4a1ff1f4b285b1f23e8b332547427d8545d2cfbce582ca59671ee3ea9429f59a",
+      "stageInstanceDigest": "bcee44d31ff29c96566fb5d4dec1c335fd5831cb28419c2c252dabd8bad18fc6",
+      "stageAdmissionDigest": "61b437c37deb503d7904272a734511f987ec9a4ca3a448c2c430639db122ac2e",
+      "writeSetDigest": "a0bbfc590dff004a8b5be3d10a2bfb7528f6cf4e91ee07b10be2a3e7ba1fbb09",
+      "commandScopeDigest": "fdb174add6399ac4e1db515e728e12b6934c07ce79e880a0d35ffcac66ae4b17",
+      "acceptanceSignalsDigest": "fb99d01057c6ea1af7ffc7e24536d57cd1190b961c33ccf3c48a48dba75e808a",
+      "acceptanceMatrixDigest": "487e4b3827b637e889b4ef9484d7b9a18652c4bcbfdeda98ed994e58deaad5cf",
+      "terminalEffectiveStateDigest": "a5e64873e515724f7c2845f4d7a65feba267845a838ac653ee8b249ab2dfceb6",
+      "lease": {
+        "fencingCounter": 64,
+        "status": "ACTIVE",
+        "wip": 1,
+        "targetStatusAfterPredicates": "RELEASED",
+        "targetWipAfterPredicates": 0
+      },
+      "delivery": {
+        "singleTerminalPullRequest": null,
+        "candidateCiRunId": null,
+        "mergeSha": null,
+        "opsVectorCloseRunId": null,
+        "exactPostmergeRunId": null,
+        "status": "PENDING_EXTERNAL_GATES",
+        "nonRecursiveCarrierPattern": true
+      }
+    }
+  ],
+  "stageCount": 1,
+  "certifiedDoneCount": 0,
+  "failedCount": 0,
+  "pendingCount": 1,
+  "targetCountsAfterPredicates": {
+    "certifiedDoneCount": 1,
+    "failedCount": 0,
+    "pendingCount": 0
+  },
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

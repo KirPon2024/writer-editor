@@ -1,0 +1,98 @@
+{
+  "approvals": [
+    {
+      "approvedAtUtc": "2026-09-01T02:43:31Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V5.json",
+      "rationale": "Owner-authorized active WP404 implementation route for the exact admitted Atlas foundation claim contour.",
+      "sha256": "b6f1160de2e2d0129eac1376887a9cbd720de233ce625ff1d4009e9bb13fcfb8"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T02:43:31Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "rationale": "Owner-authorized active WP404 implementation route for the exact admitted Atlas foundation claim contour.",
+      "sha256": "2dfbc68316502349030b74a1ff093c7f0f9f6847c0d5385db9278d11e2bffe92"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T02:43:31Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP404_IMPLEMENTATION_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+      "rationale": "Owner-authorized active WP404 implementation route for the exact admitted Atlas foundation claim contour.",
+      "sha256": "684d4fb180c412130973ca0606f70fbd0ad05d115fa651cc9ea4fedf6dd877fa"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T02:43:31Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP404_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "rationale": "Owner-authorized active WP404 implementation route for the exact admitted Atlas foundation claim contour.",
+      "sha256": "5ef707aeffe932d65dad2ea7ed80799f89886db3f6ef671c3a3fe901eb8ffdf2"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T02:43:31Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP404_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "rationale": "Owner-authorized active WP404 implementation route for the exact admitted Atlas foundation claim contour.",
+      "sha256": "42eb018949126a8fd85bee6b574ebfe3c171ec0a0b8c672aa291eb89023dd269"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T02:43:31Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP404_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "rationale": "Owner-authorized active WP404 implementation route for the exact admitted Atlas foundation claim contour.",
+      "sha256": "92bbab8e9a12950b43763414bb702ed97ef89887e994a4cc1e6c498a625cadaa"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T02:43:31Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP404_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "rationale": "Owner-authorized active WP404 implementation route for the exact admitted Atlas foundation claim contour.",
+      "sha256": "1276a9c2805d4317e35dfff4809bc26a6ca773e82312b12bbd20fb4547464318"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T02:43:31Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP404_PROTECTED_WIP_BEFORE_V1.json",
+      "rationale": "Owner-authorized active WP404 implementation route for the exact admitted Atlas foundation claim contour.",
+      "sha256": "0688062a9935509bca93b4e8942686631ca22a976e5c0b5ee86e223c2b4b7194"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T02:43:31Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "scripts/ops/r24/corrective/audit-r2-corrections.mjs",
+      "rationale": "Owner-authorized active WP404 implementation route for the exact admitted Atlas foundation claim contour.",
+      "sha256": "155c614dc7f676b2902e7e43bc6985760d0b5cf8281a9cade768f04c40594ba2"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T02:43:31Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "rationale": "Owner-authorized active WP404 implementation route for the exact admitted Atlas foundation claim contour.",
+      "sha256": "850c1b2247c15ced2bfc462e6a70b222690575d77c601be5d54f56a9e2f7d575"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T02:43:31Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "test/contracts/r24-audit-r2-corrections.contract.test.mjs",
+      "rationale": "Owner-authorized active WP404 implementation route for the exact admitted Atlas foundation claim contour.",
+      "sha256": "ad58605dc231fd8e6aa03c6be6c68187a6f631664d3477b1bd662d9367c16316"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T02:43:31Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "test/contracts/r24-post-audit-certification-set.contract.test.mjs",
+      "rationale": "Owner-authorized active WP404 implementation route for the exact admitted Atlas foundation claim contour.",
+      "sha256": "5cd93dc0bf41888dc20918d203492d5892f0781febd7624e3f134e43c5912366"
+    }
+  ],
+  "evidenceStampIds": [
+    "ES-R24-WP-403-DECISION-SUBSTRATE-SURVIVOR-AUDIT"
+  ],
+  "routingCarrierExemptFromThisPhaseCarrier": "WP404_ACTIVE_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+  "sourcePlanRoles": {
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "rolesDistinct": true
+  },
+  "version": "v1.0"
+}

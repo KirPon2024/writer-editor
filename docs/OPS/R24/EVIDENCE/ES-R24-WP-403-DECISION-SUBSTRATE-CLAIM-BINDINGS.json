@@ -1,0 +1,118 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-403-DECISION-SUBSTRATE-CLAIM-BINDINGS",
+  "contourId": "WP-403_DECISION_SUBSTRATE",
+  "evidenceClass": "CONTRACT",
+  "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
+  "headSha": "44e49ca4327af75d368ea46957880a7eb85d54ae",
+  "originMainSha": "44e49ca4327af75d368ea46957880a7eb85d54ae",
+  "generatedAtUtc": "2026-09-01T01:07:32Z",
+  "oracle": "Strict exact-hash binding for the WP403 implementation, admitted CI successor, protected candidate, merge, exact postmerge CI and merge-tree survivor replay",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/CTR-R24-WP-403-DECISION-SUBSTRATE.json",
+      "sha256": "e6f22b56fc85526b0993b4814ea596e0f5fd512690a5b15b60ad8fd7a1985e4b",
+      "claimTerms": [
+        "PASS"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/atlas-decision-substrate-v1.mjs",
+      "sha256": "f2406765034e968e9b312e0613d57a9a43ceb22a09f8d9f10902ac4447fc8018",
+      "terms": [
+        "Bounded candidate queue, EvidenceDelta, Decision Memory and read-only Review Center"
+      ]
+    },
+    {
+      "path": "src/core/atlas-projector-kernel-v1.mjs",
+      "sha256": "41edc43884173b2cedf9a77f36b454ec87fc57b0a2cdda39e1fccde555d311c9",
+      "terms": [
+        "Exported strict WP402 publication verifier used as the WP403 trust boundary"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp403-decision-substrate.test.js",
+      "sha256": "1204991dcbacaa0598be7f731dca6ae45431dbba794e4b10b0f062ad05347d37",
+      "terms": [
+        "WP403 strict contract oracle"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp403-decision-substrate-integration.test.js",
+      "sha256": "5817add80b47b58e2fc73e63d835d78ac328369c83f0387d0da9d181268ca66c",
+      "terms": [
+        "WP403 differential, lineage, stale and large-corpus oracle"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp403-decision-substrate-mutants.test.js",
+      "sha256": "56daa0c03d59dc6fce19b736cddd512cc226d68fd1553d705786a89a83d256d4",
+      "terms": [
+        "Nine-of-nine queue, delta, stale, memory and authority mutant oracle"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "node --test test/unit/r24-wp403-decision-substrate.test.js test/unit/r24-wp403-decision-substrate-integration.test.js test/unit/r24-wp403-decision-substrate-mutants.test.js",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 11,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 9,
+        "survived": 0
+      },
+      "requiredDisposition": "The WP403 queue, delta, decision memory, Review Center, lineage, stale rejection, large-corpus bound and mutants are green at the exact implementation merge tree."
+    },
+    {
+      "command": "GitHub protected candidate and exact implementation postmerge CI",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 34,
+        "fail": 0
+      },
+      "requiredDisposition": "All 17 corrected-candidate and all 17 exact-merge required contexts passed; the earlier failed run is explicitly superseded, not erased."
+    },
+    {
+      "command": "npm test under Node 22.12.0 and npm 10.9.0",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1406,
+        "fail": 0
+      },
+      "requiredDisposition": "The full maintained baseline passed; 64 optional skips are pre-existing and the exhaustive inventory reports zero required or unexplained skips."
+    },
+    {
+      "command": "npm run test:rtk",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1067,
+        "fail": 0
+      },
+      "requiredDisposition": "The maintained RTK denominator passed with zero skips and zero todos."
+    },
+    {
+      "command": "npm run test:r24-e0",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 110,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 31,
+        "survived": 0
+      },
+      "requiredDisposition": "E0 exact denominator and all hostile mutants passed."
+    }
+  ],
+  "nonClaims": [
+    "No renderer or product-runtime persistence wiring was added.",
+    "No main-product graph node beyond WP-403 was started.",
+    "PROGRAM_DONE remains false.",
+    "This non-recursive closure carrier does not claim its own future protected merge."
+  ]
+}

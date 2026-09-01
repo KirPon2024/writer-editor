@@ -3,80 +3,74 @@
     {
       "approvedAtUtc": "2026-09-01T01:07:32Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
-      "filePath": "docs/OPS/R24/CORRECTIVE/WP403_CLOSURE_GOVERNANCE_CHANGE_APPROVALS_V1.json",
-      "rationale": "Owner-authorized active WP403 governance route for exact implementation closure evidence after verified candidate and postmerge CI; lease 61 remains active until separately delivered release carriers.",
-      "sha256": "6594c13d51ceeaa15a9efc316a6b6db6c7fb20a0c20abd113092e43e0645599c"
-    },
-    {
-      "approvedAtUtc": "2026-09-01T01:07:32Z",
-      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/CTR-R24-WP-403-DECISION-SUBSTRATE.json",
-      "rationale": "Owner-authorized active WP403 governance route for exact implementation closure evidence after verified candidate and postmerge CI; lease 61 remains active until separately delivered release carriers.",
+      "rationale": "Owner-authorized WP403 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 61 remains active pending protected closure merge and release.",
       "sha256": "e6f22b56fc85526b0993b4814ea596e0f5fd512690a5b15b60ad8fd7a1985e4b"
     },
     {
       "approvedAtUtc": "2026-09-01T01:07:32Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-403-DECISION-SUBSTRATE-CLAIM-BINDINGS.json",
-      "rationale": "Owner-authorized active WP403 governance route for exact implementation closure evidence after verified candidate and postmerge CI; lease 61 remains active until separately delivered release carriers.",
+      "rationale": "Owner-authorized WP403 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 61 remains active pending protected closure merge and release.",
       "sha256": "bd2e8b577a49b12f9594bc40797143f93dd540d1884afaf16e50fce1bd82b0fa"
     },
     {
       "approvedAtUtc": "2026-09-01T01:07:32Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-403-DECISION-SUBSTRATE-CONTRACT.json",
-      "rationale": "Owner-authorized active WP403 governance route for exact implementation closure evidence after verified candidate and postmerge CI; lease 61 remains active until separately delivered release carriers.",
+      "rationale": "Owner-authorized WP403 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 61 remains active pending protected closure merge and release.",
       "sha256": "38d8a9542020a277f63af0ac501a0be4a30270d76b8ff9f6f510e858ab868c0e"
     },
     {
       "approvedAtUtc": "2026-09-01T01:07:32Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-403-DECISION-SUBSTRATE-EXACT-HEAD.json",
-      "rationale": "Owner-authorized active WP403 governance route for exact implementation closure evidence after verified candidate and postmerge CI; lease 61 remains active until separately delivered release carriers.",
+      "rationale": "Owner-authorized WP403 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 61 remains active pending protected closure merge and release.",
       "sha256": "9ba3b8b1835b9d822b9d53ddf941048294e4a95cda0f3c902d0fd584e111bbd6"
     },
     {
       "approvedAtUtc": "2026-09-01T01:07:32Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-403-DECISION-SUBSTRATE-INTEGRATION.json",
-      "rationale": "Owner-authorized active WP403 governance route for exact implementation closure evidence after verified candidate and postmerge CI; lease 61 remains active until separately delivered release carriers.",
+      "rationale": "Owner-authorized WP403 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 61 remains active pending protected closure merge and release.",
       "sha256": "f7bec498b5e76341037cd71960657c0f16723b4d1e972e509e34f81384964f24"
     },
     {
       "approvedAtUtc": "2026-09-01T01:07:32Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-403-DECISION-SUBSTRATE-MODEL.json",
-      "rationale": "Owner-authorized active WP403 governance route for exact implementation closure evidence after verified candidate and postmerge CI; lease 61 remains active until separately delivered release carriers.",
+      "rationale": "Owner-authorized WP403 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 61 remains active pending protected closure merge and release.",
       "sha256": "2625170e0599bea821dd6e92ab0b4721f052de4c268913f4ffeead7fdceecb66"
     },
     {
       "approvedAtUtc": "2026-09-01T01:07:32Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-403-DECISION-SUBSTRATE-MUTANTS.json",
-      "rationale": "Owner-authorized active WP403 governance route for exact implementation closure evidence after verified candidate and postmerge CI; lease 61 remains active until separately delivered release carriers.",
+      "rationale": "Owner-authorized WP403 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 61 remains active pending protected closure merge and release.",
       "sha256": "d3449f4628c5a6ea4aed4e2b40dd724bbbaac89c8c0bd4094076c4dd240ba330"
     },
     {
       "approvedAtUtc": "2026-09-01T01:07:32Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-403-DECISION-SUBSTRATE-POSTMERGE-EXACT-HEAD.json",
-      "rationale": "Owner-authorized active WP403 governance route for exact implementation closure evidence after verified candidate and postmerge CI; lease 61 remains active until separately delivered release carriers.",
+      "rationale": "Owner-authorized WP403 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 61 remains active pending protected closure merge and release.",
       "sha256": "88cbc73537a6104b113981f99e869db4c06fe67c8407c58e310642ccbe1188a4"
     },
     {
       "approvedAtUtc": "2026-09-01T01:07:32Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-403-DECISION-SUBSTRATE-SURVIVOR-AUDIT.json",
-      "rationale": "Owner-authorized active WP403 governance route for exact implementation closure evidence after verified candidate and postmerge CI; lease 61 remains active until separately delivered release carriers.",
+      "rationale": "Owner-authorized WP403 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 61 remains active pending protected closure merge and release.",
       "sha256": "c505bb0fa5183183bcf8109c594b90cbfc537e0e2d0a0afe02ccbe2dac59914b"
     }
   ],
   "evidenceStampIds": [
     "ES-R24-WP-403-DECISION-SUBSTRATE-SURVIVOR-AUDIT"
   ],
+  "routingCarrierExemptFromThisPhaseCarrier": "WP403_ACTIVE_GOVERNANCE_CHANGE_APPROVALS_V1.json",
   "sourcePlanRoles": {
-    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
     "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
     "rolesDistinct": true
   },
   "version": "v1.0"

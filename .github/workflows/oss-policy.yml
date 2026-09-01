@@ -32,10 +32,12 @@ jobs:
         run: node --test test/contracts/r24-c1b-test-inventory.contract.test.mjs
       - name: Run broad maintained baseline
         env:
-          GOVERNANCE_CHANGE_APPROVALS_PATH: docs/OPS/R24/CORRECTIVE/WP500_ACTIVE_GOVERNANCE_CHANGE_APPROVALS_V1.json
+          GOVERNANCE_CHANGE_APPROVALS_PATH: docs/OPS/R24/CORRECTIVE/WP501_GOVERNANCE_CHANGE_APPROVALS_V1.json
         run: npm test
       - name: Verify WP-500 association scope semantics and mutants
         run: node --test test/unit/r24-wp500-associations.test.js test/unit/r24-wp500-associations-integration.test.js test/unit/r24-wp500-associations-mutants.test.js
+      - name: Verify WP-501 triple-time knowledge semantics and mutants
+        run: node --test test/unit/r24-wp501-time-knowledge.test.js test/unit/r24-wp501-time-knowledge-integration.test.js test/unit/r24-wp501-time-knowledge-mutants.test.js
 
   e0-mutants:
     runs-on: ubuntu-latest
@@ -90,8 +92,8 @@ jobs:
       - run: node scripts/ops/r24/corrective/audit-r2-corrections.mjs --check
       - env:
           EFFECTIVE_MODE: STRICT
-          GOVERNANCE_CHANGE_APPROVALS_PATH: docs/OPS/R24/CORRECTIVE/WP500_ACTIVE_GOVERNANCE_CHANGE_APPROVALS_V1.json
-        run: node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main --approvals-path docs/OPS/R24/CORRECTIVE/WP500_ACTIVE_GOVERNANCE_CHANGE_APPROVALS_V1.json
+          GOVERNANCE_CHANGE_APPROVALS_PATH: docs/OPS/R24/CORRECTIVE/WP501_GOVERNANCE_CHANGE_APPROVALS_V1.json
+        run: node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main --approvals-path docs/OPS/R24/CORRECTIVE/WP501_GOVERNANCE_CHANGE_APPROVALS_V1.json
 
   oss-policy-core:
     runs-on: ubuntu-latest
